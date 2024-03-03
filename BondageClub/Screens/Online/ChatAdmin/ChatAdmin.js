@@ -253,11 +253,11 @@ function ChatAdminExit() {
 
 /**
  * Handles the reception of the server response after attempting to update a chatroom: Leaves the admin screen or shows an error message
- * @param {string} data - Response from the server ("Updated" or error message)
+ * @param {ServerChatRoomUpdateResponse} data - Response from the server ("Updated" or error message)
  * @returns {void} - Nothing
  */
 function ChatAdminResponse(data) {
-	if ((data != null) && (typeof data === "string") && (data != ""))
+	if (typeof data === "string" && data)
 		if (data === "Updated") ChatAdminExit();
 		else ChatAdminMessage = "Response" + data;
 }

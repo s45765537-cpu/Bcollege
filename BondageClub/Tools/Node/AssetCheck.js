@@ -1204,6 +1204,23 @@ function testExtendedItemGroupName(extendedItemRecords, assets) {
 }
 
 /**
+ * Check that the console did not log any runtime warnings.
+ * @param {Record<"warn" | "error", [src: string, ...rest: unknown[]][]>} logOutput
+ */
+function testConsoleLog(logOutput) {
+	const logs = [
+		...logOutput.warn.filter(i => i.length > 0),
+		...logOutput.error.filter(i => i.length > 0),
+	];
+	if (logs.length > 0) {
+		const stringLogs = logs.map(([source, ...args]) => {
+			return source ? `${source}: ${args.join(", ")}` : args.join(", ");
+		}).join("\n\t");
+		error(`Found ${logs.length} unexpected console warnings:\n\t${stringLogs}`);
+	}
+}
+
+/**
  * Test that appropriate callbacks exist for:
  * * {@link Asset.DynamicAfterDraw}
  * * {@link Asset.DynamicBeforeDraw}
@@ -1249,11 +1266,32 @@ function sanitizeVMOutput(input) {
 
 (function () {
 	const [commonFile, ...neededFiles] = NEEDED_FILES;
+
+	/** @type {Record<"warn" | "error", [src: string, ...rest: unknown[]][]>} */
+	const logOutput = {
+		warn: [],
+		error: [],
+	};
 	const context = vm.createContext({
 		OuterArray: Array,
 		Object: Object,
 		TestingColorLayers: new Set(loadCSV("Assets/Female3DCG/LayerNames.csv", 2).map(i => i[0])),
 		TestingColorGroups: new Set(loadCSV("Assets/Female3DCG/ColorGroups.csv", 2).map(i => i[0])),
+		console: {
+			...console,
+			warn: function warn(...args) {
+				// Identify the function responsible for issuing the warning via the stack trace
+				const trace = (new Error()).stack;
+				const source = trace ? trace.split("\n")[2].trim() : "";
+				logOutput.warn.push([source, ...args]);
+			},
+			// eslint-disable-next-line no-shadow
+			error: function error(...args) {
+				const trace = (new Error()).stack;
+				const source = trace ? trace.split("\n")[2].trim() : "";
+				logOutput.error.push([source, ...args]);
+			},
+		},
 	});
 	vm.runInContext(fs.readFileSync(BASE_PATH + commonFile, { encoding: "utf-8" }), context, {
 		filename: commonFile,
@@ -1436,6 +1474,7 @@ function sanitizeVMOutput(input) {
 		error(`Unused Asset/Group description: ${desc.join(",")}`);
 	}
 
+	testConsoleLog(logOutput);
 	testExtendedItemGroupName(AssetFemale3DCGExtended, assetList);
 	testDrawCallbacks(assetList, context);
 	testDynamicGroupName(AssetFemale3DCG);

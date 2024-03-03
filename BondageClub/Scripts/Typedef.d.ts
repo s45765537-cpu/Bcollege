@@ -355,7 +355,7 @@ type GraphicsFontName =
 type PreferenceSubscreenName =
 	"General" | "Difficulty" | "Restriction" | "Chat" | "CensoredWords" | "Audio" | "Arousal" |
 	"Security" | "Online" | "Visibility" | "Immersion" | "Graphics" | "Controller" | "Notifications" |
-	"Gender" | "Scripts"
+	"Gender" | "Scripts" | "Extensions"
 	;
 
 type FetishName =
@@ -1552,75 +1552,18 @@ interface PlayerCharacter extends Character {
 	ChatSettings?: ChatSettingsType;
 	VisualSettings?: VisualSettingsType;
 	AudioSettings?: AudioSettingsType;
-	ControllerSettings?: {
-		ControllerActive: boolean;
-		ControllerSensitivity: number;
-		ControllerDeadZone: number;
-		Buttons: any;
-		Axis: any;
-	};
+	ControllerSettings?: ControllerSettingsType;
 	GameplaySettings?: GameplaySettingsType;
-	ImmersionSettings?: {
-		BlockGaggedOOC: boolean;
-		StimulationEvents: boolean;
-		ReturnToChatRoom: boolean;
-		ReturnToChatRoomAdmin: boolean;
-		ChatRoomMapLeaveOnExit: boolean;
-		SenseDepMessages: boolean;
-		ChatRoomMuffle: boolean;
-		BlindAdjacent: boolean;
-		AllowTints: boolean;
-	};
+	ImmersionSettings?: ImmersionSettingsType;
 	/** The chat room we were previous in. Used for relog room re-creation */
 	// TODO: the fact that this is set *might* be used to also fold the "relog" enabled checks
 	// If we have a chatroom, then we relog to it. If we don't, then the player didn't have the
 	// setting enabled in the first place
 	LastChatRoom?: ChatRoomSettings;
-	RestrictionSettings?: {
-		BypassStruggle: boolean;
-		SlowImmunity: boolean;
-		BypassNPCPunishments: boolean;
-	};
+	RestrictionSettings?: RestrictionSettingsType;
 	OnlineSettings?: PlayerOnlineSettings;
-	GraphicsSettings?: {
-		Font: GraphicsFontName;
-		InvertRoom: boolean;
-		StimulationFlashes: boolean;
-		DoBlindFlash: boolean;
-		AnimationQuality: number;
-		StimulationFlash: boolean;
-		SmoothZoom: boolean;
-		CenterChatrooms: boolean;
-		AllowBlur: boolean;
-	}
-	NotificationSettings?: {
-		/** @deprecated */
-		Audio?: boolean;
-		Beeps: NotificationSetting;
-		/** @deprecated */
-		Chat?: any;
-		ChatMessage: NotificationSetting & {
-			/** @deprecated */
-			IncludeActions?: any;
-			Mention?: boolean;
-			Normal?: boolean;
-			Whisper?: boolean;
-			Activity?: boolean;
-		};
-		/** @deprecated */
-		ChatActions?: any;
-		ChatJoin: NotificationSetting & {
-			/** @deprecated */
-			Enabled?: any;
-			Owner?: boolean;
-			Lovers?: boolean;
-			Friendlist?: boolean;
-			Subs?: boolean;
-		};
-		Disconnect: NotificationSetting;
-		Larp: NotificationSetting;
-		Test: NotificationSetting;
-	};
+	GraphicsSettings?: GraphicsSettingsType;
+	NotificationSettings?: NotificationSettingsType;
 	GhostList?: number[];
 	Wardrobe?: ItemBundle[][];
 	WardrobeCharacterNames?: string[];
@@ -1630,13 +1573,93 @@ interface PlayerCharacter extends Character {
 	FriendNames?: Map<number, string>;
 	SubmissivesList?: Set<number>;
 	ChatSearchFilterTerms?: string;
-	GenderSettings: {
-		HideShopItems: GenderSetting;
-		AutoJoinSearch: GenderSetting;
-	};
+	GenderSettings: GenderSettingsType;
 	/** The list of items we got confiscated in the Prison */
 	ConfiscatedItems?: { Group: AssetGroupName, Name: string }[];
 	ExtensionSettings: ExtensionSettings;
+}
+
+/** A type defining which genders a setting is active for */
+interface GenderSetting {
+	/** Whether the setting is active for female cases */
+	Female: boolean;
+	/** Whether the setting is active for male cases */
+	Male: boolean;
+}
+
+interface GenderSettingsType {
+	HideShopItems: GenderSetting;
+	AutoJoinSearch: GenderSetting;
+}
+
+interface NotificationSettingsType {
+	/** @deprecated */
+	Audio?: boolean;
+	Beeps: NotificationSetting;
+	/** @deprecated */
+	Chat?: any;
+	ChatMessage: NotificationSetting & {
+		/** @deprecated */
+		IncludeActions?: any;
+		Mention?: boolean;
+		Normal?: boolean;
+		Whisper?: boolean;
+		Activity?: boolean;
+	};
+	/** @deprecated */
+	ChatActions?: any;
+	ChatJoin: NotificationSetting & {
+		/** @deprecated */
+		Enabled?: any;
+		Owner?: boolean;
+		Lovers?: boolean;
+		Friendlist?: boolean;
+		Subs?: boolean;
+	};
+	Disconnect: NotificationSetting;
+	Larp: NotificationSetting;
+	Test: NotificationSetting;
+}
+
+interface GraphicsSettingsType {
+	Font: GraphicsFontName;
+	InvertRoom: boolean;
+	StimulationFlashes: boolean;
+	DoBlindFlash: boolean;
+	AnimationQuality: number;
+	StimulationFlash: boolean;
+	SmoothZoom: boolean;
+	CenterChatrooms: boolean;
+	AllowBlur: boolean;
+}
+
+interface RestrictionSettingsType {
+	BypassStruggle: boolean;
+	SlowImmunity: boolean;
+	BypassNPCPunishments: boolean;
+}
+
+interface ImmersionSettingsType {
+	BlockGaggedOOC: boolean;
+	StimulationEvents: boolean;
+	ReturnToChatRoom: boolean;
+	ReturnToChatRoomAdmin: boolean;
+	ChatRoomMapLeaveOnExit: boolean;
+	SenseDepMessages: boolean;
+	ChatRoomMuffle: boolean;
+	BlindAdjacent: boolean;
+	AllowTints: boolean;
+}
+
+type ControllerButton = typeof ControllerButton[keyof typeof ControllerButton];
+type ControllerAxis = typeof ControllerAxis[keyof typeof ControllerAxis];
+
+interface ControllerSettingsType {
+	ControllerActive: boolean;
+	ControllerSensitivity: number;
+	ControllerDeadZone: number;
+	Buttons: Record<ControllerButton, number>;
+	Axis: Record<ControllerAxis, number>;
 }
 
 interface ChatSettingsType {
@@ -3737,6 +3760,73 @@ interface ArousalSettingsType {
 	OrgasmStage?: 0 | 1 | 2;
 	OrgasmCount?: number;
 	DisableAdvancedVibes: boolean;
+}
+
+/** Preference Menu info for extensions settings*/
+interface PreferenceExtensionsSettingItem {
+	/** 
+	 * The identifier of the extension.
+	 * This is used to identify the extension and should be unique. 
+	 */
+	Identifier: string;
+
+	/** 
+	 * The button text for the button of extension.
+	 * If it's a Function, it will be called once when entering
+	 * the extension setting menu. Use the return value as button text. 
+	 */
+	ButtonText: string | (()=>string);
+
+	/** 
+	 * The image path of the extension, and is passed 
+	 * into {@link DrawButton} for creating the HTMLImageElement 
+	 * that is needed for drawing the Button image.
+	 * If it's a Function, it will be called once when entering 
+	 * the extension setting menu. Use the return value as image 
+	 * path. 
+	 * If it's undefined, there will be no image for the button 
+	 */
+	Image?: string | (()=>string);
+
+	/** Handles loading on entering the extension setting */
+	load?: () => void;
+
+	/** Handles the clicks of the extension setting */
+	click: () => void;
+
+	/** Handles the run and draws of the extension setting */
+	run: () => void;
+
+	/** 
+	 * Handles the unloading of the extension setting, typically
+	 * from {@link CommonSetScreen}, when the player is disconnected.
+	 * If it's undefined, there will be no unloading for the extension 
+	 * setting.
+	 * Remind to check those HTML elements that are created in the
+	 * extension setting, and hide/remove them from the DOM.
+	 * Note that HTML elements with `HideOnPopup` class will be hidden
+	 * automatically when a popup is shown.
+	 */
+	unload?: () => void;
+
+	/**
+	 * Handles the exits of the extension setting, typically when
+	 * user press `Esc` key. 
+	 * If a extension wants to exit the menu by itself 
+	 * (clicking `exit` button, etc.), the extension should call
+	 * `PreferenceSubscreenExtensionsClear`.
+	 * @returns If it returns `true`, the extension setting will be unload. 
+	 * And `unload` will be called once if it's defined and then main extension 
+	 * setting page is shown.
+	 */
+	exit: () => boolean | void;
+}
+
+/** Preference Menu info for extensions settings*/
+type PreferenceExtensionsMenuButtonInfo = {
+	Button: string;
+	Image?: string;
+	click: () => void;
 }
 
 // #end region

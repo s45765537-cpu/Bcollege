@@ -28,9 +28,11 @@ function ChatRoomCharacterViewIsActive()
 	return ChatRoomIsViewActive(ChatRoomCharacterViewName);
 }
 
-function ChatRoomCharacterViewRun()
-{
-	ChatRoomCharacterViewDraw();
+/**
+ * Run handler for the chat room character view
+ */
+function ChatRoomCharacterViewRun() {
+
 }
 
 /**
@@ -71,12 +73,6 @@ function ChatRoomCharacterViewClick(event)
 
 function ChatRoomCharacterViewKeyDown(event)
 {
-	if (event.key === "Escape" && !event.shiftKey) {
-		// Escape toggles between main view and chat
-		ElementScrollToEnd("TextAreaChatLog");
-		ElementFocus("InputChat");
-		return true;
-	}
 	return false;
 }
 

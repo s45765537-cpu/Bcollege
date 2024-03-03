@@ -207,10 +207,6 @@
 ###_NPC
 's
 的
-Abandoned Building
-废弃建筑
-Abandoned Side Room
-废弃房间
 You cannot access your items
 你无法使用你的物品
 SourceCharacter used PronounPossessive safeword and wants to be released. PronounSubject is guided out of the room for PronounPossessive safety.
@@ -281,8 +277,6 @@ Add TimerTime minutes to the Timer
 增加TimerTime分钟定时
 Tighten / Loosen
 绑紧/解松
-Alchemist Office
-炼金学办公室
 Option already set
 选项已设置
 Nothing
@@ -297,8 +291,6 @@ SourceCharacter attaches a chain to DestinationCharacter anal hook.
 SourceCharacter将一根锁链连接到DestinationCharacter肛钩上。
 SourceCharacter attaches DestinationCharacter anal hook to TargetPronounPossessive hair.
 SourceCharacter将DestinationCharacter肛钩连接到TargetPronounObject的头发上。
-Ancient Ruins
-上古遗迹
 SourceCharacter uses chains on TargetCharacter to have TargetPronounObject crawling on all fours.
 SourceCharacter用锁链把TargetCharacter绑起来，让TargetPronounObject只能四肢着地。
 SourceCharacter uses chains on TargetCharacter to do a box tie.
@@ -363,26 +355,12 @@ SourceCharacter Action the webbing on TargetCharacter
 SourceCharacter用网把TargetCharacter包了起来
 SourceCharacter Action the webbing on TargetCharacter, leaving them fully wrapped
 SourceCharacter用网把TargetCharacter包成了一团
-Bedroom
-卧室
-Entrance
-入口
-GGTS Computer Room
-GGTS电脑房
-Meeting
-会议
-Therapy
-治疗
 Chain mittens
 给手套加链子
 Auto-inflation sensitivity:
 自动充气灵敏度:
 Sensitivity:
 敏感度：
-Back Alley
-后巷
-Balcony Night
-阳台夜间
 SourceCharacter loosens the gag on DestinationCharacter mouth.
 SourceCharacter放松了DestinationCharacter嘴上的口塞。
 SourceCharacter polishes the gag on DestinationCharacter mouth.
@@ -395,22 +373,6 @@ Shiny
 闪亮
 Tight
 紧绷
-Bar Restaurant
-酒吧餐厅
-BDSM Room Blue
-蓝色调教室
-BDSM Room Purple
-紫色调教室
-BDSM Room Red
-红色调教室
-Beach
-海滩
-Beach Promenade Café
-海滨长廊咖啡馆
-Beach Hotel
-海滩酒店
-Beach Sunset
-海滩日落
 Beep
 发送私聊
 Beep from
@@ -461,8 +423,6 @@ Default
 默认
 Select body overlay.
 选择身体外观。
-Bondage Bedchamber
-束缚用卧室
 Full
 所有
 Heavy
@@ -483,12 +443,6 @@ SourceCharacter restrains TargetCharacter to the bondage bench with a handful of
 SourceCharacter用一把皮带把TargetCharacter束缚在捆绑躺椅上。
 How many leather belts do you want to apply?
 你想要使用多少根皮带?
-Boudoir
-闺房
-Shop Dressing Rooms
-商店换衣间
-Boutique Shop
-精品店
 SourceCharacter deflates DestinationCharacter butt pump only a tiny bit.
 SourceCharacter对DestinationCharacter肛门泵放气，只放了一丁点。
 SourceCharacter deflates DestinationCharacter butt pump till it's empty.
@@ -651,10 +605,6 @@ Cannot close on shaft.
 在支柱上无法封闭。
 You can unlock yourself
 你可以自己解锁
-Captain Cabin
-船长室
-Fancy Castle
-美妙城堡
 Select a style.
 选择样式。
 Behind hair
@@ -671,10 +621,6 @@ SourceCharacter uses the AssetName on TargetCharacter to lower TargetPronounObje
 SourceCharacter用TargetCharacter身上的AssetName将TargetPronounObject放下来。
 SourceCharacter uses the AssetName on TargetCharacter to suspend TargetPronounObject.
 SourceCharacter用TargetCharacter身上的AssetName将TargetPronounObject吊起来。
-Cellar
-地窖
-Ceremony Venue
-典礼场
 All Fours
 四肢着地
 Basic Tie
@@ -789,8 +735,6 @@ You feel a sharp pain in your AssetGroup as the AssetName wiggle slightly.
 AssetName稍稍晃动，你感到AssetGroup传来剧烈的疼痛。
 The AssetName hanging from your AssetGroup get shuffled as you move around.
 你来回走动，挂在你的AssetGroup上的AssetName四处晃动着。
-Chill Room
-冷藏室
 Choose struggling method...
 选择挣扎方式...
 Clear active poses
@@ -1143,12 +1087,6 @@ SourceCharacter closes the lid on DestinationCharacter coffin.
 SourceCharacter关闭了DestinationCharacter棺材的盖子。
 SourceCharacter opens the lid on DestinationCharacter coffin.
 SourceCharacter打开了DestinationCharacter棺材的盖子。
-College Classroom
-学院教室
-Tennis Court
-网球场
-Theater
-剧场
 Default color
 默认颜色
 Change item color
@@ -1183,14 +1121,8 @@ Your blindfold prevents you from seeing the digits on the lock
 你的眼罩让你无法看见锁上的数位
 Your restraints prevent you from accurately manipulating the lock's dial
 你的束缚让你无法准备操作锁的数字转盘
-Confessions
-忏悔室
 Confirm
 确认
-Cosy Chalet
-舒适的小屋
-Cozy Living Room
-舒适的客厅
 Crafted item properties.
 制作的物品的特性。
 Crafted properties
@@ -1205,8 +1137,6 @@ Name: CraftName
 名称：CraftName
 Property: CraftProperty
 特性：CraftProperty
-Creepy Basement
-骇人的地下室
 Crotch shield:
 胯部挡板：
 SourceCharacter closes the lid on DestinationCharacter cryogenic capsule.
@@ -1239,8 +1169,6 @@ Decoding the lock...
 正在解码…
 Decrease
 减少
-Deep Forest
-森林深处
 Deflate it
 放气
 deflates
@@ -1253,8 +1181,6 @@ Deny
 拒绝
 Desert
 沙漠
-Desolate Village
-无人村庄
 Try to unfasten
 试着打开扣锁
 Exit permission mode
@@ -1293,8 +1219,6 @@ SourceCharacter pulls out DestinationCharacter dildo plug from TargetPronounPoss
 SourceCharacter从DestinationCharacter口塞里拔出了假阳具塞子。
 SourceCharacter plugs up DestinationCharacter mouth with the dildo plug.
 SourceCharacter使用假阳具塞子塞住了DestinationCharacter嘴。
-Dining Room
-餐厅
 Dismount
 起身
 Dismounting...
@@ -1355,12 +1279,6 @@ SourceCharacter wraps even more duct tape on DestinationCharacter legs trapping 
 SourceCharacter在DestinationCharacter腿上缠了十分多的胶带，把腿紧紧束缚。
 SourceCharacter wraps duct tape on DestinationCharacter legs frog tying them.
 SourceCharacter在DestinationCharacter腿上缠了一些胶带，绑成了一个蛙缚。
-Dungeon
-地牢
-Ruined Dungeon
-地牢遗迹
-Dystopian City
-反乌托邦城市
 Edge
 寸止
 DestinationCharacterName vibrating egg stops vibrating.
@@ -1407,10 +1325,6 @@ DestinationCharacterName vibrating XXL egg starts buzzing strongly!
 DestinationCharacterName超超大振动肛塞蛋猛烈地颤动起来！
 DestinationCharacterName vibrating XXL egg starts buzzing relentlessly!
 DestinationCharacterName超超大振动肛塞蛋无情地震荡起来！
-Egyptian Exhibit
-埃及博览会
-Egyptian Tomb
-埃及古墓
 This person is locked by different people
 这个人被多个人锁了起来
 This person is fully locked by: 
@@ -1419,8 +1333,6 @@ This person is fully locked by you
 这个人被你一个人锁了起来
 Empty
 空
-Empty Warehouse
-空仓库
 Enable random input of time from everyone else
 允许所有其他人随机输入时间
 Escalate
@@ -1491,10 +1403,6 @@ Forbidden Stand Up
 禁止站起
 Forbidden Struggle
 禁止挣扎
-Forest Cave
-森林洞穴
-Forest Path
-森林小道
 You must free TargetPronounPossessive arms before attaching mitten chains.
 连接无指手套的链子前，你必须解开TargetPronounObject的手臂。
 SourceCharacter connects a funnel to DestinationCharacter gag.
@@ -1791,8 +1699,6 @@ gag
 口塞
 Gag configuration:
 口塞设置：
-Gardens
-花园
 GGTS control this item
 GGTS控制该物品
 [GGTS] SourceCharacter disobeyed.  Strike recorded.  Sixty minutes removed.
@@ -2093,8 +1999,6 @@ Select hood style
 头发在外&配饰在内
 Hair out & Accessories out
 头发&配饰在外
-Gymnasium
-体育馆
 Hacking the item...
 正在黑入…
 In front of hair
@@ -2255,8 +2159,6 @@ Narrow
 窄
 Wide
 宽
-Entrance to Hell
-地狱入口
 SourceCharacter helps TargetCharacter to kneel down
 SourceCharacter帮助TargetCharacter跪了下来
 SourceCharacter helps TargetCharacter to stand up
@@ -2299,38 +2201,14 @@ SourceCharacter detaches the chain from DestinationCharacter HighStyle Steel ank
 SourceCharacter解开了DestinationCharacter高品位钢质腿铐上的锁链。
 SourceCharacter grabs the leash of TargetCharacter.
 SourceCharacter抓住TargetCharacter的牵绳。
-Horse Stable
-马驹训练场
-Hotel Bedroom
-酒店卧室
-Hotel Bedroom 2
-酒店卧室2
 hours
 小时
-Empty Basement 1
-空地下室1
-Empty Basement 2
-空地下室2
-Empty Basement 3
-空地下室3
-Studio Living Room
-工作室客厅
-Wooden Living Room
-木屋客厅
-Appartment Living Room
-公寓客厅
 Impossible to escape!
 不可能逃脱!
 in the Asylum
 在收容所
 Increase
 增加
-Indoor Pool
-室内泳池
-Industrial
-工业风
-Infiltration Bunker
-潜入暗堡
 SourceCharacter deflates DestinationCharacter AssetName till it's empty.
 SourceCharacter对DestinationCharacterAssetName放气，把它放空。
 SourceCharacter deflates DestinationCharacter AssetName till only slightly filled.
@@ -3355,6 +3233,14 @@ SourceCharacter adjusts DestinationCharacter inflatable body bag to be only ligh
 SourceCharacter调整DestinationCharacter充气式全包袋，使它略微充气。
 SourceCharacter adjusts DestinationCharacter inflatable body bag to fill the maximum amount.
 SourceCharacter调整DestinationCharacter充气式全包袋，使它充气到最大。
+Frame
+框架
+Select option
+选择选项
+SourceCharacter adjusts DestinationCharacter Hanging Frame to standart frame.
+SourceCharacter调整DestinationCharacter悬挂框为标准样式框架。
+SourceCharacter adjusts DestinationCharacter Hanging Frame to inflated frame.
+SourceCharacter调整DestinationCharacter悬挂框为充气样式框架。
 Cum Options
 精液选项
 Portrait
@@ -3565,8 +3451,6 @@ SourceCharacter changes the text orientation of DestinationCharacterName AssetNa
 SourceCharacter修改DestinationCharacterNameAssetName上的文本方向
 SW-NE
 西南-东北
-Frame
-框架
 Tied Together
 绑在一起
 Chained Together
@@ -3823,8 +3707,12 @@ Mode
 模式
 Virtual World
 虚拟世界
+Dungeon
+地牢
 High-Tech
 高科技
+Ancient Ruins
+上古遗迹
 Trance
 催眠
 Passthrough
@@ -5893,6 +5781,8 @@ Industrial Mix
 穿耳耳环
 Hoop
 大耳环
+Industrial
+工业风
 Large Stud
 大耳钉
 Two Studs
@@ -5945,18 +5835,10 @@ Select Facial Piercings
 选择面部穿刺
 Select Nose Piercings
 选择鼻子穿刺
-Jungle Temple
-丛林寺庙
-Kennels
-养犬场
-Kidnappers League
-绑匪联盟
 SourceCharacter quit a game of Kinky Dungeon at level KinkyDungeonLevel
 SourceCharacter 在KinkyDungeonLevel关退出了淫荡地城
 SourceCharacter met TargetPronounPossessive defeat in Kinky Dungeon! PronounSubject made it to level KinkyDungeonLevel before succumbing.
 SourceCharacter 在淫荡地城惨败! 止步于KinkyDungeonLevel而变成了魅魔。
-Kitchen
-厨房
 SourceCharacter kneels down
 SourceCharacter跪了下来
 SourceCharacter almost loses PronounPossessive balance trying to kneel down!
@@ -5998,15 +5880,11 @@ SourceCharacter在DestinationCharacter乳胶束腰上添加了吊袜带。
 SourceCharacter removes the garters from DestinationCharacter latex corset.
 SourceCharacter移除了DestinationCharacter乳胶束腰上的吊袜带。
 SourceCharacter loosens DestinationCharacter mask
-SourceCharacter解送了DestinationCharacter的面具
+SourceCharacter解松了DestinationCharacter的面具
 SourceCharacter turns DestinationCharacter mask back to normal.
 SourceCharacter将DestinationCharacter的面具调整为通常状态。
 SourceCharacter closes a panel around DestinationCharacter mask.
 SourceCharacter将DestinationCharacter的面具围上了一个挡板。
-Latex Room
-乳胶房间
-Leather Chamber
-皮革房间
 SourceCharacter attaches the Leather Deluxe ankle cuffs chain on DestinationCharacter ankles.
 SourceCharacter将DestinationCharacter脚踝上的皮革豪华脚铐的锁链连在一起。
 SourceCharacter detaches the chain from DestinationCharacter Leather Deluxe ankle cuffs.
@@ -6073,14 +5951,10 @@ Legs cannot close.
 无法夹紧双腿
 Legs cannot open.
 无法张开双腿
-Lingerie Shop
-内衣店
 Use a lock
 使用一把锁
 Unable to lock item due to player permissions
 因角色权限设置无法上锁
-Locker Room
-储物室
 Locking...
 正在锁上…
 Member number on lock:
@@ -6121,8 +5995,6 @@ You can struggle to loosen this restraint
 你可以通过挣扎来解松此束缚
 loosens
 放松
-Lost Wages Casino
-吃人赌场
 Prize NUM
 奖项NUM
 SourceCharacter grabs DestinationCharacter lucky wheel and spins it!
@@ -6133,8 +6005,6 @@ Spin the wheel!
 转动轮盘！
 SourceCharacter has started the Magic Battle.
 SourceCharacter开始了魔法对战。
-Maid Café
-女仆咖啡
 SourceCharacter buys a beer pitcher for everyone, from TargetCharacter.
 SourceCharacter从TargetCharacter的饮品托盘上为所有人购买了一杯扎啤。
 SourceCharacter buys a cappuccino from DestinationCharacter tray.
@@ -6169,12 +6039,6 @@ SourceCharacter buys a Virgin Mojito from DestinationCharacter tray.
 SourceCharacter从DestinationCharacter饮品托盘上购买了一杯初榨莫吉托。
 SourceCharacter buys a glass of Whiskey from TargetCharacter.
 SourceCharacter从TargetCharacter的饮品托盘上购买了一杯威士忌。
-Maid Quarters
-女仆协会
-Main Hall
-大厅
-Club Management
-俱乐部办公室
 Nose Freckles
 鼻子雀斑
 Heavy harness
@@ -6215,14 +6079,10 @@ Select Whiskers
 选择胡须
 Maximum:
 最大：
-Medina Market
-当地市场
 SourceCharacter cuffs DestinationCharacter hands behind TargetPronounPossessive back.
 SourceCharacter把DestinationCharacter双手铐在了他的身后。
 SourceCharacter cuffs DestinationCharacter hands in-front of TargetPronounPossessive body.
 SourceCharacter把DestinationCharacter双手铐在了他的身前。
-Middletown School
-城中学校
 Held up high
 高高抬起
 Held up
@@ -6265,8 +6125,6 @@ Select Lip Piercings
 选择嘴唇穿刺
 Select Tongue Piercings
 选择舌头穿刺
-Movie Studio
-电影工厂
 Must be able to kneel.
 必须可以跪下
 Must be wearing a set of arm cuffs first.
@@ -6333,8 +6191,6 @@ View next expressions
 查看后续表情
 View next page
 查看下一页
-Nightclub
-夜总会
 DestinationCharacterName vibrating eggs on TargetPronounPossessive nipples stop vibrating.
 DestinationCharacterName乳头上的跳蛋停止振动。
 DestinationCharacterName vibrating eggs on TargetPronounPossessive nipples slow down into a light tease.
@@ -6393,8 +6249,6 @@ LARP - Your turn
 体感对战-你的回合
 Test Notification
 测试通知
-Nursery
-育婴室
 Engrave the following text on the belt:
 在贞操带上刻下了如下文字：
 SourceCharacter engraved “NewText” on DestinationCharacter obedience belt.
@@ -6411,12 +6265,6 @@ The obedience belt on SourceCharacter shocks TargetPronounObject.
 SourceCharacter受到了身上的服从贞操带的电击。
 Show messages in chat
 在聊天中显示消息
-Luxury Office
-奢侈品店
-Open Office
-开放式办公室
-Old Farm
-老农场
 The kidnappers opened your suitcase, which contains a laptop with a bunch of secret information. You better get back to the league to warn them.
 绑匪打开了你的行李箱，里面有一台包含机密信息的笔记本电脑。你最好回到联盟警告他们。
 SourceCharacter's suitcase is safe... for now.
@@ -6435,8 +6283,6 @@ SourceCharacter starts unlocking DestinationCharacterName suitcase! PronounSubje
 SourceCharacter开始打开DestinationCharacterName箱子! 他会在5分钟内成功.
 SourceCharacter starts stealing more data from DestinationCharacterName laptop! PronounSubject will finish in 5 minutes.
 SourceCharacter开始从DestinationCharacterName笔记本里偷取更多数据! 他会在5分钟内成功.
-Onsen
-温泉
 Change Opacity
 改变遮光度
 Hair in
@@ -6517,14 +6363,6 @@ Skin Tight Bulge
 贴身凸起
 Tucked
 叠入
-Park Day
-公园日间
-Park Night
-公园夜晚
-Park Winter
-冬日公园
-Party Basement
-地下室派对
 SourceCharacter changes the password of the lock on DestinationCharacter FocusAssetGroup.
 SourceCharacter改变DestinationCharacterFocusAssetGroup上的挂锁的密码。
 SourceCharacter tries the word Password but fails to open the lock on DestinationCharacter FocusAssetGroup.
@@ -6579,18 +6417,12 @@ Unable to pick without lockpicks
 没有开锁工具无法撬锁
 Unable to pick the lock due to player permissions
 由于玩家权限设置无法撬锁
-Pirate Island
-海盗岛屿
-Pirate Island Night
-海盗岛屿夜间
 DestinationCharacterName owner releases TargetPronounObject from the slave collar.
 DestinationCharacterName主人解开了TargetPronounObject的奴隶项圈。
 TargetCharacterName is given TargetPronounObject slave collar again.
 TargetCharacterName再次被戴上了TargetPronounObject的奴隶项圈。
 plug
 肛塞
-Pool Bottom
-泳池底
 Available functions detected:
 探测到可用功能：
 Clipboard error
@@ -6693,10 +6525,6 @@ Automatically locks
 自动上锁
 View previous page
 查看上一页
-Prison Hall
-监狱大厅
-Private
-私人
 <i>Private room</i>
 <i>私人房间</i>
 Click here to speed up the progress
@@ -6705,10 +6533,10 @@ Click when the player reaches the buckle to progress
 角色碰到搭扣前按下鼠标来获得进度
 Click the ropes before they hit the ground to progress
 在绳索落到地面前点击以获得进度
-Alternate keys A and S to speed up
-反复点按A和S键加速
-Alternate keys A and S or X and Y on a controller
-反复点按A和S键，或者手柄上的X和Y键
+Alternate keys A and D to speed up
+反复点按A和D键加速
+Alternate keys A and D or X and Y on a controller
+反复点按A和D键，或者手柄上的X和Y键
 him
 他
 her
@@ -6731,8 +6559,6 @@ she
 她
 they
 TA
-Public Bath
-公共厕所
 SourceCharacter deflates DestinationCharacter gag only a tiny bit.
 SourceCharacter对DestinationCharacter口塞放气，只放了一丁点。
 SourceCharacter deflates DestinationCharacter gag fully till it's empty.
@@ -6765,16 +6591,6 @@ Pump gag level: Full mouth
 口塞充气程度: 满
 pumps
 气泵
-Rainy Forest Path Day
-雨中森林小道
-Rainy Forest Path Night
-夜雨森林小道
-Rainy Street Day
-雨中城市街道
-Rainy Street Night
-雨夜城市街道
-Ranch
-牧场
 Received at
 接收于
 Release from hogtie first.
@@ -6839,16 +6655,10 @@ Requires self-bondage 8.
 需要自缚技能等级8
 Requires self-bondage 9.
 需要自缚技能等级9
-Research Lab
-研究所
 Reset trigger count
 重置触发计数
 Restart Timer
 重新启动计时器
-Restaurant 1
-餐厅1
-Restaurant 2
-餐厅2
 Bow
 打结
 SourceCharacter uses some ribbon on DestinationCharacter mouth.
@@ -6869,8 +6679,6 @@ Wrapped Up
 层层包裹
 Harness 2
 束缚带2
-Rooftop Party
-楼顶派对
 Ankles Tie
 脚踝结
 Ankles and Knees Tie
@@ -6979,8 +6787,6 @@ No active rules
 没有生效的规则
 Slave collar unlocked
 奴隶项圈已解锁
-Rusty Saloon
-锈蚀的沙龙
 Your safeword is disabled, it cannot be used at the moment.
 你的安全词被禁用了， 现在无法使用
 Save/Load Expressions
@@ -6995,20 +6801,6 @@ SourceCharacter ties the scarf loosely over DestinationCharacter mouth.
 SourceCharacter系起围巾，松垮地盖住DestinationCharacter嘴。
 SourceCharacter ties the scarf covering DestinationCharacter mouth and nose.
 SourceCharacter系起围巾，松垮地盖住DestinationCharacter嘴和鼻子。
-School Hallway
-学校走廊
-School Hospital
-校医院
-Abandoned School
-废弃学校
-Sci Fi Cell
-科幻监狱
-Sci Fi Outdoors
-科幻室外
-Red Sci-Fi Room
-红色科幻室
-Secret Chamber
-隐藏房间
 Select an activity to use on the GroupName.
 请选择要对GroupName做的动作.
 No activity available on the GroupName.
@@ -7245,16 +7037,6 @@ SourceCharacter swapped TargetCharacterName and DestinationCharacterName1 places
 SourceCharacter交换了TargetCharacterName和DestinationCharacterName1的位置。
 SourceCharacter updated the room. Name: ChatRoomName. Limit: ChatRoomLimit.  ChatRoomPrivacy.  ChatRoomLocked.
 SourceCharacter更新了房间信息. 名称: ChatRoomName. 人数上限: ChatRoomLimit.  ChatRoomPrivacy.  ChatRoomLocked.
-Sheikh Private Room
-酋长房间
-Sheikh Tent
-酋长帐篷
-Shibari Dojo
-紧缚道场
-Ship's Deck
-轮船甲板
-Ship Wreck
-沉船
 Trigger count:
 触发计数：
 SourceCharacter resets DestinationCharacter AssetName trigger count.
@@ -7325,36 +7107,6 @@ SourceCharacter was stopped from leaving.
 SourceCharacter 被阻止离开房间。
 SourceCharacter gets in the way of TargetCharacter, preventing TargetPronounObject from leaving.
 SourceCharacter阻挡了TargetCharacter，让TargetPronounObject无法离开。
-Slum Apartment
-贫民公寓
-Slum Cellar
-贫民窟地窖
-Slum Ruins
-贫瘠废墟
-Snowy Chalet Day
-雪天小屋
-Snowy Chalet Night
-雪夜小屋
-Snowy Deep Forest
-雪中密林
-Snowy Forest Path Day
-雪中森林小道
-Snowy Forest Path Night
-雪夜森林小道
-Snowy Lake Night
-雪夜湖边
-Snowy Street
-积雪街道
-Snowy Street Day 1
-雪天街道1
-Snowy Street Day 2
-雪天街道2
-Snowy Street Night
-雪夜街道
-Snowy Town 1
-雪天小镇1
-Snowy Town 2
-雪天小镇2
 Flat style
 平坦样式
 Loose style
@@ -7365,10 +7117,6 @@ Choose how to wear right socks:
 选择如何穿右侧袜子：
 Someone
 某人
-Space Station Captain Bedroom
-太空站站长卧室
-Spooky Forest
-阴森的森林
 The dildo on DestinationCharacterName Vibrating Spreader Dildo Bar stops vibrating.
 DestinationCharacterName身上的假阳具的停止振动。
 The dildo on DestinationCharacterName Vibrating Spreader Dildo Bar slows down into a light tease.
@@ -7393,8 +7141,6 @@ SourceCharacter manages to get to PronounPossessive feet.
 SourceCharacter成功站了起来。
 SourceCharacter releases the leash of TargetCharacter.
 SourceCharacter松开TargetCharacter的牵绳。
-Street Night
-夜间街道
 Use brute force
 使用蛮力
 Try to struggle out
@@ -7433,8 +7179,6 @@ Label:
 标签：
 Transparent Suit
 透明胶衣
-Sun Temple
-太阳神庙
 SourceCharacter uses AssetName to suspend TargetCharacter from the ceiling.
 SourceCharacter使用AssetName把TargetCharacter吊在了天花板上。
 SourceCharacter lowers the height of DestinationCharacter suspension.
@@ -7489,8 +7233,6 @@ SourceCharacter removes the text from DestinationCharacterName AssetName
 SourceCharacter移除了DestinationCharacterNameAssetName上的文本
 Configure item text
 配置物品文本
-Throne Room
-王冠室
 Tighten...
 绑紧…
 You can tighten or loosen this item
@@ -7499,8 +7241,6 @@ tightens
 捆紧
 Tightness:
 松紧度：
-Tiled Bathroom
-瓷砖浴室
 SourceCharacter adds an unknown amount of time to the padlock on DestinationCharacter FocusAssetGroup
 SourceCharacter在DestinationCharacterFocusAssetGroup上的锁的计时器上增加了不知多久时间。
 SourceCharacter adds TimerTime TimerUnit to the padlock on DestinationCharacter FocusAssetGroup.
@@ -7537,8 +7277,6 @@ Try to loosen the item
 尝试解松该物品
 removes the chains
 移除手链
-Underwater One
-水下1
 Unlock the item
 解锁物品
 Unlocking...
@@ -7565,8 +7303,6 @@ Using 75% of your skill...
 %最大高度:
 Set the height
 设置高度
-Vault Corridor
-保险库走廊
 SourceCharacter changes the settings on DestinationCharacterName AssetName
 SourceCharacter修改了DestinationCharacterNameAssetName的设置
 DestinationCharacterName AssetName switches to a denying pattern
@@ -7579,8 +7315,6 @@ DestinationCharacterName AssetName switches to a random pattern
 DestinationCharacterNameAssetName改为了随机模式
 DestinationCharacterName AssetName switches to a teasing pattern
 DestinationCharacterNameAssetName改为了玩弄模式
-Wagon Circle
-马车道
 Cocooned
 茧状
 Hogtied
@@ -7595,38 +7329,14 @@ Tangled
 杂乱
 Wrapped
 包裹
-Wedding Arch
-婚礼拱门
-Wedding Beach
-婚礼海滩
-Wedding Room
-婚礼室
-Western Street
-西式街道
 The item will be removed when the lock timer runs out
 在计时器耗尽时该物品会被移除
 Select the state.
 选择状态。
 Wink/Blink
 眨眼
-Witch Wood
-女巫森林
 The item will stay when the lock timer runs out
 在计时器耗尽时该物品会保留
-Wooden Cabin
-木质小屋
-Wrestling Ring
-对战擂台
-Xmas Day Lounge
-圣诞节接待室
-Xmas Eve Lounge
-圣诞夜接待室
-Yacht Chill Room
-游艇制冷室
-Yacht Main Hall
-游艇主厅
-Yacht Deck
-游艇甲板
 <i>Your private room</i>
 <i>你的私人房间</i>
 Frogtie

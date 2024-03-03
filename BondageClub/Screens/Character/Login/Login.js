@@ -7,10 +7,10 @@ var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
-	"Abysseia", "Aceffect", "Alex", "Anna", "ArashiSama", "Aylea", "BlueWinter", "Bryce", 
-	"Christian", "Desch", "Dynilath", "Edwin", "Elfreda", "FanRunner", "Glurak", "Greendragon", 
-	"JoeyDubDee", "John", "Komiro", "Lyall", "Marashu", "Michal", "Michel", "Mindtie", "Misa", 
-	"Nightcore", "Obie", "Qrroww", "Roxxy", "Setsu", "SlitheryCandy", "SoulCollar", "Tam", 
+	"Abysseia", "Aceffect", "Alex", "Anna", "ArashiSama", "Aylea", "BlueWinter", "Bryce",
+	"Christian", "Desch", "Dynilath", "Edwin", "Elfreda", "FanRunner", "Glurak", "Greendragon",
+	"JoeyDubDee", "John", "Komiro", "Lyall", "Marashu", "Michal", "Michel", "Mindtie", "Misa",
+	"Nightcore", "Obie", "Qrroww", "Roxxy", "Setsu", "SlitheryCandy", "SoulCollar", "Tam",
 	"Tarram", "TonyBoy", "TopHat", "Troubadix", "WhiteSniper", "Xbox", "XDWolfie", "Xepherio"
 ];
 
@@ -122,7 +122,7 @@ function LoginLoad() {
 	const pass = ElementCreateInput("InputPassword", "password", "", "20", form);
 	pass.setAttribute("autocomplete", "current-password");
 	TextPrefetchFile(BackgroundsStringsPath);
-	TextPrefetch("Room", "Mainhall");
+	TextPrefetch("Room", "MainHall");
 	DrawGetImage("Backgrounds/MainHall.jpg");
 	LoginTextCacheUnsubscribeCallback = TextScreenCache.onRebuild(LoginUpdateMessage);
 
@@ -248,9 +248,9 @@ let LoginInventoryFixups = [
  *
  * TODO: only typed items are supported.
  *
- * @param {Record<string, string[]>} Inventory - The server-provided inventory object
- * @param {{Group: AssetGroupName, Name: string, Property?: any}[]} Appearance - The server-provided appearance object
- * @param {CraftingItem[]} Crafting - The server-provided, uncompressed crafting data
+ * @param {Partial<Record<AssetGroupName, string[]>>} Inventory - The server-provided inventory object
+ * @param {ItemBundle[]} Appearance - The server-provided appearance object
+ * @param {readonly CraftingItem[]} Crafting - The server-provided, uncompressed crafting data
  */
 function LoginPerformInventoryFixups(Inventory, Appearance, Crafting) {
 	// Skip fixups on new characters
@@ -271,7 +271,8 @@ function LoginPerformInventoryFixups(Inventory, Appearance, Crafting) {
 		}
 
 		// Update the player's item lists
-		["BlockItems", "LimitedItems", "HiddenItems", "FavoriteItems"].forEach(prop => {
+		const fieldNames = /** @type {const} */(["BlockItems", "LimitedItems", "HiddenItems", "FavoriteItems"]);
+		fieldNames.forEach(prop => {
 			idx = Player[prop].findIndex(item => item.Group === fixup.Old.Group && item.Name === fixup.Old.Name);
 			if (idx === -1) return;
 
@@ -329,7 +330,7 @@ function LoginPerformInventoryFixups(Inventory, Appearance, Crafting) {
 		}
 
 		// Move crafts over to the new name
-		if (Array.isArray(Crafting)) {
+		if (CommonIsArray(Crafting)) {
 			Crafting.forEach(C => {
 				if (C == null) return;
 				if (C.Item !== fixup.Old.Name) return;
@@ -614,7 +615,7 @@ function LoginQueue(Pos) {
 
 /**
  * Handles player login response data
- * @param {object | string} C - The Login response data - this will either be the player's character data if the
+ * @param {ServerLoginResponse} C - The Login response data - this will either be the player's character data if the
  * login was successful, or a string error message if the login failed.
  * @returns {void} Nothing
  */
@@ -622,7 +623,7 @@ function LoginResponse(C) {
 	LoginCheckES2020();
 
 	// If the return package contains a name and a account name
-	if (typeof C === "object") {
+	if (CommonIsObject(C)) {
 
 		// In relog mode, we jump back to the previous screen, keeping the current game flow
 		if (RelogData != null) {
@@ -690,7 +691,7 @@ function LoginResponse(C) {
 
 			// Load the last chat room
 			Player.LastMapData = C.LastMapData;
-			if (ChatRoomValidateProperties(C.LastChatRoom)) {
+			if (typeof C.LastChatRoom !== "string" && ChatRoomValidateProperties(C.LastChatRoom)) {
 				Player.LastChatRoom = C.LastChatRoom;
 			} else if (typeof C.LastChatRoom === "string" && C.LastChatRoom) {
 				// Backward compatibility: Automatically convert old-style data to a real ChatRoom object
@@ -718,10 +719,12 @@ function LoginResponse(C) {
 			}
 
 			// Loads the ownership data
-			Player.Ownership = C.Ownership;
-			if ((Player.Ownership != null) && (Player.Ownership.Name != null))
+			Player.Ownership = ServerAccountDataSyncedValidate.Ownership(C.Ownership);
+			if (Player.Ownership != null) {
 				Player.Owner = (Player.Ownership.Stage == 1) ? Player.Ownership.Name : "";
+			}
 
+			// @ts-expect-error: FIXME: Property 'Name' is optional in type 'ServerLovership' but required in type 'Lovership'
 			// Ensures lovership data is compatible and converts lovers to lovership
 			Player.Lovership = Array.isArray(C.Lovership) ? C.Lovership : C.Lovership != undefined ? [C.Lovership] : [];
 			if ((C.Lover != null) && (C.Lover != "undefined") && C.Lover.startsWith("NPC-")) {
@@ -790,15 +793,27 @@ function LoginResponse(C) {
 			LoginDifficulty(false);
 
 			// Loads the player character model and data
-			C.Crafting = CraftingDecompressServerData(C.Crafting);
-			LoginPerformInventoryFixups(C.Inventory, C.Appearance, C.Crafting);
+			const craftingDecompressed = CraftingDecompressServerData(C.Crafting);
+
+			/** @type {Partial<Record<AssetGroupName, string[]>>} */
+			let inventory = {};
+			if (typeof C.Inventory === "string") {
+				try {
+					inventory = JSON.parse(LZString.decompressFromUTF16(C.Inventory));
+				} catch(err) {
+					console.warn("Error while loading compressed inventory, no inventory loaded.", err);
+				}
+			} else {
+				inventory = C.Inventory;
+			}
+
+			LoginPerformInventoryFixups(inventory, C.Appearance, craftingDecompressed);
 			ServerAppearanceLoadFromBundle(Player, C.AssetFamily, C.Appearance, C.MemberNumber);
-			InventoryLoad(Player, C.Inventory);
+			InventoryLoad(Player, inventory);
 			LogLoad(C.Log);
 			ReputationLoad(C.Reputation);
 			SkillLoad(C.Skill);
-			CraftingLoadServer(C.Crafting);
-			if (Player.Crafting.length > 80) Player.Crafting = Player.Crafting.slice(0, 80);
+			CraftingLoadServer(craftingDecompressed);
 			Player.ConfiscatedItems = C.ConfiscatedItems;
 			Player.ExtensionSettings = (C.ExtensionSettings || {});
 
@@ -897,7 +912,9 @@ function LoginResponse(C) {
 		} else {
 			LoginStatusReset("ErrorLoadingCharacterData");
 		}
-	} else LoginStatusReset(C);
+	} else if (typeof C === "string") {
+		LoginStatusReset(C);
+	}
 	LoginUpdateMessage();
 }
 
@@ -961,10 +978,14 @@ function LoginClick() {
 
 /**
  * Handles player keyboard events on the character login screen, "enter" will login
- * @returns {void} Nothing
+ * @type {KeyboardEventListener}
  */
-function LoginKeyDown() {
-	if (KeyPress == 13) LoginDoLogin();
+function LoginKeyDown(event) {
+	if (event.key === "Enter") {
+		LoginDoLogin();
+		return true;
+	}
+	return false;
 }
 
 /**

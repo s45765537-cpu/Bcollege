@@ -36,7 +36,7 @@ var FuturisticTrainingBeltMaxPage = 1;
 
 /** @type {ExtendedItemScriptHookCallbacks.Load<VibratingItemData>} */
 function InventoryItemPelvisFuturisticTrainingBeltLoadHook(data, originalFunction) {
-	if (!FuturisticAccessLoad()) {
+	if (!FuturisticAccessLoad(data)) {
 		return;
 	}
 
@@ -53,7 +53,7 @@ function InventoryItemPelvisFuturisticTrainingBeltLoadHook(data, originalFunctio
 function InventoryItemPelvisFuturisticTrainingBeltDrawHook(data, originalFunction) {
 	const Item = DialogFocusItem;
 	let canViewMode = false;
-	if (!FuturisticAccessDraw()) {
+	if (!FuturisticAccessDraw(data)) {
 		// Fallthrough as there's the mode change controls
 	} else if (DialogFocusItem && DialogFocusItem.Property) {
 		NoArch.Draw(data);
@@ -139,7 +139,7 @@ function InventoryItemPelvisFuturisticTrainingBeltClickHook(data, originalFuncti
 	const Item = DialogFocusItem;
 	let canViewMode = false;
 	if (MouseIn(1885, 25, 90, 90)) DialogLeaveFocusItem();
-	if (!FuturisticAccessClick()) {
+	if (!FuturisticAccessClick(data)) {
 		// Fallthrough as there's the mode change controls
 	} else {
 		if (FuturisticTrainingBeltPage == 0) {

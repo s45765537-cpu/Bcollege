@@ -604,26 +604,31 @@ function PokerClick() {
 
 /**
  * Handles key presses during the bondage poker game
- * @returns {void} - Nothing
+ * @type {KeyboardEventListener}
  */
-function PokerKeyDown() {
+function PokerKeyDown(event) {
+	if (event.repeat) return false;
+
 	let modeCheck = ["DEAL", "FLOP", "TURN", "RIVER"].includes(PokerMode);
 	let handSize = PokerPlayer[0].Hand.length;
 
-	if ((KeyPress == 66 || KeyPress == 98) && modeCheck && handSize > 0)
+	if ((event.key === "B" || event.key === "b") && modeCheck && handSize > 0) {
 		PokerProcess("Bet"); // B to bet
-
-	if ((KeyPress == 82 || KeyPress == 114) && modeCheck && handSize > 0)
+		return true;
+	} else if ((event.key === "R" || event.key === "r") && modeCheck && handSize > 0) {
 		PokerProcess("Raise"); // R to raise
-
-	if ((KeyPress == 70 || KeyPress == 102) && modeCheck && handSize > 0)
+		return true;
+	} else if ((event.key === "F" || event.key === "f") && modeCheck && handSize > 0) {
 		PokerProcess("Fold"); // F to fold
-
-	if ((KeyPress == 87 || KeyPress == 119) && modeCheck && handSize <= 0)
+		return true;
+	} else if ((event.key === "W" || event.key === "w") && modeCheck && handSize <= 0) {
 		PokerProcess("Watch"); // W to watch
-
-	if ((KeyPress == 68 || KeyPress == 100) && PokerMode === "RESULT")
+		return true;
+	} else if ((event.key === "D" || event.key === "d") && PokerMode === "RESULT") {
 		PokerDealHands(); // D to deal
+		return true;
+	}
+	return false;
 }
 
 /**

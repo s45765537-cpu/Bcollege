@@ -15,8 +15,7 @@ var MaidDrinksLastMoveType = -1;
 var MaidDrinksLastMoveTypeTimer = -1;
 
 // The game is played using the A, S, K & L keys
-var MaidDrinksKeyUpper = [65, 83, 75, 76];
-var MaidDrinksKeyLower = [97, 115, 107, 108];
+var MaidDrinksKeys = ["S", "D", "K", "L"];
 
 /**
  * Generates a full sequence
@@ -102,7 +101,7 @@ function MaidDrinksDrawBar(SquareType) {
 		DrawRect(1212 + (SquareType * 200), 752, 176, 46, "#66FF66");
 	else
 		DrawRect(1212 + (SquareType * 200), 752, 176, 46, "Red");
-	if (!CommonIsMobile) DrawText(String.fromCharCode(MaidDrinksKeyUpper[SquareType]), 1300 + (SquareType * 200), 775, "white");
+	if (!CommonIsMobile) DrawText(MaidDrinksKeys[SquareType], 1300 + (SquareType * 200), 775, "white");
 
 }
 
@@ -268,25 +267,22 @@ function MaidDrinksDoMove(MoveType) {
 
 /**
  * Handles key presses during the maid drinks mini game. (Both keyboard and mobile)
- * @returns {boolean} - TRUE if the key is handled by the key down event
+ * @type {KeyboardEventListener}
  */
-function MaidDrinksKeyDown() {
+function MaidDrinksKeyDown(event) {
+	if (event.repeat) return false;
 
 	// If the game has started, we check the key pressed and send it as a move
 	if ((MiniGameTimer > 5000) && (MiniGameProgress != -1) && !MiniGameEnded) {
-		var MoveType = -1;
-		if ((KeyPress == MaidDrinksKeyUpper[0]) || (KeyPress == MaidDrinksKeyLower[0])) MoveType = 0;
-		if ((KeyPress == MaidDrinksKeyUpper[1]) || (KeyPress == MaidDrinksKeyLower[1])) MoveType = 1;
-		if ((KeyPress == MaidDrinksKeyUpper[2]) || (KeyPress == MaidDrinksKeyLower[2])) MoveType = 2;
-		if ((KeyPress == MaidDrinksKeyUpper[3]) || (KeyPress == MaidDrinksKeyLower[3])) MoveType = 3;
+		const MoveType = MaidDrinksKeys.findIndex(k => k === event.key.toUpperCase());
 		MaidDrinksDoMove(MoveType);
-		if (MiniGameCheatKeyDown()) {
-			MiniGameProgress = MiniGameProgress + 15;
-			if (MiniGameProgress >= 100) MiniGameProgress = 99;
-		}
 		return true;
-	} else return false;
-
+	} else if (MiniGameCheatKeyDown(event)) {
+		MiniGameProgress = MiniGameProgress + 15;
+		if (MiniGameProgress >= 100) MiniGameProgress = 99;
+		return true;
+	}
+	return false;
 }
 
 /**

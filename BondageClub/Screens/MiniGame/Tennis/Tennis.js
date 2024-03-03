@@ -189,8 +189,12 @@ function TennisClick() {
 
 /**
  * Handles the key press in the tennis mini game, the C cheat key gives you one point toward winning
- * @returns {void} - Nothing
+ * @type {KeyboardEventListener}
  */
-function TennisKeyDown() {
-	if (MiniGameCheatKeyDown()) TennisCharacterLeftPoint++;
+function TennisKeyDown(event) {
+	if (MiniGameCheatKeyDown(event)) {
+		TennisCharacterLeftPoint++;
+		return true;
+	}
+	return false;
 }

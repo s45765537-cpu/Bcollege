@@ -213,10 +213,16 @@ function ChatCreateClick() {
 
 /**
  * Handles the key presses while in the creation screen. When the user presses enter, we create the room.
- * @returns {void} - Nothing
+ * @type {KeyboardEventListener}
  */
-function ChatCreateKeyDown() {
-	if (KeyPress == 13) ChatCreateRoom();
+function ChatCreateKeyDown(event) {
+	if (event.repeat) return false;
+
+	if (event.key === "Enter") {
+		ChatCreateRoom();
+		return true;
+	}
+	return false;
 }
 
 /**
@@ -233,11 +239,11 @@ function ChatCreateExit() {
 
 /**
  * Handles the reception of the server response after attempting to create a chatroom: shows the error message, if applicable
- * @param {string} data - Response from the server
+ * @param {ServerChatRoomCreateResponse} data - Response from the server
  * @returns {void} - Nothing
  */
 function ChatCreateResponse(data) {
-	if ((data != null) && (typeof data === "string") && (data != ""))
+	if (typeof data === "string" && data)
 		ChatCreateMessage = "Response" + data;
 }
 

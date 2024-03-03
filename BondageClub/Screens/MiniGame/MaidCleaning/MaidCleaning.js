@@ -128,14 +128,17 @@ function MaidCleaningDoMove() {
 
 /**
  * The player can use the C key to cheat and add 10 extra seconds to win the game
- * @returns {void} - Nothing
+ * @type {KeyboardEventListener}
  */
-function MaidCleaningKeyDown() {
-	if (MiniGameCheatKeyDown()) {
+function MaidCleaningKeyDown(event) {
+	if (MiniGameCheatKeyDown(event)) {
 		MiniGameTimer = MiniGameTimer + 10000;
-		if (MiniGameTimer > CommonTime() + 60000)
+		if (MiniGameTimer > CommonTime() + 60000) {
 			MiniGameTimer = CommonTime() + 60000;
+		}
+		return true;
 	}
+	return false;
 }
 
 /**

@@ -1476,7 +1476,7 @@ function CharacterFullRandomRestrain(C, Ratio, Refresh) {
  * @param {Character} C - Character for which to set the expression of
  * @param {ExpressionGroupName | "Eyes1"} AssetGroup - Asset group for the expression
  * @param {ExpressionName} Expression - Name of the expression to use
- * @param {number} [Timer] - Optional: time the expression will last. Will send a null expression to expression queue. If expression to set is null, this is ignored.
+ * @param {number} [Timer] - Optional: time the expression will last, in seconds. Will send a null expression to expression queue. If expression to set is null, this is ignored.
  * @param {ItemColor} [Color] - Optional: color of the expression to set
  * @param {boolean} [fromQueue] - Internal: used to skip queuing the expression change if it comes from the queued expressions
  * @returns {void} - Nothing
@@ -1502,7 +1502,7 @@ function CharacterSetFacialExpression(C, AssetGroup, Expression, Timer, Color, f
 	}
 	// We should not have timers to null a null expression
 	if (Timer != null && Expression != null) {
-		TimerExpressionQueuePush(C, AssetGroup, Math.round(CurrentTime + Timer * 1000), null);
+		TimerExpressionQueuePush(C, AssetGroup, Timer, null);
 	}
 
 	// The usual weird sync-dance: if we're in a chat room, then C isn't an NPC and we can skip doing a

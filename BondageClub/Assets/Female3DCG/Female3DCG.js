@@ -1204,6 +1204,70 @@ var AssetFemale3DCG = [
 				Layer: [{ Name: "Fabric" }, { Name: "Fur" }],
 			},
 			{
+				Name: "EveningGown",
+				Gender: "F",
+				Value: 100,
+				Top: -110,
+				Prerequisite: ["HasBreasts"],
+				Layer: [
+					{
+						Name: "Bottom",
+						Priority: 33,
+						ParentGroup: "BodyLower",
+						PoseMapping: {
+							Kneel: "Kneel",
+							KneelingSpread: "KneelingSpread",
+							LegsClosed: "",
+							Spread: "",
+							AllFours: "Hide",
+							Hogtied: "Hide",
+						},
+					},
+					{
+						Name: "Top",
+						Priority: 33,
+						ParentGroup: "BodyUpper",
+						PoseMapping: {
+							TapedHands: "TapedHands",
+							Yoked: "Yoked",
+							OverTheHead: "OverTheHead",
+							BackBoxTie: "BackBoxTie",
+							BackElbowTouch: "BackElbowTouch",
+							BackCuffs: "BackCuffs",
+							AllFours: "AllFours",
+							Hogtied: "Hogtied",
+						},
+					},
+					{
+						Name: "Silk",
+						Priority: 32,
+						PoseMapping: {
+							TapedHands: "",
+							Yoked: "Yoked",
+							OverTheHead: "",
+							BackBoxTie: "",
+							BackElbowTouch: "",
+							BackCuffs: "",
+							AllFours: "AllFours",
+							Hogtied: "Hogtied",
+						},
+					},
+					{
+						Name: "Back",
+						Priority: 5,
+						ParentGroup: "BodyUpper",
+						PoseMapping: {
+							Kneel: "Kneel",
+							KneelingSpread: "Kneel",
+							LegsClosed: "",
+							Spread: "",
+							AllFours: "Hide",
+							Hogtied: "Hide",
+						},
+					},
+				],
+			},
+			{
 				Name: "BodyTowel1",
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
@@ -22053,7 +22117,6 @@ var AssetFemale3DCG = [
 				Prerequisite: ["HasBreasts"],
 				PoseMapping: {
 					AllFours: "AllFours",
-					BackElbowTouch: "Kneel",
 					Kneel: "Kneel",
 				},
 				AllowActivePose: ["BackElbowTouch", "Kneel", "AllFours"],
@@ -22153,7 +22216,6 @@ var AssetFemale3DCG = [
 				Prerequisite: ["HasBreasts"],
 				PoseMapping: {
 					AllFours: "AllFours",
-					BackElbowTouch: "Kneel",
 					Kneel: "Kneel",
 				},
 				AllowActivePose: ["BackElbowTouch", "Kneel", "AllFours"],
@@ -27069,14 +27131,18 @@ var AssetFemale3DCG = [
 					{ Name: "ButtonOff", AllowColorize: false },
 					{ Name: "ButtonOn", LockLayer: true, AllowColorize: false },
 
-					{ Name: "Gag", AllowTypes: { g: 1 } },
-					{ Name: "GagWires", AllowTypes: { g: 1 } },
+					{ Name: "Gag", AllowTypes: { g: [1, 2] } },
+					{ Name: "GagWires", AllowTypes: { g: [1, 2] } },
 					{
 						Name: "GagStencil",
-						AllowTypes: { g: 1 },
+						AllowTypes: { g: [1, 2] },
 						CopyLayerColor: "Stencil",
 					},
-					{ Name: "EarCover", AllowTypes: { g: 1 }, CopyLayerColor: "Gag" },
+					{
+						Name: "EarCover",
+						AllowTypes: { g: [1, 2] },
+						CopyLayerColor: "Gag",
+					},
 
 					{
 						Name: "EyeBlackLow",

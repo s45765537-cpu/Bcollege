@@ -29,7 +29,7 @@ var ControllerDetectedCount = 0;
  *
  * Those values come from the order https://hardwaretester.com/gamepad shows them in
  */
-const ControllerButton = {
+const ControllerButton = /** @type {const} */({
 	A: 0,
 	B: 1,
 	X: 2,
@@ -53,17 +53,17 @@ const ControllerButton = {
 	 * Home triggers Chrome's screen sharing feature on macOS
 	 */
 	Home: 16,
-};
+});
 
 const MAX_KNOWN_BUTTONS = 17;
 
 /** Gamepad-agnostic constants for the axes */
-const ControllerAxis = {
+const ControllerAxis = /** @type {const} */({
 	StickLV: 0,
 	StickLH: 1,
 	StickRV: 2,
 	StickRH: 3,
-};
+});
 
 const MAX_KNOWN_AXIS = 4;
 
@@ -194,8 +194,8 @@ function ControllerIsActive() {
 
 /**
  * Load a gamepad mapping
- * @param {object} buttonsMapping
- * @param {object} axisMapping
+ * @param {Partial<Record<ControllerButton, number>>} buttonsMapping
+ * @param {Partial<Record<ControllerAxis, number>>} axisMapping
  */
 function ControllerLoadMapping(buttonsMapping, axisMapping) {
 	if (ControllerIsActive()) {
@@ -333,7 +333,7 @@ function ControllerProcessAxis(axes) {
 
 /**
  * Returns TRUE if current screen is a game that handles the controller, sends the input to that screen
- * @param {any} buttons - The raw button data
+ * @param {readonly GamepadButton[]} buttons - The raw button data
  * @return {boolean}
  */
 function ControllerManagedByGame(buttons) {
@@ -399,12 +399,10 @@ function ControllerProcessButton(buttons) {
 		GameKeyDown(fakeEvent);
 	});
 	handleButton(ControllerButton.X, () => {
-		KeyPress = 65;
 		const fakeEvent = new KeyboardEvent("A", { code: "KeyA" });
 		StruggleKeyDown(fakeEvent);
 	});
 	handleButton(ControllerButton.Y, () => {
-		KeyPress = 97;
 		const fakeEvent = new KeyboardEvent("S", { code: "KeyS" });
 		StruggleKeyDown(fakeEvent);
 	});
@@ -625,11 +623,22 @@ function ControllerCalibrateButtons(buttons) {
  * @type {KeyboardEventListener}
  */
 function ControllerSupportKeyDown(event) {
-	/*i*///    if (KeyPress == 105) ControllerMoveToActiveZone("Up");
-	/*k*///    if (KeyPress == 107) ControllerMoveToActiveZone("Down");
-	/*j*///    if (KeyPress == 106) ControllerMoveToActiveZone("Left");
-	/*l*///    if (KeyPress == 108) ControllerMoveToActiveZone("Right");
-	/*space*///if (KeyPress == 32) ControllerClick();
+	// if (event.code === "KeyI") {
+	//  ControllerUp();
+	//  return true;
+	// } else if (event.code === "KeyK") {
+	//  ControllerDown();
+	//  return true;
+	// } else if (event.code === "KeyJ") {
+	//  ControllerLeft();
+	//  return true;
+	// } else if (event.code === "KeyL") {
+	//  ControllerRight();
+	//  return true;
+	// } else if (event.code === "Space") {
+	//  ControllerClick();
+	//  return true;
+	// }
 	return false;
 }
 

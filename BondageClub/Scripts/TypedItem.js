@@ -574,7 +574,11 @@ function TypedItemInit({ options, name, baselineProperty, asset }, C, Item, Push
 	}
 
 	const optionIndex = Item.Property.TypeRecord[name];
-	validateType: if (options[optionIndex] !== undefined) {
+	validateType: if (
+		options[optionIndex] !== undefined
+		&& !InventoryIsPermissionBlocked(C, asset.Name, asset.Group.Name, `${name}${optionIndex}`)
+		&& !(C.ArousalSettings?.DisableAdvancedVibes && VibratorModesAdvanced.includes(options[optionIndex].Property.Mode))
+	) {
 		if (!C.IsNpc && (!C.OnlineSharedSettings || C.OnlineSharedSettings.GameVersion !== GameVersion)) {
 			// We cannot reliably validate properties of people in different versions
 			break validateType;

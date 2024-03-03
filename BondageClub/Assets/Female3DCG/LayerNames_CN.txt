@@ -170,6 +170,10 @@ Layer 4
 第4层
 Apron
 围裙
+Detail Trim
+细节装饰
+Edge Trim
+边缘装饰
 Gloves
 手套
 Suit
@@ -410,6 +414,8 @@ Boots
 靴子
 Vamp
 防水台
+Silk
+丝绸
 Ankles
 膝盖
 Feet
@@ -562,6 +568,8 @@ Bowl
 碗
 Arms
 手臂
+Float bag
+漂浮气囊
 Wheel Holders
 轮子挡板
 Wheels

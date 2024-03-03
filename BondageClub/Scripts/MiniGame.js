@@ -53,10 +53,13 @@ function MiniGameEnd() {
 
 /**
  * Checks if the C key is being pressed and if cheats are available
+ * @param {KeyboardEvent} event
  * @returns {boolean} - TRUE if C and cheats are allowed
  */
-function MiniGameCheatKeyDown() {
-	if (MiniGameCheatAvailable && ((KeyPress == 67) || (KeyPress == 99))) {
+function MiniGameCheatKeyDown(event) {
+	if (event.repeat) return false;
+
+	if (MiniGameCheatAvailable && (event.key === "c" || event.key === "C")) {
 		MiniGameCheatAvailable = false;
 		return true;
 	} else return false;

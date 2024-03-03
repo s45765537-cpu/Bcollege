@@ -610,11 +610,11 @@ function KidnapSuccessWillpowerProgress(opponent) {
 
 /**
  * Handles the key press in the kidnap mini game, the C cheat key can help you recover some lost willpower
- * @returns {void} - Nothing
+ * @type {KeyboardEventListener}
  */
-function KidnapKeyDown() {
-	if (MiniGameCheatKeyDown()) {
-		Player.KidnapWillpower = Player.KidnapWillpower + 6;
-		if (Player.KidnapWillpower > Player.KidnapMaxWillpower) Player.KidnapWillpower = Player.KidnapMaxWillpower;
+function KidnapKeyDown(event) {
+	if (MiniGameCheatKeyDown(event)) {
+		Player.KidnapWillpower = Math.min(Player.KidnapWillpower + 6, Player.KidnapMaxWillpower);
+		return true;
 	}
 }

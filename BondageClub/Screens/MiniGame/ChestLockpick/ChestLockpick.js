@@ -92,9 +92,24 @@ function ChestLockpickClick() {
 }
 
 /**
- * Handles the key press in the mini game, the C cheat key removes a pick lock requirement
- * @returns {void} - Nothing
+ * Handles the key press in the mini game
+ * @type {KeyboardEventListener}
  */
-function ChestLockpickKeyDown() {
-	if (MiniGameCheatKeyDown() && (ChestLockpickCount >= 2)) ChestLockpickCount--;
+function ChestLockpickKeyDown(event) {
+
+	// The C cheat key removes a pick lock requirement
+	if (MiniGameCheatKeyDown(event) && (ChestLockpickCount >= 2)) {
+		ChestLockpickCount--;
+		return true;
+	}
+
+	// The Space bar is like a click
+	if (event.code === "Space") {
+		ChestLockpickClick();
+		return true;
+	}
+
+	// Key isn't handled
+	return false;
+
 }
