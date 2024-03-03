@@ -1289,12 +1289,12 @@ function CommonGenerateGridCoords(nItems, grid) {
  * @param {number} offset
  * @param {CommonGenerateGridParameters} grid
  * @param {CommonGenerateGridCallback<T>} callback
- * @returns {number}
+ * @returns {number} - The (offsetted) index for which the callback evaluated to `true`, or `-1` if no elements satisfy the testing
  */
 function CommonGenerateGrid(items, offset, grid, callback) {
 	const gridCoords = CommonGenerateGridCoords(items.length - offset, grid);
 	const index = gridCoords.findIndex((coords, i) => callback(items[i + offset], ...coords));
-	return index === -1 ? (gridCoords.length - 1 - offset): index - offset;
+	return index === -1 ? -1 : index - offset;
 }
 
 /**
