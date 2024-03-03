@@ -1142,10 +1142,14 @@ function CommonIsObject(value) {
  * @todo JSON serialization will break things like functions, Sets and Maps.
  * @template T
  * @param {T} obj
+ * @param {null | ((this: any, key: string, value: any) => any)} replacer
+ * @param {null | ((this: any, key: string, value: any) => any)} reviver
  * @returns {T}
  */
-function CommonCloneDeep(obj) {
-	return JSON.parse(JSON.stringify(obj));
+function CommonCloneDeep(obj, reviver=null, replacer=null) {
+	reviver ??= undefined;
+	replacer ??= undefined;
+	return JSON.parse(JSON.stringify(obj, replacer), reviver);
 }
 
 /**
@@ -1565,4 +1569,31 @@ function CommonDeprecateFunction(oldName, callback, namespace=globalThis) {
  */
 function CommonCapitalize(string) {
 	return /** @type {Capitalize<T>} */(string ? `${string[0].toUpperCase()}${string.slice(1)}` : "");
+}
+
+/**
+ * Construct an object for holding arbitrary (user-specified) values with a mechanism to reset them to a default
+ * @template T1
+ * @template [T2={}]
+ * @param {T1} defaults - Default values that should be restored upon reset
+ * @param {null | T2} extraVars - Extra values that should *not* affected by resets
+ * @param {null | { replacer?: (this: any, key: string, value: any) => any, reviver?: (this: any, key: string, value: any) => any }} resetCallbacks - Extra callbacks for affecting the deep cloning process on reset.
+ * Generally only relevant if one of the fields contains non-JSON-serializible data.
+ * @returns {VariableContainer<T1, T2>} - The newly created object
+ */
+function CommonVariableContainer(defaults, extraVars=null, resetCallbacks=null) {
+	// @ts-ignore
+	extraVars ??= {};
+	const ret = Object.assign(
+		extraVars,
+		defaults,
+		{
+			Defaults: defaults,
+			Reset: () => {
+				Object.assign(ret, CommonCloneDeep(ret.Defaults, resetCallbacks?.reviver, resetCallbacks?.replacer));
+			},
+		},
+	);
+	ret.Reset();
+	return ret;
 }

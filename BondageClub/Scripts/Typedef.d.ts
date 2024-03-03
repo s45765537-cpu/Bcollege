@@ -119,6 +119,16 @@ interface CommonGenerateGridParameters {
 
 type CommonGenerateGridCallback<T> = (item: T, x: number, y: number, width: number, height: number) => boolean;
 
+/**
+ * An object for holding arbitrary values with a mechanism to reset them to a default
+ */
+type VariableContainer<T1, T2={}> = T1 & T2 & {
+	/** Default values that should be restored to the container upon calling {@link Reset} */
+	readonly Defaults: Readonly<T1>,
+	/** Restore the container to its default state */
+	readonly Reset: () => void,
+}
+
 //#endregion
 
 //#region Enums
