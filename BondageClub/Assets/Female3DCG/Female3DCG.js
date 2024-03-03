@@ -9789,7 +9789,15 @@ var AssetFemale3DCG = [
 		PreviewZone: [125, 0, 250, 250],
 		DynamicGroupName: "HairAccessory1",
 		Asset: [
-			{ Name: "Ribbons1", Priority: 4, BuyGroup: "Ribbons1" },
+			{ 
+				Name: "Ribbons1", 
+				Priority: 4, 
+				BuyGroup: "Ribbons1",
+				Layer: [
+					{ Name: "Left" },
+					{ Name: "Right" },
+				],
+			},
 			{
 				Name: "Ribbons2",
 				Priority: 4,
@@ -9825,11 +9833,19 @@ var AssetFemale3DCG = [
 				Name: "Ribbons4",
 				BuyGroup: "Ribbons4",
 				Layer: [
-					{ Name: "Long", HideForAttribute: ["ShortHair"] },
+					{ Name: "Left", HideForAttribute: ["ShortHair"] },
+					{ Name: "Right", HideForAttribute: ["ShortHair"] },
 					{
-						Name: "Short",
+						Name: "LeftShort",
 						ShowForAttribute: ["ShortHair"],
-						CopyLayerColor: "Long",
+						CopyLayerColor: "Left",
+						Top: 20,
+						Left: 88,
+					},
+					{
+						Name: "RightShort",
+						ShowForAttribute: ["ShortHair"],
+						CopyLayerColor: "Right",
 						Top: 20,
 						Left: 88,
 					},
@@ -9988,7 +10004,15 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
-			{ Name: "Ribbons1", Priority: 4, BuyGroup: "Ribbons1" },
+			{ 
+				Name: "Ribbons1", 
+				Priority: 4, 
+				BuyGroup: "Ribbons1",
+				Layer: [
+					{ Name: "Left" },
+					{ Name: "Right" },
+				],
+			},
 			{
 				Name: "Ribbons2",
 				Priority: 4,
@@ -10024,11 +10048,19 @@ var AssetFemale3DCG = [
 				Name: "Ribbons4",
 				BuyGroup: "Ribbons4",
 				Layer: [
-					{ Name: "Long", HideForAttribute: ["ShortHair"] },
+					{ Name: "Left", HideForAttribute: ["ShortHair"] },
+					{ Name: "Right", HideForAttribute: ["ShortHair"] },
 					{
-						Name: "Short",
+						Name: "LeftShort",
 						ShowForAttribute: ["ShortHair"],
-						CopyLayerColor: "Long",
+						CopyLayerColor: "Left",
+						Top: 20,
+						Left: 88,
+					},
+					{
+						Name: "RightShort",
+						ShowForAttribute: ["ShortHair"],
+						CopyLayerColor: "Right",
 						Top: 20,
 						Left: 88,
 					},
@@ -14258,6 +14290,7 @@ var AssetFemale3DCG = [
 			{ Name: "HairBack57", Random: false },
 			{ Name: "HairBack57b", Random: false },
 			{ Name: "HairBack57c", Random: false },
+			{ Name: "HairBack57d", Random: false },
 		],
 		Color: [
 			"Default",
