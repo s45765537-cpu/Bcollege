@@ -14,7 +14,7 @@ var MaidDrinksMove = [];
 var MaidDrinksLastMoveType = -1;
 var MaidDrinksLastMoveTypeTimer = -1;
 
-// The game is played using the A, S, K & L keys
+// The game is played using the S, D, K & L keys
 var MaidDrinksKeys = ["S", "D", "K", "L"];
 
 /**
