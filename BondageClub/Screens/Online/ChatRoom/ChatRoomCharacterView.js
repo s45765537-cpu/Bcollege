@@ -23,8 +23,7 @@ const ChatRoomCharacterViewName = "Character";
  * Indicates if the chat room character view is active or not
  * @returns {boolean} - TRUE if the chat room character view is active, false if not
  */
-function ChatRoomCharacterViewIsActive()
-{
+function ChatRoomCharacterViewIsActive() {
 	return ChatRoomIsViewActive(ChatRoomCharacterViewName);
 }
 
@@ -32,20 +31,17 @@ function ChatRoomCharacterViewIsActive()
  * Run handler for the chat room character view
  */
 function ChatRoomCharacterViewRun() {
-
 }
 
 /**
  * Alter the received message to what will be displayed in the chat log
- *
  * @param {ServerChatRoomMessage} data
  * @param {string} msg
  * @param {Character} SenderCharacter
  * @param {IChatRoomMessageMetadata} metadata
  * @returns {string|null} - The string to display or null if the message should be hidden
  */
-function ChatRoomCharacterViewDisplayMessage(data, msg, SenderCharacter, metadata)
-{
+function ChatRoomCharacterViewDisplayMessage(data, msg, SenderCharacter, metadata) {
 	return msg;
 }
 
@@ -53,26 +49,21 @@ function ChatRoomCharacterViewDisplayMessage(data, msg, SenderCharacter, metadat
  * Handles clicks the chatroom screen view.
  * @returns {void} - Nothing.
  */
-function ChatRoomCharacterViewClick(event)
-{
-	// Go from character view to map view
-	if (ChatRoomCharacterViewShowMapButton() && MouseIn(10, 10, 60, 60)) {
-	   ChatRoomActivateView(ChatRoomMapViewName);
-	   return;
-	}
+function ChatRoomCharacterViewClick(event) {
 
 	// Intercepts the online game chat room clicks if we need to
 	if (OnlineGameClick()) return;
 
+	// Checks if there was a click on a character
 	ChatRoomCharacterViewLoopCharacters((charIdx, charX, charY, space, zoom) => {
 		if (MouseIn(charX, charY, space, 1000 * zoom)) {
 			return ChatRoomCharacterViewClickCharacter(ChatRoomCharacterDrawlist[charIdx], charX, charY, zoom, (MouseX - charX) / zoom, (MouseY - charY) / zoom, charIdx);
 		}
 	});
+
 }
 
-function ChatRoomCharacterViewKeyDown(event)
-{
+function ChatRoomCharacterViewKeyDown(event) {
 	return false;
 }
 
@@ -82,7 +73,6 @@ function ChatRoomCharacterViewKeyDown(event)
  */
 function ChatRoomCharacterViewCanLeave() {
 	return true;
-
 }
 
 /**
@@ -281,9 +271,11 @@ function ChatRoomCharacterViewDraw() {
 
 }
 
+/**
+ * Draws extra controls on the character view UI
+ * @returns {void} - Nothing
+ */
 function ChatRoomCharacterViewDrawUi() {
-	// Draw the map button in the upper left if the room allows it
-	if (ChatRoomCharacterViewShowMapButton()) DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/ShowMap.png");
 }
 
 /**
@@ -426,22 +418,3 @@ function ChatRoomCharacterViewDrawOverlay(C, CharX, CharY, Zoom, Pos) {
 		}
 	}
 }
-
-/** Deprecated names for compatibility */
-
-//---Deprecated Variables of R101---
-CommonProperty("ChatRoomCharacterInitialize", () => ChatRoomCharacterViewInitialize, (value) => ChatRoomCharacterViewInitialize = value);
-CommonProperty("ChatRoomCharacterX_Upper", () => ChatRoomCharacterViewX_Upper, (value) => ChatRoomCharacterViewX_Upper = value);
-CommonProperty("ChatRoomCharacterX_Lower", () => ChatRoomCharacterViewX_Lower, (value) => ChatRoomCharacterViewX_Lower = value);
-CommonProperty("ChatRoomCharacterZoom", () => ChatRoomCharacterViewZoom, (value) => ChatRoomCharacterViewZoom = value);
-CommonProperty("ChatRoomSlideWeight", () => ChatRoomCharacterViewSlideWeight, (value) => ChatRoomCharacterViewSlideWeight = value);
-CommonProperty("ChatRoomCharacterCount", () => ChatRoomCharacterViewCharacterCount, (value) => ChatRoomCharacterViewCharacterCount = value);
-CommonProperty("ChatRoomMoveTarget", () => ChatRoomCharacterViewMoveTarget, (value) => ChatRoomCharacterViewMoveTarget = value);
-
-//---Deprecated Functions of R101---
-CommonDeprecateFunction("ChatRoomMapButton", ChatRoomCharacterViewShowMapButton);
-CommonDeprecateFunction("ChatRoomDrawCharacter", ChatRoomCharacterViewDraw);
-CommonDeprecateFunction("ChatRoomDrawBackground", ChatRoomCharacterViewDrawBackground);
-CommonDeprecateFunction("ChatRoomLoopCharacters", ChatRoomCharacterViewLoopCharacters);
-CommonDeprecateFunction("ChatRoomDrawCharacterOverlay", ChatRoomCharacterViewDrawOverlay);
-CommonDeprecateFunction("ChatRoomClickCharacter", ChatRoomCharacterViewClickCharacter);

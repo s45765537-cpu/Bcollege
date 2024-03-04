@@ -1014,11 +1014,18 @@ function ChatRoomStart(Space, Game, LeaveRoom, LeaveSpace, Background, Backgroun
 function ChatRoomMenuBuild() {
 	ChatRoomMenuButtons = [];
 	ChatRoomMenuButtons.push("Exit");
-	if ((ChatRoomGame === "") || (ChatRoomGame === "GGTS")) ChatRoomMenuButtons.push("Cut");
-	else ChatRoomMenuButtons.push("GameOption");
-	ChatRoomMenuButtons.push("Kneel", "Icons");
+	ChatRoomMenuButtons.push("RoomAdmin");
+	ChatRoomMenuButtons.push("Profile");
+	if ((ChatRoomGame !== "") && (ChatRoomGame !== "GGTS")) ChatRoomMenuButtons.push("GameOption");
+	if (Player.CanChangeOwnClothes()) ChatRoomMenuButtons.push("Dress");
+	if (ChatRoomMapViewIsActive() && ((ChatRoomData == null) || (ChatRoomData.MapData == null) || (ChatRoomData.MapData.Type == null) || (ChatRoomData.MapData.Type != "Always"))) ChatRoomMenuButtons.push("CharacterView");
+	if (ChatRoomCharacterViewIsActive() && ((ChatRoomData == null) || (ChatRoomData.MapData == null) || (ChatRoomData.MapData.Type == null) || (ChatRoomData.MapData.Type != "Never"))) ChatRoomMenuButtons.push("MapView");
+	if (ChatRoomCustomizationButton() && !ChatRoomCustomized) ChatRoomMenuButtons.push("CustomizationOn");
+	if (ChatRoomCustomizationButton() && ChatRoomCustomized) ChatRoomMenuButtons.push("CustomizationOff");
 	if (DialogCanTakePhotos()) ChatRoomMenuButtons.push("Camera");
-	ChatRoomMenuButtons.push("Dress", "Profile", "Admin");
+	if (Player.CanKneel()) ChatRoomMenuButtons.push("Kneel");
+	ChatRoomMenuButtons.push("Icons");
+	ChatRoomMenuButtons.push("Cut");
 }
 
 /**
@@ -1688,6 +1695,7 @@ function ChatRoomRun() {
 	ChatRoomUpdateOnlineBounty();
 	ChatRoomCustomizationRun();
 	ChatRoomMapViewWhisperValid();
+	ChatRoomMenuBuild();
 
 	// Draws the chat room controls
 	ChatRoomStatusCheckExpiration();
@@ -1703,11 +1711,7 @@ function ChatRoomRun() {
 	if ((ChatRoomData.MapData != null) && (ChatRoomData.MapData.Type != null) && (ChatRoomData.MapData.Type == "Always")) ChatRoomActivateView(ChatRoomMapViewName);
 	ChatRoomActiveView.Run();
 	ChatRoomActiveView.Draw();
-	if(!ChatRoomDrawArousalOverlay() && ChatRoomActiveView.DrawUi) ChatRoomActiveView.DrawUi();
-
-	// Draw the customization button in the lower left if the room allows it
-	if (ChatRoomCustomizationButton())
-		DrawButton(10, 930, 60, 60, "", "White", "Icons/Small/Customization" + (ChatRoomCustomized ? "On" : "Off") + ".png");
+	if (!ChatRoomDrawArousalOverlay() && ChatRoomActiveView.DrawUi) ChatRoomActiveView.DrawUi();
 
 	// Draws the chat elements in the bottom right
 	if (ChatRoomChatHidden) ChatRoomShowElements();
@@ -1785,7 +1789,7 @@ function ChatRoomDrawArousalOverlay()
  * @returns {void} - Nothing
  */
 function ChatRoomMenuDraw() {
-	const Space = 870 / (ChatRoomMenuButtons.length - 1);
+	const Space = 992 / (ChatRoomMenuButtons.length);
 	for (let [idx, name] of Object.entries(ChatRoomMenuButtons)) {
 		let color = "White";
 		let suffix = "";
@@ -1809,7 +1813,8 @@ function ChatRoomMenuDraw() {
 		} else {
 			color = "White";
 		}
-		DrawButton(1005 + Space * Number(idx), 2, 120, 60, "", color, "Icons/Rectangle/" + name + suffix + ".png", TextGet("Menu" + name));
+		DrawButton(1005 + Space * Number(idx), 2, Space - 2, 60, "", color, null, TextGet("Menu" + name));
+		DrawImage("Icons/Small/" + name + suffix + ".png", 976 + Space * Number(idx) + Space / 2, 4);
 	}
 }
 
@@ -1866,13 +1871,6 @@ function ChatRoomClick(event) {
 		if ((MouseX >= ActivityOrgasmGameButtonX) && (MouseX <= ActivityOrgasmGameButtonX + 250) && (MouseY >= ActivityOrgasmGameButtonY) && (MouseY <= ActivityOrgasmGameButtonY + 64) && (Player.ArousalSettings.OrgasmStage == 1)) ActivityOrgasmGameGenerate(ActivityOrgasmGameProgress + 1);
 		return;
 
-	}
-
-	// If the allow customization button is toggled, always stops the music from here
-	if (ChatRoomCustomizationButton() && MouseIn(10, 930, 60, 60)) {
-		ChatRoomCustomized = !ChatRoomCustomized;
-		ChatRoomCustomizationClear();
-		return;
 	}
 
 	// In the left part of the screen
@@ -1995,9 +1993,23 @@ function ChatRoomMenuClick() {
 				case "Profile":
 					ChatRoomOpenInformationScreen();
 					break;
-				case "Admin":
+				case "RoomAdmin":
 					ChatRoomOpenAdminScreen();
 					break;
+				case "CustomizationOn":
+					ChatRoomCustomized = true;
+					ChatRoomCustomizationClear();
+					break;
+				case "CustomizationOff":
+					ChatRoomCustomized = false;
+					ChatRoomCustomizationClear();
+					break;
+				case "CharacterView":
+					ChatRoomActivateView(ChatRoomCharacterViewName);
+					break;
+				case "MapView":
+					ChatRoomActivateView(ChatRoomMapViewName);
+					break;	
 			}
 		}
 	}

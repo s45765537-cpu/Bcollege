@@ -4,7 +4,11 @@ WhisperTo,Whisper to
 WhisperFrom,Whisper from
 MenuCut,Keep only 20 messages
 MenuProfile,Your character profile
-MenuAdmin,Room administration
+MenuRoomAdmin,Room administration
+MenuCustomizationOn,Turn room customization on
+MenuCustomizationOff,Turn room customization off
+MenuCharacterView,Go to character view
+MenuMapView,Go to map view
 MenuKneel,Kneel down / Stand up
 MenuIcons,Show / hide character icons
 MenuCamera,Take a picture

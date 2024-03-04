@@ -180,15 +180,15 @@ function ChatRoomMapViewInitialize(mode) {
  * @param {Character} C - The character to be initialized
  * @returns {ChatRoomMapData}
  */
-function ChatRoomMapViewInitializeCharacter(C)
-{
+function ChatRoomMapViewInitializeCharacter(C) {
+
 	let MapData = C.MapData ? C.MapData : null;
 	// Checks to see if we can load the previously saved position
 	if (C.IsPlayer() && Player.ImmersionSettings?.ReturnToChatRoom && Player.LastChatRoom?.Name === ChatRoomData.Name && Player.LastMapData) {
 		// Restores the saved position
 		MapData = Object.assign({}, Player.LastMapData);
 	}
-	if(!MapData || !MapData.Pos || !MapData.PrivateState){
+	if (!MapData || !MapData.Pos || !MapData.PrivateState){
 		// Sets position in the middle of the scren by default, or at the entry flag if possible
 		let entryPosition = ChatRoomMapViewGetEntryFlagPosition();
 		if (entryPosition == null) {
@@ -232,7 +232,7 @@ function ChatRoomMapViewLeave() {
  */
 function ChatRoomMapViewActivate() {
 	// Make sure the player position is valid
-	if (!Player.MapData || !Player.MapData.Pos|| Player.MapData.Pos.X == null || Player.MapData.Pos.X < 0 || Player.MapData.Pos.X >= ChatRoomMapWidth || Player.MapData.Pos.Y == null || Player.MapData.Pos.Y < 0 || Player.MapData.Pos.Y >= ChatRoomMapWidth) {
+	if (!Player.MapData || !Player.MapData.Pos|| Player.MapData.Pos.X == null || Player.MapData.Pos.X < 0 || Player.MapData.Pos.X >= ChatRoomMapViewWidth || Player.MapData.Pos.Y == null || Player.MapData.Pos.Y < 0 || Player.MapData.Pos.Y >= ChatRoomMapViewWidth) {
 		Player.MapData = ChatRoomMapViewInitializeCharacter(Player);
 		// Update the change instantly so other players don't see this player on an invalid position
 		ChatRoomMapViewUpdatePlayerFlag(-ChatRoomMapViewUpdatePlayerTime);
@@ -249,20 +249,18 @@ function ChatRoomMapViewActivate() {
  * @returns {void} - Nothing
  */
 function ChatRoomMapViewDeactivate() {
-
 }
 
 /**
  * Indicates if the chat room map view is active or not
  * @returns {boolean} - TRUE if the chat room character view is active, false if not
  */
-function ChatRoomMapViewIsActive()
-{
+function ChatRoomMapViewIsActive() {
 	return ChatRoomIsViewActive(ChatRoomMapViewName);
 }
 
-function ChatRoomMapViewRun()
-{
+function ChatRoomMapViewRun() {
+
 	// Syncs the room map data with the server if needed
 	ChatRoomMapViewMovementProcess();
 	ChatRoomMapViewLeash();
@@ -280,8 +278,8 @@ function ChatRoomMapViewRun()
  * @param {IChatRoomMessageMetadata} metadata
  * @returns {string|null} - The string to display or null if the message should be hidden
  */
-function ChatRoomMapViewDisplayMessage(data, msg, SenderCharacter, metadata)
-{
+function ChatRoomMapViewDisplayMessage(data, msg, SenderCharacter, metadata) {
+
 	let shownMessage = msg;
 	// In map mode, we do not show messages that are out of the player sight or hearing range
 	if (((data.Type === "Action") || (data.Type === "Emote") || (data.Type === "Activity")) && !ChatRoomMapViewHasSuperPowers() && !ChatRoomMapViewCharacterIsVisible(SenderCharacter)) {
@@ -351,7 +349,6 @@ function ChatRoomMapViewCanLeave() {
  * @returns {void} - Nothing
  */
 function ChatRoomMapViewScreenshot() {
-	// Take the photo
 	ChatRoomPhoto(0, 0, 1000, 1000, ChatRoomCharacter);
 }
 
@@ -360,8 +357,7 @@ function ChatRoomMapViewScreenshot() {
  * @param {Character} C - The character to evaluate
  * @returns {boolean} - TRUE is whipser can be started
  */
-function ChatRoomMapViewCanStartWhisper(C)
-{
+function ChatRoomMapViewCanStartWhisper(C) {
 	return ChatRoomMapViewCharacterOnWhisperRange(C);
 }
 
@@ -370,8 +366,7 @@ function ChatRoomMapViewCanStartWhisper(C)
  * @param {ServerChatRoomSyncMessage} data - Room object containing the updated chatroom properties.
  * @returns {void} - Nothing.
  */
-function ChatRoomMapViewSyncRoomProperties(data)
-{
+function ChatRoomMapViewSyncRoomProperties(data) {
 	// If the chat room map is visible, we need to update the perception map
 	ChatRoomMapViewCalculatePerceptionMasks();
 }
@@ -381,8 +376,7 @@ function ChatRoomMapViewSyncRoomProperties(data)
  * @param {number} index - Index number for the tile and object lists
  * @returns {{x: number, y: number}} - Object containing the resulting x and y coordinates.
  */
-function ChatRoomMapViewIndexToCoordinates(index)
-{
+function ChatRoomMapViewIndexToCoordinates(index) {
 	return { x: index % ChatRoomMapViewWidth, y: Math.floor(index / ChatRoomMapViewWidth) };
 }
 
@@ -392,8 +386,7 @@ function ChatRoomMapViewIndexToCoordinates(index)
  * @param {number} y - Y-coordinate to be translated
  * @returns {number} - Index number for the tile and object lists
  */
-function ChatRoomMapViewCoordinatesToIndex(x, y)
-{
+function ChatRoomMapViewCoordinatesToIndex(x, y) {
 	return (y * ChatRoomMapViewWidth) + x;
 }
 
@@ -401,10 +394,10 @@ function ChatRoomMapViewCoordinatesToIndex(x, y)
  * Calculates the visibility mask and audibility mask for the map
  * @returns {void} - Nothing
  */
-function ChatRoomMapViewCalculatePerceptionMasks()
-{
-	if(ChatRoomMapViewHasSuperPowers()) {
-		// When in edit mode or with active super powers, always show everything
+function ChatRoomMapViewCalculatePerceptionMasks() {
+
+	// When in edit mode or with active super powers, always show everything
+	if (ChatRoomMapViewHasSuperPowers()) {
 		ChatRoomMapViewVisibilityMask.fill(true);
 		ChatRoomMapViewAudibilityMask.fill(true);
 		return;
@@ -814,8 +807,8 @@ function ChatRoomMapViewGetCharacterAtPos(X, Y) {
  * Returns a object that contains the entry flag's position with x and y parameters or null if no entry flag is set
  * @returns {ChatRoomMapPos|null}
  */
-function ChatRoomMapViewGetEntryFlagPosition()
-{
+function ChatRoomMapViewGetEntryFlagPosition() {
+
 	if (!ChatRoomData.MapData?.Objects) return null;
 
 	const idx = ChatRoomData.MapData.Objects.indexOf(String.fromCharCode(ChatRoomMapViewObjectEntryID));
@@ -1226,14 +1219,11 @@ function ChatRoomMapViewLeash() {
 
 
 /**
- * Draws the map and characters of the chat room map
+ * Draws the map and characters of the chat room map on the left side of the screen
  * @returns {void} - Nothing
  */
 function ChatRoomMapViewDraw() {
-
-	// Draw the full grid on the left side of the screen
 	ChatRoomMapViewDrawGrid(0, 0, 1000, 1000);
-
 }
 
 /**
@@ -1264,20 +1254,19 @@ function ChatRoomMapViewDrawUi() {
 
 	// Out of edit mode, we draws the basic buttons
 	if (ChatRoomMapViewEditMode == "") {
-		DrawButton(10, 10, 60, 60, "", ((ChatRoomData.MapData != null) && (ChatRoomData.MapData.Type != null) && (ChatRoomData.MapData.Type == "Always")) ? "Pink" : "White", "Icons/Small/ShowCharacter.png");
-		DrawButton(10, 80, 60, 60, "", "White", "Icons/Small/Plus.png");
-		DrawButton(10, 150, 60, 60, "", "White", "Icons/Small/Minus.png");
+		DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/Plus.png");
+		DrawButton(10, 80, 60, 60, "", "White", "Icons/Small/Minus.png");
 		if (ChatRoomPlayerIsAdmin()) {
-			DrawButton(10, 220, 60, 60, "", "White", "Icons/Small/EditTile.png");
-			DrawButton(10, 290, 60, 60, "", "White", "Icons/Small/EditObject.png");
-			DrawButton(10, 360, 60, 60, "", "White", "Icons/Small/Undo.png");
-			DrawButton(10, 430, 60, 60, "", "White", "Icons/Small/Fog" + (ChatRoomMapFogIsActive() ? "Active" : "Inactive") + ".png");
+			DrawButton(10, 150, 60, 60, "", "White", "Icons/Small/EditTile.png");
+			DrawButton(10, 220, 60, 60, "", "White", "Icons/Small/EditObject.png");
+			DrawButton(10, 290, 60, 60, "", "White", "Icons/Small/Undo.png");
+			DrawButton(10, 360, 60, 60, "", "White", "Icons/Small/Fog" + (ChatRoomMapFogIsActive() ? "Active" : "Inactive") + ".png");
 		}
 	}
 
 	// In tile type selection mode, the user can select a tile type (floor, wall, etc.)
 	if (ChatRoomMapViewEditMode == "TileType") {
-		DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/ShowMap.png");
+		DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/MapView.png");
 		DrawButton(10, 80, 60, 60, "", "White", "Icons/Small/EditObject.png");
 		let Y = 80;
 		let Type = "";
@@ -1305,7 +1294,7 @@ function ChatRoomMapViewDrawUi() {
 
 	// In object type selection mode, the user can select an object type (floor decoration, floor obstacle, wall decoration, etc.)
 	if (ChatRoomMapViewEditMode == "ObjectType") {
-		DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/ShowMap.png");
+		DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/MapView.png");
 		DrawButton(10, 80, 60, 60, "", "White", "Icons/Small/EditTile.png");
 		let Y = 80;
 		let Type = "";
@@ -1486,27 +1475,23 @@ function ChatRoomMapViewClick() {
 
 	// Out of edit mode, we allow the basic buttons
 	if (ChatRoomMapViewEditMode == "") {
-		if (MouseIn(10, 10, 60, 60)) {
-			ChatRoomActivateView(ChatRoomCharacterViewName);
-			return;
-		}
-		if (MouseIn(10, 80, 60, 60) && (ChatRoomMapViewPerceptionRange > ChatRoomMapViewPerceptionRangeMin)) { ChatRoomMapViewPerceptionRange--; return; }
-		if (MouseIn(10, 150, 60, 60) && (ChatRoomMapViewPerceptionRange < ChatRoomMapViewPerceptionRangeMax)) { ChatRoomMapViewPerceptionRange++; return; }
-		if (ChatRoomPlayerIsAdmin() && MouseIn(10, 220, 60, 60)) {
+		if (MouseIn(10, 10, 60, 60) && (ChatRoomMapViewPerceptionRange > ChatRoomMapViewPerceptionRangeMin)) { ChatRoomMapViewPerceptionRange--; return; }
+		if (MouseIn(10, 80, 60, 60) && (ChatRoomMapViewPerceptionRange < ChatRoomMapViewPerceptionRangeMax)) { ChatRoomMapViewPerceptionRange++; return; }
+		if (ChatRoomPlayerIsAdmin() && MouseIn(10, 150, 60, 60)) {
 			ChatRoomMapViewEditMode = "TileType";
 			ChatRoomMapViewEditSubMode = "";
 			return;
 		}
-		if (ChatRoomPlayerIsAdmin() && MouseIn(10, 290, 60, 60)) {
+		if (ChatRoomPlayerIsAdmin() && MouseIn(10, 220, 60, 60)) {
 			ChatRoomMapViewEditMode = "ObjectType";
 			ChatRoomMapViewEditSubMode = "";
 			return;
 		}
-		if (ChatRoomPlayerIsAdmin() && MouseIn(10, 360, 60, 60)) {
+		if (ChatRoomPlayerIsAdmin() && MouseIn(10, 290, 60, 60)) {
 			ChatRoomMapViewUndo();
 			return;
 		}
-		if (ChatRoomPlayerIsAdmin() && MouseIn(10, 430, 60, 60)) {
+		if (ChatRoomPlayerIsAdmin() && MouseIn(10, 360, 60, 60)) {
 			if (ChatRoomMapFogIsActive()) ChatRoomData.MapData.Fog = false;
 			else delete ChatRoomData.MapData.Fog;
 			ChatRoomMapViewUpdateFlag();
@@ -1806,94 +1791,3 @@ function ChatRoomMapViewWhisperValid() {
 	ChatRoomMessage({ Type: "ServerMessage", Content: "WhisperOutOfRange", Sender: Player.MemberNumber });
 	ChatRoomSetTarget(null);
 }
-
-/** Deprecated names for compatibility */
-
-//---Deprecated Variables of R101---
-CommonProperty("ChatRoomMapVisible", () => ChatRoomIsViewActive(ChatRoomMapViewName), function (value) { if (value) { ChatRoomIsViewActive(ChatRoomMapViewName); } else {ChatRoomIsViewActive(ChatRoomCharacterViewName); } });
-CommonProperty("ChatRoomMapWidth", () => ChatRoomMapViewWidth, (value) => ChatRoomMapViewWidth = value);
-CommonProperty("ChatRoomMapHeight", () => ChatRoomMapViewHeight, (value) => ChatRoomMapViewHeight = value);
-CommonProperty("ChatRoomMapViewRange", () => ChatRoomMapViewPerceptionRange, (value) => ChatRoomMapViewPerceptionRange = value);
-CommonProperty("ChatRoomMapViewRangeMin", () => ChatRoomMapViewPerceptionRangeMin, (value) => ChatRoomMapViewPerceptionRangeMin = value);
-CommonProperty("ChatRoomMapViewRangeMax", () => ChatRoomMapViewPerceptionRangeMax, (value) => ChatRoomMapViewPerceptionRangeMax = value);
-CommonProperty("ChatRoomMapObjectStartID", () => ChatRoomMapViewObjectStartID, (value) => ChatRoomMapViewObjectStartID = value);
-CommonProperty("ChatRoomMapObjectEntryID", () => ChatRoomMapViewObjectEntryID, (value) => ChatRoomMapViewObjectEntryID = value);
-CommonProperty("ChatRoomMapEditMode", () => ChatRoomMapViewEditMode, (value) => ChatRoomMapViewEditMode = value);
-CommonProperty("ChatRoomMapEditSubMode", () => ChatRoomMapViewEditSubMode, (value) => ChatRoomMapViewEditSubMode = value);
-CommonProperty("ChatRoomMapEditStarted", () => ChatRoomMapViewEditStarted, (value) => ChatRoomMapViewEditStarted = value);
-CommonProperty("ChatRoomMapEditObject", () => ChatRoomMapViewEditObject, (value) => ChatRoomMapViewEditObject = value);
-CommonProperty("ChatRoomMapEditSelection", () => ChatRoomMapViewEditSelection, (value) => ChatRoomMapViewEditSelection = value);
-CommonProperty("ChatRoomMapEditRange", () => ChatRoomMapViewEditRange, (value) => ChatRoomMapViewEditRange = value);
-CommonProperty("ChatRoomMapEditBackup", () => ChatRoomMapViewEditBackup, (value) => ChatRoomMapViewEditBackup = value);
-CommonProperty("ChatRoomMapUpdateRoomNext", () => ChatRoomMapViewUpdateRoomNext, (value) => ChatRoomMapViewUpdateRoomNext = value);
-CommonProperty("ChatRoomMapUpdatePlayerNext", () => ChatRoomMapViewUpdatePlayerNext, (value) => ChatRoomMapViewUpdatePlayerNext = value);
-CommonProperty("ChatRoomMapUpdateLastMapDataNext", () => ChatRoomMapViewUpdateLastMapDataNext, (value) => ChatRoomMapViewUpdateLastMapDataNext = value);
-CommonProperty("ChatRoomMapFocusedCharacter", () => ChatRoomMapViewFocusedCharacter, (value) => ChatRoomMapViewFocusedCharacter = value);
-CommonProperty("ChatRoomMapSuperPowersActive", () => ChatRoomMapViewSuperPowersActive, (value) => ChatRoomMapViewSuperPowersActive = value);
-CommonProperty("ChatRoomMapBaseMovementSpeed", () => ChatRoomMapViewBaseMovementSpeed, (value) => ChatRoomMapViewBaseMovementSpeed = value);
-CommonProperty("ChatRoomMapMovement", () => ChatRoomMapViewMovement, (value) => ChatRoomMapViewMovement = value);
-CommonProperty("ChatRoomMapTypeList", () => ChatRoomMapViewTypeList, (value) => ChatRoomMapViewTypeList = value);
-CommonProperty("ChatRoomMapUpdatePlayerTime", () => ChatRoomMapViewUpdatePlayerTime, (value) => ChatRoomMapViewUpdatePlayerTime = value);
-CommonProperty("ChatRoomMapPerceptionRaycastOffset", () => ChatRoomMapViewPerceptionRaycastOffset);
-CommonProperty("ChatRoomMapWhisperRange", () => ChatRoomMapViewWhisperRange);
-CommonProperty("ChatRoomMapInteractionRange", () => ChatRoomMapViewInteractionRange);
-CommonProperty("ChatRoomMapRemoteRange", () => ChatRoomMapViewRemoteRange);
-CommonProperty("ChatRoomMapVisibilityMask", () => ChatRoomMapViewVisibilityMask, (value) => ChatRoomMapViewVisibilityMask = value);
-CommonProperty("ChatRoomMapAudibilityMask", () => ChatRoomMapViewAudibilityMask, (value) => ChatRoomMapViewAudibilityMask = value);
-CommonProperty("ChatRoomMapTileList", () => ChatRoomMapViewTileList);
-CommonProperty("ChatRoomMapObjectList", () => ChatRoomMapViewObjectList);
-
-//---Deprecated Functions of R101---
-CommonDeprecateFunction("ChatRoomMapHasSuperPowers", ChatRoomMapViewHasSuperPowers);
-CommonDeprecateFunction("ChatRoomMapInitialize", ChatRoomMapViewInitialize);
-CommonDeprecateFunction("ChatRoomMapInitializeCharacter", ChatRoomMapViewInitializeCharacter);
-CommonDeprecateFunction("ChatRoomMapValidatePos", ChatRoomMapViewValidatePos);
-CommonDeprecateFunction("ChatRoomMapLeave", ChatRoomMapViewLeave);
-CommonDeprecateFunction("ChatRoomMapActivate", ChatRoomMapViewActivate);
-CommonDeprecateFunction("ChatRoomMapDeactivate", ChatRoomMapViewDeactivate);
-CommonDeprecateFunction("ChatRoomMapIsActive", ChatRoomMapViewIsActive);
-CommonDeprecateFunction("ChatRoomMapRun", ChatRoomMapViewRun);
-CommonDeprecateFunction("ChatRoomMapCanLeave", ChatRoomMapViewCanLeave);
-CommonDeprecateFunction("ChatRoomMapSyncRoomProperties", ChatRoomMapViewSyncRoomProperties);
-CommonDeprecateFunction("ChatRoomMapIndexToCoordinates", ChatRoomMapViewIndexToCoordinates);
-CommonDeprecateFunction("ChatRoomMapCoordinatesToIndex", ChatRoomMapViewCoordinatesToIndex);
-CommonDeprecateFunction("ChatRoomMapCalculatePerceptionMasks", ChatRoomMapViewCalculatePerceptionMasks);
-CommonDeprecateFunction("ChatRoomMapGetSightRange", ChatRoomMapViewGetSightRange);
-CommonDeprecateFunction("ChatRoomMapGetHearingRange", ChatRoomMapViewGetHearingRange);
-CommonDeprecateFunction("ChatRoomMapCharacterIsVisible", ChatRoomMapViewCharacterIsVisible);
-CommonDeprecateFunction("ChatRoomMapCharacterIsHearable", ChatRoomMapViewCharacterIsHearable);
-CommonDeprecateFunction("ChatRoomMapCharacterOnWhisperRange", ChatRoomMapViewCharacterOnWhisperRange);
-CommonDeprecateFunction("ChatRoomMapCharacterOnInteractionRange", ChatRoomMapViewCharacterOnInteractionRange);
-CommonDeprecateFunction("ChatRoomMapFindWallEffectTile", ChatRoomMapViewFindWallEffectTile);
-CommonDeprecateFunction("ChatRoomMapIsWall", ChatRoomMapViewIsWall);
-CommonDeprecateFunction("ChatRoomMapGetTileAtPos", ChatRoomMapViewGetTileAtPos);
-CommonDeprecateFunction("ChatRoomMapGetObjectAtPos", ChatRoomMapViewGetObjectAtPos);
-CommonDeprecateFunction("ChatRoomMapCanEnterWall", ChatRoomMapViewCanEnterWall);
-CommonDeprecateFunction("ChatRoomMapWallEffect", ChatRoomMapViewFloorWallEffect);
-CommonDeprecateFunction("ChatRoomMapCollision", ChatRoomMapViewCollision);
-CommonDeprecateFunction("ChatRoomMapGetCharacterAtPos", ChatRoomMapViewGetCharacterAtPos);
-CommonDeprecateFunction("ChatRoomMapGetEntryFlagPosition", ChatRoomMapViewGetEntryFlagPosition);
-CommonDeprecateFunction("ChatRoomMapDrawGrid", ChatRoomMapViewDrawGrid);
-CommonDeprecateFunction("ChatRoomMapUpdateFlag", ChatRoomMapViewUpdateFlag);
-CommonDeprecateFunction("ChatRoomMapUpdatePlayerFlag", ChatRoomMapViewUpdatePlayerFlag);
-CommonDeprecateFunction("ChatRoomMapUpdateRoomSync", ChatRoomMapViewUpdateRoomSync);
-CommonDeprecateFunction("ChatRoomMapUpdatePlayerSync", ChatRoomMapViewUpdatePlayerSync);
-CommonDeprecateFunction("ChatRoomSyncMapData", ChatRoomMapViewSyncMapData);
-CommonDeprecateFunction("ChatRoomMapUpdateLastMapDataSync", ChatRoomMapViewUpdateLastMapDataSync);
-CommonDeprecateFunction("ChatRoomMapMovementProcess", ChatRoomMapViewMovementProcess);
-CommonDeprecateFunction("ChatRoomMapLeash", ChatRoomMapViewLeash);
-CommonDeprecateFunction("ChatRoomMapDraw", ChatRoomMapViewDraw);
-CommonDeprecateFunction("ChatRoomMapCanEnterTile", ChatRoomMapViewCanEnterTile);
-CommonDeprecateFunction("ChatRoomMapMove", ChatRoomMapViewMove);
-
-
-CommonDeprecateFunction("ChatRoomMapUndo", ChatRoomMapViewUndo);
-CommonDeprecateFunction("ChatRoomMapKeyDown", ChatRoomMapViewKeyDown);
-CommonDeprecateFunction("ChatRoomMapClick", ChatRoomMapViewClick);
-CommonDeprecateFunction("ChatRoomMapMouseDown", ChatRoomMapViewMouseDown);
-CommonDeprecateFunction("ChatRoomMapMouseMove", ChatRoomMapViewMouseMove);
-CommonDeprecateFunction("ChatRoomMapMouseUp", ChatRoomMapViewMouseUp);
-CommonDeprecateFunction("ChatRoomMapMouseWheel", ChatRoomMapViewMouseWheel);
-CommonDeprecateFunction("ChatRoomMapCopy", ChatRoomMapViewCopy);
-CommonDeprecateFunction("ChatRoomMapPaste", ChatRoomMapViewPaste);
-CommonDeprecateFunction("ChatRoomMapWhisperValid", ChatRoomMapViewWhisperValid);
