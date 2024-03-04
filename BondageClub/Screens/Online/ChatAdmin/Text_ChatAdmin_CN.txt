@@ -12,8 +12,8 @@ Private
 私有
 Locked
 锁定
-Size (2-10)
-大小 (2-10)
+Size (2-20)
+大小 (2-20)
 Use member numbers, separated by commas (ex: 3571,541,7001)
 使用逗号分隔的用户号 (如: 3571,541,7001)
 Ban blacklist

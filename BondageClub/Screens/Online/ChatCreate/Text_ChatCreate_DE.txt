@@ -26,8 +26,8 @@ Only use the map, no regular chat
 Nur die Karte nutzen, kein normaler Chat
 Select the background
 Hintergrund wählen
-Size (2-10)
-Größe (2-10)
+Size (2-20)
+Größe (2-20)
 Create
 Erstellen
  Exit

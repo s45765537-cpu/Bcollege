@@ -50,7 +50,7 @@ function ChatCreateLoad() {
 		document.getElementById("InputName").setAttribute("placeholder", TextGet("NameExplanation"));
 		ElementCreateInput("InputSize", "number", "10");
 		document.getElementById("InputSize").setAttribute("min", "2");
-		document.getElementById("InputSize").setAttribute("max", "10");
+		document.getElementById("InputSize").setAttribute("max", "20");
 		document.getElementById("InputSize").setAttribute("autocomplete", "off");
 		ElementCreateTextArea("InputDescription");
 		document.getElementById("InputDescription").setAttribute("maxLength", 100);
