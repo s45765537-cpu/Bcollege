@@ -122,6 +122,7 @@ function CollegeTheaterPlayClothes(C1, C2) {
 	InventoryWear(C1, "BondageDress2", "Cloth", "#555555");
 	InventoryWear(C2, "Beret1", "Hat", "#CC8899");
 	InventoryWear(C2, "Dress2", "Cloth", "Default");
+	if (InventoryGet(C2, "ClothLower") != null) InventoryRemove(C2, "ClothLower");
 }
 
 /**

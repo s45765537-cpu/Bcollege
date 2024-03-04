@@ -89,6 +89,7 @@ function CollegeEntranceWearStudentClothes(C) {
 	InventoryRemove(C, "HairAccessory2");
 	InventoryRemove(C, "HairAccessory3");
 	InventoryRemove(C, "ClothAccessory");
+	if (InventoryGet(Player, "Shoes") == null) InventoryWear(C, "Heels1", "Shoes", "Default");;
 }
 
 /**
