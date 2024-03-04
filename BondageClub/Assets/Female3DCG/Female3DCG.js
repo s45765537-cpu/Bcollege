@@ -6017,6 +6017,8 @@ var AssetFemale3DCG = [
 				Extended: true,
 				CreateLayerTypes: ["typed"],
 				PoseMapping: {
+					OverTheHead: "OverTheHead",
+					Yoked: "Yoked",
 					TapedHands: "TapedHands",
 					BackBoxTie: "BackBoxTie",
 					BackCuffs: "BackCuffs",
