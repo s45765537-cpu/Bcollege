@@ -12,8 +12,8 @@ Private
 Privat
 Locked
 Abgeschlossen
-Size (2-10)
-Größe (2-10)
+Size (2-20)
+Größe (2-20)
 Use member numbers, separated by commas (ex: 3571,541,7001)
 Mitgliedernummern, mit Kommas getrennt (Bsp: 3571,541,7001)
 Ban blacklist

@@ -12,8 +12,8 @@ Private
 Приватный
 Locked
 Заблокированный
-Size (2-10)
-Размер (2-10)
+Size (2-20)
+Размер (2-20)
 Use member numbers, separated by commas (ex: 3571,541,7001)
 Используйте номера членов, разделенные запятыми (ex: 3571,541,7001)
 Ban blacklist

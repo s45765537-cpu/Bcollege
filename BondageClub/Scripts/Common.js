@@ -1245,7 +1245,49 @@ function CommonFromEntries(iterable) {
 }
 
 /**
- * Automatically generate a grid based on parameters.
+ * Automatically generate grid coordinates based on parameters.
+ * @param {number} nItems - The upper bound to the number of grid points; fewer can be returned if they do not all fit on the grid
+ * @param {CommonGenerateGridParameters} grid - The grid parameters
+ * @returns {RectTuple[]} - A list of grid coordinates with a length of `<= nItems`
+ * @see {@link CommonGenerateGrid}
+ */
+function CommonGenerateGridCoords(nItems, grid) {
+	// Calculate horizontal & vertical margins
+	const itemCountX = Math.floor(grid.width / grid.itemWidth);
+	const marginX = grid.itemMarginX ?? (grid.width - (itemCountX * grid.itemWidth)) / (itemCountX - 1);
+	const itemCountY = Math.floor(grid.height / grid.itemHeight);
+	const marginY = grid.itemMarginY ?? (grid.height - (itemCountY * grid.itemHeight)) / (itemCountY - 1);
+	const direction = grid.direction ?? "horizontal";
+
+	/** @type {RectTuple[]} */
+	const gridList = [];
+	let i = 0;
+	let x = grid.x;
+	let y = grid.y;
+	if (direction === "horizontal") {
+		for (i; i < nItems && y <= grid.y + grid.height; i++) {
+			gridList.push([x, y, grid.itemWidth, grid.itemHeight]);
+			x += grid.itemWidth + marginX;
+			if (x - grid.x >= grid.width) {
+				x = grid.x;
+				y += grid.itemHeight + marginY;
+			}
+		}
+	} else {
+		for (i; i < nItems && x <= grid.x + grid.width; i++) {
+			gridList.push([x, y, grid.itemWidth, grid.itemHeight]);
+			y += grid.itemHeight + marginY;
+			if (y - grid.y >= grid.height) {
+				y = grid.y;
+				x += grid.itemWidth + marginX;
+			}
+		}
+	}
+	return gridList;
+}
+
+/**
+ * Automatically generate a grid based on parameters and apply a callback to each grid point.
  *
  * This function takes a list of items, grid parameters, and a callback to manage
  * creating a grid of them. It'll find the best value for margins between each cell,
@@ -1259,28 +1301,12 @@ function CommonFromEntries(iterable) {
  * @param {number} offset
  * @param {CommonGenerateGridParameters} grid
  * @param {CommonGenerateGridCallback<T>} callback
- * @returns {number}
+ * @returns {number} - The (offsetted) index for which the callback evaluated to `true`, or `-1` if no elements satisfy the testing
  */
 function CommonGenerateGrid(items, offset, grid, callback) {
-	// Calculate horizontal & vertical margins
-	const itemCountX = Math.floor(grid.width / grid.itemWidth);
-	const marginX = (grid.width - (itemCountX * grid.itemWidth)) / (itemCountX - 1);
-	const itemCountY = Math.floor(grid.height / grid.itemHeight);
-	const marginY = (grid.height - (itemCountY * grid.itemHeight)) / (itemCountY - 1);
-
-	let index;
-	let x = grid.x;
-	let y = grid.y;
-	for (index = offset; index < items.length && y <= grid.y + grid.height; index++) {
-		if (callback(items[index], x, y, grid.itemWidth, grid.itemHeight))
-			break;
-		x += grid.itemWidth + marginX;
-		if (x - grid.x >= grid.width) {
-			x = grid.x;
-			y += grid.itemHeight + marginY;
-		}
-	}
-	return index - offset;
+	const gridCoords = CommonGenerateGridCoords(items.length - offset, grid);
+	const index = gridCoords.findIndex((coords, i) => callback(items[i + offset], ...coords));
+	return index === -1 ? -1 : index - offset;
 }
 
 /**

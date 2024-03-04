@@ -50,7 +50,7 @@ function ChatAdminLoad() {
 	document.getElementById("InputName").setAttribute("autocomplete", "off");
 	ElementCreateInput("InputSize", "number", roomData.Limit.toString());
 	document.getElementById("InputSize").setAttribute("min", "2");
-	document.getElementById("InputSize").setAttribute("max", "10");
+	document.getElementById("InputSize").setAttribute("max", "20");
 	document.getElementById("InputSize").setAttribute("autocomplete", "off");
 	ElementCreateTextArea("InputDescription");
 	document.getElementById("InputDescription").setAttribute("maxLength", 100);

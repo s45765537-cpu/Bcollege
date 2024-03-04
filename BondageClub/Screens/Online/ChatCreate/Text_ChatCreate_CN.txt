@@ -26,8 +26,8 @@ Only use the map, no regular chat
 只使用地图，没有常规聊天
 Select the background
 选择背景
-Size (2-10)
-大小 (2-10)
+Size (2-20)
+大小 (2-20)
 Create
 创建
  Exit
