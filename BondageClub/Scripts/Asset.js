@@ -176,7 +176,6 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		AllowActivityOn: Array.isArray(AssetDef.AllowActivityOn) ? AssetDef.AllowActivityOn : [],
 		ActivityExpression: Array.isArray(AssetDef.ActivityExpression) ? AssetDef.ActivityExpression : {},
 		BuyGroup: AssetDef.BuyGroup,
-		PrerequisiteBuyGroups: AssetDef.PrerequisiteBuyGroups,
 		Effect: (AssetDef.Effect == null) ? Group.Effect : AssetDef.Effect,
 		Bonus: AssetDef.Bonus,
 		Block: (AssetDef.Block == null) ? Group.Block : AssetDef.Block,

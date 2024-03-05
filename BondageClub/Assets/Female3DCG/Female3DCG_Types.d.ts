@@ -497,9 +497,6 @@ interface AssetDefinitionBase extends AssetCommonPropertiesGroupAsset, AssetComm
 	/** Identifies a set of assets that's part of the same group for shopping purposes. Buying one will give access to all of them. */
 	BuyGroup?: string;
 
-	/** Identifies a BuyGroup that, we bought one item of, will cause that asset to also be owned, without showing it in the shopping list. Only used by the SpankingToys */
-	PrerequisiteBuyGroups?: string[];
-
 	/** Whether wearing the asset gives a bonus in the Kidnap minigame. */
 	Bonus?: AssetBonusName;
 

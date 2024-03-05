@@ -797,7 +797,6 @@ interface Asset {
 	readonly ActivityExpression: Readonly<Partial<Record<ActivityName, readonly ExpressionTrigger[]>>>;
 	readonly AllowActivityOn?: readonly AssetGroupItemName[];
 	readonly BuyGroup?: string;
-	readonly PrerequisiteBuyGroups?: readonly string[];
 	readonly Effect: readonly EffectName[];
 	readonly Bonus?: AssetBonusName;
 	readonly Block?: readonly AssetGroupItemName[];

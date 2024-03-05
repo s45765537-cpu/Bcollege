@@ -260,12 +260,6 @@ function ShopBuyItem(asset) {
 				if ((Asset[B] != null) && (Asset[B].BuyGroup != null) && (Asset[B].BuyGroup == asset.BuyGroup))
 					InventoryAdd(Player, Asset[B].Name, Asset[B].Group.Name, false);
 
-		if (asset.PrerequisiteBuyGroups)
-			for (let B = 0; B < Asset.length; B++)
-				for (let C = 0; C < asset.PrerequisiteBuyGroups.length; C++)
-					if ((Asset[B]) && (Asset[B].BuyGroup != null) && (Asset[B].BuyGroup == asset.PrerequisiteBuyGroups[C]))
-						InventoryAdd(Player, Asset[B].Name, Asset[B].Group.Name, false);
-
 		// Sync and rebuild the shop menu to be up-to-date
 		ServerPlayerInventorySync();
 		ShopCartBuild();
@@ -291,13 +285,6 @@ function ShopSellItem(asset) {
 		// Remove all items in the same buy-group
 		if (asset.BuyGroup)
 			Asset.filter(A => A.BuyGroup === asset.BuyGroup).forEach(A => InventoryDelete(Player, A.Name, A.Group.Name, false));
-
-		// Remove items with buy-group in the prerequisite buy-group if there no other owned items in that prerequisite buy-group left
-		if (asset.PrerequisiteBuyGroups)
-			Player.Inventory
-				.filter(i => asset.PrerequisiteBuyGroups.includes(i.Asset.BuyGroup))
-				.filter(i => !Player.Inventory.some(i2 => i2.Asset.PrerequisiteBuyGroups && i2.Asset.PrerequisiteBuyGroups.includes(i.Asset.BuyGroup)))
-				.forEach(i => InventoryDelete(Player, i.Asset.Name, i.Asset.Group.Name, false));
 
 		// Sync and rebuild the shop menu to be up-to-date
 		ServerPlayerInventorySync();
