@@ -32,19 +32,15 @@ function ShopIsVendorRestrained() { return (ShopVendor.IsRestrained() || !ShopVe
  * @returns {boolean} - Returns TRUE if the current rescue scenario is the given one
  */
 function ShopIsRescueScenario(ScenarioName) { return (ShopRescueScenario == ScenarioName); }
+
 /**
- * Activates the mode which allows the player to buy the items that appear in the inventory screen
- * @returns {void} - Nothing
+ * Entry point for accessing the actual shop from the NPC dialog menu
  */
-function ShopSetBuyMode() {
-	ShopBuyMode = true;
-}
-/**
- * Activates the mode which allows the player to sell the items that appear in the inventory screen
- * @returns {void} - Nothing
- */
-function ShopSetSellMode() {
-	ShopBuyMode = false;
+function ShopEnter() {
+	ShopVendor.Stage = "0";
+	ShopVendor.FocusGroup = null;
+	CurrentCharacter = null;
+	Shop2.Init();
 }
 
 /**

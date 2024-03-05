@@ -26,9 +26,7 @@ ItemPelvisCrop,,,(You lash the leather crop pretty hard on her butt.)  Damn it! 
 0,,,Greetings Mistress DialogPlayerName.  What are you looking for today?,,"DialogLogQuery(""ClubMistress"", ""Management"")"
 0,,,(She looks at you and giggles.)  Are you looking for some clothes?,,Player.IsNaked()
 0,,,Welcome to the Bondage Club store.  How can I help you today?,,
-0,90,I'd like to buy something.,Of course! What are you looking for?,SetBuyMode(),
-0,90,I want to return something I bought.,"Sure! You can sell back anything for half of the original price. What kind of item is it?",SetSellMode(),
-0,,Can you show me everything that I don't have?,,SelectAssetMissing(),
+0,90,I'd like to browse the shop.,Of course! What are you looking for?,Enter(),
 0,,What are you selling?,"Look around, there are clothes of all kinds and lots of BDSM gear.",,
 0,,Who owns this store?,It belongs to the Bondage Club.  All profits go back to the organization.,,
 0,20,Can I tie you up?,"I'll make a deal with you.  If you buy everything from the store, I'll let you use the items on me.",CheckBoughtEverything(),!VendorAllowItem
@@ -55,77 +53,6 @@ ItemPelvisCrop,,,(You lash the leather crop pretty hard on her butt.)  Damn it! 
 34,,Can I try again?,  I'm afraid you'll need to get out of those restraints before you can try again,,!JobCanGoAgain()
 34,31,Can I try again?,Alright.  Let me find an item to promote.  (She checks on the shelves for an item to use on you.),,JobCanGoAgain()
 34,,Can you help me out?,"I don't have time, there's too many customers.  Go find a maid if you can't struggle out.",DialogRemove(),!Player.CanInteract()
-90,100,Clothes and accessories.,"What kind of clothes?",,CanShow(Cloth|ClothAccessory|Suit|ClothLower|Hat|Glasses|Mask|Necklace|Gloves|Shoes|Corset)
-90,110,Underwear.,"What kind of underwear?",,CanShow(Bra|Panties|Socks|Garters)
-90,120,Exotic accessories.,"What kind of accessories?",,CanShow(Wings|TailStraps|HairAccessory1|ItemDevices|ItemAddon)
-90,200,Something for the head.,For which body part exactly?,,CanShow(ItemHead|ItemEars|ItemMouth|ItemNeck|ItemNeckAccessories|ItemNeckRestraints|ItemHood|ItemNose|ItemMisc)
-90,210,Something for the body or arms.,For which body part exactly?,,CanShow(ItemArms|ItemHands|ItemBreast|ItemNipples|ItemNipplesPiercings|ItemTorso|ItemPelvis)
-90,220,Something for private parts or legs.,For which body part exactly?,,CanShow(ItemPelvis|ItemVulva|ItemVulvaPiercings|ItemButt|ItemLegs|ItemFeet|ItemBoots)
-90,0,I've changed my mind.,Can I help you with anything else?,,
-100,,Regular clothes or outfits.,,Start(Cloth),CanShow(Cloth)
-100,,Accesories to go with clothes.,,Start(ClothAccessory),CanShow(ClothAccessory)
-100,,Suits.,,Start(Suit),CanShow(Suit)
-100,,Pants or skirts.,,Start(ClothLower),CanShow(ClothLower)
-100,,Hats or head accessories.,,Start(Hat),CanShow(Hat)
-100,,Glasses.,,Start(Glasses),CanShow(Glasses)
-100,101,It's another type of clothes.,What kind is it?,,CanShow(Mask|Necklace|Gloves|Shoes|Corset|Bracelet)
-100,90,What else do you have?,We have many items available.,,BuyMode
-100,90,Actually it's something else.,What kind of item is it?,,!BuyMode
-101,,Masks.,,Start(Mask),CanShow(Mask)
-101,,Necklaces.,,Start(Necklace),CanShow(Necklace)
-101,,Gloves.,,Start(Gloves),CanShow(Gloves)
-101,,Shoes.,,Start(Shoes),CanShow(Shoes)
-101,,Corsets.,,Start(Corset),CanShow(Corset)
-101,,Bracelets.,,Start(Bracelet),CanShow(Bracelet)
-101,100,It's another type of clothes.,What kind is it?,,
-101,90,What else do you have?,We have many items available.,,BuyMode
-101,90,Actually it's something else.,What kind of item is it?,,!BuyMode
-110,,Bras.,,Start(Bra),CanShow(Bra)
-110,,Panties.,,Start(Panties),CanShow(Panties)
-110,,Socks.,,Start(Socks),CanShow(Socks)
-110,,Garters.,,Start(Garters),CanShow(Garters)
-110,90,What else do you have?,We have many items available.,,BuyMode
-110,90,Actually it's something else.,What kind of item is it?,,!BuyMode
-120,,Outfits or accessories for the body.,,Start(Wings),CanShow(Wings)
-120,,Tail straps.,,Start(TailStraps),CanShow(TailStraps)
-120,,Hair accessories.,,Start(HairAccessory1),CanShow(HairAccessory1)
-120,,Special bondage devices.,,Start(ItemDevices),CanShow(ItemDevices)
-120,,Addons for special bondage devices.,,Start(ItemAddon),CanShow(ItemAddon)
-120,90,What else do you have?,We have many items available.,,BuyMode
-120,90,Actually it's something else.,What kind of item is it?,,!BuyMode
-200,,Blindfolds.,,Start(ItemHead),CanShow(ItemHead)
-200,,Earplugs.,,Start(ItemEars),CanShow(ItemEars)
-200,,Gags.,,Start(ItemMouth),CanShow(ItemMouth)
-200,,Collars.,,Start(ItemNeck),CanShow(ItemNeck)
-200,,Accessories for collars.,,Start(ItemNeckAccessories),CanShow(ItemNeckAccessories)
-200,,Restraints to go on collars.,,Start(ItemNeckRestraints),CanShow(ItemNeckRestraints)
-200,201,It's another type of head item.,What sort is it?,,CanShow(ItemHood|ItemNose|ItemMisc)
-200,90,What else do you have?,We have many items available.,,BuyMode
-200,90,Actually it's something else.,What kind of item is it?,,!BuyMode
-201,,Hoods.,,Start(ItemHood),CanShow(ItemHood)
-201,,Items for the nose.,,Start(ItemNose),CanShow(ItemNose)
-201,,Locks and keys.,,Start(ItemMisc),CanShow(ItemMisc)
-201,200,It's another type of head item.,What sort is it?,,
-201,90,What else do you have?,We have many items available.,,BuyMode
-201,90,Actually it's something else.,What kind of item is it?,,!BuyMode
-210,,Arm restraints.,,Start(ItemArms),CanShow(ItemArms)
-210,,Items for hands.,,Start(ItemHands),CanShow(ItemHands)
-210,,Items for breasts.,,Start(ItemBreast),CanShow(ItemBreast)
-210,,Toys for the nipples.,,Start(ItemNipples),CanShow(ItemNipples)
-210,,Items to decorate the nipples.,,Start(ItemNipplesPiercings),CanShow(ItemNipplesPiercings)
-210,,Harnesses for the torso.,,Start(ItemTorso),CanShow(ItemTorso)
-210,,Chastity belts.,,Start(ItemPelvis),CanShow(ItemPelvis)
-210,90,What else do you have?,We have many items available.,,BuyMode
-210,90,Actually it's something else.,What kind of item is it?,,!BuyMode
-220,,Chastity belts.,,Start(ItemPelvis),CanShow(ItemPelvis)
-220,,Kinky items for the kinky region.,,Start(ItemVulva),CanShow(ItemVulva)
-220,,Piercings for down below.,,Start(ItemVulvaPiercings),CanShow(ItemVulvaPiercings)
-220,,Something to be used on the butt.,,Start(ItemButt),CanShow(ItemButt)
-220,,Something to restrain the legs.,,Start(ItemLegs),CanShow(ItemLegs)
-220,,Something for the feet.,,Start(ItemFeet),CanShow(ItemFeet)
-220,,Boots.,,Start(ItemBoots),CanShow(ItemBoots)
-220,90,What else do you have?,We have many items available.,,BuyMode
-220,90,Actually it's something else.,What kind of item is it?,,!BuyMode
 MaidRescue,,,(She struggles in her restraints.)  Help!,,IsVendorRestrained()
 MaidRescue,,,"(She gives you a thumbs up.)  Everything is back to normal, thanks to you and the sorority.",,!IsVendorRestrained()
 MaidRescue,,Do you need help?,"(She nods quickly.)  Yes, yes, yes!  Please help.",,IsVendorRestrained()
