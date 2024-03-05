@@ -557,10 +557,10 @@ Click the ropes before they hit the ground to progress
 Нажмите на веревки, прежде чем они упадут на землю, чтобы прогрессировать
 Click here to speed up the progress
 Нажмите здесь, чтобы ускорить процесс
-Alternate keys A and D to speed up
-Чередуйте клавиши A и D для ускорения
-Alternate keys A and D or X and Y on a Controller to speed up
-Чередуйте клавиши A и D или X и Y на контроллере для ускорения
+Alternate keys A and S to speed up
+Чередуйте клавиши A и S для ускорения
+Alternate keys A and S or X and Y on a Controller to speed up
+Чередуйте клавиши A и S или X и Y на контроллере для ускорения
 Select inflation level
 Выберите уровень вздутия
 Select hood style
@@ -4646,6 +4646,8 @@ SourceCharacter turns DestinationCharacter lactation pump to high suction.
 SourceCharacter переключает молокоотсос DestinationCharacter на сильное всасывание.
 SourceCharacter turns DestinationCharacter lactation pump to maximum suction.
 SourceCharacter включает молокоотсос DestinationCharacter на максимальное всасывание.
+The UsedAsset on TargetCharacterName hums as it starts to express some milk.
+The UsedAsset на TargetCharacterName гудит, когда начинает вырабатывать молоко.
 Select lactation pump setting
 Выберите настройку молокоотсоса
 Select latex finish
@@ -7839,7 +7841,7 @@ SourceCharacter добавляет тонкое покрытие глаз к Des
 SourceCharacter adds a medium cover to DestinationCharacter extendable posture collar.
 SourceCharacter добавляет средние покрытие глаз к DestinationCharacter ошейнику.
 SourceCharacter adds a thick cover to DestinationCharacter extendable posture collar.
-SourceCharacter добавляет толстое покрытие глаз к DestinationCharacter ошейнику.
+SourceCharacter добавляет плотное покрытие глаз к DestinationCharacter ошейнику.
 SourceCharacter adds a complete cover to DestinationCharacter extendable posture collar.
 SourceCharacter добавляет полное покрытие глаз к DestinationCharacter ошейнику.
 Pick a latex lip type:
@@ -7976,3 +7978,96 @@ SourceCharacter returns DestinationCharacterName to the floor.
 SourceCharacter возвращает DestinationCharacterName на пол.
 SourceCharacter pulls the level and DestinationCharacterName is lifted.
 SourceCharacter поднимает  DestinationCharacterName над полом.
+Select option
+Выберите опцию
+SourceCharacter adjusts DestinationCharacter Hanging Frame to standart frame.
+SourceCharacter настраивает DestinationCharacter подвесную рамку на стандартную рамку.
+SourceCharacter adjusts DestinationCharacter Hanging Frame to inflated frame.
+SourceCharacter настраивает DestinationCharacter подвесную рамку на надутую рамку.
+Select Tattoos
+Выберите татуировки
+Apply
+Применить
+Zoom
+Направляющие
+Big
+Основа
+Bloom
+Цветение
+BottomSpike
+НижниеШипы
+Flash
+Вспышка
+Fly
+Полет
+Grass
+Лужайка
+Grow
+ДвойнойХвост
+GrowHollow
+КонтурДвойныхХвостов
+HeartSmallOutline
+КонтурСердечка
+Heartline
+КонтурСердца
+HeartSmall
+Сердечко
+HeartSolid
+ЗаполненноеСердце
+HeartWings
+ПарящиеСердце
+In
+Проникновение
+Leaves
+Листья
+MidSpike
+ЦентральныеШипы
+Ribow
+РазбитоеСердце
+Sense
+Чувства
+Shake
+Вибрация
+SideHearts
+ДваСердечка
+Swim
+Дорожка
+Thorn
+Рога
+ThornOut
+ОреолРогов
+TopSpike
+ВерхниеШипы
+Venom
+Злоба
+Viper
+Аспид
+Waves
+Волны
+WingSmall
+Крылышки
+Choose your apron model:
+Выберите модель фартука:
+Normal apron
+Обычный фартук
+Bottom only
+Только снизу
+Choose your corset dress style:
+Выберите стиль корсетного платья:
+Corset plus skirt
+Корсет плюс юбка
+Only corset
+Только корсет
+Choose blinders type:
+Выберите тип шор:
+Mesh
+Сетка
+SourceCharacter removes DestinationCharacter hood's blindfold.
+SourceCharacter снимает повязку с DestinationCharacter капюшона.
+SourceCharacter put a pair of lenses on DestinationCharacter hood.
+SourceCharacter наденьте пару линз на DestinationCharacter капюшон.
+SourceCharacter put a mesh on DestinationCharacter hood.
+SourceCharacter помещает сетку на DestinationCharacter капюшон.
+SourceCharacter blinds DestinationCharacter completely.
+SourceCharacter полностью закрывает DestinationCharacter капюшон.
+

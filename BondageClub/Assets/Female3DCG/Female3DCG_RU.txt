@@ -66,6 +66,10 @@ Towel
 полотенце
 Yukata
 кимоно
+Body Markings
+Маркировка тела
+Womb Tattoos
+Татуировки Матки
 Steampunk Corset
 Корсет стимпанк
 Boned Underbust Corset
@@ -80,12 +84,16 @@ Long Dress
 Длинное платье
 Sleep Top
 Топ для сна
+Corset Dress
+Корсетное платье
 Wedding Dress
 Свадебное платье
 Shoulderless Wedding Dress
 Свадебное платье без плеч
 Bridesmaid Dress
 Платье подружки невесты
+Business Suit
+Деловой костюм
 Puffball Gown
 Платье с пуффами
 Hobble Gown
@@ -96,6 +104,8 @@ Maid Apron
 Фартук горничной
 Exposed Maid Apron
 Открытый фартук горничной
+Maid Latex Uniform
+Латексная униформа горничной
 Admiral Top
 Адмиральский топ
 Virgin Killer
@@ -176,6 +186,8 @@ Cape
 Накидка
 Leather Straps
 Кожаные ремни
+Latex Apron
+Латексный фартук
 Fur Bolero
 Меховое болеро
 Face Paint
@@ -378,6 +390,8 @@ Long Latex Pants
 Длинные латексные штаны
 Business Skirt
 Деловая юбка
+Business Trousers
+Деловые брюки
 Suit Lower
 Нижний костюм
 Catsuit Panties
@@ -749,7 +763,9 @@ Jeweled Band
 Beret
 Берет
 Maid Hairband
-Лента Для Волос Горничной 
+Повязка Для Волос Горничной 
+Maid Latex Hairband
+Латексная повязка для волос горничной
 Nurse Cap
 Капор медсестры
 Santa Hat
@@ -836,6 +852,8 @@ Feathers
 Перья
 Halo
 Ореол
+Headset
+Гарнитура
 Hair Accessory (All)
 Аксессуары для волос (Все)
 Ears Small
@@ -997,6 +1015,8 @@ Fox Mask
 Маска лисы
 Anime Lenses
 Аниме Линзы
+Big Mouth Hood
+Капюшон с большим ртом
 Bunny Mask Filigrane
 Маска Кролика Филигрань
 Bunny Mask Leather
@@ -2474,7 +2494,7 @@ Prison Lockdown Blindfold
 Snorkel
 Дыхательная трубка
 Ribbon Blindfold
-Повязка на глаза Из ленты
+Повязка на глаза из ленты
 Medical Patches
 Медицинские Пластыри
 Smooth Latex Mask
@@ -2693,6 +2713,8 @@ Personal Cage
 Личная клетка
 Display Frame
 Рамка показа
+Hanging Frame
+Подвесная рамка
 Sybian
 Сибиан
 Smooth Strap On
