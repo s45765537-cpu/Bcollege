@@ -1024,6 +1024,8 @@ function ChatRoomMenuBuild() {
 	if (ChatRoomCustomizationButton() && ChatRoomCustomized) ChatRoomMenuButtons.push("CustomizationOff");
 	if (DialogCanTakePhotos()) ChatRoomMenuButtons.push("Camera");
 	if (Player.CanKneel()) ChatRoomMenuButtons.push("Kneel");
+	if (ChatRoomCharacterViewIsActive() && (ChatRoomCharacterViewCharacterCountTotal != null) && (ChatRoomCharacterViewCharacterCountTotal > 10) && (ChatRoomCharacterViewOffset == 0)) ChatRoomMenuButtons.push("NextCharacters");
+	if (ChatRoomCharacterViewIsActive() && (ChatRoomCharacterViewCharacterCountTotal != null) && (ChatRoomCharacterViewCharacterCountTotal > 10) && (ChatRoomCharacterViewOffset == 10)) ChatRoomMenuButtons.push("PreviousCharacters");
 	ChatRoomMenuButtons.push("Icons");
 	ChatRoomMenuButtons.push("Cut");
 }
@@ -1077,7 +1079,26 @@ function ChatRoomUpdateDisplay() {
 		}
 	}
 
+	// Keeps the current character count and total
 	ChatRoomCharacterViewCharacterCount = RenderSingle ? 1 : ChatRoomCharacterDrawlist.length;
+	ChatRoomCharacterViewCharacterCountTotal = RenderSingle ? 1 : ChatRoomCharacterDrawlist.length;
+
+	// In character view, we can only display 10 characters
+	if (ChatRoomCharacterViewIsActive()) {
+
+		// Make sure the drawing offset isn't set, if 10 characters or less in the room
+		if ((ChatRoomCharacterViewOffset !== 0) && (ChatRoomCharacterViewCharacterCount <= 10)) ChatRoomCharacterViewOffset = 0;
+
+		// Over 10 characters we cut based on the offest
+		if (ChatRoomCharacterViewCharacterCount > 10) {
+			if (ChatRoomCharacterViewOffset !== 0)
+				ChatRoomCharacterDrawlist = ChatRoomCharacterDrawlist.slice((ChatRoomCharacterViewCharacterCount - 10) * -1);
+			else
+				ChatRoomCharacterDrawlist = ChatRoomCharacterDrawlist.slice(0, 10);
+			ChatRoomCharacterViewCharacterCount = RenderSingle ? 1 : ChatRoomCharacterDrawlist.length;
+		}
+
+	}
 }
 
 /**
@@ -1955,9 +1976,9 @@ function ChatRoomOpenAdminScreen() {
  * @returns {void} - Nothing
  */
 function ChatRoomMenuClick() {
-	const Space = 870 / (ChatRoomMenuButtons.length - 1);
+	const Space = 992 / (ChatRoomMenuButtons.length);
 	for (let B = 0; B < ChatRoomMenuButtons.length; B++) {
-		if (MouseXIn(1005 + Space * B, 120)) {
+		if (MouseXIn(1005 + Space * B, Space - 2)) {
 			switch (ChatRoomMenuButtons[B]) {
 				case "Exit": {
 					ChatRoomAttemptLeave();
@@ -2009,7 +2030,15 @@ function ChatRoomMenuClick() {
 					break;
 				case "MapView":
 					ChatRoomActivateView(ChatRoomMapViewName);
-					break;	
+					break;
+				case "NextCharacters":
+					ChatRoomCharacterViewOffset = 10;
+					ChatRoomUpdateDisplay();
+					break;
+				case "PreviousCharacters":
+					ChatRoomCharacterViewOffset = 0;
+					ChatRoomUpdateDisplay();
+					break;
 			}
 		}
 	}

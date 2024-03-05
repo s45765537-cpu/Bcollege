@@ -7,6 +7,8 @@ MenuProfile,Your character profile
 MenuRoomAdmin,Room administration
 MenuCustomizationOn,Turn room customization on
 MenuCustomizationOff,Turn room customization off
+MenuNextCharacters,View next 10 characters
+MenuPreviousCharacters,View previous 10 characters
 MenuCharacterView,Go to character view
 MenuMapView,Go to map view
 MenuKneel,Kneel down / Stand up

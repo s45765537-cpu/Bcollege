@@ -997,7 +997,7 @@ function InventoryGroupIsBlockedForCharacter(C, GroupName, Activity) {
  */
 function InventoryIsBlockedByDistance(C) {
 	if ((C == null) || C.IsPlayer()) return false;
-	if ((CurrentScreen !== "ChatRoom") || !ChatRoomMapVisible) return false;
+	if ((CurrentScreen !== "ChatRoom") || !ChatRoomIsViewActive(ChatRoomMapViewName)) return false;
 	if (ChatRoomMapViewHasSuperPowers() || ChatRoomMapViewCharacterOnInteractionRange(C)) return false;
 	return true;
 }

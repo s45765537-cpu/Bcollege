@@ -6,8 +6,10 @@ var ChatRoomCharacterViewX_Upper = 0;
 var ChatRoomCharacterViewX_Lower = 0;
 var ChatRoomCharacterViewZoom = 1;
 var ChatRoomCharacterViewCharacterCount = 0;
+var ChatRoomCharacterViewCharacterCountTotal = 0;
 /** @type {null | number} */
 var ChatRoomCharacterViewMoveTarget = null;
+var ChatRoomCharacterViewOffset = 0;
 
 const ChatRoomCharacterViewWidth = MainCanvasWidth / 2;
 const ChatRoomCharacterViewHeight = MainCanvasHeight;
@@ -251,14 +253,13 @@ function ChatRoomCharacterViewDraw() {
 
 	// Loop over the room's characters to draw each of them
 	ChatRoomCharacterViewLoopCharacters((charIdx, charX, charY, _space, roomZoom) => {
+
+		// Draw the background every five characters, this fixes clipping errors
 		if (charIdx % charsPerRow === 0) {
-			// Draw the background every five characters
-			// This will also "fix" clipping errors from the previous row
 			const Y = charCount <= charsPerRow ? viewHeight * (1 - roomZoom) / 2 : 0;
 			const bgRect = RectMakeRect(0, Y, viewWidth, viewHeight);
 			opts.zoom = roomZoom;
 			DrawRoomBackground(backgroundURL, RectOffset(bgRect, 0, charIdx * 100), opts);
-			// if (charIdx === 5) DrawRoomBackground(backgroundURL, RectOffset(bgRect, 0, 500), opts);
 		}
 
 		// Draw the character, it's status bubble and it's overlay
@@ -369,7 +370,7 @@ function ChatRoomCharacterViewLoopCharacters(callback) {
 		if (Player.GraphicsSettings?.CenterChatrooms) offsetX = C >= charsPerRow ? lowerX : upperX;
 		const CharX = offsetX + (charCount == 1 ? 0 : X + (C % charsPerRow) * Space);
 		const CharY = charCount == 1 ? 0 : Y + Math.floor(C / charsPerRow) * CanvasDrawWidth;
-		if ((charCount == 1) && !ChatRoomCharacterDrawlist[C].IsPlayer()) continue;
+		if ((charCount == 1) && (ChatRoomCharacterViewCharacterCountTotal <= 10) && !ChatRoomCharacterDrawlist[C].IsPlayer()) continue;
 
 		const res = callback(C, CharX, CharY, Space, Zoom);
 		if (res) break;
