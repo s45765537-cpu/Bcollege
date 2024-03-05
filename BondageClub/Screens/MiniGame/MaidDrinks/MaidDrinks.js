@@ -9,12 +9,12 @@ var MaidDrinksCustomerRightTimer = -1;
 var MaidDrinksCustomerLeftVisible = false;
 var MaidDrinksCustomerRightVisible = false;
 var MaidDrinksMaxSequence = 1000;
-/** @type {{ Type: number, Time: number }[]} */
+/** @type {{ Type: number, Time: number, FadeAt: number? }[]} */
 var MaidDrinksMove = [];
 var MaidDrinksLastMoveType = -1;
 var MaidDrinksLastMoveTypeTimer = -1;
 
-// The game is played using the A, S, K & L keys
+// The game is played using the S, D, K & L keys
 var MaidDrinksKeys = ["S", "D", "K", "L"];
 
 /**
@@ -24,13 +24,13 @@ var MaidDrinksKeys = ["S", "D", "K", "L"];
 function MaidDrinksGenerateMove(StartTime) {
 
 	// Full the sequence
-	var CurTimer = StartTime + 3000;
+	var CurTimer = StartTime + 3500;
 	var Seq = 0;
 	MaidDrinksMove = [];
 	while (Seq < MaidDrinksMaxSequence) {
 
 		// Create a new move to do at a random position
-		MaidDrinksMove[MaidDrinksMove.length] = { Type: Math.floor(Math.random() * 4), Time: CurTimer };
+		MaidDrinksMove[MaidDrinksMove.length] = { Type: Math.floor(Math.random() * 4), Time: CurTimer, FadeAt: null };
 		CurTimer = CurTimer + Math.floor(Math.random() * 800) + 400;
 		Seq++;
 
@@ -68,20 +68,28 @@ function MaidDrinksDrawIcons() {
 	var Seq = 0;
 	while (Seq < MaidDrinksMove.length) {
 
-		// Draw the move from 3 seconds before to 1 second after
-		if ((MaidDrinksMove[Seq].Time <= MiniGameTimer + 3000) && (MaidDrinksMove[Seq].Time >= MiniGameTimer - 1000))
-			DrawImage("Screens/" + CurrentModule + "/" + CurrentScreen + "/Icon" + MaidDrinksMove[Seq].Type + ".png", 1200 + (MaidDrinksMove[Seq].Type * 200), 666 + Math.floor((MiniGameTimer - MaidDrinksMove[Seq].Time) / 4));
+		// Draw the move from 3.5 seconds before to 1 second after
+		if (MaidDrinksMove[Seq].Time <= MiniGameTimer + 3500) {
+			const X = 1200 + (MaidDrinksMove[Seq].Type * 200);
+			const Y = 675 + Math.floor((MiniGameTimer - MaidDrinksMove[Seq].Time) / 4);
+			const Alpha = MaidDrinksMove[Seq].FadeAt == null ? 1.0 : 1.0 - (MiniGameTimer - MaidDrinksMove[Seq].FadeAt) / 200;
+			// DrawText(`${MiniGameTimer - MaidDrinksMove[Seq].Time}`, X, Y + 200, "white");
+			DrawImageEx("Screens/" + CurrentModule + "/" + CurrentScreen + "/Icon" + MaidDrinksMove[Seq].Type + ".png", MainCanvas, X, Y, { Alpha });
+		}
 
 		// Remove the move from the sequence if it's past due
-		if (MaidDrinksMove[Seq].Time < MiniGameTimer - 1000) {
-			MaidDrinksMove.splice(Seq, 1);
+		if (MaidDrinksMove[Seq].FadeAt == null && MaidDrinksMove[Seq].Time < MiniGameTimer - 800) {
+			MaidDrinksMove[Seq].FadeAt = MiniGameTimer;
 			MaidDrinksMiss();
 		}
+
+		if (MaidDrinksMove[Seq].FadeAt != null && MiniGameTimer - MaidDrinksMove[Seq].FadeAt >= 200)
+			MaidDrinksMove.splice(Seq, 1);
 		else Seq = Seq + 1;
 
-		// Beyond 3 seconds forward, we exit
+		// Beyond 3.5 seconds forward, we exit
 		if (Seq < MaidDrinksMove.length)
-			if (MaidDrinksMove[Seq].Time > MiniGameTimer + 3000)
+			if (MaidDrinksMove[Seq].Time > MiniGameTimer + 3500)
 				return;
 
 	}
@@ -242,11 +250,12 @@ function MaidDrinksDoMove(MoveType) {
 		while (Seq < MaidDrinksMove.length) {
 
 			// If the move connects (good timing and good type)
-			if ((MaidDrinksMove[Seq].Time <= MiniGameTimer + 400) && (MaidDrinksMove[Seq].Time >= MiniGameTimer - 400) && (MoveType == MaidDrinksMove[Seq].Type)) {
-				MaidDrinksMove.splice(Seq, 1);
+			// The glass is centered on the bar when MaidDrinksMove[Seq].Time == MiniGameTimer. It touches the bar around -465 (would be (200/2)*4 - 25 = 475 normally, but the sprite doesn't fit the 200x200 image exactly), and on the other side falls off around 455-460 (the images not 100% symetrical). But when we the user presses the button, it will be highlighted for 200.
+			if ((MaidDrinksMove[Seq].FadeAt == null) && (MaidDrinksMove[Seq].Time <= MiniGameTimer + 600) && (MaidDrinksMove[Seq].Time >= MiniGameTimer - 450) && (MoveType == MaidDrinksMove[Seq].Type)) {
+				MaidDrinksMove[Seq].FadeAt = MiniGameTimer;
 				Hit = true;
 			}
-			else Seq++;
+			Seq++;
 
 			// Beyond 0.5 seconds forward, we give up
 			if (Seq < MaidDrinksMove.length)
