@@ -1646,7 +1646,7 @@ var AssetFemale3DCG = [
 						Priority: 30,
 						AllowColorize: true,
 						PoseMapping: { ...AssetPoseMapping.Cloth },
-					}, 
+					},
 					{
 						Name: "Corset",
 						Top: 0,
@@ -1654,7 +1654,7 @@ var AssetFemale3DCG = [
 						Priority: 29,
 						AllowColorize: true,
 						PoseMapping: { ...AssetPoseMapping.Cloth },
-					}, 
+					},
 					{
 						Name: "Buttons",
 						Top: 0,
@@ -9839,14 +9839,11 @@ var AssetFemale3DCG = [
 		PreviewZone: [125, 0, 250, 250],
 		DynamicGroupName: "HairAccessory1",
 		Asset: [
-			{ 
-				Name: "Ribbons1", 
-				Priority: 4, 
+			{
+				Name: "Ribbons1",
+				Priority: 4,
 				BuyGroup: "Ribbons1",
-				Layer: [
-					{ Name: "Left" },
-					{ Name: "Right" },
-				],
+				Layer: [{ Name: "Left" }, { Name: "Right" }],
 			},
 			{
 				Name: "Ribbons2",
@@ -10054,14 +10051,11 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
-			{ 
-				Name: "Ribbons1", 
-				Priority: 4, 
+			{
+				Name: "Ribbons1",
+				Priority: 4,
 				BuyGroup: "Ribbons1",
-				Layer: [
-					{ Name: "Left" },
-					{ Name: "Right" },
-				],
+				Layer: [{ Name: "Left" }, { Name: "Right" }],
 			},
 			{
 				Name: "Ribbons2",
