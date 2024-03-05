@@ -189,6 +189,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		SetPose: (AssetDef.SetPose == null) ? Group.SetPose : AssetDef.SetPose,
 		AllowActivePose: AssetDef.AllowActivePose,
 		Value: (AssetDef.Value == null) ? 0 : AssetDef.Value,
+		NeverSell: AssetDef.NeverSell ?? false,
 		Difficulty: difficulty,
 		SelfBondage: (AssetDef.SelfBondage == null) ? 0 : AssetDef.SelfBondage,
 		SelfUnlock: (AssetDef.SelfUnlock == null) ? true : AssetDef.SelfUnlock,
@@ -857,6 +858,7 @@ function AssetLoadAll() {
 	ExtendedItemManualRegister();
 	PropertyAutoPunishHandled = new Set(AssetGroup.map((a) => a.Name));
 	Shop2._PopulateBuyGroups();
+	Shop2._PopulateKeysAndRemotes();
 }
 
 /**

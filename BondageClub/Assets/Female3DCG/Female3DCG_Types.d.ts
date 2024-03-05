@@ -543,6 +543,13 @@ interface AssetDefinitionBase extends AssetCommonPropertiesGroupAsset, AssetComm
 	 */
 	Value?: number;
 
+	/**
+	 * Whether an item should never be able to be sold.
+	 *
+	 * Should be used for items that can be bought *and* can be earned for free.
+	 */
+	NeverSell?: boolean;
+
 	/** A measure of how hard it is to remove the asset. Defaults to 0. */
 	Difficulty?: number;
 

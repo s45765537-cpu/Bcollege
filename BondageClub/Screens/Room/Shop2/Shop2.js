@@ -12,41 +12,49 @@ const Shop2Vars = CommonVariableContainer(
 		 * @type {null | Item}
 		 */
 		EquippedItem: null,
+
 		/**
 		 * The current page
 		 * @type {number}
 		 */
 		Page: 0,
+
 		/**
 		 * Whether any item has been bought or sold, thus requiring a push to the server
 		 * @type {boolean}
 		 */
 		Push: false,
+
 		/**
 		 * The current shop mode
 		 * @type {ShopMode}
 		 */
 		Mode: "Preview",
+
 		/**
 		 * The current dressing state of the preview character
 		 * @type {ShopClothesMode}
 		 */
 		ClothesMode: "Clothes",
+
 		/**
 		 * All (filtered) items that can still be bought
 		 * @type {ShopItem[]}
 		 */
 		BuyItems: [],
+
 		/**
 		 * All (filtered) items that can still be sold
 		 * @type {ShopItem[]}
 		 */
 		SellItems: [],
+
 		/**
 		 * All (filtered) items that can be equipped in preview mode
 		 * @type {ShopItem[]}
 		 */
 		PreviewItems: [],
+
 		/**
 		 * Whether the group-selection dropdown menu should be displayed
 		 * @type {boolean}
@@ -70,6 +78,7 @@ const Shop2Vars = CommonVariableContainer(
 					return 1;
 			}
 		},
+
 		/**
 		 * Get all <=12 assets given the current {@link Shop2Vars.Page} and {@link Shop2Vars.Mode}.
 		 * @type {readonly ShopItem[]}
@@ -100,27 +109,32 @@ const Shop2InitVars = CommonVariableContainer(
 		 * @type {string}
 		 */
 		Background: "Shop",
+
 		/**
 		 * The shop preview character
 		 * @type {null | Character}
 		 */
 		Preview: null,
+
 		/**
 		 * The module- and screen-name of the previous screen (if any)
 		 * @type {null | [module: ModuleType, screen: string]}
 		 */
 		PreviousScreen: null,
+
 		/**
 		 * Whether the shop screen has been initialized or not.
 		 * Useful in `Load` for identifying whether we're loading or reloading a (sub-)scren.
 		 * @type {boolean}
 		 */
 		Init: false,
+
 		/**
 		 * Super set of all items that be bought or sold
 		 * @type {readonly ShopItem[]}
 		 */
 		Items: [],
+
 		// NOTE: The `Groups` set is filled with all valid group names later on by `Shop2._PopulateGroupDescriptions`
 		/**
 		 * The currently active item filters in the shop
@@ -155,6 +169,7 @@ const Shop2Consts = {
 		itemWidth: 200,
 		itemHeight: 244,
 	},
+
 	/**
 	 * Coordinates for the `Color` mode
 	 * @type {RectTuple}
@@ -165,11 +180,13 @@ const Shop2Consts = {
 		860,
 		772 + (185 - 25),
 	],
+
 	/**
 	 * A list denoting the rotation order between the respective shop modes.
 	 * @type {readonly ShopMode[]}
 	 */
 	BuyModeCycleOrder: ["Preview", "Buy", "Sell"],
+
 	/**
 	 * A list denoting the rotation order (and their callbacks) between the respective clothing modes.
 	 * @type {readonly { Mode: ShopClothesMode, Callback: (C: Character, items: Item[]) => void }[]}
@@ -211,6 +228,20 @@ const Shop2Consts = {
 	 * @type {Record<string, AssetGroupName[]>}
 	 */
 	GroupDescriptions: {},
+
+	// NOTE: Initialized in `AssetLoadAll`
+	/**
+	 * A set with the group + asset names of all asset keys.
+	 * @type {Set<string>}
+	 */
+	Keys: new Set(),
+
+	// NOTE: Initialized in `AssetLoadAll`
+	/**
+	 * A set with the group + asset names of all asset remotes.
+	 * @type {Set<string>}
+	 */
+	Remotes: new Set(),
 };
 
 /**
@@ -261,6 +292,21 @@ var Shop2 = {
 				Shop2Consts.GroupDescriptions[group.Description].push(group.Name);
 				Shop2InitVars.Filters.Groups.add(group.Name);
 				Shop2InitVars.Defaults.Filters.Groups.add(group.Name);
+			}
+		}
+	},
+
+	/**
+	 * Populate {@link Shop2Consts.Keys} and {@link Shop2Consts.Remote} with the name of all asset keys and remotes.
+	 * @private
+	 */
+	_PopulateKeysAndRemotes: function _PopulateKeysAndRemotes() {
+		for (const asset of Asset) {
+			if (asset.Effect.some(e => e.startsWith("Unlock"))) {
+				Shop2Consts.Keys.add(`${asset.Group.Name}${asset.Name}`);
+			}
+			if (asset.Effect.some(e => e === E.Remote)) {
+				Shop2Consts.Remotes.add(`${asset.Group.Name}${asset.Name}`);
 			}
 		}
 	},
@@ -408,14 +454,16 @@ var Shop2 = {
 					}
 					const shopItem = Shop2Vars[removalField][indexOld];
 					shopItem.Buy = Shop2Vars.Mode !== "Buy";
-
-					let indexNew = Shop2Vars[additionField].findIndex(({ SortPriority }) => SortPriority >= shopItem.SortPriority);
-					if (indexNew === -1) {
-						indexNew = Shop2Vars[additionField].length;
-					}
-
 					Shop2Vars[removalField].splice(indexOld, 1);
-					Shop2Vars[additionField].splice(indexNew, 0, shopItem);
+
+					// Do not move items to the sell list if they should never be sold
+					if (Shop2Vars.Mode !== "Buy" || !shopItem.NeverSell) {
+						let indexNew = Shop2Vars[additionField].findIndex(({ SortPriority }) => SortPriority >= shopItem.SortPriority);
+						if (indexNew === -1) {
+							indexNew = Shop2Vars[additionField].length;
+						}
+						Shop2Vars[additionField].splice(indexNew, 0, shopItem);
+					}
 				}
 				Player.Money -= money;
 				break;
@@ -464,8 +512,11 @@ var Shop2 = {
 		for (const a of Shop2InitVars.Items) {
 			a.Filter = filters.every(f => f(a.Asset));
 			if (a.Filter) {
-				Shop2Vars[a.Buy ? "BuyItems" : "SellItems"].push(a);
 				Shop2Vars.PreviewItems.push(a);
+				if (!a.Buy && a.NeverSell) {
+					continue;
+				}
+				Shop2Vars[a.Buy ? "BuyItems" : "SellItems"].push(a);
 			}
 		}
 
@@ -533,7 +584,12 @@ var Shop2 = {
 	ParseAssets: function ParseAssets(assets) {
 		return assets.map((a, i) => {
 			const Buy = !InventoryAvailable(Player, a.Name, a.Group.Name);
-			return { Asset: a, SortPriority: i, Filter: true, Buy };
+			const NeverSell = (
+				a.NeverSell
+				|| (LogQuery("BlockKey", "OwnerRule") && Shop2Consts.Keys.has(`${a.Group.Name}${a.Name}`))
+				|| (LogQuery("BlockRemote", "OwnerRule") && Shop2Consts.Remotes.has(`${a.Group.Name}${a.Name}`))
+			);
+			return { Asset: a, SortPriority: i, Filter: true, Buy, NeverSell };
 		});
 	},
 
@@ -917,7 +973,11 @@ function Shop2Load() {
 		}
 
 		for (const shopItem of Shop2InitVars.Items) {
-			Shop2Vars[shopItem.Buy ? "BuyItems" : "SellItems"].push(shopItem);
+			if (shopItem.Buy) {
+				Shop2Vars.BuyItems.push(shopItem);
+			} else if (!shopItem.NeverSell) {
+				Shop2Vars.SellItems.push(shopItem);
+			}
 			Shop2Vars.PreviewItems.push(shopItem);
 		}
 	}

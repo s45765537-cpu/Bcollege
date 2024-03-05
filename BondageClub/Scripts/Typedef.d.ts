@@ -817,6 +817,7 @@ interface Asset {
 	/** @deprecated Use {@link Asset.AllowActivePose} instead */
 	readonly WhitelistActivePose?: never;
 	readonly Value: number;
+	readonly NeverSell: boolean;
 	readonly Difficulty: number;
 	readonly SelfBondage: number;
 	readonly SelfUnlock: boolean;
@@ -4073,6 +4074,8 @@ interface ShopItem {
 	readonly Asset: Asset,
 	/** The assets sorting priority within the asset list; lower values take priority */
 	readonly SortPriority: number,
+	/** Whether an item should never be able to be sold */
+	readonly NeverSell: boolean,
 	/** Whether the asset is available with the current {@link Shop2InitVars.Filters} settings */
 	Filter: boolean,
 	/** Whether the asset can be bought; `false` implies that it can be sold */

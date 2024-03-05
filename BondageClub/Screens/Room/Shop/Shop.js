@@ -20,25 +20,6 @@ var ShopSelectAsset = ShopAssetFocusGroup;
 /** @type {Asset[]} */
 var ShopCart = [];
 var ShopBuyMode = true;
-// Prevent selling of items that can be earned for free
-var ShopSellExceptions = [
-	//CollegeTheaterInviteToPrivateRoom()
-	{ Name: "WitchHat1", Group: "Hat" },
-	{ Name: "BondageDress2", Group: "Cloth" },
-	{ Name: "BondageBustier2", Group: "Cloth" },
-	{ Name: "BatWings", Group: "Wings" },
-	{ Name: "Dress2", Group: "Cloth" },
-	//IntroductionGetBasicItems()
-	{ Name: "NylonRope", Group: "ItemFeet" },
-	{ Name: "NylonRope", Group: "ItemLegs" },
-	{ Name: "NylonRope", Group: "ItemArms" },
-	{ Name: "NylonRopeHarness", Group: "ItemTorso" },
-	{ Name: "ClothGag", Group: "ItemMouth" },
-	{ Name: "ClothGag", Group: "ItemMouth2" },
-	{ Name: "ClothGag", Group: "ItemMouth3" },
-	//SarahTransferSophieToRoom()
-	{ Name: "LeatherCuffs", Group: "ItemArms" },
-];
 
 /**
  * Checks if the vendor is restrained
@@ -363,7 +344,7 @@ function ShopCanShow(groupList) {
 function ShopCanSell(asset) {
 	const canSell = asset.Value > 0
 		&& (asset.Name.indexOf("Futuristic") < 0)
-		&& !ShopSellExceptions.some(E => E.Name === asset.Name && E.Group === asset.Group.Name)
+		&& !asset.NeverSell
 		&& InventoryAvailable(Player, asset.Name, asset.Group.Name);
 	return canSell;
 }
