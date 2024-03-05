@@ -700,5 +700,19 @@ const CommonCommands = [
 				ChatRoomTargetMemberNumber = previousTarget;
 			}
 		},
-	}
+	},
+	{
+		Tag: "shop",
+		Action: () => {
+			/** @type {null | [module: ModuleType, screen: string]} */
+			const screen = CurrentModule && CurrentScreen ? [CurrentModule, CurrentScreen] : null;
+			/** @type {null | string} */
+			let background = null;
+			if (ServerPlayerIsInChatRoom()) {
+				background = ChatRoomData?.Background;
+				ChatRoomHideElements();
+			}
+			Shop2.Init(background, screen);
+		},
+	},
 ];

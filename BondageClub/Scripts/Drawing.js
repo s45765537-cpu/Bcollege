@@ -284,6 +284,7 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 		|| ((Player.Effect.includes("VRAvatars") && C.Effect.includes("VRAvatars")))
 		|| CurrentScreen == "InformationSheet"
 		|| CurrentScreen === "Crafting"
+		|| CurrentScreen === "Shop2"
 		|| (CurrentScreen === "ChatRoom") && (ChatRoomMapViewIsActive() === true) && (CurrentCharacter == null)
 	);
 
@@ -1348,7 +1349,12 @@ function DrawProcess(time) {
 		let bgName = window[CurrentScreen + "Background"];
 
 		// Some screens never display visual effects
-		const skipVFX = !(CurrentModule !== "Character" && bgName !== "Sheet" && CurrentScreen !== "Crafting");
+		const skipVFX = !(
+			CurrentModule !== "Character"
+			&& bgName !== "Sheet"
+			&& CurrentScreen !== "Crafting"
+			&& CurrentScreen !== "Shop2"
+		);
 
 		let backgroundURL = "";
 		const itemBackground = DrawGetCustomBackground(Player);
