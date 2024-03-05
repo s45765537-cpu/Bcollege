@@ -1320,7 +1320,7 @@ function DrawGetScreenFlashAlpha(FlashTime) {
  */
 function DrawGetDarkFactor() {
 	let darken = CharacterGetDarkFactor(Player);
-	if (darken == 1 && (CurrentCharacter != null || ShopStarted) && !CommonPhotoMode) darken = 0.5;
+	if (darken == 1 && CurrentCharacter != null && !CommonPhotoMode) darken = 0.5;
 
 	const isItemBG = !!DrawGetCustomBackground(Player);
 	if (isItemBG && (darken === 0.0 || Player.GameplaySettings.SensDepChatLog == "SensDepLight")) {

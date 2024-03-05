@@ -6,20 +6,13 @@ var ShopVendor = null;
 var ShopCustomer = null;
 var ShopVendorAllowItem = false;
 var ShopBoughtEverything = false;
-var ShopStarted = false;
-var ShopText = "";
 var ShopRescueScenario = "";
 var ShopRescueScenarioList = ["BoughtEverything", "CatBurglar", "BoredVendor", "SleepingAtWork"];
-var ShopItemOffset = 0;
 var ShopDemoItemPayment = 0;
 /** @type {"" | AssetGroupItemName} */
 var ShopDemoItemGroup = "";
 /** @type {AssetGroupItemName[]} */
 var ShopDemoItemGroupList = ["ItemHead", "ItemMouth", "ItemArms", "ItemLegs", "ItemFeet"];
-var ShopSelectAsset = ShopAssetFocusGroup;
-/** @type {Asset[]} */
-var ShopCart = [];
-var ShopBuyMode = true;
 
 /**
  * Checks if the vendor is restrained
@@ -53,9 +46,6 @@ function ShopLoad() {
 	ShopVendor = CharacterLoadNPC("NPC_Shop_Vendor");
 	InventoryWear(ShopVendor, "H1000", "Height", "Default");
 	ShopVendor.AllowItem = ShopVendorAllowItem;
-	ShopStarted = false;
-	ElementRemove("InputSearch");
-	ShopText = TextGet("SelectItemBuy");
 
 	// Rescue mission load
 	if ((MaidQuartersCurrentRescue == "Shop") && !MaidQuartersCurrentRescueCompleted) ShopVendor.AllowItem = true;
@@ -82,54 +72,8 @@ function ShopRun() {
 	// Draw both characters
 	DrawCharacter(Player, 0, 0, 1);
 	DrawCharacter(ShopVendor, 500, 0, 1);
-	if (ShopStarted && (ShopCart.length > 12)) DrawButton(1770, 25, 90, 90, "", "White", "Icons/Next.png");
 	DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
-	if (!ShopStarted) {
-		DrawButton(1885, 145, 90, 90, "", "White", "Icons/Character.png");
-		ElementRemove("InputSearch");
-	}
-
-	// In shopping mode
-	if (ShopStarted) {
-
-		// For each items in the assets with a value
-		var X = 1000;
-		var Y = 125;
-		for (let A = ShopItemOffset; (A < ShopCart.length && A < ShopItemOffset + 12); A++) {
-			const Description = ShopCart[A].Description + " $" + (Math.ceil(ShopCart[A].Value * (ShopBuyMode ? 1 : 0.5))).toString();
-			const Foreground = InventoryAvailable(Player, ShopCart[A].Name, ShopCart[A].Group.Name) ? "green" : "red";
-			const Icons = DialogGetAssetIcons(ShopCart[A]);
-			DrawAssetPreview(X, Y, ShopCart[A], { Hover: true, Description, Foreground, Icons });
-			X = X + 250;
-			if (X > 1800) {
-				X = 1000;
-				Y = Y + 300;
-			}
-		}
-
-		// Draw the header and empty text if we need too
-		if (ShopText == "") ShopText = TextGet("SelectItemBuy");
-		DrawText(ShopText + " (" + Player.Money.toString() + " $)", 1375, 25, "White", "Black");
-		if ((X == 1000) && (Y == 125)) DrawText(TextGet("EmptyCategory"), 1500, 500, "White", "Black");
-		ElementPosition("InputSearch", 1375, 80, 600);
-
-	}
-
-}
-
-/**
- * Checks if an asset is from the focus group and if it can be bought/sold. An asset can be bought/sold if it has a value greater than
- * 0. (0 is a default item, -1 is a non-purchasable item)
- * @param {Asset} Asset - The asset to check for availability
- * @returns {boolean} - Returns TRUE if the item is purchasable and part of the focus group.
- */
-function ShopAssetFocusGroup(Asset) {
-	return (Asset != null)
-		&& (Asset.Group != null)
-		&& (Asset.Value > 0)
-		&& (Asset.Group.Name == ShopVendor.FocusGroup.Name)
-		&& (ShopBuyMode || ShopCanSell(Asset))
-		&& !(ShopBuyMode && ShopHideGenderedAsset(Asset));
+	DrawButton(1885, 145, 90, 90, "", "White", "Icons/Character.png");
 }
 
 /**
@@ -153,208 +97,14 @@ function ShopHideGenderedAsset(Asset) {
 }
 
 /**
- * Used to display all the items the player does not own
- * @returns {void} - Nothing
- */
-function ShopSelectAssetMissing() {
-	ShopVendor.FocusGroup = null;
-	ShopItemOffset = 0;
-	CurrentCharacter = null;
-	ShopStarted = true;
-	let Input = ElementCreateInput("InputSearch", "text", "", "50");
-	Input.addEventListener("input", ShopCartBuild);
-	ShopSelectAsset = ShopAssetMissing;
-	ShopText = TextGet("SelectItemBuy");
-	ShopBuyMode = true;
-	ShopCartBuild();
-}
-
-/**
  * Click handler for the shop screen
  * @returns {void} - Nothing
  */
 function ShopClick() {
-
-	// Out of shopping mode, the player can click on herself, the vendor or exit
-	if (!ShopStarted) {
-		if ((MouseX >= 0) && (MouseX < 500) && (MouseY >= 0) && (MouseY < 1000)) CharacterSetCurrent(Player);
-		if ((MouseX >= 500) && (MouseX < 1000) && (MouseY >= 0) && (MouseY < 1000)) CharacterSetCurrent(ShopVendor);
-		if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 25) && (MouseY < 115)) CommonSetScreen("Room", "MainHall");
-		if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 145) && (MouseY < 235)) InformationSheetLoadCharacter(Player);
-	} else {
-
-		// The user can select a different group by clicking on the vendor
-		if (MouseIn(500, 0, 500, 1000)) {
-			for (const Group of AssetGroup) {
-				if (!Group.IsItem()) continue;
-				const Zone = Group.Zone.find(z => DialogClickedInZone(ShopVendor, z, 1, 500, 0, 1));
-				if (Zone) {
-					ShopItemOffset = 0;
-					ShopVendor.FocusGroup = Group;
-					ShopSelectAsset = ShopAssetFocusGroup;
-					ShopCartBuild();
-					break;
-				}
-			}
-		}
-
-		// For each items in the assets with a value
-		var X = 1000;
-		var Y = 125;
-		for (let A = ShopItemOffset; (A < ShopCart.length && A < ShopItemOffset + 12); A++) {
-			if (MouseIn(X, Y, 225, 275)) {
-				if (ShopBuyMode) ShopBuyItem(ShopCart[A]);
-				else ShopSellItem(ShopCart[A]);
-			}
-			X = X + 250;
-			if (X > 1800) {
-				X = 1000;
-				Y = Y + 300;
-			}
-		}
-
-		// Exit shopping mode
-		if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 25) && (MouseY < 115)) {
-			ShopStarted = false;
-			ElementRemove("InputSearch");
-			ShopVendor.Stage = "0";
-			ShopVendor.FocusGroup = null;
-			CharacterSetCurrent(ShopVendor);
-			ShopVendor.CurrentDialog = TextGet("MoreShopping");
-		}
-
-		// If the user wants to get the next 12 items
-		if ((MouseX >= 1770) && (MouseX <= 1860) && (MouseY >= 25) && (MouseY < 115)) {
-			ShopItemOffset = ShopItemOffset + 12;
-			if (ShopItemOffset >= ShopCart.length) ShopItemOffset = 0;
-		}
-
-	}
-}
-
-/**
- * Add the item and any other items linked by the buy-group to the player's inventory if able
- * @param {Asset} asset - The item being bought
- */
-function ShopBuyItem(asset) {
-
-	// If the item isn't already owned and the player has enough money, we buy it
-	if (InventoryAvailable(Player, asset.Name, asset.Group.Name)) ShopText = TextGet("AlreadyOwned");
-	else if (asset.Value > Player.Money) ShopText = TextGet("NotEnoughMoney");
-	else if (LogQuery("BlockKey", "OwnerRule") && (Player.Ownership != null) && (Player.Ownership.Stage == 1) && ((asset.Name == "Lockpicks") || (asset.Name == "MetalCuffsKey") || (asset.Name == "MetalPadlockKey") || (asset.Name == "IntricatePadlockKey") || (asset.Name == "HighSecurityPadlockKey"))) ShopText = TextGet("CannotSellKey");
-	else if (LogQuery("BlockRemote", "OwnerRule") && (Player.Ownership != null) && (Player.Ownership.Stage == 1) && (asset.Name == "VibratorRemote" || asset.Name == "LoversVibratorRemote" || asset.Name === "VibeRemote")) ShopText = TextGet("CannotSellRemote");
-	else {
-
-		// Add the item and removes the money
-		CharacterChangeMoney(Player, asset.Value * -1);
-		InventoryAdd(Player, asset.Name, asset.Group.Name, false);
-		ShopText = TextGet("ThankYou");
-
-		// Add any item that belongs in the same buy group
-		if (asset.BuyGroup != null)
-			for (let B = 0; B < Asset.length; B++)
-				if ((Asset[B] != null) && (Asset[B].BuyGroup != null) && (Asset[B].BuyGroup == asset.BuyGroup))
-					InventoryAdd(Player, Asset[B].Name, Asset[B].Group.Name, false);
-
-		// Sync and rebuild the shop menu to be up-to-date
-		ServerPlayerInventorySync();
-		ShopCartBuild();
-
-	}
-
-}
-
-/**
- * Remove the item and any other items linked by the buy-group from the player's inventory
- * @param {Asset} asset - The item being sold
- */
-function ShopSellItem(asset) {
-
-	// Confirm the item can be sold
-	if (ShopCanSell(asset)) {
-
-		// Remove the item and give money
-		InventoryDelete(Player, asset.Name, asset.Group.Name, false);
-		CharacterChangeMoney(Player, Math.ceil(asset.Value * 0.5));
-		ShopText = TextGet("ThankYou");
-
-		// Remove all items in the same buy-group
-		if (asset.BuyGroup)
-			Asset.filter(A => A.BuyGroup === asset.BuyGroup).forEach(A => InventoryDelete(Player, A.Name, A.Group.Name, false));
-
-		// Sync and rebuild the shop menu to be up-to-date
-		ServerPlayerInventorySync();
-		ShopCartBuild();
-
-	}
-
-}
-
-/**
- * Builds the array of items the player can buy in the current category.
- * @returns {void} - Nothing
- */
-function ShopCartBuild() {
-	ShopCart = [];
-	let Search = ElementValue("InputSearch");
-	if (Search == null) Search = "";
-	Search = Search.toUpperCase().trim();
-	for (let A = 0; A < Asset.length; A++)
-		if ((Search == "") || (Asset[A].Description == null) || (Asset[A].Description.toUpperCase().trim().indexOf(Search) >= 0))
-			if (ShopSelectAsset(Asset[A]))
-				ShopCart.push(Asset[A]);
-}
-
-/**
- * If selling items, checks whether the player owns any items in the specified groups that can be sold
- * @param {string} groupList - The list of groups to check, with separator "|"
- * @returns {boolean} - If TRUE the player is either buying items or owns at least one item in one of the groups
- */
-function ShopCanShow(groupList) {
-	if (ShopBuyMode) {
-		return true;
-	} else {
-		const hasItemsInGroup = Player.Inventory.some(I => groupList.split("|").includes(I.Asset.Group.Name) && ShopCanSell(I.Asset));
-		return hasItemsInGroup;
-	}
-}
-
-/**
- * Returns whether the player is able to sell the item back to the shop
- * @param {Asset} asset - The item to check
- * @returns {boolean} - If TRUE the item can be sold
- */
-function ShopCanSell(asset) {
-	const canSell = asset.Value > 0
-		&& (asset.Name.indexOf("Futuristic") < 0)
-		&& !asset.NeverSell
-		&& InventoryAvailable(Player, asset.Name, asset.Group.Name);
-	return canSell;
-}
-
-/**
- * Sets the current asset group the player is shopping for
- * @param {AssetGroupName} ItemGroup - Name of the asset group to look for
- * @returns {void} - Nothing
- */
-function ShopStart(ItemGroup) {
-
-	// Finds the asset group to shop with
-	// This is one place where the group can actually be an appearance group.
-	ShopVendor.FocusGroup = /** @type {AssetItemGroup} */ (AssetGroupGet(ShopVendor.AssetFamily, ItemGroup));
-
-	// If we have a group, we start the shop
-	if (ShopVendor.FocusGroup != null) {
-		ShopItemOffset = 0;
-		CurrentCharacter = null;
-		ShopStarted = true;
-		let Input = ElementCreateInput("InputSearch", "text", "", "50");
-		Input.addEventListener("input", ShopCartBuild);
-		ShopSelectAsset = ShopAssetFocusGroup;
-		ShopText = TextGet(ShopBuyMode ? "SelectItemBuy" : "SelectItemSell");
-		ShopCartBuild();
-	}
-
+	if ((MouseX >= 0) && (MouseX < 500) && (MouseY >= 0) && (MouseY < 1000)) CharacterSetCurrent(Player);
+	if ((MouseX >= 500) && (MouseX < 1000) && (MouseY >= 0) && (MouseY < 1000)) CharacterSetCurrent(ShopVendor);
+	if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 25) && (MouseY < 115)) CommonSetScreen("Room", "MainHall");
+	if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 145) && (MouseY < 235)) InformationSheetLoadCharacter(Player);
 }
 
 /**
