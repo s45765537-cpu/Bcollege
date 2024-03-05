@@ -710,6 +710,7 @@ const CommonCommands = [
 			let background = null;
 			if (ServerPlayerIsInChatRoom()) {
 				background = ChatRoomData?.Background;
+				ChatRoomStatusUpdate("Shop");
 				ChatRoomHideElements();
 			}
 			Shop2.Init(background, screen);
