@@ -270,7 +270,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 				hasSlowEffect = true;
 			}
 			if (this.PoseMapping.BodyFull === "AllFours") slowness += 2;
-			else if (this.PoseMapping.BodyLower === "Kneel") slowness += 1;
+			else if (this.IsKneeling()) slowness += 1;
 
 			// Short-circuit to save on the following checks
 			if (slowness === 0) return 0;
