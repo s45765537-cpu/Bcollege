@@ -22,7 +22,7 @@ const PoseRecord = /** @type {Record<AssetPoseName, Pose>} */({});
  */
 const PoseCategoryPriority = {
 	// FIXME: Hack to ensure that `Suspension` poses take priority over `BodyUpper`
-	BodyAddon: 2,
+	BodyAddon: 3,
 	// FIXME: Hack to ensure that `BodyLower` poses take priority over `BodyUpper` if both are specified.
 	// BC simply doesn't support the required combinatorics, so just stick to the (completely aribtrary) historical
 	// precedent of prioritizing the lower body (a precedent used most notably by the wedding dress and teachers outfit)
