@@ -466,6 +466,10 @@ var Shop2 = {
 					}
 				}
 				Player.Money -= money;
+
+				if (Shop2Vars.Page >= Shop2Vars.PageCount) {
+					Shop2Vars.Page = Shop2Vars.PageCount - 1;
+				}
 				break;
 			}
 		}
