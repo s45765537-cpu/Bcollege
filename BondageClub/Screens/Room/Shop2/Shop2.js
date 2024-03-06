@@ -969,7 +969,12 @@ function Shop2Load() {
 		if (Shop2InitVars.Items.length === 0) {
 			Shop2InitVars.Items = Shop2.ParseAssets(
 				Asset.filter(a => {
-					return a.Value > 0 && !ShopHideGenderedAsset(a);
+					return (
+						a.Value !== 0
+						&& a.Group.Name === a.DynamicGroupName
+						&& (Shop2Consts.BuyGroups[a.BuyGroup]?.Value ?? a.Value) > 0
+						&& !ShopHideGenderedAsset(a)
+					);
 				}).sort((a1, a2) => {
 					return `${a1.Group.Description}${a1.Description}`.localeCompare(`${a2.Group.Description}${a2.Description}`);
 				}),
