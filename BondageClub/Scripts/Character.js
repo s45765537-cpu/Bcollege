@@ -264,16 +264,20 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 				return 0;
 
 			let slowness = 0;
-			if (this.HasEffect("Slow")) slowness++;
+			let hasSlowEffect = false;
+			if (this.HasEffect("Slow")) {
+				slowness++;
+				hasSlowEffect = true;
+			}
 			if (this.PoseMapping.BodyFull === "AllFours") slowness += 2;
-			else if (this.PoseMapping.BodyLower === "Kneel") slowness += 1;
+			else if (this.IsKneeling()) slowness += 1;
 
 			// Short-circuit to save on the following checks
 			if (slowness === 0) return 0;
 
 			const effects = CharacterGetEffects(this, null, true);
 			// Count all slow effects applied. Minus one for the one we've seen above
-			slowness += effects.reduce((s, c) => s + (c === "Slow" ? 1 : 0), 0) - 1;
+			slowness += effects.reduce((s, c) => s + (c === "Slow" ? 1 : 0), 0) - (hasSlowEffect ? 1 : 0);
 			return slowness;
 		},
 		IsEgged: function () {
