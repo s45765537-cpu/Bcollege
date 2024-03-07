@@ -43,6 +43,16 @@ var CharacterType = {
 };
 
 /**
+ * A record mapping screen names to functions for returning {@link CharacterGetCurrent} characters.
+ * @type {Record<string, () => null | Character>}
+ */
+var CharacterGetCurrentHandlers = {
+	Appearance: () => CharacterAppearanceSelection,
+	Crafting: () => CraftingPreview,
+	Shop2: () => Shop2InitVars.Preview,
+};
+
+/**
  * Loads a character into the buffer, creates it if it does not exist
  * @param {IAssetFamily} CharacterAssetFamily - Name of the asset family of the character
  * @param {CharacterType} Type - The character type
@@ -1566,12 +1576,9 @@ function CharacterIsExpressionAllowed(C, Item, Expression) {
  * @returns {Character|null} - Currently selected character
  */
 function CharacterGetCurrent() {
-	if (CurrentScreen == "Appearance" && CharacterAppearanceSelection) {
-		return CharacterAppearanceSelection;
-	} else if (CurrentScreen == "Crafting") {
-		return CraftingPreview;
-	} else if (CurrentScreen == "Shop2") {
-		return Shop2InitVars.Preview;
+	const getCharacter = CharacterGetCurrentHandlers[CurrentScreen];
+	if (getCharacter) {
+		return getCharacter();
 	} else {
 		return (Player.FocusGroup != null) ? Player : CurrentCharacter;
 	}
