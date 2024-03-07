@@ -942,8 +942,6 @@ var Shop2 = {
 	 * @param {null | readonly Asset[]} assets - A list of all assets that should appear in the shop
 	 */
 	Init(background=null, screen=null, assets=null) {
-		Shop2Vars.Reset();
-		Shop2InitVars.Reset();
 		if (background != null) {
 			Shop2InitVars.Background = background;
 		}
