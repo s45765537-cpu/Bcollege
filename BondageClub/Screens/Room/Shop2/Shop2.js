@@ -970,7 +970,7 @@ function Shop2Load() {
 						&& !ShopHideGenderedAsset(a)
 					);
 				}).sort((a1, a2) => {
-					return `${a1.Group.Description}${a1.Description}`.localeCompare(`${a2.Group.Description}${a2.Description}`);
+					return a1.Group.Description.localeCompare(a2.Group.Description) || a1.Description.localeCompare(a2.Description);
 				}),
 			);
 		}
