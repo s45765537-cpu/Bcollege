@@ -962,8 +962,7 @@ function Shop2Load() {
 			Shop2InitVars.Items = Shop2.ParseAssets(
 				Asset.filter(a => {
 					return (
-						a.Value !== 0
-						&& a.Group.Name === a.DynamicGroupName
+						a.Group.Name === a.DynamicGroupName
 						&& (Shop2Consts.BuyGroups[a.BuyGroup]?.Value ?? a.Value) > 0
 						&& !ShopHideGenderedAsset(a)
 					);
