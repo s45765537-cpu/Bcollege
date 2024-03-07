@@ -491,10 +491,10 @@ var Shop2 = {
 	},
 
 	/**
-	 * Filter the buy & sell assets in {@link Shop2Vars} based on the {@link Shop2InitVars.Filters} settings.
-	 * @private
+	 * Filter the buy, sell and preview items in {@link Shop2Vars} based on the {@link Shop2Vars.Filters} settings,
+	 * clipping the current {@link Shop2Vars.Page} if required.
 	 */
-	_ApplyAssetFilter: function _ApplyAssetFilter() {
+	ApplyItemFilters: function ApplyItemFilters() {
 		// Empty the filter caches and mark all relevant assets as filtered or not
 		Shop2Vars.BuyItems = [];
 		Shop2Vars.SellItems = [];
@@ -531,7 +531,7 @@ var Shop2 = {
 		}
 
 		Shop2Vars.Filters.AssetGroup = (item) => checkedSet.has(item.Asset.Group.Name) ? ["Buy", "Sell", "Preview"] : [];
-		Shop2._ApplyAssetFilter();
+		Shop2.ApplyItemFilters();
 	},
 
 	/**
@@ -615,7 +615,7 @@ var Shop2 = {
 							return description.includes(elem.value.toUpperCase().trim()) ? ["Buy", "Sell", "Preview"] : [];
 						};
 					}
-					Shop2._ApplyAssetFilter();
+					Shop2.ApplyItemFilters();
 				});
 			},
 			Run: (time, ...coords) => {
@@ -659,7 +659,7 @@ var Shop2 = {
 					}
 				}
 				delete Shop2Vars.Filters.AssetGroup;
-				Shop2._ApplyAssetFilter();
+				Shop2.ApplyItemFilters();
 			},
 		},
 		GroupSelectNone: {
@@ -674,7 +674,7 @@ var Shop2 = {
 					}
 				}
 				Shop2Vars.Filters.AssetGroup = () => [];
-				Shop2._ApplyAssetFilter();
+				Shop2.ApplyItemFilters();
 			},
 		},
 		GroupSelect: {
