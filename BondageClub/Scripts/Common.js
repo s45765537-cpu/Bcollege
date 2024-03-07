@@ -258,9 +258,12 @@ function CommonGetRetry(Path, Callback, RetriesLeft) {
 }
 
 function CommonMouseDown(event) {
-	if (CurrentScreenFunctions.MouseDown)
-	{
-		CurrentScreenFunctions.MouseDown(event);
+	if (CurrentCharacter == null) {
+		if (CurrentScreenFunctions.MouseDown) {
+			CurrentScreenFunctions.MouseDown(event);
+		}
+	} else {
+		DialogMouseDown(event);
 	}
 }
 

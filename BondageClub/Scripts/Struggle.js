@@ -254,6 +254,19 @@ function StruggleKeyDown(event) {
 }
 
 /**
+ * Handles the minigames' mouse down event, whether on the selection screen or in the minigame themselves.
+ *
+ * @type {MouseEventListener}
+ */
+function StruggleMouseDown(event) {
+	if (!StruggleMinigameIsRunning()) return;
+
+	if (!StruggleMinigames[StruggleProgressCurrentMinigame].HandleEvent) return;
+
+	StruggleMinigames[StruggleProgressCurrentMinigame].HandleEvent("MouseDown", event);
+}
+
+/**
  * Handles the minigames' Click event, whether on the selection screen or in the minigame themselves.
  *
  * @returns {boolean} - Nothing
@@ -600,7 +613,7 @@ function StruggleStrengthDraw(C) {
 /**
  * Handle events for the Strength minigame
  *
- * @param {"Click"|"KeyDown"} EventType
+ * @param {"MouseDown"|"Click"|"KeyDown"} EventType
  * @returns {boolean}
  */
 function StruggleStrengthHandleEvent(EventType, event) {
@@ -613,10 +626,12 @@ function StruggleStrengthHandleEvent(EventType, event) {
 			StruggleStrengthProcess((StruggleProgressLastKeyPress == event.key));
 			StruggleProgressLastKeyPress = event.key;
 		}
-	} else if (EventType === "Click") {
+	} else if (EventType === "MouseDown") {
 
 		// Only mobile users get to click, otherwise it's too easy.
 		if (CommonIsMobile) StruggleStrengthProcess();
+
+	} else if (EventType === "Click") {
 
 		// If we must enter the loosen mini-game
 		if (MouseIn(1300, 880, 400, 65) && StruggleAllowLoosen()) StruggleLoosenSetup();
@@ -746,14 +761,14 @@ function StruggleLoosenSetup() {
 
 /**
  * Handle events for the loosen minigame
- * @param {"Click"|"KeyDown"} EventType
+ * @param {"MouseDown"|"Click"|"KeyDown"} EventType
  * @param {KeyboardEvent} event
  * @returns {boolean}
  */
 function StruggleLoosenHandleEvent(EventType, event) {
 
 	// When clicking in the mini-game, we check if it was close enough to the hole for a success
-	if (EventType === "Click" || (EventType === "KeyDown" && event.code === "Space")) {
+	if (EventType === "MouseDown" || (EventType === "KeyDown" && event.code === "Space")) {
 		if (StruggleProgressStruggleCount > 0) {
 			let Diff = Math.abs(StruggleLoosenHoleAngle - StruggleLoosenAngle) % (Math.PI * 2);
 			if ((Diff > 0.26) && (Diff < (Math.PI * 2) - 0.26)) {
@@ -939,7 +954,7 @@ function StruggleFlexibilityCheck() {
 /**
  * Handle events for the Flexibility minigame
  *
- * @param {"Click"|"KeyDown"} EventType
+ * @param {"MouseDown"|"Click"|"KeyDown"} EventType
  */
 function StruggleFlexibilityHandleEvent(EventType, event) {
 
@@ -949,10 +964,10 @@ function StruggleFlexibilityHandleEvent(EventType, event) {
 	}
 
 	// Click events
-	if (EventType === "Click") {
+	if (EventType === "MouseDown") {
 		// Process the flex game
 		StruggleFlexibilityProcess();
-
+	} else if (EventType === "Click") {
 		// If we must enter the loosen mini-game
 		if (MouseIn(1300, 925, 400, 65) && StruggleAllowLoosen()) {
 			StruggleLoosenSetup();
@@ -1114,9 +1129,9 @@ function StruggleDexterityDraw(C) {
 
 
 /**
- * Handle events for the Flexibility minigame
+ * Handle events for the Dexterity minigame
  *
- * @param {"Click"|"KeyDown"} EventType
+ * @param {"MouseDown"|"Click"|"KeyDown"} EventType
  * @returns {boolean}
  */
 function StruggleDexterityHandleEvent(EventType, event) {
@@ -1127,10 +1142,12 @@ function StruggleDexterityHandleEvent(EventType, event) {
 	}
 
 	// Click events
-	if (EventType === "Click") {
+	if (EventType === "MouseDown") {
 
 		// Process the dex game
 		StruggleDexterityProcess();
+
+	} else if (EventType === "Click") {
 
 		// If we must enter the loosen mini-game
 		if (MouseIn(1300, 925, 400, 65) && StruggleAllowLoosen()) {
@@ -1178,7 +1195,7 @@ Only applies to locks at the moment
 
 /**
  * Handles events for the LockPicking minigame
- * @param {"Click"|"KeyDown"} EventType
+ * @param {"MouseDown"|"Click"|"KeyDown"} EventType
  * @returns {boolean} - Nothing
  */
 function StruggleLockPickHandleEvent(EventType, event) {
