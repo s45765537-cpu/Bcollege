@@ -1145,6 +1145,7 @@ var AssetFemale3DCG = [
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
 				Value: 100,
+				NeverSell: true, // see CollegeTheaterInviteToPrivateRoom()
 				HideItem: [
 					"ItemNipplesPiercingsRoundPiercing",
 					"ItemNipplesPiercingsNecklacePiercingChain",
@@ -1373,6 +1374,7 @@ var AssetFemale3DCG = [
 				Prerequisite: ["HasBreasts"],
 				BuyGroup: "BondageDress2",
 				Value: 90,
+				NeverSell: true, // see CollegeTheaterInviteToPrivateRoom()
 				Hide: ["ClothLower"],
 				HideItem: [
 					"ItemNipplesPiercingsRoundPiercing",
@@ -1646,7 +1648,7 @@ var AssetFemale3DCG = [
 						Priority: 30,
 						AllowColorize: true,
 						PoseMapping: { ...AssetPoseMapping.Cloth },
-					}, 
+					},
 					{
 						Name: "Corset",
 						Top: 0,
@@ -1654,7 +1656,7 @@ var AssetFemale3DCG = [
 						Priority: 29,
 						AllowColorize: true,
 						PoseMapping: { ...AssetPoseMapping.Cloth },
-					}, 
+					},
 					{
 						Name: "Buttons",
 						Top: 0,
@@ -1862,6 +1864,7 @@ var AssetFemale3DCG = [
 				Prerequisite: ["HasBreasts"],
 				BuyGroup: "BondageDress2",
 				Value: -1,
+				NeverSell: true, // see CollegeTheaterInviteToPrivateRoom()
 				HideItem: [
 					"ItemNipplesPiercingsRoundPiercing",
 					"ItemNipplesPiercingsNecklacePiercingChain",
@@ -8259,6 +8262,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "FuturisticHeels2",
 				Value: 50,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				Time: 10,
 				Left: 75,
 				DefaultColor: [
@@ -9049,6 +9053,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "WitchHat1",
 				Value: 40,
+				NeverSell: true, // see CollegeTheaterInviteToPrivateRoom()
 				PoseMapping: {
 					Suspension: PoseType.HIDE,
 				},
@@ -9839,14 +9844,11 @@ var AssetFemale3DCG = [
 		PreviewZone: [125, 0, 250, 250],
 		DynamicGroupName: "HairAccessory1",
 		Asset: [
-			{ 
-				Name: "Ribbons1", 
-				Priority: 4, 
+			{
+				Name: "Ribbons1",
+				Priority: 4,
 				BuyGroup: "Ribbons1",
-				Layer: [
-					{ Name: "Left" },
-					{ Name: "Right" },
-				],
+				Layer: [{ Name: "Left" }, { Name: "Right" }],
 			},
 			{
 				Name: "Ribbons2",
@@ -10054,14 +10056,11 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
-			{ 
-				Name: "Ribbons1", 
-				Priority: 4, 
+			{
+				Name: "Ribbons1",
+				Priority: 4,
 				BuyGroup: "Ribbons1",
-				Layer: [
-					{ Name: "Left" },
-					{ Name: "Right" },
-				],
+				Layer: [{ Name: "Left" }, { Name: "Right" }],
 			},
 			{
 				Name: "Ribbons2",
@@ -10286,6 +10285,7 @@ var AssetFemale3DCG = [
 				Name: "BatWings",
 				Fetish: ["Pet"],
 				Value: 20,
+				NeverSell: true, // see CollegeTheaterInviteToPrivateRoom()
 				BuyGroup: "BatWings",
 				BodyCosplay: true,
 				Layer: [
@@ -12183,6 +12183,7 @@ var AssetFemale3DCG = [
 				Category: ["SciFi"],
 				BuyGroup: "FuturisticVisor",
 				Value: 35,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				Priority: 27,
 				Random: false,
 				HideItem: ["ItemNoseNoseRing"],
@@ -15046,6 +15047,7 @@ var AssetFemale3DCG = [
 				Name: "NylonRope",
 				Fetish: ["Rope", "Nylon"],
 				Value: 30,
+				NeverSell: true, // See IntroductionGetBasicItems()
 				Time: 15,
 				BuyGroup: "NylonRope",
 				SetPose: ["LegsClosed"],
@@ -15343,6 +15345,7 @@ var AssetFemale3DCG = [
 				Audio: "FuturisticApply",
 				Priority: 24,
 				Value: 45,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				Difficulty: 4,
 				Time: 10,
 				Random: false,
@@ -15717,6 +15720,7 @@ var AssetFemale3DCG = [
 				Name: "NylonRope",
 				Fetish: ["Rope", "Nylon"],
 				Value: 30,
+				NeverSell: true, // See IntroductionGetBasicItems()
 				Time: 10,
 				BuyGroup: "NylonRope",
 				Audio: "RopeShort",
@@ -15913,6 +15917,7 @@ var AssetFemale3DCG = [
 				Audio: "FuturisticApply",
 				Priority: 24,
 				Value: 30,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				Difficulty: 3,
 				Time: 10,
 				Random: false,
@@ -16618,6 +16623,7 @@ var AssetFemale3DCG = [
 				Gender: "F",
 				DefaultColor: ["#3C724C", "Default"],
 				Value: 70,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				Difficulty: 3,
 				AllowLock: true,
 				DrawLocks: false,
@@ -18070,6 +18076,7 @@ var AssetFemale3DCG = [
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Value: 170,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				BuyGroup: "FuturisticChastityBelt",
 				Difficulty: 50,
 				Time: 20,
@@ -18286,6 +18293,7 @@ var AssetFemale3DCG = [
 				Fetish: ["Metal"],
 				ArousalZone: "ItemVulva",
 				Value: -1,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				Difficulty: 100,
 				Time: 30,
 				RemoveTime: 30,
@@ -19371,6 +19379,7 @@ var AssetFemale3DCG = [
 				Gender: "F",
 				Fetish: ["Rope", "Nylon"],
 				Value: 30,
+				NeverSell: true, // See IntroductionGetBasicItems()
 				Time: 20,
 				BuyGroup: "NylonRope",
 				CraftGroup: "NylonRope",
@@ -19506,6 +19515,7 @@ var AssetFemale3DCG = [
 				Category: ["SciFi"],
 				BuyGroup: "FuturisticHarness",
 				Value: 30,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				Difficulty: 20,
 				Time: 17,
 				RemoveTime: 12,
@@ -20055,6 +20065,7 @@ var AssetFemale3DCG = [
 				Gender: "F",
 				Fetish: ["Rope", "Nylon"],
 				Value: 30,
+				NeverSell: true, // See IntroductionGetBasicItems()
 				Time: 20,
 				BuyGroup: "NylonRope",
 				CraftGroup: "NylonRope",
@@ -20164,6 +20175,7 @@ var AssetFemale3DCG = [
 				Category: ["SciFi"],
 				BuyGroup: "FuturisticHarness",
 				Value: 30,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				Difficulty: 20,
 				Time: 17,
 				RemoveTime: 12,
@@ -21170,6 +21182,7 @@ var AssetFemale3DCG = [
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Value: 120,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				BuyGroup: "FuturisticBra",
 				PoseMapping: {
 					AllFours: PoseType.HIDE,
@@ -21223,6 +21236,7 @@ var AssetFemale3DCG = [
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Value: -1,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				BuyGroup: "FuturisticBra",
 				Difficulty: 50,
 				Time: 10,
@@ -21424,6 +21438,7 @@ var AssetFemale3DCG = [
 				Name: "NylonRope",
 				Fetish: ["Rope", "Nylon"],
 				Value: 30,
+				NeverSell: true, // See IntroductionGetBasicItems()
 				SelfBondage: 2,
 				Time: 15,
 				BuyGroup: "NylonRope",
@@ -21649,6 +21664,7 @@ var AssetFemale3DCG = [
 				Fetish: ["Leather"],
 				Priority: 29,
 				Value: 100,
+				NeverSell: true, // See SarahTransferSophieToRoom()
 				Left: 0,
 				Top: 0,
 				Difficulty: 3,
@@ -21762,6 +21778,7 @@ var AssetFemale3DCG = [
 				Audio: "FuturisticApply",
 				Priority: 29,
 				Value: 100,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				Left: 0,
 				Top: 0,
 				Difficulty: 5,
@@ -21963,6 +21980,7 @@ var AssetFemale3DCG = [
 				Category: ["SciFi"],
 				Fetish: ["Latex"],
 				Value: 100,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				Priority: 15,
 				Difficulty: 13,
 				SelfBondage: 4,
@@ -23292,6 +23310,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				Priority: 31,
 				Value: 80,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				Difficulty: 10,
 				Left: 0,
 				Top: 0,
@@ -25320,6 +25339,7 @@ var AssetFemale3DCG = [
 				Fetish: ["Metal"],
 				Category: ["SciFi"],
 				Value: 70,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				Difficulty: 5,
 				SelfBondage: 0,
 				Time: 5,
@@ -26801,6 +26821,7 @@ var AssetFemale3DCG = [
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Value: 100,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				Difficulty: 50,
 				Time: 12,
 				Audio: "FuturisticApply",
@@ -28162,6 +28183,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "ClothGag",
 				Value: 15,
+				NeverSell: true, // See IntroductionGetBasicItems()
 				Difficulty: -4,
 				Time: 10,
 				AllowTighten: true,
@@ -28493,6 +28515,7 @@ var AssetFemale3DCG = [
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Value: 100,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				Difficulty: 4,
 				Time: 15,
 				Random: false,
@@ -28551,6 +28574,7 @@ var AssetFemale3DCG = [
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Value: -1,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				Difficulty: 6,
 				Time: 15,
 				Random: false,
@@ -28610,6 +28634,7 @@ var AssetFemale3DCG = [
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Value: -1,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				Difficulty: 6,
 				Time: 15,
 				Random: false,
@@ -29372,6 +29397,7 @@ var AssetFemale3DCG = [
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Value: -1,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				Difficulty: 8,
 				Time: 30,
 				BuyGroup: "FuturisticPanelGag",
@@ -30293,6 +30319,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "ClothGag",
 				Value: -1,
+				NeverSell: true, // See IntroductionGetBasicItems()
 				Difficulty: -4,
 				Time: 10,
 				Random: false,
@@ -31036,6 +31063,7 @@ var AssetFemale3DCG = [
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Value: -1,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				Difficulty: 6,
 				Time: 15,
 				Random: false,
@@ -31095,6 +31123,7 @@ var AssetFemale3DCG = [
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Value: -1,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				Difficulty: 4,
 				Time: 15,
 				Random: false,
@@ -31153,6 +31182,7 @@ var AssetFemale3DCG = [
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Value: -1,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				Difficulty: 6,
 				Time: 15,
 				Random: false,
@@ -31204,6 +31234,7 @@ var AssetFemale3DCG = [
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Value: -1,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				Difficulty: 8,
 				Time: 30,
 				BuyGroup: "FuturisticPanelGag",
@@ -31910,6 +31941,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "ClothGag",
 				Value: -1,
+				NeverSell: true, // See IntroductionGetBasicItems()
 				Difficulty: -4,
 				Time: 10,
 				Random: false,
@@ -32635,6 +32667,7 @@ var AssetFemale3DCG = [
 				Fetish: ["Metal"],
 				Priority: 42,
 				Value: -1,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				Difficulty: 8,
 				Time: 30,
 				BuyGroup: "FuturisticPanelGag",
@@ -33472,6 +33505,7 @@ var AssetFemale3DCG = [
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Value: -1,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				Difficulty: 6,
 				Time: 15,
 				Random: false,
@@ -33531,6 +33565,7 @@ var AssetFemale3DCG = [
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Value: -1,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				Difficulty: 4,
 				Time: 15,
 				Random: false,
@@ -33589,6 +33624,7 @@ var AssetFemale3DCG = [
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Value: -1,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				Difficulty: 6,
 				Time: 15,
 				Random: false,
@@ -33741,6 +33777,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "FuturisticVisor",
 				Difficulty: 7,
 				Value: -1,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				Time: 7,
 				Random: false,
 				AllowLock: true,
@@ -35815,6 +35852,7 @@ var AssetFemale3DCG = [
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Value: -1,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				Difficulty: 10,
 				RemoveTime: 10,
 				AllowLock: true,
@@ -37755,6 +37793,7 @@ var AssetFemale3DCG = [
 				Priority: 54,
 				Category: ["SciFi"],
 				Value: 60,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				Difficulty: 50,
 				Top: 20,
 				Time: 12,
@@ -39313,6 +39352,7 @@ var AssetFemale3DCG = [
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Value: 70,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				FixedPosition: true,
 				Difficulty: -6,
 				SelfBondage: 1,
@@ -41691,6 +41731,7 @@ var AssetFemale3DCG = [
 				Name: "FuturisticHeels",
 				Category: ["SciFi"],
 				Value: 50,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				Difficulty: 7,
 				Time: 10,
 				RemoveTime: 20,
@@ -41724,6 +41765,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "FuturisticHeels2",
 				Value: 50,
+				NeverSell: true, // Futuristic items rewarded by GGTS
 				Difficulty: 7,
 				Time: 10,
 				RemoveTime: 20,

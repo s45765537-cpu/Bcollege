@@ -5,6 +5,7 @@ var TightenLoosenItemMinimumDifficulty = -10;
 /** A set of screen names for which one should *not* be able to access the tighten/loosen interface via the extended item menu */
 const TightenLoosenScreenBlacklist = new Set([
 	"Crafting",
+	"Shop2",
 ]);
 
 /**

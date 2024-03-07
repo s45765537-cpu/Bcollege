@@ -284,6 +284,7 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 		|| ((Player.Effect.includes("VRAvatars") && C.Effect.includes("VRAvatars")))
 		|| CurrentScreen == "InformationSheet"
 		|| CurrentScreen === "Crafting"
+		|| CurrentScreen === "Shop2"
 		|| (CurrentScreen === "ChatRoom") && (ChatRoomMapViewIsActive() === true) && (CurrentCharacter == null)
 	);
 
@@ -1319,7 +1320,7 @@ function DrawGetScreenFlashAlpha(FlashTime) {
  */
 function DrawGetDarkFactor() {
 	let darken = CharacterGetDarkFactor(Player);
-	if (darken == 1 && (CurrentCharacter != null || ShopStarted) && !CommonPhotoMode) darken = 0.5;
+	if (darken == 1 && CurrentCharacter != null && !CommonPhotoMode) darken = 0.5;
 
 	const isItemBG = !!DrawGetCustomBackground(Player);
 	if (isItemBG && (darken === 0.0 || Player.GameplaySettings.SensDepChatLog == "SensDepLight")) {
@@ -1348,7 +1349,12 @@ function DrawProcess(time) {
 		let bgName = window[CurrentScreen + "Background"];
 
 		// Some screens never display visual effects
-		const skipVFX = !(CurrentModule !== "Character" && bgName !== "Sheet" && CurrentScreen !== "Crafting");
+		const skipVFX = !(
+			CurrentModule !== "Character"
+			&& bgName !== "Sheet"
+			&& CurrentScreen !== "Crafting"
+			&& CurrentScreen !== "Shop2"
+		);
 
 		let backgroundURL = "";
 		const itemBackground = DrawGetCustomBackground(Player);

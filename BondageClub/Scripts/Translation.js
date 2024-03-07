@@ -1000,6 +1000,8 @@ function TranslationAssetProcess(T) {
 	for (const group of AssetGroup) {
 		/** @type {Mutable<AssetGroup>} */(group).Description = TranslationString(group.Description, T);
 	}
+	Shop2._PopulateGroupDescriptions();
+
 	for (const asset of Asset) {
 		/** @type {Mutable<Asset>} */(asset).Description = TranslationString(asset.Description, T);
 	}

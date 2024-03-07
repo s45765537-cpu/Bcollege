@@ -176,7 +176,6 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		AllowActivityOn: Array.isArray(AssetDef.AllowActivityOn) ? AssetDef.AllowActivityOn : [],
 		ActivityExpression: Array.isArray(AssetDef.ActivityExpression) ? AssetDef.ActivityExpression : {},
 		BuyGroup: AssetDef.BuyGroup,
-		PrerequisiteBuyGroups: AssetDef.PrerequisiteBuyGroups,
 		Effect: (AssetDef.Effect == null) ? Group.Effect : AssetDef.Effect,
 		Bonus: AssetDef.Bonus,
 		Block: (AssetDef.Block == null) ? Group.Block : AssetDef.Block,
@@ -189,6 +188,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		SetPose: (AssetDef.SetPose == null) ? Group.SetPose : AssetDef.SetPose,
 		AllowActivePose: AssetDef.AllowActivePose,
 		Value: (AssetDef.Value == null) ? 0 : AssetDef.Value,
+		NeverSell: AssetDef.NeverSell ?? false,
 		Difficulty: difficulty,
 		SelfBondage: (AssetDef.SelfBondage == null) ? 0 : AssetDef.SelfBondage,
 		SelfUnlock: (AssetDef.SelfUnlock == null) ? true : AssetDef.SelfUnlock,
@@ -760,6 +760,7 @@ function AssetBuildDescription(Family, CSV) {
 		const res = map.get(`${G.Name}:`);
 		/** @type {Mutable<AssetGroup>} */(G).Description = (res !== undefined) ? res : `MISSING ASSETGROUP DESCRIPTION: ${G.Name}`;
 	}
+	Shop2._PopulateGroupDescriptions();
 
 	// For each asset in the family
 	for (const A of Asset) {
@@ -855,6 +856,8 @@ function AssetLoadAll() {
 	AssetLoad(AssetFemale3DCG, "Female3DCG", AssetFemale3DCGExtended);
 	ExtendedItemManualRegister();
 	PropertyAutoPunishHandled = new Set(AssetGroup.map((a) => a.Name));
+	Shop2._PopulateBuyGroups();
+	Shop2._PopulateKeysAndRemotes();
 }
 
 /**
