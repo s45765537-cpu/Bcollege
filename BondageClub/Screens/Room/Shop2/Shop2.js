@@ -60,6 +60,13 @@ const Shop2Vars = CommonVariableContainer(
 		 * @type {boolean}
 		 */
 		DisplayDropdown: false,
+		/**
+		 * A record mapping filter ID to filter callbacks.
+		 * Each callback is expected to return a list denoting for which modes the item is to-be shown.
+		 * Note that an item will only be shown if the respective mode is included in the output list of every callback.
+		 * @type {Record<string, (item: ShopItem) => ("Buy" | "Sell" | "Preview")[]>}
+		 */
+		Filters: {},
 	},
 	{
 		/**
@@ -134,13 +141,6 @@ const Shop2InitVars = CommonVariableContainer(
 		 * @type {readonly ShopItem[]}
 		 */
 		Items: [],
-
-		// NOTE: The `Groups` set is filled with all valid group names later on by `Shop2._PopulateGroupDescriptions`
-		/**
-		 * The currently active item filters in the shop
-		 * @type {{ Keyword: string, Groups: Set<AssetGroupName> }}
-		 */
-		Filters: { Keyword: "", Groups: new Set() },
 	},
 	{
 		/** The shop background */
@@ -284,14 +284,10 @@ var Shop2 = {
 	 */
 	_PopulateGroupDescriptions: function _PopulateGroupDescriptions() {
 		Shop2Consts.GroupDescriptions = {};
-		Shop2InitVars.Filters.Groups.clear();
-		Shop2InitVars.Defaults.Filters.Groups.clear();
 		for (const group of AssetGroup) {
 			if (group.Asset.some(a => a.Value > 0)) {
 				Shop2Consts.GroupDescriptions[group.Description] ??= [];
 				Shop2Consts.GroupDescriptions[group.Description].push(group.Name);
-				Shop2InitVars.Filters.Groups.add(group.Name);
-				Shop2InitVars.Defaults.Filters.Groups.add(group.Name);
 			}
 		}
 	},
@@ -499,28 +495,18 @@ var Shop2 = {
 	 * @private
 	 */
 	_ApplyAssetFilter: function _ApplyAssetFilter() {
-		// Construct filter callbacks, be they either keyword- or group-based
-		/** @type {((asset: Asset) => boolean)[]} */
-		const filters = [
-			(a) => Shop2InitVars.Filters.Groups.has(a.Group.Name),
-		];
-
-		if (Shop2InitVars.Filters.Keyword.length > 0) {
-			filters.push((a) => a.Description.toUpperCase().includes(Shop2InitVars.Filters.Keyword));
-		}
-
 		// Empty the filter caches and mark all relevant assets as filtered or not
 		Shop2Vars.BuyItems = [];
 		Shop2Vars.SellItems = [];
 		Shop2Vars.PreviewItems = [];
-		for (const a of Shop2InitVars.Items) {
-			a.Filter = filters.every(f => f(a.Asset));
-			if (a.Filter) {
-				Shop2Vars.PreviewItems.push(a);
-				if (!a.Buy && a.NeverSell) {
-					continue;
-				}
-				Shop2Vars[a.Buy ? "BuyItems" : "SellItems"].push(a);
+		for (const item of Shop2InitVars.Items) {
+			const fieldNames = Object.values(Shop2Vars.Filters).reduce((prev, func) => {
+				const next = func(item);
+				return prev.filter(mode => next.includes(mode));
+			}, /** @type {("Preview" | "Buy" | "Sell")[]} */(["Preview", "Buy", "Sell"]));
+
+			for (const fieldName of fieldNames) {
+				Shop2Vars[`${fieldName}Items`].push(item);
 			}
 		}
 
@@ -530,20 +516,21 @@ var Shop2 = {
 		}
 	},
 
-	/**
-	 * Click handler for the group-selection checkboxes
-	 * @param {string} groupDescription - The {@link AssetGroup.Description} associated with the checkbox
-	 * @private
-	 */
-	_ToggleCheckbox: function _ToggleCheckbox(groupDescription) {
-		const checkBox = /** @type {null | HTMLInputElement} */(document.getElementById(`Shop2Checkbox-${groupDescription}`));
-		const groups = Shop2Consts.GroupDescriptions[groupDescription];
-		if (!groups || !groups) {
-			return;
+	/** Click handler for the group-selection checkboxes */
+	_SetCheckboxFilters: function _SetCheckboxFilters() {
+		/** @type {Set<AssetGroupName>} */
+		const checkedSet = new Set();
+		for (const [groupDescription, groupNames] of Object.entries(Shop2Consts.GroupDescriptions)) {
+			const checkBox = /** @type {null | HTMLInputElement} */(document.getElementById(`Shop2Checkbox-${groupDescription}`));
+			if (!checkBox) {
+				continue;
+			}
+			if (checkBox.checked) {
+				groupNames.forEach(i => checkedSet.add(i));
+			}
 		}
 
-		const groupSet = Shop2InitVars.Filters.Groups;
-		groups.forEach(checkBox.checked ? (i) => groupSet.add(i) : (i) => groupSet.delete(i));
+		Shop2Vars.Filters.AssetGroup = (item) => checkedSet.has(item.Asset.Group.Name) ? ["Buy", "Sell", "Preview"] : [];
 		Shop2._ApplyAssetFilter();
 	},
 
@@ -593,7 +580,7 @@ var Shop2 = {
 				|| (LogQuery("BlockKey", "OwnerRule") && Shop2Consts.Keys.has(`${a.Group.Name}${a.Name}`))
 				|| (LogQuery("BlockRemote", "OwnerRule") && Shop2Consts.Remotes.has(`${a.Group.Name}${a.Name}`))
 			);
-			return { Asset: a, SortPriority: i, Filter: true, Buy, NeverSell };
+			return { Asset: a, SortPriority: i, Buy, NeverSell };
 		});
 	},
 
@@ -620,7 +607,14 @@ var Shop2 = {
 				const elem = ElementCreateInput("Shop2InputSearch", "text", "", "50");
 				elem.placeholder = TextGet("InputSearch") || "Filter by item name";
 				elem.addEventListener("input", () => {
-					Shop2InitVars.Filters.Keyword = (elem.value ?? "").toUpperCase().trim();
+					if (!elem.value) {
+						delete Shop2Vars.Filters.Keyword;
+					} else {
+						Shop2Vars.Filters.Keyword = (item) => {
+							const description = item.Asset.Description.toUpperCase();
+							return description.includes(elem.value.toUpperCase().trim()) ? ["Buy", "Sell", "Preview"] : [];
+						};
+					}
 					Shop2._ApplyAssetFilter();
 				});
 			},
@@ -658,13 +652,13 @@ var Shop2 = {
 			Mode: new Set(["Preview", "Buy", "Sell"]),
 			Run: (time, ...coords) => DrawButton(...coords, TextGet("GroupSelectAll"), "White"),
 			Click: () => {
-				for (const [groupDescr, groupNames] of Object.entries(Shop2Consts.GroupDescriptions)) {
+				for (const groupDescr of Object.keys(Shop2Consts.GroupDescriptions)) {
 					const elem = /** @type {null | HTMLInputElement} */(document.getElementById(`Shop2Checkbox-${groupDescr}`));
 					if (elem) {
 						elem.checked = true;
 					}
-					groupNames.forEach(i => Shop2InitVars.Filters.Groups.add(i));
 				}
+				delete Shop2Vars.Filters.AssetGroup;
 				Shop2._ApplyAssetFilter();
 			},
 		},
@@ -679,7 +673,7 @@ var Shop2 = {
 						elem.checked = false;
 					}
 				}
-				Shop2InitVars.Filters.Groups.clear();
+				Shop2Vars.Filters.AssetGroup = () => [];
 				Shop2._ApplyAssetFilter();
 			},
 		},
@@ -698,7 +692,7 @@ var Shop2 = {
 				for (const groupDescr of groupNames) {
 					content += `
 						<label class="Shop2Checkbox">
-							<input type="checkbox" id="Shop2Checkbox-${groupDescr}" onclick="Shop2._ToggleCheckbox('${groupDescr}')", checked=true />
+							<input type="checkbox" id="Shop2Checkbox-${groupDescr}" onclick="Shop2._SetCheckboxFilters()", checked=true />
 							${groupDescr}
 						</label>
 					`;
@@ -981,14 +975,9 @@ function Shop2Load() {
 			);
 		}
 
-		for (const shopItem of Shop2InitVars.Items) {
-			if (shopItem.Buy) {
-				Shop2Vars.BuyItems.push(shopItem);
-			} else if (!shopItem.NeverSell) {
-				Shop2Vars.SellItems.push(shopItem);
-			}
-			Shop2Vars.PreviewItems.push(shopItem);
-		}
+		Shop2Vars.Filters.NeverSell ??= (item) => item.NeverSell ? ["Buy", "Preview"] : ["Sell", "Buy", "Preview"];
+		Shop2Vars.Filters.Buy ??= (item) => item.Buy ? ["Buy", "Preview"] : ["Sell", "Preview"];
+		Shop2.ApplyItemFilters();
 	}
 
 	Object.values(Shop2.Elements).forEach((e) => {
