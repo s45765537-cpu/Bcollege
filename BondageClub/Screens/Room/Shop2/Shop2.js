@@ -29,7 +29,7 @@ const Shop2Vars = CommonVariableContainer(
 		 * The current shop mode
 		 * @type {ShopMode}
 		 */
-		Mode: "Preview",
+		Mode: "Buy",
 
 		/**
 		 * The current dressing state of the preview character
