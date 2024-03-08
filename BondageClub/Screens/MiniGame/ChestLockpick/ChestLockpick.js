@@ -62,10 +62,10 @@ function ChestLockpickRun() {
 }
 
 /**
- * Handles clicks during the mini game
+ * Handles mouse down during the mini game
  * @returns {void} - Nothing
  */
-function ChestLockpickClick() {
+function ChestLockpickMouseDown() {
 
 	// When clicking in the mini-game, we check if it was close enough to the hole for a success
 	if ((MiniGameProgress >= 0) && !MiniGameEnded) {
@@ -85,9 +85,18 @@ function ChestLockpickClick() {
 		}
 	}
 
+}
+
+/**
+ * Handles clicks during the mini game
+ * @returns {void} - Nothing
+ */
+function ChestLockpickClick() {
+
 	// If the game is over, clicking on the bottom will end it
-	if (MiniGameEnded && (MouseX >= 0) && (MouseX <= 2000) && (MouseY >= 875) && (MouseY <= 999))
+	if (MiniGameEnded && (MouseX >= 0) && (MouseX <= 2000) && (MouseY >= 875) && (MouseY <= 999)) {
 		MiniGameEnd();
+	}
 
 }
 
@@ -105,7 +114,7 @@ function ChestLockpickKeyDown(event) {
 
 	// The Space bar is like a click
 	if (event.code === "Space") {
-		ChestLockpickClick();
+		ChestLockpickMouseDown();
 		return true;
 	}
 
