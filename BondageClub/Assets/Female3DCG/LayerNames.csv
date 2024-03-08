@@ -1323,8 +1323,6 @@ ItemMouth3PumpkinGagRings,Rings
 ItemMouth3PumpkinGagStraps,Straps
 ItemMouth3ShoeGagShoe,Shoe
 ItemMouth3ShoeGagStrap,Strap
-ItemMouth3StitchesFakeMouth,Lips
-ItemMouth3StitchesStraight,Thread
 ItemMouth3WiffleGagBall,Ball
 ItemMouth3WiffleGagStrap,Strap
 ItemMouth3XLBoneGagBone,Bone
@@ -1461,6 +1459,12 @@ ItemMouthPumpkinGagRings,Rings
 ItemMouthPumpkinGagStraps,Straps
 ItemMouthShoeGagShoe,Shoe
 ItemMouthShoeGagStrap,Strap
+ItemMouthStitchesFakeMouth,Lips
+ItemMouthStitchesStraight,Thread
+ItemMouth2StitchesFakeMouth,Lips
+ItemMouth2StitchesStraight,Thread
+ItemMouth3StitchesFakeMouth,Lips
+ItemMouth3StitchesStraight,Thread
 ItemMouthTechnoGagBase,Base
 ItemMouthTechnoGagPlastic,Plastic
 ItemMouthTechnoGagShine,Shine

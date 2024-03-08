@@ -1207,6 +1207,9 @@ ItemMouth,WebGag,Web Gag
 ItemMouth,WiffleGag,Wiffle Ball Gag
 ItemMouth,XLBoneGag,XL Bone Gag
 ItemMouth,ModularGag,Modular Gag
+ItemMouth,Stitches,Stitches
+ItemMouth2,Stitches,Stitches
+ItemMouth3,Stitches,Stitches
 ItemMouth,TonguePiercingGag,Piercing Gag
 ItemMouth2,,Mouth
 ItemMouth2,BallGag,Ball Gag
@@ -1323,7 +1326,6 @@ ItemMouth3,Slime,Slime
 ItemMouth3,SpiderGag,Spider Gag
 ItemMouth3,SteelMuzzleGag,Steel Muzzle Gag
 ItemMouth3,StitchedMuzzleGag,Stitched Muzzle Gag
-ItemMouth3,Stitches,Stitches
 ItemMouth3,Tentacles,Tentacle
 ItemMouth3,WebGag,Web Gag
 ItemMouth3,WiffleGag,Wiffle Ball Gag

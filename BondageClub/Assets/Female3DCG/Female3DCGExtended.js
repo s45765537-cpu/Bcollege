@@ -10712,6 +10712,28 @@ var AssetFemale3DCGExtended = {
 				Chat: "TonguePiercingGagMouthSet",
 			},
 		},
+		Stitches: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Straight",
+				},
+				{
+					Name: "ZigZag",
+				},
+				{
+					Name: "Skewed",
+				},
+				{
+					Name: "Cross",
+				},
+			],
+			DialogPrefix: {
+				Header: "ItemMouthStitchesSelect",
+				Option: "ItemMouthStitches",
+				Chat: "ItemMouthStitchesSet",
+			},
+		}, // StitchGag
 	}, // ItemMouth
 	ItemMouth2: {
 		ClothGag: {
@@ -10796,6 +10818,10 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "ModularGag" },
 		},
+		Stitches: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "Stitches" },
+		}, // StitchGag
 	}, // ItemMouth2
 	ItemMouth3: {
 		ClothGag: {
@@ -10870,21 +10896,8 @@ var AssetFemale3DCGExtended = {
 		},
 		Stitches: {
 			Archetype: ExtendedArchetype.TYPED,
-			Options: [
-				{
-					Name: "Straight",
-				},
-				{
-					Name: "ZigZag",
-				},
-				{
-					Name: "Skewed",
-				},
-				{
-					Name: "Cross",
-				},
-			],
-		}, //StitchGag
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "Stitches" },
+		}, // StitchGag
 		LatexRespirator: {
 			Archetype: ExtendedArchetype.MODULAR,
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
