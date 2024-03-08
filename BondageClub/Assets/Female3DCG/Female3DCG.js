@@ -28228,7 +28228,10 @@ var AssetFemale3DCG = [
 		Top: 0,
 		Effect: [E.BlockMouth, E.GagNormal],
 		Zone: [[100, 130, 100, 70]],
-		RemoveItemOnRemove: [{ Group: "ItemMouth3", Name: "Kissmark" }],
+		RemoveItemOnRemove: [
+			{ Group: "ItemMouth2", Name: "Kissmark" },
+			{ Group: "ItemMouth3", Name: "Kissmark" },
+		],
 		Asset: [
 			{
 				Name: "ClothGag",
@@ -30565,6 +30568,18 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "Kissmark",
+				Random: false,
+				Value: -1,
+				BuyGroup: "Kissmark",
+				Difficulty: 0,
+				Time: 5,
+				RemoveTime: 5,
+				DefaultColor: "#B42340",
+				IsRestraint: true,
+				Prerequisite: ["BlockedMouth"],
+			},
 		],
 		Color: [
 			"Default",
@@ -32174,6 +32189,14 @@ var AssetFemale3DCG = [
 					BuyGroup: true,
 				},
 			},
+			{
+				Name: "Kissmark",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "Kissmark",
+					BuyGroup: true,
+				},
+			},
 		],
 		Color: [
 			"Default",
@@ -33392,18 +33415,11 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Kissmark",
-				Random: false,
-				Value: -1,
-				BuyGroup: "Kissmark",
-				Difficulty: 0,
-				Time: 5,
-				RemoveTime: 5,
-				DefaultColor: "#B42340",
-				Block: [],
-				IsRestraint: true,
-				Effect: [],
-				Prerequisite: ["BlockedMouth"],
-				DynamicGroupName: "ItemMouth3",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "Kissmark",
+					BuyGroup: true,
+				},
 			},
 			{
 				Name: "PaddedFaceMask",
