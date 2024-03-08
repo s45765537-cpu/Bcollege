@@ -5,6 +5,8 @@ BodyLower,Large,Large
 BodyLower,Normal,Normal
 BodyLower,Small,Small
 BodyLower,XLarge,Xlarge
+BodyMarkings,,Body Markings
+BodyMarkings,WombTattoos,Womb Tattoos
 BodyUpper,,Upper Body
 BodyUpper,FlatMedium,Bulky Flat Chest
 BodyUpper,FlatSmall,Flat Chest
@@ -150,8 +152,6 @@ Cloth,VirginKiller1,Virgin Killer
 Cloth,WeddingDress1,Wedding Dress
 Cloth,WeddingDress2,Shoulderless Wedding Dress
 Cloth,Yukata1,Yukata
-BodyMarkings,,Body Markings
-BodyMarkings,WombTattoos,Womb Tattoos
 ClothAccessory,,Cloth Accessory
 ClothAccessory,Bib,Bib
 ClothAccessory,Bouquet,Bouquet of flowers
@@ -168,16 +168,16 @@ ClothAccessory,JewelrySet,Piercing Set
 ClothAccessory,Kissmark,Lipstick Marks
 ClothAccessory,KissmarkDummy,Smoochy Lipstick
 ClothAccessory,LargeBelt,Large Belt
-ClothAccessory,LeatherStraps,Leather Straps
 ClothAccessory,LatexApron,Latex Apron
+ClothAccessory,LeatherStraps,Leather Straps
 ClothAccessory,Poncho,Poncho
 ClothAccessory,Scarf,Scarf
 ClothAccessory,StudentOutfit3Bow1,Student Bow 1
 ClothAccessory,StudentOutfit3Bow2,Student Bow 2
 ClothAccessory,StudentOutfit3Bow3,Student Bow 3
 ClothAccessory,StudentOutfit3Scarf,Student Scarf
-ClothAccessory,ZipperBelt,Zipper Belt
 ClothAccessory,WombTattoos,Womb Tattoos
+ClothAccessory,ZipperBelt,Zipper Belt
 ClothLower,,Bottom
 ClothLower,AdmiralSkirt,Admiral Skirt
 ClothLower,AsymmetricSkirt,Asymmetric Skirt
@@ -971,8 +971,8 @@ ItemHands,PaddedLeatherMittens,Padded Leather Mittens
 ItemHands,PaddedMittens,Padded Mittens
 ItemHands,PawMittens,Paw Mittens
 ItemHands,PolishedMittens,Polished Steel Mittens
-ItemHands,SmoothLeatherMittens1,Short Smooth Leather Mittens
 ItemHands,PonyMittensBinder,Pony Mittens Binder
+ItemHands,SmoothLeatherMittens1,Short Smooth Leather Mittens
 ItemHead,,Eyes
 ItemHead,AnimeLenses,Anime Lenses
 ItemHead,BigMouthHood,Big Mouth Hood
@@ -1162,6 +1162,7 @@ ItemMouth,HarnessPacifierGag,Harness Pacifier
 ItemMouth,HarnessPanelGag,Harness Panel Gag
 ItemMouth,HarnessPonyBits,Bit Gag
 ItemMouth,HookGagMask,Hook Gag Mask
+ItemMouth,Kissmark,Lipstick Marks
 ItemMouth,KittyGag,Kitty Mask
 ItemMouth,KittyHarnessPanelGag,Kitty Harness Gag
 ItemMouth,KittyMuzzleGag,Kitty Muzzle Gag
@@ -1169,23 +1170,20 @@ ItemMouth,LargeDildo,Large Dildo
 ItemMouth,LatexBallMuzzleGag,Latex Ball Muzzle Gag
 ItemMouth,LatexMuzzleMask,Latex Muzzle Mask
 ItemMouth,LatexPostureCollar,Latex Posture Collar Gag
-ItemMouth,LatexSheathGag, Latex Sheath Gag
 ItemMouth,LatexRespirator,Latex Respirator
+ItemMouth,LatexSheathGag, Latex Sheath Gag
 ItemMouth,LeatherCorsetCollar,Leather Corset Collar Gag
 ItemMouth,LewdGag,Lewd Gag
 ItemMouth,LipGag,Lips Gag
 ItemMouth,MedicalMask,Medical Mask
 ItemMouth,MilkBottle,Milk Bottle
+ItemMouth,ModularGag,Modular Gag
 ItemMouth,MouthFeatureGag, Mouthfeature Gag
-ItemMouth2,MouthFeatureGag, Mouthfeature Gag
-ItemMouth3,MouthFeatureGag, Mouthfeature Gag
 ItemMouth,MuzzleGag,Muzzle Gag
 ItemMouth,OTNPlugGag,Harness OTN Plug Gag
 ItemMouth,PacifierGag,Pacifier
 ItemMouth,PaciGag,Pacifier Gag
 ItemMouth,PaddedFaceMask,Padded Face Mask
-ItemMouth2,PaddedFaceMask,Padded Face Mask
-ItemMouth3,PaddedFaceMask,Padded Face Mask
 ItemMouth,PantiesMask,Panties Mask
 ItemMouth,PantyStuffing,Panty Stuffing
 ItemMouth,PlasticWrap, Plastic Wrap
@@ -1207,17 +1205,14 @@ ItemMouth,SockStuffing,Sock Stuffing
 ItemMouth,SpiderGag,Spider Gag
 ItemMouth,SteelMuzzleGag,Steel Muzzle Gag
 ItemMouth,StitchedMuzzleGag,Stitched Muzzle Gag
+ItemMouth,Stitches,Stitches
 ItemMouth,TechnoGag,Air-valve Gag
 ItemMouth,Tentacles,Tentacle
+ItemMouth,TonguePiercingGag,Piercing Gag
 ItemMouth,TongueStrapGag,Tongue Strap Gag
 ItemMouth,WebGag,Web Gag
 ItemMouth,WiffleGag,Wiffle Ball Gag
 ItemMouth,XLBoneGag,XL Bone Gag
-ItemMouth,ModularGag,Modular Gag
-ItemMouth,Stitches,Stitches
-ItemMouth2,Stitches,Stitches
-ItemMouth3,Stitches,Stitches
-ItemMouth,TonguePiercingGag,Piercing Gag
 ItemMouth2,,Mouth
 ItemMouth2,BallGag,Ball Gag
 ItemMouth2,BallGagMask,Ball Gag Mask
@@ -1243,6 +1238,7 @@ ItemMouth2,HarnessBallGag1,Harness Ball Gag XL
 ItemMouth2,HarnessPacifierGag,Harness Pacifier
 ItemMouth2,HarnessPanelGag,Harness Panel Gag
 ItemMouth2,HarnessPonyBits,Bit Gag
+ItemMouth2,Kissmark,Lipstick Marks
 ItemMouth2,KittyGag,Kitty Mask
 ItemMouth2,KittyHarnessPanelGag,Kitty Harness Gag
 ItemMouth2,KittyMuzzleGag,Kitty Muzzle Gag
@@ -1254,8 +1250,11 @@ ItemMouth2,LeatherCorsetCollar,Leather Corset Collar Gag
 ItemMouth2,LewdGag,Lewd Gag
 ItemMouth2,LipGag,Lips Gag
 ItemMouth2,MedicalMask,Medical Mask
+ItemMouth2,ModularGag,Modular Gag
+ItemMouth2,MouthFeatureGag, Mouthfeature Gag
 ItemMouth2,MuzzleGag,Muzzle Gag
 ItemMouth2,PaciGag,Pacifier Gag
+ItemMouth2,PaddedFaceMask,Padded Face Mask
 ItemMouth2,PantiesMask,Panties Mask
 ItemMouth2,PlasticWrap, Plastic Wrap
 ItemMouth2,PonyGag,Bridle Gag
@@ -1272,11 +1271,11 @@ ItemMouth2,Slime,Slime
 ItemMouth2,SpiderGag,Spider Gag
 ItemMouth2,SteelMuzzleGag,Steel Muzzle Gag
 ItemMouth2,StitchedMuzzleGag,Stitched Muzzle Gag
+ItemMouth2,Stitches,Stitches
 ItemMouth2,Tentacles,Tentacle
 ItemMouth2,WebGag,Web Gag
 ItemMouth2,WiffleGag,Wiffle Ball Gag
 ItemMouth2,XLBoneGag,XL Bone Gag
-ItemMouth2,ModularGag,Modular Gag
 ItemMouth3,,Mouth
 ItemMouth3,BallGag,Ball Gag
 ItemMouth3,BallGagMask,Ball Gag Mask
@@ -1302,8 +1301,6 @@ ItemMouth3,HarnessBallGag1,Harness Ball Gag XL
 ItemMouth3,HarnessPacifierGag,Harness Pacifier
 ItemMouth3,HarnessPanelGag,Harness Panel Gag
 ItemMouth3,HarnessPonyBits,Bit Gag
-ItemMouth,Kissmark,Lipstick Marks
-ItemMouth2,Kissmark,Lipstick Marks
 ItemMouth3,Kissmark,Lipstick Marks
 ItemMouth3,KittyGag,Kitty Mask
 ItemMouth3,KittyHarnessPanelGag,Kitty Harness Gag
@@ -1316,8 +1313,11 @@ ItemMouth3,LeatherCorsetCollar,Leather Corset Collar Gag
 ItemMouth3,LewdGag,Lewd Gag
 ItemMouth3,LipGag,Lips Gag
 ItemMouth3,MedicalMask,Medical Mask
+ItemMouth3,ModularGag,Modular Gag
+ItemMouth3,MouthFeatureGag, Mouthfeature Gag
 ItemMouth3,MuzzleGag,Muzzle Gag
 ItemMouth3,PaciGag,Pacifier Gag
+ItemMouth3,PaddedFaceMask,Padded Face Mask
 ItemMouth3,PantiesMask,Panties Mask
 ItemMouth3,PlasticWrap, Plastic Wrap
 ItemMouth3,PonyGag,Bridle Gag
@@ -1334,11 +1334,11 @@ ItemMouth3,Slime,Slime
 ItemMouth3,SpiderGag,Spider Gag
 ItemMouth3,SteelMuzzleGag,Steel Muzzle Gag
 ItemMouth3,StitchedMuzzleGag,Stitched Muzzle Gag
+ItemMouth3,Stitches,Stitches
 ItemMouth3,Tentacles,Tentacle
 ItemMouth3,WebGag,Web Gag
 ItemMouth3,WiffleGag,Wiffle Ball Gag
 ItemMouth3,XLBoneGag,XL Bone Gag
-ItemMouth3,ModularGag,Modular Gag
 ItemNeck,,Neck
 ItemNeck,AutoShockCollar,Automatic Shock Collar
 ItemNeck,BatCollar,Bat Collar
@@ -1358,6 +1358,7 @@ ItemNeck,HighStyleSteelCollar,HighStyle Steel Collar
 ItemNeck,LatexCollar1,Inflated Latex Collar
 ItemNeck,LatexCollar2,Latex Collar
 ItemNeck,LatexPostureCollar,Latex Posture Collar Gag
+ItemNeck,LatexRingCollar,Latex Ring Collar
 ItemNeck,LeatherChoker,Leather Choker
 ItemNeck,LeatherCollar,Leather Collar
 ItemNeck,LeatherCollarBell,Bell Collar
@@ -1370,6 +1371,7 @@ ItemNeck,NeckRope,Neck Rope
 ItemNeck,NobleCorsetCollar,Noble Corset Collar
 ItemNeck,NylonCollar,Nylon Collar
 ItemNeck,OrnateCollar,Ornate Collar
+ItemNeck,PaddedBeltCollar,Padded Belt Collar
 ItemNeck,PetCollar,Pet Collar
 ItemNeck,PetSuitShockCollar,PetSuit Shock Collar
 ItemNeck,PostureCollar,Posture Collar
@@ -1378,12 +1380,10 @@ ItemNeck,ShockCollar,Shock Collar
 ItemNeck,SlaveCollar,Slave Collar
 ItemNeck,SlenderSteelCollar,Slender Steel Collar
 ItemNeck,SpikeCollar,Spike Collar
+ItemNeck,SpikedChoker,Spiked Choker
 ItemNeck,SteelPostureCollar,Steel Collar
 ItemNeck,StrictPostureCollar,Strict Posture Collar
 ItemNeck,TechnoCollar,Techno Collar
-ItemNeck,LatexRingCollar,Latex Ring Collar
-ItemNeck,SpikedChoker,Spiked Choker
-ItemNeck,PaddedBeltCollar,Padded Belt Collar
 ItemNeckAccessories,,Collar
 ItemNeckAccessories,CollarAutoShockUnit,Automatic Shock Unit
 ItemNeckAccessories,CollarBell,Bell
@@ -1476,6 +1476,7 @@ ItemPelvis,LeatherChastityBelt,Leather Chastity Belt
 ItemPelvis,LeatherStrapPanties1,Leather Strap Panties
 ItemPelvis,LoveChastityBelt,Love Chastity Belt
 ItemPelvis,MetalChastityBelt,Metal Chastity Belt
+ItemPelvis,ModularChastityBelt,Modular Chastity Belt
 ItemPelvis,ObedienceBelt,Obedience Belt
 ItemPelvis,OrnateChastityBelt,Ornate Chastity Belt
 ItemPelvis,PelvisChainLeash,Pelvis Chain Leash
@@ -1488,7 +1489,6 @@ ItemPelvis,SleekLeatherChastityBelt,Sleek Leather Chastity Belt
 ItemPelvis,SteelChastityPanties,Steel Chastity Panties
 ItemPelvis,StraponPanties,Strap-On Panties
 ItemPelvis,StuddedChastityBelt,Studded Chastity Belt
-ItemPelvis,ModularChastityBelt,Modular Chastity Belt
 ItemScript,,Body
 ItemScript,Script,Script
 ItemTorso,,Torso
