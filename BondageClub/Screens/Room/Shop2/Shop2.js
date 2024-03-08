@@ -317,6 +317,10 @@ var Shop2 = {
 			return;
 		}
 
+		if (MouseIn(x, y, w, h)) {
+			DrawHoverElements.push(() => DrawButtonHover(x, y, w, h, Asset.Group.Description));
+		}
+
 		/** @type {InventoryIcon[]} */
 		const Icons = [];
 		if (Asset.Extended) {
