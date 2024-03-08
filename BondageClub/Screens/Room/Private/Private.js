@@ -428,6 +428,34 @@ function PrivateCanPlayClubCard() {
 function PrivateClubCardVictoryModeActive() {
 	return PrivateClubCardVictoryMode;
 }
+/**
+ * Returns true if the Player can talk and the friend can interact
+ * @returns {boolean} - True if Player can ask and the friend can interact
+ */
+function PrivateCanAskforAction() {
+	return (Player.CanTalk() && CurrentCharacter.CanInteract());
+}
+/**
+ * Returns true if the Player can talk but the friend can not interact
+ * @returns {boolean} - True if Player can ask and the friend can not interact
+ */
+function PrivateCannotAskforAction() {
+	return (Player.CanTalk() && !CurrentCharacter.CanInteract());
+}
+/**
+ * Returns true if the Player can not talk and the friend can interact
+ * @returns {boolean} - True if Player can not ask and the friend can interact
+ */
+function PrivateCanTryforAction() {
+	return (!Player.CanTalk() && CurrentCharacter.CanInteract());
+}
+/**
+ * Returns true if the Player can not talk and the friend can not interact
+ * @returns {boolean} - True if Player can not ask and the friend can not interact
+ */
+function PrivateCannotTryforAction() {
+	return (!Player.CanTalk() && !CurrentCharacter.CanInteract());
+}
 
 /**
  * Loads the private room screen and the vendor NPC.
