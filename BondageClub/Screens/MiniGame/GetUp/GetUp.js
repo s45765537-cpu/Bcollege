@@ -109,11 +109,16 @@ function GetUpRun() {
 }
 
 /**
- * Validates the clicks during the horse walk mini game for mobile, moves the character and validates touched items
+ * Handles mouse click events for the get up mini game
+ * @returns {void} - Nothing
+ */
+function GetUpMouseDown() {
+	GetUpVelocity += 20;
+}
+
+/**
+ * Handles mouse click events for the get up mini game
  * @returns {void} - Nothing
  */
 function GetUpClick() {
-	//CommonIsMobile
-	GetUpVelocity += 20;
-
 }
