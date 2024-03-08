@@ -1294,9 +1294,6 @@ ItemMouth3MuzzleGagStraps,Straps
 ItemMouth3PaciGagBase,Pacifier
 ItemMouth3PaciGagMetal,Buckles
 ItemMouth3PaciGagStraps,Straps
-ItemMouth3PaddedFaceMaskBaseThin,Mask
-ItemMouth3PaddedFaceMaskHeart,Pattern
-ItemMouth3PaddedFaceMaskTrimThin,Trim
 ItemMouth3PantiesMaskDarkStripes,Dark Stripes
 ItemMouth3PantiesMaskLightStripes,Light Stripes
 ItemMouth3PonyGagBallgag,Ballgag
@@ -1433,6 +1430,15 @@ ItemMouthOTNPlugGagStraps,Straps
 ItemMouthPaciGagBase,Pacifier
 ItemMouthPaciGagMetal,Buckles
 ItemMouthPaciGagStraps,Straps
+ItemMouthPaddedFaceMaskBaseThin,Mask
+ItemMouthPaddedFaceMaskHeart,Pattern
+ItemMouthPaddedFaceMaskTrimThin,Trim
+ItemMouth2PaddedFaceMaskBaseThin,Mask
+ItemMouth2PaddedFaceMaskHeart,Pattern
+ItemMouth2PaddedFaceMaskTrimThin,Trim
+ItemMouth3PaddedFaceMaskBaseThin,Mask
+ItemMouth3PaddedFaceMaskHeart,Pattern
+ItemMouth3PaddedFaceMaskTrimThin,Trim
 ItemMouthPantiesMaskDarkStripes,Dark Stripes
 ItemMouthPantiesMaskLightStripes,Light Stripes
 ItemMouthPonyGagBallgag,Ballgag

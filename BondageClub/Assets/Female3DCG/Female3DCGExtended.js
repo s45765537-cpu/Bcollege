@@ -10734,6 +10734,33 @@ var AssetFemale3DCGExtended = {
 				Chat: "ItemMouthStitchesSet",
 			},
 		}, // StitchGag
+		PaddedFaceMask: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			Modules: [
+				{
+					Name: "Thickness",
+					Key: "t",
+					Options: [
+						{},
+						{
+							Property: { Effect: [E.GagLight] },
+						},
+					],
+				},
+				{
+					Name: "Pattern",
+					Key: "p",
+					Options: [{}, {}, {}], //None, Lips, Heart
+				},
+			],
+			DialogPrefix: {
+				Header: "ItemMouthPaddedFaceMaskSelect",
+				Module: "ItemMouthPaddedFaceMaskModule",
+				Option: "ItemMouthPaddedFaceMaskOption",
+				Chat: "ItemMouthPaddedFaceMaskSet",
+			},
+		}, // PaddedFaceMask
 	}, // ItemMouth
 	ItemMouth2: {
 		ClothGag: {
@@ -10822,6 +10849,10 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "Stitches" },
 		}, // StitchGag
+		PaddedFaceMask: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "PaddedFaceMask" },
+		}, // PaddedFaceMask
 	}, // ItemMouth2
 	ItemMouth3: {
 		ClothGag: {
@@ -10950,25 +10981,8 @@ var AssetFemale3DCGExtended = {
 		}, //LatexRespirator
 		PaddedFaceMask: {
 			Archetype: ExtendedArchetype.MODULAR,
-			ChatSetting: ModularItemChatSetting.PER_MODULE,
-			Modules: [
-				{
-					Name: "Thickness",
-					Key: "t",
-					Options: [
-						{},
-						{
-							Property: { Effect: [E.GagLight] },
-						},
-					],
-				},
-				{
-					Name: "Pattern",
-					Key: "p",
-					Options: [{}, {}, {}], //None, Lips, Heart
-				},
-			],
-		}, //PaddedFaceMask
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "PaddedFaceMask" },
+		}, // PaddedFaceMask
 		BallGagMask: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "BallGagMask" },

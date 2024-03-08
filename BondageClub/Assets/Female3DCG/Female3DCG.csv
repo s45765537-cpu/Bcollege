@@ -1179,6 +1179,9 @@ ItemMouth,MuzzleGag,Muzzle Gag
 ItemMouth,OTNPlugGag,Harness OTN Plug Gag
 ItemMouth,PacifierGag,Pacifier
 ItemMouth,PaciGag,Pacifier Gag
+ItemMouth,PaddedFaceMask,Padded Face Mask
+ItemMouth2,PaddedFaceMask,Padded Face Mask
+ItemMouth3,PaddedFaceMask,Padded Face Mask
 ItemMouth,PantiesMask,Panties Mask
 ItemMouth,PantyStuffing,Panty Stuffing
 ItemMouth,PlasticWrap, Plastic Wrap
@@ -1309,7 +1312,6 @@ ItemMouth3,LipGag,Lips Gag
 ItemMouth3,MedicalMask,Medical Mask
 ItemMouth3,MuzzleGag,Muzzle Gag
 ItemMouth3,PaciGag,Pacifier Gag
-ItemMouth3,PaddedFaceMask,Padded Face Mask
 ItemMouth3,PantiesMask,Panties Mask
 ItemMouth3,PlasticWrap, Plastic Wrap
 ItemMouth3,PonyGag,Bridle Gag

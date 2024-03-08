@@ -30402,6 +30402,34 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "PaddedFaceMask",
+				Value: 20,
+				Extended: true,
+				Random: false,
+				Time: 2,
+				Left: 188,
+				Top: 141,
+				DefaultColor: ["#EEEEEE", "#222222", "#FF59B5"],
+				Prerequisite: ["GagFlat"],
+				Effect: [E.BlockMouth],
+				Layer: [
+					{ Name: "TrimThin", AllowTypes: { t: 0 } },
+					{
+						Name: "TrimThick",
+						AllowTypes: { t: 1 },
+						CopyLayerColor: "TrimThin",
+					},
+					{ Name: "BaseThin", AllowTypes: { t: 0 } },
+					{
+						Name: "BaseThick",
+						AllowTypes: { t: 1 },
+						CopyLayerColor: "BaseThin",
+					},
+					{ Name: "Heart", AllowTypes: { p: 2 } },
+					{ Name: "Lips", AllowTypes: { p: 1 }, CopyLayerColor: "Heart" },
+				],
+			},
 		],
 		Color: [
 			"Default",
@@ -32033,6 +32061,15 @@ var AssetFemale3DCG = [
 					BuyGroup: true,
 				},
 			},
+			{
+				Name: "PaddedFaceMask",
+				Hide: ["ItemMouth"],
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "PaddedFaceMask",
+					BuyGroup: true,
+				},
+			},
 		],
 		Color: [
 			"Default",
@@ -33345,32 +33382,12 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PaddedFaceMask",
-				Value: 20,
-				Extended: true,
-				Random: false,
-				Time: 2,
-				Left: 188,
-				Top: 141,
-				DefaultColor: ["#EEEEEE", "#222222", "#FF59B5"],
 				Hide: ["ItemMouth", "ItemMouth2"],
-				Effect: [E.BlockMouth],
-				Layer: [
-					{ Name: "TrimThin", AllowTypes: { t: 0 } },
-					{
-						Name: "TrimThick",
-						AllowTypes: { t: 1 },
-						CopyLayerColor: "TrimThin",
-					},
-					{ Name: "BaseThin", AllowTypes: { t: 0 } },
-					{
-						Name: "BaseThick",
-						AllowTypes: { t: 1 },
-						CopyLayerColor: "BaseThin",
-					},
-					{ Name: "Heart", AllowTypes: { p: 2 } },
-					{ Name: "Lips", AllowTypes: { p: 1 }, CopyLayerColor: "Heart" },
-				],
-				DynamicGroupName: "ItemMouth3",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "PaddedFaceMask",
+					BuyGroup: true,
+				},
 			},
 			{
 				Name: "LatexMuzzleMask",
