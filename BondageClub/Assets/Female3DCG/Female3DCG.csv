@@ -1175,6 +1175,9 @@ ItemMouth,LewdGag,Lewd Gag
 ItemMouth,LipGag,Lips Gag
 ItemMouth,MedicalMask,Medical Mask
 ItemMouth,MilkBottle,Milk Bottle
+ItemMouth,MouthFeatureGag, Mouthfeature Gag
+ItemMouth2,MouthFeatureGag, Mouthfeature Gag
+ItemMouth3,MouthFeatureGag, Mouthfeature Gag
 ItemMouth,MuzzleGag,Muzzle Gag
 ItemMouth,OTNPlugGag,Harness OTN Plug Gag
 ItemMouth,PacifierGag,Pacifier
@@ -1249,7 +1252,6 @@ ItemMouth2,LeatherCorsetCollar,Leather Corset Collar Gag
 ItemMouth2,LewdGag,Lewd Gag
 ItemMouth2,LipGag,Lips Gag
 ItemMouth2,MedicalMask,Medical Mask
-ItemMouth2,MouthFeatureGag, Mouthfeature Gag
 ItemMouth2,MuzzleGag,Muzzle Gag
 ItemMouth2,PaciGag,Pacifier Gag
 ItemMouth2,PantiesMask,Panties Mask

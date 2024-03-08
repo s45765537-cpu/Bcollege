@@ -1154,10 +1154,6 @@ ItemMouth2LipGagRings,Rings
 ItemMouth2LipGagStraps,Straps
 ItemMouth2MedicalMaskInner,Inner
 ItemMouth2MedicalMaskOuter,Outer
-ItemMouth2MouthFeatureGagBase,Mouth
-ItemMouth2MouthFeatureGagPanel,Panel
-ItemMouth2MouthFeatureGagPanelShine,Panel Shine
-ItemMouth2MouthFeatureGagShine,Mouth Shine
 ItemMouth2MuzzleGagMuzzle,Muzzle
 ItemMouth2MuzzleGagStraps,Straps
 ItemMouth2PaciGagBase,Pacifier
@@ -1422,6 +1418,18 @@ ItemMouthLipGagRings,Rings
 ItemMouthLipGagStraps,Straps
 ItemMouthMedicalMaskInner,Inner
 ItemMouthMedicalMaskOuter,Outer
+ItemMouthMouthFeatureGagBase,Mouth
+ItemMouthMouthFeatureGagPanel,Panel
+ItemMouthMouthFeatureGagPanelShine,Panel Shine
+ItemMouthMouthFeatureGagShine,Mouth Shine
+ItemMouth2MouthFeatureGagBase,Mouth
+ItemMouth2MouthFeatureGagPanel,Panel
+ItemMouth2MouthFeatureGagPanelShine,Panel Shine
+ItemMouth2MouthFeatureGagShine,Mouth Shine
+ItemMouth3MouthFeatureGagBase,Mouth
+ItemMouth3MouthFeatureGagPanel,Panel
+ItemMouth3MouthFeatureGagPanelShine,Panel Shine
+ItemMouth3MouthFeatureGagShine,Mouth Shine
 ItemMouthMuzzleGagMuzzle,Muzzle
 ItemMouthMuzzleGagStraps,Straps
 ItemMouthOTNPlugGagBase,Base
