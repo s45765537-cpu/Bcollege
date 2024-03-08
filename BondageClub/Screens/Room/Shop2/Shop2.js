@@ -29,7 +29,7 @@ const Shop2Vars = CommonVariableContainer(
 		 * The current shop mode
 		 * @type {ShopMode}
 		 */
-		Mode: "Preview",
+		Mode: "Buy",
 
 		/**
 		 * The current dressing state of the preview character
@@ -128,13 +128,6 @@ const Shop2InitVars = CommonVariableContainer(
 		 * @type {null | [module: ModuleType, screen: string]}
 		 */
 		PreviousScreen: null,
-
-		/**
-		 * Whether the shop screen has been initialized or not.
-		 * Useful in `Load` for identifying whether we're loading or reloading a (sub-)scren.
-		 * @type {boolean}
-		 */
-		Init: false,
 
 		/**
 		 * Super set of all items that be bought or sold
@@ -322,6 +315,10 @@ var Shop2 = {
 		const { Asset } = Shop2Vars.CurrentAssets[assetIndex] ?? {};
 		if (!Asset) {
 			return;
+		}
+
+		if (MouseIn(x, y, w, h)) {
+			DrawHoverElements.push(() => DrawButtonHover(x, y, w, h, Asset.Group.Description));
 		}
 
 		/** @type {InventoryIcon[]} */
@@ -599,7 +596,7 @@ var Shop2 = {
 			Coords: [25, 38, 660, 60],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
 			Load: () => {
-				if (Shop2InitVars.Init) {
+				if (document.getElementById("Shop2InputSearch")) {
 					return;
 				}
 
@@ -681,7 +678,7 @@ var Shop2 = {
 			Coords: [25, Shop2Consts.Grid.y + 100, 660, Shop2Consts.Grid.height - 100],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
 			Load: () => {
-				if (Shop2InitVars.Init) {
+				if (document.getElementById("Shop2GroupSelect")) {
 					return;
 				}
 
@@ -750,7 +747,7 @@ var Shop2 = {
 			Coords: [650, 0, 0, 0],
 			Mode: new Set(["Preview", "Buy", "Sell", "Extended", "Color"]),
 			Load: () => {
-				if (Shop2InitVars.Init) {
+				if (Shop2InitVars.Preview) {
 					return;
 				}
 				Shop2InitVars.Preview = CharacterLoadSimple("Shop2Preview");
@@ -776,7 +773,14 @@ var Shop2 = {
 			Coords: [1225, 25, 90, 90],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
 			Run: (time, ...coords) => {
-				DrawButton(...coords, "", "Lime", "Icons/Shop.png", TextGet(`BuyMode${Shop2Vars.Mode}`));
+				switch (Shop2Vars.Mode) {
+					case "Buy":
+						return DrawButton(...coords, "", "Red", `Icons/Shop${Shop2Vars.Mode}.png`, TextGet(`BuyMode${Shop2Vars.Mode}`));
+					case "Sell":
+						return DrawButton(...coords, "", "Green", `Icons/Shop${Shop2Vars.Mode}.png`, TextGet(`BuyMode${Shop2Vars.Mode}`));
+					case "Preview":
+						return DrawButton(...coords, "", "Blue", `Icons/Shop${Shop2Vars.Mode}.png`, TextGet(`BuyMode${Shop2Vars.Mode}`));
+				}
 			},
 			Click: () => {
 				const i = Shop2Consts.BuyModeCycleOrder.indexOf(Shop2Vars.Mode);
@@ -836,7 +840,7 @@ var Shop2 = {
 			Mode: new Set(["Preview", "Buy", "Sell"]),
 			Run: (time, ...coords) => {
 				if (Shop2Vars.Mode !== "Preview") {
-					DrawButton(...coords, "", "Gray", "Icons/Dress.png", TextGet(`ClothesMode${Shop2Vars.ClothesMode}`));
+					DrawButton(...coords, "", "Gray", "Icons/Dress.png", TextGet(`ClothesMode${Shop2Vars.ClothesMode}`), true);
 				} else {
 					DrawButton(...coords, "", "white", "Icons/Dress.png", TextGet(`ClothesMode${Shop2Vars.ClothesMode}`));
 				}
@@ -957,35 +961,29 @@ var Shop2 = {
 
 /** @type {ScreenFunctions["Load"]} */
 function Shop2Load() {
-	if (!Shop2InitVars.Init) {
-		if (Shop2InitVars.Items.length === 0) {
-			Shop2InitVars.Items = Shop2.ParseAssets(
-				Asset.filter(a => {
-					return (
-						a.Group.Name === a.DynamicGroupName
-						&& (Shop2Consts.BuyGroups[a.BuyGroup]?.Value ?? a.Value) > 0
-						&& !ShopHideGenderedAsset(a)
-					);
-				}).sort((a1, a2) => {
-					return a1.Group.Description.localeCompare(a2.Group.Description) || a1.Description.localeCompare(a2.Description);
-				}),
-			);
-		}
-
-		Shop2Vars.Filters.NeverSell ??= (item) => item.NeverSell ? ["Buy", "Preview"] : ["Sell", "Buy", "Preview"];
-		Shop2Vars.Filters.Buy ??= (item) => item.Buy ? ["Buy", "Preview"] : ["Sell", "Preview"];
-		Shop2.ApplyItemFilters();
+	if (Shop2InitVars.Items.length === 0) {
+		Shop2InitVars.Items = Shop2.ParseAssets(
+			Asset.filter(a => {
+				return (
+					a.Group.Name === a.DynamicGroupName
+					&& (Shop2Consts.BuyGroups[a.BuyGroup]?.Value ?? a.Value) > 0
+					&& !ShopHideGenderedAsset(a)
+				);
+			}).sort((a1, a2) => {
+				return a1.Group.Description.localeCompare(a2.Group.Description) || a1.Description.localeCompare(a2.Description);
+			}),
+		);
 	}
+
+	Shop2Vars.Filters.NeverSell ??= (item) => item.NeverSell ? ["Buy", "Preview"] : ["Sell", "Buy", "Preview"];
+	Shop2Vars.Filters.Buy ??= (item) => item.Buy ? ["Buy", "Preview"] : ["Sell", "Preview"];
+	Shop2.ApplyItemFilters();
 
 	Object.values(Shop2.Elements).forEach((e) => {
 		if (e.Mode.has(Shop2Vars.Mode)) {
 			e.Load?.();
 		}
 	});
-
-	if (!Shop2InitVars.Init) {
-		Shop2InitVars.Init = true;
-	}
 }
 
 /** @type {ScreenFunctions["Click"]} */
