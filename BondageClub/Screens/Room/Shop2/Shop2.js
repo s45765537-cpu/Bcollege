@@ -840,7 +840,7 @@ var Shop2 = {
 			Mode: new Set(["Preview", "Buy", "Sell"]),
 			Run: (time, ...coords) => {
 				if (Shop2Vars.Mode !== "Preview") {
-					DrawButton(...coords, "", "Gray", "Icons/Dress.png", TextGet(`ClothesMode${Shop2Vars.ClothesMode}`));
+					DrawButton(...coords, "", "Gray", "Icons/Dress.png", TextGet(`ClothesMode${Shop2Vars.ClothesMode}`), true);
 				} else {
 					DrawButton(...coords, "", "white", "Icons/Dress.png", TextGet(`ClothesMode${Shop2Vars.ClothesMode}`));
 				}
