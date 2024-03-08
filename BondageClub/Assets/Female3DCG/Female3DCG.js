@@ -30478,6 +30478,93 @@ var AssetFemale3DCG = [
 					},
 				],
 			}, // MouthFeatureGag
+			{
+				Name: "LatexRespirator",
+				Value: 50,
+				Difficulty: 2,
+				Time: 10,
+				DefaultColor: [
+					"#333333",
+					"#222222",
+					"#CCCCCC",
+					"#222222",
+					"#CCCCCC",
+					"#37E21D",
+				],
+				Extended: true,
+				AllowLock: true,
+				DrawLocks: false,
+				Random: false,
+				Top: 20,
+				Prerequisite: ["GagFlat"],
+				Block: ["ItemNose"],
+				Effect: [],
+				Layer: [
+					// Color Layers -- Straps, Base, RoundedShine, Filter, FilterFixing
+
+					{ Name: "Straps", AllowTypes: { s: 1 } },
+					{
+						Name: "StrapShade",
+						AllowTypes: { s: 1 },
+						AllowColorize: false,
+					},
+					{ Name: "Base", AllowTypes: { m: [0, 1] } },
+					{
+						Name: "Shade",
+						AllowColorize: false,
+						AllowTypes: { m: [0, 1] },
+					},
+					{
+						Name: "RoundedShine",
+						AllowTypes: { m: [0, 1] },
+					},
+					{ Name: "Filter", AllowTypes: { f: 1 } },
+					{ Name: "FilterFixing", AllowTypes: { f: 1 } },
+					{ Name: "FilterGlow", AllowTypes: { f: 1, g: 1 } },
+					{
+						Name: "SmallTubeFixing",
+						AllowTypes: { f: 2 },
+						CopyLayerColor: "FilterFixing",
+					},
+					{
+						Name: "SmallTube",
+						AllowTypes: { f: 2 },
+						CopyLayerColor: "Filter",
+					},
+					{
+						Name: "SmallTubeBack",
+						AllowTypes: { f: 2 },
+						CopyLayerColor: "Filter",
+						Priority: 6,
+					},
+					{
+						Name: "SmallTubeGlow",
+						AllowTypes: { f: 2, g: 1 },
+						CopyLayerColor: "FilterGlow",
+					},
+					{
+						Name: "TubeFixing",
+						AllowTypes: { f: 3 },
+						CopyLayerColor: "FilterFixing",
+					},
+					{
+						Name: "Tube",
+						AllowTypes: { f: 3 },
+						CopyLayerColor: "Filter",
+					},
+					{
+						Name: "TubeBack",
+						AllowTypes: { f: 3 },
+						CopyLayerColor: "Filter",
+						Priority: 6,
+					},
+					{
+						Name: "TubeGlow",
+						AllowTypes: { f: 3, g: 1 },
+						CopyLayerColor: "FilterGlow",
+					},
+				],
+			},
 		],
 		Color: [
 			"Default",
@@ -32078,6 +32165,15 @@ var AssetFemale3DCG = [
 					BuyGroup: true,
 				},
 			},
+			{
+				Name: "LatexRespirator",
+				Block: ["ItemNose", "ItemMouth"],
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "LatexRespirator",
+					BuyGroup: true,
+				},
+			},
 		],
 		Color: [
 			"Default",
@@ -33287,91 +33383,12 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LatexRespirator",
-				Value: 50,
-				Difficulty: 2,
-				Time: 10,
-				DefaultColor: [
-					"#333333",
-					"#222222",
-					"#CCCCCC",
-					"#222222",
-					"#CCCCCC",
-					"#37E21D",
-				],
-				Extended: true,
-				AllowLock: true,
-				DrawLocks: false,
-				Random: false,
-				Priority: 47,
-				Top: 20,
 				Block: ["ItemNose", "ItemMouth", "ItemMouth2"],
-				Effect: [],
-				Layer: [
-					// Color Layers -- Straps, Base, RoundedShine, Filter, FilterFixing
-
-					{ Name: "Straps", AllowTypes: { s: 1 } },
-					{
-						Name: "StrapShade",
-						AllowTypes: { s: 1 },
-						AllowColorize: false,
-					},
-					{ Name: "Base", AllowTypes: { m: [0, 1] } },
-					{
-						Name: "Shade",
-						AllowColorize: false,
-						AllowTypes: { m: [0, 1] },
-					},
-					{
-						Name: "RoundedShine",
-						AllowTypes: { m: [0, 1] },
-					},
-					{ Name: "Filter", AllowTypes: { f: 1 } },
-					{ Name: "FilterFixing", AllowTypes: { f: 1 } },
-					{ Name: "FilterGlow", AllowTypes: { f: 1, g: 1 } },
-					{
-						Name: "SmallTubeFixing",
-						AllowTypes: { f: 2 },
-						CopyLayerColor: "FilterFixing",
-					},
-					{
-						Name: "SmallTube",
-						AllowTypes: { f: 2 },
-						CopyLayerColor: "Filter",
-					},
-					{
-						Name: "SmallTubeBack",
-						AllowTypes: { f: 2 },
-						CopyLayerColor: "Filter",
-						Priority: 6,
-					},
-					{
-						Name: "SmallTubeGlow",
-						AllowTypes: { f: 2, g: 1 },
-						CopyLayerColor: "FilterGlow",
-					},
-					{
-						Name: "TubeFixing",
-						AllowTypes: { f: 3 },
-						CopyLayerColor: "FilterFixing",
-					},
-					{
-						Name: "Tube",
-						AllowTypes: { f: 3 },
-						CopyLayerColor: "Filter",
-					},
-					{
-						Name: "TubeBack",
-						AllowTypes: { f: 3 },
-						CopyLayerColor: "Filter",
-						Priority: 6,
-					},
-					{
-						Name: "TubeGlow",
-						AllowTypes: { f: 3, g: 1 },
-						CopyLayerColor: "FilterGlow",
-					},
-				],
-				DynamicGroupName: "ItemMouth3",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "LatexRespirator",
+					BuyGroup: true,
+				},
 			},
 			{
 				Name: "Kissmark",
