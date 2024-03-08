@@ -7,12 +7,12 @@ ClothesModeCosplay,Cosplay
 ClothesModeNude,Nude
 ExtendedItemButton,Use item
 Color,Change item color
-BuyModePreview,Preview
-BuyModeSell,Sell
-BuyModeBuy,Buy
+BuyModePreview,Shope mode: Preview
+BuyModeSell,Shope mode: Sell
+BuyModeBuy,Shope mode: Buy
 InputSearch,Filter by item name
 GroupSelectHeader,Filter by item group
-GroupSelectCollapse,Show group filter
+GroupSelectCollapse,Show item group filter
 GroupSelectAll,Select All
 GroupSelectNone,Select None
 MaleOnly,male-only

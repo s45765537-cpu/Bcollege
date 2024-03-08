@@ -773,7 +773,14 @@ var Shop2 = {
 			Coords: [1225, 25, 90, 90],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
 			Run: (time, ...coords) => {
-				DrawButton(...coords, "", "Lime", "Icons/Shop.png", TextGet(`BuyMode${Shop2Vars.Mode}`));
+				switch (Shop2Vars.Mode) {
+					case "Buy":
+						return DrawButton(...coords, "", "Red", `Icons/Shop${Shop2Vars.Mode}.png`, TextGet(`BuyMode${Shop2Vars.Mode}`));
+					case "Sell":
+						return DrawButton(...coords, "", "Green", `Icons/Shop${Shop2Vars.Mode}.png`, TextGet(`BuyMode${Shop2Vars.Mode}`));
+					case "Preview":
+						return DrawButton(...coords, "", "Blue", `Icons/Shop${Shop2Vars.Mode}.png`, TextGet(`BuyMode${Shop2Vars.Mode}`));
+				}
 			},
 			Click: () => {
 				const i = Shop2Consts.BuyModeCycleOrder.indexOf(Shop2Vars.Mode);
