@@ -130,13 +130,6 @@ const Shop2InitVars = CommonVariableContainer(
 		PreviousScreen: null,
 
 		/**
-		 * Whether the shop screen has been initialized or not.
-		 * Useful in `Load` for identifying whether we're loading or reloading a (sub-)scren.
-		 * @type {boolean}
-		 */
-		Init: false,
-
-		/**
 		 * Super set of all items that be bought or sold
 		 * @type {readonly ShopItem[]}
 		 */
@@ -599,7 +592,7 @@ var Shop2 = {
 			Coords: [25, 38, 660, 60],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
 			Load: () => {
-				if (Shop2InitVars.Init) {
+				if (document.getElementById("Shop2InputSearch")) {
 					return;
 				}
 
@@ -681,7 +674,7 @@ var Shop2 = {
 			Coords: [25, Shop2Consts.Grid.y + 100, 660, Shop2Consts.Grid.height - 100],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
 			Load: () => {
-				if (Shop2InitVars.Init) {
+				if (document.getElementById("Shop2GroupSelect")) {
 					return;
 				}
 
@@ -750,7 +743,7 @@ var Shop2 = {
 			Coords: [650, 0, 0, 0],
 			Mode: new Set(["Preview", "Buy", "Sell", "Extended", "Color"]),
 			Load: () => {
-				if (Shop2InitVars.Init) {
+				if (Shop2InitVars.Preview) {
 					return;
 				}
 				Shop2InitVars.Preview = CharacterLoadSimple("Shop2Preview");
@@ -957,35 +950,29 @@ var Shop2 = {
 
 /** @type {ScreenFunctions["Load"]} */
 function Shop2Load() {
-	if (!Shop2InitVars.Init) {
-		if (Shop2InitVars.Items.length === 0) {
-			Shop2InitVars.Items = Shop2.ParseAssets(
-				Asset.filter(a => {
-					return (
-						a.Group.Name === a.DynamicGroupName
-						&& (Shop2Consts.BuyGroups[a.BuyGroup]?.Value ?? a.Value) > 0
-						&& !ShopHideGenderedAsset(a)
-					);
-				}).sort((a1, a2) => {
-					return a1.Group.Description.localeCompare(a2.Group.Description) || a1.Description.localeCompare(a2.Description);
-				}),
-			);
-		}
-
-		Shop2Vars.Filters.NeverSell ??= (item) => item.NeverSell ? ["Buy", "Preview"] : ["Sell", "Buy", "Preview"];
-		Shop2Vars.Filters.Buy ??= (item) => item.Buy ? ["Buy", "Preview"] : ["Sell", "Preview"];
-		Shop2.ApplyItemFilters();
+	if (Shop2InitVars.Items.length === 0) {
+		Shop2InitVars.Items = Shop2.ParseAssets(
+			Asset.filter(a => {
+				return (
+					a.Group.Name === a.DynamicGroupName
+					&& (Shop2Consts.BuyGroups[a.BuyGroup]?.Value ?? a.Value) > 0
+					&& !ShopHideGenderedAsset(a)
+				);
+			}).sort((a1, a2) => {
+				return a1.Group.Description.localeCompare(a2.Group.Description) || a1.Description.localeCompare(a2.Description);
+			}),
+		);
 	}
+
+	Shop2Vars.Filters.NeverSell ??= (item) => item.NeverSell ? ["Buy", "Preview"] : ["Sell", "Buy", "Preview"];
+	Shop2Vars.Filters.Buy ??= (item) => item.Buy ? ["Buy", "Preview"] : ["Sell", "Preview"];
+	Shop2.ApplyItemFilters();
 
 	Object.values(Shop2.Elements).forEach((e) => {
 		if (e.Mode.has(Shop2Vars.Mode)) {
 			e.Load?.();
 		}
 	});
-
-	if (!Shop2InitVars.Init) {
-		Shop2InitVars.Init = true;
-	}
 }
 
 /** @type {ScreenFunctions["Click"]} */
