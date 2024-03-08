@@ -8706,6 +8706,56 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
+				Name: "MaryShoes",
+				Height: 37,
+				Layer: [
+					{
+						Name: "Main",
+						PoseMapping: {
+							...AssetPoseMapping.Shoes,
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+						},
+						Priority: 22,
+						AllowColorize: true,
+					},
+					{
+						Name: "Rear",
+						PoseMapping: {
+							...AssetPoseMapping.Shoes,
+							Hogtied: PoseType.HIDE,
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+						},
+						Priority: 6,
+						CopyLayerColor: "Main",
+					},
+				],
+				Alpha: [
+					{
+						Group: [
+							"BodyLower",
+							"Socks",
+							"SocksRight",
+							"SocksLeft",
+							"SuitLower",
+						],
+						Masks: [[45, 932, 350, 100]],
+					},
+					{
+						Group: [
+							"BodyLower",
+							"Socks",
+							"SocksRight",
+							"SocksLeft",
+							"SuitLower",
+						],
+						Pose: ["LegsClosed"],
+						Masks: [[45, 933, 350, 100]],
+					},
+				],
+			},
+			{
 				Name: "ThighBoots",
 				Fetish: ["Latex"],
 				Value: 50,
