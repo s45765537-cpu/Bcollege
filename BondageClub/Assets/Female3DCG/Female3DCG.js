@@ -1640,6 +1640,7 @@ var AssetFemale3DCG = [
 				Prerequisite: ["HasBreasts"],
 				Value: 85,
 				Random: false,
+				DefaultColor: ["#808080", "#505050", "#808080"],
 				Layer: [
 					{
 						Name: "Top",
@@ -8434,7 +8435,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "DutyShoes",
 				Height: 8,
-				Value: 20,
 				PoseMapping: {
 					...AssetPoseMapping.Shoes,
 					Kneel: PoseType.HIDE,
@@ -8708,6 +8708,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "MaryShoes",
 				Height: 37,
+				DefaultColor: ["#E22737"],
 				Layer: [
 					{
 						Name: "Main",
