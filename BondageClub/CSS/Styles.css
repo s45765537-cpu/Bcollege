@@ -483,7 +483,7 @@ input[type="checkbox"]:checked::before {
 }
 
 #Shop2GroupSelect {
-	overflow: scroll;
+	overflow-y: scroll;
 	word-wrap: break-word;
 	background-color: rgba(0, 0, 0, 0.35);
 }
@@ -493,14 +493,14 @@ input[type="checkbox"]:checked::before {
 	font-size: 3vh;
 	display: grid;
 	grid-template-columns: 50% 50%;
-	overflow: scroll;
 	user-select: none;
 }
 
 .Shop2Checkbox {
 	display: grid;
 	grid-template-columns: 25% 75%;
-	height: 7vh;
+	min-height: 7vh;
+	height: fit-content 100%;
 	align-items: center;
 }
 
