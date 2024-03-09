@@ -385,7 +385,7 @@ var AssetResolveCopyConfig = {
 		let stop = undefined;
 		const buyGroup = configList.find((cfg, i) => {
 			if (cfg.BuyGroup) {
-				stop = i;
+				stop = Math.max(1, i);
 				return true;
 			} else {
 				return false;
@@ -807,7 +807,7 @@ function AssetLoadDescription(Family) {
  */
 function AssetLoad(Groups, Family, ExtendedConfig) {
 	/**
-	 * Resolve all string-based asset definitions and convert the entire thing into a
+	 * Pass one: Resolve all string-based asset definitions and convert the entire thing into a
 	 * nested record mapping group names, to asset names, to asset definitions.
 	 * @type {Record<AssetGroupName, Record<string, AssetDefinition>>}
 	 */
@@ -822,17 +822,23 @@ function AssetLoad(Groups, Family, ExtendedConfig) {
 		];
 	}));
 
-	// For each group in the asset file
-	for (const group of Groups) {
-		// Creates the asset group
-		const G = AssetGroupAdd(Family, group);
-
-		// Add each assets in the group 1 by 1
-		for (const asset of Object.values(assetDefsParsed[G.Name])) {
-			const assetParsed = AssetResolveCopyConfig.AssetDefinition(asset, group.Group, assetDefsParsed);
-			if (assetParsed) {
-				AssetAdd(G, assetParsed, ExtendedConfig);
+	// Pass two: handle all copy configs
+	for (const [groupName, assetDefs] of CommonEntries(assetDefsParsed)) {
+		for (const [assetName, assetDef] of Object.entries(assetDefs)) {
+			const assetDefNew = AssetResolveCopyConfig.AssetDefinition(assetDef, groupName, assetDefsParsed);
+			if (assetDefNew == null) {
+				delete assetDefs[assetName];
+			} else {
+				assetDefs[assetName] = assetDefNew;
 			}
+		}
+	}
+
+	// Pass three: finally parse the asset/group defs
+	for (const groupDef of Groups) {
+		const G = AssetGroupAdd(Family, groupDef);
+		for (const assetDef of Object.values(assetDefsParsed[G.Name])) {
+			AssetAdd(G, assetDef, ExtendedConfig);
 		}
 	}
 

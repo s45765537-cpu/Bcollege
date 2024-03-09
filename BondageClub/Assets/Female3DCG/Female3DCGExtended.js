@@ -10712,6 +10712,111 @@ var AssetFemale3DCGExtended = {
 				Chat: "TonguePiercingGagMouthSet",
 			},
 		},
+		Stitches: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Straight",
+				},
+				{
+					Name: "ZigZag",
+				},
+				{
+					Name: "Skewed",
+				},
+				{
+					Name: "Cross",
+				},
+			],
+			DialogPrefix: {
+				Header: "ItemMouthStitchesSelect",
+				Option: "ItemMouthStitches",
+				Chat: "ItemMouthStitchesSet",
+			},
+		}, // StitchGag
+		PaddedFaceMask: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			Modules: [
+				{
+					Name: "Thickness",
+					Key: "t",
+					Options: [
+						{},
+						{
+							Property: { Effect: [E.GagLight] },
+						},
+					],
+				},
+				{
+					Name: "Pattern",
+					Key: "p",
+					Options: [{}, {}, {}], //None, Lips, Heart
+				},
+			],
+			DialogPrefix: {
+				Header: "ItemMouthPaddedFaceMaskSelect",
+				Module: "ItemMouthPaddedFaceMaskModule",
+				Option: "ItemMouthPaddedFaceMaskOption",
+				Chat: "ItemMouthPaddedFaceMaskSet",
+			},
+		}, // PaddedFaceMask
+		LatexRespirator: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			Modules: [
+				{
+					Name: "Filter",
+					Key: "f",
+					Options: [{}, {}, {}, {}], // None,Filter,SmallTubes,LargeTubes
+				},
+				{
+					Name: "Glow",
+					Key: "g",
+					Options: [{}, {}], //  Glow off or on
+				},
+				{
+					Name: "Straps",
+					Key: "s",
+					Options: [{}, {}], // No Straps, Straps
+				},
+				{
+					Name: "Mask",
+					Key: "m",
+					Options: [
+						{ Property: { Effect: [E.BlockMouth] } },
+						{ Property: { Effect: [E.BlockMouth, E.GagVeryLight] } },
+						{ Property: { Effect: [] } },
+					], // Mask, Thick Filters, No Mask
+				},
+				{
+					Name: "Length",
+					Key: "l",
+					Options: [
+						{},
+						{
+							Property: {
+								OverridePriority: {
+									Filter: 55,
+									FilterFixing: 55,
+									FilterGlow: 55,
+									SmallTube: 55,
+									SmallTubeGlow: 55,
+									Tube: 55,
+									TubeGlow: 55,
+								},
+							},
+						},
+					], // Behind Hair, Over Hair
+				},
+			],
+			DialogPrefix: {
+				Header: "ItemMouthLatexRespiratorSelect",
+				Module: "ItemMouthLatexRespiratorModule",
+				Option: "ItemMouthLatexRespiratorOption",
+				Chat: "ItemMouthLatexRespiratorSet",
+			},
+		}, //LatexRespirator
 	}, // ItemMouth
 	ItemMouth2: {
 		ClothGag: {
@@ -10796,6 +10901,18 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "ModularGag" },
 		},
+		Stitches: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "Stitches" },
+		}, // StitchGag
+		PaddedFaceMask: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "PaddedFaceMask" },
+		}, // PaddedFaceMask
+		LatexRespirator: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "LatexRespirator" },
+		}, //LatexRespirator
 	}, // ItemMouth2
 	ItemMouth3: {
 		ClothGag: {
@@ -10870,92 +10987,16 @@ var AssetFemale3DCGExtended = {
 		},
 		Stitches: {
 			Archetype: ExtendedArchetype.TYPED,
-			Options: [
-				{
-					Name: "Straight",
-				},
-				{
-					Name: "ZigZag",
-				},
-				{
-					Name: "Skewed",
-				},
-				{
-					Name: "Cross",
-				},
-			],
-		}, //StitchGag
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "Stitches" },
+		}, // StitchGag
 		LatexRespirator: {
 			Archetype: ExtendedArchetype.MODULAR,
-			ChatSetting: ModularItemChatSetting.PER_MODULE,
-			Modules: [
-				{
-					Name: "Filter",
-					Key: "f",
-					Options: [{}, {}, {}, {}], // None,Filter,SmallTubes,LargeTubes
-				},
-				{
-					Name: "Glow",
-					Key: "g",
-					Options: [{}, {}], //  Glow off or on
-				},
-				{
-					Name: "Straps",
-					Key: "s",
-					Options: [{}, {}], // No Straps, Straps
-				},
-				{
-					Name: "Mask",
-					Key: "m",
-					Options: [
-						{ Property: { Effect: [E.BlockMouth] } },
-						{ Property: { Effect: [E.BlockMouth, E.GagVeryLight] } },
-						{ Property: { Effect: [] } },
-					], // Mask, Thick Filters, No Mask
-				},
-				{
-					Name: "Length",
-					Key: "l",
-					Options: [
-						{},
-						{
-							Property: {
-								OverridePriority: {
-									Filter: 55,
-									FilterFixing: 55,
-									FilterGlow: 55,
-									SmallTube: 55,
-									SmallTubeGlow: 55,
-									Tube: 55,
-									TubeGlow: 55,
-								},
-							},
-						},
-					], // Behind Hair, Over Hair
-				},
-			],
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "LatexRespirator" },
 		}, //LatexRespirator
 		PaddedFaceMask: {
 			Archetype: ExtendedArchetype.MODULAR,
-			ChatSetting: ModularItemChatSetting.PER_MODULE,
-			Modules: [
-				{
-					Name: "Thickness",
-					Key: "t",
-					Options: [
-						{},
-						{
-							Property: { Effect: [E.GagLight] },
-						},
-					],
-				},
-				{
-					Name: "Pattern",
-					Key: "p",
-					Options: [{}, {}, {}], //None, Lips, Heart
-				},
-			],
-		}, //PaddedFaceMask
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "PaddedFaceMask" },
+		}, // PaddedFaceMask
 		BallGagMask: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "BallGagMask" },
