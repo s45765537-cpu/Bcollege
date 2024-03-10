@@ -571,7 +571,7 @@ var Shop2 = {
 	 */
 	ParseAssets: function ParseAssets(assets) {
 		return assets.map((a, i) => {
-			const Buy = !InventoryAvailable(Player, a.Name, a.Group.Name);
+			const Buy = !InventoryAvailable(Player, a.Name, a.Group.Name) && a.Value !== 0;
 			const NeverSell = (
 				a.NeverSell
 				|| (LogQuery("BlockKey", "OwnerRule") && Shop2Consts.Keys.has(`${a.Group.Name}${a.Name}`))
