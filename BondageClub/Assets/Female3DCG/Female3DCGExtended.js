@@ -626,6 +626,10 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // FishnetTop
+		CorsetDress: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [{ Name: "Normal" }, { Name: "NoSkirt" }],
+		}, // CorsetDress
 		FrilledShirt: {
 			Archetype: ExtendedArchetype.NOARCH,
 			DialogPrefix: {
@@ -640,6 +644,161 @@ var AssetFemale3DCGExtended = {
 			BaselineProperty: { Opacity: 1 },
 		}, // FrilledShirt
 	}, // Cloth
+	BodyMarkings: {
+		WombTattoos: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Zoom",
+					Key: "z",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "Big",
+					Key: "b",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "Bloom",
+					Key: "c",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "BottomSpike",
+					Key: "d",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "Flash",
+					Key: "e",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "Fly",
+					Key: "f",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "Grass",
+					Key: "g",
+					Options: [{}, {}], // n,y
+				},
+
+				{
+					Name: "Grow",
+					Key: "h",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "GrowHollow",
+					Key: "i",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "HeartSmallOutline",
+					Key: "j",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "Heartline",
+					Key: "k",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "HeartSmall",
+					Key: "l",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "HeartSolid",
+					Key: "m",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "HeartWings",
+					Key: "n",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "In",
+					Key: "o",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "Leaves",
+					Key: "p",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "MidSpike",
+					Key: "q",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "Ribow",
+					Key: "r",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "Sense",
+					Key: "s",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "Shake",
+					Key: "t",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "SideHearts",
+					Key: "u",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "Swim",
+					Key: "v",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "Thorn",
+					Key: "w",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "ThornOut",
+					Key: "x",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "TopSpike",
+					Key: "y",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "Venom",
+					Key: "za",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "Viper",
+					Key: "zb",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "Waves",
+					Key: "zc",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "WingSmall",
+					Key: "zd",
+					Options: [{}, {}], // n,y
+				},
+			],
+		},
+	},
 	ClothAccessory: {
 		LeatherStraps: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -798,6 +957,27 @@ var AssetFemale3DCGExtended = {
 				Option: "LargeBeltStyle",
 			},
 		}, // LargeBelt
+		LatexApron: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Full",
+				},
+				{
+					Name: "Bottom",
+				},
+			],
+			DialogPrefix: {
+				Header: "LatexApronSelectType",
+				Option: "LatexApronType",
+			},
+		}, // LatexApron
+		WombTattoos: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: false,
+			CopyConfig: { GroupName: "BodyMarkings", AssetName: "WombTattoos" },
+		}, //WombTattoos
 	}, // ClothAccessory
 	ClothLower: {
 		PantBoots: {
@@ -6720,6 +6900,31 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, //Inflatable Gag Mask
+		BigMouthHood: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{ Name: "Empty", Property: { Effect: [] } },
+				{
+					Name: "Lenses",
+					Property: {
+						Effect: [E.BlindLight],
+						Tint: [{ Color: 2, Strength: 0.2 }],
+					},
+				},
+				{
+					Name: "Mesh",
+					Property: {
+						Effect: [E.BlindNormal, E.BlockWardrobe],
+					},
+				},
+				{
+					Name: "Slim",
+					Property: {
+						Effect: [E.BlindHeavy, E.BlockWardrobe],
+					},
+				},
+			],
+		}, //BigMouthHood
 		OpenMouthPlugHood: {
 			Archetype: ExtendedArchetype.MODULAR,
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
@@ -7608,6 +7813,30 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // InflatableBodyBag
+		TheHangingFrame: {
+			Archetype: ExtendedArchetype.TYPED,
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+			Options: [
+				{
+					Name: "Normal",
+				},
+				{
+					Name: "Inflated",
+					Property: {
+						Block: ["ItemLegs"],
+						Hide: [
+							"HairFront",
+							"HairBack",
+							"HairAccessory1",
+							"Cloth",
+							"ClothLower",
+							"Hat",
+						],
+					},
+				},
+			],
+			DrawImages: false,
+		}, // TheHangingFrame
 		FurBlanketWrap: {
 			Archetype: ExtendedArchetype.TYPED,
 			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.TARGET_CHAR_NAME],
@@ -9169,6 +9398,10 @@ var AssetFemale3DCGExtended = {
 				Chat: "LatexCorset1Set",
 			},
 		}, // LatexCorset1
+		CorsetDress: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "Cloth", AssetName: "CorsetDress" },
+		}, // CorsetDress
 	}, // Corset
 	ItemTorso: {
 		HeavyLatexCorset: {
@@ -10181,9 +10414,18 @@ var AssetFemale3DCGExtended = {
 					DrawImages: true,
 					Options: [
 						{}, // g0 - Padded
-						{ Property: { Effect: [E.GagVeryLight] } }, // g1 - LightBall
-						{ Property: { Effect: [E.GagMedium] } }, // g2 - Ball
-						{ Property: { Effect: [E.GagTotal] } }, // g3 - Plug
+						{
+							Property: { Effect: [E.GagVeryLight] },
+							Prerequisite: ["GagUnique"],
+						}, // g1 - LightBall
+						{
+							Property: { Effect: [E.GagMedium] },
+							Prerequisite: ["AccessMouth", "GagUnique"],
+						}, // g2 - Ball
+						{
+							Property: { Effect: [E.GagTotal] },
+							Prerequisite: ["AccessMouth", "GagUnique"],
+						}, // g3 - Plug
 					],
 				},
 				{
@@ -10246,9 +10488,15 @@ var AssetFemale3DCGExtended = {
 					Key: "g",
 					DrawImages: true,
 					Options: [
-						{ Property: { OriginalSetting: 0, Effect: [E.GagLight] } }, // g0 - LightBall
-						{ Property: { OriginalSetting: 1, Effect: [E.GagMedium] } }, // g1 - Ball
-						{ Property: { OriginalSetting: 2, Effect: [E.GagTotal] } }, // g2 - Plug
+						{ Property: { Effect: [E.GagLight] } }, // g0 - LightBall
+						{
+							Property: { Effect: [E.GagMedium] },
+							Prerequisite: ["AccessMouth"],
+						}, // g1 - Ball
+						{
+							Property: { Effect: [E.GagTotal] },
+							Prerequisite: ["AccessMouth"],
+						}, // g2 - Plug
 					],
 				},
 				{
@@ -10464,6 +10712,111 @@ var AssetFemale3DCGExtended = {
 				Chat: "TonguePiercingGagMouthSet",
 			},
 		},
+		Stitches: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Straight",
+				},
+				{
+					Name: "ZigZag",
+				},
+				{
+					Name: "Skewed",
+				},
+				{
+					Name: "Cross",
+				},
+			],
+			DialogPrefix: {
+				Header: "ItemMouthStitchesSelect",
+				Option: "ItemMouthStitches",
+				Chat: "ItemMouthStitchesSet",
+			},
+		}, // StitchGag
+		PaddedFaceMask: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			Modules: [
+				{
+					Name: "Thickness",
+					Key: "t",
+					Options: [
+						{},
+						{
+							Property: { Effect: [E.GagLight] },
+						},
+					],
+				},
+				{
+					Name: "Pattern",
+					Key: "p",
+					Options: [{}, {}, {}], //None, Lips, Heart
+				},
+			],
+			DialogPrefix: {
+				Header: "ItemMouthPaddedFaceMaskSelect",
+				Module: "ItemMouthPaddedFaceMaskModule",
+				Option: "ItemMouthPaddedFaceMaskOption",
+				Chat: "ItemMouthPaddedFaceMaskSet",
+			},
+		}, // PaddedFaceMask
+		LatexRespirator: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			Modules: [
+				{
+					Name: "Filter",
+					Key: "f",
+					Options: [{}, {}, {}, {}], // None,Filter,SmallTubes,LargeTubes
+				},
+				{
+					Name: "Glow",
+					Key: "g",
+					Options: [{}, {}], //  Glow off or on
+				},
+				{
+					Name: "Straps",
+					Key: "s",
+					Options: [{}, {}], // No Straps, Straps
+				},
+				{
+					Name: "Mask",
+					Key: "m",
+					Options: [
+						{ Property: { Effect: [E.BlockMouth] } },
+						{ Property: { Effect: [E.BlockMouth, E.GagVeryLight] } },
+						{ Property: { Effect: [] } },
+					], // Mask, Thick Filters, No Mask
+				},
+				{
+					Name: "Length",
+					Key: "l",
+					Options: [
+						{},
+						{
+							Property: {
+								OverridePriority: {
+									Filter: 55,
+									FilterFixing: 55,
+									FilterGlow: 55,
+									SmallTube: 55,
+									SmallTubeGlow: 55,
+									Tube: 55,
+									TubeGlow: 55,
+								},
+							},
+						},
+					], // Behind Hair, Over Hair
+				},
+			],
+			DialogPrefix: {
+				Header: "ItemMouthLatexRespiratorSelect",
+				Module: "ItemMouthLatexRespiratorModule",
+				Option: "ItemMouthLatexRespiratorOption",
+				Chat: "ItemMouthLatexRespiratorSet",
+			},
+		}, //LatexRespirator
 	}, // ItemMouth
 	ItemMouth2: {
 		ClothGag: {
@@ -10548,6 +10901,18 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "ModularGag" },
 		},
+		Stitches: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "Stitches" },
+		}, // StitchGag
+		PaddedFaceMask: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "PaddedFaceMask" },
+		}, // PaddedFaceMask
+		LatexRespirator: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "LatexRespirator" },
+		}, //LatexRespirator
 	}, // ItemMouth2
 	ItemMouth3: {
 		ClothGag: {
@@ -10622,92 +10987,16 @@ var AssetFemale3DCGExtended = {
 		},
 		Stitches: {
 			Archetype: ExtendedArchetype.TYPED,
-			Options: [
-				{
-					Name: "Straight",
-				},
-				{
-					Name: "ZigZag",
-				},
-				{
-					Name: "Skewed",
-				},
-				{
-					Name: "Cross",
-				},
-			],
-		}, //StitchGag
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "Stitches" },
+		}, // StitchGag
 		LatexRespirator: {
 			Archetype: ExtendedArchetype.MODULAR,
-			ChatSetting: ModularItemChatSetting.PER_MODULE,
-			Modules: [
-				{
-					Name: "Filter",
-					Key: "f",
-					Options: [{}, {}, {}, {}], // None,Filter,SmallTubes,LargeTubes
-				},
-				{
-					Name: "Glow",
-					Key: "g",
-					Options: [{}, {}], //  Glow off or on
-				},
-				{
-					Name: "Straps",
-					Key: "s",
-					Options: [{}, {}], // No Straps, Straps
-				},
-				{
-					Name: "Mask",
-					Key: "m",
-					Options: [
-						{ Property: { Effect: [E.BlockMouth] } },
-						{ Property: { Effect: [E.BlockMouth, E.GagVeryLight] } },
-						{ Property: { Effect: [] } },
-					], // Mask, Thick Filters, No Mask
-				},
-				{
-					Name: "Length",
-					Key: "l",
-					Options: [
-						{},
-						{
-							Property: {
-								OverridePriority: {
-									Filter: 55,
-									FilterFixing: 55,
-									FilterGlow: 55,
-									SmallTube: 55,
-									SmallTubeGlow: 55,
-									Tube: 55,
-									TubeGlow: 55,
-								},
-							},
-						},
-					], // Behind Hair, Over Hair
-				},
-			],
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "LatexRespirator" },
 		}, //LatexRespirator
 		PaddedFaceMask: {
 			Archetype: ExtendedArchetype.MODULAR,
-			ChatSetting: ModularItemChatSetting.PER_MODULE,
-			Modules: [
-				{
-					Name: "Thickness",
-					Key: "t",
-					Options: [
-						{},
-						{
-							Property: { Effect: [E.GagLight] },
-						},
-					],
-				},
-				{
-					Name: "Pattern",
-					Key: "p",
-					Options: [{}, {}, {}], //None, Lips, Heart
-				},
-			],
-		}, //PaddedFaceMask
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "PaddedFaceMask" },
+		}, // PaddedFaceMask
 		BallGagMask: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "BallGagMask" },
@@ -13926,6 +14215,32 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, //MedicalPatch
+		BigMouthHood: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemHood", AssetName: "BigMouthHood" },
+			Options: [
+				{ Name: "Empty", Property: { Effect: [] } },
+				{
+					Name: "Lenses",
+					Property: {
+						Effect: [E.BlindLight],
+						Tint: [{ Color: 2, Strength: 0.2 }],
+					},
+				},
+				{
+					Name: "Mesh",
+					Property: {
+						Effect: [E.BlindNormal, E.BlockWardrobe],
+					},
+				},
+				{
+					Name: "Slim",
+					Property: {
+						Effect: [E.BlindHeavy, E.BlockWardrobe],
+					},
+				},
+			],
+		}, //BigMouthHood
 		DroneMask: {
 			Archetype: ExtendedArchetype.MODULAR,
 			ChatSetting: ModularItemChatSetting.PER_MODULE,

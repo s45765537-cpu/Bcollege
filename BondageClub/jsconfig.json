@@ -1,11 +1,11 @@
 {
 	"compilerOptions": {
 		"module": "commonjs",
-		"target": "ES2020",
-		"lib": ["es2020", "dom"],
+		"target": "ES2021",
+		"lib": ["es2021", "dom"],
 		"checkJs": true,
 		"types": [],
 	},
 	"include": ["Scripts/**/*", "Screens/**/*", "Assets/**/*", "Backgrounds/**/*.js"],
-	"exclude": ["Scripts/lib/**/*.js"]
+	"exclude": ["Scripts/lib/**/*.js", "Scripts/MessagesPatch.d.ts"]
 }

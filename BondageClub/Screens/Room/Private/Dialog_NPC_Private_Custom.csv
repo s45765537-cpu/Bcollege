@@ -846,8 +846,10 @@ ClubCardVsSubDefeat,,,"What?  Did I win?  Hahaha, awesome!  Mistress, I'm allowe
 1000,1050,"Girl, it's time to turn the tables.",(She looks furious.)  What the fuck?  You better explain yourself before I punish you slave.,PlayerTurnTablesStart(),PlayerCanTurnTables(),DomTurnTablesStart,Rude|Violent
 1000,1050,"Girl, it's time to turn the tables.",(She looks annoyed.)  What?  Do not play games my cherish slave.  I am not disposed.,PlayerTurnTablesStart(),PlayerCanTurnTables(),DomTurnTablesStart,Polite|Serious
 1000,1050,"Girl, it's time to turn the tables.",(She looks confused.)  Uh?  Are you drunk my slave?,PlayerTurnTablesStart(),PlayerCanTurnTables(),DomTurnTablesStart,Dumb|Playful
-1000,,What would you like to do?,,StartActivity(),Player.CanTalk(),,
-1000,,(Try to get her attention.),,StartActivity(),!Player.CanTalk(),,
+1000,,"What would you like to do?",,StartActivity(),CanAskforAction(),,
+1000,,"What would you like to do?","(She struggles against her bonds.) You will experience this when I am free.",,CannotAskforAction(),,
+1000,,"(Try to get her attention.)",,StartActivity(),CanTryforAction(),,
+1000,,"(Try to get her attention.)","(She struggles against her bonds.) You will experience this when I am free.",,CannotTryforAction(),,
 1000,,Can you please release me?,(She nods and slowly releases you.)  I guess I can help you out now.,DialogRelease(Player),AllowReleasePlayer(),DomWillReleasePlayer,
 1000,,Can you please release me?,Are you in pain my slave?  Let me see these limbs.  (She releases you and checks on your health.),DialogRelease(Player),AllowReleasePlayer(),DomWillReleasePlayer,Dominant|Peaceful
 1000,,Can you please release me?,"I'm not that great at releasing, usually it's other people that do it.  (She fumbles a little but finally releases you.)",DialogRelease(Player),AllowReleasePlayer(),DomWillReleasePlayer,Submissive|Dumb

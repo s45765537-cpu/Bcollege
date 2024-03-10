@@ -11,7 +11,7 @@ var PlatformRoom = null;
 var PlatformMusic = null;
 var PlatformAllowAudio = true;
 var PlatformGravitySpeed = 6;
-var PlatformLastKeyCode = 0;
+var PlatformLastKeyCode = "";
 var PlatformLastKeyTime = 0;
 var PlatformExperienceForLevel = [0, 10, 15, 25, 40, 60, 90, 135, 200, 300];
 var PlatformShowHitBox = false;
@@ -19,6 +19,7 @@ var PlatformMessage = null;
 var PlatformHeal = null;
 var PlatformEvent = [];
 var PlatformDrawUpArrow = [null, null];
+/** @type {readonly GamepadButton[]} */
 var PlatformButtons = null;
 var PlatformRunDirection = "";
 var PlatformRunTime = 0;
@@ -1849,6 +1850,7 @@ function PlatformPartyLoad() {
 function PlatformPartyNext() {
 	if (PlatformParty.length <= 1) return;
 	PlatformPartySave();
+	PlatformKeys = [];
 	let Pos = 0;
 	for (let P = 0; P < PlatformParty.length - 1; P++)
 		if (PlatformParty[P].Character == PlatformPlayer.Name)
@@ -1903,14 +1905,32 @@ function PlatformPartyBuild() {
 }
 
 /**
- * Loads the screen, adds listeners for keys
+ * When the platform screen is loaded
  * @returns {void} - Nothing
  */
 function PlatformLoad() {
-	window.addEventListener("keydown", PlatformEventKeyDown);
-	window.addEventListener("keyup", PlatformEventKeyUp);
+
+	// Clears the active keys
 	PlatformKeys = [];
 	PlatformLastTime = CommonTime();
+
+	// In mobile mode, we try to remove all events that could alter the experience
+	if (CommonIsMobile) {
+		let CV = document.getElementById("MainCanvas");
+		CV.onselectstart = function (e) { e.preventDefault(); return false; };
+		CV.oncontextmenu = function(e) { e.preventDefault(); return false; };
+		CV.ondragstart  = function(e) { e.preventDefault(); return false; };
+		CV.ondrop  = function(e) { e.preventDefault(); return false; };
+		CV.ondblclick = function(e) { e.preventDefault(); return false; };
+		CV.classList.add("NoSelect");
+		document.body.onselectstart = function (e) { e.preventDefault(); return false; };
+		document.body.oncontextmenu = function(e) { e.preventDefault(); return false; };
+		document.body.ondragstart  = function(e) { e.preventDefault(); return false; };
+		document.body.ondrop  = function(e) { e.preventDefault(); return false; };
+		document.body.ondblclick = function(e) { e.preventDefault(); return false; };
+		document.body.classList.add("NoSelect");
+	}
+
 }
 
 /**
@@ -2354,37 +2374,37 @@ function PlatformBindPlayer(Source, Time) {
 function PlatformMoveActive(Move) {
 
 	// Crouching can be done by down on the joystick DPAD or S on the keyboard
-	if ((Move == "Crouch") && ((PlatformKeys.indexOf(83) >= 0) || (PlatformKeys.indexOf(115) >= 0))) return true;
-	if ((Move == "Crouch") && ControllerIsActive() && (PlatformButtons != null) && PlatformButtons[ControllerDPadDown].pressed) return true;
-	if ((Move == "Crouch") && CommonTouchActive(150, 850, 100, 100)) return true;
+	if ((Move == "Crouch") && (PlatformKeys.indexOf("KeyS") >= 0)) return true;
+	if ((Move == "Crouch") && ControllerIsActive() && (PlatformButtons != null) && PlatformButtons[ControllerButton.DPadD]?.pressed) return true;
+	if ((Move == "Crouch") && CommonTouchActive(75, 875, 200, 100)) return true;
 
 	// Moving left can be done with jostick DPAD or A or Z on the keyboard
-	if ((Move == "Left") && ((PlatformKeys.indexOf(65) >= 0) || (PlatformKeys.indexOf(97) >= 0) || (PlatformKeys.indexOf(81) >= 0) || (PlatformKeys.indexOf(113) >= 0))) return true;
-	if ((Move == "Left") && ControllerIsActive() && (PlatformButtons != null) && PlatformButtons[ControllerDPadLeft].pressed) return true;
-	if ((Move == "Left") && CommonTouchActive(50, 750, 100, 100)) return true;
+	if ((Move == "Left") && (PlatformKeys.indexOf("KeyA") >= 0)) return true;
+	if ((Move == "Left") && ControllerIsActive() && (PlatformButtons != null) && PlatformButtons[ControllerButton.DPadL]?.pressed) return true;
+	if ((Move == "Left") && CommonTouchActive(25, 725, 150, 150)) return true;
 
 	// Moving right can be done with jostick DPAD or D on the keyboard
-	if ((Move == "Right") && ((PlatformKeys.indexOf(68) >= 0) || (PlatformKeys.indexOf(100) >= 0))) return true;
-	if ((Move == "Right") && ControllerIsActive() && (PlatformButtons != null) && PlatformButtons[ControllerDPadRight].pressed) return true;
-	if ((Move == "Right") && CommonTouchActive(250, 750, 100, 100)) return true;
+	if ((Move == "Right") && (PlatformKeys.indexOf("KeyD") >= 0)) return true;
+	if ((Move == "Right") && ControllerIsActive() && (PlatformButtons != null) && PlatformButtons[ControllerButton.DPadR]?.pressed) return true;
+	if ((Move == "Right") && CommonTouchActive(175, 725, 150, 150)) return true;
 
 	// Jumping can be done by B on the joystick DPAD or spacebar on the keyboard
-	if ((Move == "Jump") && (PlatformKeys.indexOf(32) >= 0)) return true;
-	if ((Move == "Jump") && ControllerIsActive() && (PlatformButtons != null) && PlatformButtons[ControllerA].pressed) return true;
-	if ((Move == "Jump") && CommonTouchActive(1850, 750, 100, 100)) return true;
+	if ((Move == "Jump") && (PlatformKeys.indexOf("Space") >= 0)) return true;
+	if ((Move == "Jump") && ControllerIsActive() && (PlatformButtons != null) && PlatformButtons[ControllerButton.A]?.pressed) return true;
+	if ((Move == "Jump") && CommonTouchActive(1800, 850, 125, 125)) return true;
 
 	// Aiming requires holding the K key for a set time, only for Edlaran if she has arrows left
 	if ((Move == "Aim") && (PlatformPlayer.ForceX == 0) && (PlatformPlayer.ForceY == 0) && (PlatformPlayer.Name == "Edlaran") && (PlatformPlayer.Projectile != null) && (PlatformPlayer.Projectile > 0)) {
-		if ((PlatformKeys.indexOf(75) >= 0) || (PlatformKeys.indexOf(107) >= 0)) return true;
-		if (ControllerIsActive() && (PlatformButtons != null) && PlatformButtons[ControllerX].pressed) return true;
-		if (CommonTouchActive(1750, 750, 100, 100)) return true;
+		if (!CommonIsMobile && PlatformKeys.indexOf("KeyK") >= 0) return true;
+		if (ControllerIsActive() && (PlatformButtons != null) && PlatformButtons[ControllerButton.X]?.pressed) return true;
+		if (CommonTouchActive(1675, 700, 125, 125)) return true;
 	}
 
-	// Blocking can be done using I, but you need to get the perk first
+	// Blocking can be done using P, but you need to get the perk first
 	if ((Move == "Block") && (PlatformPlayer.ForceX == 0) && PlatformHasPerk(PlatformPlayer, "Block")) {
-		if ((PlatformKeys.indexOf(73) >= 0) || (PlatformKeys.indexOf(105) >= 0)) return true;
-		if (ControllerIsActive() && (PlatformButtons != null) && PlatformButtons[ControllerTriggerLeft].pressed) return true;
-		if (CommonTouchActive(1750, 750, 100, 100)) return true;
+		if (!CommonIsMobile && (PlatformKeys.indexOf("KeyP") >= 0)) return true;
+		if (ControllerIsActive() && (PlatformButtons != null) && PlatformButtons[ControllerButton.TriggerR]?.pressed) return true;
+		if (CommonTouchActive(1825, 700, 125, 125)) return true;
 	}
 
 	// If all else fails, the move is not active
@@ -2703,15 +2723,21 @@ function PlatformDraw() {
 
 	// Draws the mobile buttons
 	if (CommonIsMobile) {
-		DrawEmptyRect(50, 750, 100, 100, CommonTouchActive(50, 750, 100, 100) ? "cyan" : "#FFFFFF80", 4);
-		DrawEmptyRect(250, 750, 100, 100, CommonTouchActive(250, 750, 100, 100) ? "cyan" : "#FFFFFF80", 4);
-		DrawEmptyRect(150, 650, 100, 100, CommonTouchActive(150, 650, 100, 100) ? "cyan" : "#FFFFFF80", 4);
-		DrawEmptyRect(150, 850, 100, 100, CommonTouchActive(150, 850, 100, 100) ? "cyan" : "#FFFFFF80", 4);
-		if (CommonTouchActive(1750, 750, 100, 100)) DrawEmptyRect(1750, 750, 100, 100, "cyan", 4);
-		DrawEmptyRect(1650, 750, 100, 100, CommonTouchActive(1650, 750, 100, 100) ? "cyan" : "#FFFFFF80", 4);
-		DrawEmptyRect(1850, 750, 100, 100, CommonTouchActive(1850, 750, 100, 100) ? "cyan" : "#FFFFFF80", 4);
-		DrawEmptyRect(1750, 650, 100, 100, CommonTouchActive(1750, 650, 100, 100) ? "cyan" : "#FFFFFF80", 4);
-		DrawEmptyRect(1750, 850, 100, 100, CommonTouchActive(1750, 850, 100, 100) ? "cyan" : "#FFFFFF80", 4);
+
+		// Left side movement buttons
+		DrawEmptyRect(25, 725, 150, 150, CommonTouchActive(25, 725, 150, 150) ? "cyan" : "#FFFFFF80", 4);
+		DrawEmptyRect(175, 725, 150, 150, CommonTouchActive(175, 725, 150, 150) ? "cyan" : "#FFFFFF80", 4);
+		DrawEmptyRect(75, 625, 200, 100, CommonTouchActive(75, 625, 200, 100) ? "cyan" : "#FFFFFF80", 4);
+		DrawEmptyRect(75, 875, 200, 100, CommonTouchActive(75, 875, 200, 100) ? "cyan" : "#FFFFFF80", 4);
+
+		// Right side action buttons
+		DrawEmptyRect(1700, 550, 125, 125, CommonTouchActive(1700, 550, 125, 125) ? "cyan" : "#FFFFFF80", 4);
+		DrawEmptyRect(1675, 700, 125, 125, CommonTouchActive(1675, 700, 125, 125) ? "cyan" : "#FFFFFF80", 4);
+		DrawEmptyRect(1650, 850, 125, 125, CommonTouchActive(1650, 850, 125, 125) ? "cyan" : "#FFFFFF80", 4);
+		DrawEmptyRect(1850, 550, 125, 125, CommonTouchActive(1850, 550, 125, 125) ? "cyan" : "#FFFFFF80", 4);
+		DrawEmptyRect(1825, 700, 125, 125, CommonTouchActive(1825, 700, 125, 125) ? "cyan" : "#FFFFFF80", 4);
+		DrawEmptyRect(1800, 850, 125, 125, CommonTouchActive(1800, 850, 125, 125) ? "cyan" : "#FFFFFF80", 4);
+
 	}
 
 	// Keeps the time of the frame for the next run
@@ -2948,8 +2974,6 @@ function PlatformClick() {
  */
 function PlatformLeave() {
 	PlatformBackgroundMusic(null);
-	window.removeEventListener("keydown", PlatformEventKeyDown);
-	window.removeEventListener("keyup", PlatformEventKeyUp);
 	CommonSetScreen("Room", "PlatformIntro");
 }
 
@@ -2973,10 +2997,12 @@ function PlatformEnterRoom(FromType) {
 			PlatformPlayer.FaceLeft = Door.ToFaceLeft;
 			return;
 		}
-	if (FromType == "Up")
+	if (FromType == "Up") {
+		PlatformKeys = [];
 		for (let Char of PlatformChar)
 			if ((Char.Dialog != null) && (Math.abs(PlatformPlayer.X - Char.X) <= 150) && (Math.abs(PlatformPlayer.Y - Char.Y) <= 450))
 				return PlatformDialogStart(Char.Dialog);
+	}
 }
 
 /**
@@ -2986,7 +3012,7 @@ function PlatformEnterRoom(FromType) {
  */
 function PlatformBindStart(Source) {
 	if (PlatformActionIs(Source, "Any")) return;
-	if (PlatformKeys.length > 0) return;
+	if (!CommonIsMobile && (PlatformKeys.length > 0)) return;
 	for (let C of PlatformChar)
 		if ((Source.ID != C.ID) && (C.Bound == null) && (C.Status != "Bound") && (C.Health == 0) && (Math.abs(Source.X - C.X + (Source.FaceLeft ? -75 : 75)) < 150) && (Math.abs(Source.Y - C.Y) < 150) && (Source.Y == PlatformFloor)) {
 			C.RiseTime = CommonTime() + 10000;
@@ -3152,29 +3178,41 @@ function PlatformCastHeal(C) {
 }
 
 /**
- * Handles keys pressed
- * @param {Object} e - The key pressed
+ * Handles the keys pressed to move, attack or jump
+ * @param {string} Code - The key code pressed
  * @returns {void} - Nothing
  */
-function PlatformEventKeyDown(e) {
-	PlatformPlayer.Run = ((e.keyCode == PlatformLastKeyCode) && (CommonTime() <= PlatformLastKeyTime + 333) && ([65, 97, 68, 100].indexOf(e.keyCode) >= 0) && (PlatformKeys.indexOf(e.keyCode) < 0)) || ((e.keyCode == PlatformLastKeyCode) && PlatformPlayer.Run && (PlatformKeys.indexOf(e.keyCode) >= 0));
+function PlatformEventKeyDown(Code) {
+	PlatformPlayer.Run = ((Code == PlatformLastKeyCode) && (CommonTime() <= PlatformLastKeyTime + 333) && (["KeyA", "KeyD"].indexOf(Code) >= 0) && (PlatformKeys.indexOf(Code) < 0)) || ((Code == PlatformLastKeyCode) && PlatformPlayer.Run && (PlatformKeys.indexOf(Code) >= 0));
 	if (PlatformPlayer.Health <= 0) return;
 	if (PlatformActionIs(PlatformPlayer, "Bind")) PlatformPlayer.Action = null;
-	if (e.keyCode == 32) PlatformPlayer.Action = null;
-	if ((e.keyCode == 87) || (e.keyCode == 119) || (e.keyCode == 90) || (e.keyCode == 122)) return PlatformEnterRoom("Up");
-	if (((e.keyCode == 83) || (e.keyCode == 115)) && PlatformPlayer.HalfBound) return;
-	if (((e.keyCode == 73) || (e.keyCode == 105)) && !PlatformPlayer.HalfBound && PlatformHasPerk(PlatformPlayer, "Teleport")) return PlatformCastTeleport(PlatformPlayer);
-	if (((e.keyCode == 73) || (e.keyCode == 105)) && !PlatformPlayer.HalfBound && PlatformHasPerk(PlatformPlayer, "Backflip")) return PlatformAttack(PlatformPlayer, "Backflip");
-	if (((e.keyCode == 80) || (e.keyCode == 112)) && !PlatformPlayer.HalfBound && PlatformHasPerk(PlatformPlayer, "Heal")) return PlatformCastHeal(PlatformPlayer);
-	if (((e.keyCode == 76) || (e.keyCode == 108)) && !PlatformPlayer.HalfBound && PlatformAnimAvailable(PlatformPlayer, "StandAttackFast")) return PlatformAttack(PlatformPlayer, PlatformMoveActive("Crouch") ? "CrouchAttackFast" : "StandAttackFast");
-	if (((e.keyCode == 75) || (e.keyCode == 107)) && !PlatformPlayer.HalfBound && !PlatformMoveActive("Crouch") && PlatformHasPerk(PlatformPlayer, "Apprentice")) return PlatformAttack(PlatformPlayer, "Scream");
-	if (((e.keyCode == 75) || (e.keyCode == 107)) && !PlatformPlayer.HalfBound && PlatformAnimAvailable(PlatformPlayer, "StandAttackSlow")) return PlatformAttack(PlatformPlayer, PlatformMoveActive("Crouch") ? "CrouchAttackSlow" : "StandAttackSlow");
-	if (((e.keyCode == 74) || (e.keyCode == 106)) && !PlatformPlayer.HalfBound && PlatformAnimAvailable(PlatformPlayer, "Uppercut")) return PlatformAttack(PlatformPlayer, "Uppercut");
-	if ((e.keyCode == 79) || (e.keyCode == 111)) return PlatformBindStart(PlatformPlayer);
-	if ((PlatformRoom.Heal != null) && (e.keyCode >= 48) && (e.keyCode <= 57)) return PlatformSaveGame(e.keyCode - 48);
-	if (PlatformKeys.indexOf(e.keyCode) < 0) PlatformKeys.push(e.keyCode);
-	PlatformLastKeyCode = e.keyCode;
+	if (Code == "Space") PlatformPlayer.Action = null;
+	if (Code == "KeyW") return PlatformEnterRoom("Up");
+	if ((Code == "KeyS") && PlatformPlayer.HalfBound) return;
+	if ((Code == "KeyI") && !PlatformPlayer.HalfBound && PlatformHasPerk(PlatformPlayer, "Teleport")) return PlatformCastTeleport(PlatformPlayer);
+	if ((Code == "KeyI") && !PlatformPlayer.HalfBound && PlatformHasPerk(PlatformPlayer, "Backflip")) return PlatformAttack(PlatformPlayer, "Backflip");
+	if ((Code == "KeyP") && !PlatformPlayer.HalfBound && PlatformHasPerk(PlatformPlayer, "Heal")) return PlatformCastHeal(PlatformPlayer);
+	if (Code == "KeyP") return;
+	if ((Code == "KeyL") && !PlatformPlayer.HalfBound && PlatformAnimAvailable(PlatformPlayer, "StandAttackFast")) return PlatformAttack(PlatformPlayer, PlatformMoveActive("Crouch") ? "CrouchAttackFast" : "StandAttackFast");
+	if ((Code == "KeyK") && !PlatformPlayer.HalfBound && !PlatformMoveActive("Crouch") && PlatformHasPerk(PlatformPlayer, "Apprentice")) return PlatformAttack(PlatformPlayer, "Scream");
+	if ((Code == "KeyK") && !PlatformPlayer.HalfBound && PlatformAnimAvailable(PlatformPlayer, "StandAttackSlow")) return PlatformAttack(PlatformPlayer, PlatformMoveActive("Crouch") ? "CrouchAttackSlow" : "StandAttackSlow");
+	if ((Code == "KeyI") && !PlatformPlayer.HalfBound && PlatformAnimAvailable(PlatformPlayer, "Uppercut")) return PlatformAttack(PlatformPlayer, "Uppercut");
+	if ((Code == "KeyO") && (PlatformHeal != null)) return PlatformPartyNext();
+	if ((Code == "KeyO") && (PlatformHeal == null)) return PlatformBindStart(PlatformPlayer);
+	if ((PlatformRoom.Heal != null) && (Code >= "Digit0") && (Code <= "Digit9")) return PlatformSaveGame(parseInt(Code.substring(5)));
+	if (PlatformKeys.indexOf(Code) < 0) PlatformKeys.push(Code);
+	PlatformLastKeyCode = Code;
 	PlatformLastKeyTime = CommonTime();
+}
+
+/**
+ * Handles keys pressed
+ * @param {Object} e - The key pressed
+ * @returns {boolean} - TRUE if we handled the key pressed
+ */
+function PlatformKeyDown(e) {
+	PlatformEventKeyDown(e.code);
+	return ((e != null) && (e.code != null) && ((e.code.substring(0, 3) == "Key") || (e.code.substring(0, 5) == "Arrow") || (e.code.substring(0, 5) == "Digit") || (e.code == "Space")));
 }
 
 /**
@@ -3182,24 +3220,38 @@ function PlatformEventKeyDown(e) {
  * @param {Object} e - The key released
  * @returns {void} - Nothing
  */
-function PlatformEventKeyUp(e) {
-	if (PlatformKeys.indexOf(e.keyCode) >= 0) PlatformKeys.splice(PlatformKeys.indexOf(e.keyCode), 1);
+function PlatformKeyUp(e) {
+	if (PlatformKeys.indexOf(e.code) >= 0) PlatformKeys.splice(PlatformKeys.indexOf(e.code), 1);
 }
 
 /**
  * Handles the controller inputs
- * @param {Object} Buttons - The buttons pressed on the controller
+ * @param {readonly GamepadButton[]} buttons - The buttons pressed on the controller
  * @returns {boolean} - Always TRUE to indicate that the controller is handled
  */
-function PlatformController(Buttons) {
+function PlatformController(buttons) {
+
+	// If we just came back for the dialog screen, we skip the controller inputs
+	if (PlatformDialogControllerHandle) {
+		PlatformButtons = buttons;
+		PlatformDialogControllerHandle = false;
+		return;
+	}
 
 	// Stops any binding if buttons have changed
-	if (PlatformActionIs(PlatformPlayer, "Bind"))
-		if ((Buttons[ControllerX].pressed == true) || (Buttons[ControllerA].pressed == true) || (Buttons[ControllerB].pressed == true) || (Buttons[ControllerDPadLeft].pressed == true) || (Buttons[ControllerDPadRight].pressed == true) || (Buttons[ControllerTriggerRight].pressed == true) || (Buttons[ControllerTriggerLeft].pressed == true))
+	if (PlatformActionIs(PlatformPlayer, "Bind")) {
+		if (buttons[ControllerButton.X]?.pressed
+			|| buttons[ControllerButton.Y]?.pressed
+			|| buttons[ControllerButton.A]?.pressed
+			|| buttons[ControllerButton.B]?.pressed
+			|| buttons[ControllerButton.DPadL]?.pressed
+			|| buttons[ControllerButton.DPadR]?.pressed
+			|| buttons[ControllerButton.TriggerR]?.pressed)
 			PlatformPlayer.Action = null;
+	}
 
 	// Double-tap management to run left
-	if ((Buttons[ControllerDPadLeft].pressed == true) && (ControllerGameActiveButttons.LEFT == false)) {
+	if (buttons[ControllerButton.DPadL]?.pressed && !buttons[ControllerButton.DPadL]?.repeat) {
 		PlatformPlayer.Run = false;
 		if (PlatformRunDirection != "LEFT") {
 			PlatformRunDirection = "LEFT";
@@ -3211,7 +3263,7 @@ function PlatformController(Buttons) {
 	}
 
 	// Double-tap management to run right
-	if ((Buttons[ControllerDPadRight].pressed == true) && (ControllerGameActiveButttons.RIGHT == false)) {
+	if (buttons[ControllerButton.DPadR]?.pressed && !buttons[ControllerButton.DPadR]?.repeat) {
 		PlatformPlayer.Run = false;
 		if (PlatformRunDirection != "RIGHT") {
 			PlatformRunDirection = "RIGHT";
@@ -3223,15 +3275,14 @@ function PlatformController(Buttons) {
 	}
 
 	// On a new A, X, Y or UP button, we activate the keyboard equivalent
-	if ((Buttons[ControllerB].pressed == true) && (ControllerGameActiveButttons.B == false)) PlatformEventKeyDown({ keyCode: 76 });
-	if ((Buttons[ControllerX].pressed == true) && (ControllerGameActiveButttons.X == false) && (PlatformPlayer.Name != "Edlaran")) PlatformEventKeyDown({ keyCode: 75 });
-	if ((Buttons[ControllerY].pressed == true) && (ControllerGameActiveButttons.Y == false)) PlatformEventKeyDown({ keyCode: 79 });
-	if ((Buttons[ControllerDPadUp].pressed == true) && (ControllerGameActiveButttons.UP == false)) PlatformEventKeyDown({ keyCode: 90 });
-	if ((Buttons[ControllerTriggerRight].pressed == true) && (ControllerGameActiveButttons.TRIGHT == false)) PlatformEventKeyDown({ keyCode: 73 });
-	if ((Buttons[ControllerTriggerLeft].pressed == true) && (ControllerGameActiveButttons.TLEFT == false)) PlatformEventKeyDown({ keyCode: 80 });
-	PlatformButtons = Buttons;
+	if (buttons[ControllerButton.B]?.pressed && !buttons[ControllerButton.B]?.repeat) PlatformEventKeyDown("KeyL");
+	if (buttons[ControllerButton.X]?.pressed && !buttons[ControllerButton.X]?.repeat && (PlatformPlayer.Name != "Edlaran")) PlatformEventKeyDown("KeyK");
+	if (buttons[ControllerButton.Y]?.pressed && !buttons[ControllerButton.Y]?.repeat) PlatformEventKeyDown("KeyI");
+	if (buttons[ControllerButton.DPadU]?.pressed && !buttons[ControllerButton.DPadU]?.repeat) PlatformEventKeyDown("KeyW");
+	if (buttons[ControllerButton.TriggerL]?.pressed && !buttons[ControllerButton.TriggerL]?.repeat) PlatformEventKeyDown("KeyO");
+	if (buttons[ControllerButton.TriggerR]?.pressed && !buttons[ControllerButton.TriggerR]?.repeat && PlatformPlayer.Name != "Melody") PlatformEventKeyDown("KeyP");
+	PlatformButtons = buttons;
 	return true;
-
 }
 
 /**
@@ -3239,10 +3290,12 @@ function PlatformController(Buttons) {
  * @returns {void}
  */
 function PlatformTouch() {
-	if (CommonTouchActive(150, 650, 100, 100) && !CommonTouchActive(150, 650, 100, 100, PlatformLastTouch)) PlatformEventKeyDown({ keyCode: 90 });
-	if (CommonTouchActive(1750, 850, 100, 100) && !CommonTouchActive(1750, 850, 100, 100, PlatformLastTouch)) PlatformEventKeyDown({ keyCode: 76 });
-	if (CommonTouchActive(1650, 750, 100, 100) && !CommonTouchActive(1650, 750, 100, 100, PlatformLastTouch)) PlatformEventKeyDown({ keyCode: 75 });
-	if (CommonTouchActive(1750, 650, 100, 100) && !CommonTouchActive(1750, 650, 100, 100, PlatformLastTouch)) PlatformEventKeyDown({ keyCode: 79 });
+	if (CommonTouchActive(75, 625, 200, 100) && !CommonTouchActive(75, 625, 200, 100, PlatformLastTouch)) PlatformEventKeyDown("KeyW");
+	if (CommonTouchActive(1700, 550, 125, 125) && !CommonTouchActive(1700, 550, 125, 125, PlatformLastTouch)) PlatformEventKeyDown("KeyI");
+	if (CommonTouchActive(1675, 700, 125, 125) && !CommonTouchActive(1675, 700, 125, 125, PlatformLastTouch)) PlatformEventKeyDown("KeyK");
+	if (CommonTouchActive(1650, 850, 125, 125) && !CommonTouchActive(1650, 850, 125, 125, PlatformLastTouch)) PlatformEventKeyDown("KeyL");
+	if (CommonTouchActive(1850, 550, 125, 125) && !CommonTouchActive(1850, 550, 125, 125, PlatformLastTouch)) PlatformEventKeyDown("KeyO");
+	if (CommonTouchActive(1825, 700, 125, 125) && !CommonTouchActive(1825, 700, 125, 125, PlatformLastTouch)) PlatformEventKeyDown("KeyP");
 	PlatformLastTouch = CommonTouchList;
 }
 

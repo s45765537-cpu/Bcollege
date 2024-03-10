@@ -50,7 +50,7 @@ function ChatAdminLoad() {
 	document.getElementById("InputName").setAttribute("autocomplete", "off");
 	ElementCreateInput("InputSize", "number", roomData.Limit.toString());
 	document.getElementById("InputSize").setAttribute("min", "2");
-	document.getElementById("InputSize").setAttribute("max", "10");
+	document.getElementById("InputSize").setAttribute("max", "20");
 	document.getElementById("InputSize").setAttribute("autocomplete", "off");
 	ElementCreateTextArea("InputDescription");
 	document.getElementById("InputDescription").setAttribute("maxLength", 100);
@@ -117,9 +117,9 @@ function ChatAdminRun() {
 
 	// Background selection, block button and game selection
 	DrawImageResize("Backgrounds/" + ChatAdminBackgroundSelect + ".jpg", 1300, 75, 600, 350);
-	DrawBackNextButton(1300, 450, 500, 60, DialogFindPlayer(ChatAdminBackgroundSelect), ChatRoomPlayerIsAdmin() ? "White" : "#ebebe4", null,
-		() => DialogFindPlayer((ChatAdminBackgroundIndex == 0) ? ChatCreateBackgroundList[ChatCreateBackgroundList.length - 1] : ChatCreateBackgroundList[ChatAdminBackgroundIndex - 1]),
-		() => DialogFindPlayer((ChatAdminBackgroundIndex >= ChatCreateBackgroundList.length - 1) ? ChatCreateBackgroundList[0] : ChatCreateBackgroundList[ChatAdminBackgroundIndex + 1]), !ChatRoomPlayerIsAdmin());
+	DrawBackNextButton(1300, 450, 500, 60, BackgroundsTextGet(ChatAdminBackgroundSelect), ChatRoomPlayerIsAdmin() ? "White" : "#ebebe4", null,
+		() => BackgroundsTextGet((ChatAdminBackgroundIndex == 0) ? ChatCreateBackgroundList[ChatCreateBackgroundList.length - 1] : ChatCreateBackgroundList[ChatAdminBackgroundIndex - 1]),
+		() => BackgroundsTextGet((ChatAdminBackgroundIndex >= ChatCreateBackgroundList.length - 1) ? ChatCreateBackgroundList[0] : ChatCreateBackgroundList[ChatAdminBackgroundIndex + 1]), !ChatRoomPlayerIsAdmin());
 	DrawButton(1840, 450, 60, 60, "", ChatRoomPlayerIsAdmin() ? "White" : "#ebebe4", "Icons/Small/Preference.png", null, !ChatRoomPlayerIsAdmin());
 	DrawButton(1300, 550, 275, 60, TextGet("BlockCategory"), "White");
 	DrawBackNextButton(1625, 550, 275, 60, TextGet("Game" + ChatAdminGame), ChatRoomPlayerIsAdmin() ? "White" : "#ebebe4", null, () => "", () => "");
@@ -208,11 +208,11 @@ function ChatAdminClick() {
 
 		// When we select a new map type
 		if (MouseIn(1625, 640, 275, 60)) {
-			let Index = ChatRoomMapTypeList.indexOf(ChatAdminMapData.Type);
+			let Index = ChatRoomMapViewTypeList.indexOf(ChatAdminMapData.Type);
 			Index = Index + ((MouseX < 1763) ? -1 : 1);
-			if (Index < 0) Index = ChatRoomMapTypeList.length - 1;
-			if (Index >= ChatRoomMapTypeList.length) Index = 0;
-			ChatAdminMapData.Type = ChatRoomMapTypeList[Index];
+			if (Index < 0) Index = ChatRoomMapViewTypeList.length - 1;
+			if (Index >= ChatRoomMapViewTypeList.length) Index = 0;
+			ChatAdminMapData.Type = ChatRoomMapViewTypeList[Index];
 		}
 
 		// Flips from one language to another
@@ -253,11 +253,11 @@ function ChatAdminExit() {
 
 /**
  * Handles the reception of the server response after attempting to update a chatroom: Leaves the admin screen or shows an error message
- * @param {string} data - Response from the server ("Updated" or error message)
+ * @param {ServerChatRoomUpdateResponse} data - Response from the server ("Updated" or error message)
  * @returns {void} - Nothing
  */
 function ChatAdminResponse(data) {
-	if ((data != null) && (typeof data === "string") && (data != ""))
+	if (typeof data === "string" && data)
 		if (data === "Updated") ChatAdminExit();
 		else ChatAdminMessage = "Response" + data;
 }

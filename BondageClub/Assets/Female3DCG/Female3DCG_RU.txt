@@ -58,10 +58,18 @@ Sleeveless Top
 Топ без руковов
 Dress with Fur
 платье с мехом
+Fishnet Top
+Топ в сеточку
+Latex Catsuit
+Латексный костюм
 Towel
 полотенце
 Yukata
 кимоно
+Body Markings
+Маркировка тела
+Womb Tattoos
+Татуировки Матки
 Steampunk Corset
 Корсет стимпанк
 Boned Underbust Corset
@@ -76,12 +84,16 @@ Long Dress
 Длинное платье
 Sleep Top
 Топ для сна
+Corset Dress
+Корсетное платье
 Wedding Dress
 Свадебное платье
 Shoulderless Wedding Dress
 Свадебное платье без плеч
 Bridesmaid Dress
 Платье подружки невесты
+Business Suit
+Деловой костюм
 Puffball Gown
 Платье с пуффами
 Hobble Gown
@@ -92,6 +104,8 @@ Maid Apron
 Фартук горничной
 Exposed Maid Apron
 Открытый фартук горничной
+Maid Latex Uniform
+Латексная униформа горничной
 Admiral Top
 Адмиральский топ
 Virgin Killer
@@ -152,6 +166,8 @@ Cloth Accessory
 Аксессуар для верха
 Student Scarf
 Студенческий Шарф
+Zipper Belt
+Пояс на молнии
 Student Bow 1
 студенческий бант 1
 Student Bow 2
@@ -170,6 +186,8 @@ Cape
 Накидка
 Leather Straps
 Кожаные ремни
+Latex Apron
+Латексный фартук
 Fur Bolero
 Меховое болеро
 Face Paint
@@ -332,6 +350,10 @@ Short Leggings
 Короткие леггинсы
 Long Leggings
 Длинные леггинсы
+Long Leather Skirt
+Длинная кожаная юбка
+Long Pleated Skirt
+Длинная плиссированная юбка
 Pleated Skirt
 Плиссированная юбка
 Witch's Skirt
@@ -368,6 +390,8 @@ Long Latex Pants
 Длинные латексные штаны
 Business Skirt
 Деловая юбка
+Business Trousers
+Деловые брюки
 Suit Lower
 Нижний костюм
 Catsuit Panties
@@ -388,6 +412,10 @@ Silky Stockings
 Шелковые чулки
 Fishnet Stockings
 Чулки в сеточку
+Vinyl Socks
+Виниловые носки
+Loose Socks
+Сморщенные носки
 Male Catsuit Panties
 Мужские трусы от кэтсьюта
 Bra
@@ -568,6 +596,8 @@ Sexy Beach Panties
 Сексуальные пляжные трусики
 Chinese Panties
 Китайские трусики
+Cock Sock
+Носок на член
 Leather Strap Panties
 Кожаные трусики с ремешком
 Cow Printed Panties
@@ -630,6 +660,8 @@ Cow Printed Socks
 Чулки с коровьим принтом
 Harem Stockings
 Гаремные Чулки
+Knee Pads
+Наколенники
 Right Leg
 Правая нога
 Left Leg
@@ -694,8 +726,12 @@ Duty Shoes
 Служебная обувь
 Social Heels
 Светские каблуки
+Stiletto Heels
+Туфли на шпильках
 Street Boots
 Уличные сапоги
+Combo Boots
+Комбинированные сапоги
 Western Boots
 Сапоги Дикого Запада
 Multi-Strap Heels
@@ -706,6 +742,8 @@ Latex Ankle Shoes
 Латексные ботильоны
 Flippers
 Ласты
+Platform Clogs
+Сабо на платформе
 Deluxe Mistress Boots
 Роскошные сапоги госпожи
 Ankle Strap Shoes
@@ -714,6 +752,8 @@ Futuristic Heels
 Футуристические каблуки
 Fuzzy Boots
 Сапоги с опушкой
+Geta Sandals
+Сандалии гета
 Hat
 Головной убор
 Hair Band
@@ -723,7 +763,9 @@ Jeweled Band
 Beret
 Берет
 Maid Hairband
-Лента Для Волос Горничной 
+Повязка Для Волос Горничной 
+Maid Latex Hairband
+Латексная повязка для волос горничной
 Nurse Cap
 Капор медсестры
 Santa Hat
@@ -736,6 +778,8 @@ Witch Hat
 Шляпа Ведьмы
 Pirate Bandana
 Пиратская Бандана
+Pirate Hat
+Пиратская шляпа
 Police Woman Hat
 Фуражка полицейского
 Dunce Hat
@@ -808,6 +852,8 @@ Feathers
 Перья
 Halo
 Ореол
+Headset
+Гарнитура
 Hair Accessory (All)
 Аксессуары для волос (Все)
 Ears Small
@@ -887,6 +933,10 @@ Gloves with Fur
 Перчатки с мехом
 Catsuit Gloves
 Перчатки от Кэтсьюта
+Claws
+Когти
+Fingernails
+Ногти
 See-through Gloves
 Прозрачные перчатки
 Cow Printed Gloves
@@ -945,6 +995,10 @@ V Glasses
 V Очки
 Gradient Sunglasses
 Солнцезащитные очки с градиентом
+Inconspicious Glasses
+Маскирующие очки
+Street Eyewear
+Уличные очки
 Goggles
 Гоглы
 Mask
@@ -959,6 +1013,10 @@ Shinobi Mask
 Маска шиноби
 Fox Mask
 Маска лисы
+Anime Lenses
+Аниме Линзы
+Big Mouth Hood
+Капюшон с большим ртом
 Bunny Mask Filigrane
 Маска Кролика Филигрань
 Bunny Mask Leather
@@ -1503,6 +1561,8 @@ Tape Strips
 Ленты
 Pair Of Ben Wa Balls
 пара вагинальных шариков
+Chastity Pouch
+Мешочек целомудрия
 Heavy Weight Clamp
 Тяжелый зажим
 Futuristic Vibrator
@@ -1651,6 +1711,8 @@ Sleek Leather Chastity Belt
 Гладкий кожаный пояс целомудрия
 Studded Chastity Belt
 Шипованный Пояс Верности
+Modular Chastity Belt
+Модульный пояс верности
 Metal Chastity Belt
 Металлический Пояс Верности
 Forbidden Chastity Belt
@@ -1697,6 +1759,8 @@ Leather Strap Body Harness
 Кожаный Ремень Сбруя Для Тела
 Adult Baby Harness
 Сбруя для взрослого ребенка
+Classic Latex Corset
+Классический латексный корсет
 Futuristic Harness
 Футуристическая сбруя
 High Security Harness
@@ -1985,6 +2049,8 @@ Vibrating Wand
 Вибрирующая палочка
 Small Vibe Wand
 Маленькая вибрирующая палочка
+Smartphone
+Смартфон
 Candle Wax
 Свечной воск
 Large Dildo
@@ -2041,6 +2107,8 @@ Hoof Mittens
 Рукавицы-копыта
 Short Smooth Leather Mittens
 Короткие кожаные рукавицы
+Pony Mittens Binder
+Ярмо для варежек пони
 Pom Pom Mitts
 Варежки с помпонами
 Scissors
@@ -2095,6 +2163,8 @@ Steel Collar
 Стальной ошейник
 Dog Collar
 Собачий ошейник
+Extendable Posture Collar
+Ошейник-стойка для осанки
 Spike Collar
 Шипованый ошейник
 High Collar
@@ -2145,6 +2215,12 @@ Latex Collar
 Латексный ошейник
 Techno Collar
 Техно Ошейник
+Latex Ring Collar
+Латексный кольцевой ошейник
+Spiked Choker
+Шипастый чокер
+Padded Belt Collar
+Мягкий поясной ошейник
 Combo Harness
 Комбинированная сбруя
 Boned Neck Corset
@@ -2271,6 +2347,8 @@ Chopstick Gag
 Кляп из Палочек
 Bamboo Gag
 Бамбуковый Кляп
+Big Mouth
+Большой рот
 Harness Ball Gag XL
 Кляп-шар XL со сбруей
 Pumpkin Gag
@@ -2295,6 +2373,10 @@ Silicon Bit Gag
 Силиконовый мундштук кляп
 XL Bone Gag
 XL Костяной кляп
+Modular Gag
+Модульный кляп
+Piercing Gag
+Пирсинг Кляп
 Exposed Dog Muzzle
 Кляп мордочка собаки
 Foxy Harness Gag
@@ -2313,6 +2395,8 @@ Stitched Muzzle Gag
 Сшитый Кляп Намордник
 Latex Ball Muzzle Gag
 Кляп-намордник с латексным шаром
+Latex Muzzle Mask
+Латексная маска для нижней части
 Sock Stuffing
 Начинка из носков
 Respirator Mask
@@ -2410,7 +2494,7 @@ Prison Lockdown Blindfold
 Snorkel
 Дыхательная трубка
 Ribbon Blindfold
-Повязка на глаза Из ленты
+Повязка на глаза из ленты
 Medical Patches
 Медицинские Пластыри
 Smooth Latex Mask
@@ -2431,6 +2515,8 @@ Nose Plugs
 Затычки для носа
 Barbel Piercing
 Пирсинг штанга
+Clown Nose
+Клоунский нос
 Pig Nose Hook
 Крючок Для Свиного Носа
 Blanket Hood
@@ -2473,6 +2559,8 @@ Gwen Hood
 Гвен капюшон
 Doberman Mask
 Маска Добермана
+Space-Style Mask
+Маска космического стиля
 Techno Helmet
 Техно-Шлем
 GGTS Helmet
@@ -2571,6 +2659,14 @@ Secret Suitcase
 Секретный Чемодан
 Unlocked Suitcase
 Незапертый чемодан
+Bunny Plush
+Зайчик плюшевый
+Fox Plush
+Лиса плюшевая
+Pet Rock
+Питомец-камень
+Pet Potato
+питомец-картошка
 Wooden Paddle
 Деревянный падл
 Wooden Sign
@@ -2613,8 +2709,12 @@ Cryogenic Capsule
 Криогенная капсула
 One Bar Prison
 Одиночная стойка
+Personal Cage
+Личная клетка
 Display Frame
 Рамка показа
+Hanging Frame
+Подвесная рамка
 Sybian
 Сибиан
 Smooth Strap On
@@ -2659,6 +2759,8 @@ Pet Bed
 Кровать питомцев
 Transport Box
 Транспортная коробка
+Trolley
+Тележка
 Vac-Cube
 Вакуумный куб
 Pet Bowl
@@ -2707,6 +2809,8 @@ Ceiling Chain
 Потолочная цепь
 Ballet Heels
 Балетные Каблуки
+Ballet Hi-Shoes
+Балетные туфли
 Ballet Wedges
 Балетные Клинья
 Metal Toe Cuffs
@@ -2723,6 +2827,10 @@ Locking Strap Shoes
 Обувь с запирающимся Ремешком
 Locking Full Shoes
 Запирающиеся обувь
+Metal Ballet Heels
+Металлические балетки на каблуках
+Short Pony Boots
+Короткие сапоги пони
 Futuristic Shoes
 Футуристическая обувь
 Locking Boots

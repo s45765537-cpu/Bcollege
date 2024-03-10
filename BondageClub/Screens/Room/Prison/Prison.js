@@ -116,8 +116,8 @@ function PrisonRun() {
 			DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
 		}
 		if (PrisonNextEvent == true && PrisonSubIsPresent == false) {
-			PrisonSub = null;
-			CharacterDelete("NPC_Prison_Sub");
+			CharacterDelete(PrisonSub);
+
 			PrisonSub = CharacterLoadNPC("NPC_Prison_Sub");
 			PrisonSubAppearance = PrisonSub.Appearance.slice();
 			PrisonSubAskedCuff = false;
@@ -141,8 +141,8 @@ function PrisonRun() {
 		if (PrisonPlayerBehindBars) DrawButton(1885, 25, 90, 90, "", "White", "Screens/Room/Prison/ButtonBar.png");
 		DrawButton(1885, 145, 90, 90, "", "White", "Icons/Character.png");
 		if (PrisonNextEvent == true && PrisonPoliceIsPresent == false ) {
-			PrisonPolice = null;
-			CharacterDelete("NPC_Prison_Police");
+			CharacterDelete(PrisonPolice);
+
 			PrisonPolice = CharacterLoadNPC("NPC_Prison_Police");
 			PrisonWearPoliceEquipment(PrisonPolice);
 			PrisonNextEvent = false;
@@ -166,8 +166,8 @@ function PrisonRun() {
 		DrawButton(1885, 145, 90, 90, "", "White", "Icons/Character.png");
 		// Check if the new maid come
 		if (PrisonNextEvent == true && PrisonMaidIsPresent == false ) {
-			PrisonMaid = null;
-			CharacterDelete("NPC_Prison_Maid");
+			CharacterDelete(PrisonMaid);
+
 			PrisonMaid = CharacterLoadNPC("NPC_Prison_Maid");
 			PrisonMaidCharacter = CommonRandomItemFromList(PrisonMaidCharacter, PrisonMaidCharacterList);
 			PrisonNextEvent = false;
@@ -610,8 +610,8 @@ function PrisonMeetPoliceIntro(RoomBackground) {
 
 	CommonSetScreen("Room", "Prison");
 	PrisonBackground = RoomBackground; //"MainHall","Gambling","HorseStable"
-	PrisonPolice = null;
-	CharacterDelete("NPC_Prison_Police");
+	CharacterDelete(PrisonPolice);
+
 	PrisonPolice = CharacterLoadNPC("NPC_Prison_Police");
 	PrisonPolice.AllowItem = false;
 	PrisonWearPoliceEquipment(PrisonPolice);

@@ -25,12 +25,10 @@ function PlatformProfileDrawArrow(SX, SY, TX, TY) {
 }
 
 /**
- * Loads the screen and removes the key listeners
+ * Loads the screen
  * @returns {void} - Nothing
  */
 function PlatformProfileLoad() {
-	window.addEventListener("keydown", PlatformEventKeyDown);
-	window.addEventListener("keyup", PlatformEventKeyUp);
 }
 
 /**

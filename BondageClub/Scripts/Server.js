@@ -20,6 +20,7 @@ var ServerAccountPasswordRegex = /^[a-zA-Z0-9]{1,20}$/;
 var ServerAccountResetNumberRegex = /^[0-9]{1,20}$/;
 var ServerCharacterNameRegex = /^[a-zA-Z ]{1,20}$/;
 var ServerCharacterNicknameRegex = /^[\p{L}\p{Nd}\p{Z}'-]{1,20}$/u;
+var ServerChatMessageMaxLength = 1000;
 
 const ServerScriptMessage = "WARNING! Console scripts can break your account or steal your data. Only run scripts if " +
 	"you know what you're doing and you trust the source. See " +
@@ -51,7 +52,7 @@ function ServerInit() {
 	ServerSocket.on("ChatRoomSyncReorderPlayers", function (data) { ChatRoomSyncReorderPlayers(data); });
 	ServerSocket.on("ChatRoomSyncSingle", function (data) { ChatRoomSyncSingle(data); });
 	ServerSocket.on("ChatRoomSyncExpression", function (data) { ChatRoomSyncExpression(data); });
-	ServerSocket.on("ChatRoomSyncMapData", function (data) { ChatRoomSyncMapData(data); });
+	ServerSocket.on("ChatRoomSyncMapData", function (data) { ChatRoomMapViewSyncMapData(data); });
 	ServerSocket.on("ChatRoomSyncPose", function (data) { ChatRoomSyncPose(data); });
 	ServerSocket.on("ChatRoomSyncArousal", function (data) { ChatRoomSyncArousal(data); });
 	ServerSocket.on("ChatRoomSyncItem", function (data) { ChatRoomSyncItem(data); });
@@ -71,7 +72,7 @@ var ServerAccountUpdate = new class AccountUpdater {
 	constructor() {
 		/**
 		 * @private
-		 * @type {Map<string, object>}
+		 * @type {Map<keyof ServerAccountUpdateRequest, any>}
 		 */
 		this.Queue = new Map;
 		/**
@@ -103,11 +104,11 @@ var ServerAccountUpdate = new class AccountUpdater {
 
 	/**
 	 * Queues a data to be synced at a later time
-	 * @param {object} Data
-	 * @param {true} [Force] - force immediate sync to server
+	 * @param {ServerAccountUpdateRequest} Data
+	 * @param {boolean} [Force] - force immediate sync to server
 	 */
-	QueueData(Data, Force) {
-		for (const [key, value] of Object.entries(Data)) {
+	QueueData(Data, Force=false) {
+		for (const [key, value] of CommonEntries(Data)) {
 			this.Queue.set(key, value);
 		}
 
@@ -184,7 +185,7 @@ function ServerInfo(data) {
 /**
  * Callback used when we are disconnected from the server, try to enter the reconnection mode (relog screen) if the
  * user was logged in
- * @param {*} data - Error to log
+ * @param {ServerForceDisconnectMessage} [data] - Error to log
  * @param {boolean} [close=false] - close the transport
  * @returns {void} - Nothing
  */
@@ -310,6 +311,7 @@ function ServerSendQueueProcess() {
  * @returns {void} - Nothing
  */
 function ServerPlayerSync() {
+	// TODO: `Lover` has been deprecated, do we still need to pass it along here?
 	ServerAccountUpdate.QueueData({ Money: Player.Money, Owner: Player.Owner, Lover: Player.Lover });
 	delete Player.Lover;
 }
@@ -319,6 +321,7 @@ function ServerPlayerSync() {
  * @returns {void} - Nothing
  */
 function ServerPlayerInventorySync() {
+	/** @type {Partial<Record<AssetGroupName, string[]>>} */
 	const Inv = {};
 	for (let I = 0; I < Player.Inventory.length; I++) {
 		if (Player.Inventory[I].Asset != null) {
@@ -374,6 +377,7 @@ function ServerPlayerSkillSync() {
  * @returns {void} - Nothing
  */
 function ServerPlayerRelationsSync() {
+	/** @type {ServerAccountUpdateRequest} */
 	const D = {};
 	D.FriendList = Player.FriendList;
 	D.GhostList = Player.GhostList;
@@ -597,6 +601,7 @@ function ServerPlayerAppearanceSync() {
 
 	// Creates a big parameter string of every appearance items and sends it to the server
 	if (Player.AccountName != "") {
+		/** @type {ServerAccountUpdateRequest} */
 		var D = {};
 		D.AssetFamily = Player.AssetFamily;
 		D.Appearance = ServerAppearanceBundle(Player.Appearance);
@@ -611,8 +616,8 @@ function ServerPlayerAppearanceSync() {
  */
 function ServerPrivateCharacterSync() {
 	if (PrivateVendor != null) {
-		var D = {};
-		D.PrivateCharacter = [];
+		/** @type {{ PrivateCharacter: ServerPrivateCharacterData[] }} */
+		const D = { PrivateCharacter: [] };
 		for (let ID = 1; ID < PrivateCharacter.length; ID++) {
 			var C = {
 				Name: PrivateCharacter[ID].Name,
@@ -654,7 +659,7 @@ function ServerAccountQueryResult(data) {
 
 /**
  * Callback used to parse received information related to a beep from another account
- * @param {object} data - Data object containing the beep object which contain at the very least a name and a member
+ * @param {ServerAccountBeepResponse} data - Data object containing the beep object which contain at the very least a name and a member
  *     number
  * @returns {void} - Nothing
  */
@@ -760,6 +765,7 @@ function ServerOpenFriendList() {
 	CommonSetScreen("Character", "FriendList");
 }
 
+// TODO: `data: object` -> `data: ServerAccountOwnershipResponse`
 /**
  * Callback used to parse received information related to the player ownership data
  * @param {object} data - Data object containing the Owner name and Ownership object
@@ -786,6 +792,7 @@ function ServerAccountOwnership(data) {
 
 }
 
+// TODO: `data: object` -> `data: ServerAccountLovershipResponse`
 /**
  * Callback used to parse received information related to the player lovership data
  * @param {object} data - Data object containing the Lovership array
@@ -849,7 +856,7 @@ function ServerChatRoomGetAllowItem(Source, Target) {
  */
 var ServerAccountDataSyncedValidate = {
 	Title: (arg, C) => {
-		return TitleList.some(t => t.Name === arg) ? /** @type {TitleName} */(arg) : undefined;
+		return TitleList.some(t => t.Name === arg) ? arg : undefined;
 	},
 	Nickname: (arg, C) => {
 		return typeof arg === "string" ? arg : undefined;
@@ -862,16 +869,6 @@ var ServerAccountDataSyncedValidate = {
 	},
 	OnlineSharedSettings: (arg, C) => {
 		return ValdiationApplyRecord(arg, C, PreferenceOnlineSharedSettingsValidate, true);
-	},
-	MapData: (arg, C) => {
-		if (!CommonIsObject(arg)) {
-			arg = {};
-		}
-
-		return {
-			X: CommonIsInteger(arg.X, 0, ChatRoomMapWidth) ? arg.X : 0,
-			Y: CommonIsInteger(arg.Y, 0, ChatRoomMapHeight) ? arg.Y : 0,
-		};
 	},
 	Crafting: (arg, C) => {
 		return CraftingDecompressServerData(arg);
@@ -929,7 +926,13 @@ var ServerAccountDataSyncedValidate = {
 			}
 
 			const { Name, MemberNumber, Stage, Start } = lovership;
-			if (
+			if (typeof Name !== "string") {
+				continue;
+			}
+			if (Name.startsWith("NPC-")) {
+				// @ts-expect-error NPC lovers only have the name; the rest is in their .Event and/or the player's Log
+				ret.push({ Name });
+			} else if (
 				typeof Name === "string"
 				&& CommonIsInteger(MemberNumber, 0)
 				&& (Stage === 0 || Stage === 1 || Stage === 2)
@@ -964,7 +967,7 @@ var ServerAccountDataSyncedValidate = {
 	},
 	BlockItems: (arg, C) => {
 		if (CommonIsArray(arg)) {
-			return /** @type {ItemPermissions[]} */(arg).filter(({ Group, Name }) => AssetMap.has(`${Group}/${Name}`));
+			return arg.filter(({ Group, Name }) => AssetMap.has(`${Group}/${Name}`));
 		} else if (CommonIsObject(arg)) {
 			return CommonUnpackItemArray(arg);
 		} else {
@@ -973,7 +976,7 @@ var ServerAccountDataSyncedValidate = {
 	},
 	LimitedItems: (arg, C) => {
 		if (CommonIsArray(arg)) {
-			return /** @type {ItemPermissions[]} */(arg).filter(({ Group, Name }) => AssetMap.has(`${Group}/${Name}`));
+			return arg.filter(({ Group, Name }) => AssetMap.has(`${Group}/${Name}`));
 		} else if (CommonIsObject(arg)) {
 			return CommonUnpackItemArray(arg);
 		} else {
@@ -982,7 +985,7 @@ var ServerAccountDataSyncedValidate = {
 	},
 	FavoriteItems: (arg, C) => {
 		if (CommonIsArray(arg)) {
-			return /** @type {ItemPermissions[]} */(arg).filter(({ Group, Name }) => AssetMap.has(`${Group}/${Name}`));
+			return arg.filter(({ Group, Name }) => AssetMap.has(`${Group}/${Name}`));
 		} else if (CommonIsObject(arg)) {
 			return CommonUnpackItemArray(arg);
 		} else {

@@ -2692,10 +2692,10 @@ function KinkyDungeonExit() {
 
 /**
  * Handles key presses during the mini game. (Both keyboard and mobile)
- * @returns {void} - Nothing
+ * @type {KeyboardEventListener}
  */
-function KinkyDungeonKeyDown() {
-	// n/a
+function KinkyDungeonKeyDown(event) {
+	return false;
 }
 
 

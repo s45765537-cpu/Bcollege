@@ -4,6 +4,9 @@
  * @type {CanvasRenderingContext2D}
  */
 let MainCanvas;
+const MainCanvasWidth = 2000;
+const MainCanvasHeight = 1000;
+
 /**
  * Temporary GPU-based canvas
  * @type {CanvasRenderingContext2D}
@@ -264,21 +267,28 @@ function DrawArousalMeter(C, X, Y, Zoom) {
  */
 /* eslint-disable-next-line */
 function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
+	// There's a few screens that call us with an invalid character, mainly because screen loading doesn't track when
+	// it actually completes; for example, the Management screen crashes in here, because it can't initialize its NPCs
+	// before the text file for it has been loaded and translated.
+	if (!C) return;
+
 	// Record that the character was drawn this frame
 	DrawLastCharacters.push(C);
 
-	// FIXME: that whole parameter is dangerous, as there's a bunch of calls in here that blindly draw directly onto MainCanvas
+	// FIXME: that whole parameter is dangerous, as there's a bunch of calls in here that blindly draw directly onto MainCanvas.
+	// Since it's only ever used by KD, please keep it that way ❤️
 	if (!DrawCanvas) DrawCanvas = MainCanvas;
 
-	var OverrideDark = (
+	const OverrideDark = (
 		CurrentModule == "MiniGame"
 		|| ((Player.Effect.includes("VRAvatars") && C.Effect.includes("VRAvatars")))
 		|| CurrentScreen == "InformationSheet"
 		|| CurrentScreen === "Crafting"
-		|| (CurrentScreen === "ChatRoom") && (ChatRoomMapVisible === true) && (CurrentCharacter == null)
+		|| CurrentScreen === "Shop2"
+		|| (CurrentScreen === "ChatRoom") && (ChatRoomMapViewIsActive() === true) && (CurrentCharacter == null)
 	);
 
-	if ((C != null) && ((C.IsPlayer()) || (OverrideDark || Player.GetBlindLevel() < 3 ))) {
+	if (C.IsPlayer() || OverrideDark || Player.GetBlindLevel() < 3) {
 
 		CharacterCheckHooks(C, CurrentCharacter != null);
 
@@ -395,7 +405,7 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 
 		// Draw the character name below herself
 		if ((C.Name != "") && ((CurrentModule == "Room") || (CurrentModule == "Online" && !(CurrentScreen == "ChatRoom" && ChatRoomHideIconState >= 3)) || ((CurrentScreen == "Wardrobe") && !C.IsPlayer())) && (CurrentScreen != "Private") && (CurrentScreen != "PrivateBed") && (CurrentScreen != "PrivateRansom"))
-			if ((CurrentScreen !== "ChatRoom") || (ChatRoomMapVisible === false) || (CurrentCharacter != null))
+			if ((CurrentScreen !== "ChatRoom") || (ChatRoomMapViewIsActive() === false) || (CurrentCharacter != null))
 				if ((!Player.IsBlind() && BlurLevel <= 10) || (Player.GameplaySettings && Player.GameplaySettings.SensDepChatLog == "SensDepLight")) {
 					DrawCanvas.font = CommonGetFont(30);
 					const NameOffset = CurrentScreen == "ChatRoom" && (ChatRoomCharacter.length > 5 || (ChatRoomCharacter.length == 5 && CommonPhotoMode)) && CurrentCharacter == null ? -4 : 0;
@@ -1200,21 +1210,67 @@ function DrawLineCorner(x0, y0, x1, y1, x2, y2, lineWidth = 2, color = "black") 
 }
 
 /**
- * Gets the player's custom background based on type
- * @returns {string} - Custom background if applicable, otherwise ""
+ * Gets a character's custom background from the assets it wears
+ *
+ * @param {Character} C - The character to get the background for
+ * @returns {string | undefined} - Path to the custom background, or undefined if none
  */
-function DrawGetCustomBackground() {
-	const blindfold = InventoryGet(Player, "ItemHead");
-	const hood = InventoryGet(Player, "ItemHood");
-	let customBG = "";
+function DrawGetCustomBackground(C) {
+	return C.CustomBackground;
+}
 
-	if (blindfold && blindfold.Property && blindfold.Property.CustomBlindBackground) {
-		customBG = blindfold.Property.CustomBlindBackground;
-	} else if (hood && hood.Property && hood.Property.CustomBlindBackground) {
-		customBG = hood.Property.CustomBlindBackground;
+/**
+ * Draws a background image onto the MainCanvas, applying zoom and visual effects
+ * @param {string} URL The background image to use
+ * @param {Rect} bounds The location to draw the background in
+ * @param {object} [opts] The background drawing options
+ * @param {number} [opts.zoom=1.0] The zoom level to use
+ * @param {boolean} [opts.inverted=false] Whether the background should be flipped upside-down
+ * @param {number} [opts.blur=1.0] How blurry the background is
+ * @param {number} [opts.darken=0.0] How darkened the background is (1 is bright, 0 is pitch black)
+ * @param {RGBAColor[]} [opts.tints] Tints to apply to the background
+ */
+function DrawRoomBackground(URL, bounds, opts) {
+	let { zoom, inverted, blur, darken, tints } = opts;
+	// console.log(`DrawRoomBackground: ${JSON.stringify({URL, bounds, opts})}`);
+	zoom ??= 1.0;
+	inverted ??= false;
+	blur ??= 1.0;
+	darken ??= 1.0;
+	tints ??= [];
+
+	const img = URL !== "" ? DrawGetImage(URL) : undefined;
+	if (darken > 0 && img) {
+		// Sets the blur level
+		if (blur > 0) {
+			MainCanvas.filter = `blur(${blur}px)`;
+		}
+
+		// Draw the background and custom filter
+		const safeWidth = Math.min(bounds.w / zoom, img.naturalWidth);
+		const srcX = ((safeWidth - bounds.w) / 2) * (2 - 1 / zoom);
+		const srcBounds = RectMakeRect(srcX, 0, safeWidth - 2 * srcX, img.naturalHeight);
+		const bgBounds = RectScale(bounds, 1.0, zoom);
+		DrawImageZoomCanvas(URL, MainCanvas, ...RectGetFrame(srcBounds), ...RectGetFrame(bgBounds), inverted);
+
+		if (ChatRoomCustomized && (ChatRoomCustomFilter != null) && (ChatRoomCustomFilter != "")) {
+			DrawRect(...RectGetFrame(RectScale(bounds, 1.0, zoom)), ChatRoomCustomFilter);
+		}
+
+		MainCanvas.filter = 'none';
+
+		// Draw an overlay if the character is partially blinded
+		if (darken < 1) {
+			DrawRect(bounds.x, bounds.y, bounds.w, bounds.h - bounds.y, "rgba(0,0,0," + (1 - darken) + ")");
+		}
+	} else {
+		// Draw black rect to prevent overdraw if the actual image isn't ready
+		DrawRect(...RectGetFrame(bounds), "#000");
 	}
 
-	return customBG;
+	for (const {r, g, b, a} of tints) {
+		DrawRect(bounds.x, bounds.y, bounds.w, bounds.h - bounds.y, `rgba(${r},${g},${b},${a})`);
+	}
 }
 
 /**
@@ -1255,6 +1311,29 @@ function DrawGetScreenFlashAlpha(FlashTime) {
 }
 
 /**
+ * Gets how dark the screen should be.
+ *
+ * The darkness factor varies with blindness level. Some screens also have
+ * a natural darkening effect on them.
+ *
+ * @returns {number} 1 is bright, 0 is pitch black
+ */
+function DrawGetDarkFactor() {
+	let darken = CharacterGetDarkFactor(Player);
+	if (darken == 1 && CurrentCharacter != null && !CommonPhotoMode) darken = 0.5;
+
+	const isItemBG = !!DrawGetCustomBackground(Player);
+	if (isItemBG && (darken === 0.0 || Player.GameplaySettings.SensDepChatLog == "SensDepLight")) {
+		darken = CharacterGetDarkFactor(Player, true);
+	}
+
+	// Apply screen darken
+	darken *= CurrentDarkFactor;
+
+	return darken;
+}
+
+/**
  * Constantly looping draw process. Draws beeps, handles the screen size, handles the current blindfold state and draws the current screen.
  * @param {number} time - The current time for frame
  * @returns {void} - Nothing
@@ -1263,47 +1342,37 @@ function DrawProcess(time) {
 	// Clear the list of characters that were drawn last frame
 	DrawLastCharacters = [];
 
-	// Gets the current screen background and draw it, it becomes darker in dialog mode or if the character is blindfolded
-	let B = window[CurrentScreen + "Background"];
+	// ChatRoom handles its own background drawing.
+	// We do need to draw the full-width background when a dialog is running
+	if (!(CurrentModule === "Online" && CurrentScreen === "ChatRoom" && !CurrentCharacter)) {
 
-	if ((B != null) && (B != "")) {
-		const ValidScreenForVFX = CurrentModule != "Character" && B != "Sheet" && CurrentScreen !== "Crafting";
-		const blurLevel = Player.GetBlurLevel();
-		if (ValidScreenForVFX && blurLevel > 0) {
-			MainCanvas.filter = `blur(${blurLevel}px)`;
+		let bgName = window[CurrentScreen + "Background"];
+
+		// Some screens never display visual effects
+		const skipVFX = !(
+			CurrentModule !== "Character"
+			&& bgName !== "Sheet"
+			&& CurrentScreen !== "Crafting"
+			&& CurrentScreen !== "Shop2"
+		);
+
+		let backgroundURL = "";
+		const itemBackground = DrawGetCustomBackground(Player);
+		if (!skipVFX && itemBackground) {
+			backgroundURL = `Backgrounds/${itemBackground}.jpg`;
+		} else if (bgName) {
+			backgroundURL = `Backgrounds/${bgName}.jpg`;
 		}
 
-		let DarkFactor = 1.0;
-		if (ValidScreenForVFX) {
-			DarkFactor = CharacterGetDarkFactor(Player) * CurrentDarkFactor;
-			if (DarkFactor == 1 && (CurrentCharacter != null || ShopStarted) && !CommonPhotoMode) DarkFactor = 0.5;
+		const bgOptions = {};
+		if (!skipVFX) {
+			bgOptions.blur = Player.GetBlurLevel();
+			bgOptions.inverted = Player.GraphicsSettings && Player.GraphicsSettings.InvertRoom && Player.IsInverted();
+			bgOptions.darken = DrawGetDarkFactor();
+			bgOptions.tints = Player.GetTints();
 		}
-		const Invert = Player.GraphicsSettings && Player.GraphicsSettings.InvertRoom && Player.IsInverted();
-
-		let customBG = DrawGetCustomBackground();
-
-		if (customBG != "" && ValidScreenForVFX) {
-			B = customBG;
-			if (DarkFactor == 0)
-				DarkFactor = CharacterGetDarkFactor(Player, true);
-		}
-
-		if (DarkFactor > 0.0) {
-			if (!DrawImage("Backgrounds/" + B + ".jpg", 0, 0, Invert)) {
-				// Draw empty background to overdraw old content if background image isn't ready
-				DrawRect(0, 0, 2000, 1000, "#000");
-			}
-		}
-		if (DarkFactor < 1.0) DrawRect(0, 0, 2000, 1000, "rgba(0,0,0," + (1.0 - DarkFactor) + ")");
-
-		if (ValidScreenForVFX) {
-			const Tints = Player.GetTints();
-			for (const {r, g, b, a} of Tints) {
-				DrawRect(0, 0, 2000, 1000, `rgba(${r},${g},${b},${a})`);
-			}
-		}
-
-		MainCanvas.filter = 'none';
+		const rect = RectMakeRect(0, 0, MainCanvasWidth, MainCanvasHeight);
+		DrawRoomBackground(backgroundURL, rect, bgOptions);
 	}
 
 	// Draws the dialog screen or current screen if there's no loaded character
@@ -1592,4 +1661,47 @@ function DrawImageTrapezify(image, targetCanvas, topToBottomRatio, x = 0, y = 0)
 		const xStart = (xStartTop * (1 - s) + xStartBottom * s);
 		targetCtx.drawImage(image, 0, i, width, 1, x + xStart, y + i, width - xStart * 2, 1);
 	}
+}
+
+/**
+ * Make a new rect from a 4-tuple
+ * @param {number} x
+ * @param {number} y
+ * @param {number} w
+ * @param {number} h
+ * @returns {Rect}
+ */
+function RectMakeRect(x, y, w, h) {
+	return { x, y, w: Math.max(0, w), h: Math.max(0, h) };
+}
+
+/**
+ * Convert a rect into a 4-tuple
+ * @param {Rect} rect
+ * @returns {RectTuple}
+ */
+function RectGetFrame(rect) {
+	return [rect.x, rect.y, rect.w, rect.h];
+}
+
+/**
+ * Offsets a rect by the given amount
+ * @param {Rect} rect
+ * @param {number} dX
+ * @param {number} dY
+ * @returns {Rect}
+ */
+function RectOffset(rect, dX, dY) {
+	return RectMakeRect(rect.x + dX, rect.y + dY, rect.w, rect.h);
+}
+
+/**
+ * Scale a rect in one direction
+ * @param {Rect} rect
+ * @param {number} wScale
+ * @param {number} hScale
+ * @returns {Rect}
+ */
+function RectScale(rect, wScale, hScale) {
+	return RectMakeRect(rect.x, rect.y, rect.w * wScale, rect.h * hScale);
 }

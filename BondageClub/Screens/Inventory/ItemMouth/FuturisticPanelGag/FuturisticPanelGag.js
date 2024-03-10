@@ -102,6 +102,7 @@ function InventoryItemMouthFuturisticPanelGagPublishActionTrigger(C, Item, Optio
 
 /**
  * Helper function for handling automatic gag inflation and deflation.
+ * @param {ModularItemData} data
  * @param {Character} C - The selected character
  * @param {Item} Item - The item in question
  * @param {ModularItemOption} previousOption
@@ -109,7 +110,7 @@ function InventoryItemMouthFuturisticPanelGagPublishActionTrigger(C, Item, Optio
  * @param {boolean} Deflate - Whether this function is triggered by an automatic deflation or not
  * @returns {ModularItemOption}
  */
-function InventoryItemMouthFuturisticPanelGagTriggerGetOptions(C, Item, previousOption, module, Deflate) {
+function InventoryItemMouthFuturisticPanelGagTriggerGetOptions(data, C, Item, previousOption, module, Deflate) {
 	let GagIndex = previousOption.Index;
 	const GagIndexMax = module.Options.length - 1;
 	let OriginalSetting = Item.Property.OriginalSetting;
@@ -126,7 +127,10 @@ function InventoryItemMouthFuturisticPanelGagTriggerGetOptions(C, Item, previous
 	if (Deflate) {
 		GagIndex = Math.max(OriginalSetting, GagIndex - 1);
 		while (GagIndex > OriginalSetting) {
-			if (InventoryBlockedOrLimited(C, Item, `${module.Key}${GagIndex}`)) {
+			if (
+				InventoryBlockedOrLimited(C, Item, `${module.Key}${GagIndex}`)
+				|| !InventoryAllow(C, Item.Asset, module.Options[GagIndex].Prerequisite ?? [], false)
+			) {
 				GagIndex -= 1;
 			} else {
 				break;
@@ -135,8 +139,17 @@ function InventoryItemMouthFuturisticPanelGagTriggerGetOptions(C, Item, previous
 	} else {
 		GagIndex = Math.min(GagIndexMax, GagIndex + 1);
 		while (GagIndex <= GagIndexMax) {
-			if (InventoryBlockedOrLimited(C, Item, `${module.Key}${GagIndex}`)) {
-				GagIndex = (GagIndex === GagIndexMax) ? previousOption.Index : 1 + GagIndex;
+			if (
+				InventoryBlockedOrLimited(C, Item, `${module.Key}${GagIndex}`)
+				|| !InventoryAllow(C, Item.Asset, module.Options[GagIndex].Prerequisite ?? [], false)
+			) {
+				if (GagIndex === GagIndexMax) {
+					// All higher inflation modes are blocked; just stuck with the original and abort
+					GagIndex = previousOption.Index;
+					break;
+				} else {
+					GagIndex += 1;
+				}
 			} else {
 				break;
 			}
@@ -157,7 +170,7 @@ function InventoryItemMouthFuturisticPanelGagTrigger(data, C, Item, Deflate) {
 	const module = data.modules[0];
 	const previousModuleValues = ModularItemParseCurrent(data, Item.Property.TypeRecord);
 	const previousOption = module.Options[previousModuleValues[0]];
-	const newOption = InventoryItemMouthFuturisticPanelGagTriggerGetOptions(C, Item, previousOption, module, Deflate);
+	const newOption = InventoryItemMouthFuturisticPanelGagTriggerGetOptions(data, C, Item, previousOption, module, Deflate);
 
 	if (newOption.Name === previousOption.Name) {
 		return;

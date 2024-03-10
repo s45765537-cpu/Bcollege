@@ -16,19 +16,24 @@ function GameClubCardGetStatus() {
 
 /**
  * Set the current state of online Club Card.
- * @param {OnlineGameStatus} s
+ * @param {OnlineGameStatus} NewStatus
  * @returns {void}
  */
-function GameClubCardSetStatus(s) {
-	if (!["", "Running"].includes(s))
-		return;
+function GameClubCardSetStatus(NewStatus) {
 
-	if (Player.Game == null || Player.Game.ClubCard == null)
+	if (!["", "Running"].includes(NewStatus)) return;
+
+	let ForceUpdate = false;
+	if (Player.Game == null || Player.Game.ClubCard == null) {
+		ForceUpdate = true;
 		ClubCardCommonLoad();
+	}
 
-	/* @ts-ignore */
-	Player.Game.ClubCard.Status = s;
-	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+	if (ForceUpdate || (NewStatus !== Player.Game.ClubCard.Status)) {
+		Player.Game.ClubCard.Status = NewStatus;
+		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+	}
+
 }
 
 /**
@@ -373,6 +378,9 @@ function GameClubCardLoadData(Packet) {
 	}
 	if (Packet.Data.CCLog != null) ClubCardLogAdd(Packet.Data.CCLog, false);
 
+	// Check the focused card is still in the player's hand
+	ClubCardDefocusCardIfDiscarded();
+
 	// Check if either player has now won
 	ClubCardCheckVictory(ClubCardPlayer[0]);
 	ClubCardCheckVictory(ClubCardPlayer[1]);
@@ -422,12 +430,14 @@ function GameClubCardProcess(Packet) {
 /**
  * Syncs the online data with all players
  * @param {string} Progress - The progress status to push (default to action)
+ * @param {boolean} LocalPlayerOnly - If true, send only the local player. Otherwise, send both.
  * @returns {void} - Nothing
  */
-function GameClubCardSyncOnlineData(Progress = "Action") {
+function GameClubCardSyncOnlineData(Progress = "Action", LocalPlayerOnly = false) {
 	if (!ClubCardIsOnline()) return;
 	let Packet = [];
-	for (let CCPlayer of ClubCardPlayer)
+	for (let CCPlayer of ClubCardPlayer) {
+		if (LocalPlayerOnly && CCPlayer.Character.MemberNumber !== Player.MemberNumber) continue;
 		Packet.push({
 			MemberNumber: CCPlayer.Character.MemberNumber,
 			Playing: (CCPlayer.Index == ClubCardTurnIndex),
@@ -442,6 +452,7 @@ function GameClubCardSyncOnlineData(Progress = "Action") {
 			Board: GameClubCardDoBundle(CCPlayer.Board),
 			Event: GameClubCardDoBundle(CCPlayer.Event, true)
 		});
+	}
 	if (Progress == "Action") ServerSend("ChatRoomGame", { GameProgress: Progress, CCData: Packet });
 	if (Progress == "Query") ServerSend("ChatRoomGame", { GameProgress: Progress, CCData: Packet, Player1: ClubCardOnlinePlayerMemberNumber1, Player2: ClubCardOnlinePlayerMemberNumber2 });
 }

@@ -137,7 +137,7 @@ function InventoryDeleteGroup(C, group, push) {
 * Loads the current inventory for a character, can be loaded from an object of Name/Group or a compressed array using
 * LZString
 * @param {Character} C - The character on which we should load the inventory
-* @param {string | readonly ItemBundle[] | Partial<Record<AssetGroupName, readonly AssetGroupName[]>>} Inventory - An array of Name / Group of items to load
+* @param {string | readonly ItemBundle[] | Partial<Record<AssetGroupName, readonly string[]>>} Inventory - An array of Name / Group of items to load
 */
 function InventoryLoad(C, Inventory) {
 	if (Inventory == null) return;
@@ -176,12 +176,13 @@ function InventoryAvailable(C, InventoryName, InventoryGroup) {
 }
 
 /**
-* Returns an error message if a prerequisite clashes with the character's items and clothes
-* @param {Character} C - The character on which we check for prerequisites
-* @param {AssetPrerequisite} Prerequisite - The name of the prerequisite
-* @returns {string} - The error tag, can be converted to an error message
-*/
-function InventoryPrerequisiteMessage(C, Prerequisite) {
+ * Returns an error message if a prerequisite clashes with the character's items and clothes
+ * @param {Character} C - The character on which we check for prerequisites
+ * @param {AssetPrerequisite} Prerequisite - The name of the prerequisite
+ * @param {null | Asset} asset - The asset (if any) for whom the prerequisite is checked
+ * @returns {string} - The error tag, can be converted to an error message
+ */
+function InventoryPrerequisiteMessage(C, Prerequisite, asset=null) {
 	switch (Prerequisite) {
 		// Basic pose prerequisites
 		case "CanBaseUpper": return !PoseAvailable(C, "BodyUpper", "BaseUpper") ? "CannotBaseUpper" : "";
@@ -208,7 +209,7 @@ function InventoryPrerequisiteMessage(C, Prerequisite) {
 		case "NoItemHands": return (InventoryGet(C, "ItemHands") != null) ? "MustFreeHandsFirst" : "";
 		case "NotKneeling": {
 			return (
-				C.PoseMapping.BodyLower === "Kneel"
+				PoseAllKneeling.some(p => C.PoseMapping.BodyLower === p)
 				&& !PoseAllStanding.some(p => PoseAvailable(C, "BodyLower", p))
 			 ) ? "MustStandUpFirst" : "";
 		}
@@ -290,8 +291,8 @@ function InventoryPrerequisiteMessage(C, Prerequisite) {
 			return C.HasEffect("VulvaShaft") ? "CantCloseOnShaft" : "";
 
 		// Items that require access to a certain character's zone
-		case "AccessMouth": return C.IsMouthBlocked() ? "CannotBeUsedOverGag" : "";
-		case "BlockedMouth": return !C.IsMouthBlocked() ? "MustBeUsedOverGag" : "";
+		case "AccessMouth": return InventoryPrerequisiteConflicts.GagEffect(C, ["BlockMouth"], asset);
+		case "BlockedMouth": return InventoryPrerequisiteConflicts.GagEffect(C, ["BlockMouth"], asset, { errMessage: "MustBeUsedOverGag", invert: true });
 		case "HoodEmpty": return InventoryGet(C, "ItemHood") ? "CannotBeUsedOverMask" : "";
 		case "EyesEmpty": return InventoryGet(C, "ItemHead") ? "CannotBeUsedOverHood" : "";
 
@@ -318,11 +319,11 @@ function InventoryPrerequisiteMessage(C, Prerequisite) {
 		case "RemotesAllowed": return LogQuery("BlockRemoteSelf", "OwnerRule") && C.IsPlayer() ? "OwnerBlockedRemotes" : "";
 
 		// Layered Gags, prevent gags from being equipped over other gags they are incompatible with
-		case "GagUnique": return InventoryPrerequisiteConflictingGags(C, ["GagFlat", "GagCorset", "GagUnique"]);
-		case "GagCorset": return InventoryPrerequisiteConflictingGags(C, ["GagCorset"]);
+		case "GagUnique": return InventoryPrerequisiteConflicts.GagPrerequisite(C, ["GagFlat", "GagCorset", "GagUnique"], asset);
+		case "GagCorset": return InventoryPrerequisiteConflicts.GagPrerequisite(C, ["GagCorset"], asset);
 
 		// There's something in the mouth that's too large to allow that item on
-		case "NotProtrudingFromMouth": return C.Effect.includes("ProtrudingMouth") ? "CannotBeUsedOverGag" : "";
+		case "NotProtrudingFromMouth": return InventoryPrerequisiteConflicts.GagEffect(C, ["ProtrudingMouth"], asset, { errMessage: "CannotBeUsedOverGag" });
 
 		case "NeedsNippleRings": return !InventoryIsItemInList(C, "ItemNipplesPiercings", ["RoundPiercing"]) ? "NeedsNippleRings" : "";
 		case "NeedsHarness": return !CharacterHasItemWithAttribute(C, "CanAttachMittens") ? "NeedsHarness" : "";
@@ -407,38 +408,90 @@ function InventoryHasItemInAnyGroup(C, GroupList) {
 	return GroupList.some(GroupName => !!InventoryGet(C, GroupName));
 }
 
+// FIXME: The `asset` parameters should not accept `null`, but we cannot easily guarantee that it isn't due to
+// `InventoryPrerequisiteMessage` not always having access to the asset (e.g. when checking action
+// prerequisites, for which there really *is* no relevant asset)
 /**
- * Check if there are any gags with prerequisites that block the new gag from being applied
- * @param {Character} C - The character on which we check for prerequisites
- * @param {readonly string[]} BlockingPrereqs - The prerequisites we check for on lower gags
- * @returns {string} - Returns the prerequisite message if the gag is blocked, or an empty string if not
+ * Namespace with functions for identifying asset prerequisite conflicts.
+ * @namespace
  */
-function InventoryPrerequisiteConflictingGags(C, BlockingPrereqs) {
-	// Index of the gag we're trying to add (1-indexed)
-	let GagIndex = 4; // By default, assume no gag slots are allowed to conflict
-	if (C.FocusGroup && C.FocusGroup.Name.startsWith("ItemMouth")) {
-		// If there's a focus group, calculate the gag index
-		GagIndex = Number(C.FocusGroup.Name.replace("ItemMouth", "") || 1);
-	}
-	const MouthItems = [InventoryGet(C, "ItemMouth"), InventoryGet(C, "ItemMouth2"), InventoryGet(C, "ItemMouth3")];
+var InventoryPrerequisiteConflicts = {
+	/**
+	 * The effective "layering" priorities of gags and (potentially) gag-like objects.
+	 * Used for prerequisite checks that only apply to lower gags.
+	 * @type {Partial<Record<AssetGroupName, number>>}
+	 */
+	GagPriorities: {
+		ItemNeck: 0,
+		ItemMouth: 1,
+		ItemMouth2: 2,
+		ItemMouth3: 3,
+		ItemHead: 4,
+		Mask: 5,
+		ItemHood: 6,
+	},
 
-	// If first gag slot is unoccupied, check instead with collar slot
-	// Adds support for collars that include gag to only use first slot
-	const NeckItem = InventoryGet(C, "ItemNeck");
-	if (!MouthItems[0] && NeckItem) MouthItems[0] = NeckItem;
+	/**
+	 * @private
+	 * @template {keyof PropertiesArray} T
+	 * @param {T} fieldName
+	 * @param {Character} C - The character on which we check for prerequisites
+	 * @param {PropertiesArray[T]} blockingPrereqs - The prerequisites we check for on lower gags
+	 * @param {Asset} asset - The new gag
+	 * @param {Object} options
+	 * @param {string} [options.errMessage] - The to-be returned message if the gag is blocked
+	 * @param {boolean} [options.invert] - Whether the prerequisite check should be inverted (_i.e._ if "not any" instead of "any")
+	 * @returns {string} - Returns the error message if the gag is blocked, or an empty string if not
+	 */
+	_GagCheck: function _GagCheck(fieldName, C, blockingPrereqs, asset=null, options=null) {
+		/** @type {readonly unknown[]} */
+		const blockingPrereqsUnknown = blockingPrereqs;
+		const errMessage = options?.errMessage ?? "CannotBeUsedOverGag";
+		const invert = options?.invert ?? false;
 
-	let MinBlockingIndex = 0;
-	for (let i = 0; i < MouthItems.length && !MinBlockingIndex; i++) {
-		// Find the lowest indexed slot in which there is a gag with a prerequisite that blocks the new gag
-		const AssetPrerequisites = MouthItems[i] && MouthItems[i].Asset.Prerequisite;
-		if ((AssetPrerequisites != null) && AssetPrerequisites.some((Prerequisite) => BlockingPrereqs.includes(Prerequisite))) {
-			MinBlockingIndex = i + 1;
-		}
-	}
-	// Not allowed to add the new gag if there is a blocking gag anywhere below it
-	if (MinBlockingIndex && GagIndex > MinBlockingIndex) return "CannotBeUsedOverGag";
-	else return "";
-}
+		/** @type {number | undefined} */
+		const gagPriority = InventoryPrerequisiteConflicts.GagPriorities[asset?.Group?.Name];
+		const gagItems = CommonKeys(InventoryPrerequisiteConflicts.GagPriorities).map(group => InventoryGet(C, group));
+
+		// Find all lower gags in which there is a prerequisite that blocks the new gag
+		const prereqConflicts = gagItems.slice(0, gagPriority).filter(item => {
+			/** @type {readonly unknown[]} */
+			const prereqs = InventoryGetItemProperty(item, fieldName);
+			return prereqs.some((p) => blockingPrereqsUnknown.includes(p));
+		}).filter((item) => item != null);
+
+		const hasConflict = invert ? prereqConflicts.length === 0 : prereqConflicts.length > 0;
+		return hasConflict ? errMessage : "";
+	},
+
+	/**
+	 * Check if there are any lower gags with prerequisites that block the new gag from being applied
+	 * @param {Character} C - The character on which we check for prerequisites
+	 * @param {readonly AssetPrerequisite[]} blockingPrereqs - The prerequisites we check for on lower gags
+	 * @param {Asset} asset - The new gag
+	 * @param {Object} options
+	 * @param {string} [options.errMessage] - The to-be returned message if the gag is blocked
+	 * @param {boolean} [options.invert] - Whether the prerequisite check should be inverted (_i.e._ if "not any" instead of "any")
+	 * @returns {string} - Returns the error message if the gag is blocked, or an empty string if not
+	 */
+	GagPrerequisite: function GagPrerequisite(C, blockingPrereqs, asset=null, options=null) {
+		return InventoryPrerequisiteConflicts._GagCheck("Prerequisite", C, blockingPrereqs, asset, options);
+	},
+
+	/**
+	 * Check if there are any lower gags with effects that block the new gag from being applied
+	 * @param {Character} C - The character on which we check for prerequisites
+	 * @param {readonly EffectName[]} blockingEffects - The prerequisites we check for on lower gags
+	 * @param {Asset} asset - The new gag
+	 * @param {Object} options
+	 * @param {string} [options.errMessage] - The to-be returned message if the gag is blocked
+	 * @param {boolean} [options.invert] - Whether the prerequisite check should be inverted (_i.e._ if "not any" instead of "any")
+	 * @returns {string} - Returns the error message if the gag is blocked, or an empty string if not
+	 */
+	GagEffect: function GagEffect(C, blockingEffects, asset=null, options=null) {
+		return InventoryPrerequisiteConflicts._GagCheck("Effect", C, /** @type {EffectName[]} */(blockingEffects), asset, options);
+	},
+};
 
 /**
  * Returns TRUE if we can add the item, no other items must block that prerequisite
@@ -469,7 +522,7 @@ function InventoryAllow(C, asset, prerequisites = asset.Prerequisite, setDialog 
 
 	let Msg = "";
 	if (!asset.SetPose) {
-		prerequisites.some(prereq => (Msg = InventoryPrerequisiteMessage(checkCharacter, prereq)));
+		prerequisites.some(prereq => (Msg = InventoryPrerequisiteMessage(checkCharacter, prereq, asset)));
 	} else {
 		// In the case of poses the `SetPose`-based prerequisite can fall back to any `AllowActivePose` member of the same category
 		const poseMapping = PoseToMapping.Array(asset.AllowActivePose, "Assset.AllowActivePose");
@@ -478,12 +531,12 @@ function InventoryAllow(C, asset, prerequisites = asset.Prerequisite, setDialog 
 			if (CommonIncludes(posePrereq, prereq)) {
 				const setPose = PoseRecord[/** @type {AssetPoseName} */(prereq.slice(3))];
 				const allowedActivePoses = [...(poseMapping[setPose.Category] || [setPose.Name]), ...(poseMapping.BodyFull || [])];
-				const messages = allowedActivePoses.map(p => InventoryPrerequisiteMessage(checkCharacter, `Can${p}`));
+				const messages = allowedActivePoses.map(p => InventoryPrerequisiteMessage(checkCharacter, `Can${p}`, asset));
 				if (messages.every(Boolean)) {
 					Msg = messages[0];
 				}
 			} else {
-				Msg = InventoryPrerequisiteMessage(checkCharacter, prereq);
+				Msg = InventoryPrerequisiteMessage(checkCharacter, prereq, asset);
 			}
 			if (Msg) {
 				break;
@@ -938,6 +991,18 @@ function InventoryGroupIsBlockedForCharacter(C, GroupName, Activity) {
 }
 
 /**
+ * Returns TRUE if no item can be used by the player on the character because of the map distance
+ * @param {Character} C - The character on which we validate the distance
+ * @returns {boolean} - TRUE if distance is too far
+ */
+function InventoryIsBlockedByDistance(C) {
+	if ((C == null) || C.IsPlayer()) return false;
+	if ((CurrentScreen !== "ChatRoom") || !ChatRoomIsViewActive(ChatRoomMapViewName)) return false;
+	if (ChatRoomMapViewHasSuperPowers() || ChatRoomMapViewCharacterOnInteractionRange(C)) return false;
+	return true;
+}
+
+/**
 * Returns TRUE if the body area is blocked by an owner rule
 * @param {Character} C - The character on which we validate the group
 * @param {AssetGroupName} [GroupName] - The name of the asset group (body area)
@@ -995,6 +1060,9 @@ function InventoryGroupIsBlocked(C, GroupName, Activity) {
 
 	// Checks for regular blocks
 	if (InventoryGroupIsBlockedForCharacter(C, GroupName, Activity)) return true;
+
+	// Check for map range
+	if (InventoryIsBlockedByDistance(C)) return true;
 
 	// If the player is enclosed, all groups for another character are blocked
 	if ((!C.IsPlayer()) && Player.IsEnclose()) return true;
@@ -1290,7 +1358,6 @@ function InventoryLock(C, Item, Lock, MemberNumber, Update = true) {
 	if (!Item.Property.MemberNumberListKeys && Lock.Asset.Name == "HighSecurityPadlock") Item.Property.MemberNumberListKeys = "" + MemberNumber;
 	Item.Property.LockedBy = /** @type AssetLockType */(Lock.Asset.Name);
 	if (MemberNumber != null) Item.Property.LockMemberNumber = MemberNumber;
-	if (typeof MemberNumber === "number" && Lock.Asset.Name == "FamilyPadlock" && C.IsInFamilyOfMemberNumber(MemberNumber)) Item.Property.LockMemberNumber = C.Ownership.MemberNumber;
 
 	/** @type {Parameters<ExtendedItemCallbacks.Init>} */
 	const args = [C, Item, false, false];

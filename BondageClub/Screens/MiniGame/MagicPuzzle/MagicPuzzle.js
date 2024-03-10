@@ -224,11 +224,14 @@ function MagicPuzzleClick() {
 
 /**
  * Handles the key press in the mini game, the C key for cheats adds 5 seconds to the enemy timer
- * @returns {void} - Nothing
+ * @type {KeyboardEventListener}
  */
-function MagicPuzzleKeyDown() {
-	if (MiniGameCheatKeyDown() && (MagicPuzzleTimer > 0) && !MagicPuzzleAutoExit)
+function MagicPuzzleKeyDown(event) {
+	if (MiniGameCheatKeyDown(event) && (MagicPuzzleTimer > 0) && !MagicPuzzleAutoExit) {
 		MagicPuzzleTimer = MagicPuzzleTimer + 5000;
+		return true;
+	}
+	return false;
 }
 
 /**

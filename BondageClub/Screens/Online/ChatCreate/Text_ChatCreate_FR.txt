@@ -15,8 +15,8 @@ Locked (Only admins can leave or enter)
 Verrouillée (Seulement les admins peuvent entrées/quittées)
 Background
 Fond
-Size (2-10)
-Taille (2 à 10)
+Size (2-20)
+Taille (2 à 20)
 Create
 Créer
 Cancel

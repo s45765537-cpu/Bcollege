@@ -204,8 +204,8 @@ Bondage:
 捆綁：
 Self-bondage:
 自縛：
-Lock-Picking:
-開鎖：
+Lockpicking:
+撬鎖：
 Evasion:
 逃脫：
 Willpower:
@@ -214,10 +214,8 @@ Infiltration:
 潛入：
 Dressage:
 馬術：
-Skills modifier:
-技能倍率：
- Time left:
-剩餘時間：
+ABSVAL for DURATION
+ABSVAL持續了DURATION
 - Traits -
 - 特點 -
 Spend more time with her to know her traits

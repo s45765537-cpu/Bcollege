@@ -61,6 +61,11 @@ interface HTMLElement {
 	removeAttribute(qualifiedName: string): void;
 }
 
+interface GamepadButton {
+	/** Whether the button was pressed the last input event */
+	repeat: boolean;
+}
+
 interface RGBColor {
 	r: number;
 	g: number;
@@ -70,6 +75,8 @@ interface RGBColor {
 interface RGBAColor extends RGBColor {
 	a: number;
 }
+
+type Rect = { x: number, y: number, w: number, h: number };
 
 /** A 4-tuple with X & Y coordinates, width and height */
 type RectTuple = [X: number, Y: number, W: number, H: number];
@@ -93,9 +100,34 @@ interface CommonGenerateGridParameters {
 	itemWidth: number,
 	/** Height of one grid item */
 	itemHeight: number,
+	/**
+	 * Margin of one grid item in the X direction.
+	 * Not giving a value will calculate a margin from the item's size and the grid size
+	 */
+	itemMarginX?: number;
+	/**
+	 * Margin of one grid item in the Y direction
+	 * Not giving a value will calculate a margin from the item's size and the grid size
+	 */
+	itemMarginY?: number;
+	/**
+	 * The direction the items are layed out
+	 * @default "horizontal"
+	 */
+	direction?: "horizontal" | "vertical";
 }
 
 type CommonGenerateGridCallback<T> = (item: T, x: number, y: number, width: number, height: number) => boolean;
+
+/**
+ * An object for holding arbitrary values with a mechanism to reset them to a default
+ */
+type VariableContainer<T1, T2> = T1 & T2 & {
+	/** Default values that should be restored to the container upon calling {@link Reset} */
+	readonly Defaults: Readonly<T1>,
+	/** Restore the container to its default state */
+	readonly Reset: () => void,
+}
 
 //#endregion
 
@@ -172,7 +204,7 @@ type EffectName =
 	GagEffectName | BlindEffectName | BlurEffectName | DeafEffectName |
 	"Freeze" | "BlockWardrobe" | "Block" | "Mounted" |
 	"CuffedFeet" | "CuffedLegs" | "CuffedArms" | "IsChained" | "FixedHead" | "MergedFingers" |
-	"Shackled" | "Tethered" | "Enclose" | "OneWayEnclose" | "OnBed" | "Lifted" | "Suspended" |
+	"Shackled" | "Tethered" | "MapImmobile" | "Enclose" | "OneWayEnclose" | "OnBed" | "Lifted" | "Suspended" |
 	"Slow" | "FillVulva" | "VulvaShaft" | "IsPlugged" |
 	"Egged" | "Vibrating" |
 	"Edged" | "DenialMode" | "RuinOrgasms" |
@@ -235,7 +267,7 @@ type AssetGroupItemName =
 type AssetGroupScriptName = 'ItemScript';
 
 type AssetGroupBodyName =
-	ExpressionGroupName | 'BodyLower' | 'BodyUpper' | 'Bra' | 'Bracelet' | 'Cloth' |
+	ExpressionGroupName | 'BodyLower' | 'BodyUpper' | 'BodyMarkings' | 'Bra' | 'Bracelet' | 'Cloth' |
 	'ClothAccessory' | 'ClothLower' | 'Corset' | 'EyeShadow' | 'FacialHair' | 'Garters' | 'Glasses' | 'Gloves' |
 	'HairAccessory1' | 'HairAccessory2' | 'HairAccessory3' | 'HairBack' |
 	'HairFront' | 'FacialHair' | 'Hands' | 'Hat' | 'Head' | 'Height' | 'Jewelry' | 'LeftAnklet' | 'LeftHand' | 'Mask' |
@@ -348,7 +380,7 @@ type GraphicsFontName =
 type PreferenceSubscreenName =
 	"General" | "Difficulty" | "Restriction" | "Chat" | "CensoredWords" | "Audio" | "Arousal" |
 	"Security" | "Online" | "Visibility" | "Immersion" | "Graphics" | "Controller" | "Notifications" |
-	"Gender" | "Scripts"
+	"Gender" | "Scripts" | "Extensions"
 	;
 
 type FetishName =
@@ -765,7 +797,6 @@ interface Asset {
 	readonly ActivityExpression: Readonly<Partial<Record<ActivityName, readonly ExpressionTrigger[]>>>;
 	readonly AllowActivityOn?: readonly AssetGroupItemName[];
 	readonly BuyGroup?: string;
-	readonly PrerequisiteBuyGroups?: readonly string[];
 	readonly Effect: readonly EffectName[];
 	readonly Bonus?: AssetBonusName;
 	readonly Block?: readonly AssetGroupItemName[];
@@ -785,6 +816,7 @@ interface Asset {
 	/** @deprecated Use {@link Asset.AllowActivePose} instead */
 	readonly WhitelistActivePose?: never;
 	readonly Value: number;
+	readonly NeverSell: boolean;
 	readonly Difficulty: number;
 	readonly SelfBondage: number;
 	readonly SelfUnlock: boolean;
@@ -975,7 +1007,20 @@ interface Item {
 
 type FavoriteIcon = "Favorite" | "FavoriteBoth" | "FavoritePlayer";
 type ItemEffectIcon = "BlindLight" | "BlindNormal" | "BlindHeavy" | "DeafLight" | "DeafNormal" | "DeafHeavy" | "GagLight" | "GagNormal" | "GagHeavy" | "GagTotal";
-type InventoryIcon = FavoriteIcon | ItemEffectIcon | "AllowedLimited" | "Handheld" | "Locked" | "LoverOnly" | "FamilyOnly" | "OwnerOnly" | "Unlocked" | AssetLockType;
+type ShopIcon = "Extended" | "BuyGroup";
+type InventoryIcon = (
+	FavoriteIcon
+	| ItemEffectIcon
+	| "AllowedLimited"
+	| "Handheld"
+	| "Locked"
+	| "LoverOnly"
+	| "FamilyOnly"
+	| "OwnerOnly"
+	| "Unlocked"
+	| AssetLockType
+	| ShopIcon
+);
 
 interface InventoryItem {
 	Group: AssetGroupName;
@@ -1126,19 +1171,61 @@ interface DialogInfo {
 	name: string;
 }
 
+/** The packed representation of a Private Room NPC */
+interface PrivateCharacterData {
+	Name: string;
+	Love: number;
+	Title: TitleName;
+	Trait: NPCTrait[];
+	Cage: boolean;
+	Owner: string;
+	Lover: string;
+	AssetFamily: "Female3DCG";
+	Appearance: AppearanceBundle,
+	AppearanceFull: AppearanceBundle,
+	ArousalSettings: Character["ArousalSettings"];
+	Event: NPCTrait[];
+	FromPandora?: boolean;
+}
+
 interface Character {
+	/**
+	 * The character's cache slot ID in the Character array
+	 *
+	 * Usually meaningless, except that ID 0 is always the player,
+	 * but please use `IsPlayer()` instead of checking that.
+	 */
 	ID: number;
-	/** Only on `Player` */
-	OnlineID?: string;
+	/**
+	 * The unique identifier for the character
+	 *
+	 * A value of `""` indicates the player before the login happens
+	 */
+	CharacterID: string;
+	/** The type of character: online, npc, or simple */
 	Type: CharacterType;
+	/**
+	 * The character's account name
+	 *
+	 * Note that it's only meaningful for the logged in player as the server never provides account names.
+	 * Online characters will use `"Online-"` plus their character ID, NPCs will have their dialog identifier,
+	 * and simple characters set it to CharacterID.
+	 */
+	AccountName: string;
 	/**
 	 * The character's loaded dialog info
 	 */
 	DialogInfo?: DialogInfo;
+	/**
+	 * A deprecated identifier for online characters
+	 * Only exists on the player, has the same value as their character ID.
+	 * @deprecated
+	 */
+	OnlineID?: string;
+	/** The asset family used by the character */
+	AssetFamily: IAssetFamily;
 	Name: string;
 	Nickname?: string;
-	AssetFamily: IAssetFamily;
-	AccountName: string;
 	Owner: string;
 	Lover: string;
 	Money: number;
@@ -1252,6 +1339,7 @@ interface Character {
 	IsOwnedByPlayer: () => boolean;
 	IsOwner: () => boolean;
 	IsKneeling: () => boolean;
+	IsStanding: () => boolean;
 	IsNaked: () => boolean;
 	IsDeaf: () => boolean;
 	IsGagged: () => boolean;
@@ -1335,6 +1423,11 @@ interface Character {
 	StatusTimer?: number;
 	Crafting?: (null | CraftingItem)[];
 	LastMapData?: ChatRoomMapData;
+	/**
+	 * The custom background to use for the current room
+	 * Only valid on {@link Player}
+	 */
+	CustomBackground?: string;
 }
 
 interface CharacterGameParameters {
@@ -1389,14 +1482,9 @@ interface NPCCharacter extends Character {
 	Domination?: number;
 }
 
-/** College */
+/** College & Asylum */
 interface NPCCharacter {
 	GoneAway?: boolean;
-}
-
-/** Asylum */
-interface NPCCharacter {
-	RunAway?: boolean;
 }
 
 /** Movie Studio */
@@ -1482,141 +1570,38 @@ interface ExtensionSettings {
 	[key: string]: any;
 }
 
+interface ControllerSettingsOld {
+	ControllerA: number;
+	ControllerB: number;
+	ControllerX: number;
+	ControllerY: number;
+	ControllerStickUpDown: number;
+	ControllerStickLeftRight: number;
+	ControllerStickRight: number;
+	ControllerStickDown: number;
+	ControllerDPadUp: number;
+	ControllerDPadDown: number;
+	ControllerDPadLeft: number;
+	ControllerDPadRight: number;
+}
+
 interface PlayerCharacter extends Character {
 	// PreferenceInitPlayer() must be updated with defaults, when adding a new setting
-	ChatSettings?: {
-		ColorActions: boolean;
-		ColorActivities: boolean;
-		ColorEmotes: boolean;
-		ColorNames: boolean;
-		ColorTheme: ChatColorThemeType;
-		DisplayTimestamps: boolean;
-		EnterLeave: ChatEnterLeaveType;
-		FontSize: ChatFontSizeType;
-		MemberNumbers: ChatMemberNumbersType;
-		MuStylePoses: boolean;
-		ShowActivities: boolean;
-		ShowAutomaticMessages: boolean;
-		ShowBeepChat: boolean;
-		ShowChatHelp: boolean;
-		ShrinkNonDialogue: boolean;
-		WhiteSpace: "" | "Preserve";
-		/** @deprecated */
-		AutoBanBlackList?: any;
-		/** @deprecated */
-		AutoBanGhostList?: any;
-		/** @deprecated */
-		SearchFriendsFirst?: any;
-		/** @deprecated */
-		DisableAnimations?: any;
-		/** @deprecated */
-		SearchShowsFullRooms?: any;
-		CensoredWordsList: string;
-		CensoredWordsLevel: number;
-	};
-	VisualSettings?: {
-		ForceFullHeight?: boolean;
-		UseCharacterInPreviews?: boolean;
-		MainHallBackground?: string;
-		PrivateRoomBackground?: string;
-	};
-	AudioSettings?: {
-		Volume: number;
-		MusicVolume: number;
-		PlayBeeps: boolean;
-		/** Play items sounds in chatrooms */
-		PlayItem: boolean;
-		/** Play sounds only if the player is involved */
-		PlayItemPlayerOnly: boolean;
-		Notifications: boolean;
-	};
-	ControllerSettings?: {
-		ControllerSensitivity: number;
-		ControllerDeadZone: number;
-		ControllerA: number;
-		ControllerB: number;
-		ControllerX: number;
-		ControllerY: number;
-		ControllerStickUpDown: number;
-		ControllerStickLeftRight: number;
-		ControllerStickRight: number;
-		ControllerStickDown: number;
-		ControllerDPadUp: number;
-		ControllerDPadDown: number;
-		ControllerDPadLeft: number;
-		ControllerDPadRight: number;
-		ControllerActive: boolean;
-	};
-	GameplaySettings?: {
-		SensDepChatLog: SettingsSensDepName;
-		BlindDisableExamine: boolean;
-		DisableAutoRemoveLogin: boolean;
-		ImmersionLockSetting: boolean;
-		EnableSafeword: boolean;
-		DisableAutoMaid: boolean;
-		OfflineLockedRestrained: boolean;
-	};
-	ImmersionSettings?: {
-		BlockGaggedOOC: boolean;
-		StimulationEvents: boolean;
-		ReturnToChatRoom: boolean;
-		ReturnToChatRoomAdmin: boolean;
-		ChatRoomMapLeaveOnExit: boolean;
-		SenseDepMessages: boolean;
-		ChatRoomMuffle: boolean;
-		BlindAdjacent: boolean;
-		AllowTints: boolean;
-	};
+	ChatSettings?: ChatSettingsType;
+	VisualSettings?: VisualSettingsType;
+	AudioSettings?: AudioSettingsType;
+	ControllerSettings?: ControllerSettingsType;
+	GameplaySettings?: GameplaySettingsType;
+	ImmersionSettings?: ImmersionSettingsType;
 	/** The chat room we were previous in. Used for relog room re-creation */
 	// TODO: the fact that this is set *might* be used to also fold the "relog" enabled checks
 	// If we have a chatroom, then we relog to it. If we don't, then the player didn't have the
 	// setting enabled in the first place
 	LastChatRoom?: ChatRoomSettings;
-	RestrictionSettings?: {
-		BypassStruggle: boolean;
-		SlowImmunity: boolean;
-		BypassNPCPunishments: boolean;
-	};
+	RestrictionSettings?: RestrictionSettingsType;
 	OnlineSettings?: PlayerOnlineSettings;
-	GraphicsSettings?: {
-		Font: GraphicsFontName;
-		InvertRoom: boolean;
-		StimulationFlashes: boolean;
-		DoBlindFlash: boolean;
-		AnimationQuality: number;
-		StimulationFlash: boolean;
-		SmoothZoom: boolean;
-		CenterChatrooms: boolean;
-		AllowBlur: boolean;
-	}
-	NotificationSettings?: {
-		/** @deprecated */
-		Audio?: boolean;
-		Beeps: NotificationSetting;
-		/** @deprecated */
-		Chat?: any;
-		ChatMessage: NotificationSetting & {
-			/** @deprecated */
-			IncludeActions?: any;
-			Mention?: boolean;
-			Normal?: boolean;
-			Whisper?: boolean;
-			Activity?: boolean;
-		};
-		/** @deprecated */
-		ChatActions?: any;
-		ChatJoin: NotificationSetting & {
-			/** @deprecated */
-			Enabled?: any;
-			Owner?: boolean;
-			Lovers?: boolean;
-			Friendlist?: boolean;
-			Subs?: boolean;
-		};
-		Disconnect: NotificationSetting;
-		Larp: NotificationSetting;
-		Test: NotificationSetting;
-	};
+	GraphicsSettings?: GraphicsSettingsType;
+	NotificationSettings?: NotificationSettingsType;
 	GhostList?: number[];
 	Wardrobe?: ItemBundle[][];
 	WardrobeCharacterNames?: string[];
@@ -1626,13 +1611,152 @@ interface PlayerCharacter extends Character {
 	FriendNames?: Map<number, string>;
 	SubmissivesList?: Set<number>;
 	ChatSearchFilterTerms?: string;
-	GenderSettings: {
-		HideShopItems: GenderSetting;
-		AutoJoinSearch: GenderSetting;
-	};
+	GenderSettings: GenderSettingsType;
 	/** The list of items we got confiscated in the Prison */
 	ConfiscatedItems?: { Group: AssetGroupName, Name: string }[];
 	ExtensionSettings: ExtensionSettings;
+}
+
+/** A type defining which genders a setting is active for */
+interface GenderSetting {
+	/** Whether the setting is active for female cases */
+	Female: boolean;
+	/** Whether the setting is active for male cases */
+	Male: boolean;
+}
+
+interface GenderSettingsType {
+	HideShopItems: GenderSetting;
+	AutoJoinSearch: GenderSetting;
+}
+
+interface NotificationSettingsType {
+	/** @deprecated */
+	Audio?: boolean;
+	Beeps: NotificationSetting;
+	/** @deprecated */
+	Chat?: any;
+	ChatMessage: NotificationSetting & {
+		/** @deprecated */
+		IncludeActions?: any;
+		Mention?: boolean;
+		Normal?: boolean;
+		Whisper?: boolean;
+		Activity?: boolean;
+	};
+	/** @deprecated */
+	ChatActions?: any;
+	ChatJoin: NotificationSetting & {
+		/** @deprecated */
+		Enabled?: any;
+		Owner?: boolean;
+		Lovers?: boolean;
+		Friendlist?: boolean;
+		Subs?: boolean;
+	};
+	Disconnect: NotificationSetting;
+	Larp: NotificationSetting;
+	Test: NotificationSetting;
+}
+
+interface GraphicsSettingsType {
+	Font: GraphicsFontName;
+	InvertRoom: boolean;
+	StimulationFlashes: boolean;
+	DoBlindFlash: boolean;
+	AnimationQuality: number;
+	StimulationFlash: boolean;
+	SmoothZoom: boolean;
+	CenterChatrooms: boolean;
+	AllowBlur: boolean;
+}
+
+interface RestrictionSettingsType {
+	BypassStruggle: boolean;
+	SlowImmunity: boolean;
+	BypassNPCPunishments: boolean;
+}
+
+interface ImmersionSettingsType {
+	BlockGaggedOOC: boolean;
+	StimulationEvents: boolean;
+	ReturnToChatRoom: boolean;
+	ReturnToChatRoomAdmin: boolean;
+	ChatRoomMapLeaveOnExit: boolean;
+	SenseDepMessages: boolean;
+	ChatRoomMuffle: boolean;
+	BlindAdjacent: boolean;
+	AllowTints: boolean;
+}
+
+type ControllerButton = typeof ControllerButton[keyof typeof ControllerButton];
+type ControllerAxis = typeof ControllerAxis[keyof typeof ControllerAxis];
+
+interface ControllerSettingsType {
+	ControllerActive: boolean;
+	ControllerSensitivity: number;
+	ControllerDeadZone: number;
+	Buttons: Record<ControllerButton, number>;
+	Axis: Record<ControllerAxis, number>;
+}
+
+interface ChatSettingsType {
+	ColorActions: boolean;
+	ColorActivities: boolean;
+	ColorEmotes: boolean;
+	ColorNames: boolean;
+	ColorTheme: ChatColorThemeType;
+	DisplayTimestamps: boolean;
+	EnterLeave: ChatEnterLeaveType;
+	FontSize: ChatFontSizeType;
+	MemberNumbers: ChatMemberNumbersType;
+	MuStylePoses: boolean;
+	ShowActivities: boolean;
+	ShowAutomaticMessages: boolean;
+	ShowBeepChat: boolean;
+	ShowChatHelp: boolean;
+	ShrinkNonDialogue: boolean;
+	WhiteSpace: "" | "Preserve";
+	/** @deprecated */
+	AutoBanBlackList?: any;
+	/** @deprecated */
+	AutoBanGhostList?: any;
+	/** @deprecated */
+	SearchFriendsFirst?: any;
+	/** @deprecated */
+	DisableAnimations?: any;
+	/** @deprecated */
+	SearchShowsFullRooms?: any;
+	CensoredWordsList: string;
+	CensoredWordsLevel: number;
+}
+
+interface GameplaySettingsType {
+	SensDepChatLog: SettingsSensDepName;
+	BlindDisableExamine: boolean;
+	DisableAutoRemoveLogin: boolean;
+	ImmersionLockSetting: boolean;
+	EnableSafeword: boolean;
+	DisableAutoMaid: boolean;
+	OfflineLockedRestrained: boolean;
+}
+
+interface AudioSettingsType {
+	Volume: number;
+	MusicVolume: number;
+	PlayBeeps: boolean;
+	/** Play items sounds in chatrooms */
+	PlayItem: boolean;
+	/** Play sounds only if the player is involved */
+	PlayItemPlayerOnly: boolean;
+	Notifications: boolean;
+}
+
+interface VisualSettingsType {
+	ForceFullHeight?: boolean;
+	UseCharacterInPreviews?: boolean;
+	MainHallBackground?: string;
+	PrivateRoomBackground?: string;
 }
 
 /**
@@ -1653,16 +1777,18 @@ interface PlayerOnlineSettings {
 
 /** Pandora Player extension */
 interface PlayerCharacter {
-	Infiltration?: {
-		Punishment?: {
-			Minutes: number;
-			Timer?: number;
-			Background: string;
-			Difficulty: number;
-			FightDone?: boolean;
-		}
-		Perks?: string;
+	Infiltration?: InfiltrationType;
+}
+
+interface InfiltrationType {
+	Punishment?: {
+		Minutes: number;
+		Timer?: number;
+		Background: string;
+		Difficulty: number;
+		FightDone?: boolean;
 	}
+	Perks?: string;
 }
 
 /** Kinky Dungeon Player extension */
@@ -3674,6 +3800,73 @@ interface ArousalSettingsType {
 	DisableAdvancedVibes: boolean;
 }
 
+/** Preference Menu info for extensions settings*/
+interface PreferenceExtensionsSettingItem {
+	/**
+	 * The identifier of the extension.
+	 * This is used to identify the extension and should be unique.
+	 */
+	Identifier: string;
+
+	/**
+	 * The button text for the button of extension.
+	 * If it's a Function, it will be called once when entering
+	 * the extension setting menu. Use the return value as button text.
+	 */
+	ButtonText: string | (()=>string);
+
+	/**
+	 * The image path of the extension, and is passed
+	 * into {@link DrawButton} for creating the HTMLImageElement
+	 * that is needed for drawing the Button image.
+	 * If it's a Function, it will be called once when entering
+	 * the extension setting menu. Use the return value as image
+	 * path.
+	 * If it's undefined, there will be no image for the button
+	 */
+	Image?: string | (()=>string);
+
+	/** Handles loading on entering the extension setting */
+	load?: () => void;
+
+	/** Handles the clicks of the extension setting */
+	click: () => void;
+
+	/** Handles the run and draws of the extension setting */
+	run: () => void;
+
+	/**
+	 * Handles the unloading of the extension setting, typically
+	 * from {@link CommonSetScreen}, when the player is disconnected.
+	 * If it's undefined, there will be no unloading for the extension
+	 * setting.
+	 * Remind to check those HTML elements that are created in the
+	 * extension setting, and hide/remove them from the DOM.
+	 * Note that HTML elements with `HideOnPopup` class will be hidden
+	 * automatically when a popup is shown.
+	 */
+	unload?: () => void;
+
+	/**
+	 * Handles the exits of the extension setting, typically when
+	 * user press `Esc` key.
+	 * If a extension wants to exit the menu by itself
+	 * (clicking `exit` button, etc.), the extension should call
+	 * `PreferenceSubscreenExtensionsClear`.
+	 * @returns If it returns `true`, the extension setting will be unload.
+	 * And `unload` will be called once if it's defined and then main extension
+	 * setting page is shown.
+	 */
+	exit: () => boolean | void;
+}
+
+/** Preference Menu info for extensions settings*/
+type PreferenceExtensionsMenuButtonInfo = {
+	Button: string;
+	Image?: string;
+	click: () => void;
+}
+
 // #end region
 
 // #region fortune wheel
@@ -3773,6 +3966,25 @@ interface PreviewDrawOptions {
 
 // #region Chat Room Maps
 
+interface ChatRoomView {
+	Activate?: () => void;
+	Deactivate?: () => void;
+	Run: () => void;
+	Draw: () => void;
+	DrawUi: () => void;
+	DisplayMessage: (data: ServerChatRoomMessage, msg: string, SenderCharacter: Character, metadata: IChatRoomMessageMetadata) => string|null;
+	Click?: (event: MouseEvent | TouchEvent) => void;
+	MouseDown?: (event: MouseEvent | TouchEvent) => void;
+	MouseUp?: (event: MouseEvent | TouchEvent) => void;
+	MouseMove?: (event: MouseEvent | TouchEvent) => void;
+	MouseWheel?: (event: MouseEvent | TouchEvent) => void;
+	KeyDown?: (event: KeyboardEvent) => boolean;
+	SyncRoomProperties?: (data: ServerChatRoomSyncMessage) => void;
+	CanStartWhisper?: (C: Character) => boolean;
+	CanLeave?: () => boolean;
+	Screenshot: () => void;
+}
+
 type ChatRoomMapType = "Always" | "Hybrid" | "Never";
 
 type ChatRoomMapPos = {
@@ -3790,6 +4002,7 @@ type ChatRoomMapDirection = "" | "R" | "L" | "D" | "U";
 type ChatRoomMapObjectType = (
 	"FloorDecoration"
 	| "FloorDecorationThemed"
+	| "FloorDecorationParty"
 	| "FloorItem"
 	| "FloorObstacle"
 	| "WallDecoration"
@@ -3839,6 +4052,35 @@ interface ChatRoomMapMovement {
 
 // #endregion
 
+// #region shop
+
+/** The current shop mode */
+type ShopMode = "Buy" | "Sell" | "Preview" | "Color" | "Extended";
+
+/** The current dressing state of the preview character */
+type ShopClothesMode = "Clothes" | "Underwear" | "Cosplay" | "Nude";
+
+interface ShopScreenFunctions extends Omit<Partial<ScreenFunctions>, "Run"> {
+	Run(time: number, ...coords: RectTuple): void,
+	/** Coordinates associated with a particular to-be drawn/clicked element */
+	Coords: RectTuple,
+	/** A set of shop modes for which the screen functions must be active */
+	Mode: Set<ShopMode>,
+}
+
+interface ShopItem {
+	/** The underlying asset */
+	readonly Asset: Asset,
+	/** The assets sorting priority within the asset list; lower values take priority */
+	readonly SortPriority: number,
+	/** Whether an item should never be able to be sold */
+	readonly NeverSell: boolean,
+	/** Whether the asset can be bought; `false` implies that it can be sold */
+	Buy: boolean,
+}
+
+// #endregion
+
 // #region deprecation
 
 /** @deprecated superseded by {@link PoseAvailable} */
@@ -3855,5 +4097,5 @@ declare const CharacterItemsHavePoseType: never;
 declare const CharacterLoadPose: never;
 /** @deprecated superseded by {@link PoseToMapping} */
 declare const AssetPoseToMapping: never;
-
-// #end region
+/** @deprecated superseded by {@link InventoryPrerequisiteConflicts.GagPrerequisite} */
+declare const InventoryPrerequisiteConflictingGags: never;

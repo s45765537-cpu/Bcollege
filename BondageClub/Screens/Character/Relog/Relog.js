@@ -76,10 +76,15 @@ function RelogClick() {
 
 /**
  * Handles player keyboard events on the relog screen
- * @returns {void} Nothing
+ * @type {KeyboardEventListener}
  */
-function RelogKeyDown() {
-	if (KeyPress == 13) RelogSend(); // On an "enter" key press, try to relog the player
+function RelogKeyDown(event) {
+	if (event.key === "Enter") {
+		// On an "enter" key press, try to relog the player
+		RelogSend();
+		return true;
+	}
+	return false;
 }
 
 /**

@@ -960,7 +960,7 @@ var StableSecondProgress = -1;
 var StableProgressAuto = 0;
 var StableSecondProgressAuto = 0;
 var StableProgressClick = 0;
-var StableProgressLastKeyPress = 0;
+var StableProgressLastKeyPress = null;
 var StableProgressItem = '';
 var StableProgressFinished = false;
 var StableProgressCharacter = null;
@@ -1078,11 +1078,16 @@ function StableGenericProgressEnd() {
 	}
 }
 
-function StableKeyDown() {
-	if (((KeyPress == 65) || (KeyPress == 83) || (KeyPress == 97) || (KeyPress == 115)) && (StableProgress >= 0)) {
-		StableGenericRun((StableProgressLastKeyPress == KeyPress));
-		StableProgressLastKeyPress = KeyPress;
+/** @type {KeyboardEventListener} */
+function StableKeyDown(event) {
+	if (event.repeat) return false;
+
+	if (StableProgress < 0 && CommonKeyMove(event) === "l" || CommonKeyMove(event) === "r") {
+		StableGenericRun((StableProgressLastKeyPress == event.code));
+		StableProgressLastKeyPress = event.code;
+		return true;
 	}
+	return false;
 }
 
 function StableGenericRun(Reverse) {

@@ -29,7 +29,7 @@ function InventoryItemVulvaFuturisticVibratorLoadHook(data, originalFunction) {
 /** @type {ExtendedItemScriptHookCallbacks.Draw<VibratingItemData>} */
 function InventoryItemVulvaFuturisticVibratorDrawHook(data, originalFunction) {
 	const Item = DialogFocusItem;
-	if (!FuturisticAccessDraw()) {
+	if (!FuturisticAccessDraw(data)) {
 		return;
 	}
 	NoArch.Draw(data);
@@ -67,7 +67,7 @@ function InventoryItemVulvaFuturisticVibratorNextAccessMode(current) {
 
 /** @type {ExtendedItemScriptHookCallbacks.Click<VibratingItemData>} */
 function InventoryItemVulvaFuturisticVibratorClickHook(data, originalFunction) {
-	if (!FuturisticAccessClick()) {
+	if (!FuturisticAccessClick(data)) {
 		return;
 	} else if (MouseIn(1885, 25, 90, 90)) {
 		DialogLeaveFocusItem();

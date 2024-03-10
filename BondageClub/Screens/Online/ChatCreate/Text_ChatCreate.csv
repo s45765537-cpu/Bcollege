@@ -12,7 +12,7 @@ MapNever,Never use the map exploration
 MapHybrid,"Hybrid map, can go on and off"
 MapAlways,"Only use the map, no regular chat"
 RoomBackground,Select the background
-RoomSize,Size (2-10)
+RoomSize,Size (2-20)
 Create,Create
 Exit, Exit
 ShowAll,Selection

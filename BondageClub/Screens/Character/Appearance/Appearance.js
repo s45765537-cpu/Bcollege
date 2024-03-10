@@ -69,7 +69,9 @@ let AppearanceWardrobeReorderMode = "None";
 
 const CanvasUpperOverflow = 700;
 const CanvasLowerOverflow = 150;
+/** The draw width of the character canvas */
 const CanvasDrawWidth = 500;
+/** The draw height of the character canvas */
 const CanvasDrawHeight = 1000 + CanvasUpperOverflow + CanvasLowerOverflow;
 
 const AppearancePermissionColors = {
@@ -1069,10 +1071,9 @@ function AppearancePreviewBuild(C, buildCanvases) {
  */
 function AppearancePreviewCleanup() {
 	AppearancePreviews = [];
-	for (let C = Character.length - 1; C >= 0; C--) {
-		if (Character[C].AccountName.startsWith("AppearancePreview-")) {
-			CharacterDelete(Character[C].AccountName);
-		}
+	const previews = Character.filter(c => c.CharacterID.startsWith("AppearancePreview-"));
+	for (const preview of previews) {
+		CharacterDelete(preview);
 	}
 }
 
@@ -1667,7 +1668,7 @@ function CharacterAppearanceReady(C) {
 	CharacterAppearanceClose();
 
 	// If the character is logged in, we sync its appearance
-	if (C.IsPlayer() && C.AccountName != "") {
+	if (C.IsPlayer() && C.CharacterID != "") {
 		ServerPlayerAppearanceSync();
 	}
 	if (C.IsNpc()) {

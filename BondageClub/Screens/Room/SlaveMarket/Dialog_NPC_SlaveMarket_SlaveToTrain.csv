@@ -65,9 +65,9 @@ TrainingEnd,,,"(A maid comes to inform you that the training session is over, an
 1200,,(Check on her pain threshold.),(She has large marks on her skin and is almost passed-out.  The intense pain makes her barely conscious.),,"SlaveMarketTrainingLevelIs(""Highest"")"
 1200,,(Take time to comfort her.),(She seems comforted as you take time to calm her down.),SlaveMarketTrainingProgress(-1),
 1200,,(Spank her.),(You spank her a few times as her eyes widen a little with each swing.),SlaveMarketTrainingProgress(1),
-1200,,(Crop her.),(She whimpers and jumps with each crop swing.),SlaveMarketTrainingProgress(3),"DialogInventoryAvailable(""LeatherCrop"", ""ItemPelvis"")"
+1200,,(Crop her.),(She whimpers and jumps with each crop swing.),SlaveMarketTrainingProgress(3),"DialogInventoryAvailable(""Crop"", ""ItemHandheld"")"
 1200,,(Strangle her lightly.),(You strangle her lightly as she struggles for air and against the pain.),SlaveMarketTrainingProgress(5),
-1200,,(Whip her.),"(She cries with each whip lashes, trying to endure the pain and getting a strong adrenaline rush.)",SlaveMarketTrainingProgress(7),"DialogInventoryAvailable(""LeatherWhip"", ""ItemPelvis"")"
+1200,,(Whip her.),"(She cries with each whip lashes, trying to endure the pain and getting a strong adrenaline rush.)",SlaveMarketTrainingProgress(7),"DialogInventoryAvailable(""Whip"", ""ItemHandheld"")"
 1200,,(Give up and go back.),,"SlaveMarketTrainingEnd(""Fail"")",
 1300,,(Check on her arousal.),(She doesn't seem turned on at all.),,"SlaveMarketTrainingLevelIs(""Lowest"")"
 1300,,(Check on her arousal.),(She looks a little wet and seems to be enjoying herself.),,"SlaveMarketTrainingLevelIs(""Low"")"

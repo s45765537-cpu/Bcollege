@@ -50,7 +50,7 @@ function ChatCreateLoad() {
 		document.getElementById("InputName").setAttribute("placeholder", TextGet("NameExplanation"));
 		ElementCreateInput("InputSize", "number", "10");
 		document.getElementById("InputSize").setAttribute("min", "2");
-		document.getElementById("InputSize").setAttribute("max", "10");
+		document.getElementById("InputSize").setAttribute("max", "20");
 		document.getElementById("InputSize").setAttribute("autocomplete", "off");
 		ElementCreateTextArea("InputDescription");
 		document.getElementById("InputDescription").setAttribute("maxLength", 100);
@@ -117,9 +117,9 @@ function ChatCreateRun() {
 
 	// Background selection, block button and game selection
 	DrawImageResize("Backgrounds/" + ChatCreateBackgroundSelect + ".jpg", 1300, 75, 600, 350);
-	DrawBackNextButton(1300, 450, 500, 60, DialogFindPlayer(ChatCreateBackgroundSelect), "White", null,
-		() => DialogFindPlayer((ChatCreateBackgroundIndex == 0) ? ChatCreateBackgroundList[ChatCreateBackgroundList.length - 1] : ChatCreateBackgroundList[ChatCreateBackgroundIndex - 1]),
-		() => DialogFindPlayer((ChatCreateBackgroundIndex >= ChatCreateBackgroundList.length - 1) ? ChatCreateBackgroundList[0] : ChatCreateBackgroundList[ChatCreateBackgroundIndex + 1]));
+	DrawBackNextButton(1300, 450, 500, 60, BackgroundsTextGet(ChatCreateBackgroundSelect), "White", null,
+		() => BackgroundsTextGet((ChatCreateBackgroundIndex == 0) ? ChatCreateBackgroundList[ChatCreateBackgroundList.length - 1] : ChatCreateBackgroundList[ChatCreateBackgroundIndex - 1]),
+		() => BackgroundsTextGet((ChatCreateBackgroundIndex >= ChatCreateBackgroundList.length - 1) ? ChatCreateBackgroundList[0] : ChatCreateBackgroundList[ChatCreateBackgroundIndex + 1]));
 	DrawButton(1840, 450, 60, 60, "", "White", "Icons/Small/Preference.png", null);
 	DrawButton(1300, 530, 275, 60, TextGet("BlockCategory"), "White");
 	DrawBackNextButton(1625, 530, 275, 60, TextGet("Game" + ChatCreateGame), "White",  null, () => "", () => "");
@@ -172,11 +172,11 @@ function ChatCreateClick() {
 
 	// When we select a new map type
 	if (MouseIn(1300, 610, 600, 64)) {
-		let Index = ChatRoomMapTypeList.indexOf(ChatCreateMap);
+		let Index = ChatRoomMapViewTypeList.indexOf(ChatCreateMap);
 		Index = Index + ((MouseX < 1600) ? -1 : 1);
-		if (Index < 0) Index = ChatRoomMapTypeList.length - 1;
-		if (Index >= ChatRoomMapTypeList.length) Index = 0;
-		ChatCreateMap = ChatRoomMapTypeList[Index];
+		if (Index < 0) Index = ChatRoomMapViewTypeList.length - 1;
+		if (Index >= ChatRoomMapViewTypeList.length) Index = 0;
+		ChatCreateMap = ChatRoomMapViewTypeList[Index];
 	}
 
 	// Item block button
@@ -213,10 +213,16 @@ function ChatCreateClick() {
 
 /**
  * Handles the key presses while in the creation screen. When the user presses enter, we create the room.
- * @returns {void} - Nothing
+ * @type {KeyboardEventListener}
  */
-function ChatCreateKeyDown() {
-	if (KeyPress == 13) ChatCreateRoom();
+function ChatCreateKeyDown(event) {
+	if (event.repeat) return false;
+
+	if (event.key === "Enter") {
+		ChatCreateRoom();
+		return true;
+	}
+	return false;
 }
 
 /**
@@ -233,11 +239,11 @@ function ChatCreateExit() {
 
 /**
  * Handles the reception of the server response after attempting to create a chatroom: shows the error message, if applicable
- * @param {string} data - Response from the server
+ * @param {ServerChatRoomCreateResponse} data - Response from the server
  * @returns {void} - Nothing
  */
 function ChatCreateResponse(data) {
-	if ((data != null) && (typeof data === "string") && (data != ""))
+	if (typeof data === "string" && data)
 		ChatCreateMessage = "Response" + data;
 }
 
@@ -263,7 +269,7 @@ function ChatCreateRoom() {
 		Limit: parseInt(ElementValue("InputSize"), 10),
 		BlockCategory: ChatBlockItemCategory
 	};
-	if (ChatCreateMap != null) NewRoom.MapData = ChatRoomMapInitialize(ChatCreateMap);
+	if (ChatCreateMap != null) NewRoom.MapData = ChatRoomMapViewInitialize(ChatCreateMap);
 	ServerSend("ChatRoomCreate", NewRoom);
 	ChatCreateMessage = "CreatingRoom";
 	ChatRoomPingLeashedPlayers();

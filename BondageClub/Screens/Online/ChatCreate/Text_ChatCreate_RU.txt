@@ -20,8 +20,8 @@ Locked (Only admins can leave or enter)
 Заблокировано (только администраторы могут выйти или войти)
 Select the background
 Выберите фон
-Size (2-10)
-Размер (2-10)
+Size (2-20)
+Размер (2-20)
 Create
 Создать
  Exit

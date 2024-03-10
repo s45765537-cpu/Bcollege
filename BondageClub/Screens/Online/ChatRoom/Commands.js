@@ -71,7 +71,13 @@ function CommandParse(msg) {
 		CommandExecute(msg);
 		return;
 	}
-	msg = msg.substring(0, 1000);
+
+	if (msg.length > ServerChatMessageMaxLength) {
+		return;
+	}
+
+	msg = msg.substring(0, ServerChatMessageMaxLength);
+
 	if (msg.startsWith("*") || (Player.ChatSettings.MuStylePoses && msg.startsWith(":") && msg.length > 3)) {
 		ChatRoomSendEmote(msg);
 		ElementValue("InputChat", "");
@@ -621,11 +627,11 @@ const CommonCommands = [
 	},
 	{
 		Tag: "mapcopy",
-		Action: () => { ChatRoomMapCopy(); },
+		Action: () => { ChatRoomMapViewCopy(); },
 	},
 	{
 		Tag: "mappaste",
-		Action: (_, msg) => { ChatRoomMapPaste(msg); },
+		Action: (_, msg) => { ChatRoomMapViewPaste(msg); },
 	},
 	{
 		Tag: "whisper",
@@ -694,5 +700,20 @@ const CommonCommands = [
 				ChatRoomTargetMemberNumber = previousTarget;
 			}
 		},
-	}
+	},
+	{
+		Tag: "shop",
+		Action: () => {
+			/** @type {null | [module: ModuleType, screen: string]} */
+			const screen = CurrentModule && CurrentScreen ? [CurrentModule, CurrentScreen] : null;
+			/** @type {null | string} */
+			let background = null;
+			if (ServerPlayerIsInChatRoom()) {
+				background = ChatRoomData?.Background;
+				ChatRoomStatusUpdate("Shop");
+				ChatRoomHideElements();
+			}
+			Shop2.Init(background, screen);
+		},
+	},
 ];

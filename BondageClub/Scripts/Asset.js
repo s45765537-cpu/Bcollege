@@ -13,6 +13,24 @@ var AssetGroupMap = new Map();
 var Pose = [];
 /** A record mapping pose names to their respective {@link Pose}. */
 const PoseRecord = /** @type {Record<AssetPoseName, Pose>} */({});
+/**
+ * A record mapping pose categories to sorting priorities.
+ *
+ * Used for prioritising certain poses over others in {@link CommonDrawResolveAssetPose},
+ * a process required due to BC's lack of pose combinatorics support.
+ * @satisfies {Record<AssetPoseCategory, number>}
+ */
+const PoseCategoryPriority = {
+	// FIXME: Hack to ensure that `Suspension` poses take priority over `BodyUpper`
+	BodyAddon: 3,
+	// FIXME: Hack to ensure that `BodyLower` poses take priority over `BodyUpper` if both are specified.
+	// BC simply doesn't support the required combinatorics, so just stick to the (completely aribtrary) historical
+	// precedent of prioritizing the lower body (a precedent used most notably by the wedding dress and teachers outfit)
+	BodyLower: 2,
+	BodyFull: 1,
+	BodyHands: 1,
+	BodyUpper: 1,
+};
 /** @type {Map<AssetGroupName, AssetGroup[]>} */
 var AssetActivityMirrorGroups = new Map();
 
@@ -139,6 +157,7 @@ function AssetActivityMirrorGroupSet(group) {
  */
 function AssetAdd(Group, AssetDef, ExtendedConfig) {
 	const allowLock = typeof AssetDef.AllowLock === "boolean" ? AssetDef.AllowLock : false;
+	const difficulty = AssetDef.Difficulty ?? 0;
 
 	/** @type {Mutable<Asset>} */
 	var A = {
@@ -157,7 +176,6 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		AllowActivityOn: Array.isArray(AssetDef.AllowActivityOn) ? AssetDef.AllowActivityOn : [],
 		ActivityExpression: Array.isArray(AssetDef.ActivityExpression) ? AssetDef.ActivityExpression : {},
 		BuyGroup: AssetDef.BuyGroup,
-		PrerequisiteBuyGroups: AssetDef.PrerequisiteBuyGroups,
 		Effect: (AssetDef.Effect == null) ? Group.Effect : AssetDef.Effect,
 		Bonus: AssetDef.Bonus,
 		Block: (AssetDef.Block == null) ? Group.Block : AssetDef.Block,
@@ -170,7 +188,8 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		SetPose: (AssetDef.SetPose == null) ? Group.SetPose : AssetDef.SetPose,
 		AllowActivePose: AssetDef.AllowActivePose,
 		Value: (AssetDef.Value == null) ? 0 : AssetDef.Value,
-		Difficulty: (AssetDef.Difficulty == null) ? 0 : AssetDef.Difficulty,
+		NeverSell: AssetDef.NeverSell ?? false,
+		Difficulty: difficulty,
 		SelfBondage: (AssetDef.SelfBondage == null) ? 0 : AssetDef.SelfBondage,
 		SelfUnlock: (AssetDef.SelfUnlock == null) ? true : AssetDef.SelfUnlock,
 		ExclusiveUnlock: (AssetDef.ExclusiveUnlock == null) ? false : AssetDef.ExclusiveUnlock,
@@ -202,7 +221,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		RemoveItemOnRemove: (AssetDef.RemoveItemOnRemove == null) ? Group.RemoveItemOnRemove : Group.RemoveItemOnRemove.concat(AssetDef.RemoveItemOnRemove),
 		AllowEffect: AssetDef.AllowEffect,
 		AllowBlock: AssetDef.AllowBlock,
-		AllowTighten: AssetDef.AllowTighten,
+		AllowTighten: AssetDef.AllowTighten ?? (AssetDef.IsRestraint || difficulty > 0),
 		AllowHide: AssetDef.AllowHide,
 		AllowHideItem: AssetDef.AllowHideItem,
 		DefaultColor: [],
@@ -338,42 +357,146 @@ function AssetParsePosePrerequisite({ SetPose, AllowActivePose, Effect, Prerequi
 }
 
 /**
- * Construct the items extended item config, merging via {@link AssetArchetypeConfig.CopyConfig} if required.
- * Potentially updates the passed {@link AssetArchetypeConfig} object inplace.
- * @param {Asset} A - The asset to configure
- * @param {AssetArchetypeConfig} config - The extended item configuration of the base item
- * @param {ExtendedItemMainConfig} extendedConfig - The extended item configuration object for the asset's family
- * @returns {null | AssetArchetypeConfig} - The oiginally passed base item configuration, potentially updated inplace.
- * Returns `null` insstead if an error was encountered.
+ * @template T
+ * @param config The config
+ * @param superConfig The super config
+ * @param key A human-readable identifier for `config`
+ * @param superKey A human-readable identifier for `superConfig`
+ * @returns `true` if the validation failed and `false` otherwise
+ * @typedef {(config: T, superConfig: T, key: string, superKey: string) => boolean} AssetCopyConfigValidator
  */
-function AssetBuildConfig(A, config, extendedConfig) {
-	const visited = new Set([`${A.Group.Name}:${A.Name}`]);
-	while (config.CopyConfig) {
-		const { GroupName, AssetName } = config.CopyConfig;
 
-		const key = `${GroupName || A.Group.Name}:${AssetName}`;
-		if (visited.has(key)) {
-			console.error(`Found cyclic CopyConfig reference ${key} in ${A.Group.Name}:${A.Name}:`, visited);
-			return null;
-		} else {
-			visited.add(key);
+/**
+ * Namespace for resolving `CopyConfig` fields in (extended) asset configs.
+ * @namespace
+ */
+var AssetResolveCopyConfig = {
+	/**
+	 * Take an (ordered) list of `CopyConfig`-referenced configs and group them all together in a `BuyGroup`.
+	 * The buygroup's name will either be extracted from the configs if present, or alternatively use the `Name` of the top-most config.
+	 * @param {readonly { BuyGroup?: string, Value?: number, Name?: string }[]} configList
+	 */
+	_AssignBuyGroup: function _AssignBuyGroup(configList) {
+		const topIndex = configList.length - 1;
+		const topConfig = configList[topIndex];
+
+		// Check if a buygroup is already present in one of the super configs
+		/** @type {number | undefined} */
+		let stop = undefined;
+		const buyGroup = configList.find((cfg, i) => {
+			if (cfg.BuyGroup) {
+				stop = Math.max(1, i);
+				return true;
+			} else {
+				return false;
+			}
+		})?.BuyGroup ?? topConfig.Name;
+		if (buyGroup == null) {
+			// Only relevant if an extended config (instead of a normal one) somehow gets passed
+			return;
 		}
 
-		const superConfig = AssetFindExtendedConfig(extendedConfig, GroupName || A.Group.Name, AssetName);
-		if (!superConfig) {
-			console.error(`CopyConfig ${GroupName || A.Group.Name}:${AssetName} not found for ${A.Group.Name}:${A.Name}`);
-			return null;
+		configList.slice(0, stop).forEach((cfg, i) => {
+			cfg.BuyGroup = buyGroup;
+			if (i !== topIndex) {
+				cfg.Value = -1;
+			}
+		});
+	},
+
+	/**
+	 * Merge the passed config with all it's to-be copied super configs (per its `CopyConfig` settings)
+	 * @template {{ CopyConfig?: { GroupName?: AssetGroupName, AssetName: string }, BuyGroup?: string, Value?: number, Name?: string }} T
+	 * @param {T} config - The (extended) asset config
+	 * @param {string} assetName - The name of the corresponding asset
+	 * @param {AssetGroupName} groupName - The name of the corresponding asset group
+	 * @param {Partial<Record<AssetGroupName, Record<string, T>>>} configRecord - A (nested) record containing the configs of all assets
+	 * @param {string} configType - The name of the config type. Used for error reporting
+	 * @param {null | AssetCopyConfigValidator<T>} configValidator - An optional validator for comparing the config with its to-be copied counterpart(s)
+	 * @param {boolean} setBuyGroup - Whether to automatically assign a buygroup to the config and, if required, all `CopyConfig`-referenced super configs
+	 * @returns {null | T} - The original config merged with its to-be copied super configs. Returns `null` if an error is encountered.
+	 */
+	_Resolve: function _Resolve(config, assetName, groupName, configRecord, configType, configValidator=null, setBuyGroup=false) {
+		const key = `${groupName}:${assetName}`;
+		const visitedKeys = new Set([key]);
+		const visitedConfigs = [config];
+		while (config.CopyConfig) {
+			const { GroupName, AssetName } = config.CopyConfig;
+			const superKey = `${GroupName ?? groupName}:${AssetName}`;
+
+			if (visitedKeys.has(superKey)) {
+				console.error(`Found cyclic ${configType} CopyConfig reference ${superKey} in ${key}:`, visitedKeys);
+				return null;
+			}
+
+			const superConfig = configRecord[GroupName ?? groupName]?.[AssetName];
+			if (!superConfig) {
+				console.error(`${superKey} ${configType} CopyConfig not found for ${key}`);
+				return null;
+			} else if (configValidator?.(config, superConfig, key, superKey)) {
+				return null;
+			} else {
+				visitedKeys.add(superKey);
+				visitedConfigs.push(superConfig);
+			}
+
+			config = {
+				...superConfig,
+				...CommonOmit(config, ["CopyConfig"]),
+			};
 		}
+
+		if (setBuyGroup) {
+			visitedConfigs[0] = config;
+			AssetResolveCopyConfig._AssignBuyGroup(visitedConfigs);
+		}
+
+		return config;
+	},
+
+	/**
+	 * Validator for extended item configs
+	 * @type {AssetCopyConfigValidator<AssetArchetypeConfig>}
+	 */
+	_ExtendedValidator: function _ExtendedValidator(config, superConfig, key, superKey) {
 		if (config.Archetype !== superConfig.Archetype) {
-			console.error(`Archetype for ${GroupName || A.Group.Name}:${AssetName} (${superConfig.Archetype}) doesn't match archetype for ${A.Group.Name}:${A.Name} (${config.Archetype})`);
-			return null;
+			console.error(`Archetype for ${superKey} (${superConfig.Archetype}) doesn't match archetype for ${key} (${config.Archetype})`);
+			return true;
+		} else {
+			return false;
 		}
+	},
 
-		config = Object.assign({}, superConfig, config);
-		delete config.CopyConfig;
-	}
-	return config;
-}
+	/**
+	 * Construct the items asset config, merging via {@link AssetDefinition.CopyConfig} if required.
+	 * @param {AssetDefinition} assetDef - The asset definition
+	 * @param {AssetGroupName} groupName - The name of the asset group
+	 * @param {Partial<Record<AssetGroupName, Record<string, AssetDefinition>>>} assetRecord - A record containg all asset definitions
+	 * @returns {null | AssetDefinition} - The oiginally passed base item configuration.
+	 * Returns `null` insstead if an error was encountered.
+	 */
+	AssetDefinition: function AssetDefinition(assetDef, groupName, assetRecord) {
+		return AssetResolveCopyConfig._Resolve(
+			assetDef, assetDef.Name, groupName, assetRecord,
+			"AssetDefinition", undefined, assetDef.CopyConfig?.BuyGroup,
+		);
+	},
+
+	/**
+	 * Construct the items extended item config, merging via {@link AssetArchetypeConfig.CopyConfig} if required.
+	 * @param {Asset} asset - The asset to configure
+	 * @param {AssetArchetypeConfig} config - The extended item configuration of the base item
+	 * @param {ExtendedItemMainConfig} extendedConfig - The extended item configuration object for the asset's family
+	 * @returns {null | AssetArchetypeConfig} - The oiginally passed base item configuration.
+	 * Returns `null` instead if an error was encountered.
+	 */
+	ExtendedItemConfig: function ExtendedItemConfig(asset, config, extendedConfig) {
+		return AssetResolveCopyConfig._Resolve(
+			config, asset.Name, asset.Group.Name, extendedConfig, "ExtendedItemConfig",
+			AssetResolveCopyConfig._ExtendedValidator,
+		);
+	},
+};
 
 /**
  * Constructs extended item functions for an asset, if extended item configuration exists for the asset.
@@ -386,7 +509,7 @@ function AssetBuildConfig(A, config, extendedConfig) {
  * @returns {null | AssetArchetypeData} - The extended itemdata or `null` if an error was encoutered
  */
 function AssetBuildExtended(A, baseConfig, extendedConfig, parentOption=null, createCallbacks=true) {
-	const config = AssetBuildConfig(A, baseConfig, extendedConfig);
+	const config = AssetResolveCopyConfig.ExtendedItemConfig(A, baseConfig, extendedConfig);
 	if (config === null) {
 		return null;
 	}
@@ -637,6 +760,7 @@ function AssetBuildDescription(Family, CSV) {
 		const res = map.get(`${G.Name}:`);
 		/** @type {Mutable<AssetGroup>} */(G).Description = (res !== undefined) ? res : `MISSING ASSETGROUP DESCRIPTION: ${G.Name}`;
 	}
+	Shop2._PopulateGroupDescriptions();
 
 	// For each asset in the family
 	for (const A of Asset) {
@@ -682,18 +806,39 @@ function AssetLoadDescription(Family) {
  * @param {ExtendedItemMainConfig} ExtendedConfig
  */
 function AssetLoad(Groups, Family, ExtendedConfig) {
+	/**
+	 * Pass one: Resolve all string-based asset definitions and convert the entire thing into a
+	 * nested record mapping group names, to asset names, to asset definitions.
+	 * @type {Record<AssetGroupName, Record<string, AssetDefinition>>}
+	 */
+	const assetDefsParsed = CommonFromEntries(Groups.map(g => {
+		return [
+			g.Group,
+			CommonFromEntries(g.Asset.map(a => {
+				/** @type {[name: string, config: AssetDefinition]} */
+				const ret = typeof a === "string" ? [a, { Name: a }] : [a.Name, a];
+				return ret;
+			})),
+		];
+	}));
 
-	// For each group in the asset file
-	for (const group of Groups) {
-		// Creates the asset group
-		const G = AssetGroupAdd(Family, group);
+	// Pass two: handle all copy configs
+	for (const [groupName, assetDefs] of CommonEntries(assetDefsParsed)) {
+		for (const [assetName, assetDef] of Object.entries(assetDefs)) {
+			const assetDefNew = AssetResolveCopyConfig.AssetDefinition(assetDef, groupName, assetDefsParsed);
+			if (assetDefNew == null) {
+				delete assetDefs[assetName];
+			} else {
+				assetDefs[assetName] = assetDefNew;
+			}
+		}
+	}
 
-		// Add each assets in the group 1 by 1
-		for (const asset of group.Asset) {
-			if (typeof asset === "string")
-				AssetAdd(G, { Name: asset }, ExtendedConfig);
-			else
-				AssetAdd(G, asset, ExtendedConfig);
+	// Pass three: finally parse the asset/group defs
+	for (const groupDef of Groups) {
+		const G = AssetGroupAdd(Family, groupDef);
+		for (const assetDef of Object.values(assetDefsParsed[G.Name])) {
+			AssetAdd(G, assetDef, ExtendedConfig);
 		}
 	}
 
@@ -705,11 +850,7 @@ function AssetLoad(Groups, Family, ExtendedConfig) {
 		};
 	}).filter(({ Name }) => Name !== undefined);
 
-	// TODO: Figure out how to get the .csv loading to work in Node.js, which we use for the test suite
-	if (IsBrowser()) {
-		// Loads the description of the assets in a specific language
-		AssetLoadDescription(Family);
-	}
+	AssetLoadDescription(Family);
 }
 
 // Reset and load all the assets
@@ -721,6 +862,8 @@ function AssetLoadAll() {
 	AssetLoad(AssetFemale3DCG, "Female3DCG", AssetFemale3DCGExtended);
 	ExtendedItemManualRegister();
 	PropertyAutoPunishHandled = new Set(AssetGroup.map((a) => a.Name));
+	Shop2._PopulateBuyGroups();
+	Shop2._PopulateKeysAndRemotes();
 }
 
 /**

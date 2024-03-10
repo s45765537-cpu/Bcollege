@@ -140,37 +140,37 @@ const StruggleMinigames = {
  * @type {Record<number, Partial<Record<ExpressionGroupName, ExpressionName>>>}
  */
 const StruggleFacesList = {
-	2: {
+	5: {
 		Blush: "Low",
 		Fluids: "DroolLow",
 		Eyebrows: "Soft",
 		Mouth: null
 	},
-	5: {
+	10: {
 		Blush: "Medium",
 		Fluids: "DroolMedium",
 		Eyebrows: "Raised",
 		Mouth: "Pout"
 	},
-	10: {
+	20: {
 		Blush: "High",
 		Fluids: "DroolSides",
 		Eyebrows: "Lowered",
 		Mouth: "LipBite"
 	},
-	15: {
+	35: {
 		Blush: "VeryHigh",
 		Fluids: "DroolMessy",
 		Eyebrows: "OneRaised",
 		Mouth: "Frown"
 	},
-	30: {
+	60: {
 		Blush: "Extreme",
 		Fluids: "DroolTearsMedium",
 		Eyebrows: "Harsh",
 		Mouth: "Pained"
 	},
-	45: {
+	90: {
 		Blush: "ShortBreath",
 		Fluids: "DroolTearsHigh",
 		Eyebrows: "Angry",
@@ -392,6 +392,11 @@ function StruggleMinigameHandleExpression(Decrease) {
 		if (StruggleProgressCurrentMinigame === "Dexterity") {
 			if (Count >= 25) CharacterSetFacialExpression(Player, "Eyes", "Dazed");
 		}
+
+		// Each click accelerates ExpressionQueue timers 1 second.
+		for (var i in Player.ExpressionQueue) {
+			Player.ExpressionQueue[i].Time += -1000;
+		}
 	}
 }
 
@@ -473,7 +478,7 @@ function StruggleMinigameStart(C, MiniGame, PrevItem, NextItem, Completion) {
 		StruggleProgressSkill = 5;
 	}
 
-	// If there's no current expressions, we update the expressions state while struggling.
+	// If expressions are enabled, do struggle faces
 	if (C.OnlineSharedSettings && C.OnlineSharedSettings.ItemsAffectExpressions) {
 		// Grab a copy of the player's expressions and apply timers for the new ones
 		// Eyes are set by struggle count in StruggleMinigameHandleExpression()
@@ -536,7 +541,7 @@ Featuring:
 -Smooth gameplay!
 -Innovative strategies!
 
-Game description: Mash A and S until you get out
+Game description: Mash A and D until you get out
 */
 
 /**
@@ -604,7 +609,7 @@ function StruggleStrengthHandleEvent(EventType, event) {
 	if (StruggleProgress < 0) return;
 
 	if (EventType === "KeyDown") {
-		if (event.key === "a" || event.key === "s") {
+		if (CommonKeyMove(event) === "l" || CommonKeyMove(event) === "r") {
 			StruggleStrengthProcess((StruggleProgressLastKeyPress == event.key));
 			StruggleProgressLastKeyPress = event.key;
 		}

@@ -175,7 +175,7 @@ function MainHallLoad() {
 	CommonReadCSV("NoArravVar", "Room", "Prison", "Dialog_NPC_Prison_Police");
 	TextPrefetch("Character", "Appearance");
 	TextPrefetch("Character", "InformationSheet");
-	TextPrefetch("Character", "Text_Relog");
+	TextPrefetch("Character", "Relog");
 	TextPrefetch("Online", "ChatSearch");
 
 }

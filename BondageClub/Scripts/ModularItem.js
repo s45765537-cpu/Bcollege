@@ -77,19 +77,17 @@ const ModularItemChatSetting = {
 function ModularItemRegister(asset, config) {
 	const data = ModularItemCreateModularData(asset, config);
 
-	if (IsBrowser()) {
-		/** @type {ExtendedItemCallbackStruct<ModularItemOption>} */
-		const defaultCallbacks = {
-			load: () => ModularItemLoad(data),
-			click: () => ModularItemClick(data),
-			draw: () => ModularItemDraw(data),
-			validate: (...args) => ExtendedItemValidate(data, ...args),
-			publishAction: (...args) => ModularItemPublishAction(data, ...args),
-			init: (...args) => ModularItemInit(data, ...args),
-			setOption: (...args) => ExtendedItemSetOption(data, ...args),
-		};
-		ExtendedItemCreateCallbacks(data, defaultCallbacks);
-	}
+	/** @type {ExtendedItemCallbackStruct<ModularItemOption>} */
+	const defaultCallbacks = {
+		load: () => ModularItemLoad(data),
+		click: () => ModularItemClick(data),
+		draw: () => ModularItemDraw(data),
+		validate: (...args) => ExtendedItemValidate(data, ...args),
+		publishAction: (...args) => ModularItemPublishAction(data, ...args),
+		init: (...args) => ModularItemInit(data, ...args),
+		setOption: (...args) => ExtendedItemSetOption(data, ...args),
+	};
+	ExtendedItemCreateCallbacks(data, defaultCallbacks);
 	ModularItemGenerateValidationProperties(data);
 	return data;
 }
@@ -114,7 +112,10 @@ function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
 		}
 	}
 
-	validateType: if (Data.modules.every(m => m.Options[Item.Property.TypeRecord[m.Key]] !== undefined)) {
+	validateType: if (
+		Data.modules.every(m => m.Options[Item.Property.TypeRecord[m.Key]] !== undefined)
+		&& !Data.modules.some(m => InventoryIsPermissionBlocked(C, Item.Asset.Name, Item.Asset.Group.Name, `${m.Key}${Item.Property.TypeRecord[m.Key]}`))
+	) {
 		if (!C.IsNpc && (!C.OnlineSharedSettings || C.OnlineSharedSettings.GameVersion !== GameVersion)) {
 			// We cannot reliably validate properties of people in different versions
 			break validateType;

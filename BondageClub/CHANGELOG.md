@@ -11,9 +11,170 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2024-01-17
-* Last recorded PR: [#4763](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4763)
-* Last recorded commit hash: `bbc6674575d0a963e0bbcd54450c7947dcef7c1c`
+* Changelog last updated: 2024-03-09
+* Last recorded PR: [#4884](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4884)
+* Last recorded commit hash: `03e8f9d8864f1034dcb082b4212c41090f89c141`
+
+## [Generated]
+
+## [R102]
+
+### [Changes]
+
+* KyraObscura - Add Colour Layers to the Nurse Uniform ([#4804](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4804))
+* Rama -Slightly shift the wheel of fortune buttons ([#4811](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4811))
+* Verity - Fog of War Texture Tweak ([#4831](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4831))
+* Echovo - Adds new assets: Evening gown ([#4836](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4836))
+* Estsanatlehi - Rework the keyboard handling and add chat room shortcuts ([#4845](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4845))
+* Da'Inihlus - Update CN translation ([#4855](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4855))
+* Da'Inihlus - Add Extensions Preferences to Character Preferences ([#4840](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4840))
+* Rama - ENH: Make it easier to access the extended item menu via new entry points ([#4859](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4859))
+* KyraObscura - Add HairBack57d and Additional colouring options for hair accessory ribb… ([#4860](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4860))
+* git4nick - German Translation ([#4864](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4864))
+* Cleon - Adding HeavyLatexDress - Heavy Latex Dress. ([#4867](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4867))
+* Rama - Rework the shopping screen ([#4869](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4869))
+* Cleon - Adding MaryShoes Shoes - Mary Special ([#4877](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4877))
+* git4nick - New Emoticon: Music ([#4883](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4883))
+* Rama - Ensure that all gags are available in the first gag slot ([#4884](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4884))
+* Ben987 - Online Chat Rooms - 20 Players Support
+* Ben987 - Latex Maid Uniform for Head Maids
+* Ben987 - Russian translation by Makeevchanin
+* Ben987 - Pandora - Use Spacebar to Pick Locks
+* Ben987 - Chat Room Map - Draw Status Bubbles
+* Ben987 - Online Chat Rooms - Next/Previous 10 Chars Buttons
+* Ben987 - Online Chat Rooms - Top Menu Buttons Rework
+
+### [Fixes]
+
+* Estsanatlehi - Only force account updates when requested ([#4824](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4824))
+* Rama - Fix a number of gag-based prerequisite checks checking both lower and higher gags ([#4828](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4828))
+* Rama - Fix the crafting validation not actually removing items unowned by the player ([#4823](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4823))
+* Rama - Fix futuristic gags triggering an infinite loop and crash when locked ([#4833](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4833))
+* Estsanatlehi - Some controller support follow-ups ([#4832](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4832))
+* Rama - Fix an invalid `TextPrefetch` room name ([#4837](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4837))
+* Estsanatlehi - Swap references to the removed leather crop & whip for the handhelds ([#4839](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4839))
+* Rama - Fix the extendable posture collar gag not displaying the panel for the `Gag` option ([#4841](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4841))
+* Rama - Fix the futuristic access denied screen not rendering the item preview ([#4842](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4842))
+* Rama - Prioritize `BodyLower` over `BodyUpper` when resolving poses ([#4848](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4848))
+* EllieThePink - Fix timed expressions getting stuck ([#4849](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4849))
+* Estsanatlehi - Fix showing player skills in the profile ([#4850](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4850))
+* Estsanatlehi - Fix accidentally removed key for the ServerUpdate ChatRoom message ([#4851](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4851))
+* EllieThePink - Skip card discarded check if not playing ([#4852](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4852))
+* Estsanatlehi - Fix a bug where drawing the chat room character view would happen twice ([#4854](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4854))
+* Rama - Add `DialogFocusSourceItem == null` safeguards to the lock `Click`-hooks ([#4857](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4857))
+* KyraObscura - Fix: Corset Dress Poses ([#4865](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4865))
+* git4nick - CollegeTheater Cloth fix ([#4866](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4866))
+* u3shit - Make MaidDrinks minigame a bit more responsive ([#4868](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4868))
+* Rama - BUG: Fix `GetSlowLevel` miscounting slow effects ([#4870](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4870))
+* Rama - Bump the pose priority of the `BodyAddon` category ([#4871](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4871))
+* Cleon - Quick fix: Corset Dress Allfours pose ([#4873](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4873))
+* git4nick - Fix: Doms in Private Room ([#4876](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4876))
+* Rama - MAINT: Implement more minor shop updates ([#4878](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4878))
+* Cleon - Minor fixes -DefaultColor- : HeavyLetherDress and MaryShoes - DutyShoes 4 free. ([#4879](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4879))
+* Ben987 - Fix Controller Crash
+* Ben987 - Fix Bondage Brawl Mobile Bind
+* Ben987 - FIX - Controller Crash on Pressed and Repeat
+* Ben987 - FIX - Controller Support for Screen Transition
+* Ben987 - FIX - Maid Drinks Mini Game Background
+
+### [Technical]
+* Estsanatlehi - Fix linting ([#4813](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4813))
+* Estsanatlehi - Typedef for Fetish ([#4814](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4814))
+* Estsanatlehi - Properly pass the event down the click handlers ([#4816](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4816))
+* Estsanatlehi - Split background names into their own file ([#4819](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4819))
+* Estsanatlehi - Merge RunAway with GoneAway since they perform the same thing ([#4820](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4820))
+* Estsanatlehi - Centralize the background drawing into one function ([#4822](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4822))
+* Estsanatlehi - Add a merge request template and update the readme a little bit ([#4826](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4826))
+* Estsanatlehi - Cleanup controller handling ([#4827](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4827))
+* Estsanatlehi - Fix the generator to use the current remote-tracking branch ([#4829](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4829))
+* Estsanatlehi - Refactor low-level character caching ([#4830](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4830))
+* Estsanatlehi - Streamline the prettier configuration ([#4834](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4834))
+* Rama - Expand `ServerAccountData` and harden `LoginResponse` type annotations ([#4838](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4838))
+* Rama - ENH: Add `CopyConfig` support to `AssetFemale3DCG`, allowing asset defs to be reused by multiple assets ([#4843](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4843))
+* Estsanatlehi - Update browserslist ([#4846](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4846))
+* Rama - TST: Verify that no runtime warnings are logged by BC when running the asset check ([#4856](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4856))
+* Rama - DEV: Bump Node back down from 21 to 20 ([#4858](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4858))
+* Estsanatlehi - Document why DrawCharacter needs to handle null characters ([#4861](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4861))
+* Estsanatlehi - Fix missing EOL ([#4862](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4862))
+* Rama - Implement various `CommonGenerateGrid` improvements ([#4863](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4863))
+* Rama - Ensure that extended item init functions check whether the current option is blocked ([#4853](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4853))
+* Rama - Allow for the registration of screen-specific `CharacterGetCurrent` characters ([#4874](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4874))
+* Rama - Add a generic item filter registration mechanism for the shop and other misc maintenance ([#4875](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4875))
+
+## [R101]
+
+### [Changes]
+
+* Cleon - Adding Latex Apron. ([#4739](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4739))
+* kotax - Make StruggleCount Matter Again ([#4758](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4758))
+* Rama - Allow the futuristic gags to be equipped in all gag slots ([#4737](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4737))
+* Kalina - Make remotes available on chat room maps even when out of reach ([#4761](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4761))
+* Kalina - Implement chat room views ([#4773](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4773))
+* Cleon - Adding four new items. ([#4781](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4781))
+* EllieThePink - Add 5 club cards and tweak building costs ([#4786](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4786))
+* Haruhi - Added Womb Tattoos ([#4789](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4789))
+* Fareeha - Update Traditional Chinese Translation ([#4790](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4790))
+* Cleon - Adding BigMouthHood and some fixes. ([#4793](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4793))
+* Constantan - Add The Hanging Frame ([#4794](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4794))
+* Birb - Added Business Suit and Business Trousers ([#4795](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4795))
+* Da'Inihlus - CN translation for current update ([#4799](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4799))
+* zhengjie - Support language CN in Room `Photographic` ([#4807](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4807))
+* EllieThePink - Change required levels of clever marketing, bad press & launder cards ([#4801](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4801))
+* Haruhi - Adds Default Colors for Body Markings and switches its place to be after wings. ([#4821](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4821))
+* Ben987 - Bondage Brawl - Convert to base KeyDown events
+* Ben987 - Latex Maid Cloth - Random NPC + Minigame to Obtain
+* Ben987 - Russian Translation by Makeevchanin
+* Ben987 - Chat Room Map - Party & Wedding Pack
+* Ben987 - Chat Room Map - Fog of War
+* Ben987 - Chat Room Map - Toggle to turn fog on and off
+* Ben987 - Chat Room Map - MapImmobile Effect
+* Ben987 - Chat Room Map - Medical Pack
+* Ben987 - Bondage Brawl - Controller Support + Default to XBox gamepad
+
+### [Fixes]
+
+ * Cleon - Minor Street Eyewear glasses fix ([#4776](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4776))
+ * Rama - Fix the bondage skirt not hiding for the hogtied & allFours poses  ([#4765](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4765))
+ * Rama - Fix advanced vibe Tease/Deny mode triggering init validation  ([#4769](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4769))
+ * Rama - Fix the logic of the kneeling button  ([#4768](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4768))
+ * Rama - Declare that the ballet boots/wedges support the `Spread` pose  ([#4767](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4767))
+ * Kalina - Rate limiting on chat room maps  ([#4778](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4778))
+ * Livie53 - Fix eye colour reset on expression clear  ([#4777](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4777))
+ * Rama - Fix the futuristic harness ball gag auto-inflation triggering validation  ([#4780](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4780))
+ * EllieThePink - Fix Club Card bug if players selected decks at the same time  ([#4787](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4787))
+ * EllieThePink - Prevent club card game state breaking with multiple admins  ([#4788](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4788))
+ * ewhac - Improve Pandora WASD handling.  ([#4791](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4791))
+ * ewhac - Properly re-implement movingAllowed test  ([#4792](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4792))
+ * Cleon - Quick Fix on Corset Dress  ([#4797](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4797))
+ * EllieThePink - Correct some grammar in Club Card  ([#4796](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4796))
+ * Cleon - Fixing some "Screen/Inventory" errors and replacing MaidLatex BackElbowTouch images.  ([#4798](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4798))
+ * Constantan - Fixes on Hanging Frame  ([#4800](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4800))
+ * EllieThePink - Fix a couple of issues with the D/S lock  ([#4802](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4802))
+ * EllieThePink - Unfocus the focused club card if it's discarded  ([#4803](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4803))
+ * Cleon - Headset  ([#4805](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4805))
+ * Haruhi - Womb Tattoos  ([#4806](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4806))
+ * Constantan - Fix the lock layer for Hanging frame  ([#4808](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4808))
+ * Constantan - "dose not hide hair or cosplay ears" for Hangind Frame  ([#4810](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4810))
+ * Estsanatlehi - Fix substitution tag on drink tray dialog  ([#4812](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4812))
+ * Estsanatlehi - Remove the duplicate womb tattoo from the shop  ([#4815](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4815))
+ * Estsanatlehi - Add back the NPC lovers information  ([#4825](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4825))
+ * Ben987 - Game status update only when needed
+ * Ben987 - Maid Drink Double Key Down
+ * Ben987 - Pandora WASD movement
+ * Ben987 - The Hanging Frame Preview Image
+ * Ben987 - Bondage Brawl Mobile Support
+
+### [Technical]
+
+Estsanatlehi - Fix sending a message silently truncating it ([#4762](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4762"))
+Rama - Enable the `scripts:typecheck` tests by default ([#4771](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4771"))
+Rama - Automatically set extended asset dynamic draw boolean flags in `ExtendedItemCreateCallbacks` ([#4772](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4772"))
+Rama - Treat `AllowTighten` as a blacklist rather than whitelist ([#4774](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4774"))
+Rama - Harden the `ServerAccountUpdate.QueueData` and `ServerAccountData` annotations ([#4775](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4775"))
+Rama - Fix `Item.Property` not always properly initializing in KD ([#4779](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4779"))
+Kalina - Name conflict in CommonDeprecateFunction ([#4782](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4782"))
+Rama - Ensure that `PoseCanChangeUnaided` does not prohibit standing -> standing pose changes ([#4817](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4817"))
+Rama - Remove redundant `null` guards in `CharacterOnlineRefresh()` ([#4770](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4770"))
 
 ## [R100]
 

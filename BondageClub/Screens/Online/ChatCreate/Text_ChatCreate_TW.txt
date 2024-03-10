@@ -20,8 +20,8 @@ Locked (Only admins can leave or enter)
 鎖定 (只有管理員能夠進入或離開)
 Select the background
 選擇背景
-Size (2-10)
-大小 (2-10)
+Size (2-20)
+大小 (2-20)
 Create
 創建
  Exit

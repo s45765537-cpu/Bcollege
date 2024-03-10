@@ -66,6 +66,15 @@ textarea {
 	font-style: italic;
 	color: silver;
 }
+.NoSelect {
+	touch-action: manipulation;
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Safari */
+	-khtml-user-select: none; /* Konqueror HTML */
+	-moz-user-select: none; /* Old versions of Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+}
 #TextAreaChatLog[data-shrinknondialogue=true] .ChatMessageEmote {
 	font-size: 0.75em;
 }
@@ -160,6 +169,9 @@ textarea {
 #TextAreaChatLog[data-whitespace=preserve] {
 	white-space: pre-wrap;
     overflow-wrap: break-word;
+}
+#InputChatLength.invalid {
+	color: #FF0000;
 }
 div.ReplyButton {
 	text-decoration: none;
@@ -435,6 +447,65 @@ input[type=range][data-thumb=rope]::-moz-range-thumb {
 	background-image: url("../Icons/Rope.png");
 	width: 1.2em;
 	height: 1.2em;
+}
+
+/** The shop */
+
+input[type="checkbox"] {
+	-webkit-appearance: none;
+	appearance: none;
+	background-color: #fff;
+	margin: 0;
+	font: inherit;
+	color: black;
+	width: 6vh;
+	height: 6vh;
+	border: 0.25vh solid black;
+	display: grid;
+	place-content: center;
+}
+
+input[type="checkbox"]:hover {
+	background-color:cyan;
+}
+
+input[type="checkbox"]::before {
+	content: "";
+	width: 4.5vh;
+	height: 4.5vh;
+	clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+	transform: scale(0);
+	background-color: black;
+}
+
+input[type="checkbox"]:checked::before {
+	transform: scale(1);
+}
+
+#Shop2GroupSelect {
+	overflow-y: scroll;
+	word-wrap: break-word;
+	background-color: rgba(0, 0, 0, 0.35);
+}
+
+.Shop2CheckboxGrid {
+	color: white;
+	font-size: 3vh;
+	display: grid;
+	grid-template-columns: 50% 50%;
+	user-select: none;
+}
+
+.Shop2Checkbox {
+	display: grid;
+	grid-template-columns: 25% 75%;
+	min-height: 7vh;
+	height: fit-content 100%;
+	align-items: center;
+}
+
+.Shop2Checkbox:hover {
+	color: yellow;
 }
 
 /* Custom fonts */

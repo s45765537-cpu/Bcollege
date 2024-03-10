@@ -20,6 +20,12 @@ function InventoryItemMiscTimerPadlockDrawHook(data, originalFunction) {
 /** @type {ExtendedItemScriptHookCallbacks.Click<NoArchItemData>} */
 function InventoryItemMiscTimerPadlockClickHook(data, originalFunction) {
 	originalFunction();
+	if (DialogFocusSourceItem == null) {
+		// TODO: Let the click handlers return a boolean flag indicating whether a button has been clicked or not.
+		// As a stop-gap measure simply check whether `DialogFocusSourceItem` has been de-initialized
+		return;
+	}
+
 	if ((MouseX >= 1100) && (MouseX <= 1164) && (MouseY >= 836) && (MouseY <= 900) && (Player.MemberNumber == DialogFocusSourceItem.Property.LockMemberNumber) && Player.CanInteract()) {
 		DialogFocusSourceItem.Property.RemoveItem = !(DialogFocusSourceItem.Property.RemoveItem);
 		if (CurrentScreen == "ChatRoom") ChatRoomCharacterItemUpdate(CharacterGetCurrent());

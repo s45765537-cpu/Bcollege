@@ -1,7 +1,7 @@
 ###_NPC
 Heehee   you sound funny.
 Hihi... Du klingst lustig.
-(She accepts the gag, giggles and tests its effect.)  Teehee.  This makes my voice sound funny
+(She accepts the gag, giggles and tests its effects.)  Teehee.  This makes my voice sound funny
 (Sie akzeptiert den Knebel, kichert und probiert seinen Effekt aus.) Tihi. Meine Stimme klingt so lustig.
 (You remove her gag while she stretches her mouth.)  It seems kind of funny for a baby to be able to talk.
 (Du nimmst ihr den Knebel ab und sie streckt ihren Mund.) Es wirkt irgendwie seltsam, wenn ein Baby sprechen kann.
@@ -35,7 +35,7 @@ Hihi... Du klingst lustig.
 (Du peitschst ihr mit der Ledergerte auf die Brust und sie lässt wimmernd den Kopf hängen.)
 (You whip her butt hard as she sighs.)  I promise I'll work harder Miss Head Maid.
 (Du peitschst ihr kräftig auf den Hintern und sie seufzt.) Ich verspreche, härter zu arbeiten, Frau Hausdame.
-(She grumbles as you strike her butt with the crop.)  A maid work isn't easy.
+(She grumbles as you strike her butt with the crop.)  A maid's work is never easy.
 (Sie grummelt, als du ihren Hintern mit der Gerte triffst.) Ein Hausmädchen hat es nicht leicht.
 Welcome to the Nursery.  How can I help you?
 Willkommen in der Kinderstube. Wie kann ich dir helfen?
@@ -49,7 +49,7 @@ Ich bin DialogCharacterName. Möchtest du spielen?
 What is there to do here?
 Was gibt es hier zu tun?
 ###_NPC
-There isn't a lot to do at the moment, but the nurse will come along later with bottles of milk.
+There isn't a lot to do at the moment, but the nurse will come along later with bottles full of milk.
 Im Moment gibt es hier nicht viel, aber die Schwester bringt später Milchflaschen vorbei.
 ###_PLAYER
 Your dress looks pretty.
@@ -69,7 +69,7 @@ Ich habe keine Zeit zum Plaudern. (Dialog beenden.)
 Milk, is that all?
 Milch, ist das alles?
 ###_NPC
-I'm not sure its just milk either.  We tend to need these diapers shortly afterwards.
+I'm not sure it's just milk either.  We tend to need these diapers shortly afterwards.
 Ich glaube auch nicht, dass es einfach nur Milch ist. Meistens haben wir diese Windeln kurz danach dringend nötig.
 ###_PLAYER
 Can we play any games now?

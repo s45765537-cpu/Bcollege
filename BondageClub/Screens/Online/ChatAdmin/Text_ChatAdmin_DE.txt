@@ -1,5 +1,7 @@
 Room Name
 Raumname
+Language
+Sprache
 Description
 Beschreibung
 Ban List
@@ -10,10 +12,18 @@ Private
 Privat
 Locked
 Abgeschlossen
-Size (2-10)
-Größe (2-10)
+Size (2-20)
+Größe (2-20)
 Use member numbers, separated by commas (ex: 3571,541,7001)
 Mitgliedernummern, mit Kommas getrennt (Bsp: 3571,541,7001)
+Ban blacklist
+Bann Blacklist
+Ban ghostlist
+Bann Ghostlist
+Add Owner
+Besitzer hinzufügen
+Add Lovers
+Liebhaber hinzufügen
 Room settings can only be updated by administrators
 Raum-Einstellungen können nur von Administratoren bearbeitet werden
 Background
@@ -32,3 +42,35 @@ Account error, please try to relog
 Accountfehler, bitter erneut einloggen
 Invalid chat room data detected
 Ungültige Chatraum-Daten erkannt
+Block Categories
+Kategorien sperren
+Customization
+Einstellungen
+Don't use maps
+Karten nicht benutzen
+Allow on and off
+Wechseln erlauben
+Only use maps
+Nur die Karte benutzen
+No Game
+Keine Spiele
+Club Card
+Club Card
+LARP
+LARP
+Magic Battle
+Magischer Kampf
+GGTS
+GGTS
+English
+Englisch
+French
+Französisch
+Spanish
+Spanisch
+German
+Deutsch
+Chinese
+Chinesisch
+Russian
+Russisch

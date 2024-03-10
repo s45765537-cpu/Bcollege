@@ -1,7 +1,7 @@
 "use strict";
 
 /** BC's version */
-var GameVersion = "R100";
+var GameVersion = "R102Beta1";
 
 const GameVersionFormat = /^R([0-9]+)(?:(Alpha|Beta)([0-9]+)?)?$/;
 
@@ -63,6 +63,7 @@ function GameRun(Timestamp) {
 	CurrentTime = CurrentTime + TimerRunInterval;
 
 	DrawProcess(Timestamp);
+	ControllerProcess();
 	TimerProcess();
 
 	ServerSendQueueProcess();
@@ -75,7 +76,6 @@ function GameRun(Timestamp) {
  * @param {KeyboardEvent} event
  */
 function GameKeyDown(event) {
-	if (event.repeat) return false;
 	let handled = false;
 	KeyPress = event.keyCode || event.which;
 	if (ControllerIsActive() && ControllerSupportKeyDown(event)) {

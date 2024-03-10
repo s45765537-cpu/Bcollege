@@ -5,21 +5,21 @@
 // In the load function, add this before your load function, without changing functions from the
 // futuristic panel gag functions. Just make sure your item loads after the panel gag and not before in index.html:
 /*
- 	if (!FuturisticAccessLoad()) {
+ 	if (!FuturisticAccessLoad(data, originalFunction)) {
 		return;
 	}
 */
 
 // In the draw function, add:
 /*
- 	if (!FuturisticAccessDraw()) {
+ 	if (!FuturisticAccessDraw(data, originalFunction)) {
 		return;
 	}
 */
 
 // In the click function, add:
 /*
- 	if (!FuturisticAccessClick()) {
+ 	if (!FuturisticAccessClick(data, originalFunction)) {
 		return;
 	}
 */
@@ -43,15 +43,16 @@ var FuturisticAccessChastityGroups = ["ItemPelvis", "ItemTorso", "ItemButt", "It
 
 /**
  * Helper function for the futuristic hook scripts.
+ * @param {ExtendedItemData<any>} data
  * @param {null | (() => void)} OriginalFunction - The function that is normally called when an archetypical item reaches this point (if any).
- * @param {() => void} DeniedFunction - The function that is called when validation fails.
+ * @param {(data: ExtendedItemData<any>) => void} DeniedFunction - The function that is called when validation fails.
  * @returns {boolean} - Whether the validation was successful or not.
  */
-function FuturisticAccess(OriginalFunction, DeniedFunction) {
+function FuturisticAccess(data, OriginalFunction, DeniedFunction) {
 	const C = CharacterGetCurrent();
 	if (InventoryItemFuturisticValidate(C) !== "") {
-		DialogExtendedMessage = "FuturisticItemLoginScreen";
-		DeniedFunction();
+		DialogExtendedMessage = DialogFindPlayer("FuturisticItemLoginScreen");
+		DeniedFunction(data);
 		return false;
 	} else {
 		if (OriginalFunction != null) {
@@ -63,32 +64,32 @@ function FuturisticAccess(OriginalFunction, DeniedFunction) {
 
 /**
  * Hook script for injecting futuristic features into an archetypical item
- * @param {null | ExtendedItemData<any>} Data - The extended item data (if any)
+ * @param {ExtendedItemData<any>} Data - The extended item data (if any)
  * @param {null | (() => void)} OriginalFunction - The function that is normally called when an archetypical item reaches this point (if any).
  * @returns {boolean} - Whether the validation was successful or not.
  */
-function FuturisticAccessLoad(Data=null, OriginalFunction=null) {
-	return FuturisticAccess(OriginalFunction, InventoryItemFuturisticLoadAccessDenied);
+function FuturisticAccessLoad(Data, OriginalFunction=null) {
+	return FuturisticAccess(Data, OriginalFunction, InventoryItemFuturisticLoadAccessDenied);
 }
 
 /**
  * Hook script for injecting futuristic features into an archetypical item
- * @param {null | ExtendedItemData<any>} Data - The extended item data (if any)
+ * @param {ExtendedItemData<any>} Data - The extended item data (if any)
  * @param {null | (() => void)} OriginalFunction - The function that is normally called when an archetypical item reaches this point (if any).
  * @returns {boolean} - Whether the validation was successful or not.
  */
-function FuturisticAccessClick(Data=null, OriginalFunction=null) {
-	return FuturisticAccess(OriginalFunction, InventoryItemFuturisticClickAccessDenied);
+function FuturisticAccessClick(Data, OriginalFunction=null) {
+	return FuturisticAccess(Data, OriginalFunction, InventoryItemFuturisticClickAccessDenied);
 }
 
 /**
  * Hook script for injecting futuristic features into an archetypical item
- * @param {null | ExtendedItemData<any>} Data - The extended item data (if any)
+ * @param {ExtendedItemData<any>} Data - The extended item data (if any)
  * @param {null | (() => void)} OriginalFunction - The function that is normally called when an archetypical item reaches this point (if any).
  * @returns {boolean} - Whether the validation was successful or not.
  */
-function FuturisticAccessDraw(Data=null, OriginalFunction=null) {
-	return FuturisticAccess(OriginalFunction, InventoryItemFuturisticDrawAccessDenied);
+function FuturisticAccessDraw(Data, OriginalFunction=null) {
+	return FuturisticAccess(Data, OriginalFunction, InventoryItemFuturisticDrawAccessDenied);
 }
 
 /**
@@ -117,8 +118,13 @@ function InventoryItemFuturisticLoadAccessDenied() {
 		FuturisticAccessDeniedMessage = "";
 }
 
-// Draw the futuristic item ACCESS DENIED screen
-function InventoryItemFuturisticDrawAccessDenied() {
+/**
+ * Draw the futuristic item ACCESS DENIED screen
+ * @param {ExtendedItemData<any>} data
+ */
+function InventoryItemFuturisticDrawAccessDenied(data) {
+	NoArch.Draw(data);
+
 	ElementPosition("PasswordField", 1505, 750, 350);
 	DrawText(DialogFindPlayer("FuturisticItemPassword"), 1500, 700, "White", "Gray");
 	DrawButton(1400, 800, 200, 64, DialogFindPlayer("FuturisticItemLogIn"), "White", "");
@@ -127,9 +133,14 @@ function InventoryItemFuturisticDrawAccessDenied() {
 
 }
 
-// Click the futuristic item ACCESS DENIED screen
-function InventoryItemFuturisticClickAccessDenied() {
-	if (MouseIn(1885, 25, 90, 90)) DialogLeaveFocusItem();
+/**
+ * Click the futuristic item ACCESS DENIED screen.
+ * @param {ExtendedItemData<any>} data
+ */
+function InventoryItemFuturisticClickAccessDenied(data) {
+	if (NoArch.Click(data)) {
+		return;
+	}
 
 	if (MouseIn(1400, 800, 200, 64)) {
 		const pw = ElementValue("PasswordField").toUpperCase();

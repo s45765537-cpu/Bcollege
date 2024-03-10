@@ -175,7 +175,7 @@ function ValidationResolveScriptDiff(previousItem, newItem, {C, permissions, sou
 		} else {
 			// Otherwise if there were unpermitted property modifications, revert them
 			for (const propertyName of unpermittedPropertyModifications) {
-				sanitizedProperty[propertyName] = previousProperty[propertyName];
+				sanitizedProperty[propertyName] = /** @type {never} */(previousProperty[propertyName]);
 			}
 			item = Object.assign(InventoryItemCreate(C, "ItemScript", "Script"), {Property: sanitizedProperty});
 		}
@@ -725,13 +725,6 @@ function ValidationSanitizeProperties(C, item) {
 		});
 	}
 
-	// Block advanced vibrator modes if disabled
-	if (typeof property.Mode === "string" && C.ArousalSettings && C.ArousalSettings.DisableAdvancedVibes && !VibratorModeOptions[VibratorModeSet.STANDARD].some(o => o.Name === property.Mode)) {
-		console.warn(`Removing invalid mode "${property.Mode}" from ${asset.Name}`);
-		property.Mode = VibratorModeOff.Name;
-		changed = true;
-	}
-
 	return changed;
 }
 
@@ -818,15 +811,16 @@ function ValidationSanitizeLock(C, item) {
 			}
 	}
 
-	// Ensure a family-only lock is still valid
+	// Ensure a family-only lock doesn't have the player's own member number if they're not allowed to
+	// use them. We can't validate that the member number is someone in their D/S family because we don't
+	// know who is their sibling unless they're also in the room. The member number is only informational
+	// for this lock anyway: it doesn't affect who can unlock it.
 	if (lock.Asset.FamilyOnly) {
-		const selfCanUseFamilyLocks = !C.IsPlayer() || !LogQuery("BlockOwnerLockSelf", "OwnerRule");
-		const lockNumberValid = (lockedBySelf && selfCanUseFamilyLocks) || lockedByOwner;
-		if (!(C.IsOwned() || typeof ownerNumber === "number") || !lockNumberValid)
-			if (!(C.IsOwned() && !C.IsOwnedByPlayer() && !lockNumberValid)) {
-				console.warn(`Removing invalid family-only lock with member number: ${lockNumber}`);
-				return ValidationDeleteLock(property);
-			}
+		const familyLocksBlocked = C.IsPlayer() && LogQuery("BlockOwnerLockSelf", "OwnerRule");
+		if (lockedBySelf && familyLocksBlocked) {
+			console.warn(`Removing invalid family-only lock with member number: ${lockNumber}`);
+			return ValidationDeleteLock(property);
+		}
 	}
 
 	// Ensure the lock & its member number is valid on lover-only locks

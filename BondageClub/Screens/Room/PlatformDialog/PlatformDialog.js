@@ -4,12 +4,14 @@ var PlatformDialogBackground = null;
 var PlatformDialogText = null;
 var PlatformDialogAnswer = null;
 var PlatformDialogAnswerPosition = 0;
+var PlatformDialogAnswerLength = 0;
 var PlatformDialogReply = null;
 var PlatformDialogGoto = null;
 var PlatformDialogCharacterDisplay = null;
 var PlatformDialogPosition = 0;
 var PlatformDialogCharacter = null;
 var PlatformDialogAudio = null;
+var PlatformDialogControllerHandle = false;
 var PlatformDialogAudioStyle = ["", "angry", "calm", "chat", "cheerful", "friendly", "sad", "serious", "shouting", "terrified", "unfriendly", "whispering"];
 var PlatformDialogCharacterTemplate = [
 	{
@@ -4044,6 +4046,7 @@ function PlatformDialogLoadPosition(Position) {
 	if (Position >= PlatformDialog.Dialog.length) {
 		if (PlatformDialog.Exit != null) PlatformDialog.Exit();
 		PlatformDialogLeave();
+		PlatformDialogControllerHandle = true;
 		return;
 	}
 	if ((PlatformDialog.Dialog[Position].Prerequisite != null) && !PlatformDialog.Dialog[Position].Prerequisite()) return PlatformDialogLoadPosition(PlatformDialogPosition + 1);
@@ -4051,6 +4054,11 @@ function PlatformDialogLoadPosition(Position) {
 	if (PlatformDialog.Dialog[Position].TextScript != null) PlatformDialogText = PlatformDialog.Dialog[Position].TextScript();
 	PlatformDialogAnswer = PlatformDialog.Dialog[Position].Answer;
 	PlatformDialogAnswerPosition = 0;
+	PlatformDialogAnswerLength = (PlatformDialogAnswer == null) ? 0 : PlatformDialogAnswer.length;
+	if (PlatformDialogAnswerLength > 0)
+		for (let Answer of PlatformDialogAnswer)
+			if ((Answer.Perk === true) && !PlatformDialogLeaderHasPerk("Manipulation"))
+				PlatformDialogAnswerLength--;
 	PlatformDialogReply = null;
 	PlatformDialogGoto = null;
 	if ((Position == 0) || (PlatformDialog.Dialog[Position].Background != null)) PlatformDialogBackground = "../Screens/Room/PlatformDialog/Background/" + PlatformDialog.Dialog[Position].Background;
@@ -4073,8 +4081,6 @@ function PlatformDialogStart(DialogName) {
 			PlatformDialog = Dialog;
 	if (PlatformDialog == null) return;
 	PlatformDialogLoadPosition(0);
-	window.removeEventListener("keydown", PlatformEventKeyDown);
-	window.removeEventListener("keyup", PlatformEventKeyUp);
 	CommonSetScreen("Room", "PlatformDialog");
 }
 
@@ -4143,7 +4149,7 @@ function PlatformDialogDraw() {
 			for (let Answer of PlatformDialogAnswer)
 				if ((Answer.Perk == null) || ((Answer.Perk == true) && PlatformDialogLeaderHasPerk("Manipulation")) || ((Answer.Perk == false) && !PlatformDialogLeaderHasPerk("Manipulation"))) {
 					DrawText(Answer.Text, 1500, 725 + (Pos * 70), "#fe92cf", "Black");
-					if (Pos == PlatformDialogAnswerPosition) DrawEmptyRect(1050, 693 + (Pos * 70), 900, 63, "#fe92cf", 4);
+					if (CommonIsMobile || (Pos == PlatformDialogAnswerPosition)) DrawEmptyRect(1050, 693 + (Pos * 70), 900, 63, "#fe92cf", 4);
 					Pos++;
 				}
 		}
@@ -4287,21 +4293,22 @@ function PlatformDialogProcess() {
 
 /**
  * When the user presses keys in the dialog screen
- * @param {object | number} Key - The key or keyCode pressed
- * @returns {void} - Nothing
+ * @type {KeyboardEventListener}
  */
-function PlatformDialogKeyDown(Key) {
-	if (typeof Key === "object") Key = Key.keyCode;
-	if (Key == null) Key = KeyPress;
-	if ((Key == 32) || (Key == 13) || (Key == 74) || (Key == 75) || (Key == 76) || (Key == 106) || (Key == 107) || (Key == 108)) PlatformDialogProcess();
-	if ((Key == 87) || (Key == 119) || (Key == 90) || (Key == 122)) {
+function PlatformDialogKeyDown(event) {
+	if (event.code === "Space" || event.code === "Enter" || event.code === "KeyJ" || event.code === "KeyK" || event.code === "KeyL") {
+		PlatformDialogProcess();
+		return true;
+	} else if (CommonKeyMove(event) === "u") {
 		PlatformDialogAnswerPosition--;
 		if (PlatformDialogAnswerPosition < 0) PlatformDialogAnswerPosition = (PlatformDialogAnswer != null) ? PlatformDialogAnswer.length - 1 : 0;
-	}
-	if ((Key == 83) || (Key == 115)) {
+		return true;
+	} else if (CommonKeyMove(event) === "d") {
 		PlatformDialogAnswerPosition++;
 		if ((PlatformDialogAnswer != null) && (PlatformDialogAnswerPosition >= PlatformDialogAnswer.length)) PlatformDialogAnswerPosition = 0;
+		return true;
 	}
+	return false;
 }
 
 /**
@@ -4318,8 +4325,10 @@ function PlatformDialogLeave() {
  * @returns {void} - Nothing
  */
 function PlatformDialogClick() {
-	if ((PlatformDialogAnswer == null) || (PlatformDialogReply != null) || MouseIn(1050, 695, 900, 60 + (PlatformDialogAnswer.length - 1) * 70))
+	if ((PlatformDialogAnswer == null) || (PlatformDialogReply != null) || MouseIn(1050, 695, 900, 60 + (PlatformDialogAnswer.length - 1) * 70)) {
+		if (CommonIsMobile) PlatformDialogAnswerPosition = Math.floor((MouseY - 695) / 70);
 		PlatformDialogProcess();
+	}
 }
 
 /**
@@ -4337,16 +4346,22 @@ function PlatformDialogGetCharacter(Name) {
 
 /**
  * Handles the controller inputs
- * @param {Object} Buttons - The buttons pressed on the controller
+ * @param {readonly GamepadButton[]} buttons - The buttons pressed on the controller
  * @returns {boolean} - Always TRUE to indicate that the controller is handled
  */
-function PlatformDialogController(Buttons) {
-	if ((Buttons[ControllerA].pressed == true) && (ControllerGameActiveButttons.A == false)) PlatformDialogProcess();
-	else if ((Buttons[ControllerB].pressed == true) && (ControllerGameActiveButttons.B == false)) PlatformDialogProcess();
-	else if ((Buttons[ControllerX].pressed == true) && (ControllerGameActiveButttons.X == false)) PlatformDialogProcess();
-	else if ((Buttons[ControllerY].pressed == true) && (ControllerGameActiveButttons.Y == false)) PlatformDialogProcess();
-	else if ((Buttons[ControllerDPadUp].pressed == true) && (ControllerGameActiveButttons.UP == false)) PlatformDialogKeyDown(90);
-	else if ((Buttons[ControllerDPadDown].pressed == true) && (ControllerGameActiveButttons.DOWN == false)) PlatformDialogKeyDown(83);
+function PlatformDialogController(buttons) {
+	if (buttons[ControllerButton.A]?.pressed && !buttons[ControllerButton.A]?.repeat) { PlatformDialogProcess(); }
+	else if (buttons[ControllerButton.B]?.pressed && !buttons[ControllerButton.B]?.repeat) { PlatformDialogProcess(); }
+	else if (buttons[ControllerButton.X]?.pressed && !buttons[ControllerButton.X]?.repeat) { PlatformDialogProcess(); }
+	else if (buttons[ControllerButton.Y]?.pressed && !buttons[ControllerButton.Y]?.repeat) { PlatformDialogProcess(); }
+	else if (buttons[ControllerButton.DPadU]?.pressed && !buttons[ControllerButton.DPadU]?.repeat) {
+		const event = new KeyboardEvent("W", { code: "KeyW" });
+		PlatformDialogKeyDown(event);
+	}
+	else if (buttons[ControllerButton.DPadD]?.pressed && !buttons[ControllerButton.DPadD]?.repeat) {
+		const event = new KeyboardEvent("W", { code: "KeyS" });
+		PlatformDialogKeyDown(event);
+	}
 	return true;
 }
 

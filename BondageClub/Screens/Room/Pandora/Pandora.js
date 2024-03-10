@@ -310,19 +310,39 @@ function PandoraClick() {
 
 /**
  * Handles the key pressed in Pandora's Box, allow WASD to move around
- * @returns {void} - Nothing
+ * @param {KeyboardEvent} event - Key event
+ * @returns {boolean} - Whether the supplied event was understood/used.
  */
-function PandoraKeyDown() {
-	let AllowMove = true;
-	for (let C = 0; C < PandoraCurrentRoom.Character.length; C++)
-		if ((PandoraCurrentRoom.Character[C].AllowMove != null) && (PandoraCurrentRoom.Character[C].AllowMove == false))
-			AllowMove = false;
-	if (AllowMove && (PandoraMode == "")) {
-		if (((KeyPress == 87) || (KeyPress == 119)) && (PandoraDirectionAvailable("North"))) return PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf("North")], "North");
-		if (((KeyPress == 65) || (KeyPress == 97)) && (PandoraDirectionAvailable("West"))) return PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf("West")], "West");
-		if (((KeyPress == 83) || (KeyPress == 115)) && (PandoraDirectionAvailable("South"))) return PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf("South")], "South");
-		if (((KeyPress == 68) || (KeyPress == 100)) && (PandoraDirectionAvailable("East"))) return PandoraEnterRoom(PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf("East")], "East");
+function PandoraKeyDown (event) {
+	/** @type {"North" | "South" | "East" | "West" | undefined} */
+	let dir;
+	const movingAllowed = PandoraCurrentRoom.Character.every (i => i.AllowMove == null  ||  i.AllowMove);
+	if (movingAllowed  &&  PandoraMode == "") {
+		switch (CommonKeyMove (event, true)) {
+			case 'u':
+				dir = "North";
+				break;
+
+			case 'l':
+				dir = "West";
+				break;
+
+			case 'd':
+				dir = "South";
+				break;
+
+			case 'r':
+				dir = "East";
+				// fallthrough
+			default:
+				break;
+		}
+
+		if (dir !== undefined  &&  PandoraDirectionAvailable (dir)) {
+			PandoraEnterRoom (PandoraCurrentRoom.PathMap[PandoraCurrentRoom.DirectionMap.indexOf (dir)], dir);
+		}
 	}
+	return dir !== undefined;
 }
 
 /**
@@ -343,11 +363,16 @@ function PandoraMsgBox(Text) {
  * @returns {NPCCharacter} - The NPC character to return
  */
 function PandoraGenerateNPC(Group, Archetype, Name, AllowItem) {
-	CharacterDelete("NPC_Pandora_" + Group + Archetype);
-	delete CommonCSVCache["Screens/Room/Pandora/Dialog_NPC_Pandora_" + Group + Archetype + ".csv"];
+	const oldNPC = Character.find(c => c.CharacterID === "NPC_Pandora_" + Group + Archetype);
+	if (oldNPC) {
+		CharacterDelete(oldNPC);
+	}
+
 	let NPC = CharacterLoadNPC("NPC_Pandora_" + Group + Archetype);
-	if (Name == "RANDOM") CharacterRandomName(NPC);
-	else NPC.Name = Name;
+	if (Name == "RANDOM")
+		NPC.Name = CharacterGenerateRandomName();
+	else
+		NPC.Name = Name;
 	CharacterRelease(NPC);
 	NPC.Archetype = Archetype;
 	NPC.Stage = "0";
@@ -464,14 +489,14 @@ function PandoraEnterRoom(Room, Direction) {
 	PandoraCurrentRoom = Room;
 
 	// 33% odds of removing a previous random NPC if she can walk
-	if (PandoraCurrentRoom.Character.length >= 1)
-		if ((PandoraCurrentRoom.Character[0].AccountName.indexOf("NPC_Pandora_Random") == 0) && (Math.random() > 0.667) && PandoraCurrentRoom.Character[0].CanWalk()) {
-			let Char = PandoraCurrentRoom.Character[0];
+	if (PandoraCurrentRoom.Character.length >= 1) {
+		let Char = PandoraCurrentRoom.Character[0];
+		if ((Char.AccountName.indexOf("NPC_Pandora_Random") == 0) && (Math.random() > 0.667) && Char.CanWalk()) {
 			PandoraCurrentRoom.Character = [];
-			CharacterDelete(Char.AccountName);
-			Char = null;
+			CharacterDelete(Char);
 			return;
 		}
+	}
 
 	// 4% odds of spawning a new random NPC in the room
 	if ((PandoraCurrentRoom.Background.indexOf("Entrance") < 0) && (PandoraCurrentRoom.Character.length == 0) && (Math.random() > 0.96) && (InfiltrationMission != "CatBurglar")) {
@@ -782,7 +807,7 @@ function PandoraRemoveCurrentCharacter() {
 			PandoraCurrentRoom.Character.splice(C, 1);
 			break;
 		}
-	CharacterDelete(CurrentCharacter.AccountName);
+	CharacterDelete(CurrentCharacter);
 	DialogLeave();
 }
 
@@ -921,7 +946,7 @@ function PandoraInfiltrationChange(Progress) {
  * Checks if the player can bring the NPC to her private room
  * @returns {boolean} - Returns true if the player can
  */
-function PandoraCanJoinPrivateRoom() { return (LogQuery("RentRoom", "PrivateRoom") && (PrivateCharacter.length < PrivateCharacterMax) && !LogQuery("LockOutOfPrivateRoom", "Rule")); }
+function PandoraCanJoinPrivateRoom() { return PrivateHasEmptySlot(); }
 
 /**
  * When a random NPC joins the player private room, we add that character and exits the dialog

@@ -66,6 +66,8 @@ Dress
 裙子
 Sash
 腰带
+Tie
+领带
 Lower Gradient
 下部渐变
 Buttons
@@ -80,8 +82,6 @@ Text Inner
 内侧文字
 Text Outer
 外侧文字
-Tie
-领带
 Corset
 束腰
 Design
@@ -170,6 +170,10 @@ Layer 4
 第4层
 Apron
 围裙
+Detail Trim
+细节装饰
+Edge Trim
+边缘装饰
 Gloves
 手套
 Suit
@@ -410,6 +414,8 @@ Boots
 靴子
 Vamp
 防水台
+Silk
+丝绸
 Ankles
 膝盖
 Feet
@@ -562,6 +568,8 @@ Bowl
 碗
 Arms
 手臂
+Float bag
+漂浮气囊
 Wheel Holders
 轮子挡板
 Wheels
@@ -642,6 +650,10 @@ Mask
 面罩
 Eyes
 眼睛
+Helmet
+头盔
+Details
+细节
 Lock Icon
 锁标志
 HUD
@@ -776,8 +788,6 @@ Plug
 嘴唇
 Chin Strap
 下巴束带
-Helmet
-头盔
 Side Pieces
 两侧组件
 Hypno Spiral Icon
@@ -804,8 +814,6 @@ Rebreather Bag
 呼吸管
 Breathing Tube
 呼吸管
-Details
-细节
 Sticker
 贴纸
 Plaque
@@ -1204,3 +1212,9 @@ Gears
 齿轮
 Patch
 补丁
+Headset
+头戴耳机
+Stem
+连杆
+Mic
+话筒

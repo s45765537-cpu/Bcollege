@@ -2,7 +2,10 @@
 "use strict";
 /** @type {PlayerCharacter} */
 var Player;
-/** @type {number|string} */
+/**
+ * @type {number|string}
+ * @deprecated Use the keyboard handler's `event` parameter instead
+ */
 var KeyPress = "";
 /** @type {ModuleType} */
 var CurrentModule;
@@ -13,7 +16,11 @@ var CurrentScreenFunctions;
 /** @type {Character|NPCCharacter|null} */
 var CurrentCharacter = null;
 var CurrentOnlinePlayers = 0;
-/** A per-screen ratio of how darkened the background must be */
+/**
+ * A per-screen ratio of how darkened the background must be
+ *
+ * 1 is bright, 0 is pitch black
+ */
 var CurrentDarkFactor = 1.0;
 var CommonIsMobile = false;
 /** @type {Record<string, string[][]>} */
@@ -1135,10 +1142,14 @@ function CommonIsObject(value) {
  * @todo JSON serialization will break things like functions, Sets and Maps.
  * @template T
  * @param {T} obj
+ * @param {null | ((this: any, key: string, value: any) => any)} replacer
+ * @param {null | ((this: any, key: string, value: any) => any)} reviver
  * @returns {T}
  */
-function CommonCloneDeep(obj) {
-	return JSON.parse(JSON.stringify(obj));
+function CommonCloneDeep(obj, reviver=null, replacer=null) {
+	reviver ??= undefined;
+	replacer ??= undefined;
+	return JSON.parse(JSON.stringify(obj, replacer), reviver);
 }
 
 /**
@@ -1181,14 +1192,6 @@ function CommonIsFinite(value, min=-Infinity, max=Infinity) {
 		&& value >= min
 		&& value <= max
 	);
-}
-
-/**
- * Return whether BC is running in a browser environment (as opposed to Node.js as used for the test suite).
- * @returns {boolean}
- */
-function IsBrowser() {
-	return typeof window !== "undefined" && typeof window.document !== "undefined";
 }
 
 /**
@@ -1246,7 +1249,49 @@ function CommonFromEntries(iterable) {
 }
 
 /**
- * Automatically generate a grid based on parameters.
+ * Automatically generate grid coordinates based on parameters.
+ * @param {number} nItems - The upper bound to the number of grid points; fewer can be returned if they do not all fit on the grid
+ * @param {CommonGenerateGridParameters} grid - The grid parameters
+ * @returns {RectTuple[]} - A list of grid coordinates with a length of `<= nItems`
+ * @see {@link CommonGenerateGrid}
+ */
+function CommonGenerateGridCoords(nItems, grid) {
+	// Calculate horizontal & vertical margins
+	const itemCountX = Math.floor(grid.width / grid.itemWidth);
+	const marginX = grid.itemMarginX ?? (grid.width - (itemCountX * grid.itemWidth)) / (itemCountX - 1);
+	const itemCountY = Math.floor(grid.height / grid.itemHeight);
+	const marginY = grid.itemMarginY ?? (grid.height - (itemCountY * grid.itemHeight)) / (itemCountY - 1);
+	const direction = grid.direction ?? "horizontal";
+
+	/** @type {RectTuple[]} */
+	const gridList = [];
+	let i = 0;
+	let x = grid.x;
+	let y = grid.y;
+	if (direction === "horizontal") {
+		for (i; i < nItems && y <= grid.y + grid.height; i++) {
+			gridList.push([x, y, grid.itemWidth, grid.itemHeight]);
+			x += grid.itemWidth + marginX;
+			if (x - grid.x >= grid.width) {
+				x = grid.x;
+				y += grid.itemHeight + marginY;
+			}
+		}
+	} else {
+		for (i; i < nItems && x <= grid.x + grid.width; i++) {
+			gridList.push([x, y, grid.itemWidth, grid.itemHeight]);
+			y += grid.itemHeight + marginY;
+			if (y - grid.y >= grid.height) {
+				y = grid.y;
+				x += grid.itemWidth + marginX;
+			}
+		}
+	}
+	return gridList;
+}
+
+/**
+ * Automatically generate a grid based on parameters and apply a callback to each grid point.
  *
  * This function takes a list of items, grid parameters, and a callback to manage
  * creating a grid of them. It'll find the best value for margins between each cell,
@@ -1260,28 +1305,12 @@ function CommonFromEntries(iterable) {
  * @param {number} offset
  * @param {CommonGenerateGridParameters} grid
  * @param {CommonGenerateGridCallback<T>} callback
- * @returns {number}
+ * @returns {number} - The (offsetted) index for which the callback evaluated to `true`, or `-1` if no elements satisfy the testing
  */
 function CommonGenerateGrid(items, offset, grid, callback) {
-	// Calculate horizontal & vertical margins
-	const itemCountX = Math.floor(grid.width / grid.itemWidth);
-	const marginX = (grid.width - (itemCountX * grid.itemWidth)) / (itemCountX - 1);
-	const itemCountY = Math.floor(grid.height / grid.itemHeight);
-	const marginY = (grid.height - (itemCountY * grid.itemHeight)) / (itemCountY - 1);
-
-	let index;
-	let x = grid.x;
-	let y = grid.y;
-	for (index = offset; index < items.length && y <= grid.y + grid.height; index++) {
-		if (callback(items[index], x, y, grid.itemWidth, grid.itemHeight))
-			break;
-		x += grid.itemWidth + marginX;
-		if (x - grid.x >= grid.width) {
-			x = grid.x;
-			y += grid.itemHeight + marginY;
-		}
-	}
-	return index - offset;
+	const gridCoords = CommonGenerateGridCoords(items.length - offset, grid);
+	const index = gridCoords.findIndex((coords, i) => callback(items[i + offset], ...coords));
+	return index === -1 ? -1 : index - offset;
 }
 
 /**
@@ -1405,6 +1434,17 @@ function CommonObjectIsSubset(subRec, superRec) {
 }
 
 /**
+ * Returns the object with keys and values reversed
+ * @param {object} obj
+ */
+function CommonObjectFlip(obj) {
+	return Object.keys(obj).reduce((ret, key) => {
+		ret[obj[key]] = key;
+		return ret;
+	  }, {});
+}
+
+/**
  * Parse the passed stringified JSON data and catch any exceptions.
  * Exceptions will cause the function to return `undefined`.
  * @param {string} data
@@ -1452,3 +1492,108 @@ function CommonHas(obj, key) {
 	return obj.has(/** @type {T} */(key));
 }
 
+/**
+ * Defines a property with the given name and the passed setter and getter
+ * @example
+ * CommonDeprecate(
+ *  "OldFunc",
+ *  function NewFunc (a, b) { return a + b; },
+ * );
+ * @template {any} T
+ * @param {string} propertyName - The name for the new property
+ * @param {()=>T} getter - The getter function for the property
+ * @param {(T)=>void} setter - The setter function for the property
+ */
+function CommonProperty(propertyName, getter = undefined, setter = undefined) {
+	if(window[propertyName] !== undefined)
+	{
+		throw new Error(`The name ${setter} already exists.`);
+	}
+
+	getter ??= function(){ throw Error(`Property "${propertyName}" has no getter defined`); };
+	setter ??= function(){ throw Error(`Property "${propertyName}" has no setter defined`); };
+
+	Object.defineProperty(window, propertyName, {
+		enumerable: true,
+		configurable: true,
+		get: function() {
+			return getter();
+		},
+		set: function(val) { setter(val); },
+	});
+}
+
+/**
+ * Assign a function to the passed namespace, creating a deprecated and non-deprecated symbol.
+ * Both symbols will are in fact get/set wrappers around the same object, enforcing that `namespace[oldName] === namespace[callback.name]` *always* holds.
+ * @example
+ * CommonDeprecateFunction(
+ *  "OldFunc",
+ *  function NewFunc (a, b) { return a + b; },
+ * );
+ * @template {(...any) => any} T
+ * @param {string} oldName - The old (deprecated) name of the symbol
+ * @param {T} callback - The function with its new name
+ * @param {Record<string, any>} namespace - The namespace wherein the new and old names will be stored
+ */
+function CommonDeprecateFunction(oldName, callback, namespace=globalThis) {
+	const newName = callback.name;
+	if (!newName) {
+		throw new Error("Passed function lacks a name");
+	} else if (newName === oldName) {
+		throw new Error(`Callback name (${newName}) and oldName (${oldName}) must not be equivalent`);
+	}
+
+	const privateName = `_${newName}`;
+	namespace[privateName] = callback;
+
+	window[newName].get = function() { return namespace[privateName]; };
+	window[newName].set = function(val) { namespace[privateName] = val; };
+
+	Object.defineProperty(window, oldName, {
+		enumerable: true,
+		configurable: true,
+		get: function() {
+			console.warn(`"${oldName}" is deprecated, use "${newName}" instead`);
+			return namespace[privateName];
+		},
+		set: function(val) { namespace[privateName] = val; },
+	});
+}
+
+/**
+ * Capitalize the first character of the passed string.
+ * @template {string} T
+ * @param {T} string
+ * @returns {Capitalize<T>}
+ */
+function CommonCapitalize(string) {
+	return /** @type {Capitalize<T>} */(string ? `${string[0].toUpperCase()}${string.slice(1)}` : "");
+}
+
+/**
+ * Construct an object for holding arbitrary (user-specified) values with a mechanism to reset them to a default
+ * @template T1
+ * @template [T2={}]
+ * @param {T1} defaults - Default values that should be restored upon reset
+ * @param {null | T2} extraVars - Extra values that should *not* affected by resets
+ * @param {null | { replacer?: (this: any, key: string, value: any) => any, reviver?: (this: any, key: string, value: any) => any }} resetCallbacks - Extra callbacks for affecting the deep cloning process on reset.
+ * Generally only relevant if one of the fields contains non-JSON-serializible data.
+ * @returns {VariableContainer<T1, T2>} - The newly created object
+ */
+function CommonVariableContainer(defaults, extraVars=null, resetCallbacks=null) {
+	// @ts-ignore
+	extraVars ??= {};
+	const ret = Object.assign(
+		extraVars,
+		defaults,
+		{
+			Defaults: defaults,
+			Reset: () => {
+				Object.assign(ret, CommonCloneDeep(ret.Defaults, resetCallbacks?.reviver, resetCallbacks?.replacer));
+			},
+		},
+	);
+	ret.Reset();
+	return ret;
+}

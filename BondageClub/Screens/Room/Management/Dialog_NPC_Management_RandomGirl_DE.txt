@@ -531,20 +531,22 @@ Wie viele Tage beträgt die minimale Dauer einer Probezeit in einem Online-Chatr
 One day.
 Einen Tag.
 ###_NPC
-Wrong.  It's three days slave girl.
-Falsch. Es sind drei Tage, Sklavenmädchen.
+Wrong.  It's one week slave girl.
+Falsch. Es ist eine Woche, Sklavenmädchen.
 ###_PLAYER
 Three days.
 Drei Tage.
+One week.
+Eine Woche.
 ###_NPC
 Correct!  (She pets your head.)
 Richtig! (SSie streichelt deinen Kopf.)
 ###_PLAYER
-One week.
-Eine Woche.
+Three weeks.
+Drei Wochen.
 ###_NPC
-You should know the delay.  It's three days slave girl.
-Die Dauer sollte dir bekannt sein. Es sind drei Tage, Sklavenmädchen.
+You should know the delay.  It's one week slave girl.
+Die Dauer sollte dir bekannt sein. Es ist eine Woche, Sklavenmädchen.
 What is highest ranking you can reach in the maid sorority?
 Wie lautet der oberste Titel, den du in der Hausmädchen-Schwesternschaft erreichen kannst?
 ###_PLAYER
@@ -612,25 +614,25 @@ Es sind 60 Minuten. Du wirst wohl etwas Zeit in der Zelle verbringen müssen, um
 In online chat rooms, what can you do to protect yourself from griefers and trolls?
 Wie kannst du dich in einem Online-Chatraum vor Spaßverderbern und Trollen schützen?
 ###_PLAYER
-Blacklist them.
-Sie meiner Blacklist hinzufügen.
+Blacklist and Ghostlist them.
+Sie meiner Blacklist oder Ghostlist hinzufügen.
 ###_NPC
-Absolutely.  Focus on them and add them to your blacklist in your relationship management.
-Durchaus. Wähle sie an und füge sie in deinem Beziehungsmenü deiner Blscklist hinzu.
+Absolutely.  Focus on them and add them to your blacklist and ghostlist in your relationship management.
+Durchaus. Wähle sie an und füge sie in deinem Beziehungsmenü deiner Blacklist oder Ghostlist hinzu.
 ###_PLAYER
 Yell at them until they stop.
 Sie anschreien, bis sie aufhören.
 ###_NPC
-No.  Just focus on them and add them to your blacklist in your relationship management.
-Nein. Wähle sie einfach an und füge sie in deinem Beziehungsmenü deiner Blscklist hinzu.
+No.  Just focus on them and add them to your blacklist and ghostlist in your relationship management.
+Nein. Wähle sie einfach an und füge sie in deinem Beziehungsmenü deiner Blacklist oder Ghostlist hinzu.
 ###_PLAYER
 Beg them to stop.
 Sie anbetteln, aufzuhören.
 ###_NPC
-It probably won't work.  Instead, focus on them and add them to your blacklist in your relationship management.
-Das wird wohl eher nicht klappen. Wähle sie lieber an und füge sie in deinem Beziehungsmenü deiner Blscklist hinzu.
-Focus on them and add them to your blacklist in your relationship management.
-Wähle sie an und füge sie in deinem Beziehungsmenü deiner Blscklist hinzu.
+It probably won't work.  Instead, focus on them and add them to your blacklist and ghostlist in your relationship management.
+Das wird wohl eher nicht klappen. Wähle sie lieber an und füge sie in deinem Beziehungsmenü deiner Blacklist oder Ghostlist hinzu.
+Focus on them and add them to your blacklist and ghostlist in your relationship management.
+Wähle sie an und füge sie in deinem Beziehungsmenü deiner Blacklist oder Ghostlist hinzu.
 Which one of these gags is the most effective: ring gag, panel gag, duct tape or cloth gag?
 Welcher dieser Knebel ist am effektivsten: Ringknebel, Maulkorb, Klebeband oder Stoffknebel?
 ###_PLAYER
@@ -865,17 +867,17 @@ Complete this sentence:  safe, sane and ...
 Vervollständige dieses englische BDSM-Motto: "Safe, sane and..."
 ###_PLAYER
 Secure.
-Secure.
+Gesichert.
 ###_NPC
 Better luck next time.  The answer is: consensual.
 Vielleicht hast du beim nächsten Mal mehr Glück. Die Antwort lautet: Consensual.
 ###_PLAYER
 Sensual.
-Sensual.
+Sinnlich.
 Submissive.
-Submissive.
+Submissiv.
 Consensual.
-Consensual.
+Einvernehmlich.
 ###_NPC
 Good girl!  Remember this one.
 Gutes Mädchen! Merk dir das.
@@ -1015,7 +1017,7 @@ Viel Spaß, Mädchen. (Dialog beenden.)
 Who are you girl?
 Wer bist du, Mädchen?
 ###_NPC
-(She bows her head.)  I'm slave DialogCharacterName Miss.  Do you need my services?
+(She bows her head.)  I'm a club slave Miss.  Do you need my services?
 (Sie senkt ihren Kopf.) Ich bin Sklavin DialogCharacterName, Miss. Benötigen sie meine Dienste?
 ###_PLAYER
 You seem well trained slave.
@@ -1102,7 +1104,7 @@ Süße Fesseln.
 (She giggles hearing your mumbles and nods politely.)
 (Sie kichert, als sie dein Gemurmel hört, und nickt höflich.)
 NOEXIT
-NOEXIT
+Kein Ausgang
 ###_PLAYER
 Let's talk.
 Lass uns reden.
@@ -1137,7 +1139,7 @@ Tut mir leid, Miss, ich bin heute zu beschäftigt. Vielleicht ein Andermal.
 Who are you?
 Wer bist du?
 ###_NPC
-I'm slave DialogCharacterName Miss.  It's a pleasure to meet you.
+I'm a simple club slave Miss.  It's a pleasure to meet you.
 Ich bin Sklavin DialogCharacterName, Miss. Es ist mir eine Freude, Sie kennenzulernen.
 ###_PLAYER
 Why are you naked?

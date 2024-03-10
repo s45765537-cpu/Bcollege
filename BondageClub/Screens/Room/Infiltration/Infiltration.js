@@ -77,7 +77,7 @@ function InfiltrationPartyPrisonerIsMistress() { return (InfiltrationPartyPrison
  * Returns TRUE if there is still free space in private room.
  * @returns {boolean} - TRUE if successful
  */
-function InfiltrationCanJoinPrivateRoom() { return (LogQuery("RentRoom", "PrivateRoom") && (PrivateCharacter.length < PrivateCharacterMax) && !LogQuery("LockOutOfPrivateRoom", "Rule")); }
+function InfiltrationCanJoinPrivateRoom() { return PrivateHasEmptySlot(); }
 /**
  * Returns TRUE if the player and the current character can play Club Card
  * @returns {boolean} - Returns TRUE if both aren't restrained and gagged
@@ -172,11 +172,9 @@ function InfiltrationPrepareMission() {
 	InfiltrationMission = CommonRandomItemFromList(InfiltrationMission, InfiltrationMissionType);
 	//InfiltrationMission = "ReverseMaid"; // DEBUG
 	if ((InfiltrationMission == "Rescue") || (InfiltrationMission == "Kidnap")) {
-		let C = /** @type {NPCCharacter} */ ({});
-		CharacterRandomName(C);
 		InfiltrationTarget = {
 			Type: "NPC",
-			Name: C.Name,
+			Name: CharacterGenerateRandomName(),
 			PrivateRoom: false
 		};
 	} else {
@@ -322,10 +320,9 @@ function InfiltrationStartKidnapping() {
 	IntroText = IntroText.replace("DialogPlayerName", CharacterNickname(Player));
 	CommonSetScreen("Room", "Infiltration");
 	InfiltrationBackground = MainHallBackground;
-	CharacterDelete("NPC_Infiltration_" + Type);
-	delete CommonCSVCache["Screens/Room/Infiltration/NPC_Infiltration_" + Type + ".csv"];
+	CharacterDelete(InfiltrationKidnapper);
+
 	InfiltrationKidnapper = CharacterLoadNPC("NPC_Infiltration_" + Type);
-	CharacterRandomName(InfiltrationKidnapper);
 	CharacterRelease(InfiltrationKidnapper);
 	InfiltrationKidnapper.Stage = "0";
 	if (Type == "Kidnapper") {
@@ -423,9 +420,7 @@ function InfiltrationKidnapperUngag() {
  * Returns TRUE if the player can bring the current NPC to her room
  * @returns {boolean} - TRUE if it's possible
  */
-function InfiltrationCanBringToRoom() {
-	return (LogQuery("RentRoom", "PrivateRoom") && (PrivateCharacter.length < PrivateCharacterMax));
-}
+function InfiltrationCanBringToRoom() { return PrivateHasEmptySlot(); }
 
 /**
  * Removes the Pandora Locks and Keys from the player inventory, ends the scene

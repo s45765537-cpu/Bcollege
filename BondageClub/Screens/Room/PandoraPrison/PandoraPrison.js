@@ -140,7 +140,7 @@ function PandoraPrisonExitPrison() {
 	delete Player.Infiltration.Punishment;
 	ServerSend("AccountUpdate", { Infiltration: Player.Infiltration });
 	DialogLeave();
-	CharacterDelete("NPC_PandoraPrison_Maid");
+	CharacterDelete(PandoraPrisonMaid);
 	PandoraPrisonMaid = null;
 	if (InfiltrationSupervisor == null) CommonSetScreen("Room", "MainHall");
 	else CommonSetScreen("Room", "Infiltration");

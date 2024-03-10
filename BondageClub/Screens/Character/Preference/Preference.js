@@ -91,7 +91,6 @@ var PreferenceGraphicsPowerModeIndex = null;
 /** @type {null | WebGLContextAttributes} */
 var PreferenceGraphicsWebGLOptions = null;
 var PreferenceGraphicsAnimationQualityList = [10000, 2000, 200, 100, 50, 0];
-var PreferenceCalibrationStage = 0;
 /** @type {string[]} */
 var PreferenceCensoredWordsList = [];
 var PreferenceCensoredWordsOffset = 0;
@@ -104,6 +103,13 @@ let PreferenceScriptTimeoutHandle = null;
 /** @type {null | number} */
 let PreferenceScriptTimer = null;
 let PreferenceScriptWarningAccepted = false;
+/** @type {Record<string,PreferenceExtensionsSettingItem>} */
+let PreferenceExtensionsSettings = {};
+/** @type {PreferenceExtensionsMenuButtonInfo[]} */
+let PreferenceExtensionsDisplay = [];
+/** @type {PreferenceExtensionsSettingItem | null}*/
+let PreferenceExtensionsCurrent = null;
+
 
 const ScriptPermissionLevel = Object.freeze({
 	SELF: "Self",
@@ -125,13 +131,6 @@ const ScriptPermissionBits = Object.freeze({
 
 const maxScriptPermission = Object.values(ScriptPermissionBits)
 	.reduce((sum, bit) => sum | bit, 0);
-
-/**
- * An object defining which genders a setting is active for
- * @typedef {object} GenderSetting
- * @property {boolean} Female - Whether the setting is active for female cases
- * @property {boolean} Male - Whether the setting is active for male cases
- */
 
 /**
  * Compares the arousal preference level and returns TRUE if that level is met, or an higher level is met
@@ -325,7 +324,10 @@ function PreferenceInit(C) {
 function PreferenceInitPlayer() {
 	const C = Player;
 
-	// Save settings for comparison
+	/**
+	 * Save settings for comparison
+	 * @satisfies {Partial<Record<keyof ServerAccountData, string>>}
+	 */
 	const PrefBefore = {
 		ArousalSettings: JSON.stringify(C.ArousalSettings) || "",
 		ChatSettings: JSON.stringify(C.ChatSettings) || "",
@@ -391,38 +393,55 @@ function PreferenceInitPlayer() {
 	// Controller settings
 	// @ts-ignore: Individual properties validated separately
 	if (!C.ControllerSettings) C.ControllerSettings = {};
+	if (typeof C.ControllerSettings.ControllerActive !== "boolean") C.ControllerSettings.ControllerActive = false;
 	if (typeof C.ControllerSettings.ControllerSensitivity !== "number") C.ControllerSettings.ControllerSensitivity = 5;
 	if (typeof C.ControllerSettings.ControllerDeadZone !== "number") C.ControllerSettings.ControllerDeadZone = 0.01;
-	if (typeof C.ControllerSettings.ControllerA !== "number") C.ControllerSettings.ControllerA = 1;
-	if (typeof C.ControllerSettings.ControllerB !== "number") C.ControllerSettings.ControllerB = 0;
-	if (typeof C.ControllerSettings.ControllerX !== "number") C.ControllerSettings.ControllerX = 3;
-	if (typeof C.ControllerSettings.ControllerY !== "number") C.ControllerSettings.ControllerY = 2;
-	if (typeof C.ControllerSettings.ControllerStickUpDown !== "number") C.ControllerSettings.ControllerStickUpDown = 1;
-	if (typeof C.ControllerSettings.ControllerStickLeftRight !== "number") C.ControllerSettings.ControllerStickLeftRight = 0;
-	if (typeof C.ControllerSettings.ControllerStickRight !== "number") C.ControllerSettings.ControllerStickRight = 1;
-	if (typeof C.ControllerSettings.ControllerStickDown !== "number") C.ControllerSettings.ControllerStickDown = 1;
-	if (typeof C.ControllerSettings.ControllerDPadUp !== "number") C.ControllerSettings.ControllerDPadUp = 4;
-	if (typeof C.ControllerSettings.ControllerDPadDown !== "number") C.ControllerSettings.ControllerDPadDown = 5;
-	if (typeof C.ControllerSettings.ControllerDPadLeft !== "number") C.ControllerSettings.ControllerDPadLeft = 6;
-	if (typeof C.ControllerSettings.ControllerDPadRight !== "number") C.ControllerSettings.ControllerDPadRight = 7;
-	if (typeof C.ControllerSettings.ControllerActive !== "boolean") C.ControllerSettings.ControllerActive = false;
+
+	// @ts-expect-error: checking for old-style mapping
+	if (typeof C.ControllerSettings.ControllerA === "number") {
+		// Port over to new mapping
+		const s = /** @type {ControllerSettingsOld} */(/** @type {unknown} */(C.ControllerSettings));
+		const buttonsMapping = {
+			[ControllerButton.A]: s.ControllerA,
+			[ControllerButton.B]: s.ControllerB,
+			[ControllerButton.X]: s.ControllerX,
+			[ControllerButton.Y]: s.ControllerY,
+			[ControllerButton.DPadU]: s.ControllerDPadUp,
+			[ControllerButton.DPadD]: s.ControllerDPadDown,
+			[ControllerButton.DPadL]: s.ControllerDPadLeft,
+			[ControllerButton.DPadR]: s.ControllerDPadRight,
+		};
+		const axisMapping = {
+			[ControllerAxis.StickLV]: s.ControllerStickUpDown,
+			[ControllerAxis.StickLH]: s.ControllerStickLeftRight,
+		};
+		ControllerLoadMapping(buttonsMapping, axisMapping);
+		// Delete the old mapping
+		const oldKeys = [
+			"ControllerA",
+			"ControllerB",
+			"ControllerX",
+			"ControllerY",
+			"ControllerStickUpDown",
+			"ControllerStickLeftRight",
+			"ControllerStickRight",
+			"ControllerStickDown",
+			"ControllerDPadUp",
+			"ControllerDPadDown",
+			"ControllerDPadLeft",
+			"ControllerDPadRight",
+		];
+		for (const old of oldKeys) {
+			delete C.ControllerSettings[old];
+		}
+	} else if (typeof C.ControllerSettings.Buttons === "object") {
+		ControllerLoadMapping(C.ControllerSettings.Buttons, C.ControllerSettings.Axis);
+	}
 
 	ControllerSensitivity = C.ControllerSettings.ControllerSensitivity;
 	ControllerDeadZone = C.ControllerSettings.ControllerDeadZone;
 	PreferenceSettingsSensitivityIndex = PreferenceSettingsSensitivityList.indexOf(Player.ControllerSettings.ControllerSensitivity);
 	PreferenceSettingsDeadZoneIndex = PreferenceSettingsDeadZoneList.indexOf(Player.ControllerSettings.ControllerDeadZone);
-	ControllerA = C.ControllerSettings.ControllerA;
-	ControllerB = C.ControllerSettings.ControllerB;
-	ControllerX = C.ControllerSettings.ControllerX;
-	ControllerY = C.ControllerSettings.ControllerY;
-	ControllerStickUpDown = C.ControllerSettings.ControllerStickUpDown;
-	ControllerStickLeftRight = C.ControllerSettings.ControllerStickLeftRight;
-	ControllerStickRight = C.ControllerSettings.ControllerStickRight;
-	ControllerStickDown = C.ControllerSettings.ControllerStickDown;
-	ControllerDPadUp = C.ControllerSettings.ControllerDPadUp;
-	ControllerDPadDown = C.ControllerSettings.ControllerDPadDown;
-	ControllerDPadLeft = C.ControllerSettings.ControllerDPadLeft;
-	ControllerDPadRight = C.ControllerSettings.ControllerDPadRight;
 
 	ControllerStart();
 
@@ -581,6 +600,7 @@ function PreferenceInitPlayer() {
 	AfkTimerSetEnabled(C.OnlineSettings.EnableAfkTimer);
 
 	// Sync settings if anything changed
+	/** @type {{ [k in keyof typeof PrefBefore]?: PlayerCharacter[k] }} */
 	const toUpdate = {};
 
 	for (const prop of Object.keys(PrefBefore))
@@ -712,12 +732,14 @@ function PreferenceRun() {
 	DrawText(TextGet("Preferences"), 500, 125, "Black", "Gray");
 	MainCanvas.textAlign = "center";
 
-	// Draw all the buttons to access the submenus
-	for (let A = 0; A < PreferenceSubscreenList.length; A++) {
-		DrawButton(500 + 420 * Math.floor(A / 7), 160 + 110 * (A % 7), 400, 90, "", "White", "Icons/" + PreferenceSubscreenList[A] + ".png");
-		DrawTextFit(TextGet("Homepage" + PreferenceSubscreenList[A]), 745 + 420 * Math.floor(A / 7), 205 + 110 * (A % 7), 310, "Black");
-	}
+	// Only show the Extension settings if there are any registered
+	const adjustedSubscreenList = Object.keys(PreferenceExtensionsSettings).length > 0 ? PreferenceSubscreenList.concat("Extensions") : PreferenceSubscreenList;
 
+	// Draw all the buttons to access the submenus
+	for (let A = 0; A < adjustedSubscreenList.length; A++) {
+		DrawButton(500 + 420 * Math.floor(A / 7), 160 + 110 * (A % 7), 400, 90, "", "White", "Icons/" + adjustedSubscreenList[A] + ".png");
+		DrawTextFit(TextGet("Homepage" + adjustedSubscreenList[A]), 745 + 420 * Math.floor(A / 7), 205 + 110 * (A % 7), 310, "Black");
+	}
 }
 
 /**
@@ -850,14 +872,16 @@ function PreferenceClick() {
 	// Exit button
 	if (MouseIn(1815, 75, 90, 90)) PreferenceExit();
 
+	const adjustedSubscreenList = Object.keys(PreferenceExtensionsSettings).length > 0 ? PreferenceSubscreenList.concat("Extensions") : PreferenceSubscreenList;
+
 	// Open the selected subscreen
-	for (let A = 0; A < PreferenceSubscreenList.length; A++)
+	for (let A = 0; A < adjustedSubscreenList.length; A++)
 		if (MouseIn(500 + 420 * Math.floor(A / 7), 160 + 110 * (A % 7), 400, 90)) {
-			if (typeof window["PreferenceSubscreen" + PreferenceSubscreenList[A] + "Load"] === "function")
-				CommonDynamicFunction("PreferenceSubscreen" + PreferenceSubscreenList[A] + "Load()");
-			PreferenceSubscreen = PreferenceSubscreenList[A];
+			if (typeof window["PreferenceSubscreen" + adjustedSubscreenList[A] + "Load"] === "function")
+				CommonDynamicFunction("PreferenceSubscreen" + adjustedSubscreenList[A] + "Load()");
+			PreferenceSubscreen = adjustedSubscreenList[A];
 			PreferencePageCurrent = 1;
-			if (PreferenceSubscreenList[A] === "Scripts") {
+			if (adjustedSubscreenList[A] === "Scripts") {
 				PreferenceScriptTimer = Date.now() + 5000;
 				PreferenceScriptTimeoutHandle = setTimeout(() => {
 					PreferenceScriptTimer = null;
@@ -1160,7 +1184,8 @@ function PreferenceSubscreenAudioRun() {
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenControllerRun() {
-	if (PreferenceCalibrationStage == 0) {
+	DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
+	if (!ControllerIsCalibrating()) {
 		DrawCharacter(Player, 50, 50, 0.9);
 		MainCanvas.textAlign = "left";
 		DrawText(TextGet("ControllerPreferences"), 500, 125, "Black", "Gray");
@@ -1182,49 +1207,13 @@ function PreferenceSubscreenControllerRun() {
 		DrawBackNextButton(500, 593, 250, 64, Player.ControllerSettings.ControllerDeadZone.toString(), "White", "",
 			() => PreferenceSettingsDeadZoneList[(PreferenceSettingsDeadZoneIndex + PreferenceSettingsDeadZoneList.length - 1) % PreferenceSettingsDeadZoneList.length].toString(),
 			() => PreferenceSettingsDeadZoneList[(PreferenceSettingsDeadZoneIndex + 1) % PreferenceSettingsDeadZoneList.length].toString() );
-	}
-	if (PreferenceCalibrationStage == 101) {
+	} else {
+		DrawButton(1815, 178, 90, 90, "", "White", "Icons/Cancel.png", TextGet("Skip"));
+		const label = ControllerCalibrationStageLabel();
 		MainCanvas.textAlign = "left";
-		DrawTextFit(TextGet("MoveLeftStickUp"), 590, 425, 310, "Black");
+		DrawTextFit(label, 590, 425, 310, "Black");
+		MainCanvas.textAlign = "center";
 	}
-	if (PreferenceCalibrationStage == 102) {
-		MainCanvas.textAlign = "left";
-		DrawTextFit(TextGet("MoveLeftStickRight"), 590, 425, 310, "Black");
-	}
-	DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
-	if (PreferenceCalibrationStage == 1) {
-		MainCanvas.textAlign = "left";
-		DrawTextFit(TextGet("PressA"), 590, 425, 310, "Black");
-	}
-	if (PreferenceCalibrationStage == 2) {
-		MainCanvas.textAlign = "left";
-		DrawTextFit(TextGet("PressB"), 590, 425, 310, "Black");
-	}
-	if (PreferenceCalibrationStage == 3) {
-		MainCanvas.textAlign = "left";
-		DrawTextFit(TextGet("PressX"), 590, 425, 310, "Black");
-	}
-	if (PreferenceCalibrationStage == 4) {
-		MainCanvas.textAlign = "left";
-		DrawTextFit(TextGet("PressY"), 590, 425, 310, "Black");
-	}
-	if (PreferenceCalibrationStage == 5) {
-		MainCanvas.textAlign = "left";
-		DrawTextFit(TextGet("PressUpOnDpad"), 590, 425, 310, "Black");
-	}
-	if (PreferenceCalibrationStage == 6) {
-		MainCanvas.textAlign = "left";
-		DrawTextFit(TextGet("PressDownOnDpad"), 590, 425, 310, "Black");
-	}
-	if (PreferenceCalibrationStage == 7) {
-		MainCanvas.textAlign = "left";
-		DrawTextFit(TextGet("PressLeftOnDpad"), 590, 425, 310, "Black");
-	}
-	if (PreferenceCalibrationStage == 8) {
-		MainCanvas.textAlign = "left";
-		DrawTextFit(TextGet("PressRightOnDpad"), 590, 425, 310, "Black");
-	}
-	MainCanvas.textAlign = "center";
 }
 
 /**
@@ -1783,8 +1772,9 @@ function PreferenceSubscreenAudioExit() {
  */
 function PreferenceSubscreenControllerClick() {
 	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenControllerExit();
+	if (MouseIn(1815, 178, 90, 90)) ControllerCalibrationNextStage(true);
 
-	if (PreferenceCalibrationStage == 0) {
+	if (!ControllerIsCalibrating()) {
 
 		if (MouseIn(500, 193, 250, 64)) {
 			if (MouseX <= 625) PreferenceSettingsSensitivityIndex = (PreferenceSettingsSensitivityList.length + PreferenceSettingsSensitivityIndex - 1) % PreferenceSettingsSensitivityList.length;
@@ -1800,13 +1790,11 @@ function PreferenceSubscreenControllerClick() {
 		}
 
 		if (MouseIn(590, 400, 310, 90)) {
-			PreferenceCalibrationStage = 1;
-			Calibrating = true;
+			ControllerStartCalibration("buttons");
 		}
 
 		if (MouseIn(590, 500, 310, 90)) {
-			PreferenceCalibrationStage = 101;
-			Calibrating = true;
+			ControllerStartCalibration("axis");
 		}
 
 		if (MouseIn(500, 272, 64, 64)) {
@@ -2660,8 +2648,7 @@ function PreferenceSubscreenNotificationsExit() {
  */
 function PreferenceSubscreenControllerExit() {
 	PreferenceSubscreen = "";
-	PreferenceCalibrationStage = 0;
-	Calibrating = false;
+	ControllerStopCalibration(true);
 }
 
 /**
@@ -3094,3 +3081,111 @@ var PreferenceOnlineSharedSettingsValidate = {
 		};
 	},
 };
+
+/**
+ * Registers a new extension setting to the preference screen
+ * @param {PreferenceExtensionsSettingItem} Setting - The extension setting to register
+ * @returns {void} - Nothing
+ */
+function PreferenceRegisterExtensionSetting(Setting) {
+	if((typeof Setting.Identifier !== "string" || Setting.Identifier.length < 1)
+	|| typeof Setting.load !== "function"
+	|| typeof Setting.run !== "function"
+	|| typeof Setting.click !== "function"
+	|| (typeof Setting.ButtonText !== "string" && typeof Setting.ButtonText !== "function")
+	|| (typeof Setting.Image !== "string" && typeof Setting.Image !== "function" && typeof Setting.Image !== "undefined")) {
+		console.error("Invalid extension setting");
+		return;
+	}
+	// Setting Names must be unique
+	const existing = PreferenceExtensionsSettings[Setting.Identifier];
+	if(existing) {
+		console.error(`Extension setting "${existing.Identifier}" already exists`);
+		return;
+	}
+	PreferenceExtensionsSettings[Setting.Identifier] = Setting;
+}
+
+/**
+ * Handles the loading of the preference subscreen for extensions
+ * @returns {void} - Nothing
+ */
+function PreferenceSubscreenExtensionsLoad() {
+	PreferenceExtensionsDisplay = Object.keys(PreferenceExtensionsSettings).map(
+		k => (
+			s=>({
+				Button: typeof s.ButtonText === "function" ? s.ButtonText() : s.ButtonText,
+				Image: s.Image && (typeof s.Image === "function" ? s.Image() : s.Image),
+				click: () => {
+					PreferenceExtensionsCurrent = s;
+					s?.load();
+				}
+			}))(PreferenceExtensionsSettings[k]));
+}
+
+/**
+ * Runs and draws the preference subscreen for extensions
+ * @returns {void} - Nothing
+ */
+function PreferenceSubscreenExtensionsRun() {
+	if(PreferenceExtensionsCurrent === null) {
+		DrawCharacter(Player, 50, 50, 0.9);
+
+		MainCanvas.textAlign = "left";
+		DrawText(TextGet("ExtensionsPreferences"), 500, 125, "Black", "Gray");
+
+		MainCanvas.textAlign = "center";
+		PreferenceExtensionsDisplay.forEach((s, i) => {
+			const X = 500 + Math.floor(i / 7) * 420;
+			const Y = 160 + (i % 7) * 110;
+			DrawButton(X, Y, 400, 90, "", "White", s.Image || null);
+			DrawTextFit(s.Button, X + 245, Y + 45, 310, "Black");
+		});
+
+		DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
+	} else {
+		PreferenceExtensionsCurrent.run();
+	}
+}
+
+/**
+ * Handles clicks in the preference subscreen for extensions
+ * @returns {void} - Nothing
+ */
+function PreferenceSubscreenExtensionsClick() {
+	if(PreferenceExtensionsCurrent === null) {
+		if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenExtensionsExit();
+		PreferenceExtensionsDisplay.forEach((s, i) => {
+			const X = 500 + Math.floor(i / 7) * 420;
+			const Y = 160 + (i % 7) * 110;
+			if (MouseIn(X, Y, 400, 90)) s.click();
+		});
+	} else {
+		PreferenceExtensionsCurrent.click();
+	}
+}
+
+function PreferenceSubscreenExtensionsUnload() {
+	PreferenceExtensionsCurrent?.unload?.();
+}
+
+function PreferenceSubscreenExtensionsExit() {
+	if(PreferenceExtensionsCurrent === null) {
+		PreferenceSubscreen = "";
+	} else if(PreferenceExtensionsCurrent.exit()) {
+		PreferenceSubscreenExtensionsClear();
+	}
+}
+
+/**
+ * Exit the preference subscreen for extensions, should be called when
+ * leaving custom menu of extensions if the extension exits the menu from itself.
+ * @returns {void} - Nothing
+ */
+function PreferenceSubscreenExtensionsClear() {
+	if(PreferenceSubscreen !== "Extensions" || PreferenceExtensionsCurrent === null) return;
+	PreferenceExtensionsCurrent.unload();
+	PreferenceExtensionsCurrent = null;
+	// Reload the extension settings
+	PreferenceSubscreenExtensionsLoad();
+}

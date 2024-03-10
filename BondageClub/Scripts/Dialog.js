@@ -209,6 +209,34 @@ var DialogSelfMenuOptions = [
 ];
 
 /**
+ * Namespace with {@link DialogLeaveFocusItem} helpers for setting up new screens.
+ * @namespace
+ */
+var DialogLeaveFocusItemHandlers = {
+	/**
+	 * Screen setup callbacks for after exiting the tighten/loosen menu; screen names are used as keys.
+	 * @type {Record<string, (item: Item) => void>}
+	 */
+	DialogTightenLoosenItem: {},
+
+	/**
+	 * Screen setup callbacks for after exiting the extended item menu; screen names are used as keys.
+	 * @type {Record<string, (item: Item) => void>}
+	 */
+	DialogFocusItem: {
+		Appearance: () => DialogLeave(),
+		Crafting: (item) => {
+			CraftingUpdateFromItem(item);
+			CraftingModeSet("Name");
+		},
+		Shop2: () => {
+			Shop2Vars.Mode = "Preview";
+			Shop2Load();
+		},
+	},
+};
+
+/**
  * Returns character based on argument
  * @param {Character | string} C - The characer to get; can be `"Player"` to get player or empty to get current
  * @returns {Character} - The actual character
@@ -329,15 +357,18 @@ function DialogAllowItem(Allow) { return CurrentCharacter.AllowItem = (Allow.toU
 
 /**
  * Returns the value of the AllowItem flag of a given character
+ * @param {string | Character} C - The character whose flag should be returned.
+ * Either the player (value: Player) or the current character (value: CurrentCharacter)
  * @returns {boolean} - The value of the given character's AllowItem flag
  */
-function DialogDoAllowItem() { return !DialogDontAllowItemPermission() && !DialogDontAllowItemDistance(); }
+function DialogDoAllowItem(C) { return !DialogDontAllowItemPermission(C); }
+
 
 /**
  * Returns TRUE if the AllowItem flag doesn't allow putting an item on the current character
  * @returns {boolean} - The reversed value of the given character's AllowItem flag
  */
-function DialogDontAllowItemPermission() { return !DialogGetCharacter(CurrentCharacter).AllowItem; }
+function DialogDontAllowItemPermission(C) { return !DialogGetCharacter(C ? C : CurrentCharacter).AllowItem; }
 
 /**
  * Returns TRUE if no item can be used by the player on the current character because of the map distance
@@ -345,8 +376,8 @@ function DialogDontAllowItemPermission() { return !DialogGetCharacter(CurrentCha
  */
 function DialogDontAllowItemDistance() {
 	if ((CurrentCharacter == null) || CurrentCharacter.IsPlayer()) return false;
-	if ((CurrentScreen !== "ChatRoom") || !ChatRoomMapVisible) return false;
-	if (ChatRoomMapHasSuperPowers() || ChatRoomMapCharacterOnWhisperRange(CurrentCharacter)) return false;
+	if ((CurrentScreen !== "ChatRoom") || !ChatRoomMapViewIsActive()) return false;
+	if (ChatRoomMapViewHasSuperPowers() || ChatRoomMapViewCharacterOnWhisperRange(CurrentCharacter)) return false;
 	return true;
 }
 
@@ -616,7 +647,6 @@ function DialogHasKey(C, Item) {
 		// Intricate, check that we added that lock
 		if (Item.Property.LockMemberNumber == Player.MemberNumber) return true;
 	}
-	if (lock && lock.Asset.FamilyOnly && Item.Asset.Enable && (!C.IsPlayer()) && !C.IsFamilyOfPlayer()) return false;
 	let UnlockName = /** @type {EffectName} */("Unlock" + Item.Asset.Name);
 	if ((Item.Property != null) && (Item.Property.LockedBy != null))
 		UnlockName = /** @type {EffectName} */("Unlock" + Item.Property.LockedBy);
@@ -625,6 +655,7 @@ function DialogHasKey(C, Item) {
 			if (lock != null) {
 				if (lock.Asset.LoverOnly && !C.IsLoverOfPlayer()) return false;
 				if (lock.Asset.OwnerOnly && !C.IsOwnedByPlayer()) return false;
+				if (lock.Asset.FamilyOnly && !C.IsFamilyOfPlayer()) return false;
 				return true;
 			} else return true;
 		}
@@ -887,31 +918,37 @@ function DialogLeaveItemMenu() {
 }
 
 /**
- * Leaves the item menu of the focused item. Constructs a function name from the
- * item's asset group name and the item's name and tries to call that.
+ * Leaves the item menu of the focused item (be it the extended item- or tighten/loosen menu) and
+ * perform any screen-specific setup for {@link CurrentScreen}.
+ * @see {@link DialogLeaveFocusItemHandlers} Namespace with helper functions for setting up new screens
  */
 function DialogLeaveFocusItem() {
 	if (DialogTightenLoosenItem != null) {
+		const item = DialogTightenLoosenItem;
 		TightenLoosenItemExit();
+
 		// If we still have a focused item, then we entered tightening through its extended screen
-		if (DialogFocusItem)
+		const screenCallback = DialogLeaveFocusItemHandlers.DialogTightenLoosenItem[CurrentScreen];
+		if (DialogFocusItem) {
 			DialogChangeMode("extended");
-		else
+		} else if (screenCallback) {
+			screenCallback(item);
+		} else {
 			DialogChangeMode("items");
+		}
 	} else if (DialogFocusItem != null) {
 		const item = DialogFocusItem;
 		ExtendedItemExit();
-		switch (CurrentScreen) {
-			case "Appearance":
-				// Special-case for when extended screens are used from the wardrobe, as FocusGroup doesn't make sense there
-				return DialogLeave();
-			case "Crafting":
-				CraftingUpdateFromItem(item);
-				return CraftingModeSet("Name");
-			default:
-				if (!DialogFocusItem)
-					DialogChangeMode("items");
-				return;
+		if (DialogFocusItem) {
+			// We're only exiting an extended subscreen
+			return;
+		}
+
+		const screenCallback = DialogLeaveFocusItemHandlers.DialogFocusItem[CurrentScreen];
+		if (screenCallback) {
+			screenCallback(item);
+		} else {
+			DialogChangeMode("items");
 		}
 	}
 }
@@ -1585,8 +1622,8 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false) {
 		}
 
 		// Seventh, if the player is using the online map room and is located on an object tile, she can use that object
-		if ((CurrentScreen == "ChatRoom") && ChatRoomMapVisible && Player.MapData) {
-			let Obj = ChatRoomMapGetObjectAtPos(Player.MapData.Pos.X, Player.MapData.Pos.Y);
+		if ((CurrentScreen == "ChatRoom") && ChatRoomMapViewIsActive() && Player.MapData) {
+			let Obj = ChatRoomMapViewGetObjectAtPos(Player.MapData.Pos.X, Player.MapData.Pos.Y);
 			if ((Obj != null) && (Obj.AssetName != null) && (Obj.AssetGroup != null))
 				for (const A of Asset)
 					if ((A.Name === Obj.AssetName) && (A.Group.Name === Obj.AssetGroup) && (A.Group.Name === C.FocusGroup.Name))
@@ -2252,7 +2289,7 @@ function DialogClick() {
 	if (DialogMenuButtonClick()) return;
 
 	// User clicked on the interacted character or herself, check if we need to update the menu
-	if (MouseIn(0, 0, 1000, 1000) && (CurrentCharacter.AllowItem || (MouseX < 500)) && (!CurrentCharacter.IsPlayer() || (MouseX > 500)) && (DialogIntro() != "") && DialogAllowItemScreenException() && !DialogDontAllowItemDistance()) {
+	if (MouseIn(0, 0, 1000, 1000) && (CurrentCharacter.AllowItem || (MouseX < 500)) && (!CurrentCharacter.IsPlayer() || (MouseX > 500)) && (DialogIntro() != "") && DialogAllowItemScreenException()) {
 		C = (MouseX < 500) ? Player : CurrentCharacter;
 		let X = MouseX < 500 ? 0 : 500;
 		for (const Group of AssetGroup) {
@@ -2303,9 +2340,6 @@ function DialogClick() {
 
 	// Block out clicking on anything else if we're not supposed to interact with the selected character
 	if (C.FocusGroup === null || !C.AllowItem || DialogIntro() === "") return;
-
-	// Block out clicking in map mode when the character is too far
-	if (DialogDontAllowItemDistance()) return;
 
 	/** The item currently sitting in the focused group */
 	const FocusItem = InventoryGet(C, C.FocusGroup.Name);
@@ -2996,6 +3030,8 @@ function DialogDraw() {
 
 		if (InventoryGroupIsBlockedByOwnerRule(C))
 			DialogDrawItemMessage(C, DialogFindPlayer("ZoneBlockedOwner"), FocusItem);
+		else if (InventoryIsBlockedByDistance(C))
+			DialogDrawItemMessage(C, DialogFindPlayer("ZoneBlockedRange"), FocusItem);
 		else if (InventoryGroupIsBlocked(C))
 			DialogDrawItemMessage(C, DialogFindPlayer("ZoneBlocked"), FocusItem);
 		else if (!Player.CanInteract())

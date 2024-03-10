@@ -85,6 +85,7 @@ function CreationResponse(data) {
 			Player.AccountName = ElementValue("InputName");
 			Player.Creation = CurrentTime;
 			Player.Money = 100;
+			Player.CharacterID = data.OnlineID;
 			Player.OnlineID = data.OnlineID;
 			Player.MemberNumber = data.MemberNumber;
 			Player.ItemPermission = 2;

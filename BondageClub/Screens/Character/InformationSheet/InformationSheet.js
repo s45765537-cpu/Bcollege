@@ -73,8 +73,6 @@ function InformationSheetRun() {
 
 	currentY += spacingLarge;
 
-	// Some info are not available for online players
-	const OnlinePlayer = C.AccountName.indexOf("Online-") >= 0;
 	if (C.IsPlayer()) {
 		let memberForLine = TextGet(C.IsBirthday() ? "Birthday" : "MemberFor") + " " + (Math.floor((CurrentTime - C.Creation) / 86400000)).toString() + " " + TextGet("Days");
 		DrawTextFit(memberForLine, 550, currentY, 450, (C.IsBirthday() ? "Blue" : "Black"), "Gray");
@@ -83,7 +81,7 @@ function InformationSheetRun() {
 		let moneyLine = TextGet("Money") + " " + C.Money.toString() + " $";
 		DrawTextFit(moneyLine, 550, currentY, 450, "Black", "Gray");
 		currentY += spacing;
-	} else if (OnlinePlayer && C.Creation != null) {
+	} else if (C.IsOnline() && C.Creation != null) {
 		let memberForLine = TextGet("MemberFor") + " " + (Math.floor((CurrentTime - C.Creation) / 86400000)).toString() + " " + TextGet("Days");
 		DrawTextFit(memberForLine, 550, currentY, 450, "Black", "Gray");
 		currentY += spacing;
@@ -110,7 +108,8 @@ function InformationSheetRun() {
 	currentY += spacingLarge;
 
 	// For the current player or an online player
-	if ((C.IsPlayer()) || OnlinePlayer) {
+	if ((C.IsPlayer()) || C.IsOnline()) {
+
 		// Shows the difficulty level
 		let difficultyLine = `${TextGet("DifficultyLevel" + C.GetDifficulty())} ${TextGet("DifficultyTitle")}`;
 		if(C.IsPlayer())
@@ -159,7 +158,7 @@ function InformationSheetRun() {
 		DrawButton(1815, 420, 90, 90, "", "White", "Icons/FriendList.png");
 		DrawButton(1815, 535, 90, 90, "", "White", "Icons/Introduction.png");
 		DrawButton(1815, 765, 90, 90, "", "White", "Icons/Next.png");
-	} else if (OnlinePlayer) {
+	} else if (C.IsOnline()) {
 		DrawButton(1815, 190, 90, 90, "", "White", "Icons/Introduction.png");
 		DrawButton(1815, 765, 90, 90, "", "White", "Icons/Next.png");
 	}
@@ -169,7 +168,7 @@ function InformationSheetRun() {
 	if (InformationSheetSecondScreen) return InformationSheetSecondScreenRun();
 
 	// For player and online characters, we show the lover list (NPC or online)
-	if (C.IsPlayer() || OnlinePlayer) {
+	if (C.IsPlayer() || C.IsOnline()) {
 		DrawText(TextGet("Relationships"), 1200, 125, "Black", "Gray");
 		if (C.Lovership.length < 1) DrawText(TextGet("Lover") + " " + TextGet("LoverNone"), 1200, 200, "Black", "Gray");
 		for (let L = 0; L < C.Lovership.length; L++) {
@@ -211,8 +210,7 @@ function InformationSheetSecondScreenRun() {
 
 	// For current player and online characters
 	var C = InformationSheetSelection;
-	var OnlinePlayer = C.AccountName.indexOf("Online-") >= 0;
-	if ((C.IsPlayer()) || OnlinePlayer) {
+	if (C.IsPlayer() || C.IsOnline()) {
 		const lineHeight = 55;
 		// Draw the reputation section
 		DrawText(TextGet("Reputation"), 1000, 125, "Black", "Gray");
@@ -226,7 +224,7 @@ function InformationSheetSecondScreenRun() {
 
 		// Draw the skill section
 		DrawText(TextGet("Skill"), 1425, 125, "Black", "Gray");
-		if (C.AccountName.indexOf("Online-") >= 0) {
+		if (!C.IsPlayer()) {
 			DrawText(TextGet("Unknown"), 1425, 200, "Black", "Gray");
 		} else {
 			let skillLine = 0;
@@ -278,7 +276,7 @@ function InformationSheetClick() {
 		if (MouseIn(1815, 420, 90, 90)) CommonSetScreen("Character", "FriendList");
 		if (MouseIn(1815, 535, 90, 90)) CommonSetScreen("Character", "OnlineProfile");
 		if (MouseIn(1815, 765, 90, 90)) InformationSheetSecondScreen = !InformationSheetSecondScreen;
-	} else if (C.AccountName.indexOf("Online-") >= 0) {
+	} else if (C.IsOnline()) {
 		if (MouseIn(1815, 190, 90, 90)) CommonSetScreen("Character", "OnlineProfile");
 		if (MouseIn(1815, 765, 90, 90)) InformationSheetSecondScreen = !InformationSheetSecondScreen;
 	}
