@@ -247,7 +247,7 @@ interface ExpressionNameMap {
 	Emoticon: (
 		null | "Afk" | "Whisper" | "Sleep" | "Hearts" | "Tear" | "Hearing" | "Confusion" | "Exclamation" |
 		"Annoyed" | "Read" | "RaisedHand" | "Spectator" | "ThumbsDown" | "ThumbsUp" | "LoveRope" |
-		"LoveGag" | "LoveLock" | "Wardrobe" | "Gaming" | "Coffee" | "Fork"
+		"LoveGag" | "LoveLock" | "Wardrobe" | "Gaming" | "Coffee" | "Fork" | "Music"
 	),
 }
 
@@ -2696,22 +2696,22 @@ interface ItemProperties extends ItemPropertiesBase, AssetDefinitionProperties, 
 /** All item/asset/group properties with all array-based values removed */
 declare namespace PropertiesNoArray {
 	/** All {@link ItemProperties} properties with array-based values removed */
-	type Item = { [k in keyof ItemProperties as ItemProperties[k] extends readonly any[] ? never : k]: ItemProperties[k] };
+	type Item = { [k in keyof ItemProperties as NonNullable<ItemProperties[k]> extends readonly any[] ? never : k]: ItemProperties[k] };
 	/** All {@link Asset} properties with array-based values removed */
-	type Asset = { [k in keyof globalThis.Asset as globalThis.Asset[k] extends readonly any[] ? never : k]: globalThis.Asset[k] };
+	type Asset = { [k in keyof globalThis.Asset as NonNullable<globalThis.Asset[k]> extends readonly any[] ? never : k]: globalThis.Asset[k] };
 	/** All {@link Group} properties with array-based values removed */
-	type Group = { [k in keyof AssetGroup as AssetGroup[k] extends readonly any[] ? never : k]: AssetGroup[k] };
+	type Group = { [k in keyof AssetGroup as NonNullable<AssetGroup[k]> extends readonly any[] ? never : k]: AssetGroup[k] };
 }
 type PropertiesNoArray = PropertiesNoArray.Item & PropertiesNoArray.Asset & PropertiesNoArray.Group;
 
 /** All item/asset/group properties with array-based values */
 declare namespace PropertiesArray {
 	/** All {@link ItemProperties} properties with array-based values */
-	type Item = { [k in keyof ItemProperties as ItemProperties[k] extends readonly any[] ? k : never]: ItemProperties[k] };
+	type Item = { [k in keyof ItemProperties as NonNullable<ItemProperties[k]> extends readonly any[] ? k : never]: ItemProperties[k] };
 	/** All {@link Asset} properties with array-based values */
-	type Asset = { [k in keyof globalThis.Asset as globalThis.Asset[k] extends readonly any[] ? k : never]: globalThis.Asset[k] };
+	type Asset = { [k in keyof globalThis.Asset as NonNullable<globalThis.Asset[k]> extends readonly any[] ? k : never]: globalThis.Asset[k] };
 	/** All {@link Group} properties with array-based values */
-	type Group = { [k in keyof AssetGroup as AssetGroup[k] extends readonly any[] ? k : never]: AssetGroup[k] };
+	type Group = { [k in keyof AssetGroup as NonNullable<AssetGroup[k]> extends readonly any[] ? k : never]: AssetGroup[k] };
 }
 type PropertiesArray = PropertiesArray.Item & PropertiesArray.Asset & PropertiesArray.Group;
 
@@ -2721,11 +2721,11 @@ type PropertiesArray = PropertiesArray.Item & PropertiesArray.Asset & Properties
  */
 declare namespace PropertiesRecord {
 	/** All {@link ItemProperties} properties with record-based values. */
-	type Item = { [k in keyof ItemProperties as ItemProperties[k] extends Record<string, any> ? k : never]: ItemProperties[k] };
+	type Item = { [k in keyof ItemProperties as NonNullable<ItemProperties[k]> extends Record<string, any> ? k : never]: ItemProperties[k] };
 	/** All {@link Asset} properties with record-based values. */
-	type Asset = { [k in keyof globalThis.Asset as globalThis.Asset[k] extends Record<string, any> ? k : never]: globalThis.Asset[k] };
+	type Asset = { [k in keyof globalThis.Asset as NonNullable<globalThis.Asset[k]> extends Record<string, any> ? k : never]: globalThis.Asset[k] };
 	/** All {@link Group} properties with record-based values. */
-	type Group = { [k in keyof AssetGroup as AssetGroup[k] extends Record<string, any> ? k : never]: AssetGroup[k] };
+	type Group = { [k in keyof AssetGroup as NonNullable<AssetGroup[k]> extends Record<string, any> ? k : never]: AssetGroup[k] };
 }
 type PropertiesRecord = PropertiesRecord.Item & PropertiesRecord.Asset & PropertiesRecord.Group;
 
