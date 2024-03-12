@@ -2209,16 +2209,16 @@ function ChatRoomCommonKeyDown(event) {
 		ElementScrollToEnd("TextAreaChatLog");
 		ElementFocus("InputChat");
 		return true;
-	} else if (event.key === "k") {
+	} else if (event.altKey && event.key === "k") {
 		ChatRoomToggleKneel();
 		return true;
-	} else if (event.key === "i") {
+	} else if (event.altKey && event.key === "i") {
 		ChatRoomOpenInformationScreen();
 		return true;
-	} else if (event.key === "b") {
+	} else if (event.altKey && event.key === "b") {
 		ChatRoomOpenWardrobeScreen();
 		return true;
-	} else if (event.key === "h") {
+	} else if (event.altKey && event.key === "h") {
 		ChatRoomOpenAdminScreen();
 		return true;
 	}
