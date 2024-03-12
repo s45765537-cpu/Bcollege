@@ -1023,7 +1023,7 @@ function ChatRoomMenuBuild() {
 	if (ChatRoomCustomizationButton() && !ChatRoomCustomized) ChatRoomMenuButtons.push("CustomizationOn");
 	if (ChatRoomCustomizationButton() && ChatRoomCustomized) ChatRoomMenuButtons.push("CustomizationOff");
 	if (DialogCanTakePhotos()) ChatRoomMenuButtons.push("Camera");
-	if (Player.CanKneel()) ChatRoomMenuButtons.push("Kneel");
+	ChatRoomMenuButtons.push("Kneel");
 	if (ChatRoomCharacterViewIsActive() && (ChatRoomCharacterViewCharacterCountTotal != null) && (ChatRoomCharacterViewCharacterCountTotal > 10) && (ChatRoomCharacterViewOffset == 0)) ChatRoomMenuButtons.push("NextCharacters");
 	if (ChatRoomCharacterViewIsActive() && (ChatRoomCharacterViewCharacterCountTotal != null) && (ChatRoomCharacterViewCharacterCountTotal > 10) && (ChatRoomCharacterViewOffset == 10)) ChatRoomMenuButtons.push("PreviousCharacters");
 	ChatRoomMenuButtons.push("Icons");
