@@ -1965,25 +1965,44 @@ function ClubCardEndTurn(Draw = false) {
 	let StartingFame = CCPlayer.Fame;
 	let StartingMoney = CCPlayer.Money;
 	let FameMoneyText = "";
-	if (CCPlayer.Board != null)
-		for (let Card of CCPlayer.Board) {
-			if (Card.FamePerTurn != null) ClubCardPlayerAddFame(CCPlayer, Card.FamePerTurn);
-			if (Card.MoneyPerTurn != null) ClubCardPlayerAddMoney(CCPlayer, Card.MoneyPerTurn);
+
+	if (CCPlayer.Board != null) {
+		// Iterate over a copy of the board so the OnTurnEnd handlers can remove cards from the
+		// board and the behaviour is always well-defined.
+		for (const Card of CCPlayer.Board.slice()) {
 			if (Card.OnTurnEnd != null) Card.OnTurnEnd(CCPlayer);
 		}
+	}
+
+	// Runs the event of time cards on the player board and opponent board
+	if (CCPlayer.Event != null) {
+		for (const Card of CCPlayer.Event.slice()) {
+			if (Card.OnTurnEnd != null) {
+				Card.OnTurnEnd(CCPlayer);
+			}
+		}
+	}
+
+	if (Opponent.Event != null) {
+		for (let Card of Opponent.Event.slice()) {
+			if (Card.OnOpponentTurnEnd != null) {
+				Card.OnOpponentTurnEnd(CCPlayer);
+			}
+		}
+	}
+
+	// Now add the Fame & Money, so they use the state of the board
+	// after any changes made by the OnTurnEnd handlers
+	if (CCPlayer.Board != null) {
+		for (const Card of CCPlayer.Board) {
+			if (Card.FamePerTurn != null) ClubCardPlayerAddFame(CCPlayer, Card.FamePerTurn);
+			if (Card.MoneyPerTurn != null) ClubCardPlayerAddMoney(CCPlayer, Card.MoneyPerTurn);
+		}
+	}
+
 	if ((CCPlayer.Money < 0) && (CCPlayer.Fame > StartingFame)) CCPlayer.Fame = StartingFame;
 	CCPlayer.LastFamePerTurn = CCPlayer.Fame - StartingFame;
 	CCPlayer.LastMoneyPerTurn = CCPlayer.Money - StartingMoney;
-
-	// Runs the event of time cards on the player board and opponent board
-	if (CCPlayer.Event != null)
-		for (let Card of CCPlayer.Event)
-			if (Card.OnTurnEnd != null)
-				Card.OnTurnEnd(CCPlayer);
-	if (Opponent.Event != null)
-		for (let Card of Opponent.Event)
-			if (Card.OnOpponentTurnEnd != null)
-				Card.OnOpponentTurnEnd(CCPlayer);
 
 	// Display the gained money and fame
 	FameMoneyText = ((CCPlayer.LastFamePerTurn >= 0) ? "+" : "") + CCPlayer.LastFamePerTurn.toString() + " Fame, " + ((CCPlayer.LastMoneyPerTurn >= 0) ? "+" : "") + CCPlayer.LastMoneyPerTurn.toString() + " Money";
