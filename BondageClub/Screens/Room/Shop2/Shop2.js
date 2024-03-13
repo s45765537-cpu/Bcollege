@@ -136,10 +136,10 @@ const Shop2InitVars = CommonVariableContainer(
 		Items: [],
 
 		/**
-		 * A record mapping {@link AssetGroup.Description} to a list with all respective (shop-elligble) group names.
+		 * A record mapping group category descriptions, to {@link AssetGroup.Description} to a set with all respective (shop-elligble) group names.
 		 *
 		 * Note that keys will vary based on the users active language.
-		 * @type {Record<string, Set<AssetGroupName>>}
+		 * @type {Record<string, Record<string, Set<AssetGroupName>>>}
 		 */
 		GroupDescriptions: {},
 	},
@@ -288,8 +288,9 @@ var Shop2 = {
 					break;
 			}
 
-			Shop2InitVars.GroupDescriptions[description] ??= new Set();
-			Shop2InitVars.GroupDescriptions[description].add(group.Name);
+			Shop2InitVars.GroupDescriptions[group.Category] ??= {};
+			Shop2InitVars.GroupDescriptions[group.Category][description] ??= new Set();
+			Shop2InitVars.GroupDescriptions[group.Category][description].add(group.Name);
 		}
 	},
 
@@ -525,13 +526,15 @@ var Shop2 = {
 	_SetCheckboxFilters: function _SetCheckboxFilters() {
 		/** @type {Set<AssetGroupName>} */
 		const checkedSet = new Set();
-		for (const [groupDescription, groupNames] of Object.entries(Shop2InitVars.GroupDescriptions)) {
-			const checkBox = /** @type {null | HTMLInputElement} */(document.getElementById(`Shop2Checkbox-${groupDescription}`));
-			if (!checkBox) {
-				continue;
-			}
-			if (checkBox.checked) {
-				groupNames.forEach(i => checkedSet.add(i));
+		for (const [category, groupDescriptions] of Object.entries(Shop2InitVars.GroupDescriptions)) {
+			for (const [groupDescr, groupNames] of Object.entries(groupDescriptions)) {
+				const checkBox = /** @type {null | HTMLInputElement} */(document.getElementById(`Shop2Checkbox-${category}-${groupDescr}`));
+				if (!checkBox) {
+					continue;
+				}
+				if (checkBox.checked) {
+					groupNames.forEach(i => checkedSet.add(i));
+				}
 			}
 		}
 
@@ -657,10 +660,12 @@ var Shop2 = {
 			Mode: new Set(["Preview", "Buy", "Sell"]),
 			Run: (time, ...coords) => DrawButton(...coords, TextGet("GroupSelectAll"), "White"),
 			Click: () => {
-				for (const groupDescr of Object.keys(Shop2InitVars.GroupDescriptions)) {
-					const elem = /** @type {null | HTMLInputElement} */(document.getElementById(`Shop2Checkbox-${groupDescr}`));
-					if (elem) {
-						elem.checked = true;
+				for (const [category, groupDescriptions] of Object.entries(Shop2InitVars.GroupDescriptions)) {
+					for (const groupDescr of Object.keys(groupDescriptions)) {
+						const checkBox = /** @type {null | HTMLInputElement} */(document.getElementById(`Shop2Checkbox-${category}-${groupDescr}`));
+						if (checkBox) {
+							checkBox.checked = true;
+						}
 					}
 				}
 				delete Shop2Vars.Filters.AssetGroup;
@@ -672,10 +677,12 @@ var Shop2 = {
 			Mode: new Set(["Preview", "Buy", "Sell"]),
 			Run: (time, ...coords) => DrawButton(...coords, TextGet("GroupSelectNone"), "White"),
 			Click: () => {
-				for (const groupDescr of Object.keys(Shop2InitVars.GroupDescriptions)) {
-					const elem = /** @type {null | HTMLInputElement} */(document.getElementById(`Shop2Checkbox-${groupDescr}`));
-					if (elem) {
-						elem.checked = false;
+				for (const [category, groupDescriptions] of Object.entries(Shop2InitVars.GroupDescriptions)) {
+					for (const groupDescr of Object.keys(groupDescriptions)) {
+						const checkBox = /** @type {null | HTMLInputElement} */(document.getElementById(`Shop2Checkbox-${category}-${groupDescr}`));
+						if (checkBox) {
+							checkBox.checked = false;
+						}
 					}
 				}
 				Shop2Vars.Filters.AssetGroup = () => [];
@@ -690,27 +697,19 @@ var Shop2 = {
 					return;
 				}
 
-				/** @type {Record<string, string[]>} */
-				const categories = {};
-				for (const [description, groupNames] of Object.entries(Shop2InitVars.GroupDescriptions)) {
-					const group = AssetGroupMap.get(groupNames.values().next().value);
-					categories[group.Category] ??= [];
-					categories[group.Category].push(description);
-				}
-
 				const elem = ElementCreateDiv("Shop2GroupSelect");
 				let content = "";
-				for (const [category, groupDescriptions] of Object.entries(categories)) {
+				for (const [category, groupDescriptions] of Object.entries(Shop2InitVars.GroupDescriptions)) {
 					content += `
 						<div class="Shop2GridCategory", id="Shop2GridCategory-${category}">
 							${TextGet("AssetGroupCategory" + category)}
 						</div>
 						<div class="Shop2CheckboxGrid", id="Shop2CheckboxGrid-${category}">
 					`;
-					for (const groupDescr of groupDescriptions) {
+					for (const groupDescr of Object.keys(groupDescriptions)) {
 						content += `
 							<label class="Shop2Checkbox">
-								<input type="checkbox" id="Shop2Checkbox-${groupDescr}" onclick="Shop2._SetCheckboxFilters()", checked=true />
+								<input type="checkbox" id="Shop2Checkbox-${category}-${groupDescr}" onclick="Shop2._SetCheckboxFilters()", checked=true />
 								${groupDescr}
 							</label>
 						`;
