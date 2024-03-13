@@ -1,5 +1,3 @@
-Starts in
-即将开始：
 Click anywhere when the lockpick circle crosses the hole.
 当开锁器的圆圈和锁上的洞重合时点击任意位置。
 You unlocked the chest.
