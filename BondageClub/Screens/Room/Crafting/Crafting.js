@@ -102,6 +102,8 @@ const CraftingPropertyMap = new Map([
 	["Nimble", function(Item) { return Item.IsRestraint || (Item.Difficulty > 0); }],
 	["Arousing", function(Item) { return CraftingItemHasEffect(Item, ["Egged", "Vibrating"]); }],
 	["Dull", function(Item) { return CraftingItemHasEffect(Item, ["Egged", "Vibrating"]); } ],
+	["Heavy", function(Item) { return true; }],
+	["Light", function(Item) { return CraftingItemHasEffect(Item, ["Slow"]); }],
 ]);
 
 /**

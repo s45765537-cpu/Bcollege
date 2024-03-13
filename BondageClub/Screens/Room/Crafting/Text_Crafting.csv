@@ -43,6 +43,8 @@ PropertyFlexible,Flexible
 PropertyNimble,Nimble
 PropertyArousing,Arousing
 PropertyDull,Dull
+PropertyHeavy,Heavy
+PropertyLight,Light
 DescriptionNormal,No special property.
 DescriptionLarge,Harder to understand gagged speech.
 DescriptionSmall,Easier to understand gagged speech.
@@ -62,4 +64,6 @@ DescriptionFlexible,Cannot use squeeze out to struggle out.
 DescriptionNimble,Cannot use unfasten to struggle out.
 DescriptionArousing,Harder to resist an orgasm.
 DescriptionDull,Easier to resist an orgasm.
+DescriptionHeavy,Slows down walking.
+DescriptionLight,Speeds up walking.
 OpenColorpicker,Open Colorpicker
