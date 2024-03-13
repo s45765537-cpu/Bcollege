@@ -610,7 +610,7 @@ var Shop2 = {
 
 				// We've got a caching related race condition going on for `TextGet("InputSearch")`, so hard code the english text as fallback
 				const elem = ElementCreateInput("Shop2InputSearch", "text", "", "50");
-				elem.placeholder = TextGet("InputSearch") || "Filter by item name";
+				elem.placeholder = TextGet("InputSearch");
 				elem.addEventListener("input", () => {
 					if (!elem.value) {
 						delete Shop2Vars.Filters.Keyword;

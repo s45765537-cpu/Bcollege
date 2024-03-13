@@ -41,6 +41,7 @@ function ShopEnter() {
  * @returns {void} - Nothing
  */
 function ShopLoad() {
+	TextPrefetch("Room", "Shop2");
 
 	// Creates the shop vendor always at full height to be able to click on her zones correctly
 	ShopVendor = CharacterLoadNPC("NPC_Shop_Vendor");
