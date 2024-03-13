@@ -26,3 +26,6 @@ ItemHeader12,Sell female-only items: Page 0
 ItemHeader20,Preview male-only items: Page 0
 ItemHeader21,Buy male-only items: Page 0
 ItemHeader22,Sell male-only items: Page 0
+AssetGroupCategoryAppearance,Body & Clothing
+AssetGroupCategoryItem,Toys & Restraints
+AssetGroupCategoryScript,Misc

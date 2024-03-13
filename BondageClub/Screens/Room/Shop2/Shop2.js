@@ -690,20 +690,33 @@ var Shop2 = {
 					return;
 				}
 
-				const elem = ElementCreateDiv("Shop2GroupSelect");
-
-				let content = `<div class="Shop2CheckboxGrid">`;
-				const groupNames = Object.keys(Shop2InitVars.GroupDescriptions).sort((i, j) => i.localeCompare(j));
-				for (const groupDescr of groupNames) {
-					content += `
-						<label class="Shop2Checkbox">
-							<input type="checkbox" id="Shop2Checkbox-${groupDescr}" onclick="Shop2._SetCheckboxFilters()", checked=true />
-							${groupDescr}
-						</label>
-					`;
+				/** @type {Record<string, string[]>} */
+				const categories = {};
+				for (const [description, groupNames] of Object.entries(Shop2InitVars.GroupDescriptions)) {
+					const group = AssetGroupMap.get(groupNames.values().next().value);
+					categories[group.Category] ??= [];
+					categories[group.Category].push(description);
 				}
-				content += `</div> </div>`;
 
+				const elem = ElementCreateDiv("Shop2GroupSelect");
+				let content = "";
+				for (const [category, groupDescriptions] of Object.entries(categories)) {
+					content += `
+						<div class="Shop2GridCategory", id="Shop2GridCategory-${category}">
+							${TextGet("AssetGroupCategory" + category)}
+						</div>
+						<div class="Shop2CheckboxGrid", id="Shop2CheckboxGrid-${category}">
+					`;
+					for (const groupDescr of groupDescriptions) {
+						content += `
+							<label class="Shop2Checkbox">
+								<input type="checkbox" id="Shop2Checkbox-${groupDescr}" onclick="Shop2._SetCheckboxFilters()", checked=true />
+								${groupDescr}
+							</label>
+						`;
+					}
+					content += "</div>";
+				}
 				elem.innerHTML = content;
 				elem.style.display = "none";
 			},
@@ -978,7 +991,11 @@ function Shop2Load() {
 					&& !ShopHideGenderedAsset(a)
 				);
 			}).sort((a1, a2) => {
-				return a1.Group.Description.localeCompare(a2.Group.Description) || a1.Description.localeCompare(a2.Description);
+				return (
+					a1.Group.Category.localeCompare(a2.Group.Category)
+					|| a1.Group.Description.localeCompare(a2.Group.Description)
+					|| a1.Description.localeCompare(a2.Description)
+				);
 			}),
 		);
 	}
