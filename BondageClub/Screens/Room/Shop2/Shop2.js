@@ -276,8 +276,20 @@ var Shop2 = {
 	_PopulateGroupDescriptions: function _PopulateGroupDescriptions(assets) {
 		const groups = new Set(assets.map(a => a.Asset.Group));
 		for (const group of groups) {
-			Shop2InitVars.GroupDescriptions[group.Description] ??= new Set();
-			Shop2InitVars.GroupDescriptions[group.Description].add(group.Name);
+			let description = group.Description;
+			switch (group.Name) {
+				case "ItemVulva":
+				case "ItemVulvaPiercings":
+					if (Player.GenderSettings.HideShopItems.Female === Player.GenderSettings.HideShopItems.Male) {
+						description += ` & ${DialogFindPlayer(group.Name === "ItemVulva" ? "ItemPenis" : "ItemGlans")}`;
+					} else if (Player.GenderSettings.HideShopItems.Male) {
+						description = DialogFindPlayer(group.Name === "ItemVulva" ? "ItemPenis" : "ItemGlans");
+					}
+					break;
+			}
+
+			Shop2InitVars.GroupDescriptions[description] ??= new Set();
+			Shop2InitVars.GroupDescriptions[description].add(group.Name);
 		}
 	},
 
