@@ -308,7 +308,6 @@ ChastityBeltBackShieldClosedBack,,,SourceCharacter adds the shield to the back o
 ChastityBeltBackShieldOpenBack,,,SourceCharacter removes the shield from the back of DestinationCharacter belt.,,
 ChastityClosedBack,,,Closed Back,,
 ChastityOpenBack,,,Open Back,,
-ChatRoomBlockGaggedOOC,,,You have disabled OOC/whispers while gagged. You can change this in the Immersion preferences screen.,,
 ChatRoomHelp,,,Type /help for a list of commands,,
 ChatRoomLeashNotFriend,,,You are not on that member's friendlist; ask TargetPronounObject to friend you before leashing TargetPronounObject.,,
 ChatRoomSpaceAsylum,,,<i>Asylum</i>,,

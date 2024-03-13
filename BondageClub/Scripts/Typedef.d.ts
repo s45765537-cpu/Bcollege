@@ -1678,7 +1678,8 @@ interface RestrictionSettingsType {
 }
 
 interface ImmersionSettingsType {
-	BlockGaggedOOC: boolean;
+	/** @deprecated Removed as it prevents players from having the possibility of using OOC to discuss the scene */
+	BlockGaggedOOC: never;
 	StimulationEvents: boolean;
 	ReturnToChatRoom: boolean;
 	ReturnToChatRoomAdmin: boolean;

@@ -84,41 +84,36 @@ function CommandParse(msg) {
 		return;
 	}
 	const WhisperTarget = ChatRoomCharacter.find(C => C.MemberNumber == ChatRoomTargetMemberNumber);
-	if (!ChatRoomShouldBlockGaggedOOCMessage(msg, WhisperTarget)) {
-		if (ChatRoomTargetMemberNumber == null) {
+	if (ChatRoomTargetMemberNumber == null) {
 
-			// Regular chat can be prevented with an owner presence rule, also validates for forbidden words
-			if (!ChatRoomOwnerPresenceRule("BlockTalk", null) && ChatRoomOwnerForbiddenWordCheck(msg)) {
-				ServerSend("ChatRoomChat", { Content: msg, Type: "Chat" });
-				ChatRoomStimulationMessage("Talk");
-			}
-
-		} else {
-
-			// The whispers get sent to the server and shown on the client directly
-			ServerSend("ChatRoomChat", { Content: msg, Type: "Whisper", Target: ChatRoomTargetMemberNumber });
-
-			const div = document.createElement("div");
-			div.setAttribute('class', 'ChatMessage ChatMessageWhisper');
-			div.setAttribute('data-time', ChatRoomCurrentTime());
-			div.setAttribute('data-sender', Player.MemberNumber.toString());
-			div.innerHTML = `${TextGet("WhisperTo")}<span class="ChatMessageName" style="color: ${(WhisperTarget.LabelColor || 'gray')}"> ${CharacterNickname(WhisperTarget)}: </span>${ChatRoomHTMLEntities(msg)}`;
-
-			// Add reply button, that will reply to player we're whispering.
-			let replayButton = document.createElement("div");
-			replayButton.onclick = (e) => {
-				ElementValue("InputChat", `/whisper ${WhisperTarget.MemberNumber} ${ElementValue("InputChat").replace(/\/whisper\s*\d+ ?/u, '')}`);
-				ElementFocus("InputChat");
-			};
-			replayButton.classList.add("ReplyButton");
-			replayButton.textContent = '\u21a9\ufe0f';
-			div.prepend(replayButton);
-
-			ChatRoomAppendChat(div);
+		// Regular chat can be prevented with an owner presence rule, also validates for forbidden words
+		if (!ChatRoomOwnerPresenceRule("BlockTalk", null) && ChatRoomOwnerForbiddenWordCheck(msg)) {
+			ServerSend("ChatRoomChat", { Content: msg, Type: "Chat" });
+			ChatRoomStimulationMessage("Talk");
 		}
+
 	} else {
-		// Throw an error message
-		ChatRoomMessage({ Content: "ChatRoomBlockGaggedOOC", Type: "Action", Sender: Player.MemberNumber });
+
+		// The whispers get sent to the server and shown on the client directly
+		ServerSend("ChatRoomChat", { Content: msg, Type: "Whisper", Target: ChatRoomTargetMemberNumber });
+
+		const div = document.createElement("div");
+		div.setAttribute('class', 'ChatMessage ChatMessageWhisper');
+		div.setAttribute('data-time', ChatRoomCurrentTime());
+		div.setAttribute('data-sender', Player.MemberNumber.toString());
+		div.innerHTML = `${TextGet("WhisperTo")}<span class="ChatMessageName" style="color: ${(WhisperTarget.LabelColor || 'gray')}"> ${CharacterNickname(WhisperTarget)}: </span>${ChatRoomHTMLEntities(msg)}`;
+
+		// Add reply button, that will reply to player we're whispering.
+		let replayButton = document.createElement("div");
+		replayButton.onclick = (e) => {
+			ElementValue("InputChat", `/whisper ${WhisperTarget.MemberNumber} ${ElementValue("InputChat").replace(/\/whisper\s*\d+ ?/u, '')}`);
+			ElementFocus("InputChat");
+		};
+		replayButton.classList.add("ReplyButton");
+		replayButton.textContent = '\u21a9\ufe0f';
+		div.prepend(replayButton);
+
+		ChatRoomAppendChat(div);
 	}
 
 	// Clears the chat text message
