@@ -925,6 +925,7 @@ function ChatRoomLoad() {
 	ChatRoomCharacterViewInitialize = true;
 	TextPrefetch("Character", "FriendList");
 	TextPrefetch("Online", "ChatAdmin");
+	TextPrefetch("Room", "Shop2");
 }
 
 /**

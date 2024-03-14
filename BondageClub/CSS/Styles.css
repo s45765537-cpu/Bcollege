@@ -485,7 +485,16 @@ input[type="checkbox"]:checked::before {
 #Shop2GroupSelect {
 	overflow-y: scroll;
 	word-wrap: break-word;
-	background-color: rgba(0, 0, 0, 0.35);
+	background-color: rgba(0, 0, 0, 0.45);
+}
+
+.Shop2GridCategory {
+	display: grid;
+	color: white;
+	font-size: 3.5vh;
+	min-height: 7vh;
+	text-align: center;
+	align-items: center;
 }
 
 .Shop2CheckboxGrid {
@@ -494,11 +503,12 @@ input[type="checkbox"]:checked::before {
 	display: grid;
 	grid-template-columns: 50% 50%;
 	user-select: none;
+	padding-bottom: 3vh;
 }
 
 .Shop2Checkbox {
 	display: grid;
-	grid-template-columns: 25% 75%;
+	grid-template-columns: 25% 70%;
 	min-height: 7vh;
 	height: fit-content 100%;
 	align-items: center;

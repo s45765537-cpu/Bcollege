@@ -136,10 +136,10 @@ const Shop2InitVars = CommonVariableContainer(
 		Items: [],
 
 		/**
-		 * A record mapping {@link AssetGroup.Description} to a list with all respective (shop-elligble) group names.
+		 * A record mapping group category descriptions, to {@link AssetGroup.Description} to a set with all respective (shop-elligble) group names.
 		 *
 		 * Note that keys will vary based on the users active language.
-		 * @type {Record<string, Set<AssetGroupName>>}
+		 * @type {Record<string, Record<string, Set<AssetGroupName>>>}
 		 */
 		GroupDescriptions: {},
 	},
@@ -276,8 +276,21 @@ var Shop2 = {
 	_PopulateGroupDescriptions: function _PopulateGroupDescriptions(assets) {
 		const groups = new Set(assets.map(a => a.Asset.Group));
 		for (const group of groups) {
-			Shop2InitVars.GroupDescriptions[group.Description] ??= new Set();
-			Shop2InitVars.GroupDescriptions[group.Description].add(group.Name);
+			let description = group.Description;
+			switch (group.Name) {
+				case "ItemVulva":
+				case "ItemVulvaPiercings":
+					if (Player.GenderSettings.HideShopItems.Female === Player.GenderSettings.HideShopItems.Male) {
+						description += ` & ${DialogFindPlayer(group.Name === "ItemVulva" ? "ItemPenis" : "ItemGlans")}`;
+					} else if (Player.GenderSettings.HideShopItems.Male) {
+						description = DialogFindPlayer(group.Name === "ItemVulva" ? "ItemPenis" : "ItemGlans");
+					}
+					break;
+			}
+
+			Shop2InitVars.GroupDescriptions[group.Category] ??= {};
+			Shop2InitVars.GroupDescriptions[group.Category][description] ??= new Set();
+			Shop2InitVars.GroupDescriptions[group.Category][description].add(group.Name);
 		}
 	},
 
@@ -513,13 +526,15 @@ var Shop2 = {
 	_SetCheckboxFilters: function _SetCheckboxFilters() {
 		/** @type {Set<AssetGroupName>} */
 		const checkedSet = new Set();
-		for (const [groupDescription, groupNames] of Object.entries(Shop2InitVars.GroupDescriptions)) {
-			const checkBox = /** @type {null | HTMLInputElement} */(document.getElementById(`Shop2Checkbox-${groupDescription}`));
-			if (!checkBox) {
-				continue;
-			}
-			if (checkBox.checked) {
-				groupNames.forEach(i => checkedSet.add(i));
+		for (const [category, groupDescriptions] of Object.entries(Shop2InitVars.GroupDescriptions)) {
+			for (const [groupDescr, groupNames] of Object.entries(groupDescriptions)) {
+				const checkBox = /** @type {null | HTMLInputElement} */(document.getElementById(`Shop2Checkbox-${category}-${groupDescr}`));
+				if (!checkBox) {
+					continue;
+				}
+				if (checkBox.checked) {
+					groupNames.forEach(i => checkedSet.add(i));
+				}
 			}
 		}
 
@@ -598,7 +613,7 @@ var Shop2 = {
 
 				// We've got a caching related race condition going on for `TextGet("InputSearch")`, so hard code the english text as fallback
 				const elem = ElementCreateInput("Shop2InputSearch", "text", "", "50");
-				elem.placeholder = TextGet("InputSearch") || "Filter by item name";
+				elem.placeholder = TextGet("InputSearch");
 				elem.addEventListener("input", () => {
 					if (!elem.value) {
 						delete Shop2Vars.Filters.Keyword;
@@ -645,10 +660,12 @@ var Shop2 = {
 			Mode: new Set(["Preview", "Buy", "Sell"]),
 			Run: (time, ...coords) => DrawButton(...coords, TextGet("GroupSelectAll"), "White"),
 			Click: () => {
-				for (const groupDescr of Object.keys(Shop2InitVars.GroupDescriptions)) {
-					const elem = /** @type {null | HTMLInputElement} */(document.getElementById(`Shop2Checkbox-${groupDescr}`));
-					if (elem) {
-						elem.checked = true;
+				for (const [category, groupDescriptions] of Object.entries(Shop2InitVars.GroupDescriptions)) {
+					for (const groupDescr of Object.keys(groupDescriptions)) {
+						const checkBox = /** @type {null | HTMLInputElement} */(document.getElementById(`Shop2Checkbox-${category}-${groupDescr}`));
+						if (checkBox) {
+							checkBox.checked = true;
+						}
 					}
 				}
 				delete Shop2Vars.Filters.AssetGroup;
@@ -660,10 +677,12 @@ var Shop2 = {
 			Mode: new Set(["Preview", "Buy", "Sell"]),
 			Run: (time, ...coords) => DrawButton(...coords, TextGet("GroupSelectNone"), "White"),
 			Click: () => {
-				for (const groupDescr of Object.keys(Shop2InitVars.GroupDescriptions)) {
-					const elem = /** @type {null | HTMLInputElement} */(document.getElementById(`Shop2Checkbox-${groupDescr}`));
-					if (elem) {
-						elem.checked = false;
+				for (const [category, groupDescriptions] of Object.entries(Shop2InitVars.GroupDescriptions)) {
+					for (const groupDescr of Object.keys(groupDescriptions)) {
+						const checkBox = /** @type {null | HTMLInputElement} */(document.getElementById(`Shop2Checkbox-${category}-${groupDescr}`));
+						if (checkBox) {
+							checkBox.checked = false;
+						}
 					}
 				}
 				Shop2Vars.Filters.AssetGroup = () => [];
@@ -679,19 +698,24 @@ var Shop2 = {
 				}
 
 				const elem = ElementCreateDiv("Shop2GroupSelect");
-
-				let content = `<div class="Shop2CheckboxGrid">`;
-				const groupNames = Object.keys(Shop2InitVars.GroupDescriptions).sort((i, j) => i.localeCompare(j));
-				for (const groupDescr of groupNames) {
+				let content = "";
+				for (const [category, groupDescriptions] of Object.entries(Shop2InitVars.GroupDescriptions)) {
 					content += `
-						<label class="Shop2Checkbox">
-							<input type="checkbox" id="Shop2Checkbox-${groupDescr}" onclick="Shop2._SetCheckboxFilters()", checked=true />
-							${groupDescr}
-						</label>
+						<div class="Shop2GridCategory", id="Shop2GridCategory-${category}">
+							${TextGet("AssetGroupCategory" + category)}
+						</div>
+						<div class="Shop2CheckboxGrid", id="Shop2CheckboxGrid-${category}">
 					`;
+					for (const groupDescr of Object.keys(groupDescriptions)) {
+						content += `
+							<label class="Shop2Checkbox">
+								<input type="checkbox" id="Shop2Checkbox-${category}-${groupDescr}" onclick="Shop2._SetCheckboxFilters()", checked=true />
+								${groupDescr}
+							</label>
+						`;
+					}
+					content += "</div>";
 				}
-				content += `</div> </div>`;
-
 				elem.innerHTML = content;
 				elem.style.display = "none";
 			},
@@ -966,7 +990,11 @@ function Shop2Load() {
 					&& !ShopHideGenderedAsset(a)
 				);
 			}).sort((a1, a2) => {
-				return a1.Group.Description.localeCompare(a2.Group.Description) || a1.Description.localeCompare(a2.Description);
+				return (
+					a1.Group.Category.localeCompare(a2.Group.Category)
+					|| a1.Group.Description.localeCompare(a2.Group.Description)
+					|| a1.Description.localeCompare(a2.Description)
+				);
 			}),
 		);
 	}
