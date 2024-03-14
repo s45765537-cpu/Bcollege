@@ -73,7 +73,7 @@ class NotificationEventHandler {
 				NotificationDrawFavicon(false);
 			}
 
-			if (this.playAudio(false)) {
+			if (this.playAudio()) {
 				AudioPlayInstantSound("Audio/BeepAlarm.mp3");
 			}
 		}
@@ -99,7 +99,7 @@ class NotificationEventHandler {
 		// Define the (supported) options of the popup and create it
 		let title = titleStart + DialogFindPlayer("NotificationTitle" + this.eventType) + titleEnd;
 		let options = {};
-		if ('silent' in Notification.prototype) options.silent = !this.playAudio(true);
+		if ('silent' in Notification.prototype) options.silent = true;
 		if ('body' in Notification.prototype && data.body) options.body = data.body;
 		if ('renotify' in Notification.prototype) options.renotify = true;
 		if ('tag' in Notification.prototype) options.tag = "BondageClub" + this.eventType;
@@ -123,16 +123,13 @@ class NotificationEventHandler {
 
 	/**
 	 * Determines whether an audio alert shoud be played
-	 * @param {boolean} usingPopup - If TRUE this indicates that the audio will be played by a popup, rather than an in-game alert
 	 * @returns {boolean} - Whether audio should be played
 	 */
-	playAudio(usingPopup) {
+	playAudio() {
 		if (this.settings.Audio === NotificationAudioType.NONE) {
 			return false;
 		} else if (this.eventType === NotificationEventType.BEEP && Player.AudioSettings.PlayBeeps) {
 			return false; // Sound already played in ServerAccountBeep()
-		} else if (this.settings.AlertType === NotificationAlertType.POPUP && !usingPopup && 'silent' in Notification.prototype) {
-			return false; // The popup will play the sound instead
 		} else if (this.settings.Audio === NotificationAudioType.FIRST && this.raisedCount === 1) {
 			return true;
 		} else if (this.settings.Audio === NotificationAudioType.REPEAT) {
