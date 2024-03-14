@@ -16,7 +16,8 @@ function AssetsItemNipplesLactationPumpBeforeDraw(data) {
 	return null;
 }
 
-const LactationPumpDuration = 10000;
+/** Minimum time (in ms) the pump waits between its messages. Max is two times that. */
+const LactationPumpDuration = 5 * 60 * 1000;
 
 function LactationPumpGetRandomDuration() {
 	return LactationPumpDuration + Math.round(Math.random() * LactationPumpDuration);
