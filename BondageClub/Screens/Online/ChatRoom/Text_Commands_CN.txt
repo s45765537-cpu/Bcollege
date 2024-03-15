@@ -78,3 +78,5 @@ Copy the current map layout in your clipboard
 [Map]: 将你的地图字符串粘贴并加载为当前状态。
 [MemberNumber|Name|Nickname]: Begin whispering to player.  Leave blank to stop whispering.<br>[MemberNumber|Name|Nickname] [Message]: Send whisper to target player.
 [MemberNumber|Name|Nickname]: 开始与玩家说悄悄话。留空停止悄悄话。<br>[MemberNumber|Name|Nickname] [Message]: 向目标玩家发送悄悄话。
+Access the shop
+访问商店

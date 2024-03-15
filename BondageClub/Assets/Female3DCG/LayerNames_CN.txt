@@ -82,12 +82,18 @@ Text Inner
 内侧文字
 Text Outer
 外侧文字
+Cloth
+布料
 Corset
 束腰
 Design
 样式
 Fur
 绒毛
+Bottom
+底部
+Silk
+丝绸
 Fishnet Top
 渔网上衣
  Latex
@@ -104,6 +110,8 @@ Buckle
 皮带扣
 Dress Trim
 裙边
+Corset Buttons
+束腰搭扣
 Hood Inner
 兜帽内侧
 Hood Trim
@@ -146,8 +154,6 @@ Leaves
 叶子
 Pollen
 花蕊
-Cloth
-布料
 Stripe
 条纹
 Waistband
@@ -194,10 +200,6 @@ Piercings
 穿刺
 Eyebrow
 眉毛
- Eyeliner
-眼线
- Eyeshadow
-眼影
 Eyeball
 眼球
 Retina
@@ -208,6 +210,10 @@ Shadow
 影子
 Eyelids
 眼睑
+ Eyeliner
+眼线
+ Eyeshadow
+眼影
 Left
 左侧
 Right
@@ -248,6 +254,12 @@ Core
 核心
 Glow
 亮光
+Headset
+头戴耳机
+Mic
+话筒
+Stem
+连杆
 Bun
 包子
 Tips
@@ -304,6 +316,8 @@ Shoulders
 肩膀
 Cowl
 面巾
+Detail
+细节
 Symbol
 徽记
 Dots
@@ -414,8 +428,6 @@ Boots
 靴子
 Vamp
 防水台
-Silk
-丝绸
 Ankles
 膝盖
 Feet
@@ -424,8 +436,6 @@ Toes
 指头
 Horseshoes
 马蹄铁
-Detail
-细节
 Bra Cup
 罩杯
 Lining
@@ -466,8 +476,6 @@ Pillow Trim
 枕头装饰
 Plushies
 毛绒玩具
-Bottom
-底部
 Inside
 内部
 Outside
@@ -634,10 +642,10 @@ Phone
 手机
 Paws
 爪子
-Cuff Rings
-手铐环
 Harness Ring
 束带环
+Cuff Rings
+手铐环
 Left Eyelids
 左眼睑
 Left Lens
@@ -646,14 +654,12 @@ Right Eyelids
 右眼睑
 Right Lens
 右镜片
-Mask
-面罩
 Eyes
 眼睛
-Helmet
-头盔
-Details
-细节
+Head
+头部
+Mask
+面罩
 Lock Icon
 锁标志
 HUD
@@ -696,8 +702,6 @@ Face Lining
 面部线条
 Mouth Lining
 嘴部线条
-Head
-头部
 Eye Panel
 眼睛遮罩
 Mouth Panel
@@ -786,6 +790,10 @@ Plug
 隔音器
  Lips
 嘴唇
+Details
+细节
+Helmet
+头盔
 Chin Strap
 下巴束带
 Side Pieces
@@ -842,10 +850,10 @@ Cup
 杯子
 Duster
 掸子
-Icon
-标志
 Muzzle
 口套
+Icon
+标志
 Metal Parts
 金属组件
 Pacifier Ring
@@ -868,8 +876,14 @@ Panel Shine
 嵌板高光
 Straps Buckles
 束带搭扣
+Tubes
+管子
+Fixing
+固定圈
 Lips
 嘴唇
+Ring
+环圈
 Mouth Shine
 嘴部高光
 Dark Stripes
@@ -902,12 +916,6 @@ Pumpkin
 南瓜
 Shoe
 鞋
-Ring
-环圈
-Tubes
-管子
-Fixing
-固定圈
 Thread
 线条
 Rod
@@ -922,28 +930,28 @@ Serious
 严肃
 Close
 关闭
-Tongue
-舌头
-Mouth Ring
-口环
-Hook
-钩子
+ BitGag
+口衔
+ BitGag 2
+口衔2
+Clothes Peg
+晾衣夹
 Tongue ring
 舌环
 Bells
 铃铛
 Collar Chain
 项圈锁链
+Hook
+钩子
+Mouth Ring
+口环
 Nail
 钉子
 Padlock
 挂锁
-Clothes Peg
-晾衣夹
- BitGag
-口衔
- BitGag 2
-口衔2
+Tongue
+舌头
 Tag
 标签
 Stripes Shine
@@ -952,10 +960,10 @@ Studs
 嵌钉
 Eye Shade
 眼罩
-Stencil
-图案
 Wires
 线路
+Stencil
+图案
 Mesh (for copying to items)
 色调（用于复制到其他物品）
 Ornaments
@@ -964,6 +972,8 @@ Heart Link
 心形环
 Leather Strap
 皮束带
+Patch
+补丁
 Brooch
 饰针
  Buckles
@@ -1026,6 +1036,14 @@ Metal Band
 金属带
 Attachment
 附件
+Shackle
+镣铐
+Rubber
+橡胶
+Small Shield
+小挡板
+Big Shield
+大挡板
 Crotch Shield
 胯部挡板
 Negative Wire
@@ -1048,14 +1066,6 @@ Pussy Toy
 阴部玩具
 Interface
 屏幕
-Rubber
-橡胶
-Big Shield
-大挡板
-Small Shield
-小挡板
-Shackle
-镣铐
 Module
 模块
 Clasps
@@ -1166,14 +1176,14 @@ Soles
 脚底
  Heels
 鞋跟
- Sole
-脚底
 Round Base
 圆形底部
-Leather Boots
-皮革靴
+ Sole
+脚底
 Leather Belt
 皮革腰带
+Leather Boots
+皮革靴
 Chains Details
 锁链细节
  Band
@@ -1210,11 +1220,3 @@ Shade
 阴影
 Gears
 齿轮
-Patch
-补丁
-Headset
-头戴耳机
-Stem
-连杆
-Mic
-话筒

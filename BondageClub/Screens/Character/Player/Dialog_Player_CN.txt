@@ -4655,26 +4655,6 @@ SourceCharacter changes the mask on DestinationCharacter respirator.
 SourceCharacter改变了DestinationCharacter呼吸器上的面罩。
 SourceCharacter adjusts the straps on DestinationCharacter respirator.
 SourceCharacter改变了DestinationCharacter呼吸器上的系带。
-Lips
-嘴唇
-Thin
-细
-Thick
-粗
-Choose Padding Amount
-选择填充数量
-SourceCharacter changes the pattern of DestinationCharacter face mask.
-SourceCharacter改变了DestinationCharacter面具的填充数量。
-SourceCharacter adjusts the padding of DestinationCharacter face mask.
-SourceCharacter调整了DestinationCharacter面具的填充数量。
-SourceCharacter stitches DestinationCharacter mouth shut with crossed threads.
-SourceCharacter将DestinationCharacter嘴用十字形的走线缝在一起。
-SourceCharacter stitches DestinationCharacter mouth shut with a spiraling thread.
-SourceCharacter将DestinationCharacter嘴用绕圈的走线缝在一起。
-SourceCharacter stitches DestinationCharacter mouth shut with vertical threads.
-SourceCharacter将DestinationCharacter嘴用垂直的走线缝在一起。
-SourceCharacter stitches DestinationCharacter mouth shut with a zigzagging thread.
-SourceCharacter将DestinationCharacter嘴用之字形的走线缝在一起。
 SourceCharacter puts a default lips in DestinationCharacterName mouth.
 SourceCharacter将DestinationCharacterName的嘴设置为默认嘴唇。
 SourceCharacter puts a grin lips in DestinationCharacterName mouth.
@@ -4771,8 +4751,20 @@ SourceCharacter exchanges DestinationCharacter latex mouth sheath for a thin she
 SourceCharacter把DestinationCharacter乳胶隐藏口塞改为细口塞。
 SourceCharacter exchanges DestinationCharacter latex mouth sheath for a very thick sheath.
 SourceCharacter把DestinationCharacter乳胶隐藏口塞改为非常粗的口塞。
+Thick
+粗
+Thin
+细
 Very Thick
 非常粗
+Lips
+嘴唇
+Choose Padding Amount
+选择填充数量
+SourceCharacter changes the pattern of DestinationCharacter face mask.
+SourceCharacter改变了DestinationCharacter面具的填充数量。
+SourceCharacter adjusts the padding of DestinationCharacter face mask.
+SourceCharacter调整了DestinationCharacter面具的填充数量。
 Blinders
 马眼罩
 Extra Straps
@@ -4897,6 +4889,14 @@ SourceCharacter styles DestinationCharacter hair into a mane.
 SourceCharacter将DestinationCharacter头发梳理成一侧的鬃发。
 SourceCharacter styles DestinationCharacter hair into a mohawk.
 SourceCharacter将DestinationCharacter头发梳理成莫霍克发型。
+SourceCharacter stitches DestinationCharacter mouth shut with crossed threads.
+SourceCharacter将DestinationCharacter嘴用十字形的走线缝在一起。
+SourceCharacter stitches DestinationCharacter mouth shut with a spiraling thread.
+SourceCharacter将DestinationCharacter嘴用绕圈的走线缝在一起。
+SourceCharacter stitches DestinationCharacter mouth shut with vertical threads.
+SourceCharacter将DestinationCharacter嘴用垂直的走线缝在一起。
+SourceCharacter stitches DestinationCharacter mouth shut with a zigzagging thread.
+SourceCharacter将DestinationCharacter嘴用之字形的走线缝在一起。
 Gagged
 口塞
 Masked
@@ -6523,8 +6523,14 @@ Locked with a AssetName
 被AssetName锁住了
 Automatically locks
 自动上锁
+Buygroup member
+购买物品组成员
+Extended item
+扩展物品
 View previous page
 查看上一页
+Private
+私人
 <i>Private room</i>
 <i>私人房间</i>
 Click here to speed up the progress
@@ -6533,10 +6539,10 @@ Click when the player reaches the buckle to progress
 角色碰到搭扣前按下鼠标来获得进度
 Click the ropes before they hit the ground to progress
 在绳索落到地面前点击以获得进度
-Alternate keys A and D to speed up
-反复点按A和D键加速
+Alternate keys A and D (or Q and D on AZERTY) to speed up 
+交替点按A和D键加速（在AZERTY键盘上为Q和D）
 Alternate keys A and D or X and Y on a controller
-反复点按A和D键，或者手柄上的X和Y键
+交替点按A和D键，或者手柄上的X和Y键
 him
 他
 her
@@ -7432,7 +7438,7 @@ MidSpike
 Ribow
 心（丝带）
 Sense
-Sense
+感觉
 Shake
 摇晃
 SideHearts
