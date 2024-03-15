@@ -571,7 +571,7 @@ var TranslationDictionary = [
 			"Screens/Room/MovieStudio/Dialog_NPC_MovieStudio_Interview_XCross_CN.txt",
 			"Screens/Room/MovieStudio/Dialog_NPC_MovieStudio_OpenHouse_Client_CN.txt",
 			"Screens/Room/MovieStudio/Dialog_NPC_MovieStudio_OpenHouse_Girlfriend_CN.txt",
-			// "Screens/Room/Photographic/Text_Photographic_CN.txt",
+			"Screens/Room/Photographic/Text_Photographic_CN.txt",
 			"Screens/Room/Shop/Dialog_NPC_Shop_Customer_CN.txt",
 			"Screens/Room/Shop/Dialog_NPC_Shop_Vendor_CN.txt",
 			"Screens/Room/Shop/Text_Shop_CN.txt",
