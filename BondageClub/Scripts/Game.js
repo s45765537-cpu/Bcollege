@@ -5,6 +5,8 @@ var GameVersion = "R102";
 
 const GameVersionFormat = /^R([0-9]+)(?:(Alpha|Beta)([0-9]+)?)?$/;
 
+var GameWorker = null;
+
 var CommonVersionUpdated = false;
 
 /** @type {TouchList | null} */
@@ -45,11 +47,35 @@ function GameStart() {
 	canvas.addEventListener("touchmove", GameTouchMove);
 	canvas.addEventListener("touchend", GameTouchEnd);
 
-	requestAnimationFrame(GameRun);
+	requestAnimationFrame(GameAnimationFrame);
+	// Can't use setInterval, chrome throttles it to 1 minute on inactive pages, but not in workers...
+	GameWorker = new Worker("Scripts/GameWorker.js");
+	GameWorker.onmessage = GameFallbackTimer;
 }
 
 // When the code is loaded, we start the game engine
 window.addEventListener("load", GameStart);
+
+/**
+ * Callback to requestAnimationFrame.
+ * @param {number} Timestamp
+ * @returns {void}
+ */
+function GameAnimationFrame(Timestamp) {
+	GameRun(Timestamp);
+	requestAnimationFrame(GameAnimationFrame);
+}
+
+/**
+ * Periodically called in the background with low frequency, so the game doesn't freeze, even if the user switches to a different tab.
+ * @returns {void}
+ */
+function GameFallbackTimer() {
+	let Timestamp = performance.now();
+	if (Timestamp - TimerLastTime > 500) {
+		GameRun(Timestamp);
+	}
+}
 
 /**
  * Main game running state, runs the drawing
@@ -67,8 +93,6 @@ function GameRun(Timestamp) {
 	TimerProcess();
 
 	ServerSendQueueProcess();
-
-	requestAnimationFrame(MainRun);
 }
 
 /**
@@ -206,8 +230,6 @@ function GameMouseLeave(event) {
 
 /** @deprecated */
 function KeyDown(event) { GameKeyDown(event); }
-/** @deprecated */
-function MainRun(Timestamp) { GameRun(Timestamp); }
 /** @deprecated */
 function Click(event) { if (!CommonIsMobile) { CommonClick(event); } }
 /** @deprecated */
