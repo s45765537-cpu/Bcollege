@@ -10,6 +10,10 @@ Small
 小号
 Xlarge
 超大号
+Body Markings
+身体涂画
+Womb Tattoos
+子宫纹身
 Upper Body
 上身
 Bulky Flat Chest
@@ -210,6 +214,8 @@ Shiny Gown
 闪亮袍服
 Grand Mage Dress
 大法师连衣袍
+Heavy Leather Dress
+厚重皮革连衣裙
 Cropped Hoodie
 齐胸兜帽衫
 Jacket
@@ -290,10 +296,6 @@ Shoulderless Wedding Dress
 无肩婚纱礼服
 Yukata
 浴衣
-Body Markings
-身体涂画
-Womb Tattoos
-子宫纹身
 Cloth Accessory
 服装配饰
 Bib
@@ -326,10 +328,10 @@ Smoochy Lipstick
 浪漫唇膏
 Large Belt
 大腰带
-Leather Straps
-皮革束带
 Latex Apron
 乳胶围裙
+Leather Straps
+皮革束带
 Poncho
 庞乔斗篷
 Scarf
@@ -636,6 +638,8 @@ Feathers
 花
 Halo
 光环
+Headset
+头戴耳机
 Horns
 角
 Horns 2
@@ -684,8 +688,6 @@ Hair Accessory
 发饰
 Flower
 花
-Headset
-头戴耳机
 Back Hair
 后发
 Style 10b
@@ -804,6 +806,8 @@ Style 57b
 样式 57b
 Style 57c
 样式 57c
+Style 57d
+样式 57d
 Style 5b
 样式 5b
 Style 6b
@@ -1590,10 +1594,10 @@ Paw Mittens
 猫爪无指手套
 Polished Steel Mittens
 抛光不锈钢无指手套
-Short Smooth Leather Mittens
-短平滑皮革无指手套
 Pony Mittens Binder
 小马无指手套束手
+Short Smooth Leather Mittens
+短平滑皮革无指手套
 Eyes
 眼睛
 Anime Lenses
@@ -1920,6 +1924,8 @@ Latex Muzzle Mask
 乳胶口套面具
 Latex Posture Collar Gag
 乳胶姿势项圈口塞
+Latex Respirator
+乳胶呼吸器
  Latex Sheath Gag
 乳胶隐藏口塞
 Leather Corset Collar Gag
@@ -1932,6 +1938,10 @@ Medical Mask
 医用口罩
 Milk Bottle
 奶瓶
+Modular Gag
+模块化口塞
+ Mouthfeature Gag
+嘴内特征口塞
 Muzzle Gag
 口套
 Harness OTN Plug Gag
@@ -1940,6 +1950,8 @@ Pacifier
 奶嘴
 Pacifier Gag
 奶嘴口塞
+Padded Face Mask
+加厚面具
 Panties Mask
 内衣面具
 Panty Stuffing
@@ -1980,6 +1992,8 @@ Air-valve Gag
 气阀口塞
 Tentacle
 触手
+Piercing Gag
+穿刺口塞
 Tongue Strap Gag
 舌束带口塞
 Web Gag
@@ -1988,16 +2002,6 @@ Wiffle Ball Gag
 有孔口球
 XL Bone Gag
 超大号骨头口塞
-Modular Gag
-模块化口塞
-Piercing Gag
-穿刺口塞
- Mouthfeature Gag
-嘴内特征口塞
-Latex Respirator
-乳胶呼吸器
-Padded Face Mask
-加厚面具
 Neck
 颈部
 Automatic Shock Collar
@@ -2034,6 +2038,8 @@ Inflated Latex Collar
 可充气乳胶项圈
 Latex Collar
 乳胶项圈
+Latex Ring Collar
+乳胶环项圈
 Leather Choker
 皮革贴颈环
 Leather Collar
@@ -2056,6 +2062,8 @@ Nylon Collar
 尼龙项圈
 Ornate Collar
 华丽项圈
+Padded Belt Collar
+护垫皮带项圈
 Pet Collar
 宠物项圈
 PetSuit Shock Collar
@@ -2072,18 +2080,14 @@ Slender Steel Collar
 纤细不锈钢项圈
 Spike Collar
 带刺项圈
+Spiked Choker
+尖刺项圈
 Steel Collar
 不锈钢项圈
 Strict Posture Collar
 严苛姿势项圈
 Techno Collar
 科幻项圈
-Latex Ring Collar
-乳胶环项圈
-Spiked Choker
-尖刺项圈
-Padded Belt Collar
-护垫皮带项圈
 Collar
 项圈
 Automatic Shock Unit
@@ -2254,6 +2258,8 @@ Love Chastity Belt
 爱人贞操带
 Metal Chastity Belt
 金属贞操带
+Modular Chastity Belt
+模块化贞操带
 Obedience Belt
 服从贞操带
 Ornate Chastity Belt
@@ -2276,8 +2282,6 @@ Strap-On Panties
 绑带式内裤
 Studded Chastity Belt
 铆钉式贞操腰带
-Modular Chastity Belt
-模块化贞操带
 Script
 脚本
 Torso
@@ -2610,6 +2614,8 @@ Multi-Strap Heels
 乳胶系踝鞋
  Latex Heels
 乳胶高跟鞋
+Mary Special
+玛丽特制
 Mistress Boots
 女王靴
 Paw Boots
