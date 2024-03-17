@@ -469,6 +469,10 @@ input[type="checkbox"]:hover {
 	background-color:cyan;
 }
 
+input[type="checkbox"]:disabled {
+	background-color:lightgray;
+}
+
 input[type="checkbox"]::before {
 	content: "";
 	width: 4.5vh;

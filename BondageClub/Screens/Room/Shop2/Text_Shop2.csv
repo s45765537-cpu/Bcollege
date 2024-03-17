@@ -7,9 +7,9 @@ ClothesModeCosplay,Cosplay
 ClothesModeNude,Nude
 ExtendedItemButton,Use item
 Color,Change item color
-BuyModePreview,Shope mode: Preview
-BuyModeSell,Shope mode: Sell
-BuyModeBuy,Shope mode: Buy
+BuyModePreview,Shop mode: Preview
+BuyModeSell,Shop mode: Sell
+BuyModeBuy,Shop mode: Buy
 InputSearch,Filter by item name
 GroupSelectHeader,Filter by item group
 GroupSelectCollapse,Show item group filter
