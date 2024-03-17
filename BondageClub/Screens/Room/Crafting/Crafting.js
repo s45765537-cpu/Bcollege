@@ -243,14 +243,16 @@ function CraftingUpdatePreview() {
 	if (CraftingNakedPreview) CharacterNaked(CraftingPreview);
 	if (!CraftingSelectedItem) return;
 	const Craft = CraftingConvertSelectedToItem();
-	const FoundGroups = [];
-	const RelevantAssets = Asset.filter(a => {
-		if (!a.Group.IsItem()) return false;
-		if (!CraftingAppliesToItem(Craft, a)) return false;
-		if (FoundGroups.includes(a.DynamicGroupName)) return false;
-		FoundGroups.push(a.DynamicGroupName);
-		return true;
+	const FoundGroups = new Set();
+	const RelevantAssets = (CraftingAssets[Craft.Item] ?? []).filter(a => {
+		if (FoundGroups.has(a.DynamicGroupName)) {
+			return false;
+		} else {
+			FoundGroups.add(a.DynamicGroupName);
+			return true;
+		}
 	});
+
 	for (const RelevantAsset of RelevantAssets) {
 		InventoryWear(CraftingPreview, RelevantAsset.Name, RelevantAsset.DynamicGroupName, null, null, Player.MemberNumber, Craft);
 		InventoryCraft(CraftingPreview, CraftingPreview, /** @type {AssetGroupItemName} */(RelevantAsset.DynamicGroupName), Craft, false, true, false);
