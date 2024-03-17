@@ -79,7 +79,7 @@ function GameHandleError() {
 function GameAnimationFrame(Timestamp) {
 	try {
 		GameAnimationFrameId = null;
-		GameRun(Timestamp);
+		GameRunNormal(Timestamp);
 		GameAnimationFrameId = requestAnimationFrame(GameAnimationFrame);
 	} catch (e) {
 		GameHandleError();
@@ -95,7 +95,7 @@ function GameFallbackTimer() {
 	let Timestamp = performance.now();
 	if (Timestamp - TimerLastTime > 500) {
 		try {
-			GameRun(Timestamp);
+			GameRunBackground(Timestamp);
 		} catch (e) {
 			GameHandleError();
 			throw e;
@@ -107,7 +107,7 @@ function GameFallbackTimer() {
  * Main game running state, runs the drawing
  * @param {number} Timestamp
  */
-function GameRun(Timestamp) {
+function GameRunNormal(Timestamp) {
 
 	// Increments the time from the last frame
 	TimerRunInterval = Timestamp - TimerLastTime;
@@ -116,6 +116,24 @@ function GameRun(Timestamp) {
 
 	DrawProcess(Timestamp);
 	ControllerProcess();
+	TimerProcess();
+
+	ServerSendQueueProcess();
+}
+
+/**
+ * Main game running state, when in the background. Skips drawing if possible.
+ * @param {number} Timestamp
+ */
+function GameRunBackground(Timestamp) {
+
+	// Increments the time from the last frame
+	TimerRunInterval = Timestamp - TimerLastTime;
+	TimerLastTime = Timestamp;
+	CurrentTime = CurrentTime + TimerRunInterval;
+
+	if (CurrentCharacter == null) CurrentScreenFunctions.Run(Timestamp);
+	// Ignore gamepad when in the background
 	TimerProcess();
 
 	ServerSendQueueProcess();

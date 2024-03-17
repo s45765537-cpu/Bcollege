@@ -1105,6 +1105,8 @@ interface ScreenFunctions {
 	Load?(): void;
 	/** Called when this screen is being replaced */
 	Unload?(): void;
+	/** Called each frame when the screen needs to be drawn. */
+	Draw?() : void;
 	/**
 	 * Called when screen size or position changes or after screen load
 	 * @param {boolean} load - If the reason for call was load (`true`) or window resize (`false`)

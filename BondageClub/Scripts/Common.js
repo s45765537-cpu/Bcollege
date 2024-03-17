@@ -463,6 +463,7 @@ function CommonSetScreen(NewModule, NewScreen) {
 		MouseUp: typeof window[`${NewScreen}MouseUp`] === "function" ? window[`${NewScreen}MouseUp`] : undefined,
 		MouseMove: typeof window[`${NewScreen}MouseMove`] === "function" ? window[`${NewScreen}MouseMove`] : undefined,
 		MouseWheel: typeof window[`${NewScreen}MouseWheel`] === "function" ? window[`${NewScreen}MouseWheel`] : undefined,
+		Draw: typeof window[`${NewScreen}Draw`] === "function" ? window[`${NewScreen}Draw`] : undefined,
 		Load: typeof window[`${NewScreen}Load`] === "function" ? window[`${NewScreen}Load`] : undefined,
 		Unload: typeof window[`${NewScreen}Unload`] === "function" ? window[`${NewScreen}Unload`] : undefined,
 		Resize: typeof window[`${NewScreen}Resize`] === "function" ? window[`${NewScreen}Resize`] : undefined,
