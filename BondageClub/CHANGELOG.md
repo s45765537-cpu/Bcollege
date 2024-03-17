@@ -11,9 +11,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2024-03-09
-* Last recorded PR: [#4884](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4884)
-* Last recorded commit hash: `03e8f9d8864f1034dcb082b4212c41090f89c141`
+* Changelog last updated: 2024-03-17
+* Last recorded PR: [#4899](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4899)
+* Last recorded commit hash: `37d684601915bbb29ba5c2e025b62b38a63d88f2`
 
 ## [Generated]
 
@@ -36,13 +36,19 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Cleon - Adding MaryShoes Shoes - Mary Special ([#4877](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4877))
 * git4nick - New Emoticon: Music ([#4883](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4883))
 * Rama - Ensure that all gags are available in the first gag slot ([#4884](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4884))
+* Da'Inihlus - CN translation updates ([#4897](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4897))
+* Estsanatlehi - Bump the time between lactation pump messages to 5-10 minutes ([#4896](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4896))
+* Nina - Popup notifications will use in-game audio alerts ([#4895](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4895))
+* Rama - BETA: Group asset groups by their category in the shop ([#4892](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4892))
 * Ben987 - Online Chat Rooms - 20 Players Support
 * Ben987 - Latex Maid Uniform for Head Maids
 * Ben987 - Russian translation by Makeevchanin
 * Ben987 - Pandora - Use Spacebar to Pick Locks
 * Ben987 - Chat Room Map - Draw Status Bubbles
+* Ben987 - Chat Room Map - New Beach Assets
 * Ben987 - Online Chat Rooms - Next/Previous 10 Chars Buttons
 * Ben987 - Online Chat Rooms - Top Menu Buttons Rework
+* Ben987 - R102 + Credits + Patrons
 
 ### [Fixes]
 
@@ -62,20 +68,28 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * EllieThePink - Skip card discarded check if not playing ([#4852](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4852))
 * Estsanatlehi - Fix a bug where drawing the chat room character view would happen twice ([#4854](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4854))
 * Rama - Add `DialogFocusSourceItem == null` safeguards to the lock `Click`-hooks ([#4857](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4857))
-* KyraObscura - Fix: Corset Dress Poses ([#4865](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4865))
+* KyraObscura - Corset Dress Poses ([#4865](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4865))
 * git4nick - CollegeTheater Cloth fix ([#4866](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4866))
 * u3shit - Make MaidDrinks minigame a bit more responsive ([#4868](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4868))
-* Rama - BUG: Fix `GetSlowLevel` miscounting slow effects ([#4870](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4870))
+* Rama - `GetSlowLevel` miscounting slow effects ([#4870](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4870))
 * Rama - Bump the pose priority of the `BodyAddon` category ([#4871](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4871))
 * Cleon - Quick fix: Corset Dress Allfours pose ([#4873](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4873))
-* git4nick - Fix: Doms in Private Room ([#4876](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4876))
-* Rama - MAINT: Implement more minor shop updates ([#4878](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4878))
-* Cleon - Minor fixes -DefaultColor- : HeavyLetherDress and MaryShoes - DutyShoes 4 free. ([#4879](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4879))
-* Ben987 - Fix Controller Crash
-* Ben987 - Fix Bondage Brawl Mobile Bind
-* Ben987 - FIX - Controller Crash on Pressed and Repeat
-* Ben987 - FIX - Controller Support for Screen Transition
-* Ben987 - FIX - Maid Drinks Mini Game Background
+* git4nick - Doms in Private Room ([#4876](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4876))
+* Rama - Implement more minor shop updates ([#4878](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4878))
+* Cleon - Minor fixes to -DefaultColor- : HeavyLetherDress and MaryShoes - DutyShoes 4 free. ([#4879](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4879))
+* Rama - Fix a shop typo ([#4899](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4899))
+* Estsanatlehi - Make the new shortcuts require the alt key as well ([#4890](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4890))
+* u3shit - Pony minigame keyboard input ([#4889](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4889))
+* Rama - Ensure that the shop never puts 0-valued assets on the buy list ([#4888](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4888))
+* EllieThePink - Fix some bugs with turn end handlers in Club Card ([#4885](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4885))
+* Rama - Fix a missing the missing `Music` emoticon expression name ([#4886](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4886))
+* Rama - Mention that one should struggle via he Q and D keys on AZERTY keyboards ([#4887](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4887))
+* Ben987 - Controller Crash
+* Ben987 - Bondage Brawl Mobile Bind
+* Ben987 - Controller Crash on Pressed and Repeat
+* Ben987 - Controller Support for Screen Transition
+* Ben987 - Maid Drinks Mini Game Background
+* Ben987 - Online Chat Rooms - Always Show Kneel Button
 
 ### [Technical]
 * Estsanatlehi - Fix linting ([#4813](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4813))
