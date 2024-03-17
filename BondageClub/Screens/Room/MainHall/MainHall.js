@@ -181,7 +181,7 @@ function MainHallLoad() {
 }
 
 /**
- * Runs and draws the main hall screen
+ * Runs the main hall screen
  * @returns {void} - Nothing
  */
 function MainHallRun() {
@@ -241,6 +241,36 @@ function MainHallRun() {
 		}
 
 	}
+
+	// If we must send a maid to rescue the player
+	if (MainHallMaid !== null && (MainHallNextEventTimer != null) && (CommonTime() >= MainHallNextEventTimer)) {
+		MainHallMaid.Stage = "0";
+		CharacterRelease(MainHallMaid);
+		CharacterSetCurrent(MainHallMaid);
+		MainHallStartEventTimer = null;
+		MainHallNextEventTimer = null;
+		MainHallMaidWasCalledManually = false;
+	}
+
+	// Start the rescue progress, if needed
+	if ((MainHallStartEventTimer == null) && (MainHallNextEventTimer == null)) {
+		if ( (!Player.GameplaySettings || !Player.GameplaySettings.DisableAutoMaid) && ((!Player.CanInteract() || !Player.CanWalk() || !Player.CanTalk() || Player.IsShackled()))) {
+			MainHallStartEventTimer = CommonTime();
+			MainHallNextEventTimer = CommonTime() + 40000 + Math.floor(Math.random() * 40000);
+		}
+		MainHallMaidWasCalledManually = false;
+	} else if (!MainHallMaidWasCalledManually && !((!Player.CanInteract() || !Player.CanWalk() || !Player.CanTalk() || Player.IsShackled()))) {
+		MainHallStartEventTimer = null;
+		MainHallNextEventTimer = null;
+	}
+
+}
+
+/**
+ * Draws the main hall screen
+ * @returns {void} - Nothing
+ */
+function MainHallDraw() {
 
 	// Draws the character and main hall buttons
 	DrawCharacter(Player, 750, 0, 1);
@@ -317,37 +347,16 @@ function MainHallRun() {
 
 	}
 
-	// If we must send a maid to rescue the player
-	if (MainHallMaid !== null && (MainHallNextEventTimer != null) && (CommonTime() >= MainHallNextEventTimer)) {
-		MainHallMaid.Stage = "0";
-		CharacterRelease(MainHallMaid);
-		CharacterSetCurrent(MainHallMaid);
-		MainHallStartEventTimer = null;
-		MainHallNextEventTimer = null;
-		MainHallMaidWasCalledManually = false;
-	}
-
 	// If we must show a progress bar for the rescue maid.  If not, we show the number of online players or a button to request the maid
 	if ((MainHallStartEventTimer == null) && (MainHallNextEventTimer == null)) {
-		if ( (!Player.GameplaySettings || !Player.GameplaySettings.DisableAutoMaid) && ((!Player.CanInteract() || !Player.CanWalk() || !Player.CanTalk() || Player.IsShackled()))) {
-			MainHallStartEventTimer = CommonTime();
-			MainHallNextEventTimer = CommonTime() + 40000 + Math.floor(Math.random() * 40000);
-		} else {
-			MainCanvas.textAlign = "right";
-			DrawText(TextGet("OnlinePlayers") + " " + CurrentOnlinePlayers.toString(), 1740, 950, "White", "Black");
-			MainCanvas.textAlign = "center";
-			DrawButton(1775, 900, 90, 90, "", "White", "Icons/Changelog.png", TextGet("OpenChangelog"));
-			DrawButton(1885, 900, 90, 90, "", "White", "Icons/ServiceBell.png", TextGet("RequestMaid"));
-		}
-		MainHallMaidWasCalledManually = false;
+		MainCanvas.textAlign = "right";
+		DrawText(TextGet("OnlinePlayers") + " " + CurrentOnlinePlayers.toString(), 1740, 950, "White", "Black");
+		MainCanvas.textAlign = "center";
+		DrawButton(1775, 900, 90, 90, "", "White", "Icons/Changelog.png", TextGet("OpenChangelog"));
+		DrawButton(1885, 900, 90, 90, "", "White", "Icons/ServiceBell.png", TextGet("RequestMaid"));
 	} else {
-		if (!MainHallMaidWasCalledManually && !((!Player.CanInteract() || !Player.CanWalk() || !Player.CanTalk() || Player.IsShackled()))) {
-			MainHallStartEventTimer = null;
-			MainHallNextEventTimer = null;
-		} else {
-			DrawText(TextGet("RescueIsComing"), 1750, 925, "White", "Black");
-			DrawProgressBar(1525, 955, 450, 35, (1 - ((MainHallNextEventTimer - CommonTime()) / (MainHallNextEventTimer - MainHallStartEventTimer))) * 100);
-		}
+		DrawText(TextGet("RescueIsComing"), 1750, 925, "White", "Black");
+		DrawProgressBar(1525, 955, 450, 35, (1 - ((MainHallNextEventTimer - CommonTime()) / (MainHallNextEventTimer - MainHallStartEventTimer))) * 100);
 	}
 
 }
