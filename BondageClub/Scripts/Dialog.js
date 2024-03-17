@@ -1474,20 +1474,16 @@ function DialogInventorySort() {
  * Returns TRUE if the crafted item can be used on a character, validates for owners and lovers
  * @param {Character} C - The character whose inventory must be built
  * @param {CraftingItem} Craft - The crafting properties of the item
+ * @param {Asset} A - The items asset
  * @returns {Boolean} - TRUE if we can use it
  */
-function DialogCanUseCraftedItem(C, Craft) {
-	if (Craft == null) return true;
-	for (let A of Asset) {
-		if ((A.Name == Craft.Item) && A.OwnerOnly && !C.IsOwnedByPlayer()) return false;
-		if ((A.Name == Craft.Item) && A.LoverOnly && !C.IsLoverOfPlayer()) return false;
-		if ((A.Name == Craft.Item) && A.FamilyOnly && !C.IsFamilyOfPlayer()) return false;
-		if (Craft.Lock != null && A.Name === Craft.Lock) {
-			if (A.OwnerOnly && !DialogCanUseOwnerLockOn(C)) return false;
-			if (A.LoverOnly && !DialogCanUseLoverLockOn(C)) return false;
-			if (A.FamilyOnly && !DialogCanUseFamilyLockOn(C)) return false;
-		}
-	}
+function DialogCanUseCraftedItem(C, Craft, A) {
+	// Validates the craft asset
+	if (!C || !Craft || !A) return false;
+
+	if (A.OwnerOnly && !C.IsOwnedByPlayer()) return false;
+	if (A.LoverOnly && !(C.IsLoverOfPlayer() || C.IsOwnedByPlayer())) return false;
+	if (A.FamilyOnly && !(C.IsFamilyOfPlayer() || C.IsLoverOfPlayer() || C.IsOwnedByPlayer())) return false;
 	return true;
 }
 
@@ -1596,29 +1592,34 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false) {
 					DialogInventoryAdd(C, { Asset: A }, false);
 
 		// Fifth, we add all crafted items for the player that matches that slot
-		if (Player.Crafting != null) {
-			for (let Craft of Player.Crafting)
-				if ((Craft != null) && (Craft.Item != null)) {
-					const group = AssetGroupGet(C.AssetFamily, C.FocusGroup.Name);
-					for (let A of group.Asset)
-						if (CraftingAppliesToItem(Craft, A) && DialogCanUseCraftedItem(C, Craft))
-							DialogInventoryAdd(C, { Asset: A, Craft: Craft }, false);
+		for (const Craft of (Player.Crafting ?? [])) {
+			if (Craft == null) {
+				continue;
+			}
+
+			for (const Asset of (CraftingAssets[Craft.Item] ?? [])) {
+				if (Asset.Group.Name === C.FocusGroup.Name && DialogCanUseCraftedItem(C, Craft, Asset)) {
+					DialogInventoryAdd(C, { Asset, Craft }, false);
 				}
+			}
 		}
 
 		// Sixth. we add all crafted items from the character that matches that slot
-		if (C.Crafting != null && !C.IsPlayer()) {
-			let Crafting = CraftingDecompressServerData(C.Crafting);
-			for (let Craft of Crafting)
-				if ((Craft != null) && (Craft.Item != null))
-					if ((Craft.Private == null) || (Craft.Private == false)) {
-						Craft.MemberName = CharacterNickname(C);
-						Craft.MemberNumber = C.MemberNumber;
-						const group = AssetGroupGet(C.AssetFamily, C.FocusGroup.Name);
-						for (let A of group.Asset)
-							if (CraftingAppliesToItem(Craft, A) && DialogCanUseCraftedItem(C, Craft))
-								DialogInventoryAdd(C, { Asset: A, Craft: Craft }, false);
+		if (!C.IsPlayer()) {
+			const Crafting = CraftingDecompressServerData(C.Crafting ?? "");
+			for (const Craft of Crafting) {
+				if (Craft == null || Craft.Private) {
+					continue;
+				}
+
+				Craft.MemberName = CharacterNickname(C);
+				Craft.MemberNumber = C.MemberNumber;
+				for (const Asset of (CraftingAssets[Craft.Item] ?? [])) {
+					if (Asset.Group.Name === C.FocusGroup.Name && DialogCanUseCraftedItem(C, Craft, Asset)) {
+						DialogInventoryAdd(C, { Asset, Craft }, false);
 					}
+				}
+			}
 		}
 
 		// Seventh, if the player is using the online map room and is located on an object tile, she can use that object
