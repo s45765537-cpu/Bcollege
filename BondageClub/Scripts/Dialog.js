@@ -1470,6 +1470,8 @@ function DialogInventorySort() {
 	DialogInventory.sort((a, b) => a.SortOrder.localeCompare(b.SortOrder, undefined, { numeric: true, sensitivity: 'base' }));
 }
 
+// TODO: This function has really nothing to do with crafted items at this point;
+// similar logic is used all over the code base and could really use some consolidation
 /**
  * Returns TRUE if the crafted item can be used on a character, validates for owners and lovers
  * @param {Character} C - The character whose inventory must be built
