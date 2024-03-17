@@ -1459,10 +1459,14 @@ const ExtendedItemTighten = {
 	 * @param {RectTuple} buttonCoords A 4-tuple with the buttons coordinates
 	 */
 	Draw: function ({ asset }, item, buttonCoords) {
-		if (asset.AllowTighten && !InventoryItemHasEffect(item, "Lock") && !TightenLoosenScreenBlacklist.has(CurrentScreen)) {
+		if (asset.AllowTighten && !TightenLoosenScreenBlacklist.has(CurrentScreen)) {
 			const Difficulty = item.Difficulty ?? 0;
 			DrawText(`${DialogFindPlayer("Tightness")} ${Difficulty}`, 1200, 140, "White", "Silver");
-			DrawButton(...buttonCoords, DialogFindPlayer("AdjustTightness"), "White");
+			if (Player.CanInteract() && !InventoryItemHasEffect(item, "Lock")) {
+				DrawButton(...buttonCoords, DialogFindPlayer("AdjustTightness"), "White");
+			} else {
+				DrawButton(...buttonCoords, DialogFindPlayer("AdjustTightness"), "Gray", undefined, undefined, true);
+			}
 		}
 	},
 
@@ -1478,7 +1482,12 @@ const ExtendedItemTighten = {
 			return false;
 		}
 
-		if (asset.AllowTighten && !InventoryItemHasEffect(item, "Lock") && !TightenLoosenScreenBlacklist.has(CurrentScreen)) {
+		if (
+			asset.AllowTighten
+			&& Player.CanInteract()
+			&& !InventoryItemHasEffect(item, "Lock")
+			&& !TightenLoosenScreenBlacklist.has(CurrentScreen)
+		) {
 			DialogSetTightenLoosenItem(item);
 		}
 		return true;
