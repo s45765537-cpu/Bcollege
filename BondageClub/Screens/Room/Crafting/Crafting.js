@@ -1229,18 +1229,11 @@ function CraftingExit() {
  * @param {Asset} Item
  */
 function CraftingAppliesToItem(Craft, Item) {
-
 	// Validates the craft asset
 	if (!Craft || !Item) return false;
-	const craftAsset = Asset.find(a => a.Name === Craft.Item && a.Group.IsItem());
-	if (!craftAsset) return false;
 
-	// Find all assets that match our name/group combination, or have the same description
-	const matchingAssets = Asset.filter(a => a.Name === craftAsset.Name || a.CraftGroup === craftAsset.Name);
-
-	// Now check any of those matches are the item to test
-	return matchingAssets.find(m => m.Name === Item.Name && m.DynamicGroupName === Item.DynamicGroupName);
-
+	const elligbleAssets = CraftingAssets[Craft.Item] ?? [];
+	return elligbleAssets.includes(Item);
 }
 
 /**
