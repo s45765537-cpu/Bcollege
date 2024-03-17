@@ -5,6 +5,9 @@ var GameVersion = "R102";
 
 const GameVersionFormat = /^R([0-9]+)(?:(Alpha|Beta)([0-9]+)?)?$/;
 
+/** @type {number | null} */
+var GameAnimationFrameId = null;
+/** @type {Worker | null} */
 var GameWorker = null;
 
 var CommonVersionUpdated = false;
@@ -47,7 +50,7 @@ function GameStart() {
 	canvas.addEventListener("touchmove", GameTouchMove);
 	canvas.addEventListener("touchend", GameTouchEnd);
 
-	requestAnimationFrame(GameAnimationFrame);
+	GameAnimationFrameId = requestAnimationFrame(GameAnimationFrame);
 	// Can't use setInterval, chrome throttles it to 1 minute on inactive pages, but not in workers...
 	GameWorker = new Worker("Scripts/GameWorker.js");
 	GameWorker.onmessage = GameFallbackTimer;
@@ -56,14 +59,32 @@ function GameStart() {
 // When the code is loaded, we start the game engine
 window.addEventListener("load", GameStart);
 
+function GameHandleError() {
+	if (GameAnimationFrameId != null) {
+		cancelAnimationFrame(GameAnimationFrameId);
+		GameAnimationFrameId = null;
+	}
+	if (GameWorker != null) {
+		GameWorker.onmessage = null;
+		GameWorker.terminate();
+		GameWorker = null;
+	}
+}
+
 /**
  * Callback to requestAnimationFrame.
  * @param {number} Timestamp
  * @returns {void}
  */
 function GameAnimationFrame(Timestamp) {
-	GameRun(Timestamp);
-	requestAnimationFrame(GameAnimationFrame);
+	try {
+		GameAnimationFrameId = null;
+		GameRun(Timestamp);
+		GameAnimationFrameId = requestAnimationFrame(GameAnimationFrame);
+	} catch (e) {
+		GameHandleError();
+		throw e;
+	}
 }
 
 /**
@@ -73,7 +94,12 @@ function GameAnimationFrame(Timestamp) {
 function GameFallbackTimer() {
 	let Timestamp = performance.now();
 	if (Timestamp - TimerLastTime > 500) {
-		GameRun(Timestamp);
+		try {
+			GameRun(Timestamp);
+		} catch (e) {
+			GameHandleError();
+			throw e;
+		}
 	}
 }
 
