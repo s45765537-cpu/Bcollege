@@ -66,6 +66,13 @@ let CraftingReorderMode = "None";
  */
 let CraftingLayerNames = null;
 
+/**
+ * A record mapping all crafting-valid asset names to a list of matching elligble assets.
+ * Elligble assets are defined as crafting-valid assets with either a matching {@link Asset.Name} or {@link Asset.CraftGroup}.
+ * @type {Record<string, Asset[]>}
+ */
+let CraftingAssets = {};
+
 /** The separator used between different crafted items when serializing them. */
 const CraftingSerializeItemSep = "§";
 
@@ -139,6 +146,39 @@ const CraftingPropertyExclude = new Set([
 	"AutoPunishUndoTime",
 	"NextShockTime",
 ]);
+
+/**
+ * Construct a record mapping all crafting-valid asset names to a list of matching elligble assets.
+ * Elligble assets are defined as crafting-valid assets with either a matching {@link Asset.Name} or {@link Asset.CraftGroup}.
+ * @see {@link CraftingAssets}
+ * @returns {Record<string, Asset[]>}
+ */
+function CraftingAssetsPopulate() {
+	/** @type {Record<string, Asset[]>} */
+	const ret = {};
+	/** @type {Record<string, Asset[]>} */
+	const craftGroups = {};
+	for (const a of Asset) {
+		if (!a.Group.IsItem() || a.IsLock || !a.Wear || !a.Enable) {
+			continue;
+		} else if (a.CraftGroup) {
+			craftGroups[a.CraftGroup] ??= [];
+			craftGroups[a.CraftGroup].push(a);
+		} else {
+			ret[a.Name] ??= [];
+			ret[a.Name].push(a);
+		}
+	}
+
+	for (const assetList of Object.values(craftGroups)) {
+		const names = new Set(assetList.map(a => a.Name));
+		for (const name of names) {
+			ret[name] ??= [];
+			ret[name].push(...assetList);
+		}
+	}
+	return ret;
+}
 
 /**
  * Returns TRUE if a crafting item has an effect from a list or allows that effect

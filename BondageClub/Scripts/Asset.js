@@ -859,6 +859,7 @@ function AssetLoadAll() {
 	Pose = PoseFemale3DCG;
 	Pose.forEach(p => PoseRecord[p.Name] = p);
 	AssetLoad(AssetFemale3DCG, "Female3DCG", AssetFemale3DCGExtended);
+	CraftingAssets = CraftingAssetsPopulate();
 	ExtendedItemManualRegister();
 	PropertyAutoPunishHandled = new Set(AssetGroup.map((a) => a.Name));
 	Shop2._PopulateBuyGroups();
