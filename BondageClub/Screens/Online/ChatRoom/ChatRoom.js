@@ -1015,20 +1015,20 @@ function ChatRoomStart(Space, Game, LeaveRoom, LeaveSpace, Background, Backgroun
 function ChatRoomMenuBuild() {
 	ChatRoomMenuButtons = [];
 	ChatRoomMenuButtons.push("Exit");
-	ChatRoomMenuButtons.push("RoomAdmin");
-	ChatRoomMenuButtons.push("Profile");
-	if ((ChatRoomGame !== "") && (ChatRoomGame !== "GGTS")) ChatRoomMenuButtons.push("GameOption");
-	if (Player.CanChangeOwnClothes()) ChatRoomMenuButtons.push("Dress");
+	ChatRoomMenuButtons.push("Kneel");
+	ChatRoomMenuButtons.push("Icons");
+	if (DialogCanTakePhotos()) ChatRoomMenuButtons.push("Camera");
+	ChatRoomMenuButtons.push("Cut");
 	if (ChatRoomMapViewIsActive() && ((ChatRoomData == null) || (ChatRoomData.MapData == null) || (ChatRoomData.MapData.Type == null) || (ChatRoomData.MapData.Type != "Always"))) ChatRoomMenuButtons.push("CharacterView");
 	if (ChatRoomCharacterViewIsActive() && ((ChatRoomData == null) || (ChatRoomData.MapData == null) || (ChatRoomData.MapData.Type == null) || (ChatRoomData.MapData.Type != "Never"))) ChatRoomMenuButtons.push("MapView");
-	if (ChatRoomCustomizationButton() && !ChatRoomCustomized) ChatRoomMenuButtons.push("CustomizationOn");
-	if (ChatRoomCustomizationButton() && ChatRoomCustomized) ChatRoomMenuButtons.push("CustomizationOff");
-	if (DialogCanTakePhotos()) ChatRoomMenuButtons.push("Camera");
-	ChatRoomMenuButtons.push("Kneel");
 	if (ChatRoomCharacterViewIsActive() && (ChatRoomCharacterViewCharacterCountTotal != null) && (ChatRoomCharacterViewCharacterCountTotal > 10) && (ChatRoomCharacterViewOffset == 0)) ChatRoomMenuButtons.push("NextCharacters");
 	if (ChatRoomCharacterViewIsActive() && (ChatRoomCharacterViewCharacterCountTotal != null) && (ChatRoomCharacterViewCharacterCountTotal > 10) && (ChatRoomCharacterViewOffset == 10)) ChatRoomMenuButtons.push("PreviousCharacters");
-	ChatRoomMenuButtons.push("Icons");
-	ChatRoomMenuButtons.push("Cut");
+	if (ChatRoomCustomizationButton() && !ChatRoomCustomized) ChatRoomMenuButtons.push("CustomizationOn");
+	if (ChatRoomCustomizationButton() && ChatRoomCustomized) ChatRoomMenuButtons.push("CustomizationOff");
+	ChatRoomMenuButtons.push("Dress");
+	ChatRoomMenuButtons.push("Profile");
+	if ((ChatRoomGame !== "") && (ChatRoomGame !== "GGTS")) ChatRoomMenuButtons.push("GameOption");
+	ChatRoomMenuButtons.push("RoomAdmin");
 }
 
 /**
