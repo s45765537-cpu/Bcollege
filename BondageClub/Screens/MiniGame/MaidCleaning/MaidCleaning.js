@@ -60,7 +60,6 @@ function MaidCleaningLoad() {
 	var MaxSpot = 220 * Factor;
 	if (MiniGameDifficultyMode == "Normal") MaxSpot = 360 * Factor;
 	if (MiniGameDifficultyMode == "Hard") MaxSpot = 500 * Factor;
-	MiniGameTimer = CommonTime() + 60000;
 	MaidCleaningGenerateSpots(MaxSpot);
 
 }
@@ -73,17 +72,18 @@ function MaidCleaningRun() {
 
 	// The game ends in victory if everything is clean or in defeat if the time runs out
 	var Time = CommonTime();
-	if (!MiniGameEnded && (MaidCleaningSpots.length == 0)) MaidCleaningEnd(true);
-	if (!MiniGameEnded && (Time >= MiniGameTimer)) MaidCleaningEnd(false);
-	if (Time >= MiniGameTimer + 5000) MiniGameEnd();
+	if (MiniGameRunning() && (MaidCleaningSpots.length == 0)) MaidCleaningEnd(true);
+	if (MiniGameRunning() && (Time >= MiniGameTimer)) MaidCleaningEnd(false);
+	if (MiniGameEnded && Time >= MiniGameTimer + 5000) MiniGameEnd();
 
 	// Draw the player character, progress bar and text
 	MaidCleaningDoMove();
 	DrawCharacter(Player, MaidCleaningPlayerX, MaidCleaningPlayerY, 2, false);
 	MaidCleaningDrawSpots();
-	if (!MiniGameEnded) DrawProgressBar(0, 950, 2000, 50, (MiniGameTimer - Time) / 600);
+	if (MiniGameRunning()) DrawProgressBar(0, 950, 2000, 50, (MiniGameTimer - Time) / 600);
 	else DrawRect(0, 950, 2000, 50, "white");
-	if (Time < MiniGameTimer) DrawText(TextGet("CleanDirtySpots"), 1000, 977, "black", "white");
+	if (!MiniGameStarted) DrawText(TextGet("Start"), 1000, 977, "black", "white");
+	else if (Time < MiniGameTimer) DrawText(TextGet("CleanDirtySpots"), 1000, 977, "black", "white");
 	else DrawText(TextGet(MiniGameVictory ? "Victory" : "Defeat"), 1000, 977, "black", "white");
 
 }
@@ -114,7 +114,7 @@ function MaidCleaningDoMove() {
 		var Range = ((CommonIsMobile) ? (MaidCleaningSpotSize / 1.5) : (MaidCleaningSpotSize / 2));
 
 		// If the game has started, we check the click position and remove a spot at that position
-		if (!MiniGameEnded)
+		if (MiniGameRunning())
 			for (let S = 0; S < MaidCleaningSpots.length; S++)
 				if ((MouseX >= MaidCleaningSpots[S].X - Range) && (MouseX <= MaidCleaningSpots[S].X + Range) && (MouseY >= MaidCleaningSpots[S].Y - Range) && (MouseY <= MaidCleaningSpots[S].Y + Range)) {
 					if (MaidCleaningSpots[S].T == 1) MaidCleaningSpots.splice(S, 1);
@@ -145,5 +145,9 @@ function MaidCleaningKeyDown(event) {
  * Handles clicks during the maid cleaning minigame. On mobile, we need to move the player on a click.
  */
 function MaidCleaningClick() {
+	if (!MiniGameStarted) {
+		MiniGameTimer = CommonTime() + 60000;
+		MiniGameStarted = true;
+	}
 	if (CommonIsMobile) MaidCleaningDoMove();
 }
