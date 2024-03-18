@@ -214,14 +214,13 @@ function doChineseGarbling(character, gagLevel) {
 }
 
 /**
- * A helper method to check if the character parsed in is one of the following: ` .?!~-_'"。？！，:;¿¡…`.
- *
- * This one was created for lower gag levels or baby talk. So any and all punction can be added to it.
+ * Return whether the passed character belongs to either the unicode Symbol, Punctuation or Separator category.
  * @param {string} character - The character needs to be checked.
  * @returns {boolean} - Whether the passed character is equivalent to one of aforementioned punctuation characters
  */
 function isPunctuationOrSpace(character) {
-	return ' .?!~-_\'"。？！，:;¿¡…'.includes(character);
+	const punctionOrSpace = /\p{P}|\p{Z}|\p{S}/u;
+	return punctionOrSpace.test(character);
 }
 
 /**
