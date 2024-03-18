@@ -1247,9 +1247,8 @@ function DrawRoomBackground(URL, bounds, opts) {
 		}
 
 		// Draw the background and custom filter
-		const safeWidth = Math.min(bounds.w / zoom, img.naturalWidth);
-		const srcX = ((safeWidth - bounds.w) / 2) * (2 - 1 / zoom);
-		const srcBounds = RectMakeRect(srcX, 0, safeWidth - 2 * srcX, img.naturalHeight);
+		const srcX = ((img.naturalWidth - bounds.w) / 2) * (2 - 1 / zoom);
+		const srcBounds = RectMakeRect(srcX, 0, img.naturalWidth - 2 * srcX, img.naturalHeight);
 		const bgBounds = RectScale(bounds, 1.0, zoom);
 		DrawImageZoomCanvas(URL, MainCanvas, ...RectGetFrame(srcBounds), ...RectGetFrame(bgBounds), inverted);
 
