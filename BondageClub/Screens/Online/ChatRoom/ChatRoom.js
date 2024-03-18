@@ -2211,7 +2211,7 @@ function ChatRoomCommonKeyDown(event) {
 		ElementFocus("InputChat");
 		return true;
 	} else if (event.altKey && event.key === "k") {
-		ChatRoomToggleKneel();
+		if (!event.repeat) ChatRoomToggleKneel();
 		return true;
 	} else if (event.altKey && event.key === "i") {
 		ChatRoomOpenInformationScreen();
