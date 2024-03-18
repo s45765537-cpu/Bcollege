@@ -31,8 +31,15 @@ const PoseCategoryPriority = {
 	BodyHands: 1,
 	BodyUpper: 1,
 };
+
 /** @type {Map<AssetGroupName, AssetGroup[]>} */
 var AssetActivityMirrorGroups = new Map();
+
+/**
+ * A record mapping all {@link Asset.IsLock} asset names to their respective assets.
+ * @type {Record<AssetLockType, Asset>}
+ */
+const AssetLocks = /** @type {Record<AssetLockType, Asset>} */({});
 
 /** Special values for {@link AssetDefinition.PoseMapping} for hiding or using pose-agnostic assets. */
 const PoseType = /** @type {const} */({
@@ -298,6 +305,9 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 	/** @type {Asset[]} */(Group.Asset).push(A);
 	AssetMap.set(`${Group.Name}/${A.Name}`, A);
 	Asset.push(A);
+	if (A.IsLock) {
+		AssetLocks[/** @type {AssetLockType} */(A.Name)] = A;
+	}
 
 	// Initialize the extended item data of archetypical items
 	if (ExtendedConfig) {

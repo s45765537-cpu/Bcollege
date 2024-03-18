@@ -1470,8 +1470,6 @@ function DialogInventorySort() {
 	DialogInventory.sort((a, b) => a.SortOrder.localeCompare(b.SortOrder, undefined, { numeric: true, sensitivity: 'base' }));
 }
 
-// TODO: This function has really nothing to do with crafted items at this point;
-// similar logic is used all over the code base and could really use some consolidation
 /**
  * Returns TRUE if the crafted item can be used on a character, validates for owners and lovers
  * @param {Character} C - The character whose inventory must be built
@@ -1486,6 +1484,14 @@ function DialogCanUseCraftedItem(C, Craft, A) {
 	if (A.OwnerOnly && !C.IsOwnedByPlayer()) return false;
 	if (A.LoverOnly && !(C.IsLoverOfPlayer() || C.IsOwnedByPlayer())) return false;
 	if (A.FamilyOnly && !(C.IsFamilyOfPlayer() || C.IsLoverOfPlayer() || C.IsOwnedByPlayer())) return false;
+
+	/** @type {undefined | Asset} */
+	const lock = AssetLocks[/** @type {AssetLockType} */(Craft.Lock)];
+	if (lock != null) {
+		if (lock.OwnerOnly && !DialogCanUseOwnerLockOn(C)) return false;
+		if (lock.LoverOnly && !DialogCanUseLoverLockOn(C)) return false;
+		if (lock.FamilyOnly && !DialogCanUseFamilyLockOn(C)) return false;
+	}
 	return true;
 }
 
