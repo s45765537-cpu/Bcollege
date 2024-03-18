@@ -5,7 +5,7 @@ var MagicPuzzleFinish = 0;
 var MagicPuzzleSize = 0;
 var MagicPuzzleSpell = 0;
 var MagicPuzzleAutoExit = false;
-var MagicPuzzleStarted = false;
+var MagicPuzzleCanStart = false;
 var MagicPuzzleTimer = 0;
 var MagicPuzzleLastMouseX = 0;
 var MagicPuzzleLastMouseY = 0;
@@ -19,29 +19,26 @@ var MagicPuzzleTrailRainbow = false;
  * @returns {void} - Nothing
  */
 function MagicPuzzleLoad() {
-	MagicPuzzleStart = CommonTime() + 5000;
 	MagicPuzzleFinish = 0;
 	MagicPuzzleSize = 10 + Math.round(MagicBattleGetDifficulty(Player) * 1.5);
-	MagicPuzzleTimer = (MiniGameDifficulty > 0) ? CommonTime() + 5000 + MiniGameDifficulty * 1000 : 0;
-	MagicPuzzleStarted = false;
+	MagicPuzzleTimer = 0;
 	MiniGameVictory = false;
 	MagicPuzzleTrailRainbow = ((InventoryGet(Player, "ItemHandheld") != null) && (InventoryGet(Player, "ItemHandheld").Asset.Name === "RainbowWand"));
 }
 
 /**
  * Returns the time in seconds with 3 digits milliseconds
- * @returns {void} - Nothing
+ * @param {number} Time
+ * @returns {string} - Formatted string
  */
 function MagicPuzzleTime(Time) {
-	Time = Time.toString();
-	if (Time.indexOf(".") < 0) Time = Time + ".";
-	while (Time.indexOf(".") > Time.length - 4)
-		Time = Time + "0";
-	return Time;
+	return Time.toFixed(3);
 }
 
 /**
  * Validates where the puzzle square is, validated 4 times for each end of the square
+ * @param {number} X - X coordinate
+ * @param {number} Y - Y coordinate
  * @returns {void} - Nothing
  */
 function MagicPuzzleValidate(X, Y) {
@@ -52,6 +49,14 @@ function MagicPuzzleValidate(X, Y) {
 	if ((Y < 0) || (Y > 999)) Y = 0;
 	let Data = MainCanvas.getImageData(X, Y, 1, 1).data;
 
+	// When starting the game, fully in the green zone
+	if (!MiniGameStarted) {
+		if ((Data[0] > 100) || (Data[2] > 100)) {
+			MagicPuzzleCanStart = false;
+		}
+		return;
+	}
+
 	// In the dark zone, ends in failure
 	if ((Data[0] < 100) && (Data[1] < 100) && (Data[2] < 100)) {
 		MiniGameEnded = true;
@@ -59,15 +64,8 @@ function MagicPuzzleValidate(X, Y) {
 		return;
 	}
 
-	// When starting the game, fully in the green zone
-	if (((Data[0] > 100) || (Data[2] > 100)) && !MagicPuzzleStarted) {
-		MiniGameEnded = true;
-		MagicPuzzleFinish = CommonTime();
-		return;
-	}
-
 	// When reaching the red zone, it ends in victory
-	if ((Data[0] > 100) && (Data[1] < 100) && (Data[2] < 100) && MagicPuzzleStarted) {
+	if ((Data[0] > 100) && (Data[1] < 100) && (Data[2] < 100)) {
 		MiniGameEnded = true;
 		MiniGameVictory = true;
 		MagicPuzzleFinish = CommonTime();
@@ -81,7 +79,7 @@ function MagicPuzzleValidate(X, Y) {
  * @returns {void} - Nothing
  */
 function MagicPuzzleAntiCheat() {
-	if (MagicPuzzleStarted) {
+	if (MiniGameRunning()) {
 		if ((Math.abs(MouseX - MagicPuzzleLastMouseX) >= 200) || (Math.abs(MouseY - MagicPuzzleLastMouseY) >= 200) || (Math.abs(MouseX + MouseY - MagicPuzzleLastMouseX - MagicPuzzleLastMouseY) >= 300)) {
 			MiniGameEnded = true;
 			MagicPuzzleFinish = CommonTime();
@@ -105,17 +103,17 @@ function MagicPuzzleRun() {
 	MagicPuzzleBuildTrail();
 
 	// When the game is running, we make sure the end borders never hit the black zone
-	if (!MiniGameEnded && (CommonTime() >= MagicPuzzleStart)) {
-		MagicPuzzleAntiCheat();
+	MagicPuzzleAntiCheat();
+	if (!MiniGameEnded) {
+		MagicPuzzleCanStart = true;
 		MagicPuzzleValidate(MouseX - MagicPuzzleSize, MouseY - MagicPuzzleSize);
 		MagicPuzzleValidate(MouseX - MagicPuzzleSize, MouseY + MagicPuzzleSize);
 		MagicPuzzleValidate(MouseX + MagicPuzzleSize, MouseY - MagicPuzzleSize);
 		MagicPuzzleValidate(MouseX + MagicPuzzleSize, MouseY + MagicPuzzleSize);
-		MagicPuzzleStarted = true;
 	}
 
 	// If there's a timer and it runs out
-	if (!MiniGameEnded && (MagicPuzzleTimer > 0) && (CommonTime() > MagicPuzzleTimer)) {
+	if (MiniGameRunning() && (MagicPuzzleTimer > 0) && (CommonTime() > MagicPuzzleTimer)) {
 		MagicPuzzleFinish = CommonTime();
 		MiniGameEnded = true;
 	}
@@ -128,8 +126,8 @@ function MagicPuzzleRun() {
 		else
 			DrawText(TextGet("FailMessage") + " " + MagicPuzzleTime((MagicPuzzleFinish - MagicPuzzleStart) / 1000), 1000, 975, "#FFC0C0", "grey");
 	} else {
-		if (CommonTime() < MagicPuzzleStart) {
-			DrawText(TextGet("StartMessage") + " " + MagicPuzzleTime((MagicPuzzleStart - CommonTime()) / 1000), 1000, 975, "#FFFFFF", "grey");
+		if (!MiniGameStarted) {
+			DrawText(TextGet("StartMessage"), 1000, 975, "#FFFFFF", "grey");
 		} else if (MagicPuzzleTimer == 0) {
 			DrawText(TextGet("GameMessage") + " " + MagicPuzzleTime((CommonTime() - MagicPuzzleStart) / 1000), 1000, 975, "#C0C0FF", "grey");
 		} else {
@@ -153,7 +151,7 @@ function MagicPuzzleRun() {
  * @returns {void} - Nothing
  */
 function MagicPuzzleBuildTrail() {
-	if (MagicPuzzleStart <= CommonTime()) {
+	if (MiniGameStarted) {
 		let nextSquare = null;
 		if (!MiniGameEnded || MagicPuzzleTrail.length == 0) {
 			nextSquare = { X: MouseX, Y: MouseY };
@@ -220,6 +218,18 @@ function MagicPuzzleTransitionToColor(startingColor, targetColor, progressPercen
 function MagicPuzzleClick() {
 	if (MiniGameEnded && (MouseIn(0, 950, 2000, 50)))
 		MagicPuzzleEnd();
+}
+
+/**
+ * Handles mouse downs during the mini game, to start it
+ * @returns {void} - Nothing
+ */
+function MagicPuzzleMouseDown() {
+	if (!MiniGameStarted && MagicPuzzleCanStart) {
+		MiniGameStarted = true;
+		MagicPuzzleStart = CommonTime();
+		MagicPuzzleTimer = (MiniGameDifficulty > 0) ? CommonTime() + MiniGameDifficulty * 1000 : 0;
+	}
 }
 
 /**
