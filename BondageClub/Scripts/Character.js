@@ -1151,7 +1151,14 @@ function CharacterRefresh(C, Push = true, RefreshDialog = true) {
 	PoseRefresh(C);
 	CharacterLoadCanvas(C);
 	// Label often looped through checks:
-	C.RunScripts = (!C.IsOnline() || !(Player.OnlineSettings && Player.OnlineSettings.DisableAnimations)) && (!Player.GhostList || Player.GhostList.indexOf(C.MemberNumber) == -1);
+	C.RunScripts = (
+		!C.IsOnline()
+		|| C.IsPlayer()
+		|| !(Player.OnlineSettings && Player.OnlineSettings.DisableAnimations)
+	) && (
+		!Player.GhostList
+		|| Player.GhostList.indexOf(C.MemberNumber) == -1
+	);
 	C.HasScriptedAssets = !!C.Appearance.find(CA => CA.Asset.DynamicScriptDraw);
 
 	if (C.IsPlayer()) {
