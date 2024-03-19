@@ -10185,6 +10185,7 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "Plug",
+					Prerequisite: ["AccessMouth", "GagUnique"],
 					Property: {
 						Effect: [E.BlockMouth, E.GagTotal],
 					},
@@ -10207,6 +10208,7 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "Plug",
+					Prerequisite: ["AccessMouth", "GagUnique"],
 					Property: {
 						Effect: [E.BlockMouth, E.GagTotal2],
 					},
@@ -10250,6 +10252,7 @@ var AssetFemale3DCGExtended = {
 					Name: "Funnel",
 					Property: {
 						Effect: [E.BlockMouth, E.ProtrudingMouth],
+						Block: ["ItemMouth2", "ItemMouth3", "ItemHood"],
 					},
 				},
 			],
@@ -10299,6 +10302,11 @@ var AssetFemale3DCGExtended = {
 					},
 				},
 			],
+			DialogPrefix: {
+				Header: "ItemMouthDentalGagSelect",
+				Option: "ItemMouthDentalGag",
+				Chat: "ItemMouthDentalGagSet",
+			},
 			ChangeWhenLocked: false,
 		}, // DentalGag
 		Ribbons: {
@@ -10402,6 +10410,7 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "Plug",
+					Prerequisite: ["AccessMouth"],
 					Property: {
 						Effect: [E.BlockMouth, E.GagTotal],
 					},
@@ -10431,6 +10440,8 @@ var AssetFemale3DCGExtended = {
 			],
 			DialogPrefix: {
 				Header: "SelectGagType",
+				Option: "ItemMouthTechnoGag",
+				Chat: "ItemMouthTechnoGagSet",
 			},
 		}, // TechnoGag
 		PonyGag: {
@@ -10551,6 +10562,11 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 			DrawImages: false,
+			DialogPrefix: {
+				Header: "ItemMouthLatexSheathGagSelect",
+				Option: "ItemMouthLatexSheathGag",
+				Chat: "ItemMouthLatexSheathGagSet",
+			},
 		}, //LatexSheathGag
 		FuturisticPanelGag: {
 			Archetype: ExtendedArchetype.MODULAR,
@@ -11100,6 +11116,65 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "LatexRespirator" },
 		}, //LatexRespirator
+		DildoPlugGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "DildoPlugGag" },
+		}, // DildoPlugGag
+		BigMouth: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "BigMouth" },
+		}, // BigMouth
+		DentalGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "DentalGag" },
+		}, // DentalGag
+		OTNPlugGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "OTNPlugGag" },
+		}, // OTNPlugGag
+		LatexSheathGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "LatexSheathGag" },
+		}, // LatexSheathGag
+		PlugGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "PlugGag" },
+		}, // PlugGag
+		PumpGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "PumpGag" },
+		}, // PumpGag
+		TonguePiercingGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "TonguePiercingGag" },
+		}, // TonguePiercingGag
+		TechnoGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "TechnoGag" },
+		}, // TechnoGag
+		MilkBottle: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "MilkBottle" },
+		}, // MilkBottle
+		FunnelGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "FunnelGag" },
+			Options: [
+				{
+					Name: "None",
+					Property: {
+						Effect: [E.OpenMouth],
+					},
+				},
+				{
+					Name: "Funnel",
+					Property: {
+						Effect: [E.BlockMouth, E.ProtrudingMouth],
+						Block: ["ItemMouth3", "ItemHood"],
+					},
+				},
+			],
+		}, // FunnelGag
 	}, // ItemMouth2
 	ItemMouth3: {
 		ClothGag: {
@@ -11196,6 +11271,65 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "ModularGag" },
 		},
+		DildoPlugGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "DildoPlugGag" },
+		}, // DildoPlugGag
+		BigMouth: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "BigMouth" },
+		}, // BigMouth
+		DentalGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "DentalGag" },
+		}, // DentalGag
+		OTNPlugGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "OTNPlugGag" },
+		}, // OTNPlugGag
+		LatexSheathGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "LatexSheathGag" },
+		}, // LatexSheathGag
+		PlugGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "PlugGag" },
+		}, // PlugGag
+		PumpGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "PumpGag" },
+		}, // PumpGag
+		TonguePiercingGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "TonguePiercingGag" },
+		}, // TonguePiercingGag
+		TechnoGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "TechnoGag" },
+		}, // TechnoGag
+		MilkBottle: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "MilkBottle" },
+		}, // MilkBottle
+		FunnelGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "FunnelGag" },
+			Options: [
+				{
+					Name: "None",
+					Property: {
+						Effect: [E.OpenMouth],
+					},
+				},
+				{
+					Name: "Funnel",
+					Property: {
+						Effect: [E.BlockMouth, E.ProtrudingMouth],
+						Block: ["ItemHood"],
+					},
+				},
+			],
+		}, // FunnelGag
 	}, // ItemMouth3
 	Mask: {
 		BunnyMask1: {
