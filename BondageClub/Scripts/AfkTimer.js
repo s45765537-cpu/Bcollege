@@ -1,14 +1,11 @@
 "use strict";
 
-var AfkTimerIncrementMs = 1000 * 60; // 1 minutes
-var AfkTimerTimout = 5; // AfkTimerIncrementMs * 5  ==> 5 minutes
-var AfkTimerIdle = 0;
+var AfkTimerTimout = 5 * 60 * 1000; // 5 minutes
 var AfkTimerIsSet = false;
+var AfkTimerLastEvent = 0;
 /** @type {null | boolean} */
 var AfkTimerIsEnabled = null;
 var AfkTimerEventsList = ['mousedown', 'mousemove', 'keypress', 'touchstart'];
-/** @type {null | ReturnType<typeof setInterval>} */
-var AfkTimerID = null;
 /** @type {null | ExpressionNameMap["Emoticon"]} */
 var AfkTimerOldEmoticon = null;
 
@@ -17,7 +14,7 @@ var AfkTimerOldEmoticon = null;
  * @returns {void} - Nothing
  */
 function AfkTimerReset() {
-	AfkTimerIdle = 0;
+	AfkTimerLastEvent = CommonTime();
 	if (AfkTimerIsSet) {
 		AfkTimerIsSet = false;
 		CharacterSetFacialExpression(Player, "Emoticon", AfkTimerOldEmoticon);
@@ -26,23 +23,12 @@ function AfkTimerReset() {
 }
 
 /**
- * Increments the AFK Timer by 1. Is called from the browser's timer handler method.
- * @see {@link AfkTimerStart} and {@link AfkTimerStop} for the registering and unregistering of this function.
- * @returns {void} - Nothing
- */
-function AfkTimerIncrement() {
-	if (++AfkTimerIdle >= AfkTimerTimout) {
-		AfkTimerSetIsAfk();
-	}
-}
-
-/**
  * Registers the AfkTimerReset method for every event that is listed in AfkTimerEventsList and starts the timer count.
  * @returns {void} - Nothing
  */
 function AfkTimerStart() {
+	AfkTimerLastEvent = CommonTime();
 	AfkTimerEventsList.forEach(e => document.addEventListener(e, AfkTimerReset, true));
-	AfkTimerID = setInterval(AfkTimerIncrement, AfkTimerIncrementMs);
 }
 
 /**
@@ -51,8 +37,6 @@ function AfkTimerStart() {
  */
 function AfkTimerStop() {
 	AfkTimerEventsList.forEach(e => document.removeEventListener(e, AfkTimerReset, true));
-	if (AfkTimerID != null) clearInterval(AfkTimerID);
-	AfkTimerID = null;
 }
 
 /**
@@ -78,6 +62,7 @@ function AfkTimerSetEnabled(Enabled) {
 function AfkTimerSetIsAfk() {
 	if (CurrentScreen != "ChatRoom") return;
 	if (AfkTimerIsSet) return;
+	if (AfkTimerLastEvent + AfkTimerTimout > CommonTime()) return;
 	// save the current Emoticon, if there is any
 	if (InventoryGet(Player, "Emoticon") && InventoryGet(Player, "Emoticon").Property && AfkTimerOldEmoticon == null) {
 		AfkTimerOldEmoticon = /** @type {ExpressionNameMap["Emoticon"]} */(InventoryGet(Player, "Emoticon").Property.Expression);
