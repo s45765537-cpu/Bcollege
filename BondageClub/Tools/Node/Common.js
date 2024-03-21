@@ -91,6 +91,7 @@ const NEEDED_FILES = [
 	"Scripts/Translation.js",
 	"Scripts/Text.js",
 	"Screens/Character/ItemColor/ItemColor.js",
+	"Screens/Room/Crafting/Crafting.js",
 	"Scripts/Testing.js",
 ];
 

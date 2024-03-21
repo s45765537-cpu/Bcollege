@@ -66,6 +66,13 @@ let CraftingReorderMode = "None";
  */
 let CraftingLayerNames = null;
 
+/**
+ * A record mapping all crafting-valid asset names to a list of matching elligble assets.
+ * Elligble assets are defined as crafting-valid assets with either a matching {@link Asset.Name} or {@link Asset.CraftGroup}.
+ * @type {Record<string, Asset[]>}
+ */
+let CraftingAssets = {};
+
 /** The separator used between different crafted items when serializing them. */
 const CraftingSerializeItemSep = "§";
 
@@ -143,6 +150,39 @@ const CraftingPropertyExclude = new Set([
 ]);
 
 /**
+ * Construct a record mapping all crafting-valid asset names to a list of matching elligble assets.
+ * Elligble assets are defined as crafting-valid assets with either a matching {@link Asset.Name} or {@link Asset.CraftGroup}.
+ * @see {@link CraftingAssets}
+ * @returns {Record<string, Asset[]>}
+ */
+function CraftingAssetsPopulate() {
+	/** @type {Record<string, Asset[]>} */
+	const ret = {};
+	/** @type {Record<string, Asset[]>} */
+	const craftGroups = {};
+	for (const a of Asset) {
+		if (!a.Group.IsItem() || a.IsLock || !a.Wear || !a.Enable) {
+			continue;
+		} else if (a.CraftGroup) {
+			craftGroups[a.CraftGroup] ??= [];
+			craftGroups[a.CraftGroup].push(a);
+		} else {
+			ret[a.Name] ??= [];
+			ret[a.Name].push(a);
+		}
+	}
+
+	for (const assetList of Object.values(craftGroups)) {
+		const names = new Set(assetList.map(a => a.Name));
+		for (const name of names) {
+			ret[name] ??= [];
+			ret[name].push(...assetList);
+		}
+	}
+	return ret;
+}
+
+/**
  * Returns TRUE if a crafting item has an effect from a list or allows that effect
  * @param {Asset} Item - The item asset to validate
  * @param {EffectName[]} Effect - The list of effects to validate
@@ -205,14 +245,16 @@ function CraftingUpdatePreview() {
 	if (CraftingNakedPreview) CharacterNaked(CraftingPreview);
 	if (!CraftingSelectedItem) return;
 	const Craft = CraftingConvertSelectedToItem();
-	const FoundGroups = [];
-	const RelevantAssets = Asset.filter(a => {
-		if (!a.Group.IsItem()) return false;
-		if (!CraftingAppliesToItem(Craft, a)) return false;
-		if (FoundGroups.includes(a.DynamicGroupName)) return false;
-		FoundGroups.push(a.DynamicGroupName);
-		return true;
+	const FoundGroups = new Set();
+	const RelevantAssets = (CraftingAssets[Craft.Item] ?? []).filter(a => {
+		if (FoundGroups.has(a.DynamicGroupName)) {
+			return false;
+		} else {
+			FoundGroups.add(a.DynamicGroupName);
+			return true;
+		}
 	});
+
 	for (const RelevantAsset of RelevantAssets) {
 		InventoryWear(CraftingPreview, RelevantAsset.Name, RelevantAsset.DynamicGroupName, null, null, Player.MemberNumber, Craft);
 		InventoryCraft(CraftingPreview, CraftingPreview, /** @type {AssetGroupItemName} */(RelevantAsset.DynamicGroupName), Craft, false, true, false);
@@ -1191,18 +1233,11 @@ function CraftingExit() {
  * @param {Asset} Item
  */
 function CraftingAppliesToItem(Craft, Item) {
-
 	// Validates the craft asset
 	if (!Craft || !Item) return false;
-	const craftAsset = Asset.find(a => a.Name === Craft.Item && a.Group.IsItem());
-	if (!craftAsset) return false;
 
-	// Find all assets that match our name/group combination, or have the same description
-	const matchingAssets = Asset.filter(a => a.Name === craftAsset.Name || a.CraftGroup === craftAsset.Name);
-
-	// Now check any of those matches are the item to test
-	return matchingAssets.find(m => m.Name === Item.Name && m.DynamicGroupName === Item.DynamicGroupName);
-
+	const elligbleAssets = CraftingAssets[Craft.Item] ?? [];
+	return elligbleAssets.includes(Item);
 }
 
 /**
