@@ -551,7 +551,7 @@ function SpeechGarbleByGagLevel(GagEffect, CD, IgnoreOOC=false) {
 				else if (H == "s") NS += capitalize("z");
 				else if (H == "z") NS += capitalize("s");
 				else if (H == "f") NS += capitalize("h");
-				else if ('dmg'.includes(H)) capitalize("m");
+				else if ('dmg'.includes(H)) NS += capitalize("m");
 				else if ('bhnvwpaeiouy'.includes(H) || isPunctuationOrSpace(H)) NS += capitalize(H);
 
 				// Accents/Latin characters
