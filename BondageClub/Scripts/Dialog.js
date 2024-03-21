@@ -3561,3 +3561,12 @@ function DialogKeyDown(event) {
 	}
 	return false;
 }
+
+/**
+ * Mouse down handler for dialogs
+ *
+ * @type {MouseEventListener}
+ */
+function DialogMouseDown(event) {
+	if (CurrentCharacter) StruggleMouseDown(event);
+}

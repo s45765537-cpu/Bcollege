@@ -337,6 +337,13 @@ function HorseWalkDoMove() {
  * @returns {void} - Nothing
  */
 function HorseWalkClick() {
+}
+
+/**
+ * Handles mouse down events during the horse walk mini game. On mobile we move the player on click.
+ * @returns {void} - Nothing
+ */
+function HorseWalkMouseDown() {
 	if (MiniGameDifficultyMode == "WhipPony") {
 		if ((MouseX >= HorseWalkDrawXPosition) && (MouseX < (HorseWalkDrawXPosition + (HorseWalkDrawYHeigh / 2))) && (MouseY >= HorseWalkDrawYPosition) && (MouseY < (HorseWalkDrawYPosition + HorseWalkDrawYHeigh))) {
 			if (HorseWalkDrawPony && !MiniGameEnded) {

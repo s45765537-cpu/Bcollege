@@ -131,6 +131,14 @@ function PuppyWalkerClick() {
 	if (MiniGameEnded && (MouseX >= 800) && (MouseX <= 1200) && (MouseY >= 0) && (MouseY <= 999))
 		MiniGameEnd();
 
+}
+
+/**
+ * Handles mouse downs during the puppy walker minigame
+ * @returns {void} - Nothing
+ */
+function PuppyWalkerMouseDown() {
+
 	// If the game has started, we check the click position and send it as a move
 	if ((MiniGameTimer > 10000) && (MouseY >= 350) && (MouseY <= 650) && !MiniGameEnded) {
 		if ((MouseX >= 50) && (MouseX <= 350)) PuppyWalkerDoMove(0);

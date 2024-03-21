@@ -106,6 +106,14 @@ function DojoStruggleClick() {
 	if (MiniGameEnded && (MouseX >= 1250))
 		MiniGameEnd();
 
+}
+
+/**
+ * Handles mouse down during the dojo struggle mini game
+ * @returns {void} - Nothing
+ */
+function DojoStruggleMouseDown() {
+
 	// If the game has started, we check the click position and send it as a move
 	if ((MiniGameTimer > 5000) && (MouseX <= 1250) && !MiniGameEnded)
 		DojoStruggleImpulse = 86;

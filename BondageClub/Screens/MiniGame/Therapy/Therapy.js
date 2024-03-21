@@ -127,6 +127,14 @@ function TherapyClick() {
 	if (MiniGameEnded && (MouseX >= 0) && (MouseX <= 500) && (MouseY >= 0) && (MouseY <= 999))
 		MiniGameEnd();
 
+}
+
+/**
+ * Handles mouse downs in the therapy mini game
+ * @returns {void} - Nothing
+ */
+function TherapyMouseDown() {
+
 	// If the game has started, we check the click position and send it as a move
 	if ((MiniGameTimer > 5000) && (MouseX >= 1000) && (MiniGameProgress != -1) && !MiniGameEnded) {
 
