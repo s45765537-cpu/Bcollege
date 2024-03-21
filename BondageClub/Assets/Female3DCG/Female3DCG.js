@@ -8701,7 +8701,7 @@ var AssetFemale3DCG = [
 							"SocksLeft",
 							"SuitLower",
 						],
-						Masks: [[75, 855, 350, 200]],
+						Masks: [[75, 865, 350, 200]],
 					},
 				],
 			},
