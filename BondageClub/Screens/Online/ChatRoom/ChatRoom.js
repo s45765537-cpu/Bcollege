@@ -4944,20 +4944,13 @@ function ChatRoomRefreshFontSize() {
 
 /**
  * Checks if the message can be sent as chat or the player should be warned
+ * @deprecated No replacement; OOC should always be allowed through
  * @param {string} Message - User input
  * @param {Character} WhisperTarget
  * @returns {boolean}
  */
 function ChatRoomShouldBlockGaggedOOCMessage(Message, WhisperTarget) {
-	if (ChatRoomTargetMemberNumber == null && !(Message.includes("(") || Message.includes("（"))) return false;
-	if (Player.ImmersionSettings == null || !Player.ImmersionSettings.BlockGaggedOOC) return false;
-	if (Player.CanTalk()) return false;
-
-	if (WhisperTarget && WhisperTarget.Effect.includes("VRAvatars"))
-		if (Player.Effect.includes("HideRestraints") && Player.Effect.includes("VRAvatars"))
-			return false;
-
-	return true;
+	return false;
 }
 
 /**

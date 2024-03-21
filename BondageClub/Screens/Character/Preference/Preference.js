@@ -459,7 +459,7 @@ function PreferenceInitPlayer() {
 	// Immersion settings
 	// @ts-ignore: Individual properties validated separately
 	if (!C.ImmersionSettings) C.ImmersionSettings = {};
-	if (typeof C.ImmersionSettings.BlockGaggedOOC !== "boolean") C.ImmersionSettings.BlockGaggedOOC = false;
+	if (typeof C.ImmersionSettings.BlockGaggedOOC !== "undefined") delete C.ImmersionSettings.BlockGaggedOOC;
 	if (typeof C.ImmersionSettings.StimulationEvents !== "boolean") C.ImmersionSettings.StimulationEvents = true;
 	if (typeof C.ImmersionSettings.ReturnToChatRoom !== "boolean") C.ImmersionSettings.ReturnToChatRoom = false;
 	if (typeof C.ImmersionSettings.ReturnToChatRoomAdmin !== "boolean") C.ImmersionSettings.ReturnToChatRoomAdmin = false;
@@ -584,7 +584,6 @@ function PreferenceInitPlayer() {
 		C.GameplaySettings.DisableAutoRemoveLogin = true;
 		C.ArousalSettings.DisableAdvancedVibes = false;
 		C.GameplaySettings.ImmersionLockSetting = true;
-		C.ImmersionSettings.BlockGaggedOOC = true;
 		C.ImmersionSettings.StimulationEvents = true;
 		C.ImmersionSettings.ReturnToChatRoom = true;
 		C.ImmersionSettings.ReturnToChatRoomAdmin = true;
@@ -1020,7 +1019,6 @@ function PreferenceSubscreenImmersionRun() {
 		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("BlindAdjacent"), Player.ImmersionSettings.BlindAdjacent, disableButtons); CheckHeight += CheckSpacing;
 		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("ChatRoomMuffle"), Player.ImmersionSettings.ChatRoomMuffle, disableButtons); CheckHeight += CheckSpacing;
 		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("DisableAutoRemoveLogin"), Player.GameplaySettings.DisableAutoRemoveLogin, disableButtons); CheckHeight += CheckSpacing;
-		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("BlockGaggedOOC"), Player.ImmersionSettings.BlockGaggedOOC, disableButtons); CheckHeight += CheckSpacing;
 		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("AllowPlayerLeashing"), Player.OnlineSharedSettings.AllowPlayerLeashing, disableButtons); CheckHeight += CheckSpacing;
 		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("ReturnToChatRoom"), Player.ImmersionSettings.ReturnToChatRoom, disableButtons);
 		const returnToRoomEnabled = Player.ImmersionSettings.ReturnToChatRoom;
@@ -1080,11 +1078,6 @@ function PreferenceSubscreenImmersionClick() {
 
 			// Room control
 			if (MouseIn(500, CheckHeight, 64, 64)) Player.GameplaySettings.DisableAutoRemoveLogin = !Player.GameplaySettings.DisableAutoRemoveLogin;
-			CheckHeight += CheckSpacing;
-			if (MouseIn(500, CheckHeight, 64, 64)) {
-				Player.ImmersionSettings.BlockGaggedOOC = !Player.ImmersionSettings.BlockGaggedOOC;
-				if (Player.ImmersionSettings.BlockGaggedOOC) ChatRoomSetTarget(null);
-			}
 			CheckHeight += CheckSpacing;
 			if (MouseIn(500, CheckHeight, 64, 64)) Player.OnlineSharedSettings.AllowPlayerLeashing = !Player.OnlineSharedSettings.AllowPlayerLeashing;
 			CheckHeight += CheckSpacing;
