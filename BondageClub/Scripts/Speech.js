@@ -389,7 +389,7 @@ function SpeechGarbleByGagLevel(GagEffect, CD, IgnoreOOC=false) {
 		}
 
 		// Total gags always returns mmmmm
-		else if (GagEffect >= 8) {
+		else if (GagEffect >= 10) {
 			if (Par) NS += CD.charAt(L);
 			else {
 				if (isPunctuationOrSpace(H)) NS += H;
@@ -399,8 +399,9 @@ function SpeechGarbleByGagLevel(GagEffect, CD, IgnoreOOC=false) {
 		}
 
 		// VeryHeavy garble - Close to no letter stays the same
-		else if (GagEffect >= 7) {
+		else if (GagEffect >= 8) {
 			if (!Par) {
+
 				// Regular characters
 				if ('aeiouy'.includes(H)) NS += capitalize("e");
 				else if ('jklr'.includes(H)) NS += capitalize("a");
@@ -424,8 +425,9 @@ function SpeechGarbleByGagLevel(GagEffect, CD, IgnoreOOC=false) {
 		}
 
 		// Heavy garble - Almost no letter stays the same
-		else if (GagEffect >= 6) {
+		else if (GagEffect >= 7) {
 			if (!Par) {
+
 				// Regular characters
 				if ('aeiouyt'.includes(H)) NS += capitalize("e");
 				else if ('cqx'.includes(H)) NS += capitalize("k");
@@ -451,8 +453,9 @@ function SpeechGarbleByGagLevel(GagEffect, CD, IgnoreOOC=false) {
 		}
 
 		// Medium garble - Some letters stays the same
-		else if (GagEffect >= 5) {
+		else if (GagEffect >= 6) {
 			if (!Par) {
+
 				// Regular characters
 				if ('eiouyt'.includes(H)) NS += capitalize("e");
 				else if ('cqxk'.includes(H)) NS += capitalize("k");
@@ -478,8 +481,9 @@ function SpeechGarbleByGagLevel(GagEffect, CD, IgnoreOOC=false) {
 		}
 
 		// Normal garble, keep vowels and a few letters the same
-		else if (GagEffect >= 4) {
+		else if (GagEffect >= 5) {
 			if (!Par) {
+
 				// Regular characters
 				if ('vbct'.includes(H)) NS += capitalize("e");
 				else if ('qkx'.includes(H)) NS += capitalize("k");
@@ -507,8 +511,9 @@ function SpeechGarbleByGagLevel(GagEffect, CD, IgnoreOOC=false) {
 		}
 
 		// Easy garble, keep vowels and a some letters the same
-		else if (GagEffect >= 3) {
+		else if (GagEffect >= 4) {
 			if (!Par) {
+
 				// Regular characters
 				if ('vbct'.includes(H)) NS += capitalize("e");
 				else if ('qkx'.includes(H)) NS += capitalize("k");
@@ -536,8 +541,9 @@ function SpeechGarbleByGagLevel(GagEffect, CD, IgnoreOOC=false) {
 		}
 
 		// Light garble, half of the letters stay the same
-		else if (GagEffect >= 2) {
+		else if (GagEffect >= 3) {
 			if (!Par) {
+
 				// Regular characters
 				if ('ct'.includes(H)) NS += capitalize("e");
 				else if ('qkx'.includes(H)) NS += capitalize("k");
@@ -565,14 +571,41 @@ function SpeechGarbleByGagLevel(GagEffect, CD, IgnoreOOC=false) {
 		}
 
 		// Very Light garble, most of the letters stay the same
-		else if (GagEffect >= 1) {
+		else if (GagEffect >= 2) {
 			if (!Par) {
+
 				// Regular characters
 				if (H == "t") NS += 'e';
 				else if ('cqkx'.includes(H)) NS += capitalize("k");
 				else if ('jlr'.includes(H)) NS += capitalize("a");
 				else if ('dmg'.includes(H)) NS += capitalize("m");
 				else if ('bhnvwp'.includes(H) || isPunctuationOrSpace(H) || 'aeiouyfsz'.includes(H)) NS += capitalize(H);
+
+				// Accents/Latin characters
+				else if (isAccentedOrLatinCharacter(H)) NS += stripDiacriticsFromCharacter(H, GagEffect, isCaps);
+
+				// Cyrillic characters
+				else if ('чц'.includes(H)) NS += capitalize("e");
+				else if ('йфв'.includes(H)) NS += capitalize("к");
+				else if ('длщя'.includes(H)) NS += capitalize("a");
+				else if (H == "з") NS += capitalize("c");
+				else if (H == "с") NS += capitalize("з");
+				else if ('дфмг'.includes(H)) NS += capitalize("м");
+				else if ('апрокенмит'.includes(H)) NS += capitalize(H);
+				else if (isChineseCharacter(H)) NS += doChineseGarbling(H, GagEffect);
+
+			} else NS += CD.charAt(L);
+		}
+
+		// Almost no garble, only some letters change
+		else if (GagEffect >= 1) {
+			if (!Par) {
+
+				// Regular characters
+				if (H == "t") NS += 'h';
+				else if ('cqkx'.includes(H)) NS += capitalize("k");
+				else if ('dmg'.includes(H)) NS += capitalize("m");
+				else if ('bhnvwpaeiouyfszjlr'.includes(H) || isPunctuationOrSpace(H)) NS += capitalize(H);
 
 				// Accents/Latin characters
 				else if (isAccentedOrLatinCharacter(H)) NS += stripDiacriticsFromCharacter(H, GagEffect, isCaps);
