@@ -356,8 +356,13 @@ function GameClubCardAssignPlayers(Packet, Char) {
 	}
 	if ((Char.MemberNumber == Player.MemberNumber) && (ClubCardTurnIndex == 0)) ClubCardLogAdd(Msg.replace("PLAYERNAME", CharacterNickname(C1)));
 	if ((Char.MemberNumber == Player.MemberNumber) && (ClubCardTurnIndex == 1)) ClubCardLogAdd(Msg.replace("PLAYERNAME", CharacterNickname(C2)));
-	ElementRemove("InputChat");
-	ElementRemove("TextAreaChatLog");
+
+	if (Player.ChatSettings?.PreserveChat ?? true) {
+		ChatRoomHideElements();
+	} else {
+		ElementRemove("InputChat");
+		ElementRemove("TextAreaChatLog");
+	}
 }
 
 /**

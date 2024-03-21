@@ -832,6 +832,8 @@ function DialogCanCallMaidsPunishmentOff() { return (DialogCanCallMaids() && Pla
  * @returns {void} - Nothing.
  */
 function ChatRoomCreateElement() {
+	ChatRoomChatHidden = false;
+
 	// Creates the chat box
 	if (document.getElementById("InputChat") == null) {
 		ElementCreateTextArea("InputChat");
@@ -851,15 +853,7 @@ function ChatRoomCreateElement() {
 		ElementPositionFix("TextAreaChatLog", ChatRoomFontSize, ...ChatRoomChatLogRect);
 		ElementScrollToEnd("TextAreaChatLog");
 		ChatRoomRefreshChatSettings();
-
-		// If we relog, we reload the previous chat log
-		if (RelogChatLog != null) {
-			while (RelogChatLog.children.length > 0)
-				document.getElementById("TextAreaChatLog").appendChild(RelogChatLog.children[0]);
-			ElementValue("InputChat", RelogInputText);
-			RelogChatLog = null;
-			RelogInputText = "";
-		} else ElementContent("TextAreaChatLog", "");
+		ElementContent("TextAreaChatLog", "");
 
 		// Creates listener for resize events.
 		window.addEventListener("resize", ChatRoomResizeManager.ChatRoomResizeEvent);
@@ -916,6 +910,20 @@ function ChatRoomLoad() {
 	ChatRoomCreateRemoveInput();
 	ChatRoomRefreshFontSize();
 	ChatRoomCreateElement();
+
+	// Only show the "${Player} entered." message the very first time the player enters the room, bypassing reconnects
+	if (ChatRoomCharacter.length === 0) {
+		// FIXME: `ChatRoomCharacter` is not initialized at this point yet, but is required for resolving the player's ID in `ChatRoomMessage`
+		ChatRoomCharacter = [Player];
+		const dictionary = new DictionaryBuilder().sourceCharacter(Player);
+		ChatRoomMessage({
+			Content: "ServerEnter",
+			Type: "Action",
+			Sender: Player.MemberNumber,
+			Dictionary: dictionary.build(),
+		});
+	}
+
 	ChatRoomCharacterUpdate(Player);
 	ActivityChatRoomArousalSync(Player);
 	if (!ChatRoomData || Player.LastChatRoom && ChatRoomData.Name !== Player.LastChatRoom.Name) {
@@ -955,8 +963,12 @@ function ChatRoomClearAllElements() {
 	ElementRemove("InputMusicURL");
 
 	// Chatroom
-	ElementRemove("InputChat");
-	ElementRemove("TextAreaChatLog");
+	if (Player.ChatSettings?.PreserveChat ?? true) {
+		ChatRoomHideElements();
+	} else {
+		ElementRemove("InputChat");
+		ElementRemove("TextAreaChatLog");
+	}
 
 	// Preferences
 	ElementRemove("InputEmailOld");
@@ -2191,6 +2203,7 @@ function ChatRoomLeave(clearCharacters = false) {
 	DialogLentLockpicks = false;
 	ChatRoomLeashPlayer = null;
 	Player.MapData = null;
+	ChatRoomCharacter = [];
 	ChatRoomMapViewTileFog = "";
 	ChatRoomMapViewObjectFog = "";
 	ChatRoomClearAllElements();
@@ -3392,7 +3405,10 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 	div.setAttribute('class', 'ChatMessage ChatMessage' + data.Type + MsgEnterLeave + MsgNonDialogue);
 	div.setAttribute('data-time', ChatRoomCurrentTime());
 	div.setAttribute('data-sender', data.Sender);
-	if (data.Type == "Emote" || data.Type == "Action" || data.Type == "Activity")
+	if (data.Type === "Action" && data.Content === "ServerEnter" && SenderCharacter.IsPlayer() && ChatRoomHelpSeen) {
+		// Exclude the top-bar from the very first "${Player} entered." message, which is identified by the state of `ChatRoomHelpSeen`
+		div.setAttribute("style", "border-top-style: solid;");
+	} else if (data.Type == "Emote" || data.Type == "Action" || data.Type == "Activity")
 		div.setAttribute('style', 'background-color:' + ChatRoomGetTransparentColor(SenderCharacter.LabelColor) + ';');
 	div.innerHTML = displayMessage;
 

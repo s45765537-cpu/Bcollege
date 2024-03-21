@@ -7,11 +7,11 @@ var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
-	"Abysseia", "Aceffect", "Alex", "Anna", "ArashiSama", "Aylea", "BlueWinter", "Bryce", 
-	"Christian", "Desch", "Dynilath", "Edwin", "Elfreda", "FanRunner", "Glurak", "Greendragon", 
-	"JoeyDubDee", "John", "Komiro", "Lyall", "Marashu", "Michal", "Michel", "Mindtie", 
-	"Misa", "Nightcore", "Obie", "Setsu", "SlitheryCandy", "Soulcollar", "SubAnna", 
-	"Tam", "Tarram", "TonyBoy", "TopHat", "Troubadix", "WhiteSniper", "XDWolfie", "Xepherio", 
+	"Abysseia", "Aceffect", "Alex", "Anna", "ArashiSama", "Aylea", "BlueWinter", "Bryce",
+	"Christian", "Desch", "Dynilath", "Edwin", "Elfreda", "FanRunner", "Glurak", "Greendragon",
+	"JoeyDubDee", "John", "Komiro", "Lyall", "Marashu", "Michal", "Michel", "Mindtie",
+	"Misa", "Nightcore", "Obie", "Setsu", "SlitheryCandy", "Soulcollar", "SubAnna",
+	"Tam", "Tarram", "TonyBoy", "TopHat", "Troubadix", "WhiteSniper", "XDWolfie", "Xepherio",
 ];
 
 /* eslint-enable */
@@ -636,7 +636,7 @@ function LoginResponse(C) {
 			var Elements = /** @type {HTMLCollectionOf<HTMLElement>} */(document.getElementsByClassName("HideOnDisconnect"));
 			for (let E = 0; E < Elements.length; E++)
 				Elements[E].style.display = "";
-			if ((ChatRoomData != null) && (ChatRoomData.Name != null) && (ChatRoomData.Name != "") && (RelogChatLog != null)) {
+			if (ChatRoomData?.Name) {
 				CommonSetScreen("Online", "ChatSearch");
 				ChatRoomPlayerCanJoin = true;
 				ServerSend("ChatRoomJoin", { Name: ChatRoomData.Name });

@@ -101,10 +101,23 @@ textarea {
   border-bottom: 1px solid rgba(255, 255, 255, 0.4);
 }
 #TextAreaChatLog[data-colortheme="dark2"] .ChatMessageEmote,
-#TextAreaChatLog[data-colortheme="dark2"] .ChatMessageAction,
+#TextAreaChatLog .ChatMessageNonDialogue {
+	border-top-width: 0.6vh;
+}
+#TextAreaChatLog[data-colortheme="light"] .ChatMessageNonDialogue {
+	border-top-color: black;
+}
+#TextAreaChatLog[data-colortheme="dark"] .ChatMessageNonDialogue {
+	border-top-color: white;
+}
+#TextAreaChatLog[data-colortheme="light2"] .ChatMessageNonDialogue {
+	border-top-color: rgba(0, 0, 0, 0.25);
+}
+#TextAreaChatLog[data-colortheme="dark2"] .ChatMessageNonDialogue {
+	border-top-color: rgba(255, 255, 255, 0.4);
+}
 #TextAreaChatLog[data-colortheme="dark2"] .ChatMessageActivity,
 #TextAreaChatLog[data-colortheme="light2"] .ChatMessageEmote,
-#TextAreaChatLog[data-colortheme="light2"] .ChatMessageAction,
 #TextAreaChatLog[data-colortheme="light2"] .ChatMessageActivity {
   font-size: 0.8em;
 }
