@@ -396,8 +396,8 @@ function AsylumGGTSTaskDone(C, T) {
 	if ((T == "NoTalking") && (CommonTime() >= AsylumGGTSTimer - 1000)) return true;
 	if ((T == "PoseOverHead") && ["Yoked", "OverTheHead"].includes(C.PoseMapping.BodyUpper)) return true;
 	if ((T == "PoseBehindBack") && ["BlackBoxTie", "BackElbowTouch", "BackCuffs"].includes(C.PoseMapping.BodyUpper)) return true;
-	if ((T == "PoseLegsClosed") && C.PoseMapping.BodyLower === "LegsClosed") return true;
-	if ((T == "PoseLegsOpen") && (!C.PoseMapping.BodyLower || C.PoseMapping.BodyLower === "LegsOpen")) return true;
+	if ((T == "PoseLegsClosed") && (C.PoseMapping != null) && (C.PoseMapping.BodyLower === "LegsClosed")) return true;
+	if ((T == "PoseLegsOpen") && ((C.PoseMapping == null) || (C.PoseMapping.BodyLower == null) || (C.PoseMapping.BodyLower === "LegsOpen") || (C.PoseMapping.BodyLower === "BaseLower"))) return true;
 	return false;
 }
 
@@ -469,8 +469,8 @@ function AsylumGGTSTaskCanBeDone(C, T) {
 	) return false; // Must be wearing a harness or panel gag
 	if ((T == "PoseOverHead") && !C.CanInteract()) return false; // Must be able to use hands for hands poses
 	if ((T == "PoseBehindBack") && !C.CanInteract()) return false; // Must be able to use hands for hands poses
-	if ((T == "PoseLegsClosed") && (C.IsKneeling() || !C.CanChangeToPose("LegsClosed"))) return false; // Close legs only if standing and able to do so
-	if ((T == "PoseLegsOpen") && (C.IsKneeling() || !C.CanChangeToPose("LegsOpen"))) return false; // Open legs only if standing and able to do so
+	if ((T == "PoseLegsClosed") && (((C.PoseMapping != null) && (C.PoseMapping.BodyLower === "LegsClosed")) || C.IsKneeling() || !C.CanChangeToPose("LegsClosed"))) return false; // Close legs only if standing and able to do so
+	if ((T == "PoseLegsOpen") && ((C.PoseMapping == null) || (C.PoseMapping.BodyLower == null) || (C.PoseMapping.BodyLower === "LegsOpen") || (C.PoseMapping.BodyLower === "BaseLower") || C.IsKneeling() || !C.CanChangeToPose("LegsOpen"))) return false; // Open legs only if standing and able to do so
 	if ((T == "LockRoom") && (((ChatRoomData != null) && (ChatRoomData.Locked == true)) || !ChatRoomPlayerIsAdmin())) return false; // Can only lock/unlock if admin
 	if ((T == "UnlockRoom") && (((ChatRoomData != null) && (ChatRoomData.Locked == false)) || !ChatRoomPlayerIsAdmin())) return false; // Can only lock/unlock if admin
 	if ((T == "RestrainLegs") && !C.CanInteract()) return false; // To restrain own legs, must be able to interact
