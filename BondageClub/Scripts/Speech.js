@@ -214,66 +214,64 @@ function doChineseGarbling(character, gagLevel) {
 }
 
 /**
- * A helper method to check if the character parsed in is one of the following: ' .?!~-。？！，'
- * Note: last 4 punctuations are commonly used in CJK languages.
+ * Return whether the passed character belongs to either the unicode Symbol, Punctuation or Separator category.
  * @param {string} character - The character needs to be checked.
- * @returns {boolean} - true if containing one of the following: ' .?!~-', otherwise false.
+ * @returns {boolean} - Whether the passed character is equivalent to one of aforementioned punctuation characters
  */
-function isStandardPunctuationOrSpace(character) {
-	return ' .?!~-。？！，'.includes(character);
-}
-
-/**
- * A helper method to check if the character parsed in is one of the following: ' .?!~-_'"。？！，'
- * This one was created for lower gag levels or baby talk. So any and all punction can be added to it.
- * @param {string} character - The character needs to be checked.
- * @returns {boolean} - true if containing one of the following: ' .?!~-_'"。？！，', otherwise false.
- */
-function isAnyPunctuationOrSpace(character) {
-	return ' .?!~-_\'"。？！，'.includes(character);
+function isPunctuationOrSpace(character) {
+	const punctionOrSpace = /\p{P}|\p{Z}|\p{S}/u;
+	return punctionOrSpace.test(character);
 }
 
 /**
  * Helper method to strip diacritics from characters.
  * @param {string} character - character that needs to be stripped.
  * @param {Number} gagEffect - The current gag effect level.
+ * @param {boolean} capitalize - Whether to returned character should be capitalized or not
  * @returns {string} - character that being stripped after garbling.
  */
-function stripDiacriticsFromCharacter(character, gagEffect) {
+function stripDiacriticsFromCharacter(character, gagEffect, capitalize) {
 	switch (character) {
 		case 'á':
 		case 'à':
 		case 'ã':
 		case 'â':
-			return 'a';
+			return capitalize ? "A" : "a";
 		case 'é':
 		case 'ê':
 		case 'è':
 		case 'ë':
-			return 'e';
+			return capitalize ? "E" : "e";
 		case 'í':
 		case 'î':
 		case 'ì':
 		case 'ï':
-			return 'i';
+			return capitalize ? "I" : "i";
 		case 'ó':
 		case 'ô':
 		case 'ò':
 		case 'õ':
-			return 'o';
+			return capitalize ? "O" : "o";
 		case 'ú':
 		case 'û':
 		case 'ù':
 		case 'ü':
 			return 'u';
 		case 'ñ':
-			return gagEffect >= 5 ? 'm' : 'n';
+			if (gagEffect >= 5) {
+				return capitalize ? "M" : "m";
+			} else {
+				return capitalize ? "N" : "n";
+			}
 		case 'ç':
-			return gagEffect >= 5 ? 'h' : 's';
+			if (gagEffect >= 5) {
+				return capitalize ? "H" : "h";
+			} else {
+				return capitalize ? "S" : "s";
+			}
+		default:
+			return capitalize ? character.toUpperCase() : character;
 	}
-
-	// if not any of the above, return itself.
-	return character;
 }
 
 /**
@@ -347,17 +345,24 @@ function SpeechGarbleByGagLevel(GagEffect, CD, IgnoreOOC=false) {
 
 	const oocRanges = SpeechGetOOCRanges(CD);
 
-	// GagTotal4 always returns mmmmm and muffles some frequent letters entirely, 75% least frequent letters
+
 	for (let L = 0; L < CD.length; L++) {
+		const HUnnormalized = CD.charAt(L);
 		const H = CD.charAt(L).toLowerCase();
-		Par =  (!IgnoreOOC && SpeechIndexInOocRange(L, oocRanges));
+		const isCaps = HUnnormalized.toUpperCase() === HUnnormalized;
+		Par = (!IgnoreOOC && SpeechIndexInOocRange(L, oocRanges));
+
+		/** @type {(str: string) => string} */
+		const capitalize = isCaps ? (i) => i.toUpperCase() : (i) => i;
+
+		// GagTotal4 always returns mmmmm and muffles some frequent letters entirely, 75% least frequent letters
 		if (GagEffect >= 20) {
 			if (Par) NS += CD.charAt(L);
 			else {
-				if (isStandardPunctuationOrSpace(H)) NS += H;
+				if (isPunctuationOrSpace(H)) NS += H;
 				else if ('zqjxkvbywgpfucdlhr'.includes(H)) NS += ' ';
 				else if (isChineseCharacter(H)) NS += doChineseGarbling(H, GagEffect);
-				else NS += 'm';
+				else NS += capitalize("m");
 			}
 		}
 
@@ -365,10 +370,10 @@ function SpeechGarbleByGagLevel(GagEffect, CD, IgnoreOOC=false) {
 		else if (GagEffect >= 16) {
 			if (Par) NS += CD.charAt(L);
 			else {
-				if (isStandardPunctuationOrSpace(H)) NS += H;
+				if (isPunctuationOrSpace(H)) NS += H;
 				else if ('zqjxkvbywgpf'.includes(H)) NS += ' ';
 				else if (isChineseCharacter(H)) NS += doChineseGarbling(H, GagEffect);
-				else NS += 'm';
+				else NS += capitalize("m");
 			}
 		}
 
@@ -376,10 +381,10 @@ function SpeechGarbleByGagLevel(GagEffect, CD, IgnoreOOC=false) {
 		else if (GagEffect >= 12) {
 			if (Par) NS += CD.charAt(L);
 			else {
-				if (isStandardPunctuationOrSpace(H)) NS += H;
+				if (isPunctuationOrSpace(H)) NS += H;
 				else if ('zqjxkv'.includes(H)) NS += ' ';
 				else if (isChineseCharacter(H)) NS += doChineseGarbling(H, GagEffect);
-				else NS += 'm';
+				else NS += capitalize("m");
 			}
 		}
 
@@ -387,9 +392,9 @@ function SpeechGarbleByGagLevel(GagEffect, CD, IgnoreOOC=false) {
 		else if (GagEffect >= 8) {
 			if (Par) NS += CD.charAt(L);
 			else {
-				if (isStandardPunctuationOrSpace(H)) NS += H;
+				if (isPunctuationOrSpace(H)) NS += H;
 				else if (isChineseCharacter(H)) NS += doChineseGarbling(H, GagEffect);
-				else NS += 'm';
+				else NS += capitalize("m");
 			}
 		}
 
@@ -397,22 +402,22 @@ function SpeechGarbleByGagLevel(GagEffect, CD, IgnoreOOC=false) {
 		else if (GagEffect >= 7) {
 			if (!Par) {
 				// Regular characters
-				if ('aeiouy'.includes(H)) NS += 'e';
-				else if ('jklr'.includes(H)) NS += 'a';
-				else if ('szh'.includes(H)) NS += 'h';
-				else if ('dfgnmwtcqxpv'.includes(H)) NS += 'm';
-				else if (isStandardPunctuationOrSpace(H) || H == 'b') NS += H;
+				if ('aeiouy'.includes(H)) NS += capitalize("e");
+				else if ('jklr'.includes(H)) NS += capitalize("a");
+				else if ('szh'.includes(H)) NS += capitalize("h");
+				else if ('dfgnmwtcqxpv'.includes(H)) NS += capitalize("m");
+				else if (isPunctuationOrSpace(H) || H == 'b') NS += capitalize(H);
 
 				// Accents/Latin characters
-				else if (isAccentedOrLatinCharacter(H)) NS += stripDiacriticsFromCharacter(H, GagEffect);
+				else if (isAccentedOrLatinCharacter(H)) NS += stripDiacriticsFromCharacter(H, GagEffect, isCaps);
 
 				// Cyrillic characters
-				else if ('аеиоуюля'.includes(H)) NS += 'e';
-				else if ('сйх'.includes(H)) NS += 'к';
-				else if ('жклру'.includes(H)) NS += 'a';
-				else if ('зсгй'.includes(H)) NS += 'г';
-				else if ('брвы'.includes(H)) NS += 'ф';
-				else if ('дфгнм'.includes(H)) NS += 'м';
+				else if ('аеиоуюля'.includes(H)) NS += capitalize("e");
+				else if ('сйх'.includes(H)) NS += capitalize("к");
+				else if ('жклру'.includes(H)) NS += capitalize("a");
+				else if ('зсгй'.includes(H)) NS += capitalize("г");
+				else if ('брвы'.includes(H)) NS += capitalize("ф");
+				else if ('дфгнм'.includes(H)) NS += capitalize("м");
 				else if (isChineseCharacter(H)) NS += doChineseGarbling(H, GagEffect);
 
 			} else NS += CD.charAt(L);
@@ -422,24 +427,24 @@ function SpeechGarbleByGagLevel(GagEffect, CD, IgnoreOOC=false) {
 		else if (GagEffect >= 6) {
 			if (!Par) {
 				// Regular characters
-				if ('aeiouyt'.includes(H)) NS += 'e';
-				else if ('cqx'.includes(H)) NS += 'k';
-				else if ('jklrw'.includes(H)) NS += 'a';
-				else if ('szh'.includes(H)) NS += 'h';
-				else if ('bpv'.includes(H)) NS += 'f';
-				else if ('dfgnm'.includes(H)) NS += 'm';
-				else if (isStandardPunctuationOrSpace(H)) NS += H;
+				if ('aeiouyt'.includes(H)) NS += capitalize("e");
+				else if ('cqx'.includes(H)) NS += capitalize("k");
+				else if ('jklrw'.includes(H)) NS += capitalize("a");
+				else if ('szh'.includes(H)) NS += capitalize("h");
+				else if ('bpv'.includes(H)) NS += capitalize("f");
+				else if ('dfgnm'.includes(H)) NS += capitalize("m");
+				else if (isPunctuationOrSpace(H)) NS += H;
 
 				// Accents/Latin characters
-				else if (isAccentedOrLatinCharacter(H)) NS += stripDiacriticsFromCharacter(H, GagEffect);
+				else if (isAccentedOrLatinCharacter(H)) NS += stripDiacriticsFromCharacter(H, GagEffect, isCaps);
 
 				// Cyrillic characters
-				else if ('аеиоуюля'.includes(H)) NS += 'e';
-				else if ('сйх'.includes(H)) NS += 'к';
-				else if ('жклру'.includes(H)) NS += 'a';
-				else if ('зсгй'.includes(H)) NS += 'г';
-				else if ('брвы'.includes(H)) NS += 'ф';
-				else if ('дфгнм'.includes(H)) NS += 'м';
+				else if ('аеиоуюля'.includes(H)) NS += capitalize("e");
+				else if ('сйх'.includes(H)) NS += capitalize("к");
+				else if ('жклру'.includes(H)) NS += capitalize("a");
+				else if ('зсгй'.includes(H)) NS += capitalize("г");
+				else if ('брвы'.includes(H)) NS += capitalize("ф");
+				else if ('дфгнм'.includes(H)) NS += capitalize("м");
 				else if (isChineseCharacter(H)) NS += doChineseGarbling(H, GagEffect);
 
 			} else NS += CD.charAt(L);
@@ -449,24 +454,24 @@ function SpeechGarbleByGagLevel(GagEffect, CD, IgnoreOOC=false) {
 		else if (GagEffect >= 5) {
 			if (!Par) {
 				// Regular characters
-				if ('eiouyt'.includes(H)) NS += 'e';
-				else if ('cqxk'.includes(H)) NS += 'k';
-				else if ('jlrwa'.includes(H)) NS += 'a';
-				else if ('szh'.includes(H)) NS += 'h';
-				else if ('bpv'.includes(H)) NS += 'f';
-				else if ('dfgm'.includes(H)) NS += 'm';
-				else if (isStandardPunctuationOrSpace(H) || H == 'n') NS += H;
+				if ('eiouyt'.includes(H)) NS += capitalize("e");
+				else if ('cqxk'.includes(H)) NS += capitalize("k");
+				else if ('jlrwa'.includes(H)) NS += capitalize("a");
+				else if ('szh'.includes(H)) NS += capitalize("h");
+				else if ('bpv'.includes(H)) NS += capitalize("f");
+				else if ('dfgm'.includes(H)) NS += capitalize("m");
+				else if (isPunctuationOrSpace(H) || H == 'n') NS += capitalize(H);
 
 				// Accents/Latin characters
-				else if (isAccentedOrLatinCharacter(H)) NS += stripDiacriticsFromCharacter(H, GagEffect);
+				else if (isAccentedOrLatinCharacter(H)) NS += stripDiacriticsFromCharacter(H, GagEffect, isCaps);
 
 				// Cyrillic characters
-				else if ('аеиоуюля'.includes(H)) NS += 'e';
-				else if ('сйх'.includes(H)) NS += 'к';
-				else if ('жклру'.includes(H)) NS += 'a';
-				else if ('зсгй'.includes(H)) NS += 'г';
-				else if ('брвы'.includes(H)) NS += 'ф';
-				else if ('дфгнм'.includes(H)) NS += 'м';
+				else if ('аеиоуюля'.includes(H)) NS += capitalize("e");
+				else if ('сйх'.includes(H)) NS += capitalize("к");
+				else if ('жклру'.includes(H)) NS += capitalize("a");
+				else if ('зсгй'.includes(H)) NS += capitalize("г");
+				else if ('брвы'.includes(H)) NS += capitalize("ф");
+				else if ('дфгнм'.includes(H)) NS += capitalize("м");
 				else if (isChineseCharacter(H)) NS += doChineseGarbling(H, GagEffect);
 
 			} else NS += CD.charAt(L);
@@ -476,26 +481,26 @@ function SpeechGarbleByGagLevel(GagEffect, CD, IgnoreOOC=false) {
 		else if (GagEffect >= 4) {
 			if (!Par) {
 				// Regular characters
-				if ('vbct'.includes(H)) NS += 'e';
-				else if ('qkx'.includes(H)) NS += 'k';
-				else if ('wyjlr'.includes(H)) NS += 'a';
-				else if ('sz'.includes(H)) NS += 'h';
-				else if ('df'.includes(H)) NS += 'm';
-				else if (H == "p") NS += 'f';
-				else if (H == "g") NS += 'n';
-				else if (isAnyPunctuationOrSpace(H) || 'aeioumnh'.includes(H)) NS += H;
+				if ('vbct'.includes(H)) NS += capitalize("e");
+				else if ('qkx'.includes(H)) NS += capitalize("k");
+				else if ('wyjlr'.includes(H)) NS += capitalize("a");
+				else if ('sz'.includes(H)) NS += capitalize("h");
+				else if ('df'.includes(H)) NS += capitalize("m");
+				else if (H == "p") NS += capitalize("f");
+				else if (H == "g") NS += capitalize("n");
+				else if (isPunctuationOrSpace(H) || 'aeioumnh'.includes(H)) NS += capitalize(H);
 
 				// Accents/Latin characters
-				else if (isAccentedOrLatinCharacter(H)) NS += stripDiacriticsFromCharacter(H, GagEffect);
+				else if (isAccentedOrLatinCharacter(H)) NS += stripDiacriticsFromCharacter(H, GagEffect, isCaps);
 
 				// Cyrillic characters
-				else if ('вфбп'.includes(H)) NS += 'фы';
-				else if ('гкх'.includes(H)) NS += 'к';
-				else if ('вужлр'.includes(H)) NS += 'а';
-				else if ('ся'.includes(H)) NS += 'х';
-				else if ('дф'.includes(H)) NS += 'м';
-				else if (H == "р") NS += 'ф';
-				else if (H == "г") NS += 'н';
+				else if ('вфбп'.includes(H)) NS += capitalize("фы");
+				else if ('гкх'.includes(H)) NS += capitalize("к");
+				else if ('вужлр'.includes(H)) NS += capitalize("а");
+				else if ('ся'.includes(H)) NS += capitalize("х");
+				else if ('дф'.includes(H)) NS += capitalize("м");
+				else if (H == "р") NS += capitalize("ф");
+				else if (H == "г") NS += capitalize("н");
 				else if (isChineseCharacter(H)) NS += doChineseGarbling(H, GagEffect);
 
 			} else NS += CD.charAt(L);
@@ -505,26 +510,26 @@ function SpeechGarbleByGagLevel(GagEffect, CD, IgnoreOOC=false) {
 		else if (GagEffect >= 3) {
 			if (!Par) {
 				// Regular characters
-				if ('vbct'.includes(H)) NS += 'e';
-				else if ('qkx'.includes(H)) NS += 'k';
-				else if ('wyjlr'.includes(H)) NS += 'a';
-				else if ('sz'.includes(H)) NS += 's';
-				else if (H == "d") NS += 'm';
-				else if (H == "p") NS += 'f';
-				else if (H == "g") NS += 'h';
-				else if (isAnyPunctuationOrSpace(H) || 'aeioumnhf'.includes(H)) NS += H;
+				if ('vbct'.includes(H)) NS += capitalize("e");
+				else if ('qkx'.includes(H)) NS += capitalize("k");
+				else if ('wyjlr'.includes(H)) NS += capitalize("a");
+				else if ('sz'.includes(H)) NS += capitalize("s");
+				else if (H == "d") NS += capitalize("m");
+				else if (H == "p") NS += capitalize("f");
+				else if (H == "g") NS += capitalize("h");
+				else if (isPunctuationOrSpace(H) || 'aeioumnhf'.includes(H)) NS += capitalize(H);
 
 				// Accents/Latin characters
-				else if (isAccentedOrLatinCharacter(H)) NS += stripDiacriticsFromCharacter(H, GagEffect);
+				else if (isAccentedOrLatinCharacter(H)) NS += stripDiacriticsFromCharacter(H, GagEffect, isCaps);
 
 				// Cyrillic characters
-				if ('вфбп'.includes(H)) NS += 'фы';
-				else if ('гкх'.includes(H)) NS += 'к';
-				else if ('вужлр'.includes(H)) NS += 'а';
-				else if ('ся'.includes(H)) NS += 'х';
-				else if ('дф'.includes(H)) NS += 'м';
-				else if (H == "р") NS += 'ф';
-				else if (H == "г") NS += 'н';
+				if ('вфбп'.includes(H)) NS += capitalize("фы");
+				else if ('гкх'.includes(H)) NS += capitalize("к");
+				else if ('вужлр'.includes(H)) NS += capitalize("а");
+				else if ('ся'.includes(H)) NS += capitalize("х");
+				else if ('дф'.includes(H)) NS += capitalize("м");
+				else if (H == "р") NS += capitalize("ф");
+				else if (H == "г") NS += capitalize("н");
 				else if (isChineseCharacter(H)) NS += doChineseGarbling(H, GagEffect);
 
 			} else NS += CD.charAt(L);
@@ -534,26 +539,26 @@ function SpeechGarbleByGagLevel(GagEffect, CD, IgnoreOOC=false) {
 		else if (GagEffect >= 2) {
 			if (!Par) {
 				// Regular characters
-				if ('ct'.includes(H)) NS += 'e';
-				else if ('qkx'.includes(H)) NS += 'k';
-				else if ('jlr'.includes(H)) NS += 'a';
-				else if (H == "s") NS += 'z';
-				else if (H == "z") NS += 's';
-				else if (H == "f") NS += 'h';
-				else if ('dmg'.includes(H)) NS += 'm';
-				else if ('bhnvwpaeiouy'.includes(H) || isAnyPunctuationOrSpace(H)) NS += H;
+				if ('ct'.includes(H)) NS += capitalize("e");
+				else if ('qkx'.includes(H)) NS += capitalize("k");
+				else if ('jlr'.includes(H)) NS += capitalize("a");
+				else if (H == "s") NS += capitalize("z");
+				else if (H == "z") NS += capitalize("s");
+				else if (H == "f") NS += capitalize("h");
+				else if ('dmg'.includes(H)) capitalize("m");
+				else if ('bhnvwpaeiouy'.includes(H) || isPunctuationOrSpace(H)) NS += capitalize(H);
 
 				// Accents/Latin characters
-				else if (isAccentedOrLatinCharacter(H)) NS += stripDiacriticsFromCharacter(H, GagEffect);
+				else if (isAccentedOrLatinCharacter(H)) NS += stripDiacriticsFromCharacter(H, GagEffect, isCaps);
 
 				// Cyrillic characters
-				else if ('чц'.includes(H)) NS += 'e';
-				else if ('йфв'.includes(H)) NS += 'к';
-				else if ('длщя'.includes(H)) NS += 'a';
-				else if (H == "з") NS += 'c';
-				else if (H == "с") NS += 'з';
-				else if ('дфмг'.includes(H)) NS += 'м';
-				else if ('апрокенмит'.includes(H)) NS += H;
+				else if ('чц'.includes(H)) NS += capitalize("e");
+				else if ('йфв'.includes(H)) NS += capitalize("к");
+				else if ('длщя'.includes(H)) NS += capitalize("a");
+				else if (H == "з") NS += capitalize("c");
+				else if (H == "с") NS += capitalize("з");
+				else if ('дфмг'.includes(H)) NS += capitalize("м");
+				else if ('апрокенмит'.includes(H)) NS += capitalize(H);
 				else if (isChineseCharacter(H)) NS += doChineseGarbling(H, GagEffect);
 
 			} else NS += CD.charAt(L);
@@ -564,22 +569,22 @@ function SpeechGarbleByGagLevel(GagEffect, CD, IgnoreOOC=false) {
 			if (!Par) {
 				// Regular characters
 				if (H == "t") NS += 'e';
-				else if ('cqkx'.includes(H)) NS += 'k';
-				else if ('jlr'.includes(H)) NS += 'a';
-				else if ('dmg'.includes(H)) NS += 'm';
-				else if ('bhnvwp'.includes(H) || isAnyPunctuationOrSpace(H) || 'aeiouyfsz'.includes(H)) NS += H;
+				else if ('cqkx'.includes(H)) NS += capitalize("k");
+				else if ('jlr'.includes(H)) NS += capitalize("a");
+				else if ('dmg'.includes(H)) NS += capitalize("m");
+				else if ('bhnvwp'.includes(H) || isPunctuationOrSpace(H) || 'aeiouyfsz'.includes(H)) NS += capitalize(H);
 
 				// Accents/Latin characters
-				else if (isAccentedOrLatinCharacter(H)) NS += stripDiacriticsFromCharacter(H, GagEffect);
+				else if (isAccentedOrLatinCharacter(H)) NS += stripDiacriticsFromCharacter(H, GagEffect, isCaps);
 
 				// Cyrillic characters
-				else if ('чц'.includes(H)) NS += 'e';
-				else if ('йфв'.includes(H)) NS += 'к';
-				else if ('длщя'.includes(H)) NS += 'a';
-				else if (H == "з") NS += 'c';
-				else if (H == "с") NS += 'з';
-				else if ('дфмг'.includes(H)) NS += 'м';
-				else if ('апрокенмит'.includes(H)) NS += H;
+				else if ('чц'.includes(H)) NS += capitalize("e");
+				else if ('йфв'.includes(H)) NS += capitalize("к");
+				else if ('длщя'.includes(H)) NS += capitalize("a");
+				else if (H == "з") NS += capitalize("c");
+				else if (H == "с") NS += capitalize("з");
+				else if ('дфмг'.includes(H)) NS += capitalize("м");
+				else if ('апрокенмит'.includes(H)) NS += capitalize(H);
 				else if (isChineseCharacter(H)) NS += doChineseGarbling(H, GagEffect);
 
 			} else NS += CD.charAt(L);
@@ -677,7 +682,7 @@ function SpeechBabyTalk(C, CD) {
 				if ('kl'.includes(H)) NS += 'w';
 				else if (H == "s") NS += 'sh';
 				else if (H == "t") NS += 'th';
-				else if (isAnyPunctuationOrSpace(H) || H.match('[a-z]')) NS += H;
+				else if (isPunctuationOrSpace(H) || H.match('[a-z]')) NS += H;
 				// Let's do light Chinese garbling for now for ABDL.
 				else if (isChineseCharacter(H)) NS += doChineseGarbling(H, 1);
 			} else NS += CD.charAt(L);
