@@ -730,8 +730,7 @@ function AppearanceMenuBuild(C) {
 					AppearanceMenu.push(/** @type {DialogMenuButton} */(ButtonName));
 				}
 			}
-			if (DialogInventoryOffset >= CharacterAppearanceNumClothPerPage) AppearanceMenu.push("Prev");
-			if (DialogInventory.length > CharacterAppearanceNumClothPerPage) AppearanceMenu.push("Next");
+			if (DialogInventory.length > CharacterAppearanceNumClothPerPage) AppearanceMenu.push("Prev", "Next");
 			break;
 	}
 
@@ -1208,7 +1207,8 @@ function CharacterAppearanceMoveGroup(C, Move) {
 	// Calculate the new offset
 	CharacterAppearanceOffset = CharacterAppearanceOffset + Move * CharacterAppearanceNumGroupPerPage;
 	if (CharacterAppearanceOffset >= CharacterAppearanceGroups.length) CharacterAppearanceOffset = 0;
-	if (CharacterAppearanceOffset < 0) CharacterAppearanceOffset = Math.floor(CharacterAppearanceGroups.length / CharacterAppearanceNumGroupPerPage) * CharacterAppearanceNumGroupPerPage;
+	if (CharacterAppearanceOffset < 0)
+		CharacterAppearanceOffset = Math.floor((CharacterAppearanceGroups.length - 1) / CharacterAppearanceNumGroupPerPage) * CharacterAppearanceNumGroupPerPage;
 }
 
 /**
@@ -1566,7 +1566,9 @@ function AppearanceMenuClick(C) {
 					if (Button === "Next" || Button === "Prev") {
 						const offset = Button === "Next" ? CharacterAppearanceNumClothPerPage : -CharacterAppearanceNumClothPerPage;
 						DialogInventoryOffset = DialogInventoryOffset + offset;
-						if (DialogInventoryOffset >= DialogInventory.length || DialogInventoryOffset < 0) DialogInventoryOffset = 0;
+						if (DialogInventoryOffset >= DialogInventory.length) DialogInventoryOffset = 0;
+						if (DialogInventoryOffset < 0)
+							DialogInventoryOffset = Math.floor((DialogInventory.length - 1) / CharacterAppearanceNumClothPerPage) * CharacterAppearanceNumClothPerPage;
 						AppearancePreviewBuild(C, true);
 					}
 
