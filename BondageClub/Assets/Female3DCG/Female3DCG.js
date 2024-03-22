@@ -95,6 +95,13 @@ const E = /** @type {const} */ ({
 	 */
 	IsPlugged: "IsPlugged",
 
+	/**
+	 * Marks the item as a urethral insert.
+	 * 
+	 * Used when checking if the item should allow the penis to be limp.
+	 */
+	ForcedErection: "ForcedErection",
+
 	// #region Vibrator effects
 
 	/**
@@ -14925,7 +14932,7 @@ var AssetFemale3DCG = [
 		Top: 500,
 		AllowNone: false,
 		AllowExpression: [null, "Hard"],
-		ExpressionPrerequisite: ["HasPenis", "CanHaveErection"],
+		ExpressionPrerequisite: ["CanBeLimp", "CanHaveErection"],
 		InheritColor: "BodyUpper",
 		PoseMapping: { ...AssetPoseMapping.Pussy },
 		Asset: [
@@ -16965,10 +16972,11 @@ var AssetFemale3DCG = [
 			{
 				Name: "PlasticChastityCage1",
 				Gender: "M",
-				Prerequisite: ["AccessVulva", "HasPenis", "AccessFullPenis"],
+				Prerequisite: ["AccessVulva", "HasPenis", "AccessFullPenis", "NoErection"],
 				Difficulty: 50,
 				Value: 20,
 				Effect: [E.Chaste],
+				Block: ["ItemVulvaPiercings"],
 				Hide: ["Pussy"],
 				Attribute: ["CageTechno"],
 				PoseMapping: {
@@ -17015,10 +17023,11 @@ var AssetFemale3DCG = [
 			{
 				Name: "PlasticChastityCage2",
 				Gender: "M",
-				Prerequisite: ["AccessVulva", "HasPenis", "AccessFullPenis"],
+				Prerequisite: ["AccessVulva", "HasPenis", "AccessFullPenis", "NoErection"],
 				Value: 20,
 				Difficulty: 50,
 				Effect: [E.Chaste],
+				Block: ["ItemVulvaPiercings"],
 				Hide: ["Pussy"],
 				Attribute: ["CagePlastic2"],
 				PoseMapping: {
@@ -17045,11 +17054,12 @@ var AssetFemale3DCG = [
 			{
 				Name: "TechnoChastityCage",
 				Gender: "M",
-				Prerequisite: ["AccessVulva", "HasPenis", "AccessFullPenis"],
+				Prerequisite: ["AccessVulva", "HasPenis", "AccessFullPenis", "NoErection"],
 				Category: ["SciFi"],
 				Value: 50,
 				Difficulty: 50,
 				Effect: [E.Chaste],
+				Block: ["ItemVulvaPiercings"],
 				Hide: ["Pussy"],
 				Attribute: ["CageTechno"],
 				PoseMapping: {
@@ -17077,10 +17087,11 @@ var AssetFemale3DCG = [
 				Name: "FlatChastityCage",
 				Gender: "M",
 				Fetish: ["Metal"],
-				Prerequisite: ["AccessVulva", "HasPenis", "AccessFullPenis"],
+				Prerequisite: ["AccessVulva", "HasPenis", "AccessFullPenis", "NoErection"],
 				Value: 25,
 				Difficulty: 50,
 				Effect: [E.Chaste],
+				Block: ["ItemVulvaPiercings"],
 				Hide: ["Pussy"],
 				Attribute: ["CageFlat"],
 				PoseMapping: {
@@ -17106,10 +17117,11 @@ var AssetFemale3DCG = [
 			{
 				Name: "ChastityPouch",
 				Gender: "M",
-				Prerequisite: ["AccessVulva", "HasPenis", "AccessFullPenis"],
+				Prerequisite: ["AccessVulva", "HasPenis", "AccessFullPenis", "NoErection"],
 				Value: 25,
 				Difficulty: 50,
 				Effect: [E.Chaste],
+				Block: ["ItemVulvaPiercings"],
 				Hide: ["Pussy"],
 				PoseMapping: {
 					...AssetPoseMapping.ItemVulva,
@@ -17391,6 +17403,23 @@ var AssetFemale3DCG = [
 					{ Name: "Egg", MirrorExpression: "Pussy" },
 				],
 			},
+			{
+				Name: "UrethralSound",
+				Gender: "M",
+				Value: 10,
+				Hide: ["Pussy"],
+				Prerequisite: ["NoChastityCage"],
+				Effect: ["ForcedErection"],
+				Left: 200,
+				Top: 410,
+				Layer: [
+					{ Name: "Sound", AllowTypes: { typed: 0 } },
+					{ Name: "Shine", AllowTypes: { typed: 0 } },
+					{ Name: "SoundOut", CopyLayerColor: "Sound", AllowTypes: { typed: 1 } },
+					{ Name: "ShineOut", CopyLayerColor: "Shine", AllowTypes: { typed: 1 } },
+					{ Name: "Penis", InheritColor: "Pussy", ColorSuffix: { HEX_COLOR: "White" }, AllowTypes: { typed: [0, 1, 2] } },
+				]
+			}
 		],
 		Color: [
 			"Default",
