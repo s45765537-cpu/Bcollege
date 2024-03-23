@@ -126,40 +126,8 @@ function CommonDrawAppearanceBuild(C, {
 				return Acc;
 			}, []);
 
-		/** @type {string} */
-		let layerColor = Array.isArray(item.Color) ? (item.Color[layer.ColorIndex] || group.DefaultColor) : item.Color;
-
-		// Fix to legacy appearance data when Hands could be different to BodyUpper
-		if (groupName === "Hands") layerColor = "Default";
-
-		// If custom default colors are defined and the layer is using
-		if (layerColor === "Default" && item.Property) {
-			if (Array.isArray(item.Property.DefaultColor)) {
-				layerColor = item.Property.DefaultColor[layer.ColorIndex] || "Default";
-			} else if (typeof item.Property.DefaultColor === "string") {
-				layerColor = item.Property.DefaultColor;
-			}
-		}
-
-		// Check if we need to copy the color of another asset
-		let inheritsColor = false;
-		let colorGroup = layerColor == "Default" ? layer.InheritColor : null;
-		while (colorGroup != null) {
-			const parentItem = InventoryGet(C, colorGroup);
-			if (parentItem != null) {
-				const parentColor = Array.isArray(parentItem.Color) ? parentItem.Color[0] : parentItem.Color;
-				const inheritedColor = parentColor === "Default" && parentItem.Asset.InheritColor;
-				if (inheritedColor) {
-					colorGroup = inheritedColor;
-				} else {
-					layerColor = CommonDrawColorValid(parentColor, parentItem.Asset.Group) ? parentColor : "Default";
-					inheritsColor = true;
-					colorGroup = null;
-				}
-			} else {
-				colorGroup = null;
-			}
-		}
+		// Resolve the layer color; handles color inheritance and schema validation
+		let layerColor = CommonDrawResolveLayerColor(C, item, layer, groupName);
 
 		// Before drawing hook, receives all processed data. Any of them can be overriden if returned inside an object.
 		// CAREFUL! The dynamic function should not contain heavy computations, and should not have any side effects.
@@ -228,12 +196,9 @@ function CommonDrawAppearanceBuild(C, {
 		// Safeguard against a null pose
 		if (typeof pose !== "string") pose = /** @type {AssetPoseName} */("");
 
-		// Make any required changes to the color
+		// Redo some checks in case BeforeDraw overrode the color back to default.
 		if (layerColor === "Default" && asset.DefaultColor) {
-			layerColor = asset.DefaultColor[layer.ColorIndex];
-		}
-		if (!inheritsColor && !CommonDrawColorValid(layerColor, group)) {
-			layerColor = "Default";
+			layerColor = CommonDrawResolveLayerColor(C, item, layer, groupName, layerColor);
 		}
 
 		// Adjust for the increased canvas size
@@ -338,19 +303,78 @@ function CommonDrawAppearanceBuild(C, {
 }
 
 /**
+ * Resolve and validates a layer's color, given a character, an item and a layer.
+ *
+ * This handles grabbing the user-specified color, or the default one, or inherit it from another group, and
+ * checks it for validity.
+ *
+ * @param {Character} C
+ * @param {Item} item
+ * @param {AssetLayer} layer
+ * @param {AssetGroupName} groupName
+ * @param {HexColor} [initialColor] Used as the starting value to check that specific color and fully resolve it
+ */
+function CommonDrawResolveLayerColor(C, item, layer, groupName, initialColor) {
+	// Pick the layer's color out of the item's Color property based on the layer's index, or default it to what the group says
+	let layerColor = initialColor ?? item.Asset.Group.DefaultColor;
+	if (Array.isArray(item.Color)) {
+		layerColor = item.Color[layer.ColorIndex];
+	} else {
+		layerColor = item.Color;
+	}
+
+	// Fix to legacy appearance data when Hands could be different to BodyUpper
+	if (groupName === "Hands") layerColor = "Default";
+
+	// If the item specifies a default color, use that
+	// Used by extended assets to specify a different default color for a layer depending on its item type
+	if (layerColor === "Default" && item.Property) {
+		layerColor = Array.isArray(item.Property.DefaultColor) ? item.Property.DefaultColor[layer.ColorIndex] ?? "Default" : item.Property.DefaultColor;
+	}
+
+	if (!CommonDrawColorValid(layerColor, item.Asset.Group)) {
+		layerColor = "Default";
+	}
+
+	// Check if we need to copy the color of another asset
+	let colorGroup = layerColor == "Default" ? layer.InheritColor : null;
+	while (colorGroup != null) {
+		const parentItem = InventoryGet(C, colorGroup);
+		if (parentItem != null) {
+			const parentColor = Array.isArray(parentItem.Color) ? parentItem.Color[0] : parentItem.Color;
+			const inheritedColor = parentColor === "Default" && parentItem.Asset.InheritColor;
+			if (inheritedColor) {
+				colorGroup = inheritedColor;
+			} else {
+				layerColor = CommonDrawColorValid(parentColor, parentItem.Asset.Group) ? parentColor : "Default";
+				colorGroup = null;
+			}
+		} else {
+			colorGroup = null;
+		}
+	}
+
+	return layerColor;
+}
+
+/**
  * Determines whether the provided color is valid
  * @param {string} Color - The color
  * @param {AssetGroup} AssetGroup - The asset group the color is being used fo
  * @returns {boolean} - Whether the color is valid
  */
 function CommonDrawColorValid(Color, AssetGroup) {
-	if (Color != null && typeof Color !== "string") {
+	if (typeof Color !== "string") {
 		return false;
 	}
-	if (Color != null && Color.indexOf("#") != 0 && AssetGroup.ColorSchema.indexOf(Color) < 0) {
-		return false;
+
+	if (Color.match(/#[0-9a-f]{4,7}/i)) {
+		// Hexcode colors are always valid
+		return true;
 	}
-	return true;
+
+	// Otherwise it's a named color, and must appear in the schema
+	return AssetGroup.ColorSchema.includes(Color);
 }
 
 /**
