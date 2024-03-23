@@ -228,10 +228,10 @@ function CommonDrawAppearanceBuild(C, {
 		}
 
 		if (layer.HasImage && (!layer.LockLayer || itemIsLocked)) {
-			/** Check whether the asset requires a custom suffix
-			 * @type {string | undefined} */
+			// Handle the layer's color suffix mapping, transforming it back into a named color so we still use the correct base
+			/** @type {string | undefined} */
 			let colorSuffix = undefined;
-			if ((layer.ColorSuffix != null) && (layerColor != null)) {
+			if (layer.ColorSuffix && layerColor) {
 				colorSuffix = (layerColor[0] === "#") ? layer.ColorSuffix.HEX_COLOR : layer.ColorSuffix[layerColor];
 				if (colorSuffix && colorSuffix[0] === "#") {
 					layerColor = colorSuffix;
@@ -239,13 +239,11 @@ function CommonDrawAppearanceBuild(C, {
 				}
 			}
 
-
 			const baseURL = `Assets/${group.Family}/${groupName}/${poseSegment}${expressionSegment}`;
 			const baseURLBlink = `Assets/${group.Family}/${groupName}/${poseSegment}${blinkExpressionSegment}`;
 
-			// Draw the item on the canvas (default or empty means no special color, # means apply a color, regular text means we apply
-			// that text)
-			if ((layerColor != null) && (layerColor.indexOf("#") == 0) && layer.AllowColorize) {
+			if (layer.AllowColorize && layerColor && layerColor[0] === "#") {
+				// The layer is colorizable and has an explicit hexcode, it needs to be drawn colorized
 				const colorSegment = (colorSuffix != undefined) ? "_" + colorSuffix : "";
 
 				const layerURL = `${asset.Name}${parentAssetName}${layerType}${colorSegment}${layerSegment}.png`;
@@ -261,16 +259,14 @@ function CommonDrawAppearanceBuild(C, {
 					{ HexColor: layerColor, FullAlpha: asset.FullAlpha, AlphaMasks: masks, Alpha: opacity, Invert: inverted, Mirror: mirrored, BlendingMode: blendingMode }
 				);
 			} else {
-				let colorSegment = (
-					(layerColor == null)
-					|| (layerColor == "Default")
-					|| (layerColor == "")
-					|| (layerColor.length == 1)
-					|| (layerColor.indexOf("#") == 0)
-				) ? "" : "_" + layerColor;
-
-				if (colorSuffix != undefined) {
-					colorSegment = ((colorSuffix == "Default") || (colorSuffix == "")) ? "" : "_" + colorSuffix;
+				// The layer isn't colorizable, so validate that the layer color is a named color
+				// If a color suffix is specified and isn't Default, it'll completely override the final color
+				let colorSegment = "";
+				if (layerColor != null && layerColor !== "Default" && layerColor[0] !== "#") {
+					colorSegment = "_" + layerColor;
+				}
+				if (colorSuffix) {
+					colorSegment = colorSuffix !== "Default" ? "_" + colorSuffix : "";
 				}
 
 				const layerURL = `${asset.Name}${parentAssetName}${layerType}${colorSegment}${layerSegment}.png`;
