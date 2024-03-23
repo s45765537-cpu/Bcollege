@@ -242,12 +242,25 @@ function CommonDrawAppearanceBuild(C, {
 			const baseURL = `Assets/${group.Family}/${groupName}/${poseSegment}${expressionSegment}`;
 			const baseURLBlink = `Assets/${group.Family}/${groupName}/${poseSegment}${blinkExpressionSegment}`;
 
-			if (layer.AllowColorize && layerColor && layerColor[0] === "#") {
+			const shouldColorize = layer.AllowColorize && layerColor && layerColor[0] === "#";
+			let colorSegment = "";
+
+			if (shouldColorize) {
 				// The layer is colorizable and has an explicit hexcode, it needs to be drawn colorized
-				const colorSegment = (colorSuffix != undefined) ? "_" + colorSuffix : "";
+				colorSegment = (colorSuffix != undefined) ? "_" + colorSuffix : "";
+			} else {
+				// The layer isn't colorizable, so validate that the layer color is a named color
+				// If a color suffix is specified and isn't Default, it'll completely override the final color
+				if (layerColor != null && layerColor !== "Default" && layerColor[0] !== "#") {
+					colorSegment = "_" + layerColor;
+				}
+				if (colorSuffix) {
+					colorSegment = colorSuffix !== "Default" ? "_" + colorSuffix : "";
+				}
+			}
 
-				const layerURL = `${asset.Name}${parentAssetName}${layerType}${colorSegment}${layerSegment}.png`;
-
+			const layerURL = `${asset.Name}${parentAssetName}${layerType}${colorSegment}${layerSegment}.png`;
+			if (shouldColorize) {
 				drawImageColorize(
 					baseURL + layerURL,
 					X, Y,
@@ -259,18 +272,6 @@ function CommonDrawAppearanceBuild(C, {
 					{ HexColor: layerColor, FullAlpha: asset.FullAlpha, AlphaMasks: masks, Alpha: opacity, Invert: inverted, Mirror: mirrored, BlendingMode: blendingMode }
 				);
 			} else {
-				// The layer isn't colorizable, so validate that the layer color is a named color
-				// If a color suffix is specified and isn't Default, it'll completely override the final color
-				let colorSegment = "";
-				if (layerColor != null && layerColor !== "Default" && layerColor[0] !== "#") {
-					colorSegment = "_" + layerColor;
-				}
-				if (colorSuffix) {
-					colorSegment = colorSuffix !== "Default" ? "_" + colorSuffix : "";
-				}
-
-				const layerURL = `${asset.Name}${parentAssetName}${layerType}${colorSegment}${layerSegment}.png`;
-
 				drawImage(
 					baseURL + layerURL,
 					X, Y,
