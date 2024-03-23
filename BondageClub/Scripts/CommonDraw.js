@@ -53,57 +53,14 @@ function CommonDrawAppearanceBuild(C, {
 		let pose = CommonDrawResolveAssetPose(C, layer);
 
 		// Check if we need to draw a different expression (for facial features)
-		let expressionSegment = "";
-		let currentExpression = InventoryGetItemProperty(item, "Expression");
-		if (!currentExpression && layer.MirrorExpression) {
-			const MirroredItem = InventoryGet(C, layer.MirrorExpression);
-			const expr = InventoryGetItemProperty(MirroredItem, "Expression");
-			if (CharacterIsExpressionAllowed(C, item, expr)) {
-				currentExpression = expr;
-			}
-		}
-		if (currentExpression) {
-			expressionSegment = currentExpression + "/";
-		}
+		const currentExpression = CommonDrawResolveLayerExpression(C, item, layer);
+		const expressionSegment = currentExpression ? currentExpression + "/" : "";
+		const blinkExpressionSegment = (asset.OverrideBlinking ? !group.DrawingBlink : group.DrawingBlink) ? "Closed/" : expressionSegment;
 
 		// Find the X and Y position to draw on
-		const poseX = C.DrawPose.find(p => layer.DrawingLeft[p] != null);
-		const poseY = C.DrawPose.find(p => layer.DrawingTop[p] != null);
-		let X = poseX === undefined ? layer.DrawingLeft[PoseType.DEFAULT] : layer.DrawingLeft[poseX];
-		let Y = poseY === undefined ? layer.DrawingTop[PoseType.DEFAULT] : layer.DrawingTop[poseY];
-		for (const drawPose of C.DrawPose) {
-			const PoseDef = PoseRecord[drawPose];
-			if (PoseDef && PoseDef.MovePosition) {
-				const MovePosition = PoseDef.MovePosition.find(MP => MP.Group === groupName);
-				if (MovePosition) {
-					X += MovePosition.X;
-					Y += MovePosition.Y;
-				}
-			}
-		}
+		let { X, Y, fixedYOffset } = CommonDrawComputeDrawingCoordinates(C, asset, layer, groupName);
 
-		// Offset Y to counteract height modifiers for fixed-position assets
-		let fixedYOffset = 0;
-		if (asset.FixedPosition || layer.FixedPosition) {
-			if (C.IsInverted()) {
-				fixedYOffset = -Y + 1000 - (Y + CharacterAppearanceYOffset(C, C.HeightRatio, true) / C.HeightRatio);
-			} else {
-				fixedYOffset = C.HeightModifier + 1000 * (1 - C.HeightRatio) * (1 - C.HeightRatioProportion) / C.HeightRatio;
-			}
-		}
-		Y += fixedYOffset;
-
-		// If we must apply alpha masks to the current image as it is being drawn
-		for (const AlphaDef of layer.Alpha) {
-			// If no groups are defined and the character's pose matches one of the allowed poses (or no poses are defined)
-			if ((!AlphaDef.Group || !AlphaDef.Group.length) &&
-				(!AlphaDef.Pose || !!CommonDrawFindPose(C, AlphaDef.Pose))) {
-				AlphaDef.Masks.forEach(rect => {
-					clearRect(rect[0], rect[1] + CanvasUpperOverflow + fixedYOffset, rect[2], rect[3]);
-					clearRectBlink(rect[0], rect[1] + CanvasUpperOverflow + fixedYOffset, rect[2], rect[3]);
-				});
-			}
-		}
+		CommonDrawApplyLayerAlphaMasks(C, layer, fixedYOffset, clearRect, clearRectBlink);
 
 		// Check if we need to draw a different variation (from type property)
 		const typeRecord = (item.Property && item.Property.TypeRecord) || {};
@@ -117,7 +74,6 @@ function CommonDrawAppearanceBuild(C, {
 		let opacity = (item.Property && typeof item.Property.Opacity === "number") ? item.Property.Opacity : layer.Opacity;
 		let blendingMode = layer.BlendingMode;
 		opacity = Math.min(layer.MaxOpacity, Math.max(layer.MinOpacity, opacity));
-		const blinkExpressionSegment = (asset.OverrideBlinking ? !group.DrawingBlink : group.DrawingBlink) ? "Closed/" : expressionSegment;
 		/** @type {RectTuple[]} */
 		let masks = layer.GroupAlpha
 			.filter(({ Pose: P }) => !P || !!CommonDrawFindPose(C, P))
@@ -201,8 +157,6 @@ function CommonDrawAppearanceBuild(C, {
 			layerColor = CommonDrawResolveLayerColor(C, item, layer, groupName, layerColor);
 		}
 
-		// Adjust for the increased canvas size
-		Y += CanvasUpperOverflow;
 		masks = masks.map(([x, y, w, h]) => [x, y + CanvasUpperOverflow + fixedYOffset, w, h]);
 
 		let mirrored = false;
@@ -214,6 +168,7 @@ function CommonDrawAppearanceBuild(C, {
 
 		const itemIsLocked = !!(item.Property && item.Property.LockedBy);
 
+		// Check the current pose against the assets' supported pose mapping
 		/** @type {string} */
 		let poseSegment = layer.PoseMapping[pose];
 		switch (poseSegment) {
@@ -296,6 +251,91 @@ function CommonDrawAppearanceBuild(C, {
 				PersistentData: () => AnimationPersistentDataGet(C, asset),
 			};
 			CommonCallFunctionByNameWarn(`Assets${asset.Group.Name}${asset.Name}AfterDraw`, DrawingData);
+		}
+	}
+}
+
+/**
+ * Get the layer's resolved & validated current expression.
+ *
+ * Resolution handles mirroring from another group, and validation checks its value against the asset definition.
+ *
+ * @param {Character} C
+ * @param {Item} item
+ * @param {AssetLayer} layer
+ */
+function CommonDrawResolveLayerExpression(C, item, layer) {
+	// Check if we need to draw a different expression (for facial features)
+	let currentExpression = InventoryGetItemProperty(item, "Expression");
+	if (!currentExpression && layer.MirrorExpression) {
+		const MirroredItem = InventoryGet(C, layer.MirrorExpression);
+		const expr = InventoryGetItemProperty(MirroredItem, "Expression");
+		if (CharacterIsExpressionAllowed(C, item, expr)) {
+			currentExpression = expr;
+		}
+	}
+	return currentExpression;
+}
+
+/**
+ * Get the X and Y drawing coordinates for a layer
+ *
+ * @param {Character} C
+ * @param {Asset} asset
+ * @param {AssetLayer} layer
+ * @param {AssetGroupName} groupName
+ */
+function CommonDrawComputeDrawingCoordinates(C, asset, layer, groupName) {
+	const poseX = C.DrawPose.find(p => layer.DrawingLeft[p] != null);
+	const poseY = C.DrawPose.find(p => layer.DrawingTop[p] != null);
+	let X = poseX === undefined ? layer.DrawingLeft[PoseType.DEFAULT] : layer.DrawingLeft[poseX];
+	let Y = poseY === undefined ? layer.DrawingTop[PoseType.DEFAULT] : layer.DrawingTop[poseY];
+	for (const drawPose of C.DrawPose) {
+		const PoseDef = PoseRecord[drawPose];
+		if (PoseDef && PoseDef.MovePosition) {
+			const MovePosition = PoseDef.MovePosition.find(MP => MP.Group === groupName);
+			if (MovePosition) {
+				X += MovePosition.X;
+				Y += MovePosition.Y;
+			}
+		}
+	}
+
+	// Offset Y to counteract height modifiers for fixed-position assets
+	let fixedYOffset = 0;
+	if (asset.FixedPosition || layer.FixedPosition) {
+		if (C.IsInverted()) {
+			fixedYOffset = -Y + 1000 - (Y + CharacterAppearanceYOffset(C, C.HeightRatio, true) / C.HeightRatio);
+		} else {
+			fixedYOffset = C.HeightModifier + 1000 * (1 - C.HeightRatio) * (1 - C.HeightRatioProportion) / C.HeightRatio;
+		}
+	}
+	Y += fixedYOffset;
+
+	// Adjust for the increased canvas size
+	Y += CanvasUpperOverflow;
+
+	return { X, Y, fixedYOffset };
+}
+
+/**
+ * Clears out rects based on the layer's alpha masks
+ *
+ * @param {Character} C
+ * @param {AssetLayer} layer
+ * @param {number} fixedYOffset
+ * @param {ClearRectCallback} clearRect
+ * @param {ClearRectCallback} clearRectBlink
+ */
+function CommonDrawApplyLayerAlphaMasks(C, layer, fixedYOffset, clearRect, clearRectBlink) {
+	for (const AlphaDef of layer.Alpha) {
+		// If no groups are defined and the character's pose matches one of the allowed poses (or no poses are defined)
+		if ((!AlphaDef.Group || !AlphaDef.Group.length) &&
+			(!AlphaDef.Pose || !!CommonDrawFindPose(C, AlphaDef.Pose))) {
+			AlphaDef.Masks.forEach(rect => {
+				clearRect(rect[0], rect[1] + CanvasUpperOverflow + fixedYOffset, rect[2], rect[3]);
+				clearRectBlink(rect[0], rect[1] + CanvasUpperOverflow + fixedYOffset, rect[2], rect[3]);
+			});
 		}
 	}
 }
