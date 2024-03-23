@@ -46,7 +46,7 @@ function CommonDrawAppearanceBuild(C, {
 		let parentAssetName = "";
 		if (layer.ParentGroupName) {
 			const parentItem = C.Appearance.find(Item => Item.Asset.Group.Name === layer.ParentGroupName);
-			if (parentItem) parentAssetName = "_" + parentItem.Asset.Name;
+			if (parentItem) parentAssetName = parentItem.Asset.Name;
 		}
 
 		// If there's a pose style we must add (items take priority over groups, layers may override completely)
@@ -110,9 +110,9 @@ function CommonDrawAppearanceBuild(C, {
 		let layerSegment = "";
 		let layerType = "";
 		if (layer.CreateLayerTypes.length > 0) {
-			layerType = "_" + layer.CreateLayerTypes.map(k => `${k}${typeRecord[k] || 0}`).join("");
+			layerType = layer.CreateLayerTypes.map(k => `${k}${typeRecord[k] || 0}`).join("");
 		}
-		if (layer.Name) layerSegment = "_" + layer.Name;
+		if (layer.Name) layerSegment = layer.Name;
 
 		let opacity = (item.Property && typeof item.Property.Opacity === "number") ? item.Property.Opacity : layer.Opacity;
 		let blendingMode = layer.BlendingMode;
@@ -247,19 +247,20 @@ function CommonDrawAppearanceBuild(C, {
 
 			if (shouldColorize) {
 				// The layer is colorizable and has an explicit hexcode, it needs to be drawn colorized
-				colorSegment = (colorSuffix != undefined) ? "_" + colorSuffix : "";
+				colorSegment = (colorSuffix != undefined) ? colorSuffix : "";
 			} else {
 				// The layer isn't colorizable, so validate that the layer color is a named color
 				// If a color suffix is specified and isn't Default, it'll completely override the final color
 				if (layerColor != null && layerColor !== "Default" && layerColor[0] !== "#") {
-					colorSegment = "_" + layerColor;
+					colorSegment = layerColor;
 				}
 				if (colorSuffix) {
-					colorSegment = colorSuffix !== "Default" ? "_" + colorSuffix : "";
+					colorSegment = colorSuffix !== "Default" ? colorSuffix : "";
 				}
 			}
 
-			const layerURL = `${asset.Name}${parentAssetName}${layerType}${colorSegment}${layerSegment}.png`;
+			const urlParts = [asset.Name, parentAssetName, layerType, colorSegment, layerSegment].filter(c => c);
+			const layerURL = urlParts.join("_") + ".png";
 			if (shouldColorize) {
 				drawImageColorize(
 					baseURL + layerURL,
