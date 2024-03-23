@@ -274,18 +274,24 @@ function CommonDrawAppearanceBuild(C, {
 				}
 			}
 
+
+			const baseURL = `Assets/${group.Family}/${groupName}/${poseSegment}${expressionSegment}`;
+			const baseURLBlink = `Assets/${group.Family}/${groupName}/${poseSegment}${blinkExpressionSegment}`;
+
 			// Draw the item on the canvas (default or empty means no special color, # means apply a color, regular text means we apply
 			// that text)
 			if ((layerColor != null) && (layerColor.indexOf("#") == 0) && layer.AllowColorize) {
 				const colorSegment = (colorSuffix != undefined) ? "_" + colorSuffix : "";
 
+				const layerURL = `${asset.Name}${parentAssetName}${layerType}${colorSegment}${layerSegment}.png`;
+
 				drawImageColorize(
-					"Assets/" + group.Family + "/" + groupName + "/" + poseSegment + expressionSegment + asset.Name + parentAssetName + layerType + colorSegment + layerSegment + ".png",
+					baseURL + layerURL,
 					X, Y,
 					{ HexColor: layerColor, FullAlpha: asset.FullAlpha, AlphaMasks: masks, Alpha: opacity, Invert: inverted, Mirror: mirrored, BlendingMode: blendingMode }
 				);
 				drawImageColorizeBlink(
-					"Assets/" + group.Family + "/" + groupName + "/" + poseSegment + blinkExpressionSegment + asset.Name + parentAssetName + layerType + colorSegment + layerSegment + ".png",
+					baseURLBlink + layerURL,
 					X, Y,
 					{ HexColor: layerColor, FullAlpha: asset.FullAlpha, AlphaMasks: masks, Alpha: opacity, Invert: inverted, Mirror: mirrored, BlendingMode: blendingMode }
 				);
@@ -302,13 +308,15 @@ function CommonDrawAppearanceBuild(C, {
 					colorSegment = ((colorSuffix == "Default") || (colorSuffix == "")) ? "" : "_" + colorSuffix;
 				}
 
+				const layerURL = `${asset.Name}${parentAssetName}${layerType}${colorSegment}${layerSegment}.png`;
+
 				drawImage(
-					"Assets/" + group.Family + "/" + groupName + "/" + poseSegment + expressionSegment + asset.Name + parentAssetName + layerType + colorSegment + layerSegment + ".png",
+					baseURL + layerURL,
 					X, Y,
 					{ AlphaMasks: masks, Alpha: opacity, Invert: inverted, Mirror: mirrored, BlendingMode: blendingMode }
 				);
 				drawImageBlink(
-					"Assets/" + group.Family + "/" + groupName + "/" + poseSegment + blinkExpressionSegment + asset.Name + parentAssetName + layerType + colorSegment + layerSegment + ".png",
+					baseURLBlink + layerURL,
 					X, Y,
 					{ AlphaMasks: masks, Alpha: opacity, Invert: inverted, Mirror: mirrored, BlendingMode: blendingMode }
 				);
