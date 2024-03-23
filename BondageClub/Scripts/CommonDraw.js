@@ -35,18 +35,12 @@ function CommonDrawAppearanceBuild(C, {
 	drawImageColorize,
 	drawImageColorizeBlink,
 }) {
-	const LayerCounts = {};
-
 	// Loop through all layers in the character appearance
 	C.AppearanceLayers.forEach((Layer) => {
 		const A = Layer.Asset;
 		const AG = A.Group;
-		const CountKey = AG.Name + "/" + A.Name;
 		let CA = C.Appearance.find(item => item.Asset === A);
 		let Property = CA.Property;
-
-		// Count how many layers we've drawn for this asset
-		LayerCounts[CountKey] = (LayerCounts[CountKey] || 0) + 1;
 
 		// If there's a parent group (parent group of the layer overrides that of the asset, which overrides that of the group)
 		let G = "";
