@@ -36,7 +36,7 @@ function CommonDrawAppearanceBuild(C, {
 	drawImageColorizeBlink,
 }) {
 	// Loop through all layers in the character appearance
-	C.AppearanceLayers.forEach((layer) => {
+	for (const layer of C.AppearanceLayers) {
 		const asset = layer.Asset;
 		const group = asset.Group;
 		let item = C.Appearance.find(i => i.Asset === asset);
@@ -71,8 +71,8 @@ function CommonDrawAppearanceBuild(C, {
 		const poseY = C.DrawPose.find(p => layer.DrawingTop[p] != null);
 		let X = poseX === undefined ? layer.DrawingLeft[PoseType.DEFAULT] : layer.DrawingLeft[poseX];
 		let Y = poseY === undefined ? layer.DrawingTop[PoseType.DEFAULT] : layer.DrawingTop[poseY];
-		C.DrawPose.forEach(CP => {
-			const PoseDef = PoseRecord[CP];
+		for (const drawPose of C.DrawPose) {
+			const PoseDef = PoseRecord[drawPose];
 			if (PoseDef && PoseDef.MovePosition) {
 				const MovePosition = PoseDef.MovePosition.find(MP => MP.Group === groupName);
 				if (MovePosition) {
@@ -80,7 +80,7 @@ function CommonDrawAppearanceBuild(C, {
 					Y += MovePosition.Y;
 				}
 			}
-		});
+		}
 
 		// Offset Y to counteract height modifiers for fixed-position assets
 		let fixedYOffset = 0;
@@ -94,7 +94,7 @@ function CommonDrawAppearanceBuild(C, {
 		Y += fixedYOffset;
 
 		// If we must apply alpha masks to the current image as it is being drawn
-		layer.Alpha.forEach(AlphaDef => {
+		for (const AlphaDef of layer.Alpha) {
 			// If no groups are defined and the character's pose matches one of the allowed poses (or no poses are defined)
 			if ((!AlphaDef.Group || !AlphaDef.Group.length) &&
 				(!AlphaDef.Pose || !!CommonDrawFindPose(C, AlphaDef.Pose))) {
@@ -103,7 +103,7 @@ function CommonDrawAppearanceBuild(C, {
 					clearRectBlink(rect[0], rect[1] + CanvasUpperOverflow + fixedYOffset, rect[2], rect[3]);
 				});
 			}
-		});
+		}
 
 		// Check if we need to draw a different variation (from type property)
 		const typeRecord = (item.Property && item.Property.TypeRecord) || {};
@@ -326,7 +326,7 @@ function CommonDrawAppearanceBuild(C, {
 			};
 			CommonCallFunctionByNameWarn(`Assets${asset.Group.Name}${asset.Name}AfterDraw`, DrawingData);
 		}
-	});
+	}
 }
 
 /**
