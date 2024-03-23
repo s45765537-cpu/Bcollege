@@ -9418,7 +9418,10 @@ var AssetFemale3DCGExtended = {
 						Hide: [
 							"BodyLower",
 							"BodyUpper",
-							"Hands",
+							"ArmsLeft",
+							"ArmsRight",
+							"HandsLeft",
+							"HandsRight",
 							"HairFront",
 							"HairBack",
 							"Glasses",
@@ -16266,7 +16269,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "OpaqueGloves",
 					Property: {
-						Hide: ["Hands"],
+						Hide: ["HandsLeft", "HandsRight"],
 					},
 				},
 				{
@@ -16331,7 +16334,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "OpaqueGloves",
 					Property: {
-						Hide: ["Hands"],
+						Hide: ["HandsLeft", "HandsRight"],
 					},
 				},
 			],

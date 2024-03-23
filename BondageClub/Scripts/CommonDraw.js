@@ -374,7 +374,7 @@ function CommonDrawResolveLayerColor(C, item, layer, groupName, initialColor) {
 	}
 
 	// Fix to legacy appearance data when Hands could be different to BodyUpper
-	if (groupName === "Hands") layerColor = "Default";
+	if (groupName === "HandsLeft" || groupName === "HandsRight") layerColor = "Default";
 
 	// If the item specifies a default color, use that
 	// Used by extended assets to specify a different default color for a layer depending on its item type
