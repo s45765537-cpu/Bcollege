@@ -62,6 +62,7 @@ function CommandCombine(add) {
  * @param {string} msg - Input string, cannot be empty
  */
 function CommandParse(msg) {
+
 	// We want to escape message with "\", so we need to escape it first.
 	if (msg.startsWith("\\")) {
 		msg = msg.replaceAt(0, "\u200b");
@@ -72,17 +73,21 @@ function CommandParse(msg) {
 		return;
 	}
 
-	if (msg.length > ServerChatMessageMaxLength) {
-		return;
-	}
-
+	// Maximum of 1000 characters sent
+	if (msg.length > ServerChatMessageMaxLength) return;
 	msg = msg.substring(0, ServerChatMessageMaxLength);
 
+	// Emote parsing
 	if (msg.startsWith("*") || (Player.ChatSettings.MuStylePoses && msg.startsWith(":") && msg.length > 3)) {
 		ChatRoomSendEmote(msg);
 		ElementValue("InputChat", "");
 		return;
 	}
+
+	// regular chat and Whispers are garbled before being sent
+	msg = SpeechGarble(Player, msg);
+
+	// Checks if we are doing a regular chat or a whispering
 	const WhisperTarget = ChatRoomCharacter.find(C => C.MemberNumber == ChatRoomTargetMemberNumber);
 	if (ChatRoomTargetMemberNumber == null) {
 
@@ -96,7 +101,6 @@ function CommandParse(msg) {
 
 		// The whispers get sent to the server and shown on the client directly
 		ServerSend("ChatRoomChat", { Content: msg, Type: "Whisper", Target: ChatRoomTargetMemberNumber });
-
 		const div = document.createElement("div");
 		div.setAttribute('class', 'ChatMessage ChatMessageWhisper');
 		div.setAttribute('data-time', ChatRoomCurrentTime());
@@ -112,12 +116,13 @@ function CommandParse(msg) {
 		replayButton.classList.add("ReplyButton");
 		replayButton.textContent = '\u21a9\ufe0f';
 		div.prepend(replayButton);
-
 		ChatRoomAppendChat(div);
+
 	}
 
 	// Clears the chat text message
 	ElementValue("InputChat", "");
+
 }
 
 /**
