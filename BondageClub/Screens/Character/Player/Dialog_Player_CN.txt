@@ -6539,7 +6539,7 @@ Click when the player reaches the buckle to progress
 角色碰到搭扣前按下鼠标来获得进度
 Click the ropes before they hit the ground to progress
 在绳索落到地面前点击以获得进度
-Alternate keys A and D (or Q and D on AZERTY) to speed up 
+Alternate keys A (Q on AZERTY) and D to speed up
 交替点按A和D键加速（在AZERTY键盘上为Q和D）
 Alternate keys A and D or X and Y on a controller
 交替点按A和D键，或者手柄上的X和Y键
