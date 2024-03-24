@@ -377,7 +377,7 @@ function MainHallWalk(RoomName) {
 		var PlayerClubSlave = (ManagementIsClubSlave()) ? (Math.random() * 3) : 0;
 		var PlayerEscapedAsylum = ((LogValue("Escaped", "Asylum") >= CurrentTime) && (CheatFactor("BlockRandomKidnap", 0) == 1)) ? (Math.random() * 3) : 0;
 		var MeetEscapedPatient = ((ReputationGet("Asylum") > 0) && !Player.IsRestrained() && AsylumEntranceIsWearingNurseClothes()) ? (Math.random() * 2) : 0;
-		var MeetKidnapper = ((ReputationGet("Kidnap") > 0) && (CheatFactor("BlockRandomKidnap", 0) == 1)) ? Math.random() : 0;
+		var MeetKidnapper = ((ReputationGet("Kidnap") > 0) && (KidnapLeagueBounty == null) && (CheatFactor("BlockRandomKidnap", 0) == 1)) ? Math.random() : 0;
 		var MeetClubSlave = Math.random();
 		var MeetPolice = (LogQuery("Joined", "BadGirl")) ? (Math.random() * PrisonWantedPlayer()) : 0;
 		var PandoraRevenge = (SkillGetLevel(Player, "Infiltration") >= 3) ? Math.random() * (SkillGetLevel(Player, "Infiltration") / 7) : 0;

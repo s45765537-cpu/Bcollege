@@ -1849,8 +1849,14 @@ function ChatRoomMenuDraw() {
 		} else {
 			color = "White";
 		}
-		DrawButton(1005 + Space * Number(idx), 2, Space - 2, 60, "", color, null, TextGet("Menu" + name));
-		DrawImage("Icons/Small/" + name + suffix + ".png", 976 + Space * Number(idx) + Space / 2, 4);
+
+		const buttonX = 1005 + Space * Number(idx);
+		DrawButton(buttonX, 2, Space - 2, 60, "", color, null, TextGet("Menu" + name));
+
+		const imageWidth = Math.min(114, Space - 4);
+		DrawImageEx("Icons/Rectangle/" + name + suffix + ".png", MainCanvas, buttonX + 1 + (Space - 4 - imageWidth) / 2, 4,
+			{ SourcePos: [(114 - imageWidth) / 2, 0, imageWidth, 56] }
+		);
 	}
 }
 
@@ -2313,15 +2319,13 @@ function ChatRoomSendChat() {
 
 	// If there's a message to send
 	const msg = ElementValue("InputChat").trim();
-	if (!msg.length) {
-		return;
-	}
+	if (!msg.length) return;
 
 	// Keeps the chat log in memory so it can be accessed with pageup/pagedown
 	ChatRoomLastMessage.push(msg);
 	ChatRoomLastMessageIndex = ChatRoomLastMessage.length;
-
 	CommandParse(msg);
+
 }
 
 /**
@@ -2647,28 +2651,28 @@ var ChatRoomMessageHandlers = [
 		Description: "Sensory-deprivation processing",
 		Priority: 100,
 		Callback: (data, sender, msg, metadata) => {
+
+			// Emotes parsing - Player is under sensory-dep, replace every character name from the message with the placeholder
 			if (data.Type == "Emote") {
-				// Player is under sensory-dep, replace every character name from the message with the placeholder
 				if (ChatRoomIsCharacterImpactedBySensoryDeprivation(sender)) {
 					metadata.senderName = DialogFindPlayer("Someone");
-
 					msg = SpeechAnonymize(msg, ChatRoomCharacter);
 				}
 			}
 
+			// Chat parsing - Garble the sender name and adds more garble when deaf
 			if (data.Type == "Chat") {
-				// Garble the sender name if needed
 				if (ChatRoomIsCharacterImpactedBySensoryDeprivation(sender)) {
 					if (Player.GetDeafLevel() >= 4)
 						metadata.senderName = DialogFindPlayer("Someone");
 					else
 						metadata.senderName = SpeechGarble(sender, metadata.senderName, true);
 				}
-
-				msg = SpeechGarble(sender, msg);
+				if (Player.GetDeafLevel() > 0) msg = SpeechGarble(sender, msg);
 			}
 
 			return { msg: msg };
+
 		}
 	},
 	{
@@ -2676,7 +2680,8 @@ var ChatRoomMessageHandlers = [
 		Priority: 110,
 		Callback: (data, sender, msg, metadata) => {
 			if (data.Type == "Chat" || data.Type == "Whisper") {
-				ChatRoomChatLog.push({ Chat: SpeechGarble(sender, data.Content, true), Garbled: msg, Original: data.Content, SenderName: metadata.senderName, SenderMemberNumber: sender.MemberNumber, Time: CommonTime() });
+				if (Player.GetDeafLevel() > 0) data.Content = SpeechGarble(sender, data.Content);
+				ChatRoomChatLog.push({ Chat: data.Content, Garbled: msg, Original: data.Content, SenderName: metadata.senderName, SenderMemberNumber: sender.MemberNumber, Time: CommonTime() });
 				if (ChatRoomChatLog.length > 6) ChatRoomChatLog.splice(0, 1);
 			}
 			return false;

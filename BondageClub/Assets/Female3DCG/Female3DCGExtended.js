@@ -8965,6 +8965,21 @@ var AssetFemale3DCGExtended = {
 		VibeEggGlans: {
 			Archetype: ExtendedArchetype.VIBRATING,
 		}, // VibeEggGlans
+		UrethralSound: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "In",
+					Property: {
+						Effect: [E.DenialMode]
+					}
+				},
+				{
+					Name: "Out"
+				}
+			],
+			DrawImages: false,
+		}, // UrethralSound
 	}, // ItemVulvaPiercings
 	ItemButt: {
 		AnalHook: {

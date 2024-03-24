@@ -322,6 +322,16 @@ function ManagementCannotBeClubSlaveLoverLock() { return InventoryCharacterHasLo
  */
 function ManagementCannotBeClubSlaveFamilyLock() { return InventoryCharacterHasFamilyOnlyRestraint(Player); }
 /**
+ * Checks if the player can complete her contract and is not kneeling
+ * @returns  {boolean} - TRUE if both the Player can complete her contract but is not kneeling
+ */
+function ManagementCompleteContract() { return (!LogQuery("ClubSlave", "Management") && !Player.IsKneeling()); }
+/**
+ * Checks if the player can complete her contract and is kneeling
+ * @returns  {boolean} - TRUE if both the Player can complete her contract and is kneeling
+ */
+function ManagementKneelingCompleteContract() { return (!LogQuery("ClubSlave", "Management") && Player.IsKneeling()); }
+/**
  * Checks if the player can kiss the current NPC.
  * @returns {boolean} - TRUE if both the NPC and the player can talk.
  */
@@ -635,8 +645,7 @@ function ManagementClubSlaveRandomIntro() {
 	// Sets the girl that greets the club slave player
 	CommonSetScreen("Room", "Management");
 	ManagementBackground = "MainHall";
-	CharacterDelete(ManagementRandomGirl);
-
+	CharacterDelete(ManagementRandomGirl, false);
 	ManagementRandomGirl = CharacterLoadNPC("NPC_Management_RandomGirl");
 	CharacterSetCurrent(ManagementRandomGirl);
 	ManagementRandomGirl.AllowItem = false;
@@ -668,8 +677,7 @@ function ManagementFindClubSlaveRandomIntro() {
 	// Sets the girl that greets the club slave player
 	CommonSetScreen("Room", "Management");
 	ManagementBackground = "MainHall";
-	CharacterDelete(ManagementRandomGirl);
-
+	CharacterDelete(ManagementRandomGirl, false);
 	ManagementRandomGirl = CharacterLoadNPC("NPC_Management_RandomGirl");
 	ManagementRandomGirl.AllowItem = !ManagementIsClubSlave();
 	CharacterNaked(ManagementRandomGirl);

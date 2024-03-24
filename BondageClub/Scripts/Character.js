@@ -971,11 +971,13 @@ function CharacterLoadOnline(data, SourceMemberNumber) {
 /**
  * Deletes a character from the cached list of characters
  * @param {Character} C - The character to remove from the character cache
+ * @param {boolean} ClearCache - If we must clear the CSV cache or not (default to true)
  * @returns {void} - Nothing
  */
-function CharacterDelete(C) {
-	if (!C) return;
+function CharacterDelete(C, ClearCache=true) {
 
+	// Make sure the data is valid to delete
+	if (!C) return;
 	const idx = Character.findIndex(c => c.ID === C.ID);
 	if (idx < 0) return;
 
@@ -983,11 +985,15 @@ function CharacterDelete(C) {
 	// Note that this requires `CharacterDelete` to be called with the screen that created the NPC up.
 	// It's also debatable whether this does anything but always busting the cache, which is supposedly
 	// static and customized by `CharacterLoadCSVDialog`.
-	const FullPath = "Screens/" + CurrentModule + "/" + CurrentScreen + "/Dialog_" + C.AccountName + ".csv";
-	delete CommonCSVCache[FullPath];
+	if (ClearCache) {
+		const FullPath = "Screens/" + CurrentModule + "/" + CurrentScreen + "/Dialog_" + C.AccountName + ".csv";
+		delete CommonCSVCache[FullPath];
+	}
 
+	// Removes the animation and character from the array
 	AnimationPurge(Character[idx], true);
 	Character.splice(idx, 1);
+
 }
 
 /**
