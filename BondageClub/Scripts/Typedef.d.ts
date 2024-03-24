@@ -1676,6 +1676,7 @@ interface RestrictionSettingsType {
 	BypassStruggle: boolean;
 	SlowImmunity: boolean;
 	BypassNPCPunishments: boolean;
+	NoSpeechGarble: boolean;
 }
 
 interface ImmersionSettingsType {

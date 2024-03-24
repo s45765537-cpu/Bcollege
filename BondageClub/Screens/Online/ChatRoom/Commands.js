@@ -84,8 +84,9 @@ function CommandParse(msg) {
 		return;
 	}
 
-	// regular chat and Whispers are garbled before being sent
-	msg = SpeechGarble(Player, msg);
+	// Regular chat and Whispers are garbled before being sent, unless the no speech restriction is lifted
+	if ((Player.RestrictionSettings == null) || !Player.RestrictionSettings.NoSpeechGarble)
+		msg = SpeechGarble(Player, msg);
 
 	// Checks if we are doing a regular chat or a whispering
 	const WhisperTarget = ChatRoomCharacter.find(C => C.MemberNumber == ChatRoomTargetMemberNumber);
