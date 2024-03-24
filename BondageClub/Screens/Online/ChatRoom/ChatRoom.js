@@ -1847,8 +1847,14 @@ function ChatRoomMenuDraw() {
 		} else {
 			color = "White";
 		}
-		DrawButton(1005 + Space * Number(idx), 2, Space - 2, 60, "", color, null, TextGet("Menu" + name));
-		DrawImage("Icons/Small/" + name + suffix + ".png", 976 + Space * Number(idx) + Space / 2, 4);
+
+		const buttonX = 1005 + Space * Number(idx);
+		DrawButton(buttonX, 2, Space - 2, 60, "", color, null, TextGet("Menu" + name));
+
+		const imageWidth = Math.min(114, Space - 4);
+		DrawImageEx("Icons/Rectangle/" + name + suffix + ".png", MainCanvas, buttonX + 1 + (Space - 4 - imageWidth) / 2, 4,
+			{ SourcePos: [(114 - imageWidth) / 2, 0, imageWidth, 56] }
+		);
 	}
 }
 

@@ -247,9 +247,18 @@ function InventoryPrerequisiteMessage(C, Prerequisite, asset=null) {
 				return "CantHaveErection";
 			return "";
 		}
+		case "CanBeLimp": {
+			if (!InventoryIsItemInList(C, "Pussy", ["Penis"]))
+				return "MustHavePenis";
+			if (C.HasEffect("ForcedErection"))
+				return "CantBeLimp";
+			return "";
+		}
+
 
 		// Checks for chastity cages, in case of penis protruding items.
 		case "NoChastityCage": return InventoryIsItemInList(C, "ItemVulva", ["TechnoChastityCage", "PlasticChastityCage1", "PlasticChastityCage2", "FlatChastityCage", "ChastityPouch"]) ? "MustRemoveChastityCage" : "";
+		case  "NoErection": return C.HasEffect("ForcedErection") ? "MustNotHaveForcedErection" : "";
 
 		// Checks for penis protruding items, to block chastity cages.
 		case "AccessFullPenis": return InventoryIsItemInList(C, "ItemArms", ["HighSecurityStraitJacket"]) ? "MustHaveFullPenisAccess" : "";

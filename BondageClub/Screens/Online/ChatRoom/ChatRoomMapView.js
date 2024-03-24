@@ -1462,9 +1462,6 @@ function ChatRoomMapViewKeyDown(event) {
 function ChatRoomMapViewClick() {
 	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapViewIsActive()) return;
 
-	if ((MouseX <= 1000) && (ChatRoomMapViewFocusedCharacter != null) && (ChatRoomMapViewEditMode != "Tile") && (ChatRoomMapViewEditMode != "Object") && !ChatRoomMapViewEditStarted)
-		ChatRoomFocusCharacter(ChatRoomMapViewFocusedCharacter);
-
 	if (ChatRoomPlayerIsAdmin() && MouseIn(790, 860, 60, 60)) {
 		ChatRoomMapViewSuperPowersActive = !ChatRoomMapViewSuperPowersActive;
 		ChatRoomMapViewCalculatePerceptionMasks();
@@ -1475,6 +1472,9 @@ function ChatRoomMapViewClick() {
 	if (MouseIn(790, 930, 60, 60)) return ChatRoomMapViewMove("West");
 	if (MouseIn(860, 930, 60, 60)) return ChatRoomMapViewMove("South");
 	if (MouseIn(930, 930, 60, 60)) return ChatRoomMapViewMove("East");
+
+	if ((MouseX <= 1000) && (ChatRoomMapViewFocusedCharacter != null) && (ChatRoomMapViewEditMode != "Tile") && (ChatRoomMapViewEditMode != "Object") && !ChatRoomMapViewEditStarted)
+		ChatRoomFocusCharacter(ChatRoomMapViewFocusedCharacter);
 
 	// Out of edit mode, we allow the basic buttons
 	if (ChatRoomMapViewEditMode == "") {
