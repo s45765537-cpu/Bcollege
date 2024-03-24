@@ -156,8 +156,6 @@ function KidnapLeagueResetOnlineBountyProgress() {
 	KidnapLeagueOnlineBountyTarget = 0;
 }
 
-
-
 /**
  * Loads the kidnap league NPC
  * @returns {void} - Nothing
@@ -210,7 +208,6 @@ function KidnapLeagueClick() {
 function KidnapLeagueTakeBounty(Difficulty) {
 	KidnapLeagueBountyDifficulty = parseInt(Difficulty) + Math.floor(Math.random() * 4);
 	CharacterDelete(KidnapLeagueBounty);
-
 	KidnapLeagueBounty = CharacterLoadNPC("NPC_KidnapLeague_RandomKidnapper");
 	KidnapLeagueBountyLocation = CommonRandomItemFromList(KidnapLeagueBountyLocation, KidnapLeagueBountyLocationList);
 	KidnapLeagueArchetype = (KidnapLeagueBountyLocation == "MaidQuarters") ? "Maid" : null;
@@ -284,6 +281,7 @@ function KidnapLeagueBountyPay() {
  */
 function KidnapLeagueBountyReset() {
 	ReputationProgress("Kidnap", KidnapLeagueBountyVictory ? 2 + Math.floor(KidnapLeagueBountyDifficulty / 2) : 1);
+	CharacterDelete(KidnapLeagueBounty);
 	KidnapLeagueBounty = null;
 	KidnapLeagueBountyVictory = null;
 }
