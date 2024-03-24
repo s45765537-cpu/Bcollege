@@ -104,6 +104,7 @@ var ChatRoomTargetDirty = false;
 var ChatRoomCustomized = false;
 var ChatRoomCustomBackground = "";
 var ChatRoomCustomFilter = "";
+var ChatRoomCustomSizeMode = null;
 
 /**
  * The list of chat room views
@@ -1700,6 +1701,7 @@ function ChatRoomCustomizationClear() {
 	ChatRoomCustomBackground = "";
 	ChatRoomCustomFilter = "";
 	ChatAdminRoomCustomizationPlayMusic("");
+	ChatRoomCustomSizeMode = null;
 }
 
 /**
@@ -1710,7 +1712,7 @@ function ChatRoomCustomizationRun() {
 	if ((Player.ImmersionSettings != null) && (Player.OnlineSettings.ShowRoomCustomization != null) && (Player.OnlineSettings.ShowRoomCustomization >= 3)) ChatRoomCustomized = true;
 	if (ChatRoomCustomized) {
 		if ((Player.ImmersionSettings == null) || (Player.OnlineSettings.ShowRoomCustomization == null) || (Player.OnlineSettings.ShowRoomCustomization >= 1)) {
-			ChatAdminRoomCustomizationProcess(ChatRoomData.Custom, false);
+			ChatAdminRoomCustomizationProcess(ChatRoomData.Custom, null, null);
 		} else {
 			ChatRoomCustomized = false;
 			ChatRoomCustomizationClear();

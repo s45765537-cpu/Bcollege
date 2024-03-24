@@ -244,11 +244,11 @@ function ChatRoomCharacterViewDraw() {
 	const viewWidth = ChatRoomCharacterViewWidth;
 	const viewHeight = ChatRoomCharacterViewHeight;
 	const opts = {
-		zoom: 1.0,
 		inverted: Player.GraphicsSettings.InvertRoom && Player.IsInverted(),
 		blur: Player.GetBlurLevel(),
 		darken: DrawGetDarkFactor(),
 		tints: Player.GetTints(),
+		sizeMode: ChatRoomCustomSizeMode
 	};
 
 	// Loop over the room's characters to draw each of them
@@ -257,9 +257,8 @@ function ChatRoomCharacterViewDraw() {
 		// Draw the background every five characters, this fixes clipping errors
 		if (charIdx % charsPerRow === 0) {
 			const Y = charCount <= charsPerRow ? viewHeight * (1 - roomZoom) / 2 : 0;
-			const bgRect = RectMakeRect(0, Y, viewWidth, viewHeight);
-			opts.zoom = roomZoom;
-			DrawRoomBackground(backgroundURL, RectOffset(bgRect, 0, charIdx * 100), opts);
+			const bgRect = RectMakeRect(0, Y + charIdx * 100, viewWidth, viewHeight * roomZoom);
+			DrawRoomBackground(backgroundURL, bgRect, opts);
 		}
 
 		// Draw the character, it's status bubble and it's overlay

@@ -2900,8 +2900,10 @@ function DialogSelfMenuClick(C) {
 function DialogDraw() {
 
 	// Customization can be used in dialog if screen is online chat room
-	if ((CurrentScreen == "ChatRoom") && ChatRoomCustomized)
-		ChatAdminRoomCustomizationProcess(ChatRoomData.Custom, true);
+	if ((CurrentScreen == "ChatRoom") && ChatRoomCustomized) {
+		const drawBGToRect = DrawShowChatRoomCustomBackground() ? { x: 0, y: 0, w: 2000, h: 1000 } : null;
+		ChatAdminRoomCustomizationProcess(ChatRoomData.Custom, drawBGToRect, true);
+	}
 
 	// Check that there's actually a character selected
 	if (!CurrentCharacter) return;
