@@ -113,9 +113,14 @@ function FuturisticAccessValidate(Data, OriginalFunction, C, Item, Option, Curre
 
 // Load the futuristic item ACCESS DENIED screen
 function InventoryItemFuturisticLoadAccessDenied() {
-	ElementCreateInput("PasswordField", "text", "", "12");
-	if (!FuturisticAccessDeniedMessage)
-		FuturisticAccessDeniedMessage = "";
+	const elem = ElementCreateInput("PasswordField", "text", "", "12");
+	FuturisticAccessDeniedMessage ??= "";
+
+	const locks = /** @type {const} */(["PasswordPadlock", "TimerPasswordPadlock", "CombinationPadlock"]);
+	if (!CommonIncludes(locks, DialogFocusItem?.Property?.LockedBy)) {
+		elem.disabled = true;
+		elem.placeholder = DialogFindPlayer("CantChangeWhileLockedFuturistic");
+	}
 }
 
 /**
@@ -125,9 +130,17 @@ function InventoryItemFuturisticLoadAccessDenied() {
 function InventoryItemFuturisticDrawAccessDenied(data) {
 	NoArch.Draw(data);
 
+	const elem = /** @type {null | HTMLInputElement} */(document.getElementById("PasswordField"));
+	const disabled = elem?.disabled ?? true;
+
 	ElementPosition("PasswordField", 1505, 750, 350);
-	DrawText(DialogFindPlayer("FuturisticItemPassword"), 1500, 700, "White", "Gray");
-	DrawButton(1400, 800, 200, 64, DialogFindPlayer("FuturisticItemLogIn"), "White", "");
+	if (disabled) {
+		DrawText(DialogFindPlayer("FuturisticItemPassword"), 1500, 700, "White", "Gray");
+	}
+	DrawButton(
+		1400, 800, 200, 64, DialogFindPlayer("FuturisticItemLogIn"),
+		disabled ? "Gray" : "White", undefined, undefined, disabled,
+	);
 
 	if (FuturisticAccessDeniedMessage && FuturisticAccessDeniedMessage != "") DrawText(FuturisticAccessDeniedMessage, 1500, 963, "Red", "Black");
 
@@ -143,7 +156,12 @@ function InventoryItemFuturisticClickAccessDenied(data) {
 	}
 
 	if (MouseIn(1400, 800, 200, 64)) {
-		const pw = ElementValue("PasswordField").toUpperCase();
+		const elem = /** @type {null | HTMLInputElement} */(document.getElementById("PasswordField"));
+		if (elem?.disabled ?? true) {
+			return;
+		}
+
+		const pw = elem.value.toUpperCase();
 		const C = CharacterGetCurrent();
 		if (DialogFocusItem && DialogFocusItem.Property && DialogFocusItem.Property.LockedBy == "PasswordPadlock" && pw == DialogFocusItem.Property.Password) {
 			CommonPadlockUnlock(C, DialogFocusItem);
