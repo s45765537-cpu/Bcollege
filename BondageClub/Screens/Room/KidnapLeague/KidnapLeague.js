@@ -339,8 +339,7 @@ function KidnapLeagueRandomIntro() {
 	// Sets the kidnapping scene
 	CommonSetScreen("Room", "KidnapLeague");
 	KidnapLeagueBackground = "MainHall";
-	CharacterDelete(KidnapLeagueRandomKidnapper);
-
+	CharacterDelete(KidnapLeagueRandomKidnapper, false);
 	KidnapLeagueRandomKidnapper = CharacterLoadNPC("NPC_KidnapLeague_RandomKidnapper");
 	CharacterSetCurrent(KidnapLeagueRandomKidnapper);
 
