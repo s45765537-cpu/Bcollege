@@ -530,6 +530,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 				GenderSettings: {
 					HideShopItems: PreferenceInitGenderSetting(),
 					AutoJoinSearch: PreferenceInitGenderSetting(),
+					HideTitles: PreferenceInitGenderSetting(),
 				},
 				ExtensionSettings: {},
 			},
