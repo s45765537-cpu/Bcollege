@@ -52,6 +52,16 @@ var DrawHoverElements = [];
 var DrawCanvasPosition = [0, 0, 0, 0];
 
 /**
+ * An enum for the method for resizing custom backgrounds
+ * @enum {number}
+ */
+var DrawingResizeMode = {
+	Fill: 1,
+	FillOriginalRatio: 2,
+	ShowFullOriginalRatio: 3
+};
+
+/**
  * Converts a hex color string to a RGB color
  * @param {string} color - Hex color to conver
  * @returns {RGBColor} - RGB color
@@ -1224,20 +1234,20 @@ function DrawGetCustomBackground(C) {
  * @param {string} URL The background image to use
  * @param {Rect} bounds The location to draw the background in
  * @param {object} [opts] The background drawing options
- * @param {number} [opts.zoom=1.0] The zoom level to use
  * @param {boolean} [opts.inverted=false] Whether the background should be flipped upside-down
  * @param {number} [opts.blur=1.0] How blurry the background is
  * @param {number} [opts.darken=0.0] How darkened the background is (1 is bright, 0 is pitch black)
  * @param {RGBAColor[]} [opts.tints] Tints to apply to the background
+ * @param {DrawingResizeMode} [opts.sizeMode] The method of resizing the background
  */
 function DrawRoomBackground(URL, bounds, opts) {
-	let { zoom, inverted, blur, darken, tints } = opts;
-	// console.log(`DrawRoomBackground: ${JSON.stringify({URL, bounds, opts})}`);
-	zoom ??= 1.0;
+	let { inverted, blur, darken, tints, sizeMode } = opts;
+	
 	inverted ??= false;
 	blur ??= 1.0;
 	darken ??= 1.0;
 	tints ??= [];
+	sizeMode ??= DrawingResizeMode.FillOriginalRatio;
 
 	const img = URL !== "" ? DrawGetImage(URL) : undefined;
 	if (darken > 0 && img) {
@@ -1247,20 +1257,20 @@ function DrawRoomBackground(URL, bounds, opts) {
 		}
 
 		// Draw the background and custom filter
-		const srcX = ((img.naturalWidth - bounds.w) / 2) * (2 - 1 / zoom);
-		const srcBounds = RectMakeRect(srcX, 0, img.naturalWidth - 2 * srcX, img.naturalHeight);
-		const bgBounds = RectScale(bounds, 1.0, zoom);
-		DrawImageZoomCanvas(URL, MainCanvas, ...RectGetFrame(srcBounds), ...RectGetFrame(bgBounds), inverted);
+		const imageBounds = RectMakeRect(img.x, img.y, img.naturalWidth, img.naturalHeight);
+		const [sourceRect, destRect] = RectFitIntoRect(imageBounds, bounds, sizeMode);
+
+		DrawImageZoomCanvas(URL, MainCanvas, ...sourceRect, ...destRect, inverted);
 
 		if (ChatRoomCustomized && (ChatRoomCustomFilter != null) && (ChatRoomCustomFilter != "")) {
-			DrawRect(...RectGetFrame(RectScale(bounds, 1.0, zoom)), ChatRoomCustomFilter);
+			DrawRect(...destRect, ChatRoomCustomFilter);
 		}
 
 		MainCanvas.filter = 'none';
 
 		// Draw an overlay if the character is partially blinded
 		if (darken < 1) {
-			DrawRect(bounds.x, bounds.y, bounds.w, bounds.h - bounds.y, "rgba(0,0,0," + (1 - darken) + ")");
+			DrawRect(bounds.x, bounds.y, bounds.w, bounds.h, "rgba(0,0,0," + (1 - darken) + ")");
 		}
 	} else {
 		// Draw black rect to prevent overdraw if the actual image isn't ready
@@ -1268,7 +1278,7 @@ function DrawRoomBackground(URL, bounds, opts) {
 	}
 
 	for (const {r, g, b, a} of tints) {
-		DrawRect(bounds.x, bounds.y, bounds.w, bounds.h - bounds.y, `rgba(${r},${g},${b},${a})`);
+		DrawRect(bounds.x, bounds.y, bounds.w, bounds.h, `rgba(${r},${g},${b},${a})`);
 	}
 }
 
@@ -1342,8 +1352,8 @@ function DrawProcess(time) {
 	DrawLastCharacters = [];
 
 	// ChatRoom handles its own background drawing.
-	// We do need to draw the full-width background when a dialog is running
-	if (!(CurrentModule === "Online" && CurrentScreen === "ChatRoom" && !CurrentCharacter)) {
+	// We do need to draw the full-width background when a dialog is running and it's not handled by ChatAdminRoomCustomizationProcess
+	if (!DrawShowChatRoomCustomBackground()) {
 
 		let bgName = window[CurrentScreen + "Background"];
 
@@ -1410,6 +1420,16 @@ function DrawProcess(time) {
 		DialogLeave();
 	}
 
+}
+
+/**
+ * Returns whether a chat room data custom background will be shown
+ * @returns {boolean}
+ */
+function DrawShowChatRoomCustomBackground() {
+	return CurrentModule === "Online"
+		&& CurrentScreen === "ChatRoom"
+		&& (!CurrentCharacter || (ChatRoomCustomBackground !== "" && !DrawGetCustomBackground(Player)));
 }
 
 /**
@@ -1704,3 +1724,59 @@ function RectOffset(rect, dX, dY) {
 function RectScale(rect, wScale, hScale) {
 	return RectMakeRect(rect.x, rect.y, rect.w * wScale, rect.h * hScale);
 }
+
+/**
+ * Transform a rectangle to fit partially or wholly inside another. E.g. an image onto a background canvas
+ * @param {Rect} sourceRect Source rectangle, to be resized and/or trimmed
+ * @param {Rect} destRect Destination rectangle, the available space to contain the result
+ * @param {DrawingResizeMode} sizeMode - How to transform sourceRect - whether to keep original aspect ratio and allow/prevent overflow
+ * @returns {[RectTuple, RectTuple]} The subsection of the sourceRect to take and the rectangle to map it to
+ */
+const RectFitIntoRect = CommonMemoize(
+	/** @type {(sourceRect: Rect, destRect: Rect, sizeMode: DrawingResizeMode) => [sourceRectTuple: RectTuple, destRectTuple: RectTuple]} */
+	(sourceRect, destRect, sizeMode) => {
+		if (sizeMode == DrawingResizeMode.Fill) {
+			return [RectGetFrame(sourceRect), RectGetFrame(destRect)];
+		}
+
+		let sourceX, sourceY, sourceW, sourceH, destX, destY, destW, destH;
+
+		let fitByWidth;
+		if (sizeMode == DrawingResizeMode.ShowFullOriginalRatio) {
+			fitByWidth = sourceRect.w / sourceRect.h >= destRect.w / destRect.h;
+		} else {
+			fitByWidth = sourceRect.w / sourceRect.h <= destRect.w / destRect.h;
+		}
+
+		if (fitByWidth) {
+			const resizeFactor = destRect.w / sourceRect.w;
+			const sourceYOffsetFactor = sourceRect.w > sourceRect.h ? 1 : 2; //allows landscape images to zoom towards the "floor"
+
+			sourceX = sourceRect.x;
+			sourceY = sourceRect.y + Math.max(sourceRect.h - (destRect.h / resizeFactor), 0) / sourceYOffsetFactor;
+			sourceW = sourceRect.w;
+			sourceH = Math.min(sourceRect.h, destRect.h / resizeFactor);
+			destX = destRect.x;
+			destY = destRect.y + Math.max(destRect.h - sourceRect.h * resizeFactor, 0) / 2;
+			destW = destRect.w;
+			destH = Math.min(sourceRect.h * resizeFactor, destRect.h);
+		} else {
+			const resizeFactor = destRect.h / sourceRect.h;
+
+			sourceX = sourceRect.x + Math.max(sourceRect.w - (destRect.w / resizeFactor), 0) / 2;
+			sourceY = sourceRect.y;
+			sourceW = Math.min(sourceRect.w, destRect.w / resizeFactor);
+			sourceH = sourceRect.h;
+			destX = destRect.x + Math.max(destRect.w - sourceRect.w * resizeFactor, 0) / 2;
+			destY = destRect.y;
+			destW = Math.min(sourceRect.w * resizeFactor, destRect.w);
+			destH = destRect.h;
+		}
+
+		/** @type {RectTuple} */
+		const sourceRectTuple = [sourceX, sourceY, sourceW, sourceH];
+		/** @type {RectTuple} */
+		const destRectTuple = [destX, destY, destW, destH];
+		
+		return [sourceRectTuple, destRectTuple];
+	})

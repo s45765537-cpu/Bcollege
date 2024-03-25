@@ -1,8 +1,10 @@
 "use strict";
 var ChatAdminRoomCustomizationBackground = "Sheet";
+/** @type {ServerChatRoomCustomData} */
 var ChatAdminRoomCustomizationCurrent = null;
 var ChatAdminRoomCustomizationMusic = null;
 var ChatAdminRoomCustomizationMode = null;
+var ChatAdminRoomCustomizationSizeMode = null;
 var ChatAdminRoomCustomizationMusicLibrary = [
 	{
 		Name: "FantasyAmbience",
@@ -113,6 +115,7 @@ function ChatAdminRoomCustomizationLoad() {
 		document.getElementById("InputImageFilter").setAttribute("disabled", "disabled");
 		document.getElementById("InputMusicURL").setAttribute("disabled", "disabled");
 	}
+	ChatAdminRoomCustomizationSizeMode = Data?.SizeMode ?? DrawingResizeMode.Fill;
 }
 
 /**
@@ -159,13 +162,14 @@ function ChatAdminRoomCustomizationPlayMusic(Music) {
 
 /**
  * Runs the customization on the current screen, can be called from elsewhere
- * @param {object} Custom - The customazation to apply
- * @param {boolean} Draw - If we must draw directly or keep values to be used by online chat rooms
+ * @param {ServerChatRoomCustomData} Custom - The customization to apply
+ * @param {Rect | null} DrawBGToRect - If non-null draw the background to these coordinates. Online chat rooms will use the tracked values elsewhere
+ * @param {boolean} DrawBGEffects - If true and drawing a background then apply blur/dark/tint
  * @returns {void} - Nothing
  */
-function ChatAdminRoomCustomizationProcess(Custom, Draw) {
+function ChatAdminRoomCustomizationProcess(Custom, DrawBGToRect, DrawBGEffects) {
 
-	// Make sure the customozation data is valid first
+	// Make sure the customization data is valid first
 	if ((Custom == null) || (typeof Custom !== "object")) {
 		ChatRoomCustomizationClear();
 		return;
@@ -173,22 +177,33 @@ function ChatAdminRoomCustomizationProcess(Custom, Draw) {
 
 	// The background image full image URL over the current background
 	ChatRoomCustomBackground = "";
+	ChatRoomCustomSizeMode = null;
+	let drewBackground = false;
 	if ((Custom.ImageURL != null) && (typeof Custom.ImageURL === "string") && (Custom.ImageURL !== "") && (Custom.ImageURL.length <= 250)) {
 
 		// Only allows .jpg and .png files for now
 		let URL = Custom.ImageURL.trim();
 		if (CommonURLHasExtension(URL, [".jpg", ".jpeg", ".png"])) {
-			if (Draw) DrawImageResize(URL, 0, 0, 2000, 1000);
-			else ChatRoomCustomBackground = URL;
+			if (DrawBGToRect != null) {
+				const opts = {
+					blur: DrawBGEffects ? Player.GetBlurLevel() : null,
+					darken: DrawBGEffects ? DrawGetDarkFactor() : null,
+					tints: DrawBGEffects ? Player.GetTints() : null,
+					sizeMode: Custom.SizeMode
+				};
+				DrawRoomBackground(URL, DrawBGToRect, opts);
+				drewBackground = true;
+			}
+			ChatRoomCustomBackground = URL;
+			ChatRoomCustomSizeMode = Custom.SizeMode;
 		}
-
 	}
 
 	// The image filter is a full rectangle over the current background
 	ChatRoomCustomFilter = "";
 	if ((Custom.ImageFilter != null) && (typeof Custom.ImageFilter === "string") && (Custom.ImageFilter !== "") && (Custom.ImageFilter.length <= 10)) {
-		if (Draw) DrawRect(0, 0, 2000, 1000, Custom.ImageFilter);
-		else ChatRoomCustomFilter = Custom.ImageFilter;
+		if (DrawBGToRect != null && !drewBackground) DrawRect(...RectGetFrame(DrawBGToRect), Custom.ImageFilter);
+		ChatRoomCustomFilter = Custom.ImageFilter;
 	}
 
 	// The background music can be any MP3 file from the web
@@ -206,7 +221,7 @@ function ChatAdminRoomCustomizationProcess(Custom, Draw) {
 function ChatAdminRoomCustomizationRun() {
 
 	// Shows the background and plays the music if needed
-	ChatAdminRoomCustomizationProcess(ChatAdminRoomCustomizationCurrent, true);
+	ChatAdminRoomCustomizationProcess(ChatAdminRoomCustomizationCurrent, { x: 500, y: 1000 * (1 - ChatRoomCharacterViewZoom) / 2, w: 1000, h: 1000 * ChatRoomCharacterViewZoom }, false);
 
 	// In no special mode
 	if (ChatAdminRoomCustomizationMode == null) {
@@ -214,11 +229,18 @@ function ChatAdminRoomCustomizationRun() {
 		DrawText(TextGet("BackgroundImage1"), 1000, 230, "Black", "White");
 		DrawText(TextGet("BackgroundImage2"), 1000, 290, "Black", "White");
 		ElementPosition("InputImageURL", 1000, 350, 1500);
-		DrawText(TextGet("BackgroundFilter"), 1000, 480, "Black", "White");
-		ElementPosition("InputImageFilter", 1000, 540, 250);
-		DrawText(TextGet("BackgroundMusic"), 1000, 660, "Black", "White");
-		ElementPosition("InputMusicURL", 880, 720, 1360);
-		DrawButton(1570, 692, 200, 65, TextGet("Library"), "White");
+		MainCanvas.textAlign = "left";
+		const urlEmpty = !ElementValue("InputImageURL");
+		const disableButton = urlEmpty || !ChatRoomPlayerIsAdmin();
+		DrawCheckbox(205, 400, 64, 64, TextGet("BackgroundSizeMode1"), ChatAdminRoomCustomizationSizeMode == DrawingResizeMode.Fill && !urlEmpty, disableButton);
+		DrawCheckbox(560, 400, 64, 64, TextGet("BackgroundSizeMode2"), ChatAdminRoomCustomizationSizeMode == DrawingResizeMode.FillOriginalRatio && !urlEmpty, disableButton);
+		DrawCheckbox(1265, 400, 64, 64, TextGet("BackgroundSizeMode3"), ChatAdminRoomCustomizationSizeMode == DrawingResizeMode.ShowFullOriginalRatio && !urlEmpty, disableButton);
+		MainCanvas.textAlign = "center";
+		DrawText(TextGet("BackgroundFilter"), 1000, 530, "Black", "White");
+		ElementPosition("InputImageFilter", 1000, 590, 250);
+		DrawText(TextGet("BackgroundMusic"), 1000, 690, "Black", "White");
+		ElementPosition("InputMusicURL", 880, 750, 1360);
+		DrawButton(1570, 722, 200, 65, TextGet("Library"), "White");
 	}
 
 	// In music library mode
@@ -262,9 +284,16 @@ function ChatAdminRoomCustomizationClick() {
 	if (ChatAdminRoomCustomizationMode == null) {
 
 		// Can show a preview right away in the screen
-		if (MouseIn(1570, 692, 200, 65)) {
+		if (MouseIn(1570, 722, 200, 65)) {
 			ChatAdminRoomCustomizationMode = "MusicLibrary";
 			return;
+		}
+
+		// Select the size mode for the background image
+		if (MouseIn(205, 400, 1124, 64) && ChatRoomPlayerIsAdmin() && !!ElementValue("InputImageURL")) {
+			if (MouseIn(205, 400, 64, 64)) ChatAdminRoomCustomizationSizeMode = DrawingResizeMode.Fill;
+			if (MouseIn(560, 400, 64, 64)) ChatAdminRoomCustomizationSizeMode = DrawingResizeMode.FillOriginalRatio;
+			if (MouseIn(1265, 400, 64, 64)) ChatAdminRoomCustomizationSizeMode = DrawingResizeMode.ShowFullOriginalRatio;
 		}
 
 	}
@@ -299,7 +328,8 @@ function ChatAdminRoomCustomizationClick() {
 		ChatAdminRoomCustomizationCurrent = {
 			ImageURL: ElementValue("InputImageURL").trim(),
 			ImageFilter: ElementValue("InputImageFilter").trim(),
-			MusicURL: ElementValue("InputMusicURL").trim()
+			MusicURL: ElementValue("InputMusicURL").trim(),
+			SizeMode: ChatAdminRoomCustomizationSizeMode
 		};
 	}
 
@@ -313,6 +343,7 @@ function ChatAdminRoomCustomizationClick() {
 	if (MouseIn(1025, 840, 250, 65) && ChatRoomPlayerIsAdmin()) {
 		if (ChatAdminTemporaryData.Custom == null) ChatAdminTemporaryData.Custom = {};
 		ChatAdminTemporaryData.Custom.ImageURL = ElementValue("InputImageURL").trim();
+		ChatAdminTemporaryData.Custom.SizeMode = ChatAdminRoomCustomizationSizeMode;
 		ChatAdminTemporaryData.Custom.ImageFilter = ElementValue("InputImageFilter").trim();
 		ChatAdminTemporaryData.Custom.MusicURL = ElementValue("InputMusicURL").trim();
 		if ((ChatAdminTemporaryData.Custom.ImageURL == "") && (ChatAdminTemporaryData.Custom.ImageFilter == "") && (ChatAdminTemporaryData.Custom.MusicURL == ""))

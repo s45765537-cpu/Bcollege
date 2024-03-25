@@ -212,11 +212,7 @@ type ServerChatRoomData = {
 	Language: ServerChatRoomLanguage;
 	Space: ServerChatRoomSpace;
 	MapData?: ServerChatRoomMapData;
-	Custom: {
-		ImageURL?: string;
-		ImageFilter?: string;
-		MusicURL?: string;
-	};
+	Custom: ServerChatRoomCustomData;
 	Character: ServerAccountDataSynced[];
 }
 
@@ -225,6 +221,13 @@ interface ServerChatRoomMapData {
 	Fog?: boolean;
 	Tiles: string;
 	Objects: string;
+}
+
+interface ServerChatRoomCustomData {
+	ImageURL?: string;
+	ImageFilter?: string;
+	MusicURL?: string;
+	SizeMode?: number
 }
 
 /**
