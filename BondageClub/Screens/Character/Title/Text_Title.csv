@@ -6,6 +6,7 @@ NicknameTooLong,Nickname is too long (max. 20 characters)
 NicknameInvalidChars,Nickname contains invalid characters
 TitleNone,None
 TitleMistress,Mistress
+TitleMaster,Master
 TitleClubSlave,Club Slave
 TitleHeadMaid,Head Maid
 TitleMaid,Maid
@@ -18,6 +19,7 @@ TitleEscapedPatient,Escaped Patient
 TitleNurse,Nurse
 TitleDoctor,Doctor
 TitleLadyLuck,Lady Luck
+TitleLordFortune,Lord Fortune
 TitlePatron,Patron
 TitleCollegeStudent,College Student
 TitleNawashi,Nawashi
@@ -49,7 +51,16 @@ TitleBaby,Baby
 TitleDL,Diaper Lover
 TitleBondageBaby,Bondage Baby
 TitleDuchess,Duchess
+TitleDuke,Duke
 TitleSwitch,Switch
+TitlePrincess,Princess
+TitlePrince,Prince
+TitleMissy,Missy
+TitleSissy,Sissy
+TitleTomboy,Tomboy
+TitleFemboy,Femboy
+TitlePet,Pet
+TitleBrat,Brat
 TitleKitten,Kitten
 TitlePuppy,Puppy
 TitleFoxy,Foxy
@@ -57,8 +68,12 @@ TitleBunny,Bunny
 TitleDoll,Doll
 TitleDemon,Demon
 TitleAngel,Angel
+TitleAlien,Alien
 TitleSuccubus,Succubus
+TitleIncubus,Incubus
 TitleGoodGirl,Good Girl
 TitleGoodSlaveGirl,Good Slave Girl
+TitleGoodBoy,Good Boy
+TitleGoodSlaveBoy,Good Slave Boy
 TitleGoodSlave,Good Slave
 TitleDrone,Drone

@@ -359,6 +359,7 @@ GenderFemales,Females
 GenderMales,Males
 GenderAutoJoinSearch,Automatically enter the chatroom area for:
 GenderHideShopItems,Hide shop items exclusively for:
+GenderHideTitles,Hide titles in settings for:
 CensorExit,Apply the censoring
 CensorTitle,Select the censorship to apply and the words to censor in both the chat and room labels.
 CensorLevel,Censorship:

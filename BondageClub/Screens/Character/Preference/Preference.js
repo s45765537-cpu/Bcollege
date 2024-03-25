@@ -562,6 +562,7 @@ function PreferenceInitPlayer() {
 	if (!C.GenderSettings) C.GenderSettings = {};
 	if (typeof C.GenderSettings.AutoJoinSearch !== "object") C.GenderSettings.AutoJoinSearch = PreferenceInitGenderSetting();
 	if (typeof C.GenderSettings.HideShopItems !== "object") C.GenderSettings.HideShopItems = PreferenceInitGenderSetting();
+	if (typeof C.GenderSettings.HideTitles !== "object") C.GenderSettings.HideTitles = PreferenceInitGenderSetting();
 
 	// Forces some preferences depending on difficulty
 
@@ -1531,6 +1532,7 @@ function PreferenceSubscreenGenderRun() {
 
 	PreferenceGenderDrawSetting(500, 225, TextGet("GenderAutoJoinSearch"), Player.GenderSettings.AutoJoinSearch);
 	PreferenceGenderDrawSetting(500, 305, TextGet("GenderHideShopItems"), Player.GenderSettings.HideShopItems);
+	PreferenceGenderDrawSetting(500, 385, TextGet("GenderHideTitles"), Player.GenderSettings.HideTitles);
 
 	MainCanvas.textAlign = "center";
 }
@@ -2103,6 +2105,7 @@ function PreferenceSubscreenGenderClick() {
 
 	PreferenceGenderClickSetting(1450, 225, Player.GenderSettings.AutoJoinSearch, false);
 	PreferenceGenderClickSetting(1450, 305, Player.GenderSettings.HideShopItems, false);
+	PreferenceGenderClickSetting(1450, 385, Player.GenderSettings.HideTitles, false);
 }
 
 /**
