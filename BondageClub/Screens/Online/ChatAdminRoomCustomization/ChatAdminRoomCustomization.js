@@ -178,6 +178,7 @@ function ChatAdminRoomCustomizationProcess(Custom, DrawBGToRect, DrawBGEffects) 
 	// The background image full image URL over the current background
 	ChatRoomCustomBackground = "";
 	ChatRoomCustomSizeMode = null;
+	let drewBackground = false;
 	if ((Custom.ImageURL != null) && (typeof Custom.ImageURL === "string") && (Custom.ImageURL !== "") && (Custom.ImageURL.length <= 250)) {
 
 		// Only allows .jpg and .png files for now
@@ -191,6 +192,7 @@ function ChatAdminRoomCustomizationProcess(Custom, DrawBGToRect, DrawBGEffects) 
 					sizeMode: Custom.SizeMode
 				};
 				DrawRoomBackground(URL, DrawBGToRect, opts);
+				drewBackground = true;
 			}
 			ChatRoomCustomBackground = URL;
 			ChatRoomCustomSizeMode = Custom.SizeMode;
@@ -200,8 +202,8 @@ function ChatAdminRoomCustomizationProcess(Custom, DrawBGToRect, DrawBGEffects) 
 	// The image filter is a full rectangle over the current background
 	ChatRoomCustomFilter = "";
 	if ((Custom.ImageFilter != null) && (typeof Custom.ImageFilter === "string") && (Custom.ImageFilter !== "") && (Custom.ImageFilter.length <= 10)) {
-		if (DrawBGToRect != null) DrawRect(...RectGetFrame(DrawBGToRect), Custom.ImageFilter);
-		else ChatRoomCustomFilter = Custom.ImageFilter;
+		if (DrawBGToRect != null && !drewBackground) DrawRect(...RectGetFrame(DrawBGToRect), Custom.ImageFilter);
+		ChatRoomCustomFilter = Custom.ImageFilter;
 	}
 
 	// The background music can be any MP3 file from the web
