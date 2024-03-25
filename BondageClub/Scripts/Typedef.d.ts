@@ -2351,7 +2351,9 @@ interface AssetDefinitionProperties {
 	 */
 	OverridePriority?: AssetLayerOverridePriority;
 	/**
-	 * The default color of the item
+	 * The default color of the item.
+	 * Used by extended items that need one of their layers to have a different per-type default color
+	 * FIXME: That should be hoisted in the extended config, since it's set by the definition and {@link Item.Color} should be the actual colors used
 	 * @see {@link Asset.DefaultColor}
 	 */
 	DefaultColor?: ItemColor;

@@ -35,171 +35,89 @@ function CommonDrawAppearanceBuild(C, {
 	drawImageColorize,
 	drawImageColorizeBlink,
 }) {
-	const LayerCounts = {};
-
 	// Loop through all layers in the character appearance
-	C.AppearanceLayers.forEach((Layer) => {
-		const A = Layer.Asset;
-		const AG = A.Group;
-		const CountKey = AG.Name + "/" + A.Name;
-		let CA = C.Appearance.find(item => item.Asset === A);
-		let Property = CA.Property;
+	for (const layer of C.AppearanceLayers) {
+		const asset = layer.Asset;
+		const group = asset.Group;
+		let item = C.Appearance.find(i => i.Asset === asset);
+		let groupName = asset.DynamicGroupName;
 
-		// Count how many layers we've drawn for this asset
-		LayerCounts[CountKey] = (LayerCounts[CountKey] || 0) + 1;
-
-		// If there's a parent group (parent group of the layer overrides that of the asset, which overrides that of the group)
-		let G = "";
-		if (Layer.ParentGroupName) {
-			const ParentItem = C.Appearance.find(Item => Item.Asset.Group.Name === Layer.ParentGroupName);
-			if (ParentItem) G = "_" + ParentItem.Asset.Name;
+		// If the layer belongs to a specific parent group, grab the group's current asset name to use it as a suffix
+		let parentAssetName = "";
+		if (layer.ParentGroupName) {
+			const parentItem = C.Appearance.find(Item => Item.Asset.Group.Name === layer.ParentGroupName);
+			if (parentItem) parentAssetName = parentItem.Asset.Name;
 		}
 
 		// If there's a pose style we must add (items take priority over groups, layers may override completely)
-		let Pose = CommonDrawResolveAssetPose(C, Layer);
+		let pose = CommonDrawResolveAssetPose(C, layer);
 
 		// Check if we need to draw a different expression (for facial features)
-		let Expression = "";
-		let CurrentExpression = InventoryGetItemProperty(CA, "Expression");
-		if (!CurrentExpression && Layer.MirrorExpression) {
-			const MirroredItem = InventoryGet(C, Layer.MirrorExpression);
-			CurrentExpression = InventoryGetItemProperty(MirroredItem, "Expression");
-		}
-		if (CurrentExpression && CharacterIsExpressionAllowed(C, CA, CurrentExpression)) {
-			Expression = CurrentExpression + "/";
-		}
-
-		let GroupName = A.DynamicGroupName;
+		const currentExpression = CommonDrawResolveLayerExpression(C, item, layer);
+		const expressionSegment = currentExpression ? currentExpression + "/" : "";
+		const blinkExpressionSegment = (asset.OverrideBlinking ? !group.DrawingBlink : group.DrawingBlink) ? "Closed/" : expressionSegment;
 
 		// Find the X and Y position to draw on
-		const poseX = C.DrawPose.find(p => Layer.DrawingLeft[p] != null);
-		const poseY = C.DrawPose.find(p => Layer.DrawingTop[p] != null);
-		let X = poseX === undefined ? Layer.DrawingLeft[PoseType.DEFAULT] : Layer.DrawingLeft[poseX];
-		let Y = poseY === undefined ? Layer.DrawingTop[PoseType.DEFAULT] : Layer.DrawingTop[poseY];
-		C.DrawPose.forEach(CP => {
-			const PoseDef = PoseRecord[CP];
-			if (PoseDef && PoseDef.MovePosition) {
-				const MovePosition = PoseDef.MovePosition.find(MP => MP.Group === GroupName);
-				if (MovePosition) {
-					X += MovePosition.X;
-					Y += MovePosition.Y;
-				}
-			}
-		});
+		let { X, Y, fixedYOffset } = CommonDrawComputeDrawingCoordinates(C, asset, layer, groupName);
 
-		// Offset Y to counteract height modifiers for fixed-position assets
-		let YFixedOffset = 0;
-		if (A.FixedPosition || Layer.FixedPosition) {
-			if (C.IsInverted()) {
-				YFixedOffset = -Y + 1000 - (Y + CharacterAppearanceYOffset(C, C.HeightRatio, true) / C.HeightRatio);
-			} else {
-				YFixedOffset = C.HeightModifier + 1000 * (1 - C.HeightRatio) * (1 - C.HeightRatioProportion) / C.HeightRatio;
-			}
-		}
-		Y += YFixedOffset;
-
-		// If we must apply alpha masks to the current image as it is being drawn
-		Layer.Alpha.forEach(AlphaDef => {
-			// If no groups are defined and the character's pose matches one of the allowed poses (or no poses are defined)
-			if ((!AlphaDef.Group || !AlphaDef.Group.length) &&
-				(!AlphaDef.Pose || !!CommonDrawFindPose(C, AlphaDef.Pose))) {
-				AlphaDef.Masks.forEach(rect => {
-					clearRect(rect[0], rect[1] + CanvasUpperOverflow + YFixedOffset, rect[2], rect[3]);
-					clearRectBlink(rect[0], rect[1] + CanvasUpperOverflow + YFixedOffset, rect[2], rect[3]);
-				});
-			}
-		});
+		CommonDrawApplyLayerAlphaMasks(C, layer, fixedYOffset, clearRect, clearRectBlink);
 
 		// Check if we need to draw a different variation (from type property)
-		const TypeRecord = (Property && Property.TypeRecord) || {};
-		let L = "";
-		let LayerType = "";
-		if (Layer.CreateLayerTypes.length > 0) {
-			LayerType = "_" + Layer.CreateLayerTypes.map(k => `${k}${TypeRecord[k] || 0}`).join("");
+		const typeRecord = (item.Property && item.Property.TypeRecord) || {};
+		let layerSegment = "";
+		let layerType = "";
+		if (layer.CreateLayerTypes.length > 0) {
+			layerType = layer.CreateLayerTypes.map(k => `${k}${typeRecord[k] || 0}`).join("");
 		}
-		if (Layer.Name) L = "_" + Layer.Name;
+		if (layer.Name) layerSegment = layer.Name;
 
-		let Opacity = (Property && typeof Property.Opacity === "number") ? Property.Opacity : Layer.Opacity;
-		let BlendingMode = Layer.BlendingMode;
-		Opacity = Math.min(Layer.MaxOpacity, Math.max(Layer.MinOpacity, Opacity));
-		const BlinkExpression = (A.OverrideBlinking ? !AG.DrawingBlink : AG.DrawingBlink) ? "Closed/" : Expression;
+		let opacity = (item.Property && typeof item.Property.Opacity === "number") ? item.Property.Opacity : layer.Opacity;
+		let blendingMode = layer.BlendingMode;
+		opacity = Math.min(layer.MaxOpacity, Math.max(layer.MinOpacity, opacity));
 		/** @type {RectTuple[]} */
-		let AlphaMasks = Layer.GroupAlpha
+		let masks = layer.GroupAlpha
 			.filter(({ Pose: P }) => !P || !!CommonDrawFindPose(C, P))
 			.reduce((Acc, { Masks }) => {
 				Acc.push(...Masks);
 				return Acc;
 			}, []);
 
-		/** @type {string} */
-		let Color = Array.isArray(CA.Color) ? (CA.Color[Layer.ColorIndex] || AG.DefaultColor) : CA.Color;
-
-		// Fix to legacy appearance data when Hands could be different to BodyUpper
-		if (GroupName === "Hands") Color = "Default";
-
-		// If custom default colors are defined and the layer is using
-		if (Color === "Default" && Property) {
-			if (Array.isArray(Property.DefaultColor)) {
-				Color = Property.DefaultColor[Layer.ColorIndex] || "Default";
-			} else if (typeof Property.DefaultColor === "string") {
-				Color = Property.DefaultColor;
-			}
-		}
-
-		// Check if we need to copy the color of another asset
-		let ColorInherited = false;
-		let colorGroup = Color == "Default" ? Layer.InheritColor : null;
-		while (colorGroup != null) {
-			const parentItem = InventoryGet(C, colorGroup);
-			if (parentItem != null) {
-				const ParentColor = Array.isArray(parentItem.Color) ? parentItem.Color[0] : parentItem.Color;
-				const InheritColor = ParentColor === "Default" && parentItem.Asset.InheritColor;
-				if (InheritColor) {
-					colorGroup = InheritColor;
-				} else {
-					Color = CommonDrawColorValid(ParentColor, parentItem.Asset.Group) ? ParentColor : "Default";
-					ColorInherited = true;
-					colorGroup = null;
-				}
-			} else {
-				colorGroup = null;
-			}
-		}
-
+		// Resolve the layer color; handles color inheritance and schema validation
+		let layerColor = CommonDrawResolveLayerColor(C, item, layer, groupName);
 
 		// Before drawing hook, receives all processed data. Any of them can be overriden if returned inside an object.
 		// CAREFUL! The dynamic function should not contain heavy computations, and should not have any side effects.
 		// Watch out for object references.
-		if (A.DynamicBeforeDraw && (!Player.GhostList || Player.GhostList.indexOf(C.MemberNumber) == -1)) {
+		if (asset.DynamicBeforeDraw && (!Player.GhostList || Player.GhostList.indexOf(C.MemberNumber) == -1)) {
 			/** @type {DynamicDrawingData} */
 			const DrawingData = {
-				C, X, Y, CA, GroupName, Color, Opacity, Property, A, G, AG, L, Pose, LayerType, BlinkExpression,
-				drawCanvas, drawCanvasBlink, AlphaMasks,
-				PersistentData: () => AnimationPersistentDataGet(C, A),
+				C, X, Y, CA: item, GroupName: groupName, Color: layerColor, Opacity: opacity, Property: item.Property, A: asset, G: parentAssetName, AG: group, L: layerSegment, Pose: pose, LayerType: layerType, BlinkExpression: blinkExpressionSegment,
+				drawCanvas, drawCanvasBlink, AlphaMasks: masks,
+				PersistentData: () => AnimationPersistentDataGet(C, asset),
 			};
 			/** @type {DynamicBeforeDrawOverrides} */
-			const OverriddenData = CommonCallFunctionByNameWarn(`Assets${A.Group.Name}${A.Name}BeforeDraw`, DrawingData);
+			const OverriddenData = CommonCallFunctionByNameWarn(`Assets${asset.Group.Name}${asset.Name}BeforeDraw`, DrawingData);
 			if (typeof OverriddenData === "object") {
 				for (const key in OverriddenData) {
 					switch (key) {
 						case "Property": {
-							Property = OverriddenData[key];
+							item.Property = OverriddenData[key];
 							break;
 						}
 						case "CA": {
-							CA = OverriddenData[key];
+							item = OverriddenData[key];
 							break;
 						}
 						case "GroupName": {
-							GroupName = OverriddenData[key];
+							groupName = OverriddenData[key];
 							break;
 						}
 						case "Color": {
-							Color = OverriddenData[key];
+							layerColor = OverriddenData[key];
 							break;
 						}
 						case "Opacity": {
-							Opacity = OverriddenData[key];
+							opacity = OverriddenData[key];
 							break;
 						}
 						case "X": {
@@ -211,19 +129,19 @@ function CommonDrawAppearanceBuild(C, {
 							break;
 						}
 						case "LayerType": {
-							LayerType = OverriddenData[key];
+							layerType = OverriddenData[key];
 							break;
 						}
 						case "L": {
-							L = OverriddenData[key];
+							layerSegment = OverriddenData[key];
 							break;
 						}
 						case "AlphaMasks": {
-							AlphaMasks = OverriddenData[key];
+							masks = OverriddenData[key];
 							break;
 						}
 						case "Pose": {
-							Pose = OverriddenData[key];
+							pose = OverriddenData[key];
 							break;
 						}
 					}
@@ -232,90 +150,93 @@ function CommonDrawAppearanceBuild(C, {
 		}
 
 		// Safeguard against a null pose
-		if (typeof Pose !== "string") Pose = /** @type {AssetPoseName} */("");
+		if (typeof pose !== "string") pose = /** @type {AssetPoseName} */("");
 
-		// Make any required changes to the color
-		if (Color === "Default" && A.DefaultColor) {
-			Color = A.DefaultColor[Layer.ColorIndex];
-		}
-		if (!ColorInherited && !CommonDrawColorValid(Color, AG)) {
-			Color = "Default";
+		// Redo some checks in case BeforeDraw overrode the color back to default.
+		if (layerColor === "Default" && asset.DefaultColor) {
+			layerColor = CommonDrawResolveLayerColor(C, item, layer, groupName, layerColor);
 		}
 
-		// Adjust for the increased canvas size
-		Y += CanvasUpperOverflow;
-		AlphaMasks = AlphaMasks.map(([x, y, w, h]) => [x, y + CanvasUpperOverflow + YFixedOffset, w, h]);
+		masks = masks.map(([x, y, w, h]) => [x, y + CanvasUpperOverflow + fixedYOffset, w, h]);
 
-		let Mirror = false;
-		let Invert = false;
-		if (A.FixedPosition && C.IsInverted()) {
-			Mirror = !Mirror;
-			Invert = !Invert;
+		let mirrored = false;
+		let inverted = false;
+		if (asset.FixedPosition && C.IsInverted()) {
+			mirrored = !mirrored;
+			inverted = !inverted;
 		}
 
-		const ItemLocked = !!(Property && Property.LockedBy);
+		const itemIsLocked = !!(item.Property && item.Property.LockedBy);
 
+		// Check the current pose against the assets' supported pose mapping
 		/** @type {string} */
-		let PoseFolder = Layer.PoseMapping[Pose];
-		switch (PoseFolder) {
+		let poseSegment = layer.PoseMapping[pose];
+		switch (poseSegment) {
 			case PoseType.HIDE:
 			case PoseType.DEFAULT:
 			case undefined:
-				PoseFolder = "";
+				poseSegment = "";
 				break;
 			default:
-				PoseFolder += "/";
+				poseSegment += "/";
 				break;
 		}
 
-		if (Layer.HasImage && (!Layer.LockLayer || ItemLocked)) {
-			/** Check whether the asset requires a custom suffix
-			 * @type {string | undefined} */
-			let SuffixName = undefined;
-			const colorSuffix = Layer.ColorSuffix;
-			if ((colorSuffix != null) && (Color != null)) {
-				SuffixName = (Color[0] === "#") ? colorSuffix.HEX_COLOR : colorSuffix[Color];
-				if (SuffixName && SuffixName[0] === "#") {
-					Color = SuffixName;
-					SuffixName = undefined;
+		if (layer.HasImage && (!layer.LockLayer || itemIsLocked)) {
+			// Handle the layer's color suffix mapping, transforming it back into a named color so we still use the correct base
+			/** @type {string | undefined} */
+			let colorSuffix = undefined;
+			if (layer.ColorSuffix && layerColor) {
+				colorSuffix = (layerColor[0] === "#") ? layer.ColorSuffix.HEX_COLOR : layer.ColorSuffix[layerColor];
+				if (colorSuffix && colorSuffix[0] === "#") {
+					layerColor = colorSuffix;
+					colorSuffix = undefined;
 				}
 			}
 
-			// Draw the item on the canvas (default or empty means no special color, # means apply a color, regular text means we apply
-			// that text)
-			if ((Color != null) && (Color.indexOf("#") == 0) && Layer.AllowColorize) {
-				const ColorName = (SuffixName != undefined) ? "_" + SuffixName : "";
+			const baseURL = `Assets/${group.Family}/${groupName}/${poseSegment}${expressionSegment}`;
+			const baseURLBlink = `Assets/${group.Family}/${groupName}/${poseSegment}${blinkExpressionSegment}`;
 
+			const shouldColorize = layer.AllowColorize && layerColor && layerColor[0] === "#";
+			let colorSegment = "";
+
+			if (shouldColorize) {
+				// The layer is colorizable and has an explicit hexcode, it needs to be drawn colorized
+				colorSegment = (colorSuffix != undefined) ? colorSuffix : "";
+			} else {
+				// The layer isn't colorizable, so validate that the layer color is a named color
+				// If a color suffix is specified and isn't Default, it'll completely override the final color
+				if (layerColor != null && layerColor !== "Default" && layerColor[0] !== "#") {
+					colorSegment = layerColor;
+				}
+				if (colorSuffix) {
+					colorSegment = colorSuffix !== "Default" ? colorSuffix : "";
+				}
+			}
+
+			const urlParts = [asset.Name, parentAssetName, layerType, colorSegment, layerSegment].filter(c => c);
+			const layerURL = urlParts.join("_") + ".png";
+			if (shouldColorize) {
 				drawImageColorize(
-					"Assets/" + AG.Family + "/" + GroupName + "/" + PoseFolder + Expression + A.Name + G + LayerType + ColorName + L + ".png", X, Y,
-					{ HexColor: Color, FullAlpha: A.FullAlpha, AlphaMasks, Alpha: Opacity, Invert, Mirror, BlendingMode }
+					baseURL + layerURL,
+					X, Y,
+					{ HexColor: layerColor, FullAlpha: asset.FullAlpha, AlphaMasks: masks, Alpha: opacity, Invert: inverted, Mirror: mirrored, BlendingMode: blendingMode }
 				);
 				drawImageColorizeBlink(
-					"Assets/" + AG.Family + "/" + GroupName + "/" + PoseFolder + BlinkExpression + A.Name + G + LayerType + ColorName + L + ".png", X, Y,
-					{ HexColor: Color, FullAlpha: A.FullAlpha, AlphaMasks, Alpha: Opacity, Invert, Mirror, BlendingMode }
+					baseURLBlink + layerURL,
+					X, Y,
+					{ HexColor: layerColor, FullAlpha: asset.FullAlpha, AlphaMasks: masks, Alpha: opacity, Invert: inverted, Mirror: mirrored, BlendingMode: blendingMode }
 				);
 			} else {
-				let ColorName = (
-					(Color == null)
-					|| (Color == "Default")
-					|| (Color == "")
-					|| (Color.length == 1)
-					|| (Color.indexOf("#") == 0)
-				) ? "" : "_" + Color;
-
-				if (SuffixName != undefined) {
-					ColorName = ((SuffixName == "Default") || (SuffixName == "")) ? "" : "_" + SuffixName;
-				}
-
 				drawImage(
-					"Assets/" + AG.Family + "/" + GroupName + "/" + PoseFolder + Expression + A.Name + G + LayerType + ColorName + L + ".png",
+					baseURL + layerURL,
 					X, Y,
-					{ AlphaMasks, Alpha: Opacity, Invert, Mirror, BlendingMode }
+					{ AlphaMasks: masks, Alpha: opacity, Invert: inverted, Mirror: mirrored, BlendingMode: blendingMode }
 				);
 				drawImageBlink(
-					"Assets/" + AG.Family + "/" + GroupName + "/" + PoseFolder + BlinkExpression + A.Name + G + LayerType + ColorName + L + ".png",
+					baseURLBlink + layerURL,
 					X, Y,
-					{ AlphaMasks, Alpha: Opacity, Invert, Mirror, BlendingMode }
+					{ AlphaMasks: masks, Alpha: opacity, Invert: inverted, Mirror: mirrored, BlendingMode: blendingMode }
 				);
 			}
 		}
@@ -323,15 +244,155 @@ function CommonDrawAppearanceBuild(C, {
 		// After drawing hook, receives all processed data.
 		// CAREFUL! The dynamic function should not contain heavy computations, and should not have any side effects.
 		// Watch out for object references.
-		if (A.DynamicAfterDraw && (!Player.GhostList || Player.GhostList.indexOf(C.MemberNumber) == -1)) {
+		if (asset.DynamicAfterDraw && (!Player.GhostList || Player.GhostList.indexOf(C.MemberNumber) == -1)) {
 			/** @type {DynamicDrawingData} */
 			const DrawingData = {
-				C, X, Y, CA, GroupName, Property, Color, Opacity, A, G, AG, L, Pose, LayerType, BlinkExpression, drawCanvas, drawCanvasBlink, AlphaMasks,
-				PersistentData: () => AnimationPersistentDataGet(C, A),
+				C, X, Y, CA: item, GroupName: groupName, Property: item.Property, Color: layerColor, Opacity: opacity, A: asset, G: parentAssetName, AG: group, L: layerSegment, Pose: pose, LayerType: layerType, BlinkExpression: blinkExpressionSegment, drawCanvas, drawCanvasBlink, AlphaMasks: masks,
+				PersistentData: () => AnimationPersistentDataGet(C, asset),
 			};
-			CommonCallFunctionByNameWarn(`Assets${A.Group.Name}${A.Name}AfterDraw`, DrawingData);
+			CommonCallFunctionByNameWarn(`Assets${asset.Group.Name}${asset.Name}AfterDraw`, DrawingData);
 		}
-	});
+	}
+}
+
+/**
+ * Get the layer's resolved & validated current expression.
+ *
+ * Resolution handles mirroring from another group, and validation checks its value against the asset definition.
+ *
+ * @param {Character} C
+ * @param {Item} item
+ * @param {AssetLayer} layer
+ */
+function CommonDrawResolveLayerExpression(C, item, layer) {
+	// Check if we need to draw a different expression (for facial features)
+	let currentExpression = InventoryGetItemProperty(item, "Expression");
+	if (!currentExpression && layer.MirrorExpression) {
+		const MirroredItem = InventoryGet(C, layer.MirrorExpression);
+		const expr = InventoryGetItemProperty(MirroredItem, "Expression");
+		if (CharacterIsExpressionAllowed(C, item, expr)) {
+			currentExpression = expr;
+		}
+	}
+	return currentExpression;
+}
+
+/**
+ * Get the X and Y drawing coordinates for a layer
+ *
+ * @param {Character} C
+ * @param {Asset} asset
+ * @param {AssetLayer} layer
+ * @param {AssetGroupName} groupName
+ */
+function CommonDrawComputeDrawingCoordinates(C, asset, layer, groupName) {
+	const poseX = C.DrawPose.find(p => layer.DrawingLeft[p] != null);
+	const poseY = C.DrawPose.find(p => layer.DrawingTop[p] != null);
+	let X = poseX === undefined ? layer.DrawingLeft[PoseType.DEFAULT] : layer.DrawingLeft[poseX];
+	let Y = poseY === undefined ? layer.DrawingTop[PoseType.DEFAULT] : layer.DrawingTop[poseY];
+	for (const drawPose of C.DrawPose) {
+		const PoseDef = PoseRecord[drawPose];
+		if (PoseDef && PoseDef.MovePosition) {
+			const MovePosition = PoseDef.MovePosition.find(MP => MP.Group === groupName);
+			if (MovePosition) {
+				X += MovePosition.X;
+				Y += MovePosition.Y;
+			}
+		}
+	}
+
+	// Offset Y to counteract height modifiers for fixed-position assets
+	let fixedYOffset = 0;
+	if (asset.FixedPosition || layer.FixedPosition) {
+		if (C.IsInverted()) {
+			fixedYOffset = -Y + 1000 - (Y + CharacterAppearanceYOffset(C, C.HeightRatio, true) / C.HeightRatio);
+		} else {
+			fixedYOffset = C.HeightModifier + 1000 * (1 - C.HeightRatio) * (1 - C.HeightRatioProportion) / C.HeightRatio;
+		}
+	}
+	Y += fixedYOffset;
+
+	// Adjust for the increased canvas size
+	Y += CanvasUpperOverflow;
+
+	return { X, Y, fixedYOffset };
+}
+
+/**
+ * Clears out rects based on the layer's alpha masks
+ *
+ * @param {Character} C
+ * @param {AssetLayer} layer
+ * @param {number} fixedYOffset
+ * @param {ClearRectCallback} clearRect
+ * @param {ClearRectCallback} clearRectBlink
+ */
+function CommonDrawApplyLayerAlphaMasks(C, layer, fixedYOffset, clearRect, clearRectBlink) {
+	for (const AlphaDef of layer.Alpha) {
+		// If no groups are defined and the character's pose matches one of the allowed poses (or no poses are defined)
+		if ((!AlphaDef.Group || !AlphaDef.Group.length) &&
+			(!AlphaDef.Pose || !!CommonDrawFindPose(C, AlphaDef.Pose))) {
+			AlphaDef.Masks.forEach(rect => {
+				clearRect(rect[0], rect[1] + CanvasUpperOverflow + fixedYOffset, rect[2], rect[3]);
+				clearRectBlink(rect[0], rect[1] + CanvasUpperOverflow + fixedYOffset, rect[2], rect[3]);
+			});
+		}
+	}
+}
+
+/**
+ * Resolve and validates a layer's color, given a character, an item and a layer.
+ *
+ * This handles grabbing the user-specified color, or the default one, or inherit it from another group, and
+ * checks it for validity.
+ *
+ * @param {Character} C
+ * @param {Item} item
+ * @param {AssetLayer} layer
+ * @param {AssetGroupName} groupName
+ * @param {HexColor} [initialColor] Used as the starting value to check that specific color and fully resolve it
+ */
+function CommonDrawResolveLayerColor(C, item, layer, groupName, initialColor) {
+	// Pick the layer's color out of the item's Color property based on the layer's index, or default it to what the group says
+	let layerColor = initialColor ?? item.Asset.Group.DefaultColor;
+	if (Array.isArray(item.Color)) {
+		layerColor = item.Color[layer.ColorIndex];
+	} else {
+		layerColor = item.Color;
+	}
+
+	// Fix to legacy appearance data when Hands could be different to BodyUpper
+	if (groupName === "Hands") layerColor = "Default";
+
+	// If the item specifies a default color, use that
+	// Used by extended assets to specify a different default color for a layer depending on its item type
+	if (layerColor === "Default" && item.Property) {
+		layerColor = Array.isArray(item.Property.DefaultColor) ? item.Property.DefaultColor[layer.ColorIndex] ?? "Default" : item.Property.DefaultColor;
+	}
+
+	if (!CommonDrawColorValid(layerColor, item.Asset.Group)) {
+		layerColor = "Default";
+	}
+
+	// Check if we need to copy the color of another asset
+	let colorGroup = layerColor == "Default" ? layer.InheritColor : null;
+	while (colorGroup != null) {
+		const parentItem = InventoryGet(C, colorGroup);
+		if (parentItem != null) {
+			const parentColor = Array.isArray(parentItem.Color) ? parentItem.Color[0] : parentItem.Color;
+			const inheritedColor = parentColor === "Default" && parentItem.Asset.InheritColor;
+			if (inheritedColor) {
+				colorGroup = inheritedColor;
+			} else {
+				layerColor = CommonDrawColorValid(parentColor, parentItem.Asset.Group) ? parentColor : "Default";
+				colorGroup = null;
+			}
+		} else {
+			colorGroup = null;
+		}
+	}
+
+	return layerColor;
 }
 
 /**
@@ -341,13 +402,17 @@ function CommonDrawAppearanceBuild(C, {
  * @returns {boolean} - Whether the color is valid
  */
 function CommonDrawColorValid(Color, AssetGroup) {
-	if (Color != null && typeof Color !== "string") {
+	if (typeof Color !== "string") {
 		return false;
 	}
-	if (Color != null && Color.indexOf("#") != 0 && AssetGroup.ColorSchema.indexOf(Color) < 0) {
-		return false;
+
+	if (Color.match(/#[0-9a-f]{4,7}/i)) {
+		// Hexcode colors are always valid
+		return true;
 	}
-	return true;
+
+	// Otherwise it's a named color, and must appear in the schema
+	return AssetGroup.ColorSchema.includes(Color);
 }
 
 /**
