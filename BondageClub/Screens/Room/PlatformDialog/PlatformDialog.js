@@ -66,8 +66,9 @@ var PlatformDialogCharacterTemplate = [
 	},
 	{
 		Name: "Lyn",
-		NickName: "Bandit Boss",
 		Color: "#c85c5c",
+		Love: -5,
+		Domination: -5
 	},
 ];
 
@@ -1713,9 +1714,9 @@ var PlatformDialogData = [
 			},
 			{ Text: "(As you venture deeper in the woods, a shady lady jumps in front in you.)" },
 			{ Text: "You're finally back Edlaran.  I don't know why you're accompanied.", Audio: "10" },
-			{ Text: "How was the manor raid?  Any good loot to repay your debt?", Audio: "20" },
+			{ Text: "How was the manor raid?  Any good loot to repay your debt to Boss Lyn?", Audio: "20" },
 			{
-				Text: "What?  Manor raid?  Loot?  Debt?  Do I know you?", Audio: "30",
+				Text: "What?  A manor raid?  Loot?  Debt to Boss Lyn?  Do I know you?", Audio: "30",
 				Character: [
 					{ Name: "Edlaran", Status: "Archer", Pose: "Idle" },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
@@ -1782,7 +1783,7 @@ var PlatformDialogData = [
 					{ Text: "Please don't give us trouble.", Reply: "You've set yourself in trouble.", Audio: "33" },
 				]
 			},
-			{ Text: "She will fetch a great ransom.", Audio: "40" },
+			{ Text: "She will fetch a great ransom.  Boss Lyn will be happy.", Audio: "40" },
 			{ Text: "Get her!  (The bandits attack you.)", Audio: "50" },
 		]
 	},
@@ -1800,7 +1801,7 @@ var PlatformDialogData = [
 				]
 			},
 			{ Text: "(Next to a giant oak, you find a forest bandit tormenting a bound elf.)" },
-			{ Text: "This is your last warning!  Pay your debt or I cut your pretty ears Edlaran.", Audio: "10" },
+			{ Text: "This is your last warning!  Pay your debt to Boss Lyn or I cut your pretty ears Edlaran.", Audio: "10" },
 			{ Text: "(She pulls out a knife, and the elf notices you.)" },
 			{
 				Text: "Help!  Please!", Audio: "20", AudioStyle: "shouting",
@@ -1947,6 +1948,9 @@ var PlatformDialogData = [
 				]
 			},
 			{ Text: "(She tracks the steps on the ground and helps you to avoid bandits.)" },
+			{ Text: "This forest is full of thieves, we'll try to avoid them.", Audio: "1" },
+			{ Text: "If you see a bandit boss with red hair, be extra careful.  Her name is Lyn, she's their leader.", Audio: "2" },
+			{ Text: "Oh!  And if Lyn tells you about some debt, she's lying.  (She winks and follows the path.)", Audio: "3" },
 			{ Text: "(As you walk in the woods, Olivia steps on a rope.)" },
 			{
 				Text: "(A huge cloud of smoke springs for the ground.)",
@@ -1956,7 +1960,7 @@ var PlatformDialogData = [
 					{ Name: "Melody", Status: "Maid", Pose: "Alert" }
 				]
 			},
-			{ Text: "That smoke!  (She coughs.)  It's coming from the soil.", Audio: "10", AudioStyle: "terrified" },
+			{ Text: "That smoke!  (She coughs.)  It is coming from the soil.", Audio: "10", AudioStyle: "terrified" },
 			{ Text: "(She coughs.)  Where is Edlaran?", Audio: "20", AudioStyle: "angry" },
 			{
 				Text: "I feel sick. (She coughs deeper, getting dizzy.)", Audio: "30", AudioStyle: "terrified",
@@ -2534,8 +2538,8 @@ var PlatformDialogData = [
 				Character: [{ Name: "Lyn", Status: "Thief", Pose: "Curious" }]
 			},
 			{ Text: "(As you enter the bandit camp, the boss comes to greet you with a smirk on her face.)" },
-			{ Text: "Welcome, welcome, welcome.  Welcome to your new life.  Your new slave life!", Audio: "10" },
-			{ Text: "You troublemakers have been bugging me for a while now.  You're a torn in my honest business.", Audio: "20" },
+			{ Text: "Welcome!  Welcome to your new life.  Your new slave life!", Audio: "10", AudioStyle: "angry" },
+			{ Text: "You troublemakers have been bugging me for a while now.  You're a torn in my honest business.", Audio: "20", AudioStyle: "angry" },
 			{
 				Text: "Honest business?  You're kidnapping women and selling them for ransom!", Audio: "30", AudioStyle: "angry",
 				Character: [
@@ -2581,7 +2585,8 @@ var PlatformDialogData = [
 					{ Name: "Olivia", Status: "Oracle", Pose: "IdleDominant", X: 1500 },
 				]
 			},
-			{ Text: "Since my minions cannot capture you, I will do it myself.", Audio: "80" },
+			{ Text: "A debt is a debt, and you will repay me with years of obedient service.", Audio: "80" },
+			{ Text: "Since my minions cannot capture you, I will do it myself.", Audio: "90" },
 			{ Text: "(Her minions close the gate behind you.)" },
 			{ Text: "(She picks up her knives and charges at you.)" },
 		],
@@ -2623,20 +2628,21 @@ var PlatformDialogData = [
 			},
 			{ Text: "(She tugs on her bonds and moans from the pain.)" },
 			{
-				Text: "What will you do with me?", Audio: "60",
+				Text: "What will you do with me?", Audio: "60", AudioStyle: "calm",
 				Answer: [
-					{ Text: "We'll take your loot and go.", Reply: "(She struggles harder.)  Fine!  Take it!", Audio: "61" },
-					{ Text: "We will be back later to sell you.", Reply: "What?  That will never work.", Audio: "62" },
-					{ Text: "We won't waste any time with you.", Reply: "Get out then!", Audio: "63", AudioStyle: "angry" },
+					{ Text: "We'll take some loot and leave you.", Reply: "(She struggles.)  Take it!  I would have done the same.", Audio: "61", AudioStyle: "calm", Domination: 1, Love: 1 },
+					{ Text: "We will be back later to sell you.", Reply: "What?  That will never work.", Audio: "62", Domination: 2 },
+					{ Text: "We won't waste any time with you.", Reply: "Get out then!", Audio: "63", AudioStyle: "angry", Domination: 1 },
+					{ Text: "We don't have time to jail your cute butt.", Reply: "(She struggles in vain and blushes.)", Domination: 1, Love: 2, Perk: true },
 				]
 			},
-			{ Text: "I will get out of that bondage as soon as you're gone.", Audio: "70" },
-			{ Text: "But if you don't come back, I promise I won't go out again to hunt you.", Audio: "80" },
+			{ Text: "I will get out of that bondage as soon as you're gone.", Audio: "70", AudioStyle: "calm" },
+			{ Text: "But if you don't come back, I promise I won't go out again to hunt you.", Audio: "80", AudioStyle: "calm" },
 			{
 				Text: "Do we have a deal?", Audio: "90",
 				Answer: [
-					{ Text: "It's a deal!", Reply: "Alright!  You can go now.", Audio: "91" },
-					{ Text: "Fine, we'll see if you can keep a promise.", Reply: "Fine.  You can go now.", Audio: "92" },
+					{ Text: "It's a deal!", Reply: "Alright!  You can go now.", Audio: "91", Love: 1, AudioStyle: "cheerful" },
+					{ Text: "Fine, we'll see if you can keep a promise.", Reply: "Fine.  You can go now.", Audio: "92", Domination: 1 },
 					{ Text: "(Shrug and turn away.)", Reply: "Get out!", Audio: "93", AudioStyle: "angry" },
 				]
 			},
