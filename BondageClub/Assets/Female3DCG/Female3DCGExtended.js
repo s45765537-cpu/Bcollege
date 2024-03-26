@@ -13693,6 +13693,85 @@ var AssetFemale3DCGExtended = {
 			DrawImages: false,
 		}, // GarterBelt
 	}, // Garters
+	RightAnklet: {
+		LegFur: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Ankle",
+					Key: "n",
+					Options: [
+						{
+							// n0 - None
+							Property: { Effect: [] },
+						},
+						{
+							// n1 - Fur
+							Property: { Effect: [] },
+						},
+					],
+				},
+				{
+					Name: "Knee",
+					Key: "k",
+					Options: [
+						{
+							// k0 - None
+							Property: { Effect: [] },
+						},
+						{
+							// k1 - Fur
+							Property: { Effect: [] },
+						},
+					],
+				},
+			],
+			DrawImages: false,
+		}, // LegFur
+	}, // RightAnklet
+	LeftAnklet: {
+		LegFur: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Ankle",
+					Key: "n",
+					Options: [
+						{
+							// n0 - None
+							Property: { Effect: [] },
+						},
+						{
+							// n1 - Fur
+							Property: { Effect: [] },
+						},
+					],
+				},
+				{
+					Name: "Knee",
+					Key: "k",
+					Options: [
+						{
+							// k0 - None
+							Property: { Effect: [] },
+						},
+						{
+							// k1 - Fur
+							Property: { Effect: [] },
+						},
+					],
+				},
+			],
+			DrawImages: false,
+		}, // LegFur
+	}, // LeftAnklet
+	Gloves: {
+		WarmGloves: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [{ Name: "Fur" }, { Name: "NoFur" }],
+			DrawImages: false,
+		}, // WarmGloves
+	}, // Gloves
 	Necklace: {
 		NecklaceKey: {
 			Archetype: ExtendedArchetype.TYPED,
