@@ -4101,7 +4101,7 @@ function PlatformDialogLoad() {
  * Draws the dialog character, text & answers
  * @returns {void} - Nothing
  */
-function PlatformDialogDraw() {
+function PlatformDialogDrawDialog() {
 	if (PlatformDialogCharacterDisplay != null) {
 		let X = 1000 - (PlatformDialogCharacterDisplay.length * 250);
 		let Y = 0;
@@ -4181,7 +4181,7 @@ function PlatformDialogDraw() {
 function PlatformDialogRun() {
 	if ((PlatformDialogAnswer != null) && MouseIn(1050, 695, 900, 60 + (PlatformDialogAnswer.length - 1) * 70))
 		PlatformDialogAnswerPosition = Math.floor((MouseY - 695) / 70);
-	PlatformDialogDraw();
+	PlatformDialogDrawDialog();
 	PlatformBackgroundMusic(PlatformDialog.Music);
 }
 

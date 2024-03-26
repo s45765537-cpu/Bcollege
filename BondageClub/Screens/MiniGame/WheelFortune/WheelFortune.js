@@ -750,7 +750,7 @@ function WheelFortuneLoad() {
  * Draws the full lucky wheel
  * @returns {void} - Nothing
  */
-function WheelFortuneDraw(FullWheel, Pos, MaxPos, X, Y, Zoom) {
+function WheelFortuneDrawWheel(FullWheel, Pos, MaxPos, X, Y, Zoom) {
 
 	// Draw the black background
 	DrawRect(X + 2, Y, 496 * Zoom, 1000 * Zoom, "Black");
@@ -840,7 +840,7 @@ function WheelFortuneRun() {
 	let BackColor = (WheelFortuneVelocity == 0) ? "White" : "Silver";
 	DrawButton(1830, 60, 90, 90, "", (WheelFortuneForced ? "Pink" : BackColor), "Icons/Exit.png", TextGet("Exit"));
 	DrawButton(1720, 60, 90, 90, "", BackColor, "Icons/Random.png", TextGet("Random"));
-	WheelFortuneDraw(WheelFortuneList, WheelFortunePos, WheelFortunePosMax, 750, 0, 1);
+	WheelFortuneDrawWheel(WheelFortuneList, WheelFortunePos, WheelFortunePosMax, 750, 0, 1);
 	DrawTextWrap(TextGet((WheelFortuneVelocity == 0) ? (WheelFortuneForced ? "Forced" : "Title") : "Wait"), 1375, 200, 550, 200, "White");
 	if (Player.GetDifficulty() <= 1) {
 		MainCanvas.textAlign = "left";
