@@ -179,6 +179,8 @@ function TimerPrivateOwnerBeep() {
  */
 function TimerProcess() {
 
+	AfkTimerSetIsAfk();
+
 	// At each 1700 ms, we check for timed events (equivalent of 100 cycles at 60FPS)
 	if (TimerLastCycleCall + 1700 <= CommonTime()) {
 		TimerInventoryRemove();

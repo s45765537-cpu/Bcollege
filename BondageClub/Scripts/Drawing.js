@@ -1386,7 +1386,10 @@ function DrawProcess(time) {
 
 	// Draws the dialog screen or current screen if there's no loaded character
 	if (CurrentCharacter != null) DialogDraw();
-	else CurrentScreenFunctions.Run(time);
+	else {
+		CurrentScreenFunctions.Run(time);
+		if (CurrentScreenFunctions.Draw != null) CurrentScreenFunctions.Draw();
+	}
 
 	// Handle screen flash effects
 	DrawProcessScreenFlash();

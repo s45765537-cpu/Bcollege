@@ -5,6 +5,11 @@ var GameVersion = "R102";
 
 const GameVersionFormat = /^R([0-9]+)(?:(Alpha|Beta)([0-9]+)?)?$/;
 
+/** @type {number | null} */
+var GameAnimationFrameId = null;
+/** @type {Worker | null} */
+var GameWorker = null;
+
 var CommonVersionUpdated = false;
 
 /** @type {TouchList | null} */
@@ -45,17 +50,64 @@ function GameStart() {
 	canvas.addEventListener("touchmove", GameTouchMove);
 	canvas.addEventListener("touchend", GameTouchEnd);
 
-	requestAnimationFrame(GameRun);
+	GameAnimationFrameId = requestAnimationFrame(GameAnimationFrame);
+	// Can't use setInterval, chrome throttles it to 1 minute on inactive pages, but not in workers...
+	GameWorker = new Worker("Scripts/GameWorker.js");
+	GameWorker.onmessage = GameFallbackTimer;
 }
 
 // When the code is loaded, we start the game engine
 window.addEventListener("load", GameStart);
 
+function GameHandleError() {
+	if (GameAnimationFrameId != null) {
+		cancelAnimationFrame(GameAnimationFrameId);
+		GameAnimationFrameId = null;
+	}
+	if (GameWorker != null) {
+		GameWorker.onmessage = null;
+		GameWorker.terminate();
+		GameWorker = null;
+	}
+}
+
+/**
+ * Callback to requestAnimationFrame.
+ * @param {number} Timestamp
+ * @returns {void}
+ */
+function GameAnimationFrame(Timestamp) {
+	try {
+		GameAnimationFrameId = null;
+		GameRunNormal(Timestamp);
+		GameAnimationFrameId = requestAnimationFrame(GameAnimationFrame);
+	} catch (e) {
+		GameHandleError();
+		throw e;
+	}
+}
+
+/**
+ * Periodically called in the background with low frequency, so the game doesn't freeze, even if the user switches to a different tab.
+ * @returns {void}
+ */
+function GameFallbackTimer() {
+	let Timestamp = performance.now();
+	if (Timestamp - TimerLastTime > 500) {
+		try {
+			GameRunBackground(Timestamp);
+		} catch (e) {
+			GameHandleError();
+			throw e;
+		}
+	}
+}
+
 /**
  * Main game running state, runs the drawing
  * @param {number} Timestamp
  */
-function GameRun(Timestamp) {
+function GameRunNormal(Timestamp) {
 
 	// Increments the time from the last frame
 	TimerRunInterval = Timestamp - TimerLastTime;
@@ -67,8 +119,24 @@ function GameRun(Timestamp) {
 	TimerProcess();
 
 	ServerSendQueueProcess();
+}
 
-	requestAnimationFrame(MainRun);
+/**
+ * Main game running state, when in the background. Skips drawing if possible.
+ * @param {number} Timestamp
+ */
+function GameRunBackground(Timestamp) {
+
+	// Increments the time from the last frame
+	TimerRunInterval = Timestamp - TimerLastTime;
+	TimerLastTime = Timestamp;
+	CurrentTime = CurrentTime + TimerRunInterval;
+
+	if (CurrentCharacter == null) CurrentScreenFunctions.Run(Timestamp);
+	// Ignore gamepad when in the background
+	TimerProcess();
+
+	ServerSendQueueProcess();
 }
 
 /**
@@ -206,8 +274,6 @@ function GameMouseLeave(event) {
 
 /** @deprecated */
 function KeyDown(event) { GameKeyDown(event); }
-/** @deprecated */
-function MainRun(Timestamp) { GameRun(Timestamp); }
 /** @deprecated */
 function Click(event) { if (!CommonIsMobile) { CommonClick(event); } }
 /** @deprecated */
