@@ -250,12 +250,16 @@ GlovesGlovesFurFur,Fur
 GlovesHaremGloveBands,Bands
 GlovesHaremGloveFabric,Fabric
 GlovesLatexShortGloves,Glove
+GlovesWarmGlovesMain,Gloves
+GlovesWarmGlovesFur,Fur
 HairAccessory1BigLynxEarsInner,Inner Ear
 HairAccessory1BigLynxEarsLine,Line
 HairAccessory1BigLynxEarsOuter,Outer Ear
 HairAccessory1BigLynxEarsTuft,Tuft
 HairAccessory1BunnyEars2Inner,Inner
 HairAccessory1BunnyEars2Outer,Outer
+HairAccessory1EarWarmerMain,Fur
+HairAccessory1EarWarmerDetail,Headband
 HairAccessory1FoxEars2Inner,Inner Ear
 HairAccessory1FoxEars2Outer,Outer Ear
 HairAccessory1FoxEars3Bell,Bell
@@ -284,6 +288,8 @@ HairAccessory2FoxEars3EarOuter,Outer Ear
 HairAccessory2FoxEars3Strap,Strap
 HairAccessory2KittenEars1Inner,Inner Ear
 HairAccessory2KittenEars1Outer,Outer Ear
+HairAccessory3EarWarmerMain,Fur
+HairAccessory3EarWarmerDetail,Headband
 HairAccessory3HaloBase,Body
 HairAccessory3HaloCore,Core
 HairAccessory3HaloGlow,Glow
@@ -1837,6 +1843,8 @@ ItemVulvaWiredEggStrap,Strap
 JewelryJewelrySetEarHoopLeft,Ears
 JewelryJewelrySetFaceDermalLeft,Face
 JewelryJewelrySetSeptumRing1,Nose
+LeftAnkletLegFurAnkle,Fur Ankle
+LeftAnkletLegFurKnee,Fur Knee
 LeftHandClawsColor,Color
 LeftHandClawsOutline,Outline
 LeftHandFingernailsColor,Color
@@ -1939,6 +1947,8 @@ PantiesPoofyDiaperFrills,Frills
 PantiesPoofyDiaperTape,Tape
 PantiesRedBowPantiesBow,Bow
 PantiesRedBowPantiesPanties,Panties
+RightAnkletLegFurAnkle,Fur Ankle
+RightAnkletLegFurKnee,Fur Knee
 RightHandClawsColor,Color
 RightHandClawsOutline,Outline
 RightHandFingernailsColor,Color
