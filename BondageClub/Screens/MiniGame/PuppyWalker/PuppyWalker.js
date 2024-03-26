@@ -25,7 +25,7 @@ function PuppyWalkerLoad() {
  * @param {number} Fail - Amount of failures for this puppy
  * @returns {void} - Nothing
  */
-function PuppyWalkerDraw(Puppy, X, Fail) {
+function PuppyWalkerDrawPuppy(Puppy, X, Fail) {
 	if (Fail < 3) DrawCharacter(Puppy, X, 0, 1);
 	DrawImage("Screens/MiniGame/PuppyWalker/" + ((Fail <= 0) ? "Success" : "Fail") + ".png", X + 60, 100);
 	DrawImage("Screens/MiniGame/PuppyWalker/" + ((Fail <= 1) ? "Success" : "Fail") + ".png", X + 190, 100);
@@ -39,11 +39,11 @@ function PuppyWalkerDraw(Puppy, X, Fail) {
 function PuppyWalkerRun() {
 
 	// Draw the characters
-	PuppyWalkerDraw(DailyJobPuppy1, -50, PuppyWalkerEscape[0]);
-	PuppyWalkerDraw(DailyJobPuppy2, 350, PuppyWalkerEscape[1]);
+	PuppyWalkerDrawPuppy(DailyJobPuppy1, -50, PuppyWalkerEscape[0]);
+	PuppyWalkerDrawPuppy(DailyJobPuppy2, 350, PuppyWalkerEscape[1]);
 	DrawCharacter(Player, 750, 0, 1);
-	PuppyWalkerDraw(DailyJobPuppy3, 1150, PuppyWalkerEscape[2]);
-	PuppyWalkerDraw(DailyJobPuppy4, 1550, PuppyWalkerEscape[3]);
+	PuppyWalkerDrawPuppy(DailyJobPuppy3, 1150, PuppyWalkerEscape[2]);
+	PuppyWalkerDrawPuppy(DailyJobPuppy4, 1550, PuppyWalkerEscape[3]);
 	MiniGameTimer = MiniGameTimer + Math.round(TimerRunInterval);
 
 	// Shows the intro text before the mini game begins
