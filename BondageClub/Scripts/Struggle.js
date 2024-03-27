@@ -419,6 +419,7 @@ function StruggleMinigameHandleExpression(Decrease) {
  * Helper function that handles checking and completing the minigame
  *
  * @param {Character} C - The character to check for progress.
+ * @returns {boolean}
  */
 function StruggleProgressCheckEnd(C) {
 	if (StruggleProgress < 100)
