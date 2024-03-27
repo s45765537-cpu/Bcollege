@@ -2023,6 +2023,7 @@ var PlatformDialogData = [
 				]
 			},
 			{ Text: "He will surely pay a huge amount to see you safe.", Audio: "170" },
+			{ Text: "Business is business, and your little ass will be good business.", Audio: "175" },
 			{
 				Text: "Aaamh mmhmm Mmmnndy!  Mh maaym!",
 				Character: [
@@ -2243,11 +2244,12 @@ var PlatformDialogData = [
 					{ Name: "Olivia", Status: "Oracle", Pose: "BoundGagged" },
 				]
 			},
-			{ Text: "Do I need to do everything myself?", Audio: "40" },
-			{ Text: "I'll get the whip cracking.  You stay here and guard the prisoner.", Audio: "50" },
-			{ Text: "Do not ungag her, do not unlock her and do not let her out.", Audio: "60" },
+			{ Text: "Worthless servant!  Do I need to do everything myself?", Audio: "40", AudioStyle: "serious" },
+			{ Text: "I'll get the whip cracking.  You stay here and guard the prisoner.", Audio: "50", AudioStyle: "serious" },
+			{ Text: "Do not ungag her, do not unlock her and do not let her out.", Audio: "60", AudioStyle: "serious" },
+			{ Text: "Money is money, and she's worth more than your life.", Audio: "65", AudioStyle: "serious" },
 			{ Text: "(She gets even more angry.)" },
-			{ Text: "You know what?  Torture the bitch!  It will teach her not to try to escape.", Audio: "70" },
+			{ Text: "You know what?  Torture the bitch!  It will teach her not to try to escape.", Audio: "70", AudioStyle: "angry" },
 			{ Text: "(She runs away and slams the barn door, which makes a loud creaking sound.)" },
 			{
 				Text: "I can torture you?  Sweet!", Audio: "80",
@@ -2636,12 +2638,12 @@ var PlatformDialogData = [
 					{ Text: "We don't have time to jail your cute butt.", Reply: "(She struggles in vain and blushes.)", Domination: 1, Love: 2, Perk: true },
 				]
 			},
-			{ Text: "I will get out of that bondage as soon as you're gone.", Audio: "70", AudioStyle: "calm" },
+			{ Text: "My minions will get me out of that bondage as soon as you're gone.", Audio: "70", AudioStyle: "calm" },
 			{ Text: "But if you don't come back, I promise I won't go out again to hunt you.", Audio: "80", AudioStyle: "calm" },
 			{
 				Text: "Do we have a deal?", Audio: "90",
 				Answer: [
-					{ Text: "It's a deal!", Reply: "Alright!  You can go now.", Audio: "91", Love: 1, AudioStyle: "cheerful" },
+					{ Text: "It's a deal!", Reply: "A deal is a deal!  You can go now.", Audio: "91", Love: 1, AudioStyle: "cheerful" },
 					{ Text: "Fine, we'll see if you can keep a promise.", Reply: "Fine.  You can go now.", Audio: "92", Domination: 1 },
 					{ Text: "(Shrug and turn away.)", Reply: "Get out!", Audio: "93", AudioStyle: "angry" },
 				]
@@ -2659,25 +2661,180 @@ var PlatformDialogData = [
 				Character: [{ Name: "Lyn", Status: "Thief", Animation: "Bound", Y: -400 }]
 			},
 			{ Text: "(She struggles a little and sighs.)" },
-			{ Text: "The deal is simple.", Audio: "10" },
+			{ Text: "A deal is a deal.  The deal is simple.", Audio: "10" },
 			{ Text: "Don't come back, and I promise I won't hunt you again.", Audio: "20" },
 			{ Text: "(You leave her to struggle.)" }
 		],
 	},
 
 	{
-		Name: "ThiefBossBattleRepeat",
+		Name: "ThiefBossSecondBattle",
 		Music: "ThiefBoss",
 		Dialog: [
 			{
 				Background: "BanditCamp",
 				Character: [{ Name: "Lyn", Status: "Thief", Pose: "Angry" }]
 			},
-			{ Text: "(The bandit boss gets furious as you enter her camp again.)" },
-			{ Text: "What?  You came back?  You broke the deal!", Audio: "10" },
-			{ Text: "It means I have one more chance to enslave you.", Audio: "20" },
-			{ Text: "(Her minions close the gate behind you.)" },
+			{ Text: "(Lyn the bandit boss gets furious as you enter her camp again.)" },
+			{ Text: "What?  You came back?  You broke the deal!", Audio: "10", AudioStyle: "serious" },
+			{
+				Text: "Last time you got me bound on the ground in front of my own minions.", Audio: "20", AudioStyle: "serious",
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "Curious", X: 0 },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle", X: 500 },
+					{ Name: "Olivia", Status: "Oracle", Pose: "Idle", X: 1000 },
+					{ Name: "Edlaran", Status: "Archer", Pose: "IdleDominant", X: 1500 },
+				]
+			},
+			{ Text: "Do you know how humiliating it was?  They don't respect me anymore.", Audio: "30", AudioStyle: "serious" },
+			{
+				Text: "I will win their loyalty back.  I will defeat you!", Audio: "40", AudioStyle: "serious",
+				Answer: [
+					{ Text: "We will crush you like an ant.", Reply: "No!  Not this time!.", Audio: "41", Domination: 2, Love: -1, AudioStyle: "angry" },
+					{ Text: "Girl, do you want another defeat?", Reply: "I will win this fight!", Audio: "42", Domination: 1, AudioStyle: "angry" },
+					{ Text: "Please, we don't want to fight.", Reply: "It's not like you have a choice.", Audio: "43", Domination: -1, AudioStyle: "serious" },
+					{ Text: "Your cute butt will end up in bondage again.", Reply: "(She blushes.)  How...  How dare you?", Audio: "44", Domination: 2, Love: 1, Perk: true },
+				]
+			},
+			{
+				Text: "Girls!  Obey me now!  Close the gate!", Audio: "50", AudioStyle: "serious",
+				Character: [{ Name: "Lyn", Status: "Thief", Pose: "Angry" }]
+			},
+			{ Text: "(Her minions laugh a little and reluctantly close the gate behind you.)" },
 			{ Text: "(She picks up her knives and charges at you once again.)" },
+		],
+	},
+
+	{
+		Name: "ThiefBossSecondDefeat",
+		Music: "ThiefBoss",
+		Dialog: [
+			{
+				Background: "BanditCampGround",
+				Character: [{ Name: "Lyn", Status: "Thief", Animation: "Bound", Y: -400 }]
+			},
+			{ Text: "(She tugs on the restraints one last time and gives up)" },
+			{ Text: "Twice is twice.  Twice defeated!  How is that possible?", Audio: "10", AudioStyle: "calm" },
+			{
+				Text: "Where did you learn to fight?", Audio: "20", AudioStyle: "calm",
+				Answer: [
+					{ Text: "We won because our cause is noble.", Reply: "My cause is noble!  It's money!", Audio: "21", Love: -1 },
+					{ Text: "We were lucky to win.", Reply: "You're kind, but you won a fair battle.", Audio: "22", Love: 1, Domination: -1 },
+					{ Text: "I trained for years.", Reply: "It shows, I cannot defeat you.", Audio: "23", Love: 1, Domination: 1 },
+					{ Text: "I could teach you some tricks.", Reply: "(She smiles.)  Maybe I need a trainer.", Audio: "24", Love: 2, Domination: 1, Perk: true },
+				]
+			},
+			{ Text: "This is so humiliating.", Audio: "30", AudioStyle: "calm" },
+			{
+				Text: "My minions will never respect me again.", Audio: "40", AudioStyle: "calm",
+				Answer: [
+					{ Text: "They would if you don't call them minions.", Reply: "I'll call them however I want!", Audio: "41", AudioStyle: "angry", Domination: 1, Love: -1 },
+					{ Text: "You're a strong leader, they will follow.", Reply: "Damn right!", Audio: "42", AudioStyle: "angry", Domination: -1, Love: 1 },
+					{ Text: "Respect is harder to earn than to lose.", Reply: "Yeah, that's true.", Audio: "43", AudioStyle: "angry", Love: 1 },
+				]
+			},
+			{ Text: "Minions!  Come here right now and release me!", Audio: "50", AudioStyle: "angry" },
+			{ Text: "Minions!  Right now!", Audio: "60", AudioStyle: "angry" },
+			{ Text: "Minions?", Audio: "70" },
+			{ Text: "Girls?", Audio: "80" },
+			{ Text: "Associates?", Audio: "90", AudioStyle: "calm" },
+			{ Text: "My friends?", Audio: "100", AudioStyle: "calm" },
+			{ Text: "(Nobody comes to release her, it's getting awkward.)" },
+			{ Text: "(You leave her to struggle.)" }
+		]
+	},
+
+	{
+		Name: "ThiefBossSecondDefeatRepeat",
+		Music: "ThiefBoss",
+		Dialog: [
+			{
+				Background: "BanditCampGround",
+				Character: [{ Name: "Lyn", Status: "Thief", Animation: "Bound", Y: -400 }]
+			},
+			{ Text: "(She struggles a little and sighs.)" },
+			{ Text: "My good friends, my sisters, you cannot leave me bound on the ground.", Audio: "10", AudioStyle: "calm" },
+			{ Text: "(Nobody comes to release her.  The situation is awkward.)" },
+			{ Text: "(You leave her to struggle.)" }
+		],
+	},
+
+	{
+		Name: "ThiefBossRescueInBattle",
+		Music: "ThiefBoss",
+		Dialog: [
+			{
+				Background: "BanditCampGround",
+				Character: [{ Name: "Lyn", Status: "WoodCrate", Pose: "Idle" }]
+			},
+			{ Text: "(You can hear Lyn the bandit boss struggling in the crate.)" },
+			{ Text: "Minions!  Listen to me!  Release me right now!", Audio: "10", AudioStyle: "serious" },
+			{ Text: "(The other bandits prevents you from doing anything.)" },
+		],
+	},
+
+	{
+		Name: "ThiefBossRescueAfterBattle",
+		Music: "ThiefBoss",
+		Dialog: [
+			{
+				Background: "BanditCampGround",
+				Character: [{ Name: "Lyn", Status: "WoodCrate", Pose: "Idle" }]
+			},
+			{ Text: "(You can hear Lyn the bandit boss struggling in the crate.)" },
+			{ Text: "Minions!  Listen to me!  Release me right now!", Audio: "10", AudioStyle: "serious" },
+			{ 
+				Text: "Minions?  A deal is a deal, we can negotiate something.", Audio: "20",
+				Answer: [
+					{ Text: "(Open the crate.)", Reply: "(You open the crate and find her in bondage.)", Love: 2 },
+					{ Text: "(Leave it there.)", Script: function() { PlatformDialogLeave(); } },
+				]
+			},
+			{ Character: [{ Name: "Lyn", Status: "Thief", Animation: "Bound", Y: -400 }] },
+			{ Text: "It's you!  Well... thanks... I guess.", Audio: "30", AudioStyle: "serious" },
+			{ 
+				Text: "My stupid minions prepared a mutiny.  Can you believe it?", Audio: "40", AudioStyle: "serious",
+				Answer: [
+					{ Text: "They should be more loyal.", Reply: "Damn right they should.", Audio: "41", Domination: -1, Love: 1 },
+					{ Text: "They would have sold you.", Reply: "You think they would dare?", Audio: "42", Domination: 1, Love: 1 },
+					{ Text: "You deserve it.", Reply: "(She shakes her head no.)  I'm only a business woman.", Audio: "43", Domination: 1, Love: -1 },
+					{ Text: "You deserve more respect.", Reply: "(She grins.)  Yeah!  That's for sure.", Audio: "44", Domination: -2, Love: 2, Perk: true },
+				]
+			},
+			{ Text: "This life of crime is getting dangerous.  I understand why you left the trade Edlaran.", Audio: "50" },
+			{ Text: "Girls, can we make a deal?  A good deal.", Audio: "60" },
+			{ Text: "Since travelling is getting more and more risky, we could join forces.", Audio: "70" },
+			{ Text: "You protect me from my stupid minions and I'll make the best bargains for you, I'll fight for you.", Audio: "80" },
+			{
+				Text: "What do you think?  Do we have a deal?", Audio: "90",
+				Answer: [
+					{ Text: "That sounds good, we have a deal.", Reply: "A deal is a deal!", Audio: "91", Domination: 1, Love: 1 },
+					{ Text: "What do you think Olivia?", Reply: "(Olivia thinks for a while and nods.)", Domination: -1 },
+					{ Text: "What do you think Edlaran?", Reply: "(Edlaran quickly makes a thumbs up.)", Domination: -1 },
+					{ Text: "A great business woman like you is welcome.", Reply: "(She grins.)  You girls do need me.", Audio: "94", Domination: -2, Love: 1, Perk: true },
+				]
+			},
+			{
+				Background: "BanditCamp",
+				Text: "(You release her and help her to get up.  She shakes everyone hand.)",
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "Curious", X: 0 },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle", X: 500 },
+					{ Name: "Olivia", Status: "Oracle", Pose: "Idle", X: 1000 },
+					{ Name: "Edlaran", Status: "Archer", Pose: "Idle", X: 1500 },
+				]
+			},
+			{ Text: "If you ever need a good bargain, just ask me.", Audio: "100" },
+			{ Text: "Edlaran, don't forget your debt, you still have to repay me.  A debt is a debt.", Audio: "110" },
+			{ Text: "Let's go before my idiot ex-minions get free.", Audio: "120" },
+			{ Text: "(Lyn joined your party.  You can switch your active character at any save point.)" },
+			{ Entry: function() {
+				PlatformEventSet("LynJoin");
+				PlatformPartyBuild();
+				PlatformChar.splice(3, 100);
+				PlatformDialogLeave();
+			} },
+
 		],
 	},
 
@@ -2859,6 +3016,87 @@ var PlatformDialogData = [
 	},
 
 	{
+		Name: "LynTent",
+		Music: "MelodyRoom",
+		Exit : function () { PlatformEventSet("LynTent"); },
+		Dialog: [
+			{
+				Background: "SavannahTentInterior",
+				Entry: function() {
+					if (PlatformEventDone("LynTent")) PlatformDialogGoto = "End";
+					PlatformDialogProcess();
+				}
+			},
+			{
+				Prerequisite: function() { return !PlatformDialogIsLover("Lyn"); },
+				Text: "The desert is freaking hot.", Audio: "10",
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "Idle" },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle" }
+				]
+			},
+			{
+				Prerequisite: function() { return PlatformDialogIsLover("Olivia"); },
+				Text: "The desert is freaking hot, but not as hot as you honey.", Audio: "20",
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "Idle" },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle" }
+				]
+			},
+			{
+				Text: "Do you know how to survive from here?", Audio: "30",
+				Answer: [
+					{ Text: "Can you help us Lyn?", Reply: "Yeah, I'll give you a quick guide.", Audio: "31", Domination: -1 },
+					{ Text: "We should be fine.", Reply: "Maybe, but I'll give you a quick guide.", Audio: "32" },
+					{ Text: "We can survive anywhere.", Reply: "You're confident, but I'll give you a quick guide.", Audio: "33", Domination: 1 },
+					{ Text: "With you around, we'll be alright.", Reply: "You're sweet, I'll give you a quick guide.", Audio: "34", Domination: 1, Love: 1, Perk: true },
+				]
+			},
+			{ Text: "Water is life, life is water.  Bring tons of it.", Audio: "40" },
+			{ Text: "I used to sell water and slaves to Slandia soldiers when the war was raging.", Audio: "50" },
+			{ Text: "These were good days, business was booming.", Audio: "60" },
+			{ 
+				Text: "(Olivia steps in front of you and makes an angry face.)",
+				Character: [
+					{ Name: "Olivia", Status: "Oracle", Pose: "IdleAngry", X: 750 },
+					{ Name: "Lyn", Status: "Thief", Pose: "Curious", X: 250 },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle", X: 1250 }
+				]
+			},
+			{ Text: "Excuse me?  War was not a good time!", Audio: "70", AudioStyle: "angry" },
+			{ Text: "Thousands of men died!  My father died!  How dare you?", Audio: "80", AudioStyle: "angry" },
+			{ Text: "I'm forced to marry a man I barely know because of your war!", Audio: "90", AudioStyle: "angry" },
+			{ 
+				Text: "(Lyn gulps and nods slowly.)",
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "Idle", X: 250 },
+					{ Name: "Olivia", Status: "Oracle", Pose: "IdleDominant", X: 750 },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 1250 }
+				]
+			},
+			{ Text: "Calm down, I did not start the war.", Audio: "100", AudioStyle: "calm" },
+			{ Text: "I had to do deals to survive.  A deal is a deal.", Audio: "110", AudioStyle: "calm" },
+			{
+				Text: "Give me a break.", Audio: "120",
+				Answer: [
+					{ Text: "Don't interrupt Olivia.", Reply: "Damn right!  Thanks Melody!", Audio: "121", Domination: 1, Love: 1 },
+					{ Text: "She's right you know.", Reply: "Of course you're going to side with her.", Audio: "122", Domination: -1, Love: -1 },
+					{ Text: "Let's not fight.", Reply: "Yeah, this is not the time or place.", Audio: "123", Domination: 1 },
+				]
+			},
+			{ Text: "Anyway!  What was I saying?  Oh yeah, surviving in the desert.", Audio: "130" },
+			{ Text: "One last tip then, don't stay too exposed to the sun, a shelter like this is perfect.", Audio: "140" },
+			{
+				ID: "End",
+				Prerequisite: function() { return !PlatformDialogIsLover("Lyn") && !PlatformDialogIsSlave("Lyn") && !PlatformDialogIsOwner("Lyn"); },
+				Character: [{ Name: "Lyn", Status: "Thief", Pose: "Idle" }],
+				Text: "(She checks her purse.)  We should rent this tent to travelers, we could make good profit.", Audio: "200"
+			},
+
+		]
+	},
+
+	{
 		Name: "DesertEntrance",
 		Music: "Savannah",
 		Exit : function () { PlatformLoadRoom("SavannahTentExterior"); PlatformPlayer.X = 1900; PlatformPlayer.FaceLeft = true; },
@@ -2993,7 +3231,7 @@ var PlatformDialogData = [
 			{
 				Text: "This belt will be a problem sweetheart.", Audio: "150", AudioStyle: "sad",
 				Answer: [
-					{ Text: "I know!  We are so helpless my love.", Reply: "(She caresses your head slowly.)  We will find a solution someday honey.", Audio: "151", AudioStyle: "sad", Domination: -2 },
+					{ Text: "I know!  We are so helpless my love.", Reply: "(She caresses your head slowly.)  We will find a solution someday my love.", Audio: "151", AudioStyle: "sad", Domination: -2 },
 					{ Text: "I promise to unlock you someday.", Reply: "(She smiles at you.)  I know you will Melody.", Audio: "152", AudioStyle: "sad", Domination: 2 },
 					{ Text: "Let's forget about it for a moment.", Reply: "(She nods in agreement.)  That is a good idea my love.", Audio: "153", AudioStyle: "sad" },
 				]

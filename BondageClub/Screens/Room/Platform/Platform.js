@@ -229,6 +229,62 @@ var PlatformTemplate = [
 
 	},
 	{
+		Name: "Lyn", // MMD Z: 41.00
+		Status: "Thief",
+		Health: 13,
+		HealthPerLevel: 3,
+		Width: 400,
+		Height: 400,
+		HitBox: [0.4, 0.05, 0.6, 1],
+		JumpHitBox: [0.4, 0.05, 0.6, 0.7],
+		JumpForce: 60,
+		WalkSpeed: 17,
+		CrawlSpeed: 10,
+		Projectile: 25,
+		ProjectileName: "Dagger",
+		ProjectileType: "Iron",
+		ProjectileDamage: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+		JumpOdds: 0.0004,
+		ProjectileOdds: 0.0003,
+		ProjectileTime: 675,
+		CollisionDamage: 6,
+		ExperienceValue: 15,
+		DamageBackOdds: 1,
+		DamageKnockForce: 50,
+		LootOdds: 0,
+		Animation: [
+			{ Name: "Idle", Cycle: [0], Speed: 1000 },
+			{ Name: "Walk", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], Speed: 30 },
+			{ Name: "Jump", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 60 },
+			{ Name: "Bind", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 100 },
+			{ Name: "Wounded", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 110 },
+			{ Name: "Bound", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 120 },
+			{ Name: "Stun", Cycle: [0], Speed: 1000 },
+			{ Name: "FireProjectile", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], Speed: 36 }
+		],
+		Attack: [
+			{ Name: "FireProjectile", Speed: 750 }
+		],
+		OnBind: function() {
+			if (PlatformEventDone("LynJoin")) return;
+			if (!PlatformEventDone("ThiefBossDefeat")) {
+				PlatformEventSet("ThiefBossDefeat");
+				PlatformDialogStart("ThiefBossDefeat");
+				PlatformCreateTreasure();
+			} else {
+				if (!PlatformEventDone("ThiefBossSecondDefeat")) {
+					PlatformEventSet("ThiefBossSecondDefeat");
+					PlatformDialogStart("ThiefBossSecondDefeat");
+					PlatformCreateTreasure();
+				}
+			}
+			PlatformRoom.Background = "Savannah/BanditCampOpen";
+			PlatformRoom.LimitRight = null;
+			PlatformChar[1].Combat = false;
+			PlatformChar[1].Dialog = !PlatformEventDone("ThiefBossSecondDefeat") ? "ThiefBossDefeatRepeat" : "ThiefBossSecondDefeatRepeat";
+		}
+	},
+	{
 		Name: "Olivia",
 		Status: "Chained",
 		Width: 400,
@@ -599,56 +655,11 @@ var PlatformTemplate = [
 				PlatformRoom.Background = "Savannah/BanditCampGateOpen";
 				PlatformRoom.LimitLeft = null;
 				PlatformChar.splice(4, 100);
+			} else if ((PlatformRoom.Name == "SavannahBanditCamp") && (PlatformChar[1].Bound == true) && (PlatformChar[2].Bound == true)) {
+				PlatformRoom.Background = 'Savannah/BanditCampOpen';
+				PlatformRoom.LimitRight = null;
+				if (PlatformChar.length >= 4) PlatformChar[3].Dialog = "ThiefBossRescueAfterBattle";
 			}
-		}
-	},
-	{
-		Name: "Lyn", // MMD Z: 41.00
-		Status: "Thief",
-		Health: 73,
-		Width: 400,
-		Height: 400,
-		HitBox: [0.4, 0.05, 0.6, 1],
-		JumpHitBox: [0.4, 0.05, 0.6, 0.7],
-		JumpForce: 60,
-		WalkSpeed: 17,
-		CrawlSpeed: 10,
-		Projectile: 25,
-		ProjectileName: "Dagger",
-		ProjectileType: "Iron",
-		ProjectileDamage: [11, 11],
-		JumpOdds: 0.0004,
-		ProjectileOdds: 0.0003,
-		ProjectileTime: 675,
-		ProjectileBothSides: true,
-		CollisionDamage: 6,
-		ExperienceValue: 15,
-		DamageBackOdds: 1,
-		DamageKnockForce: 50,
-		LootOdds: 0,
-		Animation: [
-			{ Name: "Idle", Cycle: [0], Speed: 1000 },
-			{ Name: "Walk", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], Speed: 30 },
-			{ Name: "Jump", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 60 },
-			{ Name: "Bind", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 100 },
-			{ Name: "Wounded", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 110 },
-			{ Name: "Bound", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 120 },
-			{ Name: "Stun", Cycle: [0], Speed: 1000 },
-			{ Name: "FireProjectile", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], Speed: 36 }
-		],
-		Attack: [
-			{ Name: "FireProjectile", Speed: 750 }
-		],
-		OnBind: function() {
-			if (!PlatformEventDone("ThiefBossDefeat")) {
-				PlatformEventSet("ThiefBossDefeat");
-				PlatformDialogStart("ThiefBossDefeat");
-				PlatformCreateTreasure();
-			}
-			PlatformRoom.Background = "Savannah/BanditCampOpen";
-			PlatformRoom.LimitRight = null;
-			PlatformChar[1].Combat = false;
-			PlatformChar[1].Dialog = "ThiefBossDefeatRepeat";
 		}
 	},
 
@@ -1581,7 +1592,18 @@ var PlatformRoomList = [
 		AlternateBackground: "Savannah/BanditCampOpen",
 		Music: "ThiefBoss",
 		Entry: function() {
-			PlatformDialogStart("ThiefBossBattle" + (PlatformEventDone("ThiefBossDefeat") ? "Repeat" : ""));
+			if (!PlatformEventDone("ThiefBossDefeat") || !PlatformEventDone("ThiefBossSecondDefeat")) {
+				PlatformDialogStart(!PlatformEventDone("ThiefBossDefeat") ? "ThiefBossBattle" : "ThiefBossSecondBattle");
+				let Lyn = PlatformCreateCharacter("Lyn", "Thief", 400);
+				Lyn.MaxHealth = PlatformEventDone("ThiefBossDefeat") ? 10 : 1;
+				Lyn.Health = Lyn.MaxHealth;
+				Lyn.ProjectileDamage = [11, 11];
+				Lyn.ProjectileBothSides = true;
+			} else {
+				PlatformCreateCharacter("Vera", "Leather", 500);
+				PlatformCreateCharacter("Vera", "Leather", 1500);
+				if (!PlatformEventDone("LynJoin")) PlatformCreateCharacter("Crate", "Wood", 1000, true, false, "ThiefBossRescueInBattle");
+			}
 		},
 		Width: 2000,
 		Height: 1400,
@@ -1589,9 +1611,6 @@ var PlatformRoomList = [
 		LimitRight: 1800,
 		Door: [
 			{ Name: "SavannahBanditCampGate", FromX: 1900, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100, ToFaceLeft: false },
-		],
-		Character: [
-			{ Name: "Lyn", Status: "Thief", X: 400 },
 		]
 	},
 	{
@@ -1655,8 +1674,9 @@ var PlatformRoomList = [
 		Entry: function() {
 			PlatformChar.splice(1, 100);
 			if (PlatformPlayer.Name != "Olivia") PlatformCreateCharacter("Olivia", "Oracle", 1700, true, false, "OliviaTent", true);
-			if (PlatformPlayer.Name != "Melody") PlatformCreateCharacter("Melody", "Maid", 1300, true, false, (PlatformPlayer.Name == "Olivia") ? "OliviaTent" : "EdlaranTent", (PlatformPlayer.Name == "Olivia"));
-			if (PlatformPlayer.Name != "Edlaran") PlatformCreateCharacter("Edlaran", "Archer", 900, true, false, "EdlaranTent");
+			if (PlatformPlayer.Name != "Melody") PlatformCreateCharacter("Melody", "Maid", 1400, true, false, PlatformPlayer.Name + "Tent", (PlatformPlayer.Name == "Olivia"));
+			if (PlatformPlayer.Name != "Edlaran") PlatformCreateCharacter("Edlaran", "Archer", 1100, true, false, "EdlaranTent");
+			if ((PlatformPlayer.Name != "Lyn") && PlatformEventDone("LynJoin")) PlatformCreateCharacter("Lyn", "Thief", 800, true, false, "LynTent");
 		},
 		Door: [
 			{ Name: "SavannahTentExterior", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 1000, ToFaceLeft: false },
@@ -1680,7 +1700,7 @@ var PlatformRoomList = [
 ];
 
 /**
- * Loads a room and it's parameters
+ * Creates a character in the current room and returns it
  * @param {String} CharacterName - The character name to load
  * @param {String} StatusName - The status of that character
  * @param {Number} X - The X position of the character
@@ -1900,6 +1920,14 @@ function PlatformPartyBuild() {
 				CreateEdlaran = false;
 		if (CreateEdlaran)
 			PlatformPartyAdd({ Character: "Edlaran", Status: "Archer", Level: 1, Experience: 0, Perk: "0000000000" });
+	}
+	if (PlatformEventDone("LynJoin")) {
+		let CreateLyn = true;
+		for (let P of PlatformParty)
+			if (P.Character == "Lyn")
+				CreateLyn = false;
+		if (CreateLyn)
+			PlatformPartyAdd({ Character: "Lyn", Status: "Thief", Level: 1, Experience: 0, Perk: "0000000000" });
 	}
 	PlatformDialogEvent();
 }
