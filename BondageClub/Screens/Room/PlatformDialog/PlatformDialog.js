@@ -3064,7 +3064,7 @@ var PlatformDialogData = [
 				]
 			},
 			{ Text: "Excuse me?  War was not a good time!", Audio: "70", AudioStyle: "angry" },
-			{ Text: "Thousands of men died!  My father died!  How dare you?", Audio: "80", AudioStyle: "angry" },
+			{ Text: "Thousands of men died, my father died!  How dare you?", Audio: "80", AudioStyle: "angry" },
 			{ Text: "I'm forced to marry a man I barely know because of your war!", Audio: "90", AudioStyle: "angry" },
 			{ 
 				Text: "(Lyn gulps and nods slowly.)",
@@ -3079,7 +3079,7 @@ var PlatformDialogData = [
 			{
 				Text: "Give me a break.", Audio: "120",
 				Answer: [
-					{ Text: "Don't interrupt Olivia.", Reply: "Damn right!  Thanks Melody!", Audio: "121", Domination: 1, Love: 1 },
+					{ Text: "Don't interrupt Olivia.", Reply: "Damn right!  Thanks Melody!", Overwrite: true, Audio: "121", Domination: 1, Love: 1 },
 					{ Text: "She's right you know.", Reply: "Of course you're going to side with her.", Audio: "122", Domination: -1, Love: -1 },
 					{ Text: "Let's not fight.", Reply: "Yeah, this is not the time or place.", Audio: "123", Domination: 1 },
 				]
