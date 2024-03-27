@@ -2537,7 +2537,7 @@ function PlatformProjectile(C, LongShot) {
  * Draw scenery + all characters, apply X and Y forces
  * @returns {void} - Nothing
  */
-function PlatformDraw() {
+function PlatformDrawGame() {
 
 	// Check if we must enter a new room
 	PlatformEnterRoom(PlatformPlayer.FaceLeft ? "Left" : "Right");
@@ -2880,7 +2880,7 @@ function PlatformDrawGiftButtons() {
  * @returns {void} - Nothing
  */
 function PlatformRun() {
-	PlatformDraw();
+	PlatformDrawGame();
 	DrawButton(1900, 10, 90, 90, "", "White", "Icons/Exit.png", TextGet("Exit"));
 	if (PlatformHeal != null) DrawButton(1800, 10, 90, 90, "", "White", "Icons/Save.png", TextGet("Save"));
 	if (PlatformHeal != null) DrawButton(1700, 10, 90, 90, "", "White", "Icons/Audio" + (PlatformAllowAudio ? "On" : "Off") + ".png", TextGet("AudioToggle"));
