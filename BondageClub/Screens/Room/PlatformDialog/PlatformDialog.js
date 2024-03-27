@@ -2701,7 +2701,7 @@ var PlatformDialogData = [
 				Character: [{ Name: "Lyn", Status: "Thief", Pose: "Angry" }]
 			},
 			{ Text: "(Her minions laugh a little and reluctantly close the gate behind you.)" },
-			{ Text: "(She picks up her knives and charges at you once again.)" },
+			{ Text: "(She picks up her knives and charges toward you with even more strength.)" },
 		],
 	},
 
@@ -3079,7 +3079,7 @@ var PlatformDialogData = [
 			{
 				Text: "Give me a break.", Audio: "120",
 				Answer: [
-					{ Text: "Don't interrupt Olivia.", Reply: "Damn right!  Thanks Melody!", Overwrite: true, Audio: "121", Domination: 1, Love: 1 },
+					{ Text: "Don't interrupt Olivia.", Reply: "Damn right!  Thanks Melody!", Audio: "121", Domination: 1, Love: 1 },
 					{ Text: "She's right you know.", Reply: "Of course you're going to side with her.", Audio: "122", Domination: -1, Love: -1 },
 					{ Text: "Let's not fight.", Reply: "Yeah, this is not the time or place.", Audio: "123", Domination: 1 },
 				]

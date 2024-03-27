@@ -237,14 +237,16 @@ var PlatformTemplate = [
 		Height: 400,
 		HitBox: [0.4, 0.05, 0.6, 1],
 		JumpHitBox: [0.4, 0.05, 0.6, 0.7],
-		JumpForce: 60,
-		WalkSpeed: 17,
-		CrawlSpeed: 10,
+		JumpForce: 43,
+		RunSpeed: 18,
+		WalkSpeed: 12,
+		CrawlSpeed: 6,
 		Projectile: 25,
 		ProjectileName: "Dagger",
 		ProjectileType: "Iron",
 		ProjectileDamage: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
 		JumpOdds: 0.0004,
+		RunOdds: 1,
 		ProjectileOdds: 0.0003,
 		ProjectileTime: 675,
 		CollisionDamage: 6,
@@ -254,7 +256,8 @@ var PlatformTemplate = [
 		LootOdds: 0,
 		Animation: [
 			{ Name: "Idle", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47], Speed: 90 },
-			{ Name: "Walk", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], Speed: 30 },
+			{ Name: "Walk", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], Speed: 45 },
+			{ Name: "Run", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], Speed: 30 },
 			{ Name: "Jump", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 60 },
 			{ Name: "Bind", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 100 },
 			{ Name: "Wounded", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 110 },
@@ -1595,13 +1598,15 @@ var PlatformRoomList = [
 			if (!PlatformEventDone("ThiefBossDefeat") || !PlatformEventDone("ThiefBossSecondDefeat")) {
 				PlatformDialogStart(!PlatformEventDone("ThiefBossDefeat") ? "ThiefBossBattle" : "ThiefBossSecondBattle");
 				let Lyn = PlatformCreateCharacter("Lyn", "Thief", 400);
-				Lyn.MaxHealth = PlatformEventDone("ThiefBossDefeat") ? 73 : 51;
+				Lyn.MaxHealth = PlatformEventDone("ThiefBossDefeat") ? 73 : 57;
 				Lyn.Health = Lyn.MaxHealth;
+				Lyn.RunSpeed = PlatformEventDone("ThiefBossDefeat") ? 18 : 15;
+				Lyn.JumpForce = PlatformEventDone("ThiefBossDefeat") ? 60 : 50;
 				Lyn.ProjectileDamage = [11, 11];
 				Lyn.ProjectileBothSides = true;
 			} else {
-				PlatformCreateCharacter("Vera", "Leather", 500);
-				PlatformCreateCharacter("Vera", "Leather", 1500);
+				PlatformCreateCharacter("Vera", "Leather", 800);
+				PlatformCreateCharacter("Vera", "Leather", 1200);
 				if (!PlatformEventDone("LynJoin")) PlatformCreateCharacter("Crate", "Wood", 1000, true, false, "ThiefBossRescueInBattle");
 			}
 		},
@@ -2642,6 +2647,8 @@ function PlatformDrawGame() {
 					C.ForceY = (C.JumpForce + Math.random() * C.JumpForce) * -0.5;
 				if ((C.RunOdds != null) && (C.RunOdds > 0) && (Math.random() < C.RunOdds * Frame) && (C.Y == PlatformFloor))
 					C.Run = !C.Run;
+				if (C.RunOdds >= 1)
+					C.Run = true;
 				if ((C.StandAttackSlowOdds != null) && (C.StandAttackSlowOdds > 0) && (Math.random() < C.StandAttackSlowOdds * Frame))
 					PlatformAttack(C, "StandAttackSlow");
 				if ((C.ProjectileOdds != null) && (C.Projectile != null) && (C.Projectile > 0) && (C.ProjectileOdds > 0) && (Math.random() < C.ProjectileOdds * Frame) && (C.Y == PlatformFloor))
