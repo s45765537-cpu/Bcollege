@@ -330,6 +330,8 @@ function StruggleMinigameCheckCancel(C) {
 	StruggleMinigameStop();
 	if (StruggleExitFunction && Game !== "")
 		StruggleExitFunction(C, Game, data);
+
+	return true;
 }
 
 /**
@@ -417,11 +419,11 @@ function StruggleMinigameHandleExpression(Decrease) {
  * Helper function that handles checking and completing the minigame
  *
  * @param {Character} C - The character to check for progress.
+ * @returns {boolean}
  */
 function StruggleProgressCheckEnd(C) {
-
-	// If the operation is completed
-	if (StruggleProgress < 100) return;
+	if (StruggleProgress < 100)
+		return false;
 
 	/** @type {StruggleCompletionData} */
 	const data = {
@@ -441,6 +443,8 @@ function StruggleProgressCheckEnd(C) {
 	if (StruggleExitFunction && Game !== "") {
 		StruggleExitFunction(C, Game, data);
 	}
+
+	return true;
 }
 
 
