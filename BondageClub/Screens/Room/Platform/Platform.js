@@ -265,9 +265,15 @@ var PlatformTemplate = [
 			{ Name: "Wounded", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 110 },
 			{ Name: "Bound", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 120 },
 			{ Name: "Stun", Cycle: [0], Speed: 1000 },
+			{ Name: "StandAttackFast", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], Speed: 19 },
+			{ Name: "CrouchAttackFast", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 19 },
+			{ Name: "StandAttackSlow", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0], Speed: 30 },
 			{ Name: "FireProjectile", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], Speed: 36 }
 		],
 		Attack: [
+			{ Name: "StandAttackFast", HitBox: [0.8, 0.25, 1, 0.4], HitAnimation: [5, 6, 7, 8, 9], StartAudio: ["EdlaranKick0"], HitAudio: ["EdlaranKick0", "EdlaranKick1"], Damage: [1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8], Speed: 300 },
+			{ Name: "CrouchAttackFast", HitBox: [0.65, 0.4, 0.85, 0.55], HitAnimation: [6, 7, 8], HitAudio: ["OliviaSlap0", "OliviaSlap1", "OliviaSlap2", "OliviaSlap3"], Damage: [1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8], Speed: 300 },
+			{ Name: "StandAttackSlow", HitBox: [0, 0.4, 1, 0.8], HitAnimation: [7, 8, 9], StartAudio: ["MelodyKick0"], HitAudio: ["MelodyKick0", "MelodyKick1"], Damage: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], Speed: 600, JumpForce: 60 },
 			{ Name: "FireProjectile", Speed: 750 }
 		],
 		OnBind: function() {
@@ -2919,6 +2925,7 @@ function PlatformAttack(Source, Type) {
 	if (Source.Attack != null)
 		for (let Attack of Source.Attack)
 			if (Attack.Name == Type) {
+				if ((Attack.JumpForce != null) && (Source.ForceY == 0)) Source.ForceY = Attack.JumpForce * -1;
 				if ((Attack.Cooldown != null) && (Attack.Cooldown > 0) && PlatformCooldownActive(Type)) return;
 				if ((Attack.Magic != null) && (Attack.Magic > 0)) {
 					if ((PlatformPlayer.Magic == null) || (PlatformPlayer.Magic < Attack.Magic)) return;
