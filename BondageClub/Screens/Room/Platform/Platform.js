@@ -80,7 +80,7 @@ var PlatformTemplate = [
 		Name: "Melody", // MMD Z: 39
 		Status: "Maid",
 		Perk: "0000000000",
-		PerkName: ["Healthy", "Robust", "Vigorous", "Spring", "Bounce", "Block", "Deflect", "Seduction", "Persuasion", "Manipulation"],
+		PerkName: ["Healthy", "Robust", "Vigorous", "Spring", "Impact", "Block", "Deflect", "Seduction", "Persuasion", "Manipulation"],
 		Health: 12,
 		HealthPerLevel: 4,
 		Width: 400,
@@ -179,7 +179,7 @@ var PlatformTemplate = [
 		Name: "Edlaran", // MMD Z: 35.30
 		Status: "Archer",
 		Perk: "0000000000",
-		PerkName: ["Thief", "Burglar", "Kidnapper", "Spring", "Bounce", "Backflip", "Acrobat", "Archery", "Celerity", "Capacity"],
+		PerkName: ["Fletcher", "Burglar", "Spring", "Athletic", "Sprint", "Backflip", "Acrobat", "Archery", "Celerity", "Capacity"],
 		Width: 400,
 		Height: 400,
 		Health: 14,
@@ -231,6 +231,8 @@ var PlatformTemplate = [
 	{
 		Name: "Lyn", // MMD Z: 41.00
 		Status: "Thief",
+		Perk: "0000000000",
+		PerkName: ["Sneak", "Backstab", "Kidnapper", "Rigger", "Burglar", "Thief", "Spring", "Bounce", "Extra Belt", "Double Edge"],
 		Health: 13,
 		HealthPerLevel: 3,
 		Width: 400,
@@ -1219,8 +1221,9 @@ var PlatformRoomList = [
 			PlatformChar.splice(1, 100);
 			if (!PlatformEventDone("ForestCapture") || PlatformEventDone("ForestCaptureEnd")) {
 				if (PlatformPlayer.Name != "Olivia") PlatformCreateCharacter("Olivia", "Oracle", 1300, true, false, "OliviaCabin");
-				if (PlatformPlayer.Name != "Melody") PlatformCreateCharacter("Melody", "Maid", 1700, true, false, (PlatformPlayer.Name == "Olivia") ? "OliviaCabin" : "EdlaranCabin", true);
-				if (PlatformEventDone("EdlaranJoin") && (PlatformPlayer.Name != "Edlaran")) PlatformCreateCharacter("Edlaran", "Archer", 2100, true, false, "EdlaranCabin", true);
+				if (PlatformPlayer.Name != "Melody") PlatformCreateCharacter("Melody", "Maid", 1600, true, false, PlatformPlayer.Name + "Cabin", true);
+				if (PlatformEventDone("EdlaranJoin") && (PlatformPlayer.Name != "Edlaran")) PlatformCreateCharacter("Edlaran", "Archer", 1900, true, false, "EdlaranCabin", true);
+				if (PlatformEventDone("LynJoin") && (PlatformPlayer.Name != "Lyn")) PlatformCreateCharacter("Lyn", "Thief", 2200, true, false, "LynCabin", true);
 			}
 		},
 		Text: "Wooden Cabin (heal and save)",
@@ -2166,7 +2169,7 @@ function PlatformAddExperience(C, Value) {
  */
 function PlatformSteal(C, Value) {
 	if ((C == null) || (Value == null) || (Value <= 0)) return;
-	if (PlatformHasPerk(C, "Thief") && (C.Projectile != null) && (C.MaxProjectile != null)) {
+	if (PlatformHasPerk(C, "Fletcher") && (C.Projectile != null) && (C.MaxProjectile != null)) {
 		let Qty = Math.floor(Math.random() * (Value + 1));
 		C.Projectile = C.Projectile + Qty;
 		if (C.Projectile > C.MaxProjectile) C.Projectile = C.MaxProjectile;
@@ -3063,7 +3066,7 @@ function PlatformBindStart(Source) {
 		if ((Source.ID != C.ID) && (C.Bound == null) && (C.Status != "Bound") && (C.Health == 0) && (Math.abs(Source.X - C.X + (Source.FaceLeft ? -75 : 75)) < 150) && (Math.abs(Source.Y - C.Y) < 150) && (Source.Y == PlatformFloor)) {
 			C.RiseTime = CommonTime() + 10000;
 			Source.ForceX = 0;
-			Source.Action = { Name: "Bind", Target: C.ID, Start: CommonTime(), Expire: CommonTime() + (PlatformHasPerk(PlatformPlayer, "Kidnapper") ? 1200 : 2400)};
+			Source.Action = { Name: "Bind", Target: C.ID, Start: CommonTime(), Expire: CommonTime() + (PlatformHasPerk(PlatformPlayer, "Rigger") ? 1200 : 2400)};
 			PlatformSoundEffect("Bind", Source.BindAudio, 1);
 			return;
 		}

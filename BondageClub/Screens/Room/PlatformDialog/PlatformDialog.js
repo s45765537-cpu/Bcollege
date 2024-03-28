@@ -1704,6 +1704,58 @@ var PlatformDialogData = [
 	},
 
 	{
+		Name: "LynCabin",
+		Music: "MelodyRoom",
+		Exit : function () { PlatformEventSet("LynCabin"); },
+		Dialog: [
+			{
+				Background: "ForestCabinInterior",
+				Entry: function() {
+					if (PlatformEventDone("LynCabin")) PlatformDialogGoto = "End";
+					PlatformDialogProcess();
+				}
+			},
+			{
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "IdleHappy" },
+					{ Name: "Edlaran", Status: "Archer", Pose: "IdleHappy" },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle" }
+				]
+			},
+			{ Text: "(Lyn and Edlaran are talking loudly and laughing.)" },
+			{ Text: "Hey Melody!  We're talking about our old businesses.", AudioStyle: "cheerful", Audio: "10" },
+			{
+				Text: "I hope you don't mind if we joke about crimes.", AudioStyle: "cheerful", Audio: "20",
+				Answer: [
+					{ Text: "I don't care.", Reply: "(She nods.)  These are old stories anyway.", Audio: "21" },
+					{ Text: "You're free women.", Reply: "(She smirks.)  Damn right!  These are old stories anyway.", Audio: "22", Love: 1, Domination: -1 },
+					{ Text: "You should not be proud of that.", Reply: "(She gulps and nods.)  I understand, these are old stories anyway.", Audio: "23", Love: -1, Domination: 1 },
+				]
+			},
+			{ Text: "The past is the past.  You cannot change it.", Audio: "30" },
+			{ Text: "Back then, Edlaran was my minion, my partner in crime.", Audio: "40" },
+			{ Text: "She borrowed lots of money for parties.  You better not forget your debt Edlaran.  A debt is a debt.", Audio: "50" },
+			{ Text: "(Edlaran looks down and nods slowly.)" },
+			{
+				Text: "Maybe I should boss that girl again.", AudioStyle: "serious", Audio: "60",
+				Answer: [
+					{ Text: "She needs some strict discipline.", Reply: "(She smirks and nods.)  Damn right girl!", Audio: "61", Domination: -2, Script: function() { PlatformDialogAlterProperty("Edlaran", "Domination", 2); } },
+					{ Text: "She's doing fine on her own.", Reply: "(She bows her head.)  Maybe you're right.", Audio: "62", Domination: 2, Script: function() { PlatformDialogAlterProperty("Edlaran", "Domination", -2); } },
+					{ Text: "Let's all be equals.", Reply: "(She shrugs.)  If you think so.", Audio: "63" },
+					{ Text: "I should boss you both.", Reply: "(She bows her head.)  That could also work.", Audio: "64", Domination: 2, Script: function() { PlatformDialogAlterProperty("Edlaran", "Domination", 2); } },
+				]
+			},
+			{ Text: "Anyway!  Let's rest while we can, we can also talk about shady plans.", Audio: "70" },
+			{
+				ID: "End", Audio: "80",
+				Character: [{ Name: "Lyn", Status: "Thief", Pose: "Curious" }],
+				Text: "(She ponders out loud.)  Maybe we could use this cabin to hide a ransomed girl."
+			}
+
+		]
+	},
+
+	{
 		Name: "IntroForestBanditEdlaran",
 		Music: "ForestTheme",
 		Exit : function () { PlatformEventSet("IntroForestBandit"); },
@@ -3036,7 +3088,7 @@ var PlatformDialogData = [
 				]
 			},
 			{
-				Prerequisite: function() { return PlatformDialogIsLover("Olivia"); },
+				Prerequisite: function() { return PlatformDialogIsLover("Lyn"); },
 				Text: "The desert is freaking hot, but not as hot as you honey.", Audio: "20",
 				Character: [
 					{ Name: "Lyn", Status: "Thief", Pose: "Idle" },
@@ -3079,9 +3131,10 @@ var PlatformDialogData = [
 			{
 				Text: "Give me a break.", Audio: "120",
 				Answer: [
-					{ Text: "Don't interrupt Olivia.", Reply: "Damn right!  Thanks Melody!", Audio: "121", Domination: 1, Love: 1 },
-					{ Text: "She's right you know.", Reply: "Of course you're going to side with her.", Audio: "122", Domination: -1, Love: -1 },
+					{ Text: "Don't interrupt Olivia.", Reply: "Damn right!  Thanks Melody!", Audio: "121", Domination: 1, Love: 2, Script: function() { PlatformDialogAlterProperty("Olivia", "Love", -2); } },
+					{ Text: "She's right you know.", Reply: "Of course you're going to side with her.", Audio: "122", Domination: -1, Love: -2, Script: function() { PlatformDialogAlterProperty("Olivia", "Love", 2); } },
 					{ Text: "Let's not fight.", Reply: "Yeah, this is not the time or place.", Audio: "123", Domination: 1 },
+					{ Text: "I'm not getting involved.", Reply: "(She nods and smirks.)", Domination: -1 },
 				]
 			},
 			{ Text: "Anyway!  What was I saying?  Oh yeah, surviving in the desert.", Audio: "130" },

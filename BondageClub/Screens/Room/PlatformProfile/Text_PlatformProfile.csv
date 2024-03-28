@@ -38,18 +38,18 @@ PerkMelody2,Vigorous
 PerkDescMelody2,Faster recovery when down
 PerkMelody3,Spring
 PerkDescMelody3,Higher jump height
-PerkMelody4,Bounce
-PerkDescMelody4,Can jump twice
+PerkMelody4,Impact
+PerkDescMelody4,Stronger uppercut on airborn
 PerkMelody5,Block
-PerkDescMelody5,"Use ""P"" when still to reduce damage"
+PerkDescMelody5,"Use ""P"" when still to block"
 PerkMelody6,Deflect
 PerkDescMelody6,Push back blocked enemies
 PerkMelody7,Seduction
-PerkDescMelody7,Love meter progresses faster
+PerkDescMelody7,Love progresses faster
 PerkMelody8,Persuasion
-PerkDescMelody8,Domination meter progresses faster
+PerkDescMelody8,Domination progresses faster
 PerkMelody9,Manipulation
-PerkDescMelody9,Allow new dialog options
+PerkDescMelody9,Creates new dialog options
 PerkOlivia0,Apprentice
 PerkDescOlivia0,"Unlock magic, use ""K"" to scream"
 PerkOlivia1,Magician
@@ -70,16 +70,16 @@ PerkOlivia8,Teleport
 PerkDescOlivia8,"Use ""I"" to teleport forward"
 PerkOlivia9,Freedom
 PerkDescOlivia9,Faster teleports cooldown
-PerkEdlaran0,Thief
-PerkDescEdlaran0,Steal arrows when restraining
+PerkEdlaran0,Fletcher
+PerkDescEdlaran0,Get arrows when restraining
 PerkEdlaran1,Burglar
 PerkDescEdlaran1,Find more items and BC money
-PerkEdlaran2,Kidnapper
-PerkDescEdlaran2,Restrain at twice the speed
-PerkEdlaran3,Spring
-PerkDescEdlaran3,Higher jump height
-PerkEdlaran4,Bounce
-PerkDescEdlaran4,Can jump twice
+PerkEdlaran2,Spring
+PerkDescEdlaran2,Higher jump height
+PerkEdlaran3,Athletic
+PerkDescEdlaran3,+10% walking/running speed
+PerkEdlaran4,Sprint
+PerkDescEdlaran4,+15% walking/running speed
 PerkEdlaran5,Backflip
 PerkDescEdlaran5,"Move back quickly with ""I"""
 PerkEdlaran6,Acrobat
@@ -90,3 +90,23 @@ PerkEdlaran8,Celerity
 PerkDescEdlaran8,Faster arrow shoots
 PerkEdlaran9,Capacity
 PerkDescEdlaran9,+5 maximum arrows
+PerkLyn0,Sneak
+PerkDescLyn0,+1 damage to back attack
+PerkLyn1,Backstab
+PerkDescLyn1,Add another +1 damage
+PerkLyn2,Kidnapper
+PerkDescLyn2,Auto restrain on back attack
+PerkLyn3,Rigger
+PerkDescLyn3,Restrain at double speed
+PerkLyn4,Burglar
+PerkDescLyn4,Find more items and BC money
+PerkLyn5,Thief
+PerkDescLyn5,Find BC money on hits
+PerkLyn6,Spring
+PerkDescLyn6,Higher jump height
+PerkLyn7,Bounce
+PerkDescLyn7,Can jump twice
+PerkLyn8,Extra Belt
+PerkDescLyn8,Carry 1 extra knife
+PerkLyn9,Double Edge
+PerkDescLyn9,Knives go both ways
