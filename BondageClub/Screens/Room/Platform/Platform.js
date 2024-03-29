@@ -192,9 +192,9 @@ var PlatformTemplate = [
 		ProjectileHitAudio: ["EdlaranBow0"],
 		HitBox: [0.43, 0.07, 0.57, 1],
 		JumpHitBox: [0.43, 0.07, 0.57, 0.7],
-		RunSpeed: 21,
-		WalkSpeed: 14,
-		CrawlSpeed: 7,
+		RunSpeed: 18,
+		WalkSpeed: 12,
+		CrawlSpeed: 6,
 		JumpForce: 43,
 		CollisionDamage: 0,
 		ExperienceValue: 0,
@@ -232,18 +232,18 @@ var PlatformTemplate = [
 		Name: "Lyn", // MMD Z: 41.00
 		Status: "Thief",
 		Perk: "0000000000",
-		PerkName: ["Sneak", "Backstab", "Kidnapper", "Rigger", "Burglar", "Thief", "Spring", "Bounce", "Extra Belt", "Double Edge"],
-		Health: 13,
+		PerkName: ["Sneak", "Backstab", "Kidnapper", "Rigger", "Burglar", "Thief", "Spring", "Bounce", "Inventory", "Duplicate"],
+		Health: 12,
 		HealthPerLevel: 3,
 		Width: 400,
 		Height: 400,
 		HitBox: [0.4, 0.05, 0.6, 1],
 		JumpHitBox: [0.4, 0.05, 0.6, 0.7],
 		JumpForce: 43,
-		RunSpeed: 18,
-		WalkSpeed: 12,
-		CrawlSpeed: 6,
-		Projectile: 25,
+		RunSpeed: 19,
+		WalkSpeed: 13,
+		CrawlSpeed: 7,
+		Projectile: 2,
 		ProjectileName: "Dagger",
 		ProjectileType: "Iron",
 		ProjectileDamage: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
@@ -1611,6 +1611,7 @@ var PlatformRoomList = [
 				let Lyn = PlatformCreateCharacter("Lyn", "Thief", 400);
 				Lyn.MaxHealth = PlatformEventDone("ThiefBossDefeat") ? 73 : 57;
 				Lyn.Health = Lyn.MaxHealth;
+				Lyn.Projectile = PlatformEventDone("ThiefBossDefeat") ? 30 : 15;
 				Lyn.RunSpeed = PlatformEventDone("ThiefBossDefeat") ? 18 : 15;
 				Lyn.JumpForce = PlatformEventDone("ThiefBossDefeat") ? 60 : 50;
 				Lyn.ProjectileDamage = [11, 11];
@@ -1748,10 +1749,12 @@ function PlatformCreateCharacter(CharacterName, StatusName, X, Fix  = null, Comb
 	NewChar.BaseMagic = NewChar.Magic;
 	NewChar.BaseProjectile = NewChar.Projectile;
 	NewChar.BaseProjectileTime = NewChar.ProjectileTime;
+	NewChar.BaseWalkSpeed = NewChar.WalkSpeed;
+	NewChar.BaseRunSpeed = NewChar.RunSpeed;
 	NewChar.HalfBound = false;
 	if (PlatformDialogCharactersAreLovers(NewChar.Name, "Edlaran")) {
-		NewChar.WalkSpeed = Math.round(NewChar.WalkSpeed * 1.1);
-		NewChar.RunSpeed = Math.round(NewChar.RunSpeed * 1.1);
+		NewChar.WalkSpeed = Math.round(NewChar.BaseWalkSpeed * 1.1);
+		NewChar.RunSpeed = Math.round(NewChar.BaseRunSpeed * 1.1);
 	}
 	PlatformSetHealth(NewChar);
 	if (Fix != null) NewChar.Fix = Fix;
@@ -1821,6 +1824,7 @@ function PlatformLoadRoom(RoomName) {
 	if (PlatformRoom == null) return;
 	if (PlatformRoom.Text != null) PlatformMessageSet(PlatformRoom.Text);
 	PlatformHeal = (PlatformRoom.Heal == null) ? null : CommonTime() + PlatformRoom.Heal;
+	if (PlatformPlayer.Name == "Lyn") PlatformPlayer.Projectile = PlatformPlayer.MaxProjectile;
 	PlatformChar.splice(1, 100);
 	if (PlatformRoom.Character != null)
 		for (let Char of PlatformRoom.Character)
@@ -2135,10 +2139,19 @@ function PlatformSetHealth(C) {
 	C.MaxHealth = Math.round(C.MaxHealth * (1 + ((PlatformHasPerk(C, "Healthy") ? 0.1 : 0) + (PlatformHasPerk(C, "Robust") ? 0.15 : 0) + (PlatformDialogCharactersAreLovers(C.Name, "Melody") ? 0.1 : 0))));
 	if (C.MaxMagic != null) C.MaxMagic = Math.round(C.MaxMagic * (1 + ((PlatformHasPerk(C, "Magician") ? 0.1 : 0) + (PlatformHasPerk(C, "Witch") ? 0.15 : 0))));
 	if ((C.MaxProjectile != null) && PlatformHasPerk(C, "Capacity")) C.MaxProjectile = C.MaxProjectile + 5;
+	if ((C.MaxProjectile != null) && PlatformHasPerk(C, "Inventory")) C.MaxProjectile = C.MaxProjectile + 1;
 	C.Health = C.MaxHealth;
 	C.Magic = C.MaxMagic;
 	C.Projectile = C.MaxProjectile;
 	if (C.BaseProjectileTime != null) C.ProjectileTime = C.BaseProjectileTime * (PlatformHasPerk(C, "Celerity") ? 0.8 : 1);
+	if (PlatformHasPerk(C, "Sprint")) {
+		C.WalkSpeed = Math.round(C.BaseWalkSpeed * 1.25);
+		C.RunSpeed = Math.round(C.BaseRunSpeed * 1.25);
+	}
+	else if (PlatformHasPerk(C, "Athletic")) {
+		C.WalkSpeed = Math.round(C.BaseWalkSpeed * 1.1);
+		C.RunSpeed = Math.round(C.BaseRunSpeed * 1.1);
+	}
 }
 
 /**
@@ -2229,6 +2242,13 @@ function PlatformCreateTreasure() {
  */
 function PlatformDamage(Source, Target, Damage, Time, Type, AttackName = "") {
 	if (Target.Combat === false) return;
+	let AutoRestrain = false;
+	if (Source.Camera && !Target.Camera && (Target.FaceLeft == Source.FaceLeft) && !PlatformActionIs(Target, "Any")) {
+		if (PlatformHasPerk(Source, "Thief")) CharacterChangeMoney(Player, 1);
+		if (PlatformHasPerk(Source, "Sneak")) Damage++;
+		if (PlatformHasPerk(Source, "Backstab")) Damage++;
+		if (PlatformHasPerk(Source, "Kidnapper")) AutoRestrain = true;
+	}
 	if (!PlatformActionIs(Target, "Any") && (!PlatformActionIs(Source, "Scream") || PlatformHasPerk(Source, "Roar"))) {
 		if (Math.random() < Target.DamageBackOdds) Target.FaceLeft = (Source.X - Target.X > 0);
 		else if (Math.random() < Target.DamageFaceOdds) Target.FaceLeft = (Source.X - Target.X <= 0);
@@ -2242,8 +2262,13 @@ function PlatformDamage(Source, Target, Damage, Time, Type, AttackName = "") {
 		}
 	} else {
 		Target.ForceX = (Target.DamageKnockForce + Math.random() * Target.DamageKnockForce) * ((Source.X - Target.X < 0) ? 1 : -1);
-		if ((Target.Y < PlatformFloor) && (Type == "Action"))
-			Target.ForceY = (AttackName === "Uppercut") ? -40 : -25;
+		if ((Target.Y < PlatformFloor) && (Type == "Action")) {
+			Target.ForceY = (AttackName === "Uppercut") ? -35 : -25;
+			if ((AttackName === "Uppercut") && PlatformHasPerk(PlatformPlayer, "Impact")) {
+				Target.ForceY = -45;
+				Damage = Math.ceil(Damage * 1.5);
+			}
+		}
 	}
 	Target.Health = Target.Health - Damage;
 	Target.Immunity = Time + PlatformImmunityTime;
@@ -2254,6 +2279,7 @@ function PlatformDamage(Source, Target, Damage, Time, Type, AttackName = "") {
 		Target.RiseTime = Time + (PlatformHasPerk(Target, "Vigorous") ? 7000 : 10000);
 		Target.Immunity = Time + 2000;
 		PlatformSoundEffect("Down", Target.DownAudio);
+		if (AutoRestrain) PlatformBindTarget(Source, Target);
 	} else PlatformSoundEffect("Damage", Target.DamageAudio);
 }
 
@@ -2546,7 +2572,21 @@ function PlatformProjectile(C, LongShot) {
 	if ((Damage == null) || (Damage < 1)) Damage = 1;
 	if (PlatformHasPerk(C, "Archery")) Damage++;
 	PlatformCreateProjectile(C.ProjectileName, C.ProjectileType, C.FaceLeft, C.X + ((C.FaceLeft) ? -100 : 100), C.Height * 0.8, LongShot ? 60 : 36, 0.25, Damage, C.ProjectileHitAudio);
-	if (C.ProjectileBothSides) PlatformCreateProjectile(C.ProjectileName, C.ProjectileType, !C.FaceLeft, C.X + ((!C.FaceLeft) ? -100 : 100), C.Height * 0.8, LongShot ? 60 : 36, 0.25, Damage, C.ProjectileHitAudio);
+	if (C.ProjectileBothSides || PlatformHasPerk(C, "Duplicate")) PlatformCreateProjectile(C.ProjectileName, C.ProjectileType, !C.FaceLeft, C.X + ((!C.FaceLeft) ? -100 : 100), C.Height * 0.8, LongShot ? 60 : 36, 0.25, Damage, C.ProjectileHitAudio);
+}
+
+/**
+ * Binds a target character by the source character
+ * @param {Object} Source - The source character that's doing the bondage
+ * @param {Object} Target - The target character that's getting bound
+ * @returns {void} - Nothing
+ */
+function PlatformBindTarget(Source, Target) {
+	PlatformAddExperience(Source, Target.ExperienceValue);
+	PlatformFindInventory(Source, Target);
+	PlatformSteal(Source, Target.ExperienceValue);
+	Target.Bound = true;
+	if (Target.OnBind != null) Target.OnBind();
 }
 
 /**
@@ -2635,7 +2675,14 @@ function PlatformDrawGame() {
 		if (MustHeal && (C.Magic != null) && (C.MaxMagic != null) && (C.MaxMagic > 0) && (C.Magic < C.MaxMagic)) C.Magic++;
 		if (MustHeal && (C.Projectile != null) && (C.MaxProjectile != null) && (C.MaxProjectile > 0) && (C.Projectile < C.MaxProjectile)) C.Projectile++;
 
-		// AI walks from left to right
+		// If the player character is using a projectile
+		if (C.Camera && (C.Health > 0) && !C.HalfBound && PlatformActionIs(C, "FireProjectile"))
+			if ((PlatformTime >= C.Action.Start + C.ProjectileTime) && (C.Action.Done == null)) {
+				PlatformProjectile(C, false);
+				C.Action.Done = true;
+			}
+
+		// AI walks from left to right, some can throw projectiles
 		if (!C.Camera && (C.Health > 0) && !C.Fix) {
 			if (PlatformActionIs(C, "FireProjectile")) {
 				if ((PlatformTime >= C.Action.Start + C.ProjectileTime) && (C.Action.Done == null)) {
@@ -2673,13 +2720,8 @@ function PlatformDrawGame() {
 			C.ForceX = 0;
 			if (C.Action.Expire < CommonTime()) {
 				for (let Target of PlatformChar)
-					if (Target.ID == C.Action.Target) {
-						PlatformAddExperience(C, Target.ExperienceValue);
-						PlatformFindInventory(C, Target);
-						PlatformSteal(C, Target.ExperienceValue);
-						Target.Bound = true;
-						if (Target.OnBind != null) Target.OnBind();
-					}
+					if (Target.ID == C.Action.Target)
+						PlatformBindTarget(C, Target);
 				C.Action = null;
 			}
 		}
@@ -3246,6 +3288,7 @@ function PlatformEventKeyDown(Code) {
 	if ((Code == "KeyK") && !PlatformPlayer.HalfBound && !PlatformMoveActive("Crouch") && PlatformHasPerk(PlatformPlayer, "Apprentice")) return PlatformAttack(PlatformPlayer, "Scream");
 	if ((Code == "KeyK") && !PlatformPlayer.HalfBound && PlatformAnimAvailable(PlatformPlayer, "StandAttackSlow")) return PlatformAttack(PlatformPlayer, PlatformMoveActive("Crouch") ? "CrouchAttackSlow" : "StandAttackSlow");
 	if ((Code == "KeyI") && !PlatformPlayer.HalfBound && PlatformAnimAvailable(PlatformPlayer, "Uppercut")) return PlatformAttack(PlatformPlayer, "Uppercut");
+	if ((Code == "KeyI") && !PlatformPlayer.HalfBound && (PlatformPlayer.Name == "Lyn") && (PlatformPlayer.Projectile > 0)) return PlatformAttack(PlatformPlayer, "FireProjectile");
 	if ((Code == "KeyO") && (PlatformHeal != null)) return PlatformPartyNext();
 	if ((Code == "KeyO") && (PlatformHeal == null)) return PlatformBindStart(PlatformPlayer);
 	if ((PlatformRoom.Heal != null) && (Code >= "Digit0") && (Code <= "Digit9")) return PlatformSaveGame(parseInt(Code.substring(5)));

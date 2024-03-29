@@ -161,7 +161,7 @@ function PlatformProfileRun() {
 		PlatformProfileDrawPerkButton(1100, 620, 6);
 		PlatformProfileDrawPerkButton(1300, 720, 7, "Spring");
 		PlatformProfileDrawPerkButton(1100, 820, 8);
-		PlatformProfileDrawPerkButton(1300, 920, 9, "Extra Belt");
+		PlatformProfileDrawPerkButton(1300, 920, 9, "Inventory");
 	}
 	if ((PlatformHeal != null) && (PlatformParty.length >= 2)) DrawButton(1800, 10, 90, 90, "", "White", "Icons/Next.png", TextGet("ChangeCharacter"));
 	DrawButton(1900, 10, 90, 90, "", "White", "Icons/Exit.png", TextGet("Exit"));
@@ -229,7 +229,7 @@ function PlatformProfileClick() {
 	if ((PlatformPlayer.Name == "Lyn") && MouseIn(1100, 620, 400, 60)) PlatformProfileBuyPerk(6);
 	if ((PlatformPlayer.Name == "Lyn") && MouseIn(1300, 720, 400, 60) && PlatformHasPerk(PlatformPlayer, "Spring")) PlatformProfileBuyPerk(7);
 	if ((PlatformPlayer.Name == "Lyn") && MouseIn(1100, 820, 400, 60)) PlatformProfileBuyPerk(8);
-	if ((PlatformPlayer.Name == "Lyn") && MouseIn(1300, 920, 400, 60) && PlatformHasPerk(PlatformPlayer, "Extra Belt")) PlatformProfileBuyPerk(9);
+	if ((PlatformPlayer.Name == "Lyn") && MouseIn(1300, 920, 400, 60) && PlatformHasPerk(PlatformPlayer, "Inventory")) PlatformProfileBuyPerk(9);
 }
 
 /**
