@@ -3265,7 +3265,7 @@ var PlatformDialogData = [
 					PlatformDialogGetCharacter("Melody").LoverName = "Olivia";
 					PlatformDialogGetCharacter("Olivia").LoverLevel = 1;
 					PlatformDialogGetCharacter("Melody").LoverLevel = 1;
-					PlatformSetHealth(PlatformPlayer);
+					PlatformDialogRelationshipChange();
 				}
 			},
 
@@ -3296,11 +3296,9 @@ var PlatformDialogData = [
 			{ Text: "(You wake up in each other arms, smiling and talking about what lies ahead.)" },
 			{ Text: "(You and Olivia are now girlfriends, the first lover stage.)" },
 			{ Text: "(As Melody's lover, Olivia gets +10% health points.)" },
-			{ Text: "(As Olivia's lover, Melody gets +15% experience points.)" },
+			{ Text: "(As Olivia's lover, Melody gets +10% experience points.)" },
 			{ Text: "(The adventure continues...)" },
-
 			{ ID: "Skip", Entry: function() { PlatformDialogLeave(); } },
-
 		],
 	},
 
@@ -3330,7 +3328,7 @@ var PlatformDialogData = [
 							delete PlatformDialogGetCharacter("Melody").LoverName;
 							delete PlatformDialogGetCharacter("Olivia").LoverLevel;
 							delete PlatformDialogGetCharacter("Melody").LoverLevel;
-							PlatformSetHealth(PlatformPlayer);
+							PlatformDialogRelationshipChange();
 						}
 					},
 					{ Text: "(Kiss her.)", Reply: "(You share a quick kiss before the adventure continues.)", Goto: "Skip" },
@@ -3452,6 +3450,7 @@ var PlatformDialogData = [
 					PlatformDialogGetCharacter("Olivia").Domination = PlatformDialogGetCharacter("Olivia").Domination + 3;
 					PlatformDialogGetCharacter("Olivia").OwnerName = "Melody";
 					PlatformDialogGetCharacter("Olivia").OwnerLevel = 1;
+					PlatformDialogRelationshipChange();
 				},
 				Text: "Please explain to me what it means exactly.", Audio: "160", AudioStyle: "calm"
 			},
@@ -3501,7 +3500,7 @@ var PlatformDialogData = [
 			{ Text: "I will aim to be the best protégée ever, Miss Melody.", Audio: "300", AudioStyle: "calm" },
 			{ Text: "Under your wing, nothing will scare me anymore.", Audio: "310", AudioStyle: "calm" },
 			{ Text: "(You're now Olivia's Protector, the first owner stage.)" },
-			{ Text: "(As Melody's submissive, Olivia's fist attack gets +15% damage.)" },
+			{ Text: "(As Melody's submissive, Olivia gets +10% health points.)" },
 			{ Text: "(The adventure continues...)" },
 			{ ID: "Skip", Entry: function() { PlatformDialogLeave(); } },
 		],
@@ -3531,6 +3530,7 @@ var PlatformDialogData = [
 							if (PlatformDialogGetCharacter("Olivia").Domination >= 19) PlatformDialogGetCharacter("Olivia").Domination = 18;
 							delete PlatformDialogGetCharacter("Olivia").OwnerName;
 							delete PlatformDialogGetCharacter("Olivia").OwnerLevel;
+							PlatformDialogRelationshipChange();
 						}
 					},
 					{ Text: "(Pet her head.)", Reply: "(You pet her head before the adventure continues.)", Goto: "Skip" },
@@ -3555,7 +3555,7 @@ var PlatformDialogData = [
 			{ Text: "Maybe it never made any sense from the start.", Audio: "60", AudioStyle: "terrified" },
 			{ Text: "You're a maid and I'm of noble blood.", Audio: "70" },
 			{ Text: "Let's forget this story, we have a long quest ahead.", Audio: "80" },
-			{ Text: "(You're no longer Olivia's Dominant.  She loses her fist damage bonus.)" },
+			{ Text: "(You're no longer Olivia's Dominant.  She loses her health bonus.)" },
 			{ Text: "(The adventure continues...)" },
 			{ ID: "Skip", Entry: function() { PlatformDialogLeave(); } },
 		],
@@ -3613,6 +3613,7 @@ var PlatformDialogData = [
 					PlatformDialogGetCharacter("Olivia").Domination = PlatformDialogGetCharacter("Olivia").Domination - 3;
 					PlatformDialogGetCharacter("Melody").OwnerName = "Olivia";
 					PlatformDialogGetCharacter("Melody").OwnerLevel = 1;
+					PlatformDialogRelationshipChange();
 				},
 				Text: "(She looks at you and inspects your maid costume.)"
 			},
@@ -3651,7 +3652,7 @@ var PlatformDialogData = [
 			{ Text: "(You carefully kiss her feet many times as she smirks.)" },
 			{ Text: "It will be wonderful to have you as my maid and pet.  I will take good care of you.", Audio: "240", AudioStyle: "serious" },
 			{ Text: "(Olivia is now your Protector, the first owner stage.)" },
-			{ Text: "(As Olivia's submissive, Melody gets +15% experience points.)" },
+			{ Text: "(As Olivia's submissive, Melody gets +10% experience points.)" },
 			{ Text: "(The adventure continues...)" },
 			{ ID: "Skip", Entry: function() { PlatformDialogLeave(); } },
 		],
@@ -3681,6 +3682,7 @@ var PlatformDialogData = [
 							if (PlatformDialogGetCharacter("Olivia").Domination <= -19) PlatformDialogGetCharacter("Olivia").Domination = -18;
 							delete PlatformDialogGetCharacter("Melody").OwnerName;
 							delete PlatformDialogGetCharacter("Melody").OwnerLevel;
+							PlatformDialogRelationshipChange();
 						}
 					},
 					{ Text: "(Do a maid curtsy.)", Reply: "(You do a maid curtsy, and the adventure continues.)", Goto: "Skip" },
@@ -3809,7 +3811,7 @@ var PlatformDialogData = [
 					PlatformDialogGetCharacter("Melody").LoverName = "Edlaran";
 					PlatformDialogGetCharacter("Edlaran").LoverLevel = 1;
 					PlatformDialogGetCharacter("Melody").LoverLevel = 1;
-					PlatformSetHealth(PlatformPlayer);
+					PlatformDialogRelationshipChange();
 				},
 				Character: [{ Name: "Edlaran", Status: "Archer", Pose: "FrenchKissMaidMelody" }]
 			},
@@ -3849,7 +3851,7 @@ var PlatformDialogData = [
 			{ Text: "(You get shattering orgasms, sharing your newfound love.)" },
 			{ ID: "NoSex", Text: "(You and Edlaran are now girlfriends, the first lover stage.)" },
 			{ Text: "(As Melody's lover, Edlaran gets +10% health points.)" },
-			{ Text: "(As Olivia's lover, Melody gets +10% walking & running speed.)" },
+			{ Text: "(As Edlaran's lover, Melody gets +10% walking & running speed.)" },
 			{ Text: "(The adventure continues...)" },
 			{ ID: "Skip", Entry: function() { PlatformDialogLeave(); } },
 
@@ -3881,7 +3883,7 @@ var PlatformDialogData = [
 							delete PlatformDialogGetCharacter("Melody").LoverName;
 							delete PlatformDialogGetCharacter("Edlaran").LoverLevel;
 							delete PlatformDialogGetCharacter("Melody").LoverLevel;
-							PlatformSetHealth(PlatformPlayer);
+							PlatformDialogRelationshipChange();
 						}
 					},
 					{ Text: "(Kiss her.)", Reply: "(You enjoy a short kiss before the journey goes on.)", Goto: "Skip" },
@@ -3999,6 +4001,7 @@ var PlatformDialogData = [
 					PlatformDialogGetCharacter("Edlaran").Domination = PlatformDialogGetCharacter("Edlaran").Domination + 3;
 					PlatformDialogGetCharacter("Edlaran").OwnerName = "Melody";
 					PlatformDialogGetCharacter("Edlaran").OwnerLevel = 1;
+					PlatformDialogRelationshipChange();
 				},
 				Text: "But it won't be easy to undo my bad habits.", Audio: "150"
 			},
@@ -4050,7 +4053,7 @@ var PlatformDialogData = [
 			{ Text: "I will try to follow your orders and live a better life.", Audio: "310", AudioStyle: "calm" },
 			{ Text: "(She presents her butt again for another playful spank.)" },
 			{ Text: "(You're now Edlaran's Protector, the first owner stage.)" },
-			{ Text: "(As Melody's submissive, Edlaran's kick attack gets +15% damage.)" },
+			{ Text: "(As Melody's submissive, Edlaran gets +10% health points.)" },
 			{ Text: "(The adventure continues...)" },
 			{ ID: "Skip", Entry: function() { PlatformDialogLeave(); } },
 		],
@@ -4080,6 +4083,7 @@ var PlatformDialogData = [
 							if (PlatformDialogGetCharacter("Edlaran").Domination >= 19) PlatformDialogGetCharacter("Edlaran").Domination = 18;
 							delete PlatformDialogGetCharacter("Edlaran").OwnerName;
 							delete PlatformDialogGetCharacter("Edlaran").OwnerLevel;
+							PlatformDialogRelationshipChange();
 						}
 					},
 					{ Text: "(Pinch her cheek.)", Reply: "(You pinch her playfully and the adventure continues.)", Goto: "Skip" },
@@ -4100,7 +4104,7 @@ var PlatformDialogData = [
 			{ Text: "I'm a free elf after all.  I should not be controlled by a human.", Audio: "70" },
 			{ Text: "Without chains, I'll be able to do more shady businesses.", Audio: "80" },
 			{ Text: "Is it a crime to do shady businesses?  Don't answer.", Audio: "90" },
-			{ Text: "(You're no longer Edlaran's Dominant.  She loses her kick damage bonus.)" },
+			{ Text: "(You're no longer Edlaran's Dominant.  She loses the health bonus.)" },
 			{ Text: "(The adventure continues...)" },
 			{ ID: "Skip", Entry: function() { PlatformDialogLeave(); } },
 		],
@@ -4181,10 +4185,11 @@ var PlatformDialogData = [
 					PlatformDialogGetCharacter("Edlaran").Domination = PlatformDialogGetCharacter("Edlaran").Domination - 3;
 					PlatformDialogGetCharacter("Melody").OwnerName = "Edlaran";
 					PlatformDialogGetCharacter("Melody").OwnerLevel = 1;
+					PlatformDialogRelationshipChange();
 				},
 				Text: "Fine!  I'll do it!  I'll take control of you.", Audio: "120"
 			},
-			{ Text: "I'll teach you my tricks.  You'll get richer in no time.", Audio: "130" },
+			{ Text: "I'll teach you my tricks.  You'll run faster than the wind.", Audio: "130" },
 			{ Text: "I'll show you how to dash out of taverns and get free coins.", Audio: "140" },
 			{ Text: "But don't think it will be easy.  There will be constraints.", Audio: "150" },
 			{ Text: "You'll need to be polite with me.  You'll call me 'Miss' or 'Madam' or something similar.", Audio: "160" },
@@ -4254,7 +4259,7 @@ var PlatformDialogData = [
 			},
 			{ Text: "I will protect and control you my little maid.  It will be fun.", Audio: "300", AudioStyle: "cheerful" },
 			{ Text: "(Edlaran is now your Protector, the first owner stage.)" },
-			{ Text: "(As Edlaran's submissive, Melody will find BC money and more loot when binding someone.)" },
+			{ Text: "(As Edlaran's submissive, Melody gets +10% walking & running speed.)" },
 			{ Text: "(The adventure continues...)" },
 			{ ID: "Skip", Entry: function() { PlatformDialogLeave(); } },
 		],
@@ -4283,6 +4288,7 @@ var PlatformDialogData = [
 							if (PlatformDialogGetCharacter("Edlaran").Domination <= -19) PlatformDialogGetCharacter("Edlaran").Domination = -18;
 							delete PlatformDialogGetCharacter("Melody").OwnerName;
 							delete PlatformDialogGetCharacter("Melody").OwnerLevel;
+							PlatformDialogRelationshipChange();
 						}
 					},
 					{ Text: "(Do a maid curtsy.)", Reply: "(You do a maid curtsy, and the adventure continues.)", Goto: "Skip" },
@@ -4301,7 +4307,7 @@ var PlatformDialogData = [
 			},
 			{ Text: "Melody, go roam and explore the world.  Have fun in your newfound freedom.", Audio: "40" },
 			{ Text: "Liberty is important, I'm proud that you can go on without an owner.", Audio: "50" },
-			{ Text: "(You're no longer Edlaran's submissive.  You lose all looting bonuses.)" },
+			{ Text: "(You're no longer Edlaran's submissive.  You lose the walking and running bonuses.)" },
 			{ Text: "(The adventure continues...)" },
 			{ ID: "Skip", Entry: function() { PlatformDialogLeave(); } },
 		],
@@ -4768,6 +4774,33 @@ function PlatformDialogIsSlaveOfCharacter(Char1, Char2) {
 function PlatformDialogIsOwner(Name) {
 	if (PlatformDialogGetCharacter(Name) == null) return false;
 	return ((PlatformDialogGetCharacter("Melody").OwnerName === Name) && ((PlatformPlayer.Name === "Melody") || (PlatformPlayer.Name === Name)));
+}
+
+
+/**
+ * Returns 0 if the source character and target character are not in a relationship, 1 if lover or slave, 2 if lover and slave
+ * @param {String} SourceName - The source character name to evaluate
+ * @param {String} TargetName - The target character name to evaluate
+ * @returns {number} - TRUE if lover
+ */
+function PlatformDialogLoverAndSlaveFactor(SourceName, TargetName) {
+	if ((SourceName == null) || (TargetName == null) || (SourceName === TargetName)) return 0;
+	let Factor = 0;
+	if (PlatformDialogCharactersAreLovers(SourceName, TargetName)) Factor++;
+	if (PlatformDialogIsSlaveOfCharacter(SourceName, TargetName)) Factor++;
+	return Factor;
+}
+
+/**
+ * Called each time a relationship changes through dialog
+ * @returns {void} - Nothing
+ */
+function PlatformDialogRelationshipChange() {
+	PlatformSetHealth(PlatformPlayer);
+	if (PlatformPlayer.Name == "Melody") {
+		PlatformPlayer.WalkSpeed = Math.round(PlatformPlayer.BaseWalkSpeed * (1 + (PlatformDialogLoverAndSlaveFactor(PlatformPlayer.Name, "Edlaran") * 0.1)));
+		PlatformPlayer.RunSpeed = Math.round(PlatformPlayer.BaseRunSpeed * (1 + (PlatformDialogLoverAndSlaveFactor(PlatformPlayer.Name, "Edlaran") * 0.1)));
+	}
 }
 
 /**

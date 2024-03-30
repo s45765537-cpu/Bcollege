@@ -128,7 +128,7 @@ var PlatformTemplate = [
 		Name: "Olivia", // MMD Z: 39
 		Status: "Oracle",
 		Perk: "0000000000",
-		PerkName: ["Apprentice", "Magician", "Witch", "Regenaration", "Heal", "Cure", "Howl", "Roar", "Teleport", "Freedom"],
+		PerkName: ["Apprentice", "Witch", "Meditation", "Scholar", "Heal", "Cure", "Howl", "Roar", "Teleport", "Freedom"],
 		Width: 400,
 		Height: 400,
 		Health: 10,
@@ -1745,17 +1745,15 @@ function PlatformCreateCharacter(CharacterName, StatusName, X, Fix  = null, Comb
 	NewChar.ForceY = 0;
 	NewChar.Experience = 0;
 	NewChar.Level = 1;
+	NewChar.HalfBound = false;
 	NewChar.BaseHealth = NewChar.Health;
 	NewChar.BaseMagic = NewChar.Magic;
 	NewChar.BaseProjectile = NewChar.Projectile;
 	NewChar.BaseProjectileTime = NewChar.ProjectileTime;
 	NewChar.BaseWalkSpeed = NewChar.WalkSpeed;
 	NewChar.BaseRunSpeed = NewChar.RunSpeed;
-	NewChar.HalfBound = false;
-	if (PlatformDialogCharactersAreLovers(NewChar.Name, "Edlaran")) {
-		NewChar.WalkSpeed = Math.round(NewChar.BaseWalkSpeed * 1.1);
-		NewChar.RunSpeed = Math.round(NewChar.BaseRunSpeed * 1.1);
-	}
+	NewChar.WalkSpeed = Math.round(NewChar.BaseWalkSpeed * (1 + (PlatformDialogLoverAndSlaveFactor(NewChar.Name, "Edlaran") * 0.1)));
+	NewChar.RunSpeed = Math.round(NewChar.BaseRunSpeed * (1 + (PlatformDialogLoverAndSlaveFactor(NewChar.Name, "Edlaran") * 0.1)));
 	PlatformSetHealth(NewChar);
 	if (Fix != null) NewChar.Fix = Fix;
 	if (Combat != null) NewChar.Combat = Combat;
@@ -2136,8 +2134,8 @@ function PlatformSetHealth(C) {
 	C.MaxProjectile = C.BaseProjectile;
 	if (C.HealthPerLevel != null) C.MaxHealth = C.MaxHealth + C.HealthPerLevel * C.Level;
 	if (C.MagicPerLevel != null) C.MaxMagic = C.MaxMagic + C.MagicPerLevel * C.Level;
-	C.MaxHealth = Math.round(C.MaxHealth * (1 + ((PlatformHasPerk(C, "Healthy") ? 0.1 : 0) + (PlatformHasPerk(C, "Robust") ? 0.15 : 0) + (PlatformDialogCharactersAreLovers(C.Name, "Melody") ? 0.1 : 0))));
-	if (C.MaxMagic != null) C.MaxMagic = Math.round(C.MaxMagic * (1 + ((PlatformHasPerk(C, "Magician") ? 0.1 : 0) + (PlatformHasPerk(C, "Witch") ? 0.15 : 0))));
+	C.MaxHealth = Math.round(C.MaxHealth * (1 + ((PlatformHasPerk(C, "Healthy") ? 0.1 : 0) + (PlatformHasPerk(C, "Robust") ? 0.15 : 0) + (PlatformDialogLoverAndSlaveFactor(C.Name, "Melody") * 0.1))));
+	if (C.MaxMagic != null) C.MaxMagic = Math.round(C.MaxMagic * (1 + (PlatformHasPerk(C, "Witch") ? 0.2 : 0)));
 	if ((C.MaxProjectile != null) && PlatformHasPerk(C, "Capacity")) C.MaxProjectile = C.MaxProjectile + 5;
 	if ((C.MaxProjectile != null) && PlatformHasPerk(C, "Inventory")) C.MaxProjectile = C.MaxProjectile + 1;
 	C.Health = C.MaxHealth;
@@ -2163,8 +2161,8 @@ function PlatformSetHealth(C) {
 function PlatformAddExperience(C, Value) {
 	if ((Value == null) || (Value <= 0)) return;
 	if (C.Camera) Value = Value * CheatFactor("DoubleBrawlExperience", 2);
-	if (PlatformDialogCharactersAreLovers(C.Name, "Olivia")) Value = Math.round(Value * 1.15);
-	if (PlatformDialogIsSlaveOfCharacter(C.Name, "Olivia")) Value = Math.round(Value * 1.15);
+	if (PlatformHasPerk(C, "Scholar")) Value = Math.round(Value * 1.2);
+	Value = Math.round(Value * (1 + (PlatformDialogLoverAndSlaveFactor(C.Name, "Olivia") * 0.1)));
 	C.Experience = C.Experience + Value;
 	if (C.Experience >= PlatformExperienceForLevel[C.Level]) {
 		if (C.Camera) PlatformMessageSet(TextGet("LevelUp").replace("CharacterName", C.Name));
@@ -2187,7 +2185,7 @@ function PlatformSteal(C, Value) {
 		C.Projectile = C.Projectile + Qty;
 		if (C.Projectile > C.MaxProjectile) C.Projectile = C.MaxProjectile;
 	}
-	if (PlatformHasPerk(C, "Burglar") || PlatformDialogIsSlaveOfCharacter(C.Name, "Edlaran")) {
+	if (PlatformHasPerk(C, "Burglar")) {
 		let Money = Math.floor(Math.random() * (Value + 1));
 		if (Money > 0) CharacterChangeMoney(Player, Money);
 	}
@@ -2215,7 +2213,6 @@ function PlatformFindInventory(Source, Target) {
 	if ((Source == null) || (Target == null) || (Target.ExperienceValue == null) || (Target.ExperienceValue <= 0)) return;
 	let Odds = (Target.LootOdds == null) ? 0.1 : Target.LootOdds;
 	if (PlatformHasPerk(Source, "Burglar")) Odds = Odds * 1.75;
-	if (PlatformDialogIsSlaveOfCharacter(Source.Name, "Edlaran")) Odds = Odds * 1.75;
 	if (Math.random() < Odds) PlatformAddRandomInventory(Target);
 }
 
@@ -2247,6 +2244,7 @@ function PlatformDamage(Source, Target, Damage, Time, Type, AttackName = "") {
 		if (PlatformHasPerk(Source, "Thief")) CharacterChangeMoney(Player, 1);
 		if (PlatformHasPerk(Source, "Sneak")) Damage++;
 		if (PlatformHasPerk(Source, "Backstab")) Damage++;
+		Damage = Damage + PlatformDialogLoverAndSlaveFactor(Source.Name, "Lyn");
 		if (PlatformHasPerk(Source, "Kidnapper")) AutoRestrain = true;
 	}
 	if (!PlatformActionIs(Target, "Any") && (!PlatformActionIs(Source, "Scream") || PlatformHasPerk(Source, "Roar"))) {
@@ -2382,7 +2380,6 @@ function PlatformProcessAction(Source, Time) {
 					if ((Attack.Name == Source.Anim.Name) && (Attack.HitAnimation != null) && (Attack.HitAnimation.indexOf(Source.Anim.Image) >= 0)) {
 						Damage = Attack.Damage[Source.Level];
 						AttackName = Attack.Name;
-						if (((Attack.Name === "StandAttackFast") || (Attack.Name === "CrouchAttackFast")) && PlatformDialogIsSlave(Source.Name)) Damage = Math.round(Damage * 1.15);
 						HitBox = Attack.HitBox;
 						Audio = Attack.HitAudio;
 						break;
@@ -2654,7 +2651,7 @@ function PlatformDrawGame() {
 	// If we must regenarate magic for the player
 	if (!MustHeal && (PlatformPlayer.MaxMagic != null) && (PlatformPlayer.Magic != null) && (PlatformRegen < PlatformTime)) {
 		if (PlatformPlayer.Magic < PlatformPlayer.MaxMagic) PlatformPlayer.Magic++;
-		PlatformRegen = PlatformTime + (PlatformHasPerk("Regeneration") ? 6000 : 8000);
+		PlatformRegen = PlatformTime + (PlatformHasPerk("Meditation") ? 6000 : 8000);
 	}
 
 	// Draw each characters

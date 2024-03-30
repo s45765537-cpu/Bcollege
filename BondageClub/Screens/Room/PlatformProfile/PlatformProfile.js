@@ -56,7 +56,7 @@ function PlatformProfileDrawPerkButton(X, Y, PerkNum, Prerequisite1, Prerequisit
 function PlatformGetOwnerBonus(PlatformChar) {
 	let Char = PlatformDialogGetCharacter(PlatformChar.Name);
 	if ((Char == null) || (Char.OwnerName == null) || (Char.OwnerName == "") || (Char.OwnerLevel == null) || (Char.OwnerLevel <= 0)) return TextGet("NoOwnerBonus");
-	return TextGet(Char.OwnerName + "OwnerBonus" + Char.OwnerLevel.toString());
+	return TextGet(Char.OwnerName + "RelationshipBonus");
 }
 
 /**
@@ -67,7 +67,7 @@ function PlatformGetOwnerBonus(PlatformChar) {
 function PlatformGetLoverBonus(PlatformChar) {
 	let Char = PlatformDialogGetCharacter(PlatformChar.Name);
 	if ((Char == null) || (Char.LoverName == null) || (Char.LoverName == "") || (Char.LoverLevel == null) || (Char.LoverLevel <= 0)) return TextGet("NoLoverBonus");
-	return TextGet(Char.LoverName + "LoverBonus" + Char.LoverLevel.toString());
+	return TextGet(Char.LoverName + "RelationshipBonus");
 }
 
 /**
@@ -110,7 +110,7 @@ function PlatformProfileRun() {
 	if (PlatformPlayer.Name == "Olivia") {
 		PlatformProfileDrawArrow(1150, 50, 1250, 150);
 		PlatformProfileDrawArrow(1350, 150, 1450, 250);
-		PlatformProfileDrawArrow(1350, 150, 1450, 350);
+		PlatformProfileDrawArrow(1150, 50, 1250, 350);
 		PlatformProfileDrawArrow(1150, 50, 1250, 450);
 		PlatformProfileDrawArrow(1350, 450, 1450, 550);
 		PlatformProfileDrawArrow(1150, 50, 1250, 450);
@@ -121,8 +121,8 @@ function PlatformProfileRun() {
 		PlatformProfileDrawArrow(1350, 850, 1450, 950);
 		PlatformProfileDrawPerkButton(1100, 20, 0);
 		PlatformProfileDrawPerkButton(1300, 120, 1, "Apprentice");
-		PlatformProfileDrawPerkButton(1500, 220, 2, "Magician");
-		PlatformProfileDrawPerkButton(1500, 320, 3, "Magician");
+		PlatformProfileDrawPerkButton(1500, 220, 2, "Witch");
+		PlatformProfileDrawPerkButton(1300, 320, 3, "Apprentice");
 		PlatformProfileDrawPerkButton(1300, 420, 4, "Apprentice");
 		PlatformProfileDrawPerkButton(1500, 520, 5, "Heal");
 		PlatformProfileDrawPerkButton(1300, 620, 6, "Apprentice");
@@ -202,8 +202,8 @@ function PlatformProfileClick() {
 	if ((PlatformPlayer.Name == "Melody") && MouseIn(1500, 920, 400, 60) && PlatformHasPerk(PlatformPlayer, "Seduction") && PlatformHasPerk(PlatformPlayer, "Persuasion")) PlatformProfileBuyPerk(9);
 	if ((PlatformPlayer.Name == "Olivia") && MouseIn(1100, 20, 400, 60)) PlatformProfileBuyPerk(0);
 	if ((PlatformPlayer.Name == "Olivia") && MouseIn(1300, 120, 400, 60) && PlatformHasPerk(PlatformPlayer, "Apprentice")) PlatformProfileBuyPerk(1);
-	if ((PlatformPlayer.Name == "Olivia") && MouseIn(1500, 220, 400, 60) && PlatformHasPerk(PlatformPlayer, "Magician")) PlatformProfileBuyPerk(2);
-	if ((PlatformPlayer.Name == "Olivia") && MouseIn(1500, 320, 400, 60) && PlatformHasPerk(PlatformPlayer, "Magician")) PlatformProfileBuyPerk(3);
+	if ((PlatformPlayer.Name == "Olivia") && MouseIn(1500, 220, 400, 60) && PlatformHasPerk(PlatformPlayer, "Witch")) PlatformProfileBuyPerk(2);
+	if ((PlatformPlayer.Name == "Olivia") && MouseIn(1300, 320, 400, 60) && PlatformHasPerk(PlatformPlayer, "Apprentice")) PlatformProfileBuyPerk(3);
 	if ((PlatformPlayer.Name == "Olivia") && MouseIn(1300, 420, 400, 60) && PlatformHasPerk(PlatformPlayer, "Apprentice")) PlatformProfileBuyPerk(4);
 	if ((PlatformPlayer.Name == "Olivia") && MouseIn(1500, 520, 400, 60) && PlatformHasPerk(PlatformPlayer, "Heal")) PlatformProfileBuyPerk(5);
 	if ((PlatformPlayer.Name == "Olivia") && MouseIn(1300, 620, 400, 60) && PlatformHasPerk(PlatformPlayer, "Apprentice")) PlatformProfileBuyPerk(6);
