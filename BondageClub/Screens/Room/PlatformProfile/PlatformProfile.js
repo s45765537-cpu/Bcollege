@@ -163,7 +163,8 @@ function PlatformProfileRun() {
 		PlatformProfileDrawPerkButton(1100, 820, 8);
 		PlatformProfileDrawPerkButton(1300, 920, 9, "Inventory");
 	}
-	if ((PlatformHeal != null) && (PlatformParty.length >= 2)) DrawButton(1800, 10, 90, 90, "", "White", "Icons/Next.png", TextGet("ChangeCharacter"));
+	if ((PlatformHeal != null) && (PlatformParty.length >= 2)) DrawButton(1700, 10, 90, 90, "", "White", "Icons/Next.png", TextGet("ChangeCharacter"));
+	DrawButton(1800, 10, 90, 90, "", "White", "Icons/Reset.png", TextGet("ResetPerk"));
 	DrawButton(1900, 10, 90, 90, "", "White", "Icons/Exit.png", TextGet("Exit"));
 }
 
@@ -184,11 +185,21 @@ function PlatformProfileBuyPerk(PerkNum) {
 }
 
 /**
+ * Resets all perks allocated for the current character, the "Apprentice" perk cannot reset
+ * @returns {void} - Nothing
+ */
+function PlatformProfileResetPerk() {
+	PlatformPlayer.Perk = PlatformHasPerk(PlatformPlayer, "Apprentice") ? "1000000000" : "0000000000";
+	PlatformSetHealth(PlatformPlayer);
+}
+
+/**
  * Handles clicks in the screen
  * @returns {void} - Nothing
  */
 function PlatformProfileClick() {
-	if (MouseIn(1800, 10, 90, 90) && (PlatformHeal != null) && (PlatformParty.length >= 2)) return PlatformPartyNext();
+	if (MouseIn(1700, 10, 90, 90) && (PlatformHeal != null) && (PlatformParty.length >= 2)) return PlatformPartyNext();
+	if (MouseIn(1800, 10, 90, 90)) return PlatformProfileResetPerk();
 	if (MouseIn(1900, 10, 90, 90)) return PlatformProfileExit();
 	if ((PlatformPlayer.Name == "Melody") && MouseIn(1100, 20, 400, 60)) PlatformProfileBuyPerk(0);
 	if ((PlatformPlayer.Name == "Melody") && MouseIn(1300, 120, 400, 60) && PlatformHasPerk(PlatformPlayer, "Healthy")) PlatformProfileBuyPerk(1);

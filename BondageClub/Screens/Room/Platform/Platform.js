@@ -32,6 +32,7 @@ var PlatformJumpPhase = "";
 var PlatformParty = [];
 var PlatformRegen = 0;
 var PlatformCooldown = [];
+var PlatformHeartEffect = false;
 var PlatformTimedScreenFilter = { End: 0, Filter: "" };
 var PlatformRightButtons = [];
 var PlatformInventory = [];
@@ -2110,7 +2111,10 @@ function PlatformDrawCharacter(C, Time) {
 	if ((X >= 2000) || (Y >= 1000)) return;
 	if ((X + C.Anim.Width <= 0) || (Y + C.Anim.Height <= 0)) return;
 	DrawImageEx("Screens/Room/Platform/Character/" + C.Name + "/" + C.Status + "/" + C.Anim.Name + "/" + C.Anim.Image.toString() + ".png", MainCanvas, X + C.Anim.OffsetX, Y + C.Anim.OffsetY, { Mirror: C.Anim.Mirror, Width: C.Anim.Width, Height: C.Anim.Height } );
-	if ((C.Effect != null) && (C.Effect.Name != null) && (C.Effect.End != null) && (C.Effect.End >= Time)) DrawImageEx("Screens/Room/Platform/Effect/" + C.Effect.Name + ".png", MainCanvas, X + C.Anim.OffsetX, Y + C.Anim.OffsetY, { Mirror: C.Anim.Mirror, Width: C.Anim.Width, Height: C.Anim.Height } );
+	if (PlatformHeartEffect && (PlatformDialogCharactersAreLovers(C.Name, PlatformPlayer.Name) || C.Camera)) 
+		DrawImageZoomCanvas("Screens/Room/Platform/Effect/Love.png", MainCanvas, 0, 0, 1000, 1000, X, Y + (((C.Anim.Name === "Crouch") || (C.Anim.Name === "Crawl")) ? C.Height / 3 : 0), C.Width, C.Height);
+	if ((C.Effect != null) && (C.Effect.Name != null) && (C.Effect.End != null) && (C.Effect.End >= Time))
+		DrawImageEx("Screens/Room/Platform/Effect/" + C.Effect.Name + ".png", MainCanvas, X + C.Anim.OffsetX, Y + C.Anim.OffsetY, { Mirror: C.Anim.Mirror, Width: C.Anim.Width, Height: C.Anim.Height } );
 	if (C.Damage != null)
 		for (let Damage of C.Damage)
 			if (Damage.Expire >= Time) {
@@ -2161,9 +2165,10 @@ function PlatformSetHealth(C) {
 function PlatformAddExperience(C, Value) {
 	if ((Value == null) || (Value <= 0)) return;
 	if (C.Camera) Value = Value * CheatFactor("DoubleBrawlExperience", 2);
-	if (PlatformHasPerk(C, "Scholar")) Value = Math.round(Value * 1.2);
-	Value = Math.round(Value * (1 + (PlatformDialogLoverAndSlaveFactor(C.Name, "Olivia") * 0.1)));
+	if (PlatformHasPerk(C, "Scholar")) Value = Value * 1.2;
+	Value = Value * (1 + (PlatformDialogLoverAndSlaveFactor(C.Name, "Olivia") * 0.1));
 	C.Experience = C.Experience + Value;
+	C.Experience = Math.round(C.Experience * 10) / 10;
 	if (C.Experience >= PlatformExperienceForLevel[C.Level]) {
 		if (C.Camera) PlatformMessageSet(TextGet("LevelUp").replace("CharacterName", C.Name));
 		C.Experience = 0;
@@ -2655,6 +2660,7 @@ function PlatformDrawGame() {
 	}
 
 	// Draw each characters
+	PlatformHeartEffect = false;
 	for (let C of PlatformChar) {
 
 		// Fires a projectile if the aim was on
@@ -2768,6 +2774,7 @@ function PlatformDrawGame() {
 		}
 
 		// Draws the character and reduces the force for the next run
+		if ((C.Name != PlatformPlayer.Name) && (PlatformRoom.Heal != null) && PlatformDialogCharactersAreLovers(C.Name, PlatformPlayer.Name) && (Math.abs(C.X - PlatformPlayer.X) < 500)) PlatformHeartEffect = true;
 		if (!C.Camera && C.Anim != null) PlatformDrawCharacter(C, PlatformTime);
 		C.ForceX = C.ForceX * (1 - 0.25 * (Frame / 16.6667));
 		if (C.Y == PlatformFloor) C.ForceY = 0;
