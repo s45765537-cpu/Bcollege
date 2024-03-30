@@ -103,7 +103,8 @@ function ChatSearchRun() {
 	}
 
 	// Draw the back/next buttons if it is needed
-	if ((ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult).length > ChatSearchRoomsPerPage) {
+	const Result = ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult;
+	if (Result.length > ChatSearchRoomsPerPage) {
 		DrawButton(1035, 25, 90, 90, "", "White", "Icons/Prev.png", TextGet("Prev"));
 		DrawButton(1225, 25, 90, 90, "", "White", "Icons/Next.png", TextGet("Next"));
 	}
@@ -119,7 +120,7 @@ function ChatSearchRun() {
 
 	DrawTextFit(ChatSearchMessage != "" ? TextGet(ChatSearchMessage) : "", 1000, 935, 490, "White", "Gray");
 
-	let ChatSearchPageCount = Math.floor((ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult).length / ChatSearchRoomsPerPage + 1).toString();
+	let ChatSearchPageCount = Math.floor((Result.length + ChatSearchRoomsPerPage - 1) / ChatSearchRoomsPerPage).toString();
 	let ChatSearchCurrentPage = (ChatSearchResultOffset / ChatSearchRoomsPerPage + 1).toString();
 	DrawTextFit(`${ChatSearchCurrentPage}/${ChatSearchPageCount}`, 1175, 75, 90, "White", "Gray");
 
@@ -172,7 +173,7 @@ function ChatSearchClick() {
 	if (MouseIn(1035, 25, 90, 90)) {
 		ChatSearchResultOffset -= ChatSearchRoomsPerPage;
 		if (ChatSearchResultOffset < 0)
-			ChatSearchResultOffset = Math.floor((ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult).length / ChatSearchRoomsPerPage) * ChatSearchRoomsPerPage;
+			ChatSearchResultOffset = Math.floor(((ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult).length - 1) / ChatSearchRoomsPerPage) * ChatSearchRoomsPerPage;
 	}
 
 	// Handle the next button
