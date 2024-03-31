@@ -2039,29 +2039,30 @@ function PlatformDrawBackground() {
 	DrawImageZoomCanvas("Screens/Room/Platform/Background/" + PlatformRoom.Background + ".jpg", MainCanvas, PlatformViewX, PlatformViewY, 2000, 1000, 0, 0, 2000, 1000);
 	if (PlatformRoom.BackgroundFilter != null) DrawRect(0, 0, 2000, 1000, PlatformRoom.BackgroundFilter);
 	if (PlatformTimedScreenFilter.End >= CommonTime()) DrawRect(0, 0, 2000, 1000, PlatformTimedScreenFilter.Filter);
-	DrawProgressBar(10, 10, 180, 40, PlatformPlayer.Health / PlatformPlayer.MaxHealth * 100, "#00B000", "#B00000");
-	DrawText(PlatformPlayer.Health.toString(), 100, 32, "White", "Black");
-	DrawProgressBar(10, 60, 180, 40, PlatformPlayer.Experience / PlatformExperienceForLevel[PlatformPlayer.Level] * 100, "#600060", "Black");
-	DrawText(PlatformPlayer.Level.toString(), 100, 82, "White", "Black");
+	DrawImageZoomCanvas("Screens/Room/Platform/Character/Face/" + PlatformPlayer.Name + PlatformPlayer.Status + ".png", MainCanvas, 0, 0, 150, 190, 3, 8, 112, 142);
+	DrawProgressBar(120, 10, 180, 40, PlatformPlayer.Health / PlatformPlayer.MaxHealth * 100, "#00B000", "#B00000");
+	DrawText(PlatformPlayer.Health.toString(), 210, 32, "White", "Black");
+	DrawProgressBar(120, 60, 180, 40, PlatformPlayer.Experience / PlatformExperienceForLevel[PlatformPlayer.Level] * 100, "#600060", "Black");
+	DrawText(PlatformPlayer.Level.toString(), 210, 82, "White", "Black");
 	if (PlatformActionIs(PlatformPlayer, "Bind"))
-		DrawProgressBar(10, 110, 180, 40, (CommonTime() - PlatformPlayer.Action.Start) / (PlatformPlayer.Action.Expire - PlatformPlayer.Action.Start) * 100, "White", "Black");
+		DrawProgressBar(120, 110, 180, 40, (CommonTime() - PlatformPlayer.Action.Start) / (PlatformPlayer.Action.Expire - PlatformPlayer.Action.Start) * 100, "White", "Black");
 	else if ((PlatformPlayer.Health <= 0) && !PlatformPlayer.Bound && (PlatformPlayer.RiseTime != null) && (PlatformPlayer.RiseTime >= CommonTime()))
-		DrawProgressBar(10, 110, 180, 40, 100 - ((PlatformPlayer.RiseTime - CommonTime()) / 100), "White", "Black");
+		DrawProgressBar(120, 110, 180, 40, 100 - ((PlatformPlayer.RiseTime - CommonTime()) / 100), "White", "Black");
 
 	// Draws the magic or projectile reserve
 	if ((PlatformPlayer.MaxMagic != null) && (PlatformPlayer.MaxMagic > 0) && PlatformHasPerk(PlatformPlayer, "Apprentice")) {
-		DrawProgressBar(200, 10, 180, 40, PlatformPlayer.Magic / PlatformPlayer.MaxMagic * 100, "#0000B0", "#000000");
-		DrawText(PlatformPlayer.Magic.toString(), 290, 32, "White", "Black");
+		DrawProgressBar(310, 10, 180, 40, PlatformPlayer.Magic / PlatformPlayer.MaxMagic * 100, "#0000B0", "#000000");
+		DrawText(PlatformPlayer.Magic.toString(), 400, 32, "White", "Black");
 	}
 	if ((PlatformPlayer.MaxProjectile != null) && (PlatformPlayer.MaxProjectile > 0)) {
-		DrawProgressBar(200, 10, 180, 40, PlatformPlayer.Projectile / PlatformPlayer.MaxProjectile * 100, "#808000", "#000000");
-		DrawText(PlatformPlayer.Projectile.toString(), 290, 32, "White", "Black");
+		DrawProgressBar(310, 10, 180, 40, PlatformPlayer.Projectile / PlatformPlayer.MaxProjectile * 100, "#808000", "#000000");
+		DrawText(PlatformPlayer.Projectile.toString(), 400, 32, "White", "Black");
 	}
 	if ((PlatformPlayer.ProjectileAim == null) && PlatformMoveActive("Aim")) PlatformPlayer.ProjectileAim = CommonTime();
 	if (PlatformPlayer.ProjectileAim != null) {
 		let Progress = (CommonTime() - PlatformPlayer.ProjectileAim) / (PlatformPlayer.ProjectileTime / 50);
 		if (Progress > 100) Progress = 100;
-		DrawProgressBar(200, 60, 180, 40, Progress, (Progress >= 100) ? "#00FF00" : (Progress >= 50) ? "#FFFF00" : "#FF0000", "#000000");
+		DrawProgressBar(310, 60, 180, 40, Progress, (Progress >= 100) ? "#00FF00" : (Progress >= 50) ? "#FFFF00" : "#FF0000", "#000000");
 	}
 
 	// Clears the past cooldowns
@@ -2074,8 +2075,8 @@ function PlatformDrawBackground() {
 	// Draws the cooldowns
 	let Y = 50;
 	for (let C of PlatformCooldown) {
-		DrawProgressBar(200, Y + 10, 180, 40, 100 - ((C.Time - CommonTime()) / C.Delay * 100), "White", "Black");
-		DrawImage("Screens/Room/Platform/Icon/" + C.Type + ".png", 203, Y + 13);
+		DrawProgressBar(310, Y + 10, 180, 40, 100 - ((C.Time - CommonTime()) / C.Delay * 100), "White", "Black");
+		DrawImage("Screens/Room/Platform/Icon/" + C.Type + ".png", 313, Y + 13);
 		Y = Y + 50;
 	}
 
@@ -2573,8 +2574,9 @@ function PlatformProjectile(C, LongShot) {
 	let Damage = C.ProjectileDamage[C.Level];
 	if ((Damage == null) || (Damage < 1)) Damage = 1;
 	if (PlatformHasPerk(C, "Archery")) Damage++;
-	PlatformCreateProjectile(C.ProjectileName, C.ProjectileType, C.FaceLeft, C.X + ((C.FaceLeft) ? -100 : 100), C.Height * 0.8, LongShot ? 60 : 36, 0.25, Damage, C.ProjectileHitAudio);
-	if (C.ProjectileBothSides || PlatformHasPerk(C, "Duplicate")) PlatformCreateProjectile(C.ProjectileName, C.ProjectileType, !C.FaceLeft, C.X + ((!C.FaceLeft) ? -100 : 100), C.Height * 0.8, LongShot ? 60 : 36, 0.25, Damage, C.ProjectileHitAudio);
+	let Y = (C.Height * 0.8) - C.Y + PlatformFloor;
+	PlatformCreateProjectile(C.ProjectileName, C.ProjectileType, C.FaceLeft, C.X + ((C.FaceLeft) ? -100 : 100), Y, LongShot ? 60 : 36, 0.25, Damage, C.ProjectileHitAudio);
+	if (C.ProjectileBothSides || PlatformHasPerk(C, "Duplicate")) PlatformCreateProjectile(C.ProjectileName, C.ProjectileType, !C.FaceLeft, C.X + ((!C.FaceLeft) ? -100 : 100), Y, LongShot ? 60 : 36, 0.25, Damage, C.ProjectileHitAudio);
 }
 
 /**
@@ -3296,6 +3298,7 @@ function PlatformEventKeyDown(Code) {
 	if ((Code == "KeyO") && (PlatformHeal != null)) return PlatformPartyNext();
 	if ((Code == "KeyO") && (PlatformHeal == null)) return PlatformBindStart(PlatformPlayer);
 	if ((PlatformRoom.Heal != null) && (Code >= "Digit0") && (Code <= "Digit9")) return PlatformSaveGame(parseInt(Code.substring(5)));
+	if (Code == "KeyI") return;
 	if (PlatformKeys.indexOf(Code) < 0) PlatformKeys.push(Code);
 	PlatformLastKeyCode = Code;
 	PlatformLastKeyTime = CommonTime();

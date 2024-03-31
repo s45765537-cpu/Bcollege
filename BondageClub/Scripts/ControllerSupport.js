@@ -312,7 +312,7 @@ function ControllerProcessAxis(axes) {
 			return;
 		}
 		if (Math.abs(val) > ControllerDeadZone) {
-			console.log(`gamepad axis event: game id: ${axisId}, pad id: ${padAxisId}, value: ${val}`);
+			//console.log(`gamepad axis event: game id: ${axisId}, pad id: ${padAxisId}, value: ${val}`);
 			handler(val);
 		}
 	}
