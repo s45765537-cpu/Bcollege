@@ -2361,21 +2361,32 @@ function ChatRoomSendEmote(msg) {
 /**
  * Sends message as attempt emote. Emote can be failed or succeeded.
  * @param {string} msg - Emote message
- * @returns {number} - Nothing
+ * @returns {void} - Nothing
  */
 function ChatRoomSendAttemptEmote(msg) {
 	// Emotes can be prevented with an owner presence rule
 	if (ChatRoomOwnerPresenceRule("BlockEmote", null)) return;
-	msg = msg.replace(/^\*\!/, "");
+	const match = msg.match(/^\*(\d{0,2}|100)%(.+)/);
+
+	if (!match) {
+		ServerSend("ChatRoomChat", { Content: msg, Type: "Emote" });
+		return;
+	} 
+
+	msg = msg.replace(/^\*(\d{0,2}|100)%/, "");
 	msg = msg.trim();
 	if (msg == "") return;
 
-	const attemptSucceeded = (Math.random() * 1) > 0.5;
+	const chance = parseInt(match[1] ? match[1] : 50);
+	const random = parseInt(Math.random() * 100);
+
+	const attemptSucceeded = random <= chance;
 	msg += attemptSucceeded ? ": ✔" : ": ❌";
+	msg += " (" + chance + "%)";
 	
 	ServerSend("ChatRoomChat", { Content: msg, Type: "Emote" });
 
-	return (Math.random() * 1)
+	return;
 }
 
 /**

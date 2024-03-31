@@ -79,7 +79,7 @@ function CommandParse(msg) {
 
 	// Emote parsing
 	if (msg.startsWith("*") || (Player.ChatSettings.MuStylePoses && msg.startsWith(":") && msg.length > 3)) {
-		if (msg.startsWith("*!")) {
+		if (msg.match(/^\*\d*%/)) {
 			ChatRoomSendAttemptEmote(msg);
 		} else {
 			ChatRoomSendEmote(msg);
