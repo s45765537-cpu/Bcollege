@@ -1204,6 +1204,7 @@ ItemMouth2ModularGagGRing,Ring
 ItemMouth2ModularGagLock,Lock
 ItemMouth2ModularGagMBase,Metal
 ItemMouth2ModularGagSBase,Straps
+ItemMouth2ModularGagEPony,Pony
 ItemMouth2MouthFeatureGagBase,Mouth
 ItemMouth2MouthFeatureGagPanel,Panel
 ItemMouth2MouthFeatureGagPanelShine,Panel Shine
@@ -1340,6 +1341,7 @@ ItemMouth3ModularGagGRing,Ring
 ItemMouth3ModularGagLock,Lock
 ItemMouth3ModularGagMBase,Metal
 ItemMouth3ModularGagSBase,Straps
+ItemMouth3ModularGagEPony,Pony
 ItemMouth3MouthFeatureGagBase,Mouth
 ItemMouth3MouthFeatureGagPanel,Panel
 ItemMouth3MouthFeatureGagPanelShine,Panel Shine
@@ -1488,6 +1490,7 @@ ItemMouthModularGagGRing,Ring
 ItemMouthModularGagLock,Lock
 ItemMouthModularGagMBase,Metal
 ItemMouthModularGagSBase,Straps
+ItemMouthModularGagEPony,Pony
 ItemMouthMouthFeatureGagBase,Mouth
 ItemMouthMouthFeatureGagPanel,Panel
 ItemMouthMouthFeatureGagPanelShine,Panel Shine
