@@ -7,6 +7,7 @@ BodyLower,Small,Small
 BodyLower,XLarge,Xlarge
 BodyMarkings,,Body Markings
 BodyMarkings,WombTattoos,Womb Tattoos
+BodyMarkings,BodyWritings,Body Writings
 BodyUpper,,Upper Body
 BodyUpper,FlatMedium,Bulky Flat Chest
 BodyUpper,FlatSmall,Flat Chest
@@ -177,6 +178,7 @@ ClothAccessory,StudentOutfit3Bow2,Student Bow 2
 ClothAccessory,StudentOutfit3Bow3,Student Bow 3
 ClothAccessory,StudentOutfit3Scarf,Student Scarf
 ClothAccessory,WombTattoos,Womb Tattoos
+ClothAccessory,BodyWritings,Body Writings
 ClothAccessory,ZipperBelt,Zipper Belt
 ClothLower,,Bottom
 ClothLower,AdmiralSkirt,Admiral Skirt

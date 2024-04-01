@@ -798,6 +798,61 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		},
+		BodyWritings: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Position",
+					Key: "p",
+					Options: [
+						{},
+						{},
+						{}, // Collar 0-L 1-C 2-R
+						{},
+						{},
+						{}, // Ribs   3-L 4-C 5-R
+						{},
+						{},
+						{}, // Hips   6-L 7-C 8-R
+					],
+					DrawData: {
+						elementData: [
+							{ position: ExtendedXYWithoutImages[9][0] },
+							{ position: ExtendedXYWithoutImages[9][1] },
+							{ position: ExtendedXYWithoutImages[9][2] },
+							{ position: ExtendedXYWithoutImages[9][3] },
+							{ position: ExtendedXYWithoutImages[9][4] },
+							{ position: ExtendedXYWithoutImages[9][5] },
+							{ position: ExtendedXYWithoutImages[9][6] },
+							{ position: ExtendedXYWithoutImages[9][7] },
+							{ position: ExtendedXYWithoutImages[9][8] },
+						],
+						itemsPerPage: 9,
+					},
+				},
+				{
+					Name: "Text",
+					Key: "t",
+					Options: [
+						{}, // 0-N
+						{
+							HasSubscreen: true,
+							ArchetypeConfig: {
+								Archetype: ExtendedArchetype.TEXT,
+								MaxLength: { Text: 20, Text2: 20, Text3: 20 },
+								Font: "Ananda Black",
+								ScriptHooks: {
+									AfterDraw: AssetsBodyMarkingsBodyWritingsAfterDrawHook,
+								},
+							},
+						}, // 1-Y
+					],
+				},
+			],
+			BaselineProperty: { Text: "", Text2: "", Text3: "" },
+		}, // BodyWritings
 	},
 	ClothAccessory: {
 		LeatherStraps: {
@@ -978,6 +1033,12 @@ var AssetFemale3DCGExtended = {
 			DrawImages: false,
 			CopyConfig: { GroupName: "BodyMarkings", AssetName: "WombTattoos" },
 		}, //WombTattoos
+		BodyWritings: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: false,
+			CopyConfig: { GroupName: "BodyMarkings", AssetName: "BodyWritings" },
+		}, //BodyWritings
 	}, // ClothAccessory
 	ClothLower: {
 		PantBoots: {
@@ -10602,21 +10663,23 @@ var AssetFemale3DCGExtended = {
 		ModularGag: {
 			Archetype: ExtendedArchetype.MODULAR,
 			DrawImages: false,
+			ChangeWhenLocked: false,
 			Modules: [
 				{
 					Name: "Gag",
 					Key: "g",
 					DrawImages: true,
 					Options: [
+						{}, // 0 - Detached
 						{
-							// 0 - BallGag
+							// 1 - BallGag
 							Property: {
 								Fetish: ["Gagged"],
 								Effect: ["BlockMouth", "GagMedium"],
 								Hide: ["Mouth"],
 							},
+							Prerequisite: "GagUnique",
 						},
-						{}, // 1 - Detached
 						{
 							// 2 Dildo BallGag
 							Property: {
@@ -10624,6 +10687,7 @@ var AssetFemale3DCGExtended = {
 								Effect: ["BlockMouth", "GagTotal"],
 								Hide: ["Mouth"],
 							},
+							Prerequisite: "GagUnique",
 						},
 						{
 							// 3 - RingGag
@@ -10632,6 +10696,7 @@ var AssetFemale3DCGExtended = {
 								Effect: ["OpenMouth", "GagMedium"],
 								Hide: ["Mouth"],
 							},
+							Prerequisite: "GagUnique",
 						},
 						{
 							// 4 - RingGag with Depressor
@@ -10640,6 +10705,7 @@ var AssetFemale3DCGExtended = {
 								Effect: ["OpenMouth", "GagHeavy"],
 								Hide: ["Mouth"],
 							},
+							Prerequisite: "GagUnique",
 						},
 						{
 							// 5 - BitGag
@@ -10648,6 +10714,7 @@ var AssetFemale3DCGExtended = {
 								Effect: ["BlockMouth", "GagMedium"],
 								Hide: ["Mouth"],
 							},
+							Prerequisite: "GagUnique",
 						},
 						{
 							// 6 - BitGagDepressor
@@ -10656,16 +10723,18 @@ var AssetFemale3DCGExtended = {
 								Effect: ["BlockMouth", "GagHeavy"],
 								Hide: ["Mouth"],
 							},
+							Prerequisite: "GagUnique",
 						},
 					],
 				},
 				{
 					Name: "Headress",
 					Key: "h",
-					DrawImages: true,
+					DrawImages: false,
 					Options: [
 						{}, // 0 - Detached
-						{}, // 1 - Attached
+						{}, // 1 - Base
+						{}, // 2 - Forehead
 					],
 				},
 				{
@@ -10675,6 +10744,32 @@ var AssetFemale3DCGExtended = {
 					Options: [
 						{}, // 0 - Detached
 						{}, // 1 - Attached
+					],
+				},
+				{
+					Name: "Blindfold",
+					Key: "b",
+					DrawImages: false,
+					Options: [
+						{}, // 0 - None
+						{
+							Property: {
+								Fetish: ["Pony"],
+							},
+						}, // 1 - Pony Blinders
+					],
+				},
+				{
+					Name: "Ears",
+					Key: "e",
+					DrawImages: false,
+					Options: [
+						{}, // 0 - None
+						{
+							Property: {
+								Fetish: ["Pony"],
+							},
+						}, // 1 - Pony
 					],
 				},
 			],
@@ -13282,6 +13377,42 @@ var AssetFemale3DCGExtended = {
 						{ Property: { Intensity: 1, Effect: ["Egged", "Vibrating"] } }, // i2 - Medium
 						{ Property: { Intensity: 2, Effect: ["Egged", "Vibrating"] } }, // i3 - High
 						{ Property: { Intensity: 3, Effect: ["Egged", "Vibrating"] } }, // i4 - Maximum
+					],
+				},
+				{
+					Name: "Plugs",
+					Key: "p",
+					DrawImages: false,
+					Options: [
+						{ Property: { InflateLevel: 0 } }, // p0 - Empty
+						{
+							Property: {
+								InflateLevel: 1,
+								Block: ["ItemVulva", "ItemButt"],
+								Effect: ["FillVulva", "IsPlugged"],
+							},
+						}, // p1 - Light
+						{
+							Property: {
+								InflateLevel: 2,
+								Block: ["ItemVulva", "ItemButt"],
+								Effect: ["FillVulva", "IsPlugged"],
+							},
+						}, // p2 - Inflated
+						{
+							Property: {
+								InflateLevel: 3,
+								Block: ["ItemVulva", "ItemButt"],
+								Effect: ["FillVulva", "IsPlugged", "Slow"],
+							},
+						}, // p3 - Bloated
+						{
+							Property: {
+								InflateLevel: 4,
+								Block: ["ItemVulva", "ItemButt"],
+								Effect: ["FillVulva", "IsPlugged", "Slow"],
+							},
+						}, // p4 - Maximum
 					],
 				},
 				{

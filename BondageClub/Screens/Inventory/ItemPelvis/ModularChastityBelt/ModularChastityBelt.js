@@ -1,6 +1,6 @@
 "use strict";
 
-var InventoryItemPelvisModularChastityBeltVoiceTriggers = ["Increase", "Decrease", "Disable", "Shock"];
+var InventoryItemPelvisModularChastityBeltVoiceTriggers = ["Increase", "Decrease", "Disable", "Inflate", "Deflate", "Empty", "Shock"];
 /** @type {string[]} */
 var InventoryItemPelvisModularChastityBeltVoiceTriggerValues = [];
 
@@ -314,13 +314,13 @@ function InventoryItemPelvisModularChastityBeltClickShockModule(_offset){
 }
 
 /**
- * @typedef {{Cooldown?: number, ShockCooldown?: number, LastMessage?: number, DenyDetected?: boolean, OrgasmDetected?: boolean, ChatroomCheck?: boolean}} ModularChastityBeltPersistentData
+ * @typedef {{Cooldown?: number, ShockCooldown?: number, LastMessage?: number, DenyDetected?: boolean, OrgasmDetected?: boolean, ChatroomCheck?: boolean, SyncNeeded?: boolean, SyncCooldown?: number}} ModularChastityBeltPersistentData
  */
 
 /** @type {ExtendedItemScriptHookCallbacks.ScriptDraw<ModularItemData, ModularChastityBeltPersistentData>} */
 function InventoryItemPelvisModularChastityBeltScriptDrawHook(data, originalFunction, drawData) {
 	// Only run updates on the player and NPCs
-	if (drawData.C.ID !== 0 && drawData.C.MemberNumber !== null) return;
+	if (!drawData.C.IsPlayer() && drawData.C.MemberNumber !== null) return;
 
 	const persistentData = drawData.PersistentData();
 	if (typeof persistentData.Cooldown !== "number") persistentData.Cooldown = 0;
@@ -329,6 +329,8 @@ function InventoryItemPelvisModularChastityBeltScriptDrawHook(data, originalFunc
 	if (typeof persistentData.DenyDetected !== "boolean") persistentData.DenyDetected = false;
 	if (typeof persistentData.OrgasmDetected !== "boolean") persistentData.OrgasmDetected = false;
 	if (typeof persistentData.ChatroomCheck !== "boolean") persistentData.ChatroomCheck = false;
+	if (typeof persistentData.SyncNeeded !== "boolean") persistentData.SyncNeeded = false;
+	if (typeof persistentData.SyncCooldown !== "number") persistentData.SyncCooldown = CommonTime() + 60000;
 
 	//Cooldown check
 	if (persistentData.Cooldown > CommonTime()) {
@@ -359,6 +361,10 @@ function InventoryItemPelvisModularChastityBeltScriptDrawHook(data, originalFunc
 		if (!persistentData.DenyDetected){
 			property.RuinedOrgasmCount += 1;
 			persistentData.DenyDetected = true;
+
+			//Delay Sync for at least 15 seconds so potential orgasm synces in this very cycle.
+			persistentData.SyncCooldown = Math.max(persistentData.SyncCooldown, CommonTime() + 15000);
+			persistentData.SyncNeeded = true;
 		}
 	} else {
 		persistentData.DenyDetected = false;
@@ -373,6 +379,8 @@ function InventoryItemPelvisModularChastityBeltScriptDrawHook(data, originalFunc
 			property.RuinedOrgasmCount = 0;
 			property.TimeSinceLastOrgasm = CommonTime();
 			persistentData.OrgasmDetected = true;
+
+			persistentData.SyncNeeded = true;
 		}
 	} else {
 		persistentData.OrgasmDetected = false;
@@ -414,6 +422,18 @@ function InventoryItemPelvisModularChastityBeltScriptDrawHook(data, originalFunc
 			}
 		}
 	}
+
+	//Sync check
+	if (persistentData.SyncNeeded && CommonTime() > persistentData.SyncCooldown)
+	{
+		//Reset flags
+		persistentData.SyncNeeded = false;
+		persistentData.SyncCooldown = CommonTime() + 60000;
+
+		//Sync
+		ServerPlayerAppearanceSync();
+		ChatRoomCharacterItemUpdate(C, Item.Asset.Group.Name);
+	}
 }
 
 /**
@@ -444,31 +464,45 @@ function InventoryItemPelvisModularChastityBeltHandleChat(data, C, Item, LastTim
 		// Skip messages from unauthorized users
 		const sender = ChatRoomCharacter.find(c => c.MemberNumber === logEntry.SenderMemberNumber);
 		if (!sender || !ServerChatRoomGetAllowItem(sender, C)) continue;
-
 		if (Item.Property.AccessMode === ItemVulvaFuturisticVibratorAccessMode.PROHIBIT_SELF && logEntry.SenderMemberNumber === C.MemberNumber) continue;
 		if (Item.Property.AccessMode === ItemVulvaFuturisticVibratorAccessMode.LOCK_MEMBER_ONLY && logEntry.SenderMemberNumber !== Item.Property.LockMemberNumber) continue;
 
 		var msg = InventoryItemPelvisModularChastityBeltDetectMsg(logEntry.Chat.toUpperCase(), TriggerValues);
+
 		if (msg.length > 0) {
 			const triggers = [];
 			for (let i = 0; i < msg.length; i++) {
 				triggers.push(InventoryItemPelvisModularChastityBeltVoiceTriggers[msg[i]]);
 			}
 
-			let chatMessage;
+
 			//vibrator modes, can only pick one
-			if (triggers.includes("Disable") && ItemType.i !== 0) {
-				ItemType.i = 0;
-				chatMessage = `ItemPelvisModularChastityBeltSeti${ItemType.i}`;
-			} else if (triggers.includes("Increase") && ItemType.i < 4) {
+			let chatMessageV;
+			if (triggers.includes("Increase") && ItemType.i < 4) {
 				ItemType.i = ItemType.i + 1;
-				chatMessage = `ItemPelvisModularChastityBeltSeti${ItemType.i}`;
+				chatMessageV = `ItemPelvisModularChastityBeltSeti${ItemType.i}`;
 			} else if (triggers.includes("Decrease") && ItemType.i > 0) {
 				ItemType.i = ItemType.i - 1;
-				chatMessage = `ItemPelvisModularChastityBeltSeti${ItemType.i}`;
+				chatMessageV = `ItemPelvisModularChastityBeltSeti${ItemType.i}`;
+			} else if (triggers.includes("Disable") && ItemType.i !== 0) {
+				ItemType.i = 0;
+				chatMessageV = `ItemPelvisModularChastityBeltSeti${ItemType.i}`;
 			}
 
-			if (chatMessage) {
+			//plug modes, can only pick one
+			let chatMessageP;
+			if (triggers.includes("Inflate") && ItemType.p < 4) {
+				ItemType.p = ItemType.p + 1;
+				chatMessageP = `ItemPelvisModularChastityBeltSetp${ItemType.p}`;
+			} else if (triggers.includes("Deflate") && ItemType.p > 0) {
+				ItemType.p = ItemType.p - 1;
+				chatMessageP = `ItemPelvisModularChastityBeltSetp${ItemType.p}`;
+			} else if (triggers.includes("Empty") && ItemType.p !== 0) {
+				ItemType.p = 0;
+				chatMessageP = `ItemPelvisModularChastityBeltSetp${ItemType.p}`;
+			}
+
+			if (chatMessageV || chatMessageP) {
 				// WORKAROUND: This will remove "Vibrating" effect from the item if vibrator is supposed to be off
 				// Should be harmless even after the FIXME is resolved.
 				if (ItemType.i === 0)
@@ -479,15 +513,55 @@ function InventoryItemPelvisModularChastityBeltHandleChat(data, C, Item, LastTim
 					}
 				}
 
-				// FIXME: this needs to cause an actual update of the item's effects
-				ExtendedItemSetOptionByRecord(C, Item, ItemType);
+				// WORKAROUND: This will remove "Slow", "FillVulva" and "IsPlugged" effect from the item and blocking bodyparts "ItemVulva" and "ItemButt" if plugs are not bloated enough or deflated
+				// Should be harmless even after the FIXME is resolved.
+				if (ItemType.p < 3)
+				{
+					let index = Item.Property.Effect.indexOf("Slow");
+					if (index !== -1) {
+						Item.Property.Effect.splice(index, 1);
+					}
+				}
+				if (ItemType.p === 0)
+				{
+					let index = Item.Property.Block.indexOf("ItemVulva");
+					if (index !== -1) {
+						Item.Property.Block.splice(index, 1);
+					}
+					index = Item.Property.Block.indexOf("ItemButt");
+					if (index !== -1) {
+						Item.Property.Block.splice(index, 1);
+					}
 
-				const Dictionary = new DictionaryBuilder()
-					.sourceCharacter(Player)
-					.destinationCharacter(C)
-					.asset(Item.Asset, "AssetName", Item.Craft && Item.Craft.Name)
-					.build();
-				ChatRoomPublishCustomAction(chatMessage, true, Dictionary);
+					index = Item.Property.Effect.indexOf("FillVulva");
+					if (index !== -1) {
+						Item.Property.Effect.splice(index, 1);
+					}
+					index = Item.Property.Effect.indexOf("IsPlugged");
+					if (index !== -1) {
+						Item.Property.Effect.splice(index, 1);
+					}
+				}
+
+				// FIXME: this needs to cause an actual update of the item's effects
+				ExtendedItemSetOptionByRecord(C, Item, ItemType, {push: true});
+
+				if (chatMessageV) {
+					const Dictionary = new DictionaryBuilder()
+						.sourceCharacter(Player)
+						.destinationCharacter(C)
+						.asset(Item.Asset, "AssetName", Item.Craft && Item.Craft.Name)
+						.build();
+					ChatRoomPublishCustomAction(chatMessageV, true, Dictionary);
+				}
+				if (chatMessageP) {
+					const Dictionary = new DictionaryBuilder()
+						.sourceCharacter(Player)
+						.destinationCharacter(C)
+						.asset(Item.Asset, "AssetName", Item.Craft && Item.Craft.Name)
+						.build();
+					ChatRoomPublishCustomAction(chatMessageP, true, Dictionary);
+				}
 			}
 
 			//triggered actions
