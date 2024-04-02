@@ -2366,18 +2366,18 @@ function ChatRoomSendEmote(msg) {
 function ChatRoomSendAttemptEmote(msg) {
 	// Emotes can be prevented with an owner presence rule
 	if (ChatRoomOwnerPresenceRule("BlockEmote", null)) return;
-	const match = msg.match(/^\*(\d{0,2}|100)%(.+)/);
+	const match = msg.match(/^(\*|\/me )(\d{0,2}|100)%(.+)/);
 
 	if (!match) {
 		ServerSend("ChatRoomChat", { Content: msg, Type: "Emote" });
 		return;
 	} 
 
-	msg = msg.replace(/^\*(\d{0,2}|100)%/, "");
+	msg = msg.replace(/^(\*|\/me )(\d{0,2}|100)%/, "");
 	msg = msg.trim();
 	if (msg == "") return;
 
-	const chance = parseInt(match[1] ? match[1] : 50);
+	const chance = parseInt(match[2] ? match[2] : 50);
 	const random = parseInt(Math.random() * 100);
 
 	const attemptSucceeded = random <= chance;
