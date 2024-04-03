@@ -31435,6 +31435,7 @@ var AssetFemale3DCG = [
 				RemoveTime: 5,
 				DefaultColor: "#B42340",
 				IsRestraint: true,
+				Effect: [],
 				Prerequisite: ["BlockedMouth"],
 			},
 		],
