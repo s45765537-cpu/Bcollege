@@ -17641,7 +17641,7 @@ var AssetFemale3DCG = [
 				Gender: "M",
 				Value: 10,
 				Hide: ["Pussy"],
-				Prerequisite: ["NoChastityCage"],
+				Prerequisite: ["NoChastityCage", "HasPenis"],
 				Effect: ["ForcedErection"],
 				Left: 200,
 				Top: 410,
