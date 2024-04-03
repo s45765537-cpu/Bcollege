@@ -68,7 +68,10 @@ let CraftingLayerNames = null;
 
 /**
  * A record mapping all crafting-valid asset names to a list of matching elligble assets.
+ *
  * Elligble assets are defined as crafting-valid assets with either a matching {@link Asset.Name} or {@link Asset.CraftGroup}.
+ *
+ * The first asset in each list is guaranteed to satisfy `Asset.Group.Name === Asset.DynamicGroupName` _if_ any of the list members satisfy this condition.
  * @type {Record<string, Asset[]>}
  */
 let CraftingAssets = {};
@@ -178,6 +181,23 @@ function CraftingAssetsPopulate() {
 			ret[name] ??= [];
 			ret[name].push(...assetList);
 		}
+	}
+
+	// Ensure that the first member satisfies `Asset.Group.Name === Asset.DynamicGroupName` if possible at all
+	for (const assetList of Object.values(ret)) {
+		assetList.sort((a1, a2) => {
+			if (a1.Group.Name === a1.DynamicGroupName) {
+				return -1;
+			} else if (a2.Group.Name === a2.DynamicGroupName) {
+				return 1;
+			} else {
+				return (
+					a1.Group.Category.localeCompare(a2.Group.Category)
+					|| a1.Group.Name.localeCompare(a2.Group.Name)
+					|| a1.Name.localeCompare(a2.Name)
+				);
+			}
+		});
 	}
 	return ret;
 }
