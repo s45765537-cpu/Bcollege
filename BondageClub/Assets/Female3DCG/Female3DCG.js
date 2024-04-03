@@ -26054,6 +26054,227 @@ var AssetFemale3DCG = [
 					},
 				],
 			}, //PonyMittensBinder
+			{
+				Name: "ElbowLengthMittens",
+				Fetish: ["Leather","Pet"],
+				Value: 70,
+				Difficulty: 6,
+				SelfBondage: 4,
+				Time: 15,
+				RemoveTime: 5,
+				AllowLock: true,
+				AllowTighten: true,
+				SelfUnlock: false,
+				SetPose: ["TapedHands"],
+				DrawLocks: false,
+				DefaultColor: [
+					"#1D1D1D",
+					"#E7E7E7",
+					"#DDDDDD",
+					"#CECECE",
+					"#99831A",
+					"#A5A5A5"
+				],
+				Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
+				Hide: ["Gloves", "LeftHand", "RightHand", "ItemHandheld"],
+				PoseMapping: {
+					BaseUpper: PoseType.DEFAULT,
+					BackBoxTie: "BackBoxTie",
+					BackCuffs: "BackCuffs",
+					BackElbowTouch: "BackElbowTouch",
+					OverTheHead: "OverTheHead",
+					Yoked: "Yoked",
+					TapedHands: PoseType.DEFAULT,
+					Hogtied: PoseType.HIDE,
+					AllFours: "AllFours",
+				},
+				Extended: true,
+				AlwaysExtend: true,
+				Alpha: [
+					{
+						Group: [
+							"BodyUpper",
+						],
+						Pose: [
+							"Yoked",
+						],
+						Masks: [
+							[65,140,80,80],
+							[390,135,80,80],
+						],
+					},
+					{
+						Group: [
+							"BodyUpper",
+						],
+						Pose: [
+							"OverTheHead",
+						],
+						Masks: [
+							[145,0,200,75],
+						],
+					},
+					{
+						Group: [
+							"BodyUpper",
+						],
+						Pose: [
+							"BackCuffs",
+						],
+						Masks: [
+							[345,380,60,60],
+						],
+					},
+					{
+						Group: [
+							"Hands",
+						],
+						Pose: [
+							"AllFours",
+						],
+						Masks: [
+							[100,100,400,400],
+						],
+					}
+				],
+				Layer: [
+					{
+						Name: "Main",
+						Priority: 28,
+						AllowTypes: { typed: 0 },
+						PoseMapping: {
+							...AssetPoseMapping.ItemHands,
+							BackBoxTie:"BackBoxTie",
+						}
+					},
+					{
+						Name: "Straps",
+						Priority: 28,
+						AllowTypes: { typed: 0 },
+						PoseMapping: {
+							...AssetPoseMapping.ItemHands,
+							BackBoxTie:"BackBoxTie",
+						}
+					},
+					{
+						Name: "Beans",
+						Priority: 28,
+						AllowTypes: { typed: 0 },
+						PoseMapping: {
+							...AssetPoseMapping.ItemHands,
+							TapedHands: PoseType.HIDE,
+							BackBoxTie: PoseType.HIDE,
+						}
+					},
+					{
+						Name: "Metal",
+						Priority: 28,
+						AllowTypes: { typed: 0 },
+						PoseMapping: {
+							...AssetPoseMapping.ItemHands,
+							BackBoxTie:"BackBoxTie",
+						}
+					},
+					{
+						Name: "Locks",
+						LockLayer:true,
+						PoseMapping: {
+							...AssetPoseMapping.ItemHands,
+							BackBoxTie:"BackBoxTie",
+						}
+					},
+					{
+						Name: "MainConnected",
+						Priority: 5,
+						CopyLayerColor: "Main",
+						AllowTypes: { typed: 1 },
+						ParentGroup: "BodyUpper",
+						PoseMapping: {
+							BaseUpper: "BackElbowTouch",
+							BackBoxTie: PoseType.HIDE,
+							BackCuffs: PoseType.HIDE,
+							BackElbowTouch: "BackElbowTouch",
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+							TapedHands: "BackElbowTouch",
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "StrapsConnected",
+						Priority: 5,
+						CopyLayerColor: "Straps",
+						AllowTypes: { typed: 1 },
+						ParentGroup: "BodyUpper",
+						PoseMapping: {
+							BaseUpper: "BackElbowTouch",
+							BackBoxTie: PoseType.HIDE,
+							BackCuffs: PoseType.HIDE,
+							BackElbowTouch: "BackElbowTouch",
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+							TapedHands: "BackElbowTouch",
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "BeansConnected",
+						Priority: 5,
+						CopyLayerColor: "Beans",
+						AllowTypes: { typed: 1 },
+						ParentGroup: "BodyUpper",
+						PoseMapping: {
+							BaseUpper: "BackElbowTouch",
+							BackBoxTie: PoseType.HIDE,
+							BackCuffs: PoseType.HIDE,
+							BackElbowTouch: "BackElbowTouch",
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+							TapedHands: "BackElbowTouch",
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "ChainConnected",
+						Priority: 28,
+						AllowTypes: { typed: 1 },
+						ParentGroup: "BodyUpper",
+						PoseMapping: {
+							BaseUpper: "BackElbowTouch",
+							BackBoxTie: PoseType.HIDE,
+							BackCuffs: PoseType.HIDE,
+							BackElbowTouch: "BackElbowTouch",
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+							TapedHands: "BackElbowTouch",
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "LocksConnected",
+						Priority: 27,
+						AllowTypes: { typed: 1 },
+						CopyLayerColor: "Locks",
+						ParentGroup: "BodyUpper",
+						PoseMapping: {
+							BaseUpper: "BackElbowTouch",
+							BackBoxTie: PoseType.HIDE,
+							BackCuffs: PoseType.HIDE,
+							BackElbowTouch: "BackElbowTouch",
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+							TapedHands: "BackElbowTouch",
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+						},
+						LockLayer:true,
+					}
+				]
+			},
 		],
 	},
 	{
