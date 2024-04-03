@@ -188,8 +188,6 @@ House Amplector:
 Дом Амплектор:
 House Corporis:
 Дом Корпорис:
-difficulty for NumberOfDays day(s)
-сложность в течении NumberOfDays дн.
 Roleplay
 Ролевая
 Regular

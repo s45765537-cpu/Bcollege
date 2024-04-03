@@ -111,8 +111,16 @@ function InformationSheetRun() {
 	if ((C.IsPlayer()) || C.IsOnline()) {
 
 		// Shows the difficulty level
-		let Days = Math.floor((CurrentTime - (((C.Difficulty == null) || (C.Difficulty.LastChange == null) || (typeof C.Difficulty.LastChange !== "number")) ? C.Creation : C.Difficulty.LastChange)) / 86400000);
-		let difficultyLine = TextGet("DifficultyLevel" + C.GetDifficulty()) + " " + TextGet("DifficultyTitle").replace("NumberOfDays", Days.toString());
+		let difficultyLine = `${TextGet("DifficultyLevel" + C.GetDifficulty())} ${TextGet("DifficultyTitle")}`;
+		if(C.IsPlayer())
+		{
+			const MillisecondsPerDay = 86400000;
+			const DifficultyChangeMaxDelay = 7;
+			const LastChangeTime = typeof C.Difficulty?.LastChange === "number" ? C.Difficulty.LastChange : C.Creation;
+			const DaysSinceLastChange = Math.floor((CurrentTime - LastChangeTime) / MillisecondsPerDay);
+			const RemainingDays = DaysSinceLastChange >= DifficultyChangeMaxDelay ? 0 : DifficultyChangeMaxDelay - DaysSinceLastChange;
+			difficultyLine += TextGet("DifficultyDaysTillCanChange").replace("NumberOfDays", RemainingDays.toString());
+		}
 		DrawTextFit(difficultyLine, 550, currentY, 450, "Black", "Gray");
 		currentY += spacing;
 
