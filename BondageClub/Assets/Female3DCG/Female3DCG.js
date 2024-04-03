@@ -17636,7 +17636,7 @@ var AssetFemale3DCG = [
 					{ Name: "Shine", AllowTypes: { typed: 0 } },
 					{ Name: "SoundOut", CopyLayerColor: "Sound", AllowTypes: { typed: 1 } },
 					{ Name: "ShineOut", CopyLayerColor: "Shine", AllowTypes: { typed: 1 } },
-					{ Name: "Penis", InheritColor: "Pussy", ColorSuffix: { HEX_COLOR: "White" }, AllowTypes: { typed: [0, 1, 2] } },
+					{ Name: "Penis", InheritColor: "Pussy", ColorSuffix: { HEX_COLOR: "White" }, AllowTypes: { typed: [0, 1] }, HideColoring: true },
 				]
 			}
 		],
