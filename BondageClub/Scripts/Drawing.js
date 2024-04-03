@@ -1242,7 +1242,7 @@ function DrawGetCustomBackground(C) {
  */
 function DrawRoomBackground(URL, bounds, opts) {
 	let { inverted, blur, darken, tints, sizeMode } = opts;
-	
+
 	inverted ??= false;
 	blur ??= 1.0;
 	darken ??= 1.0;
@@ -1780,6 +1780,6 @@ const RectFitIntoRect = CommonMemoize(
 		const sourceRectTuple = [sourceX, sourceY, sourceW, sourceH];
 		/** @type {RectTuple} */
 		const destRectTuple = [destX, destY, destW, destH];
-		
+
 		return [sourceRectTuple, destRectTuple];
-	})
+	});

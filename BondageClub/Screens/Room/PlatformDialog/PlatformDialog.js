@@ -2864,7 +2864,7 @@ var PlatformDialogData = [
 			},
 			{ Text: "(You can hear Lyn the bandit boss struggling in the crate.)" },
 			{ Text: "Minions!  Listen to me!  Release me right now!", Audio: "10", AudioStyle: "serious" },
-			{ 
+			{
 				Text: "Minions?  A deal is a deal, we can negotiate something.", Audio: "20",
 				Answer: [
 					{ Text: "(Open the crate.)", Reply: "(You open the crate and find her in bondage.)", Love: 2 },
@@ -2873,7 +2873,7 @@ var PlatformDialogData = [
 			},
 			{ Character: [{ Name: "Lyn", Status: "Thief", Animation: "Bound", Y: -400 }] },
 			{ Text: "It's you!  Well... thanks... I guess.", Audio: "30", AudioStyle: "serious" },
-			{ 
+			{
 				Text: "My stupid minions prepared a mutiny.  Can you believe it?", Audio: "40", AudioStyle: "serious",
 				Answer: [
 					{ Text: "They should be more loyal.", Reply: "Damn right they should.", Audio: "41", Domination: -1, Love: 1 },
@@ -3136,7 +3136,7 @@ var PlatformDialogData = [
 			{ Text: "Water is life, life is water.  Bring tons of it.", Audio: "40" },
 			{ Text: "I used to sell water and slaves to Slandia soldiers when the war was raging.", Audio: "50" },
 			{ Text: "These were good days, business was booming.", Audio: "60" },
-			{ 
+			{
 				Text: "(Olivia steps in front of you and makes an angry face.)",
 				Character: [
 					{ Name: "Olivia", Status: "Oracle", Pose: "IdleAngry", X: 750 },
@@ -3147,7 +3147,7 @@ var PlatformDialogData = [
 			{ Text: "Excuse me?  War was not a good time!", Audio: "70", AudioStyle: "angry" },
 			{ Text: "Thousands of men died, my father died!  How dare you?", Audio: "80", AudioStyle: "angry" },
 			{ Text: "I'm forced to marry a man I barely know because of your war!", Audio: "90", AudioStyle: "angry" },
-			{ 
+			{
 				Text: "(Lyn gulps and nods slowly.)",
 				Character: [
 					{ Name: "Lyn", Status: "Thief", Pose: "Idle", X: 250 },
@@ -4455,7 +4455,7 @@ var PlatformDialogData = [
 			},
 
 			{ Text: "(You kiss each other on the hand, the cheek, the neck and the lips.)" },
-			{ 
+			{
 				Background: "Black",
 				Character: [
 					{ Name: "Lyn", Status: "Thief", Pose: "IdleCheer", X: 1000 },

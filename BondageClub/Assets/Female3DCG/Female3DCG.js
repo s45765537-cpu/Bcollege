@@ -97,7 +97,7 @@ const E = /** @type {const} */ ({
 
 	/**
 	 * Marks the item as a urethral insert.
-	 * 
+	 *
 	 * Used when checking if the item should allow the penis to be limp.
 	 */
 	ForcedErection: "ForcedErection",
@@ -7764,7 +7764,7 @@ var AssetFemale3DCG = [
 						Name: "Ankle",
 						AllowTypes: { n: 1 },
 						Priority: 24,
-						AllowColorize: true,					
+						AllowColorize: true,
 					},
 					{
 						Name: "Knee",
@@ -10123,10 +10123,7 @@ var AssetFemale3DCG = [
 				Top: 30,
 				Left: 150,
 				DefaultColor: ["#808080", "#A0A0A0"],
-				HideItem: [
-					"HairAccessory1EarsElfEars", 
-					"HairAccessory2EarsElfEars", 
-				],
+				HideItem: ["HairAccessory1EarsElfEars", "HairAccessory2EarsElfEars"],
 				Layer: [
 					{
 						Name: "Main",
@@ -10810,10 +10807,7 @@ var AssetFemale3DCG = [
 				Top: 30,
 				Left: 150,
 				DefaultColor: ["#808080", "#A0A0A0"],
-				HideItem: [
-					"HairAccessory1EarsElfEars",
-					"HairAccessory2EarsElfEars",
-				],
+				HideItem: ["HairAccessory1EarsElfEars", "HairAccessory2EarsElfEars"],
 				Layer: [
 					{
 						Name: "Main",
@@ -11540,17 +11534,12 @@ var AssetFemale3DCG = [
 					BackElbowTouch: PoseType.HIDE,
 					BackBoxTie: PoseType.HIDE,
 				},
-				Hide: [
-					"LeftHand",
-					"RightHand",
-				],
+				Hide: ["LeftHand", "RightHand"],
 				Layer: [
 					{ Name: "Main", Priority: 29 },
-					{ Name: "Fur",
-						AllowTypes: { typed: 0 },
-						Priority: 32,
-					},
-					{ Name: "FurSup",
+					{ Name: "Fur", AllowTypes: { typed: 0 }, Priority: 32 },
+					{
+						Name: "FurSup",
 						PoseMapping: {
 							BackCuffs: "BackCuffs",
 							AllFours: PoseType.HIDE,
@@ -17191,7 +17180,12 @@ var AssetFemale3DCG = [
 			{
 				Name: "PlasticChastityCage1",
 				Gender: "M",
-				Prerequisite: ["AccessVulva", "HasPenis", "AccessFullPenis", "NoErection"],
+				Prerequisite: [
+					"AccessVulva",
+					"HasPenis",
+					"AccessFullPenis",
+					"NoErection",
+				],
 				Difficulty: 50,
 				Value: 20,
 				Effect: [E.Chaste],
@@ -17242,7 +17236,12 @@ var AssetFemale3DCG = [
 			{
 				Name: "PlasticChastityCage2",
 				Gender: "M",
-				Prerequisite: ["AccessVulva", "HasPenis", "AccessFullPenis", "NoErection"],
+				Prerequisite: [
+					"AccessVulva",
+					"HasPenis",
+					"AccessFullPenis",
+					"NoErection",
+				],
 				Value: 20,
 				Difficulty: 50,
 				Effect: [E.Chaste],
@@ -17273,7 +17272,12 @@ var AssetFemale3DCG = [
 			{
 				Name: "TechnoChastityCage",
 				Gender: "M",
-				Prerequisite: ["AccessVulva", "HasPenis", "AccessFullPenis", "NoErection"],
+				Prerequisite: [
+					"AccessVulva",
+					"HasPenis",
+					"AccessFullPenis",
+					"NoErection",
+				],
 				Category: ["SciFi"],
 				Value: 50,
 				Difficulty: 50,
@@ -17306,7 +17310,12 @@ var AssetFemale3DCG = [
 				Name: "FlatChastityCage",
 				Gender: "M",
 				Fetish: ["Metal"],
-				Prerequisite: ["AccessVulva", "HasPenis", "AccessFullPenis", "NoErection"],
+				Prerequisite: [
+					"AccessVulva",
+					"HasPenis",
+					"AccessFullPenis",
+					"NoErection",
+				],
 				Value: 25,
 				Difficulty: 50,
 				Effect: [E.Chaste],
@@ -17336,7 +17345,12 @@ var AssetFemale3DCG = [
 			{
 				Name: "ChastityPouch",
 				Gender: "M",
-				Prerequisite: ["AccessVulva", "HasPenis", "AccessFullPenis", "NoErection"],
+				Prerequisite: [
+					"AccessVulva",
+					"HasPenis",
+					"AccessFullPenis",
+					"NoErection",
+				],
 				Value: 25,
 				Difficulty: 50,
 				Effect: [E.Chaste],
@@ -17634,11 +17648,25 @@ var AssetFemale3DCG = [
 				Layer: [
 					{ Name: "Sound", AllowTypes: { typed: 0 } },
 					{ Name: "Shine", AllowTypes: { typed: 0 } },
-					{ Name: "SoundOut", CopyLayerColor: "Sound", AllowTypes: { typed: 1 } },
-					{ Name: "ShineOut", CopyLayerColor: "Shine", AllowTypes: { typed: 1 } },
-					{ Name: "Penis", InheritColor: "Pussy", ColorSuffix: { HEX_COLOR: "White" }, AllowTypes: { typed: [0, 1] }, HideColoring: true },
-				]
-			}
+					{
+						Name: "SoundOut",
+						CopyLayerColor: "Sound",
+						AllowTypes: { typed: 1 },
+					},
+					{
+						Name: "ShineOut",
+						CopyLayerColor: "Shine",
+						AllowTypes: { typed: 1 },
+					},
+					{
+						Name: "Penis",
+						InheritColor: "Pussy",
+						ColorSuffix: { HEX_COLOR: "White" },
+						AllowTypes: { typed: [0, 1] },
+						HideColoring: true,
+					},
+				],
+			},
 		],
 		Color: [
 			"Default",

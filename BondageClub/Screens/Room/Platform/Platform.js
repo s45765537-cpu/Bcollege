@@ -2112,7 +2112,7 @@ function PlatformDrawCharacter(C, Time) {
 	if ((X >= 2000) || (Y >= 1000)) return;
 	if ((X + C.Anim.Width <= 0) || (Y + C.Anim.Height <= 0)) return;
 	DrawImageEx("Screens/Room/Platform/Character/" + C.Name + "/" + C.Status + "/" + C.Anim.Name + "/" + C.Anim.Image.toString() + ".png", MainCanvas, X + C.Anim.OffsetX, Y + C.Anim.OffsetY, { Mirror: C.Anim.Mirror, Width: C.Anim.Width, Height: C.Anim.Height } );
-	if (PlatformHeartEffect && (PlatformDialogCharactersAreLovers(C.Name, PlatformPlayer.Name) || C.Camera)) 
+	if (PlatformHeartEffect && (PlatformDialogCharactersAreLovers(C.Name, PlatformPlayer.Name) || C.Camera))
 		DrawImageZoomCanvas("Screens/Room/Platform/Effect/Love.png", MainCanvas, 0, 0, 1000, 1000, X, Y + (((C.Anim.Name === "Crouch") || (C.Anim.Name === "Crawl")) ? C.Height / 3 : 0), C.Width, C.Height);
 	if ((C.Effect != null) && (C.Effect.Name != null) && (C.Effect.End != null) && (C.Effect.End >= Time))
 		DrawImageEx("Screens/Room/Platform/Effect/" + C.Effect.Name + ".png", MainCanvas, X + C.Anim.OffsetX, Y + C.Anim.OffsetY, { Mirror: C.Anim.Mirror, Width: C.Anim.Width, Height: C.Anim.Height } );

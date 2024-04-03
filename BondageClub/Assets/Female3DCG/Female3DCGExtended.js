@@ -9032,12 +9032,12 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "In",
 					Property: {
-						Effect: [E.DenialMode]
-					}
+						Effect: [E.DenialMode],
+					},
 				},
 				{
-					Name: "Out"
-				}
+					Name: "Out",
+				},
 			],
 			DrawImages: false,
 		}, // UrethralSound
