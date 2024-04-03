@@ -1039,7 +1039,7 @@ var PlatformRoomList = [
 				PlatformCreateCharacter("Lyn", "Thief", 2200, true, false, "EdlaranLynWineCellar", false);
 				return;
 			}
-			
+
 			PlatformCreateCharacter("Yuna", "Maid", 2500);
 
 		},
