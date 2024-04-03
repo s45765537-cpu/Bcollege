@@ -1747,9 +1747,38 @@ var PlatformDialogData = [
 			},
 			{ Text: "Anyway!  Let's rest while we can, we can also talk about shady plans.", Audio: "70" },
 			{
-				ID: "End", Audio: "80",
+				ID: "End",
+				Prerequisite: function() { return !PlatformDialogIsLover("Lyn") && !PlatformDialogIsSlave("Lyn") && !PlatformDialogIsOwner("Lyn"); },
 				Character: [{ Name: "Lyn", Status: "Thief", Pose: "Curious" }],
-				Text: "(She ponders out loud.)  Maybe we could use this cabin to hide a ransomed girl."
+				Text: "(She ponders out loud.)  Maybe we could use this cabin to hide a ransomed girl.", Audio: "80"
+			},
+			{
+				Prerequisite: function() { return PlatformDialogIsLover("Lyn") && !PlatformDialogIsSlave("Lyn") && !PlatformDialogIsOwner("Lyn"); },
+				Character: [{ Name: "Lyn", Status: "Thief", Pose: "FrenchKissMaidMelody", X: 500 }],
+				Text: "Honey, this cabin is kind of romantic.  (She gets closer for a loving kiss.)", Audio: "90", AudioStyle: "cheerful"
+			},
+			{
+				Prerequisite: function() { return !PlatformDialogIsLover("Lyn") && PlatformDialogIsSlave("Lyn"); },
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "KneelLeft", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "StareDownRight", X: 500 },
+				],
+				Text: "Please enjoy the cabin Boss.  (She gets comfy on her knees and smiles at you.)", Audio: "100", AudioStyle: "cheerful"
+			},
+			{
+				Prerequisite: function() { return PlatformDialogIsLover("Lyn") && PlatformDialogIsSlave("Lyn"); },
+				Character: [{ Name: "Lyn", Status: "Thief", Pose: "FrenchKissMaidMelody", X: 500 }],
+				Text: "(You grab her by surprise and kiss her forcefully.  She seems to enjoy it and moans slowly.)", Audio: "110", AudioStyle: "cheerful"
+			},
+			{
+				Prerequisite: function() { return !PlatformDialogIsLover("Lyn") && PlatformDialogIsOwner("Lyn"); },
+				Character: [{ Name: "Lyn", Status: "Thief", Pose: "Tickle" }],
+				Text: "Be a good minion Melody.  (She tickles you playfully before letting you go.)", Audio: "120", AudioStyle: "angry"
+			},
+			{
+				Prerequisite: function() { return PlatformDialogIsLover("Lyn") && PlatformDialogIsOwner("Lyn"); },
+				Character: [{ Name: "Lyn", Status: "Thief", Pose: "Tickle" }],
+				Text: "You're such a cute minion honey.  (She tickles you playfully before letting you go.)", Audio: "130", AudioStyle: "cheerful"
 			}
 
 		]
@@ -2291,7 +2320,7 @@ var PlatformDialogData = [
 			{
 				Text: "(The boss gets angry.)",
 				Character: [
-					{ Name: "Lyn", Status: "Thief", Pose: "Angry" },
+					{ Name: "Lyn", Status: "Thief", Pose: "IdleAngry" },
 					{ Name: "Hazel", Status: "Maid", Pose: "Angry" },
 					{ Name: "Olivia", Status: "Oracle", Pose: "BoundGagged" },
 				]
@@ -2528,7 +2557,7 @@ var PlatformDialogData = [
 			{ Text: "Boss!  We have a rat in the camp.", Audio: "10" },
 			{
 				Character: [
-					{ Name: "Lyn", Status: "Thief", Pose: "Angry" },
+					{ Name: "Lyn", Status: "Thief", Pose: "IdleAngry" },
 					{ Name: "Vera", Status: "Leather", Pose: "Grumpy" },
 					{ Name: "Vera", Status: "Leather", Pose: "Angry" }
 				]
@@ -2633,7 +2662,7 @@ var PlatformDialogData = [
 			{
 				Text: "Enough!  Since you betrayed me, I will keep you as my personal slave Edlaran.", Audio: "70",
 				Character: [
-					{ Name: "Lyn", Status: "Thief", Pose: "Angry", X: 0 },
+					{ Name: "Lyn", Status: "Thief", Pose: "IdleAngry", X: 0 },
 					{ Name: "Edlaran", Status: "Archer", Pose: "IdleDominant", X: 500 },
 					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 1000 },
 					{ Name: "Olivia", Status: "Oracle", Pose: "IdleDominant", X: 1500 },
@@ -2725,7 +2754,7 @@ var PlatformDialogData = [
 		Dialog: [
 			{
 				Background: "BanditCamp",
-				Character: [{ Name: "Lyn", Status: "Thief", Pose: "Angry" }]
+				Character: [{ Name: "Lyn", Status: "Thief", Pose: "IdleAngry" }]
 			},
 			{ Text: "(Lyn the bandit boss gets furious as you enter her camp again.)" },
 			{ Text: "What?  You came back?  You broke the deal!", Audio: "10", AudioStyle: "serious" },
@@ -2750,7 +2779,7 @@ var PlatformDialogData = [
 			},
 			{
 				Text: "Girls!  Obey me now!  Close the gate!", Audio: "50", AudioStyle: "serious",
-				Character: [{ Name: "Lyn", Status: "Thief", Pose: "Angry" }]
+				Character: [{ Name: "Lyn", Status: "Thief", Pose: "IdleAngry" }]
 			},
 			{ Text: "(Her minions laugh a little and reluctantly close the gate behind you.)" },
 			{ Text: "(She picks up her knives and charges toward you with even more strength.)" },
@@ -3098,7 +3127,7 @@ var PlatformDialogData = [
 			{
 				Text: "Do you know how to survive from here?", Audio: "30",
 				Answer: [
-					{ Text: "Can you help us Lyn?", Reply: "Yeah, I'll give you a quick guide.", Audio: "31", Domination: -1 },
+					{ Text: "Lyn, can you help us?", Reply: "Yeah, I'll give you a quick guide.", Audio: "31", Domination: -1 },
 					{ Text: "We should be fine.", Reply: "Maybe, but I'll give you a quick guide.", Audio: "32" },
 					{ Text: "We can survive anywhere.", Reply: "You're confident, but I'll give you a quick guide.", Audio: "33", Domination: 1 },
 					{ Text: "With you around, we'll be alright.", Reply: "You're sweet, I'll give you a quick guide.", Audio: "34", Domination: 1, Love: 1, Perk: true },
@@ -3143,8 +3172,36 @@ var PlatformDialogData = [
 				ID: "End",
 				Prerequisite: function() { return !PlatformDialogIsLover("Lyn") && !PlatformDialogIsSlave("Lyn") && !PlatformDialogIsOwner("Lyn"); },
 				Character: [{ Name: "Lyn", Status: "Thief", Pose: "Idle" }],
-				Text: "(She checks her purse.)  We should rent this tent to travelers, we could make good profit.", Audio: "200"
+				Text: "(She checks her purse.)  We should rent this tent to travelers.  We would make good profit.", Audio: "200"
 			},
+			{
+				Prerequisite: function() { return PlatformDialogIsLover("Lyn") && !PlatformDialogIsSlave("Lyn") && !PlatformDialogIsOwner("Lyn"); },
+				Character: [{ Name: "Lyn", Status: "Thief", Pose: "FrenchKissMaidMelody", X: 500 }],
+				Text: "You're starting to get a sexy tan honey.  (She gets closer for a loving kiss.)", Audio: "210", AudioStyle: "cheerful"
+			},
+			{
+				Prerequisite: function() { return !PlatformDialogIsLover("Lyn") && PlatformDialogIsSlave("Lyn"); },
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "KneelLeft", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "StareDownRight", X: 500 },
+				],
+				Text: "Boss, I hope you will enjoy the sun.  (She gets comfy on her knees and smiles at you.)", Audio: "220", AudioStyle: "cheerful"
+			},
+			{
+				Prerequisite: function() { return PlatformDialogIsLover("Lyn") && PlatformDialogIsSlave("Lyn"); },
+				Character: [{ Name: "Lyn", Status: "Thief", Pose: "FrenchKissMaidMelody", X: 500 }],
+				Text: "(You grab her by surprise and kiss her forcefully.  She seems to enjoy it and moans slowly.)", Audio: "230", AudioStyle: "cheerful"
+			},
+			{
+				Prerequisite: function() { return !PlatformDialogIsLover("Lyn") && PlatformDialogIsOwner("Lyn"); },
+				Character: [{ Name: "Lyn", Status: "Thief", Pose: "Tickle" }],
+				Text: "Be a good minion Melody.  (She tickles you playfully before letting you go.)", Audio: "240", AudioStyle: "angry"
+			},
+			{
+				Prerequisite: function() { return PlatformDialogIsLover("Lyn") && PlatformDialogIsOwner("Lyn"); },
+				Character: [{ Name: "Lyn", Status: "Thief", Pose: "Tickle" }],
+				Text: "You're such a cute minion honey.  (She tickles you playfully before letting you go.)", Audio: "250", AudioStyle: "cheerful"
+			}
 
 		]
 	},
@@ -3672,7 +3729,7 @@ var PlatformDialogData = [
 			{ Text: "(You get close to Olivia and stare at her in the eyes.)" },
 			{ Text: "I can see that something is troubling you.", Audio: "10", AudioStyle: "serious" },
 			{
-				Text: "Why is on your mind my pet?", Audio: "20", AudioStyle: "serious",
+				Text: "What is on your mind my pet?", Audio: "20", AudioStyle: "serious",
 				Answer: [
 					{
 						Text: "(Get released from her ownership.)",
@@ -4308,6 +4365,493 @@ var PlatformDialogData = [
 			{ Text: "Melody, go roam and explore the world.  Have fun in your newfound freedom.", Audio: "40" },
 			{ Text: "Liberty is important, I'm proud that you can go on without an owner.", Audio: "50" },
 			{ Text: "(You're no longer Edlaran's submissive.  You lose the walking and running bonuses.)" },
+			{ Text: "(The adventure continues...)" },
+			{ ID: "Skip", Entry: function() { PlatformDialogLeave(); } },
+		],
+	},
+
+	{
+		Name: "LynLover1Start",
+		Music: "MelodyRoom",
+		Dialog: [
+			{
+				Entry: function() { PlatformDialogBackground = "../Screens/Room/PlatformDialog/Background/" + PlatformRoom.Background.replace("/", ""); },
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "Idle", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle", X: 500 },
+				]
+			},
+
+			{
+				Prerequisite: function() { return (PlatformDialogGetCharacter("Lyn").Domination > 5); },
+				Text: "(You move closer to Lyn and wink at her.)",
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "IdleSubmissive", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
+				]
+			},
+			{
+				Prerequisite: function() { return ((PlatformDialogGetCharacter("Lyn").Domination >= -5) && (PlatformDialogGetCharacter("Lyn").Domination <= 5)); },
+				Text: "(You and Lyn suddenly get close and smile at each other.)",
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "IdleHappy", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleHappy", X: 500 },
+				]
+			},
+			{
+				Prerequisite: function() { return (PlatformDialogGetCharacter("Lyn").Domination < -5); },
+				Text: "(Lyn waves her index to invite you to come closer.)",
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "IdleDominant", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleSubmissive", X: 500 },
+				]
+			},
+
+			{
+				Text: "What deal are you planning Melody?", Audio: "10",
+				Answer: [
+					{ Text: "(Propose to become girlfriends.)", Reply: "(You both start to giggle at the same time.)" },
+					{ Text: "(Talk about a rock in your shoe.)", Reply: "(She shakes her head no and turns away.)", Love: -1, Goto: "Skip" },
+					{ Text: "(Talk about a business plan.)", Reply: "(You briefly talk about a business scenario before she turns away.)", Perk: true, Goto: "Skip" }
+				]
+			},
+			{
+				Text: "Lyn, we've only known each other for a little while.", Audio: "20",
+				Character: [
+					{ Name: "Melody", Status: "Maid", Pose: "IdleHappy" },
+					{ Name: "Lyn", Status: "Thief", Pose: "IdleHappy" }
+				]
+			},
+			{ Text: "From the first time I saw you in your bandit camp, I knew there was something in you.", Audio: "30" },
+			{ Text: "You're sexy, you're fierce, you're beautiful, you're perfect.", Audio: "40" },
+			{ Text: "Since that very first battle, I got a crush on you.", Audio: "50" },
+			{ Text: "It might be crazy to ask you this question Lyn, but we live in crazy times.", Audio: "60" },
+			{ Text: "Would you be my girlfriend?", Audio: "100", AudioStyle: "serious" },
+
+			{
+				Prerequisite: function() { return (PlatformDialogGetCharacter("Lyn").Domination > 5); },
+				Text: "I thought you would never ask!  Best deal ever!  (She blushes as you pull her close for a passionate kiss.)", Audio: "110", AudioStyle: "cheerful",
+				Character: [{ Name: "Lyn", Status: "Thief", Pose: "FrenchKissMaidMelody", X: 500 }]
+			},
+			{
+				Prerequisite: function() { return ((PlatformDialogGetCharacter("Lyn").Domination >= -5) && (PlatformDialogGetCharacter("Lyn").Domination <= 5)); },
+				Text: "Yes Melody!  Best deal ever!  (You pull each other closer for a passionate kiss.)", Audio: "120", AudioStyle: "cheerful",
+				Character: [{ Name: "Lyn", Status: "Thief", Pose: "FrenchKissMaidMelody", X: 500 }]
+			},
+			{
+				Prerequisite: function() { return (PlatformDialogGetCharacter("Lyn").Domination < -5); },
+				Text: "Hell yeah!  Best deal ever!  (She smirks and pulls you close for a passionate kiss.)", Audio: "130", AudioStyle: "cheerful",
+				Character: [{ Name: "Lyn", Status: "Thief", Pose: "FrenchKissMaidMelody", X: 500 }]
+			},
+			{
+				Entry: function() {
+					PlatformDialogGetCharacter("Lyn").Love = PlatformDialogGetCharacter("Lyn").Love + 3;
+					PlatformDialogGetCharacter("Lyn").LoverName = "Melody";
+					PlatformDialogGetCharacter("Melody").LoverName = "Lyn";
+					PlatformDialogGetCharacter("Lyn").LoverLevel = 1;
+					PlatformDialogGetCharacter("Melody").LoverLevel = 1;
+					PlatformDialogRelationshipChange();
+				}
+			},
+
+			{ Text: "(You kiss each other on the hand, the cheek, the neck and the lips.)" },
+			{ 
+				Background: "Black",
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "IdleCheer", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleHappy", X: 500 }
+				],
+				Text: "(After lots of foreplay, you dash out to find a private place.)" },
+			{ Text: "(You strip each other slowly, removing each piece of clothes with a huge smile.)" },
+			{
+				Character: [
+					{ Name: "Lyn", Status: "Naked", Pose: "LookLeft", X: 1000 },
+					{ Name: "Melody", Status: "Naked", Pose: "LookRight", X: 500 }
+				]
+			},
+			{ Text: "Do you think my boots are sexy?  I'll keep them.", Audio: "145", AudioStyle: "cheerful" },
+			{ Text: "(She looks at your body and giggles.)" },
+			{
+				Text: "Are you ticklish honey?", Audio: "150", AudioStyle: "cheerful",
+				Answer: [
+					{ Text: "No, I'm not.", Reply: "(She sighs.)  Are you sure?  Maybe we could try.", Audio: "151", AudioStyle: "cheerful", Love: -1 },
+					{ Text: "(Giggle.)  Maybe a little.", Reply: "(She starts to tickle you playfully.)  You better get used to it.", Audio: "152", AudioStyle: "cheerful", Domination: -2 },
+					{ Text: "No, but I'm sure you are!  (Tickle her.)", Reply: "(She laughs loudly as you tickle her.)  Melody!", Audio: "153", AudioStyle: "cheerful", Domination: 2 },
+				]
+			},
+			{ Text: "(You tickle each other playfully and slowly slide your hands down.)" },
+			{ Character: [{ Name: "Lyn", Status: "Naked", Pose: "MasturbateNakedMelody", X: 0 }] },
+			{ Text: "(You rub your fingers over her clitoris as she does the same with yours.)" },
+			{ Text: "Oh!  Honey!  Melody!", Audio: "160", AudioStyle: "cheerful" },
+			{ Text: "(You slide a finger in each other pussies, trusting in and out.)" },
+			{ Text: "(She quickly orgasms, and you follow her soon after.)" },
+			{ Text: "Honey, I love you.", Audio: "170", AudioStyle: "cheerful" },
+			{ Text: "(Your first romantic night as lovers is memorable.)" },
+			{ Text: "(You and Lyn are now girlfriends, the first lover stage.)" },
+			{ Text: "(As Melody's lover, Lyn gets +10% health points.)" },
+			{ Text: "(As Lyn's lover, Melody does +1 damage when attacking from the back.)" },
+			{ Text: "(The adventure continues...)" },
+			{ ID: "Skip", Entry: function() { PlatformDialogLeave(); } },
+		],
+	},
+
+	{
+		Name: "LynLover1End",
+		Music: "MelodyRoom",
+		Dialog: [
+			{
+				Entry: function() { PlatformDialogBackground = "../Screens/Room/PlatformDialog/Background/" + PlatformRoom.Background.replace("/", ""); },
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "Idle", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle", X: 500 },
+				]
+			},
+			{ Text: "(You both look at each other, there is some tension in the air.)" },
+			{ Text: "Why are you looking at me like that?", Audio: "10", AudioStyle: "sad" },
+			{
+				Text: "Is there something wrong honey?", Audio: "20", AudioStyle: "sad",
+				Answer: [
+					{
+						Text: "(Break up with her.)",
+						Reply: "The love deal is over then.", Audio: "30", AudioStyle: "sad",
+						Script: function() {
+							PlatformDialogGetCharacter("Lyn").Love = PlatformDialogGetCharacter("Lyn").Love - 6;
+							if (PlatformDialogGetCharacter("Lyn").Love >= 19) PlatformDialogGetCharacter("Lyn").Love = 18;
+							delete PlatformDialogGetCharacter("Lyn").LoverName;
+							delete PlatformDialogGetCharacter("Melody").LoverName;
+							delete PlatformDialogGetCharacter("Lyn").LoverLevel;
+							delete PlatformDialogGetCharacter("Melody").LoverLevel;
+							PlatformDialogRelationshipChange();
+						}
+					},
+					{ Text: "(Kiss her.)", Reply: "(You share a loving kiss before the adventure continues.)", Goto: "Skip" },
+				]
+			},
+			{
+				Prerequisite: function() { return (PlatformDialogGetCharacter("Lyn").Domination > 5); },
+				Text: "Fuck!  (She sobs and cries a few tears.)", Audio: "40", AudioStyle: "sad",
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "IdleSubmissive", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
+				]
+			},
+			{
+				Prerequisite: function() { return ((PlatformDialogGetCharacter("Lyn").Domination >= -5) && (PlatformDialogGetCharacter("Lyn").Domination <= 5)); },
+				Text: "That's sad Melody.  (She sighs loudly.)", Audio: "50", AudioStyle: "sad",
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "IdleSad", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleSubmissive", X: 500 },
+				]
+			},
+			{
+				Prerequisite: function() { return (PlatformDialogGetCharacter("Lyn").Domination < -5); },
+				Text: "It's fine.  I'll find someone better.", Audio: "60", AudioStyle: "serious",
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "IdleDominant", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleSubmissive", X: 500 },
+				]
+			},
+			{ Text: "Love would only slow down my business anyway.", Audio: "70", AudioStyle: "sad" },
+			{ Text: "Let's pretend none of this happened.", Audio: "90" },
+			{ Text: "(You and Lyn are no longer lovers.)" },
+			{ Text: "(Melody loses her back attack bonus and Lyn loses her health bonus.)" },
+			{ Text: "(The adventure continues...)" },
+			{ ID: "Skip", Entry: function() { PlatformDialogLeave(); } },
+		],
+	},
+
+	{
+		Name: "LynDomination1Start",
+		Music: "MelodyRoom",
+		Dialog: [
+			{
+				Entry: function() { PlatformDialogBackground = "../Screens/Room/PlatformDialog/Background/" + PlatformRoom.Background.replace("/", ""); },
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "Idle", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle", X: 500 },
+				]
+			},
+			{
+				Prerequisite: function() { return PlatformDialogIsLover("Lyn"); },
+				Text: "(You spank Lyn's butt as she jumps and smiles.)  Let's talk my love.", Audio: "11", AudioStyle: "serious",
+				Character: [
+					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
+					{ Name: "Lyn", Status: "Thief", Pose: "IdleHappy", X: 1000 },
+				]
+			},
+			{
+				Prerequisite: function() { return !PlatformDialogIsLover("Lyn"); },
+				Text: "(You grab Lyn and bring her closer.)  Girl, let's talk.", Audio: "12", AudioStyle: "serious",
+				Character: [
+					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
+					{ Name: "Lyn", Status: "Thief", Pose: "IdleSubmissive", X: 1000 },
+				]
+			},
+			{
+				Text: "(She gulps and nods slowly.)",
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "IdleSubmissive", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
+				]
+			},
+			{
+				Text: "What would you like to talk about?", Audio: "20", AudioStyle: "calm",
+				Answer: [
+					{ Text: "(Propose to become her Protector.)", Reply: "(She takes deep breaths as you take a serious pose.)" },
+					{ Text: "(Talk about a plant you saw.)", Reply: "(She sighs and turns away.)", Domination: -1, Goto: "Skip" },
+					{ Text: "(Tickle her.)", Reply: "(You tickle her playfully before the adventure continues.)", Perk: true, Goto: "Skip" },
+				]
+			},
+			{
+				Text: "Lyn, you need someone to keep you in check and watch over you.", Audio: "30", AudioStyle: "serious",
+				Character: [
+					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
+					{ Name: "Lyn", Status: "Thief", Pose: "IdleSubmissive", X: 1000 },
+				]
+			},
+			{ Text: "A life of petty crimes will get you in jail or killed.", Audio: "40", AudioStyle: "serious" },
+			{
+				Prerequisite: function() { return PlatformDialogIsLover("Lyn"); },
+				Text: "I love you so much.  I don't want you to get hurt.", Audio: "50", AudioStyle: "serious"
+			},
+			{ Text: "You need to straight up, get back in line before it's too late.", Audio: "60", AudioStyle: "serious" },
+			{ Text: "I can put you on the right track.  Your skills can be used to help others.", Audio: "70", AudioStyle: "serious" },
+			{ Text: "I can teach you to be honest and work hard.", Audio: "80", AudioStyle: "serious" },
+			{ Text: "I can also train you to get stronger, more resilient.", Audio: "90", AudioStyle: "serious" },
+			{ Text: "What do you think Lyn?  Will you be my protégée?", Audio: "130", AudioStyle: "serious" },
+			{
+				Prerequisite: function() { return PlatformDialogIsLover("Lyn"); },
+				Text: "Yes honey.  I accept to be both your lover and minion.", Audio: "140", AudioStyle: "cheerful",
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "IdleHappy", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
+				]
+			},
+			{
+				Prerequisite: function() { return !PlatformDialogIsLover("Lyn"); },
+				Text: "Yes Melody.  I accept to be your minion.", Audio: "150", AudioStyle: "calm",
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "IdleSubmissive", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
+				]
+			},
+			{
+				Entry: function() {
+					PlatformDialogGetCharacter("Lyn").Domination = PlatformDialogGetCharacter("Lyn").Domination + 3;
+					PlatformDialogGetCharacter("Lyn").OwnerName = "Melody";
+					PlatformDialogGetCharacter("Lyn").OwnerLevel = 1;
+					PlatformDialogRelationshipChange();
+				},
+				Text: "You will be a great boss.", Audio: "160", AudioStyle: "calm"
+			},
+			{ Text: "I hope you share the loot with your minions. (She giggles.)", Audio: "170", AudioStyle: "cheerful" },
+			{
+				Text: "Do you expect me to kneel for you?", Audio: "180", AudioStyle: "serious",
+				Answer: [
+					{ Text: "If you feel like it.", Reply: "(She shrugs.)  Alright, I'll do it.", Audio: "181", Domination: -2 },
+					{ Text: "From time to time.", Reply: "I'll do it now.", Audio: "182", AudioStyle: "serious" },
+					{ Text: "Always.", Reply: "(She nods slowly and complies.)", Domination: 2 },
+				]
+			},
+			{
+				Character: [
+					{ Name: "Melody", Status: "Maid", Pose: "StareDownRight", X: 500 },
+					{ Name: "Lyn", Status: "Thief", Pose: "KneelLeft", X: 1000 },
+				]
+			},
+			{ Text: "From now, you will be respectful.  You can call me Miss or Boss if you prefer.", Audio: "190", AudioStyle: "serious" },
+			{ Text: "When I call you, you must stop anything you're doing and come quikly.", Audio: "200", AudioStyle: "serious" },
+			{ Text: "As your protector, I will punish you if you fail to obey my rules.", Audio: "201", AudioStyle: "serious" },
+			{ Text: "If I want to get you bound and gagged for any reason, you will not resist.", Audio: "202", AudioStyle: "serious" },
+			{ Text: "You will do exercises each day, and eat better meals to stay healthy.", Audio: "210", AudioStyle: "serious" },
+			{
+				Prerequisite: function() { return PlatformDialogIsLover("Lyn"); },
+				Text: "Since you're also my love, you will not refuse sex without a good reason.", Audio: "220", AudioStyle: "serious"
+			},
+			{ Text: "You will ask me for permission before getting drunk or doing anything dangerous.", Audio: "230", AudioStyle: "serious" },
+			{ Text: "Do you have any question my protégée?", Audio: "240" },
+			{
+				Text: "Yes Boss.  Can I still do businesses that could be viewed as illegal?", Audio: "250",
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "KneelLeft", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "StareDownRight", X: 500 },
+				],
+				Answer: [
+					{ Text: "Sure, that should be fine.", Reply: "(She smiles.)  Thanks Boss!  This is great.", Audio: "251", AudioStyle: "cheerful", Love: 2, Domination: -1 },
+					{ Text: "No, these businesses are over.", Reply: "(She sighs.)  Very well Boss.", Audio: "252", AudioStyle: "sad", Love: -2, Domination: 1 },
+					{ Text: "Ask me first.", Reply: "(She nods slowly.)  Yes Boss.", Audio: "253", AudioStyle: "serious" },
+				]
+			},
+			{ Text: "You'll have the best minion in town.  I'll be a good girl.", Audio: "260" },
+			{ Text: "I'll help you to make great deals.  A deal is a deal.", Audio: "270" },
+			{ Text: "(You're now Lyn's Protector, the first owner stage.)" },
+			{ Text: "(As Melody's submissive, Lyn gets +10% health points.)" },
+			{ Text: "(The adventure continues...)" },
+			{ ID: "Skip", Entry: function() { PlatformDialogLeave(); } },
+		],
+	},
+
+	{
+		Name: "LynDomination1End",
+		Music: "MelodyRoom",
+		Dialog: [
+			{
+				Entry: function() { PlatformDialogBackground = "../Screens/Room/PlatformDialog/Background/" + PlatformRoom.Background.replace("/", ""); },
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "IdleSubmissive", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
+				]
+			},
+			{ Text: "(She gulps and stares at the floor.)" },
+			{ Text: "What's going on Boss?  Nothing bad, I hope.", Audio: "10", AudioStyle: "terrified" },
+			{
+				Text: "Am I in trouble?", Audio: "20", AudioStyle: "terrified",
+				Answer: [
+					{
+						Text: "(Release her from your ownership.)",
+						Reply: "Boss?  You're firing me?", Audio: "30", AudioStyle: "terrified",
+						Script: function() {
+							PlatformDialogGetCharacter("Lyn").Domination = PlatformDialogGetCharacter("Lyn").Domination - 6;
+							if (PlatformDialogGetCharacter("Lyn").Domination >= 19) PlatformDialogGetCharacter("Lyn").Domination = 18;
+							delete PlatformDialogGetCharacter("Lyn").OwnerName;
+							delete PlatformDialogGetCharacter("Lyn").OwnerLevel;
+							PlatformDialogRelationshipChange();
+						}
+					},
+					{ Text: "(Tickle her.)", Reply: "(You tickle her playfully before the adventure continues.)", Goto: "Skip" },
+				]
+			},
+			{
+				Prerequisite: function() { return PlatformDialogIsLover("Lyn"); },
+				Text: "You know what it means honey?  Less chores and more sex.  (She laughs.)", Audio: "40", AudioStyle: "calm",
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "IdleSad", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle", X: 500 },
+				]
+			},
+			{
+				Prerequisite: function() { return !PlatformDialogIsLover("Lyn"); },
+				Text: "You know what it means Melody?  That it's time for me to hire new minions.", Audio: "50", AudioStyle: "calm",
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "IdleSad", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle", X: 500 },
+				]
+			},
+			{ Text: "I can't be bossed by a maid anyway.", Audio: "60" },
+			{ Text: "I kidnap and sell maids!  (She laughs out loud.)", Audio: "70" },
+			{ Text: "Don't tell anyone I was your minion.  I have a reputation to build back.", Audio: "80" },
+			{ Text: "(You're no longer Lyn's Dominant.  She loses her health bonus.)" },
+			{ Text: "(The adventure continues...)" },
+			{ ID: "Skip", Entry: function() { PlatformDialogLeave(); } },
+		],
+	},
+
+	{
+		Name: "LynSubmission1Start",
+		Music: "MelodyRoom",
+		Dialog: [
+			{
+				Entry: function() { PlatformDialogBackground = "../Screens/Room/PlatformDialog/Background/" + PlatformRoom.Background.replace("/", ""); },
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "Idle", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle", X: 500 },
+				]
+			},
+			{
+				Text: "(You gulp and slowly get closer to Lyn.)",
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "IdleDominant", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleSubmissive", X: 500 },
+				]
+			},
+			{ Text: "(She snaps her fingers and stares at you.)" },
+			{
+				Text: "Don't be so quiet girl.", Audio: "10", AudioStyle: "serious",
+				Answer: [
+					{ Text: "(Propose to become her submissive.)", Reply: "(She listens for a little while but quickly cuts you off.)" },
+					{ Text: "(Talk about a stain on the floor.)", Reply: "(She sighs and turns away.)", Domination: 1, Goto: "Skip" },
+					{ Text: "(Compliment her.)", Reply: "(She smirks but quickly turns away.)", Perk: true, Goto: "Skip" }
+				]
+			},
+			{ Text: "Maid, there's no need to babble.", Audio: "20", AudioStyle: "serious" },
+			{
+				Prerequisite: function() { return PlatformDialogIsLover("Lyn"); },
+				Text: "Honey, you're so cute when you get flustered.", Audio: "30", AudioStyle: "serious"
+			},
+			{ Text: "I'll tell you what's going on.  It's easy.", Audio: "40", AudioStyle: "serious" },
+			{ Text: "You're scared of what's going on and what's to come.", Audio: "50", AudioStyle: "serious" },
+			{ Text: "You're a maid without a job, you're lost.", Audio: "60", AudioStyle: "serious" },
+			{ Text: "You need structure in your life.  You need a Boss.  You need someone like me.", Audio: "70", AudioStyle: "serious" },
+			{ Text: "I could hire you, show you the business and how to fight.", Audio: "80", AudioStyle: "serious" },
+			{
+				Text: "You want to be my minion?", Audio: "100", AudioStyle: "serious",
+				Answer: [
+					{ Text: "Boss Lyn, I will be your best minion.", Reply: "(She smirks and snaps her fingers again.)", Domination: -2 },
+					{ Text: "Yes Boss!", Reply: "(She nods slowly and snaps her fingers again.)" },
+					{ Text: "It looks like it.", Reply: "(She laughs and snaps her fingers again.) ", Domination: 2 },
+				]
+			},
+			{
+				Entry: function() {
+					PlatformDialogGetCharacter("Lyn").Domination = PlatformDialogGetCharacter("Lyn").Domination - 3;
+					PlatformDialogGetCharacter("Melody").OwnerName = "Lyn";
+					PlatformDialogGetCharacter("Melody").OwnerLevel = 1;
+					PlatformDialogRelationshipChange();
+				},
+				Text: "A minion maid will be quite useful to my purse.  I mean to my cause.", Audio: "110", AudioStyle: "serious"
+			},
+			{ Text: "(TO DO)" },
+			{ Text: "(Lyn is now your Protector, the first owner stage.)" },
+			{ Text: "(As Lyn's submissive, Melody does +1 damage when attacking from the back.)" },
+			{ Text: "(The adventure continues...)" },
+			{ ID: "Skip", Entry: function() { PlatformDialogLeave(); } },
+		],
+	},
+
+	{
+		Name: "LynSubmission1End",
+		Music: "MelodyRoom",
+		Dialog: [
+			{
+				Entry: function() { PlatformDialogBackground = "../Screens/Room/PlatformDialog/Background/" + PlatformRoom.Background.replace("/", ""); },
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "IdleDominant", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "IdleDominant", X: 500 },
+				]
+			},
+			{ Text: "(You stare at each other in the eyes.)" },
+			{ Text: "Minion!  Don't look at me like that!", Audio: "10", AudioStyle: "serious" },
+			{
+				Text: "You're defying me?", Audio: "20", AudioStyle: "serious",
+				Answer: [
+					{
+						Text: "(Get released from her ownership.)",
+						Reply: "Another mutiny?  I'm not surprised.", Audio: "30", AudioStyle: "sad",
+						Script: function() {
+							PlatformDialogGetCharacter("Lyn").Domination = PlatformDialogGetCharacter("Lyn").Domination + 6;
+							if (PlatformDialogGetCharacter("Lyn").Domination <= -19) PlatformDialogGetCharacter("Lyn").Domination = -18;
+							delete PlatformDialogGetCharacter("Melody").OwnerName;
+							delete PlatformDialogGetCharacter("Melody").OwnerLevel;
+							PlatformDialogRelationshipChange();
+						}
+					},
+					{ Text: "(Do a maid curtsy.)", Reply: "(You do a maid curtsy, and the adventure continues.)", Goto: "Skip" },
+				]
+			},
+			{
+				Text: "(She sighs.)  Even maids are rebellious now, I need to crack the whip better.", Audio: "40", AudioStyle: "sad",
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "Idle", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle", X: 500 },
+				]
+			},
+			{
+				Prerequisite: function() { return PlatformDialogIsLover("Melody"); },
+				Text: "Honey, we can still be lovers.", Audio: "50", AudioStyle: "sad",
+			},
+			{ Text: "You know you won't get any share of the loot now.", Audio: "60" },
+			{ Text: "A deal is a deal, and the deal is broken.  You're free Melody.", Audio: "70" },
+			{ Text: "(You're no longer Lyn's submissive.  You lose the back attack bonus.)" },
 			{ Text: "(The adventure continues...)" },
 			{ ID: "Skip", Entry: function() { PlatformDialogLeave(); } },
 		],
