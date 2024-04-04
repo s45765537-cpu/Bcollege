@@ -13746,9 +13746,27 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Normal",
+					Property: {
+						OverridePriority: 27,
+					},
+				},
+				{
+					Name: "NormalOver",
+					Property: {
+						OverridePriority: 53,
+					},
 				},
 				{
 					Name: "Half",
+					Property: {
+						OverridePriority: 27,
+					},
+				},
+				{
+					Name: "HalfOver",
+					Property: {
+						OverridePriority: 53,
+					},
 				},
 			],
 			DialogPrefix: {
