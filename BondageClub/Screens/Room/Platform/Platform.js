@@ -18,6 +18,7 @@ var PlatformShowHitBox = false;
 var PlatformMessage = null;
 var PlatformHeal = null;
 var PlatformEvent = [];
+var PlatformTempEvent = [];
 var PlatformDrawUpArrow = [null, null];
 /** @type {readonly GamepadButton[]} */
 var PlatformButtons = null;
@@ -1034,9 +1035,15 @@ var PlatformRoomList = [
 				return;
 			}
 
-			if (PlatformEventDone("LynJoin") && PlatformEventDone("EdlaranJoin") && (PlatformPlayer.Name != "Lyn") && (PlatformPlayer.Name != "Edlaran") && PlatformDialogCharacterIsSingle("Lyn") && PlatformDialogCharacterIsSingle("Edlaran")) {
+			if (PlatformEventDone("LynJoin") && PlatformEventDone("EdlaranJoin") && (PlatformPlayer.Name != "Lyn") && (PlatformPlayer.Name != "Edlaran") && PlatformDialogCharacterIsSingle("Lyn") && PlatformDialogCharacterIsSingle("Edlaran") && !PlatformTempEvent.includes("EdlaranLynWineCellar")) {
 				PlatformCreateCharacter("Edlaran", "Archer", 2500, true, false, "EdlaranLynWineCellar", true);
 				PlatformCreateCharacter("Lyn", "Thief", 2200, true, false, "EdlaranLynWineCellar", false);
+				return;
+			}
+
+			if (PlatformEventDone("LynJoin") && PlatformEventDone("EdlaranJoin") && (PlatformPlayer.Name != "Lyn") && (PlatformPlayer.Name != "Edlaran") && PlatformDialogCharactersAreLovers("Lyn", "Edlaran") && !PlatformTempEvent.includes("EdlaranLynWineCellar")) {
+				PlatformCreateCharacter("Edlaran", "Archer", 2500, true, false, "EdlaranLynWineCellarBreakUp", true);
+				PlatformCreateCharacter("Lyn", "Thief", 2200, true, false, "EdlaranLynWineCellarBreakUp", false);
 				return;
 			}
 			
@@ -1838,6 +1845,7 @@ function PlatformLoadRoom(RoomName) {
 	if (PlatformRoom == null) return;
 	if (PlatformRoom.Text != null) PlatformMessageSet(PlatformRoom.Text);
 	PlatformHeal = (PlatformRoom.Heal == null) ? null : CommonTime() + PlatformRoom.Heal;
+	if (PlatformHeal) PlatformTempEvent = [];
 	if (PlatformPlayer.Name == "Lyn") PlatformPlayer.Projectile = PlatformPlayer.MaxProjectile;
 	PlatformChar.splice(1, 100);
 	if (PlatformRoom.Character != null)
