@@ -471,9 +471,9 @@ input[type="checkbox"] {
 	margin: 0;
 	font: inherit;
 	color: black;
-	width: 6vh;
-	height: 6vh;
-	border: 0.25vh solid black;
+	width: min(6vh, 3vw);
+	height: min(6vh, 3vw);
+	border: min(0.3vh, 0.15vw) solid black;
 	display: grid;
 	place-content: center;
 }
@@ -488,8 +488,8 @@ input[type="checkbox"]:disabled {
 
 input[type="checkbox"]::before {
 	content: "";
-	width: 4.5vh;
-	height: 4.5vh;
+	width: min(4.6vh, 2.3vw);
+	height: min(4.6vh, 2.3vw);
 	clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
 	transform: scale(0);
 	background-color: black;
@@ -508,8 +508,8 @@ input[type="checkbox"]:checked::before {
 .Shop2GridCategory {
 	display: grid;
 	color: white;
-	font-size: 3.5vh;
-	min-height: 7vh;
+	font-size: min(3.6vh, 1.8vw);
+	min-height: min(7vh, 3.5vw);
 	text-align: center;
 	align-items: center;
 }
@@ -520,13 +520,13 @@ input[type="checkbox"]:checked::before {
 	display: grid;
 	grid-template-columns: 50% 50%;
 	user-select: none;
-	padding-bottom: 3vh;
+	padding-bottom: min(3vh, 1.5vw);
 }
 
 .Shop2Checkbox {
 	display: grid;
 	grid-template-columns: 25% 70%;
-	min-height: 7vh;
+	min-height: min(7vh, 3.5vw);
 	height: fit-content 100%;
 	align-items: center;
 }
