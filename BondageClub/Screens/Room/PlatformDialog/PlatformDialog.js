@@ -1052,7 +1052,7 @@ var PlatformDialogData = [
 			{ Text: "(Melody and Lyn are drinking and talking loudly in the Countess wine cellar.  They turn to you.)" },
 			{ Text: "Meldy!  Iz great to see you!  (She waves at you tipsily.)", Audio: "10", AudioStyle: "cheerful" },
 			{ Text: "Me an Lyn are havin a gud time!  Try the wine!", Audio: "20", AudioStyle: "cheerful" },
-			{ 
+			{
 				Text: "Whatz goin on?", Audio: "30", AudioStyle: "cheerful",
 				Answer: [
 					{ Text: "Enough drinking my friends.", Reply: "U no fun!  (They both leave the room.)", Audio: "31", AudioStyle: "cheerful", Goto: "End" },
@@ -1068,9 +1068,9 @@ var PlatformDialogData = [
 					{ Name: "Edlaran", Status: "Archer", Pose: "IdleCheer", X: 250 },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
 				]
-	 		},
+			},
 			{ Text: "An you have smexy curvs lttle elf.", Audio: "60", AudioStyle: "cheerful" },
-			{ 
+			{
 				Text: "(They both start to flirt.)",
 				Answer: [
 					{ Text: "(Stop them.)", Reply: "Maid!  U so borin!  (They both leave the room.)", Audio: "61", AudioStyle: "cheerful", Goto: "End" },
@@ -1085,13 +1085,13 @@ var PlatformDialogData = [
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
 				],
 				Text: "Oh yeah!  That wud be great Lyn.  I lov u!", Audio: "80", Overwrite: true, AudioStyle: "cheerful"
-	 		},
+			},
 			{ Text: "(They clumsily hug each other and exchange a long drunken kiss.)" },
 			{
 				Character: [{ Name: "Lyn", Status: "Thief", Pose: "FrenchKissEdlaranArcher", X: 500 }]
-	 		},
+			},
 			{ Text: "(They kiss and moan for a while, enjoying their new love.)" },
-			{ 
+			{
 				Entry: function() {
 					PlatformDialogGetCharacter("Lyn").LoverName = "Edlaran";
 					PlatformDialogGetCharacter("Edlaran").LoverName = "Lyn";
@@ -1107,7 +1107,7 @@ var PlatformDialogData = [
 				Entry: function() { PlatformChar.splice(1, 100); },
 				ID: "End", Text: "(You're now alone in the wine cellar.)",
 				Character: [{ Name: "Melody", Status: "Maid", Pose: "Idle" }]
-	 		}
+			}
 		]
 	},
 
@@ -4896,7 +4896,7 @@ var PlatformDialogData = [
 					{ Text: "It would be a pleasure Boss.", Reply: "(She smirks.)  You're adorable my minion.", Audio: "184", AudioStyle: "cheerful", Love: 2, Domination: -2, Perk: true },
 				]
 			},
-			{ 
+			{
 				Prerequisite: function() { return !PlatformDialogIsLover("Lyn"); },
 				Text: "I also love to tickle my minions, don't be surprised if it happens.", Audio: "190"
 			},

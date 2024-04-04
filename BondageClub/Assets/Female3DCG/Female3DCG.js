@@ -26132,7 +26132,7 @@ var AssetFemale3DCG = [
 			}, //PonyMittensBinder
 			{
 				Name: "ElbowLengthMittens",
-				Fetish: ["Leather","Pet"],
+				Fetish: ["Leather", "Pet"],
 				Value: 70,
 				Difficulty: 6,
 				SelfBondage: 4,
@@ -26149,7 +26149,7 @@ var AssetFemale3DCG = [
 					"#DDDDDD",
 					"#CECECE",
 					"#99831A",
-					"#A5A5A5"
+					"#A5A5A5",
 				],
 				Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
 				Hide: ["Gloves", "LeftHand", "RightHand", "ItemHandheld"],
@@ -26168,50 +26168,28 @@ var AssetFemale3DCG = [
 				AlwaysExtend: true,
 				Alpha: [
 					{
-						Group: [
-							"BodyUpper",
-						],
-						Pose: [
-							"Yoked",
-						],
+						Group: ["BodyUpper"],
+						Pose: ["Yoked"],
 						Masks: [
-							[65,140,80,80],
-							[390,135,80,80],
+							[65, 140, 80, 80],
+							[390, 135, 80, 80],
 						],
 					},
 					{
-						Group: [
-							"BodyUpper",
-						],
-						Pose: [
-							"OverTheHead",
-						],
-						Masks: [
-							[145,0,200,75],
-						],
+						Group: ["BodyUpper"],
+						Pose: ["OverTheHead"],
+						Masks: [[145, 0, 200, 75]],
 					},
 					{
-						Group: [
-							"BodyUpper",
-						],
-						Pose: [
-							"BackCuffs",
-						],
-						Masks: [
-							[345,380,60,60],
-						],
+						Group: ["BodyUpper"],
+						Pose: ["BackCuffs"],
+						Masks: [[345, 380, 60, 60]],
 					},
 					{
-						Group: [
-							"Hands",
-						],
-						Pose: [
-							"AllFours",
-						],
-						Masks: [
-							[100,100,400,400],
-						],
-					}
+						Group: ["Hands"],
+						Pose: ["AllFours"],
+						Masks: [[100, 100, 400, 400]],
+					},
 				],
 				Layer: [
 					{
@@ -26220,8 +26198,8 @@ var AssetFemale3DCG = [
 						AllowTypes: { typed: 0 },
 						PoseMapping: {
 							...AssetPoseMapping.ItemHands,
-							BackBoxTie:"BackBoxTie",
-						}
+							BackBoxTie: "BackBoxTie",
+						},
 					},
 					{
 						Name: "Straps",
@@ -26229,8 +26207,8 @@ var AssetFemale3DCG = [
 						AllowTypes: { typed: 0 },
 						PoseMapping: {
 							...AssetPoseMapping.ItemHands,
-							BackBoxTie:"BackBoxTie",
-						}
+							BackBoxTie: "BackBoxTie",
+						},
 					},
 					{
 						Name: "Beans",
@@ -26240,7 +26218,7 @@ var AssetFemale3DCG = [
 							...AssetPoseMapping.ItemHands,
 							TapedHands: PoseType.HIDE,
 							BackBoxTie: PoseType.HIDE,
-						}
+						},
 					},
 					{
 						Name: "Metal",
@@ -26248,16 +26226,16 @@ var AssetFemale3DCG = [
 						AllowTypes: { typed: 0 },
 						PoseMapping: {
 							...AssetPoseMapping.ItemHands,
-							BackBoxTie:"BackBoxTie",
-						}
+							BackBoxTie: "BackBoxTie",
+						},
 					},
 					{
 						Name: "Locks",
-						LockLayer:true,
+						LockLayer: true,
 						PoseMapping: {
 							...AssetPoseMapping.ItemHands,
-							BackBoxTie:"BackBoxTie",
-						}
+							BackBoxTie: "BackBoxTie",
+						},
 					},
 					{
 						Name: "MainConnected",
@@ -26347,9 +26325,9 @@ var AssetFemale3DCG = [
 							Hogtied: PoseType.HIDE,
 							AllFours: PoseType.HIDE,
 						},
-						LockLayer:true,
-					}
-				]
+						LockLayer: true,
+					},
+				],
 			},
 		],
 	},

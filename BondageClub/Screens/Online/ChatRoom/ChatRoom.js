@@ -2373,7 +2373,7 @@ function ChatRoomSendAttemptEmote(msg) {
 	if (!match) {
 		ServerSend("ChatRoomChat", { Content: msg, Type: "Emote" });
 		return;
-	} 
+	}
 
 	msg = msg.replace(/^(\*|\/attempt )(\d{0,2}|100)%/, "");
 	msg = msg.trim();
@@ -2385,7 +2385,7 @@ function ChatRoomSendAttemptEmote(msg) {
 	const attemptSucceeded = random <= chance;
 	msg += attemptSucceeded ? ": ✔" : ": ❌";
 	msg += " (" + chance + "%)";
-	
+
 	ServerSend("ChatRoomChat", { Content: msg, Type: "Emote" });
 
 	return;

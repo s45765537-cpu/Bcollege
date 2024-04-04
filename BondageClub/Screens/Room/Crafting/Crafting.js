@@ -68,7 +68,10 @@ let CraftingLayerNames = null;
 
 /**
  * A record mapping all crafting-valid asset names to a list of matching elligble assets.
+ *
  * Elligble assets are defined as crafting-valid assets with either a matching {@link Asset.Name} or {@link Asset.CraftGroup}.
+ *
+ * The first asset in each list is guaranteed to satisfy `Asset.Group.Name === Asset.DynamicGroupName` _if_ any of the list members satisfy this condition.
  * @type {Record<string, Asset[]>}
  */
 let CraftingAssets = {};
@@ -178,6 +181,23 @@ function CraftingAssetsPopulate() {
 			ret[name] ??= [];
 			ret[name].push(...assetList);
 		}
+	}
+
+	// Ensure that the first member satisfies `Asset.Group.Name === Asset.DynamicGroupName` if possible at all
+	for (const assetList of Object.values(ret)) {
+		assetList.sort((a1, a2) => {
+			if (a1.Group.Name === a1.DynamicGroupName) {
+				return -1;
+			} else if (a2.Group.Name === a2.DynamicGroupName) {
+				return 1;
+			} else {
+				return (
+					a1.Group.Category.localeCompare(a2.Group.Category)
+					|| a1.Group.Name.localeCompare(a2.Group.Name)
+					|| a1.Name.localeCompare(a2.Name)
+				);
+			}
+		});
 	}
 	return ret;
 }
@@ -374,7 +394,7 @@ function CraftingRun() {
 		DrawText(TextGet("SelectProperty").replace("AssetDescription", CraftingSelectedItem.Asset.Description), 880, 60, "White", "Black");
 		let Pos = 0;
 		for (const [Name, Allow] of CraftingPropertyMap)
-			if (Allow(CraftingSelectedItem.Asset)) {
+			if (CraftingSelectedItem.Assets.some(a => Allow(a))) {
 				let X = (Pos % 4) * 500 + 15;
 				let Y = Math.floor(Pos / 4) * 175 + 130;
 				DrawButton(X, Y, 470, 150, "", "White");
@@ -557,7 +577,7 @@ function CraftingModeSet(NewMode) {
 		let Input = ElementCreateInput("InputSearch", "text", "", "50");
 		Input.addEventListener("input", CraftingItemListBuild);
 	} else ElementRemove("InputSearch");
-	if (NewMode === "Lock" && CraftingSelectedItem.Asset.AllowLock !== true) {
+	if (NewMode === "Lock" && !CraftingSelectedItem.Assets.some(a => a.AllowLock)) {
 		CraftingSelectedItem.Lock = null;
 		CraftingMode = NewMode = "Name";
 	}
@@ -969,7 +989,10 @@ function CraftingClick() {
 					Name: "",
 					Description: "",
 					Color: "Default",
-					Asset: null,
+					Assets: [],
+					get Asset() {
+						return this.Assets[0];
+					},
 					Property: "Normal",
 					Lock: null,
 					Private: false,
@@ -1009,7 +1032,7 @@ function CraftingClick() {
 			const Y = Math.floor((I - CraftingOffset) / 8) * 290 + 130;
 			const asset = CraftingItemList[I];
 			if (MouseIn(X, Y, 225, 275)) {
-				CraftingSelectedItem.Asset = asset;
+				CraftingSelectedItem.Assets = CraftingAssets[asset.Name] ?? [];
 				CraftingSelectedItem.TypeRecord = {};
 				CraftingSelectedItem.Lock = null;
 				CraftingSelectedItem.Color = CraftingSelectedItem.Asset.DefaultColor.join(",");
@@ -1024,7 +1047,7 @@ function CraftingClick() {
 	if (CraftingMode == "Property") {
 		let Pos = 0;
 		for (const [Name, Allow] of CraftingPropertyMap)
-			if (Allow(CraftingSelectedItem.Asset)) {
+			if (CraftingSelectedItem.Assets.some(a => Allow(a))) {
 				let X = (Pos % 4) * 500 + 15;
 				let Y = Math.floor(Pos / 4) * 175 + 130;
 				if (MouseIn(X, Y, 470, 150)) {
@@ -1075,7 +1098,7 @@ function CraftingClick() {
 			CraftingModeSet("Item");
 			CraftingItemListBuild();
 			return null;
-		} else if (MouseIn(425, 250, 225, 275) && CraftingSelectedItem.Asset.AllowLock) {
+		} else if (MouseIn(425, 250, 225, 275) && CraftingSelectedItem.Assets.some(a => a.AllowLock)) {
 			CraftingModeSet("Lock");
 			return null;
 		} else if (MouseIn(80, 650, 570, 190)) {
@@ -1188,7 +1211,6 @@ function CraftingConvertSelectedToItem() {
  * @returns {CraftingItemSelected}
  */
 function CraftingConvertItemToSelected(Craft) {
-	const asset = Player.Inventory.find(a => a.Asset.Name === Craft.Item && !a.Asset.IsLock).Asset;
 	return {
 		Name: Craft.Name,
 		Description: Craft.Description,
@@ -1196,7 +1218,10 @@ function CraftingConvertItemToSelected(Craft) {
 		Private: Craft.Private,
 		TypeRecord: Craft.TypeRecord || null,
 		Property: Craft.Property,
-		Asset: asset,
+		Assets: CraftingAssets[Craft.Item] ?? [],
+		get Asset() {
+			return this.Assets[0];
+		},
 		Lock: Craft.Lock ? Player.Inventory.find(a => a.Asset.IsLock && a.Asset.Name == Craft.Lock).Asset : null,
 		ItemProperty: Craft.ItemProperty ? Craft.ItemProperty : {},
 		get OverridePriority() {
@@ -1510,11 +1535,15 @@ function CraftingValidate(Craft, asset=null, Warn=true) {
 	const Name = Craft.Name;
 
 	// Manually search for the Asset if it has not been provided
+	/** @type {readonly Asset[]} */
+	let assets;
 	if (asset == null) {
-		asset = Asset.find(a => a.Name === Craft.Item && a.DynamicGroupName === a.Group.Name);
-		if (asset === undefined) {
+		assets = CraftingAssets[Craft.Item] ?? [];
+		if (assets.length === 0) {
 			StatusMap.set("Item", CraftingStatusType.CRITICAL_ERROR);
 		}
+	} else {
+		assets = [asset];
 	}
 
 	if (asset != null && Craft.TypeRecord == null && typeof Craft.Type === "string") {
@@ -1527,7 +1556,7 @@ function CraftingValidate(Craft, asset=null, Warn=true) {
 	 * can't properly validate them. Note that this will introduce the potential for false negatives.
 	 */
 	for (const [AttrName, {Validate, GetDefault, StatusCode}] of Object.entries(CraftingValidationRecord)) {
-		if (!Validate(Craft, asset)) {
+		if (!assets.some(a => Validate(Craft, a))) {
 			const AttrValue = (typeof Craft[AttrName] === "string") ? `"${Craft[AttrName]}"` : Craft[AttrName];
 			if (Warn) {
 				console.warn(`Invalid "Craft.${AttrName}" value for crafted item "${Name}": ${AttrValue}`);
