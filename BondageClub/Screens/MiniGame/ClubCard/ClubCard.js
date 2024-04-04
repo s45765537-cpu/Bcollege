@@ -1993,8 +1993,8 @@ function ClubCardEndTurn(Draw = false) {
 	}
 
 	if (Opponent.Board != null) {
-		// Iterate over a copy of the board so the onOpponentTurnEnd handlers can remove cards from the
-		// board and the behaviour is always well-defined.
+		// Iterate over a copy of the opponents board so the onOpponentTurnEnd handlers 
+		// copy so that the handlers can remove cards from the board and the behaviour is always well-defined.
 		for (const Card of Opponent.Board.slice()) {
 			if (Card.OnOpponentTurnEnd != null)  {
 				// CCPlayer here is the "opponent" of the card
