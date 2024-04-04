@@ -16757,6 +16757,32 @@ var AssetFemale3DCG = [
 				],
 				Layer: [{ Name: "One" }, { Name: "Two" }],
 			},
+			{
+				Name: "FrogtieMetalCuffs",
+				Fetish: ["Metal"],
+				Value: 30,
+				Difficulty: 7,
+				Time: 5,
+				Random: false,
+				AllowLock: true,
+				SetPose: ["Kneel"],
+				PoseMapping: {
+					...AssetPoseMapping.ItemLegs,
+					KneelingSpread: "KneelingSpread",
+				},
+				AllowActivePose: [...PoseAllKneeling, "AllFours", "Hogtied"],
+				Effect: [E.Slow],
+				DrawLocks: false,
+				Layer: [
+					{
+						Name: "Marks",
+						AllowColorize: false,
+					},
+					{
+						Name: "Chain"
+					},
+				]
+			},
 		],
 		Color: [
 			"Default",
@@ -25526,6 +25552,28 @@ var AssetFemale3DCG = [
 					{ Name: "Jacket" },
 					{ Name: "ArmStraps", ParentGroup: null },
 				],
+			},
+			{
+				Name: "CollarMetalcuffs",
+				Fetish: ["Metal","Masochism"],
+				Value: 60,
+				Difficulty: 7,
+				SelfBondage: 4,
+				Time: 35,
+				RemoveTime: 20,
+				Visible: false,
+				Random: false,
+				AllowLock: true,
+				Prerequisite: ["Collared"],
+				SetPose: ["BackBoxTie"],
+				Effect: [E.Block, E.BlockWardrobe],
+				ExpressionTrigger: [
+					{ Name: "Closed", Group: "Eyes", Timer: 5 },
+					{ Name: "Angry", Group: "Eyebrows", Timer: 5 },
+				],
+				Block: ["ItemHands", "ItemNeck"],
+				Extended: true,
+				SelfUnlock: false,
 			},
 		],
 		Color: [
