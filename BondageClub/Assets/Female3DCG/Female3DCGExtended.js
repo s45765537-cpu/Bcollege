@@ -14816,6 +14816,23 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // PonyMittensBinder
+		ElbowLengthMittens: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Unchained",
+				},
+				{
+					Name: "Chained",
+					Prerequisite: ["NoItemArms"],
+					Property: {
+						SetPose: ["BackElbowTouch"],
+						Block: ["ItemArms"],
+						Difficulty: 10,
+					},
+				},
+			],
+		}, // ElbowLengthMittens
 	}, // ItemHands
 	ItemAddon: {
 		CeilingChain: {
