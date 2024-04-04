@@ -1051,15 +1051,9 @@ var PlatformDialogData = [
 			},
 			{ Text: "(Edlaran and Lyn are drinking and talking loudly in the Countess wine cellar.  They turn to you.)" },
 			{ Text: "Meldy!  Iz great to see you!  (She waves at you tipsily.)", Audio: "10", AudioStyle: "cheerful" },
-<<<<<<< HEAD
 			{ Text: "Me an Lyn are havin a gud time!", Audio: "20", AudioStyle: "cheerful" },
 			{ 
 				Text: "Try the wine!", Audio: "30", AudioStyle: "cheerful",
-=======
-			{ Text: "Me an Lyn are havin a gud time!  Try the wine!", Audio: "20", AudioStyle: "cheerful" },
-			{
-				Text: "Whatz goin on?", Audio: "30", AudioStyle: "cheerful",
->>>>>>> 00fba0286e704e4e2f360ac15a2a4ec9d8f37d4f
 				Answer: [
 					{ Text: "Enough drinking my friends.", Reply: "U no fun!  (They both leave the room.)", Audio: "31", AudioStyle: "cheerful", Goto: "End" },
 					{ Text: "Are you two drunk?", Reply: "Not dunk!  Drunking!  (They both laugh.)", Audio: "32", AudioStyle: "cheerful" },
@@ -1090,13 +1084,8 @@ var PlatformDialogData = [
 					{ Name: "Lyn", Status: "Thief", Pose: "IdleCheer" },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
 				],
-<<<<<<< HEAD
 				Text: "Oh yeah!  That wud be great Lyn.  I lov u!", Audio: "80", AudioStyle: "cheerful"
 	 		},
-=======
-				Text: "Oh yeah!  That wud be great Lyn.  I lov u!", Audio: "80", Overwrite: true, AudioStyle: "cheerful"
-			},
->>>>>>> 00fba0286e704e4e2f360ac15a2a4ec9d8f37d4f
 			{ Text: "(They clumsily hug each other and exchange a long drunken kiss.)" },
 			{
 				Character: [{ Name: "Lyn", Status: "Thief", Pose: "FrenchKissEdlaranArcher", X: 500 }]
