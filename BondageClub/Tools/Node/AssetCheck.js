@@ -1042,11 +1042,12 @@ function testAssetHasPNG(assets, extendedDataRecords, poseRecord) {
 						}).filter(i => i != null);
 					});
 				} else if (layer.AllowTypes) {
+					// Filter out `undefined` in case someone messes up `layer.AllowTypes`
 					options = Object.entries(layer.AllowTypes.AllTypes).flatMap(([screenKey, indexSet]) => {
-						return Array.from(indexSet).flatMap(i => {
+						return Array.from(indexSet).map(i => {
 							partialLayerTypes.push(`${screenKey}${i}`);
 							return optionsRecord[screenKey][i];
-						});
+						}).filter(o => o !== undefined);
 					});
 				}
 

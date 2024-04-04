@@ -257,6 +257,9 @@ var PlatformTemplate = [
 		DamageBackOdds: 1,
 		DamageKnockForce: 50,
 		LootOdds: 0,
+		DamageAudio: ["Lyn", "Lyn1", "Lyn2", "Lyn3", "Lyn4", "Lyn5", "Lyn6", "Generic0", "Generic1"],
+		DownAudio: ["Lyn0"],
+		BindAudio: ["Rope0", "Rope1", "Rope2", "Rope3"],
 		Animation: [
 			{ Name: "Idle", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47], Speed: 95 },
 			{ Name: "Walk", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], Speed: 60 },
@@ -1025,8 +1028,20 @@ var PlatformRoomList = [
 	{
 		Name: "WineCellar",
 		Entry: function() {
-			if (!PlatformEventDone("EdlaranBedroomIsabella")) PlatformCreateCharacter("Yuna", "Maid", 2500);
-			if (PlatformEventDone("EdlaranBedroomIsabella") && !PlatformEventDone("EdlaranWineCellar") && !PlatformEventDone("EdlaranJoin") && !PlatformEventDone("CamilleDefeat")) PlatformCreateCharacter("Edlaran", "Archer", 2500, true, false, "EdlaranWineCellar");
+
+			if (PlatformEventDone("EdlaranBedroomIsabella") && !PlatformEventDone("EdlaranWineCellar") && !PlatformEventDone("EdlaranJoin") && !PlatformEventDone("CamilleDefeat")) {
+				PlatformCreateCharacter("Edlaran", "Archer", 2500, true, false, "EdlaranWineCellar");
+				return;
+			}
+
+			if (PlatformEventDone("LynJoin") && PlatformEventDone("EdlaranJoin") && (PlatformPlayer.Name != "Lyn") && (PlatformPlayer.Name != "Edlaran") && PlatformDialogCharacterIsSingle("Lyn") && PlatformDialogCharacterIsSingle("Edlaran")) {
+				PlatformCreateCharacter("Edlaran", "Archer", 2500, true, false, "EdlaranLynWineCellar", true);
+				PlatformCreateCharacter("Lyn", "Thief", 2200, true, false, "EdlaranLynWineCellar", false);
+				return;
+			}
+			
+			PlatformCreateCharacter("Yuna", "Maid", 2500);
+
 		},
 		Text: "Wine Cellar",
 		Background: "Castle/WineCellar",
@@ -2112,7 +2127,7 @@ function PlatformDrawCharacter(C, Time) {
 	if ((X >= 2000) || (Y >= 1000)) return;
 	if ((X + C.Anim.Width <= 0) || (Y + C.Anim.Height <= 0)) return;
 	DrawImageEx("Screens/Room/Platform/Character/" + C.Name + "/" + C.Status + "/" + C.Anim.Name + "/" + C.Anim.Image.toString() + ".png", MainCanvas, X + C.Anim.OffsetX, Y + C.Anim.OffsetY, { Mirror: C.Anim.Mirror, Width: C.Anim.Width, Height: C.Anim.Height } );
-	if (PlatformHeartEffect && (PlatformDialogCharactersAreLovers(C.Name, PlatformPlayer.Name) || C.Camera)) 
+	if (PlatformHeartEffect && (PlatformDialogCharactersAreLovers(C.Name, PlatformPlayer.Name) || C.Camera))
 		DrawImageZoomCanvas("Screens/Room/Platform/Effect/Love.png", MainCanvas, 0, 0, 1000, 1000, X, Y + (((C.Anim.Name === "Crouch") || (C.Anim.Name === "Crawl")) ? C.Height / 3 : 0), C.Width, C.Height);
 	if ((C.Effect != null) && (C.Effect.Name != null) && (C.Effect.End != null) && (C.Effect.End >= Time))
 		DrawImageEx("Screens/Room/Platform/Effect/" + C.Effect.Name + ".png", MainCanvas, X + C.Anim.OffsetX, Y + C.Anim.OffsetY, { Mirror: C.Anim.Mirror, Width: C.Anim.Width, Height: C.Anim.Height } );

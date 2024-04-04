@@ -2361,6 +2361,37 @@ function ChatRoomSendEmote(msg) {
 }
 
 /**
+ * Sends message as attempt emote. Emote can be failed or succeeded.
+ * @param {string} msg - Emote message
+ * @returns {void} - Nothing
+ */
+function ChatRoomSendAttemptEmote(msg) {
+	// Emotes can be prevented with an owner presence rule
+	if (ChatRoomOwnerPresenceRule("BlockEmote", null)) return;
+	const match = msg.match(/^(\*|\/attempt )(\d{0,2}|100)%(.+)/);
+
+	if (!match) {
+		ServerSend("ChatRoomChat", { Content: msg, Type: "Emote" });
+		return;
+	} 
+
+	msg = msg.replace(/^(\*|\/attempt )(\d{0,2}|100)%/, "");
+	msg = msg.trim();
+	if (msg == "") return;
+
+	const chance = parseInt(match[2] ? match[2] : 50);
+	const random = parseInt(Math.random() * 100);
+
+	const attemptSucceeded = random <= chance;
+	msg += attemptSucceeded ? ": ✔" : ": ❌";
+	msg += " (" + chance + "%)";
+	
+	ServerSend("ChatRoomChat", { Content: msg, Type: "Emote" });
+
+	return;
+}
+
+/**
  * Publishes common player actions (add, remove, swap) to the rest of the chatroom.
  *
  * Note that this will *not* update the server database,

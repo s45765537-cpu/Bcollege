@@ -18,7 +18,8 @@ ghostadd,[MemberNumber]: Add the player to your ghostlist
 ghostremove,[MemberNumber]: Remove the player from your ghostlist
 help,[Keyword]: Display help for the command with prefix Keyword. Exclude [Keyword] to view all valid commands
 kick,[MemberNumber]: Kick the player out of the room
-me,[Message]: Display “[PlayerName] Message” as an action. *[Message] does the same
+me,[Message]: Display “[PlayerName] Message” as an action. *[Message] does the same.
+attempt,"[Percentage 0-100]% [Message]: Display “[PlayerName] Message: ✔ or ❌ (Percentage %) as an attempt action. Percentage is a success chance. *[Percentage]% [Message] does the same. If percentage is omitted, success chance is 50%."
 promote,[MemberNumber]: Promote the user to room administrator
 safeword,use safeword
 showblacklist,: View your blacklist
