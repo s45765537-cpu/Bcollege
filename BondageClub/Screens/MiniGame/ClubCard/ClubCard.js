@@ -740,6 +740,23 @@ var ClubCardList = [
 			if (CCPlayer.Hand.length < Opponent.Hand.length) ClubCardPlayerAddMoney(CCPlayer, 1);
 		}
 	},
+	{
+		ID: 10007,
+		Name: "Fussy Baby",
+		Group: ["ABDLBaby"],
+		MoneyPerTurn: 1,
+		OnOpponentTurnEnd: function(CCPlayer) {
+			let cardOwner = ClubCardGetOpponent(CCPlayer)
+			let playedAnEvent = CCPlayer.CardsPlayedThisTurn.some(card => {
+				return card.Type === "Event";
+			});
+
+			if(playedAnEvent) {
+				ClubCardPlayerAddFame(cardOwner, 4);
+				ClubCardRemoveFromBoard(cardOwner, this);
+			}
+		}
+	},
 
 
 	// 11000 - College Members (Mostly gives Fame, give bonuses/maluses between each other)
@@ -1933,7 +1950,8 @@ function ClubCardAddPlayer(Char, Cont, Cards) {
 		Event: [],
 		Level: 1,
 		Money: 5,
-		Fame: 0
+		Fame: 0,
+		CardsPlayedThisTurn: []
 	};
 	ClubCardPlayer.push(P);
 }
@@ -1974,6 +1992,17 @@ function ClubCardEndTurn(Draw = false) {
 		}
 	}
 
+	if (Opponent.Board != null) {
+		// Iterate over a copy of the opponents board so the onOpponentTurnEnd handlers 
+		// copy so that the handlers can remove cards from the board and the behaviour is always well-defined.
+		for (const Card of Opponent.Board.slice()) {
+			if (Card.OnOpponentTurnEnd != null)  {
+				// CCPlayer here is the "opponent" of the card
+				Card.OnOpponentTurnEnd(CCPlayer);
+			}
+		}
+	}
+
 	// Runs the event of time cards on the player board and opponent board
 	if (CCPlayer.Event != null) {
 		for (const Card of CCPlayer.Event.slice()) {
@@ -2003,6 +2032,7 @@ function ClubCardEndTurn(Draw = false) {
 	if ((CCPlayer.Money < 0) && (CCPlayer.Fame > StartingFame)) CCPlayer.Fame = StartingFame;
 	CCPlayer.LastFamePerTurn = CCPlayer.Fame - StartingFame;
 	CCPlayer.LastMoneyPerTurn = CCPlayer.Money - StartingMoney;
+	CCPlayer.CardsPlayedThisTurn = []
 
 	// Display the gained money and fame
 	FameMoneyText = ((CCPlayer.LastFamePerTurn >= 0) ? "+" : "") + CCPlayer.LastFamePerTurn.toString() + " Fame, " + ((CCPlayer.LastMoneyPerTurn >= 0) ? "+" : "") + CCPlayer.LastMoneyPerTurn.toString() + " Money";
@@ -2240,6 +2270,7 @@ function ClubCardPlayCard(CCPlayer, Card) {
 
 	// Focuses on the card, runs it's scripts and end the turn if needed
 	ClubCardFocus = Card;
+	CCPlayer.CardsPlayedThisTurn.push(Card)
 	if (Card.OnPlay != null) Card.OnPlay(CCPlayer);
 	ClubCardSelection = null;
 	ClubCardPending = null;
