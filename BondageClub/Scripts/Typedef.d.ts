@@ -397,7 +397,7 @@ type BackgroundTag =
 
 // NOTE: `NPCArchetype` is for NPC's only
 type TitleName =
-	NPCArchetype | "None" | "Mistress" | "Master" | "ClubSlave" | "Maid" | "HeadMaid" | "BondageMaid" | "Kidnapper" |
+	NPCArchetype | "None" | "Mistress" | "Master" | "Mistree" | "ClubSlave" | "Maid" | "HeadMaid" | "BondageMaid" | "Kidnapper" |
 	"MasterKidnapper" | "Patient" | "PermanentPatient" | "EscapedPatient" | "Nurse" | "Doctor" |
 	"LadyLuck" | "LordFortune" | "Patron" | "CollegeStudent" |"Nawashi" | "Houdini" | "PonyAlicorn" |
 	"PonyPegasus" | "PonyUnicorn" | "PonyWild" | "PonyHot" | "PonyWarm" | "PonyCold" | "PonyFarm" |
@@ -405,9 +405,9 @@ type TitleName =
 	"InfilrationOperative" | "InfilrationSuperspy" | "MagicSchoolWizard" | "MagicSchoolMagus" |
 	"MagicSchoolMagician" | "MagicSchoolSorcerer" | "MagicSchoolSage" | "MagicSchoolOracle" |
 	"MagicSchoolWitch" | "MagicSchoolWarlock" | "Duchess" | "Duke" | "LittleOne" | "Baby" | "DL" |
-	"BondageBaby" | "Switch" | "Princess" |	"Prince" |	"Missy" |	"Sissy" |	"Tomboy" | "Femboy" |	
-	"Pet" |	"Brat" | "Kitten" | "Puppy" | "Foxy" | "Bunny" | "Doll" | "Demon" | "Angel" | "Alien" | 
-	"Succubus" | "Incubus" | "GoodGirl" | "GoodBoy" | "GoodSlaveGirl" | "GoodSlaveBoy" | "GoodSlave" | "Drone"
+	"BondageBaby" | "Switch" | "Princess" |	"Prince" | "Liege" | "Majesty" |	"Missy" |	"Sissy" |	"Tomboy" | "Femboy" |	"GoodOne" |
+	"Pet" |	"Brat" | "Kitten" | "Puppy" | "Foxy" | "Bunny" | "Doll" | "Demon" | "Angel" | "Alien" | "Captain" | 
+	"Succubus" | "Incubus" | "Concubus" | "GoodGirl" | "GoodBoy" | "GoodSlaveGirl" | "GoodSlaveBoy" | "GoodSlave" | "Drone"
 	;
 
 type MagicSchoolHouse = "Maiestas" | "Vincula" | "Amplector" | "Corporis";
