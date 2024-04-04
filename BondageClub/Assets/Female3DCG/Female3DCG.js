@@ -8519,7 +8519,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "DutyShoes",
-				Height: 8,
+				Height: 3,
 				PoseMapping: {
 					...AssetPoseMapping.Shoes,
 					Kneel: PoseType.HIDE,
@@ -8555,7 +8555,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SocialHeels",
-				Height: 10,
+				Height: 7,
 				PoseMapping: {
 					...AssetPoseMapping.Shoes,
 					Kneel: PoseType.HIDE,
