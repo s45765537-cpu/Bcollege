@@ -3479,6 +3479,38 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, //PrisonSJ
+		CollarMetalcuffs: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Loose",
+					Property: {
+						Difficulty: 3,
+					},
+				},
+				{
+					Name: "Normal",
+					Property: {
+						Difficulty: 5,
+					},
+				},
+				{
+					Name: "Snug",
+					Property: {
+						Difficulty: 8,
+					},
+				},
+				{
+					Name: "Tight",
+					Property: {
+						Difficulty: 12,
+						Effect: ["MergedFingers"],
+						SetPose: ["BackElbowTouch"],
+					},
+				},
+			],
+			DrawImages: false,
+		}, // Collar Handcuffs
 	}, // ItemArms
 	ItemNeck: {
 		ShinySteelCollar: {

@@ -1041,12 +1041,15 @@ var PlatformRoomList = [
 				return;
 			}
 
+<<<<<<< HEAD
 			if (PlatformEventDone("LynJoin") && PlatformEventDone("EdlaranJoin") && (PlatformPlayer.Name != "Lyn") && (PlatformPlayer.Name != "Edlaran") && PlatformDialogCharactersAreLovers("Lyn", "Edlaran") && !PlatformTempEvent.includes("EdlaranLynWineCellar")) {
 				PlatformCreateCharacter("Edlaran", "Archer", 2500, true, false, "EdlaranLynWineCellarBreakUp", true);
 				PlatformCreateCharacter("Lyn", "Thief", 2200, true, false, "EdlaranLynWineCellarBreakUp", false);
 				return;
 			}
 			
+=======
+>>>>>>> 00fba0286e704e4e2f360ac15a2a4ec9d8f37d4f
 			PlatformCreateCharacter("Yuna", "Maid", 2500);
 
 		},
