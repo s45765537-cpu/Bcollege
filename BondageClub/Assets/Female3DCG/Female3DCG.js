@@ -16757,6 +16757,32 @@ var AssetFemale3DCG = [
 				],
 				Layer: [{ Name: "One" }, { Name: "Two" }],
 			},
+			{
+				Name: "FrogtieMetalCuffs",
+				Fetish: ["Metal"],
+				Value: 30,
+				Difficulty: 7,
+				Time: 5,
+				Random: false,
+				AllowLock: true,
+				SetPose: ["Kneel"],
+				PoseMapping: {
+					...AssetPoseMapping.ItemLegs,
+					KneelingSpread: "KneelingSpread",
+				},
+				AllowActivePose: [...PoseAllKneeling, "AllFours", "Hogtied"],
+				Effect: [E.Slow],
+				DrawLocks: false,
+				Layer: [
+					{
+						Name: "Marks",
+						AllowColorize: false,
+					},
+					{
+						Name: "Chain"
+					},
+				]
+			},
 		],
 		Color: [
 			"Default",
@@ -25538,7 +25564,6 @@ var AssetFemale3DCG = [
 				Visible: false,
 				Random: false,
 				AllowLock: true,
-				AllowTighten: true,
 				Prerequisite: ["Collared"],
 				SetPose: ["BackBoxTie"],
 				Effect: [E.Block, E.BlockWardrobe],
