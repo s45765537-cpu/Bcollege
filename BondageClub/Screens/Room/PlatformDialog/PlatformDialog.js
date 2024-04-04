@@ -1038,6 +1038,80 @@ var PlatformDialogData = [
 	},
 
 	{
+		Name: "EdlaranLynWineCellar",
+		Music: "CastleHall",
+		Dialog: [
+			{
+				Background: "WineCellar",
+				Character: [
+					{ Name: "Edlaran", Status: "Archer", Pose: "IdleCheer" },
+					{ Name: "Lyn", Status: "Thief", Pose: "IdleCheer" },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
+				]
+			},
+			{ Text: "(Melody and Lyn are drinking and talking loudly in the Countess wine cellar.  They turn to you.)" },
+			{ Text: "Meldy!  Iz great to see you!  (She waves at you tipsily.)", Audio: "10", AudioStyle: "cheerful" },
+			{ Text: "Me an Lyn are havin a gud time!  Try the wine!", Audio: "20", AudioStyle: "cheerful" },
+			{ 
+				Text: "Whatz goin on?", Audio: "30", AudioStyle: "cheerful",
+				Answer: [
+					{ Text: "Enough drinking my friends.", Reply: "U no fun!  (They both leave the room.)", Audio: "31", AudioStyle: "cheerful", Goto: "End" },
+					{ Text: "Are you two drunk?", Reply: "Not dunk!  Drunking!  (They both laugh.)", Audio: "32", AudioStyle: "cheerful" },
+					{ Text: "This wine doesn't belong to you.", Reply: "Wez can go then!  (They both leave the room.)", Audio: "33", AudioStyle: "cheerful", Goto: "End" },
+				]
+			},
+			{ Text: "Lyn iz zo much fun!  An she cute!  (She smiles at Lyn.)", Audio: "40", AudioStyle: "cheerful" },
+			{
+				Text: "No Edlaran, you the cutest!  Super adoreable acher!  (She smiles at Edlaran.)", Audio: "50", AudioStyle: "cheerful",
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "IdleCheer", X: 750 },
+					{ Name: "Edlaran", Status: "Archer", Pose: "IdleCheer", X: 250 },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
+				]
+	 		},
+			{ Text: "An you have smexy curvs lttle elf.", Audio: "60", AudioStyle: "cheerful" },
+			{ 
+				Text: "(They both start to flirt.)",
+				Answer: [
+					{ Text: "(Stop them.)", Reply: "Maid!  U so borin!  (They both leave the room.)", Audio: "61", AudioStyle: "cheerful", Goto: "End" },
+					{ Text: "(Offer them a bottle.)", Reply: "(They pop the bottle and enjoy it together.)" },
+				]
+			},
+			{ Text: "You the best Edleran, you wanna date me?", Audio: "70", AudioStyle: "cheerful" },
+			{
+				Character: [
+					{ Name: "Edlaran", Status: "Archer", Pose: "IdleCheer" },
+					{ Name: "Lyn", Status: "Thief", Pose: "IdleCheer" },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
+				],
+				Text: "Oh yeah!  That wud be great Lyn.  I lov u!", Audio: "80", Overwrite: true, AudioStyle: "cheerful"
+	 		},
+			{ Text: "(They clumsily hug each other and exchange a long drunken kiss.)" },
+			{
+				Character: [{ Name: "Lyn", Status: "Thief", Pose: "FrenchKissEdlaranArcher", X: 500 }]
+	 		},
+			{ Text: "(They kiss and moan for a while, enjoying their new love.)" },
+			{ 
+				Entry: function() {
+					PlatformDialogGetCharacter("Lyn").LoverName = "Edlaran";
+					PlatformDialogGetCharacter("Edlaran").LoverName = "Lyn";
+					PlatformDialogGetCharacter("Lyn").LoverLevel = 1;
+					PlatformDialogGetCharacter("Edlaran").LoverLevel = 1;
+					PlatformDialogRelationshipChange();
+				},
+				Text: "(Edlaran and Lyn are now girlfriends, the first lover stage.)" },
+			{ Text: "(As Edlaran's lover, Lyn gets +10% walking & running speed.)" },
+			{ Text: "(As Lyn's lover, Edlaran does +1 damage when attacking from the back.)" },
+			{ Text: "(They wave at you and run tipsily to find a private room.)" },
+			{
+				Entry: function() { PlatformChar.splice(1, 100); },
+				ID: "End", Text: "(You're now alone in the wine cellar.)",
+				Character: [{ Name: "Melody", Status: "Maid", Pose: "Idle" }]
+	 		}
+		]
+	},
+
+	{
 		Name: "ChestRestraintsBeforeCurse",
 		Music: "CastleDungeon",
 		Exit : function () { PlatformEventSet("Curse"); PlatformLoadRoom(); },
@@ -4480,11 +4554,12 @@ var PlatformDialogData = [
 				]
 			},
 			{ Text: "(You tickle each other playfully and slowly slide your hands down.)" },
-			{ Character: [{ Name: "Lyn", Status: "Naked", Pose: "MasturbateNakedMelody", X: 0 }] },
+			{ Character: [{ Name: "Lyn", Status: "Naked", Pose: "MasturbateNakedMelody", X: 500 }] },
 			{ Text: "(You rub your fingers over her clitoris as she does the same with yours.)" },
 			{ Text: "Oh!  Honey!  Melody!", Audio: "160", AudioStyle: "cheerful" },
 			{ Text: "(You slide a finger in each other pussies, trusting in and out.)" },
 			{ Text: "(She quickly orgasms, and you follow her soon after.)" },
+			{ Text: "(You both shiver for a while from that wonderful moment.)" },
 			{ Text: "Honey, I love you.", Audio: "170", AudioStyle: "cheerful" },
 			{ Text: "(Your first romantic night as lovers is memorable.)" },
 			{ Text: "(You and Lyn are now girlfriends, the first lover stage.)" },
@@ -4800,7 +4875,36 @@ var PlatformDialogData = [
 				},
 				Text: "A minion maid will be quite useful to my purse.  I mean to my cause.", Audio: "110", AudioStyle: "serious"
 			},
-			{ Text: "(TO DO)" },
+			{ Text: "Under my wing, you'll learn the fight dirty.  There's nothing wrong with aiming for the back.", Audio: "120" },
+			{ Text: "You can call me Boss or Miss or Madam or Queen or whatever's respectful to you.", Audio: "130" },
+			{ Text: "If I want you to kneel, you will kneel.  If I want you to cover for me, you will do it.", Audio: "140" },
+			{ Text: "Actually, I want you on your knees right now.  Get on the ground girl.", Audio: "150", AudioStyle: "serious" },
+			{
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "StareDownLeft", X: 1000 },
+					{ Name: "Melody", Status: "Maid", Pose: "KneelRight", X: 500 },
+				]
+			},
+			{ Text: "(She smirks as you get on your knees.)  It should not be too hard to train you.", Audio: "160", AudioStyle: "serious" },
+			{ Text: "If you disobey, you will be punished, bound or tickled.  Or all of these at the same time.", Audio: "170" },
+			{
+				Text: "How do you feel about serving me sexually?", Audio: "180",
+				Answer: [
+					{ Text: "You're so cute.  I would love it.", Reply: "(She smiles.)  You're an adorable maid.", Audio: "181", AudioStyle: "cheerful", Love: 2 },
+					{ Text: "You're not my type.", Reply: "(She grumbles.)  Fine!  We'll work on that later.", Audio: "182", AudioStyle: "angry", Love: -2 },
+					{ Text: "We can talk about it.", Reply: "Yeah, we have lots to talk about.", Audio: "183", AudioStyle: "serious" },
+					{ Text: "It would be a pleasure Boss.", Reply: "(She smirks.)  You're adorable my minion.", Audio: "184", AudioStyle: "cheerful", Love: 2, Domination: -2, Perk: true },
+				]
+			},
+			{ 
+				Prerequisite: function() { return !PlatformDialogIsLover("Lyn"); },
+				Text: "I also love to tickle my minions, don't be surprised if it happens.", Audio: "190"
+			},
+			{
+				Prerequisite: function() { return PlatformDialogIsLover("Lyn"); },
+				Text: "Honey, since I love you so much, you'll be my top minion.  Get ready to be tickled even more.", Audio: "200", AudioStyle: "cheerful"
+			},
+			{ Text: "I'll train and protect you well my maid.  (She pinches your cheek.)", Audio: "210" },
 			{ Text: "(Lyn is now your Protector, the first owner stage.)" },
 			{ Text: "(As Lyn's submissive, Melody does +1 damage when attacking from the back.)" },
 			{ Text: "(The adventure continues...)" },
@@ -5004,6 +5108,7 @@ function PlatformDialogDrawDialog() {
 			DrawEmptyRect(1617, 610, 366, 66, Color, 6);
 			DrawRect(1620, 613, 360, 60, "#000000D0");
 			if (PlatformDialogIsOwner(Name)) OwnerLevel = PlatformDialogGetCharacter("Melody").OwnerLevel * -1;
+			if (!PlatformDialogIsLover(Name)) LoverLevel = 0;
 			DrawImage("Screens/Room/PlatformDialog/Icon/Love" + LoverLevel.toString() + ".png", 1640, 613);
 			DrawImage("Screens/Room/PlatformDialog/Icon/Domination" + OwnerLevel.toString() + ".png", 1805, 613);
 			DrawText(((Love > 0) ? "+" : "") + Love.toString(), 1755, 645, Color, "Black");
@@ -5320,6 +5425,16 @@ function PlatformDialogIsOwner(Name) {
 	return ((PlatformDialogGetCharacter("Melody").OwnerName === Name) && ((PlatformPlayer.Name === "Melody") || (PlatformPlayer.Name === Name)));
 }
 
+/**
+ * Returns TRUE if the character doesn't have any lover
+ * @param {String} Name - The name of a character
+ * @returns {boolean} - TRUE if no lover
+ */
+function PlatformDialogCharacterIsSingle(Name) {
+	let C = PlatformDialogGetCharacter(Name);
+	if (C == null) return false;
+	return ((C.LoverName == null) || (C.LoverName == ""));
+}
 
 /**
  * Returns 0 if the source character and target character are not in a relationship, 1 if lover or slave, 2 if lover and slave
