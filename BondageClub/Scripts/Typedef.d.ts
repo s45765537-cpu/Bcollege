@@ -405,8 +405,8 @@ type TitleName =
 	"InfilrationOperative" | "InfilrationSuperspy" | "MagicSchoolWizard" | "MagicSchoolMagus" |
 	"MagicSchoolMagician" | "MagicSchoolSorcerer" | "MagicSchoolSage" | "MagicSchoolOracle" |
 	"MagicSchoolWitch" | "MagicSchoolWarlock" | "Duchess" | "Duke" | "LittleOne" | "Baby" | "DL" |
-	"BondageBaby" | "Switch" | "Princess" |	"Prince" |	"Missy" |	"Sissy" |	"Tomboy" | "Femboy" |	
-	"Pet" |	"Brat" | "Kitten" | "Puppy" | "Foxy" | "Bunny" | "Doll" | "Demon" | "Angel" | "Alien" | 
+	"BondageBaby" | "Switch" | "Princess" |	"Prince" |	"Missy" |	"Sissy" |	"Tomboy" | "Femboy" |
+	"Pet" |	"Brat" | "Kitten" | "Puppy" | "Foxy" | "Bunny" | "Doll" | "Demon" | "Angel" | "Alien" |
 	"Succubus" | "Incubus" | "GoodGirl" | "GoodBoy" | "GoodSlaveGirl" | "GoodSlaveBoy" | "GoodSlave" | "Drone"
 	;
 
@@ -3918,8 +3918,10 @@ interface ClubCard {
 	GlowTimer?: number;
 	GlowColor?: string;
 	OnPlay?: (C: ClubCardPlayer) => void;
-	OnTurnEnd?: (C: ClubCardPlayer) => void;
-	OnOpponentTurnEnd?: (C: ClubCardPlayer) => void;
+	BeforeTurnEnd?: (C: ClubCardPlayer) => void;
+	AfterTurnEnd?: (C: ClubCardPlayer) => void;
+	BeforeOpponentTurnEnd?: (C: ClubCardPlayer) => void;
+	AfterOpponentTurnEnd?: (C: ClubCardPlayer) => void;
 	CanPlay?: (C: ClubCardPlayer) => boolean;
 }
 

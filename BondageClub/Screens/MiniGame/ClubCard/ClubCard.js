@@ -23,7 +23,19 @@ var ClubCardLevelCost = [0, 0, 10, 20, 30, 40];
 var ClubCardPlayer = [];
 var ClubCardOnlinePlayerMemberNumber1 = -1;
 var ClubCardOnlinePlayerMemberNumber2 = -1;
-/** @type {ClubCard[]} */
+/**
+ * The card definitions
+ *
+ * The BeforeTurnEnd hooks are run before regular fame and money are calculated and
+ * are a good place to remove cards so they don't add fame/money that turn. Most
+ * cards should prefer this hook instead of AfterTurnEnd (including ones that just
+ * add extra money / fame).
+ *
+ * The AfterTurnEnd hooks run after this, and can be used to adjust the total amount
+ * of money / fame gained that turn.
+ *
+ * @type {ClubCard[]}
+ */
 var ClubCardList = [
 
 	// 1000 - Regular Members (No specific rules)
@@ -32,7 +44,7 @@ var ClubCardList = [
 		Name: "Kinky Neighbor",
 		Type: "Member",
 		MoneyPerTurn: 1,
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			if (ClubCardNameIsOnBoard(CCPlayer, "Cute Girl Next Door")) ClubCardPlayerAddMoney(CCPlayer, 2);
 		}
 	},
@@ -44,7 +56,7 @@ var ClubCardList = [
 	{
 		ID: 1002,
 		Name: "Voyeur",
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			if (ClubCardNameIsOnBoard(CCPlayer, "Exhibitionist")) ClubCardPlayerAddMoney(CCPlayer, 4);
 		}
 	},
@@ -102,7 +114,7 @@ var ClubCardList = [
 		Name: "Blue Twin",
 		MoneyPerTurn: 1,
 		RequiredLevel: 2,
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			if (ClubCardNameIsOnBoard(CCPlayer, "Red Twin")) ClubCardPlayerAddFame(CCPlayer, 4);
 		}
 	},
@@ -111,7 +123,7 @@ var ClubCardList = [
 		Name: "Rope Bunny",
 		MoneyPerTurn: 1,
 		RequiredLevel: 2,
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			if (ClubCardGroupIsOnBoard(CCPlayer, "Dominant")) ClubCardPlayerAddMoney(CCPlayer, 2);
 		}
 	},
@@ -119,7 +131,7 @@ var ClubCardList = [
 		ID: 1013,
 		Name: "Shy Submissive",
 		MoneyPerTurn: 2,
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			if ((CCPlayer.Board != null) && (CCPlayer.Board.length >= 7)) ClubCardRemoveFromBoard(CCPlayer, this);
 		}
 	},
@@ -152,7 +164,7 @@ var ClubCardList = [
 		Name: "Wannabe Princess",
 		FamePerTurn: 1,
 		Reward: "Bondage-Brawl-Maid",
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			if ((CCPlayer.Level != null) && (CCPlayer.Level >= 5)) ClubCardPlayerAddFame(CCPlayer, 2);
 		}
 	},
@@ -163,7 +175,7 @@ var ClubCardList = [
 		Name: "Waitress",
 		Group: ["Staff"],
 		MoneyPerTurn: 1,
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			if (ClubCardNameIsOnBoard(CCPlayer, "Party Animal")) ClubCardPlayerAddMoney(CCPlayer, 1);
 			if (ClubCardNameIsOnBoard(CCPlayer, "Tourist")) ClubCardPlayerAddMoney(CCPlayer, 1);
 		}
@@ -180,7 +192,7 @@ var ClubCardList = [
 		Name: "Accountant",
 		Group: ["Staff"],
 		MoneyPerTurn: 1,
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			if (CCPlayer.Level >= 3) ClubCardPlayerAddMoney(CCPlayer, 1);
 			if (CCPlayer.Level >= 5) ClubCardPlayerAddMoney(CCPlayer, 1);
 		}
@@ -224,7 +236,7 @@ var ClubCardList = [
 		Group: ["Criminal"],
 		MoneyPerTurn: 2,
 		FamePerTurn: -1,
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			if (ClubCardGroupIsOnBoard(CCPlayer, "Police")) ClubCardRemoveFromBoard(CCPlayer, this);
 			else {
 				if (ClubCardNameIsOnBoard(CCPlayer, "Junkie")) ClubCardPlayerAddMoney(CCPlayer, 3);
@@ -238,7 +250,7 @@ var ClubCardList = [
 		Group: ["Criminal"],
 		MoneyPerTurn: 1,
 		FamePerTurn: -1,
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			if (ClubCardGroupIsOnBoard(CCPlayer, "Police")) ClubCardRemoveFromBoard(CCPlayer, this);
 		}
 	},
@@ -257,7 +269,7 @@ var ClubCardList = [
 		MoneyPerTurn: 3,
 		FamePerTurn: -2,
 		RequiredLevel: 3,
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			if (ClubCardGroupIsOnBoard(CCPlayer, "Police")) ClubCardRemoveFromBoard(CCPlayer, this);
 			else ClubCardPlayerAddMoney(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "Criminal") * 2);
 		}
@@ -268,7 +280,7 @@ var ClubCardList = [
 		Group: ["Liability", "Criminal"],
 		RequiredLevel: 2,
 		MoneyPerTurn: -1,
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			ClubCardPlayerAddMoney(ClubCardGetOpponent(CCPlayer), 1);
 			if (ClubCardGroupIsOnBoard(CCPlayer, "Police")) ClubCardRemoveFromBoard(CCPlayer, this);
 		}
@@ -316,7 +328,7 @@ var ClubCardList = [
 		ID: 4000,
 		Name: "Maid Lover",
 		Group: ["Fetishist"],
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			ClubCardPlayerAddMoney(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "Maid"));
 		}
 	},
@@ -324,7 +336,7 @@ var ClubCardList = [
 		ID: 4001,
 		Name: "Diaper Lover",
 		Group: ["Fetishist"],
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			ClubCardPlayerAddMoney(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "ABDLBaby"));
 		}
 	},
@@ -332,7 +344,7 @@ var ClubCardList = [
 		ID: 4002,
 		Name: "Masochist",
 		Group: ["Fetishist"],
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			if (ClubCardGroupIsOnBoard(CCPlayer, "Dominant")) {
 				ClubCardPlayerAddMoney(CCPlayer, 1);
 				ClubCardPlayerAddFame(CCPlayer, 1);
@@ -343,7 +355,7 @@ var ClubCardList = [
 		ID: 4003,
 		Name: "Feet Worshiper",
 		Group: ["Fetishist"],
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			if (ClubCardGroupIsOnBoard(CCPlayer, "PornActress") || ClubCardGroupIsOnBoard(CCPlayer, "ABDLMommy"))
 				ClubCardPlayerAddMoney(CCPlayer, 2);
 		}
@@ -352,7 +364,7 @@ var ClubCardList = [
 		ID: 4004,
 		Name: "Fin-Dom Simp",
 		Group: ["Fetishist"],
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			let Money = ClubCardGroupOnBoardCount(CCPlayer, "Dominant");
 			if (Money > 3) Money = 3;
 			ClubCardPlayerAddMoney(CCPlayer, Money);
@@ -366,7 +378,7 @@ var ClubCardList = [
 		OnPlay: function(CCPlayer) {
 			ClubCardPlayerDrawCard(CCPlayer, 1);
 		},
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			ClubCardPlayerAddMoney(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "Mistress") * 2);
 		}
 	},
@@ -376,7 +388,7 @@ var ClubCardList = [
 		Group: ["Fetishist"],
 		MoneyPerTurn: 1,
 		FamePerTurn: -1,
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			ClubCardPlayerAddMoney(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "PornActress"));
 		}
 	},
@@ -392,7 +404,7 @@ var ClubCardList = [
 		ID: 5001,
 		Name: "Porn Movie Director",
 		RequiredLevel: 2,
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			ClubCardPlayerAddFame(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "PornActress"));
 			ClubCardPlayerAddMoney(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "PornActress"));
 		}
@@ -404,7 +416,7 @@ var ClubCardList = [
 		MoneyPerTurn: 1,
 		FamePerTurn: 1,
 		RequiredLevel: 3,
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			if (ClubCardGroupOnBoardCount(CCPlayer, "PornActress") >= 2)
 				ClubCardPlayerAddFame(CCPlayer, 1);
 		}
@@ -472,7 +484,7 @@ var ClubCardList = [
 		MoneyPerTurn: -2,
 		FamePerTurn: 3,
 		RequiredLevel: 4,
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			ClubCardPlayerAddFame(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "Maid") - 1);
 		}
 	},
@@ -504,7 +516,7 @@ var ClubCardList = [
 		ID: 7002,
 		Name: "Novice Nurse",
 		Group: ["AsylumNurse"],
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			ClubCardPlayerAddFame(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "AsylumPatient"));
 		}
 	},
@@ -520,7 +532,7 @@ var ClubCardList = [
 		Name: "Veteran Nurse",
 		Group: ["AsylumNurse"],
 		RequiredLevel: 3,
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			ClubCardPlayerAddFame(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "AsylumPatient") * 2);
 		}
 	},
@@ -536,7 +548,7 @@ var ClubCardList = [
 		Name: "Doctor",
 		Group: ["AsylumNurse"],
 		RequiredLevel: 5,
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			ClubCardPlayerAddFame(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "AsylumPatient") * 3);
 		}
 	},
@@ -547,7 +559,7 @@ var ClubCardList = [
 		Reward: "NPC_AsylumMeeting_PatientRight",
 		FamePerTurn: 3,
 		RequiredLevel: 2,
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			if (ClubCardGroupOnBoardCount(CCPlayer, "AsylumPatient") < 2) ClubCardRemoveFromBoard(CCPlayer, this);
 		},
 		CanPlay: function(CCPlayer) {
@@ -634,7 +646,7 @@ var ClubCardList = [
 		ID: 9004,
 		Name: "College Dropout",
 		Group: ["Liability"],
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			ClubCardPlayerAddFame(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "CollegeStudent") * -1);
 		}
 	},
@@ -642,7 +654,7 @@ var ClubCardList = [
 		ID: 9005,
 		Name: "Union Leader",
 		Group: ["Liability"],
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			ClubCardPlayerAddMoney(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "Maid") * -1);
 			ClubCardPlayerAddMoney(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "Staff") * -1);
 		}
@@ -651,7 +663,7 @@ var ClubCardList = [
 		ID: 9006,
 		Name: "No-Fap Advocate",
 		Group: ["Liability"],
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			ClubCardPlayerAddFame(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "PornActress") * -2);
 		}
 	},
@@ -666,7 +678,7 @@ var ClubCardList = [
 		ID: 9008,
 		Name: "Uncontrollable Sub",
 		Group: ["Liability"],
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			ClubCardPlayerAddFame(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "Dominant") * -1);
 			ClubCardPlayerAddFame(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "Mistress") * -1);
 		}
@@ -678,7 +690,7 @@ var ClubCardList = [
 		Name: "Baby Girl",
 		Group: ["ABDLBaby"],
 		MoneyPerTurn: 1,
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			if (ClubCardGroupIsOnBoard(CCPlayer, "ABDLMommy")) ClubCardPlayerAddMoney(CCPlayer, 1);
 		}
 	},
@@ -693,7 +705,7 @@ var ClubCardList = [
 		Name: "Diaper Baby",
 		Group: ["ABDLBaby"],
 		RequiredLevel: 2,
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			if (ClubCardGroupIsOnBoard(CCPlayer, "Maid")) ClubCardPlayerAddMoney(CCPlayer, 3);
 		}
 	},
@@ -710,7 +722,7 @@ var ClubCardList = [
 		Group: ["ABDLMommy", "Staff"],
 		RequiredLevel: 2,
 		MoneyPerTurn: -1,
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			ClubCardPlayerAddFame(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "ABDLBaby") * 2);
 		}
 	},
@@ -735,7 +747,7 @@ var ClubCardList = [
 		OnPlay: function(CCPlayer) {
 			ClubCardPlayerDrawCard(ClubCardGetOpponent(CCPlayer), 1);
 		},
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			let Opponent = ClubCardGetOpponent(CCPlayer);
 			if (CCPlayer.Hand.length < Opponent.Hand.length) ClubCardPlayerAddMoney(CCPlayer, 1);
 		}
@@ -745,8 +757,8 @@ var ClubCardList = [
 		Name: "Fussy Baby",
 		Group: ["ABDLBaby"],
 		MoneyPerTurn: 1,
-		OnOpponentTurnEnd: function(CCPlayer) {
-			let cardOwner = ClubCardGetOpponent(CCPlayer)
+		BeforeOpponentTurnEnd: function(CCPlayer) {
+			let cardOwner = ClubCardGetOpponent(CCPlayer);
 			let playedAnEvent = CCPlayer.CardsPlayedThisTurn.some(card => {
 				return card.Type === "Event";
 			});
@@ -773,7 +785,7 @@ var ClubCardList = [
 		Group: ["CollegeStudent"],
 		Reward: "NPC-Sarah",
 		FamePerTurn: 1,
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			if (ClubCardNameIsOnBoard(CCPlayer, "Amanda") || ClubCardNameIsOnBoard(CCPlayer, "Mistress Sophie")) ClubCardPlayerAddFame(CCPlayer, 2);
 			if (ClubCardNameIsOnBoard(CCPlayer, "Sidney")) ClubCardPlayerAddFame(CCPlayer, -2);
 		}
@@ -802,7 +814,7 @@ var ClubCardList = [
 		Name: "College Freshwoman",
 		Group: ["CollegeStudent"],
 		FamePerTurn: 1,
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			if (ClubCardNameIsOnBoard(CCPlayer, "Yuki")) ClubCardPlayerAddFame(CCPlayer, 1);
 			if (ClubCardNameIsOnBoard(CCPlayer, "Julia")) ClubCardPlayerAddFame(CCPlayer, 1);
 		}
@@ -812,7 +824,7 @@ var ClubCardList = [
 		Name: "College Nerd",
 		Group: ["CollegeStudent"],
 		FamePerTurn: 1,
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			if (ClubCardNameIsOnBoard(CCPlayer, "Yuki")) ClubCardPlayerAddMoney(CCPlayer, 1);
 			if (ClubCardNameIsOnBoard(CCPlayer, "Julia")) ClubCardPlayerAddMoney(CCPlayer, 1);
 		}
@@ -821,7 +833,7 @@ var ClubCardList = [
 		ID: 11006,
 		Name: "College Hidden Genius",
 		Group: ["CollegeStudent"],
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			if (ClubCardNameIsOnBoard(CCPlayer, "Mildred")) ClubCardPlayerAddFame(CCPlayer, 5);
 		}
 	},
@@ -830,7 +842,7 @@ var ClubCardList = [
 		Name: "Substitute Teacher",
 		Group: ["CollegeTeacher"],
 		MoneyPerTurn: -2,
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			ClubCardPlayerAddFame(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "CollegeStudent"));
 		}
 	},
@@ -877,7 +889,7 @@ var ClubCardList = [
 		Reward: "NPC_AsylumEntrance_Nurse",
 		RewardMemberNumber: 649,
 		FamePerTurn: 1,
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			if (ClubCardGroupIsOnBoard(CCPlayer, "Maid")) ClubCardPlayerAddFame(CCPlayer, 1);
 		}
 	},
@@ -1357,7 +1369,7 @@ var ClubCardList = [
 		OnPlay: function(CCPlayer) {
 			ClubCardRemoveFromEventByName(ClubCardGetOpponent(CCPlayer), "Clever Marketing");
 		},
-		OnOpponentTurnEnd: function(CCPlayer) {
+		AfterOpponentTurnEnd: function(CCPlayer) {
 			let Fame = CCPlayer.LastFamePerTurn;
 			if (Fame > 0) {
 				ClubCardPlayerAddFame(CCPlayer, Fame * -1);
@@ -1380,7 +1392,7 @@ var ClubCardList = [
 		OnPlay: function(CCPlayer) {
 			ClubCardRemoveFromEventByName(ClubCardGetOpponent(CCPlayer), "Bad Press");
 		},
-		OnTurnEnd: function(CCPlayer) {
+		AfterTurnEnd: function(CCPlayer) {
 			let Fame = CCPlayer.LastFamePerTurn;
 			if (Fame > 0) {
 				ClubCardPlayerAddFame(CCPlayer, Fame);
@@ -1402,7 +1414,7 @@ var ClubCardList = [
 		OnPlay: function(CCPlayer) {
 			ClubCardRemoveFromEventByName(ClubCardGetOpponent(CCPlayer), "Bank Loan");
 		},
-		OnOpponentTurnEnd: function(CCPlayer) {
+		AfterOpponentTurnEnd: function(CCPlayer) {
 			let Money = CCPlayer.LastMoneyPerTurn;
 			if (Money > 0) {
 				ClubCardPlayerAddMoney(CCPlayer, Money * -1);
@@ -1424,7 +1436,7 @@ var ClubCardList = [
 		OnPlay: function(CCPlayer) {
 			ClubCardRemoveFromEventByName(ClubCardGetOpponent(CCPlayer), "Repay Loan");
 		},
-		OnTurnEnd: function(CCPlayer) {
+		AfterTurnEnd: function(CCPlayer) {
 			let Money = CCPlayer.LastMoneyPerTurn;
 			if (Money > 0) {
 				ClubCardPlayerAddMoney(CCPlayer, Money);
@@ -1468,7 +1480,7 @@ var ClubCardList = [
 		Type: "Event",
 		Time: 3,
 		RequiredLevel: 4,
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			let Fame = ClubCardGroupOnBoardCount(CCPlayer, "PornActress");
 			if (Fame > 0) {
 				Fame = Fame * 3;
@@ -1476,7 +1488,7 @@ var ClubCardList = [
 				ClubCardLogPublish("Effect Porn Convention", CCPlayer, Fame);
 			}
 		},
-		OnOpponentTurnEnd: function(CCPlayer) {
+		BeforeOpponentTurnEnd: function(CCPlayer) {
 			let Fame = ClubCardGroupOnBoardCount(CCPlayer, "PornActress");
 			if (Fame > 0) {
 				Fame = Fame * 3;
@@ -1971,6 +1983,63 @@ function ClubCardGetReward() {
 }
 
 /**
+ * Runs the before/after turn end handlers
+ * @param {ClubCardPlayer} CCPlayer - The player whose turn is ending
+ * @param {ClubCardPlayer} Opponent - The other player
+ * @param {boolean} Before - true to run BeforeTurnEnd handlers, false to run AfterEndTurn handlers
+ * @returns {void}
+ */
+function ClubCardRunTurnEndHandlers(CCPlayer, Opponent, Before) {
+	// Runs handlers on player's board
+	if (CCPlayer.Board != null) {
+		// Iterate over a copy of the board so the BeforeTurnEnd handlers can remove cards from the
+		// board and the behaviour is always well-defined.
+		for (const Card of CCPlayer.Board.slice()) {
+			if (Before) {
+				if (Card.BeforeTurnEnd != null) Card.BeforeTurnEnd(CCPlayer);
+			} else {
+				if (Card.AfterTurnEnd != null) Card.AfterTurnEnd(CCPlayer);
+			}
+		}
+	}
+
+	// Runs handlers on opponent board
+	if (Opponent.Board != null) {
+		// Iterate over a copy of the opponents board so the onOpponentTurnEnd handlers
+		// copy so that the handlers can remove cards from the board and the behaviour is always well-defined.
+		for (const Card of Opponent.Board.slice()) {
+			// CCPlayer here is the "opponent" of the card
+			if (Before) {
+				if (Card.BeforeOpponentTurnEnd != null) Card.BeforeOpponentTurnEnd(CCPlayer);
+			} else {
+				if (Card.AfterOpponentTurnEnd != null) Card.AfterOpponentTurnEnd(CCPlayer);
+			}
+		}
+	}
+
+	// Runs the event of time cards on the player board and opponent board
+	if (CCPlayer.Event != null) {
+		for (const Card of CCPlayer.Event.slice()) {
+			if (Before) {
+				if (Card.BeforeTurnEnd != null) Card.BeforeTurnEnd(CCPlayer);
+			} else {
+				if (Card.AfterTurnEnd != null) Card.AfterTurnEnd(CCPlayer);
+			}
+		}
+	}
+
+	if (Opponent.Event != null) {
+		for (const Card of Opponent.Event.slice()) {
+			if (Before) {
+				if (Card.BeforeOpponentTurnEnd != null) Card.BeforeOpponentTurnEnd(CCPlayer);
+			} else {
+				if (Card.AfterOpponentTurnEnd != null) Card.AfterOpponentTurnEnd(CCPlayer);
+			}
+		}
+	}
+}
+
+/**
  * When a turn ends, we move to the next player
  * @param {boolean|null} Draw - If the end of turn was triggered by a draw
  * @returns {void} - Nothing
@@ -1984,44 +2053,10 @@ function ClubCardEndTurn(Draw = false) {
 	let StartingMoney = CCPlayer.Money;
 	let FameMoneyText = "";
 
-	if (CCPlayer.Board != null) {
-		// Iterate over a copy of the board so the OnTurnEnd handlers can remove cards from the
-		// board and the behaviour is always well-defined.
-		for (const Card of CCPlayer.Board.slice()) {
-			if (Card.OnTurnEnd != null) Card.OnTurnEnd(CCPlayer);
-		}
-	}
-
-	if (Opponent.Board != null) {
-		// Iterate over a copy of the opponents board so the onOpponentTurnEnd handlers 
-		// copy so that the handlers can remove cards from the board and the behaviour is always well-defined.
-		for (const Card of Opponent.Board.slice()) {
-			if (Card.OnOpponentTurnEnd != null)  {
-				// CCPlayer here is the "opponent" of the card
-				Card.OnOpponentTurnEnd(CCPlayer);
-			}
-		}
-	}
-
-	// Runs the event of time cards on the player board and opponent board
-	if (CCPlayer.Event != null) {
-		for (const Card of CCPlayer.Event.slice()) {
-			if (Card.OnTurnEnd != null) {
-				Card.OnTurnEnd(CCPlayer);
-			}
-		}
-	}
-
-	if (Opponent.Event != null) {
-		for (let Card of Opponent.Event.slice()) {
-			if (Card.OnOpponentTurnEnd != null) {
-				Card.OnOpponentTurnEnd(CCPlayer);
-			}
-		}
-	}
+	ClubCardRunTurnEndHandlers(CCPlayer, Opponent, true);
 
 	// Now add the Fame & Money, so they use the state of the board
-	// after any changes made by the OnTurnEnd handlers
+	// after any changes made by the BeforeTurnEnd handlers
 	if (CCPlayer.Board != null) {
 		for (const Card of CCPlayer.Board) {
 			if (Card.FamePerTurn != null) ClubCardPlayerAddFame(CCPlayer, Card.FamePerTurn);
@@ -2029,10 +2064,13 @@ function ClubCardEndTurn(Draw = false) {
 		}
 	}
 
-	if ((CCPlayer.Money < 0) && (CCPlayer.Fame > StartingFame)) CCPlayer.Fame = StartingFame;
 	CCPlayer.LastFamePerTurn = CCPlayer.Fame - StartingFame;
 	CCPlayer.LastMoneyPerTurn = CCPlayer.Money - StartingMoney;
-	CCPlayer.CardsPlayedThisTurn = []
+	CCPlayer.CardsPlayedThisTurn = [];
+
+	ClubCardRunTurnEndHandlers(CCPlayer, Opponent, false);
+
+	if ((CCPlayer.Money < 0) && (CCPlayer.Fame > StartingFame)) CCPlayer.Fame = StartingFame;
 
 	// Display the gained money and fame
 	FameMoneyText = ((CCPlayer.LastFamePerTurn >= 0) ? "+" : "") + CCPlayer.LastFamePerTurn.toString() + " Fame, " + ((CCPlayer.LastMoneyPerTurn >= 0) ? "+" : "") + CCPlayer.LastMoneyPerTurn.toString() + " Money";
@@ -2270,7 +2308,7 @@ function ClubCardPlayCard(CCPlayer, Card) {
 
 	// Focuses on the card, runs it's scripts and end the turn if needed
 	ClubCardFocus = Card;
-	CCPlayer.CardsPlayedThisTurn.push(Card)
+	CCPlayer.CardsPlayedThisTurn.push(Card);
 	if (Card.OnPlay != null) Card.OnPlay(CCPlayer);
 	ClubCardSelection = null;
 	ClubCardPending = null;
