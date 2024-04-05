@@ -750,25 +750,20 @@ function LoginResponse(C) {
 			Player.NotificationSettings = C.NotificationSettings;
 			Player.GenderSettings = C.GenderSettings;
 			Player.SavedExpressions = C.SavedExpressions;
-			if (!Array.isArray(Player.SavedExpressions)) {
+			PreferenceValidateArousalData(Player);
+			if (!Array.isArray(Player.SavedExpressions))
 				Player.SavedExpressions = [];
-			}
-			if (Player.SavedExpressions.length < 5) {
-				for (let x = Player.SavedExpressions.length; x < 5; x++) {
+			if (Player.SavedExpressions.length < 5)
+				for (let x = Player.SavedExpressions.length; x < 5; x++)
 					Player.SavedExpressions.push(null);
-				}
-			}
 
 			// Load Favorited Colors
 			Player.SavedColors = C.SavedColors;
-			if (!Array.isArray(Player.SavedColors)) {
+			if (!Array.isArray(Player.SavedColors))
 				Player.SavedColors = [];
-			}
-			for (let i = 0; i < ColorPickerNumSaved; i++) {
-				if (typeof Player.SavedColors[i] != "object" || isNaN(Player.SavedColors[i].H) || isNaN(Player.SavedColors[i].S) || isNaN(Player.SavedColors[i].V)) {
+			for (let i = 0; i < ColorPickerNumSaved; i++)
+				if (typeof Player.SavedColors[i] != "object" || isNaN(Player.SavedColors[i].H) || isNaN(Player.SavedColors[i].S) || isNaN(Player.SavedColors[i].V))
 					Player.SavedColors[i] = GetDefaultSavedColors()[i];
-				}
-			}
 			Player.SavedColors.length = ColorPickerNumSaved;
 
 			// Loads the online lists

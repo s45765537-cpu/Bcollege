@@ -647,6 +647,7 @@ interface AssetGroup {
 
 	readonly MirrorActivitiesFrom?: AssetGroupItemName;
 	readonly ArousalZone?: AssetGroupItemName;
+	readonly ArousalZoneID?: number;
 
 	/** A dict mapping colors to custom filename suffices.
 	The "HEX_COLOR" key is special-cased to apply to all color hex codes. */
@@ -3809,7 +3810,8 @@ interface ArousalSettingsType {
 	VibratorLevel: 0 | 1 | 2 | 3 | 4;
 	ChangeTime: number;
 	Activity: ActivityEnjoyment[];
-	Zone: ArousalZone[];
+	//Zone: ArousalZone[];
+	Zone: string;
 	Fetish: ArousalFetish[];
 	OrgasmTimer?: number;
 	OrgasmStage?: 0 | 1 | 2;

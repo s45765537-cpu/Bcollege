@@ -89,6 +89,7 @@ function AssetGroupAdd(Family, GroupDef) {
 		Hide: GroupDef.Hide,
 		Block: GroupDef.Block,
 		Zone: GroupDef.Zone,
+		ArousalZoneID: GroupDef.ArousalZoneID,
 		SetPose: GroupDef.SetPose,
 		PoseMapping: GroupDef.PoseMapping || {},
 		AllowExpression: GroupDef.AllowExpression,
