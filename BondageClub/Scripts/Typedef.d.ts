@@ -4020,6 +4020,7 @@ type ChatRoomMapObjectType = (
 	"FloorDecoration"
 	| "FloorDecorationThemed"
 	| "FloorDecorationParty"
+	| "FloorDecorationCamping"
 	| "FloorItem"
 	| "FloorObstacle"
 	| "WallDecoration"
