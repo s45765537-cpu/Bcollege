@@ -14608,6 +14608,83 @@ var AssetFemale3DCG = [
 			{ Name: "HairBack57b", Random: false },
 			{ Name: "HairBack57c", Random: false },
 			{ Name: "HairBack57d", Random: false },
+			{
+				Name: "HairBack58",
+				Layer: [
+					{
+						Name: "Left",
+					},
+					{
+						Name: "Right",
+					}
+				]
+			},
+			{
+				Name: "HairBack58b",
+				Layer: [
+					{
+						Name: "Left",
+					},
+					{
+						Name: "Right",
+					}
+				]
+			},
+			{
+				Name: "HairBack59",
+				Layer: [
+					{
+						Name: "Front",
+						Priority: 48,
+					},
+					{
+						Name: "Back",
+						CopyLayerColor: "Front",
+					},
+				],
+			},
+			{
+				Name: "HairBack60",
+				Layer: [
+					{
+						Name: "FrontLeft",
+						Priority: 48,
+					},
+					{
+						Name: "BackLeft",
+						CopyLayerColor: "FrontLeft",
+					},
+					{
+						Name: "FrontRight",
+						Priority: 48,
+					},
+					{
+						Name: "BackRight",
+						CopyLayerColor: "FrontRight",
+					},
+				],
+			},
+			{
+				Name: "HairBack61",
+				Layer: [
+					{
+						Name: "FrontLeft",
+						Priority: 48,
+					},
+					{
+						Name: "BackLeft",
+						CopyLayerColor: "FrontLeft",
+					},
+					{
+						Name: "FrontRight",
+						Priority: 48,
+					},
+					{
+						Name: "BackRight",
+						CopyLayerColor: "FrontRight",
+					},
+				],
+			},
 		],
 		Color: [
 			"Default",
