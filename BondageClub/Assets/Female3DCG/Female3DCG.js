@@ -14140,6 +14140,38 @@ var AssetFemale3DCG = [
 				Top: 33,
 				Left: 150,
 			},
+			{
+				Name: "HairFront54",
+			},
+			{
+				Name: "HairFront55",
+				Layer: [
+					{
+						Name: "Front",
+					},
+					{
+						Name: "Back",
+						CopyLayerColor: "Front",
+						Priority: 5,
+					}
+				]
+			},
+			{
+				Name: "HairFront56",
+				Layer: [
+					{ Name: "Main", HideForAttribute: ["SmallEars", "NoEars"] },
+					{
+						Name: "SmallEars",
+						CopyLayerColor: "Main",
+						ShowForAttribute: ["SmallEars"],
+					},
+					{
+						Name: "NoEars",
+						CopyLayerColor: "Main",
+						ShowForAttribute: ["NoEars"],
+					},
+				],
+			},
 		],
 		Color: [
 			"#6a3628",
@@ -14608,6 +14640,83 @@ var AssetFemale3DCG = [
 			{ Name: "HairBack57b", Random: false },
 			{ Name: "HairBack57c", Random: false },
 			{ Name: "HairBack57d", Random: false },
+			{
+				Name: "HairBack58",
+				Layer: [
+					{
+						Name: "Left",
+					},
+					{
+						Name: "Right",
+					}
+				]
+			},
+			{
+				Name: "HairBack58b",
+				Layer: [
+					{
+						Name: "Left",
+					},
+					{
+						Name: "Right",
+					}
+				]
+			},
+			{
+				Name: "HairBack59",
+				Layer: [
+					{
+						Name: "Front",
+						Priority: 48,
+					},
+					{
+						Name: "Back",
+						CopyLayerColor: "Front",
+					},
+				],
+			},
+			{
+				Name: "HairBack60",
+				Layer: [
+					{
+						Name: "FrontLeft",
+						Priority: 48,
+					},
+					{
+						Name: "BackLeft",
+						CopyLayerColor: "FrontLeft",
+					},
+					{
+						Name: "FrontRight",
+						Priority: 48,
+					},
+					{
+						Name: "BackRight",
+						CopyLayerColor: "FrontRight",
+					},
+				],
+			},
+			{
+				Name: "HairBack61",
+				Layer: [
+					{
+						Name: "FrontLeft",
+						Priority: 48,
+					},
+					{
+						Name: "BackLeft",
+						CopyLayerColor: "FrontLeft",
+					},
+					{
+						Name: "FrontRight",
+						Priority: 48,
+					},
+					{
+						Name: "BackRight",
+						CopyLayerColor: "FrontRight",
+					},
+				],
+			},
 		],
 		Color: [
 			"Default",
