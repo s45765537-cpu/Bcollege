@@ -14140,6 +14140,38 @@ var AssetFemale3DCG = [
 				Top: 33,
 				Left: 150,
 			},
+			{
+				Name: "HairFront54",
+			},
+			{
+				Name: "HairFront55",
+				Layer: [
+					{
+						Name: "Front",
+					},
+					{
+						Name: "Back",
+						CopyLayerColor: "Front",
+						Priority: 5,
+					}
+				]
+			},
+			{
+				Name: "HairFront56",
+				Layer: [
+					{ Name: "Main", HideForAttribute: ["SmallEars", "NoEars"] },
+					{
+						Name: "SmallEars",
+						CopyLayerColor: "Main",
+						ShowForAttribute: ["SmallEars"],
+					},
+					{
+						Name: "NoEars",
+						CopyLayerColor: "Main",
+						ShowForAttribute: ["NoEars"],
+					},
+				],
+			},
 		],
 		Color: [
 			"#6a3628",
