@@ -113,6 +113,13 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 560, Type: "FloorDecorationParty", Style: "BeachUmbrellaStripe", Top: -1.1, Height: 2 },
 	{ ID: 570, Type: "FloorDecorationParty", Style: "BeachTowelStripe" },
 
+	{ ID: 600, Type: "FloorDecorationCamping", Style: "Blank" },
+	{ ID: 610, Type: "FloorDecorationCamping", Style: "LogFire", Top: -0.35 },
+	{ ID: 620, Type: "FloorDecorationCamping", Style: "LogSingle", Top: -0.2 },
+	{ ID: 630, Type: "FloorDecorationCamping", Style: "TentBlue", Top: -0.3 },
+	{ ID: 640, Type: "FloorDecorationCamping", Style: "SleepingBagBlue" },
+	{ ID: 650, Type: "FloorDecorationCamping", Style: "ChairRed", Top: -0.35 },
+
 	{ ID: 1000, Type: "FloorItem", Style: "Blank" },
 	{ ID: 1010, Type: "FloorItem", Style: "Kennel", Top: -1, Height: 2, AssetName: "Kennel", AssetGroup: "ItemDevices" },
 	{ ID: 1020, Type: "FloorItem", Style: "X-Cross", Top: -1, Height: 2, AssetName: "X-Cross", AssetGroup: "ItemDevices" },

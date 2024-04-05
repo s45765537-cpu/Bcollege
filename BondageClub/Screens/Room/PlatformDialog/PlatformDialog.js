@@ -605,7 +605,7 @@ var PlatformDialogData = [
 				Background: "CastleHall",
 				Character: [{ Name: "Yuna", Status: "Maid", Pose: "Zombie" }]
 			},
-			{ Text: "(A maid comes to you drooling, her eyes are the same as the guards.)" },
+			{ Text: "(A drooling maid comes to you, her eyes are the same as the guards.)" },
 			{ Text: "Aaaaaannngg! Naaaaannnmm!" },
 			{
 				Text: "(She moves toward you.)",
@@ -658,7 +658,7 @@ var PlatformDialogData = [
 				Text: "They must be racist.", Audio: "80",
 				Answer: [
 					{ Text: "Racist?  Why?", Reply: "(She wiggles her ears.)  Isn't it obvious?  I'm an elf.", Audio: "81", Domination: -1 },
-					{ Text: "Elves have a bad reputation?", Reply: "I don't know, it's the first time I come here.", Audio: "82" },
+					{ Text: "Do elves have a bad reputation?", Reply: "I don't know, it's the first time I come here.", Audio: "82" },
 					{ Text: "It's not racism.  They enforce the law.", Reply: "(Sighs.)  Well, the law is unfair then.", Audio: "83", Domination: 1 },
 				]
 			},
@@ -1049,11 +1049,11 @@ var PlatformDialogData = [
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
 				]
 			},
-			{ Text: "(Melody and Lyn are drinking and talking loudly in the Countess wine cellar.  They turn to you.)" },
+			{ Text: "(Edlaran and Lyn are drinking and talking loudly in the Countess wine cellar.  They turn to you.)" },
 			{ Text: "Meldy!  Iz great to see you!  (She waves at you tipsily.)", Audio: "10", AudioStyle: "cheerful" },
-			{ Text: "Me an Lyn are havin a gud time!  Try the wine!", Audio: "20", AudioStyle: "cheerful" },
+			{ Text: "Me an Lyn are havin a gud time!", Audio: "20", AudioStyle: "cheerful" },
 			{ 
-				Text: "Whatz goin on?", Audio: "30", AudioStyle: "cheerful",
+				Text: "Try the wine!", Audio: "30", AudioStyle: "cheerful",
 				Answer: [
 					{ Text: "Enough drinking my friends.", Reply: "U no fun!  (They both leave the room.)", Audio: "31", AudioStyle: "cheerful", Goto: "End" },
 					{ Text: "Are you two drunk?", Reply: "Not dunk!  Drunking!  (They both laugh.)", Audio: "32", AudioStyle: "cheerful" },
@@ -1068,9 +1068,9 @@ var PlatformDialogData = [
 					{ Name: "Edlaran", Status: "Archer", Pose: "IdleCheer", X: 250 },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
 				]
-	 		},
+			},
 			{ Text: "An you have smexy curvs lttle elf.", Audio: "60", AudioStyle: "cheerful" },
-			{ 
+			{
 				Text: "(They both start to flirt.)",
 				Answer: [
 					{ Text: "(Stop them.)", Reply: "Maid!  U so borin!  (They both leave the room.)", Audio: "61", AudioStyle: "cheerful", Goto: "End" },
@@ -1084,14 +1084,14 @@ var PlatformDialogData = [
 					{ Name: "Lyn", Status: "Thief", Pose: "IdleCheer" },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
 				],
-				Text: "Oh yeah!  That wud be great Lyn.  I lov u!", Audio: "80", Overwrite: true, AudioStyle: "cheerful"
+				Text: "Oh yeah!  That wud be great Lyn.  I lov u!", Audio: "80", AudioStyle: "cheerful"
 	 		},
 			{ Text: "(They clumsily hug each other and exchange a long drunken kiss.)" },
 			{
 				Character: [{ Name: "Lyn", Status: "Thief", Pose: "FrenchKissEdlaranArcher", X: 500 }]
-	 		},
+			},
 			{ Text: "(They kiss and moan for a while, enjoying their new love.)" },
-			{ 
+			{
 				Entry: function() {
 					PlatformDialogGetCharacter("Lyn").LoverName = "Edlaran";
 					PlatformDialogGetCharacter("Edlaran").LoverName = "Lyn";
@@ -1104,8 +1104,81 @@ var PlatformDialogData = [
 			{ Text: "(As Lyn's lover, Edlaran does +1 damage when attacking from the back.)" },
 			{ Text: "(They wave at you and run tipsily to find a private room.)" },
 			{
-				Entry: function() { PlatformChar.splice(1, 100); },
+				Entry: function() { PlatformChar.splice(1, 100); PlatformTempEvent.push("EdlaranLynWineCellar"); },
 				ID: "End", Text: "(You're now alone in the wine cellar.)",
+				Character: [{ Name: "Melody", Status: "Maid", Pose: "Idle" }]
+			}
+		]
+	},
+
+	{
+		Name: "EdlaranLynWineCellarBreakUp",
+		Music: "CastleHall",
+		Dialog: [
+			{
+				Background: "WineCellar",
+				Character: [
+					{ Name: "Edlaran", Status: "Archer", Pose: "IdleAngry" },
+					{ Name: "Lyn", Status: "Thief", Pose: "IdleAngry" },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
+				]
+			},
+			{ Text: "(Edlaran and Lyn are drinking again, but they are not drunk yet.  They seem to be arguing.)" },
+			{ Text: "My love!  I don't have your money!  I don't care about it!", Audio: "10", AudioStyle: "angry" },
+			{ Text: "Is that all that matters to you?  Do you love your money more than me?", Audio: "20", AudioStyle: "angry" },
+			{ 
+				Text: "Tell her Melody!", Audio: "30", AudioStyle: "angry",
+				Answer: [
+					{ Text: "All you need is love.", Reply: "Well said Melody.  We should make a song about it my love.  (She opens her arms for Lyn.)", Audio: "31", Goto: "StayTogether" },
+					{ Text: "Money is important.", Reply: "Melody!  Not you also!  (She gets mad.)", Audio: "32", AudioStyle: "angry" },
+					{ Text: "You need to repay your debt.", Reply: "What?  Love is more important than a debt!  (She gets mad.)", Audio: "33", AudioStyle: "angry" },
+					{ Text: "Lyn loves you more than money.", Reply: "You're right Melody.  Let's not argue my love.  (She opens her arms for Lyn.)", Audio: "34", Goto: "StayTogether" },
+				]
+			},
+			{
+				Text: "Edlaran, I love you, but I cannot erase your debt.  A debt is a debt.", Audio: "40", AudioStyle: "angry",
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "IdleAngry", X: 750 },
+					{ Name: "Edlaran", Status: "Archer", Pose: "IdleAngry", X: 250 },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
+				]
+			},
+			{ Text: "I'm not your sugar mommy.  I don't have to pay for your parties.", Audio: "50", AudioStyle: "angry" },
+			{ Text: "Honey, we are too different, maybe it's time to break up.", Audio: "60", AudioStyle: "serious" },
+			{ 
+				Text: "Melody, what do you think?", Audio: "70", AudioStyle: "serious",
+				Answer: [
+					{ Text: "Sadly, maybe you two should break up.", Reply: "(She sighs.)  Yeah, our couple isn't working well.", Audio: "71", AudioStyle: "serious" },
+					{ Text: "I'm sure you can fix that money problem.", Reply: "(She nods slowly.)  Maybe you're right Melody, we can find a solution.  (She opens her arms for Edlaran.)", Audio: "72", Goto: "StayTogether" }
+				]
+			},
+			{ Text: "It's over Edlaran, we need to break up.", Audio: "80", AudioStyle: "serious" },
+			{ 
+				Text: "(Edlaran and Lyn are no longer lovers.)",
+				Entry: function() {
+					delete PlatformDialogGetCharacter("Lyn").LoverName;
+					delete PlatformDialogGetCharacter("Edlaran").LoverName;
+					delete PlatformDialogGetCharacter("Lyn").LoverLevel;
+					delete PlatformDialogGetCharacter("Edlaran").LoverLevel;
+					PlatformDialogRelationshipChange();
+				}
+			},
+			{ Text: "(Lyn loses her walking & running bonus.  Edlaran loses her back attack bonus.)" },
+			{
+				ID: "End", Text: "(They both leave with an angry face, leaving you alone in the wine cellar.)",
+				Character: [{ Name: "Melody", Status: "Maid", Pose: "Idle" }]
+			},
+			{ Entry: function() { PlatformChar.splice(1, 100); PlatformTempEvent.push("EdlaranLynWineCellar"); PlatformDialogLeave(); } },
+			{
+				ID: "StayTogether",
+				Character: [{ Name: "Lyn", Status: "Thief", Pose: "FrenchKissEdlaranArcher", X: 500 }]
+			},
+			{ Text: "(They hug each other and exchange a long and loving kiss.)" },
+			{ Text: "I love you Edlaran.  You give me wild ideas.", Audio: "100", AudioStyle: "cheerful" },
+			{ Text: "Let's go find a room that's more private.  (They giggle.)", Audio: "110", AudioStyle: "cheerful" },
+			{
+				Entry: function() { PlatformChar.splice(1, 100); PlatformTempEvent.push("EdlaranLynWineCellar"); },
+				ID: "End", Text: "(They both run away, leaving you alone in the wine cellar.)",
 				Character: [{ Name: "Melody", Status: "Maid", Pose: "Idle" }]
 	 		}
 		]
@@ -2127,7 +2200,7 @@ var PlatformDialogData = [
 				]
 			},
 			{
-				Text: "Melody!  Mel...  (Her eyes rolls up and her knees get week.)", Audio: "40", AudioStyle: "terrified",
+				Text: "Melody!  Mel...  (Her eyes roll up and her knees get weak.)", Audio: "40", AudioStyle: "terrified",
 				Character: [
 					{ Name: "Olivia", Status: "Oracle", Pose: "IdleSubmissive" },
 					{ Name: "Melody", Status: "Maid", Pose: "Alert" }
@@ -2845,7 +2918,7 @@ var PlatformDialogData = [
 			{
 				Text: "I will win their loyalty back.  I will defeat you!", Audio: "40", AudioStyle: "serious",
 				Answer: [
-					{ Text: "We will crush you like an ant.", Reply: "No!  Not this time!.", Audio: "41", Domination: 2, Love: -1, AudioStyle: "angry" },
+					{ Text: "We will crush you like an ant.", Reply: "No!  Not this time.", Audio: "41", Domination: 2, Love: -1, AudioStyle: "angry" },
 					{ Text: "Girl, do you want another defeat?", Reply: "I will win this fight!", Audio: "42", Domination: 1, AudioStyle: "angry" },
 					{ Text: "Please, we don't want to fight.", Reply: "It's not like you have a choice.", Audio: "43", Domination: -1, AudioStyle: "serious" },
 					{ Text: "Your cute butt will end up in bondage again.", Reply: "(She blushes.)  How...  How dare you?", Audio: "44", Domination: 2, Love: 1, Perk: true },
@@ -2924,7 +2997,7 @@ var PlatformDialogData = [
 			},
 			{ Text: "(You can hear Lyn the bandit boss struggling in the crate.)" },
 			{ Text: "Minions!  Listen to me!  Release me right now!", Audio: "10", AudioStyle: "serious" },
-			{ Text: "(The other bandits prevents you from doing anything.)" },
+			{ Text: "(The other bandits prevent you from doing anything.)" },
 		],
 	},
 
@@ -2952,21 +3025,21 @@ var PlatformDialogData = [
 				Answer: [
 					{ Text: "They should be more loyal.", Reply: "Damn right they should.", Audio: "41", Domination: -1, Love: 1 },
 					{ Text: "They would have sold you.", Reply: "You think they would dare?", Audio: "42", Domination: 1, Love: 1 },
-					{ Text: "You deserve it.", Reply: "(She shakes her head no.)  I'm only a business woman.", Audio: "43", Domination: 1, Love: -1 },
+					{ Text: "You deserve it.", Reply: "(She shakes her head no.)  I'm only a businesswoman.", Audio: "43", Domination: 1, Love: -1 },
 					{ Text: "You deserve more respect.", Reply: "(She grins.)  Yeah!  That's for sure.", Audio: "44", Domination: -2, Love: 2, Perk: true },
 				]
 			},
 			{ Text: "This life of crime is getting dangerous.  I understand why you left the trade Edlaran.", Audio: "50" },
 			{ Text: "Girls, can we make a deal?  A good deal.", Audio: "60" },
 			{ Text: "Since travelling is getting more and more risky, we could join forces.", Audio: "70" },
-			{ Text: "You protect me from my stupid minions and I'll make the best bargains for you, I'll fight for you.", Audio: "80" },
+			{ Text: "You protect me from my stupid minions, and I'll make the best bargains for you, I'll fight for you.", Audio: "80" },
 			{
 				Text: "What do you think?  Do we have a deal?", Audio: "90",
 				Answer: [
 					{ Text: "That sounds good, we have a deal.", Reply: "A deal is a deal!", Audio: "91", Domination: 1, Love: 1 },
 					{ Text: "What do you think Olivia?", Reply: "(Olivia thinks for a while and nods.)", Domination: -1 },
 					{ Text: "What do you think Edlaran?", Reply: "(Edlaran quickly makes a thumbs up.)", Domination: -1 },
-					{ Text: "A great business woman like you is welcome.", Reply: "(She grins.)  You girls do need me.", Audio: "94", Domination: -2, Love: 1, Perk: true },
+					{ Text: "A great businesswoman like you is welcome.", Reply: "(She grins.)  You girls do need me.", Audio: "94", Domination: -2, Love: 1, Perk: true },
 				]
 			},
 			{
@@ -3294,7 +3367,7 @@ var PlatformDialogData = [
 				]
 			},
 			{ Text: "(*** You've reached the current ending of Bondage Brawl. ***)" },
-			{ Text: "(*** I hope you enjoyed the game, more content will be available later. ***)" },
+			{ Text: "(*** I hope you enjoyed the game.  More content will be available later. ***)" },
 			{ Text: "(*** If you have suggestions or bugs to report, please contact Ben987. ***)" },
 		],
 
@@ -4738,7 +4811,7 @@ var PlatformDialogData = [
 			{ Text: "When I call you, you must stop anything you're doing and come quikly.", Audio: "200", AudioStyle: "serious" },
 			{ Text: "As your protector, I will punish you if you fail to obey my rules.", Audio: "201", AudioStyle: "serious" },
 			{ Text: "If I want to get you bound and gagged for any reason, you will not resist.", Audio: "202", AudioStyle: "serious" },
-			{ Text: "You will do exercises each day, and eat better meals to stay healthy.", Audio: "210", AudioStyle: "serious" },
+			{ Text: "You will do exercises each day and eat better meals to stay healthy.", Audio: "210", AudioStyle: "serious" },
 			{
 				Prerequisite: function() { return PlatformDialogIsLover("Lyn"); },
 				Text: "Since you're also my love, you will not refuse sex without a good reason.", Audio: "220", AudioStyle: "serious"
@@ -4896,7 +4969,7 @@ var PlatformDialogData = [
 					{ Text: "It would be a pleasure Boss.", Reply: "(She smirks.)  You're adorable my minion.", Audio: "184", AudioStyle: "cheerful", Love: 2, Domination: -2, Perk: true },
 				]
 			},
-			{ 
+			{
 				Prerequisite: function() { return !PlatformDialogIsLover("Lyn"); },
 				Text: "I also love to tickle my minions, don't be surprised if it happens.", Audio: "190"
 			},

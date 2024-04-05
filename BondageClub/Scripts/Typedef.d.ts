@@ -405,8 +405,8 @@ type TitleName =
 	"InfilrationOperative" | "InfilrationSuperspy" | "MagicSchoolWizard" | "MagicSchoolMagus" |
 	"MagicSchoolMagician" | "MagicSchoolSorcerer" | "MagicSchoolSage" | "MagicSchoolOracle" |
 	"MagicSchoolWitch" | "MagicSchoolWarlock" | "Duchess" | "Duke" | "LittleOne" | "Baby" | "DL" |
-	"BondageBaby" | "Switch" | "Princess" |	"Prince" | "Liege" | "Majesty" |	"Missy" |	"Sissy" |	"Tomboy" | "Femboy" |	"GoodOne" |
-	"Pet" |	"Brat" | "Kitten" | "Puppy" | "Foxy" | "Bunny" | "Doll" | "Demon" | "Angel" | "Alien" | "Captain" | 
+	"BondageBaby" | "Switch" | "Princess" |	"Prince" | "Liege" | "Majesty" | "Missy" | "Sissy" | "Tomboy" | "Femboy" | "GoodOne" |
+	"Pet" |	"Brat" | "Kitten" | "Puppy" | "Foxy" | "Bunny" | "Doll" | "Demon" | "Angel" | "Alien" | "Captain" |
 	"Succubus" | "Incubus" | "Concubus" | "GoodGirl" | "GoodBoy" | "GoodSlaveGirl" | "GoodSlaveBoy" | "GoodSlave" | "Drone"
 	;
 
@@ -3514,8 +3514,14 @@ interface CraftingItemSelected {
 	Description: string;
 	/** The comma-separated color(s) of the item. */
 	Color: string;
-	/** The name of the crafted item. */
-	Asset: Asset | null;
+	/** The names of the crafted item's supported assets. */
+	Assets: readonly Asset[];
+	/**
+	 * The first member of the {@link CraftingItemSelected.Assets} array.
+	 *
+	 * The asset is guaranteed to satisfy `Asset.Group.Name === Asset.DynamicGroupName` _if_ any of the list members satisfy this condition.
+	 */
+	get Asset(): Asset | undefined;
 	/** The crafted item propery. */
 	Property: CraftingPropertyType;
 	/** The lock as equiped on the item or, if absent, `null`. */
@@ -4014,6 +4020,7 @@ type ChatRoomMapObjectType = (
 	"FloorDecoration"
 	| "FloorDecorationThemed"
 	| "FloorDecorationParty"
+	| "FloorDecorationCamping"
 	| "FloorItem"
 	| "FloorObstacle"
 	| "WallDecoration"
