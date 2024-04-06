@@ -19,6 +19,8 @@ var PlatformMessage = null;
 var PlatformHeal = null;
 var PlatformEvent = [];
 var PlatformTempEvent = [];
+var PlatformPlayerIdleTimer = null;
+var PlatformPlayerIdleLast = "";
 var PlatformDrawUpArrow = [null, null];
 /** @type {readonly GamepadButton[]} */
 var PlatformButtons = null;
@@ -100,6 +102,7 @@ var PlatformTemplate = [
 		DamageAudio: ["Melody0", "Melody1", "Melody2", "Melody3", "Melody4", "Generic0", "Generic1"],
 		DownAudio: ["Melody0"],
 		BindAudio: ["Rope0", "Rope1", "Rope2", "Rope3"],
+		IdleAudio: ["Melody0", "Melody1", "Melody2", "Melody3", "Melody4"],
 		Animation: [
 			{ Name: "Idle", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 100 },
 			{ Name: "Wounded", Cycle: [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1], Speed: 150 },
@@ -150,6 +153,7 @@ var PlatformTemplate = [
 		DamageAudio: ["Olivia0", "Olivia1", "Olivia2", "Olivia3", "Olivia4", "Generic0", "Generic1"],
 		DownAudio: ["Olivia0"],
 		BindAudio: ["Rope0", "Rope1", "Rope2", "Rope3"],
+		IdleAudio: ["Olivia0", "Olivia1", "Olivia2", "Olivia3"],
 		Animation: [
 			{ Name: "Idle", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61], Speed: 90 },
 			{ Name: "HalfBoundIdle", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 90 },
@@ -205,6 +209,7 @@ var PlatformTemplate = [
 		DamageAudio: ["Edlaran0", "Edlaran1", "Edlaran2", "Edlaran3", "Edlaran4", "Generic0", "Generic1"],
 		DownAudio: ["Edlaran0"],
 		BindAudio: ["Rope0", "Rope1", "Rope2", "Rope3"],
+		IdleAudio: ["Edlaran0", "Edlaran1", "Edlaran2", "Edlaran3"],
 		Animation: [
 			{ Name: "Idle", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 90 },
 			{ Name: "Wounded", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 130 },
@@ -258,9 +263,10 @@ var PlatformTemplate = [
 		DamageBackOdds: 1,
 		DamageKnockForce: 50,
 		LootOdds: 0,
-		DamageAudio: ["Lyn", "Lyn1", "Lyn2", "Lyn3", "Lyn4", "Lyn5", "Lyn6", "Generic0", "Generic1"],
+		DamageAudio: ["Lyn0", "Lyn1", "Lyn2", "Lyn3", "Lyn4", "Lyn5", "Lyn6", "Generic0", "Generic1"],
 		DownAudio: ["Lyn0"],
 		BindAudio: ["Rope0", "Rope1", "Rope2", "Rope3"],
+		IdleAudio: ["Lyn0", "Lyn1", "Lyn2", "Lyn3"],
 		Animation: [
 			{ Name: "Idle", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47], Speed: 95 },
 			{ Name: "Walk", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], Speed: 60 },
@@ -2856,6 +2862,21 @@ function PlatformDrawGame() {
 		DrawEmptyRect(1800, 850, 125, 125, CommonTouchActive(1800, 850, 125, 125) ? "cyan" : "#FFFFFF80", 4);
 
 	}
+
+	// In idle position, there's a timer between 15 and 45 seconds for random idle audio
+	if ((PlatformPlayer.Anim != null) && (PlatformPlayer.Anim.Name === "Idle") && (PlatformPlayer.ForceX === 0) && (PlatformPlayer.ForceY === 0)) {
+
+		// Sets the idle timer if needed
+		if (PlatformPlayerIdleTimer == null) PlatformPlayerIdleTimer = PlatformTime + Math.random() * 30000 + 15000;
+
+		// Plays the idle speech if the timer is out
+		if (PlatformTime > PlatformPlayerIdleTimer) {
+			PlatformPlayerIdleTimer = null;
+			PlatformPlayerIdleLast = CommonRandomItemFromList(PlatformPlayerIdleLast, PlatformPlayer.IdleAudio);
+			PlatformSoundEffect("Idle", PlatformPlayerIdleLast, 1);
+		}
+		
+	} else PlatformPlayerIdleTimer = null;
 
 	// Keeps the time of the frame for the next run
 	PlatformLastTime = PlatformTime;
