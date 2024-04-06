@@ -396,6 +396,51 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // TShirt2
+		CustomTShirt: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Shirt",
+					Key: "h",
+					Options: [
+						{
+							// h0 - Normal
+							Property: {
+								OverridePriority: 28,
+							},
+						},
+						{
+							// h1 - UnderSkirt
+							Property: {
+								OverridePriority: 26,
+							},
+						},
+						{
+							// h2 - LowerLayer
+							Property: {
+								OverridePriority: 21,
+							},
+						},
+					],
+					DrawImages: false,
+				},
+				{
+					Name: "Stamp",
+					Key: "t",
+					Options: [
+						{}, // t0 - None
+						{}, // t1 - BondageCollege
+						{}, // t2 - BTG
+						{}, // t3 - Dominant
+						{}, // t4 - Bonk
+						{}, // t5 - OldXGame
+						{}, // t6 - Staff
+						{}, // t7 - Elite
+						{}, // t8 - Raiders
+					],
+				},
+			],
+		}, // CustomTShirt
 		ChineseDress2: {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [
