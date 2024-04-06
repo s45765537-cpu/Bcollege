@@ -11,6 +11,7 @@ var MiniGameAdvancedPayment = 0;
 var MiniGameReturnFunction = "";
 var MiniGameProgress = -1;
 var MiniGameTimer = 0;
+var MiniGameStarted = false;
 var MiniGameEnded = false;
 var MiniGameCheatAvailable = false;
 let KDPatched = false;
@@ -42,6 +43,7 @@ function MiniGameStart(GameType, Difficulty, ReturnFunction) {
 	MiniGamePerfect = true;
 	MiniGameProgress = -1;
 	MiniGameTimer = 0;
+	MiniGameStarted = false;
 	MiniGameEnded = false;
 	MiniGameCheatAvailable = (CheatFactor("MiniGameBonus", 0) == 0);
 	CommonSetScreen("MiniGame", GameType);
@@ -49,6 +51,13 @@ function MiniGameStart(GameType, Difficulty, ReturnFunction) {
 
 function MiniGameEnd() {
 	CommonDynamicFunction(MiniGameReturnFunction + "()");
+}
+
+/**
+ * @returns {boolean} - TRUE if the game has started, but not yet ended.
+ */
+function MiniGameRunning() {
+	return MiniGameStarted && !MiniGameEnded;
 }
 
 /**

@@ -1,5 +1,3 @@
-Starts in
-Начинается через
 Click anywhere when the lockpick circle crosses the hole.
 Щелкните в любом месте, когда круг отмычки пересекает отверстие.
 You unlocked the chest.

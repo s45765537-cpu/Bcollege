@@ -12,6 +12,7 @@ var DojoStruggleRope = [];
 function DojoStruggleLoad() {
 	DojoStrugglePosition = 450;
 	if (MiniGameProgress < 0) MiniGameProgress = 0;
+	MiniGameTimer = 0;
 	DojoStruggleRope = [];
 	for (let P = 0; P < 25; P++)
 		DojoStruggleRope.push(Math.floor(Math.random() * 651) + 175);
@@ -25,7 +26,8 @@ function DojoStruggleRun() {
 
 	// Draw the character
 	DrawCharacter(Player, 850, -400, 3, false);
-	MiniGameTimer = MiniGameTimer + Math.round(TimerRunInterval);
+	if (MiniGameStarted)
+		MiniGameTimer += Math.round(TimerRunInterval);
 
 	// Draw the check boxes to show the number of tries
 	DrawImage("Screens/MiniGame/DojoStruggle/" + ((MiniGameProgress <= 0) ? "Success" : "Fail") + ".png", 1875, 250);
@@ -33,7 +35,7 @@ function DojoStruggleRun() {
 	DrawImage("Screens/MiniGame/DojoStruggle/" + ((MiniGameProgress <= 2) ? "Success" : "Fail") + ".png", 1875, 550);
 
 	// If the mini game is running
-	if (!MiniGameEnded && (MiniGameTimer >= 5000)) {
+	if (MiniGameRunning()) {
 
 		// The game ends after 71 seconds with a victory
 		if (MiniGameTimer >= 71000) {
@@ -52,13 +54,14 @@ function DojoStruggleRun() {
 			// Draw the obstacles
 			var C = 25;
 			for (let P = 0; P < 25; P++) {
-				var X = 1000 + (P * 500) + ((5000 - MiniGameTimer) / 5);
+				var X = 1000 + (P * 500) - (MiniGameTimer / 5);
 				if (X < 150) C--;
 				if ((X > 0) && (X < 1200) && (DojoStruggleRope[P] > 150)) DrawImageZoomCanvas("Screens/MiniGame/DojoStruggle/RopeVertical.png", MainCanvas, 0, 0, 50, DojoStruggleRope[P] - 150, X, 0, 50, DojoStruggleRope[P] - 150);
 				if ((X > 0) && (X < 1200) && (DojoStruggleRope[P] < 850)) DrawImageZoomCanvas("Screens/MiniGame/DojoStruggle/RopeVertical.png", MainCanvas, 0, 0, 50, 900, X, DojoStruggleRope[P] + 150, 50, 900);
 				if ((X >= 200) && (X <= 250) && ((DojoStrugglePosition < DojoStruggleRope[P] - 125) || (DojoStrugglePosition > DojoStruggleRope[P] + 125))) {
 
 					// When the player rope hits another rope, it resets the game 3 times before failing
+					MiniGameStarted = false;
 					MiniGameTimer = 0;
 					MiniGameProgress++;
 					DojoStruggleLoad();
@@ -81,9 +84,9 @@ function DojoStruggleRun() {
 	DrawImage("Screens/MiniGame/DojoStruggle/RopeHorizontal.png", 0, DojoStrugglePosition - 25);
 
 	// Shows the intro text before the mini game begins
-	if (MiniGameTimer < 5000) {
+	if (!MiniGameStarted) {
 		DrawRect(0, 950, 2000, 50, "black");
-		DrawText(TextGet("Intro").replace("StartTimer", (5 - Math.floor(MiniGameTimer / 1000)).toString()), 1000, 975, "white");
+		DrawText(TextGet("Intro"), 1000, 975, "white");
 	}
 
 	// Draw the end message when the game is over
@@ -106,6 +109,10 @@ function DojoStruggleClick() {
 	if (MiniGameEnded && (MouseX >= 1250))
 		MiniGameEnd();
 
+	// If the hame hasn't started, start it
+	else if (!MiniGameStarted)
+		MiniGameStarted = true;
+
 }
 
 /**
@@ -115,7 +122,7 @@ function DojoStruggleClick() {
 function DojoStruggleMouseDown() {
 
 	// If the game has started, we check the click position and send it as a move
-	if ((MiniGameTimer > 5000) && (MouseX <= 1250) && !MiniGameEnded)
+	if (MiniGameRunning() && (MouseX <= 1250))
 		DojoStruggleImpulse = 86;
 
 }
@@ -128,7 +135,10 @@ function DojoStruggleKeyDown(event) {
 	if (event.repeat) return false;
 
 	if (!MiniGameEnded && event.code === "Space") {
-		DojoStruggleImpulse = 86;
+		if (!MiniGameStarted)
+			MiniGameStarted = true;
+		else
+			DojoStruggleImpulse = 86;
 		return true;
 	} else if (MiniGameCheatKeyDown(event)) {
 		DojoStruggleImpulse = 76;
