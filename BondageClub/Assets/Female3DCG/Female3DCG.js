@@ -14170,6 +14170,9 @@ var AssetFemale3DCG = [
 						CopyLayerColor: "Main",
 						ShowForAttribute: ["NoEars"],
 					},
+					{
+						Name: "MainTip",
+					}
 				],
 			},
 		],
