@@ -851,6 +851,111 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
+				Name: "CustomTShirt",
+				Value: 10,
+				Random: true,
+				Extended: true,
+				DefaultColor: [ "#FD8D8F", "Default" ],
+				PoseMapping: {
+					...AssetPoseMapping.Cloth,
+					TapedHands: "BackBoxTie",
+				},
+				HideItem: [
+					"ItemNipplesPiercingsRoundPiercing",
+					"ItemNipplesPiercingsNecklacePiercingChain",
+					"ItemNipplesLactationPump",
+					"BraRibbons",
+					"ItemBreastRibbons",
+				],
+				Layer: [
+					{
+						Name: "Shirt",
+						AllowColorize: true,
+					},
+					{
+						Name: "None",
+						PoseMapping: {
+							Cloth: PoseType.DEFAULT,
+						},
+						ParentGroup: null,
+						AllowTypes: { t: 0 },
+						AllowColorize: true,
+					},
+					{
+						Name: "BondageCollege",
+						PoseMapping: {
+							Cloth: PoseType.DEFAULT,
+						},
+						ParentGroup: null,
+						AllowTypes: { t: 1 },
+						CopyLayerColor: "None",
+					},
+					{
+						Name: "BTG",
+						PoseMapping: {
+							Cloth: PoseType.DEFAULT,
+						},
+						ParentGroup: null,
+						AllowTypes: { t: 2 },
+						CopyLayerColor: "None",
+					},
+					{
+						Name: "Dominant",
+						PoseMapping: {
+							Cloth: PoseType.DEFAULT,
+						},
+						ParentGroup: null,
+						AllowTypes: { t: 3 },
+						CopyLayerColor: "None",
+					},
+					{
+						Name: "Bonk",
+						PoseMapping: {
+							Cloth: PoseType.DEFAULT,
+						},
+						ParentGroup: null,
+						AllowTypes: { t: 4 },
+						CopyLayerColor: "None",
+					},
+					{
+						Name: "OldXGame",
+						PoseMapping: {
+							Cloth: PoseType.DEFAULT,
+						},
+						ParentGroup: null,
+						AllowTypes: { t: 5 },
+						CopyLayerColor: "None",
+					},
+					{
+						Name: "Staff",
+						PoseMapping: {
+							Cloth: PoseType.DEFAULT,
+						},
+						ParentGroup: null,
+						AllowTypes: { t: 6 },
+						CopyLayerColor: "None",
+					},
+					{
+						Name: "Elite",
+						PoseMapping: {
+							Cloth: PoseType.DEFAULT,
+						},
+						ParentGroup: null,
+						AllowTypes: { t: 7 },
+						CopyLayerColor: "None",
+					},
+					{
+						Name: "Raiders",
+						PoseMapping: {
+							Cloth: PoseType.DEFAULT,
+						},
+						ParentGroup: null,
+						AllowTypes: { t: 8 },
+						CopyLayerColor: "None",
+					},
+				],
+			},
+			{
 				Name: "TennisShirt1",
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
