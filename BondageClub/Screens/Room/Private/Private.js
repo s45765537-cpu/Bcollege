@@ -1093,11 +1093,15 @@ function PrivateKickOut() {
  * @returns {void} - Nothing.
  */
 function PrivateKickCharacterOut(C) {
-	const charIdx = PrivateCharacter.findIndex(c => c.Name === C.Name);
-	if (charIdx < 0) return;
-
+	let DeleteCharIndex = PrivateCharacter.findIndex(c => c.Name === C.Name);
+	if (DeleteCharIndex < 0) return;
 	CharacterDelete(C);
-	PrivateCharacter.splice(charIdx, 1);
+	PrivateCharacter.splice(DeleteCharIndex, 1);
+	let OtherCharIndex = 0;
+	for (let Char of PrivateCharacter) {
+		if (OtherCharIndex >= DeleteCharIndex) Char.CharacterID = "NPC_Private_Custom_" + OtherCharIndex.toString();
+		OtherCharIndex++;
+	}
 	ServerPrivateCharacterSync();
 	DialogLeave();
 }

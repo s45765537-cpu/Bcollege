@@ -857,7 +857,7 @@ function LoginResponse(C) {
 			CharacterAppearanceValidate(Player);
 			AsylumGGTSSAddItems();
 			ChatRoomCustomized = ((Player.OnlineSettings != null) && (Player.OnlineSettings.ShowRoomCustomization != null) && (Player.OnlineSettings.ShowRoomCustomization >= 2));
-			if (Player.Crafting.length >= 80) Player.Crafting = Player.Crafting.slice(0, 80);
+			if (Player.Crafting.length > 80) Player.Crafting = Player.Crafting.slice(0, 80);
 
 			// If the player must log back in the cell
 			if (LogQuery("Locked", "Cell")) {
