@@ -357,9 +357,9 @@ Title Daycare Party,Daycare Party
 Text Daycare Party,Gain 4 Fame and draw a card for each ABDL Mommy present.
 Effect Daycare Party, Gained AMOUNT fame from the Daycare Party
 Title Nanny,Nanny
-Text Nanny,When an ABDL Baby enters your club, gain fame equal to your club level.
+Text Nanny,"When an ABDL Baby enters your club, gain fame equal to your club level."
 Title Dommy Mommy,Dommy Mommy
 Text Dommy Mommy,+1 Fame for each ABDL Baby present. Gain 1 Fame for each member present when she enters your club.
 Title Contract Caretaker,Contract Caretaker
-Text Contract Caretaker,When a ABDL Baby enters your club, if opponent has more fame they don't gain fame at the end of their next turn
+Text Contract Caretaker,"When a ABDL Baby enters your club, if opponent has more fame they don't gain fame at the end of their next turn"
 Effect Contract Caretaker,No Fame is gained because of OPPONENTPLAYER Contract Caretaker.
