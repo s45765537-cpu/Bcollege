@@ -184,7 +184,7 @@ var ClubCardList = [
 				return card.Group?.includes("ABDLBaby");
 			});
 			if(abdlBabyPlayed) {
-				ClubCardPlayerAddMoney(CCPlayer, 3)
+				ClubCardPlayerAddMoney(CCPlayer, 3);
 			}
 		}
 	},
@@ -193,19 +193,19 @@ var ClubCardList = [
 		Name: "Contract Caretaker",
 		FamePerTurn: 1,
 		MoneyPerTurn: -2,
-		AfterOpponentTurnEnd: function(CCPlayer) {              
-            const opponent = ClubCardGetOpponent(CCPlayer);  
-                                                                                             
-            const abdlBabyPlayed = opponent.CardsPlayedThisTurn.some(card => {
-                return card.Group?.includes("ABDLBaby");       
-            });                                                             
-                                                                             
-            if (abdlBabyPlayed && CCPlayer.Fame > opponent.Fame) {
-                ClubCardPlayerAddFame(CCPlayer, CCPlayer.LastFamePerTurn * -1);
-                CCPlayer.LastFamePerTurn = 0;                                   
-                ClubCardLogPublish("Effect Contract Caretaker", CCPlayer);
-            }                                                                   
-        }
+		AfterOpponentTurnEnd: function(CCPlayer) {
+			const opponent = ClubCardGetOpponent(CCPlayer);
+
+			const abdlBabyPlayed = opponent.CardsPlayedThisTurn.some(card => {
+				return card.Group?.includes("ABDLBaby");
+			});
+
+			if (abdlBabyPlayed && CCPlayer.Fame > opponent.Fame) {
+				ClubCardPlayerAddFame(CCPlayer, CCPlayer.LastFamePerTurn * -1);
+				CCPlayer.LastFamePerTurn = 0;
+				ClubCardLogPublish("Effect Contract Caretaker", CCPlayer);
+			}
+		},
 	},
 
 	// 2000 - Staff Members (Club employees that can be targetted by events)
@@ -820,7 +820,7 @@ var ClubCardList = [
 			});
 
 			if(abdlBabyPlayed) {
-				ClubCardPlayerAddMoney(CCPlayer, CCPlayer.Level)
+				ClubCardPlayerAddMoney(CCPlayer, CCPlayer.Level);
 			}
 		}
 	},
@@ -837,7 +837,7 @@ var ClubCardList = [
 			});
 
 			if(abdlBabyPlayed) {
-				ClubCardPlayerAddMoney(CCPlayer, CCPlayer.Level)
+				ClubCardPlayerAddMoney(CCPlayer, CCPlayer.Level);
 			}
 		}
 	},
