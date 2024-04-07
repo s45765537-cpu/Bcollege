@@ -11911,6 +11911,132 @@ var AssetFemale3DCG = [
 				DefaultColor: ["Default", "#151515"],
 				Layer: [{ Name: "Lace" }, { Name: "Bands" }],
 			},
+			{
+				Name: "WristWatch",
+				Value: 20,
+				Priority: 29,
+				PoseMapping: {
+					...AssetPoseMapping.Bracelet,
+					BackCuffs: PoseType.HIDE,
+				},
+				DefaultColor: ["#270D8B","#0F0F0F","#C3C3C3"],
+				Extended: true,
+				Layer: [
+					{ 
+						Name: "Band",
+						AllowTypes: { l: [0, 1]},
+					},
+					{
+						Name: "BandRight",
+						AllowTypes: { r: [0, 1]},
+						CopyLayerColor: "Band",
+					},
+					{ 
+						Name: "Face",
+						PoseMapping: {
+							...AssetPoseMapping.Bracelet,
+							BackCuffs: PoseType.HIDE,
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+						},
+						AllowTypes: { l: 0},
+					},
+					{
+						Name: "FaceRight",
+						PoseMapping: {
+							...AssetPoseMapping.Bracelet,
+							BackCuffs: PoseType.HIDE,
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+						},
+						AllowTypes: { r: 0},
+						CopyLayerColor: "Face",
+					},
+					{
+						Name: "Trim",
+						AllowTypes: { l: [0, 1]},
+						PoseMapping: {
+							...AssetPoseMapping.Bracelet,
+							BaseUpper: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "TrimRight",
+						AllowTypes: { r: [0, 1]},
+						CopyLayerColor: "Trim",
+						PoseMapping: {
+							...AssetPoseMapping.Bracelet,
+							BaseUpper: PoseType.HIDE,
+						}
+					},
+					{
+						Name: "CircleTrim",
+						PoseMapping: {
+							...AssetPoseMapping.Bracelet,
+							BackCuffs: PoseType.HIDE,
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+						},
+						AllowTypes: { l: 0},
+						CopyLayerColor: "Trim",
+					},
+					{
+						Name: "CircleTrimRight",
+						PoseMapping: {
+							...AssetPoseMapping.Bracelet,
+							BackCuffs: PoseType.HIDE,
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+						},
+						AllowTypes: { r: 0},
+						CopyLayerColor: "Trim",
+					},
+					{
+						Name: "SquareFace",
+						PoseMapping: {
+							...AssetPoseMapping.Bracelet,
+							BackCuffs: PoseType.HIDE,
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+						},
+						AllowTypes: { l: 1},
+						CopyLayerColor: "Face",
+					},
+					{
+						Name: "SquareFaceRight",
+						PoseMapping: {
+							...AssetPoseMapping.Bracelet,
+							BackCuffs: PoseType.HIDE,
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+						},
+						AllowTypes: { r: 1},
+						CopyLayerColor: "Face",
+					},
+					{
+						Name: "SquareTrim",
+						PoseMapping: {
+							...AssetPoseMapping.Bracelet,
+							BackCuffs: PoseType.HIDE,
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+						},
+						AllowTypes: { l: 1},
+						CopyLayerColor: "Trim",
+					},
+					{
+						Name: "SquareTrimRight",
+						PoseMapping: {
+							...AssetPoseMapping.Bracelet,
+							BackCuffs: PoseType.HIDE,
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+						},
+						AllowTypes: { r: 1},
+						CopyLayerColor: "Trim",
+					},
+				],
+			}
 		],
 		Color: [
 			"Default",

@@ -13856,6 +13856,22 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // Wristband
+		WristWatch: {
+			Archetype: ExtendedArchetype.MODULAR,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Left",
+					Key: "l",
+					Options: [{}, {}, {}], // Circle, Square, None
+				},
+				{
+					Name: "Right",
+					Key: "r",
+					Options: [{}, {}, {}], // Circle, Square, None
+				},
+			],
+		}, // WristWatch
 	}, //Bracelet
 	Garters: {
 		GarterBelt: {
