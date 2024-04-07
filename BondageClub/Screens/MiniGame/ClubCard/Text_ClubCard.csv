@@ -351,3 +351,15 @@ Title Big Baby,Big Baby
 Text Big Baby,+1 Money if opponent has more cards in their hand. Opponent draws a card when she enters your club.
 Title Fussy Baby,Fussy Baby
 Text Fussy Baby,Returns to hand when the opponent plays an Event and you gain 4 fame.
+Title Play Pen Purveyor,Play Pen Purveyor
+Text Play Pen Purveyor,Gain 3 fame when an ABDL Mommy enters your club. Gain 3 money when an ABDL Baby enters your club.
+Title Daycare Party,Daycare Party
+Text Daycare Party,Gain 4 Fame and draw a card for each ABDL Mommy present.
+Effect Daycare Party, Gained AMOUNT fame from the Daycare Party
+Title Nanny,Nanny
+Text Nanny,When an ABDL Baby enters your club, gain fame equal to your club level.
+Title Dommy Mommy,Dommy Mommy
+Text Dommy Mommy,+1 Fame for each ABDL Baby present. Gain 1 Fame for each member present when she enters your club.
+Title Contract Caretaker,Contract Caretaker
+Text Contract Caretaker,When a ABDL Baby enters your club, if opponent has more fame they don't gain fame at the end of their next turn
+Effect Contract Caretaker,No Fame is gained because of OPPONENTPLAYER Contract Caretaker.

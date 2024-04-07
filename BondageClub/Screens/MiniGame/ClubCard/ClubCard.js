@@ -168,6 +168,45 @@ var ClubCardList = [
 			if ((CCPlayer.Level != null) && (CCPlayer.Level >= 5)) ClubCardPlayerAddFame(CCPlayer, 2);
 		}
 	},
+	{
+		ID: 1018,
+		Name: "Play Pen Purveyor",
+		MoneyPerTurn: -1,
+		BeforeTurnEnd: function(CCPlayer) {
+			const abdlMommyPlayed = CCPlayer.CardsPlayedThisTurn.some(card => {
+				return card.Group?.includes("ABDLMommy");
+			});
+			if(abdlMommyPlayed) {
+				ClubCardPlayerAddFame(CCPlayer, 3);
+			}
+
+			const abdlBabyPlayed = CCPlayer.CardsPlayedThisTurn.some(card => {
+				return card.Group?.includes("ABDLBaby");
+			});
+			if(abdlBabyPlayed) {
+				ClubCardPlayerAddMoney(CCPlayer, 3)
+			}
+		}
+	},
+	{
+		ID: 1019,
+		Name: "Contract Caretaker",
+		FamePerTurn: 1,
+		MoneyPerTurn: -2,
+		AfterOpponentTurnEnd: function(CCPlayer) {              
+            const opponent = ClubCardGetOpponent(CCPlayer);  
+                                                                                             
+            const abdlBabyPlayed = opponent.CardsPlayedThisTurn.some(card => {
+                return card.Group?.includes("ABDLBaby");       
+            });                                                             
+                                                                             
+            if (abdlBabyPlayed && CCPlayer.Fame > opponent.Fame) {
+                ClubCardPlayerAddFame(CCPlayer, CCPlayer.LastFamePerTurn * -1);
+                CCPlayer.LastFamePerTurn = 0;                                   
+                ClubCardLogPublish("Effect Contract Caretaker", CCPlayer);
+            }                                                                   
+        }
+	},
 
 	// 2000 - Staff Members (Club employees that can be targetted by events)
 	{
@@ -766,6 +805,39 @@ var ClubCardList = [
 			if(playedAnEvent) {
 				ClubCardPlayerAddFame(cardOwner, 4);
 				ClubCardRemoveFromBoard(cardOwner, this);
+			}
+		}
+	},
+	{
+		ID: 10008,
+		Name: "Nanny",
+		FamePerTurn: 2,
+		RequiredLevel: 3,
+		Group: ["ABDLMommy"],
+		BeforeTurnEnd: function(CCPlayer) {
+			const abdlBabyPlayed = CCPlayer.CardsPlayedThisTurn.some(card => {
+				return card.Group?.includes("ABDLBaby");
+			});
+
+			if(abdlBabyPlayed) {
+				ClubCardPlayerAddMoney(CCPlayer, CCPlayer.Level)
+			}
+		}
+	},
+	{
+		ID: 10009,
+		Name: "Dommy Mommy",
+		FamePerTurn: 1,
+		MoneyPerTurn: -5,
+		RequiredLevel: 5,
+		Group: ["ABDLMommy","Dominant"],
+		BeforeTurnEnd: function(CCPlayer) {
+			const abdlBabyPlayed = CCPlayer.CardsPlayedThisTurn.some(card => {
+				return card.Group?.includes("ABDLBaby");
+			});
+
+			if(abdlBabyPlayed) {
+				ClubCardPlayerAddMoney(CCPlayer, CCPlayer.Level)
 			}
 		}
 	},
@@ -1501,8 +1573,21 @@ var ClubCardList = [
 			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
 			return true;
 		}
+	},
+	{
+		ID: 31007,
+		Name: "Daycare Party",
+		Type: "Event",
+		RequiredLevel: 4,
+		OnPlay: function(CCPlayer) {
+			let mommyCount = ClubCardGroupOnBoardCount(CCPlayer, "ABDLMommy");
+			ClubCardPlayerAddFame(CCPlayer, mommyCount * 4);
+			ClubCardPlayerDrawCard(CCPlayer, mommyCount);
+			if(mommyCount > 0) {
+				ClubCardLogPublish("Effect Daycare Party", CCPlayer, mommyCount);
+			}
+		}
 	}
-
 ];
 
 /**
