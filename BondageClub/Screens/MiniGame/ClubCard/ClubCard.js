@@ -172,7 +172,7 @@ var ClubCardList = [
 		ID: 1018,
 		Name: "Play Pen Purveyor",
 		MoneyPerTurn: -1,
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			const abdlMommyPlayed = CCPlayer.CardsPlayedThisTurn.some(card => {
 				return card.Group?.includes("ABDLMommy");
 			});
@@ -802,7 +802,7 @@ var ClubCardList = [
 		FamePerTurn: 2,
 		RequiredLevel: 3,
 		Group: ["ABDLMommy"],
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			const abdlBabyPlayed = CCPlayer.CardsPlayedThisTurn.some(card => {
 				return card.Group?.includes("ABDLBaby");
 			});
@@ -819,7 +819,7 @@ var ClubCardList = [
 		MoneyPerTurn: -5,
 		RequiredLevel: 5,
 		Group: ["ABDLMommy","Dominant"],
-		OnTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function(CCPlayer) {
 			const abdlBabyPlayed = CCPlayer.CardsPlayedThisTurn.some(card => {
 				return card.Group?.includes("ABDLBaby");
 			});
@@ -1571,7 +1571,9 @@ var ClubCardList = [
 			let mommyCount = ClubCardGroupOnBoardCount(CCPlayer, "ABDLMommy");
 			ClubCardPlayerAddFame(CCPlayer, mommyCount * 4);
 			ClubCardPlayerDrawCard(CCPlayer, mommyCount);
-			ClubCardLogPublish("Effect Daycare Party", CCPlayer, mommyCount);
+			if(mommyCount > 0) {
+				ClubCardLogPublish("Effect Daycare Party", CCPlayer, mommyCount);
+			}
 		}
 	}
 ];
