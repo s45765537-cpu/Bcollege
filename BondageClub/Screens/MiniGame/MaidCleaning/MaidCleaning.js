@@ -80,6 +80,19 @@ function MaidCleaningRun() {
 	MaidCleaningDoMove();
 	DrawCharacter(Player, MaidCleaningPlayerX, MaidCleaningPlayerY, 2, false);
 	MaidCleaningDrawSpots();
+
+	const BlindLevel = Player.GetBlindLevel();
+	if (BlindLevel > 0) {
+		const r0 = 1000 - BlindLevel * 300;
+		const Grad = MainCanvas.createRadialGradient(
+			MaidCleaningPlayerX + 500, MaidCleaningPlayerY + 500, r0,
+			MaidCleaningPlayerX + 500, MaidCleaningPlayerY + 500, r0 + 100);
+		Grad.addColorStop(0, 'rgba(0,0,0,0)');
+		Grad.addColorStop(1, '#000');
+		MainCanvas.fillStyle = Grad;
+		MainCanvas.fillRect(0, 0, 2000, 1000);
+	}
+
 	if (MiniGameRunning()) DrawProgressBar(0, 950, 2000, 50, (MiniGameTimer - Time) / 600);
 	else DrawRect(0, 950, 2000, 50, "white");
 	if (!MiniGameStarted) DrawText(TextGet("Start"), 1000, 977, "black", "white");
