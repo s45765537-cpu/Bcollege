@@ -193,7 +193,19 @@ var ClubCardList = [
 		Name: "Contract Caretaker",
 		FamePerTurn: 1,
 		MoneyPerTurn: -2,
-		/* TODO: Needs effect */
+		AfterOpponentTurnEnd: function(CCPlayer) {              
+            const opponent = ClubCardGetOpponent(CCPlayer);  
+                                                                                             
+            const abdlBabyPlayed = opponent.CardsPlayedThisTurn.some(card => {
+                return card.Group?.includes("ABDLBaby");       
+            });                                                             
+                                                                             
+            if (abdlBabyPlayed && CCPlayer.Fame > opponent.Fame) {
+                ClubCardPlayerAddFame(CCPlayer, CCPlayer.LastFamePerTurn * -1);
+                CCPlayer.LastFamePerTurn = 0;                                   
+                ClubCardLogPublish("Effect Contract Caretaker", CCPlayer);
+            }                                                                   
+        }
 	},
 
 	// 2000 - Staff Members (Club employees that can be targetted by events)
