@@ -12040,6 +12040,132 @@ var AssetFemale3DCG = [
 				DefaultColor: ["Default", "#151515"],
 				Layer: [{ Name: "Lace" }, { Name: "Bands" }],
 			},
+			{
+				Name: "WristWatch",
+				Value: 20,
+				Priority: 29,
+				PoseMapping: {
+					...AssetPoseMapping.Bracelet,
+					BackCuffs: PoseType.HIDE,
+				},
+				DefaultColor: ["#270D8B","#0F0F0F","#C3C3C3"],
+				Extended: true,
+				Layer: [
+					{ 
+						Name: "Band",
+						AllowTypes: { l: [0, 1]},
+					},
+					{
+						Name: "BandRight",
+						AllowTypes: { r: [0, 1]},
+						CopyLayerColor: "Band",
+					},
+					{ 
+						Name: "Face",
+						PoseMapping: {
+							...AssetPoseMapping.Bracelet,
+							BackCuffs: PoseType.HIDE,
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+						},
+						AllowTypes: { l: 0},
+					},
+					{
+						Name: "FaceRight",
+						PoseMapping: {
+							...AssetPoseMapping.Bracelet,
+							BackCuffs: PoseType.HIDE,
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+						},
+						AllowTypes: { r: 0},
+						CopyLayerColor: "Face",
+					},
+					{
+						Name: "Trim",
+						AllowTypes: { l: [0, 1]},
+						PoseMapping: {
+							...AssetPoseMapping.Bracelet,
+							BaseUpper: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "TrimRight",
+						AllowTypes: { r: [0, 1]},
+						CopyLayerColor: "Trim",
+						PoseMapping: {
+							...AssetPoseMapping.Bracelet,
+							BaseUpper: PoseType.HIDE,
+						}
+					},
+					{
+						Name: "CircleTrim",
+						PoseMapping: {
+							...AssetPoseMapping.Bracelet,
+							BackCuffs: PoseType.HIDE,
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+						},
+						AllowTypes: { l: 0},
+						CopyLayerColor: "Trim",
+					},
+					{
+						Name: "CircleTrimRight",
+						PoseMapping: {
+							...AssetPoseMapping.Bracelet,
+							BackCuffs: PoseType.HIDE,
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+						},
+						AllowTypes: { r: 0},
+						CopyLayerColor: "Trim",
+					},
+					{
+						Name: "SquareFace",
+						PoseMapping: {
+							...AssetPoseMapping.Bracelet,
+							BackCuffs: PoseType.HIDE,
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+						},
+						AllowTypes: { l: 1},
+						CopyLayerColor: "Face",
+					},
+					{
+						Name: "SquareFaceRight",
+						PoseMapping: {
+							...AssetPoseMapping.Bracelet,
+							BackCuffs: PoseType.HIDE,
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+						},
+						AllowTypes: { r: 1},
+						CopyLayerColor: "Face",
+					},
+					{
+						Name: "SquareTrim",
+						PoseMapping: {
+							...AssetPoseMapping.Bracelet,
+							BackCuffs: PoseType.HIDE,
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+						},
+						AllowTypes: { l: 1},
+						CopyLayerColor: "Trim",
+					},
+					{
+						Name: "SquareTrimRight",
+						PoseMapping: {
+							...AssetPoseMapping.Bracelet,
+							BackCuffs: PoseType.HIDE,
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+						},
+						AllowTypes: { r: 1},
+						CopyLayerColor: "Trim",
+					},
+				],
+			}
 		],
 		Color: [
 			"Default",
@@ -14299,6 +14425,9 @@ var AssetFemale3DCG = [
 						CopyLayerColor: "Main",
 						ShowForAttribute: ["NoEars"],
 					},
+					{
+						Name: "MainTip",
+					}
 				],
 			},
 		],
@@ -17017,6 +17146,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Marks",
 						AllowColorize: false,
+						Priority: 8,
 					},
 					{
 						Name: "Chain"
@@ -17639,6 +17769,53 @@ var AssetFemale3DCG = [
 					{ Name: "Buckle" },
 				],
 			},
+			{
+				Name: "FullCasingCage",
+				Gender: "M",
+				Fetish: ["Metal"],
+				Prerequisite: [
+					"AccessVulva",
+					"HasPenis",
+					"AccessFullPenis",
+					"NoErection",
+				],
+				Value: 40,
+				Difficulty: 50,
+				Effect: [E.Chaste],
+				Block: ["ItemVulvaPiercings"],
+				Hide: ["Pussy"],
+				Attribute: ["CageFlat"],
+				PoseMapping: {
+					...AssetPoseMapping.ItemVulva,
+					Kneel: PoseType.DEFAULT,
+				},
+				DefaultColor: ["Default","Default","#921732","#C3C3C3","Default"],
+				AllowLock: true,
+				DrawLocks: false,
+				Left: 200,
+				Top: 410,
+				Layer: [
+					{ 
+						Name: "Cage"
+					},
+					{
+						Name: "Ring"
+					},
+					{
+						Name: "Face"
+					},
+					{
+						Name: "Ears"
+					},
+					{
+						Name: "Mouth"
+					},
+					{
+						Name: "Outline",
+						AllowColorize: false,
+					}
+				],
+			},
 		],
 		Color: [
 			"Default",
@@ -17935,6 +18112,46 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "CockRingLeash",
+				Gender: "M",
+				Value: 10,
+				Left: 200,
+				Top: 410,
+				Prerequisite: ["AccessVulva", "HasPenis"],
+				AllowExpression: ["Hard"],
+				Priority: 10,
+				PoseMapping: {
+					...AssetPoseMapping.ItemVulva,
+					Kneel: PoseType.DEFAULT,
+				},
+				DefaultColor: ["#A2A2A2","#808080","#2C2C2C"],
+				AllowLock: true,
+				DrawLocks: true,
+				Effect: [E.Leash],
+				Layer: [
+					{
+						Name: "Lock",
+						LockLayer: true,
+						AllowColorize: false,
+					},
+					{
+						Name: "Base",
+						MirrorExpression: "Pussy"
+					},
+					{
+						Name: "Leash",
+						Top: 400,
+						Left: 49,
+					},
+					{
+						Name: "Handle",
+						Top: 400,
+						Left: 49,
+					}
+				],
+			},
+
 		],
 		Color: [
 			"Default",

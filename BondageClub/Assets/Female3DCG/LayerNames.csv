@@ -6,6 +6,9 @@ BraceletLaceBandsBands,Bands
 BraceletLaceBandsLace,Lace
 BraceletSpikeBandsBands,Bands
 BraceletSpikeBandsSpikes,Spikes
+BraceletWristWatchBand,Band
+BraceletWristWatchFace,Face
+BraceletWristWatchTrim,Trim
 BraCuteBikini1Main,Main
 BraCuteBikini1Sides,Sides
 BraDominatrixLeotardBase,Leather
@@ -413,6 +416,8 @@ HairFrontHairFront51Front,Front
 HairFrontHairFront51Main,Main
 HairFrontHairFront52bFade,Fade
 HairFrontHairFront52bMain,Main
+HairFrontHairFront56Main,Main
+HairFrontHairFront56MainTip,Tips
 HatBallCapBackButton,Button
 HatBallCapBackPanelLeft,Panel
 HatBallCapBackSideLeft,Side
@@ -1831,6 +1836,11 @@ ItemVulvaInflatableVibratingPantiesBelt, Belt
 ItemVulvaInflatableVibratingPantiesLock, Lock
 ItemVulvaInflatableVibratingPantiesValve, Valve
 ItemVulvaInflatableVibratingPantiesVibe, Butterfly Vibe
+ItemVulvaFullCasingCageCage,Cage
+ItemVulvaFullCasingCageRing,Ring
+ItemVulvaFullCasingCageFace,Face
+ItemVulvaFullCasingCageEars,Ears
+ItemVulvaFullCasingCageMouth,Mouth
 ItemVulvaPiercingsClitRingLeash,Leash
 ItemVulvaPiercingsClitRingRing,Ring
 ItemVulvaPiercingsRoundClitPiercingBell,Bell
@@ -1847,6 +1857,10 @@ ItemVulvaPiercingsVibeEggGlansEgg,Vibe Egg
 ItemVulvaPiercingsVibeEggGlansStrap,Strap
 ItemVulvaPiercingsVibeHeartClitPiercingHeart,Heart
 ItemVulvaPiercingsVibeHeartClitPiercingRing,Ring
+ItemVulvaPiercingsCockRingLeashBase,Ring
+ItemVulvaPiercingsCockRingLeashLeash,Leash
+ItemVulvaPiercingsCockRingLeashHandle,Handle
+ItemVulvaPiercingsCockRingLeashLock,Lock
 ItemVulvaPlasticChastityCage1Cage,Cage
 ItemVulvaPlasticChastityCage1Lock,Lock
 ItemVulvaPlasticChastityCage1Penis,Penis
