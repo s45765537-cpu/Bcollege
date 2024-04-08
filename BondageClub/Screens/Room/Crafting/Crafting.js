@@ -832,7 +832,7 @@ function CraftingLoadServer(Packet) {
 		}
 
 		// Make sure that the item is a valid craft
-		switch (CraftingValidate(item)) {
+		switch (CraftingValidate(item, undefined, undefined, true)) {
 			case CraftingStatusType.OK:
 				Player.Crafting.push(item);
 				break;
@@ -1341,18 +1341,29 @@ const CraftingValidationRecord = {
 		StatusCode: CraftingStatusType.ERROR,
 	},
 	Item: {
-		Validate: (c, a) => Player.Inventory.some((i) => i.Name === c.Item),
+		Validate: (c, a, checkPlayerInventory=false) => {
+			if (checkPlayerInventory) {
+				return Player.Inventory.some((i) => i.Name === c.Item);
+			} else {
+				return Asset.some((i) => i.Name === c.Item);
+			}
+		},
 		GetDefault: (c, a) => null,
 		StatusCode: CraftingStatusType.CRITICAL_ERROR,
 	},
 	Lock: {
-		Validate: function (c, a) {
+		Validate: function (c, a, checkPlayerInventory=false) {
 			if ((a != null) && (!a.AllowLock)) {
 				return (c.Lock === "");
 			} else if (c.Lock === "") {
 				return true;
+			}
+
+			const isValidLock = CraftingLockList.includes(c.Lock);
+			if (checkPlayerInventory) {
+				return isValidLock && Player.Inventory.some((i) => i.Name === c.Lock);
 			} else {
-				return CraftingLockList.includes(c.Lock) && Player.Inventory.some((i) => i.Name === c.Lock);
+				return isValidLock;
 			}
 		},
 		GetDefault: (c, a) => "",
@@ -1524,9 +1535,10 @@ const CraftingValidationRecord = {
  * @param {CraftingItem} Craft - The crafted item properties or `null`
  * @param {Asset | null} asset - The matching Asset. Will be extracted from the player inventory if `null`
  * @param {boolean} Warn - Whether a warning should logged whenever the crafting validation fails
+ * @param {boolean} checkPlayerInventory - Whether or not the player must own the crafted item's underlying asset
  * @return {CraftingStatusType} - One of the {@link CraftingStatusType} status codes; 0 denoting an unrecoverable validation error
  */
-function CraftingValidate(Craft, asset=null, Warn=true) {
+function CraftingValidate(Craft, asset=null, Warn=true, checkPlayerInventory=false) {
 	if (Craft == null) {
 		return CraftingStatusType.CRITICAL_ERROR;
 	}
@@ -1556,12 +1568,12 @@ function CraftingValidate(Craft, asset=null, Warn=true) {
 	 * can't properly validate them. Note that this will introduce the potential for false negatives.
 	 */
 	for (const [AttrName, {Validate, GetDefault, StatusCode}] of Object.entries(CraftingValidationRecord)) {
-		if (!assets.some(a => Validate(Craft, a))) {
+		if (!assets.some(a => Validate(Craft, a, checkPlayerInventory))) {
 			const AttrValue = (typeof Craft[AttrName] === "string") ? `"${Craft[AttrName]}"` : Craft[AttrName];
 			if (Warn) {
 				console.warn(`Invalid "Craft.${AttrName}" value for crafted item "${Name}": ${AttrValue}`);
 			}
-			Craft[AttrName] = GetDefault(Craft, asset);
+			Craft[AttrName] = GetDefault(Craft, asset, checkPlayerInventory);
 			StatusMap.set(AttrName, StatusCode);
 		} else {
 			StatusMap.set(AttrName, CraftingStatusType.OK);
@@ -1573,7 +1585,7 @@ function CraftingValidate(Craft, asset=null, Warn=true) {
 	if (
 		asset != null
 		&& StatusMap.get("Item") === CraftingStatusType.CRITICAL_ERROR
-		&& Player.Inventory.some((i) => i.Name === asset.Name)
+		&& (!checkPlayerInventory || Player.Inventory.some((i) => i.Name === asset.Name))
 	) {
 		StatusMap.set("Item", CraftingStatusType.ERROR);
 		Craft.Item = asset.Name;

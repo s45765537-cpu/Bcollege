@@ -3552,8 +3552,8 @@ interface CraftingItemSelected {
  * @property {CraftingStatusType} - The {@link CraftingStatusType} code for when the validation fails
  */
 interface CratingValidationStruct {
-	Validate: (Craft: CraftingItem, Asset: Asset | null) => boolean;
-	GetDefault: (Craft: CraftingItem, Asset: Asset | null) => any;
+	Validate: (craft: CraftingItem, asset: Asset | null, checkPlayerInventory?: boolean) => boolean;
+	GetDefault: (craft: CraftingItem, asset: Asset | null, checkPlayerInventory?: boolean) => any;
 	StatusCode: CraftingStatusType;
 }
 

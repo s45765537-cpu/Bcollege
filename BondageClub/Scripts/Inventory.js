@@ -586,7 +586,7 @@ function InventoryCraft(Source, Target, GroupName, Craft, Refresh, ApplyColor=tr
 	// Gets the item first
 	if ((Source == null) || (Target == null) || (GroupName == null)) return;
 	let Item = InventoryGet(Target, GroupName);
-	if ((Item == null) || !CraftingValidate(Craft, Item.Asset, CraftWarn)) return;
+	if ((Item == null) || !CraftingValidate(Craft, Item.Asset, CraftWarn, Source.IsPlayer())) return;
 	if (Item.Craft == null) Item.Craft = Craft;
 	if (Item.Property == null) Item.Property = {};
 
