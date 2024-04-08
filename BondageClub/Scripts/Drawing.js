@@ -1363,6 +1363,7 @@ function DrawProcess(time) {
 			&& bgName !== "Sheet"
 			&& CurrentScreen !== "Crafting"
 			&& CurrentScreen !== "Shop2"
+			&& CurrentScreen !== "MaidCleaning" // does it's own darkening
 		);
 
 		let backgroundURL = "";

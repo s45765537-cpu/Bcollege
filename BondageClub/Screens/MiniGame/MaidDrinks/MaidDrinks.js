@@ -174,12 +174,27 @@ function MaidDrinksRun() {
 	if (MiniGameRunning()) {
 		MaidDrinksCustomers();
 		MaidDrinksDrawIcons();
+	}
+
+	// Draw a gradient over the icons when the player in blindfolded
+	const BlindLevel = Player.GetBlindLevel();
+	if (BlindLevel > 0) {
+		// Maximum blind level is 3, tab bar is at 750. This means at maximum blindness, drinks will appear just before the tab bar!
+		const y1 = BlindLevel * 250;
+		const Grad = MainCanvas.createLinearGradient(0, y1 - 50, 0, y1);
+		Grad.addColorStop(0, '#000');
+		Grad.addColorStop(1, 'rgba(0,0,0,0)');
+		MainCanvas.fillStyle = Grad;
+		MainCanvas.fillRect(1200, 0, 800, y1);
+	}
+
+	// Draw the UI
+	if (MiniGameRunning()) {
 		DrawProgressBar(1200, 975, 800, 25, MiniGameProgress);
 	} else if (!MiniGameStarted) {
 		DrawText(TextGet(CommonIsMobile ? "StartMobile" : "Start"), 1600, 910, "white");
 		DrawText(TextGet("Difficulty") + " " + TextGet(MiniGameDifficultyMode), 1600, 955, "white");
-	}
-	else {
+	} else {
 		if ((MiniGameProgress >= 100) && MiniGamePerfect) DrawText(TextGet("Perfect"), 1600, 150, "white");
 		if ((MiniGameProgress >= 100) && !MiniGamePerfect) DrawText(TextGet("Victory"), 1600, 150, "white");
 		if (MiniGameProgress <= 0) DrawText(TextGet("Defeat"), 1600, 150, "white");
