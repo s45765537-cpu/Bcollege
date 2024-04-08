@@ -96,7 +96,7 @@ function MaidQuartersPlayerInDrinksUniform() {
 	const legsRestrained = (CharacterAppearanceGetCurrentValue(Player, "ItemLegs", "ID") != "None");
 	const armsRestrained = (CharacterAppearanceGetCurrentValue(Player, "ItemArms", "ID") != "None");
 	const hasTray = (InventoryGet(Player, "ItemMisc") && InventoryGet(Player, "ItemMisc").Asset.Name == "ServingTray");
-	return (MaidQuartersPlayerInMaidUniform() && legsRestrained && armsRestrained && hasTray && Player.CanWalk() && !Player.CanTalk() && !Player.IsBlind());
+	return (MaidQuartersPlayerInMaidUniform() && legsRestrained && armsRestrained && hasTray && Player.CanWalk() && !Player.CanTalk());
 }
 /**
  * Checks, if the player can leave the maid to wear her uniform for the 'serve drink job'
@@ -114,7 +114,7 @@ function MaidQuartersPlayerInCleaningUniform() {
 	const legsRestrained = (CharacterAppearanceGetCurrentValue(Player, "ItemLegs", "ID") != "None");
 	const armsRestrained = (CharacterAppearanceGetCurrentValue(Player, "ItemArms", "ID") != "None");
 	const hasDusterGag = (CharacterAppearanceGetCurrentValue(Player, "ItemMouth", "Name") == "DusterGag" || CharacterAppearanceGetCurrentValue(Player, "ItemMouth2", "Name") == "DusterGag" || CharacterAppearanceGetCurrentValue(Player, "ItemMouth3", "Name") == "DusterGag");
-	return (MaidQuartersPlayerInMaidUniform() && feetRestrained && legsRestrained && armsRestrained && hasDusterGag && !Player.IsBlind());
+	return (MaidQuartersPlayerInMaidUniform() && feetRestrained && legsRestrained && armsRestrained && hasDusterGag);
 }
 /**
  * Checks, if the player can leave the maid to wear her uniform for the 'clean room job'
