@@ -18101,7 +18101,7 @@ var AssetFemale3DCG = [
 					...AssetPoseMapping.ItemVulva,
 					Kneel: PoseType.DEFAULT,
 				},
-				DefaultColor: ["#A2A2A2","#808080","#2C2C2C"],
+				DefaultColor: ["#A2A2A2","#787878","#2C2C2C"],
 				AllowLock: true,
 				DrawLocks: true,
 				Effect: [E.Leash],
@@ -18119,11 +18119,21 @@ var AssetFemale3DCG = [
 						Name: "Leash",
 						Top: 400,
 						Left: 49,
+						PoseMapping: {
+							...AssetPoseMapping.ItemVulva,
+							Kneel: "Kneel",
+							KneelingSpread: "Kneel",
+						}
 					},
 					{
 						Name: "Handle",
 						Top: 400,
 						Left: 49,
+						PoseMapping: {
+							...AssetPoseMapping.ItemVulva,
+							Kneel: "Kneel",
+							KneelingSpread: "Kneel",
+						}
 					}
 				],
 			},
