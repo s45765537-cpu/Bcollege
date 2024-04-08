@@ -41683,7 +41683,11 @@ var AssetFemale3DCG = [
 					"ItemVulva",
 					"ItemVulvaPiercings",
 				],
-				SetPose: ["BaseUpper"],
+				SetPose: [
+					"BaseUpper",
+					"BackBoxTie",
+					"BackElbowTouch",
+				],
 				Layer: [
 					{ Name: "Front", Priority: 48 },
 					{ Name: "Back", Priority: 3, CopyLayerColor: "Front" },

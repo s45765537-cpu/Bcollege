@@ -510,9 +510,10 @@ var InventoryPrerequisiteConflicts = {
  * @param {AssetPrerequisite | readonly AssetPrerequisite[]} [prerequisites=asset.Prerequisite] - An array of prerequisites or a string for a single
  * prerequisite. If nothing is provided, the asset's default prerequisites will be used
  * @param {boolean} [setDialog=true] - If TRUE, set the screen dialog message at the same time
+ * @param {readonly AssetPoseName[]} [allowActivePose=asset.AllowActivePose]
  * @returns {boolean} - TRUE if the item can be added to the character
  */
-function InventoryAllow(C, asset, prerequisites = asset.Prerequisite, setDialog = true) {
+function InventoryAllow(C, asset, prerequisites = asset.Prerequisite, setDialog = true, allowActivePose = asset.AllowActivePose) {
 	// Prerequisite can be a string
 	if (typeof prerequisites === "string") {
 		prerequisites = [prerequisites];
@@ -530,12 +531,12 @@ function InventoryAllow(C, asset, prerequisites = asset.Prerequisite, setDialog 
 	PoseRefresh(checkCharacter);
 
 	let Msg = "";
-	if (!asset.SetPose) {
+	const posePrereq = /** @type {PosePrerequisite[]} */(prerequisites.filter(p => p.slice(3) in PoseRecord));
+	if (posePrereq.length === 0) {
 		prerequisites.some(prereq => (Msg = InventoryPrerequisiteMessage(checkCharacter, prereq, asset)));
 	} else {
 		// In the case of poses the `SetPose`-based prerequisite can fall back to any `AllowActivePose` member of the same category
-		const poseMapping = PoseToMapping.Array(asset.AllowActivePose, "Assset.AllowActivePose");
-		const posePrereq = /** @type {PosePrerequisite[]} */(prerequisites.filter(p => p.slice(3) in PoseRecord));
+		const poseMapping = PoseToMapping.Array(allowActivePose, "Assset.AllowActivePose");
 		for (const prereq of prerequisites) {
 			if (CommonIncludes(posePrereq, prereq)) {
 				const setPose = PoseRecord[/** @type {AssetPoseName} */(prereq.slice(3))];
