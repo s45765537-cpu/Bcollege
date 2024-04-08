@@ -17637,6 +17637,53 @@ var AssetFemale3DCG = [
 					{ Name: "Buckle" },
 				],
 			},
+			{
+				Name: "FullCasingCage",
+				Gender: "M",
+				Fetish: ["Metal"],
+				Prerequisite: [
+					"AccessVulva",
+					"HasPenis",
+					"AccessFullPenis",
+					"NoErection",
+				],
+				Value: 40,
+				Difficulty: 50,
+				Effect: [E.Chaste],
+				Block: ["ItemVulvaPiercings"],
+				Hide: ["Pussy"],
+				Attribute: ["CageFlat"],
+				PoseMapping: {
+					...AssetPoseMapping.ItemVulva,
+					Kneel: PoseType.DEFAULT,
+				},
+				DefaultColor: ["Default","Default","#921732","#C3C3C3","Default"],
+				AllowLock: true,
+				DrawLocks: false,
+				Left: 200,
+				Top: 410,
+				Layer: [
+					{ 
+						Name: "Cage"
+					},
+					{
+						Name: "Ring"
+					},
+					{
+						Name: "Face"
+					},
+					{
+						Name: "Ears"
+					},
+					{
+						Name: "Mouth"
+					},
+					{
+						Name: "Outline",
+						AllowColorize: false,
+					}
+				],
+			},
 		],
 		Color: [
 			"Default",
