@@ -7801,16 +7801,28 @@ var AssetFemale3DCG = [
 			{
 				Name: "LegFur",
 				Value: 5,
-				DefaultColor: ["#808080", "#808080"],
 				BuyGroup: "LegFur",
+				DefaultColor: ["Default"],
+				PoseMapping: {
+					...AssetPoseMapping.RightAnklet,
+					LegsClosed: "LegsClosed",
+					Spread: "Spread",
+					Kneel: "Kneel",
+					KneelingSpread: "KneelingSpread",
+				},
 				Random: true,
 				Extended: true,
-				PoseMapping: { ...AssetPoseMapping.RightAnklet },
 				Layer: [
 					{
 						Name: "Ankle",
 						AllowTypes: { n: 1 },
 						Priority: 24,
+						PoseMapping: {
+							LegsClosed: "LegsClosed",
+							Spread: "Spread",
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+						},
 						AllowColorize: true,
 					},
 					{
@@ -7860,15 +7872,27 @@ var AssetFemale3DCG = [
 				Name: "LegFur",
 				Value: 5,
 				BuyGroup: "LegFur",
-				DefaultColor: ["#808080", "#808080"],
+				DefaultColor: ["Default"],
+				PoseMapping: {
+					...AssetPoseMapping.LeftAnklet,
+					LegsClosed: "LegsClosed",
+					Spread: "Spread",
+					Kneel: "Kneel",
+					KneelingSpread: "KneelingSpread",
+				},
 				Random: true,
 				Extended: true,
-				PoseMapping: { ...AssetPoseMapping.LeftAnklet },
 				Layer: [
 					{
 						Name: "Ankle",
 						AllowTypes: { n: 1 },
 						Priority: 24,
+						PoseMapping: {
+							LegsClosed: "LegsClosed",
+							Spread: "Spread",
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+						},
 						AllowColorize: true,
 					},
 					{
