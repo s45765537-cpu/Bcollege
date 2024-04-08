@@ -17015,6 +17015,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Marks",
 						AllowColorize: false,
+						Priority: 8,
 					},
 					{
 						Name: "Chain"
@@ -17931,6 +17932,46 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "CockRingLeash",
+				Gender: "M",
+				Value: 10,
+				Left: 200,
+				Top: 410,
+				Prerequisite: ["AccessVulva", "HasPenis"],
+				AllowExpression: ["Hard"],
+				Priority: 10,
+				PoseMapping: {
+					...AssetPoseMapping.ItemVulva,
+					Kneel: PoseType.DEFAULT,
+				},
+				DefaultColor: ["#A2A2A2","#808080","#2C2C2C"],
+				AllowLock: true,
+				DrawLocks: true,
+				Effect: [E.Leash],
+				Layer: [
+					{
+						Name: "Lock",
+						LockLayer: true,
+						AllowColorize: false,
+					},
+					{
+						Name: "Base",
+						MirrorExpression: "Pussy"
+					},
+					{
+						Name: "Leash",
+						Top: 400,
+						Left: 49,
+					},
+					{
+						Name: "Handle",
+						Top: 400,
+						Left: 49,
+					}
+				],
+			},
+
 		],
 		Color: [
 			"Default",
