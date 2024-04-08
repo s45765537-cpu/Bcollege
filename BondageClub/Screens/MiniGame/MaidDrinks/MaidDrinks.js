@@ -52,7 +52,7 @@ function MaidDrinksLoad() {
 	MaidDrinksCustomerRightTimer = -1;
 	MaidDrinksCustomerRight = CharacterLoadNPC("NPC_Customer_Right");
 	CharacterAppearanceFullRandom(MaidDrinksCustomerRight);
-	MaidDrinksGenerateMove(5000);
+	MaidDrinksGenerateMove(0);
 	if (MiniGameDifficultyMode == "Easy") MiniGameDifficultyRatio = 1.0;
 	if (MiniGameDifficultyMode == "Normal") MiniGameDifficultyRatio = 1.5;
 	if (MiniGameDifficultyMode == "Hard") MiniGameDifficultyRatio = 2.0;
@@ -158,12 +158,7 @@ function MaidDrinksRun() {
 	DrawRect(1200, 0, 800, 1000, "Black");
 
 	// Increments the timer (altered by the difficulty, the more difficult, the faster it goes)
-	if (MiniGameTimer >= 5000) MiniGameTimer = MiniGameTimer + Math.round(TimerRunInterval * MiniGameDifficultyRatio);
-	else MiniGameTimer = MiniGameTimer + Math.round(TimerRunInterval);
-
-	// Starts the mini game at an even level
-	if ((MiniGameProgress == -1) && (MiniGameTimer >= 5000))
-		MiniGameProgress = 50;
+	if (MiniGameStarted) MiniGameTimer = MiniGameTimer + Math.round(TimerRunInterval * MiniGameDifficultyRatio);
 
 	// Draw the mini game icons and rectangles
 	MaidDrinksDrawBar(0);
@@ -176,16 +171,13 @@ function MaidDrinksRun() {
 		MaidDrinksGenerateMove(MiniGameTimer);
 
 	// Draw the mini game icons and bottom info when the game is running
-	if (!MiniGameEnded) {
-		if (MiniGameTimer >= 5000) {
-			MaidDrinksCustomers();
-			MaidDrinksDrawIcons();
-			DrawProgressBar(1200, 975, 800, 25, MiniGameProgress);
-		}
-		else {
-			DrawText(TextGet("StartsIn") + " " + (5 - Math.floor(MiniGameTimer / 1000)).toString(), 1600, 910, "white");
-			DrawText(TextGet("Difficulty") + " " + TextGet(MiniGameDifficultyMode), 1600, 955, "white");
-		}
+	if (MiniGameRunning()) {
+		MaidDrinksCustomers();
+		MaidDrinksDrawIcons();
+		DrawProgressBar(1200, 975, 800, 25, MiniGameProgress);
+	} else if (!MiniGameStarted) {
+		DrawText(TextGet(CommonIsMobile ? "StartMobile" : "Start"), 1600, 910, "white");
+		DrawText(TextGet("Difficulty") + " " + TextGet(MiniGameDifficultyMode), 1600, 955, "white");
 	}
 	else {
 		if ((MiniGameProgress >= 100) && MiniGamePerfect) DrawText(TextGet("Perfect"), 1600, 150, "white");
@@ -281,8 +273,13 @@ function MaidDrinksDoMove(MoveType) {
 function MaidDrinksKeyDown(event) {
 	if (event.repeat) return false;
 
+	if (!MiniGameStarted) {
+		MiniGameStarted = true;
+		MiniGameProgress = 50;
+		return true;
+	}
 	// If the game has started, we check the key pressed and send it as a move
-	if ((MiniGameTimer > 5000) && (MiniGameProgress != -1) && !MiniGameEnded) {
+	else if (!MiniGameEnded) {
 		const MoveType = MaidDrinksKeys.findIndex(k => k === event.key.toUpperCase());
 		MaidDrinksDoMove(MoveType);
 		return true;
@@ -304,8 +301,15 @@ function MaidDrinksClick() {
 	if (MiniGameEnded && (MouseX >= 350) && (MouseX <= 849) && (MouseY >= 0) && (MouseY <= 999))
 		MiniGameEnd();
 
+	// Only use mouse clicks on mobile
+	if (!CommonIsMobile) return;
+
+	if (!MiniGameStarted) {
+		MiniGameStarted = true;
+		MiniGameProgress = 50;
+	}
 	// If the game has started, we check the click position and send it as a move
-	if ((MiniGameTimer > 5000) && (MiniGameProgress != -1) && !MiniGameEnded && CommonIsMobile) {
+	else if (!MiniGameEnded) {
 		var MoveType = -1;
 		if (MouseIn(1200, 700, 200, 150)) MoveType = 0;
 		if (MouseIn(1400, 700, 200, 150)) MoveType = 1;

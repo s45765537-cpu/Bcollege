@@ -13,9 +13,9 @@ EscapeFail,,,(She releases you.)  I'm sorry you've failed.  I hope you will try 
 10,,Is there a reward for escaping?,"It's a race against the clock.  The faster you escape, the higher the salary.  Your attempt will certainly please our customers.",
 10,0,That's all I wanted to know.,(She smiles.)  Are you ready to try a magical escape challenge then?,
 20,21,An easy one please.,(She nods.)  You'll have 2 minutes to escape.  Are you ready to begin?  (She opens a box of bondage gear.),SetTime(120)
-20,21,A regular one I guess.,(She smiles.)  You'll have 90 seconds to escape.  Are you ready to begin?  (She opens a box of bondage gear.),SetTime(90)
-20,21,Give me a true challenge.,(She grins.)  You'll have 1 minute to escape.  Are you ready to begin?  (She opens a box of bondage gear.),SetTime(60)
-20,21,Send me to magic hell.,(She smirks.)  You'll have 45 seconds to escape.  Are you ready to begin?  (She opens a box of bondage gear.),SetTime(45)
+20,21,A regular one I guess.,(She smiles.)  You'll have 80 seconds to escape.  Are you ready to begin?  (She opens a box of bondage gear.),SetTime(80)
+20,21,Give me a true challenge.,(She grins.)  You'll have 45 seconds to escape.  Are you ready to begin?  (She opens a box of bondage gear.),SetTime(45)
+20,21,Send me to magic hell.,(She smirks.)  You'll have 30 seconds to escape.  Are you ready to begin?  (She opens a box of bondage gear.),SetTime(30)
 21,,I'm ready!  (Start the challenge.),,Start()
 21,0,Wait!  I need more time.,(She sighs.)  Is there anything else you need from me?,
 20,0,I can't right now.,(She nods.)  No problem.  Is there anything else you need from me?,

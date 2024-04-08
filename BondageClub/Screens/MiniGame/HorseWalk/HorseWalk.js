@@ -143,9 +143,8 @@ function HorseWalkLoad() {
 	} else if (MiniGameDifficultyMode == "WhipPony") {
 		HorseWalkHitPony = 0;
 		HorseWalkHitTrainer = 0;
-		HorseWalkEventTimer = CommonTime();
+		HorseWalkEventTimer = -1;
 	}
-	MiniGameTimer = CommonTime() + 40000;
 	HorseWalkSpeed = 1 + SkillGetLevel(Player, "Dressage")/5;
 }
 
@@ -157,7 +156,7 @@ function HorseWalkRun() {
 
 	// The game ends in victory if the time runs out
 	var Time = CommonTime();
-	if (!MiniGameEnded && (Time >= MiniGameTimer)) {
+	if (MiniGameRunning() && (Time >= MiniGameTimer)) {
 		if (MiniGameDifficultyMode == "Carrot") {
 			if (HorseWalkCollectedCarrots > HorseWalkCollectedCrops) {
 				let HorseWalkSkillProgress = (HorseWalkCollectedCarrots - HorseWalkCollectedCrops) * 5;
@@ -196,13 +195,13 @@ function HorseWalkRun() {
 			}
 		}
 	}
-	if (Time >= MiniGameTimer + 5000) MiniGameEnd();
+	if (MiniGameStarted && Time >= MiniGameTimer + 5000) MiniGameEnd();
 
-	if (!MiniGameEnded) DrawProgressBar(0, 950, 2000, 50, (MiniGameTimer - Time) / 400);
+	if (MiniGameRunning()) DrawProgressBar(0, 950, 2000, 50, (MiniGameTimer - Time) / 400);
 	else DrawRect(0, 950, 2000, 50, "white");
 
 	if (MiniGameDifficultyMode == "WhipPony") {
-		if (HorseWalkEventTimer < CommonTime()) {
+		if (MiniGameRunning() && HorseWalkEventTimer < CommonTime()) {
 			if (HorseWalkDrawPony == true && !MiniGameEnded) HorseWalkHitTrainer++;
 			HorseWalkEventTimer = CommonTime() + 1000;
 			if (!MiniGameEnded) {
@@ -224,12 +223,16 @@ function HorseWalkRun() {
 		}
 		if (HorseWalkDrawPony) DrawCharacter(StablePony, HorseWalkDrawXPosition, HorseWalkDrawYPosition, HorseWalkDrawYHeigh/1000);
 		if (HorseWalkDrawTrainer) DrawCharacter(StableTrainer, HorseWalkDrawXPosition, HorseWalkDrawYPosition, HorseWalkDrawYHeigh/1000);
-		HorseWalkText = TextGet("HorseWalkHitSpots");
-		HorseWalkText = HorseWalkText.replace("$PONY", HorseWalkHitPony.toString()).replace("$TRAINER", HorseWalkHitTrainer.toString());
+		if (MiniGameStarted) {
+			HorseWalkText = TextGet("HorseWalkHitSpots");
+			HorseWalkText = HorseWalkText.replace("$PONY", HorseWalkHitPony.toString()).replace("$TRAINER", HorseWalkHitTrainer.toString());
+		} else {
+			HorseWalkText = TextGet("HorseWalkHitStart");
+		}
 		DrawText(HorseWalkText, 1000, 977, "black", "white");
 	} else { //Hurdle & Carrot
 		// Draw the player character, progress bar and text
-		HorseWalkDoMove();
+		if (MiniGameRunning()) HorseWalkDoMove();
 		if (MiniGameDifficultyMode == "HurdleTraining") {
 			DrawCharacter(Player, 0, 100, 0.8);
 			DrawCharacter(StablePony, HorseWalkPlayerX, HorseWalkPlayerY, 0.4);
@@ -237,7 +240,13 @@ function HorseWalkRun() {
 			DrawCharacter(Player, HorseWalkPlayerX, HorseWalkPlayerY, 0.4);
 		}
 		HorseWalkDrawItem();
-		if (Time < MiniGameTimer) {
+		if (!MiniGameStarted) {
+			if (MiniGameDifficultyMode == "Carrot") {
+				HorseWalkText = TextGet("HorseWalkCarrotStart");
+			} else if (MiniGameDifficultyMode == "Hurdle" || MiniGameDifficultyMode == "HurdleTraining") {
+				HorseWalkText = TextGet("HorseWalkHurdleStart");
+			}
+		} else if (Time < MiniGameTimer) {
 			if (MiniGameDifficultyMode == "Carrot") {
 				HorseWalkText = TextGet("HorseWalkCarrotSpots");
 				HorseWalkText = HorseWalkText.replace("$CARROTS", HorseWalkCollectedCarrots.toString()).replace("$CROPS", HorseWalkCollectedCrops.toString());
@@ -337,6 +346,11 @@ function HorseWalkDoMove() {
  * @returns {void} - Nothing
  */
 function HorseWalkClick() {
+	if (!MiniGameStarted) {
+		MiniGameStarted = true;
+		MiniGameTimer = CommonTime() + 40000;
+		HorseWalkEventTimer = CommonTime();
+	}
 }
 
 /**
@@ -344,6 +358,8 @@ function HorseWalkClick() {
  * @returns {void} - Nothing
  */
 function HorseWalkMouseDown() {
+	if (!MiniGameStarted) return;
+
 	if (MiniGameDifficultyMode == "WhipPony") {
 		if ((MouseX >= HorseWalkDrawXPosition) && (MouseX < (HorseWalkDrawXPosition + (HorseWalkDrawYHeigh / 2))) && (MouseY >= HorseWalkDrawYPosition) && (MouseY < (HorseWalkDrawYPosition + HorseWalkDrawYHeigh))) {
 			if (HorseWalkDrawPony && !MiniGameEnded) {

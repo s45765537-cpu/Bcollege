@@ -46,14 +46,10 @@ function ChestLockpickRun() {
 		return;
 	}
 
-	// Draws the start timer
 	MiniGameTimer = MiniGameTimer + Math.round(TimerRunInterval);
-	if (MiniGameTimer >= 5000) MiniGameProgress = 0;
-	if (MiniGameProgress == -1) {
-		DrawText(TextGet("Intro1"), 1000, 900, "White", "Silver");
-		DrawText(TextGet("StartsIn") + " " + (5 - Math.floor(MiniGameTimer / 1000)).toString(), 1000, 965, "White", "Silver");
-		return;
-	}
+
+	// Draws the help message
+	DrawText(TextGet("Intro1"), 1000, 900, "White", "Silver");
 
 	// Spins the angle, from clockwise to counter
 	if (ChestLockpickCount % 2 == 0) ChestLockpickAngle = ChestLockpickAngle + (TimerRunInterval / ChestLockpickSpeed);
@@ -68,7 +64,7 @@ function ChestLockpickRun() {
 function ChestLockpickMouseDown() {
 
 	// When clicking in the mini-game, we check if it was close enough to the hole for a success
-	if ((MiniGameProgress >= 0) && !MiniGameEnded) {
+	if (!MiniGameEnded) {
 		let Diff = Math.abs(ChestLockpickHoleAngle - ChestLockpickAngle) % (Math.PI * 2);
 		if ((Diff > 0.26) && (Diff < (Math.PI * 2) - 0.26)) {
 			MiniGameEnded = true;

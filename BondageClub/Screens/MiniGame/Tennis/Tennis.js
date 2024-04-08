@@ -73,19 +73,15 @@ function TennisRun() {
 	DrawCharacter(TennisCharacterRight, 1550, 100, 0.9);
 	DrawText(TennisCharacterRight.Name, 1775, 30, "white");
 	DrawText(TennisGetScore(TennisCharacterRightPoint, TennisCharacterLeftPoint), 1775, 80, "white");
-	MiniGameTimer = MiniGameTimer + Math.round(TimerRunInterval);
 
 	// If the mini game is running
 	if (!MiniGameEnded) {
-
-		// Sets the new progress
-		if (MiniGameTimer >= 5000) MiniGameProgress = 0;
 
 		// Draw the intro text or progress bar
 		if (MiniGameProgress == -1) {
 			DrawText(TextGet("Intro1"), 1000, 400, "black");
 			DrawText(TextGet("Intro2"), 1000, 500, "black");
-			DrawText(TextGet("StartsIn") + " " + (5 - Math.floor(MiniGameTimer / 1000)).toString(), 1000, 600, "black");
+			DrawText(TextGet("Start"), 1000, 600, "black");
 		} else {
 			var FpsAdjustment = 0.05 * 0.06 * TimerRunInterval;
 			var RacketAdjustment = MiniGameDifficultyRatio * FpsAdjustment;
@@ -129,7 +125,6 @@ function TennisRun() {
 			// If the opponent scores
 			if (TennisBallX < 450) {
 				MiniGameProgress = -1;
-				MiniGameTimer = 2000;
 				TennisServe(true);
 				TennisCharacterRightPoint++;
 				if ((TennisCharacterRightPoint >= 4) && (TennisCharacterRightPoint >= TennisCharacterLeftPoint + 2)) {
@@ -141,7 +136,6 @@ function TennisRun() {
 			// If the player scores
 			if (TennisBallX > 1550) {
 				MiniGameProgress = -1;
-				MiniGameTimer = 2000;
 				TennisServe(false);
 				TennisCharacterLeftPoint++;
 				if ((TennisCharacterLeftPoint >= 4) && (TennisCharacterLeftPoint >= TennisCharacterRightPoint + 2)) {
@@ -184,7 +178,8 @@ function TennisClick() {
 	// If the game is over, clicking on the player image will end it
 	if (MiniGameEnded && (MouseX >= 0) && (MouseX <= 450) && (MouseY >= 100) && (MouseY <= 999))
 		MiniGameEnd();
-
+	else if (MiniGameProgress == -1) // Start the game
+		MiniGameProgress = 0;
 }
 
 /**
