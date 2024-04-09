@@ -29338,7 +29338,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagVeryLight],
-				Block: ["ItemMouth2", "ItemMouth3"],
+				Prerequisite: "GagUnique",
 				ExpressionTrigger: [
 					{ Name: "Low", Group: "Blush", Timer: 5 },
 					{ Name: "Closed", Group: "Eyes", Timer: 5 },
@@ -29441,7 +29441,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				DefaultColor: "#404040",
-				Prerequisite: "GagUnique",
+				Prerequisite: ["GagUnique", "AccessMouth"],
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
@@ -29716,6 +29716,7 @@ var AssetFemale3DCG = [
 				Value: -1,
 				Wear: false,
 				Bonus: "KidnapSneakiness",
+				Prerequisite: "AccessMouth",
 			},
 			{
 				Name: "PantiesMask",
@@ -29798,6 +29799,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
+				Block: ["ItemMouth2", "ItemMouth3"],
 				Effect: [E.GagNormal, E.ProtrudingMouth],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [
@@ -29900,6 +29902,7 @@ var AssetFemale3DCG = [
 				Difficulty: -20,
 				Time: 5,
 				Hide: ["Mouth"],
+				Prerequisite: "AccessMouth",
 				Effect: [E.BlockMouth, E.GagLight],
 				Layer: [
 					{ Name: "Cheeks", AllowColorize: false },
@@ -29914,6 +29917,7 @@ var AssetFemale3DCG = [
 				Time: 5,
 				DefaultColor: "#900000",
 				Hide: ["Mouth"],
+				Prerequisite: "AccessMouth",
 				Effect: [E.BlockMouth, E.GagLight],
 				Layer: [
 					{ Name: "Lips", AllowColorize: false },
@@ -29927,6 +29931,7 @@ var AssetFemale3DCG = [
 				Time: 5,
 				DefaultColor: "#333333",
 				BuyGroup: "PenisDildo",
+				Prerequisite: "AccessMouth",
 				Hide: ["Mouth"],
 				ExpressionTrigger: [{ Name: "Raised", Group: "Eyebrows", Timer: 10 }],
 				Layer: [
@@ -29988,7 +29993,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				DefaultColor: "#404040",
-				Prerequisite: "GagUnique",
+				Prerequisite: ["GagUnique", "AccessMouth"],
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagHeavy],
 				ExpressionTrigger: [{ Name: "Raised", Group: "Eyebrows", Timer: 10 }],
@@ -30061,6 +30066,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				AllowLock: true,
 				AllowTighten: true,
+				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing"],
 				Block: ["ItemMouth2", "ItemMouth3"],
@@ -30109,6 +30115,7 @@ var AssetFemale3DCG = [
 				Time: 15,
 				AllowLock: true,
 				AllowTighten: true,
+				Prerequisite: ["GagUnique", "AccessMouth"],
 				Hide: ["Mouth"],
 				Effect: [E.GagEasy, E.OpenMouth, E.ProtrudingMouth],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
@@ -30144,6 +30151,7 @@ var AssetFemale3DCG = [
 				Time: 30,
 				AllowLock: true,
 				AllowTighten: true,
+				Prerequisite: "GagFlat",
 				Hide: ["Mouth"],
 				Effect: [E.GagEasy, E.OpenMouth],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
@@ -30162,7 +30170,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "PlugGag",
-				Prerequisite: "GagUnique",
+				Prerequisite: "GagFlat",
 				Extended: true,
 				Hide: ["Mouth"],
 				Effect: [],
@@ -30222,6 +30230,7 @@ var AssetFemale3DCG = [
 				Difficulty: -20,
 				Time: 5,
 				DefaultColor: "#FFFFFF",
+				Prerequisite: "AccessMouth",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagLight],
 				Layer: [
@@ -30386,7 +30395,6 @@ var AssetFemale3DCG = [
 				Extended: true,
 				Hide: ["Mouth"],
 				Effect: [E.GagMedium],
-				Block: ["ItemMouth2", "ItemMouth3", "ItemHood"],
 				Layer: [
 					{ Name: "Straps", AllowColorize: true },
 					{ Name: "Base", AllowColorize: false },
@@ -30414,6 +30422,7 @@ var AssetFemale3DCG = [
 				Value: 20,
 				Extended: true,
 				AllowTighten: true,
+				Prerequisite: "AccessMouth",
 				Effect: [E.GagLight],
 				Hide: ["Mouth"],
 				CreateLayerTypes: ["typed"],
@@ -30479,6 +30488,7 @@ var AssetFemale3DCG = [
 				Time: 30,
 				Random: false,
 				AllowLock: true,
+				Prerequisite: ["GagUnique"],
 				Block: ["ItemMouth2", "ItemMouth3"],
 				Extended: true,
 				Effect: [],
@@ -30612,7 +30622,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "TechnoGag",
 				Gender: "F",
-				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"],
+				Prerequisite: ["HasBreasts", "HasVagina", "GagUnique"],
 				Value: 20,
 				Difficulty: 4,
 				Time: 20,
@@ -30972,6 +30982,7 @@ var AssetFemale3DCG = [
 				Top: 22,
 				Time: 2,
 				RemoveTime: 2,
+				Prerequisite: "AccessMouth",
 				Effect: [E.OpenMouth],
 				Extended: true,
 				AllowExpression: [
@@ -31346,6 +31357,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DrawLocks: false,
 				Hide: ["Mouth"],
+				Prerequisite: ["GagUnique", "AccessMouth"],
 				Effect: [E.GagNormal, E.OpenMouth, E.ProtrudingMouth],
 				Block: ["ItemMouth2", "ItemMouth3"],
 				DefaultColor: [
@@ -31445,11 +31457,6 @@ var AssetFemale3DCG = [
 				Top: 180,
 				DefaultColor: ["Default", "#3f3c3a"],
 				Hide: ["Mouth"],
-				HideItem: [
-					"ItemMouthClothStuffing",
-					"ItemMouthPantyStuffing",
-					"ItemMouthSockStuffing",
-				],
 				Prerequisite: ["GagUnique"],
 				Effect: [E.GagHeavy],
 				Extended: true,
@@ -31538,7 +31545,7 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				Value: 40,
 				Difficulty: 5,
-				Prerequisite: "GagUnique",
+				Prerequisite: ["GagUnique", "AccessMouth"],
 				DefaultColor: ["#222222", "#444444", "#CC2222", "#CC2222"],
 				Top: 22,
 				Time: 5,
@@ -31676,6 +31683,7 @@ var AssetFemale3DCG = [
 				RemoveTime: 5,
 				DefaultColor: "#B42340",
 				IsRestraint: true,
+				Effect: [],
 				Prerequisite: ["BlockedMouth"],
 			},
 		],
@@ -33389,6 +33397,11 @@ var AssetFemale3DCG = [
 					AssetName: "Stitches",
 					BuyGroup: true,
 				},
+				HideItem: [
+					"ItemMouthClothStuffing",
+					"ItemMouthPantyStuffing",
+					"ItemMouthSockStuffing",
+				],
 			},
 			{
 				Name: "PaddedFaceMask",
@@ -33413,6 +33426,220 @@ var AssetFemale3DCG = [
 				CopyConfig: {
 					GroupName: "ItemMouth",
 					AssetName: "Kissmark",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "PacifierGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "PacifierGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "Ball",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "Ball",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "BambooGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "BambooGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "CaneGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "CaneGag",
+					BuyGroup: true,
+				},
+				Block: ["ItemMouth", "ItemMouth3"],
+			},
+			{
+				Name: "ChopstickGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "ChopstickGag",
+					BuyGroup: true,
+				},
+				Block: ["ItemMouth", "ItemMouth3"],
+			},
+			{
+				Name: "ClothStuffing",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "ClothStuffing",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "CropGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "CropGag",
+					BuyGroup: true,
+				},
+				Block: ["ItemMouth", "ItemMouth3"],
+			},
+			{
+				Name: "DeepthroatGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "DeepthroatGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "DentalGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "DentalGag",
+					BuyGroup: true,
+				},
+				Block: ["ItemMouth", "ItemMouth3"],
+			},
+			{
+				Name: "BigMouth",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "BigMouth",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "DildoPlugGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "DildoPlugGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "DogMuzzleExposed",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "DogMuzzleExposed",
+					BuyGroup: true,
+				},
+				Block: ["ItemMouth", "ItemMouth3"],
+			},
+			{
+				Name: "FunnelGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "FunnelGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "HookGagMask",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "HookGagMask",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "LargeDildo",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "LargeDildo",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "LatexSheathGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "LatexSheathGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "MilkBottle",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "MilkBottle",
+					BuyGroup: true,
+				},
+				Block: ["ItemMouth", "ItemMouth3"],
+			},
+			{
+				Name: "OTNPlugGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "OTNPlugGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "PantyStuffing",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "PantyStuffing",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "PlugGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "PlugGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "PumpGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "PumpGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "RegularSleepingPill",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "RegularSleepingPill",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "SockStuffing",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "SockStuffing",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "TechnoGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "TechnoGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "TonguePiercingGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "TonguePiercingGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "TongueStrapGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "TongueStrapGag",
 					BuyGroup: true,
 				},
 			},
@@ -34597,6 +34824,14 @@ var AssetFemale3DCG = [
 					AssetName: "Stitches",
 					BuyGroup: true,
 				},
+				HideItem: [
+					"ItemMouthClothStuffing",
+					"ItemMouth2ClothStuffing",
+					"ItemMouthPantyStuffing",
+					"ItemMouth2PantyStuffing",
+					"ItemMouthSockStuffing",
+					"ItemMouth2SockStuffing",
+				],
 			},
 			{
 				Name: "Slime",
@@ -35143,6 +35378,220 @@ var AssetFemale3DCG = [
 					BuyGroup: true,
 				},
 			}, // MouthFeatureGag
+			{
+				Name: "PacifierGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "PacifierGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "Ball",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "Ball",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "BambooGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "BambooGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "CaneGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "CaneGag",
+					BuyGroup: true,
+				},
+				Block: ["ItemMouth", "ItemMouth2"],
+			},
+			{
+				Name: "ChopstickGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "ChopstickGag",
+					BuyGroup: true,
+				},
+				Block: ["ItemMouth", "ItemMouth2"],
+			},
+			{
+				Name: "ClothStuffing",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "ClothStuffing",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "CropGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "CropGag",
+					BuyGroup: true,
+				},
+				Block: ["ItemMouth", "ItemMouth2"],
+			},
+			{
+				Name: "DeepthroatGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "DeepthroatGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "DentalGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "DentalGag",
+					BuyGroup: true,
+				},
+				Block: ["ItemMouth", "ItemMouth2"],
+			},
+			{
+				Name: "BigMouth",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "BigMouth",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "DildoPlugGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "DildoPlugGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "DogMuzzleExposed",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "DogMuzzleExposed",
+					BuyGroup: true,
+				},
+				Block: ["ItemMouth", "ItemMouth2"],
+			},
+			{
+				Name: "FunnelGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "FunnelGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "HookGagMask",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "HookGagMask",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "LargeDildo",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "LargeDildo",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "LatexSheathGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "LatexSheathGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "MilkBottle",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "MilkBottle",
+					BuyGroup: true,
+				},
+				Block: ["ItemMouth", "ItemMouth2"],
+			},
+			{
+				Name: "OTNPlugGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "OTNPlugGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "PantyStuffing",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "PantyStuffing",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "PlugGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "PlugGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "PumpGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "PumpGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "RegularSleepingPill",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "RegularSleepingPill",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "SockStuffing",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "SockStuffing",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "TechnoGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "TechnoGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "TonguePiercingGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "TonguePiercingGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "TongueStrapGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "TongueStrapGag",
+					BuyGroup: true,
+				},
+			},
 		],
 		Color: [
 			"Default",

@@ -33,7 +33,7 @@ function TestingGetMissingColorLayersGroups() {
 	}
 	for (const a of Asset) {
 		const item = { Asset: a };
-		const Group = a.Group.Name;
+		const Group = a.DynamicGroupName;
 		const Name = a.Name;
 		const colorableLayers = ItemColorGetColorableLayers(item);
 		const simpleMode = colorableLayers.length === 1;

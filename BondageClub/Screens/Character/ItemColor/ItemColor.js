@@ -161,20 +161,20 @@ function ItemColorDrawDefault(x, y) {
 			buttonText = ItemColorGetColorButtonText(colors);
 			buttonColor = buttonText.startsWith("#") ? buttonText : "#fff";
 		} else if (colorGroup.layers.length === 1) {
-			groupName = ItemColorLayerNames.get(asset.Group.Name + asset.Name + colorGroup.name);
+			groupName = ItemColorLayerNames.get(asset.DynamicGroupName + asset.Name + colorGroup.name);
 			buttonText = colors[colorGroup.layers[0].ColorIndex];
 			buttonColor = buttonText.startsWith("#") ? buttonText : "#fff";
 		} else {
 			let currentColors;
 			const layerPage = ItemColorLayerPages[colorGroup.name];
-			const colorGroupName = ItemColorGroupNames.get(asset.Group.Name + asset.Name + colorGroup.name);
+			const colorGroupName = ItemColorGroupNames.get(asset.DynamicGroupName + asset.Name + colorGroup.name);
 			if (layerPage === 0) {
 				currentColors = colorGroup.layers.map(layer => colors[layer.ColorIndex]);
 				groupName = colorGroupName + ": " + ItemColorText.get("All");
 			} else {
 				const layer = colorGroup.layers[layerPage - 1];
 				currentColors = colors[layer.ColorIndex];
-				groupName = colorGroupName + ": " + ItemColorLayerNames.get(asset.Group.Name + asset.Name + (layer.Name || ""));
+				groupName = colorGroupName + ": " + ItemColorLayerNames.get(asset.DynamicGroupName + asset.Name + (layer.Name || ""));
 			}
 			buttonText = ItemColorGetColorButtonText(currentColors);
 			buttonColor = buttonText.startsWith("#") ? buttonText : "#fff";
