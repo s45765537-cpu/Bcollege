@@ -6,6 +6,12 @@ Put the address of the background jpg image to use.  Ex: https://bondageprojects
 填入要使用的背景jpg地址。例如：https://bondageprojects.com/images/school.jpg
 You can use game resources also.  Ex: Screens/Room/Platform/Background/Savannah/TentInterior.jpg
 你也可以使用游戏资源。例如：Screens/Room/Platform/Background/Savannah/TentInterior.jpg
+Fill the room
+充满房间
+Fill the room, original aspect ratio
+充满房间，原始要素比例
+Full image, original aspect ratio
+完整图片，原始要素比例
 You can put a color filter that will go over your background.  For example, use #00000080 to dim the lights.
 你可以在背景上添加颜色滤镜。例如，使用#00000080来调暗灯光。
 Put the address of the background mp3 music file to use.  Ex: https://bondageprojects.com/music/relax.mp3

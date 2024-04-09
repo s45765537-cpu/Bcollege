@@ -235,7 +235,7 @@ House Corporis:
 difficulty
 难度
  - Can change again in NumberOfDays day(s)
-经过NumberOfDays天可以再次改变
+ - 经过NumberOfDays天可以再次改变
 Roleplay
 角色扮演
 Regular

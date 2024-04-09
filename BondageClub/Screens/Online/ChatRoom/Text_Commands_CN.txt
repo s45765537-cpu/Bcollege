@@ -38,8 +38,10 @@
 [Keyword]:显示符合本关键字前缀的命令,不输入关键词可查看所有命令
 [MemberNumber]: Kick the player out of the room
 [MemberNumber]:将玩家踢出房间
-[Message]: Display “[PlayerName] Message” as an action. *[Message] does the same
-[Message]:显示“[PlayerName] Message”为动作.*[Message]也是同样的效果
+[Message]: Display “[PlayerName] Message” as an action. *[Message] does the same.
+[Message]:以动作形式显示“[PlayerName] Message”。*[Message]是同样的效果。
+[Percentage 0-100]% [Message]: Display “[PlayerName] Message: ✔ or ❌ (Percentage %) as an attempt action. Percentage is a success chance. *[Percentage]% [Message] does the same. If percentage is omitted, success chance is 50%.
+[Percentage 0-100]% [Message]:以尝试动作来显示“[PlayerName] Message: ✔或者❌ (Percentage %)”。Percentage是成功率。*[Percentage]% [Message]是同样的效果。如果没有提供Percentage参数，成功率是50%。
 [MemberNumber]: Promote the user to room administrator
 [MemberNumber]:使玩家成为房管
 use safeword
@@ -80,3 +82,9 @@ Copy the current map layout in your clipboard
 [MemberNumber|Name|Nickname]: 开始与玩家说悄悄话。留空停止悄悄话。<br>[MemberNumber|Name|Nickname] [Message]: 向目标玩家发送悄悄话。
 Access the shop
 访问商店
+
+########################
+### DEPRECATED LINES ###
+########################
+[Message]: Display “[PlayerName] Message” as an action. *[Message] does the same
+[Message]:显示“[PlayerName] Message”为动作.*[Message]也是同样的效果
