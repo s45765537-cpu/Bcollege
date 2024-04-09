@@ -31,7 +31,7 @@
 - Script Permission Preferences -
 - 脚本权限设置 -
 - Extensions Preferences -
-- 扩展组件设置 - 
+- 扩展组件设置 -
 General
 通用
 Difficulty
@@ -138,8 +138,10 @@ Bypass the struggling mini-game.
 无视挣扎小游戏
 Cannot be slowed down from leaving a room.
 离开房间时不会被减速
-Skip punishment when calling maids from chat room
-在聊天室中呼叫女仆时无视惩罚
+Skip punishment when calling maids from chat room.
+从聊天室召唤女仆时，无视惩罚。
+Don't garble online chat and whipers when gagged.
+被塞住嘴时，不混淆在线聊天和悄悄话。
 Character label color:
 角色标签颜色:
 Item permission:
@@ -226,6 +228,12 @@ Show help on first enter
 第一次进入时显示帮助
 Show beep notifications in chat
 在聊天中显示好友私聊提示
+Preserve chat logs between rooms
+在房间之间保留聊天记录
+Page 1/2
+页面 1/2
+Page 2/2
+页面 2/2
 Audio volume
 声音音量
 Music volume
@@ -248,8 +256,6 @@ Hide others' messages
 隐藏他人消息
 All immersion settings are maxed out under the Extreme difficulty mode
 所有的限制设置在极限难度下被固定为最强
-Prevent OOC & whispers while gagged
-被堵嘴时禁用OOC和悄悄话
 Hide non-adjacent players while partially blind
 部分失明时隐藏不临近的角色
 Events while plugged or vibed
@@ -682,10 +688,12 @@ Females
 女性
 Males
 男性
-Automatically enter the chatroom area for: 
+Automatically enter the chatroom area for:
 自动加入此类型聊天室区域：
-Hide shop items exclusively for: 
+Hide shop items exclusively for:
 隐藏商店的此类专门物品：
+Hide titles in settings for:
+隐藏设置中的这些标题：
 Apply the censoring
 应用屏蔽
 Select the censorship to apply and the words to censor in both the chat and room labels.

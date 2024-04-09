@@ -4,8 +4,10 @@ Normal
 一般
 Hard
 困难
-Starts in
-即将开始：
+Press a key to start
+按一个键以开始
+Tap to start
+触碰以开始
 Difficulty:
 难度：
 Perfect!  You didn't lose a drop.
