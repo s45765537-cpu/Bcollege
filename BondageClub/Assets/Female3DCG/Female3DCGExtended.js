@@ -8770,6 +8770,38 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // MonoHeel
+		TormentHeels: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Boots",
+					Key: "b",
+					Options: [
+						{
+							// l0 - Shoes mode
+							Property: { Difficult: 0 },
+						},
+						{
+							// l1 - Boots mode
+							Property: { Difficult: 1 },
+						},
+					],
+				},
+				{
+					Name: "Vibration",
+					Key: "v",
+					DrawImages: false,
+					Options: [
+						{ Property: { Intensity: -1, Effect: [] } }, // v0 - Turn Off
+						{ Property: { Intensity: 0, Effect: [E.Vibrating] } }, // v1 - Low
+						{ Property: { Intensity: 1, Effect: [E.Vibrating] } }, // v2 - Medium
+						{ Property: { Intensity: 1, Effect: [E.Egged, E.Vibrating] } }, // v3 - High
+						{ Property: { Intensity: 2, Effect: [E.Egged, E.Vibrating] } }, // v4 - Maximum
+					],
+				},
+			],
+			ChangeWhenLocked: false,
+		}, // TormentHeels
 	}, // ItemBoots
 	ItemVulva: {
 		ClitSuctionCup: {

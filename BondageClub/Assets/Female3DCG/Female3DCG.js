@@ -43483,6 +43483,122 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
+				Name: "TormentHeels",
+				Fetish: ["Leather"],
+				Height: 38,
+				Value: 67,
+				Difficulty: 6,
+				DefaultColor: ["Default","Default","Default"],
+				Random: false,
+				Time: 10,
+				RemoveTime: 15,
+				Effect: [E.UseRemote,E.Slow],
+				AllowLock: true,
+				DrawLocks: false,
+				AllowTighten: true,
+				Audio: "Buckle",
+				PoseMapping: {
+					...AssetPoseMapping.Shoes,
+					Kneel: PoseType.HIDE,
+					KneelingSpread: PoseType.HIDE,
+				},
+				Layer: [
+					{
+						Name: "Heels",
+						AllowColorize: true,
+						Alpha: [
+							{
+								Group: [
+									"BodyLower",
+									"Socks",
+									"SocksRight",
+									"SocksLeft",
+									"SuitLower",
+								],
+								Masks: [[35, 939, 360, 100]],
+							},
+							{
+								Group: [
+									"BodyLower",
+									"Socks",
+									"SocksRight",
+									"SocksLeft",
+									"SuitLower",
+								],
+								Pose: ["LegsClosed"],
+								Masks: [[35, 943, 360, 100]],
+							},
+							{
+								Group: [
+									"BodyLower",
+									"Socks",
+									"SocksRight",
+									"SocksLeft",
+									"SuitLower",
+								],
+								Pose: ["Spread"],
+								Masks: [[35, 910, 360, 100]],
+							},
+						],
+					},
+					{
+						Name: "Boots",
+						AllowTypes: { b: 1 },
+						CopyLayerColor: "Heels",
+						Alpha: [
+							{
+								Group: [
+									"BodyLower",
+									"Socks",
+									"SocksRight",
+									"SocksLeft",
+									"SuitLower",
+								],
+								Masks: [[35, 755, 360, 200]],
+							},
+							{
+								Group: [
+									"BodyLower",
+									"Socks",
+									"SocksRight",
+									"SocksLeft",
+									"SuitLower",
+								],
+								Pose: ["LegsClosed"],
+								Masks: [[35, 769, 360, 200]],
+							},
+							{
+								Group: [
+									"BodyLower",
+									"Socks",
+									"SocksRight",
+									"SocksLeft",
+									"SuitLower",
+								],
+								Pose: ["Spread"],
+								Masks: [[35, 737, 360, 200]],
+							},
+						],
+					},
+					{
+						Name: "Belts",
+						PoseMapping: {
+							...AssetPoseMapping.Shoes,
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+						AllowColorize: true,
+					},
+					{
+						Name: "Lock",
+						LockLayer: true,
+						ParentGroup: null,
+						AllowColorize: true,
+					},
+				],
+			},
+			{
 				Name: "BalletWedges",
 				Fetish: ["Leather"],
 				Value: 50,
