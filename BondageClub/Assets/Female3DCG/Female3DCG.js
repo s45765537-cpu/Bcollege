@@ -2667,6 +2667,7 @@ var AssetFemale3DCG = [
 				Prerequisite: ["HasBreasts"],
 				Fetish: ["Leather"],
 				Value: 78,
+				BuyGroup: "CorsetDress",
 				Extended: true,
 				CreateLayerTypes: ["typed"],
 				PoseMapping: { ...AssetPoseMapping.Cloth },
@@ -3155,6 +3156,7 @@ var AssetFemale3DCG = [
 				Fetish: ["Leather"],
 				ParentGroup: "BodyUpper",
 				Value: 15,
+				Priority: 31,
 				Extended: true,
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
@@ -3188,6 +3190,7 @@ var AssetFemale3DCG = [
 				Fetish: ["Leather"],
 				ParentGroup: "BodyUpper",
 				Value: 18,
+				Priority: 31,
 				PoseMapping: {
 					BackBoxTie: "BackBoxTie",
 					BackCuffs: "BackCuffs",
@@ -3198,29 +3201,6 @@ var AssetFemale3DCG = [
 					AllFours: PoseType.HIDE,
 					Hogtied: PoseType.HIDE,
 				},
-				Alpha: [
-					{
-						Pose: [
-							"BackCuffs",
-							"OverTheHead",
-							"BackBoxTie",
-							"BackElbowTouch",
-							"Yoked",
-							"AllFours",
-							"TapedHands",
-						],
-						Group: [
-							"Cloth",
-							"ClothLower",
-							"Suit",
-							"SuitLower",
-							"Corset",
-							"Bra",
-							"Panties",
-						],
-						Masks: [[193, 380, 110, 50]],
-					},
-				],
 			},
 			{
 				Name: "LatexApron",
@@ -11666,7 +11646,7 @@ var AssetFemale3DCG = [
 				Hide: ["LeftHand", "RightHand"],
 				Layer: [
 					{ Name: "Main", Priority: 29 },
-					{ Name: "Fur", AllowTypes: { typed: 0 }, Priority: 32 },
+					{ Name: "Fur", AllowTypes: { typed: 0 }, Priority: 33 },
 					{
 						Name: "FurSup",
 						PoseMapping: {
@@ -12013,6 +11993,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Wristband",
+				Priority: 32,
 				PoseMapping: {
 					...AssetPoseMapping.Bracelet,
 					BackBoxTie: PoseType.HIDE,
