@@ -450,6 +450,7 @@ var TranslationDictionary = [
 			"Screens/Online/ChatRoom/Text_ChatRoom_CN.txt",
 			"Screens/Online/ChatRoom/Text_Commands_CN.txt",
 			"Screens/Online/ChatSearch/Text_ChatSearch_CN.txt",
+			"Screens/Online/ChatSelect/Text_ChatSelect_CN.txt",
 			"Screens/Online/ForbiddenWords/Text_ForbiddenWords_CN.txt",
 			"Screens/Online/Game/OnlineGameDictionary_CN.txt",
 			"Screens/Online/GameLARP/Text_GameLARP_CN.txt",
