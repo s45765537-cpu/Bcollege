@@ -57,11 +57,11 @@ function ChatAdminLoad() {
 	document.getElementById("InputDescription").setAttribute("autocomplete", "off");
 	ElementValue("InputDescription", roomData.Description);
 	ElementCreateTextArea("InputAdminList");
-	document.getElementById("InputAdminList").setAttribute("maxLength", 250);
+	document.getElementById("InputAdminList").setAttribute("maxLength", 2000);
 	document.getElementById("InputAdminList").setAttribute("autocomplete", "off");
 	ElementValue("InputAdminList", CommonConvertArrayToString(roomData.Admin));
 	ElementCreateTextArea("InputBanList");
-	document.getElementById("InputBanList").setAttribute("maxLength", 1000);
+	document.getElementById("InputBanList").setAttribute("maxLength", 2000);
 	document.getElementById("InputBanList").setAttribute("autocomplete", "off");
 	ElementValue("InputBanList", CommonConvertArrayToString(roomData.Ban));
 	ChatAdminPrivate = roomData.Private;
