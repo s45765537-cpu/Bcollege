@@ -8778,11 +8778,11 @@ var AssetFemale3DCGExtended = {
 					Key: "b",
 					Options: [
 						{
-							// l0 - Shoes mode
+							// b0 - Shoes mode
 							Property: { Difficult: 0 },
 						},
 						{
-							// l1 - Boots mode
+							// b1 - Boots mode
 							Property: { Difficult: 1 },
 						},
 					],
