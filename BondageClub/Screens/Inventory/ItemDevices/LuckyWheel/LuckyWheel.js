@@ -218,7 +218,7 @@ function AssetsItemDevicesLuckyWheelAfterDraw({ C, PersistentData, A, X, Y, L, P
 	const height = 500;
 	const width = 500;
 
-	if (L === "_BlinkingLights") {
+	if (L === "BlinkingLights") {
 		const Data = PersistentData();
 		const CurrentAngle = Data.AnimationAngleState;
 		const Properties = Property || {};
@@ -257,7 +257,7 @@ function AssetsItemDevicesLuckyWheelAfterDraw({ C, PersistentData, A, X, Y, L, P
 		drawCanvasBlink(tmpCanvas, X, Y, AlphaMasks);
 	}
 
-	if (L === "_Text") {
+	if (L === "Text") {
 		const Data = PersistentData();
 		const CurrentAngle = Data.AnimationAngleState;
 		const Properties = Property || {};

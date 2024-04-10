@@ -64,7 +64,7 @@ function InventoryItemBreastFuturisticBraDrawHook(Data, OriginalFunction) {
 
 /** @type {ExtendedItemCallbacks.BeforeDraw<FuturisticBraPersistentData>} */
 function AssetsItemBreastFuturisticBraBeforeDraw(data) {
-	if (data.L === "_Text") {
+	if (data.L === "Text") {
 		const ShowHeart = data.PersistentData().ShowHeart;
 		return { Opacity: ShowHeart ? 1 : 0 };
 	}
@@ -77,7 +77,7 @@ function AssetsItemBreastFuturisticBraAfterDraw({
 	const typeRecord = (Property && Property.TypeRecord) || {};
 	const subType = typeRecord.typed || 0;
 
-	if (L === "_Text" && Property && (subType === 0 || subType === 2)) {
+	if (L === "Text" && Property && (subType === 0 || subType === 2)) {
 
 		let offset = 0;
 		if (G == "_Large") offset = 4;
