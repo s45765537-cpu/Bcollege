@@ -282,7 +282,7 @@ var Shop2 = {
 				case "ItemVulvaPiercings":
 					if (Player.GenderSettings.HideShopItems.Female === Player.GenderSettings.HideShopItems.Male) {
 						description += ` & ${DialogFindPlayer(group.Name === "ItemVulva" ? "ItemPenis" : "ItemGlans")}`;
-					} else if (Player.GenderSettings.HideShopItems.Male) {
+					} else if (Player.GenderSettings.HideShopItems.Female) {
 						description = DialogFindPlayer(group.Name === "ItemVulva" ? "ItemPenis" : "ItemGlans");
 					}
 					break;
