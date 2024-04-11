@@ -4,7 +4,7 @@
 function AssetsItemNeckAccessoriesCustomCollarTagAfterDrawHook(data, originalFunction, {
 	C, A, CA, X, Y, Property, drawCanvas, drawCanvasBlink, AlphaMasks, L, Color
 }) {
-	if (L === "_Text") {
+	if (L === "Text") {
 		// Determine the canvas position and size
 		const propertyRecord = (Property && Property.TypeRecord) || {};
 		const subType = propertyRecord.t || 0;

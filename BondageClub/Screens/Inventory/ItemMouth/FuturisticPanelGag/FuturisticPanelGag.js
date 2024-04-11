@@ -244,7 +244,7 @@ function AssetsItemMouthFuturisticPanelGagScriptDrawHook(data, originalFunction,
 
 /** @type {ExtendedItemScriptHookCallbacks.BeforeDraw<ModularItemData, FuturisticPanelGagPersistentData>} */
 function AssetsItemMouthFuturisticPanelGagBeforeDrawHook(data, originalFunction, drawData) {
-	if (drawData.L === "_Light" && drawData.Property && drawData.Property.AutoPunish > 0) {
+	if (drawData.L === "Light" && drawData.Property && drawData.Property.AutoPunish > 0) {
 		const Opacity = (drawData.Property.BlinkState) ? 1 : 0;
 		if (drawData.Color && drawData.Color != "" && drawData.Color != "Default") {return { Opacity: Opacity };}
 		else if (drawData.Property.AutoPunish == 1) {return { Color : "#28ff28", Opacity: Opacity };}

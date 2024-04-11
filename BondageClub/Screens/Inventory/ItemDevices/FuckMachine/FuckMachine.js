@@ -10,8 +10,8 @@ function AssetsItemDevicesFuckMachineBeforeDrawHook(data, originalFunction, { Pe
 	if (typeof Data.DildoState !== "number") Data.DildoState = 0;
 	if (typeof Data.Modifier !== "number") Data.Modifier = 1;
 
-	if (L === "_Dildo") return { Y: Y + Data.DildoState };
-	if (L !== "_Pole") return;
+	if (L === "Dildo") return { Y: Y + Data.DildoState };
+	if (L !== "Pole") return;
 
 	const Properties = Property || {};
 	const Intensity = typeof Properties.Intensity === "number" ? Properties.Intensity : -1;

@@ -87,7 +87,7 @@ function InventoryItemNeckPetSuitShockCollarResetCount() {
 
 /** @type {ExtendedItemCallbacks.BeforeDraw<PetSuitShockCollarPersistentData>} */
 function AssetsItemNeckPetSuitShockCollarBeforeDraw(data) {
-	if (data.L === "_Light") {
+	if (data.L === "Light") {
 		const persistentData = data.PersistentData();
 		const property = data.Property || {};
 		const Triggered = persistentData.LastTriggerCount < property.TriggerCount;

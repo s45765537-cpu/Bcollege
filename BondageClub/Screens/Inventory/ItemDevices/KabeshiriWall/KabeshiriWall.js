@@ -62,7 +62,7 @@ function AssetsItemDevicesKabeshiriWallAfterDrawHook(
 	{ C, A, CA, X, Y, L, Property, drawCanvas, drawCanvasBlink, AlphaMasks, Color, Opacity }
 ) {
 	const data = ExtendedItemGetData(A, ExtendedArchetype.TEXT);
-	if (data != null && L === "_Text") {
+	if (data != null && L === "Text") {
 		const height = 750;
 		const width = 1000;
 		const tmpCanvas = AnimationGenerateTempCanvas(C, A, width, height);

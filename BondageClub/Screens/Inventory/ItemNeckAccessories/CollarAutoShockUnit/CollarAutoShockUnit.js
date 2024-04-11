@@ -48,7 +48,7 @@ function InventoryItemNeckAccessoriesCollarAutoShockUnitClickHook(Data, Original
 
 /** @type {ExtendedItemScriptHookCallbacks.BeforeDraw<ExtendedItemData, AutoShockUnitPersistentData>} */
 function AssetsItemNeckAccessoriesCollarAutoShockUnitBeforeDrawHook(data, originalFunction, drawData) {
-	if (drawData.L === "_Light") {
+	if (drawData.L === "Light") {
 		const property = drawData.Property || {};
 		return { Color: "#2f0", Opacity: property.BlinkState ? 0 : 1 };
 	}

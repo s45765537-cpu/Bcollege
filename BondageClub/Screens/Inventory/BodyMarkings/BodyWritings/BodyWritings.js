@@ -4,7 +4,7 @@
 function AssetsBodyMarkingsBodyWritingsAfterDrawHook(data, originalFunction, {
 	C, A, CA, X, Y, drawCanvas, drawCanvasBlink, AlphaMasks, L, Color
 }) {
-	if (L !== "_Text")
+	if (L !== "Text")
 		return;
 
 	// We set up a canvas

@@ -4,7 +4,7 @@
 function AssetsItemMiscWoodenSignAfterDrawHook(data, originalFunction, {
 	C, A, CA, X, Y, L, drawCanvas, drawCanvasBlink, AlphaMasks, Color
 }) {
-	if (L === "_Text") {
+	if (L === "Text") {
 		// We set up a canvas
 		const height = 200;
 		const width = 155;

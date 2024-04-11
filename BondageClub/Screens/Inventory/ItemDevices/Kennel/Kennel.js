@@ -6,7 +6,7 @@
 
 /** @type {ExtendedItemCallbacks.BeforeDraw<KennelPersistentData>} */
 function AssetsItemDevicesKennelBeforeDraw({ PersistentData, L, Property }) {
-	if (L !== "_Door") return;
+	if (L !== "Door") return;
 
 	const Data = PersistentData();
 	const Properties = Property || {};
