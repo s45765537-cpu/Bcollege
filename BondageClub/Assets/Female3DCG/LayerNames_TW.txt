@@ -20,6 +20,12 @@ Tie
 領帶
 Pattern
 圖案
+Bow
+蝴蝶結
+Shawl
+披肩
+Shawl Fur
+披肩柔毛
 Jacket
 外套
 Chest

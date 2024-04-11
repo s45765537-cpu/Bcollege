@@ -66,6 +66,7 @@ Bra,StuddedHarness,Studded Harness
 Bra,Swimsuit1,Swimsuit style 1
 Bra,Swimsuit2,Swimsuit style 2
 Bra,Swimsuit3,Swimsuit style 3
+Bra,LeatherVestSuit,Leather Vest Suit
 Bracelet,,Bracelet
 Bracelet,Band1,Band 1
 Bracelet,BowBand,Bow Band
@@ -105,6 +106,8 @@ Cloth,Dress2,Nomadic Dress
 Cloth,Dress3,Long Dress
 Cloth,DressFur,Dress with Fur
 Cloth,EveningGown,Evening Gown
+Cloth,YuletideVelvetWarmth,Yuletide Velvet Warmth
+Cloth,NunRobes,Nun Robes
 Cloth,FishnetTop,Fishnet Top
 Cloth,FlowerDress,Flower Dress
 Cloth,FrilledShirt,Latex Frilled Shirt
@@ -157,6 +160,7 @@ ClothAccessory,Bib,Bib
 ClothAccessory,Bouquet,Bouquet of flowers
 ClothAccessory,BugLegs,Bug Legs
 ClothAccessory,BunnyCollarCuffs,Bunny Girl Accessories
+ClothAccessory,BowBackAccessory,Bow Back Accessory
 ClothAccessory,Camera1,Camera
 ClothAccessory,Cape,Cape
 ClothAccessory,CatsuitCollar,Catsuit Collar
@@ -341,6 +345,7 @@ HairAccessory1,BigLynxEars,Lynx Ears
 HairAccessory1,BunnyEars1,Bunny Ears
 HairAccessory1,BunnyEars2,Floppy Bunny Ears
 HairAccessory1,CowHorns,Cow Horns
+HairAccessory1,CowEars,Cow Ears
 HairAccessory1,DildocornHorn,Dildocorn Horn
 HairAccessory1,Ears1,Ears Small
 HairAccessory1,Ears2,Ears Large
@@ -357,6 +362,8 @@ HairAccessory1,Headset1,Headset
 HairAccessory1,Horns,Horns
 HairAccessory1,Horns2,Horns 2
 HairAccessory1,Horns3,Horns 3
+HairAccessory1,Horns4,Horns 4
+HairAccessory1,Horns5,Horns 5
 HairAccessory1,KittenEars1,Black Kitty Ears
 HairAccessory1,KittenEars2,Light Kitty Ears
 HairAccessory1,MouseEars1,Mouse Ears 1
@@ -581,6 +588,7 @@ Hat,MaidHairband1,Maid Hairband
 Hat,MaidLatexHairband,Maid Latex Hairband
 Hat,NunHabit,Nun Habit
 Hat,NurseCap,Nurse Cap
+Hat,NunVeil,Nun Veil
 Hat,PirateBandana1,Pirate Bandana
 Hat,PirateHat,Pirate Hat
 Hat,PoliceWomanHat,Police Woman Hat
@@ -988,6 +996,7 @@ ItemHood,FestivalFoxMask,Festival Fox Mask
 ItemHood,FoxHood,Fox Hood
 ItemHood,FoxyMask,Foxy Mask
 ItemHood,FuturisticHelmet,GGTS Helmet
+ItemHood,Fu,Fu
 ItemHood,GasMask,Gas Mask
 ItemHood,GGTSHelmet,GGTS Slave Helmet
 ItemHood,GP9GasMask,GP-9 Gas Mask
@@ -1017,6 +1026,7 @@ ItemHood,Pantyhose,Pantyhose
 ItemHood,PolishedSteelHood,Polished Steel Hood
 ItemHood,PonyHood,Pony Hood
 ItemHood,PumpkinHead,Pumpkin Head
+ItemHood,Paperbag,Paper bag
 ItemHood,SackHood,Sack Hood
 ItemHood,SensoryDeprivationHood,Sensory Hood
 ItemHood,Slime,Slime
@@ -1588,6 +1598,7 @@ Socks,Stockings2,Stockings Light
 Socks,Stockings3,Silky Stockings
 Socks,Stockings4,Fishnet Stockings
 Socks,VSocks1,Vinyl Socks
+Socks,YuletideVelvetWarmth,Yuletide Velvet Warmth
 SocksLeft,,Left Leg
 SocksLeft,CowPrintedSocks,Cow Printed Socks
 SocksLeft,FootlessSocks1,Footless Socks

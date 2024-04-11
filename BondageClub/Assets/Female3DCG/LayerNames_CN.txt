@@ -118,6 +118,12 @@ Buckle
 皮带扣
 Dress Trim
 裙边
+Bow
+蝴蝶结
+Shawl
+披肩
+Shawl Fur
+披肩柔毛
 Corset Buttons
 束腰搭扣
 Hood Inner
