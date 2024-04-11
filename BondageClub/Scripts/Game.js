@@ -50,7 +50,7 @@ function GameStart() {
 	canvas.addEventListener("touchmove", GameTouchMove);
 	canvas.addEventListener("touchend", GameTouchEnd);
 
-	GameAnimationFrameId = requestAnimationFrame(GameAnimationFrame);
+	GameAnimationFrameId = requestAnimationFrame(MainRun);
 	// Can't use setInterval, chrome throttles it to 1 minute on inactive pages, but not in workers...
 	GameWorker = new Worker("Scripts/GameWorker.js");
 	GameWorker.onmessage = GameFallbackTimer;
@@ -72,34 +72,13 @@ function GameHandleError() {
 }
 
 /**
- * Callback to requestAnimationFrame.
- * @param {number} Timestamp
- * @returns {void}
- */
-function GameAnimationFrame(Timestamp) {
-	try {
-		GameAnimationFrameId = null;
-		GameRunNormal(Timestamp);
-		GameAnimationFrameId = requestAnimationFrame(GameAnimationFrame);
-	} catch (e) {
-		GameHandleError();
-		throw e;
-	}
-}
-
-/**
  * Periodically called in the background with low frequency, so the game doesn't freeze, even if the user switches to a different tab.
  * @returns {void}
  */
 function GameFallbackTimer() {
 	let Timestamp = performance.now();
 	if (Timestamp - TimerLastTime > 500) {
-		try {
-			GameRunBackground(Timestamp);
-		} catch (e) {
-			GameHandleError();
-			throw e;
-		}
+		GameRunBackground(Timestamp);
 	}
 }
 
@@ -107,18 +86,28 @@ function GameFallbackTimer() {
  * Main game running state, runs the drawing
  * @param {number} Timestamp
  */
-function GameRunNormal(Timestamp) {
+function GameRun(Timestamp) {
 
-	// Increments the time from the last frame
-	TimerRunInterval = Timestamp - TimerLastTime;
-	TimerLastTime = Timestamp;
-	CurrentTime = CurrentTime + TimerRunInterval;
+	try {
+		GameAnimationFrameId = null;
 
-	DrawProcess(Timestamp);
-	ControllerProcess();
-	TimerProcess();
+		// Increments the time from the last frame
+		TimerRunInterval = Timestamp - TimerLastTime;
+		TimerLastTime = Timestamp;
+		CurrentTime = CurrentTime + TimerRunInterval;
 
-	ServerSendQueueProcess();
+		DrawProcess(Timestamp);
+		ControllerProcess();
+		TimerProcess();
+
+		ServerSendQueueProcess();
+
+		GameAnimationFrameId = requestAnimationFrame(MainRun);
+	} catch (e) {
+		GameHandleError();
+		throw e;
+	}
+
 }
 
 /**
@@ -127,16 +116,21 @@ function GameRunNormal(Timestamp) {
  */
 function GameRunBackground(Timestamp) {
 
-	// Increments the time from the last frame
-	TimerRunInterval = Timestamp - TimerLastTime;
-	TimerLastTime = Timestamp;
-	CurrentTime = CurrentTime + TimerRunInterval;
+	try {
+		// Increments the time from the last frame
+		TimerRunInterval = Timestamp - TimerLastTime;
+		TimerLastTime = Timestamp;
+		CurrentTime = CurrentTime + TimerRunInterval;
 
-	if (CurrentCharacter == null) CurrentScreenFunctions.Run(Timestamp);
-	// Ignore gamepad when in the background
-	TimerProcess();
+		if (CurrentCharacter == null) CurrentScreenFunctions.Run(Timestamp);
+		// Ignore gamepad when in the background
+		TimerProcess();
 
-	ServerSendQueueProcess();
+		ServerSendQueueProcess();
+	} catch (e) {
+		GameHandleError();
+		throw e;
+	}
 }
 
 /**
@@ -274,6 +268,8 @@ function GameMouseLeave(event) {
 
 /** @deprecated */
 function KeyDown(event) { GameKeyDown(event); }
+/** @deprecated */
+function MainRun(Timestamp) { GameRun(Timestamp); }
 /** @deprecated */
 function Click(event) { if (!CommonIsMobile) { CommonClick(event); } }
 /** @deprecated */
