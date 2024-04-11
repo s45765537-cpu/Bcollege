@@ -12032,7 +12032,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#270D8B","#0F0F0F","#C3C3C3"],
 				Extended: true,
 				Layer: [
-					{ 
+					{
 						Name: "Band",
 						AllowTypes: { l: [0, 1]},
 					},
@@ -12041,7 +12041,7 @@ var AssetFemale3DCG = [
 						AllowTypes: { r: [0, 1]},
 						CopyLayerColor: "Band",
 					},
-					{ 
+					{
 						Name: "Face",
 						PoseMapping: {
 							...AssetPoseMapping.Bracelet,
@@ -17776,7 +17776,7 @@ var AssetFemale3DCG = [
 				Left: 200,
 				Top: 410,
 				Layer: [
-					{ 
+					{
 						Name: "Cage"
 					},
 					{
@@ -31675,6 +31675,7 @@ var AssetFemale3DCG = [
 				DefaultColor: "#B42340",
 				IsRestraint: true,
 				Effect: [],
+				Block: [],
 				Prerequisite: ["BlockedMouth"],
 			},
 		],
