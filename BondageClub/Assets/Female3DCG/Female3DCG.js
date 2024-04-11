@@ -874,81 +874,63 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "None",
-						PoseMapping: {
-							Cloth: PoseType.DEFAULT,
-						},
+						PoseMapping: { },
 						ParentGroup: null,
 						AllowTypes: { t: 0 },
 						AllowColorize: true,
 					},
 					{
 						Name: "BondageCollege",
-						PoseMapping: {
-							Cloth: PoseType.DEFAULT,
-						},
+						PoseMapping: { },
 						ParentGroup: null,
 						AllowTypes: { t: 1 },
 						CopyLayerColor: "None",
 					},
 					{
 						Name: "BTG",
-						PoseMapping: {
-							Cloth: PoseType.DEFAULT,
-						},
+						PoseMapping: { },
 						ParentGroup: null,
 						AllowTypes: { t: 2 },
 						CopyLayerColor: "None",
 					},
 					{
 						Name: "Dominant",
-						PoseMapping: {
-							Cloth: PoseType.DEFAULT,
-						},
+						PoseMapping: { },
 						ParentGroup: null,
 						AllowTypes: { t: 3 },
 						CopyLayerColor: "None",
 					},
 					{
 						Name: "Bonk",
-						PoseMapping: {
-							Cloth: PoseType.DEFAULT,
-						},
+						PoseMapping: { },
 						ParentGroup: null,
 						AllowTypes: { t: 4 },
 						CopyLayerColor: "None",
 					},
 					{
 						Name: "OldXGame",
-						PoseMapping: {
-							Cloth: PoseType.DEFAULT,
-						},
+						PoseMapping: { },
 						ParentGroup: null,
 						AllowTypes: { t: 5 },
 						CopyLayerColor: "None",
 					},
 					{
 						Name: "Staff",
-						PoseMapping: {
-							Cloth: PoseType.DEFAULT,
-						},
+						PoseMapping: { },
 						ParentGroup: null,
 						AllowTypes: { t: 6 },
 						CopyLayerColor: "None",
 					},
 					{
 						Name: "Elite",
-						PoseMapping: {
-							Cloth: PoseType.DEFAULT,
-						},
+						PoseMapping: { },
 						ParentGroup: null,
 						AllowTypes: { t: 7 },
 						CopyLayerColor: "None",
 					},
 					{
 						Name: "Raiders",
-						PoseMapping: {
-							Cloth: PoseType.DEFAULT,
-						},
+						PoseMapping: { },
 						ParentGroup: null,
 						AllowTypes: { t: 8 },
 						CopyLayerColor: "None",
