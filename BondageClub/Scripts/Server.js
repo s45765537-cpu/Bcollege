@@ -273,6 +273,10 @@ ServerPlayerChatRoom.register(
 	{ screen: "FriendList", callback: () => InformationSheetPreviousScreen === "ChatRoom" && (FriendListReturn == null || FriendListReturn.IsInChatRoom) },
 	{ screen: "Preference", callback: () => InformationSheetPreviousScreen === "ChatRoom" },
 	{ screen: "MiniGame", callback: () => DialogGamingPreviousRoom === "ChatRoom" },
+	{ screen: "Crafting", callback: () => CraftingReturnToChatroom },
+	{ screen: "Shop2", callback: () => Shop2InitVars.PreviousScreen?.[1] === "ChatRoom" },
+	{ screen: "WheelFortune", callback: () => WheelFortuneEntryScreen === "ChatRoom" },
+	{ screen: "WheelFortuneCustomize", callback: () => WheelFortuneEntryScreen === "ChatRoom" },
 );
 
 /**
