@@ -83,33 +83,66 @@ const PoseToMapping = /** @type {const} */({
 });
 
 /**
- * Checks whether the given character can change to the named pose (without aid by default).
+ * Status codes for representing whether a character can or cannot change to a pose unaided.
+ * @see {@link PoseCanChangeUnaided}
+ * @satisfies {Record<string, PoseChangeStatus>}
+ */
+const PoseChangeStatus = /** @type {const} */({
+	/** Never allow a particular change in pose  */
+	NEVER: 0,
+	/** Allow a particular change in pose only with someone else's assistance */
+	NEVER_WITHOUT_AID: 1,
+	/** Allow a particular change in pose only via some sort of struggle (_i.e._ the kneeling/standing minigame) */
+	ALWAYS_WITH_STRUGGLE: 2,
+	/** Always allow a particular change in pose */
+	ALWAYS: 3,
+});
+
+/**
+ * Checks to what extent the given character can change to a given pose.
+ *
+ * @see {@link PoseCanChangeUnaided} Check whether one can change to a pose _unaided_
  * @param {Character} C - The character to check
  * @param {AssetPoseName} poseName - The name of the pose to check for
- * @returns {boolean} - Returns true if the character has no conflicting items and is not prevented from changing to
- * the provided pose
+ * @returns {PoseChangeStatus} - A status code denoting if and under what conditions the character can change pose
  */
-function PoseCanChangeUnaided(C, poseName) {
+function PoseCanChangeUnaidedStatus(C, poseName) {
 	const pose = PoseRecord[poseName];
-	if (!pose || !C || C.HasEffect("Freeze") || ChatRoomOwnerPresenceRule("BlockChangePose", C)) {
-		return false;
+	if (!pose || !C) {
+		return PoseChangeStatus.NEVER;
 	}
 
 	const canChange = PoseAvailable(C, pose.Category, pose.Name);
 	if (!canChange) {
-		return false;
+		return PoseChangeStatus.NEVER;
+	} else if (C.HasEffect("Freeze") || ChatRoomOwnerPresenceRule("BlockChangePose", C)) {
+		return PoseChangeStatus.NEVER_WITHOUT_AID;
 	}
 
 	// Add special casing for BodyLower, forcing usage of the "kneel/stand up" button if one or more standing poses have explicit support.
-	if (PoseAllStanding.some(p => PoseSetByItems(C, pose.Category, p))) {
+	if (pose.Category !== "BodyLower") {
+		return PoseChangeStatus.ALWAYS;
+	} else if (C.IsStanding() && PoseAllStanding.some(p => PoseSetByItems(C, "BodyLower", p))) {
 		// Only allow standing -> standing transitions unaided
-		return CommonIncludes(PoseAllStanding, poseName);
-	} else if (PoseAllKneeling.some(p => PoseSetByItems(C, pose.Category, p))) {
+		return CommonIncludes(PoseAllStanding, poseName) ? PoseChangeStatus.ALWAYS : PoseChangeStatus.ALWAYS_WITH_STRUGGLE;
+	} else if (C.IsKneeling() && PoseAllKneeling.some(p => PoseSetByItems(C, "BodyLower", p))) {
 		// Only allow kneeling -> kneeling transitions unaided
-		return CommonIncludes(PoseAllKneeling, poseName);
+		return CommonIncludes(PoseAllKneeling, poseName) ? PoseChangeStatus.ALWAYS : PoseChangeStatus.ALWAYS_WITH_STRUGGLE;
 	} else {
-		return true;
+		return PoseChangeStatus.ALWAYS;
 	}
+}
+
+/**
+ * Checks whether the given character can change to the pose unaided.
+ *
+ * Equivalent to checking whether a pose change has the {@link PoseChangeStatus.ALWAYS} status.
+ * @param {Character} C - The character to check
+ * @param {AssetPoseName} poseName - The name of the pose to check for
+ * @returns {boolean} - Returns true if the character can always change a pose without struggle or external aid
+ */
+function PoseCanChangeUnaided(C, poseName) {
+	return PoseCanChangeUnaidedStatus(C, poseName) === PoseChangeStatus.ALWAYS;
 }
 
 /**

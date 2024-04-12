@@ -297,6 +297,8 @@ type AssetPoseMapping = Partial<Record<AssetPoseName, AssetPoseName | PoseType>>
 type PoseType = "Hide" | PoseTypeDefault;
 type PoseTypeDefault = "";
 
+type PoseChangeStatus = 0 | 1 | 2 | 3;
+
 type AssetLockType =
 	"CombinationPadlock" | "ExclusivePadlock" | "HighSecurityPadlock" |
 	"IntricatePadlock" | "LoversPadlock" | "LoversTimerPadlock" | "FamilyPadlock" |
