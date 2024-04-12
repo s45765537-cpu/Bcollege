@@ -43518,7 +43518,7 @@ var AssetFemale3DCG = [
 									"SocksLeft",
 									"SuitLower",
 								],
-								Masks: [[35, 755, 360, 200]],
+								Masks: [[35, 748, 360, 200]],
 							},
 							{
 								Group: [
@@ -43529,7 +43529,7 @@ var AssetFemale3DCG = [
 									"SuitLower",
 								],
 								Pose: ["LegsClosed"],
-								Masks: [[35, 769, 360, 200]],
+								Masks: [[35, 770, 360, 200]],
 							},
 							{
 								Group: [
@@ -43540,7 +43540,7 @@ var AssetFemale3DCG = [
 									"SuitLower",
 								],
 								Pose: ["Spread"],
-								Masks: [[35, 737, 360, 200]],
+								Masks: [[35, 723, 360, 200]],
 							},
 						],
 					},
