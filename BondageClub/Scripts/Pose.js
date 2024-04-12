@@ -91,7 +91,7 @@ const PoseToMapping = /** @type {const} */({
  */
 function PoseCanChangeUnaided(C, poseName) {
 	const pose = PoseRecord[poseName];
-	if (!pose || !C) {
+	if (!pose || !C || C.HasEffect("Freeze") || ChatRoomOwnerPresenceRule("BlockChangePose", C)) {
 		return false;
 	}
 
