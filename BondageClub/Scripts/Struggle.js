@@ -499,7 +499,7 @@ function StruggleMinigameStart(C, MiniGame, PrevItem, NextItem, Completion) {
 	if ((StruggleProgressAuto < 0) && Player.CanInteract() && (PrevItem != null) && (!InventoryItemHasEffect(PrevItem, "Lock", true) || DialogCanUnlock(C, PrevItem)) && !InventoryItemHasEffect(PrevItem, "Mounted", true)) StruggleProgressAuto = 0;
 
 	// Roleplay users can bypass the struggle mini-game with a toggle
-	if (ServerPlayerIsInChatRoom() && ((StruggleProgressChallenge <= 6) || (StruggleProgressAuto >= 0)) && Player.RestrictionSettings.BypassStruggle) {
+	if (StruggleMinigameShouldBypass()) {
 		StruggleProgressAuto = 1;
 		StruggleProgressSkill = 5;
 	}
@@ -558,6 +558,22 @@ function StruggleMinigameStop() {
 
 	StruggleProgress = -1;
 	StruggleProgressCurrentMinigame = "";
+}
+
+/**
+ * Checks if the player wants to bypass the struggle minigame entirely
+ */
+function StruggleMinigameShouldBypass() {
+	// Check the setting
+	if (!Player.RestrictionSettings.BypassStruggle) return false;
+
+	// Only allow bypass in online rooms
+	if (!ServerPlayerIsInChatRoom()) return false;
+
+	// The challenge is too high
+	if (StruggleProgressChallenge > 6) return false;
+
+	return true;
 }
 
 ////////////////////////////STRUGGLE MINIGAME: BRUTE FORCE//////////////////////////////
@@ -921,7 +937,7 @@ function StruggleFlexibilityDraw(C) {
 	for (let RR = 0; RR < StruggleProgressFlexCircles.length; RR++) {
 		let R = StruggleProgressFlexCircles[RR];
 		if (R.Y > StruggleProgressFlexMaxY) {
-			if (!(ServerPlayerIsInChatRoom() && ((StruggleProgressChallenge <= 6) || (StruggleProgressAuto >= 0)) && Player.RestrictionSettings.BypassStruggle))
+			if (!StruggleMinigameShouldBypass())
 				StruggleFlexibilityProcess(true);
 			StruggleProgressFlexCircles.splice(RR,1);
 			break;
