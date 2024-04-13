@@ -94,6 +94,7 @@ var PreferenceGraphicsPowerModeIndex = null;
 /** @type {null | WebGLContextAttributes} */
 var PreferenceGraphicsWebGLOptions = null;
 var PreferenceGraphicsAnimationQualityList = [10000, 2000, 200, 100, 50, 0];
+var PreferenceGraphicsFrameLimit = [0, 10, 15, 30, 60];
 /** @type {string[]} */
 var PreferenceCensoredWordsList = [];
 var PreferenceCensoredWordsOffset = 0;
@@ -584,6 +585,8 @@ function PreferenceInitPlayer() {
 	if (typeof C.GraphicsSettings.SmoothZoom !== "boolean") C.GraphicsSettings.SmoothZoom = true;
 	if (typeof C.GraphicsSettings.CenterChatrooms !== "boolean") C.GraphicsSettings.CenterChatrooms = true;
 	if (typeof C.GraphicsSettings.AllowBlur !== "boolean") C.GraphicsSettings.AllowBlur = true;
+	if (!PreferenceGraphicsFrameLimit.includes(C.GraphicsSettings.MaxFPS)) C.GraphicsSettings.MaxFPS = DEFAULT_FRAMERATE;
+	if (typeof C.GraphicsSettings.ShowFPS !== "boolean") C.GraphicsSettings.ShowFPS = false;
 
 	// Notification settings
 	let NS = C.NotificationSettings;
@@ -1578,6 +1581,20 @@ function PreferenceSubscreenGraphicsRun() {
 			() => TextGet(PreferenceSettingsVFXVibratorList[(PreferenceSettingsVFXVibratorIndex + PreferenceSettingsVFXVibratorList.length - 1) % PreferenceSettingsVFXVibratorList.length]),
 			() => TextGet(PreferenceSettingsVFXVibratorList[(PreferenceSettingsVFXVibratorIndex + 1) % PreferenceSettingsVFXVibratorList.length]));
 
+		DrawBackNextButton(500, 590, 450, 64, TextGet(`MaxFPS${Player.GraphicsSettings.MaxFPS}`), "White", "",
+			() => {
+				const index = CommonModulo(PreferenceGraphicsFrameLimit.indexOf(Player.GraphicsSettings.MaxFPS) - 1, PreferenceGraphicsFrameLimit.length);
+				const key = `MaxFPS${PreferenceGraphicsFrameLimit[index]}`;
+				return TextGet(key);
+			},
+			() => {
+				const index = CommonModulo(PreferenceGraphicsFrameLimit.indexOf(Player.GraphicsSettings.MaxFPS) + 1, PreferenceGraphicsFrameLimit.length);
+				const key = `MaxFPS${PreferenceGraphicsFrameLimit[index]}`;
+				return TextGet(key);
+			}
+		);
+		MainCanvas.textAlign = "left";
+		DrawCheckbox(500, 670, 64, 64, TextGet("ShowFPS"), Player.GraphicsSettings.ShowFPS);
 	}
 }
 
@@ -1759,14 +1776,20 @@ function PreferenceSubscreenGraphicsClick() {
 			else PreferenceSettingsVFXFilterIndex = (PreferenceSettingsVFXFilterIndex + 1) % PreferenceSettingsVFXFilterList.length;
 			Player.ArousalSettings.VFXFilter = PreferenceSettingsVFXFilterList[PreferenceSettingsVFXFilterIndex];
 		}
+		if (MouseIn(500, 270, 64, 64)) Player.GraphicsSettings.SmoothZoom = !Player.GraphicsSettings.SmoothZoom;
+		if (MouseIn(500, 350, 64, 64)) Player.GraphicsSettings.CenterChatrooms = !Player.GraphicsSettings.CenterChatrooms;
 		if (MouseIn(500, 430, 450, 64)) {
 			if (MouseX <= 825) PreferenceSettingsVFXVibratorIndex = (PreferenceSettingsVFXVibratorList.length + PreferenceSettingsVFXVibratorIndex - 1) % PreferenceSettingsVFXVibratorList.length;
 			else PreferenceSettingsVFXVibratorIndex = (PreferenceSettingsVFXVibratorIndex + 1) % PreferenceSettingsVFXVibratorList.length;
 			Player.ArousalSettings.VFXVibrator = PreferenceSettingsVFXVibratorList[PreferenceSettingsVFXVibratorIndex];
 		}
-		if (MouseIn(500, 270, 64, 64)) Player.GraphicsSettings.SmoothZoom = !Player.GraphicsSettings.SmoothZoom;
-		if (MouseIn(500, 350, 64, 64)) Player.GraphicsSettings.CenterChatrooms = !Player.GraphicsSettings.CenterChatrooms;
 		if (MouseIn(500, 510, 64, 64)) Player.GraphicsSettings.AllowBlur = !Player.GraphicsSettings.AllowBlur;
+		if (MouseIn(500, 590, 450, 64)) {
+			const dir = MouseX <= 825 ? -1 : 1;
+			const idx = CommonModulo(PreferenceGraphicsFrameLimit.indexOf(Player.GraphicsSettings.MaxFPS) + dir, PreferenceGraphicsFrameLimit.length);
+			Player.GraphicsSettings.MaxFPS = PreferenceGraphicsFrameLimit[idx];
+		}
+		if (MouseIn(500, 670, 64, 64)) Player.GraphicsSettings.ShowFPS = !Player.GraphicsSettings.ShowFPS;
 	}
 }
 

@@ -15,6 +15,8 @@ var CommonVersionUpdated = false;
 /** @type {TouchList | null} */
 var CommonTouchList = null;
 
+const DEFAULT_FRAMERATE = 60;
+
 function GameStart() {
 	ServerURL = CommonGetServer();
 	//CheatImport();
@@ -50,7 +52,7 @@ function GameStart() {
 	canvas.addEventListener("touchmove", GameTouchMove);
 	canvas.addEventListener("touchend", GameTouchEnd);
 
-	GameAnimationFrameId = requestAnimationFrame(MainRun);
+	GameAnimationFrameId = requestAnimationFrame(GameRun);
 	// Can't use setInterval, chrome throttles it to 1 minute on inactive pages, but not in workers...
 	GameWorker = new Worker("Scripts/GameWorker.js");
 	GameWorker.onmessage = GameFallbackTimer;
@@ -88,8 +90,28 @@ function GameFallbackTimer() {
  */
 function GameRun(Timestamp) {
 
+	/** @type {(ms: number) => number} */
+	const estimateFrameDuration = (ms) => (1000 / ms) | 0;
+
 	try {
+		// Compatibility; call the old function (now a no-op)
+		MainRun();
+
 		GameAnimationFrameId = null;
+
+		if (TimerLastTime > 0 && Timestamp > 0) {
+			// Default to 30 fps outside the game
+			let maxFPS = Player?.GraphicsSettings?.MaxFPS ?? DEFAULT_FRAMERATE;
+			if (TimerLastTime + estimateFrameDuration(maxFPS) > Timestamp) {
+				GameAnimationFrameId = requestAnimationFrame(GameRun);
+				return;
+			}
+		}
+
+		let frameTime = 10000;
+		if (Timestamp > 0) {
+			frameTime = Timestamp - TimerLastTime;
+		}
 
 		// Increments the time from the last frame
 		TimerRunInterval = Timestamp - TimerLastTime;
@@ -102,7 +124,12 @@ function GameRun(Timestamp) {
 
 		ServerSendQueueProcess();
 
-		GameAnimationFrameId = requestAnimationFrame(MainRun);
+		GameAnimationFrameId = requestAnimationFrame(GameRun);
+
+		const showFPS = Player?.GraphicsSettings?.ShowFPS;
+		if (Timestamp > 0 && showFPS) {
+			DrawTextFit((Math.round(10000 / frameTime) / 10).toString(), 15, 12, 30, "white", "black");
+		}
 	} catch (e) {
 		GameHandleError();
 		throw e;
@@ -115,7 +142,6 @@ function GameRun(Timestamp) {
  * @param {number} Timestamp
  */
 function GameRunBackground(Timestamp) {
-
 	try {
 		// Increments the time from the last frame
 		TimerRunInterval = Timestamp - TimerLastTime;
@@ -269,7 +295,9 @@ function GameMouseLeave(event) {
 /** @deprecated */
 function KeyDown(event) { GameKeyDown(event); }
 /** @deprecated */
-function MainRun(Timestamp) { GameRun(Timestamp); }
+function MainRun(Timestamp) {
+	// This is a no-op now, only kept for compatibility
+}
 /** @deprecated */
 function Click(event) { if (!CommonIsMobile) { CommonClick(event); } }
 /** @deprecated */
