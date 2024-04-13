@@ -1100,7 +1100,6 @@ function PreferenceSubscreenImmersionRun() {
 		CheckHeight += CheckSpacing;
 		const canHideMessages = Player.GameplaySettings.SensDepChatLog !== "SensDepLight";
 		DrawCheckbox(1300, 272, 64, 64, TextGet("SenseDepMessages"), canHideMessages && Player.ImmersionSettings.SenseDepMessages, !canHideMessages || disableButtons);
-		MainCanvas.textAlign = "center";
 		DrawBackNextButton(500, 272, 250, 64, TextGet(Player.GameplaySettings.SensDepChatLog), "White", "",
 			() => disableButtons ? "" : TextGet(PreferenceSettingsSensDepList[(PreferenceSettingsSensDepIndex + PreferenceSettingsSensDepList.length - 1) % PreferenceSettingsSensDepList.length]),
 			() => disableButtons ? "" : TextGet(PreferenceSettingsSensDepList[(PreferenceSettingsSensDepIndex + 1) % PreferenceSettingsSensDepList.length]));
@@ -1109,7 +1108,6 @@ function PreferenceSubscreenImmersionRun() {
 		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("StimulationEvents"), Player.ImmersionSettings.StimulationEvents, disableButtons); CheckHeight += CheckSpacing;
 		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("AllowTints"), Player.ImmersionSettings.AllowTints, disableButtons); CheckHeight += CheckSpacing;
 		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("ChatRoomMapLeaveOnExit"), Player.ImmersionSettings.ChatRoomMapLeaveOnExit, disableButtons); CheckHeight += CheckSpacing;
-		MainCanvas.textAlign = "center";
 	}
 
 }
@@ -1228,17 +1226,13 @@ function PreferenceSubscreenAudioRun() {
 	MainCanvas.textAlign = "left";
 	DrawText(TextGet("AudioPreferences"), 500, 125, "Black", "Gray");
 	DrawText(TextGet("AudioVolume"), 800, 225, "Black", "Gray");
-	MainCanvas.textAlign = "center";
 	DrawBackNextButton(500, 193, 250, 64, Player.AudioSettings.Volume * 100 + "%", "White", "",
 		() => PreferenceSettingsVolumeList[(PreferenceSettingsVolumeIndex + PreferenceSettingsVolumeList.length - 1) % PreferenceSettingsVolumeList.length] * 100 + "%",
 		() => PreferenceSettingsVolumeList[(PreferenceSettingsVolumeIndex + 1) % PreferenceSettingsVolumeList.length] * 100 + "%");
-	MainCanvas.textAlign = "left";
 	DrawText(TextGet("MusicVolume"), 800, 310, "Black", "Gray");
-	MainCanvas.textAlign = "center";
 	DrawBackNextButton(500, 272, 250, 64, Player.AudioSettings.MusicVolume * 100 + "%", "White", "",
 		() => PreferenceSettingsVolumeList[(PreferenceSettingsMusicVolumeIndex + PreferenceSettingsVolumeList.length - 1) % PreferenceSettingsVolumeList.length] * 100 + "%",
 		() => PreferenceSettingsVolumeList[(PreferenceSettingsMusicVolumeIndex + 1) % PreferenceSettingsVolumeList.length] * 100 + "%");
-	MainCanvas.textAlign = "left";
 	DrawCheckbox(500, 352, 64, 64, TextGet("AudioPlayBeeps"), Player.AudioSettings.PlayBeeps);
 	DrawCheckbox(500, 432, 64, 64, TextGet("AudioPlayItem"), Player.AudioSettings.PlayItem);
 	DrawCheckbox(500, 512, 64, 64, TextGet("AudioPlayItemPlayerOnly"), Player.AudioSettings.PlayItemPlayerOnly);
@@ -1266,20 +1260,16 @@ function PreferenceSubscreenControllerRun() {
 		DrawButton(500, 480, 400, 90, "", "White");
 		DrawTextFit(TextGet("MapSticks"), 590, 525, 310, "Black");
 
-		MainCanvas.textAlign = "center";
 		DrawBackNextButton(500, 193, 250, 64, Player.ControllerSettings.ControllerSensitivity.toString(), "White", "",
 			() => PreferenceSettingsSensitivityList[(PreferenceSettingsSensitivityIndex + PreferenceSettingsSensitivityList.length - 1) % PreferenceSettingsSensitivityList.length].toString(),
 			() => PreferenceSettingsSensitivityList[(PreferenceSettingsSensitivityIndex + 1) % PreferenceSettingsSensitivityList.length].toString());
-		MainCanvas.textAlign = "center";
 		DrawBackNextButton(500, 593, 250, 64, Player.ControllerSettings.ControllerDeadZone.toString(), "White", "",
 			() => PreferenceSettingsDeadZoneList[(PreferenceSettingsDeadZoneIndex + PreferenceSettingsDeadZoneList.length - 1) % PreferenceSettingsDeadZoneList.length].toString(),
 			() => PreferenceSettingsDeadZoneList[(PreferenceSettingsDeadZoneIndex + 1) % PreferenceSettingsDeadZoneList.length].toString() );
 	} else {
 		DrawButton(1815, 178, 90, 90, "", "White", "Icons/Cancel.png", TextGet("Skip"));
 		const label = ControllerCalibrationStageLabel();
-		MainCanvas.textAlign = "left";
 		DrawTextFit(label, 590, 425, 310, "Black");
-		MainCanvas.textAlign = "center";
 	}
 }
 
@@ -1344,7 +1334,6 @@ function PreferenceSubscreenChatRun() {
 			break;
 	}
 
-	MainCanvas.textAlign = "center";
 	PreferenceDrawBackNextButton(1000, 170, 350, 60, PreferenceChatColorThemeList, PreferenceChatColorThemeIndex);
 	PreferenceDrawBackNextButton(1000, 250, 350, 60, PreferenceChatEnterLeaveList, PreferenceChatEnterLeaveIndex);
 	PreferenceDrawBackNextButton(1000, 330, 350, 60, PreferenceChatMemberNumbersList, PreferenceChatMemberNumbersIndex);
@@ -1424,13 +1413,11 @@ function PreferenceSubscreenArousalRun() {
 			DrawCheckbox(1230, 853, 64, 64, TextGet("ArousalAllowOrgasm"), PreferenceGetZoneOrgasm(Player, Player.FocusGroup.Name));
 			DrawText(TextGet("ArousalZone" + Player.FocusGroup.Name) + " - " + TextGet("ArousalConfigureErogenousZones"), 550, 795, "Black", "Gray");
 			DrawAssetGroupZone(Player, Player.FocusGroup.Zone, 0.9, 50, 50, 1, "cyan");
-			MainCanvas.textAlign = "center";
 			DrawBackNextButton(550, 853, 600, 64, TextGet("ArousalZoneLove" + PreferenceArousalZoneFactor), PreferenceGetFactorColor(PreferenceGetZoneFactor(Player, Player.FocusGroup.Name)), "", () => "", () => "");
 		}
 		else DrawText(TextGet("ArousalSelectErogenousZones"), 550, 795, "Black", "Gray");
 
 		// Draws the sub-selection controls
-		MainCanvas.textAlign = "center";
 		DrawBackNextButton(1505, 193, 400, 64, TextGet("ArousalVisible" + PreferenceArousalVisibleList[PreferenceArousalVisibleIndex]), "White", "", () => "", () => "");
 		DrawBackNextButton(900, 598, 500, 64, ActivityDictionaryText("Activity" + PreferenceArousalActivityList[PreferenceArousalActivityIndex]), "White", "", () => "", () => "");
 		DrawBackNextButton(900, 683, 300, 64, TextGet("ArousalActivityLove" + PreferenceArousalActivityFactorSelf), PreferenceGetFactorColor(PreferenceGetActivityFactor(Player, PreferenceArousalActivityList[PreferenceArousalActivityIndex], true)), "", () => "", () => "");
@@ -1442,7 +1429,6 @@ function PreferenceSubscreenArousalRun() {
 	}
 
 	// We always draw the active & stutter control
-	MainCanvas.textAlign = "center";
 	DrawBackNextButton(750, 193, 450, 64, TextGet("ArousalActive" + PreferenceArousalActiveList[PreferenceArousalActiveIndex]), "White", "", () => "", () => "");
 	DrawBackNextButton(900, 428, 500, 64, TextGet("ArousalStutter" + PreferenceArousalAffectStutterList[PreferenceArousalAffectStutterIndex]), "White", "", () => "", () => "");
 	DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
@@ -1545,7 +1531,6 @@ function PreferenceSubscreenGraphicsRun() {
 			DrawText(TextGet("GraphicsNoWebGL"), 700, 810, "Red", "Gray");
 		}
 
-		MainCanvas.textAlign = "center";
 		DrawBackNextButton(500, 182, 250, 64, TextGet(Player.ArousalSettings.VFX), "White", "",
 			() => TextGet(PreferenceSettingsVFXList[(PreferenceSettingsVFXIndex + PreferenceSettingsVFXList.length - 1) % PreferenceSettingsVFXList.length]),
 			() => TextGet(PreferenceSettingsVFXList[(PreferenceSettingsVFXIndex + 1) % PreferenceSettingsVFXList.length]));
@@ -1569,7 +1554,6 @@ function PreferenceSubscreenGraphicsRun() {
 		DrawCheckbox(500, 350, 64, 64, TextGet("CenterChatrooms"), Player.GraphicsSettings.CenterChatrooms);
 		DrawCheckbox(500, 510, 64, 64, TextGet("AllowBlur"), Player.GraphicsSettings.AllowBlur);
 
-		MainCanvas.textAlign = "center";
 		DrawBackNextButton(500, 190, 450, 64, TextGet(Player.ArousalSettings.VFXFilter || PreferenceSettingsVFXFilterList[PreferenceSettingsVFXFilterIndex]), "White", "",
 			() => TextGet(PreferenceSettingsVFXFilterList[(PreferenceSettingsVFXFilterIndex + PreferenceSettingsVFXFilterList.length - 1) % PreferenceSettingsVFXFilterList.length]),
 			() => TextGet(PreferenceSettingsVFXFilterList[(PreferenceSettingsVFXFilterIndex + 1) % PreferenceSettingsVFXFilterList.length]));
@@ -2621,9 +2605,7 @@ function PreferenceSubscreenNotificationsRun() {
  * @returns {void} - Nothing
  */
 function PreferenceNotificationsDrawSetting(Left, Top, Text, Setting) {
-	MainCanvas.textAlign = "center";
 	DrawBackNextButton(Left, Top, 164, 64, TextGet("NotificationsAlertType" + Setting.AlertType.toString()), "White", null, () => "", () => "");
-	MainCanvas.textAlign = "left";
 	const Enabled = Setting.AlertType > 0;
 	if (Enabled) {
 		DrawButton(Left + 200, Top, 64, 64, "", "White", "Icons/Audio" + Setting.Audio.toString() + ".png");
