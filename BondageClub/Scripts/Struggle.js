@@ -333,6 +333,11 @@ function StruggleMinigameDrawCommon(Offset) {
 	// Add or subtract to the automatic progression, doesn't move in color picking mode
 	StruggleProgress = StruggleProgress + StruggleProgressAuto;
 	if (StruggleProgress < 0) StruggleProgress = 0;
+
+	// Change the operation to "Impossible" if applicable once the player struggled enough, or they're bypassing
+	if ((StruggleProgressStruggleCount >= STRUGGLE_THRESHOLD_REVEAL || StruggleMinigameShouldBypass()) && StruggleMinigameIsImpossible() && (StruggleProgressAuto < 0)) {
+		StruggleProgressOperation = InterfaceTextGet("Impossible");
+	}
 }
 
 /**
@@ -524,8 +529,8 @@ function StruggleMinigameStart(C, MiniGame, PrevItem, NextItem, Completion) {
 	if ((StruggleProgressAuto < 0) && Player.CanInteract() && (PrevItem == null)) StruggleProgressAuto = 0;
 	if ((StruggleProgressAuto < 0) && Player.CanInteract() && (PrevItem != null) && (!InventoryItemHasEffect(PrevItem, "Lock", true) || DialogCanUnlock(C, PrevItem)) && !InventoryItemHasEffect(PrevItem, "Mounted", true)) StruggleProgressAuto = 0;
 
-	// Roleplay users can bypass the struggle mini-game with a toggle
-	if (StruggleMinigameShouldBypass()) {
+	// If the minigame should be bypassed, force the auto-progress value and set the gained XP to 5
+	if (StruggleMinigameShouldBypass() && !StruggleMinigameIsImpossible()) {
 		StruggleProgressAuto = 1;
 		StruggleProgressSkill = 5;
 	}
@@ -596,10 +601,14 @@ function StruggleMinigameShouldBypass() {
 	// Only allow bypass in online rooms
 	if (!ServerPlayerIsInChatRoom()) return false;
 
-	// The challenge is too high
-	if (StruggleProgressChallenge > STRUGGLE_THRESHOLD_IMPOSSIBLE) return false;
-
 	return true;
+}
+
+/**
+ * Checks if the struggle challenge can actually be completed
+ */
+function StruggleMinigameIsImpossible() {
+	return (StruggleProgressChallenge > STRUGGLE_THRESHOLD_IMPOSSIBLE);
 }
 
 ////////////////////////////STRUGGLE MINIGAME: BRUTE FORCE//////////////////////////////
@@ -710,16 +719,17 @@ function StruggleStrengthProcess(Decrease) {
 	// Progress calculation
 	var P = 42 / (StruggleProgressSkill * CheatFactor("DoubleItemSpeed", 0.5)); // Regular progress, slowed by long timers, faster with cheats
 	P = P * (100 / (StruggleProgress + 50));  // Faster when the dialog starts, longer when it ends
-	if ((StruggleProgressChallenge > STRUGGLE_THRESHOLD_IMPOSSIBLE) && (StruggleProgress > 50) && (StruggleProgressAuto < 0)) P = P * (1 - ((StruggleProgress - 50) / 50)); // Beyond challenge 6, it becomes impossible after 50% progress
+	if (StruggleMinigameIsImpossible() && (StruggleProgress > 50) && (StruggleProgressAuto < 0)) {
+		// Beyond challenge 6, it becomes impossible after 50% progress
+		P = P * (1 - ((StruggleProgress - 50) / 50));
+	}
 	P = P * (Decrease ? -1 : 1); // Reverses the progress if the user pushed the same key twice
 
 	// Sets the new progress and writes the "Impossible" message if we need to
 	StruggleProgress = StruggleProgress + P;
 	if (StruggleProgress < 0) StruggleProgress = 0;
-	if ((StruggleProgress >= 100) && (StruggleProgressChallenge > STRUGGLE_THRESHOLD_IMPOSSIBLE) && (StruggleProgressAuto < 0)) StruggleProgress = 99;
+	if ((StruggleProgress >= 100) && StruggleMinigameIsImpossible() && (StruggleProgressAuto < 0)) StruggleProgress = 99;
 	if (!Decrease) StruggleProgressStruggleCount++;
-	if ((StruggleProgressStruggleCount >= 50) && (StruggleProgressChallenge > STRUGGLE_THRESHOLD_IMPOSSIBLE) && (StruggleProgressAuto < 0))
-		StruggleProgressOperation = InterfaceTextGet("Impossible");
 	StruggleMinigameHandleExpression(Decrease);
 
 }
@@ -1058,17 +1068,17 @@ function StruggleFlexibilityProcess(Decrease) {
 	// Progress calculation
 	var P = 60 / (StruggleProgressSkill/3 * CheatFactor("DoubleItemSpeed", 0.5)); // Regular progress, slowed by long timers, faster with cheats
 
-	if ((StruggleProgressChallenge > STRUGGLE_THRESHOLD_IMPOSSIBLE) && (StruggleProgress > 50) && (StruggleProgressAuto < 0)) P = P * (1 - ((StruggleProgress - 50) / 50)); // Beyond challenge 6, it becomes impossible after 50% progress
+	if (StruggleMinigameIsImpossible() && (StruggleProgress > 50) && (StruggleProgressAuto < 0)) {
+		// Beyond challenge 6, it becomes impossible after 50% progress
+		P = P * (1 - ((StruggleProgress - 50) / 50));
+	}
 	P = P * (Decrease ? -1 : 1); // Reverses the progress if the user pushed the same key twice
 
 	// Sets the new progress and writes the "Impossible" message if we need to
 	StruggleProgress = StruggleProgress + P;
 	if (StruggleProgress < 0) StruggleProgress = 0;
-	if ((StruggleProgress >= 100) && (StruggleProgressChallenge > STRUGGLE_THRESHOLD_IMPOSSIBLE) && (StruggleProgressAuto < 0)) StruggleProgress = 99;
+	if ((StruggleProgress >= 100) && StruggleMinigameIsImpossible() && (StruggleProgressAuto < 0)) StruggleProgress = 99;
 	if (!Decrease) StruggleProgressStruggleCount += 3;
-	if ((StruggleProgressStruggleCount >= 50) && (StruggleProgressChallenge > STRUGGLE_THRESHOLD_IMPOSSIBLE) && (StruggleProgressAuto < 0)) {
-		StruggleProgressOperation = InterfaceTextGet("Impossible");
-	}
 	StruggleMinigameHandleExpression(Decrease);
 
 }
@@ -1238,8 +1248,11 @@ function StruggleDexterityProcess() {
 
 	// Progress calculation
 	var P = 200 / (StruggleProgressSkill/3.5 * CheatFactor("DoubleItemSpeed", 0.5)); // Regular progress, slowed by long timers, faster with cheats
-	if ((StruggleProgressChallenge > STRUGGLE_THRESHOLD_IMPOSSIBLE) && (StruggleProgress > 50) && (StruggleProgressAuto < 0)) P = P * (1 - ((StruggleProgress - 50) / 50)); // Beyond challenge 6, it becomes impossible after 50% progress
-	var distMult = Math.max(-0.5, Math.min(1, (85 - Math.abs(StruggleProgressDexTarget - StruggleProgressDexCurrent))/75));
+	if ((StruggleProgressChallenge > STRUGGLE_THRESHOLD_IMPOSSIBLE) && (StruggleProgress > 50) && (StruggleProgressAuto < 0)) {
+		// Beyond challenge 6, it becomes impossible after 50% progress
+		P = P * (1 - ((StruggleProgress - 50) / 50));
+	}
+	const distMult = Math.max(-0.5, Math.min(1, (85 - Math.abs(StruggleProgressDexTarget - StruggleProgressDexCurrent))/75));
 	P = P * distMult; // Reverses the progress if too far
 	if (P > 0) StruggleProgressDexTarget = Math.random() * 2 * StruggleProgressDexMax - StruggleProgressDexMax;
 
@@ -1248,9 +1261,6 @@ function StruggleDexterityProcess() {
 	if (StruggleProgress < 0) StruggleProgress = 0;
 	if ((StruggleProgress >= 100) && (StruggleProgressChallenge > STRUGGLE_THRESHOLD_IMPOSSIBLE) && (StruggleProgressAuto < 0)) StruggleProgress = 99;
 	StruggleProgressStruggleCount += Math.max(1, 3*(distMult + 0.5));
-	if ((StruggleProgressStruggleCount >= 50) && (StruggleProgressChallenge > STRUGGLE_THRESHOLD_IMPOSSIBLE) && (StruggleProgressAuto < 0)) {
-		StruggleProgressOperation = InterfaceTextGet("Impossible");
-	}
 	StruggleMinigameHandleExpression();
 
 }
