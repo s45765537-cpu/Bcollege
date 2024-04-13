@@ -935,6 +935,27 @@ var AssetFemale3DCG = [
 						AllowTypes: { t: 8 },
 						CopyLayerColor: "None",
 					},
+					{
+						Name: "WhiteMoon",
+						PoseMapping: {},
+						ParentGroup: null,
+						AllowTypes: { t: 9 },
+						CopyLayerColor: "None",
+					},
+					{
+						Name: "ZamStick",
+						PoseMapping: {},
+						ParentGroup: null,
+						AllowTypes: { t: 10 },
+						CopyLayerColor: "None",
+					},
+					{
+						Name: "Eclipse",
+						PoseMapping: {},
+						ParentGroup: null,
+						AllowTypes: { t: 11 },
+						CopyLayerColor: "None",
+					},
 				],
 			},
 			{
