@@ -437,6 +437,9 @@ var AssetFemale3DCGExtended = {
 						{}, // t6 - Staff
 						{}, // t7 - Elite
 						{}, // t8 - Raiders
+						{}, // t9 - WhiteMoon
+						{}, // t10 - ZamStick
+						{}, // t10 - Eclipse
 					],
 				},
 			],
