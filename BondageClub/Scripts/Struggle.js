@@ -247,6 +247,11 @@ function StruggleKeyDown(event) {
 
 	if (!StruggleMinigameIsRunning()) return false;
 
+	if (event.key === "Escape") {
+		StruggleMinigameStop();
+		return true;
+	}
+
 	if (!StruggleMinigames[StruggleProgressCurrentMinigame].HandleEvent) return false;
 
 	StruggleMinigames[StruggleProgressCurrentMinigame].HandleEvent("KeyDown", event);

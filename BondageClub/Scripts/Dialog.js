@@ -3565,7 +3565,7 @@ function DialogKeyDown(event) {
 	if (CurrentCharacter) {
 		if (StruggleKeyDown(event)) {
 			return true;
-		} else if (event.code === "Escape") {
+		} else if (event.key === "Escape") {
 			DialogMenuBack();
 			return true;
 		}
