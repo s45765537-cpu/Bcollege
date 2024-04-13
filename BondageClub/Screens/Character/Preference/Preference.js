@@ -199,7 +199,7 @@ function PreferenceSetActivityFactor(C, Type, Self, Factor) {
 
 /**
  * Validates the character arousal object and converts it's objects to compressed string if needed
- * @param {number} Factor - The 
+ * @param {number} Factor - The
  * @returns {string} - A string of 1 char that represents the compressed zone
  */
 function PreferenceArousalZoneToChar(Factor, Orgasm) {
@@ -240,7 +240,7 @@ function PreferenceGetArousalZone(C, ZoneName) {
 		// @ts-ignore
 		Factor: Value % 10,
 		Orgasm: (Value >= 10)
-	}
+	};
 
 }
 
@@ -267,7 +267,7 @@ function PreferenceGetZoneFactor(C, ZoneName) {
  * @returns {void} - Nothing
  */
 function PreferenceSetZoneFactor(C, ZoneName, Factor) {
-	
+
 	// Nothing to do if data is invalid
 	if ((C == null) || (C.ArousalSettings == null) || (C.ArousalSettings.Zone == null) || (typeof C.ArousalSettings.Zone !== "string")) return;
 
@@ -283,12 +283,12 @@ function PreferenceSetZoneFactor(C, ZoneName, Factor) {
 			Name: ZoneName,
 			Factor: 2,
 			Orgasm: false
-		}
+		};
 	}
 	Zone.Factor = Factor;
 
 	// Creates the new char and slides it in the compressed string
-    C.ArousalSettings.Zone = C.ArousalSettings.Zone.substring(0, Group.ArousalZoneID) + PreferenceArousalZoneToChar(Zone.Factor, Zone.Orgasm) + C.ArousalSettings.Zone.substring(Group.ArousalZoneID + 1);
+	C.ArousalSettings.Zone = C.ArousalSettings.Zone.substring(0, Group.ArousalZoneID) + PreferenceArousalZoneToChar(Zone.Factor, Zone.Orgasm) + C.ArousalSettings.Zone.substring(Group.ArousalZoneID + 1);
 
 }
 
@@ -327,12 +327,12 @@ function PreferenceSetZoneOrgasm(C, ZoneName, CanOrgasm) {
 			Name: ZoneName,
 			Factor: 2,
 			Orgasm: false
-		}
+		};
 	}
 	Zone.Orgasm = CanOrgasm;
 
 	// Creates the new char and slides it in the compressed string
-    C.ArousalSettings.Zone = C.ArousalSettings.Zone.substring(0, Group.ArousalZoneID) + PreferenceArousalZoneToChar(Zone.Factor, Zone.Orgasm) + C.ArousalSettings.Zone.substring(Group.ArousalZoneID + 1);
+	C.ArousalSettings.Zone = C.ArousalSettings.Zone.substring(0, Group.ArousalZoneID) + PreferenceArousalZoneToChar(Zone.Factor, Zone.Orgasm) + C.ArousalSettings.Zone.substring(Group.ArousalZoneID + 1);
 
 }
 
@@ -3067,7 +3067,7 @@ var PreferenceArousalSettingsValidate = {
 			ret.push(...CommonCloneDeep(PreferenceArousalSettingsDefault.Zone.filter(({ Name }) => expectedKeys.has(Name))));
 		}
 		return ret;*/
-		
+
 		return (typeof arg === "string" && arg != null) ? arg : PreferenceArousalZoneDefaultCompressedString;
 
 	},
@@ -3305,14 +3305,14 @@ function PreferenceValidateArousalData(C) {
 				let Found = false;
 				for (let Z of C.ArousalSettings.Zone) {
 					/** @type {object} */
-					let Zone = Z; 
+					let Zone = Z;
 					if ((typeof Zone === "object") && (Zone.Name != null) && (typeof Zone.Name === "string") && (Zone.Name === Group.Name) && (Zone.Factor != null) && (typeof Zone.Factor === "number") && (Zone.Orgasm != null) && (typeof Zone.Orgasm === "boolean")) {
 						NewZone = NewZone + PreferenceArousalZoneToChar(Zone.Factor, Zone.Orgasm);
 						Found = true;
 						break;
 					}
 				}
-			
+
 				// If it wasn't found, we create the char for it
 				if (!Found)
 					NewZone = NewZone + PreferenceArousalZoneToChar(2, false);
@@ -3343,5 +3343,5 @@ function PreferenceValidateArousalData(C) {
 	// If we must update the server with the updated data
 	if (MustUpdate)
 		ServerAccountUpdate.QueueData({ ArousalSettings: Player.ArousalSettings });
-	
+
 }
