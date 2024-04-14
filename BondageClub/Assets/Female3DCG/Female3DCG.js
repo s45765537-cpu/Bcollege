@@ -30163,7 +30163,7 @@ var AssetFemale3DCG = [
 				Time: 30,
 				AllowLock: true,
 				AllowTighten: true,
-				Prerequisite: "GagFlat",
+				Prerequisite: ["GagFlat", "AccessMouth"],
 				Hide: ["Mouth"],
 				Effect: [E.GagEasy, E.OpenMouth],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
