@@ -127,7 +127,6 @@ function NPCTraitDialog(C) {
 
 }
 
-
 /**
  * Sets the arousal settings for a NPC if it's not already done
  * @param {Character} C - NPC to set the arousal stats of
@@ -136,10 +135,11 @@ function NPCTraitDialog(C) {
 function NPCArousal(C) {
 
 	// Generates new data if there isn't any
-	if (C.ArousalSettings == null || (C.ArousalSettings.Zone && C.ArousalSettings.Zone.length == 0)) {
+	if ((C.ArousalSettings == null) || (C.ArousalSettings.Zone == null) || (typeof C.ArousalSettings.Zone !== "string") || (C.ArousalSettings.Zone.length != PreferenceArousalZoneCount)) {
 
 		// Resets to the default settings in automatic mode
 		PreferenceInit(C);
+		if ((C.ArousalSettings.Zone == null) || (typeof C.ArousalSettings.Zone !== "string") || (C.ArousalSettings.Zone.length != PreferenceArousalZoneCount)) C.ArousalSettings.Zone = PreferenceArousalZoneDefaultCompressedString;
 		var Dominant = NPCTraitGet(C, "Dominant");
 		var Horny = NPCTraitGet(C, "Horny");
 
@@ -173,19 +173,28 @@ function NPCArousal(C) {
 		}
 
 		// Picks a random zone that's sure to trigger an orgasm, each girl has a perfect zone
-		var OrgasmZones = ["ItemBreast", "ItemVulva", "ItemButt"];
+		var OrgasmZones = ["ItemBreast", "ItemVulva", "ItemVulvaPiercings", "ItemButt"];
 		var Orgasm = CommonRandomItemFromList("", OrgasmZones);
 
-		// Generates love/hate for all regions randomly
-		for (let Z = 0; Z < C.ArousalSettings.Zone.length; Z++) {
-			if (C.ArousalSettings.Zone[Z].Name == Orgasm) {
-				C.ArousalSettings.Zone[Z].Factor = 4;
-				C.ArousalSettings.Zone[Z].Orgasm = true;
-			} else {
-				C.ArousalSettings.Zone[Z].Factor = /** @type {ArousalFactor} */(Math.round((Math.random() * 4) + 0.5));
-				if ((OrgasmZones.indexOf(C.ArousalSettings.Zone[Z].Name) >= 0) && (Math.random() > 0.5)) C.ArousalSettings.Zone[Z].Orgasm = true;
+		// Go through all zones
+		for (let Group of AssetGroup)
+			if (Group.ArousalZoneID != null) {
+
+				// Gets the current factors for that charact
+				let Zone = PreferenceGetArousalZone(C, Group.Name);
+
+				// Orgasm zone is always maxed, if not it's randomized
+				if (Zone.Name == Orgasm) {
+					PreferenceSetZoneFactor(C, Zone.Name, 4);
+					PreferenceSetZoneOrgasm(C, Zone.Name, true);
+				} else {
+					let Factor = /** @type {ArousalFactor} */(Math.round((Math.random() * 4) + 0.5));
+					PreferenceSetZoneFactor(C, Zone.Name, Factor);
+					let CanOrgasm = ((Factor > 0) && (OrgasmZones.indexOf(Zone.Name) >= 0) && (Math.random() > 0.5));
+					PreferenceSetZoneOrgasm(C, Zone.Name, CanOrgasm);
+				}
+
 			}
-		}
 
 	}
 

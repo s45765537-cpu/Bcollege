@@ -97,7 +97,7 @@ const E = /** @type {const} */ ({
 
 	/**
 	 * Marks the item as a urethral insert.
-	 * 
+	 *
 	 * Used when checking if the item should allow the penis to be limp.
 	 */
 	ForcedErection: "ForcedErection",
@@ -847,6 +847,114 @@ var AssetFemale3DCG = [
 						CreateLayerTypes: ["typed"],
 						AllowColorize: true,
 						ParentGroup: null,
+					},
+				],
+			},
+			{
+				Name: "CustomTShirt",
+				Value: 10,
+				Random: true,
+				Extended: true,
+				DefaultColor: ["#FD8D8F", "Default"],
+				PoseMapping: {
+					...AssetPoseMapping.Cloth,
+					TapedHands: "BackBoxTie",
+				},
+				HideItem: [
+					"ItemNipplesPiercingsRoundPiercing",
+					"ItemNipplesPiercingsNecklacePiercingChain",
+					"ItemNipplesLactationPump",
+					"BraRibbons",
+					"ItemBreastRibbons",
+				],
+				Layer: [
+					{
+						Name: "Shirt",
+						AllowColorize: true,
+					},
+					{
+						Name: "None",
+						PoseMapping: {},
+						ParentGroup: null,
+						AllowTypes: { t: 0 },
+						AllowColorize: true,
+					},
+					{
+						Name: "BondageCollege",
+						PoseMapping: {},
+						ParentGroup: null,
+						AllowTypes: { t: 1 },
+						CopyLayerColor: "None",
+					},
+					{
+						Name: "BTG",
+						PoseMapping: {},
+						ParentGroup: null,
+						AllowTypes: { t: 2 },
+						CopyLayerColor: "None",
+					},
+					{
+						Name: "Dominant",
+						PoseMapping: {},
+						ParentGroup: null,
+						AllowTypes: { t: 3 },
+						CopyLayerColor: "None",
+					},
+					{
+						Name: "Bonk",
+						PoseMapping: {},
+						ParentGroup: null,
+						AllowTypes: { t: 4 },
+						CopyLayerColor: "None",
+					},
+					{
+						Name: "OldXGame",
+						PoseMapping: {},
+						ParentGroup: null,
+						AllowTypes: { t: 5 },
+						CopyLayerColor: "None",
+					},
+					{
+						Name: "Staff",
+						PoseMapping: {},
+						ParentGroup: null,
+						AllowTypes: { t: 6 },
+						CopyLayerColor: "None",
+					},
+					{
+						Name: "Elite",
+						PoseMapping: {},
+						ParentGroup: null,
+						AllowTypes: { t: 7 },
+						CopyLayerColor: "None",
+					},
+					{
+						Name: "Raiders",
+						PoseMapping: {},
+						ParentGroup: null,
+						AllowTypes: { t: 8 },
+						CopyLayerColor: "None",
+					},
+					{
+						Name: "WhiteMoon",
+						PoseMapping: {},
+						ParentGroup: null,
+						AllowTypes: { t: 9 },
+						CopyLayerColor: "None",
+					},
+					{
+						Name: "ZamStick",
+						PoseMapping: {},
+						ParentGroup: null,
+						AllowTypes: { t: 10 },
+						CopyLayerColor: "None",
+					},
+					{
+						Name: "Eclipse",
+						PoseMapping: {},
+						ParentGroup: null,
+						AllowTypes: { t: 11 },
+						CopyLayerColor: "None",
 					},
 				],
 			},
@@ -1817,12 +1925,14 @@ var AssetFemale3DCG = [
 						AllowColorize: true,
 						Priority: 28,
 						AllowTypes: { typed: 1 },
+						HideAs: { Group: "Gloves" },
 					},
 					{
 						Name: "TransparentGloves",
 						CopyLayerColor: "OpaqueGloves",
 						Priority: 28,
 						AllowTypes: { typed: 2 },
+						HideAs: { Group: "Gloves" },
 					},
 				],
 			},
@@ -2562,6 +2672,7 @@ var AssetFemale3DCG = [
 				Prerequisite: ["HasBreasts"],
 				Fetish: ["Leather"],
 				Value: 78,
+				BuyGroup: "CorsetDress",
 				Extended: true,
 				CreateLayerTypes: ["typed"],
 				PoseMapping: { ...AssetPoseMapping.Cloth },
@@ -3050,6 +3161,7 @@ var AssetFemale3DCG = [
 				Fetish: ["Leather"],
 				ParentGroup: "BodyUpper",
 				Value: 15,
+				Priority: 31,
 				Extended: true,
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
@@ -3083,6 +3195,7 @@ var AssetFemale3DCG = [
 				Fetish: ["Leather"],
 				ParentGroup: "BodyUpper",
 				Value: 18,
+				Priority: 31,
 				PoseMapping: {
 					BackBoxTie: "BackBoxTie",
 					BackCuffs: "BackCuffs",
@@ -3093,29 +3206,6 @@ var AssetFemale3DCG = [
 					AllFours: PoseType.HIDE,
 					Hogtied: PoseType.HIDE,
 				},
-				Alpha: [
-					{
-						Pose: [
-							"BackCuffs",
-							"OverTheHead",
-							"BackBoxTie",
-							"BackElbowTouch",
-							"Yoked",
-							"AllFours",
-							"TapedHands",
-						],
-						Group: [
-							"Cloth",
-							"ClothLower",
-							"Suit",
-							"SuitLower",
-							"Corset",
-							"Bra",
-							"Panties",
-						],
-						Masks: [[193, 380, 110, 50]],
-					},
-				],
 			},
 			{
 				Name: "LatexApron",
@@ -3576,12 +3666,14 @@ var AssetFemale3DCG = [
 						AllowColorize: true,
 						Priority: 27,
 						AllowTypes: { typed: 1 },
+						HideAs: { Group: "Gloves" },
 					},
 					{
 						Name: "TransparentGloves",
 						CopyLayerColor: "OpaqueGloves",
 						Priority: 27,
 						AllowTypes: { typed: 2 },
+						HideAs: { Group: "Gloves" },
 					},
 				],
 			},
@@ -3711,12 +3803,14 @@ var AssetFemale3DCG = [
 						AllowColorize: true,
 						Priority: 27,
 						AllowTypes: { typed: 1 },
+						HideAs: { Group: "Gloves" },
 					},
 					{
 						Name: "TransparentGloves",
 						CopyLayerColor: "OpaqueGloves",
 						Priority: 27,
 						AllowTypes: { typed: 2 },
+						HideAs: { Group: "Gloves" },
 					},
 				],
 			},
@@ -3758,12 +3852,14 @@ var AssetFemale3DCG = [
 						AllowColorize: true,
 						Priority: 27,
 						AllowTypes: { typed: 1 },
+						HideAs: { Group: "Gloves" },
 					},
 					{
 						Name: "TransparentGloves",
 						CopyLayerColor: "OpaqueGloves",
 						Priority: 27,
 						AllowTypes: { typed: 2 },
+						HideAs: { Group: "Gloves" },
 					},
 				],
 			},
@@ -3784,12 +3880,14 @@ var AssetFemale3DCG = [
 						AllowColorize: true,
 						Priority: 27,
 						AllowTypes: { typed: 2 },
+						HideAs: { Group: "Gloves" },
 					},
 					{
 						Name: "TransparentGloves",
 						CopyLayerColor: "OpaqueGloves",
 						Priority: 27,
 						AllowTypes: { typed: 1 },
+						HideAs: { Group: "Gloves" },
 					},
 				],
 			},
@@ -3811,12 +3909,14 @@ var AssetFemale3DCG = [
 						AllowColorize: true,
 						Priority: 27,
 						AllowTypes: { typed: 2 },
+						HideAs: { Group: "Gloves" },
 					},
 					{
 						Name: "TransparentGloves",
 						CopyLayerColor: "OpaqueGloves",
 						Priority: 27,
 						AllowTypes: { typed: 1 },
+						HideAs: { Group: "Gloves" },
 					},
 				],
 			},
@@ -3842,12 +3942,14 @@ var AssetFemale3DCG = [
 						AllowColorize: true,
 						Priority: 27,
 						AllowTypes: { typed: 1 },
+						HideAs: { Group: "Gloves" },
 					},
 					{
 						Name: "TransparentGloves",
 						CopyLayerColor: "OpaqueGloves",
 						Priority: 27,
 						AllowTypes: { typed: 2 },
+						HideAs: { Group: "Gloves" },
 					},
 				],
 			},
@@ -3964,12 +4066,14 @@ var AssetFemale3DCG = [
 						AllowColorize: true,
 						Priority: 27,
 						AllowTypes: { typed: 1 },
+						HideAs: { Group: "Gloves" },
 					},
 					{
 						Name: "TransparentGloves",
 						CopyLayerColor: "OpaqueGloves",
 						Priority: 27,
 						AllowTypes: { typed: 2 },
+						HideAs: { Group: "Gloves" },
 					},
 				],
 			},
@@ -7696,16 +7800,28 @@ var AssetFemale3DCG = [
 			{
 				Name: "LegFur",
 				Value: 5,
-				DefaultColor: ["#808080", "#808080"],
 				BuyGroup: "LegFur",
+				DefaultColor: ["Default"],
+				PoseMapping: {
+					...AssetPoseMapping.RightAnklet,
+					LegsClosed: "LegsClosed",
+					Spread: "Spread",
+					Kneel: "Kneel",
+					KneelingSpread: "KneelingSpread",
+				},
 				Random: true,
 				Extended: true,
-				PoseMapping: { ...AssetPoseMapping.RightAnklet },
 				Layer: [
 					{
 						Name: "Ankle",
 						AllowTypes: { n: 1 },
 						Priority: 24,
+						PoseMapping: {
+							LegsClosed: "LegsClosed",
+							Spread: "Spread",
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+						},
 						AllowColorize: true,
 					},
 					{
@@ -7755,16 +7871,28 @@ var AssetFemale3DCG = [
 				Name: "LegFur",
 				Value: 5,
 				BuyGroup: "LegFur",
-				DefaultColor: ["#808080", "#808080"],
+				DefaultColor: ["Default"],
+				PoseMapping: {
+					...AssetPoseMapping.LeftAnklet,
+					LegsClosed: "LegsClosed",
+					Spread: "Spread",
+					Kneel: "Kneel",
+					KneelingSpread: "KneelingSpread",
+				},
 				Random: true,
 				Extended: true,
-				PoseMapping: { ...AssetPoseMapping.LeftAnklet },
 				Layer: [
 					{
 						Name: "Ankle",
 						AllowTypes: { n: 1 },
 						Priority: 24,
-						AllowColorize: true,					
+						PoseMapping: {
+							LegsClosed: "LegsClosed",
+							Spread: "Spread",
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+						},
+						AllowColorize: true,
 					},
 					{
 						Name: "Knee",
@@ -8519,7 +8647,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "DutyShoes",
-				Height: 8,
+				Height: 3,
 				PoseMapping: {
 					...AssetPoseMapping.Shoes,
 					Kneel: PoseType.HIDE,
@@ -8555,7 +8683,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SocialHeels",
-				Height: 10,
+				Height: 7,
 				PoseMapping: {
 					...AssetPoseMapping.Shoes,
 					Kneel: PoseType.HIDE,
@@ -10123,10 +10251,7 @@ var AssetFemale3DCG = [
 				Top: 30,
 				Left: 150,
 				DefaultColor: ["#808080", "#A0A0A0"],
-				HideItem: [
-					"HairAccessory1EarsElfEars", 
-					"HairAccessory2EarsElfEars", 
-				],
+				HideItem: ["HairAccessory1EarsElfEars", "HairAccessory2EarsElfEars"],
 				Layer: [
 					{
 						Name: "Main",
@@ -10810,10 +10935,7 @@ var AssetFemale3DCG = [
 				Top: 30,
 				Left: 150,
 				DefaultColor: ["#808080", "#A0A0A0"],
-				HideItem: [
-					"HairAccessory1EarsElfEars",
-					"HairAccessory2EarsElfEars",
-				],
+				HideItem: ["HairAccessory1EarsElfEars", "HairAccessory2EarsElfEars"],
 				Layer: [
 					{
 						Name: "Main",
@@ -11540,17 +11662,12 @@ var AssetFemale3DCG = [
 					BackElbowTouch: PoseType.HIDE,
 					BackBoxTie: PoseType.HIDE,
 				},
-				Hide: [
-					"LeftHand",
-					"RightHand",
-				],
+				Hide: ["LeftHand", "RightHand"],
 				Layer: [
 					{ Name: "Main", Priority: 29 },
-					{ Name: "Fur",
-						AllowTypes: { typed: 0 },
-						Priority: 32,
-					},
-					{ Name: "FurSup",
+					{ Name: "Fur", AllowTypes: { typed: 0 }, Priority: 33 },
+					{
+						Name: "FurSup",
 						PoseMapping: {
 							BackCuffs: "BackCuffs",
 							AllFours: PoseType.HIDE,
@@ -11895,6 +12012,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Wristband",
+				Priority: 32,
 				PoseMapping: {
 					...AssetPoseMapping.Bracelet,
 					BackBoxTie: PoseType.HIDE,
@@ -11921,6 +12039,132 @@ var AssetFemale3DCG = [
 				Priority: 29,
 				DefaultColor: ["Default", "#151515"],
 				Layer: [{ Name: "Lace" }, { Name: "Bands" }],
+			},
+			{
+				Name: "WristWatch",
+				Value: 20,
+				Priority: 29,
+				PoseMapping: {
+					...AssetPoseMapping.Bracelet,
+					BackCuffs: PoseType.HIDE,
+				},
+				DefaultColor: ["#270D8B", "#0F0F0F", "#C3C3C3"],
+				Extended: true,
+				Layer: [
+					{
+						Name: "Band",
+						AllowTypes: { l: [0, 1] },
+					},
+					{
+						Name: "BandRight",
+						AllowTypes: { r: [0, 1] },
+						CopyLayerColor: "Band",
+					},
+					{
+						Name: "Face",
+						PoseMapping: {
+							...AssetPoseMapping.Bracelet,
+							BackCuffs: PoseType.HIDE,
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+						},
+						AllowTypes: { l: 0 },
+					},
+					{
+						Name: "FaceRight",
+						PoseMapping: {
+							...AssetPoseMapping.Bracelet,
+							BackCuffs: PoseType.HIDE,
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+						},
+						AllowTypes: { r: 0 },
+						CopyLayerColor: "Face",
+					},
+					{
+						Name: "Trim",
+						AllowTypes: { l: [0, 1] },
+						PoseMapping: {
+							...AssetPoseMapping.Bracelet,
+							BaseUpper: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "TrimRight",
+						AllowTypes: { r: [0, 1] },
+						CopyLayerColor: "Trim",
+						PoseMapping: {
+							...AssetPoseMapping.Bracelet,
+							BaseUpper: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "CircleTrim",
+						PoseMapping: {
+							...AssetPoseMapping.Bracelet,
+							BackCuffs: PoseType.HIDE,
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+						},
+						AllowTypes: { l: 0 },
+						CopyLayerColor: "Trim",
+					},
+					{
+						Name: "CircleTrimRight",
+						PoseMapping: {
+							...AssetPoseMapping.Bracelet,
+							BackCuffs: PoseType.HIDE,
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+						},
+						AllowTypes: { r: 0 },
+						CopyLayerColor: "Trim",
+					},
+					{
+						Name: "SquareFace",
+						PoseMapping: {
+							...AssetPoseMapping.Bracelet,
+							BackCuffs: PoseType.HIDE,
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+						},
+						AllowTypes: { l: 1 },
+						CopyLayerColor: "Face",
+					},
+					{
+						Name: "SquareFaceRight",
+						PoseMapping: {
+							...AssetPoseMapping.Bracelet,
+							BackCuffs: PoseType.HIDE,
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+						},
+						AllowTypes: { r: 1 },
+						CopyLayerColor: "Face",
+					},
+					{
+						Name: "SquareTrim",
+						PoseMapping: {
+							...AssetPoseMapping.Bracelet,
+							BackCuffs: PoseType.HIDE,
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+						},
+						AllowTypes: { l: 1 },
+						CopyLayerColor: "Trim",
+					},
+					{
+						Name: "SquareTrimRight",
+						PoseMapping: {
+							...AssetPoseMapping.Bracelet,
+							BackCuffs: PoseType.HIDE,
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+						},
+						AllowTypes: { r: 1 },
+						CopyLayerColor: "Trim",
+					},
+				],
 			},
 		],
 		Color: [
@@ -14151,6 +14395,41 @@ var AssetFemale3DCG = [
 				Top: 33,
 				Left: 150,
 			},
+			{
+				Name: "HairFront54",
+			},
+			{
+				Name: "HairFront55",
+				Layer: [
+					{
+						Name: "Front",
+					},
+					{
+						Name: "Back",
+						CopyLayerColor: "Front",
+						Priority: 5,
+					},
+				],
+			},
+			{
+				Name: "HairFront56",
+				Layer: [
+					{ Name: "Main", HideForAttribute: ["SmallEars", "NoEars"] },
+					{
+						Name: "SmallEars",
+						CopyLayerColor: "Main",
+						ShowForAttribute: ["SmallEars"],
+					},
+					{
+						Name: "NoEars",
+						CopyLayerColor: "Main",
+						ShowForAttribute: ["NoEars"],
+					},
+					{
+						Name: "MainTip",
+					},
+				],
+			},
 		],
 		Color: [
 			"#6a3628",
@@ -14619,6 +14898,83 @@ var AssetFemale3DCG = [
 			{ Name: "HairBack57b", Random: false },
 			{ Name: "HairBack57c", Random: false },
 			{ Name: "HairBack57d", Random: false },
+			{
+				Name: "HairBack58",
+				Layer: [
+					{
+						Name: "Left",
+					},
+					{
+						Name: "Right",
+					},
+				],
+			},
+			{
+				Name: "HairBack58b",
+				Layer: [
+					{
+						Name: "Left",
+					},
+					{
+						Name: "Right",
+					},
+				],
+			},
+			{
+				Name: "HairBack59",
+				Layer: [
+					{
+						Name: "Front",
+						Priority: 48,
+					},
+					{
+						Name: "Back",
+						CopyLayerColor: "Front",
+					},
+				],
+			},
+			{
+				Name: "HairBack60",
+				Layer: [
+					{
+						Name: "FrontLeft",
+						Priority: 48,
+					},
+					{
+						Name: "BackLeft",
+						CopyLayerColor: "FrontLeft",
+					},
+					{
+						Name: "FrontRight",
+						Priority: 48,
+					},
+					{
+						Name: "BackRight",
+						CopyLayerColor: "FrontRight",
+					},
+				],
+			},
+			{
+				Name: "HairBack61",
+				Layer: [
+					{
+						Name: "FrontLeft",
+						Priority: 48,
+					},
+					{
+						Name: "BackLeft",
+						CopyLayerColor: "FrontLeft",
+					},
+					{
+						Name: "FrontRight",
+						Priority: 48,
+					},
+					{
+						Name: "BackRight",
+						CopyLayerColor: "FrontRight",
+					},
+				],
+			},
 		],
 		Color: [
 			"Default",
@@ -15315,6 +15671,7 @@ var AssetFemale3DCG = [
 		Priority: 27,
 		Default: false,
 		IsRestraint: true,
+		ArousalZoneID: 0,
 		Left: 125,
 		Top: 725,
 		PoseMapping: { ...AssetPoseMapping.ItemFeet },
@@ -15988,6 +16345,7 @@ var AssetFemale3DCG = [
 		Priority: 25,
 		Default: false,
 		IsRestraint: true,
+		ArousalZoneID: 1,
 		Left: 125,
 		Top: 400,
 		PoseMapping: { ...AssetPoseMapping.ItemLegs },
@@ -16768,6 +17126,33 @@ var AssetFemale3DCG = [
 				],
 				Layer: [{ Name: "One" }, { Name: "Two" }],
 			},
+			{
+				Name: "FrogtieMetalCuffs",
+				Fetish: ["Metal"],
+				Value: 30,
+				Difficulty: 7,
+				Time: 5,
+				Random: false,
+				AllowLock: true,
+				SetPose: ["Kneel"],
+				PoseMapping: {
+					...AssetPoseMapping.ItemLegs,
+					KneelingSpread: "KneelingSpread",
+				},
+				AllowActivePose: [...PoseAllKneeling, "AllFours", "Hogtied"],
+				Effect: [E.Slow],
+				DrawLocks: false,
+				Layer: [
+					{
+						Name: "Marks",
+						AllowColorize: false,
+						Priority: 8,
+					},
+					{
+						Name: "Chain",
+					},
+				],
+			},
 		],
 		Color: [
 			"Default",
@@ -16794,6 +17179,7 @@ var AssetFemale3DCG = [
 		Category: "Item",
 		Priority: 15,
 		Default: false,
+		ArousalZoneID: 2,
 		Left: 125,
 		Top: 400,
 		PoseMapping: { ...AssetPoseMapping.ItemVulva },
@@ -17191,7 +17577,12 @@ var AssetFemale3DCG = [
 			{
 				Name: "PlasticChastityCage1",
 				Gender: "M",
-				Prerequisite: ["AccessVulva", "HasPenis", "AccessFullPenis", "NoErection"],
+				Prerequisite: [
+					"AccessVulva",
+					"HasPenis",
+					"AccessFullPenis",
+					"NoErection",
+				],
 				Difficulty: 50,
 				Value: 20,
 				Effect: [E.Chaste],
@@ -17242,7 +17633,12 @@ var AssetFemale3DCG = [
 			{
 				Name: "PlasticChastityCage2",
 				Gender: "M",
-				Prerequisite: ["AccessVulva", "HasPenis", "AccessFullPenis", "NoErection"],
+				Prerequisite: [
+					"AccessVulva",
+					"HasPenis",
+					"AccessFullPenis",
+					"NoErection",
+				],
 				Value: 20,
 				Difficulty: 50,
 				Effect: [E.Chaste],
@@ -17273,7 +17669,12 @@ var AssetFemale3DCG = [
 			{
 				Name: "TechnoChastityCage",
 				Gender: "M",
-				Prerequisite: ["AccessVulva", "HasPenis", "AccessFullPenis", "NoErection"],
+				Prerequisite: [
+					"AccessVulva",
+					"HasPenis",
+					"AccessFullPenis",
+					"NoErection",
+				],
 				Category: ["SciFi"],
 				Value: 50,
 				Difficulty: 50,
@@ -17306,7 +17707,12 @@ var AssetFemale3DCG = [
 				Name: "FlatChastityCage",
 				Gender: "M",
 				Fetish: ["Metal"],
-				Prerequisite: ["AccessVulva", "HasPenis", "AccessFullPenis", "NoErection"],
+				Prerequisite: [
+					"AccessVulva",
+					"HasPenis",
+					"AccessFullPenis",
+					"NoErection",
+				],
 				Value: 25,
 				Difficulty: 50,
 				Effect: [E.Chaste],
@@ -17336,7 +17742,12 @@ var AssetFemale3DCG = [
 			{
 				Name: "ChastityPouch",
 				Gender: "M",
-				Prerequisite: ["AccessVulva", "HasPenis", "AccessFullPenis", "NoErection"],
+				Prerequisite: [
+					"AccessVulva",
+					"HasPenis",
+					"AccessFullPenis",
+					"NoErection",
+				],
 				Value: 25,
 				Difficulty: 50,
 				Effect: [E.Chaste],
@@ -17356,6 +17767,53 @@ var AssetFemale3DCG = [
 					{ Name: "Lace" },
 					{ Name: "Belt" },
 					{ Name: "Buckle" },
+				],
+			},
+			{
+				Name: "FullCasingCage",
+				Gender: "M",
+				Fetish: ["Metal"],
+				Prerequisite: [
+					"AccessVulva",
+					"HasPenis",
+					"AccessFullPenis",
+					"NoErection",
+				],
+				Value: 40,
+				Difficulty: 50,
+				Effect: [E.Chaste],
+				Block: ["ItemVulvaPiercings"],
+				Hide: ["Pussy"],
+				Attribute: ["CageFlat"],
+				PoseMapping: {
+					...AssetPoseMapping.ItemVulva,
+					Kneel: PoseType.DEFAULT,
+				},
+				DefaultColor: ["Default", "Default", "#921732", "#C3C3C3", "Default"],
+				AllowLock: true,
+				DrawLocks: false,
+				Left: 200,
+				Top: 410,
+				Layer: [
+					{
+						Name: "Cage",
+					},
+					{
+						Name: "Ring",
+					},
+					{
+						Name: "Face",
+					},
+					{
+						Name: "Ears",
+					},
+					{
+						Name: "Mouth",
+					},
+					{
+						Name: "Outline",
+						AllowColorize: false,
+					},
 				],
 			},
 		],
@@ -17384,6 +17842,7 @@ var AssetFemale3DCG = [
 		Category: "Item",
 		Priority: 13,
 		Default: false,
+		ArousalZoneID: 3,
 		Left: 125,
 		Top: 400,
 		PoseMapping: { ...AssetPoseMapping.ItemVulvaPiercings },
@@ -17627,18 +18086,81 @@ var AssetFemale3DCG = [
 				Gender: "M",
 				Value: 10,
 				Hide: ["Pussy"],
-				Prerequisite: ["NoChastityCage"],
+				Prerequisite: ["NoChastityCage", "HasPenis"],
 				Effect: ["ForcedErection"],
 				Left: 200,
 				Top: 410,
 				Layer: [
 					{ Name: "Sound", AllowTypes: { typed: 0 } },
 					{ Name: "Shine", AllowTypes: { typed: 0 } },
-					{ Name: "SoundOut", CopyLayerColor: "Sound", AllowTypes: { typed: 1 } },
-					{ Name: "ShineOut", CopyLayerColor: "Shine", AllowTypes: { typed: 1 } },
-					{ Name: "Penis", InheritColor: "Pussy", ColorSuffix: { HEX_COLOR: "White" }, AllowTypes: { typed: [0, 1, 2] } },
-				]
-			}
+					{
+						Name: "SoundOut",
+						CopyLayerColor: "Sound",
+						AllowTypes: { typed: 1 },
+					},
+					{
+						Name: "ShineOut",
+						CopyLayerColor: "Shine",
+						AllowTypes: { typed: 1 },
+					},
+					{
+						Name: "Penis",
+						InheritColor: "Pussy",
+						ColorSuffix: { HEX_COLOR: "White" },
+						AllowTypes: { typed: [0, 1] },
+						HideColoring: true,
+					},
+				],
+			},
+			{
+				Name: "CockRingLeash",
+				Gender: "M",
+				Value: 10,
+				Left: 200,
+				Top: 410,
+				Prerequisite: ["AccessVulva", "HasPenis"],
+				AllowExpression: ["Hard"],
+				Priority: 10,
+				PoseMapping: {
+					...AssetPoseMapping.ItemVulva,
+					Kneel: PoseType.DEFAULT,
+				},
+				DefaultColor: ["#A2A2A2", "#787878", "#2C2C2C"],
+				AllowLock: true,
+				DrawLocks: true,
+				Effect: [E.Leash],
+				Layer: [
+					{
+						Name: "Lock",
+						LockLayer: true,
+						AllowColorize: false,
+					},
+					{
+						Name: "Base",
+						MirrorExpression: "Pussy",
+					},
+					{
+						Name: "Leash",
+						Top: 400,
+						Left: 49,
+						PoseMapping: {
+							...AssetPoseMapping.ItemVulva,
+							Kneel: "Kneel",
+							KneelingSpread: "Kneel",
+						},
+					},
+					{
+						Name: "Handle",
+						Top: 400,
+						Left: 49,
+						PoseMapping: {
+							...AssetPoseMapping.ItemVulva,
+							Kneel: "Kneel",
+							KneelingSpread: "Kneel",
+						},
+					},
+				],
+			},
 		],
 		Color: [
 			"Default",
@@ -17665,6 +18187,7 @@ var AssetFemale3DCG = [
 		Category: "Item",
 		Priority: 4,
 		Default: false,
+		ArousalZoneID: 4,
 		Left: 0,
 		Top: 0,
 		Effect: [E.IsPlugged],
@@ -18145,6 +18668,7 @@ var AssetFemale3DCG = [
 		Category: "Item",
 		Priority: 16,
 		Default: false,
+		ArousalZoneID: 5,
 		Left: 125,
 		Top: 375,
 		Zone: [[100, 420, 300, 80]],
@@ -19648,6 +20172,7 @@ var AssetFemale3DCG = [
 		Category: "Item",
 		Priority: 17,
 		Default: false,
+		ArousalZoneID: 6,
 		Left: 125,
 		Top: 200,
 		PoseMapping: { ...AssetPoseMapping.ItemTorso },
@@ -20911,6 +21436,7 @@ var AssetFemale3DCG = [
 		Category: "Item",
 		Priority: 22,
 		Default: false,
+		ArousalZoneID: 7,
 		Left: 150,
 		Top: 200,
 		PoseMapping: { ...AssetPoseMapping.ItemNipples },
@@ -21424,6 +21950,7 @@ var AssetFemale3DCG = [
 		Category: "Item",
 		Priority: 16,
 		Default: false,
+		ArousalZoneID: 8,
 		Left: 150,
 		Top: 200,
 		PoseMapping: { ...AssetPoseMapping.ItemBreast },
@@ -21705,6 +22232,7 @@ var AssetFemale3DCG = [
 		Priority: 31,
 		Default: false,
 		IsRestraint: true,
+		ArousalZoneID: 9,
 		Left: 50,
 		Top: 200,
 		Zone: [
@@ -25499,6 +26027,28 @@ var AssetFemale3DCG = [
 					{ Name: "ArmStraps", ParentGroup: null },
 				],
 			},
+			{
+				Name: "CollarMetalcuffs",
+				Fetish: ["Metal", "Masochism"],
+				Value: 60,
+				Difficulty: 7,
+				SelfBondage: 4,
+				Time: 35,
+				RemoveTime: 20,
+				Visible: false,
+				Random: false,
+				AllowLock: true,
+				Prerequisite: ["Collared"],
+				SetPose: ["BackBoxTie"],
+				Effect: [E.Block, E.BlockWardrobe],
+				ExpressionTrigger: [
+					{ Name: "Closed", Group: "Eyes", Timer: 5 },
+					{ Name: "Angry", Group: "Eyebrows", Timer: 5 },
+				],
+				Block: ["ItemHands", "ItemNeck"],
+				Extended: true,
+				SelfUnlock: false,
+			},
 		],
 		Color: [
 			"Default",
@@ -25527,6 +26077,7 @@ var AssetFemale3DCG = [
 		Priority: 35,
 		Default: false,
 		IsRestraint: true,
+		ArousalZoneID: 10,
 		Zone: [
 			[10, 400, 90, 100],
 			[400, 400, 90, 100],
@@ -26054,6 +26605,205 @@ var AssetFemale3DCG = [
 					},
 				],
 			}, //PonyMittensBinder
+			{
+				Name: "ElbowLengthMittens",
+				Fetish: ["Leather", "Pet"],
+				Value: 70,
+				Difficulty: 6,
+				SelfBondage: 4,
+				Time: 15,
+				RemoveTime: 5,
+				AllowLock: true,
+				AllowTighten: true,
+				SelfUnlock: false,
+				SetPose: ["TapedHands"],
+				DrawLocks: false,
+				DefaultColor: [
+					"#1D1D1D",
+					"#E7E7E7",
+					"#DDDDDD",
+					"#CECECE",
+					"#99831A",
+					"#A5A5A5",
+				],
+				Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
+				Hide: ["Gloves", "LeftHand", "RightHand", "ItemHandheld"],
+				PoseMapping: {
+					BaseUpper: PoseType.DEFAULT,
+					BackBoxTie: "BackBoxTie",
+					BackCuffs: "BackCuffs",
+					BackElbowTouch: "BackElbowTouch",
+					OverTheHead: "OverTheHead",
+					Yoked: "Yoked",
+					TapedHands: PoseType.DEFAULT,
+					Hogtied: PoseType.HIDE,
+					AllFours: "AllFours",
+				},
+				Extended: true,
+				AlwaysExtend: true,
+				Alpha: [
+					{
+						Group: ["BodyUpper"],
+						Pose: ["Yoked"],
+						Masks: [
+							[65, 140, 80, 80],
+							[390, 135, 80, 80],
+						],
+					},
+					{
+						Group: ["BodyUpper"],
+						Pose: ["OverTheHead"],
+						Masks: [[145, 0, 200, 75]],
+					},
+					{
+						Group: ["BodyUpper"],
+						Pose: ["BackCuffs"],
+						Masks: [[345, 380, 60, 60]],
+					},
+					{
+						Group: ["Hands"],
+						Pose: ["AllFours"],
+						Masks: [[100, 100, 400, 400]],
+					},
+				],
+				Layer: [
+					{
+						Name: "Main",
+						Priority: 28,
+						AllowTypes: { typed: 0 },
+						PoseMapping: {
+							...AssetPoseMapping.ItemHands,
+							BackBoxTie: "BackBoxTie",
+						},
+					},
+					{
+						Name: "Straps",
+						Priority: 28,
+						AllowTypes: { typed: 0 },
+						PoseMapping: {
+							...AssetPoseMapping.ItemHands,
+							BackBoxTie: "BackBoxTie",
+						},
+					},
+					{
+						Name: "Beans",
+						Priority: 28,
+						AllowTypes: { typed: 0 },
+						PoseMapping: {
+							...AssetPoseMapping.ItemHands,
+							TapedHands: PoseType.HIDE,
+							BackBoxTie: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "Metal",
+						Priority: 28,
+						AllowTypes: { typed: 0 },
+						PoseMapping: {
+							...AssetPoseMapping.ItemHands,
+							BackBoxTie: "BackBoxTie",
+						},
+					},
+					{
+						Name: "Locks",
+						LockLayer: true,
+						PoseMapping: {
+							...AssetPoseMapping.ItemHands,
+							BackBoxTie: "BackBoxTie",
+						},
+					},
+					{
+						Name: "MainConnected",
+						Priority: 5,
+						CopyLayerColor: "Main",
+						AllowTypes: { typed: 1 },
+						ParentGroup: "BodyUpper",
+						PoseMapping: {
+							BaseUpper: "BackElbowTouch",
+							BackBoxTie: PoseType.HIDE,
+							BackCuffs: PoseType.HIDE,
+							BackElbowTouch: "BackElbowTouch",
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+							TapedHands: "BackElbowTouch",
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "StrapsConnected",
+						Priority: 5,
+						CopyLayerColor: "Straps",
+						AllowTypes: { typed: 1 },
+						ParentGroup: "BodyUpper",
+						PoseMapping: {
+							BaseUpper: "BackElbowTouch",
+							BackBoxTie: PoseType.HIDE,
+							BackCuffs: PoseType.HIDE,
+							BackElbowTouch: "BackElbowTouch",
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+							TapedHands: "BackElbowTouch",
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "BeansConnected",
+						Priority: 5,
+						CopyLayerColor: "Beans",
+						AllowTypes: { typed: 1 },
+						ParentGroup: "BodyUpper",
+						PoseMapping: {
+							BaseUpper: "BackElbowTouch",
+							BackBoxTie: PoseType.HIDE,
+							BackCuffs: PoseType.HIDE,
+							BackElbowTouch: "BackElbowTouch",
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+							TapedHands: "BackElbowTouch",
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "ChainConnected",
+						Priority: 28,
+						AllowTypes: { typed: 1 },
+						ParentGroup: "BodyUpper",
+						PoseMapping: {
+							BaseUpper: "BackElbowTouch",
+							BackBoxTie: PoseType.HIDE,
+							BackCuffs: PoseType.HIDE,
+							BackElbowTouch: "BackElbowTouch",
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+							TapedHands: "BackElbowTouch",
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "LocksConnected",
+						Priority: 27,
+						AllowTypes: { typed: 1 },
+						CopyLayerColor: "Locks",
+						ParentGroup: "BodyUpper",
+						PoseMapping: {
+							BaseUpper: "BackElbowTouch",
+							BackBoxTie: PoseType.HIDE,
+							BackCuffs: PoseType.HIDE,
+							BackElbowTouch: "BackElbowTouch",
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+							TapedHands: "BackElbowTouch",
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+						},
+						LockLayer: true,
+					},
+				],
+			},
 		],
 	},
 	{
@@ -26914,6 +27664,7 @@ var AssetFemale3DCG = [
 		Category: "Item",
 		Priority: 34,
 		Default: false,
+		ArousalZoneID: 11,
 		Left: 185,
 		Top: 160,
 		Zone: [[200, 200, 100, 70]],
@@ -28458,6 +29209,7 @@ var AssetFemale3DCG = [
 		Priority: 35,
 		Default: false,
 		IsRestraint: true,
+		ArousalZoneID: 12,
 		Left: 150,
 		Top: 0,
 		Effect: [E.BlockMouth, E.GagNormal],
@@ -28595,7 +29347,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagVeryLight],
-				Block: ["ItemMouth2", "ItemMouth3"],
+				Prerequisite: "GagUnique",
 				ExpressionTrigger: [
 					{ Name: "Low", Group: "Blush", Timer: 5 },
 					{ Name: "Closed", Group: "Eyes", Timer: 5 },
@@ -28698,7 +29450,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				DefaultColor: "#404040",
-				Prerequisite: "GagUnique",
+				Prerequisite: ["GagUnique", "AccessMouth"],
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
@@ -28973,6 +29725,7 @@ var AssetFemale3DCG = [
 				Value: -1,
 				Wear: false,
 				Bonus: "KidnapSneakiness",
+				Prerequisite: "AccessMouth",
 			},
 			{
 				Name: "PantiesMask",
@@ -28998,12 +29751,15 @@ var AssetFemale3DCG = [
 				BuyGroup: "PlugGag",
 				Prerequisite: "GagFlat",
 				Extended: true,
-				Hide: ["Mouth"],
 				Effect: [],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Layer: [
 					{ Name: "Strap", AllowColorize: true },
-					{ Name: "Tongue", AllowColorize: false },
+					{
+						Name: "Tongue",
+						AllowColorize: false,
+						HideAs: { Group: "Mouth" },
+					},
 					{
 						Name: "Close",
 						CopyLayerColor: "Strap",
@@ -29055,6 +29811,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
+				Block: ["ItemMouth2", "ItemMouth3"],
 				Effect: [E.GagNormal, E.ProtrudingMouth],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
 				Layer: [
@@ -29157,6 +29914,7 @@ var AssetFemale3DCG = [
 				Difficulty: -20,
 				Time: 5,
 				Hide: ["Mouth"],
+				Prerequisite: "AccessMouth",
 				Effect: [E.BlockMouth, E.GagLight],
 				Layer: [
 					{ Name: "Cheeks", AllowColorize: false },
@@ -29171,6 +29929,7 @@ var AssetFemale3DCG = [
 				Time: 5,
 				DefaultColor: "#900000",
 				Hide: ["Mouth"],
+				Prerequisite: "AccessMouth",
 				Effect: [E.BlockMouth, E.GagLight],
 				Layer: [
 					{ Name: "Lips", AllowColorize: false },
@@ -29184,6 +29943,7 @@ var AssetFemale3DCG = [
 				Time: 5,
 				DefaultColor: "#333333",
 				BuyGroup: "PenisDildo",
+				Prerequisite: "AccessMouth",
 				Hide: ["Mouth"],
 				ExpressionTrigger: [{ Name: "Raised", Group: "Eyebrows", Timer: 10 }],
 				Layer: [
@@ -29245,7 +30005,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				DefaultColor: "#404040",
-				Prerequisite: "GagUnique",
+				Prerequisite: ["GagUnique", "AccessMouth"],
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagHeavy],
 				ExpressionTrigger: [{ Name: "Raised", Group: "Eyebrows", Timer: 10 }],
@@ -29318,6 +30078,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				AllowLock: true,
 				AllowTighten: true,
+				Prerequisite: "GagUnique",
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing"],
 				Block: ["ItemMouth2", "ItemMouth3"],
@@ -29366,6 +30127,7 @@ var AssetFemale3DCG = [
 				Time: 15,
 				AllowLock: true,
 				AllowTighten: true,
+				Prerequisite: ["GagUnique", "AccessMouth"],
 				Hide: ["Mouth"],
 				Effect: [E.GagEasy, E.OpenMouth, E.ProtrudingMouth],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
@@ -29401,6 +30163,7 @@ var AssetFemale3DCG = [
 				Time: 30,
 				AllowLock: true,
 				AllowTighten: true,
+				Prerequisite: ["GagFlat", "AccessMouth"],
 				Hide: ["Mouth"],
 				Effect: [E.GagEasy, E.OpenMouth],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
@@ -29419,14 +30182,17 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "PlugGag",
-				Prerequisite: "GagUnique",
+				Prerequisite: "GagFlat",
 				Extended: true,
-				Hide: ["Mouth"],
 				Effect: [],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Layer: [
 					{ Name: "Strap", AllowColorize: true },
-					{ Name: "Tongue", AllowColorize: false },
+					{
+						Name: "Tongue",
+						AllowColorize: false,
+						HideAs: { Group: "Mouth" },
+					},
 					{
 						Name: "Close",
 						AllowColorize: true,
@@ -29479,6 +30245,7 @@ var AssetFemale3DCG = [
 				Difficulty: -20,
 				Time: 5,
 				DefaultColor: "#FFFFFF",
+				Prerequisite: "AccessMouth",
 				Hide: ["Mouth"],
 				Effect: [E.BlockMouth, E.GagLight],
 				Layer: [
@@ -29643,7 +30410,6 @@ var AssetFemale3DCG = [
 				Extended: true,
 				Hide: ["Mouth"],
 				Effect: [E.GagMedium],
-				Block: ["ItemMouth2", "ItemMouth3", "ItemHood"],
 				Layer: [
 					{ Name: "Straps", AllowColorize: true },
 					{ Name: "Base", AllowColorize: false },
@@ -29671,6 +30437,7 @@ var AssetFemale3DCG = [
 				Value: 20,
 				Extended: true,
 				AllowTighten: true,
+				Prerequisite: "AccessMouth",
 				Effect: [E.GagLight],
 				Hide: ["Mouth"],
 				CreateLayerTypes: ["typed"],
@@ -29736,6 +30503,7 @@ var AssetFemale3DCG = [
 				Time: 30,
 				Random: false,
 				AllowLock: true,
+				Prerequisite: ["GagUnique"],
 				Block: ["ItemMouth2", "ItemMouth3"],
 				Extended: true,
 				Effect: [],
@@ -29832,7 +30600,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "OTNPlugGag",
 				Gender: "F",
-				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"],
+				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat", "AccessMouth"],
 				Value: 120,
 				Difficulty: 4,
 				Time: 20,
@@ -29853,11 +30621,17 @@ var AssetFemale3DCG = [
 						HideForAttribute: ["ShortHair"],
 						CopyLayerColor: "Straps",
 					},
-					{ Name: "Metal", AllowColorize: false },
+					{
+						// TODO: Add a proper mouth opening to the metal layer
+						// This would allow the gag to be used over other flat gags when the `Tongue` layer is disabled
+						Name: "Metal",
+						AllowColorize: false,
+					},
 					{
 						Name: "Tongue",
 						AllowColorize: false,
 						AllowTypes: { typed: 0 },
+						// HideAs: { Group: "Mouth" },
 					},
 					{
 						Name: "Plug",
@@ -29869,7 +30643,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "TechnoGag",
 				Gender: "F",
-				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"],
+				Prerequisite: ["HasBreasts", "HasVagina", "GagUnique"],
 				Value: 20,
 				Difficulty: 4,
 				Time: 20,
@@ -30229,6 +31003,7 @@ var AssetFemale3DCG = [
 				Top: 22,
 				Time: 2,
 				RemoveTime: 2,
+				Prerequisite: "AccessMouth",
 				Effect: [E.OpenMouth],
 				Extended: true,
 				AllowExpression: [
@@ -30603,6 +31378,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DrawLocks: false,
 				Hide: ["Mouth"],
+				Prerequisite: ["GagUnique", "AccessMouth"],
 				Effect: [E.GagNormal, E.OpenMouth, E.ProtrudingMouth],
 				Block: ["ItemMouth2", "ItemMouth3"],
 				DefaultColor: [
@@ -30702,11 +31478,6 @@ var AssetFemale3DCG = [
 				Top: 180,
 				DefaultColor: ["Default", "#3f3c3a"],
 				Hide: ["Mouth"],
-				HideItem: [
-					"ItemMouthClothStuffing",
-					"ItemMouthPantyStuffing",
-					"ItemMouthSockStuffing",
-				],
 				Prerequisite: ["GagUnique"],
 				Effect: [E.GagHeavy],
 				Extended: true,
@@ -30795,7 +31566,7 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				Value: 40,
 				Difficulty: 5,
-				Prerequisite: "GagUnique",
+				Prerequisite: ["GagUnique", "AccessMouth"],
 				DefaultColor: ["#222222", "#444444", "#CC2222", "#CC2222"],
 				Top: 22,
 				Time: 5,
@@ -30933,6 +31704,8 @@ var AssetFemale3DCG = [
 				RemoveTime: 5,
 				DefaultColor: "#B42340",
 				IsRestraint: true,
+				Effect: [],
+				Block: [],
 				Prerequisite: ["BlockedMouth"],
 			},
 		],
@@ -32646,6 +33419,11 @@ var AssetFemale3DCG = [
 					AssetName: "Stitches",
 					BuyGroup: true,
 				},
+				HideItem: [
+					"ItemMouthClothStuffing",
+					"ItemMouthPantyStuffing",
+					"ItemMouthSockStuffing",
+				],
 			},
 			{
 				Name: "PaddedFaceMask",
@@ -32670,6 +33448,220 @@ var AssetFemale3DCG = [
 				CopyConfig: {
 					GroupName: "ItemMouth",
 					AssetName: "Kissmark",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "PacifierGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "PacifierGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "Ball",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "Ball",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "BambooGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "BambooGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "CaneGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "CaneGag",
+					BuyGroup: true,
+				},
+				Block: ["ItemMouth", "ItemMouth3"],
+			},
+			{
+				Name: "ChopstickGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "ChopstickGag",
+					BuyGroup: true,
+				},
+				Block: ["ItemMouth", "ItemMouth3"],
+			},
+			{
+				Name: "ClothStuffing",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "ClothStuffing",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "CropGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "CropGag",
+					BuyGroup: true,
+				},
+				Block: ["ItemMouth", "ItemMouth3"],
+			},
+			{
+				Name: "DeepthroatGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "DeepthroatGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "DentalGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "DentalGag",
+					BuyGroup: true,
+				},
+				Block: ["ItemMouth", "ItemMouth3"],
+			},
+			{
+				Name: "BigMouth",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "BigMouth",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "DildoPlugGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "DildoPlugGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "DogMuzzleExposed",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "DogMuzzleExposed",
+					BuyGroup: true,
+				},
+				Block: ["ItemMouth", "ItemMouth3"],
+			},
+			{
+				Name: "FunnelGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "FunnelGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "HookGagMask",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "HookGagMask",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "LargeDildo",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "LargeDildo",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "LatexSheathGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "LatexSheathGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "MilkBottle",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "MilkBottle",
+					BuyGroup: true,
+				},
+				Block: ["ItemMouth", "ItemMouth3"],
+			},
+			{
+				Name: "OTNPlugGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "OTNPlugGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "PantyStuffing",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "PantyStuffing",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "PlugGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "PlugGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "PumpGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "PumpGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "RegularSleepingPill",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "RegularSleepingPill",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "SockStuffing",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "SockStuffing",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "TechnoGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "TechnoGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "TonguePiercingGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "TonguePiercingGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "TongueStrapGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "TongueStrapGag",
 					BuyGroup: true,
 				},
 			},
@@ -33854,6 +34846,14 @@ var AssetFemale3DCG = [
 					AssetName: "Stitches",
 					BuyGroup: true,
 				},
+				HideItem: [
+					"ItemMouthClothStuffing",
+					"ItemMouth2ClothStuffing",
+					"ItemMouthPantyStuffing",
+					"ItemMouth2PantyStuffing",
+					"ItemMouthSockStuffing",
+					"ItemMouth2SockStuffing",
+				],
 			},
 			{
 				Name: "Slime",
@@ -34400,6 +35400,220 @@ var AssetFemale3DCG = [
 					BuyGroup: true,
 				},
 			}, // MouthFeatureGag
+			{
+				Name: "PacifierGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "PacifierGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "Ball",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "Ball",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "BambooGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "BambooGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "CaneGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "CaneGag",
+					BuyGroup: true,
+				},
+				Block: ["ItemMouth", "ItemMouth2"],
+			},
+			{
+				Name: "ChopstickGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "ChopstickGag",
+					BuyGroup: true,
+				},
+				Block: ["ItemMouth", "ItemMouth2"],
+			},
+			{
+				Name: "ClothStuffing",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "ClothStuffing",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "CropGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "CropGag",
+					BuyGroup: true,
+				},
+				Block: ["ItemMouth", "ItemMouth2"],
+			},
+			{
+				Name: "DeepthroatGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "DeepthroatGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "DentalGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "DentalGag",
+					BuyGroup: true,
+				},
+				Block: ["ItemMouth", "ItemMouth2"],
+			},
+			{
+				Name: "BigMouth",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "BigMouth",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "DildoPlugGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "DildoPlugGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "DogMuzzleExposed",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "DogMuzzleExposed",
+					BuyGroup: true,
+				},
+				Block: ["ItemMouth", "ItemMouth2"],
+			},
+			{
+				Name: "FunnelGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "FunnelGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "HookGagMask",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "HookGagMask",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "LargeDildo",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "LargeDildo",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "LatexSheathGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "LatexSheathGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "MilkBottle",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "MilkBottle",
+					BuyGroup: true,
+				},
+				Block: ["ItemMouth", "ItemMouth2"],
+			},
+			{
+				Name: "OTNPlugGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "OTNPlugGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "PantyStuffing",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "PantyStuffing",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "PlugGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "PlugGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "PumpGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "PumpGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "RegularSleepingPill",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "RegularSleepingPill",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "SockStuffing",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "SockStuffing",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "TechnoGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "TechnoGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "TonguePiercingGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "TonguePiercingGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "TongueStrapGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "TongueStrapGag",
+					BuyGroup: true,
+				},
+			},
 		],
 		Color: [
 			"Default",
@@ -34427,6 +35641,7 @@ var AssetFemale3DCG = [
 		Priority: 44,
 		Default: false,
 		IsRestraint: true,
+		ArousalZoneID: 13,
 		Left: 150,
 		Top: 20,
 		Zone: [[175, 0, 150, 65]],
@@ -35329,6 +36544,7 @@ var AssetFemale3DCG = [
 		Priority: 33,
 		Default: false,
 		IsRestraint: true,
+		ArousalZoneID: 14,
 		Left: 150,
 		Top: 20,
 		Zone: [[175, 65, 150, 65]],
@@ -35458,6 +36674,7 @@ var AssetFemale3DCG = [
 		Priority: 45,
 		Default: false,
 		IsRestraint: true,
+		ArousalZoneID: 15,
 		Block: ["ItemHead", "ItemNose", "ItemEars"],
 		Left: 150,
 		Top: 20,
@@ -38480,6 +39697,7 @@ var AssetFemale3DCG = [
 		Priority: 1,
 		Default: false,
 		IsRestraint: true,
+		ArousalZoneID: 16,
 		Left: 150,
 		Top: 50,
 		Zone: [[100, 0, 75, 130]],
@@ -40936,7 +42154,13 @@ var AssetFemale3DCG = [
 					"ItemVulva",
 					"ItemVulvaPiercings",
 				],
-				SetPose: ["BaseUpper"],
+				SetPose: [
+					"BaseUpper",
+				],
+				AllowActivePose: [
+					"BackBoxTie",
+					"BackElbowTouch",
+				],
 				Layer: [
 					{ Name: "Front", Priority: 48 },
 					{ Name: "Back", Priority: 3, CopyLayerColor: "Front" },
@@ -42098,6 +43322,7 @@ var AssetFemale3DCG = [
 		Priority: 23,
 		Default: false,
 		IsRestraint: true,
+		ArousalZoneID: 17,
 		Left: 125,
 		Top: 500,
 		Hide: ["Shoes"],
@@ -42268,6 +43493,122 @@ var AssetFemale3DCG = [
 						],
 						Pose: ["Spread"],
 						Masks: [[45, 885, 350, 100]],
+					},
+				],
+			},
+			{
+				Name: "TormentHeels",
+				Fetish: ["Leather"],
+				Height: 38,
+				Value: 67,
+				Difficulty: 6,
+				DefaultColor: ["Default", "Default", "Default"],
+				Random: false,
+				Time: 10,
+				RemoveTime: 15,
+				Effect: [E.UseRemote, E.Slow],
+				AllowLock: true,
+				DrawLocks: false,
+				AllowTighten: true,
+				Audio: "Buckle",
+				PoseMapping: {
+					...AssetPoseMapping.Shoes,
+					Kneel: PoseType.HIDE,
+					KneelingSpread: PoseType.HIDE,
+				},
+				Layer: [
+					{
+						Name: "Heels",
+						AllowColorize: true,
+						Alpha: [
+							{
+								Group: [
+									"BodyLower",
+									"Socks",
+									"SocksRight",
+									"SocksLeft",
+									"SuitLower",
+								],
+								Masks: [[35, 939, 360, 100]],
+							},
+							{
+								Group: [
+									"BodyLower",
+									"Socks",
+									"SocksRight",
+									"SocksLeft",
+									"SuitLower",
+								],
+								Pose: ["LegsClosed"],
+								Masks: [[35, 943, 360, 100]],
+							},
+							{
+								Group: [
+									"BodyLower",
+									"Socks",
+									"SocksRight",
+									"SocksLeft",
+									"SuitLower",
+								],
+								Pose: ["Spread"],
+								Masks: [[35, 910, 360, 100]],
+							},
+						],
+					},
+					{
+						Name: "Boots",
+						AllowTypes: { b: 1 },
+						CopyLayerColor: "Heels",
+						Alpha: [
+							{
+								Group: [
+									"BodyLower",
+									"Socks",
+									"SocksRight",
+									"SocksLeft",
+									"SuitLower",
+								],
+								Masks: [[35, 748, 360, 200]],
+							},
+							{
+								Group: [
+									"BodyLower",
+									"Socks",
+									"SocksRight",
+									"SocksLeft",
+									"SuitLower",
+								],
+								Pose: ["LegsClosed"],
+								Masks: [[35, 770, 360, 200]],
+							},
+							{
+								Group: [
+									"BodyLower",
+									"Socks",
+									"SocksRight",
+									"SocksLeft",
+									"SuitLower",
+								],
+								Pose: ["Spread"],
+								Masks: [[35, 723, 360, 200]],
+							},
+						],
+					},
+					{
+						Name: "Belts",
+						PoseMapping: {
+							...AssetPoseMapping.Shoes,
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+						AllowColorize: true,
+					},
+					{
+						Name: "Lock",
+						LockLayer: true,
+						ParentGroup: null,
+						AllowColorize: true,
 					},
 				],
 			},

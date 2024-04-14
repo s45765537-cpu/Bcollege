@@ -89,6 +89,7 @@ function AssetGroupAdd(Family, GroupDef) {
 		Hide: GroupDef.Hide,
 		Block: GroupDef.Block,
 		Zone: GroupDef.Zone,
+		ArousalZoneID: GroupDef.ArousalZoneID,
 		SetPose: GroupDef.SetPose,
 		PoseMapping: GroupDef.PoseMapping || {},
 		AllowExpression: GroupDef.AllowExpression,
@@ -291,7 +292,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 	if (A.MinOpacity > A.Opacity) A.MinOpacity = A.Opacity;
 	if (A.MaxOpacity < A.Opacity) A.MaxOpacity = A.Opacity;
 
-	const layers = AssetDef.Layer || [{}];
+	const layers = AssetDef.Layer ? [...AssetDef.Layer] : [{}];
 	if (A.DrawLocks) {
 		layers.push({ Name: "Lock", LockLayer: true, AllowColorize: false, ParentGroup: null });
 	}
@@ -776,8 +777,8 @@ function AssetBuildDescription(Family, CSV) {
 		if (A.Group.Family !== Family)
 			continue;
 
-		const res = map.get(`${A.Group.Name}:${A.Name}`);
-		/** @type {Mutable<Asset>} */(A).Description = (res !== undefined) ? res : `MISSING ASSET DESCRIPTION: ${A.Group.Name}:${A.Name}`;
+		const res = map.get(`${A.DynamicGroupName}:${A.Name}`);
+		/** @type {Mutable<Asset>} */(A).Description = (res !== undefined) ? res : `MISSING ASSET DESCRIPTION: ${A.DynamicGroupName}:${A.Name}`;
 	}
 
 	// Translates the descriptions to a foreign language

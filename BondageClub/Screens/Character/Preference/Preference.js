@@ -58,6 +58,9 @@ var PreferenceArousalActivityFactorSelf = 0;
 var PreferenceArousalActivityFactorOther = 0;
 /** @type {ArousalFactor} */
 var PreferenceArousalZoneFactor = 0;
+var PreferenceArousalZoneCount = 18;
+// By default on new characters, all zones are of neutral preference and vulva/clit/butt can trigger an orgasm
+var PreferenceArousalZoneDefaultCompressedString = "ffpppfffffffffffff";
 /** @type {null | FetishName[]} */
 var PreferenceArousalFetishList = null;
 var PreferenceArousalFetishIndex = 0;
@@ -91,6 +94,7 @@ var PreferenceGraphicsPowerModeIndex = null;
 /** @type {null | WebGLContextAttributes} */
 var PreferenceGraphicsWebGLOptions = null;
 var PreferenceGraphicsAnimationQualityList = [10000, 2000, 200, 100, 50, 0];
+var PreferenceGraphicsFrameLimit = [0, 10, 15, 30, 60];
 /** @type {string[]} */
 var PreferenceCensoredWordsList = [];
 var PreferenceCensoredWordsOffset = 0;
@@ -195,6 +199,15 @@ function PreferenceSetActivityFactor(C, Type, Self, Factor) {
 }
 
 /**
+ * Validates the character arousal object and converts it's objects to compressed string if needed
+ * @param {number} Factor - The
+ * @returns {string} - A string of 1 char that represents the compressed zone
+ */
+function PreferenceArousalZoneToChar(Factor, Orgasm) {
+	return String.fromCharCode(100 + Factor + (Orgasm ? 10 : 0));
+}
+
+/**
  * Gets the corresponding arousal zone definition from a player's preferences (if the group's activities are mirrored,
  * returns the arousal zone definition for the mirrored group).
  * @param {Character} C - The character for whom to get the arousal zone
@@ -203,7 +216,7 @@ function PreferenceSetActivityFactor(C, Type, Self, Factor) {
  * or null if a corresponding zone definition could not be found.
  */
 function PreferenceGetArousalZone(C, ZoneName) {
-	if (!C.ArousalSettings || !C.ArousalSettings.Zone) {
+	/*if (!C.ArousalSettings || !C.ArousalSettings.Zone) {
 		return null;
 	}
 	const Group = AssetGroupGet(C.AssetFamily, ZoneName);
@@ -212,7 +225,24 @@ function PreferenceGetArousalZone(C, ZoneName) {
 			return Z.Name === Group.MirrorActivitiesFrom;
 		}
 		return Z.Name === ZoneName;
-	}) || null;
+	}) || null;*/
+
+	// Make sure the data is valid
+	if ((C == null) || (C.ArousalSettings == null) || (C.ArousalSettings.Zone == null) || (typeof C.ArousalSettings.Zone !== "string")) return null;
+
+	// Finds the asset group and make sure the string contains it
+	let Group = AssetGroupGet(C.AssetFamily, ZoneName);
+	if ((Group.ArousalZoneID == null) || (C.ArousalSettings.Zone.length <= Group.ArousalZoneID)) return null;
+
+	let Value = C.ArousalSettings.Zone.charCodeAt(Group.ArousalZoneID) - 100;
+	return {
+		// @ts-ignore
+		Name: ZoneName,
+		// @ts-ignore
+		Factor: Value % 10,
+		Orgasm: (Value >= 10)
+	};
+
 }
 
 /**
@@ -224,10 +254,8 @@ function PreferenceGetArousalZone(C, ZoneName) {
 function PreferenceGetZoneFactor(C, ZoneName) {
 	/** @type {ArousalFactor} */
 	let Factor = 2;
-	const Zone = PreferenceGetArousalZone(C, ZoneName);
-	if (Zone) {
-		Factor = Zone.Factor;
-	}
+	let Zone = PreferenceGetArousalZone(C, ZoneName);
+	if (Zone) Factor = Zone.Factor;
 	if ((Factor == null) || (typeof Factor !== "number") || (Factor < 0) || (Factor > 4)) Factor = 2;
 	return Factor;
 }
@@ -235,15 +263,34 @@ function PreferenceGetZoneFactor(C, ZoneName) {
 /**
  * Sets the love factor for a specific body zone on the player
  * @param {Character} C - The character, for whom the love factor of a particular zone should be set
- * @param {string} Zone - The name of the zone, the factor should be set for
+ * @param {AssetGroupName} ZoneName - The name of the zone, the factor should be set for
  * @param {ArousalFactor} Factor - The factor of the zone (0 is horrible, 2 is normal, 4 is great)
  * @returns {void} - Nothing
  */
-function PreferenceSetZoneFactor(C, Zone, Factor) {
-	if ((C.ArousalSettings != null) && (C.ArousalSettings.Zone != null))
-		for (let Z = 0; Z < C.ArousalSettings.Zone.length; Z++)
-			if (C.ArousalSettings.Zone[Z].Name == Zone)
-				C.ArousalSettings.Zone[Z].Factor = Factor;
+function PreferenceSetZoneFactor(C, ZoneName, Factor) {
+
+	// Nothing to do if data is invalid
+	if ((C == null) || (C.ArousalSettings == null) || (C.ArousalSettings.Zone == null) || (typeof C.ArousalSettings.Zone !== "string")) return;
+
+	// Finds the asset group and make sure the string contains it
+	let Group = AssetGroupGet(C.AssetFamily, ZoneName);
+	if ((Group.ArousalZoneID == null) || (C.ArousalSettings.Zone.length <= Group.ArousalZoneID)) return;
+
+	// Gets the zone object
+	let Zone = PreferenceGetArousalZone(C, ZoneName);
+	if (Zone == null) {
+		Zone = {
+			// @ts-ignore
+			Name: ZoneName,
+			Factor: 2,
+			Orgasm: false
+		};
+	}
+	Zone.Factor = Factor;
+
+	// Creates the new char and slides it in the compressed string
+	C.ArousalSettings.Zone = C.ArousalSettings.Zone.substring(0, Group.ArousalZoneID) + PreferenceArousalZoneToChar(Zone.Factor, Zone.Orgasm) + C.ArousalSettings.Zone.substring(Group.ArousalZoneID + 1);
+
 }
 
 /**
@@ -265,10 +312,29 @@ function PreferenceGetZoneOrgasm(C, ZoneName) {
  * @returns {void} - Nothing
  */
 function PreferenceSetZoneOrgasm(C, ZoneName, CanOrgasm) {
-	const Zone = PreferenceGetArousalZone(C, ZoneName);
-	if (!Zone) return;
 
+	// Nothing to do if data is invalid
+	if ((C == null) || (C.ArousalSettings == null) || (C.ArousalSettings.Zone == null) || (typeof C.ArousalSettings.Zone !== "string")) return;
+
+	// Finds the asset group and make sure the string contains it
+	let Group = AssetGroupGet(C.AssetFamily, ZoneName);
+	if ((Group.ArousalZoneID == null) || (C.ArousalSettings.Zone.length <= Group.ArousalZoneID)) return;
+
+	// Gets the zone object
+	let Zone = PreferenceGetArousalZone(C, ZoneName);
+	if (Zone == null) {
+		Zone = {
+			// @ts-ignore
+			Name: ZoneName,
+			Factor: 2,
+			Orgasm: false
+		};
+	}
 	Zone.Orgasm = CanOrgasm;
+
+	// Creates the new char and slides it in the compressed string
+	C.ArousalSettings.Zone = C.ArousalSettings.Zone.substring(0, Group.ArousalZoneID) + PreferenceArousalZoneToChar(Zone.Factor, Zone.Orgasm) + C.ArousalSettings.Zone.substring(Group.ArousalZoneID + 1);
+
 }
 
 /**
@@ -519,6 +585,8 @@ function PreferenceInitPlayer() {
 	if (typeof C.GraphicsSettings.SmoothZoom !== "boolean") C.GraphicsSettings.SmoothZoom = true;
 	if (typeof C.GraphicsSettings.CenterChatrooms !== "boolean") C.GraphicsSettings.CenterChatrooms = true;
 	if (typeof C.GraphicsSettings.AllowBlur !== "boolean") C.GraphicsSettings.AllowBlur = true;
+	if (!PreferenceGraphicsFrameLimit.includes(C.GraphicsSettings.MaxFPS)) C.GraphicsSettings.MaxFPS = DEFAULT_FRAMERATE;
+	if (typeof C.GraphicsSettings.ShowFPS !== "boolean") C.GraphicsSettings.ShowFPS = false;
 
 	// Notification settings
 	let NS = C.NotificationSettings;
@@ -568,7 +636,7 @@ function PreferenceInitPlayer() {
 
 	// Difficulty: non-Roleplay settings
 	if (C.GetDifficulty() >= 1) {
-		C.RestrictionSettings.BypassStruggle = false;
+		//C.RestrictionSettings.BypassStruggle = false;  RESTORE IN R104
 		C.RestrictionSettings.SlowImmunity = false;
 		C.RestrictionSettings.BypassNPCPunishments = false;
 		C.RestrictionSettings.NoSpeechGarble = false;
@@ -611,9 +679,11 @@ function PreferenceInitPlayer() {
 		if (PrefBefore[prop] !== JSON.stringify(C[prop]))
 			toUpdate[prop] = C[prop];
 
-	if (Object.keys(toUpdate).length > 0) {
+	if (Object.keys(toUpdate).length > 0)
 		ServerAccountUpdate.QueueData(toUpdate);
-	}
+
+	PreferenceValidateArousalData(Player);
+
 }
 
 /**
@@ -856,7 +926,8 @@ function PreferenceSubscreenRestrictionRun() {
 	DrawText(TextGet("RestrictionPreferences"), 500, 125, "Black", "Gray");
 	const disableButtons = Player.GetDifficulty() > 0;
 	DrawText(TextGet(disableButtons ? "RestrictionNoAccess" : "RestrictionAccess"), 500, 225, "Black", "Gray");
-	DrawCheckbox(500, 325, 64, 64, TextGet("RestrictionBypassStruggle"), Player.RestrictionSettings.BypassStruggle && !disableButtons, disableButtons);
+	//DrawCheckbox(500, 325, 64, 64, TextGet("RestrictionBypassStruggle"), Player.RestrictionSettings.BypassStruggle && !disableButtons, disableButtons); RESTORE IN R104
+	DrawCheckbox(500, 325, 64, 64, TextGet("RestrictionBypassStruggle"), Player.RestrictionSettings.BypassStruggle);
 	DrawCheckbox(500, 425, 64, 64, TextGet("RestrictionSlowImmunity"), Player.RestrictionSettings.SlowImmunity && !disableButtons, disableButtons);
 	DrawCheckbox(500, 525, 64, 64, TextGet("RestrictionBypassNPCPunishments"), Player.RestrictionSettings.BypassNPCPunishments && !disableButtons, disableButtons);
 	DrawCheckbox(500, 625, 64, 64, TextGet("RestrictionNoSpeechGarble"), Player.RestrictionSettings.NoSpeechGarble && !disableButtons, disableButtons);
@@ -981,7 +1052,8 @@ function PreferenceSubscreenDifficultyClick() {
  */
 function PreferenceSubscreenRestrictionClick() {
 	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenDifficultyExit();
-	if (MouseIn(500, 325, 64, 64) && (Player.GetDifficulty() == 0)) Player.RestrictionSettings.BypassStruggle = !Player.RestrictionSettings.BypassStruggle;
+	// if (MouseIn(500, 325, 64, 64) && (Player.GetDifficulty() == 0)) Player.RestrictionSettings.BypassStruggle = !Player.RestrictionSettings.BypassStruggle; RESTORE IN R104
+	if (MouseIn(500, 325, 64, 64)) Player.RestrictionSettings.BypassStruggle = !Player.RestrictionSettings.BypassStruggle;
 	if (MouseIn(500, 425, 64, 64) && (Player.GetDifficulty() == 0)) Player.RestrictionSettings.SlowImmunity = !Player.RestrictionSettings.SlowImmunity;
 	if (MouseIn(500, 525, 64, 64) && (Player.GetDifficulty() == 0)) Player.RestrictionSettings.BypassNPCPunishments = !Player.RestrictionSettings.BypassNPCPunishments;
 	if (MouseIn(500, 625, 64, 64) && (Player.GetDifficulty() == 0)) Player.RestrictionSettings.NoSpeechGarble = !Player.RestrictionSettings.NoSpeechGarble;
@@ -1511,6 +1583,20 @@ function PreferenceSubscreenGraphicsRun() {
 			() => TextGet(PreferenceSettingsVFXVibratorList[(PreferenceSettingsVFXVibratorIndex + PreferenceSettingsVFXVibratorList.length - 1) % PreferenceSettingsVFXVibratorList.length]),
 			() => TextGet(PreferenceSettingsVFXVibratorList[(PreferenceSettingsVFXVibratorIndex + 1) % PreferenceSettingsVFXVibratorList.length]));
 
+		DrawBackNextButton(500, 590, 450, 64, TextGet(`MaxFPS${Player.GraphicsSettings.MaxFPS}`), "White", "",
+			() => {
+				const index = CommonModulo(PreferenceGraphicsFrameLimit.indexOf(Player.GraphicsSettings.MaxFPS) - 1, PreferenceGraphicsFrameLimit.length);
+				const key = `MaxFPS${PreferenceGraphicsFrameLimit[index]}`;
+				return TextGet(key);
+			},
+			() => {
+				const index = CommonModulo(PreferenceGraphicsFrameLimit.indexOf(Player.GraphicsSettings.MaxFPS) + 1, PreferenceGraphicsFrameLimit.length);
+				const key = `MaxFPS${PreferenceGraphicsFrameLimit[index]}`;
+				return TextGet(key);
+			}
+		);
+		MainCanvas.textAlign = "left";
+		DrawCheckbox(500, 670, 64, 64, TextGet("ShowFPS"), Player.GraphicsSettings.ShowFPS);
 	}
 }
 
@@ -1692,14 +1778,20 @@ function PreferenceSubscreenGraphicsClick() {
 			else PreferenceSettingsVFXFilterIndex = (PreferenceSettingsVFXFilterIndex + 1) % PreferenceSettingsVFXFilterList.length;
 			Player.ArousalSettings.VFXFilter = PreferenceSettingsVFXFilterList[PreferenceSettingsVFXFilterIndex];
 		}
+		if (MouseIn(500, 270, 64, 64)) Player.GraphicsSettings.SmoothZoom = !Player.GraphicsSettings.SmoothZoom;
+		if (MouseIn(500, 350, 64, 64)) Player.GraphicsSettings.CenterChatrooms = !Player.GraphicsSettings.CenterChatrooms;
 		if (MouseIn(500, 430, 450, 64)) {
 			if (MouseX <= 825) PreferenceSettingsVFXVibratorIndex = (PreferenceSettingsVFXVibratorList.length + PreferenceSettingsVFXVibratorIndex - 1) % PreferenceSettingsVFXVibratorList.length;
 			else PreferenceSettingsVFXVibratorIndex = (PreferenceSettingsVFXVibratorIndex + 1) % PreferenceSettingsVFXVibratorList.length;
 			Player.ArousalSettings.VFXVibrator = PreferenceSettingsVFXVibratorList[PreferenceSettingsVFXVibratorIndex];
 		}
-		if (MouseIn(500, 270, 64, 64)) Player.GraphicsSettings.SmoothZoom = !Player.GraphicsSettings.SmoothZoom;
-		if (MouseIn(500, 350, 64, 64)) Player.GraphicsSettings.CenterChatrooms = !Player.GraphicsSettings.CenterChatrooms;
 		if (MouseIn(500, 510, 64, 64)) Player.GraphicsSettings.AllowBlur = !Player.GraphicsSettings.AllowBlur;
+		if (MouseIn(500, 590, 450, 64)) {
+			const dir = MouseX <= 825 ? -1 : 1;
+			const idx = CommonModulo(PreferenceGraphicsFrameLimit.indexOf(Player.GraphicsSettings.MaxFPS) + dir, PreferenceGraphicsFrameLimit.length);
+			Player.GraphicsSettings.MaxFPS = PreferenceGraphicsFrameLimit[idx];
+		}
+		if (MouseIn(500, 670, 64, 64)) Player.GraphicsSettings.ShowFPS = !Player.GraphicsSettings.ShowFPS;
 	}
 }
 
@@ -2909,7 +3001,7 @@ var PreferenceArousalSettingsDefault = {
 	Activity: ActivityFemale3DCG.map(({ Name }) => {
 		return { ...PreferenceActivityEnjoymentDefault, Name };
 	}),
-	Zone: [], // Initialized in `AssetLoad`
+	Zone: PreferenceArousalZoneDefaultCompressedString,
 	Fetish: FetishFemale3DCG.map(({ Name }) => {
 		return { ...PreferenceArousalFetishDefault, Name };
 	}),
@@ -2982,7 +3074,7 @@ var PreferenceArousalSettingsValidate = {
 		return ret;
 	},
 	Zone: (arg, C) => {
-		if (!CommonIsArray(arg)) {
+		/*if (!CommonIsArray(arg)) {
 			return CommonCloneDeep(PreferenceArousalSettingsDefault.Zone);
 		}
 
@@ -2999,7 +3091,10 @@ var PreferenceArousalSettingsValidate = {
 		if (expectedKeys.size > 0) {
 			ret.push(...CommonCloneDeep(PreferenceArousalSettingsDefault.Zone.filter(({ Name }) => expectedKeys.has(Name))));
 		}
-		return ret;
+		return ret;*/
+
+		return (typeof arg === "string" && arg != null) ? arg : PreferenceArousalZoneDefaultCompressedString;
+
 	},
 	Fetish: (arg, C) => {
 		if (!CommonIsArray(arg)) {
@@ -3210,4 +3305,68 @@ function PreferenceSubscreenExtensionsClear() {
 	PreferenceExtensionsCurrent = null;
 	// Reload the extension settings
 	PreferenceSubscreenExtensionsLoad();
+}
+
+/**
+ * Validates the character arousal object and converts it's objects to compressed string if needed
+ * @param {Character} C - The character to check
+ * @returns {void} - Nothing
+ */
+function PreferenceValidateArousalData(C) {
+
+	// Nothing to do without data
+	if ((C == null) || (C.ArousalSettings == null)) return;
+	let MustUpdate = false;
+
+	// Converts from an array of objects to a string
+	if ((C.ArousalSettings.Zone != null) && CommonIsArray(C.ArousalSettings.Zone)) {
+
+		// For all asset group where we save/sync arousal
+		let NewZone = "";
+		for (let Group of AssetGroup)
+			if (Group.ArousalZoneID != null) {
+
+				// Check if the zone was already setup previously as an object, then convert to the char
+				let Found = false;
+				for (let Z of C.ArousalSettings.Zone) {
+					/** @type {object} */
+					let Zone = Z;
+					if ((typeof Zone === "object") && (Zone.Name != null) && (typeof Zone.Name === "string") && (Zone.Name === Group.Name) && (Zone.Factor != null) && (typeof Zone.Factor === "number") && (Zone.Orgasm != null) && (typeof Zone.Orgasm === "boolean")) {
+						NewZone = NewZone + PreferenceArousalZoneToChar(Zone.Factor, Zone.Orgasm);
+						Found = true;
+						break;
+					}
+				}
+
+				// If it wasn't found, we create the char for it
+				if (!Found)
+					NewZone = NewZone + PreferenceArousalZoneToChar(2, false);
+
+			}
+
+		// Assigns the new zone string
+		C.ArousalSettings.Zone = NewZone;
+		MustUpdate = true;
+
+	}
+
+	// If the zones are not a string, we rebuild it from scratch
+	if ((C.ArousalSettings.Zone != null) && (typeof C.ArousalSettings.Zone !== "string")) {
+		C.ArousalSettings.Zone = PreferenceArousalZoneDefaultCompressedString;
+		MustUpdate = true;
+	}
+
+	// If the length of the zone isn't accurate, we fix it
+	if ((C.ArousalSettings.Zone != null) && (typeof C.ArousalSettings.Zone === "string") && (C.ArousalSettings.Zone.length != PreferenceArousalZoneCount)) {
+		while (C.ArousalSettings.Zone.length < PreferenceArousalZoneCount)
+			C.ArousalSettings.Zone = C.ArousalSettings.Zone + PreferenceArousalZoneToChar(2, false);
+		if (C.ArousalSettings.Zone.length > PreferenceArousalZoneCount)
+			C.ArousalSettings.Zone = C.ArousalSettings.Zone.substring(0, PreferenceArousalZoneCount);
+		MustUpdate = true;
+	}
+
+	// If we must update the server with the updated data
+	if (MustUpdate)
+		ServerAccountUpdate.QueueData({ ArousalSettings: Player.ArousalSettings });
+
 }

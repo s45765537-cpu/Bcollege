@@ -586,7 +586,7 @@ function ExtendedItemValidate(data, C, Item, newOption, previousOption, permitEx
 	} else if (!isPreviewChar && !canChangeWhenLocked && currentLockedBy && !DialogCanUnlock(C, Item)) {
 		// If the option can't be changed when locked, ensure that the player can unlock the item (if it's locked)
 		return DialogFindPlayer("CantChangeWhileLocked");
-	} else if (newOption.Prerequisite && !InventoryAllow(C, Item.Asset, newOption.Prerequisite, true)) {
+	} else if (newOption.Prerequisite && !InventoryAllow(C, Item.Asset, newOption.Prerequisite, true, newOption.Property?.AllowActivePose)) {
 		// Otherwise use the standard prerequisite check
 		return DialogText;
 	} else if (previousOption.AllowLock && !newOption.AllowLock && InventoryItemHasEffect(Item, "Lock", true)) {

@@ -1057,6 +1057,7 @@ function PrivateAddCharacter(Template, Archetype, CustomData) {
 	if (Archetype === "Mistress") NPCTraitSet(C, "Dominant", 60 + Math.floor(Math.random() * 41));
 	if (Archetype === "Submissive") NPCTraitSet(C, "Dominant", -50 - Math.floor(Math.random() * 51));
 	if ((CustomData == null) || (CustomData == false)) NPCTraitDialog(C);
+	if (C.ArousalSettings == null) NPCArousal(C);
 	CharacterRefresh(C);
 	PrivateCharacter.push(C);
 	NPCEventAdd(C, "PrivateRoomEntry", CurrentTime);
@@ -1092,11 +1093,15 @@ function PrivateKickOut() {
  * @returns {void} - Nothing.
  */
 function PrivateKickCharacterOut(C) {
-	const charIdx = PrivateCharacter.findIndex(c => c.Name === C.Name);
-	if (charIdx < 0) return;
-
+	let DeleteCharIndex = PrivateCharacter.findIndex(c => c.Name === C.Name);
+	if (DeleteCharIndex < 0) return;
 	CharacterDelete(C);
-	PrivateCharacter.splice(charIdx, 1);
+	PrivateCharacter.splice(DeleteCharIndex, 1);
+	let OtherCharIndex = 0;
+	for (let Char of PrivateCharacter) {
+		if (OtherCharIndex >= DeleteCharIndex) Char.CharacterID = "NPC_Private_Custom_" + OtherCharIndex.toString();
+		OtherCharIndex++;
+	}
 	ServerPrivateCharacterSync();
 	DialogLeave();
 }

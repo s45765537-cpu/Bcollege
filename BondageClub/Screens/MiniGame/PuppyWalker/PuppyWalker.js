@@ -13,7 +13,6 @@ function PuppyWalkerLoad() {
 	PuppyWalkerMoves = [0, 0, 0, 0];
 	PuppyWalkerEscape = [0, 0, 0, 0];
 	PuppyWalkerMovesTimer = [0, 0, 0, 0];
-	PuppyWalkerGenerateMoveTimer = CurrentTime + 10000;
 	MiniGameDifficultyRatio = 1600;
 	if (CommonIsMobile) MiniGameDifficultyRatio = Math.round(MiniGameDifficultyRatio * 0.75);
 }
@@ -44,12 +43,13 @@ function PuppyWalkerRun() {
 	DrawCharacter(Player, 750, 0, 1);
 	PuppyWalkerDrawPuppy(DailyJobPuppy3, 1150, PuppyWalkerEscape[2]);
 	PuppyWalkerDrawPuppy(DailyJobPuppy4, 1550, PuppyWalkerEscape[3]);
-	MiniGameTimer = MiniGameTimer + Math.round(TimerRunInterval);
+	if (MiniGameStarted)
+		MiniGameTimer = MiniGameTimer + Math.round(TimerRunInterval);
 
 	// Shows the intro text before the mini game begins
-	if (MiniGameTimer < 10000) {
+	if (!MiniGameStarted) {
 		DrawRect(0, 950, 2000, 50, "black");
-		DrawText(TextGet("Intro").replace("StartTimer", (10 - Math.floor(MiniGameTimer / 1000)).toString()), 1000, 975, "white");
+		DrawText(TextGet("Intro"), 1000, 975, "white");
 		return;
 	}
 
@@ -58,7 +58,7 @@ function PuppyWalkerRun() {
 
 		// Draws the progress bar based on the timer
 		var Progress = 100;
-		if (MiniGameTimer > 10000) Progress = (60 - ((MiniGameTimer - 10000) / 1000)) * 100 / 60;
+		if (MiniGameStarted) Progress = (60 - (MiniGameTimer / 1000)) * 100 / 60;
 		DrawProgressBar(0, 950, 2000, 50, Progress);
 
 		// If the mini-game is running
@@ -103,7 +103,7 @@ function PuppyWalkerVerifyEnd() {
 		MiniGameVictory = false;
 		MiniGameEnded = true;
 	}
-	if (!MiniGameEnded && (MiniGameTimer >= 70000)) {
+	if (!MiniGameEnded && (MiniGameTimer >= 60000)) {
 		MiniGameVictory = true;
 		MiniGameEnded = true;
 	}
@@ -127,6 +127,11 @@ function PuppyWalkerDoMove(MoveType) {
  */
 function PuppyWalkerClick() {
 
+	if (!MiniGameStarted) {
+		MiniGameStarted = true;
+		PuppyWalkerGenerateMoveTimer = CurrentTime;
+	}
+
 	// If the game is over, clicking on the image will end it
 	if (MiniGameEnded && (MouseX >= 800) && (MouseX <= 1200) && (MouseY >= 0) && (MouseY <= 999))
 		MiniGameEnd();
@@ -140,7 +145,7 @@ function PuppyWalkerClick() {
 function PuppyWalkerMouseDown() {
 
 	// If the game has started, we check the click position and send it as a move
-	if ((MiniGameTimer > 10000) && (MouseY >= 350) && (MouseY <= 650) && !MiniGameEnded) {
+	if (MiniGameStarted && (MouseY >= 350) && (MouseY <= 650) && !MiniGameEnded) {
 		if ((MouseX >= 50) && (MouseX <= 350)) PuppyWalkerDoMove(0);
 		if ((MouseX >= 450) && (MouseX <= 750)) PuppyWalkerDoMove(1);
 		if ((MouseX >= 1250) && (MouseX <= 1550)) PuppyWalkerDoMove(2);

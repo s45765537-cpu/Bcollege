@@ -14,6 +14,8 @@ Body Markings
 身体涂画
 Womb Tattoos
 子宫纹身
+Body Writings
+身体书写
 Upper Body
 上身
 Bulky Flat Chest
@@ -138,6 +140,8 @@ Spiked Wristbands
 尖刺腕带
 Wristbands
 腕带
+Wrist Watch
+腕表
 Cloth
 衣服
 Admiral Top
@@ -188,6 +192,8 @@ Corset Shirt
 紧身胸衣
 Crop Top
 露腹短上衣
+Custom T-Shirt
+自定义T恤
 Nomadic Dress
 游牧民族连衣裙
 Long Dress
@@ -602,6 +608,8 @@ Mistress Gloves
 女王手套
 See-through Gloves
 透视装手套
+Short Leather Gloves
+短皮革手套
 Hair Accessory (All)
 发饰 (全)
 Antennae
@@ -622,6 +630,8 @@ Ears Small
 小动物耳
 Ears Large
 大动物耳
+Ear Warmers
+暖耳罩
 Elf Ears
 精灵耳朵
 Fox Ears Small
@@ -818,6 +828,16 @@ Style 7c
 样式 7c
 Style 9b
 样式 9b
+Style 58
+样式 58
+Style 58b
+样式 58b
+Style 59
+样式 59
+Style 60
+样式 60
+Style 61
+样式 61
 None
 无
 Front Hair
@@ -1022,6 +1042,8 @@ Chains
 链条
 Collar Cuffs
 项圈手铐
+Collar Metal Cuffs
+项圈金属铐
 Duct Tape
 胶带
 Four Limbs Shackles
@@ -1580,6 +1602,8 @@ Whip Paddle
 板鞭
 Pom Pom Mitts
 绒球无指手套
+Long Leather Paw Mittens
+长皮革猫爪无指手套
 Futuristic Mittens
 未来无指手套
  Hoof Mittens
@@ -1754,6 +1778,8 @@ Legs
 腿
 Frog-tie Straps
 蟹缚绑带
+Frog-tie Metal Cuffs
+蛙缚金属铐
 Futuristic Leg Cuffs
 未来腿铐
 Hobble Skirt
@@ -2364,6 +2390,8 @@ Wand Belt
 振动棒固定带
 Wired Vibrating Egg
 有线跳蛋
+Full Casing Cage
+全覆盖贞操笼
 Clitoris
 阴蒂
 Adorned Clitoris Piercing
@@ -2386,14 +2414,20 @@ Straight Clitoris Piercing
 垂直阴蒂穿孔
 Taped Vibrating Egg
 胶带 + 跳蛋
+Urethral Sound
+尿道棒
 Vibrating Heart Clitoris Piercing
 心形振动阴蒂穿环
+Cock Ring Leash
+阴茎环牵引绳
 Jewelry
 珠宝
 Anklet (Left)
 踝绳 (左)
 Band Anklet
 脚踝箍带
+Fur Accessory
+毛绒配件
 Ribbon
 丝带
 Ribbon Bow

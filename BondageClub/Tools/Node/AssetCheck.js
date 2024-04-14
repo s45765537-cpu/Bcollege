@@ -1042,11 +1042,12 @@ function testAssetHasPNG(assets, extendedDataRecords, poseRecord) {
 						}).filter(i => i != null);
 					});
 				} else if (layer.AllowTypes) {
+					// Filter out `undefined` in case someone messes up `layer.AllowTypes`
 					options = Object.entries(layer.AllowTypes.AllTypes).flatMap(([screenKey, indexSet]) => {
-						return Array.from(indexSet).flatMap(i => {
+						return Array.from(indexSet).map(i => {
 							partialLayerTypes.push(`${screenKey}${i}`);
 							return optionsRecord[screenKey][i];
-						});
+						}).filter(o => o !== undefined);
 					});
 				}
 
@@ -1336,6 +1337,8 @@ function sanitizeVMOutput(input) {
 	const NoArchItemDataLookup = context.TestingNoArchItemDataLookup;
 	/** @type {Asset[]} */
 	const assetList = context.Asset;
+	/** @type {AssetGroup[]} */
+	const groupList = context.AssetGroup;
 	/** @type {Record<AssetPoseCategory, Set<AssetPoseName>>} */
 	const poseMap = context.TestingPoseMap;
 	/** @type {Pose[]} */
@@ -1364,26 +1367,13 @@ function sanitizeVMOutput(input) {
 		return;
 	}
 
-	// Arrays of type-validated groups and assets
-	/** @type {AssetGroupDefinition[]} */
-	const Groups = [];
-	/** @type {Record<string, AssetDefinition[]>} */
-	const Assets = {};
-
 	// Check all groups
 	for (const Group of AssetFemale3DCG) {
 		common.localError = false;
 
-		Groups.push(Group);
-		/** @type {AssetDefinition[]} */
-		const GroupAssets = (Assets[Group.Group] = []);
-
 		// Check all assets in groups
 		for (const Asset of Group.Asset) {
 			if (typeof Asset === "string") {
-				GroupAssets.push({
-					Name: Asset
-				});
 				continue;
 			}
 			common.localError = false;
@@ -1420,10 +1410,6 @@ function sanitizeVMOutput(input) {
 					}
 				}
 			}
-
-			if (!common.localError) {
-				GroupAssets.push(Asset);
-			}
 		}
 	}
 
@@ -1432,37 +1418,26 @@ function sanitizeVMOutput(input) {
 		return;
 	}
 
-	// Validate description order
-	{
-		let group = "";
-		for (let line = 0; line < assetDescriptions.length; line++) {
-			if (assetDescriptions[line][1] === "") {
-				group = assetDescriptions[line][0];
-			} else if (assetDescriptions[line][0] !== group) {
-				error(
-					`Asset descriptions line ${line + 1} not under it's matching group! ` +
-						`(${assetDescriptions[line][0]}:${assetDescriptions[line][1]} is in ${group} group)`
-				);
-			}
-		}
-	}
-
 	// Check all type-valid groups for specific data
-	for (const Group of Groups) {
+	for (const Group of groupList) {
 		// Description name
-		const descriptionIndex = assetDescriptions.findIndex(d => d[0] === Group.Group && d[1] === "");
+		const descriptionIndex = assetDescriptions.findIndex(d => d[0] === Group.Name && d[1] === "");
 		if (descriptionIndex < 0) {
-			error(`No description for group "${Group.Group}"`);
+			error(`No description for group "${Group.Name}"`);
 		} else {
 			assetDescriptions.splice(descriptionIndex, 1);
 		}
 
 		// Check all type-valid assets for specific data
-		for (const Asset of Assets[Group.Group]) {
+		for (const Asset of Group.Asset) {
+			if (Asset.DynamicGroupName !== Group.Name) {
+				continue;
+			}
+
 			// Description name
-			const descriptionIndexAsset = assetDescriptions.findIndex(d => d[0] === Group.Group && d[1] === Asset.Name);
+			const descriptionIndexAsset = assetDescriptions.findIndex(d => d[0] === Group.Name && d[1] === Asset.Name);
 			if (descriptionIndexAsset < 0) {
-				error(`No description for asset "${Group.Group}:${Asset.Name}"`);
+				error(`No description for asset "${Group.Name}:${Asset.Name}"`);
 			} else {
 				assetDescriptions.splice(descriptionIndexAsset, 1);
 			}

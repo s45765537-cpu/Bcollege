@@ -58,7 +58,7 @@ function AssetsItemArmsTransportJacketAfterDraw(
 	{ C, A, CA, X, Y, L, drawCanvas, drawCanvasBlink, AlphaMasks, Color },
 ) {
 	const data = ExtendedItemGetData(A, ExtendedArchetype.TEXT);
-	if (data != null && L === "_Text") {
+	if (data != null && L === "Text") {
 		const width = 150;
 		const height = 60;
 		const flatCanvas = AnimationGenerateTempCanvas(C, A, width, height);

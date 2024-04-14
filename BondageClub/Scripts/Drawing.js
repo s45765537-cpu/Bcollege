@@ -1242,7 +1242,7 @@ function DrawGetCustomBackground(C) {
  */
 function DrawRoomBackground(URL, bounds, opts) {
 	let { inverted, blur, darken, tints, sizeMode } = opts;
-	
+
 	inverted ??= false;
 	blur ??= 1.0;
 	darken ??= 1.0;
@@ -1363,6 +1363,7 @@ function DrawProcess(time) {
 			&& bgName !== "Sheet"
 			&& CurrentScreen !== "Crafting"
 			&& CurrentScreen !== "Shop2"
+			&& CurrentScreen !== "MaidCleaning" // does it's own darkening
 		);
 
 		let backgroundURL = "";
@@ -1780,6 +1781,6 @@ const RectFitIntoRect = CommonMemoize(
 		const sourceRectTuple = [sourceX, sourceY, sourceW, sourceH];
 		/** @type {RectTuple} */
 		const destRectTuple = [destX, destY, destW, destH];
-		
+
 		return [sourceRectTuple, destRectTuple];
-	})
+	});

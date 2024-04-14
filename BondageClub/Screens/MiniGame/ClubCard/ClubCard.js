@@ -2073,7 +2073,7 @@ function ClubCardGetReward() {
  * @param {ClubCardPlayer} Opponent - The other player
  * @param {boolean} Before - true to run BeforeTurnEnd handlers, false to run AfterEndTurn handlers
  * @returns {void}
- */
+  */
 function ClubCardRunTurnEndHandlers(CCPlayer, Opponent, Before) {
 	// Runs handlers on player's board
 	if (CCPlayer.Board != null) {
@@ -2152,6 +2152,10 @@ function ClubCardEndTurn(Draw = false) {
 	CCPlayer.LastFamePerTurn = CCPlayer.Fame - StartingFame;
 	CCPlayer.LastMoneyPerTurn = CCPlayer.Money - StartingMoney;
 	CCPlayer.CardsPlayedThisTurn = [];
+
+	ClubCardRunTurnEndHandlers(CCPlayer, Opponent, false);
+
+	if ((CCPlayer.Money < 0) && (CCPlayer.Fame > StartingFame)) CCPlayer.Fame = StartingFame;
 
 	ClubCardRunTurnEndHandlers(CCPlayer, Opponent, false);
 

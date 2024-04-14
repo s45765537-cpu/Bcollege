@@ -79,7 +79,11 @@ function CommandParse(msg) {
 
 	// Emote parsing
 	if (msg.startsWith("*") || (Player.ChatSettings.MuStylePoses && msg.startsWith(":") && msg.length > 3)) {
-		ChatRoomSendEmote(msg);
+		if (msg.match(/^\*\d*%/)) {
+			ChatRoomSendAttemptEmote(msg);
+		} else {
+			ChatRoomSendEmote(msg);
+		}
 		ElementValue("InputChat", "");
 		return;
 	}
@@ -377,7 +381,16 @@ const CommonCommands = [
 	},
 	{
 		Tag: 'me',
-		Action: (_, msg) => ChatRoomSendEmote(msg),
+		Action: (_, msg) => {
+			ChatRoomSendEmote(msg);
+		}
+	},
+	{
+		Tag: 'attempt',
+		Action: (_, msg, parsed) => {
+			if (parsed[0].match(/(\d{0,2}|100)%/))
+				ChatRoomSendAttemptEmote(msg);
+		}
 	},
 	{
 		Tag: 'action',

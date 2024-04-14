@@ -397,7 +397,7 @@ type BackgroundTag =
 
 // NOTE: `NPCArchetype` is for NPC's only
 type TitleName =
-	NPCArchetype | "None" | "Mistress" | "Master" | "ClubSlave" | "Maid" | "HeadMaid" | "BondageMaid" | "Kidnapper" |
+	NPCArchetype | "None" | "Mistress" | "Master" | "Mistree" | "ClubSlave" | "Maid" | "HeadMaid" | "BondageMaid" | "Kidnapper" |
 	"MasterKidnapper" | "Patient" | "PermanentPatient" | "EscapedPatient" | "Nurse" | "Doctor" |
 	"LadyLuck" | "LordFortune" | "Patron" | "CollegeStudent" |"Nawashi" | "Houdini" | "PonyAlicorn" |
 	"PonyPegasus" | "PonyUnicorn" | "PonyWild" | "PonyHot" | "PonyWarm" | "PonyCold" | "PonyFarm" |
@@ -405,9 +405,9 @@ type TitleName =
 	"InfilrationOperative" | "InfilrationSuperspy" | "MagicSchoolWizard" | "MagicSchoolMagus" |
 	"MagicSchoolMagician" | "MagicSchoolSorcerer" | "MagicSchoolSage" | "MagicSchoolOracle" |
 	"MagicSchoolWitch" | "MagicSchoolWarlock" | "Duchess" | "Duke" | "LittleOne" | "Baby" | "DL" |
-	"BondageBaby" | "Switch" | "Princess" |	"Prince" |	"Missy" |	"Sissy" |	"Tomboy" | "Femboy" |	
-	"Pet" |	"Brat" | "Kitten" | "Puppy" | "Foxy" | "Bunny" | "Doll" | "Demon" | "Angel" | "Alien" | 
-	"Succubus" | "Incubus" | "GoodGirl" | "GoodBoy" | "GoodSlaveGirl" | "GoodSlaveBoy" | "GoodSlave" | "Drone"
+	"BondageBaby" | "Switch" | "Princess" |	"Prince" | "Liege" | "Majesty" | "Missy" | "Sissy" | "Tomboy" | "Femboy" | "GoodOne" |
+	"Pet" |	"Brat" | "Kitten" | "Puppy" | "Foxy" | "Bunny" | "Doll" | "Demon" | "Angel" | "Alien" | "Captain" |
+	"Succubus" | "Incubus" | "Concubus" | "GoodGirl" | "GoodBoy" | "GoodSlaveGirl" | "GoodSlaveBoy" | "GoodSlave" | "Drone"
 	;
 
 type MagicSchoolHouse = "Maiestas" | "Vincula" | "Amplector" | "Corporis";
@@ -647,6 +647,7 @@ interface AssetGroup {
 
 	readonly MirrorActivitiesFrom?: AssetGroupItemName;
 	readonly ArousalZone?: AssetGroupItemName;
+	readonly ArousalZoneID?: number;
 
 	/** A dict mapping colors to custom filename suffices.
 	The "HEX_COLOR" key is special-cased to apply to all color hex codes. */
@@ -1674,6 +1675,9 @@ interface GraphicsSettingsType {
 	SmoothZoom: boolean;
 	CenterChatrooms: boolean;
 	AllowBlur: boolean;
+	ShowFPS: boolean;
+	/** 0 means unlimited */
+	MaxFPS: number;
 }
 
 interface RestrictionSettingsType {
@@ -3514,8 +3518,14 @@ interface CraftingItemSelected {
 	Description: string;
 	/** The comma-separated color(s) of the item. */
 	Color: string;
-	/** The name of the crafted item. */
-	Asset: Asset | null;
+	/** The names of the crafted item's supported assets. */
+	Assets: readonly Asset[];
+	/**
+	 * The first member of the {@link CraftingItemSelected.Assets} array.
+	 *
+	 * The asset is guaranteed to satisfy `Asset.Group.Name === Asset.DynamicGroupName` _if_ any of the list members satisfy this condition.
+	 */
+	get Asset(): Asset | undefined;
 	/** The crafted item propery. */
 	Property: CraftingPropertyType;
 	/** The lock as equiped on the item or, if absent, `null`. */
@@ -3545,8 +3555,8 @@ interface CraftingItemSelected {
  * @property {CraftingStatusType} - The {@link CraftingStatusType} code for when the validation fails
  */
 interface CratingValidationStruct {
-	Validate: (Craft: CraftingItem, Asset: Asset | null) => boolean;
-	GetDefault: (Craft: CraftingItem, Asset: Asset | null) => any;
+	Validate: (craft: CraftingItem, asset: Asset | null, checkPlayerInventory?: boolean) => boolean;
+	GetDefault: (craft: CraftingItem, asset: Asset | null, checkPlayerInventory?: boolean) => any;
 	StatusCode: CraftingStatusType;
 }
 
@@ -3803,7 +3813,8 @@ interface ArousalSettingsType {
 	VibratorLevel: 0 | 1 | 2 | 3 | 4;
 	ChangeTime: number;
 	Activity: ActivityEnjoyment[];
-	Zone: ArousalZone[];
+	//Zone: ArousalZone[];
+	Zone: string;
 	Fetish: ArousalFetish[];
 	OrgasmTimer?: number;
 	OrgasmStage?: 0 | 1 | 2;
@@ -4017,6 +4028,7 @@ type ChatRoomMapObjectType = (
 	"FloorDecoration"
 	| "FloorDecorationThemed"
 	| "FloorDecorationParty"
+	| "FloorDecorationCamping"
 	| "FloorItem"
 	| "FloorObstacle"
 	| "WallDecoration"

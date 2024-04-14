@@ -6,6 +6,12 @@ Lace
 蕾丝
 Spikes
 尖刺
+Band
+束带
+Face
+面部
+Trim
+装饰
 Main
 主体
 Sides
@@ -34,8 +40,6 @@ Pattern
 图案
 Text
 文字
-Trim
-装饰
 Holder
 包装
 Joints
@@ -88,6 +92,10 @@ Corset
 束腰
 Design
 样式
+T-Shirt
+T恤
+Stamp
+印花
 Fur
 绒毛
 Bottom
@@ -248,6 +256,8 @@ Inner
 内部
 Outer
 外部
+Headband
+头带
 Bell
 铃铛
 Core
@@ -298,8 +308,6 @@ Brim
 帽檐
 Insignia
 徽章
-Band
-束带
 Hat
 帽子
 Crown
@@ -642,6 +650,14 @@ Phone
 手机
 Paws
 爪子
+Main Behind
+后部主体
+Straps Behind
+后部束带
+Beans Behind
+后部肉球
+Locks Behind
+后部锁
 Harness Ring
 束带环
 Cuff Rings
@@ -719,7 +735,7 @@ Markings
  Fuzz
 绒毛
  Face
-面部
+脸
  Ear Canal
 耳道
  Lenses
@@ -738,8 +754,6 @@ Mouthpiece
 滤嘴
 Blush
 腮红
-Face
-脸
 Drawings
 图画
 Linings
@@ -822,6 +836,8 @@ Rebreather Bag
 呼吸管
 Breathing Tube
 呼吸管
+Marks
+标记
 Sticker
 贴纸
 Plaque
@@ -884,6 +900,8 @@ Lips
 嘴唇
 Ring
 环圈
+Pony
+小马
 Mouth Shine
 嘴部高光
 Dark Stripes
@@ -1094,6 +1112,8 @@ Harem Veil
 后宫纱
 Weight
 配重
+Sound
+尿道棒
 Egg
 跳蛋
 Vibe Egg
@@ -1102,6 +1122,10 @@ End
 顶端
 Remote
 遥控器
+Fur Ankle
+脚踝绒毛
+Fur Knee
+膝盖绒毛
 Color
 色彩
 Outline

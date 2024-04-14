@@ -62,8 +62,6 @@ Eyes
 眼睛
 Attachments
 附件
-Gag
-口塞
 Tubes
 管子
 Fixing
@@ -71,6 +69,10 @@ Fixing
 Glow
 发光
 Gags
+口塞
+Ears
+耳朵
+Gag
 口塞
 Rings
 项圈环

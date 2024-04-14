@@ -6,6 +6,9 @@ BraceletLaceBandsBands,Bands
 BraceletLaceBandsLace,Lace
 BraceletSpikeBandsBands,Bands
 BraceletSpikeBandsSpikes,Spikes
+BraceletWristWatchBand,Band
+BraceletWristWatchFace,Face
+BraceletWristWatchTrim,Trim
 BraCuteBikini1Main,Main
 BraCuteBikini1Sides,Sides
 BraDominatrixLeotardBase,Leather
@@ -77,6 +80,8 @@ ClothCorsetShirtCorset,Corset
 ClothCorsetShirtShirt,Shirt
 ClothCropTopBlouse,Top
 ClothCropTopDesign,Design
+ClothCustomTShirtShirt,T-Shirt
+ClothCustomTShirtNone,Stamp
 ClothDressFurFabric,Dress
 ClothDressFurFur,Fur
 ClothEveningGownBack,Back
@@ -322,6 +327,14 @@ HairBackHairBack9bLeft,Right
 HairBackHairBack9bRight,Left
 HairBackHairBack9Left,Right
 HairBackHairBack9Right,Left
+HairBackHairBack58Right,Right
+HairBackHairBack58Left,Left
+HairBackHairBack58bRight,Right
+HairBackHairBack58bLeft,Left
+HairBackHairBack60FrontRight,Right
+HairBackHairBack60FrontLeft,Left
+HairBackHairBack61FrontRight,Right
+HairBackHairBack61FrontLeft,Left
 HairFrontHairFront22Base, Base
 HairFrontHairFront22bBase, Base
 HairFrontHairFront22bFluff, Fluff
@@ -403,6 +416,8 @@ HairFrontHairFront51Front,Front
 HairFrontHairFront51Main,Main
 HairFrontHairFront52bFade,Fade
 HairFrontHairFront52bMain,Main
+HairFrontHairFront56Main,Main
+HairFrontHairFront56MainTip,Tips
 HatBallCapBackButton,Button
 HatBallCapBackPanelLeft,Panel
 HatBallCapBackSideLeft,Side
@@ -620,6 +635,9 @@ ItemBootsShortPonyBootsToe,Toes
 ItemBootsShortPonyBootsU,Horseshoes
 ItemBootsSlimeOne,Color 1
 ItemBootsSlimeTwo,Color 2
+ItemBootsTormentHeelsHeels,Heels
+ItemBootsTormentHeelsBelts,Belts
+ItemBootsTormentHeelsLock,Padlocks
 ItemBreastForbiddenChastityBraBra,Bra
 ItemBreastForbiddenChastityBraDetail,Detail
 ItemBreastForbiddenChastityBraMetal,Metal
@@ -851,6 +869,16 @@ ItemHandheldSmartphoneDots,Pattern
 ItemHandheldSmartphoneHearts,Pattern
 ItemHandheldSmartphonePhone,Phone
 ItemHandheldSmartphoneStripes,Pattern
+ItemHandsElbowLengthMittensMain,Main
+ItemHandsElbowLengthMittensStraps,Straps
+ItemHandsElbowLengthMittensMetal,Metal
+ItemHandsElbowLengthMittensBeans,Paws
+ItemHandsElbowLengthMittensLocks,Locks
+ItemHandsElbowLengthMittensMainConnected,Main Behind
+ItemHandsElbowLengthMittensStrapsConnected,Straps Behind
+ItemHandsElbowLengthMittensBeansConnected,Beans Behind
+ItemHandsElbowLengthMittensChainConnected,Chain
+ItemHandsElbowLengthMittensLocksConnected,Locks Behind
 ItemHandsFuturisticMittensBody,Body
 ItemHandsFuturisticMittensDisplay,Display
 ItemHandsFuturisticMittensLock,Lock
@@ -1057,6 +1085,8 @@ ItemHoodVacHoodRebreather, Rebreather Bag
 ItemHoodVacHoodRebreather,Rebreather Bag
 ItemHoodVacHoodTube, Breathing Tube
 ItemHoodVacHoodTube,Breathing Tube
+ItemLegsFrogtieMetalCuffsChain,Chain
+ItemLegsFrogtieMetalCuffsMarks,Marks
 ItemLegsFuturisticLegCuffsChain,Chain
 ItemLegsFuturisticLegCuffsCuffs,Cuffs
 ItemLegsFuturisticLegCuffsDisplay,Display
@@ -1809,6 +1839,11 @@ ItemVulvaInflatableVibratingPantiesBelt, Belt
 ItemVulvaInflatableVibratingPantiesLock, Lock
 ItemVulvaInflatableVibratingPantiesValve, Valve
 ItemVulvaInflatableVibratingPantiesVibe, Butterfly Vibe
+ItemVulvaFullCasingCageCage,Cage
+ItemVulvaFullCasingCageRing,Ring
+ItemVulvaFullCasingCageFace,Face
+ItemVulvaFullCasingCageEars,Ears
+ItemVulvaFullCasingCageMouth,Mouth
 ItemVulvaPiercingsClitRingLeash,Leash
 ItemVulvaPiercingsClitRingRing,Ring
 ItemVulvaPiercingsRoundClitPiercingBell,Bell
@@ -1817,12 +1852,18 @@ ItemVulvaPiercingsRoundClitPiercingHaremChain,Harem Chain
 ItemVulvaPiercingsRoundClitPiercingHaremVeil,Harem Veil
 ItemVulvaPiercingsRoundClitPiercingRing,Ring
 ItemVulvaPiercingsRoundClitPiercingWeight,Weight
+ItemVulvaPiercingsUrethralSoundSound,Sound
+ItemVulvaPiercingsUrethralSoundShine,Shine
 ItemVulvaPiercingsTapedClitEggEgg,Egg
 ItemVulvaPiercingsTapedClitEggTape,Tape
 ItemVulvaPiercingsVibeEggGlansEgg,Vibe Egg
 ItemVulvaPiercingsVibeEggGlansStrap,Strap
 ItemVulvaPiercingsVibeHeartClitPiercingHeart,Heart
 ItemVulvaPiercingsVibeHeartClitPiercingRing,Ring
+ItemVulvaPiercingsCockRingLeashBase,Ring
+ItemVulvaPiercingsCockRingLeashLeash,Leash
+ItemVulvaPiercingsCockRingLeashHandle,Handle
+ItemVulvaPiercingsCockRingLeashLock,Lock
 ItemVulvaPlasticChastityCage1Cage,Cage
 ItemVulvaPlasticChastityCage1Lock,Lock
 ItemVulvaPlasticChastityCage1Penis,Penis

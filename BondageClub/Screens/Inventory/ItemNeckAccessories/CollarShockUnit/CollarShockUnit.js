@@ -58,7 +58,7 @@ function InventoryItemNeckAccessoriesCollarShockUnitResetCount() {
 
 /** @type {ExtendedItemScriptHookCallbacks.BeforeDraw<ExtendedItemData, ShockUnitPersistentData>} */
 function AssetsItemNeckAccessoriesCollarShockUnitBeforeDrawHook(data, originalFunction, drawData) {
-	if (drawData.L === "_Light") {
+	if (drawData.L === "Light") {
 		const persistentData = drawData.PersistentData();
 		const property = drawData.Property || {};
 		const Triggered = persistentData.LastTriggerCount < property.TriggerCount;

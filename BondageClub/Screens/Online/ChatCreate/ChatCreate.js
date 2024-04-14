@@ -58,12 +58,12 @@ function ChatCreateLoad() {
 		document.getElementById("InputDescription").setAttribute("placeholder", TextGet("DescriptionExplanation"));
 		ElementValue("InputDescription", "");
 		ElementCreateTextArea("InputAdminList");
-		document.getElementById("InputAdminList").setAttribute("maxLength", 250);
+		document.getElementById("InputAdminList").setAttribute("maxLength", 2000);
 		document.getElementById("InputAdminList").setAttribute("autocomplete", "off");
 		document.getElementById("InputAdminList").setAttribute("placeholder", TextGet("UseMemberNumbersAdmin"));
 		ElementValue("InputAdminList", Player.MemberNumber.toString());
 		ElementCreateTextArea("InputBanList");
-		document.getElementById("InputBanList").setAttribute("maxLength", 1000);
+		document.getElementById("InputBanList").setAttribute("maxLength", 2000);
 		document.getElementById("InputBanList").setAttribute("autocomplete", "off");
 		document.getElementById("InputBanList").setAttribute("placeholder", TextGet("UseMemberNumbersBan"));
 		ElementValue("InputBanList", CommonConvertArrayToString(Player.OnlineSettings ? ChatRoomConcatenateBanList(Player.OnlineSettings.AutoBanBlackList, Player.OnlineSettings.AutoBanGhostList) : []));

@@ -73,7 +73,7 @@ function AssetsItemDevicesWoodenBoxAfterDrawHook(
 	{ C, A, CA, X, Y, L, Property, drawCanvas, drawCanvasBlink, AlphaMasks, Color, Opacity }
 ) {
 	const data = ExtendedItemGetData(A, ExtendedArchetype.TEXT);
-	if (data != null && L === "_Text") {
+	if (data != null && L === "Text") {
 		const height = 900;
 		const width = 310;
 		const tmpCanvas = AnimationGenerateTempCanvas(C, A, width, height);

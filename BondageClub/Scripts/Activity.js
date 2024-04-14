@@ -109,18 +109,17 @@ function ActivityGetAllMirrorGroups(family, groupName) {
 
 /**
  * Check if any activities are possible for a character's given group.
- * @param {Character} char - The character on which the check is done
- * @param {AssetGroupName} groupname - The group to check access on
+ * @param {Character} C - The character on which the check is done
+ * @param {AssetGroupName} GroupName - The group to check access on
  * @returns {boolean} Whether any activity is possible
  */
-function ActivityPossibleOnGroup(char, groupname) {
-	const characterNotEnclosedOrSelfActivity = ((!char.IsEnclose() && !Player.IsEnclose()) || char.IsPlayer());
-	if (!characterNotEnclosedOrSelfActivity || !ActivityAllowed() || !CharacterHasArousalEnabled(char))
+function ActivityPossibleOnGroup(C, GroupName) {
+	const CharacterNotEnclosedOrSelfActivity = ((!C.IsEnclose() && !Player.IsEnclose()) || C.IsPlayer());
+	if (!CharacterNotEnclosedOrSelfActivity || !ActivityAllowed() || !CharacterHasArousalEnabled(C))
 		return false;
-
-	const group = ActivityGetGroupOrMirror(char.AssetFamily, groupname);
-	const zone = char.ArousalSettings.Zone.find(z => z.Name === group.Name);
-	return zone && zone.Factor > 0;
+	const Group = ActivityGetGroupOrMirror(C.AssetFamily, GroupName);
+	const Zone = PreferenceGetArousalZone(C, Group.Name);
+	return Zone && Zone.Factor > 0;
 }
 
 /**

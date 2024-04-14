@@ -4,7 +4,7 @@
 function AssetsClothAccessoryBibAfterDrawHook(data, originalFunction, {
 	C, A, CA, X, Y, Property, drawCanvas, drawCanvasBlink, AlphaMasks, L, Color
 }) {
-	if (L === "_Text") {
+	if (L === "Text") {
 		const typeRecord = (Property && Property.TypeRecord) || {};
 		const subType = typeRecord.x || 0;
 		if (subType !== 1) return;

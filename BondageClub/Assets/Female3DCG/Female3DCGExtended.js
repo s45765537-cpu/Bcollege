@@ -396,6 +396,54 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // TShirt2
+		CustomTShirt: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Shirt",
+					Key: "h",
+					Options: [
+						{
+							// h0 - Normal
+							Property: {
+								OverridePriority: 28,
+							},
+						},
+						{
+							// h1 - UnderSkirt
+							Property: {
+								OverridePriority: 26,
+							},
+						},
+						{
+							// h2 - LowerLayer
+							Property: {
+								OverridePriority: 21,
+							},
+						},
+					],
+					DrawImages: false,
+				},
+				{
+					Name: "Stamp",
+					Key: "t",
+					Options: [
+						{}, // t0 - None
+						{}, // t1 - BondageCollege
+						{}, // t2 - BTG
+						{}, // t3 - Dominant
+						{}, // t4 - Bonk
+						{}, // t5 - OldXGame
+						{}, // t6 - Staff
+						{}, // t7 - Elite
+						{}, // t8 - Raiders
+						{}, // t9 - WhiteMoon
+						{}, // t10 - ZamStick
+						{}, // t10 - Eclipse
+					],
+				},
+			],
+		}, // CustomTShirt
 		ChineseDress2: {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [
@@ -3479,6 +3527,38 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, //PrisonSJ
+		CollarMetalcuffs: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Loose",
+					Property: {
+						Difficulty: 3,
+					},
+				},
+				{
+					Name: "Normal",
+					Property: {
+						Difficulty: 5,
+					},
+				},
+				{
+					Name: "Snug",
+					Property: {
+						Difficulty: 8,
+					},
+				},
+				{
+					Name: "Tight",
+					Property: {
+						Difficulty: 12,
+						Effect: ["MergedFingers"],
+						SetPose: ["BackElbowTouch"],
+					},
+				},
+			],
+			DrawImages: false,
+		}, // Collar Handcuffs
 	}, // ItemArms
 	ItemNeck: {
 		ShinySteelCollar: {
@@ -8693,6 +8773,38 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // MonoHeel
+		TormentHeels: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Boots",
+					Key: "b",
+					Options: [
+						{
+							// b0 - Shoes mode
+							Property: { Difficulty: 0 },
+						},
+						{
+							// b1 - Boots mode
+							Property: { Difficulty: 1 },
+						},
+					],
+				},
+				{
+					Name: "Vibration",
+					Key: "v",
+					DrawImages: false,
+					Options: [
+						{ Property: { Intensity: -1, Effect: [] } }, // v0 - Turn Off
+						{ Property: { Intensity: 0, Effect: [E.Vibrating] } }, // v1 - Low
+						{ Property: { Intensity: 1, Effect: [E.Vibrating] } }, // v2 - Medium
+						{ Property: { Intensity: 1, Effect: [E.Egged, E.Vibrating] } }, // v3 - High
+						{ Property: { Intensity: 2, Effect: [E.Egged, E.Vibrating] } }, // v4 - Maximum
+					],
+				},
+			],
+			ChangeWhenLocked: false,
+		}, // TormentHeels
 	}, // ItemBoots
 	ItemVulva: {
 		ClitSuctionCup: {
@@ -9032,12 +9144,12 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "In",
 					Property: {
-						Effect: [E.DenialMode]
-					}
+						Effect: [E.DenialMode],
+					},
 				},
 				{
-					Name: "Out"
-				}
+					Name: "Out",
+				},
 			],
 			DrawImages: false,
 		}, // UrethralSound
@@ -10108,6 +10220,7 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "Plug",
+					Prerequisite: ["AccessMouth", "GagUnique"],
 					Property: {
 						Effect: [E.BlockMouth, E.GagTotal],
 					},
@@ -10130,6 +10243,7 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "Plug",
+					Prerequisite: ["AccessMouth", "GagUnique"],
 					Property: {
 						Effect: [E.BlockMouth, E.GagTotal2],
 					},
@@ -10173,6 +10287,7 @@ var AssetFemale3DCGExtended = {
 					Name: "Funnel",
 					Property: {
 						Effect: [E.BlockMouth, E.ProtrudingMouth],
+						Block: ["ItemMouth2", "ItemMouth3", "ItemHood"],
 					},
 				},
 			],
@@ -10222,6 +10337,11 @@ var AssetFemale3DCGExtended = {
 					},
 				},
 			],
+			DialogPrefix: {
+				Header: "ItemMouthDentalGagSelect",
+				Option: "ItemMouthDentalGag",
+				Chat: "ItemMouthDentalGagSet",
+			},
 			ChangeWhenLocked: false,
 		}, // DentalGag
 		Ribbons: {
@@ -10325,6 +10445,7 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "Plug",
+					Prerequisite: ["AccessMouth"],
 					Property: {
 						Effect: [E.BlockMouth, E.GagTotal],
 					},
@@ -10354,6 +10475,8 @@ var AssetFemale3DCGExtended = {
 			],
 			DialogPrefix: {
 				Header: "SelectGagType",
+				Option: "ItemMouthTechnoGag",
+				Chat: "ItemMouthTechnoGagSet",
 			},
 		}, // TechnoGag
 		PonyGag: {
@@ -10474,6 +10597,11 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 			DrawImages: false,
+			DialogPrefix: {
+				Header: "ItemMouthLatexSheathGagSelect",
+				Option: "ItemMouthLatexSheathGag",
+				Chat: "ItemMouthLatexSheathGagSet",
+			},
 		}, //LatexSheathGag
 		FuturisticPanelGag: {
 			Archetype: ExtendedArchetype.MODULAR,
@@ -11023,6 +11151,65 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "LatexRespirator" },
 		}, //LatexRespirator
+		DildoPlugGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "DildoPlugGag" },
+		}, // DildoPlugGag
+		BigMouth: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "BigMouth" },
+		}, // BigMouth
+		DentalGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "DentalGag" },
+		}, // DentalGag
+		OTNPlugGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "OTNPlugGag" },
+		}, // OTNPlugGag
+		LatexSheathGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "LatexSheathGag" },
+		}, // LatexSheathGag
+		PlugGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "PlugGag" },
+		}, // PlugGag
+		PumpGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "PumpGag" },
+		}, // PumpGag
+		TonguePiercingGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "TonguePiercingGag" },
+		}, // TonguePiercingGag
+		TechnoGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "TechnoGag" },
+		}, // TechnoGag
+		MilkBottle: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "MilkBottle" },
+		}, // MilkBottle
+		FunnelGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "FunnelGag" },
+			Options: [
+				{
+					Name: "None",
+					Property: {
+						Effect: [E.OpenMouth],
+					},
+				},
+				{
+					Name: "Funnel",
+					Property: {
+						Effect: [E.BlockMouth, E.ProtrudingMouth],
+						Block: ["ItemMouth3", "ItemHood"],
+					},
+				},
+			],
+		}, // FunnelGag
 	}, // ItemMouth2
 	ItemMouth3: {
 		ClothGag: {
@@ -11119,6 +11306,65 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "ModularGag" },
 		},
+		DildoPlugGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "DildoPlugGag" },
+		}, // DildoPlugGag
+		BigMouth: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "BigMouth" },
+		}, // BigMouth
+		DentalGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "DentalGag" },
+		}, // DentalGag
+		OTNPlugGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "OTNPlugGag" },
+		}, // OTNPlugGag
+		LatexSheathGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "LatexSheathGag" },
+		}, // LatexSheathGag
+		PlugGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "PlugGag" },
+		}, // PlugGag
+		PumpGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "PumpGag" },
+		}, // PumpGag
+		TonguePiercingGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "TonguePiercingGag" },
+		}, // TonguePiercingGag
+		TechnoGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "TechnoGag" },
+		}, // TechnoGag
+		MilkBottle: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "MilkBottle" },
+		}, // MilkBottle
+		FunnelGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "FunnelGag" },
+			Options: [
+				{
+					Name: "None",
+					Property: {
+						Effect: [E.OpenMouth],
+					},
+				},
+				{
+					Name: "Funnel",
+					Property: {
+						Effect: [E.BlockMouth, E.ProtrudingMouth],
+						Block: ["ItemHood"],
+					},
+				},
+			],
+		}, // FunnelGag
 	}, // ItemMouth3
 	Mask: {
 		BunnyMask1: {
@@ -13318,6 +13564,7 @@ var AssetFemale3DCGExtended = {
 									"ItemVulvaTechnoChastityCage",
 									"ItemVulvaFlatChastityCage",
 									"ItemVulvaChastityPouch",
+									"ItemVulvaFullCasingCage",
 									"ItemVulvaPiercingsVibeHeartClitPiercing",
 									"ItemVulvaPiercingsClitRing",
 									"ItemVulvaPiercingsChastityClitShield",
@@ -13357,6 +13604,7 @@ var AssetFemale3DCGExtended = {
 									"ItemVulvaTechnoChastityCage",
 									"ItemVulvaFlatChastityCage",
 									"ItemVulvaChastityPouch",
+									"ItemVulvaFullCasingCage",
 									"ItemVulvaPiercingsVibeHeartClitPiercing",
 									"ItemVulvaPiercingsClitRing",
 									"ItemVulvaPiercingsChastityClitShield",
@@ -13746,9 +13994,27 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Normal",
+					Property: {
+						OverridePriority: 27,
+					},
+				},
+				{
+					Name: "NormalOver",
+					Property: {
+						OverridePriority: 53,
+					},
 				},
 				{
 					Name: "Half",
+					Property: {
+						OverridePriority: 27,
+					},
+				},
+				{
+					Name: "HalfOver",
+					Property: {
+						OverridePriority: 53,
+					},
 				},
 			],
 			DialogPrefix: {
@@ -13806,6 +14072,22 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // Wristband
+		WristWatch: {
+			Archetype: ExtendedArchetype.MODULAR,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Left",
+					Key: "l",
+					Options: [{}, {}, {}], // Circle, Square, None
+				},
+				{
+					Name: "Right",
+					Key: "r",
+					Options: [{}, {}, {}], // Circle, Square, None
+				},
+			],
+		}, // WristWatch
 	}, //Bracelet
 	Garters: {
 		GarterBelt: {
@@ -14798,6 +15080,23 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // PonyMittensBinder
+		ElbowLengthMittens: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Unchained",
+				},
+				{
+					Name: "Chained",
+					Prerequisite: ["NoItemArms"],
+					Property: {
+						SetPose: ["BackElbowTouch"],
+						Block: ["ItemArms"],
+						Difficulty: 10,
+					},
+				},
+			],
+		}, // ElbowLengthMittens
 	}, // ItemHands
 	ItemAddon: {
 		CeilingChain: {

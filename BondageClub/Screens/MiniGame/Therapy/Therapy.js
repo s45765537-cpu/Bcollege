@@ -15,7 +15,6 @@ var TherapyStress = 0;
 function TherapyLoad() {
 	CurrentDarkFactor = 0.5;
 	TherapyMoves = [0, 0, 0, 0, 0, 0];
-	TherapyGenerateMoveTimer = CurrentTime + 5000;
 	TherapyStress = 0;
 	MiniGameDifficultyRatio = 2000;
 	if (MiniGameDifficultyMode == "Normal") MiniGameDifficultyRatio = 1500;
@@ -35,22 +34,19 @@ function TherapyRun() {
 	MiniGameTimer = MiniGameTimer + Math.round(TimerRunInterval);
 
 	// If we must draw the progress bars
-	if (MiniGameProgress >= 0) {
+	if (MiniGameStarted) {
 		DrawProgressBar(1100, 770, 800, 60, MiniGameProgress);
 		DrawText(TextGet("Progress"), 1500, 800, "white");
 		DrawProgressBar(1100, 870, 800, 60, TherapyStress * 5);
 		DrawText(TextGet("Stress"), 1500, 900, "white");
+	} else {
+		DrawText(TextGet("Intro1"), 1500, 760, "white");
+		DrawText(TextGet("Intro2"), 1500, 840, "white");
+		DrawText(TextGet("Start"), 1500, 920, "white");
 	}
 
 	// If the mini game is running
-	if (!MiniGameEnded) {
-
-		// Draw the intro text or progress bar
-		if (MiniGameProgress == -1) {
-			DrawText(TextGet("Intro1"), 1500, 760, "white");
-			DrawText(TextGet("Intro2"), 1500, 840, "white");
-			DrawText(TextGet("StartsIn") + " " + (5 - Math.floor(MiniGameTimer / 1000)).toString(), 1500, 920, "white");
-		}
+	if (MiniGameRunning()) {
 
 		// Generates new moves if we need to
 		if (TherapyGenerateMoveTimer < CurrentTime) {
@@ -72,7 +68,7 @@ function TherapyRun() {
 			if (TherapyMoves[M] >= CurrentTime)
 				DrawCircle(1250 + ((M % 3) * 250), 200 + Math.floor(M / 3) * 300, 100, 25, "cyan");
 
-	} else {
+	} else if (MiniGameEnded) {
 
 		// Draw the end message
 		if (MiniGameVictory && (TherapyStress == 0)) DrawText(TextGet("Perfect"), 1500, 250, "white");
@@ -123,8 +119,13 @@ function TherapyDoMove(MoveType) {
  */
 function TherapyClick() {
 
+	if (!MiniGameStarted) {
+		MiniGameStarted = true;
+		TherapyGenerateMoveTimer = CurrentTime;
+	}
+
 	// If the game is over, clicking on the image will end it
-	if (MiniGameEnded && (MouseX >= 0) && (MouseX <= 500) && (MouseY >= 0) && (MouseY <= 999))
+	else if (MiniGameEnded && (MouseX >= 0) && (MouseX <= 500) && (MouseY >= 0) && (MouseY <= 999))
 		MiniGameEnd();
 
 }
@@ -136,7 +137,7 @@ function TherapyClick() {
 function TherapyMouseDown() {
 
 	// If the game has started, we check the click position and send it as a move
-	if ((MiniGameTimer > 5000) && (MouseX >= 1000) && (MiniGameProgress != -1) && !MiniGameEnded) {
+	if (MiniGameRunning() && (MouseX >= 1000) && (MiniGameProgress != -1)) {
 
 		// Gets the move type and sends it
 		var MoveType = -1;

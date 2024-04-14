@@ -8,7 +8,7 @@
 function AssetsItemDevicesPetBowlAfterDrawHook(data, originalFunction,
 	{ C, A, CA, X, Y, L, drawCanvas, drawCanvasBlink, AlphaMasks, Color },
 ) {
-	if (L === "_Text") {
+	if (L === "Text") {
 		// Fetch the text property and assert that it matches the character
 		// and length requirements
 		TextItem.Init(data, C, CA, false, false);

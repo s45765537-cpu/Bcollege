@@ -1700,14 +1700,19 @@ function CharacterHasItemForActivity(C, Activity) {
  * @returns {boolean} - TRUE if the character is edged, FALSE otherwise
  */
 function CharacterIsEdged(C) {
-	if (!C.IsPlayer() || !C.Effect.includes("Edged")) {
-		return false;
-	}
+
+	// Always returns false for others
+	if (!C.IsPlayer() || !C.Effect.includes("Edged")) return false;
 
 	// Get all zones that allow an orgasm
-	let OrgasmZones = C.ArousalSettings.Zone
-		.filter(Zone => Zone.Orgasm)
-		.map(Zone => Zone.Name);
+	/** @type {AssetGroupItemName[]} */
+	let OrgasmZones = [];
+	for (let Group of AssetGroup)
+		if (Group.ArousalZoneID != null) {
+			let Zone = PreferenceGetArousalZone(C, Group.Name);
+			if (Zone.Orgasm && (Zone.Factor > 0))
+				OrgasmZones.push(Zone.Name);
+		}
 
 	// Get every vibrating item acting on an orgasm zone
 	const VibratingItems = C.Appearance
@@ -1722,6 +1727,7 @@ function CharacterIsEdged(C) {
 
 	// Return true if every vibrating item on an orgasm zone has the "Edged" effect
 	return !!VibratingItems.length && VibratingItems.every(Item => Item.Property.Effect && Item.Property.Effect.includes("Edged"));
+
 }
 
 /**
@@ -2118,7 +2124,6 @@ function CharacterScriptRefresh(C) {
 function CharacterScriptRemove(C) {
 	InventoryRemove(C, "ItemScript", true);
 }
-
 
 // Don't remove, these function are used too much downstream
 
