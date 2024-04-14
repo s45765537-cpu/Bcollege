@@ -29751,12 +29751,15 @@ var AssetFemale3DCG = [
 				BuyGroup: "PlugGag",
 				Prerequisite: "GagFlat",
 				Extended: true,
-				Hide: ["Mouth"],
 				Effect: [],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Layer: [
 					{ Name: "Strap", AllowColorize: true },
-					{ Name: "Tongue", AllowColorize: false },
+					{
+						Name: "Tongue",
+						AllowColorize: false,
+						HideAs: { Group: "Mouth" },
+					},
 					{
 						Name: "Close",
 						CopyLayerColor: "Strap",
@@ -30181,12 +30184,15 @@ var AssetFemale3DCG = [
 				BuyGroup: "PlugGag",
 				Prerequisite: "GagFlat",
 				Extended: true,
-				Hide: ["Mouth"],
 				Effect: [],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Layer: [
 					{ Name: "Strap", AllowColorize: true },
-					{ Name: "Tongue", AllowColorize: false },
+					{
+						Name: "Tongue",
+						AllowColorize: false,
+						HideAs: { Group: "Mouth" },
+					},
 					{
 						Name: "Close",
 						AllowColorize: true,
