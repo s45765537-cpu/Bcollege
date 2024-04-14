@@ -29751,12 +29751,15 @@ var AssetFemale3DCG = [
 				BuyGroup: "PlugGag",
 				Prerequisite: "GagFlat",
 				Extended: true,
-				Hide: ["Mouth"],
 				Effect: [],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Layer: [
 					{ Name: "Strap", AllowColorize: true },
-					{ Name: "Tongue", AllowColorize: false },
+					{
+						Name: "Tongue",
+						AllowColorize: false,
+						HideAs: { Group: "Mouth" },
+					},
 					{
 						Name: "Close",
 						CopyLayerColor: "Strap",
@@ -30160,7 +30163,7 @@ var AssetFemale3DCG = [
 				Time: 30,
 				AllowLock: true,
 				AllowTighten: true,
-				Prerequisite: "GagFlat",
+				Prerequisite: ["GagFlat", "AccessMouth"],
 				Hide: ["Mouth"],
 				Effect: [E.GagEasy, E.OpenMouth],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
@@ -30181,12 +30184,15 @@ var AssetFemale3DCG = [
 				BuyGroup: "PlugGag",
 				Prerequisite: "GagFlat",
 				Extended: true,
-				Hide: ["Mouth"],
 				Effect: [],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Layer: [
 					{ Name: "Strap", AllowColorize: true },
-					{ Name: "Tongue", AllowColorize: false },
+					{
+						Name: "Tongue",
+						AllowColorize: false,
+						HideAs: { Group: "Mouth" },
+					},
 					{
 						Name: "Close",
 						AllowColorize: true,
@@ -30594,7 +30600,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "OTNPlugGag",
 				Gender: "F",
-				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"],
+				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat", "AccessMouth"],
 				Value: 120,
 				Difficulty: 4,
 				Time: 20,
@@ -30615,11 +30621,17 @@ var AssetFemale3DCG = [
 						HideForAttribute: ["ShortHair"],
 						CopyLayerColor: "Straps",
 					},
-					{ Name: "Metal", AllowColorize: false },
+					{
+						// TODO: Add a proper mouth opening to the metal layer
+						// This would allow the gag to be used over other flat gags when the `Tongue` layer is disabled
+						Name: "Metal",
+						AllowColorize: false,
+					},
 					{
 						Name: "Tongue",
 						AllowColorize: false,
 						AllowTypes: { typed: 0 },
+						// HideAs: { Group: "Mouth" },
 					},
 					{
 						Name: "Plug",
