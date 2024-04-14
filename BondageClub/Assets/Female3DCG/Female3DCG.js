@@ -30600,7 +30600,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "OTNPlugGag",
 				Gender: "F",
-				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"],
+				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat", "AccessMouth"],
 				Value: 120,
 				Difficulty: 4,
 				Time: 20,
@@ -30621,11 +30621,17 @@ var AssetFemale3DCG = [
 						HideForAttribute: ["ShortHair"],
 						CopyLayerColor: "Straps",
 					},
-					{ Name: "Metal", AllowColorize: false },
+					{
+						// TODO: Add a proper mouth opening to the metal layer
+						// This would allow the gag to be used over other flat gags when the `Tongue` layer is disabled
+						Name: "Metal",
+						AllowColorize: false,
+					},
 					{
 						Name: "Tongue",
 						AllowColorize: false,
 						AllowTypes: { typed: 0 },
+						// HideAs: { Group: "Mouth" },
 					},
 					{
 						Name: "Plug",
