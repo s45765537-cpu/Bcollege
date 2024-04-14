@@ -1377,6 +1377,18 @@ function CommonClamp(value, min, max) {
 }
 
 /**
+ * Return value % divisor but properly handling negative values
+ *
+ * Useful if you have a set of keys and want to move an index within its bounds with proper wrap-around.
+ *
+ * @param {number} value
+ * @param {number} divisor
+ */
+function CommonModulo(value, divisor) {
+	return Math.abs((divisor + value) % divisor);
+}
+
+/**
  * Returns TRUE if the URL is valid, is from http or https or screens/ or backgrounds/ and has the required extension
  * @param {string} TestURL - The URL to test
  * @param {readonly string[]} Extension - An array containing the valid extensions

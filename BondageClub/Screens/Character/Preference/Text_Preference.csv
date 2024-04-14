@@ -383,3 +383,9 @@ ScriptsPermissionLevelWhitelist,Whitelist
 ScriptsPermissionLevelPublic,Public
 ScriptsPermissionPropertyHide,Hide
 ScriptsPermissionPropertyBlock,Block
+ShowFPS,Display FPS Counter
+MaxFPS0,Unlimited
+MaxFPS10,10 FPS
+MaxFPS15,15 FPS
+MaxFPS30,30 FPS
+MaxFPS60,60 FPS
