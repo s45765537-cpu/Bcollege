@@ -636,7 +636,7 @@ function PreferenceInitPlayer() {
 
 	// Difficulty: non-Roleplay settings
 	if (C.GetDifficulty() >= 1) {
-		C.RestrictionSettings.BypassStruggle = false;
+		//C.RestrictionSettings.BypassStruggle = false;  RESTORE IN R104
 		C.RestrictionSettings.SlowImmunity = false;
 		C.RestrictionSettings.BypassNPCPunishments = false;
 		C.RestrictionSettings.NoSpeechGarble = false;
@@ -926,7 +926,8 @@ function PreferenceSubscreenRestrictionRun() {
 	DrawText(TextGet("RestrictionPreferences"), 500, 125, "Black", "Gray");
 	const disableButtons = Player.GetDifficulty() > 0;
 	DrawText(TextGet(disableButtons ? "RestrictionNoAccess" : "RestrictionAccess"), 500, 225, "Black", "Gray");
-	DrawCheckbox(500, 325, 64, 64, TextGet("RestrictionBypassStruggle"), Player.RestrictionSettings.BypassStruggle && !disableButtons, disableButtons);
+	//DrawCheckbox(500, 325, 64, 64, TextGet("RestrictionBypassStruggle"), Player.RestrictionSettings.BypassStruggle && !disableButtons, disableButtons); RESTORE IN R104
+	DrawCheckbox(500, 325, 64, 64, TextGet("RestrictionBypassStruggle"), Player.RestrictionSettings.BypassStruggle);
 	DrawCheckbox(500, 425, 64, 64, TextGet("RestrictionSlowImmunity"), Player.RestrictionSettings.SlowImmunity && !disableButtons, disableButtons);
 	DrawCheckbox(500, 525, 64, 64, TextGet("RestrictionBypassNPCPunishments"), Player.RestrictionSettings.BypassNPCPunishments && !disableButtons, disableButtons);
 	DrawCheckbox(500, 625, 64, 64, TextGet("RestrictionNoSpeechGarble"), Player.RestrictionSettings.NoSpeechGarble && !disableButtons, disableButtons);
@@ -1051,7 +1052,8 @@ function PreferenceSubscreenDifficultyClick() {
  */
 function PreferenceSubscreenRestrictionClick() {
 	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenDifficultyExit();
-	if (MouseIn(500, 325, 64, 64) && (Player.GetDifficulty() == 0)) Player.RestrictionSettings.BypassStruggle = !Player.RestrictionSettings.BypassStruggle;
+	// if (MouseIn(500, 325, 64, 64) && (Player.GetDifficulty() == 0)) Player.RestrictionSettings.BypassStruggle = !Player.RestrictionSettings.BypassStruggle; RESTORE IN R104
+	if (MouseIn(500, 325, 64, 64)) Player.RestrictionSettings.BypassStruggle = !Player.RestrictionSettings.BypassStruggle;
 	if (MouseIn(500, 425, 64, 64) && (Player.GetDifficulty() == 0)) Player.RestrictionSettings.SlowImmunity = !Player.RestrictionSettings.SlowImmunity;
 	if (MouseIn(500, 525, 64, 64) && (Player.GetDifficulty() == 0)) Player.RestrictionSettings.BypassNPCPunishments = !Player.RestrictionSettings.BypassNPCPunishments;
 	if (MouseIn(500, 625, 64, 64) && (Player.GetDifficulty() == 0)) Player.RestrictionSettings.NoSpeechGarble = !Player.RestrictionSettings.NoSpeechGarble;
