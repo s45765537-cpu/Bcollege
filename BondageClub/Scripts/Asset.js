@@ -598,7 +598,7 @@ function AssetMapLayer(Layer, A, I) {
 		DrawingTop: AssetParseTopLeft(Layer.Top, A.DrawingTop),
 		HideAs: Layer.HideAs,
 		FixedPosition: typeof Layer.FixedPosition === "boolean" ? Layer.FixedPosition : false,
-		HasImage: typeof Layer.HasImage === "boolean" ? Layer.HasImage : true,
+		HasImage: Layer.HasImage ?? A.Visible,
 		Opacity: opacity,
 		MinOpacity: minOpacity,
 		MaxOpacity: maxOpacity,
