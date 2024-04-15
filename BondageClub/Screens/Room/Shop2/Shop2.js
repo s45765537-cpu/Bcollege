@@ -1,6 +1,13 @@
 "use strict";
 var Shop2Background = "Shop";
 
+/** @satisfies {Record<string, ShopDropdownState>} */
+const ShopDropdownState = /** @type {const} */({
+	NONE: "None",
+	GROUP: "Group",
+	POSE: "Pose",
+});
+
 /**
  * Namespace with shop-specific variables that are expected to mutate over the course of the (sub-)screens lifetime
  * @namespace
@@ -56,10 +63,11 @@ const Shop2Vars = CommonVariableContainer(
 		PreviewItems: [],
 
 		/**
-		 * Whether the group-selection dropdown menu should be displayed
-		 * @type {boolean}
+		 * The currently active dropdown menu
+		 * @type {ShopDropdownState}
 		 */
-		DisplayDropdown: false,
+		DropdownState: ShopDropdownState.NONE,
+
 		/**
 		 * A record mapping filter ID to filter callbacks.
 		 * Each callback is expected to return a list denoting for which modes the item is to-be shown.
@@ -417,6 +425,7 @@ var Shop2 = {
 				} else {
 					Shop2Vars.EquippedItem = CharacterAppearanceSetItem(Shop2InitVars.Preview, asset.Group.Name, asset, [...asset.DefaultColor]) ?? null;
 				}
+				Shop2._UpdatePoseButtons();
 				break;
 			}
 			case "Buy":
@@ -543,6 +552,34 @@ var Shop2 = {
 	},
 
 	/**
+	 * Update the state of all pose-buttons, disabling or selecting them if so required.
+	 */
+	_UpdatePoseButtons: function _UpdatePoseButtons() {
+		const buttonElements = /** @type {HTMLButtonElement[]} */(Array.from(document.querySelectorAll("[data-pose]")));
+		for (const button of buttonElements) {
+			const pose = PoseRecord[/** @type {AssetPoseName} */(button.dataset.pose)];
+			if (!pose) {
+				continue;
+			}
+
+			button.disabled = false;
+			button.style.backgroundColor = "";
+			if (Shop2InitVars.Preview.PoseMapping[pose.Category] === pose.Name) {
+				button.style.backgroundColor = "pink";
+			} else if (!PoseAvailable(Shop2InitVars.Preview, pose.Category, pose.Name)) {
+				button.disabled = true;
+			}
+		}
+	},
+
+	_ClickDropdown: function _ClickDropdown() {
+		const elems = Array.from(document.getElementsByClassName("shop-dropdown"));
+		for (const elem of /** @type {HTMLDivElement[]} */(elems)) {
+			elem.style.display = "none";
+		}
+	},
+
+	/**
 	 * Draw a ribbon with the specified label in the top-right corner of the passed square.
 	 * @type {(label: string, x: number, y: number, w: number, color?: string) => void}
 	 */
@@ -603,6 +640,32 @@ var Shop2 = {
 			Mode: new Set(["Preview", "Buy", "Sell", "Extended", "Color"]),
 			Run: (time, ...coords) => DrawRect(...coords, "rgba(0,0,0,0.5)"),
 		},
+		Character: {
+			Coords: [650, 0, 0, 0],
+			Mode: new Set(["Preview", "Buy", "Sell", "Extended", "Color"]),
+			Load: () => {
+				if (Shop2InitVars.Preview) {
+					return;
+				}
+				Shop2InitVars.Preview = CharacterLoadSimple("Shop2Preview");
+				Shop2InitVars.Preview.Appearance = Player.Appearance.filter(i => i.Asset.Group.IsAppearance());
+				Shop2InitVars.Preview.HeightRatio = 1;
+				// @ts-expect-error: partially initialized shared settings
+				Shop2InitVars.Preview.OnlineSharedSettings = { ItemsAffectExpressions: false };
+				CharacterRefresh(Shop2InitVars.Preview, false, false);
+			},
+			Run: (time, x, y) => DrawCharacter(Shop2InitVars.Preview, x, y, 1),
+			Exit: () => {
+				switch (Shop2Vars.Mode) {
+					case "Buy":
+					case "Sell":
+					case "Preview":
+						CharacterDelete(Shop2InitVars.Preview);
+						Shop2InitVars.Preview = null;
+						break;
+				}
+			},
+		},
 		InputSearch: {
 			Coords: [25, 38, 660, 60],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
@@ -646,13 +709,16 @@ var Shop2 = {
 		GroupSelectCollapse: {
 			Coords: [25, Shop2Consts.Grid.y, 90, 90],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Run: (time, ...coords) => DrawButton(...coords, "", "White", "Icons/Next.png", TextGet("GroupSelectCollapse")),
-			Click: () => {
-				Shop2Vars.DisplayDropdown = !Shop2Vars.DisplayDropdown;
-				const elem = document.getElementById("Shop2GroupSelect");
-				if (elem) {
-					elem.style.display = "none";
+			Run: (time, ...coords) => {
+				if (Shop2Vars.DropdownState === ShopDropdownState.GROUP) {
+					DrawButton(...coords, "", "Pink", "Icons/Down.png", TextGet("GroupSelectCollapse"));
+				} else {
+					DrawButton(...coords, "", "White", "Icons/Next.png", TextGet("GroupSelectCollapse"));
 				}
+			},
+			Click: () => {
+				Shop2Vars.DropdownState = Shop2Vars.DropdownState === ShopDropdownState.GROUP ? ShopDropdownState.NONE : ShopDropdownState.GROUP;
+				Shop2._ClickDropdown();
 			},
 		},
 		GroupSelectAll: {
@@ -718,9 +784,10 @@ var Shop2 = {
 				}
 				elem.innerHTML = content;
 				elem.style.display = "none";
+				elem.classList.add("shop-dropdown");
 			},
 			Run: (time, ...coords) => {
-				if (!Shop2Vars.DisplayDropdown) {
+				if (Shop2Vars.DropdownState !== ShopDropdownState.GROUP) {
 					return;
 				}
 				const font = MainCanvas.canvas.clientWidth <= MainCanvas.canvas.clientHeight * 2 ? MainCanvas.canvas.clientWidth / 50 : MainCanvas.canvas.clientHeight / 25;
@@ -733,6 +800,86 @@ var Shop2 = {
 				}
 			},
 			Exit: () => ElementRemove("Shop2GroupSelect"),
+		},
+		PoseSelectHeader: {
+			Coords: [345, 155 + 160, 0, 0],
+			Mode: new Set(["Preview", "Buy", "Sell"]),
+			Run: (time, x, y) => DrawText(TextGet("PoseSelectHeader"), x, y, "White"),
+		},
+		PoseSelectCollapse: {
+			Coords: [25, Shop2Consts.Grid.y + 160, 90, 90],
+			Mode: new Set(["Preview", "Buy", "Sell"]),
+			Run: (time, ...coords) => {
+				if (Shop2Vars.DropdownState === ShopDropdownState.POSE) {
+					DrawButton(...coords, "", "Pink", "Icons/Down.png", TextGet("PoseSelectCollapse"));
+				} else {
+					DrawButton(...coords, "", "White", "Icons/Next.png", TextGet("PoseSelectCollapse"));
+				}
+			},
+			Click: () => {
+				Shop2Vars.DropdownState = Shop2Vars.DropdownState === ShopDropdownState.POSE ? ShopDropdownState.NONE : ShopDropdownState.POSE;
+				Shop2._ClickDropdown();
+			},
+		},
+		PoseSelectNone: {
+			Coords: [135, Shop2Consts.Grid.y + 160, 200, 90],
+			Mode: new Set(["Preview", "Buy", "Sell"]),
+			Run: (time, ...coords) => DrawButton(...coords, TextGet("PoseSelectReset"), "White"),
+			Click: () => {
+				PoseSetActive(Shop2InitVars.Preview, null, true);
+				Shop2._UpdatePoseButtons();
+			},
+		},
+		PoseSelect: {
+			Coords: [25, Shop2Consts.Grid.y + 100 + 160, 660, Shop2Consts.Grid.height - 100 - 160],
+			Mode: new Set(["Preview", "Buy", "Sell"]),
+			Load: () => {
+				if (document.getElementById("Shop2PoseSelect")) {
+					return;
+				}
+
+				DialogLoadPoseMenu(Shop2InitVars.Preview);
+				const poseHTML = DialogActivePoses.map(poseList => {
+					return `
+						<div class=shop2-pose-inner-grid>
+							${poseList.map(p => `<button class=shop-button data-pose="${p.Name}" />`).join("\n")}
+						</div>
+					`;
+				}).join("\n");
+
+				const elem = ElementCreateDiv("Shop2PoseSelect");
+				elem.style.display = "none";
+				elem.innerHTML = `<div id=Shop2PoseOuterGrid>${poseHTML}</div>`;
+				elem.classList.add("shop-dropdown");
+
+				const poseButtons = /** @type {HTMLButtonElement[]} */(Array.from(document.querySelectorAll("[data-pose]")));
+				for (const button of poseButtons) {
+					const pose = /** @type {AssetPoseName} */(button.dataset.pose);
+					button.style.backgroundImage = `url("Icons/Poses/${pose}.png")`;
+					button.addEventListener("click", () => {
+						PoseSetActive(Shop2InitVars.Preview, pose);
+						Shop2._UpdatePoseButtons();
+					});
+				}
+				Shop2._UpdatePoseButtons();
+			},
+			Run: (time, ...coords) => {
+				if (Shop2Vars.DropdownState !== ShopDropdownState.POSE) {
+					return;
+				}
+				const canvas = MainCanvas.canvas;
+				const font = canvas.clientWidth <= canvas.clientHeight * 2 ? canvas.clientWidth / 50 : canvas.clientHeight / 25;
+				ElementPositionFix("Shop2PoseSelect", font, ...coords);
+				const elem = document.getElementById("Shop2PoseSelect");
+				elem.style.width = "fit-content";
+			},
+			Unload: () => {
+				const elem = document.getElementById("Shop2PoseSelect");
+				if (elem) {
+					elem.style.display = "none";
+				}
+			},
+			Exit: () => ElementRemove("Shop2PoseSelect"),
 		},
 		ItemHeader: {
 			Coords: [Shop2Consts.Grid.x + 20 + 1.5 * Shop2Consts.Grid.itemWidth, 155, 0, 0],
@@ -761,32 +908,6 @@ var Shop2 = {
 					"en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 },
 				).format(Math.min(999999, Player.Money));
 				DrawText(money, x, y, "White");
-			},
-		},
-		Character: {
-			Coords: [650, 0, 0, 0],
-			Mode: new Set(["Preview", "Buy", "Sell", "Extended", "Color"]),
-			Load: () => {
-				if (Shop2InitVars.Preview) {
-					return;
-				}
-				Shop2InitVars.Preview = CharacterLoadSimple("Shop2Preview");
-				Shop2InitVars.Preview.Appearance = Player.Appearance.filter(i => i.Asset.Group.IsAppearance());
-				Shop2InitVars.Preview.HeightRatio = 1;
-				// @ts-expect-error: partially initialized shared settings
-				Shop2InitVars.Preview.OnlineSharedSettings = { ItemsAffectExpressions: false };
-				CharacterRefresh(Shop2InitVars.Preview, false, false);
-			},
-			Run: (time, x, y) => DrawCharacter(Shop2InitVars.Preview, x, y, 1),
-			Exit: () => {
-				switch (Shop2Vars.Mode) {
-					case "Buy":
-					case "Sell":
-					case "Preview":
-						CharacterDelete(Shop2InitVars.Preview);
-						Shop2InitVars.Preview = null;
-						break;
-				}
 			},
 		},
 		BuyMode: {
@@ -1051,9 +1172,12 @@ function Shop2Exit() {
 	});
 
 	switch (oldMode) {
+		case "Extended":
+			Shop2._UpdatePoseButtons();
+			break;
 		case "Buy":
 		case "Sell":
-		case "Preview": {
+		case "Preview":
 			if (Shop2Vars.Push) {
 				ServerPlayerInventorySync();
 				ServerPlayerSync();
@@ -1065,7 +1189,7 @@ function Shop2Exit() {
 			}
 			Shop2Vars.Reset();
 			Shop2InitVars.Reset();
-		}
+			break;
 	}
 }
 

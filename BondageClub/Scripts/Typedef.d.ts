@@ -4134,6 +4134,9 @@ type ShopMode = "Buy" | "Sell" | "Preview" | "Color" | "Extended";
 /** The current dressing state of the preview character */
 type ShopClothesMode = "Clothes" | "Underwear" | "Cosplay" | "Nude";
 
+/** The currently active dropdown menu */
+type ShopDropdownState = "None" | "Group" | "Pose";
+
 interface ShopScreenFunctions extends Omit<Partial<ScreenFunctions>, "Run"> {
 	Run(time: number, ...coords: RectTuple): void,
 	/** Coordinates associated with a particular to-be drawn/clicked element */
