@@ -1054,13 +1054,14 @@ function testAssetHasPNG(assets, extendedDataRecords, poseRecord) {
 				if (options.length > 0) {
 					layerTypes = options.map((o, i) => {
 						const optionPoses = o.Property?.AllowActivePose ?? asset.AllowActivePose ?? keys(poseMapping);
-						const mappedPoses = optionPoses.map(p => {
-							return poseMapping[p] ?? PoseType.DEFAULT;
-						}).filter(p => {
-							return p && p != PoseType.HIDE;
-						});
-						if (mappedPoses.length === 0) {
-							mappedPoses.push(PoseType.DEFAULT);
+						let mappedPoses = optionPoses.map(p => poseMapping[p] ?? PoseType.DEFAULT);
+						if (mappedPoses.length && mappedPoses.every(p => p === PoseType.HIDE)) {
+							mappedPoses = [];
+						} else {
+							mappedPoses = mappedPoses.filter(p => p !== PoseType.HIDE && p !== PoseType.DEFAULT);
+							if (mappedPoses.length === 0) {
+								mappedPoses.push(PoseType.DEFAULT);
+							}
 						}
 						return [layer.CreateLayerTypes.length ? partialLayerTypes[i] : null, mappedPoses];
 					});
@@ -1096,7 +1097,7 @@ function testAssetHasPNG(assets, extendedDataRecords, poseRecord) {
 				expressions = [null];
 			}
 
-			for (const iter of [parentNames, colors, expressions, layerTypes, ...layerTypes.map(i => i[1])]) {
+			for (const iter of [parentNames, colors, expressions, layerTypes]) {
 				if (Array.from(/** @type {Iterable<any>} */(iter)).length === 0) {
 					error(`${asset.Group.Name}:${asset.Name}:${layer.Name}: Internal error; zero-length list encountered!`);
 				}
