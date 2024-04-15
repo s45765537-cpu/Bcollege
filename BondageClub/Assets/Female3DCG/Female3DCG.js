@@ -18127,7 +18127,7 @@ var AssetFemale3DCG = [
 				},
 				DefaultColor: ["#A2A2A2", "#787878", "#2C2C2C"],
 				AllowLock: true,
-				DrawLocks: true,
+				DrawLocks: false,
 				Effect: [E.Leash],
 				Layer: [
 					{
