@@ -1,4 +1,5 @@
 's,'s
+AccessBlocked,You cannot access your items
 ActionActivateSafewordRelease,SourceCharacter used PronounPossessive safeword and wants to be released. PronounSubject is guided out of the room for PronounPossessive safety.
 ActionActivateSafewordRevert,SourceCharacter used PronounPossessive safeword. Please check for PronounPossessive well-being.
 ActionAddLock,SourceCharacter adds a NextAsset on DestinationCharacter FocusAssetGroup PrevAsset.
@@ -27,101 +28,51 @@ ActionTightenLot,SourceCharacter tightens the PrevAsset on DestinationCharacter 
 ActionUnlock,SourceCharacter unlocks the PrevAsset on DestinationCharacter FocusAssetGroup.
 ActionUnlockAndRemove,SourceCharacter unlocks and removes the PrevAsset from DestinationCharacter FocusAssetGroup.
 ActionUse,SourceCharacter uses a NextAsset on DestinationCharacter FocusAssetGroup.
-CurrentMode,Current Mode:
-Page,Page
-AccessBlocked,You cannot access your items
+Adding,Adding...
+AddTimerTime,Add
+AddTimerTimeMinutes,Add TimerTime minutes to the Timer
+AdjustTightness,Tighten / Loosen
+AlreadySet,Option already set
 Beep,Beep
 BeepFrom,Beep from
 BeepFromOwner,Beep from your owner in your private room
 BeepWithMail,(Mail)
 BeepWithMessage,With Message
-Delete,Delete
-ConfirmDelete,Confirm
-Unlocked,Unlocked
-Private,Private
-PrivateRoom,<i>Private room</i>
-NotificationTitleBeep,Beep
-NotificationTitleChatJoin,Joined Room
-NotificationTitleChatMessage,Chat Message
-NotificationTitleDisconnect,Disconnected
-NotificationTitleFromRoom, from ChatRoomName
-NotificationTitleLarp,LARP - Your turn
-NotificationTitleTest,Test Notification
-ReceivedBeep,Received at
-SentBeep,Sent at
-Someone,Someone
-LockMemberNumber,Member number on lock:
-VibratorModeLabel,Current Mode:
-VibratorModeOff,Off
-VibratorModeLow,Low
-VibratorModeMedium,Medium
-VibratorModeHigh,High
-VibratorModeMaximum,Maximum
-VibratorModeRandom,Random
-VibratorModeEscalate,Escalate
-VibratorModeTease,Tease
-VibratorModeDeny,Deny
-VibratorModeEdge,Edge
-ProgressClick,Click here to speed up the progress
-ProgressDex,Click when the player reaches the buckle to progress
-ProgressFlex,Click the ropes before they hit the ground to progress
-ProgressKeys,Alternate keys A (Q on AZERTY) and D to speed up,,
-ProgressKeysController,Alternate keys A and S or X and Y on a controller
-StruggleImpossible,Impossible to escape!
-PronounObjectHeHim,him
-PronounObjectSheHer,her
-PronounObjectTheyThem,them
-PronounPossessiveHeHim,his
-PronounPossessiveSheHer,her
-PronounPossessiveTheyThem,their
-PronounSelfHeHim,himself
-PronounSelfSheHer,herself
-PronounSelfTheyThem,themself
-PronounSubjectHeHim,he
-PronounSubjectSheHer,she
-PronounSubjectTheyThem,they
+BlindToggleFacialExpressions,Toggle closed eyes blindness
+BlockedByRoom,Blocked in this room.
+Brightness,Brightness
+Cancel,Cancel
+CannotUseOnSelf,Cannot use on yourself.
+CantChangeWhileLocked,Cannot change while locked
+Challenge,Challenge:
+ChatRoomHelp,Type /help for a list of commands
+ChatRoomLeashNotFriend,You are not on that member's friendlist; ask TargetPronounObject to friend you before leashing TargetPronounObject.
+ChatRoomSpaceAsylum,<i>Asylum</i>
+ChooseStruggleMethod,Choose struggling method...
+ClearActivePoses,Clear active poses
+ClearFacialExpressions,Clear facial expressions
 ColorSave,Save color to currently selected slot
 ColorSelect,Use this color
-PrevPage,View previous page
-NextPage,View next page
-PrettyArrayJoin,", "
-PrettyArrayJoinFinal,", and "
-SavedExpressions,Save/Load Expressions
-SavedExpressionsEmpty,(Empty)
-SavedExpressionsLoad,Load
-SavedExpressionsSave,Save
-BlockedByRoom,Blocked in this room.
-RequireBondageLevel,Need Bondage ReqLevel
-RequireSelfBondage1,Requires self-bondage 1.
-RequireSelfBondage10,Requires self-bondage 10.
-RequireSelfBondage2,Requires self-bondage 2.
-RequireSelfBondage3,Requires self-bondage 3.
-RequireSelfBondage4,Requires self-bondage 4.
-RequireSelfBondage5,Requires self-bondage 5.
-RequireSelfBondage6,Requires self-bondage 6.
-RequireSelfBondage7,Requires self-bondage 7.
-RequireSelfBondage8,Requires self-bondage 8.
-RequireSelfBondage9,Requires self-bondage 9.
-CannotUseOnSelf,Cannot use on yourself.
-SelectItemGroup,Select an item to use on the GroupName.
-SelectActivityGroup,Select an activity to use on the GroupName.
-SelectActivityNone,No activity available on the GroupName.
-SelectLock,Select a lock to use on the GroupName.
-SelectLocked,This looks like its locked by a AssetName.
-SelectLockedUnknown,This looks like its locked by something.
-ShowAllZones,Show all zones
-ChooseStruggleMethod,Choose struggling method...
+ConfirmDelete,Confirm
+CraftingCancel,Return to the item menu
+CraftingDescription,Description: CraftDescription
+CraftingMember,Crafter: MemberName (MemberNumber)
+CraftingName,Name: CraftName
+CraftingProperty,Property: CraftProperty
+CurrentMode,Current Mode:
+Decoding,Decoding the lock...
+Delete,Delete
+DialogGroupNameItemGlans,Glans
+DialogGroupNameItemPenis,Penis
 DialogMenuActivity,Sexual activities
+DialogMenuCancel,Cancel
 DialogMenuColorCancel,Default color
 DialogMenuColorChange,Change item color
 DialogMenuColorDefault,Select default color
 DialogMenuColorPickDisabled,Unable to change color due to player permissions
 DialogMenuCrafting,Crafted properties
-DialogMenuNormalMode,Exit permission mode
-DialogMenuPermissionMode,Edit item permissions
 DialogMenuDismount,Dismount
 DialogMenuEscape,Escape from the item
-DialogMenuRemove,Remove the item
 DialogMenuExit,Back to character
 DialogMenuGGTSControl,GGTS controls this item
 DialogMenuInspectLock,Inspect the lock
@@ -130,13 +81,15 @@ DialogMenuLock,Use a lock
 DialogMenuLockDisabled,Unable to lock item due to player permissions
 DialogMenuLockMenu,Lock related actions
 DialogMenuNext,View next items
-DialogMenuPrev,View previous items
+DialogMenuNormalMode,Exit permission mode
+DialogMenuPermissionMode,Edit item permissions
 DialogMenuPickLock,Try to pick the lock
 DialogMenuPickLockDisabled,Unable to pick the lock
 DialogMenuPickLockInaccessibleDisabled,Cannot reach lock
 DialogMenuPickLockJammed,Try to pick the lock (jammed)
 DialogMenuPickLockNoPicksDisabled,Unable to pick without lockpicks
 DialogMenuPickLockPermissionsDisabled,Unable to pick the lock due to player permissions
+DialogMenuPrev,View previous items
 DialogMenuRemote,Use your remote
 DialogMenuRemoteDisabled,Unable to use due to player permissions
 DialogMenuRemoteDisabledForCannotInteract,Your hands must be free to use remotes
@@ -145,118 +98,57 @@ DialogMenuRemoteDisabledForNoLoversRemote,You have not bought a lover's remote y
 DialogMenuRemoteDisabledForNoRemote,You have not bought a remote yet.
 DialogMenuRemoteDisabledForNoRemoteOwnerRuleActive,Your owner is preventing you from using remotes.
 DialogMenuRemoteDisabledForRemotesBlocked,Using remotes on this item has been blocked
+DialogMenuRemove,Remove the item
+DialogMenuStruggle,Try to struggle out
+DialogMenuTightenLoosen,Tighten / Loosen
 DialogMenuUnlock,Unlock the item
 DialogMenuUse,Use this item
 DialogMenuUseDisabled,Unable to use due to player permissions
-DialogMenuStruggle,Try to struggle out
-DialogMenuTightenLoosen,Tighten / Loosen
-DialogMenuCancel,Cancel
-CraftingCancel,Return to the item menu
-CraftingDescription,Description: CraftDescription
-CraftingMember,Crafter: MemberName (MemberNumber)
-CraftingName,Name: CraftName
-CraftingProperty,Property: CraftProperty
 Dismounting,Dismounting...
 Escaping,Escaping...
-NextExpressions,View next expressions
-PrevExpressions,View previous expressions
-Tighten,Tighten...
-TightenLittle,...A little
-TightenLoosenTitle,You can tighten or loosen this item
-TightenLot,...A lot
-tightens,tightens
-Tightness,Tightness:
-Cancel,Cancel
-StruggleStrength,Use brute force
-StruggleFlexibility,Try to squeeze out
-StruggleDexterity,Try to unfasten
+ExtendedItemNoCraftingScreen,Unavailable while crafting
+ExtendedItemNoItemPermission,Blocked due to item permissions
+ExtendedItemUnlockBeforeChange,Remove locks before changing
+FacialExpression,Facial expression
+Hacking,Hacking the item...
+Hours,hours
+InAsylum,in the Asylum
+InRoom,in room
+Locking,Locking...
+LockMemberNumber,Member number on lock:
+LockPickArousal,Your hands are shaky and you lose some tension by accident!
+LockPickBreak,DestinationCharacterName jammed a lock and broke TargetPronounPossessive lockpick!
+LockpickFailed,You jammed the lock.
+LockpickFailedTimeout,You are too tired to continue. Time remaining:
+LockpickIntro,Click the pins in the correct order to open the lock!
+LockpickIntro2,Clicking the wrong pin may falsely set it.
+LockpickIntro3,It will fall back after clicking other pins.
+LockpickJammed,Failing or quitting will break your lockpick for 1 minute
+LockpickTriesRemaining,Remaining tries: 
 Loosen,Loosen...
 LoosenClick,Click or press space when the circles are aligned
 LoosenLittle,...A little
 LoosenLot,...A lot
 LoosenPossible,You can struggle to loosen this restraint
-ZoneBlocked,This zone is out of reach from another item
-ZoneBlockedOwner,Your owner doesn't allow you to access that zone
-ZoneBlockedRange,You're too far to reach DialogCharacterObject body and items.
+MaximumTightness,Maximum:
+MinimumTightness,Minimum:
+Minutes,minutes
+NextExpressions,View next expressions
+NextPage,View next page
 NoItems,You have no items in this category
-FacialExpression,Facial expression
-BlindToggleFacialExpressions,Toggle closed eyes blindness
-WinkFacialExpressions,Wink/Blink
-ClearActivePoses,Clear active poses
-ClearFacialExpressions,Clear facial expressions
-PoseMenu,Pose
-RulesMenu,Active Rules
-RulesMenuBlockChange,Cannot change:
-RulesMenuBlockFamilyKey,Blocked: Family keys
-RulesMenuBlockKey,Blocked: Normal keys
-RulesMenuBlockLoverLockOwner,Your owner cannot use lover locks on you
-RulesMenuBlockLoverLockSelf,No lover locks on yourself
-RulesMenuBlockNickname,Cannot change your nickname
-RulesMenuBlockOwnerLockSelf,No owner locks on yourself
-RulesMenuBlockRemote,Blocked: Remotes on anyone
-RulesMenuBlockRemoteSelf,Blocked: Remotes on yourself
-RulesMenuBlockWhisper,No whispers around your owner
-RulesMenuEmpty,No active rules
-RulesMenuReleasedCollar,Slave collar unlocked
-DialogGroupNameItemPenis,Penis
-DialogGroupNameItemGlans,Glans
-PreviewIconAllowedLimited,Allowed Limited Item
-PreviewIconBlindHeavy,Heavily blinds
-PreviewIconBlindLight,Lightly blinds
-PreviewIconBlindNormal,Blinds
-PreviewIconDeafHeavy,Heavily deafens
-PreviewIconDeafLight,Lightly deafens
-PreviewIconDeafNormal,Deafens
-PreviewIconFamilyOnly,D/s Family only
-PreviewIconFavorite,Favorite
-PreviewIconFavoriteBoth,Favorite (theirs & yours)
-PreviewIconFavoritePlayer,Favorite (yours)
-PreviewIconGagHeavy,Heavily gags
-PreviewIconGagLight,Lightly gags
-PreviewIconGagNormal,Gags
-PreviewIconGagTotal,Totally gags
-PreviewIconHandheld,Held
-PreviewIconLocked,Locked
-PreviewIconLoverOnly,Lovers only
-PreviewIconOwnerOnly,Owner only
-PreviewIconPadlock,Locked with a AssetName
-PreviewIconUnlocked,Automatically locks
-PreviewIconBuyGroup,Buygroup member
-PreviewIconExtended,Extended item
+NotificationTitleBeep,Beep
+NotificationTitleChatJoin,Joined Room
+NotificationTitleChatMessage,Chat Message
+NotificationTitleDisconnect,Disconnected
+NotificationTitleFromRoom, from ChatRoomName
+NotificationTitleLarp,LARP - Your turn
+NotificationTitleTest,Test Notification
+OpacityLabel,Change Opacity
 OptionNeedsToBeBought,Option needs to be bought
-AlreadySet,Option already set
-CantChangeWhileLocked,Cannot change while locked
-ExtendedItemNoCraftingScreen,Unavailable while crafting
-ExtendedItemNoItemPermission,Blocked due to item permissions
-ExtendedItemUnlockBeforeChange,Remove locks before changing
-AdjustTightness,Tighten / Loosen
-PrerequisiteMustBeAbleToKneel,Must be able to kneel.
-PrerequisiteMustBeArmCuffedFirst,Must be wearing a set of arm cuffs first.
-PrerequisiteMustBeFeetCuffedFirst,Must be wearing a set of ankle cuffs first.
-PrerequisiteMustBeOnBed,Must be on a bed to attach addons to.
-PrerequisiteMustBeUsedOverGag,Requires a closed gag.
-PrerequisiteMustCollaredFirst,A collar must be fitted first to attach accessories to.
-PrerequisiteMustFreeArmsFirst,Must free arms first.
-PrerequisiteMustFreeButtFirst,Must empty butt first.
-PrerequisiteMustFreeClitFirst,Must remove clitoris piercings first
-PrerequisiteMustFreeFeetFirst,Must free feet first.
-PrerequisiteMustFreeHandsFirst,Must free hands first.
-PrerequisiteMustFreeLegsFirst,Must free legs first.
-PrerequisiteMustFreeVulvaFirst,Must empty vulva first.
-PrerequisiteMustHaveBreasts,Must have female upper body.
-PrerequisiteMustHaveFlatChest,Must have male upper body.
-PrerequisiteMustHaveFullPenisAccess,Must have full penis access first.
-PrerequisiteMustHavePenis,Must have male genitalia.
-PrerequisiteMustHaveVagina,Must have female genitalia.
-PrerequisiteMustRemoveChastityCage,Must remove chastity cage first.
-PrerequisiteMustNotHaveForcedErection,Must not have a forced erection.
-PrerequisiteMustStandUpFirst,Must stand up first.
-PrerequisiteNeedHarness,TargetPronounSubject must be wearing a baby harness to chain the mittens.
-PrerequisiteNeedPadlock,You need some padlocks to do this.
-PrerequisiteNeedPadlockKey,You need a padlock key to do this.
-PrerequisiteNeedsHarness,Requires a harness.
-PrerequisiteNeedsNippleRings,Requires round piercings on nipples.
-PrerequisiteCannotYoked,Cannot change to the Yoked pose.
+Page,Page
+Picking,Picking the lock...
+PoseMenu,Pose
+PrerequisiteAddItemsToUse,Must have an arm/torso/pelvis item to use ceiling tethers.
 PrerequisiteCannotAllFours,Cannot change to the AllFours pose.
 PrerequisiteCannotBackBoxTie,Cannot change to the BackBoxTie pose.
 PrerequisiteCannotBackCuffs,Cannot change to the BackCuffs pose.
@@ -283,7 +175,34 @@ PrerequisiteCannotSpread,Cannot change to the Spread pose.
 PrerequisiteCannotStruggle,You'll need help to get out
 PrerequisiteCannotSuspension,Cannot change to the Suspension pose.
 PrerequisiteCannotTapedHands,Cannot change to the TapedHands pose.
+PrerequisiteCannotYoked,Cannot change to the Yoked pose.
 PrerequisiteCantCloseOnShaft,Cannot close on shaft.
+PrerequisiteMustBeAbleToKneel,Must be able to kneel.
+PrerequisiteMustBeArmCuffedFirst,Must be wearing a set of arm cuffs first.
+PrerequisiteMustBeFeetCuffedFirst,Must be wearing a set of ankle cuffs first.
+PrerequisiteMustBeOnBed,Must be on a bed to attach addons to.
+PrerequisiteMustBeUsedOverGag,Requires a closed gag.
+PrerequisiteMustCollaredFirst,A collar must be fitted first to attach accessories to.
+PrerequisiteMustFreeArmsFirst,Must free arms first.
+PrerequisiteMustFreeButtFirst,Must empty butt first.
+PrerequisiteMustFreeClitFirst,Must remove clitoris piercings first
+PrerequisiteMustFreeFeetFirst,Must free feet first.
+PrerequisiteMustFreeHandsFirst,Must free hands first.
+PrerequisiteMustFreeLegsFirst,Must free legs first.
+PrerequisiteMustFreeVulvaFirst,Must empty vulva first.
+PrerequisiteMustHaveBreasts,Must have female upper body.
+PrerequisiteMustHaveFlatChest,Must have male upper body.
+PrerequisiteMustHaveFullPenisAccess,Must have full penis access first.
+PrerequisiteMustHavePenis,Must have male genitalia.
+PrerequisiteMustHaveVagina,Must have female genitalia.
+PrerequisiteMustNotHaveForcedErection,Must not have a forced erection.
+PrerequisiteMustRemoveChastityCage,Must remove chastity cage first.
+PrerequisiteMustStandUpFirst,Must stand up first.
+PrerequisiteNeedHarness,TargetPronounSubject must be wearing a baby harness to chain the mittens.
+PrerequisiteNeedPadlock,You need some padlocks to do this.
+PrerequisiteNeedPadlockKey,You need a padlock key to do this.
+PrerequisiteNeedsHarness,Requires a harness.
+PrerequisiteNeedsNippleRings,Requires round piercings on nipples.
 PrerequisiteRemoveChain,Unchain mittens
 PrerequisiteRemoveChainForItem,Remove the chain first.
 PrerequisiteRemoveChastityFirst,Must remove chastity first.
@@ -293,41 +212,90 @@ PrerequisiteRemoveItemWithTimer,Remove item when the lock timer runs out
 PrerequisiteRemoveRestraintsFirst,Remove some restraints first.
 PrerequisiteRemoveShacklesFirst,Must remove shackles first.
 PrerequisiteRemoveSuspensionForItem,Remove the suspension first.
-PrerequisiteAddItemsToUse,Must have an arm/torso/pelvis item to use ceiling tethers.
 PrerequisiteUnZipSuitForItem,Unzip the suit first.
-OpacityLabel,Change Opacity
-Brightness,Brightness
-InRoom,in room
-Hours,hours
-InAsylum,in the Asylum
-Using0,Using none of your skill...
-Using25,Using 25% of your skill...
-Using50,Using 50% of your skill...
-Using75,Using 75% of your skill...
-TryLoosen,Try to loosen the item
-Struggling,Struggling...
-Unlocking,Unlocking...
+PrettyArrayJoin,", "
+PrettyArrayJoinFinal,", and "
+PrevExpressions,View previous expressions
+PreviewIconAllowedLimited,Allowed Limited Item
+PreviewIconBlindHeavy,Heavily blinds
+PreviewIconBlindLight,Lightly blinds
+PreviewIconBlindNormal,Blinds
+PreviewIconBuyGroup,Buygroup member
+PreviewIconDeafHeavy,Heavily deafens
+PreviewIconDeafLight,Lightly deafens
+PreviewIconDeafNormal,Deafens
+PreviewIconExtended,Extended item
+PreviewIconFamilyOnly,D/s Family only
+PreviewIconFavorite,Favorite
+PreviewIconFavoriteBoth,Favorite (theirs & yours)
+PreviewIconFavoritePlayer,Favorite (yours)
+PreviewIconGagHeavy,Heavily gags
+PreviewIconGagLight,Lightly gags
+PreviewIconGagNormal,Gags
+PreviewIconGagTotal,Totally gags
+PreviewIconHandheld,Held
+PreviewIconLocked,Locked
+PreviewIconLoverOnly,Lovers only
+PreviewIconOwnerOnly,Owner only
+PreviewIconPadlock,Locked with a AssetName
+PreviewIconUnlocked,Automatically locks
+PrevPage,View previous page
+Private,Private
+PrivateRoom,<i>Private room</i>
+ProgressClick,Click here to speed up the progress
+ProgressDex,Click when the player reaches the buckle to progress
+ProgressFlex,Click the ropes before they hit the ground to progress
+ProgressKeys,Alternate keys A (Q on AZERTY) and D to speed up,,
+ProgressKeysController,Alternate keys A and S or X and Y on a controller
+PronounObjectHeHim,him
+PronounObjectSheHer,her
+PronounObjectTheyThem,them
+PronounPossessiveHeHim,his
+PronounPossessiveSheHer,her
+PronounPossessiveTheyThem,their
+PronounSelfHeHim,himself
+PronounSelfSheHer,herself
+PronounSelfTheyThem,themself
+PronounSubjectHeHim,he
+PronounSubjectSheHer,she
+PronounSubjectTheyThem,they
+ReceivedBeep,Received at
 Removing,Removing...
-Locking,Locking...
-Adding,Adding...
-Decoding,Decoding the lock...
-Hacking,Hacking the item...
-AddTimerTime,Add
-AddTimerTimeMinutes,Add TimerTime minutes to the Timer
-Challenge,Challenge:
-LockPickArousal,Your hands are shaky and you lose some tension by accident!
-LockPickBreak,DestinationCharacterName jammed a lock and broke TargetPronounPossessive lockpick!
-LockpickFailed,You jammed the lock.
-LockpickFailedTimeout,You are too tired to continue. Time remaining:
-LockpickIntro,Click the pins in the correct order to open the lock!
-LockpickIntro2,Clicking the wrong pin may falsely set it.
-LockpickIntro3,It will fall back after clicking other pins.
-LockpickJammed,Failing or quitting will break your lockpick for 1 minute
-LockpickTriesRemaining,Remaining tries: 
-Picking,Picking the lock...
-MaximumTightness,Maximum:
-MinimumTightness,Minimum:
-Minutes,minutes
+RequireBondageLevel,Need Bondage ReqLevel
+RequireSelfBondage1,Requires self-bondage 1.
+RequireSelfBondage10,Requires self-bondage 10.
+RequireSelfBondage2,Requires self-bondage 2.
+RequireSelfBondage3,Requires self-bondage 3.
+RequireSelfBondage4,Requires self-bondage 4.
+RequireSelfBondage5,Requires self-bondage 5.
+RequireSelfBondage6,Requires self-bondage 6.
+RequireSelfBondage7,Requires self-bondage 7.
+RequireSelfBondage8,Requires self-bondage 8.
+RequireSelfBondage9,Requires self-bondage 9.
+RulesMenu,Active Rules
+RulesMenuBlockChange,Cannot change:
+RulesMenuBlockFamilyKey,Blocked: Family keys
+RulesMenuBlockKey,Blocked: Normal keys
+RulesMenuBlockLoverLockOwner,Your owner cannot use lover locks on you
+RulesMenuBlockLoverLockSelf,No lover locks on yourself
+RulesMenuBlockNickname,Cannot change your nickname
+RulesMenuBlockOwnerLockSelf,No owner locks on yourself
+RulesMenuBlockRemote,Blocked: Remotes on anyone
+RulesMenuBlockRemoteSelf,Blocked: Remotes on yourself
+RulesMenuBlockWhisper,No whispers around your owner
+RulesMenuEmpty,No active rules
+RulesMenuReleasedCollar,Slave collar unlocked
+SavedExpressions,Save/Load Expressions
+SavedExpressionsEmpty,(Empty)
+SavedExpressionsLoad,Load
+SavedExpressionsSave,Save
+SelectActivityGroup,Select an activity to use on the GroupName.
+SelectActivityNone,No activity available on the GroupName.
+SelectItemGroup,Select an item to use on the GroupName.
+SelectLock,Select a lock to use on the GroupName.
+SelectLocked,This looks like its locked by a AssetName.
+SelectLockedUnknown,This looks like its locked by something.
+SentBeep,Sent at
 ServerBan,TargetCharacterName was banned by SourceCharacter.
 ServerDemoteAdmin,TargetCharacterName was demoted from administration by SourceCharacter.
 ServerDisconnect,SourceCharacter disconnected.
@@ -402,6 +370,38 @@ ServerPromoteAdmin,TargetCharacterName was promoted to administrator by SourceCh
 ServerShuffle,SourceCharacter shuffles the position of everyone in the room randomly.
 ServerSwap,SourceCharacter swapped TargetCharacterName and DestinationCharacterName1 places.
 ServerUpdateRoom,SourceCharacter updated the room. Name: ChatRoomName. Limit: ChatRoomLimit.  ChatRoomPrivacy.  ChatRoomLocked.
-ChatRoomHelp,Type /help for a list of commands
-ChatRoomLeashNotFriend,You are not on that member's friendlist; ask TargetPronounObject to friend you before leashing TargetPronounObject.
-ChatRoomSpaceAsylum,<i>Asylum</i>
+ShowAllZones,Show all zones
+Someone,Someone
+StruggleDexterity,Try to unfasten
+StruggleFlexibility,Try to squeeze out
+StruggleImpossible,Impossible to escape!
+StruggleStrength,Use brute force
+Struggling,Struggling...
+Tighten,Tighten...
+TightenLittle,...A little
+TightenLoosenTitle,You can tighten or loosen this item
+TightenLot,...A lot
+tightens,tightens
+Tightness,Tightness:
+TryLoosen,Try to loosen the item
+Unlocked,Unlocked
+Unlocking,Unlocking...
+Using0,Using none of your skill...
+Using25,Using 25% of your skill...
+Using50,Using 50% of your skill...
+Using75,Using 75% of your skill...
+VibratorModeDeny,Deny
+VibratorModeEdge,Edge
+VibratorModeEscalate,Escalate
+VibratorModeHigh,High
+VibratorModeLabel,Current Mode:
+VibratorModeLow,Low
+VibratorModeMaximum,Maximum
+VibratorModeMedium,Medium
+VibratorModeOff,Off
+VibratorModeRandom,Random
+VibratorModeTease,Tease
+WinkFacialExpressions,Wink/Blink
+ZoneBlocked,This zone is out of reach from another item
+ZoneBlockedOwner,Your owner doesn't allow you to access that zone
+ZoneBlockedRange,You're too far to reach DialogCharacterObject body and items.
