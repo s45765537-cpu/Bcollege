@@ -152,7 +152,7 @@ const NoArch = {
 		DrawButton(
 			1775, 25, 90, 90, "", "Gray",
 			ExtendedItemPermissionMode ? "Icons/DialogNormalMode.png" : "Icons/DialogPermissionMode.png",
-			InterfaceTextGet(ExtendedItemPermissionMode ? "DialogNormalMode" : "DialogPermissionMode"),
+			InterfaceTextGet(ExtendedItemPermissionMode ? "DialogMenuNormalMode" : "DialogMenuPermissionMode"),
 			true,
 		);
 

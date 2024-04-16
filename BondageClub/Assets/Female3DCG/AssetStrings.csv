@@ -1,40 +1,3 @@
-'s,'s
-AccessBlocked,You cannot access your items
-ActionActivateSafewordRelease,SourceCharacter used PronounPossessive safeword and wants to be released. PronounSubject is guided out of the room for PronounPossessive safety.
-ActionActivateSafewordRevert,SourceCharacter used PronounPossessive safeword. Please check for PronounPossessive well-being.
-ActionAddLock,SourceCharacter adds a NextAsset on DestinationCharacter FocusAssetGroup PrevAsset.
-ActionChangeColor,SourceCharacter changes the color of NextAsset on DestinationCharacter FocusAssetGroup.
-ActionCoin,SourceCharacter flips a coin. The result is: CoinResult.
-ActionDice,SourceCharacter rolls DiceType. The result is: DiceResult.
-ActionDismount,SourceCharacter hops off the PrevAsset.
-ActionEscape,SourceCharacter escapes from the PrevAsset.
-ActionGiveEnvelopeToOwner,TargetCharacterName gives a sealed envelope to TargetPronounPossessive owner.
-ActionGrabbedForCell,"TargetCharacterName gets grabbed by two maids and locked in a timer cell, following TargetPronounPossessive owner's commands."
-ActionGrabbedForGGTS,"TargetCharacterName gets grabbed by two nurses wearing futuristic gear and locked in the Asylum for GGTS, following TargetPronounPossessive owner's commands."
-ActionGrabbedToServeDrinks,TargetCharacterName gets grabbed by two maids and escorted to the maid quarters to serve drinks for TargetPronounPossessive owner.
-ActionInterruptedAdd,SourceCharacter was interrupted while trying to use a NextAsset on TargetCharacter.
-ActionInterruptedRemove,SourceCharacter was interrupted while going for the PrevAsset on TargetCharacter.
-ActionInterruptedSwap,SourceCharacter was interrupted while swapping a PrevAsset for a NextAsset on TargetCharacter.
-ActionLock,SourceCharacter locks a NextAsset on DestinationCharacter FocusAssetGroup.
-ActionLoosenLittle,SourceCharacter loosens the PrevAsset on DestinationCharacter FocusAssetGroup a little.
-ActionLoosenLot,SourceCharacter loosens the PrevAsset on DestinationCharacter FocusAssetGroup a lot.
-ActionLoosenStruggle,SourceCharacter struggles and loosens the PrevAsset on DestinationCharacter FocusAssetGroup.
-ActionPick,SourceCharacter picks the lock on DestinationCharacter PrevAsset.
-ActionRemove,SourceCharacter removes the PrevAsset from DestinationCharacter FocusAssetGroup.
-ActionStruggle,SourceCharacter slips out of TargetPronounPossessive PrevAsset.
-ActionSwap,SourceCharacter swaps a PrevAsset for a NextAsset on DestinationCharacter FocusAssetGroup.
-ActionTightenLittle,SourceCharacter tightens the PrevAsset on DestinationCharacter FocusAssetGroup a little.
-ActionTightenLot,SourceCharacter tightens the PrevAsset on DestinationCharacter FocusAssetGroup a lot.
-ActionUnlock,SourceCharacter unlocks the PrevAsset on DestinationCharacter FocusAssetGroup.
-ActionUnlockAndRemove,SourceCharacter unlocks and removes the PrevAsset from DestinationCharacter FocusAssetGroup.
-ActionUse,SourceCharacter uses a NextAsset on DestinationCharacter FocusAssetGroup.
-Activity,Sexual activities
-Adding,Adding...
-AddItemsToUse,Must have an arm/torso/pelvis item to use ceiling tethers.
-AddTimerTime,Add
-AddTimerTimeMinutes,Add TimerTime minutes to the Timer
-AdjustTightness,Tighten / Loosen
-AlreadySet,Option already set
 AnalHookPoseBase,Nothing
 AnalHookPoseChain,Chain
 AnalHookPoseHair,Hair
@@ -83,11 +46,6 @@ BallGagMouthSetTight,SourceCharacter tightens the gag on DestinationCharacter mo
 BallGagMouthTypeNormal,Normal
 BallGagMouthTypeShiny,Shiny
 BallGagMouthTypeTight,Tight
-Beep,Beep
-BeepFrom,Beep from
-BeepFromOwner,Beep from your owner in your private room
-BeepWithMail,(Mail)
-BeepWithMessage,With Message
 BeltDecreaseTo-1,DestinationCharacterName vibrating wand stops vibrating.
 BeltDecreaseTo0,DestinationCharacterName vibrating wand slows down into a light tease.
 BeltDecreaseTo1,DestinationCharacterName vibrating wand returns to a moderate pace.
@@ -103,9 +61,7 @@ BigMouthMouthStyleSerious,Serious lips
 BigMouthSelectMouthStyle,Pick a latex lip type:
 BikiniTypeClosed,Closed
 BikiniTypeOpen,Open
-BlindToggleFacialExpressions,Toggle closed eyes blindness
 Bloated,Bloated
-BlockedByRoom,Blocked in this room.
 BodyUpperFlatMediumDefault,Default
 BodyUpperFlatMediumSelect,Select body overlay.
 BodyUpperFlatSmallDefault,Default
@@ -152,7 +108,6 @@ BraceletWristbandSelect,Select a wristband style.
 BraSwimsuit1Dull,No shine
 BraSwimsuit1Select,Select an option.
 BraSwimsuit1Shiny,Shiny
-Brightness,Brightness
 BunnyMaskTypeEarless,Earless
 BunnyMaskTypeEars,Ears
 BunnyTailVibePlugDecreaseTo-1,DestinationCharacterName vibrating bunny vibe stops vibrating.
@@ -178,43 +133,7 @@ ButtPlugLockRestrainBase,SourceCharacter removes the chain from DestinationChara
 ButtPlugLockRestrainChainLong,SourceCharacter attaches a long chain to DestinationCharacter locking butt plug.
 ButtPlugLockRestrainChainShort,SourceCharacter attaches a short chain to DestinationCharacter locking butt plug.
 ButtPump,Use the butt plug's pump
-Cancel,Cancel
-CannotAllFours,Cannot change to the AllFours pose.
-CannotBackBoxTie,Cannot change to the BackBoxTie pose.
-CannotBackCuffs,Cannot change to the BackCuffs pose.
-CannotBackElbowTouch,Cannot change to the BackElbowTouch pose.
-CannotBaseLower,Cannot change to the BaseLower pose.
-CannotBaseUpper,Cannot change to the BaseUpper pose.
-CannotBeSuited,Remove the suit first.
-CannotBeUsedOverGag,Cannot be used over the applied gags.
-CannotBeUsedOverHood,Cannot be used over the applied hood.
-CannotBeUsedOverMask,Cannot be used over the applied mask.
-CannotBeUsedWhenMounted,Cannot be used when mounted.
-CannotBeUsedWhenYoked,Cannot be used while yoked.
-CannotBeUsedWhileServingDrinks,Cannot be used while serving drinks.
-CannotBeUsedWithFeetSpreader,Cannot be used while the legs are spread.
-CannotHaveWand,Remove the wand first.
-CannotHogtied,Cannot change to the Hogtied pose.
-CannotKneel,Cannot change to the Kneel pose.
-CannotKneelingSpread,Cannot change to the KneelingSpread pose.
-CannotLegsClosed,Cannot change to the LegsClosed pose.
-CannotLegsOpen,Cannot change to the LegsOpen pose.
-CannotOverTheHead,Cannot change to the OverTheHead pose.
-CannotSelfSelect,Cannot use this option when wearing the item
-CannotSpread,Cannot change to the Spread pose.
-CannotStruggle,You'll need help to get out
-CannotSuspension,Cannot change to the Suspension pose.
-CannotTapedHands,Cannot change to the TapedHands pose.
-CannotUnlock,You cannot unlock yourself
-CannotUnlockIfElbowBound,A victim cannot unlock TargetPronounSelf if TargetPronounPossessive elbows are bound
-CannotUse,Cannot use this.
-CannotUseOnSelf,Cannot use on yourself.
-CannotYoked,Cannot change to the Yoked pose.
-CanStruggle,Struggle to free yourself
-CantChangeWhileLocked,Cannot change while locked
 CantChangeWhileLockedFuturistic,Access denied.
-CantCloseOnShaft,Cannot close on shaft.
-CanUnlock,You can unlock yourself
 CatGlassesSelectStyle,Select a style.
 CatGlassesStyleBack,Behind hair
 CatGlassesStyleFront,Front of hair
@@ -241,16 +160,12 @@ ChainClampSetChain2,SourceCharacter changes the chain style on DestinationCharac
 ChainClapNipplesChain,Style 1
 ChainClapNipplesChain2,Style 2
 chains,chains
-Challenge,Challenge:
 ChangeClothes,SourceCharacter changes DestinationCharacter clothes.
 CharacterNicknameUpdated,OldNick is now known as NewNick.
 ChastityBeltBackShieldClosedBack,SourceCharacter adds the shield to the back of DestinationCharacter belt.
 ChastityBeltBackShieldOpenBack,SourceCharacter removes the shield from the back of DestinationCharacter belt.
 ChastityClosedBack,Closed Back
 ChastityOpenBack,Open Back
-ChatRoomHelp,Type /help for a list of commands
-ChatRoomLeashNotFriend,You are not on that member's friendlist; ask TargetPronounObject to friend you before leashing TargetPronounObject.
-ChatRoomSpaceAsylum,<i>Asylum</i>
 ChatRoomStimulationMessageCrotchRope0,Your AssetName rubs against your vulva.
 ChatRoomStimulationMessageCrotchRope1,The knot on your AssetName rubs against your clitoris.
 ChatRoomStimulationMessageCrotchRope2,The AssetName between your legs digs into your crotch.
@@ -281,9 +196,6 @@ ChatRoomStimulationMessageVibePlugFront2,The AssetName inside of you keeps you o
 ChatRoomStimulationMessageWiggling0,Your AssetName wiggles from your AssetGroup as you move.
 ChatRoomStimulationMessageWiggling1,You feel a sharp pain in your AssetGroup as the AssetName wiggle slightly.
 ChatRoomStimulationMessageWiggling2,The AssetName hanging from your AssetGroup get shuffled as you move around.
-ChooseStruggleMethod,Choose struggling method...
-ClearActivePoses,Clear active poses
-ClearFacialExpressions,Clear facial expressions
 ClitRingPoseBase,Nothing
 ClitRingPoseLeash,Leash
 ClitRingRestrainBase,SourceCharacter removes the attachment from DestinationCharacter clitoris ring.
@@ -484,12 +396,6 @@ CoffinSetClosed,SourceCharacter closes the lid on DestinationCharacter coffin.
 CoffinSetOpen,SourceCharacter opens the lid on DestinationCharacter coffin.
 CoffinTypeClosed,Closed
 CoffinTypeOpen,Open
-ColorCancel,Default color
-ColorChange,Change item color
-ColorDefault,Select default color
-ColorPickDisabled,Unable to change color due to player permissions
-ColorSave,Save color to currently selected slot
-ColorSelect,Use this color
 CombinationChange,Change code
 CombinationChangeFail,SourceCharacter tries to change the code of the padlock on DestinationCharacter FocusAssetGroup but fails.
 CombinationChangeSuccess,SourceCharacter changes the code of the padlock on DestinationCharacter FocusAssetGroup.
@@ -501,14 +407,7 @@ CombinationNew,New Code :
 CombinationOld,Current Code :
 CombinationPadlockControlsBlind,Your blindfold prevents you from seeing the digits on the lock
 CombinationPadlockControlsClumsy,Your restraints prevent you from accurately manipulating the lock's dial
-ConfirmDelete,Confirm
 CraftedItemProperties,Crafted item properties.
-Crafting,Crafted properties
-CraftingCancel,Return to the item menu
-CraftingDescription,Description: CraftDescription
-CraftingMember,Crafter: MemberName (MemberNumber)
-CraftingName,Name: CraftName
-CraftingProperty,Property: CraftProperty
 CrotchShield,Crotch shield:
 CryoCapsuleSetClosed,SourceCharacter closes the lid on DestinationCharacter cryogenic capsule.
 CryoCapsuleSetOpen,SourceCharacter opens the lid on DestinationCharacter cryogenic capsule.
@@ -521,20 +420,13 @@ CupholderGagOptionsTip,Tip over
 CupholderGagSetCup,SourceCharacter places a cup on DestinationCharacter cup holder gag.
 CupholderGagSetNoCup,SourceCharacter removes the cup from DestinationCharacter cup holder gag.
 CupholderGagSetTip,SourceCharacter tips over the cup on DestinationCharacter cup holder gag.
-CurrentMode,Current Mode:
 CushionTypeHold,Hold cushion
 CushionTypeKneel,Kneel on cushion
 CustomTagText,Save text
-Decoding,Decoding the lock...
 Decrease,Decrease
 DeflateIt,Deflate it
 deflates,deflates
 DeflationTime,Time until deflation:
-Delete,Delete
-Deny,Deny
-Dexterity,Try to unfasten
-DialogNormalMode,Exit permission mode
-DialogPermissionMode,Edit item permissions
 DildoDecreaseTo-1,DestinationCharacterName vibrating dildo stops vibrating.
 DildoDecreaseTo0,DestinationCharacterName vibrating dildo slows down into a light tease.
 DildoDecreaseTo1,DestinationCharacterName vibrating dildo returns to a moderate pace.
@@ -551,8 +443,6 @@ DildoIntensity2,Dildo item intensity: High
 DildoIntensity3,Dildo item intensity: Maximum
 DildoPlugGagMouthSetOpen,SourceCharacter pulls out DestinationCharacter dildo plug from TargetPronounPossessive gag.
 DildoPlugGagMouthSetPlug,SourceCharacter plugs up DestinationCharacter mouth with the dildo plug.
-Dismount,Dismount
-Dismounting,Dismounting...
 DuctTapeMouthSetCover,SourceCharacter wraps many layers on DestinationCharacter mouth.
 DuctTapeMouthSetCrossed,SourceCharacter crosses two pieces of duct tape on DestinationCharacter mouth.
 DuctTapeMouthSetDouble,SourceCharacter fully tapes DestinationCharacter mouth with double layers.
@@ -585,7 +475,6 @@ DuctTapeRestrainLegs,SourceCharacter wraps duct tape around DestinationCharacter
 DuctTapeRestrainMostFeet,SourceCharacter wraps even more duct tape on DestinationCharacter feet trapping them tightly.
 DuctTapeRestrainMostLegs,SourceCharacter wraps even more duct tape on DestinationCharacter legs trapping them tightly.
 DuctTapeRestrainPetLegs,SourceCharacter wraps duct tape on DestinationCharacter legs frog tying them.
-Edge,Edge
 EggDecreaseTo-1,DestinationCharacterName vibrating egg stops vibrating.
 EggDecreaseTo0,DestinationCharacterName vibrating egg slows down into a light tease.
 EggDecreaseTo1,DestinationCharacterName vibrating egg returns to a moderate pace.
@@ -613,13 +502,6 @@ ElectronicTagGoodLock,This person is fully locked by:
 ElectronicTagGoodLockYou,This person is fully locked by you
 Empty,Empty
 EnableRandomInput,Enable random input of time from everyone else
-Escalate,Escalate
-Escape,Escape from the item
-Escaping,Escaping...
-Exit,Back to character
-ExtendedItemNoCraftingScreen,Unavailable while crafting
-ExtendedItemNoItemPermission,Blocked due to item permissions
-ExtendedItemUnlockBeforeChange,Remove locks before changing
 EyebrowsEyebrows2ModuleLeftPiercing,Right Piercing
 EyebrowsEyebrows2ModuleRightPiercing,Left Piercing
 EyebrowsEyebrows2ModuleStyle,Style
@@ -644,12 +526,10 @@ EyebrowsEyebrows2SelectRightPiercing,Select Left Eyebrow Piercing
 EyebrowsEyebrows2SelectStyle,Select Eyebrow Style
 EyePatchTypeLeft,Left
 EyePatchTypeRight,Right
-FacialExpression,Facial expression
 FeetRopeSetAnkles,SourceCharacter ties the rope around TargetCharacter's ankles.
 FeetRopeSetAnklesKnees,SourceCharacter ties the ropes around TargetCharacter's ankles and knees.
 FeetRopeSetBedSpreadEagle,SourceCharacter uses the ropes on TargetCharacter to tie TargetPronounPossessive legs to the bedposts.
 FeetRopeSetKnees,SourceCharacter ties the rope below TargetCharacter's knees.
-Flexibility,Try to squeeze out
 ForbiddenChastityBeltPunishOrgasm,Forbidden Orgasm
 ForbiddenChastityBeltPunishStandup,Forbidden Stand Up
 ForbiddenChastityBeltPunishStruggle,Forbidden Struggle
@@ -824,7 +704,6 @@ GartersGarterBeltBoth,Both
 GartersGarterBeltLeft,Left
 GartersGarterBeltRight,Right
 GartersGarterBeltSelect,Select the style.
-GGTSControl,GGTS control this item
 GGTSFailureStrike0,[GGTS] SourceCharacter disobeyed.  Strike recorded.  Sixty minutes removed.
 GGTSFailureStrike1,[GGTS] SourceCharacter disobeyed.  Strike one recorded.  Three strikes equal punishment.
 GGTSFailureStrike2,[GGTS] SourceCharacter disobeyed.  Strike two recorded.  Three strikes equal punishment.
@@ -980,7 +859,6 @@ GwenHoodStyleHairInAccIn, Hair in & Accessories in
 GwenHoodStyleHairInAccOut, Hair in & Accessories out 
 GwenHoodStyleHairOutAccIn, Hair out & Accessories in 
 GwenHoodStyleHairOutAccOut,Hair out & Accessories out
-Hacking,Hacking the item...
 HairAccessory1ElfEarsBehind,Behind hair
 HairAccessory1ElfEarsInFront,In front of hair
 HairAccessory1ElfEarsSelect,Select elf ears position
@@ -1093,7 +971,6 @@ HempRopeBeltIncreaseTo0,DestinationCharacterName vibrating wand starts teasing T
 HempRopeBeltIncreaseTo1,DestinationCharacterName vibrating wand builds up to a moderate pace.
 HempRopeBeltIncreaseTo2,DestinationCharacterName vibrating wand starts buzzing strongly!
 HempRopeBeltsIncreaseTo3,DestinationCharacterName vibrating wand jumps up to maximum intensity!
-High,High
 HighSecurityAppendLover,Append lovers
 HighSecurityAppendOwner,Append owner
 HighSecurityAppendWhitelist,Append whitelist
@@ -1117,9 +994,6 @@ HighStyleSteelAnkleCuffsRestrainChained,SourceCharacter attaches the HighStyle S
 HighStyleSteelAnkleCuffsRestrainClosed,SourceCharacter attaches the HighStyle Steel ankle cuffs chain on DestinationCharacter ankles.
 HighStyleSteelAnkleCuffsRestrainNone,SourceCharacter detaches the chain from DestinationCharacter HighStyle Steel ankle cuffs.
 HoldLeash,SourceCharacter grabs the leash of TargetCharacter.
-Hours,hours
-Impossible,Impossible to escape!
-InAsylum,in the Asylum
 Increase,Increase
 InflatableVibratingPantiesDecreaseTof0,SourceCharacter deflates DestinationCharacter AssetName till it's empty.
 InflatableVibratingPantiesDecreaseTof1,SourceCharacter deflates DestinationCharacter AssetName till only slightly filled.
@@ -1182,9 +1056,6 @@ InflationAmountSetLight,SourceCharacter adjusts DestinationCharacter inflatable 
 InflationAmountSetMax,SourceCharacter adjusts DestinationCharacter inflatable strait leotard to fill the maximum amount.
 InLarp,in LARP
 InMagicBattle,in Magic Battle
-InRoom,in room
-InspectLock,Inspect the lock
-InspectLockDisabled,Unable to inspect due to player permissions
 Intensity,Intensity:
 Intensity-1,Item intensity: Disabled
 Intensity0,Item intensity: Low
@@ -1192,7 +1063,6 @@ Intensity1,Item intensity: Medium
 Intensity2,Item intensity: High
 Intensity3,Item intensity: Maximum
 Introduction,Introduction
-IntroductionMaidGreetings,"(As you enter the luxurious hallway, a maid comes to greet you.)  Welcome to the Bondage Club, is this your first visit?"
 ItemArmsBitchSuitModuleClothes,Clothes over suit
 ItemArmsBitchSuitModuleStraps,Extra straps
 ItemArmsBitchSuitModuleUnderwear,Underwear over suit
@@ -1984,7 +1854,6 @@ ItemFeetWoodenCuffsSetSpread2,SourceCharacter uses wooden cuffs to lock Destinat
 ItemFeetWoodenCuffsSetSpread3,SourceCharacter uses wooden cuffs to lock DestinationCharacter feet closely together.
 ItemFeetWoodenCuffsSpread2,Widely Spread.
 ItemFeetWoodenCuffsSpread3,Close together.
-ItemGlans,Glans
 ItemHandheldSmartphoneModuleCase,Cases
 ItemHandheldSmartphoneOptionc0,No Case
 ItemHandheldSmartphoneOptionc1,Matte
@@ -3767,7 +3636,6 @@ ModularChastityBeltDeny,Deny
 ModularChastityBeltShock,Trigger Shock
 OrgasmCountReset,SourceCharacter resets DestinationCharacter AssetName orgasms count.
 RuinCountReset,SourceCharacter resets DestinationCharacter AssetName denials count.
-ItemPenis,Penis
 ItemTorso2LockingSwimsuitDull,Dull
 ItemTorso2LockingSwimsuitSelect,Select Shine
 ItemTorso2LockingSwimsuitSetDull,SourceCharacter dulls DestinationCharacter locking swimsuit.
@@ -4020,31 +3888,11 @@ LegsCannotClose,Legs cannot close.
 LegsCannotOpen,Legs cannot open.
 Light,Light
 LightSuction,Light
-Lock,Use a lock
-LockDisabled,Unable to lock item due to player permissions
 Locked,Locked
-Locking,Locking...
-LockMemberNumber,Member number on lock:
-LockMenu,Lock related actions
 LockMittens,Padlock mitten buckles
-LockPickArousal,Your hands are shaky and you lose some tension by accident!
-LockPickBreak,DestinationCharacterName jammed a lock and broke TargetPronounPossessive lockpick!
-LockpickFailed,You jammed the lock.
-LockpickFailedTimeout,You are too tired to continue. Time remaining:
-LockpickIntro,Click the pins in the correct order to open the lock!
-LockpickIntro2,Clicking the wrong pin may falsely set it.
-LockpickIntro3,It will fall back after clicking other pins.
-LockpickJammed,Failing or quitting will break your lockpick for 1 minute
-LockpickTriesRemaining,Remaining tries: 
 LockZoneBlocked,Another item is blocking access to this lock
 Loose,Loose
-Loosen,Loosen...
-LoosenClick,Click or press space when the circles are aligned
-LoosenLittle,...A little
-LoosenLot,...A lot
-LoosenPossible,You can struggle to loosen this restraint
 loosens,loosens
-Low,Low
 LuckyWheelAddSection,Add
 LuckyWheelRemoveSection,Remove
 LuckyWheelSectionDefaultLabel,Prize NUM
@@ -4165,10 +4013,7 @@ MaskSwimCapSelectHair,Adjust Hair Openings
 MaskSwimCapSelectPattern,Choose Pattern
 MaskSwimCapSetHair,SourceCharacter adjusts DestinationCharacter swimcap hair openings.
 MaskSwimCapSetPattern,SourceCharacter swaps DestinationCharacter swimcap pattern.
-Maximum,Maximum
 MaximumSuction,Maximum
-MaximumTightness,Maximum:
-Medium,Medium
 MediumSuction,Medium
 MetalCuffsPoseBehindBack,Behind back
 MetalCuffsPoseInFront,In-front of body
@@ -4180,8 +4025,6 @@ MilkBottleRest,Resting
 MilkBottleSetChug,SourceCharacter holds DestinationCharacter bottle high above TargetPronounPossessive head.
 MilkBottleSetRaised,SourceCharacter holds DestinationCharacter bottle up.
 MilkBottleSetRest,SourceCharacter rests DestinationCharacter bottle on TargetPronounPossessive chest.
-MinimumTightness,Minimum:
-Minutes,minutes
 mittens,mittens
 mittensfromharness,mittens
 mittenstoharness,mittens to the baby harness
@@ -4217,41 +4060,12 @@ MouthRegularOptiont2,Double Studs
 MouthRegularSelectBase,Select Piercing Options
 MouthRegularSelectLips,Select Lip Piercings
 MouthRegularSelectTongue,Select Tongue Piercings
-MustBeAbleToKneel,Must be able to kneel.
-MustBeArmCuffedFirst,Must be wearing a set of arm cuffs first.
-MustBeFeetCuffedFirst,Must be wearing a set of ankle cuffs first.
-MustBeOnBed,Must be on a bed to attach addons to.
-MustBeUsedOverGag,Requires a closed gag.
-MustCollaredFirst,A collar must be fitted first to attach accessories to.
-MustFreeArmsFirst,Must free arms first.
-MustFreeButtFirst,Must empty butt first.
-MustFreeClitFirst,Must remove clitoris piercings first
-MustFreeFeetFirst,Must free feet first.
-MustFreeHandsFirst,Must free hands first.
-MustFreeLegsFirst,Must free legs first.
-MustFreeVulvaFirst,Must empty vulva first.
-MustHaveBreasts,Must have female upper body.
-MustHaveFlatChest,Must have male upper body.
-MustHaveFullPenisAccess,Must have full penis access first.
-MustHavePenis,Must have male genitalia.
-MustHaveVagina,Must have female genitalia.
-MustRemoveChastityCage,Must remove chastity cage first.
-MustNotHaveForcedErection,Must not have a forced erection.
-MustStandUpFirst,Must stand up first.
 NecklaceChokerTattooFlowers,Flowers
 NecklaceChokerTattooLoops,Loops
 NecklaceChokerTattooSelect,Select the design
 NecklaceNecklaceRopeLong,Long
 NecklaceNecklaceRopeSelect,Select the rope length
 NecklaceNecklaceRopeShort,Short
-NeedHarness,TargetPronounSubject must be wearing a baby harness to chain the mittens.
-NeedPadlock,You need some padlocks to do this.
-NeedPadlockKey,You need a padlock key to do this.
-NeedsHarness,Requires a harness.
-NeedsNippleRings,Requires round piercings on nipples.
-Next,View next items
-NextExpressions,View next expressions
-NextPage,View next page
 NippleEggDecreaseTo-1,DestinationCharacterName vibrating eggs on TargetPronounPossessive nipples stop vibrating.
 NippleEggDecreaseTo0,DestinationCharacterName vibrating eggs on TargetPronounPossessive nipples slow down into a light tease.
 NippleEggDecreaseTo1,DestinationCharacterName vibrating eggs on TargetPronounPossessive nipples return to a moderate pace.
@@ -4269,7 +4083,6 @@ NipSuctightensToLight,SourceCharacter tweaks DestinationCharacter nipple suction
 NipSuctightensToMaximum,SourceCharacter tweaks DestinationCharacter nipple suction cups sucking in TargetPronounPossessive nipples entirely.
 NipSuctightensToMedium,SourceCharacter tweaks DestinationCharacter nipple suction cups sucking in TargetPronounPossessive nipples firmly.
 NoClothAndCollared,Remove some clothes and requires a collar.
-NoItems,You have no items in this category
 NoRequirement,No Requirement
 NoseRingPoseBase,Nothing
 NoseRingPoseChainLong,Long Chain
@@ -4279,13 +4092,6 @@ NoseRingRestrainBase,SourceCharacter removes the attachment from DestinationChar
 NoseRingRestrainChainLong,SourceCharacter attaches a long chain to DestinationCharacter nose ring.
 NoseRingRestrainChainShort,SourceCharacter attaches a short chain to DestinationCharacter nose ring.
 NoseRingRestrainLeash,SourceCharacter attaches a leash to DestinationCharacter nose ring.
-NotificationTitleBeep,Beep
-NotificationTitleChatJoin,Joined Room
-NotificationTitleChatMessage,Chat Message
-NotificationTitleDisconnect,Disconnected
-NotificationTitleFromRoom, from ChatRoomName
-NotificationTitleLarp,LARP - Your turn
-NotificationTitleTest,Test Notification
 ObedienceBeltEngrave,Engrave
 ObedienceBeltEngraveLabel,Engrave the following text on the belt:
 ObedienceBeltEngravingChange,SourceCharacter engraved “NewText” on DestinationCharacter obedience belt.
@@ -4296,7 +4102,6 @@ ObedienceBeltShockOrgasm,The obedience belt on SourceCharacter shocks TargetPron
 ObedienceBeltShockStandup,The obedience belt on SourceCharacter shocks TargetPronounObject for standing up.
 ObedienceBeltShockTrigger,The obedience belt on SourceCharacter shocks TargetPronounObject.
 ObedienceBeltShowChatMessage,Show messages in chat
-Off,Off
 OnlineBountySuitcaseEnd,"The kidnappers opened your suitcase, which contains a laptop with a bunch of secret information. You better get back to the league to warn them."
 OnlineBountySuitcaseEndEarly,SourceCharacter's suitcase is safe... for now.
 OnlineBountySuitcaseEndEarlyOpened,SourceCharacter's data is safe... for now.
@@ -4306,10 +4111,8 @@ OnlineBountySuitcaseOngoing,SourceCharacter's suitcase will be open in TIMEREMAI
 OnlineBountySuitcaseOngoingOpened,SourceCharacter's data will be ready in TIMEREMAINING minutes. Make sure PronounSubject is secure until then!
 OnlineBountySuitcaseStart,SourceCharacter starts unlocking DestinationCharacterName suitcase! PronounSubject will finish in 5 minutes.
 OnlineBountySuitcaseStartOpened,SourceCharacter starts stealing more data from DestinationCharacterName laptop! PronounSubject will finish in 5 minutes.
-OpacityLabel,Change Opacity
 OpenFaceHoodStyleHideBackHair,Hair in
 OpenFaceHoodStyleShowBackHair,Hair out
-OptionNeedsToBeBought,Option needs to be bought
 OrgasmFailPassive0,The stimulation ends just before you go over the edge.
 OrgasmFailPassive1,The vibrators cut off right before you reach climax.
 OrgasmFailPassive2,"The vibrators deny you a chance to finish, stopping abruptly."
@@ -4325,7 +4128,6 @@ OTNPlugGagMouthTypeOpen,Open
 OTNPlugGagMouthTypePlug,Plugged
 OwnerBlockedRemotes,The use of remotes is forbidden by your owner
 padlocks,padlocks
-Page,Page
 PantiesDecreaseTo-1,DestinationCharacterName vibrating latex panties stops vibrating.
 PantiesDecreaseTo0,DestinationCharacterName vibrating latex panties slows down into a light tease.
 PantiesDecreaseTo1,DestinationCharacterName vibrating latex panties returns to a moderate pace.
@@ -4376,13 +4178,6 @@ PetPostText,Save text
 PetSuitShockCollarPunishActivity,Forbidden Aggression
 PetSuitShockCollarPunishStandup,Forbidden Stand Up
 PetSuitShockCollarPunishStruggle,Forbidden Struggle
-Picking,Picking the lock...
-PickLock,Try to pick the lock
-PickLockDisabled,Unable to pick the lock
-PickLockInaccessibleDisabled,Cannot reach lock
-PickLockJammed,Try to pick the lock (jammed)
-PickLockNoPicksDisabled,Unable to pick without lockpicks
-PickLockPermissionsDisabled,Unable to pick the lock due to player permissions
 PlayerGagged,(You can use or remove items by selecting specific body regions on yourself.)
 PlayerOwnerCollarRelease,DestinationCharacterName owner releases TargetPronounObject from the slave collar.
 PlayerOwnerCollarWear,TargetCharacterName is given TargetPronounObject slave collar again.
@@ -4421,54 +4216,6 @@ PortalLinkSearching3,Searching...
 PortalLinkSyncCodeLabel,Sync code:
 PortalLinkTargetNotFound,Target not found
 PortalLinkValidCode,Valid code
-PoseMenu,Pose
-PrettyArrayJoin,", "
-PrettyArrayJoinFinal,", and "
-Prev,View previous items
-PrevExpressions,View previous expressions
-PreviewIconAllowedLimited,Allowed Limited Item
-PreviewIconBlindHeavy,Heavily blinds
-PreviewIconBlindLight,Lightly blinds
-PreviewIconBlindNormal,Blinds
-PreviewIconDeafHeavy,Heavily deafens
-PreviewIconDeafLight,Lightly deafens
-PreviewIconDeafNormal,Deafens
-PreviewIconFamilyOnly,D/s Family only
-PreviewIconFavorite,Favorite
-PreviewIconFavoriteBoth,Favorite (theirs & yours)
-PreviewIconFavoritePlayer,Favorite (yours)
-PreviewIconGagHeavy,Heavily gags
-PreviewIconGagLight,Lightly gags
-PreviewIconGagNormal,Gags
-PreviewIconGagTotal,Totally gags
-PreviewIconHandheld,Held
-PreviewIconLocked,Locked
-PreviewIconLoverOnly,Lovers only
-PreviewIconOwnerOnly,Owner only
-PreviewIconPadlock,Locked with a AssetName
-PreviewIconUnlocked,Automatically locks
-PreviewIconBuyGroup,Buygroup member
-PreviewIconExtended,Extended item
-PrevPage,View previous page
-Private,Private
-PrivateRoom,<i>Private room</i>
-ProgressClick,Click here to speed up the progress
-ProgressDex,Click when the player reaches the buckle to progress
-ProgressFlex,Click the ropes before they hit the ground to progress
-ProgressKeys,Alternate keys A (Q on AZERTY) and D to speed up
-ProgressKeysController,Alternate keys A and D or X and Y on a controller
-PronounObjectHeHim,him
-PronounObjectSheHer,her
-PronounObjectTheyThem,them
-PronounPossessiveHeHim,his
-PronounPossessiveSheHer,her
-PronounPossessiveTheyThem,their
-PronounSelfHeHim,himself
-PronounSelfSheHer,herself
-PronounSelfTheyThem,themself
-PronounSubjectHeHim,he
-PronounSubjectSheHer,she
-PronounSubjectTheyThem,they
 Public,Public
 PumpGagdeflatesToBloated,SourceCharacter deflates DestinationCharacter gag only a tiny bit.
 PumpGagdeflatesToEmpty,SourceCharacter deflates DestinationCharacter gag fully till it's empty.
@@ -4486,39 +4233,7 @@ PumpLevel2,Pump gag level: Inflated
 PumpLevel3,Pump gag level: Bloated
 PumpLevel4,Pump gag level: Full mouth
 pumps,pumps
-Random,Random
-ReceivedBeep,Received at
-ReleaseHogtieForItem,Release from hogtie first.
-Remote,Use your remote
-RemoteDisabled,Unable to use due to player permissions
-RemoteDisabledForCannotInteract,Your hands must be free to use remotes
-RemoteDisabledForNoAccess,You do not have access to this item
-RemoteDisabledForNoLoversRemote,You have not bought a lover's remote yet.
-RemoteDisabledForNoRemote,You have not bought a remote yet.
-RemoteDisabledForNoRemoteOwnerRuleActive,Your owner is preventing you from using remotes.
-RemoteDisabledForRemotesBlocked,Using remotes on this item has been blocked
-Remove,Remove the item
-RemoveChain,Unchain mittens
-RemoveChainForItem,Remove the chain first.
-RemoveChastityFirst,Must remove chastity first.
-RemoveClothesForItem,Remove some clothes first.
-RemoveFaceMaskFirst,Must remove face mask first.
-RemoveItemWithTimer,Remove item when the lock timer runs out
-RemoveRestraintsFirst,Remove some restraints first.
-RemoveShacklesFirst,Must remove shackles first.
-RemoveSuspensionForItem,Remove the suspension first.
-Removing,Removing...
-RequireBondageLevel,Need Bondage ReqLevel
-RequireSelfBondage1,Requires self-bondage 1.
-RequireSelfBondage10,Requires self-bondage 10.
-RequireSelfBondage2,Requires self-bondage 2.
-RequireSelfBondage3,Requires self-bondage 3.
-RequireSelfBondage4,Requires self-bondage 4.
-RequireSelfBondage5,Requires self-bondage 5.
-RequireSelfBondage6,Requires self-bondage 6.
-RequireSelfBondage7,Requires self-bondage 7.
-RequireSelfBondage8,Requires self-bondage 8.
-RequireSelfBondage9,Requires self-bondage 9.
+//ReleaseHogtieForItem,Release from hogtie first.
 ResetShockCount,Reset trigger count
 RestartTimer,Restart Timer
 RibbonBraTypeBasic,Basic
@@ -4614,30 +4329,11 @@ RoundPiercingRestrainBase,SourceCharacter detaches extras from DestinationCharac
 RoundPiercingRestrainChain,SourceCharacter attaches a chain from DestinationCharacter round piercings to TargetPronounPossessive collar.
 RoundPiercingRestrainWeighted,SourceCharacter adds weights to DestinationCharacter round piercings.
 RoundPiercingRestrainWeightedChain,SourceCharacter adds weights and attaches a chain from DestinationCharacter round piercings to TargetPronounPossessive collar.
-RulesMenu,Active Rules
-RulesMenuBlockChange,Cannot change:
-RulesMenuBlockFamilyKey,Blocked: Family keys
-RulesMenuBlockKey,Blocked: Normal keys
-RulesMenuBlockLoverLockOwner,Your owner cannot use lover locks on you
-RulesMenuBlockLoverLockSelf,No lover locks on yourself
-RulesMenuBlockNickname,Cannot change your nickname
-RulesMenuBlockOwnerLockSelf,No owner locks on yourself
-RulesMenuBlockRemote,Blocked: Remotes on anyone
-RulesMenuBlockRemoteSelf,Blocked: Remotes on yourself
-RulesMenuBlockWhisper,No whispers around your owner
-RulesMenuEmpty,No active rules
-RulesMenuReleasedCollar,Slave collar unlocked
 SafewordDisabled,"Your safeword is disabled, it cannot be used at the moment."
-SavedExpressions,Save/Load Expressions
-SavedExpressionsEmpty,(Empty)
-SavedExpressionsLoad,Load
-SavedExpressionsSave,Save
 ScarfGagSetLoose,SourceCharacter ties the scarf loosely over DestinationCharacter mouth.
 ScarfGagSetOTN,SourceCharacter ties the scarf covering DestinationCharacter mouth and nose.
 ScarfGagTypeLoose,Loose
 ScarfGagTypeOTN,OTN
-SelectActivityGroup,Select an activity to use on the GroupName.
-SelectActivityNone,No activity available on the GroupName.
 SelectAttachmentState,Select an item attachment
 SelectBackShield,Selected chastity belt backing
 SelectBikiniType,Select a bikini style.
@@ -4660,11 +4356,7 @@ SelectHeavyLatexCorsetType,Select a corset style.
 SelectInflateLevel,Select inflation level
 SelectInflationLevel,How much do you want to inflate the strait leotard?
 SelectItem,Select an item to use.
-SelectItemGroup,Select an item to use on the GroupName.
 SelectLargeBeltWidth,Select Large Belt Width.
-SelectLock,Select a lock to use on the GroupName.
-SelectLocked,This looks like its locked by a AssetName.
-SelectLockedUnknown,This looks like its locked by something.
 SelectMilkBottleState,Raise or lower the bottle
 SelectOpenFaceHoodStyle,Select a hood style.
 SelectPersonalCageHeight,Use the lever to:
@@ -4684,81 +4376,6 @@ Sensitivity0,Item sensitivity: Low
 Sensitivity1,Item sensitivity: Medium
 Sensitivity2,Item sensitivity: High
 Sensitivity3,Item sensitivity: Maximum
-SentBeep,Sent at
-ServerBan,TargetCharacterName was banned by SourceCharacter.
-ServerDemoteAdmin,TargetCharacterName was demoted from administration by SourceCharacter.
-ServerDisconnect,SourceCharacter disconnected.
-ServerEnter,SourceCharacter entered.
-ServerKick,SourceCharacter called the maids to escort TargetCharacterName out of the room.
-ServerLeave,SourceCharacter left.
-ServerMessageBeginDating,The Bondage Club is pleased to announce that SourceCharacter and TargetCharacter are starting a 7 days minimum period as lovers.
-ServerMessageBeginEngagement,The Bondage Club is pleased to announce that SourceCharacter and TargetCharacter are now engaged and are starting a 7 days minimum period as fiancées.
-ServerMessageBeginWedding,The Bondage Club is proud to announce that SourceCharacter and TargetCharacter are now married. Long may it last.
-ServerMessageEndOwnership,The Bondage Club announces that SourceCharacter released TargetCharacter from PronounPossessive ownership.
-ServerMessageEndOwnershipTrial,The Bondage Club announces that SourceCharacter canceled the trial ownership of TargetCharacter.
-ServerMessageEndTrial,The Bondage Club is proud to announce that SourceCharacter is now fully collared. PronounPossessive fate is in PronounPossessive owners hands.
-ServerMessageForbiddenWordsBlocked,Saying a forbidden word is blocked by your owner.  You can use /forbiddenwords to review the words.
-ServerMessageForbiddenWordsMute15,You said a forbidden word and will be silenced for 15 minutes.  You can use /forbiddenwords to review the words.
-ServerMessageForbiddenWordsMute30,You said a forbidden word and will be silenced for 30 minutes.  You can use /forbiddenwords to review the words.
-ServerMessageForbiddenWordsMute5,You said a forbidden word and will be silenced for 5 minutes.  You can use /forbiddenwords to review the words.
-ServerMessageLoverRuleOwnerLoverLockAllow,Your lover is now allowing your owner to use lovers locks on you.
-ServerMessageLoverRuleOwnerLoverLockBlock,Your lover is now preventing your owner from using lovers locks on you.
-ServerMessageLoverRuleSelfLoverLockAllow,Your lover is now allowing you to use lovers locks on yourself.
-ServerMessageLoverRuleSelfLoverLockBlock,Your lover is now preventing you from using lovers locks on yourself.
-ServerMessageOfferBeginDating,"SourceCharacter is asking you to be PronounPossessive lover.  Click on PronounObject and manage your relationship to accept, don't do anything to refuse."
-ServerMessageOfferBeginEngagement,"SourceCharacter is asking you to become PronounPossessive fiancée.  Click on PronounObject and manage your relationship to accept, don't do anything to refuse."
-ServerMessageOfferBeginWedding,"SourceCharacter is proposing you to become PronounPossessive wife.  Click on PronounObject and manage your relationship to accept, don't do anything to refuse."
-ServerMessageOfferEndTrial,"SourceCharacter has prepared a great collaring ceremony.  A maid brings a slave collar, which PronounPossessive submissive must consent to wear."
-ServerMessageOfferStartTrial,"SourceCharacter is offering you to start a trial period as PronounPossessive submissive.  Click on PronounObject and manage your relationship to accept, don't do anything to refuse."
-ServerMessageOwnerRuleAccessOtherAllow,Your owner is now allowing you to access others when they're there.
-ServerMessageOwnerRuleAccessOtherBlock,Your owner is now preventing you from accessing others when they're there.
-ServerMessageOwnerRuleAccessSelfAllow,Your owner is now allowing you to access yourself when they're there.
-ServerMessageOwnerRuleAccessSelfBlock,Your owner is now preventing you from accessing yourself when they're there.
-ServerMessageOwnerRuleBlockAppearance,Your owner has changed the appearance zones you can modify.
-ServerMessageOwnerRuleBlockItemGroup,Your owner has changed the item zones you can access.
-ServerMessageOwnerRuleBlockScreen,Your owner has changed the Bondage Club areas you can access.
-ServerMessageOwnerRuleChangeAllow,Your owner is now allowing you to access your wardrobe and change clothes.
-ServerMessageOwnerRuleChangeBlock,Your owner has blocked your wardrobe access.  You won't be able to change clothes until that rule is revoked.
-ServerMessageOwnerRuleChangeBlock1Day,Your owner has blocked your wardrobe access for a day.  You won't be able to change clothes.
-ServerMessageOwnerRuleChangeBlock1Hour,Your owner has blocked your wardrobe access for an hour.  You won't be able to change clothes.
-ServerMessageOwnerRuleChangeBlock1Week,Your owner has blocked your wardrobe access for a week.  You won't be able to change clothes.
-ServerMessageOwnerRuleChangePoseAllow,Your owner is now allowing you to change your pose when they're there.
-ServerMessageOwnerRuleChangePoseBlock,Your owner is now preventing you from changing your pose when they're there.
-ServerMessageOwnerRuleCollarRelease,Your owner released you from the slave collar.
-ServerMessageOwnerRuleCollarWear,Your owner has locked the slave collar on your neck.
-ServerMessageOwnerRuleEmoteAllow,Your owner is now allowing you to emote when they're there.
-ServerMessageOwnerRuleEmoteBlock,Your owner is now preventing you from emoting when they're there.
-ServerMessageOwnerRuleForbiddenWords,Your owner has changed your list of forbidden words.  You can use /forbiddenwords to review the words.
-ServerMessageOwnerRuleForceWheelFortune,Your owner requires you to spin the Wheel of Fortune.
-ServerMessageOwnerRuleKeyAllow,Your owner is now allowing you to have keys.  You can buy keys from the club shop.
-ServerMessageOwnerRuleKeyAllowFamily,Your owner is now allowing you to use family keys.
-ServerMessageOwnerRuleKeyBlock,Your owner is now preventing you from getting new keys.  The club shop will not sell keys to you anymore.
-ServerMessageOwnerRuleKeyBlockFamily,Your owner is now preventing you from using family keys.
-ServerMessageOwnerRuleKeyConfiscate,Your owner has confiscated your keys.  All your regular keys are lost.
-ServerMessageOwnerRuleNicknameAllow,Your owner is now allowing you to change your nickname.
-ServerMessageOwnerRuleNicknameBlock,Your owner is now preventing you from changing your nickname.
-ServerMessageOwnerRuleRemoteAllow,Your owner is now allowing you to have remotes.  You can buy remotes from the club shop.
-ServerMessageOwnerRuleRemoteAllowSelf,Your owner is now allowing you to use remotes on yourself.
-ServerMessageOwnerRuleRemoteBlock,Your owner is now preventing you from getting new remotes.  The club shop will not sell remotes to you anymore.
-ServerMessageOwnerRuleRemoteBlockSelf,Your owner is now preventing you from using remotes on yourself.
-ServerMessageOwnerRuleRemoteConfiscate,Your owner has confiscated your remotes.  All your remotes are lost.
-ServerMessageOwnerRuleSelfOwnerLockAllow,Your owner is now allowing to using owner locks on yourself.
-ServerMessageOwnerRuleSelfOwnerLockBlock,Your owner is now preventing you from using owner locks on yourself.
-ServerMessageOwnerRuleTalkAllow,Your owner is now allowing you to talk publicly when they're there.
-ServerMessageOwnerRuleTalkBlock,Your owner is now preventing you from talking publicly when they're there.
-ServerMessageOwnerRuleWhisperAllow,Your owner is now allowing you to whisper to other members when they're there.
-ServerMessageOwnerRuleWhisperBlock,Your owner is now preventing you from whispering to other members when they're there.
-ServerMessageReleaseByOwner,Your owner has released you.  You're free from all ownership.
-ServerMessageReleaseFail,The member number is invalid or you do not own this submissive.
-ServerMessageReleaseSuccess,Your submissive is now fully released from your ownership.
-ServerMessageStartTrial,The Bondage Club is pleased to announce that SourceCharacter is starting a 7 days minimum trial period as a submissive.
-ServerMessageWhisperOutOfRange,Whisper target is out of range.  Returning to normal chat.
-ServerMoveLeft,TargetCharacterName was moved to the left by SourceCharacter.
-ServerMoveRight,TargetCharacterName was moved to the right by SourceCharacter.
-ServerPromoteAdmin,TargetCharacterName was promoted to administrator by SourceCharacter.
-ServerShuffle,SourceCharacter shuffles the position of everyone in the room randomly.
-ServerSwap,SourceCharacter swapped TargetCharacterName and DestinationCharacterName1 places.
-ServerUpdateRoom,SourceCharacter updated the room. Name: ChatRoomName. Limit: ChatRoomLimit.  ChatRoomPrivacy.  ChatRoomLocked.
 ShockCount,Trigger count:
 ShockCountReset,SourceCharacter resets DestinationCharacter AssetName trigger count.
 ShockLevel,Shock level:
@@ -4793,7 +4410,6 @@ ShoesThighBootsSetb1,SourceCharacter adds bands to DestinationCharacter boots.
 ShoesThighBootsSetl0,SourceCharacter shortens DestinationCharacter boots.
 ShoesThighBootsSetl1,SourceCharacter extends the sock on DestinationCharacter boots.
 ShoesThighBootsSetl2,SourceCharacter extends DestinationCharacter boots.
-ShowAllZones,Show all zones
 ShowItemWithTimerRemaining,Show the time remaining/being added
 ShowMessageInChat,Show chat message
 SlaveCollarChangeType,SourceCharacter changes DestinationCharacter collar model.
@@ -4809,7 +4425,6 @@ SocksLeftLooseSocksSelect,Choose how to wear left socks:
 SocksRightLooseSocksFlat,Flat style
 SocksRightLooseSocksNormal,Loose style
 SocksRightLooseSocksSelect,Choose how to wear right socks:
-Someone,Someone
 SpreaderMetalPoseNarrow,Narrow
 SpreaderMetalPoseWide,Wide
 SpreaderVibratingDildoBarDecreaseTo-1,The dildo on DestinationCharacterName Vibrating Spreader Dildo Bar stops vibrating.
@@ -4824,10 +4439,7 @@ StandUp,SourceCharacter stands up
 StandUpFail,SourceCharacter tries to stand up but loses PronounPossessive balance and falls!
 StandUpPass,SourceCharacter manages to get to PronounPossessive feet.
 StopHoldLeash,SourceCharacter releases the leash of TargetCharacter.
-Strength,Use brute force
-Struggle,Try to struggle out
 StruggleAssist,SourceCharacter tries to help TargetCharacter to struggle free.
-Struggling,Struggling...
 SturdyLeatherBeltsPoseFour,Four
 SturdyLeatherBeltsPoseOne,One
 SturdyLeatherBeltsPoseThree,Three
@@ -4886,17 +4498,10 @@ TapedClitEggIncreaseTo0,DestinationCharacterName vibrating egg on TargetPronounP
 TapedClitEggIncreaseTo1,DestinationCharacterName vibrating egg on TargetPronounPossessive clitoris builds up to a moderate pace.
 TapedClitEggIncreaseTo2,DestinationCharacterName vibrating egg on TargetPronounPossessive clitoris starts buzzing strongly!
 TapedClitEggIncreaseTo3,DestinationCharacterName vibrating egg on TargetPronounPossessive clitoris jumps up to maximum intensity!
-Tease,Tease
 TextItemChange,"SourceCharacter changes the text on DestinationCharacterName AssetName to read ""NewText"""
 TextItemRemove,SourceCharacter removes the text from DestinationCharacterName AssetName
 TextItemSelect,Configure item text
-Tighten,Tighten...
-TightenLittle,...A little
-TightenLoosen,Tighten / Loosen
-TightenLoosenTitle,You can tighten or loosen this item
-TightenLot,...A lot
 tightens,tightens
-Tightness,Tightness:
 TimerAddRemoveUnknownTime,SourceCharacter adds an unknown amount of time to the padlock on DestinationCharacter FocusAssetGroup
 TimerAddTime,SourceCharacter adds TimerTime TimerUnit to the padlock on DestinationCharacter FocusAssetGroup.
 TimerLeft,Time left:
@@ -4916,22 +4521,11 @@ TriggerShock,Trigger Shock
 TriggerShock0,DestinationCharacterName AssetName gives TargetPronounObject a light shock.
 TriggerShock1,DestinationCharacterName AssetName lets out a sharp jolt!
 TriggerShock2,DestinationCharacterName AssetName delivers an intense shock!
-TryLoosen,Try to loosen the item
-TurnOff,Turn Off
+//TurnOff,Turn Off
 unchains,removes the chains
-Unlock,Unlock the item
-Unlocked,Unlocked
-Unlocking,Unlocking...
 UnlockMittens,Unlock mittens
 unlocks,unlocks
-UnZipSuitForItem,Unzip the suit first.
-Use,Use this item
-UseDisabled,Unable to use due to player permissions
 UseRemote,Use Remote
-Using0,Using none of your skill...
-Using25,Using 25% of your skill...
-Using50,Using 50% of your skill...
-Using75,Using 75% of your skill...
 VariableHeightnewOption,Confirm
 VariableHeightPercent,% of full height:
 VariableHeightSelect,Set the height
@@ -4962,7 +4556,6 @@ WillRemoveItemWithTimer,The item will be removed when the lock timer runs out
 WingsSteampunkWingsOff,Off
 WingsSteampunkWingsOn,On
 WingsSteampunkWingsSelect,Select the state.
-WinkFacialExpressions,Wink/Blink
 WontRemoveItemWithTimer,The item will stay when the lock timer runs out
 YourRoom,<i>Your private room</i>
 ZipBondageZipFeetFull,Full Binding
@@ -4975,9 +4568,6 @@ ZipBondageZipLegMedium,Medium Binding
 ZipFeetSetZipFeetFull,SourceCharacter uses the zipties on TargetCharacter to fully bind TargetPronounPossessive feet.
 ZipFeetSetZipFeetLight,SourceCharacter uses the zipties on TargetCharacter to lightly bind TargetPronounPossessive feet.
 ZipFeetSetZipFeetMedium,SourceCharacter uses the zipties on TargetCharacter to half bind TargetPronounPossessive feet.
-ZoneBlocked,This zone is out of reach from another item
-ZoneBlockedOwner,Your owner doesn't allow you to access that zone
-ZoneBlockedRange,You're too far to reach DialogCharacterObject body and items.
 ShoesStilettoHeelsSelectBase,Choose Design
 ShoesStilettoHeelsModuleLayer,Style
 ShoesStilettoHeelsSelectLayer,Style Options

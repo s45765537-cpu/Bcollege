@@ -1455,9 +1455,9 @@ function DialogMenuButtonBuild(C) {
 		// Item permission enter/exit
 		if (C.IsPlayer()) {
 			if (DialogMenuMode === "permissions")
-				DialogMenuButton.push("DialogNormalMode");
+				DialogMenuButton.push("NormalMode");
 			else
-				DialogMenuButton.push("DialogPermissionMode");
+				DialogMenuButton.push("PermissionMode");
 		}
 	}
 }
@@ -1972,13 +1972,13 @@ function DialogMenuButtonClick() {
 			}
 
 			// When we enter item permission mode, we rebuild the inventory to set permissions
-			else if (button === "DialogPermissionMode") {
+			else if (button === "PermissionMode") {
 				DialogChangeMode("permissions");
 				return true;
 			}
 
 			// When we leave item permission mode, we upload the changes for everyone in the room
-			else if (button === "DialogNormalMode") {
+			else if (button === "NormalMode") {
 				DialogChangeMode("items");
 				return true;
 			}
@@ -2849,7 +2849,7 @@ function DialogDrawTopMenu(C) {
 	for (let I = DialogMenuButton.length - 1; I >= 0; I--) {
 		const ButtonColor = DialogGetMenuButtonColor(DialogMenuButton[I]);
 		const ButtonImage = DialogGetMenuButtonImage(DialogMenuButton[I], FocusItem);
-		const ButtonHoverText = InterfaceTextGet(DialogMenuButton[I]);
+		const ButtonHoverText = InterfaceTextGet(`DialogMenu${DialogMenuButton[I]}`);
 		const ButtonDisabled = DialogIsMenuButtonDisabled(DialogMenuButton[I]);
 		DrawButton(1885 - I * 110, 15, 90, 90, "", ButtonColor, "Icons/" + ButtonImage + ".png", ButtonHoverText, ButtonDisabled);
 	}
@@ -2984,7 +2984,7 @@ function DialogDraw() {
 				const bgColor = disabled ? "Gray" : (hover ? "aqua" : "white");
 				DrawRect(1087 + offset, 600, 225, 275, bgColor);
 				DrawImageResize("Icons/Struggle/" + game + ".png", 1089 + offset, 602, 221, 221);
-				DrawTextFit(InterfaceTextGet(game), 1200 + offset, 850, 221, "black");
+				DrawTextFit(InterfaceTextGet(`Struggle${game}`), 1200 + offset, 850, 221, "black");
 			}
 		}
 		return;
@@ -3395,7 +3395,7 @@ function DialogCanCraft() {
 function DialogActualNameForGroup(C, G) {
 	let repl = G.Description;
 	if (C && C.HasPenis() && ["ItemVulva", "ItemVulvaPiercings"].includes(G.Name)) {
-		repl = G.Name === "ItemVulva" ? InterfaceTextGet("ItemPenis") : InterfaceTextGet("ItemGlans");
+		repl = G.Name === "ItemVulva" ? InterfaceTextGet("DialogGroupNameItemPenis") : InterfaceTextGet("DialogGroupNameItemGlans");
 	}
 	return repl;
 }

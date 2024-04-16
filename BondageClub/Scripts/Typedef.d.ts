@@ -140,7 +140,7 @@ type DialogMenuMode = "dialog" | "items" | "colorDefault" | "colorExpression" | 
 type DialogMenuButton = "Activity" |
 	"ColorCancel" | "ColorChange" | "ColorChangeMulti" | "ColorDefault" | "ColorPickDisabled" | "ColorSelect" |
 	"Crafting" |
-	"DialogNormalMode" | "DialogPermissionMode" |
+	"NormalMode" | "PermissionMode" |
 	"Dismount" | "Escape" | "Remove" |
 	"Exit" |
 	"GGTSControl" |

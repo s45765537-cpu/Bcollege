@@ -656,7 +656,7 @@ function TypedItemDraw(data) {
 	DrawButton(
 		1775, 25, 90, 90, "", "White",
 		ExtendedItemPermissionMode ? "Icons/DialogNormalMode.png" : "Icons/DialogPermissionMode.png",
-		InterfaceTextGet(ExtendedItemPermissionMode ? "DialogNormalMode" : "DialogPermissionMode"),
+		InterfaceTextGet(ExtendedItemPermissionMode ? "DialogMenuNormalMode" : "DialogMenuPermissionMode"),
 	);
 }
 
