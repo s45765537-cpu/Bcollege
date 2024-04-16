@@ -4108,6 +4108,21 @@ interface ShopItem {
 
 // #endregion
 
+// #region layering
+
+interface LayeringExitOptions {
+	screen?: string;
+	callback?: (C: Character, item: Item) => void;
+}
+
+/** Various display options for the layering screen */
+interface LayeringDisplay extends Rect {
+	/** The gap between buttons */
+	buttonGap: number;
+}
+
+// #endregion
+
 // #region deprecation
 
 /** @deprecated superseded by {@link PoseAvailable} */
