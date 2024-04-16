@@ -12046,6 +12046,7 @@ var AssetFemale3DCG = [
 				Priority: 29,
 				PoseMapping: {
 					...AssetPoseMapping.Bracelet,
+					BackBoxTie: PoseType.HIDE,
 					BackCuffs: PoseType.HIDE,
 				},
 				DefaultColor: ["#270D8B", "#0F0F0F", "#C3C3C3"],
@@ -12064,6 +12065,7 @@ var AssetFemale3DCG = [
 						Name: "Face",
 						PoseMapping: {
 							...AssetPoseMapping.Bracelet,
+							BackBoxTie: PoseType.HIDE,
 							BackCuffs: PoseType.HIDE,
 							OverTheHead: PoseType.HIDE,
 							Yoked: PoseType.HIDE,
@@ -12074,6 +12076,7 @@ var AssetFemale3DCG = [
 						Name: "FaceRight",
 						PoseMapping: {
 							...AssetPoseMapping.Bracelet,
+							BackBoxTie: PoseType.HIDE,
 							BackCuffs: PoseType.HIDE,
 							OverTheHead: PoseType.HIDE,
 							Yoked: PoseType.HIDE,
@@ -12086,6 +12089,8 @@ var AssetFemale3DCG = [
 						AllowTypes: { l: [0, 1] },
 						PoseMapping: {
 							...AssetPoseMapping.Bracelet,
+							BackBoxTie: PoseType.HIDE,
+							BackCuffs: PoseType.HIDE,
 							BaseUpper: PoseType.HIDE,
 						},
 					},
@@ -12095,6 +12100,8 @@ var AssetFemale3DCG = [
 						CopyLayerColor: "Trim",
 						PoseMapping: {
 							...AssetPoseMapping.Bracelet,
+							BackBoxTie: PoseType.HIDE,
+							BackCuffs: PoseType.HIDE,
 							BaseUpper: PoseType.HIDE,
 						},
 					},
@@ -12102,6 +12109,7 @@ var AssetFemale3DCG = [
 						Name: "CircleTrim",
 						PoseMapping: {
 							...AssetPoseMapping.Bracelet,
+							BackBoxTie: PoseType.HIDE,
 							BackCuffs: PoseType.HIDE,
 							OverTheHead: PoseType.HIDE,
 							Yoked: PoseType.HIDE,
@@ -12113,6 +12121,7 @@ var AssetFemale3DCG = [
 						Name: "CircleTrimRight",
 						PoseMapping: {
 							...AssetPoseMapping.Bracelet,
+							BackBoxTie: PoseType.HIDE,
 							BackCuffs: PoseType.HIDE,
 							OverTheHead: PoseType.HIDE,
 							Yoked: PoseType.HIDE,
@@ -12124,6 +12133,7 @@ var AssetFemale3DCG = [
 						Name: "SquareFace",
 						PoseMapping: {
 							...AssetPoseMapping.Bracelet,
+							BackBoxTie: PoseType.HIDE,
 							BackCuffs: PoseType.HIDE,
 							OverTheHead: PoseType.HIDE,
 							Yoked: PoseType.HIDE,
@@ -12135,6 +12145,7 @@ var AssetFemale3DCG = [
 						Name: "SquareFaceRight",
 						PoseMapping: {
 							...AssetPoseMapping.Bracelet,
+							BackBoxTie: PoseType.HIDE,
 							BackCuffs: PoseType.HIDE,
 							OverTheHead: PoseType.HIDE,
 							Yoked: PoseType.HIDE,
@@ -12146,6 +12157,7 @@ var AssetFemale3DCG = [
 						Name: "SquareTrim",
 						PoseMapping: {
 							...AssetPoseMapping.Bracelet,
+							BackBoxTie: PoseType.HIDE,
 							BackCuffs: PoseType.HIDE,
 							OverTheHead: PoseType.HIDE,
 							Yoked: PoseType.HIDE,
@@ -12157,6 +12169,7 @@ var AssetFemale3DCG = [
 						Name: "SquareTrimRight",
 						PoseMapping: {
 							...AssetPoseMapping.Bracelet,
+							BackBoxTie: PoseType.HIDE,
 							BackCuffs: PoseType.HIDE,
 							OverTheHead: PoseType.HIDE,
 							Yoked: PoseType.HIDE,
@@ -18127,7 +18140,7 @@ var AssetFemale3DCG = [
 				},
 				DefaultColor: ["#A2A2A2", "#787878", "#2C2C2C"],
 				AllowLock: true,
-				DrawLocks: true,
+				DrawLocks: false,
 				Effect: [E.Leash],
 				Layer: [
 					{
@@ -42154,13 +42167,8 @@ var AssetFemale3DCG = [
 					"ItemVulva",
 					"ItemVulvaPiercings",
 				],
-				SetPose: [
-					"BaseUpper",
-				],
-				AllowActivePose: [
-					"BackBoxTie",
-					"BackElbowTouch",
-				],
+				SetPose: ["BaseUpper"],
+				AllowActivePose: ["BackBoxTie", "BackElbowTouch"],
 				Layer: [
 					{ Name: "Front", Priority: 48 },
 					{ Name: "Back", Priority: 3, CopyLayerColor: "Front" },
