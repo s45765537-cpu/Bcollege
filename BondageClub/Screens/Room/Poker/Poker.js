@@ -71,7 +71,7 @@ function PokerDrawPlayer(P, X, Y) {
 			let FullPath = "Screens/Room/Poker/" + P.Name + "/Data.csv";
 			let TextScreenCache = TextAllScreenCache.get(FullPath);
 			if (!TextScreenCache) {
-				TextScreenCache = new TextCache(FullPath, "MISSING VALUE FOR TAG: ");
+				TextScreenCache = new TextCache(FullPath);
 				TextAllScreenCache.set(FullPath, TextScreenCache);
 			} else P.Data = TextScreenCache;
 		}
@@ -105,7 +105,7 @@ function PokerDrawPlayer(P, X, Y) {
 			let FullPath = "Screens/Room/Poker/" + P.Name + "/Text_Single.csv";
 			let TextScreenCache = TextAllScreenCache.get(FullPath);
 			if (!TextScreenCache) {
-				TextScreenCache = new TextCache(FullPath, "MISSING VALUE FOR TAG: ");
+				TextScreenCache = new TextCache(FullPath);
 				TextAllScreenCache.set(FullPath, TextScreenCache);
 			} else P.TextSingle = TextScreenCache;
 		}
@@ -115,7 +115,7 @@ function PokerDrawPlayer(P, X, Y) {
 			let FullPath = "Screens/Room/Poker/" + P.Name + "/Text_Multiple.csv";
 			let TextScreenCache = TextAllScreenCache.get(FullPath);
 			if (!TextScreenCache) {
-				TextScreenCache = new TextCache(FullPath, "MISSING VALUE FOR TAG: ");
+				TextScreenCache = new TextCache(FullPath);
 				TextAllScreenCache.set(FullPath, TextScreenCache);
 			} else P.TextMultiple = TextScreenCache;
 		}

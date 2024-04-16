@@ -5,6 +5,9 @@ let TextScreenCache = null;
 /** @type {Map<string, TextCache>} */
 const TextAllScreenCache = new Map;
 
+/** Prefix for the Text-generated warning message on a missing key */
+const TEXT_NOT_FOUND_PREFIX = "MISSING TEXT IN";
+
 /**
  * Finds the text value linked to the tag in the buffer
  * @param {string} TextTag - Tag for the text to find
@@ -12,6 +15,29 @@ const TextAllScreenCache = new Map;
  */
 function TextGet(TextTag) {
 	return TextScreenCache ? TextScreenCache.get(TextTag) : "";
+}
+
+/**
+ * Finds the translated string for key in the specified text cache
+ * @param {string} filePath
+ * @param {string} key
+ * @returns {string} — The translated string for the key
+ */
+function TextGetInScope(filePath, key) {
+	const stringsFile = TextAllScreenCache.get(filePath);
+
+	let lastSlash = filePath.lastIndexOf("/");
+	if (lastSlash === -1) {
+		lastSlash = 0;
+	} else {
+		lastSlash = lastSlash + 1;
+	}
+	const fileName = filePath.substring(lastSlash);
+
+	if (!stringsFile) return `${TEXT_NOT_FOUND_PREFIX} "${fileName}": ${key}`;
+	const text = stringsFile.get(key);
+	if (!text) return `${TEXT_NOT_FOUND_PREFIX} "${fileName}": ${key}`;
+	return text;
 }
 
 /**
@@ -46,7 +72,7 @@ function TextPrefetch(Module, TextGroup) {
  */
 function TextPrefetchFile(file) {
 	if (!TextAllScreenCache.has(file)) {
-		TextAllScreenCache.set(file, new TextCache(file, "MISSING VALUE FOR TAG: "));
+		TextAllScreenCache.set(file, new TextCache(file));
 	}
 }
 
@@ -58,11 +84,9 @@ class TextCache {
 	/**
 	 * Creates a new TextCache from the provided CSV file path.
 	 * @param {string} path - The path to the CSV lookup file for this TextCache instance
-	 * @param {string} [warn] - prefix for warning when key is not found
 	 */
-	constructor(path, warn = "") {
+	constructor(path) {
 		this.path = path;
-		this.warn = warn;
 		this.language = TranslationLanguage;
 		/** @type {Record<string, string>} */
 		this.cache = {};
@@ -70,6 +94,20 @@ class TextCache {
 		this.rebuildListeners = [];
 		this.loaded = false;
 		this.buildCache();
+	}
+
+	/**
+	 * Return the basename of the cached file
+	 * @returns {string}
+	 */
+	fileName() {
+		let lastSlash = this.path.lastIndexOf("/");
+		if (lastSlash === -1) {
+			lastSlash = 0;
+		} else {
+			lastSlash = lastSlash + 1;
+		}
+		return this.path.substring(lastSlash);
 	}
 
 	/**
@@ -85,7 +123,10 @@ class TextCache {
 			this.buildCache();
 		}
 		const value = this.cache[key];
-		return (value != null) ? value : (this.warn + key);
+		if (!value) {
+			return `${TEXT_NOT_FOUND_PREFIX} "${this.fileName()}": ${key}`;
+		}
+		return value;
 	}
 
 	/**

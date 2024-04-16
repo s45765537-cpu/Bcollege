@@ -2408,7 +2408,7 @@ function ClubCardTextGet(Text) {
 		const CardTextPath = "Screens/MiniGame/ClubCard/Text_ClubCard.csv";
 		ClubCardTextCache = TextAllScreenCache.get(CardTextPath);
 		if(!ClubCardTextCache){
-			ClubCardTextCache = new TextCache(CardTextPath,"");
+			ClubCardTextCache = new TextCache(CardTextPath);
 			TextAllScreenCache.set(CardTextPath, ClubCardTextCache);
 		}
 	}

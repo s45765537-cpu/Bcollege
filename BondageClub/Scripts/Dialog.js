@@ -2775,7 +2775,7 @@ function DialogDrawItemMenu(C) {
  */
 function DialogFindPlayer(KeyWord) {
 	const res = PlayerDialog.get(KeyWord);
-	return res !== undefined ? res : `MISSING PLAYER DIALOG: ${KeyWord}`;
+	return res !== undefined ? res : `${TEXT_NOT_FOUND_PREFIX} "DialogPlayer.csv": ${KeyWord}`;
 }
 
 /**
