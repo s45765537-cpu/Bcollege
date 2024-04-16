@@ -11,9 +11,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2024-04-09
-* Last recorded PR: [#4949](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4949)
-* Last recorded commit hash: `a3704770926c0f51da7571d487f5f592f863708d`
+* Changelog last updated: 2024-04-16
+* Last recorded PR: [#4972](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4972)
+* Last recorded commit hash: `a02a4dac47fd59d3e09c7429ae36ffe55580edcc`
 
 ## [Generated]
 
@@ -51,11 +51,14 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Cleon - TormentHeels - Torment Heels (Item Boots). ([#4946](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4946))
 * Da'Inihlus - Cn translation for current change ([#4948](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4948))
 * harmony - Increase chatrooms' admin and ban lists limit ([#4949](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4949))
+* Cleon - More Custom T-Shirt stamps. ([#4962](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4962))
+* Estsanatlehi - FPS counter and limiter into Graphics settings ([#4967](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4967))
 * Ben987 - Chat Room Buttons Default Order
 * Ben987 - Reduce Gag Garbling Strength
 * Ben987 - Online Chat - Garble Speech on Sender Side
 * Ben987 - Roleplay Difficulty - Add a no chat garble option
 * Ben987 - Chat Room Maps - New Camping Items
+* Ben987 - Allow skipping struggle on non-roleplay difficulties for R103
 
 ### [Fixes]
 
@@ -73,6 +76,14 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Cleon - BalletHeels1 (ItemBoots-Hogtied) assets and SocialHeels & DutyShoes adjustments. ([#4930](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4930))
 * Rama - Fix locks and properties being unavailable for certain crafted items ([#4927](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4927))
 * EllieThePink - Fix some bug with bad press & similar club card ([#4947](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4947))
+* Cleon - Corset Dress, Short Leather Gloves, Zipper and Large Belts, Wristband... ([#4950](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4950))
+* Rama - Fix the `HideShopItems`-specific group names in the shop being inverted ([#4951](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4951))
+* Cleon - TormentHeels (Typo) and CustomTShirt (PoseMapping). ([#4953](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4953))
+* Rama - BETA: Fix the Kissmark accidentally blocking underlying gag layers ([#4956](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4956))
+* YuccaThePlant - Add new Full Casing Chastity Cage into lists of hidden items for Modular Chastity Belt to prevent clipping issues ([#4959](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4959))
+* Rama - Ensure that clothing pieces with builtin gloves properly hide them when called for ([#4961](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4961))
+* Estsanatlehi - Escape key not using the same check consistently ([#4966](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4966))
+* Rama - Misc mouth-layer related fixes to the gags ([#4969](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4969))
 * Ben987 - Light Gag - Missing garble for letters D, G & M
 * Ben987 - GGTS - Legs Open & Close Activities
 * Ben987 - GGTS - Pose Behind Back Activity
@@ -99,17 +110,25 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Ben987 - Lyn & Edlaran Dating Dialog
 * Ben987 - Lyn and Edlaran Breakup + Proof Read
 * Ben987 - Idle Audio
+* Ben987 - New Desert Backgrounds
 
 ### [Technical]
 
 * Rama - Ensure that `Player.RunScripts` is always `true` ([#4905](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4905))
 * Rama - Optimize the handling of crafted items in `DialogInventoryBuild` ([#4900](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4900))
 * Estsanatlehi - Refactor parts of CommonDrawAppearanceBuild ([#4912](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4912))
-* Rama - MAINT: Tweak shop-related CSS units ([#4932](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4932))
-* Rama - REV: Revert always showing a message when the player character enters a room ([#4933](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4933))
-* Rama - BUG: Ensure that `InventoryAllow` checks the extended option's pose prereqs ([#4943](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4943))
+* Rama - Tweak shop-related CSS units ([#4932](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4932))
+* Rama - Revert always showing a message when the player character enters a room ([#4933](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4933))
+* Rama - Ensure that `InventoryAllow` checks the extended option's pose prereqs ([#4943](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4943))
 * Haruhi - Minor adjustments to Cock RIng Leash ([#4944](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4944))
-* Rama - BUG: Fix `CraftingValidate` always validation w.r.t. the players inventory ([#4945](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4945))
+* Rama - Fix `CraftingValidate` always validation w.r.t. the players inventory ([#4945](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4945))
+* Rama - Fix `Before`-/`AfterDraw` functions refering to invalid layer names ([#4952](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4952))
+* Rama - let `ServerPlayerIsInChatRoom()` return true when using `/shop`, `/craft` and `/wheel` ([#4954](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4954))
+* u3shit - BETA: Rename GameRunNormal back to GameRun for better mod compatibility ([#4957](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4957))
+* Estsanatlehi - Ci fix ([#4964](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4964))
+* Estsanatlehi - Fix the leash's layer filenames now that the URL building is coherent ([#4971](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4971))
+* Estsanatlehi - Fix asset check ([#4972](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4972))
+* Rama - Move surplus concealing cloak `SetPose` entries to `AllowActivePose` ([#4965](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4965))
 * Ben987 - Shorter Struggle AZERTY Label
 * Ben987 - Optimization - ArousalSettings.Zone Compression
 * Ben987 - NPCs - New Arousal Zone Compatibility
