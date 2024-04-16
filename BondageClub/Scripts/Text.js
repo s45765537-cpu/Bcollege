@@ -106,6 +106,10 @@ class TextCache {
 		this.buildCache();
 	}
 
+	log(msg) {
+		// console.log(`TextCache "${this.path}" (loaded: ${this.loaded}):`, msg);
+	}
+
 	/**
 	 * Return the basename of the cached file
 	 * @returns {string}
@@ -134,6 +138,7 @@ class TextCache {
 		}
 		const value = this.cache[key];
 		if (!value) {
+			this.log(`Unknown key: ${key}`);
 			return `${TEXT_NOT_FOUND_PREFIX} "${this.fileName()}": ${key}`;
 		}
 		return value;
@@ -166,6 +171,7 @@ class TextCache {
 	 */
 	buildCache() {
 		if (!this.path) return;
+		this.log("buildCache");
 		this.fetchCsv()
 			.then((lines) => this.translate(lines))
 			.then((lines) => this.cacheLines(lines))
@@ -178,11 +184,16 @@ class TextCache {
 	 * file.
 	 */
 	fetchCsv() {
-		if (CommonCSVCache[this.path]) return Promise.resolve(CommonCSVCache[this.path]);
+		if (CommonCSVCache[this.path]) {
+			this.log("fetchCsv: returning from cache");
+			return Promise.resolve(CommonCSVCache[this.path]);
+		}
+		this.log("fetchCsv: fetching from server");
 		return new Promise((resolve) => {
 			CommonGet(this.path, (xhr) => {
 				if (xhr.status === 200) {
 					CommonCSVCache[this.path] = CommonParseCSV(xhr.responseText);
+					this.log("fetchCsv: parsing");
 					return resolve(CommonCSVCache[this.path]);
 				}
 				return Promise.resolve([]);
@@ -198,6 +209,7 @@ class TextCache {
 	cacheLines(lines) {
 		lines.forEach((line) => (this.cache[line[0]] = line[1]));
 		this.loaded = true;
+		this.log("cacheLines complete");
 	}
 
 	/**
@@ -213,15 +225,19 @@ class TextCache {
 
 		const translationPath = this.path.replace(/\/([^/]+)\.csv$/, `/$1_${lang}.txt`);
 		if (!TranslationAvailable(translationPath)) {
+			this.log(`translate: no translation available: ${translationPath}`);
 			return Promise.resolve(lines);
 		}
 
 		if (TranslationCache[translationPath]) {
+			this.log(`translate: using cache`);
 			return Promise.resolve(this.buildTranslations(lines, TranslationCache[translationPath]));
 		} else {
+			this.log(`translate: fetching translation from ${translationPath}`);
 			return new Promise((resolve) => {
 				CommonGet(translationPath, (xhr) => {
 					if (xhr.status === 200) {
+						this.log(`translate: parsing translation`);
 						TranslationCache[translationPath] = TranslationParseTXT(xhr.responseText);
 						return resolve(this.buildTranslations(lines, TranslationCache[translationPath]));
 					}
@@ -239,6 +255,7 @@ class TextCache {
 	 * values translated to the current game language
 	 */
 	buildTranslations(lines, translations) {
+		this.log(`buildTranslations`);
 		return lines.map(line => ([line[0], TranslationString(line[1], translations)]));
 	}
 }
