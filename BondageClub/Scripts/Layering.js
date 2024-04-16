@@ -454,3 +454,13 @@ var Layering = {
 		}
 	},
 };
+
+Layering.RegisterExitCallbacks(
+	{
+		screen: "Crafting",
+		callback: (C, item) => {
+			CraftingSelectedItem.ItemProperty.OverridePriority = item.Property.OverridePriority;
+			CraftingModeSet("Name");
+		},
+	},
+);
