@@ -95,7 +95,7 @@ class TextCache {
 	 * Creates a new TextCache from the provided CSV file path.
 	 * @param {string} path - The path to the CSV lookup file for this TextCache instance
 	 */
-	constructor(path) {
+	constructor(path, _build_cache=true) {
 		this.path = path;
 		this.language = TranslationLanguage;
 		/** @type {Record<string, string>} */
@@ -103,7 +103,20 @@ class TextCache {
 		/** @type {((cache?: TextCache) => void)[]} */
 		this.rebuildListeners = [];
 		this.loaded = false;
-		this.buildCache();
+		if (_build_cache) {
+			this.buildCache();
+		}
+	}
+
+	/**
+	 * Creates a new TextCache from the provided CSV file path asynchronously,
+	 * promising its return after the cache has been build.
+	 * @param {string} path - The path to the CSV lookup file for this TextCache instance
+	 */
+	static async buildAsync(path) {
+		const cache = new TextCache(path, false);
+		await cache.buildCache();
+		return cache;
 	}
 
 	log(msg) {
@@ -167,12 +180,11 @@ class TextCache {
 
 	/**
 	 * Kicks off a build of the text lookup cache
-	 * @returns {void} - Nothing
 	 */
-	buildCache() {
+	async buildCache() {
 		if (!this.path) return;
 		this.log("buildCache");
-		this.fetchCsv()
+		return this.fetchCsv()
 			.then((lines) => this.translate(lines))
 			.then((lines) => this.cacheLines(lines))
 			.then(() => this.rebuildListeners.forEach((listener) => listener(this)));
