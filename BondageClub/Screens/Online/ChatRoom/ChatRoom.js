@@ -2515,6 +2515,36 @@ function ChatRoomSendChat() {
 }
 
 /**
+ * Send a player message to the server
+ *
+ * This function automatically formats and sends the message with all the information
+ * needed to reconstruct it on the receiver.
+ *
+ * @param {"Chat"|"Whisper"} type
+ * @param {string} msg
+ */
+function ChatRoomGenerateChatRoomChatMessage(type, msg) {
+	// Chat messages are always garbled, unless the no speech restriction is lifted
+	let process = {
+		effects: [],
+		text: msg,
+	};
+
+	process = SpeechTransformProcess(Player, msg, SpeechTransformSenderEffects);
+
+	// We always garble, but if "no speech garbling" is enabled,
+	// we also send down the ungarbled message if it's different
+	const originalMsg = Player.RestrictionSettings.NoSpeechGarble && msg !== process.text ? msg : undefined;
+
+	/** @type {ChatMessageDictionary} */
+	let Dictionary = [
+		{ Effects: process.effects, Original: originalMsg },
+	];
+
+	return { Content: process.text, Type: type, Dictionary };
+}
+
+/**
  * Send a specific chat message to the room
  * @param {string} msg
  * @returns
@@ -2524,12 +2554,9 @@ function ChatRoomSendChatMessage(msg) {
 	if (ChatRoomOwnerPresenceRule("BlockTalk", null)) return false;
 	if (!ChatRoomOwnerForbiddenWordCheck(msg)) return false;
 
-	// Regular chat and Whispers are garbled before being sent, unless the no speech restriction is lifted
-	if (!Player.RestrictionSettings.NoSpeechGarble) {
-		msg = SpeechGarble(Player, msg, true);
-	}
+	const data = ChatRoomGenerateChatRoomChatMessage("Chat", msg);
+	ServerSend("ChatRoomChat", data);
 
-	ServerSend("ChatRoomChat", { Content: msg, Type: "Chat" });
 	ChatRoomStimulationMessage("Talk");
 	return true;
 }
@@ -2540,16 +2567,13 @@ function ChatRoomSendChatMessage(msg) {
  * @param {string} msg
  */
 function ChatRoomSendWhisper(targetNumber, msg) {
+	if (targetNumber === null) return false;
 	const targetChar = ChatRoomCharacter.find(C => C.MemberNumber == targetNumber);
 	if (!targetChar) return "target-gone";
 
-	// Regular chat and Whispers are garbled before being sent, unless the no speech restriction is lifted
-	if (!Player.RestrictionSettings.NoSpeechGarble) {
-		msg = SpeechGarble(Player, msg, true);
-	}
-
-	// The whispers get sent to the server and shown on the client directly
-	ServerSend("ChatRoomChat", { Content: msg, Type: "Whisper", Target: targetNumber });
+	const data = ChatRoomGenerateChatRoomChatMessage("Whisper", msg);
+	data.Target = targetNumber;
+	ServerSend("ChatRoomChat", data);
 
 	const div = document.createElement("div");
 	div.setAttribute('class', 'ChatMessage ChatMessageWhisper');
