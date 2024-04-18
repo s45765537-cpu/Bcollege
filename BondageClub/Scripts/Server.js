@@ -742,6 +742,8 @@ function ServerAccountBeep(data) {
 				if (ChatRoomCanBeLeashedBy(data.MemberNumber, Player) && ChatSelectGendersAllowed(data.ChatRoomSpace, Player.GetGenders())) {
 					ChatRoomJoinLeash = data.ChatRoomName;
 
+					// TODO: Consider using `ChatRoomLeave` here after a review, it being the canonical function for leaving chatrooms
+					ChatRoomCharacter = [];
 					DialogLeave();
 					ChatRoomClearAllElements();
 					if (CurrentScreen == "ChatRoom") {
