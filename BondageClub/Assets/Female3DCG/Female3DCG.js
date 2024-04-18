@@ -29892,7 +29892,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "LipGag",
-				Prerequisite: "GagUnique",
+				Prerequisite: "AccessMouth",
 				Hide: ["Mouth"],
 				Effect: [E.GagLight, E.OpenMouth],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
