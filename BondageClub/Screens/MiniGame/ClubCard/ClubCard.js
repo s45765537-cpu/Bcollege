@@ -2037,7 +2037,10 @@ function ClubCardEndTurn(Draw = false) {
 
 	ClubCardRunTurnEndHandlers(CCPlayer, Opponent, false);
 
-	if ((CCPlayer.Money < 0) && (CCPlayer.Fame > StartingFame)) CCPlayer.Fame = StartingFame;
+	if ((CCPlayer.Money < 0) && (CCPlayer.Fame > StartingFame)) {
+		CCPlayer.Fame = StartingFame;
+		CCPlayer.LastFamePerTurn = 0;
+	}
 
 	// Display the gained money and fame
 	FameMoneyText = ((CCPlayer.LastFamePerTurn >= 0) ? "+" : "") + CCPlayer.LastFamePerTurn.toString() + " Fame, " + ((CCPlayer.LastMoneyPerTurn >= 0) ? "+" : "") + CCPlayer.LastMoneyPerTurn.toString() + " Money";
