@@ -63,7 +63,7 @@ function SpeechGetGagLevel(C, AssetGroups) {
  * @returns {number} - Returns the total gag effect of the character's assets
  */
 function SpeechGetTotalGagLevel(C, NoDeaf=false) {
-	return SpeechTransformGagGarbleIntensity(C, NoDeaf);
+	return NoDeaf ? SpeechTransformGagGarbleIntensity(C) : SpeechTransformDeafenIntensity(C);
 }
 
 /**
