@@ -834,6 +834,10 @@ function DialogMenuBack() {
 			DialogChangeMode("items");
 			break;
 
+		case "layering":
+			Layering.Exit();
+			break;
+
 		case "colorItem":
 			ItemColorCancelAndExit();
 			DialogChangeMode("items");
@@ -1355,7 +1359,7 @@ function DialogMenuButtonBuild(C) {
 
 	}
 
-	else if (DialogMenuMode === "crafted") {
+	else if (DialogMenuMode === "crafted" || DialogMenuMode === "layering") {
 		// No buttons there
 	}
 
@@ -1458,6 +1462,10 @@ function DialogMenuButtonBuild(C) {
 				DialogMenuButton.push("NormalMode");
 			else
 				DialogMenuButton.push("PermissionMode");
+		}
+
+		if (Item != null && Player.CanInteract()) {
+			DialogMenuButton.push("Layering");
 		}
 	}
 }
@@ -1811,7 +1819,7 @@ function DialogLoadPoseMenu() {
 function DialogMenuButtonClick() {
 
 	// Hack because those panes handle their menu icons themselves
-	if (["colorExpression", "colorItem", "extended", "tighten"].includes(DialogMenuMode)) return false;
+	if (["colorExpression", "colorItem", "extended", "layering", "tighten"].includes(DialogMenuMode)) return false;
 
 	// Gets the current character and item
 	/** The focused character */
@@ -1980,6 +1988,11 @@ function DialogMenuButtonClick() {
 			// When we leave item permission mode, we upload the changes for everyone in the room
 			else if (button === "NormalMode") {
 				DialogChangeMode("items");
+				return true;
+			}
+
+			else if (Item && button === "Layering") {
+				DialogChangeMode("layering");
 				return true;
 			}
 		}
@@ -2196,6 +2209,19 @@ function DialogChangeMode(mode, reset=false) {
 			DialogMenuButtonBuild(C);
 			break;
 
+		case "layering": {
+			const item = InventoryGet(C, C?.FocusGroup?.Name);
+			if (item) {
+				Layering.Init(item, C, {
+					x: DialogInventoryGrid.x,
+					y: Layering.DisplayDefault.y - 10,
+					w: (Layering.DisplayDefault.x + Layering.DisplayDefault.w) - DialogInventoryGrid.x,
+					h: Layering.DisplayDefault.h + 10,
+				}, reset);
+			}
+			break;
+		}
+
 		default:
 			console.warn(`Asked to change to mode ${DialogMenuMode}, but setup missing`);
 			break;
@@ -2233,6 +2259,7 @@ function DialogChangeMode(mode, reset=false) {
  * @param {AssetItemGroup|string} Group - The group that should gain focus.
  */
 function DialogChangeFocusToGroup(C, Group) {
+	/** @type {null | AssetGroup} */
 	let G = null;
 	if (typeof Group === "string") {
 		G = AssetGroupGet(C.AssetFamily, /** @type {AssetGroupName} */ (Group));
@@ -2250,6 +2277,8 @@ function DialogChangeFocusToGroup(C, Group) {
 	else if (DialogMenuMode === "colorDefault") {
 		ColorPickerHide();
 		ElementRemove("InputColor");
+	} else if (DialogMenuMode === "layering" && !InventoryGet(C, G?.Name)) {
+		DialogMenuBack();
 	}
 
 	// Stop sounds & expressions from struggling/swapping items
@@ -2271,8 +2300,8 @@ function DialogChangeFocusToGroup(C, Group) {
 	C.FocusGroup = /** @type {AssetItemGroup} */ (G);
 	if (C.FocusGroup) {
 		// If we're changing permissions on ourself, don't change to the item list
-		// Same for activities, keep us in that mode if the focus moves around
-		if (!(DialogMenuMode === "permissions" && C.IsPlayer() || DialogMenuMode === "activities")) {
+		// Same for activities/layering, keep us in that mode if the focus moves around
+		if (!(DialogMenuMode === "permissions" && C.IsPlayer() || DialogMenuMode === "activities" || DialogMenuMode === "layering")) {
 			DialogChangeMode("items", true);
 		}
 		// Set the mode back to itself to trigger a refresh of the state variables.
@@ -2395,7 +2424,7 @@ function DialogClick() {
 		}
 	} else if (DialogMenuMode === "colorDefault") {
 		return;
-	} else if (DialogMenuMode === "crafted") {
+	} else if (DialogMenuMode === "crafted" || DialogMenuMode === "layering") {
 		// Nothing to click here
 		return;
 	}
@@ -2588,7 +2617,7 @@ function DialogStatusDraw(C) {
 	// Don't draw status in items mode if we can't interact, as the screen shows a blocked message in that case
 	if ((!Player.CanInteract() || InventoryGroupIsBlocked(C)) && DialogMenuMode === "items") return;
 
-	if (["extended", "tighten", "colorDefault", "colorExpression", "colorItem", "struggle", "crafted"].includes(DialogMenuMode)) return;
+	if (["extended", "tighten", "colorDefault", "colorExpression", "colorItem", "struggle", "crafted", "layering"].includes(DialogMenuMode)) return;
 
 	DrawTextWrap(status, 1000, 113, 975, 60, "White", null, 1);
 }
@@ -2957,7 +2986,7 @@ function DialogDraw() {
 	const FocusItem = InventoryGet(C, C.FocusGroup.Name);
 
 	// Draws the top menu text & icons
-	if (!["extended", "tighten", "colorExpression", "colorItem"].includes(DialogMenuMode))
+	if (!["extended", "tighten", "colorExpression", "colorItem", "layering"].includes(DialogMenuMode))
 		DialogDrawTopMenu(C);
 
 	// If the player is struggling or lockpicking
@@ -3021,6 +3050,9 @@ function DialogDraw() {
 		} else {
 			DialogChangeMode("items");
 		}
+	} else if (DialogMenuMode === "layering") {
+		Layering.Resize(false);
+		return;
 	}
 
 	// Draw a repositioning button if some zones are offscreen

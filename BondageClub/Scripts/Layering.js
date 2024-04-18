@@ -463,4 +463,7 @@ Layering.RegisterExitCallbacks(
 			CraftingModeSet("Name");
 		},
 	},
+	{
+		callback: () => DialogMenuMode === "layering" ? DialogChangeMode("items") : undefined,
+	},
 );

@@ -135,7 +135,22 @@ type VariableContainer<T1, T2> = T1 & T2 & {
 
 type ChatRoomSpaceLabel = "MIXED" | "FEMALE_ONLY" | "MALE_ONLY" | "ASYLUM";
 
-type DialogMenuMode = "dialog" | "items" | "colorDefault" | "colorExpression" | "colorItem" | "permissions" | "activities" | "locking" | "locked" | "extended" | "tighten" | "crafted" | "struggle";
+type DialogMenuMode = (
+	"activities"
+	| "colorDefault"
+	| "colorExpression"
+	| "colorItem"
+	| "crafted"
+	| "dialog"
+	| "extended"
+	| "items"
+	| "layering"
+	| "locking"
+	| "locked"
+	| "permissions"
+	| "struggle"
+	| "tighten"
+);
 
 type DialogMenuButton = "Activity" |
 	"ColorCancel" | "ColorChange" | "ColorChangeMulti" | "ColorDefault" | "ColorPickDisabled" | "ColorSelect" |
@@ -145,6 +160,7 @@ type DialogMenuButton = "Activity" |
 	"Exit" |
 	"GGTSControl" |
 	"InspectLock" | "InspectLockDisabled" |
+	"Layering" |
 	"Lock" | "LockDisabled" | "LockMenu" |
 	"Swap" | "Next" | "Prev" | `PickLock${PickLockAvailability}` |
 	"Remote" | "RemoteDisabled" | `RemoteDisabledFor${VibratorRemoteAvailability}` |
