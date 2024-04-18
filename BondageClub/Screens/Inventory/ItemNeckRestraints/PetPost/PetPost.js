@@ -4,7 +4,7 @@
 function AssetsItemNeckRestraintsPetPostAfterDrawHook(data, originalFunction, {
 	C, A, CA, X, Y, drawCanvas, drawCanvasBlink, AlphaMasks, L, Color
 }) {
-	if (L === "_Text") {
+	if (L === "Text") {
 		// Setup a canvas to draw the post's text
 		let Height = 110;
 		let Width = 90;

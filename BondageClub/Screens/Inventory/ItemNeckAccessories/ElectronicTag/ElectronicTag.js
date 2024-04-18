@@ -4,7 +4,7 @@
 function AssetsItemNeckAccessoriesElectronicTagAfterDrawHook(data, originalFunction, {
 	C, A, CA, X, Y, drawCanvas, drawCanvasBlink, AlphaMasks, L, Color
 }) {
-	if (L === "_Text") {
+	if (L === "Text") {
 		// We set up a canvas
 		const Height = 50;
 		const Width = 45;

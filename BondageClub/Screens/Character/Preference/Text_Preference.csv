@@ -71,7 +71,7 @@ DifficultyIAccept,I accept the consequences and want to use this mode.
 DifficultyChangeMode,Go
 RestrictionAccess,You can configure game restrictions to bypass in the multi-player environment.
 RestrictionNoAccess,Players using the Roleplay difficulty can configure multi-player restrictions to bypass.
-RestrictionBypassStruggle,Bypass the struggling mini-game.
+RestrictionBypassStruggle,Bypass the struggling mini-game.  (Available for non-roleplay in R103 only.)
 RestrictionSlowImmunity,Cannot be slowed down from leaving a room.
 RestrictionBypassNPCPunishments,Skip punishment when calling maids from chat room.
 RestrictionNoSpeechGarble,Don't garble online chat and whipers when gagged.
@@ -383,3 +383,9 @@ ScriptsPermissionLevelWhitelist,Whitelist
 ScriptsPermissionLevelPublic,Public
 ScriptsPermissionPropertyHide,Hide
 ScriptsPermissionPropertyBlock,Block
+ShowFPS,Display FPS Counter
+MaxFPS0,Unlimited
+MaxFPS10,10 FPS
+MaxFPS15,15 FPS
+MaxFPS30,30 FPS
+MaxFPS60,60 FPS

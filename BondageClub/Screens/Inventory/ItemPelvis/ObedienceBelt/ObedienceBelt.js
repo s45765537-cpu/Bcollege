@@ -129,7 +129,7 @@ function AssetsItemPelvisObedienceBeltScriptDraw(data) {
 function AssetsItemPelvisObedienceBeltAfterDrawHook(data, originalFunction, {
 	C, A, CA, X, Y, drawCanvas, drawCanvasBlink, AlphaMasks, L, Color
 }) {
-	if (L !== "_Text") return;
+	if (L !== "Text") return;
 
 	// Fetch the text property and assert that it matches the character
 	// and length requirements

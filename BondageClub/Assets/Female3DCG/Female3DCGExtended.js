@@ -437,6 +437,9 @@ var AssetFemale3DCGExtended = {
 						{}, // t6 - Staff
 						{}, // t7 - Elite
 						{}, // t8 - Raiders
+						{}, // t9 - WhiteMoon
+						{}, // t10 - ZamStick
+						{}, // t10 - Eclipse
 					],
 				},
 			],
@@ -8779,11 +8782,11 @@ var AssetFemale3DCGExtended = {
 					Options: [
 						{
 							// b0 - Shoes mode
-							Property: { Difficult: 0 },
+							Property: { Difficulty: 0 },
 						},
 						{
 							// b1 - Boots mode
-							Property: { Difficult: 1 },
+							Property: { Difficulty: 1 },
 						},
 					],
 				},
@@ -13561,6 +13564,7 @@ var AssetFemale3DCGExtended = {
 									"ItemVulvaTechnoChastityCage",
 									"ItemVulvaFlatChastityCage",
 									"ItemVulvaChastityPouch",
+									"ItemVulvaFullCasingCage",
 									"ItemVulvaPiercingsVibeHeartClitPiercing",
 									"ItemVulvaPiercingsClitRing",
 									"ItemVulvaPiercingsChastityClitShield",
@@ -13600,6 +13604,7 @@ var AssetFemale3DCGExtended = {
 									"ItemVulvaTechnoChastityCage",
 									"ItemVulvaFlatChastityCage",
 									"ItemVulvaChastityPouch",
+									"ItemVulvaFullCasingCage",
 									"ItemVulvaPiercingsVibeHeartClitPiercing",
 									"ItemVulvaPiercingsClitRing",
 									"ItemVulvaPiercingsChastityClitShield",

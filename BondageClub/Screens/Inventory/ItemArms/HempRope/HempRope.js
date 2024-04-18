@@ -8,7 +8,7 @@ function AssetsItemArmsHempRopeBeforeDraw(data) {
 			X: data.X - 50,
 			Y: data.Y - 150,
 		};
-	} else if (subType === 12 && data.L === "_Suspension") {
+	} else if (subType === 12 && data.L === "Suspension") {
 		return {
 			// Hide the rope split-into-four behind hair as otherwise it appears odd
 			Y: data.Y + 30,

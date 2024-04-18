@@ -37,7 +37,7 @@ function AssetsClothCheerleaderTopAfterDrawHook(data, originalFunction, {
 	AlphaMasks,
 	Color
 }) {
-	if (L !== "_TextStroke") {
+	if (L !== "TextStroke") {
 		return;
 	}
 

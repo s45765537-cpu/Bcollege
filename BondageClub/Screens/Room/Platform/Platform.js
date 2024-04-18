@@ -1052,7 +1052,7 @@ var PlatformRoomList = [
 				PlatformCreateCharacter("Lyn", "Thief", 2200, true, false, "EdlaranLynWineCellarBreakUp", false);
 				return;
 			}
-			
+
 			PlatformCreateCharacter("Yuna", "Maid", 2500);
 
 		},
@@ -2875,7 +2875,7 @@ function PlatformDrawGame() {
 			PlatformPlayerIdleLast = CommonRandomItemFromList(PlatformPlayerIdleLast, PlatformPlayer.IdleAudio);
 			PlatformSoundEffect("Idle", PlatformPlayerIdleLast, 1);
 		}
-		
+
 	} else PlatformPlayerIdleTimer = null;
 
 	// Keeps the time of the frame for the next run

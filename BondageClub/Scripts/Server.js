@@ -232,21 +232,59 @@ function ServerDisconnect(data, close = false) {
 	}
 }
 
+/** @typedef {{ screen?: string, callback?: () => boolean }} ServerChatRoomChecksOptions */
+
+/**
+ * Namespace with callbacks for determining whether the player is in a chatroom
+ * @namespace
+ * @see {@link ServerPlayerIsInChatRoom}
+ */
+var ServerPlayerChatRoom = {
+	/**
+	 * All registered callbacks representing distinct screens that must be checked in order to determine chatroom presence
+	 * @type {((screen: string) => boolean)[]}
+	 */
+	callbacks: [],
+
+	/**
+	 * Register one or more screenname and/or callback for determining whether the player is in a chat room.
+	 * @param {ServerChatRoomChecksOptions[]} options
+	 */
+	register(...options) {
+		for (let { screen, callback } of options) {
+			if (screen) {
+				callback ??= () => true;
+				this.callbacks.push((currentScreen) => currentScreen === screen && callback());
+			} else if (callback) {
+				this.callbacks.push(() => callback());
+			}
+		}
+	},
+};
+
+ServerPlayerChatRoom.register(
+	{ screen: "ChatRoom" },
+	{ screen: "ChatAdmin" },
+	{ screen: "GameLARP" },
+	{ screen: "Appearance", callback: () => CharacterAppearanceReturnRoom === "ChatRoom" },
+	{ screen: "InformationSheet", callback: () => InformationSheetPreviousScreen === "ChatRoom" },
+	{ screen: "Title", callback: () => InformationSheetPreviousScreen === "ChatRoom" },
+	{ screen: "OnlineProfile", callback: () => InformationSheetPreviousScreen === "ChatRoom" },
+	{ screen: "FriendList", callback: () => InformationSheetPreviousScreen === "ChatRoom" && (FriendListReturn == null || FriendListReturn.IsInChatRoom) },
+	{ screen: "Preference", callback: () => InformationSheetPreviousScreen === "ChatRoom" },
+	{ screen: "MiniGame", callback: () => DialogGamingPreviousRoom === "ChatRoom" },
+	{ screen: "Crafting", callback: () => CraftingReturnToChatroom },
+	{ screen: "Shop2", callback: () => Shop2InitVars.PreviousScreen?.[1] === "ChatRoom" },
+	{ screen: "WheelFortune", callback: () => WheelFortuneEntryScreen === "ChatRoom" },
+	{ screen: "WheelFortuneCustomize", callback: () => WheelFortuneEntryScreen === "ChatRoom" },
+);
+
 /**
  * Returns whether the player is currently in a chatroom or viewing a subscreen while in a chatroom
  * @returns {boolean} - True if in a chatroom
  */
 function ServerPlayerIsInChatRoom() {
-	return (CurrentScreen == "ChatRoom")
-		|| (CurrentScreen == "ChatAdmin")
-		|| (CurrentScreen == "GameLARP")
-		|| ((CurrentScreen == "Appearance") && (CharacterAppearanceReturnRoom == "ChatRoom"))
-		|| ((CurrentScreen == "InformationSheet") && (InformationSheetPreviousScreen == "ChatRoom"))
-		|| ((CurrentScreen == "Title") && (InformationSheetPreviousScreen == "ChatRoom"))
-		|| ((CurrentScreen == "OnlineProfile") && (InformationSheetPreviousScreen == "ChatRoom"))
-		|| ((CurrentScreen == "FriendList") && (InformationSheetPreviousScreen == "ChatRoom") && (FriendListReturn == null || FriendListReturn.IsInChatRoom))
-		|| ((CurrentScreen == "Preference") && (InformationSheetPreviousScreen == "ChatRoom"))
-		|| ((CurrentModule == "MiniGame") && (DialogGamingPreviousRoom == "ChatRoom"));
+	return ServerPlayerChatRoom.callbacks.some(predicate => predicate(CurrentScreen));
 }
 
 /** Ratelimit: Max number of messages per interval */

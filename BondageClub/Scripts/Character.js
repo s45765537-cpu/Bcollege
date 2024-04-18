@@ -1705,12 +1705,13 @@ function CharacterIsEdged(C) {
 	if (!C.IsPlayer() || !C.Effect.includes("Edged")) return false;
 
 	// Get all zones that allow an orgasm
+	/** @type {AssetGroupItemName[]} */
 	let OrgasmZones = [];
 	for (let Group of AssetGroup)
 		if (Group.ArousalZoneID != null) {
 			let Zone = PreferenceGetArousalZone(C, Group.Name);
 			if (Zone.Orgasm && (Zone.Factor > 0))
-				OrgasmZones.push(Zone);
+				OrgasmZones.push(Zone.Name);
 		}
 
 	// Get every vibrating item acting on an orgasm zone

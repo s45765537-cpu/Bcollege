@@ -6,7 +6,7 @@ function AssetsItemHeadDroneMaskAfterDrawHook(data, originalFunction, {
 }) {
 	const propertyRecord = (Property && Property.TypeRecord) || {};
 	const subType = propertyRecord.p || 0;
-	if (L === "_Text"){
+	if (L === "Text"){
 		if (subType !== 5) return;
 
 		// Canvas setup

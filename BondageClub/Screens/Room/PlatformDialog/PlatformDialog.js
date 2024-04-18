@@ -1052,7 +1052,7 @@ var PlatformDialogData = [
 			{ Text: "(Edlaran and Lyn are drinking and talking loudly in the Countess wine cellar.  They turn to you.)" },
 			{ Text: "Meldy!  Iz great to see you!  (She waves at you tipsily.)", Audio: "10", AudioStyle: "cheerful" },
 			{ Text: "Me an Lyn are havin a gud time!", Audio: "20", AudioStyle: "cheerful" },
-			{ 
+			{
 				Text: "Try the wine!", Audio: "30", AudioStyle: "cheerful",
 				Answer: [
 					{ Text: "Enough drinking my friends.", Reply: "U no fun!  (They both leave the room.)", Audio: "31", AudioStyle: "cheerful", Goto: "End" },
@@ -1085,7 +1085,7 @@ var PlatformDialogData = [
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
 				],
 				Text: "Oh yeah!  That wud be great Lyn.  I lov u!", Audio: "80", AudioStyle: "cheerful"
-	 		},
+			},
 			{ Text: "(They clumsily hug each other and exchange a long drunken kiss.)" },
 			{
 				Character: [{ Name: "Lyn", Status: "Thief", Pose: "FrenchKissEdlaranArcher", X: 500 }]
@@ -1126,7 +1126,7 @@ var PlatformDialogData = [
 			{ Text: "(Edlaran and Lyn are drinking again, but they are not drunk yet.  They seem to be arguing.)" },
 			{ Text: "My love!  I don't have your money!  I don't care about it!", Audio: "10", AudioStyle: "angry" },
 			{ Text: "Is that all that matters to you?  Do you love your money more than me?", Audio: "20", AudioStyle: "angry" },
-			{ 
+			{
 				Text: "Tell her Melody!", Audio: "30", AudioStyle: "angry",
 				Answer: [
 					{ Text: "All you need is love.", Reply: "Well said Melody.  We should make a song about it my love.  (She opens her arms for Lyn.)", Audio: "31", Goto: "StayTogether" },
@@ -1145,7 +1145,7 @@ var PlatformDialogData = [
 			},
 			{ Text: "I'm not your sugar mommy.  I don't have to pay for your parties.", Audio: "50", AudioStyle: "angry" },
 			{ Text: "Honey, we are too different, maybe it's time to break up.", Audio: "60", AudioStyle: "serious" },
-			{ 
+			{
 				Text: "Melody, what do you think?", Audio: "70", AudioStyle: "serious",
 				Answer: [
 					{ Text: "Sadly, maybe you two should break up.", Reply: "(She sighs.)  Yeah, our couple isn't working well.", Audio: "71", AudioStyle: "serious" },
@@ -1153,7 +1153,7 @@ var PlatformDialogData = [
 				]
 			},
 			{ Text: "It's over Edlaran, we need to break up.", Audio: "80", AudioStyle: "serious" },
-			{ 
+			{
 				Text: "(Edlaran and Lyn are no longer lovers.)",
 				Entry: function() {
 					delete PlatformDialogGetCharacter("Lyn").LoverName;
@@ -1180,7 +1180,7 @@ var PlatformDialogData = [
 				Entry: function() { PlatformChar.splice(1, 100); PlatformTempEvent.push("EdlaranLynWineCellar"); },
 				ID: "End", Text: "(They both run away, leaving you alone in the wine cellar.)",
 				Character: [{ Name: "Melody", Status: "Maid", Pose: "Idle" }]
-	 		}
+			}
 		]
 	},
 

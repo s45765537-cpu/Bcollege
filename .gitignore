@@ -9,3 +9,4 @@ node_modules
 web.config
 /BondageClub/Tools/Node/.imagemin-cache
 BondageClub/generate.bat
+BondageClub/prepare.bat

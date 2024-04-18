@@ -10,8 +10,8 @@ function AssetsItemDevicesFuturisticCrateBeforeDraw({ PersistentData, L, X, Y, P
 	if (typeof Data.DildoState !== "number") Data.DildoState = 0;
 	if (typeof Data.Modifier !== "number") Data.Modifier = 1;
 
-	//if (L === "_DevicePleasureHolder") return { Y: Y + Data.DildoState };
-	if (L !== "_DevicePleasureHolder") return;
+	//if (L === "DevicePleasureHolder") return { Y: Y + Data.DildoState };
+	if (L !== "DevicePleasureHolder") return;
 
 	const Properties = Property || {};
 	const Intensity = typeof Properties.Intensity === "number" ? Properties.Intensity : -1;
