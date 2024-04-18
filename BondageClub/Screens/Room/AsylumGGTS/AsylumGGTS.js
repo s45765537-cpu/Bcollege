@@ -11,6 +11,7 @@ var AsylumGGTSTaskTarget = null;
 var AsylumGGTSLastTask = "";
 var AsylumGGTSTaskStart = 0;
 var AsylumGGTSTaskEnd = 0;
+var AsylumGGTSChatToParse = "";
 /**
  * The list of available tasks, partitioned by level.
  */
@@ -315,29 +316,24 @@ function AsylumGGTSSetTimer() {
 /**
  * Returns TRUE if the query was answered by character number M
  * @param {number} Level - The player GGTS level, at level 4 or more, capital letters and punctuation matters
- * @param {number} M - The member number to evaluate
  * @param {string} TextEasy - The text to evaluate
  * @param {string} TextHard - The text to evaluate
  * @returns {boolean} - TRUE if the is done
  */
-function AsylumGGTSQueryDone(Level, M, TextEasy, TextHard) {
-	if (ChatRoomChatLog == null) return false;
-	for (let L = 0; L < ChatRoomChatLog.length; L++)
-		if ((ChatRoomChatLog[L].SenderMemberNumber == M) && (ChatRoomChatLog[L].Time >= AsylumGGTSTaskStart)) {
-			let Chat = ChatRoomChatLog[L].Original;
-			if (Level <= 3) {
-				Chat = Chat.trim().toLowerCase();
-				Chat = Chat.replace(/\s/g, "");
-				Chat = Chat.replace(/\./g, "");
-				Chat = Chat.replace(/,/g, "");
-				Chat = Chat.replace(/'/g, "");
-				Chat = Chat.replace(/’/g, "");
-				if (Chat === TextEasy) return true;
-			} else {
-				Chat = Chat.replace(/’/g, "'");
-				if (Chat === TextHard) return true;
-			}
-		}
+function AsylumGGTSQueryDone(Level, TextEasy, TextHard) {
+	let Chat = AsylumGGTSChatToParse;
+	if (Level <= 3) {
+		Chat = Chat.trim().toLowerCase();
+		Chat = Chat.replace(/\s/g, "");
+		Chat = Chat.replace(/\./g, "");
+		Chat = Chat.replace(/,/g, "");
+		Chat = Chat.replace(/'/g, "");
+		Chat = Chat.replace(/’/g, "");
+		if (Chat === TextEasy) return true;
+	} else {
+		Chat = Chat.replace(/’/g, "'");
+		if (Chat === TextHard) return true;
+	}
 	return false;
 }
 
@@ -377,22 +373,22 @@ function AsylumGGTSTaskDone(C, T) {
 	if ((T == "ItemTorsoFuturisticHarness") && InventoryIsWorn(C, "FuturisticHarness", "ItemTorso")) return true;
 	if ((T == "PoseKneel") && C.IsKneeling()) return true;
 	if ((T == "PoseStand") && !C.IsKneeling()) return true;
-	if (T == "QueryWhatIsGGTS") return AsylumGGTSQueryDone(Level, C.MemberNumber, "goodgirltrainingsystem", "Good Girl Training System.") || AsylumGGTSQueryDone(Level, C.MemberNumber, "goodgirltrainingsystem", "Good Girl Training System");
-	if ((T == "QueryWhatAreYou") && (Level <= 4)) return AsylumGGTSQueryDone(Level, C.MemberNumber, "imagoodgirl", "I'm a good girl.") || AsylumGGTSQueryDone(Level, C.MemberNumber, "iamagoodgirl", "I am a good girl.");
-	if ((T == "QueryWhatAreYou") && (Level == 5)) return AsylumGGTSQueryDone(Level, C.MemberNumber, "imagoodslavegirl", "I'm a good slave girl.") || AsylumGGTSQueryDone(Level, C.MemberNumber, "iamagoodslavegirl", "I am a good slave girl.");
-	if ((T == "QueryWhatAreYou") && (Level >= 6)) return AsylumGGTSQueryDone(Level, C.MemberNumber, "imagoodslave", "I'm a good slave.") || AsylumGGTSQueryDone(Level, C.MemberNumber, "iamagoodslave", "I am a good slave.");
-	if (T == "QueryWhoControl") return AsylumGGTSQueryDone(Level, C.MemberNumber, "ggtsisincontrol", "GGTS is in control.");
-	if (T == "QueryWhoControlMaster") return AsylumGGTSQueryDone(Level, C.MemberNumber, "masterggtsisincontrol", "Master GGTS is in control.");
-	if (T == "QueryLove") return AsylumGGTSQueryDone(Level, C.MemberNumber, "iloveggts", "I love GGTS.");
-	if (T == "QueryLoveMaster") return AsylumGGTSQueryDone(Level, C.MemberNumber, "ilovemasterggts", "I love Master GGTS.");
-	if (T == "QueryCanFail") return AsylumGGTSQueryDone(Level, C.MemberNumber, "ggtscannotfail", "GGTS cannot fail.") || AsylumGGTSQueryDone(Level, C.MemberNumber, "ggtscantfail", "GGTS can't fail.");
-	if (T == "QueryCanFailMaster") return AsylumGGTSQueryDone(Level, C.MemberNumber, "masterggtscannotfail", "Master GGTS cannot fail.") || AsylumGGTSQueryDone(Level, C.MemberNumber, "masterggtscantfail", "Master GGTS can't fail.");
-	if (T == "QuerySurrender") return AsylumGGTSQueryDone(Level, C.MemberNumber, "isurrendertoggts", "I surrender to GGTS.");
-	if (T == "QuerySurrenderMaster") return AsylumGGTSQueryDone(Level, C.MemberNumber, "isurrendertoggts", "I surrender to Master GGTS.");
-	if (T == "QueryServeObey") return AsylumGGTSQueryDone(Level, C.MemberNumber, "iserveandobeyggts", "I serve and obey GGTS.");
-	if (T == "QueryServeObeyMaster") return AsylumGGTSQueryDone(Level, C.MemberNumber, "iserveandobeymasterggts", "I serve and obey Master GGTS.");
-	if (T == "QueryFreeWill") return AsylumGGTSQueryDone(Level, C.MemberNumber, "idonthavefreewill", "I don't have free will.") || AsylumGGTSQueryDone(Level, C.MemberNumber, "idonothavefreewill", "I do not have free will.");
-	if (T == "QuerySlaveWorthy") return AsylumGGTSQueryDone(Level, C.MemberNumber, "istrivetobeslaveworthy", "I strive to be slave worthy.");
+	if (T == "QueryWhatIsGGTS") return AsylumGGTSQueryDone(Level, "goodgirltrainingsystem", "Good Girl Training System.") || AsylumGGTSQueryDone(Level, "goodgirltrainingsystem", "Good Girl Training System");
+	if ((T == "QueryWhatAreYou") && (Level <= 4)) return AsylumGGTSQueryDone(Level, "imagoodgirl", "I'm a good girl.") || AsylumGGTSQueryDone(Level, "iamagoodgirl", "I am a good girl.");
+	if ((T == "QueryWhatAreYou") && (Level == 5)) return AsylumGGTSQueryDone(Level, "imagoodslavegirl", "I'm a good slave girl.") || AsylumGGTSQueryDone(Level, "iamagoodslavegirl", "I am a good slave girl.");
+	if ((T == "QueryWhatAreYou") && (Level >= 6)) return AsylumGGTSQueryDone(Level, "imagoodslave", "I'm a good slave.") || AsylumGGTSQueryDone(Level, "iamagoodslave", "I am a good slave.");
+	if (T == "QueryWhoControl") return AsylumGGTSQueryDone(Level, "ggtsisincontrol", "GGTS is in control.");
+	if (T == "QueryWhoControlMaster") return AsylumGGTSQueryDone(Level, "masterggtsisincontrol", "Master GGTS is in control.");
+	if (T == "QueryLove") return AsylumGGTSQueryDone(Level, "iloveggts", "I love GGTS.");
+	if (T == "QueryLoveMaster") return AsylumGGTSQueryDone(Level, "ilovemasterggts", "I love Master GGTS.");
+	if (T == "QueryCanFail") return AsylumGGTSQueryDone(Level, "ggtscannotfail", "GGTS cannot fail.") || AsylumGGTSQueryDone(Level, "ggtscantfail", "GGTS can't fail.");
+	if (T == "QueryCanFailMaster") return AsylumGGTSQueryDone(Level, "masterggtscannotfail", "Master GGTS cannot fail.") || AsylumGGTSQueryDone(Level, "masterggtscantfail", "Master GGTS can't fail.");
+	if (T == "QuerySurrender") return AsylumGGTSQueryDone(Level, "isurrendertoggts", "I surrender to GGTS.");
+	if (T == "QuerySurrenderMaster") return AsylumGGTSQueryDone(Level, "isurrendertoggts", "I surrender to Master GGTS.");
+	if (T == "QueryServeObey") return AsylumGGTSQueryDone(Level, "iserveandobeyggts", "I serve and obey GGTS.");
+	if (T == "QueryServeObeyMaster") return AsylumGGTSQueryDone(Level, "iserveandobeymasterggts", "I serve and obey Master GGTS.");
+	if (T == "QueryFreeWill") return AsylumGGTSQueryDone(Level, "idonthavefreewill", "I don't have free will.") || AsylumGGTSQueryDone(Level, "idonothavefreewill", "I do not have free will.");
+	if (T == "QuerySlaveWorthy") return AsylumGGTSQueryDone(Level, "istrivetobeslaveworthy", "I strive to be slave worthy.");
 	if ((T == "NoTalking") && (CommonTime() >= AsylumGGTSTimer - 1000)) return true;
 	if ((T == "PoseOverHead") && ["Yoked", "OverTheHead"].includes(C.PoseMapping.BodyUpper)) return true;
 	if ((T == "PoseBehindBack") && (C.PoseMapping != null) && ["BackBoxTie", "BackElbowTouch", "BackCuffs"].includes(C.PoseMapping.BodyUpper)) return true;
