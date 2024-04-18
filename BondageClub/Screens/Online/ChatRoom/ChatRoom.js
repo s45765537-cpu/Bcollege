@@ -2963,10 +2963,15 @@ var ChatRoomMessageHandlers = [
 				if (ChatRoomIsCharacterImpactedBySensoryDeprivation(sender)) {
 					if (Player.GetDeafLevel() >= 4)
 						metadata.senderName = InterfaceTextGet("Someone");
-					else
-						metadata.senderName = SpeechGarble(sender, metadata.senderName, true);
+					else {
+						const s = SpeechTransformProcess(sender, metadata.senderName, SpeechTransformReceiverEffects);
+						metadata.senderName = s.text;
+					}
 				}
-				if (Player.GetDeafLevel() > 0) msg = SpeechGarble(sender, msg);
+				if (Player.GetDeafLevel() > 0) {
+					const s = SpeechTransformProcess(sender, msg, SpeechTransformReceiverEffects);
+					msg = s.text;
+				}
 			}
 
 			return { msg: msg };
@@ -2978,7 +2983,10 @@ var ChatRoomMessageHandlers = [
 		Priority: 110,
 		Callback: (data, sender, msg, metadata) => {
 			if (data.Type == "Chat" || data.Type == "Whisper") {
-				if (Player.GetDeafLevel() > 0) data.Content = SpeechGarble(sender, data.Content);
+				if (Player.GetDeafLevel() > 0) {
+					const s = SpeechTransformProcess(sender, data.Content, SpeechTransformReceiverEffects);
+					data.Content = s.text;
+				}
 				ChatRoomChatLog.push({ Chat: data.Content, Garbled: msg, Original: data.Content, SenderName: metadata.senderName, SenderMemberNumber: sender.MemberNumber, Time: CommonTime() });
 				if (ChatRoomChatLog.length > 6) ChatRoomChatLog.splice(0, 1);
 			}
