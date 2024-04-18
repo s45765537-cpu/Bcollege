@@ -35,3 +35,4 @@ type ExpressionGroupName = string;
 type ExpressionName = string;
 type ReputationType = string;
 type TitleName = string;
+type SpeechTransformName = string;

@@ -22,6 +22,15 @@ var SpeechGagLevelLookup = /** @type {const} */({
 	GagVeryLight: 1,
 });
 
+/** @type {SpeechTransformName[]} */
+var SpeechTransformAllEffects = ["babyTalk", "gagGarble", "stutter", "deafen"];
+
+/** @type {SpeechTransformName[]} */
+var SpeechTransformSenderEffects = ["babyTalk", "gagGarble", "stutter"];
+
+/** @type {SpeechTransformName[]} */
+var SpeechTransformReceiverEffects = ["deafen"];
+
 /**
  * Analyzes a phrase to determine if it is a full emote. A full emote is a phrase wrapped in "()"
  * @param {string} D - A phrase
@@ -72,6 +81,7 @@ function SpeechGetTotalGagLevel(C, NoDeaf=false) {
  * Effects alter the speech differently according to a character's language.
  * Effects that can be applied are the following: gag talk, baby talk and stuttering.
  *
+ * @deprecated - superseded by {@link SpeechTransformProcess}
  * @param {Character} C - The character, whose dialog might need to be altered
  * @param {string} CD - The character's dialog to alter
  * @param {boolean} [NoDeaf=false] - Whether or not deafness affects the dialogue
@@ -89,6 +99,57 @@ function SpeechGarble(C, CD, NoDeaf=false) {
 	NS = SpeechBabyTalk(C, NS);
 
 	return NS;
+}
+
+/**
+ * Core speech-transform function
+ * @param {Character} C
+ * @param {string} text
+ * @param {SpeechTransformName[]} effects
+ */
+function SpeechTransformProcess(C, text, effects, ignoreOOC = false) {
+	/** @type {SpeechTransformName[]} */
+	const transforms = [];
+	if (effects.includes("babyTalk") && SpeechTransformShouldBabyTalk(C)) {
+		transforms.push("babyTalk");
+		text = SpeechTransformBabyTalk(text);
+	}
+	if (effects.includes("gagGarble")) {
+		const intensity = SpeechTransformGagGarbleIntensity(C);
+		if (intensity > 0) {
+			transforms.push("gagGarble");
+			text = SpeechTransformGagGarble(text, intensity, ignoreOOC);
+		}
+	}
+	if (effects.includes("stutter")) {
+		const intensity = SpeechTransformStutterIntensity(C);
+		if (intensity > 0) {
+			transforms.push("stutter");
+			text = SpeechTransformStutter(text, intensity);
+		}
+	}
+	if (effects.includes("deafen")) {
+		const intensity = SpeechTransformDeafenIntensity(C);
+		if (intensity > 0) {
+			transforms.push("deafen");
+			text = SpeechTransformGagGarble(text, intensity, ignoreOOC);
+		}
+	}
+	return {
+		effects: transforms,
+		text,
+	};
+}
+
+/**
+ * Apply all speech-transformers to a string which is part of the UI/Dialog
+ * @param {Character} C
+ * @param {string} text
+ * @returns {string}
+ */
+function SpeechTransformDialog(C, text) {
+	const process = SpeechTransformProcess(C, text, SpeechTransformAllEffects);
+	return process.text;
 }
 
 /**

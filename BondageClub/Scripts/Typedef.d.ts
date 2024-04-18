@@ -189,6 +189,8 @@ type PickLockAvailability = "" | "Disabled" | "PermissionsDisabled" | "Inaccessi
 
 type ItemVulvaFuturisticVibratorAccessMode = "" | "ProhibitSelf" | "LockMember";
 
+type SpeechTransformName = "gagGarble" | "stutter" | "babyTalk" | "deafen";
+
 /** The {@link EffectName} values for all gag-related effects. */
 type GagEffectName = (
 	"GagVeryLight"
