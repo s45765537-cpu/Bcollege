@@ -88,6 +88,9 @@ function CommandParse(msg) {
 		return;
 	}
 
+	// GGTS chat parser for completing tasks
+	AsylumGGTSChatToParse = msg;
+
 	// Regular chat and Whispers are garbled before being sent, unless the no speech restriction is lifted
 	if ((Player.RestrictionSettings == null) || !Player.RestrictionSettings.NoSpeechGarble)
 		msg = SpeechGarble(Player, msg);
