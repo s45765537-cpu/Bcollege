@@ -2493,36 +2493,74 @@ function ChatRoomSendChat() {
 	// GGTS chat parser for completing tasks
 	AsylumGGTSChatToParse = msg;
 
+	let clearChat = false;
+	// Check if this is a whisper
+	let whisperStatus = ChatRoomSendWhisper(ChatRoomTargetMemberNumber, msg);
+	if (whisperStatus === "target-gone") {
+		ChatRoomSendLocal("The character you were whispering to has left.");
+		return;
+	} else if (whisperStatus) {
+		clearChat = true;
+	} else {
+		// This must be a regular chat message
+		const status = ChatRoomSendChatMessage(msg);
+		if (status) {
+			clearChat = true;
+		}
+	}
+
+	if (clearChat) {
+		ElementValue("InputChat", "");
+	}
+}
+
+/**
+ * Send a specific chat message to the room
+ * @param {string} msg
+ * @returns
+ */
+function ChatRoomSendChatMessage(msg) {
+	// Regular chat can be prevented with an owner presence rule, also validates for forbidden words
+	if (ChatRoomOwnerPresenceRule("BlockTalk", null)) return false;
+	if (!ChatRoomOwnerForbiddenWordCheck(msg)) return false;
+
 	// Regular chat and Whispers are garbled before being sent, unless the no speech restriction is lifted
 	if (!Player.RestrictionSettings.NoSpeechGarble) {
 		msg = SpeechGarble(Player, msg, true);
 	}
 
-	// Checks if we are doing a regular chat or a whispering
-	const WhisperTarget = ChatRoomCharacter.find(C => C.MemberNumber == ChatRoomTargetMemberNumber);
-	if (ChatRoomTargetMemberNumber == null) {
-		// Regular chat can be prevented with an owner presence rule, also validates for forbidden words
-		if (!ChatRoomOwnerPresenceRule("BlockTalk", null) && ChatRoomOwnerForbiddenWordCheck(msg)) {
-			ServerSend("ChatRoomChat", { Content: msg, Type: "Chat" });
-			ChatRoomStimulationMessage("Talk");
-		}
-		// Clears the chat text message
-		ElementValue("InputChat", "");
-		return;
+	ServerSend("ChatRoomChat", { Content: msg, Type: "Chat" });
+	ChatRoomStimulationMessage("Talk");
+	return true;
+}
+
+/**
+ * Send a whisper to a specific character
+ * @param {number} targetNumber
+ * @param {string} msg
+ */
+function ChatRoomSendWhisper(targetNumber, msg) {
+	const targetChar = ChatRoomCharacter.find(C => C.MemberNumber == targetNumber);
+	if (!targetChar) return "target-gone";
+
+	// Regular chat and Whispers are garbled before being sent, unless the no speech restriction is lifted
+	if (!Player.RestrictionSettings.NoSpeechGarble) {
+		msg = SpeechGarble(Player, msg, true);
 	}
 
 	// The whispers get sent to the server and shown on the client directly
-	ServerSend("ChatRoomChat", { Content: msg, Type: "Whisper", Target: ChatRoomTargetMemberNumber });
+	ServerSend("ChatRoomChat", { Content: msg, Type: "Whisper", Target: targetNumber });
+
 	const div = document.createElement("div");
 	div.setAttribute('class', 'ChatMessage ChatMessageWhisper');
 	div.setAttribute('data-time', ChatRoomCurrentTime());
 	div.setAttribute('data-sender', Player.MemberNumber.toString());
-	div.innerHTML = `${TextGet("WhisperTo")}<span class="ChatMessageName" style="color: ${(WhisperTarget.LabelColor || 'gray')}"> ${CharacterNickname(WhisperTarget)}: </span>${ChatRoomHTMLEntities(msg)}`;
+	div.innerHTML = `${TextGet("WhisperTo")}<span class="ChatMessageName" style="color: ${(targetChar.LabelColor || 'gray')}"> ${CharacterNickname(targetChar)}: </span>${ChatRoomHTMLEntities(msg)}`;
 
 	// Add reply button, that will reply to player we're whispering.
 	let replayButton = document.createElement("div");
 	replayButton.onclick = (e) => {
-		ElementValue("InputChat", `/whisper ${WhisperTarget.MemberNumber} ${ElementValue("InputChat").replace(/\/whisper\s*\d+ ?/u, '')}`);
+		ElementValue("InputChat", `/whisper ${targetChar.MemberNumber} ${ElementValue("InputChat").replace(/\/whisper\s*\d+ ?/u, '')}`);
 		ElementFocus("InputChat");
 	};
 	replayButton.classList.add("ReplyButton");
@@ -2530,8 +2568,7 @@ function ChatRoomSendChat() {
 	div.prepend(replayButton);
 	ChatRoomAppendChat(div);
 
-	// Clears the chat text message
-	ElementValue("InputChat", "");
+	return true;
 }
 
 /**
