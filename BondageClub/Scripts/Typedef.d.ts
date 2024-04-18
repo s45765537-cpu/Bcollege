@@ -507,6 +507,8 @@ interface IChatRoomMessageMetadata {
 	ActivityAsset?: Asset;
 	/** The name of the chatroom, appropriately garbled */
 	ChatRoomName?: string;
+	/** The original, ungarbled message, if provided by the sender */
+	OriginalMsg?: string;
 }
 
 /**

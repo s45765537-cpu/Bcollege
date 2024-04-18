@@ -3653,6 +3653,10 @@ function ChatRoomMessage(data) {
 
 	// Apply requested substitutions
 	msg = CommonStringSubstitute(msg, substitutions);
+	const messageEntry = /** @type {MessageEffectEntry} */(data.Dictionary?.find(e => IsMessageEffectDictionaryEntry(e)));
+	if (messageEntry?.Original) {
+		metadata.OriginalMsg = CommonStringSubstitute(messageEntry.Original, substitutions);
+	}
 
 	ChatRoomMessageRunHandlers("post", data, SenderCharacter, msg, metadata);
 }
@@ -3716,6 +3720,10 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 		default:
 			console.warn(`unknown message type ${data.Type}, ignoring`);
 			return;
+	}
+
+	if (metadata.OriginalMsg) {
+		displayMessage += "<br>[" + ChatRoomHTMLEntities(metadata.OriginalMsg) + "]";
 	}
 
 	// Checks if the message is a notification about the user entering or leaving the room
