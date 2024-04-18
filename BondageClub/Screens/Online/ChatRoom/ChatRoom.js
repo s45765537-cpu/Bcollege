@@ -2575,23 +2575,13 @@ function ChatRoomSendWhisper(targetNumber, msg) {
 	data.Target = targetNumber;
 	ServerSend("ChatRoomChat", data);
 
-	const div = document.createElement("div");
-	div.setAttribute('class', 'ChatMessage ChatMessageWhisper');
-	div.setAttribute('data-time', ChatRoomCurrentTime());
-	div.setAttribute('data-sender', Player.MemberNumber.toString());
-	div.innerHTML = `${TextGet("WhisperTo")}<span class="ChatMessageName" style="color: ${(targetChar.LabelColor || 'gray')}"> ${CharacterNickname(targetChar)}: </span>${ChatRoomHTMLEntities(msg)}`;
+	// We're self-whispering, and that would cause two messages to show up
+	// (one added below, the other added when it gets received).
+	// Skip this one if that's the case
+	if (targetChar.IsPlayer()) return true;
+	data.Sender = Player.MemberNumber;
 
-	// Add reply button, that will reply to player we're whispering.
-	let replayButton = document.createElement("div");
-	replayButton.onclick = (e) => {
-		ElementValue("InputChat", `/whisper ${targetChar.MemberNumber} ${ElementValue("InputChat").replace(/\/whisper\s*\d+ ?/u, '')}`);
-		ElementFocus("InputChat");
-	};
-	replayButton.classList.add("ReplyButton");
-	replayButton.textContent = '\u21a9\ufe0f';
-	div.prepend(replayButton);
-	ChatRoomAppendChat(div);
-
+	ChatRoomMessage(data);
 	return true;
 }
 
@@ -3671,11 +3661,6 @@ function ChatRoomMessage(data) {
  * @returns {void}
  */
 function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
-	// Ability to whisper for ourself is nice, for noting or testing.
-	// But we don't want to see two whisper messages, therefore, don't show it, if we're senging it to us.
-	if (data.Type === "Whisper" && SenderCharacter === Player) return;
-
-
 	let displayMessage = ChatRoomActiveView.DisplayMessage(data, msg, SenderCharacter, metadata);
 	if(displayMessage == null) return;
 
@@ -3693,7 +3678,9 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 			if (data.Type == "Whisper") senderTag += ' ';
 			senderTag += metadata.senderName;
 			senderTag += ':</span>';
-			if (data.Type == "Whisper") senderTag = TextGet("WhisperFrom") + senderTag;
+			if (data.Type == "Whisper") {
+				senderTag = (SenderCharacter.IsPlayer() ? TextGet("WhisperTo") : TextGet("WhisperFrom")) + senderTag;
+			}
 
 			displayMessage = `${senderTag} ${ChatRoomHTMLEntities(displayMessage)}`;
 		}
