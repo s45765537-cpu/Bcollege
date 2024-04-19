@@ -1141,7 +1141,7 @@ function PreferenceSubscreenImmersionClick() {
 				if (MouseX <= 625) PreferenceSettingsSensDepIndex = (PreferenceSettingsSensDepList.length + PreferenceSettingsSensDepIndex - 1) % PreferenceSettingsSensDepList.length;
 				else PreferenceSettingsSensDepIndex = (PreferenceSettingsSensDepIndex + 1) % PreferenceSettingsSensDepList.length;
 				Player.GameplaySettings.SensDepChatLog = PreferenceSettingsSensDepList[PreferenceSettingsSensDepIndex];
-				if (Player.GameplaySettings.SensDepChatLog == "SensDepExtreme") ChatRoomSetTarget(null);
+				if (Player.GameplaySettings.SensDepChatLog == "SensDepExtreme") ChatRoomSetTarget(-1);
 			}
 			CheckHeight += CheckSpacing;
 			if (MouseIn(500, CheckHeight, 64, 64) && ![PreferenceSettingsSensDepList.indexOf("SensDepLight"), PreferenceSettingsSensDepList.indexOf("SensDepExtreme")].includes(PreferenceSettingsSensDepIndex))

@@ -608,8 +608,8 @@ const CommonCommands = [
 
 			// Logic for handling empty command or missing target
 			if (!target) {
-				if (ChatRoomTargetMemberNumber !== null) {
-					ChatRoomSetTarget(null);
+				if (ChatRoomTargetMemberNumber >= 0) {
+					ChatRoomSetTarget(-1);
 					ChatRoomSendLocal(`${TextGet("CommandWhisperStopSuccess")}`, 30000);
 				} else {
 					ChatRoomSendLocal(`${TextGet("CommandNoWhisperTargetSelected")}`, 30000);

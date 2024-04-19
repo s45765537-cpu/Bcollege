@@ -1808,5 +1808,5 @@ function ChatRoomMapViewWhisperValid() {
 		if ((C.MemberNumber === ChatRoomTargetMemberNumber) && ChatRoomMapViewCharacterOnWhisperRange(C))
 			return;
 	ChatRoomMessage({ Type: "ServerMessage", Content: "WhisperOutOfRange", Sender: Player.MemberNumber });
-	ChatRoomSetTarget(null);
+	ChatRoomSetTarget(-1);
 }

@@ -122,7 +122,7 @@ function ChatRoomCharacterViewClickCharacter(C, CharX, CharY, Zoom, ClickX, Clic
 
 		// Clicking on self or current target removes whisper target
 		if (C.IsPlayer() || ChatRoomTargetMemberNumber === C.MemberNumber) {
-			ChatRoomSetTarget(null);
+			ChatRoomSetTarget(-1);
 			return;
 		}
 

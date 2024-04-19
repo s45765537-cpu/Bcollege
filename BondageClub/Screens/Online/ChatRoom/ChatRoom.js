@@ -27,8 +27,8 @@ var ChatRoomCharacter = [];
 var ChatRoomChatLog = [];
 var ChatRoomLastMessage = [""];
 var ChatRoomLastMessageIndex = 0;
-/** @type {null | number} */
-var ChatRoomTargetMemberNumber = null;
+/** @type {number} */
+var ChatRoomTargetMemberNumber = -1;
 /** @type {ChatRoomOwnershipOption} */
 var ChatRoomOwnershipOption = "";
 /** @type {ChatRoomLovershipOption} */
@@ -101,7 +101,6 @@ var ChatRoomLeashPlayer = null;
  * @type {string}
  */
 var ChatRoomJoinLeash = "";
-var ChatRoomTargetDirty = false;
 var ChatRoomCustomized = false;
 var ChatRoomCustomBackground = "";
 var ChatRoomCustomFilter = "";
@@ -679,7 +678,7 @@ function ChatRoomCanStopWhisper() {
  * @returns {void} - Nothing
  */
 function ChatRoomStopWhisper() {
-	ChatRoomSetTarget(null);
+	ChatRoomSetTarget(-1);
 	DialogLeave();
 }
 
@@ -1223,40 +1222,38 @@ function ChatRoomFirstTimeHelp() {
 
 /**
  * Sets the current whisper target and flags a target update
- * @param {number} MemberNumber - The target member number to set
+ * @param {number} MemberNumber - The target member number to set. -1 to unselect
  * @returns {void} - Nothing
  */
 function ChatRoomSetTarget(MemberNumber) {
-	if (MemberNumber !== ChatRoomTargetMemberNumber) {
-		ChatRoomTargetMemberNumber = MemberNumber;
-		ChatRoomTargetDirty = true;
-	}
-}
+	MemberNumber ??= -1;
+	if (MemberNumber === ChatRoomTargetMemberNumber) return;
 
-/**
- * Updates the chat input's placeholder text to reflect the current whisper target
- * @returns {void} - Nothing.
- */
-function ChatRoomTarget() {
-	// If the target member number hasn't changed, do nothing
-	if (!ChatRoomTargetDirty) return;
-
-	let TargetName = null;
-	if (ChatRoomTargetMemberNumber != null) {
-		for (let C = 0; C < ChatRoomCharacter.length; C++)
-			if (ChatRoomTargetMemberNumber == ChatRoomCharacter[C].MemberNumber) {
-				TargetName = ChatRoomCharacter[C].Name;
-				break;
-			}
-		if (TargetName == null) ChatRoomSetTarget(null);
+	ChatRoomTargetMemberNumber = MemberNumber;
+	let target;
+	if (ChatRoomTargetMemberNumber >= 0) {
+		target = ChatRoomCharacter.find(c => c.MemberNumber === ChatRoomTargetMemberNumber);
+	} else {
+		target = null;
 	}
+
 	let placeholder;
-	if (ChatRoomTargetMemberNumber != null) {
-		placeholder = `${TextGet("WhisperTo")} ${TargetName}`;
+	if (target) {
+		placeholder = `${TextGet("WhisperTo")} ${CharacterNickname(target)}`;
 	} else {
 		placeholder = TextGet("PublicChat");
 	}
 	ElementSetAttribute("InputChat", "placeholder", placeholder);
+}
+
+/**
+ * Updates the chat input's placeholder text to reflect the current whisper target
+ *
+ * @deprecated No-oped in R104, automatically handled when the target is set
+ * @returns {void} - Nothing.
+ */
+function ChatRoomTarget() {
+	// No-oped in R104
 }
 
 /**
@@ -1633,7 +1630,7 @@ function ChatRoomStatusUpdateTalk(Key) {
 		talking = false;
 	}
 	// Don't send a public update if whispering someone
-	else if (ChatRoomTargetMemberNumber != null) {
+	else if (ChatRoomTargetMemberNumber >= 0) {
 		talking = false;
 	}
 	// Not talking if entering a command that does not end up in chat
@@ -1732,7 +1729,6 @@ function ChatRoomRun() {
 	ChatRoomUpdateDisplay();
 	ChatRoomCreateElement();
 	ChatRoomFirstTimeHelp();
-	ChatRoomTarget();
 	ChatRoomBackground = "";
 	DrawRect(0, 0, 2000, 1000, "Black");
 
@@ -2497,7 +2493,7 @@ function ChatRoomSendChat() {
 	// Check if this is a whisper
 	let whisperStatus = ChatRoomSendWhisper(ChatRoomTargetMemberNumber, msg);
 	if (whisperStatus === "target-gone") {
-		ChatRoomSendLocal("The character you were whispering to has left.");
+		ChatRoomSendLocal(`<span style="color: red">${TextGet("WhisperTargetGone")}</span>`);
 		return;
 	} else if (whisperStatus) {
 		clearChat = true;
@@ -2567,7 +2563,7 @@ function ChatRoomSendChatMessage(msg) {
  * @param {string} msg
  */
 function ChatRoomSendWhisper(targetNumber, msg) {
-	if (targetNumber === null) return false;
+	if (targetNumber < 0) return false;
 	const targetChar = ChatRoomCharacter.find(C => C.MemberNumber == targetNumber);
 	if (!targetChar) return "target-gone";
 
@@ -4733,7 +4729,7 @@ function ChatRoomSetRule(data) {
 		if (data.Content == "OwnerRuleEmoteAllow") LogDelete("BlockEmote", "OwnerRule");
 		if (data.Content == "OwnerRuleEmoteBlock") LogAdd("BlockEmote", "OwnerRule");
 		if (data.Content == "OwnerRuleWhisperAllow") LogDelete("BlockWhisper", "OwnerRule");
-		if (data.Content == "OwnerRuleWhisperBlock") { LogAdd("BlockWhisper", "OwnerRule"); ChatRoomSetTarget(null); }
+		if (data.Content == "OwnerRuleWhisperBlock") { LogAdd("BlockWhisper", "OwnerRule"); ChatRoomSetTarget(-1); }
 		if (data.Content == "OwnerRuleChangePoseAllow") LogDelete("BlockChangePose", "OwnerRule");
 		if (data.Content == "OwnerRuleChangePoseBlock") LogAdd("BlockChangePose", "OwnerRule");
 		if (data.Content == "OwnerRuleAccessSelfAllow") LogDelete("BlockAccessSelf", "OwnerRule");
