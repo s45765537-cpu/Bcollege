@@ -1,4 +1,5 @@
 "use strict";
+var PlatformRunStandaloneMode = false;
 var PlatformChar = [];
 var PlatformFocusCharacter = null;
 var PlatformPlayer = null;
@@ -2385,7 +2386,7 @@ function PlatformSoundEffect(Category, Sound, Factor = 0.3333) {
 	else if (CommonIsArray(Sound)) Select = CommonRandomItemFromList("", Sound).toString();
 
 	// If volume is more than zero, we start the sound effect
-	const vol = (Player.AudioSettings.Volume == null) ? 100 : Player.AudioSettings.Volume;
+	const vol = ((Player.AudioSettings == null) || (Player.AudioSettings.Volume == null)) ? 100 : Player.AudioSettings.Volume;
 	if (vol > 0) {
 		let SoundEffect = new Audio();
 		SoundEffect.currentTime = 0;
@@ -2941,7 +2942,7 @@ function PlatformBackgroundMusic(Music) {
 	}
 
 	// If volume is more than zero, we start the background music at lower volume
-	const vol = (Player.AudioSettings.MusicVolume == null) ? 100 : Player.AudioSettings.MusicVolume;
+	const vol = ((Player.AudioSettings == null) || (Player.AudioSettings.MusicVolume == null)) ? 100 : Player.AudioSettings.MusicVolume;
 	if (vol > 0) {
 		if (PlatformMusic == null) PlatformMusic = new Audio();
 		let FileName = "Screens/Room/Platform/Audio/Background/" + Music + ".mp3";
@@ -3464,4 +3465,19 @@ function PlatformCooldownActive(Name) {
 		if (C.Type == Name)
 			return true;
 	return false;
+}
+
+/**
+ * Sets Bondage Brawl in standalone mode, not requiring any login from BC
+ * @returns {void} - Nothing
+ */
+function PlatformRunStandalone() {
+	if (Player == null) { 
+		setTimeout(PlatformRunStandalone, 100);
+		return;
+	}
+	PlatformRunStandaloneMode = true;
+	ElementRemove("InputName");
+	ElementRemove("InputPassword");
+	CommonSetScreen("Room", "PlatformIntro");
 }
