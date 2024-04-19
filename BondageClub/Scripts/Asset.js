@@ -852,14 +852,6 @@ function AssetLoad(Groups, Family, ExtendedConfig) {
 		}
 	}
 
-	PreferenceArousalSettingsDefault.Zone = AssetGroup.map((group) => {
-		return {
-			...PreferenceArousalZoneDefault,
-			Name: /** @type {AssetGroupItemName} */(PreferenceArousalZoneValidate.Name(group.Name, Player)),
-			Orgasm: (group.Name === "ItemVulva"),
-		};
-	}).filter(({ Name }) => Name !== undefined);
-
 	AssetLoadDescription(Family);
 }
 
