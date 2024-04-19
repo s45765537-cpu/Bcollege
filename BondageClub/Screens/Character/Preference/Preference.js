@@ -200,7 +200,8 @@ function PreferenceSetActivityFactor(C, Type, Self, Factor) {
 
 /**
  * Validates the character arousal object and converts it's objects to compressed string if needed
- * @param {number} Factor - The
+ * @param {number} Factor - The enjoyability of a specific zone, 0 to 5.
+ * @param {boolean} Orgasm - Whether the zone can give an orgasm
  * @returns {string} - A string of 1 char that represents the compressed zone
  */
 function PreferenceArousalZoneToChar(Factor, Orgasm) {
