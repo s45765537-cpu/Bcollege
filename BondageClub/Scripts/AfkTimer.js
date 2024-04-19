@@ -62,7 +62,7 @@ function AfkTimerSetEnabled(Enabled) {
 function AfkTimerSetIsAfk() {
 	if (CurrentScreen != "ChatRoom") return;
 	if (AfkTimerIsSet) return;
-	if (AfkTimerLastEvent + AfkTimerTimout > CommonTime()) return;
+	if (AfkTimerLastEvent === 0 || AfkTimerLastEvent + AfkTimerTimout > CommonTime()) return;
 	// save the current Emoticon, if there is any
 	if (InventoryGet(Player, "Emoticon") && InventoryGet(Player, "Emoticon").Property && AfkTimerOldEmoticon == null) {
 		AfkTimerOldEmoticon = /** @type {ExpressionNameMap["Emoticon"]} */(InventoryGet(Player, "Emoticon").Property.Expression);
