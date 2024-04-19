@@ -291,7 +291,7 @@ function ChatRoomCharacterViewDrawUi() {
 function ChatRoomCharacterViewDrawBackground(Background, Y, zoom, darken, inverted) {
 	console.warn(`ChatRoomCharacterViewDrawBackground is deprecated, use DrawRoomBackground instead`);
 	const bgRect = RectMakeRect(0, Y, ChatRoomCharacterViewWidth, ChatRoomCharacterViewHeight);
-	DrawRoomBackground(Background, bgRect, { zoom, inverted, darken });
+	DrawRoomBackground(Background, bgRect, { inverted, darken });
 }
 
 /**
