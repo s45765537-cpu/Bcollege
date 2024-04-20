@@ -1823,25 +1823,45 @@ function ChatRoomMenuDraw() {
 	for (let [idx, name] of Object.entries(ChatRoomMenuButtons)) {
 		let color = "White";
 		let suffix = "";
-		if (name === "Exit") {
-			if (ChatRoomCanLeave() && ChatRoomIsLeavingSlowly()) {
-				color = "Yellow";
-				name = "Cancel";
-			} else {
-				color = (ChatRoomCanLeave() ? (Player.IsSlow() ? "Yellow" : "White") : "Pink");
+		switch (name) {
+			case "Exit":
+				if (!ChatRoomCanLeave()) {
+					color = "Pink";
+				} else if (ChatRoomIsLeavingSlowly()) {
+					color = "Yellow";
+					name = "Cancel";
+				} else {
+					color = Player.IsSlow() ? "Yellow" : "White";
+				}
+				break;
+			case "Icons":
+				suffix = ChatRoomHideIconState.toString();
+				break;
+			case "Kneel": {
+				let status = 0;
+				if (Player.IsKneeling()) {
+					status = Math.max(...PoseAllStanding.map(p => PoseCanChangeUnaidedStatus(Player, p)));
+				} else if (Player.IsStanding()) {
+					status = Math.max(...PoseAllKneeling.map(p => PoseCanChangeUnaidedStatus(Player, p)));
+				}
+
+				switch (status) {
+					case PoseChangeStatus.NEVER:
+					case PoseChangeStatus.NEVER_WITHOUT_AID:
+						color = "Pink";
+						break;
+					case PoseChangeStatus.ALWAYS_WITH_STRUGGLE:
+						color = ChatRoomGetUpTimer === 0 ? "Yellow" : "Pink";
+						break;
+					case PoseChangeStatus.ALWAYS:
+						color = "White";
+						break;
+				}
+				break;
 			}
-		} else if (name === "Icons") {
-			suffix = ChatRoomHideIconState.toString();
-		} else if (name === "Kneel" && (Player.AllowedActivePoseMapping.BodyLower || Player.AllowedActivePoseMapping.BodyFull)) {
-			if (ChatRoomGetUpTimer === 0 && (ChatRoomCanAttemptStand() || ChatRoomCanAttemptKneel())) {
-				color = "Yellow";
-			} else {
-				color = "Pink";
-			}
-		} else if (name === "Dress" && !Player.CanChangeOwnClothes()) {
-			color = "Pink";
-		} else {
-			color = "White";
+			case "Dress":
+				color = Player.CanChangeOwnClothes() ? "White" : "Pink";
+				break;
 		}
 
 		const buttonX = 1005 + Space * Number(idx);
@@ -1922,31 +1942,47 @@ function ChatRoomClick(event) {
  * The handler for the "Kneel" top menu button
  */
 function ChatRoomToggleKneel() {
-	if (ChatRoomOwnerPresenceRule("BlockChangePose", Player)) return;
-	if (Player.CanKneel()) {
-		const PlayerIsKneeling = Player.IsKneeling();
-		const Dictionary = new DictionaryBuilder()
-			.sourceCharacter(Player)
-			.build();
-		ServerSend("ChatRoomChat", { Content: PlayerIsKneeling ? "StandUp" : "KneelDown", Type: "Action", Dictionary });
-		FuturisticTrainingBeltStandUpFlag = Player.IsKneeling();
-		PoseSetActive(Player, PlayerIsKneeling ? "BaseLower" : "Kneel");
-		ChatRoomStimulationMessage("Kneel");
-		ServerSend("ChatRoomCharacterPoseUpdate", { Pose: Player.ActivePose });
-	} else if (ChatRoomGetUpTimer == 0 && (ChatRoomCanAttemptStand() || ChatRoomCanAttemptKneel())) {
-		// If the player can theoretically get up, we start a minigame!
-		var diff = 0;
-		if (Player.IsBlind()) diff += 1;
-		if (Player.IsKneeling()) diff += 2;
-		if (Player.IsDeaf()) diff += 1;
-		if (InventoryGet(Player, "ItemTorso") || InventoryGroupIsBlocked(Player, "ItemTorso")) diff += 1;
-		if (InventoryGroupIsBlocked(Player, "ItemHands")) diff += 1;
-		if (InventoryGet(Player, "ItemArms")) diff += 1;
-		if (InventoryGet(Player, "ItemLegs") || InventoryGroupIsBlocked(Player, "ItemLegs")) diff += 1;
-		if (InventoryGet(Player, "ItemFeet") || InventoryGroupIsBlocked(Player, "ItemFeet")) diff += 1;
-		if (InventoryGet(Player, "ItemBoots")) diff += 2;
+	let status = 0;
+	if (Player.IsKneeling()) {
+		status = Math.max(...PoseAllStanding.map(p => PoseCanChangeUnaidedStatus(Player, p)));
+	} else if (Player.IsStanding()) {
+		status = Math.max(...PoseAllKneeling.map(p => PoseCanChangeUnaidedStatus(Player, p)));
+	}
 
-		MiniGameStart("GetUp", diff, "ChatRoomAttemptStandMinigameEnd");
+	switch (status) {
+		case PoseChangeStatus.ALWAYS: {
+			const PlayerIsKneeling = Player.IsKneeling();
+			const Dictionary = new DictionaryBuilder()
+				.sourceCharacter(Player)
+				.build();
+			ServerSend("ChatRoomChat", { Content: PlayerIsKneeling ? "StandUp" : "KneelDown", Type: "Action", Dictionary });
+			FuturisticTrainingBeltStandUpFlag = PlayerIsKneeling;
+			PoseSetActive(Player, PlayerIsKneeling ? "BaseLower" : "Kneel");
+			ChatRoomStimulationMessage("Kneel");
+			ServerSend("ChatRoomCharacterPoseUpdate", { Pose: Player.ActivePose });
+			return;
+		}
+
+		case PoseChangeStatus.ALWAYS_WITH_STRUGGLE: {
+			if (ChatRoomGetUpTimer !== 0) {
+				return;
+			}
+
+			// If the player can theoretically get up, we start a minigame!
+			let diff = 0;
+			if (Player.IsBlind()) diff += 1;
+			if (Player.IsKneeling()) diff += 2;
+			if (Player.IsDeaf()) diff += 1;
+			if (InventoryGet(Player, "ItemTorso") || InventoryGroupIsBlocked(Player, "ItemTorso")) diff += 1;
+			if (InventoryGroupIsBlocked(Player, "ItemHands")) diff += 1;
+			if (InventoryGet(Player, "ItemArms")) diff += 1;
+			if (InventoryGet(Player, "ItemLegs") || InventoryGroupIsBlocked(Player, "ItemLegs")) diff += 1;
+			if (InventoryGet(Player, "ItemFeet") || InventoryGroupIsBlocked(Player, "ItemFeet")) diff += 1;
+			if (InventoryGet(Player, "ItemBoots")) diff += 2;
+
+			MiniGameStart("GetUp", diff, "ChatRoomAttemptStandMinigameEnd");
+			return;
+		}
 	}
 }
 
