@@ -1116,7 +1116,7 @@ function DrawButtonHover(Left, Top, Width, Height, HoveringText) {
 		Left = (MouseX > 1000) ? Left - 475 : Left + Width + 25;
 		Top = Top + (Height - 65) / 2;
 		MainCanvas.save();
-		MainCanvas.textAlign = "left";
+		MainCanvas.textAlign = "center";
 		MainCanvas.beginPath();
 		MainCanvas.rect(Left, Top, 450, 65);
 		MainCanvas.fillStyle = "#FFFF88";
