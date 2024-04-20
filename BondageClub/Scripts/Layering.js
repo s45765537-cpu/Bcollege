@@ -369,22 +369,22 @@ var Layering = {
 		const elem = ElementCreateDiv(this.ID.root);
 		// NOTE: Button ordering in the grid is from right to left
 		elem.innerHTML = `
-			<h1 id=${this.ID.assetHeader}>${DialogFindPlayer("LayeringAsset")}</h1>
+			<h1 id=${this.ID.assetHeader}>${InterfaceTextGet("LayeringAsset")}</h1>
 			<div id=${this.ID.buttonGrid} class=layering-button-grid>
 				<div class=layering-button-container>
 					<button id=${this.ID.exitButton} class=layering-button></button>
-					<div class=layering-button-tooltip>${DialogFindPlayer("LayeringExit")}</div>
+					<div class=layering-button-tooltip>${InterfaceTextGet("LayeringExit")}</div>
 				</div>
 				<div class=layering-button-container>
 					<button id=${this.ID.resetButton} class=layering-button></button>
-					<div class=layering-button-tooltip>${DialogFindPlayer("LayeringReset")}</div>
+					<div class=layering-button-tooltip>${InterfaceTextGet("LayeringReset")}</div>
 				</div>
 			</div>
 			<div class=layering-pair id=${this.ID.assetGrid}>
 				<input type=number data-asset-priority=${defaultItemPriority} min=-99 max=99 value=${itemPriority} />
 				<span class=layering-pair-text>${this.Asset.Description}</span>
 			</div>
-			<h1 id=${this.ID.layerHeader}>${DialogFindPlayer("LayeringLayer")}</h1>
+			<h1 id=${this.ID.layerHeader}>${InterfaceTextGet("LayeringLayer")}</h1>
 			<div id=${this.ID.layerDIV}>
 				<div id=${this.ID.layerOuterGrid}>${innerHTML}</div>
 			</div>

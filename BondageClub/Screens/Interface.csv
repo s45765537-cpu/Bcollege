@@ -77,6 +77,7 @@ DialogMenuExit,Back to character
 DialogMenuGGTSControl,GGTS controls this item
 DialogMenuInspectLock,Inspect the lock
 DialogMenuInspectLockDisabled,Unable to inspect due to player permissions
+DialogMenuLayering,Change item layering
 DialogMenuLock,Use a lock
 DialogMenuLockDisabled,Unable to lock item due to player permissions
 DialogMenuLockMenu,Lock related actions
@@ -114,6 +115,10 @@ Hacking,Hacking the item...
 Hours,hours
 InAsylum,in the Asylum
 InRoom,in room
+LayeringAsset,Configure total priority
+LayeringExit,Exit
+LayeringLayer,Configure layer-specific priority
+LayeringReset,Reset layering
 Locking,Locking...
 LockMemberNumber,Member number on lock:
 LockPickArousal,Your hands are shaky and you lose some tension by accident!
@@ -124,7 +129,7 @@ LockpickIntro,Click the pins in the correct order to open the lock!
 LockpickIntro2,Clicking the wrong pin may falsely set it.
 LockpickIntro3,It will fall back after clicking other pins.
 LockpickJammed,Failing or quitting will break your lockpick for 1 minute
-LockpickTriesRemaining,Remaining tries: 
+LockpickTriesRemaining,Remaining tries:
 Loosen,Loosen...
 LoosenClick,Click or press space when the circles are aligned
 LoosenLittle,...A little
