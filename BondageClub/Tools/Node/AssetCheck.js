@@ -1361,7 +1361,7 @@ function sanitizeVMOutput(input) {
 	}
 
 	const assetDescriptions = loadCSV("Assets/Female3DCG/Female3DCG.csv", 3);
-	const dialogArray = loadCSV("Screens/Character/Player/Dialog_Player.csv", 6);
+	const dialogArray = loadCSV("Assets/Female3DCG/AssetStrings.csv", 2);
 
 	// No further checks if initial data load failed
 	if (common.localError) {
