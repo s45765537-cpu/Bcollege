@@ -1034,6 +1034,9 @@ function DrawBackNextButton(Left, Top, Width, Height, Label, Color, Image, BackT
 	ControllerAddActiveArea(Left, Top);
 	ControllerAddActiveArea(Left + Width - ArrowWidth, Top);
 
+	MainCanvas.save();
+	MainCanvas.textAlign = "center";
+
 	// Draw the button rectangle
 	MainCanvas.beginPath();
 	MainCanvas.rect(Left, Top, Width, Height);
@@ -1085,13 +1088,18 @@ function DrawBackNextButton(Left, Top, Width, Height, Label, Color, Image, BackT
 	MainCanvas.stroke();
 	MainCanvas.closePath();
 
+	MainCanvas.restore();
+
 	// Draw the hovering text on the PC
 	if (CommonIsMobile) return;
 	if (BackText == null) BackText = () => "MISSING VALUE FOR: BACK TEXT";
 	if (NextText == null) NextText = () => "MISSING VALUE FOR: NEXT TEXT";
-	if ((MouseX >= Left) && (MouseX <= Left + Width) && (MouseY >= Top) && (MouseY <= Top + Height) && !Disabled)
-		DrawHoverElements.push(() => { DrawButtonHover(Left, Top, Width, Height, MouseX < LeftSplit ? BackText() : MouseX >= RightSplit ? NextText() : ""); });
-
+	if ((MouseX >= Left) && (MouseX <= Left + Width) && (MouseY >= Top) && (MouseY <= Top + Height) && !Disabled) {
+		DrawHoverElements.push(() => {
+			const tooltip = MouseX < LeftSplit ? BackText() : MouseX >= RightSplit ? NextText() : "";
+			DrawButtonHover(Left, Top, Width, Height, tooltip);
+		});
+	}
 }
 
 /**
@@ -1107,6 +1115,8 @@ function DrawButtonHover(Left, Top, Width, Height, HoveringText) {
 	if ((HoveringText != null) && (HoveringText != "")) {
 		Left = (MouseX > 1000) ? Left - 475 : Left + Width + 25;
 		Top = Top + (Height - 65) / 2;
+		MainCanvas.save();
+		MainCanvas.textAlign = "left";
 		MainCanvas.beginPath();
 		MainCanvas.rect(Left, Top, 450, 65);
 		MainCanvas.fillStyle = "#FFFF88";
@@ -1117,6 +1127,7 @@ function DrawButtonHover(Left, Top, Width, Height, HoveringText) {
 		MainCanvas.stroke();
 		MainCanvas.closePath();
 		DrawTextFit(HoveringText, Left + 225, Top + 33, 444, "black");
+		MainCanvas.restore();
 	}
 }
 
