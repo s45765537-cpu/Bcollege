@@ -24,6 +24,8 @@ BraMaidBra1Bra,Bra
 BraMaidBra1Frills,Frills
 BraSexyBikini1Main,Main
 BraSexyBikini1Sides,Sides
+BraLeatherVestSuitLeather,Leather
+BraLeatherVestSuitSilk,Silk
 ClothAccessoryBibBase,Bib
 ClothAccessoryBibPacis,Pattern
 ClothAccessoryBibText,Text
@@ -88,6 +90,18 @@ ClothEveningGownBack,Back
 ClothEveningGownBottom,Bottom
 ClothEveningGownSilk,Silk
 ClothEveningGownTop,Top
+ClothYuletideVelvetWarmthBow,Bow
+ClothYuletideVelvetWarmthShawl,Shawl
+ClothYuletideVelvetWarmthShawlFur,Shawl Fur
+ClothYuletideVelvetWarmthFur,Fur
+ClothYuletideVelvetWarmthBands,Bands
+ClothYuletideVelvetWarmthFabric,Fabric
+ClothYuletideVelvetWarmthBase,Base
+ClothNunRobesCloth,Cloth
+ClothNunRobesBand,Band
+ClothNunRobesShawl,Shawl
+ClothNunRobesBack,Back
+ClothNunRobesInterior,Interior
 ClothFishnetTop,Fishnet Top
 ClothFrilledShirtBase, Latex
 ClothFrilledShirtFrill, Frills
@@ -454,6 +468,9 @@ HatNunHabitCowl,Cowl
 HatNunHabitShawl,Shawl
 HatNunHabitShoulders,Shoulders
 HatNunHabitSymbol,Symbol
+HatNunVeilMain,Main
+HatNunVeilBack,Back
+HatNunVeilInside,Inside
 HatPirateBandana1Bandana,Bandana
 HatPirateBandana1Dots,Dots
 HatPirateBandana1Skull,Skull
@@ -1057,6 +1074,10 @@ ItemHoodPantyHoodBase, Pantyhose
 ItemHoodPantyHoodHairUnder, Hair
 ItemHoodPumpkinHeadBack,Back
 ItemHoodPumpkinHeadFront,Front
+ItemHoodPaperbagStickytape,Sticky tape
+ItemHoodPaperbagPoints,Points
+ItemHoodPaperbagPaper,Paper
+ItemHoodPaperbagPaperbag,Paperbag
 ItemHoodSensoryDeprivationHoodBase, Latex
 ItemHoodSensoryDeprivationHoodEarCover, Silencer
 ItemHoodSensoryDeprivationHoodLips, Lips
@@ -2066,6 +2087,8 @@ SocksHaremStockingsBands,Bands
 SocksHaremStockingsFabric,Fabric
 SocksKneePadsBody,Body
 SocksKneePadsGuards,Guards
+SocksYuletideVelvetWarmthSock,Sock
+SocksYuletideVelvetWarmthSock,Fuzz
 SocksLeftGradientPantyhoseLower,Lower
 SocksLeftGradientPantyhoseUpper,Upper
 SocksLeftHaremStockingsBands,Bands
