@@ -2000,10 +2000,23 @@ function ChatRoomMenuClick() {
 					break;
 				}
 				case "Cut":
-					// When the user wants to remove the top part of his chat to speed up the screen, we only keep the last 20 entries
 					var L = document.getElementById("TextAreaChatLog");
-					while (L.childElementCount > 20)
-						L.removeChild(L.childNodes[0]);
+					if (L.childElementCount > 20) {
+						// When the user wants to remove the top part of his chat to speed up the screen, we only keep the last 20 entries
+						while (L.childElementCount > 20) {
+							L.removeChild(L.childNodes[0]);
+						}
+					} else {
+						// If fewer than 20 messages are available then we, instead, remove any message originating from a previous room
+						const roomDIVs = document.getElementsByClassName("ChatEnterBorder");
+						const roomDIV = roomDIVs[roomDIVs.length - 1];
+						if (roomDIV) {
+							while (roomDIV.previousSibling) {
+								L.removeChild(roomDIV.previousSibling);
+							}
+							L.removeChild(roomDIV);
+						}
+					}
 					ElementScrollToEnd("TextAreaChatLog");
 					break;
 				case "GameOption":
