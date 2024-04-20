@@ -1019,3 +1019,9 @@ function AssetParseDefaultColor(colorableLayerCount, fillValue, color) {
 	}
 	return defaultColor;
 }
+
+const AssetStringsPath = "Assets/Female3DCG/AssetStrings.csv";
+
+function AssetTextGet(msg) {
+	return TextAllScreenCache.get(AssetStringsPath).get(msg);
+}

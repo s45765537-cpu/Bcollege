@@ -706,14 +706,14 @@ function ServerAccountBeep(data) {
 				AudioPlayInstantSound("Audio/BeepAlarm.mp3");
 			}
 			ServerBeep = {
-				Message: `${DialogFindPlayer("BeepFrom")} ${data.MemberName} (${data.MemberNumber})`,
+				Message: `${InterfaceTextGet("BeepFrom")} ${data.MemberName} (${data.MemberNumber})`,
 				Timer: CommonTime() + 10000,
 				ChatRoomName: data.ChatRoomName
 			};
 			if (ServerBeep.ChatRoomName != null)
-				ServerBeep.Message = ServerBeep.Message + " " + DialogFindPlayer("InRoom") + " \"" + ServerBeep.ChatRoomName + "\"" + (data.ChatRoomSpace === "Asylum" ? " " + DialogFindPlayer("InAsylum") : '');
+				ServerBeep.Message = ServerBeep.Message + " " + InterfaceTextGet("InRoom") + " \"" + ServerBeep.ChatRoomName + "\"" + (data.ChatRoomSpace === "Asylum" ? " " + InterfaceTextGet("InAsylum") : '');
 			if (data.Message) {
-				ServerBeep.Message += `; ${DialogFindPlayer("BeepWithMessage")}`;
+				ServerBeep.Message += `; ${InterfaceTextGet("BeepWithMessage")}`;
 				ServerBeep.IsMail = true;
 			}
 			FriendListBeepLog.push({

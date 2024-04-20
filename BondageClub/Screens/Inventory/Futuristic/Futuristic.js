@@ -51,7 +51,7 @@ var FuturisticAccessChastityGroups = ["ItemPelvis", "ItemTorso", "ItemButt", "It
 function FuturisticAccess(data, OriginalFunction, DeniedFunction) {
 	const C = CharacterGetCurrent();
 	if (InventoryItemFuturisticValidate(C) !== "") {
-		DialogExtendedMessage = DialogFindPlayer("FuturisticItemLoginScreen");
+		DialogExtendedMessage = AssetTextGet("FuturisticItemLoginScreen");
 		DeniedFunction(data);
 		return false;
 	} else {
@@ -119,7 +119,7 @@ function InventoryItemFuturisticLoadAccessDenied() {
 	const locks = /** @type {const} */(["PasswordPadlock", "TimerPasswordPadlock", "CombinationPadlock"]);
 	if (!CommonIncludes(locks, DialogFocusItem?.Property?.LockedBy)) {
 		elem.disabled = true;
-		elem.placeholder = DialogFindPlayer("CantChangeWhileLockedFuturistic");
+		elem.placeholder = AssetTextGet("CantChangeWhileLockedFuturistic");
 	}
 }
 
@@ -135,10 +135,10 @@ function InventoryItemFuturisticDrawAccessDenied(data) {
 
 	ElementPosition("PasswordField", 1505, 750, 350);
 	if (disabled) {
-		DrawText(DialogFindPlayer("FuturisticItemPassword"), 1500, 700, "White", "Gray");
+		DrawText(AssetTextGet("FuturisticItemPassword"), 1500, 700, "White", "Gray");
 	}
 	DrawButton(
-		1400, 800, 200, 64, DialogFindPlayer("FuturisticItemLogIn"),
+		1400, 800, 200, 64, AssetTextGet("FuturisticItemLogIn"),
 		disabled ? "Gray" : "White", undefined, undefined, disabled,
 	);
 
@@ -173,7 +173,7 @@ function InventoryItemFuturisticClickAccessDenied(data) {
 			CommonPadlockUnlock(C, DialogFocusItem);
 			DialogLeaveFocusItem();
 		} else {
-			FuturisticAccessDeniedMessage = DialogFindPlayer("CantChangeWhileLockedFuturistic");
+			FuturisticAccessDeniedMessage = AssetTextGet("CantChangeWhileLockedFuturistic");
 			AudioPlayInstantSound("Audio/AccessDenied.mp3");
 			if (CurrentScreen == "ChatRoom") {
 				InventoryItemFuturisticPublishAccessDenied(CharacterGetCurrent());
@@ -210,7 +210,7 @@ function InventoryItemFuturisticValidate(C, Item = DialogFocusItem, changeWhenLo
 			(FuturisticAccessArmGroups.includes(Item.Asset.Group.Name) && collar.Property.OpenPermissionArm != true) ||
 			(FuturisticAccessLegGroups.includes(Item.Asset.Group.Name) && collar.Property.OpenPermissionLeg != true) ||
 			(FuturisticAccessChastityGroups.includes(Item.Asset.Group.Name) && collar.Property.OpenPermissionChastity != true))) {
-			Allowed = DialogExtendedMessage = DialogFindPlayer("CantChangeWhileLockedFuturistic");
+			Allowed = DialogExtendedMessage = AssetTextGet("CantChangeWhileLockedFuturistic");
 		}
 	}
 

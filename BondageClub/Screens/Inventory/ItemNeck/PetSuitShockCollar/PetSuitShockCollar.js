@@ -9,19 +9,19 @@ function InventoryItemNeckPetSuitShockCollars1DrawHook(data, originalFunction) {
 	ExtendedItemCustomDraw("High", 1635, 470, null, DialogFocusItem.Property.ShockLevel === 2);
 
 	MainCanvas.textAlign = "right";
-	DrawText(DialogFindPlayer("ShockCount"), 1500, 575, "White", "Gray");
+	DrawText(AssetTextGet("ShockCount"), 1500, 575, "White", "Gray");
 	MainCanvas.textAlign = "left";
 	DrawText(`${DialogFocusItem.Property.TriggerCount}`, 1510, 575, "White", "Gray");
 
-	DrawCheckbox(1100, 618, 64, 64, DialogFindPlayer("ShowMessageInChat"), DialogFocusItem.Property.ShowText, ExtendedItemPermissionMode, "White");
+	DrawCheckbox(1100, 618, 64, 64, AssetTextGet("ShowMessageInChat"), DialogFocusItem.Property.ShowText, ExtendedItemPermissionMode, "White");
 
 	MainCanvas.textAlign = "center";
 	ExtendedItemCustomDraw("ResetShockCount", 1635, 550);
 	ExtendedItemCustomDraw("TriggerShock", 1635, 625);
 	MainCanvas.textAlign = "left";
-	DrawCheckbox(1100, 700, 64, 64, DialogFindPlayer("PetSuitShockCollarPunishActivity"), DialogFocusItem.Property.PunishActivity, false, "White");
-	DrawCheckbox(1100, 770, 64, 64, DialogFindPlayer("PetSuitShockCollarPunishStandup"), DialogFocusItem.Property.PunishStandup, false, "White");
-	DrawCheckbox(1100, 840, 64, 64, DialogFindPlayer("PetSuitShockCollarPunishStruggle"), DialogFocusItem.Property.PunishStruggle, false, "White");
+	DrawCheckbox(1100, 700, 64, 64, AssetTextGet("PetSuitShockCollarPunishActivity"), DialogFocusItem.Property.PunishActivity, false, "White");
+	DrawCheckbox(1100, 770, 64, 64, AssetTextGet("PetSuitShockCollarPunishStandup"), DialogFocusItem.Property.PunishStandup, false, "White");
+	DrawCheckbox(1100, 840, 64, 64, AssetTextGet("PetSuitShockCollarPunishStruggle"), DialogFocusItem.Property.PunishStruggle, false, "White");
 	MainCanvas.textAlign = "center";
 }
 

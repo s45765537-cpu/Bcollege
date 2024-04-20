@@ -1993,7 +1993,7 @@ function CharacterPronoun(C, DialogKey, HideIdentity) {
 	} else {
 		pronounName = C.GetPronouns();
 	}
-	return DialogFindPlayer("Pronoun" + DialogKey + pronounName);
+	return InterfaceTextGet("Pronoun" + DialogKey + pronounName);
 }
 
 /**

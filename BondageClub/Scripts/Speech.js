@@ -756,7 +756,7 @@ function SpeechAnonymize(msg, characters) {
 	const reg = new RegExp(`\\b(?:${names.join("|")})\\b`, "g");
 
 	// Now replace with the placeholder, lowercasing if it's not the first thing in the string
-	const replacement = DialogFindPlayer("Someone");
+	const replacement = InterfaceTextGet("Someone");
 	function replacer(_match, offset, _string, _groups) {
 		return offset === 0 ? replacement : replacement.toLowerCase();
 	}

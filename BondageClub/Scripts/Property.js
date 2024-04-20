@@ -103,7 +103,7 @@ function PropertyOpacityDraw(Data, OriginalFunction, XOffset=0, YOffset=0, Label
 
 	MainCanvas.textAlign = "right";
 	DrawTextFit(
-		DialogFindPlayer(LabelKeyword), 1375 + XOffset, 450 + YOffset,
+		InterfaceTextGet(LabelKeyword), 1375 + XOffset, 450 + YOffset,
 		400, "#FFFFFF", "#000",
 	);
 	ElementPosition(ID, 1625 + XOffset, 450 + YOffset, 400);

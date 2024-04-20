@@ -8,22 +8,22 @@ function InventoryItemPelvisSciFiPleasurePantiesDrawHook(Data, OriginalFunction)
 	if (Data.currentModule === ModularItemBase) {
 		const typeRecord = DialogFocusItem.Property.TypeRecord || {};
 		const [CrotchShield, Intensity, OrgasmLock, ShockLevel] = Data.modules.map(m => `${m.Key}${typeRecord[m.Key] || 0}`);
-		const IntensitySuffix = (OrgasmLock === "o0") ? "" : ` (${DialogFindPlayer(`${Data.dialogPrefix.option}${OrgasmLock}`)})`;
+		const IntensitySuffix = (OrgasmLock === "o0") ? "" : ` (${AssetTextGet(`${Data.dialogPrefix.option}${OrgasmLock}`)})`;
 
 		// Display option information
 		MainCanvas.textAlign = "right";
-		DrawText(DialogFindPlayer("CrotchShield"), 1500, 625, "White", "Gray");
-		DrawText(DialogFindPlayer("Intensity"), 1500, 700, "White", "Gray");
-		DrawText(DialogFindPlayer("ShockLevel"), 1500, 775, "White", "Gray");
+		DrawText(AssetTextGet("CrotchShield"), 1500, 625, "White", "Gray");
+		DrawText(AssetTextGet("Intensity"), 1500, 700, "White", "Gray");
+		DrawText(AssetTextGet("ShockLevel"), 1500, 775, "White", "Gray");
 		MainCanvas.textAlign = "left";
-		DrawText(DialogFindPlayer(`${Data.dialogPrefix.option}${CrotchShield}`), 1510, 625, "White", "Gray");
-		DrawText(DialogFindPlayer(`${Data.dialogPrefix.option}${Intensity}`) + IntensitySuffix, 1510, 700, "White", "Gray");
-		DrawText(DialogFindPlayer(`${Data.dialogPrefix.option}${ShockLevel}`), 1510, 775, "White", "Gray");
+		DrawText(AssetTextGet(`${Data.dialogPrefix.option}${CrotchShield}`), 1510, 625, "White", "Gray");
+		DrawText(AssetTextGet(`${Data.dialogPrefix.option}${Intensity}`) + IntensitySuffix, 1510, 700, "White", "Gray");
+		DrawText(AssetTextGet(`${Data.dialogPrefix.option}${ShockLevel}`), 1510, 775, "White", "Gray");
 		MainCanvas.textAlign = "center";
 
 		// Display the ShowText checkbox
 		ExtendedItemDrawCheckbox("ShowText", 1175, 743, DialogFocusItem.Property.ShowText, { changeWhenLocked: false });
-		DrawText(DialogFindPlayer("ShowMessageInChat"), 1420, 848, "White", "Gray");
+		DrawText(AssetTextGet("ShowMessageInChat"), 1420, 848, "White", "Gray");
 
 		// Display the manual shock button
 		ExtendedItemCustomDraw("TriggerShock", 1637, 825, null, false, false);

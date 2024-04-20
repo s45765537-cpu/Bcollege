@@ -103,7 +103,7 @@ function InventoryItemMiscCombinationPadlockDrawHook(data, originalFunction) {
 	}
 
 	DrawText(
-		DialogFindPlayer(DialogFocusItem.Asset.Group.Name + DialogFocusItem.Asset.Name + "Intro"), 1500, 400, "white",
+		AssetTextGet(DialogFocusItem.Asset.Group.Name + DialogFocusItem.Asset.Name + "Intro"), 1500, 400, "white",
 		"gray",
 	);
 	const Property = DialogFocusSourceItem && DialogFocusSourceItem.Property;
@@ -111,7 +111,7 @@ function InventoryItemMiscCombinationPadlockDrawHook(data, originalFunction) {
 	if (playerBlind) LockMemberNumber = "?";
 	else LockMemberNumber = Property && Property.LockMemberNumber && Property.LockMemberNumber.toString();
 	if (LockMemberNumber != null) {
-		DrawText(DialogFindPlayer("LockMemberNumber") + " " + LockMemberNumber, 1500, 500, "white", "gray");
+		DrawText(AssetTextGet("LockMemberNumber") + " " + LockMemberNumber, 1500, 500, "white", "gray");
 	}
 
 	const additionalInfo = [];
@@ -119,23 +119,23 @@ function InventoryItemMiscCombinationPadlockDrawHook(data, originalFunction) {
 	if (Player.GetClumsiness() > 0) additionalInfo.push("ControlsClumsy");
 
 	additionalInfo.forEach((text, i) => {
-		DrawTextWrap(DialogFindPlayer("CombinationPadlock" + text), 1000, 550 + i * 100, 1000, 100, "white");
+		DrawTextWrap(AssetTextGet("CombinationPadlock" + text), 1000, 550 + i * 100, 1000, 100, "white");
 	});
 
 	if (InventoryGroupIsBlocked(C, C.FocusGroup.Name)) {
 		// If the zone is blocked, just display some text informing the player that they can't access the lock
-		DrawText(DialogFindPlayer("LockZoneBlocked"), 1500, 800, "white", "gray");
+		DrawText(AssetTextGet("LockZoneBlocked"), 1500, 800, "white", "gray");
 	} else {
 		// Otherwise, draw the combination inputs
 		MainCanvas.textAlign = "right";
-		DrawText(DialogFindPlayer("CombinationOld"), 1400, 803, "white", "gray");
-		DrawText(DialogFindPlayer("CombinationNew"), 1400, 883, "white", "gray");
+		DrawText(AssetTextGet("CombinationOld"), 1400, 803, "white", "gray");
+		DrawText(AssetTextGet("CombinationNew"), 1400, 883, "white", "gray");
 		MainCanvas.textAlign = "center";
 		ElementPosition("CombinationNumber", 1500, 800, 125);
 		ElementPosition("NewCombinationNumber", 1500, 880, 125);
-		DrawButton(1600, 771, 350, 64, DialogFindPlayer("CombinationEnter"), "White", "");
-		DrawButton(1600, 851, 350, 64, DialogFindPlayer("CombinationChange"), "White", "");
-		if (DialogExtendedMessage != "") DrawText(DialogFindPlayer(DialogExtendedMessage), 1500, 963, "Red", "Black");
+		DrawButton(1600, 771, 350, 64, AssetTextGet("CombinationEnter"), "White", "");
+		DrawButton(1600, 851, 350, 64, AssetTextGet("CombinationChange"), "White", "");
+		if (DialogExtendedMessage != "") DrawText(AssetTextGet(DialogExtendedMessage), 1500, 963, "Red", "Black");
 	}
 }
 

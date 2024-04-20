@@ -52,20 +52,20 @@ function InventoryItemMiscTimerPasswordPadlockDrawHook(data, originalFunction) {
 	const C = CharacterGetCurrent();
 
 	if (Property && Property.ShowTimer) {
-		DrawText(DialogFindPlayer("TimerLeft") + " " +
+		DrawText(AssetTextGet("TimerLeft") + " " +
 			TimerToString(Property.RemoveTimer - CurrentTime), 1500, 400, "white", "gray");
 	} else {
-		DrawText(DialogFindPlayer("TimerUnknown"), 1500, 400, "white", "gray");
+		DrawText(AssetTextGet("TimerUnknown"), 1500, 400, "white", "gray");
 	}
 
 	if (Property && Property.LockMemberNumber != null) {
-		const Text = DialogFindPlayer("LockMemberNumber") + " " + Property.LockMemberNumber;
+		const Text = AssetTextGet("LockMemberNumber") + " " + Property.LockMemberNumber;
 		DrawText(Text, 1500, 500, "white", "gray");
 	}
 
 	if (InventoryGroupIsBlocked(C, C.FocusGroup.Name)) {
 		// If the zone is blocked, just display some text informing the player that they can't access the lock
-		DrawText(DialogFindPlayer("LockZoneBlocked"), 1500, 550, "white", "gray");
+		DrawText(AssetTextGet("LockZoneBlocked"), 1500, 550, "white", "gray");
 		return;
 	}
 
@@ -75,40 +75,40 @@ function InventoryItemMiscTimerPasswordPadlockDrawHook(data, originalFunction) {
 			DrawText("\"" + Property.Hint + "\"", 1500, 550, "white", "gray");
 		}
 		MainCanvas.textAlign = "right";
-		DrawText(DialogFindPlayer("PasswordPadlockOld"), 1390, 610, "white", "gray");
+		DrawText(AssetTextGet("PasswordPadlockOld"), 1390, 610, "white", "gray");
 		ElementPosition("Password", 1585, 605, 350);
 		MainCanvas.textAlign = "center";
-		DrawButton(1775, 575, 200, 64, DialogFindPlayer("PasswordPadlockEnter"), "White", "");
-		if (DialogExtendedMessage != "") DrawText(DialogFindPlayer(DialogExtendedMessage), 1500, 200, "Red", "Black");
+		DrawButton(1775, 575, 200, 64, AssetTextGet("PasswordPadlockEnter"), "White", "");
+		if (DialogExtendedMessage != "") DrawText(AssetTextGet(DialogExtendedMessage), 1500, 200, "Red", "Black");
 	} else {
 		ElementPosition("SetHint", 1675, 550, 600);
 		ElementPosition("SetPassword", 1563, 620, 375);
 		MainCanvas.textAlign = "left";
-		DrawText(DialogFindPlayer("PasswordPadlockSetHint"), 1100, 553, "white", "gray");
-		DrawText(DialogFindPlayer("PasswordPadlockSetPassword"), 1100, 623, "white", "gray");
+		DrawText(AssetTextGet("PasswordPadlockSetHint"), 1100, 553, "white", "gray");
+		DrawText(AssetTextGet("PasswordPadlockSetPassword"), 1100, 623, "white", "gray");
 		MainCanvas.textAlign = "center";
-		DrawButton(1765, 591, 200, 64, DialogFindPlayer("PasswordPadlockChangePassword"), "White", "");
-		if (DialogExtendedMessage != "") DrawText(DialogFindPlayer(DialogExtendedMessage), 1500, 200, "Red", "Black");
+		DrawButton(1765, 591, 200, 64, AssetTextGet("PasswordPadlockChangePassword"), "White", "");
+		if (DialogExtendedMessage != "") DrawText(AssetTextGet(DialogExtendedMessage), 1500, 200, "Red", "Black");
 	}
 
 	// Draw the settings
 	if (Player.CanInteract() && (Player.MemberNumber == Property.LockMemberNumber)) {
 		MainCanvas.textAlign = "left";
-		DrawCheckbox(1100, 666, 64, 64, DialogFindPlayer("RemoveItemWithTimer"), Property.RemoveItem, false, "#fff");
+		DrawCheckbox(1100, 666, 64, 64, AssetTextGet("RemoveItemWithTimer"), Property.RemoveItem, false, "#fff");
 		DrawCheckbox(
-			1100, 746, 64, 64, DialogFindPlayer("ShowItemWithTimerRemaining"), Property.ShowTimer, false, "#fff");
+			1100, 746, 64, 64, AssetTextGet("ShowItemWithTimerRemaining"), Property.ShowTimer, false, "#fff");
 		DrawCheckbox(
-			1100, 828, 64, 64, DialogFindPlayer("EnableRandomInput"), Property.EnableRandomInput, false, "#fff");
+			1100, 828, 64, 64, AssetTextGet("EnableRandomInput"), Property.EnableRandomInput, false, "#fff");
 		MainCanvas.textAlign = "center";
 	} else {
 		const RemoveTextKey = (Property.RemoveItem) ? "WillRemoveItemWithTimer" : "WontRemoveItemWithTimer";
-		DrawText(DialogFindPlayer(RemoveTextKey), 1500, 868, "white", "gray");
+		DrawText(AssetTextGet(RemoveTextKey), 1500, 868, "white", "gray");
 	}
 
-	const Minutes = DialogFindPlayer("Minutes");
+	const Minutes = AssetTextGet("Minutes");
 	// Draw buttons to add/remove time if available
 	if (Player.CanInteract() && (Player.MemberNumber == Property.LockMemberNumber)) {
-		DrawButton(1100, 910, 250, 70, DialogFindPlayer("AddTimerTime"), "White");
+		DrawButton(1100, 910, 250, 70, AssetTextGet("AddTimerTime"), "White");
 		DrawBackNextButton(1400, 910, 250, 70,
 			PasswordTimerChooseList[PasswordTimerChooseIndex] + " " + Minutes,
 			"White",
@@ -124,7 +124,7 @@ function InventoryItemMiscTimerPasswordPadlockDrawHook(data, originalFunction) {
 		}
 		const TimeButtonSuffix = `${DialogFocusItem.Asset.RemoveTimer * 3 / 60} ${Minutes}`;
 		DrawButton(1100, 910, 250, 70, `- ${TimeButtonSuffix}`, "White");
-		DrawButton(1400, 910, 250, 70, DialogFindPlayer("Random"), "White");
+		DrawButton(1400, 910, 250, 70, AssetTextGet("Random"), "White");
 		DrawButton(1700, 910, 250, 70, `+ ${TimeButtonSuffix}`, "White");
 	}
 }

@@ -722,7 +722,7 @@ function AppearanceMenuBuild(C) {
 				let Item = InventoryGet(C, C.FocusGroup.Name);
 				if (Item && Item.Asset.Extended) AppearanceMenu.push(InventoryBlockedOrLimited(C, Item) ? "UseDisabled" : "Use");
 				if (C.IsPlayer()) AppearanceMenu.push("WearRandom");
-				if (C.IsPlayer()) AppearanceMenu.push("DialogPermissionMode");
+				if (C.IsPlayer()) AppearanceMenu.push("PermissionMode");
 				if (C.FocusGroup.AllowNone) AppearanceMenu.push("Naked");
 				if (Item && DialogCanColor(C, Item)) {
 					let ButtonName = ItemColorIsSimple(Item) ? "ColorChange" : "ColorChangeMulti";
@@ -1554,7 +1554,7 @@ function AppearanceMenuClick(C) {
 					if (Button === "WearRandom") InventoryWearRandom(C, C.FocusGroup.Name, null, true, true);
 
 					// Opens permission mode
-					if (Button === "DialogPermissionMode") {
+					if (Button === "PermissionMode") {
 						DialogChangeMode("permissions");
 						AppearancePreviewBuild(C, true);
 					}

@@ -122,7 +122,9 @@ function LoginLoad() {
 	const pass = ElementCreateInput("InputPassword", "password", "", "20", form);
 	pass.setAttribute("autocomplete", "current-password");
 	TextPrefetchFile(BackgroundsStringsPath);
-	TextPrefetch("Room", "MainHall");
+	TextPrefetchFile(AssetStringsPath);
+	TextPrefetchFile(InterfaceStringsPath);
+	TextPrefetch("Room", "Mainhall");
 	DrawGetImage("Backgrounds/MainHall.jpg");
 	LoginTextCacheUnsubscribeCallback = TextScreenCache.onRebuild(LoginUpdateMessage);
 

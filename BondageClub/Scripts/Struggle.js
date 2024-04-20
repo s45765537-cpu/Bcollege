@@ -212,17 +212,17 @@ function StruggleMinigameDraw(C) {
  * @returns {string} - The appropriate dialog option
  */
 function StruggleProgressGetOperation(C, PrevItem, NextItem) {
-	if ((PrevItem != null) && (NextItem != null)) return DialogFindPlayer("Swapping");
-	if ((C.IsPlayer()) && (PrevItem != null) && (SkillGetRatio(Player, "Evasion") != 1)) return DialogFindPlayer("Using" + (SkillGetRatio(Player, "Evasion") * 100).toString());
-	if (InventoryItemHasEffect(PrevItem, "Lock", true) && !DialogCanUnlock(C, PrevItem)) return DialogFindPlayer("Struggling");
-	if ((PrevItem != null) && !Player.CanInteract() && !InventoryItemHasEffect(PrevItem, "Block", true)) return DialogFindPlayer("Struggling");
-	if (InventoryItemHasEffect(PrevItem, "Lock", true)) return DialogFindPlayer("Unlocking");
-	if ((PrevItem != null) && InventoryItemHasEffect(PrevItem, "Mounted", true)) return DialogFindPlayer("Dismounting");
-	if ((PrevItem != null) && InventoryItemHasEffect(PrevItem, "Enclose", true)) return DialogFindPlayer("Escaping");
-	if (PrevItem != null) return DialogFindPlayer("Removing");
-	if ((PrevItem == null) && (NextItem != null) && (SkillGetRatio(Player, "Bondage") != 1)) return DialogFindPlayer("Using" + (SkillGetRatio(Player, "Bondage") * 100).toString());
-	if (InventoryItemHasEffect(NextItem, "Lock", true)) return DialogFindPlayer("Locking");
-	if ((PrevItem == null) && (NextItem != null)) return DialogFindPlayer("Adding");
+	if ((PrevItem != null) && (NextItem != null)) return InterfaceTextGet("Swapping");
+	if ((C.IsPlayer()) && (PrevItem != null) && (SkillGetRatio(Player, "Evasion") != 1)) return InterfaceTextGet("Using" + (SkillGetRatio(Player, "Evasion") * 100).toString());
+	if (InventoryItemHasEffect(PrevItem, "Lock", true) && !DialogCanUnlock(C, PrevItem)) return InterfaceTextGet("Struggling");
+	if ((PrevItem != null) && !Player.CanInteract() && !InventoryItemHasEffect(PrevItem, "Block", true)) return InterfaceTextGet("Struggling");
+	if (InventoryItemHasEffect(PrevItem, "Lock", true)) return InterfaceTextGet("Unlocking");
+	if ((PrevItem != null) && InventoryItemHasEffect(PrevItem, "Mounted", true)) return InterfaceTextGet("Dismounting");
+	if ((PrevItem != null) && InventoryItemHasEffect(PrevItem, "Enclose", true)) return InterfaceTextGet("Escaping");
+	if (PrevItem != null) return InterfaceTextGet("Removing");
+	if ((PrevItem == null) && (NextItem != null) && (SkillGetRatio(Player, "Bondage") != 1)) return InterfaceTextGet("Using" + (SkillGetRatio(Player, "Bondage") * 100).toString());
+	if (InventoryItemHasEffect(NextItem, "Lock", true)) return InterfaceTextGet("Locking");
+	if ((PrevItem == null) && (NextItem != null)) return InterfaceTextGet("Adding");
 	return "...";
 }
 
@@ -600,13 +600,13 @@ function StruggleStrengthDraw(C) {
 
 	// Draw the current operation and progress
 	if (StruggleProgressAuto < 0)
-		DrawText(DialogFindPlayer("Challenge") + " " + ((StruggleProgressStruggleCount >= 50) ? StruggleProgressChallenge.toString() : "???"), 1500, 150, "White", "Black");
+		DrawText(InterfaceTextGet("Challenge") + " " + ((StruggleProgressStruggleCount >= 50) ? StruggleProgressChallenge.toString() : "???"), 1500, 150, "White", "Black");
 	DrawText(StruggleProgressOperation, 1500, 650, "White", "Black");
 	DrawProgressBar(1200, 700, 600, 100, StruggleProgress);
 
 	// Draw the tighten/loosen button or the explaination message
 	if (StruggleAllowLoosen())
-		DrawButton(1300, 880, 400, 65, DialogFindPlayer("TryLoosen"), "White");
+		DrawButton(1300, 880, 400, 65, InterfaceTextGet("TryLoosen"), "White");
 	else {
 		let msg = "ProgressKeys";
 		if (CommonIsMobile) {
@@ -614,7 +614,7 @@ function StruggleStrengthDraw(C) {
 		} else if (ControllerIsActive()) {
 			msg = "ProgressKeysController";
 		}
-		DrawText(DialogFindPlayer(msg), 1500, 900, "White", "Black");
+		DrawText(InterfaceTextGet(msg), 1500, 900, "White", "Black");
 	}
 
 }
@@ -668,8 +668,9 @@ function StruggleStrengthProcess(Decrease) {
 	if (StruggleProgress < 0) StruggleProgress = 0;
 	if ((StruggleProgress >= 100) && (StruggleProgressChallenge > 6) && (StruggleProgressAuto < 0)) StruggleProgress = 99;
 	if (!Decrease) StruggleProgressStruggleCount++;
-	if ((StruggleProgressStruggleCount >= 50) && (StruggleProgressChallenge > 6) && (StruggleProgressAuto < 0))
-		StruggleProgressOperation = DialogFindPlayer("Impossible");
+	if ((StruggleProgressStruggleCount >= 50) && (StruggleProgressChallenge > 6) && (StruggleProgressAuto < 0)) {
+		StruggleProgressOperation = InterfaceTextGet("StruggleImpossible");
+	}
 	StruggleMinigameHandleExpression(Decrease);
 
 }
@@ -747,8 +748,8 @@ function StruggleLoosenDraw(C) {
 	MainCanvas.font = CommonGetFont(300);
 	DrawText(StruggleProgressStruggleCount.toString(), 1500, 470, "White", "Black");
 	MainCanvas.font = CommonGetFont(36);
-	DrawText(DialogFindPlayer("LoosenPossible"), 1500, 850, "White", "Black");
-	DrawText(DialogFindPlayer("LoosenClick"), 1500, 930, "White", "Black");
+	DrawText(InterfaceTextGet("LoosenPossible"), 1500, 850, "White", "Black");
+	DrawText(InterfaceTextGet("LoosenClick"), 1500, 930, "White", "Black");
 
 	// Spins the angle, from clockwise to counter, according to the mini-game challenge
 	if (StruggleProgressStruggleCount % 2 == 0) StruggleLoosenAngle = StruggleLoosenAngle + (TimerRunInterval / StruggleLoosenSpeed);
@@ -929,13 +930,13 @@ function StruggleFlexibilityDraw(C) {
 	StruggleMinigameDrawCommon(-150);
 
 	// Draw the current operation and progress
-	if (StruggleProgressAuto < 0) DrawText(DialogFindPlayer("Challenge") + " " + ((StruggleProgressStruggleCount >= 50) ? StruggleProgressChallenge.toString() : "???"), 1500, 425, "White", "Black");
+	if (StruggleProgressAuto < 0) DrawText(InterfaceTextGet("Challenge") + " " + ((StruggleProgressStruggleCount >= 50) ? StruggleProgressChallenge.toString() : "???"), 1500, 425, "White", "Black");
 	DrawText(StruggleProgressOperation, 1500, 476, "White", "Black");
 	DrawProgressBar(1200, 800, 600, 100, StruggleProgress);
 	if (StruggleAllowLoosen())
-		DrawButton(1300, 925, 400, 65, DialogFindPlayer("TryLoosen"), "White");
+		DrawButton(1300, 925, 400, 65, InterfaceTextGet("TryLoosen"), "White");
 	else
-		DrawText(DialogFindPlayer("ProgressFlex"), 1500, 950, "White", "Black");
+		DrawText(InterfaceTextGet("ProgressFlex"), 1500, 950, "White", "Black");
 }
 
 
@@ -1011,7 +1012,9 @@ function StruggleFlexibilityProcess(Decrease) {
 	if (StruggleProgress < 0) StruggleProgress = 0;
 	if ((StruggleProgress >= 100) && (StruggleProgressChallenge > 6) && (StruggleProgressAuto < 0)) StruggleProgress = 99;
 	if (!Decrease) StruggleProgressStruggleCount += 3;
-	if ((StruggleProgressStruggleCount >= 50) && (StruggleProgressChallenge > 6) && (StruggleProgressAuto < 0)) StruggleProgressOperation = DialogFindPlayer("Impossible");
+	if ((StruggleProgressStruggleCount >= 50) && (StruggleProgressChallenge > 6) && (StruggleProgressAuto < 0)) {
+		StruggleProgressOperation = InterfaceTextGet("StruggleImpossible");
+	}
 	StruggleMinigameHandleExpression(Decrease);
 
 }
@@ -1127,13 +1130,13 @@ function StruggleDexterityDraw(C) {
 	}
 
 	// Draw the current operation and progress
-	if (StruggleProgressAuto < 0) DrawText(DialogFindPlayer("Challenge") + " " + ((StruggleProgressStruggleCount >= 50) ? StruggleProgressChallenge.toString() : "???"), 1500, 150, "White", "Black");
+	if (StruggleProgressAuto < 0) DrawText(InterfaceTextGet("Challenge") + " " + ((StruggleProgressStruggleCount >= 50) ? StruggleProgressChallenge.toString() : "???"), 1500, 150, "White", "Black");
 	DrawText(StruggleProgressOperation, 1500, 600, "White", "Black");
 	DrawProgressBar(1200, 800, 600, 100, StruggleProgress);
 	if (StruggleAllowLoosen())
-		DrawButton(1300, 925, 400, 65, DialogFindPlayer("TryLoosen"), "White");
+		DrawButton(1300, 925, 400, 65, InterfaceTextGet("TryLoosen"), "White");
 	else
-		DrawText(DialogFindPlayer("ProgressDex"), 1500, 950, "White", "Black");
+		DrawText(InterfaceTextGet("ProgressDex"), 1500, 950, "White", "Black");
 }
 
 
@@ -1186,7 +1189,9 @@ function StruggleDexterityProcess() {
 	if (StruggleProgress < 0) StruggleProgress = 0;
 	if ((StruggleProgress >= 100) && (StruggleProgressChallenge > 6) && (StruggleProgressAuto < 0)) StruggleProgress = 99;
 	StruggleProgressStruggleCount += Math.max(1, 3*(distMult + 0.5));
-	if ((StruggleProgressStruggleCount >= 50) && (StruggleProgressChallenge > 6) && (StruggleProgressAuto < 0)) StruggleProgressOperation = DialogFindPlayer("Impossible");
+	if ((StruggleProgressStruggleCount >= 50) && (StruggleProgressChallenge > 6) && (StruggleProgressAuto < 0)) {
+		StruggleProgressOperation = InterfaceTextGet("StruggleImpossible");
+	}
 	StruggleMinigameHandleExpression();
 
 }
@@ -1324,9 +1329,9 @@ function StruggleLockPickDraw(C) {
 	}
 
 
-	DrawText(DialogFindPlayer("LockpickTriesRemaining") + (StruggleLockPickProgressMaxTries - StruggleLockPickProgressCurrentTries), X, 212, "white");
+	DrawText(InterfaceTextGet("LockpickTriesRemaining") + (StruggleLockPickProgressMaxTries - StruggleLockPickProgressCurrentTries), X, 212, "white");
 	if (LogValue("FailedLockPick", "LockPick") > CurrentTime)
-		DrawText(DialogFindPlayer("LockpickFailedTimeout") + TimerToString(LogValue("FailedLockPick", "LockPick") - CurrentTime), X, 262, "red");
+		DrawText(InterfaceTextGet("LockpickFailedTimeout") + TimerToString(LogValue("FailedLockPick", "LockPick") - CurrentTime), X, 262, "red");
 	else {
 		if (StruggleLockPickProgressCurrentTries >= StruggleLockPickProgressMaxTries && StruggleLockPickSuccessTime == 0) {
 			if (StruggleLockPickFailTime > 0) {
@@ -1337,7 +1342,7 @@ function StruggleLockPickDraw(C) {
 
 				}
 				else {
-					DrawText(DialogFindPlayer("LockpickFailed"), X, 262, "red");
+					DrawText(InterfaceTextGet("LockpickFailed"), X, 262, "red");
 				}
 			} else if (Math.random() < 0.25 && StruggleLockPickTotalTries > 5) { // StruggleLockPickTotalTries is meant to give players a bit of breathing room so they don't get tired right away
 				if (DialogLentLockpicks)  {
@@ -1362,9 +1367,9 @@ function StruggleLockPickDraw(C) {
 	}
 
 
-	DrawText(DialogFindPlayer("LockpickIntro"), X, 800, "white");
-	DrawText(DialogFindPlayer("LockpickIntro2"), X, 850, "white");
-	DrawText(DialogFindPlayer("LockpickIntro3"), X, 900, "white");
+	DrawText(InterfaceTextGet("LockpickIntro"), X, 800, "white");
+	DrawText(InterfaceTextGet("LockpickIntro2"), X, 850, "white");
+	DrawText(InterfaceTextGet("LockpickIntro3"), X, 900, "white");
 
 	if (StruggleMinigameCheckCancel(C)) {
 		// We got interrupted
@@ -1429,7 +1434,7 @@ function StruggleLockPickDraw(C) {
 						}
 					}
 
-					StruggleLockPickArousalText = DialogFindPlayer("LockPickArousal");
+					StruggleLockPickArousalText = InterfaceTextGet("LockPickArousal");
 				}
 				var arousalmod = (0.3 + Math.random()*0.7) * (arousalmaxtime); // happens very often at 100 arousal
 				StruggleLockPickArousalTick = CurrentTime + StruggleLockPickArousalTickTime * arousalmod;
@@ -1456,9 +1461,9 @@ function StruggleLockPickDraw(C) {
 function StruggleLockPickProgressGetOperation(C, Item) {
 	var lock = InventoryGetLock(Item);
 	if ((Item != null && lock != null)) {
-		if (lock.Asset.Name == "CombinationPadlock" || lock.Asset.Name == "PasswordPadlock") return DialogFindPlayer("Decoding");
-		if (Item.Asset.Name.indexOf("Futuristic") >= 0 || Item.Asset.Name.indexOf("Interactive") >= 0) return DialogFindPlayer("Hacking");
-		return DialogFindPlayer("Picking");
+		if (lock.Asset.Name == "CombinationPadlock" || lock.Asset.Name == "PasswordPadlock") return InterfaceTextGet("Decoding");
+		if (Item.Asset.Name.indexOf("Futuristic") >= 0 || Item.Asset.Name.indexOf("Interactive") >= 0) return InterfaceTextGet("Hacking");
+		return InterfaceTextGet("Picking");
 	}
 	return "...";
 }

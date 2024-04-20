@@ -8,7 +8,7 @@ function InventoryItemBreastForbiddenChastityBraDrawHook(data, originalFunction)
 	}
 
 	MainCanvas.textAlign = "right";
-	DrawText(DialogFindPlayer("ShockCount"), 1500, 575, "White", "Gray");
+	DrawText(AssetTextGet("ShockCount"), 1500, 575, "White", "Gray");
 	MainCanvas.textAlign = "left";
 	DrawText(`${DialogFocusItem.Property.TriggerCount}`, 1510, 575, "White", "Gray");
 
@@ -18,19 +18,19 @@ function InventoryItemBreastForbiddenChastityBraDrawHook(data, originalFunction)
 	MainCanvas.textAlign = "left";
 	ExtendedItemDrawCheckbox(
 		"ShowText", 1100, 618, DialogFocusItem.Property.ShowText,
-		{ text: DialogFindPlayer("ShowMessageInChat"), textColor: "White", changeWhenLocked: false },
+		{ text: AssetTextGet("ShowMessageInChat"), textColor: "White", changeWhenLocked: false },
 	);
 	ExtendedItemDrawCheckbox(
 		"PunishOrgasm", 1100, 700, DialogFocusItem.Property.PunishOrgasm,
-		{ text: DialogFindPlayer("ForbiddenChastityBraPunishOrgasm"), textColor: "White", changeWhenLocked: false },
+		{ text: AssetTextGet("ForbiddenChastityBraPunishOrgasm"), textColor: "White", changeWhenLocked: false },
 	);
 	ExtendedItemDrawCheckbox(
 		"PunishStandup", 1100, 770, DialogFocusItem.Property.PunishStandup,
-		{ text: DialogFindPlayer("ForbiddenChastityBraPunishStandup"), textColor: "White", changeWhenLocked: false },
+		{ text: AssetTextGet("ForbiddenChastityBraPunishStandup"), textColor: "White", changeWhenLocked: false },
 	);
 	ExtendedItemDrawCheckbox(
 		"PunishStruggle", 1100, 840, DialogFocusItem.Property.PunishStruggle,
-		{ text: DialogFindPlayer("ForbiddenChastityBraPunishStruggle"), textColor: "White", changeWhenLocked: false },
+		{ text: AssetTextGet("ForbiddenChastityBraPunishStruggle"), textColor: "White", changeWhenLocked: false },
 	);
 	MainCanvas.textAlign = "center";
 }

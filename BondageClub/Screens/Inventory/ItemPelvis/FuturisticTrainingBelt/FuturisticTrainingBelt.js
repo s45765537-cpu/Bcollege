@@ -59,11 +59,11 @@ function InventoryItemPelvisFuturisticTrainingBeltDrawHook(data, originalFunctio
 		NoArch.Draw(data);
 		if (FuturisticTrainingBeltPage == 0) {
 			MainCanvas.textAlign = "left";
-			DrawCheckbox(1100, 450, 64, 64, DialogFindPlayer("FuturisticChastityBeltPunishChatMessage"), DialogFocusItem.Property.ShowText, false, "White");
-			DrawCheckbox(1100, 520, 64, 64, DialogFindPlayer("FuturisticChastityBeltPunishStruggle"), DialogFocusItem.Property.PunishStruggle, false, "White");
-			DrawCheckbox(1100, 590, 64, 64, DialogFindPlayer("FuturisticChastityBeltPunishStruggleOther"), DialogFocusItem.Property.PunishStruggleOther, false, "White");
-			DrawCheckbox(1100, 660, 64, 64, DialogFindPlayer("FuturisticChastityBeltPunishOrgasm"), DialogFocusItem.Property.PunishOrgasm, false, "White");
-			DrawCheckbox(1100, 730, 64, 64, DialogFindPlayer("FuturisticTrainingBeltPunishStandup"), DialogFocusItem.Property.PunishStandup, false, "White");
+			DrawCheckbox(1100, 450, 64, 64, AssetTextGet("FuturisticChastityBeltPunishChatMessage"), DialogFocusItem.Property.ShowText, false, "White");
+			DrawCheckbox(1100, 520, 64, 64, AssetTextGet("FuturisticChastityBeltPunishStruggle"), DialogFocusItem.Property.PunishStruggle, false, "White");
+			DrawCheckbox(1100, 590, 64, 64, AssetTextGet("FuturisticChastityBeltPunishStruggleOther"), DialogFocusItem.Property.PunishStruggleOther, false, "White");
+			DrawCheckbox(1100, 660, 64, 64, AssetTextGet("FuturisticChastityBeltPunishOrgasm"), DialogFocusItem.Property.PunishOrgasm, false, "White");
+			DrawCheckbox(1100, 730, 64, 64, AssetTextGet("FuturisticTrainingBeltPunishStandup"), DialogFocusItem.Property.PunishStandup, false, "White");
 
 			ElementPosition("PunishRequiredSpeechWord", 3050, 750, 400); // Hide it off the canvas
 			ElementPosition("PunishProhibitedSpeechWords", 3050, 900, 400); // Hide it off the canvas
@@ -75,9 +75,9 @@ function InventoryItemPelvisFuturisticTrainingBeltDrawHook(data, originalFunctio
 			MainCanvas.textAlign = "left";
 
 
-			DrawText(DialogFindPlayer("FuturisticTrainingBeltPunishSpeech"), 1100, 480, "white", "gray");
-			DrawText(DialogFindPlayer("FuturisticTrainingBeltPunishRequiredSpeech"), 1100, 620, "white", "gray");
-			DrawText(DialogFindPlayer("FuturisticTrainingBeltPunishProhibitedSpeech"), 1100, 760, "white", "gray");
+			DrawText(AssetTextGet("FuturisticTrainingBeltPunishSpeech"), 1100, 480, "white", "gray");
+			DrawText(AssetTextGet("FuturisticTrainingBeltPunishRequiredSpeech"), 1100, 620, "white", "gray");
+			DrawText(AssetTextGet("FuturisticTrainingBeltPunishProhibitedSpeech"), 1100, 760, "white", "gray");
 
 			ElementPosition("PunishRequiredSpeechWord", 1800, 610, 245);
 			ElementPosition("PunishProhibitedSpeechWords", 1800, 750, 245);
@@ -85,47 +85,47 @@ function InventoryItemPelvisFuturisticTrainingBeltDrawHook(data, originalFunctio
 
 			MainCanvas.textAlign = "center";
 
-			DrawBackNextButton(1100, 510, 350, 64, DialogFindPlayer("FuturisticTrainingBeltPunishSpeech" + Item.Property.PunishSpeech), "White", "",
-				() => DialogFindPlayer("FuturisticTrainingBeltPunishSpeech" + ((Item.Property.PunishSpeech + FuturisticTrainingBeltSpeechPunishments.length - 1) % FuturisticTrainingBeltSpeechPunishments.length)),
-				() => DialogFindPlayer("FuturisticTrainingBeltPunishSpeech" + ((Item.Property.PunishSpeech + 1) % FuturisticTrainingBeltSpeechPunishments.length)));
+			DrawBackNextButton(1100, 510, 350, 64, AssetTextGet("FuturisticTrainingBeltPunishSpeech" + Item.Property.PunishSpeech), "White", "",
+				() => AssetTextGet("FuturisticTrainingBeltPunishSpeech" + ((Item.Property.PunishSpeech + FuturisticTrainingBeltSpeechPunishments.length - 1) % FuturisticTrainingBeltSpeechPunishments.length)),
+				() => AssetTextGet("FuturisticTrainingBeltPunishSpeech" + ((Item.Property.PunishSpeech + 1) % FuturisticTrainingBeltSpeechPunishments.length)));
 
-			DrawBackNextButton(1100, 640, 350, 64, DialogFindPlayer("FuturisticTrainingBeltPunishRequiredSpeech" + Item.Property.PunishRequiredSpeech), "White", "",
-				() => DialogFindPlayer("FuturisticTrainingBeltPunishRequiredSpeech" + ((Item.Property.PunishRequiredSpeech + FuturisticTrainingBeltSpeechPunishments.length - 1) % FuturisticTrainingBeltSpeechPunishments.length)),
-				() => DialogFindPlayer("FuturisticTrainingBeltPunishRequiredSpeech" + ((Item.Property.PunishRequiredSpeech + 1) % FuturisticTrainingBeltSpeechPunishments.length)));
+			DrawBackNextButton(1100, 640, 350, 64, AssetTextGet("FuturisticTrainingBeltPunishRequiredSpeech" + Item.Property.PunishRequiredSpeech), "White", "",
+				() => AssetTextGet("FuturisticTrainingBeltPunishRequiredSpeech" + ((Item.Property.PunishRequiredSpeech + FuturisticTrainingBeltSpeechPunishments.length - 1) % FuturisticTrainingBeltSpeechPunishments.length)),
+				() => AssetTextGet("FuturisticTrainingBeltPunishRequiredSpeech" + ((Item.Property.PunishRequiredSpeech + 1) % FuturisticTrainingBeltSpeechPunishments.length)));
 
-			DrawBackNextButton(1100, 780, 350, 64, DialogFindPlayer("FuturisticTrainingBeltPunishProhibitedSpeech" + Item.Property.PunishProhibitedSpeech), "White", "",
-				() => DialogFindPlayer("FuturisticTrainingBeltPunishProhibitedSpeech" + ((Item.Property.PunishProhibitedSpeech + FuturisticTrainingBeltSpeechPunishments.length - 1) % FuturisticTrainingBeltSpeechPunishments.length)),
-				() => DialogFindPlayer("FuturisticTrainingBeltPunishProhibitedSpeech" + ((Item.Property.PunishProhibitedSpeech + 1) % FuturisticTrainingBeltSpeechPunishments.length)));
+			DrawBackNextButton(1100, 780, 350, 64, AssetTextGet("FuturisticTrainingBeltPunishProhibitedSpeech" + Item.Property.PunishProhibitedSpeech), "White", "",
+				() => AssetTextGet("FuturisticTrainingBeltPunishProhibitedSpeech" + ((Item.Property.PunishProhibitedSpeech + FuturisticTrainingBeltSpeechPunishments.length - 1) % FuturisticTrainingBeltSpeechPunishments.length)),
+				() => AssetTextGet("FuturisticTrainingBeltPunishProhibitedSpeech" + ((Item.Property.PunishProhibitedSpeech + 1) % FuturisticTrainingBeltSpeechPunishments.length)));
 
 		}
 
 		MainCanvas.textAlign = "left";
 
-		DrawText(DialogFindPlayer("FuturisticTrainingBeltPermissions"), 1100, 875, "white", "gray");
+		DrawText(AssetTextGet("FuturisticTrainingBeltPermissions"), 1100, 875, "white", "gray");
 
 		MainCanvas.textAlign = "center";
 
-		DrawBackNextButton(1550, 840, 350, 64, DialogFindPlayer("FuturisticTrainingBeltPermissions" + Item.Property.PublicModePermission), "White", "",
-			() => DialogFindPlayer("FuturisticTrainingBeltPermissions" + ((Item.Property.PublicModePermission + FuturisticTrainingBeltPermissions.length - 1) % FuturisticTrainingBeltPermissions.length)),
-			() => DialogFindPlayer("FuturisticTrainingBeltPermissions" + ((Item.Property.PublicModePermission + 1) % FuturisticTrainingBeltPermissions.length)));
+		DrawBackNextButton(1550, 840, 350, 64, AssetTextGet("FuturisticTrainingBeltPermissions" + Item.Property.PublicModePermission), "White", "",
+			() => AssetTextGet("FuturisticTrainingBeltPermissions" + ((Item.Property.PublicModePermission + FuturisticTrainingBeltPermissions.length - 1) % FuturisticTrainingBeltPermissions.length)),
+			() => AssetTextGet("FuturisticTrainingBeltPermissions" + ((Item.Property.PublicModePermission + 1) % FuturisticTrainingBeltPermissions.length)));
 
 		// Draw the back/next button
 		const currPage = FuturisticTrainingBeltPage + 1;
 		const totalPages = FuturisticTrainingBeltMaxPage + 1;
-		DrawBackNextButton(1675, 240, 300, 90, DialogFindPlayer("Page") + " " + currPage.toString() + " / " + totalPages.toString(), "White", "", () => "", () => "");
+		DrawBackNextButton(1675, 240, 300, 90, AssetTextGet("Page") + " " + currPage.toString() + " / " + totalPages.toString(), "White", "", () => "", () => "");
 
 		canViewMode = true;
 	}
 
 
 	MainCanvas.textAlign = "left";
-	DrawText(DialogFindPlayer("FuturisticTrainingBeltMode"), 1100, 945, "white", "gray");
+	DrawText(AssetTextGet("FuturisticTrainingBeltMode"), 1100, 945, "white", "gray");
 
 	MainCanvas.textAlign = "center";
 	if (Item.Property.PublicModePermission == 0 || (Item.Property.PublicModePermission == 1 && LogQuery("ClubMistress", "Management"))) canViewMode = true;
-	DrawBackNextButton(1550, 910, 350, 64, DialogFindPlayer("FuturisticTrainingBeltMode" + FuturisticTrainingBeltSetMode), !canViewMode ? "Gray" : "White", "",
-		() => !canViewMode ? "" : DialogFindPlayer("FuturisticTrainingBeltMode" + ((FuturisticTrainingBeltSetMode + FuturisticTrainingBeltModes.length - 1) % FuturisticTrainingBeltModes.length)),
-		() => !canViewMode ? "" : DialogFindPlayer("FuturisticTrainingBeltMode" + ((FuturisticTrainingBeltSetMode + 1) % FuturisticTrainingBeltModes.length)));
+	DrawBackNextButton(1550, 910, 350, 64, AssetTextGet("FuturisticTrainingBeltMode" + FuturisticTrainingBeltSetMode), !canViewMode ? "Gray" : "White", "",
+		() => !canViewMode ? "" : AssetTextGet("FuturisticTrainingBeltMode" + ((FuturisticTrainingBeltSetMode + FuturisticTrainingBeltModes.length - 1) % FuturisticTrainingBeltModes.length)),
+		() => !canViewMode ? "" : AssetTextGet("FuturisticTrainingBeltMode" + ((FuturisticTrainingBeltSetMode + 1) % FuturisticTrainingBeltModes.length)));
 
 	if (!FuturisticTrainingBeltConfigure) {
 		FuturisticTrainingBeltSetMode = DialogFocusItem.Property.PublicModeCurrent;

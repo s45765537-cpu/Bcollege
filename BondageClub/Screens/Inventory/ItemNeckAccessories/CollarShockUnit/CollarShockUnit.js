@@ -5,13 +5,13 @@ function InventoryItemNeckAccessoriesCollarShockUnitDrawHook(Data, OriginalFunct
 	OriginalFunction();
 
 	MainCanvas.textAlign = "right";
-	DrawText(DialogFindPlayer("ShockCount"), 1500, 575, "White", "Gray");
+	DrawText(AssetTextGet("ShockCount"), 1500, 575, "White", "Gray");
 	MainCanvas.textAlign = "left";
 	DrawText(`${DialogFocusItem.Property.TriggerCount}`, 1510, 575, "White", "Gray");
 	MainCanvas.textAlign = "center";
 
 	ExtendedItemDrawCheckbox("ShowText", 1175, 618, DialogFocusItem.Property.ShowText);
-	DrawText(DialogFindPlayer("ShowMessageInChat"), 1420, 648, "White", "Gray");
+	DrawText(AssetTextGet("ShowMessageInChat"), 1420, 648, "White", "Gray");
 	ExtendedItemCustomDraw("ResetShockCount", 1635, 550);
 	ExtendedItemCustomDraw("TriggerShock", 1635, 625);
 }

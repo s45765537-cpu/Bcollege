@@ -142,7 +142,7 @@ function PortalLinkTransmitterLoadHook(data, originalFunction) {
 
 	const item = DialogFocusItem;
 	const C = CharacterGetCurrent();
-	DialogExtendedMessage = DialogFindPlayer((!C.IsPlayer() || !C.CanInteract()) ? "PortalLinkInaccessibleLabel" : "PortalLinkScreenLabel");
+	DialogExtendedMessage = AssetTextGet((!C.IsPlayer() || !C.CanInteract()) ? "PortalLinkInaccessibleLabel" : "PortalLinkScreenLabel");
 
 	const code = item.Property.PortalLinkCode;
 	const assets = PortalLinkGetItemsWithCode(code);
@@ -190,15 +190,15 @@ function PortalLinkTransmitterDrawHook(data, originalFunction) {
 	const functions = PortalLinkGetFunctions(item);
 
 	if (functions.length <= 0) {
-		DrawText(DialogFindPlayer("PortalLinkNoFunctionsLabel"), 1500, 640, "white");
+		DrawText(AssetTextGet("PortalLinkNoFunctionsLabel"), 1500, 640, "white");
 		return;
 	}
 
-	DrawText(DialogFindPlayer("PortalLinkAvailableFunctionsLabel"), 1500, 640, "white");
+	DrawText(AssetTextGet("PortalLinkAvailableFunctionsLabel"), 1500, 640, "white");
 
 	CommonGenerateGrid(functions, 0, PortalLinkFunctionGrid, (func, x, y, w, h) => {
 		const bg = (MouseHovering(x, y, w, h) ? "cyan" : "white");
-		const buttonLabel = DialogFindPlayer(func + "Label");
+		const buttonLabel = AssetTextGet(func + "Label");
 		DrawButton(x, y, w, h, buttonLabel, bg, null);
 		return false;
 	});
@@ -281,7 +281,7 @@ const PortalLinkStatusColors = {
  */
 function PortalLinkSyncCodeInputDraw(reciever) {
 	MainCanvas.textAlign = "right";
-	DrawText(DialogFindPlayer("PortalLinkSyncCodeLabel"), 1330, 520, "white");
+	DrawText(AssetTextGet("PortalLinkSyncCodeLabel"), 1330, 520, "white");
 
 	MainCanvas.textAlign = "center";
 	ElementPosition(PortalLinkCodeInputID, 1480, 510, 264);
@@ -297,7 +297,7 @@ function PortalLinkSyncCodeInputDraw(reciever) {
 		PortalLinkTransmitterStatus = PortalLinkCodeRegex.test(code) ? "PortalLinkValidCode" : "PortalLinkInvalidCode";
 
 		MainCanvas.textAlign = "left";
-		DrawText(DialogFindPlayer(PortalLinkTransmitterStatus), 1342, 580, PortalLinkStatusColors[PortalLinkTransmitterStatus]);
+		DrawText(AssetTextGet(PortalLinkTransmitterStatus), 1342, 580, PortalLinkStatusColors[PortalLinkTransmitterStatus]);
 
 		MainCanvas.textAlign = "center";
 	} else {
@@ -305,7 +305,7 @@ function PortalLinkSyncCodeInputDraw(reciever) {
 		DrawImageEx("Icons/Import.png", MainCanvas, PortalLinkPasteCodeButton[0], PortalLinkPasteCodeButton[1], { Width: PortalLinkPasteCodeButton[2], Height: PortalLinkPasteCodeButton[3], });
 
 		MainCanvas.textAlign = "left";
-		DrawText(DialogFindPlayer(PortalLinkTransmitterStatus), 1342, 580, PortalLinkStatusColors[PortalLinkTransmitterStatus]);
+		DrawText(AssetTextGet(PortalLinkTransmitterStatus), 1342, 580, PortalLinkStatusColors[PortalLinkTransmitterStatus]);
 
 		MainCanvas.textAlign = "center";
 	}
@@ -565,7 +565,7 @@ function PortalLinkProcessMessage(sender, data) {
 	if (!item || item.Asset.Name !== assetRef.AssetName || item.Property.PortalLinkCode !== senderCode) return;
 
 	// Use a special name reference because none of (Target|Destination)Character(Name)? cuts it, somehow
-	const playerNameRef = sender.MemberNumber === Player.MemberNumber ? CharacterPronoun(Player, "Possessive", false) : `${CharacterNickname(Player)}${DialogFindPlayer("'s")}`;
+	const playerNameRef = sender.MemberNumber === Player.MemberNumber ? CharacterPronoun(Player, "Possessive", false) : `${CharacterNickname(Player)}${InterfaceTextGet("'s")}`;
 	const builder = new DictionaryBuilder()
 		.sourceCharacter(sender)
 		.targetCharacter(Player)

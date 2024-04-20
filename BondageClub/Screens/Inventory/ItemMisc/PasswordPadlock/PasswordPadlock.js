@@ -41,7 +41,7 @@ function InventoryItemMiscPasswordPadlockDrawHook(data, originalFunction) {
 	const C = CharacterGetCurrent();
 	if (InventoryGroupIsBlocked(C, C.FocusGroup.Name)) {
 		// If the zone is blocked, just display some text informing the player that they can't access the lock
-		DrawText(DialogFindPlayer("LockZoneBlocked"), 1500, 800, "white", "gray");
+		DrawText(AssetTextGet("LockZoneBlocked"), 1500, 800, "white", "gray");
 	} else {
 		InventoryItemMiscPasswordPadlockDrawControls();
 	}
@@ -56,24 +56,24 @@ function InventoryItemMiscPasswordPadlockDrawControls() {
 			DrawTextWrap("\"" + Property.Hint + "\"", 1000, 640, 1000, 120, null, null, 2);
 		}
 		MainCanvas.textAlign = "right";
-		DrawText(DialogFindPlayer("PasswordPadlockOld"), 1350, 810, "white", "gray");
+		DrawText(AssetTextGet("PasswordPadlockOld"), 1350, 810, "white", "gray");
 		ElementPosition("Password", 1643, 805, 550);
 		MainCanvas.textAlign = "center";
-		DrawButton(1360, 871, 250, 64, DialogFindPlayer("PasswordPadlockEnter"), "White", "");
-		if (DialogExtendedMessage != "") DrawText(DialogFindPlayer(DialogExtendedMessage), 1500, 963, "Red", "Black");
+		DrawButton(1360, 871, 250, 64, AssetTextGet("PasswordPadlockEnter"), "White", "");
+		if (DialogExtendedMessage != "") DrawText(AssetTextGet(DialogExtendedMessage), 1500, 963, "Red", "Black");
 	} else {
 		ElementPosition("SetHint", 1643, 700, 550);
 		ElementPosition("SetPassword", 1643, 770, 550);
 		MainCanvas.textAlign = "left";
-		DrawText(DialogFindPlayer("PasswordPadlockSetHint"), 1100, 705, "white", "gray");
-		DrawText(DialogFindPlayer("PasswordPadlockSetPassword"), 1100, 775, "white", "gray");
+		DrawText(AssetTextGet("PasswordPadlockSetHint"), 1100, 705, "white", "gray");
+		DrawText(AssetTextGet("PasswordPadlockSetPassword"), 1100, 775, "white", "gray");
 		MainCanvas.textAlign = "center";
-		DrawButton(1360, 891, 250, 64, DialogFindPlayer("PasswordPadlockChangePassword"), "White", "");
-		if (DialogExtendedMessage != "") DrawText(DialogFindPlayer(DialogExtendedMessage), 1500, 963, "Red", "Black");
+		DrawButton(1360, 891, 250, 64, AssetTextGet("PasswordPadlockChangePassword"), "White", "");
+		if (DialogExtendedMessage != "") DrawText(AssetTextGet(DialogExtendedMessage), 1500, 963, "Red", "Black");
 
 		if (Property) {
 			DrawButton(1600, 820, 64, 64, "", "White", Property.RemoveOnUnlock ? "Icons/Checked.png" : "");
-			DrawText(DialogFindPlayer("PasswordPadlockRemoveOnUnlock"), 1400, 855, "White", "Gray");
+			DrawText(AssetTextGet("PasswordPadlockRemoveOnUnlock"), 1400, 855, "White", "Gray");
 		}
 	}
 }
