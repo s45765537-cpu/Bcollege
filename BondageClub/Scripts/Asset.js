@@ -1014,6 +1014,13 @@ function AssetParseDefaultColor(colorableLayerCount, fillValue, color) {
 
 const AssetStringsPath = "Assets/Female3DCG/AssetStrings.csv";
 
+/**
+ * Get the translated string for an asset-specific message
+ * @param {string} msg
+ * @returns {string}
+ */
 function AssetTextGet(msg) {
-	return TextAllScreenCache.get(AssetStringsPath).get(msg);
+	const repo = TextAllScreenCache.get(AssetStringsPath);
+	if (!repo) return "";
+	return repo.get(msg);
 }
