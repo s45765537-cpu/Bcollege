@@ -3472,7 +3472,7 @@ function PlatformCooldownActive(Name) {
  * @returns {void} - Nothing
  */
 function PlatformRunStandalone() {
-	if (Player == null) { 
+	if (Player == null) {
 		setTimeout(PlatformRunStandalone, 100);
 		return;
 	}
