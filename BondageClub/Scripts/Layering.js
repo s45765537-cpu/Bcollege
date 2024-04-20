@@ -87,6 +87,15 @@ var Layering = {
 	},
 
 	/**
+	 * The items default `Property.OverridePriority` value.
+	 *
+	 * This is generally `undefined`, though certain extended item options do overwrite it.
+	 * @private
+	 * @type {undefined | AssetLayerOverridePriority}
+	 */
+	_PriorityDefault: undefined,
+
+	/**
 	 * Return whether the layering sub screen has currently been initialized (be it either active or unloaded)
 	 * @returns {this is typeof this & Pick<Required<typeof this>, "Character" | "Display" | "Item">}
 	 */
@@ -223,7 +232,7 @@ var Layering = {
 	 * @private
 	 */
 	_ResetClickListener() {
-		this.OverridePriority = undefined;
+		this.OverridePriority = this._PriorityDefault == null ? undefined : CommonCloneDeep(this._PriorityDefault);
 
 		const layerElements = /** @type {NodeListOf<HTMLInputElement>} */(document.querySelectorAll("[data-layer-priority]"));
 		layerElements.forEach(e => e.value = e.dataset.layerPriority);
@@ -275,6 +284,26 @@ var Layering = {
 	},
 
 	/**
+	 * Return the default `Property.OverridePriority` of the current item.
+	 *
+	 * This is generally `undefined`, though certain extended item options do overwrite it.
+	 * @private
+	 * @returns {undefined | AssetLayerOverridePriority}
+	 */
+	_GetDefaultPriority() {
+		if (!this.Item.Property.TypeRecord) {
+			return undefined;
+		}
+
+		// Recreate the items default state (given a provided type record) and extract its default priority
+		/** @type {Item} */
+		const item = { Asset: this.Item.Asset };
+		ExtendedItemInit(this.Character, item, false, false);
+		ExtendedItemSetOptionByRecord(this.Character, item, this.Item.Property.TypeRecord, { push: false, refresh: false });
+		return item.Property.OverridePriority;
+	},
+
+	/**
 	 * Initialize the layering subscreen
 	 * @param {Item} item - The affected item
 	 * @param {Character} character - The item's owning character
@@ -311,6 +340,7 @@ var Layering = {
 		}
 
 		let innerHTML = "";
+		this._PriorityDefault = this._GetDefaultPriority();
 		const layerGroupings = this._GroupLayers(this.Asset.Layer);
 		for (const [layerGroupName, layerList] of Object.entries(layerGroupings)) {
 			innerHTML += `
@@ -320,10 +350,12 @@ var Layering = {
 			for (let { Name, Priority } of layerList) {
 				/** @type {number} */
 				const layerPriority = this.OverridePriority?.[Name] ?? Priority;
+				/** @type {number} */
+				const defaultLayerPriority = this._PriorityDefault?.[Name] ?? Priority;
 				Name ??= this.Asset.Name;
 				innerHTML += `
 					<div class=layering-pair>
-						<input type=number data-layer-priority=${Priority} data-name=${Name} min=-99 max=99 value=${layerPriority}></input>
+						<input type=number data-layer-priority=${defaultLayerPriority} data-name=${Name} min=-99 max=99 value=${layerPriority}></input>
 						<span class=layering-pair-text>${Name}</span>
 					</div>
 				`;
@@ -333,6 +365,7 @@ var Layering = {
 
 		const assetPriority = this.Asset.DrawingPriority ?? this.Asset.Group.DrawingPriority;
 		const itemPriority = Number.isInteger(this.OverridePriority) ? this.OverridePriority : assetPriority;
+		const defaultItemPriority = Number.isInteger(this._PriorityDefault) ? this._PriorityDefault : assetPriority;
 		const elem = ElementCreateDiv(this.ID.root);
 		// NOTE: Button ordering in the grid is from right to left
 		elem.innerHTML = `
@@ -348,7 +381,7 @@ var Layering = {
 				</div>
 			</div>
 			<div class=layering-pair id=${this.ID.assetGrid}>
-				<input type=number data-asset-priority=${assetPriority} min=-99 max=99 value=${itemPriority} />
+				<input type=number data-asset-priority=${defaultItemPriority} min=-99 max=99 value=${itemPriority} />
 				<span class=layering-pair-text>${this.Asset.Description}</span>
 			</div>
 			<h1 id=${this.ID.layerHeader}>${DialogFindPlayer("LayeringLayer")}</h1>
@@ -434,6 +467,7 @@ var Layering = {
 		this.Item = null;
 		this.Character = null;
 		this.Display = null;
+		this._PriorityDefault = undefined;
 	},
 
 	/**

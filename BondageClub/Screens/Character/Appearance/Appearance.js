@@ -1637,7 +1637,7 @@ function AppearanceExit() {
 	if (CharacterAppearanceMode == "Cloth" && DialogFocusItem) {
 		DialogLeaveFocusItem();
 		return;
-	} else if (CharacterAppearanceMode == "Cloth" && Layering.IsActive) {
+	} else if (Layering.IsActive()) {
 		Layering.Exit();
 		return;
 	}
