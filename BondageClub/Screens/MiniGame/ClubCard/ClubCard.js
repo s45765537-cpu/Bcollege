@@ -943,6 +943,14 @@ var ClubCardList = [
 		RequiredLevel: 4,
 		FamePerTurn: 3,
 	},
+	{
+		ID: 11011,
+		Name: "Teacher's Aide",
+		Group: ["CollegeTeacher", "CollegeStudent"],
+		RequiredLevel: 2,
+		FamePerTurn: 1,
+		MoneyPerTurn: 1
+	},
 
 	// 12000 - Cards based on online players
 	{   // Patreon 2023/09 Contest Winner
