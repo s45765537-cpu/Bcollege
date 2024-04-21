@@ -366,3 +366,6 @@ Effect Contract Caretaker,No Fame is gained because of OPPONENTPLAYER Contract C
 Title Teacher's Aide,Teacher's Aide
 Title Homeroom,Homeroom
 Text Homeroom,Can only be played if you control 3 or more College members. Both players cannot advance their club for 4 turns.
+Title Student Custodian,Student Custodian
+Text Student Custodian,"When the opponent plays an Liability or Event, you lose 2 money and draw a card."
+Effect Student Custodian,OPPONENTPLAYER gained AMOUNT money and drew a card from Student Custodian

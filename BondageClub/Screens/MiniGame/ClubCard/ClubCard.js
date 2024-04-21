@@ -951,6 +951,24 @@ var ClubCardList = [
 		FamePerTurn: 1,
 		MoneyPerTurn: 1
 	},
+	{
+		ID: 11012,
+		Name: "Student Custodian",
+		Group: ["CollegeStudent", "Staff"],
+		MoneyPerTurn: 1,
+		BeforeOpponentTurnEnd: function(CCPlayer) {
+			let cardOwner = ClubCardGetOpponent(CCPlayer);
+			let playedAnEventOrLiability = CCPlayer.CardsPlayedThisTurn.some(card => {
+				return card.Type === "Event" || card.Group.includes("Liability");
+			});
+
+			if(playedAnEventOrLiability) {
+				ClubCardPlayerAddMoney(cardOwner, 2);
+				ClubCardPlayerDrawCard(cardOwner, 1)
+				ClubCardLogPublish("Effect Student Custodian", CCPlayer, 2);
+			}
+		}
+	},
 
 	// 12000 - Cards based on online players
 	{   // Patreon 2023/09 Contest Winner
