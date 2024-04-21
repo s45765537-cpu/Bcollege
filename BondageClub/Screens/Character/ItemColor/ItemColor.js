@@ -642,7 +642,7 @@ function ItemColorGetColorButtonTextKey(color) {
 	if (Array.isArray(color)) {
 		const initialColor = color[0];
 		return color.some(c => c !== initialColor) ? "Many" : initialColor;
-	} else if (typeof color !== "string") {
+	} else if (typeof color !== "string" || color === "None") {
 		return "Default";
 	}
 	return color;

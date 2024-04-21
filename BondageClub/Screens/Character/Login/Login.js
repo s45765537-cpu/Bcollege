@@ -7,10 +7,10 @@ var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
-	"Abysseia", "Aceffect", "Alex", "Anna", "ArashiSama", "Aylea", "BlueWinter", "Bryce", 
-	"Christian", "Desch", "Dynilath", "Edwin", "Elfreda", "FanRunner", "Glurak", "Greendragon", 
-	"JoeyDubDee", "john", "Komiro", "Lewis", "Lyall", "Marashu", "Michal", "Michel", "Mindtie", 
-	"Misa", "Nightcore", "Setsu", "SlitheryCandy", "Soulcollar", "Tam", "Tarram", 
+	"Abysseia", "Aceffect", "Alex", "Anna", "ArashiSama", "Aylea", "BlueWinter", "Bryce",
+	"Christian", "Desch", "Dynilath", "Edwin", "Elfreda", "FanRunner", "Glurak", "Greendragon",
+	"JoeyDubDee", "john", "Komiro", "Lewis", "Lyall", "Marashu", "Michal", "Michel", "Mindtie",
+	"Misa", "Nightcore", "Setsu", "SlitheryCandy", "Soulcollar", "Tam", "Tarram",
 	"TonyBoy", "TopHat", "Troubadix", "WhiteSniper", "XDWolfie", "Xepherio"
 ];
 
@@ -124,7 +124,7 @@ function LoginLoad() {
 	TextPrefetchFile(BackgroundsStringsPath);
 	TextPrefetchFile(AssetStringsPath);
 	TextPrefetchFile(InterfaceStringsPath);
-	TextPrefetch("Room", "Mainhall");
+	TextPrefetch("Room", "MainHall");
 	DrawGetImage("Backgrounds/MainHall.jpg");
 	LoginTextCacheUnsubscribeCallback = TextScreenCache.onRebuild(LoginUpdateMessage);
 
