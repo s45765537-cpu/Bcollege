@@ -374,3 +374,5 @@ Text Recess,Draw 2 cards. Gain 2 money for each ABDL Baby and College Student pr
 Effect Recess, SOURCEPLAYER draws 2 cards and gains AMOUNT money from Recess
 Title Med Student,Med Student
 Text Med Student,+1 Money per turn if an Asylum Patient is present. +1 per turn if a College Teacher is present.
+Title First Bell,First Bell
+Text First Bell,"Draw a random college student from your deck. If it's your first turn or you control a teacher, play again."

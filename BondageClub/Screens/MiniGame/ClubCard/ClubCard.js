@@ -1655,6 +1655,14 @@ var ClubCardList = [
 			ClubCardPlayerAddMoney(CCPlayer, collegeAndBabyCount)
 			ClubCardLogPublish("Effect Recess", CCPlayer, collegeAndBabyCount);
 		}
+	},
+	{
+		ID: 31010,
+		Name: "First Bell",
+		Type: "Event",
+		OnPlay: function(CCPlayer) {
+			ClubCardPlayerDrawGroupCard(CCPlayer, "CollegeTeacher")
+		}
 	}
 ];
 
@@ -1978,14 +1986,50 @@ function ClubCardPlayerDrawCard(CCPlayer, Amount = null) {
 			CCPlayer.Deck.splice(0, 1);
 		}
 		Amount--;
-		if(ClubCardNameIsOnBoard(ClubCardGetOpponent(CCPlayer), "Detective")){
-			ClubCardPlayerAddMoney(ClubCardGetOpponent(CCPlayer),1);
-		}
-		if(ClubCardNameIsOnBoard(ClubCardGetOpponent(CCPlayer), "Detective") && !ClubCardGroupIsOnBoard(ClubCardGetOpponent(CCPlayer),"Liability")){
-			ClubCardPlayerAddFame(ClubCardGetOpponent(CCPlayer),1);
-		}
+		CheckDetectiveDraw(CCPlayer);
 	}
 
+}
+
+/**
+ * Draw cards from the player deck into it's hand
+ * @param {ClubCardPlayer} CCPlayer - The club card player that draws the cards
+ * @param {string} group - The group to draw from
+ * @returns {void} - Nothing
+ */
+function ClubCardPlayerDrawGroupCard(CCPlayer, group) {
+	if ((CCPlayer === null) || (CCPlayer.Deck === null) || (CCPlayer.Hand === null)) {
+		return;
+	}
+
+	const groupCardsInDeck = CCPlayer.Deck.filter(card => card.Group.includes(group))
+	if(groupCardsInDeck.length === 0) {
+		return;
+	}
+
+	const card = groupCardsInDeck[Math.floor(Math.random() * groupCardsInDeck.length)];
+	ClubCardSetGlow(card, "#00FFFF");
+
+	CCPlayer.Hand.push(CCPlayer.Deck[0]);
+	const cardIndex = CCPlayer.Deck.findIndex(value => value.ID === card.ID)
+	CCPlayer.Deck.splice(cardIndex, 1);
+
+	CheckDetectiveDraw(CCPlayer);
+}
+
+/**
+ * 
+ * @param {ClubCardPlayer} CCPlayer - The club card player that draws the cards
+ * @returns {void} - Nothing
+ * 
+ */
+function CheckDetectiveDraw(CCPlayer) {
+	if(ClubCardNameIsOnBoard(ClubCardGetOpponent(CCPlayer), "Detective")){
+		ClubCardPlayerAddMoney(ClubCardGetOpponent(CCPlayer),1);
+	}
+	if(ClubCardNameIsOnBoard(ClubCardGetOpponent(CCPlayer), "Detective") && !ClubCardGroupIsOnBoard(ClubCardGetOpponent(CCPlayer),"Liability")){
+		ClubCardPlayerAddFame(ClubCardGetOpponent(CCPlayer),1);
+	}
 }
 
 /**
