@@ -9053,9 +9053,11 @@ var AssetFemale3DCGExtended = {
 			DialogPrefix: {
 				Header: (data, C, item) => {
 					const label = InterfaceTextGet("VibratorModeLabel");
-					const mode = InterfaceTextGet(`VibratorMode${item.Property?.Mode ?? "Off"}`);
+					const mode = InterfaceTextGet(
+						`VibratorMode${item.Property?.Mode ?? "Off"}`,
+					);
 					return `${label} ${mode}`;
-				}
+				},
 			},
 			BaselineProperty: {
 				AccessMode: "",

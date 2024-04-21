@@ -852,14 +852,6 @@ function AssetLoad(Groups, Family, ExtendedConfig) {
 		}
 	}
 
-	PreferenceArousalSettingsDefault.Zone = AssetGroup.map((group) => {
-		return {
-			...PreferenceArousalZoneDefault,
-			Name: /** @type {AssetGroupItemName} */(PreferenceArousalZoneValidate.Name(group.Name, Player)),
-			Orgasm: (group.Name === "ItemVulva"),
-		};
-	}).filter(({ Name }) => Name !== undefined);
-
 	AssetLoadDescription(Family);
 }
 
@@ -1022,6 +1014,13 @@ function AssetParseDefaultColor(colorableLayerCount, fillValue, color) {
 
 const AssetStringsPath = "Assets/Female3DCG/AssetStrings.csv";
 
+/**
+ * Get the translated string for an asset-specific message
+ * @param {string} msg
+ * @returns {string}
+ */
 function AssetTextGet(msg) {
-	return TextAllScreenCache.get(AssetStringsPath).get(msg);
+	const repo = TextAllScreenCache.get(AssetStringsPath);
+	if (!repo) return "";
+	return repo.get(msg);
 }

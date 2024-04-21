@@ -1384,18 +1384,20 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "YuletideVelvetWarmth", 
+				Name: "YuletideVelvetWarmth",
 				Gender: "F",
 				Value: 70,
-				Top: 0, 
+				Top: 0,
 				Left: 0,
 				Prerequisite: ["HasBreasts"],
 				Layer: [
 					{
-						Name: "Bow", Priority: 33,
+						Name: "Bow",
+						Priority: 33,
 						PoseMapping: {
 							TapedHands: "TapedHands",
-							Yoked: "Yoked", OverTheHead: "Yoked",
+							Yoked: "Yoked",
+							OverTheHead: "Yoked",
 							BackBoxTie: "Yoked",
 							BackElbowTouch: "Yoked",
 							BackCuffs: "Yoked",
@@ -1404,10 +1406,12 @@ var AssetFemale3DCG = [
 						},
 					},
 					{
-						Name: "Shawl", Priority: 33,
+						Name: "Shawl",
+						Priority: 33,
 						PoseMapping: {
 							TapedHands: "",
-							Yoked: "Yoked", OverTheHead: "Yoked",
+							Yoked: "Yoked",
+							OverTheHead: "Yoked",
 							BackBoxTie: "Yoked",
 							BackElbowTouch: "Yoked",
 							BackCuffs: "Yoked",
@@ -1416,10 +1420,12 @@ var AssetFemale3DCG = [
 						},
 					},
 					{
-						Name: "ShawlFur", Priority: 34,
+						Name: "ShawlFur",
+						Priority: 34,
 						PoseMapping: {
 							TapedHands: "",
-							Yoked: "Yoked", OverTheHead: "Yoked",
+							Yoked: "Yoked",
+							OverTheHead: "Yoked",
 							BackBoxTie: "Yoked",
 							BackElbowTouch: "Yoked",
 							BackCuffs: "Yoked",
@@ -1428,10 +1434,12 @@ var AssetFemale3DCG = [
 						},
 					},
 					{
-						Name: "Fur", Priority: 32,
+						Name: "Fur",
+						Priority: 32,
 						PoseMapping: {
 							TapedHands: "",
-							Yoked: "", OverTheHead: "",
+							Yoked: "",
+							OverTheHead: "",
 							BackBoxTie: "",
 							BackElbowTouch: "",
 							BackCuffs: "",
@@ -1440,10 +1448,12 @@ var AssetFemale3DCG = [
 						},
 					},
 					{
-						Name: "Bands", Priority: 33,
+						Name: "Bands",
+						Priority: 33,
 						PoseMapping: {
 							TapedHands: "",
-							Yoked: "", OverTheHead: "",
+							Yoked: "",
+							OverTheHead: "",
 							BackBoxTie: "",
 							BackElbowTouch: "",
 							BackCuffs: "",
@@ -1452,10 +1462,12 @@ var AssetFemale3DCG = [
 						},
 					},
 					{
-						Name: "Fabric", Priority: 31,
+						Name: "Fabric",
+						Priority: 31,
 						PoseMapping: {
 							TapedHands: "TapedHands",
-							Yoked: "Yoked", OverTheHead: "Yoked",
+							Yoked: "Yoked",
+							OverTheHead: "Yoked",
 							BackBoxTie: "Yoked",
 							BackElbowTouch: "Yoked",
 							BackCuffs: "Yoked",
@@ -1468,7 +1480,8 @@ var AssetFemale3DCG = [
 						Priority: 31,
 						PoseMapping: {
 							TapedHands: "",
-							Yoked: "", OverTheHead: "",
+							Yoked: "",
+							OverTheHead: "",
 							BackBoxTie: "",
 							BackElbowTouch: "",
 							BackCuffs: "",
@@ -1479,10 +1492,10 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "NunRobes", 
+				Name: "NunRobes",
 				Gender: "F",
 				Value: 70,
-				Top: -110, 
+				Top: -110,
 				Left: 0,
 				Prerequisite: ["HasBreasts"],
 				Layer: [
@@ -1491,7 +1504,8 @@ var AssetFemale3DCG = [
 						Priority: 32,
 						PoseMapping: {
 							TapedHands: "TapedHands",
-							Yoked: "Yoked", OverTheHead: "OverTheHead",
+							Yoked: "Yoked",
+							OverTheHead: "OverTheHead",
 							BackBoxTie: "BackBoxTie",
 							BackElbowTouch: "BackBoxTie",
 							BackCuffs: "BackBoxTie",
@@ -1504,7 +1518,8 @@ var AssetFemale3DCG = [
 						Priority: 33,
 						PoseMapping: {
 							TapedHands: "",
-							Yoked: "", OverTheHead: "",
+							Yoked: "",
+							OverTheHead: "",
 							BackBoxTie: "",
 							BackElbowTouch: "",
 							BackCuffs: "",
@@ -1517,7 +1532,8 @@ var AssetFemale3DCG = [
 						Priority: 34,
 						PoseMapping: {
 							TapedHands: "",
-							Yoked: "Yoked", OverTheHead: "OverTheHead",
+							Yoked: "Yoked",
+							OverTheHead: "OverTheHead",
 							BackBoxTie: "",
 							BackElbowTouch: "",
 							BackCuffs: "",
@@ -1531,7 +1547,8 @@ var AssetFemale3DCG = [
 						Priority: 5,
 						PoseMapping: {
 							TapedHands: "",
-							Yoked: "", OverTheHead: "",
+							Yoked: "",
+							OverTheHead: "",
 							BackBoxTie: "",
 							BackElbowTouch: "",
 							BackCuffs: "",
@@ -1544,7 +1561,8 @@ var AssetFemale3DCG = [
 						Priority: 4,
 						PoseMapping: {
 							TapedHands: "",
-							Yoked: "", OverTheHead: "",
+							Yoked: "",
+							OverTheHead: "",
 							BackBoxTie: "",
 							BackElbowTouch: "",
 							BackCuffs: "",
@@ -3036,7 +3054,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "BowBackAccessory",
 				Value: 10,
-				Top: -110, 
+				Top: -110,
 				Left: 0,
 				Priority: 3,
 			},
@@ -5797,9 +5815,9 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "LeatherVestSuit", 
+				Name: "LeatherVestSuit",
 				Gender: "F",
-				Top: 0, 
+				Top: 0,
 				Left: 0,
 				Value: 45,
 				Hide: ["ItemNipples"],
@@ -7525,13 +7543,10 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "YuletideVelvetWarmth",
-				Top: 0, 
+				Top: 0,
 				Left: 0,
 				Value: 25,
-				Layer: [
-					{ Name: "Sock", },
-					{ Name: "Fuzz", },
-				],
+				Layer: [{ Name: "Sock" }, { Name: "Fuzz" }],
 				PoseMapping: {
 					...AssetPoseMapping.Socks,
 					Hogtied: PoseType.HIDE,
@@ -9457,12 +9472,12 @@ var AssetFemale3DCG = [
 			{
 				Name: "NunVeil",
 				Value: 20,
-				Top: -110, 
+				Top: -110,
 				Left: 0,
 				Layer: [
-					{ Name: "Main", Priority: 55, },
-					{ Name: "Back", Priority: 4, },
-					{ Name: "Inside", Priority: 3, },
+					{ Name: "Main", Priority: 55 },
+					{ Name: "Back", Priority: 4 },
+					{ Name: "Inside", Priority: 3 },
 				],
 			},
 			{
@@ -10798,8 +10813,8 @@ var AssetFemale3DCG = [
 				Top: 0,
 				Left: 0,
 				Layer: [
-					{ Name: "Ears", Priority: 40, },
-					{ Name: "Horn", Priority: 55, },
+					{ Name: "Ears", Priority: 40 },
+					{ Name: "Horn", Priority: 55 },
 				],
 			},
 			{
@@ -11400,19 +11415,19 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "Horns4", 
+				Name: "Horns4",
 				Fetish: ["Pet"],
 				Value: -1,
 				BuyGroup: "Horns4",
-				Top: 0, 
+				Top: 0,
 				Left: 0,
 			},
 			{
-				Name: "Horns5", 
+				Name: "Horns5",
 				Fetish: ["Pet"],
 				Value: -1,
 				BuyGroup: "Horns2",
-				Top: 0, 
+				Top: 0,
 				Left: 0,
 			},
 			{
@@ -11420,11 +11435,11 @@ var AssetFemale3DCG = [
 				Fetish: ["Pet"],
 				Value: -1,
 				BuyGroup: "CowEars",
-				Top: 0, 
+				Top: 0,
 				Left: 0,
 				Layer: [
-					{ Name: "Ears", Priority: 40, },
-					{ Name: "Horn", Priority: 55, },
+					{ Name: "Ears", Priority: 40 },
+					{ Name: "Horn", Priority: 55 },
 				],
 			},
 			{
@@ -37090,19 +37105,19 @@ var AssetFemale3DCG = [
 			{
 				Name: "Paperbag",
 				Value: 3,
-				Top: 0, 
+				Top: 0,
 				Left: 0,
 				Layer: [
-					{ Name: "Stickytape", Priority: 58, },
-					{ Name: "Points", Priority: 57, },
-					{ Name: "Paper", Priority: 56, },
-					{ Name: "Paperbag", Priority: 55, },
+					{ Name: "Stickytape", Priority: 58 },
+					{ Name: "Points", Priority: 57 },
+					{ Name: "Paper", Priority: 56 },
+					{ Name: "Paperbag", Priority: 55 },
 				],
 			},
 			{
 				Name: "Fu",
 				Value: 1,
-				Top: 0, 
+				Top: 0,
 				Left: 0,
 				Priority: 52,
 			},

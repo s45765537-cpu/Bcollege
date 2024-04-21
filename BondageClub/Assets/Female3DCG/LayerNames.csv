@@ -277,6 +277,8 @@ HairAccessory1BigLynxEarsOuter,Outer Ear
 HairAccessory1BigLynxEarsTuft,Tuft
 HairAccessory1BunnyEars2Inner,Inner
 HairAccessory1BunnyEars2Outer,Outer
+HairAccessory1CowEarsEars,Ears
+HairAccessory1CowEarsHorn,Horns
 HairAccessory1EarWarmerMain,Fur
 HairAccessory1EarWarmerDetail,Headband
 HairAccessory1FoxEars2Inner,Inner Ear
@@ -2121,6 +2123,7 @@ SocksSocksFurFabric,Sock
 SocksSocksFurFur,Fur
 SocksSocksStriped1Dark,Dark Stripes
 SocksSocksStriped1Light,Light Stripes
+SocksYuletideVelvetWarmthFuzz,Fuzz
 StreetBoots,Shoes
 SuitCatsuitBase,Suit
 SuitCatsuitOpaqueGloves,Gloves
