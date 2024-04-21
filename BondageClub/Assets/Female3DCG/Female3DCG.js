@@ -15440,6 +15440,7 @@ var AssetFemale3DCG = [
 			{ Name: "Eyes13", FullAlpha: false },
 			{
 				Name: "Eyes14",
+				Random: false,
 				DefaultColor: [
 					"Default",
 					"#6B82A2",
