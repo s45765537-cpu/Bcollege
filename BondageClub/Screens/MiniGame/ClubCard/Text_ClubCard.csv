@@ -372,3 +372,5 @@ Effect Student Custodian,OPPONENTPLAYER gained AMOUNT money and drew a card from
 Title Recess,Recess
 Text Recess,Draw 2 cards. Gain 2 money for each ABDL Baby and College Student present.
 Effect Recess, SOURCEPLAYER draws 2 cards and gains AMOUNT money from Recess
+Title Med Student,Med Student
+Text Med Student,+1 Money per turn if an Asylum Patient is present. +1 per turn if a College Teacher is present.

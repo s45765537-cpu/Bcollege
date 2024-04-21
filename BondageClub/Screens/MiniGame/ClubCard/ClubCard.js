@@ -969,6 +969,23 @@ var ClubCardList = [
 			}
 		}
 	},
+	{
+		ID: 11013,
+		Name: "Med Student",
+		Group: ["CollegeStudent", "AsylumNurse"],
+		FamePerTurn: 1,
+		BeforeTurnEnd: function(CCPlayer) {
+			const asylumPatientPresent = ClubCardGroupIsOnBoard(CCPlayer, "AsylumPatient");
+			if(asylumPatientPresent) {
+				ClubCardPlayerAddMoney(CCPlayer, 1)
+			}
+
+			const collegeTeacherPresent = ClubCardGroupIsOnBoard(CCPlayer, "CollegeTeacher");
+			if(collegeTeacherPresent) {
+				ClubCardPlayerAddFame(CCPlayer, 1)
+			}
+		}
+	},
 
 	// 12000 - Cards based on online players
 	{   // Patreon 2023/09 Contest Winner
