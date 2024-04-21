@@ -518,7 +518,7 @@ input[type="checkbox"]:checked::before {
 
 .Shop2CheckboxGrid {
 	color: white;
-	font-size: 3vh;
+	font-size: min(3vh, 1.5vw);
 	display: grid;
 	grid-template-columns: 50% 50%;
 	user-select: none;
