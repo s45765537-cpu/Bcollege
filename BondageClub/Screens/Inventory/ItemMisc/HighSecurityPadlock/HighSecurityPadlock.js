@@ -119,8 +119,8 @@ function InventoryItemMiscHighSecurityPadlockClickHook(data, originalFunction) {
 						C.Appearance[A] = DialogFocusSourceItem;
 				}
 
-				if (HighSecurityPadlockConfigOwner && Player.Ownership && Player.Ownership.MemberNumber != null && list.indexOf(Player.Ownership.MemberNumber) < 0) {
-					list.push(Player.Ownership.MemberNumber);
+				if (HighSecurityPadlockConfigOwner && list.indexOf(Player.OwnerNumber()) < 0) {
+					list.push(Player.OwnerNumber());
 				}
 				if (HighSecurityPadlockConfigLover && Player.Lovership) {
 					for (let L = 0; L < Player.Lovership.length; L++) {

@@ -177,7 +177,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 					OnlineGameAllowChange() &&
 					AsylumGGTSAllowChange(this) &&
 					!LogQuery("BlockChange", "Rule") &&
-					(!LogQuery("BlockChange", "OwnerRule") || (Player.Ownership == null) || (Player.Ownership.Stage != 1))
+					(!LogQuery("BlockChange", "OwnerRule") || Player.IsOwned() && !Player.IsFullyOwned())
 				);
 			} else {
 				return (
@@ -314,39 +314,167 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			return this.Effect.includes("FixedHead");
 		},
 		IsOwned: function () {
-			return ((this.Owner != null) && (this.Owner.trim() != ""));
+			if (AsylumGGTSGetLevel(this) >= 6) return "ggts";
+			if (this.IsNpc() && this.Owner === Player.Name) return "player";
+			if (this.Ownership && this.Ownership.MemberNumber) return "online";
+			// NPC-owner with trial completed
+			if (this.Owner && this.Owner.trim().startsWith("NPC-")) return "npc";
+			// NPC-owner while in trial
+			let trialing = PrivateCharacter.find(c => NPCEventGet(c, "EndSubTrial") > 0);
+			if (trialing && trialing !== this) return "npc";
+			return false;
+		},
+		IsOwnedByCharacter: function (C) {
+			switch (this.IsOwned()) {
+				case "ggts":
+					return false;
+				case "npc": {
+					if (this.Owner.replace("NPC-", "").trim() === C.Name)
+						return true;
+
+					let trialing = PrivateCharacter.find(c => NPCEventGet(c, "EndSubTrial") > 0);
+					if (trialing && trialing !== this) return true;
+
+					return false;
+				}
+				case "online":
+					return this.Ownership.MemberNumber === C.MemberNumber;
+				case "player":
+					return true;
+				default:
+					return false;
+			}
+		},
+		IsFullyOwned: function () {
+			switch (this.IsOwned()) {
+				case "ggts": return true;
+				case "npc":
+					return !!PrivateCharacter.find(c => NPCEventGet(c, "PlayerCollaring") > 0);
+				case "player":
+					return NPCEventGet(this, "EndDomTrial") > 0;
+				case "online": return this.Ownership.Stage >= 1;
+				default:
+					return false;
+			}
 		},
 		IsOwnedByPlayer: function () {
-			return (
-				(
-					(((this.Owner != null) && (this.Owner.trim() == Player.Name)) || (NPCEventGet(this, "EndDomTrial") > 0)) &&
-					(this.Ownership == null)
-				) ||
-				this.IsOwnedByMemberNumber(Player.MemberNumber)
-			);
+			return this.IsOwnedByCharacter(Player);
+		},
+		OwnerName: function () {
+			switch (this.IsOwned()) {
+				case "ggts": return TextGet("OwnerGGTS");
+				case "npc": return this.IsFullyOwned() ? this.Owner.replace("NPC-", "") : PrivateCharacter.find(c => NPCEventGet(c, "EndSubTrial") > 0).Name;
+				case "online": return this.Ownership.Name;
+				case "player": return this.Owner;
+				default:
+					return "";
+			}
+		},
+		OwnerNumber: function () {
+			if (this.IsOwned() === "online")
+				return this.Ownership.MemberNumber;
+			return -1;
 		},
 		IsOwnedByMemberNumber: function (memberNumber) {
-			return (this.Ownership != null) &&
-				(this.Ownership.MemberNumber != null) &&
-				(this.Ownership.MemberNumber == memberNumber);
+			return (this.OwnerNumber() === memberNumber);
+		},
+		OwnedSince: function () {
+			switch (this.IsOwned()) {
+				case "online":
+					return Math.floor((CurrentTime - this.Ownership.Start) / 86400000);
+				case "player":
+					return Math.floor((CurrentTime - NPCEventGet(this, "NPCCollaring")) / 86400000);
+				case "npc": {
+					for (const npc of PrivateCharacter) {
+						let time = NPCEventGet(npc, "PlayerCollaring");
+						if (time > 0) return Math.floor((CurrentTime - time) / 86400000);
+						time = NPCEventGet(npc, "EndSubTrial");
+						if (time > 0) return Math.floor((time - CurrentTime) / 86400000);
+					}
+					return false;
+				}
+			}
+			return false;
 		},
 		IsOwner: function () {
-			return ((NPCEventGet(this, "EndSubTrial") > 0) || (this.Name == Player.Owner.replace("NPC-", "")));
-		},
-		IsLoverOfPlayer: function () {
-			return this.IsLover(Player);
+			return Player.IsOwnedByCharacter(this);
 		},
 		IsLover: function (C) {
+			return this.IsLoverOfCharacter(C);
+		},
+		IsLoverOfCharacter: function (C) {
+			const loves = this.GetLovership();
+			if (C.IsNpc()) {
+				const love = loves.find(l => !l.MemberNumber && l.Name === C.Name);
+				return love.Start > 0;
+			}
+
 			return (
 				this.IsLoverOfMemberNumber(C.MemberNumber) ||
-				(((this.Lover != null) && (this.Lover.trim() == C.Name)) || (NPCEventGet(this, "Girlfriend") > 0))
+				this.IsNpc() && (((this.Lover != null) && (this.Lover.trim() == C.Name)) || (NPCEventGet(this, "Girlfriend") > 0))
 			);
+		},
+		LoverName: function () {
+			// Only valid for NPCs. Online character can have many lovers
+			if (this.IsNpc() && this.Lover)
+				return this.Lover.replace("NPC-", "").trim();
+			return "";
+		},
+		IsLoverOfPlayer: function () {
+			return this.IsLoverOfCharacter(Player);
 		},
 		IsLoverOfMemberNumber: function (memberNumber) {
 			return this.GetLoversNumbers().indexOf(memberNumber) >= 0;
 		},
 		GetLoversNumbers: function (MembersOnly) {
-			return CharacterGetLoversNumbers(this, MembersOnly);
+			return this.GetLovership(MembersOnly).map(l => l.MemberNumber ? l.MemberNumber : l.Name);
+		},
+		GetLovership: function (MembersOnly) {
+			/** @type {Lovership[]} */
+			let loves = [];
+			if (!(CommonIsArray(this.Lovership) || (this.IsNpc() && this.Lover != ""))) return loves;
+
+			if (this.IsNpc()) {
+				// NPC can only love the player at the moment. Reconstruct their lovership data
+				/** @type {Lovership} */
+				const love = { Name: this.Lover, MemberNumber: Player.MemberNumber };
+
+				let stages = ["Wife", "Fiancee", "Girlfriend"];
+				for (const [idx, stage] of stages.entries()) {
+					love.Start = NPCEventGet(this, stage);
+					if (love.Start > 0) {
+						love.Stage = /** @type {0|1|2} */ (stages.length - 1 - idx);
+						break;
+					}
+				}
+
+				if (love.Start !== 0)
+					loves.push(love);
+
+				return loves;
+			}
+
+			for (let L of this.Lovership) {
+				if (typeof L.MemberNumber === "number") {
+					// Anything with a MemberNumber is a relationship with an online character, so properties should be fine
+					loves.push(L);
+				} else if (L.Name && (MembersOnly == null || MembersOnly == false)) {
+					// Otherwise, this is an NPC, so just go fetch their reconstructed data and use that as ours
+					const npcName = L.Name.replace("NPC-", "");
+					const lover = PrivateCharacter.find(c => c.Name === npcName);
+					if (!lover) continue;
+
+					const npcLove = lover.GetLovership().find(l => l.MemberNumber === Player.MemberNumber);
+					if (!npcLove) continue;
+
+					/** @type {Lovership} */
+					const love = { Name: npcName };
+					love.Stage = npcLove.Stage;
+					love.Start = npcLove.Start;
+					loves.push(love);
+				}
+			}
+			return loves;
 		},
 		GetDeafLevel: function () {
 			let deafLevel = 0;
@@ -359,9 +487,6 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 				}
 			}
 			return deafLevel;
-		},
-		IsLoverPrivate: function () {
-			return ((NPCEventGet(this, "Girlfriend") > 0) || (Player.GetLoversNumbers().indexOf("NPC-" + this.Name) >= 0));
 		},
 		IsKneeling: function () {
 			return CommonIncludes(PoseAllKneeling, this.PoseMapping.BodyLower);
@@ -395,27 +520,20 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 				   ((new Date(this.Creation)).getFullYear() != (new Date(CurrentTime)).getFullYear());
 		},
 		IsFamilyOfPlayer: function () {
-			if (this.IsPlayer()) return false;
-			if (this.IsOwner() || this.IsOwnedByPlayer()) return true;
-			if ((Player.Ownership != null) && (this.MemberNumber === Player.Ownership.MemberNumber)) return true;
-			return ((Player.Ownership != null) && (this.Ownership != null) && (Player.Ownership.MemberNumber === this.Ownership.MemberNumber));
+			return this.IsInFamilyOfMemberNumber(Player.MemberNumber);
 		},
-		IsInFamilyOfMemberNumber: function(MemberNum) {
-			if (ChatRoomCharacter == null) return false;
-			if (this.IsPlayer())
-				for (let Char of ChatRoomCharacter)
-					if (Char.MemberNumber == MemberNum)
-						return Char.IsFamilyOfPlayer();
-			if ((!this.IsPlayer()) && (MemberNum === Player.MemberNumber))
-				return this.IsFamilyOfPlayer();
-			if ((!this.IsPlayer()) && (MemberNum !== Player.MemberNumber))
-				for (let Char of ChatRoomCharacter)
-					if (Char.MemberNumber == MemberNum) {
-						if ((Char.Ownership != null) && (this.Ownership != null) && (Char.Ownership.MemberNumber === this.Ownership.MemberNumber)) return true;
-						if ((Char.Ownership != null) && (Char.Ownership.MemberNumber == this.MemberNumber)) return true;
-						if ((this.Ownership != null) && (this.Ownership.MemberNumber == Char.MemberNumber)) return true;
-						return false;
-					}
+		IsInFamilyOfMemberNumber: function (MemberNum) {
+			if (MemberNum === Player.MemberNumber) return false;
+
+			let C = ChatRoomCharacter.find(c => c.MemberNumber === MemberNum);
+			if (!C) C = PrivateCharacter.find(c => c.MemberNumber === MemberNum);
+			if (!C) C = Character.find(c => c.MemberNumber === MemberNum);
+			if (!C) return false;
+
+			// Check that we either share owners, are owned by this character, or that this character owns us
+			if (this.OwnerNumber() === C.OwnerNumber()) return true;
+			if (this.IsOwnedByCharacter(C)) return true;
+			if (C.IsOwnedByCharacter(this)) return true;
 			return false;
 		},
 		IsOnline: function () {
@@ -1753,13 +1871,7 @@ function CharacterHasBlockedItem(C, BlockList) {
  * given character
  */
 function CharacterGetLoversNumbers(C, MembersOnly) {
-	var LoversNumbers = [];
-	if (typeof C.Lovership == "undefined") return [];
-	for (let L = 0; L < C.Lovership.length; L++) {
-		if (C.Lovership[L].MemberNumber) { LoversNumbers.push(C.Lovership[L].MemberNumber); }
-		else if (C.Lovership[L].Name && (MembersOnly == null || MembersOnly == false)) { LoversNumbers.push(C.Lovership[L].Name); }
-	}
-	return LoversNumbers;
+	return C.GetLoversNumbers(MembersOnly);
 }
 
 /**
@@ -1948,14 +2060,32 @@ function CharacterHasArousalEnabled(C) {
 }
 
 /**
- * Removes all ownership and owner-only data
+ * Clears a character's ownership.
+ *
+ * If the character is the player, this will also cleanup rules,
+ * owner-locked items, and trigger a server ownership break-up.
+ *
  * @param {Character} C - The character breaking from their owner
+ * @param {boolean} push - Whether to push the data to the server
  * @returns {void} - Nothing.
  */
-function CharacterClearOwnership(C) {
+function CharacterClearOwnership(C, push=true) {
+	// Grab the type now before we clear ownership
+	const ownerType = C.IsOwned();
 	C.Owner = "";
 	C.Ownership = null;
+
 	if (C.IsPlayer()) {
+		switch (ownerType) {
+			case "online":
+				ServerSend("AccountOwnership", { MemberNumber: Player.Ownership.MemberNumber, Action: "Break" });
+				break;
+
+			case "npc":
+				ServerPlayerSync();
+				break;
+		}
+
 		LoginValidCollar();
 		LogDeleteGroup("OwnerRule");
 	}

@@ -232,11 +232,11 @@ function ActivityCheckPrerequisite(prereq, acting, acted, group) {
 				return InventoryPrerequisiteMessage(acting, "AccessVulva") === "";
 			break;
 		case "Sisters":
-			return !acting.HasPenis() && !acted.HasPenis() && (acting.Ownership != null) && (acted.Ownership != null) && (acted.Ownership.MemberNumber == acting.Ownership.MemberNumber);
+			return !acting.HasPenis() && !acted.HasPenis() && acting.IsOwnedByMemberNumber(acted.OwnerNumber());
 		case "Brothers":
-			return acting.HasPenis() && acted.HasPenis() && (acting.Ownership != null) && (acted.Ownership != null) && (acted.Ownership.MemberNumber == acting.Ownership.MemberNumber);
+			return acting.HasPenis() && acted.HasPenis() && acting.IsOwnedByMemberNumber(acted.OwnerNumber());
 		case "SiblingsWithDifferentGender":
-			return (acting.HasPenis() != acted.HasPenis()) && (acting.Ownership != null) && (acted.Ownership != null) && (acted.Ownership.MemberNumber == acting.Ownership.MemberNumber);
+			return (acting.HasPenis() != acted.HasPenis()) && acting.IsOwnedByMemberNumber(acted.OwnerNumber());
 		default:
 			break;
 	}
@@ -710,7 +710,7 @@ function ActivityOrgasmPrepare(C, Bypass) {
 
 		// If an NPC orgasmed, it will raise her love based on the horny trait
 		if (C.IsNpc())
-			if ((C.Love == null) || (C.Love < 60) || (C.IsOwner()) || (C.IsOwnedByPlayer()) || C.IsLoverPrivate())
+			if ((C.Love == null) || (C.Love < 60) || (C.IsOwner()) || (C.IsOwnedByPlayer()) || C.IsLoverOfPlayer())
 				NPCLoveChange(C, Math.floor((NPCTraitGet(C, "Horny") + 100) / 20) + 1);
 
 	}

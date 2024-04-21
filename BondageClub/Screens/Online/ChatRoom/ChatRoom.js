@@ -400,12 +400,12 @@ function ChatRoomCanTakeDrink() { return ((CurrentCharacter != null) && (Current
  * Checks if the current character is owned by the player.
  * @returns {boolean} - TRUE if the current character is owned by the player.
  */
-function ChatRoomIsCollaredByPlayer() { return ((CurrentCharacter != null) && (CurrentCharacter.Ownership != null) && (CurrentCharacter.Ownership.Stage == 1) && (CurrentCharacter.Ownership.MemberNumber == Player.MemberNumber)); }
+function ChatRoomIsCollaredByPlayer() { return (CurrentCharacter != null && CurrentCharacter.IsOwnedByPlayer() && CurrentCharacter.IsFullyOwned()); }
 /**
  * Checks if the current character is owned by the player. (Including trial)
  * @returns {boolean} - TRUE if the current character is owned by the player.
  */
-function ChatRoomIsOwnedByPlayer() { return CurrentCharacter != null && CurrentCharacter.Ownership != null && CurrentCharacter.Ownership.MemberNumber == Player.MemberNumber; }
+function ChatRoomIsOwnedByPlayer() { return (CurrentCharacter != null && CurrentCharacter.IsOwnedByPlayer()); }
 /**
  * Checks if the current character is wearing any collar.
  * @returns {boolean} - TRUE if the current character is owned by the player.
@@ -425,7 +425,7 @@ function ChatRoomCanServeDrink() { return ((CurrentCharacter != null) && Current
  * Checks if the player can give a money envelope to her owner
  * @returns {boolean} - TRUE if the current character is the owner of the player, and the player has the envelope
  */
-function ChatRoomCanGiveMoneyForOwner() { return ((ChatRoomMoneyForOwner > 0) && (CurrentCharacter != null) && (Player.Ownership != null) && (Player.Ownership.Stage == 1) && (Player.Ownership.MemberNumber == CurrentCharacter.MemberNumber)); }
+function ChatRoomCanGiveMoneyForOwner() { return (CurrentCharacter != null && Player.IsOwnedByCharacter(CurrentCharacter) && Player.IsFullyOwned() && ChatRoomMoneyForOwner > 0); }
 /**
  * Checks if the player is a chatroom admin.
  * @returns {boolean} - TRUE if the player is an admin of the current chatroom.
@@ -1043,10 +1043,7 @@ function ChatRoomMenuBuild() {
  * @returns {boolean} - Returns TRUE if the player's owner is inside the room.
  */
 function ChatRoomOwnerInside() {
-	for (let C = 0; C < ChatRoomCharacter.length; C++)
-		if (Player.Ownership.MemberNumber == ChatRoomCharacter[C].MemberNumber)
-			return true;
-	return false;
+	return ChatRoomCharacter.some(c => c.IsOwnedByCharacter(Player));
 }
 
 /**
@@ -4478,7 +4475,7 @@ function ChatRoomGetRule(RuleType, Sender) {
 function ChatRoomSetRule(data) {
 
 	// Only works if the sender is the player, and the player is fully collared
-	if ((data != null) && (Player.Ownership != null) && (Player.Ownership.Stage == 1) && (Player.Ownership.MemberNumber == data.Sender)) {
+	if (data != null && Player.IsFullyOwned() && Player.IsOwnedByMemberNumber(data.Sender)) {
 
 		// Wardrobe/changing rules
 		if (data.Content == "OwnerRuleChangeAllow") LogDelete("BlockChange", "OwnerRule");
@@ -4807,7 +4804,7 @@ function ChatRoomConcatenateBanList(IncludesBlackList, IncludesGhostList, Existi
  */
 function ChatRoomConcatenateAdminList(IncludesOwner, IncludesLovers, ExistingList) {
 	var AdminList = Array.isArray(ExistingList) ? ExistingList : [];
-	if (IncludesOwner && (Player.Ownership != null) && (Player.Ownership.MemberNumber != null)) AdminList = AdminList.concat(Player.Ownership.MemberNumber);
+	if (IncludesOwner && Player.OwnerNumber() !== -1) AdminList = AdminList.concat(Player.OwnerNumber());
 	if (IncludesLovers) CommonArrayConcatDedupe(AdminList, Player.GetLoversNumbers(true));
 	return AdminList.filter((MemberNumber, Idx, Arr) => Arr.indexOf(MemberNumber) == Idx);
 }
@@ -4823,7 +4820,7 @@ function ChatRoomGetLoadRules(C) {
 		C = ChatRoomCharacter.find(CC => CC.MemberNumber == C);
 	}
 	if (C == null) return;
-	if (Player.Ownership && Player.Ownership.MemberNumber != null && Player.Ownership.MemberNumber == C.MemberNumber) {
+	if (Player.IsOwnedByCharacter(C)) {
 		ServerSend("ChatRoomChat", {
 			Content: "RuleInfoSet",
 			Type: "Hidden",
@@ -5120,14 +5117,14 @@ function ChatRoomOwnerForbiddenWordCheck(Message) {
 function ChatRoomOwnerPresenceRule(RuleName, Target) {
 
 	if (!LogQuery(RuleName, "OwnerRule")) return false; // FALSE if the rule isn't set
-	if ((Player.Ownership == null) || (Player.Ownership.Stage !== 1)) return false; // FALSE if the player isn't fully collared
+	if (!Player.IsFullyOwned()) return false; // FALSE if the player isn't fully collared
 	if (!ChatRoomOwnerInside()) return false; // FALSE if the owner isn't inside
 
 	// Some rules are only on with specific targets
 	let Rule = true;
 	if (RuleName == "BlockAccessSelf") Rule = ((Target != null) && (Player.MemberNumber === Target.MemberNumber)); // Block access self only if target is herself
 	if (RuleName == "BlockAccessOther") Rule = ((Target != null) && (Player.MemberNumber !== Target.MemberNumber)); // Block access other only if target is another member
-	if (RuleName == "BlockWhisper") Rule = ((Target != null) && (Player.Ownership.MemberNumber !== Target.MemberNumber)); // Block whisper doesn't block whispering to the owner
+	if (RuleName == "BlockWhisper") Rule = ((Target != null) && Player.IsOwnedByCharacter(Target)); // Block whisper doesn't block whispering to the owner
 
 	// Shows a warning message in the chat log if the rule is enforced
 	if (Rule) {

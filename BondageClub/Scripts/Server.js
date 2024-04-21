@@ -820,7 +820,7 @@ function ServerAccountOwnership(data) {
 
 	// If we must clear the character ownership data
 	if ((data != null) && (typeof data === "object") && !Array.isArray(data) && (data.ClearOwnership === true)) {
-		CharacterClearOwnership(Player);
+		CharacterClearOwnership(Player, false);
 	}
 
 }
@@ -862,7 +862,7 @@ function ServerChatRoomGetAllowItem(Source, Target) {
 	if (typeof Target.MemberNumber !== "number") return true;
 
 	// At zero permission level or if target is source or if owner, we allow it
-	if ((Target.ItemPermission <= 0) || (Source.MemberNumber == Target.MemberNumber) || ((Target.Ownership != null) && (Target.Ownership.MemberNumber != null) && (Target.Ownership.MemberNumber == Source.MemberNumber))) return true;
+	if ((Target.ItemPermission <= 0) || (Source.MemberNumber == Target.MemberNumber) || Target.IsOwnedByCharacter(Source)) return true;
 
 	// At one, we allow if the source isn't on the blacklist
 	if ((Target.ItemPermission == 1) && (Target.BlackList.indexOf(Source.MemberNumber) < 0)) return true;

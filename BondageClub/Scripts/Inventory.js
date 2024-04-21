@@ -1282,7 +1282,7 @@ function InventoryCharacterIsWearingLock(C, LockName) {
 * @returns {Boolean} - TRUE if one owner only restraint is found
 */
 function InventoryCharacterHasOwnerOnlyRestraint(C) {
-	if ((C.Ownership == null) || (C.Ownership.MemberNumber == null)) return false;
+	if (!C.IsOwned()) return false;
 	if (C.Appearance != null)
 		for (let A = 0; A < C.Appearance.length; A++)
 			if (C.Appearance[A].Asset.IsRestraint && InventoryOwnerOnlyItem(C.Appearance[A]))

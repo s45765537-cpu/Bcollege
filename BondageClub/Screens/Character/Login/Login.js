@@ -351,24 +351,37 @@ function LoginPerformInventoryFixups(Inventory, Appearance, Crafting) {
  * @returns {void} Nothing
  */
 function LoginValidCollar() {
-	if ((InventoryGet(Player, "ItemNeck") != null) && (InventoryGet(Player, "ItemNeck").Asset.Name == "SlaveCollar") && (Player.Owner == "" || LogQuery("ReleasedCollar", "OwnerRule"))) {
-		InventoryRemove(Player, "ItemNeck");
-		if (CurrentScreen == "ChatRoom") {
-			ChatRoomCharacterItemUpdate(Player, "ItemNeck");
-			ChatRoomCharacterItemUpdate(Player, "ItemNeckAccessories");
-			ChatRoomCharacterItemUpdate(Player, "ItemNeckRestraints");
+	let item = InventoryGet(Player, "ItemNeck");
+	if (!Player.IsFullyOwned() || LogQuery("ReleasedCollar", "OwnerRule")) {
+		// Not owned, or currently released from the collar, make sure we don't have it equipped
+		if (item && item.Asset.Name == "SlaveCollar") {
+			InventoryRemove(Player, "ItemNeck");
+			item = null;
+			if (CurrentScreen == "ChatRoom") {
+				ChatRoomCharacterItemUpdate(Player, "ItemNeck");
+				ChatRoomCharacterItemUpdate(Player, "ItemNeckAccessories");
+				ChatRoomCharacterItemUpdate(Player, "ItemNeckRestraints");
+			}
 		}
 	}
-	if (!LogQuery("ReleasedCollar", "OwnerRule")) {
-		if ((InventoryGet(Player, "ItemNeck") != null) && (InventoryGet(Player, "ItemNeck").Asset.Name != "SlaveCollar") && (InventoryGet(Player, "ItemNeck").Asset.Name != "ClubSlaveCollar") && (Player.Owner != "")) {
+
+	if (Player.IsFullyOwned() && !LogQuery("ReleasedCollar", "OwnerRule")) {
+		// Owned, but not currently released from the collar
+		if (item && !["SlaveCollar", "ClubSlaveCollar"].includes(item.Asset.Name)) {
+			// We're wearing something else, yank that
 			InventoryRemove(Player, "ItemNeck");
+			item = null;
 			if (CurrentScreen == "ChatRoom") ChatRoomCharacterItemUpdate(Player, "ItemNeck");
 		}
-		if ((InventoryGet(Player, "ItemNeck") == null) && (Player.Owner != "")) {
+
+		if (!item) {
+			// Now make sure we're wearing the slave collar
 			InventoryWear(Player, "SlaveCollar", "ItemNeck");
 			if (CurrentScreen == "ChatRoom") ChatRoomCharacterItemUpdate(Player, "ItemNeck");
 		}
 	}
+
+	// Check if we should switch to the club slave collar
 	if (LogQuery("ClubSlave", "Management") && !InventoryIsWorn(Player, "ClubSlaveCollar", "ItemNeck"))
 		InventoryWear(Player, "ClubSlaveCollar", "ItemNeck");
 }
@@ -888,7 +901,7 @@ function LoginResponse(C) {
 						} else {
 
 							// If the player must start in her room, in her cage
-							if (LogQuery("SleepCage", "Rule") && (Player.Owner != "") && PrivateOwnerInRoom()) {
+							if (LogQuery("SleepCage", "Rule") && Player.IsOwned() === "npc" && PrivateOwnerInRoom()) {
 								InventoryRemove(Player, "ItemFeet");
 								InventoryRemove(Player, "ItemLegs");
 								Player.Cage = true;

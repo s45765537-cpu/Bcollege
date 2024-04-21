@@ -222,7 +222,7 @@ function PrivateBedActivityStart(Source, Target, Group, Activity) {
 
 	// If the player uses that activity on an NPC, it can raise the love between them
 	if (Source.IsPlayer() && Target.IsNpc() && (Target.Love <= Math.random() * 100))
-		if ((Target.Love < 60) || (Target.IsOwner()) || (Target.IsOwnedByPlayer()) || Target.IsLoverPrivate())
+		if ((Target.Love < 60) || (Target.IsOwner()) || (Target.IsOwnedByPlayer()) || Target.IsLoverOfPlayer())
 			NPCLoveChange(Target, 1);
 
 	// Flag the activity as done
@@ -277,7 +277,7 @@ function PrivateBedNPCActivity(Source) {
 			if ((A.Name == "Kiss") && (Source.Love < 25)) continue; // Gag kisses will only happen if love is positive
 			if ((A.Name == "Suck") && (Source.Love < 50)) continue; // Sucks will only happen if love is positive
 			if ((A.Name == "FrenchKiss") && (Source.Love < 75)) continue; // French kisses will only happen if love is positive
-			if ((A.Name == "FrenchKiss") && !Source.IsLover(Target)) continue; // French kisses will only happen if source and target are lovers
+			if ((A.Name == "FrenchKiss") && !Source.IsLoverOfCharacter(Target)) continue; // French kisses will only happen if source and target are lovers
 			if ((A.Name == "PoliteKiss") && (Source.Love < 0)) continue; // Polite kisses will only happen if love is positive
 			if ((A.Name == "PoliteKiss") && (NPCTraitGet(Source, "Polite") <= 0)) continue; // Only polite NPCs will do polite kisses
 			if ((A.Name == "Lick") && (NPCTraitGet(Source, "Horny") <= 0)) continue; // Only horny NPCs will lick

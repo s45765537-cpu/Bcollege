@@ -1061,10 +1061,14 @@ interface Ownership {
 }
 
 interface Lovership {
+	/** The name of the loved one. */
 	Name: string;
-	MemberNumber: number;
-	Stage: 0 | 1 | 2;
-	Start: number;
+	/** The member number of the loved one. Only exists for online characters */
+	MemberNumber?: number;
+	/** The stage of the love. 0 is Girlfriend, 1 is Fiancée, 2 is Wife */
+	Stage?: 0 | 1 | 2;
+	/** The timestamp of the beginning of the relationship */
+	Start?: number;
 	// Bad data sometimes received from server
 	BeginDatingOfferedByMemberNumber?: never;
 	BeginEngagementOfferedByMemberNumber?: never;
@@ -1329,9 +1333,6 @@ interface Character {
 
 	/**
 	 * Check whether a character can change another one's outfit.
-	 *
-	 * @param {Character} C - The character to check against.
-	 * @returns {boolean} - TRUE if changing is possible, FALSE otherwise.
 	 */
 	CanChangeClothesOn: (C: Character) => boolean;
 	IsRestrained: () => boolean;
@@ -1342,8 +1343,25 @@ interface Character {
 	IsBreastChaste: () => boolean;
 	IsButtChaste: () => boolean;
 	IsEgged: () => boolean;
-	IsOwned: () => boolean;
+	/**
+	 * Whether the character is owned, and who owns it
+	 */
+	IsOwned: () => "online"|"npc"|"ggts"|"player"|false;
+	/** Whether the character is owned by the given character */
+	IsOwnedByCharacter: (C: Character) => boolean;
+	/** Whether the character is owned by the given character, number form */
+	IsOwnedByMemberNumber: (memberNumber: number) => boolean;
+	/** Whether the character has completed their ownership trial */
+	IsFullyOwned: () => boolean;
+	/** The name of this character's owner */
+	OwnerName: () => string;
+	/** The character's owner number. Might be -1 for non-online characters */
+	OwnerNumber: () => number;
+	/** Whether the player owns that character */
 	IsOwnedByPlayer: () => boolean;
+	/** The number of days since the character has been owned */
+	OwnedSince: () => number | false;
+	/** Whether the given character owns the player */
 	IsOwner: () => boolean;
 	IsKneeling: () => boolean;
 	IsStanding: () => boolean;
@@ -1351,8 +1369,20 @@ interface Character {
 	IsDeaf: () => boolean;
 	IsGagged: () => boolean;
 	HasNoItem: () => boolean;
+	/** Whether the character is in love with the given character */
+	IsLoverOfCharacter: (C: Character) => boolean;
+	/** Whether the character is in love with the given character, number form */
+	IsLoverOfMemberNumber: (memberNumber: number) => boolean;
+	/** The character's lover name. NPC-only */
+	LoverName: () => string;
+	/** Whether the character is in love with the player */
 	IsLoverOfPlayer: () => boolean;
+	/** Returns the list of member numbers (or names, for NPCs) the character is in love with */
 	GetLoversNumbers: (MembersOnly?: boolean) => (number | string)[];
+	/** Returns the lovership data for the character */
+	GetLovership: (MembersOnly?: boolean) => Lovership[];
+	/** @deprecated Use IsLoverOfCharacter() */
+	IsLover: (C: Character) => boolean;
 	HiddenItems: ItemPermissions[];
 	HeightRatio: number;
 	HasHiddenItems: boolean;
@@ -1370,17 +1400,13 @@ interface Character {
 	IsVulvaFull: () => boolean;
 	IsAssFull: () => boolean;
 	IsFixedHead: () => boolean;
-	IsOwnedByMemberNumber: (memberNumber: number) => boolean;
-	IsLover: (C: Character) => boolean;
-	IsLoverOfMemberNumber: (memberNumber: number) => boolean;
 	GetDeafLevel: () => number;
-	IsLoverPrivate: () => boolean;
 	IsEdged: () => boolean;
 	IsPlayer: () => this is PlayerCharacter;
 	IsBirthday: () => boolean;
 	IsFamilyOfPlayer: () => boolean;
 	IsInFamilyOfMemberNumber: (MemberNum: number) => boolean;
-	IsOnline: () => boolean;
+	IsOnline: () => this is Character;
 	IsNpc: () => this is NPCCharacter;
 	IsSimple: () => boolean;
 	GetDifficulty: () => number;
