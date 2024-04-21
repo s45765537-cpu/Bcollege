@@ -1618,13 +1618,25 @@ var ClubCardList = [
 		ID: 31008,
 		Name: "Homeroom",
 		Type: "Event",
-		RequiredLevel: 1,
 		Time: 4,
 		CanPlay: function(CCPlayer) {
 			let collegeStudentCount = ClubCardGroupOnBoardCount(CCPlayer, "CollegeStudent");
 			let collegeTeacherCount = ClubCardGroupOnBoardCount(CCPlayer, "CollegeTeacher");
 
 			return collegeStudentCount + collegeTeacherCount >= 3
+		}
+	}, 
+	{
+		ID: 31009,
+		Name: "Recess",
+		Type: "Event",
+		RequiredLevel: 3,
+		OnPlay: function(CCPlayer) {
+			let collegeAndBabyCount = ClubCardGroupOnBoardCount(CCPlayer, "CollegeStudent") + ClubCardGroupOnBoardCount(CCPlayer, "ABDLBaby");
+
+			ClubCardPlayerDrawCard(CCPlayer, 2);
+			ClubCardPlayerAddMoney(CCPlayer, collegeAndBabyCount)
+			ClubCardLogPublish("Effect Recess", CCPlayer, collegeAndBabyCount);
 		}
 	}
 ];

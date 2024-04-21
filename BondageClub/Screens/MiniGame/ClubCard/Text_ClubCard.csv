@@ -369,3 +369,6 @@ Text Homeroom,Can only be played if you control 3 or more College members. Both 
 Title Student Custodian,Student Custodian
 Text Student Custodian,"When the opponent plays an Liability or Event, you lose 2 money and draw a card."
 Effect Student Custodian,OPPONENTPLAYER gained AMOUNT money and drew a card from Student Custodian
+Title Recess,Recess
+Text Recess,Draw 2 cards. Gain 2 money for each ABDL Baby and College Student present.
+Effect Recess, SOURCEPLAYER draws 2 cards and gains AMOUNT money from Recess
