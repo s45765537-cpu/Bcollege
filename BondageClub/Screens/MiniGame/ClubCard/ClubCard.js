@@ -964,7 +964,7 @@ var ClubCardList = [
 
 			if(playedAnEventOrLiability) {
 				ClubCardPlayerAddMoney(cardOwner, 2);
-				ClubCardPlayerDrawCard(cardOwner, 1)
+				ClubCardPlayerDrawCard(cardOwner, 1);
 				ClubCardLogPublish("Effect Student Custodian", CCPlayer, 2);
 			}
 		}
@@ -977,12 +977,12 @@ var ClubCardList = [
 		BeforeTurnEnd: function(CCPlayer) {
 			const asylumPatientPresent = ClubCardGroupIsOnBoard(CCPlayer, "AsylumPatient");
 			if(asylumPatientPresent) {
-				ClubCardPlayerAddMoney(CCPlayer, 1)
+				ClubCardPlayerAddMoney(CCPlayer, 1);
 			}
 
 			const collegeTeacherPresent = ClubCardGroupIsOnBoard(CCPlayer, "CollegeTeacher");
 			if(collegeTeacherPresent) {
-				ClubCardPlayerAddFame(CCPlayer, 1)
+				ClubCardPlayerAddFame(CCPlayer, 1);
 			}
 		}
 	},
@@ -1640,9 +1640,9 @@ var ClubCardList = [
 			let collegeStudentCount = ClubCardGroupOnBoardCount(CCPlayer, "CollegeStudent");
 			let collegeTeacherCount = ClubCardGroupOnBoardCount(CCPlayer, "CollegeTeacher");
 
-			return collegeStudentCount + collegeTeacherCount >= 3
+			return collegeStudentCount + collegeTeacherCount >= 3;
 		}
-	}, 
+	},
 	{
 		ID: 31009,
 		Name: "Recess",
@@ -1652,7 +1652,7 @@ var ClubCardList = [
 			let collegeAndBabyCount = ClubCardGroupOnBoardCount(CCPlayer, "CollegeStudent") + ClubCardGroupOnBoardCount(CCPlayer, "ABDLBaby");
 
 			ClubCardPlayerDrawCard(CCPlayer, 2);
-			ClubCardPlayerAddMoney(CCPlayer, collegeAndBabyCount)
+			ClubCardPlayerAddMoney(CCPlayer, collegeAndBabyCount);
 			ClubCardLogPublish("Effect Recess", CCPlayer, collegeAndBabyCount);
 		}
 	},
@@ -1661,7 +1661,7 @@ var ClubCardList = [
 		Name: "First Bell",
 		Type: "Event",
 		OnPlay: function(CCPlayer) {
-			ClubCardPlayerDrawGroupCard(CCPlayer, "CollegeTeacher")
+			ClubCardPlayerDrawGroupCard(CCPlayer, "CollegeTeacher");
 		}
 	}
 ];
@@ -1797,12 +1797,12 @@ function ClubCardPlayerAddFame(CCPlayer, Amount) {
 function ClubCardUpgradeLevel(CCPlayer) {
 	// Homeroom blocks both players from ugprading while it is on the board
 	const blockedByEvent = ClubCardNameIsOnBoard(CCPlayer, "Homeroom") || ClubCardNameIsOnBoard(ClubCardGetOpponent(CCPlayer), "Homeroom");
-	const affordLevelUp = CCPlayer.Money < ClubCardLevelCost[CCPlayer.Level + 1]
-	const isMaxlevel = CCPlayer.Level >= ClubCardLevelCost.length - 1
+	const affordLevelUp = CCPlayer.Money < ClubCardLevelCost[CCPlayer.Level + 1];
+	const isMaxlevel = CCPlayer.Level >= ClubCardLevelCost.length - 1;
 
 	if (isMaxlevel || affordLevelUp || blockedByEvent) {
 		return;
-	} 
+	}
 
 	CCPlayer.Level++;
 	ClubCardPlayerAddMoney(CCPlayer, ClubCardLevelCost[CCPlayer.Level] * -1);
@@ -2002,7 +2002,7 @@ function ClubCardPlayerDrawGroupCard(CCPlayer, group) {
 		return;
 	}
 
-	const groupCardsInDeck = CCPlayer.Deck.filter(card => card.Group.includes(group))
+	const groupCardsInDeck = CCPlayer.Deck.filter(value => value.Group.includes(group));
 	if(groupCardsInDeck.length === 0) {
 		return;
 	}
@@ -2011,17 +2011,17 @@ function ClubCardPlayerDrawGroupCard(CCPlayer, group) {
 	ClubCardSetGlow(card, "#00FFFF");
 
 	CCPlayer.Hand.push(CCPlayer.Deck[0]);
-	const cardIndex = CCPlayer.Deck.findIndex(value => value.ID === card.ID)
+	const cardIndex = CCPlayer.Deck.findIndex(value => value.ID === card.ID);
 	CCPlayer.Deck.splice(cardIndex, 1);
 
 	CheckDetectiveDraw(CCPlayer);
 }
 
 /**
- * 
+ *
  * @param {ClubCardPlayer} CCPlayer - The club card player that draws the cards
  * @returns {void} - Nothing
- * 
+ *
  */
 function CheckDetectiveDraw(CCPlayer) {
 	if(ClubCardNameIsOnBoard(ClubCardGetOpponent(CCPlayer), "Detective")){
