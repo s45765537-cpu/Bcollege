@@ -1595,6 +1595,19 @@ var ClubCardList = [
 				ClubCardLogPublish("Effect Daycare Party", CCPlayer, mommyCount);
 			}
 		}
+	},
+	{
+		ID: 31008,
+		Name: "Homeroom",
+		Type: "Event",
+		RequiredLevel: 1,
+		Time: 4,
+		CanPlay: function(CCPlayer) {
+			let collegeStudentCount = ClubCardGroupOnBoardCount(CCPlayer, "CollegeStudent");
+			let collegeTeacherCount = ClubCardGroupOnBoardCount(CCPlayer, "CollegeTeacher");
+
+			return collegeStudentCount + collegeTeacherCount >= 3
+		}
 	}
 ];
 
@@ -1723,11 +1736,19 @@ function ClubCardPlayerAddFame(CCPlayer, Amount) {
 
 /**
  * Raises the level of player
- * @param {Object} CCPlayer - The club card player
+ * @param {ClubCardPlayer} CCPlayer - The club card player
  * @returns {void} - Nothing
  */
 function ClubCardUpgradeLevel(CCPlayer) {
-	if ((CCPlayer.Level >= ClubCardLevelCost.length - 1) || (CCPlayer.Money < ClubCardLevelCost[CCPlayer.Level + 1])) return;
+	// Homeroom blocks both players from ugprading while it is on the board
+	const blockedByEvent = ClubCardNameIsOnBoard(CCPlayer, "Homeroom") || ClubCardNameIsOnBoard(ClubCardGetOpponent(CCPlayer), "Homeroom");
+	const affordLevelUp = CCPlayer.Money < ClubCardLevelCost[CCPlayer.Level + 1]
+	const isMaxlevel = CCPlayer.Level >= ClubCardLevelCost.length - 1
+
+	if (isMaxlevel || affordLevelUp || blockedByEvent) {
+		return;
+	} 
+
 	CCPlayer.Level++;
 	ClubCardPlayerAddMoney(CCPlayer, ClubCardLevelCost[CCPlayer.Level] * -1);
 	let Text = TextGet("UpgradedToLevel" + CCPlayer.Level.toString());
