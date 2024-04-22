@@ -315,7 +315,7 @@ function ElementPosition(ElementID, X, Y, W, H) {
 	const WRatio = MainCanvas.canvas.clientWidth / 2000;
 	const Font = MainCanvas.canvas.clientWidth <= MainCanvas.canvas.clientHeight * 2 ? MainCanvas.canvas.clientWidth / 50 : MainCanvas.canvas.clientHeight / 25;
 	const Height = H ? H * HRatio : Font * 1.15;
-	const Width = W * WRatio - 18;
+	const Width = W * WRatio;
 	const Top = MainCanvas.canvas.offsetTop + Y * HRatio - Height / 2;
 	const Left = MainCanvas.canvas.offsetLeft + (X - W / 2) * WRatio;
 
