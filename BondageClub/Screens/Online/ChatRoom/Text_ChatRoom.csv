@@ -2,7 +2,7 @@ ActionGrabbedToServeDrinksIntro,(Two maids grab you and escort you to their quar
 PublicChat,Talk to everyone
 WhisperTo,Whisper to
 WhisperFrom,Whisper from
-MenuCut,Keep only 20 messages
+MenuCut,Keep 20- or all current-room messages
 MenuProfile,Your character profile
 MenuRoomAdmin,Room administration
 MenuCustomizationOn,Turn room customization on
