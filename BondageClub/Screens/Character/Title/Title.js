@@ -191,20 +191,16 @@ function TitleRun() {
 	if (TitleNicknameStatus)
 		DrawText(TextGet(TitleNicknameStatus), 1000, 250, "red");
 
-	MainCanvas.textAlign = "left";
-	DrawText(TextGet("CurrentTitle").replace("TITLE", TextGet("Title" + (Player.Title || "None"))), 130, 285, "Black", "Gray");
-	MainCanvas.textAlign = "center";
-
 	// List all the available titles
 	let X = 130;
-	let Y = 325;
+	let Y = 250;
 	for (let T = TitleOffset; T < TitleOffset + TitlePerPage && T < TitleListFiltered.length; T++) {
 		const isCurrentTitle = TitleSelectedTitle == TitleListFiltered[T].Name;
-		DrawButton(X, Y, 400, 65, TextGet("Title" + TitleListFiltered[T].Name), isCurrentTitle ? "yellow" : 'White', undefined, undefined, isCurrentTitle);
+		DrawButton(X, Y, 400, 60, TextGet("Title" + TitleListFiltered[T].Name), isCurrentTitle ? "yellow" : 'White', undefined, undefined, isCurrentTitle);
 		X = X + 450;
 		if (X > 1500) {
 			X = 130;
-			Y = Y + 100;
+			Y = Y + 80;
 		}
 	}
 
@@ -229,15 +225,13 @@ function TitleClick() {
 
 	// When the user selects a title
 	let X = 130;
-	let Y = 325;
+	let Y = 250;
 	for (let T = TitleOffset; T < TitleOffset + TitlePerPage && T < TitleListFiltered.length; T++) {
-		if (MouseIn(X, Y, 400, 65)) {
-			TitleSelectedTitle = TitleListFiltered[T].Name;
-		}
+		if (MouseIn(X, Y, 400, 60)) TitleSelectedTitle = TitleListFiltered[T].Name;
 		X = X + 450;
 		if (X > 1500) {
 			X = 130;
-			Y = Y + 100;
+			Y = Y + 80;
 		}
 	}
 }
