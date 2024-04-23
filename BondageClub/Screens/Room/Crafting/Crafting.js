@@ -231,8 +231,12 @@ function CraftingShowScreen(FromChatRoom) {
  */
 function CraftingLoad() {
 	Player.Crafting ??= [];
-	CraftingModeSet("Slot");
-	CraftingOffset = 0;
+
+	// Abort if we're loading an already-loaded screen
+	if (CraftingPreview) {
+		return;
+	}
+
 	CraftingPreview = CharacterLoadSimple(`CraftingPreview-${Player.MemberNumber}`);
 	CraftingPreview.Appearance = [...Player.Appearance];
 	CraftingPreview.Crafting = JSON.parse(JSON.stringify(Player.Crafting));
@@ -1140,6 +1144,7 @@ function CraftingConvertItemToSelected(Craft) {
 function CraftingExit() {
 	CharacterDelete(CraftingPreview);
 	CraftingPreview = null;
+	CraftingOffset = 0;
 	CraftingReorderModeSet("None");
 	CraftingModeSet("Slot");
 	if (CraftingReturnToChatroom)
