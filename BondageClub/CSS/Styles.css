@@ -586,11 +586,13 @@ input[type="checkbox"]:checked::before {
 	margin: 0;
 	color: white;
 	font-size: min(5vh, 2.5vw);
+	padding: min(2vh, 1vw);
 }
 
 #layering input[type=number] {
 	/* Add an absolute 16px marigin to better deal with the increment/decrement button scaling upon resizing */
 	width: calc(min(7vh, 3.5vw) + 16px);
+	padding: min(0.2vh, 0.1vw);
 }
 
 #layering input[type=number]:focus {
