@@ -330,12 +330,13 @@ var Layering = {
 		};
 
 		this.Load();
-		this.Resize(true);
 	},
 
 	/** @type {ScreenFunctions["Load"]} */
 	Load() {
-		if (document.getElementById(this.ID.root)) {
+		let elem = document.getElementById(this.ID.root);
+		if (elem != null) {
+			this.Resize(true);
 			return;
 		}
 
@@ -366,7 +367,7 @@ var Layering = {
 		const assetPriority = this.Asset.DrawingPriority ?? this.Asset.Group.DrawingPriority;
 		const itemPriority = Number.isInteger(this.OverridePriority) ? this.OverridePriority : assetPriority;
 		const defaultItemPriority = Number.isInteger(this._PriorityDefault) ? this._PriorityDefault : assetPriority;
-		const elem = ElementCreateDiv(this.ID.root);
+		elem = ElementCreateDiv(this.ID.root);
 		// NOTE: Button ordering in the grid is from right to left
 		elem.innerHTML = `
 			<h1 id=${this.ID.assetHeader}>${InterfaceTextGet("LayeringAsset")}</h1>
@@ -428,6 +429,8 @@ var Layering = {
 				h.innerText = cache.cache[key] ?? (h.dataset.layeringGroup || this.Asset.Description);
 			});
 		});
+
+		this.Resize(true);
 	},
 
 	/**
