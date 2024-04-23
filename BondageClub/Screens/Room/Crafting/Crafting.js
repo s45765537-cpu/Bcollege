@@ -1142,6 +1142,25 @@ function CraftingConvertItemToSelected(Craft) {
  * @returns {void} - Nothing
  */
 function CraftingExit() {
+	// Return to the `Name` sub-screen, if already there move to the `Slot` sub-screen and if already there exit the crafting screen
+	switch (CraftingMode) {
+		case "OverridePriority":
+			Layering.Exit();
+			return;
+		case "Color":
+			ItemColorExitClick();
+			return;
+		case "Extended":
+			DialogLeaveFocusItem();
+			return;
+		case "Slot":
+			// Break away and perform a full exit of the crafting screen
+			break;
+		default:
+			CraftingModeSet("Slot");
+			return;
+	}
+
 	CharacterDelete(CraftingPreview);
 	CraftingPreview = null;
 	CraftingOffset = 0;
