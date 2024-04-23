@@ -658,11 +658,14 @@ input[type="checkbox"]:checked::before {
 	width: 100%;
 }
 
+#layering-layer-outer-grid:not(:last-child) .layering-layer-inner-grid {
+	padding-bottom: min(2vh, 1vw);
+}
+
 .layering-layer-inner-grid {
 	display: grid;
 	grid-template-columns: 50% 50%;
 	gap: min(2vh, 1vw) 0;
-	padding-bottom: min(2vh, 1vw);
 	width: 100%;
 }
 
