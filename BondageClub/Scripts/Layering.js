@@ -228,6 +228,20 @@ var Layering = {
 	},
 
 	/**
+	 * Event listener for `blur` events of number-based input elements.
+	 * Sanitizes the elements value upon deselecting the element.
+	 * @private
+	 * @param {HTMLInputElement} elem
+	 */
+	_BlurListener(elem) {
+		if (Number.isNaN(elem.valueAsNumber)) {
+			elem.value = elem.defaultValue;
+		} else {
+			elem.value = CommonClamp(elem.valueAsNumber, -99, 99).toString();
+		}
+	},
+
+	/**
 	 * Event listener for `click` events of the reset button
 	 * @private
 	 */
@@ -407,10 +421,12 @@ var Layering = {
 		assetElements.forEach(e => {
 			e.addEventListener("input", (event) => this._AssetInputListener(event));
 			e.addEventListener("focus", (event) => /** @type {HTMLInputElement} */(event.target).select());
+			e.addEventListener("blur", (event) => () => this._BlurListener(e));
 		});
 		layerElements.forEach(e => {
 			e.addEventListener("input", (event) => this._LayerInputListener(event));
 			e.addEventListener("focus", (event) => /** @type {HTMLInputElement} */(event.target).select());
+			e.addEventListener("blur", (event) => () => this._BlurListener(e));
 		});
 
 		// Color either the asset- or layer-specific input elements light gray,
