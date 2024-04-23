@@ -1064,7 +1064,7 @@ function CraftingClick(event) {
 	}
 
 	if (CraftingMode == "OverridePriority") {
-		Layering.Exit();
+		return;
 	}
 }
 
