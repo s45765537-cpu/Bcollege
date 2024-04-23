@@ -23,6 +23,8 @@ OrgasmResist,Resist!
 OrgasmTryResist,Try to resist
 OrgasmSurrender,Surrender
 OrgasmRecovering,Recovering from an orgasm...
+ChatRoomStruggleRun,Struggling...
+ChatRoomStruggleGiveUp,Give up
 CommandHelp,<strong>Help: KeyWord</strong>
 CommandNoSuchCommand,command: no such command
 CommandPrerequisiteFailed,command: prerequisite check failed

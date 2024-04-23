@@ -2400,11 +2400,12 @@ function DialogClick() {
 			StruggleMinigameClick();
 		} else {
 			for (const [idx, [game, data]] of StruggleGetMinigames().entries()) {
-				if (MouseIn(1387 + 300 * (idx - 1), 600, 225, 275) && data.DisablingCraftedProperty && !InventoryCraftPropertyIs(DialogStrugglePrevItem, data.DisablingCraftedProperty)) {
+				if (MouseIn(1387 + 300 * (idx - 1), 550, 225, 275) && data.DisablingCraftedProperty && !InventoryCraftPropertyIs(DialogStrugglePrevItem, data.DisablingCraftedProperty)) {
 					StruggleMinigameStart(Player, game, DialogStrugglePrevItem, DialogStruggleNextItem, DialogStruggleStop);
 					DialogMenuButtonBuild(C);
 				}
 			}
+			if ((CurrentScreen === "ChatRoom") && MouseIn(1300, 880, 400, 65)) StruggleChatRoomStart();
 		}
 		return;
 	}
@@ -2994,27 +2995,33 @@ function DialogDraw() {
 		if (StruggleMinigameDraw(C)) {
 			// Minigame running and drawn
 		} else {
+
 			// Draw previews for the assets we're swapping/struggling
 			if (DialogStrugglePrevItem && DialogStruggleNextItem) {
-				DrawItemPreview(DialogStrugglePrevItem, C, 1200, 150);
-				DrawItemPreview(DialogStruggleNextItem, C, 1200, 150);
+				DrawItemPreview(DialogStrugglePrevItem, C, 1200, 100);
+				DrawItemPreview(DialogStruggleNextItem, C, 1200, 100);
 			} else if (DialogStrugglePrevItem || DialogStruggleNextItem) {
 				const item = DialogStrugglePrevItem || DialogStruggleNextItem;
-				DrawItemPreview(item, C, 1387, 150);
+				DrawItemPreview(item, C, 1387, 100);
 			}
 
 			// Draw UI to select struggling minigame
-			DrawText(InterfaceTextGet("ChooseStruggleMethod"), 1500, 550, "White", "Black");
-
+			DrawText(InterfaceTextGet("ChooseStruggleMethod"), 1500, 500, "White", "Black");
 			for (const [idx, [game, data]] of StruggleGetMinigames().entries()) {
 				const offset = 300 * idx;
-				const hover = MouseIn(1087 + offset, 600, 225, 275);
+				const hover = MouseIn(1087 + offset, 550, 225, 275);
 				const disabled = data.DisablingCraftedProperty ? InventoryCraftPropertyIs(DialogStrugglePrevItem, data.DisablingCraftedProperty) : false;
 				const bgColor = disabled ? "Gray" : (hover ? "aqua" : "white");
-				DrawRect(1087 + offset, 600, 225, 275, bgColor);
-				DrawImageResize("Icons/Struggle/" + game + ".png", 1089 + offset, 602, 221, 221);
-				DrawTextFit(InterfaceTextGet(`Struggle${game}`), 1200 + offset, 850, 221, "black");
+				DrawRect(1087 + offset, 550, 225, 275, bgColor);
+				DrawImageResize("Icons/Struggle/" + game + ".png", 1089 + offset, 552, 221, 221);
+				DrawTextFit(InterfaceTextGet(`Struggle${game}`), 1200 + offset, 800, 221, "black");
 			}
+
+			// In online chat rooms, there's a fourth "Chat Room Struggle" option
+			if (CurrentScreen === "ChatRoom") {
+				DrawButton(1300, 880, 400, 65, InterfaceTextGet("ChatRoomStruggleButton"), "White");
+			}
+
 		}
 		return;
 	}
@@ -3445,6 +3452,9 @@ function DialogActualNameForGroup(C, G) {
  * @param {Item} NextItem
  */
 function DialogStruggleStart(C, Action, PrevItem, NextItem) {
+
+	// Sets the status struggle and cancels previous struggles
+	if (ChatRoomStruggleData != null) StruggleChatRoomStop();
 	ChatRoomStatusUpdate("Struggle");
 
 	// If it's not the player struggling, or we're applying a new item, or the

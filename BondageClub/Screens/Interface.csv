@@ -49,6 +49,10 @@ ChatRoomHelp,Type /help for a list of commands
 ChatRoomLeashNotFriend,You are not on that member's friendlist; ask TargetPronounObject to friend you before leashing TargetPronounObject.
 ChatRoomSpaceAsylum,<i>Asylum</i>
 ChooseStruggleMethod,Choose struggling method...
+ChatRoomStruggleButton,Struggle in chat room
+ChatRoomStruggleStart,SourceCharacter begins to struggle out of PrevAsset
+ChatRoomStruggleGiveUp,SourceCharacter gives up struggling out of PrevAsset
+ChatRoomStruggleSuccess,SourceCharacter struggles out of PrevAsset
 ClearActivePoses,Clear active poses
 ClearFacialExpressions,Clear facial expressions
 ColorSave,Save color to currently selected slot

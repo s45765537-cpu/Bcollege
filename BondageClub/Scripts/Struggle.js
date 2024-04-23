@@ -1620,3 +1620,44 @@ function StruggleLockPickSetup(C, Item) {
 
 	}
 }
+
+/**
+ * Starts the online chat room struggle progress
+ * @returns {void} - Nothing
+ */
+function StruggleChatRoomStart() {
+	ChatRoomPublishAction(Player, "ChatRoomStruggleStart", DialogStrugglePrevItem, null);
+	let Diff = StruggleStrengthGetDifficulty(Player, DialogStrugglePrevItem, null);
+	if (Diff.timer < 0) Diff.timer = 0;
+	Diff.timer = Diff.timer + 10;
+	ChatRoomStruggleData = {
+		Progress: 0,
+		Difficulty: Diff.difficulty,
+		Auto: Diff.auto,
+		Timer: Diff.timer,
+		Start: CommonTime(),
+		LastRun: CommonTime()
+	}
+	DialogLeave();
+}
+
+/**
+ * Ends the online chat room struggle progress
+ * @returns {void} - Nothing
+ */
+function StruggleChatRoomStop() {
+	ChatRoomPublishAction(Player, "ChatRoomStruggleGiveUp", DialogStrugglePrevItem, null);
+	ChatRoomStruggleData = null;
+}
+
+/**
+ * Ends the online chat room struggle progress
+ * @returns {void} - Nothing
+ */
+function StruggleChatRoomSuccess() {
+	if (DialogStrugglePrevItem != null) {
+		ChatRoomPublishAction(Player, "ChatRoomStruggleSuccess", DialogStrugglePrevItem, null);
+		InventoryRemove(Player, DialogStrugglePrevItem.Asset.Group.Name);
+	}
+	ChatRoomStruggleData = null;
+}

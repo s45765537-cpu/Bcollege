@@ -45,6 +45,7 @@ var ChatRoomHelpSeen = false;
 var ChatRoomAllowCharacterUpdate = true;
 var ChatRoomStruggleAssistBonus = 0;
 var ChatRoomStruggleAssistTimer = 0;
+var ChatRoomStruggleData = null;
 /**
  * The timer started when a slowed player attempts to leave
  * @type {number}
@@ -1674,13 +1675,13 @@ function ChatRoomChatInputChangeHandler(event) {
  * @returns {void} - Nothing.
  */
 function ChatRoomStatusCheckExpiration() {
-	const isCrawling = (Player.Status == "Crawl") && ChatRoomIsLeavingSlowly();
 	if (Player.StatusTimer) {
-		if (Player.StatusTimer < CommonTime()) {
+		if (Player.StatusTimer < CommonTime())
 			ChatRoomStatusUpdate(null);
-		}
-	} else if (!isCrawling) {
-		ChatRoomStatusUpdate(null);
+	} else {
+		const isCrawling = (Player.Status == "Crawl") && ChatRoomIsLeavingSlowly();
+		if (!isCrawling && (ChatRoomStruggleData == null))
+			ChatRoomStatusUpdate(null);
 	}
 }
 
@@ -1747,7 +1748,8 @@ function ChatRoomRun() {
 	if (CurrentTime > ChatRoomGetUpTimer) ChatRoomGetUpTimer = 0;
 
 	// Draw the buttons at the top-right
-	ChatRoomMenuDraw();
+	if (ChatRoomStruggleData == null) ChatRoomMenuDraw();
+	else ChatRoomStruggleDraw();
 
 	// Process attempts at leaving slowly
 	ChatRoomProcessSlowLeave();
@@ -1809,6 +1811,39 @@ function ChatRoomDrawArousalOverlay()
 	}
 
 	return orgasmScreen;
+}
+
+/**
+ * Draws the chat room struggle progress bar and buttons
+ * @returns {void} - Nothing
+ */
+function ChatRoomStruggleDraw() {
+
+	// Increments the progress based on the time
+	let Time = CommonTime();
+	if (ChatRoomStruggleData.Timer <= 0) ChatRoomStruggleData.Timer = 1;
+	let Progress = (Time - ChatRoomStruggleData.LastRun) / (ChatRoomStruggleData.Timer * 5);
+	if ((ChatRoomStruggleData.Difficulty < 4) && (Math.random() >= 1 - ChatRoomStruggleData.Progress / 1000)) Progress = Progress * (ChatRoomStruggleData.Difficulty - 4);
+	ChatRoomStruggleData.Progress = ChatRoomStruggleData.Progress + Progress;
+	let MaxProgress = (ChatRoomStruggleData.Difficulty < -6) ? 100 + ChatRoomStruggleData.Difficulty : 100;
+	if (MaxProgress < 50) MaxProgress = 50;
+	if (MaxProgress > 100) MaxProgress = 100;
+	if (ChatRoomStruggleData.Progress > MaxProgress) ChatRoomStruggleData.Progress = MaxProgress;
+	if (ChatRoomStruggleData.Progress < 0) ChatRoomStruggleData.Progress = 0;
+	ChatRoomStruggleData.LastRun = Time;
+
+	// At 100 progress, we complete the struggle
+	if (ChatRoomStruggleData.Progress == 100) {
+		StruggleChatRoomSuccess();
+		return;
+	}
+
+	// Draw the controls
+	if ((Player.Status == null) || (Player.Status !== "Talk")) ChatRoomStatusUpdate("Struggle");
+	DrawText(TextGet("ChatRoomStruggleRun"), 1150, 30, "White", "Silver");
+	DrawProgressBar(1300, 3, 480, 55, ChatRoomStruggleData.Progress);
+	DrawButton(1800, 0, 195, 60, TextGet("ChatRoomStruggleGiveUp"), "White");
+
 }
 
 /**
@@ -1927,12 +1962,18 @@ function ChatRoomClick(event) {
 	}
 
 	// In the left part of the screen
-	if (MouseIn(0, 0, 1000, 1000)) {
-		if(ChatRoomActiveView.Click) return ChatRoomActiveView.Click(event);
-	}
+	if (MouseIn(0, 0, 1000, 1000))
+		if (ChatRoomActiveView.Click)
+			return ChatRoomActiveView.Click(event);
 
 	// When the user clicks a menu button in the top-right
-	if (MouseYIn(0, 62)) ChatRoomMenuClick();
+	if ((MouseYIn(0, 62)) && (ChatRoomStruggleData == null))
+		return ChatRoomMenuClick();
+
+	// If the user wants to stop struggling
+	if (MouseIn(1800, 0, 195, 60) && (ChatRoomStruggleData != null))
+		return StruggleChatRoomStop();
+
 }
 
 /**
