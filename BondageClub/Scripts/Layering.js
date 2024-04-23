@@ -356,7 +356,7 @@ var Layering = {
 				Name ??= this.Asset.Name;
 				innerHTML += `
 					<div class=layering-pair>
-						<input type=number data-layer-priority=${defaultLayerPriority} data-name=${Name} min=-99 max=99 value=${layerPriority}></input>
+						<input type=number data-layer-priority=${defaultLayerPriority} data-name=${Name} min=-99 max=99 value=${layerPriority} inputmode="numeric"></input>
 						<span class=layering-pair-text>${Name}</span>
 					</div>
 				`;
