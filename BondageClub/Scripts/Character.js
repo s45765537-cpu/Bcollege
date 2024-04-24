@@ -363,7 +363,13 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		OwnerName: function () {
 			switch (this.IsOwned()) {
 				case "ggts": return TextGet("OwnerGGTS");
-				case "npc": return this.IsFullyOwned() ? this.Owner.replace("NPC-", "") : PrivateCharacter.find(c => NPCEventGet(c, "EndSubTrial") > 0).Name;
+				case "npc": {
+					if (this.IsFullyOwned()) {
+						return this.Owner.replace("NPC-", "");
+					 }
+					 const privateOwner = PrivateCharacter.find(c => NPCEventGet(c, "EndSubTrial") > 0);
+					 return privateOwner?.Name ?? "";
+				}
 				case "online": return this.Ownership.Name;
 				case "player": return this.Owner;
 				default:
