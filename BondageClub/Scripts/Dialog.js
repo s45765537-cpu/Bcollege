@@ -1464,7 +1464,7 @@ function DialogMenuButtonBuild(C) {
 				DialogMenuButton.push("PermissionMode");
 		}
 
-		if (Item != null && Player.CanInteract()) {
+		if (Item != null && C.IsPlayer() && Player.CanInteract()) {
 			DialogMenuButton.push("Layering");
 		}
 	}
