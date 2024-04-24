@@ -4243,7 +4243,6 @@ Light,Light
 LightSuction,Light
 Locked,Locked
 LockMittens,Padlock mitten buckles
-LockZoneBlocked,Another item is blocking access to this lock
 Loose,Loose
 loosens,loosens
 LuckyWheelAddSection,Add
@@ -4973,11 +4972,9 @@ WebBondageSuspended,Suspended
 WebBondageSuspensionHogtied,Suspension Hogtied
 WebBondageTangled,Tangled
 WebBondageWrapped,Wrapped
-WillRemoveItemWithTimer,The item will be removed when the lock timer runs out
 WingsSteampunkWingsOff,Off
 WingsSteampunkWingsOn,On
 WingsSteampunkWingsSelect,Select the state.
-WontRemoveItemWithTimer,The item will stay when the lock timer runs out
 YourRoom,<i>Your private room</i>
 ZipBondageZipFeetFull,Full Binding
 ZipBondageZipFeetLight,Light Binding

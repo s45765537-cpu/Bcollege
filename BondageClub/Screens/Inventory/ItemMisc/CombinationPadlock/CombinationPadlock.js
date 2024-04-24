@@ -111,7 +111,7 @@ function InventoryItemMiscCombinationPadlockDrawHook(data, originalFunction) {
 	if (playerBlind) LockMemberNumber = "?";
 	else LockMemberNumber = Property && Property.LockMemberNumber && Property.LockMemberNumber.toString();
 	if (LockMemberNumber != null) {
-		DrawText(AssetTextGet("LockMemberNumber") + " " + LockMemberNumber, 1500, 500, "white", "gray");
+		DrawText(InterfaceTextGet("LockMemberNumber") + " " + LockMemberNumber, 1500, 500, "white", "gray");
 	}
 
 	const additionalInfo = [];
@@ -124,7 +124,7 @@ function InventoryItemMiscCombinationPadlockDrawHook(data, originalFunction) {
 
 	if (InventoryGroupIsBlocked(C, C.FocusGroup.Name)) {
 		// If the zone is blocked, just display some text informing the player that they can't access the lock
-		DrawText(AssetTextGet("LockZoneBlocked"), 1500, 800, "white", "gray");
+		DrawText(InterfaceTextGet("LockZoneBlocked"), 1500, 800, "white", "gray");
 	} else {
 		// Otherwise, draw the combination inputs
 		MainCanvas.textAlign = "right";

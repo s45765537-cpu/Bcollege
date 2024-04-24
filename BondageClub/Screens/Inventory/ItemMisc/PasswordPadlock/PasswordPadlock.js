@@ -41,7 +41,7 @@ function InventoryItemMiscPasswordPadlockDrawHook(data, originalFunction) {
 	const C = CharacterGetCurrent();
 	if (InventoryGroupIsBlocked(C, C.FocusGroup.Name)) {
 		// If the zone is blocked, just display some text informing the player that they can't access the lock
-		DrawText(AssetTextGet("LockZoneBlocked"), 1500, 800, "white", "gray");
+		DrawText(InterfaceTextGet("LockZoneBlocked"), 1500, 800, "white", "gray");
 	} else {
 		InventoryItemMiscPasswordPadlockDrawControls();
 	}

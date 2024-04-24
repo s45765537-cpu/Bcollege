@@ -11,5 +11,5 @@ function InventoryItemMiscExclusivePadlockDrawHook(data, originalFunction) {
 	DrawText(msg, 1500, 700, "white", "gray");
 
 	if ((DialogFocusSourceItem != null) && (DialogFocusSourceItem.Property != null) && (DialogFocusSourceItem.Property.LockMemberNumber != null))
-		DrawText(AssetTextGet("LockMemberNumber") + " " + DialogFocusSourceItem.Property.LockMemberNumber.toString(), 1500, 800, "white", "gray");
+		DrawText(InterfaceTextGet("LockMemberNumber") + " " + DialogFocusSourceItem.Property.LockMemberNumber.toString(), 1500, 800, "white", "gray");
 }
