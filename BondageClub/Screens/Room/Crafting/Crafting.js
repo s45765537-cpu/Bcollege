@@ -50,9 +50,6 @@ let CraftingNakedPreview = false;
 /** Whether exiting the crafting menu should return you to the chatroom or, otherwise, the main hall. */
 let CraftingReturnToChatroom = false;
 
-/** Pagination offset used for the `Priority` {@link CraftingMode}. */
-let CraftingOverridePriorityOffset = 0;
-
 /** List of item indices collected for swapping.
  * @type {number[]}
  */
@@ -231,8 +228,12 @@ function CraftingShowScreen(FromChatRoom) {
  */
 function CraftingLoad() {
 	Player.Crafting ??= [];
-	CraftingModeSet("Slot");
-	CraftingOffset = 0;
+
+	// Abort if we're loading an already-loaded screen
+	if (CraftingPreview) {
+		return;
+	}
+
 	CraftingPreview = CharacterLoadSimple(`CraftingPreview-${Player.MemberNumber}`);
 	CraftingPreview.Appearance = [...Player.Appearance];
 	CraftingPreview.Crafting = JSON.parse(JSON.stringify(Player.Crafting));
@@ -531,7 +532,6 @@ function CraftingModeSet(NewMode) {
 	}
 
 	CraftingMode = NewMode;
-	CraftingOverridePriorityOffset = 0;
 	if (NewMode == "Item") {
 		let Input = ElementCreateInput("InputSearch", "text", "", "50");
 		Input.addEventListener("input", CraftingItemListBuild);
@@ -1064,7 +1064,7 @@ function CraftingClick(event) {
 	}
 
 	if (CraftingMode == "OverridePriority") {
-		Layering.Exit();
+		return;
 	}
 }
 
@@ -1138,8 +1138,28 @@ function CraftingConvertItemToSelected(Craft) {
  * @returns {void} - Nothing
  */
 function CraftingExit() {
+	// Return to the `Name` sub-screen, if already there move to the `Slot` sub-screen and if already there exit the crafting screen
+	switch (CraftingMode) {
+		case "OverridePriority":
+			Layering.Exit();
+			return;
+		case "Color":
+			ItemColorExitClick();
+			return;
+		case "Extended":
+			DialogLeaveFocusItem();
+			return;
+		case "Slot":
+			// Break away and perform a full exit of the crafting screen
+			break;
+		default:
+			CraftingModeSet("Slot");
+			return;
+	}
+
 	CharacterDelete(CraftingPreview);
 	CraftingPreview = null;
+	CraftingOffset = 0;
 	CraftingReorderModeSet("None");
 	CraftingModeSet("Slot");
 	if (CraftingReturnToChatroom)

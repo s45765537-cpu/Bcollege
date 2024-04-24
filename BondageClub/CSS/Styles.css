@@ -586,15 +586,21 @@ input[type="checkbox"]:checked::before {
 	margin: 0;
 	color: white;
 	font-size: min(5vh, 2.5vw);
+	padding: min(2vh, 1vw);
 }
 
 #layering input[type=number] {
 	/* Add an absolute 16px marigin to better deal with the increment/decrement button scaling upon resizing */
 	width: calc(min(7vh, 3.5vw) + 16px);
+	padding: min(0.2vh, 0.1vw);
 }
 
 #layering input[type=number]:focus {
-	background-color: white !important;
+	background-color: white;
+}
+
+#layering input[type=number]:invalid {
+	background-color: #fbb;
 }
 
 .layering-button-grid {
@@ -652,11 +658,14 @@ input[type="checkbox"]:checked::before {
 	width: 100%;
 }
 
+#layering-layer-outer-grid:not(:last-child) .layering-layer-inner-grid {
+	padding-bottom: min(2vh, 1vw);
+}
+
 .layering-layer-inner-grid {
 	display: grid;
 	grid-template-columns: 50% 50%;
 	gap: min(2vh, 1vw) 0;
-	padding-bottom: min(2vh, 1vw);
 	width: 100%;
 }
 
