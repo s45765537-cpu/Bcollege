@@ -1388,7 +1388,9 @@ function ChatRoomStimulationMessage(Action) {
 		ActivityEffectFlat(Player, Player, event.arousal, event.item.Asset.Group.Name, 1);
 	const duration = (Math.random() + event.arousal / 2.4) * 500;
 	DrawFlashScreen("#FFB0B0", duration, 140);
-	CharacterSetFacialExpression(Player, "Blush", "VeryHigh", Math.ceil(duration / 250));
+	if (Player.ArousalSettings?.AffectExpression) {
+		CharacterSetFacialExpression(Player, "Blush", "VeryHigh", Math.ceil(duration / 250));
+	}
 
 	var index = Math.floor(Math.random() * 3);
 	const Dictionary = [
