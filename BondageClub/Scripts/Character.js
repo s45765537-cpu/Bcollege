@@ -405,8 +405,9 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		IsLoverOfCharacter: function (C) {
 			const loves = this.GetLovership();
 			if (C.IsNpc()) {
-				const love = loves.find(l => !l.MemberNumber && l.Name === C.Name);
-				return love.Start > 0;
+				const Love = loves.find(l => !l.MemberNumber && l.Name === C.Name);
+				if (Love == null) return false;
+				return Love.Start > 0;
 			}
 
 			return (
