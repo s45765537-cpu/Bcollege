@@ -77,6 +77,7 @@ DialogMenuActivity,Sexual activities
 DialogMenuCancel,Cancel
 DialogMenuColorCancel,Default color
 DialogMenuColorChange,Change item color
+DialogMenuColorExpressionChange,Change expression color
 DialogMenuColorDefault,Select default color
 DialogMenuColorPickDisabled,Unable to change color due to player permissions
 DialogMenuCrafting,Crafted properties
