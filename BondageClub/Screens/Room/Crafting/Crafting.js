@@ -50,9 +50,6 @@ let CraftingNakedPreview = false;
 /** Whether exiting the crafting menu should return you to the chatroom or, otherwise, the main hall. */
 let CraftingReturnToChatroom = false;
 
-/** Pagination offset used for the `Priority` {@link CraftingMode}. */
-let CraftingOverridePriorityOffset = 0;
-
 /** List of item indices collected for swapping.
  * @type {number[]}
  */
@@ -535,7 +532,6 @@ function CraftingModeSet(NewMode) {
 	}
 
 	CraftingMode = NewMode;
-	CraftingOverridePriorityOffset = 0;
 	if (NewMode == "Item") {
 		let Input = ElementCreateInput("InputSearch", "text", "", "50");
 		Input.addEventListener("input", CraftingItemListBuild);
