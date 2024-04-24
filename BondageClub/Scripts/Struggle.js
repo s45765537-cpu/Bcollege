@@ -1631,9 +1631,11 @@ function StruggleChatRoomStart() {
 	if (Diff.timer < 0) Diff.timer = 0;
 	Diff.timer = Diff.timer + 10;
 	ChatRoomStruggleData = {
+		Item: {...DialogStrugglePrevItem},
 		Progress: 0,
+		LoosenMode: false,
+		AllowLoosen: false,
 		Difficulty: Diff.difficulty,
-		Auto: Diff.auto,
 		Timer: Diff.timer,
 		Start: CommonTime(),
 		LastRun: CommonTime()
@@ -1642,11 +1644,37 @@ function StruggleChatRoomStart() {
 }
 
 /**
+ * Starts the loosen progress bar
+ * @returns {void} - Nothing
+ */
+function StruggleChatRoomLoosenStart() {
+	ChatRoomStruggleData.LoosenMode = true;
+	ChatRoomStruggleData.Progress = 0;
+	ChatRoomStruggleData.AllowLoosen = false;
+	ChatRoomStruggleData.Start = CommonTime();
+	ChatRoomStruggleData.LastRun = CommonTime();
+}
+
+/**
+ * Ends the loosen progress bar, reducing the difficulty to struggle
+ * @returns {void} - Nothing
+ */
+function StruggleChatRoomLoosenComplete() {
+	ChatRoomPublishAction(Player, "ChatRoomStruggleLoosenComplete" + Math.floor(Math.random() * 5).toString(), ChatRoomStruggleData.Item, null);
+	ChatRoomStruggleData.Difficulty++;
+	ChatRoomStruggleData.LoosenMode = false;
+	ChatRoomStruggleData.Progress = 0;
+	ChatRoomStruggleData.AllowLoosen = false;
+	ChatRoomStruggleData.Start = CommonTime();
+	ChatRoomStruggleData.LastRun = CommonTime();
+}
+
+/**
  * Ends the online chat room struggle progress
  * @returns {void} - Nothing
  */
 function StruggleChatRoomStop() {
-	ChatRoomPublishAction(Player, "ChatRoomStruggleGiveUp", DialogStrugglePrevItem, null);
+	ChatRoomPublishAction(Player, "ChatRoomStruggleGiveUp", ChatRoomStruggleData.Item, null);
 	ChatRoomStruggleData = null;
 }
 
@@ -1656,8 +1684,9 @@ function StruggleChatRoomStop() {
  */
 function StruggleChatRoomSuccess() {
 	if (DialogStrugglePrevItem != null) {
-		ChatRoomPublishAction(Player, "ChatRoomStruggleSuccess", DialogStrugglePrevItem, null);
-		InventoryRemove(Player, DialogStrugglePrevItem.Asset.Group.Name);
+		ChatRoomPublishAction(Player, "ChatRoomStruggleSuccess", ChatRoomStruggleData.Item, null);
+		InventoryRemove(Player, ChatRoomStruggleData.Item.Asset.Group.Name);
+		ChatRoomCharacterItemUpdate(Player, ChatRoomStruggleData.Item.Asset.Group.Name);
 	}
 	ChatRoomStruggleData = null;
 }

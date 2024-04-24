@@ -1823,9 +1823,9 @@ function ChatRoomStruggleDraw() {
 	let Time = CommonTime();
 	if (ChatRoomStruggleData.Timer <= 0) ChatRoomStruggleData.Timer = 1;
 	let Progress = (Time - ChatRoomStruggleData.LastRun) / (ChatRoomStruggleData.Timer * 5);
-	if ((ChatRoomStruggleData.Difficulty < 4) && (Math.random() >= 1 - ChatRoomStruggleData.Progress / 1000)) Progress = Progress * (ChatRoomStruggleData.Difficulty - 4);
+	if (!ChatRoomStruggleData.LoosenMode && (ChatRoomStruggleData.Difficulty < 4) && (Math.random() >= 1 - ChatRoomStruggleData.Progress / 1000)) Progress = Progress * (ChatRoomStruggleData.Difficulty - 4);
 	ChatRoomStruggleData.Progress = ChatRoomStruggleData.Progress + Progress;
-	let MaxProgress = (ChatRoomStruggleData.Difficulty < -6) ? 100 + ChatRoomStruggleData.Difficulty : 100;
+	let MaxProgress = (!ChatRoomStruggleData.LoosenMode && (ChatRoomStruggleData.Difficulty < -6)) ? 100 + ChatRoomStruggleData.Difficulty : 100;
 	if (MaxProgress < 50) MaxProgress = 50;
 	if (MaxProgress > 100) MaxProgress = 100;
 	if (ChatRoomStruggleData.Progress > MaxProgress) ChatRoomStruggleData.Progress = MaxProgress;
@@ -1834,15 +1834,30 @@ function ChatRoomStruggleDraw() {
 
 	// At 100 progress, we complete the struggle
 	if (ChatRoomStruggleData.Progress == 100) {
-		StruggleChatRoomSuccess();
+		if (ChatRoomStruggleData.LoosenMode) StruggleChatRoomLoosenComplete();
+		else StruggleChatRoomSuccess();
 		return;
 	}
 
-	// Draw the controls
+	// Draw the controls, we allow loosening the item beyond progress 50% if the difficulty allows it
 	if ((Player.Status == null) || (Player.Status !== "Talk")) ChatRoomStatusUpdate("Struggle");
-	DrawText(TextGet("ChatRoomStruggleRun"), 1150, 30, "White", "Silver");
-	DrawProgressBar(1300, 3, 480, 55, ChatRoomStruggleData.Progress);
-	DrawButton(1800, 0, 195, 60, TextGet("ChatRoomStruggleGiveUp"), "White");
+	let Impossible = ((ChatRoomStruggleData.Difficulty < -6) && (ChatRoomStruggleData.Start + 60000 <= Time));
+	if (!ChatRoomStruggleData.AllowLoosen && !ChatRoomStruggleData.LoosenMode)
+		ChatRoomStruggleData.AllowLoosen = ((ChatRoomStruggleData.Progress >= 50) && (ChatRoomStruggleData.Difficulty >= -9) && (ChatRoomStruggleData.Difficulty < 0) && (ChatRoomStruggleData.Item != null) && (ChatRoomStruggleData.Item.Asset != null) && (ChatRoomStruggleData.Item.Asset != null) && ChatRoomStruggleData.Item.Asset.AllowTighten && !InventoryItemHasEffect(ChatRoomStruggleData.Item, "Lock"));
+	let Text = "Struggling";
+	if (Impossible) Text = "Impossible";
+	if (ChatRoomStruggleData.LoosenMode) Text = "Loosening";
+	let Path = `${AssetGetPreviewPath(ChatRoomStruggleData.Item.Asset)}/${ChatRoomStruggleData.Item.Asset.Name}.png`;
+	DrawImageResize(Path, 1010, 5, 50, 50);
+	DrawText(TextGet("ChatRoomStruggle" + Text), 1175, 30, "White", "Silver");
+	if (ChatRoomStruggleData.AllowLoosen) {
+		DrawProgressBar(1300, 3, 390, 55, ChatRoomStruggleData.Progress);
+		DrawButton(1700, 0, 145, 60, TextGet("ChatRoomStruggleLoosen"), "White");
+		DrawButton(1850, 0, 145, 60, TextGet("ChatRoomStruggleGiveUp"), "White");
+	} else {
+		DrawProgressBar(1300, 3, 490, 55, ChatRoomStruggleData.Progress);
+		DrawButton(1800, 0, 195, 60, TextGet("ChatRoomStruggleGiveUp"), "White");
+	}
 
 }
 
@@ -1970,8 +1985,16 @@ function ChatRoomClick(event) {
 	if ((MouseYIn(0, 62)) && (ChatRoomStruggleData == null))
 		return ChatRoomMenuClick();
 
-	// If the user wants to stop struggling
-	if (MouseIn(1800, 0, 195, 60) && (ChatRoomStruggleData != null))
+	// If the user wants to stop struggling (smaller button)
+	if (MouseIn(1700, 0, 145, 60) && (ChatRoomStruggleData != null) && ChatRoomStruggleData.AllowLoosen)
+		return StruggleChatRoomLoosenStart();
+
+	// If the user wants to stop struggling (smaller button)
+	if (MouseIn(1850, 0, 145, 60) && (ChatRoomStruggleData != null) && ChatRoomStruggleData.AllowLoosen)
+		return StruggleChatRoomStop();
+
+	// If the user wants to stop struggling (big button)
+	if (MouseIn(1800, 0, 195, 60) && (ChatRoomStruggleData != null) && !ChatRoomStruggleData.AllowLoosen)
 		return StruggleChatRoomStop();
 
 }

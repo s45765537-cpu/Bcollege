@@ -50,9 +50,14 @@ ChatRoomLeashNotFriend,You are not on that member's friendlist; ask TargetPronou
 ChatRoomSpaceAsylum,<i>Asylum</i>
 ChooseStruggleMethod,Choose struggling method...
 ChatRoomStruggleButton,Struggle in chat room
-ChatRoomStruggleStart,SourceCharacter begins to struggle out of PrevAsset
-ChatRoomStruggleGiveUp,SourceCharacter gives up struggling out of PrevAsset
-ChatRoomStruggleSuccess,SourceCharacter struggles out of PrevAsset
+ChatRoomStruggleStart,SourceCharacter struggles to remove PronounPossessive PrevAsset
+ChatRoomStruggleGiveUp,SourceCharacter gives up struggling out of PronounPossessive PrevAsset
+ChatRoomStruggleSuccess,SourceCharacter struggles out of PronounPossessive PrevAsset
+ChatRoomStruggleLoosenComplete0,SourceCharacter is slowly struggling out of PronounPossessive PrevAsset
+ChatRoomStruggleLoosenComplete1,SourceCharacter is making progress while struggling on PronounPossessive PrevAsset
+ChatRoomStruggleLoosenComplete2,SourceCharacter struggles skillfully to remove PronounPossessive PrevAsset
+ChatRoomStruggleLoosenComplete3,SourceCharacter gradually struggles out of PronounPossessive PrevAsset
+ChatRoomStruggleLoosenComplete4,SourceCharacter methodically works to struggle out of PronounPossessive PrevAsset
 ClearActivePoses,Clear active poses
 ClearFacialExpressions,Clear facial expressions
 ColorSave,Save color to currently selected slot
