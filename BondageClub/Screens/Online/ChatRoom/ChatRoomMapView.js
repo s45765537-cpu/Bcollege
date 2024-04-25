@@ -119,6 +119,10 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 630, Type: "FloorDecorationCamping", Style: "TentBlue", Top: -0.3 },
 	{ ID: 640, Type: "FloorDecorationCamping", Style: "SleepingBagBlue" },
 	{ ID: 650, Type: "FloorDecorationCamping", Style: "ChairRed", Top: -0.35 },
+	{ ID: 660, Type: "FloorDecorationCamping", Style: "Hurdle1",},
+	{ ID: 670, Type: "FloorDecorationCamping", Style: "Hurdle2",},
+	{ ID: 680, Type: "FloorDecorationCamping", Style: "Hurdle3",},
+
 
 	{ ID: 1000, Type: "FloorItem", Style: "Blank" },
 	{ ID: 1010, Type: "FloorItem", Style: "Kennel", Top: -1, Height: 2, AssetName: "Kennel", AssetGroup: "ItemDevices" },
@@ -139,6 +143,7 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 2050, Type: "FloorObstacle", Style: "PineTree", Top: -1, Height: 2 },
 	{ ID: 2055, Type: "FloorObstacle", Style: "PalmTree", Left: -0.30, Top: -1.5, Width: 1.65, Height: 2.5 },
 	{ ID: 2060, Type: "FloorObstacle", Style: "ChristmasTree", Top: -1, Height: 2 },
+	{ ID: 2070, Type: "FloorObstacle", Style: "Window", Top: -0.5, Height: 1.5 },
 
 	{ ID: 3000, Type: "WallDecoration", Style: "Blank" },
 	{ ID: 3010, Type: "WallDecoration", Style: "Painting" },
@@ -1347,6 +1352,10 @@ function ChatRoomMapViewCanEnterTile(X, Y) {
 	// Floor obstacles from 2000 to 3000 cannot be crossed
 	let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(X + Y * ChatRoomMapViewWidth);
 	if ((ObjectID >= 2000) && (ObjectID < 3000)) return 0;
+	// Hurdle 2 cannot be crossed if the Player is Freeze 
+	if ((ObjectID == 670) && Player.HasEffect("Freeze")) return 0;
+	// Hurdle 3 cannot be crossed if the Player is Freeze or slow
+	if ((ObjectID == 680) && (Player.HasEffect("Freeze") || Player.HasEffect("Slow"))) return 0;
 
 	// Enclosed or suspended players cannot change tiles
 	if (Player.IsEnclose() || Player.IsSuspended() || Player.IsMounted()) return 0;
