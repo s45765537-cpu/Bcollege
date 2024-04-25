@@ -1861,6 +1861,43 @@ function ChatRoomStruggleDraw() {
 		DrawButton(1800, 0, 195, 60, TextGet("ChatRoomStruggleGiveUp"), "White");
 	}
 
+	// Generates a struggle animation
+	if (Player.OnlineSharedSettings && Player.OnlineSharedSettings.ItemsAffectExpressions && ChatRoomStruggleData.NextAnim <= Time) {
+
+		// The animation gets stronger the more time passes
+		let Sec = Math.round((Time - ChatRoomStruggleData.Start) / 1000) + (ChatRoomStruggleData.LoosenMode ? 15 : 0);
+		if (Sec <= 15) {
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Eyes", CommonRandomItemFromList("Afk", [null, "Dazed", "Shy"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Blush", CommonRandomItemFromList("Afk", [null, "Low"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Mouth", CommonRandomItemFromList("Afk", [null, "Grin", "Smirk", "HalfOpen"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Eyebrows", CommonRandomItemFromList("Afk", [null, "OneRaised", "Raised"]));
+		} else if (Sec <= 30) {
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Eyes", CommonRandomItemFromList("Afk", [null, "Dazed", "Shy", "Sad", "Closed"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Blush", CommonRandomItemFromList("Afk", [null, "Low", "Medium"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Mouth", CommonRandomItemFromList("Afk", [null, "Grin", "Smirk", "HalfOpen", "Open", "Pout"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Eyebrows", CommonRandomItemFromList("Afk", [null, "OneRaised", "Raised", "Lowered"]));
+		} else if (Sec <= 45) {
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Eyes", CommonRandomItemFromList("Afk", [null, "Dazed", "Shy", "Horny", "Lewd"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Blush", CommonRandomItemFromList("Afk", ["Low", "Medium", "High"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Mouth", CommonRandomItemFromList("Afk", [null, "HalfOpen", "Open", "Pout", "Moan", "LipBite"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Eyebrows", CommonRandomItemFromList("Afk", ["OneRaised", "Raised", "Lowered", "Soft"]));
+		} else if (Sec <= 60) {
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Eyes", CommonRandomItemFromList("Afk", [null, "Horny", "Lewd", "Sad", "Daydream", "Surprised"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Blush", CommonRandomItemFromList("Afk", ["Medium", "High", "VeryHigh"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Mouth", CommonRandomItemFromList("Afk", [null, "Open", "Pout", "Moan", "LipBite", "Pained", "Sad"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Eyebrows", CommonRandomItemFromList("Afk", [null, "Lowered", "Soft", "Harsh", "Angry"]));
+		} else {
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Eyes", CommonRandomItemFromList("Afk", [null, "Horny", "Daydream", "Sad", "Surprised", "Angry", "Closed"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Blush", CommonRandomItemFromList("Afk", ["High", "VeryHigh", "Extreme"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Mouth", CommonRandomItemFromList("Afk", [null, "Open", "Frown", "Moan", "LipBite", "Pained", "Sad", "TonguePinch"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Eyebrows", CommonRandomItemFromList("Afk", ["Raised", "Lowered", "Soft", "Harsh", "Angry"]));
+		}
+
+		// Sets the next animation time
+		ChatRoomStruggleData.NextAnim = Time + 5000 + Math.floor(Math.random() * 5000);
+
+	}
+
 }
 
 /**

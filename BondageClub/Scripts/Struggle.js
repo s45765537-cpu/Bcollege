@@ -1638,7 +1638,12 @@ function StruggleChatRoomStart() {
 		Difficulty: Diff.difficulty,
 		Timer: Diff.timer,
 		Start: CommonTime(),
-		LastRun: CommonTime()
+		LastRun: CommonTime(),
+		NextAnim: CommonTime() + 1000 + Math.floor(Math.random() * 3000),
+		StartExpressionEyes : InventoryGetItemProperty(InventoryGet(Player, "Eyes"), "Expression"),
+		StartExpressionBlush : InventoryGetItemProperty(InventoryGet(Player, "Blush"), "Expression"),
+		StartExpressionMouth : InventoryGetItemProperty(InventoryGet(Player, "Mouth"), "Expression"),
+		StartExpressionEyebrows : InventoryGetItemProperty(InventoryGet(Player, "Eyebrows"), "Expression"),
 	}
 	DialogLeave();
 }
@@ -1670,12 +1675,26 @@ function StruggleChatRoomLoosenComplete() {
 }
 
 /**
+ * Restores the previous expressions and ends the struggling
+ * @returns {void} - Nothing
+ */
+function StruggleChatRoomEndAmination() {
+	if (Player.OnlineSharedSettings && Player.OnlineSharedSettings.ItemsAffectExpressions) {
+		CharacterSetFacialExpression(Player, "Eyes", ChatRoomStruggleData.StartExpressionEyes);
+		CharacterSetFacialExpression(Player, "Blush", ChatRoomStruggleData.StartExpressionBlush);
+		CharacterSetFacialExpression(Player, "Mouth", ChatRoomStruggleData.StartExpressionMouth);
+		CharacterSetFacialExpression(Player, "Eyebrows", ChatRoomStruggleData.StartExpressionEyebrows);
+	}
+	ChatRoomStruggleData = null;
+}
+
+/**
  * Ends the online chat room struggle progress
  * @returns {void} - Nothing
  */
 function StruggleChatRoomStop() {
 	ChatRoomPublishAction(Player, "ChatRoomStruggleGiveUp", ChatRoomStruggleData.Item, null);
-	ChatRoomStruggleData = null;
+	StruggleChatRoomEndAmination();
 }
 
 /**
@@ -1688,5 +1707,5 @@ function StruggleChatRoomSuccess() {
 		InventoryRemove(Player, ChatRoomStruggleData.Item.Asset.Group.Name);
 		ChatRoomCharacterItemUpdate(Player, ChatRoomStruggleData.Item.Asset.Group.Name);
 	}
-	ChatRoomStruggleData = null;
+	StruggleChatRoomEndAmination();
 }
