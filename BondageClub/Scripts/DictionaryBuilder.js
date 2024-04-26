@@ -429,3 +429,13 @@ function IsActivityNameDictionaryEntry(entry) {
 	return CommonIsObject(entry)
 		&& !!entry.ActivityName && typeof entry.ActivityName === "string";
 }
+
+/**
+ * @param {ChatMessageDictionaryEntry} entry
+ * @returns {entry is MessageEffectEntry}
+ */
+function IsMessageEffectDictionaryEntry(entry) {
+	return CommonIsObject(entry)
+		&& !!entry.Effects && CommonIsArray(entry.Effects)
+		&& (!entry.Original || typeof entry.Original === "string");
+}

@@ -189,6 +189,8 @@ type PickLockAvailability = "" | "Disabled" | "PermissionsDisabled" | "Inaccessi
 
 type ItemVulvaFuturisticVibratorAccessMode = "" | "ProhibitSelf" | "LockMember";
 
+type SpeechTransformName = "gagGarble" | "stutter" | "babyTalk" | "deafen";
+
 /** The {@link EffectName} values for all gag-related effects. */
 type GagEffectName = (
 	"GagVeryLight"
@@ -505,6 +507,8 @@ interface IChatRoomMessageMetadata {
 	ActivityAsset?: Asset;
 	/** The name of the chatroom, appropriately garbled */
 	ChatRoomName?: string;
+	/** The original, ungarbled message, if provided by the sender */
+	OriginalMsg?: string;
 }
 
 /**

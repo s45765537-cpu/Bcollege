@@ -150,7 +150,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		},
 
 		CanTalk: function () {
-			const GagEffect = SpeechGetTotalGagLevel(this, true);
+			const GagEffect = SpeechTransformGagGarbleIntensity(this);
 			return (GagEffect <= 0);
 		},
 		CanWalk: function () {

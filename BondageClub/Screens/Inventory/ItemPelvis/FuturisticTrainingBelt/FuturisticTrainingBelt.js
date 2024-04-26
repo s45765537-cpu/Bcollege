@@ -392,7 +392,7 @@ function InventoryFuturisticTrainingBeltCheckPunishSpeech(Item, LastTime) {
 
 
 			if (Item.Property.PunishRequiredSpeech > 0 && Item.Property.PunishRequiredSpeechWord && msg.length > 0) {
-				let gagLevel = SpeechGetTotalGagLevel(Player);
+				let gagLevel = SpeechTransformGagGarbleIntensity(Player);
 				let words =  Item.Property.PunishRequiredSpeechWord.split(",");
 				if (gagLevel < 8) {
 					let pass = false;
@@ -405,7 +405,7 @@ function InventoryFuturisticTrainingBeltCheckPunishSpeech(Item, LastTime) {
 			}
 
 			if (Item.Property.PunishProhibitedSpeech > 0 && Item.Property.PunishProhibitedSpeechWords && msg.length > 0) {
-				let gagLevel = SpeechGetTotalGagLevel(Player);
+				let gagLevel = SpeechTransformGagGarbleIntensity(Player);
 				let words =  Item.Property.PunishProhibitedSpeechWords.split(",");
 
 				const nonLatinCharRegex = new RegExp('^([^\\x20-\\x7F]|\\\\.\\*)+$');
