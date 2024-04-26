@@ -149,6 +149,7 @@ DoBlindFlash,Flash after blindness
 SmoothZoom,Zoom chatrooms smoothly
 CenterChatrooms,Center players in chatrooms
 AllowPlayerLeashing,Players can drag you to rooms when leashed
+AllowRename,Your owner can change or lock your nickname
 DisableAutoMaid,Maids come automatically when restrained
 DisablePickingLocksOnSelf,Locks on you can't be picked
 BlindDisableExamine,Disable examining when blind

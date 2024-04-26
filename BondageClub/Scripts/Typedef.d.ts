@@ -1499,6 +1499,7 @@ interface CharacterOnlineSharedSettings {
 	AllowFullWardrobeAccess: boolean;
 	BlockBodyCosplay: boolean;
 	AllowPlayerLeashing: boolean;
+	AllowRename: boolean;
 	DisablePickingLocksOnSelf: boolean;
 	GameVersion?: string;
 	ItemsAffectExpressions: boolean;

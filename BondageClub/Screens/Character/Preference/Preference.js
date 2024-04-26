@@ -667,6 +667,7 @@ function PreferenceInitPlayer() {
 		C.ImmersionSettings.BlindAdjacent = true;
 		C.ImmersionSettings.AllowTints = true;
 		C.OnlineSharedSettings.AllowPlayerLeashing = true;
+		C.OnlineSharedSettings.AllowRename = true;
 	}
 
 	// Enables the AFK timer for the current player only
@@ -1112,6 +1113,7 @@ function PreferenceSubscreenImmersionRun() {
 		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("StimulationEvents"), Player.ImmersionSettings.StimulationEvents, disableButtons); CheckHeight += CheckSpacing;
 		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("AllowTints"), Player.ImmersionSettings.AllowTints, disableButtons); CheckHeight += CheckSpacing;
 		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("ChatRoomMapLeaveOnExit"), Player.ImmersionSettings.ChatRoomMapLeaveOnExit, disableButtons); CheckHeight += CheckSpacing;
+		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("AllowRename"), Player.OnlineSharedSettings.AllowRename, disableButtons); CheckHeight += CheckSpacing;
 	}
 
 }
@@ -1173,6 +1175,8 @@ function PreferenceSubscreenImmersionClick() {
 			if (MouseIn(500, CheckHeight, 64, 64)) Player.ImmersionSettings.AllowTints = !Player.ImmersionSettings.AllowTints;
 			CheckHeight += CheckSpacing;
 			if (MouseIn(500, CheckHeight, 64, 64)) Player.ImmersionSettings.ChatRoomMapLeaveOnExit = !Player.ImmersionSettings.ChatRoomMapLeaveOnExit;
+			CheckHeight += CheckSpacing;
+			if (MouseIn(500, CheckHeight, 64, 64)) Player.OnlineSharedSettings.AllowRename = !Player.OnlineSharedSettings.AllowRename;
 			CheckHeight += CheckSpacing;
 		}
 	}
@@ -3121,6 +3125,7 @@ var PreferenceOnlineSharedSettingsDefault = {
 	AllowFullWardrobeAccess: false,
 	BlockBodyCosplay: false,
 	AllowPlayerLeashing: true,
+	AllowRename: true,
 	DisablePickingLocksOnSelf: false,
 	ItemsAffectExpressions: true,
 	WheelFortune: "", // Initialized in `WheelFortune.js`
@@ -3154,6 +3159,9 @@ var PreferenceOnlineSharedSettingsValidate = {
 	},
 	AllowPlayerLeashing: (arg, C) => {
 		return typeof arg === "boolean" ? arg : PreferenceOnlineSharedSettingsDefault.AllowPlayerLeashing;
+	},
+	AllowRename: (arg, C) => {
+		return typeof arg === "boolean" ? arg : PreferenceOnlineSharedSettingsDefault.AllowRename;
 	},
 	DisablePickingLocksOnSelf: (arg, C) => {
 		return typeof arg === "boolean" ? arg : PreferenceOnlineSharedSettingsDefault.DisablePickingLocksOnSelf;

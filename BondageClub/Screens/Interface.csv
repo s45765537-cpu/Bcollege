@@ -362,6 +362,7 @@ ServerMessageOwnerRuleKeyAllowFamily,Your owner is now allowing you to use famil
 ServerMessageOwnerRuleKeyBlock,Your owner is now preventing you from getting new keys.  The club shop will not sell keys to you anymore.
 ServerMessageOwnerRuleKeyBlockFamily,Your owner is now preventing you from using family keys.
 ServerMessageOwnerRuleKeyConfiscate,Your owner has confiscated your keys.  All your regular keys are lost.
+ServerMessageOwnerRuleNicknameNew,Your owner has changed your nickname.
 ServerMessageOwnerRuleNicknameAllow,Your owner is now allowing you to change your nickname.
 ServerMessageOwnerRuleNicknameBlock,Your owner is now preventing you from changing your nickname.
 ServerMessageOwnerRuleRemoteAllow,Your owner is now allowing you to have remotes.  You can buy remotes from the club shop.

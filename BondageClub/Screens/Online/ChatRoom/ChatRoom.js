@@ -4720,6 +4720,22 @@ function ChatRoomGetLoverRule(RuleType) { return ChatRoomGetRule(RuleType, "Love
 function ChatRoomGetOwnerRule(RuleType) { return ChatRoomGetRule(RuleType, "Owner"); }
 
 /**
+ * Return TRUE if the current character allows to change her own nickname by her owner
+ * @returns {boolean}
+ */
+function ChatRoomCanChangeNickname() { return (CurrentCharacter != null) && (CurrentCharacter.OnlineSharedSettings != null) && (CurrentCharacter.OnlineSharedSettings.AllowRename !== false) && CurrentCharacter.IsOwnedByPlayer() }
+
+/** 
+ * Enters the submissive character nickname edit/lock screen
+ * @returns {void}
+ */
+function ChatRoomChangeNickname() {
+	NicknameManagementTarget = CurrentCharacter;
+	DialogLeave();
+	CommonSetScreen("Online", "NicknameManagement");
+}
+
+/**
  * Gets a rule from the current character
  * @param {LogNameType["OwnerRule" | "LoverRule"]} RuleType - The name of the rule to retrieve.
  * @param {"Owner" | "Lover"} Sender - Type of the sender
@@ -4810,9 +4826,14 @@ function ChatRoomSetRule(data) {
 			AsylumGGTSLock(GGTS, TextGet("GGTSIntro"));
 		}
 
-		// Nickname rules
+		// Nickname changing and locking
 		if (data.Content == "OwnerRuleNicknameAllow") LogDelete("BlockNickname", "OwnerRule");
 		if (data.Content == "OwnerRuleNicknameBlock") LogAdd("BlockNickname", "OwnerRule");
+		if (data.Content.startsWith("OwnerRuleNicknameNew")) {
+			let NewNick = data.Content.substring(20);
+			CharacterSetNickname(Player, NewNick);
+			data.Content = "OwnerRuleNicknameNew";
+		}
 
 		// Collar rules
 		if (data.Content == "OwnerRuleCollarRelease") {
