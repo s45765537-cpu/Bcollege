@@ -80,7 +80,7 @@ function InventoryItemMiscHighSecurityPadlockDrawHook(data, originalFunction) {
 
 	var C = CharacterGetCurrent();
 	if ((DialogFocusSourceItem != null) && (DialogFocusSourceItem.Property != null) && (DialogFocusSourceItem.Property.LockMemberNumber != null))
-		DrawText(AssetTextGet("LockMemberNumber") + " " + DialogFocusSourceItem.Property.LockMemberNumber.toString(), 1500, 650, "white", "gray");
+		DrawText(InterfaceTextGet("LockMemberNumber") + " " + DialogFocusSourceItem.Property.LockMemberNumber.toString(), 1500, 650, "white", "gray");
 
 	if (!InventoryGroupIsBlocked(C, C.FocusGroup.Name)&& (DialogFocusSourceItem != null && ((DialogFocusSourceItem.Property.MemberNumberListKeys && CommonConvertStringToArray("" + DialogFocusSourceItem.Property.MemberNumberListKeys).indexOf(Player.MemberNumber) >= 0)))) {
 		DrawText(AssetTextGet("HighSecuritySaveIntro"), 1500, 600, "white", "gray");

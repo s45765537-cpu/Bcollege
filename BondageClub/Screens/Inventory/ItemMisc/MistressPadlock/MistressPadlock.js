@@ -10,6 +10,6 @@ function InventoryItemMiscMistressPadlockDrawHook(data, originalFunction) {
 		LockMemberNumber = Number.parseInt(LockMemberNumber);
 	}
 	if (LockMemberNumber >= 0) {
-		DrawText(`${AssetTextGet("LockMemberNumber")} ${LockMemberNumber}`, 1500, 700, "white", "gray");
+		DrawText(`${InterfaceTextGet("LockMemberNumber")} ${LockMemberNumber}`, 1500, 700, "white", "gray");
 	}
 }

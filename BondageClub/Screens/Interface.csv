@@ -77,6 +77,7 @@ DialogMenuActivity,Sexual activities
 DialogMenuCancel,Cancel
 DialogMenuColorCancel,Default color
 DialogMenuColorChange,Change item color
+DialogMenuColorExpressionChange,Change expression color
 DialogMenuColorDefault,Select default color
 DialogMenuColorPickDisabled,Unable to change color due to player permissions
 DialogMenuCrafting,Crafted properties
@@ -130,6 +131,7 @@ LayeringLayer,Configure layer-specific priority
 LayeringReset,Reset layering
 Locking,Locking...
 LockMemberNumber,Member number on lock:
+LockZoneBlocked,Another item is blocking access to this lock
 LockPickArousal,Your hands are shaky and you lose some tension by accident!
 LockPickBreak,DestinationCharacterName jammed a lock and broke TargetPronounPossessive lockpick!
 LockpickFailed,You jammed the lock.
@@ -416,6 +418,8 @@ VibratorModeOff,Off
 VibratorModeRandom,Random
 VibratorModeTease,Tease
 WinkFacialExpressions,Wink/Blink
+WillRemoveItemWithTimer,The item will be removed when the lock timer runs out
+WontRemoveItemWithTimer,The item will stay when the lock timer runs out
 ZoneBlocked,This zone is out of reach from another item
 ZoneBlockedOwner,Your owner doesn't allow you to access that zone
 ZoneBlockedRange,You're too far to reach DialogCharacterObject body and items.

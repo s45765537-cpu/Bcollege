@@ -29,46 +29,46 @@ function InventoryItemMiscOwnerTimerPadlockDrawHook({ asset }, originalFunction,
 	const C = CharacterGetCurrent();
 
 	if (property.ShowTimer) {
-		DrawText(AssetTextGet("TimerLeft") + " " + TimerToString(property.RemoveTimer - CurrentTime), 1500, 500, "white", "gray");
+		DrawText(InterfaceTextGet("TimerLeft") + " " + TimerToString(property.RemoveTimer - CurrentTime), 1500, 500, "white", "gray");
 	} else {
-		DrawText(AssetTextGet("TimerUnknown"), 1500, 500, "white", "gray");
+		DrawText(InterfaceTextGet("TimerUnknown"), 1500, 500, "white", "gray");
 	}
-	DrawText(AssetTextGet(asset.Group.Name + asset.Name + "Intro"), 1500, 600, "white", "gray");
+	DrawText(InterfaceTextGet(asset.Group.Name + asset.Name + "Intro"), 1500, 600, "white", "gray");
 
 	// Draw the settings
 	if (Player.CanInteract() && validator(C)) {
 		MainCanvas.textAlign = "left";
 		DrawButton(1100, 666, 64, 64, "", "White", property.RemoveItem ? "Icons/Checked.png" : "");
-		DrawText(AssetTextGet("RemoveItemWithTimer"), 1200, 698, "white", "gray");
+		DrawText(InterfaceTextGet("RemoveItemWithTimer"), 1200, 698, "white", "gray");
 		DrawButton(1100, 746, 64, 64, "", "White", property.ShowTimer ? "Icons/Checked.png" : "");
-		DrawText(AssetTextGet("ShowItemWithTimerRemaining"), 1200, 778, "white", "gray");
+		DrawText(InterfaceTextGet("ShowItemWithTimerRemaining"), 1200, 778, "white", "gray");
 		DrawButton(1100, 826, 64, 64, "", "White", property.EnableRandomInput ? "Icons/Checked.png" : "");
-		DrawText(AssetTextGet("EnableRandomInput"), 1200, 858, "white", "gray");
+		DrawText(InterfaceTextGet("EnableRandomInput"), 1200, 858, "white", "gray");
 		MainCanvas.textAlign = "center";
 	} else {
 		if (property.LockMemberNumber != null) {
-			DrawText(AssetTextGet("LockMemberNumber") + " " + property.LockMemberNumber.toString(), 1500, 700, "white", "gray");
+			DrawText(InterfaceTextGet("LockMemberNumber") + " " + property.LockMemberNumber.toString(), 1500, 700, "white", "gray");
 		}
 
-		let msg = AssetTextGet(asset.Group.Name + asset.Name + "Detail");
+		let msg = InterfaceTextGet(asset.Group.Name + asset.Name + "Detail");
 		const subst = ChatRoomPronounSubstitutions(CurrentCharacter, "TargetPronoun", false);
 		msg = CommonStringSubstitute(msg, subst);
 		DrawText(msg, 1500, 800, "white", "gray");
 
-		DrawText(AssetTextGet(property.RemoveItem ? "WillRemoveItemWithTimer" : "WontRemoveItemWithTimer"), 1500, 868, "white", "gray");
+		DrawText(InterfaceTextGet(property.RemoveItem ? "WillRemoveItemWithTimer" : "WontRemoveItemWithTimer"), 1500, 868, "white", "gray");
 	}
 
 	// Draw buttons to add/remove time if available
 	if (Player.CanInteract() && validator(C)) {
-		DrawButton(1100, 910, 250, 70, AssetTextGet("AddTimerTime"), "White");
-		DrawBackNextButton(1400, 910, 250, 70, OwnerTimerChooseList[OwnerTimerChooseIndex] + " " + AssetTextGet("Hours"), "White", "",
-			() => OwnerTimerChooseList[(OwnerTimerChooseList.length + OwnerTimerChooseIndex - 1) % OwnerTimerChooseList.length] + " " + AssetTextGet("Hours"),
-			() => OwnerTimerChooseList[(OwnerTimerChooseIndex + 1) % OwnerTimerChooseList.length] + " " + AssetTextGet("Hours")
+		DrawButton(1100, 910, 250, 70, InterfaceTextGet("AddTimerTime"), "White");
+		DrawBackNextButton(1400, 910, 250, 70, OwnerTimerChooseList[OwnerTimerChooseIndex] + " " + InterfaceTextGet("Hours"), "White", "",
+			() => OwnerTimerChooseList[(OwnerTimerChooseList.length + OwnerTimerChooseIndex - 1) % OwnerTimerChooseList.length] + " " + InterfaceTextGet("Hours"),
+			() => OwnerTimerChooseList[(OwnerTimerChooseIndex + 1) % OwnerTimerChooseList.length] + " " + InterfaceTextGet("Hours")
 		);
 	} else if (Player.CanInteract() && property.EnableRandomInput && !property.MemberNumberList.includes(Player.MemberNumber)) {
-		DrawButton(1100, 910, 250, 70, "- 2 " + AssetTextGet("Hours"), "White");
-		DrawButton(1400, 910, 250, 70, AssetTextGet("Random"), "White");
-		DrawButton(1700, 910, 250, 70, "+ 2 " + AssetTextGet("Hours"), "White");
+		DrawButton(1100, 910, 250, 70, "- 2 " + InterfaceTextGet("Hours"), "White");
+		DrawButton(1400, 910, 250, 70, InterfaceTextGet("Random"), "White");
+		DrawButton(1700, 910, 250, 70, "+ 2 " + InterfaceTextGet("Hours"), "White");
 	}
 }
 
