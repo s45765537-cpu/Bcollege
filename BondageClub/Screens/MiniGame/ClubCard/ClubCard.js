@@ -1434,7 +1434,6 @@ var ClubCardList = [
 			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
 			return true;
 		}
-
 	},
 	{
 		ID: 30024,
@@ -1473,7 +1472,6 @@ var ClubCardList = [
 			if(ClubCardGroupIsOnBoard(CCPlayer, "Criminal")&&CCPlayer.Money>=3) return true;
 			return false;
 		}
-
 	},
 	{
 		ID: 31000,
@@ -1661,7 +1659,13 @@ var ClubCardList = [
 		Name: "First Bell",
 		Type: "Event",
 		OnPlay: function(CCPlayer) {
-			ClubCardPlayerDrawGroupCard(CCPlayer, "CollegeTeacher");
+			const drawn = ClubCardPlayerDrawGroupCard(CCPlayer, "CollegeStudent");
+
+			if(drawn) {
+				ClubCardLogPublish("Effect First Bell Draw", CCPlayer);
+			} else {
+				ClubCardLogPublish("Effect First Bell No Draw", CCPlayer);
+			}
 		}
 	}
 ];
@@ -1995,16 +1999,16 @@ function ClubCardPlayerDrawCard(CCPlayer, Amount = null) {
  * Draw cards from the player deck into it's hand
  * @param {ClubCardPlayer} CCPlayer - The club card player that draws the cards
  * @param {string} group - The group to draw from
- * @returns {void} - Nothing
+ * @returns {boolean} - if cards were drawn or not
  */
 function ClubCardPlayerDrawGroupCard(CCPlayer, group) {
 	if ((CCPlayer === null) || (CCPlayer.Deck === null) || (CCPlayer.Hand === null)) {
-		return;
+		return false;
 	}
 
 	const groupCardsInDeck = CCPlayer.Deck.filter(value => value.Group.includes(group));
 	if(groupCardsInDeck.length === 0) {
-		return;
+		return false;
 	}
 
 	const card = groupCardsInDeck[Math.floor(Math.random() * groupCardsInDeck.length)];
@@ -2015,6 +2019,7 @@ function ClubCardPlayerDrawGroupCard(CCPlayer, group) {
 	CCPlayer.Deck.splice(cardIndex, 1);
 
 	CheckDetectiveDraw(CCPlayer);
+	return true;
 }
 
 /**
