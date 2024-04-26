@@ -4816,7 +4816,8 @@ SlipperyClassroom,Slippery Classroom
 SlowLeaveAttempt,SourceCharacter slowly heads for the door.
 SlowLeaveCancel,SourceCharacter stops heading for the door.
 SlowLeaveInterrupt,SourceCharacter was stopped from leaving.
-SlowStop,"SourceCharacter gets in the way of TargetCharacter, preventing TargetPronounObject from leaving."
+SlowStop,"SourceCharacter gets in the way of , preventing TargetPronounObject from leaving."
+OnlineStruggleInterrupt,TargetCharacter struggles were interrupted by SourceCharacter.
 SocksLeftLooseSocksFlat,Flat style
 SocksLeftLooseSocksNormal,Loose style
 SocksLeftLooseSocksSelect,Choose how to wear left socks:

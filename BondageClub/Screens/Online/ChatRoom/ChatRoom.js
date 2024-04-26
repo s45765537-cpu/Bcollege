@@ -737,6 +737,13 @@ function ChatRoomCanAttemptKneel() {
  * @returns {boolean} - TRUE if the current character is slowed down and can be interacted with.
  */
 function ChatRoomCanStopSlowPlayer() { return (CurrentCharacter.IsSlow() && Player.CanInteract() && CurrentCharacter.AllowItem ); }
+
+/**
+ * Checks if the player can interrupt another character from struggling.
+ * @returns {boolean} - TRUE if the player can do it
+ */
+function ChatRoomCanInterruptOnlineStruggle() { return (Player.CanInteract() && !CurrentCharacter.IsPlayer() && CurrentCharacter.AllowItem); }
+
 /**
  * Checks if the player can grab the targeted player's leash
  * @returns {boolean} - TRUE if the player can interact and is allowed to interact with the current character.
@@ -3053,6 +3060,9 @@ function ChatRoomMessageProcessHidden(data, SenderCharacter) {
 		ChatRoomSlowtimer = CurrentTime + 45000;
 		ChatRoomSlowStop = true;
 	}
+	else if (data.Content == "OnlineStruggleInterrupt") {
+		StruggleChatRoomEndAmination();
+	}
 	else if (data.Content.startsWith("MaidDrinkPick")) {
 		let A = parseInt(data.Content.substr("MaidDrinkPick".length));
 		if ((A == 0) || (A == 5) || (A == 10)) MaidQuartersOnlineDrinkPick(data.Sender, A);
@@ -4317,6 +4327,20 @@ function ChatRoomStopLeave() {
 		.build();
 	ServerSend("ChatRoomChat", { Content: "SlowStop", Type: "Action", Dictionary });
 	ServerSend("ChatRoomChat", { Content: "SlowStop", Type: "Hidden", Target: CurrentCharacter.MemberNumber });
+	DialogLeave();
+}
+
+/**
+ * Triggered when a character interrupt online struggles on another character.
+ * @returns {void} - Nothing
+ */
+function ChatRoomOnlineStruggleInterrupt() {
+	const Dictionary = new DictionaryBuilder()
+		.sourceCharacter(Player)
+		.targetCharacter(CurrentCharacter)
+		.build();
+	ServerSend("ChatRoomChat", { Content: "OnlineStruggleInterrupt", Type: "Action", Dictionary });
+	ServerSend("ChatRoomChat", { Content: "OnlineStruggleInterrupt", Type: "Hidden", Target: CurrentCharacter.MemberNumber });
 	DialogLeave();
 }
 

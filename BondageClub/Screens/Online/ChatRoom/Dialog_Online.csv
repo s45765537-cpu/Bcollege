@@ -100,6 +100,7 @@ ReleaseLoverConfirm,0,"(Cancel)",(Main menu),,
 40,0,(Lend DialogCharacterObject some lockpicks.),(You give DialogCharacterObject some lockpicks to struggle out with until DialogCharacterSubject leaves the room),GiveLockpicks(),CanGiveLockpicks()
 40,0,(Give DialogCharacterObject a spare key to your locks.),(You give DialogCharacterObject an extra key to your private padlocks),GiveHighSecurityKeys(),CanGiveHighSecurityKeys()
 40,0,(Hand over the keys to your locks.),(You give DialogCharacterObject the keys to your private padlocks),GiveHighSecurityKeysAll(),CanGiveHighSecurityKeysAll()
+40,0,(Stop her chat room struggles.),,OnlineStruggleInterrupt(),ChatRoomCanInterruptOnlineStruggle()
 40,0,(Spin the Wheel of Fortune.),,StartWheelFortune(),CanStartWheelFortune()
 40,0,(Force DialogCharacterObject to spin your Wheel of Fortune.),"(DialogCharacterSubject will be required to spin your Wheel of Fortune.)",SendOwnerRule(""ForceWheelFortune""),CanForceWheelFortune()
 40,0,(Back to main menu.),(Main menu.),,

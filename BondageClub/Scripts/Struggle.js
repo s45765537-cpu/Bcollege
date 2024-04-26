@@ -1679,7 +1679,7 @@ function StruggleChatRoomLoosenComplete() {
  * @returns {void} - Nothing
  */
 function StruggleChatRoomEndAmination() {
-	if (Player.OnlineSharedSettings && Player.OnlineSharedSettings.ItemsAffectExpressions) {
+	if (Player.OnlineSharedSettings && Player.OnlineSharedSettings.ItemsAffectExpressions && (ChatRoomStruggleData != null)) {
 		CharacterSetFacialExpression(Player, "Eyes", ChatRoomStruggleData.StartExpressionEyes);
 		CharacterSetFacialExpression(Player, "Blush", ChatRoomStruggleData.StartExpressionBlush);
 		CharacterSetFacialExpression(Player, "Mouth", ChatRoomStruggleData.StartExpressionMouth);
@@ -1694,6 +1694,15 @@ function StruggleChatRoomEndAmination() {
  */
 function StruggleChatRoomStop() {
 	ChatRoomPublishAction(Player, "ChatRoomStruggleGiveUp", ChatRoomStruggleData.Item, null);
+	StruggleChatRoomEndAmination();
+}
+
+/**
+ * Ends the online chat room struggle progress, interrupted by another player
+ * @returns {void} - Nothing
+ */
+function StruggleChatRoomInterrupt() {
+	ChatRoomPublishAction(Player, "ChatRoomStruggleInterrupt", ChatRoomStruggleData.Item, null);
 	StruggleChatRoomEndAmination();
 }
 
