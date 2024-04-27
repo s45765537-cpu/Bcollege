@@ -805,6 +805,7 @@ var ClubCardList = [
 			if(playedAnEvent) {
 				ClubCardPlayerAddFame(cardOwner, 4);
 				ClubCardRemoveFromBoard(cardOwner, this);
+				ClubCardAddToHand(cardOwner, this)
 			}
 		}
 	},
@@ -1806,6 +1807,20 @@ function ClubCardRemoveFromBoard(CCPlayer, Card) {
 		}
 		Pos++;
 	}
+}
+
+/**
+ * Adds a card to a players hand
+ * @param {ClubCardPlayer} CCPlayer - The club card player
+ * @param {ClubCard} Card - The card object to add
+ * @returns {void} - Nothing
+ */
+function ClubCardAddToHand(CCPlayer, Card) {
+	if(CCPlayer === null || CCPlayer.Hand === null || Card === null) {
+		return;
+	}
+
+	CCPlayer.Hand = [...CCPlayer.Hand, Card]
 }
 
 /**
