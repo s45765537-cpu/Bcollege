@@ -1977,8 +1977,12 @@ function ClubCardSetGlow(Card, Color) {
  * @returns {void} - Nothing
  */
 function ClubCardPlayerDrawCard(CCPlayer, Amount = null) {
-	if ((CCPlayer == null) || (CCPlayer.Deck == null) || (CCPlayer.Hand == null)) return;
-	if (Amount == null) Amount = ClubCardDrawCardCount(CCPlayer);
+	if ((CCPlayer === null) || (CCPlayer.Deck === null) || (CCPlayer.Hand === null)) {
+		return;
+	}
+
+	Amount = Amount ?? ClubCardDrawCardCount(CCPlayer);
+
 	let FocusCard = ((CCPlayer.Index == 0) && (Amount == 1));
 	while (Amount > 0) {
 		if (CCPlayer.Deck.length > 0) {
@@ -1988,9 +1992,9 @@ function ClubCardPlayerDrawCard(CCPlayer, Amount = null) {
 			}
 			CCPlayer.Hand.push(CCPlayer.Deck[0]);
 			CCPlayer.Deck.splice(0, 1);
+			CheckDetectiveDraw(CCPlayer);
 		}
 		Amount--;
-		CheckDetectiveDraw(CCPlayer);
 	}
 
 }
