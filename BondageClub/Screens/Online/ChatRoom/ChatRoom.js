@@ -1728,7 +1728,6 @@ function ChatRoomRun() {
 	AsylumGGTSProcess();
 	ChatRoomUpdateOnlineBounty();
 	ChatRoomCustomizationRun();
-	ChatRoomMapViewWhisperValid();
 	ChatRoomMenuBuild();
 
 	// Draws the chat room controls
@@ -2502,6 +2501,9 @@ function ChatRoomSendChat() {
 	if (whisperStatus === "target-gone") {
 		ChatRoomSendLocal(`<span style="color: red">${TextGet("WhisperTargetGone")}</span>`);
 		return;
+	} else if (whisperStatus === "target-out-of-range") {
+		ChatRoomSendLocal(`<span style="color: red">${TextGet("WhisperTargetOutOfRange")}</span>`);
+		return;
 	} else if (whisperStatus) {
 		clearChat = true;
 	} else {
@@ -2573,6 +2575,10 @@ function ChatRoomSendWhisper(targetNumber, msg) {
 	if (targetNumber < 0) return false;
 	const targetChar = ChatRoomCharacter.find(C => C.MemberNumber == targetNumber);
 	if (!targetChar) return "target-gone";
+
+	if (ChatRoomMapViewIsActive() && !ChatRoomMapViewCharacterOnWhisperRange(targetChar)) {
+		return "target-out-of-range";
+	}
 
 	const data = ChatRoomGenerateChatRoomChatMessage("Whisper", msg);
 	data.Target = targetNumber;

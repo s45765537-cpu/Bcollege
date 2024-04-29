@@ -1800,13 +1800,9 @@ function ChatRoomMapViewPaste(Param) {
 
 /**
  * Make sure the whisper target is still valid on the map, and leave whipser mode if needed
+ * @deprecated Unused
  * @returns {void} - Nothing
  */
 function ChatRoomMapViewWhisperValid() {
-	if (!ChatRoomMapViewIsActive() || (ChatRoomTargetMemberNumber == null)) return;
-	for (let C of ChatRoomCharacter)
-		if ((C.MemberNumber === ChatRoomTargetMemberNumber) && ChatRoomMapViewCharacterOnWhisperRange(C))
-			return;
-	ChatRoomMessage({ Type: "ServerMessage", Content: "WhisperOutOfRange", Sender: Player.MemberNumber });
-	ChatRoomSetTarget(-1);
+	// No-oped in R104, automatically handled when a whisper tries to be sent
 }
