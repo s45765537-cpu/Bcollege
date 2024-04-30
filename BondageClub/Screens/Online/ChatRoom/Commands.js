@@ -651,19 +651,16 @@ const CommonCommands = [
 			// If there's ONE match and there's message we want to send
 			} else {
 				const targetMember = matchingMembers[0];
-				const previousTarget = ChatRoomTargetMemberNumber;
 
 				// Set whisper target and send message
-				ChatRoomTargetMemberNumber = targetMember.MemberNumber;
-				ElementValue("InputChat", message);
-				ChatRoomSendChat();
-
-				// Remove dupped message from history
-				ChatRoomLastMessage.pop();
-				ChatRoomLastMessageIndex--;
-
-				// Set previous target as whisper target if any
-				ChatRoomTargetMemberNumber = previousTarget;
+				const status = ChatRoomSendWhisper(targetMember.MemberNumber, message);
+				if (status === "target-gone") {
+					ChatRoomSendLocal(`<span style="color: red">${TextGet("WhisperTargetGone")}</span>`);
+					return;
+				} else if (status === "target-out-of-range") {
+					ChatRoomSendLocal(`<span style="color: red">${TextGet("WhisperTargetOutOfRange")}</span>`);
+					return;
+				}
 			}
 		},
 	},
