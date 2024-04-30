@@ -52,14 +52,19 @@ const ChatRoomMapViewTileList = [
 
 	{ ID: 100, Type: "Floor", Style: "OakWood" },
 	{ ID: 110, Type: "Floor", Style: "Stone" },
+	{ ID: 115, Type: "Floor", Style: "Pavement" },
 	{ ID: 120, Type: "Floor", Style: "Ceramic" },
-	{ ID: 130, Type: "Floor", Style: "Carpet" },
+	{ ID: 130, Type: "Floor", Style: "PinkCarpet" },
+	{ ID: 131, Type: "Floor", Style: "BlueCarpet" },
 	{ ID: 140, Type: "Floor", Style: "Padded" },
-	{ ID: 200, Type: "Floor", Style: "Dirt" },
-	{ ID: 210, Type: "Floor", Style: "Grass" },
-	{ ID: 220, Type: "Floor", Style: "Sand" },
-	{ ID: 230, Type: "Floor", Style: "Gravel" },
-	{ ID: 240, Type: "Floor", Style: "Snow" },
+
+	{ ID: 200, Type: "FloorExterior", Style: "Dirt" },
+	{ ID: 210, Type: "FloorExterior", Style: "Grass" },
+	{ ID: 215, Type: "FloorExterior", Style: "LongGrass" },
+	{ ID: 220, Type: "FloorExterior", Style: "Sand" },
+	{ ID: 230, Type: "FloorExterior", Style: "Gravel" },
+	{ ID: 235, Type: "FloorExterior", Style: "Asphalt" },
+	{ ID: 240, Type: "FloorExterior", Style: "Snow" },
 
 	{ ID: 1000, Type: "Wall", Style: "MixedWood", BlockVision: true },
 	{ ID: 1001, Type: "Wall", Style: "CedarWood", BlockVision: true },
@@ -123,7 +128,6 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 670, Type: "FloorDecorationCamping", Style: "Hurdle2",},
 	{ ID: 680, Type: "FloorDecorationCamping", Style: "Hurdle3",},
 
-
 	{ ID: 1000, Type: "FloorItem", Style: "Blank" },
 	{ ID: 1010, Type: "FloorItem", Style: "Kennel", Top: -1, Height: 2, AssetName: "Kennel", AssetGroup: "ItemDevices" },
 	{ ID: 1020, Type: "FloorItem", Style: "X-Cross", Top: -1, Height: 2, AssetName: "X-Cross", AssetGroup: "ItemDevices" },
@@ -135,6 +139,7 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 1080, Type: "FloorItem", Style: "TheDisplayFrame", Top: -1, Height: 2, AssetName: "TheDisplayFrame", AssetGroup: "ItemDevices" },
 
 	{ ID: 2000, Type: "FloorObstacle", Style: "Blank" },
+	{ ID: 2005, Type: "FloorObstacle", Style: "Rocks", Top: -0.125, Height: 1.125 },
 	{ ID: 2010, Type: "FloorObstacle", Style: "Statue", Top: -1, Height: 2 },
 	{ ID: 2020, Type: "FloorObstacle", Style: "Barrel", Top: -0.5, Height: 1.5 },
 	{ ID: 2030, Type: "FloorObstacle", Style: "IronBars", Top: -1, Height: 2 },
@@ -1054,10 +1059,10 @@ function ChatRoomMapViewUpdateFlag() {
 
 				// Invalid tiles and invalid objects for that tile must be cleared
 				if (Tile == null) ClearObject = true;
-				else if ((Obj.Type == "FloorDecoration") && (Tile.Type != "Floor")) ClearObject = true;
-				else if ((Obj.Type == "FloorDecorationThemed") && (Tile.Type != "Floor")) ClearObject = true;
-				else if ((Obj.Type == "FloorItem") && (Tile.Type != "Floor")) ClearObject = true;
-				else if ((Obj.Type == "FloorObstacle") && (Tile.Type != "Floor")) ClearObject = true;
+				else if ((Obj.Type == "FloorDecoration") && (Tile.Type != "Floor") && (Tile.Type != "FloorExterior")) ClearObject = true;
+				else if ((Obj.Type == "FloorDecorationThemed") && (Tile.Type != "Floor") && (Tile.Type != "FloorExterior")) ClearObject = true;
+				else if ((Obj.Type == "FloorItem") && (Tile.Type != "Floor") && (Tile.Type != "FloorExterior")) ClearObject = true;
+				else if ((Obj.Type == "FloorObstacle") && (Tile.Type != "Floor") && (Tile.Type != "FloorExterior")) ClearObject = true;
 				else if ((Obj.Type == "WallDecoration") && (Tile.Type != "Wall")) ClearObject = true;
 				else if ((Obj.Type == "WallPath") && (Tile.Type != "Wall")) ClearObject = true;
 				else if (Tile.Type == "Wall") {

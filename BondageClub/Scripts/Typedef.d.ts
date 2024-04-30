@@ -4083,7 +4083,7 @@ type ChatRoomMapObjectType = (
 	| "WallPath"
 );
 
-type ChatRoomMapTileType = "Floor" | "Wall" | "Water";
+type ChatRoomMapTileType = "Floor" | "FloorExterior" | "Wall" | "Water";
 
 interface ChatRoomMapDoodad {
 	ID: number;
