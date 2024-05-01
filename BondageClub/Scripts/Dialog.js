@@ -2958,15 +2958,15 @@ function DialogDraw() {
 	if (DialogMenuMode === "dialog") {
 		// Draws the intro text or dialog result
 		if ((DialogIntro() != "") && (DialogIntro() != "NOEXIT")) {
-			DrawTextWrap(SpeechGarble(CurrentCharacter, CurrentCharacter.CurrentDialog), 1025, -5, 840, 165, "white", null, 3);
+			DrawTextWrap(SpeechTransformDialog(CurrentCharacter, CurrentCharacter.CurrentDialog), 1025, -5, 840, 165, "white", null, 3);
 			DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
-		} else DrawTextWrap(SpeechGarble(CurrentCharacter, CurrentCharacter.CurrentDialog), 1025, -5, 950, 165, "white", null, 3);
+		} else DrawTextWrap(SpeechTransformDialog(CurrentCharacter, CurrentCharacter.CurrentDialog), 1025, -5, 950, 165, "white", null, 3);
 
 		// Draws the possible answers
 		let pos = 0;
 		for (let D = 0; D < CurrentCharacter.Dialog.length; D++) {
 			if ((CurrentCharacter.Dialog[D].Stage == CurrentCharacter.Stage) && (CurrentCharacter.Dialog[D].Option != null) && DialogPrerequisite(D)) {
-				DrawTextWrap(SpeechGarble(Player, CurrentCharacter.Dialog[D].Option), 1025, 160 + 105 * pos, 950, 90, "black", (MouseIn(1025, 160 + pos * 105, 950, 90) && !CommonIsMobile) ? "cyan" : "white", 2);
+				DrawTextWrap(SpeechTransformDialog(Player, CurrentCharacter.Dialog[D].Option), 1025, 160 + 105 * pos, 950, 90, "black", (MouseIn(1025, 160 + pos * 105, 950, 90) && !CommonIsMobile) ? "cyan" : "white", 2);
 				pos++;
 			}
 		}
@@ -3157,7 +3157,7 @@ function DialogDrawExpressionMenu() {
 	// Draw the expression groups
 	DrawText(InterfaceTextGet("FacialExpression"), 165, 25, "White", "Black");
 	if (typeof DialogFacialExpressionsSelected === 'number' && DialogFacialExpressionsSelected >= 0 && DialogFacialExpressionsSelected < DialogFacialExpressions.length && DialogFacialExpressions[DialogFacialExpressionsSelected].Appearance.Asset.Group.AllowColorize && DialogFacialExpressions[DialogFacialExpressionsSelected].Group !== "Eyes") {
-		DrawButton(320, 50, 90, 90, "", "White", "Icons/ColorChange.png", InterfaceTextGet("ColorChange"));
+		DrawButton(320, 50, 90, 90, "", "White", "Icons/ColorChange.png", InterfaceTextGet("DialogMenuColorExpressionChange"));
 	}
 	DrawButton(220, 50, 90, 90, "", "White", "Icons/BlindToggle" + DialogFacialExpressionsSelectedBlindnessLevel + ".png", InterfaceTextGet("BlindToggleFacialExpressions"));
 	const Expression = WardrobeGetExpression(Player);

@@ -324,7 +324,7 @@ function PropertyAutoPunishDetectSpeech(Item, LastMessageLen=null) {
 	}
 
 	// Abort on whispers or if no new messages have been submitted
-	if (ChatRoomTargetMemberNumber != null || !ChatRoomLastMessage || ChatRoomLastMessage.length === LastMessageLen) {
+	if (ChatRoomTargetMemberNumber >= 0 || !ChatRoomLastMessage || ChatRoomLastMessage.length === LastMessageLen) {
 		return false;
 	}
 

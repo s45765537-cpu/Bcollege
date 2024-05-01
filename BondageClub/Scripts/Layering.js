@@ -228,6 +228,20 @@ var Layering = {
 	},
 
 	/**
+	 * Event listener for `blur` events of number-based input elements.
+	 * Sanitizes the elements value upon deselecting the element.
+	 * @private
+	 * @param {HTMLInputElement} elem
+	 */
+	_BlurListener(elem) {
+		if (Number.isNaN(elem.valueAsNumber)) {
+			elem.value = elem.defaultValue;
+		} else {
+			elem.value = CommonClamp(elem.valueAsNumber, -99, 99).toString();
+		}
+	},
+
+	/**
 	 * Event listener for `click` events of the reset button
 	 * @private
 	 */
@@ -330,12 +344,13 @@ var Layering = {
 		};
 
 		this.Load();
-		this.Resize(true);
 	},
 
 	/** @type {ScreenFunctions["Load"]} */
 	Load() {
-		if (document.getElementById(this.ID.root)) {
+		let elem = document.getElementById(this.ID.root);
+		if (elem != null) {
+			this.Resize(true);
 			return;
 		}
 
@@ -355,7 +370,7 @@ var Layering = {
 				Name ??= this.Asset.Name;
 				innerHTML += `
 					<div class=layering-pair>
-						<input type=number data-layer-priority=${defaultLayerPriority} data-name=${Name} min=-99 max=99 value=${layerPriority}></input>
+						<input type=number data-layer-priority=${defaultLayerPriority} data-name=${Name} min=-99 max=99 value=${layerPriority} inputmode="numeric"></input>
 						<span class=layering-pair-text>${Name}</span>
 					</div>
 				`;
@@ -366,7 +381,7 @@ var Layering = {
 		const assetPriority = this.Asset.DrawingPriority ?? this.Asset.Group.DrawingPriority;
 		const itemPriority = Number.isInteger(this.OverridePriority) ? this.OverridePriority : assetPriority;
 		const defaultItemPriority = Number.isInteger(this._PriorityDefault) ? this._PriorityDefault : assetPriority;
-		const elem = ElementCreateDiv(this.ID.root);
+		elem = ElementCreateDiv(this.ID.root);
 		// NOTE: Button ordering in the grid is from right to left
 		elem.innerHTML = `
 			<h1 id=${this.ID.assetHeader}>${InterfaceTextGet("LayeringAsset")}</h1>
@@ -406,10 +421,12 @@ var Layering = {
 		assetElements.forEach(e => {
 			e.addEventListener("input", (event) => this._AssetInputListener(event));
 			e.addEventListener("focus", (event) => /** @type {HTMLInputElement} */(event.target).select());
+			e.addEventListener("blur", (event) => () => this._BlurListener(e));
 		});
 		layerElements.forEach(e => {
 			e.addEventListener("input", (event) => this._LayerInputListener(event));
 			e.addEventListener("focus", (event) => /** @type {HTMLInputElement} */(event.target).select());
+			e.addEventListener("blur", (event) => () => this._BlurListener(e));
 		});
 
 		// Color either the asset- or layer-specific input elements light gray,
@@ -428,6 +445,8 @@ var Layering = {
 				h.innerText = cache.cache[key] ?? (h.dataset.layeringGroup || this.Asset.Description);
 			});
 		});
+
+		this.Resize(true);
 	},
 
 	/**

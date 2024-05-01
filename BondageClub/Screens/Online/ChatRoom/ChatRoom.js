@@ -27,8 +27,8 @@ var ChatRoomCharacter = [];
 var ChatRoomChatLog = [];
 var ChatRoomLastMessage = [""];
 var ChatRoomLastMessageIndex = 0;
-/** @type {null | number} */
-var ChatRoomTargetMemberNumber = null;
+/** @type {number} */
+var ChatRoomTargetMemberNumber = -1;
 /** @type {ChatRoomOwnershipOption} */
 var ChatRoomOwnershipOption = "";
 /** @type {ChatRoomLovershipOption} */
@@ -101,7 +101,6 @@ var ChatRoomLeashPlayer = null;
  * @type {string}
  */
 var ChatRoomJoinLeash = "";
-var ChatRoomTargetDirty = false;
 var ChatRoomCustomized = false;
 var ChatRoomCustomBackground = "";
 var ChatRoomCustomFilter = "";
@@ -679,7 +678,7 @@ function ChatRoomCanStopWhisper() {
  * @returns {void} - Nothing
  */
 function ChatRoomStopWhisper() {
-	ChatRoomSetTarget(null);
+	ChatRoomSetTarget(-1);
 	DialogLeave();
 }
 
@@ -737,6 +736,13 @@ function ChatRoomCanAttemptKneel() {
  * @returns {boolean} - TRUE if the current character is slowed down and can be interacted with.
  */
 function ChatRoomCanStopSlowPlayer() { return (CurrentCharacter.IsSlow() && Player.CanInteract() && CurrentCharacter.AllowItem ); }
+
+/**
+ * Checks if the player can interrupt another character from struggling.
+ * @returns {boolean} - TRUE if the player can do it
+ */
+function ChatRoomCanInterruptOnlineStruggle() { return (Player.CanInteract() && !CurrentCharacter.IsPlayer() && CurrentCharacter.AllowItem); }
+
 /**
  * Checks if the player can grab the targeted player's leash
  * @returns {boolean} - TRUE if the player can interact and is allowed to interact with the current character.
@@ -1223,40 +1229,38 @@ function ChatRoomFirstTimeHelp() {
 
 /**
  * Sets the current whisper target and flags a target update
- * @param {number} MemberNumber - The target member number to set
+ * @param {number} MemberNumber - The target member number to set. -1 to unselect
  * @returns {void} - Nothing
  */
 function ChatRoomSetTarget(MemberNumber) {
-	if (MemberNumber !== ChatRoomTargetMemberNumber) {
-		ChatRoomTargetMemberNumber = MemberNumber;
-		ChatRoomTargetDirty = true;
-	}
-}
+	MemberNumber ??= -1;
+	if (MemberNumber === ChatRoomTargetMemberNumber) return;
 
-/**
- * Updates the chat input's placeholder text to reflect the current whisper target
- * @returns {void} - Nothing.
- */
-function ChatRoomTarget() {
-	// If the target member number hasn't changed, do nothing
-	if (!ChatRoomTargetDirty) return;
-
-	let TargetName = null;
-	if (ChatRoomTargetMemberNumber != null) {
-		for (let C = 0; C < ChatRoomCharacter.length; C++)
-			if (ChatRoomTargetMemberNumber == ChatRoomCharacter[C].MemberNumber) {
-				TargetName = ChatRoomCharacter[C].Name;
-				break;
-			}
-		if (TargetName == null) ChatRoomSetTarget(null);
+	ChatRoomTargetMemberNumber = MemberNumber;
+	let target;
+	if (ChatRoomTargetMemberNumber >= 0) {
+		target = ChatRoomCharacter.find(c => c.MemberNumber === ChatRoomTargetMemberNumber);
+	} else {
+		target = null;
 	}
+
 	let placeholder;
-	if (ChatRoomTargetMemberNumber != null) {
-		placeholder = `${TextGet("WhisperTo")} ${TargetName}`;
+	if (target) {
+		placeholder = `${TextGet("WhisperTo")} ${CharacterNickname(target)}`;
 	} else {
 		placeholder = TextGet("PublicChat");
 	}
 	ElementSetAttribute("InputChat", "placeholder", placeholder);
+}
+
+/**
+ * Updates the chat input's placeholder text to reflect the current whisper target
+ *
+ * @deprecated No-oped in R104, automatically handled when the target is set
+ * @returns {void} - Nothing.
+ */
+function ChatRoomTarget() {
+	// No-oped in R104
 }
 
 /**
@@ -1388,7 +1392,9 @@ function ChatRoomStimulationMessage(Action) {
 		ActivityEffectFlat(Player, Player, event.arousal, event.item.Asset.Group.Name, 1);
 	const duration = (Math.random() + event.arousal / 2.4) * 500;
 	DrawFlashScreen("#FFB0B0", duration, 140);
-	CharacterSetFacialExpression(Player, "Blush", "VeryHigh", Math.ceil(duration / 250));
+	if (Player.ArousalSettings?.AffectExpression) {
+		CharacterSetFacialExpression(Player, "Blush", "VeryHigh", Math.ceil(duration / 250));
+	}
 
 	var index = Math.floor(Math.random() * 3);
 	const Dictionary = [
@@ -1631,7 +1637,7 @@ function ChatRoomStatusUpdateTalk(Key) {
 		talking = false;
 	}
 	// Don't send a public update if whispering someone
-	else if (ChatRoomTargetMemberNumber != null) {
+	else if (ChatRoomTargetMemberNumber >= 0) {
 		talking = false;
 	}
 	// Not talking if entering a command that does not end up in chat
@@ -1722,7 +1728,6 @@ function ChatRoomRun() {
 	AsylumGGTSProcess();
 	ChatRoomUpdateOnlineBounty();
 	ChatRoomCustomizationRun();
-	ChatRoomMapViewWhisperValid();
 	ChatRoomMenuBuild();
 
 	// Draws the chat room controls
@@ -1730,7 +1735,6 @@ function ChatRoomRun() {
 	ChatRoomUpdateDisplay();
 	ChatRoomCreateElement();
 	ChatRoomFirstTimeHelp();
-	ChatRoomTarget();
 	ChatRoomBackground = "";
 	DrawRect(0, 0, 2000, 1000, "Black");
 
@@ -1857,6 +1861,43 @@ function ChatRoomStruggleDraw() {
 	} else {
 		DrawProgressBar(1300, 3, 490, 55, ChatRoomStruggleData.Progress);
 		DrawButton(1800, 0, 195, 60, TextGet("ChatRoomStruggleGiveUp"), "White");
+	}
+
+	// Generates a struggle animation
+	if (Player.OnlineSharedSettings && Player.OnlineSharedSettings.ItemsAffectExpressions && ChatRoomStruggleData.NextAnim <= Time) {
+
+		// The animation gets stronger the more time passes
+		let Sec = Math.round((Time - ChatRoomStruggleData.Start) / 1000) + (ChatRoomStruggleData.LoosenMode ? 15 : 0);
+		if (Sec <= 15) {
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Eyes", CommonRandomItemFromList("Afk", [null, "Dazed", "Shy"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Blush", CommonRandomItemFromList("Afk", [null, "Low"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Mouth", CommonRandomItemFromList("Afk", [null, "Grin", "Smirk", "HalfOpen"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Eyebrows", CommonRandomItemFromList("Afk", [null, "OneRaised", "Raised"]));
+		} else if (Sec <= 30) {
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Eyes", CommonRandomItemFromList("Afk", [null, "Dazed", "Shy", "Sad", "Closed"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Blush", CommonRandomItemFromList("Afk", [null, "Low", "Medium"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Mouth", CommonRandomItemFromList("Afk", [null, "Grin", "Smirk", "HalfOpen", "Open", "Pout"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Eyebrows", CommonRandomItemFromList("Afk", [null, "OneRaised", "Raised", "Lowered"]));
+		} else if (Sec <= 45) {
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Eyes", CommonRandomItemFromList("Afk", [null, "Dazed", "Shy", "Horny", "Lewd"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Blush", CommonRandomItemFromList("Afk", ["Low", "Medium", "High"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Mouth", CommonRandomItemFromList("Afk", [null, "HalfOpen", "Open", "Pout", "Moan", "LipBite"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Eyebrows", CommonRandomItemFromList("Afk", ["OneRaised", "Raised", "Lowered", "Soft"]));
+		} else if (Sec <= 60) {
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Eyes", CommonRandomItemFromList("Afk", [null, "Horny", "Lewd", "Sad", "Daydream", "Surprised"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Blush", CommonRandomItemFromList("Afk", ["Medium", "High", "VeryHigh"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Mouth", CommonRandomItemFromList("Afk", [null, "Open", "Pout", "Moan", "LipBite", "Pained", "Sad"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Eyebrows", CommonRandomItemFromList("Afk", [null, "Lowered", "Soft", "Harsh", "Angry"]));
+		} else {
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Eyes", CommonRandomItemFromList("Afk", [null, "Horny", "Daydream", "Sad", "Surprised", "Angry", "Closed"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Blush", CommonRandomItemFromList("Afk", ["High", "VeryHigh", "Extreme"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Mouth", CommonRandomItemFromList("Afk", [null, "Open", "Frown", "Moan", "LipBite", "Pained", "Sad", "TonguePinch"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Eyebrows", CommonRandomItemFromList("Afk", ["Raised", "Lowered", "Soft", "Harsh", "Angry"]));
+		}
+
+		// Sets the next animation time
+		ChatRoomStruggleData.NextAnim = Time + 5000 + Math.floor(Math.random() * 5000);
+
 	}
 
 }
@@ -2422,14 +2463,135 @@ function ChatRoomScrollHistory(up) {
 function ChatRoomSendChat() {
 
 	// If there's a message to send
-	const msg = ElementValue("InputChat").trim();
+	let msg = ElementValue("InputChat").trim();
 	if (!msg.length) return;
 
 	// Keeps the chat log in memory so it can be accessed with pageup/pagedown
 	ChatRoomLastMessage.push(msg);
 	ChatRoomLastMessageIndex = ChatRoomLastMessage.length;
-	CommandParse(msg);
 
+	// Handle a possible command
+	const parsed = CommandParse(msg);
+	if (typeof parsed === "string") {
+		msg = parsed;
+	} else if (parsed) {
+		return;
+	}
+
+	// Maximum of 1000 characters sent
+	if (msg.length > ServerChatMessageMaxLength) return;
+
+	// Emote parsing
+	if (msg.startsWith("*") || (Player.ChatSettings.MuStylePoses && msg.startsWith(":") && msg.length > 3)) {
+		if (msg.match(/^\*\d*%/)) {
+			ChatRoomSendAttemptEmote(msg);
+		} else {
+			ChatRoomSendEmote(msg);
+		}
+		ElementValue("InputChat", "");
+		return;
+	}
+
+	// GGTS chat parser for completing tasks
+	AsylumGGTSChatToParse = msg;
+
+	let clearChat = false;
+	// Check if this is a whisper
+	let whisperStatus = ChatRoomSendWhisper(ChatRoomTargetMemberNumber, msg);
+	if (whisperStatus === "target-gone") {
+		ChatRoomSendLocal(`<span style="color: red">${TextGet("WhisperTargetGone")}</span>`);
+		return;
+	} else if (whisperStatus === "target-out-of-range") {
+		ChatRoomSendLocal(`<span style="color: red">${TextGet("WhisperTargetOutOfRange")}</span>`);
+		return;
+	} else if (whisperStatus) {
+		clearChat = true;
+	} else {
+		// This must be a regular chat message
+		const status = ChatRoomSendChatMessage(msg);
+		if (status) {
+			clearChat = true;
+		}
+	}
+
+	if (clearChat) {
+		ElementValue("InputChat", "");
+	}
+}
+
+/**
+ * Send a player message to the server
+ *
+ * This function automatically formats and sends the message with all the information
+ * needed to reconstruct it on the receiver.
+ *
+ * @param {"Chat"|"Whisper"} type
+ * @param {string} msg
+ */
+function ChatRoomGenerateChatRoomChatMessage(type, msg) {
+	// Chat messages are always garbled, unless the no speech restriction is lifted
+	let process = {
+		effects: [],
+		text: msg,
+	};
+
+	process = SpeechTransformProcess(Player, msg, SpeechTransformSenderEffects);
+
+	// We always garble, but if "no speech garbling" is enabled,
+	// we also send down the ungarbled message if it's different
+	const originalMsg = Player.RestrictionSettings.NoSpeechGarble && msg !== process.text ? msg : undefined;
+
+	/** @type {ChatMessageDictionary} */
+	let Dictionary = [
+		{ Effects: process.effects, Original: originalMsg },
+	];
+
+	return { Content: process.text, Type: type, Dictionary };
+}
+
+/**
+ * Send a specific chat message to the room
+ * @param {string} msg
+ * @returns
+ */
+function ChatRoomSendChatMessage(msg) {
+	// Regular chat can be prevented with an owner presence rule, also validates for forbidden words
+	if (ChatRoomOwnerPresenceRule("BlockTalk", null)) return false;
+	if (!ChatRoomOwnerForbiddenWordCheck(msg)) return false;
+
+	const data = ChatRoomGenerateChatRoomChatMessage("Chat", msg);
+	ServerSend("ChatRoomChat", data);
+
+	ChatRoomStimulationMessage("Talk");
+	return true;
+}
+
+/**
+ * Send a whisper to a specific character
+ * @param {number} targetNumber
+ * @param {string} msg
+ */
+function ChatRoomSendWhisper(targetNumber, msg) {
+	if (targetNumber < 0) return false;
+	const targetChar = ChatRoomCharacter.find(C => C.MemberNumber == targetNumber);
+	if (!targetChar) return "target-gone";
+
+	if (ChatRoomMapViewIsActive() && !ChatRoomMapViewCharacterOnWhisperRange(targetChar)) {
+		return "target-out-of-range";
+	}
+
+	const data = ChatRoomGenerateChatRoomChatMessage("Whisper", msg);
+	data.Target = targetNumber;
+	ServerSend("ChatRoomChat", data);
+
+	// We're self-whispering, and that would cause two messages to show up
+	// (one added below, the other added when it gets received).
+	// Skip this one if that's the case
+	if (targetChar.IsPlayer()) return true;
+	data.Sender = Player.MemberNumber;
+
+	ChatRoomMessage(data);
+	return true;
 }
 
 /**
@@ -2800,10 +2962,15 @@ var ChatRoomMessageHandlers = [
 				if (ChatRoomIsCharacterImpactedBySensoryDeprivation(sender)) {
 					if (Player.GetDeafLevel() >= 4)
 						metadata.senderName = InterfaceTextGet("Someone");
-					else
-						metadata.senderName = SpeechGarble(sender, metadata.senderName, true);
+					else {
+						const s = SpeechTransformProcess(sender, metadata.senderName, SpeechTransformReceiverEffects);
+						metadata.senderName = s.text;
+					}
 				}
-				if (Player.GetDeafLevel() > 0) msg = SpeechGarble(sender, msg);
+				if (Player.GetDeafLevel() > 0) {
+					const s = SpeechTransformProcess(sender, msg, SpeechTransformReceiverEffects);
+					msg = s.text;
+				}
 			}
 
 			return { msg: msg };
@@ -2815,7 +2982,10 @@ var ChatRoomMessageHandlers = [
 		Priority: 110,
 		Callback: (data, sender, msg, metadata) => {
 			if (data.Type == "Chat" || data.Type == "Whisper") {
-				if (Player.GetDeafLevel() > 0) data.Content = SpeechGarble(sender, data.Content);
+				if (Player.GetDeafLevel() > 0) {
+					const s = SpeechTransformProcess(sender, data.Content, SpeechTransformReceiverEffects);
+					data.Content = s.text;
+				}
 				ChatRoomChatLog.push({ Chat: data.Content, Garbled: msg, Original: data.Content, SenderName: metadata.senderName, SenderMemberNumber: sender.MemberNumber, Time: CommonTime() });
 				if (ChatRoomChatLog.length > 6) ChatRoomChatLog.splice(0, 1);
 			}
@@ -3013,6 +3183,9 @@ function ChatRoomMessageProcessHidden(data, SenderCharacter) {
 	else if (data.Content == "SlowStop") {
 		ChatRoomSlowtimer = CurrentTime + 45000;
 		ChatRoomSlowStop = true;
+	}
+	else if (data.Content == "OnlineStruggleInterrupt") {
+		StruggleChatRoomEndAmination();
 	}
 	else if (data.Content.startsWith("MaidDrinkPick")) {
 		let A = parseInt(data.Content.substr("MaidDrinkPick".length));
@@ -3482,6 +3655,10 @@ function ChatRoomMessage(data) {
 
 	// Apply requested substitutions
 	msg = CommonStringSubstitute(msg, substitutions);
+	const messageEntry = /** @type {MessageEffectEntry} */(data.Dictionary?.find(e => IsMessageEffectDictionaryEntry(e)));
+	if (messageEntry?.Original) {
+		metadata.OriginalMsg = CommonStringSubstitute(messageEntry.Original, substitutions);
+	}
 
 	ChatRoomMessageRunHandlers("post", data, SenderCharacter, msg, metadata);
 }
@@ -3496,11 +3673,6 @@ function ChatRoomMessage(data) {
  * @returns {void}
  */
 function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
-	// Ability to whisper for ourself is nice, for noting or testing.
-	// But we don't want to see two whisper messages, therefore, don't show it, if we're senging it to us.
-	if (data.Type === "Whisper" && SenderCharacter === Player) return;
-
-
 	let displayMessage = ChatRoomActiveView.DisplayMessage(data, msg, SenderCharacter, metadata);
 	if(displayMessage == null) return;
 
@@ -3518,7 +3690,9 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 			if (data.Type == "Whisper") senderTag += ' ';
 			senderTag += metadata.senderName;
 			senderTag += ':</span>';
-			if (data.Type == "Whisper") senderTag = TextGet("WhisperFrom") + senderTag;
+			if (data.Type == "Whisper") {
+				senderTag = (SenderCharacter.IsPlayer() ? TextGet("WhisperTo") : TextGet("WhisperFrom")) + senderTag;
+			}
 
 			displayMessage = `${senderTag} ${ChatRoomHTMLEntities(displayMessage)}`;
 		}
@@ -3545,6 +3719,10 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 		default:
 			console.warn(`unknown message type ${data.Type}, ignoring`);
 			return;
+	}
+
+	if (metadata.OriginalMsg) {
+		displayMessage += "<br>[" + ChatRoomHTMLEntities(metadata.OriginalMsg) + "]";
 	}
 
 	// Checks if the message is a notification about the user entering or leaving the room
@@ -4282,6 +4460,20 @@ function ChatRoomStopLeave() {
 }
 
 /**
+ * Triggered when a character interrupt online struggles on another character.
+ * @returns {void} - Nothing
+ */
+function ChatRoomOnlineStruggleInterrupt() {
+	const Dictionary = new DictionaryBuilder()
+		.sourceCharacter(Player)
+		.targetCharacter(CurrentCharacter)
+		.build();
+	ServerSend("ChatRoomChat", { Content: "OnlineStruggleInterrupt", Type: "Action", Dictionary });
+	ServerSend("ChatRoomChat", { Content: "OnlineStruggleInterrupt", Type: "Hidden", Target: CurrentCharacter.MemberNumber });
+	DialogLeave();
+}
+
+/**
  * Sends an administrative command to the server for the chat room from the character dialog.
  * @param {"Move"|"Kick"|"Ban"} ActionType - Type of action performed.
  * @param {boolean | string} [Publish=true] - Whether or not the action should be published.
@@ -4534,6 +4726,22 @@ function ChatRoomGetLoverRule(RuleType) { return ChatRoomGetRule(RuleType, "Love
 function ChatRoomGetOwnerRule(RuleType) { return ChatRoomGetRule(RuleType, "Owner"); }
 
 /**
+ * Return TRUE if the current character allows to change her own nickname by her owner
+ * @returns {boolean}
+ */
+function ChatRoomCanChangeNickname() { return (CurrentCharacter != null) && (CurrentCharacter.OnlineSharedSettings != null) && (CurrentCharacter.OnlineSharedSettings.AllowRename !== false) && CurrentCharacter.IsOwnedByPlayer() }
+
+/** 
+ * Enters the submissive character nickname edit/lock screen
+ * @returns {void}
+ */
+function ChatRoomChangeNickname() {
+	NicknameManagementTarget = CurrentCharacter;
+	DialogLeave();
+	CommonSetScreen("Online", "NicknameManagement");
+}
+
+/**
  * Gets a rule from the current character
  * @param {LogNameType["OwnerRule" | "LoverRule"]} RuleType - The name of the rule to retrieve.
  * @param {"Owner" | "Lover"} Sender - Type of the sender
@@ -4567,7 +4775,7 @@ function ChatRoomSetRule(data) {
 		if (data.Content == "OwnerRuleEmoteAllow") LogDelete("BlockEmote", "OwnerRule");
 		if (data.Content == "OwnerRuleEmoteBlock") LogAdd("BlockEmote", "OwnerRule");
 		if (data.Content == "OwnerRuleWhisperAllow") LogDelete("BlockWhisper", "OwnerRule");
-		if (data.Content == "OwnerRuleWhisperBlock") { LogAdd("BlockWhisper", "OwnerRule"); ChatRoomSetTarget(null); }
+		if (data.Content == "OwnerRuleWhisperBlock") { LogAdd("BlockWhisper", "OwnerRule"); ChatRoomSetTarget(-1); }
 		if (data.Content == "OwnerRuleChangePoseAllow") LogDelete("BlockChangePose", "OwnerRule");
 		if (data.Content == "OwnerRuleChangePoseBlock") LogAdd("BlockChangePose", "OwnerRule");
 		if (data.Content == "OwnerRuleAccessSelfAllow") LogDelete("BlockAccessSelf", "OwnerRule");
@@ -4624,9 +4832,14 @@ function ChatRoomSetRule(data) {
 			AsylumGGTSLock(GGTS, TextGet("GGTSIntro"));
 		}
 
-		// Nickname rules
+		// Nickname changing and locking
 		if (data.Content == "OwnerRuleNicknameAllow") LogDelete("BlockNickname", "OwnerRule");
 		if (data.Content == "OwnerRuleNicknameBlock") LogAdd("BlockNickname", "OwnerRule");
+		if (data.Content.startsWith("OwnerRuleNicknameNew")) {
+			let NewNick = data.Content.substring(20);
+			CharacterSetNickname(Player, NewNick);
+			data.Content = "OwnerRuleNicknameNew";
+		}
 
 		// Collar rules
 		if (data.Content == "OwnerRuleCollarRelease") {

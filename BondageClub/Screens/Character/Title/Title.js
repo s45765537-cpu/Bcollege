@@ -167,6 +167,7 @@ function TitleLoad() {
 	TitleSelectedTitle = TitleGet(Player);
 	TitleListFiltered = TitleList.filter(T => T.Requirement());
 	TitleCanEditNickname = (!LogQuery("BlockNickname", "OwnerRule") || !Player.IsFullyOwned());
+	if (!TitleCanEditNickname && (Player.OnlineSharedSettings != null) && (Player.OnlineSharedSettings.AllowRename === false)) TitleCanEditNickname = true;
 	let E = ElementCreateInput("InputNickname", "text", Player.Nickname, "20");
 	if (!TitleCanEditNickname) {
 		E.style.backgroundColor = "#DFDFDF";

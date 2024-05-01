@@ -60,77 +60,25 @@ function CommandCombine(add) {
 /**
  * Parse the input chat message
  * @param {string} msg - Input string, cannot be empty
+ * @returns {string|boolean} a de-escaped string if msg looks like an escaped
+ *   command, true if a command successfully executed, false otherwise.
  */
 function CommandParse(msg) {
 
 	// We want to escape message with "\", so we need to escape it first.
 	if (msg.startsWith("\\")) {
-		msg = msg.replaceAt(0, "\u200b");
+		return msg.replaceAt(0, "\u200b");
 	} else if (msg.startsWith(CommandsKey + CommandsKey)) {
-		msg = msg.substring(1);
-	} else if (msg.startsWith(CommandsKey)) {
-		CommandExecute(msg);
-		return;
+		// Escaped command, strip first char and return that
+		return msg.substring(1);
 	}
 
-	// Maximum of 1000 characters sent
-	if (msg.length > ServerChatMessageMaxLength) return;
-	msg = msg.substring(0, ServerChatMessageMaxLength);
-
-	// Emote parsing
-	if (msg.startsWith("*") || (Player.ChatSettings.MuStylePoses && msg.startsWith(":") && msg.length > 3)) {
-		if (msg.match(/^\*\d*%/)) {
-			ChatRoomSendAttemptEmote(msg);
-		} else {
-			ChatRoomSendEmote(msg);
-		}
-		ElementValue("InputChat", "");
-		return;
+	if (!msg.startsWith(CommandsKey)) {
+		// Not a command. Skip.
+		return false;
 	}
 
-	// GGTS chat parser for completing tasks
-	AsylumGGTSChatToParse = msg;
-
-	// Regular chat and Whispers are garbled before being sent, unless the no speech restriction is lifted
-	if ((Player.RestrictionSettings == null) || !Player.RestrictionSettings.NoSpeechGarble)
-		msg = SpeechGarble(Player, msg);
-
-	// Checks if we are doing a regular chat or a whispering
-	const WhisperTarget = ChatRoomCharacter.find(C => C.MemberNumber == ChatRoomTargetMemberNumber);
-	if (ChatRoomTargetMemberNumber == null) {
-
-		// Regular chat can be prevented with an owner presence rule, also validates for forbidden words
-		if (!ChatRoomOwnerPresenceRule("BlockTalk", null) && ChatRoomOwnerForbiddenWordCheck(msg)) {
-			ServerSend("ChatRoomChat", { Content: msg, Type: "Chat" });
-			ChatRoomStimulationMessage("Talk");
-		}
-
-	} else {
-
-		// The whispers get sent to the server and shown on the client directly
-		ServerSend("ChatRoomChat", { Content: msg, Type: "Whisper", Target: ChatRoomTargetMemberNumber });
-		const div = document.createElement("div");
-		div.setAttribute('class', 'ChatMessage ChatMessageWhisper');
-		div.setAttribute('data-time', ChatRoomCurrentTime());
-		div.setAttribute('data-sender', Player.MemberNumber.toString());
-		div.innerHTML = `${TextGet("WhisperTo")}<span class="ChatMessageName" style="color: ${(WhisperTarget.LabelColor || 'gray')}"> ${CharacterNickname(WhisperTarget)}: </span>${ChatRoomHTMLEntities(msg)}`;
-
-		// Add reply button, that will reply to player we're whispering.
-		let replayButton = document.createElement("div");
-		replayButton.onclick = (e) => {
-			ElementValue("InputChat", `/whisper ${WhisperTarget.MemberNumber} ${ElementValue("InputChat").replace(/\/whisper\s*\d+ ?/u, '')}`);
-			ElementFocus("InputChat");
-		};
-		replayButton.classList.add("ReplyButton");
-		replayButton.textContent = '\u21a9\ufe0f';
-		div.prepend(replayButton);
-		ChatRoomAppendChat(div);
-
-	}
-
-	// Clears the chat text message
-	ElementValue("InputChat", "");
-
+	return CommandExecute(msg);
 }
 
 /**
@@ -168,7 +116,7 @@ function CommandPrintHelpFor(CommandList, Timeout, DoShowEscapeHint) {
 /**
  * Finds command and executes it from the message
  * @param {string} msg - User input
- * @returns {void} - Nothing
+ * @returns {boolean} - true if a command was executed, false otherwise
  */
 function CommandExecute(msg) {
 	const low = msg.toLowerCase();
@@ -180,17 +128,18 @@ function CommandExecute(msg) {
 	if (C && C.Reference) C = GetCommands().find(D => D.Tag == C.Reference);
 	if (C == null) {
 		ChatRoomSendLocal(`${msg} ${TextGet("CommandNoSuchCommand")}`, 10_000);
-		return;
+		return false;
 	}
 	if (C.Prerequisite && C.Prerequisite.call(C) == false) {
 		ChatRoomSendLocal(`${msg} ${TextGet("CommandPrerequisiteFailed")}`, 10_000);
-		return;
+		return false;
 	}
 	C.Action.call(C, low.substring(C.Tag.length + 2), msg, parsed);
 	if (C.Clear == null || C.Clear) {
 		ElementValue("InputChat", "");
 		ElementFocus("InputChat");
 	}
+	return true;
 }
 
 /**
@@ -659,8 +608,8 @@ const CommonCommands = [
 
 			// Logic for handling empty command or missing target
 			if (!target) {
-				if (ChatRoomTargetMemberNumber !== null) {
-					ChatRoomSetTarget(null);
+				if (ChatRoomTargetMemberNumber >= 0) {
+					ChatRoomSetTarget(-1);
 					ChatRoomSendLocal(`${TextGet("CommandWhisperStopSuccess")}`, 30000);
 				} else {
 					ChatRoomSendLocal(`${TextGet("CommandNoWhisperTargetSelected")}`, 30000);
@@ -702,19 +651,16 @@ const CommonCommands = [
 			// If there's ONE match and there's message we want to send
 			} else {
 				const targetMember = matchingMembers[0];
-				const previousTarget = ChatRoomTargetMemberNumber;
 
 				// Set whisper target and send message
-				ChatRoomTargetMemberNumber = targetMember.MemberNumber;
-				ElementValue("InputChat", message);
-				ChatRoomSendChat();
-
-				// Remove dupped message from history
-				ChatRoomLastMessage.pop();
-				ChatRoomLastMessageIndex--;
-
-				// Set previous target as whisper target if any
-				ChatRoomTargetMemberNumber = previousTarget;
+				const status = ChatRoomSendWhisper(targetMember.MemberNumber, message);
+				if (status === "target-gone") {
+					ChatRoomSendLocal(`<span style="color: red">${TextGet("WhisperTargetGone")}</span>`);
+					return;
+				} else if (status === "target-out-of-range") {
+					ChatRoomSendLocal(`<span style="color: red">${TextGet("WhisperTargetOutOfRange")}</span>`);
+					return;
+				}
 			}
 		},
 	},

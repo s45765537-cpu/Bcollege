@@ -2,6 +2,8 @@ ActionGrabbedToServeDrinksIntro,(Two maids grab you and escort you to their quar
 PublicChat,Talk to everyone
 WhisperTo,Whisper to
 WhisperFrom,Whisper from
+WhisperTargetGone,The character you were whispering to has left.
+WhisperTargetOutOfRange,Whisper target is out of range.  Returning to normal chat.
 MenuCut,Keep 20- or all current-room messages
 MenuProfile,Your character profile
 MenuRoomAdmin,Room administration

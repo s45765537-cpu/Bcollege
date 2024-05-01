@@ -200,6 +200,7 @@ function ControllerIsActive() {
 function ControllerLoadMapping(buttonsMapping, axisMapping) {
 	if (ControllerIsActive()) {
 		for (const gamepad of navigator.getGamepads()) {
+			if (!gamepad) continue;
 			if (gamepad.buttons.length < MAX_KNOWN_BUTTONS || gamepad.axes.length < MAX_KNOWN_AXIS) {
 				console.warn(`Detected gamepad ${gamepad.index} doesn't have the minimum supported buttons/axis. Make sure to calibrate it properly in Preferences!`);
 			} else if (Object.keys(buttonsMapping).length !== gamepad.buttons.length || Object.keys(axisMapping).length !== gamepad.axes.length) {

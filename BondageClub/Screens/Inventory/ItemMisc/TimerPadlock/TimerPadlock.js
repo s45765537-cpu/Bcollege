@@ -5,16 +5,16 @@ function InventoryItemMiscTimerPadlockDrawHook(data, originalFunction) {
 	if ((DialogFocusItem == null) || (DialogFocusSourceItem.Property.RemoveTimer < CurrentTime)) { DialogLeaveFocusItem(); return; }
 	originalFunction();
 	DrawText(AssetTextGet(DialogFocusItem.Asset.Group.Name + DialogFocusItem.Asset.Name + "Intro"), 1500, 600, "white", "gray");
-	DrawText(AssetTextGet("TimerLeft") + " " + TimerToString(DialogFocusSourceItem.Property.RemoveTimer - CurrentTime), 1500, 500, "white", "gray");
+	DrawText(InterfaceTextGet("TimerLeft") + " " + TimerToString(DialogFocusSourceItem.Property.RemoveTimer - CurrentTime), 1500, 500, "white", "gray");
 	if ((DialogFocusSourceItem != null) && (DialogFocusSourceItem.Property != null) && (DialogFocusSourceItem.Property.LockMemberNumber != null))
-		DrawText(AssetTextGet("LockMemberNumber") + " " + DialogFocusSourceItem.Property.LockMemberNumber.toString(), 1500, 700, "white", "gray");
+		DrawText(InterfaceTextGet("LockMemberNumber") + " " + DialogFocusSourceItem.Property.LockMemberNumber.toString(), 1500, 700, "white", "gray");
 	if ((Player.MemberNumber == DialogFocusSourceItem.Property.LockMemberNumber) && Player.CanInteract()) {
 		MainCanvas.textAlign = "left";
 		DrawButton(1100, 836, 64, 64, "", "White", (DialogFocusSourceItem.Property.RemoveItem) ? "Icons/Checked.png" : "");
 		DrawText(AssetTextGet("RemoveItemWithTimer"), 1200, 868, "white", "gray");
 		MainCanvas.textAlign = "center";
-	} else DrawText(AssetTextGet((DialogFocusSourceItem.Property.RemoveItem) ? "WillRemoveItemWithTimer" : "WontRemoveItemWithTimer"), 1500, 868, "white", "gray");
-	if (Player.CanInteract()) DrawButton(1350, 910, 300, 65, AssetTextGet("RestartTimer"), "White");
+	} else DrawText(InterfaceTextGet((DialogFocusSourceItem.Property.RemoveItem) ? "WillRemoveItemWithTimer" : "WontRemoveItemWithTimer"), 1500, 868, "white", "gray");
+	if (Player.CanInteract()) DrawButton(1350, 910, 300, 65, InterfaceTextGet("RestartTimer"), "White");
 }
 
 /** @type {ExtendedItemScriptHookCallbacks.Click<NoArchItemData>} */
