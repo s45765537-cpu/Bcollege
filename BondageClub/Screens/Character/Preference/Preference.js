@@ -587,6 +587,7 @@ function PreferenceInitPlayer() {
 	if (typeof C.GraphicsSettings.CenterChatrooms !== "boolean") C.GraphicsSettings.CenterChatrooms = true;
 	if (typeof C.GraphicsSettings.AllowBlur !== "boolean") C.GraphicsSettings.AllowBlur = true;
 	if (!PreferenceGraphicsFrameLimit.includes(C.GraphicsSettings.MaxFPS)) C.GraphicsSettings.MaxFPS = DEFAULT_FRAMERATE;
+	if (!PreferenceGraphicsFrameLimit.includes(C.GraphicsSettings.MaxUnfocusedFPS)) C.GraphicsSettings.MaxUnfocusedFPS = 0;
 	if (typeof C.GraphicsSettings.ShowFPS !== "boolean") C.GraphicsSettings.ShowFPS = false;
 
 	// Notification settings
@@ -1558,6 +1559,8 @@ function PreferenceSubscreenGraphicsRun() {
 	} else if (PreferencePageCurrent === 2) {
 		DrawText(TextGet("VFXFilter"), 1000, 216, "Black", "Gray");
 		DrawText(TextGet("VFXVibrator"), 1000, 456, "Black", "Gray");
+		DrawText(TextGet("FPSFocusedLimit"), 1000, 616, "Black", "Gray");
+		DrawText(TextGet("FPSUnfocusedLimit"), 1000, 696, "Black", "Gray");
 		DrawCheckbox(500, 270, 64, 64, TextGet("SmoothZoom"), Player.GraphicsSettings.SmoothZoom);
 		DrawCheckbox(500, 350, 64, 64, TextGet("CenterChatrooms"), Player.GraphicsSettings.CenterChatrooms);
 		DrawCheckbox(500, 510, 64, 64, TextGet("AllowBlur"), Player.GraphicsSettings.AllowBlur);
@@ -1582,8 +1585,22 @@ function PreferenceSubscreenGraphicsRun() {
 				return TextGet(key);
 			}
 		);
+
+		DrawBackNextButton(500, 670, 450, 64, TextGet(`MaxFPS${Player.GraphicsSettings.MaxUnfocusedFPS}`), "White", "",
+			() => {
+				const index = CommonModulo(PreferenceGraphicsFrameLimit.indexOf(Player.GraphicsSettings.MaxUnfocusedFPS) - 1, PreferenceGraphicsFrameLimit.length);
+				const key = `MaxFPS${PreferenceGraphicsFrameLimit[index]}`;
+				return TextGet(key);
+			},
+			() => {
+				const index = CommonModulo(PreferenceGraphicsFrameLimit.indexOf(Player.GraphicsSettings.MaxUnfocusedFPS) + 1, PreferenceGraphicsFrameLimit.length);
+				const key = `MaxFPS${PreferenceGraphicsFrameLimit[index]}`;
+				return TextGet(key);
+			}
+		);
+
 		MainCanvas.textAlign = "left";
-		DrawCheckbox(500, 670, 64, 64, TextGet("ShowFPS"), Player.GraphicsSettings.ShowFPS);
+		DrawCheckbox(500, 750, 64, 64, TextGet("ShowFPS"), Player.GraphicsSettings.ShowFPS);
 	}
 }
 
@@ -1778,7 +1795,12 @@ function PreferenceSubscreenGraphicsClick() {
 			const idx = CommonModulo(PreferenceGraphicsFrameLimit.indexOf(Player.GraphicsSettings.MaxFPS) + dir, PreferenceGraphicsFrameLimit.length);
 			Player.GraphicsSettings.MaxFPS = PreferenceGraphicsFrameLimit[idx];
 		}
-		if (MouseIn(500, 670, 64, 64)) Player.GraphicsSettings.ShowFPS = !Player.GraphicsSettings.ShowFPS;
+		if (MouseIn(500, 670, 450, 64)) {
+			const dir = MouseX <= 825 ? -1 : 1;
+			const idx = CommonModulo(PreferenceGraphicsFrameLimit.indexOf(Player.GraphicsSettings.MaxUnfocusedFPS) + dir, PreferenceGraphicsFrameLimit.length);
+			Player.GraphicsSettings.MaxUnfocusedFPS = PreferenceGraphicsFrameLimit[idx];
+		}
+		if (MouseIn(500, 750, 64, 64)) Player.GraphicsSettings.ShowFPS = !Player.GraphicsSettings.ShowFPS;
 	}
 }
 

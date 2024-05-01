@@ -1727,6 +1727,7 @@ interface GraphicsSettingsType {
 	ShowFPS: boolean;
 	/** 0 means unlimited */
 	MaxFPS: number;
+	MaxUnfocusedFPS: number;
 }
 
 interface RestrictionSettingsType {
