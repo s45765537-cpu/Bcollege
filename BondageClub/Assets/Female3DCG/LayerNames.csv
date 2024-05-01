@@ -351,6 +351,8 @@ HairBackHairBack60FrontRight,Right
 HairBackHairBack60FrontLeft,Left
 HairBackHairBack61FrontRight,Right
 HairBackHairBack61FrontLeft,Left
+HairBackHairBack62Braid,Braid
+HairBackHairBack62Ribbon,Ribbon
 HairFrontHairFront22Base, Base
 HairFrontHairFront22bBase, Base
 HairFrontHairFront22bFluff, Fluff
@@ -434,6 +436,8 @@ HairFrontHairFront52bFade,Fade
 HairFrontHairFront52bMain,Main
 HairFrontHairFront56Main,Main
 HairFrontHairFront56MainTip,Tips
+HairFrontHairFront57Main,Main
+HairFrontHairFront57Tone,Tips
 HatBallCapBackButton,Button
 HatBallCapBackPanelLeft,Panel
 HatBallCapBackSideLeft,Side

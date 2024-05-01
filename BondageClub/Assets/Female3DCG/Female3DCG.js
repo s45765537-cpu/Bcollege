@@ -14742,6 +14742,17 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "HairFront57",
+				Layer: [
+					{
+						Name: "Main",
+					},
+					{
+						Name: "Tone",
+					},
+				],
+			},
 		],
 		Color: [
 			"#6a3628",
@@ -15284,6 +15295,23 @@ var AssetFemale3DCG = [
 					{
 						Name: "BackRight",
 						CopyLayerColor: "FrontRight",
+					},
+				],
+			},
+			{
+				Name: "HairBack62",
+				Layer: [
+					{
+						Name: "Braid",
+						Priority: 48,
+					},
+					{
+						Name: "Back",
+						CopyLayerColor: "Braid",
+					},
+					{
+						Name: "Ribbon",
+						Priority: 48,
 					},
 				],
 			},
@@ -18102,11 +18130,13 @@ var AssetFemale3DCG = [
 					...AssetPoseMapping.ItemVulva,
 					Kneel: PoseType.DEFAULT,
 				},
-				DefaultColor: ["Default", "Default", "#921732", "#C3C3C3", "Default"],
+				DefaultColor: ["Default", "Default", "#921732", "#C3C3C3", "#ACACAC"],
 				AllowLock: true,
 				DrawLocks: false,
 				Left: 200,
 				Top: 410,
+				Extended: true,
+				AlwaysExtend: true,
 				Layer: [
 					{
 						Name: "Cage",
@@ -18116,16 +18146,40 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Face",
+						AllowTypes: { typed : 0 }
+					},
+					{
+						Name: "Face2",
+						AllowTypes: { typed : 1 },
+						CopyLayerColor: "Face",
 					},
 					{
 						Name: "Ears",
+						AllowTypes: { typed: 0 }
+					},
+					{
+						Name: "Ears2",
+						AllowTypes: { typed: 1 },
+						CopyLayerColor: "Ears",
 					},
 					{
 						Name: "Mouth",
+						AllowTypes: { typed: 0 }
+					},
+					{
+						Name: "Mouth2",
+						AllowTypes: { typed: 1 },
+						CopyLayerColor: "Mouth"
 					},
 					{
 						Name: "Outline",
 						AllowColorize: false,
+						AllowTypes: { typed: 0 }
+					},
+					{
+						Name: "Outline2",
+						AllowColorize: false,
+						AllowTypes: { typed: 1 }
 					},
 				],
 			},

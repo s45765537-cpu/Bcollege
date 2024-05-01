@@ -9066,6 +9066,23 @@ var AssetFemale3DCGExtended = {
 				),
 			},
 		}, // FuturisticVibrator
+		FullCasingCage: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "Fox",
+				},
+				{
+					Name: "Dog"
+				}
+			],
+			DialogPrefix: {
+				Header: "SelectCageType",
+				Option: "FullCasingCageType",
+				Chat: "FullCasingCageSet",
+			},
+		}, //Full Casing Cage
 	}, // ItemVulva
 	ItemVulvaPiercings: {
 		ClitRing: {
