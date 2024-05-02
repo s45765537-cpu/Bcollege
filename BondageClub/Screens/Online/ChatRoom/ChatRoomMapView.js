@@ -1357,7 +1357,7 @@ function ChatRoomMapViewCanEnterTile(X, Y) {
 	// Floor obstacles from 2000 to 3000 cannot be crossed
 	let ObjectID = ChatRoomData.MapData.Objects.charCodeAt(X + Y * ChatRoomMapViewWidth);
 	if ((ObjectID >= 2000) && (ObjectID < 3000)) return 0;
-	// Hurdle 2 cannot be crossed if the Player is Freeze 
+	// Hurdle 2 cannot be crossed if the Player is Freeze
 	if ((ObjectID == 670) && Player.HasEffect("Freeze")) return 0;
 	// Hurdle 3 cannot be crossed if the Player is Freeze or slow
 	if ((ObjectID == 680) && (Player.HasEffect("Freeze") || Player.HasEffect("Slow"))) return 0;

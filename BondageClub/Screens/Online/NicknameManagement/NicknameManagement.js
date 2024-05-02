@@ -27,7 +27,7 @@ function NicknameManagementRun() {
 	DrawText(TextGet("NewNickname"), 950, 650, "Black", "Silver");
 	ElementPosition("InputNickname", 1330, 647, 450, 60);
 	MainCanvas.textAlign = "left";
-	DrawCheckbox(1000, 750, 64, 64, TextGet("Lock"), NicknameManagementLock)
+	DrawCheckbox(1000, 750, 64, 64, TextGet("Lock"), NicknameManagementLock);
 	MainCanvas.textAlign = "center";
 	DrawButton(1725, 60, 90, 90, "", "White", "Icons/Accept.png", TextGet("Accept"));
 	DrawButton(1830, 60, 90, 90, "", "White", "Icons/Cancel.png", TextGet("Cancel"));
@@ -58,5 +58,5 @@ function NicknameManagementExit(Save = false) {
 			ServerSend("ChatRoomChat", { Content: "OwnerRuleNicknameNew" + NewNickname, Type: "Hidden", Target: NicknameManagementTarget.MemberNumber });
 		}
 		ServerSend("ChatRoomChat", { Content: "OwnerRuleNickname" + (NicknameManagementLock ? "Block" : "Allow"), Type: "Hidden", Target: NicknameManagementTarget.MemberNumber });
-	} 
+	}
 }

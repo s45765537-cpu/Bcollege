@@ -1644,7 +1644,7 @@ function StruggleChatRoomStart() {
 		StartExpressionBlush : InventoryGetItemProperty(InventoryGet(Player, "Blush"), "Expression"),
 		StartExpressionMouth : InventoryGetItemProperty(InventoryGet(Player, "Mouth"), "Expression"),
 		StartExpressionEyebrows : InventoryGetItemProperty(InventoryGet(Player, "Eyebrows"), "Expression"),
-	}
+	};
 	DialogLeave();
 }
 
