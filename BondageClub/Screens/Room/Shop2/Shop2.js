@@ -356,7 +356,7 @@ var Shop2 = {
 				if (hover) {
 					options.Background = "cyan";
 				} else if (item && item.Asset.Name === Asset.Name && item.Asset.Group.Name === Asset.Group.Name) {
-					options.Background = "gray";
+					options.Background = "pink";
 				} else {
 					options.Background = "white";
 				}
