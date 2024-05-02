@@ -4137,8 +4137,8 @@ type ShopClothesMode = "Clothes" | "Underwear" | "Cosplay" | "Nude";
 /** The currently active dropdown menu */
 type ShopDropdownState = "None" | "Group" | "Pose";
 
-interface ShopScreenFunctions extends Omit<Partial<ScreenFunctions>, "Run"> {
-	Run(time: number, ...coords: RectTuple): void,
+interface ShopScreenFunctions extends Omit<Partial<ScreenFunctions>, "Draw"> {
+	Draw(...coords: RectTuple): void,
 	/** Coordinates associated with a particular to-be drawn/clicked element */
 	Coords: RectTuple,
 	/** A set of shop modes for which the screen functions must be active */

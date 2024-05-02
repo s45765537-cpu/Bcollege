@@ -318,17 +318,16 @@ var Shop2 = {
 	},
 
 	/**
-	 * Run function for a single item in the shop
-	 * @param {number} time
+	 * Draw function for a single item in the shop
 	 * @param {number} x
 	 * @param {number} y
 	 * @param {number} w
 	 * @param {number} h
 	 * @param {number} assetIndex - The assets index within {@link Shop2Vars.CurrentAssets}
-	 * @satisfies {ShopScreenFunctions["Run"]}
+	 * @satisfies {ShopScreenFunctions["Draw"]}
 	 * @private
 	 */
-	_AssetElementRun: function _AssetElementRun(time, x, y, w, h, assetIndex) {
+	_AssetElementDraw: function _AssetElementDraw(x, y, w, h, assetIndex) {
 		const { Asset } = Shop2Vars.CurrentAssets[assetIndex] ?? {};
 		if (!Asset) {
 			return;
@@ -498,7 +497,7 @@ var Shop2 = {
 				{
 					Coords: coords,
 					Mode: new Set(["Preview", "Buy", "Sell"]),
-					Run: (...args) => Shop2._AssetElementRun(...args, i),
+					Draw: (...args) => Shop2._AssetElementDraw(...args, i),
 					Click: (...args) => Shop2._AssetElementClick(...args, i),
 				},
 			];
@@ -638,7 +637,7 @@ var Shop2 = {
 		DarkFactor: {
 			Coords: [0, 0, 2000, 1000],
 			Mode: new Set(["Preview", "Buy", "Sell", "Extended", "Color"]),
-			Run: (time, ...coords) => DrawRect(...coords, "rgba(0,0,0,0.5)"),
+			Draw: (...coords) => DrawRect(...coords, "rgba(0,0,0,0.5)"),
 		},
 		Character: {
 			Coords: [650, 0, 0, 0],
@@ -654,7 +653,7 @@ var Shop2 = {
 				Shop2InitVars.Preview.OnlineSharedSettings = { ItemsAffectExpressions: false };
 				CharacterRefresh(Shop2InitVars.Preview, false, false);
 			},
-			Run: (time, x, y) => DrawCharacter(Shop2InitVars.Preview, x, y, 1),
+			Draw: (x, y) => DrawCharacter(Shop2InitVars.Preview, x, y, 1),
 			Exit: () => {
 				switch (Shop2Vars.Mode) {
 					case "Buy":
@@ -689,7 +688,7 @@ var Shop2 = {
 					Shop2.ApplyItemFilters();
 				});
 			},
-			Run: (time, ...coords) => {
+			Draw: (...coords) => {
 				const font = MainCanvas.canvas.clientWidth <= MainCanvas.canvas.clientHeight * 2 ? MainCanvas.canvas.clientWidth / 50 : MainCanvas.canvas.clientHeight / 25;
 				ElementPositionFix("Shop2InputSearch", font, ...coords);
 			},
@@ -704,12 +703,12 @@ var Shop2 = {
 		GroupSelectHeader: {
 			Coords: [345, 155, 0, 0],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Run: (time, x, y) => DrawText(TextGet("GroupSelectHeader"), x, y, "White"),
+			Draw: (x, y) => DrawText(TextGet("GroupSelectHeader"), x, y, "White"),
 		},
 		GroupSelectCollapse: {
 			Coords: [25, Shop2Consts.Grid.y, 90, 90],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Run: (time, ...coords) => {
+			Draw: (...coords) => {
 				if (Shop2Vars.DropdownState === ShopDropdownState.GROUP) {
 					DrawButton(...coords, "", "Pink", "Icons/Down.png", TextGet("GroupSelectCollapse"));
 				} else {
@@ -724,7 +723,7 @@ var Shop2 = {
 		GroupSelectAll: {
 			Coords: [135, Shop2Consts.Grid.y, 200, 90],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Run: (time, ...coords) => DrawButton(...coords, TextGet("GroupSelectAll"), "White"),
+			Draw: (...coords) => DrawButton(...coords, TextGet("GroupSelectAll"), "White"),
 			Click: () => {
 				for (const [category, groupDescriptions] of Object.entries(Shop2InitVars.GroupDescriptions)) {
 					for (const groupDescr of Object.keys(groupDescriptions)) {
@@ -741,7 +740,7 @@ var Shop2 = {
 		GroupSelectNone: {
 			Coords: [355, Shop2Consts.Grid.y, 200, 90],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Run: (time, ...coords) => DrawButton(...coords, TextGet("GroupSelectNone"), "White"),
+			Draw: (...coords) => DrawButton(...coords, TextGet("GroupSelectNone"), "White"),
 			Click: () => {
 				for (const [category, groupDescriptions] of Object.entries(Shop2InitVars.GroupDescriptions)) {
 					for (const groupDescr of Object.keys(groupDescriptions)) {
@@ -786,7 +785,7 @@ var Shop2 = {
 				elem.style.display = "none";
 				elem.classList.add("shop-dropdown");
 			},
-			Run: (time, ...coords) => {
+			Draw: (...coords) => {
 				if (Shop2Vars.DropdownState !== ShopDropdownState.GROUP) {
 					return;
 				}
@@ -804,12 +803,12 @@ var Shop2 = {
 		PoseSelectHeader: {
 			Coords: [345, 155 + 160, 0, 0],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Run: (time, x, y) => DrawText(TextGet("PoseSelectHeader"), x, y, "White"),
+			Draw: (x, y) => DrawText(TextGet("PoseSelectHeader"), x, y, "White"),
 		},
 		PoseSelectCollapse: {
 			Coords: [25, Shop2Consts.Grid.y + 160, 90, 90],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Run: (time, ...coords) => {
+			Draw: (...coords) => {
 				if (Shop2Vars.DropdownState === ShopDropdownState.POSE) {
 					DrawButton(...coords, "", "Pink", "Icons/Down.png", TextGet("PoseSelectCollapse"));
 				} else {
@@ -824,7 +823,7 @@ var Shop2 = {
 		PoseSelectNone: {
 			Coords: [135, Shop2Consts.Grid.y + 160, 200, 90],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Run: (time, ...coords) => DrawButton(...coords, TextGet("PoseSelectReset"), "White"),
+			Draw: (...coords) => DrawButton(...coords, TextGet("PoseSelectReset"), "White"),
 			Click: () => {
 				PoseSetActive(Shop2InitVars.Preview, null, true);
 				Shop2._UpdatePoseButtons();
@@ -863,7 +862,7 @@ var Shop2 = {
 				}
 				Shop2._UpdatePoseButtons();
 			},
-			Run: (time, ...coords) => {
+			Draw: (...coords) => {
 				if (Shop2Vars.DropdownState !== ShopDropdownState.POSE) {
 					return;
 				}
@@ -884,7 +883,7 @@ var Shop2 = {
 		ItemHeader: {
 			Coords: [Shop2Consts.Grid.x + 20 + 1.5 * Shop2Consts.Grid.itemWidth, 155, 0, 0],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Run: (time, x, y) => {
+			Draw: (x, y) => {
 				let i = 0;
 				let j = Shop2Consts.BuyModeCycleOrder.indexOf(Shop2Vars.Mode);
 				const hideShopItems = Player.GenderSettings.HideShopItems;
@@ -903,7 +902,7 @@ var Shop2 = {
 		MoneyHeader: {
 			Coords: [Shop2Consts.Grid.x + 3 * 20 + 3.5 * Shop2Consts.Grid.itemWidth, 155, 0, 0],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Run: (time, x, y) => {
+			Draw: (x, y) => {
 				const money = Intl.NumberFormat(
 					"en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 },
 				).format(Math.min(999999, Player.Money));
@@ -913,7 +912,7 @@ var Shop2 = {
 		BuyMode: {
 			Coords: [1225, 25, 90, 90],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Run: (time, ...coords) => {
+			Draw: (...coords) => {
 				switch (Shop2Vars.Mode) {
 					case "Buy":
 						return DrawButton(...coords, "", "Red", `Icons/Shop${Shop2Vars.Mode}.png`, TextGet(`BuyMode${Shop2Vars.Mode}`));
@@ -934,7 +933,7 @@ var Shop2 = {
 		Color: {
 			Coords: [1335, 25, 90, 90],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Run: (time, ...coords) => {
+			Draw: (...coords) => {
 				const asset = Shop2Vars.EquippedItem?.Asset;
 				const icon = (asset?.DefaultColor?.length ?? 1) <= 1 ? "ColorChange" : "ColorChangeMulti";
 				if (!asset || Shop2Vars.Mode !== "Preview") {
@@ -958,7 +957,7 @@ var Shop2 = {
 		ExtendedItemButton: {
 			Coords: [1445, 25, 90, 90],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Run: (time, ...coords) => {
+			Draw: (...coords) => {
 				const asset = Shop2Vars.EquippedItem?.Asset;
 				if (!asset || !asset.Archetype || asset.IsLock || Shop2Vars.Mode !== "Preview") {
 					DrawButton(...coords, "", "Gray", "Icons/Use.png", TextGet("ExtendedItemButton"), true);
@@ -979,7 +978,7 @@ var Shop2 = {
 		Clothes: {
 			Coords: [1555, 25, 90, 90],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Run: (time, ...coords) => {
+			Draw: (...coords) => {
 				if (Shop2Vars.Mode !== "Preview") {
 					DrawButton(...coords, "", "Gray", "Icons/Dress.png", TextGet(`ClothesMode${Shop2Vars.ClothesMode}`), true);
 				} else {
@@ -1020,7 +1019,7 @@ var Shop2 = {
 		PagePrev: {
 			Coords: [1665, 25, 90, 90],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Run: (time, ...coords) => {
+			Draw: (...coords) => {
 				if (Shop2Vars.PageCount > 1) {
 					DrawButton(...coords, "", "White", "Icons/Prev.png", TextGet("PagePrev"));
 				} else {
@@ -1036,7 +1035,7 @@ var Shop2 = {
 		PageNext: {
 			Coords: [1775, 25, 90, 90],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Run: (time, ...coords) => {
+			Draw: (...coords) => {
 				if (Shop2Vars.PageCount > 1) {
 					DrawButton(...coords, "", "White", "Icons/Next.png", TextGet("PageNext"));
 				} else {
@@ -1052,14 +1051,14 @@ var Shop2 = {
 		Exit: {
 			Coords: [1885, 25, 90, 90],
 			Mode: new Set(["Preview", "Buy", "Sell", "Extended"]),
-			Run: (time, ...coords) => DrawButton(...coords, "", "White", "Icons/Exit.png", TextGet("Exit")),
+			Draw: (...coords) => DrawButton(...coords, "", "White", "Icons/Exit.png", TextGet("Exit")),
 			Click: () => Shop2Exit(),
 		},
 		// Keep these two at the very button as we can't reliably perform `MouseIn(...Coords)` checks on them
 		ExtendedItemScreen: {
 			Coords: [0, 0, 2000, 1000],
 			Mode: new Set(["Extended"]),
-			Run: (time, ...coords) => {
+			Draw: (...coords) => {
 				CommonCallFunctionByNameWarn(`Inventory${DialogFocusItem.Asset.Group.Name}${DialogFocusItem.Asset.Name}Draw`);
 			},
 			Click: () => {
@@ -1070,7 +1069,7 @@ var Shop2 = {
 		ColorScreen: {
 			Coords: [0, 0, 2000, 1000],
 			Mode: new Set(["Color"]),
-			Run: (time, ...coords) => {
+			Draw: (...coords) => {
 				ItemColorDraw(Shop2InitVars.Preview, ItemColorItem.Asset.Group.Name, ...Shop2Consts.ItemColorCoords, true);
 			},
 			Click: () => {
@@ -1144,14 +1143,17 @@ function Shop2Click(event) {
 	});
 }
 
-/** @type {ScreenFunctions["Run"]} */
-function Shop2Run(time) {
+/** @type {ScreenFunctions["Draw"]} */
+function Shop2Draw() {
 	Object.values(Shop2.Elements).forEach((e) => {
 		if (e.Mode.has(Shop2Vars.Mode)) {
-			e.Run(time, ...e.Coords);
+			e.Draw(...e.Coords);
 		}
 	});
 }
+
+/** @type {ScreenFunctions["Run"]} */
+function Shop2Run() {}
 
 /** @type {ScreenFunctions["Unload"]} */
 function Shop2Unload() {
