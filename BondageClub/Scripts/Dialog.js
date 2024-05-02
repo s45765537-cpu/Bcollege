@@ -26,14 +26,21 @@ var DialogInventoryOffset = 0;
  * The grid configuration for most item views (items, permissions, activities)
  * @type {CommonGenerateGridParameters}
  */
-const DialogInventoryGrid = {
-	x: 1038,
-	y: 175,
-	width: 900,
-	height: 800,
-	itemWidth: 211,
-	itemHeight: 255,
-};
+const DialogInventoryGrid = (() => {
+	const gap = 20;
+	const padding = 25;
+	const topButtonSize = 90;
+	const itemWidth = 200;
+	const itemHeight = 244;
+	return {
+		x: 2000 - padding - (9 * topButtonSize + 8 * gap),
+		y: 185,
+		width: 4 * itemWidth + 3 * gap,
+		height: 3 * itemHeight + 2 * gap,
+		itemWidth,
+		itemHeight,
+	};
+})();
 
 /**
  * The item currently selected in the Dialog and showing its extended screen.
@@ -1359,32 +1366,17 @@ function DialogMenuButtonBuild(C) {
 
 	}
 
-	else if (DialogMenuMode === "crafted" || DialogMenuMode === "layering") {
+	else if (
+		DialogMenuMode === "crafted"
+		|| DialogMenuMode === "layering"
+		|| DialogMenuMode === "activities"
+		|| DialogMenuMode === "locking"
+	) {
 		// No buttons there
-	}
-
-	else if (DialogMenuMode === "activities") {
-		if (DialogInventory != null && DialogActivity.length > 12 && Player.CanInteract()) {
-			DialogMenuButton.push("Next");
-			DialogMenuButton.push("Prev");
-		}
-	}
-
-	else if (DialogMenuMode === "locking") {
-		if ((DialogInventory != null) && (DialogInventory.length > 12)) {
-			DialogMenuButton.push("Next");
-			DialogMenuButton.push("Prev");
-		}
 	}
 
 	// Pushes all valid main buttons, based on if the player is restrained, has a blocked group, has the key, etc.
 	else {
-
-		if ((DialogInventory != null) && (DialogInventory.length > 12) && ((Player.CanInteract() && !IsGroupBlocked) || DialogMenuMode === "permissions")) {
-			DialogMenuButton.push("Next");
-			DialogMenuButton.push("Prev");
-		}
-
 		if (IsItemLocked && DialogCanUnlock(C, Item) && !IsGroupBlocked && (!C.IsPlayer() || Player.CanInteract()))
 			DialogMenuButton.push("Remove");
 
@@ -1835,18 +1827,6 @@ function DialogMenuButtonClick() {
 			// Exit Icon - Go back one level in the menu
 			if (button === "Exit") {
 				DialogMenuBack();
-				return true;
-			}
-
-			// Prev Icon - Shows the previous 12 items
-			else if (button === "Prev") {
-				DialogMenuPrev();
-				return true;
-			}
-
-			// Next Icon - Shows the next 12 items
-			else if (button === "Next") {
-				DialogMenuNext();
 				return true;
 			}
 
@@ -2475,6 +2455,17 @@ function DialogClick() {
 			}
 		});
 	}
+
+	switch (DialogMenuMode) {
+		case "items":
+		case "locking":
+		case "permissions":
+		case "activities":
+			if (DialogPaginateClick()) {
+				return;
+			}
+			break;
+	}
 }
 
 /**
@@ -2920,6 +2911,54 @@ function DialogSelfMenuClick(C) {
 }
 
 /**
+ * Draw the pagination buttons to the side of the inventory grid
+ */
+function DialogPaginateDraw() {
+	const contents = DialogMenuMode === "activities" ? DialogActivity : DialogInventory;
+	const page = 1 + Math.ceil(DialogInventoryOffset / 12);
+	const maxPage = Math.ceil(contents.length / 12);
+	const disabled = maxPage === 1;
+	DrawTextWrap(
+		`${InterfaceTextGet("Page")} ${page} / ${maxPage}`,
+		1895,
+		DialogInventoryGrid.y + DialogInventoryGrid.itemHeight * 2 - 300,
+		90, 90, "white", undefined, 2, undefined, "Top",
+	);
+
+	const buttons = ["Up", "Down"];
+	for (const [i, button] of buttons.entries()) {
+		const ButtonHoverText = InterfaceTextGet(`DialogMenu${button}`);
+		DrawButton(
+			1885,
+			DialogInventoryGrid.y + DialogInventoryGrid.itemHeight * 2 - 180 + (i * 110),
+			90, 90, "", disabled ? "gray" : "white", `Icons/${button}.png`, ButtonHoverText, disabled,
+		);
+	}
+}
+
+/**
+ * Handle clicks of the pagination buttons
+ * @returns {boolean} - Whether a pgination button was clicked
+ */
+function DialogPaginateClick() {
+	const y = DialogInventoryGrid.y + DialogInventoryGrid.itemHeight * 2 - 180;
+	/** @type {RectTuple} */
+	const prevCoords = [1885, y, 90, 90];
+	/** @type {RectTuple} */
+	const nextCoords = [1885, y + 110, 90, 90];
+
+	if (MouseIn(...prevCoords)) {
+		DialogMenuPrev();
+		return true;
+	} else if (MouseIn(...nextCoords)) {
+		DialogMenuNext();
+		return true;
+	} else {
+		return false;
+	}
+}
+
+/**
  * Draws the initial Dialog screen.
  *
  * This is the main handler for drawing the Dialog UI, which activates
@@ -3067,11 +3106,15 @@ function DialogDraw() {
 
 	if (DialogMenuMode === "activities") {
 		// Draw the list of activities available
+		DialogPaginateDraw();
 		DialogDrawActivityMenu(C);
 	} else if (DialogMenuMode === "permissions") {
-		if (C.IsPlayer())
+		if (C.IsPlayer()) {
+			DialogPaginateDraw();
 			DialogDrawItemMenu(C);
+		}
 	} else if (DialogMenuMode === "locking") {
+		DialogPaginateDraw();
 		DialogDrawItemMenu(C);
 	} else {
 		if (!["items", "locked"].includes(DialogMenuMode)) {
@@ -3088,8 +3131,10 @@ function DialogDraw() {
 			DialogDrawItemMessage(C, InterfaceTextGet("AccessBlocked"), FocusItem);
 		else if (DialogInventory.length === 0)
 			DialogDrawItemMessage(C, InterfaceTextGet("NoItems"), FocusItem);
-		else
+		else {
+			DialogPaginateDraw();
 			DialogDrawItemMenu(C);
+		}
 	}
 }
 
