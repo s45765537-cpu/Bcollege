@@ -1377,6 +1377,11 @@ function DialogMenuButtonBuild(C) {
 
 	// Pushes all valid main buttons, based on if the player is restrained, has a blocked group, has the key, etc.
 	else {
+		if (DialogMenuMode === "permissions") {
+			DialogMenuButton.push("NormalMode");
+			return;
+		}
+
 		if (IsItemLocked && DialogCanUnlock(C, Item) && !IsGroupBlocked && (!C.IsPlayer() || Player.CanInteract()))
 			DialogMenuButton.push("Remove");
 
@@ -1450,10 +1455,7 @@ function DialogMenuButtonBuild(C) {
 
 		// Item permission enter/exit
 		if (C.IsPlayer()) {
-			if (DialogMenuMode === "permissions")
-				DialogMenuButton.push("NormalMode");
-			else
-				DialogMenuButton.push("PermissionMode");
+			DialogMenuButton.push("PermissionMode");
 		}
 
 		if (Item != null && C.IsPlayer() && Player.CanInteract()) {
