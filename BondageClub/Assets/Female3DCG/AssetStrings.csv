@@ -4725,6 +4725,7 @@ SelectBikiniType,Select a bikini style.
 SelectBlindType,Select the type of blindfold
 SelectBondagePosition,Select the bondage position
 SelectBunnyMaskStyle,Select a style.
+SelectCageType,Select the type of cage.
 SelectCeilingChainState,Select Bondage.
 SelectChainBondage,Select the chain bondage
 SelectChainType,Select the chain style
@@ -4987,3 +4988,7 @@ ZipBondageZipLegMedium,Medium Binding
 ZipFeetSetZipFeetFull,SourceCharacter uses the zipties on TargetCharacter to fully bind TargetPronounPossessive feet.
 ZipFeetSetZipFeetLight,SourceCharacter uses the zipties on TargetCharacter to lightly bind TargetPronounPossessive feet.
 ZipFeetSetZipFeetMedium,SourceCharacter uses the zipties on TargetCharacter to half bind TargetPronounPossessive feet.
+FullCasingCageSetFox,SourceCharacter changes DestinationCharacter cage.
+FullCasingCageSetDog,SourceCharacter changes DestinationCharacter cage.
+FullCasingCageTypeFox,Fox
+FullCasingCageTypeDog,Dog
