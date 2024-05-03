@@ -15223,23 +15223,43 @@ var AssetFemale3DCG = [
 			{ Name: "HairBack57d", Random: false },
 			{
 				Name: "HairBack58",
+				Top: {
+					[PoseType.DEFAULT]: 0,
+					Suspension: -450,
+				},
 				Layer: [
 					{
 						Name: "Left",
+						PoseMapping: {
+							Suspension: "Suspension",
+						}
 					},
 					{
 						Name: "Right",
+						PoseMapping: {
+							Suspension: "Suspension",
+						}
 					},
 				],
 			},
 			{
 				Name: "HairBack58b",
+				Top: {
+					[PoseType.DEFAULT]: 0,
+					Suspension: -450,
+				},
 				Layer: [
 					{
 						Name: "Left",
+						PoseMapping: {
+							Suspension: "Suspension",
+						}
 					},
 					{
 						Name: "Right",
+						PoseMapping: {
+							Suspension: "Suspension",
+						}
 					},
 				],
 			},
@@ -15300,18 +15320,31 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HairBack62",
+				Top: {
+					[PoseType.DEFAULT]: 0,
+					Suspension: -485
+				},
 				Layer: [
 					{
 						Name: "Braid",
 						Priority: 48,
+						PoseMapping: {
+							Suspension: "Suspension",
+						}
 					},
 					{
 						Name: "Back",
 						CopyLayerColor: "Braid",
+						PoseMapping: {
+							Suspension: PoseType.HIDE,
+						}
 					},
 					{
 						Name: "Ribbon",
 						Priority: 48,
+						PoseMapping: {
+							Suspension: "Suspension",
+						}
 					},
 				],
 			},
