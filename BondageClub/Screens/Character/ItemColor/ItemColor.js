@@ -639,7 +639,7 @@ function ItemColorIsSimple(item) {
  * @returns {string} - The appropriate color button key for the provided item color(s)
  */
 function ItemColorGetColorButtonTextKey(color) {
-	if (Array.isArray(color)) {
+	if (CommonIsArray(color)) {
 		const initialColor = color[0];
 		return color.some(c => c !== initialColor) ? "Many" : initialColor;
 	} else if (typeof color !== "string" || color === "None") {
@@ -655,7 +655,14 @@ function ItemColorGetColorButtonTextKey(color) {
  * @returns {string} - The appropriate color button text for the provided item color(s), translated to the current game language
  */
 function ItemColorGetColorButtonText(color) {
-	return ItemColorText.get(ItemColorGetColorButtonTextKey(color)).trim();
+	const textKey = ItemColorGetColorButtonTextKey(color);
+	switch (textKey) {
+		case "Many":
+		case "Default":
+			return ItemColorText.get(textKey);
+		default:
+			return textKey;
+	}
 }
 
 /**
