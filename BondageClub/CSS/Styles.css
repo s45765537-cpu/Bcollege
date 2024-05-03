@@ -523,10 +523,10 @@ input[type="checkbox"]:checked::before {
 	transform: scale(1);
 }
 
-#Shop2GroupSelect {
+#Shop2GroupSelect, #Shop2PoseSelect {
 	overflow-y: scroll;
 	word-wrap: break-word;
-	background-color: rgba(0, 0, 0, 0.45);
+	background-color: rgba(0, 0, 0, 0.55);
 }
 
 .Shop2GridCategory {
@@ -557,6 +557,43 @@ input[type="checkbox"]:checked::before {
 
 .Shop2Checkbox:hover {
 	color: yellow;
+}
+
+#Shop2PoseOuterGrid {
+	display: grid;
+	grid-auto-flow: column;
+	gap: min(2vh, 1vw);
+	padding: min(2vh, 1vw);
+	/* Keep an absolute {i}px safety marigin for the scroll bar */
+	padding-right: max(min(2vh, 1vw), 20px);
+}
+
+.shop2-pose-inner-grid {
+	display: grid;
+	grid-auto-flow: row;
+	justify-items: center;
+	gap: min(1vh, 0.5vw);
+	height: fit-content;
+}
+
+.shop-button {
+	background-color: white;
+	background-origin: content-box;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	box-sizing: border-box;
+	height: min(9vh, 4.5vw);
+	width: min(9vh, 4.5vw);
+	border: min(0.3vh, 0.15vw) solid black;
+}
+
+.shop-button:hover {
+	background-color: cyan;
+}
+
+.shop-button:disabled {
+	background-color: gray;
 }
 
 /* layering */
