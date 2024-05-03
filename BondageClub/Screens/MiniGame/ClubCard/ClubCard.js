@@ -173,7 +173,7 @@ var ClubCardList = [
 		ID: 1018,
 		Name: "Play Pen Purveyor",
 		MoneyPerTurn: -1,
-		BeforeTurnEnd: function(CCPlayer) {
+		AfterTurnEnd: function(CCPlayer) {
 			const abdlMommyPlayed = ClubCardGetCardsPlayedThisTurn(CCPlayer).some(card => {
 				return card.Group?.includes("ABDLMommy");
 			});
