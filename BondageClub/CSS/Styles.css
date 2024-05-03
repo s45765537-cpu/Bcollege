@@ -20,14 +20,16 @@ canvas {
 input {
 	box-sizing: border-box;
 	background: white;
-	padding: unset;
+	padding-bottom: unset;
+	padding-top: unset;
 }
 
 textarea {
 	box-sizing: border-box;
 	background: white;
 	resize: none;
-	padding: unset;
+	padding-bottom: unset;
+	padding-top: unset;
 }
 
 * { -webkit-tap-highlight-color:rgba(0,0,0,0); }
@@ -89,11 +91,19 @@ textarea {
   background-color: #111;
   color: #eee;
 }
+
+#TextAreaChatLog[data-colortheme="dark"] ~ #InputChat,
+#TextAreaChatLog[data-colortheme="dark2"] ~ #InputChat {
+	background-color: #111;
+	border-color: rgba(0, 0, 0, 0.25);
+	color: #eee;
+}
+
 #TextAreaChatLog[data-colortheme=dark] .ChatMessageName {
   text-shadow: 0.05em 0.05em #eee;
 }
 #TextAreaChatLog[data-colortheme=dark] .ChatMessageWhisper, #TextAreaChatLog[data-colortheme="dark2"] .ChatMessageWhisper {
-  color: #555;
+  color: gray;
 }
 
 #TextAreaChatLog[data-colortheme="dark2"] .ChatMessage, #TextAreaChatLog[data-colortheme="light2"] .ChatMessage {
