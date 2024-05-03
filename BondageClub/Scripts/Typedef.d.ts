@@ -1727,6 +1727,7 @@ interface GraphicsSettingsType {
 	ShowFPS: boolean;
 	/** 0 means unlimited */
 	MaxFPS: number;
+	MaxUnfocusedFPS: number;
 }
 
 interface RestrictionSettingsType {
@@ -4134,8 +4135,11 @@ type ShopMode = "Buy" | "Sell" | "Preview" | "Color" | "Extended";
 /** The current dressing state of the preview character */
 type ShopClothesMode = "Clothes" | "Underwear" | "Cosplay" | "Nude";
 
-interface ShopScreenFunctions extends Omit<Partial<ScreenFunctions>, "Run"> {
-	Run(time: number, ...coords: RectTuple): void,
+/** The currently active dropdown menu */
+type ShopDropdownState = "None" | "Group" | "Pose";
+
+interface ShopScreenFunctions extends Omit<Partial<ScreenFunctions>, "Draw"> {
+	Draw(...coords: RectTuple): void,
 	/** Coordinates associated with a particular to-be drawn/clicked element */
 	Coords: RectTuple,
 	/** A set of shop modes for which the screen functions must be active */

@@ -842,17 +842,6 @@ function DialogCanCallMaidsPunishmentOff() { return (DialogCanCallMaids() && Pla
 function ChatRoomCreateElement() {
 	ChatRoomChatHidden = false;
 
-	// Creates the chat box
-	if (document.getElementById("InputChat") == null) {
-		ElementCreateTextArea("InputChat");
-		document.getElementById("InputChat").setAttribute("maxLength", 10000);
-		document.getElementById("InputChat").setAttribute("autocomplete", "off");
-		document.getElementById("InputChat").addEventListener("input", ChatRoomChatInputChangeHandler);
-		document.getElementById("InputChat").addEventListener("keyup", ChatRoomStatusUpdateTalk);
-		ElementPositionFixed("InputChat", ...ChatRoomChatInputRect);
-		ElementFocus("InputChat");
-	} else if (document.getElementById("InputChat").style.display == "none") ElementFocus("InputChat");
-
 	// Creates the chat log
 	if (document.getElementById("TextAreaChatLog") == null) {
 
@@ -870,6 +859,21 @@ function ChatRoomCreateElement() {
 		setTimeout(() => ElementScrollToEnd("TextAreaChatLog"), 100);
 		ChatRoomRefreshChatSettings();
 	}
+
+	// NOTE: Make sure to create the `InputChat` element after `TextAreaChatLog`,
+	// else the css subsequent-sibling combinator will break
+
+	// Creates the chat box
+	if (document.getElementById("InputChat") == null) {
+		ElementCreateTextArea("InputChat");
+		document.getElementById("InputChat").setAttribute("maxLength", 10000);
+		document.getElementById("InputChat").setAttribute("autocomplete", "off");
+		document.getElementById("InputChat").addEventListener("input", ChatRoomChatInputChangeHandler);
+		document.getElementById("InputChat").addEventListener("keyup", ChatRoomStatusUpdateTalk);
+		ElementPositionFixed("InputChat", ...ChatRoomChatInputRect);
+		ElementFocus("InputChat");
+	} else if (document.getElementById("InputChat").style.display == "none") ElementFocus("InputChat");
+
 	if (document.getElementById("InputChatLength") == null) {
 		const label = document.createElement("span");
 		label.id = "InputChatLength";
@@ -4729,9 +4733,9 @@ function ChatRoomGetOwnerRule(RuleType) { return ChatRoomGetRule(RuleType, "Owne
  * Return TRUE if the current character allows to change her own nickname by her owner
  * @returns {boolean}
  */
-function ChatRoomCanChangeNickname() { return (CurrentCharacter != null) && (CurrentCharacter.OnlineSharedSettings != null) && (CurrentCharacter.OnlineSharedSettings.AllowRename !== false) && CurrentCharacter.IsOwnedByPlayer() }
+function ChatRoomCanChangeNickname() { return (CurrentCharacter != null) && (CurrentCharacter.OnlineSharedSettings != null) && (CurrentCharacter.OnlineSharedSettings.AllowRename !== false) && CurrentCharacter.IsOwnedByPlayer(); }
 
-/** 
+/**
  * Enters the submissive character nickname edit/lock screen
  * @returns {void}
  */

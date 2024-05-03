@@ -101,7 +101,11 @@ function GameRun(Timestamp) {
 
 		if (TimerLastTime > 0 && Timestamp > 0) {
 			// Default to 30 fps outside the game
-			let maxFPS = Player?.GraphicsSettings?.MaxFPS ?? DEFAULT_FRAMERATE;
+			let maxUnfocusedFPS = document.hasFocus() ? 0 : Player?.GraphicsSettings?.MaxUnfocusedFPS ?? 0;
+			let maxFocusedFPS = Player?.GraphicsSettings?.MaxFPS ?? DEFAULT_FRAMERATE;
+			let maxFPS = maxUnfocusedFPS === 0 ? maxFocusedFPS :
+				maxFocusedFPS === 0 ? maxUnfocusedFPS :
+				Math.min(maxUnfocusedFPS, maxFocusedFPS);
 			if (TimerLastTime + estimateFrameDuration(maxFPS) > Timestamp) {
 				GameAnimationFrameId = requestAnimationFrame(GameRun);
 				return;

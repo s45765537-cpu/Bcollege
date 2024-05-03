@@ -78,6 +78,10 @@ function TextPrefetchFile(file) {
 
 const InterfaceStringsPath = "Screens/Interface.csv";
 
+/**
+ * @param {string} msg
+ * @returns {string}
+ */
 function InterfaceTextGet(msg) {
 	const stringsFile = TextAllScreenCache.get(InterfaceStringsPath);
 	if (!stringsFile) return `MISSING INTERFACE TEXT: ${msg}`;

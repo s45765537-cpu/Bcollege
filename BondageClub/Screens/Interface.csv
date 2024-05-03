@@ -91,7 +91,7 @@ DialogMenuLayering,Change item layering
 DialogMenuLock,Use a lock
 DialogMenuLockDisabled,Unable to lock item due to player permissions
 DialogMenuLockMenu,Lock related actions
-DialogMenuNext,View next items
+DialogMenuDown,View next items
 DialogMenuNormalMode,Exit permission mode
 DialogMenuPermissionMode,Edit item permissions
 DialogMenuPickLock,Try to pick the lock
@@ -100,7 +100,7 @@ DialogMenuPickLockInaccessibleDisabled,Cannot reach lock
 DialogMenuPickLockJammed,Try to pick the lock (jammed)
 DialogMenuPickLockNoPicksDisabled,Unable to pick without lockpicks
 DialogMenuPickLockPermissionsDisabled,Unable to pick the lock due to player permissions
-DialogMenuPrev,View previous items
+DialogMenuUp,View previous items
 DialogMenuRemote,Use your remote
 DialogMenuRemoteDisabled,Unable to use due to player permissions
 DialogMenuRemoteDisabledForCannotInteract,Your hands must be free to use remotes

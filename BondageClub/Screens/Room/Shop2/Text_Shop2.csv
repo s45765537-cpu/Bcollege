@@ -29,3 +29,6 @@ ItemHeader22,Sell male-only items: Page 0
 AssetGroupCategoryAppearance,Body & Clothing
 AssetGroupCategoryItem,Toys & Restraints
 AssetGroupCategoryScript,Misc
+PoseSelectHeader,Select pose
+PoseSelectCollapse,Show pose menu
+PoseSelectReset,Reset pose
