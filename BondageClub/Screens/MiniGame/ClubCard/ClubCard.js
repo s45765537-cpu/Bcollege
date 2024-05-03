@@ -806,7 +806,7 @@ var ClubCardList = [
 			if(playedAnEvent) {
 				ClubCardPlayerAddFame(cardOwner, 4);
 				ClubCardRemoveFromBoard(cardOwner, this);
-				ClubCardAddToHand(cardOwner, this)
+				ClubCardAddToHand(cardOwner, this);
 			}
 		}
 	},
@@ -1699,7 +1699,7 @@ function ClubCardGetOpponent(CCPlayer = null) {
  * @returns {ClubCard[]} - The opponent
  */
 function ClubCardGetCardsPlayedThisTurn(CCPlayer) {
-	return CCPlayer.CardsPlayedThisTurn[ClubCardTurnCounter] ?? []
+	return CCPlayer.CardsPlayedThisTurn[ClubCardTurnCounter] ?? [];
 }
 
 /**
@@ -2179,11 +2179,12 @@ function ClubCardEndTurn(Draw = false) {
 
 	ClubCardRunTurnEndHandlers(CCPlayer, Opponent, false);
 
-	if ((CCPlayer.Money < 0) && (CCPlayer.Fame > StartingFame)) CCPlayer.Fame = StartingFame;
-
 	ClubCardRunTurnEndHandlers(CCPlayer, Opponent, false);
 
-	if ((CCPlayer.Money < 0) && (CCPlayer.Fame > StartingFame)) CCPlayer.Fame = StartingFame;
+	if ((CCPlayer.Money < 0) && (CCPlayer.Fame > StartingFame)) {
+		CCPlayer.Fame = StartingFame;
+		CCPlayer.LastFamePerTurn = 0;
+	}
 
 	// Display the gained money and fame
 	FameMoneyText = ((CCPlayer.LastFamePerTurn >= 0) ? "+" : "") + CCPlayer.LastFamePerTurn.toString() + " Fame, " + ((CCPlayer.LastMoneyPerTurn >= 0) ? "+" : "") + CCPlayer.LastMoneyPerTurn.toString() + " Money";
@@ -2423,9 +2424,9 @@ function ClubCardPlayCard(CCPlayer, Card) {
 	// Focuses on the card, runs it's scripts and end the turn if needed
 	ClubCardFocus = Card;
 	if(CCPlayer.CardsPlayedThisTurn[ClubCardTurnCounter]) {
-		CCPlayer.CardsPlayedThisTurn[ClubCardTurnCounter] = [...CCPlayer.CardsPlayedThisTurn[ClubCardTurnCounter], Card]
+		CCPlayer.CardsPlayedThisTurn[ClubCardTurnCounter] = [...CCPlayer.CardsPlayedThisTurn[ClubCardTurnCounter], Card];
 	} else {
-		CCPlayer.CardsPlayedThisTurn[ClubCardTurnCounter] = [Card]
+		CCPlayer.CardsPlayedThisTurn[ClubCardTurnCounter] = [Card];
 	}
 
 	if (Card.OnPlay != null) Card.OnPlay(CCPlayer);
