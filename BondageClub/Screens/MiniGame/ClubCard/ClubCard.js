@@ -171,7 +171,7 @@ var ClubCardList = [
 	},
 	{
 		ID: 1018,
-		Name: "Play Pen Purveyor",
+		Name: "Daycare Manager",
 		MoneyPerTurn: -1,
 		AfterTurnEnd: function(CCPlayer) {
 			const abdlMommyPlayed = ClubCardGetCardsPlayedThisTurn(CCPlayer).some(card => {
