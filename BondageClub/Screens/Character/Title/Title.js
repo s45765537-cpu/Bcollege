@@ -72,6 +72,7 @@ var TitleList = [
 	{ Name: "Angel", Requirement: function () { return true; } },
 	{ Name: "Alien", Requirement: function () { return true; } },
 	{ Name: "Captain", Requirement: function () { return true; } },
+	{ Name: "Admiral", Requirement: function () { return true; } },
 	{ Name: "Succubus", Requirement: function () { return !Player.GenderSettings.HideTitles.Female; } },
 	{ Name: "Incubus", Requirement: function () { return !Player.GenderSettings.HideTitles.Male; } },
 	{ Name: "Concubus", Requirement: function () { return true; } },
