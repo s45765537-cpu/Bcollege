@@ -11,6 +11,7 @@ var ClubCardHover = null;
 var ClubCardFocus = null;
 var ClubCardTextCache = null;
 var ClubCardTurnIndex = 0;
+var ClubCardTurnCounter = 1;
 var ClubCardTurnCardPlayed = 0;
 var ClubCardTurnEndDraw = false;
 var ClubCardFameGoal = 100;
@@ -170,17 +171,17 @@ var ClubCardList = [
 	},
 	{
 		ID: 1018,
-		Name: "Play Pen Purveyor",
+		Name: "Daycare Manager",
 		MoneyPerTurn: -1,
-		BeforeTurnEnd: function(CCPlayer) {
-			const abdlMommyPlayed = CCPlayer.CardsPlayedThisTurn.some(card => {
+		AfterTurnEnd: function(CCPlayer) {
+			const abdlMommyPlayed = ClubCardGetCardsPlayedThisTurn(CCPlayer).some(card => {
 				return card.Group?.includes("ABDLMommy");
 			});
 			if(abdlMommyPlayed) {
 				ClubCardPlayerAddFame(CCPlayer, 3);
 			}
 
-			const abdlBabyPlayed = CCPlayer.CardsPlayedThisTurn.some(card => {
+			const abdlBabyPlayed = ClubCardGetCardsPlayedThisTurn(CCPlayer).some(card => {
 				return card.Group?.includes("ABDLBaby");
 			});
 			if(abdlBabyPlayed) {
@@ -196,7 +197,7 @@ var ClubCardList = [
 		AfterOpponentTurnEnd: function(CCPlayer) {
 			const opponent = ClubCardGetOpponent(CCPlayer);
 
-			const abdlBabyPlayed = opponent.CardsPlayedThisTurn.some(card => {
+			const abdlBabyPlayed = ClubCardGetCardsPlayedThisTurn(opponent).some(card => {
 				return card.Group?.includes("ABDLBaby");
 			});
 
@@ -798,14 +799,14 @@ var ClubCardList = [
 		MoneyPerTurn: 1,
 		BeforeOpponentTurnEnd: function(CCPlayer) {
 			let cardOwner = ClubCardGetOpponent(CCPlayer);
-			let playedAnEvent = CCPlayer.CardsPlayedThisTurn.some(card => {
+			let playedAnEvent = CCPlayer.CardsPlayedThisTurn[ClubCardTurnCounter].some(card => {
 				return card.Type === "Event";
 			});
 
 			if(playedAnEvent) {
 				ClubCardPlayerAddFame(cardOwner, 4);
 				ClubCardRemoveFromBoard(cardOwner, this);
-				ClubCardAddToHand(cardOwner, this)
+				ClubCardAddToHand(cardOwner, this);
 			}
 		}
 	},
@@ -816,12 +817,12 @@ var ClubCardList = [
 		RequiredLevel: 3,
 		Group: ["ABDLMommy"],
 		BeforeTurnEnd: function(CCPlayer) {
-			const abdlBabyPlayed = CCPlayer.CardsPlayedThisTurn.some(card => {
+			const abdlBabyPlayed = ClubCardGetCardsPlayedThisTurn(CCPlayer).some(card => {
 				return card.Group?.includes("ABDLBaby");
 			});
 
 			if(abdlBabyPlayed) {
-				ClubCardPlayerAddMoney(CCPlayer, CCPlayer.Level);
+				ClubCardPlayerAddFame(CCPlayer, CCPlayer.Level);
 			}
 		}
 	},
@@ -832,14 +833,14 @@ var ClubCardList = [
 		MoneyPerTurn: -5,
 		RequiredLevel: 5,
 		Group: ["ABDLMommy","Dominant"],
-		BeforeTurnEnd: function(CCPlayer) {
-			const abdlBabyPlayed = CCPlayer.CardsPlayedThisTurn.some(card => {
-				return card.Group?.includes("ABDLBaby");
-			});
+		OnPlay: function(CCPlayer) {
+			// get all members, exclude events from board count
+			const membersOnBoard = CCPlayer.Board.filter(card => card.Type !== "Event").length;
 
-			if(abdlBabyPlayed) {
-				ClubCardPlayerAddMoney(CCPlayer, CCPlayer.Level);
-			}
+			ClubCardPlayerAddFame(CCPlayer, membersOnBoard);
+		},
+		BeforeTurnEnd: function(CCPlayer) {
+			ClubCardPlayerAddFame(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "ABDLBaby"));
 		}
 	},
 
@@ -1693,6 +1694,15 @@ function ClubCardGetOpponent(CCPlayer = null) {
 }
 
 /**
+ * Gets the opponent of the parameter player or the player that's not on it's turn if null
+ * @param {ClubCardPlayer} CCPlayer - The club card player or null
+ * @returns {ClubCard[]} - The opponent
+ */
+function ClubCardGetCardsPlayedThisTurn(CCPlayer) {
+	return CCPlayer.CardsPlayedThisTurn[ClubCardTurnCounter] ?? [];
+}
+
+/**
  * Adds money to the club card player stats
  * @param {ClubCardPlayer} CCPlayer - The club card player
  * @param {Number} Amount - The amount to add
@@ -1820,7 +1830,7 @@ function ClubCardAddToHand(CCPlayer, Card) {
 		return;
 	}
 
-	CCPlayer.Hand = [...CCPlayer.Hand, Card]
+	CCPlayer.Hand.push(Card);
 }
 
 /**
@@ -2063,7 +2073,7 @@ function ClubCardAddPlayer(Char, Cont, Cards) {
 		Level: 1,
 		Money: 5,
 		Fame: 0,
-		CardsPlayedThisTurn: []
+		CardsPlayedThisTurn: {}
 	};
 	ClubCardPlayer.push(P);
 }
@@ -2166,15 +2176,15 @@ function ClubCardEndTurn(Draw = false) {
 
 	CCPlayer.LastFamePerTurn = CCPlayer.Fame - StartingFame;
 	CCPlayer.LastMoneyPerTurn = CCPlayer.Money - StartingMoney;
-	CCPlayer.CardsPlayedThisTurn = [];
 
 	ClubCardRunTurnEndHandlers(CCPlayer, Opponent, false);
 
-	if ((CCPlayer.Money < 0) && (CCPlayer.Fame > StartingFame)) CCPlayer.Fame = StartingFame;
-
 	ClubCardRunTurnEndHandlers(CCPlayer, Opponent, false);
 
-	if ((CCPlayer.Money < 0) && (CCPlayer.Fame > StartingFame)) CCPlayer.Fame = StartingFame;
+	if ((CCPlayer.Money < 0) && (CCPlayer.Fame > StartingFame)) {
+		CCPlayer.Fame = StartingFame;
+		CCPlayer.LastFamePerTurn = 0;
+	}
 
 	// Display the gained money and fame
 	FameMoneyText = ((CCPlayer.LastFamePerTurn >= 0) ? "+" : "") + CCPlayer.LastFamePerTurn.toString() + " Fame, " + ((CCPlayer.LastMoneyPerTurn >= 0) ? "+" : "") + CCPlayer.LastMoneyPerTurn.toString() + " Money";
@@ -2199,6 +2209,7 @@ function ClubCardEndTurn(Draw = false) {
 
 	// Move to the next player
 	ClubCardTurnIndex++;
+	ClubCardTurnCounter++;
 	if (ClubCardTurnIndex >= ClubCardPlayer.length) ClubCardTurnIndex = 0;
 	ClubCardTurnCardPlayed = 0;
 	ClubCardAIStart();
@@ -2412,7 +2423,12 @@ function ClubCardPlayCard(CCPlayer, Card) {
 
 	// Focuses on the card, runs it's scripts and end the turn if needed
 	ClubCardFocus = Card;
-	CCPlayer.CardsPlayedThisTurn.push(Card);
+	if(CCPlayer.CardsPlayedThisTurn[ClubCardTurnCounter]) {
+		CCPlayer.CardsPlayedThisTurn[ClubCardTurnCounter] = [...CCPlayer.CardsPlayedThisTurn[ClubCardTurnCounter], Card];
+	} else {
+		CCPlayer.CardsPlayedThisTurn[ClubCardTurnCounter] = [Card];
+	}
+
 	if (Card.OnPlay != null) Card.OnPlay(CCPlayer);
 	ClubCardSelection = null;
 	ClubCardPending = null;
