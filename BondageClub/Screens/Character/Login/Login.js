@@ -121,6 +121,18 @@ function LoginLoad() {
 	username.focus();
 	const pass = ElementCreateInput("InputPassword", "password", "", "20", form);
 	pass.setAttribute("autocomplete", "current-password");
+	const languages = [];
+	TranslationDictionary.forEach(L => languages.push(TranslationGetLanguageName(L.LanguageCode)));
+	ElementCreateDropdown("LanguageDropdown", languages, (event) => {
+		const language = document.querySelector(".select-selected").textContent;
+		if (!language) return;
+		TranslationSwitchLanguage(language);
+		TextLoad();
+		ActivityDictionaryLoad();
+		AssetLoadDescription("Female3DCG");
+	});
+	// Setting saved language as displayed
+	document.querySelector(".select-selected").textContent = TranslationGetLanguageName(TranslationLanguage);
 	TextPrefetchFile(BackgroundsStringsPath);
 	TextPrefetchFile(AssetStringsPath);
 	TextPrefetchFile(InterfaceStringsPath);
@@ -148,9 +160,8 @@ function LoginRun() {
 	ElementPosition("InputName", 1000, 260, 500);
 	DrawText(TextGet("Password"), 1000, 350, "White", "Black");
 	ElementPosition("InputPassword", 1000, 410, 500);
-	DrawButton(775, 500, 200, 60, TextGet("Login"), CanLogin ? "White" : "Grey", "");
-	DrawButton(1025, 500, 200, 60, TranslationGetLanguageName(TranslationLanguage), "White");
-	DrawImage(`Icons/Languages/${TranslationLanguage}.png`, 1027, 502);
+	ElementPosition("LanguageDropdown", 1355, 530, 250, 60);
+	DrawButton(800, 500, 400, 60, TextGet("Login"), CanLogin ? "White" : "Grey", "");
 	DrawText(TextGet("CreateNewCharacter"), 1000, 670, "White", "Black");
 	DrawButton(825, 710, 350, 60, TextGet("NewCharacter"), CanLogin ? "White" : "Grey", "");
 	if (CheatAllow) DrawButton(825, 800, 350, 60, TextGet("Cheats"), "White", "");
@@ -843,6 +854,7 @@ function LoginResponse(C) {
 			CharacterRefresh(Player, false);
 			ElementRemove("InputName");
 			ElementRemove("InputPassword");
+			ElementRemove("LanguageDropdown");
 			CharacterDelete(LoginCharacter);
 			LoginCharacter = null;
 			if (ManagementIsClubSlave()) CharacterNaked(Player);
@@ -957,6 +969,7 @@ function LoginClick() {
 	if (CheatAllow && MouseIn(825, 800, 350, 60)) {
 		ElementRemove("InputName");
 		ElementRemove("InputPassword");
+		ElementRemove("LanguageDropdown");
 		CommonSetScreen("Character", "Cheat");
 	}
 
@@ -964,6 +977,7 @@ function LoginClick() {
 	if (ServerIsConnected && MouseIn(825, 890, 350, 60)) {
 		ElementRemove("InputName");
 		ElementRemove("InputPassword");
+		ElementRemove("LanguageDropdown");
 		CommonSetScreen("Character", "PasswordReset");
 	}
 
@@ -971,20 +985,12 @@ function LoginClick() {
 	if (ServerIsConnected && MouseIn(825, 710, 350, 60)) {
 		ElementRemove("InputName");
 		ElementRemove("InputPassword");
+		ElementRemove("LanguageDropdown");
 		CommonSetScreen("Character", "Disclaimer");
 	}
 
 	// Try to login
 	if (MouseIn(775, 500, 200, 60)) LoginDoLogin();
-
-	// If we must change the language
-	if (MouseIn(1025, 500, 200, 60)) {
-		TranslationNextLanguage();
-		TextLoad();
-		ActivityDictionaryLoad();
-		AssetLoadDescription("Female3DCG");
-	}
-
 }
 
 /**

@@ -1067,6 +1067,15 @@ function TranslationNextLanguage() {
 }
 
 /**
+ * Changes the language depending on the given language and save the new selected language to local storage
+ * @param {string} language 
+ */
+function TranslationSwitchLanguage(language) {
+	TranslationLanguage = TranslationDictionary.find(l => l.LanguageName === language || l.EnglishName === language).LanguageCode;
+	localStorage.setItem("BondageClubLanguage", TranslationLanguage);
+}
+
+/**
  * Loads the previous translation language from local storage if it exists
  * @returns {void} - Nothing
  */
