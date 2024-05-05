@@ -160,8 +160,8 @@ function LoginRun() {
 	ElementPosition("InputName", 1000, 260, 500);
 	DrawText(TextGet("Password"), 1000, 350, "White", "Black");
 	ElementPosition("InputPassword", 1000, 410, 500);
-	ElementPosition("LanguageDropdown", 1355, 530, 250, 60);
-	DrawButton(800, 500, 400, 60, TextGet("Login"), CanLogin ? "White" : "Grey", "");
+	ElementPosition("LanguageDropdown", 1145, 530, 255, 60);
+	DrawButton(725, 500, 255, 60, TextGet("Login"), CanLogin ? "White" : "Grey", "");
 	DrawText(TextGet("CreateNewCharacter"), 1000, 670, "White", "Black");
 	DrawButton(825, 710, 350, 60, TextGet("NewCharacter"), CanLogin ? "White" : "Grey", "");
 	if (CheatAllow) DrawButton(825, 800, 350, 60, TextGet("Cheats"), "White", "");
