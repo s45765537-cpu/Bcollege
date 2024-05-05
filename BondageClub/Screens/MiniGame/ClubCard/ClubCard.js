@@ -792,24 +792,24 @@ var ClubCardList = [
 			if (CCPlayer.Hand.length < Opponent.Hand.length) ClubCardPlayerAddMoney(CCPlayer, 1);
 		}
 	},
-	{
-		ID: 10007,
-		Name: "Fussy Baby",
-		Group: ["ABDLBaby"],
-		MoneyPerTurn: 1,
-		BeforeOpponentTurnEnd: function(CCPlayer) {
+	{ // fussy baby
+		ID: 10007, // fussy baby
+		Name: "Fussy Baby",// fussy baby
+		Group: ["ABDLBaby"],// fussy baby
+		MoneyPerTurn: 1,// fussy baby
+		BeforeOpponentTurnEnd: function(CCPlayer) { // fussy baby
 			let cardOwner = ClubCardGetOpponent(CCPlayer);
-			let playedAnEvent = CCPlayer.CardsPlayedThisTurn[ClubCardTurnCounter].some(card => {
-				return card.Type === "Event";
-			});
-
-			if(playedAnEvent) {
-				ClubCardPlayerAddFame(cardOwner, 4);
-				ClubCardRemoveFromBoard(cardOwner, this);
-				ClubCardAddToHand(cardOwner, this);
-			}
-		}
-	},
+			let playedAnEvent = ClubCardGetCardsPlayedThisTurn(CCPlayer).some(card => card.Type === "Event");
+//
+			if(!playedAnEvent) {
+				return;
+			} //
+ //
+			ClubCardRemoveFromBoard(cardOwner, this);
+			ClubCardAddToHand(cardOwner, this);
+			ClubCardPlayerAddFame(cardOwner, 4);
+		},
+	}, //
 	{
 		ID: 10008,
 		Name: "Nanny",
@@ -2115,8 +2115,8 @@ function ClubCardRunTurnEndHandlers(CCPlayer, Opponent, Before) {
 
 	// Runs handlers on opponent board
 	if (Opponent.Board != null) {
-		// Iterate over a copy of the opponents board so the onOpponentTurnEnd handlers
-		// copy so that the handlers can remove cards from the board and the behaviour is always well-defined.
+		// Iterate over a copy of the opponents board so the onOpponentTurnEnd handlers copy
+		// so the handlers can remove cards from the board and the behaviour is always well-defined.
 		for (const Card of Opponent.Board.slice()) {
 			// CCPlayer here is the "opponent" of the card
 			if (Before) {
