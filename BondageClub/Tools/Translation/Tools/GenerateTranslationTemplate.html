@@ -17,6 +17,17 @@
 		width: 1280px;
 		height: 720px;
 	}
+
+	#header {
+		position: sticky;
+		top: 0;
+		background-color: inherit;
+		width: 100%;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		display: flex;
+		justify-content: space-between;
+	}
 </style>
 <script src="../../../Scripts/Common.js"></script>
 <script src="../../../Scripts/Translation.js"></script>
@@ -155,9 +166,27 @@ function getParameter(name) {
 }
 
 window.onload = function() {
+	const selectedLanguageOption = document.getElementById('selected-language');
+	selectedLanguageOption.addEventListener('change', function() {
+		localStorage.setItem('selected-language', this.value);
+		location.reload();
+	})
 	for (var L = 0; L < TranslationDictionary.length; L++) {
 		var Language = TranslationDictionary[L];
 		if (Language.LanguageCode === "EN") continue;
+
+		let languageOption = document.createElement('option');
+		languageOption.text = Language.EnglishName + ' (' + Language.LanguageName + ')';
+		languageOption.value = Language.EnglishName;
+		selectedLanguageOption.appendChild(languageOption);
+	}
+	selectedLanguageOption.value = localStorage.getItem('selected-language');
+
+	const selectedLanguage = TranslationDictionary.find(i => i.EnglishName === localStorage.getItem('selected-language'))
+
+	for (var L = 0; L < TranslationDictionary.length; L++) {
+		var Language = TranslationDictionary[L];
+		if (Language.LanguageCode !== selectedLanguage.LanguageCode) continue;
 
 		var optgroup = document.createElement('optgroup');
 		optgroup.label = Language.EnglishName + ' (' + Language.LanguageName + ')';
@@ -175,6 +204,10 @@ window.onload = function() {
 </script>
 </head>
 <body>
+	<header id="header">
+		<a href="TranslationStatus.html">Translation Status</a>
+		<select id="selected-language"></select>
+	</header>
 	<h1>Translation Template Generator</h1>
 	<p>Paste the content of a Bondage Club CSV file into the box below and click "Convert" to generate a translation template. Then, copy the generated text from the box into your preferred text editor and save it as a TXT file with your language code.</p>
 	<textarea id="content"></textarea>

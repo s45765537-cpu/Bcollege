@@ -1,0 +1,278 @@
+Name:
+Ім'я:
+Nickname:
+Псевдонім:
+Title:
+Титул:
+None
+Жодного
+Mistress
+Mistress
+Dominatrix
+Dominatrix
+Club Slave
+Club Slave
+Head Maid
+Head Maid
+Maid
+Maid
+Bondage Maid
+Bondage Maid
+Master Kidnapper
+Master Kidnapper
+Kidnapper
+Kidnapper
+Patient
+Patient
+Permanent Patient
+Permanent Patient
+Escaped Patient
+Escaped Patient
+Nurse
+Nurse
+Doctor
+Doctor
+Lady Luck
+Lady Luck
+Patron
+Patron
+College Student
+College Student
+Nawashi
+Nawashi
+Houdini
+Houdini
+Foal
+Foal
+Farm Horse
+Farm Horse
+Cold Blood Horse
+Cold Blood Horse
+Warm Blood Horse
+Warm Blood Horse
+Hot Blood Horse
+Hot Blood Horse
+Wild Mustang
+Wild Mustang
+Shining Unicorn
+Shining Unicorn
+Flying Pegasus
+Flying Pegasus
+Majestic Alicorn
+Majestic Alicorn
+Mole
+Mole
+Infiltrator
+Infiltrator
+Agent
+Agent
+Operative
+Operative
+Superspy
+Superspy
+Wizard
+Wizard
+Magus
+Magus
+Magician
+Magician
+Sorcerer
+Sorcerer
+Sage
+Sage
+Oracle
+Oracle
+Witch
+Witch
+Warlock
+Warlock
+Little One
+Little One
+Baby
+Baby
+Diaper Lover
+Diaper Lover
+Bondage Baby
+Bondage Baby
+Duchess
+Duchess
+Switch
+Switch
+Kitten
+Kitten
+Puppy
+Puppy
+Foxy
+Foxy
+Bunny
+Bunny
+Doll
+Doll
+Demon
+Demon
+Angel
+Angel
+Succubus
+Succubus
+Good Girl
+Good Girl
+Good Slave Girl
+Good Slave Girl
+Good Slave
+Good Slave
+Drone
+Drone
+Pronouns:
+Займенники:
+Member Number:
+Номер члена:
+- Relationships -
+- Відношення -
+Lover:
+Коханий(на):
+Owner:
+Власник:
+GGTS
+GGTS
+Money:
+Гроші:
+Member for
+Член протягом
+Bondage Club Birthday! 
+Клубний день народження! 
+Friends for
+Друзі протягом
+On trial for
+На випробувальному періоді протягом
+Collared for
+Collared for
+Lover for
+Кохані протягом
+Dating for
+Зустрічаються протягом
+Engaged for
+Обручені протягом
+Married for
+Одружені протягом
+day(s)
+днів
+Unknown
+Невідомо
+-
+-
+- Reputation -
+- Репутація -
+Dungeoneer:
+Dungeoneer:
+Dominant:
+Dominant:
+Submissive:
+Submissive:
+Maid Sorority:
+Maid Sorority:
+Kidnappers League:
+Kidnappers League:
+Asylum Nurse:
+Asylum Nurse:
+Asylum Patient:
+Asylum Patient:
+LARP Battles:
+LARP Battles:
+Gambling Hall:
+Gambling Hall:
+ABDL:
+ABDL:
+House Maiestas:
+House Maiestas:
+House Vincula:
+House Vincula:
+House Amplector:
+House Amplector:
+House Corporis:
+House Corporis:
+difficulty for NumberOfDays day(s)
+складність протягом NumberOfDays днів
+Roleplay
+Рольова
+Regular
+Звичайна
+Hardcore
+Хардкорна
+Extreme
+Екстремальна
+- Skills -
+- Навички -
+Bondage:
+Bondage:
+Self-bondage:
+Self-bondage:
+Lockpicking:
+Lockpicking:
+Evasion:
+Evasion:
+Willpower:
+Willpower:
+Infiltration:
+Infiltration:
+Dressage:
+Dressage:
+ABSVAL for DURATION
+ABSVAL for DURATION
+- Traits -
+- Риси -
+Spend more time with her to know her traits
+Проведіть з ними більше часу щоб дізнатися їхні риси
+Violent:
+Violent:
+Peaceful:
+Peaceful:
+Horny:
+Horny:
+Frigid:
+Frigid:
+Rude:
+Rude:
+Polite:
+Polite:
+Wise:
+Wise:
+Dumb:
+Dumb:
+Serious:
+Serious:
+Playful:
+Playful:
+Relation:
+Relation:
+(Perfect)
+(Perfect)
+(Great)
+(Great)
+(Good)
+(Good)
+(Fair)
+(Fair)
+(Neutral)
+(Neutral)
+(Poor)
+(Poor)
+(Bad)
+(Bad)
+(Horrible)
+(Horrible)
+(Atrocious)
+(Atrocious)
+Permission:
+Дозволи:
+Everyone, no exceptions
+Всі, без виключення
+Everyone, except blacklist
+Всі, окрім чорного списку
+Owner, Lovers, whitelist & Dominants
+Власник, кохані, білий список та домінанти
+Owner, Lovers and whitelist only
+Тільки власник, кохані та білий список
+Owner and Lovers only
+Тільки власник та кохані
+Owner only
+Тільки власник
