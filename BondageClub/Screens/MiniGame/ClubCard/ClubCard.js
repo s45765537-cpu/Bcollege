@@ -792,24 +792,23 @@ var ClubCardList = [
 			if (CCPlayer.Hand.length < Opponent.Hand.length) ClubCardPlayerAddMoney(CCPlayer, 1);
 		}
 	},
-	{ // fussy baby
-		ID: 10007, // fussy baby
-		Name: "Fussy Baby",// fussy baby
-		Group: ["ABDLBaby"],// fussy baby
-		MoneyPerTurn: 1,// fussy baby
-		BeforeOpponentTurnEnd: function(CCPlayer) { // fussy baby
+	{
+		ID: 10007,
+		Name: "Fussy Baby",
+		Group: ["ABDLBaby"],
+		MoneyPerTurn: 1,
+		BeforeOpponentTurnEnd: function(CCPlayer) {
 			let cardOwner = ClubCardGetOpponent(CCPlayer);
 			let playedAnEvent = ClubCardGetCardsPlayedThisTurn(CCPlayer).some(card => card.Type === "Event");
-//
 			if(!playedAnEvent) {
 				return;
-			} //
- //
+			}
+
 			ClubCardRemoveFromBoard(cardOwner, this);
 			ClubCardAddToHand(cardOwner, this);
 			ClubCardPlayerAddFame(cardOwner, 4);
 		},
-	}, //
+	},
 	{
 		ID: 10008,
 		Name: "Nanny",
