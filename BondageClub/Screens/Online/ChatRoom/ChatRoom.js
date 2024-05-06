@@ -883,19 +883,23 @@ function ChatRoomCreateElement() {
 	}
 }
 
+const ChatRoomUIElementNames = ["InputChat", "TextAreaChatLog", "InputChatLength"];
+
 /** Hide the UI elements of the chatroom screen */
 function ChatRoomShowElements() {
-	document.getElementById("InputChat").style.display = "";
-	document.getElementById("TextAreaChatLog").style.display = "";
-	document.getElementById("InputChatLength").style.display = "";
+	for (const name of ChatRoomUIElementNames) {
+		if (document.getElementById(name))
+			document.getElementById(name).style.display = "";
+	}
 	ChatRoomChatHidden = false;
 }
 
 /** Show the UI elements of the chatroom screen */
 function ChatRoomHideElements() {
-	document.getElementById("InputChat").style.display = "none";
-	document.getElementById("TextAreaChatLog").style.display = "none";
-	document.getElementById("InputChatLength").style.display = "none";
+	for (const name of ChatRoomUIElementNames) {
+		if (document.getElementById(name))
+			document.getElementById(name).style.display = "none";
+	}
 	ChatRoomChatHidden = true;
 }
 
