@@ -3865,7 +3865,8 @@ interface ArousalSettingsType {
 	Activity: ActivityEnjoyment[];
 	//Zone: ArousalZone[];
 	Zone: string;
-	Fetish: ArousalFetish[];
+	//Fetish: ArousalFetish[];
+	Fetish: string;
 	OrgasmTimer?: number;
 	OrgasmStage?: 0 | 1 | 2;
 	OrgasmCount?: number;

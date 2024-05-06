@@ -960,11 +960,9 @@ function ActivityFetishItemFactor(C, Type) {
  */
 function ActivityFetishFactor(C) {
 	var Factor = 0;
-	if ((C.ArousalSettings != null) && (C.ArousalSettings.Fetish != null))
-		for (let A = 0; A < C.ArousalSettings.Fetish.length; A++)
-			if (C.ArousalSettings.Fetish[A].Factor != 2)
-				for (let F = 0; F < FetishFemale3DCG.length; F++)
-					if (FetishFemale3DCG[F].Name == C.ArousalSettings.Fetish[A].Name)
-						Factor = Factor + FetishFemale3DCG[F].GetFactor(C);
+	if ((C.ArousalSettings != null) && (C.ArousalSettings.Fetish != null) && (typeof C.ArousalSettings.Fetish == "string"))
+		for (let F of FetishFemale3DCG)
+			if (PreferenceGetFetishFactor(C, F.Name) != 2)
+				Factor = Factor + F.GetFactor(C);
 	return Factor;
 }

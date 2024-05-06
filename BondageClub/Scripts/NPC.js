@@ -135,11 +135,11 @@ function NPCTraitDialog(C) {
 function NPCArousal(C) {
 
 	// Generates new data if there isn't any
-	if ((C.ArousalSettings == null) || (C.ArousalSettings.Zone == null) || (typeof C.ArousalSettings.Zone !== "string") || (C.ArousalSettings.Zone.length != PreferenceArousalZoneCount)) {
+	if ((C.ArousalSettings == null) || (C.ArousalSettings.Zone == null) || (typeof C.ArousalSettings.Zone !== "string") || (C.ArousalSettings.Zone.length != PreferenceArousalZoneDefaultCompressedString.length)) {
 
 		// Resets to the default settings in automatic mode
 		PreferenceInit(C);
-		if ((C.ArousalSettings.Zone == null) || (typeof C.ArousalSettings.Zone !== "string") || (C.ArousalSettings.Zone.length != PreferenceArousalZoneCount)) C.ArousalSettings.Zone = PreferenceArousalZoneDefaultCompressedString;
+		if ((C.ArousalSettings.Zone == null) || (typeof C.ArousalSettings.Zone !== "string") || (C.ArousalSettings.Zone.length != PreferenceArousalZoneDefaultCompressedString.length)) C.ArousalSettings.Zone = PreferenceArousalZoneDefaultCompressedString;
 		var Dominant = NPCTraitGet(C, "Dominant");
 		var Horny = NPCTraitGet(C, "Horny");
 

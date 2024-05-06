@@ -45536,41 +45536,48 @@ let ActivityFemale3DCGOrdering = ActivityFemale3DCG.map((a) => a.Name);
 
 /**
  * 3D Custom Girl based fetishes
+ * Modify PreferenceArousalFetishDefaultCompressedString if you add a new fetish
  * @type {Fetish[]}
  */
 var FetishFemale3DCG = [
 	{
 		Name: "Bondage",
+		FetishID: 0,
 		GetFactor: function (C) {
 			return C.IsRestrained() ? PreferenceGetFetishFactor(C, "Bondage") - 2 : 0;
 		},
 	},
 	{
 		Name: "Gagged",
+		FetishID: 1,
 		GetFactor: function (C) {
 			return !C.CanTalk() ? PreferenceGetFetishFactor(C, "Gagged") - 2 : 0;
 		},
 	},
 	{
 		Name: "Blindness",
+		FetishID: 2,
 		GetFactor: function (C) {
 			return C.IsBlind() ? PreferenceGetFetishFactor(C, "Blindness") - 2 : 0;
 		},
 	},
 	{
 		Name: "Deafness",
+		FetishID: 3,
 		GetFactor: function (C) {
 			return C.IsDeaf() ? PreferenceGetFetishFactor(C, "Deafness") - 2 : 0;
 		},
 	},
 	{
 		Name: "Chastity",
+		FetishID: 4,
 		GetFactor: function (C) {
 			return C.IsChaste() ? PreferenceGetFetishFactor(C, "Chastity") - 2 : 0;
 		},
 	},
 	{
 		Name: "Exhibitionist",
+		FetishID: 5,
 		GetFactor: function (C) {
 			return C.IsNaked()
 				? PreferenceGetFetishFactor(C, "Exhibitionist") - 2
@@ -45579,78 +45586,91 @@ var FetishFemale3DCG = [
 	},
 	{
 		Name: "Masochism",
+		FetishID: 6,
 		GetFactor: function (C) {
 			return ActivityFetishItemFactor(C, "Masochism");
 		},
 	},
 	{
 		Name: "Sadism",
+		FetishID: 7,
 		GetFactor: function (C) {
 			return ActivityFetishItemFactor(C, "Sadism");
 		},
 	},
 	{
 		Name: "Rope",
+		FetishID: 8,
 		GetFactor: function (C) {
 			return ActivityFetishItemFactor(C, "Rope");
 		},
 	},
 	{
 		Name: "Latex",
+		FetishID: 9,
 		GetFactor: function (C) {
 			return ActivityFetishItemFactor(C, "Latex");
 		},
 	},
 	{
 		Name: "Leather",
+		FetishID: 10,
 		GetFactor: function (C) {
 			return ActivityFetishItemFactor(C, "Leather");
 		},
 	},
 	{
 		Name: "Metal",
+		FetishID: 11,
 		GetFactor: function (C) {
 			return ActivityFetishItemFactor(C, "Metal");
 		},
 	},
 	{
 		Name: "Tape",
+		FetishID: 12,
 		GetFactor: function (C) {
 			return ActivityFetishItemFactor(C, "Tape");
 		},
 	},
 	{
 		Name: "Nylon",
+		FetishID: 13,
 		GetFactor: function (C) {
 			return ActivityFetishItemFactor(C, "Nylon");
 		},
 	},
 	{
 		Name: "Lingerie",
+		FetishID: 14,
 		GetFactor: function (C) {
 			return ActivityFetishItemFactor(C, "Lingerie");
 		},
 	},
 	{
 		Name: "Pet",
+		FetishID: 15,
 		GetFactor: function (C) {
 			return ActivityFetishItemFactor(C, "Pet");
 		},
 	},
 	{
 		Name: "Pony",
+		FetishID: 16,
 		GetFactor: function (C) {
 			return ActivityFetishItemFactor(C, "Pony");
 		},
 	},
 	{
 		Name: "ABDL",
+		FetishID: 17,
 		GetFactor: function (C) {
 			return ActivityFetishItemFactor(C, "ABDL");
 		},
 	},
 	{
 		Name: "Forniphilia",
+		FetishID: 18,
 		GetFactor: function (C) {
 			return ActivityFetishItemFactor(C, "Forniphilia");
 		},
