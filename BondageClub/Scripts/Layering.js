@@ -324,6 +324,7 @@ var Layering = {
 	 * @param {null | Partial<LayeringDisplay>} display - The shape of the layering subscreen
 	 * @param {boolean} reload - Whether we're loading or reloading the screen.
 	 * A reload pushes any current changes towards the server and reinitializes all DOM elements.
+	 * @returns {HTMLDivElement} The div containing the layering subscreen
 	 */
 	Init(item, character, display=null, reload=false) {
 		if (this.IsActive()) {
@@ -331,7 +332,7 @@ var Layering = {
 				this.Exit(true);
 			} else {
 				console.error('Layering screen is already active; re-initialization requires passing the "reload" parameter');
-				return;
+				return /** @type {HTMLDivElement} */(document.getElementById(this.ID.root));
 			}
 		}
 
@@ -344,6 +345,7 @@ var Layering = {
 		};
 
 		this.Load();
+		return /** @type {HTMLDivElement} */(document.getElementById(this.ID.root));
 	},
 
 	/** @type {ScreenFunctions["Load"]} */
