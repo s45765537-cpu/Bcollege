@@ -179,7 +179,7 @@ var Layering = {
 		}
 
 		if (old !== this.OverridePriority[name]) {
-			CharacterRefresh(this.Character, false, false);
+			this._CharacterRefresh(this.Character, false, false);
 		}
 	},
 
@@ -201,7 +201,7 @@ var Layering = {
 		}
 
 		if (old !== this.OverridePriority) {
-			CharacterRefresh(this.Character, false, false);
+			this._CharacterRefresh(this.Character, false, false);
 		}
 	},
 
@@ -240,6 +240,12 @@ var Layering = {
 	},
 
 	/**
+	 * A limited version of {@link CharacterRefresh}
+	 * @private
+	 */
+	_CharacterRefresh: CommonLimitFunction(CharacterRefresh, 100, 100),
+
+	/**
 	 * Event listener for `click` events of the reset button
 	 * @private
 	 */
@@ -252,7 +258,7 @@ var Layering = {
 		const assetElements = /** @type {NodeListOf<HTMLInputElement>} */(document.querySelectorAll("[data-asset-priority]"));
 		assetElements.forEach(e => e.value = e.dataset.assetPriority);
 
-		CharacterRefresh(this.Character, false, false);
+		this._CharacterRefresh(this.Character, false, false);
 	},
 
 	/**
