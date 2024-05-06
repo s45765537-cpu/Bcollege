@@ -58,6 +58,8 @@ var PreferenceArousalActivityFactorSelf = 0;
 var PreferenceArousalActivityFactorOther = 0;
 /** @type {ArousalFactor} */
 var PreferenceArousalZoneFactor = 0;
+// By default on new characters, all activities are neutral on self and others
+var PreferenceArousalActivityDefaultCompressedString = "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz";
 // By default on new characters, all zones are of neutral preference and vulva/clit/butt can trigger an orgasm
 var PreferenceArousalZoneDefaultCompressedString = "ffpppfffffffffffff";
 // By default on new characters, all festishes are of neutral preference
@@ -164,13 +166,62 @@ function PreferenceArousalAtLeast(C, Level) {
  * @returns {ArousalFactor} - Returns the love factor of the activity for the character (0 is horrible, 2 is normal, 4 is great)
  */
 function PreferenceGetActivityFactor(C, Type, Self) {
-	const fieldName = Self ? "Self" : "Other";
-	const activity = C.ArousalSettings?.Activity?.find(({ Name }) => Name === Type);
-	if (activity != null) {
-		return PreferenceActivityEnjoymentValidate[fieldName](activity[fieldName]);
-	} else {
-		return PreferenceActivityEnjoymentDefault[fieldName];
-	}
+
+	// No valid data means no special factor
+	if ((C == null) || (C.ArousalSettings == null) || (C.ArousalSettings.Activity == null) || (typeof C.ArousalSettings.Activity !== "string")) return 2;
+
+	// Finds the ID of the activity specified
+	let ID = -1;
+	for (let A of ActivityFemale3DCG)
+		if (A.Name === Type) {
+			ID = A.ActivityID;
+			break;
+		}
+	if (ID == -1) return 2;
+
+	// Gets the value and make sure it's valid
+	let Value = C.ArousalSettings.Activity.charCodeAt(ID) - 100;
+	if (Self) Value = Value % 10;
+	else Value = Math.floor(Value / 10);
+	// @ts-ignore
+	return ((Value >= 0) && (Value <= 4)) ? Value : 2;
+
+}
+
+/**
+ * Sets the love factor of a sexual activity for the character
+ * @param {Character} C - The character for whom the activity factor should be set
+ * @param {ActivityName} Type - The type of the activity that is performed
+ * @param {boolean} Self - Determines, if the current player is giving (false) or receiving (true)
+ * @param {ArousalFactor} Factor - The factor of the sexual activity (0 is horrible, 2 is normal, 4 is great)
+ */
+function PreferenceSetActivityFactor(C, Type, Self, Factor) {
+
+	// Make sure the Activity data is valid
+	if ((typeof Factor !== "number") || (Factor < 0) || (Factor > 4)) return;
+	if ((C == null) || (C.ArousalSettings == null)) return;
+	if ((C.ArousalSettings.Activity == null) || (typeof C.ArousalSettings.Activity !== "string")) C.ArousalSettings.Activity = PreferenceArousalActivityDefaultCompressedString;
+	while ((C.ArousalSettings.Activity.length < PreferenceArousalActivityDefaultCompressedString.length))
+		C.ArousalSettings.Activity = C.ArousalSettings.Activity + PreferenceArousalTwoFactorToChar();
+
+	// Finds the ID of the Activity specified
+	let ID = -1;
+	for (let F of ActivityFemale3DCG)
+		if (F.Name === Type) {
+			ID = F.ActivityID;
+			break;
+		}
+	if (ID == -1) return;
+
+	// Gets and sets the factors
+	let SelfFactor = PreferenceGetActivityFactor(C, Type, true);
+	let OtherFactor = PreferenceGetActivityFactor(C, Type, false);
+	if (Self) SelfFactor = Factor;
+	else OtherFactor = Factor;
+
+	// Sets the Fetish in the compressed string
+	C.ArousalSettings.Activity = C.ArousalSettings.Activity.substring(0, ID) + PreferenceArousalTwoFactorToChar(SelfFactor, OtherFactor) + C.ArousalSettings.Activity.substring(ID + 1);
+
 }
 
 /**
@@ -231,21 +282,6 @@ function PreferenceSetFetishFactor(C, Type, Factor) {
 }
 
 /**
- * Sets the love factor of a sexual activity for the character
- * @param {Character} C - The character for whom the activity factor should be set
- * @param {ActivityName} Type - The type of the activity that is performed
- * @param {boolean} Self - Determines, if the current player is giving (false) or receiving (true)
- * @param {ArousalFactor} Factor - The factor of the sexual activity (0 is horrible, 2 is normal, 4 is great)
- */
-function PreferenceSetActivityFactor(C, Type, Self, Factor) {
-	const fieldName = Self ? "Self" : "Other";
-	const activity = C.ArousalSettings?.Activity?.find(({ Name }) => Name === Type);
-	if (activity != null) {
-		activity[fieldName] = Factor;
-	}
-}
-
-/**
  * Validates the character arousal object and converts it's objects to compressed string if needed
  * @param {number} Factor - The factor of enjoyability from 0 (turn off) to 4 (very high)
  * @param {boolean} Orgasm - Whether the zone can give an orgasm
@@ -257,6 +293,18 @@ function PreferenceArousalFactorToChar(Factor = 2, Orgasm = false) {
 }
 
 /**
+ * Validates the character arousal object and converts it's objects to compressed string if needed
+ * @param {number} Factor1 - The first factor of enjoyability from 0 (turn off) to 4 (very high)
+ * @param {number} Factor2 - The second factor of enjoyability from 0 (turn off) to 4 (very high)
+ * @returns {string} - A string of 1 char that represents the compressed zone
+ */
+function PreferenceArousalTwoFactorToChar(Factor1 = 2, Factor2 = 2) {
+	if ((Factor1 < 0) || (Factor1 > 4)) Factor1 = 2;
+	if ((Factor2 < 0) || (Factor2 > 4)) Factor2 = 2;
+	return String.fromCharCode(100 + Factor1 + (Factor2 * 10));
+}
+
+/**
  * Gets the corresponding arousal zone definition from a player's preferences (if the group's activities are mirrored,
  * returns the arousal zone definition for the mirrored group).
  * @param {Character} C - The character for whom to get the arousal zone
@@ -265,16 +313,6 @@ function PreferenceArousalFactorToChar(Factor = 2, Orgasm = false) {
  * or null if a corresponding zone definition could not be found.
  */
 function PreferenceGetArousalZone(C, ZoneName) {
-	/*if (!C.ArousalSettings || !C.ArousalSettings.Zone) {
-		return null;
-	}
-	const Group = AssetGroupGet(C.AssetFamily, ZoneName);
-	return C.ArousalSettings.Zone.find((Z) => {
-		if ((Group != null) && (Group.MirrorActivitiesFrom)) {
-			return Z.Name === Group.MirrorActivitiesFrom;
-		}
-		return Z.Name === ZoneName;
-	}) || null;*/
 
 	// Make sure the data is valid
 	if ((C == null) || (C.ArousalSettings == null) || (C.ArousalSettings.Zone == null) || (typeof C.ArousalSettings.Zone !== "string")) return null;
@@ -3051,14 +3089,9 @@ var PreferenceArousalSettingsDefault = {
 	ProgressTimer: 100,
 	VibratorLevel: 0,
 	ChangeTime: 0,
-	Activity: ActivityFemale3DCG.map(({ Name }) => {
-		return { ...PreferenceActivityEnjoymentDefault, Name };
-	}),
+	Activity: PreferenceArousalActivityDefaultCompressedString,
 	Zone: PreferenceArousalZoneDefaultCompressedString,
 	Fetish: PreferenceArousalFetishDefaultCompressedString,
-/*	Fetish: FetishFemale3DCG.map(({ Name }) => {
-		return { ...PreferenceArousalFetishDefault, Name };
-	}),*/
 	OrgasmTimer: 0,
 	OrgasmStage: 0,
 	OrgasmCount: 0,
@@ -3108,74 +3141,22 @@ var PreferenceArousalSettingsValidate = {
 		return CommonIsInteger(arg, 0, CommonTime()) ? arg : PreferenceArousalSettingsDefault.ChangeTime;
 	},
 	Activity: (arg, C) => {
-		if (!CommonIsArray(arg)) {
-			return CommonCloneDeep(PreferenceArousalSettingsDefault.Activity);
-		}
-
-		const expectedKeys = new Set(PreferenceArousalSettingsDefault.Activity.map(({ Name }) => Name));
-		const ret = arg.map(i => ValdiationApplyRecord(i, C, PreferenceActivityEnjoymentValidate)).filter(activity => {
-			if (activity.Name !== undefined) {
-				expectedKeys.delete(activity.Name);
-				return true;
-			} else {
-				return false;
-			}
-		});
-
-		if (expectedKeys.size > 0) {
-			ret.push(...CommonCloneDeep(PreferenceArousalSettingsDefault.Activity.filter(({ Name }) => expectedKeys.has(Name))));
-		}
-		return ret;
+		let A = (typeof arg === "string" && arg != null) ? arg : PreferenceArousalActivityDefaultCompressedString;
+		while (A.length < PreferenceArousalActivityDefaultCompressedString.length)
+			A = A + PreferenceArousalTwoFactorToChar();
+		return A;
 	},
 	Zone: (arg, C) => {
-		/*if (!CommonIsArray(arg)) {
-			return CommonCloneDeep(PreferenceArousalSettingsDefault.Zone);
-		}
-
-		const expectedKeys = new Set(PreferenceArousalSettingsDefault.Zone.map(({ Name }) => Name));
-		const ret = arg.map(i => ValdiationApplyRecord(i, C, PreferenceArousalZoneValidate)).filter(zone => {
-			if (zone.Name !== undefined) {
-				expectedKeys.delete(zone.Name);
-				return true;
-			} else {
-				return false;
-			}
-		});
-
-		if (expectedKeys.size > 0) {
-			ret.push(...CommonCloneDeep(PreferenceArousalSettingsDefault.Zone.filter(({ Name }) => expectedKeys.has(Name))));
-		}
-		return ret;*/
 		let Z = (typeof arg === "string" && arg != null) ? arg : PreferenceArousalZoneDefaultCompressedString;
 		while (Z.length < PreferenceArousalZoneDefaultCompressedString.length)
 			Z = Z + PreferenceArousalFactorToChar();
 		return Z;
-
 	},
 	Fetish: (arg, C) => {
-		/*if (!CommonIsArray(arg)) {
-			return CommonCloneDeep(PreferenceArousalSettingsDefault.Fetish);
-		}
-
-		const expectedKeys = new Set(PreferenceArousalSettingsDefault.Fetish.map(({ Name }) => Name));
-		const ret = arg.map(i => ValdiationApplyRecord(i, C, PreferenceArousalFetishValidate)).filter(fetish => {
-			if (fetish.Name !== undefined) {
-				expectedKeys.delete(fetish.Name);
-				return true;
-			} else {
-				return false;
-			}
-		});
-
-		if (expectedKeys.size > 0) {
-			ret.push(...CommonCloneDeep(PreferenceArousalSettingsDefault.Fetish.filter(({ Name }) => expectedKeys.has(Name))));
-		}
-		return ret;*/
 		let F = (typeof arg === "string" && arg != null) ? arg : PreferenceArousalFetishDefaultCompressedString;
 		while (F.length < PreferenceArousalFetishDefaultCompressedString.length)
 			F = F + PreferenceArousalFactorToChar();
 		return F;
-
 	},
 	OrgasmTimer: (arg, C) => {
 		return CommonIsFinite(arg, 0) ? arg : PreferenceArousalSettingsDefault.OrgasmTimer;
@@ -3384,49 +3365,47 @@ function PreferenceValidateArousalData(C) {
 	let MustUpdate = false;
 
 	// Converts from an array of objects to a string
-	if ((C.ArousalSettings.Zone != null) && CommonIsArray(C.ArousalSettings.Zone)) {
+	if ((C.ArousalSettings.Activity != null) && CommonIsArray(C.ArousalSettings.Activity)) {
 
 		// For all asset group where we save/sync arousal
-		let NewZone = "";
-		for (let Group of AssetGroup)
-			if (Group.ArousalZoneID != null) {
+		let NewActivity = "";
+		for (let Activity of ActivityFemale3DCG) {
 
-				// Check if the zone was already setup previously as an object, then convert to the char
-				let Found = false;
-				for (let Z of C.ArousalSettings.Zone) {
-					/** @type {object} */
-					let Zone = Z;
-					if ((typeof Zone === "object") && (Zone.Name != null) && (typeof Zone.Name === "string") && (Zone.Name === Group.Name) && (Zone.Factor != null) && (typeof Zone.Factor === "number") && (Zone.Orgasm != null) && (typeof Zone.Orgasm === "boolean")) {
-						NewZone = NewZone + PreferenceArousalFactorToChar(Zone.Factor, Zone.Orgasm);
-						Found = true;
-						break;
-					}
+			// Check if the activity was already setup previously as an object, then convert to the char
+			let Found = false;
+			for (let A of C.ArousalSettings.Activity) {
+				/** @type {object} */
+				let OldActivity = A;
+				if ((typeof OldActivity === "object") && (OldActivity.Name != null) && (typeof OldActivity.Name === "string") && (OldActivity.Name === Activity.Name) && (OldActivity.Self != null) && (typeof OldActivity.Self === "number") && (OldActivity.Other != null) && (typeof OldActivity.Other === "number")) {
+					NewActivity = NewActivity + PreferenceArousalTwoFactorToChar(OldActivity.Self, OldActivity.Other);
+					Found = true;
+					break;
 				}
-
-				// If it wasn't found, we create the char for it
-				if (!Found)
-					NewZone = NewZone + PreferenceArousalFactorToChar(2, false);
-
 			}
 
-		// Assigns the new zone string
-		C.ArousalSettings.Zone = NewZone;
+			// If it wasn't found, we create the char for it
+			if (!Found) NewActivity = NewActivity + PreferenceArousalTwoFactorToChar();
+
+		}
+
+		// Assigns the new activity string
+		C.ArousalSettings.Activity = NewActivity;
 		MustUpdate = true;
 
 	}
 
-	// If the zones are not a string, we rebuild it from scratch
-	if ((C.ArousalSettings.Zone != null) && (typeof C.ArousalSettings.Zone !== "string")) {
-		C.ArousalSettings.Zone = PreferenceArousalZoneDefaultCompressedString;
+	// If the activities are not a string, we rebuild it from scratch
+	if ((C.ArousalSettings.Activity != null) && (typeof C.ArousalSettings.Activity !== "string")) {
+		C.ArousalSettings.Activity = PreferenceArousalActivityDefaultCompressedString;
 		MustUpdate = true;
 	}
 
-	// If the length of the zone isn't accurate, we fix it
-	if ((C.ArousalSettings.Zone != null) && (typeof C.ArousalSettings.Zone === "string") && (C.ArousalSettings.Zone.length != PreferenceArousalZoneDefaultCompressedString.length)) {
-		while (C.ArousalSettings.Zone.length < PreferenceArousalZoneDefaultCompressedString.length)
-			C.ArousalSettings.Zone = C.ArousalSettings.Zone + PreferenceArousalFactorToChar(2, false);
-		if (C.ArousalSettings.Zone.length > PreferenceArousalZoneDefaultCompressedString.length)
-			C.ArousalSettings.Zone = C.ArousalSettings.Zone.substring(0, PreferenceArousalZoneDefaultCompressedString.length);
+	// If the length of the activity isn't accurate, we fix it
+	if ((C.ArousalSettings.Activity != null) && (typeof C.ArousalSettings.Activity === "string") && (C.ArousalSettings.Activity.length != PreferenceArousalActivityDefaultCompressedString.length)) {
+		while (C.ArousalSettings.Activity.length < PreferenceArousalActivityDefaultCompressedString.length)
+			C.ArousalSettings.Activity = C.ArousalSettings.Activity + PreferenceArousalTwoFactorToChar();
+		if (C.ArousalSettings.Activity.length > PreferenceArousalActivityDefaultCompressedString.length)
+			C.ArousalSettings.Activity = C.ArousalSettings.Activity.substring(0, PreferenceArousalActivityDefaultCompressedString.length);
 		MustUpdate = true;
 	}
 
@@ -3450,8 +3429,7 @@ function PreferenceValidateArousalData(C) {
 			}
 
 			// If it wasn't found, we create the char for it
-			if (!Found)
-				NewFetish = NewFetish + PreferenceArousalFactorToChar(2, false);
+			if (!Found) NewFetish = NewFetish + PreferenceArousalFactorToChar();
 
 		}
 
@@ -3473,6 +3451,52 @@ function PreferenceValidateArousalData(C) {
 			C.ArousalSettings.Fetish = C.ArousalSettings.Fetish + PreferenceArousalFactorToChar();
 		if (C.ArousalSettings.Fetish.length > PreferenceArousalFetishDefaultCompressedString.length)
 			C.ArousalSettings.Fetish = C.ArousalSettings.Fetish.substring(0, PreferenceArousalFetishDefaultCompressedString.length);
+		MustUpdate = true;
+	}
+
+	// Converts from an array of objects to a string
+	if ((C.ArousalSettings.Zone != null) && CommonIsArray(C.ArousalSettings.Zone)) {
+
+		// For all asset group where we save/sync arousal
+		let NewZone = "";
+		for (let Group of AssetGroup)
+			if (Group.ArousalZoneID != null) {
+
+				// Check if the zone was already setup previously as an object, then convert to the char
+				let Found = false;
+				for (let Z of C.ArousalSettings.Zone) {
+					/** @type {object} */
+					let Zone = Z;
+					if ((typeof Zone === "object") && (Zone.Name != null) && (typeof Zone.Name === "string") && (Zone.Name === Group.Name) && (Zone.Factor != null) && (typeof Zone.Factor === "number") && (Zone.Orgasm != null) && (typeof Zone.Orgasm === "boolean")) {
+						NewZone = NewZone + PreferenceArousalFactorToChar(Zone.Factor, Zone.Orgasm);
+						Found = true;
+						break;
+					}
+				}
+
+				// If it wasn't found, we create the char for it
+				if (!Found) NewZone = NewZone + PreferenceArousalFactorToChar();
+
+			}
+
+		// Assigns the new zone string
+		C.ArousalSettings.Zone = NewZone;
+		MustUpdate = true;
+
+	}
+
+	// If the zones are not a string, we rebuild it from scratch
+	if ((C.ArousalSettings.Zone != null) && (typeof C.ArousalSettings.Zone !== "string")) {
+		C.ArousalSettings.Zone = PreferenceArousalZoneDefaultCompressedString;
+		MustUpdate = true;
+	}
+
+	// If the length of the zone isn't accurate, we fix it
+	if ((C.ArousalSettings.Zone != null) && (typeof C.ArousalSettings.Zone === "string") && (C.ArousalSettings.Zone.length != PreferenceArousalZoneDefaultCompressedString.length)) {
+		while (C.ArousalSettings.Zone.length < PreferenceArousalZoneDefaultCompressedString.length)
+			C.ArousalSettings.Zone = C.ArousalSettings.Zone + PreferenceArousalFactorToChar(2, false);
+		if (C.ArousalSettings.Zone.length > PreferenceArousalZoneDefaultCompressedString.length)
+			C.ArousalSettings.Zone = C.ArousalSettings.Zone.substring(0, PreferenceArousalZoneDefaultCompressedString.length);
 		MustUpdate = true;
 	}
 

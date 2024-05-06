@@ -993,6 +993,7 @@ type ActivityPrerequisite =
 
 interface Activity {
 	Name: ActivityName;
+	ActivityID: number,
 	MaxProgress: number;
 	MaxProgressSelf?: number;
 	Prerequisite: ActivityPrerequisite[];
@@ -3862,10 +3863,8 @@ interface ArousalSettingsType {
 	ProgressTimer: number;
 	VibratorLevel: 0 | 1 | 2 | 3 | 4;
 	ChangeTime: number;
-	Activity: ActivityEnjoyment[];
-	//Zone: ArousalZone[];
+	Activity: string;
 	Zone: string;
-	//Fetish: ArousalFetish[];
 	Fetish: string;
 	OrgasmTimer?: number;
 	OrgasmStage?: 0 | 1 | 2;

@@ -136,22 +136,14 @@ function ActivityHasValidTarget(char, act, group) {
 
 /**
  * Check that an activity is permitted by an actor's settings.
- * @param {Activity} activity - The activity to consider
- * @param {Character|PlayerCharacter} character - The character to check with
- * @param {boolean} onOther - Whether we look at doing to or being done on
+ * @param {Activity} A - The activity to consider
+ * @param {Character|PlayerCharacter} C - The character to check with
+ * @param {boolean} Other - Whether we look at doing to or being done on
  * @returns {boolean} whether the activity is permitted
  */
-function ActivityCheckPermissions(activity, character, onOther) {
-	if (character.ArousalSettings == null || character.ArousalSettings.Activity == null)
-		return true;
-
-	const activitySettings = character.ArousalSettings.Activity.find(a => a.Name === activity.Name);
-	if (!activitySettings
-		|| (onOther && activitySettings.Other != null && activitySettings.Other > 0)
-		|| (!onOther && activitySettings.Self != null && activitySettings.Self > 0))
-		return true;
-
-	return false;
+function ActivityCheckPermissions(A, C, Other) {
+	if ((C.ArousalSettings == null) || (C.ArousalSettings.Activity == null)) return true;
+	return (PreferenceGetActivityFactor(C, A.Name, !Other) != 0);
 }
 
 /**

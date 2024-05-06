@@ -44709,12 +44709,14 @@ var ActivityFemale3DCG = [
 	/* Mouth activities */
 	{
 		Name: "Whisper",
+		ActivityID: 0,
 		MaxProgress: 20,
 		Prerequisite: ["UseMouth"],
 		Target: ["ItemEars"],
 	},
 	{
 		Name: "MoanGag",
+		ActivityID: 1,
 		MaxProgress: 60,
 		Prerequisite: ["IsGagged"],
 		Target: [],
@@ -44724,6 +44726,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "MoanGagTalk",
+		ActivityID: 2,
 		MaxProgress: 10,
 		Prerequisite: ["IsGagged"],
 		Target: [],
@@ -44733,6 +44736,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "MoanGagWhimper",
+		ActivityID: 3,
 		MaxProgress: 40,
 		Prerequisite: ["IsGagged"],
 		Target: [],
@@ -44742,6 +44746,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "MoanGagGroan",
+		ActivityID: 4,
 		MaxProgress: 30,
 		Prerequisite: ["IsGagged"],
 		Target: [],
@@ -44751,6 +44756,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "MoanGagAngry",
+		ActivityID: 5,
 		MaxProgress: 10,
 		Prerequisite: ["IsGagged"],
 		Target: [],
@@ -44760,6 +44766,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "MoanGagGiggle",
+		ActivityID: 6,
 		MaxProgress: 20,
 		Prerequisite: ["IsGagged"],
 		Target: [],
@@ -44769,12 +44776,14 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "GagKiss",
+		ActivityID: 7,
 		MaxProgress: 55,
 		Prerequisite: ["ZoneAccessible", "UseMouth", "TargetMouthBlocked"],
 		Target: ["ItemMouth"],
 	},
 	{
 		Name: "Nibble",
+		ActivityID: 8,
 		MaxProgress: 40,
 		Prerequisite: ["ZoneAccessible", "UseMouth", "ZoneNaked"],
 		Target: [
@@ -44804,6 +44813,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "Lick",
+		ActivityID: 9,
 		MaxProgress: 80,
 		Prerequisite: ["ZoneAccessible", "UseTongue", "ZoneNaked"],
 		Target: [
@@ -44835,6 +44845,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "PoliteKiss",
+		ActivityID: 10,
 		MaxProgress: 30,
 		Prerequisite: ["UseMouth"],
 		Target: ["ItemBoots", "ItemHands", "ItemMouth"],
@@ -44842,6 +44853,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "Kiss",
+		ActivityID: 11,
 		MaxProgress: 50,
 		Prerequisite: ["ZoneAccessible", "UseMouth"],
 		Target: [
@@ -44874,6 +44886,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "GaggedKiss",
+		ActivityID: 12,
 		MaxProgress: 40,
 		Prerequisite: ["IsGagged"],
 		Target: [
@@ -44899,6 +44912,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "FrenchKiss",
+		ActivityID: 13,
 		MaxProgress: 70,
 		Prerequisite: [
 			"ZoneAccessible",
@@ -44910,6 +44924,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "Suck",
+		ActivityID: 14,
 		MaxProgress: 60,
 		Prerequisite: ["ZoneAccessible", "UseMouth", "ZoneNaked"],
 		Target: ["ItemBoots", "ItemHands", "ItemNipples"],
@@ -44917,12 +44932,14 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "MasturbateTongue",
+		ActivityID: 15,
 		MaxProgress: 100,
 		Prerequisite: ["ZoneAccessible", "UseTongue", "ZoneNaked"],
 		Target: ["ItemButt", "ItemVulva", "ItemVulvaPiercings"],
 	},
 	{
 		Name: "Bite",
+		ActivityID: 16,
 		MaxProgress: 40,
 		Prerequisite: ["ZoneAccessible", "UseMouth", "ZoneNaked"],
 		Target: [
@@ -44954,6 +44971,7 @@ var ActivityFemale3DCG = [
 	/* Hand activities */
 	{
 		Name: "Caress",
+		ActivityID: 17,
 		MaxProgress: 80,
 		Prerequisite: ["ZoneAccessible", "UseHands"],
 		Target: [
@@ -44980,6 +44998,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "MassageHands",
+		ActivityID: 18,
 		MaxProgress: 60,
 		Prerequisite: ["ZoneAccessible", "UseHands"],
 		Target: [
@@ -44996,6 +45015,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "TakeCare",
+		ActivityID: 19,
 		MaxProgress: 10,
 		Prerequisite: ["ZoneAccessible", "UseHands", "ZoneNaked"],
 		Target: ["ItemBoots", "ItemHands", "ItemHead"],
@@ -45003,6 +45023,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "Tickle",
+		ActivityID: 20,
 		MaxProgress: 50,
 		Prerequisite: ["ZoneAccessible", "UseHands"],
 		Target: [
@@ -45020,6 +45041,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "Pet",
+		ActivityID: 21,
 		MaxProgress: 20,
 		Prerequisite: ["UseArms"],
 		Target: ["ItemHead", "ItemNose"],
@@ -45027,6 +45049,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "Grope",
+		ActivityID: 22,
 		MaxProgress: 50,
 		Prerequisite: ["UseHands"],
 		Target: [
@@ -45041,6 +45064,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "Pinch",
+		ActivityID: 23,
 		MaxProgress: 20,
 		Prerequisite: ["ZoneAccessible", "UseHands"],
 		Target: ["ItemArms", "ItemEars", "ItemNipples", "ItemNose", "ItemPelvis"],
@@ -45048,6 +45072,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "HandGag",
+		ActivityID: 24,
 		MaxProgress: 40,
 		Prerequisite: ["UseHands"],
 		Target: ["ItemMouth"],
@@ -45055,6 +45080,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "Slap",
+		ActivityID: 25,
 		MaxProgress: 30,
 		Prerequisite: ["UseHands"],
 		Target: ["ItemBreast", "ItemHead", "ItemVulva", "ItemVulvaPiercings"],
@@ -45062,6 +45088,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "Spank",
+		ActivityID: 26,
 		MaxProgress: 40,
 		Prerequisite: ["UseHands"],
 		Target: [
@@ -45079,6 +45106,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "Pull",
+		ActivityID: 27,
 		MaxProgress: 30,
 		Prerequisite: ["ZoneAccessible", "UseHands"],
 		Target: ["ItemHead", "ItemNipples", "ItemNose"],
@@ -45086,6 +45114,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "Choke",
+		ActivityID: 28,
 		MaxProgress: 50,
 		Prerequisite: ["ZoneAccessible", "UseHands"],
 		Target: ["ItemNeck", "ItemNose"],
@@ -45093,6 +45122,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "MasturbateHand",
+		ActivityID: 29,
 		MaxProgress: 100,
 		Prerequisite: ["ZoneAccessible", "UseHands", "ZoneNaked"],
 		Target: ["ItemBreast", "ItemButt", "ItemVulva", "ItemVulvaPiercings"],
@@ -45100,6 +45130,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "MasturbateFist",
+		ActivityID: 30,
 		MaxProgress: 100,
 		Prerequisite: [
 			"ZoneAccessible",
@@ -45114,18 +45145,21 @@ var ActivityFemale3DCG = [
 	/* Feet activities */
 	{
 		Name: "MassageFeet",
+		ActivityID: 31,
 		MaxProgress: 40,
 		Prerequisite: ["ZoneAccessible", "UseFeet"],
 		Target: ["ItemBoots", "ItemTorso", "ItemTorso2"],
 	},
 	{
 		Name: "MasturbateFoot",
+		ActivityID: 32,
 		MaxProgress: 100,
 		Prerequisite: ["ZoneAccessible", "UseFeet", "ZoneNaked"],
 		Target: ["ItemVulva", "ItemVulvaPiercings"],
 	},
 	{
 		Name: "Step",
+		ActivityID: 33,
 		MaxProgress: 25,
 		Prerequisite: ["UseFeet", "TargetKneeling"],
 		Target: [
@@ -45141,6 +45175,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "Kick",
+		ActivityID: 34,
 		MaxProgress: 25,
 		Prerequisite: ["UseFeet"],
 		Target: [
@@ -45155,12 +45190,14 @@ var ActivityFemale3DCG = [
 	/* Body activities */
 	{
 		Name: "Cuddle",
+		ActivityID: 35,
 		MaxProgress: 30,
 		Prerequisite: [],
 		Target: ["ItemArms", "ItemNose"],
 	},
 	{
 		Name: "Rub",
+		ActivityID: 36,
 		MaxProgress: 60,
 		Prerequisite: [],
 		Target: ["ItemHead", "ItemNose", "ItemTorso", "ItemTorso2"],
@@ -45168,6 +45205,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "StruggleArms",
+		ActivityID: 37,
 		MaxProgress: 10,
 		Prerequisite: ["CantUseArms"],
 		Target: [],
@@ -45176,6 +45214,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "StruggleLegs",
+		ActivityID: 38,
 		MaxProgress: 10,
 		Prerequisite: ["CantUseFeet"],
 		Target: [],
@@ -45183,12 +45222,14 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "Sit",
+		ActivityID: 39,
 		MaxProgress: 25,
 		Prerequisite: ["UseFeet", "TargetKneeling"],
 		Target: ["ItemLegs"],
 	},
 	{
 		Name: "RestHead",
+		ActivityID: 40,
 		MaxProgress: 25,
 		Prerequisite: ["TargetKneeling"],
 		Target: ["ItemBreast", "ItemLegs"],
@@ -45196,6 +45237,7 @@ var ActivityFemale3DCG = [
 	/* Head activities */
 	{
 		Name: "Nod",
+		ActivityID: 41,
 		MaxProgress: 0,
 		Prerequisite: ["MoveHead"],
 		Target: [],
@@ -45203,6 +45245,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "Wiggle",
+		ActivityID: 42,
 		MaxProgress: 10,
 		Prerequisite: ["MoveHead"],
 		Target: [],
@@ -45226,6 +45269,7 @@ var ActivityFemale3DCG = [
 	/* Item activities */
 	{
 		Name: "SpankItem",
+		ActivityID: 43,
 		MaxProgress: 70,
 		Prerequisite: ["Needs-SpankItem", "UseHands"],
 		Target: [
@@ -45250,6 +45294,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "TickleItem",
+		ActivityID: 44,
 		MaxProgress: 50,
 		Prerequisite: ["Needs-TickleItem"],
 		Target: [
@@ -45280,6 +45325,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "RubItem",
+		ActivityID: 45,
 		MaxProgress: 60,
 		Prerequisite: ["Needs-RubItem", "UseHands"],
 		Target: [
@@ -45309,6 +45355,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "RollItem",
+		ActivityID: 46,
 		MaxProgress: 30,
 		Prerequisite: ["Needs-RollItem", "UseHands"],
 		Target: [
@@ -45329,6 +45376,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "MasturbateItem",
+		ActivityID: 47,
 		MaxProgress: 100,
 		Prerequisite: [
 			"ZoneNaked",
@@ -45356,6 +45404,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "PourItem",
+		ActivityID: 48,
 		MaxProgress: 40,
 		Prerequisite: ["Needs-PourItem", "UseHands"],
 		Target: [
@@ -45373,6 +45422,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "ShockItem",
+		ActivityID: 49,
 		MaxProgress: 50,
 		Prerequisite: ["Needs-ShockItem", "UseHands"],
 		Target: [
@@ -45399,6 +45449,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "Inject",
+		ActivityID: 50,
 		MaxProgress: 20,
 		Prerequisite: ["ZoneAccessible", "UseHands", "Needs-Inject"],
 		Target: [
@@ -45414,6 +45465,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "PenetrateSlow",
+		ActivityID: 51,
 		MaxProgress: 80,
 		Prerequisite: [
 			"ZoneAccessible",
@@ -45428,6 +45480,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "PenetrateFast",
+		ActivityID: 52,
 		MaxProgress: 100,
 		Prerequisite: [
 			"ZoneAccessible",
@@ -45442,6 +45495,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "SipItem",
+		ActivityID: 53,
 		MaxProgress: 0,
 		Prerequisite: ["TargetCanUseTongue", "Needs-SipItem"],
 		Target: ["ItemMouth"],
@@ -45449,6 +45503,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "EatItem",
+		ActivityID: 54,
 		MaxProgress: 0,
 		Prerequisite: ["TargetCanUseTongue", "Needs-EatItem"],
 		Target: ["ItemMouth"],
@@ -45456,6 +45511,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "Scratch",
+		ActivityID: 55,
 		MaxProgress: 0,
 		Prerequisite: ["UseHands", "Needs-Scratch"],
 		Target: [
@@ -45486,6 +45542,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "ThrowItem",
+		ActivityID: 56,
 		MaxProgress: 0,
 		Prerequisite: ["UseHands", "Needs-ThrowItem"],
 		Target: ["ItemTorso", "ItemMouth", "ItemBreast", "ItemFeet", "ItemHead"],
@@ -45495,6 +45552,7 @@ var ActivityFemale3DCG = [
 	/* Family activities */
 	{
 		Name: "SistersHug",
+		ActivityID: 57,
 		MaxProgress: 30,
 		Prerequisite: ["Sisters"],
 		Target: ["ItemArms"],
@@ -45506,6 +45564,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "BrothersHandshake",
+		ActivityID: 58,
 		MaxProgress: 10,
 		Prerequisite: ["Brothers"],
 		Target: ["ItemHands"],
@@ -45517,6 +45576,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "SiblingsCheekKiss",
+		ActivityID: 59,
 		MaxProgress: 20,
 		Prerequisite: ["SiblingsWithDifferentGender"],
 		Target: ["ItemMouth"],
