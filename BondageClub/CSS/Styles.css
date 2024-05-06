@@ -620,7 +620,6 @@ input[type="checkbox"]:checked::before {
 	font-family: inherit;
 	font-size: min(3.5vh, 1.75vw);
 	user-select: none;
-	overflow-x: hidden;
 	text-overflow: ellipsis;
 }
 
@@ -643,7 +642,7 @@ input[type="checkbox"]:checked::before {
 }
 
 #layering input[type=number]:focus {
-	background-color: white;
+	background-color: white !important;
 }
 
 #layering input[type=number]:invalid {
@@ -724,6 +723,7 @@ input[type="checkbox"]:checked::before {
 
 .layering-pair-text {
 	color: white;
+	overflow-x: hidden;
 	padding-left: min(2vh, 1vw);
 	padding-right: min(2vh, 1vw);
 }
@@ -755,6 +755,7 @@ input[type="checkbox"]:checked::before {
 	background-repeat: no-repeat;
 	background-size: cover;
 	border: min(0.2vh, 0.1vw) solid black;
+	box-sizing: border-box;
 	height: 100%;
 	width: 100%;
 }
