@@ -402,7 +402,7 @@ var Layering = {
 				</div>
 			</div>
 			<div class=layering-pair id=${this.ID.assetGrid}>
-				<input type=number data-asset-priority=${defaultItemPriority} min=-99 max=99 value=${itemPriority} />
+				<input type=number data-asset-priority=${defaultItemPriority} min=-99 max=99 value=${itemPriority} inputmode="numeric" />
 				<span class=layering-pair-text>${this.Asset.Description}</span>
 			</div>
 			<h1 id=${this.ID.layerHeader}>${InterfaceTextGet("LayeringLayer")}</h1>

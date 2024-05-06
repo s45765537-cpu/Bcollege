@@ -107,6 +107,12 @@ function ElementCreateInput(ID, Type, Value, MaxLength, form) {
 	e.setAttribute("screen-generated", CurrentScreen);
 	e.setAttribute("maxlength", MaxLength);
 	e.setAttribute("onfocus", "this.removeAttribute('readonly');");
+	switch (Type) {
+		case "number":
+			e.inputMode = "numeric";
+			break;
+	}
+
 	e.className = "HideOnPopup";
 
 	if (form) {
