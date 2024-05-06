@@ -1379,8 +1379,8 @@ interface Character {
 	OwnerNumber: () => number;
 	/** Whether the player owns that character */
 	IsOwnedByPlayer: () => boolean;
-	/** The number of days since the character has been owned */
-	OwnedSince: () => number | false;
+	/** The number of days since the character has been owned (-1 means not owned) */
+	OwnedSince: () => number;
 	/** Whether the given character owns the player */
 	IsOwner: () => boolean;
 	IsKneeling: () => boolean;

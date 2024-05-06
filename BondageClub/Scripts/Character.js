@@ -397,10 +397,10 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 						time = NPCEventGet(npc, "EndSubTrial");
 						if (time > 0) return Math.floor((time - CurrentTime) / 86400000);
 					}
-					return false;
+					return -1;
 				}
 			}
-			return false;
+			return -1;
 		},
 		IsOwner: function () {
 			return Player.IsOwnedByCharacter(this);
