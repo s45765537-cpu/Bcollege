@@ -11,7 +11,6 @@ var ClubCardHover = null;
 var ClubCardFocus = null;
 var ClubCardTextCache = null;
 var ClubCardTurnIndex = 0;
-var ClubCardTurnCounter = 1;
 var ClubCardTurnCardPlayed = 0;
 var ClubCardTurnEndDraw = false;
 var ClubCardFameGoal = 100;
@@ -799,16 +798,15 @@ var ClubCardList = [
 		MoneyPerTurn: 1,
 		BeforeOpponentTurnEnd: function(CCPlayer) {
 			let cardOwner = ClubCardGetOpponent(CCPlayer);
-			let playedAnEvent = CCPlayer.CardsPlayedThisTurn[ClubCardTurnCounter].some(card => {
-				return card.Type === "Event";
-			});
-
-			if(playedAnEvent) {
-				ClubCardPlayerAddFame(cardOwner, 4);
-				ClubCardRemoveFromBoard(cardOwner, this);
-				ClubCardAddToHand(cardOwner, this);
+			let playedAnEvent = ClubCardGetCardsPlayedThisTurn(CCPlayer).some(card => card.Type === "Event");
+			if(!playedAnEvent) {
+				return;
 			}
-		}
+
+			ClubCardRemoveFromBoard(cardOwner, this);
+			ClubCardAddToHand(cardOwner, this);
+			ClubCardPlayerAddFame(cardOwner, 4);
+		},
 	},
 	{
 		ID: 10008,
@@ -1699,7 +1697,7 @@ function ClubCardGetOpponent(CCPlayer = null) {
  * @returns {ClubCard[]} - The opponent
  */
 function ClubCardGetCardsPlayedThisTurn(CCPlayer) {
-	return CCPlayer.CardsPlayedThisTurn[ClubCardTurnCounter] ?? [];
+	return CCPlayer.CardsPlayedThisTurn[CCPlayer.ClubCardTurnCounter - 1] ?? [];
 }
 
 /**
@@ -2073,7 +2071,8 @@ function ClubCardAddPlayer(Char, Cont, Cards) {
 		Level: 1,
 		Money: 5,
 		Fame: 0,
-		CardsPlayedThisTurn: {}
+		CardsPlayedThisTurn: {},
+		ClubCardTurnCounter: ClubCardPlayer.length,
 	};
 	ClubCardPlayer.push(P);
 }
@@ -2115,8 +2114,8 @@ function ClubCardRunTurnEndHandlers(CCPlayer, Opponent, Before) {
 
 	// Runs handlers on opponent board
 	if (Opponent.Board != null) {
-		// Iterate over a copy of the opponents board so the onOpponentTurnEnd handlers
-		// copy so that the handlers can remove cards from the board and the behaviour is always well-defined.
+		// Iterate over a copy of the opponents board so the onOpponentTurnEnd handlers copy
+		// so the handlers can remove cards from the board and the behaviour is always well-defined.
 		for (const Card of Opponent.Board.slice()) {
 			// CCPlayer here is the "opponent" of the card
 			if (Before) {
@@ -2179,8 +2178,6 @@ function ClubCardEndTurn(Draw = false) {
 
 	ClubCardRunTurnEndHandlers(CCPlayer, Opponent, false);
 
-	ClubCardRunTurnEndHandlers(CCPlayer, Opponent, false);
-
 	if ((CCPlayer.Money < 0) && (CCPlayer.Fame > StartingFame)) {
 		CCPlayer.Fame = StartingFame;
 		CCPlayer.LastFamePerTurn = 0;
@@ -2209,7 +2206,7 @@ function ClubCardEndTurn(Draw = false) {
 
 	// Move to the next player
 	ClubCardTurnIndex++;
-	ClubCardTurnCounter++;
+	CCPlayer.ClubCardTurnCounter++;
 	if (ClubCardTurnIndex >= ClubCardPlayer.length) ClubCardTurnIndex = 0;
 	ClubCardTurnCardPlayed = 0;
 	ClubCardAIStart();
@@ -2423,10 +2420,10 @@ function ClubCardPlayCard(CCPlayer, Card) {
 
 	// Focuses on the card, runs it's scripts and end the turn if needed
 	ClubCardFocus = Card;
-	if(CCPlayer.CardsPlayedThisTurn[ClubCardTurnCounter]) {
-		CCPlayer.CardsPlayedThisTurn[ClubCardTurnCounter] = [...CCPlayer.CardsPlayedThisTurn[ClubCardTurnCounter], Card];
+	if(CCPlayer.CardsPlayedThisTurn[CCPlayer.ClubCardTurnCounter]) {
+		CCPlayer.CardsPlayedThisTurn[CCPlayer.ClubCardTurnCounter] = [...CCPlayer.CardsPlayedThisTurn[CCPlayer.ClubCardTurnCounter], Card];
 	} else {
-		CCPlayer.CardsPlayedThisTurn[ClubCardTurnCounter] = [Card];
+		CCPlayer.CardsPlayedThisTurn[CCPlayer.ClubCardTurnCounter] = [Card];
 	}
 
 	if (Card.OnPlay != null) Card.OnPlay(CCPlayer);
