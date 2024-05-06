@@ -1263,7 +1263,7 @@ function TranslationNextLanguage() {
 
 /**
  * Changes the language depending on the given language and save the new selected language to local storage
- * @param {string} language 
+ * @param {string} language
  */
 function TranslationSwitchLanguage(language) {
 	TranslationLanguage = TranslationDictionary.find(l => l.LanguageName === language || l.EnglishName === language).LanguageCode;

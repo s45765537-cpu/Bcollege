@@ -9074,8 +9074,8 @@ var AssetFemale3DCGExtended = {
 					Name: "Fox",
 				},
 				{
-					Name: "Dog"
-				}
+					Name: "Dog",
+				},
 			],
 			DialogPrefix: {
 				Header: "SelectCageType",

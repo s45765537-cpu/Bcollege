@@ -15232,13 +15232,13 @@ var AssetFemale3DCG = [
 						Name: "Left",
 						PoseMapping: {
 							Suspension: "Suspension",
-						}
+						},
 					},
 					{
 						Name: "Right",
 						PoseMapping: {
 							Suspension: "Suspension",
-						}
+						},
 					},
 				],
 			},
@@ -15253,13 +15253,13 @@ var AssetFemale3DCG = [
 						Name: "Left",
 						PoseMapping: {
 							Suspension: "Suspension",
-						}
+						},
 					},
 					{
 						Name: "Right",
 						PoseMapping: {
 							Suspension: "Suspension",
-						}
+						},
 					},
 				],
 			},
@@ -15322,7 +15322,7 @@ var AssetFemale3DCG = [
 				Name: "HairBack62",
 				Top: {
 					[PoseType.DEFAULT]: 0,
-					Suspension: -485
+					Suspension: -485,
 				},
 				Layer: [
 					{
@@ -15330,21 +15330,21 @@ var AssetFemale3DCG = [
 						Priority: 48,
 						PoseMapping: {
 							Suspension: "Suspension",
-						}
+						},
 					},
 					{
 						Name: "Back",
 						CopyLayerColor: "Braid",
 						PoseMapping: {
 							Suspension: PoseType.HIDE,
-						}
+						},
 					},
 					{
 						Name: "Ribbon",
 						Priority: 48,
 						PoseMapping: {
 							Suspension: "Suspension",
-						}
+						},
 					},
 				],
 			},
@@ -18179,16 +18179,16 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Face",
-						AllowTypes: { typed : 0 }
+						AllowTypes: { typed: 0 },
 					},
 					{
 						Name: "Face2",
-						AllowTypes: { typed : 1 },
+						AllowTypes: { typed: 1 },
 						CopyLayerColor: "Face",
 					},
 					{
 						Name: "Ears",
-						AllowTypes: { typed: 0 }
+						AllowTypes: { typed: 0 },
 					},
 					{
 						Name: "Ears2",
@@ -18197,22 +18197,22 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Mouth",
-						AllowTypes: { typed: 0 }
+						AllowTypes: { typed: 0 },
 					},
 					{
 						Name: "Mouth2",
 						AllowTypes: { typed: 1 },
-						CopyLayerColor: "Mouth"
+						CopyLayerColor: "Mouth",
 					},
 					{
 						Name: "Outline",
 						AllowColorize: false,
-						AllowTypes: { typed: 0 }
+						AllowTypes: { typed: 0 },
 					},
 					{
 						Name: "Outline2",
 						AllowColorize: false,
-						AllowTypes: { typed: 1 }
+						AllowTypes: { typed: 1 },
 					},
 				],
 			},
