@@ -11,7 +11,6 @@ var ClubCardHover = null;
 var ClubCardFocus = null;
 var ClubCardTextCache = null;
 var ClubCardTurnIndex = 0;
-var ClubCardTurnCounter = 1;
 var ClubCardTurnCardPlayed = 0;
 var ClubCardTurnEndDraw = false;
 var ClubCardFameGoal = 100;
@@ -1698,7 +1697,7 @@ function ClubCardGetOpponent(CCPlayer = null) {
  * @returns {ClubCard[]} - The opponent
  */
 function ClubCardGetCardsPlayedThisTurn(CCPlayer) {
-	return CCPlayer.CardsPlayedThisTurn[ClubCardTurnCounter] ?? [];
+	return CCPlayer.CardsPlayedThisTurn[CCPlayer.ClubCardTurnCounter - 1] ?? [];
 }
 
 /**
@@ -2072,7 +2071,8 @@ function ClubCardAddPlayer(Char, Cont, Cards) {
 		Level: 1,
 		Money: 5,
 		Fame: 0,
-		CardsPlayedThisTurn: {}
+		CardsPlayedThisTurn: {},
+		ClubCardTurnCounter: ClubCardPlayer.length,
 	};
 	ClubCardPlayer.push(P);
 }
@@ -2178,8 +2178,6 @@ function ClubCardEndTurn(Draw = false) {
 
 	ClubCardRunTurnEndHandlers(CCPlayer, Opponent, false);
 
-	ClubCardRunTurnEndHandlers(CCPlayer, Opponent, false);
-
 	if ((CCPlayer.Money < 0) && (CCPlayer.Fame > StartingFame)) {
 		CCPlayer.Fame = StartingFame;
 		CCPlayer.LastFamePerTurn = 0;
@@ -2208,7 +2206,7 @@ function ClubCardEndTurn(Draw = false) {
 
 	// Move to the next player
 	ClubCardTurnIndex++;
-	ClubCardTurnCounter++;
+	CCPlayer.ClubCardTurnCounter++;
 	if (ClubCardTurnIndex >= ClubCardPlayer.length) ClubCardTurnIndex = 0;
 	ClubCardTurnCardPlayed = 0;
 	ClubCardAIStart();
@@ -2422,10 +2420,10 @@ function ClubCardPlayCard(CCPlayer, Card) {
 
 	// Focuses on the card, runs it's scripts and end the turn if needed
 	ClubCardFocus = Card;
-	if(CCPlayer.CardsPlayedThisTurn[ClubCardTurnCounter]) {
-		CCPlayer.CardsPlayedThisTurn[ClubCardTurnCounter] = [...CCPlayer.CardsPlayedThisTurn[ClubCardTurnCounter], Card];
+	if(CCPlayer.CardsPlayedThisTurn[CCPlayer.ClubCardTurnCounter]) {
+		CCPlayer.CardsPlayedThisTurn[CCPlayer.ClubCardTurnCounter] = [...CCPlayer.CardsPlayedThisTurn[CCPlayer.ClubCardTurnCounter], Card];
 	} else {
-		CCPlayer.CardsPlayedThisTurn[ClubCardTurnCounter] = [Card];
+		CCPlayer.CardsPlayedThisTurn[CCPlayer.ClubCardTurnCounter] = [Card];
 	}
 
 	if (Card.OnPlay != null) Card.OnPlay(CCPlayer);
