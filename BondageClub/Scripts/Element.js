@@ -41,6 +41,35 @@ function ElementContent(ID, Content) {
 }
 
 /**
+ * @template {keyof HTMLElementScalarTagNameMap} T
+ * @param {null | HTMLOptions<T>} options - Options for customizing the element
+ * @returns {HTMLElementTagNameMap[T]} - The created element
+ */
+function ElementCreate(options) {
+	const elem = document.createElement(options.tag);
+
+	for (const [k, v] of Object.entries(options?.attributes ?? {})) {
+		elem.setAttribute(k, v);
+	}
+	for (const [eventName, listener] of Object.entries(options?.eventListeners ?? {})) {
+		elem.addEventListener(eventName, listener);
+	}
+	for (const [k, v] of Object.entries(options.style ?? {})) {
+		elem.style.setProperty(k, /** @type {any} */(v));
+	}
+
+	if (options?.dataAttributes) { Object.assign(elem.dataset, options.dataAttributes); }
+	if (options?.classList) { options.classList.forEach(i => elem.classList.add(i)); }
+	if (options?.children) {
+		/** @type {(i: unknown) => i is Node | string} */
+		const isNode = (i) => typeof i === "string" || (typeof i === "object" && "nodeValue" in i);
+		options.children.forEach(i => isNode(i) ? elem.append(i) : ElementCreate({ ...i, parent: elem }));
+	}
+	if (options?.parent) { options.parent.appendChild(elem); }
+	return elem;
+}
+
+/**
  * Creates a new from element in the main document.
  *
  * @param {string} ID - The id of the form to create
