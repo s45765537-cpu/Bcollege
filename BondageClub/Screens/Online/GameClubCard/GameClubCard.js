@@ -307,6 +307,8 @@ function GameClubCardLoadBundle(CCPlayer, Bundle) {
 	if (Bundle.Board != null) CCPlayer.Board = GameClubCardUndoBundle(Bundle.Board, false, Location);
 	if (Bundle.Event != null) CCPlayer.Event = GameClubCardUndoBundle(Bundle.Event, true, Location);
 	if (Bundle.Playing) ClubCardTurnIndex = CCPlayer.Index;
+	if (Bundle.CardsPlayedThisTurn != null) CCPlayer.CardsPlayedThisTurn = Bundle.CardsPlayedThisTurn;
+	if (Bundle.CardsPlayedThisTurn !== null) CCPlayer.ClubCardTurnCounter = Bundle.ClubCardTurnCounter;
 }
 
 /**
@@ -455,7 +457,9 @@ function GameClubCardSyncOnlineData(Progress = "Action", LocalPlayerOnly = false
 			Deck: GameClubCardDoBundle(CCPlayer.Deck),
 			Hand: GameClubCardDoBundle(CCPlayer.Hand),
 			Board: GameClubCardDoBundle(CCPlayer.Board),
-			Event: GameClubCardDoBundle(CCPlayer.Event, true)
+			Event: GameClubCardDoBundle(CCPlayer.Event, true),
+			CardsPlayedThisTurn: CCPlayer.CardsPlayedThisTurn,
+			ClubCardTurnCounter: CCPlayer.ClubCardTurnCounter
 		});
 	}
 	if (Progress == "Action") ServerSend("ChatRoomGame", { GameProgress: Progress, CCData: Packet });

@@ -3951,7 +3951,8 @@ interface ClubCardPlayer {
 	Fame: number;
 	LastFamePerTurn?: number;
 	LastMoneyPerTurn?: number;
-	CardsPlayedThisTurn: ClubCard[]
+	ClubCardTurnCounter: number;
+	CardsPlayedThisTurn: Record<number, ClubCard[]>
 }
 
 // #region drawing
