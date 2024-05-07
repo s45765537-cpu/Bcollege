@@ -173,16 +173,17 @@ var ClubCardList = [
 		Name: "Daycare Manager",
 		MoneyPerTurn: -1,
 		AfterTurnEnd: function(CCPlayer) {
-			const abdlMommyPlayed = ClubCardGetCardsPlayedThisTurn(CCPlayer).some(card => {
+			const abdlMommyPlayed = ClubCardGetCardsPlayedOnTurn(CCPlayer, CCPlayer.ClubCardTurnCounter).some(card => {
 				return card.Group?.includes("ABDLMommy");
 			});
 			if(abdlMommyPlayed) {
 				ClubCardPlayerAddFame(CCPlayer, 3);
 			}
 
-			const abdlBabyPlayed = ClubCardGetCardsPlayedThisTurn(CCPlayer).some(card => {
+			const abdlBabyPlayed = ClubCardGetCardsPlayedOnTurn(CCPlayer, CCPlayer.ClubCardTurnCounter).some(card => {
 				return card.Group?.includes("ABDLBaby");
 			});
+
 			if(abdlBabyPlayed) {
 				ClubCardPlayerAddMoney(CCPlayer, 3);
 			}
@@ -196,7 +197,8 @@ var ClubCardList = [
 		AfterOpponentTurnEnd: function(CCPlayer) {
 			const opponent = ClubCardGetOpponent(CCPlayer);
 
-			const abdlBabyPlayed = ClubCardGetCardsPlayedThisTurn(opponent).some(card => {
+			// Opponent will card is played on their turn before the turn counter was incremented and synced online
+			const abdlBabyPlayed = ClubCardGetCardsPlayedOnTurn(opponent, opponent.ClubCardTurnCounter -1).some(card => {
 				return card.Group?.includes("ABDLBaby");
 			});
 
@@ -798,7 +800,7 @@ var ClubCardList = [
 		MoneyPerTurn: 1,
 		BeforeOpponentTurnEnd: function(CCPlayer) {
 			let cardOwner = ClubCardGetOpponent(CCPlayer);
-			let playedAnEvent = ClubCardGetCardsPlayedThisTurn(CCPlayer).some(card => card.Type === "Event");
+			let playedAnEvent = ClubCardGetCardsPlayedOnTurn(CCPlayer, CCPlayer.ClubCardTurnCounter).some(card => card.Type === "Event");
 			if(!playedAnEvent) {
 				return;
 			}
@@ -815,7 +817,7 @@ var ClubCardList = [
 		RequiredLevel: 3,
 		Group: ["ABDLMommy"],
 		BeforeTurnEnd: function(CCPlayer) {
-			const abdlBabyPlayed = ClubCardGetCardsPlayedThisTurn(CCPlayer).some(card => {
+			const abdlBabyPlayed = ClubCardGetCardsPlayedOnTurn(CCPlayer, CCPlayer.ClubCardTurnCounter).some(card => {
 				return card.Group?.includes("ABDLBaby");
 			});
 
@@ -1694,10 +1696,11 @@ function ClubCardGetOpponent(CCPlayer = null) {
 /**
  * Gets the opponent of the parameter player or the player that's not on it's turn if null
  * @param {ClubCardPlayer} CCPlayer - The club card player or null
+ * @param {Number} turnCounter
  * @returns {ClubCard[]} - The opponent
  */
-function ClubCardGetCardsPlayedThisTurn(CCPlayer) {
-	return CCPlayer.CardsPlayedThisTurn[CCPlayer.ClubCardTurnCounter] ?? [];
+function ClubCardGetCardsPlayedOnTurn(CCPlayer, turnCounter) {
+	return CCPlayer.CardsPlayedThisTurn[turnCounter] ?? [];
 }
 
 /**
