@@ -1697,7 +1697,7 @@ function ClubCardGetOpponent(CCPlayer = null) {
  * @returns {ClubCard[]} - The opponent
  */
 function ClubCardGetCardsPlayedThisTurn(CCPlayer) {
-	return CCPlayer.CardsPlayedThisTurn[CCPlayer.ClubCardTurnCounter - 1] ?? [];
+	return CCPlayer.CardsPlayedThisTurn[CCPlayer.ClubCardTurnCounter] ?? [];
 }
 
 /**
