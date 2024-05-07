@@ -275,8 +275,8 @@ function VibratorModeCreateData(
 		scriptHooks: ExtendedItemParseScriptHooks(ScriptHooks || {}),
 		dialogPrefix: {
 			header: DialogPrefix.Header || VibratorModeDialogPrefix,
-			chat: DialogPrefix.Chat || "VibeMode",
-			option: DialogPrefix.Option || "",
+			chat: DialogPrefix.Chat || "VibeModeAction",
+			option: DialogPrefix.Option || "VibeMode",
 		},
 		chatSetting: "default",
 		baselineProperty: CommonIsObject(BaselineProperty) ? BaselineProperty : null,

@@ -9055,15 +9055,6 @@ var AssetFemale3DCGExtended = {
 				Validate: FuturisticAccessValidate,
 				ScriptDraw: AssetsItemVulvaFuturisticVibratorScriptDrawHook,
 			},
-			DialogPrefix: {
-				Header: (data, C, item) => {
-					const label = InterfaceTextGet("VibratorModeLabel");
-					const mode = InterfaceTextGet(
-						`VibratorMode${item.Property?.Mode ?? "Off"}`,
-					);
-					return `${label} ${mode}`;
-				},
-			},
 			BaselineProperty: {
 				AccessMode: "",
 				TriggerValues: CommonConvertArrayToString(
