@@ -18238,15 +18238,15 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DrawLocks: false,
 				DefaultColor: ["Default", "Default", "Default", "#8D8D8D"],
-				Left: 200,
-				Top: 410,
+				Left: 0,
+				Top: 460,
 				Layer: [
 					{ Name: "Base" },
 					{ Name: "Heart" },
 					{ Name: "Lock", LockLayer: true },
 					{ Name: "Shine"},
 				],
-			},
+			}, 
 		],
 		Color: [
 			"Default",
