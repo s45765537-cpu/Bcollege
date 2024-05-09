@@ -18011,6 +18011,26 @@ var AssetFemale3DCG = [
 				Layer: [{ Name: "CockRing", MirrorExpression: "Pussy" }],
 			},
 			{
+				Name: "LockingCockring",
+				Gender: "M",
+				Value: 10,
+				Left: 200,
+				Top: 465,
+				Prerequisite: ["AccessVulva", "HasPenis"],
+				AllowExpression: ["Hard"],
+				AllowLock: true,
+				Priority: 24,
+				PoseMapping: {
+					...AssetPoseMapping.ItemVulva,
+					Kneel: PoseType.DEFAULT,
+				},
+				Layer: [
+					{Name: "Base", MirrorExpression: "Pussy"},
+					{Name: "Front", MirrorExpression: "Pussy"},
+					{Name: "Pin", MirrorExpression: "Pussy"}
+				],
+			},
+			{
 				Name: "PlasticChastityCage1",
 				Gender: "M",
 				Prerequisite: [
