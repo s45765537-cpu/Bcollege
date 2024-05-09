@@ -11,11 +11,93 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2024-04-16
-* Last recorded PR: [#4972](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4972)
-* Last recorded commit hash: `a02a4dac47fd59d3e09c7429ae36ffe55580edcc`
+* Changelog last updated: 2024-05-09
+* Last recorded PR: [#5024](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5024)
+* Last recorded commit hash: `42d259a2141de297241a7abd4eaf5280510506c1`
 
 ## [Generated]
+
+## [R104]
+
+### [Changes]
+
+* Echovo - Added Yuletide Velvet Warmth, Nun Robes, Nun Veil, Leather Vest Suit, Bow Back Accessory, Fu and Paper bag ([#4955](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4955))
+* Rama - Add a proper layering sub screen ([#4984](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4984))
+* Rama - Change the MenuCut button to keep 20- or all current-room messages ([#4989](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4989))
+* Rama - Layering (and crafting) follow up ([#4992](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4992))
+* git4nick - New Pony Hurdles MapObject ([#4997](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4997))
+* Haruhi - Added HairFront57, HairBack62 and new option for Full Casing Cage ([#5000](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5000))
+* Rama - Move the dialog pagination buttons from the top bar to a new side bar ([#5003](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5003))
+* Rama - Let the input chat element respect the player's color theme ([#5004](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5004))
+* Rama - Add a pose menu to the shop ([#5005](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5005))
+* Haruhi - Added separate suspension pose assets to HairBack58, 58b and 62 ([#5006](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5006))
+* dDeepLb - Replace language button with dropdown box ([#5008](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5008))
+* dDeepLb - Admiral title by Min (128941) ([#5009](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5009))
+* dDeepLb - Ukrainian language ([#5010](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5010))
+* Rama - Minor layering and `number`-based input improvements ([#5013](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5013))
+* Haruhi - Added HairBack63 (Long Twin Braids) and Strict Pony Boots ([#5018](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5018))
+* Manilla - Dragon tail 2 ([#5017](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5017))
+* Arius - Latex Nulge ([#5015](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5015))
+* Manilla - Locking Cock ring ([#5024](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5024))
+* Ben987 - Bondage Brawl - Standalone Mode
+* Ben987 - Bondage Brawl - Standalone html
+* Ben987 - Remove the Bypass Struggle Minigame out of Roleplay Difficulty
+* Ben987 - Title Screen - Allow More Titles
+* Ben987 - Chat Room - Online Struggles
+* Ben987 - Online Struggles - Allow Loosen
+* Ben987 - Online Struggles - Facial Expression Random Animations
+* Ben987 - Online Struggles - Allow Others to Interrupt Struggles
+* Ben987 - Owner Rule - Allow to Change and Lock Nickname
+* Ben987 - Chat Room Maps - 4 New Floors + Rocks
+* Ben987 - Bondage Brawl - Desert Assets
+
+### [Fixes]
+
+* Estsanatlehi - Correct the regex that validate drawn colors ([#4975](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4975))
+* Estsanatlehi - Update the Cyberwings filenames to the new style ([#4976](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4976))
+* Rama - Relax the lip gag prerequisites ([#4977](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4977))
+* Rama - Fix the `PreserveChat` divider not showing in the chat log when switching... ([#4978](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4978))
+* EllieThePink - Fix the reported fame gain in club card ([#4980](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4980))
+* Estsanatlehi - Stop the AFK timer from popping up on login ([#4982](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4982))
+* Estsanatlehi - Fix CI ([#4983](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4983))
+* Estsanatlehi - Mark Eyes14 as Random: false because the way they get colored is wrong ([#4991](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4991))
+* Rama - BUG: Misc fixes ([#4990](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4990))
+* Rama - BUG: Fix font size units for the shop checkbox labels ([#4987](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4987))
+* u3shit - Infiltration cat burglar and maid painting mission unwinnable after kidnapping the guard ([#4985](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4985))
+* Rama - Remove the absolute width anti-padding of `ElementPosition` ([#4988](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4988))
+* Estsanatlehi - Respect the arousal affect expression setting when triggering stimulation events ([#4993](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4993))
+* Estsanatlehi - Fix a crash when grabbing the NPC owner name if it left the private room ([#4995](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4995))
+* Estsanatlehi - Fix a few broken asset/interface strings ([#4996](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4996))
+* Estsanatlehi - Make ungarbling automatic ([#4981](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4981))
+* Estsanatlehi - Fix a crash if one of the gamepads is a `null` ([#4998](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4998))
+* Estsanatlehi - Fix bug with range detection for whispers in the map view ([#4999](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4999))
+* u3shit - Limit FPS when BC window is not focused ([#5001](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5001))
+* Rama - Fix the color picker subscreen failing to set the initial color ([#5002](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5002))
+* dDeepLb - error when trying to use /attempt without arguments ([#5007](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5007))
+* Estsanatlehi - Fix a crash if something calls the show/hide elements function outside of a ChatRoom ([#5011](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5011))
+* Haruhi - Fix missing asset for StrictPonyBoots ([#5019](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5019))
+* Estsanatlehi - Fix broken options in the VibratorMode archetype ([#5014](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5014))
+* Manilla - Latex nulge fixing ([#5023](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5023))
+* Rama - Fix missing dialog keys ([#5022](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5022))
+* Ben987 - GGTS Chat Parsing for Garble and Stutter
+* Ben987 - Login button position & Disclaimer Text
+* Ben987 - Only Allow Layering for Self
+* Ben987 - IsLoverOfCharacter Crash
+* Ben987 - Missing Text in Difficulty0Text4
+
+### [Technical]
+
+* Rama - MAINT: Ensure that the pose function can better deal with unaided pose changes ([#4960](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4960))
+* Estsanatlehi - Use Canvas.save()/.restore() when drawing the back/next UI element ([#4968](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4968))
+* Rama - ENH: Ensure that `Asset.Visible` sets `Layer.HasImage` to false ([#4970](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4970))
+* Rama - TST: Fix `testAssetHasPNG` failing to honor `PoseType.HIDE` for extended items ([#4973](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4973))
+* Estsanatlehi - Split asset & interface strings from the player dialog ([#4974](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4974))
+* Estsanatlehi - Streamline owner, lover, and "family" checks ([#4979](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4979))
+* Estsanatlehi - If the character isn't an online character, don't bother sending the expression data ([#4994](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4994))
+* Estsanatlehi - Fix CI ([#5012](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5012))
+* Rama - Explicitly mention the .csv file names when an entry is missing ([#5021](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5021))
+* Ben987 - Data Compression - ArousalSettings - Fetish
+* Ben987 - Data Compression - ArousalSettings - Activity
 
 ## [R103]
 
