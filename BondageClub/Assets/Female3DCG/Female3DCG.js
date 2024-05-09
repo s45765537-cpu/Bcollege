@@ -13698,6 +13698,22 @@ var AssetFemale3DCG = [
 				Layer: [{ Name: "Primary" }, { Name: "Secondary" }],
 			},
 			{
+				Name: "DragonTailStrap2Left",
+				Fetish: ["Pet"],
+				BuyGroup: "DragonTail",
+				Value: 20,
+				Top: 465,
+				Layer: [{ Name: "Primary" }, { Name: "Secondary" }],
+			},
+			{
+				Name: "DragonTailStrap2Right",
+				Fetish: ["Pet"],
+				BuyGroup: "DragonTail",
+				Value: 20,
+				Top: 465,
+				Layer: [{ Name: "Primary" }, { Name: "Secondary" }],
+			},
+			{
 				Name: "Tentacles",
 				Category: ["Fantasy"],
 				BuyGroup: "Tentacles",
