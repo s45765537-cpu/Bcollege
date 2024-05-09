@@ -9088,6 +9088,9 @@ var AssetFemale3DCGExtended = {
 				Chat: "FullCasingCageSet",
 			},
 		}, //Full Casing Cage
+		LatexNulge: {
+            Archetype: ExtendedArchetype.VIBRATING,
+        }, // Latex Nulge
 	}, // ItemVulva
 	ItemVulvaPiercings: {
 		ClitRing: {
