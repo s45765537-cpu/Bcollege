@@ -547,17 +547,22 @@ function CraftingModeSet(NewMode) {
 		document.getElementById("InputDescription").addEventListener('keyup', CraftingKeyUp);
 		ElementCreateInput("InputColor", "text", "", "500");
 		document.getElementById("InputColor").addEventListener('keyup', CraftingKeyUp);
-		ElementCreateInput("InputPriority", "number", "", "20");
-		document.getElementById("InputPriority").addEventListener('input', CraftingKeyUp);
+
+		let priorityDefault = "";
+		let priority = "";
+		if (CraftingSelectedItem.Asset != null) {
+			priorityDefault = AssetLayerSort([...CraftingSelectedItem.Asset.Layer])[0].Priority.toString();
+			priority = (typeof CraftingSelectedItem.OverridePriority !== "number") ? priorityDefault : CraftingSelectedItem.OverridePriority.toString();
+		}
+		const priorityInput = ElementCreateInput("InputPriority", "number", priorityDefault, "20");
+		priorityInput.addEventListener("input", CraftingKeyUp);
+		priorityInput.value = priority;
+		priorityInput.max = "99";
+		priorityInput.min = "-99";
 
 		ElementValue("InputName", CraftingSelectedItem.Name || "");
 		ElementValue("InputDescription", CraftingSelectedItem.Description || "");
 		ElementValue("InputColor", CraftingSelectedItem.Color || "Default");
-		ElementValue(
-			"InputPriority",
-			(CraftingSelectedItem.Asset == null) ? "" :
-				(typeof CraftingSelectedItem.OverridePriority !== "number") ? AssetLayerSort([...CraftingSelectedItem.Asset.Layer])[0].Priority.toString() : CraftingSelectedItem.OverridePriority.toString(),
-		);
 		CraftingUpdatePreview();
 	} else {
 		ElementRemove("InputName");
@@ -569,9 +574,10 @@ function CraftingModeSet(NewMode) {
 
 /**
  * When the color or type field is updated manually, we update the preview image
+ * @param {Event} ev
  * @returns {void} - Nothing
  */
-function CraftingKeyUp() {
+function CraftingKeyUp(ev) {
 	let do_update = false;
 
 	//if (CraftingMode == "Color") CraftingSelectedItem.Color = ElementValue("InputColor");
@@ -585,7 +591,7 @@ function CraftingKeyUp() {
 	}
 	if (document.getElementById("InputPriority") != null) {
 		const prev = CraftingSelectedItem.OverridePriority;
-		CraftingSelectedItem.OverridePriority = CraftingParsePriorityElement();
+		CraftingSelectedItem.OverridePriority = CraftingParsePriorityElement(ev);
 		if (CraftingSelectedItem.OverridePriority !== prev)
 			do_update = true;
 	}
@@ -595,20 +601,12 @@ function CraftingKeyUp() {
 
 /**
  * Helper function for parsing the `InputPriority` HTML element.
- * @returns {number | null}
+ * @param {Event} ev
+ * @returns {number | undefined}
  */
-function CraftingParsePriorityElement() {
-	const DrawingPriority = Number.parseInt(ElementValue("InputPriority"));
-	const InitialPriority = AssetLayerSort([...CraftingSelectedItem.Asset.Layer])[0].Priority;
-
-	// Treat the initial priority as equivalent to null if `OverridePriority` has not been set yet
-	if (InitialPriority === DrawingPriority && typeof CraftingSelectedItem.OverridePriority !== "number") {
-		return null;
-	} else if (!Number.isNaN(DrawingPriority)) {
-		return DrawingPriority;
-	} else {
-		return null;
-	}
+function CraftingParsePriorityElement(ev) {
+	const elem = /** @type {HTMLInputElement} */(ev.target);
+	return (elem.defaultValue !== elem.value && !Number.isNaN(elem.valueAsNumber)) ? elem.valueAsNumber : undefined;
 }
 
 /**

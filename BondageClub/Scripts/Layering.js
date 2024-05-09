@@ -152,9 +152,9 @@ var Layering = {
 		this.OverridePriority = {};
 		const layerElements = /** @type {NodeListOf<HTMLInputElement>} */(document.querySelectorAll("[data-layer-priority]"));
 		layerElements.forEach(e => {
-			const integer = Number.parseInt(e.value, 10);
-			if (!Number.isNaN(integer) && e.value !== e.dataset.layerPriority) {
-				this.OverridePriority[e.dataset.name] = CommonClamp(integer, -99, 99);
+			const value = e.valueAsNumber;
+			if (!Number.isNaN(value) && value.toString() !== e.dataset.layerPriority) {
+				this.OverridePriority[e.dataset.name] = CommonClamp(Math.round(value), -99, 99);
 			}
 		});
 	},
@@ -162,7 +162,7 @@ var Layering = {
 	/**
 	 * @private
 	 * @param {string} name - The name of the layer
-	 * @param {string} priority - The stringified layer priority
+	 * @param {number} priority - The stringified layer priority
 	 * @param {string} defaultPriority - The stringified default priority of the layer
 	 */
 	_ApplyLayerPriority(name, priority, defaultPriority) {
@@ -172,21 +172,20 @@ var Layering = {
 			this._InitOverridePriorityObject();
 		}
 
-		const integer = Number.parseInt(priority, 10);
-		if (!Number.isNaN(integer) && priority !== defaultPriority) {
-			this.OverridePriority[name] = CommonClamp(integer, -99, 99);
+		if (!Number.isNaN(priority) && priority.toString() !== defaultPriority) {
+			this.OverridePriority[name] = CommonClamp(priority, -99, 99);
 		} else {
 			delete this.OverridePriority[name];
 		}
 
 		if (old !== this.OverridePriority[name]) {
-			CharacterRefresh(this.Character, false, false);
+			this._CharacterRefresh(this.Character, false, false);
 		}
 	},
 
 	/**
 	 * @private
-	 * @param {string} priority - The stringified layer priority
+	 * @param {number} priority - The layer priority
 	 * @param {string} defaultPriority - The stringified default priority of the layer
 	 */
 	_ApplyAssetPriority(priority, defaultPriority) {
@@ -195,15 +194,14 @@ var Layering = {
 			this._UpdateInputColors("asset-priority");
 		}
 
-		const integer = Number.parseInt(priority, 10);
-		if (!Number.isNaN(integer) && priority !== defaultPriority) {
-			this.OverridePriority = CommonClamp(integer, -99, 99);
+		if (!Number.isNaN(priority) && priority.toString() !== defaultPriority) {
+			this.OverridePriority = CommonClamp(Math.round(priority), -99, 99);
 		} else {
 			delete this.OverridePriority;
 		}
 
 		if (old !== this.OverridePriority) {
-			CharacterRefresh(this.Character, false, false);
+			this._CharacterRefresh(this.Character, false, false);
 		}
 	},
 
@@ -214,7 +212,7 @@ var Layering = {
 	 */
 	_LayerInputListener(event) {
 		const target = /** @type {HTMLInputElement} */(event.target);
-		this._ApplyLayerPriority(target.dataset.name, target.value, target.dataset.layerPriority );
+		this._ApplyLayerPriority(target.dataset.name, target.valueAsNumber, target.dataset.layerPriority);
 	},
 
 	/**
@@ -224,7 +222,7 @@ var Layering = {
 	 */
 	_AssetInputListener(event) {
 		const target = /** @type {HTMLInputElement} */(event.target);
-		this._ApplyAssetPriority(target.value, target.dataset["asset-priority"]);
+		this._ApplyAssetPriority(target.valueAsNumber, target.dataset["asset-priority"]);
 	},
 
 	/**
@@ -237,9 +235,15 @@ var Layering = {
 		if (Number.isNaN(elem.valueAsNumber)) {
 			elem.value = elem.defaultValue;
 		} else {
-			elem.value = CommonClamp(elem.valueAsNumber, -99, 99).toString();
+			elem.value = CommonClamp(Math.round(elem.valueAsNumber), -99, 99).toString();
 		}
 	},
+
+	/**
+	 * A limited version of {@link CharacterRefresh}
+	 * @private
+	 */
+	_CharacterRefresh: CommonLimitFunction(CharacterRefresh, 100, 100),
 
 	/**
 	 * Event listener for `click` events of the reset button
@@ -254,7 +258,7 @@ var Layering = {
 		const assetElements = /** @type {NodeListOf<HTMLInputElement>} */(document.querySelectorAll("[data-asset-priority]"));
 		assetElements.forEach(e => e.value = e.dataset.assetPriority);
 
-		CharacterRefresh(this.Character, false, false);
+		this._CharacterRefresh(this.Character, false, false);
 	},
 
 	/**
@@ -324,6 +328,7 @@ var Layering = {
 	 * @param {null | Partial<LayeringDisplay>} display - The shape of the layering subscreen
 	 * @param {boolean} reload - Whether we're loading or reloading the screen.
 	 * A reload pushes any current changes towards the server and reinitializes all DOM elements.
+	 * @returns {HTMLDivElement} The div containing the layering subscreen
 	 */
 	Init(item, character, display=null, reload=false) {
 		if (this.IsActive()) {
@@ -331,7 +336,7 @@ var Layering = {
 				this.Exit(true);
 			} else {
 				console.error('Layering screen is already active; re-initialization requires passing the "reload" parameter');
-				return;
+				return /** @type {HTMLDivElement} */(document.getElementById(this.ID.root));
 			}
 		}
 
@@ -344,6 +349,7 @@ var Layering = {
 		};
 
 		this.Load();
+		return /** @type {HTMLDivElement} */(document.getElementById(this.ID.root));
 	},
 
 	/** @type {ScreenFunctions["Load"]} */
@@ -396,7 +402,7 @@ var Layering = {
 				</div>
 			</div>
 			<div class=layering-pair id=${this.ID.assetGrid}>
-				<input type=number data-asset-priority=${defaultItemPriority} min=-99 max=99 value=${itemPriority} />
+				<input type=number data-asset-priority=${defaultItemPriority} min=-99 max=99 value=${itemPriority} inputmode="numeric" />
 				<span class=layering-pair-text>${this.Asset.Description}</span>
 			</div>
 			<h1 id=${this.ID.layerHeader}>${InterfaceTextGet("LayeringLayer")}</h1>

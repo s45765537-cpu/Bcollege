@@ -963,7 +963,7 @@ var ServerAccountDataSyncedValidate = {
 				continue;
 			}
 			if (Name.startsWith("NPC-")) {
-				// @ts-expect-error NPC lovers only have the name; the rest is in their .Event and/or the player's Log
+				// NPC lovers only have the name; the rest is in their .Event and/or the player's Log
 				ret.push({ Name });
 			} else if (
 				typeof Name === "string"

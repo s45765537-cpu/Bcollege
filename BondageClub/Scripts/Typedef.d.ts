@@ -426,7 +426,7 @@ type TitleName =
 	"MagicSchoolMagician" | "MagicSchoolSorcerer" | "MagicSchoolSage" | "MagicSchoolOracle" |
 	"MagicSchoolWitch" | "MagicSchoolWarlock" | "Duchess" | "Duke" | "LittleOne" | "Baby" | "DL" |
 	"BondageBaby" | "Switch" | "Princess" |	"Prince" | "Liege" | "Majesty" | "Missy" | "Sissy" | "Tomboy" | "Femboy" | "GoodOne" |
-	"Pet" |	"Brat" | "Kitten" | "Puppy" | "Foxy" | "Bunny" | "Doll" | "Demon" | "Angel" | "Alien" | "Captain" |
+	"Pet" |	"Brat" | "Kitten" | "Puppy" | "Foxy" | "Bunny" | "Doll" | "Demon" | "Angel" | "Alien" | "Captain" | "Admiral" |
 	"Succubus" | "Incubus" | "Concubus" | "GoodGirl" | "GoodBoy" | "GoodSlaveGirl" | "GoodSlaveBoy" | "GoodSlave" | "Drone"
 	;
 
@@ -993,6 +993,7 @@ type ActivityPrerequisite =
 
 interface Activity {
 	Name: ActivityName;
+	ActivityID: number,
 	MaxProgress: number;
 	MaxProgressSelf?: number;
 	Prerequisite: ActivityPrerequisite[];
@@ -1379,8 +1380,8 @@ interface Character {
 	OwnerNumber: () => number;
 	/** Whether the player owns that character */
 	IsOwnedByPlayer: () => boolean;
-	/** The number of days since the character has been owned */
-	OwnedSince: () => number | false;
+	/** The number of days since the character has been owned (-1 means not owned) */
+	OwnedSince: () => number;
 	/** Whether the given character owns the player */
 	IsOwner: () => boolean;
 	IsKneeling: () => boolean;
@@ -3862,10 +3863,9 @@ interface ArousalSettingsType {
 	ProgressTimer: number;
 	VibratorLevel: 0 | 1 | 2 | 3 | 4;
 	ChangeTime: number;
-	Activity: ActivityEnjoyment[];
-	//Zone: ArousalZone[];
+	Activity: string;
 	Zone: string;
-	Fetish: ArousalFetish[];
+	Fetish: string;
 	OrgasmTimer?: number;
 	OrgasmStage?: 0 | 1 | 2;
 	OrgasmCount?: number;

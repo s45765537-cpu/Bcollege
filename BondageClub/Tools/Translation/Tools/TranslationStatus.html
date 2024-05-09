@@ -64,6 +64,17 @@
 	.Status.Info {
 		background-color: #00f;
 	}
+
+	#header {
+		position: sticky;
+		top: 0;
+		background-color: inherit;
+		width: 100%;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		display: flex;
+		justify-content: space-between;
+	}
 </style>
 
 <script src="../../../Scripts/Common.js"></script>
@@ -84,9 +95,27 @@ window.onload = function() {
 	TestCanvas = document.createElement("canvas").getContext("2d");
 	TestCanvas.font = CommonGetFont(36);
 
+	const selectedLanguageOption = document.getElementById('selected-language');
+	selectedLanguageOption.addEventListener('change', function() {
+		localStorage.setItem('selected-language', this.value);
+		location.reload();
+	})
 	for (var L = 0; L < TranslationDictionary.length; L++) {
 		var Language = TranslationDictionary[L];
 		if (Language.LanguageCode === "EN") continue;
+
+		let languageOption = document.createElement('option');
+		languageOption.text = Language.EnglishName + ' (' + Language.LanguageName + ')';
+		languageOption.value = Language.EnglishName;
+		selectedLanguageOption.appendChild(languageOption);
+	}
+	selectedLanguageOption.value = localStorage.getItem('selected-language');
+
+	const selectedLanguage = TranslationDictionary.find(i => i.EnglishName === localStorage.getItem('selected-language'))
+
+	for (var L = 0; L < TranslationDictionary.length; L++) {
+		var Language = TranslationDictionary[L];
+		if (Language.LanguageCode !== selectedLanguage.LanguageCode) continue;
 
 		CreateLanguageReport(Language);
 	}
@@ -356,6 +385,10 @@ function AddNodeWithText(Parent, Tag, Text, AllowHTML) {
 </head>
 
 <body>
+	<header id="header">
+		<a href="GenerateTranslationTemplate.html">Translation Template Generator</a>
+		<select id="selected-language"></select>
+	</header>
 	<h1>Bondage Club Translation Status Report</h1>
 	<p>This tool processes all translation files that are currently referenced inside Translation.js. Its main purpose is to check if all translation files are up to date and if there are any potential problems. If a status displays something other than &quot;OK&quot;, click the &quot;View Details&quot; button to learn more.</p>
 	<p>Please note that this tool isn't perfect and is supposed to merely assist the translation process by offering suggestions. Some of the reports may be false alarms, so please use your own judgement to decide if they need to be addressed. Also note that length checking only occurs for &quot;Dialog&quot; files.</p>

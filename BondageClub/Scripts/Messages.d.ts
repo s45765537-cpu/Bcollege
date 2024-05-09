@@ -184,7 +184,7 @@ interface ServerPrivateCharacterData {
 type ServerAppearanceBundle = ServerItemBundle[];
 
 type ServerChatRoomSpace = "X" | "" | "M" | "Asylum";
-type ServerChatRoomLanguage = "EN" | "DE" | "FR" | "ES" | "CN" | "RU";
+type ServerChatRoomLanguage = "EN" | "DE" | "FR" | "ES" | "CN" | "RU" | "UA";
 type ServerChatRoomGame = "" | "ClubCard" | "LARP" | "MagicBattle" | "GGTS";
 type ServerChatRoomBlockCategory =
 	/** Those are known as AssetCategory to the client */
