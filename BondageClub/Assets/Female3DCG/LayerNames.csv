@@ -353,6 +353,10 @@ HairBackHairBack61FrontRight,Right
 HairBackHairBack61FrontLeft,Left
 HairBackHairBack62Braid,Braid
 HairBackHairBack62Ribbon,Ribbon
+HairBackHairBack63Braid,Left
+HairBackHairBack63BraidRight,Right
+HairBackHairBack63Band,Scrunchies
+HairBackHairBack63Ribbon,Ribbons
 HairFrontHairFront22Base, Base
 HairFrontHairFront22bBase, Base
 HairFrontHairFront22bFluff, Fluff
@@ -661,6 +665,14 @@ ItemBootsSlimeTwo,Color 2
 ItemBootsTormentHeelsHeels,Heels
 ItemBootsTormentHeelsBelts,Belts
 ItemBootsTormentHeelsLock,Padlocks
+ItemBootsStrictPonyBootsBaseBoots,Boots
+ItemBootsStrictPonyBootsBase,Main
+ItemBootsStrictPonyBootsShineBoots,Shine
+ItemBootsStrictPonyBootsCuffs,Cuffs
+ItemBootsStrictPonyBootsHooves,Hooves
+ItemBootsStrictPonyBootsStraps,Straps
+ItemBootsStrictPonyBootsStrapsLower,Straps Base
+ItemBootsStrictPonyBootsOutlineBoots,Outline
 ItemBreastForbiddenChastityBraBra,Bra
 ItemBreastForbiddenChastityBraDetail,Detail
 ItemBreastForbiddenChastityBraMetal,Metal

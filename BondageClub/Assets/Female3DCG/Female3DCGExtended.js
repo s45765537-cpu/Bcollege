@@ -8805,6 +8805,11 @@ var AssetFemale3DCGExtended = {
 			],
 			ChangeWhenLocked: false,
 		}, // TormentHeels
+		StrictPonyBoots: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Base" }, { Name: "BootsOnly" }],
+		}, // StrictPonyBoots
 	}, // ItemBoots
 	ItemVulva: {
 		ClitSuctionCup: {
@@ -9918,6 +9923,14 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // StilettoHeels
+		StrictPonyBoots: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			CopyConfig: {
+				GroupName: "ItemBoots",
+				AssetName: "StrictPonyBoots"
+			}
+		},
 	}, // Shoes
 	HairAccessory1: {
 		ElfEars: {
