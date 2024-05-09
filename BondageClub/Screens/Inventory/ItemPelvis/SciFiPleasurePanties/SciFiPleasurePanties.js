@@ -11,15 +11,16 @@ function InventoryItemPelvisSciFiPleasurePantiesDrawHook(Data, OriginalFunction)
 		const IntensitySuffix = (OrgasmLock === "o0") ? "" : ` (${AssetTextGet(`${Data.dialogPrefix.option}${OrgasmLock}`)})`;
 
 		// Display option information
+		MainCanvas.save();
 		MainCanvas.textAlign = "right";
-		DrawText(AssetTextGet("CrotchShield"), 1500, 625, "White", "Gray");
-		DrawText(AssetTextGet("Intensity"), 1500, 700, "White", "Gray");
-		DrawText(AssetTextGet("ShockLevel"), 1500, 775, "White", "Gray");
+		DrawText(AssetTextGet(`${Data.dialogPrefix.module}CrotchShield`) + ":", 1500, 625, "White", "Gray");
+		DrawText(AssetTextGet(`${Data.dialogPrefix.module}Intensity`) + ":", 1500, 700, "White", "Gray");
+		DrawText(AssetTextGet(`${Data.dialogPrefix.module}ShockLevel`) + ":", 1500, 775, "White", "Gray");
 		MainCanvas.textAlign = "left";
 		DrawText(AssetTextGet(`${Data.dialogPrefix.option}${CrotchShield}`), 1510, 625, "White", "Gray");
 		DrawText(AssetTextGet(`${Data.dialogPrefix.option}${Intensity}`) + IntensitySuffix, 1510, 700, "White", "Gray");
 		DrawText(AssetTextGet(`${Data.dialogPrefix.option}${ShockLevel}`), 1510, 775, "White", "Gray");
-		MainCanvas.textAlign = "center";
+		MainCanvas.restore();
 
 		// Display the ShowText checkbox
 		ExtendedItemDrawCheckbox("ShowText", 1175, 743, DialogFocusItem.Property.ShowText, { changeWhenLocked: false });

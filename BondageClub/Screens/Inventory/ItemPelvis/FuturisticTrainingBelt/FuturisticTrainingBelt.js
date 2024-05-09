@@ -112,8 +112,7 @@ function InventoryItemPelvisFuturisticTrainingBeltDrawHook(data, originalFunctio
 		// Draw the back/next button
 		const currPage = FuturisticTrainingBeltPage + 1;
 		const totalPages = FuturisticTrainingBeltMaxPage + 1;
-		DrawBackNextButton(1675, 240, 300, 90, AssetTextGet("Page") + " " + currPage.toString() + " / " + totalPages.toString(), "White", "", () => "", () => "");
-
+		DrawBackNextButton(1675, 240, 300, 90, AssetTextGet("FuturisticTrainingBeltPage") + " " + currPage.toString() + " / " + totalPages.toString(), "White", "", () => "", () => "");
 		canViewMode = true;
 	}
 

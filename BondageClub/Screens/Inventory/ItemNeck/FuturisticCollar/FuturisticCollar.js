@@ -111,7 +111,7 @@ function InventoryItemNeckFuturisticCollarDrawHook(data, originalFunction) {
 	// Draw the back/next button
 	const currPage = FuturisticCollarPage + 1;
 	const totalPages = FuturisticCollarMaxPage + 1;
-	DrawBackNextButton(1675, 240, 300, 90, AssetTextGet("Page") + " " + currPage.toString() + " / " + totalPages.toString(), "White", "", () => "", () => "");
+	DrawBackNextButton(1675, 240, 300, 90, AssetTextGet("FuturisticCollarPage") + " " + currPage.toString() + " / " + totalPages.toString(), "White", "", () => "", () => "");
 }
 
 /** @type {ExtendedItemScriptHookCallbacks.Exit<NoArchItemData>} */

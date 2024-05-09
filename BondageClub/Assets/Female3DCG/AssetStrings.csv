@@ -805,7 +805,7 @@ EggVibePlugXXLIncreaseTo1,DestinationCharacterName vibrating XXL egg builds up t
 EggVibePlugXXLIncreaseTo2,DestinationCharacterName vibrating XXL egg starts buzzing strongly!
 EggVibePlugXXLIncreaseTo3,DestinationCharacterName vibrating XXL egg starts buzzing relentlessly!
 ElectronicTagBadLock,This person is locked by different people
-ElectronicTagGoodLock,This person is fully locked by: 
+ElectronicTagGoodLock,This person is fully locked by:
 ElectronicTagGoodLockYou,This person is fully locked by you
 Empty,Empty
 EnableRandomInput,Enable random input of time from everyone else
@@ -899,6 +899,7 @@ FuturisticCollarOptionsLockout,Collar settings are locked
 FuturisticCollarOptionsNoItems,No Futuristic Items Worn
 FuturisticCollarOptionsNoLocks,Unlocked
 FuturisticCollarOptionsPartialLocks,Partially Locked
+FuturisticCollarPage,Page
 FuturisticCollarPassword,Code:
 FuturisticCollarSetBlockRemotesOff,DestinationCharacterName vibrator remotes are now unlocked.
 FuturisticCollarSetBlockRemotesOn,DestinationCharacterName vibrator remotes are now locked.
@@ -938,7 +939,7 @@ FuturisticStraitjacketTypeHandsBack,Hands behind
 FuturisticStraitjacketTypeHandsBackChastity,Hands behind + chasity
 FuturisticStraitjacketTypeHandsFront,Hands in front
 FuturisticStraitjacketTypeHandsFrontChastity,Hands in front + chastity
-FuturisticTrainingBeltMode,Current Public Mode: 
+FuturisticTrainingBeltMode,Current Public Mode:
 FuturisticTrainingBeltMode0,None
 FuturisticTrainingBeltMode1,Low
 FuturisticTrainingBeltMode2,Medium
@@ -948,21 +949,22 @@ FuturisticTrainingBeltMode5,Random Teasing
 FuturisticTrainingBeltMode6,Random Orgasms
 FuturisticTrainingBeltOrgasmEdged,The plugs cease abruptly as you are about to go over the edge.
 FuturisticTrainingBeltOrgasmEdgedTimeout,The plugs bring you so close to release... before turning off suddenly.
+FuturisticTrainingBeltPage,Page
 FuturisticTrainingBeltPermissions,Public Mode Permission:
 FuturisticTrainingBeltPermissions0,Public
 FuturisticTrainingBeltPermissions1,Club Mistresses
 FuturisticTrainingBeltPermissions2,Locked
-FuturisticTrainingBeltPunishProhibitedSpeech,Punishment for banned words: 
+FuturisticTrainingBeltPunishProhibitedSpeech,Punishment for banned words:
 FuturisticTrainingBeltPunishProhibitedSpeech0,None
 FuturisticTrainingBeltPunishProhibitedSpeech1,Shock
 FuturisticTrainingBeltPunishProhibitedSpeech2,Edge for 5m
 FuturisticTrainingBeltPunishProhibitedSpeech3,Vibe for 5m
-FuturisticTrainingBeltPunishRequiredSpeech,Punishment for not saying word: 
+FuturisticTrainingBeltPunishRequiredSpeech,Punishment for not saying word:
 FuturisticTrainingBeltPunishRequiredSpeech0,None
 FuturisticTrainingBeltPunishRequiredSpeech1,Shock
 FuturisticTrainingBeltPunishRequiredSpeech2,Edge for 5m
 FuturisticTrainingBeltPunishRequiredSpeech3,Vibe for 5m
-FuturisticTrainingBeltPunishSpeech,Punishment for speaking too much: 
+FuturisticTrainingBeltPunishSpeech,Punishment for speaking too much:
 FuturisticTrainingBeltPunishSpeech0,None
 FuturisticTrainingBeltPunishSpeech1,Shock
 FuturisticTrainingBeltPunishSpeech2,Edge for 5m
@@ -1165,9 +1167,9 @@ GwenHoodChangeStyleHairInAccOut,SourceCharacter changes the style of Destination
 GwenHoodChangeStyleHairOutAccIn,SourceCharacter changes the style of DestinationCharacter gwen hood.
 GwenHoodChangeStyleHairOutAccOut,SourceCharacter changes the style of DestinationCharacter gwen hood.
 GwenHoodSelectStyle,Select hood style
-GwenHoodStyleHairInAccIn, Hair in & Accessories in 
-GwenHoodStyleHairInAccOut, Hair in & Accessories out 
-GwenHoodStyleHairOutAccIn, Hair out & Accessories in 
+GwenHoodStyleHairInAccIn, Hair in & Accessories in
+GwenHoodStyleHairInAccOut, Hair in & Accessories out
+GwenHoodStyleHairOutAccIn, Hair out & Accessories in
 GwenHoodStyleHairOutAccOut,Hair out & Accessories out
 HairAccessory1ElfEarsBehind,Behind hair
 HairAccessory1ElfEarsInFront,In front of hair
@@ -2281,8 +2283,8 @@ ItemHeadDuctTapeMummy,Mummy
 ItemHeadDuctTapeOpen,Open Mummy
 ItemHeadDuctTapeSelect,Select tape style
 ItemHeadDuctTapeSetDouble,SourceCharacter takes a piece of duct tape for TargetCharacter and places it on TargetPronounPossessive face.
-ItemHeadDuctTapeSetMummy,SourceCharacter wraps DestinationCharacter head in tape with multiple layers. 
-ItemHeadDuctTapeSetOpen,SourceCharacter wraps DestinationCharacter head in tape with the eyes free. 
+ItemHeadDuctTapeSetMummy,SourceCharacter wraps DestinationCharacter head in tape with multiple layers.
+ItemHeadDuctTapeSetOpen,SourceCharacter wraps DestinationCharacter head in tape with the eyes free.
 ItemHeadDuctTapeSetWrap,SourceCharacter wraps some duct tape onto DestinationCharacter face.
 ItemHeadDuctTapeWrap,Wrap
 ItemHeadInteractiveVisorSetBlind,SourceCharacter configures DestinationCharacter visor to be fully opaque.
@@ -4480,6 +4482,7 @@ OnlineBountySuitcaseOngoing,SourceCharacter's suitcase will be open in TIMEREMAI
 OnlineBountySuitcaseOngoingOpened,SourceCharacter's data will be ready in TIMEREMAINING minutes. Make sure PronounSubject is secure until then!
 OnlineBountySuitcaseStart,SourceCharacter starts unlocking DestinationCharacterName suitcase! PronounSubject will finish in 5 minutes.
 OnlineBountySuitcaseStartOpened,SourceCharacter starts stealing more data from DestinationCharacterName laptop! PronounSubject will finish in 5 minutes.
+OpacityLabel,Change Opacity
 OpenFaceHoodStyleHideBackHair,Hair in
 OpenFaceHoodStyleShowBackHair,Hair out
 OrgasmCountReset,SourceCharacter resets DestinationCharacter AssetName orgasms count.
@@ -4531,7 +4534,7 @@ PasswordPadlockEnter,Open lock
 PasswordPadlockError,Wrong password
 PasswordPadlockErrorInput,Password must be 8 or fewer letters only
 PasswordPadlockOld,Enter Password :
-PasswordPadlockRemoveOnUnlock,Remove on Unlock: 
+PasswordPadlockRemoveOnUnlock,Remove on Unlock:
 PasswordPadlockSetHint,Set hint text:
 PasswordPadlockSetPassword,Set password:
 PelvisRibbonsSetBowWrap,SourceCharacter uses some ribbons to tie a crotch tie on DestinationCharacter.
