@@ -816,7 +816,7 @@ var ClubCardList = [
 		FamePerTurn: 2,
 		RequiredLevel: 3,
 		Group: ["ABDLMommy"],
-		BeforeTurnEnd: function(CCPlayer) {
+		AfterTurnEnd: function(CCPlayer) {
 			const abdlBabyPlayed = ClubCardGetCardsPlayedOnTurn(CCPlayer, CCPlayer.ClubCardTurnCounter).some(card => {
 				return card.Group?.includes("ABDLBaby");
 			});
