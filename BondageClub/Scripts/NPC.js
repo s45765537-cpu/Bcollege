@@ -139,8 +139,8 @@ function NPCArousal(C) {
 
 	// Rebuilds the activtities if needed
 	if ((C.ArousalSettings.Activity == null) || (typeof C.ArousalSettings.Activity !== "string") || (C.ArousalSettings.Activity.length != PreferenceArousalActivityDefaultCompressedString.length)) {
-		
-		// Resets the activities 
+
+		// Resets the activities
 		C.ArousalSettings.Activity = PreferenceArousalActivityDefaultCompressedString;
 		var Dominant = NPCTraitGet(C, "Dominant");
 		var Horny = NPCTraitGet(C, "Horny");
@@ -179,10 +179,10 @@ function NPCArousal(C) {
 	// Rebuilds the fetishes if needed
 	if ((C.ArousalSettings.Fetish == null) || (typeof C.ArousalSettings.Fetish !== "string") || (C.ArousalSettings.Fetish.length != PreferenceArousalFetishDefaultCompressedString.length))
 		C.ArousalSettings.Fetish = PreferenceArousalFetishDefaultCompressedString;
-		
+
 	// Rebuilds the zones if needed
 	if ((C.ArousalSettings.Zone == null) || (typeof C.ArousalSettings.Zone !== "string") || (C.ArousalSettings.Zone.length != PreferenceArousalZoneDefaultCompressedString.length)) {
-		
+
 		// Sets the default zone first
 		C.ArousalSettings.Zone = PreferenceArousalZoneDefaultCompressedString;
 

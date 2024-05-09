@@ -9381,7 +9381,7 @@ var AssetFemale3DCG = [
 					AssetName: "StrictPonyBoots",
 					BuyGroup: true,
 				},
-			}
+			},
 		],
 		Color: [
 			"Default",
@@ -15372,40 +15372,41 @@ var AssetFemale3DCG = [
 						},
 					},
 				],
-			},			{
+			},
+			{
 				Name: "HairBack63",
 				Top: {
 					[PoseType.DEFAULT]: 0,
-					Suspension: -545
+					Suspension: -545,
 				},
 				Left: {
 					[PoseType.DEFAULT]: 50,
-					Suspension: 54
+					Suspension: 54,
 				},
 				Layer: [
 					{
 						Name: "Braid",
 						PoseMapping: {
 							Suspension: "Suspension",
-						}
+						},
 					},
 					{
 						Name: "BraidRight",
 						PoseMapping: {
 							Suspension: "Suspension",
-						}
+						},
 					},
 					{
 						Name: "Band",
 						PoseMapping: {
 							Suspension: "Suspension",
-						}
+						},
 					},
 					{
 						Name: "Ribbon",
 						PoseMapping: {
 							Suspension: "Suspension",
-						}
+						},
 					},
 				],
 			},
@@ -18305,9 +18306,9 @@ var AssetFemale3DCG = [
 					{ Name: "Base" },
 					{ Name: "Heart" },
 					{ Name: "Lock", LockLayer: true },
-					{ Name: "Shine"},
+					{ Name: "Shine" },
 				],
-			}, 
+			},
 		],
 		Color: [
 			"Default",
@@ -44638,7 +44639,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "StrictPonyBoots",
-				Fetish: ["Latex","Leather", "Pony"],
+				Fetish: ["Latex", "Leather", "Pony"],
 				BuyGroup: "StrictPonyBoots",
 				Value: 75,
 				Difficulty: 6,
@@ -44650,11 +44651,11 @@ var AssetFemale3DCG = [
 					[PoseType.DEFAULT]: 460,
 					BaseLower: 470,
 					Kneel: 462,
-					KneelingSpread: 500
+					KneelingSpread: 500,
 				},
 				Left: {
 					[PoseType.DEFAULT]: 0,
-					KneelingSpread: 65
+					KneelingSpread: 65,
 				},
 				Height: 25,
 				PoseMapping: {
@@ -44666,13 +44667,22 @@ var AssetFemale3DCG = [
 					KneelingSpread: "KneelingSpread",
 				},
 				Extended: true,
-				DefaultColor: ["#0B0B0B","#0B0B0B","Default","#760000","#0B0B0B","Default","Default","#000000"],
+				DefaultColor: [
+					"#0B0B0B",
+					"#0B0B0B",
+					"Default",
+					"#760000",
+					"#0B0B0B",
+					"Default",
+					"Default",
+					"#000000",
+				],
 				DrawLocks: false,
 				Layer: [
 					{
 						Name: "Base",
 						AllowColorize: true,
-						AllowTypes: { typed: 0 }
+						AllowTypes: { typed: 0 },
 					},
 					{
 						Name: "BaseBoots",
@@ -44699,12 +44709,12 @@ var AssetFemale3DCG = [
 					{
 						Name: "StrapsLower",
 						AllowColorize: true,
-						AllowTypes: { typed: 0 }
+						AllowTypes: { typed: 0 },
 					},
 					{
 						Name: "Straps",
 						AllowColorize: true,
-						AllowTypes: { typed: 0 }
+						AllowTypes: { typed: 0 },
 					},
 					{
 						Name: "ShineBoots",
@@ -44721,7 +44731,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Shine",
 						CopyLayerColor: "ShineBoots",
-						AllowTypes: { typed: 0 }
+						AllowTypes: { typed: 0 },
 					},
 					{
 						Name: "Hooves",
@@ -44743,12 +44753,12 @@ var AssetFemale3DCG = [
 							Kneel: PoseType.HIDE,
 							KneelingSpread: PoseType.HIDE,
 							Hogtied: PoseType.HIDE,
-						}
+						},
 					},
 					{
 						Name: "Outline",
 						CopyLayerColor: "OutlineBoots",
-						AllowTypes: { typed: 0 }
+						AllowTypes: { typed: 0 },
 					},
 					{
 						Name: "Locks",
@@ -44761,7 +44771,7 @@ var AssetFemale3DCG = [
 							KneelingSpread: PoseType.HIDE,
 							Hogtied: PoseType.HIDE,
 						},
-						AllowTypes: { typed: 0}
+						AllowTypes: { typed: 0 },
 					},
 					{
 						Name: "LocksBoots",
@@ -44773,7 +44783,7 @@ var AssetFemale3DCG = [
 							Kneel: PoseType.HIDE,
 							KneelingSpread: PoseType.HIDE,
 							Hogtied: PoseType.HIDE,
-						}
+						},
 					},
 				],
 			},

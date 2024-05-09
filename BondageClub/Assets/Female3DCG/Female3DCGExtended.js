@@ -9080,8 +9080,8 @@ var AssetFemale3DCGExtended = {
 			},
 		}, //Full Casing Cage
 		LatexNulge: {
-            Archetype: ExtendedArchetype.VIBRATING,
-        }, // Latex Nulge
+			Archetype: ExtendedArchetype.VIBRATING,
+		}, // Latex Nulge
 	}, // ItemVulva
 	ItemVulvaPiercings: {
 		ClitRing: {
@@ -9922,8 +9922,8 @@ var AssetFemale3DCGExtended = {
 			DrawImages: false,
 			CopyConfig: {
 				GroupName: "ItemBoots",
-				AssetName: "StrictPonyBoots"
-			}
+				AssetName: "StrictPonyBoots",
+			},
 		},
 	}, // Shoes
 	HairAccessory1: {
