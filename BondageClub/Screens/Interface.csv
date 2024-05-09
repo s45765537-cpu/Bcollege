@@ -125,6 +125,12 @@ Hacking,Hacking the item...
 Hours,hours
 InAsylum,in the Asylum
 InRoom,in room
+Intensity,Intensity:
+Intensity-1,Item intensity: Disabled
+Intensity0,Item intensity: Low
+Intensity1,Item intensity: Medium
+Intensity2,Item intensity: High
+Intensity3,Item intensity: Maximum
 LayeringAsset,Configure total priority
 LayeringExit,Exit
 LayeringLayer,Configure layer-specific priority
@@ -406,17 +412,6 @@ Using0,Using none of your skill...
 Using25,Using 25% of your skill...
 Using50,Using 50% of your skill...
 Using75,Using 75% of your skill...
-VibratorModeDeny,Deny
-VibratorModeEdge,Edge
-VibratorModeEscalate,Escalate
-VibratorModeHigh,High
-VibratorModeLabel,Current Mode:
-VibratorModeLow,Low
-VibratorModeMaximum,Maximum
-VibratorModeMedium,Medium
-VibratorModeOff,Off
-VibratorModeRandom,Random
-VibratorModeTease,Tease
 WinkFacialExpressions,Wink/Blink
 WillRemoveItemWithTimer,The item will be removed when the lock timer runs out
 WontRemoveItemWithTimer,The item will stay when the lock timer runs out

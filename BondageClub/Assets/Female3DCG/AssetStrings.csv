@@ -1366,12 +1366,6 @@ InflationAmountSetLight,SourceCharacter adjusts DestinationCharacter inflatable 
 InflationAmountSetMax,SourceCharacter adjusts DestinationCharacter inflatable strait leotard to fill the maximum amount.
 InLarp,in LARP
 InMagicBattle,in Magic Battle
-Intensity,Intensity:
-Intensity-1,Item intensity: Disabled
-Intensity0,Item intensity: Low
-Intensity1,Item intensity: Medium
-Intensity2,Item intensity: High
-Intensity3,Item intensity: Maximum
 Introduction,Introduction
 ItemArmsBitchSuitModuleClothes,Clothes over suit
 ItemArmsBitchSuitModuleStraps,Extra straps
@@ -4951,21 +4945,32 @@ UseRemote,Use Remote
 VariableHeightnewOption,Confirm
 VariableHeightPercent,% of full height:
 VariableHeightSelect,Set the height
-VibeModeChange,SourceCharacter changes the settings on DestinationCharacterName AssetName
-VibeModeDecreaseTo-1,DestinationCharacterName AssetName stops vibrating.
-VibeModeDecreaseTo0,DestinationCharacterName AssetName slows down into a light tease.
-VibeModeDecreaseTo1,DestinationCharacterName AssetName returns to a moderate pace.
-VibeModeDecreaseTo2,DestinationCharacterName AssetName slows down a tiny bit.
-VibeModeDeny,DestinationCharacterName AssetName switches to a denying pattern
-VibeModeEdge,DestinationCharacterName AssetName switches to an edging pattern
-VibeModeEscalate,DestinationCharacterName AssetName switches to a escalating pattern
-VibeModeIncreaseTo-1,DestinationCharacterName AssetName stops vibrating.
-VibeModeIncreaseTo0,DestinationCharacterName AssetName starts teasing TargetPronounObject lightly.
-VibeModeIncreaseTo1,DestinationCharacterName AssetName builds up to a moderate pace.
-VibeModeIncreaseTo2,DestinationCharacterName AssetName starts buzzing strongly!
-VibeModeIncreaseTo3,DestinationCharacterName AssetName jumps up to maximum intensity!
-VibeModeRandom,DestinationCharacterName AssetName switches to a random pattern
-VibeModeTease,DestinationCharacterName AssetName switches to a teasing pattern
+VibeModeActionChange,SourceCharacter changes the settings on DestinationCharacterName AssetName
+VibeModeActionDecreaseTo-1,DestinationCharacterName AssetName stops vibrating.
+VibeModeActionDecreaseTo0,DestinationCharacterName AssetName slows down into a light tease.
+VibeModeActionDecreaseTo1,DestinationCharacterName AssetName returns to a moderate pace.
+VibeModeActionDecreaseTo2,DestinationCharacterName AssetName slows down a tiny bit.
+VibeModeActionDeny,DestinationCharacterName AssetName switches to a denying pattern
+VibeModeActionEdge,DestinationCharacterName AssetName switches to an edging pattern
+VibeModeActionEscalate,DestinationCharacterName AssetName switches to a escalating pattern
+VibeModeActionIncreaseTo-1,DestinationCharacterName AssetName stops vibrating.
+VibeModeActionIncreaseTo0,DestinationCharacterName AssetName starts teasing TargetPronounObject lightly.
+VibeModeActionIncreaseTo1,DestinationCharacterName AssetName builds up to a moderate pace.
+VibeModeActionIncreaseTo2,DestinationCharacterName AssetName starts buzzing strongly!
+VibeModeActionIncreaseTo3,DestinationCharacterName AssetName jumps up to maximum intensity!
+VibeModeActionRandom,DestinationCharacterName AssetName switches to a random pattern
+VibeModeActionTease,DestinationCharacterName AssetName switches to a teasing pattern
+VibeModeDeny,Deny
+VibeModeEdge,Edge
+VibeModeEscalate,Escalate
+VibeModeHigh,High
+VibeModeLabel,Current Mode:
+VibeModeLow,Low
+VibeModeMaximum,Maximum
+VibeModeMedium,Medium
+VibeModeOff,Off
+VibeModeRandom,Random
+VibeModeTease,Tease
 WebBondageCocooned,Cocooned
 WebBondageHogtied,Hogtied
 WebBondageKneelingSuspended,Suspension Cocooned

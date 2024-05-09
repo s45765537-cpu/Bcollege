@@ -9055,15 +9055,6 @@ var AssetFemale3DCGExtended = {
 				Validate: FuturisticAccessValidate,
 				ScriptDraw: AssetsItemVulvaFuturisticVibratorScriptDrawHook,
 			},
-			DialogPrefix: {
-				Header: (data, C, item) => {
-					const label = InterfaceTextGet("VibratorModeLabel");
-					const mode = InterfaceTextGet(
-						`VibratorMode${item.Property?.Mode ?? "Off"}`,
-					);
-					return `${label} ${mode}`;
-				},
-			},
 			BaselineProperty: {
 				AccessMode: "",
 				TriggerValues: CommonConvertArrayToString(
@@ -9089,8 +9080,8 @@ var AssetFemale3DCGExtended = {
 			},
 		}, //Full Casing Cage
 		LatexNulge: {
-            Archetype: ExtendedArchetype.VIBRATING,
-        }, // Latex Nulge
+			Archetype: ExtendedArchetype.VIBRATING,
+		}, // Latex Nulge
 	}, // ItemVulva
 	ItemVulvaPiercings: {
 		ClitRing: {
@@ -9931,8 +9922,8 @@ var AssetFemale3DCGExtended = {
 			DrawImages: false,
 			CopyConfig: {
 				GroupName: "ItemBoots",
-				AssetName: "StrictPonyBoots"
-			}
+				AssetName: "StrictPonyBoots",
+			},
 		},
 	}, // Shoes
 	HairAccessory1: {
