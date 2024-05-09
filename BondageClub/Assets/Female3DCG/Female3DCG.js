@@ -9373,6 +9373,15 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "StrictPonyBoots",
+				DynamicGroupName: "ItemBoots",
+				CopyConfig: {
+					GroupName: "ItemBoots",
+					AssetName: "StrictPonyBoots",
+					BuyGroup: true,
+				},
+			}
 		],
 		Color: [
 			"Default",
@@ -15345,6 +15354,42 @@ var AssetFemale3DCG = [
 						PoseMapping: {
 							Suspension: "Suspension",
 						},
+					},
+				],
+			},			{
+				Name: "HairBack63",
+				Top: {
+					[PoseType.DEFAULT]: 0,
+					Suspension: -545
+				},
+				Left: {
+					[PoseType.DEFAULT]: 50,
+					Suspension: 54
+				},
+				Layer: [
+					{
+						Name: "Braid",
+						PoseMapping: {
+							Suspension: "Suspension",
+						}
+					},
+					{
+						Name: "BraidRight",
+						PoseMapping: {
+							Suspension: "Suspension",
+						}
+					},
+					{
+						Name: "Band",
+						PoseMapping: {
+							Suspension: "Suspension",
+						}
+					},
+					{
+						Name: "Ribbon",
+						PoseMapping: {
+							Suspension: "Suspension",
+						}
 					},
 				],
 			},
@@ -44542,6 +44587,147 @@ var AssetFemale3DCG = [
 					{ Name: "Foot", AllowColorize: true },
 					{ Name: "Ankle", AllowColorize: true },
 					{ Name: "U", AllowColorize: true },
+				],
+			},
+			{
+				Name: "StrictPonyBoots",
+				Fetish: ["Latex","Leather", "Pony"],
+				BuyGroup: "StrictPonyBoots",
+				Value: 75,
+				Difficulty: 6,
+				Time: 10,
+				RemoveTime: 10,
+				AllowLock: true,
+				AllowTighten: true,
+				Top: {
+					[PoseType.DEFAULT]: 460,
+					BaseLower: 470,
+					Kneel: 462,
+					KneelingSpread: 500
+				},
+				Left: {
+					[PoseType.DEFAULT]: 0,
+					KneelingSpread: 65
+				},
+				Height: 25,
+				PoseMapping: {
+					AllFours: PoseType.HIDE,
+					Hogtied: PoseType.HIDE,
+					Kneel: "Kneel",
+					LegsClosed: "LegsClosed",
+					Spread: "Spread",
+					KneelingSpread: "KneelingSpread",
+				},
+				Extended: true,
+				DefaultColor: ["#0B0B0B","#0B0B0B","Default","#760000","#0B0B0B","Default","Default","#000000"],
+				DrawLocks: false,
+				Layer: [
+					{
+						Name: "Base",
+						AllowColorize: true,
+						AllowTypes: { typed: 0 }
+					},
+					{
+						Name: "BaseBoots",
+						AllowColorize: true,
+						PoseMapping: {
+							...AssetPoseMapping.ItemBoots,
+							Spread: "Spread",
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "Cuffs",
+						AllowColorize: true,
+						PoseMapping: {
+							...AssetPoseMapping.ItemBoots,
+							Spread: "Spread",
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "StrapsLower",
+						AllowColorize: true,
+						AllowTypes: { typed: 0 }
+					},
+					{
+						Name: "Straps",
+						AllowColorize: true,
+						AllowTypes: { typed: 0 }
+					},
+					{
+						Name: "ShineBoots",
+						AllowColorize: true,
+						AllowTypes: { typed: 1 },
+						PoseMapping: {
+							...AssetPoseMapping.ItemBoots,
+							Spread: "Spread",
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "Shine",
+						CopyLayerColor: "ShineBoots",
+						AllowTypes: { typed: 0 }
+					},
+					{
+						Name: "Hooves",
+						AllowColorize: true,
+						PoseMapping: {
+							...AssetPoseMapping.ItemBoots,
+							Spread: "Spread",
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "OutlineBoots",
+						AllowColorize: true,
+						PoseMapping: {
+							...AssetPoseMapping.ItemBoots,
+							Spread: "Spread",
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						}
+					},
+					{
+						Name: "Outline",
+						CopyLayerColor: "OutlineBoots",
+						AllowTypes: { typed: 0 }
+					},
+					{
+						Name: "Locks",
+						AllowColorize: false,
+						LockLayer: true,
+						PoseMapping: {
+							...AssetPoseMapping.ItemBoots,
+							LegsClosed: PoseType.HIDE,
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+						AllowTypes: { typed: 0}
+					},
+					{
+						Name: "LocksBoots",
+						AllowColorize: false,
+						LockLayer: true,
+						PoseMapping: {
+							...AssetPoseMapping.ItemBoots,
+							LegsClosed: PoseType.HIDE,
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						}
+					},
 				],
 			},
 		],

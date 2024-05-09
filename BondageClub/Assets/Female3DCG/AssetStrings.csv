@@ -4992,3 +4992,13 @@ FullCasingCageSetFox,SourceCharacter changes DestinationCharacter cage.
 FullCasingCageSetDog,SourceCharacter changes DestinationCharacter cage.
 FullCasingCageTypeFox,Fox
 FullCasingCageTypeDog,Dog
+ItemBootsStrictPonyBootsBase,Normal
+ItemBootsStrictPonyBootsSelect,Select Type.
+ItemBootsStrictPonyBootsSetBase,SourceCharacter changes DestinationCharacter boots.
+ItemBootsStrictPonyBootsSetBootsOnly,SourceCharacter changes DestinationCharacter boots.
+ItemBootsStrictPonyBootsBootsOnly,Boots Only
+ShoesStrictPonyBootsBase,Normal
+ShoesStrictPonyBootsSelect,Select Type.
+ShoesStrictPonyBootsSetBase,SourceCharacter changes DestinationCharacter boots.
+ShoesStrictPonyBootsSetBootsOnly,SourceCharacter changes DestinationCharacter boots.
+ShoesStrictPonyBootsBootsOnly,Boots Only
