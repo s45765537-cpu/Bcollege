@@ -5047,7 +5047,7 @@ function PlatformDialogVoice(Source) {
 		if (PlatformDialogAudio != null) PlatformDialogAudio.pause();
 		return;
 	}
-	const vol = (Player.AudioSettings.Volume == null) ? 100 : Player.AudioSettings.Volume;
+	const vol = ((Player.AudioSettings == null) || (Player.AudioSettings.Volume == null)) ? 100 : Player.AudioSettings.Volume;
 	if (vol > 0) {
 		if (PlatformDialogAudio == null) PlatformDialogAudio = new Audio();
 		if (Source.substring(0, 6) == "Common")

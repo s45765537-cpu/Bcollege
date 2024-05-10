@@ -43,7 +43,7 @@ function ManagementSarahUnlockQuest() { return (SarahUnlockQuest); }
  * Checks if the player is Sarah's owner.
  * @returns {boolean} - TRUE if the player is Sarah's owner.
  */
-function ManagementIsSarahOwner() { return (SarahUnlockQuest && (Sarah.Owner == Player.Name)); }
+function ManagementIsSarahOwner() { return (SarahUnlockQuest && Sarah.IsOwnedByPlayer()); }
 /**
  * Checks if the mistress has been angered for a given amount of times.
  * @param {number} InCount - Number of times the mistress has to have been angered.
@@ -69,7 +69,7 @@ function ManagementCanPlayWithoutPermission() { return (!ManagementMistressAllow
  * Checks if the player is owned by one of the bondage college NPCs.
  * @returns {boolean} - TRUE if the player is owned by a bondage college NPC
  */
-function ManagementOwnerFromBondageCollege() { return ((Player.Owner == "NPC-Sidney") || (Player.Owner == "NPC-Amanda") || (Player.Owner == "NPC-Jennifer")); }
+function ManagementOwnerFromBondageCollege() { return Player.IsOwned() === "npc" && ["Sidney", "Amanda", "Jennifer"].includes(Player.OwnerName()); }
 /**
  * Checks if the player's owner is a NPC in her private room.
  * @returns {boolean} - TRUE if the player's owner is in the player's private room.
@@ -79,7 +79,7 @@ function ManagementOwnerInPrivateRoom() { return PrivateOwnerInRoom(); }
  * Checks if the player's owner is not one of the bondage college NPC.
  * @returns {boolean} - TRUE if the player is NOT owned by a bondage college NPC
  */
-function ManagementOwnerAway() { return !((Player.Owner == "NPC-Sidney") || (Player.Owner == "NPC-Amanda") || (Player.Owner == "NPC-Jennifer")); }
+function ManagementOwnerAway() { return !(Player.IsOwned() === "npc" && ["Sidney", "Amanda", "Jennifer"].includes(Player.OwnerName())); }
 /**
  * Checks if the player is wearing any chastity item that can currently be removed by the mistress.
  * @returns {boolean} - TRUE if there is at least one chastity item that can be removed.
@@ -175,42 +175,42 @@ function ManagementCanReleaseFromOwner() { return ((Player.Money >= 200) && LogQ
  * Checks if the player can break an online ownership trial.
  * @returns {boolean} - TRUE if the player can break her trial.
  */
-function ManagementCanBreakTrialOnline() { return ((Player.Owner == "") && (Player.Ownership != null) && (Player.Ownership.Stage === 0)); }
+function ManagementCanBreakTrialOnline() { return Player.IsOwned() === "online" && !Player.IsFullyOwned(); }
 /**
  * Checks if the player can part ways from their online owner. (7 days wait time over)
  * @returns {boolean} - TRUE if the player can break her full collar.
  */
-function ManagementCanBeReleasedOnline() { return ((Player.Owner != "") && (Player.Ownership != null) && (Player.Ownership.Start != null) && (Player.Ownership.Start + 604800000 <= CurrentTime) && (Player.GetDifficulty() <= 2)); }
+function ManagementCanBeReleasedOnline() { return Player.IsOwned() === "online" && Player.OwnedSince() >= 7 && Player.GetDifficulty() <= 2; }
 /**
  * Checks if the player cannot part ways from their online owner. (7 days wait time not over)
  * @returns {boolean} - TRUE if the player cannot break her full collar.
  */
-function ManagementCannotBeReleasedOnline() { return ((Player.Owner != "") && (Player.Ownership != null) && (Player.Ownership.Start != null) && (Player.Ownership.Start + 604800000 > CurrentTime) && (Player.GetDifficulty() <= 2)); }
+function ManagementCannotBeReleasedOnline() { return Player.IsOwned() === "online" && Player.OwnedSince() < 7 && Player.GetDifficulty() <= 2; }
 /**
  * Checks if the player can part ways from her owner. (The NPC left the private room.)
  * @returns {boolean} - TRUE if the player can part ways with her current NPC owner.
  */
-function ManagementCanBeReleased() { return ((Player.Owner != "") && (Player.Ownership == null) && !PrivateOwnerInRoom() && (Player.GetDifficulty() <= 2)); }
+function ManagementCanBeReleased() { return Player.IsOwned() === "npc" && !PrivateOwnerInRoom(); }
 /**
  * Checks if the player cannot part ways from her owner. (The NPC is still in the private room.)
  * @returns {boolean} - TRUE if the player cannot part ways with her current NPC owner.
  */
-function ManagementCannotBeReleased() { return ((Player.Owner != "") && (Player.Ownership == null) && PrivateOwnerInRoom() && (Player.GetDifficulty() <= 2)); }
+function ManagementCannotBeReleased() { return Player.IsOwned() === "npc" && PrivateOwnerInRoom() && Player.GetDifficulty() <= 2; }
 /**
  * Checks if the player cannot part ways from her owner because she's on the Extreme difficulty.
  * @returns {boolean} - TRUE if the player cannot part ways with her current owner.
  */
-function ManagementCannotBeReleasedExtreme() { return ((Player.Owner != "") && (Player.GetDifficulty() >= 3)); }
+function ManagementCannotBeReleasedExtreme() { return Player.IsOwned() === "npc" && PrivateOwnerInRoom() && Player.GetDifficulty() >= 3; }
 /**
  * Checks if the player can be owned by the mistress.
  * @returns {boolean} - TRUE if the player is fully submissive, the player is not owned, the mistress has not been angered and the mistress can enter the private room.
  */
-function ManagementWillOwnPlayer() { return ((Player.Owner == "") && (ReputationGet("Dominant") <= -100) && (ManagementMistressAngryCount == 0) && (PrivateCharacter.length <= PrivateCharacterMax) && !PrivatePlayerIsOwned() && ManagementNoMistressInPrivateRoom()); }
+function ManagementWillOwnPlayer() { return (!Player.IsOwned() && (ReputationGet("Dominant") <= -100) && (ManagementMistressAngryCount == 0) && (PrivateCharacter.length <= PrivateCharacterMax) && ManagementNoMistressInPrivateRoom()); }
 /**
  * Checks if the mistress is not willing to own the player.
  * @returns {boolean} - TRUE if the player can be owned, but is not submissive enough.
  */
-function ManagementWontOwnPlayer() { return ((Player.Owner == "") && (ReputationGet("Dominant") <= -1) && (ReputationGet("Dominant") >= -99) && (PrivateCharacter.length <= PrivateCharacterMax) && !PrivatePlayerIsOwned() && ManagementNoMistressInPrivateRoom()); }
+function ManagementWontOwnPlayer() { return (!Player.IsOwned() && (ReputationGet("Dominant") <= -1) && (ReputationGet("Dominant") >= -99) && (PrivateCharacter.length <= PrivateCharacterMax) && ManagementNoMistressInPrivateRoom()); }
 /**
  * Checks if the player has at least one lover who is a NPC from bondage college.
  * @returns {boolean} - TRUE if the player has at least one lover who is a NPC from bondage college.
@@ -547,7 +547,7 @@ function ManagementContactOwner() {
 	ManagementMistressReleaseTimer = CommonTime() + 200000 + Math.floor(Math.random() * 200000);
 	CharacterChangeMoney(Player, -20);
 	ManagementCanReleaseChastity = (Math.random() >= 0.3);
-	if (Player.Owner == "NPC-Sidney") ManagementCanReleaseChastity = (Math.random() >= 0.6);
+	if (Player.IsOwned() === "npc" && Player.OwnerName() === "Sidney") ManagementCanReleaseChastity = (Math.random() >= 0.6);
 }
 
 /**
@@ -556,25 +556,20 @@ function ManagementContactOwner() {
  * @returns {void} - Nothing.
  */
 function ManagementReleaseFromOwner(RepChange) {
+	if (!(Player.IsOwned() === "npc" || Player.IsOwned() === "online")) return;
 	ReputationProgress("Dominant", RepChange);
 	LogAdd("ReleasedFromOwner", "Management");
 
-	if (Player.Owner !== "" && Player.Ownership == null) {
-		CharacterClearOwnership(Player); // clear NPC owner
-		ServerPlayerSync();
-	} else {
-		ManagementBreakOnlineOwnership();
-	}
+	CharacterClearOwnership(Player);
 }
 
 /**
  * Break ownership by another player
+ * @deprecated
  * @returns {void} - Nothing.
  */
 function ManagementBreakOnlineOwnership() {
-	if ((Player.Ownership != null) && (Player.Ownership.MemberNumber != null)) {
-		ServerSend("AccountOwnership", { MemberNumber: Player.Ownership.MemberNumber, Action: "Break" });
-	}
+	CharacterClearOwnership(Player);
 }
 
 /**

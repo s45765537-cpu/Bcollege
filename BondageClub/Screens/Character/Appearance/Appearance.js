@@ -722,7 +722,7 @@ function AppearanceMenuBuild(C) {
 				let Item = InventoryGet(C, C.FocusGroup.Name);
 				if (Item && Item.Asset.Extended) AppearanceMenu.push(InventoryBlockedOrLimited(C, Item) ? "UseDisabled" : "Use");
 				if (C.IsPlayer()) AppearanceMenu.push("WearRandom");
-				if (C.IsPlayer()) AppearanceMenu.push("DialogPermissionMode");
+				if (C.IsPlayer()) AppearanceMenu.push("PermissionMode");
 				if (C.FocusGroup.AllowNone) AppearanceMenu.push("Naked");
 				if (Item && DialogCanColor(C, Item)) {
 					let ButtonName = ItemColorIsSimple(Item) ? "ColorChange" : "ColorChangeMulti";
@@ -825,13 +825,15 @@ function AppearanceRun() {
 		else CharacterAppearanceHeaderText = TextGet("SelectSomeoneAppearance").replace("TargetCharacterName", C.Name);
 	}
 	DrawCharacter(C, -600, -100 + 4 * C.HeightModifier, 4, false);
-	DrawCharacter(C, 750, 0, 1);
+	DrawCharacter(C, 660, 0, 1);
 	DrawText(CharacterAppearanceHeaderText, 400, 40, "White", "Black");
 
 	// When there is an extended item
 	if (DialogFocusItem != null) {
 		CommonDynamicFunction("Inventory" + DialogFocusItem.Asset.Group.Name + DialogFocusItem.Asset.Name + "Draw()");
 		DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
+		return;
+	} else if (Layering.IsActive()) {
 		return;
 	}
 
@@ -866,7 +868,7 @@ function AppearanceRun() {
 
 			// Draw Strip & Use button
 			if (Item) {
-				let leftPos = 1210;
+				let leftPos = 1120;
 				if (Item.Asset.Extended) {
 					const canUse = !InventoryBlockedOrLimited(C, Item);
 					DrawButton(leftPos, 145 + (A - CharacterAppearanceOffset) * 95, 65, 65, "", (canUse ? "White" : "#888"), "Icons/Small/Use.png", TextGet("Use"));
@@ -886,7 +888,7 @@ function AppearanceRun() {
 				return "";
 			};
 			const buttonLabel = Group.Description + ": " + CharacterAppearanceGetCurrentValue(C, Group.Name, "Description");
-			DrawBackNextButton(1300, 145 + (A - CharacterAppearanceOffset) * 95, 400, 65, buttonLabel, ButtonColor, "",
+			DrawBackNextButton(1210, 145 + (A - CharacterAppearanceOffset) * 95, 400, 65, buttonLabel, ButtonColor, "",
 				() => prevNextButtonHandler(false),
 				() => prevNextButtonHandler(true),
 				!canAccess,
@@ -900,6 +902,7 @@ function AppearanceRun() {
 			const ColorIsSimple = ItemColorIsSimple(Item);
 
 			// Draw color swatch and picker widgets
+			DrawButton(1635, 145 + (A - CharacterAppearanceOffset) * 95, 65, 65, "", Item ? "#fff" : "#aaa", "Icons/Small/Layering.png", TextGet("Layering"), !Item);
 			DrawButton(1725, 145 + (A - CharacterAppearanceOffset) * 95, 160, 65, ColorButtonText, CanCycleColors ? ColorButtonColor : "#aaa", null, null, !CanCycleColors);
 			DrawButton(1910, 145 + (A - CharacterAppearanceOffset) * 95, 65, 65, "", CanPickColor ? "#fff" : "#aaa", CanPickColor ? ColorIsSimple ? "Icons/Small/ColorChange.png" : "Icons/Small/ColorChangeMulti.png" : "Icons/Small/ColorBlocked.png", null, !CanPickColor);
 		}
@@ -986,6 +989,14 @@ function AppearanceRun() {
 				Y = Y + 300;
 			}
 		}
+	}
+}
+
+/** @type {ScreenFunctions["Resize"]} */
+function AppearanceResize(load) {
+	if (Layering.IsActive()) {
+		Layering.Resize(load);
+		return;
 	}
 }
 
@@ -1313,13 +1324,13 @@ function AppearanceClick() {
 			// Handle the Strip & Use button
 			if (Item) {
 				let clickOn = null;
-				if (MouseIn(1210, 145 + (A - CharacterAppearanceOffset) * 95, 65, 65)) {
+				if (MouseIn(1120, 145 + (A - CharacterAppearanceOffset) * 95, 65, 65)) {
 					if (Item.Asset.Extended && !InventoryBlockedOrLimited(C, Item)) {
 						clickOn = "Use";
 					} else if (Group.AllowNone) {
 						clickOn = "Strip";
 					}
-				} else if (MouseIn(1120, 145 + (A - CharacterAppearanceOffset) * 95, 65, 65)) {
+				} else if (MouseIn(1030, 145 + (A - CharacterAppearanceOffset) * 95, 65, 65)) {
 					if (Group.AllowNone) {
 						clickOn = "Strip";
 					}
@@ -1338,19 +1349,19 @@ function AppearanceClick() {
 			}
 
 			// Handle the cloth selector
-			if (MouseIn(1300, 145 + (A - CharacterAppearanceOffset) * 95, 400, 65)) {
+			if (MouseIn(1210, 145 + (A - CharacterAppearanceOffset) * 95, 400, 65)) {
 				C.FocusGroup = null;
 				if (!Group.AllowNone && !AppearancePreviewUseCharacter(Group)) {
 					const asset = CharacterAppearanceNextItem(C, Group.Name, MouseX > 1500);
 					CharacterAppearanceSetItem(C, Group.Name, asset);
 					return;
 				}
-				else if (MouseXIn(1300, 65)) {
+				else if (MouseXIn(1210, 65)) {
 					const asset = CharacterAppearanceNextItem(C, Group.Name, false);
 					CharacterAppearanceSetItem(C, Group.Name, asset);
 					return;
 				}
-				else if (MouseXIn(1635, 65)) {
+				else if (MouseXIn(1545, 65)) {
 					const asset = CharacterAppearanceNextItem(C, Group.Name, true);
 					CharacterAppearanceSetItem(C, Group.Name, asset);
 					return;
@@ -1363,6 +1374,13 @@ function AppearanceClick() {
 					AppearancePreviewBuild(C, true);
 					CharacterAppearanceCloth = InventoryGet(C, C.FocusGroup.Name);
 					CharacterAppearanceMode = "Cloth";
+					return;
+				}
+			}
+
+			if (MouseIn(1635, 145 + (A - CharacterAppearanceOffset) * 95, 65, 65)) {
+				if (Item) {
+					Layering.Init(Item, C, { x: Layering.DisplayDefault.x - 2, buttonGap: 27 });
 					return;
 				}
 			}
@@ -1554,7 +1572,7 @@ function AppearanceMenuClick(C) {
 					if (Button === "WearRandom") InventoryWearRandom(C, C.FocusGroup.Name, null, true, true);
 
 					// Opens permission mode
-					if (Button === "DialogPermissionMode") {
+					if (Button === "PermissionMode") {
 						DialogChangeMode("permissions");
 						AppearancePreviewBuild(C, true);
 					}
@@ -1618,6 +1636,9 @@ function AppearanceExit() {
 	// We quit the extended item menu instead, if applicable.
 	if (CharacterAppearanceMode == "Cloth" && DialogFocusItem) {
 		DialogLeaveFocusItem();
+		return;
+	} else if (Layering.IsActive()) {
+		Layering.Exit();
 		return;
 	}
 

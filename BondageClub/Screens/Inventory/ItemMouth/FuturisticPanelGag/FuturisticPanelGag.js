@@ -10,20 +10,20 @@ function InventoryItemMouthFuturisticPanelGagDrawHook(Data, OriginalFunction) {
 		const typeRecord = DialogFocusItem.Property.TypeRecord || {};
 		const [Gag, AutoPunish, AutoPunishUndoTimeSetting] = Data.modules.map(m => `${m.Key}${typeRecord[m.Key] || 0}`);
 		const AutoPunishUndoTime = DialogFocusItem.Property.AutoPunishUndoTime;
-		const UndoTimer =  DialogFindPlayer(`${Data.dialogPrefix.option}${AutoPunishUndoTimeSetting}`);
+		const UndoTimer =  AssetTextGet(`${Data.dialogPrefix.option}${AutoPunishUndoTimeSetting}`);
 
 		MainCanvas.textAlign = "right";
-		DrawText(DialogFindPlayer("GagConfig"), 1500, 550, "White", "Gray");
-		DrawText(DialogFindPlayer("AutoPunish"), 1500, 625, "White", "Gray");
-		DrawText(DialogFindPlayer("DeflationTime"), 1500, 700, "White", "Gray");
+		DrawText(AssetTextGet("GagConfig"), 1500, 550, "White", "Gray");
+		DrawText(AssetTextGet("AutoPunish"), 1500, 625, "White", "Gray");
+		DrawText(AssetTextGet("DeflationTime"), 1500, 700, "White", "Gray");
 		MainCanvas.textAlign = "left";
-		DrawText(DialogFindPlayer(`${Data.dialogPrefix.option}${Gag}`), 1510, 550, "White", "Gray");
-		DrawText(DialogFindPlayer(`${Data.dialogPrefix.option}${AutoPunish}`) + ` (${UndoTimer})`, 1510, 625, "White", "Gray");
+		DrawText(AssetTextGet(`${Data.dialogPrefix.option}${Gag}`), 1510, 550, "White", "Gray");
+		DrawText(AssetTextGet(`${Data.dialogPrefix.option}${AutoPunish}`) + ` (${UndoTimer})`, 1510, 625, "White", "Gray");
 		DrawText(AutoPunishUndoTime ? TimerToString(AutoPunishUndoTime - CurrentTime) : "00:00", 1510, 700, "White", "Gray");
 		MainCanvas.textAlign = "center";
 
 		ExtendedItemDrawCheckbox("ShowText", 1175, 743, DialogFocusItem.Property.ShowText);
-		DrawText(DialogFindPlayer("ShowMessageInChat"), 1420, 773, "White", "Gray");
+		DrawText(AssetTextGet("ShowMessageInChat"), 1420, 773, "White", "Gray");
 		ExtendedItemCustomDraw(`${Data.dialogPrefix.option}Pump`, 1637, 750);
 	}
 }

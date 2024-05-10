@@ -9,11 +9,11 @@ function InventoryItemVulvaClitAndDildoVibratorbeltDrawHook(Data, OriginalFuncti
 
 		// Display option information
 		MainCanvas.textAlign = "right";
-		DrawText(DialogFindPlayer("DildoIntensity"), 1500, 565, "White", "Gray");
-		DrawText(DialogFindPlayer("EggIntensity"), 1500, 640, "White", "Gray");
+		DrawText(AssetTextGet("DildoIntensity"), 1500, 565, "White", "Gray");
+		DrawText(AssetTextGet("EggIntensity"), 1500, 640, "White", "Gray");
 		MainCanvas.textAlign = "left";
-		DrawText(DialogFindPlayer(`${Data.dialogPrefix.option}${DildoIntensity}`), 1510, 565, "White", "Gray");
-		DrawText(DialogFindPlayer(`${Data.dialogPrefix.option}${EggIntensity}`), 1510, 640, "White", "Gray");
+		DrawText(AssetTextGet(`${Data.dialogPrefix.option}${DildoIntensity}`), 1510, 565, "White", "Gray");
+		DrawText(AssetTextGet(`${Data.dialogPrefix.option}${EggIntensity}`), 1510, 640, "White", "Gray");
 		MainCanvas.textAlign = "center";
 	}
 }

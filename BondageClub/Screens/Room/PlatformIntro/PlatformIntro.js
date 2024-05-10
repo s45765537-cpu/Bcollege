@@ -69,7 +69,7 @@ function PlatformIntroRun() {
 		DrawButton(920 + (X % 5) * 200, 710 + Math.floor(X / 5) * 90, 160, 60, TextGet("Load") + " " + X.toString(), "White", "");
 
 	DrawButton(1400, 900, 225, 60, TextGet("NewGame"), "White", "");
-	DrawButton(1655, 900, 225, 60, TextGet("Exit"), "White", "");
+	if (!PlatformRunStandaloneMode) DrawButton(1655, 900, 225, 60, TextGet("Exit"), "White", "");
 
 }
 
@@ -100,5 +100,5 @@ function PlatformIntroClick() {
  * @returns {void} - Nothing
  */
 function PlatformIntroExit() {
-	CommonSetScreen("Room", "MainHall");
+	if (!PlatformRunStandaloneMode) CommonSetScreen("Room", "MainHall");
 }

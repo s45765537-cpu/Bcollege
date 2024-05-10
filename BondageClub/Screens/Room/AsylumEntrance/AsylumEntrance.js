@@ -178,7 +178,7 @@ function AsylumEntranceWearPatientClothes(C, ExtraEvent) {
 			InventoryWear(C, "FuturisticHarness", "ItemTorso");
 		}
 		if (AsylumGGTSGetLevel(C) >= 5) {
-			if ((InventoryGet(C, "ItemNeck") == null) || (Player.Ownership == null)) InventoryWear(C, "FuturisticCollar", "ItemNeck");
+			if ((InventoryGet(C, "ItemNeck") == null) || !Player.IsOwned()) InventoryWear(C, "FuturisticCollar", "ItemNeck");
 			InventoryWear(C, "FuturisticEarphones", "ItemEars");
 			InventoryWear(C, "FuturisticMask", "ItemHead");
 		}

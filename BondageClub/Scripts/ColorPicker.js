@@ -406,9 +406,9 @@ function ColorPickerDraw(X, Y, Width, Height, Src, Callback) {
 	//Draw Buttons (90 by 90 px) centered
 	let SavedTextAlign = MainCanvas.textAlign;
 	MainCanvas.textAlign = "center";
-	DrawButton(SaveButtonX, ButtonOffset, 90, 90, "", "White", "Icons/Save.png", DialogFindPlayer("ColorSave"));
-	DrawButton(PrevButtonX, ButtonOffset, 90, 90, "", "White", "Icons/Prev.png", DialogFindPlayer("PrevPage"));
-	DrawButton(NextButtonX, ButtonOffset, 90, 90, "", "White", "Icons/Next.png", DialogFindPlayer("NextPage"));
+	DrawButton(SaveButtonX, ButtonOffset, 90, 90, "", "White", "Icons/Save.png", InterfaceTextGet("ColorSave"));
+	DrawButton(PrevButtonX, ButtonOffset, 90, 90, "", "White", "Icons/Prev.png", InterfaceTextGet("PrevPage"));
+	DrawButton(NextButtonX, ButtonOffset, 90, 90, "", "White", "Icons/Next.png", InterfaceTextGet("NextPage"));
 	MainCanvas.textAlign = SavedTextAlign;
 
 	// Draw Palette

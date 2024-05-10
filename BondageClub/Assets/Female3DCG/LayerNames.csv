@@ -24,6 +24,8 @@ BraMaidBra1Bra,Bra
 BraMaidBra1Frills,Frills
 BraSexyBikini1Main,Main
 BraSexyBikini1Sides,Sides
+BraLeatherVestSuitLeather,Leather
+BraLeatherVestSuitSilk,Silk
 ClothAccessoryBibBase,Bib
 ClothAccessoryBibPacis,Pattern
 ClothAccessoryBibText,Text
@@ -88,6 +90,18 @@ ClothEveningGownBack,Back
 ClothEveningGownBottom,Bottom
 ClothEveningGownSilk,Silk
 ClothEveningGownTop,Top
+ClothYuletideVelvetWarmthBow,Bow
+ClothYuletideVelvetWarmthShawl,Shawl
+ClothYuletideVelvetWarmthShawlFur,Shawl Fur
+ClothYuletideVelvetWarmthFur,Fur
+ClothYuletideVelvetWarmthBands,Bands
+ClothYuletideVelvetWarmthFabric,Fabric
+ClothYuletideVelvetWarmthBase,Base
+ClothNunRobesCloth,Cloth
+ClothNunRobesBand,Band
+ClothNunRobesShawl,Shawl
+ClothNunRobesBack,Back
+ClothNunRobesInterior,Interior
 ClothFishnetTop,Fishnet Top
 ClothFrilledShirtBase, Latex
 ClothFrilledShirtFrill, Frills
@@ -263,6 +277,8 @@ HairAccessory1BigLynxEarsOuter,Outer Ear
 HairAccessory1BigLynxEarsTuft,Tuft
 HairAccessory1BunnyEars2Inner,Inner
 HairAccessory1BunnyEars2Outer,Outer
+HairAccessory1CowEarsEars,Ears
+HairAccessory1CowEarsHorn,Horns
 HairAccessory1EarWarmerMain,Fur
 HairAccessory1EarWarmerDetail,Headband
 HairAccessory1FoxEars2Inner,Inner Ear
@@ -335,6 +351,12 @@ HairBackHairBack60FrontRight,Right
 HairBackHairBack60FrontLeft,Left
 HairBackHairBack61FrontRight,Right
 HairBackHairBack61FrontLeft,Left
+HairBackHairBack62Braid,Braid
+HairBackHairBack62Ribbon,Ribbon
+HairBackHairBack63Braid,Left
+HairBackHairBack63BraidRight,Right
+HairBackHairBack63Band,Scrunchies
+HairBackHairBack63Ribbon,Ribbons
 HairFrontHairFront22Base, Base
 HairFrontHairFront22bBase, Base
 HairFrontHairFront22bFluff, Fluff
@@ -418,6 +440,8 @@ HairFrontHairFront52bFade,Fade
 HairFrontHairFront52bMain,Main
 HairFrontHairFront56Main,Main
 HairFrontHairFront56MainTip,Tips
+HairFrontHairFront57Main,Main
+HairFrontHairFront57Tone,Tips
 HatBallCapBackButton,Button
 HatBallCapBackPanelLeft,Panel
 HatBallCapBackSideLeft,Side
@@ -454,6 +478,9 @@ HatNunHabitCowl,Cowl
 HatNunHabitShawl,Shawl
 HatNunHabitShoulders,Shoulders
 HatNunHabitSymbol,Symbol
+HatNunVeilMain,Main
+HatNunVeilBack,Back
+HatNunVeilInside,Inside
 HatPirateBandana1Bandana,Bandana
 HatPirateBandana1Dots,Dots
 HatPirateBandana1Skull,Skull
@@ -638,6 +665,14 @@ ItemBootsSlimeTwo,Color 2
 ItemBootsTormentHeelsHeels,Heels
 ItemBootsTormentHeelsBelts,Belts
 ItemBootsTormentHeelsLock,Padlocks
+ItemBootsStrictPonyBootsBaseBoots,Boots
+ItemBootsStrictPonyBootsBase,Main
+ItemBootsStrictPonyBootsShineBoots,Shine
+ItemBootsStrictPonyBootsCuffs,Cuffs
+ItemBootsStrictPonyBootsHooves,Hooves
+ItemBootsStrictPonyBootsStraps,Straps
+ItemBootsStrictPonyBootsStrapsLower,Straps Base
+ItemBootsStrictPonyBootsOutlineBoots,Outline
 ItemBreastForbiddenChastityBraBra,Bra
 ItemBreastForbiddenChastityBraDetail,Detail
 ItemBreastForbiddenChastityBraMetal,Metal
@@ -1057,6 +1092,10 @@ ItemHoodPantyHoodBase, Pantyhose
 ItemHoodPantyHoodHairUnder, Hair
 ItemHoodPumpkinHeadBack,Back
 ItemHoodPumpkinHeadFront,Front
+ItemHoodPaperbagStickytape,Sticky tape
+ItemHoodPaperbagPoints,Points
+ItemHoodPaperbagPaper,Paper
+ItemHoodPaperbagPaperbag,Paperbag
 ItemHoodSensoryDeprivationHoodBase, Latex
 ItemHoodSensoryDeprivationHoodEarCover, Silencer
 ItemHoodSensoryDeprivationHoodLips, Lips
@@ -1822,6 +1861,10 @@ ItemTorsoThinLeatherStrapsLocks,Lock
 ItemTorsoThinLeatherStrapsStrap,Straps
 ItemVulvaBasicCockringCockRing,Cock Ring
 ItemVulvaBasicCockringPenis,Penis
+ItemVulvaLockingCockringBase,Base Ring
+ItemVulvaLockingCockringPenis,Penis
+ItemVulvaLockingCockringFront,Top Ring
+ItemVulvaLockingCockringPin,Lock Pin
 ItemVulvaChastityPouchBelt,Belt
 ItemVulvaChastityPouchBuckle,Buckle
 ItemVulvaChastityPouchLace,Lace
@@ -1844,6 +1887,10 @@ ItemVulvaFullCasingCageRing,Ring
 ItemVulvaFullCasingCageFace,Face
 ItemVulvaFullCasingCageEars,Ears
 ItemVulvaFullCasingCageMouth,Mouth
+ItemVulvaLatexNulgeBase,Base
+ItemVulvaLatexNulgeHeart,Heart
+ItemVulvaLatexNulgeLock,Lock
+ItemVulvaLatexNulgeShine,Shine
 ItemVulvaPiercingsClitRingLeash,Leash
 ItemVulvaPiercingsClitRingRing,Ring
 ItemVulvaPiercingsRoundClitPiercingBell,Bell
@@ -2066,6 +2113,8 @@ SocksHaremStockingsBands,Bands
 SocksHaremStockingsFabric,Fabric
 SocksKneePadsBody,Body
 SocksKneePadsGuards,Guards
+SocksYuletideVelvetWarmthSock,Sock
+SocksYuletideVelvetWarmthSock,Fuzz
 SocksLeftGradientPantyhoseLower,Lower
 SocksLeftGradientPantyhoseUpper,Upper
 SocksLeftHaremStockingsBands,Bands
@@ -2098,6 +2147,7 @@ SocksSocksFurFabric,Sock
 SocksSocksFurFur,Fur
 SocksSocksStriped1Dark,Dark Stripes
 SocksSocksStriped1Light,Light Stripes
+SocksYuletideVelvetWarmthFuzz,Fuzz
 StreetBoots,Shoes
 SuitCatsuitBase,Suit
 SuitCatsuitOpaqueGloves,Gloves
@@ -2144,6 +2194,10 @@ SuitSeethroughSuitZipOpaqueGloves,Gloves
 SuitSeethroughSuitZipZip,Zip
 TailStrapsDragonTailStrap1Primary,Primary
 TailStrapsDragonTailStrap1Secondary,Secondary
+TailStrapsDragonTailStrap2LeftPrimary,Primary
+TailStrapsDragonTailStrap2LeftSecondary,Secondary
+TailStrapsDragonTailStrap2RightPrimary,Primary
+TailStrapsDragonTailStrap2RightSecondary,Secondary
 TailStrapsFoxTailsStrapBases,Tails
 TailStrapsFoxTailsStrapTips,Tips
 TailStrapsFoxTailStrap1Base,Tail

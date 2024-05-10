@@ -36,7 +36,7 @@ function InventoryItemMiscSafewordPadlockDrawHook(data, originalFunction) {
 	const Property = DialogFocusSourceItem.Property;
 	if (Property?.LockMemberNumber != null) {
 		DrawText(
-			DialogFindPlayer("LockMemberNumber") + " " + Property.LockMemberNumber.toString(),
+			InterfaceTextGet("LockMemberNumber") + " " + Property.LockMemberNumber.toString(),
 			1500, 600, "white", "gray",
 		);
 	}

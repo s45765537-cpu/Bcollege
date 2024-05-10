@@ -7,15 +7,15 @@ function InventoryItemPelvisObedienceBelts1DrawHook(data, originalFunction) {
 	MainCanvas.textAlign = "left";
 	ExtendedItemDrawCheckbox(
 		"ShowText", 1100, 590, DialogFocusItem.Property.ShowText,
-		{ text: DialogFindPlayer("ObedienceBeltShowChatMessage"), textColor: "White", changeWhenLocked: false },
+		{ text: AssetTextGet("ObedienceBeltShowChatMessage"), textColor: "White", changeWhenLocked: false },
 	);
 	ExtendedItemDrawCheckbox(
 		"PunishOrgasm", 1100, 660, DialogFocusItem.Property.PunishOrgasm,
-		{ text: DialogFindPlayer("ObedienceBeltPunishOrgasm"), textColor: "White", changeWhenLocked: false },
+		{ text: AssetTextGet("ObedienceBeltPunishOrgasm"), textColor: "White", changeWhenLocked: false },
 	);
 	ExtendedItemDrawCheckbox(
 		"PunishStandup", 1100, 730, DialogFocusItem.Property.PunishStandup,
-		{ text: DialogFindPlayer("ObedienceBeltPunishStandup"), textColor: "White", changeWhenLocked: false },
+		{ text: AssetTextGet("ObedienceBeltPunishStandup"), textColor: "White", changeWhenLocked: false },
 	);
 	MainCanvas.textAlign = "center";
 	ExtendedItemCustomDraw("TriggerShock", 1635, 625, null, false, false);

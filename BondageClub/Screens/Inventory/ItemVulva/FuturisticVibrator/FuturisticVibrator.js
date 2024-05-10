@@ -37,16 +37,16 @@ function InventoryItemVulvaFuturisticVibratorDrawHook(data, originalFunction) {
 	// Draw each of the triggers and position their inputs
 	ItemVulvaFuturisticVibratorTriggers.forEach((trigger, i) => {
 		MainCanvas.textAlign = "right";
-		DrawText(DialogFindPlayer("FuturisticVibrator" + trigger), 1400, 450 + 60 * i, "white", "gray");
+		DrawText(AssetTextGet("FuturisticVibrator" + trigger), 1400, 450 + 60 * i, "white", "gray");
 		MainCanvas.textAlign = "center";
 		ElementPosition("FuturisticVibe" + trigger, 1650, 450 + 60 * i, 400);
 	});
 	// Draw the save button
-	DrawButton(1525, 450 + 60 * ItemVulvaFuturisticVibratorTriggers.length, 350, 64, DialogFindPlayer("FuturisticVibratorSaveVoiceCommands"), "White", "");
+	DrawButton(1525, 450 + 60 * ItemVulvaFuturisticVibratorTriggers.length, 350, 64, AssetTextGet("FuturisticVibratorSaveVoiceCommands"), "White", "");
 
-	DrawBackNextButton(1100, 450 + 60 * ItemVulvaFuturisticVibratorTriggers.length, 350, 64, DialogFindPlayer("FuturisticVibratorPermissions" + (Item.Property.AccessMode || "")), "White", "",
-		() => DialogFindPlayer("FuturisticVibratorPermissions" + InventoryItemVulvaFuturisticVibratorPreviousAccessMode(Item.Property.AccessMode || "")),
-		() => DialogFindPlayer("FuturisticVibratorPermissions" + InventoryItemVulvaFuturisticVibratorNextAccessMode(Item.Property.AccessMode || "")));
+	DrawBackNextButton(1100, 450 + 60 * ItemVulvaFuturisticVibratorTriggers.length, 350, 64, AssetTextGet("FuturisticVibratorPermissions" + (Item.Property.AccessMode || "")), "White", "",
+		() => AssetTextGet("FuturisticVibratorPermissions" + InventoryItemVulvaFuturisticVibratorPreviousAccessMode(Item.Property.AccessMode || "")),
+		() => AssetTextGet("FuturisticVibratorPermissions" + InventoryItemVulvaFuturisticVibratorNextAccessMode(Item.Property.AccessMode || "")));
 }
 
 /**

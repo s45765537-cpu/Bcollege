@@ -1,6 +1,13 @@
 "use strict";
 var Shop2Background = "Shop";
 
+/** @satisfies {Record<string, ShopDropdownState>} */
+const ShopDropdownState = /** @type {const} */({
+	NONE: "None",
+	GROUP: "Group",
+	POSE: "Pose",
+});
+
 /**
  * Namespace with shop-specific variables that are expected to mutate over the course of the (sub-)screens lifetime
  * @namespace
@@ -56,10 +63,11 @@ const Shop2Vars = CommonVariableContainer(
 		PreviewItems: [],
 
 		/**
-		 * Whether the group-selection dropdown menu should be displayed
-		 * @type {boolean}
+		 * The currently active dropdown menu
+		 * @type {ShopDropdownState}
 		 */
-		DisplayDropdown: false,
+		DropdownState: ShopDropdownState.NONE,
+
 		/**
 		 * A record mapping filter ID to filter callbacks.
 		 * Each callback is expected to return a list denoting for which modes the item is to-be shown.
@@ -281,9 +289,9 @@ var Shop2 = {
 				case "ItemVulva":
 				case "ItemVulvaPiercings":
 					if (Player.GenderSettings.HideShopItems.Female === Player.GenderSettings.HideShopItems.Male) {
-						description += ` & ${DialogFindPlayer(group.Name === "ItemVulva" ? "ItemPenis" : "ItemGlans")}`;
+						description += ` & ${InterfaceTextGet(group.Name === "ItemVulva" ? "DialogGroupNameItemPenis" : "DialogGroupNameItemGlans")}`;
 					} else if (Player.GenderSettings.HideShopItems.Female) {
-						description = DialogFindPlayer(group.Name === "ItemVulva" ? "ItemPenis" : "ItemGlans");
+						description = InterfaceTextGet(group.Name === "ItemVulva" ? "DialogGroupNameItemPenis" : "DialogGroupNameItemGlans");
 					}
 					break;
 			}
@@ -310,17 +318,16 @@ var Shop2 = {
 	},
 
 	/**
-	 * Run function for a single item in the shop
-	 * @param {number} time
+	 * Draw function for a single item in the shop
 	 * @param {number} x
 	 * @param {number} y
 	 * @param {number} w
 	 * @param {number} h
 	 * @param {number} assetIndex - The assets index within {@link Shop2Vars.CurrentAssets}
-	 * @satisfies {ShopScreenFunctions["Run"]}
+	 * @satisfies {ShopScreenFunctions["Draw"]}
 	 * @private
 	 */
-	_AssetElementRun: function _AssetElementRun(time, x, y, w, h, assetIndex) {
+	_AssetElementDraw: function _AssetElementDraw(x, y, w, h, assetIndex) {
 		const { Asset } = Shop2Vars.CurrentAssets[assetIndex] ?? {};
 		if (!Asset) {
 			return;
@@ -349,7 +356,7 @@ var Shop2 = {
 				if (hover) {
 					options.Background = "cyan";
 				} else if (item && item.Asset.Name === Asset.Name && item.Asset.Group.Name === Asset.Group.Name) {
-					options.Background = "gray";
+					options.Background = "pink";
 				} else {
 					options.Background = "white";
 				}
@@ -417,6 +424,7 @@ var Shop2 = {
 				} else {
 					Shop2Vars.EquippedItem = CharacterAppearanceSetItem(Shop2InitVars.Preview, asset.Group.Name, asset, [...asset.DefaultColor]) ?? null;
 				}
+				Shop2._UpdatePoseButtons();
 				break;
 			}
 			case "Buy":
@@ -489,7 +497,7 @@ var Shop2 = {
 				{
 					Coords: coords,
 					Mode: new Set(["Preview", "Buy", "Sell"]),
-					Run: (...args) => Shop2._AssetElementRun(...args, i),
+					Draw: (...args) => Shop2._AssetElementDraw(...args, i),
 					Click: (...args) => Shop2._AssetElementClick(...args, i),
 				},
 			];
@@ -540,6 +548,34 @@ var Shop2 = {
 
 		Shop2Vars.Filters.AssetGroup = (item) => checkedSet.has(item.Asset.Group.Name) ? ["Buy", "Sell", "Preview"] : [];
 		Shop2.ApplyItemFilters();
+	},
+
+	/**
+	 * Update the state of all pose-buttons, disabling or selecting them if so required.
+	 */
+	_UpdatePoseButtons: function _UpdatePoseButtons() {
+		const buttonElements = /** @type {HTMLButtonElement[]} */(Array.from(document.querySelectorAll("[data-pose]")));
+		for (const button of buttonElements) {
+			const pose = PoseRecord[/** @type {AssetPoseName} */(button.dataset.pose)];
+			if (!pose) {
+				continue;
+			}
+
+			button.disabled = false;
+			button.style.backgroundColor = "";
+			if (Shop2InitVars.Preview.PoseMapping[pose.Category] === pose.Name) {
+				button.style.backgroundColor = "pink";
+			} else if (!PoseAvailable(Shop2InitVars.Preview, pose.Category, pose.Name)) {
+				button.disabled = true;
+			}
+		}
+	},
+
+	_ClickDropdown: function _ClickDropdown() {
+		const elems = Array.from(document.getElementsByClassName("shop-dropdown"));
+		for (const elem of /** @type {HTMLDivElement[]} */(elems)) {
+			elem.style.display = "none";
+		}
 	},
 
 	/**
@@ -601,7 +637,33 @@ var Shop2 = {
 		DarkFactor: {
 			Coords: [0, 0, 2000, 1000],
 			Mode: new Set(["Preview", "Buy", "Sell", "Extended", "Color"]),
-			Run: (time, ...coords) => DrawRect(...coords, "rgba(0,0,0,0.5)"),
+			Draw: (...coords) => DrawRect(...coords, "rgba(0,0,0,0.5)"),
+		},
+		Character: {
+			Coords: [650, 0, 0, 0],
+			Mode: new Set(["Preview", "Buy", "Sell", "Extended", "Color"]),
+			Load: () => {
+				if (Shop2InitVars.Preview) {
+					return;
+				}
+				Shop2InitVars.Preview = CharacterLoadSimple("Shop2Preview");
+				Shop2InitVars.Preview.Appearance = Player.Appearance.filter(i => i.Asset.Group.IsAppearance());
+				Shop2InitVars.Preview.HeightRatio = 1;
+				// @ts-expect-error: partially initialized shared settings
+				Shop2InitVars.Preview.OnlineSharedSettings = { ItemsAffectExpressions: false };
+				CharacterRefresh(Shop2InitVars.Preview, false, false);
+			},
+			Draw: (x, y) => DrawCharacter(Shop2InitVars.Preview, x, y, 1),
+			Exit: () => {
+				switch (Shop2Vars.Mode) {
+					case "Buy":
+					case "Sell":
+					case "Preview":
+						CharacterDelete(Shop2InitVars.Preview);
+						Shop2InitVars.Preview = null;
+						break;
+				}
+			},
 		},
 		InputSearch: {
 			Coords: [25, 38, 660, 60],
@@ -626,7 +688,7 @@ var Shop2 = {
 					Shop2.ApplyItemFilters();
 				});
 			},
-			Run: (time, ...coords) => {
+			Draw: (...coords) => {
 				const font = MainCanvas.canvas.clientWidth <= MainCanvas.canvas.clientHeight * 2 ? MainCanvas.canvas.clientWidth / 50 : MainCanvas.canvas.clientHeight / 25;
 				ElementPositionFix("Shop2InputSearch", font, ...coords);
 			},
@@ -641,24 +703,27 @@ var Shop2 = {
 		GroupSelectHeader: {
 			Coords: [345, 155, 0, 0],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Run: (time, x, y) => DrawText(TextGet("GroupSelectHeader"), x, y, "White"),
+			Draw: (x, y) => DrawText(TextGet("GroupSelectHeader"), x, y, "White"),
 		},
 		GroupSelectCollapse: {
 			Coords: [25, Shop2Consts.Grid.y, 90, 90],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Run: (time, ...coords) => DrawButton(...coords, "", "White", "Icons/Next.png", TextGet("GroupSelectCollapse")),
-			Click: () => {
-				Shop2Vars.DisplayDropdown = !Shop2Vars.DisplayDropdown;
-				const elem = document.getElementById("Shop2GroupSelect");
-				if (elem) {
-					elem.style.display = "none";
+			Draw: (...coords) => {
+				if (Shop2Vars.DropdownState === ShopDropdownState.GROUP) {
+					DrawButton(...coords, "", "Pink", "Icons/Down.png", TextGet("GroupSelectCollapse"));
+				} else {
+					DrawButton(...coords, "", "White", "Icons/Next.png", TextGet("GroupSelectCollapse"));
 				}
+			},
+			Click: () => {
+				Shop2Vars.DropdownState = Shop2Vars.DropdownState === ShopDropdownState.GROUP ? ShopDropdownState.NONE : ShopDropdownState.GROUP;
+				Shop2._ClickDropdown();
 			},
 		},
 		GroupSelectAll: {
 			Coords: [135, Shop2Consts.Grid.y, 200, 90],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Run: (time, ...coords) => DrawButton(...coords, TextGet("GroupSelectAll"), "White"),
+			Draw: (...coords) => DrawButton(...coords, TextGet("GroupSelectAll"), "White"),
 			Click: () => {
 				for (const [category, groupDescriptions] of Object.entries(Shop2InitVars.GroupDescriptions)) {
 					for (const groupDescr of Object.keys(groupDescriptions)) {
@@ -675,7 +740,7 @@ var Shop2 = {
 		GroupSelectNone: {
 			Coords: [355, Shop2Consts.Grid.y, 200, 90],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Run: (time, ...coords) => DrawButton(...coords, TextGet("GroupSelectNone"), "White"),
+			Draw: (...coords) => DrawButton(...coords, TextGet("GroupSelectNone"), "White"),
 			Click: () => {
 				for (const [category, groupDescriptions] of Object.entries(Shop2InitVars.GroupDescriptions)) {
 					for (const groupDescr of Object.keys(groupDescriptions)) {
@@ -718,9 +783,10 @@ var Shop2 = {
 				}
 				elem.innerHTML = content;
 				elem.style.display = "none";
+				elem.classList.add("shop-dropdown");
 			},
-			Run: (time, ...coords) => {
-				if (!Shop2Vars.DisplayDropdown) {
+			Draw: (...coords) => {
+				if (Shop2Vars.DropdownState !== ShopDropdownState.GROUP) {
 					return;
 				}
 				const font = MainCanvas.canvas.clientWidth <= MainCanvas.canvas.clientHeight * 2 ? MainCanvas.canvas.clientWidth / 50 : MainCanvas.canvas.clientHeight / 25;
@@ -734,10 +800,90 @@ var Shop2 = {
 			},
 			Exit: () => ElementRemove("Shop2GroupSelect"),
 		},
+		PoseSelectHeader: {
+			Coords: [345, 155 + 160, 0, 0],
+			Mode: new Set(["Preview", "Buy", "Sell"]),
+			Draw: (x, y) => DrawText(TextGet("PoseSelectHeader"), x, y, "White"),
+		},
+		PoseSelectCollapse: {
+			Coords: [25, Shop2Consts.Grid.y + 160, 90, 90],
+			Mode: new Set(["Preview", "Buy", "Sell"]),
+			Draw: (...coords) => {
+				if (Shop2Vars.DropdownState === ShopDropdownState.POSE) {
+					DrawButton(...coords, "", "Pink", "Icons/Down.png", TextGet("PoseSelectCollapse"));
+				} else {
+					DrawButton(...coords, "", "White", "Icons/Next.png", TextGet("PoseSelectCollapse"));
+				}
+			},
+			Click: () => {
+				Shop2Vars.DropdownState = Shop2Vars.DropdownState === ShopDropdownState.POSE ? ShopDropdownState.NONE : ShopDropdownState.POSE;
+				Shop2._ClickDropdown();
+			},
+		},
+		PoseSelectNone: {
+			Coords: [135, Shop2Consts.Grid.y + 160, 200, 90],
+			Mode: new Set(["Preview", "Buy", "Sell"]),
+			Draw: (...coords) => DrawButton(...coords, TextGet("PoseSelectReset"), "White"),
+			Click: () => {
+				PoseSetActive(Shop2InitVars.Preview, null, true);
+				Shop2._UpdatePoseButtons();
+			},
+		},
+		PoseSelect: {
+			Coords: [25, Shop2Consts.Grid.y + 100 + 160, 660, Shop2Consts.Grid.height - 100 - 160],
+			Mode: new Set(["Preview", "Buy", "Sell"]),
+			Load: () => {
+				if (document.getElementById("Shop2PoseSelect")) {
+					return;
+				}
+
+				DialogLoadPoseMenu(Shop2InitVars.Preview);
+				const poseHTML = DialogActivePoses.map(poseList => {
+					return `
+						<div class=shop2-pose-inner-grid>
+							${poseList.map(p => `<button class=shop-button data-pose="${p.Name}" />`).join("\n")}
+						</div>
+					`;
+				}).join("\n");
+
+				const elem = ElementCreateDiv("Shop2PoseSelect");
+				elem.style.display = "none";
+				elem.innerHTML = `<div id=Shop2PoseOuterGrid>${poseHTML}</div>`;
+				elem.classList.add("shop-dropdown");
+
+				const poseButtons = /** @type {HTMLButtonElement[]} */(Array.from(document.querySelectorAll("[data-pose]")));
+				for (const button of poseButtons) {
+					const pose = /** @type {AssetPoseName} */(button.dataset.pose);
+					button.style.backgroundImage = `url("Icons/Poses/${pose}.png")`;
+					button.addEventListener("click", () => {
+						PoseSetActive(Shop2InitVars.Preview, pose);
+						Shop2._UpdatePoseButtons();
+					});
+				}
+				Shop2._UpdatePoseButtons();
+			},
+			Draw: (...coords) => {
+				if (Shop2Vars.DropdownState !== ShopDropdownState.POSE) {
+					return;
+				}
+				const canvas = MainCanvas.canvas;
+				const font = canvas.clientWidth <= canvas.clientHeight * 2 ? canvas.clientWidth / 50 : canvas.clientHeight / 25;
+				ElementPositionFix("Shop2PoseSelect", font, ...coords);
+				const elem = document.getElementById("Shop2PoseSelect");
+				elem.style.width = "fit-content";
+			},
+			Unload: () => {
+				const elem = document.getElementById("Shop2PoseSelect");
+				if (elem) {
+					elem.style.display = "none";
+				}
+			},
+			Exit: () => ElementRemove("Shop2PoseSelect"),
+		},
 		ItemHeader: {
 			Coords: [Shop2Consts.Grid.x + 20 + 1.5 * Shop2Consts.Grid.itemWidth, 155, 0, 0],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Run: (time, x, y) => {
+			Draw: (x, y) => {
 				let i = 0;
 				let j = Shop2Consts.BuyModeCycleOrder.indexOf(Shop2Vars.Mode);
 				const hideShopItems = Player.GenderSettings.HideShopItems;
@@ -756,43 +902,17 @@ var Shop2 = {
 		MoneyHeader: {
 			Coords: [Shop2Consts.Grid.x + 3 * 20 + 3.5 * Shop2Consts.Grid.itemWidth, 155, 0, 0],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Run: (time, x, y) => {
+			Draw: (x, y) => {
 				const money = Intl.NumberFormat(
 					"en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 },
 				).format(Math.min(999999, Player.Money));
 				DrawText(money, x, y, "White");
 			},
 		},
-		Character: {
-			Coords: [650, 0, 0, 0],
-			Mode: new Set(["Preview", "Buy", "Sell", "Extended", "Color"]),
-			Load: () => {
-				if (Shop2InitVars.Preview) {
-					return;
-				}
-				Shop2InitVars.Preview = CharacterLoadSimple("Shop2Preview");
-				Shop2InitVars.Preview.Appearance = Player.Appearance.filter(i => i.Asset.Group.IsAppearance());
-				Shop2InitVars.Preview.HeightRatio = 1;
-				// @ts-expect-error: partially initialized shared settings
-				Shop2InitVars.Preview.OnlineSharedSettings = { ItemsAffectExpressions: false };
-				CharacterRefresh(Shop2InitVars.Preview, false, false);
-			},
-			Run: (time, x, y) => DrawCharacter(Shop2InitVars.Preview, x, y, 1),
-			Exit: () => {
-				switch (Shop2Vars.Mode) {
-					case "Buy":
-					case "Sell":
-					case "Preview":
-						CharacterDelete(Shop2InitVars.Preview);
-						Shop2InitVars.Preview = null;
-						break;
-				}
-			},
-		},
 		BuyMode: {
 			Coords: [1225, 25, 90, 90],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Run: (time, ...coords) => {
+			Draw: (...coords) => {
 				switch (Shop2Vars.Mode) {
 					case "Buy":
 						return DrawButton(...coords, "", "Red", `Icons/Shop${Shop2Vars.Mode}.png`, TextGet(`BuyMode${Shop2Vars.Mode}`));
@@ -813,7 +933,7 @@ var Shop2 = {
 		Color: {
 			Coords: [1335, 25, 90, 90],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Run: (time, ...coords) => {
+			Draw: (...coords) => {
 				const asset = Shop2Vars.EquippedItem?.Asset;
 				const icon = (asset?.DefaultColor?.length ?? 1) <= 1 ? "ColorChange" : "ColorChangeMulti";
 				if (!asset || Shop2Vars.Mode !== "Preview") {
@@ -837,7 +957,7 @@ var Shop2 = {
 		ExtendedItemButton: {
 			Coords: [1445, 25, 90, 90],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Run: (time, ...coords) => {
+			Draw: (...coords) => {
 				const asset = Shop2Vars.EquippedItem?.Asset;
 				if (!asset || !asset.Archetype || asset.IsLock || Shop2Vars.Mode !== "Preview") {
 					DrawButton(...coords, "", "Gray", "Icons/Use.png", TextGet("ExtendedItemButton"), true);
@@ -858,7 +978,7 @@ var Shop2 = {
 		Clothes: {
 			Coords: [1555, 25, 90, 90],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Run: (time, ...coords) => {
+			Draw: (...coords) => {
 				if (Shop2Vars.Mode !== "Preview") {
 					DrawButton(...coords, "", "Gray", "Icons/Dress.png", TextGet(`ClothesMode${Shop2Vars.ClothesMode}`), true);
 				} else {
@@ -899,7 +1019,7 @@ var Shop2 = {
 		PagePrev: {
 			Coords: [1665, 25, 90, 90],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Run: (time, ...coords) => {
+			Draw: (...coords) => {
 				if (Shop2Vars.PageCount > 1) {
 					DrawButton(...coords, "", "White", "Icons/Prev.png", TextGet("PagePrev"));
 				} else {
@@ -915,7 +1035,7 @@ var Shop2 = {
 		PageNext: {
 			Coords: [1775, 25, 90, 90],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Run: (time, ...coords) => {
+			Draw: (...coords) => {
 				if (Shop2Vars.PageCount > 1) {
 					DrawButton(...coords, "", "White", "Icons/Next.png", TextGet("PageNext"));
 				} else {
@@ -931,14 +1051,14 @@ var Shop2 = {
 		Exit: {
 			Coords: [1885, 25, 90, 90],
 			Mode: new Set(["Preview", "Buy", "Sell", "Extended"]),
-			Run: (time, ...coords) => DrawButton(...coords, "", "White", "Icons/Exit.png", TextGet("Exit")),
+			Draw: (...coords) => DrawButton(...coords, "", "White", "Icons/Exit.png", TextGet("Exit")),
 			Click: () => Shop2Exit(),
 		},
 		// Keep these two at the very button as we can't reliably perform `MouseIn(...Coords)` checks on them
 		ExtendedItemScreen: {
 			Coords: [0, 0, 2000, 1000],
 			Mode: new Set(["Extended"]),
-			Run: (time, ...coords) => {
+			Draw: (...coords) => {
 				CommonCallFunctionByNameWarn(`Inventory${DialogFocusItem.Asset.Group.Name}${DialogFocusItem.Asset.Name}Draw`);
 			},
 			Click: () => {
@@ -949,7 +1069,7 @@ var Shop2 = {
 		ColorScreen: {
 			Coords: [0, 0, 2000, 1000],
 			Mode: new Set(["Color"]),
-			Run: (time, ...coords) => {
+			Draw: (...coords) => {
 				ItemColorDraw(Shop2InitVars.Preview, ItemColorItem.Asset.Group.Name, ...Shop2Consts.ItemColorCoords, true);
 			},
 			Click: () => {
@@ -1023,14 +1143,17 @@ function Shop2Click(event) {
 	});
 }
 
-/** @type {ScreenFunctions["Run"]} */
-function Shop2Run(time) {
+/** @type {ScreenFunctions["Draw"]} */
+function Shop2Draw() {
 	Object.values(Shop2.Elements).forEach((e) => {
 		if (e.Mode.has(Shop2Vars.Mode)) {
-			e.Run(time, ...e.Coords);
+			e.Draw(...e.Coords);
 		}
 	});
 }
+
+/** @type {ScreenFunctions["Run"]} */
+function Shop2Run() {}
 
 /** @type {ScreenFunctions["Unload"]} */
 function Shop2Unload() {
@@ -1051,9 +1174,12 @@ function Shop2Exit() {
 	});
 
 	switch (oldMode) {
+		case "Extended":
+			Shop2._UpdatePoseButtons();
+			break;
 		case "Buy":
 		case "Sell":
-		case "Preview": {
+		case "Preview":
 			if (Shop2Vars.Push) {
 				ServerPlayerInventorySync();
 				ServerPlayerSync();
@@ -1065,7 +1191,7 @@ function Shop2Exit() {
 			}
 			Shop2Vars.Reset();
 			Shop2InitVars.Reset();
-		}
+			break;
 	}
 }
 

@@ -275,8 +275,8 @@ function VibratorModeCreateData(
 		scriptHooks: ExtendedItemParseScriptHooks(ScriptHooks || {}),
 		dialogPrefix: {
 			header: DialogPrefix.Header || VibratorModeDialogPrefix,
-			chat: DialogPrefix.Chat || "VibeMode",
-			option: DialogPrefix.Option || "",
+			chat: DialogPrefix.Chat || "VibeModeAction",
+			option: DialogPrefix.Option || "VibeMode",
 		},
 		chatSetting: "default",
 		baselineProperty: CommonIsObject(BaselineProperty) ? BaselineProperty : null,
@@ -295,7 +295,7 @@ function VibratorModeCreateData(
 
 /** @type {ExtendedItemHeaderCallback<VibratingItemData>} */
 function VibratorModeDialogPrefix(data, C, item) {
-	return DialogFindPlayer(`Intensity${item.Property.Intensity}`);
+	return InterfaceTextGet(`Intensity${item.Property.Intensity}`);
 }
 
 /**
@@ -344,7 +344,7 @@ function VibratorModeValidate(data, C, item, newOption, previousOption, permitEx
 		&& C.ArousalSettings
 		&& C.ArousalSettings.DisableAdvancedVibes
 	) {
-		return DialogFindPlayer("ExtendedItemNoItemPermission");
+		return InterfaceTextGet("ExtendedItemNoItemPermission");
 	} else {
 		return ExtendedItemValidate(data, C, item, newOption, previousOption, permitExisting);
 	}

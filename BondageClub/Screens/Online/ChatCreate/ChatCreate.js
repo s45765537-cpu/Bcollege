@@ -21,7 +21,7 @@ var ChatCreateIsHidden = false;
 /** @type {ServerChatRoomLanguage} */
 var ChatCreateLanguage = "EN";
 /** @type {ServerChatRoomLanguage[]} */
-var ChatCreateLanguageList = ["EN", "DE", "FR", "ES", "CN", "RU"];
+var ChatCreateLanguageList = ["EN", "DE", "FR", "ES", "CN", "RU", "UA"];
 
 /**
  * Loads the chat creation screen properties and creates the inputs

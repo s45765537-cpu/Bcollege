@@ -103,7 +103,7 @@ function PropertyOpacityDraw(Data, OriginalFunction, XOffset=0, YOffset=0, Label
 
 	MainCanvas.textAlign = "right";
 	DrawTextFit(
-		DialogFindPlayer(LabelKeyword), 1375 + XOffset, 450 + YOffset,
+		InterfaceTextGet(LabelKeyword), 1375 + XOffset, 450 + YOffset,
 		400, "#FFFFFF", "#000",
 	);
 	ElementPosition(ID, 1625 + XOffset, 450 + YOffset, 400);
@@ -324,7 +324,7 @@ function PropertyAutoPunishDetectSpeech(Item, LastMessageLen=null) {
 	}
 
 	// Abort on whispers or if no new messages have been submitted
-	if (ChatRoomTargetMemberNumber != null || !ChatRoomLastMessage || ChatRoomLastMessage.length === LastMessageLen) {
+	if (ChatRoomTargetMemberNumber >= 0 || !ChatRoomLastMessage || ChatRoomLastMessage.length === LastMessageLen) {
 		return false;
 	}
 

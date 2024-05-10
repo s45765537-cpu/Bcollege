@@ -35,8 +35,8 @@ function InventoryItemPelvisModularChastityBeltDrawBase(_offset)
 {
 	MainCanvas.textAlign = "left";
 
-	DrawText(DialogFindPlayer("ModularChastityBeltTimeWorn") + ":", 1320, 550 + 0*75 + _offset, "White", "Gray");
-	DrawText(DialogFindPlayer("ModularChastityBeltTimeSinceLastOrgasm") + ":", 1320, 550 + 1*75 + _offset, "White", "Gray");
+	DrawText(AssetTextGet("ModularChastityBeltTimeWorn") + ":", 1320, 550 + 0*75 + _offset, "White", "Gray");
+	DrawText(AssetTextGet("ModularChastityBeltTimeSinceLastOrgasm") + ":", 1320, 550 + 1*75 + _offset, "White", "Gray");
 
 	DrawText(`${Math.floor((CommonTime() - DialogFocusItem.Property.TimeWorn)/86400000)}`, 1655, 550 + 0*75 + _offset, "White", "Gray");
 	DrawText(`${Math.floor((CommonTime() - DialogFocusItem.Property.TimeSinceLastOrgasm)/86400000)}`, 1655, 550 + 1*75 + _offset, "White", "Gray");
@@ -52,8 +52,8 @@ function InventoryItemPelvisModularChastityBeltDrawIntensity(_offset)
 	// Display option information
 	MainCanvas.textAlign = "left";
 
-	DrawText(DialogFindPlayer("ModularChastityBeltOrgasmCount") + ":", 1515, 550 + 0*75 + _offset, "White", "Gray");
-	DrawText(DialogFindPlayer("ModularChastityBeltDenyCount") + ":", 1515, 550 + 1*75 + _offset, "White", "Gray");
+	DrawText(AssetTextGet("ModularChastityBeltOrgasmCount") + ":", 1515, 550 + 0*75 + _offset, "White", "Gray");
+	DrawText(AssetTextGet("ModularChastityBeltDenyCount") + ":", 1515, 550 + 1*75 + _offset, "White", "Gray");
 
 	DrawText(`${DialogFocusItem.Property.OrgasmCount}`, 1690, 550 + 0*75 + _offset, "White", "Gray");
 	DrawText(`${DialogFocusItem.Property.RuinedOrgasmCount}`, 1690, 550 + 1*75 + _offset, "White", "Gray");
@@ -75,12 +75,12 @@ function InventoryItemPelvisModularChastityBeltDrawShockModule(_offset)
 
 	// Display option information
 	MainCanvas.textAlign = "right";
-	DrawText(DialogFindPlayer("ModularChastityBeltShockCount") + ":", 1650, 550 + 0*75 + _offset, "White", "Gray");
-	DrawText(DialogFindPlayer("ShowMessageInChat") + ":", 1500, 550 + 1*75 + _offset, "White", "Gray");
-	DrawText(DialogFindPlayer("ModularChastityBeltPunishOrgasm") + ":", 1500, 550 + 2*75 + _offset, "White", "Gray");
-	DrawText(DialogFindPlayer("ModularChastityBeltPunishTamperSelf") + ":", 1500, 550 + 3*75 + _offset, "White", "Gray");
-	DrawText(DialogFindPlayer("ModularChastityBeltPunishTamperOther") + ":", 1500, 550 + 4*75 + _offset, "White", "Gray");
-	DrawText(DialogFindPlayer("ModularChastityBeltPunishStanding") + ":", 1500, 550 + 5*75 + _offset, "White", "Gray");
+	DrawText(AssetTextGet("ModularChastityBeltShockCount") + ":", 1650, 550 + 0*75 + _offset, "White", "Gray");
+	DrawText(AssetTextGet("ShowMessageInChat") + ":", 1500, 550 + 1*75 + _offset, "White", "Gray");
+	DrawText(AssetTextGet("ModularChastityBeltPunishOrgasm") + ":", 1500, 550 + 2*75 + _offset, "White", "Gray");
+	DrawText(AssetTextGet("ModularChastityBeltPunishTamperSelf") + ":", 1500, 550 + 3*75 + _offset, "White", "Gray");
+	DrawText(AssetTextGet("ModularChastityBeltPunishTamperOther") + ":", 1500, 550 + 4*75 + _offset, "White", "Gray");
+	DrawText(AssetTextGet("ModularChastityBeltPunishStanding") + ":", 1500, 550 + 5*75 + _offset, "White", "Gray");
 
 	MainCanvas.textAlign = "left";
 	DrawText(`${DialogFocusItem.Property.TriggerCount}`, 1660, 550 + 0*75 + _offset, "White", "Gray");
@@ -118,7 +118,7 @@ function InventoryItemPelvisModularChastityBeltDrawVoiceControl(_offset)
 
 	InventoryItemPelvisModularChastityBeltVoiceTriggers.forEach((trigger, i) => {
 		MainCanvas.textAlign = "right";
-		DrawText(DialogFindPlayer("ModularChastityBelt" + trigger), 1480, 550 + i*60 + _offset, "white", "gray");
+		DrawText(AssetTextGet("ModularChastityBelt" + trigger), 1480, 550 + i*60 + _offset, "white", "gray");
 		MainCanvas.textAlign = "center";
 		ElementPosition("ModularChastityBelt" + trigger, 1625, 550 + i*60 + _offset, 225, 50);
 	});
@@ -127,9 +127,9 @@ function InventoryItemPelvisModularChastityBeltDrawVoiceControl(_offset)
 	ExtendedItemCustomDraw("FuturisticVibratorSaveVoiceCommands", 1510, 550-27 + InventoryItemPelvisModularChastityBeltVoiceTriggers.length*60 + _offset, null, false, false);
 
 	// Draw the BackNext button
-	DrawBackNextButton(1260, 550-27 + InventoryItemPelvisModularChastityBeltVoiceTriggers.length*60 + _offset, 225, 50, DialogFindPlayer("FuturisticVibratorPermissions" + (Item.Property.AccessMode || "")), "White", "",
-		() => DialogFindPlayer("FuturisticVibratorPermissions" + InventoryItemVulvaFuturisticVibratorPreviousAccessMode(Item.Property.AccessMode || "")),
-		() => DialogFindPlayer("FuturisticVibratorPermissions" + InventoryItemVulvaFuturisticVibratorNextAccessMode(Item.Property.AccessMode || ""))
+	DrawBackNextButton(1260, 550-27 + InventoryItemPelvisModularChastityBeltVoiceTriggers.length*60 + _offset, 225, 50, AssetTextGet("FuturisticVibratorPermissions" + (Item.Property.AccessMode || "")), "White", "",
+		() => AssetTextGet("FuturisticVibratorPermissions" + InventoryItemVulvaFuturisticVibratorPreviousAccessMode(Item.Property.AccessMode || "")),
+		() => AssetTextGet("FuturisticVibratorPermissions" + InventoryItemVulvaFuturisticVibratorNextAccessMode(Item.Property.AccessMode || ""))
 	);
 
 

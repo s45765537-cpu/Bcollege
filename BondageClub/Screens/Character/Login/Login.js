@@ -9,9 +9,9 @@ var LoginThankYou = "";
 var LoginThankYouList = [
 	"Abysseia", "Aceffect", "Alex", "Anna", "ArashiSama", "Aylea", "BlueWinter", "Bryce",
 	"Christian", "Desch", "Dynilath", "Edwin", "Elfreda", "FanRunner", "Glurak", "Greendragon",
-	"JoeyDubDee", "John", "Komiro", "Lyall", "Marashu", "Michal", "Michel", "Mindtie",
-	"Misa", "Nightcore", "Obie", "Setsu", "SlitheryCandy", "Soulcollar", "SubAnna",
-	"Tam", "Tarram", "TonyBoy", "TopHat", "Troubadix", "WhiteSniper", "XDWolfie", "Xepherio",
+	"JoeyDubDee", "john", "Komiro", "Lewis", "Lyall", "Marashu", "Michal", "Michel", "Mindtie",
+	"Misa", "Nightcore", "Setsu", "SlitheryCandy", "Soulcollar", "Tam", "Tarram",
+	"TonyBoy", "TopHat", "Troubadix", "WhiteSniper", "XDWolfie", "Xepherio"
 ];
 
 /* eslint-enable */
@@ -121,7 +121,21 @@ function LoginLoad() {
 	username.focus();
 	const pass = ElementCreateInput("InputPassword", "password", "", "20", form);
 	pass.setAttribute("autocomplete", "current-password");
+	const languages = [];
+	TranslationDictionary.forEach(L => languages.push(TranslationGetLanguageName(L.LanguageCode)));
+	ElementCreateDropdown("LanguageDropdown", languages, (event) => {
+		const language = document.querySelector(".select-selected").textContent;
+		if (!language) return;
+		TranslationSwitchLanguage(language);
+		TextLoad();
+		ActivityDictionaryLoad();
+		AssetLoadDescription("Female3DCG");
+	});
+	// Setting saved language as displayed
+	document.querySelector(".select-selected").textContent = TranslationGetLanguageName(TranslationLanguage);
 	TextPrefetchFile(BackgroundsStringsPath);
+	TextPrefetchFile(AssetStringsPath);
+	TextPrefetchFile(InterfaceStringsPath);
 	TextPrefetch("Room", "MainHall");
 	DrawGetImage("Backgrounds/MainHall.jpg");
 	LoginTextCacheUnsubscribeCallback = TextScreenCache.onRebuild(LoginUpdateMessage);
@@ -146,9 +160,8 @@ function LoginRun() {
 	ElementPosition("InputName", 1000, 260, 500);
 	DrawText(TextGet("Password"), 1000, 350, "White", "Black");
 	ElementPosition("InputPassword", 1000, 410, 500);
-	DrawButton(775, 500, 200, 60, TextGet("Login"), CanLogin ? "White" : "Grey", "");
-	DrawButton(1025, 500, 200, 60, TranslationGetLanguageName(TranslationLanguage), "White");
-	DrawImage(`Icons/Languages/${TranslationLanguage}.png`, 1027, 502);
+	ElementPosition("LanguageDropdown", 1145, 530, 255, 60);
+	DrawButton(725, 500, 255, 60, TextGet("Login"), CanLogin ? "White" : "Grey", "");
 	DrawText(TextGet("CreateNewCharacter"), 1000, 670, "White", "Black");
 	DrawButton(825, 710, 350, 60, TextGet("NewCharacter"), CanLogin ? "White" : "Grey", "");
 	if (CheatAllow) DrawButton(825, 800, 350, 60, TextGet("Cheats"), "White", "");
@@ -349,24 +362,37 @@ function LoginPerformInventoryFixups(Inventory, Appearance, Crafting) {
  * @returns {void} Nothing
  */
 function LoginValidCollar() {
-	if ((InventoryGet(Player, "ItemNeck") != null) && (InventoryGet(Player, "ItemNeck").Asset.Name == "SlaveCollar") && (Player.Owner == "" || LogQuery("ReleasedCollar", "OwnerRule"))) {
-		InventoryRemove(Player, "ItemNeck");
-		if (CurrentScreen == "ChatRoom") {
-			ChatRoomCharacterItemUpdate(Player, "ItemNeck");
-			ChatRoomCharacterItemUpdate(Player, "ItemNeckAccessories");
-			ChatRoomCharacterItemUpdate(Player, "ItemNeckRestraints");
+	let item = InventoryGet(Player, "ItemNeck");
+	if (!Player.IsFullyOwned() || LogQuery("ReleasedCollar", "OwnerRule")) {
+		// Not owned, or currently released from the collar, make sure we don't have it equipped
+		if (item && item.Asset.Name == "SlaveCollar") {
+			InventoryRemove(Player, "ItemNeck");
+			item = null;
+			if (CurrentScreen == "ChatRoom") {
+				ChatRoomCharacterItemUpdate(Player, "ItemNeck");
+				ChatRoomCharacterItemUpdate(Player, "ItemNeckAccessories");
+				ChatRoomCharacterItemUpdate(Player, "ItemNeckRestraints");
+			}
 		}
 	}
-	if (!LogQuery("ReleasedCollar", "OwnerRule")) {
-		if ((InventoryGet(Player, "ItemNeck") != null) && (InventoryGet(Player, "ItemNeck").Asset.Name != "SlaveCollar") && (InventoryGet(Player, "ItemNeck").Asset.Name != "ClubSlaveCollar") && (Player.Owner != "")) {
+
+	if (Player.IsFullyOwned() && !LogQuery("ReleasedCollar", "OwnerRule")) {
+		// Owned, but not currently released from the collar
+		if (item && !["SlaveCollar", "ClubSlaveCollar"].includes(item.Asset.Name)) {
+			// We're wearing something else, yank that
 			InventoryRemove(Player, "ItemNeck");
+			item = null;
 			if (CurrentScreen == "ChatRoom") ChatRoomCharacterItemUpdate(Player, "ItemNeck");
 		}
-		if ((InventoryGet(Player, "ItemNeck") == null) && (Player.Owner != "")) {
+
+		if (!item) {
+			// Now make sure we're wearing the slave collar
 			InventoryWear(Player, "SlaveCollar", "ItemNeck");
 			if (CurrentScreen == "ChatRoom") ChatRoomCharacterItemUpdate(Player, "ItemNeck");
 		}
 	}
+
+	// Check if we should switch to the club slave collar
 	if (LogQuery("ClubSlave", "Management") && !InventoryIsWorn(Player, "ClubSlaveCollar", "ItemNeck"))
 		InventoryWear(Player, "ClubSlaveCollar", "ItemNeck");
 }
@@ -828,6 +854,7 @@ function LoginResponse(C) {
 			CharacterRefresh(Player, false);
 			ElementRemove("InputName");
 			ElementRemove("InputPassword");
+			ElementRemove("LanguageDropdown");
 			CharacterDelete(LoginCharacter);
 			LoginCharacter = null;
 			if (ManagementIsClubSlave()) CharacterNaked(Player);
@@ -886,7 +913,7 @@ function LoginResponse(C) {
 						} else {
 
 							// If the player must start in her room, in her cage
-							if (LogQuery("SleepCage", "Rule") && (Player.Owner != "") && PrivateOwnerInRoom()) {
+							if (LogQuery("SleepCage", "Rule") && Player.IsOwned() === "npc" && PrivateOwnerInRoom()) {
 								InventoryRemove(Player, "ItemFeet");
 								InventoryRemove(Player, "ItemLegs");
 								Player.Cage = true;
@@ -942,6 +969,7 @@ function LoginClick() {
 	if (CheatAllow && MouseIn(825, 800, 350, 60)) {
 		ElementRemove("InputName");
 		ElementRemove("InputPassword");
+		ElementRemove("LanguageDropdown");
 		CommonSetScreen("Character", "Cheat");
 	}
 
@@ -949,6 +977,7 @@ function LoginClick() {
 	if (ServerIsConnected && MouseIn(825, 890, 350, 60)) {
 		ElementRemove("InputName");
 		ElementRemove("InputPassword");
+		ElementRemove("LanguageDropdown");
 		CommonSetScreen("Character", "PasswordReset");
 	}
 
@@ -956,20 +985,12 @@ function LoginClick() {
 	if (ServerIsConnected && MouseIn(825, 710, 350, 60)) {
 		ElementRemove("InputName");
 		ElementRemove("InputPassword");
+		ElementRemove("LanguageDropdown");
 		CommonSetScreen("Character", "Disclaimer");
 	}
 
 	// Try to login
 	if (MouseIn(775, 500, 200, 60)) LoginDoLogin();
-
-	// If we must change the language
-	if (MouseIn(1025, 500, 200, 60)) {
-		TranslationNextLanguage();
-		TextLoad();
-		ActivityDictionaryLoad();
-		AssetLoadDescription("Female3DCG");
-	}
-
 }
 
 /**

@@ -1,0 +1,88 @@
+﻿Enter your room information
+Уведіть інформацію про Вашу кімнату
+Room Name
+Назва кімнати
+(Letters & numbers only)
+(Лише букви та цифри)
+Description
+Опис
+Language
+Мова
+Description of the room (Letters & numbers only)
+Опис кімнати (Лише букви та цифри)
+Ban List
+Бан-лист
+Administrator List
+Список адміністраторів
+Private (Need exact name to find it)
+Приватна (Потрібна точна назва, щоб знайти її)
+Locked (Only admins can leave or enter)
+Заблокована (Тільки адміністратори можуть увійти чи вийти)
+Never use the map exploration
+Ніколи не використовувати режим карти
+Hybrid map, can go on and off
+Гібрид (карта та звичайний режим)
+Only use the map, no regular chat
+Використовувати лише режим карти
+Select the background
+Віберіть фон
+Size (2-20)
+Розмір (2-20)
+Create
+Створити
+Exit
+Вихід
+Selection
+Вибір
+Creating your room...
+Створення Вашої кімнати...
+This room name is already taken
+Ця назва кімнати вже зайнята
+Account error, try to relog
+Помилка облікового запису, спробуйте перезайти
+Invalid room data
+Недійсні дані кімнати
+Room created, joining it...
+Кімната створена, приєднання до неї...
+Use member numbers separated by commas (ex: 2313, 12401, ...)
+Використовуйте номери учасників, розділені комами (наприклад: 2313, 12401, ...)
+Use member numbers separated by commas (ex: 16780, ...)
+Використовуйте номери учасників, розділені комами (ex: 16780, ...)
+Ban blacklist
+Забанити чорний список
+Ban ghostlist
+Заборонити список привидів
+Add Owner
+Додати власника
+Add Lovers
+Додати коханих
+Background
+Фон
+Block Categories
+Блокувати категорії
+No Game
+Без гри
+Club Card
+Клубні карти
+LARP
+LARP
+Magic Battle
+Магічна битва
+GGTS
+GGTS
+(Click anywhere to return)
+(Натисніть будь-де, щоб повернутися)
+English
+Англійська
+French
+Французька
+Spanish
+Іспанська
+German
+Німецька
+Chinese
+Китайська
+Ukrainian
+Українська
+Russian
+Російська

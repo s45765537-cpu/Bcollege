@@ -34,8 +34,8 @@ function CollegeCafeteriaLoad() {
 	if (LogQuery("SidneyLover", "NPC-Sidney") && (Player.Lover != "NPC-Sidney")) CollegeCafeteriaSidneyStatus = "ExLover";
 	if (LogQuery("SidneyCollared", "NPC-Sidney")) CollegeCafeteriaSidneyStatus = "Owned";
 	if (LogQuery("SidneyCollaredWithCurfew", "NPC-Sidney")) CollegeCafeteriaSidneyStatus = "Curfew";
-	if (LogQuery("SidneyMistress", "NPC-Sidney") && (Player.Owner == "NPC-Sidney")) CollegeCafeteriaSidneyStatus = "Owner";
-	if (LogQuery("SidneyMistress", "NPC-Sidney") && (Player.Owner != "NPC-Sidney")) CollegeCafeteriaSidneyStatus = "ExOwner";
+	if (LogQuery("SidneyMistress", "NPC-Sidney") && (Player.IsOwned() === "npc" && Player.OwnerName() === "Sidney")) CollegeCafeteriaSidneyStatus = "Owner";
+	if (LogQuery("SidneyMistress", "NPC-Sidney") && (Player.IsOwned() === "npc" && Player.OwnerName() !== "NPC-Sidney")) CollegeCafeteriaSidneyStatus = "ExOwner";
 	if (PrivateCharacter.length > 1)
 		for (let P = 1; P < PrivateCharacter.length; P++)
 			if (PrivateCharacter[P].Name == "Sidney")
@@ -173,7 +173,7 @@ function CollegeCafeteriaInviteToPrivateRoom() {
 	NPCTraitSet(C, "Dumb", 40);
 	NPCTraitSet(C, "Rude", 90);
 	C.Love = 20;
-	if (CollegeCafeteriaSidney.Owner == Player.Name) {
+	if (CollegeCafeteriaSidney.IsOwnedByCharacter(Player)) {
 		NPCEventAdd(C, "NPCCollaring", CurrentTime);
 		InventoryWear(C, "SlaveCollar", "ItemNeck");
 		C.Owner = Player.Name;
@@ -184,7 +184,7 @@ function CollegeCafeteriaInviteToPrivateRoom() {
 		C.Lover = Player.Name;
 		C.Love = 100;
 	}
-	if (Player.Owner == "NPC-Sidney") {
+	if (Player.IsOwnedByCharacter(CollegeCafeteriaSidney)) {
 		NPCEventAdd(C, "PlayerCollaring", CurrentTime);
 		NPCEventAdd(C, "LastGift", CurrentTime);
 		C.Love = 100;

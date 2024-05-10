@@ -706,14 +706,14 @@ function ServerAccountBeep(data) {
 				AudioPlayInstantSound("Audio/BeepAlarm.mp3");
 			}
 			ServerBeep = {
-				Message: `${DialogFindPlayer("BeepFrom")} ${data.MemberName} (${data.MemberNumber})`,
+				Message: `${InterfaceTextGet("BeepFrom")} ${data.MemberName} (${data.MemberNumber})`,
 				Timer: CommonTime() + 10000,
 				ChatRoomName: data.ChatRoomName
 			};
 			if (ServerBeep.ChatRoomName != null)
-				ServerBeep.Message = ServerBeep.Message + " " + DialogFindPlayer("InRoom") + " \"" + ServerBeep.ChatRoomName + "\"" + (data.ChatRoomSpace === "Asylum" ? " " + DialogFindPlayer("InAsylum") : '');
+				ServerBeep.Message = ServerBeep.Message + " " + InterfaceTextGet("InRoom") + " \"" + ServerBeep.ChatRoomName + "\"" + (data.ChatRoomSpace === "Asylum" ? " " + InterfaceTextGet("InAsylum") : '');
 			if (data.Message) {
-				ServerBeep.Message += `; ${DialogFindPlayer("BeepWithMessage")}`;
+				ServerBeep.Message += `; ${InterfaceTextGet("BeepWithMessage")}`;
 				ServerBeep.IsMail = true;
 			}
 			FriendListBeepLog.push({
@@ -742,6 +742,8 @@ function ServerAccountBeep(data) {
 				if (ChatRoomCanBeLeashedBy(data.MemberNumber, Player) && ChatSelectGendersAllowed(data.ChatRoomSpace, Player.GetGenders())) {
 					ChatRoomJoinLeash = data.ChatRoomName;
 
+					// TODO: Consider using `ChatRoomLeave` here after a review, it being the canonical function for leaving chatrooms
+					ChatRoomCharacter = [];
 					DialogLeave();
 					ChatRoomClearAllElements();
 					if (CurrentScreen == "ChatRoom") {
@@ -818,7 +820,7 @@ function ServerAccountOwnership(data) {
 
 	// If we must clear the character ownership data
 	if ((data != null) && (typeof data === "object") && !Array.isArray(data) && (data.ClearOwnership === true)) {
-		CharacterClearOwnership(Player);
+		CharacterClearOwnership(Player, false);
 	}
 
 }
@@ -860,7 +862,7 @@ function ServerChatRoomGetAllowItem(Source, Target) {
 	if (typeof Target.MemberNumber !== "number") return true;
 
 	// At zero permission level or if target is source or if owner, we allow it
-	if ((Target.ItemPermission <= 0) || (Source.MemberNumber == Target.MemberNumber) || ((Target.Ownership != null) && (Target.Ownership.MemberNumber != null) && (Target.Ownership.MemberNumber == Source.MemberNumber))) return true;
+	if ((Target.ItemPermission <= 0) || (Source.MemberNumber == Target.MemberNumber) || Target.IsOwnedByCharacter(Source)) return true;
 
 	// At one, we allow if the source isn't on the blacklist
 	if ((Target.ItemPermission == 1) && (Target.BlackList.indexOf(Source.MemberNumber) < 0)) return true;
@@ -961,7 +963,7 @@ var ServerAccountDataSyncedValidate = {
 				continue;
 			}
 			if (Name.startsWith("NPC-")) {
-				// @ts-expect-error NPC lovers only have the name; the rest is in their .Event and/or the player's Log
+				// NPC lovers only have the name; the rest is in their .Event and/or the player's Log
 				ret.push({ Name });
 			} else if (
 				typeof Name === "string"

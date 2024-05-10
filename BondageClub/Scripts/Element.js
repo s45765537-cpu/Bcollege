@@ -87,6 +87,32 @@ function ElementCreateTextArea(ID, form) {
 }
 
 /**
+ * Blur event listener for `number`-based `<input>` elements that automatically sanitizes the input value the moment the element is deselected.
+ * @this {HTMLInputElement}
+ * @param {FocusEvent} event
+ */
+function ElementNumberInputBlur(event) {
+	let value = "";
+	if (Number.isNaN(this.valueAsNumber)) {
+		value = this.defaultValue;
+	} else {
+		const min = Number.parseInt(this.min, 10);
+		const max = Number.parseInt(this.max, 10);
+		value = CommonClamp(
+			Math.round(this.valueAsNumber),
+			Number.isNaN(min) ? -Infinity : min,
+			Number.isNaN(max) ? Infinity : max,
+		).toString();
+	}
+
+	if (value !== this.value) {
+		this.value = value;
+		this.dispatchEvent(new Event("input"));
+		this.dispatchEvent(new Event("change"));
+	}
+}
+
+/**
  * Creates a new text input element in the main document.Does not create a new element if there is already an existing one with the same ID
  * @param {string} ID - The id of the input tag to create.
  * @param {string} Type - Type of the input tag to create.
@@ -107,6 +133,13 @@ function ElementCreateInput(ID, Type, Value, MaxLength, form) {
 	e.setAttribute("screen-generated", CurrentScreen);
 	e.setAttribute("maxlength", MaxLength);
 	e.setAttribute("onfocus", "this.removeAttribute('readonly');");
+	switch (Type) {
+		case "number":
+			e.inputMode = "numeric";
+			e.addEventListener("blur", ElementNumberInputBlur);
+			break;
+	}
+
 	e.className = "HideOnPopup";
 
 	if (form) {
@@ -314,8 +347,8 @@ function ElementPosition(ElementID, X, Y, W, H) {
 	const HRatio = MainCanvas.canvas.clientHeight / 1000;
 	const WRatio = MainCanvas.canvas.clientWidth / 2000;
 	const Font = MainCanvas.canvas.clientWidth <= MainCanvas.canvas.clientHeight * 2 ? MainCanvas.canvas.clientWidth / 50 : MainCanvas.canvas.clientHeight / 25;
-	const Height = H ? H * HRatio : Font * 1.15;
-	const Width = W * WRatio - 18;
+	const Height = H ? H * HRatio : 4 + Font * 1.15;
+	const Width = W * WRatio;
 	const Top = MainCanvas.canvas.offsetTop + Y * HRatio - Height / 2;
 	const Left = MainCanvas.canvas.offsetLeft + (X - W / 2) * WRatio;
 

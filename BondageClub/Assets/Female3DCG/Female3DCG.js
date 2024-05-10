@@ -1384,6 +1384,195 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
+				Name: "YuletideVelvetWarmth",
+				Gender: "F",
+				Value: 70,
+				Top: 0,
+				Left: 0,
+				Prerequisite: ["HasBreasts"],
+				Layer: [
+					{
+						Name: "Bow",
+						Priority: 33,
+						PoseMapping: {
+							TapedHands: "TapedHands",
+							Yoked: "Yoked",
+							OverTheHead: "Yoked",
+							BackBoxTie: "Yoked",
+							BackElbowTouch: "Yoked",
+							BackCuffs: "Yoked",
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "Shawl",
+						Priority: 33,
+						PoseMapping: {
+							TapedHands: "",
+							Yoked: "Yoked",
+							OverTheHead: "Yoked",
+							BackBoxTie: "Yoked",
+							BackElbowTouch: "Yoked",
+							BackCuffs: "Yoked",
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "ShawlFur",
+						Priority: 34,
+						PoseMapping: {
+							TapedHands: "",
+							Yoked: "Yoked",
+							OverTheHead: "Yoked",
+							BackBoxTie: "Yoked",
+							BackElbowTouch: "Yoked",
+							BackCuffs: "Yoked",
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "Fur",
+						Priority: 32,
+						PoseMapping: {
+							TapedHands: "",
+							Yoked: "",
+							OverTheHead: "",
+							BackBoxTie: "",
+							BackElbowTouch: "",
+							BackCuffs: "",
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "Bands",
+						Priority: 33,
+						PoseMapping: {
+							TapedHands: "",
+							Yoked: "",
+							OverTheHead: "",
+							BackBoxTie: "",
+							BackElbowTouch: "",
+							BackCuffs: "",
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "Fabric",
+						Priority: 31,
+						PoseMapping: {
+							TapedHands: "TapedHands",
+							Yoked: "Yoked",
+							OverTheHead: "Yoked",
+							BackBoxTie: "Yoked",
+							BackElbowTouch: "Yoked",
+							BackCuffs: "Yoked",
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "Base",
+						Priority: 31,
+						PoseMapping: {
+							TapedHands: "",
+							Yoked: "",
+							OverTheHead: "",
+							BackBoxTie: "",
+							BackElbowTouch: "",
+							BackCuffs: "",
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+						},
+					},
+				],
+			},
+			{
+				Name: "NunRobes",
+				Gender: "F",
+				Value: 70,
+				Top: -110,
+				Left: 0,
+				Prerequisite: ["HasBreasts"],
+				Layer: [
+					{
+						Name: "Cloth",
+						Priority: 32,
+						PoseMapping: {
+							TapedHands: "TapedHands",
+							Yoked: "Yoked",
+							OverTheHead: "OverTheHead",
+							BackBoxTie: "BackBoxTie",
+							BackElbowTouch: "BackBoxTie",
+							BackCuffs: "BackBoxTie",
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "Band",
+						Priority: 33,
+						PoseMapping: {
+							TapedHands: "",
+							Yoked: "",
+							OverTheHead: "",
+							BackBoxTie: "",
+							BackElbowTouch: "",
+							BackCuffs: "",
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "Shawl",
+						Priority: 34,
+						PoseMapping: {
+							TapedHands: "",
+							Yoked: "Yoked",
+							OverTheHead: "OverTheHead",
+							BackBoxTie: "",
+							BackElbowTouch: "",
+							BackCuffs: "",
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "Back",
+						CopyLayerColor: "Cloth",
+						Priority: 5,
+						PoseMapping: {
+							TapedHands: "",
+							Yoked: "",
+							OverTheHead: "",
+							BackBoxTie: "",
+							BackElbowTouch: "",
+							BackCuffs: "",
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "Interior",
+						Priority: 4,
+						PoseMapping: {
+							TapedHands: "",
+							Yoked: "",
+							OverTheHead: "",
+							BackBoxTie: "",
+							BackElbowTouch: "",
+							BackCuffs: "",
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+						},
+					},
+				],
+			},
+			{
 				Name: "BodyTowel1",
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
@@ -2861,6 +3050,13 @@ var AssetFemale3DCG = [
 				Extended: true,
 				CreateLayerTypes: ["typed"],
 				Layer: [{ Name: "Collar" }, { Name: "Bow" }, { Name: "Cuffs" }],
+			},
+			{
+				Name: "BowBackAccessory",
+				Value: 10,
+				Top: -110,
+				Left: 0,
+				Priority: 3,
 			},
 			{
 				Name: "Camera1",
@@ -5619,6 +5815,31 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
+				Name: "LeatherVestSuit",
+				Gender: "F",
+				Top: 0,
+				Left: 0,
+				Value: 45,
+				Hide: ["ItemNipples"],
+				Prerequisite: ["HasBreasts"],
+				Layer: [
+					{
+						Name: "Leather",
+						PoseMapping: {
+							Hogtied: "Hogtied",
+							AllFours: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "Silk",
+						PoseMapping: {
+							Hogtied: "Hogtied",
+							AllFours: PoseType.HIDE,
+						},
+					},
+				],
+			},
+			{
 				Name: "FrameBra1",
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
@@ -7319,6 +7540,17 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#663699"],
 				BuyGroup: "LeatherSocks1",
 				Random: false,
+			},
+			{
+				Name: "YuletideVelvetWarmth",
+				Top: 0,
+				Left: 0,
+				Value: 25,
+				Layer: [{ Name: "Sock" }, { Name: "Fuzz" }],
+				PoseMapping: {
+					...AssetPoseMapping.Socks,
+					Hogtied: PoseType.HIDE,
+				},
 			},
 			{
 				Name: "KneePads",
@@ -9141,6 +9373,15 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "StrictPonyBoots",
+				DynamicGroupName: "ItemBoots",
+				CopyConfig: {
+					GroupName: "ItemBoots",
+					AssetName: "StrictPonyBoots",
+					BuyGroup: true,
+				},
+			},
 		],
 		Color: [
 			"Default",
@@ -9235,6 +9476,17 @@ var AssetFemale3DCG = [
 						CopyLayerColor: "Long",
 						Top: 20,
 					},
+				],
+			},
+			{
+				Name: "NunVeil",
+				Value: 20,
+				Top: -110,
+				Left: 0,
+				Layer: [
+					{ Name: "Main", Priority: 55 },
+					{ Name: "Back", Priority: 4 },
+					{ Name: "Inside", Priority: 3 },
 				],
 			},
 			{
@@ -10547,6 +10799,34 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
+				Name: "Horns4",
+				Fetish: ["Pet"],
+				Value: 15,
+				BuyGroup: "Horns4",
+				Top: 0,
+				Left: 0,
+			},
+			{
+				Name: "Horns5",
+				Fetish: ["Pet"],
+				Value: 15,
+				BuyGroup: "Horns2",
+				Top: 0,
+				Left: 0,
+			},
+			{
+				Name: "CowEars",
+				Fetish: ["Pet"],
+				Value: 15,
+				BuyGroup: "CowEars",
+				Top: 0,
+				Left: 0,
+				Layer: [
+					{ Name: "Ears", Priority: 40 },
+					{ Name: "Horn", Priority: 55 },
+				],
+			},
+			{
 				Name: "HairFlower1",
 				Value: 10,
 				BuyGroup: "HairFlower1",
@@ -11141,6 +11421,34 @@ var AssetFemale3DCG = [
 						Top: 20,
 						Left: 93,
 					},
+				],
+			},
+			{
+				Name: "Horns4",
+				Fetish: ["Pet"],
+				Value: -1,
+				BuyGroup: "Horns4",
+				Top: 0,
+				Left: 0,
+			},
+			{
+				Name: "Horns5",
+				Fetish: ["Pet"],
+				Value: -1,
+				BuyGroup: "Horns2",
+				Top: 0,
+				Left: 0,
+			},
+			{
+				Name: "CowEars",
+				Fetish: ["Pet"],
+				Value: -1,
+				BuyGroup: "CowEars",
+				Top: 0,
+				Left: 0,
+				Layer: [
+					{ Name: "Ears", Priority: 40 },
+					{ Name: "Horn", Priority: 55 },
 				],
 			},
 			{
@@ -12046,6 +12354,7 @@ var AssetFemale3DCG = [
 				Priority: 29,
 				PoseMapping: {
 					...AssetPoseMapping.Bracelet,
+					BackBoxTie: PoseType.HIDE,
 					BackCuffs: PoseType.HIDE,
 				},
 				DefaultColor: ["#270D8B", "#0F0F0F", "#C3C3C3"],
@@ -12064,6 +12373,7 @@ var AssetFemale3DCG = [
 						Name: "Face",
 						PoseMapping: {
 							...AssetPoseMapping.Bracelet,
+							BackBoxTie: PoseType.HIDE,
 							BackCuffs: PoseType.HIDE,
 							OverTheHead: PoseType.HIDE,
 							Yoked: PoseType.HIDE,
@@ -12074,6 +12384,7 @@ var AssetFemale3DCG = [
 						Name: "FaceRight",
 						PoseMapping: {
 							...AssetPoseMapping.Bracelet,
+							BackBoxTie: PoseType.HIDE,
 							BackCuffs: PoseType.HIDE,
 							OverTheHead: PoseType.HIDE,
 							Yoked: PoseType.HIDE,
@@ -12086,6 +12397,8 @@ var AssetFemale3DCG = [
 						AllowTypes: { l: [0, 1] },
 						PoseMapping: {
 							...AssetPoseMapping.Bracelet,
+							BackBoxTie: PoseType.HIDE,
+							BackCuffs: PoseType.HIDE,
 							BaseUpper: PoseType.HIDE,
 						},
 					},
@@ -12095,6 +12408,8 @@ var AssetFemale3DCG = [
 						CopyLayerColor: "Trim",
 						PoseMapping: {
 							...AssetPoseMapping.Bracelet,
+							BackBoxTie: PoseType.HIDE,
+							BackCuffs: PoseType.HIDE,
 							BaseUpper: PoseType.HIDE,
 						},
 					},
@@ -12102,6 +12417,7 @@ var AssetFemale3DCG = [
 						Name: "CircleTrim",
 						PoseMapping: {
 							...AssetPoseMapping.Bracelet,
+							BackBoxTie: PoseType.HIDE,
 							BackCuffs: PoseType.HIDE,
 							OverTheHead: PoseType.HIDE,
 							Yoked: PoseType.HIDE,
@@ -12113,6 +12429,7 @@ var AssetFemale3DCG = [
 						Name: "CircleTrimRight",
 						PoseMapping: {
 							...AssetPoseMapping.Bracelet,
+							BackBoxTie: PoseType.HIDE,
 							BackCuffs: PoseType.HIDE,
 							OverTheHead: PoseType.HIDE,
 							Yoked: PoseType.HIDE,
@@ -12124,6 +12441,7 @@ var AssetFemale3DCG = [
 						Name: "SquareFace",
 						PoseMapping: {
 							...AssetPoseMapping.Bracelet,
+							BackBoxTie: PoseType.HIDE,
 							BackCuffs: PoseType.HIDE,
 							OverTheHead: PoseType.HIDE,
 							Yoked: PoseType.HIDE,
@@ -12135,6 +12453,7 @@ var AssetFemale3DCG = [
 						Name: "SquareFaceRight",
 						PoseMapping: {
 							...AssetPoseMapping.Bracelet,
+							BackBoxTie: PoseType.HIDE,
 							BackCuffs: PoseType.HIDE,
 							OverTheHead: PoseType.HIDE,
 							Yoked: PoseType.HIDE,
@@ -12146,6 +12465,7 @@ var AssetFemale3DCG = [
 						Name: "SquareTrim",
 						PoseMapping: {
 							...AssetPoseMapping.Bracelet,
+							BackBoxTie: PoseType.HIDE,
 							BackCuffs: PoseType.HIDE,
 							OverTheHead: PoseType.HIDE,
 							Yoked: PoseType.HIDE,
@@ -12157,6 +12477,7 @@ var AssetFemale3DCG = [
 						Name: "SquareTrimRight",
 						PoseMapping: {
 							...AssetPoseMapping.Bracelet,
+							BackBoxTie: PoseType.HIDE,
 							BackCuffs: PoseType.HIDE,
 							OverTheHead: PoseType.HIDE,
 							Yoked: PoseType.HIDE,
@@ -13377,6 +13698,22 @@ var AssetFemale3DCG = [
 				Layer: [{ Name: "Primary" }, { Name: "Secondary" }],
 			},
 			{
+				Name: "DragonTailStrap2Left",
+				Fetish: ["Pet"],
+				BuyGroup: "DragonTail",
+				Value: 20,
+				Top: 465,
+				Layer: [{ Name: "Primary" }, { Name: "Secondary" }],
+			},
+			{
+				Name: "DragonTailStrap2Right",
+				Fetish: ["Pet"],
+				BuyGroup: "DragonTail",
+				Value: 20,
+				Top: 465,
+				Layer: [{ Name: "Primary" }, { Name: "Secondary" }],
+			},
+			{
 				Name: "Tentacles",
 				Category: ["Fantasy"],
 				BuyGroup: "Tentacles",
@@ -14430,6 +14767,17 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "HairFront57",
+				Layer: [
+					{
+						Name: "Main",
+					},
+					{
+						Name: "Tone",
+					},
+				],
+			},
 		],
 		Color: [
 			"#6a3628",
@@ -14900,23 +15248,43 @@ var AssetFemale3DCG = [
 			{ Name: "HairBack57d", Random: false },
 			{
 				Name: "HairBack58",
+				Top: {
+					[PoseType.DEFAULT]: 0,
+					Suspension: -450,
+				},
 				Layer: [
 					{
 						Name: "Left",
+						PoseMapping: {
+							Suspension: "Suspension",
+						},
 					},
 					{
 						Name: "Right",
+						PoseMapping: {
+							Suspension: "Suspension",
+						},
 					},
 				],
 			},
 			{
 				Name: "HairBack58b",
+				Top: {
+					[PoseType.DEFAULT]: 0,
+					Suspension: -450,
+				},
 				Layer: [
 					{
 						Name: "Left",
+						PoseMapping: {
+							Suspension: "Suspension",
+						},
 					},
 					{
 						Name: "Right",
+						PoseMapping: {
+							Suspension: "Suspension",
+						},
 					},
 				],
 			},
@@ -14972,6 +15340,73 @@ var AssetFemale3DCG = [
 					{
 						Name: "BackRight",
 						CopyLayerColor: "FrontRight",
+					},
+				],
+			},
+			{
+				Name: "HairBack62",
+				Top: {
+					[PoseType.DEFAULT]: 0,
+					Suspension: -485,
+				},
+				Layer: [
+					{
+						Name: "Braid",
+						Priority: 48,
+						PoseMapping: {
+							Suspension: "Suspension",
+						},
+					},
+					{
+						Name: "Back",
+						CopyLayerColor: "Braid",
+						PoseMapping: {
+							Suspension: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "Ribbon",
+						Priority: 48,
+						PoseMapping: {
+							Suspension: "Suspension",
+						},
+					},
+				],
+			},
+			{
+				Name: "HairBack63",
+				Top: {
+					[PoseType.DEFAULT]: 0,
+					Suspension: -545,
+				},
+				Left: {
+					[PoseType.DEFAULT]: 50,
+					Suspension: 54,
+				},
+				Layer: [
+					{
+						Name: "Braid",
+						PoseMapping: {
+							Suspension: "Suspension",
+						},
+					},
+					{
+						Name: "BraidRight",
+						PoseMapping: {
+							Suspension: "Suspension",
+						},
+					},
+					{
+						Name: "Band",
+						PoseMapping: {
+							Suspension: "Suspension",
+						},
+					},
+					{
+						Name: "Ribbon",
+						PoseMapping: {
+							Suspension: "Suspension",
+						},
 					},
 				],
 			},
@@ -15128,6 +15563,7 @@ var AssetFemale3DCG = [
 			{ Name: "Eyes13", FullAlpha: false },
 			{
 				Name: "Eyes14",
+				Random: false,
 				DefaultColor: [
 					"Default",
 					"#6B82A2",
@@ -17575,6 +18011,26 @@ var AssetFemale3DCG = [
 				Layer: [{ Name: "CockRing", MirrorExpression: "Pussy" }],
 			},
 			{
+				Name: "LockingCockring",
+				Gender: "M",
+				Value: 10,
+				Left: 200,
+				Top: 465,
+				Prerequisite: ["AccessVulva", "HasPenis"],
+				AllowExpression: ["Hard"],
+				AllowLock: true,
+				Priority: 24,
+				PoseMapping: {
+					...AssetPoseMapping.ItemVulva,
+					Kneel: PoseType.DEFAULT,
+				},
+				Layer: [
+					{Name: "Base", MirrorExpression: "Pussy"},
+					{Name: "Front", MirrorExpression: "Pussy"},
+					{Name: "Pin", MirrorExpression: "Pussy"}
+				],
+			},
+			{
 				Name: "PlasticChastityCage1",
 				Gender: "M",
 				Prerequisite: [
@@ -17789,11 +18245,13 @@ var AssetFemale3DCG = [
 					...AssetPoseMapping.ItemVulva,
 					Kneel: PoseType.DEFAULT,
 				},
-				DefaultColor: ["Default", "Default", "#921732", "#C3C3C3", "Default"],
+				DefaultColor: ["Default", "Default", "#921732", "#C3C3C3", "#ACACAC"],
 				AllowLock: true,
 				DrawLocks: false,
 				Left: 200,
 				Top: 410,
+				Extended: true,
+				AlwaysExtend: true,
 				Layer: [
 					{
 						Name: "Cage",
@@ -17803,17 +18261,72 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Face",
+						AllowTypes: { typed: 0 },
+					},
+					{
+						Name: "Face2",
+						AllowTypes: { typed: 1 },
+						CopyLayerColor: "Face",
 					},
 					{
 						Name: "Ears",
+						AllowTypes: { typed: 0 },
+					},
+					{
+						Name: "Ears2",
+						AllowTypes: { typed: 1 },
+						CopyLayerColor: "Ears",
 					},
 					{
 						Name: "Mouth",
+						AllowTypes: { typed: 0 },
+					},
+					{
+						Name: "Mouth2",
+						AllowTypes: { typed: 1 },
+						CopyLayerColor: "Mouth",
 					},
 					{
 						Name: "Outline",
 						AllowColorize: false,
+						AllowTypes: { typed: 0 },
 					},
+					{
+						Name: "Outline2",
+						AllowColorize: false,
+						AllowTypes: { typed: 1 },
+					},
+				],
+			},
+			{
+				Name: "LatexNulge",
+				Gender: "M",
+				Prerequisite: [
+					"AccessVulva",
+					"HasPenis",
+					"AccessFullPenis",
+					"NoErection",
+				],
+				Difficulty: 50,
+				Value: 20,
+				Effect: [E.Chaste, E.UseRemote],
+				Block: ["ItemVulvaPiercings"],
+				Hide: ["Pussy"],
+				Attribute: ["CageTechno"],
+				PoseMapping: {
+					...AssetPoseMapping.ItemVulva,
+					Kneel: PoseType.DEFAULT,
+				},
+				AllowLock: true,
+				DrawLocks: false,
+				DefaultColor: ["Default", "Default", "Default", "#8D8D8D"],
+				Left: 0,
+				Top: 460,
+				Layer: [
+					{ Name: "Base" },
+					{ Name: "Heart" },
+					{ Name: "Lock", LockLayer: true },
+					{ Name: "Shine" },
 				],
 			},
 		],
@@ -18127,7 +18640,7 @@ var AssetFemale3DCG = [
 				},
 				DefaultColor: ["#A2A2A2", "#787878", "#2C2C2C"],
 				AllowLock: true,
-				DrawLocks: true,
+				DrawLocks: false,
 				Effect: [E.Leash],
 				Layer: [
 					{
@@ -29879,7 +30392,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				BuyGroup: "LipGag",
-				Prerequisite: "GagUnique",
+				Prerequisite: "AccessMouth",
 				Hide: ["Mouth"],
 				Effect: [E.GagLight, E.OpenMouth],
 				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
@@ -36791,6 +37304,25 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
+				Name: "Paperbag",
+				Value: 3,
+				Top: 0,
+				Left: 0,
+				Layer: [
+					{ Name: "Stickytape", Priority: 58 },
+					{ Name: "Points", Priority: 57 },
+					{ Name: "Paper", Priority: 56 },
+					{ Name: "Paperbag", Priority: 55 },
+				],
+			},
+			{
+				Name: "Fu",
+				Value: 1,
+				Top: 0,
+				Left: 0,
+				Priority: 52,
+			},
+			{
 				Name: "InflatedBallHood",
 				Fetish: ["Latex"],
 				Value: 65,
@@ -42154,13 +42686,8 @@ var AssetFemale3DCG = [
 					"ItemVulva",
 					"ItemVulvaPiercings",
 				],
-				SetPose: [
-					"BaseUpper",
-				],
-				AllowActivePose: [
-					"BackBoxTie",
-					"BackElbowTouch",
-				],
+				SetPose: ["BaseUpper"],
+				AllowActivePose: ["BackBoxTie", "BackElbowTouch"],
 				Layer: [
 					{ Name: "Front", Priority: 48 },
 					{ Name: "Back", Priority: 3, CopyLayerColor: "Front" },
@@ -44130,6 +44657,156 @@ var AssetFemale3DCG = [
 					{ Name: "U", AllowColorize: true },
 				],
 			},
+			{
+				Name: "StrictPonyBoots",
+				Fetish: ["Latex", "Leather", "Pony"],
+				BuyGroup: "StrictPonyBoots",
+				Value: 75,
+				Difficulty: 6,
+				Time: 10,
+				RemoveTime: 10,
+				AllowLock: true,
+				AllowTighten: true,
+				Top: {
+					[PoseType.DEFAULT]: 460,
+					BaseLower: 470,
+					Kneel: 462,
+					KneelingSpread: 500,
+				},
+				Left: {
+					[PoseType.DEFAULT]: 0,
+					KneelingSpread: 65,
+				},
+				Height: 25,
+				PoseMapping: {
+					AllFours: PoseType.HIDE,
+					Hogtied: PoseType.HIDE,
+					Kneel: "Kneel",
+					LegsClosed: "LegsClosed",
+					Spread: "Spread",
+					KneelingSpread: "KneelingSpread",
+				},
+				Extended: true,
+				DefaultColor: [
+					"#0B0B0B",
+					"#0B0B0B",
+					"Default",
+					"#760000",
+					"#0B0B0B",
+					"Default",
+					"Default",
+					"#000000",
+				],
+				DrawLocks: false,
+				Layer: [
+					{
+						Name: "Base",
+						AllowColorize: true,
+						AllowTypes: { typed: 0 },
+					},
+					{
+						Name: "BaseBoots",
+						AllowColorize: true,
+						PoseMapping: {
+							...AssetPoseMapping.ItemBoots,
+							Spread: "Spread",
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "Cuffs",
+						AllowColorize: true,
+						PoseMapping: {
+							...AssetPoseMapping.ItemBoots,
+							Spread: "Spread",
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "StrapsLower",
+						AllowColorize: true,
+						AllowTypes: { typed: 0 },
+					},
+					{
+						Name: "Straps",
+						AllowColorize: true,
+						AllowTypes: { typed: 0 },
+					},
+					{
+						Name: "ShineBoots",
+						AllowColorize: true,
+						AllowTypes: { typed: 1 },
+						PoseMapping: {
+							...AssetPoseMapping.ItemBoots,
+							Spread: "Spread",
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "Shine",
+						CopyLayerColor: "ShineBoots",
+						AllowTypes: { typed: 0 },
+					},
+					{
+						Name: "Hooves",
+						AllowColorize: true,
+						PoseMapping: {
+							...AssetPoseMapping.ItemBoots,
+							Spread: "Spread",
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "OutlineBoots",
+						AllowColorize: true,
+						PoseMapping: {
+							...AssetPoseMapping.ItemBoots,
+							Spread: "Spread",
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "Outline",
+						CopyLayerColor: "OutlineBoots",
+						AllowTypes: { typed: 0 },
+					},
+					{
+						Name: "Locks",
+						AllowColorize: false,
+						LockLayer: true,
+						PoseMapping: {
+							...AssetPoseMapping.ItemBoots,
+							LegsClosed: PoseType.HIDE,
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+						AllowTypes: { typed: 0 },
+					},
+					{
+						Name: "LocksBoots",
+						AllowColorize: false,
+						LockLayer: true,
+						PoseMapping: {
+							...AssetPoseMapping.ItemBoots,
+							LegsClosed: PoseType.HIDE,
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+					},
+				],
+			},
 		],
 		Color: [
 			"Default",
@@ -44295,12 +44972,14 @@ var ActivityFemale3DCG = [
 	/* Mouth activities */
 	{
 		Name: "Whisper",
+		ActivityID: 0,
 		MaxProgress: 20,
 		Prerequisite: ["UseMouth"],
 		Target: ["ItemEars"],
 	},
 	{
 		Name: "MoanGag",
+		ActivityID: 1,
 		MaxProgress: 60,
 		Prerequisite: ["IsGagged"],
 		Target: [],
@@ -44310,6 +44989,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "MoanGagTalk",
+		ActivityID: 2,
 		MaxProgress: 10,
 		Prerequisite: ["IsGagged"],
 		Target: [],
@@ -44319,6 +44999,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "MoanGagWhimper",
+		ActivityID: 3,
 		MaxProgress: 40,
 		Prerequisite: ["IsGagged"],
 		Target: [],
@@ -44328,6 +45009,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "MoanGagGroan",
+		ActivityID: 4,
 		MaxProgress: 30,
 		Prerequisite: ["IsGagged"],
 		Target: [],
@@ -44337,6 +45019,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "MoanGagAngry",
+		ActivityID: 5,
 		MaxProgress: 10,
 		Prerequisite: ["IsGagged"],
 		Target: [],
@@ -44346,6 +45029,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "MoanGagGiggle",
+		ActivityID: 6,
 		MaxProgress: 20,
 		Prerequisite: ["IsGagged"],
 		Target: [],
@@ -44355,12 +45039,14 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "GagKiss",
+		ActivityID: 7,
 		MaxProgress: 55,
 		Prerequisite: ["ZoneAccessible", "UseMouth", "TargetMouthBlocked"],
 		Target: ["ItemMouth"],
 	},
 	{
 		Name: "Nibble",
+		ActivityID: 8,
 		MaxProgress: 40,
 		Prerequisite: ["ZoneAccessible", "UseMouth", "ZoneNaked"],
 		Target: [
@@ -44390,6 +45076,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "Lick",
+		ActivityID: 9,
 		MaxProgress: 80,
 		Prerequisite: ["ZoneAccessible", "UseTongue", "ZoneNaked"],
 		Target: [
@@ -44421,6 +45108,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "PoliteKiss",
+		ActivityID: 10,
 		MaxProgress: 30,
 		Prerequisite: ["UseMouth"],
 		Target: ["ItemBoots", "ItemHands", "ItemMouth"],
@@ -44428,6 +45116,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "Kiss",
+		ActivityID: 11,
 		MaxProgress: 50,
 		Prerequisite: ["ZoneAccessible", "UseMouth"],
 		Target: [
@@ -44460,6 +45149,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "GaggedKiss",
+		ActivityID: 12,
 		MaxProgress: 40,
 		Prerequisite: ["IsGagged"],
 		Target: [
@@ -44485,6 +45175,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "FrenchKiss",
+		ActivityID: 13,
 		MaxProgress: 70,
 		Prerequisite: [
 			"ZoneAccessible",
@@ -44496,6 +45187,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "Suck",
+		ActivityID: 14,
 		MaxProgress: 60,
 		Prerequisite: ["ZoneAccessible", "UseMouth", "ZoneNaked"],
 		Target: ["ItemBoots", "ItemHands", "ItemNipples"],
@@ -44503,12 +45195,14 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "MasturbateTongue",
+		ActivityID: 15,
 		MaxProgress: 100,
 		Prerequisite: ["ZoneAccessible", "UseTongue", "ZoneNaked"],
 		Target: ["ItemButt", "ItemVulva", "ItemVulvaPiercings"],
 	},
 	{
 		Name: "Bite",
+		ActivityID: 16,
 		MaxProgress: 40,
 		Prerequisite: ["ZoneAccessible", "UseMouth", "ZoneNaked"],
 		Target: [
@@ -44540,6 +45234,7 @@ var ActivityFemale3DCG = [
 	/* Hand activities */
 	{
 		Name: "Caress",
+		ActivityID: 17,
 		MaxProgress: 80,
 		Prerequisite: ["ZoneAccessible", "UseHands"],
 		Target: [
@@ -44566,6 +45261,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "MassageHands",
+		ActivityID: 18,
 		MaxProgress: 60,
 		Prerequisite: ["ZoneAccessible", "UseHands"],
 		Target: [
@@ -44582,6 +45278,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "TakeCare",
+		ActivityID: 19,
 		MaxProgress: 10,
 		Prerequisite: ["ZoneAccessible", "UseHands", "ZoneNaked"],
 		Target: ["ItemBoots", "ItemHands", "ItemHead"],
@@ -44589,6 +45286,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "Tickle",
+		ActivityID: 20,
 		MaxProgress: 50,
 		Prerequisite: ["ZoneAccessible", "UseHands"],
 		Target: [
@@ -44606,6 +45304,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "Pet",
+		ActivityID: 21,
 		MaxProgress: 20,
 		Prerequisite: ["UseArms"],
 		Target: ["ItemHead", "ItemNose"],
@@ -44613,6 +45312,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "Grope",
+		ActivityID: 22,
 		MaxProgress: 50,
 		Prerequisite: ["UseHands"],
 		Target: [
@@ -44627,6 +45327,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "Pinch",
+		ActivityID: 23,
 		MaxProgress: 20,
 		Prerequisite: ["ZoneAccessible", "UseHands"],
 		Target: ["ItemArms", "ItemEars", "ItemNipples", "ItemNose", "ItemPelvis"],
@@ -44634,6 +45335,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "HandGag",
+		ActivityID: 24,
 		MaxProgress: 40,
 		Prerequisite: ["UseHands"],
 		Target: ["ItemMouth"],
@@ -44641,6 +45343,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "Slap",
+		ActivityID: 25,
 		MaxProgress: 30,
 		Prerequisite: ["UseHands"],
 		Target: ["ItemBreast", "ItemHead", "ItemVulva", "ItemVulvaPiercings"],
@@ -44648,6 +45351,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "Spank",
+		ActivityID: 26,
 		MaxProgress: 40,
 		Prerequisite: ["UseHands"],
 		Target: [
@@ -44665,6 +45369,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "Pull",
+		ActivityID: 27,
 		MaxProgress: 30,
 		Prerequisite: ["ZoneAccessible", "UseHands"],
 		Target: ["ItemHead", "ItemNipples", "ItemNose"],
@@ -44672,6 +45377,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "Choke",
+		ActivityID: 28,
 		MaxProgress: 50,
 		Prerequisite: ["ZoneAccessible", "UseHands"],
 		Target: ["ItemNeck", "ItemNose"],
@@ -44679,6 +45385,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "MasturbateHand",
+		ActivityID: 29,
 		MaxProgress: 100,
 		Prerequisite: ["ZoneAccessible", "UseHands", "ZoneNaked"],
 		Target: ["ItemBreast", "ItemButt", "ItemVulva", "ItemVulvaPiercings"],
@@ -44686,6 +45393,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "MasturbateFist",
+		ActivityID: 30,
 		MaxProgress: 100,
 		Prerequisite: [
 			"ZoneAccessible",
@@ -44700,18 +45408,21 @@ var ActivityFemale3DCG = [
 	/* Feet activities */
 	{
 		Name: "MassageFeet",
+		ActivityID: 31,
 		MaxProgress: 40,
 		Prerequisite: ["ZoneAccessible", "UseFeet"],
 		Target: ["ItemBoots", "ItemTorso", "ItemTorso2"],
 	},
 	{
 		Name: "MasturbateFoot",
+		ActivityID: 32,
 		MaxProgress: 100,
 		Prerequisite: ["ZoneAccessible", "UseFeet", "ZoneNaked"],
 		Target: ["ItemVulva", "ItemVulvaPiercings"],
 	},
 	{
 		Name: "Step",
+		ActivityID: 33,
 		MaxProgress: 25,
 		Prerequisite: ["UseFeet", "TargetKneeling"],
 		Target: [
@@ -44727,6 +45438,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "Kick",
+		ActivityID: 34,
 		MaxProgress: 25,
 		Prerequisite: ["UseFeet"],
 		Target: [
@@ -44741,12 +45453,14 @@ var ActivityFemale3DCG = [
 	/* Body activities */
 	{
 		Name: "Cuddle",
+		ActivityID: 35,
 		MaxProgress: 30,
 		Prerequisite: [],
 		Target: ["ItemArms", "ItemNose"],
 	},
 	{
 		Name: "Rub",
+		ActivityID: 36,
 		MaxProgress: 60,
 		Prerequisite: [],
 		Target: ["ItemHead", "ItemNose", "ItemTorso", "ItemTorso2"],
@@ -44754,6 +45468,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "StruggleArms",
+		ActivityID: 37,
 		MaxProgress: 10,
 		Prerequisite: ["CantUseArms"],
 		Target: [],
@@ -44762,6 +45477,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "StruggleLegs",
+		ActivityID: 38,
 		MaxProgress: 10,
 		Prerequisite: ["CantUseFeet"],
 		Target: [],
@@ -44769,12 +45485,14 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "Sit",
+		ActivityID: 39,
 		MaxProgress: 25,
 		Prerequisite: ["UseFeet", "TargetKneeling"],
 		Target: ["ItemLegs"],
 	},
 	{
 		Name: "RestHead",
+		ActivityID: 40,
 		MaxProgress: 25,
 		Prerequisite: ["TargetKneeling"],
 		Target: ["ItemBreast", "ItemLegs"],
@@ -44782,6 +45500,7 @@ var ActivityFemale3DCG = [
 	/* Head activities */
 	{
 		Name: "Nod",
+		ActivityID: 41,
 		MaxProgress: 0,
 		Prerequisite: ["MoveHead"],
 		Target: [],
@@ -44789,6 +45508,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "Wiggle",
+		ActivityID: 42,
 		MaxProgress: 10,
 		Prerequisite: ["MoveHead"],
 		Target: [],
@@ -44812,6 +45532,7 @@ var ActivityFemale3DCG = [
 	/* Item activities */
 	{
 		Name: "SpankItem",
+		ActivityID: 43,
 		MaxProgress: 70,
 		Prerequisite: ["Needs-SpankItem", "UseHands"],
 		Target: [
@@ -44836,6 +45557,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "TickleItem",
+		ActivityID: 44,
 		MaxProgress: 50,
 		Prerequisite: ["Needs-TickleItem"],
 		Target: [
@@ -44866,6 +45588,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "RubItem",
+		ActivityID: 45,
 		MaxProgress: 60,
 		Prerequisite: ["Needs-RubItem", "UseHands"],
 		Target: [
@@ -44895,6 +45618,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "RollItem",
+		ActivityID: 46,
 		MaxProgress: 30,
 		Prerequisite: ["Needs-RollItem", "UseHands"],
 		Target: [
@@ -44915,6 +45639,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "MasturbateItem",
+		ActivityID: 47,
 		MaxProgress: 100,
 		Prerequisite: [
 			"ZoneNaked",
@@ -44942,6 +45667,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "PourItem",
+		ActivityID: 48,
 		MaxProgress: 40,
 		Prerequisite: ["Needs-PourItem", "UseHands"],
 		Target: [
@@ -44959,6 +45685,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "ShockItem",
+		ActivityID: 49,
 		MaxProgress: 50,
 		Prerequisite: ["Needs-ShockItem", "UseHands"],
 		Target: [
@@ -44985,6 +45712,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "Inject",
+		ActivityID: 50,
 		MaxProgress: 20,
 		Prerequisite: ["ZoneAccessible", "UseHands", "Needs-Inject"],
 		Target: [
@@ -45000,6 +45728,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "PenetrateSlow",
+		ActivityID: 51,
 		MaxProgress: 80,
 		Prerequisite: [
 			"ZoneAccessible",
@@ -45014,6 +45743,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "PenetrateFast",
+		ActivityID: 52,
 		MaxProgress: 100,
 		Prerequisite: [
 			"ZoneAccessible",
@@ -45028,6 +45758,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "SipItem",
+		ActivityID: 53,
 		MaxProgress: 0,
 		Prerequisite: ["TargetCanUseTongue", "Needs-SipItem"],
 		Target: ["ItemMouth"],
@@ -45035,6 +45766,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "EatItem",
+		ActivityID: 54,
 		MaxProgress: 0,
 		Prerequisite: ["TargetCanUseTongue", "Needs-EatItem"],
 		Target: ["ItemMouth"],
@@ -45042,6 +45774,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "Scratch",
+		ActivityID: 55,
 		MaxProgress: 0,
 		Prerequisite: ["UseHands", "Needs-Scratch"],
 		Target: [
@@ -45072,6 +45805,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "ThrowItem",
+		ActivityID: 56,
 		MaxProgress: 0,
 		Prerequisite: ["UseHands", "Needs-ThrowItem"],
 		Target: ["ItemTorso", "ItemMouth", "ItemBreast", "ItemFeet", "ItemHead"],
@@ -45081,6 +45815,7 @@ var ActivityFemale3DCG = [
 	/* Family activities */
 	{
 		Name: "SistersHug",
+		ActivityID: 57,
 		MaxProgress: 30,
 		Prerequisite: ["Sisters"],
 		Target: ["ItemArms"],
@@ -45092,6 +45827,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "BrothersHandshake",
+		ActivityID: 58,
 		MaxProgress: 10,
 		Prerequisite: ["Brothers"],
 		Target: ["ItemHands"],
@@ -45103,6 +45839,7 @@ var ActivityFemale3DCG = [
 	},
 	{
 		Name: "SiblingsCheekKiss",
+		ActivityID: 59,
 		MaxProgress: 20,
 		Prerequisite: ["SiblingsWithDifferentGender"],
 		Target: ["ItemMouth"],
@@ -45122,41 +45859,48 @@ let ActivityFemale3DCGOrdering = ActivityFemale3DCG.map((a) => a.Name);
 
 /**
  * 3D Custom Girl based fetishes
+ * Modify PreferenceArousalFetishDefaultCompressedString if you add a new fetish
  * @type {Fetish[]}
  */
 var FetishFemale3DCG = [
 	{
 		Name: "Bondage",
+		FetishID: 0,
 		GetFactor: function (C) {
 			return C.IsRestrained() ? PreferenceGetFetishFactor(C, "Bondage") - 2 : 0;
 		},
 	},
 	{
 		Name: "Gagged",
+		FetishID: 1,
 		GetFactor: function (C) {
 			return !C.CanTalk() ? PreferenceGetFetishFactor(C, "Gagged") - 2 : 0;
 		},
 	},
 	{
 		Name: "Blindness",
+		FetishID: 2,
 		GetFactor: function (C) {
 			return C.IsBlind() ? PreferenceGetFetishFactor(C, "Blindness") - 2 : 0;
 		},
 	},
 	{
 		Name: "Deafness",
+		FetishID: 3,
 		GetFactor: function (C) {
 			return C.IsDeaf() ? PreferenceGetFetishFactor(C, "Deafness") - 2 : 0;
 		},
 	},
 	{
 		Name: "Chastity",
+		FetishID: 4,
 		GetFactor: function (C) {
 			return C.IsChaste() ? PreferenceGetFetishFactor(C, "Chastity") - 2 : 0;
 		},
 	},
 	{
 		Name: "Exhibitionist",
+		FetishID: 5,
 		GetFactor: function (C) {
 			return C.IsNaked()
 				? PreferenceGetFetishFactor(C, "Exhibitionist") - 2
@@ -45165,78 +45909,91 @@ var FetishFemale3DCG = [
 	},
 	{
 		Name: "Masochism",
+		FetishID: 6,
 		GetFactor: function (C) {
 			return ActivityFetishItemFactor(C, "Masochism");
 		},
 	},
 	{
 		Name: "Sadism",
+		FetishID: 7,
 		GetFactor: function (C) {
 			return ActivityFetishItemFactor(C, "Sadism");
 		},
 	},
 	{
 		Name: "Rope",
+		FetishID: 8,
 		GetFactor: function (C) {
 			return ActivityFetishItemFactor(C, "Rope");
 		},
 	},
 	{
 		Name: "Latex",
+		FetishID: 9,
 		GetFactor: function (C) {
 			return ActivityFetishItemFactor(C, "Latex");
 		},
 	},
 	{
 		Name: "Leather",
+		FetishID: 10,
 		GetFactor: function (C) {
 			return ActivityFetishItemFactor(C, "Leather");
 		},
 	},
 	{
 		Name: "Metal",
+		FetishID: 11,
 		GetFactor: function (C) {
 			return ActivityFetishItemFactor(C, "Metal");
 		},
 	},
 	{
 		Name: "Tape",
+		FetishID: 12,
 		GetFactor: function (C) {
 			return ActivityFetishItemFactor(C, "Tape");
 		},
 	},
 	{
 		Name: "Nylon",
+		FetishID: 13,
 		GetFactor: function (C) {
 			return ActivityFetishItemFactor(C, "Nylon");
 		},
 	},
 	{
 		Name: "Lingerie",
+		FetishID: 14,
 		GetFactor: function (C) {
 			return ActivityFetishItemFactor(C, "Lingerie");
 		},
 	},
 	{
 		Name: "Pet",
+		FetishID: 15,
 		GetFactor: function (C) {
 			return ActivityFetishItemFactor(C, "Pet");
 		},
 	},
 	{
 		Name: "Pony",
+		FetishID: 16,
 		GetFactor: function (C) {
 			return ActivityFetishItemFactor(C, "Pony");
 		},
 	},
 	{
 		Name: "ABDL",
+		FetishID: 17,
 		GetFactor: function (C) {
 			return ActivityFetishItemFactor(C, "ABDL");
 		},
 	},
 	{
 		Name: "Forniphilia",
+		FetishID: 18,
 		GetFactor: function (C) {
 			return ActivityFetishItemFactor(C, "Forniphilia");
 		},

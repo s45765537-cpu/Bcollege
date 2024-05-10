@@ -4,5 +4,5 @@
 function InventoryItemMiscFamilyPadlockDrawHook(data, originalFunction) {
 	InventoryItemMiscOwnerPadlockDrawHook(data, originalFunction);
 	if (LogQuery("BlockFamilyKey", "OwnerRule"))
-		DrawText(DialogFindPlayer("ItemMiscFamilyPadlockDetailNoKey"), 1500, 900, "pink", "gray");
+		DrawText(AssetTextGet("ItemMiscFamilyPadlockDetailNoKey"), 1500, 900, "pink", "gray");
 }

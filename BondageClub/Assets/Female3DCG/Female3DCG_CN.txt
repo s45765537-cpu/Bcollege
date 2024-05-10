@@ -202,6 +202,20 @@ Dress with Fur
 带毛连衣裙
 Evening Gown
 晚礼服
+Yuletide Velvet Warmth
+圣夜暖绒
+Nun Robes
+修女服
+Nun Veil
+修女头巾
+Leather Vest Suit
+透视皮衣
+Bow Back Accessory
+蝴蝶结背饰
+Fu
+符
+Paper bag
+纸袋
 Fishnet Top
 渔网上衣
 Flower Dress
@@ -624,6 +638,8 @@ Floppy Bunny Ears
 软兔耳
 Cow Horns
 牛角
+Cow Ears
+奶牛耳
 Dildocorn Horn
 独角兽阳具角
 Ears Small
@@ -656,6 +672,10 @@ Horns 2
 角 2
 Horns 3
 角 3
+Horns 4
+角 4
+Horns 5
+角 5
 Black Kitty Ears
 黑猫耳
 Light Kitty Ears

@@ -27,8 +27,8 @@ var ChatRoomCharacter = [];
 var ChatRoomChatLog = [];
 var ChatRoomLastMessage = [""];
 var ChatRoomLastMessageIndex = 0;
-/** @type {null | number} */
-var ChatRoomTargetMemberNumber = null;
+/** @type {number} */
+var ChatRoomTargetMemberNumber = -1;
 /** @type {ChatRoomOwnershipOption} */
 var ChatRoomOwnershipOption = "";
 /** @type {ChatRoomLovershipOption} */
@@ -45,6 +45,7 @@ var ChatRoomHelpSeen = false;
 var ChatRoomAllowCharacterUpdate = true;
 var ChatRoomStruggleAssistBonus = 0;
 var ChatRoomStruggleAssistTimer = 0;
+var ChatRoomStruggleData = null;
 /**
  * The timer started when a slowed player attempts to leave
  * @type {number}
@@ -64,7 +65,7 @@ var ChatRoomChatLogRect = [1005, 66, 988, 835];
  * Default position of the chat input field
  * @type {RectTuple}
  */
-var ChatRoomChatInputRect = [1456, 950, 900, 82];
+var ChatRoomChatInputRect = [1005, 908, 895, 90];
 /**
  * Default position of the chat input length label
  * @type {RectTuple}
@@ -100,7 +101,6 @@ var ChatRoomLeashPlayer = null;
  * @type {string}
  */
 var ChatRoomJoinLeash = "";
-var ChatRoomTargetDirty = false;
 var ChatRoomCustomized = false;
 var ChatRoomCustomBackground = "";
 var ChatRoomCustomFilter = "";
@@ -400,12 +400,12 @@ function ChatRoomCanTakeDrink() { return ((CurrentCharacter != null) && (Current
  * Checks if the current character is owned by the player.
  * @returns {boolean} - TRUE if the current character is owned by the player.
  */
-function ChatRoomIsCollaredByPlayer() { return ((CurrentCharacter != null) && (CurrentCharacter.Ownership != null) && (CurrentCharacter.Ownership.Stage == 1) && (CurrentCharacter.Ownership.MemberNumber == Player.MemberNumber)); }
+function ChatRoomIsCollaredByPlayer() { return (CurrentCharacter != null && CurrentCharacter.IsOwnedByPlayer() && CurrentCharacter.IsFullyOwned()); }
 /**
  * Checks if the current character is owned by the player. (Including trial)
  * @returns {boolean} - TRUE if the current character is owned by the player.
  */
-function ChatRoomIsOwnedByPlayer() { return CurrentCharacter != null && CurrentCharacter.Ownership != null && CurrentCharacter.Ownership.MemberNumber == Player.MemberNumber; }
+function ChatRoomIsOwnedByPlayer() { return (CurrentCharacter != null && CurrentCharacter.IsOwnedByPlayer()); }
 /**
  * Checks if the current character is wearing any collar.
  * @returns {boolean} - TRUE if the current character is owned by the player.
@@ -425,7 +425,7 @@ function ChatRoomCanServeDrink() { return ((CurrentCharacter != null) && Current
  * Checks if the player can give a money envelope to her owner
  * @returns {boolean} - TRUE if the current character is the owner of the player, and the player has the envelope
  */
-function ChatRoomCanGiveMoneyForOwner() { return ((ChatRoomMoneyForOwner > 0) && (CurrentCharacter != null) && (Player.Ownership != null) && (Player.Ownership.Stage == 1) && (Player.Ownership.MemberNumber == CurrentCharacter.MemberNumber)); }
+function ChatRoomCanGiveMoneyForOwner() { return (CurrentCharacter != null && Player.IsOwnedByCharacter(CurrentCharacter) && Player.IsFullyOwned() && ChatRoomMoneyForOwner > 0); }
 /**
  * Checks if the player is a chatroom admin.
  * @returns {boolean} - TRUE if the player is an admin of the current chatroom.
@@ -678,7 +678,7 @@ function ChatRoomCanStopWhisper() {
  * @returns {void} - Nothing
  */
 function ChatRoomStopWhisper() {
-	ChatRoomSetTarget(null);
+	ChatRoomSetTarget(-1);
 	DialogLeave();
 }
 
@@ -736,6 +736,13 @@ function ChatRoomCanAttemptKneel() {
  * @returns {boolean} - TRUE if the current character is slowed down and can be interacted with.
  */
 function ChatRoomCanStopSlowPlayer() { return (CurrentCharacter.IsSlow() && Player.CanInteract() && CurrentCharacter.AllowItem ); }
+
+/**
+ * Checks if the player can interrupt another character from struggling.
+ * @returns {boolean} - TRUE if the player can do it
+ */
+function ChatRoomCanInterruptOnlineStruggle() { return (Player.CanInteract() && !CurrentCharacter.IsPlayer() && CurrentCharacter.AllowItem); }
+
 /**
  * Checks if the player can grab the targeted player's leash
  * @returns {boolean} - TRUE if the player can interact and is allowed to interact with the current character.
@@ -835,17 +842,6 @@ function DialogCanCallMaidsPunishmentOff() { return (DialogCanCallMaids() && Pla
 function ChatRoomCreateElement() {
 	ChatRoomChatHidden = false;
 
-	// Creates the chat box
-	if (document.getElementById("InputChat") == null) {
-		ElementCreateTextArea("InputChat");
-		document.getElementById("InputChat").setAttribute("maxLength", 10000);
-		document.getElementById("InputChat").setAttribute("autocomplete", "off");
-		document.getElementById("InputChat").addEventListener("input", ChatRoomChatInputChangeHandler);
-		document.getElementById("InputChat").addEventListener("keyup", ChatRoomStatusUpdateTalk);
-		ElementPosition("InputChat", ...ChatRoomChatInputRect);
-		ElementFocus("InputChat");
-	} else if (document.getElementById("InputChat").style.display == "none") ElementFocus("InputChat");
-
 	// Creates the chat log
 	if (document.getElementById("TextAreaChatLog") == null) {
 
@@ -863,6 +859,21 @@ function ChatRoomCreateElement() {
 		setTimeout(() => ElementScrollToEnd("TextAreaChatLog"), 100);
 		ChatRoomRefreshChatSettings();
 	}
+
+	// NOTE: Make sure to create the `InputChat` element after `TextAreaChatLog`,
+	// else the css subsequent-sibling combinator will break
+
+	// Creates the chat box
+	if (document.getElementById("InputChat") == null) {
+		ElementCreateTextArea("InputChat");
+		document.getElementById("InputChat").setAttribute("maxLength", 10000);
+		document.getElementById("InputChat").setAttribute("autocomplete", "off");
+		document.getElementById("InputChat").addEventListener("input", ChatRoomChatInputChangeHandler);
+		document.getElementById("InputChat").addEventListener("keyup", ChatRoomStatusUpdateTalk);
+		ElementPositionFixed("InputChat", ...ChatRoomChatInputRect);
+		ElementFocus("InputChat");
+	} else if (document.getElementById("InputChat").style.display == "none") ElementFocus("InputChat");
+
 	if (document.getElementById("InputChatLength") == null) {
 		const label = document.createElement("span");
 		label.id = "InputChatLength";
@@ -872,19 +883,23 @@ function ChatRoomCreateElement() {
 	}
 }
 
+const ChatRoomUIElementNames = ["InputChat", "TextAreaChatLog", "InputChatLength"];
+
 /** Hide the UI elements of the chatroom screen */
 function ChatRoomShowElements() {
-	document.getElementById("InputChat").style.display = "";
-	document.getElementById("TextAreaChatLog").style.display = "";
-	document.getElementById("InputChatLength").style.display = "";
+	for (const name of ChatRoomUIElementNames) {
+		if (document.getElementById(name))
+			document.getElementById(name).style.display = "";
+	}
 	ChatRoomChatHidden = false;
 }
 
 /** Show the UI elements of the chatroom screen */
 function ChatRoomHideElements() {
-	document.getElementById("InputChat").style.display = "none";
-	document.getElementById("TextAreaChatLog").style.display = "none";
-	document.getElementById("InputChatLength").style.display = "none";
+	for (const name of ChatRoomUIElementNames) {
+		if (document.getElementById(name))
+			document.getElementById(name).style.display = "none";
+	}
 	ChatRoomChatHidden = true;
 }
 
@@ -1043,10 +1058,7 @@ function ChatRoomMenuBuild() {
  * @returns {boolean} - Returns TRUE if the player's owner is inside the room.
  */
 function ChatRoomOwnerInside() {
-	for (let C = 0; C < ChatRoomCharacter.length; C++)
-		if (Player.Ownership.MemberNumber == ChatRoomCharacter[C].MemberNumber)
-			return true;
-	return false;
+	return ChatRoomCharacter.some(c => c.IsOwnedByCharacter(Player));
 }
 
 /**
@@ -1225,40 +1237,38 @@ function ChatRoomFirstTimeHelp() {
 
 /**
  * Sets the current whisper target and flags a target update
- * @param {number} MemberNumber - The target member number to set
+ * @param {number} MemberNumber - The target member number to set. -1 to unselect
  * @returns {void} - Nothing
  */
 function ChatRoomSetTarget(MemberNumber) {
-	if (MemberNumber !== ChatRoomTargetMemberNumber) {
-		ChatRoomTargetMemberNumber = MemberNumber;
-		ChatRoomTargetDirty = true;
-	}
-}
+	MemberNumber ??= -1;
+	if (MemberNumber === ChatRoomTargetMemberNumber) return;
 
-/**
- * Updates the chat input's placeholder text to reflect the current whisper target
- * @returns {void} - Nothing.
- */
-function ChatRoomTarget() {
-	// If the target member number hasn't changed, do nothing
-	if (!ChatRoomTargetDirty) return;
-
-	let TargetName = null;
-	if (ChatRoomTargetMemberNumber != null) {
-		for (let C = 0; C < ChatRoomCharacter.length; C++)
-			if (ChatRoomTargetMemberNumber == ChatRoomCharacter[C].MemberNumber) {
-				TargetName = ChatRoomCharacter[C].Name;
-				break;
-			}
-		if (TargetName == null) ChatRoomSetTarget(null);
+	ChatRoomTargetMemberNumber = MemberNumber;
+	let target;
+	if (ChatRoomTargetMemberNumber >= 0) {
+		target = ChatRoomCharacter.find(c => c.MemberNumber === ChatRoomTargetMemberNumber);
+	} else {
+		target = null;
 	}
+
 	let placeholder;
-	if (ChatRoomTargetMemberNumber != null) {
-		placeholder = `${TextGet("WhisperTo")} ${TargetName}`;
+	if (target) {
+		placeholder = `${TextGet("WhisperTo")} ${CharacterNickname(target)}`;
 	} else {
 		placeholder = TextGet("PublicChat");
 	}
 	ElementSetAttribute("InputChat", "placeholder", placeholder);
+}
+
+/**
+ * Updates the chat input's placeholder text to reflect the current whisper target
+ *
+ * @deprecated No-oped in R104, automatically handled when the target is set
+ * @returns {void} - Nothing.
+ */
+function ChatRoomTarget() {
+	// No-oped in R104
 }
 
 /**
@@ -1390,7 +1400,9 @@ function ChatRoomStimulationMessage(Action) {
 		ActivityEffectFlat(Player, Player, event.arousal, event.item.Asset.Group.Name, 1);
 	const duration = (Math.random() + event.arousal / 2.4) * 500;
 	DrawFlashScreen("#FFB0B0", duration, 140);
-	CharacterSetFacialExpression(Player, "Blush", "VeryHigh", Math.ceil(duration / 250));
+	if (Player.ArousalSettings?.AffectExpression) {
+		CharacterSetFacialExpression(Player, "Blush", "VeryHigh", Math.ceil(duration / 250));
+	}
 
 	var index = Math.floor(Math.random() * 3);
 	const Dictionary = [
@@ -1412,7 +1424,7 @@ function ChatRoomResize(load) {
 		&& document.getElementById("TextAreaChatLog")
 	) {
 		ElementPositionFix("TextAreaChatLog", ChatRoomFontSize, ...ChatRoomChatLogRect);
-		ElementPosition("InputChat", ...ChatRoomChatInputRect);
+		ElementPositionFixed("InputChat", ...ChatRoomChatInputRect);
 	}
 }
 
@@ -1633,7 +1645,7 @@ function ChatRoomStatusUpdateTalk(Key) {
 		talking = false;
 	}
 	// Don't send a public update if whispering someone
-	else if (ChatRoomTargetMemberNumber != null) {
+	else if (ChatRoomTargetMemberNumber >= 0) {
 		talking = false;
 	}
 	// Not talking if entering a command that does not end up in chat
@@ -1677,13 +1689,13 @@ function ChatRoomChatInputChangeHandler(event) {
  * @returns {void} - Nothing.
  */
 function ChatRoomStatusCheckExpiration() {
-	const isCrawling = (Player.Status == "Crawl") && ChatRoomIsLeavingSlowly();
 	if (Player.StatusTimer) {
-		if (Player.StatusTimer < CommonTime()) {
+		if (Player.StatusTimer < CommonTime())
 			ChatRoomStatusUpdate(null);
-		}
-	} else if (!isCrawling) {
-		ChatRoomStatusUpdate(null);
+	} else {
+		const isCrawling = (Player.Status == "Crawl") && ChatRoomIsLeavingSlowly();
+		if (!isCrawling && (ChatRoomStruggleData == null))
+			ChatRoomStatusUpdate(null);
 	}
 }
 
@@ -1724,7 +1736,6 @@ function ChatRoomRun() {
 	AsylumGGTSProcess();
 	ChatRoomUpdateOnlineBounty();
 	ChatRoomCustomizationRun();
-	ChatRoomMapViewWhisperValid();
 	ChatRoomMenuBuild();
 
 	// Draws the chat room controls
@@ -1732,7 +1743,6 @@ function ChatRoomRun() {
 	ChatRoomUpdateDisplay();
 	ChatRoomCreateElement();
 	ChatRoomFirstTimeHelp();
-	ChatRoomTarget();
 	ChatRoomBackground = "";
 	DrawRect(0, 0, 2000, 1000, "Black");
 
@@ -1750,7 +1760,8 @@ function ChatRoomRun() {
 	if (CurrentTime > ChatRoomGetUpTimer) ChatRoomGetUpTimer = 0;
 
 	// Draw the buttons at the top-right
-	ChatRoomMenuDraw();
+	if (ChatRoomStruggleData == null) ChatRoomMenuDraw();
+	else ChatRoomStruggleDraw();
 
 	// Process attempts at leaving slowly
 	ChatRoomProcessSlowLeave();
@@ -1815,6 +1826,91 @@ function ChatRoomDrawArousalOverlay()
 }
 
 /**
+ * Draws the chat room struggle progress bar and buttons
+ * @returns {void} - Nothing
+ */
+function ChatRoomStruggleDraw() {
+
+	// Increments the progress based on the time
+	let Time = CommonTime();
+	if (ChatRoomStruggleData.Timer <= 0) ChatRoomStruggleData.Timer = 1;
+	let Progress = (Time - ChatRoomStruggleData.LastRun) / (ChatRoomStruggleData.Timer * 5);
+	if (!ChatRoomStruggleData.LoosenMode && (ChatRoomStruggleData.Difficulty < 4) && (Math.random() >= 1 - ChatRoomStruggleData.Progress / 1000)) Progress = Progress * (ChatRoomStruggleData.Difficulty - 4);
+	ChatRoomStruggleData.Progress = ChatRoomStruggleData.Progress + Progress;
+	let MaxProgress = (!ChatRoomStruggleData.LoosenMode && (ChatRoomStruggleData.Difficulty < -6)) ? 100 + ChatRoomStruggleData.Difficulty : 100;
+	if (MaxProgress < 50) MaxProgress = 50;
+	if (MaxProgress > 100) MaxProgress = 100;
+	if (ChatRoomStruggleData.Progress > MaxProgress) ChatRoomStruggleData.Progress = MaxProgress;
+	if (ChatRoomStruggleData.Progress < 0) ChatRoomStruggleData.Progress = 0;
+	ChatRoomStruggleData.LastRun = Time;
+
+	// At 100 progress, we complete the struggle
+	if (ChatRoomStruggleData.Progress == 100) {
+		if (ChatRoomStruggleData.LoosenMode) StruggleChatRoomLoosenComplete();
+		else StruggleChatRoomSuccess();
+		return;
+	}
+
+	// Draw the controls, we allow loosening the item beyond progress 50% if the difficulty allows it
+	if ((Player.Status == null) || (Player.Status !== "Talk")) ChatRoomStatusUpdate("Struggle");
+	let Impossible = ((ChatRoomStruggleData.Difficulty < -6) && (ChatRoomStruggleData.Start + 60000 <= Time));
+	if (!ChatRoomStruggleData.AllowLoosen && !ChatRoomStruggleData.LoosenMode)
+		ChatRoomStruggleData.AllowLoosen = ((ChatRoomStruggleData.Progress >= 50) && (ChatRoomStruggleData.Difficulty >= -9) && (ChatRoomStruggleData.Difficulty < 0) && (ChatRoomStruggleData.Item != null) && (ChatRoomStruggleData.Item.Asset != null) && (ChatRoomStruggleData.Item.Asset != null) && ChatRoomStruggleData.Item.Asset.AllowTighten && !InventoryItemHasEffect(ChatRoomStruggleData.Item, "Lock"));
+	let Text = "Struggling";
+	if (Impossible) Text = "Impossible";
+	if (ChatRoomStruggleData.LoosenMode) Text = "Loosening";
+	let Path = `${AssetGetPreviewPath(ChatRoomStruggleData.Item.Asset)}/${ChatRoomStruggleData.Item.Asset.Name}.png`;
+	DrawImageResize(Path, 1010, 5, 50, 50);
+	DrawText(TextGet("ChatRoomStruggle" + Text), 1175, 30, "White", "Silver");
+	if (ChatRoomStruggleData.AllowLoosen) {
+		DrawProgressBar(1300, 3, 390, 55, ChatRoomStruggleData.Progress);
+		DrawButton(1700, 0, 145, 60, TextGet("ChatRoomStruggleLoosen"), "White");
+		DrawButton(1850, 0, 145, 60, TextGet("ChatRoomStruggleGiveUp"), "White");
+	} else {
+		DrawProgressBar(1300, 3, 490, 55, ChatRoomStruggleData.Progress);
+		DrawButton(1800, 0, 195, 60, TextGet("ChatRoomStruggleGiveUp"), "White");
+	}
+
+	// Generates a struggle animation
+	if (Player.OnlineSharedSettings && Player.OnlineSharedSettings.ItemsAffectExpressions && ChatRoomStruggleData.NextAnim <= Time) {
+
+		// The animation gets stronger the more time passes
+		let Sec = Math.round((Time - ChatRoomStruggleData.Start) / 1000) + (ChatRoomStruggleData.LoosenMode ? 15 : 0);
+		if (Sec <= 15) {
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Eyes", CommonRandomItemFromList("Afk", [null, "Dazed", "Shy"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Blush", CommonRandomItemFromList("Afk", [null, "Low"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Mouth", CommonRandomItemFromList("Afk", [null, "Grin", "Smirk", "HalfOpen"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Eyebrows", CommonRandomItemFromList("Afk", [null, "OneRaised", "Raised"]));
+		} else if (Sec <= 30) {
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Eyes", CommonRandomItemFromList("Afk", [null, "Dazed", "Shy", "Sad", "Closed"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Blush", CommonRandomItemFromList("Afk", [null, "Low", "Medium"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Mouth", CommonRandomItemFromList("Afk", [null, "Grin", "Smirk", "HalfOpen", "Open", "Pout"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Eyebrows", CommonRandomItemFromList("Afk", [null, "OneRaised", "Raised", "Lowered"]));
+		} else if (Sec <= 45) {
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Eyes", CommonRandomItemFromList("Afk", [null, "Dazed", "Shy", "Horny", "Lewd"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Blush", CommonRandomItemFromList("Afk", ["Low", "Medium", "High"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Mouth", CommonRandomItemFromList("Afk", [null, "HalfOpen", "Open", "Pout", "Moan", "LipBite"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Eyebrows", CommonRandomItemFromList("Afk", ["OneRaised", "Raised", "Lowered", "Soft"]));
+		} else if (Sec <= 60) {
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Eyes", CommonRandomItemFromList("Afk", [null, "Horny", "Lewd", "Sad", "Daydream", "Surprised"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Blush", CommonRandomItemFromList("Afk", ["Medium", "High", "VeryHigh"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Mouth", CommonRandomItemFromList("Afk", [null, "Open", "Pout", "Moan", "LipBite", "Pained", "Sad"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Eyebrows", CommonRandomItemFromList("Afk", [null, "Lowered", "Soft", "Harsh", "Angry"]));
+		} else {
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Eyes", CommonRandomItemFromList("Afk", [null, "Horny", "Daydream", "Sad", "Surprised", "Angry", "Closed"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Blush", CommonRandomItemFromList("Afk", ["High", "VeryHigh", "Extreme"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Mouth", CommonRandomItemFromList("Afk", [null, "Open", "Frown", "Moan", "LipBite", "Pained", "Sad", "TonguePinch"]));
+			if (Math.random() >= 0.5) CharacterSetFacialExpression(Player, "Eyebrows", CommonRandomItemFromList("Afk", ["Raised", "Lowered", "Soft", "Harsh", "Angry"]));
+		}
+
+		// Sets the next animation time
+		ChatRoomStruggleData.NextAnim = Time + 5000 + Math.floor(Math.random() * 5000);
+
+	}
+
+}
+
+/**
  * Draws the chat room menu buttons
  * @returns {void} - Nothing
  */
@@ -1823,25 +1919,45 @@ function ChatRoomMenuDraw() {
 	for (let [idx, name] of Object.entries(ChatRoomMenuButtons)) {
 		let color = "White";
 		let suffix = "";
-		if (name === "Exit") {
-			if (ChatRoomCanLeave() && ChatRoomIsLeavingSlowly()) {
-				color = "Yellow";
-				name = "Cancel";
-			} else {
-				color = (ChatRoomCanLeave() ? (Player.IsSlow() ? "Yellow" : "White") : "Pink");
+		switch (name) {
+			case "Exit":
+				if (!ChatRoomCanLeave()) {
+					color = "Pink";
+				} else if (ChatRoomIsLeavingSlowly()) {
+					color = "Yellow";
+					name = "Cancel";
+				} else {
+					color = Player.IsSlow() ? "Yellow" : "White";
+				}
+				break;
+			case "Icons":
+				suffix = ChatRoomHideIconState.toString();
+				break;
+			case "Kneel": {
+				let status = 0;
+				if (Player.IsKneeling()) {
+					status = Math.max(...PoseAllStanding.map(p => PoseCanChangeUnaidedStatus(Player, p)));
+				} else if (Player.IsStanding()) {
+					status = Math.max(...PoseAllKneeling.map(p => PoseCanChangeUnaidedStatus(Player, p)));
+				}
+
+				switch (status) {
+					case PoseChangeStatus.NEVER:
+					case PoseChangeStatus.NEVER_WITHOUT_AID:
+						color = "Pink";
+						break;
+					case PoseChangeStatus.ALWAYS_WITH_STRUGGLE:
+						color = ChatRoomGetUpTimer === 0 ? "Yellow" : "Pink";
+						break;
+					case PoseChangeStatus.ALWAYS:
+						color = "White";
+						break;
+				}
+				break;
 			}
-		} else if (name === "Icons") {
-			suffix = ChatRoomHideIconState.toString();
-		} else if (name === "Kneel" && (Player.AllowedActivePoseMapping.BodyLower || Player.AllowedActivePoseMapping.BodyFull)) {
-			if (ChatRoomGetUpTimer === 0 && (ChatRoomCanAttemptStand() || ChatRoomCanAttemptKneel())) {
-				color = "Yellow";
-			} else {
-				color = "Pink";
-			}
-		} else if (name === "Dress" && !Player.CanChangeOwnClothes()) {
-			color = "Pink";
-		} else {
-			color = "White";
+			case "Dress":
+				color = Player.CanChangeOwnClothes() ? "White" : "Pink";
+				break;
 		}
 
 		const buttonX = 1005 + Space * Number(idx);
@@ -1910,43 +2026,73 @@ function ChatRoomClick(event) {
 	}
 
 	// In the left part of the screen
-	if (MouseIn(0, 0, 1000, 1000)) {
-		if(ChatRoomActiveView.Click) return ChatRoomActiveView.Click(event);
-	}
+	if (MouseIn(0, 0, 1000, 1000))
+		if (ChatRoomActiveView.Click)
+			return ChatRoomActiveView.Click(event);
 
 	// When the user clicks a menu button in the top-right
-	if (MouseYIn(0, 62)) ChatRoomMenuClick();
+	if ((MouseYIn(0, 62)) && (ChatRoomStruggleData == null))
+		return ChatRoomMenuClick();
+
+	// If the user wants to stop struggling (smaller button)
+	if (MouseIn(1700, 0, 145, 60) && (ChatRoomStruggleData != null) && ChatRoomStruggleData.AllowLoosen)
+		return StruggleChatRoomLoosenStart();
+
+	// If the user wants to stop struggling (smaller button)
+	if (MouseIn(1850, 0, 145, 60) && (ChatRoomStruggleData != null) && ChatRoomStruggleData.AllowLoosen)
+		return StruggleChatRoomStop();
+
+	// If the user wants to stop struggling (big button)
+	if (MouseIn(1800, 0, 195, 60) && (ChatRoomStruggleData != null) && !ChatRoomStruggleData.AllowLoosen)
+		return StruggleChatRoomStop();
+
 }
 
 /**
  * The handler for the "Kneel" top menu button
  */
 function ChatRoomToggleKneel() {
-	if (ChatRoomOwnerPresenceRule("BlockChangePose", Player)) return;
-	if (Player.CanKneel()) {
-		const PlayerIsKneeling = Player.IsKneeling();
-		const Dictionary = new DictionaryBuilder()
-			.sourceCharacter(Player)
-			.build();
-		ServerSend("ChatRoomChat", { Content: PlayerIsKneeling ? "StandUp" : "KneelDown", Type: "Action", Dictionary });
-		FuturisticTrainingBeltStandUpFlag = Player.IsKneeling();
-		PoseSetActive(Player, PlayerIsKneeling ? "BaseLower" : "Kneel");
-		ChatRoomStimulationMessage("Kneel");
-		ServerSend("ChatRoomCharacterPoseUpdate", { Pose: Player.ActivePose });
-	} else if (ChatRoomGetUpTimer == 0 && (ChatRoomCanAttemptStand() || ChatRoomCanAttemptKneel())) {
-		// If the player can theoretically get up, we start a minigame!
-		var diff = 0;
-		if (Player.IsBlind()) diff += 1;
-		if (Player.IsKneeling()) diff += 2;
-		if (Player.IsDeaf()) diff += 1;
-		if (InventoryGet(Player, "ItemTorso") || InventoryGroupIsBlocked(Player, "ItemTorso")) diff += 1;
-		if (InventoryGroupIsBlocked(Player, "ItemHands")) diff += 1;
-		if (InventoryGet(Player, "ItemArms")) diff += 1;
-		if (InventoryGet(Player, "ItemLegs") || InventoryGroupIsBlocked(Player, "ItemLegs")) diff += 1;
-		if (InventoryGet(Player, "ItemFeet") || InventoryGroupIsBlocked(Player, "ItemFeet")) diff += 1;
-		if (InventoryGet(Player, "ItemBoots")) diff += 2;
+	let status = 0;
+	if (Player.IsKneeling()) {
+		status = Math.max(...PoseAllStanding.map(p => PoseCanChangeUnaidedStatus(Player, p)));
+	} else if (Player.IsStanding()) {
+		status = Math.max(...PoseAllKneeling.map(p => PoseCanChangeUnaidedStatus(Player, p)));
+	}
 
-		MiniGameStart("GetUp", diff, "ChatRoomAttemptStandMinigameEnd");
+	switch (status) {
+		case PoseChangeStatus.ALWAYS: {
+			const PlayerIsKneeling = Player.IsKneeling();
+			const Dictionary = new DictionaryBuilder()
+				.sourceCharacter(Player)
+				.build();
+			ServerSend("ChatRoomChat", { Content: PlayerIsKneeling ? "StandUp" : "KneelDown", Type: "Action", Dictionary });
+			FuturisticTrainingBeltStandUpFlag = PlayerIsKneeling;
+			PoseSetActive(Player, PlayerIsKneeling ? "BaseLower" : "Kneel");
+			ChatRoomStimulationMessage("Kneel");
+			ServerSend("ChatRoomCharacterPoseUpdate", { Pose: Player.ActivePose });
+			return;
+		}
+
+		case PoseChangeStatus.ALWAYS_WITH_STRUGGLE: {
+			if (ChatRoomGetUpTimer !== 0) {
+				return;
+			}
+
+			// If the player can theoretically get up, we start a minigame!
+			let diff = 0;
+			if (Player.IsBlind()) diff += 1;
+			if (Player.IsKneeling()) diff += 2;
+			if (Player.IsDeaf()) diff += 1;
+			if (InventoryGet(Player, "ItemTorso") || InventoryGroupIsBlocked(Player, "ItemTorso")) diff += 1;
+			if (InventoryGroupIsBlocked(Player, "ItemHands")) diff += 1;
+			if (InventoryGet(Player, "ItemArms")) diff += 1;
+			if (InventoryGet(Player, "ItemLegs") || InventoryGroupIsBlocked(Player, "ItemLegs")) diff += 1;
+			if (InventoryGet(Player, "ItemFeet") || InventoryGroupIsBlocked(Player, "ItemFeet")) diff += 1;
+			if (InventoryGet(Player, "ItemBoots")) diff += 2;
+
+			MiniGameStart("GetUp", diff, "ChatRoomAttemptStandMinigameEnd");
+			return;
+		}
 	}
 }
 
@@ -2000,10 +2146,23 @@ function ChatRoomMenuClick() {
 					break;
 				}
 				case "Cut":
-					// When the user wants to remove the top part of his chat to speed up the screen, we only keep the last 20 entries
 					var L = document.getElementById("TextAreaChatLog");
-					while (L.childElementCount > 20)
-						L.removeChild(L.childNodes[0]);
+					if (L.childElementCount > 20) {
+						// When the user wants to remove the top part of his chat to speed up the screen, we only keep the last 20 entries
+						while (L.childElementCount > 20) {
+							L.removeChild(L.childNodes[0]);
+						}
+					} else {
+						// If fewer than 20 messages are available then we, instead, remove any message originating from a previous room
+						const roomDIVs = document.getElementsByClassName("ChatEnterBorder");
+						const roomDIV = roomDIVs[roomDIVs.length - 1];
+						if (roomDIV) {
+							while (roomDIV.previousSibling) {
+								L.removeChild(roomDIV.previousSibling);
+							}
+							L.removeChild(roomDIV);
+						}
+					}
 					ElementScrollToEnd("TextAreaChatLog");
 					break;
 				case "GameOption":
@@ -2312,14 +2471,135 @@ function ChatRoomScrollHistory(up) {
 function ChatRoomSendChat() {
 
 	// If there's a message to send
-	const msg = ElementValue("InputChat").trim();
+	let msg = ElementValue("InputChat").trim();
 	if (!msg.length) return;
 
 	// Keeps the chat log in memory so it can be accessed with pageup/pagedown
 	ChatRoomLastMessage.push(msg);
 	ChatRoomLastMessageIndex = ChatRoomLastMessage.length;
-	CommandParse(msg);
 
+	// Handle a possible command
+	const parsed = CommandParse(msg);
+	if (typeof parsed === "string") {
+		msg = parsed;
+	} else if (parsed) {
+		return;
+	}
+
+	// Maximum of 1000 characters sent
+	if (msg.length > ServerChatMessageMaxLength) return;
+
+	// Emote parsing
+	if (msg.startsWith("*") || (Player.ChatSettings.MuStylePoses && msg.startsWith(":") && msg.length > 3)) {
+		if (msg.match(/^\*\d*%/)) {
+			ChatRoomSendAttemptEmote(msg);
+		} else {
+			ChatRoomSendEmote(msg);
+		}
+		ElementValue("InputChat", "");
+		return;
+	}
+
+	// GGTS chat parser for completing tasks
+	AsylumGGTSChatToParse = msg;
+
+	let clearChat = false;
+	// Check if this is a whisper
+	let whisperStatus = ChatRoomSendWhisper(ChatRoomTargetMemberNumber, msg);
+	if (whisperStatus === "target-gone") {
+		ChatRoomSendLocal(`<span style="color: red">${TextGet("WhisperTargetGone")}</span>`);
+		return;
+	} else if (whisperStatus === "target-out-of-range") {
+		ChatRoomSendLocal(`<span style="color: red">${TextGet("WhisperTargetOutOfRange")}</span>`);
+		return;
+	} else if (whisperStatus) {
+		clearChat = true;
+	} else {
+		// This must be a regular chat message
+		const status = ChatRoomSendChatMessage(msg);
+		if (status) {
+			clearChat = true;
+		}
+	}
+
+	if (clearChat) {
+		ElementValue("InputChat", "");
+	}
+}
+
+/**
+ * Send a player message to the server
+ *
+ * This function automatically formats and sends the message with all the information
+ * needed to reconstruct it on the receiver.
+ *
+ * @param {"Chat"|"Whisper"} type
+ * @param {string} msg
+ */
+function ChatRoomGenerateChatRoomChatMessage(type, msg) {
+	// Chat messages are always garbled, unless the no speech restriction is lifted
+	let process = {
+		effects: [],
+		text: msg,
+	};
+
+	process = SpeechTransformProcess(Player, msg, SpeechTransformSenderEffects);
+
+	// We always garble, but if "no speech garbling" is enabled,
+	// we also send down the ungarbled message if it's different
+	const originalMsg = Player.RestrictionSettings.NoSpeechGarble && msg !== process.text ? msg : undefined;
+
+	/** @type {ChatMessageDictionary} */
+	let Dictionary = [
+		{ Effects: process.effects, Original: originalMsg },
+	];
+
+	return { Content: process.text, Type: type, Dictionary };
+}
+
+/**
+ * Send a specific chat message to the room
+ * @param {string} msg
+ * @returns
+ */
+function ChatRoomSendChatMessage(msg) {
+	// Regular chat can be prevented with an owner presence rule, also validates for forbidden words
+	if (ChatRoomOwnerPresenceRule("BlockTalk", null)) return false;
+	if (!ChatRoomOwnerForbiddenWordCheck(msg)) return false;
+
+	const data = ChatRoomGenerateChatRoomChatMessage("Chat", msg);
+	ServerSend("ChatRoomChat", data);
+
+	ChatRoomStimulationMessage("Talk");
+	return true;
+}
+
+/**
+ * Send a whisper to a specific character
+ * @param {number} targetNumber
+ * @param {string} msg
+ */
+function ChatRoomSendWhisper(targetNumber, msg) {
+	if (targetNumber < 0) return false;
+	const targetChar = ChatRoomCharacter.find(C => C.MemberNumber == targetNumber);
+	if (!targetChar) return "target-gone";
+
+	if (ChatRoomMapViewIsActive() && !ChatRoomMapViewCharacterOnWhisperRange(targetChar)) {
+		return "target-out-of-range";
+	}
+
+	const data = ChatRoomGenerateChatRoomChatMessage("Whisper", msg);
+	data.Target = targetNumber;
+	ServerSend("ChatRoomChat", data);
+
+	// We're self-whispering, and that would cause two messages to show up
+	// (one added below, the other added when it gets received).
+	// Skip this one if that's the case
+	if (targetChar.IsPlayer()) return true;
+	data.Sender = Player.MemberNumber;
+
+	ChatRoomMessage(data);
+	return true;
 }
 
 /**
@@ -2680,7 +2960,7 @@ var ChatRoomMessageHandlers = [
 			// Emotes parsing - Player is under sensory-dep, replace every character name from the message with the placeholder
 			if (data.Type == "Emote") {
 				if (ChatRoomIsCharacterImpactedBySensoryDeprivation(sender)) {
-					metadata.senderName = DialogFindPlayer("Someone");
+					metadata.senderName = InterfaceTextGet("Someone");
 					msg = SpeechAnonymize(msg, ChatRoomCharacter);
 				}
 			}
@@ -2689,11 +2969,16 @@ var ChatRoomMessageHandlers = [
 			if (data.Type == "Chat") {
 				if (ChatRoomIsCharacterImpactedBySensoryDeprivation(sender)) {
 					if (Player.GetDeafLevel() >= 4)
-						metadata.senderName = DialogFindPlayer("Someone");
-					else
-						metadata.senderName = SpeechGarble(sender, metadata.senderName, true);
+						metadata.senderName = InterfaceTextGet("Someone");
+					else {
+						const s = SpeechTransformProcess(sender, metadata.senderName, SpeechTransformReceiverEffects);
+						metadata.senderName = s.text;
+					}
 				}
-				if (Player.GetDeafLevel() > 0) msg = SpeechGarble(sender, msg);
+				if (Player.GetDeafLevel() > 0) {
+					const s = SpeechTransformProcess(sender, msg, SpeechTransformReceiverEffects);
+					msg = s.text;
+				}
 			}
 
 			return { msg: msg };
@@ -2705,7 +2990,10 @@ var ChatRoomMessageHandlers = [
 		Priority: 110,
 		Callback: (data, sender, msg, metadata) => {
 			if (data.Type == "Chat" || data.Type == "Whisper") {
-				if (Player.GetDeafLevel() > 0) data.Content = SpeechGarble(sender, data.Content);
+				if (Player.GetDeafLevel() > 0) {
+					const s = SpeechTransformProcess(sender, data.Content, SpeechTransformReceiverEffects);
+					data.Content = s.text;
+				}
 				ChatRoomChatLog.push({ Chat: data.Content, Garbled: msg, Original: data.Content, SenderName: metadata.senderName, SenderMemberNumber: sender.MemberNumber, Time: CommonTime() });
 				if (ChatRoomChatLog.length > 6) ChatRoomChatLog.splice(0, 1);
 			}
@@ -2904,6 +3192,9 @@ function ChatRoomMessageProcessHidden(data, SenderCharacter) {
 		ChatRoomSlowtimer = CurrentTime + 45000;
 		ChatRoomSlowStop = true;
 	}
+	else if (data.Content == "OnlineStruggleInterrupt") {
+		StruggleChatRoomEndAmination();
+	}
 	else if (data.Content.startsWith("MaidDrinkPick")) {
 		let A = parseInt(data.Content.substr("MaidDrinkPick".length));
 		if ((A == 0) || (A == 5) || (A == 10)) MaidQuartersOnlineDrinkPick(data.Sender, A);
@@ -3076,7 +3367,14 @@ function ChatRoomMessageDefaultMetadataExtractor(data, SenderCharacter) {
 			}
 			substitutions.push([Tag, Text.toString()]);
 		} else if (IsTextLookupDictionaryEntry(entry)) {
-			substitutions.push([entry.Tag, DialogFindPlayer(entry.TextToLookUp).toLowerCase()]);
+			let text = AssetTextGet(entry.TextToLookUp);
+			if (!text || text.startsWith(TEXT_NOT_FOUND_PREFIX)) {
+				text = InterfaceTextGet(entry.TextToLookUp);
+			} else {
+				// We lower-case here to blend in asset names in messages
+				text = text.toLowerCase();
+			}
+			substitutions.push([entry.Tag, text]);
 		}
 	}
 
@@ -3161,7 +3459,7 @@ function ChatRoomGetSourceCharacterSubstitutions(data, character) {
 		}
 		substitutions.push(["SourceCharacter", name]);
 	} else if (hideIdentity) {
-		name = DialogFindPlayer("Someone");
+		name = InterfaceTextGet("Someone");
 	}
 
 	substitutions.push(["SourceCharacter", name]);
@@ -3191,14 +3489,14 @@ function ChatRoomGetTargetCharacterSubstitutions(character, isSelf, index) {
 	let targetCharacter;
 	let targetCharacterName;
 	if (hideIdentity) {
-		const someone = DialogFindPlayer("Someone").toLowerCase();
+		const someone = InterfaceTextGet("Someone").toLowerCase();
 		destinationCharacter = isSelf ? pronounPossessive : someone;
 		destinationCharacterName = someone;
 		targetCharacter = isSelf ? pronounSelf : someone;
 		targetCharacterName = someone;
 	} else {
 		const name = CharacterNickname(character);
-		destinationCharacterName = `${name}${DialogFindPlayer("'s")}`;
+		destinationCharacterName = `${name}${InterfaceTextGet("'s")}`;
 		destinationCharacter = isSelf ? pronounPossessive : destinationCharacterName;
 		targetCharacter = isSelf ? pronounSelf : name;
 		targetCharacterName = name;
@@ -3345,11 +3643,17 @@ function ChatRoomMessage(data) {
 	// Substitute actions and server messages for their fulltext version
 	switch (data.Type) {
 		case "Action":
-			msg = DialogFindPlayer(msg);
+			{
+				let text = AssetTextGet(msg);
+				if (!text || text.startsWith(TEXT_NOT_FOUND_PREFIX)) {
+					text = InterfaceTextGet(msg);
+				}
+				msg = text;
+			}
 			break;
 
 		case "ServerMessage":
-			msg = DialogFindPlayer("ServerMessage" + msg);
+			msg = InterfaceTextGet("ServerMessage" + msg);
 			break;
 
 		case "Activity":
@@ -3359,6 +3663,10 @@ function ChatRoomMessage(data) {
 
 	// Apply requested substitutions
 	msg = CommonStringSubstitute(msg, substitutions);
+	const messageEntry = /** @type {MessageEffectEntry} */(data.Dictionary?.find(e => IsMessageEffectDictionaryEntry(e)));
+	if (messageEntry?.Original) {
+		metadata.OriginalMsg = CommonStringSubstitute(messageEntry.Original, substitutions);
+	}
 
 	ChatRoomMessageRunHandlers("post", data, SenderCharacter, msg, metadata);
 }
@@ -3373,11 +3681,6 @@ function ChatRoomMessage(data) {
  * @returns {void}
  */
 function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
-	// Ability to whisper for ourself is nice, for noting or testing.
-	// But we don't want to see two whisper messages, therefore, don't show it, if we're senging it to us.
-	if (data.Type === "Whisper" && SenderCharacter === Player) return;
-
-
 	let displayMessage = ChatRoomActiveView.DisplayMessage(data, msg, SenderCharacter, metadata);
 	if(displayMessage == null) return;
 
@@ -3395,7 +3698,9 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 			if (data.Type == "Whisper") senderTag += ' ';
 			senderTag += metadata.senderName;
 			senderTag += ':</span>';
-			if (data.Type == "Whisper") senderTag = TextGet("WhisperFrom") + senderTag;
+			if (data.Type == "Whisper") {
+				senderTag = (SenderCharacter.IsPlayer() ? TextGet("WhisperTo") : TextGet("WhisperFrom")) + senderTag;
+			}
 
 			displayMessage = `${senderTag} ${ChatRoomHTMLEntities(displayMessage)}`;
 		}
@@ -3422,6 +3727,10 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 		default:
 			console.warn(`unknown message type ${data.Type}, ignoring`);
 			return;
+	}
+
+	if (metadata.OriginalMsg) {
+		displayMessage += "<br>[" + ChatRoomHTMLEntities(metadata.OriginalMsg) + "]";
 	}
 
 	// Checks if the message is a notification about the user entering or leaving the room
@@ -4159,6 +4468,20 @@ function ChatRoomStopLeave() {
 }
 
 /**
+ * Triggered when a character interrupt online struggles on another character.
+ * @returns {void} - Nothing
+ */
+function ChatRoomOnlineStruggleInterrupt() {
+	const Dictionary = new DictionaryBuilder()
+		.sourceCharacter(Player)
+		.targetCharacter(CurrentCharacter)
+		.build();
+	ServerSend("ChatRoomChat", { Content: "OnlineStruggleInterrupt", Type: "Action", Dictionary });
+	ServerSend("ChatRoomChat", { Content: "OnlineStruggleInterrupt", Type: "Hidden", Target: CurrentCharacter.MemberNumber });
+	DialogLeave();
+}
+
+/**
  * Sends an administrative command to the server for the chat room from the character dialog.
  * @param {"Move"|"Kick"|"Ban"} ActionType - Type of action performed.
  * @param {boolean | string} [Publish=true] - Whether or not the action should be published.
@@ -4411,6 +4734,22 @@ function ChatRoomGetLoverRule(RuleType) { return ChatRoomGetRule(RuleType, "Love
 function ChatRoomGetOwnerRule(RuleType) { return ChatRoomGetRule(RuleType, "Owner"); }
 
 /**
+ * Return TRUE if the current character allows to change her own nickname by her owner
+ * @returns {boolean}
+ */
+function ChatRoomCanChangeNickname() { return (CurrentCharacter != null) && (CurrentCharacter.OnlineSharedSettings != null) && (CurrentCharacter.OnlineSharedSettings.AllowRename !== false) && CurrentCharacter.IsOwnedByPlayer(); }
+
+/**
+ * Enters the submissive character nickname edit/lock screen
+ * @returns {void}
+ */
+function ChatRoomChangeNickname() {
+	NicknameManagementTarget = CurrentCharacter;
+	DialogLeave();
+	CommonSetScreen("Online", "NicknameManagement");
+}
+
+/**
  * Gets a rule from the current character
  * @param {LogNameType["OwnerRule" | "LoverRule"]} RuleType - The name of the rule to retrieve.
  * @param {"Owner" | "Lover"} Sender - Type of the sender
@@ -4429,7 +4768,7 @@ function ChatRoomGetRule(RuleType, Sender) {
 function ChatRoomSetRule(data) {
 
 	// Only works if the sender is the player, and the player is fully collared
-	if ((data != null) && (Player.Ownership != null) && (Player.Ownership.Stage == 1) && (Player.Ownership.MemberNumber == data.Sender)) {
+	if (data != null && Player.IsFullyOwned() && Player.IsOwnedByMemberNumber(data.Sender)) {
 
 		// Wardrobe/changing rules
 		if (data.Content == "OwnerRuleChangeAllow") LogDelete("BlockChange", "OwnerRule");
@@ -4444,7 +4783,7 @@ function ChatRoomSetRule(data) {
 		if (data.Content == "OwnerRuleEmoteAllow") LogDelete("BlockEmote", "OwnerRule");
 		if (data.Content == "OwnerRuleEmoteBlock") LogAdd("BlockEmote", "OwnerRule");
 		if (data.Content == "OwnerRuleWhisperAllow") LogDelete("BlockWhisper", "OwnerRule");
-		if (data.Content == "OwnerRuleWhisperBlock") { LogAdd("BlockWhisper", "OwnerRule"); ChatRoomSetTarget(null); }
+		if (data.Content == "OwnerRuleWhisperBlock") { LogAdd("BlockWhisper", "OwnerRule"); ChatRoomSetTarget(-1); }
 		if (data.Content == "OwnerRuleChangePoseAllow") LogDelete("BlockChangePose", "OwnerRule");
 		if (data.Content == "OwnerRuleChangePoseBlock") LogAdd("BlockChangePose", "OwnerRule");
 		if (data.Content == "OwnerRuleAccessSelfAllow") LogDelete("BlockAccessSelf", "OwnerRule");
@@ -4501,9 +4840,14 @@ function ChatRoomSetRule(data) {
 			AsylumGGTSLock(GGTS, TextGet("GGTSIntro"));
 		}
 
-		// Nickname rules
+		// Nickname changing and locking
 		if (data.Content == "OwnerRuleNicknameAllow") LogDelete("BlockNickname", "OwnerRule");
 		if (data.Content == "OwnerRuleNicknameBlock") LogAdd("BlockNickname", "OwnerRule");
+		if (data.Content.startsWith("OwnerRuleNicknameNew")) {
+			let NewNick = data.Content.substring(20);
+			CharacterSetNickname(Player, NewNick);
+			data.Content = "OwnerRuleNicknameNew";
+		}
 
 		// Collar rules
 		if (data.Content == "OwnerRuleCollarRelease") {
@@ -4758,7 +5102,7 @@ function ChatRoomConcatenateBanList(IncludesBlackList, IncludesGhostList, Existi
  */
 function ChatRoomConcatenateAdminList(IncludesOwner, IncludesLovers, ExistingList) {
 	var AdminList = Array.isArray(ExistingList) ? ExistingList : [];
-	if (IncludesOwner && (Player.Ownership != null) && (Player.Ownership.MemberNumber != null)) AdminList = AdminList.concat(Player.Ownership.MemberNumber);
+	if (IncludesOwner && Player.OwnerNumber() !== -1) AdminList = AdminList.concat(Player.OwnerNumber());
 	if (IncludesLovers) CommonArrayConcatDedupe(AdminList, Player.GetLoversNumbers(true));
 	return AdminList.filter((MemberNumber, Idx, Arr) => Arr.indexOf(MemberNumber) == Idx);
 }
@@ -4774,7 +5118,7 @@ function ChatRoomGetLoadRules(C) {
 		C = ChatRoomCharacter.find(CC => CC.MemberNumber == C);
 	}
 	if (C == null) return;
-	if (Player.Ownership && Player.Ownership.MemberNumber != null && Player.Ownership.MemberNumber == C.MemberNumber) {
+	if (Player.IsOwnedByCharacter(C)) {
 		ServerSend("ChatRoomChat", {
 			Content: "RuleInfoSet",
 			Type: "Hidden",
@@ -5071,14 +5415,14 @@ function ChatRoomOwnerForbiddenWordCheck(Message) {
 function ChatRoomOwnerPresenceRule(RuleName, Target) {
 
 	if (!LogQuery(RuleName, "OwnerRule")) return false; // FALSE if the rule isn't set
-	if ((Player.Ownership == null) || (Player.Ownership.Stage !== 1)) return false; // FALSE if the player isn't fully collared
+	if (!Player.IsFullyOwned()) return false; // FALSE if the player isn't fully collared
 	if (!ChatRoomOwnerInside()) return false; // FALSE if the owner isn't inside
 
 	// Some rules are only on with specific targets
 	let Rule = true;
 	if (RuleName == "BlockAccessSelf") Rule = ((Target != null) && (Player.MemberNumber === Target.MemberNumber)); // Block access self only if target is herself
 	if (RuleName == "BlockAccessOther") Rule = ((Target != null) && (Player.MemberNumber !== Target.MemberNumber)); // Block access other only if target is another member
-	if (RuleName == "BlockWhisper") Rule = ((Target != null) && (Player.Ownership.MemberNumber !== Target.MemberNumber)); // Block whisper doesn't block whispering to the owner
+	if (RuleName == "BlockWhisper") Rule = ((Target != null) && Player.IsOwnedByCharacter(Target)); // Block whisper doesn't block whispering to the owner
 
 	// Shows a warning message in the chat log if the rule is enforced
 	if (Rule) {

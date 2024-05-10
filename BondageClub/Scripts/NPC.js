@@ -135,16 +135,18 @@ function NPCTraitDialog(C) {
 function NPCArousal(C) {
 
 	// Generates new data if there isn't any
-	if ((C.ArousalSettings == null) || (C.ArousalSettings.Zone == null) || (typeof C.ArousalSettings.Zone !== "string") || (C.ArousalSettings.Zone.length != PreferenceArousalZoneCount)) {
+	if (C.ArousalSettings == null) PreferenceInit(C);
 
-		// Resets to the default settings in automatic mode
-		PreferenceInit(C);
-		if ((C.ArousalSettings.Zone == null) || (typeof C.ArousalSettings.Zone !== "string") || (C.ArousalSettings.Zone.length != PreferenceArousalZoneCount)) C.ArousalSettings.Zone = PreferenceArousalZoneDefaultCompressedString;
+	// Rebuilds the activtities if needed
+	if ((C.ArousalSettings.Activity == null) || (typeof C.ArousalSettings.Activity !== "string") || (C.ArousalSettings.Activity.length != PreferenceArousalActivityDefaultCompressedString.length)) {
+
+		// Resets the activities
+		C.ArousalSettings.Activity = PreferenceArousalActivityDefaultCompressedString;
 		var Dominant = NPCTraitGet(C, "Dominant");
 		var Horny = NPCTraitGet(C, "Horny");
 
 		// Generates love/hate for all activities
-		for (let P = 0; P < C.ArousalSettings.Activity.length; P++) {
+		for (let A of ActivityFemale3DCG) {
 
 			// Picks a random love factor for the activity (highest values have less chances)
 			var LoveSelf = /** @type {ArousalFactor} */(Math.round((Math.random() * 4) + 0.5));
@@ -167,10 +169,22 @@ function NPCArousal(C) {
 			if (LoveOther > 4) LoveOther = 4;
 
 			// Sets the final values
-			C.ArousalSettings.Activity[P].Self = LoveSelf;
-			C.ArousalSettings.Activity[P].Other = LoveOther;
+			PreferenceSetActivityFactor(C, A.Name, true, LoveSelf);
+			PreferenceSetActivityFactor(C, A.Name, false, LoveOther);
 
 		}
+
+	}
+
+	// Rebuilds the fetishes if needed
+	if ((C.ArousalSettings.Fetish == null) || (typeof C.ArousalSettings.Fetish !== "string") || (C.ArousalSettings.Fetish.length != PreferenceArousalFetishDefaultCompressedString.length))
+		C.ArousalSettings.Fetish = PreferenceArousalFetishDefaultCompressedString;
+
+	// Rebuilds the zones if needed
+	if ((C.ArousalSettings.Zone == null) || (typeof C.ArousalSettings.Zone !== "string") || (C.ArousalSettings.Zone.length != PreferenceArousalZoneDefaultCompressedString.length)) {
+
+		// Sets the default zone first
+		C.ArousalSettings.Zone = PreferenceArousalZoneDefaultCompressedString;
 
 		// Picks a random zone that's sure to trigger an orgasm, each girl has a perfect zone
 		var OrgasmZones = ["ItemBreast", "ItemVulva", "ItemVulvaPiercings", "ItemButt"];

@@ -53,6 +53,7 @@ function* flattenExtendedConfig(extendedItemConfig) {
  */
 function testExtendedItemDialog(extendedItemConfig, dialogArray) {
 	const dialogSet = new Set(dialogArray.map(i => i[0]));
+	let first = true;
 	for (const { groupName, assetName, assetConfig } of flattenExtendedConfig(extendedItemConfig)) {
 		// Skip if dialog keys if they are set via CopyConfig;
 		// they will be checked when validating the parent item
@@ -72,6 +73,11 @@ function testExtendedItemDialog(extendedItemConfig, dialogArray) {
 		}
 
 		if (missingDialog.size !== 0) {
+			if (first) {
+				first = false;
+				console.error('\nERROR: Missing dialog key(s) in "BondageClub/Assets/Female3DCG/AssetStrings.csv":');
+			}
+
 			const missingString = Array.from(missingDialog).sort();
 			error(`${groupName}:${assetName}: found ${missingDialog.size} missing dialog keys: ${missingString}`);
 		}
@@ -219,7 +225,13 @@ function testModularItemDialog(groupName, assetName, config, dialogSet) {
 function testColorGroups(missingGroups) {
 	if (!Array.isArray(missingGroups)) {
 		error("MISSING_COLOR_GROUPS not found");
+		return;
+	} else if (!missingGroups.length) {
+		return;
+	} else {
+		console.error('\nERROR: Missing color group(s) in "BondageClub/Assets/Female3DCG/ColorGroups.csv":');
 	}
+
 	for (const { Group, Name, Invalid } of missingGroups) {
 		error(`${Group}:${Name}: Missing color group "${Invalid}"`);
 	}
@@ -233,7 +245,12 @@ function testColorLayers(missingLayers) {
 	if (!Array.isArray(missingLayers)) {
 		error("MISSING_COLOR_LAYERS not found");
 		return;
+	} else if (!missingLayers.length) {
+		return;
+	} else {
+		console.error('\nERROR: Missing color layer(s) in "BondageClub/Assets/Female3DCG/LayerNames.csv":');
 	}
+
 	for (const { Group, Name, Invalid } of missingLayers) {
 		error(`${Group}:${Name}: Missing color layer "${Invalid}"`);
 	}
@@ -1054,13 +1071,14 @@ function testAssetHasPNG(assets, extendedDataRecords, poseRecord) {
 				if (options.length > 0) {
 					layerTypes = options.map((o, i) => {
 						const optionPoses = o.Property?.AllowActivePose ?? asset.AllowActivePose ?? keys(poseMapping);
-						const mappedPoses = optionPoses.map(p => {
-							return poseMapping[p] ?? PoseType.DEFAULT;
-						}).filter(p => {
-							return p && p != PoseType.HIDE;
-						});
-						if (mappedPoses.length === 0) {
-							mappedPoses.push(PoseType.DEFAULT);
+						let mappedPoses = optionPoses.map(p => poseMapping[p] ?? PoseType.DEFAULT);
+						if (mappedPoses.length && mappedPoses.every(p => p === PoseType.HIDE)) {
+							mappedPoses = [];
+						} else {
+							mappedPoses = mappedPoses.filter(p => p !== PoseType.HIDE && p !== PoseType.DEFAULT);
+							if (mappedPoses.length === 0) {
+								mappedPoses.push(PoseType.DEFAULT);
+							}
 						}
 						return [layer.CreateLayerTypes.length ? partialLayerTypes[i] : null, mappedPoses];
 					});
@@ -1096,7 +1114,7 @@ function testAssetHasPNG(assets, extendedDataRecords, poseRecord) {
 				expressions = [null];
 			}
 
-			for (const iter of [parentNames, colors, expressions, layerTypes, ...layerTypes.map(i => i[1])]) {
+			for (const iter of [parentNames, colors, expressions, layerTypes]) {
 				if (Array.from(/** @type {Iterable<any>} */(iter)).length === 0) {
 					error(`${asset.Group.Name}:${asset.Name}:${layer.Name}: Internal error; zero-length list encountered!`);
 				}
@@ -1360,7 +1378,7 @@ function sanitizeVMOutput(input) {
 	}
 
 	const assetDescriptions = loadCSV("Assets/Female3DCG/Female3DCG.csv", 3);
-	const dialogArray = loadCSV("Screens/Character/Player/Dialog_Player.csv", 6);
+	const dialogArray = loadCSV("Assets/Female3DCG/AssetStrings.csv", 2);
 
 	// No further checks if initial data load failed
 	if (common.localError) {
@@ -1419,10 +1437,15 @@ function sanitizeVMOutput(input) {
 	}
 
 	// Check all type-valid groups for specific data
+	let descriptionFirst = true;
 	for (const Group of groupList) {
 		// Description name
 		const descriptionIndex = assetDescriptions.findIndex(d => d[0] === Group.Name && d[1] === "");
 		if (descriptionIndex < 0) {
+			if (descriptionFirst) {
+				descriptionFirst = false;
+				console.error('\nERROR: Missing asset- and/or group-description(s) in "BondageClub/Assets/Female3DCG/Female3DCG.csv":');
+			}
 			error(`No description for group "${Group.Name}"`);
 		} else {
 			assetDescriptions.splice(descriptionIndex, 1);
@@ -1437,6 +1460,10 @@ function sanitizeVMOutput(input) {
 			// Description name
 			const descriptionIndexAsset = assetDescriptions.findIndex(d => d[0] === Group.Name && d[1] === Asset.Name);
 			if (descriptionIndexAsset < 0) {
+				if (descriptionFirst) {
+					descriptionFirst = false;
+					console.error('\nERROR: Missing asset- and/or group-description(s) in "BondageClub/Assets/Female3DCG/Female3DCG.csv":');
+				}
 				error(`No description for asset "${Group.Name}:${Asset.Name}"`);
 			} else {
 				assetDescriptions.splice(descriptionIndexAsset, 1);

@@ -8805,6 +8805,11 @@ var AssetFemale3DCGExtended = {
 			],
 			ChangeWhenLocked: false,
 		}, // TormentHeels
+		StrictPonyBoots: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Base" }, { Name: "BootsOnly" }],
+		}, // StrictPonyBoots
 	}, // ItemBoots
 	ItemVulva: {
 		ClitSuctionCup: {
@@ -9050,12 +9055,6 @@ var AssetFemale3DCGExtended = {
 				Validate: FuturisticAccessValidate,
 				ScriptDraw: AssetsItemVulvaFuturisticVibratorScriptDrawHook,
 			},
-			DialogPrefix: {
-				Header: (data, C, item) =>
-					`${DialogFindPlayer("CurrentMode")} ${DialogFindPlayer(
-						item.Property?.Mode ?? "Off",
-					)}`,
-			},
 			BaselineProperty: {
 				AccessMode: "",
 				TriggerValues: CommonConvertArrayToString(
@@ -9063,6 +9062,26 @@ var AssetFemale3DCGExtended = {
 				),
 			},
 		}, // FuturisticVibrator
+		FullCasingCage: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "Fox",
+				},
+				{
+					Name: "Dog",
+				},
+			],
+			DialogPrefix: {
+				Header: "SelectCageType",
+				Option: "FullCasingCageType",
+				Chat: "FullCasingCageSet",
+			},
+		}, //Full Casing Cage
+		LatexNulge: {
+			Archetype: ExtendedArchetype.VIBRATING,
+		}, // Latex Nulge
 	}, // ItemVulva
 	ItemVulvaPiercings: {
 		ClitRing: {
@@ -9898,6 +9917,14 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // StilettoHeels
+		StrictPonyBoots: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			CopyConfig: {
+				GroupName: "ItemBoots",
+				AssetName: "StrictPonyBoots",
+			},
+		},
 	}, // Shoes
 	HairAccessory1: {
 		ElfEars: {
@@ -12634,7 +12661,7 @@ var AssetFemale3DCGExtended = {
 					if (lockmemberNumber == null) {
 						return "";
 					}
-					return `${DialogFindPlayer("LockMemberNumber")} ${lockmemberNumber}`;
+					return `${InterfaceTextGet("LockMemberNumber")} ${lockmemberNumber}`;
 				},
 			},
 			ScriptHooks: {

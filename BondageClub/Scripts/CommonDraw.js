@@ -406,7 +406,7 @@ function CommonDrawColorValid(Color, AssetGroup) {
 		return false;
 	}
 
-	if (Color.match(/#[0-9a-f]{4,7}/i)) {
+	if (Color.match(/#(?:[0-9a-f]{6}|[0-9a-f]{3})/i)) {
 		// Hexcode colors are always valid
 		return true;
 	}

@@ -26,21 +26,21 @@ function TightenLoosenItemLoad() {
 function TightenLoosenItemDraw() {
 
 	// Draws the title, tightness and item image
-	DrawText(DialogFindPlayer("TightenLoosenTitle"), 1500, 70, "White", "Silver");
+	DrawText(InterfaceTextGet("TightenLoosenTitle"), 1500, 70, "White", "Silver");
 	DrawItemPreview(DialogTightenLoosenItem, Player, 1200, 200);
-	DrawText(DialogFindPlayer("Tightness") + " " + DialogTightenLoosenItem.Difficulty.toString(), 1660, 240, "White", "Silver");
-	DrawText(DialogFindPlayer("MaximumTightness") + " " + TightenLoosenItemMaximumDifficulty.toString(), 1660, 340, "White", "Silver");
-	DrawText(DialogFindPlayer("MinimumTightness") + " " + TightenLoosenItemMinimumDifficulty.toString(), 1660, 440, "White", "Silver");
+	DrawText(InterfaceTextGet("Tightness") + " " + DialogTightenLoosenItem.Difficulty.toString(), 1660, 240, "White", "Silver");
+	DrawText(InterfaceTextGet("MaximumTightness") + " " + TightenLoosenItemMaximumDifficulty.toString(), 1660, 340, "White", "Silver");
+	DrawText(InterfaceTextGet("MinimumTightness") + " " + TightenLoosenItemMinimumDifficulty.toString(), 1660, 440, "White", "Silver");
 
 	// Draws the buttons
-	DrawText (DialogFindPlayer ("Loosen"), 1250, 600, "White", "Silver");
-	DrawText (DialogFindPlayer ("Tighten"), 1750, 600, "White", "Silver");
-	DrawButton(1040, 700, 180, 60, DialogFindPlayer("LoosenLot"), (DialogTightenLoosenItem.Difficulty <= TightenLoosenItemMinimumDifficulty + 2) ? "Gray": "White", null, null, (DialogTightenLoosenItem.Difficulty <= TightenLoosenItemMinimumDifficulty + 2));
+	DrawText(InterfaceTextGet("Loosen"), 1250, 600, "White", "Silver");
+	DrawText(InterfaceTextGet("Tighten"), 1750, 600, "White", "Silver");
+	DrawButton(1040, 700, 180, 60, InterfaceTextGet("LoosenLot"), (DialogTightenLoosenItem.Difficulty <= TightenLoosenItemMinimumDifficulty + 2) ? "Gray": "White", null, null, (DialogTightenLoosenItem.Difficulty <= TightenLoosenItemMinimumDifficulty + 2));
 	DrawButton(1220, 700, 60, 60, null, "White", "Icons/Small/Prev.png", null, true);
-	DrawButton(1280, 700, 180, 60, DialogFindPlayer("LoosenLittle"), (DialogTightenLoosenItem.Difficulty <= TightenLoosenItemMinimumDifficulty) ? "Gray": "White", null, null, (DialogTightenLoosenItem.Difficulty <= TightenLoosenItemMinimumDifficulty));
-	DrawButton(1540, 700, 180, 60, DialogFindPlayer("TightenLittle"), (DialogTightenLoosenItem.Difficulty >= TightenLoosenItemMaximumDifficulty) ? "Gray": "White", null, null, (DialogTightenLoosenItem.Difficulty >= TightenLoosenItemMaximumDifficulty));
+	DrawButton(1280, 700, 180, 60, InterfaceTextGet("LoosenLittle"), (DialogTightenLoosenItem.Difficulty <= TightenLoosenItemMinimumDifficulty) ? "Gray": "White", null, null, (DialogTightenLoosenItem.Difficulty <= TightenLoosenItemMinimumDifficulty));
+	DrawButton(1540, 700, 180, 60, InterfaceTextGet("TightenLittle"), (DialogTightenLoosenItem.Difficulty >= TightenLoosenItemMaximumDifficulty) ? "Gray": "White", null, null, (DialogTightenLoosenItem.Difficulty >= TightenLoosenItemMaximumDifficulty));
 	DrawButton(1720, 700, 60, 60, null, "White", "Icons/Small/Next.png", null, true);
-	DrawButton(1780, 700, 180, 60, DialogFindPlayer("TightenLot"), (DialogTightenLoosenItem.Difficulty >= TightenLoosenItemMaximumDifficulty - 2) ? "Gray": "White", null, null, (DialogTightenLoosenItem.Difficulty >= TightenLoosenItemMaximumDifficulty - 2));
+	DrawButton(1780, 700, 180, 60, InterfaceTextGet("TightenLot"), (DialogTightenLoosenItem.Difficulty >= TightenLoosenItemMaximumDifficulty - 2) ? "Gray": "White", null, null, (DialogTightenLoosenItem.Difficulty >= TightenLoosenItemMaximumDifficulty - 2));
 	DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
 }
 

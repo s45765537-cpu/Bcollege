@@ -307,6 +307,12 @@ function InfiltrationPayRansom(Type) {
 		CurrentScreen = "Infiltration";
 		InfiltrationPandoraPrisonerBrainwash();
 	}
+
+	if ((InfiltrationMission == "CatBurglar") || (InfiltrationMission == "ReverseMaid")) {
+		InfiltrationSupervisor.Stage = InfiltrationMission + "End";
+	} else {
+		InfiltrationSupervisor.Stage = "End";
+	}
 }
 
 /**

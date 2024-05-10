@@ -35,7 +35,7 @@ const ValidationPropertyPermissions = {
  */
 function ValidationCreateDiffParams(C, sourceMemberNumber) {
 	const fromSelf = sourceMemberNumber === C.MemberNumber;
-	const fromOwner = C.Ownership != null && (sourceMemberNumber === C.Ownership.MemberNumber || fromSelf);
+	const fromOwner = C.IsOwnedByMemberNumber(sourceMemberNumber) || fromSelf;
 	const fromFamily = C.IsInFamilyOfMemberNumber(sourceMemberNumber);
 	const loverNumbers = CharacterGetLoversNumbers(C);
 	let fromLover = loverNumbers.includes(sourceMemberNumber) || fromSelf;

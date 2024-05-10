@@ -598,7 +598,7 @@ function AssetMapLayer(Layer, A, I) {
 		DrawingTop: AssetParseTopLeft(Layer.Top, A.DrawingTop),
 		HideAs: Layer.HideAs,
 		FixedPosition: typeof Layer.FixedPosition === "boolean" ? Layer.FixedPosition : false,
-		HasImage: typeof Layer.HasImage === "boolean" ? Layer.HasImage : true,
+		HasImage: Layer.HasImage ?? A.Visible,
 		Opacity: opacity,
 		MinOpacity: minOpacity,
 		MaxOpacity: maxOpacity,
@@ -852,14 +852,6 @@ function AssetLoad(Groups, Family, ExtendedConfig) {
 		}
 	}
 
-	PreferenceArousalSettingsDefault.Zone = AssetGroup.map((group) => {
-		return {
-			...PreferenceArousalZoneDefault,
-			Name: /** @type {AssetGroupItemName} */(PreferenceArousalZoneValidate.Name(group.Name, Player)),
-			Orgasm: (group.Name === "ItemVulva"),
-		};
-	}).filter(({ Name }) => Name !== undefined);
-
 	AssetLoadDescription(Family);
 }
 
@@ -1018,4 +1010,17 @@ function AssetParseDefaultColor(colorableLayerCount, fillValue, color) {
 		color.slice(0, colorableLayerCount).forEach((c, i) => defaultColor[i] = c);
 	}
 	return defaultColor;
+}
+
+const AssetStringsPath = "Assets/Female3DCG/AssetStrings.csv";
+
+/**
+ * Get the translated string for an asset-specific message
+ * @param {string} msg
+ * @returns {string}
+ */
+function AssetTextGet(msg) {
+	const repo = TextAllScreenCache.get(AssetStringsPath);
+	if (!repo) return "";
+	return repo.get(msg);
 }

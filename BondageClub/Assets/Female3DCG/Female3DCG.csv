@@ -66,6 +66,7 @@ Bra,StuddedHarness,Studded Harness
 Bra,Swimsuit1,Swimsuit style 1
 Bra,Swimsuit2,Swimsuit style 2
 Bra,Swimsuit3,Swimsuit style 3
+Bra,LeatherVestSuit,Leather Vest Suit
 Bracelet,,Bracelet
 Bracelet,Band1,Band 1
 Bracelet,BowBand,Bow Band
@@ -105,6 +106,8 @@ Cloth,Dress2,Nomadic Dress
 Cloth,Dress3,Long Dress
 Cloth,DressFur,Dress with Fur
 Cloth,EveningGown,Evening Gown
+Cloth,YuletideVelvetWarmth,Yuletide Velvet Warmth
+Cloth,NunRobes,Nun Robes
 Cloth,FishnetTop,Fishnet Top
 Cloth,FlowerDress,Flower Dress
 Cloth,FrilledShirt,Latex Frilled Shirt
@@ -157,6 +160,7 @@ ClothAccessory,Bib,Bib
 ClothAccessory,Bouquet,Bouquet of flowers
 ClothAccessory,BugLegs,Bug Legs
 ClothAccessory,BunnyCollarCuffs,Bunny Girl Accessories
+ClothAccessory,BowBackAccessory,Bow Back Accessory
 ClothAccessory,Camera1,Camera
 ClothAccessory,Cape,Cape
 ClothAccessory,CatsuitCollar,Catsuit Collar
@@ -341,6 +345,7 @@ HairAccessory1,BigLynxEars,Lynx Ears
 HairAccessory1,BunnyEars1,Bunny Ears
 HairAccessory1,BunnyEars2,Floppy Bunny Ears
 HairAccessory1,CowHorns,Cow Horns
+HairAccessory1,CowEars,Cow Ears
 HairAccessory1,DildocornHorn,Dildocorn Horn
 HairAccessory1,Ears1,Ears Small
 HairAccessory1,Ears2,Ears Large
@@ -357,6 +362,8 @@ HairAccessory1,Headset1,Headset
 HairAccessory1,Horns,Horns
 HairAccessory1,Horns2,Horns 2
 HairAccessory1,Horns3,Horns 3
+HairAccessory1,Horns4,Horns 4
+HairAccessory1,Horns5,Horns 5
 HairAccessory1,KittenEars1,Black Kitty Ears
 HairAccessory1,KittenEars2,Light Kitty Ears
 HairAccessory1,MouseEars1,Mouse Ears 1
@@ -459,6 +466,8 @@ HairBack,HairBack58b,Style 58b
 HairBack,HairBack59,Style 59
 HairBack,HairBack60,Style 60
 HairBack,HairBack61,Style 61
+HairBack,HairBack62,Style 62
+HairBack,HairBack63,Style 63
 HairBack,HairNone,None
 HairFront,,Front Hair
 HairFront,HairFront1,Style 1
@@ -551,6 +560,7 @@ HairFront,HairFront9b,Style 9b
 HairFront,HairFront54,Style 54
 HairFront,HairFront55,Style 55
 HairFront,HairFront56,Style 56
+HairFront,HairFront57,Style 57
 Hands,,Hands
 Hands,Default,Default
 Hat,,Hat
@@ -581,6 +591,7 @@ Hat,MaidHairband1,Maid Hairband
 Hat,MaidLatexHairband,Maid Latex Hairband
 Hat,NunHabit,Nun Habit
 Hat,NurseCap,Nurse Cap
+Hat,NunVeil,Nun Veil
 Hat,PirateBandana1,Pirate Bandana
 Hat,PirateHat,Pirate Hat
 Hat,PoliceWomanHat,Police Woman Hat
@@ -720,6 +731,7 @@ ItemBoots,ToeTape,Toe Tape
 ItemBoots,ToeTie,Toe Tie
 ItemBoots,TormentHeels,Torment Heels
 ItemBoots,Zipties,Zip Ties
+ItemBoots,StrictPonyBoots,Strict Pony Boots
 ItemBreast,,Breasts
 ItemBreast,ForbiddenChastityBra,Forbidden Chastity Bra
 ItemBreast,FuturisticBra,Futuristic Chastity Bra
@@ -988,6 +1000,7 @@ ItemHood,FestivalFoxMask,Festival Fox Mask
 ItemHood,FoxHood,Fox Hood
 ItemHood,FoxyMask,Foxy Mask
 ItemHood,FuturisticHelmet,GGTS Helmet
+ItemHood,Fu,Fu
 ItemHood,GasMask,Gas Mask
 ItemHood,GGTSHelmet,GGTS Slave Helmet
 ItemHood,GP9GasMask,GP-9 Gas Mask
@@ -1017,6 +1030,7 @@ ItemHood,Pantyhose,Pantyhose
 ItemHood,PolishedSteelHood,Polished Steel Hood
 ItemHood,PonyHood,Pony Hood
 ItemHood,PumpkinHead,Pumpkin Head
+ItemHood,Paperbag,Paper bag
 ItemHood,SackHood,Sack Hood
 ItemHood,SensoryDeprivationHood,Sensory Hood
 ItemHood,Slime,Slime
@@ -1356,6 +1370,7 @@ ItemTorso,ThinLeatherStraps,Thin Leather Straps
 ItemTorso2,,Torso
 ItemVulva,,Vulva
 ItemVulva,BasicCockring,Basic Cock Ring
+ItemVulva,LockingCockring,Locking Cock Ring
 ItemVulva,BenWaBalls,Pair Of Ben Wa Balls
 ItemVulva,ChastityPouch,Chastity Pouch
 ItemVulva,ClitAndDildoVibratorbelt,Clitoris & Dildo Vibrating belt
@@ -1386,6 +1401,7 @@ ItemVulva,VibratorRemote,Vibrating Items Remote
 ItemVulva,WandBelt,Wand Belt
 ItemVulva,WiredEgg,Wired Vibrating Egg
 ItemVulva,FullCasingCage,Full Casing Cage
+ItemVulva,LatexNulge,Latex Nulge
 ItemVulvaPiercings,,Clitoris
 ItemVulvaPiercings,AdornedClitPiercing,Adorned Clitoris Piercing
 ItemVulvaPiercings,BarbellClitPiercing,Barbell Clitoris Piercing
@@ -1588,6 +1604,7 @@ Socks,Stockings2,Stockings Light
 Socks,Stockings3,Silky Stockings
 Socks,Stockings4,Fishnet Stockings
 Socks,VSocks1,Vinyl Socks
+Socks,YuletideVelvetWarmth,Yuletide Velvet Warmth
 SocksLeft,,Left Leg
 SocksLeft,CowPrintedSocks,Cow Printed Socks
 SocksLeft,FootlessSocks1,Footless Socks
@@ -1659,6 +1676,8 @@ TailStraps,BunnyTailStrap,Bunny Tail Strap
 TailStraps,CowtailStrap,Cow Tail Strap
 TailStraps,DemonPlug,Demon Tail
 TailStraps,DragonTailStrap1,Dragon Tail Strap
+TailStraps,DragonTailStrap2Left, Scaled dragon tail strap (Left)
+TailStraps,DragonTailStrap2Right, Scaled dragon tail strap (Right)
 TailStraps,FoxTailsStrap,Fox Tails Strap
 TailStraps,FoxTailStrap1,Fox Small Tail Strap
 TailStraps,FoxTailStrap2,Fox Large Tail Strap

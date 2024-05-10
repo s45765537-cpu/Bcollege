@@ -5,6 +5,9 @@ let TextScreenCache = null;
 /** @type {Map<string, TextCache>} */
 const TextAllScreenCache = new Map;
 
+/** Prefix for the Text-generated warning message on a missing key */
+const TEXT_NOT_FOUND_PREFIX = "MISSING TEXT IN";
+
 /**
  * Finds the text value linked to the tag in the buffer
  * @param {string} TextTag - Tag for the text to find
@@ -12,6 +15,29 @@ const TextAllScreenCache = new Map;
  */
 function TextGet(TextTag) {
 	return TextScreenCache ? TextScreenCache.get(TextTag) : "";
+}
+
+/**
+ * Finds the translated string for key in the specified text cache
+ * @param {string} filePath
+ * @param {string} key
+ * @returns {string} — The translated string for the key
+ */
+function TextGetInScope(filePath, key) {
+	const stringsFile = TextAllScreenCache.get(filePath);
+
+	let lastSlash = filePath.lastIndexOf("/");
+	if (lastSlash === -1) {
+		lastSlash = 0;
+	} else {
+		lastSlash = lastSlash + 1;
+	}
+	const fileName = filePath.substring(lastSlash);
+
+	if (!stringsFile) return `${TEXT_NOT_FOUND_PREFIX} "${fileName}": ${key}`;
+	const text = stringsFile.get(key);
+	if (!text) return `${TEXT_NOT_FOUND_PREFIX} "${fileName}": ${key}`;
+	return text;
 }
 
 /**
@@ -46,8 +72,22 @@ function TextPrefetch(Module, TextGroup) {
  */
 function TextPrefetchFile(file) {
 	if (!TextAllScreenCache.has(file)) {
-		TextAllScreenCache.set(file, new TextCache(file, "MISSING VALUE FOR TAG: "));
+		TextAllScreenCache.set(file, new TextCache(file));
 	}
+}
+
+const InterfaceStringsPath = "Screens/Interface.csv";
+
+/**
+ * @param {string} msg
+ * @returns {string}
+ */
+function InterfaceTextGet(msg) {
+	const stringsFile = TextAllScreenCache.get(InterfaceStringsPath);
+	if (!stringsFile) return `MISSING INTERFACE TEXT: ${msg}`;
+	const text = stringsFile.get(msg);
+	if (!text) return `MISSING INTERFACE TEXT: ${msg}`;
+	return text;
 }
 
 /**
@@ -58,18 +98,47 @@ class TextCache {
 	/**
 	 * Creates a new TextCache from the provided CSV file path.
 	 * @param {string} path - The path to the CSV lookup file for this TextCache instance
-	 * @param {string} [warn] - prefix for warning when key is not found
 	 */
-	constructor(path, warn = "") {
+	constructor(path, _build_cache=true) {
 		this.path = path;
-		this.warn = warn;
 		this.language = TranslationLanguage;
 		/** @type {Record<string, string>} */
 		this.cache = {};
 		/** @type {((cache?: TextCache) => void)[]} */
 		this.rebuildListeners = [];
 		this.loaded = false;
-		this.buildCache();
+		if (_build_cache) {
+			this.buildCache();
+		}
+	}
+
+	/**
+	 * Creates a new TextCache from the provided CSV file path asynchronously,
+	 * promising its return after the cache has been build.
+	 * @param {string} path - The path to the CSV lookup file for this TextCache instance
+	 */
+	static async buildAsync(path) {
+		const cache = new TextCache(path, false);
+		await cache.buildCache();
+		return cache;
+	}
+
+	log(msg) {
+		// console.log(`TextCache "${this.path}" (loaded: ${this.loaded}):`, msg);
+	}
+
+	/**
+	 * Return the basename of the cached file
+	 * @returns {string}
+	 */
+	fileName() {
+		let lastSlash = this.path.lastIndexOf("/");
+		if (lastSlash === -1) {
+			lastSlash = 0;
+		} else {
+			lastSlash = lastSlash + 1;
+		}
+		return this.path.substring(lastSlash);
 	}
 
 	/**
@@ -85,7 +154,11 @@ class TextCache {
 			this.buildCache();
 		}
 		const value = this.cache[key];
-		return (value != null) ? value : (this.warn + key);
+		if (!value) {
+			this.log(`Unknown key: ${key}`);
+			return `${TEXT_NOT_FOUND_PREFIX} "${this.fileName()}": ${key}`;
+		}
+		return value;
 	}
 
 	/**
@@ -111,11 +184,11 @@ class TextCache {
 
 	/**
 	 * Kicks off a build of the text lookup cache
-	 * @returns {void} - Nothing
 	 */
-	buildCache() {
+	async buildCache() {
 		if (!this.path) return;
-		this.fetchCsv()
+		this.log("buildCache");
+		return this.fetchCsv()
 			.then((lines) => this.translate(lines))
 			.then((lines) => this.cacheLines(lines))
 			.then(() => this.rebuildListeners.forEach((listener) => listener(this)));
@@ -127,11 +200,16 @@ class TextCache {
 	 * file.
 	 */
 	fetchCsv() {
-		if (CommonCSVCache[this.path]) return Promise.resolve(CommonCSVCache[this.path]);
+		if (CommonCSVCache[this.path]) {
+			this.log("fetchCsv: returning from cache");
+			return Promise.resolve(CommonCSVCache[this.path]);
+		}
+		this.log("fetchCsv: fetching from server");
 		return new Promise((resolve) => {
 			CommonGet(this.path, (xhr) => {
 				if (xhr.status === 200) {
 					CommonCSVCache[this.path] = CommonParseCSV(xhr.responseText);
+					this.log("fetchCsv: parsing");
 					return resolve(CommonCSVCache[this.path]);
 				}
 				return Promise.resolve([]);
@@ -147,6 +225,7 @@ class TextCache {
 	cacheLines(lines) {
 		lines.forEach((line) => (this.cache[line[0]] = line[1]));
 		this.loaded = true;
+		this.log("cacheLines complete");
 	}
 
 	/**
@@ -162,15 +241,19 @@ class TextCache {
 
 		const translationPath = this.path.replace(/\/([^/]+)\.csv$/, `/$1_${lang}.txt`);
 		if (!TranslationAvailable(translationPath)) {
+			this.log(`translate: no translation available: ${translationPath}`);
 			return Promise.resolve(lines);
 		}
 
 		if (TranslationCache[translationPath]) {
+			this.log(`translate: using cache`);
 			return Promise.resolve(this.buildTranslations(lines, TranslationCache[translationPath]));
 		} else {
+			this.log(`translate: fetching translation from ${translationPath}`);
 			return new Promise((resolve) => {
 				CommonGet(translationPath, (xhr) => {
 					if (xhr.status === 200) {
+						this.log(`translate: parsing translation`);
 						TranslationCache[translationPath] = TranslationParseTXT(xhr.responseText);
 						return resolve(this.buildTranslations(lines, TranslationCache[translationPath]));
 					}
@@ -188,6 +271,7 @@ class TextCache {
 	 * values translated to the current game language
 	 */
 	buildTranslations(lines, translations) {
+		this.log(`buildTranslations`);
 		return lines.map(line => ([line[0], TranslationString(line[1], translations)]));
 	}
 }

@@ -15,13 +15,13 @@ var ItemDevicesLuckyWheelAnimationFrameTime = 80;
  * @returns {string}
  */
 function ItemDevicesLuckyWheelLabelForNum(num) {
-	return DialogFindPlayer("LuckyWheelSectionDefaultLabel").replace("NUM", num.toString());
+	return AssetTextGet("LuckyWheelSectionDefaultLabel").replace("NUM", num.toString());
 }
 
 /** @type {ExtendedItemScriptHookCallbacks.Draw<ModularItemData>} */
 function InventoryItemDevicesLuckyWheelDrawHook(data, next) {
 	if (data.currentModule === "Game")
-		DrawButton(1370, 800, 260, 64, DialogFindPlayer("LuckyWheelTrigger"), "white");
+		DrawButton(1370, 800, 260, 64, AssetTextGet("LuckyWheelTrigger"), "white");
 	next();
 }
 
@@ -39,7 +39,7 @@ function InventoryItemDevicesLuckyWheelClickHook(data, next) {
 
 /** @type {ExtendedItemScriptHookCallbacks.Init<ModularItemData>} */
 function InventoryItemDevicesLuckyWheelInitHook(data, originalFunction, character, item, push, refresh) {
-	// NOTE: We can't pass `Texts` to `ModularItemData.BaselineProperty` as `DialogFindPlayer` has yet to be initialized at the time
+	// NOTE: We can't pass `Texts` to `ModularItemData.BaselineProperty` as `AssetTextGet` has yet to be initialized at the time
 	const Texts = [ItemDevicesLuckyWheelLabelForNum(1), ItemDevicesLuckyWheelLabelForNum(2)];
 	let ret = originalFunction(character, item, false, false);
 	ret = ExtendedItemInitNoArch(character, item, { Texts }, push, refresh) || ret;
@@ -78,10 +78,10 @@ function InventoryItemDevicesLuckyWheelg0DrawHook(data, originalFunction) {
 	}
 
 	const disabledAdd = DialogFocusItem.Property.Texts.length >= ItemDevicesLuckyWheelMaxTexts;
-	DrawButton(1360, 720, 120, 48, DialogFindPlayer("LuckyWheelAddSection"), disabledAdd ? "#888" : "white", null, null, disabledAdd);
+	DrawButton(1360, 720, 120, 48, AssetTextGet("LuckyWheelAddSection"), disabledAdd ? "#888" : "white", null, null, disabledAdd);
 
 	const disabledRemove = DialogFocusItem.Property.Texts.length <= ItemDevicesLuckyWheelMinTexts;
-	DrawButton(1530, 720, 120, 48, DialogFindPlayer("LuckyWheelRemoveSection"), disabledRemove ? "#888" : "white", null, null, disabledRemove);
+	DrawButton(1530, 720, 120, 48, AssetTextGet("LuckyWheelRemoveSection"), disabledRemove ? "#888" : "white", null, null, disabledRemove);
 
 }
 

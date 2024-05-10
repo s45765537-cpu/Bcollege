@@ -72,6 +72,7 @@ var TitleList = [
 	{ Name: "Angel", Requirement: function () { return true; } },
 	{ Name: "Alien", Requirement: function () { return true; } },
 	{ Name: "Captain", Requirement: function () { return true; } },
+	{ Name: "Admiral", Requirement: function () { return true; } },
 	{ Name: "Succubus", Requirement: function () { return !Player.GenderSettings.HideTitles.Female; } },
 	{ Name: "Incubus", Requirement: function () { return !Player.GenderSettings.HideTitles.Male; } },
 	{ Name: "Concubus", Requirement: function () { return true; } },
@@ -166,7 +167,8 @@ function TitleIsEarned(Title) {
 function TitleLoad() {
 	TitleSelectedTitle = TitleGet(Player);
 	TitleListFiltered = TitleList.filter(T => T.Requirement());
-	TitleCanEditNickname = (!LogQuery("BlockNickname", "OwnerRule") || (Player.Ownership == null) || (Player.Ownership.Stage !== 1));
+	TitleCanEditNickname = (!LogQuery("BlockNickname", "OwnerRule") || !Player.IsFullyOwned());
+	if (!TitleCanEditNickname && (Player.OnlineSharedSettings != null) && (Player.OnlineSharedSettings.AllowRename === false)) TitleCanEditNickname = true;
 	let E = ElementCreateInput("InputNickname", "text", Player.Nickname, "20");
 	if (!TitleCanEditNickname) {
 		E.style.backgroundColor = "#DFDFDF";
@@ -191,20 +193,16 @@ function TitleRun() {
 	if (TitleNicknameStatus)
 		DrawText(TextGet(TitleNicknameStatus), 1000, 250, "red");
 
-	MainCanvas.textAlign = "left";
-	DrawText(TextGet("CurrentTitle").replace("TITLE", TextGet("Title" + (Player.Title || "None"))), 130, 285, "Black", "Gray");
-	MainCanvas.textAlign = "center";
-
 	// List all the available titles
 	let X = 130;
-	let Y = 325;
+	let Y = 250;
 	for (let T = TitleOffset; T < TitleOffset + TitlePerPage && T < TitleListFiltered.length; T++) {
 		const isCurrentTitle = TitleSelectedTitle == TitleListFiltered[T].Name;
-		DrawButton(X, Y, 400, 65, TextGet("Title" + TitleListFiltered[T].Name), isCurrentTitle ? "yellow" : 'White', undefined, undefined, isCurrentTitle);
+		DrawButton(X, Y, 400, 60, TextGet("Title" + TitleListFiltered[T].Name), isCurrentTitle ? "yellow" : 'White', undefined, undefined, isCurrentTitle);
 		X = X + 450;
 		if (X > 1500) {
 			X = 130;
-			Y = Y + 100;
+			Y = Y + 80;
 		}
 	}
 
@@ -229,15 +227,13 @@ function TitleClick() {
 
 	// When the user selects a title
 	let X = 130;
-	let Y = 325;
+	let Y = 250;
 	for (let T = TitleOffset; T < TitleOffset + TitlePerPage && T < TitleListFiltered.length; T++) {
-		if (MouseIn(X, Y, 400, 65)) {
-			TitleSelectedTitle = TitleListFiltered[T].Name;
-		}
+		if (MouseIn(X, Y, 400, 60)) TitleSelectedTitle = TitleListFiltered[T].Name;
 		X = X + 450;
 		if (X > 1500) {
 			X = 130;
-			Y = Y + 100;
+			Y = Y + 80;
 		}
 	}
 }
