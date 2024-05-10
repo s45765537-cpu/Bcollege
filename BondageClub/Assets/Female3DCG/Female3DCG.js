@@ -18013,6 +18013,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "LockingCockring",
 				Gender: "M",
+				Difficulty: 50,
 				Value: 10,
 				Left: 200,
 				Top: 465,
