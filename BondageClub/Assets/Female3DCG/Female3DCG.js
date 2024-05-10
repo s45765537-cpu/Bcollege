@@ -18311,7 +18311,7 @@ var AssetFemale3DCG = [
 				Value: 20,
 				Effect: [E.Chaste, E.UseRemote],
 				Block: ["ItemVulvaPiercings"],
-				Hide: ["Pussy"],
+				Hide: ["Pussy", "ItemVulvaPiercings"],
 				Attribute: ["CageTechno"],
 				PoseMapping: {
 					...AssetPoseMapping.ItemVulva,
