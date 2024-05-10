@@ -197,7 +197,7 @@ var ClubCardList = [
 		AfterOpponentTurnEnd: function(CCPlayer) {
 			const opponent = ClubCardGetOpponent(CCPlayer);
 
-			// Opponent will card is played on their turn before the turn counter was incremented and synced online
+			// Opponent card is played on their turn before the turn counter was incremented and synced online
 			const abdlBabyPlayed = ClubCardGetCardsPlayedOnTurn(opponent, opponent.ClubCardTurnCounter -1).some(card => {
 				return card.Group?.includes("ABDLBaby");
 			});
