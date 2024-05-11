@@ -1723,7 +1723,7 @@ function ChatRoomMapViewMouseUp() {
 
 /**
  * Mouse wheel event is used to zoom the map
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["MouseWheel"]}
  */
 function ChatRoomMapViewMouseWheel(Event) {
 	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapViewIsActive()) return;

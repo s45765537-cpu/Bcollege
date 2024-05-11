@@ -2007,8 +2007,7 @@ function ChatRoomMouseMove(event) {
 
 /**
  * Redirects the Mouse Wheel event to the map if needed
- * @param {MouseEvent | TouchEvent} event
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["MouseWheel"]}
  */
 function ChatRoomMouseWheel(event) {
 	if (ChatRoomActiveView.MouseWheel) return ChatRoomActiveView.MouseWheel(event);

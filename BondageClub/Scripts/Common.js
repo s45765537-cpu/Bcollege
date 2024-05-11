@@ -281,6 +281,7 @@ function CommonMouseMove(event) {
 	}
 }
 
+/** @type {ScreenFunctions["MouseWheel"]} */
 function CommonMouseWheel(event) {
 	if (CurrentCharacter == null) {
 		if (CurrentScreenFunctions.MouseWheel) {

@@ -1135,7 +1135,7 @@ interface ScreenFunctions {
 	 * Called if the user moves the mouse wheel on the canvas
 	 * @param {MouseEvent | TouchEvent} event - The event that triggered this
 	 */
-	MouseWheel?(event: MouseEvent | TouchEvent): void;
+	MouseWheel?(event: WheelEvent): void;
 	/**
 	 * Called if the user clicks on the canvas
 	 * @param {MouseEvent | TouchEvent} event - The event that triggered this
