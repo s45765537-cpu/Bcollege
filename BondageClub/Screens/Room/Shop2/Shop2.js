@@ -562,9 +562,9 @@ var Shop2 = {
 			}
 
 			button.disabled = false;
-			button.style.backgroundColor = "";
+			button.classList.remove("layering-button-pink");
 			if (Shop2InitVars.Preview.PoseMapping[pose.Category] === pose.Name) {
-				button.style.backgroundColor = "pink";
+				button.classList.add("layering-button-pink");
 			} else if (!PoseAvailable(Shop2InitVars.Preview, pose.Category, pose.Name)) {
 				button.disabled = true;
 			}
