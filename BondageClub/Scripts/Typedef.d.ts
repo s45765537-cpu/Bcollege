@@ -385,7 +385,7 @@ type ArousalAffectStutterName = "None" | "Arousal" | "Vibration" | "All";
  *
  * @see {@link CommonKeyMove}
  */
-type KeyboardEventListener = (event: KeyboardEvent) => boolean;
+type KeyboardEventListener = ScreenFunctions["KeyDown"];
 type MouseEventListener = ScreenFunctions["MouseDown"];
 
 type SettingsSensDepName = "SensDepLight" | "Normal" | "SensDepNames" | "SensDepTotal" | "SensDepExtreme";
