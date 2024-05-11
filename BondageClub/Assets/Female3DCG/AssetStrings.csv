@@ -4880,7 +4880,6 @@ SuitLowerMaleSeamlessCatsuitTucked,Tucked
 SuspensionChange,SourceCharacter uses AssetName to suspend TargetCharacter from the ceiling.
 SuspensionChangeLower,SourceCharacter lowers the height of DestinationCharacter suspension.
 SuspensionChangeRaise,SourceCharacter raises the height of DestinationCharacter suspension.
-Swapping,Swapping...
 SybianDecreaseTo-1,DestinationCharacterName sybian stops vibrating.
 SybianDecreaseTo0,DestinationCharacterName sybian slows down into a light tease.
 SybianDecreaseTo1,DestinationCharacterName sybian returns to a moderate pace.
