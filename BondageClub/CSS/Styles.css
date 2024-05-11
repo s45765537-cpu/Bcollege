@@ -760,6 +760,10 @@ input[type="checkbox"]:checked::before {
 	width: 100%;
 }
 
+.layering-button-pink {
+	background-color: pink;
+}
+
 .layering-button:hover + .layering-button-tooltip {
 	visibility: visible;
 }

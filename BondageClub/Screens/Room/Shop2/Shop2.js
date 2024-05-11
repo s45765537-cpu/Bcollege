@@ -562,9 +562,9 @@ var Shop2 = {
 			}
 
 			button.disabled = false;
-			button.style.backgroundColor = "";
+			button.classList.remove("layering-button-pink");
 			if (Shop2InitVars.Preview.PoseMapping[pose.Category] === pose.Name) {
-				button.style.backgroundColor = "pink";
+				button.classList.add("layering-button-pink");
 			} else if (!PoseAvailable(Shop2InitVars.Preview, pose.Category, pose.Name)) {
 				button.disabled = true;
 			}
@@ -636,12 +636,12 @@ var Shop2 = {
 	Elements: {
 		DarkFactor: {
 			Coords: [0, 0, 2000, 1000],
-			Mode: new Set(["Preview", "Buy", "Sell", "Extended", "Color"]),
+			Mode: new Set(["Preview", "Buy", "Sell", "Extended", "Color", "Layering"]),
 			Draw: (...coords) => DrawRect(...coords, "rgba(0,0,0,0.5)"),
 		},
 		Character: {
 			Coords: [650, 0, 0, 0],
-			Mode: new Set(["Preview", "Buy", "Sell", "Extended", "Color"]),
+			Mode: new Set(["Preview", "Buy", "Sell", "Extended", "Color", "Layering"]),
 			Load: () => {
 				if (Shop2InitVars.Preview) {
 					return;
@@ -689,8 +689,7 @@ var Shop2 = {
 				});
 			},
 			Draw: (...coords) => {
-				const font = MainCanvas.canvas.clientWidth <= MainCanvas.canvas.clientHeight * 2 ? MainCanvas.canvas.clientWidth / 50 : MainCanvas.canvas.clientHeight / 25;
-				ElementPositionFix("Shop2InputSearch", font, ...coords);
+				ElementPositionFixed("Shop2InputSearch", ...coords);
 			},
 			Unload: () => {
 				const elem = document.getElementById("Shop2InputSearch");
@@ -789,8 +788,7 @@ var Shop2 = {
 				if (Shop2Vars.DropdownState !== ShopDropdownState.GROUP) {
 					return;
 				}
-				const font = MainCanvas.canvas.clientWidth <= MainCanvas.canvas.clientHeight * 2 ? MainCanvas.canvas.clientWidth / 50 : MainCanvas.canvas.clientHeight / 25;
-				ElementPositionFix("Shop2GroupSelect", font, ...coords);
+				ElementPositionFixed("Shop2GroupSelect", ...coords);
 			},
 			Unload: () => {
 				const elem = document.getElementById("Shop2GroupSelect");
@@ -803,16 +801,31 @@ var Shop2 = {
 		PoseSelectHeader: {
 			Coords: [345, 155 + 160, 0, 0],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Draw: (x, y) => DrawText(TextGet("PoseSelectHeader"), x, y, "White"),
+			Draw: (x, y) => {
+				switch (Shop2Vars.DropdownState) {
+					case ShopDropdownState.GROUP:
+						DrawText(TextGet("PoseSelectHeader"), x, y, "Gray");
+						break;
+					default:
+						DrawText(TextGet("PoseSelectHeader"), x, y, "White");
+						break;
+				}
+			}
 		},
 		PoseSelectCollapse: {
 			Coords: [25, Shop2Consts.Grid.y + 160, 90, 90],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
 			Draw: (...coords) => {
-				if (Shop2Vars.DropdownState === ShopDropdownState.POSE) {
-					DrawButton(...coords, "", "Pink", "Icons/Down.png", TextGet("PoseSelectCollapse"));
-				} else {
-					DrawButton(...coords, "", "White", "Icons/Next.png", TextGet("PoseSelectCollapse"));
+				switch (Shop2Vars.DropdownState) {
+					case ShopDropdownState.POSE:
+						DrawButton(...coords, "", "Pink", "Icons/Down.png", TextGet("PoseSelectCollapse"));
+						break;
+					case ShopDropdownState.GROUP:
+						DrawButton(...coords, "", "Gray", "Icons/Next.png", TextGet("PoseSelectCollapse"), true);
+						break;
+					default:
+						DrawButton(...coords, "", "White", "Icons/Next.png", TextGet("PoseSelectCollapse"));
+						break;
 				}
 			},
 			Click: () => {
@@ -823,7 +836,16 @@ var Shop2 = {
 		PoseSelectNone: {
 			Coords: [135, Shop2Consts.Grid.y + 160, 200, 90],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Draw: (...coords) => DrawButton(...coords, TextGet("PoseSelectReset"), "White"),
+			Draw: (...coords) => {
+				switch (Shop2Vars.DropdownState) {
+					case ShopDropdownState.GROUP:
+						DrawButton(...coords, TextGet("PoseSelectReset"), "Gray");
+						break;
+					default:
+						DrawButton(...coords, TextGet("PoseSelectReset"), "White");
+						break;
+				}
+			},
 			Click: () => {
 				PoseSetActive(Shop2InitVars.Preview, null, true);
 				Shop2._UpdatePoseButtons();
@@ -866,9 +888,8 @@ var Shop2 = {
 				if (Shop2Vars.DropdownState !== ShopDropdownState.POSE) {
 					return;
 				}
-				const canvas = MainCanvas.canvas;
-				const font = canvas.clientWidth <= canvas.clientHeight * 2 ? canvas.clientWidth / 50 : canvas.clientHeight / 25;
-				ElementPositionFix("Shop2PoseSelect", font, ...coords);
+
+				ElementPositionFixed("Shop2PoseSelect", ...coords);
 				const elem = document.getElementById("Shop2PoseSelect");
 				elem.style.width = "fit-content";
 			},
@@ -907,6 +928,28 @@ var Shop2 = {
 					"en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 },
 				).format(Math.min(999999, Player.Money));
 				DrawText(money, x, y, "White");
+			},
+		},
+		LayeringButton: {
+			Coords: [1115, 25, 90, 90],
+			Mode: new Set(["Preview", "Buy", "Sell"]),
+			Draw: (...coords) => {
+				const item = Shop2Vars.EquippedItem;
+				if (!item || Shop2Vars.Mode !== "Preview") {
+					DrawButton(...coords, "", "Gray", "Icons/Layering.png", TextGet("LayeringButton"), true);
+				} else {
+					DrawButton(...coords, "", "White", "Icons/Layering.png", TextGet("LayeringButton"));
+				}
+			},
+			Click: () => {
+				const item = Shop2Vars.EquippedItem;
+				if (!item || Shop2Vars.Mode !== "Preview") {
+					return;
+				}
+
+				Shop2Unload();
+				Layering.Init(item, Shop2InitVars.Preview, { x: 1115, w: 2000 - 1115 - 25 });
+				Shop2Vars.Mode = "Layering";
 			},
 		},
 		BuyMode: {
@@ -1077,6 +1120,14 @@ var Shop2 = {
 			},
 			Exit: () => ItemColorExitClick(),
 		},
+		Layering: {
+			Coords: [0, 0, 2000, 1000],
+			Mode: new Set(["Layering"]),
+			Draw: () => {},
+			Resize: (load) => Layering.Resize(load),
+			Unload: () => Layering.Unload(),
+			Exit: () => Layering.Exit(),
+		},
 	},
 
 	/**
@@ -1154,6 +1205,15 @@ function Shop2Draw() {
 
 /** @type {ScreenFunctions["Run"]} */
 function Shop2Run() {}
+
+/** @type {ScreenFunctions["Resize"]} */
+function Shop2Resize(load) {
+	Object.values(Shop2.Elements).forEach((e) => {
+		if (e.Mode.has(Shop2Vars.Mode)) {
+			e.Resize?.(load);
+		}
+	});
+}
 
 /** @type {ScreenFunctions["Unload"]} */
 function Shop2Unload() {
