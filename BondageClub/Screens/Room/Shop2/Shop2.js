@@ -636,12 +636,12 @@ var Shop2 = {
 	Elements: {
 		DarkFactor: {
 			Coords: [0, 0, 2000, 1000],
-			Mode: new Set(["Preview", "Buy", "Sell", "Extended", "Color"]),
+			Mode: new Set(["Preview", "Buy", "Sell", "Extended", "Color", "Layering"]),
 			Draw: (...coords) => DrawRect(...coords, "rgba(0,0,0,0.5)"),
 		},
 		Character: {
 			Coords: [650, 0, 0, 0],
-			Mode: new Set(["Preview", "Buy", "Sell", "Extended", "Color"]),
+			Mode: new Set(["Preview", "Buy", "Sell", "Extended", "Color", "Layering"]),
 			Load: () => {
 				if (Shop2InitVars.Preview) {
 					return;
@@ -930,6 +930,28 @@ var Shop2 = {
 				DrawText(money, x, y, "White");
 			},
 		},
+		LayeringButton: {
+			Coords: [1115, 25, 90, 90],
+			Mode: new Set(["Preview", "Buy", "Sell"]),
+			Draw: (...coords) => {
+				const item = Shop2Vars.EquippedItem;
+				if (!item || Shop2Vars.Mode !== "Preview") {
+					DrawButton(...coords, "", "Gray", "Icons/Layering.png", TextGet("LayeringButton"), true);
+				} else {
+					DrawButton(...coords, "", "White", "Icons/Layering.png", TextGet("LayeringButton"));
+				}
+			},
+			Click: () => {
+				const item = Shop2Vars.EquippedItem;
+				if (!item || Shop2Vars.Mode !== "Preview") {
+					return;
+				}
+
+				Shop2Unload();
+				Layering.Init(item, Shop2InitVars.Preview, { x: 1115, w: 2000 - 1115 - 25 });
+				Shop2Vars.Mode = "Layering";
+			},
+		},
 		BuyMode: {
 			Coords: [1225, 25, 90, 90],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
@@ -1098,6 +1120,14 @@ var Shop2 = {
 			},
 			Exit: () => ItemColorExitClick(),
 		},
+		Layering: {
+			Coords: [0, 0, 2000, 1000],
+			Mode: new Set(["Layering"]),
+			Draw: () => {},
+			Resize: (load) => Layering.Resize(load),
+			Unload: () => Layering.Unload(),
+			Exit: () => Layering.Exit(),
+		},
 	},
 
 	/**
@@ -1175,6 +1205,15 @@ function Shop2Draw() {
 
 /** @type {ScreenFunctions["Run"]} */
 function Shop2Run() {}
+
+/** @type {ScreenFunctions["Resize"]} */
+function Shop2Resize(load) {
+	Object.values(Shop2.Elements).forEach((e) => {
+		if (e.Mode.has(Shop2Vars.Mode)) {
+			e.Resize?.(load);
+		}
+	});
+}
 
 /** @type {ScreenFunctions["Unload"]} */
 function Shop2Unload() {

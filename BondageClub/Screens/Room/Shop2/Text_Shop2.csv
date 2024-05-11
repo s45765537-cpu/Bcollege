@@ -15,6 +15,7 @@ GroupSelectHeader,Filter by item group
 GroupSelectCollapse,Show item group filter
 GroupSelectAll,Select All
 GroupSelectNone,Select None
+LayeringButton,Change item layering
 MaleOnly,male-only
 FemaleOnly,female-only
 ItemHeader00,Preview items: Page 0
