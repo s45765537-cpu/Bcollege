@@ -689,8 +689,7 @@ var Shop2 = {
 				});
 			},
 			Draw: (...coords) => {
-				const font = MainCanvas.canvas.clientWidth <= MainCanvas.canvas.clientHeight * 2 ? MainCanvas.canvas.clientWidth / 50 : MainCanvas.canvas.clientHeight / 25;
-				ElementPositionFix("Shop2InputSearch", font, ...coords);
+				ElementPositionFixed("Shop2InputSearch", ...coords);
 			},
 			Unload: () => {
 				const elem = document.getElementById("Shop2InputSearch");
@@ -789,8 +788,7 @@ var Shop2 = {
 				if (Shop2Vars.DropdownState !== ShopDropdownState.GROUP) {
 					return;
 				}
-				const font = MainCanvas.canvas.clientWidth <= MainCanvas.canvas.clientHeight * 2 ? MainCanvas.canvas.clientWidth / 50 : MainCanvas.canvas.clientHeight / 25;
-				ElementPositionFix("Shop2GroupSelect", font, ...coords);
+				ElementPositionFixed("Shop2GroupSelect", ...coords);
 			},
 			Unload: () => {
 				const elem = document.getElementById("Shop2GroupSelect");
@@ -803,16 +801,31 @@ var Shop2 = {
 		PoseSelectHeader: {
 			Coords: [345, 155 + 160, 0, 0],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Draw: (x, y) => DrawText(TextGet("PoseSelectHeader"), x, y, "White"),
+			Draw: (x, y) => {
+				switch (Shop2Vars.DropdownState) {
+					case ShopDropdownState.GROUP:
+						DrawText(TextGet("PoseSelectHeader"), x, y, "Gray");
+						break;
+					default:
+						DrawText(TextGet("PoseSelectHeader"), x, y, "White");
+						break;
+				}
+			}
 		},
 		PoseSelectCollapse: {
 			Coords: [25, Shop2Consts.Grid.y + 160, 90, 90],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
 			Draw: (...coords) => {
-				if (Shop2Vars.DropdownState === ShopDropdownState.POSE) {
-					DrawButton(...coords, "", "Pink", "Icons/Down.png", TextGet("PoseSelectCollapse"));
-				} else {
-					DrawButton(...coords, "", "White", "Icons/Next.png", TextGet("PoseSelectCollapse"));
+				switch (Shop2Vars.DropdownState) {
+					case ShopDropdownState.POSE:
+						DrawButton(...coords, "", "Pink", "Icons/Down.png", TextGet("PoseSelectCollapse"));
+						break;
+					case ShopDropdownState.GROUP:
+						DrawButton(...coords, "", "Gray", "Icons/Next.png", TextGet("PoseSelectCollapse"), true);
+						break;
+					default:
+						DrawButton(...coords, "", "White", "Icons/Next.png", TextGet("PoseSelectCollapse"));
+						break;
 				}
 			},
 			Click: () => {
@@ -823,7 +836,16 @@ var Shop2 = {
 		PoseSelectNone: {
 			Coords: [135, Shop2Consts.Grid.y + 160, 200, 90],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Draw: (...coords) => DrawButton(...coords, TextGet("PoseSelectReset"), "White"),
+			Draw: (...coords) => {
+				switch (Shop2Vars.DropdownState) {
+					case ShopDropdownState.GROUP:
+						DrawButton(...coords, TextGet("PoseSelectReset"), "Gray");
+						break;
+					default:
+						DrawButton(...coords, TextGet("PoseSelectReset"), "White");
+						break;
+				}
+			},
 			Click: () => {
 				PoseSetActive(Shop2InitVars.Preview, null, true);
 				Shop2._UpdatePoseButtons();
@@ -866,9 +888,8 @@ var Shop2 = {
 				if (Shop2Vars.DropdownState !== ShopDropdownState.POSE) {
 					return;
 				}
-				const canvas = MainCanvas.canvas;
-				const font = canvas.clientWidth <= canvas.clientHeight * 2 ? canvas.clientWidth / 50 : canvas.clientHeight / 25;
-				ElementPositionFix("Shop2PoseSelect", font, ...coords);
+
+				ElementPositionFixed("Shop2PoseSelect", ...coords);
 				const elem = document.getElementById("Shop2PoseSelect");
 				elem.style.width = "fit-content";
 			},
