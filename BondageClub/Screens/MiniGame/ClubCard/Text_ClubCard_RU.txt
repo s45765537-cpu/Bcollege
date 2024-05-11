@@ -292,7 +292,7 @@ Regular Maid
 "Мне освежить ваш напиток, Мисс?"
 French Maid
 Французская горничная
-<F>Pour un service impécable et coquin.
+<F>Pour un service impeccable et coquin.
 "За безупречный и озорной сервис."
 Head Maid
 Старшая горничная
