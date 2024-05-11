@@ -282,7 +282,8 @@ function ChatRoomMapViewIsActive() {
 	return ChatRoomIsViewActive(ChatRoomMapViewName);
 }
 
-function ChatRoomMapViewRun() {
+/** @type {ScreenFunctions["Run"]} */
+function ChatRoomMapViewRun(time) {
 
 	// Syncs the room map data with the server if needed
 	ChatRoomMapViewMovementProcess();

@@ -4053,19 +4053,12 @@ interface PreviewDrawOptions {
 
 // #region Chat Room Maps
 
-interface ChatRoomView {
+interface ChatRoomView extends Pick<ScreenFunctions, "Run" | "MouseDown" | "MouseUp" | "MouseMove" | "MouseWheel" | "Click" | "Draw" | "KeyDown"> {
 	Activate?: () => void;
 	Deactivate?: () => void;
-	Run: () => void;
 	Draw: () => void;
 	DrawUi: () => void;
 	DisplayMessage: (data: ServerChatRoomMessage, msg: string, SenderCharacter: Character, metadata: IChatRoomMessageMetadata) => string|null;
-	Click?: (event: MouseEvent | TouchEvent) => void;
-	MouseDown?: (event: MouseEvent | TouchEvent) => void;
-	MouseUp?: (event: MouseEvent | TouchEvent) => void;
-	MouseMove?: (event: MouseEvent | TouchEvent) => void;
-	MouseWheel?: (event: MouseEvent | TouchEvent) => void;
-	KeyDown?: (event: KeyboardEvent) => boolean;
 	SyncRoomProperties?: (data: ServerChatRoomSyncMessage) => void;
 	CanStartWhisper?: (C: Character) => boolean;
 	CanLeave?: () => boolean;

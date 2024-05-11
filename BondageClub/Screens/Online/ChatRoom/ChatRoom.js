@@ -1736,9 +1736,9 @@ function ChatRoomCustomizationRun() {
 
 /**
  * Runs the chatroom screen.
- * @returns {void} - Nothing.
+ * @type {ScreenFunctions["Run"]}
  */
-function ChatRoomRun() {
+function ChatRoomRun(time) {
 
 	// Handles online GGTS, bounty & customizations
 	AsylumGGTSProcess();
@@ -1757,7 +1757,7 @@ function ChatRoomRun() {
 	// Draw the room characters or the map depending on the map type
 	if ((ChatRoomData.MapData == null) || (ChatRoomData.MapData.Type == null) || (ChatRoomData.MapData.Type == "Never")) ChatRoomActivateView(ChatRoomCharacterViewName);
 	if ((ChatRoomData.MapData != null) && (ChatRoomData.MapData.Type != null) && (ChatRoomData.MapData.Type == "Always")) ChatRoomActivateView(ChatRoomMapViewName);
-	ChatRoomActiveView.Run();
+	ChatRoomActiveView.Run(time);
 	ChatRoomActiveView.Draw();
 	if (!ChatRoomDrawArousalOverlay() && ChatRoomActiveView.DrawUi) ChatRoomActiveView.DrawUi();
 
