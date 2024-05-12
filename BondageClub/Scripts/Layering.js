@@ -525,4 +525,10 @@ Layering.RegisterExitCallbacks(
 	{
 		callback: () => DialogMenuMode === "layering" ? DialogChangeMode("items") : undefined,
 	},
+	{
+		screen: "Shop2",
+		callback: () => {
+			Shop2Vars.Mode = "Preview";
+		},
+	},
 );

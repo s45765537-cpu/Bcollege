@@ -18013,6 +18013,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "LockingCockring",
 				Gender: "M",
+				Difficulty: 50,
 				Value: 10,
 				Left: 200,
 				Top: 465,
@@ -18311,7 +18312,7 @@ var AssetFemale3DCG = [
 				Value: 20,
 				Effect: [E.Chaste, E.UseRemote],
 				Block: ["ItemVulvaPiercings"],
-				Hide: ["Pussy"],
+				Hide: ["Pussy", "ItemVulvaPiercings"],
 				Attribute: ["CageTechno"],
 				PoseMapping: {
 					...AssetPoseMapping.ItemVulva,
