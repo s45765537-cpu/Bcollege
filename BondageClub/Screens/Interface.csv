@@ -64,6 +64,7 @@ ColorSave,Save color to currently selected slot
 ColorSelect,Use this color
 ConfirmDelete,Confirm
 CraftingCancel,Return to the item menu
+CraftedItemProperties,Crafted item properties.
 CraftingDescription,Description: CraftDescription
 CraftingMember,Crafter: MemberName (MemberNumber)
 CraftingName,Name: CraftName

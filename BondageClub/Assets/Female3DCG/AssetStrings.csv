@@ -714,7 +714,6 @@ CombinationPadlockControlsClumsy,Your restraints prevent you from accurately man
 CorsetCorsetDressNormal,Corset plus skirt
 CorsetCorsetDressNoSkirt,Only corset
 CorsetCorsetDressSelect,Choose your corset dress style:
-CraftedItemProperties,Crafted item properties.
 CrotchShield,Crotch shield:
 CryoCapsuleSetClosed,SourceCharacter closes the lid on DestinationCharacter cryogenic capsule.
 CryoCapsuleSetOpen,SourceCharacter opens the lid on DestinationCharacter cryogenic capsule.
