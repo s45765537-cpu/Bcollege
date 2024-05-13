@@ -902,7 +902,8 @@ function AppearanceRun() {
 			const ColorIsSimple = ItemColorIsSimple(Item);
 
 			// Draw color swatch and picker widgets
-			DrawButton(1635, 145 + (A - CharacterAppearanceOffset) * 95, 65, 65, "", Item ? "#fff" : "#aaa", "Icons/Small/Layering.png", TextGet("Layering"), !Item);
+			const layeringEnabled = Item && !C.IsNpc();
+			DrawButton(1635, 145 + (A - CharacterAppearanceOffset) * 95, 65, 65, "", layeringEnabled ? "#fff" : "#aaa", "Icons/Small/Layering.png", TextGet("Layering"), !layeringEnabled);
 			DrawButton(1725, 145 + (A - CharacterAppearanceOffset) * 95, 160, 65, ColorButtonText, CanCycleColors ? ColorButtonColor : "#aaa", null, null, !CanCycleColors);
 			DrawButton(1910, 145 + (A - CharacterAppearanceOffset) * 95, 65, 65, "", CanPickColor ? "#fff" : "#aaa", CanPickColor ? ColorIsSimple ? "Icons/Small/ColorChange.png" : "Icons/Small/ColorChangeMulti.png" : "Icons/Small/ColorBlocked.png", null, !CanPickColor);
 		}
@@ -1379,10 +1380,10 @@ function AppearanceClick() {
 			}
 
 			if (MouseIn(1635, 145 + (A - CharacterAppearanceOffset) * 95, 65, 65)) {
-				if (Item) {
+				if (Item && !C.IsNpc()) {
 					Layering.Init(Item, C, { x: Layering.DisplayDefault.x - 2, buttonGap: 27 });
-					return;
 				}
+				return;
 			}
 
 			// Handle color cycling
