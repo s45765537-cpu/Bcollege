@@ -54,8 +54,9 @@ const ChatRoomMapViewTileList = [
 	{ ID: 110, Type: "Floor", Style: "Stone" },
 	{ ID: 115, Type: "Floor", Style: "Pavement" },
 	{ ID: 120, Type: "Floor", Style: "Ceramic" },
-	{ ID: 130, Type: "Floor", Style: "PinkCarpet" },
-	{ ID: 131, Type: "Floor", Style: "BlueCarpet" },
+	{ ID: 130, Type: "Floor", Style: "CarpetPink" },
+	{ ID: 131, Type: "Floor", Style: "CarpetBlue" },
+	{ ID: 132, Type: "Floor", Style: "CarpetRed" },
 	{ ID: 140, Type: "Floor", Style: "Padded" },
 
 	{ ID: 200, Type: "FloorExterior", Style: "Dirt" },
@@ -65,6 +66,7 @@ const ChatRoomMapViewTileList = [
 	{ ID: 230, Type: "FloorExterior", Style: "Gravel" },
 	{ ID: 235, Type: "FloorExterior", Style: "Asphalt" },
 	{ ID: 240, Type: "FloorExterior", Style: "Snow" },
+	{ ID: 250, Type: "FloorExterior", Style: "StoneSquareGray" },
 
 	{ ID: 1000, Type: "Wall", Style: "MixedWood", BlockVision: true },
 	{ ID: 1001, Type: "Wall", Style: "CedarWood", BlockVision: true },
@@ -80,6 +82,7 @@ const ChatRoomMapViewTileList = [
 	{ ID: 2000, Type: "Water", Style: "Pool", Transparency: 0.5, TransparencyCutoutHeight: 0.45 },
 	{ ID: 2010, Type: "Water", Style: "Sea", Transparency: 0.5, TransparencyCutoutHeight: 0.45 },
 	{ ID: 2020, Type: "Water", Style: "Ocean", Transparency: 0.5, TransparencyCutoutHeight: 0.3 },
+	{ ID: 2025, Type: "Water", Style: "OceanCyan", Transparency: 0.5, TransparencyCutoutHeight: 0.3 },
 
 ];
 
