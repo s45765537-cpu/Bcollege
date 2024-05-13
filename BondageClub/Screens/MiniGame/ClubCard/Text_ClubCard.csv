@@ -187,11 +187,11 @@ Text Curious Patient,<F>Why are the walls padded?
 Title Part-Time Patient,Part-Time Patient
 Text Part-Time Patient,+6 Money when she enters your club.
 Title Novice Nurse,Novice Nurse
-Text Novice Nurse,+1 Fame per turn for each Asylum Patient present.
+Text Novice Nurse,+1 Fame per turn for each Asylum Patient present. Max 3
 Title Commited Patient,Commited Patient
 Text Commited Patient,<F>My jacket is never tight enough.
 Title Veteran Nurse,Veteran Nurse
-Text Veteran Nurse,+2 Fame per turn for each Asylum Patient present.
+Text Veteran Nurse,+2 Fame per turn for each Asylum Patient present. Max 6
 Title Permanent Patient,Permanent Patient
 Text Permanent Patient,<F>Monday exam is quite similar to therapy Tuesday.
 Title Doctor,Doctor
@@ -237,7 +237,7 @@ Text Diaper Baby,+3 Money per turn if at least one Maid is present.
 Title Sugar Baby,Sugar Baby
 Text Sugar Baby,<F>This baby wants a diamond pacifier.
 Title Babysitter,Babysitter
-Text Babysitter,+2 Fame per turn for each ABDL Baby present.
+Text Babysitter,+2 Fame per turn for each ABDL Baby present. Max 5
 Title Soap Opera Mother,Soap Opera Mother
 Text Soap Opera Mother,+25 Fame when she enters your club if at least one ABDL Baby is present.
 Title Amanda,Amanda
@@ -256,7 +256,7 @@ Text College Nerd,+1 Money per turn if Julia is present.  +1 Money per turn if Y
 Title College Hidden Genius,Hidden Genius
 Text College Hidden Genius,+5 Fame per turn if Mildred is present.
 Title Substitute Teacher,Substitute Teacher
-Text Substitute Teacher,+1 Fame per turn for each College Student present.
+Text Substitute Teacher,+1 Fame per turn for each College Student present. Max 3
 Title Julia,Julia
 Text Julia,<F>Seeing them learn and grow is magnifico.
 Title Yuki,Yuki

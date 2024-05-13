@@ -558,7 +558,8 @@ var ClubCardList = [
 		Name: "Novice Nurse",
 		Group: ["AsylumNurse"],
 		BeforeTurnEnd: function(CCPlayer) {
-			ClubCardPlayerAddFame(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "AsylumPatient"));
+			const effectFame = ClubCardGroupOnBoardCount(CCPlayer, "AsylumPatient")
+			ClubCardPlayerAddFame(CCPlayer, Math.min(effectFame, ClubCardGetMaxEffectFromCard(this)));
 		}
 	},
 	{
@@ -574,7 +575,8 @@ var ClubCardList = [
 		Group: ["AsylumNurse"],
 		RequiredLevel: 3,
 		BeforeTurnEnd: function(CCPlayer) {
-			ClubCardPlayerAddFame(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "AsylumPatient") * 2);
+			const effectFame = ClubCardGroupOnBoardCount(CCPlayer, "AsylumPatient") * 2
+			ClubCardPlayerAddFame(CCPlayer, Math.min(effectFame, ClubCardGetMaxEffectFromCard(this)));
 		}
 	},
 	{
@@ -764,7 +766,8 @@ var ClubCardList = [
 		RequiredLevel: 2,
 		MoneyPerTurn: -1,
 		BeforeTurnEnd: function(CCPlayer) {
-			ClubCardPlayerAddFame(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "ABDLBaby") * 2);
+			const effectFame = ClubCardGroupOnBoardCount(CCPlayer, "ABDLBaby") * 2
+			ClubCardPlayerAddFame(CCPlayer, Math.min(effectFame, ClubCardGetMaxEffectFromCard(this)));
 		}
 	},
 	{
@@ -917,7 +920,8 @@ var ClubCardList = [
 		Group: ["CollegeTeacher"],
 		MoneyPerTurn: -2,
 		BeforeTurnEnd: function(CCPlayer) {
-			ClubCardPlayerAddFame(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "CollegeStudent"));
+			const effectFame = ClubCardGroupOnBoardCount(CCPlayer, "CollegeStudent")
+			ClubCardPlayerAddFame(CCPlayer, Math.min(effectFame, ClubCardGetMaxEffectFromCard(this)));
 		}
 	},
 	{
@@ -1818,6 +1822,24 @@ function ClubCardRemoveFromBoard(CCPlayer, Card) {
 		}
 		Pos++;
 	}
+}
+
+/**
+ * Gets the max effect a card should have depending on its "tier"/required level to play
+ * @param {ClubCard} Card
+ * @returns {number} max effect card should have
+ */
+function ClubCardGetMaxEffectFromCard(Card) {
+	const ClubCardMaxFamePerTier = {
+		1: 3,
+		2: 5,
+		3: 6,
+		4: 7,
+		// Uncapped
+		5: 100,
+	}
+
+	return ClubCardMaxFamePerTier[Card.RequiredLevel ?? 1]
 }
 
 /**
