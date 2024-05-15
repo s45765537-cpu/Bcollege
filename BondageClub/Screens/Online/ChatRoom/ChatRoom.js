@@ -2535,6 +2535,7 @@ function ChatRoomSendChat() {
  *
  * @param {"Chat"|"Whisper"} type
  * @param {string} msg
+ * @return {ServerChatRoomMessage}
  */
 function ChatRoomGenerateChatRoomChatMessage(type, msg) {
 	// Chat messages are always garbled, unless the no speech restriction is lifted
@@ -2581,7 +2582,7 @@ function ChatRoomSendChatMessage(msg) {
  */
 function ChatRoomSendWhisper(targetNumber, msg) {
 	if (targetNumber < 0) return false;
-	const targetChar = ChatRoomCharacter.find(C => C.MemberNumber == targetNumber);
+	const targetChar = ChatRoomCharacter.find(C => C.MemberNumber === targetNumber);
 	if (!targetChar) return "target-gone";
 
 	if (ChatRoomMapViewIsActive() && !ChatRoomMapViewCharacterOnWhisperRange(targetChar)) {
