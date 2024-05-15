@@ -1314,6 +1314,7 @@ function ChatRoomStimulationMessage(Action) {
 	let isPlugged = false;
 
 	// We go through every stimulating item and gather their effects
+	/** @type {StimulationEventItem[]} */
 	const events = [];
 	for (let A of Player.Appearance) {
 		// First handle single items
@@ -1339,6 +1340,7 @@ function ChatRoomStimulationMessage(Action) {
 		}
 
 		if ((filled || plugged) && eventData.Chance > 0) {
+			/** @type {StimulationEventType} */
 			let name = filled ? "PlugFront" : "PlugBack";
 			let chance = eventData.Chance;
 			chance += eventData.ArousalScaling * arousal / 100;
@@ -1376,7 +1378,8 @@ function ChatRoomStimulationMessage(Action) {
 	// If the player is both plugged and filled, insert a special event for that
 	if (isFilled && isPlugged) {
 		// Dummy item
-		let A = InventoryGet(Player, "ItemVulva");
+		const pluggingItems = Player.Appearance.filter(item => InventoryItemHasEffect(item, "FillVulva", true) || InventoryItemHasEffect(item, "IsPlugged", true));
+		let A = CommonRandomItemFromList(undefined, pluggingItems);
 		let chance = eventData.Chance;
 		chance += eventData.ArousalScaling * arousal / 100;
 		events.push({ chance: chance, arousal: 2, item: A, event: "PlugBoth" });
@@ -1386,7 +1389,7 @@ function ChatRoomStimulationMessage(Action) {
 		return;
 
 	// Pick a random event, and check it
-	const event = CommonRandomItemFromList({}, events);
+	const event = CommonRandomItemFromList(undefined, events);
 
 	const dice = Math.random();
 	if (dice > event.chance)
