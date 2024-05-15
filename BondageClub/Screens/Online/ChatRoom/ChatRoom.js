@@ -65,7 +65,7 @@ var ChatRoomChatLogRect = [1005, 66, 988, 835];
  * Default position of the chat input field
  * @type {RectTuple}
  */
-var ChatRoomChatInputRect = [1005, 908, 895, 90];
+var ChatRoomChatInputRect = [1453, 953, 895, 90];
 /**
  * Default position of the chat input length label
  * @type {RectTuple}
@@ -870,7 +870,7 @@ function ChatRoomCreateElement() {
 		document.getElementById("InputChat").setAttribute("autocomplete", "off");
 		document.getElementById("InputChat").addEventListener("input", ChatRoomChatInputChangeHandler);
 		document.getElementById("InputChat").addEventListener("keyup", ChatRoomStatusUpdateTalk);
-		ElementPositionFixed("InputChat", ...ChatRoomChatInputRect);
+		ElementPosition("InputChat", ...ChatRoomChatInputRect);
 		ElementFocus("InputChat");
 	} else if (document.getElementById("InputChat").style.display == "none") ElementFocus("InputChat");
 
@@ -1424,7 +1424,7 @@ function ChatRoomResize(load) {
 		&& document.getElementById("TextAreaChatLog")
 	) {
 		ElementPositionFix("TextAreaChatLog", ChatRoomFontSize, ...ChatRoomChatLogRect);
-		ElementPositionFixed("InputChat", ...ChatRoomChatInputRect);
+		ElementPosition("InputChat", ...ChatRoomChatInputRect);
 	}
 }
 
