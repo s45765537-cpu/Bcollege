@@ -1398,9 +1398,14 @@ function ChatRoomStimulationMessage(Action) {
 	// We have a trigger message, send it out!
 	if ((Player.ChatSettings != null) && (Player.ChatSettings.ShowActivities != null) && !Player.ChatSettings.ShowActivities) return;
 
+	let group = event.item.Asset.Group;
+	if (event.item.Asset.ArousalZone) {
+		group = AssetGroupGet(Player.AssetFamily, event.item.Asset.ArousalZone);
+	}
+
 	// Increase player arousal to the zone
 	if (!Player.IsEdged() && arousal < 70 - event.arousal && event.event != "Talk")
-		ActivityEffectFlat(Player, Player, event.arousal, event.item.Asset.Group.Name, 1);
+		ActivityEffectFlat(Player, Player, event.arousal, group.Name, 1);
 	const duration = (Math.random() + event.arousal / 2.4) * 500;
 	DrawFlashScreen("#FFB0B0", duration, 140);
 	if (Player.ArousalSettings?.AffectExpression) {
@@ -1409,7 +1414,7 @@ function ChatRoomStimulationMessage(Action) {
 
 	var index = Math.floor(Math.random() * 3);
 	const Dictionary = [
-		{ Tag: "AssetGroup", Text: event.item.Asset.Group.Description.toLowerCase() },
+		{ Tag: "AssetGroup", Text: group.Description.toLowerCase() },
 		{ Tag: "AssetName", Text: (event.item.Asset.DynamicDescription ? event.item.Asset.DynamicDescription(Player) : event.item.Asset.Description).toLowerCase() },
 	];
 	ChatRoomMessage({ Content: "ChatRoomStimulationMessage" + event.event + index.toString(), Type: "Action", Sender: Player.MemberNumber, Dictionary: Dictionary, });
