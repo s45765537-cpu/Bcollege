@@ -1666,7 +1666,7 @@ var ClubCardList = [
 		Type: "Event",
 		OnPlay: function(CCPlayer) {
 			const hasTeacher = ClubCardGroupIsOnBoard(CCPlayer, "CollegeTeacher");
-			if(CCPlayer.ClubCardTurnCounter == 1 && hasTeacher) {
+			if(CCPlayer.ClubCardTurnCounter === 1 || hasTeacher) {
 				this.ExtraPlay = 1;
 			}
 
