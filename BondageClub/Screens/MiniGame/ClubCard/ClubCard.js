@@ -1664,6 +1664,7 @@ var ClubCardList = [
 		ID: 31010,
 		Name: "First Bell",
 		Type: "Event",
+		Time: 0,
 		OnPlay: function(CCPlayer) {
 			const hasTeacher = ClubCardGroupIsOnBoard(CCPlayer, "CollegeTeacher");
 			if(CCPlayer.ClubCardTurnCounter === 1 || hasTeacher) {
@@ -2415,9 +2416,11 @@ function ClubCardCheckVictory(CCPlayer) {
 function ClubCardTurnPlayableCardCount(CCPlayer) {
 	if ((CCPlayer == null) || (CCPlayer.Board == null)) return 1;
 	let Count = 1;
-	for (let Card of CCPlayer.Board)
-		if (Card.ExtraPlay != null)
+	for (let Card of CCPlayer.Board) {
+		if (Card.ExtraPlay != null) {
 			Count = Count + Card.ExtraPlay;
+		}
+	}
 	if (CCPlayer.Event != null)
 		for (let Card of CCPlayer.Event)
 			if (Card.ExtraPlay != null)
