@@ -960,12 +960,12 @@ var ClubCardList = [
 		MoneyPerTurn: 1,
 		BeforeOpponentTurnEnd: function(CCPlayer) {
 			let cardOwner = ClubCardGetOpponent(CCPlayer);
-			let playedAnEventOrLiability = CCPlayer.CardsPlayedThisTurn.some(card => {
-				return card.Type === "Event" || card.Group.includes("Liability");
+			let playedAnEventOrLiability =  ClubCardGetCardsPlayedOnTurn(CCPlayer, CCPlayer.ClubCardTurnCounter).some(card => {
+				return card.Type === "Event" || ClubCardCardHasGroup(card, "Liability");
 			});
 
 			if(playedAnEventOrLiability) {
-				ClubCardPlayerAddMoney(cardOwner, 2);
+				ClubCardPlayerAddMoney(cardOwner, -2);
 				ClubCardPlayerDrawCard(cardOwner, 1);
 				ClubCardLogPublish("Effect Student Custodian", CCPlayer, 2);
 			}
@@ -1649,11 +1649,13 @@ var ClubCardList = [
 		Type: "Event",
 		RequiredLevel: 3,
 		OnPlay: function(CCPlayer) {
-			let collegeAndBabyCount = ClubCardGroupOnBoardCount(CCPlayer, "CollegeStudent") + ClubCardGroupOnBoardCount(CCPlayer, "ABDLBaby");
+			const abdlBabies = ClubCardGroupOnBoardCount(CCPlayer, "ABDLBaby")
+			const collegeStudents = ClubCardGroupOnBoardCount(CCPlayer, "CollegeStudent");
+			const abdlAndCollegeBonus = (abdlBabies + collegeStudents) * 2;
 
 			ClubCardPlayerDrawCard(CCPlayer, 2);
-			ClubCardPlayerAddMoney(CCPlayer, collegeAndBabyCount);
-			ClubCardLogPublish("Effect Recess", CCPlayer, collegeAndBabyCount);
+			ClubCardPlayerAddMoney(CCPlayer, abdlAndCollegeBonus);
+			ClubCardLogPublish("Effect Recess", CCPlayer, abdlAndCollegeBonus);
 		}
 	},
 	{
@@ -1661,8 +1663,12 @@ var ClubCardList = [
 		Name: "First Bell",
 		Type: "Event",
 		OnPlay: function(CCPlayer) {
-			const drawn = ClubCardPlayerDrawGroupCard(CCPlayer, "CollegeStudent");
+			const hasTeacher = ClubCardGroupIsOnBoard(CCPlayer, "CollegeTeacher");
+			if(CCPlayer.ClubCardTurnCounter !== 1 && !hasTeacher) {
+				return;
+			}
 
+			const drawn = ClubCardPlayerDrawGroupCard(CCPlayer, "CollegeStudent");
 			if(drawn) {
 				ClubCardLogPublish("Effect First Bell Draw", CCPlayer);
 			} else {
@@ -1812,7 +1818,8 @@ function ClubCardPlayerAddFame(CCPlayer, Amount) {
  */
 function ClubCardUpgradeLevel(CCPlayer) {
 	// Homeroom blocks both players from ugprading while it is on the board
-	const blockedByEvent = ClubCardNameIsOnBoard(CCPlayer, "Homeroom") || ClubCardNameIsOnBoard(ClubCardGetOpponent(CCPlayer), "Homeroom");
+	const opponent = ClubCardGetOpponent(CCPlayer)
+	const blockedByEvent = ClubCardNameIsOnBoard(CCPlayer, "Homeroom") || ClubCardNameIsOnBoard(opponent, "Homeroom");
 	const affordLevelUp = CCPlayer.Money < ClubCardLevelCost[CCPlayer.Level + 1];
 	const isMaxlevel = CCPlayer.Level >= ClubCardLevelCost.length - 1;
 
@@ -1871,6 +1878,15 @@ function ClubCardGroupIsOnBoard(CCPlayer, GroupName) {
 				if (Group === GroupName)
 					return true;
 	return false;
+}
+
+/**
+ * @param {ClubCard} card to evaluate group
+ * @param {string} GroupName group name to find
+ * @returns {boolean} - True if the card has the group
+ */
+function ClubCardCardHasGroup(card, GroupName) {
+	return card.Group && card.Group.includes(GroupName);
 }
 
 /**
@@ -2036,7 +2052,7 @@ function ClubCardPlayerDrawGroupCard(CCPlayer, group) {
 		return false;
 	}
 
-	const groupCardsInDeck = CCPlayer.Deck.filter(value => value.Group.includes(group));
+	const groupCardsInDeck = CCPlayer.Deck.filter(value => ClubCardCardHasGroup(value, group));
 	if(groupCardsInDeck.length === 0) {
 		return false;
 	}
@@ -2044,7 +2060,7 @@ function ClubCardPlayerDrawGroupCard(CCPlayer, group) {
 	const card = groupCardsInDeck[Math.floor(Math.random() * groupCardsInDeck.length)];
 	ClubCardSetGlow(card, "#00FFFF");
 
-	CCPlayer.Hand.push(CCPlayer.Deck[0]);
+	CCPlayer.Hand.push(card);
 	const cardIndex = CCPlayer.Deck.findIndex(value => value.ID === card.ID);
 	CCPlayer.Deck.splice(cardIndex, 1);
 
@@ -2204,7 +2220,7 @@ function ClubCardAddPlayer(Char, Cont, Cards) {
 		Money: 5,
 		Fame: 0,
 		CardsPlayedThisTurn: {},
-		ClubCardTurnCounter: ClubCardPlayer.length,
+		ClubCardTurnCounter: 1,
 	};
 	ClubCardPlayer.push(P);
 }
