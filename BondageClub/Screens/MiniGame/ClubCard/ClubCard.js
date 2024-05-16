@@ -958,6 +958,7 @@ var ClubCardList = [
 		Name: "Student Custodian",
 		Group: ["CollegeStudent", "Staff"],
 		MoneyPerTurn: 1,
+		RequiredLevel: 2,
 		BeforeOpponentTurnEnd: function(CCPlayer) {
 			let cardOwner = ClubCardGetOpponent(CCPlayer);
 			let playedAnEventOrLiability =  ClubCardGetCardsPlayedOnTurn(CCPlayer, CCPlayer.ClubCardTurnCounter).some(card => {
@@ -1637,10 +1638,11 @@ var ClubCardList = [
 		Type: "Event",
 		Time: 4,
 		CanPlay: function(CCPlayer) {
-			let collegeStudentCount = ClubCardGroupOnBoardCount(CCPlayer, "CollegeStudent");
-			let collegeTeacherCount = ClubCardGroupOnBoardCount(CCPlayer, "CollegeTeacher");
+			const collegeCards = CCPlayer.Board.filter(
+				card => ClubCardCardHasGroup(card, "CollegeStudent") || ClubCardCardHasGroup(card, "CollegeTeacher")
+			);
 
-			return collegeStudentCount + collegeTeacherCount >= 3;
+			return collegeCards.length >= 3;
 		}
 	},
 	{
@@ -1664,8 +1666,8 @@ var ClubCardList = [
 		Type: "Event",
 		OnPlay: function(CCPlayer) {
 			const hasTeacher = ClubCardGroupIsOnBoard(CCPlayer, "CollegeTeacher");
-			if(CCPlayer.ClubCardTurnCounter !== 1 && !hasTeacher) {
-				return;
+			if(CCPlayer.ClubCardTurnCounter == 1 && hasTeacher) {
+				this.ExtraPlay = 1;
 			}
 
 			const drawn = ClubCardPlayerDrawGroupCard(CCPlayer, "CollegeStudent");
@@ -1674,6 +1676,9 @@ var ClubCardList = [
 			} else {
 				ClubCardLogPublish("Effect First Bell No Draw", CCPlayer);
 			}
+		},
+		BeforeOpponentTurnEnd: function() {
+			this.ExtraPlay = 0;
 		}
 	}
 ];
@@ -1819,7 +1824,7 @@ function ClubCardPlayerAddFame(CCPlayer, Amount) {
 function ClubCardUpgradeLevel(CCPlayer) {
 	// Homeroom blocks both players from ugprading while it is on the board
 	const opponent = ClubCardGetOpponent(CCPlayer)
-	const blockedByEvent = ClubCardNameIsOnBoard(CCPlayer, "Homeroom") || ClubCardNameIsOnBoard(opponent, "Homeroom");
+	const blockedByEvent = ClubCardEventNameIsInEvents(CCPlayer, "Homeroom") || ClubCardEventNameIsInEvents(opponent, "Homeroom");
 	const affordLevelUp = CCPlayer.Money < ClubCardLevelCost[CCPlayer.Level + 1];
 	const isMaxlevel = CCPlayer.Level >= ClubCardLevelCost.length - 1;
 
@@ -3070,7 +3075,24 @@ function ClubCardRun() {
 	ClubCardRenderHand(ClubCardPlayer[0], 0, 800, 1700, 300);
 	ClubCardRenderHand(ClubCardPlayer[1], 0, -200, 1700, 300);
 	ClubCardRenderPanel();
-	if ((ClubCardPopup == null) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") && (ClubCardPlayer[ClubCardTurnIndex].Level < ClubCardLevelCost.length - 1) && (ClubCardPlayer[ClubCardTurnIndex].Money >= ClubCardLevelCost[ClubCardPlayer[ClubCardTurnIndex].Level + 1])) DrawButton(1390, 435, 300, 60, TextGet("UpgradeToLevel" + (ClubCardPlayer[ClubCardTurnIndex].Level + 1).toString()).replace("MONEY", ClubCardLevelCost[ClubCardPlayer[ClubCardTurnIndex].Level + 1].toString()), "White");
+	if (
+		(ClubCardPopup == null) &&
+		(ClubCardPlayer[ClubCardTurnIndex].Control == "Player") &&
+		(ClubCardPlayer[ClubCardTurnIndex].Level < ClubCardLevelCost.length - 1) &&
+		(ClubCardPlayer[ClubCardTurnIndex].Money >= ClubCardLevelCost[ClubCardPlayer[ClubCardTurnIndex].Level + 1]) &&
+		// Homeroom stops players leveling up
+		ClubCardEventNameIsInEvents(ClubCardPlayer[0], "Homeroom") || ClubCardEventNameIsInEvents(ClubCardPlayer[1], "Homeroom")
+	) {
+		const buttonText = TextGet("UpgradeToLevel" + (ClubCardPlayer[ClubCardTurnIndex].Level + 1).toString());
+		DrawButton(
+			1390,
+			435,
+			300,
+			60,
+			buttonText.replace("MONEY", ClubCardLevelCost[ClubCardPlayer[ClubCardTurnIndex].Level + 1].toString()),
+			"White"
+		);
+	}
 	ClubCardRenderPopup();
 }
 
@@ -3079,7 +3101,6 @@ function ClubCardRun() {
  * @returns {void} - Nothing
  */
 function ClubCardClick() {
-
 	// In popup mode, no other clicks can be done but the popup buttons
 	if (ClubCardPopup != null) {
 		if ((ClubCardPopup.Mode == "TEXT") && MouseIn(700, 570, 300, 60)) return CommonDynamicFunction(ClubCardPopup.Function1);
