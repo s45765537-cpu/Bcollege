@@ -3081,7 +3081,7 @@ function ClubCardRun() {
 		(ClubCardPlayer[ClubCardTurnIndex].Level < ClubCardLevelCost.length - 1) &&
 		(ClubCardPlayer[ClubCardTurnIndex].Money >= ClubCardLevelCost[ClubCardPlayer[ClubCardTurnIndex].Level + 1]) &&
 		// Homeroom stops players leveling up
-		ClubCardEventNameIsInEvents(ClubCardPlayer[0], "Homeroom") || ClubCardEventNameIsInEvents(ClubCardPlayer[1], "Homeroom")
+		!(ClubCardEventNameIsInEvents(ClubCardPlayer[0], "Homeroom") || ClubCardEventNameIsInEvents(ClubCardPlayer[1], "Homeroom"))
 	) {
 		const buttonText = TextGet("UpgradeToLevel" + (ClubCardPlayer[ClubCardTurnIndex].Level + 1).toString());
 		DrawButton(
