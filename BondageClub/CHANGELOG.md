@@ -11,9 +11,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2024-05-09
-* Last recorded PR: [#5024](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5024)
-* Last recorded commit hash: `42d259a2141de297241a7abd4eaf5280510506c1`
+* Changelog last updated: 2024-05-16
+* Last recorded PR: [#5040](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5040)
+* Last recorded commit hash: `0c7389271d00b071782d7eb5ce35f73687ea6253`
 
 ## [Generated]
 
@@ -50,6 +50,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Ben987 - Owner Rule - Allow to Change and Lock Nickname
 * Ben987 - Chat Room Maps - 4 New Floors + Rocks
 * Ben987 - Bondage Brawl - Desert Assets
+* Ben987 - Chat Room Maps - 3 New Floor/Water Tiles (PR not found)
 
 ### [Fixes]
 
@@ -79,11 +80,19 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Estsanatlehi - Fix broken options in the VibratorMode archetype ([#5014](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5014))
 * Manilla - Latex nulge fixing ([#5023](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5023))
 * Rama - Fix missing dialog keys ([#5022](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5022))
+* Manilla - Locking Cockring Bugfix ([#5026](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5026))
+* Manilla - Latex nulge fix ([#5028](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5028))
+* Rama - Fix restraint layering only being usable on the player ([#5032](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5032))
+* Stella - fix outgoing whisper messages having sender as target instead of reciever ([#5040](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5040))
+* Estsanatlehi - Fix incorrect string for the HempRope belt max vibration level ([#5036](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5036))
+* Estsanatlehi - Fix a crash with the Modular Chastity Belt triggering a dual plug event ([#5038](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5038))
 * Ben987 - GGTS Chat Parsing for Garble and Stutter
 * Ben987 - Login button position & Disclaimer Text
 * Ben987 - Only Allow Layering for Self
 * Ben987 - IsLoverOfCharacter Crash
 * Ben987 - Missing Text in Difficulty0Text4
+* Ben987 - Fix Club Card French Maid Typo
+* Ben987 - Fix displayed crafting properties
 
 ### [Technical]
 
@@ -96,6 +105,10 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Estsanatlehi - If the character isn't an online character, don't bother sending the expression data ([#4994](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4994))
 * Estsanatlehi - Fix CI ([#5012](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5012))
 * Rama - Explicitly mention the .csv file names when an entry is missing ([#5021](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5021))
+* Estsanatlehi - Move Swapping localization to the correct file ([#5029](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5029))
+* Rama - Two shop tweaks related to poses and layering ([#5030](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5030))
+* Rama - Switch the chat input positioning back to `ElementPosition` ([#5034](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5034))
+* Estsanatlehi - Change the MemberNumber equality check to be strict ([#5035](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5035))
 * Ben987 - Data Compression - ArousalSettings - Fetish
 * Ben987 - Data Compression - ArousalSettings - Activity
 
