@@ -65,7 +65,7 @@ var ChatRoomChatLogRect = [1005, 66, 988, 835];
  * Default position of the chat input field
  * @type {RectTuple}
  */
-var ChatRoomChatInputRect = [1005, 908, 895, 90];
+var ChatRoomChatInputRect = [1453, 953, 895, 90];
 /**
  * Default position of the chat input length label
  * @type {RectTuple}
@@ -870,7 +870,7 @@ function ChatRoomCreateElement() {
 		document.getElementById("InputChat").setAttribute("autocomplete", "off");
 		document.getElementById("InputChat").addEventListener("input", ChatRoomChatInputChangeHandler);
 		document.getElementById("InputChat").addEventListener("keyup", ChatRoomStatusUpdateTalk);
-		ElementPositionFixed("InputChat", ...ChatRoomChatInputRect);
+		ElementPosition("InputChat", ...ChatRoomChatInputRect);
 		ElementFocus("InputChat");
 	} else if (document.getElementById("InputChat").style.display == "none") ElementFocus("InputChat");
 
@@ -1314,6 +1314,7 @@ function ChatRoomStimulationMessage(Action) {
 	let isPlugged = false;
 
 	// We go through every stimulating item and gather their effects
+	/** @type {StimulationEventItem[]} */
 	const events = [];
 	for (let A of Player.Appearance) {
 		// First handle single items
@@ -1339,6 +1340,7 @@ function ChatRoomStimulationMessage(Action) {
 		}
 
 		if ((filled || plugged) && eventData.Chance > 0) {
+			/** @type {StimulationEventType} */
 			let name = filled ? "PlugFront" : "PlugBack";
 			let chance = eventData.Chance;
 			chance += eventData.ArousalScaling * arousal / 100;
@@ -1376,7 +1378,8 @@ function ChatRoomStimulationMessage(Action) {
 	// If the player is both plugged and filled, insert a special event for that
 	if (isFilled && isPlugged) {
 		// Dummy item
-		let A = InventoryGet(Player, "ItemVulva");
+		const pluggingItems = Player.Appearance.filter(item => InventoryItemHasEffect(item, "FillVulva", true) || InventoryItemHasEffect(item, "IsPlugged", true));
+		let A = CommonRandomItemFromList(undefined, pluggingItems);
 		let chance = eventData.Chance;
 		chance += eventData.ArousalScaling * arousal / 100;
 		events.push({ chance: chance, arousal: 2, item: A, event: "PlugBoth" });
@@ -1386,7 +1389,7 @@ function ChatRoomStimulationMessage(Action) {
 		return;
 
 	// Pick a random event, and check it
-	const event = CommonRandomItemFromList({}, events);
+	const event = CommonRandomItemFromList(undefined, events);
 
 	const dice = Math.random();
 	if (dice > event.chance)
@@ -1395,9 +1398,14 @@ function ChatRoomStimulationMessage(Action) {
 	// We have a trigger message, send it out!
 	if ((Player.ChatSettings != null) && (Player.ChatSettings.ShowActivities != null) && !Player.ChatSettings.ShowActivities) return;
 
+	let group = event.item.Asset.Group;
+	if (event.item.Asset.ArousalZone) {
+		group = AssetGroupGet(Player.AssetFamily, event.item.Asset.ArousalZone);
+	}
+
 	// Increase player arousal to the zone
 	if (!Player.IsEdged() && arousal < 70 - event.arousal && event.event != "Talk")
-		ActivityEffectFlat(Player, Player, event.arousal, event.item.Asset.Group.Name, 1);
+		ActivityEffectFlat(Player, Player, event.arousal, group.Name, 1);
 	const duration = (Math.random() + event.arousal / 2.4) * 500;
 	DrawFlashScreen("#FFB0B0", duration, 140);
 	if (Player.ArousalSettings?.AffectExpression) {
@@ -1406,7 +1414,7 @@ function ChatRoomStimulationMessage(Action) {
 
 	var index = Math.floor(Math.random() * 3);
 	const Dictionary = [
-		{ Tag: "AssetGroup", Text: event.item.Asset.Group.Description.toLowerCase() },
+		{ Tag: "AssetGroup", Text: group.Description.toLowerCase() },
 		{ Tag: "AssetName", Text: (event.item.Asset.DynamicDescription ? event.item.Asset.DynamicDescription(Player) : event.item.Asset.Description).toLowerCase() },
 	];
 	ChatRoomMessage({ Content: "ChatRoomStimulationMessage" + event.event + index.toString(), Type: "Action", Sender: Player.MemberNumber, Dictionary: Dictionary, });
@@ -1424,7 +1432,7 @@ function ChatRoomResize(load) {
 		&& document.getElementById("TextAreaChatLog")
 	) {
 		ElementPositionFix("TextAreaChatLog", ChatRoomFontSize, ...ChatRoomChatLogRect);
-		ElementPositionFixed("InputChat", ...ChatRoomChatInputRect);
+		ElementPosition("InputChat", ...ChatRoomChatInputRect);
 	}
 }
 
@@ -2535,6 +2543,7 @@ function ChatRoomSendChat() {
  *
  * @param {"Chat"|"Whisper"} type
  * @param {string} msg
+ * @return {ServerChatRoomMessage}
  */
 function ChatRoomGenerateChatRoomChatMessage(type, msg) {
 	// Chat messages are always garbled, unless the no speech restriction is lifted
@@ -2581,7 +2590,7 @@ function ChatRoomSendChatMessage(msg) {
  */
 function ChatRoomSendWhisper(targetNumber, msg) {
 	if (targetNumber < 0) return false;
-	const targetChar = ChatRoomCharacter.find(C => C.MemberNumber == targetNumber);
+	const targetChar = ChatRoomCharacter.find(C => C.MemberNumber === targetNumber);
 	if (!targetChar) return "target-gone";
 
 	if (ChatRoomMapViewIsActive() && !ChatRoomMapViewCharacterOnWhisperRange(targetChar)) {
@@ -3687,16 +3696,18 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 	// Censored words are filtered out, ¶¶¶ indicates that we must not display anything on screen
 	displayMessage = CommonCensor(displayMessage);
 	if (displayMessage == "¶¶¶") return;
+	let whisperTarget;
 
 	// Prepares the HTML tags
 	switch (data.Type) {
 		case "Chat":
 		case "Whisper": {
-			let senderTag = '<span class="ChatMessageName" style="color:' + (SenderCharacter.LabelColor || 'gray');
+			whisperTarget = (SenderCharacter.IsPlayer() && data.Type === 'Whisper') ? ChatRoomCharacter.find(c => c.MemberNumber == data.Target) : SenderCharacter;
+			let senderTag = '<span class="ChatMessageName" style="color:' + (whisperTarget.LabelColor || 'gray');
 			if (data.Type == "Whisper") senderTag += '; font-style: italic';
 			senderTag += ';">';
 			if (data.Type == "Whisper") senderTag += ' ';
-			senderTag += metadata.senderName;
+			senderTag += CharacterNickname(whisperTarget);
 			senderTag += ':</span>';
 			if (data.Type == "Whisper") {
 				senderTag = (SenderCharacter.IsPlayer() ? TextGet("WhisperTo") : TextGet("WhisperFrom")) + senderTag;
@@ -3754,7 +3765,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 	if (data.Type === "Whisper") {
 		let replayButton = document.createElement("div");
 		replayButton.onclick = (e) => {
-			ElementValue("InputChat", `/whisper ${SenderCharacter.MemberNumber} ${ElementValue("InputChat").replace(/\/whisper\s*\d+ ?/u, '')}`);
+			ElementValue("InputChat", `/whisper ${whisperTarget.MemberNumber} ${ElementValue("InputChat").replace(/\/whisper\s*\d+ ?/u, '')}`);
 			ElementFocus("InputChat");
 		};
 		replayButton.classList.add("ReplyButton");
