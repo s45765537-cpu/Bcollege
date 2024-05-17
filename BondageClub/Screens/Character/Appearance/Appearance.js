@@ -1001,6 +1001,11 @@ function AppearanceResize(load) {
 	}
 }
 
+/** @type {KeyboardEventListener} */
+function AppearanceKeyDown(event) {
+	return false;
+}
+
 /**
  * Calculates the background color of the preview image for and item
  * @param {Character} C - The character whose appearance we are viewing
