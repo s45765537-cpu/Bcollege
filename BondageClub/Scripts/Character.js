@@ -467,15 +467,14 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 					loves.push(L);
 				} else if (L.Name && (MembersOnly == null || MembersOnly == false)) {
 					// Otherwise, this is an NPC, so just go fetch their reconstructed data and use that as ours
-					const npcName = L.Name.replace("NPC-", "");
-					const lover = PrivateCharacter.find(c => c.Name === npcName);
+					const lover = PrivateCharacter.find(c => (c.IsPlayer() ? c.Name : `NPC-${c.Name}`) === L.Name);
 					if (!lover) continue;
 
 					const npcLove = lover.GetLovership().find(l => l.MemberNumber === Player.MemberNumber);
 					if (!npcLove) continue;
 
 					/** @type {Lovership} */
-					const love = { Name: npcName };
+					const love = { Name: L.Name.replace("NPC-", "") };
 					love.Stage = npcLove.Stage;
 					love.Start = npcLove.Start;
 					loves.push(love);
