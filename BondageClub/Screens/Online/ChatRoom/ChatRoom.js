@@ -3696,16 +3696,18 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 	// Censored words are filtered out, ¶¶¶ indicates that we must not display anything on screen
 	displayMessage = CommonCensor(displayMessage);
 	if (displayMessage == "¶¶¶") return;
+	let whisperTarget;
 
 	// Prepares the HTML tags
 	switch (data.Type) {
 		case "Chat":
 		case "Whisper": {
-			let senderTag = '<span class="ChatMessageName" style="color:' + (SenderCharacter.LabelColor || 'gray');
+			whisperTarget = (SenderCharacter.IsPlayer() && data.Type === 'Whisper') ? ChatRoomCharacter.find(c => c.MemberNumber == data.Target) : SenderCharacter;
+			let senderTag = '<span class="ChatMessageName" style="color:' + (whisperTarget.LabelColor || 'gray');
 			if (data.Type == "Whisper") senderTag += '; font-style: italic';
 			senderTag += ';">';
 			if (data.Type == "Whisper") senderTag += ' ';
-			senderTag += metadata.senderName;
+			senderTag += CharacterNickname(whisperTarget);
 			senderTag += ':</span>';
 			if (data.Type == "Whisper") {
 				senderTag = (SenderCharacter.IsPlayer() ? TextGet("WhisperTo") : TextGet("WhisperFrom")) + senderTag;
@@ -3763,7 +3765,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 	if (data.Type === "Whisper") {
 		let replayButton = document.createElement("div");
 		replayButton.onclick = (e) => {
-			ElementValue("InputChat", `/whisper ${SenderCharacter.MemberNumber} ${ElementValue("InputChat").replace(/\/whisper\s*\d+ ?/u, '')}`);
+			ElementValue("InputChat", `/whisper ${whisperTarget.MemberNumber} ${ElementValue("InputChat").replace(/\/whisper\s*\d+ ?/u, '')}`);
 			ElementFocus("InputChat");
 		};
 		replayButton.classList.add("ReplyButton");
