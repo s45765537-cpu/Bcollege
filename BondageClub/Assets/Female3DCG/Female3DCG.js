@@ -18026,9 +18026,9 @@ var AssetFemale3DCG = [
 					Kneel: PoseType.DEFAULT,
 				},
 				Layer: [
-					{Name: "Base", MirrorExpression: "Pussy"},
-					{Name: "Front", MirrorExpression: "Pussy"},
-					{Name: "Pin", MirrorExpression: "Pussy"}
+					{ Name: "Base", MirrorExpression: "Pussy" },
+					{ Name: "Front", MirrorExpression: "Pussy" },
+					{ Name: "Pin", MirrorExpression: "Pussy" },
 				],
 			},
 			{
