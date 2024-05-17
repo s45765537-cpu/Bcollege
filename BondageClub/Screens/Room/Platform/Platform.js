@@ -3479,5 +3479,6 @@ function PlatformRunStandalone() {
 	PlatformRunStandaloneMode = true;
 	ElementRemove("InputName");
 	ElementRemove("InputPassword");
+	ElementRemove("LanguageDropdown");
 	CommonSetScreen("Room", "PlatformIntro");
 }
