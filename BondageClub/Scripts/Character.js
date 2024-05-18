@@ -319,9 +319,11 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			if (this.Ownership && this.Ownership.MemberNumber) return "online";
 			// NPC-owner with trial completed
 			if (this.Owner && this.Owner.trim().startsWith("NPC-")) return "npc";
-			// NPC-owner while in trial
-			let trialing = PrivateCharacter.find(c => NPCEventGet(c, "EndSubTrial") > 0);
-			if (trialing && trialing !== this) return "npc";
+			if (this.IsPlayer()) {
+				// NPC-owner while in trial
+				let trialing = PrivateCharacter.find(c => NPCEventGet(c, "EndSubTrial") > 0);
+				if (trialing && trialing !== this) return "npc";
+			}
 			return false;
 		},
 		IsOwnedByCharacter: function (C) {
