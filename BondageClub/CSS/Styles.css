@@ -646,7 +646,7 @@ input[type="checkbox"]:checked::before {
 }
 
 #layering input[type=number]:invalid {
-	background-color: #fbb;
+	background-color: #fbb !important;
 }
 
 .layering-button-grid {
