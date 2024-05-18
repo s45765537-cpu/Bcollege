@@ -807,7 +807,6 @@ ElectronicTagBadLock,This person is locked by different people
 ElectronicTagGoodLock,This person is fully locked by:
 ElectronicTagGoodLockYou,This person is fully locked by you
 Empty,Empty
-EnableRandomInput,Enable random input of time from everyone else
 EyebrowsEyebrows2ModuleLeftPiercing,Right Piercing
 EyebrowsEyebrows2ModuleRightPiercing,Left Piercing
 EyebrowsEyebrows2ModuleStyle,Style
@@ -1282,6 +1281,7 @@ HempRopeBeltIncreaseTo0,DestinationCharacterName vibrating wand starts teasing T
 HempRopeBeltIncreaseTo1,DestinationCharacterName vibrating wand builds up to a moderate pace.
 HempRopeBeltIncreaseTo2,DestinationCharacterName vibrating wand starts buzzing strongly!
 HempRopeBeltIncreaseTo3,DestinationCharacterName vibrating wand jumps up to maximum intensity!
+High,High
 HighSecurityAppendLover,Append lovers
 HighSecurityAppendOwner,Append owner
 HighSecurityAppendWhitelist,Append whitelist
@@ -4239,6 +4239,7 @@ LightSuction,Light
 Locked,Locked
 LockMittens,Padlock mitten buckles
 Loose,Loose
+Low,Low
 loosens,loosens
 LuckyWheelAddSection,Add
 LuckyWheelRemoveSection,Remove
@@ -4362,6 +4363,7 @@ MaskSwimCapSetHair,SourceCharacter adjusts DestinationCharacter swimcap hair ope
 MaskSwimCapSetPattern,SourceCharacter swaps DestinationCharacter swimcap pattern.
 MaximumSuction,Maximum
 MediumSuction,Medium
+Medium,Medium
 MetalCuffsPoseBehindBack,Behind back
 MetalCuffsPoseInFront,In-front of body
 MetalCuffsRestrainBehindBack,SourceCharacter cuffs DestinationCharacter hands behind TargetPronounPossessive back.
@@ -4805,7 +4807,6 @@ ShoesThighBootsSetb1,SourceCharacter adds bands to DestinationCharacter boots.
 ShoesThighBootsSetl0,SourceCharacter shortens DestinationCharacter boots.
 ShoesThighBootsSetl1,SourceCharacter extends the sock on DestinationCharacter boots.
 ShoesThighBootsSetl2,SourceCharacter extends DestinationCharacter boots.
-ShowItemWithTimerRemaining,Show the time remaining/being added
 ShowMessageInChat,Show chat message
 SlaveCollarChangeType,SourceCharacter changes DestinationCharacter collar model.
 SlaveCollarSelectType,Select the slave collar model
@@ -4904,7 +4905,6 @@ TextItemSelect,Configure item text
 tightens,tightens
 TimerAddRemoveUnknownTime,SourceCharacter adds an unknown amount of time to the padlock on DestinationCharacter FocusAssetGroup
 TimerAddTime,SourceCharacter adds TimerTime TimerUnit to the padlock on DestinationCharacter FocusAssetGroup.
-TimerLeft,Time left:
 TimerRelease,The LockName on DestinationCharacterName FocusAssetGroup opens with a click
 TimerReleaseMany,The locks on DestinationCharacterName UnlockedGroups open with a click
 TimerRemoveTime,SourceCharacter removes TimerTime TimerUnit from the padlock on DestinationCharacter FocusAssetGroup.

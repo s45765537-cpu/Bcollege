@@ -33,7 +33,7 @@ function InventoryItemMiscOwnerTimerPadlockDrawHook({ asset }, originalFunction,
 	} else {
 		DrawText(InterfaceTextGet("TimerUnknown"), 1500, 500, "white", "gray");
 	}
-	DrawText(InterfaceTextGet(asset.Group.Name + asset.Name + "Intro"), 1500, 600, "white", "gray");
+	DrawText(AssetTextGet(asset.Group.Name + asset.Name + "Intro"), 1500, 600, "white", "gray");
 
 	// Draw the settings
 	if (Player.CanInteract() && validator(C)) {
@@ -50,7 +50,7 @@ function InventoryItemMiscOwnerTimerPadlockDrawHook({ asset }, originalFunction,
 			DrawText(InterfaceTextGet("LockMemberNumber") + " " + property.LockMemberNumber.toString(), 1500, 700, "white", "gray");
 		}
 
-		let msg = InterfaceTextGet(asset.Group.Name + asset.Name + "Detail");
+		let msg = AssetTextGet(asset.Group.Name + asset.Name + "Detail");
 		const subst = ChatRoomPronounSubstitutions(CurrentCharacter, "TargetPronoun", false);
 		msg = CommonStringSubstitute(msg, subst);
 		DrawText(msg, 1500, 800, "white", "gray");
