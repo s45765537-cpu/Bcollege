@@ -745,6 +745,7 @@ function ServerAccountBeep(data) {
 					// TODO: Consider using `ChatRoomLeave` here after a review, it being the canonical function for leaving chatrooms
 					ChatRoomCharacter = [];
 					DialogLeave();
+					ChatRoomSetTarget(-1);
 					ChatRoomClearAllElements();
 					if (CurrentScreen == "ChatRoom") {
 						ServerSend("ChatRoomLeave", "");
