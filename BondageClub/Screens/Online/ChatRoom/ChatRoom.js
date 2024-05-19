@@ -2375,6 +2375,7 @@ function ChatRoomLeave(clearCharacters = false) {
 	ChatRoomCharacter = [];
 	ChatRoomMapViewTileFog = "";
 	ChatRoomMapViewObjectFog = "";
+	ChatRoomSetTarget(-1);
 	ChatRoomClearAllElements();
 	ChatRoomSetLastChatRoom(null);
 	ServerSend("ChatRoomLeave", "");

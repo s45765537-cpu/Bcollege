@@ -118,6 +118,7 @@ DialogMenuUnlock,Unlock the item
 DialogMenuUse,Use this item
 DialogMenuUseDisabled,Unable to use due to player permissions
 Dismounting,Dismounting...
+EnableRandomInput,Enable random input of time from everyone else
 Escaping,Escaping...
 ExtendedItemNoCraftingScreen,Unavailable while crafting
 ExtendedItemNoItemPermission,Blocked due to item permissions
@@ -232,7 +233,6 @@ PrerequisiteRemoveChainForItem,Remove the chain first.
 PrerequisiteRemoveChastityFirst,Must remove chastity first.
 PrerequisiteRemoveClothesForItem,Remove some clothes first.
 PrerequisiteRemoveFaceMaskFirst,Must remove face mask first.
-PrerequisiteRemoveItemWithTimer,Remove item when the lock timer runs out
 PrerequisiteRemoveRestraintsFirst,Remove some restraints first.
 PrerequisiteRemoveShacklesFirst,Must remove shackles first.
 PrerequisiteRemoveSuspensionForItem,Remove the suspension first.
@@ -284,6 +284,7 @@ PronounSubjectHeHim,he
 PronounSubjectSheHer,she
 PronounSubjectTheyThem,they
 ReceivedBeep,Received at
+RemoveItemWithTimer,Remove item when the lock timer runs out
 Removing,Removing...
 RequireBondageLevel,Need Bondage ReqLevel
 RequireSelfBondage1,Requires self-bondage 1.
@@ -395,6 +396,7 @@ ServerShuffle,SourceCharacter shuffles the position of everyone in the room rand
 ServerSwap,SourceCharacter swapped TargetCharacterName and DestinationCharacterName1 places.
 ServerUpdateRoom,SourceCharacter updated the room. Name: ChatRoomName. Limit: ChatRoomLimit.  ChatRoomPrivacy.  ChatRoomLocked.
 ShowAllZones,Show all zones
+ShowItemWithTimerRemaining,Show the time remaining/being added
 Someone,Someone
 StruggleDexterity,Try to unfasten
 StruggleFlexibility,Try to squeeze out
@@ -409,6 +411,7 @@ TightenLot,...A lot
 tightens,tightens
 Tightness,Tightness:
 TryLoosen,Try to loosen the item
+TimerLeft,Time left:
 Unlocked,Unlocked
 Unlocking,Unlocking...
 Using0,Using none of your skill...
