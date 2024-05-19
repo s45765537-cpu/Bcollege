@@ -384,7 +384,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			return -1;
 		},
 		IsOwnedByMemberNumber: function (memberNumber) {
-			return (this.OwnerNumber() === memberNumber);
+			return (memberNumber != -1 && this.OwnerNumber() === memberNumber);
 		},
 		OwnedSince: function () {
 			switch (this.IsOwned()) {
