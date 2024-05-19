@@ -1416,7 +1416,7 @@ function PrivateStartActivity() {
 				case "Locks": if(InventoryHasLockableItems(Player)) break testLoop; break;
 				case "Bed": if((PrivateBedCount() == 1) && (NPCEventGet(CurrentCharacter, "NextBed") < CurrentTime) && (NPCTraitGet(CurrentCharacter, "Horny") >= 0) && PrivateBedActive() && (!Player.Cage)) break testLoop; break;
 				case "Aftercare": if((CurrentCharacter.Love >= 50) && (NPCTraitGet(CurrentCharacter, "Wise") >= 0)) break testLoop; break;
-				case "CollarType": if(Player.IsOwned()) break testLoop; break;
+				case "CollarType": if(Player.IsOwned() && InventoryIsWorn(Player, "SlaveCollar", "ItemNeck")) break testLoop; break;
 			}
 		}
 
