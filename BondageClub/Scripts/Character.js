@@ -2081,18 +2081,19 @@ function CharacterHasArousalEnabled(C) {
  * @returns {void} - Nothing.
  */
 function CharacterClearOwnership(C, push=true) {
-	// Grab the type now before we clear ownership
-	const ownerType = C.IsOwned();
-	C.Owner = "";
-	C.Ownership = null;
 
 	if (C.IsPlayer()) {
+		const ownerType = C.IsOwned();
 		switch (ownerType) {
 			case "online":
-				ServerSend("AccountOwnership", { MemberNumber: Player.Ownership.MemberNumber, Action: "Break" });
+				ServerSend("AccountOwnership", { MemberNumber: C.Ownership.MemberNumber, Action: "Break" });
+				C.Owner = "";
+				C.Ownership = null;
 				break;
 
 			case "npc":
+				C.Owner = "";
+				C.Ownership = null;
 				ServerPlayerSync();
 				break;
 		}
