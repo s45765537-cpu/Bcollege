@@ -649,6 +649,10 @@ input[type="checkbox"]:checked::before {
 	background-color: #fbb;
 }
 
+.layering-input-unfocused {
+	background-color: lightgray;
+}
+
 .layering-button-grid {
 	--max-rows: 3;
 

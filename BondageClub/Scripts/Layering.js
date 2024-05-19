@@ -267,13 +267,15 @@ var Layering = {
 	 * @param {"layer-priority" | "asset-priority"} activeType
 	 */
 	_UpdateInputColors(activeType) {
-		const layerColor = activeType === "layer-priority" ? "" : "lightgray";
 		const layerElements = /** @type {NodeListOf<HTMLInputElement>} */(document.querySelectorAll("[data-layer-priority]"));
-		layerElements.forEach(e => e.style.backgroundColor = layerColor);
-
-		const assetColor = activeType === "asset-priority" ? "" : "lightgray";
 		const assetElements = /** @type {NodeListOf<HTMLInputElement>} */(document.querySelectorAll("[data-asset-priority]"));
-		assetElements.forEach(e => e.style.backgroundColor = assetColor);
+		if (activeType === "layer-priority") {
+			layerElements.forEach(e => e.classList.remove("layering-input-unfocused"));
+			assetElements.forEach(e => e.classList.add("layering-input-unfocused"));
+		} else {
+			layerElements.forEach(e => e.classList.add("layering-input-unfocused"));
+			assetElements.forEach(e => e.classList.remove("layering-input-unfocused"));
+		}
 	},
 
 	/**
@@ -438,9 +440,11 @@ var Layering = {
 		// Color either the asset- or layer-specific input elements light gray,
 		// depending on which one of the two is active
 		if (CommonIsObject(this.OverridePriority)) {
-			assetElements.forEach(e => e.style.backgroundColor = "lightgray");
+			assetElements.forEach(e => e.classList.add("layering-input-unfocused"));
+			layerElements.forEach(e => e.classList.remove("layering-input-unfocused"));
 		} else {
-			layerElements.forEach(e => e.style.backgroundColor = "lightgray");
+			assetElements.forEach(e => e.classList.remove("layering-input-unfocused"));
+			layerElements.forEach(e => e.classList.add("layering-input-unfocused"));
 		}
 
 		// Load and set all translated text
