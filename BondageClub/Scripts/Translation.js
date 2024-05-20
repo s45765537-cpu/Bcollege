@@ -577,6 +577,7 @@ var TranslationDictionary = [
 			"Screens/Room/Shop/Dialog_NPC_Shop_Customer_CN.txt",
 			"Screens/Room/Shop/Dialog_NPC_Shop_Vendor_CN.txt",
 			"Screens/Room/Shop/Text_Shop_CN.txt",
+			"Screens/Room/Shop2/Text_Shop2_CN.txt",
 			"Screens/MiniGame/KinkyDungeon/Text_KinkyDungeon_CN.txt",
 			"Screens/Room/Poker/Text_Poker_CN.txt",
 			"Screens/Room/Poker/Akira/Text_Multiple_CN.txt",
