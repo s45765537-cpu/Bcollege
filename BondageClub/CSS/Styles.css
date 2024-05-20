@@ -682,6 +682,10 @@ input[type="checkbox"]:checked::before {
 	background-image: url("../Icons/Exit.png");
 }
 
+#layering-lock-button {
+	background-image: url("../Icons/Lock.png");
+}
+
 #layering-asset-grid {
 	grid-area: asset-grid;
 	min-height: min(9vh, 4.5vw);

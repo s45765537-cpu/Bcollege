@@ -69,6 +69,20 @@ var Layering = {
 	Item: null,
 
 	/**
+	 * Get or set whether the layering screen is readonly
+	 * @type {Boolean}
+	 */
+	get Readonly() {
+		return this._Readonly;
+	},
+	set Readonly(value) {
+		if (value !== this._Readonly && this.IsActive()) {
+			this._ApplyReadonly(value);
+		}
+		this._Readonly = value;
+	},
+
+	/**
 	 * Get the item's asset
 	 * @readonly
 	 * @type {Asset}
@@ -94,6 +108,14 @@ var Layering = {
 	 * @type {undefined | AssetLayerOverridePriority}
 	 */
 	_PriorityDefault: undefined,
+
+	/**
+	 * Whether the layering screen is readonly or not
+	 * @private
+	 * @see {@link Layering.Readonly}
+	 * @type {Boolean}
+	 */
+	_Readonly: false,
 
 	/**
 	 * Return whether the layering sub screen has currently been initialized (be it either active or unloaded)
@@ -124,6 +146,8 @@ var Layering = {
 		buttonGrid: "layering-button-grid",
 		resetButton: "layering-reset-button",
 		exitButton: "layering-exit-button",
+		lockButton: "layering-lock-button",
+		lockButtonContainer: "layering-lock-button-container",
 
 		assetHeader: "layering-asset-header",
 		assetGrid: "layering-asset-grid",
@@ -310,6 +334,25 @@ var Layering = {
 	},
 
 	/**
+	 * Update all input elements and buttons with the passed {@link Layering.Readonly} status.
+	 * @param {boolean} isReadonly
+	 * @private
+	 */
+	_ApplyReadonly(isReadonly) {
+		const elements = /** @type {(HTMLInputElement | HTMLButtonElement)[]} */([
+			document.getElementById(this.ID.resetButton),
+			...Array.from(document.querySelectorAll("[data-asset-priority]")),
+			...Array.from(document.querySelectorAll("[data-layer-priority]")),
+		]);
+		for (const e of elements) {
+			e.disabled = isReadonly;
+		}
+
+		const lockButton = document.getElementById(this.ID.lockButtonContainer);
+		lockButton.style.display = isReadonly ? "" : "none";
+	},
+
+	/**
 	 * Initialize the layering subscreen
 	 * @param {Item} item - The affected item
 	 * @param {Character} character - The item's owning character
@@ -318,7 +361,7 @@ var Layering = {
 	 * A reload pushes any current changes towards the server and reinitializes all DOM elements.
 	 * @returns {HTMLDivElement} The div containing the layering subscreen
 	 */
-	Init(item, character, display=null, reload=false) {
+	Init(item, character, display=null, reload=false, readonly=false) {
 		if (this.IsActive()) {
 			if (reload) {
 				this.Exit(true);
@@ -335,7 +378,7 @@ var Layering = {
 			...this.DisplayDefault,
 			...(display ?? {}),
 		};
-
+		this.Readonly = readonly;
 		this.Load();
 		return /** @type {HTMLDivElement} */(document.getElementById(this.ID.root));
 	},
@@ -387,6 +430,10 @@ var Layering = {
 				<div class=layering-button-container>
 					<button id=${this.ID.resetButton} class=layering-button></button>
 					<div class=layering-button-tooltip>${InterfaceTextGet("LayeringReset")}</div>
+				</div>
+				<div class=layering-button-container id=${this.ID.lockButtonContainer}>
+					<button id=${this.ID.lockButton} class=layering-button disabled=true></button>
+					<div class=layering-button-tooltip>${InterfaceTextGet("LayeringLock")}</div>
 				</div>
 			</div>
 			<div class=layering-pair id=${this.ID.assetGrid}>
@@ -443,6 +490,7 @@ var Layering = {
 		});
 
 		this.Resize(true);
+		this._ApplyReadonly(this.Readonly);
 	},
 
 	/**
@@ -482,6 +530,7 @@ var Layering = {
 		this.Item = null;
 		this.Character = null;
 		this.Display = null;
+		this._Readonly = false;
 		this._PriorityDefault = undefined;
 	},
 
