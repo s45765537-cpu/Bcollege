@@ -456,6 +456,7 @@ var TranslationDictionary = [
 			"Screens/Online/GameLARP/Text_GameLARP_CN.txt",
 			"Screens/Online/GameClubCard/Text_GameClubCard_CN.txt",
 			"Screens/Online/GameMagicBattle/Text_GameMagicBattle_CN.txt",
+			"Screens/Online/NicknameManagement/Text_NicknameManagement_CN.txt",
 			"Screens/Online/WheelFortuneCustomize/Text_WheelFortuneCustomize_CN.txt",
 			"Screens/Room/Arcade/Dialog_NPC_Arcade_Employee_CN.txt",
 			"Screens/Room/Arcade/Dialog_NPC_Arcade_Player_CN.txt",
