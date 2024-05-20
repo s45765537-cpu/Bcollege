@@ -48,3 +48,5 @@ Select colors
 选择颜色
 blocked by owner
 被主人屏蔽
+Change item layering
+更改物品分层
