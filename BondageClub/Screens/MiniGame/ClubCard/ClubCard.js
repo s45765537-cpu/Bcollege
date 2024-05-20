@@ -115,7 +115,7 @@ var ClubCardList = [
 		MoneyPerTurn: 1,
 		RequiredLevel: 2,
 		BeforeTurnEnd: function(CCPlayer) {
-			if (ClubCardNameIsOnBoard(CCPlayer, "Red Twin")) ClubCardPlayerAddFame(CCPlayer, 4);
+			if (ClubCardNameIsOnBoard(CCPlayer, "Red Twin")) ClubCardPlayerAddFame(CCPlayer, 3);
 		}
 	},
 	{
@@ -267,7 +267,7 @@ var ClubCardList = [
 		ID: 3000,
 		Name: "Policewoman",
 		Group: ["Police"],
-		MoneyPerTurn: 1,
+		MoneyPerTurn: 3,
 		FamePerTurn: 1,
 		RequiredLevel: 3
 	},
@@ -636,7 +636,7 @@ var ClubCardList = [
 		Group: ["Dominant", "Mistress"],
 		RequiredLevel: 3,
 		MoneyPerTurn: -3,
-		FamePerTurn: 5
+		FamePerTurn: 4
 	},
 	{
 		ID: 8004,
@@ -860,7 +860,7 @@ var ClubCardList = [
 		Reward: "NPC-Sarah",
 		FamePerTurn: 1,
 		BeforeTurnEnd: function(CCPlayer) {
-			if (ClubCardNameIsOnBoard(CCPlayer, "Amanda") || ClubCardNameIsOnBoard(CCPlayer, "Mistress Sophie")) ClubCardPlayerAddFame(CCPlayer, 2);
+			if (ClubCardNameIsOnBoard(CCPlayer, "Amanda") || ClubCardNameIsOnBoard(CCPlayer, "Mistress Sophie")) ClubCardPlayerAddFame(CCPlayer, 1);
 			if (ClubCardNameIsOnBoard(CCPlayer, "Sidney")) ClubCardPlayerAddFame(CCPlayer, -2);
 		}
 	},
@@ -1284,7 +1284,7 @@ var ClubCardList = [
 		Name: "Moving Out of Town",
 		Type: "Event",
 		Prerequisite: "SelectOpponentMember",
-		RequiredLevel: 3,
+		RequiredLevel: 4,
 		OnPlay: function(CCPlayer) {
 			ClubCardRemoveFromBoard(ClubCardGetOpponent(CCPlayer), ClubCardSelection);
 		},
