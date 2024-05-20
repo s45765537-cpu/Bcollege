@@ -384,7 +384,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			return -1;
 		},
 		IsOwnedByMemberNumber: function (memberNumber) {
-			return (this.OwnerNumber() === memberNumber);
+			return (memberNumber != -1 && this.OwnerNumber() === memberNumber);
 		},
 		OwnedSince: function () {
 			switch (this.IsOwned()) {
@@ -527,11 +527,14 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 				   ((new Date(this.Creation)).getMonth() == (new Date(CurrentTime)).getMonth()) &&
 				   ((new Date(this.Creation)).getFullYear() != (new Date(CurrentTime)).getFullYear());
 		},
+		IsSiblingOfCharacter: function(C) {
+			return this.IsOwnedByMemberNumber(C.OwnerNumber());
+		},
 		IsFamilyOfPlayer: function () {
 			return this.IsInFamilyOfMemberNumber(Player.MemberNumber);
 		},
 		IsInFamilyOfMemberNumber: function (MemberNum) {
-			if (MemberNum === Player.MemberNumber) return false;
+			if (this.MemberNumber === MemberNum) return false;
 
 			let C = ChatRoomCharacter.find(c => c.MemberNumber === MemberNum);
 			if (!C) C = PrivateCharacter.find(c => c.MemberNumber === MemberNum);
@@ -539,7 +542,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			if (!C) return false;
 
 			// Check that we either share owners, are owned by this character, or that this character owns us
-			if (this.OwnerNumber() === C.OwnerNumber()) return true;
+			if (this.IsSiblingOfCharacter(C)) return true;
 			if (this.IsOwnedByCharacter(C)) return true;
 			if (C.IsOwnedByCharacter(this)) return true;
 			return false;
@@ -2078,18 +2081,19 @@ function CharacterHasArousalEnabled(C) {
  * @returns {void} - Nothing.
  */
 function CharacterClearOwnership(C, push=true) {
-	// Grab the type now before we clear ownership
-	const ownerType = C.IsOwned();
-	C.Owner = "";
-	C.Ownership = null;
 
 	if (C.IsPlayer()) {
+		const ownerType = C.IsOwned();
 		switch (ownerType) {
 			case "online":
-				ServerSend("AccountOwnership", { MemberNumber: Player.Ownership.MemberNumber, Action: "Break" });
+				ServerSend("AccountOwnership", { MemberNumber: C.Ownership.MemberNumber, Action: "Break" });
+				C.Owner = "";
+				C.Ownership = null;
 				break;
 
 			case "npc":
+				C.Owner = "";
+				C.Ownership = null;
 				ServerPlayerSync();
 				break;
 		}

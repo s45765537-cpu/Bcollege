@@ -226,20 +226,6 @@ var Layering = {
 	},
 
 	/**
-	 * Event listener for `blur` events of number-based input elements.
-	 * Sanitizes the elements value upon deselecting the element.
-	 * @private
-	 * @param {HTMLInputElement} elem
-	 */
-	_BlurListener(elem) {
-		if (Number.isNaN(elem.valueAsNumber)) {
-			elem.value = elem.defaultValue;
-		} else {
-			elem.value = CommonClamp(Math.round(elem.valueAsNumber), -99, 99).toString();
-		}
-	},
-
-	/**
 	 * A limited version of {@link CharacterRefresh}
 	 * @private
 	 */
@@ -267,13 +253,15 @@ var Layering = {
 	 * @param {"layer-priority" | "asset-priority"} activeType
 	 */
 	_UpdateInputColors(activeType) {
-		const layerColor = activeType === "layer-priority" ? "" : "lightgray";
 		const layerElements = /** @type {NodeListOf<HTMLInputElement>} */(document.querySelectorAll("[data-layer-priority]"));
-		layerElements.forEach(e => e.style.backgroundColor = layerColor);
-
-		const assetColor = activeType === "asset-priority" ? "" : "lightgray";
 		const assetElements = /** @type {NodeListOf<HTMLInputElement>} */(document.querySelectorAll("[data-asset-priority]"));
-		assetElements.forEach(e => e.style.backgroundColor = assetColor);
+		if (activeType === "layer-priority") {
+			layerElements.forEach(e => e.classList.remove("layering-input-unfocused"));
+			assetElements.forEach(e => e.classList.add("layering-input-unfocused"));
+		} else {
+			layerElements.forEach(e => e.classList.add("layering-input-unfocused"));
+			assetElements.forEach(e => e.classList.remove("layering-input-unfocused"));
+		}
 	},
 
 	/**
@@ -427,20 +415,22 @@ var Layering = {
 		assetElements.forEach(e => {
 			e.addEventListener("input", (event) => this._AssetInputListener(event));
 			e.addEventListener("focus", (event) => /** @type {HTMLInputElement} */(event.target).select());
-			e.addEventListener("blur", (event) => () => this._BlurListener(e));
+			e.addEventListener("blur", ElementNumberInputBlur);
 		});
 		layerElements.forEach(e => {
 			e.addEventListener("input", (event) => this._LayerInputListener(event));
 			e.addEventListener("focus", (event) => /** @type {HTMLInputElement} */(event.target).select());
-			e.addEventListener("blur", (event) => () => this._BlurListener(e));
+			e.addEventListener("blur", ElementNumberInputBlur);
 		});
 
 		// Color either the asset- or layer-specific input elements light gray,
 		// depending on which one of the two is active
 		if (CommonIsObject(this.OverridePriority)) {
-			assetElements.forEach(e => e.style.backgroundColor = "lightgray");
+			assetElements.forEach(e => e.classList.add("layering-input-unfocused"));
+			layerElements.forEach(e => e.classList.remove("layering-input-unfocused"));
 		} else {
-			layerElements.forEach(e => e.style.backgroundColor = "lightgray");
+			assetElements.forEach(e => e.classList.remove("layering-input-unfocused"));
+			layerElements.forEach(e => e.classList.add("layering-input-unfocused"));
 		}
 
 		// Load and set all translated text
