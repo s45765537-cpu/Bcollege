@@ -221,7 +221,7 @@ var Layering = {
 		if (!Number.isNaN(priority) && priority.toString() !== defaultPriority) {
 			this.OverridePriority = CommonClamp(Math.round(priority), -99, 99);
 		} else {
-			delete this.OverridePriority;
+			this.OverridePriority = undefined;
 		}
 
 		if (old !== this.OverridePriority) {
