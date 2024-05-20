@@ -827,7 +827,7 @@ function PrivateClickCharacter() {
 					return;
 
 				// Make Sure the NPC owner has the "PlayerCollaring" event set
-				if (PrivateCharacter[C].IsOwner() && (NPCEventGet(PrivateCharacter[C], "PlayerCollaring") <= 0)) {
+				if ((Player.Owner != null) && (Player.Owner.replace("NPC-", "").trim() === PrivateCharacter[C].Name) && (NPCEventGet(PrivateCharacter[C], "PlayerCollaring") <= 0)) {
 					NPCEventAdd(PrivateCharacter[C], "PlayerCollaring", CurrentTime);
 					ServerPrivateCharacterSync();
 				}

@@ -209,6 +209,4 @@ function SlaveMarketPlayerAuctionTransfer() {
 	C.Love = 30;
 	NPCEventAdd(C, "EndSubTrial", CurrentTime + NPCLongEventDelay(C));
 	ServerPrivateCharacterSync();
-	Player.Owner = "NPC-" + SlaveMarketBuyer.Name;
-	ServerPlayerSync();
 }
