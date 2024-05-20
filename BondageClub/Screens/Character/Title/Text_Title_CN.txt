@@ -167,4 +167,6 @@ Concubus
 Majesty
 陛下
 Captain
-上校
+船长
+Admiral
+海军上校
