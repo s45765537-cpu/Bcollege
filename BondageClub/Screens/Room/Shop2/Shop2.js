@@ -534,16 +534,10 @@ var Shop2 = {
 	_SetCheckboxFilters: function _SetCheckboxFilters() {
 		/** @type {Set<AssetGroupName>} */
 		const checkedSet = new Set();
-		for (const [category, groupDescriptions] of Object.entries(Shop2InitVars.GroupDescriptions)) {
-			for (const [groupDescr, groupNames] of Object.entries(groupDescriptions)) {
-				const checkBox = /** @type {null | HTMLInputElement} */(document.getElementById(`Shop2Checkbox-${category}-${groupDescr}`));
-				if (!checkBox) {
-					continue;
-				}
-				if (checkBox.checked) {
-					groupNames.forEach(i => checkedSet.add(i));
-				}
-			}
+		const elements = /** @type {HTMLInputElement[]} */(Array.from(document.querySelectorAll(`[id^="Shop2GroupSelect-checkbox"]`)));
+		for (const checkbox of elements) {
+			const [category, groupDescr] = checkbox.id.split("-").slice(-2);
+			Shop2InitVars.GroupDescriptions[category]?.[groupDescr]?.forEach(i => checkedSet.add(i));
 		}
 
 		Shop2Vars.Filters.AssetGroup = (item) => checkedSet.has(item.Asset.Group.Name) ? ["Buy", "Sell", "Preview"] : [];
@@ -572,7 +566,7 @@ var Shop2 = {
 	},
 
 	_ClickDropdown: function _ClickDropdown() {
-		const elems = Array.from(document.getElementsByClassName("shop-dropdown"));
+		const elems = Array.from(document.getElementsByClassName("dropdown"));
 		for (const elem of /** @type {HTMLDivElement[]} */(elems)) {
 			elem.style.display = "none";
 		}
@@ -724,14 +718,8 @@ var Shop2 = {
 			Mode: new Set(["Preview", "Buy", "Sell"]),
 			Draw: (...coords) => DrawButton(...coords, TextGet("GroupSelectAll"), "White"),
 			Click: () => {
-				for (const [category, groupDescriptions] of Object.entries(Shop2InitVars.GroupDescriptions)) {
-					for (const groupDescr of Object.keys(groupDescriptions)) {
-						const checkBox = /** @type {null | HTMLInputElement} */(document.getElementById(`Shop2Checkbox-${category}-${groupDescr}`));
-						if (checkBox) {
-							checkBox.checked = true;
-						}
-					}
-				}
+				const elements = /** @type {HTMLInputElement[]} */(Array.from(document.querySelectorAll(`[id^="Shop2GroupSelect-checkbox"]`)));
+				elements.forEach(checkbox => checkbox.checked = true);
 				delete Shop2Vars.Filters.AssetGroup;
 				Shop2.ApplyItemFilters();
 			},
@@ -741,48 +729,23 @@ var Shop2 = {
 			Mode: new Set(["Preview", "Buy", "Sell"]),
 			Draw: (...coords) => DrawButton(...coords, TextGet("GroupSelectNone"), "White"),
 			Click: () => {
-				for (const [category, groupDescriptions] of Object.entries(Shop2InitVars.GroupDescriptions)) {
-					for (const groupDescr of Object.keys(groupDescriptions)) {
-						const checkBox = /** @type {null | HTMLInputElement} */(document.getElementById(`Shop2Checkbox-${category}-${groupDescr}`));
-						if (checkBox) {
-							checkBox.checked = false;
-						}
-					}
-				}
+				const elements = /** @type {HTMLInputElement[]} */(Array.from(document.querySelectorAll(`[id^="Shop2GroupSelect-checkbox"]`)));
+				elements.forEach(checkbox => checkbox.checked = false);
 				Shop2Vars.Filters.AssetGroup = () => [];
 				Shop2.ApplyItemFilters();
 			},
 		},
 		GroupSelect: {
-			Coords: [25, Shop2Consts.Grid.y + 100, 660, Shop2Consts.Grid.height - 100],
+			Coords: [25, Shop2Consts.Grid.y + 100, 660, Shop2Consts.Grid.height - 120],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
 			Load: () => {
 				if (document.getElementById("Shop2GroupSelect")) {
 					return;
 				}
 
-				const elem = ElementCreateDiv("Shop2GroupSelect");
-				let content = "";
-				for (const [category, groupDescriptions] of Object.entries(Shop2InitVars.GroupDescriptions)) {
-					content += `
-						<div class="Shop2GridCategory", id="Shop2GridCategory-${category}">
-							${TextGet("AssetGroupCategory" + category)}
-						</div>
-						<div class="Shop2CheckboxGrid", id="Shop2CheckboxGrid-${category}">
-					`;
-					for (const groupDescr of Object.keys(groupDescriptions)) {
-						content += `
-							<label class="Shop2Checkbox">
-								<input type="checkbox" id="Shop2Checkbox-${category}-${groupDescr}" onclick="Shop2._SetCheckboxFilters()", checked=true />
-								${groupDescr}
-							</label>
-						`;
-					}
-					content += "</div>";
-				}
-				elem.innerHTML = content;
-				elem.style.display = "none";
-				elem.classList.add("shop-dropdown");
+				const entries = Object.entries(Shop2InitVars.GroupDescriptions);
+				const groups = Object.fromEntries(entries.map(([k, v]) => [TextGet(`AssetGroupCategory${k}`), Object.keys(v)]));
+				ElementCheckboxDropdown.FromRecord("Shop2GroupSelect", groups, Shop2._SetCheckboxFilters, { checked: true });
 			},
 			Draw: (...coords) => {
 				if (Shop2Vars.DropdownState !== ShopDropdownState.GROUP) {
@@ -852,7 +815,7 @@ var Shop2 = {
 			},
 		},
 		PoseSelect: {
-			Coords: [25, Shop2Consts.Grid.y + 100 + 160, 660, Shop2Consts.Grid.height - 100 - 160],
+			Coords: [25, Shop2Consts.Grid.y + 260, 660, Shop2Consts.Grid.height - 280],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
 			Load: () => {
 				if (document.getElementById("Shop2PoseSelect")) {
@@ -871,7 +834,7 @@ var Shop2 = {
 				const elem = ElementCreateDiv("Shop2PoseSelect");
 				elem.style.display = "none";
 				elem.innerHTML = `<div id=Shop2PoseOuterGrid>${poseHTML}</div>`;
-				elem.classList.add("shop-dropdown");
+				elem.classList.add("dropdown");
 
 				const poseButtons = /** @type {HTMLButtonElement[]} */(Array.from(document.querySelectorAll("[data-pose]")));
 				for (const button of poseButtons) {
