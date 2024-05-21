@@ -569,3 +569,96 @@ function ElementToggleGeneratedElements(Screen, ShouldDisplay) {
 	const generatedElements = Array.from(document.querySelectorAll(`[screen-generated="${Screen}"]`));
 	generatedElements.forEach((/** @type {HTMLElement} */ element) => element.style.display = ShouldDisplay ? '' : 'none');
 }
+
+/**
+ * Namespace for creating (DOM-based) dropdown menus filled with checkboxes
+ * @namespace
+ */
+var ElementCheckboxDropdown = {
+	/**
+	 * @param {string} idPrefix
+	 * @param {string} idSuffix
+	 * @param {string} spanText
+	 * @param {(this: HTMLInputElement, event: Event) => void} listener
+	 * @param {boolean} checked
+	 * @returns {HTMLOptions<"label">}
+	 */
+	_CreateCheckboxPair(idPrefix, idSuffix, spanText, listener, checked=false) {
+		return {
+			tag: "label",
+			classList: ["dropdown-checkbox-grid"],
+			attributes: { id: `${idPrefix}-pair-${idSuffix}` },
+			children: [
+				{
+					tag: "input",
+					classList: ["dropdown-checkbox"],
+					attributes: { id: `${idPrefix}-checkbox-${idSuffix}`, type: "checkbox", checked },
+					eventListeners: { click: listener },
+				},
+				{
+					tag: "span",
+					classList: ["dropdown-checkbox-label"],
+					attributes: { id: `${idPrefix}-label-${idSuffix}` },
+					children: [spanText],
+				},
+			],
+		};
+	},
+
+	/**
+	 * Construct a dropdown menu with labeled checkboxes
+	 * @param {string} id - The ID of the element
+	 * @param {readonly string[]} checkboxList - The checkbox labels
+	 * @param {(this: HTMLInputElement, event: Event) => void} eventListener - The event listener to-be attached to all checkboxes
+	 * @param {Object} [options]
+	 * @param {HTMLElement} [options.parent] - The parent element of the dropdown menu; defaults to {@link document.body}
+	 * @param {boolean} [options.checked] - Whether all checkboxes should be initially checked
+	 * @returns {HTMLDivElement} - The created dropdown menu
+	 */
+	FromList(id, checkboxList, eventListener, options=null) {
+		return /** @type {null | HTMLDivElement} */(document.getElementById(id)) ?? ElementCreate({
+			tag: "div",
+			attributes: { id, ["screen-generated"]: CurrentScreen },
+			parent: options?.parent ?? document.body,
+			classList: ["HideOnPopup", "dropdown"],
+			style: { display: "none" },
+			children: checkboxList.map((o) => this._CreateCheckboxPair(id, o, o, eventListener, options?.checked)),
+		});
+	},
+
+	/**
+	 * Construct a dropdown menu with labeled checkboxes, each group of checkboxes having a header associated with them
+	 * @param {string} id - The ID of the element
+	 * @param {Record<string, readonly string[]>} checkboxRecord - The checkbox labels
+	 * @param {(this: HTMLInputElement, event: Event) => void} eventListener - The event listener to-be attached to all checkboxes
+	 * @param {Object} [options]
+	 * @param {HTMLElement} [options.parent] - The parent element of the dropdown menu; defaults to {@link document.body}
+	 * @param {boolean} [options.checked] - Whether all checkboxes should be initially checked
+	 * @returns {HTMLDivElement} - The created dropdown menu
+	 */
+	FromRecord(id, checkboxRecord, eventListener, options=null) {
+		return /** @type {null | HTMLDivElement} */(document.getElementById(id)) ?? ElementCreate({
+			tag: "div",
+			attributes: { id, ["screen-generated"]: CurrentScreen },
+			parent: options?.parent ?? document.body,
+			classList: ["HideOnPopup", "dropdown"],
+			style: { display: "none" },
+			children: Object.entries(checkboxRecord).flatMap(([header, checkboxList]) => {
+				return [
+					{
+						tag: "span",
+						classList: ["dropdown-header"],
+						attributes: { id: `${id}-header-${header}` },
+						children: [header],
+					},
+					{
+						tag: "div",
+						classList: ["dropdown-grid"],
+						attributes: { id: `${id}-grid-${header}` },
+						children: checkboxList.map((o) => this._CreateCheckboxPair(id, `${header}-${o}`, o, eventListener, options?.checked)),
+					},
+				];
+			}),
+		});
+	},
+};
