@@ -936,15 +936,6 @@ function AssetActivitiesForGroup(family, groupname, onSelf = "other") {
 }
 
 /**
- * Cleans the given array of assets of any items that no longer exists
- * @param {readonly ItemPermissions[]} AssetArray - The arrays of items to clean
- * @returns {ItemPermissions[]} - The cleaned up array
- */
-function AssetCleanArray(AssetArray) {
-	return AssetArray.filter(({ Group, Name }) => AssetGet('Female3DCG', Group, Name) != null);
-}
-
-/**
  * Gets an asset group by the asset family name and group name
  * @param {IAssetFamily} Family - The asset family that the group belongs to (Ignored until other family is added)
  * @param {AssetGroupName} Group - The name of the asset group to find
