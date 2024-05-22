@@ -3347,7 +3347,7 @@ function PreferenceSubscreenExtensionsExit() {
  */
 function PreferenceSubscreenExtensionsClear() {
 	if(PreferenceSubscreen !== "Extensions" || PreferenceExtensionsCurrent === null) return;
-	PreferenceExtensionsCurrent.unload();
+	PreferenceExtensionsCurrent.unload?.();
 	PreferenceExtensionsCurrent = null;
 	// Reload the extension settings
 	PreferenceSubscreenExtensionsLoad();
