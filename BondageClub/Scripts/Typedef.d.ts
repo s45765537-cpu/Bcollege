@@ -385,7 +385,7 @@ type ArousalAffectStutterName = "None" | "Arousal" | "Vibration" | "All";
  *
  * @see {@link CommonKeyMove}
  */
-type KeyboardEventListener = (event: KeyboardEvent) => boolean;
+type KeyboardEventListener = ScreenFunctions["KeyDown"];
 type MouseEventListener = ScreenFunctions["MouseDown"];
 
 type SettingsSensDepName = "SensDepLight" | "Normal" | "SensDepNames" | "SensDepTotal" | "SensDepExtreme";
@@ -1135,7 +1135,7 @@ interface ScreenFunctions {
 	 * Called if the user moves the mouse wheel on the canvas
 	 * @param {MouseEvent | TouchEvent} event - The event that triggered this
 	 */
-	MouseWheel?(event: MouseEvent | TouchEvent): void;
+	MouseWheel?(event: WheelEvent): void;
 	/**
 	 * Called if the user clicks on the canvas
 	 * @param {MouseEvent | TouchEvent} event - The event that triggered this
@@ -4054,19 +4054,12 @@ interface PreviewDrawOptions {
 
 // #region Chat Room Maps
 
-interface ChatRoomView {
+interface ChatRoomView extends Pick<ScreenFunctions, "Run" | "MouseDown" | "MouseUp" | "MouseMove" | "MouseWheel" | "Click" | "Draw" | "KeyDown"> {
 	Activate?: () => void;
 	Deactivate?: () => void;
-	Run: () => void;
 	Draw: () => void;
 	DrawUi: () => void;
 	DisplayMessage: (data: ServerChatRoomMessage, msg: string, SenderCharacter: Character, metadata: IChatRoomMessageMetadata) => string|null;
-	Click?: (event: MouseEvent | TouchEvent) => void;
-	MouseDown?: (event: MouseEvent | TouchEvent) => void;
-	MouseUp?: (event: MouseEvent | TouchEvent) => void;
-	MouseMove?: (event: MouseEvent | TouchEvent) => void;
-	MouseWheel?: (event: MouseEvent | TouchEvent) => void;
-	KeyDown?: (event: KeyboardEvent) => boolean;
 	SyncRoomProperties?: (data: ServerChatRoomSyncMessage) => void;
 	CanStartWhisper?: (C: Character) => boolean;
 	CanLeave?: () => boolean;

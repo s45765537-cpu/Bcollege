@@ -282,7 +282,8 @@ function ChatRoomMapViewIsActive() {
 	return ChatRoomIsViewActive(ChatRoomMapViewName);
 }
 
-function ChatRoomMapViewRun() {
+/** @type {ScreenFunctions["Run"]} */
+function ChatRoomMapViewRun(time) {
 
 	// Syncs the room map data with the server if needed
 	ChatRoomMapViewMovementProcess();
@@ -1722,7 +1723,7 @@ function ChatRoomMapViewMouseUp() {
 
 /**
  * Mouse wheel event is used to zoom the map
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["MouseWheel"]}
  */
 function ChatRoomMapViewMouseWheel(Event) {
 	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapViewIsActive()) return;

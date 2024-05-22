@@ -223,7 +223,7 @@ function GameMouseUp(event) {
 
 /**
  * If the user rolls the mouse wheel, we fire the mousewheel event for other screens
- * @param {MouseEvent} event
+ * @type {ScreenFunctions["MouseWheel"]}
  */
 function GameMouseWheel(event) {
 	if (CommonIsMobile) { return; }

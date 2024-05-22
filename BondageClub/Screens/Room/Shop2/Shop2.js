@@ -1097,6 +1097,25 @@ var Shop2 = {
 			Draw: (...coords) => DrawButton(...coords, "", "White", "Icons/Exit.png", TextGet("Exit")),
 			Click: () => Shop2Exit(),
 		},
+		MouseWheel: {
+			Mode: new Set(["Buy", "Sell", "Preview"]),
+			Coords: [
+				Shop2Consts.Grid.x,
+				Shop2Consts.Grid.y,
+				Shop2Consts.Grid.x + Shop2Consts.Grid.width,
+				Shop2Consts.Grid.y + Shop2Consts.Grid.height,
+			],
+			Draw: () => {},
+			MouseWheel: (event) => {
+				if (Shop2Vars.PageCount === 0) {
+					return;
+				} else if (event.deltaY < 0) {
+					Shop2Vars.Page = Shop2Vars.Page === 0 ? Shop2Vars.PageCount - 1 : (Shop2Vars.Page - 1) % Shop2Vars.PageCount;
+				} else if (event.deltaY > 0) {
+					Shop2Vars.Page = (Shop2Vars.Page + 1) % Shop2Vars.PageCount;
+				}
+			},
+		},
 		// Keep these two at the very button as we can't reliably perform `MouseIn(...Coords)` checks on them
 		ExtendedItemScreen: {
 			Coords: [0, 0, 2000, 1000],
@@ -1220,6 +1239,15 @@ function Shop2Unload() {
 	Object.values(Shop2.Elements).forEach((e) => {
 		if (e.Mode.has(Shop2Vars.Mode)) {
 			e.Unload?.();
+		}
+	});
+}
+
+/** @type {ScreenFunctions["MouseWheel"]} */
+function Shop2MouseWheel(event) {
+	Object.values(Shop2.Elements).forEach((e) => {
+		if (e.Mode.has(Shop2Vars.Mode) && MouseIn(...e.Coords)) {
+			e.MouseWheel?.(event);
 		}
 	});
 }
