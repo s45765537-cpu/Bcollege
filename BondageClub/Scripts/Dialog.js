@@ -1061,7 +1061,7 @@ function DialogInventoryCreateItem(C, item, isWorn, sortOrder) {
 	let icons = [];
 	if (favoriteStateDetails.Icon) icons.push(favoriteStateDetails.Icon);
 	icons = icons.concat(DialogGetLockIcon(item, isWorn));
-	if (!C.IsPlayer() && InventoryIsAllowedLimited(C, item)) icons.push("AllowedLimited");
+	if (InventoryIsAllowedLimited(C, item)) icons.push("AllowedLimited");
 	icons = icons.concat(DialogGetAssetIcons(asset));
 	icons = icons.concat(DialogEffectIcons.GetIcons(item));
 
