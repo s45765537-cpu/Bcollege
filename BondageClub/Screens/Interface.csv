@@ -137,6 +137,7 @@ Intensity3,Item intensity: Maximum
 LayeringAsset,Configure total priority
 LayeringExit,Exit
 LayeringLayer,Configure layer-specific priority
+LayeringLock,Item configuration locked
 LayeringReset,Reset layering
 Locking,Locking...
 LockMemberNumber,Member number on lock:

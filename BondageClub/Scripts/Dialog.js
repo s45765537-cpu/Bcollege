@@ -1458,7 +1458,7 @@ function DialogMenuButtonBuild(C) {
 			DialogMenuButton.push("PermissionMode");
 		}
 
-		if (Item != null && !C.IsNpc() && Player.CanInteract()) {
+		if (Item != null && !C.IsNpc()) {
 			DialogMenuButton.push("Layering");
 		}
 	}
@@ -2195,12 +2195,13 @@ function DialogChangeMode(mode, reset=false) {
 		case "layering": {
 			const item = InventoryGet(C, C?.FocusGroup?.Name);
 			if (item) {
+				const mutable = InventoryItemHasEffect(item, "Lock") ? DialogCanUnlock(C, item) : Player.CanInteract();
 				Layering.Init(item, C, {
 					x: DialogInventoryGrid.x,
 					y: Layering.DisplayDefault.y - 10,
 					w: (Layering.DisplayDefault.x + Layering.DisplayDefault.w) - DialogInventoryGrid.x,
 					h: Layering.DisplayDefault.h + 10,
-				}, reset);
+				}, reset, !mutable);
 			}
 			break;
 		}
