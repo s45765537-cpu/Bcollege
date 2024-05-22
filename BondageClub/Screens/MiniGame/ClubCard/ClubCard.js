@@ -267,7 +267,7 @@ var ClubCardList = [
 		ID: 3000,
 		Name: "Policewoman",
 		Group: ["Police"],
-		MoneyPerTurn: 3,
+		MoneyPerTurn: 0,
 		FamePerTurn: 1,
 		RequiredLevel: 3
 	},
@@ -1019,7 +1019,7 @@ var ClubCardList = [
 		RewardMemberNumber: 20950,
 		FamePerTurn: 1,
 		MoneyPerTurn: 3,
-		RequiredLevel: 4
+		RequiredLevel: 3
 	},
 
 	// Event cards
