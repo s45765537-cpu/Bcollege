@@ -420,7 +420,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			return -1;
 		},
 		IsOwner: function () {
-			if (this.IsNpc() && NPCEventGet(this, "PlayerCollaring")) return false;
+			if (this.IsNpc() && !NPCEventGet(this, "PlayerCollaring")) return false;
 			return Player.IsOwnedByCharacter(this);
 		},
 		IsLover: function (C) {
