@@ -992,7 +992,8 @@ function DialogInventoryAdd(C, item, isWorn, sortOrder) {
 		}
 		if (asset.FamilyOnly && asset.IsLock && !isWorn && (C.IsPlayer()) && LogQuery("BlockOwnerLockSelf", "OwnerRule")) return;
 		if (asset.FamilyOnly && (!C.IsPlayer()) && !C.IsFamilyOfPlayer()) return;
-		if (asset.FamilyOnly && asset.IsLock && (!C.IsPlayer()) && C.IsOwner()) return;
+		if (asset.FamilyOnly && asset.IsLock && !C.IsPlayer() && C.IsOwner()) return;
+		if (asset.FamilyOnly && asset.IsLock && C.IsPlayer() && (C.IsOwned() === false)) return;
 
 		// Do not show keys if they are in the deposit
 		if (LogQuery("KeyDeposit", "Cell") && InventoryIsKey(item)) return;
