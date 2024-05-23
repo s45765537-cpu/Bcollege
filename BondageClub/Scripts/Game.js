@@ -29,6 +29,7 @@ function GameStart() {
 	TranslationLoad();
 	DrawLoad();
 	AssetLoadAll();
+	AssetInventoryIDValidate(); // COMMENT WHEN RELEASING
 	CommandsLoad();
 	ControllerStart();
 	CommonSetScreen("Character", "Login");
