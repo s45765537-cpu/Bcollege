@@ -2605,7 +2605,7 @@ function PreferenceSubscreenGeneralExit() {
 	if (CommonIsColor(color)) {
 		if (color !== Player.LabelColor) {
 			Player.LabelColor = color;
-			const elems = /** @type {HTMLElement[]} */(Array.from(document.querySelectorAll(`[style*="--label-color"]`)));
+			const elems = /** @type {HTMLElement[]} */(Array.from(document.querySelectorAll(`[style*="--label-color"][data-sender="${Player.MemberNumber}"]`)));
 			elems.forEach(e => e.style.setProperty("--label-color", color));
 		}
 		PreferenceMessage = "";
