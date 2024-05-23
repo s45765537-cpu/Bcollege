@@ -2597,13 +2597,22 @@ function PreferenceSubscreenGeneralLoad() {
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenGeneralExit() {
-	if (PreferenceColorPick == "") {
-		if (CommonIsColor(ElementValue("InputCharacterLabelColor"))) {
-			Player.LabelColor = ElementValue("InputCharacterLabelColor");
-			PreferenceMessage = "";
-			ElementRemove("InputCharacterLabelColor");
-			PreferenceSubscreen = "";
-		} else PreferenceMessage = "ErrorInvalidColor";
+	if (PreferenceColorPick) {
+		return;
+	}
+
+	const color = ElementValue("InputCharacterLabelColor");
+	if (CommonIsColor(color)) {
+		if (color !== Player.LabelColor) {
+			Player.LabelColor = color;
+			const elems = /** @type {HTMLElement[]} */(Array.from(document.querySelectorAll(`[style*="--label-color"]`)));
+			elems.forEach(e => e.style.setProperty("--label-color", color));
+		}
+		PreferenceMessage = "";
+		ElementRemove("InputCharacterLabelColor");
+		PreferenceSubscreen = "";
+	} else {
+		PreferenceMessage = "ErrorInvalidColor";
 	}
 }
 
