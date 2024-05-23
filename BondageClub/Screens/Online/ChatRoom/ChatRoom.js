@@ -3758,7 +3758,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 	div.setAttribute('data-time', ChatRoomCurrentTime());
 	div.setAttribute('data-sender', data.Sender);
 	if (data.Type == "Emote" || data.Type == "Action" || data.Type == "Activity")
-		div.setAttribute('style', 'background-color:' + ChatRoomGetTransparentColor(SenderCharacter.LabelColor) + ';');
+		div.style.setProperty("--label-color", SenderCharacter.LabelColor || "rgb(128, 128, 128)");
 	div.innerHTML = displayMessage;
 
 	// Add reply button if we're getting whisper
@@ -4530,19 +4530,6 @@ function ChatRoomAdminChatAction(ActionType, Argument) {
 function ChatRoomCurrentTime() {
 	var D = new Date();
 	return ("0" + D.getHours()).substr(-2) + ":" + ("0" + D.getMinutes()).substr(-2);
-}
-
-/**
- * Gets a transparent version of the specified hex color.
- * @param {HexColor} Color - Hex color code.
- * @returns {string} - A transparent version of the specified hex color in the rgba format.
- */
-function ChatRoomGetTransparentColor(Color) {
-	if (!Color) return "rgba(128,128,128,0.1)";
-	const R = Color.substring(1, 3);
-	const G = Color.substring(3, 5);
-	const B = Color.substring(5, 7);
-	return "rgba(" + parseInt(R, 16) + "," + parseInt(G, 16) + "," + parseInt(B, 16) + ",0.1)";
 }
 
 /**

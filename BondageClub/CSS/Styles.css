@@ -61,6 +61,14 @@ textarea {
 	top: 1.6em;
 	right: 0.2em;
 }
+
+.ChatMessageAction, .ChatMessageEmote, .ChatMessageActivity {
+	--base-color: white;
+	--label-color: rgb(128, 128, 128);
+
+	background-color: color-mix(in srgb, var(--base-color) 90%, var(--label-color) 10%);
+}
+
 .ChatMessageName {
 	text-shadow: 0.05em 0.05em black;
 }
@@ -205,6 +213,25 @@ textarea {
 #TextAreaChatLog[data-colortheme="dark2"] .ChatEnterBorder {
 	background-color: rgba(255, 255, 255, 0.4);
 }
+
+#TextAreaChatLog[data-colortheme="light"] .ChatMessageAction,
+#TextAreaChatLog[data-colortheme="light2"] .ChatMessageAction,
+#TextAreaChatLog[data-colortheme="light"] .ChatMessageEmote,
+#TextAreaChatLog[data-colortheme="light2"] .ChatMessageEmote,
+#TextAreaChatLog[data-colortheme="light"] .ChatMessageActivity,
+#TextAreaChatLog[data-colortheme="light2"] .ChatMessageActivity {
+	--base-color: white;
+}
+
+#TextAreaChatLog[data-colortheme="dark"] .ChatMessageAction,
+#TextAreaChatLog[data-colortheme="dark2"] .ChatMessageAction,
+#TextAreaChatLog[data-colortheme="dark"] .ChatMessageEmote,
+#TextAreaChatLog[data-colortheme="dark2"] .ChatMessageEmote,
+#TextAreaChatLog[data-colortheme="dark"] .ChatMessageActivity,
+#TextAreaChatLog[data-colortheme="dark2"] .ChatMessageActivity  {
+	--base-color: #111;
+}
+
 div.ReplyButton {
 	text-decoration: none;
 	font-style: normal;
