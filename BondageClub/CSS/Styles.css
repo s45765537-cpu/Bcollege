@@ -523,49 +523,10 @@ input[type="checkbox"]:checked::before {
 	transform: scale(1);
 }
 
-#Shop2GroupSelect, #Shop2PoseSelect {
-	overflow-y: scroll;
-	word-wrap: break-word;
-	background-color: rgba(0, 0, 0, 0.55);
-}
-
-.Shop2GridCategory {
-	display: grid;
-	color: white;
-	font-size: min(3.6vh, 1.8vw);
-	min-height: min(7vh, 3.5vw);
-	text-align: center;
-	align-items: center;
-}
-
-.Shop2CheckboxGrid {
-	color: white;
-	font-size: min(3vh, 1.5vw);
-	display: grid;
-	grid-template-columns: 50% 50%;
-	user-select: none;
-	padding-bottom: min(3vh, 1.5vw);
-}
-
-.Shop2Checkbox {
-	display: grid;
-	grid-template-columns: 25% 70%;
-	min-height: min(7vh, 3.5vw);
-	height: fit-content 100%;
-	align-items: center;
-}
-
-.Shop2Checkbox:hover {
-	color: yellow;
-}
-
 #Shop2PoseOuterGrid {
 	display: grid;
 	grid-auto-flow: column;
 	gap: min(2vh, 1vw);
-	padding: min(2vh, 1vw);
-	/* Keep an absolute {i}px safety marigin for the scroll bar */
-	padding-right: max(min(2vh, 1vw), 20px);
 }
 
 .shop2-pose-inner-grid {
@@ -784,6 +745,46 @@ input[type="checkbox"]:checked::before {
 	background-color: gray;
 }
 
+/* Dropdown */
+
+.dropdown {
+	color: white;
+	overflow-y: scroll;
+	word-wrap: break-word;
+	background-color: rgba(0, 0, 0, 0.55);
+	padding: min(1vh, 0.5vw);
+	user-select: none;
+}
+
+.dropdown-header {
+	display: grid;
+	font-size: min(3.6vh, 1.8vw);
+	min-height: min(7vh, 3.5vw);
+	text-align: center;
+	align-items: center;
+}
+
+.dropdown-grid {
+	font-size: min(3vh, 1.5vw);
+	display: grid;
+	grid-template-columns: 50% 50%;
+}
+
+.dropdown-checkbox-grid {
+	display: grid;
+	grid-template-columns: min-content auto;
+	min-height: min(7vh, 3.5vw);
+	height: fit-content;
+	align-items: center;
+}
+
+.dropdown-checkbox-grid:hover {
+	color: yellow;
+}
+
+.dropdown-checkbox-label {
+	padding-left: min(2vh, 1vw);
+}
 
 /* Custom fonts */
 @font-face {
