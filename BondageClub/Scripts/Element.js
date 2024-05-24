@@ -117,10 +117,11 @@ function ElementNumberInputBlur(event) {
 	if (Number.isNaN(this.valueAsNumber)) {
 		value = this.defaultValue;
 	} else {
-		const min = Number.parseInt(this.min, 10);
-		const max = Number.parseInt(this.max, 10);
+		const min = Number(this.min);
+		const max = Number(this.max);
+		const requiresInt = this.inputMode === "numeric";
 		value = CommonClamp(
-			Math.round(this.valueAsNumber),
+			requiresInt ? Math.round(this.valueAsNumber) : this.valueAsNumber,
 			Number.isNaN(min) ? -Infinity : min,
 			Number.isNaN(max) ? Infinity : max,
 		).toString();
