@@ -852,27 +852,14 @@ var ChatRoomSep = {
 	 * @type {(this: HTMLButtonElement, event: MouseEvent | TouchEvent) => Promise<void>}
 	 */
 	_ClickCollapse: async function _ClickCollapse(event) {
-		// (un)collapse all separators if the `shift` key is held down while clicking
-		const displayState = this.innerText === "˅" ? "none" : "";
+		const mode = this.innerText === "˅" ? "Collapse" : "Uncollapse";
+		const roomSep = /** @type {HTMLDivElement} */(this.parentElement.parentElement);
 		if (event.shiftKey) {
-			const chatArea = /** @type {HTMLDivElement} */(this.parentElement.parentElement.parentElement);
-			let firstSepVisited = false;
-			for (const elem of Array.from(chatArea.children)) {
-				if (elem.classList.contains("chat-room-sep")) {
-					const button = /** @type {HTMLButtonElement} */(elem.children[0].children[0]);
-					button.innerText = displayState ? "˃" : "˅";
-					firstSepVisited = true;
-				} else if (firstSepVisited) {
-					/** @type {HTMLElement} */(elem).style.display = displayState;
-				}
-			}
+			// (un)collapse all separators if the `shift` key is held down while clicking
+			const roomSeps = /** @type {HTMLDivElement[]} */(Array.from(roomSep.parentElement.getElementsByClassName("chat-room-sep")));
+			roomSeps.forEach(e => ChatRoomSep[mode](e));
 		} else {
-			this.innerText = displayState ? "˃" : "˅";
-			let sibbling = /** @type {null | HTMLElement} */(this.parentElement?.parentElement?.nextSibling);
-			while (sibbling && !sibbling.classList.contains("chat-room-sep")) {
-				sibbling.style.display = displayState;
-				sibbling = /** @type {null | HTMLElement} */(sibbling.nextSibling);
-			}
+			ChatRoomSep[mode](roomSep);
 		}
 	},
 
@@ -892,15 +879,31 @@ var ChatRoomSep = {
 	},
 
 	/**
+	 * Return a {@link HTMLElement.InnerHTML} representation of the passed button's room name
+	 * @private
+	 * @param {HTMLButtonElement} button
+	 * @returns {string}
+	 */
+	_GetDisplayName: function _GetDisplayName(button) {
+		const segments = [
+			button.dataset.space?.replace("Asylum", InterfaceTextGet("ChatRoomSpaceAsylum")),
+			button.dataset.private ? InterfaceTextGet("PrivateRoom") : undefined,
+			ChatRoomHTMLEntities(ChatSearchMuffle(button.dataset.room)),
+		];
+		return segments.filter(Boolean).join(" - ");
+	},
+
+	/**
 	 * Create a dividing element serving as seperator for different chat rooms
+	 * @param {boolean} appendChat - Whether to assign {@link ChatRoomSep.ActiveElem} and append the returned `<div>` to the chat log
 	 * @returns {HTMLDivElement} - The created `<div>` element
 	 */
-	Create: function Create() {
+	Create: function Create(appendChat=true) {
 		const elem = ElementCreate({
 			tag: "div",
 			classList: ["ChatMessage", "ChatMessageAction", "chat-room-sep"],
 			style: { ["--label-color"]: Player.LabelColor },
-			dataAttributes: { time: ChatRoomCurrentTime(), sender: Player.MemberNumber.toString() },
+			dataAttributes: { time: ChatRoomCurrentTime(), sender: (Player.MemberNumber ?? "").toString() },
 			children: [
 				{
 					tag: "div",
@@ -921,24 +924,57 @@ var ChatRoomSep = {
 				},
 			],
 		});
-		ChatRoomAppendChat(elem);
-		ChatRoomSep.ActiveElem = elem;
+		if (appendChat) {
+			ChatRoomAppendChat(elem);
+			ChatRoomSep.ActiveElem = elem;
+		}
 		return elem;
 	},
 
 	/**
-	 * Return a {@link HTMLElement.InnerHTML} representation of the passed button's room name
-	 * @private
-	 * @param {HTMLButtonElement} button
+	 * Return a {@link HTMLElement.innerHTML} representation of the separators room name
+	 * @param {HTMLDivElement} roomSep - The chat room separator
 	 * @returns {string}
 	 */
-	_GetDisplayName: function _GetDisplayName(button) {
-		const segments = [
-			button.dataset.space?.replace("Asylum", InterfaceTextGet("ChatRoomSpaceAsylum")),
-			button.dataset.private ? InterfaceTextGet("PrivateRoom") : undefined,
-			ChatRoomHTMLEntities(ChatSearchMuffle(button.dataset.room)),
-		];
-		return segments.filter(Boolean).join(" - ");
+	GetDisplayName: function GetDisplayName(roomSep) {
+		const button = /** @type {HTMLButtonElement} */(roomSep?.querySelector(".chat-room-sep-collapse"));
+		return button ? ChatRoomSep._GetDisplayName(button) : "";
+	},
+
+	/**
+	 * Uncollapse the passed room separator
+	 * @param {HTMLDivElement} roomSep - The chat room separator
+	 */
+	Uncollapse: async function Uncollapse(roomSep) {
+		const button = /** @type {HTMLButtonElement} */(roomSep?.querySelector(".chat-room-sep-collapse"));
+		if (!button || button.innerText === "˅") {
+			return;
+		}
+
+		button.innerText = "˅";
+		let sibbling = /** @type {null | HTMLElement} */(roomSep.nextSibling);
+		while (sibbling && !sibbling.classList.contains("chat-room-sep")) {
+			sibbling.style.display = "";
+			sibbling = /** @type {null | HTMLElement} */(sibbling.nextSibling);
+		}
+	},
+
+	/**
+	 * Collapse the passed room separator
+	 * @param {HTMLDivElement} roomSep - The chat room separator
+	 */
+	Collapse: async function Collapse(roomSep) {
+		const button = /** @type {HTMLButtonElement} */(roomSep?.querySelector(".chat-room-sep-collapse"));
+		if (!button || button.innerText === "˃") {
+			return;
+		}
+
+		button.innerText = "˃";
+		let sibbling = /** @type {null | HTMLElement} */(roomSep.nextSibling);
+		while (sibbling && !sibbling.classList.contains("chat-room-sep")) {
+			sibbling.style.display = "none";
+			sibbling = /** @type {null | HTMLElement} */(sibbling.nextSibling);
+		}
 	},
 
 	/**
@@ -947,7 +983,11 @@ var ChatRoomSep = {
 	 * @param {Pick<ServerChatRoomData, "Name" | "Private" | "Space">} data - The data of the room
 	 */
 	SetRoomData: async function SetRoomData(roomSep, data) {
-		const button = /** @type {HTMLButtonElement} */(roomSep.getElementsByClassName("chat-room-sep-header")[0]);
+		const button = /** @type {HTMLButtonElement} */(roomSep?.querySelector(".chat-room-sep-header"));
+		if (!button) {
+			return;
+		}
+
 		button.dataset.room = data.Name;
 		button.dataset.space = data.Space;
 		button.dataset.private = (data.Private || "").toString();
@@ -956,7 +996,7 @@ var ChatRoomSep = {
 
 	/** Update all the displayed room names based on the player's degree of sensory deprivation. */
 	UpdateDisplayNames: async function UpdateDisplayNames() {
-		const roomLabels = /** @type {HTMLButtonElement[]} */(Array.from(document.getElementsByClassName("chat-room-sep-header")));
+		const roomLabels = /** @type {HTMLButtonElement[]} */(Array.from(document.querySelectorAll("#TextAreaChatLog .chat-room-sep-header")));
 		roomLabels.forEach(e => e.innerHTML = ChatRoomSep._GetDisplayName(e));
 	},
 };
