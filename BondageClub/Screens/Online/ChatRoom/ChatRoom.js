@@ -889,6 +889,7 @@ var ChatRoomSep = {
 			button.dataset.space?.replace("Asylum", InterfaceTextGet("ChatRoomSpaceAsylum")),
 			button.dataset.private ? InterfaceTextGet("PrivateRoom") : undefined,
 			ChatRoomHTMLEntities(ChatSearchMuffle(button.dataset.room)),
+			button.dataset.messages ? `✉<sup>${button.dataset.messages}</sup>` : undefined,
 		];
 		return segments.filter(Boolean).join(" - ");
 	},
@@ -937,7 +938,7 @@ var ChatRoomSep = {
 	 * @returns {string}
 	 */
 	GetDisplayName: function GetDisplayName(roomSep) {
-		const button = /** @type {HTMLButtonElement} */(roomSep?.querySelector(".chat-room-sep-collapse"));
+		const button = /** @type {HTMLButtonElement} */(roomSep?.querySelector(".chat-room-sep-header"));
 		return button ? ChatRoomSep._GetDisplayName(button) : "";
 	},
 
@@ -966,6 +967,12 @@ var ChatRoomSep = {
 		while (sibbling && !sibbling.classList.contains("chat-room-sep")) {
 			sibbling.style.display = "";
 			sibbling = /** @type {null | HTMLElement} */(sibbling.nextSibling);
+		}
+
+		const headerButton = /** @type {HTMLButtonElement} */(button.nextSibling);
+		if (headerButton) {
+			headerButton.dataset.messages = "";
+			headerButton.innerHTML = ChatRoomSep.GetDisplayName(roomSep);
 		}
 	},
 
@@ -1094,10 +1101,15 @@ function ChatRoomAppendChat(div) {
 
 	// If the current room separator is collapsed then either uncollapse it
 	if (ChatRoomSep.IsCollapsed(ChatRoomSep.ActiveElem)) {
-		if (div.dataset.sender === Player.ID.toString()) {
+		if (!div.dataset.sender || div.dataset.sender === Player.MemberNumber.toString()) {
 			ChatRoomSep.Uncollapse(ChatRoomSep.ActiveElem);
 		} else {
 			div.style.display = "none";
+			const button = /** @type {HTMLButtonElement} */(ChatRoomSep.ActiveElem.querySelector(".chat-room-sep-header"));
+			if (button) {
+				button.dataset.messages = ((Number.parseInt(button.dataset.messages, 10) || 0) + 1).toString();
+				button.innerHTML = ChatRoomSep.GetDisplayName(ChatRoomSep.ActiveElem);
+			}
 		}
 	}
 }
