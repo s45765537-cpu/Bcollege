@@ -1094,8 +1094,9 @@ function ChatRoomLoad() {
 	ChatRoomCreateElement();
 
 	// Add a horizontal line to the chatlog the first time one enters the room; skip the very first room
-	if (ChatRoomCharacter.length === 0 && Player.ChatSettings?.PreserveChat) {
-		ChatRoomSep.Create();
+	if (ChatRoomCharacter.length === 0) {
+		const elem = ChatRoomSep.Create();
+		elem.style.display = (Player.ChatSettings?.PreserveChat ?? true) ? "" : "none";
 	}
 
 	ChatRoomCharacterUpdate(Player);

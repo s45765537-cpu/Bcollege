@@ -2066,7 +2066,14 @@ function PreferenceSubscreenChatClick() {
 			if (MouseXIn(500, 64)) {
 				if (MouseYIn(572, 64)) Player.ChatSettings.DisplayTimestamps = !Player.ChatSettings.DisplayTimestamps;
 				if (MouseYIn(652, 64)) Player.ChatSettings.ShowChatHelp = !Player.ChatSettings.ShowChatHelp;
-				if (MouseYIn(732, 64)) Player.ChatSettings.PreserveChat = !Player.ChatSettings.PreserveChat;
+				if (MouseYIn(732, 64)) {
+					// Make the room separator visible upon enabling `PreserveChat`
+					Player.ChatSettings.PreserveChat = !Player.ChatSettings.PreserveChat;
+					const roomSeps = /** @type {HTMLDivElement[]} */(Array.from(document.querySelectorAll("#TextAreaChatLog .chat-room-sep")));
+					if (Player.ChatSettings.PreserveChat) {
+						roomSeps.forEach(e => e.style.display = "");
+					}
+				}
 			} else if (MouseXIn(1200, 64)) {
 				if (MouseYIn(572, 64)) Player.ChatSettings.ShowAutomaticMessages = !Player.ChatSettings.ShowAutomaticMessages;
 				if (MouseYIn(652, 64)) Player.ChatSettings.ShowBeepChat = !Player.ChatSettings.ShowBeepChat;
