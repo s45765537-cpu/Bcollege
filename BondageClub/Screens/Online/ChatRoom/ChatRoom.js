@@ -942,6 +942,16 @@ var ChatRoomSep = {
 	},
 
 	/**
+	 * Return whether the passed room separator is collapsed OR NOT
+	 * @param {HTMLDivElement} roomSep - The chat room separator
+	 * @returns {boolean}
+	 */
+	IsCollapsed: function IsCollapsed(roomSep) {
+		const button = /** @type {HTMLButtonElement} */(roomSep?.querySelector(".chat-room-sep-collapse"));
+		return !!button && button.innerText === "˃";
+	},
+
+	/**
 	 * Uncollapse the passed room separator
 	 * @param {HTMLDivElement} roomSep - The chat room separator
 	 */
@@ -1080,6 +1090,15 @@ function ChatRoomAppendChat(div) {
 		document.getElementById("TextAreaChatLog").appendChild(div);
 		if (ShouldScrollDown) ElementScrollToEnd("TextAreaChatLog");
 		if (Refocus) ElementFocus("InputChat");
+	}
+
+	// If the current room separator is collapsed then either uncollapse it
+	if (ChatRoomSep.IsCollapsed(ChatRoomSep.ActiveElem)) {
+		if (div.dataset.sender === Player.ID.toString()) {
+			ChatRoomSep.Uncollapse(ChatRoomSep.ActiveElem);
+		} else {
+			div.style.display = "none";
+		}
 	}
 }
 
