@@ -32,6 +32,56 @@ textarea {
 	padding-top: unset;
 }
 
+/* Mixin for disabling any and all browser-defaulted button styling */
+.blank-button {
+	padding: 0;
+	border: none;
+	outline: none;
+	font: inherit;
+	color: inherit;
+	background: none;
+}
+
+.chat-room-sep {
+	--base-color: white;
+	--label-color: rgb(128, 128, 128);
+
+	padding-left: unset !important;
+	border-bottom: min(0.4vh, 0.2vw) black solid !important;
+	position: sticky !important;
+	top: 0%;
+	z-index: 1;
+	background-color: var(--base-color); /* backup for old browsers that do not support color-mix */
+	background-color: color-mix(in srgb, var(--base-color) 90%, var(--label-color) 10%);
+}
+
+.chat-room-sep-div {
+	width: auto;
+	height: 100%;
+	display: grid;
+	grid-template-columns: 6% auto;
+	justify-items: center;
+	margin-right: 6%;
+}
+
+.chat-room-sep-header {
+	color: gray;
+	cursor: pointer;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	user-select: text;
+}
+
+.chat-room-sep-collapse {
+	color: gray;
+	cursor: pointer;
+	height: 100%;
+	width: 100%;
+	border-right: min(0.4vh, 0.2vw) black solid;
+	font-weight: bold;
+}
+
 * { -webkit-tap-highlight-color:rgba(0,0,0,0); }
 #TextAreaChatLog {
 	background-color: white;
@@ -61,6 +111,15 @@ textarea {
 	top: 1.6em;
 	right: 0.2em;
 }
+
+.ChatMessageAction, .ChatMessageEmote, .ChatMessageActivity {
+	--base-color: white;
+	--label-color: rgb(128, 128, 128);
+
+	background-color: var(--base-color); /* backup for old browsers that do not support color-mix */
+	background-color: color-mix(in srgb, var(--base-color) 90%, var(--label-color) 10%);
+}
+
 .ChatMessageName {
 	text-shadow: 0.05em 0.05em black;
 }
@@ -97,6 +156,20 @@ textarea {
 	background-color: #111;
 	border-color: rgba(0, 0, 0, 0.25);
 	color: #eee;
+}
+
+#TextAreaChatLog[data-colortheme="dark"] .chat-room-sep-header:hover,
+#TextAreaChatLog[data-colortheme="dark2"] .chat-room-sep-header:hover,
+#TextAreaChatLog[data-colortheme="dark"] .chat-room-sep-collapse:hover,
+#TextAreaChatLog[data-colortheme="dark2"] .chat-room-sep-collapse:hover {
+	color: #eee;
+}
+
+#TextAreaChatLog[data-colortheme="light"] .chat-room-sep-header:hover,
+#TextAreaChatLog[data-colortheme="light2"] .chat-room-sep-header:hover,
+#TextAreaChatLog[data-colortheme="light"] .chat-room-sep-collapse:hover,
+#TextAreaChatLog[data-colortheme="light2"] .chat-room-sep-collapse:hover {
+	color: black;
 }
 
 #TextAreaChatLog[data-colortheme=dark] .ChatMessageName {
@@ -190,21 +263,29 @@ textarea {
 #InputChatLength.invalid {
 	color: #FF0000;
 }
-.ChatEnterBorder {
-	height: min(0.4vh, 0.2vw);
+
+#TextAreaChatLog[data-colortheme="light"] .chat-room-sep,
+#TextAreaChatLog[data-colortheme="light2"] .chat-room-sep,
+#TextAreaChatLog[data-colortheme="light"] .ChatMessageAction,
+#TextAreaChatLog[data-colortheme="light2"] .ChatMessageAction,
+#TextAreaChatLog[data-colortheme="light"] .ChatMessageEmote,
+#TextAreaChatLog[data-colortheme="light2"] .ChatMessageEmote,
+#TextAreaChatLog[data-colortheme="light"] .ChatMessageActivity,
+#TextAreaChatLog[data-colortheme="light2"] .ChatMessageActivity {
+	--base-color: white;
 }
-#TextAreaChatLog[data-colortheme="light"] .ChatEnterBorder {
-	background-color: black;
+
+#TextAreaChatLog[data-colortheme="dark"] .chat-room-sep,
+#TextAreaChatLog[data-colortheme="dark2"] .chat-room-sep,
+#TextAreaChatLog[data-colortheme="dark"] .ChatMessageAction,
+#TextAreaChatLog[data-colortheme="dark2"] .ChatMessageAction,
+#TextAreaChatLog[data-colortheme="dark"] .ChatMessageEmote,
+#TextAreaChatLog[data-colortheme="dark2"] .ChatMessageEmote,
+#TextAreaChatLog[data-colortheme="dark"] .ChatMessageActivity,
+#TextAreaChatLog[data-colortheme="dark2"] .ChatMessageActivity  {
+	--base-color: #111;
 }
-#TextAreaChatLog[data-colortheme="dark"] .ChatEnterBorder {
-	background-color: white;
-}
-#TextAreaChatLog[data-colortheme="light2"] .ChatEnterBorder {
-	background-color: rgba(0, 0, 0, 0.25);
-}
-#TextAreaChatLog[data-colortheme="dark2"] .ChatEnterBorder {
-	background-color: rgba(255, 255, 255, 0.4);
-}
+
 div.ReplyButton {
 	text-decoration: none;
 	font-style: normal;
