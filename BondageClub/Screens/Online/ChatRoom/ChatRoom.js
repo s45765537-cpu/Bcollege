@@ -2180,8 +2180,7 @@ function ChatRoomMouseWheel(event) {
 
 /**
  * Handles clicks the chatroom screen.
- * @param {MouseEvent | TouchEvent} event
- * @returns {void} - Nothing.
+ * @type {ScreenFunctions["Click"]}
  */
 function ChatRoomClick(event) {
 
@@ -2204,7 +2203,7 @@ function ChatRoomClick(event) {
 
 	// When the user clicks a menu button in the top-right
 	if ((MouseYIn(0, 62)) && (ChatRoomStruggleData == null))
-		return ChatRoomMenuClick();
+		return ChatRoomMenuClick(event);
 
 	// If the user wants to stop struggling (smaller button)
 	if (MouseIn(1700, 0, 145, 60) && (ChatRoomStruggleData != null) && ChatRoomStruggleData.AllowLoosen)
@@ -2306,9 +2305,9 @@ function ChatRoomOpenAdminScreen() {
 
 /**
  * Process chat room menu button clicks
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["Click"]}
  */
-function ChatRoomMenuClick() {
+function ChatRoomMenuClick(event) {
 	const Space = 992 / (ChatRoomMenuButtons.length);
 	for (let B = 0; B < ChatRoomMenuButtons.length; B++) {
 		if (MouseXIn(1005 + Space * B, Space - 2)) {
@@ -2317,26 +2316,35 @@ function ChatRoomMenuClick() {
 					ChatRoomAttemptLeave();
 					break;
 				}
-				case "Cut":
-					var L = document.getElementById("TextAreaChatLog");
-					if (L.childElementCount > 20) {
-						// When the user wants to remove the top part of his chat to speed up the screen, we only keep the last 20 entries
-						while (L.childElementCount > 20) {
-							L.removeChild(L.childNodes[0]);
-						}
-					} else {
-						// If fewer than 20 messages are available then we, instead, remove any message originating from a previous room
-						const roomDIVs = document.getElementsByClassName("chat-room-sep");
-						const roomDIV = roomDIVs[roomDIVs.length - 1];
-						if (roomDIV) {
-							while (roomDIV.previousSibling) {
-								L.removeChild(roomDIV.previousSibling);
+				case "Cut": {
+					const roomSeps = document.querySelectorAll("#TextAreaChatLog .chat-room-sep");
+					switch (roomSeps.length) {
+						case 0:
+							// No room separators? Move along
+							break;
+						case 1: {
+							// We got one room separator (the current room): remove all but 20 messages
+							const roomSep = roomSeps[0];
+							const parent = roomSep.parentElement;
+							while (roomSep.nextSibling && parent.childElementCount > 20) {
+								parent.removeChild(roomSep.nextSibling);
 							}
-							L.removeChild(roomDIV);
+							break;
+						}
+						default: {
+							// We got multiple room separators:
+							// remove all content belong the first room or, if shift is pressed, all but the last room
+							const roomSep = event.shiftKey ? roomSeps[roomSeps.length - 1] : roomSeps[1];
+							const parent = roomSep.parentElement;
+							while (roomSep.previousSibling) {
+								parent.removeChild(roomSep.previousSibling);
+							}
+							break;
 						}
 					}
 					ElementScrollToEnd("TextAreaChatLog");
 					break;
+				}
 				case "GameOption":
 					// The cut button can become the game option button if there's an online game going on
 					ChatRoomHideElements();
