@@ -33,7 +33,7 @@ const AssetLowerOverflowAlpha = [0, 1000, 500, 1000 + 150];
  * @satisfies {Partial<Record<EffectName, EffectName>>}
  */
 const E = /** @type {const} */ ({
-	/** Prevents walking and kneeling unaided. There's a few caveats with the kneeling part. */
+	/** Prevents walking and kneeling without the kneel/stand minigame. */
 	Freeze: "Freeze",
 	/** Prevents accessing the wardrobe. */
 	BlockWardrobe: "BlockWardrobe",
