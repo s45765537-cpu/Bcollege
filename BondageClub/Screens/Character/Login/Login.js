@@ -7,10 +7,10 @@ var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
-	"Abysseia", "Aceffect", "Alex", "Anna", "ArashiSama", "Aylea", "BlueWinter", "Bryce", "Canti", 
-	"Christian", "Desch", "Dynilath", "Edwin", "FanRunner", "Glurak", "Greendragon", "JoeyDubDee", 
-	"john", "Komiro", "Lewis", "Lyall", "Marashu", "Michel", "Mindtie", "Nightcore", "Qrroww", 
-	"Setsu", "SlitheryCandy", "Soulcollar", "Tam", "Tarram", "Thkdt", "TonyBoy", 
+	"Abysseia", "Aceffect", "Alex", "Anna", "ArashiSama", "Aylea", "BlueWinter", "Bryce", "Canti",
+	"Christian", "Desch", "Dynilath", "Edwin", "FanRunner", "Glurak", "Greendragon", "JoeyDubDee",
+	"john", "Komiro", "Lewis", "Lyall", "Marashu", "Michel", "Mindtie", "Nightcore", "Qrroww",
+	"Setsu", "SlitheryCandy", "Soulcollar", "Tam", "Tarram", "Thkdt", "TonyBoy",
 	"TopHat", "Troubadix", "WhiteSniper", "XDWolfie", "Xepherio"
 ];
 
@@ -283,17 +283,6 @@ function LoginPerformInventoryFixups(Inventory, Appearance, Crafting) {
 				Inventory[fixup.New.Group].push(fixup.New.Name);
 		}
 
-		// Update the player's item lists
-		const fieldNames = /** @type {const} */(["BlockItems", "LimitedItems", "HiddenItems", "FavoriteItems"]);
-		fieldNames.forEach(prop => {
-			idx = Player[prop].findIndex(item => item.Group === fixup.Old.Group && item.Name === fixup.Old.Name);
-			if (idx === -1) return;
-
-			Player[prop][idx].Group = fixup.New.Group;
-			Player[prop][idx].Name = fixup.New.Name;
-			listsUpdated = true;
-		});
-
 		idx = Appearance.findIndex(a => a.Group === fixup.Old.Group && a.Name === fixup.Old.Name);
 		if (idx != -1) {
 			// The item is currently worn, remove it
@@ -564,41 +553,6 @@ function LoginValideBuyGroups() {
 }
 
 /**
- * Checks if the player arrays contains any item that does not exists and saves them.
- * @returns {void} Nothing
- */
-function LoginValidateArrays() {
-	let update = false;
-	var CleanBlockItems = AssetCleanArray(Player.BlockItems);
-	if (CleanBlockItems.length != Player.BlockItems.length) {
-		Player.BlockItems = CleanBlockItems;
-		update = true;
-	}
-
-	var CleanLimitedItems = AssetCleanArray(Player.LimitedItems);
-	if (CleanLimitedItems.length != Player.LimitedItems.length) {
-		Player.LimitedItems = CleanLimitedItems;
-		update = true;
-	}
-
-	var CleanHiddenItems = AssetCleanArray(Player.HiddenItems);
-	if (CleanHiddenItems.length != Player.HiddenItems.length) {
-		Player.HiddenItems = CleanHiddenItems;
-		update = true;
-	}
-
-
-	var CleanFavoriteItems = AssetCleanArray(Player.FavoriteItems);
-	if (CleanFavoriteItems.length != Player.FavoriteItems.length) {
-		Player.FavoriteItems = CleanFavoriteItems;
-		update = true;
-	}
-
-	if (update)
-		ServerPlayerBlockItemsSync();
-}
-
-/**
  * Makes sure the difficulty restrictions are applied to the player
  * @param {boolean} applyDefaults - If changing to the difficulty, set this to True to set LimitedItems to the default settings
  * @returns {void} Nothing
@@ -619,14 +573,34 @@ function LoginDifficulty(applyDefaults) {
  * @returns {void} Nothing
  */
 function LoginExtremeItemSettings(applyDefaults) {
-	Player.BlockItems = [];
-	if (applyDefaults) {
-		// If the item permissions are 3 = "Owner/Lover/Whitelist" don't limit the locks, since that just blocks whitelisted players
-		Player.LimitedItems = Player.ItemPermission == 3 ? [] : MainHallStrongLocks.map(L => { return { Name: L, Group: "ItemMisc", Type: null }; });
-	} else {
-		Player.LimitedItems = Player.LimitedItems.filter(item => MainHallStrongLocks.includes(/** @type {AssetLockType}*/(item.Name)));
+	const LimitedAssets = new Set(MainHallStrongLocks.map(i => `ItemMisc/${i}`));
+	for (const [name, permission] of CommonEntries(Player.PermissionItems)) {
+		permission.Hidden = false;
+		const limitedAllowed = LimitedAssets.has(name);
+
+		for (const [type, typePermission] of Object.entries(permission.TypePermissions)) {
+			if (typePermission !== "Favorite") {
+				delete permission.TypePermissions[type];
+			}
+		}
+
+		switch (permission.Permission) {
+			case "Block":
+				permission.Permission = "Default";
+				break;
+			case "Limited":
+				if (!limitedAllowed) {
+					permission.Permission = "Default";
+				}
+				break;
+			case "Default":
+				// If the item permissions are 3 = "Owner/Lover/Whitelist" don't limit the locks, since that just blocks whitelisted players
+				if (limitedAllowed && applyDefaults && Player.ItemPermission <= 3) {
+					permission.Permission = "Limited";
+				}
+				break;
+		}
 	}
-	Player.HiddenItems = [];
 }
 
 /**
@@ -696,10 +670,7 @@ function LoginResponse(C) {
 			Player.CharacterID = C.ID.toString();
 			Player.OnlineID = C.ID.toString();
 			Player.MemberNumber = C.MemberNumber;
-			Player.BlockItems = Array.isArray(C.BlockItems) ? C.BlockItems : typeof C.BlockItems === "object" && C.BlockItems ? CommonUnpackItemArray(C.BlockItems) : [];
-			Player.LimitedItems = Array.isArray(C.LimitedItems) ? C.LimitedItems : typeof C.LimitedItems === "object" && C.LimitedItems ? CommonUnpackItemArray(C.LimitedItems) : [];
-			Player.FavoriteItems = Array.isArray(C.FavoriteItems) ? C.FavoriteItems : typeof C.FavoriteItems === "object" && C.FavoriteItems ? CommonUnpackItemArray(C.FavoriteItems) : [];
-			Player.HiddenItems = ((C.HiddenItems == null) || !Array.isArray(C.HiddenItems)) ? [] : C.HiddenItems;
+			Player.PermissionItems = ServerUnPackItemPermissions(C, Player);
 			if (Array.isArray(C.BlockItems) || Array.isArray(C.LimitedItems)) ServerPlayerBlockItemsSync();
 			Player.ChatSearchFilterTerms = C.ChatSearchFilterTerms || "";
 
@@ -878,7 +849,6 @@ function LoginResponse(C) {
 			LoginAsylumItems();
 			LoginCheatItems();
 			LoginValideBuyGroups();
-			LoginValidateArrays();
 			PrisonRestoreConfiscatedItems();
 			if (InventoryBeforeFixes != InventoryStringify(Player)) ServerPlayerInventorySync();
 			CharacterAppearanceValidate(Player);
