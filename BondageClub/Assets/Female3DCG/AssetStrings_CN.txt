@@ -7620,7 +7620,7 @@ SourceCharacter selected the Torment Heels vibration feature to Hi on Destinatio
 SourceCharacter将DestinationCharacter脚上的折磨高跟鞋的振动功能设置为：高
 SourceCharacter selected the Torment Heels vibration feature to Max on DestinationCharacter feet.
 SourceCharacter将DestinationCharacter脚上的折磨高跟鞋的振动功能设置为：最大
- Select options
+Select options
 选择配置
 Select the type of cage.
 选择笼子类型
