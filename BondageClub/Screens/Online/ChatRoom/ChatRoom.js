@@ -1364,7 +1364,7 @@ function ChatRoomDrawCharacterStatusIcons(C, CharX, CharY, Zoom)
 	{
 		DrawImageResize("Icons/Small/Birthday.png", CharX + 150 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
 	}
-	else if (C.IsOwner())
+	else if (!C.IsPlayer() && C.IsOwner() && (Player.IsOwned() == "online"))
 	{
 		DrawImageResize("Icons/Small/Owner.png", CharX + 150 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
 	}

@@ -332,6 +332,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 				case "ggts":
 					return false;
 				case "npc": {
+					if (!C.IsNpc()) return false;
 					if (this.Owner.replace("NPC-", "").trim() === C.Name)
 						return true;
 
