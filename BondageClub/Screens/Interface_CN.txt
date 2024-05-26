@@ -1,3 +1,5 @@
+'s
+的
 You cannot access your items
 你无法碰到你的物品
 SourceCharacter used PronounPossessive safeword and wants to be released. PronounSubject is guided out of the room for PronounPossessive safety.
