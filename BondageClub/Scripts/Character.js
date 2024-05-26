@@ -316,6 +316,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		IsOwned: function () {
 			if (AsylumGGTSGetLevel(this) >= 6) return "ggts";
 			if (this.IsNpc() && this.Owner === Player.Name) return "player";
+			if (this.IsNpc() && this.Owner !== Player.Name && NPCEventGet(this, "EndDomTrial")) return "player";
 			if (this.Ownership && this.Ownership.MemberNumber) return "online";
 			// NPC-owner with trial completed
 			if (this.Owner && this.Owner.trim().startsWith("NPC-")) return "npc";
@@ -353,7 +354,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 				case "npc":
 					return !!PrivateCharacter.find(c => NPCEventGet(c, "PlayerCollaring") > 0);
 				case "player":
-					return NPCEventGet(this, "EndDomTrial") > 0;
+					return (NPCEventGet(this, "NPCCollaring") > 0);
 				case "online": return this.Ownership.Stage >= 1;
 				default:
 					return false;
@@ -373,7 +374,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 					 return privateOwner?.Name ?? "";
 				}
 				case "online": return this.Ownership.Name;
-				case "player": return this.Owner;
+				case "player": return CharacterNickname(Player);
 				default:
 					return "";
 			}
@@ -391,13 +392,27 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 				case "online":
 					return Math.floor((CurrentTime - this.Ownership.Start) / 86400000);
 				case "player":
-					return Math.floor((CurrentTime - NPCEventGet(this, "NPCCollaring")) / 86400000);
+					let Time = NPCEventGet(this, "NPCCollaring");
+					if (Time > 0) return Math.floor((CurrentTime - Time) / 86400000);
+					Time = NPCEventGet(this, "EndDomTrial");
+					if (Time > 0) {
+						if (Time > CurrentTime)
+							return Math.ceil((Time - CurrentTime) / 86400000);
+						else
+							return 0;
+					}
+					return -1;
 				case "npc": {
 					for (const npc of PrivateCharacter) {
-						let time = NPCEventGet(npc, "PlayerCollaring");
-						if (time > 0) return Math.floor((CurrentTime - time) / 86400000);
-						time = NPCEventGet(npc, "EndSubTrial");
-						if (time > 0) return Math.floor((time - CurrentTime) / 86400000);
+						let Time = NPCEventGet(npc, "PlayerCollaring");
+						if (Time > 0) return Math.floor((CurrentTime - Time) / 86400000);
+						Time = NPCEventGet(npc, "EndSubTrial");
+						if (Time > 0) {
+							if (Time > CurrentTime)
+								return Math.ceil((Time - CurrentTime) / 86400000);
+							else
+								return 0;
+						}
 					}
 					return -1;
 				}
@@ -405,6 +420,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			return -1;
 		},
 		IsOwner: function () {
+			if (this.IsNpc() && !NPCEventGet(this, "PlayerCollaring")) return false;
 			return Player.IsOwnedByCharacter(this);
 		},
 		IsLover: function (C) {

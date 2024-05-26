@@ -836,6 +836,189 @@ function DialogCanCallMaidsPunishmentOn() { return (DialogCanCallMaids() && (!Pl
 function DialogCanCallMaidsPunishmentOff() { return (DialogCanCallMaids() && Player.RestrictionSettings && Player.RestrictionSettings.BypassNPCPunishments);}
 
 /**
+ * Namespace with functions for creating chat room separators.
+ * @namespace
+ */
+var ChatRoomSep = {
+	/**
+	 * The most recently created chat room separator
+	 * @type {null | HTMLDivElement}
+	 */
+	ActiveElem: null,
+
+	/**
+	 * Click event listener for collapsing one or more chat room separators
+	 * @private
+	 * @type {(this: HTMLButtonElement, event: MouseEvent | TouchEvent) => Promise<void>}
+	 */
+	_ClickCollapse: async function _ClickCollapse(event) {
+		const mode = this.innerText === "˅" ? "Collapse" : "Uncollapse";
+		const roomSep = /** @type {HTMLDivElement} */(this.parentElement.parentElement);
+		if (event.shiftKey) {
+			// (un)collapse all separators if the `shift` key is held down while clicking
+			const roomSeps = /** @type {HTMLDivElement[]} */(Array.from(roomSep.parentElement.getElementsByClassName("chat-room-sep")));
+			roomSeps.forEach(e => ChatRoomSep[mode](e));
+		} else {
+			ChatRoomSep[mode](roomSep);
+		}
+	},
+
+	/**
+	 * Click event listener for scrolling towards chat room seperator
+	 * @private
+	 * @type {(this: HTMLButtonElement, event: MouseEvent | TouchEvent) => Promise<void>}
+	 */
+	_ClickScrollUp: async function _ClickScrollUp(event) {
+		// Workaround as we can't directly use `chatArea.scrollIntoView` due to the seperators position being sticky
+		const chatRoomSep = /** @type {HTMLDivElement} */(this.parentElement.parentElement);
+		const sibbling = /** @type {null | HTMLElement} */(chatRoomSep.nextSibling);
+		if (sibbling) {
+			const chatArea = /** @type {HTMLDivElement} */(chatRoomSep.parentElement);
+			chatArea.scroll({ top: sibbling.offsetTop - chatRoomSep.offsetHeight });
+		}
+	},
+
+	/**
+	 * Return a {@link HTMLElement.InnerHTML} representation of the passed button's room name
+	 * @private
+	 * @param {HTMLButtonElement} button
+	 * @returns {string}
+	 */
+	_GetDisplayName: function _GetDisplayName(button) {
+		const segments = [
+			button.dataset.space?.replace("Asylum", InterfaceTextGet("ChatRoomSpaceAsylum")),
+			button.dataset.private ? InterfaceTextGet("PrivateRoom") : undefined,
+			ChatRoomHTMLEntities(ChatSearchMuffle(button.dataset.room)),
+			button.dataset.messages ? `✉<sup>${button.dataset.messages}</sup>` : undefined,
+		];
+		return segments.filter(Boolean).join(" - ");
+	},
+
+	/**
+	 * Create a dividing element serving as seperator for different chat rooms
+	 * @param {boolean} appendChat - Whether to assign {@link ChatRoomSep.ActiveElem} and append the returned `<div>` to the chat log
+	 * @returns {HTMLDivElement} - The created `<div>` element
+	 */
+	Create: function Create(appendChat=true) {
+		const elem = ElementCreate({
+			tag: "div",
+			classList: ["ChatMessage", "ChatMessageAction", "chat-room-sep"],
+			style: { ["--label-color"]: Player.LabelColor },
+			dataAttributes: { time: ChatRoomCurrentTime(), sender: (Player.MemberNumber ?? "").toString() },
+			children: [
+				{
+					tag: "div",
+					classList: ["chat-room-sep-div"],
+					children: [
+						{
+							tag: "button",
+							classList: ["blank-button", "chat-room-sep-collapse"],
+							eventListeners: { click: ChatRoomSep._ClickCollapse },
+							children: ["˅"],
+						},
+						{
+							tag: "button",
+							classList: ["blank-button", "chat-room-sep-header"],
+							eventListeners: { click: ChatRoomSep._ClickScrollUp },
+						},
+					],
+				},
+			],
+		});
+		if (appendChat) {
+			ChatRoomAppendChat(elem);
+			ChatRoomSep.ActiveElem = elem;
+		}
+		return elem;
+	},
+
+	/**
+	 * Return a {@link HTMLElement.innerHTML} representation of the separators room name
+	 * @param {HTMLDivElement} roomSep - The chat room separator
+	 * @returns {string}
+	 */
+	GetDisplayName: function GetDisplayName(roomSep) {
+		const button = /** @type {HTMLButtonElement} */(roomSep?.querySelector(".chat-room-sep-header"));
+		return button ? ChatRoomSep._GetDisplayName(button) : "";
+	},
+
+	/**
+	 * Return whether the passed room separator is collapsed OR NOT
+	 * @param {HTMLDivElement} roomSep - The chat room separator
+	 * @returns {boolean}
+	 */
+	IsCollapsed: function IsCollapsed(roomSep) {
+		const button = /** @type {HTMLButtonElement} */(roomSep?.querySelector(".chat-room-sep-collapse"));
+		return !!button && button.innerText === "˃";
+	},
+
+	/**
+	 * Uncollapse the passed room separator
+	 * @param {HTMLDivElement} roomSep - The chat room separator
+	 */
+	Uncollapse: async function Uncollapse(roomSep) {
+		const button = /** @type {HTMLButtonElement} */(roomSep?.querySelector(".chat-room-sep-collapse"));
+		if (!button || button.innerText === "˅") {
+			return;
+		}
+
+		button.innerText = "˅";
+		let sibbling = /** @type {null | HTMLElement} */(roomSep.nextSibling);
+		while (sibbling && !sibbling.classList.contains("chat-room-sep")) {
+			sibbling.style.display = "";
+			sibbling = /** @type {null | HTMLElement} */(sibbling.nextSibling);
+		}
+
+		const headerButton = /** @type {HTMLButtonElement} */(button.nextSibling);
+		if (headerButton) {
+			headerButton.dataset.messages = "";
+			headerButton.innerHTML = ChatRoomSep.GetDisplayName(roomSep);
+		}
+	},
+
+	/**
+	 * Collapse the passed room separator
+	 * @param {HTMLDivElement} roomSep - The chat room separator
+	 */
+	Collapse: async function Collapse(roomSep) {
+		const button = /** @type {HTMLButtonElement} */(roomSep?.querySelector(".chat-room-sep-collapse"));
+		if (!button || button.innerText === "˃") {
+			return;
+		}
+
+		button.innerText = "˃";
+		let sibbling = /** @type {null | HTMLElement} */(roomSep.nextSibling);
+		while (sibbling && !sibbling.classList.contains("chat-room-sep")) {
+			sibbling.style.display = "none";
+			sibbling = /** @type {null | HTMLElement} */(sibbling.nextSibling);
+		}
+	},
+
+	/**
+	 * Set the room-specific of the currently active chat room separator
+	 * @param {HTMLDivElement} roomSep - The chat room separator
+	 * @param {Pick<ServerChatRoomData, "Name" | "Private" | "Space">} data - The data of the room
+	 */
+	SetRoomData: async function SetRoomData(roomSep, data) {
+		const button = /** @type {HTMLButtonElement} */(roomSep?.querySelector(".chat-room-sep-header"));
+		if (!button) {
+			return;
+		}
+
+		button.dataset.room = data.Name;
+		button.dataset.space = data.Space;
+		button.dataset.private = (data.Private || "").toString();
+		button.innerHTML = ChatRoomSep._GetDisplayName(button);
+	},
+
+	/** Update all the displayed room names based on the player's degree of sensory deprivation. */
+	UpdateDisplayNames: async function UpdateDisplayNames() {
+		const roomLabels = /** @type {HTMLButtonElement[]} */(Array.from(document.querySelectorAll("#TextAreaChatLog .chat-room-sep-header")));
+		roomLabels.forEach(e => e.innerHTML = ChatRoomSep._GetDisplayName(e));
+	},
+};
+
+/**
  * Creates the chat room input elements.
  * @returns {void} - Nothing.
  */
@@ -915,6 +1098,20 @@ function ChatRoomAppendChat(div) {
 		if (ShouldScrollDown) ElementScrollToEnd("TextAreaChatLog");
 		if (Refocus) ElementFocus("InputChat");
 	}
+
+	// If the current room separator is collapsed then either uncollapse it
+	if (ChatRoomSep.IsCollapsed(ChatRoomSep.ActiveElem)) {
+		if (!div.dataset.sender || div.dataset.sender === Player.MemberNumber.toString()) {
+			ChatRoomSep.Uncollapse(ChatRoomSep.ActiveElem);
+		} else {
+			div.style.display = "none";
+			const button = /** @type {HTMLButtonElement} */(ChatRoomSep.ActiveElem.querySelector(".chat-room-sep-header"));
+			if (button) {
+				button.dataset.messages = ((Number.parseInt(button.dataset.messages, 10) || 0) + 1).toString();
+				button.innerHTML = ChatRoomSep.GetDisplayName(ChatRoomSep.ActiveElem);
+			}
+		}
+	}
 }
 
 /**
@@ -928,10 +1125,9 @@ function ChatRoomLoad() {
 	ChatRoomCreateElement();
 
 	// Add a horizontal line to the chatlog the first time one enters the room; skip the very first room
-	if (ChatRoomCharacter.length === 0 && ChatRoomHelpSeen && Player.ChatSettings?.PreserveChat) {
-		const div = document.createElement("div");
-		div.setAttribute("class", "ChatEnterBorder");
-		ChatRoomAppendChat(div);
+	if (ChatRoomCharacter.length === 0) {
+		const elem = ChatRoomSep.Create();
+		elem.style.display = (Player.ChatSettings?.PreserveChat ?? true) ? "" : "none";
 	}
 
 	ChatRoomCharacterUpdate(Player);
@@ -1736,9 +1932,9 @@ function ChatRoomCustomizationRun() {
 
 /**
  * Runs the chatroom screen.
- * @returns {void} - Nothing.
+ * @type {ScreenFunctions["Run"]}
  */
-function ChatRoomRun() {
+function ChatRoomRun(time) {
 
 	// Handles online GGTS, bounty & customizations
 	AsylumGGTSProcess();
@@ -1757,7 +1953,7 @@ function ChatRoomRun() {
 	// Draw the room characters or the map depending on the map type
 	if ((ChatRoomData.MapData == null) || (ChatRoomData.MapData.Type == null) || (ChatRoomData.MapData.Type == "Never")) ChatRoomActivateView(ChatRoomCharacterViewName);
 	if ((ChatRoomData.MapData != null) && (ChatRoomData.MapData.Type != null) && (ChatRoomData.MapData.Type == "Always")) ChatRoomActivateView(ChatRoomMapViewName);
-	ChatRoomActiveView.Run();
+	ChatRoomActiveView.Run(time);
 	ChatRoomActiveView.Draw();
 	if (!ChatRoomDrawArousalOverlay() && ChatRoomActiveView.DrawUi) ChatRoomActiveView.DrawUi();
 
@@ -2007,8 +2203,7 @@ function ChatRoomMouseMove(event) {
 
 /**
  * Redirects the Mouse Wheel event to the map if needed
- * @param {MouseEvent | TouchEvent} event
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["MouseWheel"]}
  */
 function ChatRoomMouseWheel(event) {
 	if (ChatRoomActiveView.MouseWheel) return ChatRoomActiveView.MouseWheel(event);
@@ -2016,8 +2211,7 @@ function ChatRoomMouseWheel(event) {
 
 /**
  * Handles clicks the chatroom screen.
- * @param {MouseEvent | TouchEvent} event
- * @returns {void} - Nothing.
+ * @type {ScreenFunctions["Click"]}
  */
 function ChatRoomClick(event) {
 
@@ -2040,7 +2234,7 @@ function ChatRoomClick(event) {
 
 	// When the user clicks a menu button in the top-right
 	if ((MouseYIn(0, 62)) && (ChatRoomStruggleData == null))
-		return ChatRoomMenuClick();
+		return ChatRoomMenuClick(event);
 
 	// If the user wants to stop struggling (smaller button)
 	if (MouseIn(1700, 0, 145, 60) && (ChatRoomStruggleData != null) && ChatRoomStruggleData.AllowLoosen)
@@ -2142,9 +2336,9 @@ function ChatRoomOpenAdminScreen() {
 
 /**
  * Process chat room menu button clicks
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["Click"]}
  */
-function ChatRoomMenuClick() {
+function ChatRoomMenuClick(event) {
 	const Space = 992 / (ChatRoomMenuButtons.length);
 	for (let B = 0; B < ChatRoomMenuButtons.length; B++) {
 		if (MouseXIn(1005 + Space * B, Space - 2)) {
@@ -2153,26 +2347,35 @@ function ChatRoomMenuClick() {
 					ChatRoomAttemptLeave();
 					break;
 				}
-				case "Cut":
-					var L = document.getElementById("TextAreaChatLog");
-					if (L.childElementCount > 20) {
-						// When the user wants to remove the top part of his chat to speed up the screen, we only keep the last 20 entries
-						while (L.childElementCount > 20) {
-							L.removeChild(L.childNodes[0]);
-						}
-					} else {
-						// If fewer than 20 messages are available then we, instead, remove any message originating from a previous room
-						const roomDIVs = document.getElementsByClassName("ChatEnterBorder");
-						const roomDIV = roomDIVs[roomDIVs.length - 1];
-						if (roomDIV) {
-							while (roomDIV.previousSibling) {
-								L.removeChild(roomDIV.previousSibling);
+				case "Cut": {
+					const roomSeps = document.querySelectorAll("#TextAreaChatLog .chat-room-sep");
+					switch (roomSeps.length) {
+						case 0:
+							// No room separators? Move along
+							break;
+						case 1: {
+							// We got one room separator (the current room): remove all but 20 messages
+							const roomSep = roomSeps[0];
+							const parent = roomSep.parentElement;
+							while (roomSep.nextSibling && parent.childElementCount > 20) {
+								parent.removeChild(roomSep.nextSibling);
 							}
-							L.removeChild(roomDIV);
+							break;
+						}
+						default: {
+							// We got multiple room separators:
+							// remove all content belong the first room or, if shift is pressed, all but the last room
+							const roomSep = event.shiftKey ? roomSeps[roomSeps.length - 1] : roomSeps[1];
+							const parent = roomSep.parentElement;
+							while (roomSep.previousSibling) {
+								parent.removeChild(roomSep.previousSibling);
+							}
+							break;
 						}
 					}
 					ElementScrollToEnd("TextAreaChatLog");
 					break;
+				}
 				case "GameOption":
 					// The cut button can become the game option button if there's an online game going on
 					ChatRoomHideElements();
@@ -3759,7 +3962,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 	div.setAttribute('data-time', ChatRoomCurrentTime());
 	div.setAttribute('data-sender', data.Sender);
 	if (data.Type == "Emote" || data.Type == "Action" || data.Type == "Activity")
-		div.setAttribute('style', 'background-color:' + ChatRoomGetTransparentColor(SenderCharacter.LabelColor) + ';');
+		div.style.setProperty("--label-color", SenderCharacter.LabelColor || "rgb(128, 128, 128)");
 	div.innerHTML = displayMessage;
 
 	// Add reply button if we're getting whisper
@@ -3886,6 +4089,9 @@ function ChatRoomSync(data) {
 
 	// Update our chat room data with what the server sent us
 	ChatRoomData = data;
+	if (ChatRoomSep.ActiveElem) {
+		ChatRoomSep.SetRoomData(ChatRoomSep.ActiveElem, data);
+	}
 
 	// Load the characters
 	ChatRoomCharacter = [];
@@ -4028,6 +4234,9 @@ function ChatRoomSyncRoomProperties(data) {
 	// Copy the received properties to chat room data
 	// This uses Object.assign because the character data is missing in that case
 	Object.assign(ChatRoomData, data);
+	if (ChatRoomSep.ActiveElem) {
+		ChatRoomSep.SetRoomData(ChatRoomSep.ActiveElem, data);
+	}
 
 	if (ChatRoomData.Game != null) ChatRoomGame = ChatRoomData.Game;
 
@@ -4278,6 +4487,8 @@ function ChatRoomRefreshChatSettings() {
 	if (Player.ChatSettings) {
 		for (let property in Player.ChatSettings)
 			ElementSetDataAttribute("TextAreaChatLog", property, Player.ChatSettings[property]);
+
+		ChatRoomSep.UpdateDisplayNames();
 		if (Player.GameplaySettings &&
 			(Player.GameplaySettings.SensDepChatLog == "SensDepNames" || Player.GameplaySettings.SensDepChatLog == "SensDepTotal" || Player.GameplaySettings.SensDepChatLog == "SensDepExtreme") &&
 			(Player.GetDeafLevel() >= 3) &&
@@ -4531,19 +4742,6 @@ function ChatRoomAdminChatAction(ActionType, Argument) {
 function ChatRoomCurrentTime() {
 	var D = new Date();
 	return ("0" + D.getHours()).substr(-2) + ":" + ("0" + D.getMinutes()).substr(-2);
-}
-
-/**
- * Gets a transparent version of the specified hex color.
- * @param {HexColor} Color - Hex color code.
- * @returns {string} - A transparent version of the specified hex color in the rgba format.
- */
-function ChatRoomGetTransparentColor(Color) {
-	if (!Color) return "rgba(128,128,128,0.1)";
-	const R = Color.substring(1, 3);
-	const G = Color.substring(3, 5);
-	const B = Color.substring(5, 7);
-	return "rgba(" + parseInt(R, 16) + "," + parseInt(G, 16) + "," + parseInt(B, 16) + ",0.1)";
 }
 
 /**

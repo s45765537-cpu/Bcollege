@@ -1358,7 +1358,7 @@ function AppearanceClick() {
 			if (MouseIn(1210, 145 + (A - CharacterAppearanceOffset) * 95, 400, 65)) {
 				C.FocusGroup = null;
 				if (!Group.AllowNone && !AppearancePreviewUseCharacter(Group)) {
-					const asset = CharacterAppearanceNextItem(C, Group.Name, MouseX > 1500);
+					const asset = CharacterAppearanceNextItem(C, Group.Name, MouseX > 1410);
 					CharacterAppearanceSetItem(C, Group.Name, asset);
 					return;
 				}

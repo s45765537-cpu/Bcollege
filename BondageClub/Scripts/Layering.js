@@ -69,6 +69,20 @@ var Layering = {
 	Item: null,
 
 	/**
+	 * Get or set whether the layering screen is readonly
+	 * @type {Boolean}
+	 */
+	get Readonly() {
+		return this._Readonly;
+	},
+	set Readonly(value) {
+		if (value !== this._Readonly && this.IsActive()) {
+			this._ApplyReadonly(value);
+		}
+		this._Readonly = value;
+	},
+
+	/**
 	 * Get the item's asset
 	 * @readonly
 	 * @type {Asset}
@@ -94,6 +108,14 @@ var Layering = {
 	 * @type {undefined | AssetLayerOverridePriority}
 	 */
 	_PriorityDefault: undefined,
+
+	/**
+	 * Whether the layering screen is readonly or not
+	 * @private
+	 * @see {@link Layering.Readonly}
+	 * @type {Boolean}
+	 */
+	_Readonly: false,
 
 	/**
 	 * Return whether the layering sub screen has currently been initialized (be it either active or unloaded)
@@ -124,6 +146,8 @@ var Layering = {
 		buttonGrid: "layering-button-grid",
 		resetButton: "layering-reset-button",
 		exitButton: "layering-exit-button",
+		lockButton: "layering-lock-button",
+		lockButtonContainer: "layering-lock-button-container",
 
 		assetHeader: "layering-asset-header",
 		assetGrid: "layering-asset-grid",
@@ -197,7 +221,7 @@ var Layering = {
 		if (!Number.isNaN(priority) && priority.toString() !== defaultPriority) {
 			this.OverridePriority = CommonClamp(Math.round(priority), -99, 99);
 		} else {
-			delete this.OverridePriority;
+			this.OverridePriority = undefined;
 		}
 
 		if (old !== this.OverridePriority) {
@@ -310,6 +334,25 @@ var Layering = {
 	},
 
 	/**
+	 * Update all input elements and buttons with the passed {@link Layering.Readonly} status.
+	 * @param {boolean} isReadonly
+	 * @private
+	 */
+	_ApplyReadonly(isReadonly) {
+		const elements = /** @type {(HTMLInputElement | HTMLButtonElement)[]} */([
+			document.getElementById(this.ID.resetButton),
+			...Array.from(document.querySelectorAll("[data-asset-priority]")),
+			...Array.from(document.querySelectorAll("[data-layer-priority]")),
+		]);
+		for (const e of elements) {
+			e.disabled = isReadonly;
+		}
+
+		const lockButton = document.getElementById(this.ID.lockButtonContainer);
+		lockButton.style.display = isReadonly ? "" : "none";
+	},
+
+	/**
 	 * Initialize the layering subscreen
 	 * @param {Item} item - The affected item
 	 * @param {Character} character - The item's owning character
@@ -318,7 +361,7 @@ var Layering = {
 	 * A reload pushes any current changes towards the server and reinitializes all DOM elements.
 	 * @returns {HTMLDivElement} The div containing the layering subscreen
 	 */
-	Init(item, character, display=null, reload=false) {
+	Init(item, character, display=null, reload=false, readonly=false) {
 		if (this.IsActive()) {
 			if (reload) {
 				this.Exit(true);
@@ -335,7 +378,7 @@ var Layering = {
 			...this.DisplayDefault,
 			...(display ?? {}),
 		};
-
+		this.Readonly = readonly;
 		this.Load();
 		return /** @type {HTMLDivElement} */(document.getElementById(this.ID.root));
 	},
@@ -348,90 +391,173 @@ var Layering = {
 			return;
 		}
 
-		let innerHTML = "";
 		this._PriorityDefault = this._GetDefaultPriority();
+		const priorityIsObject = CommonIsObject(this.OverridePriority);
+
 		const layerGroupings = this._GroupLayers(this.Asset.Layer);
-		for (const [layerGroupName, layerList] of Object.entries(layerGroupings)) {
-			innerHTML += `
-				<h2 data-layering-group=${layerGroupName}></h2>
-				<div class=layering-layer-inner-grid>
-			`;
-			for (let { Name, Priority } of layerList) {
-				/** @type {number} */
-				const layerPriority = this.OverridePriority?.[Name] ?? Priority;
-				/** @type {number} */
-				const defaultLayerPriority = this._PriorityDefault?.[Name] ?? Priority;
-				Name ??= this.Asset.Name;
-				innerHTML += `
-					<div class=layering-pair>
-						<input type=number data-layer-priority=${defaultLayerPriority} data-name=${Name} min=-99 max=99 value=${layerPriority} inputmode="numeric"></input>
-						<span class=layering-pair-text>${Name}</span>
-					</div>
-				`;
-			}
-			innerHTML += "</div>";
-		}
-
 		const assetPriority = this.Asset.DrawingPriority ?? this.Asset.Group.DrawingPriority;
-		const itemPriority = Number.isInteger(this.OverridePriority) ? this.OverridePriority : assetPriority;
-		const defaultItemPriority = Number.isInteger(this._PriorityDefault) ? this._PriorityDefault : assetPriority;
-		elem = ElementCreateDiv(this.ID.root);
-		// NOTE: Button ordering in the grid is from right to left
-		elem.innerHTML = `
-			<h1 id=${this.ID.assetHeader}>${InterfaceTextGet("LayeringAsset")}</h1>
-			<div id=${this.ID.buttonGrid} class=layering-button-grid>
-				<div class=layering-button-container>
-					<button id=${this.ID.exitButton} class=layering-button></button>
-					<div class=layering-button-tooltip>${InterfaceTextGet("LayeringExit")}</div>
-				</div>
-				<div class=layering-button-container>
-					<button id=${this.ID.resetButton} class=layering-button></button>
-					<div class=layering-button-tooltip>${InterfaceTextGet("LayeringReset")}</div>
-				</div>
-			</div>
-			<div class=layering-pair id=${this.ID.assetGrid}>
-				<input type=number data-asset-priority=${defaultItemPriority} min=-99 max=99 value=${itemPriority} inputmode="numeric" />
-				<span class=layering-pair-text>${this.Asset.Description}</span>
-			</div>
-			<h1 id=${this.ID.layerHeader}>${InterfaceTextGet("LayeringLayer")}</h1>
-			<div id=${this.ID.layerDIV}>
-				<div id=${this.ID.layerOuterGrid}>${innerHTML}</div>
-			</div>
-		`;
+		const itemPriority = Number.isInteger(this.OverridePriority) ? /** @type {number} */(this.OverridePriority) : assetPriority;
+		const defaultItemPriority = Number.isInteger(this._PriorityDefault) ? /** @type {number} */(this._PriorityDefault) : assetPriority;
 
-		// These somewhat non-conventional units exactly reproduce BC's canvas scaling
-		elem.style.setProperty("--button-gap", `min(${this.Display.buttonGap / 10}vh, ${this.Display.buttonGap / 20}vw)`);
-
-		const [resetButton, exitButton, assetElements, layerElements] = [
-			/** @type {HTMLButtonElement} */(document.getElementById(this.ID.resetButton)),
-			/** @type {HTMLButtonElement} */(document.getElementById(this.ID.exitButton)),
-			/** @type {NodeListOf<HTMLInputElement>} */(document.querySelectorAll("[data-asset-priority]")),
-			/** @type {NodeListOf<HTMLInputElement>} */(document.querySelectorAll("[data-layer-priority]")),
-		];
-
-		// Add all the event listeners
-		resetButton.addEventListener("click", () => this._ResetClickListener());
-		exitButton.addEventListener("click", () => this.Exit());
-		assetElements.forEach(e => {
-			e.addEventListener("input", (event) => this._AssetInputListener(event));
-			e.addEventListener("focus", (event) => /** @type {HTMLInputElement} */(event.target).select());
-			e.addEventListener("blur", ElementNumberInputBlur);
+		ElementCreate({
+			tag: "div",
+			attributes: {
+				id: this.ID.root,
+				["screen-generated"]: CurrentScreen,
+			},
+			parent: document.body,
+			classList: ["HideOnPopup"],
+			style: { ["--button-gap"]: `min(${this.Display.buttonGap / 10}vh, ${this.Display.buttonGap / 20}vw)` },
+			children: [
+				{
+					tag: "h1",
+					attributes: { id: this.ID.assetHeader },
+					children: [InterfaceTextGet("LayeringAsset")],
+				},
+				{
+					tag: "div",
+					attributes: { id: this.ID.buttonGrid },
+					classList: ["layering-button-grid"],
+					children: [
+						{
+							tag: "div",
+							classList: ["layering-button-container"],
+							children: [
+								{
+									tag: "button",
+									attributes: { id: this.ID.exitButton },
+									classList: ["layering-button"],
+									eventListeners: {
+										click: () => this.Exit(),
+									},
+								},
+								{
+									tag: "div",
+									classList: ["layering-button-tooltip"],
+									children: [InterfaceTextGet("LayeringExit")],
+								},
+							],
+						},
+						{
+							tag: "div",
+							classList: ["layering-button-container"],
+							children: [
+								{
+									tag: "button",
+									attributes: { id: this.ID.resetButton },
+									classList: ["layering-button"],
+									eventListeners: {
+										click: () => this._ResetClickListener(),
+									},
+								},
+								{
+									tag: "div",
+									classList: ["layering-button-tooltip"],
+									children: [InterfaceTextGet("LayeringReset")],
+								},
+							],
+						},
+						{
+							tag: "div",
+							classList: ["layering-button-container"],
+							attributes: { id: this.ID.lockButtonContainer },
+							children: [
+								{
+									tag: "button",
+									attributes: { id: this.ID.lockButton, disabled: true },
+									classList: ["layering-button"],
+								},
+								{
+									tag: "div",
+									classList: ["layering-button-tooltip"],
+									children: [InterfaceTextGet("LayeringLock")],
+								},
+							],
+						},
+					],
+				},
+				{
+					tag: "div",
+					attributes: { id: this.ID.assetGrid },
+					classList: ["layering-pair"],
+					children: [
+						{
+							tag: "input",
+							attributes: { type: "number", min: "-99", max: "99", value: itemPriority, defaultValue: defaultItemPriority.toString(), inputMode: "numeric" },
+							dataAttributes: { assetPriority: defaultItemPriority.toString() },
+							classList: priorityIsObject ? ["layering-input-unfocused"] : [],
+							eventListeners: {
+								input: (event) => this._AssetInputListener(event),
+								focus: (event) => /** @type {HTMLInputElement} */(event.target).select(),
+								blur: ElementNumberInputBlur,
+							},
+						},
+						{
+							tag: "span",
+							classList: ["layering-pair-text"],
+							children: [this.Asset.Description],
+						},
+					],
+				},
+				{
+					tag: "h1",
+					attributes: { id: this.ID.layerHeader },
+					children: [InterfaceTextGet("LayeringLayer")],
+				},
+				{
+					tag: "div",
+					attributes: { id: this.ID.layerDIV },
+					children: [
+						{
+							tag: "div",
+							attributes: { id: this.ID.layerOuterGrid },
+							children: Object.entries(layerGroupings).flatMap(([layerGroupName, layerList]) => {
+								return [
+									{
+										tag: "h2",
+										dataAttributes: { layeringGroup: layerGroupName },
+										children: [layerGroupName],
+									},
+									{
+										tag: "div",
+										classList: ["layering-layer-inner-grid"],
+										children: layerList.map(({ Name, Priority }) => {
+											/** @type {number} */
+											const layerPriority = this.OverridePriority?.[Name] ?? Priority;
+											/** @type {number} */
+											const defaultLayerPriority = this._PriorityDefault?.[Name] ?? Priority;
+											Name ??= this.Asset.Name;
+											return {
+												tag: "div",
+												classList: ["layering-pair"],
+												children: [
+													{
+														tag: "input",
+														attributes: { type: "number", min: "-99", max: "99", value: layerPriority, defaultValue: defaultLayerPriority.toString(), inputMode: "numeric" },
+														dataAttributes: { layerPriority: defaultLayerPriority.toString(), name: Name },
+														classList: priorityIsObject ? [] : ["layering-input-unfocused"],
+														eventListeners: {
+															input: (event) => this._LayerInputListener(event),
+															focus: (event) => /** @type {HTMLInputElement} */(event.target).select(),
+															blur: ElementNumberInputBlur,
+														},
+													},
+													{
+														tag: "span",
+														classList: ["layering-pair-text"],
+														children: [Name],
+													},
+												],
+											};
+										}),
+									},
+								];
+							}),
+						},
+					],
+				},
+			],
 		});
-		layerElements.forEach(e => {
-			e.addEventListener("input", (event) => this._LayerInputListener(event));
-			e.addEventListener("focus", (event) => /** @type {HTMLInputElement} */(event.target).select());
-			e.addEventListener("blur", ElementNumberInputBlur);
-		});
-
-		// Color either the asset- or layer-specific input elements light gray,
-		// depending on which one of the two is active
-		if (CommonIsObject(this.OverridePriority)) {
-			assetElements.forEach(e => e.classList.add("layering-input-unfocused"));
-			layerElements.forEach(e => e.classList.remove("layering-input-unfocused"));
-		} else {
-			assetElements.forEach(e => e.classList.remove("layering-input-unfocused"));
-			layerElements.forEach(e => e.classList.add("layering-input-unfocused"));
-		}
 
 		// Load and set all translated text
 		TextCache.buildAsync(`Assets/${this.Character.AssetFamily}/LayerNames.csv`).then((cache) => {
@@ -443,6 +569,7 @@ var Layering = {
 		});
 
 		this.Resize(true);
+		this._ApplyReadonly(this.Readonly);
 	},
 
 	/**
@@ -482,6 +609,7 @@ var Layering = {
 		this.Item = null;
 		this.Character = null;
 		this.Display = null;
+		this._Readonly = false;
 		this._PriorityDefault = undefined;
 	},
 

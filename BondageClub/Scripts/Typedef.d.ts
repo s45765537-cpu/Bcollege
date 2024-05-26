@@ -76,6 +76,37 @@ interface RGBAColor extends RGBColor {
 	a: number;
 }
 
+/**
+ * A {@link HTMLElementTagNameMap} subtype with all non-scalar properties removed from the HTML elements
+ *
+ * Serves as an approximation (and superset) of all element-specific attributes
+ */
+type HTMLElementScalarTagNameMap = {
+	[k1 in keyof HTMLElementTagNameMap]: {
+		[k2 in keyof HTMLElementTagNameMap[k1] as Required<HTMLElementTagNameMap[k1][k2]> extends (boolean | number | string | null) ? k2 : never]:
+			HTMLElementTagNameMap[k1][k2]
+	}
+};
+
+type HTMLOptions<T extends keyof HTMLElementTagNameMap> = {
+	/** The elements HTML tag */
+	tag: T,
+	/** Scalar-valued attributes that will be set on the HTML element. */
+	attributes?: Partial<HTMLElementScalarTagNameMap[T]> & { "screen-generated"?: string };
+	/** Data attributes that will be set on the HTML element (see {@link HTMLElement.dataset}). */
+	dataAttributes?: Record<string, string>;
+	/** CSS style declarations that will be set on the HTML element (see {@link HTMLElement.style}). */
+	style?: Partial<CSSStyleDeclaration> & Record<`--${string}`, string>;
+	/** Event listeners that will be attached to the HTML element (see {@link HTMLElement.addEventListener}). */
+	eventListeners?: { [k in keyof HTMLElementEventMap]?: (this: HTMLElementTagNameMap[T], event: HTMLElementEventMap[k]) => any };
+	/** The elements parent (if any) to which it will be attached (see {@link HTMLElement.parentElement}). */
+	parent?: HTMLElement;
+	/** A list of CSS classes to-be assigned to the element (see {@link HTMLElement.classList}). */
+	classList?: readonly string[];
+	/** Any to-be added child elements. */
+	children?: (string | HTMLElement | HTMLOptions<keyof HTMLElementTagNameMap>)[];
+};
+
 type Rect = { x: number, y: number, w: number, h: number };
 
 /** A 4-tuple with X & Y coordinates, width and height */
@@ -385,7 +416,7 @@ type ArousalAffectStutterName = "None" | "Arousal" | "Vibration" | "All";
  *
  * @see {@link CommonKeyMove}
  */
-type KeyboardEventListener = (event: KeyboardEvent) => boolean;
+type KeyboardEventListener = ScreenFunctions["KeyDown"];
 type MouseEventListener = ScreenFunctions["MouseDown"];
 
 type SettingsSensDepName = "SensDepLight" | "Normal" | "SensDepNames" | "SensDepTotal" | "SensDepExtreme";
@@ -1135,7 +1166,7 @@ interface ScreenFunctions {
 	 * Called if the user moves the mouse wheel on the canvas
 	 * @param {MouseEvent | TouchEvent} event - The event that triggered this
 	 */
-	MouseWheel?(event: MouseEvent | TouchEvent): void;
+	MouseWheel?(event: WheelEvent): void;
 	/**
 	 * Called if the user clicks on the canvas
 	 * @param {MouseEvent | TouchEvent} event - The event that triggered this
@@ -4015,6 +4046,8 @@ interface ClubCardPlayer {
 	Fame: number;
 	LastFamePerTurn?: number;
 	LastMoneyPerTurn?: number;
+	ClubCardTurnCounter: number;
+	CardsPlayedThisTurn: Record<number, ClubCard[]>
 }
 
 // #region drawing
@@ -4054,19 +4087,12 @@ interface PreviewDrawOptions {
 
 // #region Chat Room Maps
 
-interface ChatRoomView {
+interface ChatRoomView extends Pick<ScreenFunctions, "Run" | "MouseDown" | "MouseUp" | "MouseMove" | "MouseWheel" | "Click" | "Draw" | "KeyDown"> {
 	Activate?: () => void;
 	Deactivate?: () => void;
-	Run: () => void;
 	Draw: () => void;
 	DrawUi: () => void;
 	DisplayMessage: (data: ServerChatRoomMessage, msg: string, SenderCharacter: Character, metadata: IChatRoomMessageMetadata) => string|null;
-	Click?: (event: MouseEvent | TouchEvent) => void;
-	MouseDown?: (event: MouseEvent | TouchEvent) => void;
-	MouseUp?: (event: MouseEvent | TouchEvent) => void;
-	MouseMove?: (event: MouseEvent | TouchEvent) => void;
-	MouseWheel?: (event: MouseEvent | TouchEvent) => void;
-	KeyDown?: (event: KeyboardEvent) => boolean;
 	SyncRoomProperties?: (data: ServerChatRoomSyncMessage) => void;
 	CanStartWhisper?: (C: Character) => boolean;
 	CanLeave?: () => boolean;

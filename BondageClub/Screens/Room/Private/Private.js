@@ -827,7 +827,7 @@ function PrivateClickCharacter() {
 					return;
 
 				// Make Sure the NPC owner has the "PlayerCollaring" event set
-				if (PrivateCharacter[C].IsOwner() && (NPCEventGet(PrivateCharacter[C], "PlayerCollaring") <= 0)) {
+				if ((Player.Owner != null) && (Player.Owner.replace("NPC-", "").trim() === PrivateCharacter[C].Name) && (NPCEventGet(PrivateCharacter[C], "PlayerCollaring") <= 0)) {
 					NPCEventAdd(PrivateCharacter[C], "PlayerCollaring", CurrentTime);
 					ServerPrivateCharacterSync();
 				}
@@ -836,6 +836,7 @@ function PrivateClickCharacter() {
 				if (!PrivateCharacter[C].IsPlayer()) {
 					PrivateCharacterShouldSync = true;
 					if ((PrivateCharacter[C].Stage == "0") && PrivateCharacter[C].IsOwner()) PrivateCharacter[C].Stage = "1000";
+					if ((PrivateCharacter[C].Stage == "0") && NPCEventGet(PrivateCharacter[C], "EndSubTrial")) PrivateCharacter[C].Stage = "1000";
 					if ((PrivateCharacter[C].Stage == "0") && PrivateCharacter[C].IsOwnedByPlayer()) PrivateCharacter[C].Stage = "2000";
 					NPCTraitDialog(PrivateCharacter[C]);
 				}

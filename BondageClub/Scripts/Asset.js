@@ -1024,3 +1024,124 @@ function AssetTextGet(msg) {
 	if (!repo) return "";
 	return repo.get(msg);
 }
+
+/**
+ * Shows a console warning for all missing Inventory IDs in the Female3DCG assets
+ * @returns {void} - Nothing
+ */
+function AssetInventoryIDMissing() {
+
+	// The first InventoryID starts at 100, we fetch the next available one by looking at all IDs
+	let NextID = 99;
+	for (let G of AssetFemale3DCG)
+		for (let A of G.Asset) 
+			if (typeof A === "object") {
+				let Asset = /** @type {AssetDefinition.Item} */A;
+				if ((Asset.InventoryID != null) && (Asset.InventoryID > NextID))
+					NextID = Asset.InventoryID;
+			}
+
+	// Finds all assets without InventoryID that should have one
+	for (let G of AssetFemale3DCG)
+		for (let A of G.Asset)
+			if (typeof A === "object") {
+				let Asset = /** @type {AssetDefinition.Item} */A;
+				if ((Asset.InventoryID == null) && (Asset.Value != null) && (Asset.Value !== 0) && ((Asset.Enable == null) || (Asset.Enable === true))) {
+					NextID++;
+					console.warn("Missing InventoryID on group: " + G.Group + ", asset: " + Asset.Name + ", suggested InventoryID: " + NextID.toString());
+				}
+			}
+
+}
+
+/**
+ * Shows a console warning for all Inventory IDs in the Female3DCG assets that are unnecessary assigned
+ * @returns {void} - Nothing
+ */
+function AssetInventoryIDUnnecessary() {
+	for (let G of AssetFemale3DCG)
+		for (let A of G.Asset)
+			if (typeof A === "object") {
+				let Asset = /** @type {AssetDefinition.Item} */A;
+				if ((Asset.InventoryID != null) && ((Asset.Value == null) || (Asset.Value === 0) || (Asset.Enable === false))) {
+					console.warn("Unnecessary InventoryID on group: " + G.Group + ", asset: " + Asset.Name + ", suggested to remove it");
+				}
+			}
+}
+
+/**
+ * Shows a console warning for all Inventory IDs where the BuyGroup is creating a conflict
+ * @param {string} GroupName
+ * @param {string} AssetName
+ * @param {string} BuyGroup
+ * @param {number} InventoryID
+ * @returns {void} - Nothing
+ */
+function AssetInventoryIDBuyGroup(GroupName, AssetName, BuyGroup, InventoryID) {
+	for (let G of AssetFemale3DCG)
+		for (let A of G.Asset)
+			if (typeof A === "object") {
+				let Asset = /** @type {AssetDefinition.Item} */A;
+				if ((Asset.BuyGroup != null) && (Asset.BuyGroup === BuyGroup) && (Asset.Value != null) && (Asset.Value !== 0) && ((Asset.Enable == null) || (Asset.Enable === true)))
+					if (Asset.InventoryID !== InventoryID)
+						console.warn("InventoryID should be the same if BuyGroup " + BuyGroup + " is the same for group/asset: " + GroupName + "/" + AssetName + " and " + G.Group + "/" + Asset.Name);
+			}
+}
+
+/**
+ * Shows a console warning for all Inventory IDs where the BuyGroup is creating a conflict
+ * @returns {void} - Nothing
+ */
+function AssetInventoryIDBuyGroupSearch() {
+	for (let G of AssetFemale3DCG)
+		for (let A of G.Asset)
+			if (typeof A === "object") {
+				let Asset = /** @type {AssetDefinition.Item} */A;
+				if ((Asset.BuyGroup != null) && (Asset.Value != null) && (Asset.Value !== 0) && ((Asset.Enable == null) || (Asset.Enable === true)))
+					AssetInventoryIDBuyGroup(G.Group, Asset.Name, Asset.BuyGroup, Asset.InventoryID);
+			}
+}
+
+/**
+ * Shows a console warning for all Inventory IDs where the BuyGroup is creating a conflict
+ * @param {string} GroupName
+ * @param {string} AssetName
+ * @param {number} InventoryID
+ * @returns {void} - Nothing
+ */
+function AssetInventoryIDDuplicated(GroupName, AssetName, InventoryID) {
+	for (let G of AssetFemale3DCG)
+		for (let A of G.Asset)
+			if (typeof A === "object") {
+				let Asset = /** @type {AssetDefinition.Item} */A;
+				if ((Asset.BuyGroup == null) && (InventoryID == Asset.InventoryID) && ((GroupName != G.Group) || (AssetName != Asset.Name)) && (Asset.Value != null) && (Asset.Value !== 0) && ((Asset.Enable == null) || (Asset.Enable === true)))
+					console.warn("InventoryID #" + InventoryID.toString() + " is duplicated for the same group/asset: " + GroupName + "/" + AssetName + " and " + G.Group + "/" + Asset.Name);
+			}
+}
+
+/**
+ * Shows a console warning for all Inventory IDs that are duplicated out of a buy group
+ * @returns {void} - Nothing
+ */
+function AssetInventoryIDDuplicatedSearch() {
+	for (let G of AssetFemale3DCG)
+		for (let A of G.Asset)
+			if (typeof A === "object") {
+				let Asset = /** @type {AssetDefinition.Item} */A;
+				if ((Asset.BuyGroup == null) && (Asset.InventoryID != null) && (Asset.Value != null) && (Asset.Value !== 0) && ((Asset.Enable == null) || (Asset.Enable === true)))
+					AssetInventoryIDDuplicated(G.Group, Asset.Name, Asset.InventoryID);
+			}
+}
+
+/**
+ * Validates that the InventoryID is setup properly in the Female3DCG assets
+ * Launched each time the game is started for assets maker to apply corrections
+ * Outputs all possible errors in the console log
+ * @returns {void} - Nothing
+ */
+function AssetInventoryIDValidate() {
+	AssetInventoryIDMissing();
+	AssetInventoryIDUnnecessary();
+	AssetInventoryIDBuyGroupSearch();
+	AssetInventoryIDDuplicatedSearch();
+}
