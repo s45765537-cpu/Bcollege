@@ -29,6 +29,7 @@ function GameStart() {
 	TranslationLoad();
 	DrawLoad();
 	AssetLoadAll();
+	AssetInventoryIDValidate(); // COMMENT WHEN RELEASING
 	CommandsLoad();
 	ControllerStart();
 	CommonSetScreen("Character", "Login");
@@ -223,7 +224,7 @@ function GameMouseUp(event) {
 
 /**
  * If the user rolls the mouse wheel, we fire the mousewheel event for other screens
- * @param {MouseEvent} event
+ * @type {ScreenFunctions["MouseWheel"]}
  */
 function GameMouseWheel(event) {
 	if (CommonIsMobile) { return; }

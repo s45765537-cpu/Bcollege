@@ -545,14 +545,11 @@ function CharacterAppearanceVisible(C, AssetName, GroupName, Recursive = true) {
 /**
  * Determines whether the player has set this item to not appear on screen
  * @param {string} AssetName - The name of the asset to check
- * @param {string} GroupName - The name of the item group to check
+ * @param {AssetGroupName} GroupName - The name of the item group to check
  * @returns {boolean} - TRUE if the item is hidden
  */
 function CharacterAppearanceItemIsHidden(AssetName, GroupName) {
-	for (var H = 0; H < Player.HiddenItems.length; H++)
-		if (Player.HiddenItems[H].Name == AssetName && Player.HiddenItems[H].Group == GroupName)
-			return true;
-	return false;
+	return Player.PermissionItems[`${GroupName}/${AssetName}`]?.Hidden ?? false;
 }
 
 /**
@@ -1358,7 +1355,7 @@ function AppearanceClick() {
 			if (MouseIn(1210, 145 + (A - CharacterAppearanceOffset) * 95, 400, 65)) {
 				C.FocusGroup = null;
 				if (!Group.AllowNone && !AppearancePreviewUseCharacter(Group)) {
-					const asset = CharacterAppearanceNextItem(C, Group.Name, MouseX > 1500);
+					const asset = CharacterAppearanceNextItem(C, Group.Name, MouseX > 1410);
 					CharacterAppearanceSetItem(C, Group.Name, asset);
 					return;
 				}

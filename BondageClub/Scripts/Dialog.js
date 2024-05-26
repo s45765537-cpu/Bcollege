@@ -992,7 +992,8 @@ function DialogInventoryAdd(C, item, isWorn, sortOrder) {
 		}
 		if (asset.FamilyOnly && asset.IsLock && !isWorn && (C.IsPlayer()) && LogQuery("BlockOwnerLockSelf", "OwnerRule")) return;
 		if (asset.FamilyOnly && (!C.IsPlayer()) && !C.IsFamilyOfPlayer()) return;
-		if (asset.FamilyOnly && asset.IsLock && (!C.IsPlayer()) && C.IsOwner()) return;
+		if (asset.FamilyOnly && asset.IsLock && !C.IsPlayer() && C.IsOwner()) return;
+		if (asset.FamilyOnly && asset.IsLock && C.IsPlayer() && (C.IsOwned() === false)) return;
 
 		// Do not show keys if they are in the deposit
 		if (LogQuery("KeyDeposit", "Cell") && InventoryIsKey(item)) return;
@@ -1061,7 +1062,7 @@ function DialogInventoryCreateItem(C, item, isWorn, sortOrder) {
 	let icons = [];
 	if (favoriteStateDetails.Icon) icons.push(favoriteStateDetails.Icon);
 	icons = icons.concat(DialogGetLockIcon(item, isWorn));
-	if (!C.IsPlayer() && InventoryIsAllowedLimited(C, item)) icons.push("AllowedLimited");
+	if (InventoryIsAllowedLimited(C, item)) icons.push("AllowedLimited");
 	icons = icons.concat(DialogGetAssetIcons(asset));
 	icons = icons.concat(DialogEffectIcons.GetIcons(item));
 
@@ -1458,7 +1459,7 @@ function DialogMenuButtonBuild(C) {
 			DialogMenuButton.push("PermissionMode");
 		}
 
-		if (Item != null && !C.IsNpc() && Player.CanInteract()) {
+		if (Item != null && !C.IsNpc()) {
 			DialogMenuButton.push("Layering");
 		}
 	}
@@ -2195,12 +2196,13 @@ function DialogChangeMode(mode, reset=false) {
 		case "layering": {
 			const item = InventoryGet(C, C?.FocusGroup?.Name);
 			if (item) {
+				const mutable = InventoryItemHasEffect(item, "Lock") ? DialogCanUnlock(C, item) : Player.CanInteract();
 				Layering.Init(item, C, {
 					x: DialogInventoryGrid.x,
 					y: Layering.DisplayDefault.y - 10,
 					w: (Layering.DisplayDefault.x + Layering.DisplayDefault.w) - DialogInventoryGrid.x,
 					h: Layering.DisplayDefault.h + 10,
-				}, reset);
+				}, reset, !mutable);
 			}
 			break;
 		}

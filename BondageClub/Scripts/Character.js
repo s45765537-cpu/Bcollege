@@ -91,10 +91,11 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		MustDraw: false,
 		BlinkFactor: Math.round(Math.random() * 10) + 10,
 		AllowItem: true,
-		BlockItems: [],
-		LimitedItems: [],
-		FavoriteItems: [],
-		HiddenItems: [],
+		BlockItems: /** @type {never} */([]),
+		LimitedItems: /** @type {never} */([]),
+		FavoriteItems: /** @type {never} */([]),
+		HiddenItems: /** @type {never} */([]),
+		PermissionItems: {},
 		WhiteList: [],
 		BlackList: [],
 		HeightModifier: 0,
@@ -316,6 +317,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		IsOwned: function () {
 			if (AsylumGGTSGetLevel(this) >= 6) return "ggts";
 			if (this.IsNpc() && this.Owner === Player.Name) return "player";
+			if (this.IsNpc() && this.Owner !== Player.Name && NPCEventGet(this, "EndDomTrial")) return "player";
 			if (this.Ownership && this.Ownership.MemberNumber) return "online";
 			// NPC-owner with trial completed
 			if (this.Owner && this.Owner.trim().startsWith("NPC-")) return "npc";
@@ -331,6 +333,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 				case "ggts":
 					return false;
 				case "npc": {
+					if (!C.IsNpc()) return false;
 					if (this.Owner.replace("NPC-", "").trim() === C.Name)
 						return true;
 
@@ -353,7 +356,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 				case "npc":
 					return !!PrivateCharacter.find(c => NPCEventGet(c, "PlayerCollaring") > 0);
 				case "player":
-					return NPCEventGet(this, "EndDomTrial") > 0;
+					return (NPCEventGet(this, "NPCCollaring") > 0);
 				case "online": return this.Ownership.Stage >= 1;
 				default:
 					return false;
@@ -373,7 +376,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 					 return privateOwner?.Name ?? "";
 				}
 				case "online": return this.Ownership.Name;
-				case "player": return this.Owner;
+				case "player": return CharacterNickname(Player);
 				default:
 					return "";
 			}
@@ -384,20 +387,34 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			return -1;
 		},
 		IsOwnedByMemberNumber: function (memberNumber) {
-			return (this.OwnerNumber() === memberNumber);
+			return (memberNumber != -1 && this.OwnerNumber() === memberNumber);
 		},
 		OwnedSince: function () {
 			switch (this.IsOwned()) {
 				case "online":
 					return Math.floor((CurrentTime - this.Ownership.Start) / 86400000);
 				case "player":
-					return Math.floor((CurrentTime - NPCEventGet(this, "NPCCollaring")) / 86400000);
+					let Time = NPCEventGet(this, "NPCCollaring");
+					if (Time > 0) return Math.floor((CurrentTime - Time) / 86400000);
+					Time = NPCEventGet(this, "EndDomTrial");
+					if (Time > 0) {
+						if (Time > CurrentTime)
+							return Math.ceil((Time - CurrentTime) / 86400000);
+						else
+							return 0;
+					}
+					return -1;
 				case "npc": {
 					for (const npc of PrivateCharacter) {
-						let time = NPCEventGet(npc, "PlayerCollaring");
-						if (time > 0) return Math.floor((CurrentTime - time) / 86400000);
-						time = NPCEventGet(npc, "EndSubTrial");
-						if (time > 0) return Math.floor((time - CurrentTime) / 86400000);
+						let Time = NPCEventGet(npc, "PlayerCollaring");
+						if (Time > 0) return Math.floor((CurrentTime - Time) / 86400000);
+						Time = NPCEventGet(npc, "EndSubTrial");
+						if (Time > 0) {
+							if (Time > CurrentTime)
+								return Math.ceil((Time - CurrentTime) / 86400000);
+							else
+								return 0;
+						}
 					}
 					return -1;
 				}
@@ -405,6 +422,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			return -1;
 		},
 		IsOwner: function () {
+			if (this.IsNpc() && !NPCEventGet(this, "PlayerCollaring")) return false;
 			return Player.IsOwnedByCharacter(this);
 		},
 		IsLover: function (C) {
@@ -527,11 +545,14 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 				   ((new Date(this.Creation)).getMonth() == (new Date(CurrentTime)).getMonth()) &&
 				   ((new Date(this.Creation)).getFullYear() != (new Date(CurrentTime)).getFullYear());
 		},
+		IsSiblingOfCharacter: function(C) {
+			return this.IsOwnedByMemberNumber(C.OwnerNumber());
+		},
 		IsFamilyOfPlayer: function () {
 			return this.IsInFamilyOfMemberNumber(Player.MemberNumber);
 		},
 		IsInFamilyOfMemberNumber: function (MemberNum) {
-			if (MemberNum === Player.MemberNumber) return false;
+			if (this.MemberNumber === MemberNum) return false;
 
 			let C = ChatRoomCharacter.find(c => c.MemberNumber === MemberNum);
 			if (!C) C = PrivateCharacter.find(c => c.MemberNumber === MemberNum);
@@ -539,7 +560,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			if (!C) return false;
 
 			// Check that we either share owners, are owned by this character, or that this character owns us
-			if (this.OwnerNumber() === C.OwnerNumber()) return true;
+			if (this.IsSiblingOfCharacter(C)) return true;
 			if (this.IsOwnedByCharacter(C)) return true;
 			if (C.IsOwnedByCharacter(this)) return true;
 			return false;
@@ -956,9 +977,10 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 	Char.Ownership = ServerAccountDataSyncedValidate.Ownership(data.Ownership, Char);
 	Char.Lovership = ServerAccountDataSyncedValidate.Lovership(data.Lovership, Char);
 	Char.Reputation = ServerAccountDataSyncedValidate.Reputation(data.Reputation, Char);
-	Char.BlockItems = ServerAccountDataSyncedValidate.BlockItems(data.BlockItems, Char);
-	Char.LimitedItems = ServerAccountDataSyncedValidate.LimitedItems(data.LimitedItems, Char);
-	Char.FavoriteItems = ServerAccountDataSyncedValidate.FavoriteItems(data.FavoriteItems, Char);
+	Char.BlockItems = /** @type {never} */([]);
+	Char.LimitedItems = /** @type {never} */([]);
+	Char.FavoriteItems = /** @type {never} */([]);
+	Char.PermissionItems = ServerUnPackItemPermissions(data, Char);
 	if (!Char.IsPlayer()) {
 		Char.WhiteList = ServerAccountDataSyncedValidate.WhiteList(data.WhiteList, Char);
 		Char.BlackList = ServerAccountDataSyncedValidate.BlackList(data.BlackList, Char);
@@ -1002,15 +1024,6 @@ function CharacterLoadOnline(data, SourceMemberNumber) {
 	// Decompresses data
 	if (typeof data.Description === "string" && data.Description.startsWith(ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC)) {
 		data.Description = LZString.decompressFromUTF16(data.Description.substr(1));
-	}
-	if (data.BlockItems && typeof data.BlockItems === "object" && !Array.isArray(data.BlockItems)) {
-		data.BlockItems = CommonUnpackItemArray(data.BlockItems);
-	}
-	if (data.LimitedItems && typeof data.LimitedItems === "object" && !Array.isArray(data.LimitedItems)) {
-		data.LimitedItems = CommonUnpackItemArray(data.LimitedItems);
-	}
-	if (data.FavoriteItems && typeof data.FavoriteItems === "object" && !Array.isArray(data.FavoriteItems)) {
-		data.FavoriteItems = CommonUnpackItemArray(data.FavoriteItems);
 	}
 	if (Array.isArray(data.WhiteList)) {
 		data.WhiteList.sort((a, b) => a - b);
@@ -1081,9 +1094,9 @@ function CharacterLoadOnline(data, SourceMemberNumber) {
 		if (!Refresh && (JSON.stringify(Char.Crafting) !== JSON.stringify(data.Crafting))) Refresh = true;
 		if (!Refresh && Array.isArray(data.WhiteList) && (JSON.stringify(Char.WhiteList) !== JSON.stringify(data.WhiteList))) Refresh = true;
 		if (!Refresh && Array.isArray(data.BlackList) && (JSON.stringify(Char.BlackList) !== JSON.stringify(data.BlackList))) Refresh = true;
-		if (!Refresh && (data.BlockItems != null) && (Char.BlockItems.length != /** @type {ItemPermissions[]} */(data.BlockItems).length)) Refresh = true;
-		if (!Refresh && (data.LimitedItems != null) && (Char.LimitedItems.length != /** @type {ItemPermissions[]} */(data.LimitedItems).length)) Refresh = true;
-		if (!Refresh && (data.FavoriteItems != null) && (Char.FavoriteItems.length != /** @type {ItemPermissions[]} */(data.FavoriteItems).length)) Refresh = true;
+		if (!Refresh && (data.BlockItems != null)) Refresh = true;
+		if (!Refresh && (data.LimitedItems != null)) Refresh = true;
+		if (!Refresh && (data.FavoriteItems != null)) Refresh = true;
 
 		// If we must refresh
 		if (Refresh) CharacterOnlineRefresh(Char, data, SourceMemberNumber);
@@ -2078,18 +2091,19 @@ function CharacterHasArousalEnabled(C) {
  * @returns {void} - Nothing.
  */
 function CharacterClearOwnership(C, push=true) {
-	// Grab the type now before we clear ownership
-	const ownerType = C.IsOwned();
-	C.Owner = "";
-	C.Ownership = null;
 
 	if (C.IsPlayer()) {
+		const ownerType = C.IsOwned();
 		switch (ownerType) {
 			case "online":
-				ServerSend("AccountOwnership", { MemberNumber: Player.Ownership.MemberNumber, Action: "Break" });
+				ServerSend("AccountOwnership", { MemberNumber: C.Ownership.MemberNumber, Action: "Break" });
+				C.Owner = "";
+				C.Ownership = null;
 				break;
 
 			case "npc":
+				C.Owner = "";
+				C.Ownership = null;
 				ServerPlayerSync();
 				break;
 		}
