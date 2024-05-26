@@ -367,16 +367,147 @@ function ServerPlayerInventorySync() {
 }
 
 /**
+ * Unpack the all item permissions into the quartet of blocked, limited, favorited and hidden item object
+ * @param {Partial<Record<`${AssetGroupName}/${string}`, ItemPermissions>>} permissionItems - The packed item permission data
+ * @returns {Pick<ServerAccountUpdateRequest, "BlockItems" | "LimitedItems" | "FavoriteItems" | "HiddenItems">} - The unpacked item permission data
+ */
+function ServerPackItemPermissions(permissionItems) {
+	/** @type {Pick<ServerAccountUpdateRequest, "BlockItems" | "LimitedItems" | "FavoriteItems">} */
+	const data = {
+		BlockItems: {},
+		LimitedItems: {},
+		FavoriteItems: {},
+	};
+
+	/** @type {ServerAccountUpdateRequest["HiddenItems"]} */
+	const HiddenItems = [];
+
+	for (const [name, permission] of CommonEntries(permissionItems)) {
+		const [groupName, assetName] = /** @type {[AssetGroupName, string]} */(name.split("/"));
+
+		if (permission.Hidden) {
+			HiddenItems.push({ Name: assetName, Group: groupName });
+		}
+
+		const assetField = /** @type {const} */(`${permission.Permission}Items`);
+		if (data[assetField]) {
+			data[assetField][groupName] ??= {};
+			data[assetField][groupName][assetName] ??= [];
+			data[assetField][groupName][assetName].push("");
+		}
+
+		for (const [type, typePermission] of Object.entries(permission.TypePermissions)) {
+			const typeField = /** @type {const} */(`${typePermission}Items`);
+			if (!data[typeField]) {
+				continue;
+			}
+
+			data[typeField][groupName] ??= {};
+			data[typeField][groupName][assetName] ??= [];
+			data[typeField][groupName][assetName].push(type);
+		}
+	}
+	return Object.assign(data, { HiddenItems });
+}
+
+/**
+ * Unpack the quartet of blocked, limited, favorited and hidden item permissions into a single object
+ * @param {Pick<Partial<ServerAccountDataSynced>, "BlockItems" | "LimitedItems" | "FavoriteItems" | "HiddenItems">} data - The item permission data as received from the server
+ * @param {Character} C - The character in question
+ * @returns {Partial<Record<`${AssetGroupName}/${string}`, ItemPermissions>>} - The packed item permission data
+ */
+function ServerUnPackItemPermissions(data, C) {
+	/** @type {Partial<Record<`${AssetGroupName}/${string}`, ItemPermissions>>} */
+	const ret = {};
+	if (!data) {
+		return ret;
+	}
+
+	/** @type {Set<string>} */
+	const limitedAssets = new Set(MainHallStrongLocks);
+	const onExtreme = C.Difficulty?.Level >= 3;
+	for (let [field, permissionObj] of CommonEntries(CommonPick(data, ["BlockItems", "LimitedItems", "FavoriteItems", "HiddenItems"]))) {
+		// Extreme never allows for hidden or blocked items (and only a tiny subset of limited items)
+		if (onExtreme && (field === "HiddenItems" || field === "BlockItems")) {
+			continue;
+		}
+
+		// For the sake of convenience, convert the object-style permissions into array-style
+		if (CommonIsObject(permissionObj)) {
+			/** @type {ServerItemPermissions[]} */
+			const permissionArray = [];
+			for (const [Group, groupPermissions] of CommonEntries(permissionObj ?? {})) {
+				for (const [Name, assetPermissions] of CommonEntries(groupPermissions ?? {})) {
+					if (CommonIsArray(assetPermissions)) {
+						for (const Type of assetPermissions) {
+							permissionArray.push({ Group, Name, Type });
+						}
+					}
+				}
+			}
+			permissionObj = permissionArray;
+		}
+
+		if (CommonIsArray(permissionObj)) {
+			for (const protoPermission of permissionObj) {
+				// Validate and sanitize the referenced assets
+				let { Group, Name, Type } = protoPermission ?? {};
+				let asset = AssetGet("Female3DCG", Group, Name);
+				if (!asset) {
+					const fixup = LoginInventoryFixups.find(({ Old }) => Old.Group === Group && Old.Name === Name);
+					if (!fixup) {
+						continue;
+					}
+
+					asset = AssetGet("Female3DCG", fixup.New.Group, fixup.New.Name);
+					Group = fixup.New.Group;
+					Name = fixup.New.Name;
+				}
+
+				const key = /** @type {const} */(`${Group}/${Name}`);
+				const permission = ret[key] ??= PreferencePermissionGetDefault();
+				switch (field) {
+					case "HiddenItems":
+						if (asset.Group.Clothing || !asset.Group.IsAppearance()) {
+							permission.Hidden = true;
+						}
+						break;
+					case "BlockItems":
+						if (Type) {
+							permission.TypePermissions[Type] = "Block";
+						} else {
+							permission.Permission = "Block";
+						}
+						break;
+					case "FavoriteItems":
+						if (Type) {
+							permission.TypePermissions[Type] = "Favorite";
+						} else {
+							permission.Permission = "Favorite";
+						}
+						break;
+					case "LimitedItems":
+						if (!onExtreme || limitedAssets.has(Name)) {
+							if (Type) {
+								permission.TypePermissions[Type] = "Limited";
+							} else {
+								permission.Permission = "Limited";
+							}
+						}
+						break;
+				}
+			}
+		}
+	}
+	return ret;
+}
+
+/**
  * Syncs player's favorite, blocked, limited and hidden items to the server
  * @returns {void} - Nothing
  */
 function ServerPlayerBlockItemsSync() {
-	ServerAccountUpdate.QueueData({
-		BlockItems: CommonPackItemArray(Player.BlockItems),
-		LimitedItems: CommonPackItemArray(Player.LimitedItems),
-		FavoriteItems: CommonPackItemArray(Player.FavoriteItems),
-		HiddenItems: Player.HiddenItems
-	}, true);
+	ServerAccountUpdate.QueueData(ServerPackItemPermissions(Player.PermissionItems), true);
 }
 
 /**
@@ -998,33 +1129,6 @@ var ServerAccountDataSyncedValidate = {
 			}
 		}
 		return ret;
-	},
-	BlockItems: (arg, C) => {
-		if (CommonIsArray(arg)) {
-			return arg.filter(({ Group, Name }) => AssetMap.has(`${Group}/${Name}`));
-		} else if (CommonIsObject(arg)) {
-			return CommonUnpackItemArray(arg);
-		} else {
-			return [];
-		}
-	},
-	LimitedItems: (arg, C) => {
-		if (CommonIsArray(arg)) {
-			return arg.filter(({ Group, Name }) => AssetMap.has(`${Group}/${Name}`));
-		} else if (CommonIsObject(arg)) {
-			return CommonUnpackItemArray(arg);
-		} else {
-			return [];
-		}
-	},
-	FavoriteItems: (arg, C) => {
-		if (CommonIsArray(arg)) {
-			return arg.filter(({ Group, Name }) => AssetMap.has(`${Group}/${Name}`));
-		} else if (CommonIsObject(arg)) {
-			return CommonUnpackItemArray(arg);
-		} else {
-			return [];
-		}
 	},
 	WhiteList: (arg, C) => {
 		return arg?.filter(i => CommonIsInteger(i, 0)) ?? [];

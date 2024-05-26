@@ -401,6 +401,7 @@ var TranslationDictionary = [
 			"Assets/Female3DCG/Female3DCG_CN.txt",
 			"Assets/Female3DCG/LayerNames_CN.txt",
 			"Backgrounds/Backgrounds_CN.txt",
+			"Screens/Interface_CN.txt",
 			"Screens/Character/Appearance/Text_Appearance_CN.txt",
 			"Screens/Character/BackgroundSelection/Text_BackgroundSelection_CN.txt",
 			"Screens/Character/Cheat/Text_Cheat_CN.txt",

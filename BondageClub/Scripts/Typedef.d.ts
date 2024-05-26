@@ -1201,24 +1201,20 @@ interface ScreenFunctions {
 
 //#region Characters
 
+/** The different types of (mutually exclusive) permissions an item or item option can have */
+type ItemPermissionMode = "Default" | "Block" | "Limited" | "Favorite";
+
 /**
- * A struct for representing an item with special permissions (limited, favorited, etc).
- * @see {@link PermissionsPacked}
+ * A struct for representing an item with special permissions (limited, favorited, etc) in the client.
  */
 interface ItemPermissions {
-	/** The {@link Asset.Name} of the item */
-	Name: string;
-	/** The {@link AssetGroup.Name} of the item */
-	Group: AssetGroupName;
-	/**
-	 * Either the item's {@link ItemProperties.Type} or, in the case of modular items,
-	 * a substring thereof denoting the type of a single module
-	 */
-	Type?: string | null;
+	/** Whether the item is hidden */
+	Hidden: boolean;
+	/** The permission associated with the item */
+	Permission: ItemPermissionMode;
+	/** The permission associated with specific extended options of the item */
+	TypePermissions: Record<string, ItemPermissionMode>;
 }
-
-/** A packed record-based version of {@link ItemPermissions}. */
-type ItemPermissionsPacked = Partial<Record<AssetGroupName, Record<string, (undefined | null | string)[]>>>;
 
 interface ScriptPermission {
 	permission: number;
@@ -1373,9 +1369,14 @@ interface Character {
 	MustDraw: boolean;
 	BlinkFactor: number;
 	AllowItem: boolean;
-	BlockItems: ItemPermissions[];
-	FavoriteItems: ItemPermissions[];
-	LimitedItems: ItemPermissions[];
+	/** @deprecated - superseded by {@link Character.PermissionItems} */
+	BlockItems?: never;
+	/** @deprecated - superseded by {@link Character.PermissionItems} */
+	FavoriteItems?: never;
+	/** @deprecated - superseded by {@link Character.PermissionItems} */
+	LimitedItems?: never;
+	/** A record with all asset- and type-specific permission settings */
+	PermissionItems: Partial<Record<`${AssetGroupName}/${string}`, ItemPermissions>>;
 	WhiteList: number[];
 	HeightModifier: number;
 	MemberNumber?: number;
@@ -1448,7 +1449,8 @@ interface Character {
 	GetLovership: (MembersOnly?: boolean) => Lovership[];
 	/** @deprecated Use IsLoverOfCharacter() */
 	IsLover: (C: Character) => boolean;
-	HiddenItems: ItemPermissions[];
+	/** @deprecated - superseded by {@link Character.PermissionItems} */
+	HiddenItems?: never;
 	HeightRatio: number;
 	HasHiddenItems: boolean;
 	SavedColors: HSVColor[];

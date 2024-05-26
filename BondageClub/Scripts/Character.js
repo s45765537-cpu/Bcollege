@@ -91,10 +91,11 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		MustDraw: false,
 		BlinkFactor: Math.round(Math.random() * 10) + 10,
 		AllowItem: true,
-		BlockItems: [],
-		LimitedItems: [],
-		FavoriteItems: [],
-		HiddenItems: [],
+		BlockItems: /** @type {never} */([]),
+		LimitedItems: /** @type {never} */([]),
+		FavoriteItems: /** @type {never} */([]),
+		HiddenItems: /** @type {never} */([]),
+		PermissionItems: {},
 		WhiteList: [],
 		BlackList: [],
 		HeightModifier: 0,
@@ -976,9 +977,10 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 	Char.Ownership = ServerAccountDataSyncedValidate.Ownership(data.Ownership, Char);
 	Char.Lovership = ServerAccountDataSyncedValidate.Lovership(data.Lovership, Char);
 	Char.Reputation = ServerAccountDataSyncedValidate.Reputation(data.Reputation, Char);
-	Char.BlockItems = ServerAccountDataSyncedValidate.BlockItems(data.BlockItems, Char);
-	Char.LimitedItems = ServerAccountDataSyncedValidate.LimitedItems(data.LimitedItems, Char);
-	Char.FavoriteItems = ServerAccountDataSyncedValidate.FavoriteItems(data.FavoriteItems, Char);
+	Char.BlockItems = /** @type {never} */([]);
+	Char.LimitedItems = /** @type {never} */([]);
+	Char.FavoriteItems = /** @type {never} */([]);
+	Char.PermissionItems = ServerUnPackItemPermissions(data, Char);
 	if (!Char.IsPlayer()) {
 		Char.WhiteList = ServerAccountDataSyncedValidate.WhiteList(data.WhiteList, Char);
 		Char.BlackList = ServerAccountDataSyncedValidate.BlackList(data.BlackList, Char);
@@ -1022,15 +1024,6 @@ function CharacterLoadOnline(data, SourceMemberNumber) {
 	// Decompresses data
 	if (typeof data.Description === "string" && data.Description.startsWith(ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC)) {
 		data.Description = LZString.decompressFromUTF16(data.Description.substr(1));
-	}
-	if (data.BlockItems && typeof data.BlockItems === "object" && !Array.isArray(data.BlockItems)) {
-		data.BlockItems = CommonUnpackItemArray(data.BlockItems);
-	}
-	if (data.LimitedItems && typeof data.LimitedItems === "object" && !Array.isArray(data.LimitedItems)) {
-		data.LimitedItems = CommonUnpackItemArray(data.LimitedItems);
-	}
-	if (data.FavoriteItems && typeof data.FavoriteItems === "object" && !Array.isArray(data.FavoriteItems)) {
-		data.FavoriteItems = CommonUnpackItemArray(data.FavoriteItems);
 	}
 	if (Array.isArray(data.WhiteList)) {
 		data.WhiteList.sort((a, b) => a - b);
@@ -1101,9 +1094,9 @@ function CharacterLoadOnline(data, SourceMemberNumber) {
 		if (!Refresh && (JSON.stringify(Char.Crafting) !== JSON.stringify(data.Crafting))) Refresh = true;
 		if (!Refresh && Array.isArray(data.WhiteList) && (JSON.stringify(Char.WhiteList) !== JSON.stringify(data.WhiteList))) Refresh = true;
 		if (!Refresh && Array.isArray(data.BlackList) && (JSON.stringify(Char.BlackList) !== JSON.stringify(data.BlackList))) Refresh = true;
-		if (!Refresh && (data.BlockItems != null) && (Char.BlockItems.length != /** @type {ItemPermissions[]} */(data.BlockItems).length)) Refresh = true;
-		if (!Refresh && (data.LimitedItems != null) && (Char.LimitedItems.length != /** @type {ItemPermissions[]} */(data.LimitedItems).length)) Refresh = true;
-		if (!Refresh && (data.FavoriteItems != null) && (Char.FavoriteItems.length != /** @type {ItemPermissions[]} */(data.FavoriteItems).length)) Refresh = true;
+		if (!Refresh && (data.BlockItems != null)) Refresh = true;
+		if (!Refresh && (data.LimitedItems != null)) Refresh = true;
+		if (!Refresh && (data.FavoriteItems != null)) Refresh = true;
 
 		// If we must refresh
 		if (Refresh) CharacterOnlineRefresh(Char, data, SourceMemberNumber);

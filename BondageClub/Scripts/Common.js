@@ -842,54 +842,6 @@ function CommonTakePhoto(Left, Top, Width, Height) {
 }
 
 /**
- * Takes an array of items and converts it to record format
- * @param {readonly ItemPermissions[]} arr The array of items
- * @returns {ItemPermissionsPacked} Output in object foramat
- */
-function CommonPackItemArray(arr) {
-	/** @type {ItemPermissionsPacked} */
-	const res = {};
-	for (const I of arr) {
-		let G = res[I.Group];
-		if (G === undefined) {
-			G = res[I.Group] = {};
-		}
-		let A = G[I.Name];
-		if (A === undefined) {
-			A = G[I.Name] = [];
-		}
-		const T = I.Type || "";
-		if (!A.includes(T)) {
-			A.push(T);
-		}
-	}
-	return res;
-}
-
-/**
- * Takes an record format of items and converts it to array.
- * @note This function *must* be able to handle unsantized data as received from the server
- * @param {ItemPermissionsPacked} rec Object defining items
- * @return {ItemPermissions[]} The array of items
- */
-function CommonUnpackItemArray(rec) {
-	/** @type {ItemPermissions[]} */
-	const res = [];
-	for (const [Group, assetRecord] of CommonEntries(rec ?? {})) {
-		for (const [Name, typeList] of CommonEntries(assetRecord ?? {})) {
-			if (!AssetMap.has(`${Group}/${Name}`) || !CommonIsArray(typeList)) {
-				continue;
-			}
-			for (let Type of typeList) {
-				Type ||= undefined;
-				res.push({ Group, Name, Type });
-			}
-		}
-	}
-	return res;
-}
-
-/**
  * Compares two version numbers and returns -1/0/1 if Other number is smaller/same/larger than Current one
  * @param {string} Current Current version number
  * @param {string} Other Other version number
