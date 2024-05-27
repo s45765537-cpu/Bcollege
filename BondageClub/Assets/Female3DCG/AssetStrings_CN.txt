@@ -1,227 +1,7 @@
 (You can use or remove items by selecting specific body regions on yourself.)
 (你可以选择身体的特定部位来使用或移除物品)
-(View your profile.)
-(查看你的资料)
-(Change your clothes.)
-(更换你的衣服)
-(Room administrator action.)
-(房间管理员动作)
-(As a room administrator, you can take these actions.)
-(作为房间管理员，你可以做以下动作)
-(Character actions.)
-(角色动作)
-(Possible character actions.)
-(可选的角色动作)
-(Spend GGTS minutes.)
-(花费GGTS分钟)
-(Select how to spend your minutes.)
-(选择如何花费你的分钟)
-(View your current rules.)
-(查看你目前的规则)
-(Here are your currently active rules.)
-(这些是现在生效中的规则)
-(Leave this menu.)
-(离开此菜单。)
-(Move Character.)
-(移动角色)
-(Move started.)
-(开始移动)
-(Back to main menu.)
-(回到主菜单.)
-(Spend 15 minutes for a bondage position change.)
-(花费15分钟，改变束缚姿势)
-(You don't have enough minutes available.)
-(你没有足够的可花费分钟)
-(Spend 15 minutes for a new blindness level.)
-(花费15分钟，改变遮眼等级)
-(Spend 15 minutes for a new deafness level.)
-(花费15分钟，改变塞耳等级)
-(Spend 15 minutes for an sexual intensity change.)
-(花费15分钟，改变性刺激强度)
-(Spend 15 minutes for a sexual intensity change.)
-(花费15分钟，改变性刺激强度)
-(Spend 30 minutes to unlock the door.)
-(花费30分钟，解锁房间)
-(You must have 30 minutes and be the admistrator of the locked room.)
-(你必须有30分钟，并且需要是被锁住房间的管理员。)
-(Spend 120 minutes to get $100.)
-(花费120分钟，获得$100)
-(GGTS gives you $100 and substracts 120 minutes to your total.)
-(GGTS给了你$100，并从你的总分钟中减少了120分钟)
-(Spend 200 minutes to get your own GGTS helmet.)
-(花费200分钟，得到你自己的GGTS头盔)
-(You get a GGTS helmet and the AI substracts 200 minutes from your total.)
-（你获得了一个GGTS头盔，AI从你的GGTS分钟代币中减去了200分钟）
-(You don't have enough minutes available or you already have the helmet in your inventory.)
-（你没有足够的GGTS分钟或你已经拥有GGTS头盔了）
-(Adjust your bondage skill.)
-(调整你的束缚技能)
-(By default, you restrain using your full bondage skill.  You can use less of your skill and make it easier for your victims to escape.)
-(默认状况下,你会使用你所有的捆绑技能. 你可以选择使用更少技能来让目标容易逃脱.)
-(Adjust your evasion skill.)
-(调整你的逃脱技能)
-(By default, you struggle using your full evasion skill.  You can use less of your skill and make it harder for you to struggle free.)
-(默认状况下,你会使用你所有的逃脱技能. 你可以选择使用更少技能来让自己更难逃脱.)
-(Call the maids for help)
-(呼叫女仆帮助)
-(The maids are not supposed to take room calls. This will result in punishment and public humiliation. Are you sure?)
-(女仆们一般不接受聊天室呼叫，这会让你陷入惩罚和公开羞辱。你确定吗？)
-(The maids will be here shortly...)
-(女仆们马上就到...)
-(Use your safeword.)
-(使用安全词)
-(A safeword is serious and should not be used to cheat.  It can revert your clothes and restraints to when you entered the lobby, or release you completely.)
-(安全词应该是严肃的且不应被用于作弊，它可以将你的服装和束缚恢复到登录时的状态，或是完全解放你)
-(Take a photo of yourself.)
-(给自己拍张照片。)
-(Craft an item.)
-(制作一件物品。)
-(Boot Kinky Dungeon)
-(启动淫靡地城)
-(The helmet chimes as Kinky Dungeon starts up)
-(淫靡地城启动的时候，头盔轻轻嗡鸣)
-(Play Kinky Dungeon)
-(玩淫靡地城)
-(Main menu.)
-(主菜单)
-(Use your full bondage skill.  100%)
-(使用你所有的束缚技能.  100%)
-(You will now use your full bondage skill when using a restraint.  100%)
-(你会在束缚他人时使出你的浑身解数 100%)
-(Use most of your bondage skill.  75%)
-(使用你大部分的束缚技能.  75%)
-(You will now use most of your bondage skill when using a restraint.  75%)
-(你会在束缚他人时稍稍留些余地 75%)
-(Use half of your bondage skill.  50%)
-(使用你大约一般的束缚技能.  50%)
-(You will now use half of your bondage skill when using a restraint.  50%)
-(你会在束缚他人时放亿点点水 50%)
-(Use very little of your bondage skill.  25%)
-(使用一点点你的束缚技能.  25%)
-(You will now use very little of your bondage skill when using a restraint.  25%)
-(你会在束缚他人时心不在焉 25%)
-(Use none of your bondage skill.  0%)
-(完全不使用束缚技能.  0%)
-(You will now use none of your bondage skill when using a restraint.  0%)
-(我觉得你就是想被绑 0%)
-(Don't change your skill.)
-(不改变你的技能.)
-(Use your full evasion skill.  100%)
-(使用你所有的逃脱技能.  100%)
-(You will now use your full evasion skill when trying to struggle free.  100%)
-(你会在试图逃脱时使出你的浑身解数 100%)
-(Use most of your evasion skill.  75%)
-(使用你大部分的逃脱技能.  75%)
-(You will now use most of your evasion skill when trying to struggle free.  75%)
-(你会在试图逃脱时放一点水 75%)
-(Use half of your evasion skill.  50%)
-(使用你大约一半的逃脱技能.  50%)
-(You will now use half of your evasion skill when trying to struggle free.  50%)
-(你会在试图逃脱时放亿点点水 50%)
-(Use very little of your evasion skill.  25%)
-(使用一点点你的逃脱技能.  25%)
-(You will now use very little of your evasion skill when trying to struggle free.  25%)
-(你会在试图逃脱时心不在焉 25%)
-(Use none of your evasion skill.  0%)
-(完全不使用逃脱技能 0%)
-(You will now use none of your evasion skill when trying to struggle free.  0%)
-(你大概是想被这么绑着一辈子吧 0%)
-(Yes! Get me out of this room!)
-(是的！把我从这弄出去！)
-(No, don't call the maids.)
-(不，不要呼叫女仆)
-(Revert Character.)
-(恢复角色)
-(This will revert your character's clothes and restraints back to how they were when you entered the lobby. Use this if you were forced into restraints against your consent. Are you sure you want to revert your character?)
-(这会将你的角色的服装和束缚恢复到登录时的状态。如果你未自愿就被强行绑上束缚时可以使用。你确定要使用吗？)
-(Release Character.)
-(释放角色.)
-(This will immediately release you of ALL restraints you are wearing and return you to the Main Lobby. Use this only if you are stuck in restraints and nobody can or wants to help you. Are you sure about this?)
-(这会立即解开你身上的所有束缚并把你送回大厅。请仅在被困在束缚中，且没有人能够帮助的情况下使用它。你确定要使用吗？)
-(Don't use Safeword.)
-(不要使用安全词)
-(Yes, revert Character.)
-(是的，恢复角色)
-(No, don't revert Character.)
-(不，不要恢复)
-(Yes, I want to be released.)
-(是的，我想要被解开)
-(No, don't release me.)
-(不，不要解开)
-'s
-的
-You cannot access your items
-你无法使用你的物品
-SourceCharacter used PronounPossessive safeword and wants to be released. PronounSubject is guided out of the room for PronounPossessive safety.
-SourceCharacter 使用了安全词，并希望被释放。为了PronounPossessive安全，她已被送出房间。
-SourceCharacter used PronounPossessive safeword. Please check for PronounPossessive well-being.
-SourceCharacter 使用了安全词。请检查她的身心健康状况。
-SourceCharacter adds a NextAsset on DestinationCharacter FocusAssetGroup PrevAsset.
-SourceCharacter在DestinationCharacterFocusAssetGroup上PrevAsset上加了NextAsset.
-SourceCharacter changes the color of NextAsset on DestinationCharacter FocusAssetGroup.
-SourceCharacter改变了DestinationCharacterFocusAssetGroup上NextAsset的颜色.
-SourceCharacter flips a coin. The result is: CoinResult.
-SourceCharacter丢了一枚硬币.结果是: CoinResult.
-SourceCharacter rolls DiceType. The result is: DiceResult.
-SourceCharacter丢了DiceType.结果是: DiceResult.
-SourceCharacter hops off the PrevAsset.
-SourceCharacter从她的PrevAsset跳下来。
-SourceCharacter escapes from the PrevAsset.
-SourceCharacter从她的PrevAsset逃脱出来。
-TargetCharacterName gives a sealed envelope to TargetPronounPossessive owner.
-TargetCharacterName把一个封住的信封交给TargetPronounPossessive主人。
-TargetCharacterName gets grabbed by two maids and locked in a timer cell, following TargetPronounPossessive owner's commands.
-TargetCharacterName被两个女仆拽走，按照TargetPronounPossessive主人的命令，把她关进了定时监牢里。
-TargetCharacterName gets grabbed by two nurses wearing futuristic gear and locked in the Asylum for GGTS, following TargetPronounPossessive owner's commands.
-TargetCharacterName被两个穿着未来装备的护士拽走，按照她的主人的命令，被关在了收容所进行GGTS。
-TargetCharacterName gets grabbed by two maids and escorted to the maid quarters to serve drinks for TargetPronounPossessive owner.
-TargetCharacterName被两个女仆拽走，按照TargetPronounPossessive主人的命令，押送她到女仆宿舍开始送饮料。
-SourceCharacter was interrupted while trying to use a NextAsset on TargetCharacter.
-SourceCharacter 试图在 TargetCharacter 身上使用 NextAsset，但是操作被中断了。
-SourceCharacter was interrupted while going for the PrevAsset on TargetCharacter.
-SourceCharacter 试图操作 TargetCharacter 身上的 NextAsset，但是操作被中断了。
-SourceCharacter was interrupted while swapping a PrevAsset for a NextAsset on TargetCharacter.
-SourceCharacter 试图将 TargetCharacter 身上的 PrevAsset 换成 NextAsset，但是操作被中断了。
-SourceCharacter locks a NextAsset on DestinationCharacter FocusAssetGroup.
-SourceCharacter把DestinationCharacterFocusAssetGroup上NextAsset上了锁.
-SourceCharacter loosens the PrevAsset on DestinationCharacter FocusAssetGroup a little.
-SourceCharacter稍微解松了位于DestinationCharacterFocusAssetGroup上的PrevAsset。
-SourceCharacter loosens the PrevAsset on DestinationCharacter FocusAssetGroup a lot.
-SourceCharacter将位于DestinationCharacterFocusAssetGroup上的PrevAsset解松了很多。
-SourceCharacter struggles and loosens the PrevAsset on DestinationCharacter FocusAssetGroup.
-SourceCharacter挣扎着解松了位于DestinationCharacterFocusAssetGroup上的PrevAsset。
-SourceCharacter picks the lock on DestinationCharacter PrevAsset.
-SourceCharacter撬开了DestinationCharacterPrevAsset上的锁。
-SourceCharacter removes the PrevAsset from DestinationCharacter FocusAssetGroup.
-SourceCharacter从DestinationCharacterFocusAssetGroup移除了PrevAsset.
-SourceCharacter slips out of TargetPronounPossessive PrevAsset.
-SourceCharacter从她的PrevAsset滑脱出来。
-SourceCharacter swaps a PrevAsset for a NextAsset on DestinationCharacter FocusAssetGroup.
-SourceCharacter把DestinationCharacterFocusAssetGroup上的PrevAsset换成了NextAsset.
-SourceCharacter tightens the PrevAsset on DestinationCharacter FocusAssetGroup a little.
-SourceCharacter稍微绑紧了位于DestinationCharacterFocusAssetGroup上的PrevAsset。
-SourceCharacter tightens the PrevAsset on DestinationCharacter FocusAssetGroup a lot.
-SourceCharacter用力绑紧了位于DestinationCharacterFocusAssetGroup上的PrevAsset。
-SourceCharacter unlocks the PrevAsset on DestinationCharacter FocusAssetGroup.
-SourceCharacter打开了DestinationCharacterFocusAssetGroup上PrevAsset的锁。
-SourceCharacter unlocks and removes the PrevAsset from DestinationCharacter FocusAssetGroup.
-SourceCharacter打开并移除了DestinationCharacterFocusAssetGroup上的PrevAsset.
-SourceCharacter uses a NextAsset on DestinationCharacter FocusAssetGroup.
-SourceCharacter在DestinationCharacterFocusAssetGroup上使用了NextAsset.
-Sexual activities
-交互动作
-Adding...
-添加中...
-Must have an arm/torso/pelvis item to use ceiling tethers.
-手臂/躯干/小腹必须有物品才能使用牵引绳
 Add
 添加
-Add TimerTime minutes to the Timer
-增加TimerTime分钟定时
-Tighten / Loosen
-绑紧/解松
-Option already set
-选项已设置
 Nothing
 无
 Chain
@@ -316,16 +96,6 @@ Shiny
 闪亮
 Tight
 紧绷
-Beep
-发送私聊
-Beep from
-好友私聊来自
-Beep from your owner in your private room
-来自你私人房中主人的私聊
-(Mail)
-(邮件)
-With Message
-以及以下信息
 DestinationCharacterName vibrating wand stops vibrating.
 DestinationCharacterName振动乳胶内裤停止振动。
 DestinationCharacterName vibrating wand slows down into a light tease.
@@ -356,12 +126,8 @@ Closed
 关闭
 Open
 打开
-Toggle closed eyes blindness
-更改闭眼时的失明等级
 Bloated
 多
-Blocked in this room.
-被房间禁止
 Default
 默认
 Select body overlay.
@@ -424,8 +190,6 @@ No shine
 无高光
 Select an option.
 选择一个选项。
-Brightness
-亮度
 Earless
 没有耳朵
 Ears
@@ -474,80 +238,8 @@ SourceCharacter attaches a short chain to DestinationCharacter locking butt plug
 SourceCharacter将一根短锁链连接到DestinationCharacter带锁肛塞上。
 Use the butt plug's pump
 使用肛塞气泵
-Cancel
-取消
-Cannot change to the AllFours pose.
-无法改变到AllFours姿势。
-Cannot change to the BackBoxTie pose.
-无法改变到BackBoxTie姿势。
-Cannot change to the BackCuffs pose.
-无法改变到BackCuffs姿势。
-Cannot change to the BackElbowTouch pose.
-无法改变到BackElbowTouch姿势。
-Cannot change to the BaseLower pose.
-无法改变到BaseLower姿势。
-Cannot change to the BaseUpper pose.
-无法改变到BaseUpper姿势。
-Remove the suit first.
-先移除紧身衣
-Cannot be used over the applied gags.
-不能在已穿戴的口塞上使用
-Cannot be used over the applied hood.
-不能在已穿戴的头套上使用
-Cannot be used over the applied mask.
-不能在已穿戴的口罩上使用
-Cannot be used when mounted.
-不能在坐在家具上时使用
-Cannot be used while yoked.
-不能在被轭住时使用
-Cannot be used while serving drinks.
-不能在送餐时使用
-Cannot be used while the legs are spread.
-不能在腿被分开时使用
-Remove the wand first.
-先把棒子拔了
-Cannot change to the Hogtied pose.
-无法改变到Hogtied姿势。
-Cannot change to the Kneel pose.
-无法改变到Kneel姿势。
-Cannot change to the KneelingSpread pose.
-无法改变到KneelingSpread姿势。
-Cannot change to the LegsClosed pose.
-无法改变到LegsClosed姿势。
-Cannot change to the LegsOpen pose.
-无法改变到LegsOpen姿势。
-Cannot change to the OverTheHead pose.
-无法改变到OverTheHead姿势。
-Cannot use this option when wearing the item
-已经佩戴时无法使用该选项
-Cannot change to the Spread pose.
-无法改变到Spread姿势。
-You'll need help to get out
-你需要帮助来脱身
-Cannot change to the Suspension pose.
-无法改变到Suspension姿势。
-Cannot change to the TapedHands pose.
-无法改变到TapedHands姿势。
-You cannot unlock yourself
-你不能自己解锁
-A victim cannot unlock TargetPronounSelf if TargetPronounPossessive elbows are bound
-手肘被绑在一起的时候受害者无法为自己开锁
-Cannot use this.
-无法使用
-Cannot use on yourself.
-不能对自己使用
-Cannot change to the Yoked pose.
-无法改变到Yoked姿势。
-Struggle to free yourself
-挣扎来解开你身上的束缚
-Cannot change while locked
-不能在被锁定时使用
 Access denied.
 认证失败.
-Cannot close on shaft.
-在支柱上无法封闭。
-You can unlock yourself
-你可以自己解锁
 Select a style.
 选择样式。
 Behind hair
@@ -596,8 +288,6 @@ Style 2
 样式2
 chains
 锁链
-Challenge:
-挑战:
 SourceCharacter changes DestinationCharacter clothes.
 SourceCharacter换掉了DestinationCharacter衣服。
 OldNick is now known as NewNick.
@@ -610,12 +300,6 @@ Closed Back
 后部关闭
 Open Back
 后部打开
-Type /help for a list of commands
-输入 /help 查看命令列表
-You are not on that member's friendlist; ask TargetPronounObject to friend you before leashing TargetPronounObject.
-你不在该玩家的好友列表中。在使用链子之前，请先让该玩家添加你为好友。
-<i>Asylum</i>
-<i>收容所</i>
 Your AssetName rubs against your vulva.
 AssetName摩擦着你的外阴。
 The knot on your AssetName rubs against your clitoris.
@@ -676,12 +360,6 @@ You feel a sharp pain in your AssetGroup as the AssetName wiggle slightly.
 AssetName稍稍晃动，你感到AssetGroup传来剧烈的疼痛。
 The AssetName hanging from your AssetGroup get shuffled as you move around.
 你来回走动，挂在你的AssetGroup上的AssetName四处晃动着。
-Choose struggling method...
-选择挣扎方式...
-Clear active poses
-清除当前姿势
-Clear facial expressions
-清除面部表情
 Leash
 牵引绳
 SourceCharacter removes the attachment from DestinationCharacter clitoris ring.
@@ -724,8 +402,6 @@ Pattern
 图案
 Text
 文本
-None
-无
 Pacis and Bottles
 奶嘴和瓶子
 Strawberries
@@ -1028,18 +704,6 @@ SourceCharacter closes the lid on DestinationCharacter coffin.
 SourceCharacter关闭了DestinationCharacter棺材的盖子。
 SourceCharacter opens the lid on DestinationCharacter coffin.
 SourceCharacter打开了DestinationCharacter棺材的盖子。
-Default color
-默认颜色
-Change item color
-更换颜色
-Select default color
-选择默认颜色
-Unable to change color due to player permissions
-因玩家权限设置无法更改颜色
-Save color to currently selected slot
-将颜色存储至目前选择的槽位
-Use this color
-使用该颜色
 Change code
 更换密码
 SourceCharacter tries to change the code of the padlock on DestinationCharacter FocusAssetGroup but fails.
@@ -1064,20 +728,6 @@ Your restraints prevent you from accurately manipulating the lock's dial
 你的束缚让你无法准备操作锁的数字转盘
 Confirm
 确认
-Crafted item properties.
-制作的物品的特性。
-Crafted properties
-制作特性
-Return to the item menu
-回到物品菜单
-Description: CraftDescription
-描述：CraftDescription
-Crafter: MemberName (MemberNumber)
-制作者：MemberName (MemberNumber)
-Name: CraftName
-名称：CraftName
-Property: CraftProperty
-特性：CraftProperty
 Crotch shield:
 胯部挡板：
 SourceCharacter closes the lid on DestinationCharacter cryogenic capsule.
@@ -1106,8 +756,6 @@ Kneel on cushion
 跪在垫子上
 Save text
 保存文本
-Decoding the lock...
-正在解码…
 Decrease
 减少
 Deflate it
@@ -1116,18 +764,8 @@ deflates
 放气
 Time until deflation:
 放气前时间：
-Delete
-删除
 Deny
 拒绝
-Desert
-沙漠
-Try to unfasten
-试着打开扣锁
-Exit permission mode
-退出权限编辑模式
-Edit item permissions
-编辑物品权限
 DestinationCharacterName vibrating dildo stops vibrating.
 DestinationCharacterName振动阳具停止振动。
 DestinationCharacterName vibrating dildo slows down into a light tease.
@@ -1160,10 +798,6 @@ SourceCharacter pulls out DestinationCharacter dildo plug from TargetPronounPoss
 SourceCharacter从DestinationCharacter口塞里拔出了假阳具塞子。
 SourceCharacter plugs up DestinationCharacter mouth with the dildo plug.
 SourceCharacter使用假阳具塞子塞住了DestinationCharacter嘴。
-Dismount
-起身
-Dismounting...
-正在离开…
 SourceCharacter wraps many layers on DestinationCharacter mouth.
 SourceCharacter用胶带把DestinationCharacter嘴包住了好几层。
 SourceCharacter crosses two pieces of duct tape on DestinationCharacter mouth.
@@ -1274,22 +908,8 @@ This person is fully locked by you
 这个人被你一个人锁了起来
 Empty
 空
-Enable random input of time from everyone else
-允许所有其他人随机输入时间
 Escalate
 兴奋
-Escape from the item
-逃离该物品
-Escaping...
-正在逃离…
-Back to character
-回到角色
-Unavailable while crafting
-在制作物品时不可用。
-Blocked due to item permissions
-因物品权限而被禁止
-Remove locks before changing
-更改前移除锁
 Right Piercing
 右侧穿刺
 Left Piercing
@@ -1326,8 +946,6 @@ Left
 左侧
 Right
 右侧
-Facial expression
-面部表情
 SourceCharacter ties the rope around TargetCharacter's ankles.
 SourceCharacter把绳子绑在TargetCharacter的脚踝周围。
 SourceCharacter ties the ropes around TargetCharacter's ankles and knees.
@@ -1336,8 +954,6 @@ SourceCharacter uses the ropes on TargetCharacter to tie TargetPronounPossessive
 SourceCharacter用绳子把TargetCharacter的腿绑在床柱上。
 SourceCharacter ties the rope below TargetCharacter's knees.
 SourceCharacter把绳子绑在TargetCharacter的膝盖下方。
-Try to squeeze out
-试着挤出去
 Forbidden Orgasm
 禁止高潮
 Forbidden Stand Up
@@ -1640,8 +1256,6 @@ gag
 口塞
 Gag configuration:
 口塞设置：
-GGTS control this item
-GGTS控制该物品
 [GGTS] SourceCharacter disobeyed.  Strike recorded.  Sixty minutes removed.
 [GGTS] SourceCharacter未服从命令。记一次过。减去60 GGTS分钟。
 [GGTS] SourceCharacter disobeyed.  Strike one recorded.  Three strikes equal punishment.
@@ -1940,8 +1554,6 @@ Hair out & Accessories in
 头发在外&配饰在内
 Hair out & Accessories out
 头发&配饰在外
-Hacking the item...
-正在黑入…
 In front of hair
 在头发前
 Select elf ears position
@@ -2142,12 +1754,6 @@ SourceCharacter detaches the chain from DestinationCharacter HighStyle Steel ank
 SourceCharacter解开了DestinationCharacter高品位钢质腿铐上的锁链。
 SourceCharacter grabs the leash of TargetCharacter.
 SourceCharacter抓住TargetCharacter的牵绳。
-hours
-小时
-Impossible to escape!
-不可能逃脱!
-in the Asylum
-在收容所
 Increase
 增加
 SourceCharacter deflates DestinationCharacter AssetName till it's empty.
@@ -2191,7 +1797,7 @@ Inflated
 Turn Off
 关闭
 Select options
-选择选项
+选择配置
 Select inflation level
 选择充气程度
 Select intensity
@@ -2238,28 +1844,8 @@ in LARP
 在体感对战
 in Magic Battle
 在魔法对战
-in room
-位于房间
-Inspect the lock
-检查锁
-Unable to inspect due to player permissions
-因玩家权限设置无法检查
-Intensity:
-强度：
-Item intensity: Disabled
-物品强度：关闭
-Item intensity: Low
-物品强度：低
-Item intensity: Medium
-物品强度：中
-Item intensity: High
-物品强度：高
-Item intensity: Maximum
-物品强度：最大
 Introduction
 介绍处
-(As you enter the luxurious hallway, a maid comes to greet you.)  Welcome to the Bondage Club, is this your first visit?
-(当你走进富丽堂皇的入口时,一位女仆向你鞠躬.)   欢迎来到拘束俱乐部,这是您第一次来吗?
 Clothes over suit
 衣服在拘束服外
 Extra straps
@@ -3474,8 +3060,6 @@ Widely Spread.
 宽展地分开。
 Close together.
 闭合在一起。
-Glans
-龟头
 Cases
 保护壳
 No Case
@@ -5930,48 +5514,8 @@ Legs cannot close.
 无法夹紧双腿
 Legs cannot open.
 无法张开双腿
-Use a lock
-使用一把锁
-Unable to lock item due to player permissions
-因角色权限设置无法上锁
-Locking...
-正在锁上…
-Member number on lock:
-锁上标着的会员编号:
-Lock related actions
-锁定相关动作
 Padlock mitten buckles
 带锁连指手套
-Your hands are shaky and you lose some tension by accident!
-你的双手发抖，不小心松开了一些锁芯！
-DestinationCharacterName jammed a lock and broke TargetPronounPossessive lockpick!
-DestinationCharacterName把开锁器断在了锁芯里!
-You jammed the lock.
-你把锁芯卡住了
-You are too tired to continue. Time remaining:
-你太累了无法继续. 剩余时间:
-Click the pins in the correct order to open the lock!
-按照正确的顺序点击锁芯来解锁!
-Clicking the wrong pin may falsely set it.
-点击错误的锁芯可能会将它错误的抬起.
-It will fall back after clicking other pins.
-它在你点击其他锁芯后可能会重新掉落.
-Failing or quitting will break your lockpick for 1 minute
-失败或退出后的一分钟内无法尝试开锁
-Remaining tries:
-剩余尝试次数:
-Another item is blocking access to this lock
-另一个物品挡住了这个锁
-Loosen...
-解松…
-Click or press space when the circles are aligned
-当圆圈对齐的时候，点击或者按下空格
-...A little
-…一点点
-...A lot
-…很多
-You can struggle to loosen this restraint
-你可以通过挣扎来解松此束缚
 loosens
 放松
 Prize NUM
@@ -6056,8 +5600,6 @@ Select Nose
 选择鼻子
 Select Whiskers
 选择胡须
-Maximum:
-最大：
 SourceCharacter cuffs DestinationCharacter hands behind TargetPronounPossessive back.
 SourceCharacter把DestinationCharacter双手铐在了他的身后。
 SourceCharacter cuffs DestinationCharacter hands in-front of TargetPronounPossessive body.
@@ -6074,10 +5616,6 @@ SourceCharacter holds DestinationCharacter bottle up.
 SourceCharacter抬起DestinationCharacter奶瓶。
 SourceCharacter rests DestinationCharacter bottle on TargetPronounPossessive chest.
 SourceCharacter把DestinationCharacter奶瓶放在胸口上。
-Minimum:
-最小：
-minutes
-分钟
 mittens
 连指手套
 mittens to the baby harness
@@ -6104,48 +5642,6 @@ Select Lip Piercings
 选择嘴唇穿刺
 Select Tongue Piercings
 选择舌头穿刺
-Must be able to kneel.
-必须可以跪下
-Must be wearing a set of arm cuffs first.
-必须要先戴上一副手臂铐
-Must be wearing a set of ankle cuffs first.
-必须先戴上一副脚铐
-Must be on a bed to attach addons to.
-必须在床上才能添加配件
-Requires a closed gag.
-选择一个封闭的口塞。
-A collar must be fitted first to attach accessories to.
-必须先戴好项圈才能添加挂件
-Must free arms first.
-必须先解开手臂束缚
-Must empty butt first.
-必须先清空后庭
-Must remove clitoris piercings first
-必须先移除阴蒂穿环
-Must free feet first.
-必须先解开脚部束缚
-Must free hands first.
-必须先解开手部束缚
-Must free legs first.
-必须先解开腿部束缚
-Must empty vulva first.
-必须先清空阴道
-Must have female upper body.
-必须有女性上身。
-Must have male upper body.
-必须有男性上身。
-Must have full penis access first.
-必须能够完全使用阴茎。
-Must have male genitalia.
-必须有男性生殖器。
-Must have female genitalia.
-必须有女性生殖器。
-Must remove chastity cage first.
-必须先移除贞操笼。
-Must not have a forced erection.
-必须不能有强制勃起。
-Must stand up first.
-必须先站起来
 Loops
 圈圈
 Select the design
@@ -6156,22 +5652,6 @@ Select the rope length
 选择绳子长度
 Short
 短
-TargetPronounSubject must be wearing a baby harness to chain the mittens.
-TargetPronounObject必须穿戴婴儿束带才能连接无指手套的链子。
-You need some padlocks to do this.
-你需要一些挂锁才能如此做。
-You need a padlock key to do this.
-你需要一些挂锁钥匙才能如此做。
-Requires a harness.
-需要一个束缚。
-Requires round piercings on nipples.
-需要乳头上是圆形穿环。
-View next items
-查看后续物品
-View next expressions
-查看后续表情
-View next page
-查看下一页
 DestinationCharacterName vibrating eggs on TargetPronounPossessive nipples stop vibrating.
 DestinationCharacterName乳头上的跳蛋停止振动。
 DestinationCharacterName vibrating eggs on TargetPronounPossessive nipples slow down into a light tease.
@@ -6206,8 +5686,6 @@ SourceCharacter tweaks DestinationCharacter nipple suction cups sucking in Targe
 SourceCharacter收紧DestinationCharacter乳头吸吮杯，让杯子中度地吸附着TargetPronounObject的乳头。
 Remove some clothes and requires a collar.
 脱下一些衣物并请求一只项圈
-You have no items in this category
-这个分类下没有物品
 No Requirement
 没有需求
 SourceCharacter removes the attachment from DestinationCharacter nose ring.
@@ -6218,18 +5696,6 @@ SourceCharacter attaches a short chain to DestinationCharacter nose ring.
 SourceCharacter将一根短链条连接到DestinationCharacter鼻环。
 SourceCharacter attaches a leash to DestinationCharacter nose ring.
 SourceCharacter将一根牵引绳连接到DestinationCharacter鼻环。
-Joined Room
-加入了房间
-Chat Message
-聊天消息
-Disconnected
-掉线了
-from ChatRoomName
-来自ChatRoomName
-LARP - Your turn
-体感对战-你的回合
-Test Notification
-测试通知
 Engrave the following text on the belt:
 在贞操带上刻下了如下文字：
 SourceCharacter engraved “NewText” on DestinationCharacter obedience belt.
@@ -6270,8 +5736,6 @@ Hair in
 头发在内
 Hair out
 头发在外
-Option needs to be bought
-需要购买的选项
 The stimulation ends just before you go over the edge.
 就在你马上要到极限的时候刺激停止了。
 The vibrators cut off right before you reach climax.
@@ -6288,18 +5752,8 @@ SourceCharacter plugs up DestinationCharacter mouth.
 SourceCharacter把塞子塞进DestinationCharacter嘴。
 Plugged
 被插入
-Outdoor Pool
-室外泳池
-Luxury Pool
-豪华泳池
-Outside Cells
-开放房间
 The use of remotes is forbidden by your owner
 你的主人禁止你使用遥控器
-Padded Cell
-软墙病房
-Padded Cell 2
-软墙病房2
 padlocks
 挂锁
 Page
@@ -6384,20 +5838,6 @@ Go up
 向下
 Forbidden Aggression
 禁止攻击
-Picking the lock...
-正在开锁…
-Try to pick the lock
-尝试开锁
-Unable to pick the lock
-无法撬锁
-Cannot reach lock
-无法接触到锁
-Try to pick the lock (jammed)
-尝试开锁（卡住了）
-Unable to pick without lockpicks
-没有开锁工具无法撬锁
-Unable to pick the lock due to player permissions
-由于玩家权限设置无法撬锁
 DestinationCharacterName owner releases TargetPronounObject from the slave collar.
 DestinationCharacterName主人解开了TargetPronounObject的奴隶项圈。
 TargetCharacterName is given TargetPronounObject slave collar again.
@@ -6456,96 +5896,6 @@ Target not found
 目标未找到
 Valid code
 有效代码
-Pose
-姿势
-,
-，
-, and
-，以及
-View previous items
-查看之前物品
-View previous expressions
-查看之前表情
-Allowed Limited Item
-允许限制物品
-Heavily blinds
-重度遮眼
-Lightly blinds
-轻度遮眼
-Blinds
-遮眼
-Heavily deafens
-重度遮耳
-Lightly deafens
-轻度遮耳
-Deafens
-遮耳
-D/s Family only
-仅限主奴家族
-Favorite
-最爱
-Favorite (theirs & yours)
-最爱(对方的&你的)
-Favorite (yours)
-最爱(你的)
-Heavily gags
-重度塞口
-Lightly gags
-轻度塞口
-Gags
-塞口
-Totally gags
-完全塞口
-Lovers only
-仅限恋人
-Owner only
-仅限主人
-Locked with a AssetName
-被AssetName锁住了
-Automatically locks
-自动上锁
-Buygroup member
-购买物品组成员
-Extended item
-扩展物品
-View previous page
-查看上一页
-Private
-私人
-<i>Private room</i>
-<i>私人房间</i>
-Click here to speed up the progress
-点击这里来加速
-Click when the player reaches the buckle to progress
-角色碰到搭扣前按下鼠标来获得进度
-Click the ropes before they hit the ground to progress
-在绳索落到地面前点击以获得进度
-Alternate keys A (Q on AZERTY) and D to speed up
-交替点按A和D键加速（在AZERTY键盘上为Q和D）
-Alternate keys A and D or X and Y on a controller
-交替点按A和D键，或者手柄上的X和Y键
-him
-他
-her
-她
-them
-TA
-his
-他的
-their
-TA的
-himself
-他自己
-herself
-她自己
-themself
-TA自己
-he
-他
-she
-她
-they
-TA
 SourceCharacter deflates DestinationCharacter gag only a tiny bit.
 SourceCharacter对DestinationCharacter口塞放气，只放了一丁点。
 SourceCharacter deflates DestinationCharacter gag fully till it's empty.
@@ -6578,70 +5928,6 @@ Pump gag level: Full mouth
 口塞充气程度: 满
 pumps
 气泵
-Received at
-接收于
-Release from hogtie first.
-先解开驷马
-Use your remote
-使用你的遥控器
-Unable to use due to player permissions
-因玩家权限设置无法使用
-Your hands must be free to use remotes
-你必须双手自由才能使用遥控器
-You do not have access to this item
-没有足够的权限
-You have not bought a lover's remote yet.
-你还没买过爱人遥控器
-You have not bought a remote yet.
-你还没买过遥控器
-Your owner is preventing you from using remotes.
-你的主人禁止你使用遥控器
-Using remotes on this item has been blocked
-对该物品使用遥控器的能力被屏蔽了
-Remove the item
-移除该物品
-Unchain mittens
-移除手套链子
-Remove the chain first.
-先移除锁链
-Must remove chastity first.
-必须先移除贞操带
-Remove some clothes first.
-先脱掉些衣服
-Must remove face mask first.
-必须先摘下面具
-Remove item when the lock timer runs out
-在计时器耗尽时移除物品
-Remove some restraints first.
-先移除一些束缚
-Must remove shackles first.
-必须先移除镣铐
-Remove the suspension first.
-先从悬挂上下来
-Removing...
-移除中…
-Need Bondage ReqLevel
-需要束缚技能等级ReqLevel
-Requires self-bondage 1.
-需要自缚技能等级1
-Requires self-bondage 10.
-需要自缚技能等级10
-Requires self-bondage 2.
-需要自缚技能等级2
-Requires self-bondage 3.
-需要自缚技能等级3
-Requires self-bondage 4.
-需要自缚技能等级4
-Requires self-bondage 5.
-需要自缚技能等级5
-Requires self-bondage 6.
-需要自缚技能等级6
-Requires self-bondage 7.
-需要自缚技能等级7
-Requires self-bondage 8.
-需要自缚技能等级8
-Requires self-bondage 9.
-需要自缚技能等级9
 Reset trigger count
 重置触发计数
 Restart Timer
@@ -6748,50 +6034,12 @@ SourceCharacter adds weights to DestinationCharacter round piercings.
 SourceCharacter在DestinationCharacter穿环上添加了配重。
 SourceCharacter adds weights and attaches a chain from DestinationCharacter round piercings to TargetPronounPossessive collar.
 SourceCharacter在DestinationCharacter穿环上添加了配重，并用锁链把穿环和项圈连接起来。
-Active Rules
-生效规则
-Cannot change:
-无法更改:
-Blocked: Family keys
-禁止:家族钥匙
-Blocked: Normal keys
-禁止:普通钥匙
-Your owner cannot use lover locks on you
-你的主人不能对你使用恋人锁
-No lover locks on yourself
-不能对自己使用恋人锁
-Cannot change your nickname
-不能修改你的昵称
-No owner locks on yourself
-你的身上没有主人锁
-Blocked: Remotes on anyone
-禁止:所有人的遥控器
-Blocked: Remotes on yourself
-禁止:你自己的遥控器
-No whispers around your owner
-在你主人身边时无法悄悄话
-No active rules
-没有生效的规则
-Slave collar unlocked
-奴隶项圈已解锁
 Your safeword is disabled, it cannot be used at the moment.
 你的安全词被禁用了， 现在无法使用
-Save/Load Expressions
-存储/读取表情
-(Empty)
-(空白)
-Load
-读取
-Save
-保存
 SourceCharacter ties the scarf loosely over DestinationCharacter mouth.
 SourceCharacter系起围巾，松垮地盖住DestinationCharacter嘴。
 SourceCharacter ties the scarf covering DestinationCharacter mouth and nose.
 SourceCharacter系起围巾，松垮地盖住DestinationCharacter嘴和鼻子。
-Select an activity to use on the GroupName.
-请选择要对GroupName做的动作.
-No activity available on the GroupName.
-在GroupName上没有可用的动作。
 Select an item attachment
 选择一个配件物品
 Selected chastity belt backing
@@ -6828,16 +6076,8 @@ How much do you want to inflate the strait leotard?
 你想要把拘束紧身衣充气到什么程度？
 Select an item to use.
 选择物品以使用
-Select an item to use on the GroupName.
-请选择要用在GroupName的物品
 Select Large Belt Width.
 选择大皮带宽度
-Select a lock to use on the GroupName.
-请选择钥用在GroupName的锁。
-This looks like its locked by a AssetName.
-这看起来被AssetName锁上了。
-This looks like its locked by something.
-这看起来被什么东西锁上了。
 Raise or lower the bottle
 抬高或降低奶瓶
 Select a hood style.
@@ -6874,156 +6114,6 @@ Item sensitivity: High
 物品敏感度：高
 Item sensitivity: Maximum
 物品敏感度：最大
-Sent at
-发送自
-TargetCharacterName was banned by SourceCharacter.
-TargetCharacterName被SourceCharacter给BAN掉了.
-TargetCharacterName was demoted from administration by SourceCharacter.
-TargetCharacterName被SourceCharacter取消了房间管理员权限.
-SourceCharacter disconnected.
-SourceCharacter掉线了.
-SourceCharacter entered.
-SourceCharacter进来了.
-SourceCharacter called the maids to escort TargetCharacterName out of the room.
-SourceCharacter呼叫女仆把TargetCharacterName从房间护送出去。
-SourceCharacter left.
-SourceCharacter离开了.
-The Bondage Club is pleased to announce that SourceCharacter and TargetCharacter are starting a 7 days minimum period as lovers.
-束缚俱乐部荣幸地宣布 SourceCharacter 与 TargetCharacter 成为了爱人。爱人阶段至少7天可以订婚。
-The Bondage Club is pleased to announce that SourceCharacter and TargetCharacter are now engaged and are starting a 7 days minimum period as fiancées.
-束缚俱乐部荣幸地宣布 SourceCharacter 与 TargetCharacter 已订婚，成为了未婚妻。订婚阶段至少7天可以结婚。
-The Bondage Club is proud to announce that SourceCharacter and TargetCharacter are now married. Long may it last.
-束缚俱乐部骄傲地宣布 SourceCharacter 与 TargetCharacter 结婚了。祝你们的婚姻长长久久。
-The Bondage Club announces that SourceCharacter released TargetCharacter from PronounPossessive ownership.
-束缚俱乐部宣布SourceCharacter解除了对TargetCharacter的所有权。
-The Bondage Club announces that SourceCharacter canceled the trial ownership of TargetCharacter.
-束缚俱乐部宣布SourceCharacter取消了与TargetCharacter的主从试用关系。
-The Bondage Club is proud to announce that SourceCharacter is now fully collared. PronounPossessive fate is in PronounPossessive owners hands.
-束缚俱乐部宣布SourceCharacter已经被戴上项圈。PronounObject的命运将由PronounObject的主人决定。
-Saying a forbidden word is blocked by your owner.  You can use /forbiddenwords to review the words.
-你被你的主人禁止说出禁止词。你可以使用/forbiddenwords来查看这些词。
-You said a forbidden word and will be silenced for 15 minutes.  You can use /forbiddenwords to review the words.
-你因为说出禁止词而被禁言10分钟。你可以使用/forbiddenwords来查看这些词。
-You said a forbidden word and will be silenced for 30 minutes.  You can use /forbiddenwords to review the words.
-你因为说出禁止词而被禁言30分钟。你可以使用/forbiddenwords来查看这些词。
-You said a forbidden word and will be silenced for 5 minutes.  You can use /forbiddenwords to review the words.
-你因为说出禁止词而被禁言5分钟。你可以使用/forbiddenwords来查看这些词。
-Your lover is now allowing your owner to use lovers locks on you.
-你的恋人现在允许你的主人对你使用恋人锁。
-Your lover is now preventing your owner from using lovers locks on you.
-你的恋人现在禁止你的主人对你使用恋人锁。
-Your lover is now allowing you to use lovers locks on yourself.
-你的恋人现在允许你对自己使用恋人锁。
-Your lover is now preventing you from using lovers locks on yourself.
-你的恋人现在禁止你对自己使用恋人锁。
-SourceCharacter is asking you to be PronounPossessive lover.  Click on PronounObject and manage your relationship to accept, don't do anything to refuse.
-SourceCharacter 正在请求你做PronounObject的恋人。点击该玩家并选择“管理你们的关系”以接受。如果要拒绝，你不需要执行任何操作。
-SourceCharacter is asking you to become PronounPossessive fiancée.  Click on PronounObject and manage your relationship to accept, don't do anything to refuse.
-SourceCharacter 正在请求你做PronounObject的未婚妻。点击该玩家并选择“管理你们的关系”以接受。如果要拒绝，你不需要执行任何操作。
-SourceCharacter is proposing you to become PronounPossessive wife.  Click on PronounObject and manage your relationship to accept, don't do anything to refuse.
-SourceCharacter 正在请求你做PronounObject的妻子。点击该玩家并选择“管理你们的关系”以接受。如果要拒绝，你不需要执行任何操作。
-SourceCharacter has prepared a great collaring ceremony.  A maid brings a slave collar, which PronounPossessive submissive must consent to wear.
-SourceCharacter准备了一场隆重的收奴典礼。一位女仆拿出了一个奴隶项圈，PronounObject的从仆必须自愿才能戴上。
-SourceCharacter is offering you to start a trial period as PronounPossessive submissive.  Click on PronounObject and manage your relationship to accept, don't do anything to refuse.
-SourceCharacter向你提供了试成为PronounObject的从仆的机会。点击PronounObject并选择管理你们的关系来接受邀请。若你要拒绝，忽略本消息即可。
-Your owner is now allowing you to access others when they're there.
-你的主人现在允许你于她在场时接触其他人。
-Your owner is now preventing you from accessing others when they're there.
-你的主人现在禁止你于她在场时接触其他人。
-Your owner is now allowing you to access yourself when they're there.
-你的主人现在允许你于她在场时接触自己。
-Your owner is now preventing you from accessing yourself when they're there.
-你的主人现在禁止你于她在场时接触自己。
-Your owner has changed the appearance zones you can modify.
-你的主人改变了你能够修改的外观区域。
-Your owner has changed the item zones you can access.
-你的主人改变了你能够接触的物品区域。
-Your owner has changed the Bondage Club areas you can access.
-你的主人改变了你能够访问的束缚俱乐部区域。
-Your owner is now allowing you to access your wardrobe and change clothes.
-你的主人现在允许你访问衣柜并更换服装了。
-Your owner has blocked your wardrobe access.  You won't be able to change clothes until that rule is revoked.
-你的主人禁用了你的衣柜。直到该限制被撤销，你无法更换服装。
-Your owner has blocked your wardrobe access for a day.  You won't be able to change clothes.
-你的主人禁用了你的衣柜，时长为1天。你现在无法更换服装。
-Your owner has blocked your wardrobe access for an hour.  You won't be able to change clothes.
-你的主人禁用了你的衣柜，时长为1小时。你现在无法更换服装。
-Your owner has blocked your wardrobe access for a week.  You won't be able to change clothes.
-你的主人禁用了你的衣柜，时长为1星期。你现在无法更换服装。
-Your owner is now allowing you to change your pose when they're there.
-你的主人现在允许你于她在场时改变姿势。
-Your owner is now preventing you from changing your pose when they're there.
-你的主人现在禁止你于她在场时
-Your owner released you from the slave collar.
-你的主人卸下了你的奴隶项圈。
-Your owner has locked the slave collar on your neck.
-你的主人在你的脖子上安装了奴隶项圈。
-Your owner is now allowing you to emote when they're there.
-你的主人现在允许你于她在场时说心里话。
-Your owner is now preventing you from emoting when they're there.
-你的主人现在禁止你于她在场时说心里话。
-Your owner has changed your list of forbidden words.  You can use /forbiddenwords to review the words.
-你的主人改变了你的禁止词列表。你可以使用/forbiddenwords来查看这些词。
-Your owner requires you to spin the Wheel of Fortune.
-你的主人要求你转动命运之轮。
-Your owner is now allowing you to have keys.  You can buy keys from the club shop.
-你的主人现在允许你持有钥匙。你可以在俱乐部商店购买钥匙。
-Your owner is now allowing you to use family keys.
-你的主人现在允许你使用家族钥匙。
-Your owner is now preventing you from getting new keys.  The club shop will not sell keys to you anymore.
-你的主人现在不允许你获取新的钥匙。俱乐部商店将不再向你出售钥匙。
-Your owner is now preventing you from using family keys.
-你的主人现在禁止你使用家族钥匙。
-Your owner has confiscated your keys.  All your regular keys are lost.
-你的主人没收了你的钥匙。你失去了你所有的一般钥匙。
-Your owner is now allowing you to change your nickname.
-你的主人现在允许你改变你的昵称。
-Your owner is now preventing you from changing your nickname.
-你的主人现在禁止你改变你的昵称。
-Your owner is now allowing you to have remotes.  You can buy remotes from the club shop.
-你的主人现在允许你持有遥控器。你可以在俱乐部商店购买遥控器。
-Your owner is now allowing you to use remotes on yourself.
-你的主人现在允许你在自己身上使用遥控器。
-Your owner is now preventing you from getting new remotes.  The club shop will not sell remotes to you anymore.
-你的主人现在不允许你获取新的遥控器。俱乐部商店将不再向你出售遥控器。
-Your owner is now preventing you from using remotes on yourself.
-你的主人现在不允许你在自己身上使用遥控器。
-Your owner has confiscated your remotes.  All your remotes are lost.
-你的主人没收了你的遥控器。你失去了所有遥控器
-Your owner is now allowing to using owner locks on yourself.
-你的主人现在允许你在自己身上使用主人锁。
-Your owner is now preventing you from using owner locks on yourself.
-你的主人现在不允许你在自己身上使用主人锁。
-Your owner is now allowing you to talk publicly when they're there.
-你的主人现在允许你于她在场时公开讲话。
-Your owner is now preventing you from talking publicly when they're there.
-你的主人现在禁止你于她在场时公开讲话。
-Your owner is now allowing you to whisper to other members when they're there.
-你的主人现在允许你于她在场时向其他人发送悄悄话。
-Your owner is now preventing you from whispering to other members when they're there.
-你的主人现在禁止你于她在场时向其他人发送悄悄话。
-Your owner has released you.  You're free from all ownership.
-你的主人释放了你。你已经不再被拥有。
-The member number is invalid or you do not own this submissive.
-会员编号无效，或者你并不拥有这个顺从者。
-Your submissive is now fully released from your ownership.
-你的顺从者已经完全从你的拥有中得到释放。
-The Bondage Club is pleased to announce that SourceCharacter is starting a 7 days minimum trial period as a submissive.
-束缚俱乐部很荣幸的宣布SourceCharacter开始了从仆试任期，试任至少7天后才能转正。
-Whisper target is out of range.  Returning to normal chat.
-悄悄话目标超出范围。返回普通聊天。
-TargetCharacterName was moved to the left by SourceCharacter.
-TargetCharacterName被SourceCharacter移到了左边.
-TargetCharacterName was moved to the right by SourceCharacter.
-TargetCharacterName被SourceCharacter移到了右边.
-TargetCharacterName was promoted to administrator by SourceCharacter.
-TargetCharacterName被SourceCharacter设为了房间管理员.
-SourceCharacter shuffles the position of everyone in the room randomly.
-SourceCharacter随机安排了房间中所有人的位置.
-SourceCharacter swapped TargetCharacterName and DestinationCharacterName1 places.
-SourceCharacter交换了TargetCharacterName和DestinationCharacterName1的位置。
-SourceCharacter updated the room. Name: ChatRoomName. Limit: ChatRoomLimit.  ChatRoomPrivacy.  ChatRoomLocked.
-SourceCharacter更新了房间信息. 名称: ChatRoomName. 人数上限: ChatRoomLimit.  ChatRoomPrivacy.  ChatRoomLocked.
 Trigger count:
 触发计数：
 SourceCharacter resets DestinationCharacter AssetName trigger count.
@@ -7076,10 +6166,6 @@ SourceCharacter extends the sock on DestinationCharacter boots.
 SourceCharacter延长了DestinationCharacter靴子上的袜子。
 SourceCharacter extends DestinationCharacter boots.
 SourceCharacter延长了DestinationCharacter靴子。
-Show all zones
-显示所有区域
-Show the time remaining/being added
-显示剩余时间和增加的时间
 SourceCharacter changes DestinationCharacter collar model.
 SourceCharacter改变了DestinationCharacter项圈型号。
 Select the slave collar model
@@ -7092,8 +6178,6 @@ SourceCharacter stops heading for the door.
 SourceCharacter 停止向房门走去。
 SourceCharacter was stopped from leaving.
 SourceCharacter 被阻止离开房间。
-SourceCharacter gets in the way of TargetCharacter, preventing TargetPronounObject from leaving.
-SourceCharacter阻挡了TargetCharacter，让TargetPronounObject无法离开。
 Flat style
 平坦样式
 Loose style
@@ -7102,8 +6186,6 @@ Choose how to wear left socks:
 选择如何穿左侧袜子：
 Choose how to wear right socks:
 选择如何穿右侧袜子：
-Someone
-某人
 The dildo on DestinationCharacterName Vibrating Spreader Dildo Bar stops vibrating.
 DestinationCharacterName身上的假阳具的停止振动。
 The dildo on DestinationCharacterName Vibrating Spreader Dildo Bar slows down into a light tease.
@@ -7128,14 +6210,8 @@ SourceCharacter manages to get to PronounPossessive feet.
 SourceCharacter成功站了起来。
 SourceCharacter releases the leash of TargetCharacter.
 SourceCharacter松开TargetCharacter的牵绳。
-Use brute force
-使用蛮力
-Try to struggle out
-尝试挣脱
 SourceCharacter tries to help TargetCharacter to struggle free.
 SourceCharacter 试图帮助 TargetCharacter 摆脱束缚。
-Struggling...
-挣扎中…
 SourceCharacter restrains TargetCharacter with four sturdy leather belts.
 SourceCharacter只用四根厚实的皮带束缚住TargetCharacter。
 SourceCharacter restrains TargetCharacter with only one sturdy leather belt.
@@ -7172,8 +6248,6 @@ SourceCharacter lowers the height of DestinationCharacter suspension.
 SourceCharacter降低了DestinationCharacter吊起的束缚的高度。
 SourceCharacter raises the height of DestinationCharacter suspension.
 SourceCharacter提高了DestinationCharacter吊起的高度。
-Swapping...
-正在交换…
 DestinationCharacterName sybian stops vibrating.
 DestinationCharacterName鞍式振动器停止振动。
 DestinationCharacterName sybian slows down into a light tease.
@@ -7220,20 +6294,12 @@ SourceCharacter removes the text from DestinationCharacterName AssetName
 SourceCharacter移除了DestinationCharacterNameAssetName上的文本
 Configure item text
 配置物品文本
-Tighten...
-绑紧…
-You can tighten or loosen this item
-你可以绑紧或解松此物品
 tightens
 捆紧
-Tightness:
-松紧度：
 SourceCharacter adds an unknown amount of time to the padlock on DestinationCharacter FocusAssetGroup
 SourceCharacter在DestinationCharacterFocusAssetGroup上的锁的计时器上增加了不知多久时间。
 SourceCharacter adds TimerTime TimerUnit to the padlock on DestinationCharacter FocusAssetGroup.
 SourceCharacter在DestinationCharacterFocusAssetGroup上的锁的计时器上增加了TimerTime TimerUnit。
-Time left:
-剩余时间
 The LockName on DestinationCharacterName FocusAssetGroup opens with a click
 DestinationCharacterNameFocusAssetGroup上的LockName咔哒一声打开了
 The locks on DestinationCharacterName UnlockedGroups open with a click
@@ -7260,32 +6326,14 @@ DestinationCharacterName AssetName lets out a sharp jolt!
 DestinationCharacterNameAssetName发出尖锐的电击！
 DestinationCharacterName AssetName delivers an intense shock!
 DestinationCharacterNameAssetName猛烈地电击了TargetPronounObject！
-Try to loosen the item
-尝试解松该物品
 removes the chains
 移除手链
-Unlock the item
-解锁物品
-Unlocking...
-解锁中…
 Unlock mittens
 解锁手套
 unlocks
 解锁
-Unzip the suit first.
-先解开外套
-Use this item
-使用该物品
 Use Remote
 使用遥控器
-Using none of your skill...
-不使用你的技巧...
-Using 25% of your skill...
-使用你25%的技巧...
-Using 50% of your skill...
-使用你50%的技巧...
-Using 75% of your skill...
-使用你75%的技巧...
 % of full height:
 %最大高度:
 Set the height
@@ -7316,14 +6364,8 @@ Tangled
 杂乱
 Wrapped
 包裹
-The item will be removed when the lock timer runs out
-在计时器耗尽时该物品会被移除
 Select the state.
 选择状态。
-Wink/Blink
-眨眼
-The item will stay when the lock timer runs out
-在计时器耗尽时该物品会保留
 <i>Your private room</i>
 <i>你的私人房间</i>
 Frogtie
@@ -7334,12 +6376,6 @@ SourceCharacter uses the zipties on TargetCharacter to lightly bind TargetPronou
 SourceCharacter使用扎带稍稍束缚TargetCharacter的脚。
 SourceCharacter uses the zipties on TargetCharacter to half bind TargetPronounPossessive feet.
 SourceCharacter使用扎带部分束缚TargetCharacter的脚。
-This zone is out of reach from another item
-这个区域目前因其他物品影响无法触及
-Your owner doesn't allow you to access that zone
-你的主人不允许你接触该区域
-You're too far to reach DialogCharacterObject body and items.
-你距离太远，无法触及DialogCharacterObject的身体和物品。
 Pointed
 尖头
 SourceCharacter changes DestinationCharacter heels.
@@ -7572,8 +6608,6 @@ SourceCharacter changes DestinationCharacter watch.
 SourceCharacter改变了DestinationCharacter的表。
 Cirle
 环形
-nan
-无
 Intense
 强烈的
 Torment heels options
@@ -7586,20 +6620,12 @@ Full on
 最大
 SourceCharacter put a pair of Torment Shoes on DestinationCharacter feet.
 SourceCharacter给DestinationCharacter的脚上穿上了折磨鞋子
-nan
-无
 White Moon
 明月
 Zam's Stick Art
 Zam的棍棒艺术
 Eclipse
 日食
- Hair in & Accessories in
-头发&配饰在内
- Hair in & Accessories out
-头发在内&配饰在外
- Hair out & Accessories in
-头发在外&配饰在内
 Heels Model
 高跟模式
 Vibrating Module
@@ -7620,8 +6646,6 @@ SourceCharacter selected the Torment Heels vibration feature to Hi on Destinatio
 SourceCharacter将DestinationCharacter脚上的折磨高跟鞋的振动功能设置为：高
 SourceCharacter selected the Torment Heels vibration feature to Max on DestinationCharacter feet.
 SourceCharacter将DestinationCharacter脚上的折磨高跟鞋的振动功能设置为：最大
-Select options
-选择配置
 Select the type of cage.
 选择笼子类型
 SourceCharacter gets in the way of , preventing TargetPronounObject from leaving.
@@ -7636,3 +6660,5 @@ SourceCharacter changes DestinationCharacter boots.
 SourceCharacter改变了DestinationCharacter的靴子
 Boots Only
 仅靴子
+None
+无
