@@ -51,6 +51,7 @@ interface ServerAccountData extends ServerAccountImmutableData {
 	Crafting?: string;
 	/** String-based values have been deprecated as of BondageProjects/Bondage-College#2138 */
 	Inventory?: string | Partial<Record<AssetGroupName, string[]>>;
+	InventoryData?: string;
 	AssetFamily?: "Female3DCG";
 	Infiltration?: InfiltrationType;
 	SavedColors?: HSVColor[];

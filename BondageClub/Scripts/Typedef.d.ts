@@ -865,6 +865,7 @@ interface Asset {
 	readonly ActivityAudio?: readonly string[];
 	readonly ActivityExpression: Readonly<Partial<Record<ActivityName, readonly ExpressionTrigger[]>>>;
 	readonly AllowActivityOn?: readonly AssetGroupItemName[];
+	readonly InventoryID?: number;
 	readonly BuyGroup?: string;
 	readonly Effect: readonly EffectName[];
 	readonly Bonus?: AssetBonusName;
@@ -1302,6 +1303,7 @@ interface Character {
 	Lover: string;
 	Money: number;
 	Inventory: InventoryItem[];
+	InventoryData?: string;
 	Appearance: Item[];
 	Stage: string;
 	CurrentDialog: string;
