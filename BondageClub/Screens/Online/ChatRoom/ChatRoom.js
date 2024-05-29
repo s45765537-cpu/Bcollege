@@ -1108,17 +1108,20 @@ function ChatRoomHideElements() {
  * @param {HTMLElement} div
  */
 function ChatRoomAppendChat(div) {
-	const Refocus = document.activeElement.id == "InputChat";
-	const ShouldScrollDown = ElementIsScrolledToEnd("TextAreaChatLog");
-	if (document.getElementById("TextAreaChatLog") != null) {
-		document.getElementById("TextAreaChatLog").appendChild(div);
-		if (ShouldScrollDown) ElementScrollToEnd("TextAreaChatLog");
-		if (Refocus) ElementFocus("InputChat");
+	const chatLog = document.getElementById("TextAreaChatLog");
+	if (!chatLog) {
+		return;
 	}
+
+	// Is the message from the player and was it explicitly sent? (e.g. a non-automatic message)
+	const isPlayerMessage = (
+		div.dataset.sender === Player.MemberNumber.toString()
+		&& !div.classList.contains("ChatMessageNonDialogue")
+	);
 
 	// If the current room separator is collapsed then either uncollapse it
 	if (ChatRoomSep.IsCollapsed(ChatRoomSep.ActiveElem)) {
-		if (!div.dataset.sender || div.dataset.sender === Player.MemberNumber.toString()) {
+		if (isPlayerMessage) {
 			ChatRoomSep.Uncollapse(ChatRoomSep.ActiveElem);
 		} else {
 			div.style.display = "none";
@@ -1129,6 +1132,10 @@ function ChatRoomAppendChat(div) {
 			}
 		}
 	}
+
+	chatLog.appendChild(div);
+	if (isPlayerMessage || ElementIsScrolledToEnd("TextAreaChatLog")) ElementScrollToEnd("TextAreaChatLog");
+	if (document.activeElement.id == "InputChat") ElementFocus("InputChat");
 }
 
 /**
