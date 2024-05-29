@@ -4,7 +4,8 @@ var ChatSearchBackground = "Introduction";
 var ChatSearchResult = [];
 /** @type {typeof ChatSearchResult} */
 var ChatSearchHiddenResult = [];
-var ChatSearchLastSearchDataJSON = "";
+/** @type {null | { Query: string, Language: "" | ServerChatRoomLanguage, Space: ServerChatRoomSpace, Game: ServerChatRoomGame, FullRooms: boolean }} */
+var ChatSearchLastSearchDataJSON = null;
 var ChatSearchLastQuerySearchTime = 0;
 var ChatSearchLastQueryJoin = "";
 var ChatSearchLastQueryJoinTime = 0;
@@ -419,6 +420,7 @@ function ChatSearchExit() {
 	ChatSearchFilterHelpActive = false;
 	ChatSearchFilterUnhideConfirm = null;
 	ChatSearchPreviousActivePose = { ...Player.ActivePoseMapping };
+	ChatSearchLastSearchDataJSON = null;
 	ElementRemove("InputSearch");
 	CommonSetScreen(ChatSearchLeaveSpace, ChatSearchLeaveRoom);
 	DrawingGetTextSize.clearCache();
@@ -1071,10 +1073,9 @@ function ChatSearchQuery() {
 	const SearchData = { Query: Query, Language: ChatSearchLanguage, Space: ChatRoomSpace, Game: ChatRoomGame, FullRooms: FullRooms };
 
 	// Prevent spam searching the same thing.
-	const SearchDataJSON = JSON.stringify(SearchData);
-	if (ChatSearchLastSearchDataJSON != SearchDataJSON || (ChatSearchLastQuerySearchTime + 2000 < CommonTime())) {
+	if (!CommonObjectEqual(ChatSearchLastSearchDataJSON, SearchData) || (ChatSearchLastQuerySearchTime + 2000 < CommonTime())) {
 		ChatSearchLastQuerySearchTime = CommonTime();
-		ChatSearchLastSearchDataJSON = SearchDataJSON;
+		ChatSearchLastSearchDataJSON = SearchData;
 		ChatSearchResult = [];
 		ServerSend("ChatRoomSearch", SearchData);
 	}
