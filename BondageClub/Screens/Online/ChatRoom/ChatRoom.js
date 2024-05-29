@@ -847,6 +847,15 @@ var ChatRoomSep = {
 	ActiveElem: null,
 
 	/**
+	 * Touch event listener that automatically deselects the button on mobile after a click
+	 * @private
+	 * @type {(this: HTMLButtonElement, event: Event) => Promise<void>}
+	 */
+	_TouchEnd: async function _TouchEnd(event) {
+		this.blur();
+	},
+
+	/**
 	 * Click event listener for collapsing one or more chat room separators
 	 * @private
 	 * @type {(this: HTMLButtonElement, event: MouseEvent | TouchEvent) => Promise<void>}
@@ -913,13 +922,21 @@ var ChatRoomSep = {
 						{
 							tag: "button",
 							classList: ["blank-button", "chat-room-sep-collapse"],
-							eventListeners: { click: ChatRoomSep._ClickCollapse },
+							eventListeners: {
+								click: ChatRoomSep._ClickCollapse,
+								touchend: ChatRoomSep._TouchEnd,
+								touchcancel: ChatRoomSep._TouchEnd,
+							},
 							children: ["˅"],
 						},
 						{
 							tag: "button",
 							classList: ["blank-button", "chat-room-sep-header"],
-							eventListeners: { click: ChatRoomSep._ClickScrollUp },
+							eventListeners: {
+								click: ChatRoomSep._ClickScrollUp,
+								touchend: ChatRoomSep._TouchEnd,
+								touchcancel: ChatRoomSep._TouchEnd,
+							},
 						},
 					],
 				},
