@@ -140,7 +140,7 @@ function ElementNumberInputBlur(event) {
  * @param {string} Type - Type of the input tag to create.
  * @param {string} Value - Value of the input tag to create.
  * @param {string | number} [MaxLength] - Maximum input tag of the input to create.
- * @param {HTMLElement} [form] - The form the element belongs to
+ * @param {Node} [form] - The form the element belongs to
  * @returns {HTMLInputElement} - The created HTML input element
  */
 function ElementCreateInput(ID, Type, Value, MaxLength, form) {
@@ -669,3 +669,44 @@ var ElementCheckboxDropdown = {
 		});
 	},
 };
+
+/**
+ * Construct a search-based `<input>` element that offers suggestions based on the passed callbacks output.
+ *
+ * The search suggestions are constructed lazily once the search input is focused.
+ * @example
+ * <input type="search" id={id} list={`${id}-datalist`}>
+ *     <datalist id={`${id}-datalist`}>
+ *         <option value="..." />
+ *         ...
+ *     </datalist>
+ * </input>
+ * @param {string} id - The ID of the to-be created search input; `${id}-datalist` will be assigned the search input's datalist
+ * @param {() => Iterable<string>} dataCallback - A callback returning all values that will be converted into a datalist `<option>`
+ * @param {Object} [options]
+ * @param {null | string} [options.value] - Value of the search input
+ * @param {null | Node} [options.parent] - The parent element of the search input; defaults to {@link document.body}
+ * @param {null | number} [options.maxLength] - Maximum input length of the search input
+ * @returns {HTMLInputElement} - The newly created search input
+ */
+function ElementCreateSearchInput(id, dataCallback, options=null) {
+	let elem = /** @type {HTMLInputElement | null} */(document.getElementById(id));
+	if (elem) {
+		return elem;
+	}
+
+	options ??= {};
+	elem = ElementCreateInput(id, "search", options.value ?? "", options.maxLength, options.parent);
+	elem.appendChild(ElementCreate({ tag: "datalist", attributes: { id: `${id}-datalist` } }));
+	elem.setAttribute("list", `${id}-datalist`);
+	elem.addEventListener("focus", async function() {
+		if (this.list?.children.length !== 0) {
+			return;
+		}
+
+		for (const value of dataCallback()) {
+			this.list.appendChild(ElementCreate({ tag: "option", attributes: { value } }));
+		}
+	});
+	return elem;
+}
