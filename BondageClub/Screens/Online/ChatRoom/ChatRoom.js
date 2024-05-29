@@ -847,6 +847,24 @@ var ChatRoomSep = {
 	ActiveElem: null,
 
 	/**
+	 * Touch event listener that mimicks the start of desktop-style hovering on mobile
+	 * @private
+	 * @type {(this: HTMLButtonElement, event: Event) => Promise<void>}
+	 */
+	_TouchStart: async function _TouchStart() {
+        this.classList.add("chat-room-sep-touch");
+    },
+
+	/**
+	 * Touch event listener that mimicks the end of desktop-style hovering on mobile
+	 * @private
+	 * @type {(this: HTMLButtonElement, event: Event) => Promise<void>}
+	 */
+	_TouchEnd: async function _TouchEnd() {
+        this.classList.remove("chat-room-sep-touch");
+    },
+
+	/**
 	 * Click event listener for collapsing one or more chat room separators
 	 * @private
 	 * @type {(this: HTMLButtonElement, event: MouseEvent | TouchEvent) => Promise<void>}
@@ -913,13 +931,23 @@ var ChatRoomSep = {
 						{
 							tag: "button",
 							classList: ["blank-button", "chat-room-sep-collapse"],
-							eventListeners: { click: ChatRoomSep._ClickCollapse },
+							eventListeners: {
+								click: ChatRoomSep._ClickCollapse,
+								touchstart: ChatRoomSep._TouchStart,
+								touchend: ChatRoomSep._TouchEnd,
+								touchcancel: ChatRoomSep._TouchEnd,
+							},
 							children: ["˅"],
 						},
 						{
 							tag: "button",
 							classList: ["blank-button", "chat-room-sep-header"],
-							eventListeners: { click: ChatRoomSep._ClickScrollUp },
+							eventListeners: {
+								click: ChatRoomSep._ClickScrollUp,
+								touchstart: ChatRoomSep._TouchStart,
+								touchend: ChatRoomSep._TouchEnd,
+								touchcancel: ChatRoomSep._TouchEnd,
+							},
 						},
 					],
 				},
@@ -1091,17 +1119,20 @@ function ChatRoomHideElements() {
  * @param {HTMLElement} div
  */
 function ChatRoomAppendChat(div) {
-	const Refocus = document.activeElement.id == "InputChat";
-	const ShouldScrollDown = ElementIsScrolledToEnd("TextAreaChatLog");
-	if (document.getElementById("TextAreaChatLog") != null) {
-		document.getElementById("TextAreaChatLog").appendChild(div);
-		if (ShouldScrollDown) ElementScrollToEnd("TextAreaChatLog");
-		if (Refocus) ElementFocus("InputChat");
+	const chatLog = document.getElementById("TextAreaChatLog");
+	if (!chatLog) {
+		return;
 	}
+
+	// Is the message from the player and was it explicitly sent? (e.g. a non-automatic message)
+	const isPlayerMessage = (
+		div.dataset.sender === Player.MemberNumber.toString()
+		&& !div.classList.contains("ChatMessageNonDialogue")
+	);
 
 	// If the current room separator is collapsed then either uncollapse it
 	if (ChatRoomSep.IsCollapsed(ChatRoomSep.ActiveElem)) {
-		if (!div.dataset.sender || div.dataset.sender === Player.MemberNumber.toString()) {
+		if (isPlayerMessage) {
 			ChatRoomSep.Uncollapse(ChatRoomSep.ActiveElem);
 		} else {
 			div.style.display = "none";
@@ -1112,6 +1143,10 @@ function ChatRoomAppendChat(div) {
 			}
 		}
 	}
+
+	chatLog.appendChild(div);
+	if (isPlayerMessage || ElementIsScrolledToEnd("TextAreaChatLog")) ElementScrollToEnd("TextAreaChatLog");
+	if (document.activeElement.id == "InputChat") ElementFocus("InputChat");
 }
 
 /**

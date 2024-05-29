@@ -43,16 +43,11 @@ textarea {
 }
 
 .chat-room-sep {
-	--base-color: white;
-	--label-color: rgb(128, 128, 128);
-
 	padding-left: unset !important;
 	border-bottom: min(0.4vh, 0.2vw) black solid !important;
 	position: sticky !important;
 	top: 0%;
 	z-index: 1;
-	background-color: var(--base-color); /* backup for old browsers that do not support color-mix */
-	background-color: color-mix(in srgb, var(--base-color) 90%, var(--label-color) 10%);
 }
 
 .chat-room-sep-div {
@@ -158,17 +153,29 @@ textarea {
 	color: #eee;
 }
 
-#TextAreaChatLog[data-colortheme="dark"] .chat-room-sep-header:hover,
-#TextAreaChatLog[data-colortheme="dark2"] .chat-room-sep-header:hover,
-#TextAreaChatLog[data-colortheme="dark"] .chat-room-sep-collapse:hover,
-#TextAreaChatLog[data-colortheme="dark2"] .chat-room-sep-collapse:hover {
+@media (hover: hover) {
+	#TextAreaChatLog[data-colortheme="dark"] .chat-room-sep-header:hover,
+	#TextAreaChatLog[data-colortheme="dark2"] .chat-room-sep-header:hover,
+	#TextAreaChatLog[data-colortheme="dark"] .chat-room-sep-collapse:hover,
+	#TextAreaChatLog[data-colortheme="dark2"] .chat-room-sep-collapse:hover {
+		color: #eee;
+	}
+
+	#TextAreaChatLog[data-colortheme="light"] .chat-room-sep-header:hover,
+	#TextAreaChatLog[data-colortheme="light2"] .chat-room-sep-header:hover,
+	#TextAreaChatLog[data-colortheme="light"] .chat-room-sep-collapse:hover,
+	#TextAreaChatLog[data-colortheme="light2"] .chat-room-sep-collapse:hover {
+		color: black;
+	}
+}
+
+#TextAreaChatLog[data-colortheme="dark"] .chat-room-sep-touch,
+#TextAreaChatLog[data-colortheme="dark2"] .chat-room-sep-touch {
 	color: #eee;
 }
 
-#TextAreaChatLog[data-colortheme="light"] .chat-room-sep-header:hover,
-#TextAreaChatLog[data-colortheme="light2"] .chat-room-sep-header:hover,
-#TextAreaChatLog[data-colortheme="light"] .chat-room-sep-collapse:hover,
-#TextAreaChatLog[data-colortheme="light2"] .chat-room-sep-collapse:hover {
+#TextAreaChatLog[data-colortheme="light"] .chat-room-sep-touch,
+#TextAreaChatLog[data-colortheme="light2"] .chat-room-sep-touch {
 	color: black;
 }
 
@@ -254,7 +261,7 @@ textarea {
 #TextAreaChatLog[data-coloractions=false] .ChatMessageAction,
 #TextAreaChatLog[data-coloremotes=false] .ChatMessageEmote,
 #TextAreaChatLog[data-coloractivities=false] .ChatMessageActivity {
-	background-color: transparent !important;
+	background-color: var(--base-color) !important;
 }
 #TextAreaChatLog[data-whitespace=preserve] {
 	white-space: pre-wrap;
@@ -264,8 +271,6 @@ textarea {
 	color: #FF0000;
 }
 
-#TextAreaChatLog[data-colortheme="light"] .chat-room-sep,
-#TextAreaChatLog[data-colortheme="light2"] .chat-room-sep,
 #TextAreaChatLog[data-colortheme="light"] .ChatMessageAction,
 #TextAreaChatLog[data-colortheme="light2"] .ChatMessageAction,
 #TextAreaChatLog[data-colortheme="light"] .ChatMessageEmote,
@@ -275,8 +280,6 @@ textarea {
 	--base-color: white;
 }
 
-#TextAreaChatLog[data-colortheme="dark"] .chat-room-sep,
-#TextAreaChatLog[data-colortheme="dark2"] .chat-room-sep,
 #TextAreaChatLog[data-colortheme="dark"] .ChatMessageAction,
 #TextAreaChatLog[data-colortheme="dark2"] .ChatMessageAction,
 #TextAreaChatLog[data-colortheme="dark"] .ChatMessageEmote,
