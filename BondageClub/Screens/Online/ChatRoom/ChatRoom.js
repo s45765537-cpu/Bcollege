@@ -3914,7 +3914,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 			senderTag += CharacterNickname(whisperTarget);
 			senderTag += ':</span>';
 			if (data.Type == "Whisper") {
-				senderTag = (SenderCharacter.IsPlayer() ? TextGet("WhisperTo") : TextGet("WhisperFrom")) + senderTag;
+				senderTag = (SenderCharacter.IsPlayer() ? TextGet("WhisperTo") : TextGetInScope("Screens/Online/ChatRoom/Text_ChatRoom.csv", "WhisperFrom")) + senderTag;
 			}
 
 			displayMessage = `${senderTag} ${ChatRoomHTMLEntities(displayMessage)}`;
