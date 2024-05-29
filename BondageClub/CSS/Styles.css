@@ -254,7 +254,7 @@ textarea {
 #TextAreaChatLog[data-coloractions=false] .ChatMessageAction,
 #TextAreaChatLog[data-coloremotes=false] .ChatMessageEmote,
 #TextAreaChatLog[data-coloractivities=false] .ChatMessageActivity {
-	background-color: transparent !important;
+	background-color: var(--base-color) !important;
 }
 #TextAreaChatLog[data-whitespace=preserve] {
 	white-space: pre-wrap;
