@@ -536,8 +536,10 @@ var Shop2 = {
 		const checkedSet = new Set();
 		const elements = /** @type {HTMLInputElement[]} */(Array.from(document.querySelectorAll(`[id^="Shop2GroupSelect-checkbox"]`)));
 		for (const checkbox of elements) {
-			const [category, groupDescr] = checkbox.id.split("-").slice(-2);
-			Shop2InitVars.GroupDescriptions[category]?.[groupDescr]?.forEach(i => checkedSet.add(i));
+			if (checkbox.checked) {
+				const [category, groupDescr] = checkbox.id.split("-").slice(-2);
+				Shop2InitVars.GroupDescriptions[category]?.[groupDescr]?.forEach(i => checkedSet.add(i));
+			}
 		}
 
 		Shop2Vars.Filters.AssetGroup = (item) => checkedSet.has(item.Asset.Group.Name) ? ["Buy", "Sell", "Preview"] : [];
@@ -744,8 +746,10 @@ var Shop2 = {
 				}
 
 				const entries = Object.entries(Shop2InitVars.GroupDescriptions);
-				const groups = Object.fromEntries(entries.map(([k, v]) => [TextGet(`AssetGroupCategory${k}`), Object.keys(v)]));
-				ElementCheckboxDropdown.FromRecord("Shop2GroupSelect", groups, Shop2._SetCheckboxFilters, { checked: true });
+				const groups = Object.fromEntries(entries.map(([k, v]) => [k, Object.keys(v)]));
+				const elem = ElementCheckboxDropdown.FromRecord("Shop2GroupSelect", groups, Shop2._SetCheckboxFilters, { checked: true });
+				const headers = /** @type {NodeListOf<HTMLSpanElement>} */(elem.querySelectorAll(".dropdown-header"));
+				headers.forEach(headerElem => headerElem.innerText = TextGet(`AssetGroupCategory${headerElem.innerText}`));
 			},
 			Draw: (...coords) => {
 				if (Shop2Vars.DropdownState !== ShopDropdownState.GROUP) {
