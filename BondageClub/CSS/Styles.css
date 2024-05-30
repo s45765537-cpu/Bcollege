@@ -117,7 +117,16 @@ textarea {
 
 .ChatMessageName {
 	text-shadow: 0.05em 0.05em black;
+	cursor: pointer;
+	color: var(--label-color);
+	user-select: text;
 }
+
+.ChatMessageName:hover {
+	color: black;
+	text-shadow: 0.05em 0.05em var(--label-color);
+}
+
 .ChatMessageAction, .ChatMessageActivity{
 	color: gray;
 }
@@ -179,9 +188,29 @@ textarea {
 	color: black;
 }
 
-#TextAreaChatLog[data-colortheme=dark] .ChatMessageName {
-  text-shadow: 0.05em 0.05em #eee;
+#TextAreaChatLog[data-colortheme="dark"] .ChatMessageName {
+  	text-shadow: 0.05em 0.05em white;
 }
+#TextAreaChatLog[data-colortheme="light2"] .ChatMessageName {
+	text-shadow: 0 0 0.12em rgba(0, 0, 0, .5);
+}
+#TextAreaChatLog[data-colortheme="dark2"] .ChatMessageName {
+	text-shadow: 0 0 0.12em rgba(255, 255, 255, .4);
+}
+
+#TextAreaChatLog[data-colortheme="dark"] .ChatMessageName:hover {
+	color: white;
+	text-shadow: 0.05em 0.05em var(--label-color);
+}
+#TextAreaChatLog[data-colortheme="light2"] .ChatMessageName:hover {
+	color: black;
+	text-shadow: 0 0 0.12em var(--label-color);
+}
+#TextAreaChatLog[data-colortheme="dark2"] .ChatMessageName:hover {
+	color: white;
+	text-shadow: 0 0 0.12em var(--label-color);
+}
+
 #TextAreaChatLog[data-colortheme=dark] .ChatMessageWhisper, #TextAreaChatLog[data-colortheme="dark2"] .ChatMessageWhisper {
   color: gray;
 }
@@ -204,12 +233,6 @@ textarea {
 #TextAreaChatLog[data-colortheme="light2"] .ChatMessageAction,
 #TextAreaChatLog[data-colortheme="light2"] .ChatMessageActivity {
   font-size: 0.8em;
-}
-#TextAreaChatLog[data-colortheme="light2"] .ChatMessageName {
-  text-shadow: 0 0 0.12em rgba(0, 0, 0, .5);
-}
-#TextAreaChatLog[data-colortheme="dark2"] .ChatMessageName {
-  text-shadow: 0 0 0.12em rgba(255, 255, 255, .4);
 }
 #TextAreaChatLog[data-colortheme="dark2"] .ChatMessage::before,
 #TextAreaChatLog[data-colortheme="dark2"] .ChatMessage::after,
@@ -289,7 +312,7 @@ textarea {
 	--base-color: #111;
 }
 
-div.ReplyButton {
+.ReplyButton {
 	text-decoration: none;
 	font-style: normal;
 	display: inline;
