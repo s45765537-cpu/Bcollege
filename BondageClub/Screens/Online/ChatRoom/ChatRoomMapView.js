@@ -209,7 +209,7 @@ function ChatRoomMapViewInitializeCharacter(C) {
 	// Checks to see if we can load the previously saved position
 	if (C.IsPlayer() && Player.ImmersionSettings?.ReturnToChatRoom && Player.LastChatRoom?.Name === ChatRoomData.Name && Player.LastMapData) {
 		// Restores the saved position
-		MapData = Object.assign({}, Player.LastMapData);
+		MapData = Player.LastMapData;
 	}
 	if (!MapData || !MapData.Pos || !MapData.PrivateState){
 		// Sets position in the middle of the scren by default, or at the entry flag if possible
@@ -256,7 +256,7 @@ function ChatRoomMapViewLeave() {
 function ChatRoomMapViewActivate() {
 	// Make sure the player position is valid
 	if (!Player.MapData || !Player.MapData.Pos|| Player.MapData.Pos.X == null || Player.MapData.Pos.X < 0 || Player.MapData.Pos.X >= ChatRoomMapViewWidth || Player.MapData.Pos.Y == null || Player.MapData.Pos.Y < 0 || Player.MapData.Pos.Y >= ChatRoomMapViewWidth) {
-		Player.MapData = ChatRoomMapViewInitializeCharacter(Player);
+		Player.LastMapData = Player.MapData = ChatRoomMapViewInitializeCharacter(Player);
 		// Update the change instantly so other players don't see this player on an invalid position
 		ChatRoomMapViewUpdatePlayerFlag(-ChatRoomMapViewUpdatePlayerTime);
 
@@ -855,7 +855,8 @@ function ChatRoomMapViewGetEntryFlagPosition() {
 function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 
 	// Make sure the player MapData is valid
-	if (Player.MapData == null) Player.MapData = ChatRoomMapViewInitializeCharacter(Player);
+	if (Player.MapData == null)
+		Player.LastMapData = Player.MapData = ChatRoomMapViewInitializeCharacter(Player);
 
 	// Manages collisions, moves the player if she's on a tile that cannot be entered
 	ChatRoomMapViewCollision();
