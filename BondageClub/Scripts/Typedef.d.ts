@@ -100,11 +100,11 @@ type HTMLOptions<T extends keyof HTMLElementTagNameMap> = {
 	/** Event listeners that will be attached to the HTML element (see {@link HTMLElement.addEventListener}). */
 	eventListeners?: { [k in keyof HTMLElementEventMap]?: (this: HTMLElementTagNameMap[T], event: HTMLElementEventMap[k]) => any };
 	/** The elements parent (if any) to which it will be attached (see {@link HTMLElement.parentElement}). */
-	parent?: HTMLElement;
+	parent?: Node;
 	/** A list of CSS classes to-be assigned to the element (see {@link HTMLElement.classList}). */
 	classList?: readonly string[];
 	/** Any to-be added child elements. */
-	children?: (string | HTMLElement | HTMLOptions<keyof HTMLElementTagNameMap>)[];
+	children?: (string | Node | HTMLOptions<keyof HTMLElementTagNameMap>)[];
 };
 
 type Rect = { x: number, y: number, w: number, h: number };

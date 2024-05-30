@@ -58,8 +58,8 @@ function BackgroundSelectionLoad() {
 	BackgroundSelectionBackground = BackgroundSelectionList[BackgroundSelectionIndex] || "Introduction";
 	BackgroundSelectionView = BackgroundSelectionAll.slice(0).sort(BackgroundSelectionSort);
 	TextPrefetchFile(BackgroundsStringsPath);
-	ElementCreateInput("InputBackground", "text", "", "30");
-	document.getElementById("InputBackground").oninput = BackgroundSelectionInputChanged;
+	const elem = ElementCreateSearchInput("InputBackground", () => BackgroundSelectionList.map(i => BackgroundsTextGet(i)).sort());
+	elem.addEventListener("input", BackgroundSelectionInputChanged);
 	if (BackgroundSelectionTagList.length >= 2) ElementCreateDropdown("TagDropDown", BackgroundsTagList, function() { BackgroundSelectionTagChanged(); });
 }
 
@@ -90,6 +90,7 @@ function BackgroundSelectionTagChanged() {
 	if (DD == null) return;
 	BackgroundSelectionList = BackgroundsGenerateList((DD.selectedIndex == 0) ? BackgroundSelectionTagList : [/** @type {BackgroundTag} */(DD.options[DD.selectedIndex].text)]);
 	BackgroundSelectionView = BackgroundSelectionAll.slice().sort(BackgroundSelectionSort);
+	ElementContent("InputBackground-datalist", "");
 	BackgroundSelectionInputChanged();
 	if (BackgroundSelectionOffset >= BackgroundSelectionView.length) BackgroundSelectionOffset = 0;
 }

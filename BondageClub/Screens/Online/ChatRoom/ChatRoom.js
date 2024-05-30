@@ -852,8 +852,8 @@ var ChatRoomSep = {
 	 * @type {(this: HTMLButtonElement, event: Event) => Promise<void>}
 	 */
 	_TouchStart: async function _TouchStart() {
-        this.classList.add("chat-room-sep-touch");
-    },
+		this.classList.add("chat-room-sep-touch");
+	},
 
 	/**
 	 * Touch event listener that mimicks the end of desktop-style hovering on mobile
@@ -861,8 +861,8 @@ var ChatRoomSep = {
 	 * @type {(this: HTMLButtonElement, event: Event) => Promise<void>}
 	 */
 	_TouchEnd: async function _TouchEnd() {
-        this.classList.remove("chat-room-sep-touch");
-    },
+		this.classList.remove("chat-room-sep-touch");
+	},
 
 	/**
 	 * Click event listener for collapsing one or more chat room separators
