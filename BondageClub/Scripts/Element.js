@@ -70,6 +70,7 @@ function ElementCreate(options) {
 	}
 
 	if (options?.classList) { options.classList.forEach(i => elem.classList.add(i)); }
+	if (options?.innerHTML) { elem.innerHTML = options.innerHTML; }
 	if (options?.children) {
 		/** @type {(i: unknown) => i is Node | string} */
 		const isNode = (i) => typeof i === "string" || (typeof i === "object" && "nodeValue" in i);

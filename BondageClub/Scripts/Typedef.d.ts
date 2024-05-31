@@ -105,6 +105,8 @@ type HTMLOptions<T extends keyof HTMLElementTagNameMap> = {
 	classList?: readonly string[];
 	/** Any to-be added child elements. */
 	children?: (string | Node | HTMLOptions<keyof HTMLElementTagNameMap>)[];
+	/** The {@link HTMLElement.innerHTML} of the element; will be assigned before appending children */
+	innerHTML?: string;
 };
 
 type Rect = { x: number, y: number, w: number, h: number };
