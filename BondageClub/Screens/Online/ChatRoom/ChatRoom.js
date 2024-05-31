@@ -3945,7 +3945,7 @@ function ChatRoomMessageNameClick() {
  * @param {string} msg
  * @param {Character} SenderCharacter
  * @param {IChatRoomMessageMetadata} metadata
- * @returns {void}
+ * @returns {HTMLDivElement}
  */
 function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 	// Censored words are filtered out, ¶¶¶ indicates that we must not display anything on screen
@@ -4049,6 +4049,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 
 	// Returns the focus on the chat box
 	ChatRoomAppendChat(div);
+	return div;
 }
 
 /**
