@@ -2689,7 +2689,7 @@ function ChatRoomKeyDown(event) {
 	if (
 		!chatHasFocus
 		&& (event.key.length === 1 || event.key === "Enter")
-		&& !(event.altKey || event.metaKey || event.ctrlKey)
+		&& !(event.altKey || event.metaKey || (event.ctrlKey && event.key !== "v"))
 	) {
 		ElementFocus("InputChat");
 		// We have to lie here so that the first keystroke without
