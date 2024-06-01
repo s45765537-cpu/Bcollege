@@ -2686,7 +2686,11 @@ function ChatRoomKeyDown(event) {
 	}
 
 	// Move focus to the chat
-	if (!chatHasFocus && !(event.ctrlKey || event.shiftKey || event.altKey || event.metaKey)) {
+	if (
+		!chatHasFocus
+		&& (event.key.length === 1 || event.key === "Enter")
+		&& !(event.altKey || event.metaKey || event.ctrlKey)
+	) {
 		ElementFocus("InputChat");
 		// We have to lie here so that the first keystroke without
 		// focus still goes through, but we want to eat Enter so
