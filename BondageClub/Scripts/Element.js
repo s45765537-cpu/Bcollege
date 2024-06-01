@@ -49,17 +49,28 @@ function ElementCreate(options) {
 	const elem = document.createElement(options.tag);
 
 	for (const [k, v] of Object.entries(options?.attributes ?? {})) {
-		elem.setAttribute(k, v);
+		if (v != null) {
+			elem.setAttribute(k, v);
+		}
 	}
 	for (const [eventName, listener] of Object.entries(options?.eventListeners ?? {})) {
-		elem.addEventListener(eventName, listener);
+		if (listener != null) {
+			elem.addEventListener(eventName, listener);
+		}
 	}
 	for (const [k, v] of Object.entries(options.style ?? {})) {
-		elem.style.setProperty(k, /** @type {any} */(v));
+		if (v != null) {
+			elem.style.setProperty(k, /** @type {any} */(v));
+		}
+	}
+	for (const [k, v] of Object.entries(options?.dataAttributes ?? {})) {
+		if (v != null) {
+			elem.dataset[k] = v.toString();
+		}
 	}
 
-	if (options?.dataAttributes) { Object.assign(elem.dataset, options.dataAttributes); }
 	if (options?.classList) { options.classList.forEach(i => elem.classList.add(i)); }
+	if (options?.innerHTML) { elem.innerHTML = options.innerHTML; }
 	if (options?.children) {
 		/** @type {(i: unknown) => i is Node | string} */
 		const isNode = (i) => typeof i === "string" || (typeof i === "object" && "nodeValue" in i);

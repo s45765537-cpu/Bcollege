@@ -92,9 +92,9 @@ type HTMLOptions<T extends keyof HTMLElementTagNameMap> = {
 	/** The elements HTML tag */
 	tag: T,
 	/** Scalar-valued attributes that will be set on the HTML element. */
-	attributes?: Partial<HTMLElementScalarTagNameMap[T]> & { "screen-generated"?: string };
+	attributes?: Partial<HTMLElementScalarTagNameMap[T]> & Partial<Record<string, number | boolean | string>>;
 	/** Data attributes that will be set on the HTML element (see {@link HTMLElement.dataset}). */
-	dataAttributes?: Record<string, string>;
+	dataAttributes?: Partial<Record<string, number | boolean | string>>;
 	/** CSS style declarations that will be set on the HTML element (see {@link HTMLElement.style}). */
 	style?: Partial<CSSStyleDeclaration> & Record<`--${string}`, string>;
 	/** Event listeners that will be attached to the HTML element (see {@link HTMLElement.addEventListener}). */
@@ -105,6 +105,8 @@ type HTMLOptions<T extends keyof HTMLElementTagNameMap> = {
 	classList?: readonly string[];
 	/** Any to-be added child elements. */
 	children?: (string | Node | HTMLOptions<keyof HTMLElementTagNameMap>)[];
+	/** The {@link HTMLElement.innerHTML} of the element; will be assigned before appending children */
+	innerHTML?: string;
 };
 
 type Rect = { x: number, y: number, w: number, h: number };
