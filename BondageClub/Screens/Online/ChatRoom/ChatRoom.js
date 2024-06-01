@@ -274,6 +274,9 @@ let ChatRoomResizeManager = {
 
 	// Triggered by resize event
 	ChatRoomResizeEvent : function() {
+		if (document.getElementById("TextAreaChatLog")?.style.display === "none") {
+			return;
+		}
 		if(ChatRoomResizeManager.atStart) { // Run code for the first resize event in a chain of resize events.
 			ChatRoomResizeManager.ChatRoomScrollPercentage = ElementGetScrollPercentage("TextAreaChatLog");
 			ChatRoomResizeManager.ChatLogScrolledToEnd = ElementIsScrolledToEnd("TextAreaChatLog");
@@ -1209,6 +1212,7 @@ function ChatRoomClearAllElements() {
 	} else {
 		ElementRemove("InputChat");
 		ElementRemove("TextAreaChatLog");
+		window.removeEventListener("resize", ChatRoomResizeManager.ChatRoomResizeEvent);
 	}
 
 	// Preferences
@@ -1223,9 +1227,6 @@ function ChatRoomClearAllElements() {
 	// Wardrobe
 	ElementRemove("InputWardrobeName");
 	CharacterAppearanceMode = "";
-
-	// Listeners
-	window.removeEventListener("resize", ChatRoomResizeManager.ChatRoomResizeEvent);
 }
 
 /**
