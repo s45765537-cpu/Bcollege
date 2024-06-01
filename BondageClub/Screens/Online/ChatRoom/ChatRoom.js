@@ -850,24 +850,6 @@ var ChatRoomSep = {
 	ActiveElem: null,
 
 	/**
-	 * Touch event listener that mimicks the start of desktop-style hovering on mobile
-	 * @private
-	 * @type {(this: HTMLButtonElement, event: Event) => Promise<void>}
-	 */
-	_TouchStart: async function _TouchStart() {
-		this.classList.add("chat-room-sep-touch");
-	},
-
-	/**
-	 * Touch event listener that mimicks the end of desktop-style hovering on mobile
-	 * @private
-	 * @type {(this: HTMLButtonElement, event: Event) => Promise<void>}
-	 */
-	_TouchEnd: async function _TouchEnd() {
-		this.classList.remove("chat-room-sep-touch");
-	},
-
-	/**
 	 * Click event listener for collapsing one or more chat room separators
 	 * @private
 	 * @type {(this: HTMLButtonElement, event: MouseEvent | TouchEvent) => Promise<void>}
@@ -936,9 +918,9 @@ var ChatRoomSep = {
 							classList: ["blank-button", "chat-room-sep-collapse"],
 							eventListeners: {
 								click: ChatRoomSep._ClickCollapse,
-								touchstart: ChatRoomSep._TouchStart,
-								touchend: ChatRoomSep._TouchEnd,
-								touchcancel: ChatRoomSep._TouchEnd,
+								touchstart: ElementButton._TouchStart,
+								touchend: ElementButton._TouchEnd,
+								touchcancel: ElementButton._TouchEnd,
 							},
 							children: ["˅"],
 						},
@@ -947,9 +929,9 @@ var ChatRoomSep = {
 							classList: ["blank-button", "chat-room-sep-header"],
 							eventListeners: {
 								click: ChatRoomSep._ClickScrollUp,
-								touchstart: ChatRoomSep._TouchStart,
-								touchend: ChatRoomSep._TouchEnd,
-								touchcancel: ChatRoomSep._TouchEnd,
+								touchstart: ElementButton._TouchStart,
+								touchend: ElementButton._TouchEnd,
+								touchcancel: ElementButton._TouchEnd,
 							},
 						},
 					],

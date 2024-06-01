@@ -721,3 +721,125 @@ function ElementCreateSearchInput(id, dataCallback, options=null) {
 	});
 	return elem;
 }
+
+/**
+ * Namespace for creating HTML buttons
+ * @namespace
+ */
+var ElementButton = {
+	/**
+	 * @private
+	 * @readonly
+	 */
+	_PositionMapping: Object.freeze({
+		left: "button-tooltip-left",
+		right: "button-tooltip-right",
+		top: "button-tooltip-top",
+		bottom: "button-tooltip-bottom",
+	}),
+
+	/**
+	 * Touch event listener that mimicks the start of desktop-style hovering on mobile
+	 * @private
+	 * @type {(this: HTMLButtonElement, event: Event) => Promise<void>}
+	 */
+	_TouchStart: async function _TouchStart(event) {
+		if (!this.disabled) {
+			this.classList.add("button-touch");
+		}
+	},
+
+	/**
+	 * Touch event listener that mimicks the end of desktop-style hovering on mobile
+	 * @private
+	 * @type {(this: HTMLButtonElement, event: Event) => Promise<void>}
+	 */
+	_TouchEnd: async function _TouchEnd(event) {
+		this.classList.remove("button-touch");
+	},
+
+	/**
+	 * MouseDown listener that prevents a button from receining focus when clicked
+	 * @private
+	 * @type {(this: HTMLButtonElement, event: MouseEvent) => Promise<void>}
+	 */
+	_MouseDown: async function _MouseDown(event) {
+		event.preventDefault();
+	},
+
+	/**
+	 * Create a button with a tooltip
+	 *
+	 * @example
+	 * <button id={id}>
+	 *     <div id={`${id}-tooltip`} />
+	 * </button>
+	 * @param {string} id - The ID of the to-be created search button
+	 * @param {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => any} onClick - The click event listener to-be attached to the tooltip
+	 * @param {null | string | Node} tooltip - Optional tooltip content. If not supplied then one should manually prepend it to the tooltip later
+	 * @param {"left" | "right" | "top" | "bottom"} tooltipPosition - The position of the tooltip w.r.t. the button
+	 * @param {null | Partial<Record<"button" | "tooltip", Omit<HTMLOptions<any>, "tag">>>} options - Additional {@link ElementCreate} options to-be applied to the either the button, the tooltip or the othermost container
+	 * @returns {HTMLButtonElement} - The created button
+	 */
+	Create: function Create(id, onClick, tooltip=null, tooltipPosition=null, options=null) {
+		let elem = /** @type {HTMLButtonElement | null} */(document.getElementById(id));
+		if (elem) {
+			return elem;
+		}
+
+		const tooltipOptions = options?.tooltip ?? {};
+		const positionClass = this._PositionMapping[tooltipPosition] ?? this._PositionMapping.left;
+		elem = ElementButton.CreateNoTooltip(id, onClick, options);
+		elem.setAttribute("aria-describedby", `${id}-tooltip`);
+		elem.prepend(ElementCreate({
+			...tooltipOptions,
+			tag: "div",
+			classList: ["button-tooltip", positionClass, ...(tooltipOptions.classList ?? [])],
+			attributes: {
+				id: `${id}-tooltip`,
+				role: "tooltip",
+				...(tooltipOptions.attributes ?? {}),
+			},
+			children: tooltip == null ? tooltipOptions.children : [tooltip, ...(tooltipOptions.children ?? [])],
+		}));
+		return elem;
+	},
+
+	/**
+	 * Create a button without a tooltip
+	 *
+	 * @example
+	 * <button id={id} />
+	 * @param {string} id - The ID of the to-be created search button
+	 * @param {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => any} onClick - The click event listener to-be attached to the tooltip
+	 * @param {null | Partial<Record<"button", Omit<HTMLOptions<any>, "tag">>>} options - Additional {@link ElementCreate} options to-be applied to the either the button or tooltip
+	 * @returns {HTMLButtonElement} - The created button
+	 */
+	CreateNoTooltip: function CreateNoTooltip(id, onClick, options=null) {
+		let elem = /** @type {HTMLButtonElement | null} */(document.getElementById(id));
+		if (elem) {
+			return elem;
+		}
+
+		const buttonOptions = options?.button ?? {};
+		return ElementCreate({
+			...buttonOptions,
+			tag: "button",
+			attributes: {
+				id,
+				name: id,
+				"aria-describedby": `${id}-tooltip`,
+				...(buttonOptions.attributes ?? {}),
+			},
+			classList: ["blank-button", "button", ...(buttonOptions.classList ?? [])],
+			eventListeners: {
+				click: onClick,
+				mousedown: this._MouseDown,
+				touchstart: this._TouchStart,
+				touchend: this._TouchEnd,
+				touchcancel: this._TouchEnd,
+				...(buttonOptions.eventListeners ?? {}),
+			},
+		});
+	},
+};
