@@ -58,19 +58,26 @@ var ChatRoomSlowtimer = 0;
 var ChatRoomSlowStop = false;
 /**
  * Default position of the chat log field
- * @type {RectTuple}
+ * @deprecated - superseded by and incorporated into {@link ChatRoomDivRect}
  */
-var ChatRoomChatLogRect = [1005, 66, 988, 835];
+var ChatRoomChatLogRect = /** @type {never} */([1005, 66, 988, 835]);
 /**
  * Default position of the chat input field
- * @type {RectTuple}
+ * @deprecated - superseded by and incorporated into {@link ChatRoomDivRect}
  */
-var ChatRoomChatInputRect = [1453, 953, 895, 90];
+var ChatRoomChatInputRect = /** @type {never} */([1453, 953, 895, 90]);
 /**
  * Default position of the chat input length label
+ * @deprecated - superseded by and incorporated into {@link ChatRoomDivRect}
+ */
+var ChatRoomChatLengthLabelRect = /** @type {never} */([1764, 970, 120, 82]);
+
+/**
+ * Default position of the entire chat panel
  * @type {RectTuple}
  */
-var ChatRoomChatLengthLabelRect = [1764, 970, 120, 82];
+var ChatRoomDivRect = [1005, 60, 988, 940];
+
 var ChatRoomChatHidden = false;
 /**
  * The chatroom characters that were drawn in the last frame.
@@ -1029,68 +1036,115 @@ var ChatRoomSep = {
 
 /**
  * Creates the chat room input elements.
- * @returns {void} - Nothing.
+ * @returns {HTMLDivElement}
  */
 function ChatRoomCreateElement() {
+	// NOTE: If you want to add any custom buttons, make sure append them to the `#chat-room-buttons` grid
 	ChatRoomChatHidden = false;
 
-	// Creates the chat log
-	if (document.getElementById("TextAreaChatLog") == null) {
+	let elem = /** @type {null | HTMLDivElement} */(document.getElementById("chat-room-div"));
+	if (!elem) {
+		elem = ElementCreate({
+			tag: "div",
+			attributes: {
+				id: "chat-room-div",
+				"screen-generated": CurrentScreen,
+			},
+			parent: document.body,
+			classList: ["HideOnPopup"],
+			children: [
+				{
+					tag: "div",
+					attributes: { id: "TextAreaChatLog" },
+				},
+				{
+					tag: "div",
+					attributes: { id: "chat-room-bot" },
+					children: [
+						{
+							tag: "textarea",
+							attributes: {
+								id: "InputChat",
+								name: "InputChat",
+								maxLength: 10000,
+								autocomplete: "off",
+								enterkeyhint: "send",
+							},
+							eventListeners: {
+								input: ChatRoomChatInputChangeHandler,
+								keyup: ChatRoomStatusUpdateTalk,
+							},
+						},
+						{
+							tag: "span",
+							attributes: { id: "InputChatLength" },
+						},
+						{ tag: "div", attributes: { id: "chat-room-buttons-div" } },
+						{
+							tag: "button",
+							classList: ["blank-button"],
+							attributes: {
+								id: "chat-room-buttons-collapse",
+								"aria-expanded": false,
+								"aria-control": "chat-room-buttons",
+							},
+							eventListeners: {
+								click() {
+									const displayState = this.ariaExpanded === "true" ? "none" : "";
+									this.ariaExpanded = displayState ? "false" : "true";
+									this.innerText = displayState ? "<" : ">";
+									const elements = /** @type {NodeListOf<HTMLElement>} */(document.querySelectorAll("#chat-room-buttons > *"));
+									elements.forEach(b => {
+										if (b.id !== "chat-room-send") {
+											b.style.display = displayState;
+										}
+									});
+								},
+							},
+							children: ["<"],
+						},
+						{
+							tag: "div",
+							attributes: { id: "chat-room-buttons" },
+							children: [
+								ElementButton.CreateNoTooltip(
+									"chat-room-send", () => ChatRoomSendChat(),
+									{ button: { classList: ["chat-room-button"] } },
+								),
+							],
+						},
+					],
+				},
+			],
+		});
 
-		// Sets the size and position
-		ElementCreateDiv("TextAreaChatLog");
-		ElementPositionFix("TextAreaChatLog", ChatRoomFontSize, ...ChatRoomChatLogRect);
-		ElementScrollToEnd("TextAreaChatLog");
 		ChatRoomRefreshChatSettings();
-		ElementContent("TextAreaChatLog", "");
-
-		// Creates listener for resize events.
+		ElementFocus("InputChat");
 		window.addEventListener("resize", ChatRoomResizeManager.ChatRoomResizeEvent);
-
-	} else if (document.getElementById("TextAreaChatLog").style.display == "none") {
+	} else if (elem.style.display === "none") {
 		setTimeout(() => ElementScrollToEnd("TextAreaChatLog"), 100);
 		ChatRoomRefreshChatSettings();
-	}
-
-	// NOTE: Make sure to create the `InputChat` element after `TextAreaChatLog`,
-	// else the css subsequent-sibling combinator will break
-
-	// Creates the chat box
-	if (document.getElementById("InputChat") == null) {
-		ElementCreateTextArea("InputChat");
-		document.getElementById("InputChat").setAttribute("maxLength", 10000);
-		document.getElementById("InputChat").setAttribute("autocomplete", "off");
-		document.getElementById("InputChat").addEventListener("input", ChatRoomChatInputChangeHandler);
-		document.getElementById("InputChat").addEventListener("keyup", ChatRoomStatusUpdateTalk);
-		ElementPosition("InputChat", ...ChatRoomChatInputRect);
 		ElementFocus("InputChat");
-	} else if (document.getElementById("InputChat").style.display == "none") ElementFocus("InputChat");
-
-	if (document.getElementById("InputChatLength") == null) {
-		const label = document.createElement("span");
-		label.id = "InputChatLength";
-		document.body.appendChild(label);
-		ElementPositionFix("InputChatLength", 20, ...ChatRoomChatLengthLabelRect);
-		label.style.textAlign = "right";
 	}
+	return elem;
 }
 
-const ChatRoomUIElementNames = ["InputChat", "TextAreaChatLog", "InputChatLength"];
+// const ChatRoomUIElementNames = ["InputChat", "TextAreaChatLog", "InputChatLength"];
 
 /** Hide the UI elements of the chatroom screen */
 function ChatRoomShowElements() {
-	for (const name of ChatRoomUIElementNames) {
-		if (document.getElementById(name))
-			document.getElementById(name).style.display = "";
+	const elem = document.getElementById("chat-room-div");
+	if (elem) {
+		elem.style.display = "";
 	}
 	ChatRoomChatHidden = false;
 }
 
 /** Show the UI elements of the chatroom screen */
 function ChatRoomHideElements() {
-	for (const name of ChatRoomUIElementNames) {
-		if (document.getElementById(name))
-			document.getElementById(name).style.display = "none";
+	const elem = document.getElementById("chat-room-div");
+	if (elem) {
+		elem.style.display = "none";
 	}
 	ChatRoomChatHidden = true;
 }
@@ -1631,18 +1685,15 @@ function ChatRoomStimulationMessage(Action) {
 }
 
 /**
- * Called when screen size or position changes or after screen load
- * @param {boolean} load - If the reason for call was load (`true`) or window resize (`false`)
+ * @type {ScreenFunctions["Resize"]}
  */
 function ChatRoomResize(load) {
-	if (
-		CharacterGetCurrent() == null
-		&& CurrentScreen == "ChatRoom"
-		&& document.getElementById("InputChat")
-		&& document.getElementById("TextAreaChatLog")
-	) {
-		ElementPositionFix("TextAreaChatLog", ChatRoomFontSize, ...ChatRoomChatLogRect);
-		ElementPosition("InputChat", ...ChatRoomChatInputRect);
+	const elem = document.getElementById("chat-room-div");
+	const chatInput = document.getElementById("InputChat");
+	if (elem && chatInput && CurrentScreen == "ChatRoom") {
+		ElementPositionFix("chat-room-div", ChatRoomFontSize, ...ChatRoomDivRect);
+		elem.style.display = "";
+		chatInput.dispatchEvent(new Event("input"));
 	}
 }
 
@@ -1883,13 +1934,14 @@ function ChatRoomStatusUpdateTalk(Key) {
 
 /**
  * Handler called when the chat input field changes
+ * @this {HTMLTextAreaElement}
  * @param {Event} event
  */
 function ChatRoomChatInputChangeHandler(event) {
-	const field = /** @type {HTMLInputElement} */(document.getElementById("InputChat"));
 	const label = document.getElementById("InputChatLength");
-	if (!field || !label) return;
-	const length = field.value.length;
+	if (!label) return;
+
+	const length = this.value.length;
 	if (length <= ServerChatMessageMaxLength - 100) {
 		label.textContent = "";
 	} else {
@@ -1900,6 +1952,9 @@ function ChatRoomChatInputChangeHandler(event) {
 			label.classList.remove("invalid");
 		}
 	}
+
+	this.style.height = "100%";
+	this.style.height = `${this.scrollHeight}px`;
 }
 
 /**
@@ -1974,7 +2029,6 @@ function ChatRoomRun(time) {
 	// Draws the chat elements in the bottom right
 	if (ChatRoomChatHidden) ChatRoomShowElements();
 	ChatRoomResize(false);
-	DrawButton(1905, 908, 90, 90, "", "White", "Icons/Chat.png");
 	if (CurrentTime > ChatRoomGetUpTimer) ChatRoomGetUpTimer = 0;
 
 	// Draw the buttons at the top-right
@@ -2230,7 +2284,6 @@ function ChatRoomMouseWheel(event) {
 function ChatRoomClick(event) {
 
 	// In orgasm mode, we do not allow any clicks expect the chat
-	if (MouseIn(1905, 910, 90, 90)) ChatRoomSendChat();
 	if ((Player.ArousalSettings != null) && (Player.ArousalSettings.OrgasmTimer != null) && (typeof Player.ArousalSettings.OrgasmTimer === "number") && !isNaN(Player.ArousalSettings.OrgasmTimer) && (Player.ArousalSettings.OrgasmTimer > 0)) {
 
 		// On stage 0, the player can choose to resist the orgasm or not.  At 1, the player plays a mini-game to fight her orgasm
