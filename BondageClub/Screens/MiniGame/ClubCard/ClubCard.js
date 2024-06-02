@@ -15,6 +15,7 @@ var ClubCardTurnCardPlayed = 0;
 var ClubCardTurnEndDraw = false;
 var ClubCardFameGoal = 100;
 var ClubCardPopup = null;
+/** @type {ClubCard} */
 var ClubCardSelection = null;
 var ClubCardPending = null;
 var ClubCardLevelLimit = [0, 5, 8, 13, 20, 40];
@@ -123,6 +124,7 @@ var ClubCardList = [
 		Name: "Rope Bunny",
 		MoneyPerTurn: 1,
 		RequiredLevel: 2,
+		Group: ["Shibari"],
 		BeforeTurnEnd: function(CCPlayer) {
 			if (ClubCardGroupIsOnBoard(CCPlayer, "Dominant")) ClubCardPlayerAddMoney(CCPlayer, 2);
 		}
@@ -140,7 +142,8 @@ var ClubCardList = [
 		Name: "Rope Sensei",
 		RequiredLevel: 2,
 		FamePerTurn: 1,
-		MoneyPerTurn: 1
+		MoneyPerTurn: 1,
+		Group: ["Shibari"]
 	},
 	{
 		ID: 1015,
@@ -433,6 +436,17 @@ var ClubCardList = [
 			ClubCardPlayerAddMoney(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "PornActress"));
 		}
 	},
+	{
+        ID: 4007, //Fetishist Card Rope Slave +
+        Name: "Rope Slave",
+        Group: ["Fetishist", "Shibari"],
+        MoneyPerTurn: 0,
+        FamePerTurn: 0,
+        BeforeTurnEnd: function(CCPlayer) {
+			if (ClubCardNameIsOnBoard(CCPlayer, "Rope Sensei")) ClubCardPlayerAddFame(CCPlayer, 1);
+			if (ClubCardNameIsOnBoard(CCPlayer, "Alvin")) ClubCardPlayerAddFame(CCPlayer, 1);
+		}
+    },
 
 	// 5000 - Porn Members (Raise both Fame and Money)
 	{
@@ -1021,6 +1035,14 @@ var ClubCardList = [
 		MoneyPerTurn: 3,
 		RequiredLevel: 3
 	},
+	{
+		ID: 12003,
+		Name: "Alvin",
+		Group: ["Player", "Mistress", "Shibari"],
+		RequiredLevel: 3,
+		FamePerTurn: 3,
+		MoneyPerTurn: -3,
+	},
 
 	// Event cards
 	{
@@ -1269,7 +1291,9 @@ var ClubCardList = [
 		OnPlay: function(CCPlayer) {
 			if ((CCPlayer.Board == null) || (CCPlayer.Board.length <= 0)) return;
 			let Fame = CCPlayer.Board.length - ClubCardGroupOnBoardCount(CCPlayer, "Dominant");
-			if (ClubCardNameIsOnBoard(CCPlayer, "Rope Sensei")) Fame = Fame * 2;
+
+			const shibariCardsOnBoard = ClubCardGroupOnBoardCount(CCPlayer, "Shibari");
+			Fame = Fame + shibariCardsOnBoard
 			ClubCardPlayerAddFame(CCPlayer, Fame);
 			ClubCardLogPublish("GainFame", CCPlayer, Fame);
 		},
@@ -1393,9 +1417,11 @@ var ClubCardList = [
 			if (ClubCardSelection == null) return;
 			let Opponent = ClubCardGetOpponent(CCPlayer);
 			ClubCardRemoveFromBoard(Opponent, ClubCardSelection);
-			let Money = Opponent.Level * 2;
+			let Money = Opponent.Level^2;
 			ClubCardPlayerAddMoney(CCPlayer, Money * -1);
 			ClubCardLogPublish("LoseMoney", CCPlayer, Money);
+
+			ClubCardAlvinCondition(CCPlayer);
 		},
 		CanPlay: function(CCPlayer) {
 			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
@@ -1450,6 +1476,8 @@ var ClubCardList = [
 
 			const PlayerEventNames = CCPlayer.Event.map(c => c.Name);
 			ClubCardRemoveCardsFromEventByName(CCPlayer, PlayerEventNames.filter(n => n !== "Restrain"));
+
+			ClubCardAlvinCondition(CCPlayer);
 		},
 		CanPlay: function(CCPlayer) {
 			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
@@ -2086,6 +2114,25 @@ function CheckDetectiveDraw(CCPlayer) {
 	}
 	if(ClubCardNameIsOnBoard(ClubCardGetOpponent(CCPlayer), "Detective") && !ClubCardGroupIsOnBoard(ClubCardGetOpponent(CCPlayer),"Liability")){
 		ClubCardPlayerAddFame(ClubCardGetOpponent(CCPlayer),1);
+	}
+}
+
+/**
+ * Common place to handle Alvins effect on kidnapping and Restrain
+ * @param {ClubCardPlayer} CCPlayer
+ * @returns {void} - Nothing
+ *
+ */
+function ClubCardAlvinCondition(CCPlayer) {
+	const hasAlvin = ClubCardNameIsOnBoard(CCPlayer, "Alvin");
+	const targetIsDominantOrMistress = ClubCardSelection.Group &&
+		ClubCardSelection.Group.includes("Dominant") ||
+		ClubCardSelection.Group.includes("Mistress");
+
+	if (hasAlvin && targetIsDominantOrMistress) {
+		const ropeSlave = ClubCardList.find(card => card.Name === "Rope Slave")
+		CCPlayer.Board.push(ropeSlave)
+		ClubCardLogPublish("Effect Alvin", CCPlayer);
 	}
 }
 

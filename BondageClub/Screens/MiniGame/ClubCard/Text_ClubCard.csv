@@ -298,7 +298,7 @@ Text College Bash,+2 Fame for each College Girl.  Extra +2 Fame if Sidney is pre
 Title Ransomware,Ransomware
 Text Ransomware,Opponent loses 5 Money per building level.  Cannot be played if your opponent has Amanda or Jennifer.
 Title Shibari Evening,Shibari Evening
-Text Shibari Evening,+1 Fame for each Non-Dominant members in your club.  Extra +1 Fame if Rope Sensei is present.
+Text Shibari Evening,+1 Fame for each Non-Dominant members in your club. +1 Extra Fame for each Shibari member.
 Title Moving Out of Town,Moving Out of Town
 Text Moving Out of Town,Remove any member from your opponent club.
 Prerequisite Moving Out of Town,Select a member from your opponent club to remove.
@@ -335,7 +335,7 @@ Title Porn Convention,Porn Convention
 Text Porn Convention,"For 3 turns, all players gain 3 Fame for each Porn Actress in their club at end of turn."
 Effect Porn Convention,SOURCEPLAYER gains AMOUNT Fame from the Porn Convention.
 Title Kidnapping,Kidnapping
-Text Kidnapping,Remove any member from your opponent club.  You lose 2 Money for each opponent building level.
+Text Kidnapping,Remove any member from your opponent club.  You lose opponent building level^2 Money.
 Title Pandora Box,Pandora's Box
 Text Pandora Box,All players discard their current hand and draw 5 new cards.
 Effect Pandora Box,SOURCEPLAYER opens Pandora's Box.  All players discard their hand and draw 5 new cards.
@@ -369,7 +369,7 @@ Title Homeroom,Homeroom
 Text Homeroom,Can only be played if you control 3 or more College members. Both players cannot advance their club for 4 turns.
 Title Student Custodian,Student Custodian
 Text Student Custodian,"When the opponent plays an Liability or Event, you lose 2 money and draw a card."
-Effect Student Custodian,OPPONENTPLAYER gained AMOUNT money and drew a card from Student Custodian
+Effect Student Custodian,OPPONENTPLAYER lost AMOUNT money and drew a card from Student Custodian
 Title Recess,Recess
 Text Recess,Draw 2 cards. Gain 2 money for each ABDL Baby and College Student present.
 Effect Recess, SOURCEPLAYER draws 2 cards and gains AMOUNT money from Recess
@@ -379,3 +379,8 @@ Title First Bell,First Bell
 Text First Bell,"Draw a random college student from your deck. If it's your first turn or you control a teacher, play again."
 Effect First Bell Draw, SOURCEPLAYER draws 1 card from First Bell
 Effect First Bell No Draw, SOURCEPLAYER could not draw any cards from First Bell
+Title Alvin,Alvin
+Text Alvin,PLACEHOLDER THIS IS A BUG
+Effect Alvin, Alvin summoned a rope slave for SOURCEPLAYER
+Title Rope Slave,Rope Slave
+Text Rope Slave,Where's the nearest shibari dojo?
