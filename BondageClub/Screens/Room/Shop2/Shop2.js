@@ -34,9 +34,10 @@ const Shop2Vars = CommonVariableContainer(
 
 		/**
 		 * The current shop mode
+		 * @private
 		 * @type {ShopMode}
 		 */
-		Mode: "Buy",
+		_Mode: "Buy",
 
 		/**
 		 * The current dressing state of the preview character
@@ -77,6 +78,16 @@ const Shop2Vars = CommonVariableContainer(
 		Filters: {},
 	},
 	{
+		/**
+		 * The current shop mode
+		 * @type {ShopMode}
+		 */
+		get Mode() { return Shop2Vars._Mode; },
+		set Mode(value) {
+			ElementContent("Shop2InputSearch-datalist", "");
+			Shop2Vars._Mode = value;
+		},
+
 		/**
 		 * Get the maximum number of pages for the current {@link Shop2Vars.Mode}.
 		 * @type {number}
@@ -528,6 +539,8 @@ var Shop2 = {
 		if (Shop2Vars.Page >= Shop2Vars.PageCount) {
 			Shop2Vars.Page = Shop2Vars.PageCount - 1;
 		}
+
+		ElementContent("Shop2InputSearch-datalist", "");
 	},
 
 	/** Click handler for the group-selection checkboxes */
@@ -536,8 +549,10 @@ var Shop2 = {
 		const checkedSet = new Set();
 		const elements = /** @type {HTMLInputElement[]} */(Array.from(document.querySelectorAll(`[id^="Shop2GroupSelect-checkbox"]`)));
 		for (const checkbox of elements) {
-			const [category, groupDescr] = checkbox.id.split("-").slice(-2);
-			Shop2InitVars.GroupDescriptions[category]?.[groupDescr]?.forEach(i => checkedSet.add(i));
+			if (checkbox.checked) {
+				const [category, groupDescr] = checkbox.id.split("-").slice(-2);
+				Shop2InitVars.GroupDescriptions[category]?.[groupDescr]?.forEach(i => checkedSet.add(i));
+			}
 		}
 
 		Shop2Vars.Filters.AssetGroup = (item) => checkedSet.has(item.Asset.Group.Name) ? ["Buy", "Sell", "Preview"] : [];
@@ -668,7 +683,18 @@ var Shop2 = {
 				}
 
 				// We've got a caching related race condition going on for `TextGet("InputSearch")`, so hard code the english text as fallback
-				const elem = ElementCreateInput("Shop2InputSearch", "text", "", "50");
+				const elem = ElementCreateSearchInput("Shop2InputSearch", () => {
+					switch (Shop2Vars.Mode) {
+						case "Preview":
+							return new Set(Shop2Vars.PreviewItems.map(i => i.Asset.Description).sort());
+						case "Buy":
+							return new Set(Shop2Vars.BuyItems.map(i => i.Asset.Description).sort());
+						case "Sell":
+							return new Set(Shop2Vars.SellItems.map(i => i.Asset.Description).sort());
+						default:
+							return new Set();
+					}
+				});
 				elem.placeholder = TextGet("InputSearch");
 				elem.addEventListener("input", () => {
 					if (!elem.value) {
@@ -744,8 +770,10 @@ var Shop2 = {
 				}
 
 				const entries = Object.entries(Shop2InitVars.GroupDescriptions);
-				const groups = Object.fromEntries(entries.map(([k, v]) => [TextGet(`AssetGroupCategory${k}`), Object.keys(v)]));
-				ElementCheckboxDropdown.FromRecord("Shop2GroupSelect", groups, Shop2._SetCheckboxFilters, { checked: true });
+				const groups = Object.fromEntries(entries.map(([k, v]) => [k, Object.keys(v)]));
+				const elem = ElementCheckboxDropdown.FromRecord("Shop2GroupSelect", groups, Shop2._SetCheckboxFilters, { checked: true });
+				const headers = /** @type {NodeListOf<HTMLSpanElement>} */(elem.querySelectorAll(".dropdown-header"));
+				headers.forEach(headerElem => headerElem.innerText = TextGet(`AssetGroupCategory${headerElem.innerText}`));
 			},
 			Draw: (...coords) => {
 				if (Shop2Vars.DropdownState !== ShopDropdownState.GROUP) {

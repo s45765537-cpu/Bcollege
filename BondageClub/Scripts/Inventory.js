@@ -134,8 +134,7 @@ function InventoryDeleteGroup(C, group, push) {
 }
 
 /**
-* Loads the current inventory for a character, can be loaded from an object of Name/Group or a compressed array using
-* LZString
+* Loads the current inventory for a character, can be loaded from an object of Name/Group or a compressed array using LZString
 * @param {Character} C - The character on which we should load the inventory
 * @param {string | readonly ItemBundle[] | Partial<Record<AssetGroupName, readonly string[]>>} Inventory - An array of Name / Group of items to load
 */
@@ -160,6 +159,78 @@ function InventoryLoad(C, Inventory) {
 			}
 		}
 	}
+}
+
+/**
+* Loads the current inventory for a character, based on compressed data
+* @param {Character} C - The character on which we should load the inventory
+* @param {string} Data - The string of data to load
+*/
+function InventoryLoadCompressedData(C, Data) {
+
+	// For each character in the string
+	let Pos = 0;
+	let LastID = -1;
+	while (Pos < Data.length) {
+
+		// Get the InventoryID of that character, if it's a range separator (58), we stay on that position for the full range
+		let ID = Data.charCodeAt(Pos);
+		if (ID == 58) {
+			ID = LastID + 1;
+			if ((Pos + 1 < Data.length) && (ID + 1 < Data.charCodeAt(Pos + 1))) Pos--;
+		}
+
+		// Adds all the assets linked to that inventory ID
+		for (let A of Asset)
+			if (A.InventoryID === ID)
+				InventoryAdd(C, A.Name, A.Group.Name, false);
+
+		// Keeps the last ID for ranges and jump to the next position
+		LastID = ID;
+		Pos++;
+
+	}
+
+}
+
+/**
+* Creates the inventory data string from current inventory
+* @param {Character} C - The character on which we should load the inventory data string
+*/
+function InventoryDataBuild(C) {
+
+	// Loops in the character inventory to build a list of IDs
+	let IDList = [];
+	for (let I of C.Inventory)
+		if ((I.Asset.InventoryID != null) && (IDList.indexOf(I.Asset.InventoryID) < 0))
+			IDList.push(I.Asset.InventoryID);
+
+	// Sort the IDs from lowest to highest
+	IDList.sort(function(a, b) { return a - b; });
+
+	// Replace ranges by 58 (:), 101, 102, 103, 104 becomes 101, 58, 104
+	if (IDList.length >= 3)
+		for (let I = 1; I < IDList.length - 1; I++) {
+			if ((IDList[I - 1] + 1 == IDList[I]) && (IDList[I + 1] - 1 == IDList[I]))
+				IDList[I] = 58;
+			else
+				if ((IDList[I - 1] == 58) && (IDList[I + 1] - 1 == IDList[I])) {
+					IDList.splice(I, 1)
+					I--
+				}					
+		}
+
+	// Builds the final compressed string
+	let Data = ""
+	for (let I of IDList)
+		Data = Data + String.fromCharCode(I);
+
+	// If the result is different, we assign it and update the server account
+	if (Data !== C.InventoryData) {
+		C.InventoryData = Data;
+		if (C.IsPlayer()) ServerAccountUpdate.QueueData({ InventoryData: Data }, true);
+	}
+
 }
 
 /**

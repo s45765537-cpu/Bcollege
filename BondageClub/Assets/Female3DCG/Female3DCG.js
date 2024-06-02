@@ -12511,7 +12511,6 @@ var AssetFemale3DCG = [
 		Asset: [
 			{
 				Name: "Claws",
-				Value: 0,
 				AllowActivity: ["Scratch"],
 				IsRestraint: false,
 				Random: false,
@@ -12526,7 +12525,6 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Fingernails",
-				Value: 0,
 				DefaultColor: ["#CC3333", "#222222"],
 				AllowActivity: ["Scratch"],
 				PoseMapping: {
@@ -12561,7 +12559,6 @@ var AssetFemale3DCG = [
 				also add the corresponding modules to the extended menu.
 				*/
 				Name: "Rings",
-				Value: 0,
 				DefaultColor: [
 					"Default",
 					"Default",
@@ -12630,7 +12627,6 @@ var AssetFemale3DCG = [
 		Asset: [
 			{
 				Name: "Claws",
-				Value: 0,
 				AllowActivity: ["Scratch"],
 				PoseMapping: {
 					...AssetPoseMapping.RightHand,
@@ -12644,7 +12640,6 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Fingernails",
-				Value: 0,
 				DefaultColor: ["#CC3333", "#222222"],
 				AllowActivity: ["Scratch"],
 				PoseMapping: {
@@ -12680,7 +12675,6 @@ var AssetFemale3DCG = [
 				also add the corresponding modules to the extended menu.
 				*/
 				Name: "Rings",
-				Value: 0,
 				DefaultColor: [
 					"Default",
 					"Default",
@@ -29212,6 +29206,7 @@ var AssetFemale3DCG = [
 		Asset: [
 			{
 				Name: "LeatherCollar",
+				InventoryID: 844,
 				Fetish: ["Leather"],
 				DefaultColor: ["#000000", "Default"],
 				Value: 20,
@@ -29222,6 +29217,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherCollarBell",
+				InventoryID: 845,
 				Fetish: ["Leather"],
 				Value: 30,
 				Difficulty: 50,
@@ -29230,6 +29226,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherCollarBow",
+				InventoryID: 846,
 				Fetish: ["Leather"],
 				Value: 25,
 				Difficulty: 50,
@@ -29322,6 +29319,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BatCollar",
+				InventoryID: 847,
 				Fetish: ["Leather"],
 				Value: 25,
 				Difficulty: 50,
@@ -29330,6 +29328,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PostureCollar",
+				InventoryID: 848,
 				Fetish: ["Leather"],
 				Effect: [E.FixedHead],
 				DefaultColor: ["#000000", "Default", "Default", "Default"],
@@ -29346,6 +29345,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SteelPostureCollar",
+				InventoryID: 849,
 				Fetish: ["Metal"],
 				Effect: [E.FixedHead],
 				Value: 60,
@@ -29356,6 +29356,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "DogCollar",
+				InventoryID: 850,
 				Fetish: ["Leather", "Pet"],
 				Value: 20,
 				Difficulty: 50,
@@ -29365,6 +29366,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SpikeCollar",
+				InventoryID: 851,
 				Fetish: ["Leather", "Metal", "Pet"],
 				Value: 40,
 				Difficulty: 50,
@@ -29373,6 +29375,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HighCollar",
+				InventoryID: 852,
 				Fetish: ["Leather", "Metal"],
 				Value: 50,
 				Difficulty: 50,
@@ -29382,6 +29385,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FuturisticCollar",
+				InventoryID: 853,
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Value: 100,
@@ -29408,6 +29412,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherChoker",
+				InventoryID: 854,
 				Fetish: ["Leather"],
 				DefaultColor: ["Default", "#000000"],
 				Value: 10,
@@ -29418,6 +29423,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherDeluxeCollar",
+				InventoryID: 855,
 				Fetish: ["Leather"],
 				DefaultColor: ["Default", "#612C2C", "Default"],
 				Value: 50,
@@ -29434,6 +29440,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PetCollar",
+				InventoryID: 856,
 				Fetish: ["Leather", "Pet"],
 				Value: -1,
 				Difficulty: 50,
@@ -29442,6 +29449,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "MaidCollar",
+				InventoryID: 857,
 				Fetish: ["Lingerie"],
 				Value: 30,
 				Difficulty: 50,
@@ -29452,6 +29460,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BordelleCollar",
+				InventoryID: 858,
 				Fetish: ["Leather"],
 				Value: 30,
 				Difficulty: 50,
@@ -29460,6 +29469,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LoveLeatherCollar",
+				InventoryID: 859,
 				Fetish: ["Leather"],
 				Value: 50,
 				Difficulty: 50,
@@ -29470,6 +29480,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "NobleCorsetCollar",
+				InventoryID: 860,
 				Fetish: ["Leather"],
 				Value: 45,
 				Difficulty: 50,
@@ -29478,6 +29489,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "StrictPostureCollar",
+				InventoryID: 861,
 				Effect: [E.FixedHead],
 				Fetish: ["Leather"],
 				Priority: 38,
@@ -29489,6 +29501,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HeartCollar",
+				InventoryID: 862,
 				Fetish: ["Leather"],
 				Value: 50,
 				Difficulty: 50,
@@ -29497,6 +29510,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherCorsetCollar",
+				InventoryID: 863,
 				Fetish: ["Leather"],
 				Priority: 38,
 				Value: 75,
@@ -29512,6 +29526,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LatexPostureCollar",
+				InventoryID: 864,
 				Fetish: ["Latex"],
 				Priority: 38,
 				Value: 80,
@@ -29526,6 +29541,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HighSecurityCollar",
+				InventoryID: 865,
 				Fetish: ["Metal"],
 				Value: 70,
 				Difficulty: 50,
@@ -29535,6 +29551,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "OrnateCollar",
+				InventoryID: 866,
 				Fetish: ["Metal"],
 				Value: 80,
 				Difficulty: 50,
@@ -29545,6 +29562,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HighStyleSteelCollar",
+				InventoryID: 867,
 				Fetish: ["Metal"],
 				Value: 80,
 				Difficulty: 50,
@@ -29556,6 +29574,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SlenderSteelCollar",
+				InventoryID: 868,
 				Fetish: ["Metal"],
 				Value: 30,
 				Difficulty: 50,
@@ -29565,6 +29584,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ShinySteelCollar",
+				InventoryID: 869,
 				Fetish: ["Metal"],
 				Value: 35,
 				Difficulty: 50,
@@ -29577,6 +29597,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HeartLinkChoker",
+				InventoryID: 870,
 				Fetish: ["Leather"],
 				Value: 15,
 				Difficulty: 50,
@@ -29604,6 +29625,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "NylonCollar",
+				InventoryID: 871,
 				Value: 45,
 				Difficulty: 50,
 				Time: 5,
@@ -29611,6 +29633,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "GothicCollar",
+				InventoryID: 872,
 				Priority: 29,
 				Value: 85,
 				Difficulty: 50,
@@ -29627,6 +29650,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LatexCollar1",
+				InventoryID: 873,
 				Fetish: ["Latex"],
 				Value: 40,
 				Difficulty: 50,
@@ -29635,6 +29659,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LatexCollar2",
+				InventoryID: 874,
 				Fetish: ["Latex"],
 				Value: 40,
 				Difficulty: 50,
@@ -29643,6 +29668,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "TechnoCollar",
+				InventoryID: 875,
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Value: 70,
@@ -29730,6 +29756,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ComboHarness",
+				InventoryID: 876,
 				Top: 0,
 				Left: 150,
 				DefaultColor: ["#4D4848", "Default", "#7E7B77", "#FFFFFF", "#ACA1A1"],
@@ -29754,6 +29781,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BonedNeckCorset",
+				InventoryID: 877,
 				Fetish: ["Latex"],
 				Time: 7,
 				Value: 50,
@@ -29783,6 +29811,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ExtendablePostureCollar",
+				InventoryID: 878,
 				Time: 5,
 				RemoveTime: 5,
 				AllowLock: true,
@@ -29916,6 +29945,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LatexRingCollar",
+				InventoryID: 879,
 				Fetish: ["Latex"],
 				Value: 35,
 				Difficulty: 50,
@@ -29948,6 +29978,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SpikedChoker",
+				InventoryID: 880,
 				Fetish: ["Leather"],
 				Value: 30,
 				Difficulty: 50,
@@ -29976,6 +30007,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PaddedBeltCollar",
+				InventoryID: 881,
 				Fetish: ["Leather"],
 				Value: 40,
 				Difficulty: 50,
@@ -30055,6 +30087,7 @@ var AssetFemale3DCG = [
 		Asset: [
 			{
 				Name: "CustomCollarTag",
+				InventoryID: 882,
 				Value: 50,
 				Difficulty: 20,
 				Time: 5,
@@ -30081,6 +30114,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ElectronicTag",
+				InventoryID: 883,
 				Value: 50,
 				Difficulty: 20,
 				Time: 5,
@@ -30097,6 +30131,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarBell",
+				InventoryID: 884,
 				Fetish: ["Metal", "Pet"],
 				Value: 5,
 				Difficulty: 3,
@@ -30108,6 +30143,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarBow",
+				InventoryID: 885,
 				Fetish: ["Lingerie"],
 				Value: 5,
 				Difficulty: 1,
@@ -30155,6 +30191,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Key",
+				InventoryID: 886,
 				Value: 5,
 				Difficulty: 3,
 				Time: 5,
@@ -30165,6 +30202,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarNameTag",
+				InventoryID: 887,
 				Value: 50,
 				Difficulty: 20,
 				Time: 5,
@@ -30178,6 +30216,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarNameTagOval",
+				InventoryID: 888,
 				Value: 50,
 				Difficulty: 20,
 				Time: 5,
@@ -30191,6 +30230,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarNameTagPet",
+				InventoryID: 889,
 				Fetish: ["Pet"],
 				Value: 50,
 				Difficulty: 20,
@@ -30205,6 +30245,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarNameTagLover",
+				InventoryID: 890,
 				Value: -1,
 				Difficulty: 20,
 				Time: 5,
@@ -30218,6 +30259,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarNameTagLivestock",
+				InventoryID: 891,
 				Fetish: ["Pet"],
 				Value: 50,
 				Difficulty: 20,
@@ -30231,6 +30273,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarMoon",
+				InventoryID: 892,
 				Value: 5,
 				Difficulty: 3,
 				Time: 5,
@@ -30240,6 +30283,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarSun",
+				InventoryID: 893,
 				Value: 10,
 				Difficulty: 3,
 				Time: 5,
@@ -30250,6 +30294,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarLapis",
+				InventoryID: 894,
 				Value: 10,
 				Difficulty: 3,
 				Time: 5,
@@ -30273,6 +30318,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarPentagram",
+				InventoryID: 895,
 				Value: 10,
 				Difficulty: 3,
 				Time: 5,
@@ -30283,6 +30329,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarFlower",
+				InventoryID: 896,
 				Value: 5,
 				Difficulty: 1,
 				Time: 5,
@@ -30293,6 +30340,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarRose",
+				InventoryID: 897,
 				Value: 5,
 				Difficulty: 1,
 				Time: 5,
@@ -30303,6 +30351,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarCowBell",
+				InventoryID: 898,
 				Fetish: ["Pet"],
 				Value: 15,
 				Difficulty: 3,
@@ -30313,6 +30362,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarPupBone",
+				InventoryID: 899,
 				Fetish: ["Pet"],
 				Value: 25,
 				Difficulty: 3,
@@ -30356,6 +30406,7 @@ var AssetFemale3DCG = [
 		Asset: [
 			{
 				Name: "CollarChainLong",
+				InventoryID: 900,
 				Fetish: ["Metal"],
 				Value: 30,
 				Difficulty: 6,
@@ -30376,6 +30427,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarChainShort",
+				InventoryID: 900,
 				Fetish: ["Metal"],
 				Value: -1,
 				Difficulty: 6,
@@ -30399,6 +30451,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Post",
+				InventoryID: 901,
 				Fetish: ["Metal"],
 				Value: 130,
 				Difficulty: 9,
@@ -30427,6 +30480,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarLeash",
+				InventoryID: 902,
 				Fetish: ["Leather"],
 				Value: 20,
 				Difficulty: 6,
@@ -30447,6 +30501,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ChainLeash",
+				InventoryID: 903,
 				Fetish: ["Metal"],
 				Value: 25,
 				Difficulty: 6,
@@ -30467,6 +30522,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarChainMedium",
+				InventoryID: 900,
 				Fetish: ["Metal"],
 				Value: -1,
 				Difficulty: 6,
@@ -30487,6 +30543,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarRopeLong",
+				InventoryID: 904,
 				Fetish: ["Rope"],
 				Value: 30,
 				Difficulty: 5,
@@ -30508,6 +30565,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarRopeShort",
+				InventoryID: 904,
 				Fetish: ["Rope"],
 				Value: -1,
 				Difficulty: 5,
@@ -30529,6 +30587,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarRopeMedium",
+				InventoryID: 904,
 				Fetish: ["Rope"],
 				Value: -1,
 				Difficulty: 6,
@@ -30550,6 +30609,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PetPost",
+				InventoryID: 905,
 				Fetish: ["Metal", "Pet"],
 				Value: 150,
 				Difficulty: 4,
@@ -30754,6 +30814,7 @@ var AssetFemale3DCG = [
 		Asset: [
 			{
 				Name: "ClothGag",
+				InventoryID: 906,
 				Value: 15,
 				NeverSell: true, // See IntroductionGetBasicItems()
 				Difficulty: -4,
@@ -30770,6 +30831,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "WiffleGag",
+				InventoryID: 907,
 				Fetish: ["Leather"],
 				Value: 30,
 				Difficulty: 1,
@@ -30790,6 +30852,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HarnessBallGag",
+				InventoryID: 908,
 				Fetish: ["Leather"],
 				Value: 60,
 				Difficulty: 6,
@@ -30810,6 +30873,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Ball",
+				InventoryID: 911,
 				Fetish: ["Pet"],
 				Value: 5,
 				Difficulty: -50,
@@ -30824,6 +30888,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HarnessPanelGag",
+				InventoryID: 912,
 				Fetish: ["Leather"],
 				Value: 80,
 				Difficulty: 6,
@@ -30839,6 +30904,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "RingGag",
+				InventoryID: 913,
 				Fetish: ["Leather", "Metal"],
 				Value: 30,
 				Difficulty: 2,
@@ -30874,6 +30940,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PacifierGag",
+				InventoryID: 914,
 				Category: ["ABDL"],
 				Fetish: ["ABDL", "Leather"],
 				Value: 10,
@@ -30890,6 +30957,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HarnessPacifierGag",
+				InventoryID: 915,
 				Category: ["ABDL"],
 				Fetish: ["ABDL", "Leather"],
 				Value: 50,
@@ -30915,6 +30983,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "DusterGag",
+				InventoryID: 916,
 				Fetish: ["Leather"],
 				Priority: 42,
 				Value: -1,
@@ -30933,6 +31002,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CupholderGag",
+				InventoryID: 917,
 				Fetish: ["Leather"],
 				Priority: 42,
 				Value: 30,
@@ -30956,6 +31026,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HarnessPonyBits",
+				InventoryID: 918,
 				Fetish: ["Leather", "Pony"],
 				Value: -1,
 				Difficulty: 4,
@@ -30977,6 +31048,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PumpGag",
+				InventoryID: 919,
 				Fetish: ["Leather"],
 				Value: 100,
 				Difficulty: 2,
@@ -30993,6 +31065,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "KittyGag",
+				InventoryID: 920,
 				Gender: "F",
 				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"],
 				Fetish: ["Pet"],
@@ -31012,6 +31085,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "KittyHarnessPanelGag",
+				InventoryID: 921,
 				Gender: "F",
 				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"],
 				Fetish: ["Leather", "Pet"],
@@ -31034,6 +31108,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "KittyMuzzleGag",
+				InventoryID: 922,
 				Gender: "F",
 				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"],
 				Fetish: ["Leather", "Pet"],
@@ -31056,6 +31131,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CarrotGag",
+				InventoryID: 923,
 				Fetish: ["Leather", "Pony"],
 				Value: 40,
 				Difficulty: 3,
@@ -31072,6 +31148,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "MuzzleGag",
+				InventoryID: 924,
 				Fetish: ["Leather"],
 				Value: 70,
 				Difficulty: 6,
@@ -31086,6 +31163,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FuturisticPanelGag",
+				InventoryID: 910,
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Value: 100,
@@ -31145,6 +31223,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FuturisticHarnessPanelGag",
+				InventoryID: 910,
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Value: -1,
@@ -31205,6 +31284,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FuturisticHarnessBallGag",
+				InventoryID: 910,
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Value: -1,
@@ -31257,6 +31337,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "RegularSleepingPill",
+				InventoryID: 925,
 				Value: -1,
 				Wear: false,
 				Bonus: "KidnapSneakiness",
@@ -31264,6 +31345,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PantiesMask",
+				InventoryID: 926,
 				Fetish: ["Lingerie"],
 				Value: 20,
 				Time: 15,
@@ -31276,6 +31358,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PlugGag",
+				InventoryID: 927,
 				Fetish: ["Leather"],
 				Value: 100,
 				Difficulty: 4,
@@ -31305,6 +31388,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "DildoGag",
+				InventoryID: 928,
 				Fetish: ["Leather"],
 				Priority: 42,
 				Value: 60,
@@ -31324,6 +31408,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BoneGag",
+				InventoryID: 929,
 				Fetish: ["Leather"],
 				Value: 50,
 				Difficulty: 6,
@@ -31339,6 +31424,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ChopstickGag",
+				InventoryID: 930,
 				Fetish: ["Rope"],
 				Value: 15,
 				Difficulty: 2,
@@ -31356,6 +31442,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BambooGag",
+				InventoryID: 931,
 				Fetish: ["Rope"],
 				Value: 30,
 				Difficulty: 6,
@@ -31370,6 +31457,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HarnessBallGag1",
+				InventoryID: 909,
 				Fetish: ["Leather"],
 				Value: 75,
 				Difficulty: 6,
@@ -31390,6 +31478,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PumpkinGag",
+				InventoryID: 932,
 				Fetish: ["Leather"],
 				Value: 40,
 				Difficulty: 1,
@@ -31406,6 +31495,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LipGag",
+				InventoryID: 933,
 				Fetish: ["Leather"],
 				Value: 40,
 				Difficulty: 2,
@@ -31427,6 +31517,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SpiderGag",
+				InventoryID: 934,
 				Fetish: ["Leather", "Metal"],
 				Value: 45,
 				Difficulty: 4,
@@ -31445,9 +31536,11 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ClothStuffing",
+				InventoryID: 935,
 				Value: 10,
 				Difficulty: -20,
 				Time: 5,
+				Random: false,
 				Hide: ["Mouth"],
 				Prerequisite: "AccessMouth",
 				Effect: [E.BlockMouth, E.GagLight],
@@ -31458,10 +31551,12 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PantyStuffing",
+				InventoryID: 936,
 				Fetish: ["Lingerie"],
 				Value: 10,
 				Difficulty: -20,
 				Time: 5,
+				Random: false,
 				DefaultColor: "#900000",
 				Hide: ["Mouth"],
 				Prerequisite: "AccessMouth",
@@ -31489,9 +31584,11 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ChloroformCloth",
+				InventoryID: 937,
 				Value: 40,
 				Time: 2,
 				Random: false,
+				BuyGroup: "ChloroformCloth",
 				Hide: ["Mouth"],
 				HideItem: ["ItemNoseNoseRing"],
 				Effect: [E.BlockMouth, E.GagVeryLight],
@@ -31518,6 +31615,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LewdGag",
+				InventoryID: 938,
 				Value: 70,
 				Time: 10,
 				Random: false,
@@ -31534,6 +31632,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "DeepthroatGag",
+				InventoryID: 939,
 				Fetish: ["Leather"],
 				Value: 55,
 				Difficulty: 5,
@@ -31549,6 +31648,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherCorsetCollar",
+				InventoryID: 863,
 				Fetish: ["Leather"],
 				Value: 75,
 				Difficulty: 50,
@@ -31564,6 +31664,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LatexPostureCollar",
+				InventoryID: 864,
 				Fetish: ["Latex"],
 				Effect: [E.FixedHead, E.BlockMouth, E.GagNormal],
 				Value: 80,
@@ -31579,6 +31680,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BitGag",
+				InventoryID: 940,
 				Fetish: ["Leather", "Pony"],
 				Value: 40,
 				Difficulty: 4,
@@ -31593,6 +31695,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "XLBoneGag",
+				InventoryID: 941,
 				Fetish: ["Leather", "Pet"],
 				Value: 60,
 				Difficulty: 6,
@@ -31608,6 +31711,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "DogMuzzleExposed",
+				InventoryID: 942,
 				Fetish: ["Leather", "Pet"],
 				Value: 50,
 				Difficulty: 7,
@@ -31623,6 +31727,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FoxyHarnessPanelGag",
+				InventoryID: 943,
 				Fetish: ["Leather", "Pet"],
 				Value: 40,
 				Difficulty: 6,
@@ -31659,6 +31764,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "TongueStrapGag",
+				InventoryID: 944,
 				Fetish: ["Leather", "Metal"],
 				Value: 35,
 				Difficulty: 4,
@@ -31676,6 +31782,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BallGagMask",
+				InventoryID: 945,
 				Fetish: ["Leather"],
 				Value: 90,
 				Difficulty: 6,
@@ -31695,6 +31802,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HookGagMask",
+				InventoryID: 946,
 				Fetish: ["Leather"],
 				Value: 70,
 				Difficulty: 6,
@@ -31712,6 +31820,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "DildoPlugGag",
+				InventoryID: 927,
 				Fetish: ["Leather"],
 				Value: 100,
 				Difficulty: 6,
@@ -31740,6 +31849,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SteelMuzzleGag",
+				InventoryID: 947,
 				Fetish: ["Metal"],
 				Value: 80,
 				Difficulty: 8,
@@ -31753,6 +31863,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "StitchedMuzzleGag",
+				InventoryID: 948,
 				Fetish: ["Leather"],
 				Value: 60,
 				Difficulty: 5,
@@ -31766,6 +31877,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LatexBallMuzzleGag",
+				InventoryID: 949,
 				Fetish: ["Latex"],
 				Value: 65,
 				Difficulty: 6,
@@ -31779,6 +31891,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SockStuffing",
+				InventoryID: 950,
 				Value: 10,
 				Difficulty: -20,
 				Time: 5,
@@ -31793,6 +31906,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "GasMaskGag",
+				InventoryID: 951,
 				Fetish: ["Leather"],
 				Priority: 53,
 				Value: 40,
@@ -31810,6 +31924,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "WebGag",
+				InventoryID: 952,
 				Category: ["Fantasy"],
 				Fetish: ["Tape"],
 				Value: 30,
@@ -31861,6 +31976,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "MilkBottle",
+				InventoryID: 953,
 				Category: ["ABDL"],
 				Fetish: ["ABDL"],
 				Priority: 42,
@@ -31896,6 +32012,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "RegressedMilk",
+				InventoryID: 954,
 				Category: ["ABDL"],
 				Fetish: ["ABDL"],
 				Value: -1,
@@ -31924,6 +32041,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ShoeGag",
+				InventoryID: 955,
 				Fetish: ["Leather"],
 				Priority: 42,
 				Value: 30,
@@ -31944,6 +32062,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FunnelGag",
+				InventoryID: 956,
 				Value: 50,
 				Difficulty: 4,
 				Time: 20,
@@ -31976,6 +32095,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BigMouth",
+				InventoryID: 957,
 				Fetish: ["Latex"],
 				Value: 20,
 				Random: false,
@@ -31992,6 +32112,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FuturisticMuzzle",
+				InventoryID: 910,
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Value: -1,
@@ -32028,6 +32149,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CageMuzzle",
+				InventoryID: 958,
 				Fetish: ["Pet", "Metal"],
 				Value: 30,
 				Difficulty: 4,
@@ -32041,6 +32163,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "DentalGag",
+				InventoryID: 959,
 				Fetish: ["Metal"],
 				Value: 50,
 				Difficulty: 5,
@@ -32111,6 +32234,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PaciGag",
+				InventoryID: 960,
 				Category: ["ABDL"],
 				Fetish: ["ABDL", "Leather"],
 				Value: 50,
@@ -32147,6 +32271,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "OTNPlugGag",
+				InventoryID: 961,
 				Gender: "F",
 				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat", "AccessMouth"],
 				Value: 120,
@@ -32190,6 +32315,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "TechnoGag",
+				InventoryID: 962,
 				Gender: "F",
 				Prerequisite: ["HasBreasts", "HasVagina", "GagUnique"],
 				Value: 20,
@@ -32236,6 +32362,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PonyGag",
+				InventoryID: 963,
 				Category: ["Pony"],
 				Fetish: ["Leather", "Pony", "Pet"],
 				Value: 150,
@@ -32543,6 +32670,7 @@ var AssetFemale3DCG = [
 			}, //PonyGag
 			{
 				Name: "LatexSheathGag",
+				InventoryID: 964,
 				Fetish: ["Latex"],
 				Value: 10,
 				Priority: 11,
@@ -32667,6 +32795,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ModularGag", // This asset is free to edit and upgrade by anyone under conditions: 1. Asset stays avaiable for all body types/genders unless it would make no sense otherwise; 2. No features will be removed from the asset without permission;
+				InventoryID: 965,
 				Fetish: ["Leather"],
 				Value: 50,
 				Difficulty: 6,
@@ -32921,6 +33050,7 @@ var AssetFemale3DCG = [
 			}, // ModularGag 1
 			{
 				Name: "TonguePiercingGag",
+				InventoryID: 966,
 				Fetish: ["Leather", "Metal", "Gagged"],
 				Value: 35,
 				Difficulty: 4,
@@ -33086,6 +33216,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PaddedFaceMask",
+				InventoryID: 967,
 				Value: 20,
 				Extended: true,
 				Random: false,
@@ -33114,6 +33245,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "MouthFeatureGag",
+				InventoryID: 968,
 				Fetish: ["Latex"],
 				AllowLock: true,
 				DrawLocks: false,
@@ -33163,6 +33295,7 @@ var AssetFemale3DCG = [
 			}, // MouthFeatureGag
 			{
 				Name: "LatexRespirator",
+				InventoryID: 969,
 				Value: 50,
 				Difficulty: 2,
 				Time: 10,
@@ -33301,6 +33434,7 @@ var AssetFemale3DCG = [
 		Asset: [
 			{
 				Name: "ClothGag",
+				InventoryID: 906,
 				Value: -1,
 				NeverSell: true, // See IntroductionGetBasicItems()
 				Difficulty: -4,
@@ -33318,6 +33452,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "WiffleGag",
+				InventoryID: 907,
 				Fetish: ["Leather"],
 				Value: -1,
 				Difficulty: 1,
@@ -33339,6 +33474,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HarnessBallGag",
+				InventoryID: 908,
 				Fetish: ["Leather"],
 				Value: -1,
 				Difficulty: 6,
@@ -33360,6 +33496,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HarnessPanelGag",
+				InventoryID: 912,
 				Fetish: ["Leather"],
 				Value: -1,
 				Difficulty: 6,
@@ -33376,6 +33513,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "RingGag",
+				InventoryID: 913,
 				Value: -1,
 				Difficulty: 2,
 				Time: 5,
@@ -33411,6 +33549,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HarnessPacifierGag",
+				InventoryID: 915,
 				Category: ["ABDL"],
 				Fetish: ["ABDL", "Leather"],
 				Value: -1,
@@ -33436,6 +33575,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "DusterGag",
+				InventoryID: 916,
 				Fetish: ["Leather"],
 				Priority: 42,
 				Value: -1,
@@ -33453,6 +33593,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CupholderGag",
+				InventoryID: 917,
 				Fetish: ["Leather"],
 				Priority: 42,
 				Value: -1,
@@ -33476,6 +33617,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HarnessPonyBits",
+				InventoryID: 918,
 				Fetish: ["Leather", "Pony"],
 				Value: -1,
 				Difficulty: 4,
@@ -33495,6 +33637,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "KittyGag",
+				InventoryID: 920,
 				Gender: "F",
 				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"],
 				Fetish: ["Pet"],
@@ -33514,6 +33657,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "KittyHarnessPanelGag",
+				InventoryID: 921,
 				Gender: "F",
 				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"],
 				Fetish: ["Leather", "Pet"],
@@ -33536,6 +33680,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "KittyMuzzleGag",
+				InventoryID: 922,
 				Gender: "F",
 				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"],
 				Fetish: ["Leather", "Pet"],
@@ -33558,6 +33703,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CarrotGag",
+				InventoryID: 923,
 				Fetish: ["Leather", "Pony"],
 				Value: -1,
 				Difficulty: 3,
@@ -33574,6 +33720,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "MuzzleGag",
+				InventoryID: 924,
 				Fetish: ["Leather"],
 				Value: -1,
 				Difficulty: 6,
@@ -33589,6 +33736,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PantiesMask",
+				InventoryID: 926,
 				Fetish: ["Lingerie"],
 				Value: -1,
 				Time: 15,
@@ -33601,6 +33749,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "DildoGag",
+				InventoryID: 928,
 				Fetish: ["Leather"],
 				Priority: 42,
 				Value: -1,
@@ -33620,6 +33769,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BoneGag",
+				InventoryID: 929,
 				Fetish: ["Leather", "Pet"],
 				Value: -1,
 				Difficulty: 6,
@@ -33635,6 +33785,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HarnessBallGag1",
+				InventoryID: 909,
 				Fetish: ["Leather"],
 				Value: -1,
 				Difficulty: 6,
@@ -33655,6 +33806,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PumpkinGag",
+				InventoryID: 932,
 				Fetish: ["Leather"],
 				Value: -1,
 				Difficulty: 1,
@@ -33671,6 +33823,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LipGag",
+				InventoryID: 933,
 				Fetish: ["Leather"],
 				Value: -1,
 				Difficulty: 2,
@@ -33693,6 +33846,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SpiderGag",
+				InventoryID: 934,
 				Fetish: ["Leather", "Metal"],
 				Value: -1,
 				Difficulty: 4,
@@ -33712,6 +33866,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ChloroformCloth",
+				InventoryID: 937,
 				Value: -1,
 				Time: 2,
 				Random: false,
@@ -33744,6 +33899,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LewdGag",
+				InventoryID: 938,
 				Value: -1,
 				Time: 10,
 				Random: false,
@@ -33760,6 +33916,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherCorsetCollar",
+				InventoryID: 863,
 				Fetish: ["Leather"],
 				Value: -1,
 				Difficulty: 50,
@@ -33775,6 +33932,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LatexPostureCollar",
+				InventoryID: 864,
 				Fetish: ["Latex"],
 				Effect: [E.FixedHead, E.BlockMouth, E.GagNormal],
 				Value: -1,
@@ -33790,6 +33948,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BitGag",
+				InventoryID: 940,
 				Fetish: ["Leather", "Pony"],
 				Value: -1,
 				Difficulty: 4,
@@ -33804,6 +33963,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "XLBoneGag",
+				InventoryID: 941,
 				Fetish: ["Leather", "Pet"],
 				Value: -1,
 				Difficulty: 6,
@@ -33818,6 +33978,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FoxyHarnessPanelGag",
+				InventoryID: 943,
 				Fetish: ["Leather", "Pet"],
 				Value: 40,
 				Difficulty: 6,
@@ -33854,6 +34015,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BallGagMask",
+				InventoryID: 945,
 				Fetish: ["Leather"],
 				Value: -1,
 				Difficulty: 6,
@@ -33873,6 +34035,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SteelMuzzleGag",
+				InventoryID: 947,
 				Fetish: ["Leather", "Metal"],
 				Value: -1,
 				Difficulty: 8,
@@ -33886,6 +34049,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "StitchedMuzzleGag",
+				InventoryID: 948,
 				Fetish: ["Leather"],
 				Value: -1,
 				Difficulty: 5,
@@ -33899,6 +34063,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LatexBallMuzzleGag",
+				InventoryID: 949,
 				Fetish: ["Latex"],
 				Value: -1,
 				Difficulty: 6,
@@ -33912,6 +34077,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "GasMaskGag",
+				InventoryID: 951,
 				Fetish: ["Leather"],
 				Priority: 53,
 				Value: -1,
@@ -33930,6 +34096,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "WebGag",
+				InventoryID: 952,
 				Category: ["Fantasy"],
 				Fetish: ["Tape"],
 				Value: -1,
@@ -33993,6 +34160,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "RegressedMilk",
+				InventoryID: 954,
 				Category: ["ABDL"],
 				Fetish: ["ABDL"],
 				Value: -1,
@@ -34021,6 +34189,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ShoeGag",
+				InventoryID: 955,
 				Fetish: ["Leather"],
 				Priority: 42,
 				Value: -1,
@@ -34051,6 +34220,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FuturisticHarnessPanelGag",
+				InventoryID: 910,
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Value: -1,
@@ -34111,6 +34281,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FuturisticPanelGag",
+				InventoryID: 910,
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Value: -1,
@@ -34170,6 +34341,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FuturisticHarnessBallGag",
+				InventoryID: 910,
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Value: -1,
@@ -34222,6 +34394,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FuturisticMuzzle",
+				InventoryID: 910,
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Value: -1,
@@ -34259,6 +34432,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CageMuzzle",
+				InventoryID: 958,
 				Fetish: ["Pet", "Metal"],
 				Value: 30,
 				Difficulty: 4,
@@ -34288,6 +34462,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PaciGag",
+				InventoryID: 960,
 				Category: ["ABDL"],
 				Fetish: ["ABDL", "Leather"],
 				Value: -1,
@@ -34324,6 +34499,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PonyGag",
+				InventoryID: 963,
 				Category: ["Pony"],
 				Fetish: ["Leather", "Pony", "Pet"],
 				Value: 150,
@@ -34728,6 +34904,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ModularGag", // This asset is free to edit and upgrade by anyone under conditions: 1. Asset stays avaiable for all body types/genders unless it would make no sense otherwise; 2. No features will be removed from the asset without permission;
+				InventoryID: 965,
 				Fetish: ["Leather"],
 				Value: 50,
 				Difficulty: 6,
@@ -35270,6 +35447,7 @@ var AssetFemale3DCG = [
 		Asset: [
 			{
 				Name: "ClothGag",
+				InventoryID: 906,
 				Value: -1,
 				NeverSell: true, // See IntroductionGetBasicItems()
 				Difficulty: -4,
@@ -35286,6 +35464,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "WiffleGag",
+				InventoryID: 907,
 				Fetish: ["Leather"],
 				Value: -1,
 				Difficulty: 1,
@@ -35307,6 +35486,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HarnessBallGag",
+				InventoryID: 908,
 				Fetish: ["Leather"],
 				Value: -1,
 				Difficulty: 6,
@@ -35328,6 +35508,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HarnessPanelGag",
+				InventoryID: 912,
 				Fetish: ["Leather"],
 				Value: -1,
 				Difficulty: 6,
@@ -35343,6 +35524,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "RingGag",
+				InventoryID: 913,
 				Fetish: ["Leather", "Metal"],
 				Value: -1,
 				Difficulty: 2,
@@ -35379,6 +35561,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HarnessPacifierGag",
+				InventoryID: 915,
 				Category: ["ABDL"],
 				Fetish: ["ABDL", "Leather"],
 				Value: -1,
@@ -35404,6 +35587,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "DusterGag",
+				InventoryID: 916,
 				Fetish: ["Leather"],
 				Priority: 42,
 				Value: -1,
@@ -35420,6 +35604,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CupholderGag",
+				InventoryID: 917,
 				Fetish: ["Leather"],
 				Priority: 42,
 				Value: -1,
@@ -35442,6 +35627,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HarnessPonyBits",
+				InventoryID: 918,
 				Fetish: ["Leather", "Pony"],
 				Value: -1,
 				Difficulty: 4,
@@ -35461,6 +35647,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "KittyGag",
+				InventoryID: 920,
 				Gender: "F",
 				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"],
 				Fetish: ["Pet"],
@@ -35480,6 +35667,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "KittyHarnessPanelGag",
+				InventoryID: 921,
 				Gender: "F",
 				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"],
 				Fetish: ["Leather", "Pet"],
@@ -35502,6 +35690,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "KittyMuzzleGag",
+				InventoryID: 922,
 				Gender: "F",
 				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"],
 				Fetish: ["Leather", "Pet"],
@@ -35524,6 +35713,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CarrotGag",
+				InventoryID: 923,
 				Fetish: ["Leather", "Pony"],
 				Value: -1,
 				Difficulty: 3,
@@ -35540,6 +35730,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "MuzzleGag",
+				InventoryID: 924,
 				Fetish: ["Leather"],
 				Value: -1,
 				Difficulty: 6,
@@ -35554,6 +35745,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PantiesMask",
+				InventoryID: 926,
 				Fetish: ["Lingerie"],
 				Value: -1,
 				Time: 15,
@@ -35566,6 +35758,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "DildoGag",
+				InventoryID: 928,
 				Fetish: ["Leather"],
 				Priority: 42,
 				Value: -1,
@@ -35584,6 +35777,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BoneGag",
+				InventoryID: 929,
 				Fetish: ["Leather", "Pet"],
 				Value: -1,
 				Difficulty: 6,
@@ -35599,6 +35793,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HarnessBallGag1",
+				InventoryID: 909,
 				Value: -1,
 				Difficulty: 6,
 				Time: 20,
@@ -35617,6 +35812,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PumpkinGag",
+				InventoryID: 932,
 				Fetish: ["Leather"],
 				Value: -1,
 				Difficulty: 1,
@@ -35633,6 +35829,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LipGag",
+				InventoryID: 933,
 				Fetish: ["Leather"],
 				Value: -1,
 				Difficulty: 2,
@@ -35655,6 +35852,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SpiderGag",
+				InventoryID: 934,
 				Fetish: ["Leather", "Metal"],
 				Value: -1,
 				Difficulty: 4,
@@ -35674,6 +35872,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ChloroformCloth",
+				InventoryID: 937,
 				Value: -1,
 				Time: 2,
 				Random: false,
@@ -35705,6 +35904,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LewdGag",
+				InventoryID: 938,
 				Value: -1,
 				Time: 10,
 				Random: false,
@@ -35720,6 +35920,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherCorsetCollar",
+				InventoryID: 863,
 				Fetish: ["Leather"],
 				Value: -1,
 				Difficulty: 50,
@@ -35735,6 +35936,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LatexPostureCollar",
+				InventoryID: 864,
 				Fetish: ["Latex"],
 				Effect: [E.FixedHead, E.BlockMouth, E.GagNormal],
 				Value: -1,
@@ -35750,6 +35952,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BitGag",
+				InventoryID: 940,
 				Fetish: ["Leather", "Pony"],
 				Value: -1,
 				Difficulty: 4,
@@ -35764,6 +35967,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "XLBoneGag",
+				InventoryID: 941,
 				Fetish: ["Leather", "Pet"],
 				Value: -1,
 				Difficulty: 6,
@@ -35778,6 +35982,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FoxyHarnessPanelGag",
+				InventoryID: 943,
 				Fetish: ["Leather", "Pet"],
 				Value: 40,
 				Difficulty: 6,
@@ -35814,6 +36019,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BallGagMask",
+				InventoryID: 945,
 				Fetish: ["Leather"],
 				Value: -1,
 				Difficulty: 6,
@@ -35833,6 +36039,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SteelMuzzleGag",
+				InventoryID: 947,
 				Fetish: ["Metal"],
 				Value: -1,
 				Difficulty: 8,
@@ -35846,6 +36053,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "StitchedMuzzleGag",
+				InventoryID: 948,
 				Fetish: ["Leather"],
 				Value: -1,
 				Difficulty: 5,
@@ -35859,6 +36067,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LatexBallMuzzleGag",
+				InventoryID: 949,
 				Fetish: ["Latex"],
 				Value: -1,
 				Difficulty: 6,
@@ -35872,6 +36081,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "GasMaskGag",
+				InventoryID: 951,
 				Fetish: ["Leather"],
 				Priority: 53,
 				Value: -1,
@@ -35890,6 +36100,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "WebGag",
+				InventoryID: 952,
 				Category: ["Fantasy"],
 				Fetish: ["Tape"],
 				Value: -1,
@@ -35953,6 +36164,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "RegressedMilk",
+				InventoryID: 954,
 				Category: ["ABDL"],
 				Fetish: ["ABDL"],
 				Value: -1,
@@ -35981,6 +36193,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ShoeGag",
+				InventoryID: 955,
 				Fetish: ["Leather"],
 				Priority: 42,
 				Value: -1,
@@ -36000,6 +36213,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FuturisticMuzzle",
+				InventoryID: 910,
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Priority: 42,
@@ -36038,6 +36252,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CageMuzzle",
+				InventoryID: 958,
 				Fetish: ["Pet", "Metal"],
 				Value: 30,
 				Difficulty: 4,
@@ -36076,6 +36291,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PaciGag",
+				InventoryID: 960,
 				Category: ["ABDL"],
 				Fetish: ["ABDL", "Leather"],
 				Value: -1,
@@ -36112,6 +36328,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PonyGag",
+				InventoryID: 963,
 				Category: ["Pony"],
 				Fetish: ["Leather", "Pony", "Pet"],
 				Value: 150,
@@ -36549,6 +36766,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ModularGag", // This asset is free to edit and upgrade by anyone under conditions: 1. Asset stays avaiable for all body types/genders unless it would make no sense otherwise; 2. No features will be removed from the asset without permission;
+				InventoryID: 965,
 				Fetish: ["Leather"],
 				Value: 50,
 				Difficulty: 6,
@@ -36803,6 +37021,7 @@ var AssetFemale3DCG = [
 			}, // ModularGag 3
 			{
 				Name: "FuturisticHarnessPanelGag",
+				InventoryID: 910,
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Value: -1,
@@ -36863,6 +37082,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FuturisticPanelGag",
+				InventoryID: 910,
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Value: -1,
@@ -36922,6 +37142,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FuturisticHarnessBallGag",
+				InventoryID: 910,
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Value: -1,
@@ -37229,6 +37450,7 @@ var AssetFemale3DCG = [
 		Asset: [
 			{
 				Name: "ClothBlindfold",
+				InventoryID: 970,
 				Value: 15,
 				Time: 10,
 				RemoveTime: 5,
@@ -37253,6 +37475,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherBlindfold",
+				InventoryID: 972,
 				Fetish: ["Leather"],
 				Value: 30,
 				Time: 5,
@@ -37264,6 +37487,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PaddedBlindfold",
+				InventoryID: 973,
 				Fetish: ["Leather"],
 				Value: 35,
 				Time: 5,
@@ -37339,6 +37563,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "InteractiveVRHeadset",
+				InventoryID: 974,
 				Difficulty: 6,
 				Value: 80,
 				Time: 3,
@@ -37357,6 +37582,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherSlimMask",
+				InventoryID: 975,
 				Fetish: ["Leather"],
 				Value: 70,
 				Difficulty: 50,
@@ -37376,6 +37602,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherSlimMaskOpenMouth",
+				InventoryID: 976,
 				Fetish: ["Leather"],
 				Value: 70,
 				Difficulty: 50,
@@ -37390,6 +37617,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherSlimMaskOpenEyes",
+				InventoryID: 977,
 				Fetish: ["Leather"],
 				Value: 70,
 				Difficulty: 50,
@@ -37409,6 +37637,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "StuddedBlindfold",
+				InventoryID: 978,
 				Fetish: ["Leather", "Metal"],
 				Value: -1,
 				Difficulty: 2,
@@ -37422,6 +37651,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "KittyBlindfold",
+				InventoryID: 979,
 				Gender: "F",
 				Prerequisite: ["HasBreasts", "HasVagina"],
 				Fetish: ["Pet"],
@@ -37461,6 +37691,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SmallBlindfold",
+				InventoryID: 980,
 				Fetish: ["Leather"],
 				Value: 40,
 				Time: 5,
@@ -37472,6 +37703,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FullBlindfold",
+				InventoryID: 981,
 				Fetish: ["Latex"],
 				Priority: 30,
 				Value: 40,
@@ -37485,6 +37717,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LewdBlindfold",
+				InventoryID: 982,
 				Priority: 30,
 				Value: 45,
 				Time: 5,
@@ -37501,6 +37734,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LatexBlindfold",
+				InventoryID: 983,
 				Fetish: ["Latex"],
 				Value: 35,
 				Time: 5,
@@ -37511,6 +37745,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FrilledSleepMask",
+				InventoryID: 984,
 				Fetish: ["Lingerie"],
 				Value: 5,
 				Time: 5,
@@ -37521,6 +37756,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BlackoutLenses",
+				InventoryID: 985,
 				Priority: 9,
 				Value: 60,
 				Difficulty: 10,
@@ -37581,6 +37817,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "WebBlindfold",
+				InventoryID: 986,
 				Category: ["Fantasy"],
 				Fetish: ["Tape"],
 				Value: 50,
@@ -37610,6 +37847,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SleepMask",
+				InventoryID: 987,
 				Value: 5,
 				Time: 5,
 				Hide: ["Glasses", "Mask"],
@@ -37651,6 +37889,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Snorkel",
+				InventoryID: 988,
 				Priority: 55,
 				Value: 30,
 				Top: 30,
@@ -37697,6 +37936,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "MedicalPatch",
+				InventoryID: 989,
 				Value: 20,
 				Difficulty: 1,
 				Priority: 25,
@@ -38062,6 +38302,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BigMouthHood",
+				InventoryID: 990,
 				Fetish: ["Latex"],
 				Value: -1,
 				BuyGroup: "BigMouthHood",
@@ -38146,6 +38387,7 @@ var AssetFemale3DCG = [
 		Asset: [
 			{
 				Name: "ClownNose",
+				InventoryID: 991,
 				Priority: 26,
 				Value: 2,
 				Difficulty: 1,
@@ -38158,6 +38400,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "NoseHook",
+				InventoryID: 992,
 				Fetish: ["Metal"],
 				Priority: 26,
 				Value: 25,
@@ -38171,6 +38414,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PigNose",
+				InventoryID: 993,
 				Fetish: ["Pet"],
 				Top: 18,
 				Left: 151,
@@ -38186,6 +38430,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "NoseRing",
+				InventoryID: 994,
 				Priority: 43,
 				Fetish: ["Metal"],
 				Value: 25,
@@ -38214,6 +38459,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "NosePlugs",
+				InventoryID: 995,
 				Value: 20,
 				Difficulty: 3,
 				Time: 5,
@@ -38222,6 +38468,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BarbelPiercing",
+				InventoryID: 996,
 				Left: 124,
 				Top: 50,
 				Value: 20,
@@ -38232,6 +38479,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PigNoseHook",
+				InventoryID: 992,
 				Fetish: ["Metal"],
 				Priority: 26,
 				Value: -1,
@@ -38278,6 +38526,7 @@ var AssetFemale3DCG = [
 		Asset: [
 			{
 				Name: "LeatherHoodSealed",
+				InventoryID: 997,
 				Fetish: ["Leather"],
 				Value: 70,
 				Difficulty: 5,
@@ -38315,6 +38564,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BlanketHood",
+				InventoryID: 998,
 				Value: 50,
 				Difficulty: 3,
 				Time: 5,
@@ -38348,6 +38598,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PolishedSteelHood",
+				InventoryID: 999,
 				Fetish: ["Metal"],
 				Value: 85,
 				Difficulty: 8,
@@ -38388,6 +38639,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Paperbag",
+				InventoryID: 1000,
 				Value: 3,
 				Top: 0,
 				Left: 0,
@@ -38400,6 +38652,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Fu",
+				InventoryID: 1001,
 				Value: 1,
 				Top: 0,
 				Left: 0,
@@ -38407,6 +38660,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "InflatedBallHood",
+				InventoryID: 1002,
 				Fetish: ["Latex"],
 				Value: 65,
 				Difficulty: 5,
@@ -38443,6 +38697,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "OldGasMask",
+				InventoryID: 1003,
 				Fetish: ["Leather"],
 				Value: 85,
 				Difficulty: 20,
@@ -38534,6 +38789,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "KirugumiMask",
+				InventoryID: 1004,
 				Fetish: ["Latex"],
 				Value: 50,
 				Priority: 51,
@@ -38678,6 +38934,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PumpkinHead",
+				InventoryID: 1005,
 				Priority: 54,
 				Value: 40,
 				Difficulty: 2,
@@ -38707,6 +38964,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SackHood",
+				InventoryID: 1006,
 				Fetish: ["Rope"],
 				Value: 20,
 				Difficulty: 3,
@@ -38739,6 +38997,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherHoodSensDep",
+				InventoryID: 1007,
 				Fetish: ["Leather"],
 				Value: 100,
 				Difficulty: 50,
@@ -38781,6 +39040,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LatexHoodOpenHair",
+				InventoryID: 1008,
 				Fetish: ["Latex"],
 				Value: 45,
 				Difficulty: 50,
@@ -38817,6 +39077,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherHood",
+				InventoryID: 1009,
 				Fetish: ["Leather"],
 				Value: 60,
 				Difficulty: 50,
@@ -38864,6 +39125,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherHoodOpenEyes",
+				InventoryID: 1010,
 				Fetish: ["Leather"],
 				Value: 40,
 				Difficulty: 50,
@@ -38912,6 +39174,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "GasMask",
+				InventoryID: 1011,
 				Fetish: ["Leather"],
 				Value: 50,
 				Difficulty: 25,
@@ -38948,6 +39211,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "DogHood",
+				InventoryID: 1012,
 				Fetish: ["Leather", "Pet"],
 				Value: 60,
 				Difficulty: 50,
@@ -38996,6 +39260,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FoxyMask",
+				InventoryID: 1013,
 				Fetish: ["Pet"],
 				Value: 50,
 				Difficulty: 2,
@@ -39023,6 +39288,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PonyHood",
+				InventoryID: 1014,
 				Fetish: ["Pony"],
 				Value: -1,
 				Difficulty: 50,
@@ -39058,6 +39324,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherHoodOpenMouth",
+				InventoryID: 1015,
 				Fetish: ["Leather"],
 				Value: 50,
 				Difficulty: 50,
@@ -39095,6 +39362,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CanvasHood",
+				InventoryID: 1016,
 				Value: 50,
 				Difficulty: 20,
 				Time: 15,
@@ -39181,6 +39449,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PantyHood",
+				InventoryID: 1017,
 				Value: 10,
 				Time: 5,
 				Hide: [
@@ -39232,6 +39501,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "GP9GasMask",
+				InventoryID: 1018,
 				Priority: 54,
 				Value: 75,
 				Difficulty: 25,
@@ -39283,6 +39553,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "GwenHood",
+				InventoryID: 1019,
 				Fetish: ["Leather"],
 				Value: 35,
 				Difficulty: 5,
@@ -39312,6 +39583,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "DobermanMask",
+				InventoryID: 1020,
 				Fetish: ["Leather"],
 				Value: 10,
 				Difficulty: 5,
@@ -39350,6 +39622,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "TechnoHelmet1",
+				InventoryID: 1021,
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Value: 100,
@@ -39412,6 +39685,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FuturisticHelmet",
+				InventoryID: 1022,
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Value: -1,
@@ -39449,6 +39723,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "GGTSHelmet",
+				InventoryID: 1023,
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
 				Value: -1,
@@ -39519,6 +39794,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LampHeadHood",
+				InventoryID: 1024,
 				Fetish: ["Forniphilia"],
 				Value: 40,
 				Difficulty: 3,
@@ -39564,6 +39840,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "AccentHood",
+				InventoryID: 1025,
 				Fetish: ["Latex"],
 				Top: 28,
 				Left: 123,
@@ -39594,6 +39871,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CollarHood",
+				InventoryID: 1026,
 				Fetish: ["Latex"],
 				Top: 23,
 				Left: 122,
@@ -39627,6 +39905,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ZipperHood",
+				InventoryID: 1027,
 				Fetish: ["Latex"],
 				Value: 20,
 				Top: 28,
@@ -39728,6 +40007,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CowHood",
+				InventoryID: 1028,
 				Fetish: ["Pet", "Latex"],
 				Value: 30,
 				Difficulty: 5,
@@ -39769,6 +40049,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HeadboxSeethrough",
+				InventoryID: 1029,
 				Value: 80,
 				Priority: 54,
 				Difficulty: 10,
@@ -39869,6 +40150,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "KittyHood",
+				InventoryID: 1030,
 				Fetish: ["Pet"],
 				Random: false,
 				Value: 40,
@@ -40023,6 +40305,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LatexDogHood",
+				InventoryID: 1031,
 				Fetish: ["Latex", "Pet"],
 				Random: false,
 				Value: 20,
@@ -40073,6 +40356,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "OpenMouthPlugHood",
+				InventoryID: 1032,
 				Fetish: ["Latex"],
 				Random: false,
 				Value: 40,
@@ -40322,6 +40606,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CustomLatexHood",
+				InventoryID: 1033,
 				Fetish: ["Latex"],
 				Value: 100,
 				Difficulty: 5,
@@ -40756,6 +41041,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HarnessCatMask",
+				InventoryID: 1034,
 				Fetish: ["Pet"],
 				Random: false,
 				Value: 50,
@@ -40809,6 +41095,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "InflatableGagMask",
+				InventoryID: 1035,
 				Fetish: ["Latex"],
 				Value: 80,
 				Difficulty: 5,
@@ -40854,6 +41141,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LatexDogMask",
+				InventoryID: 1036,
 				Fetish: ["Latex", "Pet"],
 				Random: false,
 				Value: 10,
@@ -40920,6 +41208,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LatexBunny",
+				InventoryID: 1037,
 				Fetish: ["Latex", "Pet"],
 				Random: false,
 				Value: 10,
@@ -40952,6 +41241,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FoxHood",
+				InventoryID: 1038,
 				Fetish: ["Latex", "Pet"],
 				Random: false,
 				Value: 30,
@@ -41002,6 +41292,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "VacHood",
+				InventoryID: 1039,
 				Fetish: ["Latex"],
 				Random: false,
 				Value: 10,
@@ -41052,6 +41343,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SensoryDeprivationHood",
+				InventoryID: 1040,
 				Fetish: ["Latex"],
 				Value: 20,
 				Difficulty: 8,
@@ -41076,6 +41368,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CorsetHood",
+				InventoryID: 1041,
 				Fetish: ["Latex"],
 				Value: 10,
 				Difficulty: 5,
@@ -41118,6 +41411,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SpaceMask",
+				InventoryID: 1042,
 				Category: ["SciFi"],
 				Fetish: ["Latex"],
 				Value: 90,
@@ -41243,6 +41537,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BigMouthHood",
+				InventoryID: 990,
 				Fetish: ["Latex"],
 				Value: 55,
 				BuyGroup: "BigMouthHood",
@@ -41325,6 +41620,7 @@ var AssetFemale3DCG = [
 		Asset: [
 			{
 				Name: "LightDutyEarPlugs",
+				InventoryID: 1043,
 				Value: 15,
 				Difficulty: 50,
 				Time: 5,
@@ -41333,6 +41629,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HeavyDutyEarPlugs",
+				InventoryID: 1044,
 				Value: 30,
 				Difficulty: 50,
 				Time: 5,
@@ -41341,6 +41638,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HeadphoneEarPlugs",
+				InventoryID: 1045,
 				Value: 50,
 				Difficulty: 50,
 				Time: 5,
@@ -41349,6 +41647,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BluetoothEarbuds",
+				InventoryID: 1046,
 				Value: 50,
 				Difficulty: 50,
 				Time: 5,
@@ -41358,6 +41657,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FuturisticEarphones",
+				InventoryID: 1047,
 				Priority: 54,
 				Category: ["SciFi"],
 				Value: 60,
@@ -41385,6 +41685,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Headphones",
+				InventoryID: 1048,
 				Priority: 54,
 				Value: 50,
 				Time: 5,
@@ -41425,6 +41726,7 @@ var AssetFemale3DCG = [
 		Asset: [
 			{
 				Name: "MetalPadlock",
+				InventoryID: 1049,
 				Value: 15,
 				Time: 10,
 				Wear: false,
@@ -41433,6 +41735,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "IntricatePadlock",
+				InventoryID: 1050,
 				Value: 50,
 				Time: 30,
 				Wear: false,
@@ -41444,6 +41747,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HighSecurityPadlock",
+				InventoryID: 1051,
 				Value: 60,
 				Time: 10,
 				Wear: false,
@@ -41455,6 +41759,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "TimerPadlock",
+				InventoryID: 1052,
 				Value: 80,
 				Wear: false,
 				Effect: [],
@@ -41464,6 +41769,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CombinationPadlock",
+				InventoryID: 1053,
 				Value: 100,
 				Random: false,
 				Wear: false,
@@ -41473,6 +41779,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PasswordPadlock",
+				InventoryID: 1054,
 				Value: 100,
 				BuyGroup: "PasswordPadlock",
 				Random: false,
@@ -41483,6 +41790,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "TimerPasswordPadlock",
+				InventoryID: 1054,
 				Value: -1,
 				BuyGroup: "PasswordPadlock",
 				Random: false,
@@ -41495,6 +41803,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "OwnerPadlock",
+				InventoryID: 1056,
 				Value: 60,
 				Time: 10,
 				Wear: false,
@@ -41504,6 +41813,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "OwnerTimerPadlock",
+				InventoryID: 1057,
 				Value: 100,
 				Wear: false,
 				OwnerOnly: true,
@@ -41514,6 +41824,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LoversPadlock",
+				InventoryID: 1058,
 				Value: 60,
 				Time: 10,
 				Wear: false,
@@ -41523,6 +41834,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LoversTimerPadlock",
+				InventoryID: 1059,
 				Value: 100,
 				Wear: false,
 				LoverOnly: true,
@@ -41533,6 +41845,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FamilyPadlock",
+				InventoryID: 1060,
 				Value: 50,
 				Time: 10,
 				Wear: false,
@@ -41542,6 +41855,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "MistressPadlock",
+				InventoryID: 1061,
 				Value: -1,
 				Time: 10,
 				Wear: false,
@@ -41550,6 +41864,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "MistressTimerPadlock",
+				InventoryID: 1062,
 				Value: -1,
 				Wear: false,
 				Effect: [],
@@ -41559,6 +41874,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PandoraPadlock",
+				InventoryID: 1063,
 				Value: -1,
 				Time: 10,
 				Wear: false,
@@ -41567,6 +41883,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ExclusivePadlock",
+				InventoryID: 1064,
 				Value: 50,
 				Time: 10,
 				Wear: false,
@@ -41575,6 +41892,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SafewordPadlock",
+				InventoryID: 1065,
 				Value: 40,
 				Random: false,
 				Wear: false,
@@ -41595,12 +41913,14 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "MetalPadlockKey",
+				InventoryID: 1066,
 				Value: 10,
 				Wear: false,
 				Effect: [E.UnlockMetalPadlock],
 			},
 			{
 				Name: "OwnerPadlockKey",
+				InventoryID: 1067,
 				Value: 60,
 				Wear: false,
 				OwnerOnly: true,
@@ -41608,6 +41928,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LoversPadlockKey",
+				InventoryID: 1068,
 				Value: 40,
 				Wear: false,
 				LoverOnly: true,
@@ -41615,6 +41936,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FamilyPadlockKey",
+				InventoryID: 1069,
 				Value: 30,
 				Wear: false,
 				FamilyOnly: true,
@@ -41622,18 +41944,21 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "MistressPadlockKey",
+				InventoryID: 1070,
 				Value: -1,
 				Wear: false,
 				Effect: [E.UnlockMistressPadlock, E.UnlockMistressTimerPadlock],
 			},
 			{
 				Name: "PandoraPadlockKey",
+				InventoryID: 1071,
 				Value: -1,
 				Wear: false,
 				Effect: [E.UnlockPandoraPadlock],
 			},
 			{
 				Name: "MetalCuffsKey",
+				InventoryID: 1072,
 				Value: 20,
 				Time: 5,
 				Wear: false,
@@ -41641,6 +41966,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Lockpicks",
+				InventoryID: 1073,
 				Value: 25,
 				Time: 5,
 				Wear: false,
@@ -41657,6 +41983,7 @@ var AssetFemale3DCG = [
 			{ Name: "WoodenPaddle", Value: -1, Enable: false, RemoveAtLogin: true },
 			{
 				Name: "WoodenSign",
+				InventoryID: 1055,
 				Value: 90,
 				Top: 0,
 				Left: 0,
@@ -41675,6 +42002,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ServingTray",
+				InventoryID: 1074,
 				Value: -1,
 				Time: 5,
 				Extended: true,
@@ -41690,6 +42018,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "TeddyBear",
+				InventoryID: 1075,
 				Fetish: ["ABDL"],
 				Priority: 34,
 				Value: 50,
@@ -41713,6 +42042,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PetPost",
+				InventoryID: 905,
 				Fetish: ["Metal", "Pet"],
 				Value: 150,
 				Difficulty: 4,
@@ -41836,6 +42166,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BunPlush",
+				InventoryID: 1076,
 				Priority: 34,
 				Value: 30,
 				Difficulty: -10,
@@ -42094,6 +42425,7 @@ var AssetFemale3DCG = [
 		Asset: [
 			{
 				Name: "WoodenBox",
+				InventoryID: 1077,
 				Priority: 58,
 				Value: 60,
 				Difficulty: -2,
@@ -42138,6 +42470,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SmallWoodenBox",
+				InventoryID: 1078,
 				Priority: 58,
 				Value: 40,
 				Difficulty: -2,
@@ -42216,6 +42549,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Cage",
+				InventoryID: 1079,
 				Priority: 58,
 				Fetish: ["Metal"],
 				Value: 120,
@@ -42246,6 +42580,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LowCage",
+				InventoryID: 1080,
 				Priority: 58,
 				Fetish: ["Metal"],
 				Value: 80,
@@ -42270,6 +42605,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SaddleStand",
+				InventoryID: 1081,
 				Fetish: ["Metal"],
 				Priority: 39,
 				Value: 100,
@@ -42285,6 +42621,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BurlapSack",
+				InventoryID: 1082,
 				Priority: 39,
 				Value: 35,
 				Difficulty: 5,
@@ -42338,6 +42675,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "InflatableBodyBag",
+				InventoryID: 1083,
 				Fetish: ["Latex"],
 				Priority: 31,
 				Value: 225,
@@ -42416,6 +42754,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FurBlanketWrap",
+				InventoryID: 1084,
 				Priority: 31,
 				Value: 225,
 				Difficulty: 1,
@@ -42493,6 +42832,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BondageBench",
+				InventoryID: 1085,
 				Fetish: ["Leather"],
 				Priority: 1,
 				Value: 250,
@@ -42525,6 +42865,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BBQ",
+				InventoryID: 1086,
 				Priority: 1,
 				Value: 30,
 				Difficulty: -10,
@@ -42536,6 +42877,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "WetFloor",
+				InventoryID: 1087,
 				Priority: 70,
 				Value: 30,
 				Difficulty: -10,
@@ -42549,6 +42891,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LittleMonster",
+				InventoryID: 1088,
 				Priority: 34,
 				Value: 40,
 				Difficulty: -10,
@@ -42571,6 +42914,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Familiar",
+				InventoryID: 1089,
 				Priority: 6,
 				Value: 200,
 				Difficulty: -10,
@@ -42594,6 +42938,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Coffin",
+				InventoryID: 1090,
 				Priority: 70,
 				Value: 240,
 				Top: -150,
@@ -42654,6 +42999,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CryoCapsule",
+				InventoryID: 1091,
 				Category: ["SciFi"],
 				Priority: 70,
 				Value: 240,
@@ -42715,6 +43061,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "OneBarPrison",
+				InventoryID: 1092,
 				Gender: "F",
 				Fetish: ["Metal"],
 				Priority: 16,
@@ -42741,6 +43088,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PersonalCage",
+				InventoryID: 1093,
 				Priority: 58,
 				Value: 150,
 				Difficulty: 12,
@@ -42767,6 +43115,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "TheDisplayFrame",
+				InventoryID: 1094,
 				Fetish: ["Metal"],
 				Value: 100,
 				Difficulty: 50,
@@ -42789,6 +43138,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "TheHangingFrame",
+				InventoryID: 1095,
 				Fetish: ["Metal"],
 				Value: 50,
 				Difficulty: 50,
@@ -42815,6 +43165,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Sybian",
+				InventoryID: 1096,
 				Priority: 22,
 				Value: 80,
 				Difficulty: 1,
@@ -42832,6 +43183,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "StrapOnSmooth",
+				InventoryID: 1097,
 				Fetish: ["Leather"],
 				Priority: 34,
 				Value: 25,
@@ -42846,6 +43198,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "StrapOnStuds",
+				InventoryID: 1098,
 				Fetish: ["Leather"],
 				Priority: 34,
 				Value: 25,
@@ -42860,6 +43213,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "DisplayCase",
+				InventoryID: 1099,
 				Priority: 58,
 				Fetish: ["Metal"],
 				Value: 60,
@@ -42890,6 +43244,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SmallDisplayCase",
+				InventoryID: 1100,
 				Priority: 58,
 				Fetish: ["Metal"],
 				Value: 40,
@@ -42919,6 +43274,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FuturisticCrate",
+				InventoryID: 1101,
 				Priority: 58,
 				Category: ["SciFi"],
 				Fetish: ["Metal"],
@@ -43073,6 +43429,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "DollBox",
+				InventoryID: 1102,
 				Priority: 58,
 				Value: 20,
 				Difficulty: -2,
@@ -43127,6 +43484,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "WoodenBoxOpenHead",
+				InventoryID: 1103,
 				Value: 60,
 				Difficulty: -2,
 				SelfBondage: 3,
@@ -43172,6 +43530,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SmallWoodenBoxOpenHead",
+				InventoryID: 1104,
 				Value: 40,
 				Difficulty: -2,
 				SelfBondage: 3,
@@ -43216,6 +43575,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "WoodenStocks",
+				InventoryID: 1105,
 				Value: 150,
 				Difficulty: 50,
 				SelfBondage: 4,
@@ -43231,6 +43591,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Vacbed",
+				InventoryID: 1106,
 				Gender: "F",
 				Fetish: ["Latex"],
 				ParentGroup: "BodyUpper",
@@ -43316,6 +43677,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "VacBedDeluxe",
+				InventoryID: 1107,
 				Gender: "F",
 				Fetish: ["Latex"],
 				Priority: 36,
@@ -43449,6 +43811,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "VacbedClear",
+				InventoryID: 1106,
 				Gender: "F",
 				Fetish: ["Latex"],
 				ParentGroup: "BodyUpper",
@@ -43530,6 +43893,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Crib",
+				InventoryID: 1109,
 				Category: ["ABDL"],
 				Fetish: ["ABDL"],
 				Priority: 1,
@@ -43610,6 +43974,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "X-Cross",
+				InventoryID: 1110,
 				Priority: 1,
 				Value: 200,
 				Left: 0,
@@ -43634,6 +43999,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ChangingTable",
+				InventoryID: 1111,
 				Category: ["ABDL"],
 				Fetish: ["ABDL"],
 				Priority: 1,
@@ -43652,6 +44018,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Locker",
+				InventoryID: 1112,
 				Priority: 58,
 				Value: 50,
 				Difficulty: -2,
@@ -43698,6 +44065,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SmallLocker",
+				InventoryID: 1113,
 				Priority: 58,
 				Value: 40,
 				Difficulty: -2,
@@ -43743,6 +44111,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ConcealingCloak",
+				InventoryID: 1114,
 				Value: 75,
 				Difficulty: 0,
 				Top: 0,
@@ -43789,6 +44158,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Kennel",
+				InventoryID: 1115,
 				Fetish: ["Metal", "Pet"],
 				Top: 0,
 				Value: 150,
@@ -43840,6 +44210,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PetBed",
+				InventoryID: 1108,
 				Fetish: ["Pet"],
 				Value: 50,
 				Difficulty: -25,
@@ -43892,6 +44263,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "TransportWoodenBox",
+				InventoryID: 1116,
 				Priority: 58,
 				Value: 60,
 				Difficulty: -2,
@@ -43938,6 +44310,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "VacCube",
+				InventoryID: 1117,
 				Gender: "F",
 				Fetish: ["Latex"],
 				Value: 250,
@@ -44037,6 +44410,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PetBowl",
+				InventoryID: 1118,
 				Value: 20,
 				Time: 5,
 				IsRestraint: false,
@@ -44051,6 +44425,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Pole",
+				InventoryID: 1119,
 				Value: 40,
 				Top: -150,
 				Priority: 1,
@@ -44063,6 +44438,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Cushion",
+				InventoryID: 1120,
 				Priority: 34,
 				Value: 4,
 				Difficulty: -10,
@@ -44083,6 +44459,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FuckMachine",
+				InventoryID: 1121,
 				Gender: "F",
 				Value: 200,
 				Difficulty: -100,
@@ -44118,6 +44495,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Net",
+				InventoryID: 1122,
 				Value: 50,
 				Difficulty: 20,
 				Random: false,
@@ -44157,6 +44535,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Snowman",
+				InventoryID: 1123,
 				Value: 60,
 				Difficulty: 4,
 				SelfBondage: 2,
@@ -44270,6 +44649,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "WoodenRack",
+				InventoryID: 1124,
 				Value: 180,
 				Priority: 1,
 				Difficulty: 0,
@@ -44388,6 +44768,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "WoodenHorse",
+				InventoryID: 1125,
 				Priority: 34,
 				Value: 200,
 				Difficulty: 2,
@@ -44420,6 +44801,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LuckyWheel",
+				InventoryID: 1126,
 				Priority: 62,
 				Top: 0,
 				Value: 100,
@@ -44473,6 +44855,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "WheelFortune",
+				InventoryID: 1127,
 				Priority: 62,
 				Top: 0,
 				Left: 350,
@@ -44503,6 +44886,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FoldingScreen",
+				InventoryID: 1128,
 				Value: 100,
 				Difficulty: -5,
 				Time: 5,
@@ -44563,6 +44947,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "KabeshiriWall",
+				InventoryID: 1129,
 				Value: 100,
 				Top: 50,
 				Difficulty: 20,
@@ -44764,6 +45149,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Trolley",
+				InventoryID: 1130,
 				Priority: 58,
 				Left: 5,
 				Value: 80,
@@ -44959,6 +45345,7 @@ var AssetFemale3DCG = [
 		Asset: [
 			{
 				Name: "PonyBoots",
+				InventoryID: 1131,
 				Fetish: ["Leather", "Pony"],
 				Value: -1,
 				Difficulty: 6,
@@ -44988,6 +45375,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BalletHeels",
+				InventoryID: 1132,
 				Fetish: ["Leather"],
 				Value: 75,
 				Difficulty: 6,
@@ -45073,6 +45461,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "MetalBallet",
+				InventoryID: 1133,
 				Fetish: ["Metal"],
 				Height: 27,
 				Value: 60,
@@ -45127,6 +45516,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "TormentHeels",
+				InventoryID: 1134,
 				Fetish: ["Leather"],
 				Height: 38,
 				Value: 67,
@@ -45243,6 +45633,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BalletWedges",
+				InventoryID: 1135,
 				Fetish: ["Leather"],
 				Value: 50,
 				Difficulty: 6,
@@ -45273,6 +45664,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ToeCuffs",
+				InventoryID: 1136,
 				Fetish: ["Metal"],
 				Value: 35,
 				Difficulty: 4,
@@ -45293,6 +45685,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherToeCuffs",
+				InventoryID: 1137,
 				Fetish: ["Leather"],
 				Value: 50,
 				Difficulty: 3,
@@ -45313,6 +45706,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ToeTie",
+				InventoryID: 1138,
 				Fetish: ["Rope"],
 				Value: 15,
 				Difficulty: 2,
@@ -45373,6 +45767,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LockingHeels",
+				InventoryID: 1139,
 				Value: 20,
 				Difficulty: 6,
 				Time: 10,
@@ -45387,6 +45782,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LockingHeels2",
+				InventoryID: 1140,
 				Value: 25,
 				Difficulty: 7,
 				Time: 10,
@@ -45401,6 +45797,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LockingShoes1",
+				InventoryID: 1141,
 				Value: 15,
 				Difficulty: 3,
 				Time: 5,
@@ -45415,6 +45812,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LockingShoes2",
+				InventoryID: 1142,
 				Value: 20,
 				Difficulty: 4,
 				Time: 5,
@@ -45542,6 +45940,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LockingBoots1",
+				InventoryID: 1143,
 				Value: 30,
 				Difficulty: 6,
 				Time: 7,
@@ -45557,6 +45956,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherFootMitts1",
+				InventoryID: 1144,
 				Fetish: ["Leather"],
 				Value: 35,
 				Difficulty: 4,
@@ -45613,6 +46013,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HighThighBoots",
+				InventoryID: 1145,
 				Value: 100,
 				Time: 10,
 				RemoveTime: 10,
@@ -45677,6 +46078,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "MonoHeel",
+				InventoryID: 1146,
 				Value: 60,
 				Difficulty: 5,
 				Time: 15,
@@ -45731,6 +46133,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ShortPonyBoots",
+				InventoryID: 1147,
 				Fetish: ["Leather", "Pony"],
 				Value: 55,
 				Difficulty: 6,
@@ -45767,6 +46170,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "StrictPonyBoots",
+				InventoryID: 971,
 				Fetish: ["Latex", "Leather", "Pony"],
 				BuyGroup: "StrictPonyBoots",
 				Value: 75,

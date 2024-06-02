@@ -352,7 +352,11 @@ function ServerPlayerSync() {
  * @returns {void} - Nothing
  */
 function ServerPlayerInventorySync() {
-	/** @type {Partial<Record<AssetGroupName, string[]>>} */
+
+	InventoryDataBuild(Player);
+		
+	/*
+	** @type {Partial<Record<AssetGroupName, string[]>>} *
 	const Inv = {};
 	for (let I = 0; I < Player.Inventory.length; I++) {
 		if (Player.Inventory[I].Asset != null) {
@@ -362,8 +366,9 @@ function ServerPlayerInventorySync() {
 			}
 			G.push(Player.Inventory[I].Asset.Name);
 		}
-	}
+	}	
 	ServerAccountUpdate.QueueData({ Inventory: Inv });
+	*/
 }
 
 /**

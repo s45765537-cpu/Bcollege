@@ -992,7 +992,11 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 	CharacterAppearanceResolveSync(Char, currentAppearance);
 
 	if (Char.IsPlayer()) LoginValidCollar();
-	if ((!Char.IsPlayer()) && ((Char.MemberNumber == SourceMemberNumber) || (Char.Inventory == null) || (Char.Inventory.length == 0))) InventoryLoad(Char, data.Inventory);
+	//if ((!Char.IsPlayer()) && ((Char.MemberNumber == SourceMemberNumber) || (Char.Inventory == null) || (Char.Inventory.length == 0))) InventoryLoad(Char, data.Inventory);
+	if ((!Char.IsPlayer()) && (Char.MemberNumber == SourceMemberNumber) && (data.InventoryData != null) && (data.InventoryData != "") && (data.InventoryData != Char.InventoryData)) {
+		Char.InventoryData = data.InventoryData;
+		InventoryLoadCompressedData(Char, data.InventoryData);
+	}
 
 	const newPronouns = Char.GetPronouns();
 	if (oldPronouns !== undefined && oldPronouns !== newPronouns) {

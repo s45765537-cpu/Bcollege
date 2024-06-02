@@ -604,12 +604,29 @@ function LoginExtremeItemSettings(applyDefaults) {
 }
 
 /**
+ * Since InventoryData wasn't found (R104 and before), we load the inventory object directly
+ * @param {object} InventoryObject - The inventory object from the server
+ */
+function LoginLoadInventoryObject(InventoryObject) {
+	let Inv = {};
+	if (typeof InventoryObject === "string") {
+		try {
+			Inv = JSON.parse(LZString.decompressFromUTF16(InventoryObject));
+		} catch(err) {
+			console.warn("Error while loading compressed inventory, no inventory loaded.", err);
+		}
+	} else {
+		Inv = InventoryObject;
+	}
+	return Inv;
+}
+
+/**
  * Handles server response, when login has been queued
- * @param {number} Pos The position in queue
+ * @param {number} Pos - The position in queue
  */
 function LoginQueue(Pos) {
 	if (typeof Pos !== "number") return;
-
 	LoginMessage = TextGet("LoginQueueWait").replace("QUEUE_POS", `${Pos}`);
 }
 
@@ -784,28 +801,32 @@ function LoginResponse(C) {
 			Player.Infiltration = C.Infiltration;
 			LoginDifficulty(false);
 
-			// Loads the player character model and data
-			const craftingDecompressed = CraftingDecompressServerData(C.Crafting);
+			// Loads the crafting data
+			const CraftingDecompressed = CraftingDecompressServerData(C.Crafting);
 
-			/** @type {Partial<Record<AssetGroupName, string[]>>} */
-			let inventory = {};
-			if (typeof C.Inventory === "string") {
-				try {
-					inventory = JSON.parse(LZString.decompressFromUTF16(C.Inventory));
-				} catch(err) {
-					console.warn("Error while loading compressed inventory, no inventory loaded.", err);
-				}
+			// Loads the inventory array from the compressed inventory data string
+			if ((C.InventoryData != null) && (C.InventoryData != "")) {
+				Player.InventoryData = C.InventoryData;
+				InventoryLoadCompressedData(Player, C.InventoryData);
+				ServerAppearanceLoadFromBundle(Player, C.AssetFamily, C.Appearance, C.MemberNumber);
 			} else {
-				inventory = C.Inventory;
+
+				// Since InventoryData wasn't found (R104 and before), we load the inventory object
+				/** @type {Partial<Record<AssetGroupName, string[]>>} */
+				console.log("Converting from Inventory to InventoryData...")
+				const InventoryObject = LoginLoadInventoryObject(C.Inventory);
+				LoginPerformInventoryFixups(InventoryObject, C.Appearance, CraftingDecompressed);
+				ServerAppearanceLoadFromBundle(Player, C.AssetFamily, C.Appearance, C.MemberNumber);
+				InventoryLoad(Player, InventoryObject);
+				ServerPlayerInventorySync();
+
 			}
 
-			LoginPerformInventoryFixups(inventory, C.Appearance, craftingDecompressed);
-			ServerAppearanceLoadFromBundle(Player, C.AssetFamily, C.Appearance, C.MemberNumber);
-			InventoryLoad(Player, inventory);
+			// Loads the current appearance, log, reputation and skills
 			LogLoad(C.Log);
 			ReputationLoad(C.Reputation);
 			SkillLoad(C.Skill);
-			CraftingLoadServer(craftingDecompressed);
+			CraftingLoadServer(CraftingDecompressed);
 			Player.ConfiscatedItems = C.ConfiscatedItems;
 			Player.ExtensionSettings = (C.ExtensionSettings || {});
 

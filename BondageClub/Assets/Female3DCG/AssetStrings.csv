@@ -1165,9 +1165,9 @@ GwenHoodChangeStyleHairInAccOut,SourceCharacter changes the style of Destination
 GwenHoodChangeStyleHairOutAccIn,SourceCharacter changes the style of DestinationCharacter gwen hood.
 GwenHoodChangeStyleHairOutAccOut,SourceCharacter changes the style of DestinationCharacter gwen hood.
 GwenHoodSelectStyle,Select hood style
-GwenHoodStyleHairInAccIn, Hair in & Accessories in
-GwenHoodStyleHairInAccOut, Hair in & Accessories out
-GwenHoodStyleHairOutAccIn, Hair out & Accessories in
+GwenHoodStyleHairInAccIn,Hair in & Accessories in
+GwenHoodStyleHairInAccOut,Hair in & Accessories out
+GwenHoodStyleHairOutAccIn,Hair out & Accessories in
 GwenHoodStyleHairOutAccOut,Hair out & Accessories out
 HairAccessory1ElfEarsBehind,Behind hair
 HairAccessory1ElfEarsInFront,In front of hair
@@ -3913,7 +3913,7 @@ ItemPelvisPortalPantiesOptionco0,Detached Unit
 ItemPelvisPortalPantiesOptionco1,Attached Unit
 ItemPelvisPortalPantiesOptiono0,Configuration screen
 ItemPelvisPortalPantiesSelect,Select Cover
-ItemPelvisPortalPantiesSelectBase, Select options
+ItemPelvisPortalPantiesSelectBase,Select options
 ItemPelvisPortalPantiesSelectBase,Select options
 ItemPelvisPortalPantiesSelectCode,Open configuration screen
 ItemPelvisPortalPantiesSelectCrotchCover,Select Crotch Cover

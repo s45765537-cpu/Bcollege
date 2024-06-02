@@ -274,6 +274,9 @@ let ChatRoomResizeManager = {
 
 	// Triggered by resize event
 	ChatRoomResizeEvent : function() {
+		if (document.getElementById("TextAreaChatLog")?.style.display === "none") {
+			return;
+		}
 		if(ChatRoomResizeManager.atStart) { // Run code for the first resize event in a chain of resize events.
 			ChatRoomResizeManager.ChatRoomScrollPercentage = ElementGetScrollPercentage("TextAreaChatLog");
 			ChatRoomResizeManager.ChatLogScrolledToEnd = ElementIsScrolledToEnd("TextAreaChatLog");
@@ -847,6 +850,24 @@ var ChatRoomSep = {
 	ActiveElem: null,
 
 	/**
+	 * Touch event listener that mimicks the start of desktop-style hovering on mobile
+	 * @private
+	 * @type {(this: HTMLButtonElement, event: Event) => Promise<void>}
+	 */
+	_TouchStart: async function _TouchStart() {
+		this.classList.add("chat-room-sep-touch");
+	},
+
+	/**
+	 * Touch event listener that mimicks the end of desktop-style hovering on mobile
+	 * @private
+	 * @type {(this: HTMLButtonElement, event: Event) => Promise<void>}
+	 */
+	_TouchEnd: async function _TouchEnd() {
+		this.classList.remove("chat-room-sep-touch");
+	},
+
+	/**
 	 * Click event listener for collapsing one or more chat room separators
 	 * @private
 	 * @type {(this: HTMLButtonElement, event: MouseEvent | TouchEvent) => Promise<void>}
@@ -913,13 +934,23 @@ var ChatRoomSep = {
 						{
 							tag: "button",
 							classList: ["blank-button", "chat-room-sep-collapse"],
-							eventListeners: { click: ChatRoomSep._ClickCollapse },
+							eventListeners: {
+								click: ChatRoomSep._ClickCollapse,
+								touchstart: ChatRoomSep._TouchStart,
+								touchend: ChatRoomSep._TouchEnd,
+								touchcancel: ChatRoomSep._TouchEnd,
+							},
 							children: ["˅"],
 						},
 						{
 							tag: "button",
 							classList: ["blank-button", "chat-room-sep-header"],
-							eventListeners: { click: ChatRoomSep._ClickScrollUp },
+							eventListeners: {
+								click: ChatRoomSep._ClickScrollUp,
+								touchstart: ChatRoomSep._TouchStart,
+								touchend: ChatRoomSep._TouchEnd,
+								touchcancel: ChatRoomSep._TouchEnd,
+							},
 						},
 					],
 				},
@@ -1091,17 +1122,20 @@ function ChatRoomHideElements() {
  * @param {HTMLElement} div
  */
 function ChatRoomAppendChat(div) {
-	const Refocus = document.activeElement.id == "InputChat";
-	const ShouldScrollDown = ElementIsScrolledToEnd("TextAreaChatLog");
-	if (document.getElementById("TextAreaChatLog") != null) {
-		document.getElementById("TextAreaChatLog").appendChild(div);
-		if (ShouldScrollDown) ElementScrollToEnd("TextAreaChatLog");
-		if (Refocus) ElementFocus("InputChat");
+	const chatLog = document.getElementById("TextAreaChatLog");
+	if (!chatLog) {
+		return;
 	}
+
+	// Is the message from the player and was it explicitly sent? (e.g. a non-automatic message)
+	const isPlayerMessage = (
+		div.dataset.sender === Player.MemberNumber.toString()
+		&& !div.classList.contains("ChatMessageNonDialogue")
+	);
 
 	// If the current room separator is collapsed then either uncollapse it
 	if (ChatRoomSep.IsCollapsed(ChatRoomSep.ActiveElem)) {
-		if (!div.dataset.sender || div.dataset.sender === Player.MemberNumber.toString()) {
+		if (isPlayerMessage) {
 			ChatRoomSep.Uncollapse(ChatRoomSep.ActiveElem);
 		} else {
 			div.style.display = "none";
@@ -1112,6 +1146,10 @@ function ChatRoomAppendChat(div) {
 			}
 		}
 	}
+
+	chatLog.appendChild(div);
+	if (isPlayerMessage || ElementIsScrolledToEnd("TextAreaChatLog")) ElementScrollToEnd("TextAreaChatLog");
+	if (document.activeElement.id == "InputChat") ElementFocus("InputChat");
 }
 
 /**
@@ -1174,6 +1212,7 @@ function ChatRoomClearAllElements() {
 	} else {
 		ElementRemove("InputChat");
 		ElementRemove("TextAreaChatLog");
+		window.removeEventListener("resize", ChatRoomResizeManager.ChatRoomResizeEvent);
 	}
 
 	// Preferences
@@ -1188,9 +1227,6 @@ function ChatRoomClearAllElements() {
 	// Wardrobe
 	ElementRemove("InputWardrobeName");
 	CharacterAppearanceMode = "";
-
-	// Listeners
-	window.removeEventListener("resize", ChatRoomResizeManager.ChatRoomResizeEvent);
 }
 
 /**
@@ -3885,58 +3921,97 @@ function ChatRoomMessage(data) {
 }
 
 /**
+ * @this {HTMLButtonElement}
+ */
+function ChatRoomMessageNameClick() {
+	// When clicking on the reply button we always want to message the conversation partner,
+	// regardless of whether they or the player were the sender
+	const sender = Number.parseInt(this.parentElement?.dataset.sender, 10);
+	const target = Number.parseInt(this.parentElement?.dataset.target, 10);
+	const memberNumber = sender === Player.MemberNumber && !Number.isNaN(target) ? target : sender;
+	const chatInput = /** @type {null | HTMLTextAreaElement} */(document.getElementById("InputChat"));
+	if (!chatInput || !ChatRoomCharacter.some(C => C.MemberNumber === memberNumber)) {
+		ChatRoomSendLocal(`${TextGet("CommandNoWhisperTarget")} ${memberNumber}.`, 30_000);
+		return;
+	}
+
+	chatInput.value = `/whisper ${memberNumber} ${chatInput.value.replace(/\/whisper\s*\d+ ?/u, "")}`;
+	chatInput.focus();
+}
+
+/**
  * Update the Chat log with the recieved message
  *
  * @param {ServerChatRoomMessage} data
  * @param {string} msg
  * @param {Character} SenderCharacter
  * @param {IChatRoomMessageMetadata} metadata
- * @returns {void}
+ * @returns {HTMLDivElement}
  */
 function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
-	let displayMessage = ChatRoomActiveView.DisplayMessage(data, msg, SenderCharacter, metadata);
-	if(displayMessage == null) return;
-
 	// Censored words are filtered out, ¶¶¶ indicates that we must not display anything on screen
-	displayMessage = CommonCensor(displayMessage);
+	const displayMessage = CommonCensor(ChatRoomActiveView.DisplayMessage(data, msg, SenderCharacter, metadata) ?? "¶¶¶");
 	if (displayMessage == "¶¶¶") return;
-	let whisperTarget;
 
 	// Prepares the HTML tags
+	/** @type {(string | Node)[]} */
+	const divChildren = [];
+	/** @type {undefined | string} */
+	let innerHTML = undefined;
 	switch (data.Type) {
 		case "Chat":
-		case "Whisper": {
-			whisperTarget = (SenderCharacter.IsPlayer() && data.Type === 'Whisper') ? ChatRoomCharacter.find(c => c.MemberNumber == data.Target) : SenderCharacter;
-			let senderTag = '<span class="ChatMessageName" style="color:' + (whisperTarget.LabelColor || 'gray');
-			if (data.Type == "Whisper") senderTag += '; font-style: italic';
-			senderTag += ';">';
-			if (data.Type == "Whisper") senderTag += ' ';
-			senderTag += CharacterNickname(whisperTarget);
-			senderTag += ':</span>';
-			if (data.Type == "Whisper") {
-				senderTag = (SenderCharacter.IsPlayer() ? TextGet("WhisperTo") : TextGet("WhisperFrom")) + senderTag;
-			}
-
-			displayMessage = `${senderTag} ${ChatRoomHTMLEntities(displayMessage)}`;
-		}
+			divChildren.push(
+				ElementCreate({
+					tag: "button",
+					classList: ["ChatMessageName", "blank-button"],
+					children: [CharacterNickname(SenderCharacter)],
+					style: { "--label-color": SenderCharacter.LabelColor },
+					eventListeners: { click: ChatRoomMessageNameClick },
+				}),
+				" ",
+				displayMessage,
+			);
 			break;
+		case "Whisper": {
+			const whisperTarget = SenderCharacter.IsPlayer() ? ChatRoomCharacter.find(c => c.MemberNumber == data.Target) : SenderCharacter;
+			divChildren.push(
+				ElementCreate({
+					tag: "button",
+					classList: ["ReplyButton", "blank-button"],
+					children: ["\u21a9\ufe0f"],
+					eventListeners: { click: ChatRoomMessageNameClick },
+				}),
+				SenderCharacter.IsPlayer() ? TextGet("WhisperTo") : TextGetInScope("Screens/Online/ChatRoom/Text_ChatRoom.csv", "WhisperFrom"),
+				" ",
+				ElementCreate({
+					tag: "button",
+					classList: ["ChatMessageName", "blank-button"],
+					children: [CharacterNickname(whisperTarget)],
+					style: { "--label-color": whisperTarget.LabelColor },
+					eventListeners: { click: ChatRoomMessageNameClick },
+				}),
+				" ",
+				displayMessage,
+			);
+			break;
+		}
 
 		case "Action":
 		case "Activity":
-			displayMessage = "(" + ChatRoomHTMLEntities(displayMessage) + ")";
+			divChildren.push(`(${displayMessage})`);
 			break;
 
 		case "ServerMessage":
-			displayMessage = "<b>" + ChatRoomHTMLEntities(displayMessage) + "</b>";
+			divChildren.push(ElementCreate({ tag: "br", children: [displayMessage] }));
 			break;
 
 		case "LocalMessage":
 			// Local messages can have HTML embedded in them
-			displayMessage = data.Content;
+			innerHTML = data.Content;
 			break;
 
 		case "Emote":
-			displayMessage = "*" + ChatRoomHTMLEntities(displayMessage) + "*";
+			divChildren.push(`*${displayMessage}*`);
 			break;
 
 		default:
@@ -3945,42 +4020,37 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 	}
 
 	if (metadata.OriginalMsg) {
-		displayMessage += "<br>[" + ChatRoomHTMLEntities(metadata.OriginalMsg) + "]";
+		divChildren.push(ElementCreate({ tag: "br", children: [`[${metadata.OriginalMsg}]`] }));
 	}
 
 	// Checks if the message is a notification about the user entering or leaving the room
-	let MsgEnterLeave = "";
-	let MsgNonDialogue = "";
+	const classList = ["ChatMessage", `ChatMessage${data.Type}`];
 	if (data.Type === "Action" && ["ServerEnter", "ServerLeave", "ServerDisconnect", "ServerBan", "ServerKick"].some(m => data.Content.startsWith(m)))
-		MsgEnterLeave = " ChatMessageEnterLeave";
+		classList.push("ChatMessageEnterLeave");
 	if ((data.Type != "Chat" && data.Type != "Whisper" && data.Type != "Emote"))
-		MsgNonDialogue = " ChatMessageNonDialogue";
+		classList.push("ChatMessageNonDialogue");
 
 	// Adds the message and scrolls down unless the user has scrolled up
-	var div = document.createElement("div");
-	div.setAttribute('class', 'ChatMessage ChatMessage' + data.Type + MsgEnterLeave + MsgNonDialogue);
-	div.setAttribute('data-time', ChatRoomCurrentTime());
-	div.setAttribute('data-sender', data.Sender);
-	if (data.Type == "Emote" || data.Type == "Action" || data.Type == "Activity")
-		div.style.setProperty("--label-color", SenderCharacter.LabelColor || "rgb(128, 128, 128)");
-	div.innerHTML = displayMessage;
-
-	// Add reply button if we're getting whisper
-	if (data.Type === "Whisper") {
-		let replayButton = document.createElement("div");
-		replayButton.onclick = (e) => {
-			ElementValue("InputChat", `/whisper ${whisperTarget.MemberNumber} ${ElementValue("InputChat").replace(/\/whisper\s*\d+ ?/u, '')}`);
-			ElementFocus("InputChat");
-		};
-		replayButton.classList.add("ReplyButton");
-		replayButton.textContent = '\u21a9\ufe0f';
-		div.prepend(replayButton);
-	}
+	const div = ElementCreate({
+		tag: "div",
+		classList,
+		dataAttributes: {
+			time: ChatRoomCurrentTime(),
+			sender: data.Sender,
+			target: data.Target,
+		},
+		innerHTML,
+		children: divChildren,
+		style: {
+			"--label-color": ["Emote", "Action", "Activity"].includes(data.Type) ? SenderCharacter.LabelColor : undefined,
+		},
+	});
 
 	if (typeof data.Timeout === 'number' && data.Timeout > 0) setTimeout(() => div.remove(), data.Timeout);
 
 	// Returns the focus on the chat box
 	ChatRoomAppendChat(div);
+	return div;
 }
 
 /**
