@@ -78,6 +78,8 @@ You can select this mode any time, but you won't be able
 You can select this mode any time, but you won't be able
 to select the Hardcore or Extreme mode for seven days.
 to select the Hardcore or Extreme mode for seven days.
+
+
 Regular
 Regular
 Regular - This default mode enforces the basic rules and restrictions.
@@ -111,15 +113,15 @@ Easy mode - Restrictions and game mechanisms
 can be ignored with toggles.  For pure roleplayers.
 can be ignored with toggles.  For pure roleplayers.
 Normal mode - Basic restrictions are enforced, 
-Normal mode - Basic restrictions are enforced, 
+Normal mode - Basic restrictions are enforced,
 many options to protect you.  For most players.
 many options to protect you.  For most players.
 Hard mode - No rescue maids, no safeword and no 
-Hard mode - No rescue maids, no safeword and no 
+Hard mode - No rescue maids, no safeword and no
 help from any NPC.  For players that want trouble.
 help from any NPC.  For players that want trouble.
 Slavery mode - No maids, no safeword, no NPC help, 
-Slavery mode - No maids, no safeword, no NPC help, 
+Slavery mode - No maids, no safeword, no NPC help,
 no blocked items, cannot leave owner.  Fully helpless.
 no blocked items, cannot leave owner.  Fully helpless.
 You're already playing on that difficulty mode.
@@ -167,7 +169,7 @@ Light
 Dark
 Dark
  Light 2
- Light 2
+Light 2
 Dark 2
 Dark 2
 Enter/Leave message style:
@@ -284,6 +286,8 @@ Center players in chatrooms
 Center players in chatrooms
 Players can drag you to rooms when leashed
 Players can drag you to rooms when leashed
+Your owner can change or lock your nickname
+Your owner can change or lock your nickname
 Maids come automatically when restrained
 Maids come automatically when restrained
 Locks on you can't be picked
@@ -730,3 +734,19 @@ Whitelist
 Whitelist
 Public
 Public
+FPS Limit
+FPS Limit
+Unfocused FPS limit
+Unfocused FPS limit
+Display FPS Counter
+Display FPS Counter
+Unlimited
+Unlimited
+10 FPS
+10 FPS
+15 FPS
+15 FPS
+30 FPS
+30 FPS
+60 FPS
+60 FPS
