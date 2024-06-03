@@ -78,6 +78,7 @@ GroupABDLMommy,ABDL Mommy
 GroupCollegeStudent,College Student
 GroupCollegeTeacher,College Teacher
 GroupPlayer,Online Player
+GroupShibari,Shibari
 Title Kinky Neighbor,Kinky Neighbor
 Text Kinky Neighbor,+2 Money per turn if Cute Girl Next Door is present.
 Title Cute Girl Next Door,Cute Girl Next Door
@@ -101,7 +102,7 @@ Text Gambler,+4 Money when she enters your club.
 Title Red Twin,Red Twin
 Text Red Twin,<F>We don't share minds but can share orgasms.
 Title Blue Twin,Blue Twin
-Text Blue Twin,+4 Fame per turn if Red Twin is present.
+Text Blue Twin,+3 Fame per turn if Red Twin is present.
 Title Rope Bunny,Rope Bunny
 Text Rope Bunny,+2 Money per turn if at least one Dominant is present.
 Title Shy Submissive,Shy Submissive
@@ -243,7 +244,7 @@ Text Soap Opera Mother,+25 Fame when she enters your club if at least one ABDL B
 Title Amanda,Amanda
 Text Amanda,<F>I never thought I would find a second home in this perverted place.
 Title Sarah,Sarah
-Text Sarah,+2 Fame per turn if Amanda or Mistress Sophie is present.  -2 Fame per turn if Sidney is present.
+Text Sarah,+1 Fame per turn if Amanda or Mistress Sophie is present.  -2 Fame per turn if Sidney is present.
 Title Sidney,Sidney
 Text Sidney,<F>Anyone that calls me Piggy will end up in a hogtie.
 Title Jennifer,Jennifer
@@ -380,7 +381,7 @@ Text First Bell,"Draw a random college student from your deck. If it's your firs
 Effect First Bell Draw, SOURCEPLAYER draws 1 card from First Bell
 Effect First Bell No Draw, SOURCEPLAYER could not draw any cards from First Bell
 Title Alvin,Alvin
-Text Alvin,PLACEHOLDER THIS IS A BUG
+Text Alvin,Summon a Ropeslave if Kidnapping or Restraining 
 Effect Alvin, Alvin summoned a rope slave for SOURCEPLAYER
 Title Rope Slave,Rope Slave
-Text Rope Slave,Where's the nearest shibari dojo?
+Text Rope Slave,Gain +1 Fame per turn if Alvin or Rope Sensei present.

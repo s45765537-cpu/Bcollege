@@ -270,7 +270,7 @@ var ClubCardList = [
 		ID: 3000,
 		Name: "Policewoman",
 		Group: ["Police"],
-		MoneyPerTurn: 0,
+		MoneyPerTurn: 1,
 		FamePerTurn: 1,
 		RequiredLevel: 3
 	},
@@ -443,8 +443,10 @@ var ClubCardList = [
         MoneyPerTurn: 0,
         FamePerTurn: 0,
         BeforeTurnEnd: function(CCPlayer) {
-			if (ClubCardNameIsOnBoard(CCPlayer, "Rope Sensei")) ClubCardPlayerAddFame(CCPlayer, 1);
-			if (ClubCardNameIsOnBoard(CCPlayer, "Alvin")) ClubCardPlayerAddFame(CCPlayer, 1);
+			const alvinOrRopeSenseiPresent = ClubCardNameIsOnBoard(CCPlayer, "Rope Sensei") || ClubCardNameIsOnBoard(CCPlayer, "Alvin"):
+			if(alvinOrRopeSenseiPresent) {
+				ClubCardPlayerAddFame(CCPlayer, 1);
+			}
 		}
     },
 
@@ -1421,7 +1423,13 @@ var ClubCardList = [
 			ClubCardPlayerAddMoney(CCPlayer, Money * -1);
 			ClubCardLogPublish("LoseMoney", CCPlayer, Money);
 
-			ClubCardAlvinCondition(CCPlayer);
+			const targetIsDominantOrMistress = ClubCardSelection.Group &&
+				ClubCardSelection.Group.includes("Dominant") ||
+				ClubCardSelection.Group.includes("Mistress");
+
+			if(targetIsDominantOrMistress) {
+				ClubCardAlvinCondition(CCPlayer);
+			}
 		},
 		CanPlay: function(CCPlayer) {
 			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
@@ -2125,11 +2133,8 @@ function CheckDetectiveDraw(CCPlayer) {
  */
 function ClubCardAlvinCondition(CCPlayer) {
 	const hasAlvin = ClubCardNameIsOnBoard(CCPlayer, "Alvin");
-	const targetIsDominantOrMistress = ClubCardSelection.Group &&
-		ClubCardSelection.Group.includes("Dominant") ||
-		ClubCardSelection.Group.includes("Mistress");
 
-	if (hasAlvin && targetIsDominantOrMistress) {
+	if (hasAlvin) {
 		const ropeSlave = ClubCardList.find(card => card.Name === "Rope Slave")
 		CCPlayer.Board.push(ropeSlave)
 		ClubCardLogPublish("Effect Alvin", CCPlayer);
