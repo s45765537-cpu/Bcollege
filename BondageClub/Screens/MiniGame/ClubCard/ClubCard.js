@@ -1419,7 +1419,7 @@ var ClubCardList = [
 			if (ClubCardSelection == null) return;
 			let Opponent = ClubCardGetOpponent(CCPlayer);
 			ClubCardRemoveFromBoard(Opponent, ClubCardSelection);
-			let Money = Opponent.Level^2;
+			let Money = Math.pow(Opponent.Level, 2);
 			ClubCardPlayerAddMoney(CCPlayer, Money * -1);
 			ClubCardLogPublish("LoseMoney", CCPlayer, Money);
 
