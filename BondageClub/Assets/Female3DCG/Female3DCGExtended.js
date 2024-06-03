@@ -902,6 +902,28 @@ var AssetFemale3DCGExtended = {
 			BaselineProperty: { Text: "", Text2: "", Text3: "" },
 		}, // BodyWritings
 	},
+	HairBack: {
+		HairBack58: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, {Name: "RightOnly"}],
+		},
+		HairBack58b: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, {Name: "RightOnly"}],
+		},
+		HairBack60: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, {Name: "RightOnly"}],
+		}, // HairBack60
+		HairBack61: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, {Name: "RightOnly"}],
+		}, // HairBack61
+	},
 	ClothAccessory: {
 		LeatherStraps: {
 			Archetype: ExtendedArchetype.TYPED,
