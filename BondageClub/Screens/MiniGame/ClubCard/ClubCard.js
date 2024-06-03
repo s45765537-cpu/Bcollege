@@ -443,7 +443,7 @@ var ClubCardList = [
         MoneyPerTurn: 0,
         FamePerTurn: 0,
         BeforeTurnEnd: function(CCPlayer) {
-			const alvinOrRopeSenseiPresent = ClubCardNameIsOnBoard(CCPlayer, "Rope Sensei") || ClubCardNameIsOnBoard(CCPlayer, "Alvin"):
+			const alvinOrRopeSenseiPresent = ClubCardNameIsOnBoard(CCPlayer, "Rope Sensei") || ClubCardNameIsOnBoard(CCPlayer, "Alvin");
 			if(alvinOrRopeSenseiPresent) {
 				ClubCardPlayerAddFame(CCPlayer, 1);
 			}
