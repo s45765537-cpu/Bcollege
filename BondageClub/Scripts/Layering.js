@@ -147,7 +147,6 @@ var Layering = {
 		resetButton: "layering-reset-button",
 		exitButton: "layering-exit-button",
 		lockButton: "layering-lock-button",
-		lockButtonContainer: "layering-lock-button-container",
 
 		assetHeader: "layering-asset-header",
 		assetGrid: "layering-asset-grid",
@@ -348,7 +347,7 @@ var Layering = {
 			e.disabled = isReadonly;
 		}
 
-		const lockButton = document.getElementById(this.ID.lockButtonContainer);
+		const lockButton = document.getElementById(this.ID.lockButton);
 		lockButton.style.display = isReadonly ? "" : "none";
 	},
 
@@ -419,61 +418,12 @@ var Layering = {
 					attributes: { id: this.ID.buttonGrid },
 					classList: ["layering-button-grid"],
 					children: [
-						{
-							tag: "div",
-							classList: ["layering-button-container"],
-							children: [
-								{
-									tag: "button",
-									attributes: { id: this.ID.exitButton },
-									classList: ["layering-button"],
-									eventListeners: {
-										click: () => this.Exit(),
-									},
-								},
-								{
-									tag: "div",
-									classList: ["layering-button-tooltip"],
-									children: [InterfaceTextGet("LayeringExit")],
-								},
-							],
-						},
-						{
-							tag: "div",
-							classList: ["layering-button-container"],
-							children: [
-								{
-									tag: "button",
-									attributes: { id: this.ID.resetButton },
-									classList: ["layering-button"],
-									eventListeners: {
-										click: () => this._ResetClickListener(),
-									},
-								},
-								{
-									tag: "div",
-									classList: ["layering-button-tooltip"],
-									children: [InterfaceTextGet("LayeringReset")],
-								},
-							],
-						},
-						{
-							tag: "div",
-							classList: ["layering-button-container"],
-							attributes: { id: this.ID.lockButtonContainer },
-							children: [
-								{
-									tag: "button",
-									attributes: { id: this.ID.lockButton, disabled: true },
-									classList: ["layering-button"],
-								},
-								{
-									tag: "div",
-									classList: ["layering-button-tooltip"],
-									children: [InterfaceTextGet("LayeringLock")],
-								},
-							],
-						},
+						ElementButton.Create(this.ID.exitButton, () => this.Exit(), InterfaceTextGet("LayeringExit")),
+						ElementButton.Create(this.ID.resetButton, () => this._ResetClickListener(), InterfaceTextGet("LayeringReset")),
+						ElementButton.Create(
+							this.ID.lockButton, () => null, InterfaceTextGet("LayeringLock"), undefined,
+							{ button: { attributes: { disabled: true } } },
+						),
 					],
 				},
 				{

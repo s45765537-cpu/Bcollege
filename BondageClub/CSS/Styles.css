@@ -804,52 +804,8 @@ input[type="checkbox"]:checked::before {
 	padding-right: min(2vh, 1vw);
 }
 
-.layering-button-tooltip {
-	background-color: #FFFF88;
-	border: min(0.2vh, 0.1vw) solid black;
-	box-shadow: min(0.4vh, 0.2vw) min(0.4vh, 0.2vw) min(2vh, 1vw) 0 rgb(0 0 0 / 50%);
-	padding: min(1vh, 0.5vw) min(2vh, 1vw) min(1vh, 0.5vw) min(2vh, 1vw);
-	position: relative;
-	text-align: center;
-	visibility: hidden;
-	width: fit-content;
-	text-wrap: nowrap;
-	z-index: 1;
-
-	right: calc(var(--button-size) + min(2.5vh, 1.25vw));
-	top: -50%;
-	transform: translateY(-50%);
-}
-
-.layering-button-container {
-	overflow: visible !important;
-}
-
-.layering-button {
-	background-color: white;
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: cover;
-	border: min(0.2vh, 0.1vw) solid black;
-	box-sizing: border-box;
-	height: 100%;
-	width: 100%;
-}
-
 .layering-button-pink {
 	background-color: pink;
-}
-
-.layering-button:hover + .layering-button-tooltip {
-	visibility: visible;
-}
-
-.layering-button:hover {
-	background-color: cyan;
-}
-
-.layering-button:disabled {
-	background-color: gray;
 }
 
 /* Dropdown */
