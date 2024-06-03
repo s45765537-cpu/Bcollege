@@ -15335,6 +15335,11 @@ var AssetFemale3DCG = [
 					{
 						Name: "MainTip",
 					},
+					{
+						Name: "Back",
+						CopyLayerColor: "Main",
+						Priority: 5,
+					}
 				],
 			},
 			{
