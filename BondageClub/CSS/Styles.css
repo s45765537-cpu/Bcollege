@@ -1026,6 +1026,72 @@ input[type="checkbox"]:checked::before {
 	visibility: visible;
 }
 
+.spin-button-container {
+	--margin: min(0.4vh, 0.2vw);
+	--margin: min(0.4dvh, 0.2dvw);
+}
+
+.spin-button-select, .spin-button-dummy {
+	display: none;
+}
+
+.spin-button-prev {
+	display: block;
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	width: 50%;
+	height: 100%;
+	border-right: unset;
+}
+
+.spin-button-prev::before {
+	position: absolute;
+	content: "";
+	top: var(--margin);
+	left: var(--margin);
+	height: calc(100% - 2 * var(--margin));
+	width: calc(2 * var(--margin));
+	clip-path: polygon(80% 0%, 0% 50%, 80% 100%, 100% 100%, 20% 50%, 100% 0%);
+	background-color: black;
+}
+
+.spin-button-next {
+	display: block;
+	position: absolute;
+	top: 0%;
+	right: 0%;
+	width: 50%;
+	height: 100%;
+	border-left: unset;
+}
+
+.spin-button-next::before {
+	position: absolute;
+	content: "";
+	top: var(--margin);
+	right: var(--margin);
+	height: calc(100% - 2 * var(--margin));
+	width: calc(2 * var(--margin));
+	clip-path: polygon(20% 0%, 100% 50%, 20% 100%, 0% 100%, 80% 50%, 0% 0%);
+	background-color: black;
+}
+
+.spin-button-label {
+	pointer-events: none;
+	user-select: none;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: calc(100% - 12 * var(--margin));
+	position: absolute;
+	text-align: center;
+	justify-content: center;
+	overflow: clip;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
 /* Custom fonts */
 @font-face {
     font-family: 'Calligraffitti';
