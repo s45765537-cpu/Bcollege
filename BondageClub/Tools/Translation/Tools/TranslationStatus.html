@@ -13,8 +13,16 @@
 <link rel="icon" type="image/png" href="../../../Icons/Logo.png">
 
 <style>
+	* {
+		box-sizing: border-box;
+	}
 	body {
 		font-family: sans-serif;
+		margin: 0px;
+	}
+
+	.wall-of-text {
+		padding: 1em;
 	}
 
 	#LanguageWrapper {
@@ -32,6 +40,7 @@
 	.TranslationFileTitle,
 	.TranslationFileSummary {
 		display: inline-block;
+		margin: 0.8em;
 	}
 
 	.TranslationFileDetails {
@@ -68,12 +77,13 @@
 	#header {
 		position: sticky;
 		top: 0;
-		background-color: inherit;
+		background-color: white;
+		box-shadow: 0 3px 10px 0 #888;
 		width: 100%;
-		padding-top: 10px;
-		padding-bottom: 10px;
+		padding: 1em;
 		display: flex;
 		justify-content: space-between;
+		font-size: 1.2em;
 	}
 </style>
 
@@ -296,7 +306,7 @@ function CreateStatusSummary(Status) {
 	if (Status.MissingTranslations.length > 0) {
 		Ok = false;
 		var Element = AddStatusReport(Status, "Error", Status.MissingTranslations.length + " lines missing");
-		Element.innerHTML = Element.innerHTML + ' (<a target="_blank" href="GenerateTranslationTemplate.html?update=' + encodeURIComponent(Status.Path) + '">Update File</a>)';
+		Element.innerHTML = Element.innerHTML + ' (<a href="GenerateTranslationTemplate.html?update=' + encodeURIComponent(Status.Path) + '">Update File</a>)';
 	}
 	if (Status.ObsoleteTranslations.length > 0) {
 		Ok = false;
@@ -316,8 +326,15 @@ function CreateStatusSummary(Status) {
 		var Button = document.createElement("button");
 		Button.textContent = "View Details";
 		Button.addEventListener("click", function() {
-			Button.setAttribute("disabled", "true");
-			ViewDetails(Status);
+			if (Status.Details) {
+				Status.Details.remove();
+				Status.Details = undefined;
+				Button.textContent = "View Details";
+			} else {
+				ViewDetails(Status);
+				Button.textContent = "Hide Details";
+			}
+			
 		});
 		Status.Summary.appendChild(Button);
 	}
@@ -389,9 +406,11 @@ function AddNodeWithText(Parent, Tag, Text, AllowHTML) {
 		<a href="GenerateTranslationTemplate.html">Translation Template Generator</a>
 		<select id="selected-language"></select>
 	</header>
-	<h1>Bondage Club Translation Status Report</h1>
-	<p>This tool processes all translation files that are currently referenced inside Translation.js. Its main purpose is to check if all translation files are up to date and if there are any potential problems. If a status displays something other than &quot;OK&quot;, click the &quot;View Details&quot; button to learn more.</p>
-	<p>Please note that this tool isn't perfect and is supposed to merely assist the translation process by offering suggestions. Some of the reports may be false alarms, so please use your own judgement to decide if they need to be addressed. Also note that length checking only occurs for &quot;Dialog&quot; files.</p>
+	<div class="wall-of-text">
+		<h1>Bondage Club Translation Status Report</h1>
+		<p>This tool processes all translation files that are currently referenced inside Translation.js. Its main purpose is to check if all translation files are up to date and if there are any potential problems. If a status displays something other than &quot;OK&quot;, click the &quot;View Details&quot; button to learn more.</p>
+		<p>Please note that this tool isn't perfect and is supposed to merely assist the translation process by offering suggestions. Some of the reports may be false alarms, so please use your own judgement to decide if they need to be addressed. Also note that length checking only occurs for &quot;Dialog&quot; files.</p>
+	</div>
 	<div id="LanguageWrapper"></div>
 </body>
 </html>

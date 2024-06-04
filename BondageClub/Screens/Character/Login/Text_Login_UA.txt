@@ -9,7 +9,7 @@ Password
 Login
 Авторизуватися
 Or create a new character
-Або створити нового персонажа
+Або створіть нового персонажа
 New Character
 Новий персонаж
 Connecting to server...

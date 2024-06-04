@@ -832,28 +832,43 @@ var TranslationDictionary = [
 		LanguageName: "Українська",
 		EnglishName: "Ukrainian",
 		Files: [
-			 //Done
 			"Assets/Female3DCG/Female3DCG_UA.txt",
-			"Assets/Female3DCG/ColorGroups_UA.txt", //Done!
-			"Assets/Female3DCG/LayerNames_UA.txt", //In work
-			"Screens/Character/Appearance/Text_Appearance_UA.txt", //Done!
-			"Screens/Character/BackgroundSelection/Text_BackgroundSelection_UA.txt", //Done!
-			"Screens/Character/Cheat/Text_Cheat_UA.txt", //Done!
+			"Assets/Female3DCG/ColorGroups_UA.txt",
+			//"Assets/Female3DCG/LayerNames_UA.txt",
+			"Screens/Interface_UA.txt",
+			"Screens/Character/Appearance/Text_Appearance_UA.txt",
+			"Screens/Character/BackgroundSelection/Text_BackgroundSelection_UA.txt",
+			"Screens/Character/Cheat/Text_Cheat_UA.txt",
 			"Screens/Character/Creation/Text_Creation_UA.txt",
 			"Screens/Character/Disclaimer/Text_Disclaimer_UA.txt",
 			"Screens/Character/FriendList/Text_FriendList_UA.txt",
 			"Screens/Character/InformationSheet/Text_InformationSheet_UA.txt",
 			"Screens/Character/ItemColor/ItemColor_UA.txt",
-			"Screens/Character/Login/Text_Login_UA.txt", //Done!
+			"Screens/Character/Login/Text_Login_UA.txt",
 			"Screens/Character/OnlineProfile/Text_OnlineProfile_UA.txt",
 			"Screens/Character/PasswordReset/Text_PasswordReset_UA.txt",
 			"Screens/Character/Player/Dialog_Player_UA.txt",
 			"Screens/Character/Preference/Text_Preference_UA.txt",
-			"Screens/Character/Preference/ActivityDictionary_UA.txt",
-			"Screens/Character/Relog/Text_Relog_UA.txt",
+			//"Screens/Character/Preference/ActivityDictionary_UA.txt",
+			//"Screens/Character/Relog/Text_Relog_UA.txt",
 			"Screens/Character/Title/Text_Title_UA.txt",
-			"Screens/Character/Wardrobe/Text_Wardrobe_UA.txt",
-			"Screens/Cutscene/NPCCollaring/Text_NPCCollaring_UA.txt",
+			//"Screens/Character/Wardrobe/Text_Wardrobe_UA.txt",
+			// "Screens/Online/AdvancedRule/Text_AdvancedRule_UA.txt",
+			"Screens/Online/ChatAdmin/Text_ChatAdmin_UA.txt",
+			"Screens/Online/ChatCreate/Text_ChatCreate_UA.txt",
+			//"Screens/Online/ChatBlockItem/Text_ChatBlockItem_UA.txt",
+			"Screens/Online/ChatRoom/Dialog_Online_UA.txt",
+			//"Screens/Online/ChatRoom/Text_ChatRoom_UA.txt",
+			//"Screens/Online/ChatRoom/Text_Commands_UA.txt",
+			//"Screens/Online/ChatSearch/Text_ChatSearch_UA.txt",
+			//"Screens/Online/ChatSelect/Text_ChatSelect_UA.txt",
+			//"Screens/Online/ForbiddenWords/Text_ForbiddenWords_UA.txt",
+			//"Screens/Online/Game/OnlineGameDictionary_UA.txt",
+			//"Screens/Online/GameLARP/Text_GameLARP_UA.txt",
+			//"Screens/Online/GameMagicBattle/Text_GameMagicBattle_UA.txt",
+			//"Screens/Online/WheelFortuneCustomize/Text_WheelFortuneCustomize_UA.txt",
+
+			/* "Screens/Cutscene/NPCCollaring/Text_NPCCollaring_UA.txt",
 			"Screens/Cutscene/NPCSlaveAuction/Text_NPCSlaveAuction_UA.txt",
 			"Screens/Cutscene/PlayerCollaring/Text_PlayerCollaring_UA.txt",
 			"Screens/Cutscene/PlayerMistress/Text_PlayerMistress_UA.txt",
@@ -877,20 +892,6 @@ var TranslationDictionary = [
 			"Screens/MiniGame/Tennis/Text_Tennis_UA.txt",
 			"Screens/MiniGame/Therapy/Text_Therapy_UA.txt",
 			"Screens/MiniGame/WheelFortune/Text_WheelFortune_UA.txt",
-			"Screens/Online/AdvancedRule/Text_AdvancedRule_UA.txt", //In work
-			"Screens/Online/ChatAdmin/Text_ChatAdmin_UA.txt",
-			"Screens/Online/ChatCreate/Text_ChatCreate_UA.txt", //Done!
-			"Screens/Online/ChatBlockItem/Text_ChatBlockItem_UA.txt",
-			"Screens/Online/ChatRoom/Dialog_Online_UA.txt",
-			"Screens/Online/ChatRoom/Text_ChatRoom_UA.txt",
-			"Screens/Online/ChatRoom/Text_Commands_UA.txt",
-			"Screens/Online/ChatSearch/Text_ChatSearch_UA.txt",
-			"Screens/Online/ChatSelect/Text_ChatSelect_UA.txt",
-			"Screens/Online/ForbiddenWords/Text_ForbiddenWords_UA.txt",
-			"Screens/Online/Game/OnlineGameDictionary_UA.txt",
-			"Screens/Online/GameLARP/Text_GameLARP_UA.txt",
-			"Screens/Online/GameMagicBattle/Text_GameMagicBattle_UA.txt",
-			"Screens/Online/WheelFortuneCustomize/Text_WheelFortuneCustomize_UA.txt",
 			"Screens/Room/Arcade/Dialog_NPC_Arcade_Employee_UA.txt",
 			"Screens/Room/Arcade/Dialog_NPC_Arcade_Player_UA.txt",
 			"Screens/Room/AsylumBedroom/Text_AsylumBedroom_UA.txt",
@@ -1019,7 +1020,7 @@ var TranslationDictionary = [
 			"Screens/Room/Stable/Dialog_NPC_Stable_Trainer_UA.txt",
 			"Screens/Room/Poker/Text_Poker_UA.txt",
 			"Screens/MiniGame/KinkyDungeon/Text_KinkyDungeon_UA.txt",
-			"Screens/Room/Stable/Text_Stable_UA.txt"
+			"Screens/Room/Stable/Text_Stable_UA.txt" */
 		]
 	},
 ];
