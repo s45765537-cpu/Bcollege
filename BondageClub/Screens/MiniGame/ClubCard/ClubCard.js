@@ -575,7 +575,7 @@ var ClubCardList = [
 		Group: ["AsylumNurse"],
 		BeforeTurnEnd: function(CCPlayer) {
 			const effectFame = ClubCardGroupOnBoardCount(CCPlayer, "AsylumPatient")
-			ClubCardPlayerAddFame(CCPlayer, Math.min(effectFame, ClubCardGetMaxEffectFromCard(this)));
+			ClubCardPlayerAddFame(CCPlayer, ClubCardGetMaxEffectFromCard(this, effectFame));
 		}
 	},
 	{
@@ -592,7 +592,7 @@ var ClubCardList = [
 		RequiredLevel: 3,
 		BeforeTurnEnd: function(CCPlayer) {
 			const effectFame = ClubCardGroupOnBoardCount(CCPlayer, "AsylumPatient") * 2
-			ClubCardPlayerAddFame(CCPlayer, Math.min(effectFame, ClubCardGetMaxEffectFromCard(this)));
+			ClubCardPlayerAddFame(CCPlayer, ClubCardGetMaxEffectFromCard(this, effectFame));
 		}
 	},
 	{
@@ -783,7 +783,7 @@ var ClubCardList = [
 		MoneyPerTurn: -1,
 		BeforeTurnEnd: function(CCPlayer) {
 			const effectFame = ClubCardGroupOnBoardCount(CCPlayer, "ABDLBaby") * 2
-			ClubCardPlayerAddFame(CCPlayer, Math.min(effectFame, ClubCardGetMaxEffectFromCard(this)));
+			ClubCardPlayerAddFame(CCPlayer, ClubCardGetMaxEffectFromCard(this, effectFame));
 		}
 	},
 	{
@@ -937,7 +937,7 @@ var ClubCardList = [
 		MoneyPerTurn: -2,
 		BeforeTurnEnd: function(CCPlayer) {
 			const effectFame = ClubCardGroupOnBoardCount(CCPlayer, "CollegeStudent")
-			ClubCardPlayerAddFame(CCPlayer, Math.min(effectFame, ClubCardGetMaxEffectFromCard(this)));
+			ClubCardPlayerAddFame(CCPlayer, ClubCardGetMaxEffectFromCard(this, effectFame));
 		}
 	},
 	{
@@ -1973,9 +1973,10 @@ function ClubCardRemoveFromBoard(CCPlayer, Card) {
 /**
  * Gets the max effect a card should have depending on its "tier"/required level to play
  * @param {ClubCard} Card
+ * @param {number} fame
  * @returns {number} max effect card should have
  */
-function ClubCardGetMaxEffectFromCard(Card) {
+function ClubCardGetMaxEffectFromCard(Card, fame) {
 	const ClubCardMaxFamePerTier = {
 		1: 3,
 		2: 5,
@@ -1985,7 +1986,7 @@ function ClubCardGetMaxEffectFromCard(Card) {
 		5: 100,
 	}
 
-	return ClubCardMaxFamePerTier[Card.RequiredLevel ?? 1]
+	return Math.min(fame, ClubCardMaxFamePerTier[Card.RequiredLevel ?? 1])
 }
 
 /**
