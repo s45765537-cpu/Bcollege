@@ -1042,7 +1042,7 @@ var ClubCardList = [
 		Name: "Alvin",
 		Group: ["Player", "Mistress", "Shibari"],
 		RequiredLevel: 3,
-		FamePerTurn: 3,
+		FamePerTurn: 2,
 		MoneyPerTurn: -3,
 	},
 
