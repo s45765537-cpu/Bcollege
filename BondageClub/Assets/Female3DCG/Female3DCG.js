@@ -15335,6 +15335,11 @@ var AssetFemale3DCG = [
 					{
 						Name: "MainTip",
 					},
+					{
+						Name: "Back",
+						CopyLayerColor: "Main",
+						Priority: 5,
+					}
 				],
 			},
 			{
@@ -15822,15 +15827,18 @@ var AssetFemale3DCG = [
 					[PoseType.DEFAULT]: 0,
 					Suspension: -450,
 				},
+				Extended: true,
 				Layer: [
 					{
 						Name: "Left",
+						AllowTypes: { typed: [0,1]},
 						PoseMapping: {
 							Suspension: "Suspension",
 						},
 					},
 					{
 						Name: "Right",
+						AllowTypes: { typed: [0,2]},
 						PoseMapping: {
 							Suspension: "Suspension",
 						},
@@ -15843,15 +15851,18 @@ var AssetFemale3DCG = [
 					[PoseType.DEFAULT]: 0,
 					Suspension: -450,
 				},
+				Extended: true,
 				Layer: [
 					{
 						Name: "Left",
+						AllowTypes: { typed: [0,1]},
 						PoseMapping: {
 							Suspension: "Suspension",
 						},
 					},
 					{
 						Name: "Right",
+						AllowTypes: { typed: [0,2]},
 						PoseMapping: {
 							Suspension: "Suspension",
 						},
@@ -15873,42 +15884,52 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HairBack60",
+				Extended: true,
 				Layer: [
 					{
 						Name: "FrontLeft",
+						AllowTypes: {typed: [0,1]},
 						Priority: 48,
 					},
 					{
 						Name: "BackLeft",
+						AllowTypes: {typed: [0,1]},
 						CopyLayerColor: "FrontLeft",
 					},
 					{
 						Name: "FrontRight",
+						AllowTypes: {typed: [0,2]},
 						Priority: 48,
 					},
 					{
 						Name: "BackRight",
+						AllowTypes: {typed: [0,2]},
 						CopyLayerColor: "FrontRight",
 					},
 				],
 			},
 			{
 				Name: "HairBack61",
+				Extended: true,
 				Layer: [
 					{
 						Name: "FrontLeft",
+						AllowTypes: {typed: [0,1]},
 						Priority: 48,
 					},
 					{
 						Name: "BackLeft",
+						AllowTypes: {typed: [0,1]},
 						CopyLayerColor: "FrontLeft",
 					},
 					{
 						Name: "FrontRight",
+						AllowTypes: {typed: [0,2]},
 						Priority: 48,
 					},
 					{
 						Name: "BackRight",
+						AllowTypes: {typed: [0,2]},
 						CopyLayerColor: "FrontRight",
 					},
 				],
