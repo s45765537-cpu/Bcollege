@@ -2685,13 +2685,52 @@ function ChatRoomKeyDown(event) {
 		ChatRoomAttemptLeave();
 	}
 
-	// Move focus to the chat
-	if (!chatHasFocus && !(event.ctrlKey || event.shiftKey || event.altKey || event.metaKey)) {
-		ElementFocus("InputChat");
-		// We have to lie here so that the first keystroke without
-		// focus still goes through, but we want to eat Enter so
-		// that a newline doesn't get through
-		return event.key === "Enter";
+	if (!chatHasFocus) {
+		const chatLog = /** @type {HTMLDivElement} */(document.getElementById("TextAreaChatLog"));
+		if (!chatLog) {
+			return;
+		}
+
+		if (!(event.ctrlKey || event.altKey || event.shiftKey || event.metaKey)) {
+			switch (event.key) {
+				case "Home":
+					// Scroll to the top
+					chatLog.scrollTop = 0;
+					return true;
+				case "End":
+					// Scroll to the bottom
+					chatLog.scrollTop = chatLog.scrollHeight;
+					return true;
+				case "PageUp":
+					// Scroll up by the height of the chat area
+					chatLog.scrollTop = Math.max(0, chatLog.scrollTop - chatLog.clientHeight);
+					return true;
+				case "PageDown":
+					// Scroll down by the height of the chat area
+					chatLog.scrollTop = Math.min(chatLog.scrollHeight, chatLog.scrollTop + chatLog.clientHeight);
+					return true;
+				case "ArrowUp":
+					// Scroll up by 5% of the chat area height
+					chatLog.scrollTop = Math.max(0, chatLog.scrollTop - chatLog.clientHeight * 0.05);
+					return true;
+				case "ArrowDown":
+					// Scroll down by 5% of the chat area height
+					chatLog.scrollTop = Math.min(chatLog.scrollHeight, chatLog.scrollTop + chatLog.clientHeight * 0.05);
+					return true;
+			}
+		}
+
+		// Move focus to the chat
+		if (
+			(event.key.length === 1 || event.key === "Enter")
+			&& !(event.altKey || event.metaKey || (event.ctrlKey && event.key !== "v"))
+		) {
+			ElementFocus("InputChat");
+			// We have to lie here so that the first keystroke without
+			// focus still goes through, but we want to eat Enter so
+			// that a newline doesn't get through
+			return event.key === "Enter";
+		}
 	}
 
 	return false;
