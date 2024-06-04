@@ -96,7 +96,7 @@ type HTMLOptions<T extends keyof HTMLElementTagNameMap> = {
 	/** Data attributes that will be set on the HTML element (see {@link HTMLElement.dataset}). */
 	dataAttributes?: Partial<Record<string, number | boolean | string>>;
 	/** CSS style declarations that will be set on the HTML element (see {@link HTMLElement.style}). */
-	style?: Partial<CSSStyleDeclaration> & Record<`--${string}`, string>;
+	style?: Record<string, string>;
 	/** Event listeners that will be attached to the HTML element (see {@link HTMLElement.addEventListener}). */
 	eventListeners?: { [k in keyof HTMLElementEventMap]?: (this: HTMLElementTagNameMap[T], event: HTMLElementEventMap[k]) => any };
 	/** The elements parent (if any) to which it will be attached (see {@link HTMLElement.parentElement}). */
