@@ -440,8 +440,6 @@ var ClubCardList = [
         ID: 4007, //Fetishist Card Rope Slave +
         Name: "Rope Slave",
         Group: ["Fetishist", "Shibari"],
-        MoneyPerTurn: 0,
-        FamePerTurn: 0,
         BeforeTurnEnd: function(CCPlayer) {
 			const alvinOrRopeSenseiPresent = ClubCardNameIsOnBoard(CCPlayer, "Rope Sensei") || ClubCardNameIsOnBoard(CCPlayer, "Alvin");
 			if(alvinOrRopeSenseiPresent) {
@@ -985,7 +983,9 @@ var ClubCardList = [
 				return card.Type === "Event" || ClubCardCardHasGroup(card, "Liability");
 			});
 
-			if(playedAnEventOrLiability) {
+			const hasCollegeMember = ClubCardGroupIsOnBoard(cardOwner, 'CollegeStudent') || ClubCardGroupIsOnBoard(cardOwner, 'CollegeTeacher')
+
+			if(playedAnEventOrLiability && hasCollegeMember) {
 				ClubCardPlayerAddMoney(cardOwner, -2);
 				ClubCardPlayerDrawCard(cardOwner, 1);
 				ClubCardLogPublish("Effect Student Custodian", CCPlayer, 2);
