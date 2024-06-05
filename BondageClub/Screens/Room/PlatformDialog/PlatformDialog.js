@@ -3389,6 +3389,44 @@ var PlatformDialogData = [
 	},
 
 	{
+		Name: "ZaraPetrified",
+		Music: "Desert",
+		Dialog: [
+			{
+				Background: "BarrenRocks",
+				Character: [
+					{ Name: "Zara", Status: "Slave", Pose: "Petrified" },
+				]
+			},
+			{
+				Background: "BarrenRocks",
+				Character: [
+					{ Name: "Olivia", Status: "Oracle", Pose: "Idle" },
+					{ Name: "Zara", Status: "Slave", Pose: "Petrified" },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
+				]
+			},
+			{ Text: "(TO DO)" },
+		],
+	},
+
+	{
+		Name: "DesertEnd",
+		Music: "Desert",
+		Exit : function () { PlatformLoadRoom("DesertDunesBrown"); PlatformPlayer.X = 4400; PlatformPlayer.FaceLeft = true; },
+		Dialog: [
+			{
+				Background: "DunesHeat",
+				Character: [
+					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
+					{ Name: "Olivia", Status: "Oracle", Pose: "Idle" },
+				]
+			},
+			{ Text: "(TO DO)" },
+		],
+	},
+
+	{
 		Name: "OliviaLover1Start",
 		Music: "MelodyRoom",
 		Dialog: [

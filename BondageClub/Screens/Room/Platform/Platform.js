@@ -314,6 +314,30 @@ var PlatformTemplate = [
 		}
 	},
 	{
+		Name: "Zara", // MMD Z: 39.00, Y: 10.50
+		Status: "Slave",
+		Perk: "0000000000",
+		PerkName: ["Sneak", "Backstab", "Kidnapper", "Rigger", "Burglar", "Thief", "Spring", "Bounce", "Inventory", "Duplicate"],
+		Health: 12,
+		HealthPerLevel: 3,
+		Width: 400,
+		Height: 400,
+		HitBox: [0.4, 0.05, 0.6, 1],
+		JumpHitBox: [0.4, 0.05, 0.6, 0.7],
+		JumpForce: 43,
+		RunSpeed: 19,
+		WalkSpeed: 13,
+		CrawlSpeed: 7,
+		DamageAudio: ["Zara0", "Zara1", "Zara2", "Zara3", "Zara4", "Zara5", "Zara6", "Generic0", "Generic1"],
+		DownAudio: ["Zara0"],
+		BindAudio: ["Rope0", "Rope1", "Rope2", "Rope3"],
+		IdleAudio: ["Zara0", "Zara1", "Zara2", "Zara3"],
+		Animation: [
+			{ Name: "Walk", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], Speed: 60 },
+			{ Name: "Petrified", Cycle: [0], Speed: 1000 },
+		],
+	},
+	{
 		Name: "Olivia",
 		Status: "Chained",
 		Width: 400,
@@ -1822,6 +1846,14 @@ var PlatformRoomList = [
 		Door: [
 			{ Name: "ZaraPath2", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 2900, ToFaceLeft: true },
 		],
+		Entry: function() {
+			if ((PlatformPlayer.Name != "Zara") && !PlatformEventDone("ZaraJoin")) {
+				let Zara = PlatformCreateCharacter("Zara", "Slave", 1000, true, false, "ZaraPetrified");
+				Zara.Health = 0;
+				Zara.Bound = true;
+				Zara.Petrified = true;
+			}
+		},
 	},
 	{
 		Name: "DesertDunesCactus",
@@ -1832,11 +1864,44 @@ var PlatformRoomList = [
 		Height: 1400,
 		Door: [
 			{ Name: "DesertEntrance", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 2500, ToFaceLeft: true },
+			{ Name: "DesertDunesBrown", FromX: 3400, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100 },
 		],
 		Character: [
 			{ Name: "Vulture", Status: "Brown", X: 1200 },
 			{ Name: "Vulture", Status: "Brown", X: 2300 },
 		]
+	},
+	{
+		Name: "DesertDunesBrown",
+		Text: "Desert Dunes",
+		Background: "Desert/DunesBrown",
+		Music: "Desert",
+		Width: 4500,
+		Height: 1200,
+		Door: [
+			{ Name: "DesertDunesCactus", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 2500, ToFaceLeft: true },
+			{ Name: "DesertDunesHeat", FromX: 4400, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100 },
+		],
+		Character: [
+			{ Name: "Vulture", Status: "Brown", X: 1300 },
+			{ Name: "Vulture", Status: "Brown", X: 2250 },
+			{ Name: "Vulture", Status: "Brown", X: 3200 },
+		]
+	},
+	{
+		Name: "DesertDunesHeat",
+		Text: "Desert Dunes",
+		Background: "Desert/DunesBrown",
+		Music: "Desert",
+		Width: 4500,
+		Height: 1200,
+		Door: [
+			{ Name: "DesertDunesCactus", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 2500, ToFaceLeft: true },
+			{ Name: "DesertDunesBrown", FromX: 3400, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100 },
+		],
+		Entry: function() {
+			PlatformDialogStart("DesertEnd");
+		}
 	},
 
 ];
