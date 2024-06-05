@@ -1144,6 +1144,13 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, //PantBoots
+		SatinSkirt: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{ Name: "Long" },
+				{ Name: "Mid" },
+			],
+		}, //SatinSkirt
 	}, // ClothLower
 	SocksLeft: {
 		LooseSocks: {
@@ -8724,6 +8731,82 @@ var AssetFemale3DCGExtended = {
 				Click: CommonNoop,
 			},
 		}, // WheelFortune
+		GlueFloor: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "Stand",
+					Property: {
+						Prerequisite: ["CanLegsOpen"],
+						SetPose: ["LegsOpen"],
+					},
+				},
+				{
+					Name: "LegsClosed",
+					Property: {
+						Prerequisite: ["CanLegsClosed"],
+						SetPose: ["LegsClosed"],
+					},
+				},
+			],
+		}, // GlueFloor
+		OneBarGirl: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Model",
+					Key: "m",
+					Options: [
+						{
+							// m0 - Model 1
+							Property: {},
+						},
+						{
+							// m1 - Model 2
+							Property: {},
+						},
+						{
+							// m2 - Model 3
+							Property: {},
+						},
+						{
+							// m3 - Model 4
+							Property: {},
+						},
+						{
+							// m4 - Model 5
+							Property: {},
+						},
+					],
+				},
+				{
+					Name: "Vibration",
+					Key: "v",
+					DrawImages: false,
+					Options: [
+						{ Property: { Intensity: -1, Effect: [] } }, // v0 - Turn Off
+						{ Property: { Intensity: 0, Effect: [E.Vibrating] } }, // v1 - Low
+						{ Property: { Intensity: 1, Effect: [E.Egged, E.Vibrating] } }, // v2 - Medium
+						{ Property: { Intensity: 1, Effect: [E.Egged, E.Vibrating] } }, // v3 - High
+						{ Property: { Intensity: 2, Effect: [E.Egged, E.Vibrating] } }, // v4 - Maximum
+					],
+				},
+				{
+					Name: "InflateLevel",
+					Key: "i",
+					DrawImages: false,
+					Options: [
+						{ Property: { InflateLevel: 0 } }, // i0 - Empty
+						{ Property: { InflateLevel: 1 } }, // i1 - Light
+						{ Property: { InflateLevel: 2 } }, // i2 - Inflated
+						{ Property: { InflateLevel: 3 } }, // i3 - Bloated
+						{ Property: { InflateLevel: 4 } }, // i4 - Maximum
+					],
+				},
+			],
+			ChangeWhenLocked: false,
+		}, // OneBarGirl
 	}, // ItemDevices
 	ItemBoots: {
 		ToeTape: {
@@ -14233,6 +14316,14 @@ var AssetFemale3DCGExtended = {
 			Options: [{ Name: "Fur" }, { Name: "NoFur" }],
 			DrawImages: false,
 		}, // WarmGloves
+		OperaGloves: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{ Name: "Long" },
+				{ Name: "Default" },
+			],
+			DrawImages: false,
+		}, // OperaGloves
 	}, // Gloves
 	Necklace: {
 		NecklaceKey: {
@@ -14282,6 +14373,54 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, //ChokerTattoo
+		PearlNecklace1: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Option1",
+					Key: "m",
+					Options: [
+						{
+							// m0 - None
+							Property: { Effect: [] },
+						},
+						{
+							// m1 - Equipped
+							Property: { Effect: [] },
+						},
+					],
+				},
+				{
+					Name: "Option2",
+					Key: "n",
+					Options: [
+						{
+							// n0 - None
+							Property: { Effect: [] },
+						},
+						{
+							// n1 - Equipped
+							Property: { Effect: [] },
+						},
+					],
+				},
+				{
+					Name: "Option3",
+					Key: "o",
+					Options: [
+						{
+							// o0 - No Details
+							Property: { Effect: [] },
+						},
+						{
+							// o1 - Metal Details
+							Property: { Effect: [] },
+						},
+					],
+				},
+			],
+			DrawImages: false,
+		}, // PearlNecklace1
 	}, // Necklace
 	Suit: {
 		Catsuit: {
