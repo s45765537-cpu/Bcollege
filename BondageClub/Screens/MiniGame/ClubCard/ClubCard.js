@@ -173,8 +173,7 @@ var ClubCardList = [
 	},
 	{
 		ID: 1018,
-		Name: "Daycare Manager",
-		MoneyPerTurn: -1,
+		Name: "Daycare Enthusiast",
 		AfterTurnEnd: function(CCPlayer) {
 			const abdlMommyPlayed = ClubCardGetCardsPlayedOnTurn(CCPlayer, CCPlayer.ClubCardTurnCounter).some(card => {
 				return card.Group?.includes("ABDLMommy");
@@ -186,7 +185,6 @@ var ClubCardList = [
 			const abdlBabyPlayed = ClubCardGetCardsPlayedOnTurn(CCPlayer, CCPlayer.ClubCardTurnCounter).some(card => {
 				return card.Group?.includes("ABDLBaby");
 			});
-
 			if(abdlBabyPlayed) {
 				ClubCardPlayerAddMoney(CCPlayer, 3);
 			}
@@ -983,12 +981,13 @@ var ClubCardList = [
 				return card.Type === "Event" || ClubCardCardHasGroup(card, "Liability");
 			});
 
-			const hasCollegeMember = ClubCardGroupIsOnBoard(cardOwner, 'CollegeStudent') || ClubCardGroupIsOnBoard(cardOwner, 'CollegeTeacher')
+			const hasCollegeMember = ClubCardGroupIsOnBoard(cardOwner, 'CollegeTeacher') || ClubCardGroupOnBoardCount(cardOwner, 'Staff') >= 2
 
 			if(playedAnEventOrLiability && hasCollegeMember) {
-				ClubCardPlayerAddMoney(cardOwner, -2);
+				CCPlayer.Level
+				ClubCardPlayerAddMoney(cardOwner, -CCPlayer.Level);
 				ClubCardPlayerDrawCard(cardOwner, 1);
-				ClubCardLogPublish("Effect Student Custodian", CCPlayer, 2);
+				ClubCardLogPublish("Effect Student Custodian", CCPlayer, -CCPlayer.Level);
 			}
 		}
 	},

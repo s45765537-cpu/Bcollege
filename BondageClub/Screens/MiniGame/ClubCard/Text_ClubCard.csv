@@ -352,8 +352,8 @@ Title Big Baby,Big Baby
 Text Big Baby,+1 Money if opponent has more cards in their hand. Opponent draws a card when she enters your club.
 Title Fussy Baby,Fussy Baby
 Text Fussy Baby,Returns to hand when the opponent plays an Event and you gain 4 fame.
-Title Daycare Manager,Daycare Manager
-Text Daycare Manager,Gain 3 fame when an ABDL Mommy enters your club. Gain 3 money when an ABDL Baby enters your club.
+Title Daycare Enthusiast,Daycare Enthusiast
+Text Daycare Enthusiast,Gain 3 fame when an ABDL Mommy enters your club. Gain 3 money when an ABDL Baby enters your club.
 Title Daycare Party,Daycare Party
 Text Daycare Party,Gain 4 Fame and draw a card for each ABDL Mommy present.
 Effect Daycare Party, Gained AMOUNT fame from the Daycare Party
@@ -369,7 +369,7 @@ Text Teacher's Aide,Aiding her teacher day and night
 Title Homeroom,Homeroom
 Text Homeroom,Can only be played if you control 3 or more College members. Both players cannot advance their club for 4 turns.
 Title Student Custodian,Student Custodian
-Text Student Custodian,"When the opponent plays an Liability or Event and you have another college member, you lose 2 money and draw a card."
+Text Student Custodian,"When the opponent plays an liability or event, if you control a teacher or staff, you draw a card and lose 1 money per opponent building level."
 Effect Student Custodian,OPPONENTPLAYER lost AMOUNT money and drew a card from Student Custodian
 Title Recess,Recess
 Text Recess,Draw 2 cards. Gain 2 money for each ABDL Baby and College Student present.
