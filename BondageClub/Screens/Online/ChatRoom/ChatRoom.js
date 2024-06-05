@@ -903,37 +903,31 @@ var ChatRoomSep = {
 	 * @returns {HTMLDivElement} - The created `<div>` element
 	 */
 	Create: function Create(appendChat=true) {
+		const time = ChatRoomCurrentTime();
 		const elem = ElementCreate({
 			tag: "div",
 			classList: ["ChatMessage", "ChatMessageAction", "chat-room-sep"],
 			style: { ["--label-color"]: Player.LabelColor },
-			dataAttributes: { time: ChatRoomCurrentTime(), sender: (Player.MemberNumber ?? "").toString() },
+			dataAttributes: { time, sender: (Player.MemberNumber ?? "").toString() },
 			children: [
 				{
 					tag: "div",
 					classList: ["chat-room-sep-div"],
 					children: [
-						{
-							tag: "button",
-							classList: ["blank-button", "chat-room-sep-collapse"],
-							eventListeners: {
-								click: ChatRoomSep._ClickCollapse,
-								touchstart: ElementButton._TouchStart,
-								touchend: ElementButton._TouchEnd,
-								touchcancel: ElementButton._TouchEnd,
+						ElementButton.CreateNoTooltip(
+							`chat-room-sep-collapse-${time}`, this._ClickCollapse,
+							{
+								button: {
+									children: ["˅"],
+									classList: ["chat-room-sep-collapse"],
+									attributes: { "aria-expanded": true },
+								},
 							},
-							children: ["˅"],
-						},
-						{
-							tag: "button",
-							classList: ["blank-button", "chat-room-sep-header"],
-							eventListeners: {
-								click: ChatRoomSep._ClickScrollUp,
-								touchstart: ElementButton._TouchStart,
-								touchend: ElementButton._TouchEnd,
-								touchcancel: ElementButton._TouchEnd,
-							},
-						},
+						),
+						ElementButton.CreateNoTooltip(
+							`chat-room-sep-header-${time}`, this._ClickScrollUp,
+							{ button: { classList: ["chat-room-sep-header"] } },
+						),
 					],
 				},
 			],
@@ -962,7 +956,7 @@ var ChatRoomSep = {
 	 */
 	IsCollapsed: function IsCollapsed(roomSep) {
 		const button = /** @type {HTMLButtonElement} */(roomSep?.querySelector(".chat-room-sep-collapse"));
-		return !!button && button.innerText === "˃";
+		return !!button && button.ariaExpanded === "false";
 	},
 
 	/**
@@ -971,10 +965,11 @@ var ChatRoomSep = {
 	 */
 	Uncollapse: async function Uncollapse(roomSep) {
 		const button = /** @type {HTMLButtonElement} */(roomSep?.querySelector(".chat-room-sep-collapse"));
-		if (!button || button.innerText === "˅") {
+		if (!button || button.ariaExpanded === "true") {
 			return;
 		}
 
+		button.ariaExpanded = "true";
 		button.innerText = "˅";
 		let sibbling = /** @type {null | HTMLElement} */(roomSep.nextSibling);
 		while (sibbling && !sibbling.classList.contains("chat-room-sep")) {
@@ -995,10 +990,11 @@ var ChatRoomSep = {
 	 */
 	Collapse: async function Collapse(roomSep) {
 		const button = /** @type {HTMLButtonElement} */(roomSep?.querySelector(".chat-room-sep-collapse"));
-		if (!button || button.innerText === "˃") {
+		if (!button || button.ariaExpanded === "false") {
 			return;
 		}
 
+		button.ariaExpanded = "false";
 		button.innerText = "˃";
 		let sibbling = /** @type {null | HTMLElement} */(roomSep.nextSibling);
 		while (sibbling && !sibbling.classList.contains("chat-room-sep")) {
