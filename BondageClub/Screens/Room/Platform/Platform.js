@@ -694,7 +694,7 @@ var PlatformTemplate = [
 	{
 		Name: "Vulture",
 		Status: "Brown",
-		Health: 11,
+		Health: 13,
 		Width: 400,
 		Height: 400,
 		HitBox: [0.2, 0.3, 0.8, 0.7],
@@ -703,7 +703,7 @@ var PlatformTemplate = [
 		WalkSpeed: 0,
 		RunSpeed: 22,
 		CollisionDamage: 2,
-		ExperienceValue: 2,
+		ExperienceValue: 3,
 		DamageBackOdds: 1,
 		DamageKnockForce: 60,
 		IdleTurnToFace: true,
@@ -1769,6 +1769,7 @@ var PlatformRoomList = [
 		Height: 1400,
 		Door: [
 			{ Name: "SavannahTentExterior", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 1900, ToFaceLeft: true },
+			{ Name: "ZaraPath1", FromX: 1000, FromY: 0, FromW: 600, FromH: 1200, FromType: "Up", ToX: 100 },
 			{ Name: "DesertDunesCactus", FromX: 2500, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100 },
 		],
 		Entry: function() {			
@@ -1780,6 +1781,49 @@ var PlatformRoomList = [
 		]
 	},
 	{
+		Name: "ZaraPath1",
+		Text: "Desert Rock Path",
+		Background: "Desert/DunesRocks",
+		Music: "Desert",
+		Width: 4000,
+		Height: 1200,
+		Door: [
+			{ Name: "DesertEntrance", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 900 },
+			{ Name: "ZaraPath2", FromX: 3900, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100 },
+		],
+		Character: [
+			{ Name: "Vulture", Status: "Brown", X: 1300 },
+			{ Name: "Vulture", Status: "Brown", X: 2700 },
+		]
+	},
+	{
+		Name: "ZaraPath2",
+		Text: "Desert Rock Chain",
+		Background: "Desert/MountainsChain",
+		Music: "Desert",
+		Width: 3000,
+		Height: 1400,
+		Door: [
+			{ Name: "ZaraPath1", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 3900, ToFaceLeft: true },
+			{ Name: "ZaraPath3", FromX: 2900, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100 },
+		],
+		Character: [
+			{ Name: "Vulture", Status: "Brown", X: 1000 },
+			{ Name: "Vulture", Status: "Brown", X: 2000 },
+		]
+	},
+	{
+		Name: "ZaraPath3",
+		Text: "Desert Rock",
+		Background: "Desert/BarrenRocks",
+		Music: "Desert",
+		Width: 2000,
+		Height: 1400,
+		Door: [
+			{ Name: "ZaraPath2", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 2900, ToFaceLeft: true },
+		],
+	},
+	{
 		Name: "DesertDunesCactus",
 		Text: "Desert Cactus Dunes",
 		Background: "Desert/DunesCactus",
@@ -1787,7 +1831,7 @@ var PlatformRoomList = [
 		Width: 3500,
 		Height: 1400,
 		Door: [
-			{ Name: "DesertEntrance", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 1900, ToFaceLeft: true },
+			{ Name: "DesertEntrance", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 2500, ToFaceLeft: true },
 		],
 		Character: [
 			{ Name: "Vulture", Status: "Brown", X: 1200 },
