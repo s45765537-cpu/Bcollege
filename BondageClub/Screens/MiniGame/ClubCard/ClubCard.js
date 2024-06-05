@@ -173,25 +173,6 @@ var ClubCardList = [
 	},
 	{
 		ID: 1018,
-		Name: "Daycare Enthusiast",
-		AfterTurnEnd: function(CCPlayer) {
-			const abdlMommyPlayed = ClubCardGetCardsPlayedOnTurn(CCPlayer, CCPlayer.ClubCardTurnCounter).some(card => {
-				return card.Group?.includes("ABDLMommy");
-			});
-			if(abdlMommyPlayed) {
-				ClubCardPlayerAddFame(CCPlayer, 3);
-			}
-
-			const abdlBabyPlayed = ClubCardGetCardsPlayedOnTurn(CCPlayer, CCPlayer.ClubCardTurnCounter).some(card => {
-				return card.Group?.includes("ABDLBaby");
-			});
-			if(abdlBabyPlayed) {
-				ClubCardPlayerAddMoney(CCPlayer, 3);
-			}
-		}
-	},
-	{
-		ID: 1019,
 		Name: "Contract Caretaker",
 		FamePerTurn: 1,
 		MoneyPerTurn: -2,
@@ -445,6 +426,26 @@ var ClubCardList = [
 			}
 		}
     },
+	{
+		ID: 4008,
+		Name: "Daycare Enthusiast",
+		Group: ["Fetishist"],
+		AfterTurnEnd: function(CCPlayer) {
+			const abdlMommyPlayed = ClubCardGetCardsPlayedOnTurn(CCPlayer, CCPlayer.ClubCardTurnCounter).some(card => {
+				return card.Group?.includes("ABDLMommy");
+			});
+			if(abdlMommyPlayed) {
+				ClubCardPlayerAddFame(CCPlayer, 3);
+			}
+
+			const abdlBabyPlayed = ClubCardGetCardsPlayedOnTurn(CCPlayer, CCPlayer.ClubCardTurnCounter).some(card => {
+				return card.Group?.includes("ABDLBaby");
+			});
+			if(abdlBabyPlayed) {
+				ClubCardPlayerAddMoney(CCPlayer, 3);
+			}
+		}
+	},
 
 	// 5000 - Porn Members (Raise both Fame and Money)
 	{
