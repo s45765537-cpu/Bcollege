@@ -108,6 +108,7 @@ var PlatformTemplate = [
 			{ Name: "Idle", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 100 },
 			{ Name: "Wounded", Cycle: [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1], Speed: 150 },
 			{ Name: "Bound", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 120 },
+			{ Name: "Petrified", Cycle: [0], Speed: 1000 },
 			{ Name: "Walk", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], Speed: 30 },
 			{ Name: "Run", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], Speed: 50 },
 			{ Name: "Jump", Cycle: [0, 1, 2, 3, 4, 3, 2, 1], Speed: 150 },
@@ -169,6 +170,7 @@ var PlatformTemplate = [
 			{ Name: "Crouch", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 110 },
 			{ Name: "Crawl", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19], Speed: 30 },
 			{ Name: "Bound", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 110 },
+			{ Name: "Petrified", Cycle: [0], Speed: 1000 },
 			{ Name: "Bind", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 90 },
 			{ Name: "Stun", Cycle: [0], Speed: 1000 },
 			{ Name: "HalfBoundStun", Cycle: [0], Speed: 1000 },
@@ -221,6 +223,7 @@ var PlatformTemplate = [
 			{ Name: "Crouch", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 120 },
 			{ Name: "Bind", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 60 },
 			{ Name: "Bound", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 100 },
+			{ Name: "Petrified", Cycle: [0], Speed: 1000 },
 			{ Name: "Stun", Cycle: [0], Speed: 1000 },
 			{ Name: "Aim", Cycle: [0], Speed: 1000, Audio: ["EdlaranBowCharge0"] },
 			{ Name: "AimReady", Cycle: [0], Speed: 1000, Audio: ["EdlaranBowCharge0"] },
@@ -278,6 +281,7 @@ var PlatformTemplate = [
 			{ Name: "Bind", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 100 },
 			{ Name: "Wounded", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 110 },
 			{ Name: "Bound", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 120 },
+			{ Name: "Petrified", Cycle: [0], Speed: 1000 },
 			{ Name: "Stun", Cycle: [0], Speed: 1000 },
 			{ Name: "StandAttackFast", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], Speed: 19 },
 			{ Name: "CrouchAttackFast", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 19 },
@@ -697,11 +701,13 @@ var PlatformTemplate = [
 		FlyingHeight: 550,
 		RunHeight: 50,
 		WalkSpeed: 0,
-		RunSpeed: 24,
+		RunSpeed: 22,
 		CollisionDamage: 2,
 		ExperienceValue: 2,
 		DamageBackOdds: 1,
 		DamageKnockForce: 60,
+		IdleTurnToFace: true,
+		PetrifyOnWound: true,
 		RunOdds: 0.0005,
 		LootOdds: 0.07,
 		Animation: [
@@ -1756,13 +1762,14 @@ var PlatformRoomList = [
 	},
 	{
 		Name: "DesertEntrance",
-		Text: "Desert Entrance",
+		Text: "Desert Cactus Path",
 		Background: "Desert/CactusPath",
 		Music: "Desert",
 		Width: 2600,
 		Height: 1400,
 		Door: [
 			{ Name: "SavannahTentExterior", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 1900, ToFaceLeft: true },
+			{ Name: "DesertDunesCactus", FromX: 2500, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100 },
 		],
 		Entry: function() {			
 			if (!PlatformEventDone("DesertEntrance") && PlatformEventDone("LynJoin")) PlatformDialogStart("DesertEntranceLyn");
@@ -1770,6 +1777,21 @@ var PlatformRoomList = [
 		},
 		Character: [
 			{ Name: "Vulture", Status: "Brown", X: 1800 },
+		]
+	},
+	{
+		Name: "DesertDunesCactus",
+		Text: "Desert Cactus Dunes",
+		Background: "Desert/DunesCactus",
+		Music: "Desert",
+		Width: 3500,
+		Height: 1400,
+		Door: [
+			{ Name: "DesertEntrance", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 1900, ToFaceLeft: true },
+		],
+		Character: [
+			{ Name: "Vulture", Status: "Brown", X: 1200 },
+			{ Name: "Vulture", Status: "Brown", X: 2300 },
 		]
 	},
 
@@ -2340,11 +2362,12 @@ function PlatformDamage(Source, Target, Damage, Time, Type, AttackName = "") {
 	if (Target.Damage == null) Target.Damage = [];
 	Target.Damage.push({ Value: Damage, Expire: Time + 2000});
 	if (Target.Health <= 0) {
+		if (Source.PetrifyOnWound) Target.Petrified = true;
 		Target.Health = 0;
 		Target.RiseTime = Time + (PlatformHasPerk(Target, "Vigorous") ? 7000 : 10000);
 		Target.Immunity = Time + 2000;
-		PlatformSoundEffect("Down", Target.DownAudio);
-		if (AutoRestrain) PlatformBindTarget(Source, Target);
+		if (!Target.Petrified) PlatformSoundEffect("Down", Target.DownAudio);
+		if (AutoRestrain || Target.Petrified) PlatformBindTarget(Source, Target);
 	} else PlatformSoundEffect("Damage", Target.DamageAudio);
 }
 
@@ -2820,7 +2843,8 @@ function PlatformDrawGame() {
 		// Finds the animation based on what the character is doing
 		let Crouch = (C.Camera && PlatformMoveActive("Crouch"));
 		if ((C.Name != PlatformPlayer.Name) && (PlatformRoom.Heal != null) && PlatformDialogIsSlaveOfCharacter(C.Name, PlatformPlayer.Name) && (Math.abs(C.X - PlatformPlayer.X) < 500)) Crouch = true;
-		if ((C.Health <= 0) && C.Bound) C.Anim = PlatformGetAnim(C, "Bound");
+		if ((C.Health <= 0) && C.Petrified) C.Anim = PlatformGetAnim(C, "Petrified");
+		else if ((C.Health <= 0) && C.Bound) C.Anim = PlatformGetAnim(C, "Bound");
 		else if (C.Health <= 0 && C.HalfBound) C.Anim = PlatformGetAnim(C, "HalfBoundWounded");
 		else if (C.Health <= 0) C.Anim = PlatformGetAnim(C, "Wounded");
 		else if ((C.ProjectileAim != null) && (PlatformTime - C.ProjectileAim < C.ProjectileTime)) C.Anim = PlatformGetAnim(C, "Aim");
@@ -2841,6 +2865,10 @@ function PlatformDrawGame() {
 		else if (PlatformMoveActive("Block") && PlatformAnimAvailable(C, "Block")) C.Anim = PlatformGetAnim(C, "Block");
 		else if (C.HalfBound) C.Anim = PlatformGetAnim(C, "HalfBoundIdle");
 		else C.Anim = PlatformGetAnim(C, "Idle");
+
+		// Some characters will turn to face the player when they are idle
+		if ((C.Anim != null) && (C.Anim.Name === "Idle") && C.IdleTurnToFace && !C.Camera && C.FaceLeft && (C.X < PlatformPlayer.X)) C.FaceLeft = false;
+		if ((C.Anim != null) && (C.Anim.Name === "Idle") && C.IdleTurnToFace && !C.Camera && !C.FaceLeft && (C.X > PlatformPlayer.X)) C.FaceLeft = true;
 
 		// Draws the background if we are focusing on that character
 		if (C.Camera) {
