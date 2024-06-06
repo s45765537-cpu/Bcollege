@@ -1421,19 +1421,19 @@ var ClubCardList = [
 		Prerequisite: "SelectOpponentMember",
 		OnPlay: function(CCPlayer) {
 			if (ClubCardSelection == null) return;
+
+			const targetIsDominantOrMistress = ClubCardSelection.Group &&
+				ClubCardSelection.Group.includes("Dominant") ||
+				ClubCardSelection.Group.includes("Mistress");
+			if(targetIsDominantOrMistress) {
+				ClubCardAlvinCondition(CCPlayer);
+			}
+
 			let Opponent = ClubCardGetOpponent(CCPlayer);
 			ClubCardRemoveFromBoard(Opponent, ClubCardSelection);
 			let Money = Math.pow(Opponent.Level, 2);
 			ClubCardPlayerAddMoney(CCPlayer, Money * -1);
 			ClubCardLogPublish("LoseMoney", CCPlayer, Money);
-
-			const targetIsDominantOrMistress = ClubCardSelection.Group &&
-				ClubCardSelection.Group.includes("Dominant") ||
-				ClubCardSelection.Group.includes("Mistress");
-
-			if(targetIsDominantOrMistress) {
-				ClubCardAlvinCondition(CCPlayer);
-			}
 		},
 		CanPlay: function(CCPlayer) {
 			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
@@ -1959,14 +1959,14 @@ function ClubCardGroupOnBoardCount(CCPlayer, GroupName) {
  * @returns {void} - Nothing
  */
 function ClubCardRemoveFromBoard(CCPlayer, Card) {
-	if ((CCPlayer == null) || (CCPlayer.Board == null) || (Card == null)) return;
-	let Pos = 0;
-	for (let C of CCPlayer.Board) {
-		if (C.ID === Card.ID) {
-			CCPlayer.Board.splice(Pos, 1);
-			ClubCardLogPublish("MemberLeaveClub", CCPlayer, null, Card);
-		}
-		Pos++;
+	if ((CCPlayer == null) || (CCPlayer.Board == null) || (Card == null)) {
+		return;
+	}
+
+	const indexToRemove = CCPlayer.Board.findIndex(c => c.ID === Card.ID);
+	if(indexToRemove !== -1) {
+		CCPlayer.Board.splice(indexToRemove, 1);
+		ClubCardLogPublish("MemberLeaveClub", CCPlayer, null, Card);
 	}
 }
 
