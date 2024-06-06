@@ -491,7 +491,7 @@ var Layering = {
 												children: [
 													{
 														tag: "input",
-														attributes: { type: "number", min: "-99", max: "99", value: layerPriority, defaultValue: defaultLayerPriority.toString(), inputMode: "numeric" },
+														attributes: { type: "number", min: "-99", max: "99", value: layerPriority, defaultValue: defaultLayerPriority.toString(), inputMode: "numeric", id: `layering-input-${layerGroupName}-${Name}` },
 														dataAttributes: { layerPriority: defaultLayerPriority.toString(), name: Name },
 														classList: priorityIsObject ? [] : ["layering-input-unfocused"],
 														eventListeners: {
@@ -501,7 +501,8 @@ var Layering = {
 														},
 													},
 													{
-														tag: "span",
+														tag: "label",
+														attributes: { for: `layering-input-${layerGroupName}-${Name}` },
 														classList: ["layering-pair-text"],
 														children: [Name],
 													},
