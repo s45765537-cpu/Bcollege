@@ -862,7 +862,7 @@ var ChatRoomSep = {
 	 * @type {(this: HTMLButtonElement, event: MouseEvent | TouchEvent) => Promise<void>}
 	 */
 	_ClickCollapse: async function _ClickCollapse(event) {
-		const mode = this.innerText === "˅" ? "Collapse" : "Uncollapse";
+		const mode = this.ariaExpanded === "true" ? "Collapse" : "Uncollapse";
 		const roomSep = /** @type {HTMLDivElement} */(this.parentElement.parentElement);
 		if (event.shiftKey) {
 			// (un)collapse all separators if the `shift` key is held down while clicking

@@ -781,12 +781,13 @@ var ElementButton = {
 		}
 		switch (ev.key) {
 			case "Enter":
-			case "Space":
+			case " ":
 				if (!ev.repeat) {
 					this.click();
 					this.classList.add("button-touch");
 				}
 				ev.stopPropagation();
+				ev.preventDefault();
 				break;
 		}
 	},
@@ -801,9 +802,8 @@ var ElementButton = {
 		}
 		switch (ev.key) {
 			case "Enter":
-			case "Space":
+			case " ":
 				this.classList.remove("button-touch");
-				ev.stopPropagation();
 				break;
 		}
 	},

@@ -322,12 +322,16 @@ textarea {
 }
 
 #TextAreaChatLog[data-colortheme="dark"] .chat-room-sep-touch,
-#TextAreaChatLog[data-colortheme="dark2"] .chat-room-sep-touch {
+#TextAreaChatLog[data-colortheme="dark2"] .chat-room-sep-touch,
+#TextAreaChatLog[data-colortheme="dark"] .button-touch,
+#TextAreaChatLog[data-colortheme="dark2"] .button-touch {
 	color: #eee;
 }
 
 #TextAreaChatLog[data-colortheme="light"] .chat-room-sep-touch,
-#TextAreaChatLog[data-colortheme="light2"] .chat-room-sep-touch {
+#TextAreaChatLog[data-colortheme="light2"] .chat-room-sep-touch,
+#TextAreaChatLog[data-colortheme="light"] .button-touch,
+#TextAreaChatLog[data-colortheme="light2"] .button-touch {
 	color: black;
 }
 
