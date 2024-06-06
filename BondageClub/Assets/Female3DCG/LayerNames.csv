@@ -1228,6 +1228,8 @@ ItemMouth2FuturisticPanelGagMask,Muzzle
 ItemMouth2GasMaskGagHighlights,Highlights
 ItemMouth2GasMaskGagMask,Mask
 ItemMouth2GasMaskGagSides,Sides
+ItemMouth2GlueGagGlue,Glue
+ItemMouth2GlueGagLips,Lips
 ItemMouth2HarnessBallGag1Ball,Ball
 ItemMouth2HarnessBallGag1Metal,Metal
 ItemMouth2HarnessBallGag1Strap,Strap
@@ -1512,6 +1514,8 @@ ItemMouthFuturisticPanelGagMask,Muzzle
 ItemMouthGasMaskGagHighlights,Highlights
 ItemMouthGasMaskGagMask,Mask
 ItemMouthGasMaskGagSides,Sides
+ItemMouthGlueGagGlue,Glue
+ItemMouthGlueGagLips,Lips
 ItemMouthHarnessBallGag1Ball,Ball
 ItemMouthHarnessBallGag1Metal,Metal
 ItemMouthHarnessBallGag1Strap,Strap
@@ -2006,6 +2010,9 @@ NecklaceNecklaceKeyChain,Chain
 NecklaceNecklaceKeyKey,Key
 NecklaceNecklaceLockChain,Chain
 NecklaceNecklaceLockLock,Lock
+NecklacePearlNecklace1Option1,Normal
+NecklacePearlNecklace1Option2,Long
+NecklacePearlNecklace1Option3,Choker
 PantiesBoxerShortsShorts,Shorts
 PantiesBoxerShortsWaistband,Waist Band
 PantiesBriefsBands,Bands

@@ -5036,3 +5036,63 @@ ShoesStrictPonyBootsSelect,Select Type.
 ShoesStrictPonyBootsSetBase,SourceCharacter changes DestinationCharacter boots.
 ShoesStrictPonyBootsSetBootsOnly,SourceCharacter changes DestinationCharacter boots.
 ShoesStrictPonyBootsBootsOnly,Boots Only
+ItemDevicesGlueFloorSelect,Legs position options:
+ItemDevicesGlueFloorStand,Stand pose
+ItemDevicesGlueFloorSetStand,SourceCharacter glued the DestinationCharacter feet on the ground with TargetPronounPossessive open legs.
+ItemDevicesGlueFloorLegsClosed,With legs closed
+ItemDevicesGlueFloorSetLegsClosed,SourceCharacter glued the DestinationCharacter feet on the ground with TargetPronounPossessive closed legs.
+ItemDevicesOneBarGirlSelectBase,Unsuspected pose bar main menu
+ItemDevicesOneBarGirlModuleModel,Fake legs model
+ItemDevicesOneBarGirlSelectModel,Choose a fake legs pair:
+ItemDevicesOneBarGirlOptionm0,Crossed legs
+ItemDevicesOneBarGirlOptionm1,Laid-back legs
+ItemDevicesOneBarGirlOptionm2,Loose socks style
+ItemDevicesOneBarGirlOptionm3,Open legs
+ItemDevicesOneBarGirlOptionm4,Maid outfit
+ItemDevicesOneBarGirlSetm0,SourceCharacter traps DestinationCharacterName body on the bar with crossed legs pose.
+ItemDevicesOneBarGirlSetm1,SourceCharacter traps DestinationCharacterName body on the bar with laid-back legs pose.
+ItemDevicesOneBarGirlSetm2,SourceCharacter traps DestinationCharacterName body on the bar with loose socks style.
+ItemDevicesOneBarGirlSetm3,SourceCharacter traps DestinationCharacterName body on the bar with open legs pose.
+ItemDevicesOneBarGirlModuleVibration,Device vibration
+ItemDevicesOneBarGirlSelectVibration,Device speed control:
+ItemDevicesOneBarGirlOptionv0,Off
+ItemDevicesOneBarGirlOptionv1,Low
+ItemDevicesOneBarGirlOptionv2,Medium
+ItemDevicesOneBarGirlOptionv3,High
+ItemDevicesOneBarGirlOptionv4,Full on
+ItemDevicesOneBarGirlSetv0,SourceCharacter turned off the device vibration on DestinationCharacter clitoris.
+ItemDevicesOneBarGirlSetv1,SourceCharacter selected the device vibration to Low on DestinationCharacter clitoris.
+ItemDevicesOneBarGirlSetv2,SourceCharacter selected the device vibration to Medium on DestinationCharacter clitoris.
+ItemDevicesOneBarGirlSetv3,SourceCharacter selected the device vibration to High on DestinationCharacter clitoris.
+ItemDevicesOneBarGirlSetv4,SourceCharacter selected the device vibration to Max on DestinationCharacter clitoris.
+ItemDevicesOneBarGirlModuleInflateLevel,Dildo inflatable
+ItemDevicesOneBarGirlSelectInflateLevel,Dildo Inflatable mode:
+ItemDevicesOneBarGirlOptioni0,Empty
+ItemDevicesOneBarGirlOptioni1,Light
+ItemDevicesOneBarGirlOptioni2,Inflated
+ItemDevicesOneBarGirlOptioni3,Bloated
+ItemDevicesOneBarGirlOptioni4,Maximum
+ItemDevicesOneBarGirlSeti0,SourceCharacter emptied the dildo device into the DestinationCharacter vagina.
+ItemDevicesOneBarGirlSeti1,SourceCharacter sets the dildo on slightly level into the DestinationCharacter vagina.
+ItemDevicesOneBarGirlSeti2,SourceCharacter sets the dildo on normal size into the DestinationCharacter vagina.
+ItemDevicesOneBarGirlSeti3,SourceCharacter sets the dildo on bulk mode into the DestinationCharacter vagina.
+ItemDevicesOneBarGirlSeti4,SourceCharacter sets the dildo on almost self-explosion into the DestinationCharacter vagina.
+ClothLowerSatinSkirtSelect,Choose skirt lenght:
+ClothLowerSatinSkirtLong,Long skirt
+ClothLowerSatinSkirtMid,At knee height
+GlovesOperaGlovesSelect,Choose gloves lenght:
+GlovesOperaGlovesDefault,Elbow gloves
+GlovesOperaGlovesLong,Long gloves
+NecklacePearlNecklace1SelectBase,Customize your necklace:
+NecklacePearlNecklace1ModuleOption1,Normal
+NecklacePearlNecklace1SelectOption1,Normal necklace:
+NecklacePearlNecklace1Optionm0,None
+NecklacePearlNecklace1Optionm1,Placed
+NecklacePearlNecklace1ModuleOption2,Long
+NecklacePearlNecklace1SelectOption2,Long necklace:
+NecklacePearlNecklace1Optionn0,None
+NecklacePearlNecklace1Optionn1,Placed
+NecklacePearlNecklace1ModuleOption3,Choker
+NecklacePearlNecklace1SelectOption3,Choker style:
+NecklacePearlNecklace1Optiono0,None
+NecklacePearlNecklace1Optiono1,Placed
