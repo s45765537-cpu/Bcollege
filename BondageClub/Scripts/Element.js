@@ -744,9 +744,10 @@ var ElementButton = {
 	 * @type {(this: HTMLButtonElement, event: Event) => Promise<void>}
 	 */
 	_TouchStart: async function _TouchStart(event) {
-		if (!this.disabled) {
-			this.classList.add("button-touch");
+		if (this.disabled || this.ariaDisabled === "true") {
+			return;
 		}
+		this.classList.add("button-touch");
 	},
 
 	/**
@@ -755,6 +756,9 @@ var ElementButton = {
 	 * @type {(this: HTMLButtonElement, event: Event) => Promise<void>}
 	 */
 	_TouchEnd: async function _TouchEnd(event) {
+		if (this.disabled || this.ariaDisabled === "true") {
+			return;
+		}
 		this.classList.remove("button-touch");
 	},
 
@@ -765,6 +769,43 @@ var ElementButton = {
 	 */
 	_MouseDown: async function _MouseDown(event) {
 		event.preventDefault();
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLButtonElement, ev: KeyboardEvent) => Promise<void>}
+	 */
+	_KeyDown: async function _KeyDown(ev) {
+		if (this.disabled || this.ariaDisabled === "true" || ev.shiftKey || ev.ctrlKey || ev.metaKey || ev.altKey) {
+			return;
+		}
+		switch (ev.key) {
+			case "Enter":
+			case "Space":
+				if (!ev.repeat) {
+					this.click();
+					this.classList.add("button-touch");
+				}
+				ev.stopPropagation();
+				break;
+		}
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLButtonElement, ev: KeyboardEvent) => Promise<void>}
+	 */
+	_KeyUp: async function _KeyUp(ev) {
+		if (this.disabled || this.ariaDisabled === "true" || ev.shiftKey || ev.ctrlKey || ev.metaKey || ev.altKey) {
+			return;
+		}
+		switch (ev.key) {
+			case "Enter":
+			case "Space":
+				this.classList.remove("button-touch");
+				ev.stopPropagation();
+				break;
+		}
 	},
 
 	/**
@@ -838,6 +879,8 @@ var ElementButton = {
 				touchstart: this._TouchStart,
 				touchend: this._TouchEnd,
 				touchcancel: this._TouchEnd,
+				keydown: this._KeyDown,
+				keyup: this._KeyUp,
 				...(buttonOptions.eventListeners ?? {}),
 			},
 		});
