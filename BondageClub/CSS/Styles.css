@@ -47,6 +47,7 @@ textarea {
 	border-bottom: min(0.4vh, 0.2vw) black solid !important;
 	border-top: min(0.4vh, 0.2vw) black solid !important;
 	position: sticky !important;
+	overflow: visible !important;
 	top: 0%;
 	z-index: 1;
 }
