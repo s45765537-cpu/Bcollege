@@ -2683,12 +2683,13 @@ function ChatRoomCommonKeyDown(event) {
  * @returns {boolean} - Nothing.
  */
 function ChatRoomKeyDown(event) {
-	const chatHasFocus = document.activeElement.id === "InputChat";
+	const inputChat = /** @type {HTMLInputElement} */(document.getElementById("InputChat"));
+	const chatHasFocus = inputChat && document.activeElement === inputChat;
 
 	if (chatHasFocus) {
-		if (event.code === "Tab" && !event.shiftKey) {
+		if (event.code === "Tab" && !event.shiftKey && inputChat.value.length !== 0) {
 			// Autocomplete whatever the chat contains
-			CommandAutoComplete(ElementValue("InputChat"));
+			CommandAutoComplete(inputChat.value);
 			return true;
 		} else if (event.key === "Enter" && !event.shiftKey) {
 			// The ENTER key sends the chat.
@@ -2714,10 +2715,10 @@ function ChatRoomKeyDown(event) {
 		ChatRoomAttemptLeave();
 	}
 
-	if (!chatHasFocus) {
+	if (document.activeElement === null || document.activeElement === document.body) {
 		const chatLog = /** @type {HTMLDivElement} */(document.getElementById("TextAreaChatLog"));
 		if (!chatLog) {
-			return;
+			return false;
 		}
 
 		if (!(event.ctrlKey || event.altKey || event.shiftKey || event.metaKey)) {
