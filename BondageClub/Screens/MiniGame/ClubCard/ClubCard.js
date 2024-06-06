@@ -1417,9 +1417,7 @@ var ClubCardList = [
 		OnPlay: function(CCPlayer) {
 			if (ClubCardSelection == null) return;
 
-			const targetIsDominantOrMistress = ClubCardSelection.Group &&
-				ClubCardSelection.Group.includes("Dominant") ||
-				ClubCardSelection.Group.includes("Mistress");
+			const targetIsDominantOrMistress = ClubCardCardHasGroup(ClubCardSelection, "Dominant") || ClubCardCardHasGroup(ClubCardSelection, "Mistress");
 			if(targetIsDominantOrMistress) {
 				ClubCardAlvinCondition(CCPlayer);
 			}
