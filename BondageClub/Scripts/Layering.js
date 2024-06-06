@@ -256,10 +256,17 @@ var Layering = {
 
 	/**
 	 * Event listener for `click` events of the reset button
+	 * @this {HTMLButtonElement}
+	 * @param {Event} ev
 	 * @private
 	 */
-	_ResetClickListener() {
-		this.OverridePriority = this._PriorityDefault == null ? undefined : CommonCloneDeep(this._PriorityDefault);
+	_ResetClickListener(ev) {
+		if (this.ariaDisabled === "true") {
+			ev.stopPropagation();
+			return;
+		}
+
+		Layering.OverridePriority = Layering._PriorityDefault == null ? undefined : CommonCloneDeep(Layering._PriorityDefault);
 
 		const layerElements = /** @type {NodeListOf<HTMLInputElement>} */(document.querySelectorAll("[data-layer-priority]"));
 		layerElements.forEach(e => e.value = e.dataset.layerPriority);
@@ -267,7 +274,7 @@ var Layering = {
 		const assetElements = /** @type {NodeListOf<HTMLInputElement>} */(document.querySelectorAll("[data-asset-priority]"));
 		assetElements.forEach(e => e.value = e.dataset.assetPriority);
 
-		this._CharacterRefresh(this.Character, false, false);
+		Layering._CharacterRefresh(Layering.Character, false, false);
 	},
 
 	/**
@@ -338,11 +345,12 @@ var Layering = {
 	 * @private
 	 */
 	_ApplyReadonly(isReadonly) {
-		const elements = /** @type {(HTMLInputElement | HTMLButtonElement)[]} */([
-			document.getElementById(this.ID.resetButton),
+		const elements = /** @type {HTMLInputElement[]} */([
 			...Array.from(document.querySelectorAll("[data-asset-priority]")),
 			...Array.from(document.querySelectorAll("[data-layer-priority]")),
 		]);
+
+		document.getElementById(this.ID.resetButton)?.setAttribute("aria-disabled", isReadonly);
 		for (const e of elements) {
 			e.disabled = isReadonly;
 		}
@@ -413,19 +421,19 @@ var Layering = {
 					attributes: { id: this.ID.assetHeader },
 					children: [InterfaceTextGet("LayeringAsset")],
 				},
-				{
-					tag: "div",
-					attributes: { id: this.ID.buttonGrid },
-					classList: ["layering-button-grid"],
-					children: [
+				ElementMenu.Create(
+					this.ID.buttonGrid,
+					[
 						ElementButton.Create(this.ID.exitButton, () => this.Exit(), InterfaceTextGet("LayeringExit")),
-						ElementButton.Create(this.ID.resetButton, () => this._ResetClickListener(), InterfaceTextGet("LayeringReset")),
+						ElementButton.Create(this.ID.resetButton, this._ResetClickListener, InterfaceTextGet("LayeringReset")),
 						ElementButton.Create(
 							this.ID.lockButton, () => null, InterfaceTextGet("LayeringLock"), undefined,
-							{ button: { attributes: { disabled: true } } },
+							{ button: { attributes: { "aria-disabled": true } } },
 						),
 					],
-				},
+					"rtl",
+					{ menu: { classList: ["layering-button-grid"] } },
+				),
 				{
 					tag: "div",
 					attributes: { id: this.ID.assetGrid },

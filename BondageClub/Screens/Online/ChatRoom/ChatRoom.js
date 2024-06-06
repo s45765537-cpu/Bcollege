@@ -1103,16 +1103,15 @@ function ChatRoomCreateElement() {
 							},
 							children: ["<"],
 						},
-						{
-							tag: "div",
-							attributes: { id: "chat-room-buttons" },
-							children: [
+						ElementMenu.Create(
+							"chat-room-buttons",
+							[
 								ElementButton.CreateNoTooltip(
 									"chat-room-send", () => ChatRoomSendChat(),
 									{ button: { classList: ["chat-room-button"] } },
 								),
 							],
-						},
+						),
 					],
 				},
 			],

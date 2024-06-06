@@ -1005,7 +1005,7 @@ input[type="checkbox"]:checked::before {
 	background-color: cyan;
 }
 
-.button:disabled {
+.button:disabled, .button[aria-disabled="true"] {
 	cursor: auto;
 	background-color: gray;
 }

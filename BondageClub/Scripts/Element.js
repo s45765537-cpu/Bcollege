@@ -1239,3 +1239,192 @@ var ElementButtonPrevNext = {
 		return elem;
 	},
 };
+
+/**
+ * Namespace for constructing menu bars
+ * @namespace
+ */
+var ElementMenu = {
+	/**
+	 * KeyDown event listener that implements menubar-style keyboard navigation
+	 * @this {HTMLElement}
+	 * @param {KeyboardEvent} ev
+	 */
+	_KeyDown: async function _KeyDown(ev) {
+		if (ev.altKey || ev.metaKey || ev.ctrlKey) {
+			return;
+		}
+
+		let isTab = false;
+		let key = ev.key;
+		if (key === "Tab") {
+			key = ev.shiftKey ? "ArrowLeft" : "ArrowRight";
+			isTab = true;
+		} else if (ev.shiftKey) {
+			return;
+		}
+
+		const parent = this.closest("[role='menu'], [role='menubar']");
+		if (!parent) {
+			return;
+		}
+
+		if (parent.getAttribute("data-direction") === "rtl") {
+			// Flip all the keys of the direction of the menu grid is right-to-left
+			switch (key) {
+				case "ArrowRight":
+					key = "ArrowLeft";
+					break;
+				case "ArrowLeft":
+					key = "ArrowRight";
+					break;
+				case "Home":
+					key = "End";
+					break;
+				case "End":
+					key = "Home";
+					break;
+			}
+		}
+
+		// Selector for all non-hidden menu items
+		const selector = ":not([style*='display: none'])[role='menuitem']";
+		switch (key) {
+			case "ArrowRight":
+			case "ArrowLeft": {
+				const elements = /** @type {HTMLElement[]} */(Array.from(parent.querySelectorAll(selector)));
+				const idx = elements.indexOf(this);
+				if (idx === -1) {
+					return;
+				}
+
+				const increment = key === "ArrowRight" ? 1 : -1;
+				const elem = elements[idx + increment];
+				if (elem === this && isTab) {
+					// We've reached the end/start of the menu:
+					// abort and let the tab-based keydown event propogate towards whatever next focusable element lays outside of the grid
+					return;
+				}
+				elem?.focus();
+				ev.stopPropagation();
+				break;
+			}
+			case "Home":
+			case "End": {
+				const elements = /** @type {HTMLElement[]} */(Array.from(parent.querySelectorAll(selector)));
+				const idx = key === "Home" ? 0 : elements.length - 1;
+				elements[idx]?.focus();
+				ev.stopPropagation();
+				break;
+			}
+			case "ArrowUp":
+			case "ArrowDown": {
+				if (this.ariaHasPopup !== "true" && this.ariaHasPopup !== "menu") {
+					return;
+				}
+
+				// We're assuming (well, mandating really...) that click actions a sub menu
+				this.click();
+				const elements = /** @type {HTMLElement[]} */(Array.from(this.querySelectorAll(selector)));
+				const idx = key === "ArrowUp" ? elements.length - 1 : 0;
+				elements[idx]?.focus();
+				ev.stopPropagation();
+				break;
+			}
+		}
+	},
+
+	/**
+	 * Construct a menubar of button elements
+	 * @example
+	 * <div id={id} role="menubar">
+	 *     <button role="menuitem" />
+	 *     <input role="menuitem" type="text" />
+	 *     <button role="menuitem" aria-haspopup="menu">
+	 *         <div style={ display: "none" }>
+	 *             <button role="menuitem" />
+	 *             <button role="menuitem" />
+	 *             ...
+	 *         </div>
+	 *     </button>
+	 *     ...
+	 * </div>
+	 * @param {string} id - The menu's ID
+	 * @param {readonly (string | Node | HTMLOptions<keyof HTMLElementTagNameMap>)[]} menuItems - The menu's content.
+	 * Any `<button>` element without a role (regardless of nesting) will be assigned the `menuitem` role and thus be elligble for menu-style navigation.
+	 * Buttons that open a sub-menu _must_ have the `aria-haspopup: "menu"` attribute set and must be able to do so via a click action.
+	 * @param {"ltr" | "rtl"} direction - The direction of the menu. Should match the value of the CSS `direction` property if provided
+	 * @param {null | Partial<Record<"menu", Omit<HTMLOptions<any>, "tag">>>} options - Additional {@link ElementCreate} options to-be applied to the respective (child) element
+	 * @returns {HTMLDivElement} - The menu
+	 */
+	Create: function Create(id, menuItems, direction="ltr", options=null) {
+		let elem = /** @type {HTMLDivElement | null} */(document.getElementById(id));
+		if (elem) {
+			return elem;
+		}
+
+		options ??= {};
+		const menuOptions = options.menu ?? {};
+		elem = ElementCreate({
+			...menuOptions,
+			tag: "div",
+			attributes: {
+				id,
+				role: "menubar",
+				...(menuOptions.attributes ?? {}),
+			},
+			dataAttributes: { direction, ...(menuOptions.dataAttributes ?? {}) },
+			classList: ["menubar", ...(menuOptions.classList ?? [])],
+			children: [...menuItems, ...(menuOptions.children ?? [])],
+		});
+
+		elem.querySelectorAll("button, [role='menuitem']").forEach((menuitem, i) => {
+			menuitem.role ||= "menuitem";
+			if (menuitem.role !== "menuitem") {
+				return;
+			}
+
+			menuitem.setAttribute("tabindex", i === 0 ? "0" : "-1");
+			menuitem.addEventListener("keydown", this._KeyDown);
+		});
+		return elem;
+	},
+
+	/**
+	 * Append a menuitem to the passed menubar
+	 * @param {HTMLDivElement} div - The menubar
+	 * @param {HTMLElement} menuitem - The to-be prepended menuitem
+	 */
+	AppendButton: function AppendButton(div, menuitem) {
+		if (!div || !menuitem) {
+			return;
+		}
+
+		menuitem.tabIndex = -1;
+		menuitem.role = "menuitem";
+		menuitem.addEventListener("keydown", this._KeyDown);
+		div.append(menuitem);
+	},
+
+	/**
+	 * Prepend a menuitem to the passed menubar
+	 * @param {HTMLDivElement} div - The menubar
+	 * @param {HTMLElement} menuitem - The to-be prepended menuitem
+	 */
+	PrependItem: function PrependButton(div, menuitem) {
+		if (!div || !menuitem) {
+			return;
+		}
+
+		// Only the first menuitem must be directly focusable via tab
+		const menuitemOld = div.querySelector("[role='menuitem']");
+		if (menuitemOld) {
+			menuitemOld.setAttribute("tabindex", "-1");
+		}
+
+		menuitem.tabIndex = 0;
+		menuitem.role = "menuitem";
+		menuitem.addEventListener("keydown", this._KeyDown);
+		div.prepend(menuitem);
+	},
+};
