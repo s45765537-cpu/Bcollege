@@ -431,19 +431,15 @@ var ClubCardList = [
 		Name: "Daycare Enthusiast",
 		Group: ["Fetishist"],
 		AfterTurnEnd: function(CCPlayer) {
-			const abdlMommyPlayed = ClubCardGetCardsPlayedOnTurn(CCPlayer, CCPlayer.ClubCardTurnCounter).some(card => {
-				return card.Group?.includes("ABDLMommy");
-			});
-			if(abdlMommyPlayed) {
+			const abdlMommyCardsPlayed =  ClubCardGetCardsPlayedOnTurn(CCPlayer, CCPlayer.ClubCardTurnCounter).filter(card => ClubCardCardHasGroup(card, "ABDLMommy"));
+			abdlMommyCardsPlayed.forEach(() => {
 				ClubCardPlayerAddFame(CCPlayer, 3);
-			}
-
-			const abdlBabyPlayed = ClubCardGetCardsPlayedOnTurn(CCPlayer, CCPlayer.ClubCardTurnCounter).some(card => {
-				return card.Group?.includes("ABDLBaby");
 			});
-			if(abdlBabyPlayed) {
+
+			const abdlBabyCardsPlayed =  ClubCardGetCardsPlayedOnTurn(CCPlayer, CCPlayer.ClubCardTurnCounter).filter(card => ClubCardCardHasGroup(card, "ABDLBaby"));
+			abdlBabyCardsPlayed.forEach(() => {
 				ClubCardPlayerAddMoney(CCPlayer, 3);
-			}
+			});
 		}
 	},
 
@@ -833,13 +829,10 @@ var ClubCardList = [
 		RequiredLevel: 3,
 		Group: ["ABDLMommy"],
 		AfterTurnEnd: function(CCPlayer) {
-			const abdlBabyPlayed = ClubCardGetCardsPlayedOnTurn(CCPlayer, CCPlayer.ClubCardTurnCounter).some(card => {
-				return card.Group?.includes("ABDLBaby");
-			});
-
-			if(abdlBabyPlayed) {
+			const abdlBabyCardsPlayed =  ClubCardGetCardsPlayedOnTurn(CCPlayer, CCPlayer.ClubCardTurnCounter).filter(card => ClubCardCardHasGroup(card, "ABDLBaby"));
+			abdlBabyCardsPlayed.forEach(() => {
 				ClubCardPlayerAddFame(CCPlayer, CCPlayer.Level);
-			}
+			});
 		}
 	},
 	{
@@ -978,18 +971,19 @@ var ClubCardList = [
 		RequiredLevel: 2,
 		BeforeOpponentTurnEnd: function(CCPlayer) {
 			let cardOwner = ClubCardGetOpponent(CCPlayer);
-			let playedAnEventOrLiability =  ClubCardGetCardsPlayedOnTurn(CCPlayer, CCPlayer.ClubCardTurnCounter).some(card => {
-				return card.Type === "Event" || ClubCardCardHasGroup(card, "Liability");
-			});
-
 			const hasCollegeMember = ClubCardGroupIsOnBoard(cardOwner, 'CollegeTeacher') || ClubCardGroupOnBoardCount(cardOwner, 'Staff') >= 2
+			if(!hasCollegeMember) {
+				return;
+			}
 
-			if(playedAnEventOrLiability && hasCollegeMember) {
-				CCPlayer.Level
+			const eventsAndLiabilitiesPlayed = ClubCardGetCardsPlayedOnTurn(CCPlayer, CCPlayer.ClubCardTurnCounter).filter(
+				card => card.Type === "Event" || ClubCardCardHasGroup(card, "Liability"),
+			)
+			eventsAndLiabilitiesPlayed.forEach(() => {
 				ClubCardPlayerAddMoney(cardOwner, -CCPlayer.Level);
 				ClubCardPlayerDrawCard(cardOwner, 1);
 				ClubCardLogPublish("Effect Student Custodian", CCPlayer, -CCPlayer.Level);
-			}
+			});
 		}
 	},
 	{
@@ -1045,6 +1039,7 @@ var ClubCardList = [
 		ID: 12003,
 		Name: "Alvin",
 		Group: ["Player", "Mistress", "Shibari"],
+		RewardMemberNumber: 41997,
 		RequiredLevel: 3,
 		FamePerTurn: 2,
 		MoneyPerTurn: -3,
