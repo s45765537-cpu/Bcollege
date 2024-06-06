@@ -1081,29 +1081,26 @@ function ChatRoomCreateElement() {
 							attributes: { id: "InputChatLength" },
 						},
 						{ tag: "div", attributes: { id: "chat-room-buttons-div" } },
-						{
-							tag: "button",
-							classList: ["blank-button"],
-							attributes: {
-								id: "chat-room-buttons-collapse",
-								"aria-expanded": false,
-								"aria-control": "chat-room-buttons",
+						ElementButton.CreateNoTooltip(
+							"chat-room-buttons-collapse",
+							function() {
+								const displayState = this.ariaExpanded === "true" ? "none" : "";
+								this.ariaExpanded = displayState ? "false" : "true";
+								this.innerText = displayState ? "<" : ">";
+								const elements = /** @type {NodeListOf<HTMLElement>} */(document.querySelectorAll("#chat-room-buttons > *"));
+								elements.forEach(b => {
+									if (b.id !== "chat-room-send") {
+										b.style.display = displayState;
+									}
+								});
 							},
-							eventListeners: {
-								click() {
-									const displayState = this.ariaExpanded === "true" ? "none" : "";
-									this.ariaExpanded = displayState ? "false" : "true";
-									this.innerText = displayState ? "<" : ">";
-									const elements = /** @type {NodeListOf<HTMLElement>} */(document.querySelectorAll("#chat-room-buttons > *"));
-									elements.forEach(b => {
-										if (b.id !== "chat-room-send") {
-											b.style.display = displayState;
-										}
-									});
+							{
+								button: {
+									attributes: { "aria-expanded": false, "aria-control": "chat-room-buttons" },
+									children: ["<"],
 								},
 							},
-							children: ["<"],
-						},
+						),
 						ElementMenu.Create(
 							"chat-room-buttons",
 							[
@@ -1122,6 +1119,7 @@ function ChatRoomCreateElement() {
 		ElementFocus("InputChat");
 		window.addEventListener("resize", ChatRoomResizeManager.ChatRoomResizeEvent);
 	} else if (elem.style.display === "none") {
+		elem.style.display = "";
 		setTimeout(() => ElementScrollToEnd("TextAreaChatLog"), 100);
 		ChatRoomRefreshChatSettings();
 		ElementFocus("InputChat");
@@ -4045,16 +4043,16 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 		case "Whisper": {
 			const whisperTarget = SenderCharacter.IsPlayer() ? ChatRoomCharacter.find(c => c.MemberNumber == data.Target) : SenderCharacter;
 			divChildren.push(
-				ElementCreate({
-					tag: "button",
-					classList: ["ReplyButton", "blank-button"],
-					children: ["\u21a9\ufe0f"],
-					eventListeners: { click: ChatRoomMessageNameClick },
-				}),
+				ElementButton.CreateNoTooltip(
+					`chatroom-reply-${whisperTarget.MemberNumber}-${ChatRoomCurrentTime()}`,
+					ChatRoomMessageNameClick,
+					{ button: { classList: ["ReplyButton"], children: ["\u21a9\ufe0f"] } },
+				),
 				SenderCharacter.IsPlayer() ? TextGet("WhisperTo") : TextGetInScope("Screens/Online/ChatRoom/Text_ChatRoom.csv", "WhisperFrom"),
 				" ",
 				ElementCreate({
 					tag: "button",
+					attributes: { "tabindex": -1 },
 					classList: ["ChatMessageName", "blank-button"],
 					children: [CharacterNickname(whisperTarget)],
 					style: { "--label-color": whisperTarget.LabelColor },
