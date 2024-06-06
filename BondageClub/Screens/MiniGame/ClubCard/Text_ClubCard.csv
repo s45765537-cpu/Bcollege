@@ -381,7 +381,7 @@ Text First Bell,"Draw a random college student from your deck. If it's your firs
 Effect First Bell Draw, SOURCEPLAYER draws 1 card from First Bell
 Effect First Bell No Draw, SOURCEPLAYER could not draw any cards from First Bell
 Title Alvin,Alvin
-Text Alvin,Summon a Ropeslave if Kidnapping or Restraining 
+Text Alvin,Summon a Ropeslave when playing Restrain or Kidnapping a Dominant or Mistress
 Effect Alvin, Alvin summoned a rope slave for SOURCEPLAYER
 Title Rope Slave,Rope Slave
 Text Rope Slave,Gain +1 Fame per turn if Alvin or Rope Sensei present.
