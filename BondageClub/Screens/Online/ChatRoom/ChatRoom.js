@@ -1048,6 +1048,7 @@ function ChatRoomCreateElement() {
 			tag: "div",
 			attributes: {
 				id: "chat-room-div",
+				role: "log",
 				"screen-generated": CurrentScreen,
 			},
 			parent: document.body,
@@ -1689,7 +1690,7 @@ function ChatRoomStimulationMessage(Action) {
 function ChatRoomResize(load) {
 	const elem = document.getElementById("chat-room-div");
 	const chatInput = document.getElementById("InputChat");
-	if (elem && chatInput && CurrentScreen == "ChatRoom") {
+	if (elem && chatInput && CurrentScreen == "ChatRoom" && elem.style.display !== "none") {
 		ElementPositionFix("chat-room-div", ChatRoomFontSize, ...ChatRoomDivRect);
 		elem.style.display = "";
 		chatInput.dispatchEvent(new Event("input"));
