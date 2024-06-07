@@ -1038,11 +1038,11 @@ var ClubCardList = [
 	{
 		ID: 12003,
 		Name: "Alvin",
-		Group: ["Player", "Mistress", "Shibari"],
+		Group: ["Mistress", "Shibari", "Player"],
 		RewardMemberNumber: 41997,
 		RequiredLevel: 3,
 		FamePerTurn: 2,
-		MoneyPerTurn: -3,
+		MoneyPerTurn: -1,
 	},
 
 	// Event cards
