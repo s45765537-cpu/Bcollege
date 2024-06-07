@@ -798,6 +798,14 @@ ItemDevicesMedicalBedMattress,Mattress
 ItemDevicesMedicalBedPillow,Pillow
 ItemDevicesNetFront,Net
 ItemDevicesNetWeightsFront,Weights
+ItemDevicesOneBarGirlBar,Bar
+ItemDevicesOneBarGirlSoft,Tiny Cushion
+ItemDevicesOneBarGirlStraps,Straps
+ItemDevicesOneBarGirlRatchets,Ratchets
+ItemDevicesOneBarGirlLegs,Legs
+ItemDevicesOneBarGirlShoes,Shoes
+ItemDevicesOneBarGirlOption,Option
+ItemDevicesOneBarGirlLock,Padlocks
 ItemDevicesPersonalCageBase,Base
 ItemDevicesPersonalCageClosed,Closed
 ItemDevicesPersonalCageLock,Lock
