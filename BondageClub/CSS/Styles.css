@@ -1008,6 +1008,10 @@ input[type="checkbox"]:checked::before {
 	z-index: 1;
 }
 
+.button-tooltip:empty {
+	display: none;
+}
+
 .button-tooltip-left {
 	top: 50%;
 	transform: translateY(-50%);

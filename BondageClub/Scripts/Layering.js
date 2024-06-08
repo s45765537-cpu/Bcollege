@@ -424,14 +424,14 @@ var Layering = {
 				ElementMenu.Create(
 					this.ID.buttonGrid,
 					[
-						ElementButton.Create(this.ID.exitButton, () => this.Exit(), InterfaceTextGet("LayeringExit")),
-						ElementButton.Create(this.ID.resetButton, this._ResetClickListener, InterfaceTextGet("LayeringReset")),
+						ElementButton.Create(this.ID.exitButton, () => this.Exit(), { tooltip: InterfaceTextGet("LayeringExit") }),
+						ElementButton.Create(this.ID.resetButton, this._ResetClickListener, { tooltip: InterfaceTextGet("LayeringReset") }),
 						ElementButton.Create(
-							this.ID.lockButton, () => null, InterfaceTextGet("LayeringLock"), undefined,
+							this.ID.lockButton, () => null, { tooltip: InterfaceTextGet("LayeringLock") },
 							{ button: { attributes: { "aria-disabled": true } } },
 						),
 					],
-					"rtl",
+					{ direction: "rtl" },
 					{ menu: { classList: ["layering-button-grid"] } },
 				),
 				{

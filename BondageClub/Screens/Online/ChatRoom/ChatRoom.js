@@ -921,8 +921,8 @@ var ChatRoomSep = {
 					tag: "div",
 					classList: ["chat-room-sep-div"],
 					children: [
-						ElementButton.CreateNoTooltip(
-							`chat-room-sep-collapse-${time}`, this._ClickCollapse,
+						ElementButton.Create(
+							`chat-room-sep-collapse-${time}`, this._ClickCollapse, undefined,
 							{
 								button: {
 									children: ["˅"],
@@ -931,8 +931,8 @@ var ChatRoomSep = {
 								},
 							},
 						),
-						ElementButton.CreateNoTooltip(
-							`chat-room-sep-header-${time}`, this._ClickScrollUp,
+						ElementButton.Create(
+							`chat-room-sep-header-${time}`, this._ClickScrollUp, undefined,
 							{ button: { classList: ["chat-room-sep-header"] } },
 						),
 					],
@@ -1081,7 +1081,7 @@ function ChatRoomCreateElement() {
 							attributes: { id: "InputChatLength" },
 						},
 						{ tag: "div", attributes: { id: "chat-room-buttons-div" } },
-						ElementButton.CreateNoTooltip(
+						ElementButton.Create(
 							"chat-room-buttons-collapse",
 							function() {
 								const displayState = this.ariaExpanded === "true" ? "none" : "";
@@ -1093,7 +1093,7 @@ function ChatRoomCreateElement() {
 										b.style.display = displayState;
 									}
 								});
-							},
+							}, undefined,
 							{
 								button: {
 									attributes: { "aria-expanded": false, "aria-control": "chat-room-buttons" },
@@ -1104,11 +1104,12 @@ function ChatRoomCreateElement() {
 						ElementMenu.Create(
 							"chat-room-buttons",
 							[
-								ElementButton.CreateNoTooltip(
-									"chat-room-send", () => ChatRoomSendChat(),
+								ElementButton.Create(
+									"chat-room-send", () => ChatRoomSendChat(), undefined,
 									{ button: { classList: ["chat-room-button"] } },
 								),
 							],
+							{ direction: "rtl" },
 						),
 					],
 				},
@@ -4044,9 +4045,9 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 		case "Whisper": {
 			const whisperTarget = SenderCharacter.IsPlayer() ? ChatRoomCharacter.find(c => c.MemberNumber == data.Target) : SenderCharacter;
 			divChildren.push(
-				ElementButton.CreateNoTooltip(
+				ElementButton.Create(
 					`chatroom-reply-${whisperTarget.MemberNumber}-${ChatRoomCurrentTime()}`,
-					ChatRoomMessageNameClick,
+					ChatRoomMessageNameClick, undefined,
 					{ button: { classList: ["ReplyButton"], children: ["\u21a9\ufe0f"] } },
 				),
 				SenderCharacter.IsPlayer() ? TextGet("WhisperTo") : TextGetInScope("Screens/Online/ChatRoom/Text_ChatRoom.csv", "WhisperFrom"),

@@ -864,12 +864,12 @@ var Shop2 = {
 							return {
 								tag: "div",
 								classList: ["shop2-pose-inner-grid"],
-								children: poseList.map(pose => ElementButton.CreateNoTooltip(
+								children: poseList.map(pose => ElementButton.Create(
 									`shop2-pose-${pose.Name}`,
 									() => {
 										PoseSetActive(Shop2InitVars.Preview, pose.Name);
 										Shop2._UpdatePoseButtons();
-									},
+									}, undefined,
 									{
 										button: {
 											style: { "background-image": `url("../Icons/Poses/${pose.Name}.png")` },

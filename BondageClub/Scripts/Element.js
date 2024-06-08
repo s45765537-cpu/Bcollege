@@ -817,52 +817,22 @@ var ElementButton = {
 	 * </button>
 	 * @param {string} id - The ID of the to-be created search button
 	 * @param {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => any} onClick - The click event listener to-be attached to the tooltip
-	 * @param {null | string | Node} tooltip - Optional tooltip content. If not supplied then one should manually prepend it to the tooltip later
-	 * @param {"left" | "right" | "top" | "bottom"} tooltipPosition - The position of the tooltip w.r.t. the button
-	 * @param {null | Partial<Record<"button" | "tooltip", Omit<HTMLOptions<any>, "tag">>>} options - Additional {@link ElementCreate} options to-be applied to the either the button or tooltip
+	 * @param {Object} [options]
+	 * @param {null | string | Node} [options.tooltip] - Optional tooltip content. If not supplied then one should manually prepend it to the tooltip later
+	 * @param {"left" | "right" | "top" | "bottom"} [options.tooltipPosition] - The position of the tooltip w.r.t. the button
+	 * @param {null | Partial<Record<"button" | "tooltip", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the either the button or tooltip
 	 * @returns {HTMLButtonElement} - The created button
 	 */
-	Create: function Create(id, onClick, tooltip=null, tooltipPosition=null, options=null) {
+	Create: function Create(id, onClick, options=null, htmlOptions=null) {
 		let elem = /** @type {HTMLButtonElement | null} */(document.getElementById(id));
 		if (elem) {
 			return elem;
 		}
 
-		const tooltipOptions = options?.tooltip ?? {};
-		const positionClass = this._PositionMapping[tooltipPosition] ?? this._PositionMapping.left;
-		elem = ElementButton.CreateNoTooltip(id, onClick, options);
-		elem.setAttribute("aria-describedby", `${id}-tooltip`);
-		elem.prepend(ElementCreate({
-			...tooltipOptions,
-			tag: "div",
-			classList: ["button-tooltip", positionClass, ...(tooltipOptions.classList ?? [])],
-			attributes: {
-				id: `${id}-tooltip`,
-				role: "tooltip",
-				...(tooltipOptions.attributes ?? {}),
-			},
-			children: tooltip == null ? tooltipOptions.children : [tooltip, ...(tooltipOptions.children ?? [])],
-		}));
-		return elem;
-	},
-
-	/**
-	 * Create a button without a tooltip
-	 *
-	 * @example
-	 * <button id={id} />
-	 * @param {string} id - The ID of the to-be created search button
-	 * @param {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => any} onClick - The click event listener to-be attached to the tooltip
-	 * @param {null | Partial<Record<"button", Omit<HTMLOptions<any>, "tag">>>} options - Additional {@link ElementCreate} options to-be applied to the either the button or tooltip
-	 * @returns {HTMLButtonElement} - The created button
-	 */
-	CreateNoTooltip: function CreateNoTooltip(id, onClick, options=null) {
-		let elem = /** @type {HTMLButtonElement | null} */(document.getElementById(id));
-		if (elem) {
-			return elem;
-		}
-
-		const buttonOptions = options?.button ?? {};
+		const tooltip = options?.tooltip;
+		const tooltipPosition = this._PositionMapping[options?.tooltipPosition] ?? this._PositionMapping.left;
+		const buttonOptions = htmlOptions?.button ?? {};
+		const tooltipOptions = htmlOptions?.tooltip ?? {};
 		return ElementCreate({
 			...buttonOptions,
 			tag: "button",
@@ -883,6 +853,20 @@ var ElementButton = {
 				keyup: this._KeyUp,
 				...(buttonOptions.eventListeners ?? {}),
 			},
+			children: [
+				{
+					...tooltipOptions,
+					tag: "div",
+					classList: ["button-tooltip", tooltipPosition, ...(tooltipOptions.classList ?? [])],
+					attributes: {
+						id: `${id}-tooltip`,
+						role: "tooltip",
+						...(tooltipOptions.attributes ?? {}),
+					},
+					children: tooltip == null ? tooltipOptions.children : [tooltip, ...(tooltipOptions.children ?? [])],
+				},
+				...(buttonOptions.children ?? []),
+			],
 		});
 	},
 };
@@ -1177,25 +1161,31 @@ var ElementButtonPrevNext = {
 	 * @param {string} id - The ID of the prev/next button
 	 * @param {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => any} onClick - The click event listener to-be attached to the tooltip
 	 * @param {Record<string, Node | string>} availableOptions - A record mapping option values to their tooltip content
-	 * @param {null | string | number} selectedOption - The currently active option or its index; defaults to the first one if unspecified
-	 * @param {"left" | "right" | "top" | "bottom"} tooltipPosition - The position of the tooltips w.r.t. the buttons
-	 * @param {boolean} disabled - Whether the created prev/next button should disabled or not
-	 * @param {null | Partial<Record<"buttonNext" | "buttonPrev" | "container" | "tooltipNext" | "tooltipPrev" | "label", Omit<HTMLOptions<any>, "tag">>>} options - Additional {@link ElementCreate} options to-be applied to the respective (child) element
+	 * @param {Object} [options]
+	 * @param {null | string | number} [options.selectedOption] - The currently active option or its index; defaults to the first one if unspecified
+	 * @param {"left" | "right" | "top" | "bottom"} [options.tooltipPosition] - The position of the tooltips w.r.t. the buttons
+	 * @param {boolean} [options.disabled] - Whether the created prev/next button should disabled or not
+	 * @param {null | Partial<Record<"buttonNext" | "buttonPrev" | "container" | "tooltipNext" | "tooltipPrev" | "label", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the respective (child) element
 	 * @returns {HTMLDivElement} - The created prev/next button
 	 */
-	Create: function Create(id, onClick, availableOptions, selectedOption=null, tooltipPosition="left", disabled=false, options=null) {
+	Create: function Create(id, onClick, availableOptions, options=null, htmlOptions=null) {
 		let elem = /** @type {HTMLDivElement | null} */(document.getElementById(id));
 		if (elem) {
 			return elem;
 		}
 
 		options ??= {};
-		const buttonNextOptions = options.buttonNext ?? {};
-		const buttonPrevOptions = options.buttonPrev ?? {};
-		const divOptions = options.container ?? {};
-		const tooltipNextOptions = options.tooltipNext ?? {};
-		const tooltipPrevOptions = options.tooltipPrev ?? {};
-		const labelOptions = options.label ?? {};
+		const selectedOption = options.selectedOption ?? 0;
+		const tooltipPosition = options.tooltipPosition ?? "bottom";
+		const disabled = options.disabled;
+
+		htmlOptions ??= {};
+		const buttonNextOptions = htmlOptions.buttonNext ?? {};
+		const buttonPrevOptions = htmlOptions.buttonPrev ?? {};
+		const divOptions = htmlOptions.container ?? {};
+		const tooltipNextOptions = htmlOptions.tooltipNext ?? {};
+		const tooltipPrevOptions = htmlOptions.tooltipPrev ?? {};
+		const labelOptions = htmlOptions.label ?? {};
 		elem = ElementCreate({
 			tag: "div",
 			classList: ["button-container", "spin-button-container", ...(divOptions.classList ?? [])],
@@ -1227,7 +1217,7 @@ var ElementButtonPrevNext = {
 					}),
 				},
 				ElementButton.Create(
-					`${id}-prev`, this._ClickListener, null, tooltipPosition,
+					`${id}-prev`, this._ClickListener, { tooltipPosition },
 					{
 						button: {
 							...buttonPrevOptions,
@@ -1238,7 +1228,7 @@ var ElementButtonPrevNext = {
 					}
 				),
 				ElementButton.Create(
-					`${id}-next`,this. _ClickListener, null, tooltipPosition,
+					`${id}-next`,this. _ClickListener, { tooltipPosition },
 					{
 						button: {
 							...buttonNextOptions,
@@ -1298,20 +1288,12 @@ var ElementMenu = {
 			return;
 		}
 
-		let isTab = false;
-		let key = ev.key;
-		if (key === "Tab") {
-			key = ev.shiftKey ? "ArrowLeft" : "ArrowRight";
-			isTab = true;
-		} else if (ev.shiftKey) {
-			return;
-		}
-
 		const parent = this.closest("[role='menu'], [role='menubar']");
 		if (!parent) {
 			return;
 		}
 
+		let key = ev.key;
 		if (parent.getAttribute("data-direction") === "rtl") {
 			// Flip all the keys of the direction of the menu grid is right-to-left
 			switch (key) {
@@ -1330,6 +1312,14 @@ var ElementMenu = {
 			}
 		}
 
+		let isTab = false;
+		if (key === "Tab") {
+			key = ev.shiftKey ? "ArrowLeft" : "ArrowRight";
+			isTab = true;
+		} else if (ev.shiftKey) {
+			return;
+		}
+
 		// Selector for all non-hidden menu items
 		const selector = ":not([style*='display: none'])[role='menuitem']";
 		switch (key) {
@@ -1343,12 +1333,13 @@ var ElementMenu = {
 
 				const increment = key === "ArrowRight" ? 1 : -1;
 				const elem = elements[idx + increment];
-				if (elem === this && isTab) {
+				if (!elem && isTab) {
 					// We've reached the end/start of the menu:
 					// abort and let the tab-based keydown event propogate towards whatever next focusable element lays outside of the grid
 					return;
 				}
 				elem?.focus();
+				ev.preventDefault();
 				ev.stopPropagation();
 				break;
 			}
@@ -1396,18 +1387,22 @@ var ElementMenu = {
 	 * @param {readonly (string | Node | HTMLOptions<keyof HTMLElementTagNameMap>)[]} menuItems - The menu's content.
 	 * Any `<button>` element without a role (regardless of nesting) will be assigned the `menuitem` role and thus be elligble for menu-style navigation.
 	 * Buttons that open a sub-menu _must_ have the `aria-haspopup: "menu"` attribute set and must be able to do so via a click action.
-	 * @param {"ltr" | "rtl"} direction - The direction of the menu. Should match the value of the CSS `direction` property if provided
-	 * @param {null | Partial<Record<"menu", Omit<HTMLOptions<any>, "tag">>>} options - Additional {@link ElementCreate} options to-be applied to the respective (child) element
+	 * @param {Object} [options]
+	 * @param {"ltr" | "rtl"} [options.direction] - The direction of the menu. Should match the value of the CSS `direction` property if provided
+	 * @param {null | Partial<Record<"menu", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the respective (child) element
 	 * @returns {HTMLDivElement} - The menu
 	 */
-	Create: function Create(id, menuItems, direction="ltr", options=null) {
+	Create: function Create(id, menuItems, options=null, htmlOptions=null) {
 		let elem = /** @type {HTMLDivElement | null} */(document.getElementById(id));
 		if (elem) {
 			return elem;
 		}
 
 		options ??= {};
-		const menuOptions = options.menu ?? {};
+		const direction = options.direction ?? "ltr";
+
+		htmlOptions ??= {};
+		const menuOptions = htmlOptions.menu ?? {};
 		elem = ElementCreate({
 			...menuOptions,
 			tag: "div",
