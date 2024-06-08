@@ -3449,7 +3449,12 @@ var PlatformDialogData = [
 			},
 			{
 				Prerequisite: function() { return PlatformTempEvent.includes("ZaraPetrified"); },
-				Text: "(Nobody has a solution to help the slave trapped in stone.  You leave the statue alone.)"
+				Text: "(Nobody has a solution to help the slave trapped in stone.  You leave the statue alone.)",
+				Character: [
+					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
+					{ Name: "Zara", Status: "Slave", Pose: "Petrified" },
+					{ Name: "Olivia", Status: "Oracle", Pose: "Idle" },
+				]
 			},
 			{
 				Prerequisite: function() { return PlatformTempEvent.includes("ZaraPetrified"); },
@@ -3465,7 +3470,7 @@ var PlatformDialogData = [
 			{ Text: "(Olivia inspects the girl statue.)" },
 			{ Text: "This is not an ordinary statue.  There is a living woman under the stone.", Audio: "10" },
 			{
-				Text: "She is wearing slave's clothes.", Audio: "20",
+				Text: "She is wearing slave's clothes and a collar.", Audio: "20",
 				Answer: [
 					{ Text: "We should help her.", Reply: "I agree Melody.", Audio: "21" },
 					{ Text: "I guess nobody cares about a stone slave.", Reply: "That is quite sad indeed.", Audio: "22" },

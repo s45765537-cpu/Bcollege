@@ -3891,27 +3891,26 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "PearlNecklace1",
+				InventoryID: 1148,
 				Value: 39,
 				Left: 147,
 				Top: 90,
+				DefaultColor: "#C08E86",
 				Extended: true,
 				ParentGroup: null,
 				Layer: [
 					{
 						Name: "Option1",
-						DefaultColor: "#C08E86",
 						AllowTypes: { m: 1 },
 						AllowColorize: true,
 					},
 					{
 						Name: "Option2",
-						DefaultColor: "#C08E86",
 						AllowTypes: { n: 1 },
 						AllowColorize: true,
 					},
 					{
 						Name: "Option3",
-						DefaultColor: "#C08E86",
 						AllowTypes: { o: 1 },
 						AllowColorize: true,
 					},
@@ -5497,6 +5496,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SatinSkirt",
+				InventoryID: 1149,
 				Gender: "F",
 				Prerequisite: ["HasVagina"],
 				Value: 37,
@@ -12510,10 +12510,12 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "OperaGloves",
+				InventoryID: 1150,
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
 				Fetish: ["Leather"],
 				Value: 12,
+				DefaultColor: "#32B6A0",
 				Extended: true,
 				PoseMapping: {
 					...AssetPoseMapping.Gloves,
@@ -12527,7 +12529,6 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "Default",
-						DefaultColor: ["#32B6A0"],
 					},
 					{ 
 						Name: "Long",
@@ -28365,8 +28366,10 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "GlueMittens",
+				InventoryID: 1151,
 				Value: -1,
 				BuyGroup: "GlueTube",
+				Random: false,
 				Difficulty: 6,
 				SelfBondage: 5,
 				Time: 15,
@@ -29276,6 +29279,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "GlueTube",
+				InventoryID: 1151,
 				ParentGroup: null,
 				Priority: 46,
 				Value: 14,
@@ -33533,9 +33537,10 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "GlueGag",
-				Random: false,
+				InventoryID: 1151,
 				Value: -1,
 				BuyGroup: "GlueTube",
+				Random: false,
 				Top: 180,
 				Left: 235,
 				Difficulty: 5,
@@ -33546,7 +33551,6 @@ var AssetFemale3DCG = [
 				Prerequisite: ["GagUnique"],
 				AllowTighten: true,
 				Effect: [E.BlockMouth, E.GagHeavy],
-				AllowExpression: false,
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Extended: false,
 				Layer: [
@@ -38666,8 +38670,10 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "GlueNose",
+				InventoryID: 1151,
 				Value: -1,
 				BuyGroup: "GlueTube",
+				Random: false,
 				Difficulty: 4,
 				Time: 15,
 				RemoveTime: 20,
@@ -45358,7 +45364,8 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "OneBarGirl",
-				OverrideHeight: { Height: 30 },
+				InventoryID: 1152,
+				OverrideHeight: { Height: 30, Priority: 6 },
 				Priority: 6,
 				Gender: "F",
 				Fetish: ["Metal","Forniphilia"],
@@ -45476,8 +45483,10 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "GlueFloor",
+				InventoryID: 1151,
 				Value: -1,
 				BuyGroup: "GlueTube",
+				Random: false,
 				Difficulty: 6,
 				Time: 15,
 				Top: 455,

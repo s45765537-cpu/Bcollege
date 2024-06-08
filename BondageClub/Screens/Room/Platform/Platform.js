@@ -118,14 +118,14 @@ var PlatformTemplate = [
 			{ Name: "Stun", Cycle: [0], Speed: 1000 },
 			{ Name: "Block", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 100 },
 			{ Name: "Uppercut", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], Speed: 15 },
-			{ Name: "StandAttackFast", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1], Speed: 13 },
+			{ Name: "StandAttackFast", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], Speed: 28 },
 			{ Name: "StandAttackSlow", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19], Speed: 30 },
 			{ Name: "CrouchAttackFast", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], Speed: 18 },
 			{ Name: "CrouchAttackSlow", Cycle: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], Speed: 43 },
 		],
 		Attack: [
 			{ Name: "Uppercut", HitBox: [0.55, -0.1, 0.75, 0.1], HitAnimation: [9, 10, 11, 12, 13, 14], StartAudio: ["MelodyPunch0"], HitAudio: ["MelodyPunch0", "MelodyPunch1", "MelodyPunch2"], Damage: [1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8], Speed: 300 },
-			{ Name: "StandAttackFast", HitBox: [0.7, 0.2, 0.9, 0.3], HitAnimation: [8, 9, 10, 11, 12], StartAudio: ["MelodyPunch0"], HitAudio: ["MelodyPunch0", "MelodyPunch1", "MelodyPunch2"], Damage: [1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8], Speed: 300 },
+			{ Name: "StandAttackFast", HitBox: [0.7, 0.15, 0.9, 0.25], HitAnimation: [3, 4, 5, 6], StartAudio: ["MelodyPunch0"], HitAudio: ["MelodyPunch0", "MelodyPunch1", "MelodyPunch2"], Damage: [1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8], Speed: 300 },
 			{ Name: "StandAttackSlow", HitBox: [0.8, 0.4, 1, 0.5], HitAnimation: [9, 10, 11, 12, 13], StartAudio: ["MelodyKick0"], HitAudio: ["MelodyKick0", "MelodyKick1"], Damage: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], Speed: 600 },
 			{ Name: "CrouchAttackFast", HitBox: [0.725, 0.65, 0.925, 0.75], HitAnimation: [5, 6, 7, 8, 9], StartAudio: ["MelodyPunch0"], HitAudio: ["MelodyPunch0", "MelodyPunch1", "MelodyPunch2"], Damage: [1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8], Speed: 300 },
 			{ Name: "CrouchAttackSlow", HitBox: [0.8, 0.7, 1, 0.8], HitAnimation: [5, 6, 7, 8, 9], StartAudio: ["MelodyKick0"], HitAudio: ["MelodyKick0", "MelodyKick1"], Damage: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], Speed: 600 }
