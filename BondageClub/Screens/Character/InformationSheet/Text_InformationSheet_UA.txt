@@ -7,125 +7,171 @@ Title:
 None
 Жодного
 Mistress
-Mistress
-Dominatrix
-Dominatrix
+Господиня
+Master
+Господар
 Club Slave
-Club Slave
+Клубний раб
 Head Maid
-Head Maid
+Головна покоївка
 Maid
-Maid
+Покоївка
 Bondage Maid
-Bondage Maid
+Бондаж покоївка
 Master Kidnapper
-Master Kidnapper
+Майстер-викрадач
 Kidnapper
-Kidnapper
+Викрадач
 Patient
-Patient
+Пацієнт
 Permanent Patient
-Permanent Patient
+Постійний пацієнт
 Escaped Patient
-Escaped Patient
+Пацієнт-утікач
 Nurse
-Nurse
+Медсестра
 Doctor
-Doctor
+Лікар
 Lady Luck
-Lady Luck
+Пані Удача
+Lord Fortune
+Пан Фортуна
 Patron
-Patron
+Меценат
 College Student
-College Student
+Студент коледжу
 Nawashi
-Nawashi
+Наваші
 Houdini
-Houdini
+Гудіні
 Foal
-Foal
+Лоша
 Farm Horse
-Farm Horse
+Фермерський кінь
 Cold Blood Horse
-Cold Blood Horse
+Холоднокровний кінь
 Warm Blood Horse
-Warm Blood Horse
+Теплокровний кінь
 Hot Blood Horse
-Hot Blood Horse
+Гарячокровний кінь
 Wild Mustang
-Wild Mustang
+Дикий мустанг
 Shining Unicorn
-Shining Unicorn
+Сяючий єдиноріг
 Flying Pegasus
-Flying Pegasus
+Летючий пегас
 Majestic Alicorn
-Majestic Alicorn
+Величний Алікорн
 Mole
-Mole
+Кріт
 Infiltrator
-Infiltrator
+Інфільтратор
 Agent
-Agent
+Агент
 Operative
-Operative
+Сищик
 Superspy
-Superspy
+Супершпигун
 Wizard
-Wizard
+Чаклун
 Magus
-Magus
+Волхв
 Magician
-Magician
+Чарівник
 Sorcerer
-Sorcerer
+Чарівник
 Sage
-Sage
+Мудрець
 Oracle
-Oracle
+Оракул
 Witch
-Witch
+Відьма
 Warlock
-Warlock
+Чорнокнижник
 Little One
-Little One
+Крихітка
 Baby
-Baby
+Маля
 Diaper Lover
-Diaper Lover
+Любитель підгузків
 Bondage Baby
-Bondage Baby
+Бондаж-дитина
 Duchess
-Duchess
+Герцогиня
+Duke
+Герцог
 Switch
-Switch
+Світч
+Princess
+Принцеса
+Prince
+Принц
+Missy
+Міссі
+Sissy
+Сіссі
+Tomboy
+Томбой
+Femboy
+Фембой
+Pet
+Домашня тваринка
+Brat
+Шибеник
 Kitten
-Kitten
+Кошеня
 Puppy
-Puppy
+Цуценя
 Foxy
-Foxy
+Лисеня
 Bunny
-Bunny
+Кроленя
 Doll
-Doll
+Лялька
 Demon
-Demon
+Демон
 Angel
-Angel
+Ангел
+Alien
+Прибулець
 Succubus
-Succubus
+Суккуб
+Incubus
+Інкуб
 Good Girl
-Good Girl
+Гарна дівчинка
 Good Slave Girl
-Good Slave Girl
+Гарна дівчинка-рабиня
+Good Boy
+Гарний хлопчик
+Good Slave Boy
+Гарний хлопчик-раб
 Good Slave
-Good Slave
+Гарний раб
 Drone
-Drone
+Дрон
+Mistree
+Містрі
+Good One
+Хороший
+Liege
+Сеньйор
+Concubus
+Конкуб
+Majesty
+Величність
+Captain
+Капітан
+Admiral
+Адмірал
+Dominatrix
+Домінатрікс
 Pronouns:
 Займенники:
 Member Number:
 Номер члена:
+-
+-‎
 - Relationships -
 - Відношення -
 Lover:
@@ -133,21 +179,19 @@ Lover:
 Owner:
 Власник:
 GGTS
-GGTS
+GGTS‎
 Money:
 Гроші:
 Member for
 Член протягом
 Bondage Club Birthday! 
-Клубний день народження! 
+Клубний день народження!
 Friends for
 Друзі протягом
 On trial for
 На випробувальному періоді протягом
 Collared for
-Collared for
-Lover for
-Кохані протягом
+У власності протягом
 Dating for
 Зустрічаються протягом
 Engaged for
@@ -158,40 +202,40 @@ day(s)
 днів
 Unknown
 Невідомо
--
--
 - Reputation -
 - Репутація -
 Dungeoneer:
-Dungeoneer:
+Дослідник підземелля:
 Dominant:
-Dominant:
+Домінант:
 Submissive:
-Submissive:
+Сабмісив:
 Maid Sorority:
-Maid Sorority:
+Товариство покоївок:
 Kidnappers League:
-Kidnappers League:
+Ліга викрадачів:
 Asylum Nurse:
-Asylum Nurse:
+Медсестра дурки:
 Asylum Patient:
-Asylum Patient:
+Пацієнт дурки:
 LARP Battles:
-LARP Battles:
+Битви LARP:
 Gambling Hall:
-Gambling Hall:
+Гральний зал:
 ABDL:
-ABDL:
+ABDL:‎
 House Maiestas:
-House Maiestas:
+Дім Маєстас:
 House Vincula:
-House Vincula:
+Дім Вінкула:
 House Amplector:
-House Amplector:
+Дім Амплектор:
 House Corporis:
-House Corporis:
-difficulty for NumberOfDays day(s)
-складність протягом NumberOfDays днів
+Дім Корпорис:
+difficulty
+складність
+ - Can change again in NumberOfDays day(s)
+ - Можна змінити через NumberOfDays днів
 Roleplay
 Рольова
 Regular
@@ -203,65 +247,65 @@ Extreme
 - Skills -
 - Навички -
 Bondage:
-Bondage:
+Бондаж:
 Self-bondage:
-Self-bondage:
+Селф-бондаж:
 Lockpicking:
-Lockpicking:
+Злом:
 Evasion:
-Evasion:
+Вилаз:
 Willpower:
-Willpower:
+Сила волі:
 Infiltration:
-Infiltration:
+Інфільтрація:
 Dressage:
-Dressage:
+Виїздка:
 ABSVAL for DURATION
-ABSVAL for DURATION
+ABSVAL на DURATION
 - Traits -
 - Риси -
 Spend more time with her to know her traits
 Проведіть з ними більше часу щоб дізнатися їхні риси
 Violent:
-Violent:
+Жорстокість:
 Peaceful:
-Peaceful:
+Мирність:
 Horny:
-Horny:
+Гарячість:
 Frigid:
-Frigid:
+Байдужість:
 Rude:
-Rude:
+Грубість:
 Polite:
-Polite:
+Ввічливість:
 Wise:
-Wise:
+Мудрість:
 Dumb:
-Dumb:
+Тупість:
 Serious:
-Serious:
+Серйозність:
 Playful:
-Playful:
+Грайливість:
 Relation:
-Relation:
+Відношення:
 (Perfect)
-(Perfect)
+(Ідеальне)
 (Great)
-(Great)
+(Чудове)
 (Good)
-(Good)
+(Хороше)
 (Fair)
-(Fair)
+(Справедливе)
 (Neutral)
-(Neutral)
+(Нейтральне)
 (Poor)
-(Poor)
+(Кепське)
 (Bad)
-(Bad)
+(Погане)
 (Horrible)
-(Horrible)
+(Жахливе)
 (Atrocious)
-(Atrocious)
+(Мерзенне)
 Permission:
 Дозволи:
 Everyone, no exceptions

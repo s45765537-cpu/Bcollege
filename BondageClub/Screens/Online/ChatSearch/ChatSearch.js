@@ -4,7 +4,8 @@ var ChatSearchBackground = "Introduction";
 var ChatSearchResult = [];
 /** @type {typeof ChatSearchResult} */
 var ChatSearchHiddenResult = [];
-var ChatSearchLastSearchDataJSON = "";
+/** @type {null | { Query: string, Language: "" | ServerChatRoomLanguage, Space: ServerChatRoomSpace, Game: ServerChatRoomGame, FullRooms: boolean }} */
+var ChatSearchLastSearchDataJSON = null;
 var ChatSearchLastQuerySearchTime = 0;
 var ChatSearchLastQueryJoin = "";
 var ChatSearchLastQueryJoinTime = 0;
@@ -42,7 +43,6 @@ var ChatSearchFilterTermsTemp = "";
 var ChatSearchRoomSpaces = ["MIXED", "FEMALE_ONLY", "MALE_ONLY"];
 var ChatSearchCurrentRoomSpaceIndex = 0;
 
-
 /**
  * Loads the chat search screen properties, creates the inputs and loads up the first 24 rooms.
  * @returns {void} - Nothing
@@ -71,7 +71,10 @@ function ChatSearchLoad() {
 	AsylumGGTSTask = null;
 	AsylumGGTSPreviousPose = { ...Player.PoseMapping };
 	Player.ArousalSettings.OrgasmCount = 0;
-	ElementCreateInput("InputSearch", "text", "", "20");
+	ElementCreateSearchInput("InputSearch", () => {
+		const rooms = ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult;
+		return rooms.map(i => i.DisplayName).sort();
+	}, { maxLength: 200 });
 	ChatSearchQuery();
 	ChatSearchMessage = "";
 	ChatRoomNotificationReset();
@@ -419,6 +422,7 @@ function ChatSearchExit() {
 	ChatSearchFilterHelpActive = false;
 	ChatSearchFilterUnhideConfirm = null;
 	ChatSearchPreviousActivePose = { ...Player.ActivePoseMapping };
+	ChatSearchLastSearchDataJSON = null;
 	ElementRemove("InputSearch");
 	CommonSetScreen(ChatSearchLeaveSpace, ChatSearchLeaveRoom);
 	DrawingGetTextSize.clearCache();
@@ -718,7 +722,10 @@ function ChatSearchToggleHiddenMode() {
 	if (ChatSearchShowHiddenRoomsActive)
 		ElementRemove("InputSearch");
 	else {
-		ElementCreateInput("InputSearch", "text", ChatSearchFilterTermsTemp, "200");
+		ElementCreateSearchInput("InputSearch", () => {
+			const rooms = ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult;
+			return rooms.map(i => i.DisplayName).sort();
+		}, { value: ChatSearchFilterTermsTemp, maxLength: 200 });
 		ChatSearchSetFilterChangeHandler(true);
 	}
 }
@@ -733,7 +740,10 @@ function ChatSearchToggleHelpMode() {
 	if (ChatSearchFilterHelpActive)
 		ElementRemove("InputSearch");
 	else {
-		ElementCreateInput("InputSearch", "text", ChatSearchFilterTermsTemp, "200");
+		ElementCreateSearchInput("InputSearch", () => {
+			const rooms = ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult;
+			return rooms.map(i => i.DisplayName).sort();
+		}, { value: ChatSearchFilterTermsTemp, maxLength: 200 });
 		ChatSearchSetFilterChangeHandler(true);
 	}
 }
@@ -940,6 +950,7 @@ function ChatSearchParseResponse(searchResults) {
  * @returns {void} - Nothing
  */
 function ChatSearchResultResponse(data) {
+	ElementContent("InputSearch-datalist", "");
 	ChatSearchResult = ChatSearchParseResponse(data ?? []);
 	ChatSearchResultOffset = 0;
 	ChatSearchQuerySort();
@@ -1071,10 +1082,9 @@ function ChatSearchQuery() {
 	const SearchData = { Query: Query, Language: ChatSearchLanguage, Space: ChatRoomSpace, Game: ChatRoomGame, FullRooms: FullRooms };
 
 	// Prevent spam searching the same thing.
-	const SearchDataJSON = JSON.stringify(SearchData);
-	if (ChatSearchLastSearchDataJSON != SearchDataJSON || (ChatSearchLastQuerySearchTime + 2000 < CommonTime())) {
+	if (!CommonObjectEqual(ChatSearchLastSearchDataJSON, SearchData) || (ChatSearchLastQuerySearchTime + 2000 < CommonTime())) {
 		ChatSearchLastQuerySearchTime = CommonTime();
-		ChatSearchLastSearchDataJSON = SearchDataJSON;
+		ChatSearchLastSearchDataJSON = SearchData;
 		ChatSearchResult = [];
 		ServerSend("ChatRoomSearch", SearchData);
 	}
@@ -1100,6 +1110,7 @@ function ChatSearchQuerySort() {
 function ChatSearchApplyFilterTerms() {
 	ChatSearchHiddenResult = ChatSearchResult.filter(room => { return ChatSearchGetFilterReasons(room).length != 0; });
 	ChatSearchResult = ChatSearchResult.filter(room => { return ChatSearchGetFilterReasons(room).length == 0; });
+	ElementContent("InputSearch-datalist", "");
 }
 
 /**

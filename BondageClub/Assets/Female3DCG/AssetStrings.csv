@@ -714,7 +714,6 @@ CombinationPadlockControlsClumsy,Your restraints prevent you from accurately man
 CorsetCorsetDressNormal,Corset plus skirt
 CorsetCorsetDressNoSkirt,Only corset
 CorsetCorsetDressSelect,Choose your corset dress style:
-CraftedItemProperties,Crafted item properties.
 CrotchShield,Crotch shield:
 CryoCapsuleSetClosed,SourceCharacter closes the lid on DestinationCharacter cryogenic capsule.
 CryoCapsuleSetOpen,SourceCharacter opens the lid on DestinationCharacter cryogenic capsule.
@@ -808,7 +807,6 @@ ElectronicTagBadLock,This person is locked by different people
 ElectronicTagGoodLock,This person is fully locked by:
 ElectronicTagGoodLockYou,This person is fully locked by you
 Empty,Empty
-EnableRandomInput,Enable random input of time from everyone else
 EyebrowsEyebrows2ModuleLeftPiercing,Right Piercing
 EyebrowsEyebrows2ModuleRightPiercing,Left Piercing
 EyebrowsEyebrows2ModuleStyle,Style
@@ -1167,9 +1165,9 @@ GwenHoodChangeStyleHairInAccOut,SourceCharacter changes the style of Destination
 GwenHoodChangeStyleHairOutAccIn,SourceCharacter changes the style of DestinationCharacter gwen hood.
 GwenHoodChangeStyleHairOutAccOut,SourceCharacter changes the style of DestinationCharacter gwen hood.
 GwenHoodSelectStyle,Select hood style
-GwenHoodStyleHairInAccIn, Hair in & Accessories in
-GwenHoodStyleHairInAccOut, Hair in & Accessories out
-GwenHoodStyleHairOutAccIn, Hair out & Accessories in
+GwenHoodStyleHairInAccIn,Hair in & Accessories in
+GwenHoodStyleHairInAccOut,Hair in & Accessories out
+GwenHoodStyleHairOutAccIn,Hair out & Accessories in
 GwenHoodStyleHairOutAccOut,Hair out & Accessories out
 HairAccessory1ElfEarsBehind,Behind hair
 HairAccessory1ElfEarsInFront,In front of hair
@@ -1179,6 +1177,34 @@ HairAccessory1HaloDefault,Full
 HairAccessory1HaloSelect,Select Halo Type
 HairAccessory1HaloSetBroken,SourceCharacter shatters DestinationCharacter AssetName
 HairAccessory1HaloSetDefault,SourceCharacter mends DestinationCharacter AssetName
+HairBackHairBack58Select,Select Type.
+HairBackHairBack58SetBoth,SourceCharacter changes DestinationCharacter hair.
+HairBackHairBack58SetLeftOnly,SourceCharacter changes DestinationCharacter hair.
+HairBackHairBack58SetRightOnly,SourceCharacter changes DestinationCharacter hair.
+HairBackHairBack58Both,Both
+HairBackHairBack58LeftOnly,Left Only
+HairBackHairBack58RightOnly,Right Only
+HairBackHairBack58bSelect,Select Type.
+HairBackHairBack58bSetBoth,SourceCharacter changes DestinationCharacter hair.
+HairBackHairBack58bSetLeftOnly,SourceCharacter changes DestinationCharacter hair.
+HairBackHairBack58bSetRightOnly,SourceCharacter changes DestinationCharacter hair.
+HairBackHairBack58bBoth,Both
+HairBackHairBack58bLeftOnly,Left Only
+HairBackHairBack58bRightOnly,Right Only
+HairBackHairBack60Select,Select Type.
+HairBackHairBack60SetBoth,SourceCharacter changes DestinationCharacter hair.
+HairBackHairBack60SetLeftOnly,SourceCharacter changes DestinationCharacter hair.
+HairBackHairBack60SetRightOnly,SourceCharacter changes DestinationCharacter hair.
+HairBackHairBack60Both,Both
+HairBackHairBack60LeftOnly,Left Only
+HairBackHairBack60RightOnly,Right Only
+HairBackHairBack61Select,Select Type.
+HairBackHairBack61SetBoth,SourceCharacter changes DestinationCharacter hair.
+HairBackHairBack61SetLeftOnly,SourceCharacter changes DestinationCharacter hair.
+HairBackHairBack61SetRightOnly,SourceCharacter changes DestinationCharacter hair.
+HairBackHairBack61Both,Both
+HairBackHairBack61LeftOnly,Left Only
+HairBackHairBack61RightOnly,Right Only
 HatBallCapBackSelect,Select strap location.
 HatBallCapBackStrapOver,Over the hair
 HatBallCapBackStrapUnder,Under the hair
@@ -1282,7 +1308,8 @@ HempRopeBeltecreaseTo0,DestinationCharacterName vibrating wand slows down into a
 HempRopeBeltIncreaseTo0,DestinationCharacterName vibrating wand starts teasing TargetPronounObject lightly.
 HempRopeBeltIncreaseTo1,DestinationCharacterName vibrating wand builds up to a moderate pace.
 HempRopeBeltIncreaseTo2,DestinationCharacterName vibrating wand starts buzzing strongly!
-HempRopeBeltsIncreaseTo3,DestinationCharacterName vibrating wand jumps up to maximum intensity!
+HempRopeBeltIncreaseTo3,DestinationCharacterName vibrating wand jumps up to maximum intensity!
+High,High
 HighSecurityAppendLover,Append lovers
 HighSecurityAppendOwner,Append owner
 HighSecurityAppendWhitelist,Append whitelist
@@ -3914,7 +3941,7 @@ ItemPelvisPortalPantiesOptionco0,Detached Unit
 ItemPelvisPortalPantiesOptionco1,Attached Unit
 ItemPelvisPortalPantiesOptiono0,Configuration screen
 ItemPelvisPortalPantiesSelect,Select Cover
-ItemPelvisPortalPantiesSelectBase, Select options
+ItemPelvisPortalPantiesSelectBase,Select options
 ItemPelvisPortalPantiesSelectBase,Select options
 ItemPelvisPortalPantiesSelectCode,Open configuration screen
 ItemPelvisPortalPantiesSelectCrotchCover,Select Crotch Cover
@@ -4240,6 +4267,7 @@ LightSuction,Light
 Locked,Locked
 LockMittens,Padlock mitten buckles
 Loose,Loose
+Low,Low
 loosens,loosens
 LuckyWheelAddSection,Add
 LuckyWheelRemoveSection,Remove
@@ -4363,6 +4391,7 @@ MaskSwimCapSetHair,SourceCharacter adjusts DestinationCharacter swimcap hair ope
 MaskSwimCapSetPattern,SourceCharacter swaps DestinationCharacter swimcap pattern.
 MaximumSuction,Maximum
 MediumSuction,Medium
+Medium,Medium
 MetalCuffsPoseBehindBack,Behind back
 MetalCuffsPoseInFront,In-front of body
 MetalCuffsRestrainBehindBack,SourceCharacter cuffs DestinationCharacter hands behind TargetPronounPossessive back.
@@ -4806,7 +4835,6 @@ ShoesThighBootsSetb1,SourceCharacter adds bands to DestinationCharacter boots.
 ShoesThighBootsSetl0,SourceCharacter shortens DestinationCharacter boots.
 ShoesThighBootsSetl1,SourceCharacter extends the sock on DestinationCharacter boots.
 ShoesThighBootsSetl2,SourceCharacter extends DestinationCharacter boots.
-ShowItemWithTimerRemaining,Show the time remaining/being added
 ShowMessageInChat,Show chat message
 SlaveCollarChangeType,SourceCharacter changes DestinationCharacter collar model.
 SlaveCollarSelectType,Select the slave collar model
@@ -4880,7 +4908,6 @@ SuitLowerMaleSeamlessCatsuitTucked,Tucked
 SuspensionChange,SourceCharacter uses AssetName to suspend TargetCharacter from the ceiling.
 SuspensionChangeLower,SourceCharacter lowers the height of DestinationCharacter suspension.
 SuspensionChangeRaise,SourceCharacter raises the height of DestinationCharacter suspension.
-Swapping,Swapping...
 SybianDecreaseTo-1,DestinationCharacterName sybian stops vibrating.
 SybianDecreaseTo0,DestinationCharacterName sybian slows down into a light tease.
 SybianDecreaseTo1,DestinationCharacterName sybian returns to a moderate pace.
@@ -4906,7 +4933,6 @@ TextItemSelect,Configure item text
 tightens,tightens
 TimerAddRemoveUnknownTime,SourceCharacter adds an unknown amount of time to the padlock on DestinationCharacter FocusAssetGroup
 TimerAddTime,SourceCharacter adds TimerTime TimerUnit to the padlock on DestinationCharacter FocusAssetGroup.
-TimerLeft,Time left:
 TimerRelease,The LockName on DestinationCharacterName FocusAssetGroup opens with a click
 TimerReleaseMany,The locks on DestinationCharacterName UnlockedGroups open with a click
 TimerRemoveTime,SourceCharacter removes TimerTime TimerUnit from the padlock on DestinationCharacter FocusAssetGroup.
@@ -5010,3 +5036,63 @@ ShoesStrictPonyBootsSelect,Select Type.
 ShoesStrictPonyBootsSetBase,SourceCharacter changes DestinationCharacter boots.
 ShoesStrictPonyBootsSetBootsOnly,SourceCharacter changes DestinationCharacter boots.
 ShoesStrictPonyBootsBootsOnly,Boots Only
+ItemDevicesGlueFloorSelect,Legs position options:
+ItemDevicesGlueFloorStand,Stand pose
+ItemDevicesGlueFloorSetStand,SourceCharacter glued the DestinationCharacter feet on the ground with TargetPronounPossessive open legs.
+ItemDevicesGlueFloorLegsClosed,With legs closed
+ItemDevicesGlueFloorSetLegsClosed,SourceCharacter glued the DestinationCharacter feet on the ground with TargetPronounPossessive closed legs.
+ItemDevicesOneBarGirlSelectBase,Unsuspected pose bar main menu
+ItemDevicesOneBarGirlModuleModel,Fake legs model
+ItemDevicesOneBarGirlSelectModel,Choose a fake legs pair:
+ItemDevicesOneBarGirlOptionm0,Crossed legs
+ItemDevicesOneBarGirlOptionm1,Laid-back legs
+ItemDevicesOneBarGirlOptionm2,Loose socks style
+ItemDevicesOneBarGirlOptionm3,Open legs
+ItemDevicesOneBarGirlOptionm4,Maid outfit
+ItemDevicesOneBarGirlSetm0,SourceCharacter traps DestinationCharacterName body on the bar with crossed legs pose.
+ItemDevicesOneBarGirlSetm1,SourceCharacter traps DestinationCharacterName body on the bar with laid-back legs pose.
+ItemDevicesOneBarGirlSetm2,SourceCharacter traps DestinationCharacterName body on the bar with loose socks style.
+ItemDevicesOneBarGirlSetm3,SourceCharacter traps DestinationCharacterName body on the bar with open legs pose.
+ItemDevicesOneBarGirlModuleVibration,Device vibration
+ItemDevicesOneBarGirlSelectVibration,Device speed control:
+ItemDevicesOneBarGirlOptionv0,Off
+ItemDevicesOneBarGirlOptionv1,Low
+ItemDevicesOneBarGirlOptionv2,Medium
+ItemDevicesOneBarGirlOptionv3,High
+ItemDevicesOneBarGirlOptionv4,Full on
+ItemDevicesOneBarGirlSetv0,SourceCharacter turned off the device vibration on DestinationCharacter clitoris.
+ItemDevicesOneBarGirlSetv1,SourceCharacter selected the device vibration to Low on DestinationCharacter clitoris.
+ItemDevicesOneBarGirlSetv2,SourceCharacter selected the device vibration to Medium on DestinationCharacter clitoris.
+ItemDevicesOneBarGirlSetv3,SourceCharacter selected the device vibration to High on DestinationCharacter clitoris.
+ItemDevicesOneBarGirlSetv4,SourceCharacter selected the device vibration to Max on DestinationCharacter clitoris.
+ItemDevicesOneBarGirlModuleInflateLevel,Dildo inflatable
+ItemDevicesOneBarGirlSelectInflateLevel,Dildo Inflatable mode:
+ItemDevicesOneBarGirlOptioni0,Empty
+ItemDevicesOneBarGirlOptioni1,Light
+ItemDevicesOneBarGirlOptioni2,Inflated
+ItemDevicesOneBarGirlOptioni3,Bloated
+ItemDevicesOneBarGirlOptioni4,Maximum
+ItemDevicesOneBarGirlSeti0,SourceCharacter emptied the dildo device into the DestinationCharacter vagina.
+ItemDevicesOneBarGirlSeti1,SourceCharacter sets the dildo on slightly level into the DestinationCharacter vagina.
+ItemDevicesOneBarGirlSeti2,SourceCharacter sets the dildo on normal size into the DestinationCharacter vagina.
+ItemDevicesOneBarGirlSeti3,SourceCharacter sets the dildo on bulk mode into the DestinationCharacter vagina.
+ItemDevicesOneBarGirlSeti4,SourceCharacter sets the dildo on almost self-explosion into the DestinationCharacter vagina.
+ClothLowerSatinSkirtSelect,Choose skirt lenght:
+ClothLowerSatinSkirtLong,Long skirt
+ClothLowerSatinSkirtMid,At knee height
+GlovesOperaGlovesSelect,Choose gloves lenght:
+GlovesOperaGlovesDefault,Elbow gloves
+GlovesOperaGlovesLong,Long gloves
+NecklacePearlNecklace1SelectBase,Customize your necklace:
+NecklacePearlNecklace1ModuleOption1,Normal
+NecklacePearlNecklace1SelectOption1,Normal necklace:
+NecklacePearlNecklace1Optionm0,None
+NecklacePearlNecklace1Optionm1,Placed
+NecklacePearlNecklace1ModuleOption2,Long
+NecklacePearlNecklace1SelectOption2,Long necklace:
+NecklacePearlNecklace1Optionn0,None
+NecklacePearlNecklace1Optionn1,Placed
+NecklacePearlNecklace1ModuleOption3,Choker
+NecklacePearlNecklace1SelectOption3,Choker style:
+NecklacePearlNecklace1Optiono0,None
+NecklacePearlNecklace1Optiono1,Placed

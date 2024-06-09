@@ -1,0 +1,78 @@
+Room Name
+Назва кімнати
+Language
+Мова
+Description
+Опис
+Ban List
+Список банів
+Administrator List
+Список адмінів
+Private
+Приватна
+Locked
+Закрита
+Size (2-20)
+Розмір (2-20)
+Use member numbers, separated by commas (ex: 3571,541,7001)
+Використовуйте номери членів, розділені комами (пр: 3571,541,7001)
+Ban blacklist
+Забанити чорний список
+Ban ghostlist
+Забанити список привидів
+Add Owner
+Додати власника
+Add Lovers
+Додати коханих
+Room settings can only be updated by administrators
+Налаштування кімнати можуть оновлювати лише адміністратори
+Background
+Задній фон
+Save
+Зберегти
+Exit
+Вийти
+Cancel
+Скасувати
+Updating the chat room...
+Оновлюємо кімнату...
+This room name is already taken
+Назва кімнати вже зайнята
+Account error, please try to relog
+Помилка акаунту, спробуйте перезайти
+Invalid chat room data detected
+Виявлено недійсні дані кімнати
+Block Categories
+Заблокувати категорії
+Customization
+Налаштування
+Don't use maps
+Не використовувати карти
+Allow on and off
+Дозволини перекатися
+Only use maps
+Використовувати лише карти
+No Game
+Без гри
+Club Card
+Клубні карти
+LARP
+LARP‎
+Magic Battle
+Магічна битва
+GGTS
+GGTS‎
+English
+Англійська
+French
+Французька
+Spanish
+Іспанська
+German
+Німецька
+Ukrainian
+Українська
+Chinese
+Китайська
+Russian
+Російська

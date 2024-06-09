@@ -545,14 +545,11 @@ function CharacterAppearanceVisible(C, AssetName, GroupName, Recursive = true) {
 /**
  * Determines whether the player has set this item to not appear on screen
  * @param {string} AssetName - The name of the asset to check
- * @param {string} GroupName - The name of the item group to check
+ * @param {AssetGroupName} GroupName - The name of the item group to check
  * @returns {boolean} - TRUE if the item is hidden
  */
 function CharacterAppearanceItemIsHidden(AssetName, GroupName) {
-	for (var H = 0; H < Player.HiddenItems.length; H++)
-		if (Player.HiddenItems[H].Name == AssetName && Player.HiddenItems[H].Group == GroupName)
-			return true;
-	return false;
+	return Player.PermissionItems[`${GroupName}/${AssetName}`]?.Hidden ?? false;
 }
 
 /**
@@ -902,7 +899,8 @@ function AppearanceRun() {
 			const ColorIsSimple = ItemColorIsSimple(Item);
 
 			// Draw color swatch and picker widgets
-			DrawButton(1635, 145 + (A - CharacterAppearanceOffset) * 95, 65, 65, "", Item ? "#fff" : "#aaa", "Icons/Small/Layering.png", TextGet("Layering"), !Item);
+			const layeringEnabled = Item && !C.IsNpc();
+			DrawButton(1635, 145 + (A - CharacterAppearanceOffset) * 95, 65, 65, "", layeringEnabled ? "#fff" : "#aaa", "Icons/Small/Layering.png", TextGet("Layering"), !layeringEnabled);
 			DrawButton(1725, 145 + (A - CharacterAppearanceOffset) * 95, 160, 65, ColorButtonText, CanCycleColors ? ColorButtonColor : "#aaa", null, null, !CanCycleColors);
 			DrawButton(1910, 145 + (A - CharacterAppearanceOffset) * 95, 65, 65, "", CanPickColor ? "#fff" : "#aaa", CanPickColor ? ColorIsSimple ? "Icons/Small/ColorChange.png" : "Icons/Small/ColorChangeMulti.png" : "Icons/Small/ColorBlocked.png", null, !CanPickColor);
 		}
@@ -998,6 +996,11 @@ function AppearanceResize(load) {
 		Layering.Resize(load);
 		return;
 	}
+}
+
+/** @type {KeyboardEventListener} */
+function AppearanceKeyDown(event) {
+	return false;
 }
 
 /**
@@ -1352,7 +1355,7 @@ function AppearanceClick() {
 			if (MouseIn(1210, 145 + (A - CharacterAppearanceOffset) * 95, 400, 65)) {
 				C.FocusGroup = null;
 				if (!Group.AllowNone && !AppearancePreviewUseCharacter(Group)) {
-					const asset = CharacterAppearanceNextItem(C, Group.Name, MouseX > 1500);
+					const asset = CharacterAppearanceNextItem(C, Group.Name, MouseX > 1410);
 					CharacterAppearanceSetItem(C, Group.Name, asset);
 					return;
 				}
@@ -1379,10 +1382,10 @@ function AppearanceClick() {
 			}
 
 			if (MouseIn(1635, 145 + (A - CharacterAppearanceOffset) * 95, 65, 65)) {
-				if (Item) {
+				if (Item && !C.IsNpc()) {
 					Layering.Init(Item, C, { x: Layering.DisplayDefault.x - 2, buttonGap: 27 });
-					return;
 				}
+				return;
 			}
 
 			// Handle color cycling

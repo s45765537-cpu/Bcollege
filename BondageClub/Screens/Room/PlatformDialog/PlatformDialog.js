@@ -3355,22 +3355,150 @@ var PlatformDialogData = [
 
 	{
 		Name: "DesertEntrance",
-		Music: "Savannah",
-		Exit : function () { PlatformLoadRoom("SavannahTentExterior"); PlatformPlayer.X = 1900; PlatformPlayer.FaceLeft = true; },
+		Music: "Desert",
+		Exit : function () { PlatformEventSet("DesertEntrance"); },
 		Dialog: [
 			{
 				Background: "DesertEntrance",
 				Character: [
+					{ Name: "Edlaran", Status: "Archer", Pose: "Idle" },
 					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
 					{ Name: "Olivia", Status: "Oracle", Pose: "Idle" },
-					{ Name: "Edlaran", Status: "Archer", Pose: "Idle" },
 				]
 			},
-			{ Text: "(*** You've reached the current ending of Bondage Brawl. ***)" },
-			{ Text: "(*** I hope you enjoyed the game.  More content will be available later. ***)" },
-			{ Text: "(*** If you have suggestions or bugs to report, please contact Ben987. ***)" },
+			{ Text: "(You all stare at the huge desert that lies in front.)" },
+			{ Text: "You both better be careful, it's easy to burn or get lost in the desert.", Audio: "10" },
+			{ Text: "Use the sun to guide you, but don't stare at it.  (She winks.)", Audio: "20" },
+			{
+				Text: "Do you know about the desert creatures?", Audio: "30",
+				Answer: [
+					{ Text: "Please educate us Edlaran.", Reply: "Listen carefully then.", Audio: "31", Domination: -2 },
+					{ Text: "I don't fear any monster.", Reply: "(She nods slowly.)  We are safe with you around.", Audio: "32", AudioStyle: "calm", Domination: 2 },
+					{ Text: "(Shrug and watch the dunes.)", Reply: "I will explain.", Audio: "33" }
+				]
+			},
+			{ Text: "The desert is hostile, you will find slavers if you're not lucky.  You can beat them up like thieves.", Audio: "40" },
+			{ Text: "The worst enemies might be the creatures like vultures and scorpions.", Audio: "50" },
+			{
+				Text: "They can petrify you.", Audio: "60",
+				Answer: [
+					{ Text: "What does it mean?", Reply: "It's a weird desert curse.", Audio: "61" },
+					{ Text: "Petrify?  You're lying again.", Reply: "(She grumbles.)  Hey!  That's not very kind.", Audio: "62", AudioStyle: "angry", Love: -2 },
+					{ Text: "You're too cute to be stoned.", Reply: "(She smiles.)  Thanks Melody!", Audio: "63", AudioStyle: "cheerful", Love: 2 }
+				]
+			},
+			{ Text: "If they get you, you might not be killed or eaten.  They will turn you to stone.", Audio: "70" },
+			{ Text: "And I don't know if it's possible to come back once you're petrified.", Audio: "80" },
+			{ Text: "You better learn to run if you're in trouble.  Especially you, little princess.", Audio: "90" },
+			{ Text: "(Olivia frowns and the group continues onward.)" },
 		],
+	},
 
+	{
+		Name: "DesertEntranceLyn",
+		Music: "Desert",
+		Exit : function () { PlatformEventSet("DesertEntrance"); },
+		Dialog: [
+			{
+				Background: "DesertEntrance",
+				Character: [
+					{ Name: "Lyn", Status: "Thief", Pose: "Idle" },
+					{ Name: "Edlaran", Status: "Archer", Pose: "Idle" },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
+					{ Name: "Olivia", Status: "Oracle", Pose: "Idle" },
+				]
+			},
+			{ Text: "(You all stare at the huge desert that lies in front.)" },
+			{ Text: "Sand is sand, we will all end up as sand.", Audio: "10" },
+			{
+				Text: "Did you know that you can literally turn to sand here?", Audio: "20",
+				Answer: [
+					{ Text: "You have such silly stories.", Reply: "(She gets angry.)  It's not a silly story.", Audio: "21", AudioStyle: "angry", Love: -2 },
+					{ Text: "(Give her a curious look.)", Reply: "Let me explain.", Audio: "22" },
+					{ Text: "Are you talking about the desert creatures?", Reply: "(She smiles and nods.)  You're very wise.", Audio: "23", Love: 2 }
+				]
+			},
+			{ Text: "The vultures and scorpions of this desert are cursed in a strange and dangerous way.", Audio: "30" },
+			{ Text: "If they get you down, pray that they will eat you and not turn you to stone.", Audio: "40" },
+			{ Text: "If they petrify you, you'll become a statue of yourself.", Audio: "50" },
+			{
+				Text: "An eternity of stone.", Audio: "60",
+				Answer: [
+					{ Text: "Let's avoid these creatures.", Reply: "Running to avoid them won't always work.", Audio: "61", Domination: -1 },
+					{ Text: "I'm stronger than any monster.", Reply: "I'm sure you will kick their butts.", Audio: "62", Domination: 2 },
+					{ Text: "This is really scary.", Reply: "Girl, get stronger!  Being scared won't help you cross the desert.", Audio: "63", Domination: -2 },
+					{ Text: "We will be fine.", Reply: "That's the spirit!", Audio: "64", Domination: 1 }
+				]
+			},
+			{ Text: "Oh!  And if we meet some slavers, don't listen to them.  They will probably lie about me.", Audio: "70" },
+			{ Text: "They make the worst deals anyway.  A deal is a deal.", Audio: "80" },
+			{ Text: "(She winks at you as the group continues onward.)" },
+		],
+	},
+
+	{
+		Name: "ZaraPetrified",
+		Music: "Desert",
+		Exit: function() { PlatformTempEvent.push("ZaraPetrified"); },
+		Dialog: [
+			{
+				Background: "BarrenRocks",
+				Character: [
+					{ Name: "Zara", Status: "Slave", Pose: "Petrified" },
+				]
+			},
+			{
+				Prerequisite: function() { return PlatformTempEvent.includes("ZaraPetrified"); },
+				Text: "(Nobody has a solution to help the slave trapped in stone.  You leave the statue alone.)",
+				Character: [
+					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
+					{ Name: "Zara", Status: "Slave", Pose: "Petrified" },
+					{ Name: "Olivia", Status: "Oracle", Pose: "Idle" },
+				]
+			},
+			{
+				Prerequisite: function() { return PlatformTempEvent.includes("ZaraPetrified"); },
+				Entry: function() { PlatformDialogLeave(); }
+			},
+			{
+				Character: [
+					{ Name: "Olivia", Status: "Oracle", Pose: "Idle" },
+					{ Name: "Zara", Status: "Slave", Pose: "Petrified" },
+					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
+				]
+			},
+			{ Text: "(Olivia inspects the girl statue.)" },
+			{ Text: "This is not an ordinary statue.  There is a living woman under the stone.", Audio: "10" },
+			{
+				Text: "She is wearing slave's clothes and a collar.", Audio: "20",
+				Answer: [
+					{ Text: "We should help her.", Reply: "I agree Melody.", Audio: "21" },
+					{ Text: "I guess nobody cares about a stone slave.", Reply: "That is quite sad indeed.", Audio: "22" },
+					{ Text: "Can we reverse the petrification?", Reply: "That is a good question.", Audio: "23" },
+					{ Text: "That's a cruel fate.", Reply: "Indeed.  This poor slave ran out of fortune.", Audio: "24" }
+				]
+			},
+			{ Text: "Maybe there is a cure for that awful petrification.", Audio: "30" },
+			{ Text: "We are not that far from the kingdom of Slandia.  We could ask for help there.", Audio: "40" },
+			{ Text: "(Without any solution, you leave the girl statue alone.)" },
+		],
+	},
+
+	{
+		Name: "DesertEnd",
+		Music: "Desert",
+		Exit : function () { PlatformLoadRoom("DesertDunesBrown"); PlatformPlayer.X = 4400; PlatformPlayer.FaceLeft = true; },
+		Dialog: [
+			{
+				Background: "DunesHeat",
+				Character: [
+					{ Name: "Melody", Status: "Maid", Pose: "Idle" },
+					{ Name: "Olivia", Status: "Oracle", Pose: "Idle" },
+				]
+			},
+			{ Text: "(*** You've reached the end of Bondage Brawl.  More content will be added in the future. ***)" },
+			{ Text: "(*** If you liked it, have suggestions, or bug reports.  Please contact Ben987. ***)" },
+		],
 	},
 
 	{
@@ -3384,7 +3512,6 @@ var PlatformDialogData = [
 					{ Name: "Melody", Status: "Maid", Pose: "Idle", X: 500 },
 				]
 			},
-
 			{
 				Prerequisite: function() { return (PlatformDialogGetCharacter("Olivia").Domination > 5); },
 				Text: "(You get closer to Olivia with a grin on your face.)",
@@ -3409,7 +3536,6 @@ var PlatformDialogData = [
 					{ Name: "Melody", Status: "Maid", Pose: "IdleSubmissive", X: 500 },
 				]
 			},
-
 			{
 				Prerequisite: function() { return (PlatformDialogGetCharacter("Olivia").Domination > 5); },
 				Text: "(She gets flustered and looks down at the ground.)",
@@ -3422,7 +3548,6 @@ var PlatformDialogData = [
 				Prerequisite: function() { return (PlatformDialogGetCharacter("Olivia").Domination < -5); },
 				Text: "(She looks at you carefully and smirks.)",
 			},
-
 			{
 				Text: "What is on your mind Melody?", Audio: "10",
 				Answer: [

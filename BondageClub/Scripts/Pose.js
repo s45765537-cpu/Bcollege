@@ -115,17 +115,17 @@ function PoseCanChangeUnaidedStatus(C, poseName) {
 	const canChange = PoseAvailable(C, pose.Category, pose.Name);
 	if (!canChange) {
 		return PoseChangeStatus.NEVER;
-	} else if (C.HasEffect("Freeze") || ChatRoomOwnerPresenceRule("BlockChangePose", C)) {
+	} else if (ChatRoomOwnerPresenceRule("BlockChangePose", C)) {
 		return PoseChangeStatus.NEVER_WITHOUT_AID;
 	}
 
 	// Add special casing for BodyLower, forcing usage of the "kneel/stand up" button if one or more standing poses have explicit support.
 	if (pose.Category !== "BodyLower") {
 		return PoseChangeStatus.ALWAYS;
-	} else if (C.IsStanding() && PoseAllStanding.some(p => PoseSetByItems(C, "BodyLower", p))) {
+	} else if (C.IsStanding() && (C.HasEffect("Freeze") || PoseAllStanding.some(p => PoseSetByItems(C, "BodyLower", p)))) {
 		// Only allow standing -> standing transitions unaided
 		return CommonIncludes(PoseAllStanding, poseName) ? PoseChangeStatus.ALWAYS : PoseChangeStatus.ALWAYS_WITH_STRUGGLE;
-	} else if (C.IsKneeling() && PoseAllKneeling.some(p => PoseSetByItems(C, "BodyLower", p))) {
+	} else if (C.IsKneeling() && (C.HasEffect("Freeze") || PoseAllKneeling.some(p => PoseSetByItems(C, "BodyLower", p)))) {
 		// Only allow kneeling -> kneeling transitions unaided
 		return CommonIncludes(PoseAllKneeling, poseName) ? PoseChangeStatus.ALWAYS : PoseChangeStatus.ALWAYS_WITH_STRUGGLE;
 	} else {

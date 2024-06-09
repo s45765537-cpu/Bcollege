@@ -356,7 +356,7 @@ Regular Maid
 <F>要续杯饮料吗，女士？
 French Maid
 法国女仆
-<F>Pour un service impécable et coquin.
+<F>Pour un service impeccable et coquin.
 <F>（法语）为您带来无可挑剔的调皮服务。
 Head Maid
 女仆长

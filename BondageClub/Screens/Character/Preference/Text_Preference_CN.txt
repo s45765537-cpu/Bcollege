@@ -730,3 +730,19 @@ Whitelist
 白名单
 Public
 公开
+FPS Limit
+帧率限制
+Unfocused FPS limit
+失焦时帧率限制
+Display FPS Counter
+显示帧率
+Unlimited
+无限制
+10 FPS
+10 FPS
+15 FPS
+15 FPS
+30 FPS
+30 FPS
+60 FPS
+60 FPS

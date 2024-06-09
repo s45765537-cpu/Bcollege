@@ -216,6 +216,11 @@ const BackgroundsList = [
 	{ Name: "Yacht3", Tag: [BackgroundsTagIndoor, BackgroundsTagAquatic] },
 ];
 
+/**
+ * Returns the localized name for a given background
+ * @param {string} msg
+ * @returns {string}
+ */
 function BackgroundsTextGet(msg) {
 	return TextAllScreenCache.get(BackgroundsStringsPath).get(msg);
 }

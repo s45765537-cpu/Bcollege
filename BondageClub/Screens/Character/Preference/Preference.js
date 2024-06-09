@@ -69,6 +69,7 @@ var PreferenceArousalFetishList = null;
 var PreferenceArousalFetishIndex = 0;
 /** @type {ArousalFactor} */
 var PreferenceArousalFetishFactor = 0;
+/** @type {{ Group: AssetGroup, Assets: { Asset: Asset, Hidden: boolean, Blocked: boolean, Limited: boolean }[] }[]} */
 var PreferenceVisibilityGroupList = [];
 var PreferenceVisibilityGroupIndex = 0;
 var PreferenceVisibilityAssetIndex = 0;
@@ -77,10 +78,8 @@ var PreferenceVisibilityBlockChecked = false;
 var PreferenceVisibilityCanBlock = true;
 /** @type {null | Asset} */
 var PreferenceVisibilityPreviewAsset = null;
-/** @type {ItemPermissions[]} */
-var PreferenceVisibilityHiddenList = [];
-/** @type {ItemPermissions[]} */
-var PreferenceVisibilityBlockList = [];
+/** @type {Partial<Record<`${AssetGroupName}/${string}`, ItemPermissions>>} */
+var PreferenceVisibilityRecord = {};
 var PreferenceVisibilityResetClicked = false;
 /** @type {null | number} */
 var PreferenceDifficultyLevel = null;
@@ -1303,7 +1302,7 @@ function PreferenceExit() {
 			GenderSettings: Player.GenderSettings,
 			ItemPermission: Player.ItemPermission,
 			LabelColor: Player.LabelColor,
-			LimitedItems: CommonPackItemArray(Player.LimitedItems),
+			...ServerPackItemPermissions(Player.PermissionItems),
 		};
 		ServerAccountUpdate.QueueData(P);
 		PreferenceMessage = "";
@@ -2066,7 +2065,14 @@ function PreferenceSubscreenChatClick() {
 			if (MouseXIn(500, 64)) {
 				if (MouseYIn(572, 64)) Player.ChatSettings.DisplayTimestamps = !Player.ChatSettings.DisplayTimestamps;
 				if (MouseYIn(652, 64)) Player.ChatSettings.ShowChatHelp = !Player.ChatSettings.ShowChatHelp;
-				if (MouseYIn(732, 64)) Player.ChatSettings.PreserveChat = !Player.ChatSettings.PreserveChat;
+				if (MouseYIn(732, 64)) {
+					// Make the room separator visible upon enabling `PreserveChat`
+					Player.ChatSettings.PreserveChat = !Player.ChatSettings.PreserveChat;
+					const roomSeps = /** @type {HTMLDivElement[]} */(Array.from(document.querySelectorAll("#TextAreaChatLog .chat-room-sep")));
+					if (Player.ChatSettings.PreserveChat) {
+						roomSeps.forEach(e => e.style.display = "");
+					}
+				}
 			} else if (MouseXIn(1200, 64)) {
 				if (MouseYIn(572, 64)) Player.ChatSettings.ShowAutomaticMessages = !Player.ChatSettings.ShowAutomaticMessages;
 				if (MouseYIn(652, 64)) Player.ChatSettings.ShowBeepChat = !Player.ChatSettings.ShowBeepChat;
@@ -2460,7 +2466,7 @@ function PreferenceSubscreenVisibilityClick() {
 		// Reset button
 		if (MouseIn(500, PreferenceVisibilityResetClicked ? 780 : 700, 300, 64)) {
 			if (PreferenceVisibilityResetClicked) {
-				Player.HiddenItems = [];
+				Object.values(Player.PermissionItems).forEach(i => i.Hidden = false);
 				PreferenceVisibilityExit(true);
 			}
 			else PreferenceVisibilityResetClicked = true;
@@ -2470,8 +2476,10 @@ function PreferenceSubscreenVisibilityClick() {
 
 	// Confirm button
 	if (MouseIn(1720, 60, 90, 90)) {
-		Player.HiddenItems = PreferenceVisibilityHiddenList;
-		Player.BlockItems = PreferenceVisibilityBlockList;
+		CommonEntries(PreferenceVisibilityRecord).forEach(([key, permission]) => {
+			Player.ItemPermission[key] ??= permission;
+			Player.ItemPermission[key].Permission = permission.Permission;
+		});
 		PreferenceVisibilityExit(true);
 	}
 
@@ -2485,8 +2493,7 @@ function PreferenceSubscreenVisibilityClick() {
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenVisibilityLoad() {
-	PreferenceVisibilityHiddenList = Player.HiddenItems.slice();
-	PreferenceVisibilityBlockList = Player.BlockItems.slice();
+	PreferenceVisibilityRecord = { ...Player.PermissionItems };
 	for (let G = 0; G < AssetGroup.length; G++)
 		if (AssetGroup[G].Clothing || AssetGroup[G].Category != "Appearance") {
 			const AssetList = AssetGroup[G].Asset
@@ -2533,7 +2540,7 @@ function PreferenceVisibilityAssetChanged(RefreshCheckboxes) {
  */
 function PreferenceVisibilityHideChange() {
 	PreferenceVisibilityHideChecked = !PreferenceVisibilityHideChecked;
-	PreferenceVisibilityCheckboxChanged(PreferenceVisibilityHiddenList, PreferenceVisibilityHideChecked);
+	PreferenceVisibilityCheckboxChanged(PreferenceVisibilityRecord, PreferenceVisibilityHideChecked, "Hidden");
 	PreferenceVisibilityGroupList[PreferenceVisibilityGroupIndex].Assets[PreferenceVisibilityAssetIndex].Hidden = PreferenceVisibilityHideChecked;
 	PreferenceVisibilityAssetChanged(false);
 }
@@ -2544,28 +2551,28 @@ function PreferenceVisibilityHideChange() {
  */
 function PreferenceVisibilityBlockChange() {
 	PreferenceVisibilityBlockChecked = !PreferenceVisibilityBlockChecked;
-	PreferenceVisibilityCheckboxChanged(PreferenceVisibilityBlockList, PreferenceVisibilityBlockChecked);
+	PreferenceVisibilityCheckboxChanged(PreferenceVisibilityRecord, PreferenceVisibilityBlockChecked, "Block");
 	PreferenceVisibilityGroupList[PreferenceVisibilityGroupIndex].Assets[PreferenceVisibilityAssetIndex].Blocked = PreferenceVisibilityBlockChecked;
 	PreferenceVisibilityAssetChanged(false);
 }
 
 /**
  * Adds or removes the current item to/from the list based on the new state of the corresponding checkbox
- * @param {ItemBundle[]} List - The list to add or remove the item from
+ * @param {Partial<Record<`${AssetGroupName}/${string}`, ItemPermissions>>} permissionRecord - The record to add or remove the item from
  * @param {boolean} CheckSetting - The new true/false setting of the checkbox
+ * @param {"Hidden" | "Block"} Type
  */
-function PreferenceVisibilityCheckboxChanged(List, CheckSetting) {
+function PreferenceVisibilityCheckboxChanged(permissionRecord, CheckSetting, Type) {
 	var CurrGroup = PreferenceVisibilityGroupList[PreferenceVisibilityGroupIndex].Group.Name;
 	var CurrAsset = PreferenceVisibilityGroupList[PreferenceVisibilityGroupIndex].Assets[PreferenceVisibilityAssetIndex].Asset.Name;
-	if (CheckSetting == true) {
-		List.push({ Name: CurrAsset, Group: CurrGroup });
-	}
-	else {
-		for (let A = 0; A < List.length; A++)
-			if (List[A].Name == CurrAsset && List[A].Group == CurrGroup) {
-				List.splice(A, 1);
-				break;
-			}
+	const permission = permissionRecord[`${CurrGroup}/${CurrAsset}`] ??= PreferencePermissionGetDefault();
+	switch (Type) {
+		case "Block":
+			permission.Permission = CheckSetting ? "Block" : "Default";
+			break;
+		case "Hidden":
+			permission.Hidden = CheckSetting;
+			break;
 	}
 }
 
@@ -2578,8 +2585,7 @@ function PreferenceVisibilityExit(SaveChanges) {
 	if (SaveChanges) ServerPlayerBlockItemsSync();
 
 	PreferenceVisibilityGroupList = [];
-	PreferenceVisibilityHiddenList = [];
-	PreferenceVisibilityBlockList = [];
+	PreferenceVisibilityRecord = {};
 	PreferenceSubscreen = "";
 }
 
@@ -2597,13 +2603,22 @@ function PreferenceSubscreenGeneralLoad() {
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenGeneralExit() {
-	if (PreferenceColorPick == "") {
-		if (CommonIsColor(ElementValue("InputCharacterLabelColor"))) {
-			Player.LabelColor = ElementValue("InputCharacterLabelColor");
-			PreferenceMessage = "";
-			ElementRemove("InputCharacterLabelColor");
-			PreferenceSubscreen = "";
-		} else PreferenceMessage = "ErrorInvalidColor";
+	if (PreferenceColorPick) {
+		return;
+	}
+
+	const color = ElementValue("InputCharacterLabelColor");
+	if (CommonIsColor(color)) {
+		if (color !== Player.LabelColor) {
+			Player.LabelColor = color;
+			const elems = /** @type {HTMLElement[]} */(Array.from(document.querySelectorAll(`[style*="--label-color"][data-sender="${Player.MemberNumber}"]`)));
+			elems.forEach(e => e.style.setProperty("--label-color", color));
+		}
+		PreferenceMessage = "";
+		ElementRemove("InputCharacterLabelColor");
+		PreferenceSubscreen = "";
+	} else {
+		PreferenceMessage = "ErrorInvalidColor";
 	}
 }
 
@@ -3347,7 +3362,7 @@ function PreferenceSubscreenExtensionsExit() {
  */
 function PreferenceSubscreenExtensionsClear() {
 	if(PreferenceSubscreen !== "Extensions" || PreferenceExtensionsCurrent === null) return;
-	PreferenceExtensionsCurrent.unload();
+	PreferenceExtensionsCurrent.unload?.();
 	PreferenceExtensionsCurrent = null;
 	// Reload the extension settings
 	PreferenceSubscreenExtensionsLoad();
@@ -3504,4 +3519,16 @@ function PreferenceValidateArousalData(C) {
 	if (MustUpdate)
 		ServerAccountUpdate.QueueData({ ArousalSettings: Player.ArousalSettings });
 
+}
+
+/**
+ * Return a new object with default item permissions
+ * @returns {ItemPermissions} - The item permissions
+ */
+function PreferencePermissionGetDefault() {
+	return {
+		Hidden: false,
+		Permission: "Default",
+		TypePermissions: {},
+	};
 }

@@ -134,8 +134,7 @@ function InventoryDeleteGroup(C, group, push) {
 }
 
 /**
-* Loads the current inventory for a character, can be loaded from an object of Name/Group or a compressed array using
-* LZString
+* Loads the current inventory for a character, can be loaded from an object of Name/Group or a compressed array using LZString
 * @param {Character} C - The character on which we should load the inventory
 * @param {string | readonly ItemBundle[] | Partial<Record<AssetGroupName, readonly string[]>>} Inventory - An array of Name / Group of items to load
 */
@@ -160,6 +159,78 @@ function InventoryLoad(C, Inventory) {
 			}
 		}
 	}
+}
+
+/**
+* Loads the current inventory for a character, based on compressed data
+* @param {Character} C - The character on which we should load the inventory
+* @param {string} Data - The string of data to load
+*/
+function InventoryLoadCompressedData(C, Data) {
+
+	// For each character in the string
+	let Pos = 0;
+	let LastID = -1;
+	while (Pos < Data.length) {
+
+		// Get the InventoryID of that character, if it's a range separator (58), we stay on that position for the full range
+		let ID = Data.charCodeAt(Pos);
+		if (ID == 58) {
+			ID = LastID + 1;
+			if ((Pos + 1 < Data.length) && (ID + 1 < Data.charCodeAt(Pos + 1))) Pos--;
+		}
+
+		// Adds all the assets linked to that inventory ID
+		for (let A of Asset)
+			if (A.InventoryID === ID)
+				InventoryAdd(C, A.Name, A.Group.Name, false);
+
+		// Keeps the last ID for ranges and jump to the next position
+		LastID = ID;
+		Pos++;
+
+	}
+
+}
+
+/**
+* Creates the inventory data string from current inventory
+* @param {Character} C - The character on which we should load the inventory data string
+*/
+function InventoryDataBuild(C) {
+
+	// Loops in the character inventory to build a list of IDs
+	let IDList = [];
+	for (let I of C.Inventory)
+		if ((I.Asset.InventoryID != null) && (IDList.indexOf(I.Asset.InventoryID) < 0))
+			IDList.push(I.Asset.InventoryID);
+
+	// Sort the IDs from lowest to highest
+	IDList.sort(function(a, b) { return a - b; });
+
+	// Replace ranges by 58 (:), 101, 102, 103, 104 becomes 101, 58, 104
+	if (IDList.length >= 3)
+		for (let I = 1; I < IDList.length - 1; I++) {
+			if ((IDList[I - 1] + 1 == IDList[I]) && (IDList[I + 1] - 1 == IDList[I]))
+				IDList[I] = 58;
+			else
+				if ((IDList[I - 1] == 58) && (IDList[I + 1] - 1 == IDList[I])) {
+					IDList.splice(I, 1)
+					I--
+				}					
+		}
+
+	// Builds the final compressed string
+	let Data = ""
+	for (let I of IDList)
+		Data = Data + String.fromCharCode(I);
+
+	// If the result is different, we assign it and update the server account
+	if (Data !== C.InventoryData) {
+		C.InventoryData = Data;
+		if (C.IsPlayer()) ServerAccountUpdate.QueueData({ InventoryData: Data }, true);
+	}
+
 }
 
 /**
@@ -1470,35 +1541,66 @@ function InventoryIsWorn(C, AssetName, AssetGroup) {
 }
 
 /**
- * Toggles an item's permission for the player
- * @param {Item} Item - Appearance item to toggle
- * @param {string} [Type] - Type of the item to toggle
- * @param {boolean} [Worn] - True if the player is changing permissions for an item they're wearing or if it's the first option
+ * Set the item's permission to a specific value for the player.
+ * @param {AssetGroupName} groupName
+ * @param {string} assetName
+ * @param {ItemPermissionMode} permissionType
+ * @param {null | string} type - The relevant extended item option identifier of the item (if any)
+ * @param {boolean} push - Whether to push the permission changes to the server
  * @returns {void} - Nothing
  */
-function InventoryTogglePermission(Item, Type, Worn) {
+function InventorySetPermission(groupName, assetName, permissionType, type=null, push=false) {
+	let update = false;
+	const itemPermissions = Player.PermissionItems[`${groupName}/${assetName}`] ??= PreferencePermissionGetDefault();
+	if (type == null) {
+		update = itemPermissions.Permission !== permissionType;
+		itemPermissions.Permission = permissionType;
+	} else {
+		update = itemPermissions.TypePermissions[type] !== permissionType;
+		itemPermissions.TypePermissions[type] = permissionType;
+	}
+
+	if (push && update) {
+		ServerPlayerBlockItemsSync();
+	}
+}
+
+/**
+ * Toggles an item's permission for the player
+ * @param {Item} Item - Appearance item to toggle
+ * @param {string} [Type] - The relevant extended item option identifier of the item (if any)
+ * @param {boolean} [Worn] - True if the player is changing permissions for an item they're wearing or if it's the first option
+ * @param {boolean} push - Whether to push the permission changes to the server
+ * @returns {void} - Nothing
+ */
+function InventoryTogglePermission(Item, Type=null, Worn=false, push=true) {
 	const onExtreme = Player.GetDifficulty() >= 3;
 	const blockAllowed = !Worn && !onExtreme;
 	const limitedAllowed = !Worn && (!onExtreme || MainHallStrongLocks.includes(/** @type {AssetLockType} */(Item.Asset.Name)));
 
-	/** @type {(B: ItemPermissions) => boolean} */
-	const removeFromPermissions = (B) => B.Name != Item.Asset.Name || B.Group != Item.Asset.Group.Name || B.Type != Type;
-	const permissionItem = { Name: Item.Asset.Name, Group: Item.Asset.Group.Name, Type: Type };
-	if (InventoryIsPermissionBlocked(Player, Item.Asset.Name, Item.Asset.Group.Name, Type)) {
-		Player.BlockItems = Player.BlockItems.filter(removeFromPermissions);
-		Player.LimitedItems.push(permissionItem);
-	} else if (InventoryIsPermissionLimited(Player, Item.Asset.Name, Item.Asset.Group.Name, Type)) {
-		Player.LimitedItems = Player.LimitedItems.filter(removeFromPermissions);
-	} else if (InventoryIsFavorite(Player, Item.Asset.Name, Item.Asset.Group.Name, Type)) {
-		if (blockAllowed)
-			Player.BlockItems.push(permissionItem);
-		else if (limitedAllowed)
-			Player.LimitedItems.push(permissionItem);
-		Player.FavoriteItems = Player.FavoriteItems.filter(removeFromPermissions);
-	} else {
-		Player.FavoriteItems.push(permissionItem);
+	const assetName = Item.Asset.Name;
+	const groupName = Item.Asset.Group.Name;
+	const permission = Player.PermissionItems[`${groupName}/${assetName}`]?.Permission ?? "Default";
+	switch (permission) {
+		case "Default":
+			return InventorySetPermission(groupName, assetName, "Favorite", Type, push);
+		case "Favorite":
+			if (blockAllowed) {
+				return InventorySetPermission(groupName, assetName, "Block", Type, push);
+			} else if (limitedAllowed) {
+				return InventorySetPermission(groupName, assetName, "Limited", Type, push);
+			} else {
+				return InventorySetPermission(groupName, assetName, "Default", Type, push);
+			}
+		case "Block":
+			if (limitedAllowed) {
+				return InventorySetPermission(groupName, assetName, "Limited", Type, push);
+			} else {
+				return InventorySetPermission(groupName, assetName, "Default", Type, push);
+			}
+		case "Limited":
+			return InventorySetPermission(groupName, assetName, "Default", Type, push);
 	}
-	ServerPlayerBlockItemsSync();
 }
 
 /**
@@ -1510,11 +1612,11 @@ function InventoryTogglePermission(Item, Type, Worn) {
 * @returns {boolean} - TRUE if asset / item is blocked
 */
 function InventoryIsPermissionBlocked(C, AssetName, AssetGroup, AssetType) {
-	if ((C != null) && (C.BlockItems != null) && Array.isArray(C.BlockItems))
-		for (let B = 0; B < C.BlockItems.length; B++)
-			if ((C.BlockItems[B].Name == AssetName) && (C.BlockItems[B].Group == AssetGroup) && (C.BlockItems[B].Type == AssetType))
-				return true;
-	return false;
+	if (!AssetType) {
+		return C.PermissionItems[`${AssetGroup}/${AssetName}`]?.Permission === "Block";
+	} else {
+		return C.PermissionItems[`${AssetGroup}/${AssetName}`]?.TypePermissions?.[AssetType] === "Block";
+	}
 }
 
 
@@ -1527,11 +1629,11 @@ function InventoryIsPermissionBlocked(C, AssetName, AssetGroup, AssetType) {
 * @returns {boolean} - TRUE if asset / item is a favorite
 */
 function InventoryIsFavorite(C, AssetName, AssetGroup, AssetType) {
-	if ((C != null) && (C.FavoriteItems != null) && Array.isArray(C.FavoriteItems))
-		for (let B = 0; B < C.FavoriteItems.length; B++)
-			if ((C.FavoriteItems[B].Name == AssetName) && (C.FavoriteItems[B].Group == AssetGroup) && (C.FavoriteItems[B].Type == AssetType))
-				return true;
-	return false;
+	if (!AssetType) {
+		return C.PermissionItems[`${AssetGroup}/${AssetName}`]?.Permission === "Favorite";
+	} else {
+		return C.PermissionItems[`${AssetGroup}/${AssetName}`]?.TypePermissions?.[AssetType] === "Favorite";
+	}
 }
 
 /**
@@ -1543,11 +1645,11 @@ function InventoryIsFavorite(C, AssetName, AssetGroup, AssetType) {
  * @returns {boolean} - TRUE if asset / item is limited
  */
 function InventoryIsPermissionLimited(C, AssetName, AssetGroup, AssetType) {
-	if ((C != null) && (C.LimitedItems != null) && Array.isArray(C.LimitedItems))
-		for (let B = 0; B < C.LimitedItems.length; B++)
-			if ((C.LimitedItems[B].Name == AssetName) && (C.LimitedItems[B].Group == AssetGroup) && (C.LimitedItems[B].Type == AssetType))
-				return true;
-	return false;
+	if (!AssetType) {
+		return C.PermissionItems[`${AssetGroup}/${AssetName}`]?.Permission === "Limited";
+	} else {
+		return C.PermissionItems[`${AssetGroup}/${AssetName}`]?.TypePermissions?.[AssetType] === "Limited";
+	}
 }
 
 /**
