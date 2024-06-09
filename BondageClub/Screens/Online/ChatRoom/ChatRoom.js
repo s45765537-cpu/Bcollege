@@ -4038,7 +4038,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 					style: { "--label-color": SenderCharacter.LabelColor },
 					eventListeners: { click: ChatRoomMessageNameClick },
 				}),
-				" ",
+				": ",
 				displayMessage,
 			);
 			break;
@@ -4060,7 +4060,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 					style: { "--label-color": whisperTarget.LabelColor },
 					eventListeners: { click: ChatRoomMessageNameClick },
 				}),
-				" ",
+				": ",
 				displayMessage,
 			);
 			break;
