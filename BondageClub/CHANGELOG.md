@@ -11,11 +11,76 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2024-05-16
-* Last recorded PR: [#5040](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5040)
-* Last recorded commit hash: `0c7389271d00b071782d7eb5ce35f73687ea6253`
+* Changelog last updated: 2024-06-09
+* Last recorded PR: [#5073](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5073)
+* Last recorded commit hash: `63b0fff97ae52c08f0c20d1dd996946e114ddc0d`
 
 ## [Generated]
+
+## [R105]
+
+### [Changes]
+* Haruhi - Modified HairBack58, 58b, 60, 61 and HairFront55, 56 to not clip with collars or scarf ([#5071](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5071))
+* Cleon - Glue,Satin Skirt,Opera Gloves, Pearl Necklace and Uns. Pose Items. ([#5074](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5074))
+* Cleon - CustomTShirt and Uns. Pose. ([#5075](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5075))
+* dDeepLb - UA Lang Update ([#5070](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5070))
+* LeoYiMon - CN translations update ([#5054](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5054))
+* LeoYiMon - Add CN translate of interfance ([#5060](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5060))
+* LeoYiMon - Add and Fix up CN translates ([#5061](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5061))
+* Manilla - Male chastity plate ([#5025](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5025))
+* Rama - Add scroll wheel pagination support to the shop ([#5031](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5031))
+* EllieThePink - Club Card: New set of ABDL cards ([#5037](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5037))
+* Estsanatlehi - Show the "limited" icon even on your own inventory ([#5041](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5041))
+* Rama - Make the chat room separator much more fancier ([#5058](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5058))
+* Rama - Offer search suggestions when typing into search bars ([#5065](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5065))
+* Rama - Allow whispering by clicking on someones name in the chat area ([#5067](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5067))
+* Rama - Add API for creating DOM buttons and  allow the chat room input to expand up to 4 times its original height ([#5073](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5073))
+* Rama - Various minor chat room separator adjustments ([#5063](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5063))
+* SubAnna - InventoryID compression range character
+* Ben987 - InventoryID on assets
+* Ben987 - InventoryID warnings in Console
+* Ben987 - InventoryID - All Missing IDs + Compression Logic
+
+### [Fixes]
+* Cleon - Fixes on CustomTShirt ([#5072](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5072))
+* u3shit - Fix map position and keys lost on relog ([#5064](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5064))
+* Stella - Fix TextGet("WhisperFrom") while CurrentScreen != "ChatRoom" ([#5062](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5062))
+* Stella - Fix PreferenceSubscreenExtensionsClear when the optional unload function is undefined ([#5052](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5052))
+* Estsanatlehi - HOTFIX: Stop a recursion bug if the player has the same name as one of its NPC lovers ([#5044](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5044))
+* Estsanatlehi - HOTFIX: Fix a bug with `IsOwned()` returning "npc" incorrectly ([#5045](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5045))
+* Estsanatlehi - HOTFIX: Reset the whisper target when loading the chatroom ([#5047](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5047))
+* harmony - HOTFIX: Fix issues in character helper functions ([#5051](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5051))
+* Estsanatlehi - Fixed a typo in the background names ([#5048](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5048))
+* Rama - Disable layering for locked items that one cannot unlock ([#5055](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5055))
+* Rama - Fix the freeze effect accidentally limiting upper body changes ([#5059](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5059))
+* Ben987 - HotFix - Clear Ownership Crash
+* Ben987 - HotFix - SlaveMarket Owner Not Set
+* Ben987 - HotFix - Private Room - Invalid Change Collar Owner Activity
+* Ben987 - HotFix - Remove Some Gags From Random Pool
+* Ben987 - HotFix - NPCs Ownership Repair
+* Ben987 - Don't display owner icon if owner NPC has same name as player
+
+### [BondageBrawl]
+* Ben987 - Standalone Version Hide Language Select
+* Ben987 - Petrified Effect
+* Ben987 - Zara Path
+* Ben987 - Desert Expansion
+* Ben987 - New Melody Animations
+* Ben987 - 3 New Dialogs
+* Ben987 - Melody + Zara Animations
+
+### [Technical]
+* Estsanatlehi - HOTFIX: Add missing jsdoc comment to BackgroundsTextGet which messes up bc-stub ([#5043](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5043))
+* Estsanatlehi - HOTFIX: Fix a couple more strings that didn't survive the split ([#5046](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5046))
+* Estsanatlehi - HOTFIX: Add the KeyDown handler to the Appearance screen ([#5042](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5042))
+* Rama - HOTFIX: Use a CSS class for setting background colors rather than directly modifying the style attribute ([#5049](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5049))
+* Rama - HOTFIX: Fix the layering blur event listener being broken ([#5050](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5050))
+* Rama - Do not let `ElementNumberInputBlur` assume that it is dealing with integers ([#5057](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5057))
+* Rama - Add `ElementCreate()`, a helper function for creating DOM elements ([#5056](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5056))
+* Rama - Consolidate item-specific permissions into a single object ([#5053](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5053))
+* Estsanatlehi - Remove AccountName from the set of server-synced properties ([#5066](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5066))
+* Rama - Ensure that the chat room resize listener is not removed when the chatlog is hidden ([#5068](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5068))
+* Rama - Improve various chat-related key bindings ([#5069](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5069))
 
 ## [R104]
 
