@@ -851,28 +851,37 @@ var Shop2 = {
 				}
 
 				DialogLoadPoseMenu(Shop2InitVars.Preview);
-				const poseHTML = DialogActivePoses.map(poseList => {
-					return `
-						<div class=shop2-pose-inner-grid>
-							${poseList.map(p => `<button class=shop-button data-pose="${p.Name}" />`).join("\n")}
-						</div>
-					`;
-				}).join("\n");
-
-				const elem = ElementCreateDiv("Shop2PoseSelect");
-				elem.style.display = "none";
-				elem.innerHTML = `<div id=Shop2PoseOuterGrid>${poseHTML}</div>`;
-				elem.classList.add("dropdown");
-
-				const poseButtons = /** @type {HTMLButtonElement[]} */(Array.from(document.querySelectorAll("[data-pose]")));
-				for (const button of poseButtons) {
-					const pose = /** @type {AssetPoseName} */(button.dataset.pose);
-					button.style.backgroundImage = `url("Icons/Poses/${pose}.png")`;
-					button.addEventListener("click", () => {
-						PoseSetActive(Shop2InitVars.Preview, pose);
-						Shop2._UpdatePoseButtons();
-					});
-				}
+				ElementCreate({
+					tag: "div",
+					style: { display: "none" },
+					attributes: { id: "Shop2PoseSelect", "screen-generated": CurrentScreen },
+					parent: document.body,
+					classList: ["HideOnPopup", "dropdown"],
+					children: [{
+						tag: "div",
+						classList: ["shop2-pose-outer-grid"],
+						children: DialogActivePoses.map(poseList => {
+							return {
+								tag: "div",
+								classList: ["shop2-pose-inner-grid"],
+								children: poseList.map(pose => ElementButton.Create(
+									`shop2-pose-${pose.Name}`,
+									() => {
+										PoseSetActive(Shop2InitVars.Preview, pose.Name);
+										Shop2._UpdatePoseButtons();
+									}, undefined,
+									{
+										button: {
+											style: { "background-image": `url("../Icons/Poses/${pose.Name}.png")` },
+											dataAttributes: { pose: pose.Name },
+											classList: ["shop-button"],
+										},
+									},
+								)),
+							};
+						}),
+					}],
+				});
 				Shop2._UpdatePoseButtons();
 			},
 			Draw: (...coords) => {

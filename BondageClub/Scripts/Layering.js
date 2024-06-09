@@ -147,7 +147,6 @@ var Layering = {
 		resetButton: "layering-reset-button",
 		exitButton: "layering-exit-button",
 		lockButton: "layering-lock-button",
-		lockButtonContainer: "layering-lock-button-container",
 
 		assetHeader: "layering-asset-header",
 		assetGrid: "layering-asset-grid",
@@ -257,10 +256,17 @@ var Layering = {
 
 	/**
 	 * Event listener for `click` events of the reset button
+	 * @this {HTMLButtonElement}
+	 * @param {Event} ev
 	 * @private
 	 */
-	_ResetClickListener() {
-		this.OverridePriority = this._PriorityDefault == null ? undefined : CommonCloneDeep(this._PriorityDefault);
+	_ResetClickListener(ev) {
+		if (this.ariaDisabled === "true") {
+			ev.stopPropagation();
+			return;
+		}
+
+		Layering.OverridePriority = Layering._PriorityDefault == null ? undefined : CommonCloneDeep(Layering._PriorityDefault);
 
 		const layerElements = /** @type {NodeListOf<HTMLInputElement>} */(document.querySelectorAll("[data-layer-priority]"));
 		layerElements.forEach(e => e.value = e.dataset.layerPriority);
@@ -268,7 +274,7 @@ var Layering = {
 		const assetElements = /** @type {NodeListOf<HTMLInputElement>} */(document.querySelectorAll("[data-asset-priority]"));
 		assetElements.forEach(e => e.value = e.dataset.assetPriority);
 
-		this._CharacterRefresh(this.Character, false, false);
+		Layering._CharacterRefresh(Layering.Character, false, false);
 	},
 
 	/**
@@ -339,16 +345,17 @@ var Layering = {
 	 * @private
 	 */
 	_ApplyReadonly(isReadonly) {
-		const elements = /** @type {(HTMLInputElement | HTMLButtonElement)[]} */([
-			document.getElementById(this.ID.resetButton),
+		const elements = /** @type {HTMLInputElement[]} */([
 			...Array.from(document.querySelectorAll("[data-asset-priority]")),
 			...Array.from(document.querySelectorAll("[data-layer-priority]")),
 		]);
+
+		document.getElementById(this.ID.resetButton)?.setAttribute("aria-disabled", isReadonly);
 		for (const e of elements) {
 			e.disabled = isReadonly;
 		}
 
-		const lockButton = document.getElementById(this.ID.lockButtonContainer);
+		const lockButton = document.getElementById(this.ID.lockButton);
 		lockButton.style.display = isReadonly ? "" : "none";
 	},
 
@@ -414,68 +421,19 @@ var Layering = {
 					attributes: { id: this.ID.assetHeader },
 					children: [InterfaceTextGet("LayeringAsset")],
 				},
-				{
-					tag: "div",
-					attributes: { id: this.ID.buttonGrid },
-					classList: ["layering-button-grid"],
-					children: [
-						{
-							tag: "div",
-							classList: ["layering-button-container"],
-							children: [
-								{
-									tag: "button",
-									attributes: { id: this.ID.exitButton },
-									classList: ["layering-button"],
-									eventListeners: {
-										click: () => this.Exit(),
-									},
-								},
-								{
-									tag: "div",
-									classList: ["layering-button-tooltip"],
-									children: [InterfaceTextGet("LayeringExit")],
-								},
-							],
-						},
-						{
-							tag: "div",
-							classList: ["layering-button-container"],
-							children: [
-								{
-									tag: "button",
-									attributes: { id: this.ID.resetButton },
-									classList: ["layering-button"],
-									eventListeners: {
-										click: () => this._ResetClickListener(),
-									},
-								},
-								{
-									tag: "div",
-									classList: ["layering-button-tooltip"],
-									children: [InterfaceTextGet("LayeringReset")],
-								},
-							],
-						},
-						{
-							tag: "div",
-							classList: ["layering-button-container"],
-							attributes: { id: this.ID.lockButtonContainer },
-							children: [
-								{
-									tag: "button",
-									attributes: { id: this.ID.lockButton, disabled: true },
-									classList: ["layering-button"],
-								},
-								{
-									tag: "div",
-									classList: ["layering-button-tooltip"],
-									children: [InterfaceTextGet("LayeringLock")],
-								},
-							],
-						},
+				ElementMenu.Create(
+					this.ID.buttonGrid,
+					[
+						ElementButton.Create(this.ID.exitButton, () => this.Exit(), { tooltip: InterfaceTextGet("LayeringExit") }),
+						ElementButton.Create(this.ID.resetButton, this._ResetClickListener, { tooltip: InterfaceTextGet("LayeringReset") }),
+						ElementButton.Create(
+							this.ID.lockButton, () => null, { tooltip: InterfaceTextGet("LayeringLock") },
+							{ button: { attributes: { "aria-disabled": true } } },
+						),
 					],
-				},
+					{ direction: "rtl" },
+					{ menu: { classList: ["layering-button-grid"] } },
+				),
 				{
 					tag: "div",
 					attributes: { id: this.ID.assetGrid },
@@ -533,7 +491,7 @@ var Layering = {
 												children: [
 													{
 														tag: "input",
-														attributes: { type: "number", min: "-99", max: "99", value: layerPriority, defaultValue: defaultLayerPriority.toString(), inputMode: "numeric" },
+														attributes: { type: "number", min: "-99", max: "99", value: layerPriority, defaultValue: defaultLayerPriority.toString(), inputMode: "numeric", id: `layering-input-${layerGroupName}-${Name}` },
 														dataAttributes: { layerPriority: defaultLayerPriority.toString(), name: Name },
 														classList: priorityIsObject ? [] : ["layering-input-unfocused"],
 														eventListeners: {
@@ -543,7 +501,8 @@ var Layering = {
 														},
 													},
 													{
-														tag: "span",
+														tag: "label",
+														attributes: { for: `layering-input-${layerGroupName}-${Name}` },
 														classList: ["layering-pair-text"],
 														children: [Name],
 													},
