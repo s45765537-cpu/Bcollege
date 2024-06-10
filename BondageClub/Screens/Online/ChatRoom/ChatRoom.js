@@ -4033,13 +4033,17 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 	switch (data.Type) {
 		case "Chat":
 			divChildren.push(
-				ElementCreate({
-					tag: "button",
-					classList: ["ChatMessageName", "blank-button"],
-					children: [CharacterNickname(SenderCharacter)],
-					style: { "--label-color": SenderCharacter.LabelColor },
-					eventListeners: { click: ChatRoomMessageNameClick },
-				}),
+				ElementButton.Create(
+					null, ChatRoomMessageNameClick, undefined,
+					{
+						button: {
+							classList: ["ChatMessageName"],
+							attributes: { "tabindex": -1 },
+							style: { "--label-color": SenderCharacter.LabelColor },
+							children: [CharacterNickname(SenderCharacter)],
+						},
+					},
+				),
 				": ",
 				displayMessage,
 			);
@@ -4048,20 +4052,22 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 			const whisperTarget = SenderCharacter.IsPlayer() ? ChatRoomCharacter.find(c => c.MemberNumber == data.Target) : SenderCharacter;
 			divChildren.push(
 				ElementButton.Create(
-					`chatroom-reply-${whisperTarget.MemberNumber}-${ChatRoomCurrentTime()}`,
-					ChatRoomMessageNameClick, undefined,
+					null, ChatRoomMessageNameClick, undefined,
 					{ button: { classList: ["ReplyButton"], children: ["\u21a9\ufe0f"] } },
 				),
 				SenderCharacter.IsPlayer() ? TextGet("WhisperTo") : TextGetInScope("Screens/Online/ChatRoom/Text_ChatRoom.csv", "WhisperFrom"),
 				" ",
-				ElementCreate({
-					tag: "button",
-					attributes: { "tabindex": -1 },
-					classList: ["ChatMessageName", "blank-button"],
-					children: [CharacterNickname(whisperTarget)],
-					style: { "--label-color": whisperTarget.LabelColor },
-					eventListeners: { click: ChatRoomMessageNameClick },
-				}),
+				ElementButton.Create(
+					null, ChatRoomMessageNameClick, undefined,
+					{
+						button: {
+							classList: ["ChatMessageName"],
+							attributes: { "tabindex": -1 },
+							style: { "--label-color": SenderCharacter.LabelColor },
+							children: [CharacterNickname(whisperTarget)],
+						},
+					},
+				),
 				": ",
 				displayMessage,
 			);
