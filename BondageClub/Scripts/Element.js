@@ -856,9 +856,10 @@ var ElementButton = {
 				id,
 				name: id,
 				"aria-describedby": `${id}-tooltip`,
+				"screen-generated": CurrentScreen,
 				...(buttonOptions.attributes ?? {}),
 			},
-			classList: ["blank-button", "button", ...(buttonOptions.classList ?? [])],
+			classList: ["blank-button", "button", "HideOnPopup", ...(buttonOptions.classList ?? [])],
 			eventListeners: {
 				click: onClick,
 				mousedown: this._MouseDown,
@@ -1023,10 +1024,11 @@ var ElementMenu = {
 			attributes: {
 				id,
 				role: "menubar",
+				"screen-generated": CurrentScreen,
 				...(menuOptions.attributes ?? {}),
 			},
 			dataAttributes: { direction, ...(menuOptions.dataAttributes ?? {}) },
-			classList: ["menubar", ...(menuOptions.classList ?? [])],
+			classList: ["menubar", "HideOnPopup", ...(menuOptions.classList ?? [])],
 			children: [...menuItems, ...(menuOptions.children ?? [])],
 		});
 
