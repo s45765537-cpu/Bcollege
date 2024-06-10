@@ -42,18 +42,18 @@ function ElementContent(ID, Content) {
 
 /**
  * @template {keyof HTMLElementScalarTagNameMap} T
- * @param {null | HTMLOptions<T>} options - Options for customizing the element
+ * @param {HTMLOptions<T>} options - Options for customizing the element
  * @returns {HTMLElementTagNameMap[T]} - The created element
  */
 function ElementCreate(options) {
 	const elem = document.createElement(options.tag);
 
-	for (const [k, v] of Object.entries(options?.attributes ?? {})) {
+	for (const [k, v] of Object.entries(options.attributes ?? {})) {
 		if (v != null) {
 			elem.setAttribute(k, v);
 		}
 	}
-	for (const [eventName, listener] of Object.entries(options?.eventListeners ?? {})) {
+	for (const [eventName, listener] of Object.entries(options.eventListeners ?? {})) {
 		if (listener != null) {
 			elem.addEventListener(eventName, listener);
 		}
@@ -63,20 +63,31 @@ function ElementCreate(options) {
 			elem.style.setProperty(k, /** @type {any} */(v));
 		}
 	}
-	for (const [k, v] of Object.entries(options?.dataAttributes ?? {})) {
+	for (const [k, v] of Object.entries(options.dataAttributes ?? {})) {
 		if (v != null) {
 			elem.dataset[k] = v.toString();
 		}
 	}
-
-	if (options?.classList) { options.classList.forEach(i => elem.classList.add(i)); }
-	if (options?.innerHTML) { elem.innerHTML = options.innerHTML; }
-	if (options?.children) {
-		/** @type {(i: unknown) => i is Node | string} */
-		const isNode = (i) => typeof i === "string" || (typeof i === "object" && "nodeValue" in i);
-		options.children.forEach(i => isNode(i) ? elem.append(i) : ElementCreate({ ...i, parent: elem }));
+	for (const cls of options.classList ?? []) {
+		if (cls != null) {
+			elem.classList.add(cls);
+		}
 	}
-	if (options?.parent) { options.parent.appendChild(elem); }
+
+	if (options.innerHTML) { elem.innerHTML = options.innerHTML; }
+
+	/** @type {(i: unknown) => i is Node | string} */
+	const isNode = (i) => typeof i === "string" || (typeof i === "object" && "nodeValue" in i);
+	for (const childElem of options.children ?? []) {
+		if (childElem != null) {
+			if (isNode(childElem)) {
+				elem.append(childElem);
+			} else {
+				ElementCreate({ ...childElem, parent: elem });
+			}
+		}
+	}
+	if (options.parent) { options.parent.appendChild(elem); }
 	return elem;
 }
 

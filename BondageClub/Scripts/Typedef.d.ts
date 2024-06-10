@@ -102,9 +102,9 @@ type HTMLOptions<T extends keyof HTMLElementTagNameMap> = {
 	/** The elements parent (if any) to which it will be attached (see {@link HTMLElement.parentElement}). */
 	parent?: Node;
 	/** A list of CSS classes to-be assigned to the element (see {@link HTMLElement.classList}). */
-	classList?: readonly string[];
+	classList?: readonly (null | undefined | string)[];
 	/** Any to-be added child elements. */
-	children?: (string | Node | HTMLOptions<keyof HTMLElementTagNameMap>)[];
+	children?: (null | undefined | string | Node | HTMLOptions<keyof HTMLElementTagNameMap>)[];
 	/** The {@link HTMLElement.innerHTML} of the element; will be assigned before appending children */
 	innerHTML?: string;
 };
