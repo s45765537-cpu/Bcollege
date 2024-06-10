@@ -725,7 +725,7 @@ var PlatformTemplate = [
 		FlyingHeight: 550,
 		RunHeight: 50,
 		WalkSpeed: 0,
-		RunSpeed: 22,
+		RunSpeed: 21,
 		CollisionDamage: 2,
 		ExperienceValue: 3,
 		DamageBackOdds: 1,
@@ -739,6 +739,30 @@ var PlatformTemplate = [
 			{ Name: "Walk", Cycle: [0], Speed: 70 },
 			{ Name: "Run", Cycle: [0, 1, 2, 3, 4, 3, 2, 1], Speed: 300 },
 			{ Name: "Wounded", Cycle: [0], Speed: 1000 },
+			{ Name: "Bound", Cycle: [0], Speed: 1000 },
+		],
+	},
+	{
+		Name: "Scorpion",
+		Status: "Gold",
+		Health: 11,
+		Width: 300,
+		Height: 300,
+		HitBox: [0.1, 0.5, 0.9, 1],
+		WalkSpeed: 13,
+		RunSpeed: 20,
+		CollisionDamage: 2,
+		ExperienceValue: 2,
+		DamageBackOdds: 1,
+		DamageKnockForce: 50,
+		PetrifyOnWound: true,
+		RunOdds: 0.0005,
+		LootOdds: 0.07,
+		Animation: [
+			{ Name: "Idle", Cycle: [0], Speed: 70 },
+			{ Name: "Walk", Cycle: [0, 1, 2, 3, 4, 5, 6, 7], Speed: 50 },
+			{ Name: "Run", Cycle: [0, 1, 2, 3, 4, 5, 6, 7], Speed: 30 },
+			{ Name: "Wounded", Cycle: [0, 1, 2, 3, 4], Speed: 90 },
 			{ Name: "Bound", Cycle: [0], Speed: 1000 },
 		],
 	},
@@ -1786,22 +1810,53 @@ var PlatformRoomList = [
 	},
 	{
 		Name: "DesertEntrance",
-		Text: "Desert Cactus Path",
+		Text: "Desert Entrance",
 		Background: "Desert/CactusPath",
 		Music: "Desert",
 		Width: 2600,
 		Height: 1400,
 		Door: [
 			{ Name: "SavannahTentExterior", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 1900, ToFaceLeft: true },
-			{ Name: "ZaraPath1", FromX: 1000, FromY: 0, FromW: 600, FromH: 1200, FromType: "Up", ToX: 100 },
-			{ Name: "DesertDunesCactus", FromX: 2500, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100 },
+			{ Name: "DesertCactusField", FromX: 2500, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100 },
 		],
 		Entry: function() {			
 			if (!PlatformEventDone("DesertEntrance") && PlatformEventDone("LynJoin")) PlatformDialogStart("DesertEntranceLyn");
 			if (!PlatformEventDone("DesertEntrance") && !PlatformEventDone("LynJoin")) PlatformDialogStart("DesertEntrance");
 		},
 		Character: [
-			{ Name: "Vulture", Status: "Brown", X: 1800 },
+			{ Name: "Scorpion", Status: "Gold", X: 1400 },
+		]
+	},
+	{
+		Name: "DesertCactusField",
+		Text: "Desert Cactus Field",
+		Background: "Desert/CactusField",
+		Music: "Desert",
+		Width: 3500,
+		Height: 1400,
+		Door: [
+			{ Name: "DesertEntrance", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 2500, ToFaceLeft: true },
+			{ Name: "DesertCactusSun", FromX: 3400, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100 },
+		],
+		Character: [
+			{ Name: "Scorpion", Status: "Gold", X: 1500 },
+			{ Name: "Scorpion", Status: "Gold", X: 2000 },
+		]
+	},
+	{
+		Name: "DesertCactusSun",
+		Text: "Desert Fork",
+		Background: "Desert/CactusSun",
+		Music: "Desert",
+		Width: 2100,
+		Height: 1400,
+		Door: [
+			{ Name: "DesertCactusField", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 3400, ToFaceLeft: true },
+			{ Name: "ZaraPath1", FromX: 750, FromY: 0, FromW: 600, FromH: 1200, FromType: "Up", ToX: 100 },
+			{ Name: "DesertDunesCactus", FromX: 2000, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100 },
+		],
+		Character: [
+			{ Name: "Vulture", Status: "Brown", X: 1100 },
 		]
 	},
 	{
@@ -1812,7 +1867,7 @@ var PlatformRoomList = [
 		Width: 4000,
 		Height: 1200,
 		Door: [
-			{ Name: "DesertEntrance", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 900 },
+			{ Name: "DesertCactusSun", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 600 },
 			{ Name: "ZaraPath2", FromX: 3900, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100 },
 		],
 		Character: [
@@ -1833,7 +1888,7 @@ var PlatformRoomList = [
 		],
 		Character: [
 			{ Name: "Vulture", Status: "Brown", X: 1000 },
-			{ Name: "Vulture", Status: "Brown", X: 2000 },
+			{ Name: "Scorpion", Status: "Gold", X: 2000 },
 		]
 	},
 	{
@@ -1863,7 +1918,7 @@ var PlatformRoomList = [
 		Width: 3500,
 		Height: 1400,
 		Door: [
-			{ Name: "DesertEntrance", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 2500, ToFaceLeft: true },
+			{ Name: "DesertCactusSun", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 2500, ToFaceLeft: true },
 			{ Name: "DesertDunesBrown", FromX: 3400, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100 },
 		],
 		Character: [
@@ -1879,13 +1934,13 @@ var PlatformRoomList = [
 		Width: 4500,
 		Height: 1200,
 		Door: [
-			{ Name: "DesertDunesCactus", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 2500, ToFaceLeft: true },
+			{ Name: "DesertDunesCactus", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 3400, ToFaceLeft: true },
 			{ Name: "DesertDunesHeat", FromX: 4400, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100 },
 		],
 		Character: [
-			{ Name: "Vulture", Status: "Brown", X: 1300 },
+			{ Name: "Scorpion", Status: "Gold", X: 1300 },
 			{ Name: "Vulture", Status: "Brown", X: 2250 },
-			{ Name: "Vulture", Status: "Brown", X: 3200 },
+			{ Name: "Scorpion", Status: "Gold", X: 3200 },
 		]
 	},
 	{
@@ -1896,7 +1951,7 @@ var PlatformRoomList = [
 		Width: 4500,
 		Height: 1200,
 		Door: [
-			{ Name: "DesertDunesCactus", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 2500, ToFaceLeft: true },
+			{ Name: "DesertDunesCactus", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 4400, ToFaceLeft: true },
 			{ Name: "DesertDunesBrown", FromX: 3400, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100 },
 		],
 		Entry: function() {
