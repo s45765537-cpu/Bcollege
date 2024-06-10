@@ -5053,6 +5053,7 @@ ItemDevicesOneBarGirlSetm0,SourceCharacter traps DestinationCharacterName body o
 ItemDevicesOneBarGirlSetm1,SourceCharacter traps DestinationCharacterName body on the bar with laid-back legs pose.
 ItemDevicesOneBarGirlSetm2,SourceCharacter traps DestinationCharacterName body on the bar with loose socks style.
 ItemDevicesOneBarGirlSetm3,SourceCharacter traps DestinationCharacterName body on the bar with open legs pose.
+ItemDevicesOneBarGirlSetm4,SourceCharacter traps DestinationCharacterName body on the bar with maid outfit style.
 ItemDevicesOneBarGirlModuleVibration,Device vibration
 ItemDevicesOneBarGirlSelectVibration,Device speed control:
 ItemDevicesOneBarGirlOptionv0,Off
