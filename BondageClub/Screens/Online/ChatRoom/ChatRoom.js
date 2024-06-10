@@ -1178,8 +1178,9 @@ function ChatRoomAppendChat(div) {
 		}
 	}
 
+	const isScrolledToEnd = ElementIsScrolledToEnd("TextAreaChatLog");
 	chatLog.appendChild(div);
-	if (isPlayerMessage || ElementIsScrolledToEnd("TextAreaChatLog")) ElementScrollToEnd("TextAreaChatLog");
+	if (isPlayerMessage || isScrolledToEnd) ElementScrollToEnd("TextAreaChatLog");
 	if (document.activeElement.id == "InputChat") ElementFocus("InputChat");
 }
 
