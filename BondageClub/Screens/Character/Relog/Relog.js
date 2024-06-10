@@ -9,14 +9,13 @@ var RelogData = null;
  * @returns {void} Nothing
  */
 function RelogLoad() {
-
-	// Hides any HTML DOM element with the tag "HideOnPopup", like text boxes
-	var Elements = /** @type {HTMLCollectionOf<HTMLElement>} */(document.getElementsByClassName("HideOnPopup"));
-	for (let E = 0; E < Elements.length; E++)
-		Elements[E].style.display = "none";
-	Elements = /** @type {HTMLCollectionOf<HTMLElement>} */(document.getElementsByClassName("HideOnDisconnect"));
-	for (let E = 0; E < Elements.length; E++)
-		Elements[E].style.display = "none";
+	// Hides any (non-nested) HTML DOM element with the tag "HideOnPopup", like text boxes
+	const elements = /** @type {HTMLElement[]} */(Array.from(document.querySelectorAll(".HideOnPopup, .HideOnDisconnect")));
+	for (const e of elements) {
+		if (e.parentElement === null || e.parentElement === document.body) {
+			e.style.display = "none";
+		}
+	}
 
 	// Resets login variables and sets the login message
 	LoginStatusReset(null, true);

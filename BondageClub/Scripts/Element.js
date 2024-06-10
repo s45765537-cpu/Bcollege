@@ -579,13 +579,18 @@ function ElementFocus(ID) {
 }
 
 /**
- * Toggles HTML elements that were created by a given screen. When toggled off, they are hidden (not removed)
+ * Toggles (non-nested) HTML elements that were created by a given screen. When toggled off, they are hidden (not removed)
  * @param {string} Screen - Screen for which to hide the elements generated
  * @param {boolean} ShouldDisplay - TRUE if we are toggling on the elements, FALSE if we are hiding them.
  */
 function ElementToggleGeneratedElements(Screen, ShouldDisplay) {
-	const generatedElements = Array.from(document.querySelectorAll(`[screen-generated="${Screen}"]`));
-	generatedElements.forEach((/** @type {HTMLElement} */ element) => element.style.display = ShouldDisplay ? '' : 'none');
+	const displayState = ShouldDisplay ? "" : "none";
+	const elements = /** @type {HTMLElement[]} */(Array.from(document.querySelectorAll(`[screen-generated="${Screen}"]`)));
+	for (const e of elements) {
+		if (e.parentElement === null || e.parentElement === document.body) {
+			e.style.display = displayState;
+		}
+	}
 }
 
 /**
