@@ -919,11 +919,11 @@ var ElementMenu = {
 		}
 
 		// Selector for all non-hidden menu items
-		const selector = ":not([style*='display: none'])[role='menuitem']";
+		const selector = "[role='menuitem']";
 		switch (key) {
 			case "ArrowRight":
 			case "ArrowLeft": {
-				const elements = /** @type {HTMLElement[]} */(Array.from(parent.querySelectorAll(selector)));
+				const elements = /** @type {HTMLElement[]} */(Array.from(parent.querySelectorAll(selector)).filter(e => ElementCheckVisibility(e)));
 				const idx = elements.indexOf(this);
 				if (idx === -1) {
 					return;
@@ -943,7 +943,7 @@ var ElementMenu = {
 			}
 			case "Home":
 			case "End": {
-				const elements = /** @type {HTMLElement[]} */(Array.from(parent.querySelectorAll(selector)));
+				const elements = /** @type {HTMLElement[]} */(Array.from(parent.querySelectorAll(selector)).filter(e => ElementCheckVisibility(e)));
 				const idx = key === "Home" ? 0 : elements.length - 1;
 				elements[idx]?.focus();
 				ev.stopPropagation();
@@ -957,7 +957,7 @@ var ElementMenu = {
 
 				// We're assuming (well, mandating really...) that click actions a sub menu
 				this.click();
-				const elements = /** @type {HTMLElement[]} */(Array.from(this.querySelectorAll(selector)));
+				const elements = /** @type {HTMLElement[]} */(Array.from(this.querySelectorAll(selector)).filter(e => ElementCheckVisibility(e)));
 				const idx = key === "ArrowUp" ? elements.length - 1 : 0;
 				elements[idx]?.focus();
 				ev.stopPropagation();
@@ -1009,18 +1009,25 @@ var ElementMenu = {
 				role: "menubar",
 				...(menuOptions.attributes ?? {}),
 			},
+			parent: menuOptions.parent ?? document.body,
 			dataAttributes: { direction, ...(menuOptions.dataAttributes ?? {}) },
 			classList: ["menubar", ...(menuOptions.classList ?? [])],
 			children: [...menuItems, ...(menuOptions.children ?? [])],
 		});
 
-		elem.querySelectorAll("button, [role='menuitem']").forEach((menuitem, i) => {
+		let first = true;
+		elem.querySelectorAll("button, [role='menuitem']").forEach((menuitem) => {
 			menuitem.role ||= "menuitem";
 			if (menuitem.role !== "menuitem") {
 				return;
 			}
 
-			menuitem.setAttribute("tabindex", i === 0 ? "0" : "-1");
+			if (first && ElementCheckVisibility(menuitem)) {
+				first = false;
+				menuitem.setAttribute("tabindex", "0");
+			} else {
+				menuitem.setAttribute("tabindex", "-1");
+			}
 			menuitem.addEventListener("keydown", this._KeyDown);
 		});
 		return elem;
@@ -1052,15 +1059,42 @@ var ElementMenu = {
 			return;
 		}
 
-		// Only the first menuitem must be directly focusable via tab
-		const menuitemOld = div.querySelector("[role='menuitem']");
-		if (menuitemOld) {
-			menuitemOld.setAttribute("tabindex", "-1");
+		// Only the first visible menuitem must be directly focusable via tab
+		if (ElementCheckVisibility(menuitem)) {
+			const menuitemOld = div.querySelector("[role='menuitem'][tab-index='0']");
+			if (menuitemOld) {
+				menuitemOld.setAttribute("tabindex", "-1");
+			}
+			menuitem.tabIndex = 0;
+		} else {
+			menuitem.tabIndex = -1;
 		}
 
-		menuitem.tabIndex = 0;
 		menuitem.role = "menuitem";
 		menuitem.addEventListener("keydown", this._KeyDown);
 		div.prepend(menuitem);
 	},
 };
+
+/**
+ * Return whether an element is visible or not.
+ *
+ * Approximate polyfill of [`Element.checkVisibility()`](https://developer.mozilla.org/en-US/docs/Web/API/Element/checkVisibility),
+ * as its browser support is still somewhat limited (~88% at the time of writing).
+ * @param {Element} el - The element in question
+ * @param {CheckVisibilityOptions} [options] - Additional options to-be passed to `Element.checkVisibility()`
+ * @returns {boolean} - Whether the passed element is visible or not
+ */
+function ElementCheckVisibility(el, options) {
+	if (!el) {
+		return false;
+	}
+
+	if (typeof el.checkVisibility === "function") {
+		options ??= {};
+		return el.checkVisibility({ ...options, checkVisibilityCSS: options.checkVisibilityCSS ?? true });
+	} else {
+		// @ts-expect-error: Element does not expose style but HTMLElement does
+		return (!el.style || el.style.display !== "none") && getComputedStyle(el).display !== "none";
+	}
+}
