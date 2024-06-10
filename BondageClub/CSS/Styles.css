@@ -1051,6 +1051,12 @@ input[type="checkbox"]:checked::before {
 	}
 }
 
+@media (hover: none) {
+	.button-touch > .button-tooltip {
+		visibility: visible;
+	}
+}
+
 .button:focus {
 	outline: 2px solid rgb(0, 96, 223);
 	box-shadow: 0 0 0 3px white;
