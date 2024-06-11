@@ -1178,8 +1178,9 @@ function ChatRoomAppendChat(div) {
 		}
 	}
 
+	const isScrolledToEnd = ElementIsScrolledToEnd("TextAreaChatLog");
 	chatLog.appendChild(div);
-	if (isPlayerMessage || ElementIsScrolledToEnd("TextAreaChatLog")) ElementScrollToEnd("TextAreaChatLog");
+	if (isPlayerMessage || isScrolledToEnd) ElementScrollToEnd("TextAreaChatLog");
 	if (document.activeElement.id == "InputChat") ElementFocus("InputChat");
 }
 
@@ -1689,7 +1690,7 @@ function ChatRoomStimulationMessage(Action) {
 function ChatRoomResize(load) {
 	const elem = document.getElementById("chat-room-div");
 	const chatInput = document.getElementById("InputChat");
-	if (elem && chatInput && CurrentScreen == "ChatRoom" && elem.style.display !== "none") {
+	if (elem && chatInput && elem.style.display !== "none") {
 		ElementPositionFix("chat-room-div", ChatRoomFontSize, ...ChatRoomDivRect);
 		elem.style.display = "";
 		chatInput.dispatchEvent(new Event("input"));
@@ -2027,7 +2028,6 @@ function ChatRoomRun(time) {
 
 	// Draws the chat elements in the bottom right
 	if (ChatRoomChatHidden) ChatRoomShowElements();
-	ChatRoomResize(false);
 	if (CurrentTime > ChatRoomGetUpTimer) ChatRoomGetUpTimer = 0;
 
 	// Draw the buttons at the top-right
@@ -2684,10 +2684,11 @@ function ChatRoomCommonKeyDown(event) {
  * @returns {boolean} - Nothing.
  */
 function ChatRoomKeyDown(event) {
-	const inputChat = /** @type {HTMLInputElement} */(document.getElementById("InputChat"));
+	const inputChat = /** @type {HTMLTextAreaElement} */(document.getElementById("InputChat"));
 	const chatHasFocus = inputChat && document.activeElement === inputChat;
 
 	if (chatHasFocus) {
+		// Why are these room-level event listeners!?
 		if (event.code === "Tab" && !event.shiftKey && inputChat.value.length !== 0) {
 			// Autocomplete whatever the chat contains
 			CommandAutoComplete(inputChat.value);
@@ -2695,6 +2696,8 @@ function ChatRoomKeyDown(event) {
 		} else if (event.key === "Enter" && !event.shiftKey) {
 			// The ENTER key sends the chat.
 			ChatRoomSendChat();
+			inputChat.style.height = "100%";
+			inputChat.style.height = `${inputChat.scrollHeight}px`;
 			return true;
 		} else if (event.key === "PageUp" || event.key === "PageDown") {
 			// On page up/down, we scroll through chat history
