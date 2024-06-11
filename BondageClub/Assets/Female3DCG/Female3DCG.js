@@ -45495,6 +45495,7 @@ var AssetFemale3DCG = [
 				FixedPosition: true,
 				Extended: true,
 				CreateLayerTypes: ["typed"],
+				SetPose: ["LegsClosed"],
 				Effect: [E.BlockWardrobe, E.Freeze, E.MapImmobile ],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Prerequisite: [
