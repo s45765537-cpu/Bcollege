@@ -3311,11 +3311,12 @@ var ChatRoomMessageHandlers = [
 		Priority: 110,
 		Callback: (data, sender, msg, metadata) => {
 			if (data.Type == "Chat" || data.Type == "Whisper") {
+				const Original = data.Content;
 				if (Player.GetDeafLevel() > 0) {
 					const s = SpeechTransformProcess(sender, data.Content, SpeechTransformReceiverEffects);
 					data.Content = s.text;
 				}
-				ChatRoomChatLog.push({ Chat: data.Content, Garbled: msg, Original: data.Content, SenderName: metadata.senderName, SenderMemberNumber: sender.MemberNumber, Time: CommonTime() });
+				ChatRoomChatLog.push({ Chat: data.Content, Garbled: msg, Original, SenderName: metadata.senderName, SenderMemberNumber: sender.MemberNumber, Time: CommonTime() });
 				if (ChatRoomChatLog.length > 6) ChatRoomChatLog.splice(0, 1);
 			}
 			return false;
