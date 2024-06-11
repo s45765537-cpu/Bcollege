@@ -234,7 +234,7 @@ function InventoryItemVulvaFuturisticVibratorHandleChat(data, C, Item, LastTime)
 		if (Item.Property.AccessMode === ItemVulvaFuturisticVibratorAccessMode.PROHIBIT_SELF && logEntry.SenderMemberNumber === C.MemberNumber) continue;
 		if (Item.Property.AccessMode === ItemVulvaFuturisticVibratorAccessMode.LOCK_MEMBER_ONLY && logEntry.SenderMemberNumber !== Item.Property.LockMemberNumber) continue;
 
-		var msg = InventoryItemVulvaFuturisticVibratorDetectMsg(logEntry.Chat.toUpperCase(), TriggerValues);
+		var msg = InventoryItemVulvaFuturisticVibratorDetectMsg(logEntry.Original.toUpperCase(), TriggerValues);
 
 		if (msg.length > 0) {
 			/** @type {null | VibratingItemOption} */
