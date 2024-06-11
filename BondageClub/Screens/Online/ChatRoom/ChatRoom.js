@@ -1242,8 +1242,7 @@ function ChatRoomClearAllElements() {
 	if (Player.ChatSettings?.PreserveChat ?? true) {
 		ChatRoomHideElements();
 	} else {
-		ElementRemove("InputChat");
-		ElementRemove("TextAreaChatLog");
+		ElementRemove("chat-room-div");
 		window.removeEventListener("resize", ChatRoomResizeManager.ChatRoomResizeEvent);
 	}
 
