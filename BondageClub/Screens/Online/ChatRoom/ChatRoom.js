@@ -4038,7 +4038,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 					style: { "--label-color": SenderCharacter.LabelColor },
 					eventListeners: { click: ChatRoomMessageNameClick },
 				}),
-				" ",
+				": ",
 				displayMessage,
 			);
 			break;
@@ -4060,7 +4060,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 					style: { "--label-color": whisperTarget.LabelColor },
 					eventListeners: { click: ChatRoomMessageNameClick },
 				}),
-				" ",
+				": ",
 				displayMessage,
 			);
 			break;
@@ -4072,7 +4072,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 			break;
 
 		case "ServerMessage":
-			divChildren.push(ElementCreate({ tag: "br", children: [displayMessage] }));
+			divChildren.push(ElementCreate({ tag: "br" }), displayMessage);
 			break;
 
 		case "LocalMessage":
@@ -4090,7 +4090,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 	}
 
 	if (metadata.OriginalMsg) {
-		divChildren.push(ElementCreate({ tag: "br", children: [`[${metadata.OriginalMsg}]`] }));
+		divChildren.push(ElementCreate({ tag: "br"}), `[${metadata.OriginalMsg}]`);
 	}
 
 	// Checks if the message is a notification about the user entering or leaving the room

@@ -452,7 +452,7 @@ textarea {
 #TextAreaChatLog[data-colortheme="dark"] .ChatMessageEmote,
 #TextAreaChatLog[data-colortheme="dark2"] .ChatMessageEmote,
 #TextAreaChatLog[data-colortheme="dark"] .ChatMessageActivity,
-#TextAreaChatLog[data-colortheme="dark2"] .ChatMessageActivity  {
+#TextAreaChatLog[data-colortheme="dark2"] .ChatMessageActivity {
 	--base-color: #111;
 }
 
@@ -461,6 +461,8 @@ textarea {
 	font-style: normal;
 	display: inline;
 	cursor: pointer;
+	border: none !important;
+	background-color: unset !important;
 }
 #FriendList {
 	border: 2px solid white;
