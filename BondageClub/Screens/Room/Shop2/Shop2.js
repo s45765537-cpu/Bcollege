@@ -518,8 +518,9 @@ var Shop2 = {
 	/**
 	 * Filter the buy, sell and preview items in {@link Shop2Vars} based on the {@link Shop2Vars.Filters} settings,
 	 * clipping the current {@link Shop2Vars.Page} if required.
+	 * @param {boolean} clearDatalist - Whether the search bars datalist should be cleared (and thus be recomputed on a focus event)
 	 */
-	ApplyItemFilters: function ApplyItemFilters() {
+	ApplyItemFilters: function ApplyItemFilters(clearDatalist=true) {
 		// Empty the filter caches and mark all relevant assets as filtered or not
 		Shop2Vars.BuyItems = [];
 		Shop2Vars.SellItems = [];
@@ -540,7 +541,9 @@ var Shop2 = {
 			Shop2Vars.Page = Shop2Vars.PageCount - 1;
 		}
 
-		ElementContent("Shop2InputSearch-datalist", "");
+		if (clearDatalist) {
+			ElementContent("Shop2InputSearch-datalist", "");
+		}
 	},
 
 	/** Click handler for the group-selection checkboxes */
@@ -705,7 +708,7 @@ var Shop2 = {
 							return description.includes(elem.value.toUpperCase().trim()) ? ["Buy", "Sell", "Preview"] : [];
 						};
 					}
-					Shop2.ApplyItemFilters();
+					Shop2.ApplyItemFilters(false);
 				});
 			},
 			Draw: (...coords) => {
@@ -1191,7 +1194,7 @@ function Shop2Load() {
 
 	Shop2Vars.Filters.NeverSell ??= (item) => item.NeverSell ? ["Buy", "Preview"] : ["Sell", "Buy", "Preview"];
 	Shop2Vars.Filters.Buy ??= (item) => item.Buy ? ["Buy", "Preview"] : ["Sell", "Preview"];
-	Shop2.ApplyItemFilters();
+	Shop2.ApplyItemFilters(false);
 	Shop2._PopulateGroupDescriptions(Shop2InitVars.Items);
 
 	Object.values(Shop2.Elements).forEach((e) => {
