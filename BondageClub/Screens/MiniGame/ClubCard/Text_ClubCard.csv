@@ -78,6 +78,7 @@ GroupABDLMommy,ABDL Mommy
 GroupCollegeStudent,College Student
 GroupCollegeTeacher,College Teacher
 GroupPlayer,Online Player
+GroupShibari,Shibari
 Title Kinky Neighbor,Kinky Neighbor
 Text Kinky Neighbor,+2 Money per turn if Cute Girl Next Door is present.
 Title Cute Girl Next Door,Cute Girl Next Door
@@ -101,7 +102,7 @@ Text Gambler,+4 Money when she enters your club.
 Title Red Twin,Red Twin
 Text Red Twin,<F>We don't share minds but can share orgasms.
 Title Blue Twin,Blue Twin
-Text Blue Twin,+4 Fame per turn if Red Twin is present.
+Text Blue Twin,+3 Fame per turn if Red Twin is present.
 Title Rope Bunny,Rope Bunny
 Text Rope Bunny,+2 Money per turn if at least one Dominant is present.
 Title Shy Submissive,Shy Submissive
@@ -187,11 +188,11 @@ Text Curious Patient,<F>Why are the walls padded?
 Title Part-Time Patient,Part-Time Patient
 Text Part-Time Patient,+6 Money when she enters your club.
 Title Novice Nurse,Novice Nurse
-Text Novice Nurse,+1 Fame per turn for each Asylum Patient present.
+Text Novice Nurse,+1 Fame per turn for each Asylum Patient present. Max 3
 Title Commited Patient,Commited Patient
 Text Commited Patient,<F>My jacket is never tight enough.
 Title Veteran Nurse,Veteran Nurse
-Text Veteran Nurse,+2 Fame per turn for each Asylum Patient present.
+Text Veteran Nurse,+2 Fame per turn for each Asylum Patient present. Max 6
 Title Permanent Patient,Permanent Patient
 Text Permanent Patient,<F>Monday exam is quite similar to therapy Tuesday.
 Title Doctor,Doctor
@@ -237,13 +238,13 @@ Text Diaper Baby,+3 Money per turn if at least one Maid is present.
 Title Sugar Baby,Sugar Baby
 Text Sugar Baby,<F>This baby wants a diamond pacifier.
 Title Babysitter,Babysitter
-Text Babysitter,+2 Fame per turn for each ABDL Baby present.
+Text Babysitter,+2 Fame per turn for each ABDL Baby present. Max 5
 Title Soap Opera Mother,Soap Opera Mother
 Text Soap Opera Mother,+25 Fame when she enters your club if at least one ABDL Baby is present.
 Title Amanda,Amanda
 Text Amanda,<F>I never thought I would find a second home in this perverted place.
 Title Sarah,Sarah
-Text Sarah,+2 Fame per turn if Amanda or Mistress Sophie is present.  -2 Fame per turn if Sidney is present.
+Text Sarah,+1 Fame per turn if Amanda or Mistress Sophie is present.  -2 Fame per turn if Sidney is present.
 Title Sidney,Sidney
 Text Sidney,<F>Anyone that calls me Piggy will end up in a hogtie.
 Title Jennifer,Jennifer
@@ -256,7 +257,7 @@ Text College Nerd,+1 Money per turn if Julia is present.  +1 Money per turn if Y
 Title College Hidden Genius,Hidden Genius
 Text College Hidden Genius,+5 Fame per turn if Mildred is present.
 Title Substitute Teacher,Substitute Teacher
-Text Substitute Teacher,+1 Fame per turn for each College Student present.
+Text Substitute Teacher,+1 Fame per turn for each College Student present. Max 3
 Title Julia,Julia
 Text Julia,<F>Seeing them learn and grow is magnifico.
 Title Yuki,Yuki
@@ -298,7 +299,7 @@ Text College Bash,+2 Fame for each College Girl.  Extra +2 Fame if Sidney is pre
 Title Ransomware,Ransomware
 Text Ransomware,Opponent loses 5 Money per building level.  Cannot be played if your opponent has Amanda or Jennifer.
 Title Shibari Evening,Shibari Evening
-Text Shibari Evening,+1 Fame for each Non-Dominant members in your club.  Extra +1 Fame if Rope Sensei is present.
+Text Shibari Evening,+1 Fame for each Non-Dominant members in your club. +1 Extra Fame for each Shibari member.
 Title Moving Out of Town,Moving Out of Town
 Text Moving Out of Town,Remove any member from your opponent club.
 Prerequisite Moving Out of Town,Select a member from your opponent club to remove.
@@ -335,7 +336,7 @@ Title Porn Convention,Porn Convention
 Text Porn Convention,"For 3 turns, all players gain 3 Fame for each Porn Actress in their club at end of turn."
 Effect Porn Convention,SOURCEPLAYER gains AMOUNT Fame from the Porn Convention.
 Title Kidnapping,Kidnapping
-Text Kidnapping,Remove any member from your opponent club.  You lose 2 Money for each opponent building level.
+Text Kidnapping,Remove any member from your opponent club.  You lose opponent building level^2 Money.
 Title Pandora Box,Pandora's Box
 Text Pandora Box,All players discard their current hand and draw 5 new cards.
 Effect Pandora Box,SOURCEPLAYER opens Pandora's Box.  All players discard their hand and draw 5 new cards.
@@ -351,8 +352,8 @@ Title Big Baby,Big Baby
 Text Big Baby,+1 Money if opponent has more cards in their hand. Opponent draws a card when she enters your club.
 Title Fussy Baby,Fussy Baby
 Text Fussy Baby,Returns to hand when the opponent plays an Event and you gain 4 fame.
-Title Daycare Manager,Daycare Manager
-Text Daycare Manager,Gain 3 fame when an ABDL Mommy enters your club. Gain 3 money when an ABDL Baby enters your club.
+Title Daycare Enthusiast,Daycare Enthusiast
+Text Daycare Enthusiast,Gain 3 fame when an ABDL Mommy enters your club. Gain 3 money when an ABDL Baby enters your club.
 Title Daycare Party,Daycare Party
 Text Daycare Party,Gain 4 Fame and draw a card for each ABDL Mommy present.
 Effect Daycare Party, Gained AMOUNT fame from the Daycare Party
@@ -363,3 +364,24 @@ Text Dommy Mommy,+1 Fame per turn for each ABDL Baby present. Gain 1 Fame for ea
 Title Contract Caretaker,Contract Caretaker
 Text Contract Caretaker,"When a ABDL Baby enters your club, if opponent has more fame they don't gain fame at the end of their next turn"
 Effect Contract Caretaker,No Fame is gained because of OPPONENTPLAYER Contract Caretaker.
+Title Teacher's Aide,Teacher's Aide
+Text Teacher's Aide,Aiding her teacher day and night
+Title Homeroom,Homeroom
+Text Homeroom,Can only be played if you control 3 or more College members. Both players cannot advance their club for 4 turns.
+Title Student Custodian,Student Custodian
+Text Student Custodian,"When the opponent plays an liability or event, if you control a teacher or staff, you draw a card and lose 1 money per opponent building level."
+Effect Student Custodian,OPPONENTPLAYER lost AMOUNT money and drew a card from Student Custodian
+Title Recess,Recess
+Text Recess,Draw 2 cards. Gain 2 money for each ABDL Baby and College Student present.
+Effect Recess, SOURCEPLAYER draws 2 cards and gains AMOUNT money from Recess
+Title Med Student,Med Student
+Text Med Student,+1 Money per turn if an Asylum Patient is present. +1 Fame per turn if a College Teacher is present.
+Title First Bell,First Bell
+Text First Bell,"Draw a random college student from your deck. If it's your first turn or you control a teacher, play again."
+Effect First Bell Draw, SOURCEPLAYER draws 1 card from First Bell
+Effect First Bell No Draw, SOURCEPLAYER could not draw any cards from First Bell
+Title Alvin,Alvin
+Text Alvin,Summon a Ropeslave when playing Restrain or Kidnapping a Dominant or Mistress
+Effect Alvin, Alvin summoned a rope slave for SOURCEPLAYER
+Title Rope Slave,Rope Slave
+Text Rope Slave,Gain +1 Fame per turn if Alvin or Rope Sensei present.
