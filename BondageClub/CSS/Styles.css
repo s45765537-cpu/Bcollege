@@ -254,9 +254,10 @@ textarea {
 
 .ChatMessageName {
 	text-shadow: 0.05em 0.05em black;
-	cursor: pointer;
 	color: var(--label-color);
 	user-select: text;
+	background: unset !important;
+	border: unset !important;
 }
 
 .ChatMessageName:hover {

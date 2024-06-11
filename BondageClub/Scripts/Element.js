@@ -815,7 +815,7 @@ var ElementButton = {
 	 * <button id={id}>
 	 *     <div id={`${id}-tooltip`} />
 	 * </button>
-	 * @param {string} id - The ID of the to-be created search button
+	 * @param {null | string} id - The ID of the to-be created search button
 	 * @param {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => any} onClick - The click event listener to-be attached to the tooltip
 	 * @param {Object} [options]
 	 * @param {null | string | Node} [options.tooltip] - Optional tooltip content. If not supplied then one should manually prepend it to the tooltip later
@@ -829,6 +829,7 @@ var ElementButton = {
 			return elem;
 		}
 
+		id ??= `button-${Date.now()}`;
 		const tooltip = options?.tooltip;
 		const tooltipPosition = this._PositionMapping[options?.tooltipPosition] ?? this._PositionMapping.left;
 		const buttonOptions = htmlOptions?.button ?? {};
