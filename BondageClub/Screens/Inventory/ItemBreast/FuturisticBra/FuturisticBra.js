@@ -80,9 +80,9 @@ function AssetsItemBreastFuturisticBraAfterDraw({
 	if (L === "Text" && Property && (subType === 0 || subType === 2)) {
 
 		let offset = 0;
-		if (G == "_Large") offset = 4;
-		if (G == "_XLarge") offset = 7;
-		if (G == "_Small") offset = -5;
+		if (G == "Large") offset = 4;
+		if (G == "XLarge") offset = 7;
+		if (G == "Small") offset = -5;
 
 		// We set up a canvas
 		const Height = 50;
