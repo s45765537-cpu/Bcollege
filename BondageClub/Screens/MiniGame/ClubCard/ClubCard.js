@@ -2092,7 +2092,7 @@ function ClubCardPlayerDrawCard(CCPlayer, Amount = null) {
 			}
 			CCPlayer.Hand.push(CCPlayer.Deck[0]);
 			CCPlayer.Deck.splice(0, 1);
-			CheckDetectiveDraw(CCPlayer);
+			ClubCardCheckDetectiveDraw(CCPlayer);
 		}
 		Amount--;
 	}
@@ -2122,7 +2122,7 @@ function ClubCardPlayerDrawGroupCard(CCPlayer, group) {
 	const cardIndex = CCPlayer.Deck.findIndex(value => value.ID === card.ID);
 	CCPlayer.Deck.splice(cardIndex, 1);
 
-	CheckDetectiveDraw(CCPlayer);
+	ClubCardCheckDetectiveDraw(CCPlayer);
 	return true;
 }
 
@@ -2132,7 +2132,7 @@ function ClubCardPlayerDrawGroupCard(CCPlayer, group) {
  * @returns {void} - Nothing
  *
  */
-function CheckDetectiveDraw(CCPlayer) {
+function ClubCardCheckDetectiveDraw(CCPlayer) {
 	if(ClubCardNameIsOnBoard(ClubCardGetOpponent(CCPlayer), "Detective")){
 		ClubCardPlayerAddMoney(ClubCardGetOpponent(CCPlayer),1);
 	}

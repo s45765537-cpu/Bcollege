@@ -1,7 +1,7 @@
 "use strict";
 
 /** BC's version */
-var GameVersion = "R105Beta1";
+var GameVersion = "R105Beta2";
 
 const GameVersionFormat = /^R([0-9]+)(?:(Alpha|Beta)([0-9]+)?)?$/;
 
@@ -29,7 +29,7 @@ function GameStart() {
 	TranslationLoad();
 	DrawLoad();
 	AssetLoadAll();
-	AssetInventoryIDValidate(); // COMMENT WHEN RELEASING
+	//AssetInventoryIDValidate(); // COMMENT WHEN RELEASING
 	CommandsLoad();
 	ControllerStart();
 	CommonSetScreen("Character", "Login");
