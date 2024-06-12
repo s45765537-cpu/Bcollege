@@ -2802,7 +2802,7 @@ function ChatRoomSendChat() {
 	const parsed = CommandParse(msg);
 	if (typeof parsed === "string") {
 		msg = parsed;
-	} else {
+	} else if (parsed) {
 		return;
 	}
 
