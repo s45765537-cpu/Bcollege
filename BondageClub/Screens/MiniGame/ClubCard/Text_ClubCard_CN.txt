@@ -158,6 +158,8 @@ College Teacher
 大学老师
 Online Player
 在线玩家
+Shibari
+绳艺
 Kinky Neighbor
 变态邻居
 +2 Money per turn if Cute Girl Next Door is present.
@@ -204,8 +206,8 @@ Red Twin
 <F>我们不能共享思维，但能共享高潮。
 Blue Twin
 蓝色双子
-+4 Fame per turn if Red Twin is present.
-如果红色双子在场，每回合+4声望。
++3 Fame per turn if Red Twin is present.
+如果红色双子在场，每回合+3声望。
 Rope Bunny
 小绳兔
 +2 Money per turn if at least one Dominant is present.
@@ -376,16 +378,16 @@ Part-Time Patient
 当她进入你的俱乐部时，+6金钱。
 Novice Nurse
 菜鸟护士
-+1 Fame per turn for each Asylum Patient present.
-每有一个收容所病人在场，每回合+1声望。
++1 Fame per turn for each Asylum Patient present. Max 3
+每有一个收容所病人在场，每回合+1声望。最多3
 Commited Patient
 忠诚病人
 <F>My jacket is never tight enough.
 <F>我的拘束衣永远不够紧。
 Veteran Nurse
 老练护士
-+2 Fame per turn for each Asylum Patient present.
-每有一个收容所病人在场，每回合+2声望。
++2 Fame per turn for each Asylum Patient present. Max 6
+每有一个收容所病人在场，每回合+2声望。最多6
 Permanent Patient
 永久病人
 <F>Monday exam is quite similar to therapy Tuesday.
@@ -474,8 +476,8 @@ Sugar Baby
 <F>这个宝贝想要一个钻石奶嘴。
 Babysitter
 保姆
-+2 Fame per turn for each ABDL Baby present.
-每有一个ABDL宝宝在场，每回合+2声望。
++2 Fame per turn for each ABDL Baby present. Max 5
+每有一个ABDL宝宝在场，每回合+2声望。最多5
 Soap Opera Mother
 肥皂剧妈妈
 +25 Fame when she enters your club if at least one ABDL Baby is present.
@@ -486,8 +488,8 @@ Amanda
 <F>我没想到在这种色情的地方能找到第二个家。
 Sarah
 Sarah
-+2 Fame per turn if Amanda or Mistress Sophie is present.  -2 Fame per turn if Sidney is present.
-如果Amanda或者女主人Sophie在场，每回合+2声望。如果Sidney在场，每回合-2声望。
++1 Fame per turn if Amanda or Mistress Sophie is present.  -2 Fame per turn if Sidney is present.
+如果Amanda或者女主人Sophie在场，每回合+1声望。如果Sidney在场，每回合-2声望。
 Sidney
 Sidney
 <F>Anyone that calls me Piggy will end up in a hogtie.
@@ -512,8 +514,8 @@ Hidden Genius
 如果Mildred在场，每回合+5声望
 Substitute Teacher
 代课老师
-+1 Fame per turn for each College Student present.
-每有一个大学学生在场，每回合+1声望。
++1 Fame per turn for each College Student present. Max 3
+每有一个大学学生在场，每回合+1声望。最多3
 Julia
 Julia
 <F>Seeing them learn and grow is magnifico.
@@ -596,8 +598,8 @@ Opponent loses 5 Money per building level.  Cannot be played if your opponent ha
 对手每有一个建筑等级失去5金钱。如果你的对手有Amanda或者Jennifer不能打出。
 Shibari Evening
 绳艺之夜
-+1 Fame for each Non-Dominant members in your club.  Extra +1 Fame if Rope Sensei is present.
-你的俱乐部里每有一个非支配者会员+1声望。如果绳艺老师在场，额外+1声望。
++1 Fame for each Non-Dominant members in your club. +1 Extra Fame for each Shibari member.
+你的俱乐部里每有一个非支配者会员，+1声望。每有一个绳艺会员，额外+1声望。
 Moving Out of Town
 搬出城市
 Remove any member from your opponent club.
@@ -670,8 +672,8 @@ SOURCEPLAYER gains AMOUNT Fame from the Porn Convention.
 SOURCEPLAYER从色情大会中获得了AMOUNT声望。
 Kidnapping
 绑架
-Remove any member from your opponent club.  You lose 2 Money for each opponent building level.
-从你对手的俱乐部里移除任一会员。对手每有一个建筑等级，你失去2金钱。
+Remove any member from your opponent club.  You lose opponent building level^2 Money.
+从你对手的俱乐部里移除任一会员。你失去对手建筑等级平方的金钱。
 Pandora's Box
 潘多拉魔盒
 All players discard their current hand and draw 5 new cards.
@@ -698,3 +700,73 @@ Big Baby
 大宝贝
 +1 Money if opponent has more cards in their hand. Opponent draws a card when she enters your club.
 如果对手的手牌中卡牌更多，+1金钱。当她进入你的俱乐部时，对手抽一张牌。
+Fussy Baby
+挑剔宝贝
+Returns to hand when the opponent plays an Event and you gain 4 fame.
+当对手打出事件时返回手牌，你获得4声望。
+Daycare Enthusiast
+托儿所狂热者
+Gain 3 fame when an ABDL Mommy enters your club. Gain 3 money when an ABDL Baby enters your club.
+当一个ABDL妈咪进入你的俱乐部时，获得3声望。当一个ABDL宝宝进入你的俱乐部时，获得3金钱。
+Daycare Party
+托儿所派对
+Gain 4 Fame and draw a card for each ABDL Mommy present.
+每有一个ABDL妈咪在场，获得4声望并抽一张牌。
+ Gained AMOUNT fame from the Daycare Party
+从托儿所派对中获得了AMOUNT声望
+Nanny
+保姆奶奶
+When an ABDL Baby enters your club, gain fame equal to your club level.
+当一个ABDL宝宝进入你的俱乐部时，获得与你俱乐部等级相等的声望。
+Dommy Mommy
+支配妈咪
++1 Fame per turn for each ABDL Baby present. Gain 1 Fame for each member present when she enters your club.
+每有一个ABDL宝宝在场，每回合+1声望。当她进入你的俱乐部时，每有一个会员在场，获得1声望。
+Contract Caretaker
+合同保姆
+When a ABDL Baby enters your club, if opponent has more fame they don't gain fame at the end of their next turn
+当一个ABDL宝宝进入你的俱乐部时，如果对手的声望更多，对手在下个回合结束时不会获得声望。
+No Fame is gained because of OPPONENTPLAYER Contract Caretaker.
+由于OPPONENTPLAYER的合同保姆，没有获得声望。
+Teacher's Aide
+助教
+Aiding her teacher day and night
+日夜帮助她的老师
+Homeroom
+班主任
+Can only be played if you control 3 or more College members. Both players cannot advance their club for 4 turns.
+只有在你控制3个或更多大学会员时才能打出。在4回合内，双方都不能提升俱乐部。
+Student Custodian
+学生管理员
+When the opponent plays an liability or event, if you control a teacher or staff, you draw a card and lose 1 money per opponent building level.
+当对手打出闹事者或事件时，如果你控制一个老师或工作人员，你抽一张牌，并且对手每有一个建筑等级，失去1金钱。
+OPPONENTPLAYER lost AMOUNT money and drew a card from Student Custodian
+OPPONENTPLAYER由于学生管理员失去了AMOUNT金钱并抽了一张牌
+Recess
+课间休息
+Draw 2 cards. Gain 2 money for each ABDL Baby and College Student present.
+抽2张牌。每有一个ABDL宝贝和大学学生在场，获得2金钱。
+ SOURCEPLAYER draws 2 cards and gains AMOUNT money from Recess
+SOURCEPLAYER由于课间休息抽了2张牌并获得了AMOUNT金钱
+Med Student
+医学生
++1 Money per turn if an Asylum Patient is present. +1 Fame per turn if a College Teacher is present.
+如果有一个收容所病人在场，每回合+1金钱。如果有一个大学老师在场，每回合+1声望。
+First Bell
+预备铃
+Draw a random college student from your deck. If it's your first turn or you control a teacher, play again.
+从你的牌库中抽取一个随机的大学学生。如果这是你的第一个回合或者你控制一个老师，再次抽取。
+ SOURCEPLAYER draws 1 card from First Bell
+SOURCEPLAYER由于预备铃抽取了1张牌    
+ SOURCEPLAYER could not draw any cards from First Bell
+SOURCEPLAYER无法从预备铃中抽取任何卡牌
+Alvin
+Alvin
+Summon a Ropeslave when playing Restrain or Kidnapping a Dominant or Mistress
+当对支配者或女主人打出束缚或绑架时，召唤一个绳奴。
+ Alvin summoned a rope slave for SOURCEPLAYER
+Alvin为SOURCEPLAYER召唤了一个绳奴
+Rope Slave
+绳奴
+Gain +1 Fame per turn if Alvin or Rope Sensei present.
+如果Alvin或绳艺老师在场，每回合+1声望。

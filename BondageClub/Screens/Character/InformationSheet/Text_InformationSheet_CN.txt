@@ -151,7 +151,7 @@ Good Slave
 Drone
 仆从机
 Mistree
-Mistree
+机械师
 Good One
 妙人
 Liege
@@ -192,8 +192,6 @@ On trial for
 试任了
 Collared for
 认主了
-Lover for
-恋爱了
 Dating for
 约会了
 Engaged for
@@ -237,7 +235,7 @@ House Corporis:
 difficulty
 难度
  - Can change again in NumberOfDays day(s)
- - 经过NumberOfDays天可以再次改变
+- 经过NumberOfDays天可以再次改变
 Roleplay
 角色扮演
 Regular

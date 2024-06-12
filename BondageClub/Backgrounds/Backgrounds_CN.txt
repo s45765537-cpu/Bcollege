@@ -318,9 +318,9 @@ Christmas Day Lounge
 圣诞节接待室
 Christmas Eve Lounge
 圣诞夜接待室
-Yatch Chill Room
+Yacht Chill Room
 游艇休息室
-Yatch Main Hall
+Yacht Main Hall
 游艇主厅
-Yatch Deck
+Yacht Deck
 游艇甲板
