@@ -67,7 +67,7 @@ Yes, but only if your slave is fully collared.  You can sell her permanently or 
 Ja, aber nur, wenn deine Sklavin ihr Halsband endgültig akzeptiert hat. Du kannst sie dauerhaft verkaufen oder einen Tag lang verleihen. Sprich vorher mit ihr.
 ###_PLAYER
 Can I be auctioned as a slave?
-Can I be auctioned as a slave?
+Kann ich als Sklavin verkauft werden?
 ###_NPC
 You could, but you need to understand the rules first.
 Ja, aber du musst erst die Regeln verstehen.
@@ -233,7 +233,7 @@ Maybe, but you still need to focus on your wimp needs.  Do you want anything els
 Mag sein, aber du musst dich dennoch auf die Bedürfnisse deines Weicheis konzentrieren. Brauchst du sonst noch etwas?
 ###_PLAYER
 Please tell me the rules.
-Please tell me the rules.
+Bitte erkläre mir die Regeln.
 ###_NPC
 As a slave on auction, you will be naked and chained for Dominants to examine and question you.
 Als eine Sklavin in der Auktion wirst du nackt und gefesselt sein, damit die Dominaten dich inspizieren können.
@@ -246,8 +246,8 @@ Alles klar.
 After the exam, the bidding will start.  Each buyer will bid until no one wants to bid anymore.  The last bid wins you.
 Nach der Inspektion, startet die Versteigerung.  Jeder bietet so lange, bis niemand mehr bieten möchte. Der letzte Bietende gewinnt dich.
 ###_PLAYER
-Das ist so Pervers!
 This is kinky!
+Das ist so Pervers!
 Very well.
 Sehr gut.
 ###_NPC

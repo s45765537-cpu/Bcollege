@@ -48,3 +48,5 @@ Select colors
 Farben auswählen
 blocked by owner
 Durch Eigentümer blockiert
+Change item layering
+Ändere Objekt Layer

@@ -31,7 +31,7 @@ Größe (2-20)
 Create
 Erstellen
  Exit
- Exit
+Exit
 Selection
 Auswahl
 Creating your room...
@@ -80,6 +80,8 @@ Spanish
 Spanisch
 German
 Deutsch
+Ukrainian
+Ukrainisch
 Chinese
 Chinesisch
 Russian
