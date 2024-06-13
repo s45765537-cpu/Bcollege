@@ -60,8 +60,8 @@ function CommandCombine(add) {
 /**
  * Parse the input chat message
  * @param {string} msg - Input string, cannot be empty
- * @returns {string|boolean} a de-escaped string if msg looks like an escaped
- *   command, true if a command successfully executed, false otherwise.
+ * @returns {string | boolean} a (de-escaped) string if msg looks like an normal message,
+ * true if a command successfully executed, false otherwise.
  */
 function CommandParse(msg) {
 
@@ -71,11 +71,9 @@ function CommandParse(msg) {
 	} else if (msg.startsWith(CommandsKey + CommandsKey)) {
 		// Escaped command, strip first char and return that
 		return msg.substring(1);
-	}
-
-	if (!msg.startsWith(CommandsKey)) {
+	} else if (!msg.startsWith(CommandsKey)) {
 		// Not a command. Skip.
-		return false;
+		return msg;
 	}
 
 	return CommandExecute(msg);
