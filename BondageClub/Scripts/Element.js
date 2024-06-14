@@ -825,6 +825,16 @@ var ElementButton = {
 	},
 
 	/**
+	 * @private
+	 * @type {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => void}
+	 */
+	_Click: function _Click(ev) {
+		if (this.ariaDisabled === "true") {
+			ev.stopImmediatePropagation();
+		}
+	},
+
+	/**
 	 * Create a button with a tooltip
 	 *
 	 * @example
@@ -850,7 +860,7 @@ var ElementButton = {
 		const tooltipPosition = this._PositionMapping[options?.tooltipPosition] ?? this._PositionMapping.left;
 		const buttonOptions = htmlOptions?.button ?? {};
 		const tooltipOptions = htmlOptions?.tooltip ?? {};
-		return ElementCreate({
+		elem = ElementCreate({
 			...buttonOptions,
 			tag: "button",
 			attributes: {
@@ -862,7 +872,7 @@ var ElementButton = {
 			},
 			classList: ["blank-button", "button", "HideOnPopup", ...(buttonOptions.classList ?? [])],
 			eventListeners: {
-				click: onClick,
+				click: this._Click,
 				mousedown: this._MouseDown,
 				touchstart: this._TouchStart,
 				touchend: this._TouchEnd,
@@ -886,6 +896,8 @@ var ElementButton = {
 				...(buttonOptions.children ?? []),
 			],
 		});
+		elem.addEventListener("click", onClick);
+		return elem;
 	},
 };
 

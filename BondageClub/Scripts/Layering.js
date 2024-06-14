@@ -261,11 +261,6 @@ var Layering = {
 	 * @private
 	 */
 	_ResetClickListener(ev) {
-		if (this.ariaDisabled === "true") {
-			ev.stopPropagation();
-			return;
-		}
-
 		Layering.OverridePriority = Layering._PriorityDefault == null ? undefined : CommonCloneDeep(Layering._PriorityDefault);
 
 		const layerElements = /** @type {NodeListOf<HTMLInputElement>} */(document.querySelectorAll("[data-layer-priority]"));
