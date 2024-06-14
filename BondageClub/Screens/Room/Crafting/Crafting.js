@@ -7,9 +7,6 @@ var CraftingBackground = "CraftingWorkshop";
 /**
  * The active subscreen within the crafting screen:
  * * `"Slot"`: The main crafting screens wherein the {@link CraftingItem} is selected, created or destroyed.
- * * `"Item"`: The item selection screen wherein the underlying {@link Asset} is selected.
- * * `"Property"`: The {@link CraftingPropertyType} selection screen.
- * * `"Lock"`: The {@link CraftingLockList} selection screen.
  * * `"Name"`: The main menu wherein the crafted item is customized, allowing for the specification of names, descriptions, colors, extended item types, _etc._
  * * `"Color"`: A dedicated coloring screen for the crafted item.
  * * `"Extended"`: The extended item menu.
@@ -29,14 +26,15 @@ let CraftingSlot = 0;
  */
 let CraftingSelectedItem = null;
 
-/** An offset used for the pagination of {@link CraftingItemList} and all crafted items. */
+/** An offset used for the pagination of {@link Player.Crafting}. */
 let CraftingOffset = 0;
 
 /**
  * A list of all assets valid for crafting, potentially filtered by a user-provided keyword.
- * @type {Asset[]}
+ * @type {never}
+ * @deprecated
  */
-let CraftingItemList = [];
+let CraftingItemList = /** @type {never} */([]);
 
 /**
  * The character used for the crafting preview.
@@ -144,6 +142,55 @@ const CraftingPropertyExclude = new Set([
 	"NextShockTime",
 ]);
 
+const CraftingID = /** @type {const} */({
+	root: "crafting-screen",
+
+	topBar: "crafting-top-bar",
+	header: "crafting-header",
+	menuBar: "crafting-menu-bar",
+	downloadButton: "crafting-download-button",
+	uploadButton: "crafting-upload-button",
+	acceptButton: "crafting-accept-button",
+	cancelButton: "crafting-cancel-button",
+	exitButton: "crafting-exit-button",
+
+	leftPanel: "crafting-left-panel",
+	assetButton: "crafting-asset-button",
+	assetPanel: "crafting-asset-panel",
+	assetGrid: "crafting-asset-grid",
+	assetSearch: "crafting-asset-search",
+	assetHeader: "crafting-asset-header",
+	padlockButton: "crafting-padlock-button",
+	padlockPanel: "crafting-padlock-panel",
+	padlockGrid: "crafting-padlock-grid",
+	padlockSearch: "crafting-padlock-search",
+	padlockHeader: "crafting-padlock-header",
+	propertyButton: "crafting-property-button",
+	propertyPanel: "crafting-property-panel",
+	propertyGrid: "crafting-property-grid",
+	propertySearch: "crafting-property-search",
+	propertyHeader: "crafting-property-header",
+
+	centerPanel: "crafting-center-panel",
+	undressButton: "crafting-undress-button",
+
+	rightPanel: "crafting-right-panel",
+	nameInput: "crafting-name-input",
+	nameLabel: "crafting-name-label",
+	descriptionInput: "crafting-description-input",
+	descriptionLabel: "crafting-description-label",
+	colorsButton: "crafting-colors-button",
+	colorsInput: "crafting-colors-input",
+	colorsLabel: "crafting-colors-label",
+	layeringInput: "crafting-layering-input",
+	layeringButton: "crafting-layering-button",
+	layeringLabel: "crafting-layering-label",
+	privateCheckbox: "crafting-private-checkbox",
+	privateLabel: "crafting-private-label",
+	extendedButton: "crafting-extended-button",
+	extendedLabel: "crafting-extended-label",
+});
+
 /**
  * Construct a record mapping all crafting-valid asset names to a list of matching elligble assets.
  * Elligble assets are defined as crafting-valid assets with either a matching {@link Asset.Name} or {@link Asset.CraftGroup}.
@@ -222,6 +269,420 @@ function CraftingShowScreen(FromChatRoom) {
 	CommonSetScreen("Room", "Crafting");
 }
 
+var CraftingEventListeners = {
+	/**
+	 * @private
+	 * @type {(this: HTMLInputElement, ev: Event) => void}
+	 */
+	_ClickPrivate: function _ClickPrivate() {
+		if (CraftingSelectedItem) {
+			CraftingSelectedItem.Private = this.checked;
+		}
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLInputElement, ev: Event) => void}
+	 */
+	_InputLayering: function _InputLayering() {
+		if (CraftingSelectedItem) {
+			const value = (this.defaultValue !== this.value && !Number.isNaN(this.valueAsNumber)) ? this.valueAsNumber : undefined;
+			if (value !== CraftingSelectedItem.OverridePriority) {
+				CraftingSelectedItem.ItemProperty.OverridePriority = value;
+				CraftingUpdatePreview();
+			}
+		}
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLInputElement, ev: Event) => void}
+	 */
+	_ChangeName: function _ChangeName() {
+		if (CraftingSelectedItem) {
+			CraftingSelectedItem.Name = this.value.trim() || this.defaultValue;
+		}
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLTextAreaElement, ev: Event) => void}
+	 */
+	_ChangeDescription: function _ChangeDescription() {
+		if (CraftingSelectedItem) {
+			CraftingSelectedItem.Description = this.value.trim();
+		}
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLInputElement, ev: Event) => void}
+	 */
+	_ChangeColor: function _ChangeColor() {
+		if (CraftingSelectedItem) {
+			const value = this.value.trim() || this.defaultValue;
+			if (value !== CraftingSelectedItem.Color) {
+				CraftingSelectedItem.Color = value;
+				CraftingUpdatePreview();
+			}
+			if (!this.checkValidity()) {
+				this.value = this.defaultValue;
+			}
+		}
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLButtonElement, ev: Event) => void}
+	 */
+	_ClickExtended: function _ClickExtended() {
+		if (CraftingPreview && CraftingSelectedItem?.Asset.Extended) {
+			const item = InventoryGet(CraftingPreview, CraftingSelectedItem.Asset.DynamicGroupName);
+			if (item) {
+				DialogExtendItem(item);
+				CraftingModeSet("Extended");
+			}
+		}
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLButtonElement, ev: Event) => void}
+	 */
+	_ClickLayering: function _ClickLayering() {
+		if (CraftingPreview && CraftingSelectedItem) {
+			const item = InventoryGet(CraftingPreview, CraftingSelectedItem.Asset.DynamicGroupName);
+			if (item) {
+				Layering.Init(item, CraftingPreview, {
+					x: Layering.DisplayDefault.x,
+					y: Layering.DisplayDefault.y - 10,
+					w: Layering.DisplayDefault.w + 10,
+					h: Layering.DisplayDefault.h + 10,
+					buttonGap: 15,
+				});
+				CraftingModeSet("OverridePriority");
+			}
+		}
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLButtonElement, ev: Event) => void}
+	 */
+	_ClickColors: function _ClickColors() {
+		if (CraftingPreview && CraftingSelectedItem) {
+			const item = InventoryGet(CraftingPreview, CraftingSelectedItem.Asset.DynamicGroupName);
+			if (item) {
+				CraftingModeSet("Color");
+				ItemColorLoad(CraftingPreview, item, 1200, 25, 775, 950, true);
+				ItemColorOnExit((c, i) => {
+					CraftingSelectedItem.Color = (Array.isArray(i.Color) ? i.Color.join(",") : i.Color) || "Default";
+					ElementValue(CraftingID.colorsInput, CraftingSelectedItem.Color);
+					CraftingModeSet("Name");
+				});
+			}
+		}
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLButtonElement, ev: Event) => void}
+	 */
+	_ClickUndress: function _ClickUndress() {
+		CraftingNakedPreview = !CraftingNakedPreview;
+		CraftingUpdatePreview();
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLButtonElement, ev: Event) => void}
+	 */
+	_ClickAccept: function _ClickAccept() {
+		// blur the active element in order to trigger any `change` event listeners
+		document.activeElement?.dispatchEvent(new Event("blur"));
+		Player.Crafting[CraftingSlot] = CraftingConvertSelectedToItem();
+		CraftingSelectedItem = null;
+		CraftingSaveServer();
+		CraftingModeSet("Slot");
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLButtonElement, ev: Event) => void}
+	 */
+	_ClickExit: function _ClickExit() {
+		CraftingExit(false);
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLButtonElement, ev: Event) => void}
+	 */
+	_ClickUpload: function _ClickUpload() {
+		const settingsString = prompt(TextGet("UploadPrompt"));
+		if (!settingsString) {
+			alert(TextGet("UploadFailure"));
+			return;
+		}
+
+		const craft = CommonJSONParse(LZString.decompressFromBase64(settingsString));
+		if (!craft) {
+			alert(TextGet("UploadFailure"));
+			return;
+		}
+
+		const status = CraftingValidate(craft, null, true, true);
+		switch (status) {
+			case CraftingStatusType.ERROR:
+			case CraftingStatusType.OK:
+				CraftingExitResetElements();
+				CraftingSelectedItem = CraftingConvertItemToSelected(craft);
+				document.querySelector(`#${CraftingID.assetGrid} [data-asset='${CraftingSelectedItem.Asset.Name}'][data-group='${CraftingSelectedItem.Asset.DynamicGroupName}']`)?.dispatchEvent(new Event("click"));
+				alert(TextGet("UploadSucces"));
+				return;
+			case CraftingStatusType.CRITICAL_ERROR:
+				alert(TextGet("UploadFailure"));
+				return;
+		}
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLButtonElement, ev: Event) => void}
+	 */
+	_ClickDownload: function _ClickDownload() {
+		const craft = CraftingConvertSelectedToItem();
+		navigator.clipboard.writeText(LZString.compressToBase64(JSON.stringify(craft)));
+		alert(TextGet("DownloadSucces"));
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLButtonElement, ev: Event) => void}
+	 */
+	_ClickExpand: function _ClickExpand() {
+		if (this.ariaExpanded !== "true") {
+			return;
+		}
+
+		// Focus the search input in the side pannel if it exists
+		const panel = document.querySelector(`#${this.getAttribute("aria-controls")} > .crafting-grid`);
+		const activeRadio = panel?.querySelector(`[aria-checked='true']`);
+		if (activeRadio) {
+			activeRadio.scrollIntoView();
+		} else {
+			panel?.scrollTo({ top: 0 });
+		}
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLButtonElement, ev: Event) => void}
+	 */
+	_ClickProperty: function _ClickProperty() {
+		CraftingSelectedItem.Property = /** @type {CraftingPropertyType} */(this.dataset.property);
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLButtonElement, ev: Event) => void}
+	 */
+	_ClickPadlock: function _ClickPadlock() {
+		const newLock = this.ariaChecked === "true" ? AssetGet("Female3DCG", "ItemMisc", this.dataset.asset) : null;
+		const needsRefresh = (!newLock && CraftingSelectedItem.Lock) || (newLock && !CraftingSelectedItem);
+		CraftingSelectedItem.Lock = newLock;
+		if (needsRefresh) {
+			CraftingUpdatePreview();
+		}
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLButtonElement, ev: Event) => void}
+	 */
+	_ClickAsset: function _ClickAsset() {
+		const assets = CraftingAssets[this.dataset.asset];
+		if (!assets) {
+			return;
+		}
+
+		// Only relevant when switching between two assets from within the `Name` subscreen
+		const needsPropertyUpdate = CraftingSelectedItem.Asset && CraftingSelectedItem.Asset !== assets[0];
+		CraftingSelectedItem.Assets = assets;
+
+		// Set the various input fields
+		const [nameInput, colorsInput, descriptionInput, priorityInput, privateInput] = /** @type {HTMLInputElement[]} */([
+			document.getElementById(CraftingID.nameInput),
+			document.getElementById(CraftingID.colorsInput),
+			document.getElementById(CraftingID.descriptionInput),
+			document.getElementById(CraftingID.layeringInput),
+			document.getElementById(CraftingID.privateCheckbox),
+		]);
+		priorityInput.defaultValue = priorityInput.placeholder = (CraftingSelectedItem.Asset.DrawingPriority ?? CraftingSelectedItem.Asset.Group.DrawingPriority).toString();
+		colorsInput.defaultValue = colorsInput.placeholder = CraftingSelectedItem.Asset.DefaultColor.join(",");
+		nameInput.defaultValue = nameInput.placeholder = CraftingSelectedItem.Asset.Description;
+		nameInput.value = CraftingSelectedItem.Name;
+		descriptionInput.value = CraftingSelectedItem.Description;
+		privateInput.checked = CraftingSelectedItem.Private;
+
+		// Either we're switching between two distinct assets (in which case color and the likes cannot safely be assumed to be compatible) or we're just initializing everything after opening the `Name` subscreen
+		if (needsPropertyUpdate) {
+			CraftingSelectedItem.ItemProperty = {};
+			priorityInput.value = priorityInput.defaultValue;
+			colorsInput.value = CraftingSelectedItem.Color = colorsInput.defaultValue;
+		} else {
+			priorityInput.value = typeof CraftingSelectedItem.OverridePriority === "number" ? CraftingSelectedItem.OverridePriority.toString() : priorityInput.defaultValue;
+			colorsInput.value = CraftingSelectedItem.Color;
+		}
+
+		// Re-enable the accept button as we now have an asset selected
+		document.getElementById(CraftingID.acceptButton)?.setAttribute("aria-disabled", "false");
+
+		// Disable the buttons for all invalid properties
+		document.querySelectorAll(`#${CraftingID.propertyGrid} [data-property]`).forEach(e => {
+			const propertyType = /** @type {CraftingPropertyType} */(e.getAttribute("data-property"));
+			const callback = CraftingPropertyMap.get(propertyType);
+			e.ariaDisabled = propertyType === "Normal" || (callback && CraftingSelectedItem.Assets.some(a => callback(a))) ? "false" : "true";
+		});
+
+		// Set the item property, falling back to `Normal` of an invalid property is selected
+		const propertyCallback = CraftingPropertyMap.get(CraftingSelectedItem.Property);
+		if (propertyCallback && CraftingSelectedItem.Assets.some(a => propertyCallback(a))) {
+			document.querySelector(`#${CraftingID.propertyGrid} [data-property='${CraftingSelectedItem.Property}'][aria-checked='false']`)?.dispatchEvent(new Event("click"));
+		} else {
+			document.querySelector(`#${CraftingID.propertyGrid} [data-property='Normal'][aria-checked='false']`)?.dispatchEvent(new Event("click"));
+		}
+
+		// Set the lock, removing any locks it the item does not support them
+		const allowLock = CraftingSelectedItem.Assets.some(a => a.AllowLock);
+		if (CraftingSelectedItem.Lock && allowLock) {
+			const lockButton = document.querySelector(`#${CraftingID.padlockGrid} [data-asset='${CraftingSelectedItem.Lock.Name}'][aria-checked='false']`);
+			lockButton?.setAttribute("aria-disabled", "false");
+			lockButton?.dispatchEvent(new Event("click"));
+		} else {
+			const lockButton = document.querySelector(`#${CraftingID.padlockGrid} [data-asset][aria-checked='true']`);
+			lockButton?.setAttribute("aria-disabled", "false");
+			lockButton?.dispatchEvent(new Event("click"));
+		}
+
+		// Disable the lock buttons if none of the items supports any lock
+		if (allowLock) {
+			document.querySelectorAll(`#${CraftingID.padlockGrid} [data-asset]`).forEach(e => e.ariaDisabled = "false");
+		} else {
+			document.querySelectorAll(`#${CraftingID.padlockGrid} [data-asset]`).forEach(e => e.ariaDisabled = "true");
+		}
+
+		CraftingUpdatePreview();
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLButtonElement, ev: Event) => void}
+	 */
+	_ClickRadio: function _ClickRadio(ev) {
+		if (!CraftingSelectedItem) {
+			ev.stopImmediatePropagation();
+			return;
+		}
+
+		const sidePannel = this.closest(".crafting-panel");
+		const controlButton = document.querySelector(`[aria-controls='${sidePannel?.id}']`);
+		if (!sidePannel || !controlButton) {
+			return;
+		}
+
+		// Trigger a search query in order to filter the results by whatever input the user has specified
+		const searchInput = sidePannel.querySelector("input[type='search']");
+		searchInput?.dispatchEvent(new Event("input"));
+
+		if (this.ariaChecked === "true") {
+			controlButton.innerHTML = this.innerHTML;
+			return;
+		} else {
+			controlButton.innerHTML = "";
+		}
+
+		switch (controlButton.id) {
+			case CraftingID.padlockButton:
+				ElementButton._ParseLabel(controlButton.id, TextGet("NoLock"), "bottom", { parent: controlButton });
+				ElementButton._ParseImage(controlButton.id, "./Icons/NoLock.png", { parent: controlButton });
+				break;
+			case CraftingID.propertyButton:
+				ElementButton._ParseLabel(controlButton.id, TextGet(`PropertyNormal`) + ": " + TextGet(`DescriptionNormal`), null, { parent: controlButton });
+				break;
+		}
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLInputElement, ev: Event) => Promise<void>}
+	 */
+	_InputSearch: async function _InputSearch() {
+		const query = this.value.toUpperCase().trim();
+		const searchResultCandidates = document.getElementById(this.getAttribute("aria-controls"));
+		searchResultCandidates?.querySelectorAll("button.button").forEach(button => {
+			const label = button.querySelector(".button-label");
+			if (label) {
+				const displayStyle = (button.ariaChecked === "true" || label.textContent.toUpperCase().includes(query)) ? "" : "none";
+				/** @type {HTMLButtonElement} */(button).style.display = displayStyle;
+			}
+		});
+	},
+};
+
+var CraftingElements = {
+	/**
+	 * @private
+	 * @param {string} controls
+	 * @returns {() => string[]}
+	 */
+	_SearchInputGetDataList: function _SearchInputGetDataList(controls) {
+		return () => {
+			const searchResults = document.getElementById(controls);
+			return Array.from(searchResults?.querySelectorAll("button > label") ?? []).map(e => e.textContent);
+		};
+	},
+
+	/**
+	 * @private
+	 * @param {string} id
+	 * @param {string} controls
+	 * @param {string} placeholder
+	 * @returns {HTMLInputElement}
+	 */
+	_SearchInput: function _SearchInput(id, controls, placeholder) {
+		const ret = ElementCreateSearchInput(id, CraftingElements._SearchInputGetDataList(controls));
+		ret.setAttribute("aria-controls", controls);
+		ret.setAttribute("size", 0);
+		ret.addEventListener("input", CraftingEventListeners._InputSearch);
+		ret.placeholder = placeholder;
+		return ret;
+	},
+
+	/**
+	 * @private
+	 * @param {string} id
+	 * @param {(this: HTMLButtonElement, ev: Event) => any} onClick
+	 * @param {null | Asset} assetImage
+	 * @param {null | Partial<Record<string, string | number | boolean>>} dataAttributes
+	 * @param {null | string} label
+	 * @param {null | readonly (string | Node)[]} children
+	 * @param {null | Asset} asset
+	 * @returns {HTMLButtonElement}
+	 */
+	_RadioButton: function _RadioButton(id, onClick, assetImage=null, dataAttributes=null, label=null, children=null, asset=null) {
+		const icons = asset == null ? null : [...DialogGetAssetIcons(asset), ...DialogEffectIcons.GetIcons({ Asset: asset })];
+		const ret = ElementButton.Create(
+			id,
+			CraftingEventListeners._ClickRadio,
+			{ image: assetImage ? `./Assets/Female3DCG/${assetImage.DynamicGroupName}/Preview/${assetImage.Name}.png` : null, label, icons, role: "radio" },
+			{ button: { dataAttributes, children, parent: ElementNoParent }},
+		);
+		ret.addEventListener("click", onClick);
+		return ret;
+	},
+};
+
 /**
  * Loads the club crafting room in slot selection mode, creates a dummy character for previews
  * @returns {void} - Nothing
@@ -256,11 +717,272 @@ function CraftingLoad() {
 		ItemsAffectExpressions: false,
 	};
 	CharacterReleaseTotal(CraftingPreview);
+
+	const parent = ElementCreate({
+		tag: "div",
+		style: { display: "none" },
+		attributes: { id: CraftingID.root, "screen-generated": CurrentScreen },
+		dataAttributes: { loaded: "false" },
+		classList: ["HideOnPopup"],
+		parent: document.body,
+	});
+
+	TextCache.buildAsync("Screens/Room/Crafting/Text_Crafting.csv").then(async () => {
+		ElementCreate({
+			tag: "div",
+			attributes: { id: CraftingID.topBar },
+			parent,
+			children: [
+				{ tag: "h1", attributes: { id: CraftingID.header }, children: [TextGet("SelectName")] },
+				ElementMenu.Create(
+					CraftingID.menuBar,
+					[
+						ElementButton.Create(CraftingID.exitButton, CraftingEventListeners._ClickExit, { tooltip: TextGet("Exit") }),
+						ElementButton.Create(CraftingID.cancelButton, CraftingEventListeners._ClickExit, { tooltip: TextGet("Cancel") }),
+						ElementButton.Create(
+							CraftingID.acceptButton, CraftingEventListeners._ClickAccept,
+							{
+								disabled: true,
+								tooltip: [
+									TextGet("Accept"),
+									ElementCreate({ tag: "span", children: [TextGet("AcceptInvalid")], attributes: { id: `${CraftingID.acceptButton}-tooltip-disabled` } }),
+								],
+							},
+						),
+						ElementButton.Create(CraftingID.uploadButton, CraftingEventListeners._ClickUpload, { tooltip: TextGet("Upload") }),
+						ElementButton.Create(CraftingID.downloadButton, CraftingEventListeners._ClickDownload, { tooltip: TextGet("Download") }),
+					],
+					{ direction: "rtl" },
+				),
+			],
+		});
+
+		// Go home eslint, you're drunk
+		// eslint-disable-next-line no-unused-expressions
+		ElementMenu.Create(
+			CraftingID.leftPanel,
+			[
+				ElementButton.Create(
+					CraftingID.propertyButton, CraftingEventListeners._ClickExpand,
+					{ role: "menuitemradio" },
+					{ button: {
+						attributes: { "aria-expanded": false, "aria-controls": CraftingID.propertyPanel },
+						children: [TextGet(`PropertyNormal`) + ": " + TextGet(`DescriptionNormal`)],
+					}},
+				),
+				{
+					tag: "div",
+					attributes: {
+						id: CraftingID.propertyPanel,
+						"aria-labelledby": CraftingID.propertyHeader,
+					},
+					classList: ["crafting-panel"],
+					children: [
+						{
+							tag: "label",
+							classList: ["crafting-label"],
+							attributes: { id: CraftingID.propertyHeader },
+							children: [
+								{ tag: "span", children: [TextGet("SelectProperty")] },
+								CraftingElements._SearchInput(CraftingID.propertySearch, CraftingID.propertyGrid, TextGet("FilterProperty")),
+							],
+						},
+						{
+							tag: "div",
+							classList: ["crafting-grid"],
+							attributes: { id: CraftingID.propertyGrid, role: "radiogroup", "aria-required": true },
+							children: Array.from(CraftingPropertyMap.keys()).map(property => {
+								return CraftingElements._RadioButton(
+									`${CraftingID.propertyButton}-${property}`,
+									CraftingEventListeners._ClickProperty,
+									null,
+									{ property },
+									TextGet(`Property${property}`),
+									[TextGet(`Property${property}`) + ": " + TextGet(`Description${property}`)],
+								);
+							}),
+						},
+					],
+				},
+				ElementButton.Create(
+					CraftingID.assetButton, CraftingEventListeners._ClickExpand,
+					{ role: "menuitemradio", label: TextGet("SelectItem"), image: "./icons/NoCraft.png" },
+					{ button: { attributes: { "aria-expanded": false, "aria-controls": CraftingID.assetPanel } } },
+				),
+				{
+					tag: "div",
+					attributes: {
+						id: CraftingID.assetPanel,
+						"aria-labelledby": CraftingID.assetHeader,
+					},
+					classList: ["crafting-panel"],
+					children: [
+						{
+							tag: "label",
+							classList: ["crafting-label"],
+							attributes: { id: CraftingID.assetHeader },
+							children: [
+								{ tag: "span", children: [TextGet("SelectItem")] },
+								CraftingElements._SearchInput(CraftingID.assetSearch, CraftingID.assetGrid, TextGet("FilterAsset")),
+							],
+						},
+						{
+							tag: "div",
+							classList: ["crafting-grid"],
+							attributes: { id: CraftingID.assetGrid, role: "radiogroup", "aria-required": true },
+							children: CraftingItemListBuild().map(a => {
+								return CraftingElements._RadioButton(
+									`${CraftingID.assetButton}-${a.DynamicGroupName}-${a.Name}`,
+									CraftingEventListeners._ClickAsset, a,
+									{ asset: a.Name, group: a.DynamicGroupName },
+									a.Description,
+									null,
+									a,
+								);
+							}),
+						},
+					],
+				},
+				ElementButton.Create(
+					CraftingID.padlockButton, CraftingEventListeners._ClickExpand,
+					{ role: "menuitemradio", label: TextGet("NoLock"), image: "./icons/NoLock.png" },
+					{ button: { attributes: { "aria-expanded": false, "aria-controls": CraftingID.padlockPanel } } },
+				),
+				{
+					tag: "div",
+					attributes: {
+						id: CraftingID.padlockPanel,
+						"aria-labelledby": CraftingID.padlockHeader,
+						"aria-orientation": "vertical",
+					},
+					classList: ["crafting-panel"],
+					children: [
+						{
+							tag: "label",
+							classList: ["crafting-label"],
+							attributes: { id: CraftingID.padlockHeader },
+							children: [
+								{ tag: "span", children: [TextGet("SelectLock")] },
+								CraftingElements._SearchInput(CraftingID.padlockSearch, CraftingID.padlockGrid, TextGet("FilterLock")),
+							],
+						},
+						{
+							tag: "div",
+							classList: ["crafting-grid"],
+							attributes: { id: CraftingID.padlockGrid, role: "radiogroup" },
+							children: CraftingLockList.filter(name => !!name && InventoryAvailable(Player, name, "ItemMisc")).map((name) => {
+								const a = AssetGet("Female3DCG", "ItemMisc", name);
+								return CraftingElements._RadioButton(
+									`${CraftingID.padlockButton}-${a.Name}`, CraftingEventListeners._ClickPadlock, a, { asset: a.Name }, a.Description,
+								);
+							}).sort((a1, a2) => a1.dataset.asset.localeCompare(a2.dataset.asset)),
+						},
+					],
+				},
+			],
+			undefined,
+			{ menu: { attributes: { "aria-orientation": "vertical" }, parent } },
+		),
+
+		ElementCreate({
+			tag: "div",
+			attributes: { id: CraftingID.centerPanel },
+			parent,
+			children: [
+				ElementButton.Create(CraftingID.undressButton, CraftingEventListeners._ClickUndress),
+			],
+		});
+
+		ElementCreate({
+			tag: "div",
+			parent,
+			attributes: { id: CraftingID.rightPanel },
+			children: [
+				{
+					tag: "label",
+					attributes: { id: CraftingID.nameLabel },
+					classList: ["crafting-label"],
+					children: [
+						{ tag: "span", children: [TextGet("EnterName")] },
+						{
+							tag: "input",
+							attributes: { id: CraftingID.nameInput, type: "input", maxLength: "30", enterkeyhint: "next", size: 0 },
+							eventListeners: { change: CraftingEventListeners._ChangeName },
+						},
+					],
+				},
+				{
+					tag: "label",
+					attributes: { id: CraftingID.descriptionLabel },
+					classList: ["crafting-label"],
+					children: [
+						{ tag: "span", children: [TextGet("EnterDescription")] },
+						{
+							tag: "textarea",
+							attributes: { id: CraftingID.descriptionInput, maxLength: "200", enterkeyhint: "next", size: 0 },
+							eventListeners: { change: CraftingEventListeners._ChangeDescription },
+						},
+					],
+				},
+				{
+					tag: "label",
+					attributes: { id: CraftingID.colorsLabel },
+					classList: ["crafting-label"],
+					children: [
+						{ tag: "span", children: [TextGet("EnterColor")] },
+						{
+							tag: "input",
+							attributes: { id: CraftingID.colorsInput, type: "text", enterkeyhint: "next", size: 0 },
+							eventListeners: { change: CraftingEventListeners._ChangeColor },
+						},
+						ElementButton.Create(CraftingID.colorsButton, CraftingEventListeners._ClickColors),
+					],
+				},
+				{
+					tag: "label",
+					attributes: { id: CraftingID.layeringLabel },
+					classList: ["crafting-label"],
+					children: [
+						{
+							tag: "input",
+							attributes: { id: CraftingID.layeringInput, type: "number", min: -99, max: 99, inputmode: "numeric", enterkeyhint: "done", size: 0 },
+							eventListeners: { blur: ElementNumberInputBlur, input: CraftingEventListeners._InputLayering },
+						},
+						ElementButton.Create(CraftingID.layeringButton, CraftingEventListeners._ClickLayering),
+						{ tag: "span", children: [TextGet("EnterPriority")] },
+					],
+				},
+				{
+					tag: "label",
+					attributes: { id: CraftingID.privateLabel },
+					classList: ["crafting-label"],
+					children: [
+						{
+							tag: "input",
+							attributes: { id: CraftingID.privateCheckbox, type: "checkbox" },
+							eventListeners: { click: CraftingEventListeners._ClickPrivate },
+						},
+						{ tag: "span", children: [TextGet("EnterPrivate")] },
+					],
+				},
+				{
+					tag: "label",
+					attributes: { id: CraftingID.extendedLabel },
+					classList: ["crafting-label"],
+					children: [
+						ElementButton.Create(CraftingID.extendedButton, CraftingEventListeners._ClickExtended),
+						{ tag: "span", children: [TextGet("EnterType")] },
+					],
+				},
+			],
+		});
+
+		parent.setAttribute("data-loaded", true);
+	});
 }
 
 /**
  * Update the crafting character preview image, applies the item on all possible body parts
- * @returns {void} - Nothing
  */
 function CraftingUpdatePreview() {
 	CraftingPreview.Appearance = Player.Appearance.slice();
@@ -296,15 +1018,6 @@ function CraftingUpdatePreview() {
  * @returns {void} - Nothing
  */
 function CraftingRun() {
-
-	// The exit button is everywhere
-	if (!["Color", "Extended", "OverridePriority"].includes(CraftingMode)) {
-		DrawButton(1895, 15, 90, 90, "", "White", "Icons/Exit.png", TextGet("Exit"));
-	}
-	if (!["Color", "Slot", "Extended", "OverridePriority"].includes(CraftingMode)) {
-		DrawButton(1790, 15, 90, 90, "", "White", "Icons/Cancel.png", TextGet("Cancel"));
-	}
-
 	// In slot selection mode, we show the slots to select from
 	if (CraftingMode == "Slot") {
 		let BGColor;
@@ -327,6 +1040,7 @@ function CraftingRun() {
 		DrawButton(1475, 15, 90, 90, "", "White", "Icons/Prev.png", TextGet("Previous"));
 		DrawButton(1580, 15, 90, 90, "", "White", "Icons/Next.png", TextGet("Next"));
 		DrawButton(1685, 15, 90, 90, "", "White", "Icons/Swap.png", TextGet("Reorder"));
+		DrawButton(1895, 15, 90, 90, "", "White", "Icons/Exit.png", TextGet("Exit"));
 		if (CraftingReorderMode == "Select") {
 			DrawText(`${TextGet("ReorderSelect")} ${CraftingReorderList.length}`, 737, 60, "White", "Black");
 		} else if (CraftingReorderMode == "Place") {
@@ -377,87 +1091,8 @@ function CraftingRun() {
 		}
 	}
 
-	// In item selection mode, we show all restraints from the player inventory
-	if (CraftingMode == "Item") {
-		DrawText(TextGet("SelectItem"), 1120, 60, "White", "Black");
-		DrawButton(1580, 15, 90, 90, "", "White", "Icons/Prev.png", TextGet("Previous"));
-		DrawButton(1685, 15, 90, 90, "", "White", "Icons/Next.png", TextGet("Next"));
-		ElementPosition("InputSearch", 315, 52, 600);
-		for (let I = CraftingOffset; I < CraftingItemList.length && I < CraftingOffset + 24; I++) {
-			let Item = CraftingItemList[I];
-			let X = ((I - CraftingOffset) % 8) * 249 + 17;
-			let Y = Math.floor((I - CraftingOffset) / 8) * 290 + 130;
-			let Icons = DialogGetAssetIcons(Item);
-			DrawAssetPreview(X, Y, Item, { Icons, Hover: true });
-		}
-	}
-
-	// In item selection mode, we show all restraints from the player inventory
-	if (CraftingMode == "Property") {
-		DrawText(TextGet("SelectProperty").replace("AssetDescription", CraftingSelectedItem.Asset.Description), 880, 60, "White", "Black");
-		let Pos = 0;
-		for (const [Name, Allow] of CraftingPropertyMap)
-			if (CraftingSelectedItem.Assets.some(a => Allow(a))) {
-				let X = (Pos % 4) * 500 + 15;
-				let Y = Math.floor(Pos / 4) * 175 + 130;
-				DrawButton(X, Y, 470, 150, "", "White");
-				DrawText(TextGet("Property" + Name), X + 235, Y + 30, "Black", "Silver");
-				DrawTextWrap(TextGet("Description" + Name), X + 20, Y + 50, 440, 100, "Black", null, 2);
-				Pos++;
-			}
-	}
-
-	// In lock selection mode, the player can auto-apply a lock to it's item
-	if (CraftingMode == "Lock") {
-		DrawButton(1685, 15, 90, 90, "", "White", "Icons/Unlock.png", TextGet("NoLock"));
-		DrawText(TextGet("SelectLock").replace("AssetDescription", CraftingSelectedItem.Asset.Description).replace("PropertyName", TextGet("Property" + CraftingSelectedItem.Property)), 830, 60, "White", "Black");
-		let Pos = 0;
-		for (let L = 0; L < CraftingLockList.length; L++)
-			for (let Item of Player.Inventory)
-				if ((Item.Asset != null) && (Item.Asset.Name == CraftingLockList[L]) && Item.Asset.IsLock) {
-					let X = (Pos % 8) * 249 + 17;
-					let Y = Math.floor(Pos / 8) * 290 + 130;
-					let Description = Item.Asset.Description;
-					let Background = MouseIn(X, Y, 225, 275) && !CommonIsMobile ? "cyan" : "#fff";
-					let Foreground = "Black";
-					let Icons = DialogGetAssetIcons(Item.Asset);
-					DrawAssetPreview(X, Y, Item.Asset, { Hover: true, Description, Background, Foreground, Icons });
-					Pos++;
-				}
-	}
-
-	// In lock selection mode, the player can auto-apply a lock to it's item
 	if (CraftingMode == "Name") {
-		DrawButton(1685, 15, 90, 90, "", "White", "Icons/Accept.png", TextGet("Accept"));
-		DrawText(TextGet("SelectName").replace("AssetDescription", CraftingSelectedItem.Asset.Description).replace("PropertyName", TextGet("Property" + CraftingSelectedItem.Property)), 830, 60, "White", "Black");
-		let Icons = DialogGetAssetIcons(CraftingSelectedItem.Asset);
-		DrawAssetPreview(80, 250, CraftingSelectedItem.Asset, { Hover: true, Icons });
-		if (CraftingSelectedItem.Lock != null) {
-			let Description = CraftingSelectedItem.Lock.Description;
-			Icons = DialogGetAssetIcons(CraftingSelectedItem.Lock);
-			DrawAssetPreview(425, 250, CraftingSelectedItem.Lock, { Hover: true, Description, Icons });
-		} else DrawButton(425, 250, 225, 275, TextGet("NoLock"), "White");
-		DrawButton(80, 650, 570, 190, "", "White");
-		DrawCharacter(CraftingPreview, 700, 100, 0.9, false);
-		DrawButton(880, 900, 90, 90, "", "white", `Icons/${CraftingNakedPreview ? "Dress" : "Naked"}.png`);
-		DrawText(TextGet("Property" + CraftingSelectedItem.Property), 365, 690, "Black", "Silver");
-		DrawTextWrap(TextGet("Description" + CraftingSelectedItem.Property), 95, 730, 540, 100, "Black", null, 2);
-		DrawText(TextGet("EnterName"), 1550, 200, "White", "Black");
-		ElementPosition("InputName", 1550, 275, 750);
-		DrawText(TextGet("EnterDescription"), 1550, 375, "White", "Black");
-		ElementPosition("InputDescription", 1550, 450, 750);
-		DrawText(TextGet("EnterColor"), 1550, 550, "White", "Black");
-		ElementPosition("InputColor", 1510, 625, 670);
-		DrawButton(1843, 598, 64, 64, "", "White", "Icons/Color.png");
-		DrawText(TextGet("EnterPriority"), 1550, 715, "White", "Black");
-		ElementPosition("InputPriority", 1225, 710, 100);
-		DrawText(TextGet("EnterPrivate"), 1550, 805, "White", "Black");
-		DrawButton(1175, 768, 64, 64, "", "White", CraftingSelectedItem.Private ? "Icons/Checked.png" : "");
-		if (CraftingSelectedItem.Asset.Archetype) {
-			DrawText(TextGet("EnterType"), 1550, 890, "White", "Black");
-			DrawButton(1175, 858, 60, 60, "", "White", "Icons/Small/Use.png");
-		}
-		DrawButton(1276, 683, 60, 60, "", "White", "Icons/Small/Layering.png", TextGet("Layering"));
+		DrawCharacter(CraftingPreview, 775, 100, 0.9, false);
 	}
 
 	// In color mode, the player can change the color of each parts of the item
@@ -486,6 +1121,26 @@ function CraftingResize(load) {
 	switch (CraftingMode) {
 		case "OverridePriority":
 			Layering.Resize(load);
+			break;
+		case "Name":
+			ElementPositionFixed(CraftingID.root, 15, 15, 1970, 970);
+			break;
+	}
+}
+
+/** @type {ScreenFunctions["Unload"]} */
+function CraftingUnload() {
+	switch (CraftingMode) {
+		case "OverridePriority":
+			Layering.Unload();
+			break;
+		case "Name": {
+			const elem = document.getElementById(CraftingID.root);
+			if (elem) {
+				elem.style.display = "none";
+			}
+			break;
+		}
 	}
 }
 
@@ -552,87 +1207,29 @@ function CraftingGetAllAssetNames() {
  * @returns {void} - Nothing
  */
 function CraftingModeSet(NewMode) {
+	CraftingUnload();
 	CraftingDestroy = false;
-	if (CraftingMode == "Slot"  &&  NewMode != "Slot") {
+	if (CraftingMode == "Slot" && NewMode != "Slot") {
 		CraftingReorderModeSet ("None");
 	}
 
 	CraftingMode = NewMode;
-	if (NewMode == "Item") {
-		const Input = ElementCreateSearchInput("InputSearch", CraftingGetAllAssetNames);
-		Input.addEventListener("input", CraftingItemListBuild);
-	} else ElementRemove("InputSearch");
-	if (NewMode === "Lock" && !CraftingSelectedItem.Assets.some(a => a.AllowLock)) {
-		CraftingSelectedItem.Lock = null;
-		CraftingMode = NewMode = "Name";
-	}
-	if (NewMode == "Name") {
-		ElementCreateInput("InputName", "text", "", "30");
-		document.getElementById("InputName").addEventListener('keyup', CraftingKeyUp);
-		ElementCreateInput("InputDescription", "text", "", "200");
-		document.getElementById("InputDescription").addEventListener('keyup', CraftingKeyUp);
-		ElementCreateInput("InputColor", "text", "", "500");
-		document.getElementById("InputColor").addEventListener('keyup', CraftingKeyUp);
-
-		let priorityDefault = "";
-		let priority = "";
-		if (CraftingSelectedItem.Asset != null) {
-			priorityDefault = AssetLayerSort([...CraftingSelectedItem.Asset.Layer])[0].Priority.toString();
-			priority = (typeof CraftingSelectedItem.OverridePriority !== "number") ? priorityDefault : CraftingSelectedItem.OverridePriority.toString();
+	if (NewMode === "Name") {
+		const root = document.getElementById(CraftingID.root);
+		if (root) {
+			root.style.display = "";
 		}
-		const priorityInput = ElementCreateInput("InputPriority", "number", priorityDefault, "20");
-		priorityInput.addEventListener("input", CraftingKeyUp);
-		priorityInput.value = priority;
-		priorityInput.max = "99";
-		priorityInput.min = "-99";
+		CraftingResize(false);
 
-		ElementValue("InputName", CraftingSelectedItem.Name || "");
-		ElementValue("InputDescription", CraftingSelectedItem.Description || "");
-		ElementValue("InputColor", CraftingSelectedItem.Color || "Default");
-		CraftingUpdatePreview();
-	} else {
-		ElementRemove("InputName");
-		ElementRemove("InputDescription");
-		ElementRemove("InputColor");
-		ElementRemove("InputPriority");
+		if (CraftingSelectedItem.Asset) {
+			// Select the asset
+			document.querySelector(`#${CraftingID.assetGrid} [data-asset='${CraftingSelectedItem.Asset.Name}'][data-group='${CraftingSelectedItem.Asset.DynamicGroupName}']`)?.dispatchEvent(new Event("click"));
+		} else {
+			// Open the side pannel and manually updating the crafting preview to clear it of old items
+			document.querySelector(`#${CraftingID.assetButton}[aria-checked='false']`)?.dispatchEvent(new Event("click"));
+			CraftingUpdatePreview();
+		}
 	}
-}
-
-/**
- * When the color or type field is updated manually, we update the preview image
- * @param {Event} ev
- * @returns {void} - Nothing
- */
-function CraftingKeyUp(ev) {
-	let do_update = false;
-
-	//if (CraftingMode == "Color") CraftingSelectedItem.Color = ElementValue("InputColor");
-	if (document.getElementById("InputName") != null) CraftingSelectedItem.Name = ElementValue("InputName");
-	if (document.getElementById("InputDescription") != null) CraftingSelectedItem.Description = ElementValue("InputDescription");
-	if (document.getElementById("InputColor") != null) {
-		const prev = CraftingSelectedItem.Color;
-		CraftingSelectedItem.Color = ElementValue("InputColor");
-		if (CraftingSelectedItem.Color !== prev)
-			do_update = true;
-	}
-	if (document.getElementById("InputPriority") != null) {
-		const prev = CraftingSelectedItem.OverridePriority;
-		CraftingSelectedItem.OverridePriority = CraftingParsePriorityElement(ev);
-		if (CraftingSelectedItem.OverridePriority !== prev)
-			do_update = true;
-	}
-	if (do_update)
-		CraftingUpdatePreview();
-}
-
-/**
- * Helper function for parsing the `InputPriority` HTML element.
- * @param {Event} ev
- * @returns {number | undefined}
- */
-function CraftingParsePriorityElement(ev) {
-	const elem = /** @type {HTMLInputElement} */(ev.target);
-	return (elem.defaultValue !== elem.value && !Number.isNaN(elem.valueAsNumber)) ? elem.valueAsNumber : undefined;
 }
 
 /**
@@ -841,8 +1438,8 @@ function CraftingReorderModeSet(newmode=null)
  */
 function CraftingClick(event) {
 	// Can always exit or cancel
-	if (MouseIn(1895, 15, 90, 90) && !["Color", "Extended", "OverridePriority"].includes(CraftingMode)) CraftingExit();
-	if (MouseIn(1790, 15, 90, 90) && !["Color", "Extended", "Slot", "OverridePriority"].includes(CraftingMode)) return CraftingModeSet("Slot");
+	if (MouseIn(1895, 15, 90, 90) && !["Color", "Extended", "OverridePriority", "Name"].includes(CraftingMode)) CraftingExit();
+	if (MouseIn(1790, 15, 90, 90) && !["Color", "Extended", "Slot", "OverridePriority", "Name"].includes(CraftingMode)) return CraftingModeSet("Slot");
 
 	// In slot mode, we can select which item slot to craft
 	if (CraftingMode == "Slot") {
@@ -903,11 +1500,11 @@ function CraftingClick(event) {
 					CraftingReorderModeSet ("None");
 				}
 			} else if (CraftingDestroy) {
-				if (Craft && Craft.Name) {
+				if (Craft) {
 					if (S + CraftingOffset < Player.Crafting.length) Player.Crafting[S + CraftingOffset] = null;
 					CraftingSaveServer();
 				}
-			} else if (Craft && Craft.Name) {
+			} else if (Craft) {
 				CraftingSlot = S + CraftingOffset;
 				CraftingSelectedItem = CraftingConvertItemToSelected(Craft);
 				CraftingModeSet("Name");
@@ -937,128 +1534,7 @@ function CraftingClick(event) {
 						}
 					},
 				};
-				CraftingModeSet("Item");
-				CraftingItemListBuild();
-			}
-
-		}
-		return;
-	}
-
-	// In item selection mode, the player picks an item from her inventory
-	if (CraftingMode == "Item") {
-		if (MouseIn(1580, 15, 90, 90)) {
-			CraftingOffset = CraftingOffset - 24;
-			if (CraftingOffset < 0) CraftingOffset = Math.floor(CraftingItemList.length / 24) * 24;
-		}
-		if (MouseIn(1685, 15, 90, 90)) {
-			CraftingOffset = CraftingOffset + 24;
-			if (CraftingOffset >= CraftingItemList.length) CraftingOffset = 0;
-		}
-		for (let I = CraftingOffset; I < CraftingItemList.length && I < CraftingOffset + 24; I++) {
-			const X = ((I - CraftingOffset) % 8) * 249 + 17;
-			const Y = Math.floor((I - CraftingOffset) / 8) * 290 + 130;
-			const asset = CraftingItemList[I];
-			if (MouseIn(X, Y, 225, 275)) {
-				CraftingSelectedItem.Assets = CraftingAssets[asset.Name] ?? [];
-				CraftingSelectedItem.TypeRecord = {};
-				CraftingSelectedItem.Lock = null;
-				CraftingSelectedItem.Color = CraftingSelectedItem.Asset.DefaultColor.join(",");
-				CraftingModeSet("Property");
-				ElementRemove("InputSearch");
-			}
-		}
-		return;
-	}
-
-	// In property mode, the user can select a special property to apply to the item
-	if (CraftingMode == "Property") {
-		let Pos = 0;
-		for (const [Name, Allow] of CraftingPropertyMap)
-			if (CraftingSelectedItem.Assets.some(a => Allow(a))) {
-				let X = (Pos % 4) * 500 + 15;
-				let Y = Math.floor(Pos / 4) * 175 + 130;
-				if (MouseIn(X, Y, 470, 150)) {
-					CraftingSelectedItem.Property = Name;
-					if (CraftingSelectedItem.Lock) CraftingModeSet("Name");
-					else CraftingModeSet("Lock");
-					return;
-				}
-				Pos++;
-			}
-		return;
-	}
-
-	// In lock selection mode, the user can pick a default lock or no lock at all
-	if (CraftingMode == "Lock") {
-		if (MouseIn(1685, 15, 90, 90)) {
-			CraftingSelectedItem.Lock = null;
-			CraftingModeSet("Name");
-		}
-		let Pos = 0;
-		for (let L = 0; L < CraftingLockList.length; L++)
-			for (let Item of Player.Inventory)
-				if ((Item.Asset != null) && (Item.Asset.Name == CraftingLockList[L]) && Item.Asset.IsLock) {
-					let X = (Pos % 8) * 249 + 17;
-					let Y = Math.floor(Pos / 8) * 290 + 130;
-					if (MouseIn(X, Y, 225, 275)) {
-						CraftingModeSet("Name");
-						CraftingSelectedItem.Lock = Item.Asset;
-					}
-					Pos++;
-				}
-		return;
-	}
-
-	// In naming mode, we can also modify the color or go back to previous screens
-	if (CraftingMode == "Name") {
-		if (MouseIn(1685, 15, 90, 90)) {
-			const prop = CraftingConvertSelectedToItem();
-			if (prop.Name == "") return;
-			Player.Crafting[CraftingSlot] = prop;
-			CraftingSelectedItem = null;
-			CraftingSaveServer();
-			CraftingModeSet("Slot");
-		} else if (MouseIn(880, 900, 90, 90)) {
-			CraftingNakedPreview = !CraftingNakedPreview;
-			CraftingUpdatePreview();
-		} else if (MouseIn(80, 250, 225, 275)) {
-			CraftingModeSet("Item");
-			CraftingItemListBuild();
-			return null;
-		} else if (MouseIn(425, 250, 225, 275) && CraftingSelectedItem.Assets.some(a => a.AllowLock)) {
-			CraftingModeSet("Lock");
-			return null;
-		} else if (MouseIn(80, 650, 570, 190)) {
-			CraftingModeSet("Property");
-			return null;
-		} else if (MouseIn(1843, 598, 64, 64)) {
-			CraftingModeSet("Color");
-			const Item = InventoryGet(CraftingPreview, CraftingSelectedItem.Asset.DynamicGroupName);
-			ItemColorLoad(CraftingPreview, Item, 1200, 25, 775, 950, true);
-			ItemColorOnExit((c, i) => {
-				CraftingSelectedItem.Color = Array.isArray(i.Color) ? i.Color.join(",") : i.Color || "Default";
 				CraftingModeSet("Name");
-			});
-		} else if (MouseIn(1175, 768, 64, 64)) {
-			CraftingSelectedItem.Private = !CraftingSelectedItem.Private;
-		} else if (MouseIn(1175, 858, 60, 60) && CraftingSelectedItem.Asset.Archetype) {
-			const item = CraftingPreview.Appearance.find(i => i.Asset === CraftingSelectedItem.Asset);
-			if (item !== undefined) {
-				DialogExtendItem(item);
-				CraftingModeSet("Extended");
-			}
-		} else if (MouseIn(1276, 683, 60, 60)) {
-			const item = CraftingPreview.Appearance.find(i => i.Asset === CraftingSelectedItem.Asset);
-			if (item !== undefined) {
-				Layering.Init(item, CraftingPreview, {
-					x: Layering.DisplayDefault.x,
-					y: Layering.DisplayDefault.y - 10,
-					w: Layering.DisplayDefault.w + 10,
-					h: Layering.DisplayDefault.h + 10,
-					buttonGap: 15,
-				});
-				CraftingModeSet("OverridePriority");
 			}
 		}
 		return;
@@ -1103,16 +1579,13 @@ function CraftingRefreshPreview() {
  * @return {CraftingItem}
  * */
 function CraftingConvertSelectedToItem() {
-	let Name = (CraftingMode == "Name") ? ElementValue("InputName").trim().substring(0, 30) : CraftingSelectedItem.Name;
-	let Description = (CraftingMode == "Name") ? ElementValue("InputDescription").trim().substring(0, 200) : CraftingSelectedItem.Description;
-	let Color = (CraftingMode == "Name") ? ElementValue("InputColor").trim() : CraftingSelectedItem.Color;
 	return {
 		Item: (CraftingSelectedItem.Asset == null) ? "" : CraftingSelectedItem.Asset.Name,
 		Property: CraftingSelectedItem.Property,
 		Lock: (CraftingSelectedItem.Lock == null) ? "" : /**@type {AssetLockType}*/(CraftingSelectedItem.Lock.Name),
-		Name: Name,
-		Description: Description,
-		Color: Color,
+		Name: CraftingSelectedItem.Name,
+		Description: CraftingSelectedItem.Description,
+		Color: CraftingSelectedItem.Color,
 		Private: CraftingSelectedItem.Private,
 		TypeRecord: CraftingSelectedItem.TypeRecord || null,
 		ItemProperty: CraftingSelectedItem.ItemProperty,
@@ -1151,11 +1624,62 @@ function CraftingConvertItemToSelected(Craft) {
 	};
 }
 
+/** Restore the DOM elements of the `Name` subscreen to their default state. */
+function CraftingExitResetElements() {
+	// Reset the various input fields to their default
+	const [nameInput, colorsInput, descriptionInput, priorityInput, privateInput] = /** @type {HTMLInputElement[]} */([
+		document.getElementById(CraftingID.nameInput),
+		document.getElementById(CraftingID.colorsInput),
+		document.getElementById(CraftingID.descriptionInput),
+		document.getElementById(CraftingID.layeringInput),
+		document.getElementById(CraftingID.privateCheckbox),
+	]);
+	nameInput.value = nameInput.defaultValue = nameInput.placeholder = "";
+	colorsInput.value = colorsInput.defaultValue = colorsInput.placeholder = "";
+	priorityInput.value = priorityInput.defaultValue = priorityInput.placeholder = "0";
+	descriptionInput.value = "";
+	privateInput.checked = false;
+
+	// Select the `Normal` property and disable all others
+	document.querySelector(`#${CraftingID.propertyGrid} [data-property='Normal'][aria-checked='false']`)?.dispatchEvent(new Event("click"));
+	document.querySelectorAll(`#${CraftingID.propertyGrid} [data-property]:not([data-property='Normal'])`).forEach(e => e.ariaDisabled = "true");
+
+	// Deselect the active lock and disable them all
+	document.querySelector(`#${CraftingID.padlockGrid} [data-asset][aria-checked='true']`)?.dispatchEvent(new Event("click"));
+	document.querySelectorAll(`#${CraftingID.padlockGrid} [data-asset]`).forEach(e => e.ariaDisabled = "true");
+
+	// Deselect the asset and disable the accept button
+	document.querySelector(`#${CraftingID.assetGrid} [aria-checked='true']`)?.setAttribute("aria-checked", "false");
+	document.getElementById(CraftingID.acceptButton)?.setAttribute("aria-disabled", "true");
+
+	// Open the asset-based side panel and reset the styling of its control button
+	const assetControlButton = document.getElementById(CraftingID.assetButton);
+	assetControlButton.innerHTML = "";
+	ElementButton._ParseLabel(assetControlButton.id, TextGet("SelectItem"), "bottom", { parent: assetControlButton });
+	ElementButton._ParseImage(assetControlButton.id, "./Icons/NoCraft.png", { parent: assetControlButton });
+	if (assetControlButton.ariaChecked === "false") {
+		assetControlButton.dispatchEvent(new Event("click"));
+	}
+
+	// Clear all search inputs and undo their filtering
+	const searchInputs = /** @type {NodeListOf<HTMLInputElement>} */(document.querySelectorAll(`#${CraftingID.leftPanel} input[type='search']`));
+	searchInputs.forEach((searchInp) => {
+		if (searchInp.value) {
+			searchInp.value = "";
+			searchInp.dispatchEvent(new Event("input"));
+		}
+	});
+
+	// Close the side pannel
+	document.querySelector(`#${CraftingID.leftPanel} > [aria-checked='true']`)?.dispatchEvent(new Event("click"));
+}
+
 /**
  * When the player exits the crafting room
+ * @param {boolean} allowPanelClose - Whether an exit call in the `Name` mode is allowed to close the side panels before performing a proper exit of the subscreen
  * @returns {void} - Nothing
  */
-function CraftingExit() {
+function CraftingExit(allowPanelClose=true) {
 	// Return to the `Name` sub-screen, if already there move to the `Slot` sub-screen and if already there exit the crafting screen
 	switch (CraftingMode) {
 		case "OverridePriority":
@@ -1167,23 +1691,32 @@ function CraftingExit() {
 		case "Extended":
 			DialogLeaveFocusItem();
 			return;
-		case "Slot":
-			// Break away and perform a full exit of the crafting screen
-			break;
-		default:
-			CraftingModeSet("Slot");
+		case "Name": {
+			const activePanel = document.querySelector(`#${CraftingID.leftPanel} > [aria-checked='true']`);
+			if (activePanel && allowPanelClose) {
+				activePanel.dispatchEvent(new Event("click"));
+			} else {
+				CraftingExitResetElements();
+				CraftingUnload();
+				CraftingModeSet("Slot");
+				CraftingSelectedItem = null;
+			}
 			return;
+		}
+		case "Slot": {
+			ElementRemove(CraftingID.root);
+			CharacterDelete(CraftingPreview);
+			CraftingPreview = null;
+			CraftingOffset = 0;
+			CraftingReorderModeSet("None");
+			if (CraftingReturnToChatroom) {
+				CommonSetScreen("Online", "ChatRoom");
+			} else {
+				CommonSetScreen("Room", "MainHall");
+			}
+			return;
+		}
 	}
-
-	CharacterDelete(CraftingPreview);
-	CraftingPreview = null;
-	CraftingOffset = 0;
-	CraftingReorderModeSet("None");
-	CraftingModeSet("Slot");
-	if (CraftingReturnToChatroom)
-		CommonSetScreen("Online", "ChatRoom");
-	else
-		CommonSetScreen("Room", "MainHall");
 }
 
 /**
@@ -1201,43 +1734,15 @@ function CraftingAppliesToItem(Craft, Item) {
 
 /**
  * Builds the item list from the player inventory, filters by the search box content
- * @returns {void} - Nothing
+ * @returns {Asset[]} - Nothing
  */
 function CraftingItemListBuild() {
-
-	// Prepares the search string to compare
-	let Search = ElementValue("InputSearch");
-	if (Search == null) Search = "";
-	Search = Search.toUpperCase().trim();
-	CraftingItemList = [];
-
-	// For all assets
-	for (let A of Asset) {
-
-		// That asset must be in the player inventory or location-specific, not for clothes or spanking toys
-		if (!InventoryAvailable(Player, A.Name, A.DynamicGroupName) && A.AvailableLocations.length === 0) continue;
-		if (!A.Enable || !A.Wear || !A.Group.IsItem() || A.IsLock) continue;
-
-		// Match against the search term. The empty string matches every string
-		let Match = true;
-		const desc = A.DynamicDescription(Player).toUpperCase().trim();
-		if (desc.indexOf(Search) < 0) Match = false;
-
-		// Make sure we don't add assets that are kinda-sorta the same asset (ropes, webs)
-		if (Match)
-			for (let E of CraftingItemList)
-				if (E.CraftGroup === A.Name || E.Name === A.CraftGroup)
-					Match = false;
-
-		// If there's a match, we add it to the list
-		if (Match) CraftingItemList.push(A);
-
-	}
-
-	// Sorts and make sure the offset is still valid
-	CraftingItemList.sort((a,b) => (a.Description > b.Description) ? 1 : (b.Description > a.Description) ? -1 : 0);
-	if (CraftingOffset >= CraftingItemList.length) CraftingOffset = 0;
-
+	const assets = new Set(Object.values(CraftingAssets).map(i => i[0]));
+	return Array.from(assets).filter(a => {
+		return InventoryAvailable(Player, a.Name, a.DynamicGroupName);
+	}).sort((a1, a2) => {
+		return a1.Description.localeCompare(a2.Description);
+	});
 }
 
 /**
@@ -1323,9 +1828,9 @@ const CraftingValidationRecord = {
 		StatusCode: CraftingStatusType.ERROR,
 	},
 	Name: {
-		Validate: (c, a) => typeof c.Name === "string",
-		GetDefault: (c, a) => "",
-		StatusCode: CraftingStatusType.CRITICAL_ERROR,
+		Validate: (c, a) => c.Name && typeof c.Name === "string",
+		GetDefault: (c, a) => a ? a.Description : "Crafted Item",
+		StatusCode: CraftingStatusType.ERROR,
 	},
 	OverridePriority: {
 		Validate: (c, a) => (c.OverridePriority == null) || Number.isInteger(c.OverridePriority),

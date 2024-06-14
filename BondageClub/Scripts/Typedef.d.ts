@@ -3591,7 +3591,10 @@ interface PandoraBaseRoom {
 //#region Crafting items
 
 type CraftingMode = (
-	"Slot" | "Item" | "Property" | "Lock" | "Name" | "Color" | "Extended"
+	"Slot"
+	| "Name"
+	| "Color"
+	| "Extended"
 	| "OverridePriority"
 );
 
