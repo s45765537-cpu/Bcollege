@@ -41,49 +41,81 @@ function ElementContent(ID, Content) {
 }
 
 /**
+ * @template {keyof HTMLElementScalarTagNameMap} T
+ * @param {null | HTMLOptions<T>} options - Options for customizing the element
+ * @returns {HTMLElementTagNameMap[T]} - The created element
+ */
+function ElementCreate(options) {
+	const elem = document.createElement(options.tag);
+
+	for (const [k, v] of Object.entries(options?.attributes ?? {})) {
+		if (v != null) {
+			elem.setAttribute(k, v);
+		}
+	}
+	for (const [eventName, listener] of Object.entries(options?.eventListeners ?? {})) {
+		if (listener != null) {
+			elem.addEventListener(eventName, listener);
+		}
+	}
+	for (const [k, v] of Object.entries(options.style ?? {})) {
+		if (v != null) {
+			elem.style.setProperty(k, /** @type {any} */(v));
+		}
+	}
+	for (const [k, v] of Object.entries(options?.dataAttributes ?? {})) {
+		if (v != null) {
+			elem.dataset[k] = v.toString();
+		}
+	}
+
+	if (options?.classList) { options.classList.forEach(i => elem.classList.add(i)); }
+	if (options?.innerHTML) { elem.innerHTML = options.innerHTML; }
+	if (options?.children) {
+		/** @type {(i: unknown) => i is Node | string} */
+		const isNode = (i) => typeof i === "string" || (typeof i === "object" && "nodeValue" in i);
+		options.children.forEach(i => isNode(i) ? elem.append(i) : ElementCreate({ ...i, parent: elem }));
+	}
+	if (options?.parent) { options.parent.appendChild(elem); }
+	return elem;
+}
+
+/**
  * Creates a new from element in the main document.
  *
  * @param {string} ID - The id of the form to create
  * @returns {HTMLFormElement}
  */
 function ElementCreateForm(ID) {
-	let e = /** @type {HTMLFormElement} */ (document.getElementById(ID));
-	if (e) return e;
-
-	e = document.createElement("form");
-	e.setAttribute("id", ID);
-	e.setAttribute("name", ID);
-	e.setAttribute("screen-generated", CurrentScreen);
-	e.setAttribute("method", "dialog");
-
-	document.body.appendChild(e);
-
-	return e;
+	return /** @type {HTMLFormElement} */ (document.getElementById(ID)) ?? ElementCreate({
+		tag: "form",
+		attributes: {
+			id: ID,
+			name: ID,
+			method: "dialog",
+			["screen-generated"]: CurrentScreen,
+		},
+		parent: document.body,
+	});
 }
 
 /**
  * Creates a new text area element in the main document. Does not create a new element if there is already an existing one with the same ID
  * @param {string} ID - The id of the text area to create.
- * @param {HTMLFormElement} [form] - The form the element belongs to
+ * @param {HTMLElement} [form] - The form the element belongs to
  * @returns {HTMLTextAreaElement}
  */
 function ElementCreateTextArea(ID, form) {
-	let e = /** @type {HTMLTextAreaElement} */ (document.getElementById(ID));
-	if (e) return e;
-
-	e = document.createElement("textarea");
-	e.setAttribute("ID", ID);
-	e.setAttribute("screen-generated", CurrentScreen);
-	e.setAttribute("name", ID);
-	e.className = "HideOnPopup";
-
-	if (form) {
-		form.appendChild(e);
-	} else {
-		document.body.appendChild(e);
-	}
-
-	return e;
+	return /** @type {HTMLTextAreaElement} */ (document.getElementById(ID)) ?? ElementCreate({
+		tag: "textarea",
+		attributes: {
+			id: ID,
+			name: ID,
+			["screen-generated"]: CurrentScreen,
+		},
+		parent: form ?? document.body,
+		classList: ["HideOnPopup"],
+	});
 }
 
 /**
@@ -96,10 +128,11 @@ function ElementNumberInputBlur(event) {
 	if (Number.isNaN(this.valueAsNumber)) {
 		value = this.defaultValue;
 	} else {
-		const min = Number.parseInt(this.min, 10);
-		const max = Number.parseInt(this.max, 10);
+		const min = Number(this.min);
+		const max = Number(this.max);
+		const requiresInt = this.inputMode === "numeric";
 		value = CommonClamp(
-			Math.round(this.valueAsNumber),
+			requiresInt ? Math.round(this.valueAsNumber) : this.valueAsNumber,
 			Number.isNaN(min) ? -Infinity : min,
 			Number.isNaN(max) ? Infinity : max,
 		).toString();
@@ -118,34 +151,37 @@ function ElementNumberInputBlur(event) {
  * @param {string} Type - Type of the input tag to create.
  * @param {string} Value - Value of the input tag to create.
  * @param {string | number} [MaxLength] - Maximum input tag of the input to create.
- * * @param {HTMLFormElement} [form] - The form the element belongs to
+ * @param {Node} [form] - The form the element belongs to
  * @returns {HTMLInputElement} - The created HTML input element
  */
 function ElementCreateInput(ID, Type, Value, MaxLength, form) {
 	let e = /** @type {HTMLInputElement} */ (document.getElementById(ID));
-	if (e) return e;
+	if (e) {
+		return e;
+	}
 
-	e = document.createElement("input");
-	e.setAttribute("ID", ID);
-	e.setAttribute("name", ID);
-	e.setAttribute("type", Type);
-	e.setAttribute("value", Value);
-	e.setAttribute("screen-generated", CurrentScreen);
-	e.setAttribute("maxlength", MaxLength);
-	e.setAttribute("onfocus", "this.removeAttribute('readonly');");
+	e = ElementCreate({
+		tag: "input",
+		attributes: {
+			id: ID,
+			name: ID,
+			type: Type,
+			value: Value,
+			maxLength: typeof MaxLength === "number" ? MaxLength : Number.parseInt(MaxLength, 10),
+			["screen-generated"]: CurrentScreen,
+		},
+		parent: form ?? document.body,
+		classList: ["HideOnPopup"],
+		eventListeners: {
+			focus() { this.removeAttribute("readonly"); },
+		},
+	});
+
 	switch (Type) {
 		case "number":
 			e.inputMode = "numeric";
 			e.addEventListener("blur", ElementNumberInputBlur);
 			break;
-	}
-
-	e.className = "HideOnPopup";
-
-	if (form) {
-		form.appendChild(e);
-	} else {
-		document.body.appendChild(e);
 	}
 
 	return e;
@@ -165,23 +201,25 @@ function ElementCreateInput(ID, Type, Value, MaxLength, form) {
  * @returns {HTMLInputElement} - The created HTML input element
  */
 function ElementCreateRangeInput(id, value, min, max, step, thumbIcon, vertical) {
-	if (document.getElementById(id) == null) {
-		const input = /** @type {HTMLInputElement} */(document.createElement("input"));
-		input.setAttribute("id", id);
-		input.setAttribute("name", id);
-		input.setAttribute("type", "range");
-		input.removeAttribute("readonly");
-		input.setAttribute("min", min);
-		input.setAttribute("max", max);
-		input.setAttribute("step", step);
-		input.value = String(value);
-		if (thumbIcon) input.setAttribute("data-thumb", thumbIcon.toLowerCase());
-		input.setAttribute("onfocus", "this.removeAttribute('readonly');");
-		input.classList.add("HideOnPopup");
-		if (vertical) input.classList.add("Vertical");
-		document.body.appendChild(input);
-		return input;
-	}
+	return /** @type {HTMLInputElement} */ (document.getElementById(id)) ?? ElementCreate({
+		tag: "input",
+		attributes: {
+			id,
+			name: id,
+			type: "range",
+			min: min.toString(),
+			max: max.toString(),
+			step: step.toString(),
+			value: value.toString(),
+			["screen-generated"]: CurrentScreen,
+		},
+		dataAttributes: thumbIcon ? { thumb: thumbIcon.toLowerCase() } : {},
+		parent: document.body,
+		classList: vertical ? ["HideOnPopup", "Vertical"] : ["HideOnPopup"],
+		eventListeners: {
+			focus() { this.removeAttribute("readonly"); },
+		},
+	});
 }
 
 /**
@@ -202,74 +240,84 @@ function ElementCreateRangeInput(id, value, min, max, step, thumbIcon, vertical)
  * What this function cannot handle at the moment:
  * - The size is always set to 1
  * - Multiple selects are impossible
- * @param {string} ID - The name of the select item. The outer div will get this name, for positioning. The select
+ * @param {string} id - The name of the select item. The outer div will get this name, for positioning. The select
  * tag will get the name ID+"-select"
  * @param {readonly string[]} Options - The list of options for the current select statement
- * @param {EventListenerOrEventListenerObject} [ClickEventListener=null] - An event listener to be called, when the value of the drop down box changes
- * @returns {void} - Nothing
+ * @param {null | ((this: HTMLSelectElement, event: Event) => any)} [ClickEventListener=null] - An event listener to be called, when the value of the drop down box changes
+ * @returns {HTMLDivElement} - The created element
  */
-function ElementCreateDropdown(ID, Options, ClickEventListener) {
-	if (document.getElementById(ID) == null) {
-		// Create the all enclosing <div>
-		var CustomSelect = document.createElement("DIV");
-		CustomSelect.setAttribute("class", "custom-select");
-		CustomSelect.setAttribute("ID", ID);
-		// Create the <select> tag
-		var Select = document.createElement("select");
-		Select.setAttribute("Name", ID + "-select");
-		Select.setAttribute("ID", ID + "-select");
-		// Create the <div> for the options
-		var DivOptions = document.createElement("DIV");
-		DivOptions.setAttribute("class", "select-items select-hide");
-		// Create <option> and inner <div> tags for all Options in the list
-		for (let i = 0; i < Options.length; i++) {
-			var Option = document.createElement("option");
-			var InnerDiv = document.createElement("DIV");
-
-			Option.setAttribute("value", Options[i]);
-			Option.innerHTML = Options[i];
-			InnerDiv.innerHTML = Options[i];
-			InnerDiv.addEventListener("click", function () {
-				// when an item is clicked, update the original select box, and the selected item:
-				var s = this.parentElement.parentElement.getElementsByTagName("select")[0]; // Representation of the select tag
-				var h = /** @type HTMLElement */(this.parentElement.previousElementSibling); // Representation of the dropdown box
-				for (let j = 0; j < s.length; j++) {
-					if (s.options[j].innerHTML == this.innerHTML) {
-						s.selectedIndex = j; // Fake the selection of an option
-						h.innerHTML = this.innerHTML; // Update the drop down box
-						var y = this.parentElement.getElementsByClassName("same-as-selected");
-						for (let k = 0; k < y.length; k++) {
-							y[k].removeAttribute("class");
-						}
-						this.setAttribute("class", "same-as-selected");
-						break;
-					}
-				}
-				h.click(); // Evove a click events
-				s.dispatchEvent(new Event("change")); // Evoke a onChange events
-			});
-			Select.appendChild(Option);
-			DivOptions.appendChild(InnerDiv);
-		}
-		// Create the div for the selected item
-		var SelectedItem = document.createElement("DIV");
-		SelectedItem.setAttribute("class", "select-selected");
-		SelectedItem.innerHTML = Select.options[0].innerHTML;
-		SelectedItem.addEventListener("click", function (e) {
-			//when the select box is clicked, close any other select boxes, and open/close the current select box:
-			e.stopPropagation();
-			ElementCloseAllSelect(this);
-			this.nextElementSibling.classList.toggle("select-hide");
-		});
-		// add an event listener to the <select> tag
-		if (ClickEventListener != null) Select.addEventListener("change", ClickEventListener);
-		// Add alle the items to the enclosing <di>
-		CustomSelect.appendChild(Select);
-		CustomSelect.appendChild(SelectedItem);
-		CustomSelect.appendChild(DivOptions);
-		document.body.appendChild(CustomSelect);
-		document.addEventListener("click", ElementCloseAllSelect);
+function ElementCreateDropdown(id, Options, ClickEventListener) {
+	if (document.getElementById(id) != null) {
+		return /** @type {HTMLDivElement} */(document.getElementById(id));
 	}
+
+	document.addEventListener("click", ElementCloseAllSelect);
+	return ElementCreate({
+		tag: "div",
+		classList: ["custom-select"],
+		attributes: { id },
+		parent: document.body,
+		children: [
+			{
+				tag: "select",
+				attributes: { id: `${id}-select`, name: `${id}-select` },
+				eventListeners: { change: ClickEventListener ?? undefined },
+				children: Options.map(option => {
+					return {
+						tag: "option",
+						attributes: { value: option },
+						children: [option],
+					};
+				}),
+			},
+			{
+				tag: "div",
+				classList: ["select-selected"],
+				children: [Options[0]],
+				eventListeners: {
+					click(e) {
+						//when the select box is clicked, close any other select boxes, and open/close the current select box:
+						e.stopPropagation();
+						ElementCloseAllSelect(this);
+						this.nextElementSibling.classList.toggle("select-hide");
+					},
+				},
+			},
+			{
+				tag: "div",
+				classList: ["select-items", "select-hide"],
+				children: Options.map(option => {
+					return {
+						tag: "div",
+						children: [option],
+						eventListeners: {
+							click() {
+								// when an item is clicked, update the original select box, and the selected item:
+								const selectedItem = /** @type {HTMLDivElement} */(this.parentElement.previousSibling);
+								const select = /** @type {HTMLSelectElement} */(selectedItem.previousSibling);
+								for (let j = 0; j < select.length; j++) {
+									if (select.options[j].innerHTML != this.innerHTML) {
+										continue;
+									}
+
+									select.selectedIndex = j; // Fake the selection of an option
+									selectedItem.innerHTML = this.innerHTML; // Update the drop down box
+									var y = this.parentElement.getElementsByClassName("same-as-selected");
+									for (let k = 0; k < y.length; k++) {
+										y[k].classList.remove("same-as-selected");
+									}
+									this.classList.add("same-as-selected");
+									break;
+								}
+								selectedItem.click(); // Evove a click events
+								select.dispatchEvent(new Event("change")); // Evoke a onChange events
+							},
+						},
+					};
+				}),
+			},
+		],
+	});
 }
 
 /**
@@ -294,19 +342,18 @@ function ElementCloseAllSelect(elmnt) {
 /**
  * Creates a new div element in the main document. Does not create a new element if there is already an existing one with the same ID
  * @param {string} ID - The id of the div tag to create.
- * @returns {HTMLElement} - The created (or pre-existing) div element
+ * @returns {HTMLDivElement} - The created (or pre-existing) div element
  */
 function ElementCreateDiv(ID) {
-	let Div = document.getElementById(ID);
-	if (Div == null) {
-		Div = document.createElement("div");
-		Div.setAttribute("ID", ID);
-		Div.setAttribute("name", ID);
-		Div.setAttribute("screen-generated", CurrentScreen);
-		Div.className = "HideOnPopup";
-		document.body.appendChild(Div);
-	}
-	return Div;
+	return /** @type {HTMLDivElement} */(document.getElementById(ID)) ?? ElementCreate({
+		tag: "div",
+		attributes: {
+			id: ID,
+			["screen-generated"]: CurrentScreen,
+		},
+		parent: document.body,
+		classList: ["HideOnPopup"],
+	});
 }
 
 /**
@@ -539,4 +586,516 @@ function ElementFocus(ID) {
 function ElementToggleGeneratedElements(Screen, ShouldDisplay) {
 	const generatedElements = Array.from(document.querySelectorAll(`[screen-generated="${Screen}"]`));
 	generatedElements.forEach((/** @type {HTMLElement} */ element) => element.style.display = ShouldDisplay ? '' : 'none');
+}
+
+/**
+ * Namespace for creating (DOM-based) dropdown menus filled with checkboxes
+ * @namespace
+ */
+var ElementCheckboxDropdown = {
+	/**
+	 * @param {string} idPrefix
+	 * @param {string} idSuffix
+	 * @param {string} spanText
+	 * @param {(this: HTMLInputElement, event: Event) => void} listener
+	 * @param {boolean} checked
+	 * @returns {HTMLOptions<"label">}
+	 */
+	_CreateCheckboxPair(idPrefix, idSuffix, spanText, listener, checked=false) {
+		return {
+			tag: "label",
+			classList: ["dropdown-checkbox-grid"],
+			attributes: { id: `${idPrefix}-pair-${idSuffix}` },
+			children: [
+				{
+					tag: "input",
+					classList: ["dropdown-checkbox"],
+					attributes: { id: `${idPrefix}-checkbox-${idSuffix}`, type: "checkbox", checked },
+					eventListeners: { click: listener },
+				},
+				{
+					tag: "span",
+					classList: ["dropdown-checkbox-label"],
+					attributes: { id: `${idPrefix}-label-${idSuffix}` },
+					children: [spanText],
+				},
+			],
+		};
+	},
+
+	/**
+	 * Construct a dropdown menu with labeled checkboxes
+	 * @param {string} id - The ID of the element
+	 * @param {readonly string[]} checkboxList - The checkbox labels
+	 * @param {(this: HTMLInputElement, event: Event) => void} eventListener - The event listener to-be attached to all checkboxes
+	 * @param {Object} [options]
+	 * @param {HTMLElement} [options.parent] - The parent element of the dropdown menu; defaults to {@link document.body}
+	 * @param {boolean} [options.checked] - Whether all checkboxes should be initially checked
+	 * @returns {HTMLDivElement} - The created dropdown menu
+	 */
+	FromList(id, checkboxList, eventListener, options=null) {
+		return /** @type {null | HTMLDivElement} */(document.getElementById(id)) ?? ElementCreate({
+			tag: "div",
+			attributes: { id, ["screen-generated"]: CurrentScreen },
+			parent: options?.parent ?? document.body,
+			classList: ["HideOnPopup", "dropdown"],
+			style: { display: "none" },
+			children: checkboxList.map((o) => this._CreateCheckboxPair(id, o, o, eventListener, options?.checked)),
+		});
+	},
+
+	/**
+	 * Construct a dropdown menu with labeled checkboxes, each group of checkboxes having a header associated with them
+	 * @param {string} id - The ID of the element
+	 * @param {Record<string, readonly string[]>} checkboxRecord - The checkbox labels
+	 * @param {(this: HTMLInputElement, event: Event) => void} eventListener - The event listener to-be attached to all checkboxes
+	 * @param {Object} [options]
+	 * @param {HTMLElement} [options.parent] - The parent element of the dropdown menu; defaults to {@link document.body}
+	 * @param {boolean} [options.checked] - Whether all checkboxes should be initially checked
+	 * @returns {HTMLDivElement} - The created dropdown menu
+	 */
+	FromRecord(id, checkboxRecord, eventListener, options=null) {
+		return /** @type {null | HTMLDivElement} */(document.getElementById(id)) ?? ElementCreate({
+			tag: "div",
+			attributes: { id, ["screen-generated"]: CurrentScreen },
+			parent: options?.parent ?? document.body,
+			classList: ["HideOnPopup", "dropdown"],
+			style: { display: "none" },
+			children: Object.entries(checkboxRecord).flatMap(([header, checkboxList]) => {
+				return [
+					{
+						tag: "span",
+						classList: ["dropdown-header"],
+						attributes: { id: `${id}-header-${header}` },
+						children: [header],
+					},
+					{
+						tag: "div",
+						classList: ["dropdown-grid"],
+						attributes: { id: `${id}-grid-${header}` },
+						children: checkboxList.map((o) => this._CreateCheckboxPair(id, `${header}-${o}`, o, eventListener, options?.checked)),
+					},
+				];
+			}),
+		});
+	},
+};
+
+/**
+ * Construct a search-based `<input>` element that offers suggestions based on the passed callbacks output.
+ *
+ * The search suggestions are constructed lazily once the search input is focused.
+ * @example
+ * <input type="search" id={id} list={`${id}-datalist`}>
+ *     <datalist id={`${id}-datalist`}>
+ *         <option value="..." />
+ *         ...
+ *     </datalist>
+ * </input>
+ * @param {string} id - The ID of the to-be created search input; `${id}-datalist` will be assigned the search input's datalist
+ * @param {() => Iterable<string>} dataCallback - A callback returning all values that will be converted into a datalist `<option>`
+ * @param {Object} [options]
+ * @param {null | string} [options.value] - Value of the search input
+ * @param {null | Node} [options.parent] - The parent element of the search input; defaults to {@link document.body}
+ * @param {null | number} [options.maxLength] - Maximum input length of the search input
+ * @returns {HTMLInputElement} - The newly created search input
+ */
+function ElementCreateSearchInput(id, dataCallback, options=null) {
+	let elem = /** @type {HTMLInputElement | null} */(document.getElementById(id));
+	if (elem) {
+		return elem;
+	}
+
+	options ??= {};
+	elem = ElementCreateInput(id, "search", options.value ?? "", options.maxLength, options.parent);
+	elem.appendChild(ElementCreate({ tag: "datalist", attributes: { id: `${id}-datalist` } }));
+	elem.setAttribute("list", `${id}-datalist`);
+	elem.addEventListener("focus", async function() {
+		if (this.list?.children.length !== 0) {
+			return;
+		}
+
+		for (const value of dataCallback()) {
+			this.list.appendChild(ElementCreate({ tag: "option", attributes: { value } }));
+		}
+	});
+	return elem;
+}
+
+/**
+ * Namespace for creating HTML buttons
+ * @namespace
+ */
+var ElementButton = {
+	/**
+	 * @private
+	 * @readonly
+	 */
+	_PositionMapping: Object.freeze({
+		left: "button-tooltip-left",
+		right: "button-tooltip-right",
+		top: "button-tooltip-top",
+		bottom: "button-tooltip-bottom",
+	}),
+
+	/**
+	 * Touch event listener that mimicks the start of desktop-style hovering on mobile
+	 * @private
+	 * @type {(this: HTMLButtonElement, event: Event) => Promise<void>}
+	 */
+	_TouchStart: async function _TouchStart(event) {
+		if (this.disabled || this.ariaDisabled === "true") {
+			return;
+		}
+		this.classList.add("button-touch");
+	},
+
+	/**
+	 * Touch event listener that mimicks the end of desktop-style hovering on mobile
+	 * @private
+	 * @type {(this: HTMLButtonElement, event: Event) => Promise<void>}
+	 */
+	_TouchEnd: async function _TouchEnd(event) {
+		if (this.disabled || this.ariaDisabled === "true") {
+			return;
+		}
+		this.classList.remove("button-touch");
+	},
+
+	/**
+	 * MouseDown listener that prevents a button from receining focus when clicked
+	 * @private
+	 * @type {(this: HTMLButtonElement, event: MouseEvent) => Promise<void>}
+	 */
+	_MouseDown: async function _MouseDown(event) {
+		event.preventDefault();
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLButtonElement, ev: KeyboardEvent) => Promise<void>}
+	 */
+	_KeyDown: async function _KeyDown(ev) {
+		if (this.disabled || this.ariaDisabled === "true" || ev.shiftKey || ev.ctrlKey || ev.metaKey || ev.altKey) {
+			return;
+		}
+		switch (ev.key) {
+			case "Enter":
+			case " ":
+				if (!ev.repeat) {
+					this.click();
+					this.classList.add("button-touch");
+				}
+				ev.stopPropagation();
+				ev.preventDefault();
+				break;
+		}
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLButtonElement, ev: KeyboardEvent) => Promise<void>}
+	 */
+	_KeyUp: async function _KeyUp(ev) {
+		if (this.disabled || this.ariaDisabled === "true" || ev.shiftKey || ev.ctrlKey || ev.metaKey || ev.altKey) {
+			return;
+		}
+		switch (ev.key) {
+			case "Enter":
+			case " ":
+				this.classList.remove("button-touch");
+				break;
+		}
+	},
+
+	/**
+	 * Create a button with a tooltip
+	 *
+	 * @example
+	 * <button id={id}>
+	 *     <div id={`${id}-tooltip`} />
+	 * </button>
+	 * @param {null | string} id - The ID of the to-be created search button
+	 * @param {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => any} onClick - The click event listener to-be attached to the tooltip
+	 * @param {Object} [options]
+	 * @param {null | string | Node} [options.tooltip] - Optional tooltip content. If not supplied then one should manually prepend it to the tooltip later
+	 * @param {"left" | "right" | "top" | "bottom"} [options.tooltipPosition] - The position of the tooltip w.r.t. the button
+	 * @param {null | Partial<Record<"button" | "tooltip", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the either the button or tooltip
+	 * @returns {HTMLButtonElement} - The created button
+	 */
+	Create: function Create(id, onClick, options=null, htmlOptions=null) {
+		let elem = /** @type {HTMLButtonElement | null} */(document.getElementById(id));
+		if (elem) {
+			return elem;
+		}
+
+		id ??= `button-${Date.now()}`;
+		const tooltip = options?.tooltip;
+		const tooltipPosition = this._PositionMapping[options?.tooltipPosition] ?? this._PositionMapping.left;
+		const buttonOptions = htmlOptions?.button ?? {};
+		const tooltipOptions = htmlOptions?.tooltip ?? {};
+		return ElementCreate({
+			...buttonOptions,
+			tag: "button",
+			attributes: {
+				id,
+				name: id,
+				"aria-describedby": `${id}-tooltip`,
+				...(buttonOptions.attributes ?? {}),
+			},
+			classList: ["blank-button", "button", ...(buttonOptions.classList ?? [])],
+			eventListeners: {
+				click: onClick,
+				mousedown: this._MouseDown,
+				touchstart: this._TouchStart,
+				touchend: this._TouchEnd,
+				touchcancel: this._TouchEnd,
+				keydown: this._KeyDown,
+				keyup: this._KeyUp,
+				...(buttonOptions.eventListeners ?? {}),
+			},
+			children: [
+				{
+					...tooltipOptions,
+					tag: "div",
+					classList: ["button-tooltip", tooltipPosition, ...(tooltipOptions.classList ?? [])],
+					attributes: {
+						id: `${id}-tooltip`,
+						role: "tooltip",
+						...(tooltipOptions.attributes ?? {}),
+					},
+					children: tooltip == null ? tooltipOptions.children : [tooltip, ...(tooltipOptions.children ?? [])],
+				},
+				...(buttonOptions.children ?? []),
+			],
+		});
+	},
+};
+
+/**
+ * Namespace for constructing menu bars
+ * @namespace
+ */
+var ElementMenu = {
+	/**
+	 * KeyDown event listener that implements menubar-style keyboard navigation
+	 * @this {HTMLElement}
+	 * @param {KeyboardEvent} ev
+	 */
+	_KeyDown: async function _KeyDown(ev) {
+		if (ev.altKey || ev.metaKey || ev.ctrlKey) {
+			return;
+		}
+
+		const parent = this.closest("[role='menu'], [role='menubar']");
+		if (!parent) {
+			return;
+		}
+
+		let key = ev.key;
+		if (parent.getAttribute("data-direction") === "rtl") {
+			// Flip all the keys of the direction of the menu grid is right-to-left
+			switch (key) {
+				case "ArrowRight":
+					key = "ArrowLeft";
+					break;
+				case "ArrowLeft":
+					key = "ArrowRight";
+					break;
+				case "Home":
+					key = "End";
+					break;
+				case "End":
+					key = "Home";
+					break;
+			}
+		}
+
+		let isTab = false;
+		if (key === "Tab") {
+			key = ev.shiftKey ? "ArrowLeft" : "ArrowRight";
+			isTab = true;
+		} else if (ev.shiftKey) {
+			return;
+		}
+
+		// Selector for all non-hidden menu items
+		const selector = "[role='menuitem']";
+		switch (key) {
+			case "ArrowRight":
+			case "ArrowLeft": {
+				const elements = /** @type {HTMLElement[]} */(Array.from(parent.querySelectorAll(selector)).filter(e => ElementCheckVisibility(e)));
+				const idx = elements.indexOf(this);
+				if (idx === -1) {
+					return;
+				}
+
+				const increment = key === "ArrowRight" ? 1 : -1;
+				const elem = elements[idx + increment];
+				if (!elem && isTab) {
+					// We've reached the end/start of the menu:
+					// abort and let the tab-based keydown event propogate towards whatever next focusable element lays outside of the grid
+					return;
+				}
+				elem?.focus();
+				ev.preventDefault();
+				ev.stopPropagation();
+				break;
+			}
+			case "Home":
+			case "End": {
+				const elements = /** @type {HTMLElement[]} */(Array.from(parent.querySelectorAll(selector)).filter(e => ElementCheckVisibility(e)));
+				const idx = key === "Home" ? 0 : elements.length - 1;
+				elements[idx]?.focus();
+				ev.stopPropagation();
+				break;
+			}
+			case "ArrowUp":
+			case "ArrowDown": {
+				if (this.ariaHasPopup !== "true" && this.ariaHasPopup !== "menu") {
+					return;
+				}
+
+				// We're assuming (well, mandating really...) that click actions a sub menu
+				this.click();
+				const elements = /** @type {HTMLElement[]} */(Array.from(this.querySelectorAll(selector)).filter(e => ElementCheckVisibility(e)));
+				const idx = key === "ArrowUp" ? elements.length - 1 : 0;
+				elements[idx]?.focus();
+				ev.stopPropagation();
+				break;
+			}
+		}
+	},
+
+	/**
+	 * Construct a menubar of button elements
+	 * @example
+	 * <div id={id} role="menubar">
+	 *     <button role="menuitem" />
+	 *     <input role="menuitem" type="text" />
+	 *     <button role="menuitem" aria-haspopup="menu">
+	 *         <div style={ display: "none" }>
+	 *             <button role="menuitem" />
+	 *             <button role="menuitem" />
+	 *             ...
+	 *         </div>
+	 *     </button>
+	 *     ...
+	 * </div>
+	 * @param {string} id - The menu's ID
+	 * @param {readonly (string | Node | HTMLOptions<keyof HTMLElementTagNameMap>)[]} menuItems - The menu's content.
+	 * Any `<button>` element without a role (regardless of nesting) will be assigned the `menuitem` role and thus be elligble for menu-style navigation.
+	 * Buttons that open a sub-menu _must_ have the `aria-haspopup: "menu"` attribute set and must be able to do so via a click action.
+	 * @param {Object} [options]
+	 * @param {"ltr" | "rtl"} [options.direction] - The direction of the menu. Should match the value of the CSS `direction` property if provided
+	 * @param {null | Partial<Record<"menu", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the respective (child) element
+	 * @returns {HTMLDivElement} - The menu
+	 */
+	Create: function Create(id, menuItems, options=null, htmlOptions=null) {
+		let elem = /** @type {HTMLDivElement | null} */(document.getElementById(id));
+		if (elem) {
+			return elem;
+		}
+
+		options ??= {};
+		const direction = options.direction ?? "ltr";
+
+		htmlOptions ??= {};
+		const menuOptions = htmlOptions.menu ?? {};
+		elem = ElementCreate({
+			...menuOptions,
+			tag: "div",
+			attributes: {
+				id,
+				role: "menubar",
+				...(menuOptions.attributes ?? {}),
+			},
+			parent: menuOptions.parent ?? document.body,
+			dataAttributes: { direction, ...(menuOptions.dataAttributes ?? {}) },
+			classList: ["menubar", ...(menuOptions.classList ?? [])],
+			children: [...menuItems, ...(menuOptions.children ?? [])],
+		});
+
+		let first = true;
+		elem.querySelectorAll("button, [role='menuitem']").forEach((menuitem) => {
+			menuitem.role ||= "menuitem";
+			if (menuitem.role !== "menuitem") {
+				return;
+			}
+
+			if (first && ElementCheckVisibility(menuitem)) {
+				first = false;
+				menuitem.setAttribute("tabindex", "0");
+			} else {
+				menuitem.setAttribute("tabindex", "-1");
+			}
+			menuitem.addEventListener("keydown", this._KeyDown);
+		});
+		return elem;
+	},
+
+	/**
+	 * Append a menuitem to the passed menubar
+	 * @param {HTMLDivElement} div - The menubar
+	 * @param {HTMLElement} menuitem - The to-be prepended menuitem
+	 */
+	AppendButton: function AppendButton(div, menuitem) {
+		if (!div || !menuitem) {
+			return;
+		}
+
+		menuitem.tabIndex = -1;
+		menuitem.role = "menuitem";
+		menuitem.addEventListener("keydown", this._KeyDown);
+		div.append(menuitem);
+	},
+
+	/**
+	 * Prepend a menuitem to the passed menubar
+	 * @param {HTMLDivElement} div - The menubar
+	 * @param {HTMLElement} menuitem - The to-be prepended menuitem
+	 */
+	PrependItem: function PrependButton(div, menuitem) {
+		if (!div || !menuitem) {
+			return;
+		}
+
+		// Only the first visible menuitem must be directly focusable via tab
+		if (ElementCheckVisibility(menuitem)) {
+			const menuitemOld = div.querySelector("[role='menuitem'][tab-index='0']");
+			if (menuitemOld) {
+				menuitemOld.setAttribute("tabindex", "-1");
+			}
+			menuitem.tabIndex = 0;
+		} else {
+			menuitem.tabIndex = -1;
+		}
+
+		menuitem.role = "menuitem";
+		menuitem.addEventListener("keydown", this._KeyDown);
+		div.prepend(menuitem);
+	},
+};
+
+/**
+ * Return whether an element is visible or not.
+ *
+ * Approximate polyfill of [`Element.checkVisibility()`](https://developer.mozilla.org/en-US/docs/Web/API/Element/checkVisibility),
+ * as its browser support is still somewhat limited (~88% at the time of writing).
+ * @param {Element} el - The element in question
+ * @param {CheckVisibilityOptions} [options] - Additional options to-be passed to `Element.checkVisibility()`
+ * @returns {boolean} - Whether the passed element is visible or not
+ */
+function ElementCheckVisibility(el, options) {
+	if (!el) {
+		return false;
+	}
+
+	if (typeof el.checkVisibility === "function") {
+		options ??= {};
+		return el.checkVisibility({ ...options, checkVisibilityCSS: options.checkVisibilityCSS ?? true });
+	} else {
+		// @ts-expect-error: Element does not expose style but HTMLElement does
+		return (!el.style || el.style.display !== "none") && getComputedStyle(el).display !== "none";
+	}
 }

@@ -162,7 +162,7 @@ function InformationSheetRun() {
 		}
 		DrawText(TextGet("Owner") + " " + (C.IsOwned() ? C.OwnerName() : TextGet("OwnerNone")), 550, 650, "Black", "Gray");
 		if (C.IsOwned())
-			DrawText(TextGet("CollaredFor") + " " + C.OwnedSince().toString() + " " + TextGet("Days"), 550, 725, "Black", "Gray");
+			DrawText(TextGet(C.IsFullyOwned() ? "CollaredFor" : "TrialFor") + " " + C.OwnedSince().toString() + " " + TextGet("Days"), 550, 725, "Black", "Gray");
 		DrawText(TextGet("Trait"), 1000, 125, "Black", "Gray");
 
 		// After one week we show the traits, after two weeks we show the level

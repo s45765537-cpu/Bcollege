@@ -217,6 +217,7 @@ ClothLower,PantBoots,Long Latex Pants
 ClothLower,PencilSkirt,Pencil Skirt
 ClothLower,PleatedSkirt,Pleated Skirt
 ClothLower,RuffledSkirt,Ruffled Skirt
+ClothLower,SatinSkirt,Satin Skirt
 ClothLower,ShortPencilSkirt,Short Pencil Skirt
 ClothLower,ShortPlaidSkirt,Short Plaid Skirt
 ClothLower,Shorts1,Shorts
@@ -336,6 +337,7 @@ Gloves,HaremGlove,Harem Gloves
 Gloves,LatexElbowGloves,Latex Elbow Gloves
 Gloves,LatexShortGloves,Latex Gloves
 Gloves,MistressGloves,Mistress Gloves
+Gloves,OperaGloves,Opera Gloves
 Gloves,SeethroughSuit,See-through Gloves
 Gloves,WarmGloves,Short Leather Gloves
 HairAccessory1,,Hair Accessory (All)
@@ -742,6 +744,7 @@ ItemBreast,OrnateChastityBra,Ornate Chastity Bra
 ItemBreast,PolishedChastityBra,Polished Chastity Bra
 ItemBreast,Ribbons,Ribbons
 ItemBreast,TickleBra, Tickle Bra
+ItemBreast,ChastityPlate,Male Chastity Plate
 ItemButt,,Butt
 ItemButt,AnalBeads,Anal Beads
 ItemButt,AnalBeads2,Anal Beads XL
@@ -801,6 +804,7 @@ ItemDevices,FoldingScreen,Folding Screen
 ItemDevices,FuckMachine,Fuck Machine
 ItemDevices,FurBlanketWrap,Fur Blanket Wrap
 ItemDevices,FuturisticCrate,Futuristic Crate
+ItemDevices,GlueFloor,Glue's Puddle
 ItemDevices,InflatableBodyBag,Inflatable Body Bag
 ItemDevices,KabeshiriWall,Kabeshiri Wall
 ItemDevices,Kennel,Heavy Kennel
@@ -812,6 +816,7 @@ ItemDevices,MedicalBed,Medical Bed
 ItemDevices,MilkCan,Water filled milk can
 ItemDevices,Net,Net
 ItemDevices,OneBarPrison,One Bar Prison
+ItemDevices,OneBarGirl,Unsuspected Pose
 ItemDevices,PersonalCage,Personal Cage
 ItemDevices,PetBed,Pet Bed
 ItemDevices,PetBowl,Pet Bowl
@@ -896,6 +901,7 @@ ItemHandheld,ForSaleSign,For Sale Sign
 ItemHandheld,Gavel,Gavel
 ItemHandheld,GlassEmpty,Empty Glass
 ItemHandheld,GlassFilled,Filled Glass
+ItemHandheld,GlueTube,Atoxic Glue Tube
 ItemHandheld,Hairbrush,Hairbrush
 ItemHandheld,HeartCrop,Heart Crop
 ItemHandheld,IceCube,Ice Cube
@@ -943,6 +949,7 @@ ItemHands,CheerleaderPomPoms,Pom Pom Mitts
 ItemHands,DuctTape,Duct Tape
 ItemHands,ElbowLengthMittens,Long Leather Paw Mittens
 ItemHands,FuturisticMittens,Futuristic Mittens
+ItemHands,GlueMittens,Glue Mittens
 ItemHands,HoofMittens, Hoof Mittens
 ItemHands,LeatherMittens,Leather Mittens
 ItemHands,PaddedLeatherMittens,Padded Leather Mittens
@@ -1134,6 +1141,7 @@ ItemMouth,FuturisticHarnessPanelGag,Futuristic Harness Panel Gag
 ItemMouth,FuturisticMuzzle,Futuristic Muzzle
 ItemMouth,FuturisticPanelGag,Futuristic Panel Gag
 ItemMouth,GasMaskGag,Respirator Mask
+ItemMouth,GlueGag,Glue
 ItemMouth,HarnessBallGag,Harness Ball Gag
 ItemMouth,HarnessBallGag1,Harness Ball Gag XL
 ItemMouth,HarnessPacifierGag,Harness Pacifier
@@ -1310,6 +1318,7 @@ ItemNose,,Nose
 ItemNose,BarbelPiercing,Barbel Piercing
 ItemNose,ClownNose,Clown Nose
 ItemNose,DuctTape,Duct Tape
+ItemNose,GlueNose,Glue
 ItemNose,NoseHook,Nose Hook
 ItemNose,NosePlugs,Nose Plugs
 ItemNose,NoseRing,Nose Ring
@@ -1475,6 +1484,7 @@ Necklace,NecklaceButterfly,Butterfly Necklace
 Necklace,NecklaceKey,Key Necklace
 Necklace,NecklaceLock,Lock Necklace
 Necklace,NecklaceRope,Rope Necklace
+Necklace,PearlNecklace1,Custom Pearl Necklace
 Nipples,,Nipples Style
 Nipples,Nipples1,Small
 Nipples,Nipples2,Large

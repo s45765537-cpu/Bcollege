@@ -521,6 +521,25 @@ function CraftingUpdateFromItem(item) {
 }
 
 /**
+ * Return a list of all searchable asset names.
+ * @returns {string[]}
+ */
+function CraftingGetAllAssetNames() {
+	/** @type {Set<string>} */
+	const visited = new Set();
+
+	return Object.values(CraftingAssets).flat().sort((asset1, asset2) => {
+		return asset1.Description.localeCompare(asset2.Description);
+	}).filter((asset) => {
+		const status = InventoryAvailable(Player, asset.Name, asset.Group.Name) && !visited.has(asset.Description);
+		if (status) {
+			visited.add(asset.Description);
+		}
+		return status;
+	}).map((asset) => asset.Description);
+}
+
+/**
  * Sets the new mode and creates or removes the inputs
  * @param {CraftingMode} NewMode - The new mode to set
  * @returns {void} - Nothing
@@ -533,7 +552,7 @@ function CraftingModeSet(NewMode) {
 
 	CraftingMode = NewMode;
 	if (NewMode == "Item") {
-		let Input = ElementCreateInput("InputSearch", "text", "", "50");
+		const Input = ElementCreateSearchInput("InputSearch", CraftingGetAllAssetNames);
 		Input.addEventListener("input", CraftingItemListBuild);
 	} else ElementRemove("InputSearch");
 	if (NewMode === "Lock" && !CraftingSelectedItem.Assets.some(a => a.AllowLock)) {

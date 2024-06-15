@@ -34,9 +34,10 @@ const Shop2Vars = CommonVariableContainer(
 
 		/**
 		 * The current shop mode
+		 * @private
 		 * @type {ShopMode}
 		 */
-		Mode: "Buy",
+		_Mode: "Buy",
 
 		/**
 		 * The current dressing state of the preview character
@@ -77,6 +78,16 @@ const Shop2Vars = CommonVariableContainer(
 		Filters: {},
 	},
 	{
+		/**
+		 * The current shop mode
+		 * @type {ShopMode}
+		 */
+		get Mode() { return Shop2Vars._Mode; },
+		set Mode(value) {
+			ElementContent("Shop2InputSearch-datalist", "");
+			Shop2Vars._Mode = value;
+		},
+
 		/**
 		 * Get the maximum number of pages for the current {@link Shop2Vars.Mode}.
 		 * @type {number}
@@ -507,8 +518,9 @@ var Shop2 = {
 	/**
 	 * Filter the buy, sell and preview items in {@link Shop2Vars} based on the {@link Shop2Vars.Filters} settings,
 	 * clipping the current {@link Shop2Vars.Page} if required.
+	 * @param {boolean} clearDatalist - Whether the search bars datalist should be cleared (and thus be recomputed on a focus event)
 	 */
-	ApplyItemFilters: function ApplyItemFilters() {
+	ApplyItemFilters: function ApplyItemFilters(clearDatalist=true) {
 		// Empty the filter caches and mark all relevant assets as filtered or not
 		Shop2Vars.BuyItems = [];
 		Shop2Vars.SellItems = [];
@@ -528,21 +540,21 @@ var Shop2 = {
 		if (Shop2Vars.Page >= Shop2Vars.PageCount) {
 			Shop2Vars.Page = Shop2Vars.PageCount - 1;
 		}
+
+		if (clearDatalist) {
+			ElementContent("Shop2InputSearch-datalist", "");
+		}
 	},
 
 	/** Click handler for the group-selection checkboxes */
 	_SetCheckboxFilters: function _SetCheckboxFilters() {
 		/** @type {Set<AssetGroupName>} */
 		const checkedSet = new Set();
-		for (const [category, groupDescriptions] of Object.entries(Shop2InitVars.GroupDescriptions)) {
-			for (const [groupDescr, groupNames] of Object.entries(groupDescriptions)) {
-				const checkBox = /** @type {null | HTMLInputElement} */(document.getElementById(`Shop2Checkbox-${category}-${groupDescr}`));
-				if (!checkBox) {
-					continue;
-				}
-				if (checkBox.checked) {
-					groupNames.forEach(i => checkedSet.add(i));
-				}
+		const elements = /** @type {HTMLInputElement[]} */(Array.from(document.querySelectorAll(`[id^="Shop2GroupSelect-checkbox"]`)));
+		for (const checkbox of elements) {
+			if (checkbox.checked) {
+				const [category, groupDescr] = checkbox.id.split("-").slice(-2);
+				Shop2InitVars.GroupDescriptions[category]?.[groupDescr]?.forEach(i => checkedSet.add(i));
 			}
 		}
 
@@ -562,9 +574,9 @@ var Shop2 = {
 			}
 
 			button.disabled = false;
-			button.style.backgroundColor = "";
+			button.classList.remove("layering-button-pink");
 			if (Shop2InitVars.Preview.PoseMapping[pose.Category] === pose.Name) {
-				button.style.backgroundColor = "pink";
+				button.classList.add("layering-button-pink");
 			} else if (!PoseAvailable(Shop2InitVars.Preview, pose.Category, pose.Name)) {
 				button.disabled = true;
 			}
@@ -572,7 +584,7 @@ var Shop2 = {
 	},
 
 	_ClickDropdown: function _ClickDropdown() {
-		const elems = Array.from(document.getElementsByClassName("shop-dropdown"));
+		const elems = Array.from(document.getElementsByClassName("dropdown"));
 		for (const elem of /** @type {HTMLDivElement[]} */(elems)) {
 			elem.style.display = "none";
 		}
@@ -636,12 +648,12 @@ var Shop2 = {
 	Elements: {
 		DarkFactor: {
 			Coords: [0, 0, 2000, 1000],
-			Mode: new Set(["Preview", "Buy", "Sell", "Extended", "Color"]),
+			Mode: new Set(["Preview", "Buy", "Sell", "Extended", "Color", "Layering"]),
 			Draw: (...coords) => DrawRect(...coords, "rgba(0,0,0,0.5)"),
 		},
 		Character: {
 			Coords: [650, 0, 0, 0],
-			Mode: new Set(["Preview", "Buy", "Sell", "Extended", "Color"]),
+			Mode: new Set(["Preview", "Buy", "Sell", "Extended", "Color", "Layering"]),
 			Load: () => {
 				if (Shop2InitVars.Preview) {
 					return;
@@ -674,7 +686,18 @@ var Shop2 = {
 				}
 
 				// We've got a caching related race condition going on for `TextGet("InputSearch")`, so hard code the english text as fallback
-				const elem = ElementCreateInput("Shop2InputSearch", "text", "", "50");
+				const elem = ElementCreateSearchInput("Shop2InputSearch", () => {
+					switch (Shop2Vars.Mode) {
+						case "Preview":
+							return new Set(Shop2Vars.PreviewItems.map(i => i.Asset.Description).sort());
+						case "Buy":
+							return new Set(Shop2Vars.BuyItems.map(i => i.Asset.Description).sort());
+						case "Sell":
+							return new Set(Shop2Vars.SellItems.map(i => i.Asset.Description).sort());
+						default:
+							return new Set();
+					}
+				});
 				elem.placeholder = TextGet("InputSearch");
 				elem.addEventListener("input", () => {
 					if (!elem.value) {
@@ -685,12 +708,11 @@ var Shop2 = {
 							return description.includes(elem.value.toUpperCase().trim()) ? ["Buy", "Sell", "Preview"] : [];
 						};
 					}
-					Shop2.ApplyItemFilters();
+					Shop2.ApplyItemFilters(false);
 				});
 			},
 			Draw: (...coords) => {
-				const font = MainCanvas.canvas.clientWidth <= MainCanvas.canvas.clientHeight * 2 ? MainCanvas.canvas.clientWidth / 50 : MainCanvas.canvas.clientHeight / 25;
-				ElementPositionFix("Shop2InputSearch", font, ...coords);
+				ElementPositionFixed("Shop2InputSearch", ...coords);
 			},
 			Unload: () => {
 				const elem = document.getElementById("Shop2InputSearch");
@@ -725,14 +747,8 @@ var Shop2 = {
 			Mode: new Set(["Preview", "Buy", "Sell"]),
 			Draw: (...coords) => DrawButton(...coords, TextGet("GroupSelectAll"), "White"),
 			Click: () => {
-				for (const [category, groupDescriptions] of Object.entries(Shop2InitVars.GroupDescriptions)) {
-					for (const groupDescr of Object.keys(groupDescriptions)) {
-						const checkBox = /** @type {null | HTMLInputElement} */(document.getElementById(`Shop2Checkbox-${category}-${groupDescr}`));
-						if (checkBox) {
-							checkBox.checked = true;
-						}
-					}
-				}
+				const elements = /** @type {HTMLInputElement[]} */(Array.from(document.querySelectorAll(`[id^="Shop2GroupSelect-checkbox"]`)));
+				elements.forEach(checkbox => checkbox.checked = true);
 				delete Shop2Vars.Filters.AssetGroup;
 				Shop2.ApplyItemFilters();
 			},
@@ -742,55 +758,31 @@ var Shop2 = {
 			Mode: new Set(["Preview", "Buy", "Sell"]),
 			Draw: (...coords) => DrawButton(...coords, TextGet("GroupSelectNone"), "White"),
 			Click: () => {
-				for (const [category, groupDescriptions] of Object.entries(Shop2InitVars.GroupDescriptions)) {
-					for (const groupDescr of Object.keys(groupDescriptions)) {
-						const checkBox = /** @type {null | HTMLInputElement} */(document.getElementById(`Shop2Checkbox-${category}-${groupDescr}`));
-						if (checkBox) {
-							checkBox.checked = false;
-						}
-					}
-				}
+				const elements = /** @type {HTMLInputElement[]} */(Array.from(document.querySelectorAll(`[id^="Shop2GroupSelect-checkbox"]`)));
+				elements.forEach(checkbox => checkbox.checked = false);
 				Shop2Vars.Filters.AssetGroup = () => [];
 				Shop2.ApplyItemFilters();
 			},
 		},
 		GroupSelect: {
-			Coords: [25, Shop2Consts.Grid.y + 100, 660, Shop2Consts.Grid.height - 100],
+			Coords: [25, Shop2Consts.Grid.y + 100, 660, Shop2Consts.Grid.height - 120],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
 			Load: () => {
 				if (document.getElementById("Shop2GroupSelect")) {
 					return;
 				}
 
-				const elem = ElementCreateDiv("Shop2GroupSelect");
-				let content = "";
-				for (const [category, groupDescriptions] of Object.entries(Shop2InitVars.GroupDescriptions)) {
-					content += `
-						<div class="Shop2GridCategory", id="Shop2GridCategory-${category}">
-							${TextGet("AssetGroupCategory" + category)}
-						</div>
-						<div class="Shop2CheckboxGrid", id="Shop2CheckboxGrid-${category}">
-					`;
-					for (const groupDescr of Object.keys(groupDescriptions)) {
-						content += `
-							<label class="Shop2Checkbox">
-								<input type="checkbox" id="Shop2Checkbox-${category}-${groupDescr}" onclick="Shop2._SetCheckboxFilters()", checked=true />
-								${groupDescr}
-							</label>
-						`;
-					}
-					content += "</div>";
-				}
-				elem.innerHTML = content;
-				elem.style.display = "none";
-				elem.classList.add("shop-dropdown");
+				const entries = Object.entries(Shop2InitVars.GroupDescriptions);
+				const groups = Object.fromEntries(entries.map(([k, v]) => [k, Object.keys(v)]));
+				const elem = ElementCheckboxDropdown.FromRecord("Shop2GroupSelect", groups, Shop2._SetCheckboxFilters, { checked: true });
+				const headers = /** @type {NodeListOf<HTMLSpanElement>} */(elem.querySelectorAll(".dropdown-header"));
+				headers.forEach(headerElem => headerElem.innerText = TextGet(`AssetGroupCategory${headerElem.innerText}`));
 			},
 			Draw: (...coords) => {
 				if (Shop2Vars.DropdownState !== ShopDropdownState.GROUP) {
 					return;
 				}
-				const font = MainCanvas.canvas.clientWidth <= MainCanvas.canvas.clientHeight * 2 ? MainCanvas.canvas.clientWidth / 50 : MainCanvas.canvas.clientHeight / 25;
-				ElementPositionFix("Shop2GroupSelect", font, ...coords);
+				ElementPositionFixed("Shop2GroupSelect", ...coords);
 			},
 			Unload: () => {
 				const elem = document.getElementById("Shop2GroupSelect");
@@ -803,16 +795,31 @@ var Shop2 = {
 		PoseSelectHeader: {
 			Coords: [345, 155 + 160, 0, 0],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Draw: (x, y) => DrawText(TextGet("PoseSelectHeader"), x, y, "White"),
+			Draw: (x, y) => {
+				switch (Shop2Vars.DropdownState) {
+					case ShopDropdownState.GROUP:
+						DrawText(TextGet("PoseSelectHeader"), x, y, "Gray");
+						break;
+					default:
+						DrawText(TextGet("PoseSelectHeader"), x, y, "White");
+						break;
+				}
+			}
 		},
 		PoseSelectCollapse: {
 			Coords: [25, Shop2Consts.Grid.y + 160, 90, 90],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
 			Draw: (...coords) => {
-				if (Shop2Vars.DropdownState === ShopDropdownState.POSE) {
-					DrawButton(...coords, "", "Pink", "Icons/Down.png", TextGet("PoseSelectCollapse"));
-				} else {
-					DrawButton(...coords, "", "White", "Icons/Next.png", TextGet("PoseSelectCollapse"));
+				switch (Shop2Vars.DropdownState) {
+					case ShopDropdownState.POSE:
+						DrawButton(...coords, "", "Pink", "Icons/Down.png", TextGet("PoseSelectCollapse"));
+						break;
+					case ShopDropdownState.GROUP:
+						DrawButton(...coords, "", "Gray", "Icons/Next.png", TextGet("PoseSelectCollapse"), true);
+						break;
+					default:
+						DrawButton(...coords, "", "White", "Icons/Next.png", TextGet("PoseSelectCollapse"));
+						break;
 				}
 			},
 			Click: () => {
@@ -823,14 +830,23 @@ var Shop2 = {
 		PoseSelectNone: {
 			Coords: [135, Shop2Consts.Grid.y + 160, 200, 90],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Draw: (...coords) => DrawButton(...coords, TextGet("PoseSelectReset"), "White"),
+			Draw: (...coords) => {
+				switch (Shop2Vars.DropdownState) {
+					case ShopDropdownState.GROUP:
+						DrawButton(...coords, TextGet("PoseSelectReset"), "Gray");
+						break;
+					default:
+						DrawButton(...coords, TextGet("PoseSelectReset"), "White");
+						break;
+				}
+			},
 			Click: () => {
 				PoseSetActive(Shop2InitVars.Preview, null, true);
 				Shop2._UpdatePoseButtons();
 			},
 		},
 		PoseSelect: {
-			Coords: [25, Shop2Consts.Grid.y + 100 + 160, 660, Shop2Consts.Grid.height - 100 - 160],
+			Coords: [25, Shop2Consts.Grid.y + 260, 660, Shop2Consts.Grid.height - 280],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
 			Load: () => {
 				if (document.getElementById("Shop2PoseSelect")) {
@@ -838,37 +854,45 @@ var Shop2 = {
 				}
 
 				DialogLoadPoseMenu(Shop2InitVars.Preview);
-				const poseHTML = DialogActivePoses.map(poseList => {
-					return `
-						<div class=shop2-pose-inner-grid>
-							${poseList.map(p => `<button class=shop-button data-pose="${p.Name}" />`).join("\n")}
-						</div>
-					`;
-				}).join("\n");
-
-				const elem = ElementCreateDiv("Shop2PoseSelect");
-				elem.style.display = "none";
-				elem.innerHTML = `<div id=Shop2PoseOuterGrid>${poseHTML}</div>`;
-				elem.classList.add("shop-dropdown");
-
-				const poseButtons = /** @type {HTMLButtonElement[]} */(Array.from(document.querySelectorAll("[data-pose]")));
-				for (const button of poseButtons) {
-					const pose = /** @type {AssetPoseName} */(button.dataset.pose);
-					button.style.backgroundImage = `url("Icons/Poses/${pose}.png")`;
-					button.addEventListener("click", () => {
-						PoseSetActive(Shop2InitVars.Preview, pose);
-						Shop2._UpdatePoseButtons();
-					});
-				}
+				ElementCreate({
+					tag: "div",
+					style: { display: "none" },
+					attributes: { id: "Shop2PoseSelect", "screen-generated": CurrentScreen },
+					parent: document.body,
+					classList: ["HideOnPopup", "dropdown"],
+					children: [{
+						tag: "div",
+						classList: ["shop2-pose-outer-grid"],
+						children: DialogActivePoses.map(poseList => {
+							return {
+								tag: "div",
+								classList: ["shop2-pose-inner-grid"],
+								children: poseList.map(pose => ElementButton.Create(
+									`shop2-pose-${pose.Name}`,
+									() => {
+										PoseSetActive(Shop2InitVars.Preview, pose.Name);
+										Shop2._UpdatePoseButtons();
+									}, undefined,
+									{
+										button: {
+											style: { "background-image": `url("../Icons/Poses/${pose.Name}.png")` },
+											dataAttributes: { pose: pose.Name },
+											classList: ["shop-button"],
+										},
+									},
+								)),
+							};
+						}),
+					}],
+				});
 				Shop2._UpdatePoseButtons();
 			},
 			Draw: (...coords) => {
 				if (Shop2Vars.DropdownState !== ShopDropdownState.POSE) {
 					return;
 				}
-				const canvas = MainCanvas.canvas;
-				const font = canvas.clientWidth <= canvas.clientHeight * 2 ? canvas.clientWidth / 50 : canvas.clientHeight / 25;
-				ElementPositionFix("Shop2PoseSelect", font, ...coords);
+
+				ElementPositionFixed("Shop2PoseSelect", ...coords);
 				const elem = document.getElementById("Shop2PoseSelect");
 				elem.style.width = "fit-content";
 			},
@@ -907,6 +931,28 @@ var Shop2 = {
 					"en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 },
 				).format(Math.min(999999, Player.Money));
 				DrawText(money, x, y, "White");
+			},
+		},
+		LayeringButton: {
+			Coords: [1115, 25, 90, 90],
+			Mode: new Set(["Preview", "Buy", "Sell"]),
+			Draw: (...coords) => {
+				const item = Shop2Vars.EquippedItem;
+				if (!item || Shop2Vars.Mode !== "Preview") {
+					DrawButton(...coords, "", "Gray", "Icons/Layering.png", TextGet("LayeringButton"), true);
+				} else {
+					DrawButton(...coords, "", "White", "Icons/Layering.png", TextGet("LayeringButton"));
+				}
+			},
+			Click: () => {
+				const item = Shop2Vars.EquippedItem;
+				if (!item || Shop2Vars.Mode !== "Preview") {
+					return;
+				}
+
+				Shop2Unload();
+				Layering.Init(item, Shop2InitVars.Preview, { x: 1115, w: 2000 - 1115 - 25 });
+				Shop2Vars.Mode = "Layering";
 			},
 		},
 		BuyMode: {
@@ -1054,6 +1100,25 @@ var Shop2 = {
 			Draw: (...coords) => DrawButton(...coords, "", "White", "Icons/Exit.png", TextGet("Exit")),
 			Click: () => Shop2Exit(),
 		},
+		MouseWheel: {
+			Mode: new Set(["Buy", "Sell", "Preview"]),
+			Coords: [
+				Shop2Consts.Grid.x,
+				Shop2Consts.Grid.y,
+				Shop2Consts.Grid.x + Shop2Consts.Grid.width,
+				Shop2Consts.Grid.y + Shop2Consts.Grid.height,
+			],
+			Draw: () => {},
+			MouseWheel: (event) => {
+				if (Shop2Vars.PageCount === 0) {
+					return;
+				} else if (event.deltaY < 0) {
+					Shop2Vars.Page = Shop2Vars.Page === 0 ? Shop2Vars.PageCount - 1 : (Shop2Vars.Page - 1) % Shop2Vars.PageCount;
+				} else if (event.deltaY > 0) {
+					Shop2Vars.Page = (Shop2Vars.Page + 1) % Shop2Vars.PageCount;
+				}
+			},
+		},
 		// Keep these two at the very button as we can't reliably perform `MouseIn(...Coords)` checks on them
 		ExtendedItemScreen: {
 			Coords: [0, 0, 2000, 1000],
@@ -1076,6 +1141,14 @@ var Shop2 = {
 				ItemColorClick(Shop2InitVars.Preview, ItemColorItem.Asset.Group.Name, ...Shop2Consts.ItemColorCoords, true);
 			},
 			Exit: () => ItemColorExitClick(),
+		},
+		Layering: {
+			Coords: [0, 0, 2000, 1000],
+			Mode: new Set(["Layering"]),
+			Draw: () => {},
+			Resize: (load) => Layering.Resize(load),
+			Unload: () => Layering.Unload(),
+			Exit: () => Layering.Exit(),
 		},
 	},
 
@@ -1121,7 +1194,7 @@ function Shop2Load() {
 
 	Shop2Vars.Filters.NeverSell ??= (item) => item.NeverSell ? ["Buy", "Preview"] : ["Sell", "Buy", "Preview"];
 	Shop2Vars.Filters.Buy ??= (item) => item.Buy ? ["Buy", "Preview"] : ["Sell", "Preview"];
-	Shop2.ApplyItemFilters();
+	Shop2.ApplyItemFilters(false);
 	Shop2._PopulateGroupDescriptions(Shop2InitVars.Items);
 
 	Object.values(Shop2.Elements).forEach((e) => {
@@ -1155,11 +1228,29 @@ function Shop2Draw() {
 /** @type {ScreenFunctions["Run"]} */
 function Shop2Run() {}
 
+/** @type {ScreenFunctions["Resize"]} */
+function Shop2Resize(load) {
+	Object.values(Shop2.Elements).forEach((e) => {
+		if (e.Mode.has(Shop2Vars.Mode)) {
+			e.Resize?.(load);
+		}
+	});
+}
+
 /** @type {ScreenFunctions["Unload"]} */
 function Shop2Unload() {
 	Object.values(Shop2.Elements).forEach((e) => {
 		if (e.Mode.has(Shop2Vars.Mode)) {
 			e.Unload?.();
+		}
+	});
+}
+
+/** @type {ScreenFunctions["MouseWheel"]} */
+function Shop2MouseWheel(event) {
+	Object.values(Shop2.Elements).forEach((e) => {
+		if (e.Mode.has(Shop2Vars.Mode) && MouseIn(...e.Coords)) {
+			e.MouseWheel?.(event);
 		}
 	});
 }

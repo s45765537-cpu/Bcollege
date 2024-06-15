@@ -54,8 +54,9 @@ const ChatRoomMapViewTileList = [
 	{ ID: 110, Type: "Floor", Style: "Stone" },
 	{ ID: 115, Type: "Floor", Style: "Pavement" },
 	{ ID: 120, Type: "Floor", Style: "Ceramic" },
-	{ ID: 130, Type: "Floor", Style: "PinkCarpet" },
-	{ ID: 131, Type: "Floor", Style: "BlueCarpet" },
+	{ ID: 130, Type: "Floor", Style: "CarpetPink" },
+	{ ID: 131, Type: "Floor", Style: "CarpetBlue" },
+	{ ID: 132, Type: "Floor", Style: "CarpetRed" },
 	{ ID: 140, Type: "Floor", Style: "Padded" },
 
 	{ ID: 200, Type: "FloorExterior", Style: "Dirt" },
@@ -65,6 +66,7 @@ const ChatRoomMapViewTileList = [
 	{ ID: 230, Type: "FloorExterior", Style: "Gravel" },
 	{ ID: 235, Type: "FloorExterior", Style: "Asphalt" },
 	{ ID: 240, Type: "FloorExterior", Style: "Snow" },
+	{ ID: 250, Type: "FloorExterior", Style: "StoneSquareGray" },
 
 	{ ID: 1000, Type: "Wall", Style: "MixedWood", BlockVision: true },
 	{ ID: 1001, Type: "Wall", Style: "CedarWood", BlockVision: true },
@@ -80,6 +82,7 @@ const ChatRoomMapViewTileList = [
 	{ ID: 2000, Type: "Water", Style: "Pool", Transparency: 0.5, TransparencyCutoutHeight: 0.45 },
 	{ ID: 2010, Type: "Water", Style: "Sea", Transparency: 0.5, TransparencyCutoutHeight: 0.45 },
 	{ ID: 2020, Type: "Water", Style: "Ocean", Transparency: 0.5, TransparencyCutoutHeight: 0.3 },
+	{ ID: 2025, Type: "Water", Style: "OceanCyan", Transparency: 0.5, TransparencyCutoutHeight: 0.3 },
 
 ];
 
@@ -206,7 +209,7 @@ function ChatRoomMapViewInitializeCharacter(C) {
 	// Checks to see if we can load the previously saved position
 	if (C.IsPlayer() && Player.ImmersionSettings?.ReturnToChatRoom && Player.LastChatRoom?.Name === ChatRoomData.Name && Player.LastMapData) {
 		// Restores the saved position
-		MapData = Object.assign({}, Player.LastMapData);
+		MapData = Player.LastMapData;
 	}
 	if (!MapData || !MapData.Pos || !MapData.PrivateState){
 		// Sets position in the middle of the scren by default, or at the entry flag if possible
@@ -253,7 +256,7 @@ function ChatRoomMapViewLeave() {
 function ChatRoomMapViewActivate() {
 	// Make sure the player position is valid
 	if (!Player.MapData || !Player.MapData.Pos|| Player.MapData.Pos.X == null || Player.MapData.Pos.X < 0 || Player.MapData.Pos.X >= ChatRoomMapViewWidth || Player.MapData.Pos.Y == null || Player.MapData.Pos.Y < 0 || Player.MapData.Pos.Y >= ChatRoomMapViewWidth) {
-		Player.MapData = ChatRoomMapViewInitializeCharacter(Player);
+		Player.LastMapData = Player.MapData = ChatRoomMapViewInitializeCharacter(Player);
 		// Update the change instantly so other players don't see this player on an invalid position
 		ChatRoomMapViewUpdatePlayerFlag(-ChatRoomMapViewUpdatePlayerTime);
 
@@ -279,7 +282,8 @@ function ChatRoomMapViewIsActive() {
 	return ChatRoomIsViewActive(ChatRoomMapViewName);
 }
 
-function ChatRoomMapViewRun() {
+/** @type {ScreenFunctions["Run"]} */
+function ChatRoomMapViewRun(time) {
 
 	// Syncs the room map data with the server if needed
 	ChatRoomMapViewMovementProcess();
@@ -851,7 +855,8 @@ function ChatRoomMapViewGetEntryFlagPosition() {
 function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 
 	// Make sure the player MapData is valid
-	if (Player.MapData == null) Player.MapData = ChatRoomMapViewInitializeCharacter(Player);
+	if (Player.MapData == null)
+		Player.LastMapData = Player.MapData = ChatRoomMapViewInitializeCharacter(Player);
 
 	// Manages collisions, moves the player if she's on a tile that cannot be entered
 	ChatRoomMapViewCollision();
@@ -1719,7 +1724,7 @@ function ChatRoomMapViewMouseUp() {
 
 /**
  * Mouse wheel event is used to zoom the map
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["MouseWheel"]}
  */
 function ChatRoomMapViewMouseWheel(Event) {
 	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapViewIsActive()) return;

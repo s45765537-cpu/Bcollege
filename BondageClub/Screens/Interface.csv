@@ -64,6 +64,7 @@ ColorSave,Save color to currently selected slot
 ColorSelect,Use this color
 ConfirmDelete,Confirm
 CraftingCancel,Return to the item menu
+CraftedItemProperties,Crafted item properties.
 CraftingDescription,Description: CraftDescription
 CraftingMember,Crafter: MemberName (MemberNumber)
 CraftingName,Name: CraftName
@@ -117,6 +118,7 @@ DialogMenuUnlock,Unlock the item
 DialogMenuUse,Use this item
 DialogMenuUseDisabled,Unable to use due to player permissions
 Dismounting,Dismounting...
+EnableRandomInput,Enable random input of time from everyone else
 Escaping,Escaping...
 ExtendedItemNoCraftingScreen,Unavailable while crafting
 ExtendedItemNoItemPermission,Blocked due to item permissions
@@ -135,6 +137,7 @@ Intensity3,Item intensity: Maximum
 LayeringAsset,Configure total priority
 LayeringExit,Exit
 LayeringLayer,Configure layer-specific priority
+LayeringLock,Item configuration locked
 LayeringReset,Reset layering
 Locking,Locking...
 LockMemberNumber,Member number on lock:
@@ -163,7 +166,7 @@ NotificationTitleBeep,Beep
 NotificationTitleChatJoin,Joined Room
 NotificationTitleChatMessage,Chat Message
 NotificationTitleDisconnect,Disconnected
-NotificationTitleFromRoom, from ChatRoomName
+NotificationTitleFromRoom,from ChatRoomName
 NotificationTitleLarp,LARP - Your turn
 NotificationTitleTest,Test Notification
 OpacityLabel,Change Opacity
@@ -231,7 +234,6 @@ PrerequisiteRemoveChainForItem,Remove the chain first.
 PrerequisiteRemoveChastityFirst,Must remove chastity first.
 PrerequisiteRemoveClothesForItem,Remove some clothes first.
 PrerequisiteRemoveFaceMaskFirst,Must remove face mask first.
-PrerequisiteRemoveItemWithTimer,Remove item when the lock timer runs out
 PrerequisiteRemoveRestraintsFirst,Remove some restraints first.
 PrerequisiteRemoveShacklesFirst,Must remove shackles first.
 PrerequisiteRemoveSuspensionForItem,Remove the suspension first.
@@ -268,7 +270,7 @@ PrivateRoom,<i>Private room</i>
 ProgressClick,Click here to speed up the progress
 ProgressDex,Click when the player reaches the buckle to progress
 ProgressFlex,Click the ropes before they hit the ground to progress
-ProgressKeys,Alternate keys A (Q on AZERTY) and D to speed up,,
+ProgressKeys,Alternate keys A (Q on AZERTY) and D to speed up
 ProgressKeysController,Alternate keys A and S or X and Y on a controller
 PronounObjectHeHim,him
 PronounObjectSheHer,her
@@ -283,6 +285,7 @@ PronounSubjectHeHim,he
 PronounSubjectSheHer,she
 PronounSubjectTheyThem,they
 ReceivedBeep,Received at
+RemoveItemWithTimer,Remove item when the lock timer runs out
 Removing,Removing...
 RequireBondageLevel,Need Bondage ReqLevel
 RequireSelfBondage1,Requires self-bondage 1.
@@ -394,12 +397,14 @@ ServerShuffle,SourceCharacter shuffles the position of everyone in the room rand
 ServerSwap,SourceCharacter swapped TargetCharacterName and DestinationCharacterName1 places.
 ServerUpdateRoom,SourceCharacter updated the room. Name: ChatRoomName. Limit: ChatRoomLimit.  ChatRoomPrivacy.  ChatRoomLocked.
 ShowAllZones,Show all zones
+ShowItemWithTimerRemaining,Show the time remaining/being added
 Someone,Someone
 StruggleDexterity,Try to unfasten
 StruggleFlexibility,Try to squeeze out
 StruggleImpossible,Impossible to escape!
 StruggleStrength,Use brute force
 Struggling,Struggling...
+Swapping,Swapping...
 Tighten,Tighten...
 TightenLittle,...A little
 TightenLoosenTitle,You can tighten or loosen this item
@@ -407,6 +412,7 @@ TightenLot,...A lot
 tightens,tightens
 Tightness,Tightness:
 TryLoosen,Try to loosen the item
+TimerLeft,Time left:
 Unlocked,Unlocked
 Unlocking,Unlocking...
 Using0,Using none of your skill...

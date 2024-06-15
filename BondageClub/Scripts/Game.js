@@ -1,7 +1,7 @@
 "use strict";
 
 /** BC's version */
-var GameVersion = "R104Beta1";
+var GameVersion = "R105Beta2";
 
 const GameVersionFormat = /^R([0-9]+)(?:(Alpha|Beta)([0-9]+)?)?$/;
 
@@ -29,6 +29,7 @@ function GameStart() {
 	TranslationLoad();
 	DrawLoad();
 	AssetLoadAll();
+	//AssetInventoryIDValidate(); // COMMENT WHEN RELEASING
 	CommandsLoad();
 	ControllerStart();
 	CommonSetScreen("Character", "Login");
@@ -223,7 +224,7 @@ function GameMouseUp(event) {
 
 /**
  * If the user rolls the mouse wheel, we fire the mousewheel event for other screens
- * @param {MouseEvent} event
+ * @type {ScreenFunctions["MouseWheel"]}
  */
 function GameMouseWheel(event) {
 	if (CommonIsMobile) { return; }

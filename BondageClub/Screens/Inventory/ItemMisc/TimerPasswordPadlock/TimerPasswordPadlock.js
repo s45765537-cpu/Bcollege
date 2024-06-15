@@ -75,20 +75,20 @@ function InventoryItemMiscTimerPasswordPadlockDrawHook(data, originalFunction) {
 			DrawText("\"" + Property.Hint + "\"", 1500, 550, "white", "gray");
 		}
 		MainCanvas.textAlign = "right";
-		DrawText(InterfaceTextGet("PasswordPadlockOld"), 1390, 610, "white", "gray");
+		DrawText(AssetTextGet("PasswordPadlockOld"), 1390, 610, "white", "gray");
 		ElementPosition("Password", 1585, 605, 350);
 		MainCanvas.textAlign = "center";
-		DrawButton(1775, 575, 200, 64, InterfaceTextGet("PasswordPadlockEnter"), "White", "");
-		if (DialogExtendedMessage != "") DrawText(InterfaceTextGet(DialogExtendedMessage), 1500, 200, "Red", "Black");
+		DrawButton(1775, 575, 200, 64, AssetTextGet("PasswordPadlockEnter"), "White", "");
+		if (DialogExtendedMessage != "") DrawText(AssetTextGet(DialogExtendedMessage), 1500, 200, "Red", "Black");
 	} else {
 		ElementPosition("SetHint", 1675, 550, 600);
 		ElementPosition("SetPassword", 1563, 620, 375);
 		MainCanvas.textAlign = "left";
-		DrawText(InterfaceTextGet("PasswordPadlockSetHint"), 1100, 553, "white", "gray");
-		DrawText(InterfaceTextGet("PasswordPadlockSetPassword"), 1100, 623, "white", "gray");
+		DrawText(AssetTextGet("PasswordPadlockSetHint"), 1100, 553, "white", "gray");
+		DrawText(AssetTextGet("PasswordPadlockSetPassword"), 1100, 623, "white", "gray");
 		MainCanvas.textAlign = "center";
-		DrawButton(1765, 591, 200, 64, InterfaceTextGet("PasswordPadlockChangePassword"), "White", "");
-		if (DialogExtendedMessage != "") DrawText(InterfaceTextGet(DialogExtendedMessage), 1500, 200, "Red", "Black");
+		DrawButton(1765, 591, 200, 64, AssetTextGet("PasswordPadlockChangePassword"), "White", "");
+		if (DialogExtendedMessage != "") DrawText(AssetTextGet(DialogExtendedMessage), 1500, 200, "Red", "Black");
 	}
 
 	// Draw the settings

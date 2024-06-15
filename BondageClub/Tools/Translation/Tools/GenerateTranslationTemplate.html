@@ -12,21 +12,35 @@
 <title>Bondage Club Translation Template Generator</title>
 <link rel="icon" type="image/png" href="../../../Icons/Logo.png">
 <style>
+	* {
+		box-sizing: border-box;
+	}
+
+	body {
+		font-family: sans-serif;
+		margin: 0px;
+	}
+
 	textarea {
 		display: block;
-		width: 1280px;
-		height: 720px;
+		width: 90dvw;
+		height: 70dvh;
+	}
+
+	main {
+		padding: 1em;
 	}
 
 	#header {
 		position: sticky;
 		top: 0;
-		background-color: inherit;
+		background-color: white;
+		box-shadow: 0 3px 10px 0 #888;
 		width: 100%;
-		padding-top: 10px;
-		padding-bottom: 10px;
+		padding: 1em;
 		display: flex;
 		justify-content: space-between;
+		font-size: 1.2em;
 	}
 </style>
 <script src="../../../Scripts/Common.js"></script>
@@ -208,24 +222,30 @@ window.onload = function() {
 		<a href="TranslationStatus.html">Translation Status</a>
 		<select id="selected-language"></select>
 	</header>
-	<h1>Translation Template Generator</h1>
-	<p>Paste the content of a Bondage Club CSV file into the box below and click "Convert" to generate a translation template. Then, copy the generated text from the box into your preferred text editor and save it as a TXT file with your language code.</p>
-	<textarea id="content"></textarea>
-	<p>
-		<input type="checkbox" id="comments" checked/>
-		<label for="comments">Include comments</label>
-	</p>
-	<p>
-		<label for="mode">Template mode:</label>
-		<select id="mode">
-			<option value="duplicate" selected>Duplicate English lines</option>
-			<option value="empty">Empty lines</option>
-		</select>
-	</p>
-	<p><button onclick="convert()">Convert</button></p>
-	<h2>Update translation file</h2>
-	<p><strong>Use this with caution, it has barely been tested!</strong> Select an existing translation file and click "Update!", then copy its updated version from the box above and overwrite the file with it. Any lines from the old file that aren't in the game anymore will be appended at the bottom for reference.</p>
-	<select id="update-list"></select>
-	<button onclick="update()">Update!</button>
+	<main>
+		<h1>Translation Template Generator</h1>
+		<p>Paste the content of a Bondage Club CSV file into the box below and click "Convert" to generate a translation
+			template. Then, copy the generated text from the box into your preferred text editor and save it as a TXT file with
+			your language code.</p>
+		<textarea id="content"></textarea>
+		<p>
+			<input type="checkbox" id="comments" checked />
+			<label for="comments">Include comments</label>
+		</p>
+		<p>
+			<label for="mode">Template mode:</label>
+			<select id="mode">
+				<option value="duplicate" selected>Duplicate English lines</option>
+				<option value="empty">Empty lines</option>
+			</select>
+		</p>
+		<p><button onclick="convert()">Convert</button></p>
+		<h2>Update translation file</h2>
+		<p><strong>Use this with caution, it has barely been tested!</strong> Select an existing translation file and click
+			"Update!", then copy its updated version from the box above and overwrite the file with it. Any lines from the old
+			file that aren't in the game anymore will be appended at the bottom for reference.</p>
+		<select id="update-list"></select>
+		<button onclick="update()">Update!</button>
+	</main>
 </body>
 </html>
