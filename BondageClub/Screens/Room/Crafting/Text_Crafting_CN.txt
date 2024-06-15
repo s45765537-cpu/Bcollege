@@ -88,6 +88,10 @@ Arousing
 煽情
 Dull
 倦怠
+Heavy
+沉重
+Light
+轻盈
 No special property.
 无特殊特性
 Harder to understand gagged speech.
@@ -126,5 +130,11 @@ Harder to resist an orgasm.
 更难抵抗高潮。
 Easier to resist an orgasm.
 更易抵抗高潮。
+Slows down walking.
+减慢行走速度。
+Speeds up walking.
+加快行走速度。
 Open Colorpicker
 打开颜色选择器
+Change item layering
+更改物品图层

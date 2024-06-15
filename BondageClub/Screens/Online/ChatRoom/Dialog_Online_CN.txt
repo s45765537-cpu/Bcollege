@@ -1,8 +1,6 @@
 ###_NPC
 (You can use or remove items by selecting specific body regions.)
 (你可以选择身体部位来使用或移除物品)
-(You're too far to reach DialogCharacterObject body and items.)
-(你距离过远，无法触及DialogCharacterObject的身体和物品。)
 (You don't have access to use or remove items on DialogCharacterObject.)
 (你没有使用或移除DialogCharacterObject身上物品的权限)
 ###_PLAYER
@@ -336,6 +334,8 @@
 (You give DialogCharacterObject the keys to your private padlocks)
 (你给了DialogCharacterObject你私人小锁的钥匙)
 ###_PLAYER
+(Stop her chat room struggles.)
+(停止她的聊天室挣扎。)
 (Spin the Wheel of Fortune.)
 (转动命运之轮。)
 (Force DialogCharacterObject to spin your Wheel of Fortune.)
@@ -676,18 +676,8 @@
 (You lock the slave collar back on DialogCharacterObject.)
 (你将奴隶项圈锁回了DialogCharacterObject的脖子上)
 ###_PLAYER
-(Prevent DialogCharacterObject from changing DialogCharacterPossessive nickname.)
-(禁止DialogCharacterObject更改昵称)
-###_NPC
-(DialogCharacterSubject won't be able to change DialogCharacterPossessive nickname anymore.)
-(即刻起DialogCharacterObject将无法更改DialogCharacterObject的昵称)
-###_PLAYER
-(Allow DialogCharacterObject to change DialogCharacterPossessive nickname.)
-(允许DialogCharacterObject更改昵称)
-###_NPC
-(DialogCharacterSubject will be able to change DialogCharacterPossessive nickname.)
-(即刻起DialogCharacterObject将可以更改DialogCharacterObject的昵称)
-###_PLAYER
+(Change or lock DialogCharacterPossessive nickname.)
+(修改或锁定DialogCharacterObject的昵称)
 (Restrict Bondage Club areas.)
 (限制束缚俱乐部区域。)
 ###_NPC

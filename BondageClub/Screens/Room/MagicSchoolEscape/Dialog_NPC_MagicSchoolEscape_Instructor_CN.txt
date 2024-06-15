@@ -73,20 +73,20 @@ An easy one please.
 A regular one I guess.
 我想，来一次普通的吧。
 ###_NPC
-(She smiles.)  You'll have 90 seconds to escape.  Are you ready to begin?  (She opens a box of bondage gear.)
-（她露出微笑。）你有90秒的时间逃脱。你准备好开始了吗？（她打开一个装着束缚装备的盒子。）
+(She smiles.)  You'll have 80 seconds to escape.  Are you ready to begin?  (She opens a box of bondage gear.)
+（她露出微笑。）你有80秒的时间逃脱。你准备好开始了吗？（她打开一个装着束缚装备的盒子。）
 ###_PLAYER
 Give me a true challenge.
 给我真正的挑战。
 ###_NPC
-(She grins.)  You'll have 1 minute to escape.  Are you ready to begin?  (She opens a box of bondage gear.)
-（她咧开嘴笑。）你有1分钟的时间逃脱。你准备好开始了吗？（她打开一个装着束缚装备的盒子。）
+(She grins.)  You'll have 45 seconds to escape.  Are you ready to begin?  (She opens a box of bondage gear.)
+（她咧嘴笑起来。）你有45秒的时间逃脱。你准备好开始了吗？（她打开一个装着束缚装备的盒子。）
 ###_PLAYER
 Send me to magic hell.
 把我送进魔法地狱。
 ###_NPC
-(She smirks.)  You'll have 45 seconds to escape.  Are you ready to begin?  (She opens a box of bondage gear.)
-（她得意地笑起来。）你有45秒的时间逃脱。你准备好开始了吗？ （她打开一盒束缚装备。）
+(She smirks.)  You'll have 30 seconds to escape.  Are you ready to begin?  (She opens a box of bondage gear.)
+（她得意地笑起来。）你有30秒的时间逃脱。你准备好开始了吗？（她打开一个装着束缚装备的盒子。）
 ###_PLAYER
 I'm ready!  (Start the challenge.)
 我准备好了！（开始挑战。）

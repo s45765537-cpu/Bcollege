@@ -121,7 +121,7 @@ Apartment Wohnzimmer
 Hypnotic Spiral 2
 Hypnotische Spirale 2
 Hypnotic Spiral
-Hypnotische Spirale 
+Hypnotische Spirale
 Indoor Pool
 Schwimmhalle
 Industrial
@@ -275,7 +275,7 @@ Winterliche Straße, Tag 1
 Snowy Street Day 2
 Winterliche Straße, Tag 2
 Snowy Street Night
-Winterliche Straße, Nacht 
+Winterliche Straße, Nacht
 Snowy Town 1
 Winterlicher Ort 1
 Snowy Town 2
@@ -318,9 +318,9 @@ Christmas Day Lounge
 Weihnachtslounge, Tag
 Christmas Eve Lounge
 Weihnachtslounge, NAcht
-Yatch Chill Room
+Yacht Chill Room
 Yatch, Ruheraum
-Yatch Main Hall
+Yacht Main Hall
 Yatch, Haupthalle
-Yatch Deck
+Yacht Deck
 Yatch, Deck

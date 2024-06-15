@@ -284,6 +284,8 @@ Center players in chatrooms
 居中聊天室内角色
 Players can drag you to rooms when leashed
 被牵引时可以被带入房间
+Your owner can change or lock your nickname
+你的主人可以更改或锁定你的昵称
 Maids come automatically when restrained
 被束缚时女仆会自动前来救援
 Locks on you can't be picked
