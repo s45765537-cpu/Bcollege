@@ -184,7 +184,9 @@ var ClubCardList = [
 				return card.Group?.includes("ABDLBaby");
 			});
 
-			if (abdlBabyPlayed && CCPlayer.Fame > opponent.Fame) {
+			const playerFameAtStartOfTurn = CCPlayer.Fame - CCPlayer.LastFamePerTurn;
+
+			if (abdlBabyPlayed && playerFameAtStartOfTurn > opponent.Fame) {
 				ClubCardPlayerAddFame(CCPlayer, CCPlayer.LastFamePerTurn * -1);
 				CCPlayer.LastFamePerTurn = 0;
 				ClubCardLogPublish("Effect Contract Caretaker", CCPlayer);
