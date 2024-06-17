@@ -835,6 +835,112 @@ var ElementButton = {
 	},
 
 	/**
+	 * Navigate the passed elements children in a depth-first search manner,
+	 * yielding all elements matching the `query` selector and whose parent does _not_ satisify the passed `filter`
+	 * @param {Element} root
+	 * @param {string} query
+	 * @param {(el: Element) => boolean} filter
+	 * @returns {Generator<Element, void>}
+	 */
+	_QueryDFS: function *_QueryDFS(root, query, filter) {
+		for (const elem of root.children) {
+			if (elem.matches(query)) {
+				yield elem;
+			}
+
+			if (filter(elem)) {
+				continue;
+			} else {
+				yield *ElementButton._QueryDFS(elem, query, filter);
+			}
+		}
+	},
+
+	/**
+	 * Click event listener for radio buttons.
+	 * @see https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/radio_role
+	 * @see https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/menuitemradio_role
+	 * @private
+	 * @type {(this: HTMLButtonElement, ev: Event) => void}
+	 */
+	_ClickRadio: function _ClickRadio(ev) {
+		// Take precaution against nested radio groups/menus, as one might accidentally query a sibbling that belongs to a different group
+		// Particularly important for menus embedded in other menus or menubars
+		const isRadio = this.role === "radio";
+		const parent = this.parentElement?.closest(isRadio ? "[role='radiogroup']" : "[role='menu'], [role='menubar']");
+		if (!parent) {
+			return;
+		}
+
+		// Ensure that `radio` buttons to switch the tabindex of the active radio to 0, while `menuitemradio` buttons do not
+		if (this.ariaChecked === "true") {
+			if (parent.ariaRequired === "true") {
+				ev.stopImmediatePropagation();
+			} else {
+				this.ariaChecked = "false";
+				if (isRadio) {
+					/** @type {(e: Element) => boolean} */
+					const filter = (e) => e.role === "radiogroup" || !ElementCheckVisibility(e);
+					const first = ElementButton._QueryDFS(parent, `[role='${this.role}']`, filter).next();
+					if (first.value) {
+						this.tabIndex = -1;
+						first.value.setAttribute("tabindex", "0");
+					}
+				}
+				if (this.ariaExpanded === "true") {
+					this.ariaExpanded = "false";
+				}
+			}
+		} else {
+			/** @type {(e: Element) => boolean} */
+			const filter = isRadio
+				? (e) => e.role === "radiogroup"
+				: (e) => e.role === "menu" || e.role === "menuitem";
+			let prev = ElementButton._QueryDFS(parent, `[role='${this.role}'][aria-checked='true']`, filter).next();
+			if (!prev.value && isRadio) {
+				prev = ElementButton._QueryDFS(parent, `[role='${this.role}'][tabindex='0']`, filter).next();
+			}
+
+			if (prev.value) {
+				prev.value.ariaChecked = "false";
+				if (prev.value.ariaExpanded === "true") {
+					prev.value.ariaExpanded = "false";
+				}
+				if (isRadio) {
+					prev.value.setAttribute("tabindex", "-1");
+				}
+			}
+
+			if (this.ariaExpanded === "false") {
+				this.ariaExpanded = "true";
+			}
+			if (isRadio) {
+				this.tabIndex = 0;
+			}
+			this.ariaChecked = "true";
+		}
+	},
+
+	/**
+	 * Click event listener for checkbox buttons.
+	 * @private
+	 * @type {(this: HTMLButtonElement, ev: Event) => void}
+	 */
+	_ClickCheckbox: function _ClickCheckbox(ev) {
+		if (this.ariaChecked === "true") {
+			if (this.ariaExpanded === "true") {
+				this.ariaExpanded = "false";
+			}
+			this.ariaChecked = "false";
+		} else {
+			if (this.ariaExpanded === "false") {
+				this.ariaExpanded = "true";
+			}
+			this.ariaChecked = "true";
+		}
+	},
+
+	/**
 	 * Create a button with a tooltip
 	 *
 	 * @example
@@ -846,6 +952,7 @@ var ElementButton = {
 	 * @param {Object} [options]
 	 * @param {null | string | Node} [options.tooltip] - Optional tooltip content. If not supplied then one should manually prepend it to the tooltip later
 	 * @param {"left" | "right" | "top" | "bottom"} [options.tooltipPosition] - The position of the tooltip w.r.t. the button
+	 * @param {"radio" | "checkbox" | "menuitemradio" | "menuitemcheckbox"} [options.role] - The role of the button. All accepted values are currently special-cased in order to set role-specific event listeners and/or attributes.
 	 * @param {null | Partial<Record<"button" | "tooltip", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the either the button or tooltip
 	 * @returns {HTMLButtonElement} - The created button
 	 */
@@ -856,8 +963,9 @@ var ElementButton = {
 		}
 
 		id ??= `button-${Date.now()}`;
-		const tooltip = options?.tooltip;
-		const tooltipPosition = this._PositionMapping[options?.tooltipPosition] ?? this._PositionMapping.left;
+		options ??= {};
+		const tooltip = options.tooltip;
+		const tooltipPosition = this._PositionMapping[options.tooltipPosition] ?? this._PositionMapping.left;
 		const buttonOptions = htmlOptions?.button ?? {};
 		const tooltipOptions = htmlOptions?.tooltip ?? {};
 		elem = ElementCreate({
@@ -868,6 +976,7 @@ var ElementButton = {
 				name: id,
 				"aria-describedby": `${id}-tooltip`,
 				"screen-generated": CurrentScreen,
+				role: options.role,
 				...(buttonOptions.attributes ?? {}),
 			},
 			classList: ["blank-button", "button", "HideOnPopup", ...(buttonOptions.classList ?? [])],
@@ -896,6 +1005,20 @@ var ElementButton = {
 				...(buttonOptions.children ?? []),
 			],
 		});
+
+		switch (buttonOptions.attributes?.role ?? options.role) {
+			case "radio":
+			case "menuitemradio":
+				elem.addEventListener("click", this._ClickRadio);
+				elem.ariaChecked ||= "false";
+				break;
+			case "checkbox":
+			case "menuitemcheckbox":
+				elem.addEventListener("click", this._ClickCheckbox);
+				elem.ariaChecked ||= "false";
+				break;
+		}
+
 		elem.addEventListener("click", onClick);
 		return elem;
 	},
@@ -921,6 +1044,15 @@ var ElementMenu = {
 			return;
 		}
 
+		// Find the outer-most menu in case we're dealing with nested menus
+		let grandParent = parent;
+		/** @type {null | HTMLElement} */
+		let grandParentCandidate = grandParent.closest("[role='menubar'], [role='menu']");
+		while (grandParentCandidate && grandParentCandidate !== grandParent) {
+			grandParent = grandParentCandidate;
+			grandParentCandidate = grandParent.closest("[role='menubar'], [role='menu']");
+		}
+
 		let key = ev.key;
 		if (parent.getAttribute("data-direction") === "rtl") {
 			// Flip all the keys of the direction of the menu grid is right-to-left
@@ -940,6 +1072,23 @@ var ElementMenu = {
 			}
 		}
 
+		if (parent.getAttribute("aria-orientation") === "vertical") {
+			switch (key) {
+				case "ArrowRight":
+					key = "ArrowDown";
+					break;
+				case "ArrowLeft":
+					key = "ArrowUp";
+					break;
+				case "ArrowDown":
+					key = "ArrowRight";
+					break;
+				case "ArrowUp":
+					key = "ArrowLeft";
+					break;
+			}
+		}
+
 		let isTab = false;
 		if (key === "Tab") {
 			key = ev.shiftKey ? "ArrowLeft" : "ArrowRight";
@@ -949,11 +1098,11 @@ var ElementMenu = {
 		}
 
 		// Selector for all non-hidden menu items
-		const selector = "[role='menuitem']";
+		const selector = "[role='menuitem'], [role='menuitemradio'], [role='menuitemcheckbox']";
 		switch (key) {
 			case "ArrowRight":
 			case "ArrowLeft": {
-				const elements = /** @type {HTMLElement[]} */(Array.from(parent.querySelectorAll(selector)).filter(e => ElementCheckVisibility(e)));
+				const elements = /** @type {HTMLElement[]} */(Array.from(grandParent.querySelectorAll(selector)).filter(e => ElementCheckVisibility(e)));
 				const idx = elements.indexOf(this);
 				if (idx === -1) {
 					return;
@@ -973,7 +1122,7 @@ var ElementMenu = {
 			}
 			case "Home":
 			case "End": {
-				const elements = /** @type {HTMLElement[]} */(Array.from(parent.querySelectorAll(selector)).filter(e => ElementCheckVisibility(e)));
+				const elements = /** @type {HTMLElement[]} */(Array.from(grandParent.querySelectorAll(selector)).filter(e => ElementCheckVisibility(e)));
 				const idx = key === "Home" ? 0 : elements.length - 1;
 				elements[idx]?.focus();
 				ev.stopPropagation();
@@ -1047,13 +1196,14 @@ var ElementMenu = {
 		});
 
 		let first = true;
-		elem.querySelectorAll("button, [role='menuitem']").forEach((menuitem) => {
+		elem.querySelectorAll("button, [role='menuitem'], [role='menuitemradio'], [role='menuitemcheckbox']").forEach((menuitem) => {
 			menuitem.role ||= "menuitem";
-			if (menuitem.role !== "menuitem") {
+			if (menuitem.role !== "menuitem" && menuitem.role !== "menuitemradio" && menuitem.role !== "menuitemcheckbox") {
 				return;
 			}
 
-			if (first && ElementCheckVisibility(menuitem)) {
+			// Can't directly use `Element.checkVisibility` here as the menubar is not guaranteed to have a parent at this point
+			if (first && (menuitem instanceof HTMLElement && menuitem.style.display !== "none") && getComputedStyle(menuitem).display !== "none") {
 				first = false;
 				menuitem.setAttribute("tabindex", "0");
 			} else {

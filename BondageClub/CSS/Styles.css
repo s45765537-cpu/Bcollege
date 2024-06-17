@@ -1021,6 +1021,21 @@ input[type="checkbox"]:checked::before {
 	box-sizing: border-box;
 }
 
+.button[aria-checked="true"] {
+	background-color: cyan;
+	background-color: color-mix(in srgb, white 66%, cyan 34%);
+}
+
+.button[aria-checked="true"]::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	border: min(0.3vh, 0.15vw) inset black;
+}
+
 .button-tooltip {
 	user-select: none;
 	background-color: #FFFF88;
