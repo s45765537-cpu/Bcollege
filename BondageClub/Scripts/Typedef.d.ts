@@ -77,6 +77,13 @@ interface RGBAColor extends RGBColor {
 }
 
 /**
+ * A singleton for explicitly signifying to {@link ElementCreate} that it should have no parent element.
+ *
+ * Can be used for overriding any function that would otherwise default to {@link document.body} when a nullish value is provided as parent.
+ */
+type ElementNoParent = 0;
+
+/**
  * A {@link HTMLElementTagNameMap} subtype with all non-scalar properties removed from the HTML elements
  *
  * Serves as an approximation (and superset) of all element-specific attributes
@@ -100,7 +107,7 @@ type HTMLOptions<T extends keyof HTMLElementTagNameMap> = {
 	/** Event listeners that will be attached to the HTML element (see {@link HTMLElement.addEventListener}). */
 	eventListeners?: { [k in keyof HTMLElementEventMap]?: (this: HTMLElementTagNameMap[T], event: HTMLElementEventMap[k]) => any };
 	/** The elements parent (if any) to which it will be attached (see {@link HTMLElement.parentElement}). */
-	parent?: Node;
+	parent?: ElementNoParent | Node;
 	/** A list of CSS classes to-be assigned to the element (see {@link HTMLElement.classList}). */
 	classList?: readonly (null | undefined | string)[];
 	/** Any to-be added child elements. */

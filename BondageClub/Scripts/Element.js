@@ -40,6 +40,9 @@ function ElementContent(ID, Content) {
 	return "";
 }
 
+/** @satisfies {ElementNoParent} */
+const ElementNoParent = 0;
+
 /**
  * @template {keyof HTMLElementScalarTagNameMap} T
  * @param {HTMLOptions<T>} options - Options for customizing the element
