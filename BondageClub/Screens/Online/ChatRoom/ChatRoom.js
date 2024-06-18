@@ -2695,8 +2695,6 @@ function ChatRoomKeyDown(event) {
 		} else if (event.key === "Enter" && !event.shiftKey) {
 			// The ENTER key sends the chat.
 			ChatRoomSendChat();
-			inputChat.style.height = "100%";
-			inputChat.style.height = `${inputChat.scrollHeight}px`;
 			return true;
 		} else if (event.key === "PageUp" || event.key === "PageDown") {
 			// On page up/down, we scroll through chat history
@@ -2789,9 +2787,13 @@ function ChatRoomScrollHistory(up) {
  * @returns {void} - Nothing.
  */
 function ChatRoomSendChat() {
+	const inputChat = /** @type {null | HTMLTextAreaElement} */(document.getElementById("InputChat"));
+	if (!inputChat) {
+		return;
+	}
 
 	// If there's a message to send
-	let msg = ElementValue("InputChat").trim();
+	let msg = inputChat.value.trim();
 	if (!msg.length) return;
 
 	// Keeps the chat log in memory so it can be accessed with pageup/pagedown
@@ -2816,7 +2818,8 @@ function ChatRoomSendChat() {
 		} else {
 			ChatRoomSendEmote(msg);
 		}
-		ElementValue("InputChat", "");
+		inputChat.value = "";
+		inputChat.dispatchEvent(new Event("input"));
 		return;
 	}
 
@@ -2843,7 +2846,8 @@ function ChatRoomSendChat() {
 	}
 
 	if (clearChat) {
-		ElementValue("InputChat", "");
+		inputChat.value = "";
+		inputChat.dispatchEvent(new Event("input"));
 	}
 }
 
