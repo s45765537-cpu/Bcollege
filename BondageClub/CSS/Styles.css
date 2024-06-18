@@ -191,7 +191,7 @@ textarea {
 	border: unset !important;
 }
 
-.chat-room-button:before {
+.chat-room-button::before {
 	content: "";
 	position: absolute;
 	top: 0%;
@@ -207,17 +207,17 @@ textarea {
 }
 
 @media (hover: hover) {
-	.chat-room-button:hover:before {
+	.chat-room-button:hover::before {
 		background-color: cyan;
 	}
 }
 
-.chat-room-button:disabled:before, .chat-room-button[aria-disabled="true"]:before {
+.chat-room-button:disabled::before, .chat-room-button[aria-disabled="true"]::before {
 	cursor: auto;
 	background-color: gray;
 }
 
-#chat-room-send:before {
+#chat-room-send::before {
 	background-image: url("../Icons/Chat.png");
 	mask-image: url("../Icons/Chat.png");
 }
@@ -1039,7 +1039,7 @@ input[type="checkbox"]:checked::before {
 	transform: translateX(-50%);
 }
 
-.button-touch, .button-touch:before, .button:hover {
+.button-touch, .button-touch::before, .button:hover {
 	background-color: cyan;
 }
 
