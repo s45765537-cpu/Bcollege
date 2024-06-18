@@ -941,7 +941,9 @@ var ChatRoomSep = {
 		});
 		if (appendChat) {
 			ChatRoomAppendChat(elem);
+			ChatRoomSep.ActiveElem?.classList.remove("chat-room-sep-last");
 			ChatRoomSep.ActiveElem = elem;
+			elem.classList.add("chat-room-sep-last");
 		}
 		return elem;
 	},
