@@ -229,6 +229,13 @@ function CraftingShowScreen(FromChatRoom) {
 function CraftingLoad() {
 	Player.Crafting ??= [];
 
+	// Re-enable previously disabled items if the player now owns them
+	for (const item of Player.Crafting) {
+		if (item?.Disabled && Player.Inventory.some(i => i.Asset.Name === item.Name)) {
+			delete item.Disabled;
+		}
+	}
+
 	// Abort if we're loading an already-loaded screen
 	if (CraftingPreview) {
 		return;
@@ -1273,6 +1280,15 @@ const CraftingValidationRecord = {
 		GetDefault: (c, a) => "",
 		StatusCode: CraftingStatusType.ERROR,
 	},
+	Disabled: {
+		Validate: function (c, a) {
+			return c.Disabled == null || typeof c.Disabled === "boolean";
+		},
+		GetDefault: function (c, a) {
+			return undefined;
+		},
+		StatusCode: CraftingStatusType.ERROR,
+	},
 	Item: {
 		Validate: (c, a, checkPlayerInventory=false) => {
 			if (checkPlayerInventory) {
@@ -1515,13 +1531,12 @@ function CraftingValidate(Craft, asset=null, Warn=true, checkPlayerInventory=fal
 
 	// If the Asset has been explicetly passed then `Craft.Item` errors are fully recoverable,
 	// though the player should actually own the item
-	if (
-		asset != null
-		&& StatusMap.get("Item") === CraftingStatusType.CRITICAL_ERROR
-		&& (!checkPlayerInventory || Player.Inventory.some((i) => i.Name === asset.Name))
-	) {
+	if (asset != null && StatusMap.get("Item") === CraftingStatusType.CRITICAL_ERROR) {
 		StatusMap.set("Item", CraftingStatusType.ERROR);
 		Craft.Item = asset.Name;
+		if (checkPlayerInventory && !Player.Inventory.some((i) => i.Name === asset.Name)) {
+			Craft.Disabled = true;
+		}
 	}
 
 	// Check for extra attributes
