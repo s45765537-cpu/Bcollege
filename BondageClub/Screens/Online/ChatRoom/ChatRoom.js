@@ -2718,7 +2718,11 @@ function ChatRoomKeyDown(event) {
 		ChatRoomAttemptLeave();
 	}
 
-	if (document.activeElement === null || document.activeElement === document.body) {
+	if (
+		document.activeElement === null
+		|| document.activeElement === document.body
+		|| document.activeElement.id === "MainCanvas"
+	) {
 		const chatLog = /** @type {HTMLDivElement} */(document.getElementById("TextAreaChatLog"));
 		if (!chatLog) {
 			return false;
