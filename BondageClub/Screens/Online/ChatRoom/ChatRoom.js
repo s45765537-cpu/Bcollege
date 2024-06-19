@@ -1940,7 +1940,9 @@ function ChatRoomStatusUpdateTalk(Key) {
  */
 function ChatRoomChatInputChangeHandler(event) {
 	const label = document.getElementById("InputChatLength");
-	if (!label) return;
+	const chatLog = document.getElementById("TextAreaChatLog");
+	const parent = document.getElementById("chat-room-div");
+	if (!label || !chatLog || !parent) return;
 
 	const length = this.value.length;
 	if (length <= ServerChatMessageMaxLength - 100) {
@@ -1951,6 +1953,24 @@ function ChatRoomChatInputChangeHandler(event) {
 			label.classList.add("invalid");
 		} else {
 			label.classList.remove("invalid");
+		}
+	}
+
+	this.style.height = "100%";
+	this.style.height = `${this.scrollHeight}px`;
+
+	// Check if the text log + input completely fill the parent element (within a gap-accounting error marigin)
+	// and then resize the text log + input accordingly
+	const chatLogHeight = chatLog.getBoundingClientRect().height;
+	const parentHeight = parent.getBoundingClientRect().height;
+	const inputHeight = this.getBoundingClientRect().height;
+	const ratio = (inputHeight + chatLogHeight) / parentHeight;
+	const needsUpdate = ratio > 1.005 || ratio < 0.995;
+	if (needsUpdate) {
+		const percentage = 100 * (inputHeight / parentHeight);
+		if (percentage >= 10 && percentage <= 35) {
+			// At ~34% the maximum resize height has been reached and there is no point in trying to expand it any further
+			parent.style.gridTemplateRows = `${100 - 0.4 - percentage}% ${percentage}%`;
 		}
 	}
 }

@@ -88,9 +88,13 @@ textarea {
 * { -webkit-tap-highlight-color:rgba(0,0,0,0); }
 
 #chat-room-div {
+	--button-size: min(8vh, 4vw);
+	--button-size: min(8dvh, 4dvw);
+
+	/* Do NOT use min-/max-content for grid rows, as this will cause serious lag related to layour recomputing once the chat log starts to fill up */
 	display: grid;
-	grid-template-rows: auto min-content;
-	gap: min(0.4vh, 0.2vw);
+	grid-template-rows: 89.6% 10%;
+	gap: 0.4%;
 }
 
 #TextAreaChatLog {
@@ -103,17 +107,15 @@ textarea {
 
 #chat-room-bot {
 	--button-color: white;
-	--button-size: min(8vh, 4vw);
-	--button-size: min(8dvh, 4dvw);
 
 	display: grid;
 	grid-template:
-		"chat-input chat-buttons-div chat-buttons-collapse chat-length" auto
+		"chat-input chat-buttons-div chat-buttons-collapse chat-length" min-content
 		"chat-input chat-buttons-div chat-buttons-collapse chat-buttons" min-content
 			/ auto min-content min-content min-content;
 	border: min(0.2vh, 0.1vw) inset black;
 	background-color: white;
-	gap: min(0.4vh, 0.2vw);
+	column-gap: min(0.4vh, 0.2vw);
 }
 
 #chat-room-bot:has(#InputChat:invalid) {
@@ -135,6 +137,8 @@ textarea {
 
 #InputChat {
 	grid-area: chat-input;
+	min-height: var(--button-size);
+	max-height: calc(4 * var(--button-size));
 	font: inherit;
 	scrollbar-width: none;
 	background: unset;
