@@ -133,12 +133,22 @@ textarea {
 	justify-self: center;
 }
 
+#chat-room-input-resizer {
+	grid-area: chat-input;
+	font: inherit;
+	visibility: hidden;
+	min-height: var(--button-size);
+	max-height: calc(4 * var(--button-size));
+	width: 100%;
+	overflow-wrap: break-word;
+	overflow-x: hidden;
+	margin: 3px;
+}
+
 #InputChat {
 	grid-area: chat-input;
 	font: inherit;
 	scrollbar-width: none;
-	min-height: var(--button-size);
-	max-height: calc(4 * var(--button-size));
 	background: unset;
 	color: unset;
 	border: unset;
