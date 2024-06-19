@@ -4064,7 +4064,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 						button: {
 							classList: ["ChatMessageName"],
 							attributes: { "tabindex": -1 },
-							style: { "--label-color": SenderCharacter.LabelColor },
+							style: { "--label-color": whisperTarget.LabelColor },
 							children: [CharacterNickname(whisperTarget)],
 						},
 					},
