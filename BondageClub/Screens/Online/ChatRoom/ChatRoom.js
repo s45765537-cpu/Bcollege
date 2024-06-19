@@ -1078,7 +1078,6 @@ function ChatRoomCreateElement() {
 								keyup: ChatRoomStatusUpdateTalk,
 							},
 						},
-						{ tag: "div", attributes: { id: "chat-room-input-resizer" } },
 						{
 							tag: "span",
 							attributes: { id: "InputChatLength" },
@@ -1941,8 +1940,7 @@ function ChatRoomStatusUpdateTalk(Key) {
  */
 function ChatRoomChatInputChangeHandler(event) {
 	const label = document.getElementById("InputChatLength");
-	const resizer = document.getElementById("chat-room-input-resizer");
-	if (!label || !resizer) return;
+	if (!label) return;
 
 	const length = this.value.length;
 	if (length <= ServerChatMessageMaxLength - 100) {
@@ -1955,10 +1953,6 @@ function ChatRoomChatInputChangeHandler(event) {
 			label.classList.remove("invalid");
 		}
 	}
-
-	// Copy the input message to the (invisible) <div> responsible for the actual resizing,
-	// as this can't easily be done directly with <textarea> elements
-	resizer.textContent = this.value;
 }
 
 /**
