@@ -52,6 +52,10 @@ textarea {
 	z-index: 1;
 }
 
+.chat-room-sep:has(.chat-room-sep-collapse[aria-expanded="false"]):not(.chat-room-sep-last) {
+	border-bottom: unset !important;
+}
+
 .chat-room-sep-div {
 	width: auto;
 	height: 100%;

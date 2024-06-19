@@ -910,19 +910,19 @@ var ChatRoomSep = {
 	 * @returns {HTMLDivElement} - The created `<div>` element
 	 */
 	Create: function Create(appendChat=true) {
-		const time = ChatRoomCurrentTime();
+		const now = Date.now();
 		const elem = ElementCreate({
 			tag: "div",
 			classList: ["ChatMessage", "ChatMessageAction", "chat-room-sep"],
 			style: { ["--label-color"]: Player.LabelColor },
-			dataAttributes: { time, sender: (Player.MemberNumber ?? "").toString() },
+			dataAttributes: { time: ChatRoomCurrentTime(), sender: (Player.MemberNumber ?? "").toString() },
 			children: [
 				{
 					tag: "div",
 					classList: ["chat-room-sep-div"],
 					children: [
 						ElementButton.Create(
-							`chat-room-sep-collapse-${time}`, this._ClickCollapse, undefined,
+							`chat-room-sep-collapse-${now}`, this._ClickCollapse, undefined,
 							{
 								button: {
 									children: ["˅"],
@@ -932,7 +932,7 @@ var ChatRoomSep = {
 							},
 						),
 						ElementButton.Create(
-							`chat-room-sep-header-${time}`, this._ClickScrollUp, undefined,
+							`chat-room-sep-header-${now}`, this._ClickScrollUp, undefined,
 							{ button: { classList: ["chat-room-sep-header"] } },
 						),
 					],
@@ -941,7 +941,9 @@ var ChatRoomSep = {
 		});
 		if (appendChat) {
 			ChatRoomAppendChat(elem);
+			ChatRoomSep.ActiveElem?.classList.remove("chat-room-sep-last");
 			ChatRoomSep.ActiveElem = elem;
+			elem.classList.add("chat-room-sep-last");
 		}
 		return elem;
 	},
