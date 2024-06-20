@@ -1968,7 +1968,7 @@ function ChatRoomChatInputChangeHandler(event) {
 	const needsUpdate = ratio > 1.005 || ratio < 0.995;
 	if (needsUpdate) {
 		const percentage = 100 * (inputHeight / parentHeight);
-		if (percentage >= 10 && percentage <= 35) {
+		if (percentage >= 9 && percentage <= 35) {
 			// At ~34% the maximum resize height has been reached and there is no point in trying to expand it any further
 			parent.style.gridTemplateRows = `${100 - 0.4 - percentage}% ${percentage}%`;
 		}
