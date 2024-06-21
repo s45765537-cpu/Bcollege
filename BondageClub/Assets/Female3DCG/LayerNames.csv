@@ -55,6 +55,13 @@ ClothAdultBabyDress2Lace,Lace
 ClothAdultBabyDress3Belt,Belt
 ClothAdultBabyDress3Collar,Collar
 ClothAdultBabyDress3Dress,Dress
+ClothAnimeGirlMain,Dress
+ClothAnimeGirlSkirt,Skirt
+ClothAnimeGirlBrooch,Brooch
+ClothAnimeGirlDetail1,Ribbon Tie
+ClothAnimeGirlDetail2,Cloth Collar
+ClothAnimeGirlDetail3,Collar Detail
+ClothAnimeGirlRibbon,Back Ribbon
 ClothBabydollDress1Dress,Dress
 ClothBabydollDress1Trim,Trim
 ClothBodice1Base,Main
@@ -262,6 +269,8 @@ GlassesStreetEyewearFrame,Frame
 GlassesStreetEyewearLenses,Lenses
 GlassesVGlassesFrame,Frame
 GlassesVGlassesGlass,Lenses
+GlovesAnimeGirlGlovesGloves,Gloves
+GlovesAnimeGirlGlovesDetail,Elbow Stripe
 GlovesBikerGlovesHands,Gloves
 GlovesBikerGlovesStraps,Straps
 GlovesGlovesFurFabric,Glove
@@ -442,6 +451,9 @@ HairFrontHairFront56Main,Main
 HairFrontHairFront56MainTip,Tips
 HairFrontHairFront57Main,Main
 HairFrontHairFront57Tone,Tips
+HatAnimeGirlTiaraMain,Tiara
+HatAnimeGirlTiaraDetail,Detail
+HatAnimeGirlTiaraJewel,Jewel
 HatBallCapBackButton,Button
 HatBallCapBackPanelLeft,Panel
 HatBallCapBackSideLeft,Side
@@ -2002,6 +2014,9 @@ MouthFullLips,Lips
 MouthFullRingMiddle,Piercings
 MouthRegularLips,Lips
 MouthRegularRingMiddle,Piercings
+NecklaceAnimeGirlNecklaceNecklace,Necklace
+NecklaceAnimeGirlNecklaceDetail1,Star
+NecklaceAnimeGirlNecklaceDetail2,Jewel
 NecklaceBodyChainNecklaceChains,Chains
 NecklaceBodyChainNecklaceChoker,Choker
 NecklaceElegantHeartNecklaceJewels,Jewels
@@ -2072,6 +2087,8 @@ RightHandRingsPinkieSteel,Pinkie Ring
 RightHandRingsRingSteel,Ring Finger Ring
 RightHandRingsThumbSteel,Thumb Ring
 RightHandRingsWedding,Wedding Ring
+ShoesAnimeGirlBootsBoots,Boots
+ShoesAnimeGirlBootsDetail,Top Stripe
 ShoesAnkleBoots1Laces,Laces
 ShoesAnkleBoots1Shoes,Boots
 ShoesAnkleBoots1Sides,Edging

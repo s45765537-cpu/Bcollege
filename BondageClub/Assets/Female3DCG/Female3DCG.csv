@@ -82,6 +82,7 @@ Cloth,AdultBabyDress1,Puffy Dress
 Cloth,AdultBabyDress2,Bows Dress
 Cloth,AdultBabyDress3,Summer flower dress
 Cloth,AdultBabyDress4,Shiny dress
+Cloth,AnimeGirl,Cosplay Girl Suit
 Cloth,BabydollDress1,Babydoll Dress
 Cloth,Blouse1,Blouse
 Cloth,Bodice1,Bodice
@@ -324,6 +325,7 @@ Glasses,SunGlasses2,Sunglasses 2
 Glasses,SunGlassesClear,Clear Sunglasses
 Glasses,VGlasses,V Glasses
 Gloves,,Gloves
+Gloves,AnimeGirlGloves,Cosplay Girl Gloves
 Gloves,BikerGloves,Biker Gloves
 Gloves,Catsuit,Catsuit Gloves
 Gloves,CowPrintedGloves,Cow Printed Gloves
@@ -566,6 +568,7 @@ HairFront,HairFront57,Style 57
 Hands,,Hands
 Hands,Default,Default
 Hat,,Hat
+Hat,AnimeGirlTiara,Cosplay Girl Tiara
 Hat,BakerBoyHat,Baker Boy Hat
 Hat,BallCapBack,Baseball Cap Back
 Hat,BallCapFront,Baseball Cap Front
@@ -1466,6 +1469,7 @@ Mouth,Discreet,Discreet
 Mouth,Full,Full Lips
 Mouth,Regular,Regular
 Necklace,,Necklace
+Necklace,AnimeGirlNecklace,Cosplay Girl Necklace
 Necklace,Bandana,Bandana
 Necklace,BlackHeart,Black Heart
 Necklace,BodyChainNecklace,Body Chain Necklace
@@ -1553,6 +1557,7 @@ RightHand,Claws,Claws
 RightHand,Fingernails,Fingernails
 RightHand,Rings,Rings
 Shoes,,Shoes
+Shoes,AnimeGirlBoots,Cosplay Girl Boots
 Shoes,AnkleBoots1,Ankle Boots
 Shoes,AnkleStrapShoes,Ankle Strap Shoes
 Shoes,BalletHeels1,Ballet Hi-Shoes
