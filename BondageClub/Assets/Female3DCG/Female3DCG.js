@@ -2998,11 +2998,10 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "AnimeGirl",
-				InventoryID: 1200,
+				InventoryID: 1153,
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
-				FetishID: [ 5, 13 ],
-				Value: 2,
+				Value: -1,
 				BuyGroup: "AnimeGirl",
 				DefaultColor: [
 					"#9C9C9C",
@@ -4116,8 +4115,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "AnimeGirlNecklace",
-				InventoryID: 1200,
-				FetishID: 5,
+				InventoryID: 1153,
 				Value: -1,
 				BuyGroup: "AnimeGirl",
 				Left: 147,
@@ -9995,8 +9993,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "AnimeGirlBoots",
-				InventoryID: 1200,
-				FetishID: [ 5, 10 ],
+				InventoryID: 1153,
 				Value: -1,
 				BuyGroup: "AnimeGirl",
 				Height: 18,
@@ -11021,8 +11018,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "AnimeGirlTiara",
-				InventoryID: 1200,
-				FetishID: 5,
+				InventoryID: 1153,
 				BuyGroup: "AnimeGirl",
 				Value: -1,
 				DefaultColor: [
@@ -12828,10 +12824,9 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "AnimeGirlGloves",
-				InventoryID: 1200,
+				InventoryID: 1153,
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
-				FetishID: [ 5, 13 ],
 				Value: -1,
 				BuyGroup: "AnimeGirl",
 				Priority: 30,
