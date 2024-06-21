@@ -3607,6 +3607,11 @@ interface CraftingItem {
 	 * @see {@link ItemProperties.TypeRecord}
 	 */
 	TypeRecord?: null | TypeRecord;
+	/**
+	 * Whether the crafting item is elligble for use.
+	 * Only relevant if the player is the craft's owner but do they not own the underlying item (_e.g._ due to an inventory wipe).
+	 */
+	Disabled?: boolean;
 }
 
 /**
