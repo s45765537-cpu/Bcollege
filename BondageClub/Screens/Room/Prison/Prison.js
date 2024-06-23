@@ -598,9 +598,9 @@ release/entlassung
 
 //Determine how strongly the player is wanted for MainHall
 function PrisonWantedPlayer() {
-	if (LogQuery("Caught", "BadGirl")) return 9;
-	else if (LogQuery("Hide", "BadGirl")) return 7;
-	else if (LogQuery("Stolen", "BadGirl")) return 4;
+	if (LogQuery("Caught", "BadGirl")) return 7;
+	else if (LogQuery("Hide", "BadGirl")) return 5;
+	else if (LogQuery("Stolen", "BadGirl")) return 3;
 	else if (LogQuery("Joined", "BadGirl")) return 1;
 }
 

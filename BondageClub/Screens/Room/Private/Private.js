@@ -456,6 +456,13 @@ function PrivateCanTryforAction() {
 function PrivateCannotTryforAction() {
 	return (!Player.CanTalk() && !CurrentCharacter.CanInteract());
 }
+/**
+ * Returns TRUE if the current character is an anime girl / superheroine
+ * @returns {boolean} - TRUE if archetype is AnimeGirl
+ */
+function PrivateIsAnimeGirl() {
+	return (CurrentCharacter.Title === "AnimeGirl");
+}
 
 /**
  * Loads the private room screen and the vendor NPC.

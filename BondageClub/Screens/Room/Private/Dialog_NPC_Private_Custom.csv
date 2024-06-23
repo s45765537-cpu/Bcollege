@@ -358,6 +358,12 @@ ClubCardVsSubDefeat,,,"What?  Did I win?  Hahaha, awesome!  Mistress, I'm allowe
 0,,,What troubles you my dear?,,IsLover(),IntroGirlfriend,Frigid|Serious
 0,,,Let's have a tete-a-tete my love.,,IsLover(),IntroGirlfriend,Polite|Wise
 0,,,What's up luv?,,IsLover(),IntroGirlfriend,Dumb|Rude
+0,,,By the Heavenly Light!  Are we going to fight evil today?,,IsAnimeGirl(),IntroAnimeGirl,
+0,,,Are we protecting the Seven Prisms today or relaxing in bed?  Both options are good to me.,,IsAnimeGirl(),IntroAnimeGirl,Submissive|Horny
+0,,,Get ready now sis!  Evil lurks and you need to move your butt to fight it.,,IsAnimeGirl(),IntroAnimeGirl,Dominant|Rude
+0,,,"If evil comes, I will smack it!  Benzai!  (She almost hurts herself punching a wall.)",,IsAnimeGirl(),IntroAnimeGirl,Violent|Dumb
+0,,,Time is of the essence sister.   We shall foment the perfect plan to protect the Seven Prisms of the moon.,,IsAnimeGirl(),IntroAnimeGirl,Peaceful|Polite
+0,,,This is the perfect lair to shield ourselves against evil.  Heavenly Light shall prevail!,,IsAnimeGirl(),IntroAnimeGirl,Serious|Wise
 0,,,What's on your mind?,,,Intro,
 0,,,This place is kind of sexy.  What would you like to do?,,,Intro,Horny
 0,,,"Cool room you have there.  So, what's up?",,,Intro,Rude
