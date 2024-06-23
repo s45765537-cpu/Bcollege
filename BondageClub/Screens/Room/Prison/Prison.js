@@ -610,7 +610,7 @@ function PrisonMeetPoliceIntro(RoomBackground) {
 
 	CommonSetScreen("Room", "Prison");
 	PrisonBackground = RoomBackground; //"MainHall","Gambling","HorseStable"
-	CharacterDelete(PrisonPolice);
+	CharacterDelete(PrisonPolice, false);
 
 	PrisonPolice = CharacterLoadNPC("NPC_Prison_Police");
 	PrisonPolice.AllowItem = false;
