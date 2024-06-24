@@ -139,8 +139,8 @@ function ElementNumberInputBlur(event) {
 	if (Number.isNaN(this.valueAsNumber)) {
 		value = this.defaultValue;
 	} else {
-		const min = Number(this.min);
-		const max = Number(this.max);
+		const min = this.min ? Number(this.min) : -Infinity;
+		const max = this.max ? Number(this.max) : Infinity;
 		const requiresInt = this.inputMode === "numeric";
 		value = CommonClamp(
 			requiresInt ? Math.round(this.valueAsNumber) : this.valueAsNumber,
