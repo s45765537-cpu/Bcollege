@@ -997,8 +997,8 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 	Char.BlockItems = /** @type {never} */([]);
 	Char.LimitedItems = /** @type {never} */([]);
 	Char.FavoriteItems = /** @type {never} */([]);
-	Char.PermissionItems = ServerUnPackItemPermissions(data, Char);
 	if (!Char.IsPlayer()) {
+		Char.PermissionItems = ServerUnPackItemPermissions(data, Char);
 		Char.WhiteList = ServerAccountDataSyncedValidate.WhiteList(data.WhiteList, Char);
 		Char.BlackList = ServerAccountDataSyncedValidate.BlackList(data.BlackList, Char);
 	}
