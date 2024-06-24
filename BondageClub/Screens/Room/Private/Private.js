@@ -566,13 +566,15 @@ function PrivateNewCloth(C) {
 		CollegeDetentionYukiClothes(C);
 	} else if (C.Name == "Julia") {
 		CollegeTheaterJuliaClothes(C);
-	} else if ((C.Title != null) && (C.Title == "Mistress")) {
+	} else if (C.Title === "Mistress") {
 		CharacterRandomUnderwear(C);
 		CharacterArchetypeClothes(C, "Mistress");
-	} else if ((C.Title != null) && (C.Title == "Maid")) {
+	} else if (C.Title === "Maid") {
 		CharacterRandomUnderwear(C);
 		CharacterArchetypeClothes(C, "Maid");
-	} else if ((C.Title != null) && (C.Title == "Dominatrix")) {
+	} else if (C.Title === "AnimeGirl") {
+		CharacterArchetypeClothes(C, "AnimeGirl");
+	} else if (C.Title === "Dominatrix") {
 		PandoraDress(C, "Mistress");
 	} else CharacterAppearanceFullRandom(C, true);
 

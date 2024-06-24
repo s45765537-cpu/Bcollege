@@ -554,7 +554,7 @@ function KidnapLeagueRandomClubCardEnd() {
  * @returns {boolean} - TRUE if it's possible
  */
 function KidnapLeagueCanGetAnimeGirl() {
-	return !InventoryAvailable(Player, "AnimeGirl", "Cloth");
+	return !InventoryAvailable(Player, "AnimeGirl", "Cloth") && (KidnapLeagueArchetype == "AnimeGirl");
 }
 
 /**
@@ -564,4 +564,12 @@ function KidnapLeagueCanGetAnimeGirl() {
 function KidnapLeagueWearAnimeGirl() {
 	CharacterArchetypeClothes(Player, "AnimeGirl");
 	ServerPlayerInventorySync();
+}
+
+/**
+ * Returns TRUE if the player is wearing the anime girl costume
+ * @returns {boolean} - TRUE if wearing
+ */
+function KidnapLeaguePlayerIsAnimeGirl() {
+	return InventoryIsWorn(Player, "AnimeGirl", "Cloth");
 }

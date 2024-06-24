@@ -801,6 +801,12 @@ ClubCardVsSubDefeat,,,"What?  Did I win?  Hahaha, awesome!  Mistress, I'm allowe
 1000,,,(She gives you a stern look and nods.)  Your posture shows respect and docility.  What do you need little one?,,DialogIsKneeling(Player),DomIntroPlayerKneeling,Dominant|Polite
 1000,,,(She stays far from you but smiles seeing your position.)  Is there anything you desire my protege?,,DialogIsKneeling(Player),DomIntroPlayerKneeling,Frigid|Wise
 1000,,,"Yes, my sexy subbie?  (She comes closer and pets your head gently.)",,DialogIsKneeling(Player),DomIntroPlayerKneeling,Peaceful|Horny
+1000,,,By the Heavenly Light!  Today we fight evil my minion.,,IsAnimeGirl(),DomIntroAnimeGirl,
+1000,,,Today we will protect the Seven Prisms my minion.  But maybe get to bed before we do that.,,IsAnimeGirl(),DomIntroAnimeGirl,Submissive|Horny
+1000,,,Get ready my minion!  Evil lurks and you need to move your butt to fight it.,,IsAnimeGirl(),DomIntroAnimeGirl,Dominant|Rude
+1000,,,"Fear not minion!  If evil comes, I will smack it!  Benzai!  (She almost hurts herself punching a wall.)",,IsAnimeGirl(),DomIntroAnimeGirl,Violent|Dumb
+1000,,,Time is of the essence my minion.   We shall foment the perfect plan to protect the Seven Prisms of the moon.,,IsAnimeGirl(),DomIntroAnimeGirl,Peaceful|Polite
+1000,,,This is the perfect lair against evil.  I will protect you my minion.  Heavenly Light shall prevail!,,IsAnimeGirl(),DomIntroAnimeGirl,Serious|Wise
 1000,,,What's on your mind my subbie?,,,DomIntro,
 1000,,,Hey there my cute sub.  What's on your mind?,,,DomIntro,Horny
 1000,,,Yo bitch.  What's up?,,,DomIntro,Rude
@@ -1584,6 +1590,12 @@ PunishAsylum,1000,You're right Mistress.  (Go to the asylum.),,RunPunishment(1),
 2000,,,(Your girlfriend bows her head and stays silent.),,IsLover(),SubIntroGirlfriend,Frigid|Serious
 2000,,,"Mistress, what do you desire from your loved submissive?",,IsLover(),SubIntroGirlfriend,Polite|Wise
 2000,,,Yes my luv?  Errr... Mistress?,,IsLover(),SubIntroGirlfriend,Dumb|Rude
+2000,,,By the Heavenly Light!  I hope we fight evil today Mistress.,,IsAnimeGirl(),SubIntroAnimeGirl,
+2000,,,I vow to protect the Seven Prisms and serve all my Mistress needs.  All of them!,,IsAnimeGirl(),SubIntroAnimeGirl,Submissive|Horny
+2000,,,"Mistress, ya know I'm always ready to kick some evil butts.",,IsAnimeGirl(),SubIntroAnimeGirl,Dominant|Rude
+2000,,,"Fear not Mistress!  If evil comes, I will smack it!  Benzai!  (She almost hurts herself punching a wall.)",,IsAnimeGirl(),SubIntroAnimeGirl,Violent|Dumb
+2000,,,Time is of the essence Mistress.   I will help you foment the perfect plan to protect the Seven Prisms of the moon.,,IsAnimeGirl(),SubIntroAnimeGirl,Peaceful|Polite
+2000,,,This is the perfect lair against evil.  I will serve and cherish you Mistress.  Heavenly Light shall prevail!,,IsAnimeGirl(),SubIntroAnimeGirl,Serious|Wise
 2000,,,What would you like to do Mistress?,,,SubIntro,
 2000,,,Is there something kinky you would like to do Mistress?,,,SubIntro,Horny
 2000,,,(She bows her head and stays silent.),,,SubIntro,Frigid

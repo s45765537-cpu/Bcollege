@@ -109,6 +109,7 @@ ClubCardDefeat,,,(She puts her deck away and quickly restraints you.)  Enough ca
 5,,"Take this $20 and leave, bounty hunter.",,RandomBribe(20),DialogMoneyGreater(20)
 5,,(Fight her.),,RandomStart(),
 5,,(Surrender.),,RandomSurrender(),
+6,GetAnimeGirl3,Sister!  I also follow the Heavenly Light.,My apologies sister.  I thought you were evil in disguise.  Are you on a quest for the Seven Prisms of the moon?,,PlayerIsAnimeGirl()
 6,,Are you a superheroine?,By the Seven Prisms!  I defend the Heavenly Light against villainous foes like you!  Surrender now or I shall restrain you with my super powers.,DialogRemove(),
 6,,What Seven Prisms?,The Seven Prisms of the moon shines the values of the Heavenly Light.  I shall proect them with my life.,DialogRemove(),
 6,,This costume is cute.,(She blushes and tries to stay in her role.)  Don't try villainous tricks on me!  I will capture you!,DialogRemove(),
