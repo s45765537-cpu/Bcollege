@@ -3571,7 +3571,7 @@ var AssetFemale3DCG = [
 				InventoryID: 176,
 				Priority: 15,
 				Value: -1,
-				BuyGroup: "Catsuit"
+				BuyGroup: "Catsuit",
 			},
 			{
 				Name: "Poncho",
@@ -3964,10 +3964,24 @@ var AssetFemale3DCG = [
 		Clothing: true,
 		PreviewZone: [165, 170, 170, 170],
 		Asset: [
-			{ Name: "Necklace1", InventoryID: 186, Value: 40, Left: 148, Top: 70, ParentGroup: null },
+			{
+				Name: "Necklace1",
+				InventoryID: 186,
+				Value: 40,
+				Left: 148,
+				Top: 70,
+				ParentGroup: null,
+			},
 			{ Name: "Necklace2", Left: 147, Top: 90, ParentGroup: null },
 			{ Name: "Necklace3", Left: 147, Top: 110, ParentGroup: null },
-			{ Name: "Necklace4", InventoryID: 187, Value: 30, Left: 147, Top: 110, ParentGroup: null },
+			{
+				Name: "Necklace4",
+				InventoryID: 187,
+				Value: 30,
+				Left: 147,
+				Top: 110,
+				ParentGroup: null,
+			},
 			{
 				Name: "NecklaceLock",
 				InventoryID: 188,
@@ -3999,7 +4013,14 @@ var AssetFemale3DCG = [
 				ParentGroup: null,
 				Layer: [{ Name: "String" }, { Name: "Card" }],
 			},
-			{ Name: "BlackHeart", InventoryID: 191, Value: 40, Left: 148, Top: 70, ParentGroup: null },
+			{
+				Name: "BlackHeart",
+				InventoryID: 191,
+				Value: 40,
+				Left: 148,
+				Top: 70,
+				ParentGroup: null,
+			},
 			{
 				Name: "NecklaceBallGag",
 				InventoryID: 192,
@@ -4132,11 +4153,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "AnimeGirl",
 				Left: 147,
 				Top: 90,
-				DefaultColor: [
-					"#E7D371",
-					"#ABC4C8",
-					"#B2A153",
-				],
+				DefaultColor: ["#E7D371", "#ABC4C8", "#B2A153"],
 				ParentGroup: null,
 				Layer: [
 					{
@@ -5738,7 +5755,7 @@ var AssetFemale3DCG = [
 				Prerequisite: ["HasVagina"],
 				Value: 37,
 				Left: 86,
-				Top: {AllFours: 0},
+				Top: { AllFours: 0 },
 				DefaultColor: "#A4907B",
 				Random: true,
 				Extended: true,
@@ -8038,7 +8055,12 @@ var AssetFemale3DCG = [
 				Value: 30,
 				BuyGroup: "LatexSocks1",
 			},
-			{ Name: "FootlessSocks1", InventoryID: 344, Value: 15, BuyGroup: "FootlessSocks1" },
+			{
+				Name: "FootlessSocks1",
+				InventoryID: 344,
+				Value: 15,
+				BuyGroup: "FootlessSocks1",
+			},
 			{
 				Name: "ReverseBunnySuit",
 				InventoryID: 139,
@@ -8619,8 +8641,20 @@ var AssetFemale3DCG = [
 		PreviewZone: [100, 700, 300, 300],
 		Asset: [
 			{ Name: "BandAnklet", BuyGroup: "BandAnklet" },
-			{ Name: "Ribbon", InventoryID: 282, Fetish: ["Lingerie"], Value: 30, BuyGroup: "Ribbon" },
-			{ Name: "Ribbon1", InventoryID: 282, Fetish: ["Lingerie"], Value: 30, BuyGroup: "Ribbon" },
+			{
+				Name: "Ribbon",
+				InventoryID: 282,
+				Fetish: ["Lingerie"],
+				Value: 30,
+				BuyGroup: "Ribbon",
+			},
+			{
+				Name: "Ribbon1",
+				InventoryID: 282,
+				Fetish: ["Lingerie"],
+				Value: 30,
+				BuyGroup: "Ribbon",
+			},
 			{
 				Name: "LegFur",
 				InventoryID: 350,
@@ -8690,8 +8724,20 @@ var AssetFemale3DCG = [
 		PreviewZone: [100, 700, 300, 300],
 		Asset: [
 			{ Name: "BandAnklet", BuyGroup: "BandAnklet" },
-			{ Name: "Ribbon", InventoryID: 282, Fetish: ["Lingerie"], Value: 30, BuyGroup: "Ribbon" },
-			{ Name: "Ribbon1", InventoryID: 282, Fetish: ["Lingerie"], Value: 30, BuyGroup: "Ribbon" },
+			{
+				Name: "Ribbon",
+				InventoryID: 282,
+				Fetish: ["Lingerie"],
+				Value: 30,
+				BuyGroup: "Ribbon",
+			},
+			{
+				Name: "Ribbon1",
+				InventoryID: 282,
+				Fetish: ["Lingerie"],
+				Value: 30,
+				BuyGroup: "Ribbon",
+			},
 			{
 				Name: "LegFur",
 				InventoryID: 350,
@@ -8769,7 +8815,13 @@ var AssetFemale3DCG = [
 				],
 			},
 			{ Name: "GarterBelt2", InventoryID: 352, Value: 10 },
-			{ Name: "GarterBelt3", InventoryID: 353, Value: 10, ParentGroup: "BodyUpper", Top: 400 },
+			{
+				Name: "GarterBelt3",
+				InventoryID: 353,
+				Value: 10,
+				ParentGroup: "BodyUpper",
+				Top: 400,
+			},
 			{
 				Name: "Tentacles",
 				InventoryID: 355,
@@ -10009,10 +10061,7 @@ var AssetFemale3DCG = [
 				Value: -1,
 				BuyGroup: "AnimeGirl",
 				Height: 18,
-				DefaultColor: [
-					"#DDCA6A",
-					"#A0A0A0",
-				],
+				DefaultColor: ["#DDCA6A", "#A0A0A0"],
 				PoseMapping: {
 					...AssetPoseMapping.Shoes,
 					Kneel: PoseType.HIDE,
@@ -10375,7 +10424,7 @@ var AssetFemale3DCG = [
 				Name: "HeadTowel1",
 				InventoryID: 390,
 				Value: 15,
-				Hide: ["HairFront", "HairBack"]
+				Hide: ["HairFront", "HairBack"],
 			},
 			{
 				Name: "CollegeDunce",
@@ -10388,7 +10437,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Tiara1",
 				InventoryID: 392,
-				Value: 40
+				Value: 40,
 			},
 			{
 				Name: "Bonnet1",
@@ -10605,7 +10654,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "FurHeadband",
 				InventoryID: 405,
-				Value: 5
+				Value: 5,
 			},
 			{
 				Name: "FacePaint",
@@ -11033,11 +11082,7 @@ var AssetFemale3DCG = [
 				InventoryID: 1153,
 				BuyGroup: "AnimeGirl",
 				Value: -1,
-				DefaultColor: [
-					"#908759",
-					"#E6D271",
-					"#ABC4C8",
-				],
+				DefaultColor: ["#908759", "#E6D271", "#ABC4C8"],
 				Layer: [
 					{
 						Name: "Main",
@@ -11198,7 +11243,12 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
-			{ Name: "HairFeathers1", InventoryID: 420, Value: -1, BuyGroup: "HairFeathers1" },
+			{
+				Name: "HairFeathers1",
+				InventoryID: 420,
+				Value: -1,
+				BuyGroup: "HairFeathers1",
+			},
 			{
 				Name: "Halo",
 				InventoryID: 421,
@@ -11828,7 +11878,12 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
-			{ Name: "HairFeathers1", InventoryID: 420, Value: 10, BuyGroup: "HairFeathers1" },
+			{
+				Name: "HairFeathers1",
+				InventoryID: 420,
+				Value: 10,
+				BuyGroup: "HairFeathers1",
+			},
 			{
 				Name: "MouseEars1",
 				InventoryID: 442,
@@ -12187,7 +12242,7 @@ var AssetFemale3DCG = [
 				InventoryID: 428,
 				Fetish: ["Pet"],
 				Value: -1,
-				BuyGroup: "Horns2"
+				BuyGroup: "Horns2",
 			},
 			{
 				Name: "Horns3",
@@ -12819,15 +12874,12 @@ var AssetFemale3DCG = [
 					BackElbowTouch: PoseType.HIDE,
 					Hogtied: "Hogtied",
 				},
-				HideItem: [
-					"LeftHandCatsuitGloves",
-					"RightHandCatsuitGloves",
-				],
+				HideItem: ["LeftHandCatsuitGloves", "RightHandCatsuitGloves"],
 				Layer: [
 					{
 						Name: "Default",
 					},
-					{ 
+					{
 						Name: "Long",
 						AllowTypes: { typed: 0 },
 						CopyLayerColor: "Default",
@@ -12842,21 +12894,18 @@ var AssetFemale3DCG = [
 				Value: -1,
 				BuyGroup: "AnimeGirl",
 				Priority: 30,
-				DefaultColor: ["#DBDBDB","#CEBC64"],
+				DefaultColor: ["#DBDBDB", "#CEBC64"],
 				PoseMapping: {
 					...AssetPoseMapping.Gloves,
 					BackElbowTouch: PoseType.HIDE,
 				},
-				HideItem: [
-					"LeftHandCatsuitGloves",
-					"RightHandCatsuitGloves",
-				],
+				HideItem: ["LeftHandCatsuitGloves", "RightHandCatsuitGloves"],
 				Layer: [
 					{
 						Name: "Gloves",
 						AllowColorize: true,
 					},
-					{ 
+					{
 						Name: "Detail",
 						AllowColorize: true,
 						PoseMapping: {
@@ -12886,6 +12935,13 @@ var AssetFemale3DCG = [
 					BackBoxTie: PoseType.HIDE,
 				},
 				Hide: ["ItemHandheld", "ItemHands"],
+				HideItemExclude: [
+					"ItemHandheldFoxPlush",
+					"ItemHandheldBunPlush",
+					"ItemHandheldKarl",
+					"ItemHandheldShark",
+					"ItemHandheldPetPotato",
+				],
 			},
 		],
 		Color: [
@@ -13408,9 +13464,24 @@ var AssetFemale3DCG = [
 			{ Name: "Glasses4", DefaultColor: "#303030" },
 			{ Name: "Glasses5", DefaultColor: "#303030" },
 			{ Name: "Glasses6", DefaultColor: "#303030" },
-			{ Name: "SunGlasses1", InventoryID: 468, Value: 15, DefaultColor: "#303030" },
-			{ Name: "SunGlasses2", InventoryID: 469, Value: 15, DefaultColor: "#303030" },
-			{ Name: "SunGlassesClear", InventoryID: 470, Value: 15, DefaultColor: "#303030" },
+			{
+				Name: "SunGlasses1",
+				InventoryID: 468,
+				Value: 15,
+				DefaultColor: "#303030",
+			},
+			{
+				Name: "SunGlasses2",
+				InventoryID: 469,
+				Value: 15,
+				DefaultColor: "#303030",
+			},
+			{
+				Name: "SunGlassesClear",
+				InventoryID: 470,
+				Value: 15,
+				DefaultColor: "#303030",
+			},
 			{
 				Name: "EyePatch1",
 				InventoryID: 471,
@@ -14545,14 +14616,14 @@ var AssetFemale3DCG = [
 				Name: "RaccoonStrap",
 				InventoryID: 507,
 				Fetish: ["Pet"],
-				Value: 25
+				Value: 25,
 			},
 			{
 				Name: "RaccoonTailStrap",
 				InventoryID: 508,
 				Fetish: ["Pet"],
 				Priority: 2,
-				Value: 35
+				Value: 35,
 			},
 			{
 				Name: "PuppyTailStrap1",
@@ -14568,7 +14639,7 @@ var AssetFemale3DCG = [
 				InventoryID: 510,
 				Fetish: ["Pet"],
 				Value: 20,
-				Top: 100
+				Top: 100,
 			},
 			{
 				Name: "KittenTailStrap2",
@@ -14599,7 +14670,7 @@ var AssetFemale3DCG = [
 				Name: "WolfTailStrap1",
 				InventoryID: 514,
 				Fetish: ["Pet"],
-				Value: 20
+				Value: 20,
 			},
 			{
 				Name: "WolfTailStrap2",
@@ -14634,13 +14705,13 @@ var AssetFemale3DCG = [
 				InventoryID: 518,
 				Fetish: ["Pet"],
 				Value: 20,
-				Top: 120
+				Top: 120,
 			},
 			{
 				Name: "MouseTailStrap2",
 				InventoryID: 519,
 				Fetish: ["Pet"],
-				Value: 20
+				Value: 20,
 			},
 			{
 				Name: "CowtailStrap",
@@ -14657,7 +14728,7 @@ var AssetFemale3DCG = [
 				InventoryID: 521,
 				Fetish: ["Pet"],
 				Value: 1,
-				Visible: false
+				Visible: false,
 			},
 			{
 				Name: "DragonTailStrap1",
@@ -15749,7 +15820,7 @@ var AssetFemale3DCG = [
 						Name: "Back",
 						CopyLayerColor: "Main",
 						Priority: 5,
-					}
+					},
 				],
 			},
 			{
@@ -16241,14 +16312,14 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "Left",
-						AllowTypes: { typed: [0,1]},
+						AllowTypes: { typed: [0, 1] },
 						PoseMapping: {
 							Suspension: "Suspension",
 						},
 					},
 					{
 						Name: "Right",
-						AllowTypes: { typed: [0,2]},
+						AllowTypes: { typed: [0, 2] },
 						PoseMapping: {
 							Suspension: "Suspension",
 						},
@@ -16265,14 +16336,14 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "Left",
-						AllowTypes: { typed: [0,1]},
+						AllowTypes: { typed: [0, 1] },
 						PoseMapping: {
 							Suspension: "Suspension",
 						},
 					},
 					{
 						Name: "Right",
-						AllowTypes: { typed: [0,2]},
+						AllowTypes: { typed: [0, 2] },
 						PoseMapping: {
 							Suspension: "Suspension",
 						},
@@ -16298,22 +16369,22 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "FrontLeft",
-						AllowTypes: {typed: [0,1]},
+						AllowTypes: { typed: [0, 1] },
 						Priority: 48,
 					},
 					{
 						Name: "BackLeft",
-						AllowTypes: {typed: [0,1]},
+						AllowTypes: { typed: [0, 1] },
 						CopyLayerColor: "FrontLeft",
 					},
 					{
 						Name: "FrontRight",
-						AllowTypes: {typed: [0,2]},
+						AllowTypes: { typed: [0, 2] },
 						Priority: 48,
 					},
 					{
 						Name: "BackRight",
-						AllowTypes: {typed: [0,2]},
+						AllowTypes: { typed: [0, 2] },
 						CopyLayerColor: "FrontRight",
 					},
 				],
@@ -16324,22 +16395,22 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "FrontLeft",
-						AllowTypes: {typed: [0,1]},
+						AllowTypes: { typed: [0, 1] },
 						Priority: 48,
 					},
 					{
 						Name: "BackLeft",
-						AllowTypes: {typed: [0,1]},
+						AllowTypes: { typed: [0, 1] },
 						CopyLayerColor: "FrontLeft",
 					},
 					{
 						Name: "FrontRight",
-						AllowTypes: {typed: [0,2]},
+						AllowTypes: { typed: [0, 2] },
 						Priority: 48,
 					},
 					{
 						Name: "BackRight",
-						AllowTypes: {typed: [0,2]},
+						AllowTypes: { typed: [0, 2] },
 						CopyLayerColor: "FrontRight",
 					},
 				],
@@ -24000,11 +24071,11 @@ var AssetFemale3DCG = [
 				Top: 0,
 				Left: 0,
 				Layer: [
-					{Name: "Metal"},
-					{Name: "Straps"},
-					{Name: "Under1"},
-					{Name: "Shine1"},
-					{Name: "Shine2"},
+					{ Name: "Metal" },
+					{ Name: "Straps" },
+					{ Name: "Under1" },
+					{ Name: "Shine1" },
+					{ Name: "Shine2" },
 				],
 			},
 		],
@@ -28046,6 +28117,13 @@ var AssetFemale3DCG = [
 				SetPose: ["TapedHands"],
 				Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
 				Hide: ["ItemHandheld"],
+				HideItemExclude: [
+					"ItemHandheldFoxPlush",
+					"ItemHandheldBunPlush",
+					"ItemHandheldKarl",
+					"ItemHandheldShark",
+					"ItemHandheldPetPotato",
+				],
 			},
 			{
 				Name: "FuturisticMittens",
@@ -28101,6 +28179,13 @@ var AssetFemale3DCG = [
 				AllowActivePose: ["Hogtied", "AllFours"],
 				Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
 				Hide: ["ItemHandheld"],
+				HideItemExclude: [
+					"ItemHandheldFoxPlush",
+					"ItemHandheldBunPlush",
+					"ItemHandheldKarl",
+					"ItemHandheldShark",
+					"ItemHandheldPetPotato",
+				],
 			},
 			{
 				Name: "PolishedMittens",
@@ -28117,6 +28202,13 @@ var AssetFemale3DCG = [
 				Audio: "CuffsMetal",
 				Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
 				Hide: ["ItemHandheld"],
+				HideItemExclude: [
+					"ItemHandheldFoxPlush",
+					"ItemHandheldBunPlush",
+					"ItemHandheldKarl",
+					"ItemHandheldShark",
+					"ItemHandheldPetPotato",
+				],
 			},
 			{
 				Name: "DuctTape",
@@ -28133,6 +28225,13 @@ var AssetFemale3DCG = [
 				SetPose: ["TapedHands"],
 				AllowActivePose: ["Hogtied", "AllFours"],
 				Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
+				HideItemExclude: [
+					"ItemHandheldFoxPlush",
+					"ItemHandheldBunPlush",
+					"ItemHandheldKarl",
+					"ItemHandheldShark",
+					"ItemHandheldPetPotato",
+				],
 			},
 			{
 				Name: "HoofMittens",
@@ -28151,6 +28250,13 @@ var AssetFemale3DCG = [
 				AllowActivePose: ["Hogtied", "AllFours"],
 				Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
 				Hide: ["ItemHandheld"],
+				HideItemExclude: [
+					"ItemHandheldFoxPlush",
+					"ItemHandheldBunPlush",
+					"ItemHandheldKarl",
+					"ItemHandheldShark",
+					"ItemHandheldPetPotato",
+				],
 			},
 			{
 				Name: "SmoothLeatherMittens1",
@@ -28169,6 +28275,13 @@ var AssetFemale3DCG = [
 				SetPose: ["TapedHands"],
 				AllowActivePose: ["Hogtied", "AllFours"],
 				Hide: ["Gloves", "LeftHand", "RightHand", "ItemHandheld"],
+				HideItemExclude: [
+					"ItemHandheldFoxPlush",
+					"ItemHandheldBunPlush",
+					"ItemHandheldKarl",
+					"ItemHandheldShark",
+					"ItemHandheldPetPotato",
+				],
 				Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
 				DefaultColor: ["#323232", "#252525", "Default", "Default"],
 				ParentGroup: null,
@@ -28223,6 +28336,13 @@ var AssetFemale3DCG = [
 				DefaultColor: "#e0b51d",
 				Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
 				Hide: ["ItemHandheld"],
+				HideItemExclude: [
+					"ItemHandheldFoxPlush",
+					"ItemHandheldBunPlush",
+					"ItemHandheldKarl",
+					"ItemHandheldShark",
+					"ItemHandheldPetPotato",
+				],
 			},
 			{
 				Name: "PonyMittensBinder", // This asset is free to edit and upgrade by anyone under conditions: 1. Asset stays avaiable for all body types/genders unless it would make no sense otherwise; 2. No features will be removed from the asset without permission;
@@ -28711,6 +28831,13 @@ var AssetFemale3DCG = [
 				Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Hide: ["ItemHandheld"],
+				HideItemExclude: [
+					"ItemHandheldFoxPlush",
+					"ItemHandheldBunPlush",
+					"ItemHandheldKarl",
+					"ItemHandheldShark",
+					"ItemHandheldPetPotato",
+				],
 			},
 		],
 	},
@@ -29625,7 +29752,7 @@ var AssetFemale3DCG = [
 					TapedHands: PoseType.HIDE,
 					Hogtied: PoseType.HIDE,
 					AllFours: PoseType.HIDE,
-				}
+				},
 			},
 		],
 		Color: [
@@ -35909,7 +36036,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "GlueGag",
-				Hide: ["Mouth","ItemMouth"],
+				Hide: ["Mouth", "ItemMouth"],
 				CopyConfig: {
 					GroupName: "ItemMouth",
 					AssetName: "GlueGag",
@@ -45698,7 +45825,7 @@ var AssetFemale3DCG = [
 				OverrideHeight: { Height: 30, Priority: 6 },
 				Priority: 6,
 				Gender: "F",
-				Fetish: ["Metal","Forniphilia"],
+				Fetish: ["Metal", "Forniphilia"],
 				Value: 75,
 				Difficulty: 8,
 				SelfBondage: 7,
@@ -45706,10 +45833,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				Extended: true,
 				RemoveAtLogin: true,
-				Prerequisite: [
-					"AccessVulva",
-					"HasVagina",
-				],
+				Prerequisite: ["AccessVulva", "HasVagina"],
 				SetPose: ["LegsClosed"],
 				Effect: [
 					E.FillVulva,
@@ -45718,11 +45842,7 @@ var AssetFemale3DCG = [
 					E.Mounted,
 					E.VulvaShaft,
 				],
-					Block: [
-						"ItemLegs",
-						"ItemVulva",
-						"ItemFeet",
-				], 
+				Block: ["ItemLegs", "ItemVulva", "ItemFeet"],
 				AllowActivityOn: ["ItemLegs", "ItemFeet"],
 				HideItem: [
 					"ClothLowerJeans1",
@@ -45733,26 +45853,21 @@ var AssetFemale3DCG = [
 					"ClothLowerPajama1",
 					"ClothLowerBusinessTrousers",
 				],
-				Hide: [
-					"Shoes",
-					"RightAnklet",
-					"LeftAnklet",
-					"ItemFeet",
-					"ItemBoots",
-				],
+				Hide: ["Shoes", "RightAnklet", "LeftAnklet", "ItemFeet", "ItemBoots"],
 				Alpha: [
-					{ Group: [
-						"BodyLower",
-						"Socks",
-						"SocksRight",
-						"SocksLeft",
-						"SuitLower",
-						"Garters",
-						"ItemLegs",
-						"ItemArms",
-					], 
-					Masks: [[75, 692, 350, 400]]
-					}
+					{
+						Group: [
+							"BodyLower",
+							"Socks",
+							"SocksRight",
+							"SocksLeft",
+							"SuitLower",
+							"Garters",
+							"ItemLegs",
+							"ItemArms",
+						],
+						Masks: [[75, 692, 350, 400]],
+					},
 				],
 				Layer: [
 					{
@@ -45793,21 +45908,21 @@ var AssetFemale3DCG = [
 						Priority: 6,
 						AllowColorize: true,
 						CreateLayerTypes: ["m"],
-						AllowTypes: { m: [ 0, 1, 2, 3, 4 ] },
+						AllowTypes: { m: [0, 1, 2, 3, 4] },
 					},
 					{
 						Name: "Shoes",
 						Priority: 8,
 						AllowColorize: true,
 						CreateLayerTypes: ["m"],
-						AllowTypes: { m: [ 0, 1, 2, 3, 4 ] },
+						AllowTypes: { m: [0, 1, 2, 3, 4] },
 					},
 					{
 						Name: "Option",
 						Priority: 7,
 						AllowColorize: true,
 						CreateLayerTypes: ["m"],
-						AllowTypes: { m: [ 2, 4 ] },
+						AllowTypes: { m: [2, 4] },
 					},
 				],
 			},
@@ -45826,7 +45941,7 @@ var AssetFemale3DCG = [
 				Extended: true,
 				CreateLayerTypes: ["typed"],
 				SetPose: ["LegsClosed"],
-				Effect: [E.BlockWardrobe, E.Freeze, E.MapImmobile ],
+				Effect: [E.BlockWardrobe, E.Freeze, E.MapImmobile],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Prerequisite: [
 					"NotSuspended",
@@ -45834,10 +45949,7 @@ var AssetFemale3DCG = [
 					"CanLegsOpen",
 					"CanLegsClosed",
 				],
-				Block: [
-					"ItemBoots",
-					"ItemAddon",
-				],
+				Block: ["ItemBoots", "ItemAddon"],
 				HideItem: [
 					"ShoesFlippers",
 					"ItemFeetHeavySpreaderMetal",
@@ -45847,8 +45959,8 @@ var AssetFemale3DCG = [
 				],
 				Height: 0,
 				Layer: [
-				{ Name: "Floor", Priority: 3, AllowColorize: true },
-				{ Name: "Over", Priority: 25, CopyLayerColor: "Floor" },
+					{ Name: "Floor", Priority: 3, AllowColorize: true },
+					{ Name: "Over", Priority: 25, CopyLayerColor: "Floor" },
 				],
 				RemoveAtLogin: true,
 			},

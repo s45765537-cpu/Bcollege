@@ -906,22 +906,22 @@ var AssetFemale3DCGExtended = {
 		HairBack58: {
 			Archetype: ExtendedArchetype.TYPED,
 			DrawImages: false,
-			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, {Name: "RightOnly"}],
+			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, { Name: "RightOnly" }],
 		},
 		HairBack58b: {
 			Archetype: ExtendedArchetype.TYPED,
 			DrawImages: false,
-			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, {Name: "RightOnly"}],
+			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, { Name: "RightOnly" }],
 		},
 		HairBack60: {
 			Archetype: ExtendedArchetype.TYPED,
 			DrawImages: false,
-			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, {Name: "RightOnly"}],
+			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, { Name: "RightOnly" }],
 		}, // HairBack60
 		HairBack61: {
 			Archetype: ExtendedArchetype.TYPED,
 			DrawImages: false,
-			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, {Name: "RightOnly"}],
+			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, { Name: "RightOnly" }],
 		}, // HairBack61
 	},
 	ClothAccessory: {
@@ -1146,10 +1146,7 @@ var AssetFemale3DCGExtended = {
 		}, //PantBoots
 		SatinSkirt: {
 			Archetype: ExtendedArchetype.TYPED,
-			Options: [
-				{ Name: "Long" },
-				{ Name: "Mid" },
-			],
+			Options: [{ Name: "Long" }, { Name: "Mid" }],
 		}, //SatinSkirt
 	}, // ClothLower
 	SocksLeft: {
@@ -14318,10 +14315,7 @@ var AssetFemale3DCGExtended = {
 		}, // WarmGloves
 		OperaGloves: {
 			Archetype: ExtendedArchetype.TYPED,
-			Options: [
-				{ Name: "Long" },
-				{ Name: "Default" },
-			],
+			Options: [{ Name: "Long" }, { Name: "Default" }],
 			DrawImages: false,
 		}, // OperaGloves
 	}, // Gloves
@@ -15211,6 +15205,13 @@ var AssetFemale3DCGExtended = {
 						Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
 						Block: ["ItemHandheld"],
 						Hide: ["ItemHandheld"],
+						HideItemExclude: [
+							"ItemHandheldFoxPlush",
+							"ItemHandheldBunPlush",
+							"ItemHandheldKarl",
+							"ItemHandheldShark",
+							"ItemHandheldPetPotato",
+						],
 					},
 				},
 				{
@@ -15236,6 +15237,15 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Unchained",
+					Property: {
+						HideItemExclude: [
+							"ItemHandheldFoxPlush",
+							"ItemHandheldBunPlush",
+							"ItemHandheldKarl",
+							"ItemHandheldShark",
+							"ItemHandheldPetPotato",
+						],
+					},
 				},
 				{
 					Name: "Chained",
@@ -15256,6 +15266,15 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Unchained",
+					Property: {
+						HideItemExclude: [
+							"ItemHandheldFoxPlush",
+							"ItemHandheldBunPlush",
+							"ItemHandheldKarl",
+							"ItemHandheldShark",
+							"ItemHandheldPetPotato",
+						],
+					},
 				},
 				{
 					Name: "Chained",
@@ -15270,20 +15289,7 @@ var AssetFemale3DCGExtended = {
 		}, // PonyMittensBinder
 		ElbowLengthMittens: {
 			Archetype: ExtendedArchetype.TYPED,
-			Options: [
-				{
-					Name: "Unchained",
-				},
-				{
-					Name: "Chained",
-					Prerequisite: ["NoItemArms"],
-					Property: {
-						SetPose: ["BackElbowTouch"],
-						Block: ["ItemArms"],
-						Difficulty: 10,
-					},
-				},
-			],
+			CopyConfig: { AssetName: "PonyMittensBinder" },
 		}, // ElbowLengthMittens
 	}, // ItemHands
 	ItemAddon: {
