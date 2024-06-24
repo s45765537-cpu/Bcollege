@@ -451,7 +451,7 @@ type BackgroundTag =
 // NOTE: `NPCArchetype` is for NPC's only
 type TitleName =
 	NPCArchetype | "None" | "Mistress" | "Master" | "Mistree" | "ClubSlave" | "Maid" | "HeadMaid" | "BondageMaid" | "Kidnapper" |
-	"MasterKidnapper" | "Patient" | "PermanentPatient" | "EscapedPatient" | "Nurse" | "Doctor" |
+	"MasterKidnapper" | "Patient" | "PermanentPatient" | "EscapedPatient" | "Nurse" | "Doctor" | "AnimeBoy" |
 	"LadyLuck" | "LordFortune" | "Patron" | "CollegeStudent" |"Nawashi" | "Houdini" | "PonyAlicorn" |
 	"PonyPegasus" | "PonyUnicorn" | "PonyWild" | "PonyHot" | "PonyWarm" | "PonyCold" | "PonyFarm" |
 	"PonyFoal" | "InfilrationMole" | "InfilrationInfiltrator" | "InfilrationAgent" |
