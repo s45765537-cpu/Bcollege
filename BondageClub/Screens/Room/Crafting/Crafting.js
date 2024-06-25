@@ -1037,10 +1037,8 @@ function CraftingClick(event) {
 			const Item = InventoryGet(CraftingPreview, CraftingSelectedItem.Asset.DynamicGroupName);
 			ItemColorLoad(CraftingPreview, Item, 1200, 25, 775, 950, true);
 			ItemColorOnExit((c, i) => {
-				CraftingModeSet("Name");
 				CraftingSelectedItem.Color = Array.isArray(i.Color) ? i.Color.join(",") : i.Color || "Default";
-				ElementValue("InputColor", CraftingSelectedItem.Color);
-				CraftingUpdatePreview();
+				CraftingModeSet("Name");
 			});
 		} else if (MouseIn(1175, 768, 64, 64)) {
 			CraftingSelectedItem.Private = !CraftingSelectedItem.Private;
