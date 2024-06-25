@@ -264,8 +264,8 @@ function CraftingLoad() {
  */
 function CraftingUpdatePreview() {
 	CraftingPreview.Appearance = Player.Appearance.slice();
-	CharacterReleaseTotal(CraftingPreview);
-	if (CraftingNakedPreview) CharacterNaked(CraftingPreview);
+	CharacterReleaseTotal(CraftingPreview, false);
+	if (CraftingNakedPreview) CharacterNaked(CraftingPreview, false);
 	if (!CraftingSelectedItem) return;
 	const Craft = CraftingConvertSelectedToItem();
 	const FoundGroups = new Set();
@@ -279,16 +279,16 @@ function CraftingUpdatePreview() {
 	});
 
 	for (const RelevantAsset of RelevantAssets) {
-		InventoryWear(CraftingPreview, RelevantAsset.Name, RelevantAsset.DynamicGroupName, null, null, Player.MemberNumber, Craft);
+		InventoryWear(CraftingPreview, RelevantAsset.Name, RelevantAsset.DynamicGroupName, null, null, Player.MemberNumber, Craft, false);
 		InventoryCraft(CraftingPreview, CraftingPreview, /** @type {AssetGroupItemName} */(RelevantAsset.DynamicGroupName), Craft, false, true, false);
 		// Hack for the stuff in ItemAddons, since there's no way to resolve their prerequisites
 		if (RelevantAsset.Prerequisite.includes("OnBed")) {
 			const bedType = RelevantAsset.Name.includes("Medical") ? "MedicalBed" : "Bed";
 			const bed = AssetGet(CraftingPreview.AssetFamily, "ItemDevices", bedType);
-			InventoryWear(CraftingPreview, bed.Name, bed.DynamicGroupName, null, null, Player.MemberNumber);
+			InventoryWear(CraftingPreview, bed.Name, bed.DynamicGroupName, null, null, Player.MemberNumber, null, false);
 		}
 	}
-	CharacterRefresh(CraftingPreview);
+	CharacterRefresh(CraftingPreview, false, false);
 }
 
 /**
