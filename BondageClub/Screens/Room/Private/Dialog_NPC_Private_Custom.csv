@@ -858,10 +858,10 @@ ClubCardVsSubDefeat,,,"What?  Did I win?  Hahaha, awesome!  Mistress, I'm allowe
 1000,1050,"Girl, it's time to turn the tables.",(She looks furious.)  What the fuck?  You better explain yourself before I punish you slave.,PlayerTurnTablesStart(),PlayerCanTurnTables(),DomTurnTablesStart,Rude|Violent
 1000,1050,"Girl, it's time to turn the tables.",(She looks annoyed.)  What?  Do not play games my cherish slave.  I am not disposed.,PlayerTurnTablesStart(),PlayerCanTurnTables(),DomTurnTablesStart,Polite|Serious
 1000,1050,"Girl, it's time to turn the tables.",(She looks confused.)  Uh?  Are you drunk my slave?,PlayerTurnTablesStart(),PlayerCanTurnTables(),DomTurnTablesStart,Dumb|Playful
-1000,,"What would you like to do?",,StartActivity(),CanAskforAction(),,
-1000,,"What would you like to do?","(She struggles against her bonds.) You will experience this when I am free.",,CannotAskforAction(),,
-1000,,"(Try to get her attention.)",,StartActivity(),CanTryforAction(),,
-1000,,"(Try to get her attention.)","(She struggles against her bonds.) You will experience this when I am free.",,CannotTryforAction(),,
+1000,,What would you like to do?,,StartActivity(),CanAskforAction(),,
+1000,,What would you like to do?,(She struggles against her bonds.) You will experience this when I am free.,,CannotAskforAction(),,
+1000,,(Try to get her attention.),,StartActivity(),CanTryforAction(),,
+1000,,(Try to get her attention.),(She struggles against her bonds.) You will experience this when I am free.,,CannotTryforAction(),,
 1000,,Can you please release me?,(She nods and slowly releases you.)  I guess I can help you out now.,DialogRelease(Player),AllowReleasePlayer(),DomWillReleasePlayer,
 1000,,Can you please release me?,Are you in pain my slave?  Let me see these limbs.  (She releases you and checks on your health.),DialogRelease(Player),AllowReleasePlayer(),DomWillReleasePlayer,Dominant|Peaceful
 1000,,Can you please release me?,"I'm not that great at releasing, usually it's other people that do it.  (She fumbles a little but finally releases you.)",DialogRelease(Player),AllowReleasePlayer(),DomWillReleasePlayer,Submissive|Dumb
@@ -2105,3 +2105,42 @@ ClubCardConsequenceOrgasm6,,I've had better.  (Leave her.),,"ClubCardDoConsequen
 ClubCardConsequenceOrgasm6,,That was nice.  (Leave her.),,"ClubCardDoConsequence(""Orgasm"")",,,
 ClubCardConsequenceOrgasm6,,Best consequence ever!  (Leave her.),,"ClubCardDoConsequence(""Orgasm"", ""5"")",,,
 ClubCardConsequenceOrgasm6,,Let's share our next orgasm my love.  (Leave.),,"ClubCardDoConsequence(""Orgasm"", ""10"")",IsLover(),,
+RegularGiftIntro,,,"My love, I have a gift for you.",,,RegularGiftIntro,
+RegularGiftIntro,,,"Sweetie!  You're so sexy and fun, I have a gift for you.",,,RegularGiftIntro,Horny|Playful
+RegularGiftIntro,,,Yo luv.  I got ya a gift from the store.,,,RegularGiftIntro,Frigid|Rude
+RegularGiftIntro,,,To show you how much I care for you my love.  I got you a present.,,,RegularGiftIntro,Peaceful|Polite
+RegularGift0,RegularGift10,Thank you very much.,(She gives you GIFTNAME.)  Would you like to try it now?,"GiftGet(""Regular"")",,,
+RegularGift0,RegularGift10,You're way too generous.,(She blushes and gives you GIFTNAME.)  Would you like to try it now?,"GiftGet(""Regular"")",,,
+RegularGift0,RegularGift10,I LOVE YOU!,(She gives you GIFTNAME.)  I love you also.  Would you like to try it now?,"GiftGet(""Regular"")",,,
+RegularGift0,RegularGift10,(Smile and take the gift.),(She smiles back and gives you GIFTNAME.)  Would you like to try it now?,"GiftGet(""Regular"")",,,
+RegularGift10,0,"Sure, I will try it now.",(You try the gift as she watches you happily.)  What would you like to do today?,"GiftUse(""Regular"")",,,
+RegularGift10,0,I will try it later.,Of course my love.  What would you like to do today?,GiftReset(),,,
+RestraintGiftIntro,,,"My love, I have a very kinky gift for you.",,,RestraintGiftIntro,
+RestraintGiftIntro,,,"Sweetheart, I went to the store and got you a fun gift.",,,RestraintGiftIntro,Playful|Peaceful
+RestraintGiftIntro,,,"Hun, it's time to spice things up.  I got you a gift.",,,RestraintGiftIntro,Serious|Violent
+RestraintGiftIntro,,,"Luv, we need to fuck more often.  I got ya something for your libido.",,,RestraintGiftIntro,Horny|Rude
+RestraintGift0,RestraintGift10,Thank you very much.,(She gives you GIFTNAME.)  Would you like to be restrained in it now?,"GiftGet(""Restraint"")",,,
+RestraintGift0,RestraintGift10,You're way too generous.,(She blushes and gives you GIFTNAME.)  Would you like to be restrained in it now?,"GiftGet(""Restraint"")",,,
+RestraintGift0,RestraintGift10,I LOVE YOU!,(She gives you GIFTNAME.)  I love you also.  Would you like to be restrained in it now?,"GiftGet(""Restraint"")",,,
+RestraintGift0,RestraintGift10,(Smile and take the gift.),(She smiles back and gives you GIFTNAME.)  Would you like to be restrained in it now?,"GiftGet(""Restraint"")",,,
+RestraintGift10,0,"Sure, I will wear it now.",(You wear the restraint as she watches you happily.)  What would you like to do today?,"GiftUse(""Restraint"")",,,
+RestraintGift10,0,I will wear it later.,Of course my love.  What would you like to do today?,GiftReset(),,,
+DomGiftIntro,,,"My girl, I have a kinky gift for you to wear.",,,DomGiftIntro,
+DomGiftIntro,,,"My subbbie, you're so much fun.  I have a sexy gift for you.",,,DomGiftIntro,Horny|Playful
+DomGiftIntro,,,Yo my girl.  I got ya a gift to keep you contained.,,,DomGiftIntro,Frigid|Rude
+DomGiftIntro,,,To show you how much I appreciate your submission.  I got you a present.,,,DomGiftIntro,Peaceful|Polite
+DomGift0,DomGift10,Thank you Mistress.,(She gives you GIFTNAME.)  Guess what?  You will wear it now.,"GiftGet(""Restraint"")",,,
+DomGift0,DomGift10,You're way too generous.,(She shakes her head no and gives you GIFTNAME.)  You will wear it now.,"GiftGet(""Restraint"")",,,
+DomGift0,DomGift10,(Bow your head and take the gift.),(She smirks and gives you GIFTNAME.)  You will wear it now.,"GiftGet(""Restraint"")",,,
+DomGift10,1000,Yes Mistress.,(She happily puts the gift on you.)  Aren't you a good girl?,"GiftUse(""Restraint"")",,,
+DomGift10,1000,Right now?,Of course my girl.  (She puts the gift on you.)  This will be a good day.,"GiftUse(""Restraint"")",,,
+SubGiftIntro,,,"Mistress, I have a special gift for you.",,,SubGiftIntro,
+SubGiftIntro,,,"Superest-Bestest-Mistress, I went to the store and got you a fun gift.",,,SubGiftIntro,Playful|Peaceful
+SubGiftIntro,,,"Mistress, I want to show my devotion to you.  My body is yours.  I got you a gift.",,,SubGiftIntro,Serious|Violent
+SubGiftIntro,,,"Yo Mistress, your slut is so happy that she got ya a gift.",,,SubGiftIntro,Horny|Rude
+SubGift0,SubGift10,Thank you my girl.,(She gives you GIFTNAME.)  Would you like to try it now Mistress?,"GiftGet(""Regular"")",,,
+SubGift0,SubGift10,You're a generous submissive.,(She blushes and gives you GIFTNAME.)  Would you like to try it now Mistress?,"GiftGet(""Regular"")",,,
+SubGift0,SubGift10,Such a good girl!,(She giggles and gives you GIFTNAME.)  I love you also.  Would you like to try it now Mistress?,"GiftGet(""Regular"")",,,
+SubGift0,SubGift10,(Smile and take the gift.),(She smiles back and gives you GIFTNAME.)  Would you like to try it now Mistress?,"GiftGet(""Regular"")",,,
+SubGift10,2000,"Alright, I will try it now.",(You try the gift as she watches you happily.)  What are your plans for the day?,"GiftUse(""Regular"")",,,
+SubGift10,2000,Not now my girl.,Of course Mistress.  What are your plans for the day?,GiftReset(),,,

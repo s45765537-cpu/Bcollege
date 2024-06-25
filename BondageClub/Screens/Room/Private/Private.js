@@ -26,6 +26,8 @@ var PrivateBeltList = ["LeatherChastityBelt", "SleekLeatherChastityBelt", "Studd
 var PrivateEntryEvent = true;
 var PrivateClubCardVictoryMode = false;
 var PrivateClubCardDefeatConsequence = ["Cage", "Bound", "BoundPet", "Chastity", "ForceNaked", "Spank", "Tickle", "Orgasm", "Shibari"];
+var PrivateGiftRegular = null;
+var PrivateGiftRestraint = null;
 
 /**
  * Checks if the player is caged.
@@ -465,6 +467,28 @@ function PrivateIsAnimeGirl() {
 }
 
 /**
+ * Returns a random item that could be bought from the store as a gift that the player could receive by a NPC
+ * @param {boolean} Restraint - TRUE if we must return an item that's a restraint
+ * @returns {Asset} - The item asset that can be given
+ */
+function PrivateGetPossibleGift(Restraint) {
+
+	// Builds the item list
+	let InvList = [];
+	for (let A of Asset)
+		if ((A.Value != null) && (A.Value > 0) && A.Random && ((A.Gender == null) || (A.Gender == "F")) && !InventoryAvailable(Player, A.Name, A.Group.Name) && !InventoryIsPermissionBlocked(Player, A.Name, A.Group.Name) && !InventoryIsPermissionLimited(Player, A.Name, A.Group.Name))
+			if ((Restraint && A.Group.Name.startsWith("Item")) || (!Restraint && !A.Group.Name.startsWith("Item")))
+				InvList.push({...A});
+
+	// Returns an item at random or NULL if nothing is possible	
+	if (InvList.length <= 0)
+		return null;
+	else
+		return CommonRandomItemFromList(null, InvList);
+
+}
+
+/**
  * Loads the private room screen and the vendor NPC.
  * @returns {void} - Nothing.
  */
@@ -499,6 +523,9 @@ function PrivateLoad() {
 	// Horny NPCs will randomly be in the character bed when the player enters
 	PrivateRandomBed();
 	PrivateEntryEvent = false;
+
+	// Prepares the possible NPC gifts
+	PrivateGiftReset();
 
 }
 
@@ -871,6 +898,35 @@ function PrivateClickCharacter() {
 					CurrentCharacter.Stage = "1005";
 					NPCLoveChange(CurrentCharacter, -3);
 					CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, "PlayerMustKneel");
+				}
+
+				// Prerequisite conditions for NPC giving gifts to player
+				if (Player.CanTalk() && CurrentCharacter.CanTalk() && Player.CanInteract() && CurrentCharacter.CanInteract() && !Player.Cage && !CurrentCharacter.Cage && (CurrentCharacter.Love >= 80) && (Math.random() >= 0.85) && (NPCEventGet(CurrentCharacter, "NextGift") <= CurrentTime)) {
+
+					// Lovers can offer non-restraint gifts to dominant players
+					if ((CurrentCharacter.Stage == "0") && (PrivateGiftRegular != null) && (ReputationGet("Dominant") >= NPCTraitGet(CurrentCharacter, "Dominant"))) {
+						CurrentCharacter.Stage = "RegularGift0";
+						CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, "RegularGiftIntro");
+					}
+
+					// Lovers can offer restraint gifts to submissive players
+					if ((CurrentCharacter.Stage == "0") && (PrivateGiftRestraint != null) && (ReputationGet("Dominant") < NPCTraitGet(CurrentCharacter, "Dominant"))) {
+						CurrentCharacter.Stage = "RestraintGift0";
+						CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, "RestraintGiftIntro");
+					}
+
+					// Domme NPC can offer restraint gifts to submissive players
+					if ((CurrentCharacter.Stage == "1000") && (PrivateGiftRestraint != null)) {
+						CurrentCharacter.Stage = "DomGift0";
+						CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, "DomGiftIntro");
+					}
+
+					// Domme can offer non-restraint gifts to dominant players
+					if ((CurrentCharacter.Stage == "2000") && (PrivateGiftRegular != null)) {
+						CurrentCharacter.Stage = "SubGift0";
+						CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, "SubGiftIntro");
+					}
+
 				}
 
 			}
@@ -2197,4 +2253,44 @@ function PrivateClubCardKinkyConsequence(Eyes, Strip) {
  */
 function PrivateHasEmptySlot() {
 	return LogQuery("RentRoom", "PrivateRoom") && (PrivateCharacter.length < PrivateCharacterMax) && !LogQuery("LockOutOfPrivateRoom", "Rule");
+}
+
+/**
+ * Resets the possible gifts given by NPCs
+ */
+function PrivateGiftReset() {
+	PrivateGiftRegular = PrivateGetPossibleGift(false);
+	PrivateGiftRestraint = PrivateGetPossibleGift(true);
+}
+
+/**
+ * Gives the NPC gift to the player, a new gift will come between 1 and 6 days
+ * @param {string} GiftType - Regular or Restraint
+ * @returns {void} - Nothing.
+ */
+function PrivateGiftGet(GiftType) {
+	let Gift = (GiftType == "Regular") ? PrivateGiftRegular : PrivateGiftRestraint;
+	if ((Gift != null) && (Gift.BuyGroup == null)) InventoryAdd(Player, Gift.Name, Gift.Group.Name, false);
+	if ((Gift != null) && (Gift.BuyGroup != null))
+		for (let A of Asset)
+			if (A.BuyGroup === Gift.BuyGroup)
+				InventoryAdd(Player, A.Name, A.Group.Name, false);
+	ServerPlayerInventorySync();
+	CurrentCharacter.CurrentDialog = CurrentCharacter.CurrentDialog.replace("GIFTNAME", Gift.Description);
+	NPCEventAdd(CurrentCharacter, "NextGift", Math.floor(CurrentTime + 86400000 + Math.random() * 432000000));
+}
+
+/**
+ * Uses the NPC gift on the player
+ * @param {string} GiftType - Regular or Restraint
+ * @returns {void} - Nothing.
+ */
+function PrivateGiftUse(GiftType) {
+	let Gift = (GiftType == "Regular") ? PrivateGiftRegular : PrivateGiftRestraint;
+	if ((Gift != null) && (Gift.BuyGroup == null)) InventoryWear(Player, Gift.Name, Gift.Group.Name);
+	if ((Gift != null) && (Gift.BuyGroup != null))
+		for (let A of Asset)
+			if (A.BuyGroup === Gift.BuyGroup)
+				InventoryWear(Player, A.Name, A.Group.Name);
+	PrivateGiftReset();
 }
