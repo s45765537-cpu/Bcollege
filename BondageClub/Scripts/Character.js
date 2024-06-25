@@ -1489,11 +1489,14 @@ function CharacterIsInUnderwear(C) {
 /**
  * Removes all appearance items from the character
  * @param {Character} C - Character to undress
+ * @param {boolean} refresh - Whether to refresh the character afterwards and push changes to the server database
  * @returns {void} - Nothing
  */
-function CharacterNaked(C) {
+function CharacterNaked(C, refresh=true) {
 	CharacterAppearanceNaked(C);
-	CharacterRefresh(C);
+	if (refresh) {
+		CharacterRefresh(C);
+	}
 }
 
 /**
@@ -1597,9 +1600,10 @@ function CharacterReleaseNoLock(C) {
 /**
  * Removes all items except for clothing and slave collars from the character
  * @param {Character} C - Character to release
+ * @param {boolean} refresh - Whether to refresh the character afterwards and push changes to the server database
  * @returns {void} - Nothing
  */
-function CharacterReleaseTotal(C) {
+function CharacterReleaseTotal(C, refresh=true) {
 	for (let E = C.Appearance.length - 1; E >= 0; E--) {
 		if (C.Appearance[E].Asset.Group.Category != "Appearance") {
 			if (C.IsOwned() && C.Appearance[E].Asset.Name == "SlaveCollar") {
@@ -1613,7 +1617,9 @@ function CharacterReleaseTotal(C) {
 			}
 		}
 	}
-	CharacterRefresh(C);
+	if (refresh) {
+		CharacterRefresh(C);
+	}
 }
 
 /**
