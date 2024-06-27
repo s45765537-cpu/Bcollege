@@ -8,8 +8,8 @@ Description
 描述
 Language
 語言
-Description of the room (Letters & numbers only)
-房間描述 (僅可使用字母和數字)
+Description of the room
+房間描述
 Ban List
 封禁列表
 Administrator List

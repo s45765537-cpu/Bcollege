@@ -7,8 +7,8 @@ Nom du Salon
 (Lettres et chiffres seulement)
 Description
 Description
-Description of the room (Letters & numbers only)
-Description du salon (Lettres et chiffres seulement)
+Description of the room
+Description du salon
 Private (Need exact name to find it)
 Privé (Nom exact nécéssaire pour le retrouver)
 Locked (Only admins can leave or enter)

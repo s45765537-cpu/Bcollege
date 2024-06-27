@@ -8,8 +8,8 @@ Description
 Описание
 Language
 Язык
-Description of the room (Letters & numbers only)
-Описание комнаты (только буквы и цифры)
+Description of the room
+Описание комнаты
 Ban List
 бан-лист
 Administrator List
