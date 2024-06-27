@@ -15424,6 +15424,23 @@ var AssetFemale3DCGExtended = {
 			},
 			BaselineProperty: { PortalLinkCode: "" },
 		}, // PortalTablet
+		AnimeGirlWand: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Staff",
+					Property: {
+						AllowActivity: ["SpankItem"],
+					},
+				},
+				{
+					Name: "Wand",
+					Property: {
+						AllowActivity: ["MasturbateItem", "RubItem"],
+					},
+				},
+			],
+		}, // AnimeGirlWand
 	}, // ItemHandheld
 	EyeShadow: {
 		CatEye: {

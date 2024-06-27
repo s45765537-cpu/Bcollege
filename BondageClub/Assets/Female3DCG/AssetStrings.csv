@@ -5097,3 +5097,8 @@ NecklacePearlNecklace1ModuleOption3,Choker
 NecklacePearlNecklace1SelectOption3,Choker style:
 NecklacePearlNecklace1Optiono0,None
 NecklacePearlNecklace1Optiono1,Placed
+ItemHandheldAnimeGirlWandSelect,Choose your Power Staff stance:
+ItemHandheldAnimeGirlWandStaff,A (spanker) staff
+ItemHandheldAnimeGirlWandSetStaff,SourceCharacter transform the Power Staff into Wand
+ItemHandheldAnimeGirlWandWand,A (kinky) wand
+ItemHandheldAnimeGirlWandSetWand,SourceCharacter transform the Power Staff into Staff
