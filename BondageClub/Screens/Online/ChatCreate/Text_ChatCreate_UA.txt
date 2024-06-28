@@ -2,8 +2,6 @@
 Уведіть інформацію про Вашу кімнату
 Room Name
 Назва кімнати
-(Letters & numbers only)
-(Лише букви та цифри)
 Description
 Опис
 Language

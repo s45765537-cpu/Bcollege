@@ -3,8 +3,6 @@ Enter your room information
 Entrez l'information de votre salon
 Room Name
 Nom du Salon
-(Letters & numbers only)
-(Lettres et chiffres seulement)
 Description
 Description
 Description of the room

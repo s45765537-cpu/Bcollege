@@ -2,8 +2,6 @@ Enter your room information
 请输入房间信息
 Room Name
 房间名
-(Letters & numbers only)
-(仅可用字母和数字)
 Description
 描述
 Language

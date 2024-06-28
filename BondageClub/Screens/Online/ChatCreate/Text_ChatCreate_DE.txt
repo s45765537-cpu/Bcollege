@@ -2,8 +2,6 @@
 Raum-Informationen eingeben
 Room Name
 Raumname
-(Letters & numbers only)
-(Buchstaben & Ziffern)
 Description
 Beschreibung
 Language
