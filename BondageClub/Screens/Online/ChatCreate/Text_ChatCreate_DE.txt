@@ -2,14 +2,12 @@
 Raum-Informationen eingeben
 Room Name
 Raumname
-(Letters & numbers only)
-(Buchstaben & Ziffern)
 Description
 Beschreibung
 Language
 Sprache
-Description of the room (Letters & numbers only)
-Beschreibung des Raums (Buchstaben & Ziffern)
+Description of the room
+Beschreibung des Raums
 Ban List
 Bannliste
 Administrator List
