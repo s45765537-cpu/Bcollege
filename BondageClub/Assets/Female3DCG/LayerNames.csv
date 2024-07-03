@@ -97,6 +97,14 @@ ClothEveningGownBack,Back
 ClothEveningGownBottom,Bottom
 ClothEveningGownSilk,Silk
 ClothEveningGownTop,Top
+ClothLatexHobbleDressTop,Top
+ClothLatexHobbleDressCorset,Corset
+ClothLatexHobbleDressBuckles,Corset Buckles
+ClothLatexHobbleDressSkirt,Skirt
+ClothLatexHobbleDressBelt,Lower Belts
+ClothLatexHobbleDressBBuckles,Lower Belt Buckles
+ClothLatexHobbleDressCollar,Collar
+ClothLatexHobbleDressCBuckle,Colar Buckle
 ClothYuletideVelvetWarmthBow,Bow
 ClothYuletideVelvetWarmthShawl,Shawl
 ClothYuletideVelvetWarmthShawlFur,Shawl Fur
@@ -265,6 +273,9 @@ GlassesGradientSunglassesGlass,Glass
 GlassesJokeGlassesGlasses,Glasses
 GlassesJokeGlassesHair,Hair
 GlassesJokeGlassesNose,Nose
+GlassesPincenezMain,Frame
+GlassesPincenezLenses,Lenses
+GlassesPincenezAcc,Accessory
 GlassesStreetEyewearFrame,Frame
 GlassesStreetEyewearLenses,Lenses
 GlassesVGlassesFrame,Frame
@@ -515,6 +526,9 @@ HatSanta1Fabric,Hat
 HatSanta1Fur,Fur
 HatSwimCapCap,Cap
 HatSwimCapStripes1,Pattern
+HatVintageHatMain,Hat
+HatVintageHatRibbon,Ribbon
+HatVintageHatInside,Inside
 HatWitchHat1Band,Band
 HatWitchHat1Hat,Hat
 ItemAddonCoversInner,Inner
@@ -733,6 +747,11 @@ ItemDevicesBondageBenchStraps,Straps
 ItemDevicesCageFrame,Frame
 ItemDevicesCageMesh,Mesh
 ItemDevicesCageTint,Tint
+ItemDevicesCementMainBucket,Bucket
+ItemDevicesCementMain,Material
+ItemDevicesCementStraps,Straps
+ItemDevicesCementRatchet,Ratchets
+ItemDevicesCementPole,Pole
 ItemDevicesChangingTableFrame,Frame
 ItemDevicesChangingTableTable,Tabletop
 ItemDevicesCoffinClosed,Lid (closed)
