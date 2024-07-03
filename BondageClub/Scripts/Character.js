@@ -914,6 +914,11 @@ function CharacterArchetypeClothes(C, Archetype, ForceColor) {
 		InventoryWear(C, "AnimeGirlTiara", "Hat");
 		InventoryAdd(C, "AnimeGirlGloves", "Gloves", false);
 		InventoryWear(C, "AnimeGirlGloves", "Gloves");
+		InventoryAdd(C, "AnimeGirlWand", "ItemHandheld", false);
+		if (C.CanInteract()) {
+			if (Math.random() >= 0.5) InventoryWear(C, "AnimeGirlWand", "ItemHandheld");
+			else InventoryRemove(C, "ItemHandheld");
+		} 
 	}
 
 }
