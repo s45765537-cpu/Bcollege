@@ -28,6 +28,7 @@ var PrivateClubCardVictoryMode = false;
 var PrivateClubCardDefeatConsequence = ["Cage", "Bound", "BoundPet", "Chastity", "ForceNaked", "Spank", "Tickle", "Orgasm", "Shibari"];
 var PrivateGiftRegular = null;
 var PrivateGiftRestraint = null;
+var PrivateBaseDecay = 7200000; // Base NPC love decay is -1 love per 2 hours
 
 /**
  * Checks if the player is caged.
@@ -953,7 +954,7 @@ function PrivateClick() {
 	// Main screens buttons
 	if (MouseIn(500, 0, 500, 1000) && !LogQuery("RentRoom", "PrivateRoom")) CharacterSetCurrent(Player);
 	if (MouseIn(1000, 0, 500, 1000) && !LogQuery("RentRoom", "PrivateRoom")) { NPCTraitDialog(PrivateVendor); CharacterSetCurrent(PrivateVendor); }
-	if (MouseIn(1885, PrivateButtonTop(0), 90, 90) && Player.CanWalk() && (!Player.Cage)) PrivateExit();
+	if (MouseIn(1885, PrivateButtonTop(0), 90, 90) && Player.CanWalk() && !Player.Cage) PrivateExit();
 	if (MouseIn(1885, PrivateButtonTop(1), 90, 90) && LogQuery("RentRoom", "PrivateRoom") && Player.CanKneel()) PoseSetActive(Player, Player.ActivePoseMapping.BodyLower !== "Kneel" ? "Kneel" : "BaseLower", true);
 	if (MouseIn(1885, PrivateButtonTop(2), 90, 90) && LogQuery("RentRoom", "PrivateRoom") && Player.CanWalk() && (!Player.Cage)) CharacterSetCurrent(PrivateVendor);
 	if (MouseIn(1885, PrivateButtonTop(3), 90, 90) && LogQuery("RentRoom", "PrivateRoom") && Player.CanChangeOwnClothes()) CharacterAppearanceLoadCharacter(Player);
@@ -1244,20 +1245,41 @@ function PrivateRestrainPlayer() {
  * @returns {boolean} - Whether or not any private characters require updating.
  */
 function PrivateRelationDecay() {
+
+	// For each NPCs in the room
 	let MustSave = false;
-	for (const character of PrivateCharacter) {
-		if (character.IsPlayer()) continue;
-		const LastDecay = NPCEventGet(character, "LastDecay");
-		if (LastDecay * CheatFactor("NoLoveDecay", 0) == 0) {
-			NPCEventAdd(character, "LastDecay", CurrentTime);
-		} else if (LastDecay <= CurrentTime - 7200000) {
-			const Decay = Math.floor((CurrentTime - LastDecay) / 7200000);
-			NPCEventAdd(character, "LastDecay", LastDecay + (Decay * 7200000));
-			NPCLoveChange(character, Decay * -1);
+	for (let C of PrivateCharacter) {
+
+		// The player is excluded
+		if (C.IsPlayer()) continue;
+
+		// Sets the first decay if needed
+		const LastDecay = NPCEventGet(C, "LastDecay");
+		if (LastDecay * CheatFactor("NoLoveDecay", 0) <= 0) {
+
+			// Sets the next decay time
+			NPCEventAdd(C, "LastDecay", CurrentTime);
 			MustSave = true;
-			if ((character.Love <= -100) && (!character.Cage)) {
-				PrivateKickCharacterOut(character);
-			}
+
+		} else if (LastDecay <= CurrentTime - PrivateBaseDecay) {
+
+			// Sets the next decay time
+			NPCEventAdd(C, "LastDecay", CurrentTime);
+			MustSave = true;
+
+			// To calculate the decay, we go up to 400 from room entry
+			let EntryDays = Math.floor((CurrentTime - NPCEventGet(C, "PrivateRoomEntry")) / 86400000);
+			if (EntryDays < 0) EntryDays = 0;
+			if (EntryDays > 400) EntryDays = 400;
+
+			// The decay gets slower and slower, up to 6 times slower at 400 days and more
+			const LoveDecay = Math.floor((CurrentTime - LastDecay) / PrivateBaseDecay * ((480 - EntryDays) / 480));
+			if (LoveDecay > 0) NPCLoveChange(C, LoveDecay * -1);
+
+			// The NPC will disappear if love is under -100, can be prevented with any cage
+			if ((C.Love <= -100) && !C.Cage && !C.IsEnclose())
+				PrivateKickCharacterOut(C);
+
 		}
 	}
 	return MustSave;
@@ -1711,8 +1733,7 @@ function PrivateStartWife() {
  */
 function PrivateNPCInteraction(LoveFactor) {
 	if (CurrentCharacter.Love == null) CurrentCharacter.Love = 0;
-	if ((CurrentCharacter.Love < 60) || (CurrentCharacter.IsOwner()) || (CurrentCharacter.IsOwnedByPlayer()) || CurrentCharacter.IsLoverOfPlayer() || (parseInt(LoveFactor) < 0))
-		NPCLoveChange(CurrentCharacter, LoveFactor);
+	NPCLoveChange(CurrentCharacter, LoveFactor);
 }
 
 /**
@@ -1984,8 +2005,9 @@ function PrivateGetBed(Type) {
  * When the player exits the private room
  * @returns {void} - Nothing.
  */
-function PrivateExit(Type) {
+function PrivateExit() {
 	if (!CurrentCharacter) {
+		if (PrivateCharacter.length >= 2) ServerPrivateCharacterSync();
 		PrivateEntryEvent = true;
 		CommonSetScreen("Room", "MainHall");
 	}
