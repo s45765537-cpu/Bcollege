@@ -512,6 +512,7 @@ function PrivateLoad() {
 		for (let C = 1; C < PrivateCharacter.length; C++)
 			if (PrivateCharacter[C].IsOwner()) {
 				PoseSetActive(Player, "Kneel", true);
+				NPCTraitDialog(PrivateCharacter[C]);
 				CharacterSetCurrent(PrivateCharacter[C]);
 				PrivateCharacter[C].CurrentDialog = DialogFind(CurrentCharacter, "1060");
 				PrivateCharacter[C].Stage = "1061";
@@ -2315,4 +2316,63 @@ function PrivateGiftUse(GiftType) {
 			if (A.BuyGroup === Gift.BuyGroup)
 				InventoryWear(Player, A.Name, A.Group.Name);
 	PrivateGiftReset();
+}
+
+/**
+ * When the player meets her owner randomly in the main hall
+ * @returns {void} - Nothing.
+ */
+function PrivateOwnerInMainHall() {
+
+	// Finds the player owner
+	let Owner = null;
+	for (let C of PrivateCharacter)
+		if (!C.IsPlayer() && C.IsOwner())
+			Owner = C;
+	if (Owner == null) return;
+	if (!Owner.CanInteract()) return;
+
+	// Loads the owner NPC random meeting dialog
+	CommonSetScreen("Room", "Private");
+	PrivateBackground = "MainHall";
+	NPCTraitDialog(Owner);
+	CharacterRelease(Owner);
+	PrivateNewCloth(Owner);
+	CharacterSetCurrent(Owner);
+	Owner.Stage = "MeetOwnerInMainHall0";
+	Owner.CurrentDialog = DialogFind(Owner, "MeetOwnerInMainHallIntro");
+
+}
+
+/**
+ * The owner can ungag the player and it can affect the love factor
+ * @param {number} LoveFactor - Amount of love to gain or lose.
+ * @returns {void} - Nothing.
+ */
+function PrivatePlayerUngag(LoveFactor) {
+	PrivateNPCInteraction(LoveFactor);
+	InventoryRemove(Player, "ItemMouth");
+	InventoryRemove(Player, "ItemMouth2");
+	InventoryRemove(Player, "ItemMouth3");
+	InventoryRemove(Player, "ItemHead");
+	InventoryRemove(Player, "ItemHood");
+}
+
+/**
+ * The owner can do some activities with the player from the main hall
+ * @returns {void} - Nothing.
+ */
+function PrivateStartOwnerHallActivity() {
+	let Activity = CommonRandomItemFromList(null, ["BringToPrivate", "NudeParade", "Bondage"]);
+	Activity = "BringToPrivate";  // TO REMOVE
+	CurrentCharacter.Stage = "MeetOwnerInMainHall" + Activity + "0";
+	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, "MeetOwnerInMainHall" + Activity + "Intro");
+}
+
+/**
+ * When the player returns to her private room with her owner
+ * @returns {void} - Nothing.
+ */
+function PrivateOwnerHallReturnToPrivate() {
+	PrivateBackground = ((Player.VisualSettings) && (Player.VisualSettings.PrivateRoomBackground)) ? Player.VisualSettings.PrivateRoomBackground : "Private";
 }
