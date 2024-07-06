@@ -5097,3 +5097,7 @@ NecklacePearlNecklace1ModuleOption3,Choker
 NecklacePearlNecklace1SelectOption3,Choker style:
 NecklacePearlNecklace1Optiono0,None
 NecklacePearlNecklace1Optiono1,Placed
+QualityHarnessGagSetBallGag,SourceCharacter attaches ball gag to DestinationCharacter gag harness.
+QualityHarnessGagSetRingGag,SourceCharacter attaches ring gag to DestinationCharacter gag harness.
+QualityHarnessGagTypeRingGag,Ring Gag
+QualityHarnessGagTypeBallGag,Ball Gag
