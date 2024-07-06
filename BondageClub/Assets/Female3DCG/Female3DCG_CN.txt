@@ -124,6 +124,8 @@ Swimsuit style 2
 泳衣样式 2
 Swimsuit style 3
 泳衣样式 3
+Leather Vest Suit
+透视皮衣
 Bracelet
 手镯
 Band 1
@@ -206,16 +208,6 @@ Yuletide Velvet Warmth
 圣夜暖绒
 Nun Robes
 修女服
-Nun Veil
-修女头巾
-Leather Vest Suit
-透视皮衣
-Bow Back Accessory
-蝴蝶结背饰
-Fu
-符
-Paper bag
-纸袋
 Fishnet Top
 渔网上衣
 Flower Dress
@@ -252,8 +244,6 @@ Laurel Top
 月桂上衣
 Leather Bolero
 皮革波蕾若
-Leather Corset Top
-皮革紧身胸衣
  Leather Crop Top
 皮衣上衣
 Maid Apron
@@ -274,8 +264,6 @@ Nurse Uniform
 护士服
 Retro Girdle Dress
 复古修身衣
-Reverse Bunny Suit Top
-逆兔女郎上衣
 Robe
 睡袍
 See-through Top
@@ -286,8 +274,6 @@ Slave Rags
 奴隶破布
 Sleeveless Top
 无袖上衣
-Steampunk Corset
-蒸汽朋克胸衣
 Student Black
 黑色学生服
 Student Bow
@@ -326,6 +312,8 @@ Bug Legs
 虫虫腿
 Bunny Girl Accessories
 兔女服饰物
+Bow Back Accessory
+蝴蝶结背饰
 Camera
 相机
 Cape
@@ -438,6 +426,8 @@ Pleated Skirt
 百褶裙
 Ruffled Skirt
 荷叶裙
+Satin Skirt
+缎面裙
 Short Pencil Skirt
 短铅笔裙
 Short Plaid Skirt
@@ -462,8 +452,6 @@ Straps Waspie
 紧身胸带
 Corset
 束腰
-Classic Latex Corset
-经典乳胶束腰
 Corset + Garters
 束腰 + 吊袜带
 Half Cup Corset
@@ -476,6 +464,10 @@ Noble Corset
 皇家束腰
 Latex Corset
 乳胶束腰
+Leather Corset Top
+皮革紧身胸衣
+Steampunk Corset
+蒸汽朋克胸衣
 Boned Underbust Corset
 撑骨胸下束腰
 Emoticon
@@ -596,8 +588,6 @@ Biker Gloves
 单车手套
 Catsuit Gloves
 紧身衣手套
-Pom Poms
-绒球
 Cow Printed Gloves
 奶牛印花手套
 Fingerless Gloves
@@ -620,6 +610,8 @@ Latex Gloves
 乳胶手套
 Mistress Gloves
 女王手套
+Opera Gloves
+歌剧手套
 See-through Gloves
 透视装手套
 Short Leather Gloves
@@ -712,12 +704,8 @@ Wolf Ears Big
 狼耳 大
 Ears
 耳朵
-UnicornHorn
-独角兽角
 Hair Accessory
 发饰
-Flower
-花
 Back Hair
 后发
 Style 10b
@@ -858,6 +846,10 @@ Style 60
 样式 60
 Style 61
 样式 61
+Style 62
+样式 62
+Style 63
+样式 63
 None
 无
 Front Hair
@@ -958,8 +950,6 @@ Flower Crown
 花冠
 Fur Headband
 毛皮头带
-Latex Habit
-乳胶修女罩袍
 Maid Hairband
 女仆发箍
 Maid Latex Hairband
@@ -968,6 +958,8 @@ Nun Habit
 修女罩袍
 Nurse Cap
 护士帽
+Nun Veil
+修女头巾
 Pirate Bandana
 海盗头巾
 Pirate Hat
@@ -1234,6 +1226,10 @@ Toe Tape
 胶带绑脚趾
 Toe Tie
 绳缚脚趾
+Torment Heels
+折磨高跟鞋
+Strict Pony Boots
+严格小马靴
 Breasts
 乳房
 Forbidden Chastity Bra
@@ -1250,6 +1246,8 @@ Polished Chastity Bra
 抛光贞操文胸
  Tickle Bra
 挠痒文胸
+Male Chastity Plate
+男性贞操板
 Butt
 臀部
 Anal Beads
@@ -1366,6 +1364,8 @@ Fur Blanket Wrap
 毛绒全包毯
 Futuristic Crate
 未来拘束箱
+Glue's Puddle
+胶水坑
 Inflatable Body Bag
 充气式全包袋
 Kabeshiri Wall
@@ -1388,6 +1388,8 @@ Net
 捕获网
 One Bar Prison
 竖杠监狱
+Unsuspected Pose
+正常的姿势
 Personal Cage
 单人铁笼
 Pet Bed
@@ -1506,8 +1508,6 @@ Belt
 腰带
 Broom
 扫帚
-Bunny Plush
-兔兔布偶
 Candle Wax
 蜡烛
 Cane
@@ -1526,22 +1526,20 @@ Flogger
 鞭笞
 For Sale Sign
 待售标志
-Fox Plush
-狐狸布偶
 Gavel
 木槌
 Empty Glass
 空玻璃杯
 Filled Glass
 装液体的玻璃杯
+Atoxic Glue Tube
+无毒胶水
 Hairbrush
 梳子
 Heart Crop
 心形硬鞭
 Ice Cube
 冰块
-Pet Rock
-宠物石头
 Key
 钥匙
 Large Dildo
@@ -1560,8 +1558,6 @@ Paddle
 板子
 Panties
 内裤
-Pet Potato
-宠物土豆
 Pet Toy
 逗猫棒
 Mobile Phone
@@ -1626,6 +1622,8 @@ Long Leather Paw Mittens
 长皮革猫爪无指手套
 Futuristic Mittens
 未来无指手套
+Glue Mittens
+胶水无指手套
  Hoof Mittens
 马蹄手套
 Leather Mittens
@@ -1646,8 +1644,6 @@ Eyes
 眼睛
 Anime Lenses
 动漫美瞳
-Big Mouth Hood
-大嘴头套
 Blackout Lenses
 不透光美瞳
 Cloth Blindfold
@@ -1704,6 +1700,8 @@ Studded Blindfold
 铆钉眼罩
 Accent Hood
 重点头套
+Big Mouth Hood
+大嘴头套
 Blanket Hood
 毛毯头罩
 Canvas Hood
@@ -1728,6 +1726,8 @@ Foxy Mask
 狐狸头套
 GGTS Helmet
 GGTS头盔
+Fu
+符
 Gas Mask
 防毒面具
 GGTS Slave Helmet
@@ -1782,6 +1782,8 @@ Pony Hood
 小马头套
 Pumpkin Head
 南瓜头
+Paper bag
+纸袋
 Sack Hood
 麻袋头罩
 Sensory Hood
@@ -1824,6 +1826,8 @@ Secret Suitcase
 秘密手提箱
 Unlocked Suitcase
 解锁的手提箱
+Bunny Plush
+兔兔布偶
 Combination Padlock
 组合密码锁
 Exclusive Padlock
@@ -1832,10 +1836,14 @@ D/s Family Padlock
 主奴家族锁
 D/s Family Padlock Key
 主奴家族锁钥匙
+Fox Plush
+狐狸布偶
 High-Security Padlock
 高安全挂锁
 Intricate Padlock
 复杂的挂锁
+Pet Rock
+宠物石头
 Lockpicks
 撬锁器
 Lovers Padlock
@@ -1868,8 +1876,8 @@ Pandora's Box Padlock Key
 潘多拉魔盒锁钥匙
 Password Lock
 密码锁
-Pet Sign
-宠物标牌
+Pet Potato
+宠物土豆
 PortalLink Padlock
 传送门连接锁
 Safeword Padlock
@@ -1946,6 +1954,8 @@ Futuristic Panel Gag
 未来板塞
 Respirator Mask
 呼吸面罩
+Glue
+胶水
 Harness Ball Gag
 马具口球
 Harness Ball Gag XL
@@ -2146,6 +2156,8 @@ Butterfly Pendant
 蝴蝶吊坠
 Cowbell
 牛铃
+Flower
+花
 Lapis Pendant
 青金石吊坠
 Moon Pendant
@@ -2190,6 +2202,8 @@ Medium Rope
 中长绳
 Short Rope
 短绳
+Pet Sign
+宠物标牌
 Hitching Post
 马桩
 Nipples
@@ -2334,6 +2348,8 @@ Torso
 躯干
 Adult Baby Harness
 成人婴儿束带
+Classic Latex Corset
+经典乳胶束腰
  Crotch Chain
 裆链
 Futuristic Harness
@@ -2358,6 +2374,8 @@ Vulva
 外阴
 Basic Cock Ring
 基础阴茎环
+Locking Cock Ring
+上锁阴茎环
 Pair Of Ben Wa Balls
 拉珠
 Chastity Pouch
@@ -2412,6 +2430,8 @@ Wired Vibrating Egg
 有线跳蛋
 Full Casing Cage
 全覆盖贞操笼
+Latex Nulge
+乳胶无效凸起
 Clitoris
 阴蒂
 Adorned Clitoris Piercing
@@ -2532,6 +2552,8 @@ Lock Necklace
 锁头项链
 Rope Necklace
 绳子项圈
+Custom Pearl Necklace
+自定义珍珠项链
 Nipples Style
 乳头式样
 Light
@@ -2542,8 +2564,6 @@ Briefs
 内裤
 Bulky Diaper
 大块尿布
-Catsuit Panties
-紧身衣内裤
 Chinese Panties
 旗袍式内裤
 Cock Sock
@@ -2578,8 +2598,6 @@ Latex Maid Panties
 乳胶女仆内裤
 Maid Panties
 女仆内裤
-Male Catsuit Panties
-男士紧身衣内裤
 Micro Thong
 微型丁字裤
 String Bikini
@@ -2716,8 +2734,6 @@ Short Leather Socks
 短皮革袜
 Crotchless Pantyhose
 无裆丝袜
-Reverse Bunny Suit Stockings
-反兔装长筒袜
 Ankle
 极短袜
 Short
@@ -2774,8 +2790,8 @@ Suit Lower
 套装(下身)
  Catsuit Panties
 紧身衣内裤
-Pilot Suit Panties
-飞行服内裤
+Male Catsuit Panties
+男士紧身衣内裤
 Tail Strap
 尾巴
 Bunny Tail Strap
@@ -2786,6 +2802,10 @@ Demon Tail
 恶魔尾巴
 Dragon Tail Strap
 穿戴式龙尾
+ Scaled dragon tail strap (Left)
+穿戴式鳞片龙尾（左）
+ Scaled dragon tail strap (Right)
+穿戴式鳞片龙尾（右）
 Fox Tails Strap
 穿戴式狐尾
 Fox Small Tail Strap

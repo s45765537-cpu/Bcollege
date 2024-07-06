@@ -34,6 +34,8 @@ Straps
 束带
 Frills
 花边
+Silk
+丝绸
 Bib
 围嘴
 Pattern
@@ -100,8 +102,14 @@ Fur
 绒毛
 Bottom
 底部
-Silk
-丝绸
+Shawl
+披肩
+Shawl Fur
+披肩柔毛
+Base
+打底
+Interior
+内侧
 Fishnet Top
 渔网上衣
  Latex
@@ -118,12 +126,6 @@ Buckle
 皮带扣
 Dress Trim
 裙边
-Bow
-蝴蝶结
-Shawl
-披肩
-Shawl Fur
-披肩柔毛
 Corset Buttons
 束腰搭扣
 Hood Inner
@@ -152,8 +154,6 @@ Skirt
 裙子
 Frill
 褶边
-Base
-打底
 Crosses
 十字架
 Metal
@@ -262,6 +262,10 @@ Inner
 内部
 Outer
 外部
+Ears
+耳朵
+Horns
+尖角
 Headband
 头带
 Bell
@@ -280,6 +284,14 @@ Bun
 包子
 Tips
 顶端
+Braid
+织物
+Ribbon
+丝带
+Scrunchies
+束发带
+Ribbons
+丝带
  Base
 基础
  Fluff
@@ -324,8 +336,6 @@ Main Flowers
 主要花朵
 Petals
 花瓣
-Shawl
-头巾
 Shoulders
 肩膀
 Cowl
@@ -334,6 +344,8 @@ Detail
 细节
 Symbol
 徽记
+Inside
+内部
 Dots
 圆点
 Skull
@@ -450,6 +462,14 @@ Toes
 指头
 Horseshoes
 马蹄铁
+Padlocks
+挂锁
+Hooves
+蹄子
+Straps Base
+系带基础
+Outline
+边缘
 Bra Cup
 罩杯
 Lining
@@ -458,6 +478,12 @@ Tickler
 挠痒器
 Wiring
 电线
+Under layer
+下层
+Plate Shine
+贞操板反光
+Under layer shine
+下层反光
 Tail
 尾巴
 Tip
@@ -466,8 +492,6 @@ Tails
 尾巴
 Heart
 心
-Ribbon
-丝带
 Headboard
 床头板
 Mattress
@@ -490,8 +514,6 @@ Pillow Trim
 枕头装饰
 Plushies
 毛绒玩具
-Inside
-内部
 Outside
 外部
 Label
@@ -578,6 +600,16 @@ Net
 网子
 Weights
 配重
+Bar
+穿刺棒
+Tiny Cushion
+小垫子
+Ratchets
+棘轮
+Shoes
+鞋
+Option
+可选
 Closed
 关闭
 Bed
@@ -686,8 +718,6 @@ Lock Icon
 锁标志
 HUD
 显示器
-Ears
-耳朵
 Left Eye
 左眼
 Left Eye Sticker
@@ -768,8 +798,6 @@ Openings
 开口
 Forehead Panel
 额头嵌板
-Interior
-内侧
 Exterior
 外部
 Switch
@@ -806,6 +834,12 @@ Plug
 裤袜
  Hair
 头发
+Sticky tape
+胶带
+Points
+点
+Paperbag
+纸袋
  Silencer
 隔音器
  Lips
@@ -876,6 +910,10 @@ Muzzle
 口套
 Icon
 标志
+Glue
+胶水
+Lips
+嘴唇
 Metal Parts
 金属组件
 Pacifier Ring
@@ -902,8 +940,6 @@ Tubes
 管子
 Fixing
 固定圈
-Lips
-嘴唇
 Ring
 环圈
 Pony
@@ -1094,12 +1130,16 @@ Module
 模块
 Clasps
 扣环
-Bar
-穿刺棒
 Cock Ring
 阴茎环
 Penis
 阴茎
+Base Ring
+基础环
+Top Ring
+顶部环
+Lock Pin
+锁销
 Pouch
 包囊
 Wand
@@ -1134,8 +1174,6 @@ Fur Knee
 膝盖绒毛
 Color
 色彩
-Outline
-边缘
 Honor Ring
 荣誉戒指
 Honor Ring Jewels
@@ -1172,6 +1210,10 @@ Lanyard
 挂带
 Key
 钥匙
+Normal
+普通
+Long
+长
 Cock Sock
 鸡鸡袜
 Plastic Cover
@@ -1194,8 +1236,6 @@ Rear
 后部
 Fins
 鳍
-Shoes
-鞋
 Dai
 鞋底
 Hanao
@@ -1224,12 +1264,14 @@ Chains Details
 袜子
 Guards
 护板
+Sock
+袜
+Fuzz
+绒毛
 Guard
 护板
 Left Sock
 左袜子
-Sock
-袜
 Right Sock
 右袜子
 Zip

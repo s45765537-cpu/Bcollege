@@ -4,8 +4,10 @@ Normal
 Normal
 Hard
 Schwierig
-Starts in
-Beginnt in
+Press a key to start
+Drücke einen Knopf zum starten
+Tap to start
+Drücke zum starten
 Difficulty:
 Schwierigkeitsgrad:
 Perfect!  You didn't lose a drop.

@@ -28,11 +28,5 @@ Import Bondage College data
 导入紧缚学院数据
 Invalid server answer, it could be outdated.
 服务器返回错误,游戏版本是否有误？
-Your character name
-你的角色名
-
-########################
-### DEPRECATED LINES ###
-########################
 Your character name, account name and password cannot be more than 20 characters long.
 角色名、账号名和密码不能超过20个字符

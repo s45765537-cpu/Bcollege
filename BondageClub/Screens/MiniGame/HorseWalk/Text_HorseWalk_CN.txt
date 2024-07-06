@@ -17,4 +17,4 @@ Sorry, you've failed.  (Win: $HURDLEWIN, Failed: $HURDLEFAIL)
 Whip the ponies ($PONY), not the trainer ($TRAINER).
 鞭打小马 ($PONY), 不要鞭打驯马师 ($TRAINER)。
 Whip the ponies, not the trainer.  Tap to start.
-变大小马，不要变大驯马师。触碰以开始。
+鞭打小马，不要鞭打驯马师。触碰以开始。

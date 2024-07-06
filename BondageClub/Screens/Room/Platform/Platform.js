@@ -290,7 +290,7 @@ var PlatformTemplate = [
 		],
 		Attack: [
 			{ Name: "StandAttackFast", HitBox: [0.8, 0.25, 1, 0.4], HitAnimation: [5, 6, 7, 8, 9], StartAudio: ["EdlaranKick0"], HitAudio: ["EdlaranKick0", "EdlaranKick1"], Damage: [1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8], Speed: 300 },
-			{ Name: "CrouchAttackFast", HitBox: [0.65, 0.4, 0.85, 0.55], HitAnimation: [6, 7, 8], HitAudio: ["OliviaSlap0", "OliviaSlap1", "OliviaSlap2", "OliviaSlap3"], Damage: [1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8], Speed: 300 },
+			{ Name: "CrouchAttackFast", HitBox: [0.65, 0.45, 0.85, 0.65], HitAnimation: [6, 7, 8], HitAudio: ["OliviaSlap0", "OliviaSlap1", "OliviaSlap2", "OliviaSlap3"], Damage: [1, 2, 3, 3, 4, 5, 5, 6, 7, 7, 8], Speed: 300 },
 			{ Name: "StandAttackSlow", HitBox: [0, 0.4, 1, 0.8], HitAnimation: [7, 8, 9], StartAudio: ["MelodyKick0"], HitAudio: ["MelodyKick0", "MelodyKick1"], Damage: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], Speed: 600, JumpForce: 60 },
 			{ Name: "FireProjectile", Speed: 750 }
 		],
