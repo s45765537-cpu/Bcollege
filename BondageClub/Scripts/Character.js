@@ -827,7 +827,7 @@ function CharacterLoadCSVDialog(C, info) {
 /**
  * Sets the clothes based on a character archetype
  * @param {Character} C - Character to set the clothes for
- * @param {"Maid" | "Mistress" | "Employee"} Archetype - Archetype to determine the clothes to put on
+ * @param {"Maid" | "Mistress" | "Employee" | "AnimeGirl"} Archetype - Archetype to determine the clothes to put on
  * @param {string} [ForceColor] - Color to use for the added clothes
  * @returns {void} - Nothing
  */
@@ -897,6 +897,28 @@ function CharacterArchetypeClothes(C, Archetype, ForceColor) {
 		InventoryAdd(C, "SunGlasses1", "Glasses", false);
 		CharacterAppearanceSetItem(C, "Glasses", C.Inventory[C.Inventory.length - 1].Asset);
 		CharacterAppearanceSetColorForGroup(C, "Default", "Glasses");
+	}
+
+	// Anime girl archetype
+	if (Archetype == "AnimeGirl") {
+		CharacterNaked(C);
+		InventoryWear(C, "Panties1", "Panties", "#CCCCCC");
+		InventoryWear(C, "Bra1", "Bra", "#CCCCCC");
+		InventoryAdd(C, "AnimeGirl", "Cloth", false);
+		InventoryWear(C, "AnimeGirl", "Cloth");
+		InventoryAdd(C, "AnimeGirlNecklace", "Necklace", false);
+		InventoryWear(C, "AnimeGirlNecklace", "Necklace");
+		InventoryAdd(C, "AnimeGirlBoots", "Shoes", false);
+		InventoryWear(C, "AnimeGirlBoots", "Shoes");
+		InventoryAdd(C, "AnimeGirlTiara", "Hat", false);
+		InventoryWear(C, "AnimeGirlTiara", "Hat");
+		InventoryAdd(C, "AnimeGirlGloves", "Gloves", false);
+		InventoryWear(C, "AnimeGirlGloves", "Gloves");
+		InventoryAdd(C, "AnimeGirlWand", "ItemHandheld", false);
+		if (C.CanInteract()) {
+			if (Math.random() >= 0.5) InventoryWear(C, "AnimeGirlWand", "ItemHandheld");
+			else InventoryRemove(C, "ItemHandheld");
+		} 
 	}
 
 }
@@ -980,8 +1002,8 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 	Char.BlockItems = /** @type {never} */([]);
 	Char.LimitedItems = /** @type {never} */([]);
 	Char.FavoriteItems = /** @type {never} */([]);
-	Char.PermissionItems = ServerUnPackItemPermissions(data, Char);
 	if (!Char.IsPlayer()) {
+		Char.PermissionItems = ServerUnPackItemPermissions(data, Char);
 		Char.WhiteList = ServerAccountDataSyncedValidate.WhiteList(data.WhiteList, Char);
 		Char.BlackList = ServerAccountDataSyncedValidate.BlackList(data.BlackList, Char);
 	}
@@ -1472,11 +1494,14 @@ function CharacterIsInUnderwear(C) {
 /**
  * Removes all appearance items from the character
  * @param {Character} C - Character to undress
+ * @param {boolean} refresh - Whether to refresh the character afterwards and push changes to the server database
  * @returns {void} - Nothing
  */
-function CharacterNaked(C) {
+function CharacterNaked(C, refresh=true) {
 	CharacterAppearanceNaked(C);
-	CharacterRefresh(C);
+	if (refresh) {
+		CharacterRefresh(C);
+	}
 }
 
 /**
@@ -1580,9 +1605,10 @@ function CharacterReleaseNoLock(C) {
 /**
  * Removes all items except for clothing and slave collars from the character
  * @param {Character} C - Character to release
+ * @param {boolean} refresh - Whether to refresh the character afterwards and push changes to the server database
  * @returns {void} - Nothing
  */
-function CharacterReleaseTotal(C) {
+function CharacterReleaseTotal(C, refresh=true) {
 	for (let E = C.Appearance.length - 1; E >= 0; E--) {
 		if (C.Appearance[E].Asset.Group.Category != "Appearance") {
 			if (C.IsOwned() && C.Appearance[E].Asset.Name == "SlaveCollar") {
@@ -1596,7 +1622,9 @@ function CharacterReleaseTotal(C) {
 			}
 		}
 	}
-	CharacterRefresh(C);
+	if (refresh) {
+		CharacterRefresh(C);
+	}
 }
 
 /**

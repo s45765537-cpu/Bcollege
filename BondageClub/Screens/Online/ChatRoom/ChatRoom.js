@@ -1078,7 +1078,6 @@ function ChatRoomCreateElement() {
 								keyup: ChatRoomStatusUpdateTalk,
 							},
 						},
-						{ tag: "div", attributes: { id: "chat-room-input-resizer" } },
 						{
 							tag: "span",
 							attributes: { id: "InputChatLength" },
@@ -1941,8 +1940,9 @@ function ChatRoomStatusUpdateTalk(Key) {
  */
 function ChatRoomChatInputChangeHandler(event) {
 	const label = document.getElementById("InputChatLength");
-	const resizer = document.getElementById("chat-room-input-resizer");
-	if (!label || !resizer) return;
+	const chatLog = document.getElementById("TextAreaChatLog");
+	const parent = document.getElementById("chat-room-div");
+	if (!label || !chatLog || !parent) return;
 
 	const length = this.value.length;
 	if (length <= ServerChatMessageMaxLength - 100) {
@@ -1956,9 +1956,23 @@ function ChatRoomChatInputChangeHandler(event) {
 		}
 	}
 
-	// Copy the input message to the (invisible) <div> responsible for the actual resizing,
-	// as this can't easily be done directly with <textarea> elements
-	resizer.textContent = this.value;
+	this.style.height = "100%";
+	this.style.height = `${this.scrollHeight}px`;
+
+	// Check if the text log + input completely fill the parent element (within a gap-accounting error marigin)
+	// and then resize the text log + input accordingly
+	const chatLogHeight = chatLog.getBoundingClientRect().height;
+	const parentHeight = parent.getBoundingClientRect().height;
+	const inputHeight = this.getBoundingClientRect().height;
+	const ratio = (inputHeight + chatLogHeight) / parentHeight;
+	const needsUpdate = ratio > 1.005 || ratio < 0.995;
+	if (needsUpdate) {
+		const percentage = 100 * (inputHeight / parentHeight);
+		if (percentage >= 9 && percentage <= 35) {
+			// At ~34% the maximum resize height has been reached and there is no point in trying to expand it any further
+			parent.style.gridTemplateRows = `${100 - 0.4 - percentage}% ${percentage}%`;
+		}
+	}
 }
 
 /**

@@ -311,7 +311,7 @@ function NPCLongLoverEventDelay(C) {
 }
 
 /**
- * Changes the love factor for a specified NPC, will stay within the -100 to 100 range
+ * Changes the love factor for a specified NPC, will stay within the -100 to 100 range, 60 is max out of a relationship
  * @param {NPCCharacter} C - NPC to change the love factor of
  * @param {number} LoveFactor - Amount to add to the current love factor (can be negative).
  * @returns {void} - Nothing
@@ -322,6 +322,7 @@ function NPCLoveChange(C, LoveFactor) {
 	else C.Love = C.Love + LoveFactor;
 	if (C.Love < -100) C.Love = -100;
 	if (C.Love > 100) C.Love = 100;
+	if (C.Love > 60 && !C.IsLoverOfPlayer() && !C.IsOwnedByPlayer() && !C.IsOwner()) C.Love = 60;
 }
 
 /**
@@ -331,7 +332,7 @@ function NPCLoveChange(C, LoveFactor) {
 function NPCInteraction() {
 	if (CurrentCharacter != null && !CurrentCharacter.IsPlayer())
 		if (CurrentTime >= NPCEventGet(CurrentCharacter, "LastInteraction")) {
-			NPCEventAdd(CurrentCharacter, "LastInteraction", CurrentTime + 20000);
-			if (CurrentCharacter.Love < 60) NPCLoveChange(CurrentCharacter, 1);
+			NPCEventAdd(CurrentCharacter, "LastInteraction", CurrentTime + 15000);
+			NPCLoveChange(CurrentCharacter, 1);
 		}
 }

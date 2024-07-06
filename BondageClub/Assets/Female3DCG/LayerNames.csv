@@ -55,6 +55,13 @@ ClothAdultBabyDress2Lace,Lace
 ClothAdultBabyDress3Belt,Belt
 ClothAdultBabyDress3Collar,Collar
 ClothAdultBabyDress3Dress,Dress
+ClothAnimeGirlMain,Dress
+ClothAnimeGirlSkirt,Skirt
+ClothAnimeGirlBrooch,Brooch
+ClothAnimeGirlDetail1,Ribbon Tie
+ClothAnimeGirlDetail2,Cloth Collar
+ClothAnimeGirlDetail3,Collar Detail
+ClothAnimeGirlRibbon,Back Ribbon
 ClothBabydollDress1Dress,Dress
 ClothBabydollDress1Trim,Trim
 ClothBodice1Base,Main
@@ -90,6 +97,14 @@ ClothEveningGownBack,Back
 ClothEveningGownBottom,Bottom
 ClothEveningGownSilk,Silk
 ClothEveningGownTop,Top
+ClothLatexHobbleDressTop,Top
+ClothLatexHobbleDressCorset,Corset
+ClothLatexHobbleDressBuckles,Corset Buckles
+ClothLatexHobbleDressSkirt,Skirt
+ClothLatexHobbleDressBelt,Lower Belts
+ClothLatexHobbleDressBBuckles,Lower Belt Buckles
+ClothLatexHobbleDressCollar,Collar
+ClothLatexHobbleDressCBuckle,Colar Buckle
 ClothYuletideVelvetWarmthBow,Bow
 ClothYuletideVelvetWarmthShawl,Shawl
 ClothYuletideVelvetWarmthShawlFur,Shawl Fur
@@ -258,10 +273,15 @@ GlassesGradientSunglassesGlass,Glass
 GlassesJokeGlassesGlasses,Glasses
 GlassesJokeGlassesHair,Hair
 GlassesJokeGlassesNose,Nose
+GlassesPincenezMain,Frame
+GlassesPincenezLenses,Lenses
+GlassesPincenezAcc,Accessory
 GlassesStreetEyewearFrame,Frame
 GlassesStreetEyewearLenses,Lenses
 GlassesVGlassesFrame,Frame
 GlassesVGlassesGlass,Lenses
+GlovesAnimeGirlGlovesGloves,Gloves
+GlovesAnimeGirlGlovesDetail,Elbow Stripe
 GlovesBikerGlovesHands,Gloves
 GlovesBikerGlovesStraps,Straps
 GlovesGlovesFurFabric,Glove
@@ -442,6 +462,9 @@ HairFrontHairFront56Main,Main
 HairFrontHairFront56MainTip,Tips
 HairFrontHairFront57Main,Main
 HairFrontHairFront57Tone,Tips
+HatAnimeGirlTiaraMain,Tiara
+HatAnimeGirlTiaraDetail,Detail
+HatAnimeGirlTiaraJewel,Jewel
 HatBallCapBackButton,Button
 HatBallCapBackPanelLeft,Panel
 HatBallCapBackSideLeft,Side
@@ -503,6 +526,9 @@ HatSanta1Fabric,Hat
 HatSanta1Fur,Fur
 HatSwimCapCap,Cap
 HatSwimCapStripes1,Pattern
+HatVintageHatMain,Hat
+HatVintageHatRibbon,Ribbon
+HatVintageHatInside,Inside
 HatWitchHat1Band,Band
 HatWitchHat1Hat,Hat
 ItemAddonCoversInner,Inner
@@ -721,6 +747,11 @@ ItemDevicesBondageBenchStraps,Straps
 ItemDevicesCageFrame,Frame
 ItemDevicesCageMesh,Mesh
 ItemDevicesCageTint,Tint
+ItemDevicesCementMainBucket,Bucket
+ItemDevicesCementMain,Material
+ItemDevicesCementStraps,Straps
+ItemDevicesCementRatchet,Ratchets
+ItemDevicesCementPole,Pole
 ItemDevicesChangingTableFrame,Frame
 ItemDevicesChangingTableTable,Tabletop
 ItemDevicesCoffinClosed,Lid (closed)
@@ -898,6 +929,13 @@ ItemFeetSturdyLeatherBeltsUpperMetal,Upper Belt
 ItemFeetTentaclesInner,Inner
 ItemFeetTentaclesOuter,Outer
 ItemFeetTentaclesSucker,Suckers
+ItemHandheldAnimeGirlWandMain,Body
+ItemHandheldAnimeGirlWandVib,Wand side
+ItemHandheldAnimeGirlWandTop,Staff side
+ItemHandheldAnimeGirlWandDiamond,Big gem
+ItemHandheldAnimeGirlWandDetail1,Central ornament
+ItemHandheldAnimeGirlWandDetail2,Spheres
+ItemHandheldAnimeGirlWandSwitch,Power switch
 ItemHandheldBunPlushBase1,Base
 ItemHandheldBunPlushBase2,Accent
 ItemHandheldFoxPlushBase1,Base
@@ -2007,6 +2045,9 @@ MouthFullLips,Lips
 MouthFullRingMiddle,Piercings
 MouthRegularLips,Lips
 MouthRegularRingMiddle,Piercings
+NecklaceAnimeGirlNecklaceNecklace,Necklace
+NecklaceAnimeGirlNecklaceDetail1,Star
+NecklaceAnimeGirlNecklaceDetail2,Jewel
 NecklaceBodyChainNecklaceChains,Chains
 NecklaceBodyChainNecklaceChoker,Choker
 NecklaceElegantHeartNecklaceJewels,Jewels
@@ -2077,6 +2118,8 @@ RightHandRingsPinkieSteel,Pinkie Ring
 RightHandRingsRingSteel,Ring Finger Ring
 RightHandRingsThumbSteel,Thumb Ring
 RightHandRingsWedding,Wedding Ring
+ShoesAnimeGirlBootsBoots,Boots
+ShoesAnimeGirlBootsDetail,Top Stripe
 ShoesAnkleBoots1Laces,Laces
 ShoesAnkleBoots1Shoes,Boots
 ShoesAnkleBoots1Sides,Edging

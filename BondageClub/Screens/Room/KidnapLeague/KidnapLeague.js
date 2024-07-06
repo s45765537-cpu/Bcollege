@@ -6,7 +6,7 @@ var KidnapLeagueTrainer = null;
 var KidnapLeagueRandomKidnapper = null;
 var KidnapLeagueRandomKidnapperScenario = "0";
 var KidnapLeagueRandomKidnapperDifficulty = 0;
-/** @type {null | "" | "Maid" | "Mistress"} */
+/** @type {null | "" | "Maid" | "Mistress" | "AnimeGirl"} */
 var KidnapLeagueArchetype = null;
 var KidnapLeagueWillPayForFreedom = false;
 var KidnapLeagueRandomActivityList = ["AddGag", "RemoveGag", "AddFeet", "RemoveFeet", "AddLegs", "RemoveLegs", "Tickle", "Spank", "Kiss", "Fondle"];
@@ -346,13 +346,17 @@ function KidnapLeagueRandomIntro() {
 	// A Mistress can pop if the player is a master kidnapper
 	if ((ReputationGet("Kidnap") >= 100) && (Math.floor(Math.random() * 10) == 0)) {
 		CharacterArchetypeClothes(KidnapLeagueRandomKidnapper, "Mistress");
-		KidnapLeagueRandomKidnapperScenario = "6";
+		KidnapLeagueRandomKidnapperScenario = "7";
 		KidnapLeagueRandomKidnapperDifficulty = 10;
 		KidnapLeagueArchetype = "Mistress";
 	} else {
-		KidnapLeagueRandomKidnapperScenario = (Math.floor(Math.random() * 6)).toString();
-		KidnapLeagueRandomKidnapperDifficulty = Math.floor(Math.random() * 6);
+		KidnapLeagueRandomKidnapperScenario = (Math.floor(Math.random() * 7)).toString();
+		KidnapLeagueRandomKidnapperDifficulty = Math.floor(Math.random() * 7);
 		KidnapLeagueArchetype = "";
+		if (KidnapLeagueRandomKidnapperScenario == "6") {
+			CharacterArchetypeClothes(KidnapLeagueRandomKidnapper, "AnimeGirl");
+			KidnapLeagueArchetype = "AnimeGirl";
+		} 
 	}
 
 	// If the player is already tied up, we skip the fight
@@ -521,7 +525,6 @@ function KidnapLeagueTransferToRoom() {
 	PrivateAddCharacter(KidnapLeagueRandomKidnapper, KidnapLeagueArchetype);
 }
 
-
 /**
  * When the player starts a club card game
  * @returns {void} - Nothing
@@ -544,4 +547,29 @@ function KidnapLeagueRandomClubCardEnd() {
 	KidnapLeagueRandomActivityCount = 0;
 	KidnapLeagueRandomKidnapper.AllowItem = MiniGameVictory;
 	KidnapLeagueRandomKidnapper.Stage = (MiniGameVictory) ? "100" : "200";
+}
+
+/**
+ * Returns TRUE if the player can get the anime girl costume
+ * @returns {boolean} - TRUE if it's possible
+ */
+function KidnapLeagueCanGetAnimeGirl() {
+	return !InventoryAvailable(Player, "AnimeGirl", "Cloth") && (KidnapLeagueArchetype == "AnimeGirl");
+}
+
+/**
+ * Gives the anime girl costume to the player and wear it
+ * @returns {void} - Nothing
+ */
+function KidnapLeagueWearAnimeGirl() {
+	CharacterArchetypeClothes(Player, "AnimeGirl");
+	ServerPlayerInventorySync();
+}
+
+/**
+ * Returns TRUE if the player is wearing the anime girl costume
+ * @returns {boolean} - TRUE if wearing
+ */
+function KidnapLeaguePlayerIsAnimeGirl() {
+	return InventoryIsWorn(Player, "AnimeGirl", "Cloth");
 }

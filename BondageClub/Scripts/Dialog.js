@@ -1604,7 +1604,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false) {
 
 		// Fifth, we add all crafted items for the player that matches that slot
 		for (const Craft of (Player.Crafting ?? [])) {
-			if (Craft == null) {
+			if (Craft == null || Craft.Disabled) {
 				continue;
 			}
 

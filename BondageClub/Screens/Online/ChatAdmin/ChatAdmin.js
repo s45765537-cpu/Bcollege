@@ -46,8 +46,9 @@ function ChatAdminLoad() {
 	if (ChatCreateLanguageList.indexOf(ChatAdminLanguage) < 0) ChatAdminLanguage = ChatCreateLanguageList[0];
 
 	// Prepares the controls to edit a room
-	ElementCreateInput("InputName", "text", roomData.Name, "20");
-	document.getElementById("InputName").setAttribute("autocomplete", "off");
+	const InputName = ElementCreateInput("InputName", "text", roomData.Name, "20");
+	InputName.setAttribute("autocomplete", "off");
+	InputName.setAttribute("pattern", "^[\x20-\x7E]+$");
 	ElementCreateInput("InputSize", "number", roomData.Limit.toString());
 	document.getElementById("InputSize").setAttribute("min", "2");
 	document.getElementById("InputSize").setAttribute("max", "20");

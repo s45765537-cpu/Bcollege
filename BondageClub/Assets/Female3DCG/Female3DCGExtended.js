@@ -439,7 +439,10 @@ var AssetFemale3DCGExtended = {
 						{}, // t8 - Raiders
 						{}, // t9 - WhiteMoon
 						{}, // t10 - ZamStick
-						{}, // t10 - Eclipse
+						{}, // t11 - Eclipse
+						{}, // t12 - RadFrog
+						{}, // t13 - ZamStickII
+						{}, // t14 - Hornywood
 					],
 				},
 			],
@@ -691,6 +694,89 @@ var AssetFemale3DCGExtended = {
 			},
 			BaselineProperty: { Opacity: 1 },
 		}, // FrilledShirt
+		LatexHobbleDress: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Top",
+					Key: "t",
+					Options: [
+						{
+							// t0 - Solid 
+							Property: { Effect: [] },
+						},
+						{
+							// t1 - Oval Cleavage
+							Property: { Effect: [] },
+						},
+					],
+				},
+				{
+					Name: "CollarOpt",
+					Key: "c",
+					Options: [
+						{
+							// c0 - None
+							Property: { Effect: [] },
+						},
+						{
+							// c1 - Collar
+							Property: { Effect: [] },
+						},
+					],
+				},
+				{
+					Name: "SkirtOpt",
+					Key: "k",
+					Options: [
+						{
+							// k0 - Knee Area
+							Property: { Effect: [] },
+						},
+						{
+							// k1 - Ankle Area
+							Property: { Effect: [ E.Slow ] },
+						},
+					],
+				},
+				{
+					Name: "EndSkirt",
+					Key: "r",
+					Options: [
+						{
+							// r0 - Normal
+							Property: { Effect: [] },
+						},
+						{
+							// r1 - Mermaid Type
+							Property: { Effect: [] },
+						},
+					],
+				},
+				{
+					Name: "Belt",
+					Key: "b",
+					Options: [
+						{
+							// b0 - None
+							Property: { Effect: [] },
+						},
+						{
+							// b1 - Knee Strap Limiter
+							Property: { Effect: [ E.Slow ] },
+						},
+						{
+							// b2 - Ankle Strap Limiter
+							Property: { Effect: [ E.Slow ] },
+						},
+						{
+							// b3 - Both Straps Limiter
+							Property: { Effect: [ E.Slow ] },
+						},
+					],
+				},
+			],
+		}, // LatexHobbleDress
 	}, // Cloth
 	BodyMarkings: {
 		WombTattoos: {
@@ -906,22 +992,22 @@ var AssetFemale3DCGExtended = {
 		HairBack58: {
 			Archetype: ExtendedArchetype.TYPED,
 			DrawImages: false,
-			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, {Name: "RightOnly"}],
+			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, { Name: "RightOnly" }],
 		},
 		HairBack58b: {
 			Archetype: ExtendedArchetype.TYPED,
 			DrawImages: false,
-			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, {Name: "RightOnly"}],
+			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, { Name: "RightOnly" }],
 		},
 		HairBack60: {
 			Archetype: ExtendedArchetype.TYPED,
 			DrawImages: false,
-			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, {Name: "RightOnly"}],
+			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, { Name: "RightOnly" }],
 		}, // HairBack60
 		HairBack61: {
 			Archetype: ExtendedArchetype.TYPED,
 			DrawImages: false,
-			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, {Name: "RightOnly"}],
+			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, { Name: "RightOnly" }],
 		}, // HairBack61
 	},
 	ClothAccessory: {
@@ -1146,10 +1232,7 @@ var AssetFemale3DCGExtended = {
 		}, //PantBoots
 		SatinSkirt: {
 			Archetype: ExtendedArchetype.TYPED,
-			Options: [
-				{ Name: "Long" },
-				{ Name: "Mid" },
-			],
+			Options: [{ Name: "Long" }, { Name: "Mid" }],
 		}, //SatinSkirt
 	}, // ClothLower
 	SocksLeft: {
@@ -8807,6 +8890,100 @@ var AssetFemale3DCGExtended = {
 			],
 			ChangeWhenLocked: false,
 		}, // OneBarGirl
+		Cement: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Pole",
+					Key: "p",
+					Options: [
+						{
+							// p0 - None
+							Property: {
+								Difficulty: 0,
+							},
+						},
+						{
+							// p1 - Ankles
+							Property: {
+								Effect: [E.BlockWardrobe, E.Freeze],
+								Difficulty: 3,
+							},
+						},
+						{
+							// p2 - UnderKnee
+							Property: {
+								Effect: [E.BlockWardrobe, E.Freeze],
+								Difficulty: 4,
+							},
+						},
+						{
+							// p3 - FullLegs
+							Property: {
+								Effect: [E.BlockWardrobe, E.Freeze],
+								Difficulty: 6,
+							},
+						},
+					],
+				},
+				{
+					Name: "Material",
+					Key: "c",
+					Options: [
+						{
+							// c0 - None
+							Property: {},
+						},
+						{
+							// c1 - Foam
+							Property: {
+								Effect: [E.BlockWardrobe, E.Slow],
+								Difficulty: 6,
+							},
+						},
+						{
+							// c2 - Slime
+							Property: {
+								Effect: [E.BlockWardrobe, E.Freeze],
+								Difficulty: 8,
+							},
+						},
+						{
+							// c3 - Glue
+							Property: {
+								Effect: [E.BlockWardrobe, E.Freeze],
+								Difficulty: 10,
+							},
+						},
+						{
+							// c4 - Cement
+							Property: {
+								Effect: [E.BlockWardrobe, E.Freeze],
+								Difficulty: 16,
+							},
+						},
+					],
+				},
+				{
+					Name: "Bucket",
+					Key: "b",
+					Options: [
+						{
+							// b0 - With Bucket
+							Property: {
+								Effect: [E.BlockWardrobe, E.Slow],
+								Difficulty: 2,
+							},
+						},
+						{
+							// b1 - No Bucket
+							Property: {},
+						},
+					],
+				},
+			],
+			ChangeWhenLocked: false,
+		}, // Cement
 	}, // ItemDevices
 	ItemBoots: {
 		ToeTape: {
@@ -14184,6 +14361,40 @@ var AssetFemale3DCGExtended = {
 			},
 			DrawImages: false,
 		}, // StreetEyewear
+		Pincenez: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "NoAcc",
+					Property: {
+						OverridePriority: 27,
+					},
+				},
+				{
+					Name: "NoAccOver",
+					Property: {
+						OverridePriority: 53,
+					},
+				},
+				{
+					Name: "Acc",
+					Property: {
+						OverridePriority: 27,
+					},
+				},
+				{
+					Name: "AccOver",
+					Property: {
+						OverridePriority: 53,
+					},
+				},
+			],
+			DialogPrefix: {
+				Header: "PincenezSelectType",
+				Option: "PincenezType",
+			},
+			DrawImages: false,
+		}, // Pincenez
 	}, // Glasses
 	Bracelet: {
 		Band1: {
@@ -14347,10 +14558,7 @@ var AssetFemale3DCGExtended = {
 		}, // WarmGloves
 		OperaGloves: {
 			Archetype: ExtendedArchetype.TYPED,
-			Options: [
-				{ Name: "Long" },
-				{ Name: "Default" },
-			],
+			Options: [{ Name: "Long" }, { Name: "Default" }],
 			DrawImages: false,
 		}, // OperaGloves
 	}, // Gloves
@@ -15240,6 +15448,13 @@ var AssetFemale3DCGExtended = {
 						Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
 						Block: ["ItemHandheld"],
 						Hide: ["ItemHandheld"],
+						HideItemExclude: [
+							"ItemHandheldFoxPlush",
+							"ItemHandheldBunPlush",
+							"ItemHandheldKarl",
+							"ItemHandheldShark",
+							"ItemHandheldPetPotato",
+						],
 					},
 				},
 				{
@@ -15265,6 +15480,15 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Unchained",
+					Property: {
+						HideItemExclude: [
+							"ItemHandheldFoxPlush",
+							"ItemHandheldBunPlush",
+							"ItemHandheldKarl",
+							"ItemHandheldShark",
+							"ItemHandheldPetPotato",
+						],
+					},
 				},
 				{
 					Name: "Chained",
@@ -15285,6 +15509,15 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Unchained",
+					Property: {
+						HideItemExclude: [
+							"ItemHandheldFoxPlush",
+							"ItemHandheldBunPlush",
+							"ItemHandheldKarl",
+							"ItemHandheldShark",
+							"ItemHandheldPetPotato",
+						],
+					},
 				},
 				{
 					Name: "Chained",
@@ -15299,20 +15532,7 @@ var AssetFemale3DCGExtended = {
 		}, // PonyMittensBinder
 		ElbowLengthMittens: {
 			Archetype: ExtendedArchetype.TYPED,
-			Options: [
-				{
-					Name: "Unchained",
-				},
-				{
-					Name: "Chained",
-					Prerequisite: ["NoItemArms"],
-					Property: {
-						SetPose: ["BackElbowTouch"],
-						Block: ["ItemArms"],
-						Difficulty: 10,
-					},
-				},
-			],
+			CopyConfig: { AssetName: "PonyMittensBinder" },
 		}, // ElbowLengthMittens
 	}, // ItemHands
 	ItemAddon: {
@@ -15447,6 +15667,23 @@ var AssetFemale3DCGExtended = {
 			},
 			BaselineProperty: { PortalLinkCode: "" },
 		}, // PortalTablet
+		AnimeGirlWand: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Staff",
+					Property: {
+						AllowActivity: ["SpankItem"],
+					},
+				},
+				{
+					Name: "Wand",
+					Property: {
+						AllowActivity: ["MasturbateItem", "RubItem"],
+					},
+				},
+			],
+		}, // AnimeGirlWand
 	}, // ItemHandheld
 	EyeShadow: {
 		CatEye: {

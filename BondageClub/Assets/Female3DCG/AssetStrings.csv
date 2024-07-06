@@ -569,6 +569,9 @@ ClothCustomTShirtOptiont0,None
 ClothCustomTShirtOptiont1,Bondage College
 ClothCustomTShirtOptiont10,Zam's Stick Art
 ClothCustomTShirtOptiont11,Eclipse
+ClothCustomTShirtOptiont12,Cesium Frog
+ClothCustomTShirtOptiont13,Zam's Stick ArtII
+ClothCustomTShirtOptiont14,Hornyhood
 ClothCustomTShirtOptiont2,BTG
 ClothCustomTShirtOptiont3,Dominant
 ClothCustomTShirtOptiont4,Bonk!
@@ -5097,7 +5100,68 @@ NecklacePearlNecklace1ModuleOption3,Choker
 NecklacePearlNecklace1SelectOption3,Choker style:
 NecklacePearlNecklace1Optiono0,None
 NecklacePearlNecklace1Optiono1,Placed
-QualityHarnessGagSetBallGag,SourceCharacter attaches ball gag to DestinationCharacter gag harness.
+ItemHandheldAnimeGirlWandSelect,Choose your Power Staff stance:
+ItemHandheldAnimeGirlWandStaff,A (spanker) staff
+ItemHandheldAnimeGirlWandSetStaff,SourceCharacter transform the Power Staff into Wand
+ItemHandheldAnimeGirlWandWand,A (kinky) wand
+ItemHandheldAnimeGirlWandSetWand,SourceCharacter transform the Power Staff into Staff
+ItemDevicesCementSelectBase,Pole, material and bucket menu:
+ItemDevicesCementModulePole,Pole and ratchets
+ItemDevicesCementSelectPole,Choose restraint lenght:
+ItemDevicesCementOptionp0,None
+ItemDevicesCementOptionp1,Just ankles
+ItemDevicesCementOptionp2,Lower legs
+ItemDevicesCementOptionp3,Full legs
+ItemDevicesCementModuleMaterial,Material to fill
+ItemDevicesCementSelectMaterial,Choose material to fill her/him feet:
+ItemDevicesCementOptionc0,None
+ItemDevicesCementOptionc1,Expanding foam
+ItemDevicesCementOptionc2,Slime
+ItemDevicesCementOptionc3,Glue
+ItemDevicesCementOptionc4,Cement
+ItemDevicesCementModuleBucket,Bucket option
+ItemDevicesCementSelectBucket,Remove or keep the bucket:
+ItemDevicesCementOptionb0,Keep bucket
+ItemDevicesCementOptionb1,Remove bucket
+ItemDevicesCementSetp0,SourceCharacter frees DestinationCharacterName legs from ratchets.
+ItemDevicesCementSetp1,SourceCharacter ties DestinationCharacterName ankles with ratchets.
+ItemDevicesCementSetp2,SourceCharacter ties DestinationCharacterName lower legs ankles with ratchets.
+ItemDevicesCementSetp3,SourceCharacter ties DestinationCharacterName legs completely ankles with ratchets.
+ItemDevicesCementSetb0,SourceCharacter puts DestinationCharacterName feet in the bucket.
+ItemDevicesCementSetb1,SourceCharacter removes the bucket from DestinationCharacterName feet.
+ItemDevicesCementSetc0,SourceCharacter frees DestinationCharacterName feet.
+ItemDevicesCementSetc1,SourceCharacter fills DestinationCharacterName feet with expanding foam.
+ItemDevicesCementSetc2,SourceCharacter fills DestinationCharacterName feet with hard slime.
+ItemDevicesCementSetc3,SourceCharacter fills DestinationCharacterName feet with atoxic glue.
+ItemDevicesCementSetc4,SourceCharacter fills DestinationCharacterName feet with quick drying cement.
+ClothLatexHobbleDressSelectBase,Customize your Strict Hobble Dress:
+ClothLatexHobbleDressModuleTop,Top dress
+ClothLatexHobbleDressSelectTop,Cleavage option:
+ClothLatexHobbleDressOptiont0,No cleavage
+ClothLatexHobbleDressOptiont1,Cleavege
+ClothLatexHobbleDressModuleCollarOpt,Collar
+ClothLatexHobbleDressSelectCollarOpt,Collar option:
+ClothLatexHobbleDressOptionc0,None
+ClothLatexHobbleDressOptionc1,Collar
+ClothLatexHobbleDressModuleSkirtOpt,Skirt length
+ClothLatexHobbleDressSelectSkirtOpt,Skirt lenght option:
+ClothLatexHobbleDressOptionk0,Knee lenght
+ClothLatexHobbleDressOptionk1,Full lenght (Slow)
+ClothLatexHobbleDressModuleEndSkirt,Skirt end
+ClothLatexHobbleDressSelectEndSkirt,End skirt option:
+ClothLatexHobbleDressOptionr0,Normal
+ClothLatexHobbleDressOptionr1,Mermaid style
+ClothLatexHobbleDressModuleBelt,Leg belts
+ClothLatexHobbleDressSelectBelt,Leg belts option:
+ClothLatexHobbleDressOptionb0,None
+ClothLatexHobbleDressOptionb1,Belt below the knee (Slow)
+ClothLatexHobbleDressOptionb2,Ankle belt (Slow)
+ClothLatexHobbleDressOptionb3,Belts in both positions (Slow)
+PincenezSelectType,Select a style:
+PincenezTypeNoAcc,Normal
+PincenezTypeNoAccOver,Normal over hair
+PincenezTypeAcc,With accessory
+PincenezTypeAccOver,With accessory over hairQualityHarnessGagSetBallGag,SourceCharacter attaches ball gag to DestinationCharacter gag harness.
 QualityHarnessGagSetRingGag,SourceCharacter attaches ring gag to DestinationCharacter gag harness.
 QualityHarnessGagTypeRingGag,Ring Gag
 QualityHarnessGagTypeBallGag,Ball Gag

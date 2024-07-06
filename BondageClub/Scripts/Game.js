@@ -29,7 +29,7 @@ function GameStart() {
 	TranslationLoad();
 	DrawLoad();
 	AssetLoadAll();
-	//AssetInventoryIDValidate(); // COMMENT WHEN RELEASING
+	AssetInventoryIDValidate();
 	CommandsLoad();
 	ControllerStart();
 	CommonSetScreen("Character", "Login");
@@ -173,9 +173,17 @@ function GameKeyDown(event) {
 	KeyPress = event.keyCode || event.which;
 	if (ControllerIsActive() && ControllerSupportKeyDown(event)) {
 		handled = true;
-	} else if (event.key == "Escape" && CurrentScreenFunctions.Exit) {
-		CurrentScreenFunctions.Exit();
-		handled = true;
+	} else if (
+		event.key == "Escape"
+		&& !(event.shiftKey || event.altKey || event.metaKey || event.ctrlKey)
+	) {
+		if (document.activeElement instanceof HTMLElement && !(document.activeElement === document.body || document.activeElement.id === "MainCanvas")) {
+			document.activeElement.blur();
+			handled = true;
+		} else if (CurrentScreenFunctions.Exit) {
+			CurrentScreenFunctions.Exit();
+			handled = true;
+		}
 	} else if (DialogKeyDown(event)) {
 		handled = true;
 	} else if (CurrentScreenFunctions.KeyDown && CurrentScreenFunctions.KeyDown(event)) {

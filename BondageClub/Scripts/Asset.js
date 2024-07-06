@@ -1145,10 +1145,19 @@ function AssetInventoryIDScenarioItem() {
  * Launched each time the game is started for assets maker to apply corrections
  * Outputs all possible errors in the console log, it runs aynscronious
  */
-async function AssetInventoryIDValidate() {
+async function AssetInventoryIDValidate() {	
+
+	// Skips these validations in production environments
+	let URL = window.location.href.toLowerCase();
+	if (URL.includes("bondageprojects.elementfx.com")) return;
+	if (URL.includes("bondageprojects.com")) return;
+	if (URL.includes("bondage-europe.com")) return;
+
+	// Launch all individuals validations
 	AssetInventoryIDMissing();
 	AssetInventoryIDUnnecessary();
 	AssetInventoryIDBuyGroupSearch();
 	AssetInventoryIDDuplicatedSearch();
 	AssetInventoryIDScenarioItem();
+
 }
