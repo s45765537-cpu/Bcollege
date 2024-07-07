@@ -34481,9 +34481,8 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "QualityHarnessGag",
-				InventoryID: 192, // change later
+				InventoryID: 1158,
 				Fetish: ["Leather"],
-				BuyGroup: "QualityHarnessGag",
 				Value: 50,
 				Difficulty: 5,
 				Time: 10,

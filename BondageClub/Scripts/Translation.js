@@ -205,6 +205,7 @@ var TranslationDictionary = [
 			"Assets/Female3DCG/Female3DCG_RU.txt",
 			"Assets/Female3DCG/ColorGroups_RU.txt",
 			"Assets/Female3DCG/LayerNames_RU.txt",
+			"Assets/Female3DCG/AssetStrings_RU.txt",
 			"Backgrounds/Backgrounds_RU.txt",
 			"Screens/Character/Appearance/Text_Appearance_RU.txt",
 			"Screens/Character/BackgroundSelection/Text_BackgroundSelection_RU.txt",
