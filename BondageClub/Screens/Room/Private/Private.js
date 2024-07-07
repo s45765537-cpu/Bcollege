@@ -2364,7 +2364,7 @@ function PrivatePlayerUngag(LoveFactor) {
  */
 function PrivateStartOwnerHallActivity() {
 	let Activity = CommonRandomItemFromList(null, ["BringToPrivate", "NudeParade", "Bondage"]);
-	Activity = "BringToPrivate";  // TO REMOVE
+	Activity = "Bondage";  // TO REMOVE
 	CurrentCharacter.Stage = "MeetOwnerInMainHall" + Activity + "0";
 	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, "MeetOwnerInMainHall" + Activity + "Intro");
 }
@@ -2375,4 +2375,14 @@ function PrivateStartOwnerHallActivity() {
  */
 function PrivateOwnerHallReturnToPrivate() {
 	PrivateBackground = ((Player.VisualSettings) && (Player.VisualSettings.PrivateRoomBackground)) ? Player.VisualSettings.PrivateRoomBackground : "Private";
+}
+
+/**
+ * Restrains the player with a factor
+ * @param {"FEW"|"LOT"|"ALL"} BondageType - The type of bondage to apply
+ * @returns {void} - Nothing.
+ */
+function PrivateOwnerHallBondage(BondageType) {
+	CharacterFullRandomRestrain(Player, BondageType);
+	CommonSetScreen("Room", "MainHall");
 }
