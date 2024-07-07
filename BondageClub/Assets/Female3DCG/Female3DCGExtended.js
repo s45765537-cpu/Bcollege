@@ -11364,6 +11364,27 @@ var AssetFemale3DCGExtended = {
 				Chat: "ItemMouthLatexRespiratorSet",
 			},
 		}, //LatexRespirator
+		QualityHarnessGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			ChangeWhenLocked: false,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "BallGag",
+					Property: {
+						Effect: [E.BlockMouth],
+					},
+				},
+				{
+					Name: "RingGag",
+				},
+			],
+			DialogPrefix: {
+				Header: "SelectGagType",
+				Option: "QualityHarnessGagType",
+				Chat: "QualityHarnessGagSet",
+			},
+		}, // QualityHarnessGag
 	}, // ItemMouth
 	ItemMouth2: {
 		ClothGag: {
@@ -11519,6 +11540,10 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // FunnelGag
+		QualityHarnessGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "QualityHarnessGag" },
+		}, // QualityHarnessGag
 	}, // ItemMouth2
 	ItemMouth3: {
 		ClothGag: {
@@ -11674,6 +11699,10 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // FunnelGag
+		QualityHarnessGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "QualityHarnessGag" },
+		}, // QualityHarnessGag
 	}, // ItemMouth3
 	Mask: {
 		BunnyMask1: {

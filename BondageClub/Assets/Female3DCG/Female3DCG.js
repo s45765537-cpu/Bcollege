@@ -34479,6 +34479,48 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "QualityHarnessGag",
+				InventoryID: 192, // change later
+				Fetish: ["Leather"],
+				BuyGroup: "QualityHarnessGag",
+				Value: 50,
+				Difficulty: 5,
+				Time: 10,
+				AllowLock: true,
+				AllowTighten: true,
+				Prerequisite: "GagUnique",
+				Hide: ["Mouth"],
+				Effect: [E.GagMedium],
+				DefaultColor: ["#8E0000", "Default", "#121212", "#242424", "#D7D7D7"],
+				ExpressionTrigger: [{ Name: "DroolSides", Group: "Fluids", Timer: 30 }],
+				Extended: true,
+				Layer: [
+					{
+						Name: "Ball",
+						AllowTypes: { typed: 0},
+					},
+					{
+						Name: "BallShine",
+						AllowTypes: { typed: 0},
+					},
+					{
+						Name: "Ring",
+						AllowTypes: { typed: 1},
+					},
+					{
+						Name: "Mouth",
+						AllowTypes: { typed: 1},
+						AllowColorize: false,
+					},
+					{ Name: "Straps"},
+					{ Name: "Metal"},
+					{
+						Name: "Teeth",
+						AllowColorize: false,
+					},
+				],
+			},
 		],
 		Color: [
 			"Default",
@@ -36502,6 +36544,14 @@ var AssetFemale3DCG = [
 					BuyGroup: true,
 				},
 			},
+			{
+				Name: "QualityHarnessGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "QualityHarnessGag",
+					BuyGroup: true,
+				},
+			},
 		],
 		Color: [
 			"Default",
@@ -38505,6 +38555,14 @@ var AssetFemale3DCG = [
 				CopyConfig: {
 					GroupName: "ItemMouth",
 					AssetName: "TongueStrapGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "QualityHarnessGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "QualityHarnessGag",
 					BuyGroup: true,
 				},
 			},

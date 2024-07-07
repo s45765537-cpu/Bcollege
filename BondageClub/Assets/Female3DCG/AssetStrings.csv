@@ -5161,4 +5161,7 @@ PincenezSelectType,Select a style:
 PincenezTypeNoAcc,Normal
 PincenezTypeNoAccOver,Normal over hair
 PincenezTypeAcc,With accessory
-PincenezTypeAccOver,With accessory over hair
+PincenezTypeAccOver,With accessory over hairQualityHarnessGagSetBallGag,SourceCharacter attaches ball gag to DestinationCharacter gag harness.
+QualityHarnessGagSetRingGag,SourceCharacter attaches ring gag to DestinationCharacter gag harness.
+QualityHarnessGagTypeRingGag,Ring Gag
+QualityHarnessGagTypeBallGag,Ball Gag
