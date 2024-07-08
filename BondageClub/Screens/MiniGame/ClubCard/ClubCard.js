@@ -1665,6 +1665,11 @@ var ClubCardList = [
 			if(mommyCount > 0) {
 				ClubCardLogPublish("Effect Daycare Party", CCPlayer, mommyCount);
 			}
+		},
+		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
+			return true;
 		}
 	},
 	{
@@ -1673,6 +1678,8 @@ var ClubCardList = [
 		Type: "Event",
 		Time: 4,
 		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
 			const collegeCards = CCPlayer.Board.filter(
 				card => ClubCardCardHasGroup(card, "CollegeStudent") || ClubCardCardHasGroup(card, "CollegeTeacher")
 			);
@@ -1693,6 +1700,11 @@ var ClubCardList = [
 			ClubCardPlayerDrawCard(CCPlayer, 2);
 			ClubCardPlayerAddMoney(CCPlayer, abdlAndCollegeBonus);
 			ClubCardLogPublish("Effect Recess", CCPlayer, abdlAndCollegeBonus);
+		},
+		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
+			return true;
 		}
 	},
 	{
@@ -1715,6 +1727,11 @@ var ClubCardList = [
 		},
 		BeforeOpponentTurnEnd: function() {
 			this.ExtraPlay = 0;
+		},
+		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
+			return true;
 		}
 	}
 ];
