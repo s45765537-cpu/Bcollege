@@ -2364,13 +2364,12 @@ function PrivatePlayerUngag(LoveFactor) {
  */
 function PrivateStartOwnerHallActivity() {
 	let Activity = CommonRandomItemFromList(null, ["BringToPrivate", "NudeParade", "Bondage"]);
-	Activity = "Bondage";  // TO REMOVE
 	CurrentCharacter.Stage = "MeetOwnerInMainHall" + Activity + "0";
 	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, "MeetOwnerInMainHall" + Activity + "Intro");
 }
 
 /**
- * When the player returns to her private room with her owner
+ * Owner in Main Hall - When the player returns to her private room with her owner
  * @returns {void} - Nothing.
  */
 function PrivateOwnerHallReturnToPrivate() {
@@ -2378,11 +2377,78 @@ function PrivateOwnerHallReturnToPrivate() {
 }
 
 /**
- * Restrains the player with a factor
+ * Owner in Main Hall - Restrains the player with a factor
  * @param {"FEW"|"LOT"|"ALL"} BondageType - The type of bondage to apply
  * @returns {void} - Nothing.
  */
 function PrivateOwnerHallBondage(BondageType) {
 	CharacterFullRandomRestrain(Player, BondageType);
 	CommonSetScreen("Room", "MainHall");
+	PrivateBackground = "Private";
+}
+
+/**
+ * Owner in Main Hall - Strips the player
+ * @returns {void} - Nothing.
+ */
+function PrivateOwnerHallNaked() {
+	CharacterRelease(Player);
+	CharacterNaked(Player);
+	CharacterSetFacialExpression(Player, "Blush", "Medium", 10);
+}
+
+/**
+ * Owner in Main Hall - Change collar and leash the player
+ * @returns {void} - Nothing.
+ */
+function PrivateOwnerHallLeash() {
+	let Item = InventoryGet(Player, "ItemNeck");
+	if (Item !== null) {
+		let NewProperty = Item.Property;
+		while (NewProperty == Item.Property)
+			Item.Property = CommonCloneDeep(CommonRandomItemFromList(null, InventoryItemNeckSlaveCollarTypes).Property);
+		CharacterRefresh(Player, true);
+	}
+	CharacterSetFacialExpression(Player, "Eyes", "Sad", 10);
+	CharacterSetFacialExpression(Player, "Eyes2", "Sad", 10);
+	InventoryWear(Player, "ChainLeash", "ItemNeckRestraints");
+}
+
+/**
+ * Owner in Main Hall - Changes the background and can bind/gag the player
+ * @param {string} Background - The new background to setup
+ * @param {string} Action - The action to perform
+ * @returns {void} - Nothing.
+ */
+function PrivateOwnerHallBackground(Background, Action) {
+	if (Background == "") Background = "MainHall";
+	PrivateBackground = Background;
+	if (Action === "Bind") {
+		PrivateNPCInteraction(-3);
+		InventoryWearRandom(Player, "ItemMouth");
+		InventoryWearRandom(Player, "ItemArms");
+		CharacterSetFacialExpression(Player, "Blush", "Medium", 10);
+		CharacterSetFacialExpression(Player, "Eyes", "Angry", 10);
+		CharacterSetFacialExpression(Player, "Eyes2", "Angry", 10);
+	}
+}
+
+/**
+ * Owner in Main Hall - Ends the parade and can do an extra action
+ * @param {string} Action - The action to perform
+ * @returns {void} - Nothing.
+ */
+function PrivateOwnerHallParadeEnd(Action) {
+	CommonSetScreen("Room", "MainHall");
+	PrivateBackground = "Private";
+	InventoryRemove(Player, "ItemNeckRestraints");
+	if (Action === "Release") {
+		PrivateNPCInteraction(3);
+		InventoryRemove(Player, "ItemMouth");
+		InventoryRemove(Player, "ItemArms");
+	}
+	if (Action === "Lock") {
+		PrivateNPCInteraction(-3);
+		PrivateBlockChange(15);
+	}
 }
