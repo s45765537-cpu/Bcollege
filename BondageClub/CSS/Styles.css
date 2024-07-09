@@ -352,17 +352,33 @@ textarea {
 	text-shadow: 0 0 0.12em rgba(255, 255, 255, .4);
 }
 
+#TextAreaChatLog[data-colortheme="light"][data-colornames=false] .ChatMessageName:hover {
+	text-shadow: 0.05em 0.05em black;
+}
+
 #TextAreaChatLog[data-colortheme="dark"] .ChatMessageName:hover {
 	color: white;
 	text-shadow: 0.05em 0.05em var(--label-color);
 }
+#TextAreaChatLog[data-colortheme="dark"][data-colornames=false] .ChatMessageName:hover {
+	text-shadow: 0.05em 0.05em white;
+	outline: black;
+}
+
 #TextAreaChatLog[data-colortheme="light2"] .ChatMessageName:hover {
 	color: black;
 	text-shadow: 0 0 0.12em var(--label-color);
 }
+#TextAreaChatLog[data-colortheme="light2"][data-colornames=false] .ChatMessageName:hover {
+	text-shadow: 0 0 0.12em black;
+}
+
 #TextAreaChatLog[data-colortheme="dark2"] .ChatMessageName:hover {
 	color: white;
 	text-shadow: 0 0 0.12em var(--label-color);
+}
+#TextAreaChatLog[data-colortheme="dark2"][data-colornames=false] .ChatMessageName:hover {
+	text-shadow: 0 0 0.12em white;
 }
 
 #TextAreaChatLog[data-colortheme=dark] .ChatMessageWhisper, #TextAreaChatLog[data-colortheme="dark2"] .ChatMessageWhisper {
