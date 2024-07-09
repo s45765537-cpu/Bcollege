@@ -169,26 +169,41 @@ function GameRunBackground(Timestamp) {
  * @param {KeyboardEvent} event
  */
 function GameKeyDown(event) {
-	let handled = false;
 	KeyPress = event.keyCode || event.which;
-	if (ControllerIsActive() && ControllerSupportKeyDown(event)) {
-		handled = true;
-	} else if (
-		event.key == "Escape"
-		&& !(event.shiftKey || event.altKey || event.metaKey || event.ctrlKey)
-	) {
-		if (document.activeElement instanceof HTMLElement && !(document.activeElement === document.body || document.activeElement.id === "MainCanvas")) {
-			document.activeElement.blur();
+
+	let handled = false;
+	handleKeyDown: {
+		if (ControllerIsActive() && ControllerSupportKeyDown(event)) {
 			handled = true;
-		} else if (CurrentScreenFunctions.Exit) {
-			CurrentScreenFunctions.Exit();
-			handled = true;
+			break handleKeyDown;
 		}
-	} else if (DialogKeyDown(event)) {
-		handled = true;
-	} else if (CurrentScreenFunctions.KeyDown && CurrentScreenFunctions.KeyDown(event)) {
-		handled = true;
+
+		if (
+			event.key == "Escape"
+			&& !(event.shiftKey || event.altKey || event.metaKey || event.ctrlKey)
+		) {
+			if (document.activeElement instanceof HTMLElement && !(document.activeElement === document.body || document.activeElement.id === "MainCanvas")) {
+				document.activeElement.blur();
+				handled = true;
+				break handleKeyDown;
+			} else if (CurrentScreenFunctions.Exit) {
+				CurrentScreenFunctions.Exit();
+				handled = true;
+				break handleKeyDown;
+			}
+		}
+
+		if (DialogKeyDown(event)) {
+			handled = true;
+			break handleKeyDown;
+		}
+
+		if (CurrentScreenFunctions.KeyDown && CurrentScreenFunctions.KeyDown(event)) {
+			handled = true;
+			break handleKeyDown;
+		}
 	}
+
 
 	if (handled) {
 		event.preventDefault();
