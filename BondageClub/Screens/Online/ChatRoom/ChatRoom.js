@@ -4104,6 +4104,13 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 				": ",
 				displayMessage,
 			);
+
+			if (!whisperTarget.IsPlayer()) {
+				document.querySelector(`
+					#TextAreaChatLog .ChatMessageWhisper[data-sender="${whisperTarget.MemberNumber}"] > .ReplyButton:not([tabindex='-1']),
+					#TextAreaChatLog .ChatMessageWhisper[data-target="${whisperTarget.MemberNumber}"] > .ReplyButton:not([tabindex='-1'])
+				`)?.setAttribute("tabindex", "-1");
+			}
 			break;
 		}
 
