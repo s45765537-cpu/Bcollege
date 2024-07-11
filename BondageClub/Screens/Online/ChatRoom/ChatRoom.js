@@ -1969,8 +1969,13 @@ function ChatRoomChatInputChangeHandler(event) {
 	if (needsUpdate) {
 		const percentage = 100 * (inputHeight / parentHeight);
 		if (percentage >= 9 && percentage <= 35) {
+			const isScrolledToEnd = ElementIsScrolledToEnd("TextAreaChatLog");
+
 			// At ~34% the maximum resize height has been reached and there is no point in trying to expand it any further
 			parent.style.gridTemplateRows = `${100 - 0.4 - percentage}% ${percentage}%`;
+			if (isScrolledToEnd) {
+				ElementScrollToEnd("TextAreaChatLog");
+			}
 		}
 	}
 }
@@ -4099,6 +4104,13 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 				": ",
 				displayMessage,
 			);
+
+			if (!whisperTarget.IsPlayer()) {
+				document.querySelector(`
+					#TextAreaChatLog .ChatMessageWhisper[data-sender="${whisperTarget.MemberNumber}"] > .ReplyButton:not([tabindex='-1']),
+					#TextAreaChatLog .ChatMessageWhisper[data-target="${whisperTarget.MemberNumber}"] > .ReplyButton:not([tabindex='-1'])
+				`)?.setAttribute("tabindex", "-1");
+			}
 			break;
 		}
 

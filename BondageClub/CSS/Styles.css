@@ -44,6 +44,7 @@ textarea {
 
 .chat-room-sep {
 	padding-left: unset !important;
+	margin-left: 3px;
 	border-bottom: min(0.4vh, 0.2vw) black solid !important;
 	border-top: min(0.4vh, 0.2vw) black solid !important;
 	position: sticky !important;
@@ -486,6 +487,9 @@ textarea {
 	cursor: pointer;
 	border: none !important;
 	background-color: unset !important;
+	font-size: smaller;
+	margin-top: 3px;
+	margin-bottom: 3px;
 }
 #FriendList {
 	border: 2px solid white;
