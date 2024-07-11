@@ -364,6 +364,12 @@ ClubCardVsSubDefeat,,,"What?  Did I win?  Hahaha, awesome!  Mistress, I'm allowe
 0,,,"If evil comes, I will smack it!  Benzai!  (She almost hurts herself punching a wall.)",,IsAnimeGirl(),IntroAnimeGirl,Violent|Dumb
 0,,,Time is of the essence sister.   We shall foment the perfect plan to protect the Seven Prisms of the moon.,,IsAnimeGirl(),IntroAnimeGirl,Peaceful|Polite
 0,,,This is the perfect lair to shield ourselves against evil.  Heavenly Light shall prevail!,,IsAnimeGirl(),IntroAnimeGirl,Serious|Wise
+0,,,(She wiggles her butt like a bunny.)  What's up doc?,,IsBunny(),IntroBunny,
+0,,,"(She wiggles her butt and winks at you.)  Beside bondage, we bunnies also do very naughty activities every day.  Are you in?",,IsBunny(),IntroBunny,Submissive|Horny
+0,,,(She wiggles her butt like a bunny.)  What's up gurl?  You will hop for me?,,IsBunny(),IntroBunny,Dominant|Rude
+0,,,(She wiggles her butt like a bunny.)  I'm not eating carrots but I can use them in other ways.,,IsBunny(),IntroBunny,Violent|Dumb
+0,,,(She wiggles her butt in a bunny fashion.)  Do you have plans my friend?  What kind of rope bunny trouble could we get into today?,,IsBunny(),IntroBunny,Peaceful|Polite
+0,,,Let's find a way to get into strict rope bunny bondage together today.  We could maybe find a rigger in the dojo.,,IsBunny(),IntroBunny,Serious|Wise
 0,,,What's on your mind?,,,Intro,
 0,,,This place is kind of sexy.  What would you like to do?,,,Intro,Horny
 0,,,"Cool room you have there.  So, what's up?",,,Intro,Rude
@@ -1596,6 +1602,12 @@ PunishAsylum,1000,You're right Mistress.  (Go to the asylum.),,RunPunishment(1),
 2000,,,"Fear not Mistress!  If evil comes, I will smack it!  Benzai!  (She almost hurts herself punching a wall.)",,IsAnimeGirl(),SubIntroAnimeGirl,Violent|Dumb
 2000,,,Time is of the essence Mistress.   I will help you foment the perfect plan to protect the Seven Prisms of the moon.,,IsAnimeGirl(),SubIntroAnimeGirl,Peaceful|Polite
 2000,,,This is the perfect lair against evil.  I will serve and cherish you Mistress.  Heavenly Light shall prevail!,,IsAnimeGirl(),SubIntroAnimeGirl,Serious|Wise
+2000,,,(She wiggles her butt like a bunny.)  What's up Mistress?,,IsBunny(),SubIntroBunny,
+2000,,,"(She wiggles her butt and winks at you.)  Beside bondage, we bunnies also do very naughty activities every day.  Are you in Mistress?",,IsBunny(),SubIntroBunny,Submissive|Horny
+2000,,,(She wiggles her butt like a bunny.)  What's up Miss?  You will hop with me?,,IsBunny(),SubIntroBunny,Dominant|Rude
+2000,,,(She wiggles her butt like a bunny.)  What's up doc?  Errr... I mean...  What's on your mind Mistress?,,IsBunny(),SubIntroBunny,Violent|Dumb
+2000,,,(She wiggles her butt in a bunny fashion.)  Do you have specific plans Mistress?  What kind of rope bunny trouble should I get into today?,,IsBunny(),SubIntroBunny,Peaceful|Polite
+2000,,,"Mistress, if it's not too much to ask.  This bunny would love to get into strict rope bondage for hours today.",,IsBunny(),SubIntroBunny,Serious|Wise
 2000,,,What would you like to do Mistress?,,,SubIntro,
 2000,,,Is there something kinky you would like to do Mistress?,,,SubIntro,Horny
 2000,,,(She bows her head and stays silent.),,,SubIntro,Frigid

@@ -466,6 +466,13 @@ function PrivateCannotTryforAction() {
 function PrivateIsAnimeGirl() {
 	return (CurrentCharacter.Title === "AnimeGirl");
 }
+/**
+ * Returns TRUE if the current character is a rope bunny
+ * @returns {boolean} - TRUE if archetype is Bunny
+ */
+function PrivateIsBunny() {
+	return (CurrentCharacter.Title === "Bunny");
+}
 
 /**
  * Returns a random item that could be bought from the store as a gift that the player could receive by a NPC
@@ -603,6 +610,9 @@ function PrivateNewCloth(C) {
 		CharacterArchetypeClothes(C, "Maid");
 	} else if (C.Title === "AnimeGirl") {
 		CharacterArchetypeClothes(C, "AnimeGirl");
+	} else if (C.Title === "Bunny") {
+		CharacterArchetypeClothes(C, "Bunny");
+		if (C.CanWalk() && C.CanTalk() && C.CanInteract() && !C.Cage) ShibariRandomBondage(ManagementRandomGirl, Math.floor((Math.random() * 4) + 1));
 	} else if (C.Title === "Dominatrix") {
 		PandoraDress(C, "Mistress");
 	} else CharacterAppearanceFullRandom(C, true);
@@ -1123,7 +1133,7 @@ function PrivateAddCharacter(Template, Archetype, CustomData) {
 	if (Archetype && Archetype != "Submissive") C.Title = Archetype;
 	NPCTraitGenerate(C);
 	if (Archetype === "Mistress") NPCTraitSet(C, "Dominant", 60 + Math.floor(Math.random() * 41));
-	if (Archetype === "Submissive") NPCTraitSet(C, "Dominant", -50 - Math.floor(Math.random() * 51));
+	if ((Archetype === "Submissive") || (Archetype === "Bunny")) NPCTraitSet(C, "Dominant", -50 - Math.floor(Math.random() * 51));
 	if ((CustomData == null) || (CustomData == false)) NPCTraitDialog(C);
 	if (C.ArousalSettings == null) NPCArousal(C);
 	CharacterRefresh(C);

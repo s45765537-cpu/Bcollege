@@ -827,7 +827,7 @@ function CharacterLoadCSVDialog(C, info) {
 /**
  * Sets the clothes based on a character archetype
  * @param {Character} C - Character to set the clothes for
- * @param {"Maid" | "Mistress" | "Employee" | "AnimeGirl"} Archetype - Archetype to determine the clothes to put on
+ * @param {"Maid" | "Mistress" | "Employee" | "AnimeGirl" | "Bunny"} Archetype - Archetype to determine the clothes to put on
  * @param {string} [ForceColor] - Color to use for the added clothes
  * @returns {void} - Nothing
  */
@@ -919,6 +919,17 @@ function CharacterArchetypeClothes(C, Archetype, ForceColor) {
 			if (Math.random() >= 0.5) InventoryWear(C, "AnimeGirlWand", "ItemHandheld");
 			else InventoryRemove(C, "ItemHandheld");
 		} 
+	}
+
+	// Rope bunny archetype
+	if (Archetype == "Bunny") {
+		CharacterNaked(C);
+		InventoryWear(C, CommonRandomItemFromList(null, ["BunnySuit", "LatexBunnySuit"]), "Bra", CommonRandomItemFromList(null, ["Default", "#BBBBBB", "#222222", "#882222", "#BB8888", "#BB00BB"]));
+		InventoryWear(C, "BunnyCollarCuffs", "ClothAccessory");
+		InventoryWear(C, CommonRandomItemFromList(null, ["BunnyEars1", "BunnyEars2"]), "HairAccessory1");
+		InventoryWear(C, "BunnyTailStrap", "TailStraps");
+		if (Math.random() > 0.5) InventoryWear(C, "Pantyhose1", "Socks");
+		InventoryWear(C, CommonRandomItemFromList(null, ["AnkleStrapShoes", "StilettoHeels", "Shoes5"]), "Shoes");
 	}
 
 }

@@ -250,7 +250,17 @@ function ManagementCannotBreakUpLoverNPC(L) { return ((Player.Lovership.length >
  * Checks if the player is currently a club slave.
  * @returns {boolean} - TRUE if the player is a club slave.
  */
-function ManagementIsClubSlave() { return ((InventoryGet(Player, "ItemNeck") != null) && (InventoryGet(Player, "ItemNeck").Asset.Name == "ClubSlaveCollar")); }
+function ManagementIsClubSlave() { return (InventoryIsWorn(Player, "ClubSlaveCollar", "ItemNeck")); }
+/**
+ * Checks if the player can start a regular chat with a club slave.
+ * @returns {boolean} - TRUE if the player can start a regular
+ */
+function ManagementCanStartClubSlaveTalk() { return (!InventoryIsWorn(Player, "ClubSlaveCollar", "ItemNeck") && (ManagementRandomGirlArchetype === "") && Player.CanTalk() && CurrentCharacter.CanTalk()); }
+/**
+ * Checks if the player can start a chat with a bunny club slave.
+ * @returns {boolean} - TRUE if the player can start a regular
+ */
+function ManagementCanStartBunnyTalk() { return (!InventoryIsWorn(Player, "ClubSlaveCollar", "ItemNeck") && (ManagementRandomGirlArchetype === "Bunny") && Player.CanTalk() && CurrentCharacter.CanTalk()); }
 /**
  * Checks if the player is wearing a slave collar.
  * @returns {boolean} - TRUE if the player is wearing a slave collar.
@@ -678,15 +688,21 @@ function ManagementFindClubSlaveRandomIntro() {
 	CharacterNaked(ManagementRandomGirl);
 	ManagementRandomActivityCount = 0;
 	ManagementRandomTalkCount = 0;
+	ManagementRandomGirlArchetype = "";
 	ManagementVisitRoom = ((Math.random() >= 0.67) && ManagementCanTransferToRoom());
 
 	// At 0, the club slave player meets another slave.  At 1, 2 & 3, the club slave isn't restrained.  At 4 and more, the club slave is restrained.
-	var Intro = (Math.floor(Math.random() * 6) + 1).toString();
+	var Intro = (Math.floor(Math.random() * 7) + 1).toString();
 	if (ManagementIsClubSlave()) Intro = "0";
 	ManagementRandomGirl.Stage = "ClubSlaveIntro" + Intro;
 	if (Intro == "4") CharacterFullRandomRestrain(ManagementRandomGirl, "FEW");
 	if (Intro == "5") CharacterFullRandomRestrain(ManagementRandomGirl, "LOT");
 	if (Intro == "6") CharacterFullRandomRestrain(ManagementRandomGirl, "ALL");
+	if (Intro == "7") {
+		ManagementRandomGirlArchetype = "Bunny";
+		CharacterArchetypeClothes(ManagementRandomGirl, "Bunny");
+		ShibariRandomBondage(ManagementRandomGirl, Math.floor((Math.random() * 4) + 1));
+	}
 	if (Intro != "6") {
 		InventoryRemove(ManagementRandomGirl, "ItemMouth");
 		InventoryRemove(ManagementRandomGirl, "ItemMouth2");
@@ -918,7 +934,7 @@ function ManagementClubSlaveActiviy(ActivityType, RepChange) {
 function ManagementClubSlaveVisitRoom() {
 	if ((ManagementRandomTalkCount >= 2) && (ManagementRandomActivityCount >= 2) && ManagementVisitRoom && ManagementRandomGirl.CanTalk()) {
 		CommonSetScreen("Room", "Private");
-		PrivateAddCharacter(ManagementRandomGirl, "Submissive");
+		PrivateAddCharacter(ManagementRandomGirl, (ManagementRandomGirlArchetype === "Bunny") ? "Bunny" : "Submissive");
 		CommonSetScreen("Room", "Management");
 		ManagementBackground = "MainHall";
 		ManagementRandomGirl.Stage = "ClubSlaveVisit";
