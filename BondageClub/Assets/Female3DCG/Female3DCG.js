@@ -15286,7 +15286,7 @@ var AssetFemale3DCG = [
 	{
 		Group: "BodyMarkings",
 		Priority: 8,
-		Clothing: true,
+		Clothing: false,
 		Default: false,
 		Random: false,
 		Asset: [
