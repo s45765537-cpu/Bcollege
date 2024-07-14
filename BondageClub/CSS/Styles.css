@@ -971,6 +971,11 @@ input[type="checkbox"]:checked::before {
 	grid-template-columns: min-content auto;
 }
 
+.layering-pair:not(:has(input:disabled)) > .layering-pair-text:hover {
+	cursor: pointer;
+	color: yellow;
+}
+
 .layering-pair-text {
 	color: white;
 	overflow-x: hidden;

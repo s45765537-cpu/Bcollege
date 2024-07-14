@@ -469,7 +469,7 @@ var Layering = {
 					children: [
 						{
 							tag: "input",
-							attributes: { type: "number", min: "-99", max: "99", value: itemPriority, defaultValue: defaultItemPriority.toString(), inputMode: "numeric" },
+							attributes: { type: "number", min: "-99", max: "99", value: itemPriority, defaultValue: defaultItemPriority.toString(), inputMode: "numeric", id: "layering-input-asset" },
 							dataAttributes: { assetPriority: defaultItemPriority.toString() },
 							classList: priorityIsObject ? ["layering-input-unfocused"] : [],
 							eventListeners: {
@@ -479,7 +479,8 @@ var Layering = {
 							},
 						},
 						{
-							tag: "span",
+							tag: "label",
+							attributes: { for: "layering-input-asset" },
 							classList: ["layering-pair-text"],
 							children: [this.Asset.Description],
 						},
