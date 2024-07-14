@@ -624,10 +624,22 @@ function LoginLoadInventoryObject(InventoryObject) {
 /**
  * Handles server response, when login has been queued
  * @param {number} Pos - The position in queue
+ * @returns {void} Nothing
  */
 function LoginQueue(Pos) {
 	if (typeof Pos !== "number") return;
 	LoginMessage = TextGet("LoginQueueWait").replace("QUEUE_POS", `${Pos}`);
+}
+
+/**
+ * Fixes the Owner property on the player object if it's wrongly set
+ * @returns {void} Nothing
+ */
+function LoginFixOwner() {
+	if ((Player.IsOwned() === false) && (Player.Owner != null) && (Player.Owner != "") && !Player.Owner.trim().startsWith("NPC-")) {
+		Player.Owner = "";
+		ServerAccountUpdate.QueueData({ Owner: Player.Owner }, true);
+	}
 }
 
 /**
@@ -861,6 +873,7 @@ function LoginResponse(C) {
 
 			// Fixes a few items
 			var InventoryBeforeFixes = InventoryStringify(Player);
+			LoginFixOwner();
 			LoginValidCollar();
 			LoginMistressItems();
 			LoginClubCard();
