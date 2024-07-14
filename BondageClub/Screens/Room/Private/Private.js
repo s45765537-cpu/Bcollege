@@ -612,7 +612,7 @@ function PrivateNewCloth(C) {
 		CharacterArchetypeClothes(C, "AnimeGirl");
 	} else if (C.Title === "Bunny") {
 		CharacterArchetypeClothes(C, "Bunny");
-		if (C.CanWalk() && C.CanTalk() && C.CanInteract() && !C.Cage) ShibariRandomBondage(ManagementRandomGirl, Math.floor((Math.random() * 4) + 1));
+		if (C.CanWalk() && C.CanTalk() && C.CanInteract() && !C.Cage) ShibariRandomBondage(C, Math.floor((Math.random() * 4) + 1));
 	} else if (C.Title === "Dominatrix") {
 		PandoraDress(C, "Mistress");
 	} else CharacterAppearanceFullRandom(C, true);
@@ -1199,6 +1199,9 @@ function PrivateChange(NewCloth) {
 		case "Amplector":
 		case "Corporis":
 			MagicSchoolLaboratoryPrepareNPC(CurrentCharacter, NewCloth); break;
+		case "Bunny":
+		case "AnimeGirl":
+			CharacterArchetypeClothes(CurrentCharacter, NewCloth); break;
 		case "Custom":
 			PrivateNPCInteraction(10);
 			if (CheatFactor("FreeNPCDress", 0) != 0) CharacterChangeMoney(Player, -50);
