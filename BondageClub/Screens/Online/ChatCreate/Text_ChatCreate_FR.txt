@@ -3,12 +3,10 @@ Enter your room information
 Entrez l'information de votre salon
 Room Name
 Nom du Salon
-(Letters & numbers only)
-(Lettres et chiffres seulement)
 Description
 Description
-Description of the room (Letters & numbers only)
-Description du salon (Lettres et chiffres seulement)
+Description of the room
+Description du salon
 Private (Need exact name to find it)
 Privé (Nom exact nécéssaire pour le retrouver)
 Locked (Only admins can leave or enter)

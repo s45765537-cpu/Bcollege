@@ -42,18 +42,18 @@ function ElementContent(ID, Content) {
 
 /**
  * @template {keyof HTMLElementScalarTagNameMap} T
- * @param {null | HTMLOptions<T>} options - Options for customizing the element
+ * @param {HTMLOptions<T>} options - Options for customizing the element
  * @returns {HTMLElementTagNameMap[T]} - The created element
  */
 function ElementCreate(options) {
 	const elem = document.createElement(options.tag);
 
-	for (const [k, v] of Object.entries(options?.attributes ?? {})) {
+	for (const [k, v] of Object.entries(options.attributes ?? {})) {
 		if (v != null) {
 			elem.setAttribute(k, v);
 		}
 	}
-	for (const [eventName, listener] of Object.entries(options?.eventListeners ?? {})) {
+	for (const [eventName, listener] of Object.entries(options.eventListeners ?? {})) {
 		if (listener != null) {
 			elem.addEventListener(eventName, listener);
 		}
@@ -63,20 +63,31 @@ function ElementCreate(options) {
 			elem.style.setProperty(k, /** @type {any} */(v));
 		}
 	}
-	for (const [k, v] of Object.entries(options?.dataAttributes ?? {})) {
+	for (const [k, v] of Object.entries(options.dataAttributes ?? {})) {
 		if (v != null) {
 			elem.dataset[k] = v.toString();
 		}
 	}
-
-	if (options?.classList) { options.classList.forEach(i => elem.classList.add(i)); }
-	if (options?.innerHTML) { elem.innerHTML = options.innerHTML; }
-	if (options?.children) {
-		/** @type {(i: unknown) => i is Node | string} */
-		const isNode = (i) => typeof i === "string" || (typeof i === "object" && "nodeValue" in i);
-		options.children.forEach(i => isNode(i) ? elem.append(i) : ElementCreate({ ...i, parent: elem }));
+	for (const cls of options.classList ?? []) {
+		if (cls != null) {
+			elem.classList.add(cls);
+		}
 	}
-	if (options?.parent) { options.parent.appendChild(elem); }
+
+	if (options.innerHTML) { elem.innerHTML = options.innerHTML; }
+
+	/** @type {(i: unknown) => i is Node | string} */
+	const isNode = (i) => typeof i === "string" || (typeof i === "object" && "nodeValue" in i);
+	for (const childElem of options.children ?? []) {
+		if (childElem != null) {
+			if (isNode(childElem)) {
+				elem.append(childElem);
+			} else {
+				ElementCreate({ ...childElem, parent: elem });
+			}
+		}
+	}
+	if (options.parent) { options.parent.appendChild(elem); }
 	return elem;
 }
 
@@ -128,8 +139,8 @@ function ElementNumberInputBlur(event) {
 	if (Number.isNaN(this.valueAsNumber)) {
 		value = this.defaultValue;
 	} else {
-		const min = Number(this.min);
-		const max = Number(this.max);
+		const min = this.min ? Number(this.min) : -Infinity;
+		const max = this.max ? Number(this.max) : Infinity;
 		const requiresInt = this.inputMode === "numeric";
 		value = CommonClamp(
 			requiresInt ? Math.round(this.valueAsNumber) : this.valueAsNumber,
@@ -579,13 +590,18 @@ function ElementFocus(ID) {
 }
 
 /**
- * Toggles HTML elements that were created by a given screen. When toggled off, they are hidden (not removed)
+ * Toggles (non-nested) HTML elements that were created by a given screen. When toggled off, they are hidden (not removed)
  * @param {string} Screen - Screen for which to hide the elements generated
  * @param {boolean} ShouldDisplay - TRUE if we are toggling on the elements, FALSE if we are hiding them.
  */
 function ElementToggleGeneratedElements(Screen, ShouldDisplay) {
-	const generatedElements = Array.from(document.querySelectorAll(`[screen-generated="${Screen}"]`));
-	generatedElements.forEach((/** @type {HTMLElement} */ element) => element.style.display = ShouldDisplay ? '' : 'none');
+	const displayState = ShouldDisplay ? "" : "none";
+	const elements = /** @type {HTMLElement[]} */(Array.from(document.querySelectorAll(`[screen-generated="${Screen}"]`)));
+	for (const e of elements) {
+		if (e.parentElement === null || e.parentElement === document.body) {
+			e.style.display = displayState;
+		}
+	}
 }
 
 /**
@@ -841,9 +857,10 @@ var ElementButton = {
 				id,
 				name: id,
 				"aria-describedby": `${id}-tooltip`,
+				"screen-generated": CurrentScreen,
 				...(buttonOptions.attributes ?? {}),
 			},
-			classList: ["blank-button", "button", ...(buttonOptions.classList ?? [])],
+			classList: ["blank-button", "button", "HideOnPopup", ...(buttonOptions.classList ?? [])],
 			eventListeners: {
 				click: onClick,
 				mousedown: this._MouseDown,
@@ -1008,11 +1025,12 @@ var ElementMenu = {
 			attributes: {
 				id,
 				role: "menubar",
+				"screen-generated": CurrentScreen,
 				...(menuOptions.attributes ?? {}),
 			},
 			parent: menuOptions.parent ?? document.body,
 			dataAttributes: { direction, ...(menuOptions.dataAttributes ?? {}) },
-			classList: ["menubar", ...(menuOptions.classList ?? [])],
+			classList: ["menubar", "HideOnPopup", ...(menuOptions.classList ?? [])],
 			children: [...menuItems, ...(menuOptions.children ?? [])],
 		});
 

@@ -1,9 +1,8 @@
 EnterRoomInfo,Enter your room information
 RoomName,Room Name
-NameExplanation,(Letters & numbers only)
 RoomDescription,Description
 RoomLanguage,Language
-DescriptionExplanation,Description of the room (Letters & numbers only)
+DescriptionExplanation,Description of the room
 RoomBanList,Ban List
 RoomAdminList,Administrator List
 RoomPrivate,Private (Need exact name to find it)

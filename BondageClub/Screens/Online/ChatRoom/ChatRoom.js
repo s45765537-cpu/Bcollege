@@ -910,19 +910,19 @@ var ChatRoomSep = {
 	 * @returns {HTMLDivElement} - The created `<div>` element
 	 */
 	Create: function Create(appendChat=true) {
-		const time = ChatRoomCurrentTime();
+		const now = Date.now();
 		const elem = ElementCreate({
 			tag: "div",
 			classList: ["ChatMessage", "ChatMessageAction", "chat-room-sep"],
 			style: { ["--label-color"]: Player.LabelColor },
-			dataAttributes: { time, sender: (Player.MemberNumber ?? "").toString() },
+			dataAttributes: { time: ChatRoomCurrentTime(), sender: (Player.MemberNumber ?? "").toString() },
 			children: [
 				{
 					tag: "div",
 					classList: ["chat-room-sep-div"],
 					children: [
 						ElementButton.Create(
-							`chat-room-sep-collapse-${time}`, this._ClickCollapse, undefined,
+							`chat-room-sep-collapse-${now}`, this._ClickCollapse, undefined,
 							{
 								button: {
 									children: ["˅"],
@@ -932,7 +932,7 @@ var ChatRoomSep = {
 							},
 						),
 						ElementButton.Create(
-							`chat-room-sep-header-${time}`, this._ClickScrollUp, undefined,
+							`chat-room-sep-header-${now}`, this._ClickScrollUp, undefined,
 							{ button: { classList: ["chat-room-sep-header"] } },
 						),
 					],
@@ -941,7 +941,9 @@ var ChatRoomSep = {
 		});
 		if (appendChat) {
 			ChatRoomAppendChat(elem);
+			ChatRoomSep.ActiveElem?.classList.remove("chat-room-sep-last");
 			ChatRoomSep.ActiveElem = elem;
+			elem.classList.add("chat-room-sep-last");
 		}
 		return elem;
 	},
@@ -1938,7 +1940,9 @@ function ChatRoomStatusUpdateTalk(Key) {
  */
 function ChatRoomChatInputChangeHandler(event) {
 	const label = document.getElementById("InputChatLength");
-	if (!label) return;
+	const chatLog = document.getElementById("TextAreaChatLog");
+	const parent = document.getElementById("chat-room-div");
+	if (!label || !chatLog || !parent) return;
 
 	const length = this.value.length;
 	if (length <= ServerChatMessageMaxLength - 100) {
@@ -1954,6 +1958,21 @@ function ChatRoomChatInputChangeHandler(event) {
 
 	this.style.height = "100%";
 	this.style.height = `${this.scrollHeight}px`;
+
+	// Check if the text log + input completely fill the parent element (within a gap-accounting error marigin)
+	// and then resize the text log + input accordingly
+	const chatLogHeight = chatLog.getBoundingClientRect().height;
+	const parentHeight = parent.getBoundingClientRect().height;
+	const inputHeight = this.getBoundingClientRect().height;
+	const ratio = (inputHeight + chatLogHeight) / parentHeight;
+	const needsUpdate = ratio > 1.005 || ratio < 0.995;
+	if (needsUpdate) {
+		const percentage = 100 * (inputHeight / parentHeight);
+		if (percentage >= 9 && percentage <= 35) {
+			// At ~34% the maximum resize height has been reached and there is no point in trying to expand it any further
+			parent.style.gridTemplateRows = `${100 - 0.4 - percentage}% ${percentage}%`;
+		}
+	}
 }
 
 /**
@@ -2695,8 +2714,6 @@ function ChatRoomKeyDown(event) {
 		} else if (event.key === "Enter" && !event.shiftKey) {
 			// The ENTER key sends the chat.
 			ChatRoomSendChat();
-			inputChat.style.height = "100%";
-			inputChat.style.height = `${inputChat.scrollHeight}px`;
 			return true;
 		} else if (event.key === "PageUp" || event.key === "PageDown") {
 			// On page up/down, we scroll through chat history
@@ -2718,7 +2735,11 @@ function ChatRoomKeyDown(event) {
 		ChatRoomAttemptLeave();
 	}
 
-	if (document.activeElement === null || document.activeElement === document.body) {
+	if (
+		document.activeElement === null
+		|| document.activeElement === document.body
+		|| document.activeElement.id === "MainCanvas"
+	) {
 		const chatLog = /** @type {HTMLDivElement} */(document.getElementById("TextAreaChatLog"));
 		if (!chatLog) {
 			return false;
@@ -2789,9 +2810,13 @@ function ChatRoomScrollHistory(up) {
  * @returns {void} - Nothing.
  */
 function ChatRoomSendChat() {
+	const inputChat = /** @type {null | HTMLTextAreaElement} */(document.getElementById("InputChat"));
+	if (!inputChat) {
+		return;
+	}
 
 	// If there's a message to send
-	let msg = ElementValue("InputChat").trim();
+	let msg = inputChat.value.trim();
 	if (!msg.length) return;
 
 	// Keeps the chat log in memory so it can be accessed with pageup/pagedown
@@ -2816,7 +2841,8 @@ function ChatRoomSendChat() {
 		} else {
 			ChatRoomSendEmote(msg);
 		}
-		ElementValue("InputChat", "");
+		inputChat.value = "";
+		inputChat.dispatchEvent(new Event("input"));
 		return;
 	}
 
@@ -2843,7 +2869,8 @@ function ChatRoomSendChat() {
 	}
 
 	if (clearChat) {
-		ElementValue("InputChat", "");
+		inputChat.value = "";
+		inputChat.dispatchEvent(new Event("input"));
 	}
 }
 
@@ -4064,7 +4091,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 						button: {
 							classList: ["ChatMessageName"],
 							attributes: { "tabindex": -1 },
-							style: { "--label-color": SenderCharacter.LabelColor },
+							style: { "--label-color": whisperTarget.LabelColor },
 							children: [CharacterNickname(whisperTarget)],
 						},
 					},

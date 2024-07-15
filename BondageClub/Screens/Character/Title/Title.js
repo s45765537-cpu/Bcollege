@@ -17,6 +17,8 @@ var TitleList = [
 	{ Name: "EscapedPatient", Requirement: function () { return (LogValue("Escaped", "Asylum") >= CurrentTime); }, Force: true },
 	{ Name: "Nurse", Requirement: function () { return ((ReputationGet("Asylum") >= 50) && (ReputationGet("Asylum") < 100)); }, Earned: true },
 	{ Name: "Doctor", Requirement: function () { return (ReputationGet("Asylum") >= 100); }, Earned: true },
+	{ Name: "AnimeGirl", Requirement: function () { return InventoryAvailable(Player, "AnimeGirl", "Cloth") && !Player.GenderSettings.HideTitles.Female; }, Earned: true },
+	{ Name: "AnimeBoy", Requirement: function () { return InventoryAvailable(Player, "AnimeGirl", "Cloth") && !Player.GenderSettings.HideTitles.Male; }, Earned: true },
 	{ Name: "LadyLuck", Requirement: function () { return (ReputationGet("Gambling") >= 100) && !Player.GenderSettings.HideTitles.Female; }, Earned: true },
 	{ Name: "LordFortune", Requirement: function () { return (ReputationGet("Gambling") >= 100) && !Player.GenderSettings.HideTitles.Male; }, Earned: true },
 	{ Name: "Patron", Requirement: function () { return CheatAllow; }, Earned: true },

@@ -358,6 +358,12 @@ ClubCardVsSubDefeat,,,"What?  Did I win?  Hahaha, awesome!  Mistress, I'm allowe
 0,,,What troubles you my dear?,,IsLover(),IntroGirlfriend,Frigid|Serious
 0,,,Let's have a tete-a-tete my love.,,IsLover(),IntroGirlfriend,Polite|Wise
 0,,,What's up luv?,,IsLover(),IntroGirlfriend,Dumb|Rude
+0,,,By the Heavenly Light!  Are we going to fight evil today?,,IsAnimeGirl(),IntroAnimeGirl,
+0,,,Are we protecting the Seven Prisms today or relaxing in bed?  Both options are good to me.,,IsAnimeGirl(),IntroAnimeGirl,Submissive|Horny
+0,,,Get ready now sis!  Evil lurks and you need to move your butt to fight it.,,IsAnimeGirl(),IntroAnimeGirl,Dominant|Rude
+0,,,"If evil comes, I will smack it!  Benzai!  (She almost hurts herself punching a wall.)",,IsAnimeGirl(),IntroAnimeGirl,Violent|Dumb
+0,,,Time is of the essence sister.   We shall foment the perfect plan to protect the Seven Prisms of the moon.,,IsAnimeGirl(),IntroAnimeGirl,Peaceful|Polite
+0,,,This is the perfect lair to shield ourselves against evil.  Heavenly Light shall prevail!,,IsAnimeGirl(),IntroAnimeGirl,Serious|Wise
 0,,,What's on your mind?,,,Intro,
 0,,,This place is kind of sexy.  What would you like to do?,,,Intro,Horny
 0,,,"Cool room you have there.  So, what's up?",,,Intro,Rude
@@ -795,6 +801,12 @@ ClubCardVsSubDefeat,,,"What?  Did I win?  Hahaha, awesome!  Mistress, I'm allowe
 1000,,,(She gives you a stern look and nods.)  Your posture shows respect and docility.  What do you need little one?,,DialogIsKneeling(Player),DomIntroPlayerKneeling,Dominant|Polite
 1000,,,(She stays far from you but smiles seeing your position.)  Is there anything you desire my protege?,,DialogIsKneeling(Player),DomIntroPlayerKneeling,Frigid|Wise
 1000,,,"Yes, my sexy subbie?  (She comes closer and pets your head gently.)",,DialogIsKneeling(Player),DomIntroPlayerKneeling,Peaceful|Horny
+1000,,,By the Heavenly Light!  Today we fight evil my minion.,,IsAnimeGirl(),DomIntroAnimeGirl,
+1000,,,Today we will protect the Seven Prisms my minion.  But maybe get to bed before we do that.,,IsAnimeGirl(),DomIntroAnimeGirl,Submissive|Horny
+1000,,,Get ready my minion!  Evil lurks and you need to move your butt to fight it.,,IsAnimeGirl(),DomIntroAnimeGirl,Dominant|Rude
+1000,,,"Fear not minion!  If evil comes, I will smack it!  Benzai!  (She almost hurts herself punching a wall.)",,IsAnimeGirl(),DomIntroAnimeGirl,Violent|Dumb
+1000,,,Time is of the essence my minion.   We shall foment the perfect plan to protect the Seven Prisms of the moon.,,IsAnimeGirl(),DomIntroAnimeGirl,Peaceful|Polite
+1000,,,This is the perfect lair against evil.  I will protect you my minion.  Heavenly Light shall prevail!,,IsAnimeGirl(),DomIntroAnimeGirl,Serious|Wise
 1000,,,What's on your mind my subbie?,,,DomIntro,
 1000,,,Hey there my cute sub.  What's on your mind?,,,DomIntro,Horny
 1000,,,Yo bitch.  What's up?,,,DomIntro,Rude
@@ -846,10 +858,10 @@ ClubCardVsSubDefeat,,,"What?  Did I win?  Hahaha, awesome!  Mistress, I'm allowe
 1000,1050,"Girl, it's time to turn the tables.",(She looks furious.)  What the fuck?  You better explain yourself before I punish you slave.,PlayerTurnTablesStart(),PlayerCanTurnTables(),DomTurnTablesStart,Rude|Violent
 1000,1050,"Girl, it's time to turn the tables.",(She looks annoyed.)  What?  Do not play games my cherish slave.  I am not disposed.,PlayerTurnTablesStart(),PlayerCanTurnTables(),DomTurnTablesStart,Polite|Serious
 1000,1050,"Girl, it's time to turn the tables.",(She looks confused.)  Uh?  Are you drunk my slave?,PlayerTurnTablesStart(),PlayerCanTurnTables(),DomTurnTablesStart,Dumb|Playful
-1000,,"What would you like to do?",,StartActivity(),CanAskforAction(),,
-1000,,"What would you like to do?","(She struggles against her bonds.) You will experience this when I am free.",,CannotAskforAction(),,
-1000,,"(Try to get her attention.)",,StartActivity(),CanTryforAction(),,
-1000,,"(Try to get her attention.)","(She struggles against her bonds.) You will experience this when I am free.",,CannotTryforAction(),,
+1000,,What would you like to do?,,StartActivity(),CanAskforAction(),,
+1000,,What would you like to do?,(She struggles against her bonds.) You will experience this when I am free.,,CannotAskforAction(),,
+1000,,(Try to get her attention.),,StartActivity(),CanTryforAction(),,
+1000,,(Try to get her attention.),(She struggles against her bonds.) You will experience this when I am free.,,CannotTryforAction(),,
 1000,,Can you please release me?,(She nods and slowly releases you.)  I guess I can help you out now.,DialogRelease(Player),AllowReleasePlayer(),DomWillReleasePlayer,
 1000,,Can you please release me?,Are you in pain my slave?  Let me see these limbs.  (She releases you and checks on your health.),DialogRelease(Player),AllowReleasePlayer(),DomWillReleasePlayer,Dominant|Peaceful
 1000,,Can you please release me?,"I'm not that great at releasing, usually it's other people that do it.  (She fumbles a little but finally releases you.)",DialogRelease(Player),AllowReleasePlayer(),DomWillReleasePlayer,Submissive|Dumb
@@ -1578,6 +1590,12 @@ PunishAsylum,1000,You're right Mistress.  (Go to the asylum.),,RunPunishment(1),
 2000,,,(Your girlfriend bows her head and stays silent.),,IsLover(),SubIntroGirlfriend,Frigid|Serious
 2000,,,"Mistress, what do you desire from your loved submissive?",,IsLover(),SubIntroGirlfriend,Polite|Wise
 2000,,,Yes my luv?  Errr... Mistress?,,IsLover(),SubIntroGirlfriend,Dumb|Rude
+2000,,,By the Heavenly Light!  I hope we fight evil today Mistress.,,IsAnimeGirl(),SubIntroAnimeGirl,
+2000,,,I vow to protect the Seven Prisms and serve all my Mistress needs.  All of them!,,IsAnimeGirl(),SubIntroAnimeGirl,Submissive|Horny
+2000,,,"Mistress, ya know I'm always ready to kick some evil butts.",,IsAnimeGirl(),SubIntroAnimeGirl,Dominant|Rude
+2000,,,"Fear not Mistress!  If evil comes, I will smack it!  Benzai!  (She almost hurts herself punching a wall.)",,IsAnimeGirl(),SubIntroAnimeGirl,Violent|Dumb
+2000,,,Time is of the essence Mistress.   I will help you foment the perfect plan to protect the Seven Prisms of the moon.,,IsAnimeGirl(),SubIntroAnimeGirl,Peaceful|Polite
+2000,,,This is the perfect lair against evil.  I will serve and cherish you Mistress.  Heavenly Light shall prevail!,,IsAnimeGirl(),SubIntroAnimeGirl,Serious|Wise
 2000,,,What would you like to do Mistress?,,,SubIntro,
 2000,,,Is there something kinky you would like to do Mistress?,,,SubIntro,Horny
 2000,,,(She bows her head and stays silent.),,,SubIntro,Frigid
@@ -2087,3 +2105,121 @@ ClubCardConsequenceOrgasm6,,I've had better.  (Leave her.),,"ClubCardDoConsequen
 ClubCardConsequenceOrgasm6,,That was nice.  (Leave her.),,"ClubCardDoConsequence(""Orgasm"")",,,
 ClubCardConsequenceOrgasm6,,Best consequence ever!  (Leave her.),,"ClubCardDoConsequence(""Orgasm"", ""5"")",,,
 ClubCardConsequenceOrgasm6,,Let's share our next orgasm my love.  (Leave.),,"ClubCardDoConsequence(""Orgasm"", ""10"")",IsLover(),,
+RegularGiftIntro,,,"My love, I have a gift for you.",,,RegularGiftIntro,
+RegularGiftIntro,,,"Sweetie!  You're so sexy and fun, I have a gift for you.",,,RegularGiftIntro,Horny|Playful
+RegularGiftIntro,,,Yo luv.  I got ya a gift from the store.,,,RegularGiftIntro,Frigid|Rude
+RegularGiftIntro,,,To show you how much I care for you my love.  I got you a present.,,,RegularGiftIntro,Peaceful|Polite
+RegularGift0,RegularGift10,Thank you very much.,(She gives you GIFTNAME.)  Would you like to try it now?,"GiftGet(""Regular"")",,,
+RegularGift0,RegularGift10,You're way too generous.,(She blushes and gives you GIFTNAME.)  Would you like to try it now?,"GiftGet(""Regular"")",,,
+RegularGift0,RegularGift10,I LOVE YOU!,(She gives you GIFTNAME.)  I love you also.  Would you like to try it now?,"GiftGet(""Regular"")",,,
+RegularGift0,RegularGift10,(Smile and take the gift.),(She smiles back and gives you GIFTNAME.)  Would you like to try it now?,"GiftGet(""Regular"")",,,
+RegularGift10,0,"Sure, I will try it now.",(You try the gift as she watches you happily.)  What would you like to do today?,"GiftUse(""Regular"")",,,
+RegularGift10,0,I will try it later.,Of course my love.  What would you like to do today?,GiftReset(),,,
+RestraintGiftIntro,,,"My love, I have a very kinky gift for you.",,,RestraintGiftIntro,
+RestraintGiftIntro,,,"Sweetheart, I went to the store and got you a fun gift.",,,RestraintGiftIntro,Playful|Peaceful
+RestraintGiftIntro,,,"Hun, it's time to spice things up.  I got you a gift.",,,RestraintGiftIntro,Serious|Violent
+RestraintGiftIntro,,,"Luv, we need to fuck more often.  I got ya something for your libido.",,,RestraintGiftIntro,Horny|Rude
+RestraintGift0,RestraintGift10,Thank you very much.,(She gives you GIFTNAME.)  Would you like to be restrained in it now?,"GiftGet(""Restraint"")",,,
+RestraintGift0,RestraintGift10,You're way too generous.,(She blushes and gives you GIFTNAME.)  Would you like to be restrained in it now?,"GiftGet(""Restraint"")",,,
+RestraintGift0,RestraintGift10,I LOVE YOU!,(She gives you GIFTNAME.)  I love you also.  Would you like to be restrained in it now?,"GiftGet(""Restraint"")",,,
+RestraintGift0,RestraintGift10,(Smile and take the gift.),(She smiles back and gives you GIFTNAME.)  Would you like to be restrained in it now?,"GiftGet(""Restraint"")",,,
+RestraintGift10,0,"Sure, I will wear it now.",(You wear the restraint as she watches you happily.)  What would you like to do today?,"GiftUse(""Restraint"")",,,
+RestraintGift10,0,I will wear it later.,Of course my love.  What would you like to do today?,GiftReset(),,,
+DomGiftIntro,,,"My girl, I have a kinky gift for you to wear.",,,DomGiftIntro,
+DomGiftIntro,,,"My subbbie, you're so much fun.  I have a sexy gift for you.",,,DomGiftIntro,Horny|Playful
+DomGiftIntro,,,Yo my girl.  I got ya a gift to keep you contained.,,,DomGiftIntro,Frigid|Rude
+DomGiftIntro,,,To show you how much I appreciate your submission.  I got you a present.,,,DomGiftIntro,Peaceful|Polite
+DomGift0,DomGift10,Thank you Mistress.,(She gives you GIFTNAME.)  Guess what?  You will wear it now.,"GiftGet(""Restraint"")",,,
+DomGift0,DomGift10,You're way too generous.,(She shakes her head no and gives you GIFTNAME.)  You will wear it now.,"GiftGet(""Restraint"")",,,
+DomGift0,DomGift10,(Bow your head and take the gift.),(She smirks and gives you GIFTNAME.)  You will wear it now.,"GiftGet(""Restraint"")",,,
+DomGift10,1000,Yes Mistress.,(She happily puts the gift on you.)  Aren't you a good girl?,"GiftUse(""Restraint"")",,,
+DomGift10,1000,Right now?,Of course my girl.  (She puts the gift on you.)  This will be a good day.,"GiftUse(""Restraint"")",,,
+SubGiftIntro,,,"Mistress, I have a special gift for you.",,,SubGiftIntro,
+SubGiftIntro,,,"Superest-Bestest-Mistress, I went to the store and got you a fun gift.",,,SubGiftIntro,Playful|Peaceful
+SubGiftIntro,,,"Mistress, I want to show my devotion to you.  My body is yours.  I got you a gift.",,,SubGiftIntro,Serious|Violent
+SubGiftIntro,,,"Yo Mistress, your slut is so happy that she got ya a gift.",,,SubGiftIntro,Horny|Rude
+SubGift0,SubGift10,Thank you my girl.,(She gives you GIFTNAME.)  Would you like to try it now Mistress?,"GiftGet(""Regular"")",,,
+SubGift0,SubGift10,You're a generous submissive.,(She blushes and gives you GIFTNAME.)  Would you like to try it now Mistress?,"GiftGet(""Regular"")",,,
+SubGift0,SubGift10,Such a good girl!,(She giggles and gives you GIFTNAME.)  I love you also.  Would you like to try it now Mistress?,"GiftGet(""Regular"")",,,
+SubGift0,SubGift10,(Smile and take the gift.),(She smiles back and gives you GIFTNAME.)  Would you like to try it now Mistress?,"GiftGet(""Regular"")",,,
+SubGift10,2000,"Alright, I will try it now.",(You try the gift as she watches you happily.)  What are your plans for the day?,"GiftUse(""Regular"")",,,
+SubGift10,2000,Not now my girl.,Of course Mistress.  What are your plans for the day?,GiftReset(),,,
+MeetOwnerInMainHallIntro,,,(You meet your Mistress as you walk in the club.)  Hello my girl.,,,MeetOwnerInMainHallIntro,
+MeetOwnerInMainHallIntro,,,"(As you walk in the club, your Mistress waves at you and smiles.)  Well, hello my awesome subbie.",,,MeetOwnerInMainHallIntro,Playful|Peaceful
+MeetOwnerInMainHallIntro,,,"(As you walk in the club, your Mistress grabs your wrist by surprise and pulls you to her.)  Slave!",,,MeetOwnerInMainHallIntro,Serious|Violent
+MeetOwnerInMainHallIntro,,,"(As you walk in the club, your Mistress steps behind you and grabs your butt.)  Yo my sexy girl.",,,MeetOwnerInMainHallIntro,Horny|Rude
+MeetOwnerInMainHallIntro,,,"(You meet your Mistress as you walk in the club.)  Once again, fortune brings us together.",,,MeetOwnerInMainHallIntro,Polite|Frigid
+MeetOwnerInMainHall0,MeetOwnerInMainHall10,Hello there!,(She frowns.)  I need to train you better.,NPCInteraction(-3),Player.CanTalk(),,
+MeetOwnerInMainHall0,MeetOwnerInMainHall10,What a coincidence.,We are bound to see each other.  (She giggles.),,Player.CanTalk(),,
+MeetOwnerInMainHall0,MeetOwnerInMainHall10,Greetings Mistress.,(She smiles and pets your head.)  I have a good girl.,NPCInteraction(3),Player.CanTalk(),,
+MeetOwnerInMainHall0,MeetOwnerInMainHall10,(Moan in your gag.),(She removes your gag and giggles.)  You get into so much trouble.,PlayerUngag(0),!Player.CanTalk(),,
+MeetOwnerInMainHall0,MeetOwnerInMainHall10,(Bow your head politely.),(She removes your gag and smiles.)  Such a good girl.,PlayerUngag(3),!Player.CanTalk(),,
+MeetOwnerInMainHall0,MeetOwnerInMainHall10,(Shake your head from left to right.),(She removes your gag.)  Is this how you beg for help?,PlayerUngag(-3),!Player.CanTalk(),,
+MeetOwnerInMainHall10,MeetOwnerInMainHall20,What is on your mind?,(She starts to ponder.),,,,
+MeetOwnerInMainHall10,MeetOwnerInMainHall20,It's a pleasure to see you.,The pleasure is shared my girl.  (She starts to ponder.),NPCInteraction(3),,,
+MeetOwnerInMainHall10,MeetOwnerInMainHall20,I'm kind of busy Mistress.,"So, you're too busy for me?  (She starts to ponder.)",NPCInteraction(-3),,,
+MeetOwnerInMainHall10,MeetOwnerInMainHall20,(Stay silent.),(She starts to ponder.),,,,
+MeetOwnerInMainHall20,,What are you thinking about?,,StartOwnerHallActivity(),,,
+MeetOwnerInMainHall20,,Mistress?,,StartOwnerHallActivity(),,,
+MeetOwnerInMainHall20,,(Stare at her.),,StartOwnerHallActivity(),,,
+MeetOwnerInMainHallBringToPrivateIntro,,,Come with me my submissive.  We are going back to your room.,,,,
+MeetOwnerInMainHallBringToPrivate0,MeetOwnerInMainHallBringToPrivate10,Yes Mistress.,Good girl.  (She smiles and starts to guide you.),NPCInteraction(3),,,
+MeetOwnerInMainHallBringToPrivate0,MeetOwnerInMainHallBringToPrivate10,Now?  I have other plans.,Not anymore.  (She laughs and starts to push you.),NPCInteraction(-3),,,
+MeetOwnerInMainHallBringToPrivate0,MeetOwnerInMainHallBringToPrivate10,(Nod slowly.),(She starts to guide you toward your room.),,,,
+MeetOwnerInMainHallBringToPrivate10,MeetOwnerInMainHallBringToPrivate20,(Go to your private room with her.),(You both go back to your private as she smirks.)  I want to have some fun with you.,OwnerHallReturnToPrivate(),,,
+MeetOwnerInMainHallBringToPrivate20,,What would you like to do?,,StartActivity(),,,
+MeetOwnerInMainHallBondageIntro,,,"My girl, I want to complicate how you will explore the club.",MeetOwnerInMainHallBondageIntro,,,
+MeetOwnerInMainHallBondageIntro,,,"Slave girl, I want ya to struggle hard while in BC.",MeetOwnerInMainHallBondageIntro,Violent|Dumb,,
+MeetOwnerInMainHallBondageIntro,,,"My lovely submissive, I want to make your club wandering slightly more... restricted.",MeetOwnerInMainHallBondageIntro,Polite|Peaceful,,
+MeetOwnerInMainHallBondageIntro,,,"My slave, you're allowed to wander in the club, but it will be on my terms.",MeetOwnerInMainHallBondageIntro,Serious|Wise,,
+MeetOwnerInMainHallBondage0,MeetOwnerInMainHallBondage10,I'm not sure I like the sound of that.,(She grumbles.)  Like it or not.  You're going to get into some bondage.  How tight do you want it?,NPCInteraction(-3),,,
+MeetOwnerInMainHallBondage0,MeetOwnerInMainHallBondage10,(Make a confused look.),No need to be confused.  You're going to get into some bondage.  How tight do you want it?,,,,
+MeetOwnerInMainHallBondage0,MeetOwnerInMainHallBondage10,That sounds exciting Mistress.,(She nods and smiles.)  You're going to get into some bondage.  How tight do you want it?,NPCInteraction(3),,,
+MeetOwnerInMainHallBondage0,MeetOwnerInMainHallBondage10,What does it mean?,It's easy my girl.  You're going to get into some bondage.  How tight do you want it?,,,,
+MeetOwnerInMainHallBondage10,MeetOwnerInMainHallBondage20,"Do your worst, I can take it.",(She brings lots of bondage items and gets you bound very securely in the main hall of the club.),"OwnerHallBondage(""ALL"")",,,
+MeetOwnerInMainHallBondage10,MeetOwnerInMainHallBondage20,Oh!  Make it tight Mistress!,(She brings many bondage items and gets you in tight bondage in the main hall of the club.),"OwnerHallBondage(""LOT"")",,,
+MeetOwnerInMainHallBondage10,MeetOwnerInMainHallBondage20,Please do it as you want it.,(She brings bondage items and gets you in bondage in the main hall of the club.),"OwnerHallBondage("""")",,,
+MeetOwnerInMainHallBondage10,MeetOwnerInMainHallBondage20,Not too tight please.,(She brings a few bondage items and gets you in light bondage in the main hall of the club.),"OwnerHallBondage(""FEW"")",,,
+MeetOwnerInMainHallBondage10,MeetOwnerInMainHallBondage20,Is it really necessary?,Very tight you say?  Alright my girl.  (She brings lots of bondage items and gets you bound very securely in the main hall of the club.),"OwnerHallBondage(""ALL"")",,,
+MeetOwnerInMainHallBondage20,MeetOwnerInMainHallBondage30,Wow!  I love this bondage.,"I'm glad you do.  You look great in it.  I need to go, ask for a maid if you're stuck.",,Player.CanTalk(),,
+MeetOwnerInMainHallBondage20,MeetOwnerInMainHallBondage30,It's too tight Mistress.,"Too bad, because I need to go, ask for a maid if you're stuck.",,Player.CanTalk(),,
+MeetOwnerInMainHallBondage20,MeetOwnerInMainHallBondage30,(Moan in your gag.),"You're so adorable in bondage.  I need to go, ask for a maid if you're stuck.",,!Player.CanTalk(),,
+MeetOwnerInMainHallBondage20,MeetOwnerInMainHallBondage30,(Grumble and pout.),Grumble all you want slave.  I need to go.  Ask for a maid if you're stuck.,,!Player.CanTalk(),,
+MeetOwnerInMainHallBondage30,1000,(Struggle in the main hall.),,DialogLeave(),,,
+MeetOwnerInMainHallNudeParadeIntro,,,"Since you like to travel in the club, we will explore together my girl.",MeetOwnerInMainHallNudeParadeIntro,,,
+MeetOwnerInMainHallNudeParadeIntro,,,"Slave girl, since ya like to explore BC, we'll do it together.",MeetOwnerInMainHallNudeParadeIntro,Violent|Dumb,,
+MeetOwnerInMainHallNudeParadeIntro,,,"My lovely submissive, since you enjoy wandering in the Bondage Club, we shall do it together.",MeetOwnerInMainHallNudeParadeIntro,Polite|Peaceful,,
+MeetOwnerInMainHallNudeParadeIntro,,,"My slave, since you wander in the club so much, we will do it together now.",MeetOwnerInMainHallNudeParadeIntro,Serious|Wise,,
+MeetOwnerInMainHallNudeParade0,MeetOwnerInMainHallNudeParade10,That sounds boring.,"Trust me my girl, it won't.  Get naked!",NPCInteraction(-3),!Player.IsNaked(),,
+MeetOwnerInMainHallNudeParade0,MeetOwnerInMainHallNudeParade10,Where should we go?,Don't worry about that and get naked.,,!Player.IsNaked(),,
+MeetOwnerInMainHallNudeParade0,MeetOwnerInMainHallNudeParade10,Good idea Mistress!,(She smiles.)  And it will get better.  Get naked!,NPCInteraction(3),!Player.IsNaked(),,
+MeetOwnerInMainHallNudeParade0,MeetOwnerInMainHallNudeParade10,(Nod in agreement.),Good girl.  Now get naked.,,!Player.IsNaked(),,
+MeetOwnerInMainHallNudeParade0,MeetOwnerInMainHallNudeParade20,I can't explore without clothes.,You certainly can.  Everyone will see how cute you are.,NPCInteraction(-3),Player.IsNaked(),,
+MeetOwnerInMainHallNudeParade0,MeetOwnerInMainHallNudeParade20,Where should we go?,Don't worry about that.  Everyone will see how cute you are.,,Player.IsNaked(),,
+MeetOwnerInMainHallNudeParade0,MeetOwnerInMainHallNudeParade20,Exploring naked?  That's exciting!,Well said.  Everyone will see how cute you are.,NPCInteraction(3),Player.IsNaked(),,
+MeetOwnerInMainHallNudeParade0,MeetOwnerInMainHallNudeParade20,(Nod in agreement.),Good girl.  Everyone will see how cute you are.,,Player.IsNaked(),,
+MeetOwnerInMainHallNudeParade10,,Naked?  Really?,Don't waste my time girl.  You're getting nude.,,,,
+MeetOwnerInMainHallNudeParade10,MeetOwnerInMainHallNudeParade20,(Strip naked.),(You get naked as she smirks.),OwnerHallNaked(),Player.CanInteract(),,
+MeetOwnerInMainHallNudeParade10,MeetOwnerInMainHallNudeParade20,Can you help me to strip?,(She releases you and helps you to get naked.),OwnerHallNaked(),!Player.CanInteract(),,
+MeetOwnerInMainHallNudeParade20,MeetOwnerInMainHallNudeParade30,(Blush a little.),"So adorable!  Show me your neck, we need a cute collar for your parade.",,,,
+MeetOwnerInMainHallNudeParade20,MeetOwnerInMainHallNudeParade30,This is embarrassing.,"You're beautiful, there's no need to be shy.  Show me your neck, we need a cute collar for your parade.",NPCInteraction(-3),,,
+MeetOwnerInMainHallNudeParade20,MeetOwnerInMainHallNudeParade30,So kinky Mistress!,"(She nods and smiles.)  Show me your neck, we need a cute collar for your parade.",NPCInteraction(3),,,
+MeetOwnerInMainHallNudeParade30,MeetOwnerInMainHallNudeParade40,Yes Mistress.,(She changes your collar and attaches a leash to it.)  Are you ready to go explore?,OwnerHallLeash(),,,
+MeetOwnerInMainHallNudeParade30,MeetOwnerInMainHallNudeParade40,(Present your neck.),(She changes your collar and attaches a leash to it.)  Are you ready to go explore?,OwnerHallLeash(),,,
+MeetOwnerInMainHallNudeParade40,MeetOwnerInMainHallNudeParade50,(Let your Mistress parade you.),"(She drags you first to the Shibari Dojo.  Talking with the Sensei and students there, she exposes your body to everyone.)","OwnerHallBackground(""Shibari"", """")",,,
+MeetOwnerInMainHallNudeParade50,MeetOwnerInMainHallNudeParade60,(Follow along.),(She tugs on the chain and brings you to the Maid Quarters.  The maids giggle and smile seeing you.),"OwnerHallBackground(""MaidQuarters"", """")",,,
+MeetOwnerInMainHallNudeParade50,MeetOwnerInMainHallNudeParade60,Can we stop this?,(She quickly binds you and brings you to the Maid Quarters.  The maids giggle and smile seeing you.),"OwnerHallBackground(""MaidQuarters"", ""Bind"")",Player.CanTalk(),,
+MeetOwnerInMainHallNudeParade60,MeetOwnerInMainHallNudeParade70,(Keep on parading.),(You both get to the LARP room as she talks casually with friends while you stand there exposed.),"OwnerHallBackground(""WrestlingRing"", """")",,,
+MeetOwnerInMainHallNudeParade60,MeetOwnerInMainHallNudeParade70,This is humiliating.,(You both get to the LARP room as she talks casually with friends while you stand there exposed.),"OwnerHallBackground(""WrestlingRing"", """")",Player.CanTalk(),,
+MeetOwnerInMainHallNudeParade70,MeetOwnerInMainHallNudeParade80,(Follow your Mistress.),"(She yanks on the chain and brings you to the movie studio.  You both watch the actors, as a scene is being filmed.)","OwnerHallBackground(""MovieStudio"", """")",,,
+MeetOwnerInMainHallNudeParade70,MeetOwnerInMainHallNudeParade80,Alright!   I've had enough.,"(She quickly binds you and brings you to the movie studio.  You both watch the actors, as a scene is being filmed.)","OwnerHallBackground(""MovieStudio"", ""Bind"")",Player.CanTalk(),,
+MeetOwnerInMainHallNudeParade80,MeetOwnerInMainHallNudeParade90,(Walk with her.),"(She stops by the Club Card Lounge to play a few games with a friend, while you wait naked.)","OwnerHallBackground(""ClubCardLounge"", """")",,,
+MeetOwnerInMainHallNudeParade80,MeetOwnerInMainHallNudeParade90,You're so kinky Mistress.,"(She stops by the Club Card Lounge to play a few games with a friend, while you wait naked.)","OwnerHallBackground(""ClubCardLounge"", """")",Player.CanTalk(),,
+MeetOwnerInMainHallNudeParade90,MeetOwnerInMainHallNudeParade100,(Watch the games silently.),(She finishes her games and smiles.  She then brings you back to the main hall.)  Did you enjoy the tour?,"OwnerHallBackground("""", """")",,,
+MeetOwnerInMainHallNudeParade90,MeetOwnerInMainHallNudeParade100,It's unfair!  I want to play also.,(She quickly binds you and finishes her games.  She then brings you back to the main hall.)  Did you enjoy the tour?,"OwnerHallBackground(""MainHall"", ""Bind"")",Player.CanTalk(),,
+MeetOwnerInMainHallNudeParade100,MeetOwnerInMainHallNudeParade110,That was a fun visit.,I'm glad you did.  We'll do it again.  (She undoes the leash.)  See you soon my girl!,"OwnerHallParadeEnd(""Release"")",Player.CanTalk(),,
+MeetOwnerInMainHallNudeParade100,MeetOwnerInMainHallNudeParade110,That was too embarrassing.,I will train you to be proud of your body.  I'm confiscating your clothes for 15 minutes.  See you soon!,"OwnerHallParadeEnd(""Lock"")",Player.CanTalk(),,
+MeetOwnerInMainHallNudeParade100,MeetOwnerInMainHallNudeParade110,(Nod in agreement.),I'm glad you did.  We'll do it again.  (She releases you.)  See you soon my girl!,"OwnerHallParadeEnd(""Release"")",!Player.CanTalk(),,
+MeetOwnerInMainHallNudeParade100,MeetOwnerInMainHallNudeParade110,(Bow your head.),"(She pets your head.)  Be a good submissive.  I need to go, call a maid if you need help.  See you soon!","OwnerHallParadeEnd("""")",!Player.CanTalk(),,
+MeetOwnerInMainHallNudeParade100,MeetOwnerInMainHallNudeParade110,(Grumble in your gag.),I will train you to be proud of your body.  I'm confiscating your clothes for 15 minutes.  See you soon!,"OwnerHallParadeEnd(""Lock"")",!Player.CanTalk(),,
+MeetOwnerInMainHallNudeParade110,1000,(Return to the main hall.),,DialogLeave(),,,

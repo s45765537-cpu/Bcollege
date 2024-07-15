@@ -58,6 +58,12 @@ Sleeveless Top
 Топ без руковов
 Dress with Fur
 платье с мехом
+Evening Gown
+Вечернее платье
+Yuletide Velvet Warmth
+Праздничное бархатное платье
+Nun Robes
+Монашеская ряса
 Fishnet Top
 Топ в сеточку
 Latex Catsuit
@@ -70,6 +76,8 @@ Body Markings
 Маркировка тела
 Womb Tattoos
 Татуировки Матки
+Body Writings
+Надписи на теле
 Steampunk Corset
 Корсет стимпанк
 Boned Underbust Corset
@@ -128,6 +136,8 @@ Summer Dress
 Летнее платье
 Grand Mage Dress
 Платье Великого Мага
+Heavy Leather Dress
+Тяжелое кожаное платье
 Blouse
 Блузка
 Laced Latex Top
@@ -140,6 +150,8 @@ Fuzzy Dress
 Платье с опушкой
 Crop Top
 Укороченный Топ
+Custom T-Shirt
+Кастомная футболка
 Laurel Top
 Торжественный Топ
 Retro Girdle Dress
@@ -179,7 +191,9 @@ Bouquet of flowers
 Frilly Apron
 Фартук с оборками
 Bunny Girl Accessories
-Аксессуары Девочки-зайчика 
+Аксессуары Девочки-зайчика
+Bow Back Accessory
+Бант на спину
 Camera
 Камера
 Cape
@@ -268,6 +282,8 @@ Flower Garland
 Цветочная гирлянда
 Rope Necklace
 Веревочное Ожерелье
+Custom Pearl Necklace
+Кастомное жемчужное ожерелье
 Tattoo Choker
 Тату Колье
 Body Chain Necklace
@@ -378,6 +394,8 @@ Elegant Skirt
 Элегантная юбка
 Ruffled Skirt
 Юбка с оборками
+Satin Skirt
+Атласная юбка
 Cross Skirt
 Поперечная юбка
 Cheerleader Skirt
@@ -500,6 +518,8 @@ Leather Strap Bra
 Кожаный бюстгальтер на бретелях
 Swimsuit style 3
 Купальник стиль 3
+Leather Vest Suit
+Кожанная жилетка-сюит
 Clamshell Bra
 Бюстгальтер-ракушка
 Cow Printed Bra
@@ -514,6 +534,8 @@ Leather Breast Binder
 Кожаная нагрудная перевязь
 Tickle Bra
 Щекочущий бюстгальтер
+Male Chastity Plat
+Обвязка мужского целомудрия
 Silk Straps
 Шелковые ремни
 Full Latex Bra
@@ -670,6 +692,8 @@ Anklet (Right)
 Ножной браслет (справа)
 Band Anklet
 Браслет на ногу
+Fur Accessory
+Меховой аксессуар
 Ribbon
 Лента
 Ribbon Bow
@@ -720,12 +744,14 @@ Woolly Boots
 Вязаные Сапоги
 Latex Heels
 Латексные каблуки
+Mary Special
+Мэри Спешл
 Latex ThighBoots
 Латексные высокие сапоги
 Duty Shoes
 Служебная обувь
 Social Heels
-Светские каблуки
+Деловые каблуки
 Stiletto Heels
 Туфли на шпильках
 Street Boots
@@ -768,6 +794,8 @@ Maid Latex Hairband
 Латексная повязка для волос горничной
 Nurse Cap
 Капор медсестры
+Nun Veil
+Монашеское покрывалю
 Santa Hat
 Шляпа Санты
 Captain's Hat
@@ -860,6 +888,8 @@ Ears Small
 Уши Маленькие
 Ears Large
 Уши Большие
+Ear Warmers
+Теплые наушникик
 Pony Ears
 Уши пони
 Bunny Ears
@@ -876,6 +906,10 @@ Horns 2
 Рога 2
 Horns 3
 Рога 3
+Horns 4
+Рога 4
+Horns 5
+Рога 5
 Fox Ears Small
 Уши лисьи маленькие
 Small Bat Wings
@@ -905,6 +939,8 @@ Elf Ears
 Эльфийские уши
 Cow Horns
 Коровьи рога
+Cow Ears
+Коровьи уши
 Antennae
 Антенны
 Unicorn Horn
@@ -927,6 +963,8 @@ Silky Gloves
 Шелковые перчатки
 Mistress Gloves
 Перчатки Госпожи
+Opera Gloves
+Оперные перчатки
 Fingerless Gloves
 Перчатки Без Пальцев
 Gloves with Fur
@@ -934,11 +972,13 @@ Gloves with Fur
 Catsuit Gloves
 Перчатки от Кэтсьюта
 Claws
-Когти
+Длинный маникюр
 Fingernails
 Ногти
 See-through Gloves
 Прозрачные перчатки
+Short Leather Gloves
+Короткие кожаные перчатки
 Cow Printed Gloves
 Перчатки с коровьим принтом
 Latex Elbow Gloves
@@ -971,6 +1011,8 @@ Spiked Wristbands
 Браслеты с шипами
 Wristbands
 Браслеты
+Wrist Watch
+Наручные часы
 Band 1
 Браслет 1
 Lace Armbands
@@ -1040,7 +1082,7 @@ Open Face Hood
 Face Veil
 Вуаль для лица
 Pet Nose
-Нос питомца
+Мордочка питомца
 Tail Strap
 Ремень с хвостом
 Kitty Tail Strap
@@ -1091,6 +1133,10 @@ Bunny Tail Strap
 Ремешок с хвостом кролика
 Dragon Tail Strap
 Ремешок с хвостом дракона
+Scaled dragon tail strap (Left)
+Ремешок с хвостом дракона (слева)
+Scaled dragon tail strap (Right)
+Ремешок с хвостом дракона (справа)
 Wings
 Крылья
 Succubus Feather 
@@ -1183,6 +1229,8 @@ Style 7
 Стиль 7
 Style 7b
 Стиль 7b
+Style 7c
+Стиль 7c
 Style 8
 Стиль 8
 Style 8b
@@ -1221,10 +1269,16 @@ Style 17b
 Стиль 17b
 Style 18
 Стиль 18
+Style 18b
+Стиль 18b
 Style 19
 Стиль 19
+Style 19b
+Стиль 19b
 Style 20
 Стиль 20
+Style 20b
+Стиль 20b
 Style 21
 Стиль 21
 Style 22
@@ -1247,6 +1301,8 @@ Style 28
 Стиль 28
 Style 29
 Стиль 29
+Style 29b
+Стиль 29b
 Style 30
 Стиль 30
 Style 31
@@ -1339,6 +1395,8 @@ Style 32
 Стиль 32
 Style 33
 Стиль 33
+Style 33b
+Стиль 33b
 Style 34
 Стиль 34
 Style 35
@@ -1347,34 +1405,100 @@ Style 36
 Стиль 36
 Style 37
 Стиль 37
+Style 37b
+Стиль 37b
 Style 38
 Стиль 38
+Style 38b
+Стиль 38b
 Style 39
 Стиль 39
+Style 39b
+Стиль 39b
 Style 40
 Стиль 40
+Style 40b
+Стиль 40b
 Style 41
 Стиль 41
+Style 41b
+Стиль 41b
 Style 42
 Стиль 42
+Style 42b
+Стиль 42b
 Style 43
 Стиль 43
+Style 43b
+Стиль 43b
 Style 44
 Стиль 44
+Style 44b
+Стиль 44b
 Style 45
 Стиль 45
+Style 45b
+Стиль 45b
 Style 46
 Стиль 46
+Style 46b
+Стиль 46b
 Style 47
 Стиль 47
+Style 47b
+Стиль 47b
 Style 48
 Стиль 48
+Style 48b
+Стиль 48b
 Style 49
 Стиль 49
 Style 50
 Стиль 50
 Style 51
 Стиль 51
+Style 51b
+Стиль 51b
+Style 52
+Стиль 52
+Style 52b
+Стиль 52b
+Style 53
+Стиль 53
+Style 54
+Стиль 54
+Style 54b
+Стиль 54b
+Style 55
+Стиль 55
+Style 55b
+Стиль 55b
+Style 56
+Стиль 56
+Style 56b
+Стиль 56b
+Style 57
+Стиль 57
+Style 57b
+Стиль 57b
+Style 57c
+Стиль 57c
+Style 57d
+Стиль 57d
+Style 58
+Стиль 58
+Style 58b
+Стиль 58b
+Style 59
+Стиль 59
+Style 60
+Стиль 60
+Style 61
+Стиль 61
+Style 62
+Стиль 62
+Style 63
+Стиль 63
 Dreadlocks 1
 Дреды 1
 Left eye
@@ -1463,6 +1587,8 @@ Suspension Hemp Rope
 Подвеска Пенькового Каната
 Duct Tape
 клейкая лента
+Long Leather Paw Mittens
+Длинные кожаные варежки с лапами
 Leather Ankle Cuffs
 Кожаные нащиколотники
 Leather Deluxe Ankle Cuffs
@@ -1489,6 +1615,8 @@ Ankle Shackles
 Кандалы на щиколотки
 Zip Ties
 Стяжки
+Strict Pony Boots
+Строгие сапоги пони
 Chains
 Цепи
 Spreader Dildo Bar
@@ -1524,13 +1652,15 @@ Hobble Skirt
 Wooden Horse
 Деревянная лошадь
 Seamless Leg Binder
-Бесшовная перевязка ног
+Бесшовный легбиндер
 Seamless Hobble Skirt
 Бесшовная узкая юбка
 Zip Ties
 Стяжки
 Frog-tie Straps
 Ремни-лягушки
+Frog-tie Metal Cuffs
+Металлические манжеты-лягушки
 Mermaid Tail
 Хвост русалки
 Vulva
@@ -1575,6 +1705,10 @@ Hemp Rope Wand Belt
 Пояс для жезлов из пеньковой веревки
 Wired Vibrating Egg
 Проводное вибрирующее яйцо
+Full Casing Cage
+Клетка с цельным корпусом
+Latex Nulge
+Латексный нулевой
 Lovers Vibrator
 Любовный вибратор
 Lovers Remote
@@ -1585,6 +1719,8 @@ Stitches
 Нитки для швов
 Basic Cock Ring
 Кольцо для основания члена
+Locking Cock Ring
+Запорное кольцо для члена
 Plastic Chastity Cage 1
 Пластиковая клетка верности 1
 Plastic Chastity Cage 2
@@ -1615,8 +1751,12 @@ Jewel Clitoris Piercing
 Пирсинг клитора с драгоценным камнем
 Adorned Clitoris Piercing
 Украшенный пирсинг клитора
+Urethral Sound
+Уретральный зонд
 Vibrating Heart Clitoris Piercing
 Пирсинг клитора Вибрирующие Сердце
+Cock Ring Leash
+Поводок с кольцом для члена
 Bell Clitoris Piercing
 Пирсинг клитора Колокольчик
 Taped Vibrating Egg
@@ -2005,6 +2145,8 @@ Leather Mittens
 Кожаные Варежки
 Futuristic Mittens
 Футуристические варежки
+Glue Mittens
+Клеевые варежки
 Padded Leather Mittens
 Варежки Из Мягкой Кожи
 Polished Steel Mittens
@@ -2119,6 +2261,8 @@ Empty Glass
 Пустой стакан
 Filled Glass
 Заполненный стакан
+Atoxic Glue Tube
+Тюбик нетоксичного клея
 Potion Bottle
 Бутылка с зельем
 Medical Injector
@@ -2246,7 +2390,7 @@ Oval Name Tag
 Pet Name Tag
 Бирка с именем питомца
 Lover Name Tag
-Бирка с именем любовницы
+Бирка с именем, что дала любимая
 Livestock Name Tag
 Бирка с именем домашнего скота
 Moon Pendant
@@ -2294,7 +2438,7 @@ Medium Rope
 Cloth Gag
 Тканевый Кляп
 Wiffle Ball Gag
-Кляп Бейсбольный Мяч 
+Кляп Мяч для гольфа 
 Harness Ball Gag
 Кляп-шар со сбруей
 Harness Panel Gag
@@ -2401,6 +2545,8 @@ Sock Stuffing
 Начинка из носков
 Respirator Mask
 Респираторная маска
+Glue
+Клей
 Web Gag
 Паутинный Кляп
 Rope Gag
@@ -2428,7 +2574,7 @@ Futuristic Muzzle
 Iron Cage Muzzle
 Намордник из железной клетки
 Dental Gag
-Зубной Кляп
+Стоматологический Кляп
 Pacifier Gag
 Кляп-пустышка
 Tentacle
@@ -2533,6 +2679,10 @@ Kigurumi Mask
 Маска Кигуруми
 Pumpkin Head
 Тыквенная Голова
+Paper bag
+Бумажный пакет
+Fu
+Счастье
 Sack Hood
 Мешок
 Sensory Deprivation Hood
@@ -2709,6 +2859,8 @@ Cryogenic Capsule
 Криогенная капсула
 One Bar Prison
 Одиночная стойка
+Unsuspected Pose
+Неожиданная поза
 Personal Cage
 Личная клетка
 Display Frame
@@ -2727,6 +2879,8 @@ Small Display Case
 Небольшая Витрина
 Futuristic Crate
 Футуристический ящик
+Glue's Puddle
+Лужа клея
 Doll Box
 Коробка для кукол
 Exposed Head Wooden Box
@@ -2818,7 +2972,9 @@ Metal Toe Cuffs
 Leather Toe Cuffs
 Кожаные Манжеты на пальцы ног
 Toe Tie
-стяжка на пальцы ног
+Обвязка на пальцы ног
+Torment Heels
+Пыточные каблуки
 Locking Heels
 Запирающиеся Каблуки
 Multi-Strap Locking Heels

@@ -2477,8 +2477,9 @@ function PreferenceSubscreenVisibilityClick() {
 	// Confirm button
 	if (MouseIn(1720, 60, 90, 90)) {
 		CommonEntries(PreferenceVisibilityRecord).forEach(([key, permission]) => {
-			Player.ItemPermission[key] ??= permission;
-			Player.ItemPermission[key].Permission = permission.Permission;
+			Player.PermissionItems[key] ??= permission;
+			Player.PermissionItems[key].Hidden = permission.Hidden;
+			Player.PermissionItems[key].Permission = permission.Permission;
 		});
 		PreferenceVisibilityExit(true);
 	}

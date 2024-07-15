@@ -2,14 +2,12 @@
 Уведіть інформацію про Вашу кімнату
 Room Name
 Назва кімнати
-(Letters & numbers only)
-(Лише букви та цифри)
 Description
 Опис
 Language
 Мова
-Description of the room (Letters & numbers only)
-Опис кімнати (Лише букви та цифри)
+Description of the room
+Опис кімнати
 Ban List
 Бан-лист
 Administrator List

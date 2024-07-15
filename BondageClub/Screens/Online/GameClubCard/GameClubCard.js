@@ -362,8 +362,7 @@ function GameClubCardAssignPlayers(Packet, Char) {
 	if (Player.ChatSettings?.PreserveChat ?? true) {
 		ChatRoomHideElements();
 	} else {
-		ElementRemove("InputChat");
-		ElementRemove("TextAreaChatLog");
+		ElementRemove("chat-room-div");
 	}
 }
 

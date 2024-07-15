@@ -2,14 +2,12 @@ Enter your room information
 请输入房间信息
 Room Name
 房间名
-(Letters & numbers only)
-(仅可用字母和数字)
 Description
 描述
 Language
 交流语言
-Description of the room (Letters & numbers only)
-房间描述 (仅可使用字母和数字)
+Description of the room
+房間描述
 Ban List
 封禁列表
 Administrator List

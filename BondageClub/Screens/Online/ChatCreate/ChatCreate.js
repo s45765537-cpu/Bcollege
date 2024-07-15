@@ -45,9 +45,9 @@ function ChatCreateLoad() {
 	ElementRemove("InputSearch");
 	if (document.getElementById("InputName") == null) {
 		// Prepares the controls to edit a room
-		ElementCreateInput("InputName", "text", "", "20");
-		document.getElementById("InputName").setAttribute("autocomplete", "off");
-		document.getElementById("InputName").setAttribute("placeholder", TextGet("NameExplanation"));
+		const InputName = ElementCreateInput("InputName", "text", "", "20");
+		InputName.setAttribute("autocomplete", "off");
+		InputName.setAttribute("pattern", "^[\x20-\x7E]+$");
 		ElementCreateInput("InputSize", "number", "10");
 		document.getElementById("InputSize").setAttribute("min", "2");
 		document.getElementById("InputSize").setAttribute("max", "20");
@@ -91,7 +91,6 @@ function ChatCreateRun() {
 
 	// Draw the controls
 	if (!document.getElementById("InputName").getAttribute("placeholder")) {
-		document.getElementById("InputName").setAttribute("placeholder", TextGet("NameExplanation"));
 		document.getElementById("InputDescription").setAttribute("placeholder", TextGet("DescriptionExplanation"));
 		document.getElementById("InputAdminList").setAttribute("placeholder", TextGet("UseMemberNumbersAdmin"));
 		document.getElementById("InputBanList").setAttribute("placeholder", TextGet("UseMemberNumbersBan"));

@@ -59,7 +59,7 @@ function ChatRoomCharacterViewClick(event) {
 	// Checks if there was a click on a character
 	ChatRoomCharacterViewLoopCharacters((charIdx, charX, charY, space, zoom) => {
 		if (MouseIn(charX, charY, space, 1000 * zoom)) {
-			return ChatRoomCharacterViewClickCharacter(ChatRoomCharacterDrawlist[charIdx], charX, charY, zoom, (MouseX - charX) / zoom, (MouseY - charY) / zoom, charIdx);
+			return ChatRoomCharacterViewClickCharacter(ChatRoomCharacterDrawlist[charIdx], charX, charY, zoom, (MouseX - charX) / zoom, (MouseY - charY) / zoom);
 		}
 	});
 
@@ -115,7 +115,7 @@ function ChatRoomCharacterViewShowMapButton() {
  * @param {number} ClickY Click Y postion relative to character, without zoom
  * @param {number} Pos Index of target character
  */
-function ChatRoomCharacterViewClickCharacter(C, CharX, CharY, Zoom, ClickX, ClickY, Pos) {
+function ChatRoomCharacterViewClickCharacter(C, CharX, CharY, Zoom, ClickX, ClickY) {
 
 	// Click on name
 	if (ClickY > 900) {
@@ -143,6 +143,7 @@ function ChatRoomCharacterViewClickCharacter(C, CharX, CharY, Zoom, ClickX, Clic
 		if (MoveTargetPos < 0) {
 			ChatRoomCharacterViewMoveTarget = null;
 		} else {
+			const Pos = ChatRoomCharacter.findIndex(c => c.MemberNumber === C.MemberNumber);
 			if (Pos < MoveTargetPos && MouseIn(CharX + 100 * Zoom, CharY + 750 * Zoom, 90 * Zoom, 90 * Zoom)) {
 				// Move left
 				for (let i = 0; i < MoveTargetPos - Pos; i++) {

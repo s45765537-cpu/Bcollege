@@ -82,6 +82,7 @@ Cloth,AdultBabyDress1,Puffy Dress
 Cloth,AdultBabyDress2,Bows Dress
 Cloth,AdultBabyDress3,Summer flower dress
 Cloth,AdultBabyDress4,Shiny dress
+Cloth,AnimeGirl,Cosplay Girl Suit
 Cloth,BabydollDress1,Babydoll Dress
 Cloth,Blouse1,Blouse
 Cloth,Bodice1,Bodice
@@ -121,6 +122,7 @@ Cloth,HeavyLeatherDress,Heavy Leather Dress
 Cloth,Hoodie,Cropped Hoodie
 Cloth,Jacket,Jacket
 Cloth,LaceBabydoll,Lace Babydoll
+Cloth,LatexHobbleDress,Strict Hobble Dress
 Cloth,LatexLacedSuit,Latex Laced Suit
 Cloth,LatexTankTop,Latex Tank Top
 Cloth,LatexTop,Laced Latex Top
@@ -318,12 +320,14 @@ Glasses,Glasses6,Style 6
 Glasses,Goggles,Goggles
 Glasses,GradientSunglasses,Gradient Sunglasses
 Glasses,JokeGlasses,Inconspicious Glasses
+Glasses,Pincenez,Pince-nez
 Glasses,StreetEyewear,Street Eyewear
 Glasses,SunGlasses1,Sunglasses 1
 Glasses,SunGlasses2,Sunglasses 2
 Glasses,SunGlassesClear,Clear Sunglasses
 Glasses,VGlasses,V Glasses
 Gloves,,Gloves
+Gloves,AnimeGirlGloves,Cosplay Girl Gloves
 Gloves,BikerGloves,Biker Gloves
 Gloves,Catsuit,Catsuit Gloves
 Gloves,CowPrintedGloves,Cow Printed Gloves
@@ -566,6 +570,7 @@ HairFront,HairFront57,Style 57
 Hands,,Hands
 Hands,Default,Default
 Hat,,Hat
+Hat,AnimeGirlTiara,Cosplay Girl Tiara
 Hat,BakerBoyHat,Baker Boy Hat
 Hat,BallCapBack,Baseball Cap Back
 Hat,BallCapFront,Baseball Cap Front
@@ -606,6 +611,7 @@ Hat,SwimCap,Swim Cap
 Hat,Tiara1,Tiara
 Hat,Veil1,Veil Half Face
 Hat,Veil2,Veil Full Face
+Hat,VintageHat,Vintage Hat
 Hat,WitchHat1,Witch Hat
 Head,,Head
 Head,Default,Regular Ears
@@ -792,6 +798,7 @@ ItemDevices,BondageBench,Bondage Bench
 ItemDevices,BurlapSack,Burlap Sack
 ItemDevices,Cage,Stand up cage
 ItemDevices,ChangingTable,Changing Table
+ItemDevices,Cement,Cement Shoes
 ItemDevices,Coffin,Vampire Coffin
 ItemDevices,ConcealingCloak,Concealing Cloak
 ItemDevices,Crib,Crib
@@ -885,6 +892,7 @@ ItemFeet,Tentacles,Tentacles
 ItemFeet,WoodenCuffs,Wooden Cuffs
 ItemFeet,Zipties, Zip Ties
 ItemHandheld,,Hands
+ItemHandheld,AnimeGirlWand,Cosplay Girl Power Staff
 ItemHandheld,Baguette,Baguette
 ItemHandheld,Ballgag,Ballgag
 ItemHandheld,Belt,Belt
@@ -1178,6 +1186,7 @@ ItemMouth,PonyGag,Bridle Gag
 ItemMouth,PrisonLockdownGag,Prison Lockdown Gag
 ItemMouth,PumpGag,Pump Gag
 ItemMouth,PumpkinGag,Pumpkin Gag
+ItemMouth,QualityHarnessGag,Quality Harness Gag
 ItemMouth,RegressedMilk,Nursery Milk
 ItemMouth,RegularSleepingPill,Sleeping Pill
 ItemMouth,Ribbons,Ribbons
@@ -1466,6 +1475,7 @@ Mouth,Discreet,Discreet
 Mouth,Full,Full Lips
 Mouth,Regular,Regular
 Necklace,,Necklace
+Necklace,AnimeGirlNecklace,Cosplay Girl Necklace
 Necklace,Bandana,Bandana
 Necklace,BlackHeart,Black Heart
 Necklace,BodyChainNecklace,Body Chain Necklace
@@ -1553,6 +1563,7 @@ RightHand,Claws,Claws
 RightHand,Fingernails,Fingernails
 RightHand,Rings,Rings
 Shoes,,Shoes
+Shoes,AnimeGirlBoots,Cosplay Girl Boots
 Shoes,AnkleBoots1,Ankle Boots
 Shoes,AnkleStrapShoes,Ankle Strap Shoes
 Shoes,BalletHeels1,Ballet Hi-Shoes

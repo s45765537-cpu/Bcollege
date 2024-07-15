@@ -1,7 +1,7 @@
 "use strict";
 
 /** BC's version */
-var GameVersion = "R105Beta3";
+var GameVersion = "R106Beta1";
 
 const GameVersionFormat = /^R([0-9]+)(?:(Alpha|Beta)([0-9]+)?)?$/;
 
@@ -29,7 +29,7 @@ function GameStart() {
 	TranslationLoad();
 	DrawLoad();
 	AssetLoadAll();
-	//AssetInventoryIDValidate(); // COMMENT WHEN RELEASING
+	AssetInventoryIDValidate();
 	CommandsLoad();
 	ControllerStart();
 	CommonSetScreen("Character", "Login");
@@ -169,18 +169,41 @@ function GameRunBackground(Timestamp) {
  * @param {KeyboardEvent} event
  */
 function GameKeyDown(event) {
-	let handled = false;
 	KeyPress = event.keyCode || event.which;
-	if (ControllerIsActive() && ControllerSupportKeyDown(event)) {
-		handled = true;
-	} else if (event.key == "Escape" && CurrentScreenFunctions.Exit) {
-		CurrentScreenFunctions.Exit();
-		handled = true;
-	} else if (DialogKeyDown(event)) {
-		handled = true;
-	} else if (CurrentScreenFunctions.KeyDown && CurrentScreenFunctions.KeyDown(event)) {
-		handled = true;
+
+	let handled = false;
+	handleKeyDown: {
+		if (ControllerIsActive() && ControllerSupportKeyDown(event)) {
+			handled = true;
+			break handleKeyDown;
+		}
+
+		if (
+			event.key == "Escape"
+			&& !(event.shiftKey || event.altKey || event.metaKey || event.ctrlKey)
+		) {
+			if (document.activeElement instanceof HTMLElement && !(document.activeElement === document.body || document.activeElement.id === "MainCanvas")) {
+				document.activeElement.blur();
+				handled = true;
+				break handleKeyDown;
+			} else if (CurrentScreenFunctions.Exit) {
+				CurrentScreenFunctions.Exit();
+				handled = true;
+				break handleKeyDown;
+			}
+		}
+
+		if (DialogKeyDown(event)) {
+			handled = true;
+			break handleKeyDown;
+		}
+
+		if (CurrentScreenFunctions.KeyDown && CurrentScreenFunctions.KeyDown(event)) {
+			handled = true;
+			break handleKeyDown;
+		}
 	}
+
 
 	if (handled) {
 		event.preventDefault();

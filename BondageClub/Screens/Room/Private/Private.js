@@ -26,6 +26,9 @@ var PrivateBeltList = ["LeatherChastityBelt", "SleekLeatherChastityBelt", "Studd
 var PrivateEntryEvent = true;
 var PrivateClubCardVictoryMode = false;
 var PrivateClubCardDefeatConsequence = ["Cage", "Bound", "BoundPet", "Chastity", "ForceNaked", "Spank", "Tickle", "Orgasm", "Shibari"];
+var PrivateGiftRegular = null;
+var PrivateGiftRestraint = null;
+var PrivateBaseDecay = 7200000; // Base NPC love decay is -1 love per 2 hours
 
 /**
  * Checks if the player is caged.
@@ -456,6 +459,35 @@ function PrivateCanTryforAction() {
 function PrivateCannotTryforAction() {
 	return (!Player.CanTalk() && !CurrentCharacter.CanInteract());
 }
+/**
+ * Returns TRUE if the current character is an anime girl / superheroine
+ * @returns {boolean} - TRUE if archetype is AnimeGirl
+ */
+function PrivateIsAnimeGirl() {
+	return (CurrentCharacter.Title === "AnimeGirl");
+}
+
+/**
+ * Returns a random item that could be bought from the store as a gift that the player could receive by a NPC
+ * @param {boolean} Restraint - TRUE if we must return an item that's a restraint
+ * @returns {Asset} - The item asset that can be given
+ */
+function PrivateGetPossibleGift(Restraint) {
+
+	// Builds the item list
+	let InvList = [];
+	for (let A of Asset)
+		if ((A.Value != null) && (A.Value > 0) && A.Random && ((A.Gender == null) || (A.Gender == "F")) && !InventoryAvailable(Player, A.Name, A.Group.Name) && !InventoryIsPermissionBlocked(Player, A.Name, A.Group.Name) && !InventoryIsPermissionLimited(Player, A.Name, A.Group.Name))
+			if ((Restraint && A.Group.Name.startsWith("Item")) || (!Restraint && !A.Group.Name.startsWith("Item")))
+				InvList.push({...A});
+
+	// Returns an item at random or NULL if nothing is possible	
+	if (InvList.length <= 0)
+		return null;
+	else
+		return CommonRandomItemFromList(null, InvList);
+
+}
 
 /**
  * Loads the private room screen and the vendor NPC.
@@ -480,6 +512,7 @@ function PrivateLoad() {
 		for (let C = 1; C < PrivateCharacter.length; C++)
 			if (PrivateCharacter[C].IsOwner()) {
 				PoseSetActive(Player, "Kneel", true);
+				NPCTraitDialog(PrivateCharacter[C]);
 				CharacterSetCurrent(PrivateCharacter[C]);
 				PrivateCharacter[C].CurrentDialog = DialogFind(CurrentCharacter, "1060");
 				PrivateCharacter[C].Stage = "1061";
@@ -492,6 +525,9 @@ function PrivateLoad() {
 	// Horny NPCs will randomly be in the character bed when the player enters
 	PrivateRandomBed();
 	PrivateEntryEvent = false;
+
+	// Prepares the possible NPC gifts
+	PrivateGiftReset();
 
 }
 
@@ -559,13 +595,15 @@ function PrivateNewCloth(C) {
 		CollegeDetentionYukiClothes(C);
 	} else if (C.Name == "Julia") {
 		CollegeTheaterJuliaClothes(C);
-	} else if ((C.Title != null) && (C.Title == "Mistress")) {
+	} else if (C.Title === "Mistress") {
 		CharacterRandomUnderwear(C);
 		CharacterArchetypeClothes(C, "Mistress");
-	} else if ((C.Title != null) && (C.Title == "Maid")) {
+	} else if (C.Title === "Maid") {
 		CharacterRandomUnderwear(C);
 		CharacterArchetypeClothes(C, "Maid");
-	} else if ((C.Title != null) && (C.Title == "Dominatrix")) {
+	} else if (C.Title === "AnimeGirl") {
+		CharacterArchetypeClothes(C, "AnimeGirl");
+	} else if (C.Title === "Dominatrix") {
 		PandoraDress(C, "Mistress");
 	} else CharacterAppearanceFullRandom(C, true);
 
@@ -864,6 +902,35 @@ function PrivateClickCharacter() {
 					CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, "PlayerMustKneel");
 				}
 
+				// Prerequisite conditions for NPC giving gifts to player
+				if (Player.CanTalk() && CurrentCharacter.CanTalk() && Player.CanInteract() && CurrentCharacter.CanInteract() && !Player.Cage && !CurrentCharacter.Cage && (CurrentCharacter.Love >= 80) && (Math.random() >= 0.85) && (NPCEventGet(CurrentCharacter, "NextGift") <= CurrentTime)) {
+
+					// Lovers can offer non-restraint gifts to dominant players
+					if ((CurrentCharacter.Stage == "0") && (PrivateGiftRegular != null) && (ReputationGet("Dominant") >= NPCTraitGet(CurrentCharacter, "Dominant"))) {
+						CurrentCharacter.Stage = "RegularGift0";
+						CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, "RegularGiftIntro");
+					}
+
+					// Lovers can offer restraint gifts to submissive players
+					if ((CurrentCharacter.Stage == "0") && (PrivateGiftRestraint != null) && (ReputationGet("Dominant") < NPCTraitGet(CurrentCharacter, "Dominant"))) {
+						CurrentCharacter.Stage = "RestraintGift0";
+						CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, "RestraintGiftIntro");
+					}
+
+					// Domme NPC can offer restraint gifts to submissive players
+					if ((CurrentCharacter.Stage == "1000") && (PrivateGiftRestraint != null)) {
+						CurrentCharacter.Stage = "DomGift0";
+						CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, "DomGiftIntro");
+					}
+
+					// Domme can offer non-restraint gifts to dominant players
+					if ((CurrentCharacter.Stage == "2000") && (PrivateGiftRegular != null)) {
+						CurrentCharacter.Stage = "SubGift0";
+						CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, "SubGiftIntro");
+					}
+
+				}
+
 			}
 
 }
@@ -888,7 +955,7 @@ function PrivateClick() {
 	// Main screens buttons
 	if (MouseIn(500, 0, 500, 1000) && !LogQuery("RentRoom", "PrivateRoom")) CharacterSetCurrent(Player);
 	if (MouseIn(1000, 0, 500, 1000) && !LogQuery("RentRoom", "PrivateRoom")) { NPCTraitDialog(PrivateVendor); CharacterSetCurrent(PrivateVendor); }
-	if (MouseIn(1885, PrivateButtonTop(0), 90, 90) && Player.CanWalk() && (!Player.Cage)) PrivateExit();
+	if (MouseIn(1885, PrivateButtonTop(0), 90, 90) && Player.CanWalk() && !Player.Cage) PrivateExit();
 	if (MouseIn(1885, PrivateButtonTop(1), 90, 90) && LogQuery("RentRoom", "PrivateRoom") && Player.CanKneel()) PoseSetActive(Player, Player.ActivePoseMapping.BodyLower !== "Kneel" ? "Kneel" : "BaseLower", true);
 	if (MouseIn(1885, PrivateButtonTop(2), 90, 90) && LogQuery("RentRoom", "PrivateRoom") && Player.CanWalk() && (!Player.Cage)) CharacterSetCurrent(PrivateVendor);
 	if (MouseIn(1885, PrivateButtonTop(3), 90, 90) && LogQuery("RentRoom", "PrivateRoom") && Player.CanChangeOwnClothes()) CharacterAppearanceLoadCharacter(Player);
@@ -1179,20 +1246,41 @@ function PrivateRestrainPlayer() {
  * @returns {boolean} - Whether or not any private characters require updating.
  */
 function PrivateRelationDecay() {
+
+	// For each NPCs in the room
 	let MustSave = false;
-	for (const character of PrivateCharacter) {
-		if (character.IsPlayer()) continue;
-		const LastDecay = NPCEventGet(character, "LastDecay");
-		if (LastDecay * CheatFactor("NoLoveDecay", 0) == 0) {
-			NPCEventAdd(character, "LastDecay", CurrentTime);
-		} else if (LastDecay <= CurrentTime - 7200000) {
-			const Decay = Math.floor((CurrentTime - LastDecay) / 7200000);
-			NPCEventAdd(character, "LastDecay", LastDecay + (Decay * 7200000));
-			NPCLoveChange(character, Decay * -1);
+	for (let C of PrivateCharacter) {
+
+		// The player is excluded
+		if (C.IsPlayer()) continue;
+
+		// Sets the first decay if needed
+		const LastDecay = NPCEventGet(C, "LastDecay");
+		if (LastDecay * CheatFactor("NoLoveDecay", 0) <= 0) {
+
+			// Sets the next decay time
+			NPCEventAdd(C, "LastDecay", CurrentTime);
 			MustSave = true;
-			if ((character.Love <= -100) && (!character.Cage)) {
-				PrivateKickCharacterOut(character);
-			}
+
+		} else if (LastDecay <= CurrentTime - PrivateBaseDecay) {
+
+			// Sets the next decay time
+			NPCEventAdd(C, "LastDecay", CurrentTime);
+			MustSave = true;
+
+			// To calculate the decay, we go up to 400 from room entry
+			let EntryDays = Math.floor((CurrentTime - NPCEventGet(C, "PrivateRoomEntry")) / 86400000);
+			if (EntryDays < 0) EntryDays = 0;
+			if (EntryDays > 400) EntryDays = 400;
+
+			// The decay gets slower and slower, up to 6 times slower at 400 days and more
+			const LoveDecay = Math.floor((CurrentTime - LastDecay) / PrivateBaseDecay * ((480 - EntryDays) / 480));
+			if (LoveDecay > 0) NPCLoveChange(C, LoveDecay * -1);
+
+			// The NPC will disappear if love is under -100, can be prevented with any cage
+			if ((C.Love <= -100) && !C.Cage && !C.IsEnclose())
+				PrivateKickCharacterOut(C);
+
 		}
 	}
 	return MustSave;
@@ -1646,8 +1734,7 @@ function PrivateStartWife() {
  */
 function PrivateNPCInteraction(LoveFactor) {
 	if (CurrentCharacter.Love == null) CurrentCharacter.Love = 0;
-	if ((CurrentCharacter.Love < 60) || (CurrentCharacter.IsOwner()) || (CurrentCharacter.IsOwnedByPlayer()) || CurrentCharacter.IsLoverOfPlayer() || (parseInt(LoveFactor) < 0))
-		NPCLoveChange(CurrentCharacter, LoveFactor);
+	NPCLoveChange(CurrentCharacter, LoveFactor);
 }
 
 /**
@@ -1919,8 +2006,9 @@ function PrivateGetBed(Type) {
  * When the player exits the private room
  * @returns {void} - Nothing.
  */
-function PrivateExit(Type) {
+function PrivateExit() {
 	if (!CurrentCharacter) {
+		if (PrivateCharacter.length >= 2) ServerPrivateCharacterSync();
 		PrivateEntryEvent = true;
 		CommonSetScreen("Room", "MainHall");
 	}
@@ -2188,4 +2276,179 @@ function PrivateClubCardKinkyConsequence(Eyes, Strip) {
  */
 function PrivateHasEmptySlot() {
 	return LogQuery("RentRoom", "PrivateRoom") && (PrivateCharacter.length < PrivateCharacterMax) && !LogQuery("LockOutOfPrivateRoom", "Rule");
+}
+
+/**
+ * Resets the possible gifts given by NPCs
+ */
+function PrivateGiftReset() {
+	PrivateGiftRegular = PrivateGetPossibleGift(false);
+	PrivateGiftRestraint = PrivateGetPossibleGift(true);
+}
+
+/**
+ * Gives the NPC gift to the player, a new gift will come between 1 and 6 days
+ * @param {string} GiftType - Regular or Restraint
+ * @returns {void} - Nothing.
+ */
+function PrivateGiftGet(GiftType) {
+	let Gift = (GiftType == "Regular") ? PrivateGiftRegular : PrivateGiftRestraint;
+	if ((Gift != null) && (Gift.BuyGroup == null)) InventoryAdd(Player, Gift.Name, Gift.Group.Name, false);
+	if ((Gift != null) && (Gift.BuyGroup != null))
+		for (let A of Asset)
+			if (A.BuyGroup === Gift.BuyGroup)
+				InventoryAdd(Player, A.Name, A.Group.Name, false);
+	ServerPlayerInventorySync();
+	CurrentCharacter.CurrentDialog = CurrentCharacter.CurrentDialog.replace("GIFTNAME", Gift.Description);
+	NPCEventAdd(CurrentCharacter, "NextGift", Math.floor(CurrentTime + 86400000 + Math.random() * 432000000));
+}
+
+/**
+ * Uses the NPC gift on the player
+ * @param {string} GiftType - Regular or Restraint
+ * @returns {void} - Nothing.
+ */
+function PrivateGiftUse(GiftType) {
+	let Gift = (GiftType == "Regular") ? PrivateGiftRegular : PrivateGiftRestraint;
+	if ((Gift != null) && (Gift.BuyGroup == null)) InventoryWear(Player, Gift.Name, Gift.Group.Name);
+	if ((Gift != null) && (Gift.BuyGroup != null))
+		for (let A of Asset)
+			if (A.BuyGroup === Gift.BuyGroup)
+				InventoryWear(Player, A.Name, A.Group.Name);
+	PrivateGiftReset();
+}
+
+/**
+ * When the player meets her owner randomly in the main hall
+ * @returns {void} - Nothing.
+ */
+function PrivateOwnerInMainHall() {
+
+	// Finds the player owner
+	let Owner = null;
+	for (let C of PrivateCharacter)
+		if (!C.IsPlayer() && C.IsOwner())
+			Owner = C;
+	if (Owner == null) return;
+	if (!Owner.CanInteract()) return;
+
+	// Loads the owner NPC random meeting dialog
+	CommonSetScreen("Room", "Private");
+	PrivateBackground = "MainHall";
+	NPCTraitDialog(Owner);
+	CharacterRelease(Owner);
+	PrivateNewCloth(Owner);
+	CharacterSetCurrent(Owner);
+	Owner.Stage = "MeetOwnerInMainHall0";
+	Owner.CurrentDialog = DialogFind(Owner, "MeetOwnerInMainHallIntro");
+
+}
+
+/**
+ * The owner can ungag the player and it can affect the love factor
+ * @param {number} LoveFactor - Amount of love to gain or lose.
+ * @returns {void} - Nothing.
+ */
+function PrivatePlayerUngag(LoveFactor) {
+	PrivateNPCInteraction(LoveFactor);
+	InventoryRemove(Player, "ItemMouth");
+	InventoryRemove(Player, "ItemMouth2");
+	InventoryRemove(Player, "ItemMouth3");
+	InventoryRemove(Player, "ItemHead");
+	InventoryRemove(Player, "ItemHood");
+}
+
+/**
+ * The owner can do some activities with the player from the main hall
+ * @returns {void} - Nothing.
+ */
+function PrivateStartOwnerHallActivity() {
+	let Activity = CommonRandomItemFromList(null, ["BringToPrivate", "NudeParade", "Bondage"]);
+	CurrentCharacter.Stage = "MeetOwnerInMainHall" + Activity + "0";
+	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, "MeetOwnerInMainHall" + Activity + "Intro");
+}
+
+/**
+ * Owner in Main Hall - When the player returns to her private room with her owner
+ * @returns {void} - Nothing.
+ */
+function PrivateOwnerHallReturnToPrivate() {
+	PrivateBackground = ((Player.VisualSettings) && (Player.VisualSettings.PrivateRoomBackground)) ? Player.VisualSettings.PrivateRoomBackground : "Private";
+}
+
+/**
+ * Owner in Main Hall - Restrains the player with a factor
+ * @param {"FEW"|"LOT"|"ALL"} BondageType - The type of bondage to apply
+ * @returns {void} - Nothing.
+ */
+function PrivateOwnerHallBondage(BondageType) {
+	CharacterFullRandomRestrain(Player, BondageType);
+	CommonSetScreen("Room", "MainHall");
+	PrivateBackground = "Private";
+}
+
+/**
+ * Owner in Main Hall - Strips the player
+ * @returns {void} - Nothing.
+ */
+function PrivateOwnerHallNaked() {
+	CharacterRelease(Player);
+	CharacterNaked(Player);
+	CharacterSetFacialExpression(Player, "Blush", "Medium", 10);
+}
+
+/**
+ * Owner in Main Hall - Change collar and leash the player
+ * @returns {void} - Nothing.
+ */
+function PrivateOwnerHallLeash() {
+	let Item = InventoryGet(Player, "ItemNeck");
+	if (Item !== null) {
+		let NewProperty = Item.Property;
+		while (NewProperty == Item.Property)
+			Item.Property = CommonCloneDeep(CommonRandomItemFromList(null, InventoryItemNeckSlaveCollarTypes).Property);
+		CharacterRefresh(Player, true);
+	}
+	CharacterSetFacialExpression(Player, "Eyes", "Sad", 10);
+	CharacterSetFacialExpression(Player, "Eyes2", "Sad", 10);
+	InventoryWear(Player, "ChainLeash", "ItemNeckRestraints");
+}
+
+/**
+ * Owner in Main Hall - Changes the background and can bind/gag the player
+ * @param {string} Background - The new background to setup
+ * @param {string} Action - The action to perform
+ * @returns {void} - Nothing.
+ */
+function PrivateOwnerHallBackground(Background, Action) {
+	if (Background == "") Background = "MainHall";
+	PrivateBackground = Background;
+	if (Action === "Bind") {
+		PrivateNPCInteraction(-3);
+		InventoryWearRandom(Player, "ItemMouth");
+		InventoryWearRandom(Player, "ItemArms");
+		CharacterSetFacialExpression(Player, "Blush", "Medium", 10);
+		CharacterSetFacialExpression(Player, "Eyes", "Angry", 10);
+		CharacterSetFacialExpression(Player, "Eyes2", "Angry", 10);
+	}
+}
+
+/**
+ * Owner in Main Hall - Ends the parade and can do an extra action
+ * @param {string} Action - The action to perform
+ * @returns {void} - Nothing.
+ */
+function PrivateOwnerHallParadeEnd(Action) {
+	CommonSetScreen("Room", "MainHall");
+	PrivateBackground = "Private";
+	InventoryRemove(Player, "ItemNeckRestraints");
+	if (Action === "Release") {
+		PrivateNPCInteraction(3);
+		InventoryRemove(Player, "ItemMouth");
+		InventoryRemove(Player, "ItemArms");
+	}
+	if (Action === "Lock") {
+		PrivateNPCInteraction(-3);
+		PrivateBlockChange(15);
+	}
 }
