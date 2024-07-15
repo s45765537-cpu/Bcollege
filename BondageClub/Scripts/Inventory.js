@@ -1580,7 +1580,8 @@ function InventoryTogglePermission(Item, Type=null, Worn=false, push=true) {
 
 	const assetName = Item.Asset.Name;
 	const groupName = Item.Asset.Group.Name;
-	const permission = Player.PermissionItems[`${groupName}/${assetName}`]?.Permission ?? "Default";
+	const key = /** @type {const} */(`${groupName}/${assetName}`);
+	const permission = (Type ? Player.PermissionItems[key]?.TypePermissions[Type] : Player.PermissionItems[key]?.Permission) ?? "Default";
 	switch (permission) {
 		case "Default":
 			return InventorySetPermission(groupName, assetName, "Favorite", Type, push);
