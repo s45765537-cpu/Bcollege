@@ -385,3 +385,5 @@ Text Alvin,Summon a Ropeslave when playing Restrain or Kidnapping a Dominant or 
 Effect Alvin, Alvin summoned a rope slave for SOURCEPLAYER
 Title Rope Slave,Rope Slave
 Text Rope Slave,Gain +1 Fame per turn if Alvin or Rope Sensei present.
+Title Quack Doctor,Quack Doctor
+Text Quack Doctor,"Start of your turn, for each Asylum Patient present, players lose 1 fame. (Max 4)"

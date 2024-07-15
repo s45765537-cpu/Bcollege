@@ -620,6 +620,21 @@ var ClubCardList = [
 			return (ClubCardGroupOnBoardCount(CCPlayer, "AsylumPatient") >= 2);
 		}
 	},
+	{
+        ID: 7008,
+        Name: "Quack Doctor",
+        MoneyPerTurn: 1,
+		Group: ["AsylumNurse"],
+        AfterOpponentTurnEnd: function(CCPlayer) {
+            const opponent = ClubCardGetOpponent(CCPlayer);
+
+            if (CCPlayer.Fame < ClubCardFameGoal && opponent.Fame < ClubCardFameGoal) {
+                let FameReduction = Math.min(ClubCardGroupOnBoardCount(opponent, "AsylumPatient"), 4);
+                ClubCardPlayerAddFame(CCPlayer, FameReduction * -1);
+				ClubCardPlayerAddFame(opponent, FameReduction * -1);
+            }
+        }
+	},
 
 	// 8000 - Dominant Members (Raise lots of Fame, cost Money)
 	{
