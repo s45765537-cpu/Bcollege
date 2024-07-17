@@ -11,9 +11,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2024-07-09
-* Last recorded PR: [#5119](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5119)
-* Last recorded commit hash: `721549b45add5ffb07ffc0591202466e17ddc3de`
+* Changelog last updated: 2024-07-17
+* Last recorded PR: [#5126](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5126)
+* Last recorded commit hash: `d2a3deb9bd934e0ab3d25526246a2852479ac46f`
 
 ## [Generated]
 
@@ -31,6 +31,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Rama - Allow the Esc key to unfocus the active element prior to exiting the screen ([#5113](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5113))
 * dDeepLb - Room name regex keep up ([#5114](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5114))
 * EllieThePink - Club Card - Make restrain stop new events
+* Rama - BETA: Make sure that the color of clickable character names fully respects "Color names" settings ([#5120](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5120))
 * Ben987 - Prepare the Anime Girl costume to be a quest reward
 * Ben987 - Superheroine NPC Kidnappers + Anime Girl Costume Quest
 * Ben987 - New Superhero / Superheroine Titles
@@ -42,6 +43,8 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Ben987 - Russian Translation by Makeevchanin
 * Ben987 - NPC Owner in Main Hall - Bondage Path
 * Ben987 - NPC Owner - Nude Parade Event
+* Ben987 - NPC - New Bunny Archetype and Dialog
+* Ben987 - NPC - Add Dress Up Options for New Archetypes
 
 ### [Fixes]
 
@@ -55,10 +58,16 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Rama - Fix the chat input failing to auto-resize after sending a message ([#5105](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5105))
 * Rama - Fix number inputs being clamped to zero if no min/max is specified on the input element ([#5108](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5108))
 * Rama - Fix item visibility settings not saving ([#5109](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5109))
+* Rama - Fix the gag-/deaf-/blind-icon constructor failing to check both item- and asset-level effects ([#5121](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5121))
+* Rama - Fix the chat-input auto expansion not keeping the chat log scrolled to its end ([#5122](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5122))
+* Rama - Fix the door-opening/-closing animation of the kennel being broken ([#5124](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5124))
+* Rama - Fix the extended item permission buttons being broken ([#5126](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5126))
 * Stella - Fix moving Characters between different ChatRoom pages ([#5106](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5106))
 * Cleon - AnimeGirl pose fix and BigMouthHood revision. ([#5107](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5107))
 * EllieThePink - Make restrain stop new events ([#5118](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5118))
+* Haruhi - QualityHarnessGag missing text fixed and Body Markings switched to Non-clothing ([#5123](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5123))
 * Ben987 - Fix the Main Hall Police Intro Dialog
+* Ben987 - Fix invalid owner property preventing some players from starting a D/s new trial
 
 ### [Technical]
 
@@ -183,7 +192,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Ben987 - Owner Rule - Allow to Change and Lock Nickname
 * Ben987 - Chat Room Maps - 4 New Floors + Rocks
 * Ben987 - Bondage Brawl - Desert Assets
-* Ben987 - Chat Room Maps - 3 New Floor/Water Tiles (PR not found)
+* Ben987 - Chat Room Maps - 3 New Floor/Water Tiles
 
 ### [Fixes]
 
@@ -1268,7 +1277,7 @@ Rama - Remove redundant `null` guards in `CharacterOnlineRefresh()` ([#4770](htt
 * Estsanatlehi - Changed the CI config to protect against whitespace issues in the asset definition files ([#4081](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4081))
 
 ### [Beta Fixes]
-* Ben987 - Removed the Latex Respirator from the pool of assets used randomly by NPCs (PR not found)
+* Ben987 - Removed the Latex Respirator from the pool of assets used randomly by NPCs
 * Ben987 - Added a new path to the Movie Studio
 * Ben987 - Added 6 new backgrounds
 * Bluesilv - Fixed the missing penis layers for the HighSecurityStraitjacket and made the Pom Pom outfit available to males ([#4085](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/4085))
@@ -1540,7 +1549,7 @@ Rama - Remove redundant `null` guards in `CharacterOnlineRefresh()` ([#4770](htt
 ## [R87]
 
 ### [Added]
-* Ben987 - Lucky Wheel - Missing Preview Image (PR not found)
+* Ben987 - Lucky Wheel - Missing Preview Image
 * Sepia Oulomenohn - Added a new latex respirator to the 3rd mouth group ([#3754](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/3754))
 * Bluesilv - Added a buttoned shirt item for males ([#3773](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/3773))
 * Ben987 - Added support for a player-provided list of words to censor
