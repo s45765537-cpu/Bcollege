@@ -165,16 +165,19 @@ textarea {
 
 #chat-room-buttons-collapse {
 	grid-area: chat-buttons-collapse;
-	cursor: pointer;
 	height: 100%;
 	width: fit-content;
-	background: unset;
-	box-sizing: border-box;
-	border: unset;
 	font-weight: bold;
 }
 
-#chat-room-buttons-collapse:hover {
+@media (hover: hover) {
+	#chat-room-buttons-collapse:hover {
+		background-color: cyan;
+	}
+}
+
+#chat-room-buttons-collapse:active,
+#chat-room-buttons-collapse[data-active] {
 	background-color: cyan;
 }
 
@@ -194,8 +197,6 @@ textarea {
 .chat-room-button {
 	height: var(--button-size);
 	width: var(--button-size);
-	background-color: unset !important;
-	border: unset !important;
 }
 
 .chat-room-button::before {
@@ -219,9 +220,15 @@ textarea {
 	}
 }
 
-.chat-room-button:disabled::before, .chat-room-button[aria-disabled="true"]::before {
+.chat-room-button:disabled::before,
+.chat-room-button[aria-disabled="true"]::before {
 	cursor: auto;
 	background-color: gray;
+}
+
+.chat-room-button:active::before,
+.chat-room-button[data-active]::before {
+	background-color: cyan;
 }
 
 #chat-room-send::before {
@@ -329,17 +336,17 @@ textarea {
 	}
 }
 
-#TextAreaChatLog[data-colortheme="dark"] .chat-room-sep-touch,
-#TextAreaChatLog[data-colortheme="dark2"] .chat-room-sep-touch,
-#TextAreaChatLog[data-colortheme="dark"] .button-touch,
-#TextAreaChatLog[data-colortheme="dark2"] .button-touch {
+#TextAreaChatLog[data-colortheme="dark"] .chat-room-sep-div > .button:active,
+#TextAreaChatLog[data-colortheme="dark2"] .chat-room-sep-div > .button:active,
+#TextAreaChatLog[data-colortheme="dark"] .chat-room-sep-div > .button[data-active],
+#TextAreaChatLog[data-colortheme="dark2"] .chat-room-sep-div > .button[data-active] {
 	color: #eee;
 }
 
-#TextAreaChatLog[data-colortheme="light"] .chat-room-sep-touch,
-#TextAreaChatLog[data-colortheme="light2"] .chat-room-sep-touch,
-#TextAreaChatLog[data-colortheme="light"] .button-touch,
-#TextAreaChatLog[data-colortheme="light2"] .button-touch {
+#TextAreaChatLog[data-colortheme="light"] .chat-room-sep-div > .button:active,
+#TextAreaChatLog[data-colortheme="light2"] .chat-room-sep-div > .button:active,
+#TextAreaChatLog[data-colortheme="light"] .chat-room-sep-div > .button[data-active],
+#TextAreaChatLog[data-colortheme="light2"] .chat-room-sep-div > .button[data-active] {
 	color: black;
 }
 
@@ -952,108 +959,6 @@ input[type="checkbox"]:checked::before {
 }
 
 /* Buttons */
-
-.button {
-	cursor: pointer;
-	position: relative;
-	background-color: white;
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: contain;
-	mask-size: contain;
-	border: min(0.2vh, 0.1vw) solid black;
-	box-sizing: border-box;
-}
-
-.button[aria-checked="true"] {
-	background-color: cyan;
-	background-color: color-mix(in srgb, white 66%, cyan 34%);
-}
-
-.button[aria-checked="true"]::before {
-	content: "";
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	border: min(0.3vh, 0.15vw) inset black;
-}
-
-.button-tooltip {
-	user-select: none;
-	background-color: #FFFF88;
-	color: black;
-	border: min(0.2vh, 0.1vw) solid black;
-	box-shadow: min(0.4vh, 0.2vw) min(0.4vh, 0.2vw) min(2vh, 1vw) 0 rgb(0 0 0 / 50%);
-	box-sizing: border-box;
-	padding: min(1vh, 0.5vw) min(2vh, 1vw) min(1vh, 0.5vw) min(2vh, 1vw);
-	position: absolute;
-	text-align: center;
-	visibility: hidden;
-	width: fit-content;
-	text-wrap: nowrap;
-	z-index: 1;
-}
-
-.button-tooltip:empty {
-	display: none;
-}
-
-.button-tooltip-left {
-	top: 50%;
-	transform: translateY(-50%);
-	right: calc(100% + min(1vh, 0.5vw));
-}
-
-.button-tooltip-right {
-	top: 50%;
-	transform: translateY(-50%);
-	left: calc(100% + min(1vh, 0.5vw));
-}
-
-.button-tooltip-top {
-	bottom: calc(100% + min(1vh, 0.5vw));
-	left: 50%;
-	transform: translateX(-50%);
-}
-
-.button-tooltip-bottom {
-	top: calc(100% + min(1vh, 0.5vw));
-	left: 50%;
-	transform: translateX(-50%);
-}
-
-.button-touch, .button-touch::before, .button:hover {
-	background-color: cyan;
-}
-
-.button:disabled, .button[aria-disabled="true"] {
-	cursor: auto;
-	background-color: gray;
-}
-
-@media (hover: hover) {
-	.button:hover > .button-tooltip {
-		visibility: visible;
-	}
-}
-
-@media (hover: none) {
-	.button-touch > .button-tooltip {
-		visibility: visible;
-	}
-}
-
-.button:focus {
-	outline: 2px solid rgb(0, 96, 223);
-	box-shadow: 0 0 0 3px white;
-	border-radius: 1px;
-}
-
-.button:focus > .button-tooltip {
-	visibility: visible;
-}
 
 .spin-button-container {
 	--margin: min(0.4vh, 0.2vw);
