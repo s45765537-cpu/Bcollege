@@ -790,18 +790,22 @@ var ElementButton = {
 	 * @type {(this: HTMLButtonElement, ev: KeyboardEvent) => Promise<void>}
 	 */
 	_KeyDown: async function _KeyDown(ev) {
-		if (this.disabled || this.ariaDisabled === "true" || ev.shiftKey || ev.ctrlKey || ev.metaKey || ev.altKey) {
+		if (ev.shiftKey || ev.ctrlKey || ev.metaKey || ev.altKey) {
 			return;
 		}
 		switch (ev.key) {
 			case "Enter":
 			case " ":
-				if (!ev.repeat) {
+				ev.preventDefault();
+
+				if (this.disabled || this.ariaDisabled === "true") {
+					ev.stopImmediatePropagation();
+					return;
+				} else if (!ev.repeat) {
 					this.click();
 					this.setAttribute("data-active", true);
 				}
 				ev.stopPropagation();
-				ev.preventDefault();
 				break;
 		}
 	},
@@ -811,12 +815,16 @@ var ElementButton = {
 	 * @type {(this: HTMLButtonElement, ev: KeyboardEvent) => Promise<void>}
 	 */
 	_KeyUp: async function _KeyUp(ev) {
-		if (this.disabled || this.ariaDisabled === "true" || ev.shiftKey || ev.ctrlKey || ev.metaKey || ev.altKey) {
+		if (ev.shiftKey || ev.ctrlKey || ev.metaKey || ev.altKey) {
 			return;
 		}
 		switch (ev.key) {
 			case "Enter":
 			case " ":
+				if (this.disabled || this.ariaDisabled === "true") {
+					ev.stopImmediatePropagation();
+					return;
+				}
 				this.removeAttribute("data-active");
 				break;
 		}
