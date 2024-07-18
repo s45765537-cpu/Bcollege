@@ -810,15 +810,6 @@ var ElementButton = {
 	},
 
 	/**
-	 * MouseDown listener that prevents a button from receining focus when clicked
-	 * @private
-	 * @type {(this: HTMLButtonElement, event: MouseEvent) => Promise<void>}
-	 */
-	_MouseDown: async function _MouseDown(event) {
-		event.preventDefault();
-	},
-
-	/**
 	 * @private
 	 * @type {(this: HTMLButtonElement, ev: KeyboardEvent) => Promise<void>}
 	 */
@@ -1013,7 +1004,6 @@ var ElementButton = {
 			classList: ["blank-button", "button", "HideOnPopup", ...(buttonOptions.classList ?? [])],
 			eventListeners: {
 				click: this._Click,
-				mousedown: this._MouseDown,
 				touchstart: this._TouchStart,
 				touchend: this._TouchEnd,
 				touchcancel: this._TouchEnd,
