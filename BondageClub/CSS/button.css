@@ -85,16 +85,6 @@
 	background-color: var(--hover-color);
 }
 
-.button:disabled,
-.button[aria-disabled="true"] {
-	cursor: auto;
-}
-
-.button-styling:disabled,
-.button-styling[aria-disabled="true"] {
-	background-color: var(--disabled-color);
-}
-
 /* Keep hover-related styling on mobile disabled as it has a tendency to stick even after the click has ended */
 @media (hover: hover) {
 	.button-styling:hover {
@@ -113,6 +103,10 @@
 		box-shadow: 0 0 0 3px white;
 		border-radius: 1px;
 	}
+
+	.button:focus-visible > .button-tooltip {
+		visibility: visible;
+	}
 }
 
 @supports not selector(:focus-visible) {
@@ -123,8 +117,19 @@
 	}
 }
 
-.button:focus > .button-tooltip {
-	visibility: visible;
+.button:disabled,
+.button[aria-disabled="true"] {
+	cursor: auto;
+}
+
+.button-styling:disabled,
+.button-styling[aria-disabled="true"] {
+	background-color: var(--disabled-color);
+}
+
+.button-styling:disabled::before,
+.button-styling[aria-disabled="true"]::before {
+	border: unset;
 }
 
 .button-tooltip:empty {
