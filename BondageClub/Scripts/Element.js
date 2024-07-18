@@ -786,30 +786,6 @@ var ElementButton = {
 	}),
 
 	/**
-	 * Touch event listener that mimicks the start of desktop-style hovering on mobile
-	 * @private
-	 * @type {(this: HTMLButtonElement, event: Event) => Promise<void>}
-	 */
-	_TouchStart: async function _TouchStart(event) {
-		if (this.disabled || this.ariaDisabled === "true") {
-			return;
-		}
-		this.classList.add("button-touch");
-	},
-
-	/**
-	 * Touch event listener that mimicks the end of desktop-style hovering on mobile
-	 * @private
-	 * @type {(this: HTMLButtonElement, event: Event) => Promise<void>}
-	 */
-	_TouchEnd: async function _TouchEnd(event) {
-		if (this.disabled || this.ariaDisabled === "true") {
-			return;
-		}
-		this.classList.remove("button-touch");
-	},
-
-	/**
 	 * @private
 	 * @type {(this: HTMLButtonElement, ev: KeyboardEvent) => Promise<void>}
 	 */
@@ -822,7 +798,7 @@ var ElementButton = {
 			case " ":
 				if (!ev.repeat) {
 					this.click();
-					this.classList.add("button-touch");
+					this.setAttribute("data-active", true);
 				}
 				ev.stopPropagation();
 				ev.preventDefault();
@@ -841,7 +817,7 @@ var ElementButton = {
 		switch (ev.key) {
 			case "Enter":
 			case " ":
-				this.classList.remove("button-touch");
+				this.removeAttribute("data-active");
 				break;
 		}
 	},
@@ -1004,9 +980,6 @@ var ElementButton = {
 			classList: ["blank-button", "button", "HideOnPopup", ...(buttonOptions.classList ?? [])],
 			eventListeners: {
 				click: this._Click,
-				touchstart: this._TouchStart,
-				touchend: this._TouchEnd,
-				touchcancel: this._TouchEnd,
 				keydown: this._KeyDown,
 				keyup: this._KeyUp,
 				...(buttonOptions.eventListeners ?? {}),
