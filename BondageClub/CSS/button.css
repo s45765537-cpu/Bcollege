@@ -1,4 +1,11 @@
 .button {
+	/* Default background color */
+	--button-color: white;
+	/* Background color for disabled buttons */
+	--disabled-color: grey;
+	/* Background color for hovered and/or active buttons */
+	--hover-color: cyan;
+
 	cursor: pointer;
 	position: relative;
 	background-position: center;
@@ -10,8 +17,8 @@
 
 /* Delegate the background/border styling to a separate class in order to ease their removal when a greater degree of element styling is desired */
 .button-styling {
-    background-color: white;
-    border: min(0.2vh, 0.1vw) solid black;
+	background-color: var(--button-color);
+	border: min(0.2vh, 0.1vw) solid black;
 }
 
 .button-tooltip {
@@ -57,8 +64,8 @@
 /* selectors */
 
 .button-styling[aria-checked="true"] {
-	background-color: cyan;
-	background-color: color-mix(in srgb, white 66%, cyan 34%);
+	background-color: var(--hover-color);
+	background-color: color-mix(in srgb, var(--button-color) 66%, var(--hover-color) 34%);
 }
 
 .button-styling[aria-checked="true"]::before,
@@ -75,7 +82,7 @@
 
 .button-styling:active,
 .button-styling[data-active] {
-	background-color: cyan;
+	background-color: var(--hover-color);
 }
 
 .button:disabled,
@@ -85,14 +92,14 @@
 
 .button-styling:disabled,
 .button-styling[aria-disabled="true"] {
-	background-color: gray;
+	background-color: var(--disabled-color);
 }
 
 /* Keep hover-related styling on mobile disabled as it has a tendency to stick even after the click has ended */
 @media (hover: hover) {
-    .button-styling:hover {
-        background-color: cyan;
-    }
+	.button-styling:hover {
+		background-color: var(--hover-color);
+	}
 
 	.button:hover > .button-tooltip {
 		visibility: visible;

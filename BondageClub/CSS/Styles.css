@@ -168,13 +168,13 @@ textarea {
 
 @media (hover: hover) {
 	#chat-room-buttons-collapse:hover {
-		background-color: cyan;
+		background-color: var(--hover-color);
 	}
 }
 
 #chat-room-buttons-collapse:active,
 #chat-room-buttons-collapse[data-active] {
-	background-color: cyan;
+	background-color: var(--hover-color);
 }
 
 #chat-room-buttons {
@@ -212,19 +212,18 @@ textarea {
 
 @media (hover: hover) {
 	.chat-room-button:hover::before {
-		background-color: cyan;
+		background-color: var(--hover-color);
 	}
 }
 
 .chat-room-button:disabled::before,
 .chat-room-button[aria-disabled="true"]::before {
-	cursor: auto;
-	background-color: gray;
+	background-color: var(--disabled-color);
 }
 
 .chat-room-button:active::before,
 .chat-room-button[data-active]::before {
-	background-color: cyan;
+	background-color: var(--hover-color);
 }
 
 #chat-room-send::before {
@@ -906,7 +905,7 @@ input[type="checkbox"]:checked::before {
 }
 
 .layering-button-pink[data-pose] {
-	background-color: pink;
+	--button-color: pink;
 }
 
 /* Dropdown */
