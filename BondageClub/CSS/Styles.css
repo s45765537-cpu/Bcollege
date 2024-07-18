@@ -68,8 +68,6 @@ textarea {
 
 .chat-room-sep-header {
 	color: gray;
-	background-color: unset !important;
-	border: unset !important;
 	user-select: text !important;
 	width: 100%;
 	height: 100%;
@@ -77,8 +75,6 @@ textarea {
 
 .chat-room-sep-collapse {
 	color: gray;
-	background-color: unset !important;
-	border: unset !important;
 	border-right: min(0.4vh, 0.2vw) black solid !important;
 	font-weight: bold;
 	text-align: center;
@@ -270,8 +266,6 @@ textarea {
 	text-shadow: 0.05em 0.05em black;
 	color: var(--label-color);
 	user-select: text;
-	background: unset !important;
-	border: unset !important;
 }
 
 .ChatMessageName:hover {
@@ -492,8 +486,6 @@ textarea {
 	font-style: normal;
 	display: inline;
 	cursor: pointer;
-	border: none !important;
-	background-color: unset !important;
 	font-size: smaller;
 	margin-top: 3px;
 	margin-bottom: 3px;

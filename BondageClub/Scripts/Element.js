@@ -951,6 +951,7 @@ var ElementButton = {
 	 * @param {null | string | Node} [options.tooltip] - Optional tooltip content. If not supplied then one should manually prepend it to the tooltip later
 	 * @param {"left" | "right" | "top" | "bottom"} [options.tooltipPosition] - The position of the tooltip w.r.t. the button
 	 * @param {"radio" | "checkbox" | "menuitemradio" | "menuitemcheckbox"} [options.role] - The role of the button. All accepted values are currently special-cased in order to set role-specific event listeners and/or attributes.
+	 * @param {boolean} [options.noStyling] - Whether to limit the default styling of the button's border and background
 	 * @param {null | Partial<Record<"button" | "tooltip", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the either the button or tooltip
 	 * @returns {HTMLButtonElement} - The created button
 	 */
@@ -962,6 +963,7 @@ var ElementButton = {
 
 		id ??= `button-${Date.now()}`;
 		options ??= {};
+		const noStyling = options.noStyling ?? false;
 		const tooltip = options.tooltip;
 		const tooltipPosition = this._PositionMapping[options.tooltipPosition] ?? this._PositionMapping.left;
 		const buttonOptions = htmlOptions?.button ?? {};
@@ -977,7 +979,7 @@ var ElementButton = {
 				role: options.role,
 				...(buttonOptions.attributes ?? {}),
 			},
-			classList: ["blank-button", "button", "HideOnPopup", ...(buttonOptions.classList ?? [])],
+			classList: ["blank-button", "button", noStyling ? null : "button-styling", "HideOnPopup", ...(buttonOptions.classList ?? [])],
 			eventListeners: {
 				click: this._Click,
 				keydown: this._KeyDown,

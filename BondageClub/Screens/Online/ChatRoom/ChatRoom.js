@@ -922,7 +922,7 @@ var ChatRoomSep = {
 					classList: ["chat-room-sep-div"],
 					children: [
 						ElementButton.Create(
-							`chat-room-sep-collapse-${now}`, this._ClickCollapse, undefined,
+							`chat-room-sep-collapse-${now}`, this._ClickCollapse, { noStyling: true },
 							{
 								button: {
 									children: ["˅"],
@@ -932,7 +932,7 @@ var ChatRoomSep = {
 							},
 						),
 						ElementButton.Create(
-							`chat-room-sep-header-${now}`, this._ClickScrollUp, undefined,
+							`chat-room-sep-header-${now}`, this._ClickScrollUp, { noStyling: true },
 							{ button: { classList: ["chat-room-sep-header"] } },
 						),
 					],
@@ -1095,7 +1095,8 @@ function ChatRoomCreateElement() {
 										b.style.display = displayState;
 									}
 								});
-							}, undefined,
+							},
+							{ noStyling: true },
 							{
 								button: {
 									attributes: { "aria-expanded": false, "aria-control": "chat-room-buttons" },
@@ -1107,7 +1108,7 @@ function ChatRoomCreateElement() {
 							"chat-room-buttons",
 							[
 								ElementButton.Create(
-									"chat-room-send", () => ChatRoomSendChat(), undefined,
+									"chat-room-send", () => ChatRoomSendChat(), { noStyling: true },
 									{ button: { classList: ["chat-room-button"] } },
 								),
 							],
@@ -4067,7 +4068,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 		case "Chat":
 			divChildren.push(
 				ElementButton.Create(
-					null, ChatRoomMessageNameClick, undefined,
+					null, ChatRoomMessageNameClick, { noStyling: true },
 					{
 						button: {
 							classList: ["ChatMessageName"],
@@ -4091,7 +4092,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 				SenderCharacter.IsPlayer() ? TextGet("WhisperTo") : TextGetInScope("Screens/Online/ChatRoom/Text_ChatRoom.csv", "WhisperFrom"),
 				" ",
 				ElementButton.Create(
-					null, ChatRoomMessageNameClick, undefined,
+					null, ChatRoomMessageNameClick, { noStyling: true },
 					{
 						button: {
 							classList: ["ChatMessageName"],
