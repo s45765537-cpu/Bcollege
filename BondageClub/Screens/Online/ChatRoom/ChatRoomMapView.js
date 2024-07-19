@@ -27,6 +27,8 @@ var ChatRoomMapViewUpdatePlayerNext = null;
 var ChatRoomMapViewUpdateLastMapDataNext = null;
 /** @type {null | Character} */
 var ChatRoomMapViewFocusedCharacter = null;
+var ChatRoomMapViewFocusedCharacterX = 0;
+var ChatRoomMapViewFocusedCharacterY = 0;
 var ChatRoomMapViewSuperPowersActive = false;
 // The base number of miliseconds required to reach a new tile
 var ChatRoomMapViewBaseMovementSpeed = 200;
@@ -972,6 +974,8 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 					// Keeps the character under the cursor
 					if ((MouseX >= Left + ScreenX + (TileWidth * 0.05)) && (MouseX <= Left + ScreenX + (TileWidth * 0.95)) && (MouseY >= Top + ScreenY - (TileHeight * 0.85)) && (MouseY <= Top + ScreenY + (TileHeight * 0.95))) {
 						ChatRoomMapViewFocusedCharacter = C;
+						ChatRoomMapViewFocusedCharacterX = Left + ScreenX + (TileWidth * 0.05);
+						ChatRoomMapViewFocusedCharacterY = Top + ScreenY - (TileHeight * 0.85);
 						CharacterUnderCursor = { Character: C, StatusBaseX: TileCanvasX + (TileWidth / 2), StatusBaseY: TileCanvasY + TileHeight - 20 };
 					}
 
@@ -1486,21 +1490,69 @@ function ChatRoomMapViewKeyDown(event) {
  * @returns {void} - Nothing.
  */
 function ChatRoomMapViewClick() {
+
+	// Out of chatroom, exit right away
 	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapViewIsActive()) return;
 
+	// Toggle the superpowers on and off
 	if (ChatRoomPlayerIsAdmin() && MouseIn(790, 860, 60, 60)) {
 		ChatRoomMapViewSuperPowersActive = !ChatRoomMapViewSuperPowersActive;
 		ChatRoomMapViewCalculatePerceptionMasks();
 		return;
 	}
+
+	// Regular movement buttons
 	if ((ChatRoomMapViewMovement != null) && MouseIn(930, 860, 60, 60)) return ChatRoomMapViewMovement = null;
 	if (MouseIn(860, 860, 60, 60)) return ChatRoomMapViewMove("North");
 	if (MouseIn(790, 930, 60, 60)) return ChatRoomMapViewMove("West");
 	if (MouseIn(860, 930, 60, 60)) return ChatRoomMapViewMove("South");
 	if (MouseIn(930, 930, 60, 60)) return ChatRoomMapViewMove("East");
 
-	if ((MouseX <= 1000) && (ChatRoomMapViewFocusedCharacter != null) && (ChatRoomMapViewEditMode != "Tile") && (ChatRoomMapViewEditMode != "Object") && !ChatRoomMapViewEditStarted)
+	// When clicking on a character
+	if ((MouseX <= 1000) && (ChatRoomMapViewFocusedCharacter != null) && (ChatRoomMapViewEditMode != "Tile") && (ChatRoomMapViewEditMode != "Object") && !ChatRoomMapViewEditStarted) {
+
+		// Checks if the arousal meter is showing
+		let MeterShow = ChatRoomMapViewFocusedCharacter.IsPlayer();
+		if (!ChatRoomMapViewFocusedCharacter.IsPlayer() && Player.ArousalSettings.ShowOtherMeter && ChatRoomMapViewFocusedCharacter.ArousalSettings) {
+			if (ChatRoomMapViewFocusedCharacter.ArousalSettings.Visible === "Access") {
+				MeterShow = ChatRoomMapViewFocusedCharacter.AllowItem;
+			} else if (ChatRoomMapViewFocusedCharacter.ArousalSettings.Visible === "All") {
+				MeterShow = true;
+			}
+		}
+
+		// If we clicked on the thermometer, we zoom/unzoom it
+		if (MeterShow) {
+
+			// Defines the X, Y and zoom of the character
+			let CharX = ChatRoomMapViewFocusedCharacterX;
+			let CharY = ChatRoomMapViewFocusedCharacterY;
+			let Zoom = (1 / ((ChatRoomMapViewPerceptionRange * 2) + 1)) * 1.8;
+
+			// Zoom or unzoom
+			if (MouseIn(CharX + 60 * Zoom, CharY + 400 * Zoom, 80 * Zoom, 100 * Zoom) && !ChatRoomMapViewFocusedCharacter.ArousalZoom) { ChatRoomMapViewFocusedCharacter.ArousalZoom = true; return; }
+			if (MouseIn(CharX + 50 * Zoom, CharY + 615 * Zoom, 100 * Zoom, 85 * Zoom) && ChatRoomMapViewFocusedCharacter.ArousalZoom) { ChatRoomMapViewFocusedCharacter.ArousalZoom = false; return; }
+
+			// If the player can manually control her arousal, we set the progress manual and change the facial expression, it can trigger an orgasm at 100%
+			if (ChatRoomMapViewFocusedCharacter.IsPlayer() && MouseIn(CharX + 50 * Zoom, CharY + 200 * Zoom, 100 * Zoom, 500 * Zoom) && ChatRoomMapViewFocusedCharacter.ArousalZoom) {
+				if (PreferenceArousalAtLeast(Player, "Manual") && !PreferenceArousalAtLeast(Player, "Automatic")) {
+					var Arousal = Math.round((CharY + 625 * Zoom - MouseY) / (4 * Zoom));
+					ActivitySetArousal(Player, Arousal);
+					if (Player.ArousalSettings.AffectExpression) ActivityExpression(Player, Player.ArousalSettings.Progress);
+					if (Player.ArousalSettings.Progress == 100) ActivityOrgasmPrepare(Player);
+				}
+				return;
+			}
+
+			// Don't do anything if the thermometer is clicked without access to it
+			if (MouseIn(CharX + 50 * Zoom, CharY + 200 * Zoom, 100 * Zoom, 415 * Zoom) && ChatRoomMapViewFocusedCharacter.ArousalZoom) return;
+
+		}
+
+		// Focuses on the character
 		ChatRoomFocusCharacter(ChatRoomMapViewFocusedCharacter);
+
+	}
 
 	// Out of edit mode, we allow the basic buttons
 	if (ChatRoomMapViewEditMode == "") {

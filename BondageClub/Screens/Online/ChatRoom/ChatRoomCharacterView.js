@@ -113,7 +113,6 @@ function ChatRoomCharacterViewShowMapButton() {
  * @param {number} Zoom Room zoom
  * @param {number} ClickX Click X postion relative to character, without zoom
  * @param {number} ClickY Click Y postion relative to character, without zoom
- * @param {number} Pos Index of target character
  */
 function ChatRoomCharacterViewClickCharacter(C, CharX, CharY, Zoom, ClickX, ClickY) {
 
