@@ -136,9 +136,11 @@ Intensity2,Item intensity: High
 Intensity3,Item intensity: Maximum
 LayeringAsset,Configure total priority
 LayeringExit,Exit
+LayeringHide,Hide hidden layers
 LayeringLayer,Configure layer-specific priority
 LayeringLock,Item configuration locked
 LayeringReset,Reset layering
+LayeringShow,Show hidden layers
 Locking,Locking...
 LockMemberNumber,Member number on lock:
 LockZoneBlocked,Another item is blocking access to this lock
