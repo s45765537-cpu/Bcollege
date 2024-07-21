@@ -3,7 +3,7 @@
 		"noEmit": true,
 		"module": "commonjs",
 		"target": "ES2021",
-		"lib": ["es2021", "dom"],
+		"lib": ["es2021", "dom", "DOM.Iterable"],
 		"allowJs": true,
 		"strict": true,
 		"noImplicitAny": true
