@@ -986,21 +986,17 @@ var ClubCardList = [
 		Group: ["CollegeStudent", "Staff"],
 		MoneyPerTurn: 1,
 		RequiredLevel: 2,
-		BeforeOpponentTurnEnd: function(CCPlayer) {
-			let cardOwner = ClubCardGetOpponent(CCPlayer);
-			const hasCollegeMember = ClubCardGroupIsOnBoard(cardOwner, 'CollegeTeacher') || ClubCardGroupOnBoardCount(cardOwner, 'Staff') >= 2;
+		onOpponentPlayedCard: function(CCPlayer, cardPlayed) {
+			const hasCollegeMember = ClubCardGroupIsOnBoard(CCPlayer, 'CollegeTeacher') || ClubCardGroupOnBoardCount(CCPlayer, 'Staff') >= 2;
 			if(!hasCollegeMember) {
 				return;
 			}
 
-			const eventsAndLiabilitiesPlayed = ClubCardGetCardsPlayedOnTurn(CCPlayer, CCPlayer.ClubCardTurnCounter).filter(
-				card => card.Type === "Event" || ClubCardCardHasGroup(card, "Liability"),
-			);
-			eventsAndLiabilitiesPlayed.forEach(() => {
-				ClubCardPlayerAddMoney(cardOwner, -CCPlayer.Level);
-				ClubCardPlayerDrawCard(cardOwner, 1);
+			if(cardPlayed.Type === "Event" || ClubCardCardHasGroup(cardPlayed, "Liability")) {
+				ClubCardPlayerAddMoney(CCPlayer, -CCPlayer.Level);
+				ClubCardPlayerDrawCard(CCPlayer, 1);
 				ClubCardLogPublish("Effect Student Custodian", CCPlayer, -CCPlayer.Level);
-			});
+			}
 		}
 	},
 	{
@@ -2664,7 +2660,9 @@ function ClubCardPlayCard(CCPlayer, Card) {
 		let Index = 0;
 		for (let C of CCPlayer.Hand) {
 			if (C.ID == Card.ID) {
-				if (Card.Type === "Member") Target.Board.push(Card);
+				if (Card.Type === "Member") {
+					Target.Board.push(Card);
+				}
 				if ((Card.Type === "Event") && (Card.Time != null) && (Card.Time >= 0)) {
 					Target.Event.push(Card);
 					Card.Time = Card.Time + ClubCardExtraTime(CCPlayer);
@@ -2672,6 +2670,21 @@ function ClubCardPlayCard(CCPlayer, Card) {
 				CCPlayer.Hand.splice(Index, 1);
 				Card.Location = (CCPlayer.Index == 0) ? "PlayerBoard" : "OpponentBoard";
 				ClubCardSetGlow(Card, (ClubCardTurnIndex == 0) ? "#FFFF00" : "#FF0000");
+
+
+				// Run on cards played handlers
+				for (const Card of CCPlayer.Board.slice()) {
+					if (Card.onPlayedCard != null) {
+						Card.onPlayedCard(CCPlayer, Card);
+					}
+				}
+
+				const opponent = ClubCardGetOpponent(CCPlayer)
+				for (const Card of opponent.Board.slice()) {
+					if (Card.onOpponentPlayedCard != null) {
+						Card.onOpponentPlayedCard(opponent, Card);
+					}
+				}
 			}
 			Index++;
 		}

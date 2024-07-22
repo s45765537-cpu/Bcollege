@@ -4040,6 +4040,16 @@ interface ClubCard {
 	BeforeOpponentTurnEnd?: (C: ClubCardPlayer) => void;
 	AfterOpponentTurnEnd?: (C: ClubCardPlayer) => void;
 	CanPlay?: (C: ClubCardPlayer) => boolean;
+	/**
+	 * @param C Player that owns the card and played a card
+	 * @param Card that was played
+	 */
+	onPlayedCard?: (C: ClubCardPlayer, Card: ClubCard) => void;
+	/**
+	 * @param C player that owns the card (not the one who played it in this case)
+	 * @param Card the card that was played
+	 */
+	onOpponentPlayedCard?: (C: ClubCardPlayer, Card: ClubCard) => void;
 }
 
 interface ClubCardPlayer {
