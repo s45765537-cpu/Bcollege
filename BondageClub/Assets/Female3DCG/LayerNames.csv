@@ -247,6 +247,8 @@ CorsetCorset6Cloth,Cloth
 CorsetCorset6Leather,Leather
 CorsetCorsetDressButtons,Buttons
 CorsetCorsetDressCloth,Cloth
+CorsetTightCorsetCorset,Corset
+CorsetTightCorsetButtons,Buttons
 EyebrowsEyebrows2EyebrowBarRight,Piercings
 EyebrowsEyebrows2Main,Eyebrow
 Eyes2Eyes141,Eyeball
@@ -536,6 +538,26 @@ ItemAddonCoversOuter,Outer
 ItemArmsArmbinderJacketJacket,Jacket
 ItemArmsArmbinderJacketRings,Buckles
 ItemArmsArmbinderJacketStraps,Straps
+ItemArmsArmbinderSuitMain,Upper and armbinder
+ItemArmsArmbinderSuitLeg,Suit lower part
+ItemArmsArmbinderSuitHeel,Latex single heel
+ItemArmsArmbinderSuitShine,Upper and armbinder
+ItemArmsArmbinderSuitLShine,Suit lower part
+ItemArmsArmbinderSuitHShine,Latex single heel
+ItemArmsArmbinderSuitCuff,Cuff and chain link
+ItemArmsArmbinderSuitBLegCuff,Ankle shackles
+ItemArmsArmbinderSuitLMetal,Leg metal parts
+ItemArmsArmbinderSuitCMetal,Collar metal part
+ItemArmsArmbinderSuitBMetal,Harness belt buckles
+ItemArmsArmbinderSuitSMetal,Shoulder belt buckles
+ItemArmsArmbinderSuitHMetal,Single heel metal parts
+ItemArmsArmbinderSuitLBelts,Leg Straps
+ItemArmsArmbinderSuitCollar,Collar
+ItemArmsArmbinderSuitBelts,Harness belts
+ItemArmsArmbinderSuitStraps,Shoulder straps
+ItemArmsArmbinderSuitHBelts,Heel straps
+ItemArmsArmbinderSuitZipper,Zipper
+ItemArmsArmbinderSuitSkirt,Rubber skirt
 ItemArmsBitchSuitBuckles,Buckles
 ItemArmsBitchSuitLatex,Suit
 ItemArmsBitchSuitLock,Locks
@@ -744,6 +766,12 @@ ItemDevicesBedMattress,Mattress
 ItemDevicesBedPillow,Pillow
 ItemDevicesBondageBenchBench,Bench
 ItemDevicesBondageBenchStraps,Straps
+ItemDevicesBrickWallBack,Background wall
+ItemDevicesBrickWallFront,Portal
+ItemDevicesBrickWallRestraints,Metal restraints
+ItemDevicesBrickWallWall,Main wall
+ItemDevicesBrickWallWallOpt,Wall grid
+ItemDevicesBrickWallReLock,Padlocks
 ItemDevicesCageFrame,Frame
 ItemDevicesCageMesh,Mesh
 ItemDevicesCageTint,Tint
@@ -1147,6 +1175,17 @@ ItemHoodPaperbagStickytape,Sticky tape
 ItemHoodPaperbagPoints,Points
 ItemHoodPaperbagPaper,Paper
 ItemHoodPaperbagPaperbag,Paperbag
+ItemHoodRubberMaskMain,Face
+ItemHoodRubberMaskEyebrows,Eyebrows
+ItemHoodRubberMaskEyes,Eyes
+ItemHoodRubberMaskIris,Iris
+ItemHoodRubberMaskCheeks,Cheeks
+ItemHoodRubberMaskEyelids,Eyelids
+ItemHoodRubberMaskLips,Lips
+ItemHoodRubberMaskWig,Wig
+ItemHoodRubberMaskWigAcc,Wig Accessory
+ItemHoodRubberMaskGag,Gag
+ItemHoodRubberMaskEarplug,Earplug
 ItemHoodSensoryDeprivationHoodBase, Latex
 ItemHoodSensoryDeprivationHoodEarCover, Silencer
 ItemHoodSensoryDeprivationHoodLips, Lips
@@ -1843,6 +1882,12 @@ ItemPelvisHeavyDutyBeltRubberBelt,Belt
 ItemPelvisHeavyDutyBeltSpreaderclips,Spreader Clips
 ItemPelvisHeavyDutyBeltSpreaderstraps,Spreader Straps
 ItemPelvisHeavyDutyBeltTransparentShield,Transparent Shield
+ItemPelvisHipHarnessMain,Main
+ItemPelvisHipHarnessBelt1,Upper belt
+ItemPelvisHipHarnessBelt2,Center strap
+ItemPelvisHipHarnessBelt3,Leg straps
+ItemPelvisHipHarnessMetal,Metal
+ItemPelvisHipHarnessLock,Padlocks
 ItemPelvisHybridChastityBeltBelt,Belt
 ItemPelvisHybridChastityBeltCrotchPlate,Crotch Plate
 ItemPelvisHybridChastityBeltLock,Lock

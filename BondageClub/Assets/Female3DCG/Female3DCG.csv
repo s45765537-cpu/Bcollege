@@ -185,6 +185,7 @@ ClothAccessory,StudentOutfit3Scarf,Student Scarf
 ClothAccessory,ZipperBelt,Zipper Belt
 ClothLower,,Bottom
 ClothLower,AdmiralSkirt,Admiral Skirt
+ClothLower,ASRubberSkirt,ArmBSuit Rubber Skirt
 ClothLower,AsymmetricSkirt,Asymmetric Skirt
 ClothLower,BondageSkirt,Bondage Skirt
 ClothLower,BusinessSkirt,Business Skirt
@@ -242,6 +243,7 @@ Corset,Corset6,Noble Corset
 Corset,LatexCorset1,Latex Corset
 Corset,LeatherCorsetTop1,Leather Corset Top
 Corset,SteampunkCorsetTop1,Steampunk Corset
+Corset,TightCorset,Leather Tight Corset
 Corset,Underbust,Boned Underbust Corset
 Emoticon,,Emoticon
 Emoticon,Emoticon,Emoticon
@@ -307,6 +309,7 @@ Garters,DropBag,Drop Bag
 Garters,GarterBelt,Leather Garter Belts
 Garters,GarterBelt2,Leather Garter Belt
 Garters,GarterBelt3,Lace and Satin Garter Belt
+Garters,HipHarness,Hip Harness
 Garters,Tentacles,Tentacles
 Glasses,,Glasses
 Glasses,CatGlasses,Cat-Eye Glasses
@@ -583,6 +586,7 @@ Hat,Bonnet1,Bonnet Style 1
 Hat,Bonnet2,Bonnet Style 2
 Hat,BunnySuccubus2,Bunny Succubus
 Hat,CaptainHat1,Captain's Hat
+Hat,CheapHelmet,Cheap Helmet
 Hat,CollegeDunce,Dunce Hat
 Hat,CowboyHat,Cowboy Hat
 Hat,Crown1,Crown Style 1
@@ -639,6 +643,7 @@ ItemAddon,CeilingRope,Ceiling Rope
 ItemAddon,Covers,Blanket
 ItemArms,,Arms
 ItemArms,ArmbinderJacket,Armbinder Jacket
+ItemArms,ArmbinderSuit,Armbinder Suit
 ItemArms,BitchSuit,Pet Suit
 ItemArms,Bolero,Bolero Straitjacket
 ItemArms,BondageBouquet,Bondage Bouquet
@@ -795,6 +800,7 @@ ItemDevices,,Body
 ItemDevices,BBQ,Grill
 ItemDevices,Bed,Bed
 ItemDevices,BondageBench,Bondage Bench
+ItemDevices,BrickWall,Brick Wall
 ItemDevices,BurlapSack,Burlap Sack
 ItemDevices,Cage,Stand up cage
 ItemDevices,ChangingTable,Changing Table
@@ -896,6 +902,7 @@ ItemHandheld,AnimeGirlWand,Cosplay Girl Power Staff
 ItemHandheld,Baguette,Baguette
 ItemHandheld,Ballgag,Ballgag
 ItemHandheld,Belt,Belt
+ItemHandheld,Brick,Brick
 ItemHandheld,Broom,Broom
 ItemHandheld,CandleWax,Candle Wax
 ItemHandheld,Cane,Cane
@@ -946,6 +953,7 @@ ItemHandheld,TapeRoll,Duct Tape Roll
 ItemHandheld,TennisRacket,Tennis Racket
 ItemHandheld,Toothbrush,Toothbrush
 ItemHandheld,Towel,Towel
+ItemHandheld,Trowel,Trowel
 ItemHandheld,VibeRemote,Vibrator Remote
 ItemHandheld,VibratingWand,Vibrating Wand
 ItemHandheld,Vibrator,Vibrator
@@ -1046,6 +1054,7 @@ ItemHood,PolishedSteelHood,Polished Steel Hood
 ItemHood,PonyHood,Pony Hood
 ItemHood,PumpkinHead,Pumpkin Head
 ItemHood,Paperbag,Paper bag
+ItemHood,RubberMask,Rubber Mask
 ItemHood,SackHood,Sack Hood
 ItemHood,SensoryDeprivationHood,Sensory Hood
 ItemHood,Slime,Slime
@@ -1343,6 +1352,7 @@ ItemPelvis,HarnessPanties1,Bondage Harness
 ItemPelvis,HarnessPanties2,Full Bondage Harness
 ItemPelvis,HeavyDutyBelt,Heavy Duty Belt
 ItemPelvis,HempRope,Rope Harness
+ItemPelvis,HipHarness,Hip Harness
 ItemPelvis,HybridChastityBelt,Hybrid Chastity Belt
 ItemPelvis,LeatherChastityBelt,Leather Chastity Belt
 ItemPelvis,LeatherStrapPanties1,Leather Strap Panties
@@ -1372,6 +1382,7 @@ ItemTorso,HarnessBra1,Bondage Harness
 ItemTorso,HarnessBra2,Leather Strap Harness
 ItemTorso,HeavyLatexCorset,Heavy Latex Corset
 ItemTorso,HempRopeHarness,Hemp Rope
+ItemTorso,HipHarness,Hip Harness
 ItemTorso,HighSecurityHarness,High Security Harness
 ItemTorso,LeatherBreastBinder,Leather Breast Binder
 ItemTorso,LeatherChestHarness1,Leather Chest Harness 1
@@ -1467,6 +1478,7 @@ Mask,LaceMask1,Bat Mask
 Mask,LaceMask2,Venice Festival Mask
 Mask,OpenFaceHood,Open Face Hood
 Mask,PetNose,Pet Nose
+Mask,RubberMask,Rubber Mask
 Mask,ShinobiMask,Shinobi Mask
 Mask,SwimCap,Swim Cap
 Mask,VenetianMask,Venetian Mask
@@ -1514,6 +1526,7 @@ Panties,Diapers3,Satin Covered Diaper
 Panties,Diapers4,Patterned Diaper
 Panties,FloralPanties2,Floral Panties 2
 Panties,FlowerPanties,Flower Panties
+Panties,HipHarness,Hip Harness
 Panties,Jockstrap,Jockstrap
 Panties,KittyPanties1,Kitty Panties
 Panties,LatexCrotchlessPanties,Crotchless Latex Panties 2
