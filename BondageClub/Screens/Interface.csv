@@ -229,7 +229,8 @@ PrerequisiteMustStandUpFirst,Must stand up first.
 PrerequisiteNeedHarness,TargetPronounSubject must be wearing a baby harness to chain the mittens.
 PrerequisiteNeedPadlock,You need some padlocks to do this.
 PrerequisiteNeedPadlockKey,You need a padlock key to do this.
-PrerequisiteNeedsHarness,Requires a harness.
+PrerequisiteNeedsChestHarness,Requires a chest harness.
+PrerequisiteNeedsHipHarness,Requires a hip harness.
 PrerequisiteNeedsNippleRings,Requires round piercings on nipples.
 PrerequisiteRemoveChain,Unchain mittens
 PrerequisiteRemoveChainForItem,Remove the chain first.

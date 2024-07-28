@@ -9980,16 +9980,16 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Crotch",
-					Property: { Difficulty: 1, Effect: [E.CrotchRope] },
+					Property: { Difficulty: 1, Effect: [E.CrotchRope], Attribute: ["IsHipHarness"], },
 				},
 				{
 					Name: "Waist",
-					Property: { Difficulty: 1 },
+					Property: { Difficulty: 1, Attribute: ["IsHipHarness"], },
 				},
 				{
 					Name: "Harness",
 					BondageLevel: 2,
-					Property: { Difficulty: 1, Effect: [E.CrotchRope] },
+					Property: { Difficulty: 1, Effect: [E.CrotchRope], Attribute: ["IsHipHarness"], },
 				},
 				{
 					Name: "Star",
@@ -9999,7 +9999,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Diamond",
 					BondageLevel: 4,
-					Property: { Difficulty: 3, Effect: [E.CrotchRope] },
+					Property: { Difficulty: 3, Effect: [E.CrotchRope], Attribute: ["IsHipHarness"], },
 				},
 			],
 			DialogPrefix: {
@@ -15492,7 +15492,7 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "Chained",
-					Prerequisite: ["NeedsHarness", "NoItemArms"],
+					Prerequisite: ["CanAttachMittens", "NoItemArms"],
 					Property: {
 						SetPose: ["BaseUpper"],
 						Block: ["ItemTorso", "ItemTorso2"],
@@ -15534,6 +15534,45 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { AssetName: "PonyMittensBinder" },
 		}, // ElbowLengthMittens
+		HempRopeCuffs: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "Unlinked",
+					Property: {
+						Difficulty: 0,
+					}
+				},
+				{
+					Name: "Cuffed",
+					Property: {
+						Effect: [E.Block],
+						Difficulty: 2,
+						SetPose: ["BackCuffs"],
+					},
+				},
+				{
+					Name: "HarnessFront",
+					Prerequisite: ["NeedsHipHarness"],
+					Property: {
+						Effect: [E.Block],
+						Difficulty: 3,
+						SetPose: ["BaseUpper"],
+					},
+				},
+				{
+					Name: "HarnessBack",
+					Prerequisite: ["NeedsHipHarness"],
+					SelfBondageLevel: 4,
+					Property: {
+						Effect: [E.Block],
+						Difficulty: 4,
+						SetPose: ["BackElbowTouch"],
+					},
+				}
+			],
+		}
 	}, // ItemHands
 	ItemAddon: {
 		CeilingChain: {

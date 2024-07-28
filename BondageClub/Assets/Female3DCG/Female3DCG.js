@@ -21601,6 +21601,7 @@ var AssetFemale3DCG = [
 				Extended: true,
 				AllowTighten: true,
 				CreateLayerTypes: ["typed"],
+				Attribute: ["IsHipHarness"],
 			},
 			{
 				Name: "DiaperHarness",
@@ -29228,6 +29229,24 @@ var AssetFemale3DCG = [
 					"ItemHandheldPetPotato",
 				],
 			},
+			{
+				Name: "HempRopeCuffs",
+				InventoryID: 200,
+				Value: -1,
+				BuyGroup: "HempRope",
+				Top: 200,
+				Left: 50,
+				DefaultColor: "#956B1C",
+				Random: false,
+				Difficulty: 3,
+				SelfBondage: 3,
+				Time: 10,
+				RemoveTime: 10,
+				AllowLock: false,
+				AllowTighten: true,
+				ParentGroup: null,
+				Block: [],
+			}
 		],
 	},
 	{

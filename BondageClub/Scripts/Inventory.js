@@ -406,7 +406,9 @@ function InventoryPrerequisiteMessage(C, Prerequisite, asset=null) {
 		case "NotProtrudingFromMouth": return InventoryPrerequisiteConflicts.GagEffect(C, ["ProtrudingMouth"], asset, { errMessage: "CannotBeUsedOverGag" });
 
 		case "NeedsNippleRings": return !InventoryIsItemInList(C, "ItemNipplesPiercings", ["RoundPiercing"]) ? "NeedsNippleRings" : "";
-		case "NeedsHarness": return !CharacterHasItemWithAttribute(C, "CanAttachMittens") ? "NeedsHarness" : "";
+		case "CanAttachMittens": return !CharacterHasItemWithAttribute(C, "CanAttachMittens") ? "CantAttachMittens" : "";
+		case "NeedsChestHarness": return !CharacterHasItemWithAttribute(C, "IsChestHarness") ? "NeedsChestHarness" : "";
+		case "NeedsHipHarness": return !CharacterHasItemWithAttribute(C, "IsHipHarness") ? "NeedsHipHarness" : "";
 
 		// Returns no message, indicating that all prerequisites are fine
 		case "GagFlat": return "";

@@ -369,6 +369,7 @@ type AssetAttribute =
 	"Skirt" | "SuitLower" | "UpperLarge" |
 	"ShortHair" | "SmallEars" | "NoEars" | "NoseRing" | "HoodieFix" |
 	"CanAttachMittens" |
+	"IsChestHarness" | "IsHipHarness" |
 	"PenisLayer" | "PussyLayer" | "GenitaliaCover" | "Pussy1" | "Pussy2" | "Pussy3" |
 	"CagePlastic2" | "CageTechno" | "CageFlat" |
 	"FuturisticRecolor" | "FuturisticRecolorDisplay" |
@@ -380,9 +381,11 @@ type PosePrerequisite = `Can${AssetPoseName}`;
 type AssetPrerequisite =
 	PosePrerequisite | "AccessBreast" | "AccessBreastSuitZip" | "AccessButt" | "AccessFullPenis" | "AccessMouth" | "AccessTorso" | "AccessVulva" | "AccessCrotch" |
 	"BlockedMouth" | "ButtEmpty" | "CanBeCeilingTethered" | "CanCoverVulva" | "CanHaveErection" | "CanBeLimp" | "CanKneel" | "CannotBeSuited" | "CannotHaveWand" |
+	"CanAttachMittens" |
 	"ClitEmpty" | "Collared" | "CuffedArms" | "CuffedArmsOrEmpty" | "CuffedFeet" | "CuffedFeetOrEmpty" | "CuffedLegs" | "CuffedLegsOrEmpty" |
 	"DisplayFrame" | "EyesEmpty" | "GagCorset" | "GagFlat" | "GagUnique" | "GasMask" | "HasBreasts" | "HasFlatChest" | "HasPenis" | "HasVagina" |
-	"HoodEmpty" | "NakedFeet" | "NakedHands" | "NeedsHarness" | "NeedsNippleRings" | "NoChastityCage" | "NoErection" | "NoClothLower" | "NoItemArms" |
+	"HoodEmpty" | "NakedFeet" | "NakedHands" | "NeedsChestHarness" | "NeedsHipHarness" | "NeedsNippleRings" |
+	"NoChastityCage" | "NoErection" | "NoClothLower" | "NoItemArms" |
 	"NoItemFeet" | "NoItemHands" | "NoItemLegs" | "NoMaidTray" | "NoOuterClothes" | "NotChained" | "NotChaste" | "NotKneeling" |
 	"NotLifted" | "NotMasked" | "NotMounted" | "NotProtrudingFromMouth" | "NotSuspended" | "OnBed" |
 	"RemotesAllowed" | "VulvaEmpty"
