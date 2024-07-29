@@ -918,7 +918,7 @@ function CharacterArchetypeClothes(C, Archetype, ForceColor) {
 		if (C.CanInteract()) {
 			if (Math.random() >= 0.5) InventoryWear(C, "AnimeGirlWand", "ItemHandheld");
 			else InventoryRemove(C, "ItemHandheld");
-		} 
+		}
 	}
 
 	// Rope bunny archetype

@@ -2054,11 +2054,7 @@ var AssetFemale3DCG = [
 				Value: 105,
 				Random: false,
 				SetPose: ["LegsClosed"],
-				AllowActivePose: [
-					"LegsClosed",
-					"Kneel",
-					"Hogtied",
-				],
+				AllowActivePose: ["LegsClosed", "Kneel", "Hogtied"],
 				Extended: true,
 				DefaultColor: [
 					"#E0E0E0",
@@ -2070,10 +2066,7 @@ var AssetFemale3DCG = [
 					"#909090",
 					"#AAAA80",
 				],
-				HideItem: [
-					"ClothLowerPajama1",
-					"ClothLowerBusinessTrousers",
-				],
+				HideItem: ["ClothLowerPajama1", "ClothLowerBusinessTrousers"],
 				Layer: [
 					{
 						Name: "Top",
@@ -2085,7 +2078,7 @@ var AssetFemale3DCG = [
 						},
 						AllowColorize: true,
 						CreateLayerTypes: ["t"],
-						AllowTypes: { t: [ 0, 1 ] },
+						AllowTypes: { t: [0, 1] },
 					},
 					{
 						Name: "Corset",
@@ -2176,13 +2169,10 @@ var AssetFemale3DCG = [
 						AllowTypes: { r: 1 },
 						Alpha: [
 							{
-								Group: [
-									"ItemLegs",
-									"ItemFeet",
-								],
+								Group: ["ItemLegs", "ItemFeet"],
 								Masks: [[202, 748, 116, 310]],
 							},
-						],	
+						],
 					},
 					{
 						Name: "SkirtMermaidHog",
@@ -2221,7 +2211,7 @@ var AssetFemale3DCG = [
 						},
 						AllowColorize: true,
 						CreateLayerTypes: ["b"],
-						AllowTypes: { b: [ 1, 2, 3 ] },
+						AllowTypes: { b: [1, 2, 3] },
 					},
 					{
 						Name: "BBuckles",
@@ -2240,7 +2230,7 @@ var AssetFemale3DCG = [
 							AllFours: PoseType.HIDE,
 						},
 						CreateLayerTypes: ["b"],
-						AllowTypes: { b: [ 1, 2, 3 ] },
+						AllowTypes: { b: [1, 2, 3] },
 						AllowColorize: true,
 					},
 					{
@@ -11367,35 +11357,31 @@ var AssetFemale3DCG = [
 				Left: 75,
 				Value: 22,
 				Random: true,
-				DefaultColor: [
-					"#5A2C0C",
-					"#E64747",
-					"#AD2848",
+				DefaultColor: ["#5A2C0C", "#E64747", "#AD2848"],
+				HideItem: [
+					"HairBackHairBack5",
+					"HairBackHairBack5b",
+					"HairBackHairBack7",
+					"HairBackHairBack7b",
+					"HairBackHairBack7c",
+					"HairBackHairBack13",
+					"HairBackHairBack13b",
+					"HairBackHairBack14",
+					"HairBackHairBack20",
+					"HairBackHairBack20b",
+					"HairBackHairBack30",
+					"HairBackHairBack31",
+					"HairBackHairBack32",
+					"HairBackHairBack33",
+					"HairBackHairBack37",
+					"HairBackHairBack40",
+					"HairBackHairBack41",
+					"HairBackHairBack42",
+					"HairBackHairBack43",
+					"HairBackHairBack44",
+					"HairBackHairBack45",
+					"HairBackHairBack53",
 				],
-				HideItem:[
-							"HairBackHairBack5",
-							"HairBackHairBack5b",
-							"HairBackHairBack7",
-							"HairBackHairBack7b",
-							"HairBackHairBack7c",
-							"HairBackHairBack13",
-							"HairBackHairBack13b",
-							"HairBackHairBack14",
-							"HairBackHairBack20",
-							"HairBackHairBack20b",
-							"HairBackHairBack30",
-							"HairBackHairBack31",
-							"HairBackHairBack32",
-							"HairBackHairBack33",
-							"HairBackHairBack37",
-							"HairBackHairBack40",
-							"HairBackHairBack41",
-							"HairBackHairBack42",
-							"HairBackHairBack43",
-							"HairBackHairBack44",
-							"HairBackHairBack45",
-							"HairBackHairBack53",
-						],
 				Layer: [
 					{
 						Name: "Main",
@@ -11415,8 +11401,8 @@ var AssetFemale3DCG = [
 									"ItemHood",
 								],
 								Masks: [[50, 0, 400, 135]],
-								},
-							],
+							},
+						],
 					},
 					{
 						Name: "Ribbon",
@@ -11425,7 +11411,7 @@ var AssetFemale3DCG = [
 							Suspension: PoseType.HIDE,
 						},
 					},
-					{ 
+					{
 						Name: "Inside",
 						Priority: 4,
 						PoseMapping: {
@@ -13935,16 +13921,8 @@ var AssetFemale3DCG = [
 				Left: 183,
 				Extended: true,
 				CreateLayerTypes: ["typed"],
-				DefaultColor: [
-					"#DDB792",
-					"#BC9768",
-					"#A99777",
-				],
-				Layer: [
-					{ Name: "Main" },
-					{ Name: "Lenses" },
-					{ Name: "Acc" },
-				],
+				DefaultColor: ["#DDB792", "#BC9768", "#A99777"],
+				Layer: [{ Name: "Main" }, { Name: "Lenses" }, { Name: "Acc" }],
 			},
 		],
 		Color: [
@@ -30166,49 +30144,49 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "Main",
-						AllowTypes: {typed: [ 0, 1 ] },
+						AllowTypes: { typed: [0, 1] },
 						AllowColorize: true,
 					},
 					{
 						Name: "Vib",
-						AllowTypes: {typed: [ 0, 1 ] },
+						AllowTypes: { typed: [0, 1] },
 						AllowColorize: true,
 					},
 					{
 						Name: "Top",
-						AllowTypes: {typed: [ 0, 1 ] },
+						AllowTypes: { typed: [0, 1] },
 						AllowColorize: true,
 					},
 					{
 						Name: "Diamond",
-						AllowTypes: {typed: [ 0, 1 ] },
+						AllowTypes: { typed: [0, 1] },
 						AllowColorize: true,
 					},
 					{
 						Name: "Detail1",
-						AllowTypes: {typed: [ 0, 1 ] },
+						AllowTypes: { typed: [0, 1] },
 						AllowColorize: true,
 					},
 					{
 						Name: "Detail2",
-						AllowTypes: {typed: [ 0, 1 ] },
+						AllowTypes: { typed: [0, 1] },
 						AllowColorize: true,
 					},
 					{
 						Name: "Switch",
-						AllowTypes: {typed: [ 0, 1 ] },
+						AllowTypes: { typed: [0, 1] },
 						AllowColorize: true,
 					},
 					{
 						Name: "GlowStaff",
 						Priority: 54,
-						AllowTypes: {typed: 0 },
+						AllowTypes: { typed: 0 },
 						CopyLayerColor: "Diamond",
 					},
 					{
 						Name: "GlowWand",
 						Priority: 54,
-						AllowTypes: {typed: 1 },
+						AllowTypes: { typed: 1 },
 						CopyLayerColor: "Vib",
 					},
 				],
@@ -34497,23 +34475,23 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "Ball",
-						AllowTypes: { typed: 0},
+						AllowTypes: { typed: 0 },
 					},
 					{
 						Name: "BallShine",
-						AllowTypes: { typed: 0},
+						AllowTypes: { typed: 0 },
 					},
 					{
 						Name: "Ring",
-						AllowTypes: { typed: 1},
+						AllowTypes: { typed: 1 },
 					},
 					{
 						Name: "Mouth",
-						AllowTypes: { typed: 1},
+						AllowTypes: { typed: 1 },
 						AllowColorize: false,
 					},
-					{ Name: "Straps"},
-					{ Name: "Metal"},
+					{ Name: "Straps" },
+					{ Name: "Metal" },
 					{
 						Name: "Teeth",
 						AllowColorize: false,
@@ -46497,18 +46475,12 @@ var AssetFemale3DCG = [
 				Time: 30,
 				RemoveTime: 30,
 				Extended: true,
-				DefaultColor: [
-					"Default",
-					"#242F70",
-					"#94A2A3",
-					"#C6B86F",
-					"#707070",
-				],
+				DefaultColor: ["Default", "#242F70", "#94A2A3", "#C6B86F", "#707070"],
 				Prerequisite: ["NotSuspended", "NotLifted"],
 				SetPose: ["LegsClosed"],
 				Block: ["ItemBoots", "ItemFeet", "ItemAddon"],
 				Effect: ["Slow"],
-				HideItem: [ "ShoesFlippers" ],
+				HideItem: ["ShoesFlippers"],
 				Layer: [
 					{
 						Name: "Main",
@@ -46519,7 +46491,7 @@ var AssetFemale3DCG = [
 						AllowColorize: true,
 						ParentGroup: null,
 						CreateLayerTypes: ["c"],
-						AllowTypes: { c: [ 0, 1, 2, 3, 4 ] },
+						AllowTypes: { c: [0, 1, 2, 3, 4] },
 						Alpha: [
 							{
 								Group: ["ItemFeet"],
@@ -46533,7 +46505,7 @@ var AssetFemale3DCG = [
 								Group: ["ItemLegs"],
 								Masks: [[86, 866, 326, 212]],
 							},
-						],	
+						],
 					},
 					{
 						Name: "Top",
@@ -46545,7 +46517,7 @@ var AssetFemale3DCG = [
 						ParentGroup: null,
 						CopyLayerColor: "Main",
 						CreateLayerTypes: ["c"],
-						AllowTypes: { c: [ 0, 1, 2, 3, 4 ] },
+						AllowTypes: { c: [0, 1, 2, 3, 4] },
 					},
 					{
 						Name: "MainBucket",
@@ -46556,13 +46528,13 @@ var AssetFemale3DCG = [
 						AllowColorize: true,
 						ParentGroup: null,
 						CreateLayerTypes: ["b"],
-						AllowTypes: { b: [ 0, 1 ] },
+						AllowTypes: { b: [0, 1] },
 						Alpha: [
 							{
 								Group: ["ItemFeet"],
 								Masks: [[202, 846, 116, 212]],
 							},
-						],	
+						],
 					},
 					{
 						Name: "TopBucket",
@@ -46574,7 +46546,7 @@ var AssetFemale3DCG = [
 						ParentGroup: null,
 						CopyLayerColor: "MainBucket",
 						CreateLayerTypes: ["b"],
-						AllowTypes: { b: [ 0, 1 ] },
+						AllowTypes: { b: [0, 1] },
 					},
 					{
 						Name: "Pole",
@@ -46583,7 +46555,7 @@ var AssetFemale3DCG = [
 						Top: 485,
 						AllowColorize: true,
 						CreateLayerTypes: ["p"],
-						AllowTypes: { p: [ 0, 1, 2, 3 ] },
+						AllowTypes: { p: [0, 1, 2, 3] },
 					},
 					{
 						Name: "Straps",
@@ -46593,7 +46565,7 @@ var AssetFemale3DCG = [
 						ParentGroup: "BodyLower",
 						AllowColorize: true,
 						CreateLayerTypes: ["p"],
-						AllowTypes: { p: [ 0, 1, 2, 3 ] },
+						AllowTypes: { p: [0, 1, 2, 3] },
 					},
 					{
 						Name: "Ratchet",
@@ -46603,7 +46575,7 @@ var AssetFemale3DCG = [
 						ParentGroup: null,
 						AllowColorize: true,
 						CreateLayerTypes: ["p"],
-						AllowTypes: { p: [ 0, 1, 2, 3 ] },
+						AllowTypes: { p: [0, 1, 2, 3] },
 					},
 				],
 				RemoveAtLogin: true,
