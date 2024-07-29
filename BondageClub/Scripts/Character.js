@@ -393,7 +393,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			switch (this.IsOwned()) {
 				case "online":
 					return Math.floor((CurrentTime - this.Ownership.Start) / 86400000);
-				case "player":
+				case "player": {
 					let Time = NPCEventGet(this, "NPCCollaring");
 					if (Time > 0) return Math.floor((CurrentTime - Time) / 86400000);
 					Time = NPCEventGet(this, "EndDomTrial");
@@ -404,6 +404,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 							return 0;
 					}
 					return -1;
+				}
 				case "npc": {
 					for (const npc of PrivateCharacter) {
 						let Time = NPCEventGet(npc, "PlayerCollaring");
