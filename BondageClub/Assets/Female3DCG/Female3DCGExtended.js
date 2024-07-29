@@ -8820,15 +8820,15 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Stand",
+					Prerequisite: ["CanLegsOpen"],
 					Property: {
-						Prerequisite: ["CanLegsOpen"],
 						SetPose: ["LegsOpen"],
 					},
 				},
 				{
 					Name: "LegsClosed",
+					Prerequisite: ["CanLegsClosed"],
 					Property: {
-						Prerequisite: ["CanLegsClosed"],
 						SetPose: ["LegsClosed"],
 					},
 				},
