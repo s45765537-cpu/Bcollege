@@ -1070,7 +1070,7 @@ function AssetInventoryIDUnnecessary() {
  * @param {string} GroupName - The group name to compare
  * @param {string} AssetName - The asset name to compare
  * @param {string} BuyGroup - The buying group to compare
- * @param {number} InventoryID - The inventory ID to compare
+ * @param {number | undefined} InventoryID - The inventory ID to compare
  * @returns {void} - Nothing
  */
 function AssetInventoryIDBuyGroup(GroupName, AssetName, BuyGroup, InventoryID) {
