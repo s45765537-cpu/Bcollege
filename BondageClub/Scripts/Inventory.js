@@ -215,13 +215,13 @@ function InventoryDataBuild(C) {
 				IDList[I] = 58;
 			else
 				if ((IDList[I - 1] == 58) && (IDList[I + 1] - 1 == IDList[I])) {
-					IDList.splice(I, 1)
-					I--
-				}					
+					IDList.splice(I, 1);
+					I--;
+				}
 		}
 
 	// Builds the final compressed string
-	let Data = ""
+	let Data = "";
 	for (let I of IDList)
 		Data = Data + String.fromCharCode(I);
 

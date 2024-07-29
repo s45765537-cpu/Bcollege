@@ -356,7 +356,7 @@ function KidnapLeagueRandomIntro() {
 		if (KidnapLeagueRandomKidnapperScenario == "6") {
 			CharacterArchetypeClothes(KidnapLeagueRandomKidnapper, "AnimeGirl");
 			KidnapLeagueArchetype = "AnimeGirl";
-		} 
+		}
 	}
 
 	// If the player is already tied up, we skip the fight
