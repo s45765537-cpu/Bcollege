@@ -825,7 +825,7 @@ function LoginResponse(C) {
 
 				// Since InventoryData wasn't found (R104 and before), we load the inventory object
 				/** @type {Partial<Record<AssetGroupName, string[]>>} */
-				console.log("Converting from Inventory to InventoryData...")
+				console.log("Converting from Inventory to InventoryData...");
 				const InventoryObject = LoginLoadInventoryObject(C.Inventory);
 				LoginPerformInventoryFixups(InventoryObject, C.Appearance, CraftingDecompressed);
 				ServerAppearanceLoadFromBundle(Player, C.AssetFamily, C.Appearance, C.MemberNumber);

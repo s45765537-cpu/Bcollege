@@ -1819,7 +1819,7 @@ var PlatformRoomList = [
 			{ Name: "SavannahTentExterior", FromX: 0, FromY: 0, FromW: 100, FromH: 1200, FromType: "Left", ToX: 1900, ToFaceLeft: true },
 			{ Name: "DesertCactusField", FromX: 2500, FromY: 0, FromW: 100, FromH: 1200, FromType: "Right", ToX: 100 },
 		],
-		Entry: function() {			
+		Entry: function() {
 			if (!PlatformEventDone("DesertEntrance") && PlatformEventDone("LynJoin")) PlatformDialogStart("DesertEntranceLyn");
 			if (!PlatformEventDone("DesertEntrance") && !PlatformEventDone("LynJoin")) PlatformDialogStart("DesertEntrance");
 		},

@@ -488,7 +488,7 @@ function PrivateGetPossibleGift(Restraint) {
 			if ((Restraint && A.Group.Name.startsWith("Item")) || (!Restraint && !A.Group.Name.startsWith("Item")))
 				InvList.push({...A});
 
-	// Returns an item at random or NULL if nothing is possible	
+	// Returns an item at random or NULL if nothing is possible
 	if (InvList.length <= 0)
 		return null;
 	else

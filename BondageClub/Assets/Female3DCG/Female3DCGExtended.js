@@ -702,7 +702,7 @@ var AssetFemale3DCGExtended = {
 					Key: "t",
 					Options: [
 						{
-							// t0 - Solid 
+							// t0 - Solid
 							Property: { Effect: [] },
 						},
 						{
@@ -735,7 +735,7 @@ var AssetFemale3DCGExtended = {
 						},
 						{
 							// k1 - Ankle Area
-							Property: { Effect: [ E.Slow ] },
+							Property: { Effect: [E.Slow] },
 						},
 					],
 				},
@@ -763,15 +763,15 @@ var AssetFemale3DCGExtended = {
 						},
 						{
 							// b1 - Knee Strap Limiter
-							Property: { Effect: [ E.Slow ] },
+							Property: { Effect: [E.Slow] },
 						},
 						{
 							// b2 - Ankle Strap Limiter
-							Property: { Effect: [ E.Slow ] },
+							Property: { Effect: [E.Slow] },
 						},
 						{
 							// b3 - Both Straps Limiter
-							Property: { Effect: [ E.Slow ] },
+							Property: { Effect: [E.Slow] },
 						},
 					],
 				},
@@ -9430,15 +9430,15 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Stand",
+					Prerequisite: ["CanLegsOpen"],
 					Property: {
-						Prerequisite: ["CanLegsOpen"],
 						SetPose: ["LegsOpen"],
 					},
 				},
 				{
 					Name: "LegsClosed",
+					Prerequisite: ["CanLegsClosed"],
 					Property: {
-						Prerequisite: ["CanLegsClosed"],
 						SetPose: ["LegsClosed"],
 					},
 				},

@@ -354,7 +354,7 @@ function ServerPlayerSync() {
 function ServerPlayerInventorySync() {
 
 	InventoryDataBuild(Player);
-		
+
 	/*
 	** @type {Partial<Record<AssetGroupName, string[]>>} *
 	const Inv = {};
@@ -366,7 +366,7 @@ function ServerPlayerInventorySync() {
 			}
 			G.push(Player.Inventory[I].Asset.Name);
 		}
-	}	
+	}
 	ServerAccountUpdate.QueueData({ Inventory: Inv });
 	*/
 }
