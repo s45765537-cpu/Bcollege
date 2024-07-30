@@ -2232,6 +2232,15 @@ ItemHandsElbowLengthMittensSelect,Select options
 ItemHandsElbowLengthMittensSetChained,SourceCharacter attaches DestinationCharacter mittens to some chains.
 ItemHandsElbowLengthMittensSetUnchained,SourceCharacter detaches DestinationCharacter mittens from the chains.
 ItemHandsElbowLengthMittensUnchained,Free Limbs
+ItemHandsHempRopeCuffsCuffed,Cuffed
+ItemHandsHempRopeCuffsHarnessBack,Harness (back)
+ItemHandsHempRopeCuffsHarnessFront,Harness (front)
+ItemHandsHempRopeCuffsUnlinked,Unlinked
+ItemHandsHempRopeCuffsSelect,Select style
+ItemHandsHempRopeCuffsSetCuffed,SourceCharacter ties DestinationCharacter rope cuffs in her back.
+ItemHandsHempRopeCuffsSetHarnessBack,SourceCharacter ties DestinationCharacter rope cuffs to the back of her harness.
+ItemHandsHempRopeCuffsSetHarnessFront,SourceCharacter ties DestinationCharacter rope cuffs to the front of her harness.
+ItemHandsHempRopeCuffsSetUnlinked,SourceCharacter detaches DestinationCharacter rope cuffs.
 ItemHandsPaddedMittensChained,Chained
 ItemHandsPaddedMittensSelect,Select options
 ItemHandsPaddedMittensSetChained,SourceCharacter chains DestinationCharacter padded mittens to the harness.
