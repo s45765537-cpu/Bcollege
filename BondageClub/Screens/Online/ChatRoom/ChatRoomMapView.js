@@ -129,9 +129,40 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 630, Type: "FloorDecorationCamping", Style: "TentBlue", Top: -0.3 },
 	{ ID: 640, Type: "FloorDecorationCamping", Style: "SleepingBagBlue" },
 	{ ID: 650, Type: "FloorDecorationCamping", Style: "ChairRed", Top: -0.35 },
-	{ ID: 660, Type: "FloorDecorationCamping", Style: "Hurdle1",},
-	{ ID: 670, Type: "FloorDecorationCamping", Style: "Hurdle2",},
-	{ ID: 680, Type: "FloorDecorationCamping", Style: "Hurdle3",},
+	{ ID: 660, Type: "FloorDecorationCamping", Style: "Hurdle1" },
+	{ ID: 670, Type: "FloorDecorationCamping", Style: "Hurdle2" },
+	{ ID: 680, Type: "FloorDecorationCamping", Style: "Hurdle3" },
+
+	{ ID: 700, Type: "FloorDecorationExpanding", Style: "Blank" },
+	{
+		ID: 710,
+		Type: "FloorDecorationExpanding",
+		Style: "CouchPinkPreview",
+		BuildImageName: function(X, Y) {
+			let LeftObject = ChatRoomMapViewGetObjectAtPos(X - 1, Y);
+			let RightObject = ChatRoomMapViewGetObjectAtPos(X + 1, Y);
+			if ((LeftObject != null) && (LeftObject.ID == this.ID) && ((RightObject != null) && (RightObject.ID == this.ID))) return "CouchPinkMiddle";
+			if ((LeftObject != null) && (LeftObject.ID == this.ID)) return "CouchPinkRight";
+			if ((RightObject != null) && (RightObject.ID == this.ID)) return "CouchPinkLeft";
+			return "CouckPinkSmall";
+		},
+		Top: -0.35
+	},
+	{
+		ID: 720,
+		Type: "FloorDecorationExpanding",
+		Style: "BedBluePreview",
+		BuildImageName: function(X, Y) {
+			let LeftObject = ChatRoomMapViewGetObjectAtPos(X - 1, Y);
+			let RightObject = ChatRoomMapViewGetObjectAtPos(X + 1, Y);
+			if ((LeftObject != null) && (LeftObject.ID == this.ID) && ((RightObject != null) && (RightObject.ID == this.ID))) return "BedBlueMiddle";
+			if ((LeftObject != null) && (LeftObject.ID == this.ID)) return "BedBlueRight";
+			if ((RightObject != null) && (RightObject.ID == this.ID)) return "BedBlueLeft";
+			return "BedBlueSmall";
+		},
+		Top: -1,
+		Height: 2
+	},
 
 	{ ID: 1000, Type: "FloorItem", Style: "Blank" },
 	{ ID: 1010, Type: "FloorItem", Style: "Kennel", Top: -1, Height: 2, AssetName: "Kennel", AssetGroup: "ItemDevices" },
@@ -951,6 +982,9 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 						let Char = ChatRoomMapViewGetCharacterAtPos(X, Y);
 						if ((Char != null) && (Obj.AssetName != null) && (Obj.AssetGroup != null) && InventoryIsWorn(Char, Obj.AssetName, Obj.AssetGroup)) break;
 						if ((Char != null) && (Obj.OccupiedStyle != null)) ImageName = Obj.OccupiedStyle;
+					} else {
+						if (Obj.BuildImageName != null)
+							ImageName = Obj.BuildImageName(X, Y);
 					}
 					DrawImageResize("Screens/Online/ChatRoom/MapObject/" + Obj.Type + "/" + ImageName + ".png", Math.floor(Left + ScreenX + ((Obj.Left == null) ? 0 : TileWidth * Obj.Left)), Math.floor(Top + ScreenY + ((Obj.Top == null) ? 0 : TileHeight * Obj.Top)), Math.ceil(TileWidth * ((Obj.Width == null) ? 1 : Obj.Width)), Math.ceil(TileHeight * ((Obj.Height == null) ? 1 : Obj.Height)));
 					break;

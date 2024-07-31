@@ -4132,6 +4132,7 @@ type ChatRoomMapObjectType = (
 	| "FloorDecorationThemed"
 	| "FloorDecorationParty"
 	| "FloorDecorationCamping"
+	| "FloorDecorationExpanding"
 	| "FloorItem"
 	| "FloorObstacle"
 	| "WallDecoration"
@@ -4169,6 +4170,7 @@ interface ChatRoomMapObject extends ChatRoomMapDoodad {
 	BlockVision?: boolean;
 	BlockHearing?: boolean;
 	IsVisible?: () => boolean;
+	BuildImageName?: (X, Y) => string;
 }
 
 interface ChatRoomMapMovement {
