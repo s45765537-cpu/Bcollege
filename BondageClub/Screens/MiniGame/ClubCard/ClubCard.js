@@ -993,9 +993,10 @@ var ClubCardList = [
 			}
 
 			if(cardPlayed.Type === "Event" || ClubCardCardHasGroup(cardPlayed, "Liability")) {
-				ClubCardPlayerAddMoney(CCPlayer, -CCPlayer.Level);
+				const moneyToLose = ClubCardGetOpponent(CCPlayer).Level
+				ClubCardPlayerAddMoney(CCPlayer, -moneyToLose);
 				ClubCardPlayerDrawCard(CCPlayer, 1);
-				ClubCardLogPublish("Effect Student Custodian", CCPlayer, -CCPlayer.Level);
+				ClubCardLogPublish("Effect Student Custodian", CCPlayer, -moneyToLose);
 			}
 		}
 	},
