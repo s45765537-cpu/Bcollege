@@ -2675,14 +2675,14 @@ function ClubCardPlayCard(CCPlayer, Card) {
 				// Run on cards played handlers
 				for (const Card of CCPlayer.Board.slice()) {
 					if (Card.onPlayedCard != null) {
-						Card.onPlayedCard(CCPlayer, Card);
+						Card.onPlayedCard(CCPlayer, C);
 					}
 				}
 
 				const opponent = ClubCardGetOpponent(CCPlayer)
 				for (const Card of opponent.Board.slice()) {
 					if (Card.onOpponentPlayedCard != null) {
-						Card.onOpponentPlayedCard(opponent, Card);
+						Card.onOpponentPlayedCard(opponent, C);
 					}
 				}
 			}
