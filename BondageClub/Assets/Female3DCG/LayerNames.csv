@@ -1313,6 +1313,10 @@ ItemMouth2FuturisticPanelGagMask,Muzzle
 ItemMouth2GasMaskGagHighlights,Highlights
 ItemMouth2GasMaskGagMask,Mask
 ItemMouth2GasMaskGagSides,Sides
+ItemMouth2GenitalGagGag,Gag
+ItemMouth2GenitalGagDetail,Inside
+ItemMouth2GenitalGagHarness,Harness
+ItemMouth2GenitalGagRivets,Rivets
 ItemMouth2GlueGagGlue,Glue
 ItemMouth2GlueGagLips,Lips
 ItemMouth2HarnessBallGag1Ball,Ball
@@ -1599,6 +1603,10 @@ ItemMouthFuturisticPanelGagMask,Muzzle
 ItemMouthGasMaskGagHighlights,Highlights
 ItemMouthGasMaskGagMask,Mask
 ItemMouthGasMaskGagSides,Sides
+ItemMouthGenitalGagGag,Gag
+ItemMouthGenitalGagDetail,Inside
+ItemMouthGenitalGagHarness,Harness
+ItemMouthGenitalGagRivets,Rivets
 ItemMouthGlueGagGlue,Glue
 ItemMouthGlueGagLips,Lips
 ItemMouthHarnessBallGag1Ball,Ball
@@ -2173,6 +2181,11 @@ ShoesBoots1Shoes,Inner
 ShoesBoots1Sides,Outer
 ShoesClogsMain,Boot
 ShoesClogsSole,Sole
+ShoesCustomHeelsMain,Shoes
+ShoesCustomHeelsHeels,Heels
+ShoesCustomHeelsStrap1,Ankle Straps
+ShoesCustomHeelsStrap2,Mid Straps
+ShoesCustomHeelsStrap3,Lower Straps
 ShoesDeluxeBootsBoots,Outer
 ShoesDeluxeBootsBuckles,Buckles
 ShoesDeluxeBootsHeels,Heels
