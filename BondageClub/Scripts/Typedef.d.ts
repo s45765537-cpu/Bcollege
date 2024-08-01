@@ -4163,6 +4163,8 @@ interface ChatRoomMapObject extends ChatRoomMapDoodad {
 	Left?: number;
 	Width?: number;
 	Height?: number;
+	Transparency?: number;
+	TransparencyCutoutHeight?: number;
 	Exit?: boolean;
 	Unique?: boolean;
 	AssetGroup?: AssetGroupItemName;

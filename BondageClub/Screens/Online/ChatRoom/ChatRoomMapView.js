@@ -163,6 +163,23 @@ const ChatRoomMapViewObjectList = [
 		Top: -1,
 		Height: 2
 	},
+	{
+		ID: 730,
+		Type: "FloorDecorationExpanding",
+		Style: "BallPitPreview",
+		BuildImageName: function(X, Y) {
+			let LeftObject = ChatRoomMapViewGetObjectAtPos(X - 1, Y);
+			let RightObject = ChatRoomMapViewGetObjectAtPos(X + 1, Y);
+			if ((LeftObject != null) && (LeftObject.ID == this.ID) && ((RightObject != null) && (RightObject.ID == this.ID))) return "BallPitMiddle";
+			if ((LeftObject != null) && (LeftObject.ID == this.ID)) return "BallPitRight";
+			if ((RightObject != null) && (RightObject.ID == this.ID)) return "BallPitLeft";
+			return "BallPitSmall";
+		},
+		Top: -0.25,
+		Height: 1.25,
+		Transparency: 1,
+		TransparencyCutoutHeight: 0.96
+	},
 
 	{ ID: 1000, Type: "FloorItem", Style: "Blank" },
 	{ ID: 1010, Type: "FloorItem", Style: "Kennel", Top: -1, Height: 2, AssetName: "Kennel", AssetGroup: "ItemDevices" },
@@ -938,6 +955,8 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 		let TileID = ChatRoomData.MapData.Tiles.charCodeAt(Pos);
 		let TileData = null;
 		let TileImage = null;
+		let ObjectData = null;
+		let ObjectImage = null;
 
 		// Out of sight, we draw the fog
 		let Fog = false;
@@ -986,7 +1005,9 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 						if (Obj.BuildImageName != null)
 							ImageName = Obj.BuildImageName(X, Y);
 					}
-					DrawImageResize("Screens/Online/ChatRoom/MapObject/" + Obj.Type + "/" + ImageName + ".png", Math.floor(Left + ScreenX + ((Obj.Left == null) ? 0 : TileWidth * Obj.Left)), Math.floor(Top + ScreenY + ((Obj.Top == null) ? 0 : TileHeight * Obj.Top)), Math.ceil(TileWidth * ((Obj.Width == null) ? 1 : Obj.Width)), Math.ceil(TileHeight * ((Obj.Height == null) ? 1 : Obj.Height)));
+					ObjectData = Obj;
+					ObjectImage = "Screens/Online/ChatRoom/MapObject/" + Obj.Type + "/" + ImageName + ".png";
+					DrawImageResize(ObjectImage, Math.floor(Left + ScreenX + ((Obj.Left == null) ? 0 : TileWidth * Obj.Left)), Math.floor(Top + ScreenY + ((Obj.Top == null) ? 0 : TileHeight * Obj.Top)), Math.ceil(TileWidth * ((Obj.Width == null) ? 1 : Obj.Width)), Math.ceil(TileHeight * ((Obj.Height == null) ? 1 : Obj.Height)));
 					break;
 				}
 
@@ -1015,11 +1036,22 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 
 					// Draw the water effect if character stands in water
 					if (TileImage != null && TileData != null && TileData.Type == "Water") {
-						const transparency = (TileData.Transparency) ? TileData.Transparency : 0.0;
-						const transparencyCutoutHeight = (TileData.TransparencyCutoutHeight) ? TileData.TransparencyCutoutHeight : 1.0;
-						DrawImageEx(TileImage, MainCanvas, TileCanvasX, TileCanvasY, {Width: TileWidth, Height: TileHeight, Alpha: transparency, AlphaMasks: [[TileCanvasX, TileCanvasY, TileImage.width, TileImage.height * transparencyCutoutHeight]]});
+						const Transparency = (TileData.Transparency) ? TileData.Transparency : 0.0;
+						const TransparencyCutoutHeight = (TileData.TransparencyCutoutHeight) ? TileData.TransparencyCutoutHeight : 1.0;
+						DrawImageEx(TileImage, MainCanvas, TileCanvasX, TileCanvasY, {Width: TileWidth, Height: TileHeight, Alpha: Transparency, AlphaMasks: [[TileCanvasX, TileCanvasY, TileImage.width, TileImage.height * TransparencyCutoutHeight]]});
 					}
 
+					// Draw the transparency effect for objects
+					if ((ObjectImage != null) && (ObjectData != null) && (ObjectData.Transparency != null) && (ObjectData.TransparencyCutoutHeight != null)) {
+						let X = Math.floor(Left + ScreenX + ((ObjectData.Left == null) ? 0 : TileWidth * ObjectData.Left));
+						let Y = Math.floor(Top + ScreenY + ((ObjectData.Top == null) ? 0 : TileHeight * ObjectData.Top));
+						let W = Math.ceil(TileWidth * ((ObjectData.Width == null) ? 1 : ObjectData.Width));
+						let H = Math.ceil(TileHeight * ((ObjectData.Height == null) ? 1 : ObjectData.Height));
+						let WA = Math.ceil(TileImage.width * 2 * ((ObjectData.Width == null) ? 1 : ObjectData.Width));
+						let HA = Math.ceil(TileImage.height * ObjectData.TransparencyCutoutHeight * ((ObjectData.Height == null) ? 1 : ObjectData.Height));
+						DrawImageEx(ObjectImage, MainCanvas, X, Y, {Width: W, Height: H, Alpha: ObjectData.Transparency, AlphaMasks: [[X, Y, WA, HA]]});
+					}
+					
 				}
 
 		// Draw the floor wall effect and rectancle if needed at the end
@@ -1104,6 +1136,9 @@ function ChatRoomMapViewUpdateFlag() {
 				if (Tile == null) ClearObject = true;
 				else if ((Obj.Type == "FloorDecoration") && (Tile.Type != "Floor") && (Tile.Type != "FloorExterior")) ClearObject = true;
 				else if ((Obj.Type == "FloorDecorationThemed") && (Tile.Type != "Floor") && (Tile.Type != "FloorExterior")) ClearObject = true;
+				else if ((Obj.Type == "FloorDecorationParty") && (Tile.Type != "Floor") && (Tile.Type != "FloorExterior")) ClearObject = true;
+				else if ((Obj.Type == "FloorDecorationCamping") && (Tile.Type != "Floor") && (Tile.Type != "FloorExterior")) ClearObject = true;
+				else if ((Obj.Type == "FloorDecorationExpanding") && (Tile.Type != "Floor") && (Tile.Type != "FloorExterior")) ClearObject = true;
 				else if ((Obj.Type == "FloorItem") && (Tile.Type != "Floor") && (Tile.Type != "FloorExterior")) ClearObject = true;
 				else if ((Obj.Type == "FloorObstacle") && (Tile.Type != "Floor") && (Tile.Type != "FloorExterior")) ClearObject = true;
 				else if ((Obj.Type == "WallDecoration") && (Tile.Type != "Wall")) ClearObject = true;
