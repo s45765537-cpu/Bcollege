@@ -5382,7 +5382,7 @@ ItemDevicesBrickWallChest,At breast/chest height
 ItemDevicesBrickWallNeck,Neck height
 ItemDevicesBrickWallFull,Full wall
 ItemDevicesBrickWallFullOpt,Full with a grided window
-ItemDevicesBrickWallLastBrick,Last brick the wall
+ItemDevicesBrickWallLastBrick,Wall's last brick
 ItemDevicesBrickWallSetNone,SourceCharacter removes all front wall brick from DestinationCharacterName.
 ItemDevicesBrickWallSetLegs,SourceCharacter builds a brick wall that reaches DestinationCharacterName hips.
 ItemDevicesBrickWallSetChest,SourceCharacter builds a brick wall that reaches DestinationCharacterName chest.
@@ -5390,3 +5390,21 @@ ItemDevicesBrickWallSetNeck,SourceCharacter builds a brick wall that reaches Des
 ItemDevicesBrickWallSetFull,SourceCharacter builds a brick wall completely but a single hole at DestinationCharacterName eye height.
 ItemDevicesBrickWallSetFullOpt,SourceCharacter builds a brick wall completely and puts a small grid at DestinationCharacterName eye height.
 ItemDevicesBrickWallSetLastBrick,SourceCharacter builds a brick wall completely and puts the last brick at DestinationCharacterName eye height.
+ShoesCustomHeelsSelectBase,Customize your heels:
+ShoesCustomHeelsModuleStrap1,Ankle straps
+ShoesCustomHeelsSelectStrap1,Ankle straps menu
+ShoesCustomHeelsOptionm0,No straps
+ShoesCustomHeelsOptionm1,Ankle straps placed
+ShoesCustomHeelsModuleStrap2,Mid straps
+ShoesCustomHeelsSelectStrap2,Mid straps menu
+ShoesCustomHeelsOptionn0,No straps
+ShoesCustomHeelsOptionn1,Mid straps placed
+ShoesCustomHeelsModuleStrap3,Lower straps
+ShoesCustomHeelsSelectStrap3,Lower straps menu
+ShoesCustomHeelsOptiono0,No straps
+ShoesCustomHeelsOptiono1,Lower straps placed
+ItemMouthGenitalGagSelect,Choose a latex genital for attach on head harness:
+ItemMouthGenitalGagPussy,Pussy
+ItemMouthGenitalGagSetPussy,SourceCharacter attaches a fake pussy in the DestinationCharacterName mouth.
+ItemMouthGenitalGagButthole,A butthole
+ItemMouthGenitalGagSetButthole,SourceCharacter attaches a fake butthole in the DestinationCharacterName mouth. (Damn!)

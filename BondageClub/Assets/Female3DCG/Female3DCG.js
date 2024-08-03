@@ -977,7 +977,7 @@ var AssetFemale3DCG = [
 						CopyLayerColor: "None",
 					},
 					{
-						Name: "HWood",
+						Name: "Hwood",
 						PoseMapping: {},
 						ParentGroup: null,
 						AllowTypes: { t: 14 },
@@ -7280,6 +7280,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#C7BCB4","#808080"],
 				PoseMapping: {
 					...AssetPoseMapping.Corset,
+					Hogtied: PoseType.HIDE,
 					AllFours: PoseType.HIDE,
 				},
 				Layer: [
@@ -10549,6 +10550,150 @@ var AssetFemale3DCG = [
 							"SuitLower",
 						],
 						Masks: [[75, 764, 350, 200]],
+					},
+				],
+			},
+			{
+				Name: "CustomHeels",
+				//Free stuff doesn't need InventoryID
+				Height: 4,
+				Left: { Spread: 102 },
+				Random: true,
+				Extended: true,
+				DefaultColor: [
+					"#AC9F8A",
+					"#AC9F8A",
+					"#AC9F8A",
+					"#AC9F8A",
+					
+				],
+				Layer: [
+					{
+						Name: "Main",
+						PoseMapping: {
+							...AssetPoseMapping.Shoes,
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+						AllowColorize: true,
+					},
+					{
+						Name: "Back",
+						Priority: 6,
+						PoseMapping: {
+							...AssetPoseMapping.Shoes,
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+						CopyLayerColor: "Main",
+					},
+					{
+						Name: "Heels",
+						Priority: 21,
+						ParentGroup: null,
+						PoseMapping: {
+							...AssetPoseMapping.Shoes,
+							LegsClosed: PoseType.HIDE,
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+						AllowColorize: true,
+					},
+					{
+						Name: "Strap1",
+						PoseMapping: {
+							...AssetPoseMapping.Shoes,
+							Hogtied: PoseType.HIDE,
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+						},
+						AllowTypes: { m: 1 },
+						AllowColorize: true,
+						ColorGroup: "Straps"
+					},
+					{
+						Name: "Strap2",
+						PoseMapping: {
+							...AssetPoseMapping.Shoes,
+							Hogtied: PoseType.HIDE,
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+						},
+						AllowTypes: { n: 1 },
+						AllowColorize: true,
+						ColorGroup: "Straps"
+					},
+					{
+						Name: "Strap3",
+						PoseMapping: {
+							...AssetPoseMapping.Shoes,
+							Hogtied: PoseType.HIDE,
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+						},
+						AllowTypes: { o: 1 },
+						AllowColorize: true,
+						ColorGroup: "Straps"
+					},
+					{
+						Name: "MainHog",
+						ParentGroup: null,
+						PoseMapping: {
+							...AssetPoseMapping.Shoes,
+							LegsClosed: PoseType.HIDE,
+							Spread: PoseType.HIDE,
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+							Hogtied: "Hogtied",
+						},
+						CopyLayerColor: "Main",
+					},
+					{
+						Name: "HeelsHog",
+						ParentGroup: null,
+						PoseMapping: {
+							...AssetPoseMapping.Shoes,
+							LegsClosed: PoseType.HIDE,
+							Spread: PoseType.HIDE,
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+							Hogtied: "Hogtied",
+						},
+						CopyLayerColor: "Heels",
+					},
+				],
+				Alpha: [
+					{
+						Group: [
+							"BodyLower",
+							"Socks",
+							"SocksRight",
+							"SocksLeft",
+							"SuitLower",
+						],
+						Masks: [
+							[40, 920, 380, 100],
+							[168, 925, 10, 50],
+							[332, 925, 10, 50],
+						],
+					},
+					{
+						Pose: ["Spread"],
+						Group: [
+							"BodyLower",
+							"Socks",
+							"SocksRight",
+							"SocksLeft",
+							"SuitLower",
+						],
+						Masks: [
+							[40, 920, 380, 100],
+							[168, 880, 10, 50],
+							[332, 880, 10, 50],
+						],
 					},
 				],
 			},
@@ -35677,6 +35822,54 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "GenitalGag",
+				InventoryID: 1164,
+				FetishID: [ 1, 9, 10 ],
+				Value: 45,
+				Difficulty: 5,
+				Time: 10,
+				Top: 20,
+				DefaultColor: [
+					"Default",
+					"Default",
+					"#202020",
+					"#505050",
+				],
+				Random: false,
+				Extended: true,
+				AllowLock: true,
+				AllowTighten: true,
+				DrawLocks: false,
+				Prerequisite: ["GagUnique", "AccessMouth"],
+				CreateLayerTypes: ["typed"],
+				Layer: [
+					{
+						Name: "Gag",
+						Priority: 37,
+						AllowTypes: { typed: [ 0, 1 ] },
+						AllowColorize: true,
+					},
+					{
+						Name: "Detail",
+						Priority: 35,
+						AllowTypes: { typed: [ 0, 1 ] },
+						AllowColorize: true,
+					},
+					{
+						Name: "Harness",
+						Priority: 37,
+						AllowTypes: { typed: [ 0, 1 ] },
+						AllowColorize: true,
+					},
+					{
+						Name: "Rivets",
+						Priority: 37,
+						AllowTypes: { typed: [ 0, 1 ] },
+						AllowColorize: true,
+					},
+				],
+			},
 		],
 		Color: [
 			"Default",
@@ -37705,6 +37898,15 @@ var AssetFemale3DCG = [
 				CopyConfig: {
 					GroupName: "ItemMouth",
 					AssetName: "QualityHarnessGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "GenitalGag",
+				Hide: ["Mouth"],
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "GenitalGag",
 					BuyGroup: true,
 				},
 			},
@@ -47631,6 +47833,7 @@ var AssetFemale3DCG = [
 				SelfBondage: 7,
 				Time: 20,
 				AllowLock: true,
+				DrawLocks: false,
 				Extended: true,
 				RemoveAtLogin: true,
 				Prerequisite: ["AccessVulva", "HasVagina"],
@@ -47785,7 +47988,6 @@ var AssetFemale3DCG = [
 				Prerequisite: ["NotSuspended", "NotLifted"],
 				SetPose: ["LegsClosed"],
 				Block: ["ItemBoots", "ItemFeet", "ItemAddon"],
-				Effect: ["Slow"],
 				HideItem: ["ShoesFlippers"],
 				Layer: [
 					{
@@ -47913,7 +48115,7 @@ var AssetFemale3DCG = [
 				Audio: "",
 				Block: ["ItemAddon"],
 				Prerequisite: ["NotLifted","NotSuspended"],
-				Effect: [E.Freeze, E.Enclose],
+				Effect: [E.Freeze],
 				SetPose: ["LegsClosed","BackElbowTouch"],
 				Alpha: [
 					{
