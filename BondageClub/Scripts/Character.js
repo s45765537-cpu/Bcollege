@@ -515,6 +515,10 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			}
 			return deafLevel;
 		},
+		CanPickLocks: function () {
+			const CanAccessLockpicks = (this.CanInteract() || this.CanWalk()) && InventoryAvailable(this, "Lockpicks", "ItemMisc");
+			return CanAccessLockpicks || DialogLentLockpicks;
+		},
 		IsKneeling: function () {
 			return CommonIncludes(PoseAllKneeling, this.PoseMapping.BodyLower);
 		},
