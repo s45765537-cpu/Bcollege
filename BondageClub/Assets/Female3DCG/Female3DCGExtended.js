@@ -11016,6 +11016,54 @@ var AssetFemale3DCGExtended = {
 				AssetName: "StrictPonyBoots",
 			},
 		},
+		CustomHeels: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Strap1",
+					Key: "m",
+					Options: [
+						{
+							// m0 - None
+							Property: { Effect: [] },
+						},
+						{
+							// m1 - Ankle Strap
+							Property: { Effect: [] },
+						},
+					],
+				},
+				{
+					Name: "Strap2",
+					Key: "n",
+					Options: [
+						{
+							// n0 - None
+							Property: { Effect: [] },
+						},
+						{
+							// n1 - Mid Strap
+							Property: { Effect: [] },
+						},
+					],
+				},
+				{
+					Name: "Strap3",
+					Key: "o",
+					Options: [
+						{
+							// o0 - No Details
+							Property: { Effect: [] },
+						},
+						{
+							// o1 - Lower Strap
+							Property: { Effect: [] },
+						},
+					],
+				},
+			],
+			DrawImages: false,
+		}, // CustomHeels
 	}, // Shoes
 	HairAccessory1: {
 		ElfEars: {
@@ -12194,6 +12242,36 @@ var AssetFemale3DCGExtended = {
 				Chat: "QualityHarnessGagSet",
 			},
 		}, // QualityHarnessGag
+		GenitalGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Pussy",
+					Property: {
+						Effect: [E.GagEasy, E.OpenMouth],
+						Difficulty: 5,
+						ExpressionTrigger: [
+							{ Name: "DroolSides", Group: "Fluids", Timer: 15 },
+							{ Name: "Soft", Group: "Eyebrows", Timer: 15 },
+							{ Name: "Shy", Group: "Eyes", Timer: 15 },
+						],
+					},
+				},
+				{
+					Name: "Butthole",
+					Property: {
+						Effect: [E.GagLight, E.OpenMouth],
+						Difficulty: 6,
+						ExpressionTrigger: [
+							{ Name: "DroolSides", Group: "Fluids", Timer: 15 },
+							{ Name: "OneRaised", Group: "Eyebrows", Timer: 30 },
+							{ Name: "Dazed", Group: "Eyes", Timer: 30 },
+						],
+					},
+				},
+			],
+			DrawImages: false,
+		}, // GenitalGag
 	}, // ItemMouth
 	ItemMouth2: {
 		ClothGag: {
