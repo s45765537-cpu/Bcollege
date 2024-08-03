@@ -764,8 +764,7 @@ var AssetFemale3DCG = [
 					"ItemArmsBondageBra",
 				],
 				PoseMapping: {
-					...AssetPoseMapping.Cloth,
-					KneelingSpread: "KneelingSpread",
+					...AssetPoseMapping.Cloth
 				},
 			},
 			{
