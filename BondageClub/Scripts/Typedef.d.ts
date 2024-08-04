@@ -298,7 +298,8 @@ interface ExpressionNameMap {
 	Emoticon: (
 		null | "Afk" | "Whisper" | "Sleep" | "Hearts" | "Tear" | "Hearing" | "Confusion" | "Exclamation" |
 		"Annoyed" | "Read" | "RaisedHand" | "Spectator" | "ThumbsDown" | "ThumbsUp" | "LoveRope" |
-		"LoveGag" | "LoveLock" | "Wardrobe" | "Gaming" | "Coffee" | "Fork" | "Music"
+		"LoveGag" | "LoveLock" | "Wardrobe" | "Gaming" | "Coffee" | "Fork" | "Music" | "Car" | "Hanger" | 
+		"Call" | "Lightbulb" | "Warning" | "BrokenHeart" | "Drawing" | "Coding" | "TV" | "Bathing"
 	),
 }
 
