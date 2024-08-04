@@ -10564,7 +10564,7 @@ var AssetFemale3DCG = [
 					"#AC9F8A",
 					"#AC9F8A",
 					"#AC9F8A",
-					
+
 				],
 				Layer: [
 					{
@@ -11880,7 +11880,7 @@ var AssetFemale3DCG = [
 							"ItemHead",
 							"ItemHood",
 						],
-							Masks: [[50, 0, 400, 110]],
+						Masks: [[50, 0, 400, 110]],
 					},
 				],
 			},
@@ -18053,6 +18053,16 @@ var AssetFemale3DCG = [
 			"Coffee",
 			"Fork",
 			"Music",
+			"Car",
+			"Hanger",
+			"Call",
+			"Lightbulb",
+			"Warning",
+			"BrokenHeart",
+			"Drawing",
+			"Coding",
+			"TV",
+			"Bathing",
 		],
 		Asset: ["Emoticon"],
 	},
@@ -29327,7 +29337,7 @@ var AssetFemale3DCG = [
 				HideItem: [
 					"ClothLowerPajama1",
 					"ClothLowerBusinessTrousers",
-					],
+				],
 				HideItemExclude: ["ClothLatexHobbleDress","ClothMaidLatex"],
 				Layer: [
 					// UpperBody
@@ -48187,7 +48197,7 @@ var AssetFemale3DCG = [
 						LockLayer: true,
 						CopyLayerColor: "Relock",
 					},
-					
+
 				],
 				RemoveAtLogin: true,
 			},
