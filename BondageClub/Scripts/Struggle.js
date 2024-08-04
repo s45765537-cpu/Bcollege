@@ -387,6 +387,10 @@ function StruggleMinigameWasInterrupted(C) {
 		// The lock is gone from the item
 		if (PrevItem != null && !InventoryItemIsPickable(InventoryGet(C, PrevItem.Asset.Group.Name)))
 			return true;
+
+		// We lost access to a lockpick (likely the one we were lent broke)
+		if (!Player.CanPickLocks())
+			return true;
 	}
 	return false;
 }
@@ -1344,14 +1348,16 @@ function StruggleLockPickDraw(C) {
 				else {
 					DrawText(InterfaceTextGet("LockpickFailed"), X, 262, "red");
 				}
-			} else if (Math.random() < 0.25 && StruggleLockPickTotalTries > 5) { // StruggleLockPickTotalTries is meant to give players a bit of breathing room so they don't get tired right away
+			} else if (Math.random() < 0.25 && StruggleLockPickTotalTries > 5) {
+				// StruggleLockPickTotalTries is meant to give players a bit of breathing room so they don't get tired right away
 				if (DialogLentLockpicks)  {
 					DialogLentLockpicks = false;
 					if (CurrentScreen == "ChatRoom") {
 						const Dictionary = new DictionaryBuilder()
+							.sourceCharacter(Player)
 							.destinationCharacterName(C)
 							.build();
-						ChatRoomPublishCustomAction("LockPickBreak", true, Dictionary);
+						ChatRoomPublishCustomAction("LockPickBreak", false, Dictionary);
 					}
 				} else {
 					LogAdd("FailedLockPick", "LockPick", CurrentTime + StruggleLockPickFailTimeout);

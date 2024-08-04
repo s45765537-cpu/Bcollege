@@ -145,7 +145,7 @@ Locking,Locking...
 LockMemberNumber,Member number on lock:
 LockZoneBlocked,Another item is blocking access to this lock
 LockPickArousal,Your hands are shaky and you lose some tension by accident!
-LockPickBreak,DestinationCharacterName jammed a lock and broke TargetPronounPossessive lockpick!
+LockPickBreak,SourceCharacter jammed a lock on DestinationCharacterName and broke PronounPossessive lockpick!
 LockpickFailed,You jammed the lock.
 LockpickFailedTimeout,You are too tired to continue. Time remaining:
 LockpickIntro,Click the pins in the correct order to open the lock!
