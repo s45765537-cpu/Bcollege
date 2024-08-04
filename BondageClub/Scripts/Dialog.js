@@ -717,8 +717,7 @@ function DialogGetPickLockDialog(C, Item) {
 
 	// Check that he player can access their tools.
 	// Maybe in the future you will be able to hide a lockpick in your panties :>
-	const CanAccessLockpicks = (Player.CanInteract() || Player.CanWalk()) && InventoryAvailable(Player, "Lockpicks", "ItemMisc");
-	if (!CanAccessLockpicks && !DialogLentLockpicks)
+	if (!Player.CanPickLocks())
 		return "PickLockNoPicksDisabled";
 
 	return "PickLock";

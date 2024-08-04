@@ -1476,6 +1476,7 @@ interface Character {
 	IsAssFull: () => boolean;
 	IsFixedHead: () => boolean;
 	GetDeafLevel: () => number;
+	CanPickLocks: () => boolean;
 	IsEdged: () => boolean;
 	IsPlayer: () => this is PlayerCharacter;
 	IsBirthday: () => boolean;
