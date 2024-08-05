@@ -15766,6 +15766,12 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#0e70b4", "#086cb2"],
 				Layer: [{ Name: "Wings" }, { Name: "Veins" }],
 			},
+			{
+				Name: "Dragonwings",
+				Value: 5,
+				Extended: true,
+				Layer: [{ Name: "Webbing" }, { Name: "Supports" }, { Name: "Points" }]
+			}
 		],
 		Color: [
 			"Default",
