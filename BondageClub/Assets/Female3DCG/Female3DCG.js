@@ -45745,7 +45745,7 @@ var AssetFemale3DCG = [
 				RemoveAtLogin: true,
 				Audio: "CageEquip",
 				Block: ["ItemAddon"],
-				Effect: [E.Freeze],
+				Effect: [E.Freeze, E.MapImmobile],
 				SetPose: ["BaseLower"],
 				AllowActivePose: [...PoseAllStanding],
 				Layer: [
