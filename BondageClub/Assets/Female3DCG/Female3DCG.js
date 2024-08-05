@@ -858,7 +858,6 @@ var AssetFemale3DCG = [
 				Name: "CustomTShirt",
 				InventoryID: 104,
 				Value: 10,
-				Random: true,
 				Extended: true,
 				DefaultColor: ["#FD8D8F", "Default"],
 				PoseMapping: {
@@ -6006,7 +6005,6 @@ var AssetFemale3DCG = [
 				Left: 86,
 				Top: { AllFours: 0 },
 				DefaultColor: "#A4907B",
-				Random: true,
 				Extended: true,
 				ParentGroup: null,
 				PoseMapping: {
@@ -9050,7 +9048,6 @@ var AssetFemale3DCG = [
 					Kneel: "Kneel",
 					KneelingSpread: "KneelingSpread",
 				},
-				Random: true,
 				Extended: true,
 				Layer: [
 					{
@@ -9133,7 +9130,6 @@ var AssetFemale3DCG = [
 					Kneel: "Kneel",
 					KneelingSpread: "KneelingSpread",
 				},
-				Random: true,
 				Extended: true,
 				Layer: [
 					{
@@ -10551,10 +10547,8 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CustomHeels",
-				//Free stuff doesn't need InventoryID
 				Height: 4,
 				Left: { Spread: 102 },
-				Random: true,
 				Extended: true,
 				DefaultColor: [
 					"#AC9F8A",
@@ -11715,7 +11709,6 @@ var AssetFemale3DCG = [
 				InventoryID: 1157,
 				Left: 75,
 				Value: 22,
-				Random: true,
 				DefaultColor: ["#5A2C0C", "#E64747", "#AD2848"],
 				HideItem: [
 					"HairBackHairBack5",
@@ -11822,7 +11815,6 @@ var AssetFemale3DCG = [
 				Value: -1,
 				BuyGroup: "BrickWall",
 				Left: 150,
-				Random: true,
 				DefaultColor: ["#988837"],
 				PoseMapping: {
 					Suspension: PoseType.HIDE,
@@ -15318,7 +15310,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "RubberMask",
 				ParentItem: "ItemHoodRubberMask",
 				Priority: 25,
-				Random: true,
+				Random: false,
 				AllowTighten: false,
 				Extended: true,
 				DefaultColor: [
@@ -40882,7 +40874,7 @@ var AssetFemale3DCG = [
 				Priority: 34,
 				Difficulty: 6,
 				Time: 10,
-				Random: true,
+				Random: false,
 				AllowLock: true,
 				DrawLocks: false,
 				Extended: true,
