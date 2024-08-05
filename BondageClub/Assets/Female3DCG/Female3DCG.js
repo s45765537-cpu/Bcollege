@@ -15770,13 +15770,15 @@ var AssetFemale3DCG = [
 				Name: "DragonWings",
 				InventoryID: 1165,
 				Value: 5,
-				DefaultColor: ["#202020", "#FFFFFF", "#202020"],
+				Priority: 2,
 				Extended: true,
 				CreateLayerTypes: ["typed"],
 				Layer: [
 					{ Name: "Webbing" },
 					{ Name: "Supports" },
-					{ Name: "Points" }
+					{ Name: "Points" },
+					{ Name: "Buckles", Priority: 3 },
+					{ Name: "Straps" }
 				]
 			}
 		],

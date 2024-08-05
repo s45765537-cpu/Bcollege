@@ -16842,13 +16842,16 @@ var AssetFemale3DCGExtended = {
 		}, // SteampunkWings
 		DragonWings: {
 			Archetype: ExtendedArchetype.TYPED,
-			DrawImages: false,
+			DrawImages: true,
 			Options: [
+				{
+					Name: "Folded",
+				},
 				{
 					Name: "Spread",
 				},
 				{
-					Name: "Folded",
+					Name: "Bound",
 				}
 			],
 		} // DragonWings
