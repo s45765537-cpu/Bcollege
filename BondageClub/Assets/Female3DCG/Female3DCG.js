@@ -15767,10 +15767,17 @@ var AssetFemale3DCG = [
 				Layer: [{ Name: "Wings" }, { Name: "Veins" }],
 			},
 			{
-				Name: "Dragonwings",
+				Name: "DragonWings",
+				InventoryID: 1165,
 				Value: 5,
+				DefaultColor: ["#202020", "#FFFFFF", "#202020"],
 				Extended: true,
-				Layer: [{ Name: "Webbing" }, { Name: "Supports" }, { Name: "Points" }]
+				CreateLayerTypes: ["typed"],
+				Layer: [
+					{ Name: "Webbing" },
+					{ Name: "Supports" },
+					{ Name: "Points" }
+				]
 			}
 		],
 		Color: [

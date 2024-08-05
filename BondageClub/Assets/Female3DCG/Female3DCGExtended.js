@@ -16845,10 +16845,10 @@ var AssetFemale3DCGExtended = {
 			DrawImages: false,
 			Options: [
 				{
-					Name: "spread",
+					Name: "Spread",
 				},
 				{
-					Name: "folded",
+					Name: "Folded",
 				}
 			],
 		} // DragonWings
