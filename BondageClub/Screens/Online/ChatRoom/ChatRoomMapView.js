@@ -470,6 +470,9 @@ function ChatRoomMapViewCoordinatesToIndex(x, y) {
  */
 function ChatRoomMapViewCalculatePerceptionMasks() {
 
+	// The player has never opened the map, ignore
+	if (!Player.MapData) return;
+
 	// When in edit mode or with active super powers, always show everything
 	if (ChatRoomMapViewHasSuperPowers()) {
 		ChatRoomMapViewVisibilityMask.fill(true);
