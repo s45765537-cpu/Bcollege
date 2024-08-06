@@ -231,7 +231,7 @@ var ClubCardList = [
 	},
 	{
 		ID: 2004,
-		Name: "aa",
+		Name: "Associate",
 		Group: ["Staff"],
 		MoneyPerTurn: -2,
 		ExtraPlay: 1,
