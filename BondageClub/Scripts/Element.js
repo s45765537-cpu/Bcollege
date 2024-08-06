@@ -564,7 +564,10 @@ function ElementScrollToEnd(ID) {
  */
 function ElementGetScrollPercentage(ID) {
 	var element = document.getElementById(ID);
-	if (element != null) return (element.scrollTop + element.clientHeight) / element.scrollHeight;
+	if (element != null) {
+		if (element.scrollTop === 0) return 0;
+		return (element.scrollTop + element.clientHeight) / element.scrollHeight;
+	}
 
 	return null;
 }
@@ -577,6 +580,37 @@ function ElementGetScrollPercentage(ID) {
 function ElementIsScrolledToEnd(ID) {
 	var element = document.getElementById(ID);
 	return element != null && element.scrollHeight - element.scrollTop - element.clientHeight <= 1;
+}
+
+/**
+ * Sets the scroll position of an element to a specified percentage of its scrollable content.
+ * Ideally scroll percentage should be gotten with {@link ElementGetScrollPercentage}
+ *
+ * @param {string} ID
+ * @param {number} scrollPercentage
+ * @param {ScrollBehavior} scrollBehavior
+ * @returns {void}
+ */
+function ElementSetScrollPercentage(ID, scrollPercentage, scrollBehavior = 'auto') {
+	const element = document.getElementById(ID);
+	if (!element) {
+		console.error(`Element with ID "${ID}" not found.`);
+		return;
+	}
+
+	if (scrollPercentage < 0 || scrollPercentage > 1) {
+		console.error("scrollPercentage must be between 0 and 1 (inclusive).");
+		return;
+	}
+
+	const scrollHeight = element.scrollHeight;
+	const clientHeight = element.clientHeight;
+	const newScrollTop = Math.max(0, (scrollPercentage * scrollHeight - clientHeight)); // Clamp to 0 for valid range
+
+	element.scrollTo({
+		top: newScrollTop,
+		behavior: scrollBehavior
+	});
 }
 
 /**
@@ -1010,7 +1044,7 @@ var ElementButton = {
 			case "radio":
 			case "menuitemradio":
 				elem.addEventListener("click", this._ClickRadio);
-				elem.ariaChecked ||= "false";
+				elem.ariaChecked ??= "false";
 				break;
 			case "checkbox":
 			case "menuitemcheckbox":

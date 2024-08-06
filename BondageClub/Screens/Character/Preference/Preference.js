@@ -645,6 +645,7 @@ function PreferenceInitPlayer() {
 	if (typeof C.OnlineSettings.EnableAfkTimer !== "boolean") C.OnlineSettings.EnableAfkTimer = true;
 	if (typeof C.OnlineSettings.ShowStatus !== "boolean") C.OnlineSettings.ShowStatus = true;
 	if (typeof C.OnlineSettings.SendStatus !== "boolean") C.OnlineSettings.SendStatus = true;
+	if (typeof C.OnlineSettings.FriendListAutoRefresh !== "boolean") C.OnlineSettings.FriendListAutoRefresh = true;
 
 	// Delete old improper settings.
 	delete C.ChatSettings.AutoBanBlackList;

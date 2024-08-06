@@ -1,198 +1,287 @@
 "use strict";
+//#region VARIABLES
 var FriendListBackground = "BrickWall";
-var FriendListContent = "";
 /** @type {number[]} */
 var FriendListConfirmDelete = [];
-/** @type {null | { Screen: string, Module: ModuleType, IsInChatRoom?: boolean, hasScrolledChat?: boolean }} */
+/** @type {FriendListReturn | null} */
 var FriendListReturn = null;
-var FriendListMode = ["Friends", "Beeps", "Delete"];
+/** @type {FriendListModes} */
+var FriendListMode = ["OnlineFriends", "Beeps", "AllFriends"];
 var FriendListModeIndex = 0;
 /** @type {IFriendListBeepLogMessage[]} */
 var FriendListBeepLog = [];
-/** @type {number|null} MemberNumber of the player to send beep to */
-let FriendListBeepTarget = null;
+/** @type {number} MemberNumber of the player to send beep to */
+let FriendListBeepTarget = -1;
 var FriendListBeepShowRoom = true;
+/** @type {FriendListSortingMode} */
+let FriendListSortingMode = 'None';
+/** @type {FriendListSortingDirection} */
+let FriendListSortingDirection = 'Asc';
 
-/**
- * Loads the online friend list from the server. This function is called dynamically, when the player invokes the friendlist dialog.
- * @returns {void} - Nothing
- */
+const FriendListAutoRefresh = {
+	interval: 10_000,
+	nextRefresh: 0,
+};
+
+const FriendListIDs = Object.freeze({
+	root: 'friend-list-subscreen',
+	navBar: 'friend-list-nav-bar',
+	header: 'friend-list-header',
+	friendList: 'friend-list',
+	friendListTable: 'friend-list-table',
+
+	navButtons: 'friend-list-buttons',
+	modeTitle: 'friend-list-mode-title',
+	searchInput: 'friend-list-search-input',
+
+	btnAutoRefresh: 'friend-list-button-auto-refresh',
+	btnRefresh: 'friend-list-button-refresh',
+	btnPrev: 'friend-list-button-prev',
+	btnNext: 'friend-list-button-next',
+	btnExit: 'friend-list-button-exit',
+
+	btnResetSorting: 'friend-list-reset-sorting',
+
+	beepList: 'friend-list-beep-dialog',
+	beepTextArea: 'friend-list-beep-textarea',
+	beepFooter: 'friend-list-beep-footer',
+});
+//#endregion
+
+//#region SCREEN FUNCTIONS
+/** @type {ScreenFunctions['Load']} */
 function FriendListLoad() {
-	FriendListConfirmDelete = [];
-	ElementCreateDiv("FriendList");
-	ElementPositionFix("FriendList", 36, 0, 70, 2000, 930);
-	ElementContent("FriendList", "");
-	ServerSend("AccountQuery", { Query: "OnlineFriends" });
-}
-
-/**
- * Run the friend list screen - Draw the controls and print the result of the server query to the screen.
- * This function is called dynamically on a regular basis. So don't do complex loops within
- * @returns {void} - Nothing
- */
-function FriendListRun() {
 	const mode = FriendListMode[FriendListModeIndex];
-	DrawText(TextGet("MemberNumber"), 665, 35, "White", "Gray");
-	if (mode === "Friends") {
-		DrawText(TextGet("ListOnlineFriends"), 230, 35, "White", "Gray");
-		DrawText(TextGet("ChatRoomName"), 1100, 35, "White", "Gray");
-		DrawText(TextGet("ActionFriends"), 1535, 35, "White", "Gray");
-	} else if (mode === "Beeps") {
-		DrawText(TextGet("ListBeeps"), 230, 35, "White", "Gray");
-		DrawText(TextGet("ChatRoomName"), 1100, 35, "White", "Gray");
-	} else if (mode === "Delete") {
-		DrawText(TextGet("ListFriends"), 230, 35, "White", "Gray");
-		DrawText(TextGet("FriendType"), 1100, 35, "White", "Gray");
-		DrawText(TextGet("ActionDelete"), 1535, 35, "White", "Gray");
-	}
-	ElementPositionFix("FriendList", 36, 5, 75, 1985, 890);
-	if (FriendListBeepTarget !== null) {
-		ElementPositionFix("FriendListBeep", 36, 5, 75, 1985, 890);
-	}
-	DrawButton(1725, 5, 60, 60, "", "White", "Icons/Small/Reset.png", TextGet("Refresh"));
-	DrawButton(1795, 5, 60, 60, "", "White", "Icons/Small/Prev.png");
-	DrawButton(1865, 5, 60, 60, "", "White", "Icons/Small/Next.png");
-	DrawButton(1935, 5, 60, 60, "", "White", "Icons/Small/Exit.png");
+
+	FriendListConfirmDelete = [];
+
+	const root = document.getElementById(FriendListIDs.root) ?? ElementCreate({
+		tag: 'div',
+		attributes: {
+			id: FriendListIDs.root
+		},
+		dataAttributes: {
+			mode: mode
+		},
+		parent: document.body,
+	});
+
+	TextCache.buildAsync(`Screens/Character/FriendList/Text_FriendList.csv`).then(async () => {
+		root.replaceChildren(
+			ElementCreate({
+				tag: "div",
+				attributes: {
+					id: FriendListIDs.navBar
+				},
+				children: [
+					{
+						tag: "span",
+						attributes: {
+							id: FriendListIDs.modeTitle,
+						},
+						children: [
+							TextGet(mode),
+						]
+					},
+					{
+						tag: 'input',
+						attributes: {
+							id: FriendListIDs.searchInput,
+							type: 'text',
+							maxLength: 100,
+						},
+						eventListeners: {
+							/**
+							* @this {HTMLInputElement}
+							*/
+							input: function() {
+								FriendListSearchByProperties(this.value);
+							},
+						},
+					},
+					ElementMenu.Create(FriendListIDs.navButtons, [
+						ElementButton.Create(
+							FriendListIDs.btnAutoRefresh,
+							() => {
+								FriendListToggleAutoRefresh();
+							},
+							{
+								tooltip: TextGet("AutoRefresh"),
+							},
+							{
+								button: {
+									classList: ['friend-list-button', !Player.OnlineSettings.FriendListAutoRefresh && 'inactive'],
+								}
+							}
+						),
+						ElementButton.Create(
+							FriendListIDs.btnRefresh,
+							() => {
+								ServerSend("AccountQuery", { Query: "OnlineFriends" });
+							},
+							{
+								tooltip: TextGet("Refresh"),
+							},
+							{
+								button: {
+									classList: ['friend-list-button'],
+								}
+							}
+						),
+						ElementButton.Create(
+							FriendListIDs.btnPrev,
+							() => {
+								FriendListChangeMode(FriendListModeIndex - 1);
+							},
+							{
+								tooltip: TextGet("PrevMode"),
+							},
+							{
+								button: {
+									classList: ['friend-list-button'],
+								}
+							}
+						),
+						ElementButton.Create(
+							FriendListIDs.btnNext,
+							() => {
+								FriendListChangeMode(FriendListModeIndex + 1);
+							},
+							{
+								tooltip: TextGet("NextMode"),
+							},
+							{
+								button: {
+									classList: ['friend-list-button'],
+								}
+							}
+						),
+						ElementButton.Create(
+							FriendListIDs.btnExit,
+							() => {
+								FriendListExit();
+							},
+							{
+								tooltip: TextGet("Exit"),
+							},
+							{
+								button: {
+									classList: ['friend-list-button'],
+								}
+							}
+						)
+					])
+				]
+			}),
+			ElementCreate({
+				tag: "hr",
+				attributes: {
+					id: 'friend-list-nav-hr'
+				}
+			}),
+			ElementButton.Create(
+				FriendListIDs.btnResetSorting,
+				() => {
+					FriendListChangeSortingMode('None');
+				},
+				{
+					tooltip: TextGet("ResetSorting"),
+					tooltipPosition: 'right'
+				},
+				{
+					button: {
+						classList: ['friend-list-button'],
+					}
+				}
+			),
+			ElementCreate({
+				tag: 'div',
+				attributes: {
+					id: FriendListIDs.friendListTable
+				},
+				children: [
+					{
+						tag: 'div',
+						attributes: {
+							id: FriendListIDs.header
+						},
+					},
+					{
+						tag: 'div',
+						attributes: {
+							id: FriendListIDs.friendList
+						},
+					}
+				]
+			}),
+		);
+
+		ServerSend("AccountQuery", { Query: "OnlineFriends" });
+	});
+
+	FriendListSortingMode = 'None';
+	FriendListSortingDirection = 'Asc';
 }
 
-/**
- * Creates beep message menu
- * @param {number} MemberNumber Member number of target player
- * @param {IFriendListBeepLogMessage|null} data Beep data of received beep
- */
-function FriendListBeep(MemberNumber, data = null) {
-	if (FriendListBeepTarget == null) {
-		ElementCreateDiv("FriendListBeep");
-		ElementPositionFix("FriendListBeep", 36, 5, 75, 1985, 890);
-	}
-	const FriendListBeepElement = document.getElementById("FriendListBeep");
-	FriendListBeepTarget = MemberNumber;
-	FriendListBeepElement.innerHTML = "";
-	const dialog = document.createElement("div");
-	const user = document.createElement("div");
-	user.innerText = `${Player.FriendNames.get(MemberNumber)} [${MemberNumber}]`;
-	const messageArea = document.createElement("textarea");
-	messageArea.id = "FriendListBeepTextArea";
-	messageArea.maxLength = 1000;
-	if (data) {
-		messageArea.readOnly = true;
-		messageArea.value = data.Message || "";
-	}
-	const footer = document.createElement("div");
-	const closeBtn = document.createElement("a");
-	closeBtn.innerText = "Close";
-	closeBtn.onclick = FriendListBeepMenuClose;
-	footer.append(closeBtn);
-	if (data === null) {
-		if (ServerPlayerIsInChatRoom()) {
-			const showRoomBtn = document.createElement("a");
-			showRoomBtn.innerText = FriendListBeepShowRoom ? TextGet("ToggleRoomOn") : TextGet("ToggleRoomOff");
-			showRoomBtn.onclick = () => {
-				FriendListBeepShowRoom = !FriendListBeepShowRoom;
-				showRoomBtn.innerText = FriendListBeepShowRoom ? TextGet("ToggleRoomOn") : TextGet("ToggleRoomOff");
-			};
-			footer.append(showRoomBtn);
-		}
-
-		const sendBtn = document.createElement("a");
-		sendBtn.innerText = "Send";
-		sendBtn.onclick = FriendListBeepMenuSend;
-		footer.append(sendBtn);
-	} else {
-		const replyBtn = document.createElement("a");
-		replyBtn.innerText = "Reply";
-		replyBtn.onclick = () => FriendListBeep(data.MemberNumber);
-		footer.append(replyBtn);
-	}
-	dialog.append(data === null ? "Send Beep" : data.Sent ? "Sent Beep" : "Received Beep", user, messageArea, footer);
-	FriendListBeepElement.append(dialog);
-}
-
-/**
- * Closes the beep menu
- */
-function FriendListBeepMenuClose() {
-	ElementRemove("FriendListBeep");
-	FriendListBeepTarget = null;
-	FriendListBeepShowRoom = true;
-}
-
-/**
- * Sends the beep and message on send click
- */
-function FriendListBeepMenuSend() {
-	if (FriendListBeepTarget !== null) {
-		const textarea = /** @type {HTMLTextAreaElement} */ (document.getElementById("FriendListBeepTextArea"));
-		if (textarea) {
-			const msg = textarea.value;
-			const beep = { MemberNumber: FriendListBeepTarget, BeepType: "" };
-			if (msg) beep.Message = msg;
-			if (!FriendListBeepShowRoom) beep.IsSecret = true;
-			ServerSend("AccountBeep", beep);
-
-			const chatRoomName = FriendListBeepShowRoom && Player.LastChatRoom ? Player.LastChatRoom.Name : null;
-			FriendListBeepLog.push({
-				MemberNumber: FriendListBeepTarget,
-				MemberName: Player.FriendNames.get(FriendListBeepTarget),
-				ChatRoomName: chatRoomName,
-				Sent: true,
-				Private: false,
-				Time: new Date(),
-				Message: msg || undefined
-			});
-		}
-		FriendListBeepMenuClose();
+/** @type {ScreenFunctions['Resize']} */
+function FriendListResize() {
+	ElementPositionFix(FriendListIDs.root, 36, 0, 0, 2000, 1000);
+	if (FriendListBeepTarget !== -1) {
+		ElementPositionFix(FriendListIDs.beepList, 36, 250, 150, 1500, 800);
 	}
 }
 
-/**
- * Shows the wanted beep on click from beep list
- * @param {number} i index of the beep
- */
-function FriendListShowBeep(i) {
-	const beep = FriendListBeepLog[i];
-	if (beep) {
-		FriendListBeep(beep.MemberNumber, beep);
+/** @type {ScreenFunctions['Run']} */
+function FriendListRun() {
+}
+
+/** @type {ScreenFunctions['Draw']} */
+function FriendListDraw() {
+	if (Player.OnlineSettings.FriendListAutoRefresh && CommonTime() >= FriendListAutoRefresh.nextRefresh && ServerIsConnected) {
+		FriendListAutoRefresh.nextRefresh = CommonTime() + FriendListAutoRefresh.interval;
+		ServerSend("AccountQuery", { Query: "OnlineFriends" });
 	}
 }
 
-/**
- * Handles the click events in the friend list. Clicks are propagated to this function from CommonClick()
- * @returns {void} - Nothing
- */
+/** @type {ScreenFunctions['Click']} */
 function FriendListClick() {
-	if (MouseIn(1725, 5, 60, 60)) {
-		ElementContent("FriendList", "");
-		ServerSend("AccountQuery", { Query: "OnlineFriends" });
-	}
-
-	if (MouseIn(1795, 5, 60, 60)) {
-		ElementContent("FriendList", "");
-		FriendListModeIndex--;
-		if (FriendListModeIndex < 0) FriendListModeIndex = FriendListMode.length - 1;
-		ServerSend("AccountQuery", { Query: "OnlineFriends" });
-	}
-
-	if (MouseIn(1865, 5, 60, 60)) {
-		ElementContent("FriendList", "");
-		FriendListModeIndex++;
-		if (FriendListModeIndex >= FriendListMode.length) FriendListModeIndex = 0;
-		ServerSend("AccountQuery", { Query: "OnlineFriends" });
-	}
-
-	if (MouseIn(1935, 5, 60, 60)) FriendListExit();
 }
 
-/**
- * This function is called, when the user exists the friend list. From here we either get back to the InformationSheet
- * or the ChatRoom search, depending on the value of the global variable 'FriendListReturn'
- * @returns {void} - Nothing
- */
+/** @type {ScreenFunctions['KeyDown']} */
+function FriendListKeyDown(event) {
+	const beepTextArea = /** @type {HTMLTextAreaElement} */(document.getElementById(FriendListIDs.beepTextArea));
+	const beepTextAreaHasFocus = beepTextArea && document.activeElement === beepTextArea;
+
+	if (FriendListBeepTarget !== -1 || beepTextArea) {
+		if (event.key === 'Escape' && !event.shiftKey) {
+			FriendListBeepMenuClose();
+			return true;
+		}
+	}
+	if (beepTextAreaHasFocus) {
+		if (event.key === 'Enter' && event.ctrlKey) {
+			FriendListBeepMenuSend();
+			return true;
+		}
+	}
+
+	return false;
+}
+
+/** @type {ScreenFunctions['Unload']} */
+function FriendListUnload() {
+}
+
+/** @type {ScreenFunctions['Exit']} */
 function FriendListExit() {
-	FriendListBeepMenuClose();
-	ElementRemove("FriendList");
+	const beepMenu = document.getElementById(FriendListIDs.beepList);
+	if (beepMenu) {
+		FriendListBeepMenuClose();
+		return;
+	}
+	ElementRemove(FriendListIDs.root);
 	if (FriendListReturn != null && FriendListReturn.Screen != "FriendList") {
-		if (FriendListReturn && FriendListReturn.Screen === "ChatRoom" && FriendListReturn.hasScrolledChat) {
+		if (FriendListReturn?.Screen === "ChatRoom" && FriendListReturn?.hasScrolledChat) {
 			ElementScrollToEnd("TextAreaChatLog");
 		}
 		ElementToggleGeneratedElements(FriendListReturn.Screen, true);
@@ -201,19 +290,182 @@ function FriendListExit() {
 	FriendListReturn = null;
 	FriendListModeIndex = 0;
 }
+//#endregion
 
+//#region BEEP
+/**
+ * Creates beep message menu
+ * @param {number} MemberNumber Member number of target player
+ * @param {IFriendListBeepLogMessage|null} data Beep data of received beep
+ */
+function FriendListBeep(MemberNumber, data = null) {
+	if (FriendListBeepTarget === -1) {
+		ElementCreateDiv(FriendListIDs.beepList);
+	}
+	const FriendListBeepElement = document.getElementById(FriendListIDs.beepList);
+	const beepTitle = data === null ? 'Send Beep' : data.Sent ? 'Sent Beep' : 'Received Beep';
+	const userCaption = `${Player.FriendNames.get(MemberNumber)} [${MemberNumber}]`;
+	const beepDialog = ElementCreate({
+		tag: 'div',
+		attributes: {
+			id: FriendListIDs.beepList
+		},
+		dataAttributes: {
+			'received': data !== null
+		},
+		children: [
+			{
+				tag: 'span',
+				children: [
+					beepTitle,
+				]
+			},
+			{
+				tag: 'span',
+				children: [
+					userCaption,
+				]
+			},
+			{
+				tag: 'textarea',
+				attributes: {
+					id: FriendListIDs.beepTextArea,
+					maxLength: 1000,
+					readOnly: data !== null ? true : undefined,
+				},
+			},
+			{
+				tag: 'div',
+				attributes: {
+					id: FriendListIDs.beepFooter
+				},
+				children: [
+					{
+						tag: 'button',
+						classList: ['blank-button', 'friend-list-link'],
+						children: [
+							'Close'
+						],
+						eventListeners: {
+							click: () => FriendListBeepMenuClose()
+						}
+					},
+					{
+						tag: 'button',
+						classList: ['blank-button', 'friend-list-link', 'mode-specific-content', 'fl-beep-sent-content'],
+						attributes: {
+							disabled: !ServerPlayerIsInChatRoom() ? true : undefined
+						},
+						children: [
+							FriendListBeepShowRoom && ServerPlayerIsInChatRoom() ? TextGet('ToggleRoomOn') : TextGet('ToggleRoomOff')
+						],
+						eventListeners: {
+							click: function()  {
+								FriendListBeepShowRoom = !FriendListBeepShowRoom;
+								this.textContent = FriendListBeepShowRoom ? TextGet('ToggleRoomOn') : TextGet('ToggleRoomOff');
+							}
+						}
+					},
+					{
+						tag: 'button',
+						classList: ['blank-button', 'friend-list-link', 'mode-specific-content', 'fl-beep-sent-content'],
+						children: [
+							'Send'
+						],
+						eventListeners: {
+							click: () => FriendListBeepMenuSend()
+						}
+					},
+					{
+						tag: 'button',
+						classList: ['blank-button', 'friend-list-link', 'mode-specific-content', 'fl-beep-received-content'],
+						children: [
+							'Reply'
+						],
+						eventListeners: {
+							click: () => FriendListBeep(data?.MemberNumber)
+						}
+					}
+				]
+			}
+		]
+	});
+
+	FriendListBeepElement.replaceWith(beepDialog);
+
+
+	const textArea = /** @type {HTMLTextAreaElement} */ (document.getElementById(FriendListIDs.beepTextArea));
+	if (textArea) {
+		textArea.value = data?.Message ?? '';
+		textArea.focus();
+	}
+
+	FriendListBeepTarget = MemberNumber;
+	FriendListResize(true);
+}
+
+/**
+ * Closes the beep menu
+ */
+function FriendListBeepMenuClose() {
+	ElementRemove(FriendListIDs.beepList);
+	FriendListBeepTarget = -1;
+	FriendListBeepShowRoom = true;
+}
+
+/**
+ * Sends the beep and message on send click
+ */
+function FriendListBeepMenuSend() {
+	if (FriendListBeepTarget === -1) return;
+
+	const textarea = /** @type {HTMLTextAreaElement} */ (document.getElementById(FriendListIDs.beepTextArea));
+	if (textarea) {
+		const msg = textarea.value;
+		ServerSend("AccountBeep", {
+			MemberNumber: FriendListBeepTarget,
+			BeepType: "",
+			IsSecret: !FriendListBeepShowRoom,
+			Message: msg || undefined
+		});
+
+		const chatRoomName = FriendListBeepShowRoom && Player.LastChatRoom ? Player.LastChatRoom.Name : null;
+		FriendListBeepLog.push({
+			MemberNumber: FriendListBeepTarget,
+			MemberName: Player.FriendNames.get(FriendListBeepTarget),
+			ChatRoomName: chatRoomName,
+			Sent: true,
+			Private: false,
+			Time: new Date(),
+			Message: msg || undefined
+		});
+	}
+	FriendListBeepMenuClose();
+}
+
+/**
+ * Shows the wanted beep on click from beep list
+ * @param {number} i index of the beep
+ */
+function FriendListShowBeep(i) {
+	const beep = FriendListBeepLog[i];
+	if (!beep) return;
+	FriendListBeep(beep.MemberNumber, beep);
+}
+//#endregion
+
+//#region FRIEND LIST
 /**
  * Exits the friendlist
  * @param {string} room The room to search for
  */
 function FriendListChatSearch(room) {
-	if (FriendListReturn && FriendListReturn.Screen === "ChatSearch") {
-		FriendListExit();
-		ElementValue("InputSearch", room);
-		ChatSearchQuery();
-		// Change the text box so the player still cant read it
-		ElementValue("InputSearch", ChatSearchMuffle(room));
-	}
+	if (FriendListReturn?.Screen !== "ChatSearch") return;
+	FriendListExit();
+	ElementValue("InputSearch", room);
+	ChatSearchQuery();
+	// Change the text box so the player still cant read it
+	ElementValue("InputSearch", ChatSearchMuffle(room));
 }
 
 /**
@@ -226,13 +478,14 @@ function FriendListChatSearch(room) {
  *
  * `data.ChatRoomName` - The name of the ChatRoom
  *
- * `data.ChatRoomSpace` - The space, where this room was created. Currently this can be the Asylum or the LARP arena
+ * `data.ChatRoomSpace` - The space, where this room was created.
  *
  * `data.Type` - The relationship that exists between the player and the friend of the list.
- * Currently, only "submissive" is supported
  * @returns {void} - Nothing
  */
 function FriendListLoadFriendList(data) {
+	if (!document.getElementById(FriendListIDs.friendList)) return;
+
 	// Loads the header caption
 	const BeepCaption = InterfaceTextGet("Beep");
 	const DeleteCaption = InterfaceTextGet("Delete");
@@ -248,7 +501,15 @@ function FriendListLoadFriendList(data) {
 		Submissive: TextGet("TypeSubmissive"),
 		Friend: TextGet("TypeFriend")
 	};
-	FriendListContent = "";
+	const relationTypeIcons = {
+		Owner: './Icons/Small/Owner.png',
+		Lover: './Icons/Small/Lover.png',
+		Submissive: './Icons/Small/Family.png',
+		Friend: './Icons/Small/FriendList.png'
+	};
+	const sortingSymbol = FriendListSortingDirection === "Asc" ? "▲" : "▼";
+	const FriendListContent = [];
+	const friendListScrollPercent = ElementGetScrollPercentage(FriendListIDs.friendList) || 0;
 
 	const mode = FriendListMode[FriendListModeIndex];
 
@@ -269,76 +530,323 @@ function FriendListLoadFriendList(data) {
 	});
 	if (infoChanged) ServerPlayerRelationsSync();
 
-	if (mode === "Friends") {
+	const table = ElementCreate({
+		tag: "div",
+		attributes: {
+			id: FriendListIDs.friendListTable
+		},
+		children: [
+			{
+				tag: 'div',
+				attributes: {
+					id: FriendListIDs.header
+				},
+				classList: ['friend-list-row'],
+				children: [
+					{
+						tag: "button",
+						classList: ['friend-list-column', 'friend-list-link', 'blank-button'],
+						children: [
+							`${TextGet("MemberName")} ${FriendListSortingMode === "MemberName" ? sortingSymbol : ""}`
+						],
+						eventListeners: {
+							click: () => {
+								FriendListChangeSortingMode("MemberName");
+							}
+						}
+					},
+					{
+						tag: "button",
+						classList: ['friend-list-column', 'friend-list-link', 'blank-button'],
+						children: [
+							`${TextGet("MemberNumber")} ${FriendListSortingMode === "MemberNumber" ? sortingSymbol : ""}`
+						],
+						eventListeners: {
+							click: () => {
+								FriendListChangeSortingMode("MemberNumber");
+							}
+						}
+					},
+					{
+						tag: "button",
+						classList: ['friend-list-column', 'friend-list-link', 'blank-button', 'mode-specific-content', 'fl-online-friends-content', 'fl-beeps-content'],
+						children: [
+							`${TextGet("ChatRoomName")} ${FriendListSortingMode === "ChatRoomName" ? sortingSymbol : ""}`
+						],
+						eventListeners: {
+							click: () => {
+								FriendListChangeSortingMode("ChatRoomName");
+							}
+						}
+					},
+					{
+						tag: "button",
+						classList: ['friend-list-column', 'friend-list-link', 'blank-button', 'mode-specific-content', 'fl-all-friends-content'],
+						children: [
+							`${TextGet("FriendType")} ${FriendListSortingMode === "RelationType" ? sortingSymbol : ""}`
+						],
+						eventListeners: {
+							click: () => {
+								FriendListChangeSortingMode("RelationType");
+							}
+						}
+					},
+					{
+						tag: "span",
+						classList: ['friend-list-column', 'mode-specific-content', 'fl-online-friends-content'],
+						children: [
+							TextGet("ActionFriends")
+						],
+					},
+					{
+						tag: "span",
+						classList: ['friend-list-column', 'mode-specific-content', 'fl-all-friends-content'],
+						children: [
+							TextGet("ActionDelete")
+						],
+					}
+				]
+			},
+			{
+				tag: 'hr',
+				attributes: {
+					id: 'friend-list-header-hr'
+				}
+			},
+			{
+				tag: 'div',
+				attributes: {
+					id: FriendListIDs.friendList
+				},
+			}
+		]
+	});
+	document.getElementById(FriendListIDs.friendListTable).replaceWith(table);
+
+	/** @type {FriendRawData[]} */
+	const friendRawData = [];
+
+	if (mode === "OnlineFriends") {
 		// In Friend List mode, we show the friend list and allow doing beeps
 		for (const friend of data) {
-			const originalChatRoomName = friend.ChatRoomName || "";
-			FriendListContent += "<div class='FriendListRow'>";
-			FriendListContent += `<div class='FriendListTextColumn FriendListFirstColumn'> ${friend.MemberName} </div>`;
-			FriendListContent += `<div class='FriendListTextColumn'> ${friend.MemberNumber} </div>`;
-			if (friend.ChatRoomName == null) friend.ChatRoomName = "-";
-			friend.ChatRoomName = ChatSearchMuffle(friend.ChatRoomName);
-			if (friend.Private) friend.ChatRoomName = "- " + PrivateRoomCaption + " -" + (friend.ChatRoomName == "-" ? "" : " " + friend.ChatRoomName);
-			if (!originalChatRoomName) {
-				FriendListContent += `<div class='FriendListTextColumn'> ${friend.ChatRoomName} </div>`;
+			const originalChatRoomName = friend.ChatRoomName || '';
+			const chatRoomSpaceCaption = friend.ChatRoomSpace?.replace('Asylum', SpaceAsylumCaption) || 'F';
+			const chatRoomName = ChatSearchMuffle(friend.ChatRoomName?.replaceAll('<', '&lt;').replaceAll('>', '&gt;') || undefined);
+			let caption = '';
+			const canSearchRoom = FriendListReturn?.Screen === 'ChatSearch' && ChatRoomSpace === (friend.ChatRoomSpace || '');
+			const canBeep = true;
+
+			const rawCaption = [];
+			if (friend.Private) {
+				rawCaption.push(PrivateRoomCaption);
+			} else if (!friend.Private && chatRoomName) {
+				rawCaption.push(chatRoomSpaceCaption);
+				rawCaption.push(chatRoomName);
 			} else {
-				const Caption = `${friend.ChatRoomSpace ? friend.ChatRoomSpace.replace("Asylum", SpaceAsylumCaption) + " - " : ''} ${friend.ChatRoomName}`;
-				if (FriendListReturn && FriendListReturn.Screen === "ChatSearch" && ChatRoomSpace === (friend.ChatRoomSpace || "")) {
-					FriendListContent += `<div class='FriendListLinkColumn' onClick='FriendListChatSearch("${originalChatRoomName}")'> ${Caption} </div>`;
-				} else {
-					FriendListContent += `<div class='FriendListTextColumn'> ${Caption} </div>`;
-				}
+				rawCaption.push('-');
 			}
-			FriendListContent += `<div class='FriendListLinkColumn' onClick='FriendListBeep(${friend.MemberNumber})'> ${BeepCaption} </div>`;
-			FriendListContent += "</div>";
+
+			caption = rawCaption.join(' - ');
+
+			friendRawData.push({
+				memberName: friend.MemberName,
+				memberNumber: friend.MemberNumber,
+				chatRoom: {
+					name: originalChatRoomName,
+					caption: caption,
+					canSearchRoom: canSearchRoom,
+				},
+				beep: {
+					canBeep: canBeep,
+					caption: BeepCaption
+				}
+			});
 		}
 	} else if (mode === "Beeps") {
 		// In Beeps mode, we show all the beeps sent and received
 		for (let i = FriendListBeepLog.length - 1; i >= 0; i--) {
-			const B = FriendListBeepLog[i];
-			FriendListContent += `<div class='FriendListRow'>`;
-			FriendListContent += `<div class='FriendListTextColumn FriendListFirstColumn'> ${B.MemberName}</div>`;
-			FriendListContent += `<div class='FriendListTextColumn'>${B.MemberNumber != null ? B.MemberNumber : "-"}</div>`;
-			const Caption = (B.ChatRoomName == null ? "-" : (B.ChatRoomSpace ? B.ChatRoomSpace.replace("Asylum", SpaceAsylumCaption) + " - " : "") + (B.Private ? PrivateRoomCaption + " - " : "") +  B.ChatRoomName);
-			if (FriendListReturn && FriendListReturn.Screen === "ChatSearch" && B.ChatRoomSpace !== undefined && ChatRoomSpace === (B.ChatRoomSpace || "") && B.ChatRoomName && !B.ChatRoomName.startsWith("-")) {
-				FriendListContent += `<div class='FriendListLinkColumn' onClick='FriendListChatSearch("${B.ChatRoomName}")'> ${Caption} </div>`;
+			const beepData = FriendListBeepLog[i];
+			const chatRoomSpaceCaption = beepData.ChatRoomSpace?.replace('Asylum', SpaceAsylumCaption) || 'F';
+			const chatRoomName = ChatSearchMuffle(beepData.ChatRoomName?.replaceAll('<', '&lt;').replaceAll('>', '&gt;') || undefined);
+			let chatRoomCaption = '';
+			let beepCaption = '';
+			const canSearchRoom = FriendListReturn?.Screen === 'ChatSearch' && ChatRoomSpace === (beepData.ChatRoomSpace || '');
+
+			const rawRoomCaption = [];
+			if (beepData.Private) {
+				rawRoomCaption.unshift(PrivateRoomCaption);
+			} else if (!beepData.Private && chatRoomName) {
+				rawRoomCaption.push(chatRoomSpaceCaption);
+				rawRoomCaption.push(chatRoomName);
 			} else {
-				FriendListContent += `<div class='FriendListTextColumn'> ${Caption} </div>`;
+				rawRoomCaption.push('-');
 			}
 
-			if (B.Message) {
-				FriendListContent += `<div class='FriendListLinkColumn' onclick="FriendListShowBeep(${i})">${B.Sent ? SentCaption : ReceivedCaption} ${TimerHourToString(B.Time)} ${MailCaption}</div>`;
+			chatRoomCaption = rawRoomCaption.join(' - ');
+
+			const rawBeepCaption = [];
+			if (beepData.Sent) {
+				rawBeepCaption.push(SentCaption);
 			} else {
-				FriendListContent += `<div class='FriendListTextColumn'>${B.Sent ? SentCaption : ReceivedCaption} ${TimerHourToString(B.Time)}</div>`;
+				rawBeepCaption.push(ReceivedCaption);
 			}
-			FriendListContent += "</div>";
+			rawBeepCaption.push(TimerHourToString(beepData.Time));
+			if (beepData.Message) {
+				rawBeepCaption.push(MailCaption);
+			}
+
+			beepCaption = rawBeepCaption.join(' ');
+
+			friendRawData.push({
+				memberName: beepData.MemberName,
+				memberNumber: beepData.MemberNumber,
+				chatRoom: {
+					name: beepData.ChatRoomName,
+					caption: chatRoomCaption,
+					canSearchRoom: canSearchRoom,
+				},
+				beep: {
+					beepIndex: i,
+					hasMessage: !!beepData.Message,
+					caption: beepCaption
+				}
+			});
 		}
 		if (document.hasFocus()) NotificationReset(NotificationEventType.BEEP);
-	} else if (mode === "Delete") {
+	} else if (mode === "AllFriends") {
 		// In Delete mode, we show the friend list and allow the user to remove them
-		for (const [k, v] of Array.from(Player.FriendNames).sort((a, b) => a[1].localeCompare(b[1]))) {
-			FriendListContent += "<div class='FriendListRow'>";
-			FriendListContent += `<div class='FriendListTextColumn FriendListFirstColumn'> ${v} </div>`;
-			FriendListContent += `<div class='FriendListTextColumn'> ${k} </div>`;
+		for (const [memberNumber, memberName] of Array.from(Player.FriendNames).sort((a, b) => a[1].localeCompare(b[1]))) {
 			let Type = "Friend";
-			if (Player.IsOwnedByMemberNumber(k)) {
+			if (Player.IsOwnedByMemberNumber(memberNumber)) {
 				Type = "Owner";
-			} else if (Player.Lovership.some(lover => lover.MemberNumber == k)) {
+			} else if (Player.IsLoverOfMemberNumber(memberNumber)) {
 				Type = "Lover";
-			} else if (Player.SubmissivesList.has(k)) {
+			} else if (Player.SubmissivesList.has(memberNumber)) {
 				Type = "Submissive";
 			}
-			FriendListContent += `<div class='FriendListTextColumn'> ${FriendTypeCaption[Type]} </div>`;
-			if (Type === "Friend" && Player.FriendList.includes(k) || Type === "Submissive" && Player.SubmissivesList.has(k)) {
-				FriendListContent += `<div class='FriendListLinkColumn' onClick='FriendListDelete(${k})'> ${FriendListConfirmDelete.includes(k) ? ConfirmDeleteCaption : DeleteCaption} </div>`;
-			}
-			FriendListContent += "</div>";
+			const canDelete = Type === "Friend" && Player.FriendList.includes(memberNumber) || Type === "Submissive" && Player.SubmissivesList.has(memberNumber);
+
+			friendRawData.push({
+				memberName: memberName,
+				memberNumber: memberNumber,
+				relationType: FriendTypeCaption[Type],
+				canDelete: canDelete
+			});
 		}
 	}
 
-	// Loads the friend list div
-	ElementContent("FriendList", FriendListContent);
+	friendRawData.forEach(friend => {
+		const row = ElementCreate({
+			tag: "div",
+			classList: ['friend-list-row'],
+			children: [
+				{
+					tag: "span",
+					classList: ['friend-list-column', 'MemberName'],
+					children: [
+						friend.memberName
+					],
+				},
+				{
+					tag: "span",
+					classList: ['friend-list-column', 'MemberNumber'],
+					children: [
+						friend.memberNumber.toString()
+					],
+				},
+			]
+		});
 
+		if (friend.chatRoom) {
+			if (!friend.chatRoom.name || !friend.chatRoom.canSearchRoom) {
+				row.appendChild(ElementCreate({
+					tag: "span",
+					classList: ['friend-list-column', 'ChatRoomName'],
+					innerHTML: friend.chatRoom.caption,
+				}));
+			} else if (friend.chatRoom.canSearchRoom) {
+				row.appendChild(ElementCreate({
+					tag: "button",
+					classList: ['friend-list-column', 'friend-list-link', 'blank-button', 'ChatRoomName'],
+					innerHTML: friend.chatRoom.caption,
+					eventListeners: {
+						click: () => FriendListChatSearch(friend.chatRoom.name),
+					},
+				}));
+			}
+		}
+
+		if (friend.beep) {
+			if (friend.beep.canBeep || friend.beep.hasMessage) {
+				row.append(ElementCreate({
+					tag: "button",
+					classList: ['friend-list-column', 'friend-list-link', 'blank-button', 'mode-specific-content', 'fl-online-friends-content'],
+					children: [
+						friend.beep.caption,
+					],
+					eventListeners: {
+						click: () => FriendListBeep(friend.memberNumber),
+					}
+				}),
+				ElementCreate({
+					tag: "button",
+					classList: ['friend-list-column', 'friend-list-link', 'blank-button', 'mode-specific-content', 'fl-beeps-content'],
+					children: [
+						friend.beep.caption
+					],
+					eventListeners: {
+						click: () => FriendListShowBeep(friend.beep.beepIndex),
+					}
+				}));
+			} else {
+				row.appendChild(ElementCreate({
+					tag: "span",
+					classList: ['friend-list-column'],
+					children: [
+						friend.beep.caption
+					],
+				}));
+			}
+		}
+
+		if (friend.relationType) {
+			row.appendChild(ElementCreate({
+				tag: "span",
+				classList: ['friend-list-column', 'RelationType', 'mode-specific-content', 'fl-all-friends-content'],
+				children: [
+					{
+						tag: 'img',
+						attributes: {
+							src: relationTypeIcons[friend.relationType],
+						}
+					},
+					FriendTypeCaption[friend.relationType]
+				],
+			}));
+		}
+
+		const deleteButton = ElementCreate({
+			tag: "button",
+			classList: ['friend-list-column', 'friend-list-link', 'blank-button', 'mode-specific-content', 'fl-all-friends-content'],
+			children: [
+					FriendListConfirmDelete.includes(friend.memberNumber) ? ConfirmDeleteCaption : DeleteCaption
+			],
+			eventListeners: {
+				click: () => FriendListDelete(friend.memberNumber),
+			},
+		});
+		if (!friend.canDelete) deleteButton.disabled = true;
+		row.appendChild(deleteButton);
+
+		FriendListContent.push(row);
+
+	});
+
+	// Loads the friend list and sorts it with current settings
+	document.getElementById(FriendListIDs.friendList)?.replaceChildren(...FriendListContent);
+	FriendListSort(FriendListSortingMode, FriendListSortingDirection);
+	FriendListSearchByProperties(/** @type {HTMLInputElement} */ (document.getElementById(FriendListIDs.searchInput))?.value);
+	ElementSetScrollPercentage(FriendListIDs.friendList, friendListScrollPercent, 'instant');
 }
 
 /**
@@ -358,3 +866,115 @@ function FriendListDelete(MemberNumber) {
 	} else FriendListConfirmDelete.push(MemberNumber);
 	ServerSend("AccountQuery", { Query: "OnlineFriends" });
 }
+
+/**
+ * Handles mode changes for friend list
+ * @param {number} modeIndex - mode to change to
+ */
+function FriendListChangeMode(modeIndex) {
+	FriendListModeIndex = modeIndex;
+	if (FriendListModeIndex < 0) FriendListModeIndex = FriendListMode.length - 1;
+	else if (FriendListModeIndex >= FriendListMode.length) FriendListModeIndex = 0;
+	FriendListSortingMode = 'None';
+	FriendListSortingDirection = 'Asc';
+	document.getElementById(FriendListIDs.root).dataset.mode = FriendListMode[FriendListModeIndex];
+	document.getElementById(FriendListIDs.modeTitle).textContent = TextGet(FriendListMode[FriendListModeIndex]);
+	ServerSend("AccountQuery", { Query: "OnlineFriends" });
+}
+
+/**
+ * Sorts the friend list depending on the sorting mode
+ * and the sorting direction. If the sorting mode is none nothing is done.
+ * @param {FriendListSortingMode} sortingMode
+ * @param {FriendListSortingDirection} sortingDirection
+ */
+function FriendListSort(sortingMode, sortingDirection) {
+	if (sortingMode === 'None') return;
+	const friendlist = document.getElementById(FriendListIDs.friendList);
+	if (!friendlist) return;
+
+	const items = friendlist.children;
+	const sortedItems = Array.from(items).sort((elmA, elmB) => {
+		const contentA = elmA.querySelector(`.${sortingMode}`)?.textContent;
+		const contentB = elmB.querySelector(`.${sortingMode}`)?.textContent;
+		const numberA = Number.parseInt(contentA, 10);
+		const numberB = Number.parseInt(contentB, 10);
+		if (!isNaN(numberA) && !isNaN(numberB)) {
+			return sortingDirection === 'Asc' ? numberA - numberB : numberB - numberA;
+		} else {
+			return sortingDirection === 'Asc' ?
+        contentA.localeCompare(contentB) :
+        contentB.localeCompare(contentA);
+		}
+	});
+	friendlist.replaceChildren(...sortedItems);
+}
+
+/**
+ * Sorts the friend list by properties based on the search input.
+ * Searched properties: Name, Nickname (NYI) and MemberNumber
+ * @param {string} text
+ */
+function FriendListSearchByProperties(text) {
+	const friendlist = document.getElementById(FriendListIDs.friendList);
+	if (!friendlist) return;
+
+	const items = friendlist.children;
+	Array.from(items).forEach((/** @type {HTMLElement} */ element)  => {
+		element.style.display = 'none';
+	});
+	const searchedItems = Array.from(items).filter(item => {
+		return item.querySelector('.MemberName')?.textContent.toLowerCase().includes(text.toLowerCase()) ||
+			item.querySelector('.MemberNickname')?.textContent.toLowerCase().includes(text.toLowerCase()) || // NYI
+			item.querySelector('.MemberNumber')?.textContent.includes(text);
+	});
+	searchedItems.forEach((/** @type {HTMLElement} */ item) => {
+		item.style.display = '';
+
+		const nameItem = item.querySelector('.MemberName');
+		if (nameItem) nameItem.innerHTML = FriendListHighlightProperty(nameItem, text);
+		const nicknameItem = item.querySelector('.MemberNickname');
+		if (nicknameItem) nicknameItem.innerHTML = FriendListHighlightProperty(nicknameItem, text);
+		const numberItem = item.querySelector('.MemberNumber');
+		if (numberItem) numberItem.innerHTML = FriendListHighlightProperty(numberItem, text);
+	});
+}
+
+/**
+ * Highlights the searched text in the innerHTML
+ * @param {Element} element
+ * @param {string} text
+ * @returns {string} - The innerHTML with the searched text highlighted
+ */
+function FriendListHighlightProperty(element, text) {
+	const textContent = element.textContent;
+	if (!text) return textContent;
+	const regex = new RegExp(text.toLowerCase(), 'gi');
+
+	return `<span>${textContent.replace(regex, match => `<b class="highlight">${match}</b>`)}</span>`;
+}
+
+/**
+ * Handles changes of the sorting mode
+ * @param {FriendListSortingMode} sortingMode
+ */
+function FriendListChangeSortingMode(sortingMode) {
+	if (sortingMode === 'None') {
+		FriendListSortingMode = 'None';
+		FriendListSortingDirection = 'Asc';
+	} else if (sortingMode !== FriendListSortingMode) {
+		FriendListSortingMode = sortingMode;
+		FriendListSortingDirection = 'Asc';
+	} else {
+		FriendListSortingDirection = FriendListSortingDirection === 'Asc' ? 'Desc' : 'Asc';
+	}
+
+	ServerSend("AccountQuery", { Query: "OnlineFriends" });
+}
+
+function FriendListToggleAutoRefresh() {
+	Player.OnlineSettings.FriendListAutoRefresh = !Player.OnlineSettings.FriendListAutoRefresh;
+	ServerAccountUpdate.QueueData({ OnlineSettings: Player.OnlineSettings });
+	document.getElementById(FriendListIDs.btnAutoRefresh).classList.toggle('inactive', !Player.OnlineSettings.FriendListAutoRefresh);
+}
+//#endregion
