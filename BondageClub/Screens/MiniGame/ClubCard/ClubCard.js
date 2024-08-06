@@ -231,7 +231,7 @@ var ClubCardList = [
 	},
 	{
 		ID: 2004,
-		Name: "Associate",
+		Name: "aa",
 		Group: ["Staff"],
 		MoneyPerTurn: -2,
 		ExtraPlay: 1,
@@ -635,6 +635,37 @@ var ClubCardList = [
             }
         }
 	},
+	{
+		ID: 7009,
+		Name: "Theatre nurse",
+		Group: ["AsylumNurse"],
+		FamePerTurn: 1,
+		RequiredLevel: 3,
+		onPlayedCard: function(CCPlayer, cardPlayed) {
+			if(ClubCardCardHasGroup(cardPlayed, "AsylumPatient")) {
+				ClubCardPlayerDrawCard(CCPlayer, 1);
+				ClubCardPlayerAddMoney(CCPlayer, 3);
+			}
+		},
+	},
+	{
+		ID: 7010,
+		Name: "Hypnotherapist",
+		Group: ["AsylumNurse"],
+		FamePerTurn: 3,
+		MoneyPerTurn: 1,
+		RequiredLevel: 5,
+		OnPlay: function(CCPlayer) {
+			const opponent = ClubCardGetOpponent(CCPlayer);
+			CCPlayer.Board = CCPlayer.Board.filter(card => card.RequiredLevel && card.RequiredLevel > 1);
+			opponent.Board = opponent.Board.filter(card => card.RequiredLevel && card.RequiredLevel > 1);
+
+			CCPlayer.Event = CCPlayer.Event.filter(event => event.RequiredLevel && event.RequiredLevel > 1);
+			opponent.Event = opponent.Event.filter(event => event.RequiredLevel && event.RequiredLevel > 1);
+
+			this.ExtraPlay = 1;
+		}
+	},
 
 	// 8000 - Dominant Members (Raise lots of Fame, cost Money)
 	{
@@ -1004,6 +1035,7 @@ var ClubCardList = [
 		ID: 11013,
 		Name: "Med Student",
 		Group: ["CollegeStudent", "AsylumNurse"],
+		RequiredLevel: 2,
 		FamePerTurn: 1,
 		BeforeTurnEnd: function(CCPlayer) {
 			const asylumPatientPresent = ClubCardGroupIsOnBoard(CCPlayer, "AsylumPatient");
@@ -1057,6 +1089,26 @@ var ClubCardList = [
 		RequiredLevel: 3,
 		FamePerTurn: 2,
 		MoneyPerTurn: -1,
+	},
+	{
+		ID: 12004,
+		Name: "Sophie",
+		Group: ["Player"],
+		RewardMemberNumber: 1236,
+		RequiredLevel: 3,
+		Prerequisite: "SelectAnyMember",
+		FamePerTurn: 1,
+		MoneyPerTurn: -1,
+		OnPlay: function(CCPlayer) {
+			if (ClubCardSelection == null) {
+				return;
+			}
+
+			const newFame = ClubCardSelection.FamePerTurn * 2;
+			ClubCardSelection.FamePerTurn = newFame;
+			const newMoney = ClubCardSelection.MoneyPerTurn * 2;
+			ClubCardSelection.MoneyPerTurn= newMoney;
+		}
 	},
 
 	// Event cards
@@ -1730,7 +1782,7 @@ var ClubCardList = [
 				this.ExtraPlay = 1;
 			}
 
-			const drawn = ClubCardPlayerDrawGroupCard(CCPlayer, "CollegeStudent");
+			const drawn = ClubCardPlayerDrawGroupCard(CCPlayer, ["CollegeStudent"], undefined);
 			if(drawn) {
 				ClubCardLogPublish("Effect First Bell Draw", CCPlayer);
 			} else {
@@ -1745,6 +1797,28 @@ var ClubCardList = [
 			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
 			return true;
 		}
+	},
+	{
+		ID: 31011,
+		Name: 'Help Button',
+		Type: "Event",
+		Prerequisite: "SelectOwnMember",
+		CanPlay: function(CCPlayer) {
+			if(ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain")) return false;
+			if(ClubCardEventNameIsInEvents(CCPlayer, "Restrain")) return false;
+			return true;
+		},
+		OnPlay: function(CCPlayer) {
+			if (ClubCardSelection == null) return;
+
+			ClubCardRemoveFromBoard(CCPlayer, ClubCardSelection);
+			const drawn = ClubCardPlayerDrawGroupCard(CCPlayer, ['Maid ', 'Nurse'], ClubCardSelection.RequiredLevel ?? 1)
+			if(drawn) {
+				ClubCardLogPublish("Effect Help Button Draw", CCPlayer);
+			} else {
+				ClubCardLogPublish("Effect Help Button No Draw", CCPlayer);
+			}
+		},
 	}
 ];
 
@@ -2133,15 +2207,16 @@ function ClubCardPlayerDrawCard(CCPlayer, Amount = null) {
 /**
  * Draw cards from the player deck into it's hand
  * @param {ClubCardPlayer} CCPlayer - The club card player that draws the cards
- * @param {string} group - The group to draw from
+ * @param {string[]} groups - The group to draw from
+ * @param {number | undefined} level - The level
  * @returns {boolean} - if cards were drawn or not
  */
-function ClubCardPlayerDrawGroupCard(CCPlayer, group) {
+function ClubCardPlayerDrawGroupCard(CCPlayer, groups, level) {
 	if ((CCPlayer === null) || (CCPlayer.Deck === null) || (CCPlayer.Hand === null)) {
 		return false;
 	}
 
-	const groupCardsInDeck = CCPlayer.Deck.filter(value => ClubCardCardHasGroup(value, group));
+	const groupCardsInDeck = CCPlayer.Deck.filter(value => groups.some(group => ClubCardCardHasGroup(value, group) && (!level || value.RequiredLevel === level)));
 	if(groupCardsInDeck.length === 0) {
 		return false;
 	}
@@ -2586,7 +2661,9 @@ function ClubCardCanPlayCard(CCPlayer, Card) {
 	if ((CCPlayer.Index != 0) && (Card.Location != "OpponentHand")) return false;
 	if ((Card.CanPlay != null) && !Card.CanPlay(CCPlayer)) return false;
 	let Target = ClubCardFindTarget(Card);
-	if ((Target.Board != null) && (Card.Type == "Member") && (Target.Level != null) && (Target.Board.length >= ClubCardLevelLimit[Target.Level])) return false;
+	// Jennifer removes a card on her board before entering so should therefor be playable on a full board.
+	const boardFull = Target.Board.length >= ClubCardLevelLimit[Target.Level] && Card.Name !== "Jennifer"
+	if ((Target.Board != null) && (Card.Type == "Member") && (Target.Level != null) && boardFull) return false;
 	if ((Card.RequiredLevel != null) && (Target.Level != null) && (Card.RequiredLevel > Target.Level)) return false;
 	if ((Card.Prerequisite === "SelectOwnMember") && (CCPlayer.Board.length <= 0)) return false;
 	if ((Card.Prerequisite === "SelectOwnMember") && (CCPlayer.Control == "AI") && !ClubCardGroupIsOnBoard(CCPlayer, "Liability")) return false;

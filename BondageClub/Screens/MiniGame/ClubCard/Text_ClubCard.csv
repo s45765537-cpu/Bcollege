@@ -365,7 +365,7 @@ Title Contract Caretaker,Contract Caretaker
 Text Contract Caretaker,"When a ABDL Baby enters your club, if opponent has more fame they don't gain fame at the end of their next turn"
 Effect Contract Caretaker,No Fame is gained because of OPPONENTPLAYER Contract Caretaker.
 Title Teacher's Aide,Teacher's Aide
-Text Teacher's Aide,Aiding her teacher day and night
+Text Teacher's Aide,<F>Aiding her teacher day and night</F>
 Title Homeroom,Homeroom
 Text Homeroom,Can only be played if you control 3 or more College members. Both players cannot advance their club for 4 turns.
 Title Student Custodian,Student Custodian
@@ -387,3 +387,12 @@ Title Rope Slave,Rope Slave
 Text Rope Slave,Gain +1 Fame per turn if Alvin or Rope Sensei present.
 Title Quack Doctor,Quack Doctor
 Text Quack Doctor,"Start of your turn, for each Asylum Patient present, players lose 1 fame. (Max 4)"
+Title Sophie,Sophie
+Text Sophie,Placeholder!!!!!!!
+Title Hypnotherapist,Hypnotherapist
+Text Hypnotherapist,When she enters your club, return all Tier 1 members to their owner's hands, then take another action.
+Title Help Button,Help Button
+Text Help Button,Return a member from your club to its owners deck, a random Maid or Nurse of equal level joins your club from your deck.
+Effect Help Button Draw,SOURCEPLAYER draws 1 card from Help Button
+Effect Help Button NO Draw,SOURCEPLAYER could not draw any cards from  Help Button
+Effect First Bell Draw, SOURCEPLAYER draws 1 card from First Bell
