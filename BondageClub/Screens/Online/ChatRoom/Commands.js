@@ -595,7 +595,10 @@ const CommonCommands = [
 	},
 	{
 		Tag: "mappaste",
-		Action: (_, msg) => { ChatRoomMapViewPaste(msg); },
+		Action: async (_, msg) => {
+			let mapData = msg.substring("/mappaste".length).trim();
+			ChatRoomMapViewPaste(mapData);
+		},
 	},
 	{
 		Tag: "whisper",
