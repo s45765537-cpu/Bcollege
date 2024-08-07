@@ -29335,7 +29335,16 @@ var AssetFemale3DCG = [
 					"ClothLowerPajama1",
 					"ClothLowerBusinessTrousers",
 				],
-				HideItemExclude: ["ClothLatexHobbleDress","ClothMaidLatex"],
+				HideItemExclude: [
+					"ClothLatexHobbleDress",
+					"ClothHeavyLeatherDress",
+					"ClothCorsetDress",
+					"ClothCustomTShirt",
+					"ClothLeatherCorsetTop1",
+					"ClothMaidLatex",
+					"ClothMaidOutfit1",
+					"ClothMaidOutfit2",
+				],
 				Layer: [
 					// UpperBody
 					{
