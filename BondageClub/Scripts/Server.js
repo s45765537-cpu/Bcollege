@@ -900,26 +900,44 @@ function ServerAccountBeep(data) {
 
 /** Draws the last beep sent by the server if the timer is still valid, used during the drawing process */
 function ServerDrawBeep() {
+	const beep = document.getElementById('beep');
+
 	if (ServerBeep.Timer > CommonTime()) {
-		DrawButton((CurrentScreen == "ChatRoom") ? 0 : 500, 0, 1000, 50, ServerBeep.Message, "Pink", "");
+		if (!beep) {
+			ElementCreate({
+				tag: 'div',
+				attributes: {
+					id: 'beep',
+				},
+				classList: ['HideOnPopup'],
+				eventListeners: {
+					click: () => {
+						if (
+							ServerBeep.Timer > CommonTime() &&
+							ServerBeep.IsMail &&
+							CurrentScreen !== 'FriendList'
+						) {
+							ServerOpenFriendList();
+							FriendListModeIndex = 1;
+							FriendListShowBeep(FriendListBeepLog.length - 1);
+						}
+					}
+				},
+				children: [ServerBeep.Message],
+				parent: document.body,
+			});
+		}
+		ElementPositionFix('beep', 36, (CurrentScreen == 'ChatRoom') ? 0 : 500, 0, 1000, 50);
 		if (document.hasFocus()) {
 			NotificationReset(NotificationEventType.BEEP);
 		}
+	} else {
+		if (beep) ElementRemove('beep');
 	}
 }
 
 /** Handles a click on the beep rectangle if mail is included */
 function ServerClickBeep() {
-	if (
-		ServerBeep.Timer > CommonTime() &&
-		ServerBeep.IsMail &&
-		MouseIn((CurrentScreen == "ChatRoom") ? 0 : 500, 0, 1000, 50) &&
-		CurrentScreen !== "FriendList"
-	) {
-		ServerOpenFriendList();
-		FriendListModeIndex = 1;
-		FriendListShowBeep(FriendListBeepLog.length - 1);
-	}
 }
 
 /** Opens the friendlist from any screen */

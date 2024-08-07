@@ -261,13 +261,12 @@
 
 	position: relative;
 	background-color: #ffffffaa;
-	display: flex !important;
+	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
 	gap: 0.5em;
 	border: var(--border-width) var(--border-color) var(--border-style);
-	padding-bottom: 1% !important;
 	padding: .5em;
 	box-sizing: border-box;
 	backdrop-filter: blur(5px); 
