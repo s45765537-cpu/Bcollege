@@ -595,7 +595,17 @@ const CommonCommands = [
 	},
 	{
 		Tag: "mappaste",
-		Action: (_, msg) => { ChatRoomMapViewPaste(msg); },
+		Action: async (_, msg) => {
+			let mapData = msg.substring("/mappaste".length).trim();
+			if (!mapData.length) {
+				try {
+					mapData = await navigator.clipboard.readText();
+				} catch (err) {
+					console.error('Failed to read clipboard contents:', err);
+				}
+			}
+			ChatRoomMapViewPaste(mapData);
+		},
 	},
 	{
 		Tag: "whisper",

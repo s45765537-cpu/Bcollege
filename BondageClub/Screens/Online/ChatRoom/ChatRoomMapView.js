@@ -470,6 +470,9 @@ function ChatRoomMapViewCoordinatesToIndex(x, y) {
  */
 function ChatRoomMapViewCalculatePerceptionMasks() {
 
+	// The player has never opened the map, ignore
+	if (!Player.MapData) return;
+
 	// When in edit mode or with active super powers, always show everything
 	if (ChatRoomMapViewHasSuperPowers()) {
 		ChatRoomMapViewVisibilityMask.fill(true);
@@ -1880,12 +1883,10 @@ function ChatRoomMapViewCopy() {
  */
 function ChatRoomMapViewPaste(Param) {
 
-	// Cuts the /mappaste characters
-	if ((Param == null) || (Param.length < 10)) {
+	if (typeof Param !== "string" || Param.length === 0) {
 		ChatRoomSendLocal(TextGet("MapPasteError"));
 		return;
 	}
-	Param = Param.trim().substring(9).trim();
 
 	// Only admins can paste/edit the map
 	if (!ChatRoomPlayerIsAdmin()) {
