@@ -473,6 +473,13 @@ function PrivateIsAnimeGirl() {
 function PrivateIsBunny() {
 	return (CurrentCharacter.Title === "Bunny");
 }
+/**
+ * Returns TRUE if the current character is a succubus
+ * @returns {boolean} - TRUE if archetype is succubus
+ */
+function PrivateIsSuccubus() {
+	return (CurrentCharacter.Title === "Succubus");
+}
 
 /**
  * Returns a random item that could be bought from the store as a gift that the player could receive by a NPC
@@ -613,6 +620,8 @@ function PrivateNewCloth(C) {
 	} else if (C.Title === "Bunny") {
 		CharacterArchetypeClothes(C, "Bunny");
 		if (C.CanWalk() && C.CanTalk() && C.CanInteract() && !C.Cage) ShibariRandomBondage(C, Math.floor((Math.random() * 4) + 1));
+	} else if (C.Title === "Succubus") {
+		CharacterArchetypeClothes(C, "Succubus");
 	} else if (C.Title === "Dominatrix") {
 		PandoraDress(C, "Mistress");
 	} else CharacterAppearanceFullRandom(C, true);
@@ -1200,6 +1209,7 @@ function PrivateChange(NewCloth) {
 		case "Corporis":
 			MagicSchoolLaboratoryPrepareNPC(CurrentCharacter, NewCloth); break;
 		case "Bunny":
+		case "Succubus":
 		case "AnimeGirl":
 			CharacterArchetypeClothes(CurrentCharacter, NewCloth); break;
 		case "Custom":

@@ -832,7 +832,7 @@ function CharacterLoadCSVDialog(C, info) {
 /**
  * Sets the clothes based on a character archetype
  * @param {Character} C - Character to set the clothes for
- * @param {"Maid" | "Mistress" | "Employee" | "AnimeGirl" | "Bunny"} Archetype - Archetype to determine the clothes to put on
+ * @param {"Maid" | "Mistress" | "Employee" | "AnimeGirl" | "Bunny" | "Succubus"} Archetype - Archetype to determine the clothes to put on
  * @param {string} [ForceColor] - Color to use for the added clothes
  * @returns {void} - Nothing
  */
@@ -935,6 +935,19 @@ function CharacterArchetypeClothes(C, Archetype, ForceColor) {
 		InventoryWear(C, "BunnyTailStrap", "TailStraps");
 		if (Math.random() > 0.5) InventoryWear(C, "Pantyhose1", "Socks");
 		InventoryWear(C, CommonRandomItemFromList(null, ["AnkleStrapShoes", "StilettoHeels", "Shoes5"]), "Shoes");
+	}
+
+	// Succubus archetype
+	if (Archetype == "Succubus") {
+		CharacterNaked(C);
+		let Color = CommonRandomItemFromList(null, ["Default", "#222222", "#BBBBBB", "#882222"]);
+		InventoryWear(C, CommonRandomItemFromList(null, ["BondageDress1", "BondageDress2", "CorsetDress", "EveningGown", "Dress3"]), "Cloth", Color);
+		InventoryWear(C, CommonRandomItemFromList(null, ["CatEye", "CatEye2", "LargeSolid", "SuperstarBlurred", "UndershadowedSolid"]), "EyeShadow", Color);
+		if (Math.random() > 0.5) InventoryWear(C, CommonRandomItemFromList(null, ["GradientPantyhose", "Socks5", "Stockings1", "Stockings2"]), "Socks", Color);
+		InventoryWear(C, "SuccubusHorns", "HairAccessory1", Color);
+		InventoryWear(C, CommonRandomItemFromList(null, ["SuccubusTailStrap", "SuccubusHeartTailStrap"]), "TailStraps", Color);
+		InventoryWear(C, CommonRandomItemFromList(null, ["BatWings", "DevilWings", "SuccubusWings"]), "Wings", Color);
+		InventoryWear(C, CommonRandomItemFromList(null, ["AnkleStrapShoes", "StilettoHeels", "Shoes5", "CustomHeels", "ThighBoots"]), "Shoes", Color);
 	}
 
 }
