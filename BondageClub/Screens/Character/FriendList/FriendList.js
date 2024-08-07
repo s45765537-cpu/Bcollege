@@ -19,7 +19,7 @@ let FriendListSortingMode = 'None';
 let FriendListSortingDirection = 'Asc';
 
 const FriendListAutoRefresh = {
-	interval: 10_000,
+	interval: 30_000,
 	nextRefresh: 0,
 };
 
@@ -58,8 +58,10 @@ function FriendListLoad() {
 	const root = document.getElementById(FriendListIDs.root) ?? ElementCreate({
 		tag: 'div',
 		attributes: {
-			id: FriendListIDs.root
+			id: FriendListIDs.root,
+			'screen-generated': 'FriendList'
 		},
+		classList: ['HideOnPopup'],
 		dataAttributes: {
 			mode: mode
 		},
@@ -308,8 +310,10 @@ function FriendListBeep(MemberNumber, data = null) {
 	const beepDialog = ElementCreate({
 		tag: 'div',
 		attributes: {
-			id: FriendListIDs.beepList
+			id: FriendListIDs.beepList,
+			'screen-generated': 'FriendList'
 		},
+		classList: ['HideOnPopup'],
 		dataAttributes: {
 			'received': data !== null
 		},

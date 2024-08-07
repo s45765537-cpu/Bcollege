@@ -478,6 +478,8 @@ function CommonSetScreen(NewModule, NewScreen) {
 	CommonGetFontName.clearCache();
 	TextLoad();
 
+	ElementToggleGeneratedElements(CurrentScreen, true);
+
 	if (CurrentScreenFunctions.Load) {
 		CurrentScreenFunctions.Load();
 	}
