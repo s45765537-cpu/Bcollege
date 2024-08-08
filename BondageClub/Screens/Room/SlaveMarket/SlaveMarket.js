@@ -30,6 +30,11 @@ function SlaveMarketCannotStartAuctionRoom() { return ((ReputationGet("Dominant"
  * @returns {boolean} - Returns TRUE if the player can be auctioned
  */
 function SlaveMarketCanBeAuctioned() { return (!Player.IsOwned() && !PrivateOwnerInRoom() && !Player.IsRestrained() && !Player.IsChaste() && (ReputationGet("Dominant") < 0) && !LogQuery("Auctioned", "SlaveMarket") && ManagementCanTransferToRoom()); }
+/**
+ * Checks if the character has a specific title
+ * @returns {boolean} - TRUE if the character has the title in the parameter
+ */
+function SlaveMarketSlaveTitleIs(Title) { return ((SlaveMarketSlave.Title != null) && (SlaveMarketSlave.Title == Title)); }
 
 /**
  * Loads the Slave Market room, generates the Mistress and slave
@@ -88,8 +93,9 @@ function SlaveMarketAuctionStart() {
 function SlaveMarketAuctionEnd() {
 	if (SlaveAuctionBidCurrent == "Player") {
 		CharacterChangeMoney(Player, SlaveAuctionBidAmount * -1);
-		CommonSetScreen("Room", "Private");
-		PrivateAddCharacter(SlaveMarketSlave, "Submissive");
+		CommonSetScreen("Room", "Private");		
+		let NewChar = PrivateAddCharacter(SlaveMarketSlave,  "Submissive");
+		if (SlaveMarketSlave.Title === "Succubus") NewChar.Title = "Succubus";
 		CommonSetScreen("Room", "SlaveMarket");
 		CharacterSetCurrent(SlaveMarketSlave);
 		SlaveMarketSlave.Stage = "10";
@@ -112,6 +118,14 @@ function SlaveMarketNewSlave() {
 	SlaveMarketSlave.AllowItem = false;
 	CharacterAppearanceFullRandom(SlaveMarketSlave);
 	CharacterNaked(SlaveMarketSlave);
+	if (Math.random() >= 0.85) {
+		let Color = CommonRandomItemFromList(null, ["Default", "#222222", "#BBBBBB", "#882222"]);
+		InventoryWear(SlaveMarketSlave, CommonRandomItemFromList(null, ["CatEye", "CatEye2", "LargeSolid", "SuperstarBlurred", "UndershadowedSolid"]), "EyeShadow", Color);
+		InventoryWear(SlaveMarketSlave, "SuccubusHorns", "HairAccessory1", Color);
+		InventoryWear(SlaveMarketSlave, CommonRandomItemFromList(null, ["SuccubusTailStrap", "SuccubusHeartTailStrap"]), "TailStraps", Color);
+		InventoryWear(SlaveMarketSlave, CommonRandomItemFromList(null, ["BatWings", "DevilWings", "SuccubusWings"]), "Wings", Color);
+		SlaveMarketSlave.Title = "Succubus";
+	} else SlaveMarketSlave.Title = null;
 	InventoryWear(SlaveMarketSlave, "LeatherCollar", "ItemNeck");
 	InventoryWear(SlaveMarketSlave, "CollarChainLong", "ItemNeckRestraints");
 	if (CurrentCharacter != null) DialogLeave();
@@ -192,7 +206,8 @@ function SlaveMarketPlayerAuctionEnd() {
 	SlaveMarketBuyer.Appearance = PlayerAuctionCustomer[PlayerAuctionBidCurrent].Appearance.slice(0);
 	SlaveMarketBuyer.Archetype = PlayerAuctionCustomer[PlayerAuctionBidCurrent].Archetype;
 	CharacterRefresh(SlaveMarketBuyer);
-	SlaveMarketBuyer.CurrentDialog = DialogFind(SlaveMarketBuyer, "Intro" + Math.floor(Math.random() * 3).toString());
+	if (SlaveMarketBuyer.Archetype === "Succubus") SlaveMarketBuyer.CurrentDialog = DialogFind(SlaveMarketBuyer, "IntroSuccubus");
+	else SlaveMarketBuyer.CurrentDialog = DialogFind(SlaveMarketBuyer, "Intro" + Math.floor(Math.random() * 3).toString());
 	CharacterSetCurrent(SlaveMarketBuyer);
 }
 
