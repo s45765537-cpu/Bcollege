@@ -875,7 +875,7 @@ var Shop2 = {
 									}, undefined,
 									{
 										button: {
-											style: { "background-image": `url("../Icons/Poses/${pose.Name}.png")` },
+											style: { "background-image": `url("./Icons/Poses/${pose.Name}.png")` },
 											dataAttributes: { pose: pose.Name },
 											classList: ["shop-button"],
 										},
