@@ -54,6 +54,8 @@ Nomadic Dress
 одежда кочевника
 Lace Babydoll
 гипюровая куколка
+Strict Hobble Dress
+Строгое стреноживающие платье
 Sleeveless Top
 Топ без руковов
 Dress with Fur
@@ -534,7 +536,7 @@ Leather Breast Binder
 Кожаная нагрудная перевязь
 Tickle Bra
 Щекочущий бюстгальтер
-Male Chastity Plat
+Male Chastity Plate
 Обвязка мужского целомудрия
 Silk Straps
 Шелковые ремни
@@ -831,9 +833,11 @@ Crown Style 5
 Stylish Small Hat
 Стильная маленькая шляпа
 Veil Half Face
-Вуаль на половину лица.
+Вуаль на половину лица
 Veil Full Face
 Вуаль на всё лицо.
+Vintage Hat
+Винтажная шляпка
 Baker Boy Hat
 Кепи
 Reindeer Hairband
@@ -1039,6 +1043,8 @@ Gradient Sunglasses
 Солнцезащитные очки с градиентом
 Inconspicious Glasses
 Маскирующие очки
+Pince-nez
+Пинцне
 Street Eyewear
 Уличные очки
 Goggles
@@ -2045,6 +2051,8 @@ Straitjacket
 Смирительная рубашка
 Collar Cuffs
 Манжеты на ошейник
+Collar Metal Cuffs
+Металлические манжеты с ошейником
 Leather Straitjacket
 Кожаная Смирительная Рубашка
 Fur Straitjacket
@@ -2064,7 +2072,7 @@ Shiny Armbinder
 Retro Girdle Dress
 Закрытый Винтажный купальник
 Air-valve Gag
-Кляп с приточным клапаном 
+Кляп с воздушным клапаном 
 Doberman Mask
 Маска Добермана
 Pet Suit Exposed
@@ -2497,6 +2505,8 @@ Harness Ball Gag XL
 Кляп-шар XL со сбруей
 Pumpkin Gag
 Кляп Тыква
+Quality Harness Gag
+Высококачественный кляп-сбруя
 Lips Gag
 Кляп Губы
 Spider Gag
@@ -2901,6 +2911,8 @@ St. Andrews Cross
 Андреевский крест
 Changing Table
 Пеленальный Столик
+Cement Shoes
+Цементная обувь
 Locker
 Запирающийся шкафчик
 Small Locker
