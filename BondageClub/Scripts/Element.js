@@ -786,55 +786,26 @@ var ElementButton = {
 	}),
 
 	/**
-	 * Touch event listener that mimicks the start of desktop-style hovering on mobile
-	 * @private
-	 * @type {(this: HTMLButtonElement, event: Event) => Promise<void>}
-	 */
-	_TouchStart: async function _TouchStart(event) {
-		if (this.disabled || this.ariaDisabled === "true") {
-			return;
-		}
-		this.classList.add("button-touch");
-	},
-
-	/**
-	 * Touch event listener that mimicks the end of desktop-style hovering on mobile
-	 * @private
-	 * @type {(this: HTMLButtonElement, event: Event) => Promise<void>}
-	 */
-	_TouchEnd: async function _TouchEnd(event) {
-		if (this.disabled || this.ariaDisabled === "true") {
-			return;
-		}
-		this.classList.remove("button-touch");
-	},
-
-	/**
-	 * MouseDown listener that prevents a button from receining focus when clicked
-	 * @private
-	 * @type {(this: HTMLButtonElement, event: MouseEvent) => Promise<void>}
-	 */
-	_MouseDown: async function _MouseDown(event) {
-		event.preventDefault();
-	},
-
-	/**
 	 * @private
 	 * @type {(this: HTMLButtonElement, ev: KeyboardEvent) => Promise<void>}
 	 */
 	_KeyDown: async function _KeyDown(ev) {
-		if (this.disabled || this.ariaDisabled === "true" || ev.shiftKey || ev.ctrlKey || ev.metaKey || ev.altKey) {
+		if (ev.shiftKey || ev.ctrlKey || ev.metaKey || ev.altKey) {
 			return;
 		}
 		switch (ev.key) {
 			case "Enter":
 			case " ":
-				if (!ev.repeat) {
+				ev.preventDefault();
+
+				if (this.disabled || this.ariaDisabled === "true") {
+					ev.stopImmediatePropagation();
+					return;
+				} else if (!ev.repeat) {
 					this.click();
-					this.classList.add("button-touch");
+					this.setAttribute("data-active", true);
 				}
 				ev.stopPropagation();
-				ev.preventDefault();
 				break;
 		}
 	},
@@ -844,13 +815,17 @@ var ElementButton = {
 	 * @type {(this: HTMLButtonElement, ev: KeyboardEvent) => Promise<void>}
 	 */
 	_KeyUp: async function _KeyUp(ev) {
-		if (this.disabled || this.ariaDisabled === "true" || ev.shiftKey || ev.ctrlKey || ev.metaKey || ev.altKey) {
+		if (ev.shiftKey || ev.ctrlKey || ev.metaKey || ev.altKey) {
 			return;
 		}
 		switch (ev.key) {
 			case "Enter":
 			case " ":
-				this.classList.remove("button-touch");
+				if (this.disabled || this.ariaDisabled === "true") {
+					ev.stopImmediatePropagation();
+					return;
+				}
+				this.removeAttribute("data-active");
 				break;
 		}
 	},
@@ -984,6 +959,7 @@ var ElementButton = {
 	 * @param {null | string | Node} [options.tooltip] - Optional tooltip content. If not supplied then one should manually prepend it to the tooltip later
 	 * @param {"left" | "right" | "top" | "bottom"} [options.tooltipPosition] - The position of the tooltip w.r.t. the button
 	 * @param {"radio" | "checkbox" | "menuitemradio" | "menuitemcheckbox"} [options.role] - The role of the button. All accepted values are currently special-cased in order to set role-specific event listeners and/or attributes.
+	 * @param {boolean} [options.noStyling] - Whether to limit the default styling of the button's border and background
 	 * @param {null | Partial<Record<"button" | "tooltip", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the either the button or tooltip
 	 * @returns {HTMLButtonElement} - The created button
 	 */
@@ -995,6 +971,7 @@ var ElementButton = {
 
 		id ??= `button-${Date.now()}`;
 		options ??= {};
+		const noStyling = options.noStyling ?? false;
 		const tooltip = options.tooltip;
 		const tooltipPosition = this._PositionMapping[options.tooltipPosition] ?? this._PositionMapping.left;
 		const buttonOptions = htmlOptions?.button ?? {};
@@ -1010,13 +987,9 @@ var ElementButton = {
 				role: options.role,
 				...(buttonOptions.attributes ?? {}),
 			},
-			classList: ["blank-button", "button", "HideOnPopup", ...(buttonOptions.classList ?? [])],
+			classList: ["blank-button", "button", noStyling ? null : "button-styling", "HideOnPopup", ...(buttonOptions.classList ?? [])],
 			eventListeners: {
 				click: this._Click,
-				mousedown: this._MouseDown,
-				touchstart: this._TouchStart,
-				touchend: this._TouchEnd,
-				touchcancel: this._TouchEnd,
 				keydown: this._KeyDown,
 				keyup: this._KeyUp,
 				...(buttonOptions.eventListeners ?? {}),

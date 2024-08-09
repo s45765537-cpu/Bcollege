@@ -1,0 +1,137 @@
+.button {
+	/* Default background color */
+	--button-color: white;
+	/* Background color for disabled buttons */
+	--disabled-color: grey;
+	/* Background color for hovered and/or active buttons */
+	--hover-color: cyan;
+
+	cursor: pointer;
+	position: relative;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+	mask-size: contain;
+	box-sizing: border-box;
+}
+
+/* Delegate the background/border styling to a separate class in order to ease their removal when a greater degree of element styling is desired */
+.button-styling {
+	background-color: var(--button-color);
+	border: min(0.2vh, 0.1vw) solid black;
+}
+
+.button-tooltip {
+	user-select: none;
+	background-color: #FFFF88;
+	color: black;
+	border: min(0.2vh, 0.1vw) solid black;
+	box-shadow: min(0.4vh, 0.2vw) min(0.4vh, 0.2vw) min(2vh, 1vw) 0 rgb(0 0 0 / 50%);
+	box-sizing: border-box;
+	padding: min(1vh, 0.5vw) min(2vh, 1vw) min(1vh, 0.5vw) min(2vh, 1vw);
+	position: absolute;
+	text-align: center;
+	visibility: hidden;
+	width: fit-content;
+	text-wrap: nowrap;
+	z-index: 1;
+}
+
+.button-tooltip-left {
+	top: 50%;
+	transform: translateY(-50%);
+	right: calc(100% + min(1vh, 0.5vw));
+}
+
+.button-tooltip-right {
+	top: 50%;
+	transform: translateY(-50%);
+	left: calc(100% + min(1vh, 0.5vw));
+}
+
+.button-tooltip-top {
+	bottom: calc(100% + min(1vh, 0.5vw));
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.button-tooltip-bottom {
+	top: calc(100% + min(1vh, 0.5vw));
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+/* selectors */
+
+.button-styling[aria-checked="true"] {
+	background-color: var(--hover-color);
+	background-color: color-mix(in srgb, var(--button-color) 66%, var(--hover-color) 34%);
+}
+
+.button-styling[aria-checked="true"]::before,
+.button-styling:active::before,
+.button-styling[data-active]::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	border: min(0.3vh, 0.15vw) inset black;
+}
+
+.button-styling:active,
+.button-styling[data-active] {
+	background-color: var(--hover-color);
+}
+
+/* Keep hover-related styling on mobile disabled as it has a tendency to stick even after the click has ended */
+@media (hover: hover) {
+	.button-styling:hover {
+		background-color: var(--hover-color);
+	}
+
+	.button:hover > .button-tooltip {
+		visibility: visible;
+	}
+}
+
+/* Only show a focus outline when the element is explicitly focused (i.e. via tab-selection) */
+@supports selector(:focus-visible) {
+	.button:focus-visible {
+		outline: 2px solid rgb(0, 96, 223);
+		box-shadow: 0 0 0 3px white;
+		border-radius: 1px;
+	}
+
+	.button:focus-visible > .button-tooltip {
+		visibility: visible;
+	}
+}
+
+@supports not selector(:focus-visible) {
+	.button:focus {
+		outline: 2px solid rgb(0, 96, 223);
+		box-shadow: 0 0 0 3px white;
+		border-radius: 1px;
+	}
+}
+
+.button:disabled,
+.button[aria-disabled="true"] {
+	cursor: auto;
+}
+
+.button-styling:disabled,
+.button-styling[aria-disabled="true"] {
+	background-color: var(--disabled-color);
+}
+
+.button-styling:disabled::before,
+.button-styling[aria-disabled="true"]::before {
+	border: unset;
+}
+
+.button-tooltip:empty {
+	display: none;
+}

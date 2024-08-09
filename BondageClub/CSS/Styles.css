@@ -68,8 +68,6 @@ textarea {
 
 .chat-room-sep-header {
 	color: gray;
-	background-color: unset !important;
-	border: unset !important;
 	user-select: text !important;
 	width: 100%;
 	height: 100%;
@@ -77,8 +75,6 @@ textarea {
 
 .chat-room-sep-collapse {
 	color: gray;
-	background-color: unset !important;
-	border: unset !important;
 	border-right: min(0.4vh, 0.2vw) black solid !important;
 	font-weight: bold;
 	text-align: center;
@@ -165,17 +161,20 @@ textarea {
 
 #chat-room-buttons-collapse {
 	grid-area: chat-buttons-collapse;
-	cursor: pointer;
 	height: 100%;
 	width: fit-content;
-	background: unset;
-	box-sizing: border-box;
-	border: unset;
 	font-weight: bold;
 }
 
-#chat-room-buttons-collapse:hover {
-	background-color: cyan;
+@media (hover: hover) {
+	#chat-room-buttons-collapse:hover {
+		background-color: var(--hover-color);
+	}
+}
+
+#chat-room-buttons-collapse:active,
+#chat-room-buttons-collapse[data-active] {
+	background-color: var(--hover-color);
 }
 
 #chat-room-buttons {
@@ -194,8 +193,6 @@ textarea {
 .chat-room-button {
 	height: var(--button-size);
 	width: var(--button-size);
-	background-color: unset !important;
-	border: unset !important;
 }
 
 .chat-room-button::before {
@@ -215,13 +212,18 @@ textarea {
 
 @media (hover: hover) {
 	.chat-room-button:hover::before {
-		background-color: cyan;
+		background-color: var(--hover-color);
 	}
 }
 
-.chat-room-button:disabled::before, .chat-room-button[aria-disabled="true"]::before {
-	cursor: auto;
-	background-color: gray;
+.chat-room-button:disabled::before,
+.chat-room-button[aria-disabled="true"]::before {
+	background-color: var(--disabled-color);
+}
+
+.chat-room-button:active::before,
+.chat-room-button[data-active]::before {
+	background-color: var(--hover-color);
 }
 
 #chat-room-send::before {
@@ -263,8 +265,6 @@ textarea {
 	text-shadow: 0.05em 0.05em black;
 	color: var(--label-color);
 	user-select: text;
-	background: unset !important;
-	border: unset !important;
 }
 
 .ChatMessageName:hover {
@@ -329,17 +329,17 @@ textarea {
 	}
 }
 
-#TextAreaChatLog[data-colortheme="dark"] .chat-room-sep-touch,
-#TextAreaChatLog[data-colortheme="dark2"] .chat-room-sep-touch,
-#TextAreaChatLog[data-colortheme="dark"] .button-touch,
-#TextAreaChatLog[data-colortheme="dark2"] .button-touch {
+#TextAreaChatLog[data-colortheme="dark"] .chat-room-sep-div > .button:active,
+#TextAreaChatLog[data-colortheme="dark2"] .chat-room-sep-div > .button:active,
+#TextAreaChatLog[data-colortheme="dark"] .chat-room-sep-div > .button[data-active],
+#TextAreaChatLog[data-colortheme="dark2"] .chat-room-sep-div > .button[data-active] {
 	color: #eee;
 }
 
-#TextAreaChatLog[data-colortheme="light"] .chat-room-sep-touch,
-#TextAreaChatLog[data-colortheme="light2"] .chat-room-sep-touch,
-#TextAreaChatLog[data-colortheme="light"] .button-touch,
-#TextAreaChatLog[data-colortheme="light2"] .button-touch {
+#TextAreaChatLog[data-colortheme="light"] .chat-room-sep-div > .button:active,
+#TextAreaChatLog[data-colortheme="light2"] .chat-room-sep-div > .button:active,
+#TextAreaChatLog[data-colortheme="light"] .chat-room-sep-div > .button[data-active],
+#TextAreaChatLog[data-colortheme="light2"] .chat-room-sep-div > .button[data-active] {
 	color: black;
 }
 
@@ -485,8 +485,6 @@ textarea {
 	font-style: normal;
 	display: inline;
 	cursor: pointer;
-	border: none !important;
-	background-color: unset !important;
 	font-size: smaller;
 	margin-top: 3px;
 	margin-bottom: 3px;
@@ -907,7 +905,7 @@ input[type="checkbox"]:checked::before {
 }
 
 .layering-button-pink[data-pose] {
-	background-color: pink;
+	--button-color: pink;
 }
 
 /* Dropdown */
@@ -949,176 +947,6 @@ input[type="checkbox"]:checked::before {
 
 .dropdown-checkbox-label {
 	padding-left: min(2vh, 1vw);
-}
-
-/* Buttons */
-
-.button {
-	cursor: pointer;
-	position: relative;
-	background-color: white;
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: contain;
-	mask-size: contain;
-	border: min(0.2vh, 0.1vw) solid black;
-	box-sizing: border-box;
-}
-
-.button[aria-checked="true"] {
-	background-color: cyan;
-	background-color: color-mix(in srgb, white 66%, cyan 34%);
-}
-
-.button[aria-checked="true"]::before {
-	content: "";
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	border: min(0.3vh, 0.15vw) inset black;
-}
-
-.button-tooltip {
-	user-select: none;
-	background-color: #FFFF88;
-	color: black;
-	border: min(0.2vh, 0.1vw) solid black;
-	box-shadow: min(0.4vh, 0.2vw) min(0.4vh, 0.2vw) min(2vh, 1vw) 0 rgb(0 0 0 / 50%);
-	box-sizing: border-box;
-	padding: min(1vh, 0.5vw) min(2vh, 1vw) min(1vh, 0.5vw) min(2vh, 1vw);
-	position: absolute;
-	text-align: center;
-	visibility: hidden;
-	width: fit-content;
-	text-wrap: nowrap;
-	z-index: 1;
-}
-
-.button-tooltip:empty {
-	display: none;
-}
-
-.button-tooltip-left {
-	top: 50%;
-	transform: translateY(-50%);
-	right: calc(100% + min(1vh, 0.5vw));
-}
-
-.button-tooltip-right {
-	top: 50%;
-	transform: translateY(-50%);
-	left: calc(100% + min(1vh, 0.5vw));
-}
-
-.button-tooltip-top {
-	bottom: calc(100% + min(1vh, 0.5vw));
-	left: 50%;
-	transform: translateX(-50%);
-}
-
-.button-tooltip-bottom {
-	top: calc(100% + min(1vh, 0.5vw));
-	left: 50%;
-	transform: translateX(-50%);
-}
-
-.button-touch, .button-touch::before, .button:hover {
-	background-color: cyan;
-}
-
-.button:disabled, .button[aria-disabled="true"] {
-	cursor: auto;
-	background-color: gray;
-}
-
-@media (hover: hover) {
-	.button:hover > .button-tooltip {
-		visibility: visible;
-	}
-}
-
-@media (hover: none) {
-	.button-touch > .button-tooltip {
-		visibility: visible;
-	}
-}
-
-.button:focus {
-	outline: 2px solid rgb(0, 96, 223);
-	box-shadow: 0 0 0 3px white;
-	border-radius: 1px;
-}
-
-.button:focus > .button-tooltip {
-	visibility: visible;
-}
-
-.spin-button-container {
-	--margin: min(0.4vh, 0.2vw);
-	--margin: min(0.4dvh, 0.2dvw);
-}
-
-.spin-button-select, .spin-button-dummy {
-	display: none;
-}
-
-.spin-button-prev {
-	display: block;
-	position: absolute;
-	top: 0%;
-	left: 0%;
-	width: 50%;
-	height: 100%;
-	border-right: unset;
-}
-
-.spin-button-prev::before {
-	position: absolute;
-	content: "";
-	top: var(--margin);
-	left: var(--margin);
-	height: calc(100% - 2 * var(--margin));
-	width: calc(2 * var(--margin));
-	clip-path: polygon(80% 0%, 0% 50%, 80% 100%, 100% 100%, 20% 50%, 100% 0%);
-	background-color: black;
-}
-
-.spin-button-next {
-	display: block;
-	position: absolute;
-	top: 0%;
-	right: 0%;
-	width: 50%;
-	height: 100%;
-	border-left: unset;
-}
-
-.spin-button-next::before {
-	position: absolute;
-	content: "";
-	top: var(--margin);
-	right: var(--margin);
-	height: calc(100% - 2 * var(--margin));
-	width: calc(2 * var(--margin));
-	clip-path: polygon(20% 0%, 100% 50%, 20% 100%, 0% 100%, 80% 50%, 0% 0%);
-	background-color: black;
-}
-
-.spin-button-label {
-	pointer-events: none;
-	user-select: none;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	width: calc(100% - 12 * var(--margin));
-	position: absolute;
-	text-align: center;
-	justify-content: center;
-	overflow: clip;
-	text-overflow: ellipsis;
-	white-space: nowrap;
 }
 
 /* Custom fonts */
