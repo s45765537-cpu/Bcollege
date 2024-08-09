@@ -11,11 +11,54 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2024-07-17
-* Last recorded PR: [#5126](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5126)
-* Last recorded commit hash: `d2a3deb9bd934e0ab3d25526246a2852479ac46f`
+* Changelog last updated: 2024-08-09
+* Last recorded PR: [#5127](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5127)
+* Last recorded commit hash: `b0c06310637c1b72046ffd3454857fd3ef1aa87a`
 
 ## [Generated]
+
+## [R107]
+
+### [Changes]
+
+* Manilla - Dragon wings ([#5136](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5136))
+* Cleon - New ArmbinderSuit, RubberMask, BrickWall, TightCorset, HipHarness and more ([#5129](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5129))
+* Cleon - New Custom Heels (Shoes) and Genital Gag (ItemGag), also more ([#5133](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5133))
+* dDeepLb - 10 new emoticons by Echo ([#5134](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5134))
+* dDeepLb - Friend List Update ([#5137](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5137))
+* dDeepLb - Friend list tweaking ([#5140](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5140))
+* Rama - Hide all non-visible layers by default from the layering screen ([#5125](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5125))
+* Estsanatlehi - Add HempRope cuffs ([#5130](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5130))
+* Estsanatlehi - Make /mappaste read from the clipboard + fix a follow-up crash ([#5139](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5139))
+* Makeevchanin - Russian Translation
+* Ben987 - Chat Room Maps - Allow arousal meter zoom and manipulation
+* Ben987 - Chat Room Maps - New Expanding Floor Items
+* Ben987 - Chat Room Maps - Expanding Couch Images
+* Ben987 - Chat Room Maps - Expanding Blue Bed
+* Ben987 - Chat Room Maps - Expanding Ball Pit
+* Ben987 - NPCs - New Succubus Archetype and Look
+* Ben987 - Slave Market - Meet Random Succubus Slaves and Buyers
+
+### [Fixes]
+
+* Cleon - Fix some AnimeGirlBoots assets and adding some ArmbinderSuit instructions. ([#5141](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5141))
+* Rama - Fix the pose icons in the shop not showing ([#5142](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5142))
+* Estsanatlehi - Fix a crash when lockpicking ([#5135](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5135))
+* Estsanatlehi - Fix a bug when validating arrays of strings ([#5138](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5138))
+* Ben987 - Teacher Outfit and Kneeling Spread pose compatibility
+* Ben987 - Yukata Cloth - Better compatibility for Over The Head and Yoked poses
+* Ben987 - Admiral Top sleeves in Yoked position
+* Ben987 - Sweater with Over the Head pose
+* Ben987 - Add MapImmobile effect on Personal Cage
+
+### [Technical]
+
+* Rama - Various css button changes ([#5127](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5127))
+* Estsanatlehi - Change the global event handlers to use lambdas ([#5131](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5131))
+* Estsanatlehi - Fix CI ([#5132](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5132))
+* Ben987 - Fixes to the Female3DCG invalid properties
+* Ben987 - Remove uneeded "Random: true" properties
+
 
 ## [R106]
 
