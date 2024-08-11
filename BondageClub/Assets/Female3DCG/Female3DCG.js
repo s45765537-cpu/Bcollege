@@ -25296,6 +25296,7 @@ var AssetFemale3DCG = [
 				Time: 15,
 				AllowLock: true,
 				DrawLocks: false,
+				Gender: "M",
 				Prerequisite: ["AccessBreast", "HasFlatChest"],
 				Hide: ["ItemNipples", "ItemNipplesPiercings"],
 				Effect: [E.BreastChaste],
