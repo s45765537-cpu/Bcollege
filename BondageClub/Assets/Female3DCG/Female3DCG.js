@@ -29298,7 +29298,7 @@ var AssetFemale3DCG = [
 				],
 				SetPose: ["BackElbowTouch"],
 				AllowActivePose: ["LegsOpen", "LegsClosed", "Kneel", "KneelingSpread"],
-				Effect: [E.MergedFingers, E.Block, E.BlockWardrobe],
+				Effect: [E.MergedFingers, E.BlockWardrobe],
 				Block: ["ItemHandheld", "ItemHands"],
 				SelfUnlock: false,
 				DrawLocks: false,
