@@ -20066,6 +20066,7 @@ var AssetFemale3DCG = [
 				Prerequisite: ["AccessVulva", "HasPenis"],
 				AllowExpression: ["Hard"],
 				AllowLock: true,
+				DrawLocks: false,
 				Priority: 24,
 				PoseMapping: {
 					...AssetPoseMapping.ItemVulva,
