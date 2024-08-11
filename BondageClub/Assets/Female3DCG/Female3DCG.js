@@ -29547,7 +29547,7 @@ var AssetFemale3DCG = [
 						Priority: 27,
 						ParentGroup: null,
 						CreateLayerTypes: ["p"],
-						AllowTypes: { p: [1, 2] },
+						AllowTypes: { p: 1 },
 						AllowColorize: true,
 						ColorGroup: "Metal",
 					},
