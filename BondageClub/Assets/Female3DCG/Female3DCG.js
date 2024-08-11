@@ -44125,7 +44125,6 @@ var AssetFemale3DCG = [
 					"#E0A86B",
 				],
 				Block: [],
-				Hide: ["HairAccessory1", "HairAccessory2"],
 				HideItem: ["MaskRubberMask"],
 				Layer: [
 					{
