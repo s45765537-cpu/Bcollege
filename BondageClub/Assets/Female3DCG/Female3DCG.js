@@ -30465,6 +30465,12 @@ var AssetFemale3DCG = [
 				Top: 200,
 				Left: 50,
 				DefaultColor: "#956B1C",
+				PoseMapping: {
+					...AssetPoseMapping.ItemHands,
+					AllFours: PoseType.HIDE,
+					OverTheHead: PoseType.HIDE,
+					Yoked: PoseType.HIDE,
+				},
 				Random: false,
 				Difficulty: 3,
 				SelfBondage: 3,
