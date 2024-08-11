@@ -48170,7 +48170,7 @@ var AssetFemale3DCG = [
 						Name: "ReFeetLock",
 						Priority: 26,
 						LockLayer: true,
-						CopyLayerColor: "Relock",
+						CopyLayerColor: "ReLock",
 					},
 				],
 				RemoveAtLogin: true,
