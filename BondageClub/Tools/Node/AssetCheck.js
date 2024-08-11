@@ -1049,6 +1049,10 @@ function testAssetHasPNG(assets, extendedDataRecords, poseRecord) {
 				if (layer.CreateLayerTypes.length) {
 					const allTypes = layer.AllowTypes?.AllTypes ?? {};
 					options = layer.CreateLayerTypes.flatMap(screenKey => {
+						if (!optionsRecord[screenKey]) {
+							error(`${asset.Group.Name}:${asset.Name}:${layer.Name}: missing extended options. Possibly a missing CopyConfig directive?`);
+							return /** @type {never} */({});
+						}
 						return optionsRecord[screenKey].map((o, i) => {
 							if (allTypes[screenKey]?.has(i) ?? true) {
 								partialLayerTypes.push(`${screenKey}${i}`);
