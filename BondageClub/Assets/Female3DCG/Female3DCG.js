@@ -23667,6 +23667,7 @@ var AssetFemale3DCG = [
 				DynamicGroupName: "Corset",
 				PoseMapping: {
 					...AssetPoseMapping.Corset,
+					Hogtied: PoseType.HIDE,
 					AllFours: PoseType.HIDE,
 				},
 				Layer: [
@@ -24456,6 +24457,7 @@ var AssetFemale3DCG = [
 				DynamicGroupName: "Corset",
 				PoseMapping: {
 					...AssetPoseMapping.Corset,
+					Hogtied: PoseType.HIDE,
 					AllFours: PoseType.HIDE,
 				},
 				Layer: [
