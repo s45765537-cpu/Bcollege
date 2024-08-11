@@ -16845,10 +16845,10 @@ var AssetFemale3DCGExtended = {
 			DrawImages: true,
 			Options: [
 				{
-					Name: "Folded",
+					Name: "Spread",
 				},
 				{
-					Name: "Spread",
+					Name: "Folded",
 				},
 				{
 					Name: "Bound",
