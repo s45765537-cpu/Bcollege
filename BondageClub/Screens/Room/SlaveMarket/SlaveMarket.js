@@ -93,7 +93,7 @@ function SlaveMarketAuctionStart() {
 function SlaveMarketAuctionEnd() {
 	if (SlaveAuctionBidCurrent == "Player") {
 		CharacterChangeMoney(Player, SlaveAuctionBidAmount * -1);
-		CommonSetScreen("Room", "Private");		
+		CommonSetScreen("Room", "Private");
 		let NewChar = PrivateAddCharacter(SlaveMarketSlave,  "Submissive");
 		if (SlaveMarketSlave.Title === "Succubus") NewChar.Title = "Succubus";
 		CommonSetScreen("Room", "SlaveMarket");
