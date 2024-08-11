@@ -12353,6 +12353,10 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "QualityHarnessGag" },
 		}, // QualityHarnessGag
+		GenitalGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "GenitalGag" },
+		}, // GenitalGag
 	}, // ItemMouth2
 	ItemMouth3: {
 		ClothGag: {
