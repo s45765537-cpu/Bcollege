@@ -48100,7 +48100,6 @@ var AssetFemale3DCG = [
 				Audio: "",
 				Block: ["ItemAddon"],
 				Prerequisite: ["NotLifted", "NotSuspended"],
-				Effect: [E.Freeze],
 				SetPose: ["LegsClosed", "BackElbowTouch"],
 				Alpha: [
 					{
