@@ -35824,6 +35824,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				DrawLocks: false,
+				Effect: [E.BlockMouth, E.OpenMouth],
 				Prerequisite: ["GagUnique", "AccessMouth"],
 				CreateLayerTypes: ["typed"],
 				ExpressionTrigger: [

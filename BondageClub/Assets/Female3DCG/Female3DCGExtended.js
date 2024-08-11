@@ -12180,14 +12180,14 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Pussy",
 					Property: {
-						Effect: [E.GagEasy, E.OpenMouth],
+						Effect: [E.GagEasy],
 						Difficulty: 5,
 					},
 				},
 				{
 					Name: "Butthole",
 					Property: {
-						Effect: [E.GagLight, E.OpenMouth],
+						Effect: [E.GagLight],
 						Difficulty: 6,
 					},
 				},
