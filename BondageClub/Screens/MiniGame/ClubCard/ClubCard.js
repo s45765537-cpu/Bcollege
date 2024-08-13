@@ -432,16 +432,13 @@ var ClubCardList = [
 		ID: 4008,
 		Name: "Daycare Enthusiast",
 		Group: ["Fetishist"],
-		AfterTurnEnd: function(CCPlayer) {
-			const abdlMommyCardsPlayed =  ClubCardGetCardsPlayedOnTurn(CCPlayer, CCPlayer.ClubCardTurnCounter).filter(card => ClubCardCardHasGroup(card, "ABDLMommy"));
-			abdlMommyCardsPlayed.forEach(() => {
+		onPlayedCard: function(CCPlayer, cardPlayed) {
+			if (ClubCardCardHasGroup(cardPlayed, "ABDLMommy")) {
 				ClubCardPlayerAddFame(CCPlayer, 3);
-			});
-
-			const abdlBabyCardsPlayed =  ClubCardGetCardsPlayedOnTurn(CCPlayer, CCPlayer.ClubCardTurnCounter).filter(card => ClubCardCardHasGroup(card, "ABDLBaby"));
-			abdlBabyCardsPlayed.forEach(() => {
+			}
+			if (ClubCardCardHasGroup(cardPlayed, "ABDLBaby")) {
 				ClubCardPlayerAddMoney(CCPlayer, 3);
-			});
+			}
 		}
 	},
 
@@ -858,17 +855,13 @@ var ClubCardList = [
 		Name: "Fussy Baby",
 		Group: ["ABDLBaby"],
 		MoneyPerTurn: 1,
-		BeforeOpponentTurnEnd: function(CCPlayer) {
-			let cardOwner = ClubCardGetOpponent(CCPlayer);
-			let playedAnEvent = ClubCardGetCardsPlayedOnTurn(CCPlayer, CCPlayer.ClubCardTurnCounter).some(card => card.Type === "Event");
-			if(!playedAnEvent) {
-				return;
-			}
-
-			ClubCardRemoveFromBoard(cardOwner, this);
-			ClubCardAddToHand(cardOwner, this);
-			ClubCardPlayerAddFame(cardOwner, 4);
-		},
+		onOpponentPlayedCard: function(CCPlayer, cardPlayed) { 
+            if (cardPlayed.Type === "Event") {
+                ClubCardRemoveFromBoard(CCPlayer, this);
+                ClubCardAddToHand(CCPlayer, this);
+                ClubCardPlayerAddFame(CCPlayer, 4);
+            }
+        }
 	},
 	{
 		ID: 10008,
@@ -876,11 +869,10 @@ var ClubCardList = [
 		FamePerTurn: 2,
 		RequiredLevel: 3,
 		Group: ["ABDLMommy"],
-		AfterTurnEnd: function(CCPlayer) {
-			const abdlBabyCardsPlayed =  ClubCardGetCardsPlayedOnTurn(CCPlayer, CCPlayer.ClubCardTurnCounter).filter(card => ClubCardCardHasGroup(card, "ABDLBaby"));
-			abdlBabyCardsPlayed.forEach(() => {
+		onPlayedCard: function(CCPlayer, cardPlayed) {
+			if (ClubCardCardHasGroup(cardPlayed, "ABDLBaby")) {
 				ClubCardPlayerAddFame(CCPlayer, CCPlayer.Level);
-			});
+			}
 		}
 	},
 	{
@@ -2749,26 +2741,12 @@ function ClubCardPlayCard(CCPlayer, Card) {
 				Card.Location = (CCPlayer.Index == 0) ? "PlayerBoard" : "OpponentBoard";
 				ClubCardSetGlow(Card, (ClubCardTurnIndex == 0) ? "#FFFF00" : "#FF0000");
 
-
-				// Run on cards played handlers
-				for (const Card of CCPlayer.Board.slice()) {
-					if (Card.onPlayedCard != null) {
-						Card.onPlayedCard(CCPlayer, C);
-					}
-				}
-
-				const opponent = ClubCardGetOpponent(CCPlayer)
-				for (const Card of opponent.Board.slice()) {
-					if (Card.onOpponentPlayedCard != null) {
-						Card.onOpponentPlayedCard(opponent, C);
-					}
-				}
 			}
 			Index++;
 		}
 	}
 
-	// Focuses on the card, runs it's scripts and end the turn if needed
+	// Focuses on the card, runs it's scripts
 	ClubCardFocus = Card;
 	if(CCPlayer.CardsPlayedThisTurn[CCPlayer.ClubCardTurnCounter]) {
 		CCPlayer.CardsPlayedThisTurn[CCPlayer.ClubCardTurnCounter] = [...CCPlayer.CardsPlayedThisTurn[CCPlayer.ClubCardTurnCounter], Card];
@@ -2779,6 +2757,22 @@ function ClubCardPlayCard(CCPlayer, Card) {
 	if (Card.OnPlay != null) Card.OnPlay(CCPlayer);
 	ClubCardSelection = null;
 	ClubCardPending = null;
+
+	// Run on cards played handlers
+	for (const C of CCPlayer.Board.slice()) {
+		if (C.onPlayedCard != null) {
+			C.onPlayedCard(CCPlayer, Card);
+		}
+	}
+
+	const opponent = ClubCardGetOpponent(CCPlayer)
+	for (const C of opponent.Board.slice()) {
+		if (C.onOpponentPlayedCard != null) {
+			C.onOpponentPlayedCard(opponent, Card);
+		}
+	}
+
+	// End the turn if needed
 	if (ClubCardTurnCardPlayed >= ClubCardTurnPlayableCardCount(CCPlayer)) return ClubCardEndTurn();
 
 	// If that player can play more than one card per turn, we announce it
