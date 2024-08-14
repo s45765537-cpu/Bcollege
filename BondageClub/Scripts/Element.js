@@ -750,6 +750,7 @@ var ElementCheckboxDropdown = {
 function ElementCreateSearchInput(id, dataCallback, options=null) {
 	let elem = /** @type {HTMLInputElement | null} */(document.getElementById(id));
 	if (elem) {
+		console.error(`Element "${id}" already exists`);
 		return elem;
 	}
 
@@ -966,6 +967,7 @@ var ElementButton = {
 	Create: function Create(id, onClick, options=null, htmlOptions=null) {
 		let elem = /** @type {HTMLButtonElement | null} */(document.getElementById(id));
 		if (elem) {
+			console.error(`Element "${id}" already exists`);
 			return elem;
 		}
 
@@ -1176,6 +1178,7 @@ var ElementMenu = {
 	Create: function Create(id, menuItems, options=null, htmlOptions=null) {
 		let elem = /** @type {HTMLDivElement | null} */(document.getElementById(id));
 		if (elem) {
+			console.error(`Element "${id}" already exists`);
 			return elem;
 		}
 
