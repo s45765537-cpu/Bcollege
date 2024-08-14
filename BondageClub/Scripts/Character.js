@@ -869,8 +869,8 @@ function CharacterArchetypeClothes(C, Archetype, ForceColor) {
 
 	// Mistress archetype
 	if (Archetype == "Mistress") {
-		var ColorList = ["#333333", "#AA4444", "#AAAAAA"];
-		var Color = (ForceColor == null) ? CommonRandomItemFromList("", ColorList) : ForceColor;
+		let ColorList = ["#333333", "#AA4444", "#AAAAAA"];
+		let Color = (ForceColor == null) ? CommonRandomItemFromList("", ColorList) : ForceColor;
 		CharacterAppearanceSetItem(C, "Hat", null);
 		InventoryAdd(C, "MistressGloves", "Gloves", false);
 		InventoryWear(C, "MistressGloves", "Gloves", Color);
