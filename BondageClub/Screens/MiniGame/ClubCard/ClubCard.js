@@ -663,6 +663,18 @@ var ClubCardList = [
 			this.ExtraPlay = 1;
 		}
 	},
+	{
+		ID: 7011,
+		Name: "Prodigious Patient",
+		Group: ["AsylumPatient"],
+		MoneyPerTurn: 3,
+		RequiredLevel: 1,
+		Time: 4,
+		onLeaveClub: function(CCPlayer) {
+			const opponent = ClubCardGetOpponent(CCPlayer);
+			ClubCardPlayerAddFame(opponent, -15);
+		}
+	},
 
 	// 8000 - Dominant Members (Raise lots of Fame, cost Money)
 	{
@@ -2060,6 +2072,31 @@ function ClubCardRemoveFromBoard(CCPlayer, Card) {
 	}
 }
 
+function ClubCardCardsLeftBoard(CCPlayer){
+	if (CCPlayer.PreviousBoard != null) {
+		for (const Card of CCPlayer.PreviousBoard.slice()) {
+			if (!ClubCardNameIsOnBoard(CCPlayer, Card.Name)) {
+				if (Card.onLeaveClub != null) {
+					Card.onLeaveClub(CCPlayer);
+				}
+			}
+	    }
+	}
+	CCPlayer.PreviousBoard = CCPlayer.Board;
+
+	const opponent = ClubCardGetOpponent(CCPlayer);
+	if (opponent.PreviousBoard != null) {
+		for (const Card of opponent.PreviousBoard.slice()) {
+			if (!ClubCardNameIsOnBoard(opponent, Card.Name)) {
+				if (Card.onLeaveClub != null) {
+					Card.onLeaveClub(opponent);
+				}
+			}
+	    }
+	}
+	opponent.PreviousBoard = opponent.Board;
+}
+
 /**
  * Gets the max effect a card should have depending on its "tier"/required level to play
  * @param {ClubCard} Card
@@ -2388,6 +2425,7 @@ function ClubCardAddPlayer(Char, Cont, Cards) {
 		Sleeve: "Default",
 		Hand: [],
 		Board: [],
+		PreviousBoard: [],
 		Event: [],
 		Level: 1,
 		Money: 5,
@@ -2532,8 +2570,22 @@ function ClubCardEndTurn(Draw = false) {
 	ClubCardTurnCardPlayed = 0;
 	ClubCardAIStart();
 
-	// When a turn starts, the event time goes down and might expire
 	CCPlayer = ClubCardPlayer[ClubCardTurnIndex];
+	if (CCPlayer.Board != null) {
+		for (let Pos = 0; Pos < CCPlayer.Board.length; Pos++) {
+			let Card = CCPlayer.Board[Pos];
+			if ((Card.Time != null) && (Card.Time > 0)) Card.Time--;
+			if (Card.Time <= 0) {
+				ClubCardLogPublish("Left", CCPlayer, null, Card);
+				CCPlayer.Board.splice(Pos, 1);
+				Pos--;
+			}
+		}
+	}
+	
+	ClubCardCardsLeftBoard(CCPlayer);
+		
+	// When a turn starts, the event time goes down and might expire
 	if (CCPlayer.Event != null)
 		for (let Pos = 0; Pos < CCPlayer.Event.length; Pos++) {
 			let Card = CCPlayer.Event[Pos];
@@ -2772,6 +2824,8 @@ function ClubCardPlayCard(CCPlayer, Card) {
 		}
 	}
 
+	ClubCardCardsLeftBoard(CCPlayer);
+
 	// End the turn if needed
 	if (ClubCardTurnCardPlayed >= ClubCardTurnPlayableCardCount(CCPlayer)) return ClubCardEndTurn();
 
@@ -2863,6 +2917,7 @@ function ClubCardBankrupt() {
 	CCPlayer.Money = 5;
 	CCPlayer.Fame = 0;
 	CCPlayer.Board = [];
+	CCPlayer.PreviousBoard = [];
 	CCPlayer.Event = [];
 	CCPlayer.Hand = [];
 	CCPlayer.Deck = ClubCardShuffle(CCPlayer.FullDeck.slice());

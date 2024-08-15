@@ -304,11 +304,12 @@ function GameClubCardLoadBundle(CCPlayer, Bundle) {
 	if (Bundle.FullDeck != null) CCPlayer.FullDeck = GameClubCardUndoBundle(Bundle.FullDeck);
 	if (Bundle.Deck != null) CCPlayer.Deck = GameClubCardUndoBundle(Bundle.Deck);
 	if (Bundle.Hand != null) CCPlayer.Hand = GameClubCardUndoBundle(Bundle.Hand);
-	if (Bundle.Board != null) CCPlayer.Board = GameClubCardUndoBundle(Bundle.Board, false, Location);
+	if (Bundle.Board != null) CCPlayer.Board = GameClubCardUndoBundle(Bundle.Board, true, Location);
 	if (Bundle.Event != null) CCPlayer.Event = GameClubCardUndoBundle(Bundle.Event, true, Location);
 	if (Bundle.Playing) ClubCardTurnIndex = CCPlayer.Index;
 	if (Bundle.CardsPlayedThisTurn != null) CCPlayer.CardsPlayedThisTurn = Bundle.CardsPlayedThisTurn;
 	if (Bundle.CardsPlayedThisTurn !== null) CCPlayer.ClubCardTurnCounter = Bundle.ClubCardTurnCounter;
+	if (Bundle.PreviousBoard != null) CCPlayer.PreviousBoard = GameClubCardUndoBundle(Bundle.PreviousBoard, false, Location);
 }
 
 /**
@@ -455,10 +456,11 @@ function GameClubCardSyncOnlineData(Progress = "Action", LocalPlayerOnly = false
 			FullDeck: GameClubCardDoBundle(CCPlayer.FullDeck),
 			Deck: GameClubCardDoBundle(CCPlayer.Deck),
 			Hand: GameClubCardDoBundle(CCPlayer.Hand),
-			Board: GameClubCardDoBundle(CCPlayer.Board),
+			Board: GameClubCardDoBundle(CCPlayer.Board, true),
 			Event: GameClubCardDoBundle(CCPlayer.Event, true),
 			CardsPlayedThisTurn: CCPlayer.CardsPlayedThisTurn,
-			ClubCardTurnCounter: CCPlayer.ClubCardTurnCounter
+			ClubCardTurnCounter: CCPlayer.ClubCardTurnCounter,
+			PreviousBoard: GameClubCardDoBundle(CCPlayer.PreviousBoard)
 		});
 	}
 	if (Progress == "Action") ServerSend("ChatRoomGame", { GameProgress: Progress, CCData: Packet });
