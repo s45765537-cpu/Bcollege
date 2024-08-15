@@ -5,13 +5,14 @@
   --text-hover: black;
   --border-normal: 2px solid black;
   --border-hover: 2px solid black;
-  
-  text-align: center;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: var(--bg-normal);
   color: var(--text-normal);
   border: var(--border-normal);
   z-index: 1;
-  white-space: nowrap;
 }
 
 #beep:hover {

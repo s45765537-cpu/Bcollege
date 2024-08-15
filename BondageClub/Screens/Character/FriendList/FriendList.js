@@ -489,10 +489,12 @@ function FriendListBeepMenuSend() {
 		});
 
 		const chatRoomName = FriendListBeepShowRoom && Player.LastChatRoom ? Player.LastChatRoom.Name : null;
+		const chatRoomSpace = FriendListBeepShowRoom && Player.LastChatRoom ? Player.LastChatRoom.Space : null;
 		FriendListBeepLog.push({
 			MemberNumber: FriendListBeepTarget,
 			MemberName: Player.FriendNames.get(FriendListBeepTarget),
 			ChatRoomName: chatRoomName,
+			ChatRoomSpace: chatRoomSpace,
 			Sent: true,
 			Private: false,
 			Time: new Date(),
@@ -567,6 +569,9 @@ function FriendListLoadFriendList(data) {
 		Friend: './Icons/Small/FriendList.png'
 	};
 	const sortingSymbol = FriendListSortingDirection === "Asc" ? "▲" : "▼";
+	const friendList = document.getElementById(FriendListIDs.friendList);
+	friendList.innerHTML = "";
+
 	const FriendListContent = [];
 	const friendListScrollPercent = ElementGetScrollPercentage(FriendListIDs.friendList) || 0;
 
@@ -614,16 +619,12 @@ function FriendListLoadFriendList(data) {
 			const canBeep = true;
 
 			const rawCaption = [];
-			if (friend.Private) {
-				rawCaption.push(PrivateRoomCaption);
-			} else if (!friend.Private && chatRoomName) {
-				rawCaption.push(chatRoomSpaceCaption);
-				rawCaption.push(chatRoomName);
-			} else {
-				rawCaption.push('-');
-			}
+			if (chatRoomSpaceCaption && chatRoomName) rawCaption.push(chatRoomSpaceCaption);
+			if (friend.Private) rawCaption.push(PrivateRoomCaption);
+			if (chatRoomName) rawCaption.push(chatRoomName);
+			if (rawCaption.length === 0) rawCaption.push('-');
 
-			caption = rawCaption.join(' - ');
+			caption = `<span>${rawCaption.join(' - ')}</span>`;
 
 			friendRawData.push({
 				memberName: friend.MemberName,
@@ -650,16 +651,12 @@ function FriendListLoadFriendList(data) {
 			const canSearchRoom = FriendListReturn?.Screen === 'ChatSearch' && ChatRoomSpace === (beepData.ChatRoomSpace || '');
 
 			const rawRoomCaption = [];
-			if (beepData.Private) {
-				rawRoomCaption.unshift(PrivateRoomCaption);
-			} else if (!beepData.Private && chatRoomName) {
-				rawRoomCaption.push(chatRoomSpaceCaption);
-				rawRoomCaption.push(chatRoomName);
-			} else {
-				rawRoomCaption.push('-');
-			}
+			if (chatRoomSpaceCaption && chatRoomName) rawRoomCaption.push(chatRoomSpaceCaption);
+			if (beepData.Private) rawRoomCaption.push(PrivateRoomCaption);
+			if (chatRoomName) rawRoomCaption.push(chatRoomName);
+			if (rawRoomCaption.length === 0) rawRoomCaption.push('-');
 
-			chatRoomCaption = rawRoomCaption.join(' - ');
+			chatRoomCaption = `<span>${rawRoomCaption.join(' - ')}</span>`;
 
 			const rawBeepCaption = [];
 			if (beepData.Sent) {
@@ -809,7 +806,7 @@ function FriendListLoadFriendList(data) {
 			{ button: {
 				classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-all-friends-content'],
 				children: [FriendListConfirmDelete.includes(friend.memberNumber) ? ConfirmDeleteCaption : DeleteCaption],
-				attributes: { disabled: !friend.canDelete },
+				attributes: { disabled: !friend.canDelete ? true : undefined },
 			}}
 		));
 
@@ -818,7 +815,7 @@ function FriendListLoadFriendList(data) {
 	});
 
 	// Loads the friend list and sorts it with current settings
-	document.getElementById(FriendListIDs.friendList)?.replaceChildren(...FriendListContent);
+	friendList.append(...FriendListContent);
 	FriendListSort(FriendListSortingMode, FriendListSortingDirection);
 	FriendListSearchByProperties(/** @type {HTMLInputElement} */ (document.getElementById(FriendListIDs.searchInput))?.value);
 	ElementSetScrollPercentage(FriendListIDs.friendList, friendListScrollPercent, 'instant');

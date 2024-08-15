@@ -923,11 +923,19 @@ function ServerDrawBeep() {
 						}
 					}
 				},
-				children: [ServerBeep.Message],
+				children: [
+					{
+						tag: 'span',
+						classList: ['truncated-text'],
+						children: [
+							ServerBeep.Message
+						]
+					}
+				],
 				parent: document.body,
 			});
 		}
-		ElementPositionFix('beep', 36, (CurrentScreen == 'ChatRoom') ? 0 : 500, 0, 1000, 50);
+		ElementPositionFix('beep', 30, (CurrentScreen == 'ChatRoom') ? 0 : 500, 0, 1000, 50);
 		if (document.hasFocus()) {
 			NotificationReset(NotificationEventType.BEEP);
 		}

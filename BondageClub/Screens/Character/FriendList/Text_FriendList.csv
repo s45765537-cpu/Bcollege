@@ -8,7 +8,7 @@ ChatRoomName,Chat room
 FriendType,Relation type
 ActionFriends,Send a beep
 ActionDelete,Delete a friend
-AutoRefresh,Toggle 10 sec auto-refresh
+AutoRefresh,Toggle 30 sec auto-refresh
 Refresh,Refresh
 ResetSorting,Reset sorting
 Exit,Exit

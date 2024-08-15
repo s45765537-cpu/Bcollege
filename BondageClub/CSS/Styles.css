@@ -949,6 +949,13 @@ input[type="checkbox"]:checked::before {
 	padding-left: min(2vh, 1vw);
 }
 
+.truncated-text {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+}
+
 /* Custom fonts */
 @font-face {
     font-family: 'Calligraffitti';
