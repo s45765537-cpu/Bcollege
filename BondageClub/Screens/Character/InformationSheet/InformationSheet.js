@@ -108,7 +108,7 @@ function InformationSheetRun() {
 		let ownerLine = TextGet("Owner") + " " + (C.IsOwned() ? C.OwnerName() + (C.OwnerNumber() !== -1 ? " (" + C.OwnerNumber() + ")" : "") : TextGet("OwnerNone"));
 		DrawTextFit(ownerLine, 550, currentY, 450, "Black", "Gray");
 		currentY += spacing;
-		if (C.IsOwned()) {
+		if (C.IsOwned() && (C.IsOwned() != "ggts")) {
 			let stageLine = TextGet(!C.IsFullyOwned() ? "TrialFor" : "CollaredFor") + " " + C.OwnedSince().toString() + " " + TextGet("Days");
 			DrawTextFit(stageLine, 550, currentY, 450, "Black", "Gray");
 			currentY += spacing;
