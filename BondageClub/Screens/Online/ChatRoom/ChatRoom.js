@@ -2891,6 +2891,12 @@ function ChatRoomSendChat() {
  * @return {ServerChatRoomMessage}
  */
 function ChatRoomGenerateChatRoomChatMessage(type, msg) {
+	// Close an OOC message and not already closed with a )
+	if (Player.ChatSettings.OOCAutoclose && (msg.startsWith("(") && !msg.endsWith(")"))
+		&& msg.split("(").length - msg.split(")").length === 1) {
+		msg += ")";
+	}
+
 	// Chat messages are always garbled, unless the no speech restriction is lifted
 	let process = {
 		effects: [],
