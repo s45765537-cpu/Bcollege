@@ -418,22 +418,22 @@ function ServerPackItemPermissions(permissionItems) {
 /**
  * Unpack the quartet of blocked, limited, favorited and hidden item permissions into a single object
  * @param {Pick<Partial<ServerAccountDataSynced>, "BlockItems" | "LimitedItems" | "FavoriteItems" | "HiddenItems">} data - The item permission data as received from the server
- * @param {Character} C - The character in question
- * @returns {Partial<Record<`${AssetGroupName}/${string}`, ItemPermissions>>} - The packed item permission data
+ * @param {boolean} onExtreme - If the expected difficulty is Extreme
+ * @returns {{ permissions: Partial<Record<`${AssetGroupName}/${string}`, ItemPermissions>>; shouldSync: boolean }} - The packed item permission data
  */
-function ServerUnPackItemPermissions(data, C) {
-	/** @type {Partial<Record<`${AssetGroupName}/${string}`, ItemPermissions>>} */
-	const ret = {};
+function ServerUnPackItemPermissions(data, onExtreme) {
+	/** @type {{permissions: Partial<Record<`${AssetGroupName}/${string}`, ItemPermissions>>; shouldSync: boolean }} */
+	const ret = { permissions: {}, shouldSync: false };
 	if (!data) {
 		return ret;
 	}
 
 	/** @type {Set<string>} */
 	const limitedAssets = new Set(MainHallStrongLocks);
-	const onExtreme = C.Difficulty?.Level >= 3;
 	for (let [field, permissionObj] of CommonEntries(CommonPick(data, ["BlockItems", "LimitedItems", "FavoriteItems", "HiddenItems"]))) {
 		// Extreme never allows for hidden or blocked items (and only a tiny subset of limited items)
 		if (onExtreme && (field === "HiddenItems" || field === "BlockItems")) {
+			ret.shouldSync = true;
 			continue;
 		}
 
@@ -447,6 +447,8 @@ function ServerUnPackItemPermissions(data, C) {
 						for (const Type of assetPermissions) {
 							permissionArray.push({ Group, Name, Type });
 						}
+					} else {
+						ret.shouldSync = true;
 					}
 				}
 			}
@@ -461,6 +463,7 @@ function ServerUnPackItemPermissions(data, C) {
 				if (!asset) {
 					const fixup = LoginInventoryFixups.find(({ Old }) => Old.Group === Group && Old.Name === Name);
 					if (!fixup) {
+						ret.shouldSync = true;
 						continue;
 					}
 
@@ -470,11 +473,13 @@ function ServerUnPackItemPermissions(data, C) {
 				}
 
 				const key = /** @type {const} */(`${Group}/${Name}`);
-				const permission = ret[key] ??= PreferencePermissionGetDefault();
+				const permission = ret.permissions[key] ??= PreferencePermissionGetDefault();
 				switch (field) {
 					case "HiddenItems":
 						if (asset.Group.Clothing || !asset.Group.IsAppearance()) {
 							permission.Hidden = true;
+						} else {
+							ret.shouldSync = true;
 						}
 						break;
 					case "BlockItems":
@@ -498,10 +503,14 @@ function ServerUnPackItemPermissions(data, C) {
 							} else {
 								permission.Permission = "Limited";
 							}
+						} else {
+							ret.shouldSync = true;
 						}
 						break;
 				}
 			}
+		} else {
+			ret.shouldSync = true;
 		}
 	}
 	return ret;
