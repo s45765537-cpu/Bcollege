@@ -1849,7 +1849,7 @@ interface ChatSettingsType {
 	CensoredWordsLevel: number;
 	/** Whether to preserve the chat log when switching rooms */
 	PreserveChat: boolean;
-	OOCAutoclose: boolean;
+	AutoClose: boolean;
 }
 
 interface GameplaySettingsType {
