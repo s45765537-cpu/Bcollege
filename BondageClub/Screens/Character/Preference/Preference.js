@@ -527,7 +527,7 @@ function PreferenceInitPlayer() {
 	if (typeof C.ChatSettings.CensoredWordsList !== "string") C.ChatSettings.CensoredWordsList = "";
 	if (typeof C.ChatSettings.CensoredWordsLevel !== "number") C.ChatSettings.CensoredWordsLevel = 0;
 	if (typeof C.ChatSettings.PreserveChat !== "boolean") C.ChatSettings.PreserveChat = true;
-	if (typeof C.ChatSettings.AutoClose !== "boolean") C.ChatSettings.AutoClose = true;
+	if (typeof C.ChatSettings.OOCAutoClose !== "boolean") C.ChatSettings.OOCAutoClose = true;
 
 	// Visual settings
 	// @ts-ignore: Individual properties validated separately
@@ -1427,7 +1427,7 @@ function PreferenceSubscreenChatRun() {
 			DrawCheckbox(500, 732, 64, 64, TextGet("PreserveChat"), Player.ChatSettings.PreserveChat);
 			DrawCheckbox(1200, 572, 64, 64, TextGet("ShowAutomaticMessages"), Player.ChatSettings.ShowAutomaticMessages);
 			DrawCheckbox(1200, 652, 64, 64, TextGet("ShowBeepChat"), Player.ChatSettings.ShowBeepChat);
-			DrawCheckbox(1200 ,732, 64, 64, TextGet("AutoClose"), Player.ChatSettings.AutoClose);
+			DrawCheckbox(1200 ,732, 64, 64, TextGet("OOCAutoClose"), Player.ChatSettings.OOCAutoClose);
 			break;
 	}
 
@@ -2079,7 +2079,7 @@ function PreferenceSubscreenChatClick() {
 			} else if (MouseXIn(1200, 64)) {
 				if (MouseYIn(572, 64)) Player.ChatSettings.ShowAutomaticMessages = !Player.ChatSettings.ShowAutomaticMessages;
 				if (MouseYIn(652, 64)) Player.ChatSettings.ShowBeepChat = !Player.ChatSettings.ShowBeepChat;
-				if (MouseYIn(732, 64)) Player.ChatSettings.AutoClose = !Player.ChatSettings.AutoClose;
+				if (MouseYIn(732, 64)) Player.ChatSettings.OOCAutoClose = !Player.ChatSettings.OOCAutoClose;
 			}
 			break;
 	}

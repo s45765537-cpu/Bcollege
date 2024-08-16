@@ -2892,7 +2892,7 @@ function ChatRoomSendChat() {
  */
 function ChatRoomGenerateChatRoomChatMessage(type, msg) {
 	// Close an OOC message not already closed with a )
-	if (Player.ChatSettings.AutoClose && (msg.startsWith("(") && !msg.endsWith(")"))
+	if (Player.ChatSettings.OOCAutoClose && (msg.startsWith("(") && !msg.endsWith(")"))
 		&& msg.split("(").length - msg.split(")").length === 1) {
 		msg += ")";
 	}
