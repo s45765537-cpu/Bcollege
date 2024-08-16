@@ -2072,6 +2072,10 @@ function ClubCardRemoveFromBoard(CCPlayer, Card) {
 	}
 }
 
+/**
+ * Finds cards that left the board since last turn and runs their onLeaveClub effect
+ * @param {ClubCardPlayer} CCPlayer - The club card player who's board is being examined
+ */
 function ClubCardCardsLeftBoard(CCPlayer){
 	if (CCPlayer.PreviousBoard != null) {
 		for (const Card of CCPlayer.PreviousBoard.slice()) {
@@ -2576,7 +2580,7 @@ function ClubCardEndTurn(Draw = false) {
 			let Card = CCPlayer.Board[Pos];
 			if ((Card.Time != null) && (Card.Time > 0)) Card.Time--;
 			if (Card.Time <= 0) {
-				ClubCardLogPublish("Left", CCPlayer, null, Card);
+				ClubCardLogPublish("CardExpired", CCPlayer, null, Card);
 				CCPlayer.Board.splice(Pos, 1);
 				Pos--;
 			}
