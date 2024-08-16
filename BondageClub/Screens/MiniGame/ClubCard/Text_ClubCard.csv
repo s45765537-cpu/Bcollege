@@ -61,6 +61,7 @@ StealMoney,SOURCEPLAYER stole AMOUNT Money from OPPONENTPLAYER.
 MemberLeaveClub,CARDTITLE leaves SOURCEPLAYER's club.
 EventRemoved,CARDTITLE event is removed.
 EventExpired,CARDTITLE event has expired.
+CardExpired,CARDTITLE card has expired.
 ChatHere,Chat here...
 GroupLiability,Liability
 GroupStaff,Staff
@@ -396,3 +397,5 @@ Text Help Button,Return a member from your club to its owners deck, a random Mai
 Effect Help Button Draw,SOURCEPLAYER draws 1 card from Help Button
 Effect Help Button NO Draw,SOURCEPLAYER could not draw any cards from  Help Button
 Effect First Bell Draw, SOURCEPLAYER draws 1 card from First Bell
+Title Prodigious Patient,Prodigious Patient
+Text Prodigious Patient,When this member leaves your club, your opponent loses 15 fame and discards a random card. Leaves your club after 6 turns.
