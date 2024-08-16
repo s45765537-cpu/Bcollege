@@ -11,11 +11,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2024-08-09
-* Last recorded PR: [#5127](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5127)
-* Last recorded commit hash: `b0c06310637c1b72046ffd3454857fd3ef1aa87a`
-
-## [Generated]
+* Changelog last updated: 2024-08-16
+* Last recorded PR: [#5151](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5151)
+* Last recorded commit hash: `5fefb94614145f742a9c955f994dd3ef2a055e96`
 
 ## [R107]
 
@@ -30,6 +28,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Rama - Hide all non-visible layers by default from the layering screen ([#5125](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5125))
 * Estsanatlehi - Add HempRope cuffs ([#5130](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5130))
 * Estsanatlehi - Make /mappaste read from the clipboard + fix a follow-up crash ([#5139](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5139))
+* Estsanatlehi - Improved version of the stamp ([#5144](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5144))
 * Makeevchanin - Russian Translation
 * Ben987 - Chat Room Maps - Allow arousal meter zoom and manipulation
 * Ben987 - Chat Room Maps - New Expanding Floor Items
@@ -38,24 +37,33 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Ben987 - Chat Room Maps - Expanding Ball Pit
 * Ben987 - NPCs - New Succubus Archetype and Look
 * Ben987 - Slave Market - Meet Random Succubus Slaves and Buyers
+* Ben987 - GGTS - Hide "Collared For" in player sheet when owned by GGTS
 
 ### [Fixes]
 
 * Cleon - Fix some AnimeGirlBoots assets and adding some ArmbinderSuit instructions. ([#5141](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5141))
+* Haruhi - QualityHarnessGag ring version fix ([#5150](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5150))
 * Rama - Fix the pose icons in the shop not showing ([#5142](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5142))
 * Estsanatlehi - Fix a crash when lockpicking ([#5135](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5135))
 * Estsanatlehi - Fix a bug when validating arrays of strings ([#5138](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5138))
+* Estsanatlehi - Fix CI and the rubber mask ([#5145](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5145))
+* dDeepLb - Friend List Fixes ([#5148](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5148))
+* Manilla - Fix bound dragon wings ([#5143](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5143))
 * Ben987 - Teacher Outfit and Kneeling Spread pose compatibility
 * Ben987 - Yukata Cloth - Better compatibility for Over The Head and Yoked poses
 * Ben987 - Admiral Top sleeves in Yoked position
 * Ben987 - Sweater with Over the Head pose
 * Ben987 - Add MapImmobile effect on Personal Cage
+* Ben987 - Make Bondage Bustier compatible with OverTheHead and Yoked poses
+* Ben987 - Bondage Bustier 2 - OverTheHead and Yoked poses compatibility
 
 ### [Technical]
 
 * Rama - Various css button changes ([#5127](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5127))
+* Rama - Log error messages when attempting to create DOM elements with conflicting IDs ([#5147](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5147))
 * Estsanatlehi - Change the global event handlers to use lambdas ([#5131](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5131))
 * Estsanatlehi - Fix CI ([#5132](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5132))
+* Estsanatlehi - Stricter item validation and post-validation sync if something fails ([#5151](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5151))
 * Ben987 - Fixes to the Female3DCG invalid properties
 * Ben987 - Remove uneeded "Random: true" properties
 
