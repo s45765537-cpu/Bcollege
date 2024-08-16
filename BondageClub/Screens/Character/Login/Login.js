@@ -699,8 +699,11 @@ function LoginResponse(C) {
 			Player.CharacterID = C.ID.toString();
 			Player.OnlineID = C.ID.toString();
 			Player.MemberNumber = C.MemberNumber;
-			Player.PermissionItems = ServerUnPackItemPermissions(C, Player);
-			if (Array.isArray(C.BlockItems) || Array.isArray(C.LimitedItems)) ServerPlayerBlockItemsSync();
+			const { permissions, shouldSync } = ServerUnPackItemPermissions(C, C.Difficulty?.Level >= 3);
+			Player.PermissionItems = permissions;
+			if (shouldSync) {
+				ServerPlayerBlockItemsSync();
+			}
 			Player.ChatSearchFilterTerms = C.ChatSearchFilterTerms || "";
 
 			Player.Difficulty = C.Difficulty;
