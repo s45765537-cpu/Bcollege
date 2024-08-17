@@ -4086,7 +4086,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 			const whisperTarget = SenderCharacter.IsPlayer() ? ChatRoomCharacter.find(c => c.MemberNumber == data.Target) : SenderCharacter;
 			divChildren.push(
 				ElementButton.Create(
-					null, ChatRoomMessageNameClick, undefined,
+					null, ChatRoomMessageNameClick, { noStyling: true },
 					{ button: { classList: ["ReplyButton"], children: ["\u21a9\ufe0f"] } },
 				),
 				SenderCharacter.IsPlayer() ? TextGet("WhisperTo") : TextGetInScope("Screens/Online/ChatRoom/Text_ChatRoom.csv", "WhisperFrom"),
