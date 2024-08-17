@@ -4050,6 +4050,11 @@ interface ClubCard {
 	 * @param Card the card that was played
 	 */
 	onOpponentPlayedCard?: (C: ClubCardPlayer, Card: ClubCard) => void;
+	/**
+	 * Hook to run when card is removed from the board.
+	 * @param C Player that owns the card
+	 */
+	onLeaveClub?: (C: ClubCardPlayer) => void;
 }
 
 interface ClubCardPlayer {
@@ -4061,6 +4066,7 @@ interface ClubCardPlayer {
 	FullDeck: ClubCard[];
 	Hand: ClubCard[];
 	Board: ClubCard[];
+	PreviousBoard: ClubCard[];
 	Event: ClubCard[];
 	Level: number;
 	Money: number;
