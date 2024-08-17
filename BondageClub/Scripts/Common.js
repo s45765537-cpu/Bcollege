@@ -460,17 +460,17 @@ function CommonSetScreen(NewModule, NewScreen) {
 	CurrentScreenFunctions = {
 		Run: (time) => window[`${NewScreen}Run`](time),
 		Click: (e) => window[`${NewScreen}Click`](e),
-		MouseDown: (e) => typeof window[`${NewScreen}MouseDown`] === "function" ? window[`${NewScreen}MouseDown`](e) : undefined,
-		MouseUp: (e) => typeof window[`${NewScreen}MouseUp`] === "function" ? window[`${NewScreen}MouseUp`](e) : undefined,
-		MouseMove: (e) => typeof window[`${NewScreen}MouseMove`] === "function" ? window[`${NewScreen}MouseMove`](e) : undefined,
-		MouseWheel: (e) => typeof window[`${NewScreen}MouseWheel`] === "function" ? window[`${NewScreen}MouseWheel`](e) : undefined,
-		Draw: () => typeof window[`${NewScreen}Draw`] === "function" ? window[`${NewScreen}Draw`]() : undefined,
-		Load: () => typeof window[`${NewScreen}Load`] === "function" ? window[`${NewScreen}Load`]() : undefined,
-		Unload: () => typeof window[`${NewScreen}Unload`] === "function" ? window[`${NewScreen}Unload`]() : undefined,
-		Resize: (load) => typeof window[`${NewScreen}Resize`] === "function" ? window[`${NewScreen}Resize`](load) : undefined,
-		KeyDown: (e) => typeof window[`${NewScreen}KeyDown`] === "function" ? window[`${NewScreen}KeyDown`](e) : undefined,
-		KeyUp: (e) => typeof window[`${NewScreen}KeyUp`] === "function" ? window[`${NewScreen}KeyUp`](e) : undefined,
-		Exit: () => typeof window[`${NewScreen}Exit`] === "function" ? window[`${NewScreen}Exit`]() : undefined
+		MouseDown: typeof window[`${NewScreen}MouseDown`] === "function" ? (e) => window[`${NewScreen}MouseDown`](e) : undefined,
+		MouseUp: typeof window[`${NewScreen}MouseUp`] === "function" ? (e) => window[`${NewScreen}MouseUp`](e) : undefined,
+		MouseMove: typeof window[`${NewScreen}MouseMove`] === "function" ? (e) => window[`${NewScreen}MouseMove`](e) : undefined,
+		MouseWheel: typeof window[`${NewScreen}MouseWheel`] === "function" ? (e) => window[`${NewScreen}MouseWheel`](e) : undefined,
+		Draw: typeof window[`${NewScreen}Draw`] === "function" ? () => window[`${NewScreen}Draw`]() : undefined,
+		Load: typeof window[`${NewScreen}Load`] === "function" ? () => window[`${NewScreen}Load`]() : undefined,
+		Unload: typeof window[`${NewScreen}Unload`] === "function" ? () => window[`${NewScreen}Unload`]() : undefined,
+		Resize: typeof window[`${NewScreen}Resize`] === "function" ? (load) => window[`${NewScreen}Resize`](load) : undefined,
+		KeyDown: typeof window[`${NewScreen}KeyDown`] === "function" ? (e) => window[`${NewScreen}KeyDown`](e) : undefined,
+		KeyUp: typeof window[`${NewScreen}KeyUp`] === "function" ? (e) => window[`${NewScreen}KeyUp`](e) : undefined,
+		Exit: typeof window[`${NewScreen}Exit`] === "function" ? () => window[`${NewScreen}Exit`]() : undefined
 	};
 
 	CurrentDarkFactor = 1.0;
