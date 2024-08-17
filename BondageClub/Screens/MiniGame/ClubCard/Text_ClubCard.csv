@@ -61,7 +61,6 @@ StealMoney,SOURCEPLAYER stole AMOUNT Money from OPPONENTPLAYER.
 MemberLeaveClub,CARDTITLE leaves SOURCEPLAYER's club.
 EventRemoved,CARDTITLE event is removed.
 EventExpired,CARDTITLE event has expired.
-CardExpired,CARDTITLE card has expired.
 ChatHere,Chat here...
 GroupLiability,Liability
 GroupStaff,Staff
@@ -370,7 +369,7 @@ Text Teacher's Aide,<F>Aiding her teacher day and night
 Title Homeroom,Homeroom
 Text Homeroom,Can only be played if you control 3 or more College members. Both players cannot advance their club for 4 turns.
 Title Student Custodian,Student Custodian
-Text Student Custodian,"When the opponent plays an liability or event, if you control a teacher or staff, you draw a card and lose 1 money per opponent building level."
+Text Student Custodian,"If a Teacher or Staff is present, draw a card and lose 1 money per opposing club level when they play a liability or event."
 Effect Student Custodian,SOURCEPLAYER lost AMOUNT money and drew a card from Student Custodian
 Title Recess,Recess
 Text Recess,Draw 2 cards. Gain 2 money for each ABDL Baby and College Student present.
@@ -391,11 +390,13 @@ Text Quack Doctor,"Start of your turn, for each Asylum Patient present, players 
 Title Sophie,Sophie
 Text Sophie,Placeholder!!!!!!!
 Title Hypnotherapist,Hypnotherapist
-Text Hypnotherapist,When she enters your club, return all Tier 1 members to their owner's hands, then take another action.
+Text Hypnotherapist,"When she enters your club, return all Tier 1 members to their owner's hands, then take another action."
 Title Help Button,Help Button
-Text Help Button,Return a member from your club to its owners deck, a random Maid or Nurse of equal level joins your club from your deck.
+Text Help Button,"Return a member from your club to its owners deck, a random Maid or Nurse of equal level joins your club from your deck."
 Effect Help Button Draw,SOURCEPLAYER draws 1 card from Help Button
 Effect Help Button NO Draw,SOURCEPLAYER could not draw any cards from  Help Button
 Effect First Bell Draw, SOURCEPLAYER draws 1 card from First Bell
 Title Prodigious Patient,Prodigious Patient
-Text Prodigious Patient,When this member leaves your club, your opponent loses 15 fame and discards a random card. Leaves your club after 6 turns.
+Text Prodigious Patient,"When she leaves your club, your opponent loses 15 fame and discards a random card. Leaves your club after 6 turns."
+Title Theatre Nurse,Theatre Nurse
+Text Theatre Nurse,"When an asylum patient enters your club, gain 3 money and draw a card."

@@ -634,7 +634,7 @@ var ClubCardList = [
 	},
 	{
 		ID: 7009,
-		Name: "Theatre nurse",
+		Name: "Theatre Nurse",
 		Group: ["AsylumNurse"],
 		FamePerTurn: 1,
 		RequiredLevel: 3,
@@ -667,12 +667,14 @@ var ClubCardList = [
 		ID: 7011,
 		Name: "Prodigious Patient",
 		Group: ["AsylumPatient"],
-		MoneyPerTurn: 3,
-		RequiredLevel: 1,
-		Time: 4,
+		FamePerTurn: 2,
+		MoneyPerTurn: 2,
+		RequiredLevel: 4,
+		Time: 6,
 		onLeaveClub: function(CCPlayer) {
 			const opponent = ClubCardGetOpponent(CCPlayer);
 			ClubCardPlayerAddFame(opponent, -15);
+			ClubCardPlayerDiscardCard(opponent, 1);
 		}
 	},
 
@@ -2580,7 +2582,7 @@ function ClubCardEndTurn(Draw = false) {
 			let Card = CCPlayer.Board[Pos];
 			if ((Card.Time != null) && (Card.Time > 0)) Card.Time--;
 			if (Card.Time <= 0) {
-				ClubCardLogPublish("CardExpired", CCPlayer, null, Card);
+				ClubCardLogPublish("MemberLeaveClub", CCPlayer, null, Card);
 				CCPlayer.Board.splice(Pos, 1);
 				Pos--;
 			}
@@ -2827,8 +2829,6 @@ function ClubCardPlayCard(CCPlayer, Card) {
 			C.onOpponentPlayedCard(opponent, Card);
 		}
 	}
-
-	ClubCardCardsLeftBoard(CCPlayer);
 
 	// End the turn if needed
 	if (ClubCardTurnCardPlayed >= ClubCardTurnPlayableCardCount(CCPlayer)) return ClubCardEndTurn();
