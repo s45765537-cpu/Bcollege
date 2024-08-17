@@ -2891,9 +2891,14 @@ function ChatRoomSendChat() {
  * @return {ServerChatRoomMessage}
  */
 function ChatRoomGenerateChatRoomChatMessage(type, msg) {
-	// Close an OOC message not already closed with a )
-	if (Player.ChatSettings.OOCAutoClose && (msg.startsWith("(") && !msg.endsWith(")"))
-		&& msg.split("(").length - msg.split(")").length === 1) {
+	// Ensure the last OOC content range is closed with a )
+	const lastRange = SpeechGetOOCRanges(msg).pop();
+	if (
+		Player.ChatSettings.OOCAutoClose
+		&& lastRange !== undefined
+		&& msg.charAt(lastRange.start + lastRange.length - 1) !== ")"
+		&& lastRange.start + lastRange.length === msg.length
+		&& lastRange.length !== 1) {
 		msg += ")";
 	}
 
