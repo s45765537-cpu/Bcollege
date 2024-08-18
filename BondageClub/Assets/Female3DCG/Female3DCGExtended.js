@@ -12168,7 +12168,7 @@ var AssetFemale3DCGExtended = {
 					Name: "RingGag",
 					Property: {
 						Effect: [E.OpenMouth],
-					}
+					},
 				},
 			],
 			DialogPrefix: {
