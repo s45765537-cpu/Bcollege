@@ -5238,7 +5238,7 @@ ItemArmsArmbinderSuitSeth0,SourceCharacter removes the single heel boot from Des
 ItemArmsArmbinderSuitSeth1,SourceCharacter puts on the single heel boot on DestinationCharacterName feet.
 ItemArmsArmbinderSuitSeth2,SourceCharacter tights the DestinationCharacterName single heel boot with another belt.
 ItemArmsArmbinderSuitSeth3,SourceCharacter chains the DestinationCharacterName single heel boot on the ground.
-ItemHoodRubberMaskSelectBase,Rubber Mask hood version main menu
+ItemHoodRubberMaskSelectBase,Select Rubber Mask options
 ItemHoodRubberMaskModuleMode,Mask base
 ItemHoodRubberMaskSelectMode,Mask base menu
 ItemHoodRubberMaskOptionm0,Mask mode
@@ -5294,7 +5294,7 @@ ItemHoodRubberMaskOptionl3,Vampire neutral
 ItemHoodRubberMaskOptionl4,Vampire serious
 ItemHoodRubberMaskOptionl5,Vampire open mouth
 ItemHoodRubberMaskModuleGag,Additional gag
-ItemHoodRubberMaskSelectGag,Suplemental mask gag menu
+ItemHoodRubberMaskSelectGag,Supplemental mask gag menu
 ItemHoodRubberMaskOptiona0,None
 ItemHoodRubberMaskOptiona1,Single duct tape piece
 ItemHoodRubberMaskOptiona2,Horror gag
@@ -5337,7 +5337,7 @@ ItemHoodRubberMaskSetl5,SourceCharacter chooses a open mouth vampire expression 
 ItemHoodRubberMaskSeta0,SourceCharacter removes any rubber mask gag from DestinationCharacterName mouth.
 ItemHoodRubberMaskSeta1,SourceCharacter gags DestinationCharacterName with a single piece of duct tape.
 ItemHoodRubberMaskSeta2,SourceCharacter gags DestinationCharacterName totally locking TargetPronounObject mouth with the Horror Gag.
-MaskRubberMaskSelectBase,Rubber Mask cloth version main menu
+MaskRubberMaskSelectBase,Select Rubber Mask options
 MaskRubberMaskModuleWig,Hair and Wig
 MaskRubberMaskSelectWig,Hair and wig menu
 MaskRubberMaskOptiong0,Default hair
