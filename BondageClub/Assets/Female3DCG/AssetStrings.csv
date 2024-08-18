@@ -5238,7 +5238,7 @@ ItemArmsArmbinderSuitSeth0,SourceCharacter removes the single heel boot from Des
 ItemArmsArmbinderSuitSeth1,SourceCharacter puts on the single heel boot on DestinationCharacterName feet.
 ItemArmsArmbinderSuitSeth2,SourceCharacter tights the DestinationCharacterName single heel boot with another belt.
 ItemArmsArmbinderSuitSeth3,SourceCharacter chains the DestinationCharacterName single heel boot on the ground.
-ItemHoodRubberMaskSelectBase,Rubber Mask hood version main menu
+ItemHoodRubberMaskSelectBase,Select Rubber Mask options
 ItemHoodRubberMaskModuleMode,Mask base
 ItemHoodRubberMaskSelectMode,Mask base menu
 ItemHoodRubberMaskOptionm0,Mask mode
@@ -5294,7 +5294,7 @@ ItemHoodRubberMaskOptionl3,Vampire neutral
 ItemHoodRubberMaskOptionl4,Vampire serious
 ItemHoodRubberMaskOptionl5,Vampire open mouth
 ItemHoodRubberMaskModuleGag,Additional gag
-ItemHoodRubberMaskSelectGag,Suplemental mask gag menu
+ItemHoodRubberMaskSelectGag,Supplemental mask gag menu
 ItemHoodRubberMaskOptiona0,None
 ItemHoodRubberMaskOptiona1,Single duct tape piece
 ItemHoodRubberMaskOptiona2,Horror gag
@@ -5323,6 +5323,10 @@ ItemHoodRubberMaskSetg14,SourceCharacter puts the wig N on the DestinationCharac
 ItemHoodRubberMaskSete0,SourceCharacter chooses a normal eye expression in DestinationCharacterName mask.
 ItemHoodRubberMaskSete1,SourceCharacter chooses a closed eye expression in DestinationCharacterName mask.
 ItemHoodRubberMaskSete2,SourceCharacter chooses a wide open eye expression in DestinationCharacterName mask.
+ItemHoodRubberMaskSete3,SourceCharacter chooses a scared eye expression in DestinationCharacterName mask.
+ItemHoodRubberMaskSete4,SourceCharacter chooses a feline eye expression in DestinationCharacterName mask.
+ItemHoodRubberMaskSete5,SourceCharacter chooses a feline wide open eye expression in DestinationCharacterName mask.
+ItemHoodRubberMaskSete6,SourceCharacter chooses a feline scared eye expression in DestinationCharacterName mask.
 ItemHoodRubberMaskSety0,SourceCharacter chooses a neutral eyebrow expression in DestinationCharacterName mask.
 ItemHoodRubberMaskSety1,SourceCharacter chooses a sad eyebrow expression in DestinationCharacterName mask.
 ItemHoodRubberMaskSety2,SourceCharacter chooses a angry eyebrow expression in DestinationCharacterName mask.
@@ -5337,7 +5341,7 @@ ItemHoodRubberMaskSetl5,SourceCharacter chooses a open mouth vampire expression 
 ItemHoodRubberMaskSeta0,SourceCharacter removes any rubber mask gag from DestinationCharacterName mouth.
 ItemHoodRubberMaskSeta1,SourceCharacter gags DestinationCharacterName with a single piece of duct tape.
 ItemHoodRubberMaskSeta2,SourceCharacter gags DestinationCharacterName totally locking TargetPronounObject mouth with the Horror Gag.
-MaskRubberMaskSelectBase,Rubber Mask cloth version main menu
+MaskRubberMaskSelectBase,Select Rubber Mask options
 MaskRubberMaskModuleWig,Hair and Wig
 MaskRubberMaskSelectWig,Hair and wig menu
 MaskRubberMaskOptiong0,Default hair
