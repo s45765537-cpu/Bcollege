@@ -12841,7 +12841,279 @@ var AssetFemale3DCGExtended = {
 		}, // DroneMask
 		RubberMask: {
 			Archetype: ExtendedArchetype.MODULAR,
-			CopyConfig: { GroupName: "ItemHood", AssetName: "RubberMask" },
+			Modules: [
+				{
+					Name: "Wig",
+					Key: "g",
+					Options: [
+						{
+							// "Normal"
+							Property: {
+								Hide: ["HairAccessory1", "HairAccessory2"],
+								Effect: [],
+							},
+						},
+						{
+							// "Wig1"
+							Property: {
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+								],
+								Effect: [],
+							},
+						},
+						{
+							// "Wig2"
+							Property: {
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+								],
+								Effect: [],
+							},
+						},
+						{
+							// "Wig3"
+							Property: {
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+								],
+								Effect: [],
+							},
+						},
+						{
+							// "Wig4"
+							Property: {
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+								],
+								Effect: [],
+							},
+						},
+						{
+							// "Wig5"
+							Property: {
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+								],
+								Effect: [],
+							},
+						},
+						{
+							// "Wig6"
+							Property: {
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+								],
+								Effect: [],
+							},
+						},
+						{
+							// "Wig7"
+							Property: {
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+								],
+								Effect: [],
+							},
+						},
+						{
+							// "Wig8"
+							Property: {
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+								],
+								Effect: [],
+							},
+						},
+						{
+							// "Wig9"
+							Property: {
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+								],
+								Effect: [],
+							},
+						},
+						{
+							// "Wig10"
+							Property: {
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+								],
+								Effect: [],
+							},
+						},
+						{
+							// "Wig11"
+							Property: {
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+								],
+								Effect: [],
+							},
+						},
+						{
+							// "Wig12"
+							Property: {
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+								],
+								Effect: [],
+							},
+						},
+						{
+							// "Wig13"
+							Property: {
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+								],
+								Effect: [],
+							},
+						},
+						{
+							// "Wig14"
+							Property: {
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+								],
+								Effect: [],
+							},
+						},
+					],
+				},
+				{
+					Name: "Eyes",
+					Key: "e",
+					Options: [
+						{
+							// "Eyes0"
+							Property: { Effect: [] },
+						},
+						{
+							// "Eyes1"
+							Property: { Effect: [] },
+						},
+						{
+							// "Eyes2"
+							Property: { Effect: [] },
+						},
+						{
+							// "Eyes3"
+							Property: { Effect: [] },
+						},
+						{
+							// "Eyes4"
+							Property: { Effect: [] },
+						},
+						{
+							// "Eyes5"
+							Property: { Effect: [] },
+						},
+						{
+							// "Eyes6"
+							Property: { Effect: [] },
+						},
+					],
+				},
+				{
+					Name: "Eyebrows",
+					Key: "y",
+					Options: [
+						{
+							// "Eyebrows0"
+							Property: { Effect: [] },
+						},
+						{
+							// "Eyebrows1"
+							Property: { Effect: [] },
+						},
+						{
+							// "Eyebrows2"
+							Property: { Effect: [] },
+						},
+						{
+							// "Eyebrows3"
+							Property: { Effect: [] },
+						},
+						{
+							// "Eyebrows4"
+							Property: { Effect: [] },
+						},
+					],
+				},
+				{
+					Name: "Lips",
+					Key: "l",
+					Options: [
+						{
+							// "Lips0"
+							Property: { Effect: [] },
+						},
+						{
+							// "Lips1"
+							Property: { Effect: [] },
+						},
+						{
+							// "Lips2"
+							Property: { Effect: [] },
+						},
+						{
+							// "Lips3"
+							Property: { Effect: [] },
+						},
+						{
+							// "Lips4"
+							Property: { Effect: [] },
+						},
+						{
+							// "Lips5"
+							Property: { Effect: [] },
+						},
+					],
+				},
+			],
 		}, // RubberMask
 	}, // Mask
 	ItemLegs: {
