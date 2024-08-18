@@ -130,6 +130,12 @@ function KidnapSetMode(NewMode) {
 			KidnapOpponent.FocusGroup = /** @type {AssetItemGroup} */ (AssetGroupGet("Female3DCG", "ItemArms"));
 			KidnapInventoryBuild();
 			NewMode = (KidnapOpponent.FocusGroup != null) ? "SelectItem" : "End";
+			// Dress player and remove restraints
+			if ((InventoryGet(Player, "Cloth") == null) && (KidnapPlayerCloth != null)) InventoryWear(Player, KidnapPlayerCloth.Asset.Name, "Cloth", KidnapPlayerCloth.Color);
+			if ((InventoryGet(Player, "ClothAccessory") == null) && (KidnapPlayerClothAccessory != null)) InventoryWear(Player, KidnapPlayerClothAccessory.Asset.Name, "ClothAccessory", KidnapPlayerClothAccessory.Color);
+			if ((InventoryGet(Player, "ClothLower") == null) && (KidnapPlayerClothLower != null)) InventoryWear(Player, KidnapPlayerClothLower.Asset.Name, "ClothLower", KidnapPlayerClothLower.Color);
+			if ((InventoryGet(Player, 'ItemFeet') != null) && (!InventoryItemHasEffect(InventoryGet(Player, 'ItemFeet'), "Lock", true))) InventoryRemove(Player, 'ItemFeet');
+			if ((InventoryGet(Player, 'ItemMouth') != null) && (!InventoryItemHasEffect(InventoryGet(Player, 'ItemMouth'), "Lock", true))) InventoryRemove(Player, 'ItemMouth');
 			KidnapVictory = true;
 		} else NewMode = "End";
 	}
