@@ -9,15 +9,13 @@
 	--image-color: white;
 	--text-color: white;
 	--row-height: min(8dvh, 4dvw);
-	--friend-list-height: calc(100dvh - (var(--row-height) * 2) - (var(--small-gap) * 2));
-	--small-gap: min(1dvh, 0.5dvw);
+	--friend-list-height: calc(min(100dvh, 50dvw) - (var(--row-height) * 2) - (var(--small-gap) * 4));
+	--small-gap: min(0.4dvh, 0.2dvw);
 
 	box-sizing: border-box;
 	border: var(--border-width) var(--border-color) var(--border-style);
 	overflow: hidden;
 	padding: 0;
-
-	backdrop-filter: blur(5px);
 }
 
 #friend-list-subscreen * {
@@ -72,7 +70,6 @@
 
 #friend-list-header .friend-list-link {
 	text-decoration: none;
-	font-weight: 600;
 }
 
 #friend-list-header-hr {
@@ -112,6 +109,8 @@
 
 /* #region FRIENDLIST */
 #friend-list {
+	--row-height: min(6dvh, 3dvw);
+
 	display: flex;
 	flex-direction: column;
 	overflow-y: auto;
@@ -144,6 +143,8 @@
 	float: left;
 	width: 22%;
 	text-align: center;
+	text-wrap: nowrap;
+	white-space: preserve;
 }
 
 #friend-list .friend-list-column {
