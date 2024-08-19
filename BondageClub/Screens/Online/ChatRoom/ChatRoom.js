@@ -1138,6 +1138,10 @@ function ChatRoomShowElements() {
 	const elem = document.getElementById("chat-room-div");
 	if (elem) {
 		elem.style.display = "";
+
+		// We can't accurately keep track of the scroll height within the likes of `ChatRoomAppendChat` when an element is hidden via `display: none`,
+		// so as a compromise just scroll to the very bottom of the chat log when unhiding (which should be desireable in the majority cases)
+		ElementScrollToEnd("TextAreaChatLog");
 	}
 	ChatRoomChatHidden = false;
 }
