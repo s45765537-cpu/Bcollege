@@ -1032,7 +1032,7 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 	Char.LimitedItems = /** @type {never} */([]);
 	Char.FavoriteItems = /** @type {never} */([]);
 	if (!Char.IsPlayer()) {
-		Char.PermissionItems = ServerUnPackItemPermissions(data, Char.GetDifficulty() >= 3);
+		Char.PermissionItems = ServerUnPackItemPermissions(data, Char.GetDifficulty() >= 3).permissions;
 		Char.WhiteList = ServerAccountDataSyncedValidate.WhiteList(data.WhiteList, Char);
 		Char.BlackList = ServerAccountDataSyncedValidate.BlackList(data.BlackList, Char);
 	}
