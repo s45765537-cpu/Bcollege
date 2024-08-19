@@ -2247,7 +2247,7 @@ var AssetFemale3DCGExtended = {
 							// b5 - Force kneel
 							Property: {
 								SetPose: ["BackElbowTouch", "Kneel"],
-								Effect: [E.Block, E.Freeze, E.Tethered, E.MapImmobile],
+								Effect: [E.Freeze, E.Tethered, E.MapImmobile],
 								Difficulty: 12,
 							},
 						},
@@ -2318,7 +2318,7 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								SetPose: ["BackElbowTouch", "LegsClosed"],
 								AllowActivePose: ["Kneel"],
-								Effect: [E.Block, E.Freeze],
+								Effect: [E.Freeze],
 								Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 								Difficulty: 6,
 							},
@@ -2362,7 +2362,7 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								SetPose: ["BackElbowTouch", "LegsClosed"],
 								AllowActivePose: ["Kneel"],
-								Effect: [E.Block, E.Freeze],
+								Effect: [E.Freeze],
 								Block: ["ItemBoots"],
 								Difficulty: 8,
 							},
@@ -2373,7 +2373,7 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								SetPose: ["BackElbowTouch", "LegsClosed"],
 								AllowActivePose: ["Kneel"],
-								Effect: [E.Block, E.Freeze, E.Tethered, E.MapImmobile],
+								Effect: [E.Freeze, E.Tethered, E.MapImmobile],
 								Block: ["ItemFeet", "ItemBoots", "ItemAddon"],
 								Difficulty: 12,
 							},
