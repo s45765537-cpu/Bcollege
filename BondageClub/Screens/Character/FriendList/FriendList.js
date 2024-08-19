@@ -568,12 +568,12 @@ function FriendListLoadFriendList(data) {
 		Submissive: './Icons/Small/Family.png',
 		Friend: './Icons/Small/FriendList.png'
 	};
-	const sortingSymbol = FriendListSortingDirection === "Asc" ? "▲" : "▼";
+	const sortingSymbol = FriendListSortingDirection === "Asc" ? "↑" : "↓";
+	const friendListScrollPercent = ElementGetScrollPercentage(FriendListIDs.friendList) || 0;
 	const friendList = document.getElementById(FriendListIDs.friendList);
 	friendList.innerHTML = "";
 
 	const FriendListContent = [];
-	const friendListScrollPercent = ElementGetScrollPercentage(FriendListIDs.friendList) || 0;
 
 	const mode = FriendListMode[FriendListModeIndex];
 
@@ -595,10 +595,10 @@ function FriendListLoadFriendList(data) {
 	if (infoChanged) ServerPlayerRelationsSync();
 
 	const columnHeaders = {
-		"friend-list-member-name": `${TextGet("MemberName")} ${FriendListSortingMode === "MemberName" ? sortingSymbol : ""}`,
-		"friend-list-member-number": `${TextGet("MemberNumber")} ${FriendListSortingMode === "MemberNumber" ? sortingSymbol : ""}`,
-		"friend-list-chat-room-name": `${TextGet("ChatRoomName")} ${FriendListSortingMode === "ChatRoomName" ? sortingSymbol : ""}`,
-		"friend-list-relation-type": `${TextGet("FriendType")} ${FriendListSortingMode === "RelationType" ? sortingSymbol : ""}`,
+		"friend-list-member-name": `${TextGet("MemberName")} ${FriendListSortingMode === "MemberName" ? sortingSymbol : "↕"}`,
+		"friend-list-member-number": `${TextGet("MemberNumber")} ${FriendListSortingMode === "MemberNumber" ? sortingSymbol : "↕"}`,
+		"friend-list-chat-room-name": `${TextGet("ChatRoomName")} ${FriendListSortingMode === "ChatRoomName" ? sortingSymbol : "↕"}`,
+		"friend-list-relation-type": `${TextGet("FriendType")} ${FriendListSortingMode === "RelationType" ? sortingSymbol : "↕"}`,
 	};
 	CommonEntries(columnHeaders).forEach(([id, textContent]) => {
 		const elem = document.getElementById(id);
@@ -624,7 +624,7 @@ function FriendListLoadFriendList(data) {
 			if (chatRoomName) rawCaption.push(chatRoomName);
 			if (rawCaption.length === 0) rawCaption.push('-');
 
-			caption = `<span>${rawCaption.join(' - ')}</span>`;
+			caption = rawCaption.join(' - ');
 
 			friendRawData.push({
 				memberName: friend.MemberName,
@@ -656,7 +656,7 @@ function FriendListLoadFriendList(data) {
 			if (chatRoomName) rawRoomCaption.push(chatRoomName);
 			if (rawRoomCaption.length === 0) rawRoomCaption.push('-');
 
-			chatRoomCaption = `<span>${rawRoomCaption.join(' - ')}</span>`;
+			chatRoomCaption = rawRoomCaption.join(' - ');
 
 			const rawBeepCaption = [];
 			if (beepData.Sent) {

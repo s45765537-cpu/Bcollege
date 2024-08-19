@@ -6,8 +6,8 @@ MemberNickname,Nickname
 MemberNumber,Member number
 ChatRoomName,Chat room
 FriendType,Relation type
-ActionFriends,Send a beep
-ActionDelete,Delete a friend
+ActionFriends,Send a Beep
+ActionDelete,Delete a Friend
 AutoRefresh,Toggle 30 sec auto-refresh
 Refresh,Refresh
 ResetSorting,Reset sorting
