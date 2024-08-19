@@ -1043,17 +1043,13 @@ function CraftingClick(event) {
 		} else if (MouseIn(1175, 768, 64, 64)) {
 			CraftingSelectedItem.Private = !CraftingSelectedItem.Private;
 		} else if (MouseIn(1175, 858, 60, 60) && CraftingSelectedItem.Asset.Archetype) {
-			const item = CraftingPreview.Appearance.find(i => {
-				return i.Asset.Name === CraftingSelectedItem.Asset.Name && i.Asset.DynamicGroupName === CraftingSelectedItem.Asset.DynamicGroupName;
-			});
+			const item = CraftingPreview.Appearance.find(i => i.Asset === CraftingSelectedItem.Asset);
 			if (item !== undefined) {
 				DialogExtendItem(item);
 				CraftingModeSet("Extended");
 			}
 		} else if (MouseIn(1276, 683, 60, 60)) {
-			const item = CraftingPreview.Appearance.find(i => {
-				return i.Asset.Name === CraftingSelectedItem.Asset.Name && i.Asset.DynamicGroupName === CraftingSelectedItem.Asset.DynamicGroupName;
-			});
+			const item = CraftingPreview.Appearance.find(i => i.Asset === CraftingSelectedItem.Asset);
 			if (item !== undefined) {
 				Layering.Init(item, CraftingPreview, {
 					x: Layering.DisplayDefault.x,
