@@ -1694,11 +1694,9 @@ function ChatRoomStimulationMessage(Action) {
  * @type {ScreenFunctions["Resize"]}
  */
 function ChatRoomResize(load) {
-	const elem = document.getElementById("chat-room-div");
 	const chatInput = document.getElementById("InputChat");
-	if (elem && chatInput && elem.style.display !== "none") {
+	if (chatInput) {
 		ElementPositionFix("chat-room-div", ChatRoomFontSize, ...ChatRoomDivRect);
-		elem.style.display = "";
 		chatInput.dispatchEvent(new Event("input"));
 	}
 }
