@@ -22,46 +22,77 @@ function PreferenceSubscreenChatLoad() {
 	PreferenceChatFontSizeIndex = (PreferenceChatFontSizeList.indexOf(Player.ChatSettings.FontSize)) < 0 ? 1 : PreferenceChatFontSizeList.indexOf(Player.ChatSettings.FontSize);
 }
 
+
+/** @type {{label: string, check: () => boolean, click: () => void}[]} */
+const PreferenceSubscreenChatCheckboxes = [
+	{ label: "ColorNames", check: () => Player.ChatSettings.ColorNames, click: () => Player.ChatSettings.ColorNames = !Player.ChatSettings.ColorNames },
+	{ label: "ColorActions", check: () => Player.ChatSettings.ColorActions, click: () => Player.ChatSettings.ColorActions = !Player.ChatSettings.ColorActions },
+	{ label: "ColorEmotes", check: () => Player.ChatSettings.ColorEmotes, click: () => Player.ChatSettings.ColorEmotes = !Player.ChatSettings.ColorEmotes },
+	{ label: "ShowActivities", check: () => Player.ChatSettings.ShowActivities, click: () => Player.ChatSettings.ShowActivities = !Player.ChatSettings.ShowActivities },
+	{ label: "PreserveWhitespace", check: () => Player.ChatSettings.WhiteSpace == "Preserve", click: () => Player.ChatSettings.WhiteSpace = Player.ChatSettings.WhiteSpace == "Preserve" ? "" : "Preserve" },
+	{ label: "ColorActivities", check: () => Player.ChatSettings.ColorActivities, click: () => Player.ChatSettings.ColorActivities = !Player.ChatSettings.ColorActivities },
+	{ label: "ShrinkNonDialogue", check: () => Player.ChatSettings.ShrinkNonDialogue, click: () => Player.ChatSettings.ShrinkNonDialogue = !Player.ChatSettings.ShrinkNonDialogue },
+	{ label: "MuStylePoses", check: () => Player.ChatSettings.MuStylePoses, click: () => Player.ChatSettings.MuStylePoses = !Player.ChatSettings.MuStylePoses },
+	{ label: "DisplayTimestamps", check: () => Player.ChatSettings.DisplayTimestamps, click: () => Player.ChatSettings.DisplayTimestamps = !Player.ChatSettings.DisplayTimestamps },
+	{ label: "ShowChatRoomHelp", check: () => Player.ChatSettings.ShowChatHelp, click: () => Player.ChatSettings.ShowChatHelp = !Player.ChatSettings.ShowChatHelp },
+	{
+		label: "PreserveChat",
+		check: () => Player.ChatSettings.PreserveChat,
+		click: () => {
+			Player.ChatSettings.PreserveChat = !Player.ChatSettings.PreserveChat;
+			const roomSeps = /** @type {HTMLDivElement[]} */(Array.from(document.querySelectorAll("#TextAreaChatLog .chat-room-sep")));
+			if (Player.ChatSettings.PreserveChat) {
+				roomSeps.forEach(e => e.style.display = "");
+			}
+		}
+	},
+	{ label: "ShowAutomaticMessages", check: () => Player.ChatSettings.ShowAutomaticMessages, click: () => Player.ChatSettings.ShowAutomaticMessages = !Player.ChatSettings.ShowAutomaticMessages },
+	{ label: "ShowBeepChat", check: () => Player.ChatSettings.ShowBeepChat, click: () => Player.ChatSettings.ShowBeepChat = !Player.ChatSettings.ShowBeepChat },
+	{ label: "OOCAutoClose", check: () => Player.ChatSettings.OOCAutoClose, click: () => Player.ChatSettings.OOCAutoClose = !Player.ChatSettings.OOCAutoClose },
+];
+
+/** @type {CommonGenerateGridParameters} */
+const PreferenceSubscreenChatCheckboxGrid = {
+	x: 500,
+	y: 360,
+	width: 1400,
+	height: 500,
+	itemWidth: 700,
+	itemHeight: 64,
+	itemMarginY: 8,
+	direction: "vertical",
+};
+
 /**
  * Sets the chat preferences for the player. Redirected to from the main Run function if the player is in the chat
  * settings subscreen.
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenChatRun() {
+	DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
+
+	MainCanvas.textAlign = "center";
+	// PreferencePageChangeDraw(1595, 75, 2);
+
 	MainCanvas.textAlign = "left";
 	DrawText(TextGet("ChatPreferences"), 500, 125, "Black", "Gray");
-	DrawText(TextGet("ColorTheme"), 500, 200, "Black", "Gray");
-	DrawText(TextGet("EnterLeaveStyle"), 500, 280, "Black", "Gray");
-	DrawText(TextGet("DisplayMemberNumbers"), 500, 360, "Black", "Gray");
-	DrawText(TextGet("FontSize"), 500, 440, "Black", "Gray");
 
-	switch (PreferenceChatPageIndex) {
-		case 0:
-			DrawCheckbox(500, 572, 64, 64, TextGet("ColorNames"), Player.ChatSettings.ColorNames);
-			DrawCheckbox(500, 652, 64, 64, TextGet("ColorActions"), Player.ChatSettings.ColorActions);
-			DrawCheckbox(500, 732, 64, 64, TextGet("ColorEmotes"), Player.ChatSettings.ColorEmotes);
-			DrawCheckbox(500, 812, 64, 64, TextGet("ShowActivities"), Player.ChatSettings.ShowActivities);
-			DrawCheckbox(1200, 572, 64, 64, TextGet("PreserveWhitespace"), Player.ChatSettings.WhiteSpace == "Preserve");
-			DrawCheckbox(1200, 652, 64, 64, TextGet("ColorActivities"), Player.ChatSettings.ColorActivities);
-			DrawCheckbox(1200, 732, 64, 64, TextGet("ShrinkNonDialogue"), Player.ChatSettings.ShrinkNonDialogue);
-			DrawCheckbox(1200, 812, 64, 64, TextGet("MuStylePoses"), Player.ChatSettings.MuStylePoses);
-			break;
-		case 1:
-			DrawCheckbox(500, 572, 64, 64, TextGet("DisplayTimestamps"), Player.ChatSettings.DisplayTimestamps);
-			DrawCheckbox(500, 652, 64, 64, TextGet("ShowChatRoomHelp"), Player.ChatSettings.ShowChatHelp);
-			DrawCheckbox(500, 732, 64, 64, TextGet("PreserveChat"), Player.ChatSettings.PreserveChat);
-			DrawCheckbox(1200, 572, 64, 64, TextGet("ShowAutomaticMessages"), Player.ChatSettings.ShowAutomaticMessages);
-			DrawCheckbox(1200, 652, 64, 64, TextGet("ShowBeepChat"), Player.ChatSettings.ShowBeepChat);
-			DrawCheckbox(1200 ,732, 64, 64, TextGet("OOCAutoClose"), Player.ChatSettings.OOCAutoClose);
-			break;
-	}
+	DrawText(TextGet("ColorTheme"), 500, 210, "Black", "Gray");
+	PreferenceDrawBackNextButton(680, 180, 350, 60, PreferenceChatColorThemeList, PreferenceChatColorThemeIndex);
+	DrawText(TextGet("FontSize"), 500, 300, "Black", "Gray");
+	PreferenceDrawBackNextButton(680, 270, 350, 60, PreferenceChatFontSizeList, PreferenceChatFontSizeIndex);
 
-	PreferenceDrawBackNextButton(1000, 170, 350, 60, PreferenceChatColorThemeList, PreferenceChatColorThemeIndex);
-	PreferenceDrawBackNextButton(1000, 250, 350, 60, PreferenceChatEnterLeaveList, PreferenceChatEnterLeaveIndex);
-	PreferenceDrawBackNextButton(1000, 330, 350, 60, PreferenceChatMemberNumbersList, PreferenceChatMemberNumbersIndex);
-	PreferenceDrawBackNextButton(1000, 410, 350, 60, PreferenceChatFontSizeList, PreferenceChatFontSizeIndex);
-	PreferenceDrawBackNextButton(1000, 490, 350, 60, PreferenceChatPageList.map(i => `ChatSettingsPage${i}`), PreferenceChatPageIndex);
-	DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
+	DrawText(TextGet("EnterLeaveStyle"), 1090, 210, "Black", "Gray");
+	PreferenceDrawBackNextButton(1550, 180, 350, 60, PreferenceChatEnterLeaveList, PreferenceChatEnterLeaveIndex);
+	DrawText(TextGet("DisplayMemberNumbers"), 1090, 300, "Black", "Gray");
+	PreferenceDrawBackNextButton(1550, 270, 350, 60, PreferenceChatMemberNumbersList, PreferenceChatMemberNumbersIndex);
+
+	CommonGenerateGrid(PreferenceSubscreenChatCheckboxes, 0, PreferenceSubscreenChatCheckboxGrid, (item, x, y) => {
+		const { label, check } = item;
+		DrawCheckbox(x, y, 64, 64, TextGet(label), check());
+		return false;
+	});
+
 	DrawCharacter(Player, 50, 50, 0.9);
 }
 
@@ -70,42 +101,11 @@ function PreferenceSubscreenChatRun() {
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenChatClick() {
-	// If the user clicked one of the check-boxes
-	switch (PreferenceChatPageIndex) {
-		case 0:
-			if (MouseXIn(500, 64)) {
-				if (MouseYIn(572, 64)) Player.ChatSettings.ColorNames = !Player.ChatSettings.ColorNames;
-				if (MouseYIn(652, 64)) Player.ChatSettings.ColorActions = !Player.ChatSettings.ColorActions;
-				if (MouseYIn(732, 64)) Player.ChatSettings.ColorEmotes = !Player.ChatSettings.ColorEmotes;
-				if (MouseYIn(812, 64)) Player.ChatSettings.ShowActivities = !Player.ChatSettings.ShowActivities;
-			} else if (MouseXIn(1200, 64)) {
-				if (MouseYIn(572, 64)) Player.ChatSettings.WhiteSpace = Player.ChatSettings.WhiteSpace == "Preserve" ? "" : "Preserve";
-				if (MouseYIn(652, 64)) Player.ChatSettings.ColorActivities = !Player.ChatSettings.ColorActivities;
-				if (MouseYIn(732, 64)) Player.ChatSettings.ShrinkNonDialogue = !Player.ChatSettings.ShrinkNonDialogue;
-				if (MouseYIn(812, 64)) Player.ChatSettings.MuStylePoses = !Player.ChatSettings.MuStylePoses;
-			}
-			break;
-		case 1:
-			if (MouseXIn(500, 64)) {
-				if (MouseYIn(572, 64)) Player.ChatSettings.DisplayTimestamps = !Player.ChatSettings.DisplayTimestamps;
-				if (MouseYIn(652, 64)) Player.ChatSettings.ShowChatHelp = !Player.ChatSettings.ShowChatHelp;
-				if (MouseYIn(732, 64)) {
-					// Make the room separator visible upon enabling `PreserveChat`
-					Player.ChatSettings.PreserveChat = !Player.ChatSettings.PreserveChat;
-					const roomSeps = /** @type {HTMLDivElement[]} */(Array.from(document.querySelectorAll("#TextAreaChatLog .chat-room-sep")));
-					if (Player.ChatSettings.PreserveChat) {
-						roomSeps.forEach(e => e.style.display = "");
-					}
-				}
-			} else if (MouseXIn(1200, 64)) {
-				if (MouseYIn(572, 64)) Player.ChatSettings.ShowAutomaticMessages = !Player.ChatSettings.ShowAutomaticMessages;
-				if (MouseYIn(652, 64)) Player.ChatSettings.ShowBeepChat = !Player.ChatSettings.ShowBeepChat;
-				if (MouseYIn(732, 64)) Player.ChatSettings.OOCAutoClose = !Player.ChatSettings.OOCAutoClose;
-			}
-			break;
-	}
+	// If the user clicked the exit icon to return to the main screen
+	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenExit();
 
-	// If the user used one of the BackNextButtons
+	// PreferencePageChangeClick(1595, 75, 2);
+
 	if (MouseIn(1000, 170, 350, 60)) {
 		if (MouseX <= 1175) PreferenceChatColorThemeIndex = PreferenceGetPreviousIndex(PreferenceChatColorThemeList, PreferenceChatColorThemeIndex);
 		else PreferenceChatColorThemeIndex = PreferenceGetNextIndex(PreferenceChatColorThemeList, PreferenceChatColorThemeIndex);
@@ -121,7 +121,6 @@ function PreferenceSubscreenChatClick() {
 		else PreferenceChatMemberNumbersIndex = PreferenceGetNextIndex(PreferenceChatMemberNumbersList, PreferenceChatMemberNumbersIndex);
 		Player.ChatSettings.MemberNumbers = PreferenceChatMemberNumbersList[PreferenceChatMemberNumbersIndex];
 	}
-
 	if (MouseIn(1000, 410, 350, 60)) {
 		if (MouseX <= 1175) PreferenceChatFontSizeIndex = PreferenceGetPreviousIndex(PreferenceChatFontSizeList, PreferenceChatFontSizeIndex);
 		else PreferenceChatFontSizeIndex = PreferenceGetNextIndex(PreferenceChatFontSizeList, PreferenceChatFontSizeIndex);
@@ -129,14 +128,14 @@ function PreferenceSubscreenChatClick() {
 		ChatRoomRefreshFontSize();
 	}
 
-	if (MouseIn(1000, 490, 350, 60)) {
-		if (MouseX <= 1175) PreferenceChatPageIndex = PreferenceGetPreviousIndex(PreferenceChatPageList, PreferenceChatPageIndex);
-		else PreferenceChatPageIndex = PreferenceGetNextIndex(PreferenceChatPageList, PreferenceChatPageIndex);
-	}
-
-	// If the user clicked the exit icon to return to the main screen
-	if (MouseIn(1815, 75,90,90)) PreferenceSubscreenExit();
-
+	CommonGenerateGrid(PreferenceSubscreenChatCheckboxes, 0, PreferenceSubscreenChatCheckboxGrid, (item, x, y, w, h) => {
+		const { click } = item;
+		if (MouseIn(x, y, w, h)) {
+			click();
+			return true;
+		}
+		return false;
+	});
 }
 
 /**
