@@ -441,6 +441,13 @@ type PreferenceSubscreenName =
 	"Gender" | "Scripts" | "Extensions"
 	;
 
+interface PreferenceGenderSetting {
+	/** Whether the setting is active for female cases */
+	Female: boolean;
+	/** Whether the setting is active for male cases */
+	Male: boolean;
+}
+
 type FetishName =
 	"Bondage" | "Gagged" | "Blindness" | "Deafness" | "Chastity" | "Exhibitionist" | "Masochism" |
 	"Sadism" | "Rope" | "Latex" | "Leather" | "Metal" | "Tape" | "Nylon" | "Lingerie" | "Pet" |
