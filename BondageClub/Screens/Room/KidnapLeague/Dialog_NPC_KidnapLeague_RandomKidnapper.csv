@@ -169,7 +169,7 @@ BountyShop,,,(Your bounty is currently shopping and seems to be annoyed by you.)
 120,105,Pay me and I'll let you go.,You're a bully!  There's no way I'm paying you.,,!WillPayForFreedom
 120,105,Forget it.,Very well.  Will you let me go then?,,
 121,,Deal!  (Release her and take the money.),,RandomEndMoney(),
-121,,I was kidding.,Alright.  Will you let me go then?,,
+121,105,I was kidding.,Alright.  Will you let me go then?,,
 200,210,Congratulations!  You fought well.,Thanks!  Now what will I do with you?,,
 200,210,You got lucky girl.  I'll get you next time.,We'll see about that.  Now what will I do with you?,"DialogChangeReputation(""Dominant"", 1)",
 200,210,(Bow your head.),Such a cute victim.  What will I do with you?,"DialogChangeReputation(""Dominant"", -3)",
