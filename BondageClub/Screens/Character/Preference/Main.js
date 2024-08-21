@@ -13,6 +13,11 @@ const PreferenceSubscreenMainGrid = {
 	direction: "vertical",
 };
 
+function PreferenceSubscreenMainLoad() {
+	const exts = PreferenceSubscreens.find(s => s.name === "Extensions");
+	exts.hidden = Object.keys(PreferenceExtensionsSettings).length === 0;
+}
+
 function PreferenceSubscreenMainRun() {
 	// Draw the player & controls
 	DrawCharacter(Player, 50, 50, 0.9);
@@ -20,9 +25,6 @@ function PreferenceSubscreenMainRun() {
 	MainCanvas.textAlign = "left";
 	DrawText(TextGet("Preferences"), 500, 125, "Black", "Gray");
 	MainCanvas.textAlign = "center";
-
-	// Only show the Extension settings if there are any registered
-	const adjustedSubscreenList = Object.keys(PreferenceExtensionsSettings).length > 0 ? PreferenceSubscreenList.concat("Extensions") : PreferenceSubscreenList;
 
 	// Draw all the buttons to access the submenus
 	CommonGenerateGrid(PreferenceSubscreens.filter(s => !s.hidden), 0, PreferenceSubscreenMainGrid, (screen, x, y, w, h) => {
@@ -37,8 +39,6 @@ function PreferenceSubscreenMainRun() {
 function PreferenceSubscreenMainClick() {
 	// Exit button
 	if (MouseIn(1815, 75, 90, 90)) PreferenceExit();
-
-	const adjustedSubscreenList = Object.keys(PreferenceExtensionsSettings).length > 0 ? PreferenceSubscreenList.concat("Extensions") : PreferenceSubscreenList;
 
 	// Open the selected subscreen
 	CommonGenerateGrid(PreferenceSubscreens.filter(s => !s.hidden), 0, PreferenceSubscreenMainGrid, (screen, x, y, w, h) => {
