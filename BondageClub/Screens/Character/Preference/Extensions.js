@@ -27,24 +27,24 @@ function PreferenceSubscreenExtensionsLoad() {
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenExtensionsRun() {
-	if(PreferenceExtensionsCurrent === null) {
-		DrawCharacter(Player, 50, 50, 0.9);
-
-		MainCanvas.textAlign = "left";
-		DrawText(TextGet("ExtensionsPreferences"), 500, 125, "Black", "Gray");
-
-		MainCanvas.textAlign = "center";
-		PreferenceExtensionsDisplay.forEach((s, i) => {
-			const X = 500 + Math.floor(i / 7) * 420;
-			const Y = 160 + (i % 7) * 110;
-			DrawButton(X, Y, 400, 90, "", "White", s.Image || null);
-			DrawTextFit(s.Button, X + 245, Y + 45, 310, "Black");
-		});
-
-		DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
-	} else {
+	if (PreferenceExtensionsCurrent) {
 		PreferenceExtensionsCurrent.run();
+		return;
 	}
+
+	DrawCharacter(Player, 50, 50, 0.9);
+
+	MainCanvas.textAlign = "left";
+	DrawText(TextGet("ExtensionsPreferences"), 500, 125, "Black", "Gray");
+
+	DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
+
+	MainCanvas.textAlign = "center";
+	CommonGenerateGrid(PreferenceExtensionsDisplay, 0, PreferenceSubscreenMainGrid, (item, x, y, w, h) => {
+		DrawButton(x, y, 400, 90, "", "White", item.Image || null);
+		DrawTextFit(item.Button, x + 245, y + 45, 310, "Black");
+		return false;
+	});
 }
 
 /**
@@ -52,16 +52,21 @@ function PreferenceSubscreenExtensionsRun() {
  * @returns {void} - Nothing
  */
 function PreferenceSubscreenExtensionsClick() {
-	if(PreferenceExtensionsCurrent === null) {
-		if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenExit();
-		PreferenceExtensionsDisplay.forEach((s, i) => {
-			const X = 500 + Math.floor(i / 7) * 420;
-			const Y = 160 + (i % 7) * 110;
-			if (MouseIn(X, Y, 400, 90)) s.click();
-		});
-	} else {
+	if (PreferenceExtensionsCurrent) {
+
 		PreferenceExtensionsCurrent.click();
+		return;
 	}
+	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenExit();
+
+	CommonGenerateGrid(PreferenceExtensionsDisplay, 0, PreferenceSubscreenMainGrid, (item, x, y, w, h) => {
+		if (MouseIn(x, y, w, h)) {
+			item.click();
+			return true;
+		}
+		return false;
+	});
+
 }
 
 function PreferenceSubscreenExtensionsUnload() {
