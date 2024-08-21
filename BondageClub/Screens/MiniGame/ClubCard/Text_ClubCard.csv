@@ -393,10 +393,17 @@ Title Hypnotherapist,Hypnotherapist
 Text Hypnotherapist,"When she enters your club, return all Tier 1 members to their owner's hands, then take another action."
 Title Help Button,Help Button
 Text Help Button,"Return a member from your club to its owners deck, a random Maid or Nurse of equal level joins your club from your deck."
-Effect Help Button Draw,SOURCEPLAYER draws 1 card from Help Button
-Effect Help Button NO Draw,SOURCEPLAYER could not draw any cards from  Help Button
+Effect Help Button Draw,SOURCEPLAYER summoned a member from Help Button
+Effect Help Button NO Draw,SOURCEPLAYER could not summon any cards from Help Button
 Effect First Bell Draw, SOURCEPLAYER draws 1 card from First Bell
 Title Prodigious Patient,Prodigious Patient
 Text Prodigious Patient,"When she leaves your club, your opponent loses 15 fame and discards a random card. Leaves your club after 6 turns."
 Title Theatre Nurse,Theatre Nurse
 Text Theatre Nurse,"When an asylum patient enters your club, gain 3 money and draw a card."
+Title Rope Bottom,Rope Bottom
+Text Rope Bottom,<F>These ropes wont hold me forever... better add more.
+Title Quality Maid,Quality Maid
+Text Quality Maid,The costs for you to upgrade your club is reduced by 10.
+Title Public Spanking,Public Spanking
+Text Public Spanking,"For the next 3 turns, your opponent loses 4 fame plus the tier level of your highest tier Dominant present."
+Effect Public Spanking,SOURCEPLAYER lost AMOUNT Fame because of public spanking.
