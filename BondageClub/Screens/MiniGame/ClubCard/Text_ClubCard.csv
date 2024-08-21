@@ -393,8 +393,9 @@ Title Hypnotherapist,Hypnotherapist
 Text Hypnotherapist,"When she enters your club, return all Tier 1 members to their owner's hands, then take another action."
 Title Help Button,Help Button
 Text Help Button,"Return a member from your club to its owners deck, a random Maid or Nurse of equal level joins your club from your deck."
-Effect Help Button Draw,SOURCEPLAYER summoned a member from Help Button
-Effect Help Button NO Draw,SOURCEPLAYER could not summon any cards from Help Button
+Effect Help Button Draw,SOURCEPLAYER summoned a member from Help Button.
+Effect Help Button No Draw,SOURCEPLAYER could not summon any cards from Help Button.
+Prerequisite Help Button,Select a member from your club to return to deck.
 Effect First Bell Draw, SOURCEPLAYER draws 1 card from First Bell
 Title Prodigious Patient,Prodigious Patient
 Text Prodigious Patient,"When she leaves your club, your opponent loses 15 fame and discards a random card. Leaves your club after 6 turns."
@@ -407,3 +408,6 @@ Text Quality Maid,The costs for you to upgrade your club is reduced by 10.
 Title Public Spanking,Public Spanking
 Text Public Spanking,"For the next 3 turns, your opponent loses 4 fame plus the tier level of your highest tier Dominant present."
 Effect Public Spanking,SOURCEPLAYER lost AMOUNT Fame because of public spanking.
+Title Nawashi,Nawashi
+Text Nawashi,"When she enters your club, your opponent doesn't gain fame at the end of their next turn."
+Effect Nawashi,No Fame is gained because of OPPONENTPLAYER Nawashi.

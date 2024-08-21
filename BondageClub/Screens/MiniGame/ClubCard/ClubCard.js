@@ -186,7 +186,7 @@ var ClubCardList = [
 
 			const playerFameAtStartOfTurn = CCPlayer.Fame - CCPlayer.LastFamePerTurn;
 
-			if (abdlBabyPlayed && playerFameAtStartOfTurn > opponent.Fame) {
+			if (abdlBabyPlayed && playerFameAtStartOfTurn > opponent.Fame && CCPlayer.LastFamePerTurn > 0) {
 				ClubCardPlayerAddFame(CCPlayer, CCPlayer.LastFamePerTurn * -1);
 				CCPlayer.LastFamePerTurn = 0;
 				ClubCardLogPublish("Effect Contract Caretaker", CCPlayer);
@@ -1164,7 +1164,28 @@ var ClubCardList = [
 		Name: "Rope Bottom",
 		Group: ["Shibari"],
 		MoneyPerTurn: 1
-	},
+	},    
+	{
+        ID: 13001,
+        Name: "Nawashi",
+        Group: ["Shibari"],
+        RequiredLevel: 4,
+        FamePerTurn: 2,
+        MoneyPerTurn: 1,
+        AfterOpponentTurnEnd: function(CCPlayer) {
+            const opponent = ClubCardGetOpponent(CCPlayer);
+
+            const nawashiPlayed = ClubCardGetCardsPlayedOnTurn(opponent, opponent.ClubCardTurnCounter -1).some(card => {
+                return card.Name === "Nawashi";
+            });
+
+            if (nawashiPlayed && CCPlayer.LastFamePerTurn > 0) {
+                ClubCardPlayerAddFame(CCPlayer, CCPlayer.LastFamePerTurn * -1);
+                CCPlayer.LastFamePerTurn = 0;
+                ClubCardLogPublish("Effect Nawashi", CCPlayer);
+            }
+        }
+    },
 
 	// Event cards
 	{
@@ -2376,6 +2397,9 @@ function ClubCardPlayerSummonGroupCard(CCPlayer, groups, level) {
 	const card = groupCardsInDeck[Math.floor(Math.random() * groupCardsInDeck.length)];
 
 	CCPlayer.Board.push(card);
+	if (card.OnPlay != null) {
+		card.OnPlay(CCPlayer);
+	}
 	const cardIndex = CCPlayer.Deck.findIndex(value => value.ID === card.ID);
 	CCPlayer.Deck.splice(cardIndex, 1);
 
