@@ -1042,7 +1042,6 @@ var ChatRoomSep = {
  */
 function ChatRoomCreateElement() {
 	// NOTE: If you want to add any custom buttons, make sure append them to the `#chat-room-buttons` grid
-	ChatRoomChatHidden = false;
 
 	let elem = /** @type {null | HTMLDivElement} */(document.getElementById("chat-room-div"));
 	if (!elem) {
@@ -1122,12 +1121,14 @@ function ChatRoomCreateElement() {
 		ChatRoomRefreshChatSettings();
 		ElementFocus("InputChat");
 		window.addEventListener("resize", ChatRoomResizeManager.ChatRoomResizeEvent);
-	} else if (elem.style.display === "none") {
+	} else if (ChatRoomChatHidden) {
 		elem.style.display = "";
-		setTimeout(() => ElementScrollToEnd("TextAreaChatLog"), 100);
+		ElementScrollToEnd("TextAreaChatLog");
 		ChatRoomRefreshChatSettings();
 		ElementFocus("InputChat");
 	}
+	ChatRoomChatHidden = false;
+
 	return elem;
 }
 
