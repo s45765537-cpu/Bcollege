@@ -2384,8 +2384,13 @@ function ChatRoomToggleKneel() {
 			if (InventoryGet(Player, "ItemFeet") || InventoryGroupIsBlocked(Player, "ItemFeet")) diff += 1;
 			if (InventoryGet(Player, "ItemBoots")) diff += 2;
 
+			// 9 is the maximum difficulty, beyond 9 the struggle mini-game doesn't work
+			if (diff > 9) diff = 9;
+
+			// Starts the mini-game
 			MiniGameStart("GetUp", diff, "ChatRoomAttemptStandMinigameEnd");
 			return;
+
 		}
 	}
 }
