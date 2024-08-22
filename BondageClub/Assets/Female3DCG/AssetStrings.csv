@@ -4949,7 +4949,6 @@ TimerRelease,The LockName on DestinationCharacterName FocusAssetGroup opens with
 TimerReleaseMany,The locks on DestinationCharacterName UnlockedGroups open with a click
 TimerRemoveTime,SourceCharacter removes TimerTime TimerUnit from the padlock on DestinationCharacter FocusAssetGroup.
 TimerRestart,SourceCharacter restarts the five minutes timer padlock on DestinationCharacter FocusAssetGroup.
-TimerUnknown,Unknown time left
 ToeTapePoseFull,Full
 ToeTapePoseToes,Toes
 ToeTapeSetFull,SourceCharacter uses the tape on TargetCharacter to fully wrap TargetPronounPossessive feet with tape.
