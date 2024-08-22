@@ -392,3 +392,4 @@ MaxFPS10,10 FPS
 MaxFPS15,15 FPS
 MaxFPS30,30 FPS
 MaxFPS60,60 FPS
+OOCAutoClose,Auto-close OOC messages

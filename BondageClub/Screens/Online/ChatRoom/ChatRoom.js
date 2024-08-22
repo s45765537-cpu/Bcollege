@@ -2893,6 +2893,17 @@ function ChatRoomSendChat() {
  * @return {ServerChatRoomMessage}
  */
 function ChatRoomGenerateChatRoomChatMessage(type, msg) {
+	// Ensure the last OOC content range is closed with a )
+	const lastRange = SpeechGetOOCRanges(msg).pop();
+	if (
+		Player.ChatSettings.OOCAutoClose
+		&& lastRange !== undefined
+		&& msg.charAt(lastRange.start + lastRange.length - 1) !== ")"
+		&& lastRange.start + lastRange.length === msg.length
+		&& lastRange.length !== 1) {
+		msg += ")";
+	}
+
 	// Chat messages are always garbled, unless the no speech restriction is lifted
 	let process = {
 		effects: [],
