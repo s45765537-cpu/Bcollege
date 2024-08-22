@@ -961,6 +961,7 @@ var ElementButton = {
 	 * @param {"left" | "right" | "top" | "bottom"} [options.tooltipPosition] - The position of the tooltip w.r.t. the button
 	 * @param {"radio" | "checkbox" | "menuitemradio" | "menuitemcheckbox"} [options.role] - The role of the button. All accepted values are currently special-cased in order to set role-specific event listeners and/or attributes.
 	 * @param {boolean} [options.noStyling] - Whether to limit the default styling of the button's border and background
+	 * @param {boolean} [options.disabled] - Whether the button should be disabled or not
 	 * @param {null | Partial<Record<"button" | "tooltip", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the either the button or tooltip
 	 * @returns {HTMLButtonElement} - The created button
 	 */
@@ -1026,6 +1027,15 @@ var ElementButton = {
 		}
 
 		elem.addEventListener("click", onClick);
+
+		if (options.disabled) {
+			const menuItemRoles = ["menuitem", "menuitemradio", "menuitemcheckbox"];
+			if (menuItemRoles.some(i => elem.role === i)) {
+				elem.setAttribute("aria-disabled", true);
+			} else {
+				elem.disabled = true;
+			}
+		}
 		return elem;
 	},
 };
@@ -1217,6 +1227,12 @@ var ElementMenu = {
 				menuitem.setAttribute("tabindex", "-1");
 			}
 			menuitem.addEventListener("keydown", this._KeyDown);
+
+			// Ensure that disabled buttons use `aria-disabled` in order to keep them focusable
+			if (menuitem instanceof HTMLButtonElement && menuitem.disabled) {
+				menuitem.disabled = false;
+				menuitem.ariaDisabled = "true";
+			}
 		});
 		return elem;
 	},
