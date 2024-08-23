@@ -108,8 +108,11 @@ function AssetGroupAdd(Family, GroupDef) {
 		ColorSuffix: GroupDef.ColorSuffix || {},
 		ExpressionPrerequisite: GroupDef.ExpressionPrerequisite || [],
 		HasPreviewImages: typeof GroupDef.HasPreviewImages === "boolean" ? GroupDef.HasPreviewImages : AllowNone,
+		/** @type {() => this is AssetAppearanceGroup} */
 		IsAppearance() { return this.Category === "Appearance"; },
+		/** @type {() => this is AssetItemGroup} */
 		IsItem() { return this.Category === "Item"; },
+		/** @type {() => this is AssetScriptGroup} */
 		IsScript() { return this.Category === "Script"; },
 	};
 	AssetGroupMap.set(A.Name, A);

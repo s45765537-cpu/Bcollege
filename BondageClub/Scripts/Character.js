@@ -541,6 +541,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		IsEdged: function () {
 			return CharacterIsEdged(this);
 		},
+		/** @type {() => this is PlayerCharacter} */
 		IsPlayer: function () {
 			return this.ID === 0;
 		},
@@ -570,9 +571,11 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			if (C.IsOwnedByCharacter(this)) return true;
 			return false;
 		},
+		/** @type {() => this is Character} */
 		IsOnline: function () {
 			return this.Type === CharacterType.ONLINE;
 		},
+		/** @type {() => this is NPCCharacter} */
 		IsNpc: function () {
 			return this.Type === CharacterType.NPC;
 		},
