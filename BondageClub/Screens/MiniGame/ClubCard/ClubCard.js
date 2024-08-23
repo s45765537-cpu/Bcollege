@@ -699,9 +699,6 @@ var ClubCardList = [
 			ClubCardPlayerAddFame(opponent, -15);
 			ClubCardPlayerDiscardCard(opponent, 1);
 			ClubCardLogPublish("LoseFame", opponent, 15);
-		},
-		OnPlay: function(CCPlayer) {
-			CCPlayer.PreviousBoard.push(this);
 		}
 	},
 
@@ -859,7 +856,7 @@ var ClubCardList = [
 		Name: "Babysitter",
 		Group: ["ABDLMommy", "Staff"],
 		RequiredLevel: 2,
-		MoneyPerTurn: -1,
+		MoneyPerTurn: -2,
 		BeforeTurnEnd: function(CCPlayer) {
 			const effectFame = ClubCardGroupOnBoardCount(CCPlayer, "ABDLBaby") * 2;
 			ClubCardPlayerAddFame(CCPlayer, ClubCardGetMaxEffectFromCard(this, effectFame));
@@ -1124,39 +1121,36 @@ var ClubCardList = [
 		MoneyPerTurn: -1,
 	},
 	{
-		ID: 12004,
-		Name: "Sophie",
-		Group: ["Player"],
-		RewardMemberNumber: 1236,
-		RequiredLevel: 1,
-		Prerequisite: "SelectAnyMember",
-		FamePerTurn: 1,
-		MoneyPerTurn: -1,
-		OnPlay: function(CCPlayer) {
+        ID: 12004,
+        Name: "Sophie",
+        Group: ["Player"],
+        RewardMemberNumber: 1236,
+        RequiredLevel: 3,
+        Prerequisite: "SelectAnyMember",
+        FamePerTurn: 1,
+        MoneyPerTurn: -1,
+        OnPlay: function(CCPlayer) {
             if (ClubCardSelection == null) {
                 return;
             }
 
+			const modifier = 2;
+			const indexToBuff = ClubCardSelection.ArrayIndex;
+			let BuffedCard;
             if (ClubCardSelection.Location == "OpponentBoard") {
-                const opponent = ClubCardGetOpponent(CCPlayer);
-                const indexSelectableCard = opponent.Board.findIndex(card => card.ID === ClubCardSelection.ID);
-                if (opponent.Board[indexSelectableCard].FamePerTurn != null) {
-                    opponent.Board[indexSelectableCard].FamePerTurn = opponent.Board[indexSelectableCard].FamePerTurn * 2;
-                }
-                if (opponent.Board[indexSelectableCard].MoneyPerTurn != null) {
-                    opponent.Board[indexSelectableCard].MoneyPerTurn = opponent.Board[indexSelectableCard].MoneyPerTurn * 2;
-                }
+				BuffedCard = ClubCardGetOpponent(CCPlayer).Board[indexToBuff];
             } else {
-                const indexSelectableCard = CCPlayer.Board.findIndex(card => card.ID === ClubCardSelection.ID);
-                if (CCPlayer.Board[indexSelectableCard].FamePerTurn != null) {
-                    CCPlayer.Board[indexSelectableCard].FamePerTurn = CCPlayer.Board[indexSelectableCard].FamePerTurn * 2;
-                }
-                if (CCPlayer.Board[indexSelectableCard].MoneyPerTurn != null) {
-                    CCPlayer.Board[indexSelectableCard].MoneyPerTurn = CCPlayer.Board[indexSelectableCard].MoneyPerTurn * 2;
-                }
-            }
-        }
-	},
+                BuffedCard = CCPlayer.Board[indexToBuff];
+			}
+			if (BuffedCard.FamePerTurn != null) {
+				BuffedCard.FamePerTurn = BuffedCard.FamePerTurn * modifier;
+			}
+			if (BuffedCard.MoneyPerTurn != null) {
+				BuffedCard.MoneyPerTurn = BuffedCard.MoneyPerTurn *modifier;
+			}
+			ClubCardLogPublish("Effect Sophie", null, null, ClubCardSelection);
+        }  
+    },
 
 	// 13000 - Shibari Members
 	{
@@ -2177,10 +2171,11 @@ function ClubCardRemoveFromBoard(CCPlayer, Card) {
 		return;
 	}
 
-	const indexToRemove = CCPlayer.Board.findIndex(c => c.ID === Card.ID);
+	const indexToRemove = Card.ArrayIndex;
 	if(indexToRemove !== -1) {
 		CCPlayer.Board.splice(indexToRemove, 1);
 		ClubCardLogPublish("MemberLeaveClub", CCPlayer, null, Card);
+		ClubCardUpdateBoardCardsIndex(CCPlayer);
 	}
 }
 
@@ -2222,7 +2217,7 @@ function ClubCardCardsLeftBoard(CCPlayer){
 function ClubCardGetMaxEffectFromCard(Card, fame) {
 	const ClubCardMaxFamePerTier = {
 		1: 3,
-		2: 5,
+		2: 4,
 		3: 6,
 		4: 7,
 		// Uncapped
@@ -2400,6 +2395,7 @@ function ClubCardPlayerSummonGroupCard(CCPlayer, groups, level) {
 	if (card.OnPlay != null) {
 		card.OnPlay(CCPlayer);
 	}
+	ClubCardUpdateBoardCardsIndex(CCPlayer);
 	const cardIndex = CCPlayer.Deck.findIndex(value => value.ID === card.ID);
 	CCPlayer.Deck.splice(cardIndex, 1);
 
@@ -2434,6 +2430,7 @@ function ClubCardAlvinCondition(CCPlayer) {
 	if (hasAlvin && hasBoardRoom) {
 		const ropeSlave = ClubCardList.find(card => card.Name === "Rope Slave");
 		CCPlayer.Board.push(ropeSlave);
+		ClubCardUpdateBoardCardsIndex(CCPlayer);
 		ClubCardLogPublish("Effect Alvin", CCPlayer);
 	}
 }
@@ -2932,6 +2929,7 @@ function ClubCardPlayCard(CCPlayer, Card) {
 			if (C.ID == Card.ID) {
 				if (Card.Type === "Member") {
 					Target.Board.push(Card);
+					Target.PreviousBoard.push(Card);
 				}
 				if ((Card.Type === "Event") && (Card.Time != null) && (Card.Time >= 0)) {
 					Target.Event.push(Card);
@@ -2944,6 +2942,7 @@ function ClubCardPlayCard(CCPlayer, Card) {
 			}
 			Index++;
 		}
+		ClubCardUpdateBoardCardsIndex(Target);
 	}
 
 	// Focuses on the card, runs it's scripts
@@ -2981,6 +2980,17 @@ function ClubCardPlayCard(CCPlayer, Card) {
 	ClubCardLogAdd(Text);
 	ClubCardAIStart();
 
+}
+
+/**
+ * When it adds a card to a player's board, it updates for all index cards.
+ * @param {ClubCardPlayer} Target - The target player
+ * @returns {void} - Nothing
+ */
+function ClubCardUpdateBoardCardsIndex(Target) {
+    for (let i = 0; i < Target.Board.length; i += 1) {
+        Target.Board[i].ArrayIndex = i;
+    }
 }
 
 /**
@@ -3257,10 +3267,11 @@ function ClubCardRenderCard(Card, X, Y, W, Sleeve = null, Source = null) {
 	MainCanvas.font = "bold " + Math.round(W / 12) + "px arial";
 	DrawTextWrap(Card.Title, X + W * 0.05, Y + W * 0.05, W * 0.9, W * 0.1, "Black");
 	let BubblePos = Y + W * 0.2;
-	if (ClubCardIsLiability(Card)) BubblePos = ClubCardRenderBubble(null, X + W * 0.05, BubblePos, W * 0.1, "Liability");
-	if (Level > 1) BubblePos = ClubCardRenderBubble(Level, X + W * 0.05, BubblePos, W * 0.1, "Level");
-	if (Card.FamePerTurn != null) BubblePos = ClubCardRenderBubble(Card.FamePerTurn, X + W * 0.05, BubblePos, W * 0.1, "Fame");
-	if (Card.MoneyPerTurn != null) ClubCardRenderBubble(Card.MoneyPerTurn, X + W * 0.05, BubblePos, W * 0.1, "Money");
+	let WModifier = 0.125; // Modifier for adjusting fame, money, level, liability icons
+	if (ClubCardIsLiability(Card)) BubblePos = ClubCardRenderBubble(null, X + W * 0.05, BubblePos, W * WModifier, "Liability");
+	if (Level > 1) BubblePos = ClubCardRenderBubble(Level, X + W * 0.05, BubblePos, W * WModifier, "Level");
+	if (Card.FamePerTurn != null) BubblePos = ClubCardRenderBubble(Card.FamePerTurn, X + W * 0.05, BubblePos, W * WModifier, "Fame");
+	if (Card.MoneyPerTurn != null) ClubCardRenderBubble(Card.MoneyPerTurn, X + W * 0.05, BubblePos, W * WModifier, "Money");
 	if (Card.Text != null) {
 		DrawRect(X + W * 0.05, Y + W * 1.5, W * 0.9, W * 0.48, Color + "A0");
 		let GroupText = ClubCardGetGroupText(Card.Group);

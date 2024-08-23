@@ -238,7 +238,7 @@ Text Diaper Baby,+3 Money per turn if at least one Maid is present.
 Title Sugar Baby,Sugar Baby
 Text Sugar Baby,<F>This baby wants a diamond pacifier.
 Title Babysitter,Babysitter
-Text Babysitter,+2 Fame per turn for each ABDL Baby present. Max 5
+Text Babysitter,+2 Fame per turn for each ABDL Baby present. Max 4
 Title Soap Opera Mother,Soap Opera Mother
 Text Soap Opera Mother,+25 Fame when she enters your club if at least one ABDL Baby is present.
 Title Amanda,Amanda
@@ -388,7 +388,8 @@ Text Rope Slave,Gain +1 Fame per turn if Alvin or Rope Sensei present.
 Title Quack Doctor,Quack Doctor
 Text Quack Doctor,"Start of your turn, for each Asylum Patient present, players lose 1 fame. (Max 4)"
 Title Sophie,Sophie
-Text Sophie,Placeholder!!!!!!!
+Text Sophie,"Before she enters your club, select a member to double her Fame and Money."
+Effect Sophie,CARDTITLE money and fame doubled by Sophie
 Title Hypnotherapist,Hypnotherapist
 Text Hypnotherapist,"When she enters your club, return all Tier 1 members to their owner's hands, then take another action."
 Title Help Button,Help Button

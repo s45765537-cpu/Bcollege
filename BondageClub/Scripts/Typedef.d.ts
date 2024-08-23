@@ -4017,6 +4017,7 @@ interface WheelFortuneOptionType {
 interface ClubCard {
 	ID: number;
 	Name: string;
+	ArrayIndex?: number;
 	Type?: string;
 	Title?: string;
 	Text?: string;
