@@ -43,7 +43,6 @@ const PreferenceSubscreens = [
 	},
 	{
 		name: "Difficulty",
-		load: PreferenceSubscreenDifficultyLoad,
 		run: PreferenceSubscreenDifficultyRun,
 		click: PreferenceSubscreenDifficultyClick,
 	},

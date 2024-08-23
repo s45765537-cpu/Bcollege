@@ -4,10 +4,6 @@
 var PreferenceDifficultyLevel = null;
 var PreferenceDifficultyAccept = false;
 
-function PreferenceSubscreenDifficultyLoad() {
-	PreferenceDifficultyLevel = Player.GetDifficulty();
-}
-
 /**
  * Runs and draw the preference screen, difficulty subscreen
  * @returns {void} - Nothing
