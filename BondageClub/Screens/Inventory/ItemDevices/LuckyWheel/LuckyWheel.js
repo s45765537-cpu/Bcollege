@@ -181,7 +181,7 @@ function InventoryItemDevicesLuckyWheelStoppedTurning(C, Item, Angle) {
 }
 
 /**
- * @typedef {{ AnimationAngleState?: number, AnimationSpeed?: number, ChangeTime?: number, LightStep?: number }} LuckyWheelPersistentData
+ * @typedef {{ AnimationAngleState?: number, AnimationSpeed?: number, ChangeTime?: number, LightStep?: number, Spinning: boolean }} LuckyWheelPersistentData
  */
 
 /** @type {ExtendedItemCallbacks.ScriptDraw<LuckyWheelPersistentData>} */
