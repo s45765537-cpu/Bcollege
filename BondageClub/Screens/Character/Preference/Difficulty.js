@@ -22,8 +22,10 @@ function PreferenceSubscreenDifficultyRun() {
 		// Draw the difficulty levels
 		DrawText(TextGet("DifficultyTitle"), 500, 225, "Black", "Gray");
 		for (let D = 0; D <= 3; D++) {
-			DrawText(TextGet("DifficultySummary" + D.toString() + "A"), 850, 325 + 150 * D, "Black", "White");
-			DrawText(TextGet("DifficultySummary" + D.toString() + "B"), 850, 375 + 150 * D, "Black", "White");
+			const lines = TextGet(`DifficultyLevel${D}Label`).split("\\n");
+			for (const [idx, line] of Object.entries(lines)) {
+				DrawText(line, 850, 325 + 150 * D + 64 * Number(idx), "Black", "White");
+			}
 		}
 
 		// Draw the difficulty buttons
@@ -33,9 +35,13 @@ function PreferenceSubscreenDifficultyRun() {
 
 	} else {
 
-		// Draw the detailed texts
-		for (let T = 0; T <= 4; T++)
-			DrawText(TextGet("Difficulty" + PreferenceDifficultyLevel.toString() + "Text" + T.toString()), 500, 225 + 100 * T, "Black", "White");
+		DrawText(TextGet(`DifficultyLevel${PreferenceDifficultyLevel}Title`), 500, 225, "Black", "White");
+
+		const text = TextGet("DifficultyLevel" + PreferenceDifficultyLevel.toString() + "Text");
+		const lines = text.split("\\n");
+		for (const [idx, line] of Object.entries(lines)) {
+			DrawText(line, 500, 325 + 64 * Number(idx), "Black", "White");
+		}
 
 		// Can only set to 2 or 3 if no change was done for 1 week
 		if (PreferenceDifficultyLevel !== Player.GetDifficulty()) {
