@@ -154,7 +154,7 @@ class TextCache {
 			this.buildCache();
 		}
 		const value = this.cache[key];
-		if (!value) {
+		if (typeof value !== "string") {
 			this.log(`Unknown key: ${key}`);
 			return `${TEXT_NOT_FOUND_PREFIX} "${this.fileName()}": ${key}`;
 		}
