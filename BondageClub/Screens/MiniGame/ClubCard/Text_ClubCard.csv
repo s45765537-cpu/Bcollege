@@ -390,6 +390,7 @@ Text Quack Doctor,"Start of your turn, for each Asylum Patient present, players 
 Title Sophie,Sophie
 Text Sophie,"Before she enters your club, select a member to double her Fame and Money."
 Effect Sophie,CARDTITLE money and fame doubled by Sophie
+Prerequisite Sophie, Select a member from your club to enhance before Sophie enters.
 Title Hypnotherapist,Hypnotherapist
 Text Hypnotherapist,"When she enters your club, return all Tier 1 members to their owner's hands, then take another action."
 Title Help Button,Help Button

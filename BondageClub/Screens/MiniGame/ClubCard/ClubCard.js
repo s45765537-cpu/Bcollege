@@ -2719,7 +2719,7 @@ function ClubCardEndTurn(Draw = false) {
 			if ((Card.Time != null) && (Card.Time > 0)) Card.Time--;
 			if (Card.Time <= 0) {
 				ClubCardLogPublish("MemberLeaveClub", CCPlayer, null, Card);
-				CCPlayer.Board.splice(Pos, 1);
+				ClubCardRemoveFromBoard(CCPlayer, CCPlayer.Board[Pos]);
 				Pos--;
 			}
 		}
