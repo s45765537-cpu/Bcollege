@@ -4056,6 +4056,7 @@ interface ClubCard {
 	 * @param C Player that owns the card
 	 */
 	onLeaveClub?: (C: ClubCardPlayer) => void;
+	turnStart?: (C: ClubCardPlayer) => void;
 }
 
 interface ClubCardPlayer {
@@ -4067,7 +4068,6 @@ interface ClubCardPlayer {
 	FullDeck: ClubCard[];
 	Hand: ClubCard[];
 	Board: ClubCard[];
-	PreviousBoard: ClubCard[];
 	Event: ClubCard[];
 	Level: number;
 	Money: number;

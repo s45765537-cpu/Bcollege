@@ -630,14 +630,11 @@ var ClubCardList = [
         Name: "Quack Doctor",
         MoneyPerTurn: 1,
 		Group: ["AsylumNurse"],
-        AfterOpponentTurnEnd: function(CCPlayer) {
+        turnStart: function(CCPlayer) {
             const opponent = ClubCardGetOpponent(CCPlayer);
-
-            if (CCPlayer.Fame < ClubCardFameGoal && opponent.Fame < ClubCardFameGoal) {
-                let FameReduction = Math.min(ClubCardGroupOnBoardCount(opponent, "AsylumPatient"), 4);
-                ClubCardPlayerAddFame(CCPlayer, FameReduction * -1);
-				ClubCardPlayerAddFame(opponent, FameReduction * -1);
-            }
+			let FameReduction = Math.min(ClubCardGroupOnBoardCount(CCPlayer, "AsylumPatient"), 4);
+			ClubCardPlayerAddFame(CCPlayer, FameReduction * -1);
+			ClubCardPlayerAddFame(opponent, FameReduction * -1);
         }
 	},
 	{
@@ -2073,19 +2070,20 @@ function ClubCardPlayerAddFame(CCPlayer, Amount) {
 function ClubCardUpgradeLevel(CCPlayer) {
 	// Homeroom blocks both players from ugprading while it is on the board
 	const opponent = ClubCardGetOpponent(CCPlayer);
+	const updatedCost = ClubCardCalculateLevelCost(CCPlayer);
 	const blockedByEvent = ClubCardEventNameIsInEvents(CCPlayer, "Homeroom") || ClubCardEventNameIsInEvents(opponent, "Homeroom");
-	const affordLevelUp = CCPlayer.Money < ClubCardLevelCost[CCPlayer.Level + 1];
+	const affordLevelUp = CCPlayer.Money < updatedCost;
 	const isMaxlevel = CCPlayer.Level >= ClubCardLevelCost.length - 1;
 
 	if (isMaxlevel || affordLevelUp || blockedByEvent) {
 		return;
 	}
 
+	ClubCardPlayerAddMoney(CCPlayer, updatedCost * -1);
 	CCPlayer.Level++;
-	ClubCardPlayerAddMoney(CCPlayer, ClubCardLevelCost[CCPlayer.Level] * -1);
 	let Text = TextGet("UpgradedToLevel" + CCPlayer.Level.toString());
 	Text = Text.replace("PLAYERNAME", CharacterNickname(CCPlayer.Character));
-	Text = Text.replace("MONEYAMOUNT", ClubCardLevelCost[CCPlayer.Level].toString());
+	Text = Text.replace("MONEYAMOUNT", updatedCost.toString());
 	ClubCardLogAdd(Text);
 	GameClubCardSyncOnlineData();
 }
@@ -2173,6 +2171,9 @@ function ClubCardRemoveFromBoard(CCPlayer, Card) {
 
 	const indexToRemove = Card.ArrayIndex;
 	if(indexToRemove !== -1) {
+		if (Card.onLeaveClub != null) {
+			Card.onLeaveClub(CCPlayer);
+		}
 		CCPlayer.Board.splice(indexToRemove, 1);
 		ClubCardLogPublish("MemberLeaveClub", CCPlayer, null, Card);
 		ClubCardUpdateBoardCardsIndex(CCPlayer);
@@ -2180,32 +2181,13 @@ function ClubCardRemoveFromBoard(CCPlayer, Card) {
 }
 
 /**
- * Finds cards that left the board since last turn and runs their onLeaveClub effect
- * @param {ClubCardPlayer} CCPlayer - The club card player who's board is being examined
+ * Gets the updated cost for a player to level up
+ * @param {ClubCardPlayer} CCPlayer - The club card player
+ * @returns {number} The cost to level up
  */
-function ClubCardCardsLeftBoard(CCPlayer){
-	if (CCPlayer.PreviousBoard != null) {
-		for (const Card of CCPlayer.PreviousBoard.slice()) {
-			if (!ClubCardNameIsOnBoard(CCPlayer, Card.Name)) {
-				if (Card.onLeaveClub != null) {
-					Card.onLeaveClub(CCPlayer);
-				}
-			}
-	    }
-	}
-	CCPlayer.PreviousBoard = CCPlayer.Board;
-
-	const opponent = ClubCardGetOpponent(CCPlayer);
-	if (opponent.PreviousBoard != null) {
-		for (const Card of opponent.PreviousBoard.slice()) {
-			if (!ClubCardNameIsOnBoard(opponent, Card.Name)) {
-				if (Card.onLeaveClub != null) {
-					Card.onLeaveClub(opponent);
-				}
-			}
-	    }
-	}
-	opponent.PreviousBoard = opponent.Board;
+function ClubCardCalculateLevelCost(CCPlayer) {
+	let cost = ClubCardLevelCost[CCPlayer.Level + 1] - (ClubCardNameIsOnBoard(CCPlayer, "Quality Maid") ? 10 : 0);
+	return cost;
 }
 
 /**
@@ -2281,11 +2263,15 @@ function ClubCardRemoveGroupFromBoard(CCPlayer, GroupName) {
 		if (Card.Group != null)
 			for (let G of Card.Group)
 				if (G == GroupName) {
+					if (Card.onLeaveClub != null) {
+						Card.onLeaveClub(CCPlayer);
+					}
 					CCPlayer.Board.splice(Pos, 1);
 					Pos--;
 					break;
 				}
 	}
+	ClubCardUpdateBoardCardsIndex(CCPlayer);
 }
 
 /**
@@ -2567,7 +2553,6 @@ function ClubCardAddPlayer(Char, Cont, Cards) {
 		Sleeve: "Default",
 		Hand: [],
 		Board: [],
-		PreviousBoard: [],
 		Event: [],
 		Level: 1,
 		Money: 5,
@@ -2712,23 +2697,23 @@ function ClubCardEndTurn(Draw = false) {
 	ClubCardTurnCardPlayed = 0;
 	ClubCardAIStart();
 
+	// When a turn starts, the event and members time goes down and might expire
 	CCPlayer = ClubCardPlayer[ClubCardTurnIndex];
 	if (CCPlayer.Board != null) {
 		for (let Pos = 0; Pos < CCPlayer.Board.length; Pos++) {
 			let Card = CCPlayer.Board[Pos];
 			if ((Card.Time != null) && (Card.Time > 0)) Card.Time--;
 			if (Card.Time <= 0) {
-				ClubCardLogPublish("MemberLeaveClub", CCPlayer, null, Card);
-				ClubCardRemoveFromBoard(CCPlayer, CCPlayer.Board[Pos]);
+				ClubCardRemoveFromBoard(CCPlayer, Card);
 				Pos--;
+			}
+			if (Card.turnStart != null) {
+				Card.turnStart(CCPlayer);
 			}
 		}
 	}
-	
-	ClubCardCardsLeftBoard(CCPlayer);
 		
-	// When a turn starts, the event time goes down and might expire
-	if (CCPlayer.Event != null)
+	if (CCPlayer.Event != null) {
 		for (let Pos = 0; Pos < CCPlayer.Event.length; Pos++) {
 			let Card = CCPlayer.Event[Pos];
 			if ((Card.Time != null) && (Card.Time > 0)) Card.Time--;
@@ -2738,6 +2723,7 @@ function ClubCardEndTurn(Draw = false) {
 				Pos--;
 			}
 		}
+	}
 
 	// Syncs online data
 	GameClubCardSyncOnlineData();
@@ -2929,7 +2915,6 @@ function ClubCardPlayCard(CCPlayer, Card) {
 			if (C.ID == Card.ID) {
 				if (Card.Type === "Member") {
 					Target.Board.push(Card);
-					Target.PreviousBoard.push(Card);
 				}
 				if ((Card.Type === "Event") && (Card.Time != null) && (Card.Time >= 0)) {
 					Target.Event.push(Card);
@@ -3014,7 +2999,7 @@ function ClubCardAIPlay() {
 	if (CCPlayer.Control != "AI") return;
 
 	// If the AI can upgrade, there's a 50/50 odds he does it
-	if ((Math.random() >= 0.5) && (CCPlayer.Level < ClubCardLevelCost.length - 1) && (CCPlayer.Money >= ClubCardLevelCost[CCPlayer.Level + 1])) {
+	if ((Math.random() >= 0.5) && (CCPlayer.Level < ClubCardLevelCost.length - 1) && (CCPlayer.Money >= ClubCardCalculateLevelCost(CCPlayer))) {
 		ClubCardUpgradeLevel(CCPlayer);
 		ClubCardAIStart();
 		return;
@@ -3073,7 +3058,6 @@ function ClubCardBankrupt() {
 	CCPlayer.Money = 5;
 	CCPlayer.Fame = 0;
 	CCPlayer.Board = [];
-	CCPlayer.PreviousBoard = [];
 	CCPlayer.Event = [];
 	CCPlayer.Hand = [];
 	CCPlayer.Deck = ClubCardShuffle(CCPlayer.FullDeck.slice());
@@ -3482,7 +3466,7 @@ function ClubCardRun() {
 		(ClubCardPopup == null) &&
 		(ClubCardPlayer[ClubCardTurnIndex].Control == "Player") &&
 		(ClubCardPlayer[ClubCardTurnIndex].Level < ClubCardLevelCost.length - 1) &&
-		(ClubCardPlayer[ClubCardTurnIndex].Money >= ClubCardLevelCost[ClubCardPlayer[ClubCardTurnIndex].Level + 1]) &&
+		(ClubCardPlayer[ClubCardTurnIndex].Money >= ClubCardCalculateLevelCost(ClubCardPlayer[ClubCardTurnIndex])) &&
 		// Homeroom stops players leveling up
 		!(ClubCardEventNameIsInEvents(ClubCardPlayer[0], "Homeroom") || ClubCardEventNameIsInEvents(ClubCardPlayer[1], "Homeroom"))
 	) {
@@ -3492,7 +3476,7 @@ function ClubCardRun() {
 			435,
 			300,
 			60,
-			buttonText.replace("MONEY", ClubCardLevelCost[ClubCardPlayer[ClubCardTurnIndex].Level + 1].toString()),
+			buttonText.replace("MONEY", ClubCardCalculateLevelCost(ClubCardPlayer[ClubCardTurnIndex]).toString()),
 			"White"
 		);
 	}
@@ -3531,7 +3515,7 @@ function ClubCardClick() {
 	if (MouseIn(1700, 0, 300, 600) && (ClubCardFocus != null)) return ClubCardFocus = null;
 	if (MouseIn(1705, 905, 90, 90) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")) return ClubCardEndTurn((ClubCardTurnCardPlayed == 0));
 	if (MouseIn(1805, 905, 90, 90) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")) return ClubCardCreatePopup("YESNO", TextGet("ConfirmBankrupt"), TextGet("Yes"), TextGet("No"), "ClubCardBankrupt()", "ClubCardDestroyPopup()");
-	if (MouseIn(1390, 435, 300, 60) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") && (ClubCardPlayer[ClubCardTurnIndex].Level < ClubCardLevelCost.length - 1) && (ClubCardPlayer[ClubCardTurnIndex].Money >= ClubCardLevelCost[ClubCardPlayer[ClubCardTurnIndex].Level + 1])) return ClubCardUpgradeLevel(ClubCardPlayer[ClubCardTurnIndex]);
+	if (MouseIn(1390, 435, 300, 60) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") && (ClubCardPlayer[ClubCardTurnIndex].Level < ClubCardLevelCost.length - 1) && (ClubCardPlayer[ClubCardTurnIndex].Money >= ClubCardCalculateLevelCost(ClubCardPlayer[ClubCardTurnIndex]))) return ClubCardUpgradeLevel(ClubCardPlayer[ClubCardTurnIndex]);
 
 	// Sets the focus card if nothing else was clicked
 	if (ClubCardHover != null) return ClubCardFocus = {...ClubCardHover};
