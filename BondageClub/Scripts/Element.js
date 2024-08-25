@@ -855,6 +855,15 @@ var ElementButton = {
 	},
 
 	/**
+	 * @private
+	 * @type {(this: HTMLButtonElement) => void}
+	 */
+	_MouseUp: function _MouseUp() {
+		// Fix buttons not automatically losing focus after a click event
+		this.blur();
+	},
+
+	/**
 	 * Navigate the passed elements children in a depth-first search manner,
 	 * yielding all elements matching the `query` selector and whose parent does _not_ satisify the passed `filter`
 	 * @param {Element} root
@@ -1148,6 +1157,9 @@ var ElementButton = {
 				click: this._Click,
 				keydown: this._KeyDown,
 				keyup: this._KeyUp,
+				mouseup: this._MouseUp,
+				touchend: this._MouseUp,
+				touchcancel: this._MouseUp,
 				...(buttonOptions.eventListeners ?? {}),
 			},
 			children: [
