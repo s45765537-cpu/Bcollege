@@ -266,7 +266,7 @@ function GameClubCardBoardDoBundle(Cards) {
 
     for (let i = 0; i < Cards.length; i++) {
         const card = Cards[i];
-        
+
         let ID = `${card.ID}`;
         let ArrayIndex = `${card.ArrayIndex !== undefined ? card.ArrayIndex : ''}`;
         let MoneyPerTurn = `${card.MoneyPerTurn !== undefined ? card.MoneyPerTurn : ''}`;
@@ -423,12 +423,6 @@ function GameClubCardAssignPlayers(Packet, Char) {
 	}
 	if ((Char.MemberNumber == Player.MemberNumber) && (ClubCardTurnIndex == 1)) {
 		ClubCardOneMessagePacketSend(Msg.replace("PLAYERNAME", CharacterNickname(C2)), ClubCardMessageType.SYSTEM);
-	}
-
-	if (Player.ChatSettings?.PreserveChat ?? true) {
-		ChatRoomHideElements();
-	} else {
-		ElementRemove("chat-room-div");
 	}
 }
 
