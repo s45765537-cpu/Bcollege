@@ -1,6 +1,8 @@
 Title,Use your mouse or finger to grab and spin the wheel
 Forced,Your owner requires you to spin the Wheel of Fortune
 Wait,Hold your breath
+Invalid,Invalid empty fortune wheel; at least one option required
+Empty,Empty wheel
 Roleplay,Roleplay mode
 NoRoleplay,Roleplay mode isn't available on hardcore or extreme difficulty
 Customize,Customize your wheel

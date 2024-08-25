@@ -718,13 +718,17 @@ function WheelFortuneLoad() {
 
 	// Resets to the default wheel if the character wheel is incorrect
 	WheelFortuneList = "";
-	if ((WheelFortuneCharacter.OnlineSharedSettings != null) && (WheelFortuneCharacter.OnlineSharedSettings.WheelFortune != null)) {
+	if (typeof WheelFortuneCharacter.OnlineSharedSettings?.WheelFortune === "string") {
 		// Validate whether the (shared) selected options actually exist
 		const selectedWheelIDs = WheelFortuneCharacter.OnlineSharedSettings.WheelFortune;
 		const allWheelIDs = WheelFortuneOption.map(o => o.ID);
 		WheelFortuneList = selectedWheelIDs.split("").filter(id => allWheelIDs.includes(id)).join("");
 	}
-	if ((WheelFortuneList == null) || (typeof WheelFortuneList !== "string") || (WheelFortuneList.length < 2)) WheelFortuneList = WheelFortuneDefault;
+	if (WheelFortuneList.length === 0) {
+		// Can't spin a wheel without any options, so disable any forced spinning shenanigans
+		WheelFortuneForced = false;
+	}
+
 	if (Player.GetDifficulty() >= 2) WheelFortuneRoleplay = false;
 
 	// Shuffles the wheel to give a random order
@@ -734,7 +738,7 @@ function WheelFortuneLoad() {
 
 	// Gets the maximum position after which the wheel resets
 	WheelFortunePosMax = WheelFortuneList.length;
-	while (WheelFortunePosMax < 12)
+	while (WheelFortunePosMax !== 0 && WheelFortunePosMax < 12)
 		WheelFortunePosMax = WheelFortunePosMax + WheelFortunePosMax;
 	WheelFortunePosMax = WheelFortunePosMax * 83;
 
@@ -748,12 +752,24 @@ function WheelFortuneLoad() {
 
 /**
  * Draws the full lucky wheel
+ * @param {string} FullWheel
+ * @param {number} Pos
+ * @param {number} MaxPos
+ * @param {number} X
+ * @param {number} Y
+ * @param {number} Zoom
  * @returns {void} - Nothing
  */
 function WheelFortuneDrawWheel(FullWheel, Pos, MaxPos, X, Y, Zoom) {
 
-	// Draw the black background
+	// Draw the black background and white/gold border
 	DrawRect(X + 2, Y, 496 * Zoom, 1000 * Zoom, "Black");
+	DrawEmptyRect(X - 2, Y - 2, 504, 1004 * Zoom, (WheelFortuneVelocity == 0) ? "White" : "Gold", 2);
+
+	if (FullWheel.length === 0) {
+		DynamicDrawTextFromTo(TextGet("Empty"), MainCanvas, [X + 2, 1000 * Zoom], [X + 2 + 496 * Zoom, Y], { fontSize: 96, color: "white" });
+		return;
+	}
 
 	// Make sure the wheel has at least wheel count + 50 elements
 	let Wheel = FullWheel.split("");
@@ -790,7 +806,6 @@ function WheelFortuneDrawWheel(FullWheel, Pos, MaxPos, X, Y, Zoom) {
 	}
 
 	// Draw the border and arrow
-	DrawEmptyRect(X - 2, Y - 2, 504, 1004 * Zoom, (WheelFortuneVelocity == 0) ? "White" : "Gold", 2);
 	DrawImageResize("Screens/MiniGame/WheelFortune/WheelArrowLeft.png", X - 100, Y + 450 * Zoom, 100 * Zoom, 100 * Zoom);
 	DrawImageResize("Screens/MiniGame/WheelFortune/WheelArrowRight.png", X + 500, Y + 450 * Zoom, 100 * Zoom, 100 * Zoom);
 
@@ -835,13 +850,24 @@ function WheelFortuneRun() {
 	WheelFortunePos = WheelFortunePos % WheelFortunePosMax;
 
 	// Draw the character and buttons
+	const isInvalidWheel = WheelFortuneList.length === 0;
 	DrawRect(0, 0, 2000, 1000, "#00000080");
 	DrawCharacter(Player, 100, 0, 1, true);
 	let BackColor = (WheelFortuneVelocity == 0) ? "White" : "Silver";
 	DrawButton(1830, 60, 90, 90, "", (WheelFortuneForced ? "Pink" : BackColor), "Icons/Exit.png", TextGet("Exit"));
-	DrawButton(1720, 60, 90, 90, "", BackColor, "Icons/Random.png", TextGet("Random"));
+	DrawButton(1720, 60, 90, 90, "", (WheelFortuneVelocity == 0 && !isInvalidWheel) ? "White" : "Silver", "Icons/Random.png", TextGet("Random"), isInvalidWheel);
 	WheelFortuneDrawWheel(WheelFortuneList, WheelFortunePos, WheelFortunePosMax, 750, 0, 1);
-	DrawTextWrap(TextGet((WheelFortuneVelocity == 0) ? (WheelFortuneForced ? "Forced" : "Title") : "Wait"), 1375, 200, 550, 200, "White");
+
+	let textTag = "Title";
+	if (isInvalidWheel) {
+		textTag = "Invalid";
+	} else if (WheelFortuneVelocity !== 0) {
+		textTag = "Wait";
+	} else if (WheelFortuneForced) {
+		textTag = "Forced";
+	}
+	DrawTextWrap(TextGet(textTag), 1375, 200, 550, 200, "White");
+
 	if (Player.GetDifficulty() <= 1) {
 		MainCanvas.textAlign = "left";
 		DrawCheckbox(1436, 468, 64, 64, TextGet("Roleplay"), WheelFortuneRoleplay, (WheelFortuneVelocity != 0), "White");
@@ -864,7 +890,7 @@ function WheelFortuneClick() {
 	if (MouseIn(1830, 60, 90, 90) && !WheelFortuneForced) WheelFortuneExit();
 
 	// When the user wishes to do a random spin
-	if (MouseIn(1720, 60, 90, 90)) {
+	if (MouseIn(1720, 60, 90, 90) && WheelFortuneList.length > 0) {
 		WheelFortuneForced = false;
 		WheelFortuneVelocity = WheelFortuneVelocity + 3000 + (Math.random() * 3000);
 		WheelFortuneVelocityTime = CommonTime();
@@ -886,7 +912,7 @@ function WheelFortuneClick() {
  * @returns {void} - Nothing
  */
 function WheelFortuneMouseDown() {
-	if (MouseIn(750, 0, 500, 1000) && (WheelFortuneVelocity == 0)) {
+	if (MouseIn(750, 0, 500, 1000) && (WheelFortuneVelocity == 0) && WheelFortuneList.length > 0) {
 		WheelFortunePosY = MouseY;
 		WheelFortuneInitY = MouseY;
 		WheelFortuneInitTime = CommonTime();
@@ -899,7 +925,7 @@ function WheelFortuneMouseDown() {
  * @returns {void} - Nothing
  */
 function WheelFortuneMouseUp() {
-	if ((WheelFortunePosY != null) && (WheelFortuneVelocity == 0)) {
+	if ((WheelFortunePosY != null) && (WheelFortuneVelocity == 0) && WheelFortuneList.length > 0) {
 		if ((WheelFortunePosY < 400) && (MouseY == -1)) WheelFortunePosY = -1;
 		if ((WheelFortunePosY > 600) && (MouseY == -1)) WheelFortunePosY = 1001;
 		if ((WheelFortuneInitTime + 1000 >= CommonTime()) && (Math.abs(WheelFortuneInitY - WheelFortunePosY) > 300)) {
