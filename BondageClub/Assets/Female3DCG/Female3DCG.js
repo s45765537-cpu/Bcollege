@@ -12829,11 +12829,7 @@ var AssetFemale3DCG = [
 				Top: 30,
 				Left: 172,
 				BodyCosplay: true,
-				Layer: [
-					{Name: "Outside"},
-					{Name: "Inner"},
-					{Name: "Light"}
-				]
+				Layer: [{ Name: "Outside" }, { Name: "Inner" }, { Name: "Light" }],
 			},
 		],
 		Color: [
