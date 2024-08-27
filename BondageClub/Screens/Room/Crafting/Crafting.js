@@ -770,6 +770,16 @@ function CraftingLoad() {
 						children: [TextGet(`PropertyNormal`) + ": " + TextGet(`DescriptionNormal`)],
 					}},
 				),
+				ElementButton.Create(
+					CraftingID.assetButton, CraftingEventListeners._ClickExpand,
+					{ role: "menuitemradio", label: TextGet("SelectItem"), image: "./icons/NoCraft.png" },
+					{ button: { attributes: { "aria-expanded": false, "aria-controls": CraftingID.assetPanel } } },
+				),
+				ElementButton.Create(
+					CraftingID.padlockButton, CraftingEventListeners._ClickExpand,
+					{ role: "menuitemradio", label: TextGet("NoLock"), image: "./icons/NoLock.png" },
+					{ button: { attributes: { "aria-expanded": false, "aria-controls": CraftingID.padlockPanel } } },
+				),
 				{
 					tag: "div",
 					attributes: {
@@ -804,11 +814,6 @@ function CraftingLoad() {
 						},
 					],
 				},
-				ElementButton.Create(
-					CraftingID.assetButton, CraftingEventListeners._ClickExpand,
-					{ role: "menuitemradio", label: TextGet("SelectItem"), image: "./icons/NoCraft.png" },
-					{ button: { attributes: { "aria-expanded": false, "aria-controls": CraftingID.assetPanel } } },
-				),
 				{
 					tag: "div",
 					attributes: {
@@ -843,11 +848,6 @@ function CraftingLoad() {
 						},
 					],
 				},
-				ElementButton.Create(
-					CraftingID.padlockButton, CraftingEventListeners._ClickExpand,
-					{ role: "menuitemradio", label: TextGet("NoLock"), image: "./icons/NoLock.png" },
-					{ button: { attributes: { "aria-expanded": false, "aria-controls": CraftingID.padlockPanel } } },
-				),
 				{
 					tag: "div",
 					attributes: {
