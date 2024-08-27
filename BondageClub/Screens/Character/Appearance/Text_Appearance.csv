@@ -7,6 +7,8 @@ ResetClothes,Reset character
 WearRandom,Randomize clothes
 Random,Randomize character
 Naked,Strip clothes
+Copy,Copy to clipboard
+Paste,Import from clipboard
 Character,Show character in previews
 StripItem,Strip item
 Swap,Reorder Items

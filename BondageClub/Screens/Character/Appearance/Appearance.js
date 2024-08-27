@@ -707,7 +707,7 @@ function AppearanceMenuBuild(C) {
 				AppearanceMenu.push(LogQuery("Wardrobe", "PrivateRoom") ? "Wardrobe" : "WardrobeDisabled");
 				if (!LogQuery("Wardrobe", "PrivateRoom") && AppearanceGroupAllowed(C, "ALL")) AppearanceMenu.push("Reset");
 				if (DialogMenuMode !== "permissions") AppearanceMenu.push("WearRandom");
-				AppearanceMenu.push("Random");
+				AppearanceMenu.push("Random", "Copy", "Paste");
 			} else AppearanceMenu.push(LogQuery("Wardrobe", "PrivateRoom") ? "Wardrobe" : "WardrobeDisabled");
 			AppearanceMenu.push("Naked", "Character", "Prev", "Next");
 			break;
@@ -822,7 +822,8 @@ function AppearanceRun() {
 		else CharacterAppearanceHeaderText = TextGet("SelectSomeoneAppearance").replace("TargetCharacterName", C.Name);
 	}
 	DrawCharacter(C, -600, -100 + 4 * C.HeightModifier, 4, false);
-	DrawCharacter(C, 660, 0, 1);
+	if (C.IsPlayer()) DrawCharacter(C, 660, 90, 0.95);
+	else DrawCharacter(C, 660, 0, 1);
 	DrawText(CharacterAppearanceHeaderText, 400, 40, "White", "Black");
 
 	// When there is an extended item
@@ -1524,6 +1525,14 @@ function AppearanceMenuClick(C) {
 					if (Button === "Random") CharacterAppearanceFullRandom(C);
 					if (Button === "Naked") CharacterAppearanceStripLayer(C);
 					if (Button === "Character")  AppearanceUseCharacterInPreviewsSetting = !AppearanceUseCharacterInPreviewsSetting;
+					if (Button === "Copy") CharacterAppearanceCopyToClipboard(C);
+					if (Button === "Paste") {
+						try {
+							navigator.clipboard.readText().then(ClipData => CharacterAppearancePaste(C, ClipData, false));
+						} catch (err) {
+							console.error('Failed to read clipboard contents:', err);
+						}
+					}
 					if (Button === "Prev") CharacterAppearanceMoveGroup(C, -1);
 					if (Button === "Next") CharacterAppearanceMoveGroup(C, 1);
 					if (Button === "Cancel") CharacterAppearanceExit(C);
@@ -1971,8 +1980,9 @@ function CharacterAppearanceCopyToClipboard(C) {
  * Uncompress a string containing an appearance, then applies that appearance data to the character
  * @param {Character} C - The character that loads its new appearance
  * @param {string} CompApp - The compressed string of appaearance data
+ * @param {boolean} ChatRoomRefresh - TRUE if the character should be refreshed online
  */
-function CharacterAppearancePaste(C, CompApp) {
+function CharacterAppearancePaste(C, CompApp, ChatRoomRefresh) {
 	
 	// If the data is invalid, we exit right away
 	if ((C == null) || (C.Appearance == null) || !C.IsPlayer())
@@ -2012,7 +2022,7 @@ function CharacterAppearancePaste(C, CompApp) {
 		if ((AppRow.A != null) && (typeof AppRow.A == "string") && (AppRow.G != null) && (typeof AppRow.G == "string") && AppearanceGroupAllowed(C, AppRow.G)) {
 
 			// On the first update, we clear the current appearance
-			if (MustRefresh == false)
+			if (!MustRefresh)
 				for (let A = C.Appearance.length - 1; A >= 0; A--)
 					if (C.Appearance[A].Asset.Group.Category == "Appearance")
 						if (C.Appearance[A].Asset.Group.AllowNone && AppearanceGroupAllowed(C, C.Appearance[A].Asset.Group.Name))
@@ -2026,7 +2036,8 @@ function CharacterAppearancePaste(C, CompApp) {
 
 	// If at least one appearace row was updated, we refresh the character
 	if (MustRefresh) {
-		CharacterRefresh(C, true);
+		CharacterRefresh(C, false);
+		if (ChatRoomRefresh) ChatRoomCharacterUpdate(C);
 		CharacterAppearanceChatRoomMessage("AppPasteDone");
 	} else {
 		CharacterAppearanceChatRoomMessage("AppPasteError");

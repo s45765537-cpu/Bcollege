@@ -199,7 +199,7 @@ type DialogMenuButton = "Activity" |
 	"Remote" | "RemoteDisabled" | `RemoteDisabledFor${VibratorRemoteAvailability}` |
 	"Unlock" | "Use" | "UseDisabled" | "Struggle" | "TightenLoosen" |
 	// Wardrobe buttons
-	"Wardrobe" | "WardrobeDisabled" | "Reset" | "WearRandom" | "Random" | "Naked" | "Accept" | "Cancel" | "Character"
+	"Wardrobe" | "WardrobeDisabled" | "Reset" | "WearRandom" | "Random" | "Copy" | "Paste" | "Naked" | "Accept" | "Cancel" | "Character"
 	;
 
 type DialogSortOrder = | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;

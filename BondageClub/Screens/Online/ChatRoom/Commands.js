@@ -604,7 +604,7 @@ const CommonCommands = [
 					console.error('Failed to read clipboard contents:', err);
 				}
 			}
-			CharacterAppearancePaste(Player, CompApp);
+			CharacterAppearancePaste(Player, CompApp, true);
 		},
 	},
 	{
