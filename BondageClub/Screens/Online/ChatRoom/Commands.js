@@ -594,21 +594,35 @@ const CommonCommands = [
 		Action: () => { CharacterAppearanceCopyToClipboard(Player) },
 	},
 	{
+		Tag: "apppaste",
+		Action: async (_, msg) => {
+			let CompApp = msg.substring("/mappaste".length).trim();
+			if (!CompApp.length) {
+				try {
+					CompApp = await navigator.clipboard.readText();
+				} catch (err) {
+					console.error('Failed to read clipboard contents:', err);
+				}
+			}
+			CharacterAppearancePaste(Player, CompApp);
+		},
+	},
+	{
 		Tag: "mapcopy",
 		Action: () => { ChatRoomMapViewCopy(); },
 	},
 	{
 		Tag: "mappaste",
 		Action: async (_, msg) => {
-			let mapData = msg.substring("/mappaste".length).trim();
-			if (!mapData.length) {
+			let MapData = msg.substring("/mappaste".length).trim();
+			if (!MapData.length) {
 				try {
-					mapData = await navigator.clipboard.readText();
+					MapData = await navigator.clipboard.readText();
 				} catch (err) {
 					console.error('Failed to read clipboard contents:', err);
 				}
 			}
-			ChatRoomMapViewPaste(mapData);
+			ChatRoomMapViewPaste(MapData);
 		},
 	},
 	{

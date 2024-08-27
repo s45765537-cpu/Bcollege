@@ -1932,23 +1932,29 @@ function CharacterAppearanceGenderAllowed(asset) {
 }
 
 /**
+ * If the player is in the chat room, we display a local message for him/her
+ * @param {string} Msg
+ */
+function CharacterAppearanceChatRoomMessage(Msg) {
+	if (CurrentScreen == "ChatRoom") ChatRoomSendLocal(TextGet(Msg));
+}
+
+/**
  * Creates a compressed string of a character appearance and saves it to the clipboard 
- * @param {Character} C
+ * @param {Character} C - The character to copy from
  */
 function CharacterAppearanceCopyToClipboard(C) {
 
 	// If the data is invalid, we exit right away
-	if ((C == null) || (C.Appearance == null)) return;
+	if ((C == null) || (C.Appearance == null) || !C.IsPlayer()) return;
 
 	// Preoares an array with a full copy of the character appearance, excluding items
 	let App = [];
 	for (let A of C.Appearance)
-		if ((A.Asset != null) && (A.Asset.Group != null) && (!A.Asset.Group.IsItem())) {
-			let Obj = {
-				A: A.Asset.Name,
-				G: A.Asset.Group.Name,
-				C: CommonCloneDeep(A.Color)
-			}
+		if ((A.Asset != null) && (A.Asset.Group != null) && (A.Asset.Group.Category == "Appearance")) {
+			let Obj = { A: A.Asset.Name, G: A.Asset.Group.Name }
+			if ((A.Color != null) && Array.isArray(A.Color)) Obj.C = CommonCloneDeep(A.Color);
+			if ((A.Color != null) && (typeof A.Color == "string") && (A.Color != "") && (A.Color.toLowerCase() != "default")) Obj.C = A.Color;
 			App.push(Obj);
 		}
 
@@ -1957,6 +1963,73 @@ function CharacterAppearanceCopyToClipboard(C) {
 	let S = JSON.stringify(App);
 	S = LZString.compressToBase64(S);
 	navigator.clipboard.writeText(S);
-	if (CurrentScreen == "ChatRoom") ChatRoomSendLocal(TextGet("AppCopyDone"));
+	CharacterAppearanceChatRoomMessage("AppCopyDone");
+
+}
+
+/**
+ * Uncompress a string containing an appearance, then applies that appearance data to the character
+ * @param {Character} C - The character that loads its new appearance
+ * @param {string} CompApp - The compressed string of appaearance data
+ */
+function CharacterAppearancePaste(C, CompApp) {
+	
+	// If the data is invalid, we exit right away
+	if ((C == null) || (C.Appearance == null) || !C.IsPlayer())
+		return CharacterAppearanceChatRoomMessage("AppPasteError");
+
+	// Validates the compressed string first
+	if (typeof CompApp !== "string" || CompApp.length === 0)
+		return CharacterAppearanceChatRoomMessage("AppPasteError");
+
+	// Try to decompress the data
+	let DecompressedData = null;
+	try {
+		DecompressedData = LZString.decompressFromBase64(CompApp);
+	} catch(err) {
+		DecompressedData = null;
+	}
+
+	// If we failed to decompress
+	if (DecompressedData == null)
+		return CharacterAppearanceChatRoomMessage("AppPasteError");
+
+	// Tries to get the appearance bundle object
+	let App = null;
+	try {
+		App = JSON.parse(DecompressedData);
+	} catch(err) {
+		App = null;
+	}
+
+	// If the loaded data is invalid
+	if ((App == null) || !Array.isArray(App) || (App.length == 0))
+		return CharacterAppearanceChatRoomMessage("AppPasteError");
+
+	// Restores the appearance rows that are valid
+	let MustRefresh = false;
+	for (let AppRow of App)
+		if ((AppRow.A != null) && (typeof AppRow.A == "string") && (AppRow.G != null) && (typeof AppRow.G == "string") && AppearanceGroupAllowed(C, AppRow.G)) {
+
+			// On the first update, we clear the current appearance
+			if (MustRefresh == false)
+				for (let A = C.Appearance.length - 1; A >= 0; A--)
+					if (C.Appearance[A].Asset.Group.Category == "Appearance")
+						if (C.Appearance[A].Asset.Group.AllowNone && AppearanceGroupAllowed(C, C.Appearance[A].Asset.Group.Name))
+							C.Appearance.splice(A, 1);
+
+			// Wear the appearance asset and flags for a refresh
+			InventoryWear(C, AppRow.A, AppRow.G, AppRow.C, null, null, null, false);
+			MustRefresh = true;
+
+		}
+
+	// If at least one appearace row was updated, we refresh the character
+	if (MustRefresh) {
+		CharacterRefresh(C, true);
+		CharacterAppearanceChatRoomMessage("AppPasteDone");
+	} else {
+		CharacterAppearanceChatRoomMessage("AppPasteError");
+	}
 
 }

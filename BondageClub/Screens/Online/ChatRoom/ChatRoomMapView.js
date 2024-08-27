@@ -1883,6 +1883,7 @@ function ChatRoomMapViewCopy() {
  */
 function ChatRoomMapViewPaste(Param) {
 
+	// Validates the data first
 	if (typeof Param !== "string" || Param.length === 0) {
 		ChatRoomSendLocal(TextGet("MapPasteError"));
 		return;
