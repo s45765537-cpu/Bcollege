@@ -590,6 +590,10 @@ const CommonCommands = [
 		Action: args => { ChatAdminRoomCustomizationCommand("Music", args); },
 	},
 	{
+		Tag: "appcopy",
+		Action: () => { CharacterAppearanceCopyToClipboard(Player) },
+	},
+	{
 		Tag: "mapcopy",
 		Action: () => { ChatRoomMapViewCopy(); },
 	},

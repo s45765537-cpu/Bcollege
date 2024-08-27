@@ -1930,3 +1930,33 @@ function CharacterAppearanceResolveSync(C, currentAppearance) {
 function CharacterAppearanceGenderAllowed(asset) {
 	return !asset.Gender || !ServerPlayerIsInChatRoom() || ChatSelectGendersAllowed(ChatRoomSpace, [asset.Gender]);
 }
+
+/**
+ * Creates a compressed string of a character appearance and saves it to the clipboard 
+ * @param {Character} C
+ */
+function CharacterAppearanceCopyToClipboard(C) {
+
+	// If the data is invalid, we exit right away
+	if ((C == null) || (C.Appearance == null)) return;
+
+	// Preoares an array with a full copy of the character appearance, excluding items
+	let App = [];
+	for (let A of C.Appearance)
+		if ((A.Asset != null) && (A.Asset.Group != null) && (!A.Asset.Group.IsItem())) {
+			let Obj = {
+				A: A.Asset.Name,
+				G: A.Asset.Group.Name,
+				C: CommonCloneDeep(A.Color)
+			}
+			App.push(Obj);
+		}
+
+	// Stringify and compress the clothing data in a string
+	if (App.length == 0) return;
+	let S = JSON.stringify(App);
+	S = LZString.compressToBase64(S);
+	navigator.clipboard.writeText(S);
+	if (CurrentScreen == "ChatRoom") ChatRoomSendLocal(TextGet("AppCopyDone"));
+
+}
