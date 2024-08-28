@@ -951,6 +951,46 @@ var ElementButton = {
 	},
 
 	/**
+	 * @this {HTMLElement}
+	 * @param {KeyboardEvent} ev
+	 */
+	_KeyDownRadio: function _KeyDownRadio(ev) {
+		if (ev.altKey || ev.metaKey || ev.ctrlKey || ev.shiftKey) {
+			return;
+		}
+
+		switch (ev.key) {
+			case "ArrowRight":
+			case "ArrowDown":
+			case "ArrowLeft":
+			case "ArrowUp": {
+				const sibblings = Array.from(this.closest("[role='radiogroup']")?.querySelectorAll("button[role='radio']") ?? []).filter(e => ElementCheckVisibility(e));
+				const thisIdx = sibblings.indexOf(this);
+				if (thisIdx === -1) {
+					return;
+				}
+
+				/** @type {Element} */
+				let next = this;
+				const nSibblings = sibblings.length;
+				if (ev.key === "ArrowDown" || ev.key === "ArrowRight") {
+					next = sibblings[(thisIdx + 1) % nSibblings];
+				} else {
+					next = thisIdx === 0 ? sibblings[nSibblings - 1] : sibblings[(thisIdx - 1) % nSibblings];
+				}
+
+				if (next !== this) {
+					/** @type {HTMLButtonElement} */(next).click();
+					/** @type {HTMLButtonElement} */(next).focus();
+					ev.stopPropagation();
+					ev.preventDefault();
+				}
+				break;
+			}
+		}
+	},
+
+	/**
 	 * Click event listener for checkbox buttons.
 	 * @private
 	 * @type {(this: HTMLButtonElement, ev: Event) => void}
@@ -1171,11 +1211,16 @@ var ElementButton = {
 			],
 		});
 
-		switch (buttonOptions.attributes?.role ?? options.role) {
+		const role = buttonOptions.attributes?.role ?? options.role;
+		switch (role) {
 			case "radio":
 			case "menuitemradio":
 				elem.addEventListener("click", this._ClickRadio);
 				elem.ariaChecked ??= "false";
+				if (role === "radio") {
+					elem.addEventListener("keydown", this._KeyDownRadio);
+					elem.tabIndex = elem.ariaChecked === "true" ? 0 : -1;
+				}
 				break;
 			case "checkbox":
 			case "menuitemcheckbox":
