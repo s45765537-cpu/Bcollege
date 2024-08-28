@@ -4069,6 +4069,7 @@ interface ClubCardPlayer {
 	Hand: ClubCard[];
 	Board: ClubCard[];
 	Event: ClubCard[];
+	DiscardPile: ClubCard[];
 	Level: number;
 	Money: number;
 	Fame: number;

@@ -668,7 +668,7 @@ var ClubCardList = [
 				} else {
 					CCPlayer.Hand.push(card);
 				}
-				ClubCardRemoveFromBoard(CCPlayer, card);
+				ClubCardRemoveFromBoard(CCPlayer, card, true);
 			}
 
 			for (const card of opponentCardsToReturn) {
@@ -681,6 +681,9 @@ var ClubCardList = [
 			}
 
 			this.ExtraPlay = 1;
+		},
+		BeforeOpponentTurnEnd: function() {
+			this.ExtraPlay = 0;
 		}
 	},
 	{
@@ -892,7 +895,7 @@ var ClubCardList = [
 		MoneyPerTurn: 1,
 		onOpponentPlayedCard: function(CCPlayer, cardPlayed) { 
             if (cardPlayed.Type === "Event") {
-                ClubCardRemoveFromBoard(CCPlayer, this);
+                ClubCardRemoveFromBoard(CCPlayer, this, true);
                 ClubCardAddToHand(CCPlayer, this);
                 ClubCardPlayerAddFame(CCPlayer, 4);
             }
@@ -1878,7 +1881,7 @@ var ClubCardList = [
 		},
 		OnPlay: function(CCPlayer) {
 			if (ClubCardSelection == null) return;
-			ClubCardRemoveFromBoard(CCPlayer, ClubCardSelection);
+			ClubCardRemoveFromBoard(CCPlayer, ClubCardSelection, true);
 
 			// Return the card to its owner's deck
 			if (ClubCardIsLiability(ClubCardSelection)) {
@@ -2162,9 +2165,10 @@ function ClubCardGroupOnBoardCount(CCPlayer, GroupName) {
  * Removes a card from a player board
  * @param {ClubCardPlayer} CCPlayer - The club card player
  * @param {ClubCard} Card - The card object to remove
+ * @param {boolean|null} DontDiscard - If the card dont need to go to the discard pile
  * @returns {void} - Nothing
  */
-function ClubCardRemoveFromBoard(CCPlayer, Card) {
+function ClubCardRemoveFromBoard(CCPlayer, Card, DontDiscard = false) {
 	if ((CCPlayer == null) || (CCPlayer.Board == null) || (Card == null)) {
 		return;
 	}
@@ -2175,6 +2179,13 @@ function ClubCardRemoveFromBoard(CCPlayer, Card) {
 			Card.onLeaveClub(CCPlayer);
 		}
 		CCPlayer.Board.splice(indexToRemove, 1);
+		if (DontDiscard == false) {
+			if (ClubCardIsLiability(Card)) {
+				ClubCardGetOpponent(CCPlayer).DiscardPile.push(Card);
+			} else {
+				CCPlayer.DiscardPile.push(Card);
+			}
+		}
 		ClubCardLogPublish("MemberLeaveClub", CCPlayer, null, Card);
 		ClubCardUpdateBoardCardsIndex(CCPlayer);
 	}
@@ -2244,6 +2255,7 @@ function ClubCardRemoveFromEventByName(CCPlayer, CardName) {
 	for (let C of CCPlayer.Event) {
 		if (C.Name === CardName) {
 			CCPlayer.Event.splice(Pos, 1);
+			CCPlayer.DiscardPile.push(C);
 			ClubCardLogPublish("EventRemoved", CCPlayer, null, C);
 		}
 		Pos++;
@@ -2267,6 +2279,11 @@ function ClubCardRemoveGroupFromBoard(CCPlayer, GroupName) {
 						Card.onLeaveClub(CCPlayer);
 					}
 					CCPlayer.Board.splice(Pos, 1);
+					if (ClubCardIsLiability(Card)) {
+						ClubCardGetOpponent(CCPlayer).DiscardPile.push(Card);
+					} else {
+						CCPlayer.DiscardPile.push(Card);
+					}
 					Pos--;
 					break;
 				}
@@ -2431,6 +2448,7 @@ function ClubCardPlayerDiscardCard(CCPlayer, Amount) {
 	if ((CCPlayer == null) || (CCPlayer.Hand == null) || (Amount == null)) return;
 	while ((Amount > 0) && (CCPlayer.Hand.length > 0)) {
 		let Pos = Math.floor(Math.random() * CCPlayer.Hand.length);
+		CCPlayer.DiscardPile.push(CCPlayer.Hand[Pos]);
 		CCPlayer.Hand.splice(Pos, 1);
 		Amount--;
 	}
@@ -2554,6 +2572,7 @@ function ClubCardAddPlayer(Char, Cont, Cards) {
 		Hand: [],
 		Board: [],
 		Event: [],
+		DiscardPile: [],
 		Level: 1,
 		Money: 5,
 		Fame: 0,
@@ -2671,6 +2690,7 @@ function ClubCardEndTurn(Draw = false) {
 
 	// Display the gained money and fame
 	FameMoneyText = ((CCPlayer.LastFamePerTurn >= 0) ? "+" : "") + CCPlayer.LastFamePerTurn.toString() + " Fame, " + ((CCPlayer.LastMoneyPerTurn >= 0) ? "+" : "") + CCPlayer.LastMoneyPerTurn.toString() + " Money";
+	let TurnText = "Turn " + CCPlayer.ClubCardTurnCounter.toString() + ".";
 
 	// If that player wins the game from Fame gain
 	if (ClubCardCheckVictory(CCPlayer)) {
@@ -2684,10 +2704,10 @@ function ClubCardEndTurn(Draw = false) {
 	// Adds an entry to the log
 	ClubCardTurnEndDraw = Draw;
 	if (Draw) {
-		ClubCardLogAdd(TextGet("EndDrawPlayer").replace("FAMEMONEY", FameMoneyText).replace("SOURCEPLAYER", CharacterNickname(CCPlayer.Character)).replace("OPPONENTPLAYER", CharacterNickname(Opponent.Character)));
+		ClubCardLogAdd(TextGet("EndDrawPlayer").replace("TURNNUMBER", TurnText).replace("FAMEMONEY", FameMoneyText).replace("SOURCEPLAYER", CharacterNickname(CCPlayer.Character)).replace("OPPONENTPLAYER", CharacterNickname(Opponent.Character)));
 		ClubCardPlayerDrawCard(ClubCardPlayer[ClubCardTurnIndex]);
 	} else {
-		ClubCardLogAdd(TextGet("EndTurnPlayer").replace("FAMEMONEY", FameMoneyText).replace("SOURCEPLAYER", CharacterNickname(CCPlayer.Character)).replace("OPPONENTPLAYER", CharacterNickname(Opponent.Character)));
+		ClubCardLogAdd(TextGet("EndTurnPlayer").replace("TURNNUMBER", TurnText).replace("FAMEMONEY", FameMoneyText).replace("SOURCEPLAYER", CharacterNickname(CCPlayer.Character)).replace("OPPONENTPLAYER", CharacterNickname(Opponent.Character)));
 	}
 
 	// Move to the next player
@@ -2720,6 +2740,7 @@ function ClubCardEndTurn(Draw = false) {
 			if ((Card.Time == null) || (Card.Time <= 0)) {
 				ClubCardLogPublish("EventExpired", CCPlayer, null, Card);
 				CCPlayer.Event.splice(Pos, 1);
+				CCPlayer.DiscardPile.push(Card);
 				Pos--;
 			}
 		}
@@ -2916,9 +2937,13 @@ function ClubCardPlayCard(CCPlayer, Card) {
 				if (Card.Type === "Member") {
 					Target.Board.push(Card);
 				}
-				if ((Card.Type === "Event") && (Card.Time != null) && (Card.Time >= 0)) {
-					Target.Event.push(Card);
-					Card.Time = Card.Time + ClubCardExtraTime(CCPlayer);
+				if (Card.Type === "Event") {
+					if ((Card.Time != null) && (Card.Time >= 0)) {
+						Target.Event.push(Card);
+						Card.Time = Card.Time + ClubCardExtraTime(CCPlayer);
+					} else {
+						Target.DiscardPile.push(Card)
+					}
 				}
 				CCPlayer.Hand.splice(Index, 1);
 				Card.Location = (CCPlayer.Index == 0) ? "PlayerBoard" : "OpponentBoard";
@@ -3066,6 +3091,8 @@ function ClubCardBankrupt() {
 	// The opponent loses all liability cards on her board
 	let Opponent = ClubCardGetOpponent(CCPlayer);
 	ClubCardRemoveGroupFromBoard(Opponent, "Liability");
+	// Clear the discard pile after the removing liability cards
+	CCPlayer.DiscardPile = [];
 
 	// Announces the bankrupty and jumps to the next turn
 	ClubCardLogPublish("WentBankrupt", CCPlayer);
@@ -3295,7 +3322,7 @@ function ClubCardRenderBoard(CCPlayer, X, Y, W, H, Mirror) {
 	// Draws the money, fame and level
 	MainCanvas.font = CommonGetFont(Math.round(H / 20));
 	let TextY = Mirror ? Y + H * 0.895 : Y + H * 0.01;
-	if (CCPlayer.Character != null) DrawTextWrap(CharacterNickname(CCPlayer.Character), X + W * 0.01, TextY, W * 0.19, H * 0.1, "White");
+	if (CCPlayer.Character != null) DrawTextWrap(CharacterNickname(CCPlayer.Character), X + W * 0.016, TextY, W * 0.19, H * 0.1, "White");
 	if (CCPlayer.Fame != null) DrawTextWrap(TextGet("Fame") + " " + CCPlayer.Fame + (((CCPlayer.LastFamePerTurn != null) && (CCPlayer.LastFamePerTurn != 0)) ? " (" + ((CCPlayer.LastFamePerTurn > 0) ? "+" : "") + CCPlayer.LastFamePerTurn.toString() + ")" : ""), X + W * 0.21, TextY, W * 0.19, H * 0.1, (CCPlayer.Fame >= 0) ? "White" : "Pink");
 	if (CCPlayer.Money != null) DrawTextWrap(TextGet("Money") + " " + CCPlayer.Money + (((CCPlayer.LastMoneyPerTurn != null) && (CCPlayer.LastMoneyPerTurn != 0)) ? " (" + ((CCPlayer.LastMoneyPerTurn > 0) ? "+" : "") + CCPlayer.LastMoneyPerTurn.toString() + ")" : ""), X + W * 0.61, TextY, W * 0.19, H * 0.1, (CCPlayer.Money >= 0) ? "White" : "Pink");
 	if (CCPlayer.Level != null) DrawTextWrap(TextGet("Level" + CCPlayer.Level) + " (" + CCPlayer.Board.length + " / " + ClubCardLevelLimit[CCPlayer.Level] + ")", X + W * 0.81, TextY, W * 0.19, H * 0.1, ClubCardColor[CCPlayer.Level]);
@@ -3342,6 +3369,29 @@ function ClubCardRenderHand(CCPlayer, X, Y, W, H) {
 	}
 	for (let C of CCPlayer.Hand) {
 		ClubCardRenderCard(C, PosX + 5, Y + 5 + (H * 0.1), (W / 10) - 5, (CCPlayer.Control == "Player") ? null : CCPlayer.Sleeve, (CCPlayer.Control == "Player") ? "PlayerHand" : "OpponentHand");
+		PosX = PosX + IncX;
+	}
+}
+
+/**
+ * Draw the discard pile on screen
+ * @param {ClubCardPlayer} CCPlayer - The club card player that draws it's discard pile
+ * @param {number} X - The X on screen position
+ * @param {number} Y - The Y on screen position
+ * @param {number} W - The width of the discard pile window
+ * @param {number} H - The height of the discard pile window
+ * @returns {void} - Nothing
+ */
+function ClubCardRenderDiscardPile(CCPlayer, X, Y, W, H) {
+	if ((CCPlayer == null) || (CCPlayer.DiscardPile == null)) return;
+	let PosX = Math.round(X + (W / 2) - (CCPlayer.DiscardPile.length * W / 16));
+	let IncX = Math.round(W / 8);
+	if (PosX < X) {
+		PosX = X;
+		IncX = Math.round(W / CCPlayer.DiscardPile.length);
+	}
+	for (let C of CCPlayer.DiscardPile) {
+		ClubCardRenderCard(C, PosX + 5, Y + 5 + (H * 0.1), (W / 10) - 5, null, (CCPlayer.Control == "Player") ? "PlayerDiscardPile" : "OpponentDiscardPile");
 		PosX = PosX + IncX;
 	}
 }
@@ -3410,11 +3460,13 @@ function ClubCardRenderPanel() {
 		return;
 	}
 
-	// Draw the bottom butttons and texts
+	// Draw the discard and bottom butttons and texts
 	if ((ClubCardPopup == null) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")) {
 		DrawButton(1805, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/Bankrupt.png", TextGet("Bankrupt"));
 		DrawButton(1705, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/" + ((ClubCardTurnCardPlayed == 0) ? "Draw" : "CannotDraw") + ".png", TextGet((ClubCardTurnCardPlayed == 0) ? "Draw" : "CannotDraw"));
 		if (ClubCardCanPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) DrawButton(1725, 300, 250, 60, TextGet("PlayCard"), "White");
+		DrawButton(5, 450, 45, 45, null, "White", "Screens/MiniGame/ClubCard/Button/DiscardPile.png", TextGet("OpponentDiscardPile"));
+		DrawButton(5, 505, 45, 45, null, "White", "Screens/MiniGame/ClubCard/Button/DiscardPile.png", TextGet("DiscardPile"));
 	} else ClubCardStatusText(ClubCardIsPlaying() ? "OpponentPlaying" : "WatchingGame");
 
 }
@@ -3434,6 +3486,19 @@ function ClubCardRenderPopup() {
 		DrawRect(550, 300, 600, 400, "Black");
 		for (let Deck = 0; Deck < 10; Deck++)
 			DrawButton(560 + Math.floor(Deck / 5) * 300, 310 + (Deck % 5) * 80, 280, 60, ClubCardBuilderGetDeckName(Deck), "White");
+		return;
+	}
+
+	// Draw the discard pile popup
+	if (ClubCardPopup.Mode == "DISCARDPILE") {
+		DrawRect(48, 258, 1604, 484, "White");
+		DrawRect(50, 260, 1600, 480, "Black");
+		DrawButton(760, 650, 180, 60, ClubCardPopup.Button1, "White");
+		if (ClubCardPopup.Text == "Opponent") {
+			ClubCardRenderDiscardPile(ClubCardGetOpponent(ClubCardPlayer[ClubCardTurnIndex]), 52, 252, 1516, 428);
+		} else {
+			ClubCardRenderDiscardPile(ClubCardPlayer[ClubCardTurnIndex], 52, 252, 1516, 428);
+		}
 		return;
 	}
 
@@ -3493,6 +3558,14 @@ function ClubCardClick() {
 		if ((ClubCardPopup.Mode == "TEXT") && MouseIn(700, 570, 300, 60)) return CommonDynamicFunction(ClubCardPopup.Function1);
 		if ((ClubCardPopup.Mode == "YESNO") && MouseIn(660, 570, 180, 60)) return CommonDynamicFunction(ClubCardPopup.Function1);
 		if ((ClubCardPopup.Mode == "YESNO") && MouseIn(860, 570, 180, 60)) return CommonDynamicFunction(ClubCardPopup.Function2);
+		if (ClubCardPopup.Mode == "DISCARDPILE") {
+			if (MouseIn(760, 650, 180, 60)) return CommonDynamicFunction(ClubCardPopup.Function1);
+			if (ClubCardPopup.Text == "Opponent") {
+				if ((ClubCardHover != null) && ClubCardHover.Location == "OpponentDiscardPile") return ClubCardFocus = {...ClubCardHover};
+			} else {
+				if ((ClubCardHover != null) && ClubCardHover.Location == "PlayerDiscardPile") return ClubCardFocus = {...ClubCardHover};
+			}
+		}
 		if (ClubCardPopup.Mode == "DECK")
 			for (let Deck = 0; Deck < 10; Deck++)
 				if (MouseIn(560 + Math.floor(Deck / 5) * 300, 310 + (Deck % 5) * 80, 280, 60))
@@ -3516,6 +3589,8 @@ function ClubCardClick() {
 	if (MouseIn(1705, 905, 90, 90) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")) return ClubCardEndTurn((ClubCardTurnCardPlayed == 0));
 	if (MouseIn(1805, 905, 90, 90) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")) return ClubCardCreatePopup("YESNO", TextGet("ConfirmBankrupt"), TextGet("Yes"), TextGet("No"), "ClubCardBankrupt()", "ClubCardDestroyPopup()");
 	if (MouseIn(1390, 435, 300, 60) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") && (ClubCardPlayer[ClubCardTurnIndex].Level < ClubCardLevelCost.length - 1) && (ClubCardPlayer[ClubCardTurnIndex].Money >= ClubCardCalculateLevelCost(ClubCardPlayer[ClubCardTurnIndex]))) return ClubCardUpgradeLevel(ClubCardPlayer[ClubCardTurnIndex]);
+	if (MouseIn(5, 450, 45, 45) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")) return ClubCardCreatePopup("DISCARDPILE", "Opponent", TextGet("Close"), null, "ClubCardDestroyPopup()", null);
+	if (MouseIn(5, 505, 45, 45) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")) return ClubCardCreatePopup("DISCARDPILE", null, TextGet("Close"), null, "ClubCardDestroyPopup()", null);
 
 	// Sets the focus card if nothing else was clicked
 	if (ClubCardHover != null) return ClubCardFocus = {...ClubCardHover};

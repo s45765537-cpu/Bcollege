@@ -367,6 +367,7 @@ function GameClubCardLoadBundle(CCPlayer, Bundle) {
 	if (Bundle.Hand != null) CCPlayer.Hand = GameClubCardUndoBundle(Bundle.Hand);
 	if (Bundle.Board != null) CCPlayer.Board = GameClubCardBoardUndoBundle(Bundle.Board, Location);
 	if (Bundle.Event != null) CCPlayer.Event = GameClubCardUndoBundle(Bundle.Event, true, Location);
+	if (Bundle.DiscardPile != null) CCPlayer.DiscardPile = GameClubCardUndoBundle(Bundle.DiscardPile, false, Location);
 	if (Bundle.Playing) ClubCardTurnIndex = CCPlayer.Index;
 	if (Bundle.CardsPlayedThisTurn != null) CCPlayer.CardsPlayedThisTurn = Bundle.CardsPlayedThisTurn;
 	if (Bundle.CardsPlayedThisTurn !== null) CCPlayer.ClubCardTurnCounter = Bundle.ClubCardTurnCounter;
@@ -518,6 +519,7 @@ function GameClubCardSyncOnlineData(Progress = "Action", LocalPlayerOnly = false
 			Hand: GameClubCardDoBundle(CCPlayer.Hand),
 			Board: GameClubCardBoardDoBundle(CCPlayer.Board),
 			Event: GameClubCardDoBundle(CCPlayer.Event, true),
+			DiscardPile: GameClubCardDoBundle(CCPlayer.DiscardPile),
 			CardsPlayedThisTurn: CCPlayer.CardsPlayedThisTurn,
 			ClubCardTurnCounter: CCPlayer.ClubCardTurnCounter
 		});
