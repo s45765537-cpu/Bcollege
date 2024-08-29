@@ -104,6 +104,12 @@ Reden wir über etwas Anderes.
 Fine.  What would you like know?
 Gut. Was möchtest du wissen?
 ###_PLAYER
+Why the horns, wings and tail?
+Warum die Hörner, Flügel und der Schwanz
+###_NPC
+She's a succubus slave.  They sometimes get sold by their owners who enjoys auctions.  She won't bite, especially with a tight gag.
+Es ist eine Succubus Sklavin. Manchmal werden sie von ihrem Eigentümer verkauft.  Sie beißt nicht, besonders, wenn sie einen Knebel trägt.
+###_PLAYER
 She's getting sold?
 Wird sie verkauft?
 ###_NPC
