@@ -250,6 +250,13 @@ function FriendListLoad() {
 							},
 							{
 								tag: "span",
+								classList: ['friend-list-column', 'mode-specific-content', 'fl-beeps-content'],
+								children: [
+									TextGet("ActionRead")
+								],
+							},
+							{
+								tag: "span",
 								classList: ['friend-list-column', 'mode-specific-content', 'fl-all-friends-content'],
 								children: [
 									TextGet("ActionDelete")

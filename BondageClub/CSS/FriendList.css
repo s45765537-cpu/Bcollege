@@ -62,7 +62,7 @@
 
 /* #region HEADER */
 #friend-list-header {
-	height: var(--row-height);
+	min-height: var(--row-height);
 	display: flex;
 	align-items: center;
 	color: var(--text-color);
@@ -128,7 +128,9 @@
 
 .friend-list-row {
 	color: var(--text-color);
-	height: var(--row-height);
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
 }
 
 .friend-list-row * {
@@ -149,9 +151,16 @@
 
 #friend-list .friend-list-column {
 	height: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+}
+
+#friend-list-member-number,
+.MemberNumber {
+	width: 10%;
+}
+
+#friend-list-member-name,
+.MemberName {
+	width: 15%;
 }
 
 #friend-list-subscreen[data-mode="AllFriends"] .RelationType {
