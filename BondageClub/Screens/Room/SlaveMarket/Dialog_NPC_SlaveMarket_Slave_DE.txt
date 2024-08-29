@@ -12,6 +12,12 @@ Wer bist du?
 (She stays silent.)
 (Sie schweigt.)
 ###_PLAYER
+Are these horns and wings?
+Sind das Hörner und Flügel?
+###_NPC
+(The Mistress looks at you and interfere.)  She's a succubus slave.  They sometimes get sold by their owners who enjoys auctions.
+(Die Herrin schaut dir ins Gesicht.)  Sie ist eine Succubus Sklavin. Manchmal werden sie, von ihrem Eigentümer, verkauft.
+###_PLAYER
 Are you getting sold?
 Wirst du hier verkauft?
 ###_NPC
