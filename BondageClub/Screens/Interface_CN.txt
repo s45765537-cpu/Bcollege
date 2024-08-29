@@ -452,7 +452,7 @@ View previous page
 查看上一页
 Private
 私人
-<i>Private room</i>
+<i>Private</i>
 <i>私人房间</i>
 Click here to speed up the progress
 点击这里来加速
