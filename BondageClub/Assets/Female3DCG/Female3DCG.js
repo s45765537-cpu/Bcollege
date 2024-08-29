@@ -2774,6 +2774,7 @@ var AssetFemale3DCG = [
 				Priority: 25,
 				PoseMapping: {
 					Hogtied: "Hogtied",
+					Yoked: "Yoked",
 					OverTheHead: "OverTheHead",
 					AllFours: PoseType.HIDE,
 				},
