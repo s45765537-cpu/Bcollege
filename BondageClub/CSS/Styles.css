@@ -82,7 +82,10 @@ textarea {
 	height: 100%;
 }
 
-* { -webkit-tap-highlight-color:rgba(0,0,0,0); }
+* { 
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
+	box-sizing: border-box;
+}
 
 #chat-room-div {
 	--button-size: min(8vh, 4vw);
@@ -549,6 +552,7 @@ input[type=number]:invalid {
 
 input[type=range] {
   -webkit-appearance: none;
+	appearance: none;
   width: 100%;
   background-color: transparent;
   cursor: pointer;
