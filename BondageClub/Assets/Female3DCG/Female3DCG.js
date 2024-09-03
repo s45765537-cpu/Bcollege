@@ -18348,7 +18348,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				AllowLock: true,
 				SetPose: ["Spread"],
-				Effect: [E.Freeze, E.BlockWardrobe],
+				Effect: [E.Freeze, E.BlockWardrobe, E.MapImmobile],
 				AllowActivityOn: ["ItemLegs", "ItemBoots"],
 				Layer: [{ Name: "Chain", Priority: 6 }, { Name: "Cuffs" }],
 			},
@@ -25693,7 +25693,7 @@ var AssetFemale3DCG = [
 				PoseMapping: {
 					Suspension: "Suspension",
 				},
-				Effect: [E.Block, E.BlockWardrobe, E.Freeze, E.NotSelfPickable],
+				Effect: [E.Block, E.BlockWardrobe, E.Freeze, E.NotSelfPickable, E.MapImmobile],
 				SetPose: ["Yoked"],
 				Hide: ["Bracelet"],
 				Extended: true,
@@ -48299,7 +48299,7 @@ var AssetFemale3DCG = [
 				SelfBondage: 0,
 				Extended: true,
 				DefaultColor: "#956B1C",
-				Effect: [E.Freeze],
+				Effect: [E.Freeze, E.MapImmobile],
 				Layer: [{ Name: "Ring", AllowColorize: false }, { Name: "Ropes" }],
 			},
 			{
@@ -48318,7 +48318,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DrawLocks: false,
 				Extended: true,
-				Effect: [E.Freeze],
+				Effect: [E.Freeze, E.MapImmobile],
 			},
 		],
 		Color: [
