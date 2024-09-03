@@ -20,6 +20,13 @@ function OnlineProfileLoad() {
 }
 
 /**
+ * Handles unloading the online profile screen
+ */
+function OnlineProfileUnload() {
+	ElementRemove("DescriptionInput");
+}
+
+/**
  * Runs and draws the online profile screen
  * @returns {void} - Nothing
  */
@@ -58,6 +65,5 @@ function OnlineProfileExit(Save) {
 		ServerAccountUpdate.QueueData({ Description });
 		ChatRoomCharacterUpdate(InformationSheetSelection);
 	}
-	ElementRemove("DescriptionInput");
 	CommonSetScreen("Character", "InformationSheet");
 }
