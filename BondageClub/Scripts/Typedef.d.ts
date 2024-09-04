@@ -1823,6 +1823,10 @@ interface ImmersionSettingsType {
 	ChatRoomMuffle: boolean;
 	BlindAdjacent: boolean;
 	AllowTints: boolean;
+	/**
+	 * Whether garbled messages that have a non-garbled variant will be decoded.
+	 */
+	ShowUngarbledMessages: boolean;
 }
 
 type ControllerButton = typeof ControllerButton[keyof typeof ControllerButton];

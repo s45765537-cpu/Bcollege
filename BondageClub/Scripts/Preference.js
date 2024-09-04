@@ -478,6 +478,7 @@ function PreferenceInitPlayer() {
 	if (typeof C.ImmersionSettings.ChatRoomMuffle !== "boolean") C.ImmersionSettings.ChatRoomMuffle = false;
 	if (typeof C.ImmersionSettings.BlindAdjacent !== "boolean") C.ImmersionSettings.BlindAdjacent = false;
 	if (typeof C.ImmersionSettings.AllowTints !== "boolean") C.ImmersionSettings.AllowTints = true;
+	if (typeof C.ImmersionSettings.ShowUngarbledMessages !== "boolean") C.ImmersionSettings.ShowUngarbledMessages = true;
 
 	// Misc
 	if (!ChatRoomValidateProperties(C.LastChatRoom)) C.LastChatRoom = null;
@@ -609,6 +610,7 @@ function PreferenceInitPlayer() {
 		C.ImmersionSettings.ChatRoomMuffle = true;
 		C.ImmersionSettings.BlindAdjacent = true;
 		C.ImmersionSettings.AllowTints = true;
+		C.ImmersionSettings.ShowUngarbledMessages = false;
 		C.OnlineSharedSettings.AllowPlayerLeashing = true;
 		C.OnlineSharedSettings.AllowRename = true;
 	}

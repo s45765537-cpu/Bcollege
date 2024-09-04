@@ -4037,7 +4037,7 @@ function ChatRoomMessage(data) {
 	// Apply requested substitutions
 	msg = CommonStringSubstitute(msg, substitutions);
 	const messageEntry = /** @type {MessageEffectEntry} */(data.Dictionary?.find(e => IsMessageEffectDictionaryEntry(e)));
-	if (messageEntry?.Original) {
+	if (messageEntry?.Original && Player.ImmersionSettings.ShowUngarbledMessages) {
 		metadata.OriginalMsg = CommonStringSubstitute(messageEntry.Original, substitutions);
 	}
 
