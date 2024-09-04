@@ -3,18 +3,19 @@ canvas {
 	margin: auto;
 	outline: none;
 	display: block;
-	top:0;
+	top: 0;
 	bottom: 0;
 	left: 0;
 	right: 0;
-  position: absolute;
-  width: 100%;
+	position: absolute;
+	width: 100%;
 }
+
 @media (min-aspect-ratio: 2/1) {
-  canvas {
-    width: unset;
-    height: 100%;
-  }
+	canvas {
+		width: unset;
+		height: 100%;
+	}
 }
 
 input {
@@ -32,527 +33,89 @@ textarea {
 	padding-top: unset;
 }
 
-/* Mixin for disabling any and all browser-defaulted button styling */
-.blank-button {
-	padding: 0;
-	border: none;
-	outline: none;
-	font: inherit;
-	color: inherit;
-	background: none;
+* {
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-.chat-room-sep {
-	padding-left: unset !important;
-	margin-left: 3px;
-	border-bottom: min(0.4vh, 0.2vw) black solid !important;
-	border-top: min(0.4vh, 0.2vw) black solid !important;
-	position: sticky !important;
-	overflow: visible !important;
-	top: 0%;
-	z-index: 1;
-}
-
-.chat-room-sep:has(.chat-room-sep-collapse[aria-expanded="false"]):not(.chat-room-sep-last) {
-	border-bottom: unset !important;
-}
-
-.chat-room-sep-div {
-	width: auto;
-	height: 100%;
-	display: grid;
-	grid-template-columns: 6% auto;
-	justify-items: center;
-	margin-right: 6%;
-}
-
-.chat-room-sep-header {
-	color: gray;
-	user-select: text !important;
-	width: 100%;
-	height: 100%;
-}
-
-.chat-room-sep-collapse {
-	color: gray;
-	border-right: min(0.4vh, 0.2vw) black solid !important;
-	font-weight: bold;
-	text-align: center;
-	width: 100%;
-	height: 100%;
-}
-
-* { 
-	-webkit-tap-highlight-color:rgba(0,0,0,0);
-	box-sizing: border-box;
-}
-
-#chat-room-div {
-	--button-size: min(8vh, 4vw);
-	--button-size: min(8dvh, 4dvw);
-
-	/* Do NOT use min-/max-content for grid rows, as this will cause serious lag related to layour recomputing once the chat log starts to fill up */
-	display: grid;
-	grid-template-rows: 89.6% 10%;
-	gap: 0.4%;
-}
-
-#TextAreaChatLog {
-	background-color: white;
-	border: 1px solid black;
-	overflow: auto;
-	word-wrap: break-word;
-	padding: 0 !important;
-}
-
-#chat-room-bot {
-	--button-color: white;
-
-	display: grid;
-	grid-template:
-		"chat-input chat-buttons-div chat-buttons-collapse chat-length" min-content
-		"chat-input chat-buttons-div chat-buttons-collapse chat-buttons" min-content
-			/ auto min-content min-content min-content;
-	border: min(0.2vh, 0.1vw) inset black;
-	background-color: white;
-	column-gap: min(0.4vh, 0.2vw);
-}
-
-#chat-room-bot:has(#InputChat:invalid) {
-	box-shadow: 0 0 3px 2px #c22;
-}
-
-#chat-room-bot:has(#InputChat:focus) {
-	outline: 2px solid rgb(0, 96, 223);
-	box-shadow: 0 0 0 3px white;
-	border-radius: 1px;
-}
-
-#chat-room-buttons-div {
-	grid-area: chat-buttons-div;
-	width: 0;
-	border-left: min(0.2vh, 0.1vw) inset black;
-	justify-self: center;
-}
-
-#InputChat {
-	grid-area: chat-input;
-	min-height: var(--button-size);
-	max-height: calc(4 * var(--button-size));
-	font: inherit;
-	scrollbar-width: none;
-	background: unset;
-	color: unset;
-	border: unset;
-	outline: unset;
-}
-
-#InputChat:focus {
-	scrollbar-width: auto;
-}
-
-#InputChatLength {
-	grid-area: chat-length;
-	justify-self: end;
-	align-self: flex-end;
-	user-select: none;
-	padding-right: min(0.5vh, 0.25vw);
-}
-#InputChatLength.invalid {
-	color: #FF0000;
-}
-
-#chat-room-buttons-collapse {
-	grid-area: chat-buttons-collapse;
-	height: 100%;
-	width: fit-content;
-	font-weight: bold;
-}
-
-@media (hover: hover) {
-	#chat-room-buttons-collapse:hover {
-		background-color: var(--hover-color);
-	}
-}
-
-#chat-room-buttons-collapse:active,
-#chat-room-buttons-collapse[data-active] {
-	background-color: var(--hover-color);
-}
-
-#chat-room-buttons {
-	grid-area: chat-buttons;
-	display: grid;
-	direction: rtl;
-	align-items: end;
-	justify-self: end;
-	align-self: flex-end;
-	grid-template-columns: repeat(3, min-content);
-	grid-template-rows: repeat(auto-fit, min-content);
-	gap: min(0.4vh, 0.2vw);
-	padding: min(0.4vh, 0.2vw);
-}
-
-.chat-room-button {
-	height: var(--button-size);
-	width: var(--button-size);
-}
-
-.chat-room-button::before {
-	content: "";
-	position: absolute;
-	top: 0%;
-	left: 0%;
-	width: 100%;
-	height: 100%;
-	background-position: center;
-	background-color: var(--button-color);
-	background-blend-mode: multiply;
-	background-size: contain;
-	mask-position: center;
-	mask-size: contain;
-}
-
-@media (hover: hover) {
-	.chat-room-button:hover::before {
-		background-color: var(--hover-color);
-	}
-}
-
-.chat-room-button:disabled::before,
-.chat-room-button[aria-disabled="true"]::before {
-	background-color: var(--disabled-color);
-}
-
-.chat-room-button:active::before,
-.chat-room-button[data-active]::before {
-	background-color: var(--hover-color);
-}
-
-#chat-room-send::before {
-	background-image: url("../Icons/Chat.png");
-	mask-image: url("../Icons/Chat.png");
-}
-
-.ChatMessage {
-	position: relative;
-	padding-left: 0.4em;
-	overflow: hidden;
-}
-.ChatMessage::before {
-	content: attr(data-time);
-	float: right;
-	color: gray;
-	font-style: italic;
-	font-size: 0.5em;
-	margin-right: 0.2em;
-}
-.ChatMessage::after {
-	content: attr(data-sender);
-	position: absolute;
-	color: gray;
-	font-size: 0.3em;
-	top: 1.6em;
-	right: 0.2em;
-}
-
-.ChatMessageAction, .ChatMessageEmote, .ChatMessageActivity {
-	--base-color: white;
-	--label-color: rgb(128, 128, 128);
-
-	background-color: var(--base-color); /* backup for old browsers that do not support color-mix */
-	background-color: color-mix(in srgb, var(--base-color) 90%, var(--label-color) 10%);
-}
-
-.ChatMessageName {
-	text-shadow: 0.05em 0.05em black;
-	color: var(--label-color);
-	user-select: text;
-}
-
-.ChatMessageName:hover {
-	color: black;
-	text-shadow: 0.05em 0.05em var(--label-color);
-}
-
-.ChatMessageAction, .ChatMessageActivity{
-	color: gray;
-}
-.ChatMessageEmote {
-	color: gray;
-	font-style: italic;
-}
-.ChatMessageWhisper {
-	font-style: italic;
-	color: silver;
-}
 .NoSelect {
 	touch-action: manipulation;
-	-webkit-touch-callout: none; /* iOS Safari */
-	-webkit-user-select: none; /* Safari */
-	-khtml-user-select: none; /* Konqueror HTML */
-	-moz-user-select: none; /* Old versions of Firefox */
-	-ms-user-select: none; /* Internet Explorer/Edge */
-	user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
-}
-#TextAreaChatLog[data-shrinknondialogue=true] .ChatMessageEmote {
-	font-size: 0.75em;
-}
-#TextAreaChatLog[data-colortheme=dark], #TextAreaChatLog[data-colortheme="dark2"] {
-  background-color: #111;
-  color: #eee;
-}
-
-#TextAreaChatLog[data-colortheme="dark"] ~ #chat-room-bot,
-#TextAreaChatLog[data-colortheme="dark2"] ~ #chat-room-bot {
-	--button-color: #eee;
-	background-color: #111;
-	border-color: rgba(0, 0, 0, 0.25);
-	color: #eee;
-}
-
-#TextAreaChatLog[data-colortheme="dark"] ~ #chat-room-buttons-div,
-#TextAreaChatLog[data-colortheme="dark2"] ~ #chat-room-buttons-div {
-	border-left: min(0.2vh, 0.1vw) inset rgba(0, 0, 0, 0.25);
-}
-
-@media (hover: hover) {
-	#TextAreaChatLog[data-colortheme="dark"] .chat-room-sep-header:hover,
-	#TextAreaChatLog[data-colortheme="dark2"] .chat-room-sep-header:hover,
-	#TextAreaChatLog[data-colortheme="dark"] .chat-room-sep-collapse:hover,
-	#TextAreaChatLog[data-colortheme="dark2"] .chat-room-sep-collapse:hover {
-		color: #eee;
-	}
-
-	#TextAreaChatLog[data-colortheme="light"] .chat-room-sep-header:hover,
-	#TextAreaChatLog[data-colortheme="light2"] .chat-room-sep-header:hover,
-	#TextAreaChatLog[data-colortheme="light"] .chat-room-sep-collapse:hover,
-	#TextAreaChatLog[data-colortheme="light2"] .chat-room-sep-collapse:hover {
-		color: black;
-	}
-}
-
-#TextAreaChatLog[data-colortheme="dark"] .chat-room-sep-div > .button:active,
-#TextAreaChatLog[data-colortheme="dark2"] .chat-room-sep-div > .button:active,
-#TextAreaChatLog[data-colortheme="dark"] .chat-room-sep-div > .button[data-active],
-#TextAreaChatLog[data-colortheme="dark2"] .chat-room-sep-div > .button[data-active] {
-	color: #eee;
-}
-
-#TextAreaChatLog[data-colortheme="light"] .chat-room-sep-div > .button:active,
-#TextAreaChatLog[data-colortheme="light2"] .chat-room-sep-div > .button:active,
-#TextAreaChatLog[data-colortheme="light"] .chat-room-sep-div > .button[data-active],
-#TextAreaChatLog[data-colortheme="light2"] .chat-room-sep-div > .button[data-active] {
-	color: black;
-}
-
-#TextAreaChatLog[data-colortheme="dark"] .ChatMessageName {
-  	text-shadow: 0.05em 0.05em white;
-}
-#TextAreaChatLog[data-colortheme="light2"] .ChatMessageName {
-	text-shadow: 0 0 0.12em rgba(0, 0, 0, .5);
-}
-#TextAreaChatLog[data-colortheme="dark2"] .ChatMessageName {
-	text-shadow: 0 0 0.12em rgba(255, 255, 255, .4);
-}
-
-#TextAreaChatLog[data-colortheme="light"][data-colornames=false] .ChatMessageName:hover {
-	text-shadow: 0.05em 0.05em black;
-}
-
-#TextAreaChatLog[data-colortheme="dark"] .ChatMessageName:hover {
-	color: white;
-	text-shadow: 0.05em 0.05em var(--label-color);
-}
-#TextAreaChatLog[data-colortheme="dark"][data-colornames=false] .ChatMessageName:hover {
-	text-shadow: 0.05em 0.05em white;
-	outline: black;
-}
-
-#TextAreaChatLog[data-colortheme="light2"] .ChatMessageName:hover {
-	color: black;
-	text-shadow: 0 0 0.12em var(--label-color);
-}
-#TextAreaChatLog[data-colortheme="light2"][data-colornames=false] .ChatMessageName:hover {
-	text-shadow: 0 0 0.12em black;
-}
-
-#TextAreaChatLog[data-colortheme="dark2"] .ChatMessageName:hover {
-	color: white;
-	text-shadow: 0 0 0.12em var(--label-color);
-}
-#TextAreaChatLog[data-colortheme="dark2"][data-colornames=false] .ChatMessageName:hover {
-	text-shadow: 0 0 0.12em white;
-}
-
-#TextAreaChatLog[data-colortheme=dark] .ChatMessageWhisper, #TextAreaChatLog[data-colortheme="dark2"] .ChatMessageWhisper {
-  color: gray;
-}
-
-#TextAreaChatLog[data-colortheme="dark2"] .ChatMessage, #TextAreaChatLog[data-colortheme="light2"] .ChatMessage {
-  line-height: 1.4em;
-  padding: 0.1em;
-  padding-right: 2em;
-}
-#TextAreaChatLog[data-colortheme="light2"] .ChatMessage {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-}
-#TextAreaChatLog[data-colortheme="dark2"] .ChatMessage {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
-}
-#TextAreaChatLog[data-colortheme="dark2"] .ChatMessageEmote,
-#TextAreaChatLog[data-colortheme="dark2"] .ChatMessageAction,
-#TextAreaChatLog[data-colortheme="dark2"] .ChatMessageActivity,
-#TextAreaChatLog[data-colortheme="light2"] .ChatMessageEmote,
-#TextAreaChatLog[data-colortheme="light2"] .ChatMessageAction,
-#TextAreaChatLog[data-colortheme="light2"] .ChatMessageActivity {
-  font-size: 0.8em;
-}
-#TextAreaChatLog[data-colortheme="dark2"] .ChatMessage::before,
-#TextAreaChatLog[data-colortheme="dark2"] .ChatMessage::after,
-#TextAreaChatLog[data-colortheme="light2"] .ChatMessage::before,
-#TextAreaChatLog[data-colortheme="light2"] .ChatMessage::after {
-  position: absolute;
-  float: none;
-  line-height: 1;
-  font-size: 0.5em;
-  right: 0.2em;
-}
-#TextAreaChatLog[data-colortheme="dark2"] .ChatMessage::before,
-#TextAreaChatLog[data-colortheme="light2"] .ChatMessage::before {
-  top: 0.4em;
-}
-#TextAreaChatLog[data-colortheme="dark2"] .ChatMessage::after,
-#TextAreaChatLog[data-colortheme="light2"] .ChatMessage::after {
-  top: 1.6em;
-}
-#TextAreaChatLog[data-enterleave=smaller] .ChatMessageEnterLeave {
-	font-size: 0.5em;
-	text-align: center;
-}
-#TextAreaChatLog[data-shrinknondialogue=true] .ChatMessageNonDialogue {
-	font-size: 0.5em;
-	text-align: center;
-}
-#TextAreaChatLog[data-enterleave=hidden] .ChatMessageEnterLeave {
-	display: none;
-}
-#TextAreaChatLog[data-membernumbers=never] .ChatMessage::after,
-#TextAreaChatLog[data-membernumbers=onmouseover] .ChatMessage::after {
-	display: none;
-}
-#TextAreaChatLog[data-membernumbers=onmouseover] .ChatMessage:hover::after {
-	display: block;
-}
-#TextAreaChatLog[data-displaytimestamps=false] .ChatMessage::before {
-	display: none;
-}
-#TextAreaChatLog[data-displaytimestamps=false] .ChatMessage::after {
-	top: 0;
-}
-#TextAreaChatLog[data-colornames=false] .ChatMessageName {
-	color: inherit !important;
-	text-shadow: none;
-	font-weight: bold;
-}
-#TextAreaChatLog[data-coloractions=false] .ChatMessageAction,
-#TextAreaChatLog[data-coloremotes=false] .ChatMessageEmote,
-#TextAreaChatLog[data-coloractivities=false] .ChatMessageActivity {
-	background-color: var(--base-color) !important;
-}
-#TextAreaChatLog[data-whitespace=preserve] {
-	white-space: pre-wrap;
-    overflow-wrap: break-word;
-}
-
-#TextAreaChatLog[data-colortheme="light"] .ChatMessageAction,
-#TextAreaChatLog[data-colortheme="light2"] .ChatMessageAction,
-#TextAreaChatLog[data-colortheme="light"] .ChatMessageEmote,
-#TextAreaChatLog[data-colortheme="light2"] .ChatMessageEmote,
-#TextAreaChatLog[data-colortheme="light"] .ChatMessageActivity,
-#TextAreaChatLog[data-colortheme="light2"] .ChatMessageActivity {
-	--base-color: white;
-}
-
-#TextAreaChatLog[data-colortheme="dark"] .ChatMessageAction,
-#TextAreaChatLog[data-colortheme="dark2"] .ChatMessageAction,
-#TextAreaChatLog[data-colortheme="dark"] .ChatMessageEmote,
-#TextAreaChatLog[data-colortheme="dark2"] .ChatMessageEmote,
-#TextAreaChatLog[data-colortheme="dark"] .ChatMessageActivity,
-#TextAreaChatLog[data-colortheme="dark2"] .ChatMessageActivity {
-	--base-color: #111;
-}
-
-.ReplyButton {
-	text-decoration: none;
-	font-style: normal;
-	display: inline;
-	cursor: pointer;
-	font-size: smaller;
-	margin-top: 3px;
-	margin-bottom: 3px;
+	/* iOS Safari */
+	-webkit-touch-callout: none;
+	/* Safari */
+	-webkit-user-select: none;
+	/* Konqueror HTML */
+	-khtml-user-select: none;
+	/* Old versions of Firefox */
+	-moz-user-select: none;
+	/* Internet Explorer/Edge */
+	-ms-user-select: none;
+	/* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+	user-select: none;
 }
 
 .custom-select {
-  position: relative;
-  font-family: Arial, sans-serif;
+	position: relative;
+	font-family: Arial, sans-serif;
 }
 
 .custom-select select {
-  display: none; /*hide original SELECT element:*/
+	/*hide original SELECT element:*/
+	display: none;
 }
 
 .select-selected {
-  background-color: white;
-  color: black;
-  background-image: url('../Icons/Dropdown.png');
-  background-repeat: no-repeat, repeat;
-  background-position: right .7em top 50%, 0 0;
-  background-size: .65em auto, 100%;
+	background-color: white;
+	color: black;
+	background-image: url('../Icons/Dropdown.png');
+	background-repeat: no-repeat, repeat;
+	background-position: right .7em top 50%, 0 0;
+	background-size: .65em auto, 100%;
 }
 
 /*style the items (options), including the selected item:*/
-.select-items div,.select-selected {
-  color: black;
-  padding: 0.2em;
-  cursor: pointer;
-  user-select: none;
+.select-items div,
+.select-selected {
+	color: black;
+	padding: 0.2em;
+	cursor: pointer;
+	user-select: none;
 }
 
 /*style items (options):*/
 .select-items {
-  position: absolute;
-  background-color: white;
-  top: 100%;
-  left: 0;
-  right: 0;
-  z-index: 99;
+	position: absolute;
+	background-color: white;
+	top: 100%;
+	left: 0;
+	right: 0;
+	z-index: 99;
 }
 
 /*hide the items when the select box is closed:*/
 .select-hide {
-  display: none;
+	display: none;
 }
 
-.select-items div:hover, .same-as-selected {
-  background-color: cyan;
+.select-items div:hover,
+.same-as-selected {
+	background-color: cyan;
 }
 
 input[type=text]:invalid {
-  background-color: #fbb;
-  box-shadow: 0 0 3px 2px #c22;
+	background-color: #fbb;
+	box-shadow: 0 0 3px 2px #c22;
 }
 
 input[type=number]:invalid {
 	background-color: #fbb;
 	box-shadow: 0 0 3px 2px #c22;
-  }
+}
 
 /* Range Inputs - WebKit */
 
 input[type=range] {
   -webkit-appearance: none;
-	appearance: none;
+  appearance: none;
   width: 100%;
   background-color: transparent;
   cursor: pointer;
@@ -562,60 +125,60 @@ input[type=range] {
 }
 
 input[type=range]:focus {
-  outline: none;
+	outline: none;
 }
 
 input[type=range].Vertical {
-  transform: rotate(270deg);
+	transform: rotate(270deg);
 }
 
 input[type=range]::-webkit-slider-runnable-track {
-  width: 100%;
-  height: 25%;
-  cursor: pointer;
-  background-color: #fff;
-  border-radius: 3px;
-  border: 1px solid rgba(128, 128, 128, 0.25);
+	width: 100%;
+	height: 25%;
+	cursor: pointer;
+	background-color: #fff;
+	border-radius: 3px;
+	border: 1px solid rgba(128, 128, 128, 0.25);
 }
 
 input[type=range]::-webkit-slider-thumb {
-  border: 1px solid rgba(0, 0, 0, 0.5);
-  box-shadow: 1px 1px 8px -2px rgba(0, 0, 0, 0.5);
-  height: 1em;
-  width: 1em;
-  border-radius: 50%;
-  cursor: pointer;
-  -webkit-appearance: none;
-  margin-top: -0.4em;
-  background-color: #ccc;
+	border: 1px solid rgba(0, 0, 0, 0.5);
+	box-shadow: 1px 1px 8px -2px rgba(0, 0, 0, 0.5);
+	height: 1em;
+	width: 1em;
+	border-radius: 50%;
+	cursor: pointer;
+	-webkit-appearance: none;
+	margin-top: -0.4em;
+	background-color: #ccc;
 }
 
 input[type=range][data-thumb]::-webkit-slider-thumb {
-  background-color: transparent;
-  box-shadow: none;
-  background-position: center;
-  background-size: cover;
-  border: 0;
-  font-size: 1.5em;
-  border-radius: 0;
+	background-color: transparent;
+	box-shadow: none;
+	background-position: center;
+	background-size: cover;
+	border: 0;
+	font-size: 1.5em;
+	border-radius: 0;
 }
 
 input[type=range][data-thumb].Vertical::-webkit-slider-thumb {
-  transform: rotate(90deg);
+	transform: rotate(90deg);
 }
 
 input[type=range][data-thumb=lock]::-webkit-slider-thumb {
-  background-image: url("../Assets/Female3DCG/ItemMisc/Preview/MetalPadlock.png");
-  width: 0.5em;
+	background-image: url("../Assets/Female3DCG/ItemMisc/Preview/MetalPadlock.png");
+	width: 0.5em;
 }
 
 input[type=range][data-thumb=blindfold]::-webkit-slider-thumb {
-  background-image: url("../Assets/Female3DCG/ItemHead/Preview/StuddedBlindfold.png");
+	background-image: url("../Assets/Female3DCG/ItemHead/Preview/StuddedBlindfold.png");
 }
 
 input[type=range][data-thumb=lightbulb]::-webkit-slider-thumb {
-  background-image: url("../Icons/Lightbulb.png");
-  width: 0.6em;
+	background-image: url("../Icons/Lightbulb.png");
+	width: 0.6em;
 }
 
 input[type=range][data-thumb=player]::-webkit-slider-thumb {
@@ -633,50 +196,50 @@ input[type=range][data-thumb=rope]::-webkit-slider-thumb {
 /* Range Inputs - Firefox */
 
 input[type=range]::-moz-range-track {
-  width: 100%;
-  height: 25%;
-  cursor: pointer;
-  background-color: #fff;
-  border: 1px solid rgba(128, 128, 128, 0.25);
-  border-radius: 3px;
+	width: 100%;
+	height: 25%;
+	cursor: pointer;
+	background-color: #fff;
+	border: 1px solid rgba(128, 128, 128, 0.25);
+	border-radius: 3px;
 }
 
 input[type=range]::-moz-range-thumb {
-  border: 1px solid rgba(0, 0, 0, 0.5);
-  box-shadow: 1px 1px 8px -2px rgba(0, 0, 0, 0.5);
-  height: 1em;
-  width: 1em;
-  border-radius: 50%;
-  background-color: #ccc;
-  cursor: pointer;
+	border: 1px solid rgba(0, 0, 0, 0.5);
+	box-shadow: 1px 1px 8px -2px rgba(0, 0, 0, 0.5);
+	height: 1em;
+	width: 1em;
+	border-radius: 50%;
+	background-color: #ccc;
+	cursor: pointer;
 }
 
 input[type=range][data-thumb]::-moz-range-thumb {
-  background-color: transparent;
-  box-shadow: none;
-  background-position: center;
-  background-size: cover;
-  border: 0;
-  font-size: 1.5em;
-  border-radius: 0;
+	background-color: transparent;
+	box-shadow: none;
+	background-position: center;
+	background-size: cover;
+	border: 0;
+	font-size: 1.5em;
+	border-radius: 0;
 }
 
 input[type=range][data-thumb].Vertical::-moz-range-thumb {
-  transform: rotate(90deg);
+	transform: rotate(90deg);
 }
 
 input[type=range][data-thumb=lock]::-moz-range-thumb {
-  background-image: url("../Assets/Female3DCG/ItemMisc/Preview/MetalPadlock.png");
-  width: 0.5em;
+	background-image: url("../Assets/Female3DCG/ItemMisc/Preview/MetalPadlock.png");
+	width: 0.5em;
 }
 
 input[type=range][data-thumb=blindfold]::-moz-range-thumb {
-  background-image: url("../Assets/Female3DCG/ItemHead/Preview/StuddedBlindfold.png");
+	background-image: url("../Assets/Female3DCG/ItemHead/Preview/StuddedBlindfold.png");
 }
 
 input[type=range][data-thumb=lightbulb]::-moz-range-thumb {
-  background-image: url("../Icons/Lightbulb.png");
-  width: 0.6em;
+	background-image: url("../Icons/Lightbulb.png");
+	width: 0.6em;
 }
 
 input[type=range][data-thumb=player]::-moz-range-thumb {
@@ -690,8 +253,6 @@ input[type=range][data-thumb=rope]::-moz-range-thumb {
 	width: 1.2em;
 	height: 1.2em;
 }
-
-/** The shop */
 
 input[type="checkbox"] {
 	-webkit-appearance: none;
@@ -708,11 +269,11 @@ input[type="checkbox"] {
 }
 
 input[type="checkbox"]:hover {
-	background-color:cyan;
+	background-color: cyan;
 }
 
 input[type="checkbox"]:disabled {
-	background-color:lightgray;
+	background-color: lightgray;
 }
 
 input[type="checkbox"]::before {
@@ -726,190 +287,6 @@ input[type="checkbox"]::before {
 
 input[type="checkbox"]:checked::before {
 	transform: scale(1);
-}
-
-.shop2-pose-outer-grid {
-	display: grid;
-	grid-auto-flow: column;
-	gap: min(2vh, 1vw);
-}
-
-.shop2-pose-inner-grid {
-	display: grid;
-	grid-auto-flow: row;
-	justify-items: center;
-	gap: min(1vh, 0.5vw);
-	height: fit-content;
-}
-
-.shop-button {
-	height: min(9vh, 4.5vw);
-	width: min(9vh, 4.5vw);
-}
-
-/* layering */
-
-#layering {
-	--button-gap: min(2vh, 1vw);
-	--button-size: min(9vh, 4.5vw);
-
-	display: grid;
-	grid-template:
-		"asset-header button-grid" min-content
-		"asset-grid asset-grid" min-content
-		"layer-header layer-header" min-content
-		"layer-grid layer-grid" auto
-		/ auto min-content
-	;
-	justify-items: center;
-	align-items: center;
-	gap: min(2vh, 1vw);
-	background-color: rgba(0, 0, 0, 0.45);
-}
-
-#layering * {
-	font-family: inherit;
-	font-size: min(3.5vh, 1.75vw);
-	user-select: none;
-	text-overflow: ellipsis;
-}
-
-#layering h2 {
-	margin: min(2vh, 1vw);
-	color: white;
-}
-
-#layering h1 {
-	margin: 0;
-	color: white;
-	font-size: min(5vh, 2.5vw);
-	padding: min(2vh, 1vw);
-}
-
-#layering input[type=number] {
-	/* Add an absolute 16px marigin to better deal with the increment/decrement button scaling upon resizing */
-	width: calc(min(7vh, 3.5vw) + 16px);
-	padding: min(0.2vh, 0.1vw);
-}
-
-#layering input[type=number]:focus {
-	background-color: white !important;
-}
-
-#layering input[type=number]:invalid {
-	background-color: #fbb !important;
-}
-
-.layering-input-unfocused {
-	background-color: lightgray;
-}
-
-.layering-button-grid {
-	--max-rows: 3;
-
-	display: grid;
-	gap: var(--button-gap);
-	overflow: unset !important;
-	grid-template-columns: repeat(var(--max-rows), var(--button-size));
-	direction: rtl;
-	width: 100%;
-	height: 100%;
-}
-
-.layering-button-grid > button {
-	width: var(--button-size);
-	height: var(--button-size);
-}
-
-#layering-button-grid {
-	grid-area: button-grid;
-}
-
-#layering-asset-header {
-	grid-area: asset-header;
-}
-
-#layering-reset-button {
-	background-image: url("../Icons/Swap.png");
-}
-
-#layering-exit-button {
-	background-image: url("../Icons/Exit.png");
-}
-
-#layering-lock-button {
-	background-image: url("../Icons/Lock.png");
-}
-
-#layering-hide-button {
-	background-image: url("../Icons/Visibility.png");
-}
-
-#layering-hide-button[aria-checked="false"] #layering-hide-button-tooltip-show {
-	display: none;
-}
-
-#layering-hide-button[aria-checked="true"] #layering-hide-button-tooltip-hide {
-	display: none;
-}
-
-#layering-asset-grid {
-	grid-area: asset-grid;
-	min-height: min(9vh, 4.5vw);
-}
-
-#layering-layer-header {
-	grid-area: layer-header;
-}
-
-#layering-layer-div {
-	box-sizing: border-box;
-	grid-area: layer-grid;
-	width: 100%;
-	height: calc(100% - min(2vh, 1vw));
-	overflow-y: scroll;
-	padding-left: min(2vh, 1vw);
-	padding-right: min(2vh, 1vw);
-	align-self: self-start;
-}
-
-#layering-layer-outer-grid {
-	display: grid;
-	justify-items: center;
-	width: 100%;
-}
-
-#layering-layer-outer-grid:not(:last-child) .layering-layer-inner-grid {
-	padding-bottom: min(2vh, 1vw);
-}
-
-.layering-layer-inner-grid {
-	display: grid;
-	grid-template-columns: 50% 50%;
-	gap: min(2vh, 1vw) 0;
-	width: 100%;
-}
-
-.layering-pair {
-	align-items: center;
-	display: grid;
-	grid-template-columns: min-content auto;
-}
-
-.layering-pair:not(:has(input:disabled)) > .layering-pair-text:hover {
-	cursor: pointer;
-	color: yellow;
-}
-
-.layering-pair-text {
-	color: white;
-	overflow-x: hidden;
-	padding-left: min(2vh, 1vw);
-	padding-right: min(2vh, 1vw);
-}
-
-.layering-button-pink[data-pose] {
-	--button-color: pink;
 }
 
 /* Dropdown */
@@ -959,42 +336,3 @@ input[type="checkbox"]:checked::before {
 	text-overflow: ellipsis;
 	-o-text-overflow: ellipsis;
 }
-
-/* Custom fonts */
-@font-face {
-    font-family: 'Calligraffitti';
-    src: url('../Fonts/Calligraffitti/Calligraffitti-Regular.ttf');
-}
-
-@font-face {
-  font-family: 'Saira Stencil One';
-  src: url('../Fonts/Saira Stencil One/SairaStencilOne-Regular.ttf');
-}
-@font-face {
-	font-family: 'Pacifico';
-	src: url('../Fonts/Pacifico/Pacifico-Regular.ttf');
-}
-@font-face {
-    font-family: 'Satisfy';
-    src: url('../Fonts/Satisfy/Satisfy-Regular.ttf');
-}
-@font-face {
-	font-family: 'Nanum Pen Script';
-	src: url('../Fonts/Nanum\ Pen\ Script/NanumPenScript-Regular.ttf');
-}
-@font-face {
-	font-family: 'Archivo Black';
-	src: url('../Fonts/Archivo Black/ArchivoBlack-Regular.ttf');
-}
-@font-face {
-	font-family: 'Caveat';
-	src: url('../Fonts/Caveat/Caveat-Regular.ttf');
-}
-@font-face {
-	font-family: 'Caveat-Bold';
-	src: url('../Fonts/Caveat/Caveat-Bold.ttf');
-}
-@font-face {
-	font-family: 'Libre Barcode 39';
-	src: url('../Fonts/Libre_Barcode_39/LibreBarcode39-Regular.ttf');
-  }
