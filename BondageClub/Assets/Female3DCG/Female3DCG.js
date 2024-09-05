@@ -3005,6 +3005,8 @@ var AssetFemale3DCG = [
 				PoseMapping: {
 					AllFours: "AllFours",
 					Hogtied: "Hogtied",
+					OverTheHead: "Yoked",
+					Yoked: "Yoked",
 				},
 				Expose: [
 					"ItemVulva",
