@@ -772,12 +772,12 @@ function CraftingLoad() {
 				),
 				ElementButton.Create(
 					CraftingID.assetButton, CraftingEventListeners._ClickExpand,
-					{ role: "menuitemradio", label: TextGet("SelectItem"), image: "./icons/NoCraft.png" },
+					{ role: "menuitemradio", label: TextGet("SelectItem"), image: "./Icons/NoCraft.png" },
 					{ button: { attributes: { "aria-expanded": false, "aria-controls": CraftingID.assetPanel } } },
 				),
 				ElementButton.Create(
 					CraftingID.padlockButton, CraftingEventListeners._ClickExpand,
-					{ role: "menuitemradio", label: TextGet("NoLock"), image: "./icons/NoLock.png" },
+					{ role: "menuitemradio", label: TextGet("NoLock"), image: "./Icons/NoLock.png" },
 					{ button: { attributes: { "aria-expanded": false, "aria-controls": CraftingID.padlockPanel } } },
 				),
 				{
