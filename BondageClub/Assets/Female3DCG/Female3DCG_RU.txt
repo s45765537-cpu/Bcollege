@@ -71,9 +71,11 @@ Fishnet Top
 Latex Catsuit
 Латексный костюм
 Towel
-полотенце
+Полотенце
+Trowel
+Мастерок
 Yukata
-кимоно
+Кимоно
 Body Markings
 Маркировка тела
 Womb Tattoos
@@ -82,6 +84,8 @@ Body Writings
 Надписи на теле
 Steampunk Corset
 Корсет стимпанк
+Leather Tight Corset
+Кожаный узкий корсет
 Boned Underbust Corset
 Костяной корсет под грудь
 Bondage Dress Style 1
@@ -358,6 +362,8 @@ Hobble Gown Skirt
 Стреноживающая юбка
 Admiral Skirt
 Адмиральская Юбка
+ArmBSuit Rubber Skirt
+Резиновая юбка
 Jean Skirt
 Джинсовая юбка
 Pencil Skirt
@@ -772,6 +778,8 @@ Flippers
 Ласты
 Platform Clogs
 Сабо на платформе
+Custom Strap Heels
+Кастомные каблики с ремешками
 Deluxe Mistress Boots
 Роскошные сапоги госпожи
 Ankle Strap Shoes
@@ -802,6 +810,8 @@ Santa Hat
 Шляпа Санты
 Captain's Hat
 Капитанская фуражка
+Cheap Helmet
+Легкая каска
 Bunny Succubus
 Кролик Суккуб
 Witch Hat
@@ -1149,6 +1159,8 @@ Succubus Feather
 Оперение Суккуба 
 Succubus Wings
 Крылья Суккуба
+Dragon Wings
+Dragon Wings
 Angel Feather
 Оперение Ангела
 Devil Wings
@@ -1718,7 +1730,7 @@ Latex Nulge
 Lovers Vibrator
 Любовный вибратор
 Lovers Remote
-Любовный пульт
+Пульт возлюбленного
 Double Ended Dildo
 Двусторонний дилдо
 Stitches
@@ -1881,6 +1893,8 @@ Spanking Toys
 Игрушки для порки
 Rope Harness
 Веревочная Упряжь
+Hip Harness
+Набедренная упряжь
 Diaper Harness
 Подгузник сбруя
 Pelvis Chain Leash
@@ -2019,6 +2033,8 @@ Leather Armbinder
 Кожаный армбиндер
 Armbinder Jacket
 Куртка-армбиндер
+Armbinder Suit
+Костюм с армбиндером
 Leather Cuffs
 Кожаные Манжеты
 Leather Deluxe Cuffs
@@ -2155,6 +2171,8 @@ Futuristic Mittens
 Футуристические варежки
 Glue Mittens
 Клеевые варежки
+Hemp Rope Cuffs
+Манжеты из веревки
 Padded Leather Mittens
 Варежки Из Мягкой Кожи
 Polished Steel Mittens
@@ -2211,6 +2229,8 @@ Vibrator
 Вибратор
 Belt
 Пояс
+Brick
+Кирпич
 Hairbrush
 Расческа
 Small Dildo
@@ -2480,9 +2500,9 @@ Muzzle Gag
 Neck Corset Gag
 Шейный Корсет Кляп
 Futuristic Panel Gag
-Футуристическая Панель кляп
+Футуристический Панельный кляп
 Futuristic Harness Panel Gag
-Футуристический панельный Кляп
+Футуристический панельный кляп со сбруей
 Futuristic Ball Gag
 Футуристический Кляп с Мячом
 Sleeping Pill
@@ -2555,6 +2575,8 @@ Sock Stuffing
 Начинка из носков
 Respirator Mask
 Респираторная маска
+Latex Genital Gag
+Латексный кляп-киска
 Glue
 Клей
 Web Gag
@@ -2691,6 +2713,8 @@ Pumpkin Head
 Тыквенная Голова
 Paper bag
 Бумажный пакет
+Rubber Mask
+Резиновая маска
 Fu
 Счастье
 Sack Hood
@@ -2857,6 +2881,8 @@ Fur Blanket Wrap
 Меховое одеяло
 Bondage Bench
 Скамья для Бондажа
+Brick Wall
+Кирпичная стена
 Grill
 Гриль
 Halloween Monster Set

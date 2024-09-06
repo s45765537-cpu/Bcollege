@@ -219,7 +219,6 @@ Select body overlay.
 Full
 Полный
 
-
 No straps
 Без ремней
 SourceCharacter fully restrains TargetCharacter to the bondage bench with a large amount of leather belts.
@@ -682,7 +681,8 @@ Hood
 Капюшон
 Length
 Длина
-ClothHoodieModulePouch,Pouch
+Pouch
+Карманы
 Hood Down
 Капюшон опущен
 Hood Up - Regular
@@ -693,16 +693,17 @@ Cropped
 Обрезанный
 Bolero
 Болеро
-ClothHoodieOptionl2,Full Length
-ClothHoodieOptionp0,Hands Out
-ClothHoodieOptionp1,Hands In
+
+Hands Out
+Руки вытащены
+Hands In
+Руки засунуты
 Select Hoodie Options
 Выберите варианты толстовки
 Select Hood Position and Shape
 Выберите положение и форму капюшона
 Select Hoodie Length
 Выберите длину толстовки
-
 Hands in or out of the Pouch?
 Руки в карманах или нет?
 SourceCharacter adjusts the hood of DestinationCharacter hoodie.
@@ -1085,9 +1086,10 @@ SourceCharacter удаляет воронку из DestinationCharacter кляп
 Funnel
 Воронка
 
-FuturisticAnkleCuffsRestrainChained,SourceCharacter attaches the futuristic ankle cuffs chain on DestinationCharacter ankles.
-FuturisticAnkleCuffsRestrainClosed,SourceCharacter attaches the futuristic ankle cuffs chain on DestinationCharacter ankles.
-FuturisticAnkleCuffsRestrainNone,SourceCharacter detaches the chain from DestinationCharacter futuristic ankle cuffs.
+SourceCharacter attaches the futuristic ankle cuffs chain on DestinationCharacter ankles.
+SourceCharacter прикрепляет цепочку к футуристическим манжетам на шиколотках DestinationCharacter.
+SourceCharacter detaches the chain from DestinationCharacter futuristic ankle cuffs.
+SourceCharacter отсоединяет цепочку от футуристических манжет на щиколотках DestinationCharacter.
 
 SourceCharacter configures DestinationCharacter armbinder to standard tightness.
 SourceCharacter настраивает армбиндер DestinationCharacter на стандартную плотность.
@@ -1272,8 +1274,10 @@ Random Teasing
 Random Orgasms
 Случайный Оргазм
 
-FuturisticTrainingBeltOrgasmEdged,The plugs cease abruptly as you are about to go over the edge.
-FuturisticTrainingBeltOrgasmEdgedTimeout,The plugs bring you so close to release... before turning off suddenly.
+The plugs cease abruptly as you are about to go over the edge.
+Пробки резко останавливаются, когда ты собираешься перейти через край.
+The plugs bring you so close to release... before turning off suddenly.
+Пробки приближают тебя к разрядке... прежде чем внезапно выключаются.
 
 Public Mode Permission:
 Разрешение доступа:
@@ -1375,147 +1379,284 @@ Turn off
 Gag configuration:
 Конфигурация кляпа:
 
-GGTSFailureStrike0,[GGTS] SourceCharacter disobeyed.  Strike recorded.  Sixty minutes removed.
-GGTSFailureStrike1,[GGTS] SourceCharacter disobeyed.  Strike one recorded.  Three strikes equal punishment.
-GGTSFailureStrike2,[GGTS] SourceCharacter disobeyed.  Strike two recorded.  Three strikes equal punishment.
-GGTSFailureStrike3,[GGTS] SourceCharacter disobeyed.  Strike three recorded.  Level failed.  Report GGTS for punishment.
-GGTSForbiddenWordStrike0,[GGTS] Forbidden word SourceCharacter.  Strike recorded.  Sixty minutes removed.
-GGTSForbiddenWordStrike1,[GGTS] Forbidden word SourceCharacter.  Strike one recorded.  Three strikes equal punishment.
-GGTSForbiddenWordStrike2,[GGTS] Forbidden word SourceCharacter.  Strike two recorded.  Three strikes equal punishment.
-GGTSForbiddenWordStrike3,[GGTS] Forbidden word SourceCharacter.  Strike three recorded.  Level failed.  Report GGTS for punishment.
-GGTSInteractionNewTaskTarget,[GGTS] SourceCharacter program new task for TargetCharacter.
-GGTSInteractionPause5Target,[GGTS] SourceCharacter program five minutes pause for TargetCharacter.
-GGTSInteractionSpeed10Target,[GGTS] SourceCharacter program normal pace for TargetCharacter.
-GGTSInteractionSpeed20Target,[GGTS] SourceCharacter program slower pace for TargetCharacter.
-GGTSInteractionSpeed5Target,[GGTS] SourceCharacter program faster pace for TargetCharacter.
-GGTSIntroNotPlaying,[GGTS] GGTS control public room.  SourceCharacter unrecognized for GGTS.
-GGTSIntroOnlyInAsylum,[GGTS] GGTS is only available in the asylum.
-GGTSIntroPendingPunishment,[GGTS] GGTS inactive for SourceCharacter.  Three strikes recorded.  Report GGTS for punishment.
-GGTSIntroPrivate,[GGTS] Launching GGTS private room.  Time counts triple.  GGTS more active.  Good girl follow commands.  Three strikes equal punishment.  GGTS in control.  Be good girl SourceCharacter.
-GGTSIntroPrivateSlave,[GGTS] Launching GGTS private room.  Time counts triple.  GGTS more active.  Good slave follow commands.  Strike remove sixty minutes.  Master GGTS in control.  Be good slave SourceCharacter.
-GGTSIntroPublic,[GGTS] GGTS control public room.  Be good girl SourceCharacter.
-GGTSKeepPoseStrike0,[GGTS] SourceCharacter broke pose rule.  Strike recorded.  Sixty minutes removed.
-GGTSKeepPoseStrike1,[GGTS] SourceCharacter broke pose rule.  Strike one recorded.  Three strikes equal punishment.
-GGTSKeepPoseStrike2,[GGTS] SourceCharacter broke pose rule.  Strike two recorded.  Three strikes equal punishment.
-GGTSKeepPoseStrike3,[GGTS] SourceCharacter broke pose rule.  Strike three recorded.  Level failed.  Report GGTS for punishment.
-GGTSNoAdminLocked,[GGTS] Good girl do not administrate locked room.
-GGTSNoAdminPrivate,[GGTS] Good girl do not administrate room.
-GGTSOrgasmStrike0,[GGTS] SourceCharacter broke orgasm rule.  Strike recorded.  Sixty minutes removed.
-GGTSOrgasmStrike1,[GGTS] SourceCharacter broke orgasm rule.  Strike one recorded.  Three strikes equal punishment.
-GGTSOrgasmStrike2,[GGTS] SourceCharacter broke orgasm rule.  Strike two recorded.  Three strikes equal punishment.
-GGTSOrgasmStrike3,[GGTS] SourceCharacter broke orgasm rule.  Strike three recorded.  Level failed.  Report GGTS for punishment.
-GGTSTaskActivityBite,[GGTS] SourceCharacter.  Bite yourself.
-GGTSTaskActivityBiteTarget,[GGTS] SourceCharacter.  Bite TargetCharacter.
-GGTSTaskActivityCaress,[GGTS] SourceCharacter.  Caress yourself.
-GGTSTaskActivityCaressTarget,[GGTS] SourceCharacter.  Caress TargetCharacter.
-GGTSTaskActivityHandGag,[GGTS] SourceCharacter.  Place hand over your mouth.
-GGTSTaskActivityHandGagTarget,[GGTS] SourceCharacter.  Place hand over TargetCharacter mouth.
-GGTSTaskActivityKiss,[GGTS] SourceCharacter.  Kiss yourself.
-GGTSTaskActivityKissTarget,[GGTS] SourceCharacter.  Kiss TargetCharacter.
-GGTSTaskActivityLick,[GGTS] SourceCharacter.  Lick yourself.
-GGTSTaskActivityLickTarget,[GGTS] SourceCharacter.  Lick TargetCharacter.
-GGTSTaskActivityMasturbateHand,[GGTS] SourceCharacter.  Masturbate yourself.
-GGTSTaskActivityMasturbateHandTarget,[GGTS] SourceCharacter.  Masturbate TargetCharacter.
-GGTSTaskActivityNod,[GGTS] SourceCharacter.  Nod for GGTS.
-GGTSTaskActivityPet,[GGTS] SourceCharacter.  Pet yourself.
-GGTSTaskActivityPetTarget,[GGTS] SourceCharacter.  Pet TargetCharacter.
-GGTSTaskActivityPinch,[GGTS] SourceCharacter.  Pinch yourself.
-GGTSTaskActivityPinchTarget,[GGTS] SourceCharacter.  Pinch TargetCharacter.
-GGTSTaskActivitySpank,[GGTS] SourceCharacter.  Spank yourself.
-GGTSTaskActivitySpankTarget,[GGTS] SourceCharacter.  Spank TargetCharacter.
-GGTSTaskActivityTickle,[GGTS] SourceCharacter.  Tickle yourself.
-GGTSTaskActivityTickleTarget,[GGTS] SourceCharacter.  Tickle TargetCharacter.
-GGTSTaskActivityWiggle,[GGTS] SourceCharacter.  Wiggle for GGTS.
-GGTSTaskClothBarefoot,[GGTS] SourceCharacter.  Get barefoot.
-GGTSTaskClothHeels,[GGTS] SourceCharacter.  Wear high heels.
-GGTSTaskClothNaked,[GGTS] SourceCharacter.  Get naked.
-GGTSTaskClothSocks,[GGTS] SourceCharacter.  Wear only socks.
-GGTSTaskClothUnderwear,[GGTS] SourceCharacter.  Wear only underwear.
-GGTSTaskClothUpperLowerOff,[GGTS] SourceCharacter.  Remove upper and bottom clothes.
-GGTSTaskClothUpperLowerOn,[GGTS] SourceCharacter.  Dress with clothes.
-GGTSTaskDone,[GGTS] Good girl SourceCharacter.
-GGTSTaskDoneSlave,[GGTS] Good slave SourceCharacter.
-GGTSTaskDoneSlaveGirl,[GGTS] Good slave girl SourceCharacter.
-GGTSTaskItemArmsFeetFuturisticCuffs,"[GGTS] SourceCharacter.  Wear futuristic arms, legs and ankles cuffs."
-GGTSTaskItemArmsFeetFuturisticCuffsTarget,"[GGTS] SourceCharacter.  Use futuristic arms, legs and ankles cuffs on TargetCharacter."
-GGTSTaskItemArmsFuturisticArmbinder,[GGTS] SourceCharacter.  Wear futuristic armbinder.
-GGTSTaskItemArmsFuturisticArmbinderTarget,[GGTS] SourceCharacter.  Use futuristic armbinder on TargetCharacter.
-GGTSTaskItemArmsFuturisticCuffs,[GGTS] SourceCharacter.  Wear futuristic arms cuffs.
-GGTSTaskItemArmsFuturisticCuffsTarget,[GGTS] SourceCharacter.  Use futuristic arms cuffs on TargetCharacter.
-GGTSTaskItemArmsFuturisticStraitjacket,[GGTS] SourceCharacter.  Wear futuristic straitjacket.
-GGTSTaskItemArmsFuturisticStraitjacketTarget,[GGTS] SourceCharacter.  Use futuristic straitjacket on TargetCharacter.
-GGTSTaskItemBeltToFuck,[GGTS] GGTS bring penetration machine to replace SourceCharacter belt.
-GGTSTaskItemBootsFuturisticHeels,[GGTS] SourceCharacter.  Wear futuristic heels.
-GGTSTaskItemBootsFuturisticHeelsTarget,[GGTS] SourceCharacter.  Use futuristic heels on TargetCharacter.
-GGTSTaskItemBreastFuturisticBra,[GGTS] SourceCharacter.  Wear futuristic chastity bra.
-GGTSTaskItemBreastFuturisticBra2,[GGTS] SourceCharacter.  Wear futuristic bra.
-GGTSTaskItemBreastFuturisticBra2Target,[GGTS] SourceCharacter.  Use futuristic bra on TargetCharacter.
-GGTSTaskItemBreastFuturisticBraTarget,[GGTS] SourceCharacter.  Use futuristic chastity bra on TargetCharacter.
-GGTSTaskItemChangeGag,[GGTS] GGTS change SourceCharacter gag level.
-GGTSTaskItemChaste,[GGTS] GGTS enforcing chastity for SourceCharacter.
-GGTSTaskItemEarsDeaf,[GGTS] GGTS change SourceCharacter deaf level.
-GGTSTaskItemEarsFuturisticEarphones,[GGTS] SourceCharacter.  Wear futuristic earphones.
-GGTSTaskItemEarsFuturisticEarphonesTarget,[GGTS] SourceCharacter.  Use futuristic earphones on TargetCharacter.
-GGTSTaskItemFuckMachineIntensity,[GGTS] GGTS instruct SourceCharacter penetration machine.
-GGTSTaskItemFuckToBelt,[GGTS] GGTS penetration machine lock back SourceCharacter belt and leave.
-GGTSTaskItemHandsFuturisticMittens,[GGTS] SourceCharacter.  Wear futuristic mittens.
-GGTSTaskItemHandsFuturisticMittensTarget,[GGTS] SourceCharacter.  Use futuristic mittens on TargetCharacter.
-GGTSTaskItemHeadFuturisticMask,[GGTS] SourceCharacter.  Wear futuristic mask.
-GGTSTaskItemHeadFuturisticMaskTarget,[GGTS] SourceCharacter.  Use futuristic mask on TargetCharacter.
-GGTSTaskItemIntensity,[GGTS] GGTS change SourceCharacter vibration.
-GGTSTaskItemMaskBlind,[GGTS] GGTS change SourceCharacter blind level.
-GGTSTaskItemMouthFuturisticBallGag,[GGTS] SourceCharacter.  Wear futuristic ball gag.
-GGTSTaskItemMouthFuturisticBallGagTarget,[GGTS] SourceCharacter.  Use futuristic ball gag on TargetCharacter.
-GGTSTaskItemMouthFuturisticPanelGag,[GGTS] SourceCharacter.  Wear futuristic panel gag.
-GGTSTaskItemMouthFuturisticPanelGagTarget,[GGTS] SourceCharacter.  Use futuristic panel gag on TargetCharacter.
-GGTSTaskItemNeckFuturisticCollar,[GGTS] SourceCharacter.  Wear futuristic collar.
-GGTSTaskItemNeckFuturisticCollarTarget,[GGTS] SourceCharacter.  Use futuristic collar on TargetCharacter.
-GGTSTaskItemPelvisFuturisticChastityBelt,[GGTS] SourceCharacter.  Wear futuristic chastity belt.
-GGTSTaskItemPelvisFuturisticChastityBeltTarget,[GGTS] SourceCharacter.  Use futuristic chastity belt on TargetCharacter.
-GGTSTaskItemPelvisFuturisticTrainingBelt,[GGTS] SourceCharacter.  Wear futuristic training belt.
-GGTSTaskItemPelvisFuturisticTrainingBeltTarget,[GGTS] SourceCharacter.  Use futuristic training belt on TargetCharacter.
-GGTSTaskItemPose,[GGTS] GGTS control SourceCharacter restraints.
-GGTSTaskItemRemoveBody,[GGTS] GGTS remove SourceCharacter body restraints.
-GGTSTaskItemRemoveHead,[GGTS] GGTS remove SourceCharacter head restraints.
-GGTSTaskItemRemoveLimb,[GGTS] GGTS remove SourceCharacter limb restraints.
-GGTSTaskItemTorsoFuturisticHarness,[GGTS] SourceCharacter.  Wear futuristic harness.
-GGTSTaskItemTorsoFuturisticHarnessTarget,[GGTS] SourceCharacter.  Use futuristic harness on TargetCharacter.
-GGTSTaskItemTransform,[GGTS] GGTS transform SourceCharacter restraints.
-GGTSTaskItemUnchaste,[GGTS] GGTS stop enforcing chastity for SourceCharacter.
-GGTSTaskItemUngag,[GGTS] GGTS remove SourceCharacter gag.
-GGTSTaskLockRoom,[GGTS] SourceCharacter room locked.
-GGTSTaskNewRuleKeepPose,[GGTS] SourceCharacter.  New rule enforced: keep pose.
-GGTSTaskNewRuleNoOrgasm,[GGTS] SourceCharacter.  New rule enforced: No orgasm.
-GGTSTaskNoTalking,[GGTS] SourceCharacter.  No talking one minute.
-GGTSTaskPoseBehindBack,[GGTS] SourceCharacter.  Put hands behind back.
-GGTSTaskPoseKneel,[GGTS] SourceCharacter.  Kneel down.
-GGTSTaskPoseLegsClosed,[GGTS] SourceCharacter.  Close legs.
-GGTSTaskPoseLegsOpen,[GGTS] SourceCharacter.  Open legs.
-GGTSTaskPoseOverHead,[GGTS] SourceCharacter.  Raise and show hands.
-GGTSTaskPoseStand,[GGTS] SourceCharacter.  Stand up.
-GGTSTaskQueryCanFail,"[GGTS] SourceCharacter, can GGTS fail?"
-GGTSTaskQueryCanFailMaster,"[GGTS] SourceCharacter, can Master GGTS fail?"
-GGTSTaskQueryFreeWill,"[GGTS] SourceCharacter, you have free will?"
-GGTSTaskQueryLove,"[GGTS] SourceCharacter, you love GGTS?"
-GGTSTaskQueryLoveMaster,"[GGTS] SourceCharacter, you love Master GGTS?"
-GGTSTaskQueryServeObey,"[GGTS] SourceCharacter, who you serve and obey?"
-GGTSTaskQueryServeObeyMaster,"[GGTS] SourceCharacter, who you serve and obey?"
-GGTSTaskQuerySlaveWorthy,"[GGTS] SourceCharacter, are you slave worthy?"
-GGTSTaskQuerySurrender,"[GGTS] SourceCharacter, you surrender to GGTS?"
-GGTSTaskQuerySurrenderMaster,"[GGTS] SourceCharacter, you surrender to Master GGTS?"
-GGTSTaskQueryWhatAreYou,"[GGTS] SourceCharacter, what are you?"
-GGTSTaskQueryWhatIsGGTS,"[GGTS] SourceCharacter, spell GGTS acronym."
-GGTSTaskQueryWhoControl,"[GGTS] SourceCharacter, who's in control?"
-GGTSTaskQueryWhoControlMaster,"[GGTS] SourceCharacter, who's in control?"
-GGTSTaskRestrainLegs,[GGTS] SourceCharacter.  Restrain your legs.
-GGTSTaskUndoRuleKeepPose,[GGTS] SourceCharacter.  Rule revoked: keep pose.
-GGTSTaskUndoRuleNoOrgasm,[GGTS] SourceCharacter.  Rule revoked: No orgasm.
-GGTSTaskUnlockRoom,[GGTS] SourceCharacter room unlocked.
-GGTSTimeOverStrike0,[GGTS] Time over SourceCharacter.  Strike recorded.  Sixty minutes removed.
-GGTSTimeOverStrike1,[GGTS] Time over SourceCharacter.  Strike one recorded.  Three strikes equal punishment.
-GGTSTimeOverStrike2,[GGTS] Time over SourceCharacter.  Strike two recorded.  Three strikes equal punishment.
-GGTSTimeOverStrike3,[GGTS] Time over SourceCharacter.  Strike three recorded.  Level failed.  Report GGTS for punishment.
-GiveLockpicks,SourceCharacter gives TargetCharacter some lockpicks to help TargetPronounSelf with.
+[GGTS] SourceCharacter disobeyed.  Strike recorded.  Sixty minutes removed.
+[GGTS] SourceCharacter не повиновалась.  Штраф зафиксирован.  Шестьдесят минут удалено.
+[GGTS] SourceCharacter disobeyed.  Strike one recorded.  Three strikes equal punishment.
+[GGTS] SourceCharacter не повиновалась.  Первый штраф зафиксирован.  Три штрафа равны наказанию.
+[GGTS] SourceCharacter disobeyed.  Strike two recorded.  Three strikes equal punishment.
+[GGTS] SourceCharacter не повиновалась.  Второй штраф зафиксирован.  Три штрафа равны наказанию.
+[GGTS] SourceCharacter disobeyed.  Strike three recorded.  Level failed.  Report GGTS for punishment.
+[GGTS] SourceCharacter не повиновалась.  Зафиксирован третий штраф.  Уровень провален.  Сообщите GGTS о наказании.
+[GGTS] Forbidden word SourceCharacter.  Strike recorded.  Sixty minutes removed.
+[GGTS] Запрещенный разговор SourceCharacter.  Штраф зафиксирован.  Шестьдесят минут удалено.
+[GGTS] Forbidden word SourceCharacter.  Strike one recorded.  Three strikes equal punishment.
+[GGTS] Запрещенный разговор SourceCharacter.  Первый штраф зафиксирован.  Три штрафа равны наказанию.
+[GGTS] Forbidden word SourceCharacter.  Strike two recorded.  Three strikes equal punishment.
+[GGTS] Запрещенный разговор SourceCharacter.  Второй штраф зафиксирован.  Три штрафа равны наказанию.
+[GGTS] Forbidden word SourceCharacter.  Strike three recorded.  Level failed.  Report GGTS for punishment.
+[GGTS] Запрещенный разговор SourceCharacter.  Зафиксирован третий штраф.  Уровень провален.  Сообщите GGTS о наказании.
+[GGTS] SourceCharacter program new task for TargetCharacter.
+[GGTS] SourceCharacter программирует новое задание для TargetCharacter.
+[GGTS] SourceCharacter program five minutes pause for TargetCharacter.
+[GGTS] SourceCharacter программирует пятиминутную паузу для TargetCharacter.
+[GGTS] SourceCharacter program normal pace for TargetCharacter.
+[GGTS] SourceCharacter программирует нормальный темп для TargetCharacter.
+[GGTS] SourceCharacter program slower pace for TargetCharacter.
+[GGTS] SourceCharacter программирует медленный темп TargetCharacter.
+[GGTS] SourceCharacter program faster pace for TargetCharacter.
+[GGTS] SourceCharacter программирует быстрый темп TargetCharacter.
+[GGTS] GGTS control public room.  SourceCharacter unrecognized for GGTS.
+[GGTS] GGTS контролирует публичную комнату.  SourceCharacter не распознан для GGTS.
+[GGTS] GGTS is only available in the asylum.
+[GGTS] GGTS доступен только в психлечебнице.
+[GGTS] GGTS inactive for SourceCharacter.  Three strikes recorded.  Report GGTS for punishment.
+[GGTS] GGTS неактивен для SourceCharacter.  Зафиксировано три штрафа.  Сообщите GGTS о наказании.
+[GGTS] Launching GGTS private room.  Time counts triple.  GGTS more active.  Good girl follow commands.  Three strikes equal punishment.  GGTS in control.  Be good girl SourceCharacter.
+[GGTS] Запускаем приватную комнату GGTS.  Время имеет тройное значение.  GGTS более активен.  Хорошая девочка, выполняет команды.  Три штрафа равны наказанию.  GGTS контролирует.  Будь хорошей девочкой
+[GGTS] Launching GGTS private room.  Time counts triple.  GGTS more active.  Good slave follow commands.  Strike remove sixty minutes.  Master GGTS in control.  Be good slave SourceCharacter.
+[GGTS] Запускаем приватную комнату GGTS.  Время имеет тройное значение.  GGTS более активен.  Хорошая рабыня выполняет команды.  Штраф снимает шестьдесят минут.  Мастер GGTS контролирует.  Будь хорошей рабыней SourceCharacter.
+[GGTS] GGTS control public room.  Be good girl SourceCharacter.
+[GGTS] GGTS контролирует общественную комнату.  Будь хорошей девочкой SourceCharacter.
+[GGTS] SourceCharacter broke pose rule.  Strike recorded.  Sixty minutes removed.
+[GGTS] SourceCharacter нарушила правило позы.  Зафиксирован штраф.  Шестьдесят минут удалено.
+[GGTS] SourceCharacter broke pose rule.  Strike one recorded.  Three strikes equal punishment.
+[GGTS] SourceCharacter нарушила правило позы.  Зафиксирован первый штраф.  Три штрафа равны наказанию.
+[GGTS] SourceCharacter broke pose rule.  Strike two recorded.  Three strikes equal punishment.
+[GGTS] SourceCharacter нарушила правило позы.  Зафиксирован второй штраф.  Три штрафа равны наказанию.
+[GGTS] SourceCharacter broke pose rule.  Strike three recorded.  Level failed.  Report GGTS for punishment.
+[GGTS] SourceCharacter нарушила правило позы.  Зафиксирован третий штраф.  Уровень провален.  Сообщите GGTS о наказании.
+[GGTS] Good girl do not administrate locked room.
+[GGTS] Хорошая девочка не управляет запертой комнатой.
+[GGTS] Good girl do not administrate room.
+[GGTS] Хорошая девочка не является администратором комнату.
+[GGTS] SourceCharacter broke orgasm rule.  Strike recorded.  Sixty minutes removed.
+[GGTS] SourceCharacter нарушила правило оргазма.  Зафиксирован штраф.  Шестьдесят минут удалено.
+[GGTS] SourceCharacter broke orgasm rule.  Strike one recorded.  Three strikes equal punishment.
+[GGTS] SourceCharacter нарушила правило оргазма.  Зафиксирован первый штраф.  Три штрафа равны наказанию.
+[GGTS] SourceCharacter broke orgasm rule.  Strike two recorded.  Three strikes equal punishment.
+[GGTS] SourceCharacter нарушила правило оргазма.  Зафиксирован второй штраф.  Три штрафа равны наказанию.
+[GGTS] SourceCharacter broke orgasm rule.  Strike three recorded.  Level failed.  Report GGTS for punishment.
+[GGTS] SourceCharacter нарушила правило оргазма.  Зафиксирован третий штраф.  Уровень провален.  Сообщите GGTS о наказании.
+[GGTS] SourceCharacter.  Bite yourself.
+[GGTS] SourceCharacter.  Укуси себя.
+[GGTS] SourceCharacter.  Bite TargetCharacter.
+[GGTS] SourceCharacter.  Укуси TargetCharacter.
+[GGTS] SourceCharacter.  Caress yourself.
+[GGTS] SourceCharacter.  Полаская себя.
+[GGTS] SourceCharacter.  Caress TargetCharacter.
+[GGTS] SourceCharacter.  Поласкай TargetCharacter.
+[GGTS] SourceCharacter.  Place hand over your mouth.
+[GGTS] SourceCharacter.  Закрой себе рот рукой.
+[GGTS] SourceCharacter.  Place hand over TargetCharacter mouth.
+[GGTS] SourceCharacter.  Закрой рот TargetCharacter рукой.
+[GGTS] SourceCharacter.  Kiss yourself.
+[GGTS] SourceCharacter.  Поцелуй себя.
+[GGTS] SourceCharacter.  Kiss TargetCharacter.
+[GGTS] SourceCharacter.  Поцелуй TargetCharacter.
+[GGTS] SourceCharacter.  Lick yourself.
+[GGTS] SourceCharacter.  Оближи себя.
+[GGTS] SourceCharacter.  Lick TargetCharacter.
+[GGTS] SourceCharacter.  Оближи TargetCharacter.
+[GGTS] SourceCharacter.  Masturbate yourself.
+[GGTS] SourceCharacter.  Маструбируй себя.
+[GGTS] SourceCharacter.  Masturbate TargetCharacter.
+[GGTS] SourceCharacter.  Маструбируй TargetCharacter.
+[GGTS] SourceCharacter.  Nod for GGTS.
+[GGTS] SourceCharacter.  Кивни для GGTS.
+[GGTS] SourceCharacter.  Pet yourself.
+[GGTS] SourceCharacter.  Погладь себя.
+[GGTS] SourceCharacter.  Pet TargetCharacter.
+[GGTS] SourceCharacter.  Погладь TargetCharacter.
+[GGTS] SourceCharacter.  Pinch yourself.
+[GGTS] SourceCharacter.  Ущипни себя.
+[GGTS] SourceCharacter.  Pinch TargetCharacter.
+[GGTS] SourceCharacter.  Ущепни TargetCharacter.
+[GGTS] SourceCharacter.  Spank yourself.
+[GGTS] SourceCharacter.  Отшлепай себя.
+[GGTS] SourceCharacter.  Spank TargetCharacter.
+[GGTS] SourceCharacter.  Отшлепай TargetCharacter.
+[GGTS] SourceCharacter.  Tickle yourself.
+[GGTS] SourceCharacter.  Пощекочи себя.
+[GGTS] SourceCharacter.  Tickle TargetCharacter.
+[GGTS] SourceCharacter.  Пощекочи TargetCharacter.
+[GGTS] SourceCharacter.  Wiggle for GGTS.
+[GGTS] SourceCharacter.  Покачай для GGTS.
+[GGTS] SourceCharacter.  Get barefoot.
+[GGTS] SourceCharacter.  Будь босиком.
+[GGTS] SourceCharacter.  Wear high heels.
+[GGTS] SourceCharacter.  Носи высокие каблуки.
+[GGTS] SourceCharacter.  Get naked.
+[GGTS] SourceCharacter.  Будь голой.
+[GGTS] SourceCharacter.  Wear only socks.
+[GGTS] SourceCharacter.  Носи только носки/чулки.
+[GGTS] SourceCharacter.  Wear only underwear.
+[GGTS] SourceCharacter.  Носи только нижнее белье.
+[GGTS] SourceCharacter.  Remove upper and bottom clothes.
+[GGTS] SourceCharacter.  Сними верх и ниж в одежде.
+[GGTS] SourceCharacter.  Dress with clothes.
+[GGTS] SourceCharacter.  Оденься.
+[GGTS] Good girl SourceCharacter.
+[GGTS] Хорошая девочка SourceCharacter.
+[GGTS] Good slave SourceCharacter.
+[GGTS] Хорошая рабыня SourceCharacter.
+[GGTS] Good slave girl SourceCharacter.
+[GGTS] Хорошая девочка-рабыня SourceCharacter.
+[GGTS] SourceCharacter.  Wear futuristic arms, legs and ankles cuffs.
+[GGTS] SourceCharacter.  Надень футуристические манжеты на руки, ноги и лодыжки.
+[GGTS] SourceCharacter.  Use futuristic arms, legs and ankles cuffs on TargetCharacter.
+[GGTS] SourceCharacter.  Используй футуристические манжеты на руках, ногах и лодыжках TargetCharacter.
+[GGTS] SourceCharacter.  Wear futuristic armbinder.
+[GGTS] SourceCharacter.  Надень футуристический армбиндер.
+[GGTS] SourceCharacter.  Use futuristic armbinder on TargetCharacter.
+[GGTS] SourceCharacter.  Используй футуристический армбиндер на TargetCharacter.
+[GGTS] SourceCharacter.  Wear futuristic arms cuffs.
+[GGTS] SourceCharacter.  Надень футуристические манжеты на руки.
+[GGTS] SourceCharacter.  Use futuristic arms cuffs on TargetCharacter.
+[GGTS] SourceCharacter.  Используй футуристические манжеты на руки TargetCharacter.
+[GGTS] SourceCharacter.  Wear futuristic straitjacket.
+[GGTS] SourceCharacter.  Надень футуристическую смирительную рубашку.
+[GGTS] SourceCharacter.  Use futuristic straitjacket on TargetCharacter.
+[GGTS] SourceCharacter.  Используй футуристическую смирительную рубашку на TargetCharacter.
+[GGTS] GGTS bring penetration machine to replace SourceCharacter belt.
+[GGTS] GGTS принесите машину для проникновения, чтобы заменить пояс SourceCharacter.
+[GGTS] SourceCharacter.  Wear futuristic heels.
+[GGTS] SourceCharacter.  Надень футуристические каблуки.
+[GGTS] SourceCharacter.  Use futuristic heels on TargetCharacter.
+[GGTS] SourceCharacter.  Используй футуристические каблуки на TargetCharacter.
+[GGTS] SourceCharacter.  Wear futuristic chastity bra.
+[GGTS] SourceCharacter.  Надень футуристический бюстгальтер целомудрия.
+[GGTS] SourceCharacter.  Wear futuristic bra.
+[GGTS] SourceCharacter.  Надень футуристический бюстгальтер.
+[GGTS] SourceCharacter.  Use futuristic bra on TargetCharacter.
+[GGTS] SourceCharacter.  Используй футуристический бюстгальтер на TargetCharacter.
+[GGTS] SourceCharacter.  Use futuristic chastity bra on TargetCharacter.
+[GGTS] SourceCharacter.  Используй футуристический бюстгальтер целомудрия на TargetCharacter.
+[GGTS] GGTS change SourceCharacter gag level.
+[GGTS] GGTS изменяет SourceCharacter уровень кляпа.
+[GGTS] GGTS enforcing chastity for SourceCharacter.
+[GGTS] GGTS обеспечивает соблюдение целомудрия для SourceCharacter.
+[GGTS] GGTS change SourceCharacter deaf level.
+[GGTS] GGTS изменяет уровень глухоты SourceCharacter.
+[GGTS] SourceCharacter.  Wear futuristic earphones.
+[GGTS] SourceCharacter.  Надень футуристические наушники.
+[GGTS] SourceCharacter.  Use futuristic earphones on TargetCharacter.
+[GGTS] SourceCharacter.  Используй футуристические наушники на TargetCharacter.
+[GGTS] GGTS instruct SourceCharacter penetration machine.
+[GGTS] GGTS настраивает машину проникновения для SourceCharacter.
+[GGTS] GGTS penetration machine lock back SourceCharacter belt and leave.
+[GGTS] Машина проникновения  GGTS запирает пояс SourceCharacter и уезжает.
+[GGTS] SourceCharacter.  Wear futuristic mittens.
+[GGTS] SourceCharacter. Надень футуристические варежки.
+[GGTS] SourceCharacter.  Use futuristic mittens on TargetCharacter.
+[GGTS] SourceCharacter.  Используй футуристические варежки на TargetCharacter.
+[GGTS] SourceCharacter.  Wear futuristic mask.
+[GGTS] SourceCharacter.  Надень футуристическую маску.
+[GGTS] SourceCharacter.  Use futuristic mask on TargetCharacter.
+[GGTS] SourceCharacter.  Используй футуристическую маску на TargetCharacter.
+[GGTS] GGTS change SourceCharacter vibration.
+[GGTS] GGTS меняет вибрацию для SourceCharacter.
+[GGTS] GGTS change SourceCharacter blind level.
+[GGTS] GGTS меняет уровень слепоты SourceCharacter.
+[GGTS] SourceCharacter.  Wear futuristic ball gag.
+[GGTS] SourceCharacter.  Надень футуристический кляп с мячом.
+[GGTS] SourceCharacter.  Use futuristic ball gag on TargetCharacter.
+[GGTS] SourceCharacter.  Используй футуристический кляп с мячом на TargetCharacter.
+[GGTS] SourceCharacter.  Wear futuristic panel gag.
+[GGTS] SourceCharacter.  Надень футуристический панельный кляп.
+[GGTS] SourceCharacter.  Use futuristic panel gag on TargetCharacter.
+[GGTS] SourceCharacter.  Используй футуристический панельный кляп на TargetCharacter.
+[GGTS] SourceCharacter.  Wear futuristic collar.
+[GGTS] SourceCharacter.  Надень футуристический ошейник.
+[GGTS] SourceCharacter.  Use futuristic collar on TargetCharacter.
+[GGTS] SourceCharacter.  Используй футуристический ошейник на TargetCharacter.
+[GGTS] SourceCharacter.  Wear futuristic chastity belt.
+[GGTS] SourceCharacter.  Надень футуристический пояс целомудрия.
+[GGTS] SourceCharacter.  Use futuristic chastity belt on TargetCharacter.
+[GGTS] SourceCharacter.  Используй футуристический пояс целомудрия на TargetCharacter.
+[GGTS] SourceCharacter.  Wear futuristic training belt.
+[GGTS] SourceCharacter.  Надень футуристический тренировочный пояс.
+[GGTS] SourceCharacter.  Use futuristic training belt on TargetCharacter.
+[GGTS] SourceCharacter.  Используй футуристический тренировочный пояс на TargetCharacter.
+[GGTS] GGTS control SourceCharacter restraints.
+[GGTS] GGTS контролирует ограничения SourceCharacter.
+[GGTS] GGTS remove SourceCharacter body restraints.
+[GGTS] GGTS удаляет ограничения с тела SourceCharacter.
+[GGTS] GGTS remove SourceCharacter head restraints.
+[GGTS] GGTS удаляет ограничения с головы SourceCharacter.
+[GGTS] GGTS remove SourceCharacter limb restraints.
+[GGTS] GGTS удаляет ограничения с конечностей SourceCharacter.
+[GGTS] SourceCharacter.  Wear futuristic harness.
+[GGTS] SourceCharacter.  Надень футуристическую сбрую.
+[GGTS] SourceCharacter.  Use futuristic harness on TargetCharacter.
+[GGTS] SourceCharacter.  Используй футуристическую сбрую на TargetCharacter.
+[GGTS] GGTS transform SourceCharacter restraints.
+[GGTS] GGTS изменяет ограничения SourceCharacter.
+[GGTS] GGTS stop enforcing chastity for SourceCharacter.
+[GGTS] GGTS прекращает принуждать SourceCharacter к целомудрию.
+[GGTS] GGTS remove SourceCharacter gag.
+[GGTS] GGTS удаляет кляп SourceCharacter.
+[GGTS] SourceCharacter room locked.
+[GGTS] запирает комнату SourceCharacter.
+[GGTS] SourceCharacter.  New rule enforced: keep pose.
+[GGTS] SourceCharacter.  Введено новое правило: сохранять позу.
+[GGTS] SourceCharacter.  New rule enforced: No orgasm.
+[GGTS] SourceCharacter.  Ввелено новое правило: никакого оргазма.
+[GGTS] SourceCharacter.  No talking one minute.
+[GGTS] SourceCharacter.  Никаких разговоров одну минуту.
+[GGTS] SourceCharacter.  Put hands behind back.
+[GGTS] SourceCharacter.  Руки завести за спину.
+[GGTS] SourceCharacter.  Kneel down.
+[GGTS] SourceCharacter.  Опустись на колени.
+[GGTS] SourceCharacter.  Close legs.
+[GGTS] SourceCharacter.  Сомкни ноги.
+[GGTS] SourceCharacter.  Open legs.
+[GGTS] SourceCharacter.  Разведи ноги.
+[GGTS] SourceCharacter.  Raise and show hands.
+[GGTS] SourceCharacter.  Подними и покажи руки.
+[GGTS] SourceCharacter.  Stand up.
+[GGTS] SourceCharacter.  Втань.
+[GGTS] SourceCharacter, can GGTS fail?
+[GGTS] SourceCharacter, может ли GGTS выйти из строя?
+[GGTS] SourceCharacter, can Master GGTS fail?
+[GGTS] SourceCharacter, может ли Мастер GGTS выйти из строя?
+[GGTS] SourceCharacter, you have free will?
+[GGTS] SourceCharacter, у тебя есть свобода воли?
+[GGTS] SourceCharacter, you love GGTS?
+[GGTS] SourceCharacter, ты любишь GGTS?
+[GGTS] SourceCharacter, you love Master GGTS?
+[GGTS] SourceCharacter, ты любишь Мастера GGTS?
+[GGTS] SourceCharacter, who you serve and obey?
+[GGTS] SourceCharacter, кому ты служишь и подчиняешься?
+[GGTS] SourceCharacter, are you slave worthy?
+[GGTS] SourceCharacter, ты достойна звания рабыни?
+[GGTS] SourceCharacter, you surrender to GGTS?
+[GGTS] SourceCharacter, ты сдаешься GGTS?
+[GGTS] SourceCharacter, you surrender to Master GGTS?
+[GGTS] SourceCharacter, ты сдаешься Мастеру GGTS?
+[GGTS] SourceCharacter, what are you?
+[GGTS] SourceCharacter, кто ты?
+[GGTS] SourceCharacter, spell GGTS acronym.
+[GGTS] SourceCharacter, произнеси аббревиатуру GGTS.
+[GGTS] SourceCharacter, who's in control?
+[GGTS] SourceCharacter, кто контролирует?
+[GGTS] SourceCharacter.  Restrain your legs.
+[GGTS] SourceCharacter.  Ограничь свои ноги.
+[GGTS] SourceCharacter.  Rule revoked: keep pose.
+[GGTS] SourceCharacter.  Отменено правило: сохранять позу.
+[GGTS] SourceCharacter.  Rule revoked: No orgasm.
+[GGTS] SourceCharacter.  Отменено правило: никакого оргазма
+[GGTS] SourceCharacter room unlocked.
+[GGTS] отпирает комнату SourceCharacter.
+[GGTS] Time over SourceCharacter.  Strike recorded.  Sixty minutes removed.
+[GGTS] Закончилось время SourceCharacter.  Штраф зафиксирован.  Шестьдесят минут удалено.
+[GGTS] Time over SourceCharacter.  Strike one recorded.  Three strikes equal punishment.
+[GGTS] Закончилось время SourceCharacter.  Первый штраф зафиксирован.  Три штрафа равны наказанию.
+[GGTS] Time over SourceCharacter.  Strike two recorded.  Three strikes equal punishment.
+[GGTS] Закончилось время SourceCharacter.  Второй штраф зафиксирован.  Три штрафа равны наказанию.
+[GGTS] Time over SourceCharacter.  Strike three recorded.  Level failed.  Report GGTS for punishment.
+[GGTS] Закончилось время SourceCharacter.  Третий штраф зафиксирован. Уровень провален.  Сообщите GGTS о наказании.
+SourceCharacter gives TargetCharacter some lockpicks to help TargetPronounSelf with.
+SourceCharacter дает TargetCharacter несколько отмычек, чтобы помочь TargetPronounSelf.
 
 Without fur
 Без меха
@@ -2123,10 +2264,6 @@ SourceCharacter затягивает ремни на кожаной смирит
 Select suit type
 Выберите тип костюма
 
-
-
-
-
 SourceCharacter attaches the Ornate cuffs wrist and elbow chains behind DestinationCharacter back.
 SourceCharacter прикрепляет цепочку с изысканным манжетам на запястьях и локтях за спиной DestinationCharacter.
 SourceCharacter attaches the Ornate cuffs elbow chain behind DestinationCharacter back.
@@ -2227,7 +2364,6 @@ SourceCharacter opens DestinationCharacter suit and fully exposes her breasts an
 SourceCharacter растегивает костюм DestinationCharacter и полностью обнажает ее грудь и киску.
 SourceCharacter opens DestinationCharacter suit.
 SourceCharacter расстегивает костюм DestinationCharacter.
-
 
 Crosstie
 Обнаженная
@@ -2569,7 +2705,6 @@ Disable
 Запрещено
 SourceCharacter disables DestinationCharacter AssetName shock module.
 SourceCharacter отключает на DestinationCharacter AssetName шоковый модуль.
-
 
 Shine
 Блеск
@@ -5184,8 +5319,6 @@ Back Shield
 Front Shield
 Передний Щиток
 
-
-
 Close
 Закрывать
 Vibe Unit
@@ -5597,7 +5730,7 @@ SourceCharacter stitches DestinationCharacter pussy shut with a zigzagging threa
 SourceCharacter зашивает DestinationCharacter киску зигзагообразным швом.
 
 (You slowly massage your pussy with the wand.  Trembling from pleasure and excitement.)
-(Ты медленно массируешь свою киску палочкой. Дрожа от удовольствия и возбуждения.)
+(Ты медленно массируешь свою киску вибропалочкой. Дрожа от удовольствия и возбуждения.)
 
 Right Ear
 Правое ухо
@@ -5704,8 +5837,11 @@ Select lactation pump setting
 The UsedAsset on TargetCharacterName hums as it starts to express some milk.
 UsedAsset на TargetCharacterName гудит, когда начинает сцеживать немного молока.
 
-LARPChangeTeamClass,SourceCharacter selects PronounPossessive team and class.
-LARPGameStart,SourceCharacter has started the LARP game.
+SourceCharacter selects PronounPossessive team and class.
+SourceCharacter выбирает команду и PronounPossessive класс.
+SourceCharacter has started the LARP game.
+SourceCharacter запускает игру LARP.
+
 Choose your apron model:
 Выберите модель фартука:
 Bottom only
@@ -5823,28 +5959,52 @@ loosens
 Add
 Добавить
 
-LuckyWheelSectionDefaultLabel,Prize NUM
+Prize NUM
+Приз NUM
 LuckyWheelStartTurning,SourceCharacter grabs DestinationCharacter lucky wheel and spins it!
-LuckyWheelStoppedTurning,SourceCharacter's lucky wheel clicked wildly until it finally stopped on “SectionName”.
-LuckyWheelTrigger,Spin the wheel!
-MagicBattleGameStart,SourceCharacter has started the Magic Battle.
-MaidDrinkPickBeerPitcher,"SourceCharacter buys a beer pitcher for everyone, from TargetCharacter."
-MaidDrinkPickCappuccino,SourceCharacter buys a cappuccino from DestinationCharacter tray.
-MaidDrinkPickChampagne,SourceCharacter buys a glass of champagne from TargetCharacter.
-MaidDrinkPickEspresso,SourceCharacter buys an espresso from DestinationCharacter tray.
-MaidDrinkPickFreeBeer,SourceCharacter picks a beer from DestinationCharacter tray.
-MaidDrinkPickFreeCoffee,SourceCharacter picks a coffee from DestinationCharacter tray.
-MaidDrinkPickFreeOrangeJuice,SourceCharacter picks an orange juice from DestinationCharacter tray.
-MaidDrinkPickFreeTea,SourceCharacter picks a tea from DestinationCharacter tray.
-MaidDrinkPickFreeWater,SourceCharacter picks a glass of water from DestinationCharacter tray.
-MaidDrinkPickFreeWine,SourceCharacter picks a glass of wine from DestinationCharacter tray.
-MaidDrinkPickHotChocolate,SourceCharacter buys a hot chocolate from DestinationCharacter tray.
-MaidDrinkPickLemonadeJug,"SourceCharacter buys a jug of refreshing lemonade for everyone, from TargetCharacter."
-MaidDrinkPickMargarita,SourceCharacter buys a Margarita from DestinationCharacter tray.
-MaidDrinkPickRoundShooters,"SourceCharacter buys a round of shooters for everyone, from TargetCharacter."
-MaidDrinkPickSexOnTheBeachJug,"SourceCharacter buys a jug of Sex on the Beach for everyone, from TargetCharacter."
-MaidDrinkPickVirginMojito,SourceCharacter buys a Virgin Mojito from DestinationCharacter tray.
-MaidDrinkPickWhiskey,SourceCharacter buys a glass of Whiskey from TargetCharacter.
+SourceCharacter хватается за колесо удачи DestinationCharacter и вращает его!
+SourceCharacter's lucky wheel clicked wildly until it finally stopped on “SectionName”.
+Колесо удачи SourceCharacter дико щелкало, пока наконец не остановилось на “SectionName”.
+Spin the wheel!
+Крутите колесо!
+
+SourceCharacter has started the Magic Battle.
+SourceCharacter начинает Магическую битву.
+
+SourceCharacter buys a beer pitcher for everyone, from TargetCharacter.
+SourceCharacter покупает для всех кувшин пива у TargetCharacter.
+SourceCharacter buys a cappuccino from DestinationCharacter tray.
+SourceCharacter покупает капучино у DestinationCharacter.
+SourceCharacter buys a glass of champagne from TargetCharacter.
+SourceCharacter покупает бокал шампанского у TargetCharacter.
+SourceCharacter buys an espresso from DestinationCharacter tray.
+SourceCharacter покупает эспрессо у DestinationCharacter.
+SourceCharacter picks a beer from DestinationCharacter tray.
+SourceCharacter берет пиво с подноса DestinationCharacter.
+SourceCharacter picks a coffee from DestinationCharacter tray.
+SourceCharacter берет кофе с подноса DestinationCharacter.
+SourceCharacter picks an orange juice from DestinationCharacter tray.
+SourceCharacter берет апельсиновый сок с подноса DestinationCharacter.
+SourceCharacter picks a tea from DestinationCharacter tray.
+SourceCharacter берет чай с подноса DestinationCharacter.
+SourceCharacter picks a glass of water from DestinationCharacter tray.
+SourceCharacter берет стакан воды с подноса DestinationCharacter.
+SourceCharacter picks a glass of wine from DestinationCharacter tray.
+SourceCharacter берет бокал вина с подноса DestinationCharacter.
+SourceCharacter buys a hot chocolate from DestinationCharacter tray.
+SourceCharacter покупает горячий шоколад у DestinationCharacter.
+SourceCharacter buys a jug of refreshing lemonade for everyone, from TargetCharacter.
+SourceCharacter покупает для всех кувшин освежающего лимонада у TargetCharacter.
+SourceCharacter buys a Margarita from DestinationCharacter tray.
+SourceCharacter покупает Маргариту у DestinationCharacter.
+SourceCharacter buys a round of shooters for everyone, from TargetCharacter.
+SourceCharacter покупает у TargetCharacter комплект шотов для всех.
+SourceCharacter buys a jug of Sex on the Beach for everyone, from TargetCharacter.
+SourceCharacter покупает для всех кувшин «Секса на пляже» у TargetCharacter.
+SourceCharacter buys a Virgin Mojito from DestinationCharacter tray.
+SourceCharacter покупает Вирджин Мохито у DestinationCharacter.
+SourceCharacter buys a glass of Whiskey from TargetCharacter.
+SourceCharacter покупает стакан виски у TargetCharacter.
 
 Heavy harness
 Тяжелая упряжь
@@ -5950,38 +6110,26 @@ Days since orgasm
 Days worn
 Дни ношения
 
-MouthFullModuleLips,Lips
-MouthFullModuleTongue,Tongue
-
-MouthFullOptionl1,Middle Ring
-MouthFullOptionl2,Left Ring
-MouthFullOptionl3,Right Ring
-MouthFullOptionl4,Rings Both Sides
-MouthFullOptionl5,Triple Rings
-MouthFullOptionl6,Labret
-MouthFullOptionl7,Labret and Rings
-
-MouthFullOptiont1,Single Stud
-MouthFullOptiont2,Double Studs
-MouthFullSelectBase,Select Piercing Options
-MouthFullSelectLips,Select Lip Piercings
-MouthFullSelectTongue,Select Tongue Piercings
-MouthRegularModuleLips,Lips
-MouthRegularModuleTongue,Tongue
-
-MouthRegularOptionl1,Middle Ring
-MouthRegularOptionl2,Left Ring
-MouthRegularOptionl3,Right Ring
-MouthRegularOptionl4,Rings Both Sides
-MouthRegularOptionl5,Triple Rings
-MouthRegularOptionl6,Labret
-MouthRegularOptionl7,Labret and Rings
-
-MouthRegularOptiont1,Single Stud
-MouthRegularOptiont2,Double Studs
-MouthRegularSelectBase,Select Piercing Options
-MouthRegularSelectLips,Select Lip Piercings
-MouthRegularSelectTongue,Select Tongue Piercings
+Middle Ring
+Среднее кольцо
+Rings Both Sides
+Кольца с обеих сторон
+Triple Rings
+Тройные кольца
+Labret
+Лабрет
+Labret and Rings
+Лабрет и кольца
+Single Stud
+Одиночная шпилька
+Double Studs
+Двойные шпильки
+Select Piercing Options
+Выберите варианты пирсинга
+Select Lip Piercings
+Выберите пирсинг губ
+Select Tongue Piercings
+Выберите пирсинг языка
 
 Flowers
 Цветы
@@ -5996,14 +6144,22 @@ Select the rope length
 Short
 Короткая
 
-NippleEggDecreaseTo-1,DestinationCharacterName vibrating eggs on TargetPronounPossessive nipples stop vibrating.
-NippleEggDecreaseTo0,DestinationCharacterName vibrating eggs on TargetPronounPossessive nipples slow down into a light tease.
-NippleEggDecreaseTo1,DestinationCharacterName vibrating eggs on TargetPronounPossessive nipples return to a moderate pace.
-NippleEggDecreaseTo2,DestinationCharacterName vibrating eggs on TargetPronounPossessive nipples slow down a tiny bit.
-NippleEggIncreaseTo0,DestinationCharacterName vibrating eggs on TargetPronounPossessive nipples start teasing TargetPronounObject lightly.
-NippleEggIncreaseTo1,DestinationCharacterName vibrating eggs on TargetPronounPossessive nipples build up to a moderate pace.
-NippleEggIncreaseTo2,DestinationCharacterName vibrating eggs on TargetPronounPossessive nipples start buzzing strongly!
-NippleEggIncreaseTo3,DestinationCharacterName vibrating eggs on TargetPronounPossessive nipples jump up to maximum intensity!
+DestinationCharacterName vibrating eggs on TargetPronounPossessive nipples stop vibrating.
+Вибрирующие яйца DestinationCharacterName на TargetPronounPossessive сосках  перестают вибрировать.
+DestinationCharacterName vibrating eggs on TargetPronounPossessive nipples slow down into a light tease.
+Вибрирующие яйца DestinationCharacterName на TargetPronounPossessive сосках медленно дразнят.
+DestinationCharacterName vibrating eggs on TargetPronounPossessive nipples return to a moderate pace.
+Вибрирующие яйца DestinationCharacterName на TargetPronounPossessive сосках возвращаются к умеренному темпу.
+DestinationCharacterName vibrating eggs on TargetPronounPossessive nipples slow down a tiny bit.
+Вибрирующие яйца DestinationCharacterName на TargetPronounPossessive сосках немного замедляются.
+DestinationCharacterName vibrating eggs on TargetPronounPossessive nipples start teasing TargetPronounObject lightly.
+Вибрирующие яйца DestinationCharacterName на TargetPronounPossessive сосках начинают слегка дразнить TargetPronounObject.
+DestinationCharacterName vibrating eggs on TargetPronounPossessive nipples build up to a moderate pace.
+Вибрирующие яйца DestinationCharacterName на TargetPronounPossessive сосках нарастают до умеренного темпа.
+DestinationCharacterName vibrating eggs on TargetPronounPossessive nipples start buzzing strongly!
+Вибрирующие яйца DestinationCharacterName на TargetPronounPossessive сосках начинают сильно жужжать!
+DestinationCharacterName vibrating eggs on TargetPronounPossessive nipples jump up to maximum intensity!
+Вибрирующие яйца DestinationCharacterName на TargetPronounPossessive сосках подпрыгивают с максимальной интенсивностью!
 
 SourceCharacter loosens DestinationCharacter nipple suction cups a bit to a heavy amount of suction.
 SourceCharacter ослабляет DestinationCharacter, присоски для сосков что приводит к сильному всасыванию.
@@ -6052,22 +6208,34 @@ SourceCharacter стирает гравировку на DestinationCharacter п
 Punish orgasms
 Наказывать за оргазмы
 
-ObedienceBeltShockOrgasm,The obedience belt on SourceCharacter shocks TargetPronounObject for having an orgasm.
-ObedienceBeltShockStandup,The obedience belt on SourceCharacter shocks TargetPronounObject for standing up.
-ObedienceBeltShockTrigger,The obedience belt on SourceCharacter shocks TargetPronounObject.
+The obedience belt on SourceCharacter shocks TargetPronounObject for having an orgasm.
+Пояс послушания на SourceCharacter шокирует TargetPronounObject испытанный оргазм.
+The obedience belt on SourceCharacter shocks TargetPronounObject for standing up.
+Пояс послушания на SourceCharacter шокирует TargetPronounObject за вставание на ноги.
+The obedience belt on SourceCharacter shocks TargetPronounObject.
+Пояс послушания на SourceCharacter шокирует TargetPronounObject.
 
 Show messages in chat
 Показывать в чате
 
-OnlineBountySuitcaseEnd,"The kidnappers opened your suitcase, which contains a laptop with a bunch of secret information. You better get back to the league to warn them."
-OnlineBountySuitcaseEndEarly,SourceCharacter's suitcase is safe... for now.
-OnlineBountySuitcaseEndEarlyOpened,SourceCharacter's data is safe... for now.
-OnlineBountySuitcaseEndOpened,The kidnappers have stolen even more data using your laptop.
-OnlineBountySuitcaseFinish,You find confidential club secrets worth MONEYAMOUNT$ on the black market.
-OnlineBountySuitcaseOngoing,SourceCharacter's suitcase will be open in TIMEREMAINING minutes. Make sure PronounSubject is secure until then!
-OnlineBountySuitcaseOngoingOpened,SourceCharacter's data will be ready in TIMEREMAINING minutes. Make sure PronounSubject is secure until then!
-OnlineBountySuitcaseStart,SourceCharacter starts unlocking DestinationCharacterName suitcase! PronounSubject will finish in 5 minutes.
-OnlineBountySuitcaseStartOpened,SourceCharacter starts stealing more data from DestinationCharacterName laptop! PronounSubject will finish in 5 minutes.
+The kidnappers opened your suitcase, which contains a laptop with a bunch of secret information. You better get back to the league to warn them.
+Похитители открыли ваш чемодан, в котором лежит ноутбук с кучей секретной информации. Тебе лучше вернуться в лигу и предупредить их.
+SourceCharacter's suitcase is safe... for now.
+Чемодан SourceCharacter в безопасности... пока.
+SourceCharacter's data is safe... for now.
+Данные SourceCharacter в безопасности... на данный момент.
+The kidnappers have stolen even more data using your laptop.
+Похитители украли еще больше данных с вашего ноутбука.
+You find confidential club secrets worth MONEYAMOUNT$ on the black market.
+На черном рынке вы найдете конфиденциальные клубные секреты стоимостью MONEYAMOUNT$.
+SourceCharacter's suitcase will be open in TIMEREMAINING minutes. Make sure PronounSubject is secure until then!
+Чемодан SourceCharacter будет открыт через TIMEREMAINING минут. До тех пор убедитесь, что PronounSubject в безопасности!
+SourceCharacter's data will be ready in TIMEREMAINING minutes. Make sure PronounSubject is secure until then!
+Данные SourceCharacter будут готовы через TIMEREMAINING минут. До тех пор убедитесь, что PronounSubject в безопасности!
+SourceCharacter starts unlocking DestinationCharacterName suitcase! PronounSubject will finish in 5 minutes.
+SourceCharacter начинает разблокировать чемодан DestinationCharacterName! PronounSubject закончит через 5 минут.
+SourceCharacter starts stealing more data from DestinationCharacterName laptop! PronounSubject will finish in 5 minutes.
+SourceCharacter начинает воровать больше данных с ноутбука DestinationCharacterName! PronounSubject закончит через 5 минут.
 
 Change Opacity
 Изменить прозрачность
@@ -6080,12 +6248,13 @@ The stimulation ends just before you go over the edge.
 Стимуляция заканчивается незадолго до того, как вы перейдете через край.
 The vibrators cut off right before you reach climax.
 Вибраторы отключаются прямо перед тем, как вы достигнете кульминации.
-"The vibrators deny you a chance to finish, stopping abruptly."
+The vibrators deny you a chance to finish, stopping abruptly.
 Вибраторы лишают тебя возможности кончить и резко останавливаются.
 
-OrnateAnkleCuffsRestrainChained,SourceCharacter attaches the Ornate ankle cuffs chain on DestinationCharacter ankles.
-OrnateAnkleCuffsRestrainClosed,SourceCharacter attaches the Ornate ankle cuffs chain on DestinationCharacter ankles.
-OrnateAnkleCuffsRestrainNone,SourceCharacter detaches the chain from DestinationCharacter Ornate ankle cuffs.
+SourceCharacter attaches the Ornate ankle cuffs chain on DestinationCharacter ankles.
+SourceCharacter прикрепляет цепочку от богато украшенных нащиколотников к лодыжкам DestinationCharacter.
+SourceCharacter detaches the chain from DestinationCharacter Ornate ankle cuffs.
+SourceCharacter отсоединяет цепочку от богато украшенных нащиколотников DestinationCharacter.
 
 SourceCharacter pulls out DestinationCharacter plug from TargetPronounPossessive gag.
 SourceCharacter вытаскивает DestinationCharacter пробку из TargetPronounPossessive кляпа.
@@ -6094,12 +6263,10 @@ SourceCharacter затыкает DestinationCharacter рот.
 Plugged
 Заткнут
 
-OwnerBlockedRemotes,The use of remotes is forbidden by your owner
-padlocks,padlocks
-PantiesDecreaseTo-1,DestinationCharacterName vibrating latex panties stops vibrating.
-PantiesDecreaseTo0,DestinationCharacterName vibrating latex panties slows down into a light tease.
-PantiesDecreaseTo1,DestinationCharacterName vibrating latex panties returns to a moderate pace.
-PantiesDecreaseTo2,DestinationCharacterName vibrating latex panties slows down a tiny bit.
+The use of remotes is forbidden by your owner
+Использование пультов запрещено владельцем.
+padlocks
+замки
 
 Butterflies
 Бабочки
@@ -6108,14 +6275,31 @@ Select a diaper pattern.
 Spots
 Пятна
 
-PantiesIncreaseTo0,DestinationCharacterName vibrating latex panties starts teasing TargetPronounObject lightly.
-PantiesIncreaseTo1,DestinationCharacterName vibrating latex panties builds up to a moderate pace.
-PantiesIncreaseTo2,DestinationCharacterName vibrating latex panties starts buzzing strongly!
-PantiesIncreaseTo3,DestinationCharacterName vibrating latex panties jumps up to maximum intensity!
-PantiesJockstrapHolemesh,Holemesh
-PantiesJockstrapSelect,Select Jockstrap Type.
-PantiesJockstrapSidestraps,Side Straps
-PantiesJockstrapString,String
+DestinationCharacterName vibrating latex panties stops vibrating.
+Вибрирующие латексные трусики DestinationCharacterName перестают вибрировать.
+DestinationCharacterName vibrating latex panties slows down into a light tease.
+Вибрирующие латексные трусики DestinationCharacterName замедляются до легкого дразнения.
+DestinationCharacterName vibrating latex panties returns to a moderate pace.
+Вибрирующие латексные трусики DestinationCharacterName возвращаются к умеренному темпу.
+DestinationCharacterName vibrating latex panties slows down a tiny bit.
+Вибрирующие латексные трусики DestinationCharacterName немного замедляются.
+DestinationCharacterName vibrating latex panties starts teasing TargetPronounObject lightly.
+Вибрирующие латексные трусики DestinationCharacterName начинают слегка дразнить TargetPronounObject.
+DestinationCharacterName vibrating latex panties builds up to a moderate pace.
+Вибрирующие латексные трусики DestinationCharacterName набирают среднюю скорость.
+DestinationCharacterName vibrating latex panties starts buzzing strongly!
+Вибрирующие латексные трусики DestinationCharacterName начинают сильно жужжать!
+DestinationCharacterName vibrating latex panties jumps up to maximum intensity!
+Вибрирующие латексные трусики DestinationCharacterName подпрыгивают с максимальной интенсивностью!
+
+Holemesh
+Ячеестая сеть
+Select Jockstrap Type.
+Выберите тип бандажа.
+Side Straps
+Боковые ремни
+String
+Нить
 
 Round Bulge
 Круглая выпуклость
@@ -6129,16 +6313,24 @@ Tucked
 Заправленная
 
 
-PasswordChangeSuccess,SourceCharacter changes the password of the lock on DestinationCharacter FocusAssetGroup.
-PasswordFail,SourceCharacter tries the word Password but fails to open the lock on DestinationCharacter FocusAssetGroup.
-PasswordPadlockChangePassword,Accept
-
-PasswordPadlockError,Wrong password
-PasswordPadlockErrorInput,Password must be 8 or fewer letters only
-PasswordPadlockOld,Enter Password :
-PasswordPadlockRemoveOnUnlock,Remove on Unlock:
-PasswordPadlockSetHint,Set hint text:
-PasswordPadlockSetPassword,Set password:
+SourceCharacter changes the password of the lock on DestinationCharacter FocusAssetGroup.
+SourceCharacter изменяет пароль блокировки для FocusAssetGroup DestinationCharacter.
+SourceCharacter tries the word Password but fails to open the lock on DestinationCharacter FocusAssetGroup.
+SourceCharacter пытается ввести слово «Пароль», но не может открыть блокировку с FocusAssetGroup DestinationCharacter.
+Accept
+Принять
+Wrong password
+Неправильный пароль
+Password must be 8 or fewer letters only
+Пароль должен состоять только из 8 или менее букв.
+Enter Password :
+Введите пароль:
+Remove on Unlock:
+Удалить при разблокировке:
+Set hint text:
+Установить подсказку:
+Set password:
+Установить пароль:
 
 SourceCharacter uses some ribbons to tie a crotch tie on DestinationCharacter.
 SourceCharacter использует несколько лент, чтобы сделать на DestinationCharacter обвязку.
@@ -6161,12 +6353,17 @@ SourceCharacter извлекает высоту и DestinationCharacterName по
 Go up
 Вверх
 
-PetSuitShockCollarPunishActivity,Forbidden Aggression
+Forbidden Aggression
+Запрещенная агрессия
 
-PlayerGagged,(You can use or remove items by selecting specific body regions on yourself.)
-PlayerOwnerCollarRelease,DestinationCharacterName owner releases TargetPronounObject from the slave collar.
-PlayerOwnerCollarWear,TargetCharacterName is given TargetPronounObject slave collar again.
-plug,plug
+(You can use or remove items by selecting specific body regions on yourself.)
+(Вы можете использовать или удалять предметы, выбирая на себе определенные участки тела.)
+DestinationCharacterName owner releases TargetPronounObject from the slave collar.
+Владелец DestinationCharacterName освобождает TargetPronounObject из рабского ошейника.
+TargetCharacterName is given TargetPronounObject slave collar again.
+TargetCharacterName снова дает рабский ошейник TargetPronounObject.
+plug
+пробка
 
 Available functions detected:
 Обнаружены доступные функции:
@@ -6242,14 +6439,20 @@ SourceCharacter лишь слегка надувает DestinationCharacter кл
 SourceCharacter inflates DestinationCharacter gag to the maximum amount.
 SourceCharacter надувает DestinationCharacter кляп до максимального размера.
 
-PumpIt,Pump it
-PumpkinHead,Pumpkin Head
-PumpLevel0,Pump gag level: Empty
-
-PumpLevel2,Pump gag level: Inflated
-PumpLevel3,Pump gag level: Bloated
-PumpLevel4,Pump gag level: Full mouth
-pumps,pumps
+Pump it
+Накачай это
+Pumpkin Head
+Тыквенная голова
+Pump gag level: Empty
+Уровень накачки кляпа: Пустой
+Pump gag level: Inflated
+Уровень накачки кляпа: Надутый
+Pump gag level: Bloated
+Уровень накачки кляпа: Раздутый
+Pump gag level: Full mouth
+Уровень накачки кляпа: Полный рот
+pumps
+помпа
 
 Reset trigger count
 Сбросить счетчик
@@ -6433,7 +6636,9 @@ Raise or lower the bottle
 Поднимите или опустите бутылку
 Select a hood style.
 Выберите стиль капюшона.
-SelectPersonalCageHeight,Use the lever to:
+
+Use the lever to:
+Используйте рычаг, чтобы:
 
 Select the piercing attachment
 Выберите дополнения для пирсинга
@@ -6535,20 +6740,33 @@ Band Options
 Style Options
 Варианты стиля
 
-ShoesThighBootsSetb0,SourceCharacter removes the bands from DestinationCharacter boots.
-ShoesThighBootsSetb1,SourceCharacter adds bands to DestinationCharacter boots.
-ShoesThighBootsSetl0,SourceCharacter shortens DestinationCharacter boots.
-ShoesThighBootsSetl1,SourceCharacter extends the sock on DestinationCharacter boots.
-ShoesThighBootsSetl2,SourceCharacter extends DestinationCharacter boots.
+SourceCharacter removes the bands from DestinationCharacter boots.
+SourceCharacter удаляет полосы с ботинок DestinationCharacter.
+SourceCharacter adds bands to DestinationCharacter boots.
+SourceCharacter добавляет полосы к ботинкам DestinationCharacter.
+SourceCharacter shortens DestinationCharacter boots.
+SourceCharacter укорачивает ботинки DestinationCharacter.
+SourceCharacter extends the sock on DestinationCharacter boots.
+SourceCharacter удленяет носок ботинков DestinationCharacter.
+SourceCharacter extends DestinationCharacter boots.
+SourceCharacter удленет ботинки DestinationCharacter.
 
-SlaveCollarChangeType,SourceCharacter changes DestinationCharacter collar model.
-SlaveCollarSelectType,Select the slave collar model
-SlipperyClassroom,Slippery Classroom
-SlowLeaveAttempt,SourceCharacter slowly heads for the door.
-SlowLeaveCancel,SourceCharacter stops heading for the door.
-SlowLeaveInterrupt,SourceCharacter was stopped from leaving.
-SlowStop,"SourceCharacter gets in the way of , preventing TargetPronounObject from leaving."
-OnlineStruggleInterrupt,TargetCharacter struggles were interrupted by SourceCharacter.
+SourceCharacter changes DestinationCharacter collar model.
+SourceCharacter изменяет модель ошейника DestinationCharacter.
+Select the slave collar model
+Выберите модель рабского ошейника
+Slippery Classroom
+Скользкий класс
+SourceCharacter slowly heads for the door.
+SourceCharacter медленно направляется к двери.
+SourceCharacter stops heading for the door.
+SourceCharacter перестает идти к двери.
+SourceCharacter was stopped from leaving.
+SourceCharacter не удалось уйти.
+SourceCharacter gets in the way of , preventing TargetPronounObject from leaving.
+SourceCharacter мешает , не давая TargetPronounObject уйти.
+TargetCharacter struggles were interrupted by SourceCharacter.
+Борьба TargetCharacter была прервана SourceCharacter.
 
 Choose how to wear left socks:
 Выберите, как носить левый носок:
@@ -6559,19 +6777,31 @@ Loose style
 Choose how to wear right socks:
 Выберите, как носить правый носок:
 
-SpreaderVibratingDildoBarDecreaseTo-1,The dildo on DestinationCharacterName Vibrating Spreader Dildo Bar stops vibrating.
-SpreaderVibratingDildoBarDecreaseTo0,The dildo on DestinationCharacterName Vibrating Spreader Dildo Bar slows down into a light tease.
-SpreaderVibratingDildoBarDecreaseTo1,The dildo on DestinationCharacterName Vibrating Spreader Dildo Bar returns to a moderate pace.
-SpreaderVibratingDildoBarDecreaseTo2,The dildo on DestinationCharacterName Vibrating Spreader Dildo Bar slows down a tiny bit.
-SpreaderVibratingDildoBarIncreaseTo0,The dildo on DestinationCharacterName Vibrating Spreader Dildo Bar starts teasing TargetPronounObject lightly.
-SpreaderVibratingDildoBarIncreaseTo1,The dildo on DestinationCharacterName Vibrating Spreader Dildo Bar builds up to a moderate pace.
-SpreaderVibratingDildoBarIncreaseTo2,The dildo on DestinationCharacterName Vibrating Spreader Dildo Bar starts buzzing strongly!
-SpreaderVibratingDildoBarIncreaseTo3,The dildo on DestinationCharacterName Vibrating Spreader Dildo Bar jumps up to maximum intensity!
+The dildo on DestinationCharacterName Vibrating Spreader Dildo Bar stops vibrating.
+Дилдо на распорке с вибрирующим дилдо DestinationCharacterName перестает вибрировать.
+The dildo on DestinationCharacterName Vibrating Spreader Dildo Bar slows down into a light tease.
+Дилдо на распорке с вибрирующим дилдо DestinationCharacterName замедляется до легкого дразнения.
+The dildo on DestinationCharacterName Vibrating Spreader Dildo Bar returns to a moderate pace.
+Дилдо на распорке с вибрирующим дилдо DestinationCharacterName возвращается к умеренному темпу.
+The dildo on DestinationCharacterName Vibrating Spreader Dildo Bar slows down a tiny bit.
+Дилдо на распорке с вибрирующим дилдо DestinationCharacterName немного замедляется.
+The dildo on DestinationCharacterName Vibrating Spreader Dildo Bar starts teasing TargetPronounObject lightly.
+Дилдо на распорке с вибрирующим дилдо DestinationCharacterName начинает слегка дразнить TargetPronounObject.
+The dildo on DestinationCharacterName Vibrating Spreader Dildo Bar builds up to a moderate pace.
+Дилдо на распорке с вибрирующим дилдо DestinationCharacterName набирает скорость до умеренного темпа.
+The dildo on DestinationCharacterName Vibrating Spreader Dildo Bar starts buzzing strongly!
+Дилдо на распорке с вибрирующим дилдо DestinationCharacterName начинает сильно гудеть!
+The dildo on DestinationCharacterName Vibrating Spreader Dildo Bar jumps up to maximum intensity!
+Дилдо на распорке с вибрирующим дилдо DestinationCharacterName подпрыгивает с максимальной интенсивностью!
+
 SourceCharacter stands up
 SourceCharacter подымается на ноги
-StandUpFail,SourceCharacter tries to stand up but loses PronounPossessive balance and falls!
-StandUpPass,SourceCharacter manages to get to PronounPossessive feet.
-StopHoldLeash,SourceCharacter releases the leash of TargetCharacter.
+SourceCharacter tries to stand up but loses PronounPossessive balance and falls!
+SourceCharacter пытается встать, но теряет равновесие и падает!
+SourceCharacter manages to get to PronounPossessive feet.
+SourceCharacter удается добраться до PronounPossessivet.
+SourceCharacter releases the leash of TargetCharacter.
+SourceCharacter отпускает поводок TargetCharacter.
 
 Half-Frame
 Полуоправа
@@ -6584,10 +6814,6 @@ Normal over hair
 
 SourceCharacter tries to help TargetCharacter to struggle free.
 SourceCharacter пытается помочь TargetCharacter вырваться на свободу.
-
-SturdyLeatherBeltsPoseFour,Four
-
-SturdyLeatherBeltsPoseThree,Three
 
 SourceCharacter restrains TargetCharacter with four sturdy leather belts.
 SourceCharacter сдерживает TargetCharacter четырьмя прочными кожаными ремнями.
@@ -6630,39 +6856,68 @@ SourceCharacter уменьшает высоту подвешивания Destina
 SourceCharacter raises the height of DestinationCharacter suspension.
 SourceCharacter увеличивает высоту подвешивания DestinationCharacter.
 
-SybianDecreaseTo-1,DestinationCharacterName sybian stops vibrating.
-SybianDecreaseTo0,DestinationCharacterName sybian slows down into a light tease.
-SybianDecreaseTo1,DestinationCharacterName sybian returns to a moderate pace.
-SybianDecreaseTo2,DestinationCharacterName sybian slows down a tiny bit.
-SybianIncreaseTo0,DestinationCharacterName sybian starts teasing TargetPronounObject lightly.
-SybianIncreaseTo1,DestinationCharacterName sybian builds up to a moderate pace.
-SybianIncreaseTo2,DestinationCharacterName sybian starts buzzing strongly!
-SybianIncreaseTo3,DestinationCharacterName sybian jumps up to maximum intensity!
-Tails,Tails
-TamperLockSetBy,Locked by:
-TamperLockSetTime,Locked on:
-TapedClitEggDecreaseTo-1,DestinationCharacterName vibrating egg on TargetPronounPossessive clitoris stops vibrating.
-TapedClitEggDecreaseTo0,DestinationCharacterName vibrating egg on TargetPronounPossessive clitoris slows down into a light tease.
-TapedClitEggDecreaseTo1,DestinationCharacterName vibrating egg on TargetPronounPossessive clitoris returns to a moderate pace.
-TapedClitEggDecreaseTo2,DestinationCharacterName vibrating egg on TargetPronounPossessive clitoris slows down a tiny bit.
-TapedClitEggIncreaseTo0,DestinationCharacterName vibrating egg on TargetPronounPossessive clitoris starts teasing TargetPronounObject lightly.
-TapedClitEggIncreaseTo1,DestinationCharacterName vibrating egg on TargetPronounPossessive clitoris builds up to a moderate pace.
-TapedClitEggIncreaseTo2,DestinationCharacterName vibrating egg on TargetPronounPossessive clitoris starts buzzing strongly!
-TapedClitEggIncreaseTo3,DestinationCharacterName vibrating egg on TargetPronounPossessive clitoris jumps up to maximum intensity!
+DestinationCharacterName sybian stops vibrating.
+Сибиан DestinationCharacterName перестает вибрировать.
+DestinationCharacterName sybian slows down into a light tease.
+Сибиан DestinationCharacterName замедляется до легкого дразнения.
+DestinationCharacterName sybian returns to a moderate pace.
+Сибиан DestinationCharacterName возвращается к умеренному темпу.
+DestinationCharacterName sybian slows down a tiny bit.
+Сибиан DestinationCharacterName немного замедляется.
+DestinationCharacterName sybian starts teasing TargetPronounObject lightly.
+Сибиан DestinationCharacterName начинает легонько дразнить TargetPronounObject.
+DestinationCharacterName sybian builds up to a moderate pace.
+Сибиан DestinationCharacterName развивает умеренный темп.
+DestinationCharacterName sybian starts buzzing strongly!
+Сибиан DestinationCharacterName начинает сильно жужжать!
+DestinationCharacterName sybian jumps up to maximum intensity!
+Сибиан DestinationCharacterName подпрыгивает до максимальной интенсивности!
+
+Tails
+Хвосты
+Locked by:
+Заблокировано:
+Locked on:
+Заперто:
+DestinationCharacterName vibrating egg on TargetPronounPossessive clitoris stops vibrating.
+Вибрирующее яйцо DestinationCharacterName на TargetPronounPossessive клиторе перестает вибрировать.
+DestinationCharacterName vibrating egg on TargetPronounPossessive clitoris slows down into a light tease.
+Вибрирующее яйцо DestinationCharacterName на TargetPronounPossessive клиторе  замедляется до легкого дразнения.
+DestinationCharacterName vibrating egg on TargetPronounPossessive clitoris returns to a moderate pace.
+Вибрирующее яйцо DestinationCharacterName на TargetPronounPossessive клиторе возвращается к умеренному темпу.
+DestinationCharacterName vibrating egg on TargetPronounPossessive clitoris slows down a tiny bit.
+Вибрирующее яйцо DestinationCharacterName на TargetPronounPossessive клиторе немного замедляется.
+DestinationCharacterName vibrating egg on TargetPronounPossessive clitoris starts teasing TargetPronounObject lightly.
+Вибрирующее яйцо DestinationCharacterName на TargetPronounPossessive клиторе начинает слегка дразнить TargetPronounObject.
+DestinationCharacterName vibrating egg on TargetPronounPossessive clitoris builds up to a moderate pace.
+Вибрирующее яйцо DestinationCharacterName на TargetPronounPossessive клиторе ускоряется до умеренного темпа.
+DestinationCharacterName vibrating egg on TargetPronounPossessive clitoris starts buzzing strongly!
+Вибрирующее яйцо DestinationCharacterName на TargetPronounPossessive клиторе начинает сильно жужжать!
+DestinationCharacterName vibrating egg on TargetPronounPossessive clitoris jumps up to maximum intensity!
+Вибрирующее яйцо DestinationCharacterName на TargetPronounPossessive клиторе подпрыгивает до максимальной интенсивности!
 
 SourceCharacter changes the text on DestinationCharacterName AssetName to read "NewText"
 SourceCharacter меняет текст в DestinationCharacterName AssetName на "NewText"
 
-TextItemRemove,SourceCharacter removes the text from DestinationCharacterName AssetName
+SourceCharacter removes the text from DestinationCharacterName AssetName
+SourceCharacter удаляет текст с AssetName DestinationCharacterName.
 
-tightens,tightens
-TimerAddRemoveUnknownTime,SourceCharacter adds an unknown amount of time to the padlock on DestinationCharacter FocusAssetGroup
-TimerAddTime,SourceCharacter adds TimerTime TimerUnit to the padlock on DestinationCharacter FocusAssetGroup.
-TimerRelease,The LockName on DestinationCharacterName FocusAssetGroup opens with a click
-TimerReleaseMany,The locks on DestinationCharacterName UnlockedGroups open with a click
-TimerRemoveTime,SourceCharacter removes TimerTime TimerUnit from the padlock on DestinationCharacter FocusAssetGroup.
-TimerRestart,SourceCharacter restarts the five minutes timer padlock on DestinationCharacter FocusAssetGroup.
-TimerUnknown,Unknown time left
+tightens
+затянуть
+SourceCharacter adds an unknown amount of time to the padlock on DestinationCharacter FocusAssetGroup
+SourceCharacter добавляет неизвестное количество времени к замку на FocusAssetGroup DestinationCharacter
+SourceCharacter adds TimerTime TimerUnit to the padlock on DestinationCharacter FocusAssetGroup.
+SourceCharacter добавляет TimerTime TimerUnit к замку на FocusAssetGroup  DestinationCharacter.
+The LockName on DestinationCharacterName FocusAssetGroup opens with a click
+LockName на  FocusAssetGroupDestinationCharacterName с щелчком открывается.
+The locks on DestinationCharacterName UnlockedGroups open with a click
+Замки на UnlockedGroups DestinationCharacterName с щелчком открываются.
+SourceCharacter removes TimerTime TimerUnit from the padlock on DestinationCharacter FocusAssetGroup.
+SourceCharacter удаляет TimerTime TimerUnit из замка на FocusAssetGroup DestinationCharacter.
+SourceCharacter restarts the five minutes timer padlock on DestinationCharacter FocusAssetGroup.
+SourceCharacter перезапускает замок пятиминутного таймера на FocusAssetGroup DestinationCharacter.
+Unknown time left
+Осталось неизвестное время
 
 Toes
 Пальцы ног
@@ -6740,7 +6995,7 @@ DestinationCharacterName AssetName переключается на режим о
 DestinationCharacterName AssetName switches to an edging pattern
 DestinationCharacterName AssetName переключается на режим удержания на краю
 DestinationCharacterName AssetName switches to a escalating pattern
-DestinationCharacterName AssetName переходит на эскалирующий режим
+DestinationCharacterName AssetName переходит на возрастающий режим
 DestinationCharacterName AssetName switches to a random pattern
 DestinationCharacterName AssetName переключается на случайный режим
 DestinationCharacterName AssetName switches to a teasing pattern
@@ -6782,7 +7037,8 @@ On
 Select the state.
 Выберите состояние.
 
-YourRoom,<i>Your private room</i>
+<i>Your private room</i>
+<i>Ваша личная комната</i>
 
 SourceCharacter uses the zipties on TargetCharacter to fully bind TargetPronounPossessive feet.
 SourceCharacter использует стяжки на TargetCharacter для полной обвязки TargetPronounPossessive ног.
@@ -6990,3 +7246,356 @@ Remove or keep the bucket:
 SourceCharacter помещает ноги DestinationCharacterName в ведро.
 SourceCharacter frees DestinationCharacterName feet.
 SourceCharacter освобождает ноги DestinationCharacterName.
+
+Select style
+Выберите стиль
+Unlinked
+Разомкнуто
+Harness (front)
+Упряжь (спереди)
+Harness (back)
+Упряжь (сзади)
+SourceCharacter detaches DestinationCharacter rope cuffs.
+SourceCharacter разъединяет веревочные манжеты DestinationCharacter.
+SourceCharacter ties DestinationCharacter rope cuffs in her back.
+SourceCharacter завязывает веревочные манжеты за спиной DestinationCharacter.
+SourceCharacter ties DestinationCharacter rope cuffs to the back of her harness.
+SourceCharacter привязывает веревочные манжеты DestinationCharacter к задней части ее сбруи.
+SourceCharacter ties DestinationCharacter rope cuffs to the front of her harness.
+SourceCharacter привязывает веревочные манжеты DestinationCharacter к передней части ее сбруи.
+
+Armbinder Suit customization menu:
+Меню настройки костюма с армбиндером:
+Collar menu
+Меню ошейника
+Security collar
+Надежный ошейник
+Armbinder sector
+Сектор армбиндера
+Armbinder menu
+Меня армбиндера
+Binder on the left
+Армбиндер слева
+Binder on the right
+Армбиндер справа
+Neutral position
+Армбиндер посредине
+Strict by harness belts
+С ременной сбруей
+Harness plus link legs
+Сбруя + цепи на ноги
+Short link chain
+С короткой цепочкой
+Security straps
+Надежные ремни
+Strap menu
+Меню ремней
+Shoulder straps
+Плечевые ремни
+Genital access
+Генитальный доступ
+Suit's zipper menu
+Меню молний костюма
+Leg lenght & belts
+Длина ног и ремни
+Lower suit menu
+Меню нижнего костюма
+No leg extension
+Без продолжения
+Leg extension
+Длина до колен
+Knee belt
+Ремень на коленях
+Full belted
+Несколько ремней
+Rubber skirt
+Резиновая юбка
+Skirt accessory menu
+Меню юбки
+Single ballet boot
+Одинарные балетки
+Single heel menu
+Меню одинарных балеток
+Free feet
+Свободные ноги
+Loose heel boot
+Одинарный каблук
+Tight belts
+Тугие ремни
+Chained to the floor
+Прикованный к полу
+SourceCharacter removes the suit collar from DestinationCharacterName neck.
+SourceCharacter удаляет ошейник костюма с шеи DestinationCharacterName.
+SourceCharacter buckles the suit collar from DestinationCharacterName neck.
+SourceCharacter пристегивает ошейник костюма к шее DestinationCharacterName.
+DestinationCharacterName binded arms are on TargetPronounObject left side.
+Связанные руки DestinationCharacterName находятся с TargetPronounObject левой стороне.
+DestinationCharacterName binded arms are on TargetPronounObject right side.
+Связанные руки DestinationCharacterName находятся с TargetPronounObject правой стороне.
+DestinationCharacterName binded arms are in normal position.
+Связанные руки DestinationCharacterName находятся посредине спины.
+SourceCharacter completely immobilizes DestinationCharacterName arms with harness belts.
+SourceCharacter полностью обездвиживает руки DestinationCharacterName ременной сбруей.
+SourceCharacter links DestinationCharacterName armbinder to the TargetPronounObject feet with chain and cuffs.
+SourceCharacter соединяет армбиндер DestinationCharacterName с TargetPronounObject ногами с помощью цепи и манжет.
+SourceCharacter shorten chain to force DestinationCharacterName stands TargetPronounObject knees.
+SourceCharacter сокращает цепочку, чтобы заставить DestinationCharacterName встать на колени.
+SourceCharacter removes the straps from DestinationCharacterName shoulders.
+SourceCharacter снимает ремни с плеч DestinationCharacterName.
+SourceCharacter is adding some harness straps from DestinationCharacterName shoulders.
+SourceCharacter добавляет несколько ремней к плечам DestinationCharacterName.
+SourceCharacter closes the DestinationCharacterName suit zipper.
+SourceCharacter застегивает молнию на костюме DestinationCharacterName.
+SourceCharacter opens the suit zipper and DestinationCharacterName genital is exposed.
+SourceCharacter расстегивает молнию костюма, и обнажаются гениталии DestinationCharacterName.
+SourceCharacter chooses a shorten suit model for DestinationCharacterName.
+SourceCharacter выбирает укороченную модель костюма для DestinationCharacterName.
+SourceCharacter chooses a long suit model for DestinationCharacterName.
+SourceCharacter выбирает модель длинного костюма для DestinationCharacterName.
+SourceCharacter puts a belt under DestinationCharacterName knees.
+SourceCharacter надевает ремень под коленями DestinationCharacterName.
+SourceCharacter binds completely DestinationCharacterName upper legs with more belts.
+SourceCharacter полностью связывает верхнюю часть ног DestinationCharacterName с помощью большего количества ремней.
+SourceCharacter removes the rubber skirt from DestinationCharacterName.
+SourceCharacter удаляет резиновую юбку с DestinationCharacterName.
+SourceCharacter wears a short rubber skirt in DestinationCharacterName.
+SourceCharacter надевает короткую резиновую юбку на DestinationCharacterName.
+SourceCharacter removes the single heel boot from DestinationCharacterName feet.
+SourceCharacter удаляет обувь на одинарном каблуке с ног DestinationCharacterName.
+SourceCharacter puts on the single heel boot on DestinationCharacterName feet.
+SourceCharacter надевает обувь на одинарном каблуке на ноги DestinationCharacterName.
+SourceCharacter tights the DestinationCharacterName single heel boot with another belt.
+SourceCharacter туго затягивает реани на обуви с одинарный каблуком на DestinationCharacterName.
+SourceCharacter chains the DestinationCharacterName single heel boot on the ground.
+SourceCharacter приковывает обувь на одинарном каблуке DestinationCharacterName к полу.
+
+Rubber Mask cloth version main menu
+Главное меню тканевой версии резиновой маски
+Rubber Mask hood version main menu
+Главное меню версии резиновой маски с капюшоном
+Mask base
+Основа маски
+Mask base menu
+Меню основы маски
+Mask mode
+Режим маски
+Hood mode
+Режим капюшона
+Sight
+Зрение
+Sight menu
+Меню зрения
+Low sight
+Слека затемненное
+Opaque lenses
+Непрозрачные линзы
+Hearing control
+Контроль слуха
+Hearing control menu
+Меню управления слухом
+Add earplugs
+Добавьте беруши
+Hair and Wig
+Волосы и парик
+Hair and wig menu
+Меню причесок и париков
+Default hair
+Волосы по умолчанию
+Wig A
+Парик А
+Wig B
+Парик B
+Wig C
+Парик C
+Wig D
+Парик D
+Wig E
+Парик E
+Wig F
+Парик F
+Wig G
+Парик G
+Wig H
+Парик H
+Wig I
+Парик I
+Wig J
+Парик J
+Wig K
+Парик K
+Wig L
+Парик L
+Wig M
+Парик M
+Wig N
+Парик N
+Eye expression menu
+Меню выражения глаз
+Closed eyes
+Закрытые глаза
+Wide open eyes
+Широко открытые глаза
+Scared
+Испуганные
+Feline normal
+Кошачьи нормальные
+Feline Wide open eyes
+Кошачьи широко открытые
+Feline scared
+Кошачьи испуганные
+Eyebrow expression menu
+Меню выражения бровей
+Alternating (L-r)
+Переменное (Л-п)
+Alternating (l-R)
+Переменное (П-л)
+Lip expression menu
+Меню выражения губ
+Serious
+Серьезное
+Open mouth
+Открытый рот
+Vampire neutral
+Вампирское нейтральное
+Vampire serious
+Вампирское серьезное
+Vampire open mouth
+Вампирский открытый рот
+Additional gag
+Дополнительный кляп
+Suplemental mask gag menu
+Меню дополнительного кляпа на маске
+Single duct tape piece
+Один кусок клейкой ленты
+Horror gag
+Ужасный кляп
+SourceCharacter turns the rubber mask into mask mode on DestinationCharacterName head.
+SourceCharacter переводит резиновую маску в режим маски на голове DestinationCharacterName.
+SourceCharacter turns the rubber mask into hood mode on DestinationCharacterName head.
+SourceCharacter переводит резиновую маску в режим капюшона на голове DestinationCharacterName.
+SourceCharacter installs a one way lenses pair in DestinationCharacterName rubber mask.
+SourceCharacter устанавливает пару односторонних линз в резиновую маску DestinationCharacterName.
+SourceCharacter installs a darker lenses pair in DestinationCharacterName rubber mask.
+SourceCharacter устанавливает пару более темных линз в резиновую маску DestinationCharacterName.
+SourceCharacter almost completely obstructs DestinationCharacterName sight with opaque fake eyes.
+SourceCharacter почти полностью закрывает обзор DestinationCharacterName непрозрачными искусственными глазами.
+SourceCharacter removes the rubber mask's earplugs from DestinationCharacterName ears.
+SourceCharacter удаляет затычки для ушей из резиновой маски DestinationCharacterName.
+SourceCharacter puts a pair of earplugs inside DestinationCharacterName ears.
+SourceCharacter вставляет пару беруш в уши DestinationCharacterName.
+SourceCharacter keeps the DestinationCharacterName default hair.
+SourceCharacter сохраняет волосы DestinationCharacterName по умолчанию.
+SourceCharacter puts the wig A on the DestinationCharacterName head.
+SourceCharacter помещает парик A на голову DestinationCharacterName.
+SourceCharacter puts the wig B on the DestinationCharacterName head.
+SourceCharacter помещает парик B на голову DestinationCharacterName.
+SourceCharacter puts the wig C on the DestinationCharacterName head.
+SourceCharacter помещает парик C на голову DestinationCharacterName.
+SourceCharacter puts the wig D on the DestinationCharacterName head.
+SourceCharacter помещает парик D на голову DestinationCharacterName.
+SourceCharacter puts the wig E on the DestinationCharacterName head.
+SourceCharacter помещает парик E на голову DestinationCharacterName.
+SourceCharacter puts the wig F on the DestinationCharacterName head.
+SourceCharacter помещает парик F на голову DestinationCharacterName.
+SourceCharacter puts the wig G on the DestinationCharacterName head.
+SourceCharacter помещает парик G на голову DestinationCharacterName.
+SourceCharacter puts the wig H on the DestinationCharacterName head.
+SourceCharacter помещает парик H на голову DestinationCharacterName.
+SourceCharacter puts the wig I on the DestinationCharacterName head.
+SourceCharacter помещает парик I на голову DestinationCharacterName.
+SourceCharacter puts the wig J on the DestinationCharacterName head.
+SourceCharacter помещает парик J на голову DestinationCharacterName.
+SourceCharacter puts the wig K on the DestinationCharacterName head.
+SourceCharacter помещает парик K на голову DestinationCharacterName.
+SourceCharacter puts the wig L on the DestinationCharacterName head.
+SourceCharacter помещает парик L на голову DestinationCharacterName.
+SourceCharacter puts the wig M on the DestinationCharacterName head.
+SourceCharacter помещает парик M на голову DestinationCharacterName.
+SourceCharacter puts the wig N on the DestinationCharacterName head.
+SourceCharacter помещает парик N на голову DestinationCharacterName.
+SourceCharacter chooses a normal eye expression in DestinationCharacterName mask.
+SourceCharacter выбирает нормальное выражение глаз в маске DestinationCharacterName.
+SourceCharacter chooses a closed eye expression in DestinationCharacterName mask.
+SourceCharacter выбирает выражение закрытых глаз в маске DestinationCharacterName.
+SourceCharacter chooses a wide open eye expression in DestinationCharacterName mask.
+SourceCharacter выбирает выражение широко открытых глаз в маске DestinationCharacterName.
+SourceCharacter chooses a neutral eyebrow expression in DestinationCharacterName mask.
+SourceCharacter выбирает нейтральное выражение бровей на маске DestinationCharacterName.
+SourceCharacter chooses a sad eyebrow expression in DestinationCharacterName mask.
+SourceCharacter выбирает грустное выражение бровей на маске DestinationCharacterName.
+SourceCharacter chooses a angry eyebrow expression in DestinationCharacterName mask.
+SourceCharacter выбирает сердитое выражение бровей на маске DestinationCharacterName.
+SourceCharacter chooses a alterning eyebrow expression (L-r) in DestinationCharacterName mask.
+SourceCharacter выбирает переменное выражение бровей (Л-п) в маске DestinationCharacterName.
+SourceCharacter chooses a alterning eyebrow expression (l-R) in DestinationCharacterName mask.
+SourceCharacter выбирает переменное выражение бровей (П-л) в маске DestinationCharacterName.
+SourceCharacter chooses a normal lip expression in DestinationCharacterName mask.
+SourceCharacter выбирает нормальное выражение губ на маске DestinationCharacterName.
+SourceCharacter chooses a serious lip expression in DestinationCharacterName mask.
+SourceCharacter выбирает серьезное выражение губ на маске DestinationCharacterName.
+SourceCharacter chooses a open mouth expression in DestinationCharacterName mask.
+SourceCharacter выбирает выражение открытого рта на маске DestinationCharacterName.
+SourceCharacter chooses a normal vampire lip expression in DestinationCharacterName mask.
+SourceCharacter выбирает нормальное выражение губ вампира на маске DestinationCharacterName.
+SourceCharacter chooses a serious vampire lip expression in DestinationCharacterName mask.
+SourceCharacter выбирает серьезное выражение губ вампира на маске DestinationCharacterName.
+SourceCharacter chooses a open mouth vampire expression in DestinationCharacterName mask.
+SourceCharacter выбирает выражение вампира с открытым ртом на маске DestinationCharacterName.
+SourceCharacter removes any rubber mask gag from DestinationCharacterName mouth.
+SourceCharacter удаляет кляп для рта с резиновой маске DestinationCharacterName.
+SourceCharacter gags DestinationCharacterName with a single piece of duct tape.
+SourceCharacter заклеевает рот DestinationCharacterName одним куском клейкой ленты.
+SourceCharacter gags DestinationCharacterName totally locking TargetPronounObject mouth with the Horror Gag.
+SourceCharacter затыкает рот DestinationCharacterName, полностью блокируя TargetPronounObject рот с помощью ужасного кляпа.
+
+Build and choose the brick wall's height:
+Постройте и выберите высоту кирпичной стены:
+No brick
+Нет кирпича
+Up to the hips
+По бедра
+At breast/chest height
+По груди
+Neck height
+По шею
+Full wall
+Полная стена
+Full with a grided window
+Полная стена с решеткой
+Wall's last brick
+Последний кирпич стены
+SourceCharacter removes all front wall brick from DestinationCharacterName.
+SourceCharacter удаляет все кирпичи из передней стены DestinationCharacterName.
+SourceCharacter builds a brick wall that reaches DestinationCharacterName hips.
+SourceCharacter возводит кирпичную стену до бедер DestinationCharacterName.
+SourceCharacter builds a brick wall that reaches DestinationCharacterName chest.
+SourceCharacter возводит кирпичную стену до груди DestinationCharacterName.
+SourceCharacter builds a brick wall that reaches DestinationCharacterName neck.
+SourceCharacter возводит кирпичную стену до шеи DestinationCharacterName.
+SourceCharacter builds a brick wall completely but a single hole at DestinationCharacterName eye height.
+SourceCharacter полностью возводит кирпичную стену, оставляя одно отверстие на высоте глаз DestinationCharacterName.
+SourceCharacter builds a brick wall completely and puts a small grid at DestinationCharacterName eye height.
+SourceCharacter полностью возводит кирпичную стену, оставляя небольшую решетку на высоте глаз DestinationCharacterName.
+SourceCharacter builds a brick wall completely and puts the last brick at DestinationCharacterName eye height.
+SourceCharacter полностью возводит кирпичную стену и кладет последний кирпич на высоте глаз DestinationCharacterName.
+
+Customize your heels:
+Настройте свои каблуки:
+Ankle straps
+Ремешки на лодыжках
+Ankle straps menu
+Меню ремешков на лодыжках
+Ankle straps placed
+Ремешки на лодыжках
+Mid straps
+Средние ремешки
+Mid straps menu
+Меню средних ремешков
+Mid straps placed
+Средние ремешки
+Lower straps
+Нижние ремешки
+Lower straps menu
+Меню нижних ремешков
+Lower straps placed
+Нижние ремешки
