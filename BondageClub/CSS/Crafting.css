@@ -110,7 +110,7 @@
 .crafting-grid {
 	display: grid;
 	gap: calc(var(--button-size) / 6);
-	overflow: visible scroll;
+	overflow: hidden auto;
 	margin: 3px;
 	padding: 3px;
 }
@@ -176,7 +176,7 @@
 
 #crafting-right-panel {
 	grid-area: crafting-right-panel;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 #crafting-extended-button,
