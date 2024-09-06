@@ -62,7 +62,7 @@
 	width: 96%;
 	max-height: 98%;
 	color: black;
-	font-size: min(2dvh, 1dvw);
+	font-size: min(2.6dvh, 1.3dvw);
 	pointer-events: none;
 	cursor: inherit;
 	overflow: hidden;

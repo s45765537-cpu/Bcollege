@@ -74,8 +74,8 @@
 	overflow-y: hidden;
 	height: 100%;
 	grid-template:
-		"crafting-property-button crafting-left-panel-expanded" calc(2.3 * var(--button-size))
-		"crafting-asset-button crafting-left-panel-expanded" calc(2.3 * var(--button-size))
+		"crafting-property-button crafting-left-panel-expanded" calc(2.5 * var(--button-size))
+		"crafting-asset-button crafting-left-panel-expanded" calc(2.5 * var(--button-size))
 		"crafting-lock-button crafting-left-panel-expanded" auto / calc(1.8 * var(--button-size)) auto;
 }
 
@@ -116,7 +116,7 @@
 #crafting-asset-grid,
 #crafting-padlock-grid {
 	grid-template-columns: repeat(3, min-content);
-	grid-template-rows: repeat(auto-fill, calc(2.3 * var(--button-size)));
+	grid-template-rows: repeat(auto-fill, calc(2.5 * var(--button-size)));
 }
 
 #crafting-property-grid {
@@ -130,7 +130,7 @@
 #crafting-asset-button,
 #crafting-padlock-button {
 	width: calc(1.8 * var(--button-size));
-	height: calc(2.3 * var(--button-size));
+	height: calc(2.5 * var(--button-size));
 }
 
 #crafting-property-grid button {
