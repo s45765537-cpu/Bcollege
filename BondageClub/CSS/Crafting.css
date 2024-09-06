@@ -4,7 +4,7 @@
 	display: grid;
 	grid-template:
 		"crafting-top-bar crafting-top-bar crafting-top-bar" var(--button-size)
-		"crafting-left-panel crafting-center-panel crafting-right-panel" auto / 3fr 2fr 3fr
+		"crafting-left-panel crafting-center-panel crafting-right-panel" auto / 3fr 1.75fr 3fr
 	;
 	gap: calc(var(--button-size) / 6);
 }
