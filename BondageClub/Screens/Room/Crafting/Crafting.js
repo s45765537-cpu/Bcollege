@@ -906,7 +906,7 @@ function CraftingLoad() {
 						{ tag: "span", children: [TextGet("EnterName")] },
 						{
 							tag: "input",
-							attributes: { id: CraftingID.nameInput, type: "input", maxLength: "30", enterkeyhint: "next", size: 0 },
+							attributes: { id: CraftingID.nameInput, type: "input", maxLength: "30", size: 0 },
 							eventListeners: { change: CraftingEventListeners._ChangeName },
 						},
 					],
@@ -919,7 +919,7 @@ function CraftingLoad() {
 						{ tag: "span", children: [TextGet("EnterDescription")] },
 						{
 							tag: "textarea",
-							attributes: { id: CraftingID.descriptionInput, maxLength: "200", enterkeyhint: "next", size: 0 },
+							attributes: { id: CraftingID.descriptionInput, maxLength: "200", size: 0 },
 							eventListeners: { change: CraftingEventListeners._ChangeDescription },
 						},
 					],
@@ -932,7 +932,7 @@ function CraftingLoad() {
 						{ tag: "span", children: [TextGet("EnterColor")] },
 						{
 							tag: "input",
-							attributes: { id: CraftingID.colorsInput, type: "text", enterkeyhint: "next", size: 0 },
+							attributes: { id: CraftingID.colorsInput, type: "text", size: 0 },
 							eventListeners: { change: CraftingEventListeners._ChangeColor },
 						},
 						ElementButton.Create(CraftingID.colorsButton, CraftingEventListeners._ClickColors),
@@ -945,7 +945,7 @@ function CraftingLoad() {
 					children: [
 						{
 							tag: "input",
-							attributes: { id: CraftingID.layeringInput, type: "number", min: -99, max: 99, inputmode: "numeric", enterkeyhint: "done", size: 0 },
+							attributes: { id: CraftingID.layeringInput, type: "number", min: -99, max: 99, inputmode: "numeric", size: 0 },
 							eventListeners: { blur: ElementNumberInputBlur, input: CraftingEventListeners._InputLayering },
 						},
 						ElementButton.Create(CraftingID.layeringButton, CraftingEventListeners._ClickLayering),
