@@ -40,6 +40,9 @@ function ElementContent(ID, Content) {
 	return "";
 }
 
+/** @satisfies {ElementNoParent} */
+const ElementNoParent = 0;
+
 /**
  * @template {keyof HTMLElementScalarTagNameMap} T
  * @param {HTMLOptions<T>} options - Options for customizing the element
@@ -779,11 +782,21 @@ var ElementButton = {
 	 * @private
 	 * @readonly
 	 */
-	_PositionMapping: Object.freeze({
+	_TooltipPositions: Object.freeze({
 		left: "button-tooltip-left",
 		right: "button-tooltip-right",
 		top: "button-tooltip-top",
 		bottom: "button-tooltip-bottom",
+	}),
+
+	/**
+	 * @private
+	 * @readonly
+	 */
+	_LabelPositions: Object.freeze({
+		top: "button-label-top",
+		center: "button-label-center",
+		bottom: "button-label-bottom",
 	}),
 
 	/**
@@ -839,6 +852,15 @@ var ElementButton = {
 		if (this.ariaDisabled === "true") {
 			ev.stopImmediatePropagation();
 		}
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLButtonElement) => void}
+	 */
+	_MouseUp: function _MouseUp() {
+		// Fix buttons not automatically losing focus after a click event
+		this.blur();
 	},
 
 	/**
@@ -929,6 +951,46 @@ var ElementButton = {
 	},
 
 	/**
+	 * @this {HTMLElement}
+	 * @param {KeyboardEvent} ev
+	 */
+	_KeyDownRadio: function _KeyDownRadio(ev) {
+		if (ev.altKey || ev.metaKey || ev.ctrlKey || ev.shiftKey) {
+			return;
+		}
+
+		switch (ev.key) {
+			case "ArrowRight":
+			case "ArrowDown":
+			case "ArrowLeft":
+			case "ArrowUp": {
+				const sibblings = Array.from(this.closest("[role='radiogroup']")?.querySelectorAll("button[role='radio']") ?? []).filter(e => ElementCheckVisibility(e));
+				const thisIdx = sibblings.indexOf(this);
+				if (thisIdx === -1) {
+					return;
+				}
+
+				/** @type {Element} */
+				let next = this;
+				const nSibblings = sibblings.length;
+				if (ev.key === "ArrowDown" || ev.key === "ArrowRight") {
+					next = sibblings[(thisIdx + 1) % nSibblings];
+				} else {
+					next = thisIdx === 0 ? sibblings[nSibblings - 1] : sibblings[(thisIdx - 1) % nSibblings];
+				}
+
+				if (next !== this) {
+					/** @type {HTMLButtonElement} */(next).click();
+					/** @type {HTMLButtonElement} */(next).focus();
+					ev.stopPropagation();
+					ev.preventDefault();
+				}
+				break;
+			}
+		}
+	},
+
+	/**
 	 * Click event listener for checkbox buttons.
 	 * @private
 	 * @type {(this: HTMLButtonElement, ev: Event) => void}
@@ -948,6 +1010,130 @@ var ElementButton = {
 	},
 
 	/**
+	 * @private
+	 * @param {string} id
+	 * @param {string} [img]
+	 * @param {Omit<HTMLOptions<"img">, "tag">} [options]
+	 * @returns {HTMLImageElement}
+	 */
+	_ParseImage: function _ParseImage(id, img, options) {
+		if (!img) {
+			return;
+		}
+
+		options ??= {};
+		return ElementCreate({
+			...options,
+			tag: "img",
+			classList: ["button-image", ...(options.classList ?? [])],
+			attributes: { id: `${id}-image`, decoding: "async", loading: "lazy", src: img, ...(options.attributes ?? {}) },
+		});
+	},
+
+	/**
+	 * @private
+	 * @param {string} id
+	 * @param {string} [label]
+	 * @param {"top" | "center" | "bottom"} [position]
+	 * @param {Omit<HTMLOptions<"label">, "tag">} [options]
+	 * @returns {HTMLLabelElement}
+	 */
+	_ParseLabel: function _ParseLabel(id, label, position, options) {
+		if (!label) {
+			return;
+		}
+
+		options ??= {};
+		const labelPosition = this._LabelPositions[position] ?? this._LabelPositions.bottom;
+		return ElementCreate({
+			...options,
+			tag: "label",
+			attributes: { id: `${id}-label`, for: id, ...(options.attributes ?? {}) },
+			classList: ["button-label", labelPosition, ...(options.classList ?? [])],
+			children: [label, ...(options.children ?? [])],
+		});
+	},
+
+	/**
+	 * Parse the passed icon list, returning its corresponding `<img>` grid and tooltip if non-empty
+	 * @param {string} id - The ID of the parent element
+	 * @param {readonly InventoryIcon[]} [icons] - The (optional) list of icons
+	 * @returns {null | { iconGrid: HTMLDivElement, tooltip: HTMLUListElement }} - `null` if the provided icon list is empty and otherwise an object containing the icon grid and a icon-specific tooltip
+	 */
+	_ParseIcons: function _ParseIcons(id, icons) {
+		if (!icons || icons.length === 0) {
+			return null;
+		}
+
+		const tooltip = ElementCreate({
+			tag: "ul",
+			attributes: { id: `${id}-icon-ul` },
+			classList: ["button-icon-tooltip-ul"],
+			children: [],
+		});
+		const iconGrid = ElementCreate({
+			tag: "div",
+			classList: ["button-icon-grid"],
+			children: icons.map((icon) => {
+				let src, tooltipText;
+				if (icon.endsWith("Padlock")) {
+					src = `Assets/Female3DCG/ItemMisc/Preview/${icon}.png`;
+					tooltipText = InterfaceTextGet("PreviewIconPadlock").replace(
+						"AssetName",
+						AssetGet("Female3DCG", "ItemMisc", icon).Description,
+					);
+				} else {
+					src = `Icons/Previews/${icon}.png`;
+					tooltipText = InterfaceTextGet(`PreviewIcon${icon}`);
+				}
+
+				ElementCreate({
+					tag: "li",
+					attributes: { id: `${id}-icon-li-${icon}` },
+					classList: ["button-icon-tooltip-li"],
+					children: [tooltipText],
+					parent: tooltip,
+				});
+
+				return {
+					tag: "img",
+					classList: ["button-icon"],
+					attributes: { decoding: "async", loading: "lazy", src, "aria-labelledby": `${id}-icon-li-${icon}` },
+				};
+			}),
+		});
+		return { iconGrid, tooltip };
+	},
+
+	/**
+	 * @private
+	 * @param {string} id
+	 * @param {"left" | "right" | "top" | "bottom"} [position]
+	 * @param {readonly (null | string | Node | HTMLOptions<any>)[]} [children]
+	 * @param {Omit<HTMLOptions<"div">, "tag">} [options]
+	 * @returns {null | HTMLDivElement}
+	 */
+	_ParseTooltip: function _ParseTooltip(id, position, children, options) {
+		if (!children || children.every(i => i == null)) {
+			return null;
+		}
+
+		options ??= {};
+		const tooltipPosition = this._TooltipPositions[position] ?? this._TooltipPositions.left;
+		return ElementCreate({
+			...options,
+			tag: "div",
+			classList: ["button-tooltip", tooltipPosition, ...(options.classList ?? [])],
+			attributes: {
+				id: `${id}-tooltip`,
+				role: "tooltip",
+				...(options.attributes ?? {}),
+			},
+			children,
+		});
+	},
+
+	/**
 	 * Create a button with a tooltip
 	 *
 	 * @example
@@ -957,12 +1143,16 @@ var ElementButton = {
 	 * @param {null | string} id - The ID of the to-be created search button
 	 * @param {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => any} onClick - The click event listener to-be attached to the tooltip
 	 * @param {Object} [options]
-	 * @param {null | string | Node} [options.tooltip] - Optional tooltip content. If not supplied then one should manually prepend it to the tooltip later
+	 * @param {null | string | Node | readonly (null | string | Node)[]} [options.tooltip] - Optional tooltip content. If not supplied then one should manually prepend it to the tooltip later
 	 * @param {"left" | "right" | "top" | "bottom"} [options.tooltipPosition] - The position of the tooltip w.r.t. the button
+	 * @param {string} [options.label]
+	 * @param {"top" | "center" | "bottom"} [options.labelPosition]
+	 * @param {string} [options.image]
+	 * @param {readonly InventoryIcon[]} [options.icons]
 	 * @param {"radio" | "checkbox" | "menuitemradio" | "menuitemcheckbox"} [options.role] - The role of the button. All accepted values are currently special-cased in order to set role-specific event listeners and/or attributes.
 	 * @param {boolean} [options.noStyling] - Whether to limit the default styling of the button's border and background
 	 * @param {boolean} [options.disabled] - Whether the button should be disabled or not
-	 * @param {null | Partial<Record<"button" | "tooltip", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the either the button or tooltip
+	 * @param {null | Partial<Record<"button" | "tooltip" | "img" | "label", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the either the button or tooltip
 	 * @returns {HTMLButtonElement} - The created button
 	 */
 	Create: function Create(id, onClick, options=null, htmlOptions=null) {
@@ -972,13 +1162,25 @@ var ElementButton = {
 			return elem;
 		}
 
+		htmlOptions ??= {};
+		const buttonOptions = htmlOptions.button ?? {};
+		const tooltipOptions = htmlOptions.tooltip ?? {};
+
 		id ??= `button-${Date.now()}`;
 		options ??= {};
-		const noStyling = options.noStyling ?? false;
-		const tooltip = options.tooltip;
-		const tooltipPosition = this._PositionMapping[options.tooltipPosition] ?? this._PositionMapping.left;
-		const buttonOptions = htmlOptions?.button ?? {};
-		const tooltipOptions = htmlOptions?.tooltip ?? {};
+		const image = this._ParseImage(id, options.image, htmlOptions.img);
+		const label = this._ParseLabel(id, options.label, options.labelPosition, htmlOptions.label);
+		const icons = this._ParseIcons(id, options.icons);
+
+		// Only add the icon-based component of the tooltip if there is an actual tooltip
+		/** @type {(null | string | Node | HTMLOptions<any>)[]} */
+		const protoTooltip = [...(CommonIsArray(options.tooltip) ? options.tooltip : [options.tooltip])];
+		if (!protoTooltip.every(i => i == null)) {
+			protoTooltip.push(icons?.tooltip);
+		}
+		protoTooltip.push(...(tooltipOptions.children ?? []));
+		const tooltip = this._ParseTooltip(id, options.tooltipPosition, protoTooltip, tooltipOptions);
+
 		elem = ElementCreate({
 			...buttonOptions,
 			tag: "button",
@@ -990,34 +1192,35 @@ var ElementButton = {
 				role: options.role,
 				...(buttonOptions.attributes ?? {}),
 			},
-			classList: ["blank-button", "button", noStyling ? null : "button-styling", "HideOnPopup", ...(buttonOptions.classList ?? [])],
+			classList: ["blank-button", "button", options.noStyling ? null : "button-styling", "HideOnPopup", ...(buttonOptions.classList ?? [])],
 			eventListeners: {
 				click: this._Click,
 				keydown: this._KeyDown,
 				keyup: this._KeyUp,
+				mouseup: this._MouseUp,
+				touchend: this._MouseUp,
+				touchcancel: this._MouseUp,
 				...(buttonOptions.eventListeners ?? {}),
 			},
 			children: [
-				{
-					...tooltipOptions,
-					tag: "div",
-					classList: ["button-tooltip", tooltipPosition, ...(tooltipOptions.classList ?? [])],
-					attributes: {
-						id: `${id}-tooltip`,
-						role: "tooltip",
-						...(tooltipOptions.attributes ?? {}),
-					},
-					children: tooltip == null ? tooltipOptions.children : [tooltip, ...(tooltipOptions.children ?? [])],
-				},
+				tooltip,
+				image,
+				icons?.iconGrid,
+				label,
 				...(buttonOptions.children ?? []),
 			],
 		});
 
-		switch (buttonOptions.attributes?.role ?? options.role) {
+		const role = buttonOptions.attributes?.role ?? options.role;
+		switch (role) {
 			case "radio":
 			case "menuitemradio":
 				elem.addEventListener("click", this._ClickRadio);
 				elem.ariaChecked ??= "false";
+				if (role === "radio") {
+					elem.addEventListener("keydown", this._KeyDownRadio);
+					elem.tabIndex = elem.ariaChecked === "true" ? 0 : -1;
+				}
 				break;
 			case "checkbox":
 			case "menuitemcheckbox":

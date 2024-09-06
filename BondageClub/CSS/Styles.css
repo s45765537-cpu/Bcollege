@@ -266,6 +266,7 @@ input[type="checkbox"] {
 	border: min(0.3vh, 0.15vw) solid black;
 	display: grid;
 	place-content: center;
+	cursor: pointer;
 }
 
 input[type="checkbox"]:hover {
@@ -274,6 +275,7 @@ input[type="checkbox"]:hover {
 
 input[type="checkbox"]:disabled {
 	background-color: lightgray;
+	cursor: auto;
 }
 
 input[type="checkbox"]::before {
