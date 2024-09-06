@@ -668,15 +668,16 @@ var CraftingElements = {
 	 * @param {null | string} label
 	 * @param {null | readonly (string | Node)[]} children
 	 * @param {null | Asset} asset
+	 * @param {boolean} first
 	 * @returns {HTMLButtonElement}
 	 */
-	_RadioButton: function _RadioButton(id, onClick, assetImage=null, dataAttributes=null, label=null, children=null, asset=null) {
+	_RadioButton: function _RadioButton(id, onClick, assetImage=null, dataAttributes=null, label=null, children=null, asset=null, first=false) {
 		const icons = asset == null ? null : [...DialogGetAssetIcons(asset), ...DialogEffectIcons.GetIcons({ Asset: asset })];
 		const ret = ElementButton.Create(
 			id,
 			CraftingEventListeners._ClickRadio,
 			{ image: assetImage ? `./Assets/Female3DCG/${assetImage.DynamicGroupName}/Preview/${assetImage.Name}.png` : null, label, icons, role: "radio" },
-			{ button: { dataAttributes, children, parent: ElementNoParent }},
+			{ button: { dataAttributes, children, attributes: { tabindex: first ? 0 : -1 }, parent: ElementNoParent }},
 		);
 		ret.addEventListener("click", onClick);
 		return ret;
@@ -801,7 +802,7 @@ function CraftingLoad() {
 							tag: "div",
 							classList: ["crafting-grid"],
 							attributes: { id: CraftingID.propertyGrid, role: "radiogroup", "aria-required": true },
-							children: Array.from(CraftingPropertyMap.keys()).map(property => {
+							children: Array.from(CraftingPropertyMap.keys()).map((property, i) => {
 								return CraftingElements._RadioButton(
 									`${CraftingID.propertyButton}-${property}`,
 									CraftingEventListeners._ClickProperty,
@@ -809,6 +810,8 @@ function CraftingLoad() {
 									{ property },
 									TextGet(`Property${property}`),
 									[TextGet(`Property${property}`) + ": " + TextGet(`Description${property}`)],
+									null,
+									i === 0,
 								);
 							}),
 						},
@@ -835,7 +838,7 @@ function CraftingLoad() {
 							tag: "div",
 							classList: ["crafting-grid"],
 							attributes: { id: CraftingID.assetGrid, role: "radiogroup", "aria-required": true },
-							children: CraftingItemListBuild().map(a => {
+							children: CraftingItemListBuild().map((a, i) => {
 								return CraftingElements._RadioButton(
 									`${CraftingID.assetButton}-${a.DynamicGroupName}-${a.Name}`,
 									CraftingEventListeners._ClickAsset, a,
@@ -843,6 +846,7 @@ function CraftingLoad() {
 									a.Description,
 									null,
 									a,
+									i === 0,
 								);
 							}),
 						},
@@ -870,10 +874,10 @@ function CraftingLoad() {
 							tag: "div",
 							classList: ["crafting-grid"],
 							attributes: { id: CraftingID.padlockGrid, role: "radiogroup" },
-							children: CraftingLockList.filter(name => !!name && InventoryAvailable(Player, name, "ItemMisc")).map((name) => {
+							children: CraftingLockList.filter(name => !!name && InventoryAvailable(Player, name, "ItemMisc")).map((name, i) => {
 								const a = AssetGet("Female3DCG", "ItemMisc", name);
 								return CraftingElements._RadioButton(
-									`${CraftingID.padlockButton}-${a.Name}`, CraftingEventListeners._ClickPadlock, a, { asset: a.Name }, a.Description,
+									`${CraftingID.padlockButton}-${a.Name}`, CraftingEventListeners._ClickPadlock, a, { asset: a.Name }, a.Description, null, null, i === 0,
 								);
 							}).sort((a1, a2) => a1.dataset.asset.localeCompare(a2.dataset.asset)),
 						},
@@ -1649,7 +1653,10 @@ function CraftingExitResetElements() {
 	document.querySelectorAll(`#${CraftingID.padlockGrid} [data-asset]`).forEach(e => e.ariaDisabled = "true");
 
 	// Deselect the asset and disable the accept button
-	document.querySelector(`#${CraftingID.assetGrid} [aria-checked='true']`)?.setAttribute("aria-checked", "false");
+	const assetSelected = document.querySelector(`#${CraftingID.assetGrid} [aria-checked='true']`);
+	assetSelected?.setAttribute("aria-checked", "false");
+	assetSelected?.setAttribute("tabindex", "-1");
+	document.querySelector(`#${CraftingID.assetGrid} [data-asset]`)?.setAttribute("tabindex", "0");
 	document.getElementById(CraftingID.acceptButton)?.setAttribute("aria-disabled", "true");
 
 	// Open the asset-based side panel and reset the styling of its control button
