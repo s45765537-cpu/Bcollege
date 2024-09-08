@@ -2671,6 +2671,7 @@ function ChatRoomLeave(clearCharacters = false) {
 	ChatRoomSlowStop = false;
 	DialogLentLockpicks = false;
 	ChatRoomLeashPlayer = null;
+	ChatRoomData = null;
 	Player.MapData = null;
 	ChatRoomCharacter = [];
 	ChatRoomMapViewTileFog = "";
