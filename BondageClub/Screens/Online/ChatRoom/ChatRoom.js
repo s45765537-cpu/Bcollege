@@ -2671,7 +2671,9 @@ function ChatRoomLeave(clearCharacters = false) {
 	ChatRoomSlowStop = false;
 	DialogLentLockpicks = false;
 	ChatRoomLeashPlayer = null;
+	ChatRoomData = null;
 	Player.MapData = null;
+	ChatRoomGame = "";
 	ChatRoomCharacter = [];
 	ChatRoomMapViewTileFog = "";
 	ChatRoomMapViewObjectFog = "";
@@ -4209,7 +4211,7 @@ function ChatRoomHideIdentity(C) {
  */
 function ChatRoomAddCharacterToChatRoom(newCharacter, newRawCharacter)
 {
-	if (newCharacter == null || newRawCharacter == null) { return; }
+	if (ChatRoomData == null || newCharacter == null || newRawCharacter == null) { return; }
 
 	// Update the chat room characters
 	let characterIndex = ChatRoomCharacter.findIndex(x => x.MemberNumber == newCharacter.MemberNumber);
@@ -4332,7 +4334,7 @@ function ChatRoomSync(data) {
  * @returns {void} - Nothing.
  */
 function ChatRoomSyncCharacter(data) {
-	if (data == null || (typeof data !== "object")) {
+	if (ChatRoomData == null || data == null || (typeof data !== "object")) {
 		return;
 	}
 
@@ -4347,7 +4349,7 @@ function ChatRoomSyncCharacter(data) {
  * @returns {void} - Nothing.
  */
 function ChatRoomSyncMemberJoin(data) {
-	if (data == null || (typeof data !== "object")) {
+	if (ChatRoomData == null || data == null || (typeof data !== "object")) {
 		return;
 	}
 
@@ -4401,7 +4403,7 @@ function ChatRoomSyncMemberJoin(data) {
  * @returns {void} - Nothing.
  */
 function ChatRoomSyncMemberLeave(data) {
-	if (data == null || (typeof data !== "object")) {
+	if (ChatRoomData == null || data == null || (typeof data !== "object")) {
 		return;
 	}
 
@@ -4423,7 +4425,7 @@ function ChatRoomSyncMemberLeave(data) {
  * @returns {void} - Nothing.
  */
 function ChatRoomSyncRoomProperties(data) {
-	if (data == null || typeof data !== "object" || typeof data.SourceMemberNumber !== "number") {
+	if (ChatRoomData == null || data == null || typeof data !== "object" || typeof data.SourceMemberNumber !== "number") {
 		return;
 	}
 
@@ -4468,7 +4470,7 @@ function ChatRoomSyncRoomProperties(data) {
  * @returns {void} - Nothing.
  */
 function ChatRoomSyncReorderPlayers(data) {
-	if (data == null || (typeof data !== "object")) {
+	if (ChatRoomData == null || data == null || (typeof data !== "object")) {
 		return;
 	}
 
@@ -4513,7 +4515,7 @@ function ChatRoomSyncReorderPlayers(data) {
 function ChatRoomSyncSingle(data) {
 
 	// Sets the chat room character data
-	if ((data == null) || (typeof data !== "object")) return;
+	if (ChatRoomData == null || data == null || typeof data !== "object") return;
 	if ((data.Character == null) || (typeof data.Character !== "object")) return;
 	for (let C = 0; C < ChatRoomCharacter.length; C++)
 		if (ChatRoomCharacter[C].MemberNumber == data.Character.MemberNumber)
@@ -4533,7 +4535,8 @@ function ChatRoomSyncSingle(data) {
  */
 function ChatRoomSyncExpression(data) {
 	if (
-		!CommonIsObject(data)
+		ChatRoomData == null
+		|| !CommonIsObject(data)
 		|| typeof data.Group !== "string"
 		|| (typeof data.Name !== "string" && data.Name != null)
 	) return;
@@ -4571,7 +4574,7 @@ function ChatRoomSyncExpression(data) {
  * @returns {void} - Nothing.
  */
 function ChatRoomSyncPose(data) {
-	if ((data == null) || (typeof data !== "object")) return;
+	if (ChatRoomData == null || data == null || typeof data !== "object") return;
 	const character = ChatRoomCharacter.find(c => c.MemberNumber === data.MemberNumber);
 	if (!character) return;
 
@@ -4592,7 +4595,7 @@ function ChatRoomSyncPose(data) {
  * @returns {void} - Nothing.
  */
 function ChatRoomSyncArousal(data) {
-	if ((data == null) || (typeof data !== "object")) return;
+	if (ChatRoomData == null || data == null || typeof data !== "object") return;
 	const character = ChatRoomCharacter.find(c => c.MemberNumber === data.MemberNumber);
 	if (!character || !character.ArousalSettings) return;
 
@@ -4623,7 +4626,7 @@ function ChatRoomSyncArousal(data) {
  * @returns {void} - Nothing.
  */
 function ChatRoomSyncItem(data) {
-	if ((data == null) || (typeof data !== "object") || (data.Source == null) || (typeof data.Source !== "number") || (data.Item == null) || (typeof data.Item !== "object") || (data.Item.Target == null) || (typeof data.Item.Target !== "number") || (data.Item.Group == null) || (typeof data.Item.Group !== "string")) return;
+	if (ChatRoomData == null || (data == null) || (typeof data !== "object") || (data.Source == null) || (typeof data.Source !== "number") || (data.Item == null) || (typeof data.Item !== "object") || (data.Item.Target == null) || (typeof data.Item.Target !== "number") || (data.Item.Group == null) || (typeof data.Item.Group !== "string")) return;
 	for (let C = 0; C < ChatRoomCharacter.length; C++)
 		if (ChatRoomCharacter[C].MemberNumber === data.Item.Target) {
 

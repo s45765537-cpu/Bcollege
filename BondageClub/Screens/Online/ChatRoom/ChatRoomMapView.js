@@ -1208,6 +1208,8 @@ function ChatRoomMapViewUpdatePlayerSync() {
  * @returns {void} - Nothing.
  */
 function ChatRoomMapViewSyncMapData(data) {
+	// Exits if we're not in a room
+	if (ChatRoomData == null) return;
 
 	// Exits if the packet is invalid
 	if (!CommonIsObject(data) || (data.MemberNumber == null) || (typeof data.MemberNumber != "number")) return;
