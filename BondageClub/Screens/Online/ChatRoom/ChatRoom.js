@@ -4424,7 +4424,7 @@ function ChatRoomSyncMemberLeave(data) {
  * @returns {void} - Nothing.
  */
 function ChatRoomSyncRoomProperties(data) {
-	if (data == null || typeof data !== "object" || typeof data.SourceMemberNumber !== "number") {
+	if (ChatRoomData == null || data == null || typeof data !== "object" || typeof data.SourceMemberNumber !== "number") {
 		return;
 	}
 
