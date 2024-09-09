@@ -2673,6 +2673,7 @@ function ChatRoomLeave(clearCharacters = false) {
 	ChatRoomLeashPlayer = null;
 	ChatRoomData = null;
 	Player.MapData = null;
+	ChatRoomGame = "";
 	ChatRoomCharacter = [];
 	ChatRoomMapViewTileFog = "";
 	ChatRoomMapViewObjectFog = "";
