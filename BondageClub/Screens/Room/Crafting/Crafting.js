@@ -668,15 +668,16 @@ var CraftingElements = {
 	 * @param {null | string} label
 	 * @param {null | readonly (string | Node)[]} children
 	 * @param {null | Asset} asset
+	 * @param {boolean} first
 	 * @returns {HTMLButtonElement}
 	 */
-	_RadioButton: function _RadioButton(id, onClick, assetImage=null, dataAttributes=null, label=null, children=null, asset=null) {
+	_RadioButton: function _RadioButton(id, onClick, assetImage=null, dataAttributes=null, label=null, children=null, asset=null, first=false) {
 		const icons = asset == null ? null : [...DialogGetAssetIcons(asset), ...DialogEffectIcons.GetIcons({ Asset: asset })];
 		const ret = ElementButton.Create(
 			id,
 			CraftingEventListeners._ClickRadio,
 			{ image: assetImage ? `./Assets/Female3DCG/${assetImage.DynamicGroupName}/Preview/${assetImage.Name}.png` : null, label, icons, role: "radio" },
-			{ button: { dataAttributes, children, parent: ElementNoParent }},
+			{ button: { dataAttributes, children, attributes: { tabindex: first ? 0 : -1 }, parent: ElementNoParent }},
 		);
 		ret.addEventListener("click", onClick);
 		return ret;
@@ -772,12 +773,12 @@ function CraftingLoad() {
 				),
 				ElementButton.Create(
 					CraftingID.assetButton, CraftingEventListeners._ClickExpand,
-					{ role: "menuitemradio", label: TextGet("SelectItem"), image: "./icons/NoCraft.png" },
+					{ role: "menuitemradio", label: TextGet("SelectItem"), image: "./Icons/NoCraft.png" },
 					{ button: { attributes: { "aria-expanded": false, "aria-controls": CraftingID.assetPanel } } },
 				),
 				ElementButton.Create(
 					CraftingID.padlockButton, CraftingEventListeners._ClickExpand,
-					{ role: "menuitemradio", label: TextGet("NoLock"), image: "./icons/NoLock.png" },
+					{ role: "menuitemradio", label: TextGet("NoLock"), image: "./Icons/NoLock.png" },
 					{ button: { attributes: { "aria-expanded": false, "aria-controls": CraftingID.padlockPanel } } },
 				),
 				{
@@ -801,7 +802,7 @@ function CraftingLoad() {
 							tag: "div",
 							classList: ["crafting-grid"],
 							attributes: { id: CraftingID.propertyGrid, role: "radiogroup", "aria-required": true },
-							children: Array.from(CraftingPropertyMap.keys()).map(property => {
+							children: Array.from(CraftingPropertyMap.keys()).map((property, i) => {
 								return CraftingElements._RadioButton(
 									`${CraftingID.propertyButton}-${property}`,
 									CraftingEventListeners._ClickProperty,
@@ -809,6 +810,8 @@ function CraftingLoad() {
 									{ property },
 									TextGet(`Property${property}`),
 									[TextGet(`Property${property}`) + ": " + TextGet(`Description${property}`)],
+									null,
+									i === 0,
 								);
 							}),
 						},
@@ -835,7 +838,7 @@ function CraftingLoad() {
 							tag: "div",
 							classList: ["crafting-grid"],
 							attributes: { id: CraftingID.assetGrid, role: "radiogroup", "aria-required": true },
-							children: CraftingItemListBuild().map(a => {
+							children: CraftingItemListBuild().map((a, i) => {
 								return CraftingElements._RadioButton(
 									`${CraftingID.assetButton}-${a.DynamicGroupName}-${a.Name}`,
 									CraftingEventListeners._ClickAsset, a,
@@ -843,6 +846,7 @@ function CraftingLoad() {
 									a.Description,
 									null,
 									a,
+									i === 0,
 								);
 							}),
 						},
@@ -870,10 +874,10 @@ function CraftingLoad() {
 							tag: "div",
 							classList: ["crafting-grid"],
 							attributes: { id: CraftingID.padlockGrid, role: "radiogroup" },
-							children: CraftingLockList.filter(name => !!name && InventoryAvailable(Player, name, "ItemMisc")).map((name) => {
+							children: CraftingLockList.filter(name => !!name && InventoryAvailable(Player, name, "ItemMisc")).map((name, i) => {
 								const a = AssetGet("Female3DCG", "ItemMisc", name);
 								return CraftingElements._RadioButton(
-									`${CraftingID.padlockButton}-${a.Name}`, CraftingEventListeners._ClickPadlock, a, { asset: a.Name }, a.Description,
+									`${CraftingID.padlockButton}-${a.Name}`, CraftingEventListeners._ClickPadlock, a, { asset: a.Name }, a.Description, null, null, i === 0,
 								);
 							}).sort((a1, a2) => a1.dataset.asset.localeCompare(a2.dataset.asset)),
 						},
@@ -906,7 +910,7 @@ function CraftingLoad() {
 						{ tag: "span", children: [TextGet("EnterName")] },
 						{
 							tag: "input",
-							attributes: { id: CraftingID.nameInput, type: "input", maxLength: "30", enterkeyhint: "next", size: 0 },
+							attributes: { id: CraftingID.nameInput, type: "input", maxLength: "30", size: 0 },
 							eventListeners: { change: CraftingEventListeners._ChangeName },
 						},
 					],
@@ -919,7 +923,7 @@ function CraftingLoad() {
 						{ tag: "span", children: [TextGet("EnterDescription")] },
 						{
 							tag: "textarea",
-							attributes: { id: CraftingID.descriptionInput, maxLength: "200", enterkeyhint: "next", size: 0 },
+							attributes: { id: CraftingID.descriptionInput, maxLength: "200", size: 0 },
 							eventListeners: { change: CraftingEventListeners._ChangeDescription },
 						},
 					],
@@ -932,7 +936,7 @@ function CraftingLoad() {
 						{ tag: "span", children: [TextGet("EnterColor")] },
 						{
 							tag: "input",
-							attributes: { id: CraftingID.colorsInput, type: "text", enterkeyhint: "next", size: 0 },
+							attributes: { id: CraftingID.colorsInput, type: "text", size: 0 },
 							eventListeners: { change: CraftingEventListeners._ChangeColor },
 						},
 						ElementButton.Create(CraftingID.colorsButton, CraftingEventListeners._ClickColors),
@@ -945,7 +949,7 @@ function CraftingLoad() {
 					children: [
 						{
 							tag: "input",
-							attributes: { id: CraftingID.layeringInput, type: "number", min: -99, max: 99, inputmode: "numeric", enterkeyhint: "done", size: 0 },
+							attributes: { id: CraftingID.layeringInput, type: "number", min: -99, max: 99, inputmode: "numeric", size: 0 },
 							eventListeners: { blur: ElementNumberInputBlur, input: CraftingEventListeners._InputLayering },
 						},
 						ElementButton.Create(CraftingID.layeringButton, CraftingEventListeners._ClickLayering),
@@ -1649,7 +1653,10 @@ function CraftingExitResetElements() {
 	document.querySelectorAll(`#${CraftingID.padlockGrid} [data-asset]`).forEach(e => e.ariaDisabled = "true");
 
 	// Deselect the asset and disable the accept button
-	document.querySelector(`#${CraftingID.assetGrid} [aria-checked='true']`)?.setAttribute("aria-checked", "false");
+	const assetSelected = document.querySelector(`#${CraftingID.assetGrid} [aria-checked='true']`);
+	assetSelected?.setAttribute("aria-checked", "false");
+	assetSelected?.setAttribute("tabindex", "-1");
+	document.querySelector(`#${CraftingID.assetGrid} [data-asset]`)?.setAttribute("tabindex", "0");
 	document.getElementById(CraftingID.acceptButton)?.setAttribute("aria-disabled", "true");
 
 	// Open the asset-based side panel and reset the styling of its control button

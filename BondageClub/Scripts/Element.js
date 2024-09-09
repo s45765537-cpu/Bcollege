@@ -1219,7 +1219,9 @@ var ElementButton = {
 				elem.ariaChecked ??= "false";
 				if (role === "radio") {
 					elem.addEventListener("keydown", this._KeyDownRadio);
-					elem.tabIndex = elem.ariaChecked === "true" ? 0 : -1;
+					if (elem.getAttribute("tabindex") == null) {
+						elem.tabIndex = elem.ariaChecked === "true" ? 0 : -1;
+					}
 				}
 				break;
 			case "checkbox":

@@ -4,7 +4,7 @@
 	display: grid;
 	grid-template:
 		"crafting-top-bar crafting-top-bar crafting-top-bar" var(--button-size)
-		"crafting-left-panel crafting-center-panel crafting-right-panel" auto / 3fr 2fr 3fr
+		"crafting-left-panel crafting-center-panel crafting-right-panel" auto / 3fr 1.75fr 3fr
 	;
 	gap: calc(var(--button-size) / 6);
 }
@@ -69,14 +69,13 @@
 #crafting-left-panel {
 	display: grid;
 	grid-area: crafting-left-panel;
-	column-gap: calc(var(--button-size) / 6);
 	row-gap: 3px;
 	padding: 3px;
 	overflow-y: hidden;
 	height: 100%;
 	grid-template:
-		"crafting-property-button crafting-left-panel-expanded" calc(2.3 * var(--button-size))
-		"crafting-asset-button crafting-left-panel-expanded" calc(2.3 * var(--button-size))
+		"crafting-property-button crafting-left-panel-expanded" calc(2.5 * var(--button-size))
+		"crafting-asset-button crafting-left-panel-expanded" calc(2.5 * var(--button-size))
 		"crafting-lock-button crafting-left-panel-expanded" auto / calc(1.8 * var(--button-size)) auto;
 }
 
@@ -91,7 +90,6 @@
 	height: 100%;
 	display: none;
 	overflow-y: inherit;
-	gap: calc(var(--button-size) / 6 - 3px);
 	background-color: rgba(0, 0, 0, 0.25);
 	grid-template-rows: min-content auto;
 	grid-area: crafting-left-panel-expanded;
@@ -110,7 +108,7 @@
 .crafting-grid {
 	display: grid;
 	gap: calc(var(--button-size) / 6);
-	overflow: visible scroll;
+	overflow: hidden auto;
 	margin: 3px;
 	padding: 3px;
 }
@@ -118,7 +116,7 @@
 #crafting-asset-grid,
 #crafting-padlock-grid {
 	grid-template-columns: repeat(3, min-content);
-	grid-template-rows: repeat(auto-fill, calc(2.3 * var(--button-size)));
+	grid-template-rows: repeat(auto-fill, calc(2.5 * var(--button-size)));
 }
 
 #crafting-property-grid {
@@ -132,7 +130,7 @@
 #crafting-asset-button,
 #crafting-padlock-button {
 	width: calc(1.8 * var(--button-size));
-	height: calc(2.3 * var(--button-size));
+	height: calc(2.5 * var(--button-size));
 }
 
 #crafting-property-grid button {
@@ -176,7 +174,7 @@
 
 #crafting-right-panel {
 	grid-area: crafting-right-panel;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 #crafting-extended-button,
