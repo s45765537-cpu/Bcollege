@@ -16731,6 +16731,21 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "HairFront58",
+				Top:30,
+				Layer: [
+					{
+						Name: "Main",
+					},
+					{
+						Name: "Tone1",
+					},
+					{
+						Name: "Tone2",
+					}
+				]
+			},
 		],
 		Color: [
 			"#6a3628",
