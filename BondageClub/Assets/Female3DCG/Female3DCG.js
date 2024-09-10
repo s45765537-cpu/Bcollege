@@ -2790,6 +2790,8 @@ var AssetFemale3DCG = [
 				Priority: 25,
 				PoseMapping: {
 					Hogtied: "Hogtied",
+					Yoked: "Yoked",
+					OverTheHead: "Yoked",
 					AllFours: PoseType.HIDE,
 				},
 				HideItem: ["ItemNipplesLactationPump"],
