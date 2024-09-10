@@ -1578,7 +1578,7 @@ Uuuuuh.  (She thinks for a long time.)  I think it's in DialogHours hours slave.
 Is our D/s trial period done?
 Ist unsere D/s-Probezeit vorbei?
 ###_NPC
-Yes, is it.  And I'm ready to do the last step and collar you.  Do you still want me as your owner?
+Yes, it is.  And I'm ready to do the last step and collar you.  Do you still want me as your owner?
 So ist es. Und ich bin bereit, den letzten Schritt zu machen und dir ein Halsband anzulegen. Willst du mich noch als Besitzerin?
 ###_NPC [Serious]
 You've waited long enough and proved your loyalty.  I'm ready to collar you if you still want me as your Mistress.
@@ -1587,7 +1587,7 @@ Du hast lange genug gewartet und deine Treue bewiesen. Ich bin bereit, dir ein H
 Yes!  That wasn't too long.  You are still willing to be collared by me?
 Ja! Hat auch gar nicht so lange gedauert. Möchtest du immer noch, dass ich dir ein Halsband anlege?
 ###_NPC
-Yes, is it.  But I'm still unsure if I want to collar you.  I need more time to get to know you.
+Yes, it is.  But I'm still unsure if I want to collar you.  I need more time to get to know you.
 So ist es. Aber ich bin mir immer noch nicht sicher, ob ich dir ein Halsband anlegen will. Ich muss dich besser kennenlernen.
 ###_NPC [Serious]
 You've waited long enough and proved your loyalty, but I'm still unsure if I want to be your full Mistress.  I need more time with you.

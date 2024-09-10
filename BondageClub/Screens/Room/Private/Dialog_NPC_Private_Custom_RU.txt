@@ -2217,7 +2217,7 @@ Uuuuuh.  (She thinks for a long time.)  I think it's in DialogHours hours slave.
 Is our D/s trial period done?
 Наш Д/с прошел испытательный срок?
 ###_NPC
-Yes, is it.  And I'm ready to do the last step and collar you.  Do you still want me as your owner?
+Yes, it is.  And I'm ready to do the last step and collar you.  Do you still want me as your owner?
 Да, так оно и есть. И я готова сделать последний шаг и надеть ошейник на тебя.  Ты все еще хочешь, чтобы я стала твоей хозяйкой?
 ###_NPC [Serious]
 You've waited long enough and proved your loyalty.  I'm ready to collar you if you still want me as your Mistress.
@@ -2226,7 +2226,7 @@ You've waited long enough and proved your loyalty.  I'm ready to collar you if y
 Yes!  That wasn't too long.  You are still willing to be collared by me?
 Да!  Это было не слишком долго.  Ты все еще хочешь надеть ошейник для меня?
 ###_NPC
-Yes, is it.  But I'm still unsure if I want to collar you.  I need more time to get to know you.
+Yes, it is.  But I'm still unsure if I want to collar you.  I need more time to get to know you.
 Да, так оно и есть.  Но я все еще не уверена, что хочу надеть на тебя ошейник.  Мне нужно больше времени, чтобы узнать тебя получше.
 ###_NPC [Serious]
 You've waited long enough and proved your loyalty, but I'm still unsure if I want to be your full Mistress.  I need more time with you.

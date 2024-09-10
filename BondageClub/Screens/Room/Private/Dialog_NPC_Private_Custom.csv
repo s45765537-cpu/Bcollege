@@ -971,10 +971,10 @@ ClubCardVsSubDefeat,,,"What?  Did I win?  Hahaha, awesome!  Mistress, I'm allowe
 1010,,When is our D/s trial period done?,(She thinks for a little while.)  In DialogHours hours my sub.  Be patient.,ShowTrialHours(),TrialInProgress(),DomTrialNotDone,
 1010,,When is our D/s trial period done?,In DialogHours hours little one.  Patience is the key for your collar.,ShowTrialHours(),TrialInProgress(),DomTrialNotDone,Wise
 1010,,When is our D/s trial period done?,Uuuuuh.  (She thinks for a long time.)  I think it's in DialogHours hours slave.,ShowTrialHours(),TrialInProgress(),DomTrialNotDone,Dumb
-1010,1011,Is our D/s trial period done?,"Yes, is it.  And I'm ready to do the last step and collar you.  Do you still want me as your owner?",,TrialDoneEnoughLove(),DomTrialDoneEnoughLove,
+1010,1011,Is our D/s trial period done?,"Yes, it is.  And I'm ready to do the last step and collar you.  Do you still want me as your owner?",,TrialDoneEnoughLove(),DomTrialDoneEnoughLove,
 1010,1011,Is our D/s trial period done?,You've waited long enough and proved your loyalty.  I'm ready to collar you if you still want me as your Mistress.,,TrialDoneEnoughLove(),DomTrialDoneEnoughLove,Serious
 1010,1011,Is our D/s trial period done?,Yes!  That wasn't too long.  You are still willing to be collared by me?,,TrialDoneEnoughLove(),DomTrialDoneEnoughLove,Playful
-1010,,Is our D/s trial period done?,"Yes, is it.  But I'm still unsure if I want to collar you.  I need more time to get to know you.",,TrialDoneNotEnoughLove(),DomTrialDoneNotEnoughLove,
+1010,,Is our D/s trial period done?,"Yes, it is.  But I'm still unsure if I want to collar you.  I need more time to get to know you.",,TrialDoneNotEnoughLove(),DomTrialDoneNotEnoughLove,
 1010,,Is our D/s trial period done?,"You've waited long enough and proved your loyalty, but I'm still unsure if I want to be your full Mistress.  I need more time with you.",,TrialDoneNotEnoughLove(),DomTrialDoneNotEnoughLove,Serious
 1010,,Is our D/s trial period done?,Yes!  That was quick.  I do need more time to think about our relationship before I collar you though.,,TrialDoneNotEnoughLove(),DomTrialDoneNotEnoughLove,Playful
 1010,1040,"Mistress, do you have a lover?","Not yet, it would need to be someone I like and know very well.  Just like you my girl.",,WillTakePlayerAsLover(),DomWillTakePlayerAsLover,
@@ -1045,7 +1045,7 @@ ClubCardVsSubDefeat,,,"What?  Did I win?  Hahaha, awesome!  Mistress, I'm allowe
 1013,1000,I vow to be obedient.,"I'll make sure you respect the rules and limits.  Welcome to my family, this collar looks lovely on you.",,,,
 1013,1000,I vow to be open-minded.,"It's a great quality for a sub.  Welcome to my family, this collar looks lovely on you.",,,,
 1013,1000,I vow to be loyal.,"You're expected to be loyal.  Welcome to my family, this collar looks lovely on you.",,,,
-1018,1010,"Yes, it's the end.  (Abandon her.)",,KickOut(),,,
+1018,1010,"Yes, it's the end.  (Abandon her.)",,KickOutOwner(),,,
 1018,1010,Let's remain together.  (Stay with her.),You've got me worried for a while girl.  Don't play with my nerves.,NPCInteraction(-5),,DomDontRemoveCollar,
 1018,1010,Let's remain together.  (Stay with her.),"Very good my submissive.  If you're scared or unsure, we can always talk about it.",NPCInteraction(-5),,DomDontRemoveCollar,Peaceful|Wise
 1018,1010,Let's remain together.  (Stay with her.),(She cracks her knuckles in anger.)  Ok!  Stop making me mad.,NPCInteraction(-5),,DomDontRemoveCollar,Violent|Dumb

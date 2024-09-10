@@ -1175,6 +1175,18 @@ function PrivateKickOut() {
 }
 
 /**
+ * Triggered when the player kicks out her owner, breaking the ownership
+ * @returns {void} - Nothing.
+ */
+function PrivateKickOutOwner() {
+	Player.Owner = "";
+	ServerPlayerSync();
+	InventoryRemove(Player, "ItemNeck");
+	PrivateKickCharacterOut(CurrentCharacter);
+	DialogLeave();
+}
+
+/**
  * Triggered when the player kicks out a character.
  * @param {Character} C
  * @returns {void} - Nothing.
@@ -1270,11 +1282,15 @@ function PrivateRestrainPlayer() {
  */
 function PrivateRelationDecay() {
 
+	// We skip if there's only the player in the room
+	if (PrivateCharacter.length <= 1) return false;
+
 	// For each NPCs in the room
 	let MustSave = false;
-	for (let C of PrivateCharacter) {
+	for (let Index = 1; Index < PrivateCharacter.length; Index++) {
 
 		// The player is excluded
+		let C = PrivateCharacter[Index];
 		if (C.IsPlayer()) continue;
 
 		// Sets the first decay if needed
@@ -1301,12 +1317,16 @@ function PrivateRelationDecay() {
 			if (LoveDecay > 0) NPCLoveChange(C, LoveDecay * -1);
 
 			// The NPC will disappear if love is under -100, can be prevented with any cage
-			if ((C.Love <= -100) && !C.Cage && !C.IsEnclose())
+			if ((C.Love <= -100) && !C.Cage && !C.IsEnclose()) {
 				PrivateKickCharacterOut(C);
+				Index--;
+			}
 
 		}
 	}
+
 	return MustSave;
+
 }
 
 /**
