@@ -1960,7 +1960,7 @@ function CharacterAppearanceCopyToClipboard(C) {
 	// Preoares an array with a full copy of the character appearance, excluding items
 	let App = [];
 	for (let A of C.Appearance)
-		if ((A.Asset != null) && (A.Asset.Group != null) && (A.Asset.Group.Category == "Appearance")) {
+		if ((A.Asset != null) && (A.Asset.Group != null) && (A.Asset.Group.Category == "Appearance") && A.Asset.Group.AllowCustomize) {
 			let Obj = { A: A.Asset.Name, G: A.Asset.Group.Name }
 			if ((A.Color != null) && Array.isArray(A.Color)) Obj.C = CommonCloneDeep(A.Color);
 			if ((A.Color != null) && (typeof A.Color == "string") && (A.Color != "") && (A.Color.toLowerCase() != "default")) Obj.C = A.Color;
@@ -1987,6 +1987,10 @@ function CharacterAppearancePaste(C, CompApp, ChatRoomRefresh) {
 	// If the data is invalid, we exit right away
 	if ((C == null) || (C.Appearance == null) || !C.IsPlayer())
 		return CharacterAppearanceChatRoomMessage("AppPasteError");
+
+	// If the player cannot change, we show an error in chat
+	if (!C.CanChangeOwnClothes())
+		return CharacterAppearanceChatRoomMessage("AppPasteBlocked");
 
 	// Validates the compressed string first
 	if (typeof CompApp !== "string" || CompApp.length === 0)
@@ -2024,7 +2028,7 @@ function CharacterAppearancePaste(C, CompApp, ChatRoomRefresh) {
 			// On the first update, we clear the current appearance
 			if (!MustRefresh)
 				for (let A = C.Appearance.length - 1; A >= 0; A--)
-					if (C.Appearance[A].Asset.Group.Category == "Appearance")
+					if ((C.Appearance[A].Asset.Group.Category == "Appearance") && C.Appearance[A].Asset.Group.AllowCustomize)
 						if (C.Appearance[A].Asset.Group.AllowNone && AppearanceGroupAllowed(C, C.Appearance[A].Asset.Group.Name))
 							C.Appearance.splice(A, 1);
 

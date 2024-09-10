@@ -596,7 +596,7 @@ const CommonCommands = [
 	{
 		Tag: "apppaste",
 		Action: async (_, msg) => {
-			let CompApp = msg.substring("/mappaste".length).trim();
+			let CompApp = msg.substring("/apppaste".length).trim();
 			if (!CompApp.length) {
 				try {
 					CompApp = await navigator.clipboard.readText();
