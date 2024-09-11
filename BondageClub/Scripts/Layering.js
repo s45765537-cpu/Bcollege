@@ -423,11 +423,12 @@ var Layering = {
 		const itemPriority = Number.isInteger(this.OverridePriority) ? /** @type {number} */(this.OverridePriority) : assetPriority;
 		const defaultItemPriority = Number.isInteger(this._PriorityDefault) ? /** @type {number} */(this._PriorityDefault) : assetPriority;
 
-		ElementCreate({
+		elem = ElementCreate({
 			tag: "div",
 			attributes: {
 				id: this.ID.root,
 				["screen-generated"]: CurrentScreen,
+				"aria-busy": "true",
 			},
 			parent: document.body,
 			classList: ["HideOnPopup"],
@@ -555,6 +556,8 @@ var Layering = {
 				const key = `${this.Asset.DynamicGroupName}${this.Asset.Name}${h.dataset.layeringGroup}`;
 				h.innerText = cache.cache[key] ?? (h.dataset.layeringGroup || this.Asset.Description);
 			});
+
+			elem.setAttribute("aria-busy", "false");
 		});
 
 		this.Resize(true);

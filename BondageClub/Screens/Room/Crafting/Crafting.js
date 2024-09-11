@@ -722,8 +722,7 @@ function CraftingLoad() {
 	const parent = ElementCreate({
 		tag: "div",
 		style: { display: "none" },
-		attributes: { id: CraftingID.root, "screen-generated": CurrentScreen },
-		dataAttributes: { loaded: "false" },
+		attributes: { id: CraftingID.root, "screen-generated": CurrentScreen, "aria-busy": "true" },
 		classList: ["HideOnPopup"],
 		parent: document.body,
 	});
@@ -981,7 +980,7 @@ function CraftingLoad() {
 			],
 		});
 
-		parent.setAttribute("data-loaded", true);
+		parent.setAttribute("aria-busy", "false");
 	});
 }
 

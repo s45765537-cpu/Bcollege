@@ -59,7 +59,8 @@ function FriendListLoad() {
 		tag: 'div',
 		attributes: {
 			id: FriendListIDs.root,
-			'screen-generated': 'FriendList'
+			'screen-generated': 'FriendList',
+			"aria-busy": "true",
 		},
 		classList: ['HideOnPopup'],
 		dataAttributes: {
@@ -280,6 +281,7 @@ function FriendListLoad() {
 			}),
 		);
 
+		root.setAttribute("aria-busy", "false");
 		ServerSend("AccountQuery", { Query: "OnlineFriends" });
 	});
 
