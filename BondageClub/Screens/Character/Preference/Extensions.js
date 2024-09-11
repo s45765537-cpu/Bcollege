@@ -75,7 +75,7 @@ function PreferenceSubscreenExtensionsUnload() {
 
 function PreferenceSubscreenExtensionsExit() {
 	if (PreferenceExtensionsCurrent) {
-		if (PreferenceExtensionsCurrent.exit()) {
+		if (PreferenceExtensionsCurrent.exit() ?? true) {
 			PreferenceSubscreenExtensionsClear();
 			return false;
 		}

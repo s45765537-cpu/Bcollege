@@ -212,7 +212,7 @@ function PreferenceClick() {
  */
 function PreferenceExit() {
 	if (PreferenceSubscreen.name !== "Main") {
-		if (!PreferenceSubscreenExit())
+		if (PreferenceSubscreenExit())
 			return;
 	}
 
