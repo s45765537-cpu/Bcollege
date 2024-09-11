@@ -1035,8 +1035,8 @@ var ElementButton = {
 	 * @param {string} id
 	 * @param {string} [label]
 	 * @param {"top" | "center" | "bottom"} [position]
-	 * @param {Omit<HTMLOptions<"label">, "tag">} [options]
-	 * @returns {HTMLLabelElement}
+	 * @param {Omit<HTMLOptions<"span">, "tag">} [options]
+	 * @returns {HTMLSpanElement}
 	 */
 	_ParseLabel: function _ParseLabel(id, label, position, options) {
 		if (!label) {
@@ -1047,7 +1047,7 @@ var ElementButton = {
 		const labelPosition = this._LabelPositions[position] ?? this._LabelPositions.bottom;
 		return ElementCreate({
 			...options,
-			tag: "label",
+			tag: "span",
 			attributes: { id: `${id}-label`, for: id, ...(options.attributes ?? {}) },
 			classList: ["button-label", labelPosition, ...(options.classList ?? [])],
 			children: [label, ...(options.children ?? [])],
