@@ -83,8 +83,9 @@ function TimerInventoryRemove() {
 			const group = item.Asset.Group;
 			if (ShouldRemoveItem) {
 				InventoryRemove(C, group.Name);
-				update = true;
 			}
+
+			update = true;
 		}
 
 		if (ServerPlayerIsInChatRoom()) {
