@@ -338,8 +338,8 @@ Effect Porn Convention,SOURCEPLAYER gains AMOUNT Fame from the Porn Convention.
 Title Kidnapping,Kidnapping
 Text Kidnapping,Remove any member from your opponent club.  You lose opponent building level^2 Money.
 Title Pandora Box,Pandora's Box
-Text Pandora Box,All players discard their current hand and draw 5 new cards.
-Effect Pandora Box,SOURCEPLAYER opens Pandora's Box.  All players discard their hand and draw 5 new cards.
+Text Pandora Box,Discard your hand. Each player draws until they have at least 4 cards in hand. Each player draws a card.
+Effect Pandora Box,"SOURCEPLAYER opens Pandora's Box and discard their hand. All players draw until they have 4 cards, then draw a card."
 Title Toy Box,Toy Box
 Text Toy Box,+3 Money and draw a card.
 Title Restrain,Restrain
@@ -381,10 +381,10 @@ Text First Bell,"Draw a random college student from your deck. If it's your firs
 Effect First Bell Draw, SOURCEPLAYER draws 1 card from First Bell
 Effect First Bell No Draw, SOURCEPLAYER could not draw any cards from First Bell
 Title Alvin,Alvin
-Text Alvin,Summon a Ropeslave when playing Restrain or Kidnapping a Dominant or Mistress
+Text Alvin,"Summon a Ropeslave when playing Restrain, Shibari event or Kidnapping a Dominant or Mistress"
 Effect Alvin, Alvin summoned a rope slave for SOURCEPLAYER
 Title Rope Slave,Rope Slave
-Text Rope Slave,Gain +1 Fame per turn if Alvin or Rope Sensei present.
+Text Rope Slave,Gain 1 Money when you play a Knot or Shibari event. 
 Title Quack Doctor,Quack Doctor
 Text Quack Doctor,"Start of your turn, for each Asylum Patient present, players lose 1 fame. (Max 4)"
 Title Sophie,Sophie
@@ -403,8 +403,8 @@ Title Prodigious Patient,Prodigious Patient
 Text Prodigious Patient,"When she leaves your club, your opponent loses 15 fame and discards a random card. Leaves your club after 6 turns."
 Title Theatre Nurse,Theatre Nurse
 Text Theatre Nurse,"When an asylum patient enters your club, gain 3 money and draw a card."
-Title Rope Bottom,Rope Bottom
-Text Rope Bottom,<F>These ropes wont hold me forever... better add more.
+Title Knot Nut,Knot Nut
+Text Knot Nut,Counts as a Knot event while not in play for effects that target Knot events.
 Title Quality Maid,Quality Maid
 Text Quality Maid,The costs for you to upgrade your club is reduced by 10.
 Title Public Spanking,Public Spanking
@@ -416,3 +416,40 @@ Effect Nawashi,No Fame is gained because of OPPONENTPLAYER Nawashi.
 DiscardPile,View discard pile
 OpponentDiscardPile,View opponent's discard pile
 Close,Close
+Title Burlington Bowtie,Burlington Bowtie
+Text Burlington Bowtie,Gain 1 fame per club level. Gain 1 fame per Sensei present. 
+Effect Burlington Bowtie,SOURCEPLAYER gained AMOUNT Fame from Burlington Bowtie.
+Title Square Knot,Square Knot
+Text Square Knot,Your opponent loses 4 fame.
+Effect Square Knot,OPPONENTPLAYER lost AMOUNT Fame from Square Knot.
+Title Closed Hitch,Closed Hitch
+Text Closed Hitch,Draw a card.
+Effect Closed Hitch,SOURCEPLAYER draws a card from Closed Hitch.
+Title Struggler's Knot,Struggler's Knot
+Text Struggler's Knot,Take another action. 
+Title Quick Release Knot,Quick Release Knot
+Text Quick Release Knot,Gain money equal to the number of knots in your discard pile plus 4. Shuffle this and all knots from your discard pile into your deck. 
+Effect Quick Release Knot,SOURCEPLAYER gained AMOUNT Money from Quick Release Knot.
+Title Master Class,Master Class
+Text Master Class,"For the next 3 turns, if a Sensei is present, play a random Knot event from your deck at the start of your turn."
+Title Tie Tight,Tie Tight
+Text Tie Tight,Shuffle a member from your opponents club into their deck. They draw a card. 
+Prerequisite Tie Tight,Select a member from your opponent club to remove.
+Title Rope Auction,Rope Auction
+Text Rope Auction,Remove a member from your club to play 1 random Knot event from your deck. 
+Prerequisite Rope Auction,Select a member from your club to remove.
+GroupSensei,Sensei
+GroupKnot,Knot
+Title Shibari Lover,Shibari Lover
+Text Shibari Lover,"When a Shibari member enters your club, play a random Knot event from your deck."
+Title Goddess of Ropes,Goddess of Ropes
+Text Goddess of Ropes,"When you play a Shibari card, play a random Knot event from your deck." 
+Title Rope Slinger,Rope Slinger
+Text Rope Slinger,"When she enters your club, play a random Knot event from your deck."
+Title Fit To Be Tied,Fit To Be Tied
+Text Fit To Be Tied,"Play all Knot events in your hand, deck, and discard pile and shuffle them into your deck."
+Title Living Art,Living Art
+Text Living Art,Gain 1 Fame when you play a Knot or Shibari Event. 
+Title Attention Whore,Attention Whore
+Text Attention Whore,Select and remove one ongoing event before she enters your club.
+Prerequisite Attention Whore,Select an ongoing event to remove before Attention Whore enters.

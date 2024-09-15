@@ -7,7 +7,7 @@ var ClubCardBuilderOffset = 0;
 var ClubCardBuilderDeckCurrent = [];
 var ClubCardBuilderDeckSize = 30;
 var ClubCardBuilderFilterIndex = 0;
-var ClubCardBuilderFilterGroup = ["All", "Event", "NoGroup", "Liability", "Staff", "Police", "Criminal", "Fetishist", "PornActress", "Maid", "AsylumPatient", "AsylumNurse", "Dominant", "Mistress", "ABDLBaby", "ABDLMommy", "CollegeStudent", "CollegeTeacher", "Shibari", "Reward"];
+var ClubCardBuilderFilterGroup = ["All", "Event", "NoGroup", "Liability", "Staff", "Police", "Criminal", "Fetishist", "PornActress", "Maid", "AsylumPatient", "AsylumNurse", "Dominant", "Mistress", "ABDLBaby", "ABDLMommy", "CollegeStudent", "CollegeTeacher", "Knot", "Shibari", "Reward"];
 var ClubCardBuilderRenameIndex = -1;
 
 // All the default decks that NPCs can use
