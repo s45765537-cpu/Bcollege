@@ -1328,7 +1328,7 @@ function ChatRoomMenuBuild() {
  * @returns {boolean} - Returns TRUE if the player's owner is inside the room.
  */
 function ChatRoomOwnerInside() {
-	return ChatRoomCharacter.some(c => c.IsOwnedByCharacter(Player));
+	return ChatRoomCharacter.some(c => Player.IsOwnedByCharacter(c));
 }
 
 /**
