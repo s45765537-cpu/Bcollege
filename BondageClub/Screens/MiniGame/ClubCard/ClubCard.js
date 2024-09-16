@@ -709,7 +709,7 @@ var ClubCardList = [
 				} else {
 					opponent.Hand.push(card);
 				}
-				ClubCardRemoveFromBoard(opponent, card);
+				ClubCardRemoveFromBoard(opponent, card, true);
 			}
 
 			this.ExtraPlay = 1;
