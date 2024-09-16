@@ -181,7 +181,8 @@
 #crafting-extended-button,
 #crafting-layering-button,
 #crafting-colors-button,
-#crafting-private-checkbox {
+#crafting-private-checkbox,
+#crafting-ascii-description-checkbox {
 	height: calc(0.75 * var(--button-size));
 	width: calc(0.75 * var(--button-size));
 }
@@ -257,6 +258,7 @@
 }
 
 #crafting-private-label,
-#crafting-extended-label {
+#crafting-extended-label,
+#crafting-ascii-description-label {
 	grid-template-columns: min-content auto;
 }

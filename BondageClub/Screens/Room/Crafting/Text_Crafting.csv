@@ -23,6 +23,8 @@ FilterAsset,Filter items
 FilterLock,Filter padlocks
 EnterName,Name of the crafted item
 EnterDescription,Engrave a description
+EnterDescriptionLong,Engrave an extended description
+EnterExtendedDescription,Enable longer (alphanumeric-only) descriptions
 EnterColor,Enter or pick the colors
 EnterPriority,Item drawing priority
 EnterPrivate,Private (only you can use it)
