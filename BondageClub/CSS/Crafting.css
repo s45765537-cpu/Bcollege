@@ -175,6 +175,7 @@
 #crafting-right-panel {
 	grid-area: crafting-right-panel;
 	overflow-y: auto;
+	padding-right: calc(var(--button-size) / 12);
 }
 
 #crafting-extended-button,
