@@ -138,7 +138,7 @@
 	height: calc(1.5 * var(--button-size));
 }
 
-#crafting-property-grid button > label {
+#crafting-property-grid button > .button-label {
 	display: none;
 }
 
