@@ -213,8 +213,13 @@
 	font: inherit;
 }
 
-.crafting-label > span:hover {
+.crafting-label:not(:has(:disabled)) > span:hover {
 	color: yellow;
+}
+
+.crafting-label:has(:disabled) {
+	cursor: auto;
+	color: gray
 }
 
 #crafting-name-label, #crafting-description-label {

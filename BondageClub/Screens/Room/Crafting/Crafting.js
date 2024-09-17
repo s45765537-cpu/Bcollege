@@ -553,6 +553,10 @@ var CraftingEventListeners = {
 			document.querySelector(`#${CraftingID.propertyGrid} [data-property='Normal'][aria-checked='false']`)?.dispatchEvent(new Event("click"));
 		}
 
+		// Disable the extended item config button for non-extended items
+		const extendedButton = /** @type {HTMLButtonElement} */(document.getElementById(CraftingID.extendedButton));
+		extendedButton.disabled = !CraftingSelectedItem.Asset.Extended;
+
 		// Set the lock, removing any locks it the item does not support them
 		const allowLock = CraftingSelectedItem.Assets.some(a => a.AllowLock);
 		if (CraftingSelectedItem.Lock && allowLock) {
@@ -1666,6 +1670,9 @@ function CraftingExitResetElements() {
 	if (assetControlButton.ariaChecked === "false") {
 		assetControlButton.dispatchEvent(new Event("click"));
 	}
+
+	const extendedButton = /** @type {HTMLButtonElement} */(document.getElementById(CraftingID.extendedButton));
+	extendedButton.disabled = true;
 
 	// Clear all search inputs and undo their filtering
 	const searchInputs = /** @type {NodeListOf<HTMLInputElement>} */(document.querySelectorAll(`#${CraftingID.leftPanel} input[type='search']`));
