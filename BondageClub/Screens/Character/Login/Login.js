@@ -667,7 +667,6 @@ function LoginResponse(C) {
 				Elements[E].style.display = "";
 			if (ChatRoomData?.Name) {
 				CommonSetScreen("Online", "ChatSearch");
-				ChatRoomPlayerCanJoin = true;
 				ServerSend("ChatRoomJoin", { Name: ChatRoomData.Name });
 			}
 			return;
