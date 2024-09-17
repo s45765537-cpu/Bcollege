@@ -119,7 +119,7 @@ function InventoryItemMiscHighSecurityPadlockClickHook(data, originalFunction) {
 						C.Appearance[A] = DialogFocusSourceItem;
 				}
 
-				if (HighSecurityPadlockConfigOwner && list.indexOf(Player.OwnerNumber()) < 0) {
+				if (HighSecurityPadlockConfigOwner && Player.IsOwned() == "online" && list.indexOf(Player.OwnerNumber()) < 0) {
 					list.push(Player.OwnerNumber());
 				}
 				if (HighSecurityPadlockConfigLover && Player.Lovership) {

@@ -178,7 +178,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 					OnlineGameAllowChange() &&
 					AsylumGGTSAllowChange(this) &&
 					!LogQuery("BlockChange", "Rule") &&
-					(!LogQuery("BlockChange", "OwnerRule") || Player.IsOwned() && !Player.IsFullyOwned())
+					(!LogQuery("BlockChange", "OwnerRule") || !Player.IsFullyOwned())
 				);
 			} else {
 				return (

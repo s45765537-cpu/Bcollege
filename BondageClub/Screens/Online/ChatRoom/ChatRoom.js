@@ -1328,7 +1328,7 @@ function ChatRoomMenuBuild() {
  * @returns {boolean} - Returns TRUE if the player's owner is inside the room.
  */
 function ChatRoomOwnerInside() {
-	return ChatRoomCharacter.some(c => c.IsOwnedByCharacter(Player));
+	return ChatRoomCharacter.some(c => Player.IsOwnedByCharacter(c));
 }
 
 /**
@@ -5842,7 +5842,7 @@ function ChatRoomOwnerPresenceRule(RuleName, Target) {
 	let Rule = true;
 	if (RuleName == "BlockAccessSelf") Rule = ((Target != null) && (Player.MemberNumber === Target.MemberNumber)); // Block access self only if target is herself
 	if (RuleName == "BlockAccessOther") Rule = ((Target != null) && (Player.MemberNumber !== Target.MemberNumber)); // Block access other only if target is another member
-	if (RuleName == "BlockWhisper") Rule = ((Target != null) && Player.IsOwnedByCharacter(Target)); // Block whisper doesn't block whispering to the owner
+	if (RuleName == "BlockWhisper") Rule = ((Target != null) && !Player.IsOwnedByCharacter(Target)); // Block whisper doesn't block whispering to the owner
 
 	// Shows a warning message in the chat log if the rule is enforced
 	if (Rule) {
