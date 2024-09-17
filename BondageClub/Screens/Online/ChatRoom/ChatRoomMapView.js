@@ -1532,8 +1532,6 @@ function ChatRoomMapViewKeyDown(event) {
 	if (event.key === "Enter") {
 		ElementFocus("InputChat");
 		return true;
-	} else if (event.key !== "z" && event.ctrlKey) {
-		return true;
 	} else if (event.key === "z" && event.ctrlKey) {
 		if (ChatRoomPlayerIsAdmin()) ChatRoomMapViewUndo();
 		return true;
