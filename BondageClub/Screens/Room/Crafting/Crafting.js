@@ -1232,6 +1232,17 @@ function CraftingModeSet(NewMode) {
 			document.querySelector(`#${CraftingID.assetButton}[aria-checked='false']`)?.dispatchEvent(new Event("click"));
 			CraftingUpdatePreview();
 		}
+
+		// Most mobile phones only trigger click events if a touchstart event originates from within the DOM element.
+		// For those that do not, the mixture of DOM and canvas buttons can be problematic, as a lingering touch can _instantly_ trigger a click if a DOM button is created where a canvas button previously was.
+		// As a workaround, disable the exit button for ~100 ms on mobile when (re-)entering the `Name` subscreen
+		if (CommonIsMobile) {
+			const exitButton = /** @type {HTMLButtonElement} */(document.getElementById(CraftingID.exitButton));
+			if (exitButton) {
+				exitButton.disabled = true;
+				setTimeout(() => exitButton.disabled = false, 100);
+			}
+		}
 	}
 }
 
