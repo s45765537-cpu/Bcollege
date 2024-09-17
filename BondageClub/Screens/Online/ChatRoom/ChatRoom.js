@@ -3364,6 +3364,10 @@ var ChatRoomMessageHandlers = [
 		Priority: 110,
 		Callback: (data, sender, msg, metadata) => {
 			if (data.Type == "Chat" || data.Type == "Whisper") {
+				if (ChatRoomMapViewIsActive() && !ChatRoomMapViewCharacterIsHearable(sender)) {
+					// Respect the map view hearing range
+					return false;
+				}
 				const Original = data.Content;
 				if (Player.GetDeafLevel() > 0) {
 					const s = SpeechTransformProcess(sender, data.Content, SpeechTransformReceiverEffects);
