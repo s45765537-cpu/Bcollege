@@ -7,10 +7,10 @@ var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
-	"Abysseia", "Aceffect", "ArashiSama", "Aylea", "BlueWinter", "Bryce", "Canti", "Christian", 
-	"Desch", "Domenico", "Dynilath", "Edwin", "FanRunner", "Glurak", "Greendragon", "John", 
-	"Laurie", "Marashu", "Michel", "Mindtie", "Nightcore", "Robin", "Setsu", "SlitheryCandy", 
-	"Soulcollar", "Sunny", "Tam", "Tarram", "Thkdt", "TonyBoy", "TopHat", "Troubadix", 
+	"Abysseia", "Aceffect", "ArashiSama", "Aylea", "BlueWinter", "Bryce", "Canti", "Christian",
+	"Desch", "Domenico", "Dynilath", "Edwin", "FanRunner", "Glurak", "Greendragon", "John",
+	"Laurie", "Marashu", "Michel", "Mindtie", "Nightcore", "Robin", "Setsu", "SlitheryCandy",
+	"Soulcollar", "Sunny", "Tam", "Tarram", "Thkdt", "TonyBoy", "TopHat", "Troubadix",
 	"Troy", "WhiteSniper", "XDWolfie", "Xepherio"
 ];
 
@@ -95,6 +95,30 @@ function LoginDrawCredits() {
 
 }
 
+var LoginEventListeners = {
+	/**
+	 * @private
+	 * @type {(this: HTMLInputElement, ev: KeyboardEvent) => void}
+	 */
+	_KeyDownInputName: function _KeyDownInputName(ev) {
+		if (!(ev.shiftKey || ev.altKey || ev.metaKey || ev.ctrlKey) && ev.key === "Enter") {
+			document.getElementById("InputPassword")?.focus();
+			ev.stopPropagation();
+		}
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLInputElement, ev: KeyboardEvent) => void}
+	 */
+	_KeyDownInputPassword: function _KeyDownInputPassword(ev) {
+		if (!(ev.shiftKey || ev.altKey || ev.metaKey || ev.ctrlKey) && ev.key === "Enter") {
+			LoginDoLogin();
+			ev.stopPropagation();
+		}
+	},
+};
+
 /**
  * Loads the character login screen
  * @returns {void} Nothing
@@ -116,11 +140,18 @@ function LoginLoad() {
 	ActivityDictionaryLoad();
 	OnlneGameDictionaryLoad();
 	const form = ElementCreateForm("Login");
+
 	const username = ElementCreateInput("InputName", "text", "", "20", form);
 	username.setAttribute("autocomplete", "username");
+	username.setAttribute("enterkeyhint", "next");
+	username.addEventListener("keydown", LoginEventListeners._KeyDownInputName);
 	username.focus();
+
 	const pass = ElementCreateInput("InputPassword", "password", "", "20", form);
 	pass.setAttribute("autocomplete", "current-password");
+	pass.setAttribute("enterkeyhint", "go");
+	pass.addEventListener("keydown", LoginEventListeners._KeyDownInputPassword);
+
 	const languages = [];
 	TranslationDictionary.forEach(L => languages.push(TranslationGetLanguageName(L.LanguageCode)));
 	ElementCreateDropdown("LanguageDropdown", languages, (event) => {
@@ -1004,8 +1035,11 @@ function LoginClick() {
  * Handles player keyboard events on the character login screen, "enter" will login
  * @type {KeyboardEventListener}
  */
-function LoginKeyDown(event) {
-	if (event.key === "Enter") {
+function LoginKeyDown(ev) {
+	if (
+		!(ev.shiftKey || ev.altKey || ev.metaKey || ev.ctrlKey)
+		&& ev.key === "Enter"
+	) {
 		LoginDoLogin();
 		return true;
 	}
