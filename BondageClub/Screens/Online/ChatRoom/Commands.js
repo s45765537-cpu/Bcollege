@@ -136,6 +136,9 @@ function CommandExecute(msg) {
 	if (C.Clear == null || C.Clear) {
 		ElementValue("InputChat", "");
 		ElementFocus("InputChat");
+
+		// Dispatch an event so the input field gets resized correctly
+		document.getElementById("InputChat").dispatchEvent(new Event("input"));
 	}
 	return true;
 }
