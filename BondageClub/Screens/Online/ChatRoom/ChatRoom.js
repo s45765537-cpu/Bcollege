@@ -862,7 +862,7 @@ var ChatRoomSep = {
 	 * @type {(this: HTMLButtonElement, event: MouseEvent | TouchEvent) => Promise<void>}
 	 */
 	_ClickCollapse: async function _ClickCollapse(event) {
-		const mode = this.ariaExpanded === "true" ? "Collapse" : "Uncollapse";
+		const mode = this.getAttribute("aria-expanded") === "true" ? "Collapse" : "Uncollapse";
 		const roomSep = /** @type {HTMLDivElement} */(this.parentElement.parentElement);
 		if (event.shiftKey) {
 			// (un)collapse all separators if the `shift` key is held down while clicking
@@ -965,7 +965,7 @@ var ChatRoomSep = {
 	 */
 	IsCollapsed: function IsCollapsed(roomSep) {
 		const button = /** @type {HTMLButtonElement} */(roomSep?.querySelector(".chat-room-sep-collapse"));
-		return !!button && button.ariaExpanded === "false";
+		return !!button && button.getAttribute("aria-expanded") === "false";
 	},
 
 	/**
@@ -974,11 +974,11 @@ var ChatRoomSep = {
 	 */
 	Uncollapse: async function Uncollapse(roomSep) {
 		const button = /** @type {HTMLButtonElement} */(roomSep?.querySelector(".chat-room-sep-collapse"));
-		if (!button || button.ariaExpanded === "true") {
+		if (!button || button.getAttribute("aria-expanded") === "true") {
 			return;
 		}
 
-		button.ariaExpanded = "true";
+		button.setAttribute("aria-expanded", "true");
 		button.innerText = "˅";
 		let sibbling = /** @type {null | HTMLElement} */(roomSep.nextSibling);
 		while (sibbling && !sibbling.classList.contains("chat-room-sep")) {
@@ -999,11 +999,11 @@ var ChatRoomSep = {
 	 */
 	Collapse: async function Collapse(roomSep) {
 		const button = /** @type {HTMLButtonElement} */(roomSep?.querySelector(".chat-room-sep-collapse"));
-		if (!button || button.ariaExpanded === "false") {
+		if (!button || button.getAttribute("aria-expanded") === "false") {
 			return;
 		}
 
-		button.ariaExpanded = "false";
+		button.setAttribute("aria-expanded", "false");
 		button.innerText = "˃";
 		let sibbling = /** @type {null | HTMLElement} */(roomSep.nextSibling);
 		while (sibbling && !sibbling.classList.contains("chat-room-sep")) {
@@ -1085,8 +1085,8 @@ function ChatRoomCreateElement() {
 						ElementButton.Create(
 							"chat-room-buttons-collapse",
 							function() {
-								const displayState = this.ariaExpanded === "true" ? "none" : "";
-								this.ariaExpanded = displayState ? "false" : "true";
+								const displayState = this.getAttribute("aria-expanded") === "true" ? "none" : "";
+								this.setAttribute("aria-expanded", displayState ? "false" : "true");
 								this.innerText = displayState ? "<" : ">";
 								const elements = /** @type {NodeListOf<HTMLElement>} */(document.querySelectorAll("#chat-room-buttons > *"));
 								elements.forEach(b => {

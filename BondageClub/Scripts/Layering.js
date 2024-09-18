@@ -282,7 +282,7 @@ var Layering = {
 	 */
 	_ShowLayersClickListener(ev) {
 		const elements = Array.from(document.querySelectorAll("[data-layer-priority]"));
-		if (this.ariaChecked === "true") {
+		if (this.getAttribute("aria-checked") === "true") {
 			const typeRecord = Layering.Item.Property?.TypeRecord;
 			const layers = elements.map(e => {
 				const asset = Layering.Asset;

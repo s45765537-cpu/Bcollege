@@ -812,7 +812,7 @@ var ElementButton = {
 			case " ":
 				ev.preventDefault();
 
-				if (this.disabled || this.ariaDisabled === "true") {
+				if (this.disabled || this.getAttribute("aria-disabled") === "true") {
 					ev.stopImmediatePropagation();
 					return;
 				} else if (!ev.repeat) {
@@ -835,7 +835,7 @@ var ElementButton = {
 		switch (ev.key) {
 			case "Enter":
 			case " ":
-				if (this.disabled || this.ariaDisabled === "true") {
+				if (this.disabled || this.getAttribute("aria-disabled") === "true") {
 					ev.stopImmediatePropagation();
 					return;
 				}
@@ -849,7 +849,7 @@ var ElementButton = {
 	 * @type {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => void}
 	 */
 	_Click: function _Click(ev) {
-		if (this.ariaDisabled === "true") {
+		if (this.getAttribute("aria-disabled") === "true") {
 			ev.stopImmediatePropagation();
 		}
 	},
@@ -902,11 +902,11 @@ var ElementButton = {
 		}
 
 		// Ensure that `radio` buttons to switch the tabindex of the active radio to 0, while `menuitemradio` buttons do not
-		if (this.ariaChecked === "true") {
-			if (parent.ariaRequired === "true") {
+		if (this.getAttribute("aria-checked") === "true") {
+			if (parent.getAttribute("aria-required") === "true") {
 				ev.stopImmediatePropagation();
 			} else {
-				this.ariaChecked = "false";
+				this.setAttribute("aria-checked", "false");
 				if (isRadio) {
 					/** @type {(e: Element) => boolean} */
 					const filter = (e) => e.role === "radiogroup" || !ElementCheckVisibility(e);
@@ -916,8 +916,8 @@ var ElementButton = {
 						first.value.setAttribute("tabindex", "0");
 					}
 				}
-				if (this.ariaExpanded === "true") {
-					this.ariaExpanded = "false";
+				if (this.getAttribute("aria-expanded") === "true") {
+					this.setAttribute("aria-expanded", "false");
 				}
 			}
 		} else {
@@ -931,22 +931,22 @@ var ElementButton = {
 			}
 
 			if (prev.value) {
-				prev.value.ariaChecked = "false";
-				if (prev.value.ariaExpanded === "true") {
-					prev.value.ariaExpanded = "false";
+				prev.value.setAttribute("aria-checked", "false");
+				if (prev.value.getAttribute("aria-expanded") === "true") {
+					prev.value.setAttribute("aria-expanded", "false");
 				}
 				if (isRadio) {
 					prev.value.setAttribute("tabindex", "-1");
 				}
 			}
 
-			if (this.ariaExpanded === "false") {
-				this.ariaExpanded = "true";
+			if (this.getAttribute("aria-expanded") === "false") {
+				this.setAttribute("aria-expanded", "true");
 			}
 			if (isRadio) {
 				this.tabIndex = 0;
 			}
-			this.ariaChecked = "true";
+			this.setAttribute("aria-checked", "true");
 		}
 	},
 
@@ -996,16 +996,16 @@ var ElementButton = {
 	 * @type {(this: HTMLButtonElement, ev: Event) => void}
 	 */
 	_ClickCheckbox: function _ClickCheckbox(ev) {
-		if (this.ariaChecked === "true") {
-			if (this.ariaExpanded === "true") {
-				this.ariaExpanded = "false";
+		if (this.getAttribute("aria-checked") === "true") {
+			if (this.getAttribute("aria-expanded") === "true") {
+				this.setAttribute("aria-expanded", "false");
 			}
-			this.ariaChecked = "false";
+			this.setAttribute("aria-checked", "false");
 		} else {
-			if (this.ariaExpanded === "false") {
-				this.ariaExpanded = "true";
+			if (this.getAttribute("aria-expanded") === "false") {
+				this.setAttribute("aria-expanded", "true");
 			}
-			this.ariaChecked = "true";
+			this.setAttribute("aria-checked", "true");
 		}
 	},
 
@@ -1216,18 +1216,23 @@ var ElementButton = {
 			case "radio":
 			case "menuitemradio":
 				elem.addEventListener("click", this._ClickRadio);
-				elem.ariaChecked ??= "false";
+				if (!elem.getAttribute("aria-checked")) {
+					elem.setAttribute("aria-checked", "false");
+				}
+
 				if (role === "radio") {
 					elem.addEventListener("keydown", this._KeyDownRadio);
 					if (elem.getAttribute("tabindex") == null) {
-						elem.tabIndex = elem.ariaChecked === "true" ? 0 : -1;
+						elem.tabIndex = elem.getAttribute("aria-checked") === "true" ? 0 : -1;
 					}
 				}
 				break;
 			case "checkbox":
 			case "menuitemcheckbox":
 				elem.addEventListener("click", this._ClickCheckbox);
-				elem.ariaChecked ||= "false";
+				if (!elem.getAttribute("aria-checked")) {
+					elem.setAttribute("aria-checked", "false");
+				}
 				break;
 		}
 
@@ -1351,7 +1356,7 @@ var ElementMenu = {
 			}
 			case "ArrowUp":
 			case "ArrowDown": {
-				if (this.ariaHasPopup !== "true" && this.ariaHasPopup !== "menu") {
+				if (this.getAttribute("aria-haspopup") !== "true" && this.getAttribute("aria-haspopup") !== "menu") {
 					return;
 				}
 
@@ -1436,7 +1441,7 @@ var ElementMenu = {
 			// Ensure that disabled buttons use `aria-disabled` in order to keep them focusable
 			if (menuitem instanceof HTMLButtonElement && menuitem.disabled) {
 				menuitem.disabled = false;
-				menuitem.ariaDisabled = "true";
+				menuitem.setAttribute("aria-disabled", "true");
 			}
 		});
 		return elem;
