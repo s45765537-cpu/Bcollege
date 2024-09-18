@@ -957,7 +957,7 @@ function FriendListChangeSortingMode(sortingMode) {
  * @this {HTMLButtonElement}
  */
 function FriendListToggleAutoRefresh() {
-	Player.OnlineSettings.FriendListAutoRefresh = this.ariaChecked === "true";
+	Player.OnlineSettings.FriendListAutoRefresh = this.getAttribute("aria-checked") === "true";
 	ServerAccountUpdate.QueueData({ OnlineSettings: Player.OnlineSettings });
 }
 //#endregion

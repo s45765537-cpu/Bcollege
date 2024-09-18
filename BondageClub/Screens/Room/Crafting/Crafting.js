@@ -461,7 +461,7 @@ var CraftingEventListeners = {
 	 * @type {(this: HTMLButtonElement, ev: Event) => void}
 	 */
 	_ClickExpand: function _ClickExpand() {
-		if (this.ariaExpanded !== "true") {
+		if (this.getAttribute("aria-expanded") !== "true") {
 			return;
 		}
 
@@ -488,7 +488,7 @@ var CraftingEventListeners = {
 	 * @type {(this: HTMLButtonElement, ev: Event) => void}
 	 */
 	_ClickPadlock: function _ClickPadlock() {
-		const newLock = this.ariaChecked === "true" ? AssetGet("Female3DCG", "ItemMisc", this.dataset.asset) : null;
+		const newLock = this.getAttribute("aria-checked") === "true" ? AssetGet("Female3DCG", "ItemMisc", this.dataset.asset) : null;
 		const needsRefresh = (!newLock && CraftingSelectedItem.Lock) || (newLock && !CraftingSelectedItem);
 		CraftingSelectedItem.Lock = newLock;
 		if (needsRefresh) {
@@ -542,7 +542,7 @@ var CraftingEventListeners = {
 		document.querySelectorAll(`#${CraftingID.propertyGrid} [data-property]`).forEach(e => {
 			const propertyType = /** @type {CraftingPropertyType} */(e.getAttribute("data-property"));
 			const callback = CraftingPropertyMap.get(propertyType);
-			e.ariaDisabled = propertyType === "Normal" || (callback && CraftingSelectedItem.Assets.some(a => callback(a))) ? "false" : "true";
+			e.setAttribute("aria-disabled", propertyType === "Normal" || (callback && CraftingSelectedItem.Assets.some(a => callback(a))) ? "false" : "true");
 		});
 
 		// Set the item property, falling back to `Normal` of an invalid property is selected
@@ -579,9 +579,9 @@ var CraftingEventListeners = {
 
 		// Disable the lock buttons if none of the items supports any lock
 		if (allowLock) {
-			document.querySelectorAll(`#${CraftingID.padlockGrid} [data-asset]`).forEach(e => e.ariaDisabled = "false");
+			document.querySelectorAll(`#${CraftingID.padlockGrid} [data-asset]`).forEach(e => e.setAttribute("aria-disabled", "false"));
 		} else {
-			document.querySelectorAll(`#${CraftingID.padlockGrid} [data-asset]`).forEach(e => e.ariaDisabled = "true");
+			document.querySelectorAll(`#${CraftingID.padlockGrid} [data-asset]`).forEach(e => e.setAttribute("aria-disabled", "true"));
 		}
 
 		CraftingUpdatePreview();
@@ -607,7 +607,7 @@ var CraftingEventListeners = {
 		const searchInput = sidePannel.querySelector("input[type='search']");
 		searchInput?.dispatchEvent(new Event("input"));
 
-		if (this.ariaChecked === "true") {
+		if (this.getAttribute("aria-checked") === "true") {
 			controlButton.innerHTML = this.innerHTML;
 			return;
 		} else {
@@ -635,7 +635,7 @@ var CraftingEventListeners = {
 		searchResultCandidates?.querySelectorAll("button.button").forEach(button => {
 			const label = button.querySelector(".button-label");
 			if (label) {
-				const displayStyle = (button.ariaChecked === "true" || label.textContent.toUpperCase().includes(query)) ? "" : "none";
+				const displayStyle = (button.getAttribute("aria-checked") === "true" || label.textContent.toUpperCase().includes(query)) ? "" : "none";
 				/** @type {HTMLButtonElement} */(button).style.display = displayStyle;
 			}
 		});
@@ -1668,11 +1668,11 @@ function CraftingExitResetElements() {
 
 	// Select the `Normal` property and disable all others
 	document.querySelector(`#${CraftingID.propertyGrid} [data-property='Normal'][aria-checked='false']`)?.dispatchEvent(new Event("click"));
-	document.querySelectorAll(`#${CraftingID.propertyGrid} [data-property]:not([data-property='Normal'])`).forEach(e => e.ariaDisabled = "true");
+	document.querySelectorAll(`#${CraftingID.propertyGrid} [data-property]:not([data-property='Normal'])`).forEach(e => e.setAttribute("aria-disabled", "true"));
 
 	// Deselect the active lock and disable them all
 	document.querySelector(`#${CraftingID.padlockGrid} [data-asset][aria-checked='true']`)?.dispatchEvent(new Event("click"));
-	document.querySelectorAll(`#${CraftingID.padlockGrid} [data-asset]`).forEach(e => e.ariaDisabled = "true");
+	document.querySelectorAll(`#${CraftingID.padlockGrid} [data-asset]`).forEach(e => e.setAttribute("aria-disabled", "true"));
 
 	// Deselect the asset and disable the accept button
 	const assetSelected = document.querySelector(`#${CraftingID.assetGrid} [aria-checked='true']`);
@@ -1686,7 +1686,7 @@ function CraftingExitResetElements() {
 	assetControlButton.innerHTML = "";
 	ElementButton._ParseLabel(assetControlButton.id, TextGet("SelectItem"), "bottom", { parent: assetControlButton });
 	ElementButton._ParseImage(assetControlButton.id, "./Icons/NoCraft.png", { parent: assetControlButton });
-	if (assetControlButton.ariaChecked === "false") {
+	if (assetControlButton.getAttribute("aria-checked") === "false") {
 		assetControlButton.dispatchEvent(new Event("click"));
 	}
 
