@@ -336,7 +336,7 @@ var CraftingEventListeners = {
 	 * @type {(this: HTMLButtonElement, ev: Event) => void}
 	 */
 	_ClickExtended: function _ClickExtended() {
-		if (CraftingPreview && CraftingSelectedItem?.Asset.Extended) {
+		if (CraftingPreview && CraftingSelectedItem?.Asset?.Extended) {
 			const item = InventoryGet(CraftingPreview, CraftingSelectedItem.Asset.DynamicGroupName);
 			if (item) {
 				DialogExtendItem(item);
@@ -350,7 +350,7 @@ var CraftingEventListeners = {
 	 * @type {(this: HTMLButtonElement, ev: Event) => void}
 	 */
 	_ClickLayering: function _ClickLayering() {
-		if (CraftingPreview && CraftingSelectedItem) {
+		if (CraftingPreview && CraftingSelectedItem?.Asset) {
 			const item = InventoryGet(CraftingPreview, CraftingSelectedItem.Asset.DynamicGroupName);
 			if (item) {
 				Layering.Init(item, CraftingPreview, {
@@ -370,7 +370,7 @@ var CraftingEventListeners = {
 	 * @type {(this: HTMLButtonElement, ev: Event) => void}
 	 */
 	_ClickColors: function _ClickColors() {
-		if (CraftingPreview && CraftingSelectedItem) {
+		if (CraftingPreview && CraftingSelectedItem?.Asset) {
 			const item = InventoryGet(CraftingPreview, CraftingSelectedItem.Asset.DynamicGroupName);
 			if (item) {
 				CraftingModeSet("Color");
