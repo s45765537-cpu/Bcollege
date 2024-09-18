@@ -1902,7 +1902,7 @@ var ClubCardList = [
 			if (ClubCardSelection == null) return;	
 
 			const opponent = ClubCardGetOpponent(CCPlayer);
-			ClubCardRemoveFromBoard(opponent, ClubCardSelection);
+			ClubCardRemoveFromBoard(opponent, ClubCardSelection, true);
 			opponent.Deck.push(ClubCardSelection);
 			opponent.Deck = ClubCardShuffle(opponent.Deck);
 
