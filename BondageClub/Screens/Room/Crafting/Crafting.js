@@ -554,8 +554,16 @@ var CraftingEventListeners = {
 		}
 
 		// Disable the extended item config button for non-extended items
-		const extendedButton = /** @type {HTMLButtonElement} */(document.getElementById(CraftingID.extendedButton));
+		const [extendedButton, colorButton, layeringButton] = /** @type {HTMLButtonElement[]} */([
+			document.getElementById(CraftingID.extendedButton),
+			document.getElementById(CraftingID.colorsButton),
+			document.getElementById(CraftingID.layeringButton),
+		]);
 		extendedButton.disabled = !CraftingSelectedItem.Asset.Extended;
+		colorButton.disabled = false;
+		colorsInput.disabled = false;
+		layeringButton.disabled = false;
+		priorityInput.disabled = false;
 
 		// Set the lock, removing any locks it the item does not support them
 		const allowLock = CraftingSelectedItem.Assets.some(a => a.AllowLock);
@@ -939,10 +947,10 @@ function CraftingLoad() {
 						{ tag: "span", children: [TextGet("EnterColor")] },
 						{
 							tag: "input",
-							attributes: { id: CraftingID.colorsInput, type: "text", size: 0 },
+							attributes: { id: CraftingID.colorsInput, type: "text", size: 0, disabled: true },
 							eventListeners: { change: CraftingEventListeners._ChangeColor },
 						},
-						ElementButton.Create(CraftingID.colorsButton, CraftingEventListeners._ClickColors),
+						ElementButton.Create(CraftingID.colorsButton, CraftingEventListeners._ClickColors, { disabled: true }),
 					],
 				},
 				{
@@ -952,10 +960,10 @@ function CraftingLoad() {
 					children: [
 						{
 							tag: "input",
-							attributes: { id: CraftingID.layeringInput, type: "number", min: -99, max: 99, inputmode: "numeric", size: 0 },
+							attributes: { id: CraftingID.layeringInput, type: "number", min: -99, max: 99, inputmode: "numeric", size: 0, disabled: true },
 							eventListeners: { blur: ElementNumberInputBlur, input: CraftingEventListeners._InputLayering },
 						},
-						ElementButton.Create(CraftingID.layeringButton, CraftingEventListeners._ClickLayering),
+						ElementButton.Create(CraftingID.layeringButton, CraftingEventListeners._ClickLayering, { disabled: true }),
 						{ tag: "span", children: [TextGet("EnterPriority")] },
 					],
 				},
@@ -977,7 +985,7 @@ function CraftingLoad() {
 					attributes: { id: CraftingID.extendedLabel },
 					classList: ["crafting-label"],
 					children: [
-						ElementButton.Create(CraftingID.extendedButton, CraftingEventListeners._ClickExtended),
+						ElementButton.Create(CraftingID.extendedButton, CraftingEventListeners._ClickExtended, { disabled: true }),
 						{ tag: "span", children: [TextGet("EnterType")] },
 					],
 				},
@@ -1682,8 +1690,17 @@ function CraftingExitResetElements() {
 		assetControlButton.dispatchEvent(new Event("click"));
 	}
 
-	const extendedButton = /** @type {HTMLButtonElement} */(document.getElementById(CraftingID.extendedButton));
+	// Disable all buttons that _must_ have an asset selected
+	const [extendedButton, colorButton, layeringButton] = /** @type {(HTMLButtonElement)[]} */([
+		document.getElementById(CraftingID.extendedButton),
+		document.getElementById(CraftingID.colorsButton),
+		document.getElementById(CraftingID.layeringButton),
+	]);
 	extendedButton.disabled = true;
+	colorButton.disabled = true;
+	colorsInput.disabled = true;
+	layeringButton.disabled = true;
+	priorityInput.disabled = true;
 
 	// Clear all search inputs and undo their filtering
 	const searchInputs = /** @type {NodeListOf<HTMLInputElement>} */(document.querySelectorAll(`#${CraftingID.leftPanel} input[type='search']`));
