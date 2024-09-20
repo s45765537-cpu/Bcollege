@@ -1,4 +1,9 @@
 ClothLowerTutuTutu,Tutu
+ItemArmsArmbinderSuitSuit,Latex suit parts
+ItemArmsArmbinderSuitSuitShine,Latex shine
+ItemArmsArmbinderSuitBelts,Leather parts
+ItemArmsArmbinderSuitMetal,Metal parts
+ItemArmsArmbinderSuitCuff,Cuff-shackles and chain link
 ItemArmsHighSecurityStraitJacketCanvas,Canvas
 ItemArmsHighSecurityStraitJacketStraps,Straps
 ItemArmsLatexArmbinderBottomStrap,Bottom Strap
@@ -7,6 +12,8 @@ ItemArmsSturdyLeatherBeltsBelts,Belts
 ItemArmsSturdyLeatherBeltsMetal,Metal
 ItemArmsTransportJacketCanvas,Canvas
 ItemArmsTransportJacketStripes,Stripes
+ItemDevicesBrickWallBrick,Brick sector
+ItemDevicesBrickWallMetal,Metal sector
 ItemDevicesCageCage,Cage
 ItemDevicesCoffinMain,Coffin
 ItemDevicesCryoCapsuleMain,Capsule
@@ -33,6 +40,10 @@ ItemHoodCustomLatexHoodPanels,Panels
 ItemHoodCustomLatexHoodShine,Shine
 ItemHoodFestivalFoxMaskEyes,Eyes
 ItemHoodOldGasMaskAttachments,Attachments
+ItemHoodRubberMaskFace,Skin sector
+ItemHoodRubberMaskEyes,Eyes sector
+ItemHoodRubberMaskGag,Devices sector
+ItemHoodRubberMaskWig,Wig sector
 ItemLegsSturdyLeatherBeltsBelts,Belts
 ItemLegsSturdyLeatherBeltsMetal,Metal
 ItemMouth2LatexRespiratorFilter,Tubes
@@ -66,3 +77,4 @@ ItemPelvisModularChastityBeltMetal,Metal
 ItemPelvisObedienceBeltMetal,Metal
 ItemVulvaPiercingsRoundClitPiercingAddons,Addons
 MaskFestivalFoxMaskEyes,Eyes
+ShoesCustomHeelsStraps,Straps

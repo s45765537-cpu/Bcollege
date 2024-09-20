@@ -185,6 +185,7 @@ ClothAccessory,StudentOutfit3Scarf,Student Scarf
 ClothAccessory,ZipperBelt,Zipper Belt
 ClothLower,,Bottom
 ClothLower,AdmiralSkirt,Admiral Skirt
+ClothLower,ASRubberSkirt,ArmBSuit Rubber Skirt
 ClothLower,AsymmetricSkirt,Asymmetric Skirt
 ClothLower,BondageSkirt,Bondage Skirt
 ClothLower,BusinessSkirt,Business Skirt
@@ -242,6 +243,7 @@ Corset,Corset6,Noble Corset
 Corset,LatexCorset1,Latex Corset
 Corset,LeatherCorsetTop1,Leather Corset Top
 Corset,SteampunkCorsetTop1,Steampunk Corset
+Corset,TightCorset,Leather Tight Corset
 Corset,Underbust,Boned Underbust Corset
 Emoticon,,Emoticon
 Emoticon,Emoticon,Emoticon
@@ -387,6 +389,7 @@ HairAccessory1,UnicornHorn,Unicorn Horn
 HairAccessory1,WeddingVeil1,Wedding Veil
 HairAccessory1,WolfEars1,Wolf Ears One Piece
 HairAccessory1,WolfEars2,Wolf Ears Big
+HairAccessory1,CyberneticEars1,Cybernetic Ears
 HairAccessory2,,Ears
 HairAccessory3,,Hair Accessory
 HairBack,,Back Hair
@@ -567,6 +570,7 @@ HairFront,HairFront54,Style 54
 HairFront,HairFront55,Style 55
 HairFront,HairFront56,Style 56
 HairFront,HairFront57,Style 57
+HairFront,HairFront58,Style 58
 Hands,,Hands
 Hands,Default,Default
 Hat,,Hat
@@ -583,6 +587,7 @@ Hat,Bonnet1,Bonnet Style 1
 Hat,Bonnet2,Bonnet Style 2
 Hat,BunnySuccubus2,Bunny Succubus
 Hat,CaptainHat1,Captain's Hat
+Hat,CheapHelmet,Cheap Helmet
 Hat,CollegeDunce,Dunce Hat
 Hat,CowboyHat,Cowboy Hat
 Hat,Crown1,Crown Style 1
@@ -639,6 +644,7 @@ ItemAddon,CeilingRope,Ceiling Rope
 ItemAddon,Covers,Blanket
 ItemArms,,Arms
 ItemArms,ArmbinderJacket,Armbinder Jacket
+ItemArms,ArmbinderSuit,Armbinder Suit
 ItemArms,BitchSuit,Pet Suit
 ItemArms,Bolero,Bolero Straitjacket
 ItemArms,BondageBouquet,Bondage Bouquet
@@ -795,6 +801,7 @@ ItemDevices,,Body
 ItemDevices,BBQ,Grill
 ItemDevices,Bed,Bed
 ItemDevices,BondageBench,Bondage Bench
+ItemDevices,BrickWall,Brick Wall
 ItemDevices,BurlapSack,Burlap Sack
 ItemDevices,Cage,Stand up cage
 ItemDevices,ChangingTable,Changing Table
@@ -896,6 +903,7 @@ ItemHandheld,AnimeGirlWand,Cosplay Girl Power Staff
 ItemHandheld,Baguette,Baguette
 ItemHandheld,Ballgag,Ballgag
 ItemHandheld,Belt,Belt
+ItemHandheld,Brick,Brick
 ItemHandheld,Broom,Broom
 ItemHandheld,CandleWax,Candle Wax
 ItemHandheld,Cane,Cane
@@ -946,6 +954,7 @@ ItemHandheld,TapeRoll,Duct Tape Roll
 ItemHandheld,TennisRacket,Tennis Racket
 ItemHandheld,Toothbrush,Toothbrush
 ItemHandheld,Towel,Towel
+ItemHandheld,Trowel,Trowel
 ItemHandheld,VibeRemote,Vibrator Remote
 ItemHandheld,VibratingWand,Vibrating Wand
 ItemHandheld,Vibrator,Vibrator
@@ -958,7 +967,8 @@ ItemHands,DuctTape,Duct Tape
 ItemHands,ElbowLengthMittens,Long Leather Paw Mittens
 ItemHands,FuturisticMittens,Futuristic Mittens
 ItemHands,GlueMittens,Glue Mittens
-ItemHands,HoofMittens, Hoof Mittens
+ItemHands,HempRopeCuffs,Hemp Rope Cuffs
+ItemHands,HoofMittens,Hoof Mittens
 ItemHands,LeatherMittens,Leather Mittens
 ItemHands,PaddedLeatherMittens,Padded Leather Mittens
 ItemHands,PaddedMittens,Padded Mittens
@@ -1046,6 +1056,7 @@ ItemHood,PolishedSteelHood,Polished Steel Hood
 ItemHood,PonyHood,Pony Hood
 ItemHood,PumpkinHead,Pumpkin Head
 ItemHood,Paperbag,Paper bag
+ItemHood,RubberMask,Rubber Mask
 ItemHood,SackHood,Sack Hood
 ItemHood,SensoryDeprivationHood,Sensory Hood
 ItemHood,Slime,Slime
@@ -1149,6 +1160,7 @@ ItemMouth,FuturisticHarnessPanelGag,Futuristic Harness Panel Gag
 ItemMouth,FuturisticMuzzle,Futuristic Muzzle
 ItemMouth,FuturisticPanelGag,Futuristic Panel Gag
 ItemMouth,GasMaskGag,Respirator Mask
+ItemMouth,GenitalGag,Latex Genital Gag
 ItemMouth,GlueGag,Glue
 ItemMouth,HarnessBallGag,Harness Ball Gag
 ItemMouth,HarnessBallGag1,Harness Ball Gag XL
@@ -1343,6 +1355,7 @@ ItemPelvis,HarnessPanties1,Bondage Harness
 ItemPelvis,HarnessPanties2,Full Bondage Harness
 ItemPelvis,HeavyDutyBelt,Heavy Duty Belt
 ItemPelvis,HempRope,Rope Harness
+ItemPelvis,HipHarness,Hip Harness
 ItemPelvis,HybridChastityBelt,Hybrid Chastity Belt
 ItemPelvis,LeatherChastityBelt,Leather Chastity Belt
 ItemPelvis,LeatherStrapPanties1,Leather Strap Panties
@@ -1570,6 +1583,7 @@ Shoes,BalletHeels1,Ballet Hi-Shoes
 Shoes,BarefootSandals1,Barefoot Sandals
 Shoes,Boots1,Boots
 Shoes,Clogs,Platform Clogs
+Shoes,CustomHeels,Custom Strap Heels
 Shoes,DeluxeBoots,Deluxe Mistress Boots
 Shoes,DutyShoes,Duty Shoes
 Shoes,Flippers,Flippers
@@ -1733,3 +1747,4 @@ Wings,PixieWings,Pixie Wings
 Wings,SteampunkWings,Steampunk Wings
 Wings,SuccubusFeather,Succubus Feather
 Wings,SuccubusWings,Succubus Wings
+Wings,DragonWings,Dragon Wings

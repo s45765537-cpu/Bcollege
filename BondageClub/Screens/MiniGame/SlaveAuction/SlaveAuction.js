@@ -34,9 +34,11 @@ function SlaveAuctionSetNextBidTime() {
 function SlaveAuctionLoad() {
 	CurrentDarkFactor = 0.5;
 	SlaveAuctionCustomerLeft = CharacterLoadNPC("NPC_Customer_Left");
-	CharacterAppearanceFullRandom(SlaveAuctionCustomerLeft);
+	if (Math.random() > 0.85) CharacterArchetypeClothes(SlaveAuctionCustomerLeft, "Succubus");
+	else CharacterAppearanceFullRandom(SlaveAuctionCustomerLeft);
 	SlaveAuctionCustomerRight = CharacterLoadNPC("NPC_Customer_Right");
-	CharacterAppearanceFullRandom(SlaveAuctionCustomerRight);
+	if (Math.random() > 0.85) CharacterArchetypeClothes(SlaveAuctionCustomerRight, "Succubus");
+	else CharacterAppearanceFullRandom(SlaveAuctionCustomerRight);
 	SlaveAuctionBidCurrent = "";
 	SlaveAuctionBidTime = CurrentTime;
 	SlaveAuctionSetNextBidTime();

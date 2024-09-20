@@ -136,14 +136,16 @@ Intensity2,Item intensity: High
 Intensity3,Item intensity: Maximum
 LayeringAsset,Configure total priority
 LayeringExit,Exit
+LayeringHide,Hide hidden layers
 LayeringLayer,Configure layer-specific priority
 LayeringLock,Item configuration locked
 LayeringReset,Reset layering
+LayeringShow,Show hidden layers
 Locking,Locking...
 LockMemberNumber,Member number on lock:
 LockZoneBlocked,Another item is blocking access to this lock
 LockPickArousal,Your hands are shaky and you lose some tension by accident!
-LockPickBreak,DestinationCharacterName jammed a lock and broke TargetPronounPossessive lockpick!
+LockPickBreak,SourceCharacter jammed a lock on DestinationCharacterName and broke PronounPossessive lockpick!
 LockpickFailed,You jammed the lock.
 LockpickFailedTimeout,You are too tired to continue. Time remaining:
 LockpickIntro,Click the pins in the correct order to open the lock!
@@ -227,7 +229,8 @@ PrerequisiteMustStandUpFirst,Must stand up first.
 PrerequisiteNeedHarness,TargetPronounSubject must be wearing a baby harness to chain the mittens.
 PrerequisiteNeedPadlock,You need some padlocks to do this.
 PrerequisiteNeedPadlockKey,You need a padlock key to do this.
-PrerequisiteNeedsHarness,Requires a harness.
+PrerequisiteNeedsChestHarness,Requires a chest harness.
+PrerequisiteNeedsHipHarness,Requires a hip harness.
 PrerequisiteNeedsNippleRings,Requires round piercings on nipples.
 PrerequisiteRemoveChain,Unchain mittens
 PrerequisiteRemoveChainForItem,Remove the chain first.
@@ -266,7 +269,7 @@ PreviewIconPadlock,Locked with a AssetName
 PreviewIconUnlocked,Automatically locks
 PrevPage,View previous page
 Private,Private
-PrivateRoom,<i>Private room</i>
+PrivateRoom,<i>Private</i>
 ProgressClick,Click here to speed up the progress
 ProgressDex,Click when the player reaches the buckle to progress
 ProgressFlex,Click the ropes before they hit the ground to progress
@@ -413,6 +416,7 @@ tightens,tightens
 Tightness,Tightness:
 TryLoosen,Try to loosen the item
 TimerLeft,Time left:
+TimerUnknown,Unknown time left
 Unlocked,Unlocked
 Unlocking,Unlocking...
 Using0,Using none of your skill...

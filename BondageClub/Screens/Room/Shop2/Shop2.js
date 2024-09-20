@@ -583,10 +583,18 @@ var Shop2 = {
 		}
 	},
 
-	_ClickDropdown: function _ClickDropdown() {
+	/**
+	 * @param {string} id
+	 */
+	_ClickDropdown: function _ClickDropdown(id) {
 		const elems = Array.from(document.getElementsByClassName("dropdown"));
 		for (const elem of /** @type {HTMLDivElement[]} */(elems)) {
-			elem.style.display = "none";
+			if (elem.id === id && elem.style.display) {
+				elem.style.display = "";
+			} else {
+				elem.style.display = "none";
+			}
+
 		}
 	},
 
@@ -739,7 +747,7 @@ var Shop2 = {
 			},
 			Click: () => {
 				Shop2Vars.DropdownState = Shop2Vars.DropdownState === ShopDropdownState.GROUP ? ShopDropdownState.NONE : ShopDropdownState.GROUP;
-				Shop2._ClickDropdown();
+				Shop2._ClickDropdown("Shop2GroupSelect");
 			},
 		},
 		GroupSelectAll: {
@@ -824,7 +832,7 @@ var Shop2 = {
 			},
 			Click: () => {
 				Shop2Vars.DropdownState = Shop2Vars.DropdownState === ShopDropdownState.POSE ? ShopDropdownState.NONE : ShopDropdownState.POSE;
-				Shop2._ClickDropdown();
+				Shop2._ClickDropdown("Shop2PoseSelect");
 			},
 		},
 		PoseSelectNone: {
@@ -875,7 +883,7 @@ var Shop2 = {
 									}, undefined,
 									{
 										button: {
-											style: { "background-image": `url("../Icons/Poses/${pose.Name}.png")` },
+											style: { "background-image": `url("./Icons/Poses/${pose.Name}.png")` },
 											dataAttributes: { pose: pose.Name },
 											classList: ["shop-button"],
 										},

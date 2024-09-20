@@ -146,6 +146,8 @@ var Layering = {
 		buttonGrid: "layering-button-grid",
 		resetButton: "layering-reset-button",
 		exitButton: "layering-exit-button",
+		hideButton: "layering-hide-button",
+		hideTooltip: "layering-hide-button-tooltip",
 		lockButton: "layering-lock-button",
 
 		assetHeader: "layering-asset-header",
@@ -261,11 +263,6 @@ var Layering = {
 	 * @private
 	 */
 	_ResetClickListener(ev) {
-		if (this.ariaDisabled === "true") {
-			ev.stopPropagation();
-			return;
-		}
-
 		Layering.OverridePriority = Layering._PriorityDefault == null ? undefined : CommonCloneDeep(Layering._PriorityDefault);
 
 		const layerElements = /** @type {NodeListOf<HTMLInputElement>} */(document.querySelectorAll("[data-layer-priority]"));
@@ -275,6 +272,26 @@ var Layering = {
 		assetElements.forEach(e => e.value = e.dataset.assetPriority);
 
 		Layering._CharacterRefresh(Layering.Character, false, false);
+	},
+
+	/**
+	 * Event listener for `click` events of the show hidden layers button
+	 * @this {HTMLButtonElement}
+	 * @param {Event} ev
+	 * @private
+	 */
+	_ShowLayersClickListener(ev) {
+		const elements = Array.from(document.querySelectorAll("[data-layer-priority]"));
+		if (this.getAttribute("aria-checked") === "true") {
+			const typeRecord = Layering.Item.Property?.TypeRecord;
+			const layers = elements.map(e => {
+				const asset = Layering.Asset;
+				return /** @type {const} */([e, Layering.Asset.Layer.find(l => l.Name === e.getAttribute("data-name")) ?? asset.Layer[0]]);
+			});
+			layers.forEach(([e, layer]) => e.parentElement.style.display = CharacterAppearanceIsLayerVisible(Layering.Character, layer, layer.Asset, typeRecord) ? "" : "none");
+		} else {
+			elements.forEach(e => e.parentElement.style.display = "");
+		}
 	},
 
 	/**
@@ -406,11 +423,12 @@ var Layering = {
 		const itemPriority = Number.isInteger(this.OverridePriority) ? /** @type {number} */(this.OverridePriority) : assetPriority;
 		const defaultItemPriority = Number.isInteger(this._PriorityDefault) ? /** @type {number} */(this._PriorityDefault) : assetPriority;
 
-		ElementCreate({
+		elem = ElementCreate({
 			tag: "div",
 			attributes: {
 				id: this.ID.root,
 				["screen-generated"]: CurrentScreen,
+				"aria-busy": "true",
 			},
 			parent: document.body,
 			classList: ["HideOnPopup"],
@@ -427,6 +445,17 @@ var Layering = {
 						ElementButton.Create(this.ID.exitButton, () => this.Exit(), { tooltip: InterfaceTextGet("LayeringExit") }),
 						ElementButton.Create(this.ID.resetButton, this._ResetClickListener, { tooltip: InterfaceTextGet("LayeringReset") }),
 						ElementButton.Create(
+							this.ID.hideButton, this._ShowLayersClickListener,
+							{ role: "menuitemcheckbox" },
+							{
+								button: { attributes: { "aria-checked": true } },
+								tooltip: { children: [
+									{ tag: "span", attributes: { id: `${this.ID.hideTooltip}-show` }, children: [InterfaceTextGet("LayeringShow")] },
+									{ tag: "span", attributes: { id: `${this.ID.hideTooltip}-hide` }, children: [InterfaceTextGet("LayeringHide")] },
+								]},
+							},
+						),
+						ElementButton.Create(
 							this.ID.lockButton, () => null, { tooltip: InterfaceTextGet("LayeringLock") },
 							{ button: { attributes: { "aria-disabled": true } } },
 						),
@@ -441,7 +470,7 @@ var Layering = {
 					children: [
 						{
 							tag: "input",
-							attributes: { type: "number", min: "-99", max: "99", value: itemPriority, defaultValue: defaultItemPriority.toString(), inputMode: "numeric" },
+							attributes: { type: "number", min: "-99", max: "99", value: itemPriority, defaultValue: defaultItemPriority.toString(), inputMode: "numeric", id: "layering-input-asset" },
 							dataAttributes: { assetPriority: defaultItemPriority.toString() },
 							classList: priorityIsObject ? ["layering-input-unfocused"] : [],
 							eventListeners: {
@@ -451,7 +480,8 @@ var Layering = {
 							},
 						},
 						{
-							tag: "span",
+							tag: "label",
+							attributes: { for: "layering-input-asset" },
 							classList: ["layering-pair-text"],
 							children: [this.Asset.Description],
 						},
@@ -479,20 +509,21 @@ var Layering = {
 									{
 										tag: "div",
 										classList: ["layering-layer-inner-grid"],
-										children: layerList.map(({ Name, Priority }) => {
+										children: layerList.map((layer) => {
+											const name = layer.Name ?? this.Asset.Name;
 											/** @type {number} */
-											const layerPriority = this.OverridePriority?.[Name] ?? Priority;
+											const layerPriority = this.OverridePriority?.[name] ?? layer.Priority;
 											/** @type {number} */
-											const defaultLayerPriority = this._PriorityDefault?.[Name] ?? Priority;
-											Name ??= this.Asset.Name;
+											const defaultLayerPriority = this._PriorityDefault?.[name] ?? layer.Priority;
 											return {
 												tag: "div",
 												classList: ["layering-pair"],
+												style: { display: CharacterAppearanceIsLayerVisible(Layering.Character, layer, layer.Asset, this.Item.Property?.TypeRecord) ? "" : "none" },
 												children: [
 													{
 														tag: "input",
-														attributes: { type: "number", min: "-99", max: "99", value: layerPriority, defaultValue: defaultLayerPriority.toString(), inputMode: "numeric", id: `layering-input-${layerGroupName}-${Name}` },
-														dataAttributes: { layerPriority: defaultLayerPriority.toString(), name: Name },
+														attributes: { type: "number", min: "-99", max: "99", value: layerPriority, defaultValue: defaultLayerPriority.toString(), inputMode: "numeric", id: `layering-input-${layerGroupName}-${name}` },
+														dataAttributes: { layerPriority: defaultLayerPriority.toString(), name },
 														classList: priorityIsObject ? [] : ["layering-input-unfocused"],
 														eventListeners: {
 															input: (event) => this._LayerInputListener(event),
@@ -502,9 +533,9 @@ var Layering = {
 													},
 													{
 														tag: "label",
-														attributes: { for: `layering-input-${layerGroupName}-${Name}` },
+														attributes: { for: `layering-input-${layerGroupName}-${name}` },
 														classList: ["layering-pair-text"],
-														children: [Name],
+														children: [name],
 													},
 												],
 											};
@@ -525,6 +556,8 @@ var Layering = {
 				const key = `${this.Asset.DynamicGroupName}${this.Asset.Name}${h.dataset.layeringGroup}`;
 				h.innerText = cache.cache[key] ?? (h.dataset.layeringGroup || this.Asset.Description);
 			});
+
+			elem.setAttribute("aria-busy", "false");
 		});
 
 		this.Resize(true);

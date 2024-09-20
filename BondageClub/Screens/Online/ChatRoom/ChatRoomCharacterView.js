@@ -113,7 +113,6 @@ function ChatRoomCharacterViewShowMapButton() {
  * @param {number} Zoom Room zoom
  * @param {number} ClickX Click X postion relative to character, without zoom
  * @param {number} ClickY Click Y postion relative to character, without zoom
- * @param {number} Pos Index of target character
  */
 function ChatRoomCharacterViewClickCharacter(C, CharX, CharY, Zoom, ClickX, ClickY) {
 
@@ -266,7 +265,7 @@ function ChatRoomCharacterViewDraw() {
 		DrawCharacter(ChatRoomCharacterDrawlist[charIdx], charX, charY, roomZoom);
 		DrawStatus(ChatRoomCharacterDrawlist[charIdx], charX, charY, roomZoom);
 		if (ChatRoomCharacterDrawlist[charIdx].MemberNumber != null) {
-			ChatRoomCharacterViewDrawOverlay(ChatRoomCharacterDrawlist[charIdx], charX, charY, roomZoom, charIdx);
+			ChatRoomCharacterViewDrawOverlay(ChatRoomCharacterDrawlist[charIdx], charX, charY, roomZoom);
 		}
 	});
 
@@ -383,9 +382,8 @@ function ChatRoomCharacterViewLoopCharacters(callback) {
  * @param {number} CharX Character's X position on canvas
  * @param {number} CharY Character's Y position on canvas
  * @param {number} Zoom Room zoom
- * @param {number} Pos Index of target character
  */
-function ChatRoomCharacterViewDrawOverlay(C, CharX, CharY, Zoom, Pos) {
+function ChatRoomCharacterViewDrawOverlay(C, CharX, CharY, Zoom) {
 
 	// Draw the ghostlist/friendlist, whitelist/blacklist, admin icons, etc. above the character
 	if (ChatRoomHideIconState == 0) {
@@ -405,6 +403,7 @@ function ChatRoomCharacterViewDrawOverlay(C, CharX, CharY, Zoom, Pos) {
 				DrawButton(CharX + 200 * Zoom, CharY + 750 * Zoom, 90 * Zoom, 90 * Zoom, "", "White");
 				DrawImageResize("Icons/Remove.png", CharX + 202 * Zoom, CharY + 752 * Zoom, 86 * Zoom, 86 * Zoom);
 			} else {
+				const Pos = ChatRoomCharacter.findIndex(c => c.MemberNumber === C.MemberNumber);
 				if (Pos < MoveTargetPos) {
 					DrawButton(CharX + 100 * Zoom, CharY + 750 * Zoom, 90 * Zoom, 90 * Zoom, "", "White");
 					DrawImageResize("Icons/Here.png", CharX + 102 * Zoom, CharY + 752 * Zoom, 86 * Zoom, 86 * Zoom);

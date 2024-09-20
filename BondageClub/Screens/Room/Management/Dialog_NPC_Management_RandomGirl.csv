@@ -353,8 +353,16 @@ ClubSlaveIntro6,ClubSlave,(Try to get her attention.),(She struggles in vain and
 ClubSlaveIntro6,ClubSlave,(Tap on her shoulder.),(She struggles a little but fails to make any progress.  She turns to you.),,Player.CanInteract()
 ClubSlaveIntro6,ClubSlave,(Mumble in your gag.),(She giggles hearing your mumbles and nods politely.),"DialogChangeReputation(""Dominant"", -1)",!Player.CanTalk()
 ClubSlaveIntro6,,(Ignore her.),,MainHall(),
+ClubSlaveIntroText7,,,"(As you wander in the club, you see a bunny girl squirming in bondage.)  This rope bunny is here to serve you Miss.",,
+ClubSlaveIntro7,ClubSlave,Such a cute bunny!,(She blushes and smiles.)  Thank you Miss.  Do you require anything from me?,,Player.CanTalk()
+ClubSlaveIntro7,ClubSlave,(Spank her fluffy tail.),(She laughs and waves her tail at you.)  I hope my tail is fluffy enough for you Miss.,"DialogChangeReputation(""Dominant"", 1)",Player.CanInteract()
+ClubSlaveIntro7,ClubSlave,Why are you dressed like that?,(She tugs on the ropes playfully.)  I'm a rope bunny Miss.  I wear clothes like that and enjoy being in ropes very much.,,Player.CanTalk()
+ClubSlaveIntro7,ClubSlave,(Hop around her.),(She laughs and struggles playfully.)  You would make a great rope bunny.,"DialogChangeReputation(""Dominant"", -1)",Player.CanInteract()
+ClubSlaveIntro7,ClubSlave,(Mumble in your gag.),(She smiles hearing your mumbles.)  It seems I'm not the only one who had fun.,"DialogChangeReputation(""Dominant"", -1)",!Player.CanTalk()
+ClubSlaveIntro7,,(Ignore her.),,MainHall(),
 ClubSlave,,,NOEXIT,,
-ClubSlave,ClubSlaveTalk,Let's talk.,Of course Miss.  What would you like to talk about?,,!IsClubSlave()
+ClubSlave,ClubSlaveTalk,Let's talk.,Of course Miss.  What would you like to talk about?,,CanStartClubSlaveTalk()
+ClubSlave,BunnyTalk,Let's talk.,Of course Miss.  Though bunnies are better at hopping than talking.  (She giggles.),,CanStartBunnyTalk()
 ClubSlave,,(Hug her.),(You hug each other and warm yourself.  Your slave sister seems to appreciate.),,IsClubSlave()
 ClubSlave,,(Struggle and beg for help.),"(She shakes her head no.)  I'm sorry Miss, I'm not allowed to do that.  Please ask a maid.",,!Player.CanInteract()
 ClubSlave,ClubSlavePlay,(Play with her.),(You start to play with her.),,
@@ -367,6 +375,12 @@ ClubSlaveTalk,,Can I become a club slave?,"It's only for true submissives, go to
 ClubSlaveTalk,,What are your limits?,The usual limits Miss.  No blood or any permanent harm.  You can restrain me or have sex with me.,"ClubSlaveActiviy(""Talk"", 1)",
 ClubSlaveTalk,,Whose slut are you?,(She blushes and bows her head in shame.)  I'm your slut Miss.,"ClubSlaveActiviy(""Talk"", 3)",
 ClubSlaveTalk,ClubSlave,That's all I wanted to talk about.,Very well.  Is there anything else I can do for you Miss?,,
+BunnyTalk,,Who are you?,I'm a simple club slave and rope bunny Miss.  It's a pleasure to meet you.,"ClubSlaveActiviy(""Talk"", 0)",
+BunnyTalk,,What is a rope bunny?,"Everyone is different, but it's usually a submissive that enjoys being tied up with ropes.  On my side, I adore the bunny costume.","ClubSlaveActiviy(""Talk"", 0)",
+BunnyTalk,,Why aren't you naked?,"I know that club slaves are usually naked, but they allow me to wear this bunny outfit for my contract.  I must still please customers.","ClubSlaveActiviy(""Talk"", 0)",
+BunnyTalk,,You have different limits?,"No Miss, I'm a regular submissive in a bunny suit.","ClubSlaveActiviy(""Talk"", 1)",
+BunnyTalk,,Anyone can be a bunny?,(She nods happily.)  You could also be one.  Just find a costume and wear the title.,"ClubSlaveActiviy(""Talk"", -1)",
+BunnyTalk,ClubSlave,That's all I wanted to talk about.,Very well.  Is there anything else this bunny can do for you Miss?,,
 ClubSlavePlay,,,NOEXIT,,
 ClubSlavePlay,,(Tickle her.),(You tickle her on the ribs and tummy.  She laughs and squirms a little.),"ClubSlaveActiviy(""Activity"", 0)",Player.CanInteract()
 ClubSlavePlay,,(Kiss her.),(You share a slow and loving kiss.)  You have wonderful lips.  (She giggles.),"ClubSlaveActiviy(""Activity"", -1)",CanKiss()

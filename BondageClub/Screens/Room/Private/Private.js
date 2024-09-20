@@ -466,6 +466,20 @@ function PrivateCannotTryforAction() {
 function PrivateIsAnimeGirl() {
 	return (CurrentCharacter.Title === "AnimeGirl");
 }
+/**
+ * Returns TRUE if the current character is a rope bunny
+ * @returns {boolean} - TRUE if archetype is Bunny
+ */
+function PrivateIsBunny() {
+	return (CurrentCharacter.Title === "Bunny");
+}
+/**
+ * Returns TRUE if the current character is a succubus
+ * @returns {boolean} - TRUE if archetype is succubus
+ */
+function PrivateIsSuccubus() {
+	return (CurrentCharacter.Title === "Succubus");
+}
 
 /**
  * Returns a random item that could be bought from the store as a gift that the player could receive by a NPC
@@ -481,7 +495,7 @@ function PrivateGetPossibleGift(Restraint) {
 			if ((Restraint && A.Group.Name.startsWith("Item")) || (!Restraint && !A.Group.Name.startsWith("Item")))
 				InvList.push({...A});
 
-	// Returns an item at random or NULL if nothing is possible	
+	// Returns an item at random or NULL if nothing is possible
 	if (InvList.length <= 0)
 		return null;
 	else
@@ -603,6 +617,11 @@ function PrivateNewCloth(C) {
 		CharacterArchetypeClothes(C, "Maid");
 	} else if (C.Title === "AnimeGirl") {
 		CharacterArchetypeClothes(C, "AnimeGirl");
+	} else if (C.Title === "Bunny") {
+		CharacterArchetypeClothes(C, "Bunny");
+		if (C.CanWalk() && C.CanTalk() && C.CanInteract() && !C.Cage) ShibariRandomBondage(C, Math.floor((Math.random() * 4) + 1));
+	} else if (C.Title === "Succubus") {
+		CharacterArchetypeClothes(C, "Succubus");
 	} else if (C.Title === "Dominatrix") {
 		PandoraDress(C, "Mistress");
 	} else CharacterAppearanceFullRandom(C, true);
@@ -1123,7 +1142,7 @@ function PrivateAddCharacter(Template, Archetype, CustomData) {
 	if (Archetype && Archetype != "Submissive") C.Title = Archetype;
 	NPCTraitGenerate(C);
 	if (Archetype === "Mistress") NPCTraitSet(C, "Dominant", 60 + Math.floor(Math.random() * 41));
-	if (Archetype === "Submissive") NPCTraitSet(C, "Dominant", -50 - Math.floor(Math.random() * 51));
+	if ((Archetype === "Submissive") || (Archetype === "Bunny")) NPCTraitSet(C, "Dominant", -50 - Math.floor(Math.random() * 51));
 	if ((CustomData == null) || (CustomData == false)) NPCTraitDialog(C);
 	if (C.ArousalSettings == null) NPCArousal(C);
 	CharacterRefresh(C);
@@ -1151,6 +1170,18 @@ function PrivateGetCurrentID() {
  * @returns {void} - Nothing.
  */
 function PrivateKickOut() {
+	PrivateKickCharacterOut(CurrentCharacter);
+	DialogLeave();
+}
+
+/**
+ * Triggered when the player kicks out her owner, breaking the ownership
+ * @returns {void} - Nothing.
+ */
+function PrivateKickOutOwner() {
+	Player.Owner = "";
+	ServerPlayerSync();
+	InventoryRemove(Player, "ItemNeck");
 	PrivateKickCharacterOut(CurrentCharacter);
 	DialogLeave();
 }
@@ -1189,6 +1220,10 @@ function PrivateChange(NewCloth) {
 		case "Amplector":
 		case "Corporis":
 			MagicSchoolLaboratoryPrepareNPC(CurrentCharacter, NewCloth); break;
+		case "Bunny":
+		case "Succubus":
+		case "AnimeGirl":
+			CharacterArchetypeClothes(CurrentCharacter, NewCloth); break;
 		case "Custom":
 			PrivateNPCInteraction(10);
 			if (CheatFactor("FreeNPCDress", 0) != 0) CharacterChangeMoney(Player, -50);
@@ -1247,11 +1282,15 @@ function PrivateRestrainPlayer() {
  */
 function PrivateRelationDecay() {
 
+	// We skip if there's only the player in the room
+	if (PrivateCharacter.length <= 1) return false;
+
 	// For each NPCs in the room
 	let MustSave = false;
-	for (let C of PrivateCharacter) {
+	for (let Index = 1; Index < PrivateCharacter.length; Index++) {
 
 		// The player is excluded
+		let C = PrivateCharacter[Index];
 		if (C.IsPlayer()) continue;
 
 		// Sets the first decay if needed
@@ -1278,12 +1317,16 @@ function PrivateRelationDecay() {
 			if (LoveDecay > 0) NPCLoveChange(C, LoveDecay * -1);
 
 			// The NPC will disappear if love is under -100, can be prevented with any cage
-			if ((C.Love <= -100) && !C.Cage && !C.IsEnclose())
+			if ((C.Love <= -100) && !C.Cage && !C.IsEnclose()) {
 				PrivateKickCharacterOut(C);
+				Index--;
+			}
 
 		}
 	}
+
 	return MustSave;
+
 }
 
 /**

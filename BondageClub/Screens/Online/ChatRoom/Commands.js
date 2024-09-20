@@ -136,6 +136,9 @@ function CommandExecute(msg) {
 	if (C.Clear == null || C.Clear) {
 		ElementValue("InputChat", "");
 		ElementFocus("InputChat");
+
+		// Dispatch an event so the input field gets resized correctly
+		document.getElementById("InputChat").dispatchEvent(new Event("input"));
 	}
 	return true;
 }
@@ -590,12 +593,40 @@ const CommonCommands = [
 		Action: args => { ChatAdminRoomCustomizationCommand("Music", args); },
 	},
 	{
+		Tag: "appcopy",
+		Action: () => { CharacterAppearanceCopyToClipboard(Player) },
+	},
+	{
+		Tag: "apppaste",
+		Action: async (_, msg) => {
+			let CompApp = msg.substring("/apppaste".length).trim();
+			if (!CompApp.length) {
+				try {
+					CompApp = await navigator.clipboard.readText();
+				} catch (err) {
+					console.error('Failed to read clipboard contents:', err);
+				}
+			}
+			CharacterAppearancePaste(Player, CompApp, true);
+		},
+	},
+	{
 		Tag: "mapcopy",
 		Action: () => { ChatRoomMapViewCopy(); },
 	},
 	{
 		Tag: "mappaste",
-		Action: (_, msg) => { ChatRoomMapViewPaste(msg); },
+		Action: async (_, msg) => {
+			let MapData = msg.substring("/mappaste".length).trim();
+			if (!MapData.length) {
+				try {
+					MapData = await navigator.clipboard.readText();
+				} catch (err) {
+					console.error('Failed to read clipboard contents:', err);
+				}
+			}
+			ChatRoomMapViewPaste(MapData);
+		},
 	},
 	{
 		Tag: "whisper",

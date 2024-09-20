@@ -322,7 +322,7 @@ function NPCLoveChange(C, LoveFactor) {
 	else C.Love = C.Love + LoveFactor;
 	if (C.Love < -100) C.Love = -100;
 	if (C.Love > 100) C.Love = 100;
-	if (C.Love > 60 && !C.IsLoverOfPlayer() && !C.IsOwnedByPlayer() && !C.IsOwner()) C.Love = 60;
+	if (C.Love > 60 && !C.IsLoverOfPlayer() && !C.IsOwnedByPlayer() && !C.IsOwner() && (NPCEventGet(C, "EndSubTrial") <= 0)) C.Love = 60;
 }
 
 /**

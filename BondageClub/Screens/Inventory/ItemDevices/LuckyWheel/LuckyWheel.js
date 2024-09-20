@@ -181,7 +181,7 @@ function InventoryItemDevicesLuckyWheelStoppedTurning(C, Item, Angle) {
 }
 
 /**
- * @typedef {{ AnimationAngleState?: number, AnimationSpeed?: number, ChangeTime?: number, LightStep?: number }} LuckyWheelPersistentData
+ * @typedef {{ AnimationAngleState?: number, AnimationSpeed?: number, ChangeTime?: number, LightStep?: number, Spinning: boolean }} LuckyWheelPersistentData
  */
 
 /** @type {ExtendedItemCallbacks.ScriptDraw<LuckyWheelPersistentData>} */
@@ -193,16 +193,25 @@ function AssetsItemDevicesLuckyWheelScriptDraw({ C, PersistentData, Item }) {
 
 	// Initialized to a non-spinning value (aka target value), to avoid "misfires" on asset load
 	if (typeof Data.AnimationAngleState !== "number") Data.AnimationAngleState = TargetAngle;
-	if (typeof Data.AnimationSpeed !== "number" || Data.AnimationAngleState == TargetAngle) Data.AnimationSpeed = ItemDevicesLuckyWheelAnimationMaxSpeed;
+	if (typeof Data.AnimationSpeed !== "number") Data.AnimationSpeed = ItemDevicesLuckyWheelAnimationMaxSpeed;
 	if (typeof Data.ChangeTime !== "number") Data.ChangeTime = CommonTime() + FrameTime;
 	if (typeof Data.LightStep !== "number" || isNaN(Data.LightStep)) Data.LightStep = 0;
+	if (typeof Data.Spinning !== "boolean") Data.Spinning = false;
 
-	if (Data.AnimationAngleState != TargetAngle && Data.ChangeTime < CommonTime()) {
+	if (Data.AnimationAngleState != TargetAngle && !Data.Spinning) {
+		Data.Spinning = true;
+		Data.AnimationSpeed = ItemDevicesLuckyWheelAnimationMaxSpeed;
+		Data.LightStep = 0;
+	}
+
+	if (Data.Spinning && Data.ChangeTime < CommonTime()) {
 		Data.AnimationSpeed = Math.max(Data.AnimationSpeed - ItemDevicesLuckyWheelAnimationSpeedStep, ItemDevicesLuckyWheelAnimationMinSpeed);
 		Data.AnimationAngleState = (Data.AnimationAngleState + Data.AnimationSpeed) % 360;
+		console.log(`Updated speed to ${Data.AnimationSpeed} and angle to ${Data.AnimationAngleState} (target is ${TargetAngle})`);
 
 		// Stop detected
 		if (Data.AnimationSpeed == ItemDevicesLuckyWheelAnimationMinSpeed && Math.abs(Data.AnimationAngleState - TargetAngle) <= ItemDevicesLuckyWheelAnimationMinSpeed) {
+			Data.Spinning = false;
 			Data.AnimationAngleState = TargetAngle;
 			InventoryItemDevicesLuckyWheelStoppedTurning(C, Item, TargetAngle);
 		}
@@ -220,11 +229,9 @@ function AssetsItemDevicesLuckyWheelAfterDraw({ C, PersistentData, A, X, Y, L, P
 
 	if (L === "BlinkingLights") {
 		const Data = PersistentData();
-		const CurrentAngle = Data.AnimationAngleState;
-		const Properties = Property || {};
 
 		/** Only draw lights when spinning */
-		if (!Properties.TargetAngle || Properties.TargetAngle === CurrentAngle)
+		if (!Data.Spinning)
 			return;
 
 		const tmpCanvas = AnimationGenerateTempCanvas(C, A, width, height);

@@ -296,7 +296,7 @@ function ExtendedItemDrawButton(Option, CurrentOption, DialogPrefix, buttonData,
 				const entries = Object.entries(Option.Property.TypeRecord);
 				Type = entries.map(([k, v]) => `${k}${v}`).join("");
 				if (IsSelected == null) {
-					if (ExtendedItemPermissionMode && entries.every(([k]) => Item.Property.TypeRecord[k] === 0)) {
+					if (ExtendedItemPermissionMode && entries.every(([k, v]) => v === 0 && Item.Property.TypeRecord[k] === 0)) {
 						IsSelected = true;
 					} else {
 						IsSelected = entries.every(([k, v]) => Item.Property.TypeRecord[k] === v);

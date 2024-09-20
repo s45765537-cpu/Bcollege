@@ -16,6 +16,10 @@ Randomize character
 Zufälliger Charakter
 Strip clothes
 Kleidung ablegen
+Copy to clipboard
+In Zwischenablagen kopieren
+Import from clipboard
+Aus Zwischenablage importieren
 Show character in previews
 Charakter in der Vorschau zeigen
 Strip item

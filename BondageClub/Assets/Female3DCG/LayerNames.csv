@@ -247,6 +247,8 @@ CorsetCorset6Cloth,Cloth
 CorsetCorset6Leather,Leather
 CorsetCorsetDressButtons,Buttons
 CorsetCorsetDressCloth,Cloth
+CorsetTightCorsetCorset,Corset
+CorsetTightCorsetButtons,Buttons
 EyebrowsEyebrows2EyebrowBarRight,Piercings
 EyebrowsEyebrows2Main,Eyebrow
 Eyes2Eyes141,Eyeball
@@ -319,6 +321,9 @@ HairAccessory1Ribbons1Left,Left
 HairAccessory1Ribbons1Right,Right
 HairAccessory1Ribbons4Left,Left
 HairAccessory1Ribbons4Right,Right
+HairAccessory1CyberneticEars1Outside,Outside
+HairAccessory1CyberneticEars1Inner,Inner
+HairAccessory1CyberneticEars1Light,Light
 HairAccessory2BunnyEars2Inner,Inner
 HairAccessory2BunnyEars2Outer,Outer
 HairAccessory2FoxEars2Inner,Inner Ear
@@ -462,6 +467,9 @@ HairFrontHairFront56Main,Main
 HairFrontHairFront56MainTip,Tips
 HairFrontHairFront57Main,Main
 HairFrontHairFront57Tone,Tips
+HairFrontHairFront58Main,Main
+HairFrontHairFront58Tone1,Tone1
+HairFrontHairFront58Tone2,Tone2
 HatAnimeGirlTiaraMain,Tiara
 HatAnimeGirlTiaraDetail,Detail
 HatAnimeGirlTiaraJewel,Jewel
@@ -536,6 +544,26 @@ ItemAddonCoversOuter,Outer
 ItemArmsArmbinderJacketJacket,Jacket
 ItemArmsArmbinderJacketRings,Buckles
 ItemArmsArmbinderJacketStraps,Straps
+ItemArmsArmbinderSuitMain,Upper and armbinder
+ItemArmsArmbinderSuitLeg,Suit lower part
+ItemArmsArmbinderSuitHeel,Latex single heel
+ItemArmsArmbinderSuitShine,Upper and armbinder
+ItemArmsArmbinderSuitLShine,Suit lower part
+ItemArmsArmbinderSuitHShine,Latex single heel
+ItemArmsArmbinderSuitCuff,Cuff and chain link
+ItemArmsArmbinderSuitBLegCuff,Ankle shackles
+ItemArmsArmbinderSuitLMetal,Leg metal parts
+ItemArmsArmbinderSuitCMetal,Collar metal part
+ItemArmsArmbinderSuitBMetal,Harness belt buckles
+ItemArmsArmbinderSuitSMetal,Shoulder belt buckles
+ItemArmsArmbinderSuitHMetal,Single heel metal parts
+ItemArmsArmbinderSuitLBelts,Leg Straps
+ItemArmsArmbinderSuitCollar,Collar
+ItemArmsArmbinderSuitBelts,Harness belts
+ItemArmsArmbinderSuitStraps,Shoulder straps
+ItemArmsArmbinderSuitHBelts,Heel straps
+ItemArmsArmbinderSuitZipper,Zipper
+ItemArmsArmbinderSuitSkirt,Rubber skirt
 ItemArmsBitchSuitBuckles,Buckles
 ItemArmsBitchSuitLatex,Suit
 ItemArmsBitchSuitLock,Locks
@@ -744,6 +772,12 @@ ItemDevicesBedMattress,Mattress
 ItemDevicesBedPillow,Pillow
 ItemDevicesBondageBenchBench,Bench
 ItemDevicesBondageBenchStraps,Straps
+ItemDevicesBrickWallBack,Background wall
+ItemDevicesBrickWallFront,Portal
+ItemDevicesBrickWallRestraints,Metal restraints
+ItemDevicesBrickWallWall,Main wall
+ItemDevicesBrickWallWallOpt,Wall grid
+ItemDevicesBrickWallReLock,Padlocks
 ItemDevicesCageFrame,Frame
 ItemDevicesCageMesh,Mesh
 ItemDevicesCageTint,Tint
@@ -1147,6 +1181,17 @@ ItemHoodPaperbagStickytape,Sticky tape
 ItemHoodPaperbagPoints,Points
 ItemHoodPaperbagPaper,Paper
 ItemHoodPaperbagPaperbag,Paperbag
+ItemHoodRubberMaskMain,Face
+ItemHoodRubberMaskEyebrows,Eyebrows
+ItemHoodRubberMaskEyes,Eyes
+ItemHoodRubberMaskIris,Iris
+ItemHoodRubberMaskCheeks,Cheeks
+ItemHoodRubberMaskEyelids,Eyelids
+ItemHoodRubberMaskLips,Lips
+ItemHoodRubberMaskWig,Wig
+ItemHoodRubberMaskWigAcc,Wig Accessory
+ItemHoodRubberMaskGag,Gag
+ItemHoodRubberMaskEarplug,Earplug
 ItemHoodSensoryDeprivationHoodBase, Latex
 ItemHoodSensoryDeprivationHoodEarCover, Silencer
 ItemHoodSensoryDeprivationHoodLips, Lips
@@ -1274,6 +1319,10 @@ ItemMouth2FuturisticPanelGagMask,Muzzle
 ItemMouth2GasMaskGagHighlights,Highlights
 ItemMouth2GasMaskGagMask,Mask
 ItemMouth2GasMaskGagSides,Sides
+ItemMouth2GenitalGagGag,Gag
+ItemMouth2GenitalGagDetail,Inside
+ItemMouth2GenitalGagHarness,Harness
+ItemMouth2GenitalGagRivets,Rivets
 ItemMouth2GlueGagGlue,Glue
 ItemMouth2GlueGagLips,Lips
 ItemMouth2HarnessBallGag1Ball,Ball
@@ -1560,6 +1609,10 @@ ItemMouthFuturisticPanelGagMask,Muzzle
 ItemMouthGasMaskGagHighlights,Highlights
 ItemMouthGasMaskGagMask,Mask
 ItemMouthGasMaskGagSides,Sides
+ItemMouthGenitalGagGag,Gag
+ItemMouthGenitalGagDetail,Inside
+ItemMouthGenitalGagHarness,Harness
+ItemMouthGenitalGagRivets,Rivets
 ItemMouthGlueGagGlue,Glue
 ItemMouthGlueGagLips,Lips
 ItemMouthHarnessBallGag1Ball,Ball
@@ -1843,6 +1896,12 @@ ItemPelvisHeavyDutyBeltRubberBelt,Belt
 ItemPelvisHeavyDutyBeltSpreaderclips,Spreader Clips
 ItemPelvisHeavyDutyBeltSpreaderstraps,Spreader Straps
 ItemPelvisHeavyDutyBeltTransparentShield,Transparent Shield
+ItemPelvisHipHarnessMain,Main
+ItemPelvisHipHarnessBelt1,Upper belt
+ItemPelvisHipHarnessBelt2,Center strap
+ItemPelvisHipHarnessBelt3,Leg straps
+ItemPelvisHipHarnessMetal,Metal
+ItemPelvisHipHarnessLock,Padlocks
 ItemPelvisHybridChastityBeltBelt,Belt
 ItemPelvisHybridChastityBeltCrotchPlate,Crotch Plate
 ItemPelvisHybridChastityBeltLock,Lock
@@ -2128,6 +2187,11 @@ ShoesBoots1Shoes,Inner
 ShoesBoots1Sides,Outer
 ShoesClogsMain,Boot
 ShoesClogsSole,Sole
+ShoesCustomHeelsMain,Shoes
+ShoesCustomHeelsHeels,Heels
+ShoesCustomHeelsStrap1,Ankle Straps
+ShoesCustomHeelsStrap2,Mid Straps
+ShoesCustomHeelsStrap3,Lower Straps
 ShoesDeluxeBootsBoots,Outer
 ShoesDeluxeBootsBuckles,Buckles
 ShoesDeluxeBootsHeels,Heels
@@ -2295,3 +2359,8 @@ WingsSteampunkWingsBase,Base
 WingsSteampunkWingsGears,Gears
 WingsSteampunkWingsWingFrames,Frame
 WingsSteampunkWingsWings,Wings
+WingsDragonWingsWebbing,Webbing
+WingsDragonWingsSupports,Supports
+WingsDragonWingsPoints,Points
+WingsDragonWingsBuckles,Binding buckles
+WingsDragonWingsStraps,Binding straps

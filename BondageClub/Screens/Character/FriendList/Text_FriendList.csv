@@ -1,12 +1,20 @@
-ListOnlineFriends,Online friends
-ListFriends,All friends
-ListBeeps,Beep history
+OnlineFriends,Online friends
+AllFriends,All friends
+Beeps,Beep history
+MemberName,Name
+MemberNickname,Nickname
 MemberNumber,Member number
 ChatRoomName,Chat room
-FriendType,Friend type
-ActionFriends,Send a beep
-ActionDelete,Delete a friend
+FriendType,Relation type
+ActionFriends,Send a Beep
+ActionRead,Read a Beep
+ActionDelete,Delete a Friend
+AutoRefresh,Toggle 30 sec auto-refresh
 Refresh,Refresh
+ResetSorting,Reset sorting
+Exit,Exit
+PrevMode,Previous mode
+NextMode,Next mode
 ToggleRoomOn,Room name: included
 ToggleRoomOff,Room name: excluded
 TypeOwner,Owner

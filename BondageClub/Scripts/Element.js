@@ -40,6 +40,9 @@ function ElementContent(ID, Content) {
 	return "";
 }
 
+/** @satisfies {ElementNoParent} */
+const ElementNoParent = 0;
+
 /**
  * @template {keyof HTMLElementScalarTagNameMap} T
  * @param {HTMLOptions<T>} options - Options for customizing the element
@@ -419,7 +422,6 @@ function ElementPosition(ElementID, X, Y, W, H) {
 		top: Top + "px",
 		width: Width + "px",
 		height: Height + "px",
-		display: "inline"
 	});
 }
 
@@ -459,7 +461,6 @@ function ElementPositionFixed(ElementID, X, Y, W, H) {
 		top: Top + "px",
 		width: Width + "px",
 		height: Height + "px",
-		display: "inline"
 	});
 
 }
@@ -500,7 +501,6 @@ function ElementPositionFix(ElementID, Font, X, Y, W, H) {
 		top: Top + "px",
 		width: Width + "px",
 		height: Height + "px",
-		display: "inline"
 	});
 
 }
@@ -564,7 +564,10 @@ function ElementScrollToEnd(ID) {
  */
 function ElementGetScrollPercentage(ID) {
 	var element = document.getElementById(ID);
-	if (element != null) return (element.scrollTop + element.clientHeight) / element.scrollHeight;
+	if (element != null) {
+		if (element.scrollTop === 0) return 0;
+		return (element.scrollTop + element.clientHeight) / element.scrollHeight;
+	}
 
 	return null;
 }
@@ -577,6 +580,37 @@ function ElementGetScrollPercentage(ID) {
 function ElementIsScrolledToEnd(ID) {
 	var element = document.getElementById(ID);
 	return element != null && element.scrollHeight - element.scrollTop - element.clientHeight <= 1;
+}
+
+/**
+ * Sets the scroll position of an element to a specified percentage of its scrollable content.
+ * Ideally scroll percentage should be gotten with {@link ElementGetScrollPercentage}
+ *
+ * @param {string} ID
+ * @param {number} scrollPercentage
+ * @param {ScrollBehavior} scrollBehavior
+ * @returns {void}
+ */
+function ElementSetScrollPercentage(ID, scrollPercentage, scrollBehavior = 'auto') {
+	const element = document.getElementById(ID);
+	if (!element) {
+		console.error(`Element with ID "${ID}" not found.`);
+		return;
+	}
+
+	if (scrollPercentage < 0 || scrollPercentage > 1) {
+		console.error("scrollPercentage must be between 0 and 1 (inclusive).");
+		return;
+	}
+
+	const scrollHeight = element.scrollHeight;
+	const clientHeight = element.clientHeight;
+	const newScrollTop = Math.max(0, (scrollPercentage * scrollHeight - clientHeight)); // Clamp to 0 for valid range
+
+	element.scrollTo({
+		top: newScrollTop,
+		behavior: scrollBehavior
+	});
 }
 
 /**
@@ -719,6 +753,7 @@ var ElementCheckboxDropdown = {
 function ElementCreateSearchInput(id, dataCallback, options=null) {
 	let elem = /** @type {HTMLInputElement | null} */(document.getElementById(id));
 	if (elem) {
+		console.error(`Element "${id}" already exists`);
 		return elem;
 	}
 
@@ -747,7 +782,7 @@ var ElementButton = {
 	 * @private
 	 * @readonly
 	 */
-	_PositionMapping: Object.freeze({
+	_TooltipPositions: Object.freeze({
 		left: "button-tooltip-left",
 		right: "button-tooltip-right",
 		top: "button-tooltip-top",
@@ -755,55 +790,36 @@ var ElementButton = {
 	}),
 
 	/**
-	 * Touch event listener that mimicks the start of desktop-style hovering on mobile
 	 * @private
-	 * @type {(this: HTMLButtonElement, event: Event) => Promise<void>}
+	 * @readonly
 	 */
-	_TouchStart: async function _TouchStart(event) {
-		if (this.disabled || this.ariaDisabled === "true") {
-			return;
-		}
-		this.classList.add("button-touch");
-	},
-
-	/**
-	 * Touch event listener that mimicks the end of desktop-style hovering on mobile
-	 * @private
-	 * @type {(this: HTMLButtonElement, event: Event) => Promise<void>}
-	 */
-	_TouchEnd: async function _TouchEnd(event) {
-		if (this.disabled || this.ariaDisabled === "true") {
-			return;
-		}
-		this.classList.remove("button-touch");
-	},
-
-	/**
-	 * MouseDown listener that prevents a button from receining focus when clicked
-	 * @private
-	 * @type {(this: HTMLButtonElement, event: MouseEvent) => Promise<void>}
-	 */
-	_MouseDown: async function _MouseDown(event) {
-		event.preventDefault();
-	},
+	_LabelPositions: Object.freeze({
+		top: "button-label-top",
+		center: "button-label-center",
+		bottom: "button-label-bottom",
+	}),
 
 	/**
 	 * @private
 	 * @type {(this: HTMLButtonElement, ev: KeyboardEvent) => Promise<void>}
 	 */
 	_KeyDown: async function _KeyDown(ev) {
-		if (this.disabled || this.ariaDisabled === "true" || ev.shiftKey || ev.ctrlKey || ev.metaKey || ev.altKey) {
+		if (ev.shiftKey || ev.ctrlKey || ev.metaKey || ev.altKey) {
 			return;
 		}
 		switch (ev.key) {
 			case "Enter":
 			case " ":
-				if (!ev.repeat) {
+				ev.preventDefault();
+
+				if (this.disabled || this.getAttribute("aria-disabled") === "true") {
+					ev.stopImmediatePropagation();
+					return;
+				} else if (!ev.repeat) {
 					this.click();
-					this.classList.add("button-touch");
+					this.setAttribute("data-active", true);
 				}
 				ev.stopPropagation();
-				ev.preventDefault();
 				break;
 		}
 	},
@@ -813,15 +829,308 @@ var ElementButton = {
 	 * @type {(this: HTMLButtonElement, ev: KeyboardEvent) => Promise<void>}
 	 */
 	_KeyUp: async function _KeyUp(ev) {
-		if (this.disabled || this.ariaDisabled === "true" || ev.shiftKey || ev.ctrlKey || ev.metaKey || ev.altKey) {
+		if (ev.shiftKey || ev.ctrlKey || ev.metaKey || ev.altKey) {
 			return;
 		}
 		switch (ev.key) {
 			case "Enter":
 			case " ":
-				this.classList.remove("button-touch");
+				if (this.disabled || this.getAttribute("aria-disabled") === "true") {
+					ev.stopImmediatePropagation();
+					return;
+				}
+				this.removeAttribute("data-active");
 				break;
 		}
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => void}
+	 */
+	_Click: function _Click(ev) {
+		if (this.getAttribute("aria-disabled") === "true") {
+			ev.stopImmediatePropagation();
+		}
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLButtonElement) => void}
+	 */
+	_MouseUp: function _MouseUp() {
+		// Fix buttons not automatically losing focus after a click event
+		this.blur();
+	},
+
+	/**
+	 * Navigate the passed elements children in a depth-first search manner,
+	 * yielding all elements matching the `query` selector and whose parent does _not_ satisify the passed `filter`
+	 * @param {Element} root
+	 * @param {string} query
+	 * @param {(el: Element) => boolean} filter
+	 * @returns {Generator<Element, void>}
+	 */
+	_QueryDFS: function *_QueryDFS(root, query, filter) {
+		for (const elem of root.children) {
+			if (elem.matches(query)) {
+				yield elem;
+			}
+
+			if (filter(elem)) {
+				continue;
+			} else {
+				yield *ElementButton._QueryDFS(elem, query, filter);
+			}
+		}
+	},
+
+	/**
+	 * Click event listener for radio buttons.
+	 * @see https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/radio_role
+	 * @see https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/menuitemradio_role
+	 * @private
+	 * @type {(this: HTMLButtonElement, ev: Event) => void}
+	 */
+	_ClickRadio: function _ClickRadio(ev) {
+		// Take precaution against nested radio groups/menus, as one might accidentally query a sibbling that belongs to a different group
+		// Particularly important for menus embedded in other menus or menubars
+		const isRadio = this.role === "radio";
+		const parent = this.parentElement?.closest(isRadio ? "[role='radiogroup']" : "[role='menu'], [role='menubar']");
+		if (!parent) {
+			return;
+		}
+
+		// Ensure that `radio` buttons to switch the tabindex of the active radio to 0, while `menuitemradio` buttons do not
+		if (this.getAttribute("aria-checked") === "true") {
+			if (parent.getAttribute("aria-required") === "true") {
+				ev.stopImmediatePropagation();
+			} else {
+				this.setAttribute("aria-checked", "false");
+				if (isRadio) {
+					/** @type {(e: Element) => boolean} */
+					const filter = (e) => e.role === "radiogroup" || !ElementCheckVisibility(e);
+					const first = ElementButton._QueryDFS(parent, `[role='${this.role}']`, filter).next();
+					if (first.value) {
+						this.tabIndex = -1;
+						first.value.setAttribute("tabindex", "0");
+					}
+				}
+				if (this.getAttribute("aria-expanded") === "true") {
+					this.setAttribute("aria-expanded", "false");
+				}
+			}
+		} else {
+			/** @type {(e: Element) => boolean} */
+			const filter = isRadio
+				? (e) => e.role === "radiogroup"
+				: (e) => e.role === "menu" || e.role === "menuitem";
+			let prev = ElementButton._QueryDFS(parent, `[role='${this.role}'][aria-checked='true']`, filter).next();
+			if (!prev.value && isRadio) {
+				prev = ElementButton._QueryDFS(parent, `[role='${this.role}'][tabindex='0']`, filter).next();
+			}
+
+			if (prev.value) {
+				prev.value.setAttribute("aria-checked", "false");
+				if (prev.value.getAttribute("aria-expanded") === "true") {
+					prev.value.setAttribute("aria-expanded", "false");
+				}
+				if (isRadio) {
+					prev.value.setAttribute("tabindex", "-1");
+				}
+			}
+
+			if (this.getAttribute("aria-expanded") === "false") {
+				this.setAttribute("aria-expanded", "true");
+			}
+			if (isRadio) {
+				this.tabIndex = 0;
+			}
+			this.setAttribute("aria-checked", "true");
+		}
+	},
+
+	/**
+	 * @this {HTMLElement}
+	 * @param {KeyboardEvent} ev
+	 */
+	_KeyDownRadio: function _KeyDownRadio(ev) {
+		if (ev.altKey || ev.metaKey || ev.ctrlKey || ev.shiftKey) {
+			return;
+		}
+
+		switch (ev.key) {
+			case "ArrowRight":
+			case "ArrowDown":
+			case "ArrowLeft":
+			case "ArrowUp": {
+				const sibblings = Array.from(this.closest("[role='radiogroup']")?.querySelectorAll("button[role='radio']") ?? []).filter(e => ElementCheckVisibility(e));
+				const thisIdx = sibblings.indexOf(this);
+				if (thisIdx === -1) {
+					return;
+				}
+
+				/** @type {Element} */
+				let next = this;
+				const nSibblings = sibblings.length;
+				if (ev.key === "ArrowDown" || ev.key === "ArrowRight") {
+					next = sibblings[(thisIdx + 1) % nSibblings];
+				} else {
+					next = thisIdx === 0 ? sibblings[nSibblings - 1] : sibblings[(thisIdx - 1) % nSibblings];
+				}
+
+				if (next !== this) {
+					/** @type {HTMLButtonElement} */(next).click();
+					/** @type {HTMLButtonElement} */(next).focus();
+					ev.stopPropagation();
+					ev.preventDefault();
+				}
+				break;
+			}
+		}
+	},
+
+	/**
+	 * Click event listener for checkbox buttons.
+	 * @private
+	 * @type {(this: HTMLButtonElement, ev: Event) => void}
+	 */
+	_ClickCheckbox: function _ClickCheckbox(ev) {
+		if (this.getAttribute("aria-checked") === "true") {
+			if (this.getAttribute("aria-expanded") === "true") {
+				this.setAttribute("aria-expanded", "false");
+			}
+			this.setAttribute("aria-checked", "false");
+		} else {
+			if (this.getAttribute("aria-expanded") === "false") {
+				this.setAttribute("aria-expanded", "true");
+			}
+			this.setAttribute("aria-checked", "true");
+		}
+	},
+
+	/**
+	 * @private
+	 * @param {string} id
+	 * @param {string} [img]
+	 * @param {Omit<HTMLOptions<"img">, "tag">} [options]
+	 * @returns {HTMLImageElement}
+	 */
+	_ParseImage: function _ParseImage(id, img, options) {
+		if (!img) {
+			return;
+		}
+
+		options ??= {};
+		return ElementCreate({
+			...options,
+			tag: "img",
+			classList: ["button-image", ...(options.classList ?? [])],
+			attributes: { id: `${id}-image`, decoding: "async", loading: "lazy", src: img, ...(options.attributes ?? {}) },
+		});
+	},
+
+	/**
+	 * @private
+	 * @param {string} id
+	 * @param {string} [label]
+	 * @param {"top" | "center" | "bottom"} [position]
+	 * @param {Omit<HTMLOptions<"span">, "tag">} [options]
+	 * @returns {HTMLSpanElement}
+	 */
+	_ParseLabel: function _ParseLabel(id, label, position, options) {
+		if (!label) {
+			return;
+		}
+
+		options ??= {};
+		const labelPosition = this._LabelPositions[position] ?? this._LabelPositions.bottom;
+		return ElementCreate({
+			...options,
+			tag: "span",
+			attributes: { id: `${id}-label`, for: id, ...(options.attributes ?? {}) },
+			classList: ["button-label", labelPosition, ...(options.classList ?? [])],
+			children: [label, ...(options.children ?? [])],
+		});
+	},
+
+	/**
+	 * Parse the passed icon list, returning its corresponding `<img>` grid and tooltip if non-empty
+	 * @param {string} id - The ID of the parent element
+	 * @param {readonly InventoryIcon[]} [icons] - The (optional) list of icons
+	 * @returns {null | { iconGrid: HTMLDivElement, tooltip: HTMLUListElement }} - `null` if the provided icon list is empty and otherwise an object containing the icon grid and a icon-specific tooltip
+	 */
+	_ParseIcons: function _ParseIcons(id, icons) {
+		if (!icons || icons.length === 0) {
+			return null;
+		}
+
+		const tooltip = ElementCreate({
+			tag: "ul",
+			attributes: { id: `${id}-icon-ul` },
+			classList: ["button-icon-tooltip-ul"],
+			children: [],
+		});
+		const iconGrid = ElementCreate({
+			tag: "div",
+			classList: ["button-icon-grid"],
+			children: icons.map((icon) => {
+				let src, tooltipText;
+				if (icon.endsWith("Padlock")) {
+					src = `Assets/Female3DCG/ItemMisc/Preview/${icon}.png`;
+					tooltipText = InterfaceTextGet("PreviewIconPadlock").replace(
+						"AssetName",
+						AssetGet("Female3DCG", "ItemMisc", icon).Description,
+					);
+				} else {
+					src = `Icons/Previews/${icon}.png`;
+					tooltipText = InterfaceTextGet(`PreviewIcon${icon}`);
+				}
+
+				ElementCreate({
+					tag: "li",
+					attributes: { id: `${id}-icon-li-${icon}` },
+					classList: ["button-icon-tooltip-li"],
+					children: [tooltipText],
+					parent: tooltip,
+				});
+
+				return {
+					tag: "img",
+					classList: ["button-icon"],
+					attributes: { decoding: "async", loading: "lazy", src, "aria-labelledby": `${id}-icon-li-${icon}` },
+				};
+			}),
+		});
+		return { iconGrid, tooltip };
+	},
+
+	/**
+	 * @private
+	 * @param {string} id
+	 * @param {"left" | "right" | "top" | "bottom"} [position]
+	 * @param {readonly (null | string | Node | HTMLOptions<any>)[]} [children]
+	 * @param {Omit<HTMLOptions<"div">, "tag">} [options]
+	 * @returns {null | HTMLDivElement}
+	 */
+	_ParseTooltip: function _ParseTooltip(id, position, children, options) {
+		if (!children || children.every(i => i == null)) {
+			return null;
+		}
+
+		options ??= {};
+		const tooltipPosition = this._TooltipPositions[position] ?? this._TooltipPositions.left;
+		return ElementCreate({
+			...options,
+			tag: "div",
+			classList: ["button-tooltip", tooltipPosition, ...(options.classList ?? [])],
+			attributes: {
+				id: `${id}-tooltip`,
+				role: "tooltip",
+				...(options.attributes ?? {}),
+			},
+			children,
+		});
 	},
 
 	/**
@@ -834,23 +1143,45 @@ var ElementButton = {
 	 * @param {null | string} id - The ID of the to-be created search button
 	 * @param {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => any} onClick - The click event listener to-be attached to the tooltip
 	 * @param {Object} [options]
-	 * @param {null | string | Node} [options.tooltip] - Optional tooltip content. If not supplied then one should manually prepend it to the tooltip later
+	 * @param {null | string | Node | readonly (null | string | Node)[]} [options.tooltip] - Optional tooltip content. If not supplied then one should manually prepend it to the tooltip later
 	 * @param {"left" | "right" | "top" | "bottom"} [options.tooltipPosition] - The position of the tooltip w.r.t. the button
-	 * @param {null | Partial<Record<"button" | "tooltip", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the either the button or tooltip
+	 * @param {string} [options.label]
+	 * @param {"top" | "center" | "bottom"} [options.labelPosition]
+	 * @param {string} [options.image]
+	 * @param {readonly InventoryIcon[]} [options.icons]
+	 * @param {"radio" | "checkbox" | "menuitemradio" | "menuitemcheckbox"} [options.role] - The role of the button. All accepted values are currently special-cased in order to set role-specific event listeners and/or attributes.
+	 * @param {boolean} [options.noStyling] - Whether to limit the default styling of the button's border and background
+	 * @param {boolean} [options.disabled] - Whether the button should be disabled or not
+	 * @param {null | Partial<Record<"button" | "tooltip" | "img" | "label", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the either the button or tooltip
 	 * @returns {HTMLButtonElement} - The created button
 	 */
 	Create: function Create(id, onClick, options=null, htmlOptions=null) {
 		let elem = /** @type {HTMLButtonElement | null} */(document.getElementById(id));
 		if (elem) {
+			console.error(`Element "${id}" already exists`);
 			return elem;
 		}
 
+		htmlOptions ??= {};
+		const buttonOptions = htmlOptions.button ?? {};
+		const tooltipOptions = htmlOptions.tooltip ?? {};
+
 		id ??= `button-${Date.now()}`;
-		const tooltip = options?.tooltip;
-		const tooltipPosition = this._PositionMapping[options?.tooltipPosition] ?? this._PositionMapping.left;
-		const buttonOptions = htmlOptions?.button ?? {};
-		const tooltipOptions = htmlOptions?.tooltip ?? {};
-		return ElementCreate({
+		options ??= {};
+		const image = this._ParseImage(id, options.image, htmlOptions.img);
+		const label = this._ParseLabel(id, options.label, options.labelPosition, htmlOptions.label);
+		const icons = this._ParseIcons(id, options.icons);
+
+		// Only add the icon-based component of the tooltip if there is an actual tooltip
+		/** @type {(null | string | Node | HTMLOptions<any>)[]} */
+		const protoTooltip = [...(CommonIsArray(options.tooltip) ? options.tooltip : [options.tooltip])];
+		if (!protoTooltip.every(i => i == null)) {
+			protoTooltip.push(icons?.tooltip);
+		}
+		protoTooltip.push(...(tooltipOptions.children ?? []));
+		const tooltip = this._ParseTooltip(id, options.tooltipPosition, protoTooltip, tooltipOptions);
+
+		elem = ElementCreate({
 			...buttonOptions,
 			tag: "button",
 			attributes: {
@@ -858,34 +1189,64 @@ var ElementButton = {
 				name: id,
 				"aria-describedby": `${id}-tooltip`,
 				"screen-generated": CurrentScreen,
+				role: options.role,
 				...(buttonOptions.attributes ?? {}),
 			},
-			classList: ["blank-button", "button", "HideOnPopup", ...(buttonOptions.classList ?? [])],
+			classList: ["blank-button", "button", options.noStyling ? null : "button-styling", "HideOnPopup", ...(buttonOptions.classList ?? [])],
 			eventListeners: {
-				click: onClick,
-				mousedown: this._MouseDown,
-				touchstart: this._TouchStart,
-				touchend: this._TouchEnd,
-				touchcancel: this._TouchEnd,
+				click: this._Click,
 				keydown: this._KeyDown,
 				keyup: this._KeyUp,
+				mouseup: this._MouseUp,
+				touchend: this._MouseUp,
+				touchcancel: this._MouseUp,
 				...(buttonOptions.eventListeners ?? {}),
 			},
 			children: [
-				{
-					...tooltipOptions,
-					tag: "div",
-					classList: ["button-tooltip", tooltipPosition, ...(tooltipOptions.classList ?? [])],
-					attributes: {
-						id: `${id}-tooltip`,
-						role: "tooltip",
-						...(tooltipOptions.attributes ?? {}),
-					},
-					children: tooltip == null ? tooltipOptions.children : [tooltip, ...(tooltipOptions.children ?? [])],
-				},
+				tooltip,
+				image,
+				icons?.iconGrid,
+				label,
 				...(buttonOptions.children ?? []),
 			],
 		});
+
+		const role = buttonOptions.attributes?.role ?? options.role;
+		switch (role) {
+			case "radio":
+			case "menuitemradio":
+				elem.addEventListener("click", this._ClickRadio);
+				if (!elem.getAttribute("aria-checked")) {
+					elem.setAttribute("aria-checked", "false");
+				}
+
+				if (role === "radio") {
+					elem.addEventListener("keydown", this._KeyDownRadio);
+					if (elem.getAttribute("tabindex") == null) {
+						elem.tabIndex = elem.getAttribute("aria-checked") === "true" ? 0 : -1;
+					}
+				}
+				break;
+			case "checkbox":
+			case "menuitemcheckbox":
+				elem.addEventListener("click", this._ClickCheckbox);
+				if (!elem.getAttribute("aria-checked")) {
+					elem.setAttribute("aria-checked", "false");
+				}
+				break;
+		}
+
+		elem.addEventListener("click", onClick);
+
+		if (options.disabled) {
+			const menuItemRoles = ["menuitem", "menuitemradio", "menuitemcheckbox"];
+			if (menuItemRoles.some(i => elem.role === i)) {
+				elem.setAttribute("aria-disabled", true);
+			} else {
+				elem.disabled = true;
+			}
+		}
+		return elem;
 	},
 };
 
@@ -909,6 +1270,15 @@ var ElementMenu = {
 			return;
 		}
 
+		// Find the outer-most menu in case we're dealing with nested menus
+		let grandParent = parent;
+		/** @type {null | HTMLElement} */
+		let grandParentCandidate = grandParent.closest("[role='menubar'], [role='menu']");
+		while (grandParentCandidate && grandParentCandidate !== grandParent) {
+			grandParent = grandParentCandidate;
+			grandParentCandidate = grandParent.closest("[role='menubar'], [role='menu']");
+		}
+
 		let key = ev.key;
 		if (parent.getAttribute("data-direction") === "rtl") {
 			// Flip all the keys of the direction of the menu grid is right-to-left
@@ -928,6 +1298,23 @@ var ElementMenu = {
 			}
 		}
 
+		if (parent.getAttribute("aria-orientation") === "vertical") {
+			switch (key) {
+				case "ArrowRight":
+					key = "ArrowDown";
+					break;
+				case "ArrowLeft":
+					key = "ArrowUp";
+					break;
+				case "ArrowDown":
+					key = "ArrowRight";
+					break;
+				case "ArrowUp":
+					key = "ArrowLeft";
+					break;
+			}
+		}
+
 		let isTab = false;
 		if (key === "Tab") {
 			key = ev.shiftKey ? "ArrowLeft" : "ArrowRight";
@@ -937,11 +1324,11 @@ var ElementMenu = {
 		}
 
 		// Selector for all non-hidden menu items
-		const selector = "[role='menuitem']";
+		const selector = "[role='menuitem'], [role='menuitemradio'], [role='menuitemcheckbox']";
 		switch (key) {
 			case "ArrowRight":
 			case "ArrowLeft": {
-				const elements = /** @type {HTMLElement[]} */(Array.from(parent.querySelectorAll(selector)).filter(e => ElementCheckVisibility(e)));
+				const elements = /** @type {HTMLElement[]} */(Array.from(grandParent.querySelectorAll(selector)).filter(e => ElementCheckVisibility(e)));
 				const idx = elements.indexOf(this);
 				if (idx === -1) {
 					return;
@@ -961,7 +1348,7 @@ var ElementMenu = {
 			}
 			case "Home":
 			case "End": {
-				const elements = /** @type {HTMLElement[]} */(Array.from(parent.querySelectorAll(selector)).filter(e => ElementCheckVisibility(e)));
+				const elements = /** @type {HTMLElement[]} */(Array.from(grandParent.querySelectorAll(selector)).filter(e => ElementCheckVisibility(e)));
 				const idx = key === "Home" ? 0 : elements.length - 1;
 				elements[idx]?.focus();
 				ev.stopPropagation();
@@ -969,7 +1356,7 @@ var ElementMenu = {
 			}
 			case "ArrowUp":
 			case "ArrowDown": {
-				if (this.ariaHasPopup !== "true" && this.ariaHasPopup !== "menu") {
+				if (this.getAttribute("aria-haspopup") !== "true" && this.getAttribute("aria-haspopup") !== "menu") {
 					return;
 				}
 
@@ -1011,6 +1398,7 @@ var ElementMenu = {
 	Create: function Create(id, menuItems, options=null, htmlOptions=null) {
 		let elem = /** @type {HTMLDivElement | null} */(document.getElementById(id));
 		if (elem) {
+			console.error(`Element "${id}" already exists`);
 			return elem;
 		}
 
@@ -1035,19 +1423,26 @@ var ElementMenu = {
 		});
 
 		let first = true;
-		elem.querySelectorAll("button, [role='menuitem']").forEach((menuitem) => {
+		elem.querySelectorAll("button, [role='menuitem'], [role='menuitemradio'], [role='menuitemcheckbox']").forEach((menuitem) => {
 			menuitem.role ||= "menuitem";
-			if (menuitem.role !== "menuitem") {
+			if (menuitem.role !== "menuitem" && menuitem.role !== "menuitemradio" && menuitem.role !== "menuitemcheckbox") {
 				return;
 			}
 
-			if (first && ElementCheckVisibility(menuitem)) {
+			// Can't directly use `Element.checkVisibility` here as the menubar is not guaranteed to have a parent at this point
+			if (first && (menuitem instanceof HTMLElement && menuitem.style.display !== "none") && getComputedStyle(menuitem).display !== "none") {
 				first = false;
 				menuitem.setAttribute("tabindex", "0");
 			} else {
 				menuitem.setAttribute("tabindex", "-1");
 			}
 			menuitem.addEventListener("keydown", this._KeyDown);
+
+			// Ensure that disabled buttons use `aria-disabled` in order to keep them focusable
+			if (menuitem instanceof HTMLButtonElement && menuitem.disabled) {
+				menuitem.disabled = false;
+				menuitem.setAttribute("aria-disabled", "true");
+			}
 		});
 		return elem;
 	},

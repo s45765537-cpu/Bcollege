@@ -215,13 +215,13 @@ function InventoryDataBuild(C) {
 				IDList[I] = 58;
 			else
 				if ((IDList[I - 1] == 58) && (IDList[I + 1] - 1 == IDList[I])) {
-					IDList.splice(I, 1)
-					I--
-				}					
+					IDList.splice(I, 1);
+					I--;
+				}
 		}
 
 	// Builds the final compressed string
-	let Data = ""
+	let Data = "";
 	for (let I of IDList)
 		Data = Data + String.fromCharCode(I);
 
@@ -406,7 +406,9 @@ function InventoryPrerequisiteMessage(C, Prerequisite, asset=null) {
 		case "NotProtrudingFromMouth": return InventoryPrerequisiteConflicts.GagEffect(C, ["ProtrudingMouth"], asset, { errMessage: "CannotBeUsedOverGag" });
 
 		case "NeedsNippleRings": return !InventoryIsItemInList(C, "ItemNipplesPiercings", ["RoundPiercing"]) ? "NeedsNippleRings" : "";
-		case "NeedsHarness": return !CharacterHasItemWithAttribute(C, "CanAttachMittens") ? "NeedsHarness" : "";
+		case "CanAttachMittens": return !CharacterHasItemWithAttribute(C, "CanAttachMittens") ? "CantAttachMittens" : "";
+		case "NeedsChestHarness": return !CharacterHasItemWithAttribute(C, "IsChestHarness") ? "NeedsChestHarness" : "";
+		case "NeedsHipHarness": return !CharacterHasItemWithAttribute(C, "IsHipHarness") ? "NeedsHipHarness" : "";
 
 		// Returns no message, indicating that all prerequisites are fine
 		case "GagFlat": return "";
@@ -1580,7 +1582,8 @@ function InventoryTogglePermission(Item, Type=null, Worn=false, push=true) {
 
 	const assetName = Item.Asset.Name;
 	const groupName = Item.Asset.Group.Name;
-	const permission = Player.PermissionItems[`${groupName}/${assetName}`]?.Permission ?? "Default";
+	const key = /** @type {const} */(`${groupName}/${assetName}`);
+	const permission = (Type ? Player.PermissionItems[key]?.TypePermissions[Type] : Player.PermissionItems[key]?.Permission) ?? "Default";
 	switch (permission) {
 		case "Default":
 			return InventorySetPermission(groupName, assetName, "Favorite", Type, push);

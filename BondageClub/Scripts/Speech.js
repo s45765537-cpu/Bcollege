@@ -65,43 +65,6 @@ function SpeechGetGagLevel(C, AssetGroups) {
 }
 
 /**
- * Gets the cumulative gag level of a character
- * @deprecated - superseded by {@link SpeechTransformGagGarbleIntensity}
- * @param {Character} C - The character, whose assets are used for the check
- * @param {boolean} [NoDeaf=false] - Whether or not deafness affects the dialogue
- * @returns {number} - Returns the total gag effect of the character's assets
- */
-function SpeechGetTotalGagLevel(C, NoDeaf=false) {
-	return NoDeaf ? SpeechTransformGagGarbleIntensity(C) : SpeechTransformDeafenIntensity(C);
-}
-
-/**
- * Processes the character's speech, anything between parentheses isn't touched.
- *
- * Effects alter the speech differently according to a character's language.
- * Effects that can be applied are the following: gag talk, baby talk and stuttering.
- *
- * @deprecated - superseded by {@link SpeechTransformProcess}
- * @param {Character} C - The character, whose dialog might need to be altered
- * @param {string} CD - The character's dialog to alter
- * @param {boolean} [NoDeaf=false] - Whether or not deafness affects the dialogue
- * @returns {string} - Returns the dialog after speech effects were processed (Garbling, Stuttering, Baby talk)
- */
-function SpeechGarble(C, CD, NoDeaf=false) {
-	let NS = CD;
-
-	let GagEffect = SpeechGetTotalGagLevel(C, NoDeaf);
-
-	if (GagEffect > 0) NS = SpeechGarbleByGagLevel(GagEffect, CD);
-
-	// No gag effect, we return the regular text
-	NS = SpeechStutter(C, NS);
-	NS = SpeechBabyTalk(C, NS);
-
-	return NS;
-}
-
-/**
  * Core speech-transform function
  * @param {Character} C
  * @param {string} text
@@ -437,297 +400,213 @@ function SpeechTransformGagGarble(text, intensity, ignoreOOC = false) {
 
 	const oocRanges = SpeechGetOOCRanges(text);
 
-	for (let L = 0; L < text.length; L++) {
-		const HUnnormalized = text.charAt(L);
-		const H = text.charAt(L).toLowerCase();
-		const isCaps = HUnnormalized.toUpperCase() === HUnnormalized;
-		inOOC = (!ignoreOOC && SpeechIndexInOocRange(L, oocRanges));
+	for (let letter = 0; letter < text.length; letter++) {
+		const originalCharacter = text.charAt(letter);
+		const lowercaseCharacter = text.charAt(letter).toLowerCase();
+		const isCaps = originalCharacter.toUpperCase() === originalCharacter;
+		inOOC = (!ignoreOOC && SpeechIndexInOocRange(letter, oocRanges));
 
 		/** @type {(str: string) => string} */
 		const capitalize = isCaps ? (i) => i.toUpperCase() : (i) => i;
 
+		if (inOOC) {
+			transformed += originalCharacter;
+			continue;
+		} else if (isPunctuationOrSpace(lowercaseCharacter)) {
+			transformed += lowercaseCharacter;
+			continue;
+		} else if (isChineseCharacter(lowercaseCharacter)) {
+			transformed += doChineseGarbling(lowercaseCharacter, intensity);
+			continue;
+		} else if ((intensity >= 1 && intensity < 10) && isAccentedOrLatinCharacter(lowercaseCharacter)) {
+			transformed += stripDiacriticsFromCharacter(lowercaseCharacter, intensity, isCaps);
+			continue;
+		} else if ('ьъ'.includes(lowercaseCharacter)) {
+			continue;
+		}
+
 		// GagTotal4 always returns mmmmm and muffles some frequent letters entirely, 75% least frequent letters
 		if (intensity >= 20) {
-			if (inOOC) transformed += text.charAt(L);
-			else {
-				if (isPunctuationOrSpace(H)) transformed += H;
-				else if ('zqjxkvbywgpfucdlhr'.includes(H)) transformed += ' ';
-				else if (isChineseCharacter(H)) transformed += doChineseGarbling(H, intensity);
-				else transformed += capitalize("m");
-			}
+			if ('zqjxkvbywgpfucdlhr'.includes(lowercaseCharacter)) transformed += ' ';
+			else transformed += capitalize("m");
 		}
 
 		// GagTotal3 always returns mmmmm and muffles some relatively frequent letters entirely, 50% least frequent letters
 		else if (intensity >= 16) {
-			if (inOOC) transformed += text.charAt(L);
-			else {
-				if (isPunctuationOrSpace(H)) transformed += H;
-				else if ('zqjxkvbywgpf'.includes(H)) transformed += ' ';
-				else if (isChineseCharacter(H)) transformed += doChineseGarbling(H, intensity);
-				else transformed += capitalize("m");
-			}
+			if ('zqjxkvbywgpf'.includes(lowercaseCharacter)) transformed += ' ';
+			else transformed += capitalize("m");
 		}
 
 		// GagTotal2 always returns mmmmm and muffles some less frequent letters entirely; 25% least frequent letters
 		else if (intensity >= 12) {
-			if (inOOC) transformed += text.charAt(L);
-			else {
-				if (isPunctuationOrSpace(H)) transformed += H;
-				else if ('zqjxkv'.includes(H)) transformed += ' ';
-				else if (isChineseCharacter(H)) transformed += doChineseGarbling(H, intensity);
-				else transformed += capitalize("m");
-			}
+			if ('zqjxkv'.includes(lowercaseCharacter)) transformed += ' ';
+			else transformed += capitalize("m");
 		}
 
 		// Total gags always returns mmmmm
 		else if (intensity >= 10) {
-			if (inOOC) transformed += text.charAt(L);
-			else {
-				if (isPunctuationOrSpace(H)) transformed += H;
-				else if (isChineseCharacter(H)) transformed += doChineseGarbling(H, intensity);
-				else transformed += capitalize("m");
-			}
+			transformed += capitalize("m");
 		}
 
 		// VeryHeavy garble - Close to no letter stays the same
 		else if (intensity >= 8) {
-			if (!inOOC) {
+			// Regular characters
+			if ('aeiouy'.includes(lowercaseCharacter)) transformed += capitalize("e");
+			else if ('jklr'.includes(lowercaseCharacter)) transformed += capitalize("a");
+			else if ('szh'.includes(lowercaseCharacter)) transformed += capitalize("h");
+			else if ('dfgnmwtcqxpv'.includes(lowercaseCharacter)) transformed += capitalize("m");
+			else if (lowercaseCharacter == 'b') transformed += capitalize(lowercaseCharacter);
 
-				// Regular characters
-				if ('aeiouy'.includes(H)) transformed += capitalize("e");
-				else if ('jklr'.includes(H)) transformed += capitalize("a");
-				else if ('szh'.includes(H)) transformed += capitalize("h");
-				else if ('dfgnmwtcqxpv'.includes(H)) transformed += capitalize("m");
-				else if (isPunctuationOrSpace(H) || H == 'b') transformed += capitalize(H);
-
-				// Accents/Latin characters
-				else if (isAccentedOrLatinCharacter(H)) transformed += stripDiacriticsFromCharacter(H, intensity, isCaps);
-
-				// Cyrillic characters
-				else if ('аеиоуюля'.includes(H)) transformed += capitalize("e");
-				else if ('сйх'.includes(H)) transformed += capitalize("к");
-				else if ('жклру'.includes(H)) transformed += capitalize("a");
-				else if ('зсгй'.includes(H)) transformed += capitalize("г");
-				else if ('брвы'.includes(H)) transformed += capitalize("ф");
-				else if ('дфгнм'.includes(H)) transformed += capitalize("м");
-				else if (isChineseCharacter(H)) transformed += doChineseGarbling(H, intensity);
-
-			} else transformed += text.charAt(L);
+			// Cyrillic characters
+			else if ('аеиоуюляіїёыйкнм'.includes(lowercaseCharacter)) transformed += capitalize("е");
+			else if ('рбвпщсжзтцчгґ'.includes(lowercaseCharacter)) transformed += capitalize("а");
+			else if ('абвгґдеєжзиіїйклмнопрстуфхцчшщюяёы'.includes(lowercaseCharacter)) transformed += capitalize(lowercaseCharacter);
 		}
 
 		// Heavy garble - Almost no letter stays the same
 		else if (intensity >= 7) {
-			if (!inOOC) {
+			// Regular characters
+			if ('aeiouyt'.includes(lowercaseCharacter)) transformed += capitalize("e");
+			else if ('cqx'.includes(lowercaseCharacter)) transformed += capitalize("k");
+			else if ('jklrw'.includes(lowercaseCharacter)) transformed += capitalize("a");
+			else if ('szh'.includes(lowercaseCharacter)) transformed += capitalize("h");
+			else if ('bpv'.includes(lowercaseCharacter)) transformed += capitalize("f");
+			else if ('dfgnm'.includes(lowercaseCharacter)) transformed += capitalize("m");
 
-				// Regular characters
-				if ('aeiouyt'.includes(H)) transformed += capitalize("e");
-				else if ('cqx'.includes(H)) transformed += capitalize("k");
-				else if ('jklrw'.includes(H)) transformed += capitalize("a");
-				else if ('szh'.includes(H)) transformed += capitalize("h");
-				else if ('bpv'.includes(H)) transformed += capitalize("f");
-				else if ('dfgnm'.includes(H)) transformed += capitalize("m");
-				else if (isPunctuationOrSpace(H)) transformed += H;
-
-				// Accents/Latin characters
-				else if (isAccentedOrLatinCharacter(H)) transformed += stripDiacriticsFromCharacter(H, intensity, isCaps);
-
-				// Cyrillic characters
-				else if ('аеиоуюля'.includes(H)) transformed += capitalize("e");
-				else if ('сйх'.includes(H)) transformed += capitalize("к");
-				else if ('жклру'.includes(H)) transformed += capitalize("a");
-				else if ('зсгй'.includes(H)) transformed += capitalize("г");
-				else if ('брвы'.includes(H)) transformed += capitalize("ф");
-				else if ('дфгнм'.includes(H)) transformed += capitalize("м");
-				else if (isChineseCharacter(H)) transformed += doChineseGarbling(H, intensity);
-
-			} else transformed += text.charAt(L);
+			// Cyrillic characters
+			else if ('аеиоуюляіїёый'.includes(lowercaseCharacter)) transformed += capitalize("е");
+			else if ('рбвпщсжз'.includes(lowercaseCharacter)) transformed += capitalize("а");
+			else if ('ктц'.includes(lowercaseCharacter)) transformed += capitalize('к');
+			else if ('нм'.includes(lowercaseCharacter)) transformed += capitalize("м");
+			else if ('чгґ'.includes(lowercaseCharacter)) transformed += capitalize("ф");
+			else if ('абвгґдеєжзиіїйклмнопрстуфхцчшщюяёы'.includes(lowercaseCharacter)) transformed += capitalize(lowercaseCharacter);
 		}
 
 		// Medium garble - Some letters stays the same
 		else if (intensity >= 6) {
-			if (!inOOC) {
+			// Regular characters
+			if ('eiouyt'.includes(lowercaseCharacter)) transformed += capitalize("e");
+			else if ('cqxk'.includes(lowercaseCharacter)) transformed += capitalize("k");
+			else if ('jlrwa'.includes(lowercaseCharacter)) transformed += capitalize("a");
+			else if ('szh'.includes(lowercaseCharacter)) transformed += capitalize("h");
+			else if ('bpv'.includes(lowercaseCharacter)) transformed += capitalize("f");
+			else if ('dfgm'.includes(lowercaseCharacter)) transformed += capitalize("m");
+			else if (lowercaseCharacter == 'n') transformed += capitalize(lowercaseCharacter);
 
-				// Regular characters
-				if ('eiouyt'.includes(H)) transformed += capitalize("e");
-				else if ('cqxk'.includes(H)) transformed += capitalize("k");
-				else if ('jlrwa'.includes(H)) transformed += capitalize("a");
-				else if ('szh'.includes(H)) transformed += capitalize("h");
-				else if ('bpv'.includes(H)) transformed += capitalize("f");
-				else if ('dfgm'.includes(H)) transformed += capitalize("m");
-				else if (isPunctuationOrSpace(H) || H == 'n') transformed += capitalize(H);
-
-				// Accents/Latin characters
-				else if (isAccentedOrLatinCharacter(H)) transformed += stripDiacriticsFromCharacter(H, intensity, isCaps);
-
-				// Cyrillic characters
-				else if ('аеиоуюля'.includes(H)) transformed += capitalize("e");
-				else if ('сйх'.includes(H)) transformed += capitalize("к");
-				else if ('жклру'.includes(H)) transformed += capitalize("a");
-				else if ('зсгй'.includes(H)) transformed += capitalize("г");
-				else if ('брвы'.includes(H)) transformed += capitalize("ф");
-				else if ('дфгнм'.includes(H)) transformed += capitalize("м");
-				else if (isChineseCharacter(H)) transformed += doChineseGarbling(H, intensity);
-
-			} else transformed += text.charAt(L);
+			// Cyrillic characters
+			else if ('аеиоуюляіїёы'.includes(lowercaseCharacter)) transformed += capitalize("e");
+			else if ('бвп'.includes(lowercaseCharacter)) transformed += capitalize('у');
+			else if ('жз'.includes(lowercaseCharacter)) transformed += capitalize('г');
+			else if ('фкгґ'.includes(lowercaseCharacter)) transformed += capitalize('х');
+			else if ('тц'.includes(lowercaseCharacter)) transformed += capitalize('ч');
+			else if ('абвгґдеєжзиіїйклмнопрстуфхцчшщюяёы'.includes(lowercaseCharacter)) transformed += capitalize(lowercaseCharacter);
 		}
 
 		// Normal garble, keep vowels and a few letters the same
 		else if (intensity >= 5) {
-			if (!inOOC) {
+			// Regular characters
+			if ('vbct'.includes(lowercaseCharacter)) transformed += capitalize("e");
+			else if ('qkx'.includes(lowercaseCharacter)) transformed += capitalize("k");
+			else if ('wyjlr'.includes(lowercaseCharacter)) transformed += capitalize("a");
+			else if ('sz'.includes(lowercaseCharacter)) transformed += capitalize("h");
+			else if ('df'.includes(lowercaseCharacter)) transformed += capitalize("m");
+			else if (lowercaseCharacter == "p") transformed += capitalize("f");
+			else if (lowercaseCharacter == "g") transformed += capitalize("n");
+			else if ('aeioumnh'.includes(lowercaseCharacter)) transformed += capitalize(lowercaseCharacter);
 
-				// Regular characters
-				if ('vbct'.includes(H)) transformed += capitalize("e");
-				else if ('qkx'.includes(H)) transformed += capitalize("k");
-				else if ('wyjlr'.includes(H)) transformed += capitalize("a");
-				else if ('sz'.includes(H)) transformed += capitalize("h");
-				else if ('df'.includes(H)) transformed += capitalize("m");
-				else if (H == "p") transformed += capitalize("f");
-				else if (H == "g") transformed += capitalize("n");
-				else if (isPunctuationOrSpace(H) || 'aeioumnh'.includes(H)) transformed += capitalize(H);
-
-				// Accents/Latin characters
-				else if (isAccentedOrLatinCharacter(H)) transformed += stripDiacriticsFromCharacter(H, intensity, isCaps);
-
-				// Cyrillic characters
-				else if ('вфбп'.includes(H)) transformed += capitalize("фы");
-				else if ('гкх'.includes(H)) transformed += capitalize("к");
-				else if ('вужлр'.includes(H)) transformed += capitalize("а");
-				else if ('ся'.includes(H)) transformed += capitalize("х");
-				else if ('дф'.includes(H)) transformed += capitalize("м");
-				else if (H == "р") transformed += capitalize("ф");
-				else if (H == "г") transformed += capitalize("н");
-				else if (isChineseCharacter(H)) transformed += doChineseGarbling(H, intensity);
-
-			} else transformed += text.charAt(L);
+			// Cyrillic characters
+			else if ('бвп'.includes(lowercaseCharacter)) transformed += capitalize('у');
+			else if ('щс'.includes(lowercaseCharacter)) transformed += capitalize('ш');
+			else if ('ё'.includes(lowercaseCharacter)) transformed += capitalize('е');
+			else if ('ї'.includes(lowercaseCharacter)) transformed += capitalize('і');
+			else if ('жз'.includes(lowercaseCharacter)) transformed += capitalize('г');
+			else if ('фкґ'.includes(lowercaseCharacter)) transformed += capitalize('х');
+			else if ('тц'.includes(lowercaseCharacter)) transformed += capitalize('ч');
+			else if ('абвгґдеєжзиіїйклмнопрстуфхцчшщюяёы'.includes(lowercaseCharacter)) transformed += capitalize(lowercaseCharacter);
 		}
 
 		// Easy garble, keep vowels and a some letters the same
 		else if (intensity >= 4) {
-			if (!inOOC) {
+			// Regular characters
+			if ('vbct'.includes(lowercaseCharacter)) transformed += capitalize("e");
+			else if ('qkx'.includes(lowercaseCharacter)) transformed += capitalize("k");
+			else if ('wyjlr'.includes(lowercaseCharacter)) transformed += capitalize("a");
+			else if ('sz'.includes(lowercaseCharacter)) transformed += capitalize("s");
+			else if (lowercaseCharacter == "d") transformed += capitalize("m");
+			else if (lowercaseCharacter == "p") transformed += capitalize("f");
+			else if (lowercaseCharacter == "g") transformed += capitalize("h");
+			else if ('aeioumnhf'.includes(lowercaseCharacter)) transformed += capitalize(lowercaseCharacter);
 
-				// Regular characters
-				if ('vbct'.includes(H)) transformed += capitalize("e");
-				else if ('qkx'.includes(H)) transformed += capitalize("k");
-				else if ('wyjlr'.includes(H)) transformed += capitalize("a");
-				else if ('sz'.includes(H)) transformed += capitalize("s");
-				else if (H == "d") transformed += capitalize("m");
-				else if (H == "p") transformed += capitalize("f");
-				else if (H == "g") transformed += capitalize("h");
-				else if (isPunctuationOrSpace(H) || 'aeioumnhf'.includes(H)) transformed += capitalize(H);
-
-				// Accents/Latin characters
-				else if (isAccentedOrLatinCharacter(H)) transformed += stripDiacriticsFromCharacter(H, intensity, isCaps);
-
-				// Cyrillic characters
-				if ('вфбп'.includes(H)) transformed += capitalize("фы");
-				else if ('гкх'.includes(H)) transformed += capitalize("к");
-				else if ('вужлр'.includes(H)) transformed += capitalize("а");
-				else if ('ся'.includes(H)) transformed += capitalize("х");
-				else if ('дф'.includes(H)) transformed += capitalize("м");
-				else if (H == "р") transformed += capitalize("ф");
-				else if (H == "г") transformed += capitalize("н");
-				else if (isChineseCharacter(H)) transformed += doChineseGarbling(H, intensity);
-
-			} else transformed += text.charAt(L);
+			// Cyrillic characters
+			else if ('бвп'.includes(lowercaseCharacter)) transformed += capitalize('у');
+			else if ('щс'.includes(lowercaseCharacter)) transformed += capitalize('ш');
+			else if ('ё'.includes(lowercaseCharacter)) transformed += capitalize('е');
+			else if ('ї'.includes(lowercaseCharacter)) transformed += capitalize('і');
+			else if ('жз'.includes(lowercaseCharacter)) transformed += capitalize('г');
+			else if ('фк'.includes(lowercaseCharacter)) transformed += capitalize('х');
+			else if ('тц'.includes(lowercaseCharacter)) transformed += capitalize('ч');
+			else if ('абвгґдеєжзиіїйклмнопрстуфхцчшщюяёы'.includes(lowercaseCharacter)) transformed += capitalize(lowercaseCharacter);
 		}
 
 		// Light garble, half of the letters stay the same
 		else if (intensity >= 3) {
-			if (!inOOC) {
+			// Regular characters
+			if ('ct'.includes(lowercaseCharacter)) transformed += capitalize("e");
+			else if ('qkx'.includes(lowercaseCharacter)) transformed += capitalize("k");
+			else if ('jlr'.includes(lowercaseCharacter)) transformed += capitalize("a");
+			else if (lowercaseCharacter == "s") transformed += capitalize("z");
+			else if (lowercaseCharacter == "z") transformed += capitalize("s");
+			else if (lowercaseCharacter == "f") transformed += capitalize("h");
+			else if ('dmg'.includes(lowercaseCharacter)) transformed += capitalize("m");
+			else if ('bhnvwpaeiouy'.includes(lowercaseCharacter)) transformed += capitalize(lowercaseCharacter);
 
-				// Regular characters
-				if ('ct'.includes(H)) transformed += capitalize("e");
-				else if ('qkx'.includes(H)) transformed += capitalize("k");
-				else if ('jlr'.includes(H)) transformed += capitalize("a");
-				else if (H == "s") transformed += capitalize("z");
-				else if (H == "z") transformed += capitalize("s");
-				else if (H == "f") transformed += capitalize("h");
-				else if ('dmg'.includes(H)) transformed += capitalize("m");
-				else if ('bhnvwpaeiouy'.includes(H) || isPunctuationOrSpace(H)) transformed += capitalize(H);
-
-				// Accents/Latin characters
-				else if (isAccentedOrLatinCharacter(H)) transformed += stripDiacriticsFromCharacter(H, intensity, isCaps);
-
-				// Cyrillic characters
-				else if ('чц'.includes(H)) transformed += capitalize("e");
-				else if ('йфв'.includes(H)) transformed += capitalize("к");
-				else if ('длщя'.includes(H)) transformed += capitalize("a");
-				else if (H == "з") transformed += capitalize("c");
-				else if (H == "с") transformed += capitalize("з");
-				else if ('дфмг'.includes(H)) transformed += capitalize("м");
-				else if ('апрокенмит'.includes(H)) transformed += capitalize(H);
-				else if (isChineseCharacter(H)) transformed += doChineseGarbling(H, intensity);
-
-			} else transformed += text.charAt(L);
+			// Cyrillic characters
+			else if ('бв'.includes(lowercaseCharacter)) transformed += capitalize('у');
+			else if ('щс'.includes(lowercaseCharacter)) transformed += capitalize('ш');
+			else if ('ё'.includes(lowercaseCharacter)) transformed += capitalize('е');
+			else if ('ї'.includes(lowercaseCharacter)) transformed += capitalize('і');
+			else if ('жз'.includes(lowercaseCharacter)) transformed += capitalize('г');
+			else if ('фк'.includes(lowercaseCharacter)) transformed += capitalize('х');
+			else if ('тц'.includes(lowercaseCharacter)) transformed += capitalize('ч');
+			else if ('абвгґдеєжзиіїйклмнопрстуфхцчшщюяёы'.includes(lowercaseCharacter)) transformed += capitalize(lowercaseCharacter);
 		}
 
 		// Very Light garble, most of the letters stay the same
 		else if (intensity >= 2) {
-			if (!inOOC) {
+			// Regular characters
+			if (lowercaseCharacter == "t") transformed += 'e';
+			else if ('cqkx'.includes(lowercaseCharacter)) transformed += capitalize("k");
+			else if ('jlr'.includes(lowercaseCharacter)) transformed += capitalize("a");
+			else if ('dmg'.includes(lowercaseCharacter)) transformed += capitalize("m");
+			else if ('bhnvwpaeiouyfsz'.includes(lowercaseCharacter)) transformed += capitalize(lowercaseCharacter);
 
-				// Regular characters
-				if (H == "t") transformed += 'e';
-				else if ('cqkx'.includes(H)) transformed += capitalize("k");
-				else if ('jlr'.includes(H)) transformed += capitalize("a");
-				else if ('dmg'.includes(H)) transformed += capitalize("m");
-				else if ('bhnvwp'.includes(H) || isPunctuationOrSpace(H) || 'aeiouyfsz'.includes(H)) transformed += capitalize(H);
-
-				// Accents/Latin characters
-				else if (isAccentedOrLatinCharacter(H)) transformed += stripDiacriticsFromCharacter(H, intensity, isCaps);
-
-				// Cyrillic characters
-				else if ('чц'.includes(H)) transformed += capitalize("e");
-				else if ('йфв'.includes(H)) transformed += capitalize("к");
-				else if ('длщя'.includes(H)) transformed += capitalize("a");
-				else if (H == "з") transformed += capitalize("c");
-				else if (H == "с") transformed += capitalize("з");
-				else if ('дфмг'.includes(H)) transformed += capitalize("м");
-				else if ('апрокенмит'.includes(H)) transformed += capitalize(H);
-				else if (isChineseCharacter(H)) transformed += doChineseGarbling(H, intensity);
-
-			} else transformed += text.charAt(L);
+			// Cyrillic characters
+			else if ('бв'.includes(lowercaseCharacter)) transformed += capitalize('у');
+			else if ('щс'.includes(lowercaseCharacter)) transformed += capitalize('ш');
+			else if ('жз'.includes(lowercaseCharacter)) transformed += capitalize('г');
+			else if ('фк'.includes(lowercaseCharacter)) transformed += capitalize('х');
+			else if ('тц'.includes(lowercaseCharacter)) transformed += capitalize('ч');
+			else if ('абвгґдеєжзиіїйклмнопрстуфхцчшщюяёы'.includes(lowercaseCharacter)) transformed += capitalize(lowercaseCharacter);
 		}
 
 		// Almost no garble, only some letters change
 		else if (intensity >= 1) {
-			if (!inOOC) {
+			// Regular characters
+			if (lowercaseCharacter == "t") transformed += 'h';
+			else if ('cqkx'.includes(lowercaseCharacter)) transformed += capitalize("k");
+			else if ('dmg'.includes(lowercaseCharacter)) transformed += capitalize("m");
+			else if ('bhnvwpaeiouyfszjlr'.includes(lowercaseCharacter)) transformed += capitalize(lowercaseCharacter);
 
-				// Regular characters
-				if (H == "t") transformed += 'h';
-				else if ('cqkx'.includes(H)) transformed += capitalize("k");
-				else if ('dmg'.includes(H)) transformed += capitalize("m");
-				else if ('bhnvwpaeiouyfszjlr'.includes(H) || isPunctuationOrSpace(H)) transformed += capitalize(H);
-
-				// Accents/Latin characters
-				else if (isAccentedOrLatinCharacter(H)) transformed += stripDiacriticsFromCharacter(H, intensity, isCaps);
-
-				// Cyrillic characters
-				else if ('чц'.includes(H)) transformed += capitalize("e");
-				else if ('йфв'.includes(H)) transformed += capitalize("к");
-				else if ('длщя'.includes(H)) transformed += capitalize("a");
-				else if (H == "з") transformed += capitalize("c");
-				else if (H == "с") transformed += capitalize("з");
-				else if ('дфмг'.includes(H)) transformed += capitalize("м");
-				else if ('апрокенмит'.includes(H)) transformed += capitalize(H);
-				else if (isChineseCharacter(H)) transformed += doChineseGarbling(H, intensity);
-
-			} else transformed += text.charAt(L);
+			// Cyrillic characters
+			else if ('бв'.includes(lowercaseCharacter)) transformed += capitalize('у');
+			else if ('щс'.includes(lowercaseCharacter)) transformed += capitalize('ш');
+			else if ('жз'.includes(lowercaseCharacter)) transformed += capitalize('г');
+			else if ('фк'.includes(lowercaseCharacter)) transformed += capitalize('х');
+			else if ('абвгґдеєжзиіїйклмнопрстуфхцчшщюяёы'.includes(lowercaseCharacter)) transformed += capitalize(lowercaseCharacter);
 		}
 	}
 
 	return transformed;
-}
-
-/**
- * The core of the speech garble function, usable without being tied to a specific character
- * @deprecated
- * @param {number} GagEffect - The gag level of the speech
- * @param {string} CD - The character's dialog to alter
- * @param {boolean} IgnoreOOC
- * @return {string} - Garbled text
- */
-function SpeechGarbleByGagLevel(GagEffect, CD, IgnoreOOC=false) {
-	return SpeechTransformGagGarble(CD, GagEffect, IgnoreOOC);
 }
 
 /**
@@ -809,20 +688,6 @@ function SpeechTransformStutter(text, intensity) {
 }
 
 /**
- * Makes the character stutter if she has a vibrating item and/or is aroused. Stuttering based on arousal is toggled in the character's settings.
- * @deprecated
- * @param {Character} C - The character, whose dialog might need to be altered
- * @param {string} CD - The character's dialog to alter
- * @returns {string} - Returns the dialog after the stuttering factor was applied
- */
-function SpeechStutter(C, CD) {
-	const Factor = SpeechTransformStutterIntensity(C);
-	if (Factor === 0) return CD;
-
-	return SpeechTransformStutter(CD, Factor);
-}
-
-/**
  * Check if the baby talk string transform effect should apply
  * @param {Character} C
  */
@@ -861,20 +726,6 @@ function SpeechTransformBabyTalk(text) {
 }
 
 /**
- * Makes the character talk like a Baby when she has drunk regression milk
- * @deprecated
- * @param {Character} C - The character, whose dialog needs to be altered
- * @param {string} CD - The character's dialog to alter
- * @returns {string} - Returns the dialog after baby talk was applied
- */
-function SpeechBabyTalk(C, CD) {
-	// Not drunk the milk, we return the regular text
-	if (!SpeechTransformShouldBabyTalk(C)) return CD;
-
-	return SpeechTransformBabyTalk(CD);
-}
-
-/**
  * Anonymize character names from a string, replacing them with "Someone".
  *
  * Used as part of sensory-deprivation processing.
@@ -909,4 +760,81 @@ function SpeechAnonymize(msg, characters) {
 	msg = msg.replace(reg, replacer);
 
 	return msg;
+}
+
+/**
+ * Gets the cumulative gag level of a character
+ * @deprecated - superseded by {@link SpeechTransformGagGarbleIntensity}
+ * @param {Character} C - The character, whose assets are used for the check
+ * @param {boolean} [NoDeaf=false] - Whether or not deafness affects the dialogue
+ * @returns {number} - Returns the total gag effect of the character's assets
+ */
+function SpeechGetTotalGagLevel(C, NoDeaf=false) {
+	return NoDeaf ? SpeechTransformGagGarbleIntensity(C) : SpeechTransformDeafenIntensity(C);
+}
+
+/**
+ * Processes the character's speech, anything between parentheses isn't touched.
+ *
+ * Effects alter the speech differently according to a character's language.
+ * Effects that can be applied are the following: gag talk, baby talk and stuttering.
+ *
+ * @deprecated - superseded by {@link SpeechTransformProcess}
+ * @param {Character} C - The character, whose dialog might need to be altered
+ * @param {string} CD - The character's dialog to alter
+ * @param {boolean} [NoDeaf=false] - Whether or not deafness affects the dialogue
+ * @returns {string} - Returns the dialog after speech effects were processed (Garbling, Stuttering, Baby talk)
+ */
+function SpeechGarble(C, CD, NoDeaf=false) {
+	let NS = CD;
+
+	let GagEffect = SpeechGetTotalGagLevel(C, NoDeaf);
+
+	if (GagEffect > 0) NS = SpeechGarbleByGagLevel(GagEffect, CD);
+
+	// No gag effect, we return the regular text
+	NS = SpeechStutter(C, NS);
+	NS = SpeechBabyTalk(C, NS);
+
+	return NS;
+}
+
+/**
+ * Makes the character talk like a Baby when she has drunk regression milk
+ * @deprecated
+ * @param {Character} C - The character, whose dialog needs to be altered
+ * @param {string} CD - The character's dialog to alter
+ * @returns {string} - Returns the dialog after baby talk was applied
+ */
+function SpeechBabyTalk(C, CD) {
+	// Not drunk the milk, we return the regular text
+	if (!SpeechTransformShouldBabyTalk(C)) return CD;
+
+	return SpeechTransformBabyTalk(CD);
+}
+
+/**
+ * The core of the speech garble function, usable without being tied to a specific character
+ * @deprecated
+ * @param {number} GagEffect - The gag level of the speech
+ * @param {string} CD - The character's dialog to alter
+ * @param {boolean} IgnoreOOC
+ * @return {string} - Garbled text
+ */
+function SpeechGarbleByGagLevel(GagEffect, CD, IgnoreOOC=false) {
+	return SpeechTransformGagGarble(CD, GagEffect, IgnoreOOC);
+}
+
+/**
+ * Makes the character stutter if she has a vibrating item and/or is aroused. Stuttering based on arousal is toggled in the character's settings.
+ * @deprecated
+ * @param {Character} C - The character, whose dialog might need to be altered
+ * @param {string} CD - The character's dialog to alter
+ * @returns {string} - Returns the dialog after the stuttering factor was applied
+ */
+function SpeechStutter(C, CD) {
+	const Factor = SpeechTransformStutterIntensity(C);
+	if (Factor === 0) return CD;
+
+	return SpeechTransformStutter(CD, Factor);
 }

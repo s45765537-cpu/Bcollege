@@ -862,7 +862,7 @@ var ChatRoomSep = {
 	 * @type {(this: HTMLButtonElement, event: MouseEvent | TouchEvent) => Promise<void>}
 	 */
 	_ClickCollapse: async function _ClickCollapse(event) {
-		const mode = this.ariaExpanded === "true" ? "Collapse" : "Uncollapse";
+		const mode = this.getAttribute("aria-expanded") === "true" ? "Collapse" : "Uncollapse";
 		const roomSep = /** @type {HTMLDivElement} */(this.parentElement.parentElement);
 		if (event.shiftKey) {
 			// (un)collapse all separators if the `shift` key is held down while clicking
@@ -922,7 +922,7 @@ var ChatRoomSep = {
 					classList: ["chat-room-sep-div"],
 					children: [
 						ElementButton.Create(
-							`chat-room-sep-collapse-${now}`, this._ClickCollapse, undefined,
+							`chat-room-sep-collapse-${now}`, this._ClickCollapse, { noStyling: true },
 							{
 								button: {
 									children: ["˅"],
@@ -932,7 +932,7 @@ var ChatRoomSep = {
 							},
 						),
 						ElementButton.Create(
-							`chat-room-sep-header-${now}`, this._ClickScrollUp, undefined,
+							`chat-room-sep-header-${now}`, this._ClickScrollUp, { noStyling: true },
 							{ button: { classList: ["chat-room-sep-header"] } },
 						),
 					],
@@ -965,7 +965,7 @@ var ChatRoomSep = {
 	 */
 	IsCollapsed: function IsCollapsed(roomSep) {
 		const button = /** @type {HTMLButtonElement} */(roomSep?.querySelector(".chat-room-sep-collapse"));
-		return !!button && button.ariaExpanded === "false";
+		return !!button && button.getAttribute("aria-expanded") === "false";
 	},
 
 	/**
@@ -974,11 +974,11 @@ var ChatRoomSep = {
 	 */
 	Uncollapse: async function Uncollapse(roomSep) {
 		const button = /** @type {HTMLButtonElement} */(roomSep?.querySelector(".chat-room-sep-collapse"));
-		if (!button || button.ariaExpanded === "true") {
+		if (!button || button.getAttribute("aria-expanded") === "true") {
 			return;
 		}
 
-		button.ariaExpanded = "true";
+		button.setAttribute("aria-expanded", "true");
 		button.innerText = "˅";
 		let sibbling = /** @type {null | HTMLElement} */(roomSep.nextSibling);
 		while (sibbling && !sibbling.classList.contains("chat-room-sep")) {
@@ -999,11 +999,11 @@ var ChatRoomSep = {
 	 */
 	Collapse: async function Collapse(roomSep) {
 		const button = /** @type {HTMLButtonElement} */(roomSep?.querySelector(".chat-room-sep-collapse"));
-		if (!button || button.ariaExpanded === "false") {
+		if (!button || button.getAttribute("aria-expanded") === "false") {
 			return;
 		}
 
-		button.ariaExpanded = "false";
+		button.setAttribute("aria-expanded", "false");
 		button.innerText = "˃";
 		let sibbling = /** @type {null | HTMLElement} */(roomSep.nextSibling);
 		while (sibbling && !sibbling.classList.contains("chat-room-sep")) {
@@ -1042,7 +1042,6 @@ var ChatRoomSep = {
  */
 function ChatRoomCreateElement() {
 	// NOTE: If you want to add any custom buttons, make sure append them to the `#chat-room-buttons` grid
-	ChatRoomChatHidden = false;
 
 	let elem = /** @type {null | HTMLDivElement} */(document.getElementById("chat-room-div"));
 	if (!elem) {
@@ -1086,8 +1085,8 @@ function ChatRoomCreateElement() {
 						ElementButton.Create(
 							"chat-room-buttons-collapse",
 							function() {
-								const displayState = this.ariaExpanded === "true" ? "none" : "";
-								this.ariaExpanded = displayState ? "false" : "true";
+								const displayState = this.getAttribute("aria-expanded") === "true" ? "none" : "";
+								this.setAttribute("aria-expanded", displayState ? "false" : "true");
 								this.innerText = displayState ? "<" : ">";
 								const elements = /** @type {NodeListOf<HTMLElement>} */(document.querySelectorAll("#chat-room-buttons > *"));
 								elements.forEach(b => {
@@ -1095,7 +1094,8 @@ function ChatRoomCreateElement() {
 										b.style.display = displayState;
 									}
 								});
-							}, undefined,
+							},
+							{ noStyling: true },
 							{
 								button: {
 									attributes: { "aria-expanded": false, "aria-control": "chat-room-buttons" },
@@ -1107,7 +1107,7 @@ function ChatRoomCreateElement() {
 							"chat-room-buttons",
 							[
 								ElementButton.Create(
-									"chat-room-send", () => ChatRoomSendChat(), undefined,
+									"chat-room-send", () => ChatRoomSendChat(), { noStyling: true },
 									{ button: { classList: ["chat-room-button"] } },
 								),
 							],
@@ -1121,12 +1121,14 @@ function ChatRoomCreateElement() {
 		ChatRoomRefreshChatSettings();
 		ElementFocus("InputChat");
 		window.addEventListener("resize", ChatRoomResizeManager.ChatRoomResizeEvent);
-	} else if (elem.style.display === "none") {
+	} else if (ChatRoomChatHidden) {
 		elem.style.display = "";
-		setTimeout(() => ElementScrollToEnd("TextAreaChatLog"), 100);
+		ElementScrollToEnd("TextAreaChatLog");
 		ChatRoomRefreshChatSettings();
 		ElementFocus("InputChat");
 	}
+	ChatRoomChatHidden = false;
+
 	return elem;
 }
 
@@ -1137,6 +1139,10 @@ function ChatRoomShowElements() {
 	const elem = document.getElementById("chat-room-div");
 	if (elem) {
 		elem.style.display = "";
+
+		// We can't accurately keep track of the scroll height within the likes of `ChatRoomAppendChat` when an element is hidden via `display: none`,
+		// so as a compromise just scroll to the very bottom of the chat log when unhiding (which should be desireable in the majority cases)
+		ElementScrollToEnd("TextAreaChatLog");
 	}
 	ChatRoomChatHidden = false;
 }
@@ -1252,7 +1258,6 @@ function ChatRoomClearAllElements() {
 	ElementRemove("InputEmailOld");
 	ElementRemove("InputEmailNew");
 	ElementRemove("InputCharacterLabelColor");
-	PreferenceSubscreen = "";
 
 	// Profile
 	ElementRemove("DescriptionInput");
@@ -1323,7 +1328,7 @@ function ChatRoomMenuBuild() {
  * @returns {boolean} - Returns TRUE if the player's owner is inside the room.
  */
 function ChatRoomOwnerInside() {
-	return ChatRoomCharacter.some(c => c.IsOwnedByCharacter(Player));
+	return ChatRoomCharacter.some(c => Player.IsOwnedByCharacter(c));
 }
 
 /**
@@ -1689,11 +1694,9 @@ function ChatRoomStimulationMessage(Action) {
  * @type {ScreenFunctions["Resize"]}
  */
 function ChatRoomResize(load) {
-	const elem = document.getElementById("chat-room-div");
 	const chatInput = document.getElementById("InputChat");
-	if (elem && chatInput && elem.style.display !== "none") {
+	if (chatInput) {
 		ElementPositionFix("chat-room-div", ChatRoomFontSize, ...ChatRoomDivRect);
-		elem.style.display = "";
 		chatInput.dispatchEvent(new Event("input"));
 	}
 }
@@ -1969,8 +1972,13 @@ function ChatRoomChatInputChangeHandler(event) {
 	if (needsUpdate) {
 		const percentage = 100 * (inputHeight / parentHeight);
 		if (percentage >= 9 && percentage <= 35) {
+			const isScrolledToEnd = ElementIsScrolledToEnd("TextAreaChatLog");
+
 			// At ~34% the maximum resize height has been reached and there is no point in trying to expand it any further
 			parent.style.gridTemplateRows = `${100 - 0.4 - percentage}% ${percentage}%`;
+			if (isScrolledToEnd) {
+				ElementScrollToEnd("TextAreaChatLog");
+			}
 		}
 	}
 }
@@ -2376,8 +2384,13 @@ function ChatRoomToggleKneel() {
 			if (InventoryGet(Player, "ItemFeet") || InventoryGroupIsBlocked(Player, "ItemFeet")) diff += 1;
 			if (InventoryGet(Player, "ItemBoots")) diff += 2;
 
+			// 9 is the maximum difficulty, beyond 9 the struggle mini-game doesn't work
+			if (diff > 9) diff = 9;
+
+			// Starts the mini-game
 			MiniGameStart("GetUp", diff, "ChatRoomAttemptStandMinigameEnd");
 			return;
+
 		}
 	}
 }
@@ -2658,7 +2671,9 @@ function ChatRoomLeave(clearCharacters = false) {
 	ChatRoomSlowStop = false;
 	DialogLentLockpicks = false;
 	ChatRoomLeashPlayer = null;
+	ChatRoomData = null;
 	Player.MapData = null;
+	ChatRoomGame = "";
 	ChatRoomCharacter = [];
 	ChatRoomMapViewTileFog = "";
 	ChatRoomMapViewObjectFog = "";
@@ -2885,6 +2900,17 @@ function ChatRoomSendChat() {
  * @return {ServerChatRoomMessage}
  */
 function ChatRoomGenerateChatRoomChatMessage(type, msg) {
+	// Ensure the last OOC content range is closed with a )
+	const lastRange = SpeechGetOOCRanges(msg).pop();
+	if (
+		Player.ChatSettings.OOCAutoClose
+		&& lastRange !== undefined
+		&& msg.charAt(lastRange.start + lastRange.length - 1) !== ")"
+		&& lastRange.start + lastRange.length === msg.length
+		&& lastRange.length !== 1) {
+		msg += ")";
+	}
+
 	// Chat messages are always garbled, unless the no speech restriction is lifted
 	let process = {
 		effects: [],
@@ -3338,6 +3364,10 @@ var ChatRoomMessageHandlers = [
 		Priority: 110,
 		Callback: (data, sender, msg, metadata) => {
 			if (data.Type == "Chat" || data.Type == "Whisper") {
+				if (ChatRoomMapViewIsActive() && !ChatRoomMapViewCharacterIsHearable(sender)) {
+					// Respect the map view hearing range
+					return false;
+				}
 				const Original = data.Content;
 				if (Player.GetDeafLevel() > 0) {
 					const s = SpeechTransformProcess(sender, data.Content, SpeechTransformReceiverEffects);
@@ -4013,7 +4043,7 @@ function ChatRoomMessage(data) {
 	// Apply requested substitutions
 	msg = CommonStringSubstitute(msg, substitutions);
 	const messageEntry = /** @type {MessageEffectEntry} */(data.Dictionary?.find(e => IsMessageEffectDictionaryEntry(e)));
-	if (messageEntry?.Original) {
+	if (messageEntry?.Original && Player.ImmersionSettings.ShowUngarbledMessages) {
 		metadata.OriginalMsg = CommonStringSubstitute(messageEntry.Original, substitutions);
 	}
 
@@ -4062,7 +4092,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 		case "Chat":
 			divChildren.push(
 				ElementButton.Create(
-					null, ChatRoomMessageNameClick, undefined,
+					null, ChatRoomMessageNameClick, { noStyling: true },
 					{
 						button: {
 							classList: ["ChatMessageName"],
@@ -4080,13 +4110,13 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 			const whisperTarget = SenderCharacter.IsPlayer() ? ChatRoomCharacter.find(c => c.MemberNumber == data.Target) : SenderCharacter;
 			divChildren.push(
 				ElementButton.Create(
-					null, ChatRoomMessageNameClick, undefined,
+					null, ChatRoomMessageNameClick, { noStyling: true },
 					{ button: { classList: ["ReplyButton"], children: ["\u21a9\ufe0f"] } },
 				),
 				SenderCharacter.IsPlayer() ? TextGet("WhisperTo") : TextGetInScope("Screens/Online/ChatRoom/Text_ChatRoom.csv", "WhisperFrom"),
 				" ",
 				ElementButton.Create(
-					null, ChatRoomMessageNameClick, undefined,
+					null, ChatRoomMessageNameClick, { noStyling: true },
 					{
 						button: {
 							classList: ["ChatMessageName"],
@@ -4099,6 +4129,13 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 				": ",
 				displayMessage,
 			);
+
+			if (!whisperTarget.IsPlayer()) {
+				document.querySelector(`
+					#TextAreaChatLog .ChatMessageWhisper[data-sender="${whisperTarget.MemberNumber}"] > .ReplyButton:not([tabindex='-1']),
+					#TextAreaChatLog .ChatMessageWhisper[data-target="${whisperTarget.MemberNumber}"] > .ReplyButton:not([tabindex='-1'])
+				`)?.setAttribute("tabindex", "-1");
+			}
 			break;
 		}
 
@@ -4178,7 +4215,7 @@ function ChatRoomHideIdentity(C) {
  */
 function ChatRoomAddCharacterToChatRoom(newCharacter, newRawCharacter)
 {
-	if (newCharacter == null || newRawCharacter == null) { return; }
+	if (ChatRoomData == null || newCharacter == null || newRawCharacter == null) { return; }
 
 	// Update the chat room characters
 	let characterIndex = ChatRoomCharacter.findIndex(x => x.MemberNumber == newCharacter.MemberNumber);
@@ -4301,7 +4338,7 @@ function ChatRoomSync(data) {
  * @returns {void} - Nothing.
  */
 function ChatRoomSyncCharacter(data) {
-	if (data == null || (typeof data !== "object")) {
+	if (ChatRoomData == null || data == null || (typeof data !== "object")) {
 		return;
 	}
 
@@ -4316,7 +4353,7 @@ function ChatRoomSyncCharacter(data) {
  * @returns {void} - Nothing.
  */
 function ChatRoomSyncMemberJoin(data) {
-	if (data == null || (typeof data !== "object")) {
+	if (ChatRoomData == null || data == null || (typeof data !== "object")) {
 		return;
 	}
 
@@ -4370,7 +4407,7 @@ function ChatRoomSyncMemberJoin(data) {
  * @returns {void} - Nothing.
  */
 function ChatRoomSyncMemberLeave(data) {
-	if (data == null || (typeof data !== "object")) {
+	if (ChatRoomData == null || data == null || (typeof data !== "object")) {
 		return;
 	}
 
@@ -4392,7 +4429,7 @@ function ChatRoomSyncMemberLeave(data) {
  * @returns {void} - Nothing.
  */
 function ChatRoomSyncRoomProperties(data) {
-	if (data == null || typeof data !== "object" || typeof data.SourceMemberNumber !== "number") {
+	if (ChatRoomData == null || data == null || typeof data !== "object" || typeof data.SourceMemberNumber !== "number") {
 		return;
 	}
 
@@ -4437,7 +4474,7 @@ function ChatRoomSyncRoomProperties(data) {
  * @returns {void} - Nothing.
  */
 function ChatRoomSyncReorderPlayers(data) {
-	if (data == null || (typeof data !== "object")) {
+	if (ChatRoomData == null || data == null || (typeof data !== "object")) {
 		return;
 	}
 
@@ -4482,7 +4519,7 @@ function ChatRoomSyncReorderPlayers(data) {
 function ChatRoomSyncSingle(data) {
 
 	// Sets the chat room character data
-	if ((data == null) || (typeof data !== "object")) return;
+	if (ChatRoomData == null || data == null || typeof data !== "object") return;
 	if ((data.Character == null) || (typeof data.Character !== "object")) return;
 	for (let C = 0; C < ChatRoomCharacter.length; C++)
 		if (ChatRoomCharacter[C].MemberNumber == data.Character.MemberNumber)
@@ -4502,7 +4539,8 @@ function ChatRoomSyncSingle(data) {
  */
 function ChatRoomSyncExpression(data) {
 	if (
-		!CommonIsObject(data)
+		ChatRoomData == null
+		|| !CommonIsObject(data)
 		|| typeof data.Group !== "string"
 		|| (typeof data.Name !== "string" && data.Name != null)
 	) return;
@@ -4540,7 +4578,7 @@ function ChatRoomSyncExpression(data) {
  * @returns {void} - Nothing.
  */
 function ChatRoomSyncPose(data) {
-	if ((data == null) || (typeof data !== "object")) return;
+	if (ChatRoomData == null || data == null || typeof data !== "object") return;
 	const character = ChatRoomCharacter.find(c => c.MemberNumber === data.MemberNumber);
 	if (!character) return;
 
@@ -4561,7 +4599,7 @@ function ChatRoomSyncPose(data) {
  * @returns {void} - Nothing.
  */
 function ChatRoomSyncArousal(data) {
-	if ((data == null) || (typeof data !== "object")) return;
+	if (ChatRoomData == null || data == null || typeof data !== "object") return;
 	const character = ChatRoomCharacter.find(c => c.MemberNumber === data.MemberNumber);
 	if (!character || !character.ArousalSettings) return;
 
@@ -4592,7 +4630,7 @@ function ChatRoomSyncArousal(data) {
  * @returns {void} - Nothing.
  */
 function ChatRoomSyncItem(data) {
-	if ((data == null) || (typeof data !== "object") || (data.Source == null) || (typeof data.Source !== "number") || (data.Item == null) || (typeof data.Item !== "object") || (data.Item.Target == null) || (typeof data.Item.Target !== "number") || (data.Item.Group == null) || (typeof data.Item.Group !== "string")) return;
+	if (ChatRoomData == null || (data == null) || (typeof data !== "object") || (data.Source == null) || (typeof data.Source !== "number") || (data.Item == null) || (typeof data.Item !== "object") || (data.Item.Target == null) || (typeof data.Item.Target !== "number") || (data.Item.Group == null) || (typeof data.Item.Group !== "string")) return;
 	for (let C = 0; C < ChatRoomCharacter.length; C++)
 		if (ChatRoomCharacter[C].MemberNumber === data.Item.Target) {
 
@@ -5808,7 +5846,7 @@ function ChatRoomOwnerPresenceRule(RuleName, Target) {
 	let Rule = true;
 	if (RuleName == "BlockAccessSelf") Rule = ((Target != null) && (Player.MemberNumber === Target.MemberNumber)); // Block access self only if target is herself
 	if (RuleName == "BlockAccessOther") Rule = ((Target != null) && (Player.MemberNumber !== Target.MemberNumber)); // Block access other only if target is another member
-	if (RuleName == "BlockWhisper") Rule = ((Target != null) && Player.IsOwnedByCharacter(Target)); // Block whisper doesn't block whispering to the owner
+	if (RuleName == "BlockWhisper") Rule = ((Target != null) && !Player.IsOwnedByCharacter(Target)); // Block whisper doesn't block whispering to the owner
 
 	// Shows a warning message in the chat log if the rule is enforced
 	if (Rule) {

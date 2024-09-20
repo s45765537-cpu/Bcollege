@@ -178,7 +178,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 					OnlineGameAllowChange() &&
 					AsylumGGTSAllowChange(this) &&
 					!LogQuery("BlockChange", "Rule") &&
-					(!LogQuery("BlockChange", "OwnerRule") || Player.IsOwned() && !Player.IsFullyOwned())
+					(!LogQuery("BlockChange", "OwnerRule") || !Player.IsFullyOwned())
 				);
 			} else {
 				return (
@@ -393,7 +393,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			switch (this.IsOwned()) {
 				case "online":
 					return Math.floor((CurrentTime - this.Ownership.Start) / 86400000);
-				case "player":
+				case "player": {
 					let Time = NPCEventGet(this, "NPCCollaring");
 					if (Time > 0) return Math.floor((CurrentTime - Time) / 86400000);
 					Time = NPCEventGet(this, "EndDomTrial");
@@ -404,6 +404,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 							return 0;
 					}
 					return -1;
+				}
 				case "npc": {
 					for (const npc of PrivateCharacter) {
 						let Time = NPCEventGet(npc, "PlayerCollaring");
@@ -514,6 +515,10 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			}
 			return deafLevel;
 		},
+		CanPickLocks: function () {
+			const CanAccessLockpicks = (this.CanInteract() || this.CanWalk()) && InventoryAvailable(this, "Lockpicks", "ItemMisc");
+			return CanAccessLockpicks || DialogLentLockpicks;
+		},
 		IsKneeling: function () {
 			return CommonIncludes(PoseAllKneeling, this.PoseMapping.BodyLower);
 		},
@@ -536,6 +541,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		IsEdged: function () {
 			return CharacterIsEdged(this);
 		},
+		/** @type {() => this is PlayerCharacter} */
 		IsPlayer: function () {
 			return this.ID === 0;
 		},
@@ -565,9 +571,11 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			if (C.IsOwnedByCharacter(this)) return true;
 			return false;
 		},
+		/** @type {() => this is Character} */
 		IsOnline: function () {
 			return this.Type === CharacterType.ONLINE;
 		},
+		/** @type {() => this is NPCCharacter} */
 		IsNpc: function () {
 			return this.Type === CharacterType.NPC;
 		},
@@ -827,7 +835,7 @@ function CharacterLoadCSVDialog(C, info) {
 /**
  * Sets the clothes based on a character archetype
  * @param {Character} C - Character to set the clothes for
- * @param {"Maid" | "Mistress" | "Employee" | "AnimeGirl"} Archetype - Archetype to determine the clothes to put on
+ * @param {"Maid" | "Mistress" | "Employee" | "AnimeGirl" | "Bunny" | "Succubus"} Archetype - Archetype to determine the clothes to put on
  * @param {string} [ForceColor] - Color to use for the added clothes
  * @returns {void} - Nothing
  */
@@ -864,8 +872,8 @@ function CharacterArchetypeClothes(C, Archetype, ForceColor) {
 
 	// Mistress archetype
 	if (Archetype == "Mistress") {
-		var ColorList = ["#333333", "#AA4444", "#AAAAAA"];
-		var Color = (ForceColor == null) ? CommonRandomItemFromList("", ColorList) : ForceColor;
+		let ColorList = ["#333333", "#AA4444", "#AAAAAA"];
+		let Color = (ForceColor == null) ? CommonRandomItemFromList("", ColorList) : ForceColor;
 		CharacterAppearanceSetItem(C, "Hat", null);
 		InventoryAdd(C, "MistressGloves", "Gloves", false);
 		InventoryWear(C, "MistressGloves", "Gloves", Color);
@@ -918,7 +926,31 @@ function CharacterArchetypeClothes(C, Archetype, ForceColor) {
 		if (C.CanInteract()) {
 			if (Math.random() >= 0.5) InventoryWear(C, "AnimeGirlWand", "ItemHandheld");
 			else InventoryRemove(C, "ItemHandheld");
-		} 
+		}
+	}
+
+	// Rope bunny archetype
+	if (Archetype == "Bunny") {
+		CharacterNaked(C);
+		InventoryWear(C, CommonRandomItemFromList(null, ["BunnySuit", "LatexBunnySuit"]), "Bra", CommonRandomItemFromList(null, ["Default", "#BBBBBB", "#222222", "#882222", "#BB8888", "#BB00BB"]));
+		InventoryWear(C, "BunnyCollarCuffs", "ClothAccessory");
+		InventoryWear(C, CommonRandomItemFromList(null, ["BunnyEars1", "BunnyEars2"]), "HairAccessory1");
+		InventoryWear(C, "BunnyTailStrap", "TailStraps");
+		if (Math.random() > 0.5) InventoryWear(C, "Pantyhose1", "Socks");
+		InventoryWear(C, CommonRandomItemFromList(null, ["AnkleStrapShoes", "StilettoHeels", "Shoes5"]), "Shoes");
+	}
+
+	// Succubus archetype
+	if (Archetype == "Succubus") {
+		CharacterNaked(C);
+		let Color = CommonRandomItemFromList(null, ["Default", "#222222", "#BBBBBB", "#882222"]);
+		InventoryWear(C, CommonRandomItemFromList(null, ["BondageDress1", "BondageDress2", "CorsetDress", "EveningGown", "Dress3"]), "Cloth", Color);
+		InventoryWear(C, CommonRandomItemFromList(null, ["CatEye", "CatEye2", "LargeSolid", "SuperstarBlurred", "UndershadowedSolid"]), "EyeShadow", Color);
+		if (Math.random() > 0.5) InventoryWear(C, CommonRandomItemFromList(null, ["GradientPantyhose", "Socks5", "Stockings1", "Stockings2"]), "Socks", Color);
+		InventoryWear(C, "SuccubusHorns", "HairAccessory1", Color);
+		InventoryWear(C, CommonRandomItemFromList(null, ["SuccubusTailStrap", "SuccubusHeartTailStrap"]), "TailStraps", Color);
+		InventoryWear(C, CommonRandomItemFromList(null, ["BatWings", "DevilWings", "SuccubusWings"]), "Wings", Color);
+		InventoryWear(C, CommonRandomItemFromList(null, ["AnkleStrapShoes", "StilettoHeels", "Shoes5", "CustomHeels", "ThighBoots"]), "Shoes", Color);
 	}
 
 }
@@ -1003,7 +1035,7 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 	Char.LimitedItems = /** @type {never} */([]);
 	Char.FavoriteItems = /** @type {never} */([]);
 	if (!Char.IsPlayer()) {
-		Char.PermissionItems = ServerUnPackItemPermissions(data, Char);
+		Char.PermissionItems = ServerUnPackItemPermissions(data, Char.GetDifficulty() >= 3).permissions;
 		Char.WhiteList = ServerAccountDataSyncedValidate.WhiteList(data.WhiteList, Char);
 		Char.BlackList = ServerAccountDataSyncedValidate.BlackList(data.BlackList, Char);
 	}

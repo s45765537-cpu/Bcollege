@@ -1,7 +1,7 @@
 "use strict";
 
 /** BC's version */
-var GameVersion = "R106Beta1";
+var GameVersion = "R108";
 
 const GameVersionFormat = /^R([0-9]+)(?:(Alpha|Beta)([0-9]+)?)?$/;
 
@@ -35,23 +35,26 @@ function GameStart() {
 	CommonSetScreen("Character", "Login");
 	ServerInit();
 
-	document.addEventListener("keydown", GameKeyDown);
+	// Those event listeners are all going through a lambda so that mods can
+	// correctly hook into them. Using the functions directly causes a copy of
+	// them to be made (well, their code, actually), breaking that ability.
+	document.addEventListener("keydown", (e) => GameKeyDown(e));
 
 	const canvas = document.getElementById("MainCanvas");
 	canvas.tabIndex = 1000;
 
-	canvas.addEventListener("keydown", GameKeyDown);
-	canvas.addEventListener("keyup", GameKeyUp);
+	canvas.addEventListener("keydown", (e) => GameKeyDown(e));
+	canvas.addEventListener("keyup", (e) => GameKeyUp(e));
 
-	canvas.addEventListener("mousedown", GameMouseDown);
-	canvas.addEventListener("mouseup", GameMouseUp);
-	canvas.addEventListener("mousemove", GameMouseMove);
-	canvas.addEventListener("wheel", GameMouseWheel);
-	canvas.addEventListener("mouseleave", GameMouseLeave);
+	canvas.addEventListener("mousedown", (e) => GameMouseDown(e));
+	canvas.addEventListener("mouseup", (e) => GameMouseUp(e));
+	canvas.addEventListener("mousemove", (e) => GameMouseMove(e));
+	canvas.addEventListener("wheel", (e) => GameMouseWheel(e));
+	canvas.addEventListener("mouseleave", (e) => GameMouseLeave(e));
 
-	canvas.addEventListener("touchstart", GameTouchStart);
-	canvas.addEventListener("touchmove", GameTouchMove);
-	canvas.addEventListener("touchend", GameTouchEnd);
+	canvas.addEventListener("touchstart", (e) => GameTouchStart(e));
+	canvas.addEventListener("touchmove", (e) => GameTouchMove(e));
+	canvas.addEventListener("touchend", (e) => GameTouchEnd(e));
 
 	GameAnimationFrameId = requestAnimationFrame(GameRun);
 	// Can't use setInterval, chrome throttles it to 1 minute on inactive pages, but not in workers...

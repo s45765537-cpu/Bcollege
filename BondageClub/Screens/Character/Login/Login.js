@@ -7,11 +7,11 @@ var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
-	"Abysseia", "Aceffect", "Alex", "Anna", "ArashiSama", "Aylea", "BlueWinter", "Bryce", 
-	"Canti", "Christian", "Cody", "Desch", "Dynilath", "Edwin", "FanRunner", "Glurak", "Greendragon", 
-	"John", "Komiro", "Lewis", "Lyall", "Marashu", "Michel", "Mindtie", "Nightcore", "Qrroww", 
-	"Remi", "Setsu", "SlitheryCandy", "Soulcollar", "Sunny", "Tam", "Tarram", "Thkdt", 
-	"TonyBoy", "TopHat", "Troubadix", "WhiteSniper", "XDWolfie", "Xepherio"
+	"Abysseia", "Aceffect", "ArashiSama", "Aylea", "BlueWinter", "Bryce", "Canti", "Christian", 
+	"Desch", "Domenico", "Dynilath", "Edwin", "FanRunner", "Glurak", "Greendragon", "John", 
+	"Laurie", "Marashu", "Michel", "Mindtie", "Nightcore", "Robin", "Setsu", "SlitheryCandy", 
+	"Soulcollar", "Sunny", "Tam", "Tarram", "Thkdt", "TonyBoy", "TopHat", "Troubadix", 
+	"Troy", "WhiteSniper", "XDWolfie", "Xepherio"
 ];
 
 /* eslint-enable */
@@ -624,10 +624,22 @@ function LoginLoadInventoryObject(InventoryObject) {
 /**
  * Handles server response, when login has been queued
  * @param {number} Pos - The position in queue
+ * @returns {void} Nothing
  */
 function LoginQueue(Pos) {
 	if (typeof Pos !== "number") return;
 	LoginMessage = TextGet("LoginQueueWait").replace("QUEUE_POS", `${Pos}`);
+}
+
+/**
+ * Fixes the Owner property on the player object if it's wrongly set
+ * @returns {void} Nothing
+ */
+function LoginFixOwner() {
+	if ((Player.IsOwned() === false) && (Player.Owner != null) && (Player.Owner != "") && !Player.Owner.trim().startsWith("NPC-")) {
+		Player.Owner = "";
+		ServerAccountUpdate.QueueData({ Owner: Player.Owner }, true);
+	}
 }
 
 /**
@@ -687,8 +699,11 @@ function LoginResponse(C) {
 			Player.CharacterID = C.ID.toString();
 			Player.OnlineID = C.ID.toString();
 			Player.MemberNumber = C.MemberNumber;
-			Player.PermissionItems = ServerUnPackItemPermissions(C, Player);
-			if (Array.isArray(C.BlockItems) || Array.isArray(C.LimitedItems)) ServerPlayerBlockItemsSync();
+			const { permissions, shouldSync } = ServerUnPackItemPermissions(C, C.Difficulty?.Level >= 3);
+			Player.PermissionItems = permissions;
+			if (shouldSync) {
+				ServerPlayerBlockItemsSync();
+			}
 			Player.ChatSearchFilterTerms = C.ChatSearchFilterTerms || "";
 
 			Player.Difficulty = C.Difficulty;
@@ -813,7 +828,7 @@ function LoginResponse(C) {
 
 				// Since InventoryData wasn't found (R104 and before), we load the inventory object
 				/** @type {Partial<Record<AssetGroupName, string[]>>} */
-				console.log("Converting from Inventory to InventoryData...")
+				console.log("Converting from Inventory to InventoryData...");
 				const InventoryObject = LoginLoadInventoryObject(C.Inventory);
 				LoginPerformInventoryFixups(InventoryObject, C.Appearance, CraftingDecompressed);
 				ServerAppearanceLoadFromBundle(Player, C.AssetFamily, C.Appearance, C.MemberNumber);
@@ -861,6 +876,7 @@ function LoginResponse(C) {
 
 			// Fixes a few items
 			var InventoryBeforeFixes = InventoryStringify(Player);
+			LoginFixOwner();
 			LoginValidCollar();
 			LoginMistressItems();
 			LoginClubCard();

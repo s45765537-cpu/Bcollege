@@ -981,7 +981,7 @@ function ValidationSanitizeStringArray(property, key) {
 	const value = property[key];
 	let changed = false;
 	if (Array.isArray(value)) {
-		value.filter(str => {
+		property[key] = value.filter(str => {
 			if (typeof str !== "string") {
 				console.warn(`Filtering out invalid ${key} entry:`, str);
 				changed = true;

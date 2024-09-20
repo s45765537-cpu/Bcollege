@@ -33,8 +33,18 @@ function PlayerAuctionSetNextBidTime() {
 function PlayerAuctionAddCustomer(Index) {
 	var Customer = CharacterLoadNPC("NPC_Customer_" + Index.toString());
 	CharacterAppearanceFullRandom(Customer);
-	if (Math.random() > 0.85) { CharacterArchetypeClothes(Customer, "Mistress"); Customer.Archetype = "Mistress"; }
-	else if (Math.random() > 0.9) { CharacterArchetypeClothes(Customer, "Maid"); Customer.Archetype = "Maid"; }
+	if (Math.random() > 0.85) {
+		CharacterArchetypeClothes(Customer, "Mistress");
+		Customer.Archetype = "Mistress";
+	}
+	if (!Customer.Archetype && Math.random() > 0.85) {
+		CharacterArchetypeClothes(Customer, "Succubus");
+		Customer.Archetype = "Succubus";
+	}
+	if (!Customer.Archetype && Math.random() > 0.9) {
+		CharacterArchetypeClothes(Customer, "Maid");
+		Customer.Archetype = "Maid";
+	}
 	PlayerAuctionCustomer.push(Customer);
 }
 

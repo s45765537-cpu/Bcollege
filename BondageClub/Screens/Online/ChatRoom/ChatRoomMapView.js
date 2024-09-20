@@ -27,6 +27,8 @@ var ChatRoomMapViewUpdatePlayerNext = null;
 var ChatRoomMapViewUpdateLastMapDataNext = null;
 /** @type {null | Character} */
 var ChatRoomMapViewFocusedCharacter = null;
+var ChatRoomMapViewFocusedCharacterX = 0;
+var ChatRoomMapViewFocusedCharacterY = 0;
 var ChatRoomMapViewSuperPowersActive = false;
 // The base number of miliseconds required to reach a new tile
 var ChatRoomMapViewBaseMovementSpeed = 200;
@@ -127,9 +129,57 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 630, Type: "FloorDecorationCamping", Style: "TentBlue", Top: -0.3 },
 	{ ID: 640, Type: "FloorDecorationCamping", Style: "SleepingBagBlue" },
 	{ ID: 650, Type: "FloorDecorationCamping", Style: "ChairRed", Top: -0.35 },
-	{ ID: 660, Type: "FloorDecorationCamping", Style: "Hurdle1",},
-	{ ID: 670, Type: "FloorDecorationCamping", Style: "Hurdle2",},
-	{ ID: 680, Type: "FloorDecorationCamping", Style: "Hurdle3",},
+	{ ID: 660, Type: "FloorDecorationCamping", Style: "Hurdle1" },
+	{ ID: 670, Type: "FloorDecorationCamping", Style: "Hurdle2" },
+	{ ID: 680, Type: "FloorDecorationCamping", Style: "Hurdle3" },
+
+	{ ID: 700, Type: "FloorDecorationExpanding", Style: "Blank" },
+	{
+		ID: 710,
+		Type: "FloorDecorationExpanding",
+		Style: "CouchPinkPreview",
+		BuildImageName: function(X, Y) {
+			let LeftObject = ChatRoomMapViewGetObjectAtPos(X - 1, Y);
+			let RightObject = ChatRoomMapViewGetObjectAtPos(X + 1, Y);
+			if ((LeftObject != null) && (LeftObject.ID == this.ID) && ((RightObject != null) && (RightObject.ID == this.ID))) return "CouchPinkMiddle";
+			if ((LeftObject != null) && (LeftObject.ID == this.ID)) return "CouchPinkRight";
+			if ((RightObject != null) && (RightObject.ID == this.ID)) return "CouchPinkLeft";
+			return "CouckPinkSmall";
+		},
+		Top: -0.35
+	},
+	{
+		ID: 720,
+		Type: "FloorDecorationExpanding",
+		Style: "BedBluePreview",
+		BuildImageName: function(X, Y) {
+			let LeftObject = ChatRoomMapViewGetObjectAtPos(X - 1, Y);
+			let RightObject = ChatRoomMapViewGetObjectAtPos(X + 1, Y);
+			if ((LeftObject != null) && (LeftObject.ID == this.ID) && ((RightObject != null) && (RightObject.ID == this.ID))) return "BedBlueMiddle";
+			if ((LeftObject != null) && (LeftObject.ID == this.ID)) return "BedBlueRight";
+			if ((RightObject != null) && (RightObject.ID == this.ID)) return "BedBlueLeft";
+			return "BedBlueSmall";
+		},
+		Top: -1,
+		Height: 2
+	},
+	{
+		ID: 730,
+		Type: "FloorDecorationExpanding",
+		Style: "BallPitPreview",
+		BuildImageName: function(X, Y) {
+			let LeftObject = ChatRoomMapViewGetObjectAtPos(X - 1, Y);
+			let RightObject = ChatRoomMapViewGetObjectAtPos(X + 1, Y);
+			if ((LeftObject != null) && (LeftObject.ID == this.ID) && ((RightObject != null) && (RightObject.ID == this.ID))) return "BallPitMiddle";
+			if ((LeftObject != null) && (LeftObject.ID == this.ID)) return "BallPitRight";
+			if ((RightObject != null) && (RightObject.ID == this.ID)) return "BallPitLeft";
+			return "BallPitSmall";
+		},
+		Top: -0.25,
+		Height: 1.25,
+		Transparency: 1,
+		TransparencyCutoutHeight: 0.96
+	},
 
 	{ ID: 1000, Type: "FloorItem", Style: "Blank" },
 	{ ID: 1010, Type: "FloorItem", Style: "Kennel", Top: -1, Height: 2, AssetName: "Kennel", AssetGroup: "ItemDevices" },
@@ -419,6 +469,9 @@ function ChatRoomMapViewCoordinatesToIndex(x, y) {
  * @returns {void} - Nothing
  */
 function ChatRoomMapViewCalculatePerceptionMasks() {
+
+	// The player has never opened the map, ignore
+	if (!Player.MapData) return;
 
 	// When in edit mode or with active super powers, always show everything
 	if (ChatRoomMapViewHasSuperPowers()) {
@@ -905,6 +958,8 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 		let TileID = ChatRoomData.MapData.Tiles.charCodeAt(Pos);
 		let TileData = null;
 		let TileImage = null;
+		let ObjectData = null;
+		let ObjectImage = null;
 
 		// Out of sight, we draw the fog
 		let Fog = false;
@@ -949,8 +1004,13 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 						let Char = ChatRoomMapViewGetCharacterAtPos(X, Y);
 						if ((Char != null) && (Obj.AssetName != null) && (Obj.AssetGroup != null) && InventoryIsWorn(Char, Obj.AssetName, Obj.AssetGroup)) break;
 						if ((Char != null) && (Obj.OccupiedStyle != null)) ImageName = Obj.OccupiedStyle;
+					} else {
+						if (Obj.BuildImageName != null)
+							ImageName = Obj.BuildImageName(X, Y);
 					}
-					DrawImageResize("Screens/Online/ChatRoom/MapObject/" + Obj.Type + "/" + ImageName + ".png", Math.floor(Left + ScreenX + ((Obj.Left == null) ? 0 : TileWidth * Obj.Left)), Math.floor(Top + ScreenY + ((Obj.Top == null) ? 0 : TileHeight * Obj.Top)), Math.ceil(TileWidth * ((Obj.Width == null) ? 1 : Obj.Width)), Math.ceil(TileHeight * ((Obj.Height == null) ? 1 : Obj.Height)));
+					ObjectData = Obj;
+					ObjectImage = "Screens/Online/ChatRoom/MapObject/" + Obj.Type + "/" + ImageName + ".png";
+					DrawImageResize(ObjectImage, Math.floor(Left + ScreenX + ((Obj.Left == null) ? 0 : TileWidth * Obj.Left)), Math.floor(Top + ScreenY + ((Obj.Top == null) ? 0 : TileHeight * Obj.Top)), Math.ceil(TileWidth * ((Obj.Width == null) ? 1 : Obj.Width)), Math.ceil(TileHeight * ((Obj.Height == null) ? 1 : Obj.Height)));
 					break;
 				}
 
@@ -972,14 +1032,27 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 					// Keeps the character under the cursor
 					if ((MouseX >= Left + ScreenX + (TileWidth * 0.05)) && (MouseX <= Left + ScreenX + (TileWidth * 0.95)) && (MouseY >= Top + ScreenY - (TileHeight * 0.85)) && (MouseY <= Top + ScreenY + (TileHeight * 0.95))) {
 						ChatRoomMapViewFocusedCharacter = C;
+						ChatRoomMapViewFocusedCharacterX = Left + ScreenX + (TileWidth * 0.05);
+						ChatRoomMapViewFocusedCharacterY = Top + ScreenY - (TileHeight * 0.85);
 						CharacterUnderCursor = { Character: C, StatusBaseX: TileCanvasX + (TileWidth / 2), StatusBaseY: TileCanvasY + TileHeight - 20 };
 					}
 
 					// Draw the water effect if character stands in water
 					if (TileImage != null && TileData != null && TileData.Type == "Water") {
-						const transparency = (TileData.Transparency) ? TileData.Transparency : 0.0;
-						const transparencyCutoutHeight = (TileData.TransparencyCutoutHeight) ? TileData.TransparencyCutoutHeight : 1.0;
-						DrawImageEx(TileImage, MainCanvas, TileCanvasX, TileCanvasY, {Width: TileWidth, Height: TileHeight, Alpha: transparency, AlphaMasks: [[TileCanvasX, TileCanvasY, TileImage.width, TileImage.height * transparencyCutoutHeight]]});
+						const Transparency = (TileData.Transparency) ? TileData.Transparency : 0.0;
+						const TransparencyCutoutHeight = (TileData.TransparencyCutoutHeight) ? TileData.TransparencyCutoutHeight : 1.0;
+						DrawImageEx(TileImage, MainCanvas, TileCanvasX, TileCanvasY, {Width: TileWidth, Height: TileHeight, Alpha: Transparency, AlphaMasks: [[TileCanvasX, TileCanvasY, TileImage.width, TileImage.height * TransparencyCutoutHeight]]});
+					}
+
+					// Draw the transparency effect for objects
+					if ((ObjectImage != null) && (ObjectData != null) && (ObjectData.Transparency != null) && (ObjectData.TransparencyCutoutHeight != null)) {
+						let ImgX = Math.floor(Left + ScreenX + ((ObjectData.Left == null) ? 0 : TileWidth * ObjectData.Left));
+						let ImgY = Math.floor(Top + ScreenY + ((ObjectData.Top == null) ? 0 : TileHeight * ObjectData.Top));
+						let W = Math.ceil(TileWidth * ((ObjectData.Width == null) ? 1 : ObjectData.Width));
+						let H = Math.ceil(TileHeight * ((ObjectData.Height == null) ? 1 : ObjectData.Height));
+						let WA = Math.ceil(TileImage.width * 2 * ((ObjectData.Width == null) ? 1 : ObjectData.Width));
+						let HA = Math.ceil(TileImage.height * ObjectData.TransparencyCutoutHeight * ((ObjectData.Height == null) ? 1 : ObjectData.Height));
+						DrawImageEx(ObjectImage, MainCanvas, ImgX, ImgY, {Width: W, Height: H, Alpha: ObjectData.Transparency, AlphaMasks: [[ImgX, ImgY, WA, HA]]});
 					}
 
 				}
@@ -1066,6 +1139,9 @@ function ChatRoomMapViewUpdateFlag() {
 				if (Tile == null) ClearObject = true;
 				else if ((Obj.Type == "FloorDecoration") && (Tile.Type != "Floor") && (Tile.Type != "FloorExterior")) ClearObject = true;
 				else if ((Obj.Type == "FloorDecorationThemed") && (Tile.Type != "Floor") && (Tile.Type != "FloorExterior")) ClearObject = true;
+				else if ((Obj.Type == "FloorDecorationParty") && (Tile.Type != "Floor") && (Tile.Type != "FloorExterior")) ClearObject = true;
+				else if ((Obj.Type == "FloorDecorationCamping") && (Tile.Type != "Floor") && (Tile.Type != "FloorExterior")) ClearObject = true;
+				else if ((Obj.Type == "FloorDecorationExpanding") && (Tile.Type != "Floor") && (Tile.Type != "FloorExterior")) ClearObject = true;
 				else if ((Obj.Type == "FloorItem") && (Tile.Type != "Floor") && (Tile.Type != "FloorExterior")) ClearObject = true;
 				else if ((Obj.Type == "FloorObstacle") && (Tile.Type != "Floor") && (Tile.Type != "FloorExterior")) ClearObject = true;
 				else if ((Obj.Type == "WallDecoration") && (Tile.Type != "Wall")) ClearObject = true;
@@ -1132,6 +1208,8 @@ function ChatRoomMapViewUpdatePlayerSync() {
  * @returns {void} - Nothing.
  */
 function ChatRoomMapViewSyncMapData(data) {
+	// Exits if we're not in a room
+	if (ChatRoomData == null) return;
 
 	// Exits if the packet is invalid
 	if (!CommonIsObject(data) || (data.MemberNumber == null) || (typeof data.MemberNumber != "number")) return;
@@ -1454,8 +1532,6 @@ function ChatRoomMapViewKeyDown(event) {
 	if (event.key === "Enter") {
 		ElementFocus("InputChat");
 		return true;
-	} else if (event.key !== "z" && event.ctrlKey) {
-		return true;
 	} else if (event.key === "z" && event.ctrlKey) {
 		if (ChatRoomPlayerIsAdmin()) ChatRoomMapViewUndo();
 		return true;
@@ -1486,21 +1562,69 @@ function ChatRoomMapViewKeyDown(event) {
  * @returns {void} - Nothing.
  */
 function ChatRoomMapViewClick() {
+
+	// Out of chatroom, exit right away
 	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapViewIsActive()) return;
 
+	// Toggle the superpowers on and off
 	if (ChatRoomPlayerIsAdmin() && MouseIn(790, 860, 60, 60)) {
 		ChatRoomMapViewSuperPowersActive = !ChatRoomMapViewSuperPowersActive;
 		ChatRoomMapViewCalculatePerceptionMasks();
 		return;
 	}
+
+	// Regular movement buttons
 	if ((ChatRoomMapViewMovement != null) && MouseIn(930, 860, 60, 60)) return ChatRoomMapViewMovement = null;
 	if (MouseIn(860, 860, 60, 60)) return ChatRoomMapViewMove("North");
 	if (MouseIn(790, 930, 60, 60)) return ChatRoomMapViewMove("West");
 	if (MouseIn(860, 930, 60, 60)) return ChatRoomMapViewMove("South");
 	if (MouseIn(930, 930, 60, 60)) return ChatRoomMapViewMove("East");
 
-	if ((MouseX <= 1000) && (ChatRoomMapViewFocusedCharacter != null) && (ChatRoomMapViewEditMode != "Tile") && (ChatRoomMapViewEditMode != "Object") && !ChatRoomMapViewEditStarted)
+	// When clicking on a character
+	if ((MouseX <= 1000) && (ChatRoomMapViewFocusedCharacter != null) && (ChatRoomMapViewEditMode != "Tile") && (ChatRoomMapViewEditMode != "Object") && !ChatRoomMapViewEditStarted) {
+
+		// Checks if the arousal meter is showing
+		let MeterShow = ChatRoomMapViewFocusedCharacter.IsPlayer();
+		if (!ChatRoomMapViewFocusedCharacter.IsPlayer() && Player.ArousalSettings.ShowOtherMeter && ChatRoomMapViewFocusedCharacter.ArousalSettings) {
+			if (ChatRoomMapViewFocusedCharacter.ArousalSettings.Visible === "Access") {
+				MeterShow = ChatRoomMapViewFocusedCharacter.AllowItem;
+			} else if (ChatRoomMapViewFocusedCharacter.ArousalSettings.Visible === "All") {
+				MeterShow = true;
+			}
+		}
+
+		// If we clicked on the thermometer, we zoom/unzoom it
+		if (MeterShow) {
+
+			// Defines the X, Y and zoom of the character
+			let CharX = ChatRoomMapViewFocusedCharacterX;
+			let CharY = ChatRoomMapViewFocusedCharacterY;
+			let Zoom = (1 / ((ChatRoomMapViewPerceptionRange * 2) + 1)) * 1.8;
+
+			// Zoom or unzoom
+			if (MouseIn(CharX + 60 * Zoom, CharY + 400 * Zoom, 80 * Zoom, 100 * Zoom) && !ChatRoomMapViewFocusedCharacter.ArousalZoom) { ChatRoomMapViewFocusedCharacter.ArousalZoom = true; return; }
+			if (MouseIn(CharX + 50 * Zoom, CharY + 615 * Zoom, 100 * Zoom, 85 * Zoom) && ChatRoomMapViewFocusedCharacter.ArousalZoom) { ChatRoomMapViewFocusedCharacter.ArousalZoom = false; return; }
+
+			// If the player can manually control her arousal, we set the progress manual and change the facial expression, it can trigger an orgasm at 100%
+			if (ChatRoomMapViewFocusedCharacter.IsPlayer() && MouseIn(CharX + 50 * Zoom, CharY + 200 * Zoom, 100 * Zoom, 500 * Zoom) && ChatRoomMapViewFocusedCharacter.ArousalZoom) {
+				if (PreferenceArousalAtLeast(Player, "Manual") && !PreferenceArousalAtLeast(Player, "Automatic")) {
+					var Arousal = Math.round((CharY + 625 * Zoom - MouseY) / (4 * Zoom));
+					ActivitySetArousal(Player, Arousal);
+					if (Player.ArousalSettings.AffectExpression) ActivityExpression(Player, Player.ArousalSettings.Progress);
+					if (Player.ArousalSettings.Progress == 100) ActivityOrgasmPrepare(Player);
+				}
+				return;
+			}
+
+			// Don't do anything if the thermometer is clicked without access to it
+			if (MouseIn(CharX + 50 * Zoom, CharY + 200 * Zoom, 100 * Zoom, 415 * Zoom) && ChatRoomMapViewFocusedCharacter.ArousalZoom) return;
+
+		}
+
+		// Focuses on the character
 		ChatRoomFocusCharacter(ChatRoomMapViewFocusedCharacter);
+
+	}
 
 	// Out of edit mode, we allow the basic buttons
 	if (ChatRoomMapViewEditMode == "") {
@@ -1759,12 +1883,11 @@ function ChatRoomMapViewCopy() {
  */
 function ChatRoomMapViewPaste(Param) {
 
-	// Cuts the /mappaste characters
-	if ((Param == null) || (Param.length < 10)) {
+	// Validates the data first
+	if (typeof Param !== "string" || Param.length === 0) {
 		ChatRoomSendLocal(TextGet("MapPasteError"));
 		return;
 	}
-	Param = Param.trim().substring(9).trim();
 
 	// Only admins can paste/edit the map
 	if (!ChatRoomPlayerIsAdmin()) {

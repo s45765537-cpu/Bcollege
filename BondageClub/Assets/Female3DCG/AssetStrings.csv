@@ -2232,6 +2232,15 @@ ItemHandsElbowLengthMittensSelect,Select options
 ItemHandsElbowLengthMittensSetChained,SourceCharacter attaches DestinationCharacter mittens to some chains.
 ItemHandsElbowLengthMittensSetUnchained,SourceCharacter detaches DestinationCharacter mittens from the chains.
 ItemHandsElbowLengthMittensUnchained,Free Limbs
+ItemHandsHempRopeCuffsCuffed,Cuffed
+ItemHandsHempRopeCuffsHarnessBack,Harness (back)
+ItemHandsHempRopeCuffsHarnessFront,Harness (front)
+ItemHandsHempRopeCuffsUnlinked,Unlinked
+ItemHandsHempRopeCuffsSelect,Select style
+ItemHandsHempRopeCuffsSetCuffed,SourceCharacter ties DestinationCharacter rope cuffs in her back.
+ItemHandsHempRopeCuffsSetHarnessBack,SourceCharacter ties DestinationCharacter rope cuffs to the back of her harness.
+ItemHandsHempRopeCuffsSetHarnessFront,SourceCharacter ties DestinationCharacter rope cuffs to the front of her harness.
+ItemHandsHempRopeCuffsSetUnlinked,SourceCharacter detaches DestinationCharacter rope cuffs.
 ItemHandsPaddedMittensChained,Chained
 ItemHandsPaddedMittensSelect,Select options
 ItemHandsPaddedMittensSetChained,SourceCharacter chains DestinationCharacter padded mittens to the harness.
@@ -4940,7 +4949,6 @@ TimerRelease,The LockName on DestinationCharacterName FocusAssetGroup opens with
 TimerReleaseMany,The locks on DestinationCharacterName UnlockedGroups open with a click
 TimerRemoveTime,SourceCharacter removes TimerTime TimerUnit from the padlock on DestinationCharacter FocusAssetGroup.
 TimerRestart,SourceCharacter restarts the five minutes timer padlock on DestinationCharacter FocusAssetGroup.
-TimerUnknown,Unknown time left
 ToeTapePoseFull,Full
 ToeTapePoseToes,Toes
 ToeTapeSetFull,SourceCharacter uses the tape on TargetCharacter to fully wrap TargetPronounPossessive feet with tape.
@@ -5014,6 +5022,10 @@ WebBondageWrapped,Wrapped
 WingsSteampunkWingsOff,Off
 WingsSteampunkWingsOn,On
 WingsSteampunkWingsSelect,Select the state.
+WingsDragonWingsSpread,Spread
+WingsDragonWingsFolded,Folded
+WingsDragonWingsBound,Bound
+WingsDragonWingsSelect,Select the state
 YourRoom,<i>Your private room</i>
 ZipBondageZipFeetFull,Full Binding
 ZipBondageZipFeetLight,Light Binding
@@ -5105,7 +5117,7 @@ ItemHandheldAnimeGirlWandStaff,A (spanker) staff
 ItemHandheldAnimeGirlWandSetStaff,SourceCharacter transform the Power Staff into Wand
 ItemHandheldAnimeGirlWandWand,A (kinky) wand
 ItemHandheldAnimeGirlWandSetWand,SourceCharacter transform the Power Staff into Staff
-ItemDevicesCementSelectBase,Pole, material and bucket menu:
+ItemDevicesCementSelectBase,"Pole, material and bucket menu:"
 ItemDevicesCementModulePole,Pole and ratchets
 ItemDevicesCementSelectPole,Choose restraint lenght:
 ItemDevicesCementOptionp0,None
@@ -5161,7 +5173,245 @@ PincenezSelectType,Select a style:
 PincenezTypeNoAcc,Normal
 PincenezTypeNoAccOver,Normal over hair
 PincenezTypeAcc,With accessory
-PincenezTypeAccOver,With accessory over hairQualityHarnessGagSetBallGag,SourceCharacter attaches ball gag to DestinationCharacter gag harness.
+PincenezTypeAccOver,With accessory over hair
+QualityHarnessGagSetBallGag,SourceCharacter attaches ball gag to DestinationCharacter gag harness.
 QualityHarnessGagSetRingGag,SourceCharacter attaches ring gag to DestinationCharacter gag harness.
 QualityHarnessGagTypeRingGag,Ring Gag
 QualityHarnessGagTypeBallGag,Ball Gag
+ItemArmsArmbinderSuitSelectBase,Armbinder Suit customization menu:
+ItemArmsArmbinderSuitModuleCollar,Collar
+ItemArmsArmbinderSuitSelectCollar,Collar menu
+ItemArmsArmbinderSuitOptionc0,None
+ItemArmsArmbinderSuitOptionc1,Security collar
+ItemArmsArmbinderSuitModuleBinder,Armbinder sector
+ItemArmsArmbinderSuitSelectBinder,Armbinder menu
+ItemArmsArmbinderSuitOptionb0,Binder on the left
+ItemArmsArmbinderSuitOptionb1,Binder on the right
+ItemArmsArmbinderSuitOptionb2,Neutral position
+ItemArmsArmbinderSuitOptionb3,Strict by harness belts
+ItemArmsArmbinderSuitOptionb4,Harness plus link legs
+ItemArmsArmbinderSuitOptionb5,Short link chain
+ItemArmsArmbinderSuitModuleStrap,Security straps
+ItemArmsArmbinderSuitSelectStrap,Strap menu
+ItemArmsArmbinderSuitOptionp0,None
+ItemArmsArmbinderSuitOptionp1,Shoulder straps
+ItemArmsArmbinderSuitModuleZipper,Genital access
+ItemArmsArmbinderSuitSelectZipper,Suit's zipper menu
+ItemArmsArmbinderSuitOptionz0,Zipped up
+ItemArmsArmbinderSuitOptionz1,Open
+ItemArmsArmbinderSuitModuleLegs,Leg lenght & belts
+ItemArmsArmbinderSuitSelectLegs,Lower suit menu
+ItemArmsArmbinderSuitOptionl0,No leg extension
+ItemArmsArmbinderSuitOptionl1,Leg extension
+ItemArmsArmbinderSuitOptionl2,Knee belt
+ItemArmsArmbinderSuitOptionl3,Full belted
+ItemArmsArmbinderSuitModuleSkirt,Rubber skirt
+ItemArmsArmbinderSuitSelectSkirt,Skirt accessory menu
+ItemArmsArmbinderSuitOptionk0,None
+ItemArmsArmbinderSuitOptionk1,Rubber skirt
+ItemArmsArmbinderSuitModuleSingleHeel,Single ballet boot
+ItemArmsArmbinderSuitSelectSingleHeel,Single heel menu
+ItemArmsArmbinderSuitOptionh0,Free feet
+ItemArmsArmbinderSuitOptionh1,Loose heel boot
+ItemArmsArmbinderSuitOptionh2,Tight belts
+ItemArmsArmbinderSuitOptionh3,Chained to the floor
+ItemArmsArmbinderSuitSetc0,SourceCharacter removes the suit collar from DestinationCharacterName neck.
+ItemArmsArmbinderSuitSetc1,SourceCharacter buckles the suit collar from DestinationCharacterName neck.
+ItemArmsArmbinderSuitSetb0,DestinationCharacterName binded arms are on TargetPronounObject left side.
+ItemArmsArmbinderSuitSetb1,DestinationCharacterName binded arms are on TargetPronounObject right side.
+ItemArmsArmbinderSuitSetb2,DestinationCharacterName binded arms are in normal position.
+ItemArmsArmbinderSuitSetb3,SourceCharacter completely immobilizes DestinationCharacterName arms with harness belts.
+ItemArmsArmbinderSuitSetb4,SourceCharacter links DestinationCharacterName armbinder to the TargetPronounObject feet with chain and cuffs.
+ItemArmsArmbinderSuitSetb5,SourceCharacter shorten chain to force DestinationCharacterName stands TargetPronounObject knees.
+ItemArmsArmbinderSuitSetp0,SourceCharacter removes the straps from DestinationCharacterName shoulders.
+ItemArmsArmbinderSuitSetp1,SourceCharacter is adding some harness straps from DestinationCharacterName shoulders.
+ItemArmsArmbinderSuitSetz0,SourceCharacter closes the DestinationCharacterName suit zipper.
+ItemArmsArmbinderSuitSetz1,SourceCharacter opens the suit zipper and DestinationCharacterName genital is exposed.
+ItemArmsArmbinderSuitSetl0,SourceCharacter chooses a shorten suit model for DestinationCharacterName.
+ItemArmsArmbinderSuitSetl1,SourceCharacter chooses a long suit model for DestinationCharacterName.
+ItemArmsArmbinderSuitSetl2,SourceCharacter puts a belt under DestinationCharacterName knees.
+ItemArmsArmbinderSuitSetl3,SourceCharacter binds completely DestinationCharacterName upper legs with more belts.
+ItemArmsArmbinderSuitSetk0,SourceCharacter removes the rubber skirt from DestinationCharacterName.
+ItemArmsArmbinderSuitSetk1,SourceCharacter wears a short rubber skirt in DestinationCharacterName.
+ItemArmsArmbinderSuitSeth0,SourceCharacter removes the single heel boot from DestinationCharacterName feet.
+ItemArmsArmbinderSuitSeth1,SourceCharacter puts on the single heel boot on DestinationCharacterName feet.
+ItemArmsArmbinderSuitSeth2,SourceCharacter tights the DestinationCharacterName single heel boot with another belt.
+ItemArmsArmbinderSuitSeth3,SourceCharacter chains the DestinationCharacterName single heel boot on the ground.
+ItemHoodRubberMaskSelectBase,Select Rubber Mask options
+ItemHoodRubberMaskModuleMode,Mask base
+ItemHoodRubberMaskSelectMode,Mask base menu
+ItemHoodRubberMaskOptionm0,Mask mode
+ItemHoodRubberMaskOptionm1,Hood mode
+ItemHoodRubberMaskModuleSight,Sight
+ItemHoodRubberMaskSelectSight,Sight menu
+ItemHoodRubberMaskOptions0,Normal
+ItemHoodRubberMaskOptions1,Low sight
+ItemHoodRubberMaskOptions2,Opaque lenses
+ItemHoodRubberMaskModuleDeafness,Hearing control
+ItemHoodRubberMaskSelectDeafness,Hearing control menu
+ItemHoodRubberMaskOptiond0,Normal
+ItemHoodRubberMaskOptiond1,Add earplugs
+ItemHoodRubberMaskModuleWig,Hair and Wig
+ItemHoodRubberMaskSelectWig,Hair and wig menu
+ItemHoodRubberMaskOptiong0,Default hair
+ItemHoodRubberMaskOptiong1,Wig A
+ItemHoodRubberMaskOptiong2,Wig B
+ItemHoodRubberMaskOptiong3,Wig C
+ItemHoodRubberMaskOptiong4,Wig D
+ItemHoodRubberMaskOptiong5,Wig E
+ItemHoodRubberMaskOptiong6,Wig F
+ItemHoodRubberMaskOptiong7,Wig G
+ItemHoodRubberMaskOptiong8,Wig H
+ItemHoodRubberMaskOptiong9,Wig I
+ItemHoodRubberMaskOptiong10,Wig J
+ItemHoodRubberMaskOptiong11,Wig K
+ItemHoodRubberMaskOptiong12,Wig L
+ItemHoodRubberMaskOptiong13,Wig M
+ItemHoodRubberMaskOptiong14,Wig N
+ItemHoodRubberMaskModuleEyes,Eyes
+ItemHoodRubberMaskSelectEyes,Eye expression menu
+ItemHoodRubberMaskOptione0,Normal
+ItemHoodRubberMaskOptione1,Closed eyes
+ItemHoodRubberMaskOptione2,Wide open eyes
+ItemHoodRubberMaskOptione3,Scared
+ItemHoodRubberMaskOptione4,Feline normal
+ItemHoodRubberMaskOptione5,Feline Wide open eyes
+ItemHoodRubberMaskOptione6,Feline scared
+ItemHoodRubberMaskModuleEyebrows,Eyebrows
+ItemHoodRubberMaskSelectEyebrows,Eyebrow expression menu
+ItemHoodRubberMaskOptiony0,Normal
+ItemHoodRubberMaskOptiony1,Sad
+ItemHoodRubberMaskOptiony2,Angry
+ItemHoodRubberMaskOptiony3,Alternating (L-r)
+ItemHoodRubberMaskOptiony4,Alternating (l-R)
+ItemHoodRubberMaskModuleLips,Lips
+ItemHoodRubberMaskSelectLips,Lip expression menu
+ItemHoodRubberMaskOptionl0,Neutral
+ItemHoodRubberMaskOptionl1,Serious
+ItemHoodRubberMaskOptionl2,Open mouth
+ItemHoodRubberMaskOptionl3,Vampire neutral
+ItemHoodRubberMaskOptionl4,Vampire serious
+ItemHoodRubberMaskOptionl5,Vampire open mouth
+ItemHoodRubberMaskModuleGag,Additional gag
+ItemHoodRubberMaskSelectGag,Supplemental mask gag menu
+ItemHoodRubberMaskOptiona0,None
+ItemHoodRubberMaskOptiona1,Single duct tape piece
+ItemHoodRubberMaskOptiona2,Horror gag
+ItemHoodRubberMaskSetm0,SourceCharacter turns the rubber mask into mask mode on DestinationCharacterName head.
+ItemHoodRubberMaskSetm1,SourceCharacter turns the rubber mask into hood mode on DestinationCharacterName head.
+ItemHoodRubberMaskSets0,SourceCharacter installs a one way lenses pair in DestinationCharacterName rubber mask.
+ItemHoodRubberMaskSets1,SourceCharacter installs a darker lenses pair in DestinationCharacterName rubber mask.
+ItemHoodRubberMaskSets2,SourceCharacter almost completely obstructs DestinationCharacterName sight with opaque fake eyes.
+ItemHoodRubberMaskSetd0,SourceCharacter removes the rubber mask's earplugs from DestinationCharacterName ears.
+ItemHoodRubberMaskSetd1,SourceCharacter puts a pair of earplugs inside DestinationCharacterName ears.
+ItemHoodRubberMaskSetg0,SourceCharacter keeps the DestinationCharacterName default hair.
+ItemHoodRubberMaskSetg1,SourceCharacter puts the wig A on the DestinationCharacterName head.
+ItemHoodRubberMaskSetg2,SourceCharacter puts the wig B on the DestinationCharacterName head.
+ItemHoodRubberMaskSetg3,SourceCharacter puts the wig C on the DestinationCharacterName head.
+ItemHoodRubberMaskSetg4,SourceCharacter puts the wig D on the DestinationCharacterName head.
+ItemHoodRubberMaskSetg5,SourceCharacter puts the wig E on the DestinationCharacterName head.
+ItemHoodRubberMaskSetg6,SourceCharacter puts the wig F on the DestinationCharacterName head.
+ItemHoodRubberMaskSetg7,SourceCharacter puts the wig G on the DestinationCharacterName head.
+ItemHoodRubberMaskSetg8,SourceCharacter puts the wig H on the DestinationCharacterName head.
+ItemHoodRubberMaskSetg9,SourceCharacter puts the wig I on the DestinationCharacterName head.
+ItemHoodRubberMaskSetg10,SourceCharacter puts the wig J on the DestinationCharacterName head.
+ItemHoodRubberMaskSetg11,SourceCharacter puts the wig K on the DestinationCharacterName head.
+ItemHoodRubberMaskSetg12,SourceCharacter puts the wig L on the DestinationCharacterName head.
+ItemHoodRubberMaskSetg13,SourceCharacter puts the wig M on the DestinationCharacterName head.
+ItemHoodRubberMaskSetg14,SourceCharacter puts the wig N on the DestinationCharacterName head.
+ItemHoodRubberMaskSete0,SourceCharacter chooses a normal eye expression in DestinationCharacterName mask.
+ItemHoodRubberMaskSete1,SourceCharacter chooses a closed eye expression in DestinationCharacterName mask.
+ItemHoodRubberMaskSete2,SourceCharacter chooses a wide open eye expression in DestinationCharacterName mask.
+ItemHoodRubberMaskSete3,SourceCharacter chooses a scared eye expression in DestinationCharacterName mask.
+ItemHoodRubberMaskSete4,SourceCharacter chooses a feline eye expression in DestinationCharacterName mask.
+ItemHoodRubberMaskSete5,SourceCharacter chooses a feline wide open eye expression in DestinationCharacterName mask.
+ItemHoodRubberMaskSete6,SourceCharacter chooses a feline scared eye expression in DestinationCharacterName mask.
+ItemHoodRubberMaskSety0,SourceCharacter chooses a neutral eyebrow expression in DestinationCharacterName mask.
+ItemHoodRubberMaskSety1,SourceCharacter chooses a sad eyebrow expression in DestinationCharacterName mask.
+ItemHoodRubberMaskSety2,SourceCharacter chooses a angry eyebrow expression in DestinationCharacterName mask.
+ItemHoodRubberMaskSety3,SourceCharacter chooses a alterning eyebrow expression (L-r) in DestinationCharacterName mask.
+ItemHoodRubberMaskSety4,SourceCharacter chooses a alterning eyebrow expression (l-R) in DestinationCharacterName mask.
+ItemHoodRubberMaskSetl0,SourceCharacter chooses a normal lip expression in DestinationCharacterName mask.
+ItemHoodRubberMaskSetl1,SourceCharacter chooses a serious lip expression in DestinationCharacterName mask.
+ItemHoodRubberMaskSetl2,SourceCharacter chooses a open mouth expression in DestinationCharacterName mask.
+ItemHoodRubberMaskSetl3,SourceCharacter chooses a normal vampire lip expression in DestinationCharacterName mask.
+ItemHoodRubberMaskSetl4,SourceCharacter chooses a serious vampire lip expression in DestinationCharacterName mask.
+ItemHoodRubberMaskSetl5,SourceCharacter chooses a open mouth vampire expression in DestinationCharacterName mask.
+ItemHoodRubberMaskSeta0,SourceCharacter removes any rubber mask gag from DestinationCharacterName mouth.
+ItemHoodRubberMaskSeta1,SourceCharacter gags DestinationCharacterName with a single piece of duct tape.
+ItemHoodRubberMaskSeta2,SourceCharacter gags DestinationCharacterName totally locking TargetPronounObject mouth with the Horror Gag.
+MaskRubberMaskSelectBase,Select Rubber Mask options
+MaskRubberMaskModuleWig,Hair and Wig
+MaskRubberMaskSelectWig,Hair and wig menu
+MaskRubberMaskOptiong0,Default hair
+MaskRubberMaskOptiong1,Wig A
+MaskRubberMaskOptiong2,Wig B
+MaskRubberMaskOptiong3,Wig C
+MaskRubberMaskOptiong4,Wig D
+MaskRubberMaskOptiong5,Wig E
+MaskRubberMaskOptiong6,Wig F
+MaskRubberMaskOptiong7,Wig G
+MaskRubberMaskOptiong8,Wig H
+MaskRubberMaskOptiong9,Wig I
+MaskRubberMaskOptiong10,Wig J
+MaskRubberMaskOptiong11,Wig K
+MaskRubberMaskOptiong12,Wig L
+MaskRubberMaskOptiong13,Wig M
+MaskRubberMaskOptiong14,Wig N
+MaskRubberMaskModuleEyes,Eyes
+MaskRubberMaskSelectEyes,Eye expression menu
+MaskRubberMaskOptione0,Normal
+MaskRubberMaskOptione1,Closed eyes
+MaskRubberMaskOptione2,Wide open eyes
+MaskRubberMaskOptione3,Scared
+MaskRubberMaskOptione4,Feline normal
+MaskRubberMaskOptione5,Feline Wide open eyes
+MaskRubberMaskOptione6,Feline scared
+MaskRubberMaskModuleEyebrows,Eyebrows
+MaskRubberMaskSelectEyebrows,Eyebrow expression menu
+MaskRubberMaskOptiony0,Normal
+MaskRubberMaskOptiony1,Sad
+MaskRubberMaskOptiony2,Angry
+MaskRubberMaskOptiony3,Alternating (L-r)
+MaskRubberMaskOptiony4,Alternating (l-R)
+MaskRubberMaskModuleLips,Lips
+MaskRubberMaskSelectLips,Lip expression menu
+MaskRubberMaskOptionl0,Neutral
+MaskRubberMaskOptionl1,Serious
+MaskRubberMaskOptionl2,Open mouth
+MaskRubberMaskOptionl3,Vampire neutral
+MaskRubberMaskOptionl4,Vampire serious
+MaskRubberMaskOptionl5,Vampire open mouth
+ItemDevicesBrickWallSelect,Build and choose the brick wall's height:
+ItemDevicesBrickWallNone,No brick
+ItemDevicesBrickWallLegs,Up to the hips
+ItemDevicesBrickWallChest,At breast/chest height
+ItemDevicesBrickWallNeck,Neck height
+ItemDevicesBrickWallFull,Full wall
+ItemDevicesBrickWallFullOpt,Full with a grided window
+ItemDevicesBrickWallLastBrick,Wall's last brick
+ItemDevicesBrickWallSetNone,SourceCharacter removes all front wall brick from DestinationCharacterName.
+ItemDevicesBrickWallSetLegs,SourceCharacter builds a brick wall that reaches DestinationCharacterName hips.
+ItemDevicesBrickWallSetChest,SourceCharacter builds a brick wall that reaches DestinationCharacterName chest.
+ItemDevicesBrickWallSetNeck,SourceCharacter builds a brick wall that reaches DestinationCharacterName neck.
+ItemDevicesBrickWallSetFull,SourceCharacter builds a brick wall completely but a single hole at DestinationCharacterName eye height.
+ItemDevicesBrickWallSetFullOpt,SourceCharacter builds a brick wall completely and puts a small grid at DestinationCharacterName eye height.
+ItemDevicesBrickWallSetLastBrick,SourceCharacter builds a brick wall completely and puts the last brick at DestinationCharacterName eye height.
+ShoesCustomHeelsSelectBase,Customize your heels:
+ShoesCustomHeelsModuleStrap1,Ankle straps
+ShoesCustomHeelsSelectStrap1,Ankle straps menu
+ShoesCustomHeelsOptionm0,No straps
+ShoesCustomHeelsOptionm1,Ankle straps placed
+ShoesCustomHeelsModuleStrap2,Mid straps
+ShoesCustomHeelsSelectStrap2,Mid straps menu
+ShoesCustomHeelsOptionn0,No straps
+ShoesCustomHeelsOptionn1,Mid straps placed
+ShoesCustomHeelsModuleStrap3,Lower straps
+ShoesCustomHeelsSelectStrap3,Lower straps menu
+ShoesCustomHeelsOptiono0,No straps
+ShoesCustomHeelsOptiono1,Lower straps placed
+ItemMouthGenitalGagSelect,Choose a latex genital for attach on head harness:
+ItemMouthGenitalGagPussy,Pussy
+ItemMouthGenitalGagSetPussy,SourceCharacter attaches a fake pussy in the DestinationCharacterName mouth.
+ItemMouthGenitalGagButthole,A butthole
+ItemMouthGenitalGagSetButthole,SourceCharacter attaches a fake butthole in the DestinationCharacterName mouth. (Damn!)

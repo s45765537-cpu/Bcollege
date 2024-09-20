@@ -108,8 +108,11 @@ function AssetGroupAdd(Family, GroupDef) {
 		ColorSuffix: GroupDef.ColorSuffix || {},
 		ExpressionPrerequisite: GroupDef.ExpressionPrerequisite || [],
 		HasPreviewImages: typeof GroupDef.HasPreviewImages === "boolean" ? GroupDef.HasPreviewImages : AllowNone,
+		/** @type {() => this is AssetAppearanceGroup} */
 		IsAppearance() { return this.Category === "Appearance"; },
+		/** @type {() => this is AssetItemGroup} */
 		IsItem() { return this.Category === "Item"; },
+		/** @type {() => this is AssetScriptGroup} */
 		IsScript() { return this.Category === "Script"; },
 	};
 	AssetGroupMap.set(A.Name, A);
@@ -1025,26 +1028,28 @@ function AssetInventoryIDMissing() {
 
 	// The first InventoryID starts at 100, we fetch the next available one by looking at all IDs
 	let NextID = 99;
-	for (let G of AssetFemale3DCG)
-		for (let A of G.Asset) 
+	for (let G of AssetFemale3DCG) {
+		for (let A of G.Asset) {
 			if (typeof A === "object") {
-				let Asset = /** @type {AssetDefinition.Item} */A;
-				if ((Asset.InventoryID != null) && (Asset.InventoryID > NextID))
-					NextID = Asset.InventoryID;
+				if ((A.InventoryID != null) && (A.InventoryID > NextID))
+					NextID = A.InventoryID;
 			}
+		}
+	}
 
 	// Finds all assets without InventoryID that should have one
-	for (let G of AssetFemale3DCG)
-		for (let A of G.Asset)
+	for (let G of AssetFemale3DCG) {
+		for (let A of G.Asset) {
 			if (typeof A === "object") {
-				let Asset = /** @type {AssetDefinition.Item} */A;
-				if ((Asset.InventoryID == null) && (Asset.Value != null) && (Asset.Value !== 0) && ((Asset.Enable == null) || (Asset.Enable === true)))
-					if (!((Asset.InventoryID == null) && (Asset.BuyGroup == null) && (Asset.Value == -1) && (Asset.RemoveAtLogin === true))) {
+				if ((A.InventoryID == null) && (A.Value != null) && (A.Value !== 0) && ((A.Enable == null) || (A.Enable === true))) {
+					if (!((A.InventoryID == null) && (A.BuyGroup == null) && (A.Value == -1) && (A.RemoveAtLogin === true))) {
 						NextID++;
-						console.warn("Missing InventoryID on group: " + G.Group + ", asset: " + Asset.Name + ", suggested InventoryID: " + NextID.toString());
+						console.warn("Missing InventoryID on group: " + G.Group + ", asset: " + A.Name + ", suggested InventoryID: " + NextID.toString());
 					}
+				}
 			}
-
+		}
+	}
 }
 
 /**
@@ -1052,14 +1057,15 @@ function AssetInventoryIDMissing() {
  * @returns {void} - Nothing
  */
 function AssetInventoryIDUnnecessary() {
-	for (let G of AssetFemale3DCG)
-		for (let A of G.Asset)
+	for (let G of AssetFemale3DCG) {
+		for (let A of G.Asset) {
 			if (typeof A === "object") {
-				let Asset = /** @type {AssetDefinition.Item} */A;
-				if ((Asset.InventoryID != null) && ((Asset.Value == null) || (Asset.Value === 0) || (Asset.Enable === false))) {
-					console.warn("Unnecessary InventoryID on group: " + G.Group + ", asset: " + Asset.Name + ", suggested to remove it");
+				if ((A.InventoryID != null) && ((A.Value == null) || (A.Value === 0) || (A.Enable === false))) {
+					console.warn("Unnecessary InventoryID on group: " + G.Group + ", asset: " + A.Name + ", suggested to remove it");
 				}
 			}
+		}
+	}
 }
 
 /**
@@ -1067,18 +1073,21 @@ function AssetInventoryIDUnnecessary() {
  * @param {string} GroupName - The group name to compare
  * @param {string} AssetName - The asset name to compare
  * @param {string} BuyGroup - The buying group to compare
- * @param {number} InventoryID - The inventory ID to compare
+ * @param {number | undefined} InventoryID - The inventory ID to compare
  * @returns {void} - Nothing
  */
 function AssetInventoryIDBuyGroup(GroupName, AssetName, BuyGroup, InventoryID) {
-	for (let G of AssetFemale3DCG)
-		for (let A of G.Asset)
+	for (let G of AssetFemale3DCG) {
+		for (let A of G.Asset) {
 			if (typeof A === "object") {
-				let Asset = /** @type {AssetDefinition.Item} */A;
-				if ((Asset.BuyGroup != null) && (Asset.CopyConfig == null) && (Asset.BuyGroup === BuyGroup) && (Asset.Value != null) && (Asset.Value !== 0) && ((Asset.Enable == null) || (Asset.Enable === true)))
-					if ((Asset.InventoryID !== InventoryID))
-						console.warn("InventoryID should be the same if BuyGroup " + BuyGroup + " is the same for group/asset: " + GroupName + "/" + AssetName + " and " + G.Group + "/" + Asset.Name);
+				if ((A.BuyGroup != null) && (A.CopyConfig == null) && (A.BuyGroup === BuyGroup) && (A.Value != null) && (A.Value !== 0) && ((A.Enable == null) || (A.Enable === true))) {
+					if ((A.InventoryID !== InventoryID)) {
+						console.warn("InventoryID should be the same if BuyGroup " + BuyGroup + " is the same for group/asset: " + GroupName + "/" + AssetName + " and " + G.Group + "/" + A.Name);
+					}
+				}
 			}
+		}
+	}
 }
 
 /**
@@ -1086,13 +1095,15 @@ function AssetInventoryIDBuyGroup(GroupName, AssetName, BuyGroup, InventoryID) {
  * @returns {void} - Nothing
  */
 function AssetInventoryIDBuyGroupSearch() {
-	for (let G of AssetFemale3DCG)
-		for (let A of G.Asset)
+	for (let G of AssetFemale3DCG) {
+		for (let A of G.Asset) {
 			if (typeof A === "object") {
-				let Asset = /** @type {AssetDefinition.Item} */A;
-				if ((Asset.BuyGroup != null) && (Asset.CopyConfig == null) && (Asset.Value != null) && (Asset.Value !== 0) && ((Asset.Enable == null) || (Asset.Enable === true)))
-					AssetInventoryIDBuyGroup(G.Group, Asset.Name, Asset.BuyGroup, Asset.InventoryID);
+				if ((A.BuyGroup != null) && (A.CopyConfig == null) && (A.Value != null) && (A.Value !== 0) && ((A.Enable == null) || (A.Enable === true))) {
+					AssetInventoryIDBuyGroup(G.Group, A.Name, A.BuyGroup, A.InventoryID);
+				}
 			}
+		}
+	}
 }
 
 /**
@@ -1103,13 +1114,15 @@ function AssetInventoryIDBuyGroupSearch() {
  * @returns {void} - Nothing
  */
 function AssetInventoryIDDuplicated(GroupName, AssetName, InventoryID) {
-	for (let G of AssetFemale3DCG)
-		for (let A of G.Asset)
+	for (let G of AssetFemale3DCG) {
+		for (let A of G.Asset) {
 			if (typeof A === "object") {
-				let Asset = /** @type {AssetDefinition.Item} */A;
-				if ((Asset.BuyGroup == null) && (InventoryID == Asset.InventoryID) && ((GroupName != G.Group) || (AssetName != Asset.Name)) && (Asset.Value != null) && (Asset.Value !== 0) && ((Asset.Enable == null) || (Asset.Enable === true)))
-					console.warn("InventoryID #" + InventoryID.toString() + " is duplicated for the same group/asset: " + GroupName + "/" + AssetName + " and " + G.Group + "/" + Asset.Name);
+				if ((A.BuyGroup == null) && (InventoryID == A.InventoryID) && ((GroupName != G.Group) || (AssetName != A.Name)) && (A.Value != null) && (A.Value !== 0) && ((A.Enable == null) || (A.Enable === true))) {
+					console.warn("InventoryID #" + InventoryID.toString() + " is duplicated for the same group/asset: " + GroupName + "/" + AssetName + " and " + G.Group + "/" + A.Name);
+				}
 			}
+		}
+	}
 }
 
 /**
@@ -1117,13 +1130,15 @@ function AssetInventoryIDDuplicated(GroupName, AssetName, InventoryID) {
  * @returns {void} - Nothing
  */
 function AssetInventoryIDDuplicatedSearch() {
-	for (let G of AssetFemale3DCG)
-		for (let A of G.Asset)
+	for (let G of AssetFemale3DCG) {
+		for (let A of G.Asset) {
 			if (typeof A === "object") {
-				let Asset = /** @type {AssetDefinition.Item} */A;
-				if ((Asset.BuyGroup == null) && (Asset.InventoryID != null) && (Asset.Value != null) && (Asset.Value !== 0) && ((Asset.Enable == null) || (Asset.Enable === true)))
-					AssetInventoryIDDuplicated(G.Group, Asset.Name, Asset.InventoryID);
+				if ((A.BuyGroup == null) && (A.InventoryID != null) && (A.Value != null) && (A.Value !== 0) && ((A.Enable == null) || (A.Enable === true))) {
+					AssetInventoryIDDuplicated(G.Group, A.Name, A.InventoryID);
+				}
 			}
+		}
+	}
 }
 
 /**
@@ -1131,13 +1146,15 @@ function AssetInventoryIDDuplicatedSearch() {
  * @returns {void} - Nothing
  */
 function AssetInventoryIDScenarioItem() {
-	for (let G of AssetFemale3DCG)
-		for (let A of G.Asset)
+	for (let G of AssetFemale3DCG) {
+		for (let A of G.Asset) {
 			if (typeof A === "object") {
-				let Asset = /** @type {AssetDefinition.Item} */A;
-				if ((Asset.InventoryID != null) && (Asset.BuyGroup == null) && (Asset.Value == -1) && (Asset.RemoveAtLogin === true))
-					console.warn("Scenario item should not have InventoryID: " + G.Group + "/" + Asset.Name);
+				if ((A.InventoryID != null) && (A.BuyGroup == null) && (A.Value == -1) && (A.RemoveAtLogin === true)) {
+					console.warn("Scenario item should not have InventoryID: " + G.Group + "/" + A.Name);
+				}
 			}
+		}
+	}
 }
 
 /**
@@ -1145,7 +1162,7 @@ function AssetInventoryIDScenarioItem() {
  * Launched each time the game is started for assets maker to apply corrections
  * Outputs all possible errors in the console log, it runs aynscronious
  */
-async function AssetInventoryIDValidate() {	
+async function AssetInventoryIDValidate() {
 
 	// Skips these validations in production environments
 	let URL = window.location.href.toLowerCase();
@@ -1159,5 +1176,4 @@ async function AssetInventoryIDValidate() {
 	AssetInventoryIDBuyGroupSearch();
 	AssetInventoryIDDuplicatedSearch();
 	AssetInventoryIDScenarioItem();
-
 }

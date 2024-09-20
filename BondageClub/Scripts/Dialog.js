@@ -717,8 +717,7 @@ function DialogGetPickLockDialog(C, Item) {
 
 	// Check that he player can access their tools.
 	// Maybe in the future you will be able to hide a lockpick in your panties :>
-	const CanAccessLockpicks = (Player.CanInteract() || Player.CanWalk()) && InventoryAvailable(Player, "Lockpicks", "ItemMisc");
-	if (!CanAccessLockpicks && !DialogLentLockpicks)
+	if (!Player.CanPickLocks())
 		return "PickLockNoPicksDisabled";
 
 	return "PickLock";
@@ -1149,11 +1148,11 @@ const DialogEffectIcons = /** @type {const} */({
 	 * @returns {InventoryIcon[]} - A list of icon names.
 	 */
 	GetIcons: function(item) {
-		const effects = InventoryGetItemProperty(item, "Effect");
-		const craftingProperty = (item.Craft && item.Craft.Property) || undefined;
+		const effects = new Set([...item.Asset.Effect, ...(item.Property?.Effect ?? [])]);
+		const craftingProperty = item.Craft?.Property;
 		return DialogEffectIcons.GetEffectIcons(effects, craftingProperty);
 	},
-	/** @type {(effects: EffectName[], prop?: CraftingPropertyType) => null | InventoryIcon[]} */
+	/** @type {(effects: Iterable<EffectName>, prop?: CraftingPropertyType) => null | InventoryIcon[]} */
 	GetEffectIcons: function (effects, prop) {
 		/** @type {InventoryIcon[]} */
 		const icons = [];
