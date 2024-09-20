@@ -2110,7 +2110,11 @@ function ClubCardUpgradeLevel(CCPlayer) {
 	if (isMaxlevel || affordLevelUp || blockedByEvent) {
 		return;
 	}
-
+	
+	if (!ClubCardIsStartTurnAddedLog) {
+		ClubCardLogAdd(TextGet("StartTurnLogChat").replace("TURNNUMBER", `${CCPlayer.ClubCardTurnCounter}`).replace("PLAYERNAME", CharacterNickname(CCPlayer.Character)));
+		ClubCardIsStartTurnAddedLog = true;  
+	}
 	ClubCardPlayerAddMoney(CCPlayer, updatedCost * -1);
 	CCPlayer.Level++;
 	let Text = TextGet("UpgradedToLevel" + CCPlayer.Level.toString());
@@ -2767,7 +2771,6 @@ function ClubCardEndTurn(Draw = false) {
 
 	// Display the gained money and fame
 	FameMoneyText = ((CCPlayer.LastFamePerTurn >= 0) ? "+" : "") + CCPlayer.LastFamePerTurn.toString() + " Fame, " + ((CCPlayer.LastMoneyPerTurn >= 0) ? "+" : "") + CCPlayer.LastMoneyPerTurn.toString() + " Money";
-	let TurnText = "Turn " + CCPlayer.ClubCardTurnCounter.toString() + ".";
 
 	// If that player wins the game from Fame gain
 	if (ClubCardCheckVictory(CCPlayer)) {
@@ -2786,10 +2789,10 @@ function ClubCardEndTurn(Draw = false) {
 	// Adds an entry to the log
 	ClubCardTurnEndDraw = Draw;
 	if (Draw) {
-		ClubCardLogAdd(TextGet("EndDrawPlayer").replace("TURNNUMBER ", "").replace("FAMEMONEY", FameMoneyText).replace("SOURCEPLAYER", CharacterNickname(CCPlayer.Character)).replace("OPPONENTPLAYER", CharacterNickname(Opponent.Character)));
+		ClubCardLogAdd(TextGet("EndDrawPlayer").replace("FAMEMONEY", FameMoneyText).replace("SOURCEPLAYER", CharacterNickname(CCPlayer.Character)).replace("OPPONENTPLAYER", CharacterNickname(Opponent.Character)));
 		ClubCardPlayerDrawCard(ClubCardPlayer[ClubCardTurnIndex]);
 	} else {
-		ClubCardLogAdd(TextGet("EndTurnPlayer").replace("TURNNUMBER ", "").replace("FAMEMONEY", FameMoneyText).replace("SOURCEPLAYER", CharacterNickname(CCPlayer.Character)).replace("OPPONENTPLAYER", CharacterNickname(Opponent.Character)));
+		ClubCardLogAdd(TextGet("EndTurnPlayer").replace("FAMEMONEY", FameMoneyText).replace("SOURCEPLAYER", CharacterNickname(CCPlayer.Character)).replace("OPPONENTPLAYER", CharacterNickname(Opponent.Character)));
 	}
 
 	// Move to the next player
@@ -2986,7 +2989,7 @@ function ClubCardCanSelectCard(CCPlayer, Card) {
  */
 function ClubCardPlayCard(CCPlayer, Card) {
 
-	// 
+	// Add log for the start of the turn if needed
 	if (!ClubCardIsStartTurnAddedLog) {
 		ClubCardLogAdd(TextGet("StartTurnLogChat").replace("TURNNUMBER", `${CCPlayer.ClubCardTurnCounter}`).replace("PLAYERNAME", CharacterNickname(CCPlayer.Character)));
 		ClubCardIsStartTurnAddedLog = true;  
@@ -3363,7 +3366,7 @@ function ClubCardGetGroupText(Group) {
    * @param {String} text -Normal Card Text
    * @returns {String} -  Updated for InnerHTML Card Text
    */
-  function GetFormatTextForInnerHTML(text) {
+  function ClubCardGetFormatTextForInnerHTML(text) {
     const fameRegex = /[+-]?\d*\s*fame/gi;
     const moneyRegex = /[+-]?\d*\s*money/gi;
 
@@ -3595,7 +3598,7 @@ function ClubCardRenderPanel() {
         messageElement.style.fontWeight = "bold";
         messageElement.style.color = "#FF9999";
       } else {
-        messageElement.innerHTML = GetFormatTextForInnerHTML(chatItem);
+        messageElement.innerHTML = ClubCardGetFormatTextForInnerHTML(chatItem);
       }
       document.getElementById("CCLog").appendChild(messageElement);
     }
