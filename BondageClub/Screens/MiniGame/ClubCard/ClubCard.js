@@ -2778,11 +2778,9 @@ function ClubCardEndTurn(Draw = false) {
 		return;
 	}
 
-	if (!ClubCardIsStartTurnAddedLog) {
-		ClubCardLogAdd(TextGet("StartTurnLogChat")
-			.replace("TURNNUMBER", `${CCPlayer.ClubCardTurnCounter}`)
-			.replace("PLAYERNAME" , CharacterNickname(CCPlayer.Character)));
-	}
+    if (!ClubCardIsStartTurnAddedLog) {
+		ClubCardLogAdd(TextGet("StartTurnLogChat").replace("TURNNUMBER", `${CCPlayer.ClubCardTurnCounter}`).replace("PLAYERNAME", CharacterNickname(CCPlayer.Character)));
+	  }
 	ClubCardIsStartTurnAddedLog = false;
 
 	// Adds an entry to the log
@@ -2988,11 +2986,10 @@ function ClubCardCanSelectCard(CCPlayer, Card) {
  */
 function ClubCardPlayCard(CCPlayer, Card) {
 
+	// 
 	if (!ClubCardIsStartTurnAddedLog) {
-		ClubCardLogAdd(TextGet("StartTurnLogChat")
-		.replace("TURNNUMBER", `${CCPlayer.ClubCardTurnCounter}`)
-		.replace("PLAYERNAME" , CharacterNickname(CCPlayer.Character)));
-		ClubCardIsStartTurnAddedLog = true;
+		ClubCardLogAdd(TextGet("StartTurnLogChat").replace("TURNNUMBER", `${CCPlayer.ClubCardTurnCounter}`).replace("PLAYERNAME", CharacterNickname(CCPlayer.Character)));
+		ClubCardIsStartTurnAddedLog = true;  
 	}
 
 	// If the player must select a card before playing the current card
@@ -3203,9 +3200,11 @@ function ClubCardConcede() {
  * @returns {void} - Nothing
  */
 function ClubCardBankrupt() {
-
+	
 	// Resets that player game & board
 	let CCPlayer = ClubCardPlayer[ClubCardTurnIndex];
+
+	
 	CCPlayer.Level = 1;
 	CCPlayer.Money = 5;
 	CCPlayer.Fame = 0;
@@ -3214,13 +3213,17 @@ function ClubCardBankrupt() {
 	CCPlayer.Hand = [];
 	CCPlayer.Deck = ClubCardShuffle(CCPlayer.FullDeck.slice());
 	ClubCardPlayerDrawCard(CCPlayer, 5);
-
+	
 	// The opponent loses all liability cards on her board
 	let Opponent = ClubCardGetOpponent(CCPlayer);
 	ClubCardRemoveGroupFromBoard(Opponent, "Liability");
 	// Clear the discard pile after the removing liability cards
 	CCPlayer.DiscardPile = [];
-
+	
+	if (!ClubCardIsStartTurnAddedLog) {
+		ClubCardLogAdd(TextGet("StartTurnLogChat").replace("TURNNUMBER", `${CCPlayer.ClubCardTurnCounter}`).replace("PLAYERNAME", CharacterNickname(CCPlayer.Character)));
+		ClubCardIsStartTurnAddedLog = true;
+	}
 	// Announces the bankrupty and jumps to the next turn
 	ClubCardLogPublish("WentBankrupt", CCPlayer);
 	ClubCardDestroyPopup();
@@ -3360,19 +3363,13 @@ function ClubCardGetGroupText(Group) {
    * @param {String} text -Normal Card Text
    * @returns {String} -  Updated for InnerHTML Card Text
    */
-  function formatTextForInnerHTML(text) {
+  function GetFormatTextForInnerHTML(text) {
     const fameRegex = /[+-]?\d*\s*fame/gi;
     const moneyRegex = /[+-]?\d*\s*money/gi;
 
     const formattedText = text
-      .replace(
-        fameRegex,
-        (match) => `<span style='color: ${ClubCardFameTextColor};'>${match}</span>`
-      )
-      .replace(
-        moneyRegex,
-        (match) => `<span style='color: ${ClubCardMoneyTextColor};'>${match}</span>`
-      );
+      .replace(fameRegex,(match) =>`<span style='color: ${ClubCardFameTextColor};'>${match}</span>`)
+      .replace(moneyRegex,(match) =>`<span style='color: ${ClubCardMoneyTextColor};'>${match}</span>`);
 
     return formattedText;
   }
@@ -3567,41 +3564,41 @@ function ClubCardRenderPanel() {
 	DrawRect(1702, 0, 298, 1000, "#404040");
 	DrawRect(1700, 0, 2, 1000, "White");
 	if (ClubCardFocus != null) ClubCardRenderCard(ClubCardFocus, 1705, 5, 290);
-	if (document.getElementById("CCLog") == null) {
+    if (document.getElementById("CCLog") == null) {
 		ElementCreateDiv("CCLog");
 		let Elem = document.getElementById("CCLog");
-      	Elem.style.backgroundColor = "#000000";
-     	Elem.style.overflowY = "auto";
-     	Elem.style.whiteSpace = "pre-wrap";
-	}
-	if (document.getElementById("CCChat") == null) {
+		Elem.style.backgroundColor = "#000000";
+		Elem.style.overflowY = "auto";
+		Elem.style.whiteSpace = "pre-wrap";
+	  }
+    if (document.getElementById("CCChat") == null) {
 		ElementCreateInput("CCChat", "text", "", "100");
 		let Elem = document.getElementById("CCChat");
 		Elem.style.backgroundColor = "#FFFFFF";
 		Elem.style.color = "#000000";
 		Elem.setAttribute("placeholder", TextGet("ChatHere"));
 	}
+	
 	ElementPositionFix("CCLog", 20, 1705, (ClubCardFocus == null) ? 5 : 590, 285, (ClubCardFocus == null) ? 825 : 240);
 	ElementPosition("CCChat", 1857, 865, 306);
 
-	//Udate Chat Data
-	const differencesLogText = ClubCardLogText.replace(ClubCardOldLogText, "").trim();
-	ClubCardOldLogText = ClubCardLogText;
-	const chatLogArray = differencesLogText.split("\n");
+	const differencesLogText = ClubCardLogText.replace(ClubCardOldLogText,"").trim();
+    ClubCardOldLogText = ClubCardLogText;
+    const chatLogArray = differencesLogText.split("\n");
 
-	for (let chatItem of chatLogArray) {
-		const messageElement = document.createElement("div");
-		messageElement.style.color = "white";
-		// I think "--- Turn" look bad, but no sure how did better. Maybe with TextGet("StartTurnLogChat")
-		if (chatItem.includes("--- Turn")) {
-			messageElement.textContent = chatItem;
-			messageElement.style.fontWeight = "bold";
-			messageElement.style.color = "#FF9999";
-		} else {
-			messageElement.innerHTML = formatTextForInnerHTML(chatItem);
-		}
-		document.getElementById("CCLog").appendChild(messageElement);
-	}
+    for (let chatItem of chatLogArray) {
+      const messageElement = document.createElement("div");
+      messageElement.style.color = "white";
+      // I think "--- Turn" look bad, but no sure how did better. Maybe with TextGet("StartTurnLogChat")
+      if (chatItem.includes("--- Turn")) {
+        messageElement.textContent = chatItem;
+        messageElement.style.fontWeight = "bold";
+        messageElement.style.color = "#FF9999";
+      } else {
+        messageElement.innerHTML = GetFormatTextForInnerHTML(chatItem);
+      }
+      document.getElementById("CCLog").appendChild(messageElement);
+    }
 
 	
 	if (ClubCardLogScroll) {
