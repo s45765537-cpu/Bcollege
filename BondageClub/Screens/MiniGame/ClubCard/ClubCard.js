@@ -1147,11 +1147,11 @@ var ClubCardList = [
 	{
 		ID: 12003,
 		Name: "Alvin",
-		Group: ["Mistress", "Sensei", "Player"],
+		Group: ["Dominant", "Mistress", "Sensei", "Player"],
 		RewardMemberNumber: 41997,
 		RequiredLevel: 3,
 		FamePerTurn: 3,
-		MoneyPerTurn: -3,
+		MoneyPerTurn: -2,
 		onPlayedCard: function(CCPlayer, cardPlayed) {
 			if (cardPlayed.Type == "Event" && ClubCardCardHasGroup(cardPlayed, "Shibari")) {
 				ClubCardAlvinCondition(CCPlayer);
@@ -1792,9 +1792,7 @@ var ClubCardList = [
 
 			// Summon a maid or nurse if possible
 			const summoned = ClubCardPlayerSummonGroupCardFromDeck(CCPlayer, ["Maid", "AsylumNurse"], 1, ClubCardSelection.RequiredLevel);
-			if(summoned) {
-				ClubCardLogPublish("Effect Help Button Draw", CCPlayer);
-			} else {
+			if(!summoned) {
 				ClubCardLogPublish("Effect Help Button No Draw", CCPlayer);
 			}
 		}
@@ -2454,6 +2452,7 @@ function ClubCardSummonCard(CCPlayer, card) {
 	if (card.Type === "Member" || card.Type == null) {
 		card.Type = "Member";
 		CCPlayer.Board.push(card);
+		ClubCardLogPublish("MemberSummoned", CCPlayer, null, card);
 	}
 	if (card.Type === "Event") {
 		if ((card.Time != null) && (card.Time >= 0)) {
@@ -2510,12 +2509,16 @@ function ClubCardCheckDetectiveDraw(CCPlayer) {
  */
 function ClubCardAlvinCondition(CCPlayer) {
 	const hasAlvin = ClubCardNameIsOnBoard(CCPlayer, "Alvin");
-
+	let count = 0;
+	for (let card of CCPlayer.Board) {
+		if (card.Name == "Rope Slave") {
+			count++;
+		}
+	}
 	const hasBoardRoom = CCPlayer.Board.length < ClubCardLevelLimit[CCPlayer.Level];
-	if (hasAlvin && hasBoardRoom) {
+	if (hasAlvin && hasBoardRoom && count < 3) {
 		const ropeSlave = ClubCardList.find(card => card.Name === "Rope Slave");
 		ClubCardSummonCard(CCPlayer, ropeSlave);
-		ClubCardLogPublish("Effect Alvin", CCPlayer);
 	}
 }
 

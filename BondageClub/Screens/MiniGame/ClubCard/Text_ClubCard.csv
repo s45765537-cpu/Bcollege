@@ -382,8 +382,7 @@ Text First Bell,"Draw a random college student from your deck. If it's your firs
 Effect First Bell Draw, SOURCEPLAYER draws 1 card from First Bell
 Effect First Bell No Draw, SOURCEPLAYER could not draw any cards from First Bell
 Title Alvin,Alvin
-Text Alvin,"Summon a Ropeslave when playing Restrain, Shibari event or Kidnapping a Dominant or Mistress"
-Effect Alvin, Alvin summoned a rope slave for SOURCEPLAYER
+Text Alvin,"Summon a Ropeslave when playing Restrain, Shibari event or Kidnapping a Dominant or Mistress (max 3 in club)"
 Title Rope Slave,Rope Slave
 Text Rope Slave,Gain 1 Money when you play a Knot or Shibari event. 
 Title Quack Doctor,Quack Doctor
@@ -396,7 +395,6 @@ Title Hypnotherapist,Hypnotherapist
 Text Hypnotherapist,"When she enters your club, return all Tier 1 members to their owner's hands, then take another action."
 Title Help Button,Help Button
 Text Help Button,"Return a member from your club to its owners deck, a random Maid or Nurse of equal level joins your club from your deck."
-Effect Help Button Draw,SOURCEPLAYER summoned a member from Help Button.
 Effect Help Button No Draw,SOURCEPLAYER could not summon any cards from Help Button.
 Prerequisite Help Button,Select a member from your club to return to deck.
 Effect First Bell Draw, SOURCEPLAYER draws 1 card from First Bell
@@ -405,7 +403,7 @@ Text Prodigious Patient,"When she leaves your club, your opponent loses 15 fame 
 Title Theatre Nurse,Theatre Nurse
 Text Theatre Nurse,"When an asylum patient enters your club, gain 3 money and draw a card."
 Title Knot Nut,Knot Nut
-Text Knot Nut,Counts as a Knot event while not in play for effects that target Knot events.
+Text Knot Nut,"<F>These ropes wont hold me forever... better add more."
 Title Quality Maid,Quality Maid
 Text Quality Maid,The costs for you to upgrade your club is reduced by 10.
 Title Public Spanking,Public Spanking
@@ -432,25 +430,26 @@ Title Quick Release Knot,Quick Release Knot
 Text Quick Release Knot,Gain money equal to the number of knots in your discard pile plus 4. Shuffle this and all knots from your discard pile into your deck. 
 Effect Quick Release Knot,SOURCEPLAYER gained AMOUNT Money from Quick Release Knot.
 Title Master Class,Master Class
-Text Master Class,"For the next 3 turns, if a Sensei is present, play a random Knot event from your deck at the start of your turn."
+Text Master Class,"For the next 3 turns, if a Sensei is present, play a random Knot from your deck at the start of your turn."
 Title Tie Tight,Tie Tight
 Text Tie Tight,Shuffle a member from your opponents club into their deck. They draw a card. 
 Prerequisite Tie Tight,Select a member from your opponent club to remove.
 Title Rope Auction,Rope Auction
-Text Rope Auction,Remove a member from your club to play 1 random Knot event from your deck. 
+Text Rope Auction,Remove a member from your club to play 1 random Knot from your deck. 
 Prerequisite Rope Auction,Select a member from your club to remove.
 GroupSensei,Sensei
 GroupKnot,Knot
 Title Shibari Lover,Shibari Lover
-Text Shibari Lover,"When a Shibari member enters your club, play a random Knot event from your deck."
+Text Shibari Lover,"When a Shibari member enters your club, play a random Knot from your deck."
 Title Goddess of Ropes,Goddess of Ropes
-Text Goddess of Ropes,"When you play a Shibari card, play a random Knot event from your deck." 
+Text Goddess of Ropes,"When you play a Shibari card, play a random Knot from your deck." 
 Title Rope Slinger,Rope Slinger
-Text Rope Slinger,"When she enters your club, play a random Knot event from your deck."
+Text Rope Slinger,"When she enters your club, play a random Knot from your deck."
 Title Fit To Be Tied,Fit To Be Tied
-Text Fit To Be Tied,"Play all Knot events in your hand, deck, and discard pile and shuffle them into your deck."
+Text Fit To Be Tied,"Play all Knots in your hand, deck, and discard pile and shuffle them into your deck."
 Title Living Art,Living Art
 Text Living Art,Gain 1 Fame when you play a Knot or Shibari Event. 
 Title Attention Whore,Attention Whore
 Text Attention Whore,Select and remove one ongoing event before she enters your club.
 Prerequisite Attention Whore,Select an ongoing event to remove before Attention Whore enters.
+MemberSummoned,CARDTITLE joins SOURCEPLAYER's club.
