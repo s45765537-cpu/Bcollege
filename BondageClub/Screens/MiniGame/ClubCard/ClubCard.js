@@ -3068,7 +3068,7 @@ function ClubCardPlayCard(CCPlayer, Card) {
 				CCPlayer.Hand.splice(Index, 1);
 				Card.Location = (CCPlayer.Index == 0) ? "PlayerBoard" : "OpponentBoard";
 				ClubCardSetGlow(Card, (ClubCardTurnIndex == 0) ? "#FFFF00" : "#FF0000");
-
+				break;
 			}
 			Index++;
 		}
