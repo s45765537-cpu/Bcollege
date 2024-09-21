@@ -3576,7 +3576,13 @@ function ClubCardRenderPanel() {
 		Elem.style.backgroundColor = "#000000";
 		Elem.style.overflowY = "auto";
 		Elem.style.whiteSpace = "pre-wrap";
-	  }
+	}else {
+        if (ClubCardLogText == null || ClubCardLogText == "") {
+            const Elem = document.getElementById("CCLog");
+            Elem.innerHTML = "";
+            ClubCardOldLogText = "";
+        }
+    }
     if (document.getElementById("CCChat") == null) {
 		ElementCreateInput("CCChat", "text", "", "100");
 		let Elem = document.getElementById("CCChat");
