@@ -5,7 +5,7 @@ var ClubCardLogText = "";
 var ClubCardOldLogText = "";
 var ClubCardLogScroll = false;
 var ClubCardColor = ["#808080", "#FFFFFF", "#E0E0E0", "#D0FFD0", "#D0D0FF", "#FFD0D0", "#FFE080"];
-var ClubCardFameTextColor = "#5A73FF"; 
+var ClubCardFameTextColor = "#5A73FF";
 var ClubCardMoneyTextColor = "#228B22";
 var ClubCardIsStartTurnAddedLog = false;
 var ClubCardOpponent = null;
@@ -208,14 +208,14 @@ var ClubCardList = [
 
 			if (ClubCardSelection.Location == "PlayerBoard") {
 				const indexToRemove = CCPlayer.Event.findIndex(c => c.ID === ClubCardSelection.ID);
-				CCPlayer.Event.splice(indexToRemove, 1);	
-			}	
+				CCPlayer.Event.splice(indexToRemove, 1);
+			}
 			if (ClubCardSelection.Location == "OpponentBoard") {
 				const opponent = ClubCardGetOpponent(CCPlayer);
 				const indexToRemove = opponent.Event.findIndex(c => c.ID === ClubCardSelection.ID);
-				opponent.Event.splice(indexToRemove, 1);	
+				opponent.Event.splice(indexToRemove, 1);
 			}
-			ClubCardLogPublish("EventExpired", CCPlayer, null, ClubCardSelection);	
+			ClubCardLogPublish("EventExpired", CCPlayer, null, ClubCardSelection);
 		},
 	},
 
@@ -662,16 +662,16 @@ var ClubCardList = [
 		}
 	},
 	{
-        ID: 7008,
-        Name: "Quack Doctor",
-        MoneyPerTurn: 1,
+		ID: 7008,
+		Name: "Quack Doctor",
+		MoneyPerTurn: 1,
 		Group: ["AsylumNurse"],
-        turnStart: function(CCPlayer) {
-            const opponent = ClubCardGetOpponent(CCPlayer);
+		turnStart: function(CCPlayer) {
+			const opponent = ClubCardGetOpponent(CCPlayer);
 			let FameReduction = Math.min(ClubCardGroupOnBoardCount(CCPlayer, "AsylumPatient"), 4);
 			ClubCardPlayerAddFame(CCPlayer, FameReduction * -1);
 			ClubCardPlayerAddFame(opponent, FameReduction * -1);
-        }
+		}
 	},
 	{
 		ID: 7009,
@@ -926,13 +926,13 @@ var ClubCardList = [
 		Name: "Fussy Baby",
 		Group: ["ABDLBaby"],
 		MoneyPerTurn: 1,
-		onOpponentPlayedCard: function(CCPlayer, cardPlayed) { 
-            if (cardPlayed.Type === "Event") {
-                ClubCardRemoveFromBoard(CCPlayer, this, true);
-                ClubCardAddToHand(CCPlayer, this);
-                ClubCardPlayerAddFame(CCPlayer, 4);
-            }
-        }
+		onOpponentPlayedCard: function(CCPlayer, cardPlayed) {
+			if (cardPlayed.Type === "Event") {
+				ClubCardRemoveFromBoard(CCPlayer, this, true);
+				ClubCardAddToHand(CCPlayer, this);
+				ClubCardPlayerAddFame(CCPlayer, 4);
+			}
+		}
 	},
 	{
 		ID: 10008,
@@ -1087,7 +1087,7 @@ var ClubCardList = [
 			}
 
 			if(cardPlayed.Type === "Event" || ClubCardCardHasGroup(cardPlayed, "Liability")) {
-				const moneyToLose = ClubCardGetOpponent(CCPlayer).Level
+				const moneyToLose = ClubCardGetOpponent(CCPlayer).Level;
 				ClubCardPlayerAddMoney(CCPlayer, -moneyToLose);
 				ClubCardPlayerDrawCard(CCPlayer, 1);
 				ClubCardLogPublish("Effect Student Custodian", CCPlayer, -moneyToLose);
@@ -1159,27 +1159,27 @@ var ClubCardList = [
 		}
 	},
 	{
-        ID: 12004,
-        Name: "Sophie",
-        Group: ["Player"],
-        RewardMemberNumber: 1236,
+		ID: 12004,
+		Name: "Sophie",
+		Group: ["Player"],
+		RewardMemberNumber: 1236,
 		Reward: "NPC_ClubCardLounge_Tutor",
-        RequiredLevel: 3,
-        Prerequisite: "SelectAnyMember",
-        FamePerTurn: 1,
-        MoneyPerTurn: -1,
-        OnPlay: function(CCPlayer) {
-            if (ClubCardSelection == null) {
-                return;
-            }
+		RequiredLevel: 3,
+		Prerequisite: "SelectAnyMember",
+		FamePerTurn: 1,
+		MoneyPerTurn: -1,
+		OnPlay: function(CCPlayer) {
+			if (ClubCardSelection == null) {
+				return;
+			}
 
 			const modifier = 2;
 			const indexToBuff = ClubCardSelection.ArrayIndex;
 			let BuffedCard;
-            if (ClubCardSelection.Location == "OpponentBoard") {
+			if (ClubCardSelection.Location == "OpponentBoard") {
 				BuffedCard = ClubCardGetOpponent(CCPlayer).Board[indexToBuff];
-            } else {
-                BuffedCard = CCPlayer.Board[indexToBuff];
+			} else {
+				BuffedCard = CCPlayer.Board[indexToBuff];
 			}
 			if (BuffedCard.FamePerTurn != null) {
 				BuffedCard.FamePerTurn = BuffedCard.FamePerTurn * modifier;
@@ -1188,8 +1188,8 @@ var ClubCardList = [
 				BuffedCard.MoneyPerTurn = BuffedCard.MoneyPerTurn *modifier;
 			}
 			ClubCardLogPublish("Effect Sophie", null, null, ClubCardSelection);
-        }  
-    },
+		}
+	},
 
 	// 13000 - Shibari Members
 	{
@@ -1197,28 +1197,28 @@ var ClubCardList = [
 		Name: "Knot Nut",
 		Group: ["Knot"],
 		MoneyPerTurn: 1
-	},    
+	},
 	{
-        ID: 13001,
-        Name: "Nawashi",
-        Group: ["Shibari"],
-        RequiredLevel: 4,
-        FamePerTurn: 4,
-        MoneyPerTurn: -3,
-        AfterOpponentTurnEnd: function(CCPlayer) {
-            const opponent = ClubCardGetOpponent(CCPlayer);
+		ID: 13001,
+		Name: "Nawashi",
+		Group: ["Shibari"],
+		RequiredLevel: 4,
+		FamePerTurn: 4,
+		MoneyPerTurn: -3,
+		AfterOpponentTurnEnd: function(CCPlayer) {
+			const opponent = ClubCardGetOpponent(CCPlayer);
 
-            const nawashiPlayed = ClubCardGetCardsPlayedOnTurn(opponent, opponent.ClubCardTurnCounter -1).some(card => {
-                return card.Name === "Nawashi";
-            });
+			const nawashiPlayed = ClubCardGetCardsPlayedOnTurn(opponent, opponent.ClubCardTurnCounter -1).some(card => {
+				return card.Name === "Nawashi";
+			});
 
-            if (nawashiPlayed && CCPlayer.LastFamePerTurn > 0) {
-                ClubCardPlayerAddFame(CCPlayer, CCPlayer.LastFamePerTurn * -1);
-                CCPlayer.LastFamePerTurn = 0;
-                ClubCardLogPublish("Effect Nawashi", CCPlayer);
-            }
-        }
-    },
+			if (nawashiPlayed && CCPlayer.LastFamePerTurn > 0) {
+				ClubCardPlayerAddFame(CCPlayer, CCPlayer.LastFamePerTurn * -1);
+				CCPlayer.LastFamePerTurn = 0;
+				ClubCardLogPublish("Effect Nawashi", CCPlayer);
+			}
+		}
+	},
 	{
 		ID: 13002,
 		Name: "Living Art",
@@ -1229,7 +1229,7 @@ var ClubCardList = [
 				ClubCardPlayerAddFame(CCPlayer, 1);
 			}
 		}
-	},  
+	},
 	{
 		ID: 13003,
 		Name: "Rope Slinger",
@@ -1239,7 +1239,7 @@ var ClubCardList = [
 		OnPlay: function(CCPlayer) {
 			ClubCardPlayerSummonGroupCardFromDeck(CCPlayer, ["Knot"], 1, undefined);
 		}
-	},  
+	},
 	{
 		ID: 13004,
 		Name: "Goddess of Ropes",
@@ -1252,7 +1252,7 @@ var ClubCardList = [
 				ClubCardPlayerSummonGroupCardFromDeck(CCPlayer, ["Knot"], 1, undefined);
 			}
 		}
-	},  
+	},
 
 	// Event cards
 	{
@@ -1900,8 +1900,8 @@ var ClubCardList = [
 		Group: ["Shibari"],
 		RequiredLevel: 3,
 		Prerequisite: "SelectOpponentMember",
-		OnPlay: function(CCPlayer) {		
-			if (ClubCardSelection == null) return;	
+		OnPlay: function(CCPlayer) {
+			if (ClubCardSelection == null) return;
 
 			const opponent = ClubCardGetOpponent(CCPlayer);
 			ClubCardRemoveFromBoard(opponent, ClubCardSelection, true);
@@ -2108,10 +2108,10 @@ function ClubCardUpgradeLevel(CCPlayer) {
 	if (isMaxlevel || affordLevelUp || blockedByEvent) {
 		return;
 	}
-	
+
 	if (!ClubCardIsStartTurnAddedLog) {
 		ClubCardLogAdd(TextGet("StartTurnLogChat").replace("TURNNUMBER", `${CCPlayer.ClubCardTurnCounter}`).replace("PLAYERNAME", CharacterNickname(CCPlayer.Character)));
-		ClubCardIsStartTurnAddedLog = true;  
+		ClubCardIsStartTurnAddedLog = true;
 	}
 	ClubCardPlayerAddMoney(CCPlayer, updatedCost * -1);
 	CCPlayer.Level++;
@@ -2784,7 +2784,7 @@ function ClubCardEndTurn(Draw = false) {
 		return;
 	}
 
-    if (!ClubCardIsStartTurnAddedLog) {
+	if (!ClubCardIsStartTurnAddedLog) {
 		ClubCardLogAdd(TextGet("StartTurnLogChat").replace("TURNNUMBER", `${CCPlayer.ClubCardTurnCounter}`).replace("PLAYERNAME", CharacterNickname(CCPlayer.Character)));
 	  }
 	ClubCardIsStartTurnAddedLog = false;
@@ -2821,7 +2821,7 @@ function ClubCardEndTurn(Draw = false) {
 			}
 		}
 	}
-		
+
 	if (CCPlayer.Event != null) {
 		for (let Pos = 0; Pos < CCPlayer.Event.length; Pos++) {
 			let Card = CCPlayer.Event[Pos];
@@ -2951,7 +2951,7 @@ function ClubCardCanPlayCard(CCPlayer, Card) {
 	if ((Card.CanPlay != null) && !Card.CanPlay(CCPlayer)) return false;
 	let Target = ClubCardFindTarget(Card);
 	// Jennifer removes a card on her board before entering so should therefor be playable on a full board.
-	const boardFull = Target.Board.length >= ClubCardLevelLimit[Target.Level] && Card.Name !== "Jennifer"
+	const boardFull = Target.Board.length >= ClubCardLevelLimit[Target.Level] && Card.Name !== "Jennifer";
 	if ((Target.Board != null) && (Card.Type == "Member") && (Target.Level != null) && boardFull) return false;
 	if ((Card.RequiredLevel != null) && (Target.Level != null) && (Card.RequiredLevel > Target.Level)) return false;
 	if ((Card.Prerequisite === "SelectOwnMember") && (CCPlayer.Board.length <= 0)) return false;
@@ -2995,7 +2995,7 @@ function ClubCardPlayCard(CCPlayer, Card) {
 	// Add log for the start of the turn if needed
 	if (!ClubCardIsStartTurnAddedLog) {
 		ClubCardLogAdd(TextGet("StartTurnLogChat").replace("TURNNUMBER", `${CCPlayer.ClubCardTurnCounter}`).replace("PLAYERNAME", CharacterNickname(CCPlayer.Character)));
-		ClubCardIsStartTurnAddedLog = true;  
+		ClubCardIsStartTurnAddedLog = true;
 	}
 
 	// If the player must select a card before playing the current card
@@ -3114,7 +3114,7 @@ function ClubCardOnCardPlayedHandler(CCPlayer, Card) {
 		}
 	}
 
-	const opponent = ClubCardGetOpponent(CCPlayer)
+	const opponent = ClubCardGetOpponent(CCPlayer);
 	for (const C of opponent.Board.slice()) {
 		if (C.onOpponentPlayedCard != null) {
 			C.onOpponentPlayedCard(opponent, Card);
@@ -3128,9 +3128,9 @@ function ClubCardOnCardPlayedHandler(CCPlayer, Card) {
  * @returns {void} - Nothing
  */
 function ClubCardUpdateBoardCardsIndex(Target) {
-    for (let i = 0; i < Target.Board.length; i += 1) {
-        Target.Board[i].ArrayIndex = i;
-    }
+	for (let i = 0; i < Target.Board.length; i += 1) {
+		Target.Board[i].ArrayIndex = i;
+	}
 }
 
 /**
@@ -3206,11 +3206,11 @@ function ClubCardConcede() {
  * @returns {void} - Nothing
  */
 function ClubCardBankrupt() {
-	
+
 	// Resets that player game & board
 	let CCPlayer = ClubCardPlayer[ClubCardTurnIndex];
 
-	
+
 	CCPlayer.Level = 1;
 	CCPlayer.Money = 5;
 	CCPlayer.Fame = 0;
@@ -3219,13 +3219,13 @@ function ClubCardBankrupt() {
 	CCPlayer.Hand = [];
 	CCPlayer.Deck = ClubCardShuffle(CCPlayer.FullDeck.slice());
 	ClubCardPlayerDrawCard(CCPlayer, 5);
-	
+
 	// The opponent loses all liability cards on her board
 	let Opponent = ClubCardGetOpponent(CCPlayer);
 	ClubCardRemoveGroupFromBoard(Opponent, "Liability");
 	// Clear the discard pile after the removing liability cards
 	CCPlayer.DiscardPile = [];
-	
+
 	if (!ClubCardIsStartTurnAddedLog) {
 		ClubCardLogAdd(TextGet("StartTurnLogChat").replace("TURNNUMBER", `${CCPlayer.ClubCardTurnCounter}`).replace("PLAYERNAME", CharacterNickname(CCPlayer.Character)));
 		ClubCardIsStartTurnAddedLog = true;
@@ -3364,21 +3364,21 @@ function ClubCardGetGroupText(Group) {
 	return Text;
 }
 
-  /**
+/**
    * Updated the text by mask, for InnerHTML
    * @param {String} text -Normal Card Text
    * @returns {String} -  Updated for InnerHTML Card Text
    */
-  function ClubCardGetFormatTextForInnerHTML(text) {
-    const fameRegex = /[+-]?\d*\s*fame/gi;
-    const moneyRegex = /[+-]?\d*\s*money/gi;
+function ClubCardGetFormatTextForInnerHTML(text) {
+	const fameRegex = /[+-]?\d*\s*fame/gi;
+	const moneyRegex = /[+-]?\d*\s*money/gi;
 
-    const formattedText = text
-      .replace(fameRegex,(match) =>`<span style='color: ${ClubCardFameTextColor};'>${match}</span>`)
-      .replace(moneyRegex,(match) =>`<span style='color: ${ClubCardMoneyTextColor};'>${match}</span>`);
+	const formattedText = text
+		.replace(fameRegex,(match) =>`<span style='color: ${ClubCardFameTextColor};'>${match}</span>`)
+		.replace(moneyRegex,(match) =>`<span style='color: ${ClubCardMoneyTextColor};'>${match}</span>`);
 
-    return formattedText;
-  }
+	return formattedText;
+}
 
 /**
  * Draw the club card player hand on screen, show only sleeves if not controlled by player
@@ -3570,49 +3570,49 @@ function ClubCardRenderPanel() {
 	DrawRect(1702, 0, 298, 1000, "#404040");
 	DrawRect(1700, 0, 2, 1000, "White");
 	if (ClubCardFocus != null) ClubCardRenderCard(ClubCardFocus, 1705, 5, 290);
-    if (document.getElementById("CCLog") == null) {
+	if (document.getElementById("CCLog") == null) {
 		ElementCreateDiv("CCLog");
 		let Elem = document.getElementById("CCLog");
 		Elem.style.backgroundColor = "#000000";
 		Elem.style.overflowY = "auto";
 		Elem.style.whiteSpace = "pre-wrap";
 	}else {
-        if (ClubCardLogText == null || ClubCardLogText == "") {
-            const Elem = document.getElementById("CCLog");
-            Elem.innerHTML = "";
-            ClubCardOldLogText = "";
-        }
-    }
-    if (document.getElementById("CCChat") == null) {
+		if (ClubCardLogText == null || ClubCardLogText == "") {
+			const Elem = document.getElementById("CCLog");
+			Elem.innerHTML = "";
+			ClubCardOldLogText = "";
+		}
+	}
+	if (document.getElementById("CCChat") == null) {
 		ElementCreateInput("CCChat", "text", "", "100");
 		let Elem = document.getElementById("CCChat");
 		Elem.style.backgroundColor = "#FFFFFF";
 		Elem.style.color = "#000000";
 		Elem.setAttribute("placeholder", TextGet("ChatHere"));
 	}
-	
+
 	ElementPositionFix("CCLog", 20, 1705, (ClubCardFocus == null) ? 5 : 590, 285, (ClubCardFocus == null) ? 825 : 240);
 	ElementPosition("CCChat", 1857, 865, 306);
 
 	const differencesLogText = ClubCardLogText.replace(ClubCardOldLogText,"").trim();
-    ClubCardOldLogText = ClubCardLogText;
-    const chatLogArray = differencesLogText.split("\n");
+	ClubCardOldLogText = ClubCardLogText;
+	const chatLogArray = differencesLogText.split("\n");
 
-    for (let chatItem of chatLogArray) {
-      const messageElement = document.createElement("div");
-      messageElement.style.color = "white";
-      // I think "--- Turn" look bad, but no sure how did better. Maybe with TextGet("StartTurnLogChat")
-      if (chatItem.includes("--- Turn")) {
-        messageElement.textContent = chatItem;
-        messageElement.style.fontWeight = "bold";
-        messageElement.style.color = "#FF9999";
-      } else {
-        messageElement.innerHTML = ClubCardGetFormatTextForInnerHTML(chatItem);
-      }
-      document.getElementById("CCLog").appendChild(messageElement);
-    }
+	for (let chatItem of chatLogArray) {
+		const messageElement = document.createElement("div");
+		messageElement.style.color = "white";
+		// I think "--- Turn" look bad, but no sure how did better. Maybe with TextGet("StartTurnLogChat")
+		if (chatItem.includes("--- Turn")) {
+			messageElement.textContent = chatItem;
+			messageElement.style.fontWeight = "bold";
+			messageElement.style.color = "#FF9999";
+		} else {
+			messageElement.innerHTML = ClubCardGetFormatTextForInnerHTML(chatItem);
+		}
+		document.getElementById("CCLog").appendChild(messageElement);
+	}
 
-	
+
 	if (ClubCardLogScroll) {
 		ElementScrollToEnd("CCLog");
 		ClubCardLogScroll = false;
