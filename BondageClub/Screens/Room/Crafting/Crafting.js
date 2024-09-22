@@ -401,9 +401,8 @@ var CraftingEventListeners = {
 		// blur the active element in order to trigger any `change` event listeners
 		document.activeElement?.dispatchEvent(new Event("blur"));
 		Player.Crafting[CraftingSlot] = CraftingConvertSelectedToItem();
-		CraftingSelectedItem = null;
 		CraftingSaveServer();
-		CraftingModeSet("Slot");
+		CraftingExit(false);
 	},
 
 	/**
