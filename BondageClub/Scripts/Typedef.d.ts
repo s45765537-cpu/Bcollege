@@ -4072,6 +4072,7 @@ interface WheelFortuneOptionType {
 interface ClubCard {
 	ID: number;
 	Name: string;
+	ArrayIndex?: number;
 	Type?: string;
 	Title?: string;
 	Text?: string;
@@ -4095,6 +4096,22 @@ interface ClubCard {
 	BeforeOpponentTurnEnd?: (C: ClubCardPlayer) => void;
 	AfterOpponentTurnEnd?: (C: ClubCardPlayer) => void;
 	CanPlay?: (C: ClubCardPlayer) => boolean;
+	/**
+	 * @param C Player that owns the card and played a card
+	 * @param Card that was played
+	 */
+	onPlayedCard?: (C: ClubCardPlayer, Card: ClubCard) => void;
+	/**
+	 * @param C player that owns the card (not the one who played it in this case)
+	 * @param Card the card that was played
+	 */
+	onOpponentPlayedCard?: (C: ClubCardPlayer, Card: ClubCard) => void;
+	/**
+	 * Hook to run when card is removed from the board.
+	 * @param C Player that owns the card
+	 */
+	onLeaveClub?: (C: ClubCardPlayer) => void;
+	turnStart?: (C: ClubCardPlayer) => void;
 }
 
 interface ClubCardPlayer {
@@ -4107,6 +4124,7 @@ interface ClubCardPlayer {
 	Hand: ClubCard[];
 	Board: ClubCard[];
 	Event: ClubCard[];
+	DiscardPile: ClubCard[];
 	Level: number;
 	Money: number;
 	Fame: number;

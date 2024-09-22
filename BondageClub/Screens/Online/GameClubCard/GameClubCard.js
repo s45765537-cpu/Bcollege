@@ -257,6 +257,33 @@ function GameClubCardDoBundle(Cards, IncludeTime = false) {
 }
 
 /**
+ * Creates a bundle of cards in a string to push to the server.
+ * @param {ClubCard[]} Cards - An array of ClubCard objects
+ * @returns {string} - A string with all the cards
+ */
+function GameClubCardBoardDoBundle(Cards) {
+    let Result = "";
+
+    for (let i = 0; i < Cards.length; i++) {
+        const card = Cards[i];
+        
+        let ID = `${card.ID}`;
+        let ArrayIndex = `${card.ArrayIndex !== undefined ? card.ArrayIndex : ''}`;
+        let MoneyPerTurn = `${card.MoneyPerTurn !== undefined ? card.MoneyPerTurn : ''}`;
+        let FamePerTurn = `${card.FamePerTurn !== undefined ? card.FamePerTurn : ''}`;
+        let Time = `${card.Time !== undefined ? card.Time : ''}`;
+
+        Result += `${ID},${ArrayIndex},${MoneyPerTurn},${FamePerTurn},${Time};`;
+    }
+
+    if (Result.endsWith(";")) {
+        Result = Result.slice(0, -1);
+    }
+
+    return Result;
+}
+
+/**
  * Processes the club card game data received from the server
  * @param {string} Bundle - An array of c
  * @param {boolean} IncludeTime - If we must include the time property
@@ -289,6 +316,40 @@ function GameClubCardUndoBundle(Bundle, IncludeTime = false, Location = null) {
 }
 
 /**
+ * Parses a string to return an updated array of ClubCard objects.
+ * @param {string} bundle - A string containing all the cards
+ * @param {string} Location - The location of the card
+ * @returns {ClubCard[]} - An array of updated ClubCard objects
+ */
+function GameClubCardBoardUndoBundle(bundle, Location) {
+    const cards = bundle.split(';');
+    const result = [];
+
+    for (let i = 0; i < cards.length; i++) {
+        const cardString = cards[i];
+        const [ID, ArrayIndex, MoneyPerTurn, FamePerTurn, Time] = cardString.split(',');
+
+        const existingCard = ClubCardList.find(card => card.ID === Number(ID));
+
+        if (existingCard) {
+            const card = { ...existingCard };
+
+            if (card.Type == null) card.Type = "Member";
+            if (Location != null) card.Location = Location;
+
+            if (ArrayIndex != undefined && ArrayIndex != '') card.ArrayIndex = Number(ArrayIndex);
+            if (MoneyPerTurn != undefined && MoneyPerTurn != '') card.MoneyPerTurn = Number(MoneyPerTurn);
+            if (FamePerTurn != undefined && FamePerTurn != '') card.FamePerTurn = Number(FamePerTurn);
+            if (Time != undefined && Time != '') card.Time = Number(Time);
+
+            result.push(card);
+        }
+    }
+
+    return result;
+}
+
+/**
  * Loads the full server bundle for a player
  * @param {ClubCardPlayer} CCPlayer - The club card player
  * @param {any} Bundle - An array of c
@@ -304,8 +365,9 @@ function GameClubCardLoadBundle(CCPlayer, Bundle) {
 	if (Bundle.FullDeck != null) CCPlayer.FullDeck = GameClubCardUndoBundle(Bundle.FullDeck);
 	if (Bundle.Deck != null) CCPlayer.Deck = GameClubCardUndoBundle(Bundle.Deck);
 	if (Bundle.Hand != null) CCPlayer.Hand = GameClubCardUndoBundle(Bundle.Hand);
-	if (Bundle.Board != null) CCPlayer.Board = GameClubCardUndoBundle(Bundle.Board, false, Location);
+	if (Bundle.Board != null) CCPlayer.Board = GameClubCardBoardUndoBundle(Bundle.Board, Location);
 	if (Bundle.Event != null) CCPlayer.Event = GameClubCardUndoBundle(Bundle.Event, true, Location);
+	if (Bundle.DiscardPile != null) CCPlayer.DiscardPile = GameClubCardUndoBundle(Bundle.DiscardPile, false, Location);
 	if (Bundle.Playing) ClubCardTurnIndex = CCPlayer.Index;
 	if (Bundle.CardsPlayedThisTurn != null) CCPlayer.CardsPlayedThisTurn = Bundle.CardsPlayedThisTurn;
 	if (Bundle.CardsPlayedThisTurn !== null) CCPlayer.ClubCardTurnCounter = Bundle.ClubCardTurnCounter;
@@ -455,8 +517,9 @@ function GameClubCardSyncOnlineData(Progress = "Action", LocalPlayerOnly = false
 			FullDeck: GameClubCardDoBundle(CCPlayer.FullDeck),
 			Deck: GameClubCardDoBundle(CCPlayer.Deck),
 			Hand: GameClubCardDoBundle(CCPlayer.Hand),
-			Board: GameClubCardDoBundle(CCPlayer.Board),
+			Board: GameClubCardBoardDoBundle(CCPlayer.Board),
 			Event: GameClubCardDoBundle(CCPlayer.Event, true),
+			DiscardPile: GameClubCardDoBundle(CCPlayer.DiscardPile),
 			CardsPlayedThisTurn: CCPlayer.CardsPlayedThisTurn,
 			ClubCardTurnCounter: CCPlayer.ClubCardTurnCounter
 		});
