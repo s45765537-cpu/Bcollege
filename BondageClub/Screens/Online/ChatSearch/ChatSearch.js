@@ -676,7 +676,6 @@ function ChatSearchJoin() {
 			if (ChatSearchLastQueryJoin != RoomName || (ChatSearchLastQueryJoin == RoomName && ChatSearchLastQueryJoinTime + 1000 < CommonTime())) {
 				ChatSearchLastQueryJoinTime = CommonTime();
 				ChatSearchLastQueryJoin = RoomName;
-				ChatRoomPlayerCanJoin = true;
 				ServerSend("ChatRoomJoin", { Name: RoomName });
 				ChatRoomPingLeashedPlayers();
 			}
@@ -970,7 +969,6 @@ function ChatSearchAutoJoinRoom() {
 			if (ChatSearchResult[R].Name == ChatRoomJoinLeash) {
 				ChatSearchLastQueryJoinTime = CommonTime();
 				ChatSearchLastQueryJoin = ChatSearchResult[R].Name;
-				ChatRoomPlayerCanJoin = true;
 				ServerSend("ChatRoomJoin", { Name: ChatSearchResult[R].Name });
 				break;
 			}
@@ -993,7 +991,6 @@ function ChatSearchAutoJoinRoom() {
 						roomFound = true;
 						ChatSearchLastQueryJoinTime = CommonTime();
 						ChatSearchLastQueryJoin = RoomName;
-						ChatRoomPlayerCanJoin = true;
 						ServerSend("ChatRoomJoin", { Name: RoomName });
 						break;
 					}
@@ -1012,8 +1009,6 @@ function ChatSearchAutoJoinRoom() {
 				&& Player.LastChatRoom.Private != null
 				&& Player.LastChatRoom.Limit
 				&& Player.LastChatRoom.Description != null) {
-
-				ChatRoomPlayerCanJoin = true;
 
 				if ((ChatCreateMessage === "ResponseRoomAlreadyExist" || roomIsFull) && ChatSearchRejoinIncrement < 50) {
 					// The ChatRoomCreate call below failed. Append prefix and try again

@@ -33,6 +33,7 @@ var ChatRoomTargetMemberNumber = -1;
 var ChatRoomOwnershipOption = "";
 /** @type {ChatRoomLovershipOption} */
 var ChatRoomLovershipOption = "";
+/** @deprecated Check whether ChatRoomData is set or not instead */
 var ChatRoomPlayerCanJoin = false;
 var ChatRoomMoneyForOwner = 0;
 /** @type {number[]} */
@@ -4287,21 +4288,25 @@ function ChatRoomSync(data) {
 	if (!ChatRoomValidateProperties(data)) {
 		// Instantly leave the chat room again
 		ChatRoomLeave();
-		ChatSearchMessage = "ErrorInvalidRoomProperties";
 		CommonSetScreen("Online", "ChatSearch");
+		ChatSearchMessage = "ErrorInvalidRoomProperties";
+		return;
+	} else if (ChatRoomData) {
+		// We're somehow already in a room. Bail out in case our idea of the room we're in doesn't match what the server thinks
+		ChatRoomLeave();
+		CommonSetScreen("Online", "ChatSearch");
+		ChatSearchMessage = "ResponseAlreadyInRoom";
 		return;
 	}
 
+	// Set our chat room data to what the server sent us
+	ChatRoomData = data;
+
 	// Loads the room
 	if ((CurrentScreen != "ChatRoom") && (CurrentScreen != "ChatAdmin") && (CurrentScreen != "Appearance") && (CurrentModule != "Character")) {
-		if (ChatRoomPlayerCanJoin) {
-			ChatRoomPlayerCanJoin = false;
-			CommonSetScreen("Online", "ChatRoom");
-		} else return;
+		CommonSetScreen("Online", "ChatRoom");
 	}
 
-	// Update our chat room data with what the server sent us
-	ChatRoomData = data;
 	if (ChatRoomSep.ActiveElem) {
 		ChatRoomSep.SetRoomData(ChatRoomSep.ActiveElem, data);
 	}
