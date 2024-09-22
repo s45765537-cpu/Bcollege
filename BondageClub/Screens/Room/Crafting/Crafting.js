@@ -1749,6 +1749,7 @@ function CraftingExit(allowPanelClose=true) {
 			CharacterDelete(CraftingPreview);
 			CraftingPreview = null;
 			CraftingOffset = 0;
+			CraftingDestroy = false;
 			CraftingReorderModeSet("None");
 			if (CraftingReturnToChatroom) {
 				CommonSetScreen("Online", "ChatRoom");
