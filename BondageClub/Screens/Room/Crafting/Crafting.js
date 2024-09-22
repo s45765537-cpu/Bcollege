@@ -225,9 +225,13 @@ function CraftingAssetsPopulate() {
 	// Ensure that the first member satisfies `Asset.Group.Name === Asset.DynamicGroupName` if possible at all
 	for (const assetList of Object.values(ret)) {
 		assetList.sort((a1, a2) => {
-			if (a1.Group.Name === a1.DynamicGroupName) {
+			if (a1.CraftGroup === a1.Name && a2.CraftGroup !== a2.Name) {
 				return -1;
-			} else if (a2.Group.Name === a2.DynamicGroupName) {
+			} else if (a1.CraftGroup !== a1.Name && a2.CraftGroup === a2.Name) {
+				return 1;
+			} else if (a1.Group.Name === a1.DynamicGroupName && a2.Group.Name !== a2.DynamicGroupName) {
+				return -1;
+			} else if (a1.Group.Name !== a1.DynamicGroupName && a2.Group.Name === a2.DynamicGroupName) {
 				return 1;
 			} else {
 				return (
