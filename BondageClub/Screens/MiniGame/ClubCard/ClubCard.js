@@ -7,7 +7,8 @@ var ClubCardLogScroll = false;
 var ClubCardColor = ["#808080", "#FFFFFF", "#E0E0E0", "#D0FFD0", "#D0D0FF", "#FFD0D0", "#FFE080"];
 var ClubCardFameTextColor = "#5A73FF";
 var ClubCardMoneyTextColor = "#228B22";
-var ClubCardIsStartTurnAddedLog = false;
+/** @type {boolean} Variable to check if the start function of the turn has already been called or not. */
+var ClubCardIsStartTurn = false;
 var ClubCardOpponent = null;
 var ClubCardOpponentDeck = [];
 var ClubCardReward = null;
@@ -33,7 +34,7 @@ var ClubCardOnlinePlayerMemberNumber2 = -1;
 let ClubCardMessagePacket = [];
 
 const ClubCardMessageType = Object.freeze({
-    TURNINFO: "TurnInfo",  // Turn Idex + Player
+    STARTTURNINFO: "StartTurnInfo",  // Turn Idex + Player
 	ACTION: "Actions", // Play Card, Draw Card, Level up Club, Bankrupt, give up and leave the game
 	FAMEMONEYINFO: "FameMoneyInfo", //end turn income and general increase  money and fame. 
     SYSTEM: "SystemMessage", // Spectator join or leave , Select Deck , Turn start or end ( not sure about start / end)
@@ -46,7 +47,15 @@ const ClubCardMessageType = Object.freeze({
 	KNOTSEVENTS: "KnotsEvents",
 	TRIGGERCARDSEFFECT: "TriggerCardsEffect", // ( Alvin , Nanny , Fussy Baby,Contract Caretaker Quick Doctor , etc)
 	PLAYERSMESSAGE: "PlayersMessage",
-  });
+});
+	
+const ClubCardStartTurnType = Object.freeze({
+	PLAYCARD: "PlayCard",
+	DRAWENDTURN: "DrawAndEndTurn",
+	BUNKRUPT: "Bankrupt",
+	UPGRADELEVEL: "ClubLvlUp",
+	ENDTURN: "EndTurn" // Technical is the start of a new turn.
+});
 
 /**
  * The card definitions
@@ -470,6 +479,7 @@ var ClubCardList = [
 		onPlayedCard: function(CCPlayer, cardPlayed) {
 			if ((cardPlayed.Type == "Event" && ClubCardCardHasGroup(cardPlayed, "Shibari")) || ClubCardCardHasGroup(cardPlayed, "Knot")) {
 				ClubCardPlayerAddMoney(CCPlayer, 1);
+				//TODO Add Rope Slave CardTrigger Log
 			}
 		}
 	},
@@ -691,6 +701,7 @@ var ClubCardList = [
 			let FameReduction = Math.min(ClubCardGroupOnBoardCount(CCPlayer, "AsylumPatient"), 4);
 			ClubCardPlayerAddFame(CCPlayer, FameReduction * -1);
 			ClubCardPlayerAddFame(opponent, FameReduction * -1);
+			//TODO Add Quack Doctor CardTrigger Log
 		}
 	},
 	{
@@ -952,6 +963,7 @@ var ClubCardList = [
 				ClubCardRemoveFromBoard(CCPlayer, this, true);
 				ClubCardAddToHand(CCPlayer, this);
 				ClubCardPlayerAddFame(CCPlayer, 4);
+				//TODO Add Fussy Baby CardTrigger Log
 			}
 		}
 	},
@@ -964,6 +976,7 @@ var ClubCardList = [
 		onPlayedCard: function(CCPlayer, cardPlayed) {
 			if (ClubCardCardHasGroup(cardPlayed, "ABDLBaby")) {
 				ClubCardPlayerAddFame(CCPlayer, CCPlayer.Level);
+				//TODO Add Nanny CardTrigger Log
 			}
 		}
 	},
@@ -1248,6 +1261,7 @@ var ClubCardList = [
 		onPlayedCard: function(CCPlayer, cardPlayed) {
 			if ((cardPlayed.Type == "Event" && ClubCardCardHasGroup(cardPlayed, "Shibari")) || ClubCardCardHasGroup(cardPlayed, "Knot")) {
 				ClubCardPlayerAddFame(CCPlayer, 1);
+				//TODO Add Living Art CardTrigger Log
 			}
 		}
 	},
@@ -2176,19 +2190,12 @@ function ClubCardUpgradeLevel(CCPlayer) {
 		return;
 	}
 
-	if (!ClubCardIsStartTurnAddedLog) {
-		const message = TextGet("StartTurnLogChat").replace("TURNNUMBER", `${CCPlayer.ClubCardTurnCounter}`).replace("PLAYERNAME", CharacterNickname(CCPlayer.Character)); 
-		//ClubCardLogAdd(message);
-		ClubCardMessagePacketAdd(message, ClubCardMessageType.TURNINFO);
-		ClubCardIsStartTurnAddedLog = true;
-	}
 	ClubCardPlayerAddMoney(CCPlayer, updatedCost * -1);
 	CCPlayer.Level++;
 	let Text = TextGet("UpgradedToLevel" + CCPlayer.Level.toString());
 	Text = Text.replace("PLAYERNAME", CharacterNickname(CCPlayer.Character));
 	Text = Text.replace("MONEYAMOUNT", updatedCost.toString());
 	ClubCardMessagePacketAdd(Text, ClubCardMessageType.ACTION);
-	//ClubCardLogAdd(Text);
 	GameClubCardSyncOnlineData();
 }
 
@@ -2812,6 +2819,46 @@ function ClubCardRunTurnEndHandlers(CCPlayer, Opponent, Before) {
 }
 
 /**
+ * @param {string} StartType 
+ * defauld BUNKRUPT because otherwise the bankruptcy function won't work.
+ */
+function ClubCardStartTurn(StartType = ClubCardStartTurnType.BUNKRUPT) {
+
+	const CCPlayer = ClubCardPlayer[ClubCardTurnIndex];
+	if (!ClubCardIsStartTurn) {
+		const message = TextGet("StartTurnLogChat").replace("TURNNUMBER", `${CCPlayer.ClubCardTurnCounter}`).replace("PLAYERNAME", CharacterNickname(CCPlayer.Character)); 
+		ClubCardMessagePacketAdd(message, ClubCardMessageType.STARTTURNINFO);
+		ClubCardCheckEventAndCardExpired();
+		ClubCardMessagePacketSend();
+		ClubCardIsStartTurn = true;
+	}
+
+	switch (StartType) {
+        case ClubCardStartTurnType.PLAYCARD:
+            ClubCardPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus);
+            break;
+
+        case ClubCardStartTurnType.DRAWENDTURN:
+            ClubCardEndTurn((ClubCardTurnCardPlayed == 0));
+            break;
+
+        case ClubCardStartTurnType.BUNKRUPT:
+            ClubCardBankrupt();
+            break;
+
+        case ClubCardStartTurnType.UPGRADELEVEL:
+			ClubCardUpgradeLevel(ClubCardPlayer[ClubCardTurnIndex]);
+			break;
+		case ClubCardStartTurnType.ENDTURN:
+			break;
+		default:
+			//If it error
+			break;
+    }
+	
+}
+
+/**
  * When a turn ends, we move to the next player
  * @param {boolean|null} Draw - If the end of turn was triggered by a draw
  * @returns {void} - Nothing
@@ -2859,12 +2906,7 @@ function ClubCardEndTurn(Draw = false) {
 		return;
 	}
 
-	if (!ClubCardIsStartTurnAddedLog) {
-		const message = TextGet("StartTurnLogChat").replace("TURNNUMBER", `${CCPlayer.ClubCardTurnCounter}`).replace("PLAYERNAME", CharacterNickname(CCPlayer.Character)); 
-		//ClubCardLogAdd(message);
-		ClubCardMessagePacketAdd(message, ClubCardMessageType.TURNINFO);
-	}
-	ClubCardIsStartTurnAddedLog = false;
+	ClubCardIsStartTurn = false;
 
 		// Adds an entry to the log
 	ClubCardTurnEndDraw = Draw;
@@ -2889,16 +2931,22 @@ function ClubCardEndTurn(Draw = false) {
 	ClubCardTurnCardPlayed = 0;
 	ClubCardAIStart();
 
-	// Simulating the start of a turn
+	ClubCardStartTurn(ClubCardStartTurnType.ENDTURN);
+
+	// Syncs online data
+	GameClubCardSyncOnlineData();
+
+}
+
+function ClubCardCheckEventAndCardExpired() {
+	const CCPlayer = ClubCardPlayer[ClubCardTurnIndex];
 	// When a turn starts, the event and members time goes down and might expire, then trigger turn start effects of cards on board
 	let turnStartCards = [];
-	CCPlayer = ClubCardPlayer[ClubCardTurnIndex];
 	if (CCPlayer.Board != null) {
 		for (let Pos = 0; Pos < CCPlayer.Board.length; Pos++) {
 			let Card = CCPlayer.Board[Pos];
 			if ((Card.Time != null) && (Card.Time > 0)) Card.Time--;
 			if (Card.Time <= 0) {
-				//TODO The effect of a card leaving the board, For example, a patient with -15 fame after 6 turns
 				ClubCardRemoveFromBoard(CCPlayer, Card);
 				Pos--;
 			}
@@ -2907,13 +2955,12 @@ function ClubCardEndTurn(Draw = false) {
 			}
 		}
 	}
-
+	
 	if (CCPlayer.Event != null) {
 		for (let Pos = 0; Pos < CCPlayer.Event.length; Pos++) {
 			let Card = CCPlayer.Event[Pos];
 			if ((Card.Time != null) && (Card.Time > 0)) Card.Time--;
 			if ((Card.Time == null) || (Card.Time <= 0)) {
-				//TODO End of Event
 				ClubCardLogGetDataPacket(ClubCardMessageType.TRIGGERCARDSEFFECT, "EventExpired", CCPlayer, null, Card);
 				CCPlayer.Event.splice(Pos, 1);
 				CCPlayer.DiscardPile.push(Card);
@@ -2924,14 +2971,10 @@ function ClubCardEndTurn(Draw = false) {
 			}
 		}
 	}
-
+	
 	for (const Card of turnStartCards) {
 		Card.turnStart(CCPlayer);
 	}
-
-	// Syncs online data
-	GameClubCardSyncOnlineData();
-
 }
 
 /**
@@ -3078,14 +3121,6 @@ function ClubCardCanSelectCard(CCPlayer, Card) {
  * @returns {void} - Nothing
  */
 function ClubCardPlayCard(CCPlayer, Card) {
-
-	// Add log for the start of the turn if needed
-	if (!ClubCardIsStartTurnAddedLog) {
-		const message = TextGet("StartTurnLogChat").replace("TURNNUMBER", `${CCPlayer.ClubCardTurnCounter}`).replace("PLAYERNAME", CharacterNickname(CCPlayer.Character)); 
-		//ClubCardLogAdd(message);
-		ClubCardMessagePacketAdd(message, ClubCardMessageType.TURNINFO);
-		ClubCardIsStartTurnAddedLog = true;
-	}
 
 	// If the player must select a card before playing the current card
 	if ((Card.Prerequisite != null) && (ClubCardSelection == null) && (CCPlayer.Control == "Player")) {
@@ -3246,7 +3281,7 @@ function ClubCardAIPlay() {
 
 	// If the AI can upgrade, there's a 50/50 odds he does it
 	if ((Math.random() >= 0.5) && (CCPlayer.Level < ClubCardLevelCost.length - 1) && (CCPlayer.Money >= ClubCardCalculateLevelCost(CCPlayer))) {
-		ClubCardUpgradeLevel(CCPlayer);
+		ClubCardStartTurn(ClubCardStartTurnType.UPGRADELEVEL);
 		ClubCardAIStart();
 		return;
 	}
@@ -3262,14 +3297,17 @@ function ClubCardAIPlay() {
 
 	// If we have valid cards, we play one at random
 	if (ValidCards.length > 0)
-		return ClubCardPlayCard(CCPlayer, CommonRandomItemFromList(null, ValidCards));
+	{
+		ClubCardFocus = CommonRandomItemFromList(null, ValidCards);
+		return ClubCardStartTurn(ClubCardStartTurnType.PLAYCARD);
+		}
 
 	// If nothing can be played and money or fame is going negative, the computer can go bankrupt
 	if ((CCPlayer.LastMoneyPerTurn != null) && (CCPlayer.LastFamePerTurn != null) && (CCPlayer.LastMoneyPerTurn + CCPlayer.LastFamePerTurn <= 0) && (100 - CCPlayer.Money - CCPlayer.Fame > Math.random() * 100))
-		return ClubCardBankrupt();
+		return ClubCardStartTurn();
 
 	// Since nothing could be done, we end the turn by skipping
-	ClubCardEndTurn((ClubCardTurnCardPlayed == 0));
+	ClubCardStartTurn(ClubCardStartTurnType.DRAWENDTURN);
 
 }
 
@@ -3318,12 +3356,6 @@ function ClubCardBankrupt() {
 	ClubCardRemoveGroupFromBoard(Opponent, "Liability");
 	// Clear the discard pile after the removing liability cards
 	CCPlayer.DiscardPile = [];
-
-	if (!ClubCardIsStartTurnAddedLog) {
-		const message = TextGet("StartTurnLogChat").replace("TURNNUMBER", `${CCPlayer.ClubCardTurnCounter}`).replace("PLAYERNAME", CharacterNickname(CCPlayer.Character)); 
-		ClubCardMessagePacketAdd(message, ClubCardMessageType.TURNINFO);
-		ClubCardIsStartTurnAddedLog = true;
-	}
 
 	ClubCardLogGetDataPacket(ClubCardMessageType.TRIGGERCARDSEFFECT, "WentBankrupt", CCPlayer);
 	///
@@ -3859,11 +3891,19 @@ function ClubCardClick() {
 	if ((ClubCardPlayer[0].FullDeck == null) || (ClubCardPlayer[0].FullDeck.length == 0) || (ClubCardPlayer[1].FullDeck == null) || (ClubCardPlayer[1].FullDeck.length == 0)) return;
 
 	// Runs the basic game buttons
-	if (MouseIn(1725, 300, 250, 60) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") && ClubCardCanPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) return ClubCardPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus);
+
+	//Play Card
+	if (MouseIn(1725, 300, 250, 60) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") && ClubCardCanPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) return ClubCardStartTurn(ClubCardStartTurnType.PLAYCARD);
+	// Hm ???
 	if (MouseIn(1700, 0, 300, 600) && (ClubCardFocus != null)) return ClubCardFocus = null;
-	if (MouseIn(1705, 905, 90, 90) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")) return ClubCardEndTurn((ClubCardTurnCardPlayed == 0));
-	if (MouseIn(1805, 905, 90, 90) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")) return ClubCardCreatePopup("YESNO", TextGet("ConfirmBankrupt"), TextGet("Yes"), TextGet("No"), "ClubCardBankrupt()", "ClubCardDestroyPopup()");
-	if (MouseIn(1390, 435, 300, 60) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") && (ClubCardPlayer[ClubCardTurnIndex].Level < ClubCardLevelCost.length - 1) && (ClubCardPlayer[ClubCardTurnIndex].Money >= ClubCardCalculateLevelCost(ClubCardPlayer[ClubCardTurnIndex]))) return ClubCardUpgradeLevel(ClubCardPlayer[ClubCardTurnIndex]);
+	// Draw card and end turn
+	if (MouseIn(1705, 905, 90, 90) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")) return ClubCardStartTurn(ClubCardStartTurnType.DRAWENDTURN);
+	// Open Bancrupt window and bind function close and bancrupt in yes and no
+	if (MouseIn(1805, 905, 90, 90) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")) return ClubCardCreatePopup("YESNO", TextGet("ConfirmBankrupt"), TextGet("Yes"), TextGet("No"), "ClubCardStartTurn()", "ClubCardDestroyPopup()");
+	// Upgrade lvl Club
+	if (MouseIn(1390, 435, 300, 60) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") && (ClubCardPlayer[ClubCardTurnIndex].Level < ClubCardLevelCost.length - 1) && (ClubCardPlayer[ClubCardTurnIndex].Money >= ClubCardCalculateLevelCost(ClubCardPlayer[ClubCardTurnIndex]))) return ClubCardStartTurn(ClubCardStartTurnType.UPGRADELEVEL);
+	
+	//DISCARDPILE
 	if (MouseIn(5, 450, 45, 45) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")) return ClubCardCreatePopup("DISCARDPILE", "Opponent", TextGet("Close"), null, "ClubCardDestroyPopup()", null);
 	if (MouseIn(5, 505, 45, 45) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")) return ClubCardCreatePopup("DISCARDPILE", null, TextGet("Close"), null, "ClubCardDestroyPopup()", null);
 
