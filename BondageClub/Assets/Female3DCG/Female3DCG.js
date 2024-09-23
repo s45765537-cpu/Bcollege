@@ -720,6 +720,9 @@ var AssetFemale3DCG = [
 				Alpha: [
 					{ Group: ["Panties", "ItemPelvis"], Masks: [[0, 0, 500, 560]] },
 				],
+				EditOpacity: true,
+				MinOpacity: 0,
+				MaxOpacity: 1,
 				HideItem: [
 					"ClothLowerLatexSkirt1",
 					"ItemNipplesPiercingsRoundPiercing",
@@ -731,7 +734,7 @@ var AssetFemale3DCG = [
 					"ItemBreastRibbons",
 					"ClothLowerTutu",
 				],
-				Layer: [{ Name: "Dress" }, { Name: "Trim" }],
+				Layer: [{ Name: "Dress", MinOpacity: 0, MaxOpacity: 1 }, { Name: "Trim", MinOpacity: 0, MaxOpacity: 1 }],
 			},
 			{
 				Name: "TeacherOutfit1",
@@ -2627,6 +2630,9 @@ var AssetFemale3DCG = [
 				Prerequisite: ["HasBreasts"],
 				Value: 20,
 				Top: 1,
+				EditOpacity: true,
+				MinOpacity: 0,
+				MaxOpacity: 1,
 				BuyGroup: "Blouse1",
 				PoseMapping: {
 					...AssetPoseMapping.Cloth,

@@ -431,6 +431,7 @@ interface AssetCommonPropertiesAssetLayer {
 	Opacity?: number;
 	MinOpacity?: number;
 	MaxOpacity?: number;
+	EditOpacity?: boolean; // True if we can edit the opacity in the color picker
 }
 
 /** Input interface for constructing {@link Asset} objects. */

@@ -240,6 +240,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		Opacity: AssetParseOpacity(AssetDef.Opacity),
 		MinOpacity: typeof AssetDef.MinOpacity === "number" ? AssetParseOpacity(AssetDef.MinOpacity) : 1,
 		MaxOpacity: typeof AssetDef.MaxOpacity === "number" ? AssetParseOpacity(AssetDef.MaxOpacity) : 1,
+		EditOpacity: typeof AssetDef.EditOpacity === "boolean" ? AssetDef.EditOpacity : false,
 		Audio: AssetDef.Audio,
 		Category: AssetDef.Category,
 		Fetish: AssetDef.Fetish,

@@ -961,6 +961,7 @@ interface Asset {
 	readonly Opacity: number;
 	readonly MinOpacity: number;
 	readonly MaxOpacity: number;
+	readonly EditOpacity: boolean;
 	readonly Audio?: string;
 	readonly Category?: readonly AssetCategory[];
 	readonly Fetish?: readonly FetishName[];
@@ -3753,6 +3754,7 @@ interface ItemColorStateType {
 	colorInputWidth: number;
 	colorInputX: number;
 	colorInputY: number;
+	editOpacity: boolean;
 	exportButtonX: number;
 	importButtonX: number;
 	resetButtonX: number;
