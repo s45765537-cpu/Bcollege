@@ -510,7 +510,7 @@ var CraftingEventListeners = {
 		}
 
 		// Only relevant when switching between two assets from within the `Name` subscreen
-		const needsPropertyUpdate = CraftingSelectedItem.Asset && CraftingSelectedItem.Asset !== assets[0];
+		const needsPropertyUpdate = !CraftingSelectedItem.Asset || CraftingSelectedItem.Asset !== assets[0];
 		CraftingSelectedItem.Assets = assets;
 
 		// Set the various input fields
