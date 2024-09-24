@@ -7,8 +7,6 @@ var ClubCardLogScroll = false;
 var ClubCardColor = ["#808080", "#FFFFFF", "#E0E0E0", "#D0FFD0", "#D0D0FF", "#FFD0D0", "#FFE080"];
 var ClubCardFameTextColor = "#5A73FF";
 var ClubCardMoneyTextColor = "#228B22";
-/** @type {boolean} Variable to check if the start function of the turn has already been called or not. */
-var ClubCardIsStartTurn = false;
 var ClubCardOpponent = null;
 var ClubCardOpponentDeck = [];
 var ClubCardReward = null;
@@ -29,6 +27,9 @@ var ClubCardLevelCost = [0, 0, 10, 20, 30, 40];
 var ClubCardPlayer = [];
 var ClubCardOnlinePlayerMemberNumber1 = -1;
 var ClubCardOnlinePlayerMemberNumber2 = -1;
+
+
+//#region Chat Log
 
 /** @type {ClubCardMessage[]} */
 let ClubCardMessagePacket = [];
@@ -56,6 +57,11 @@ const ClubCardStartTurnType = Object.freeze({
 	UPGRADELEVEL: "ClubLvlUp",
 	ENDTURN: "EndTurn" // Technical is the start of a new turn.
 });
+
+/** @type {boolean} Variable to check if the start function of the turn has already been called or not. */
+let ClubCardIsStartTurn = false;
+
+//#endregion
 
 /**
  * The card definitions
@@ -2825,10 +2831,11 @@ function ClubCardRunTurnEndHandlers(CCPlayer, Opponent, Before) {
 function ClubCardStartTurn(StartType = ClubCardStartTurnType.BUNKRUPT) {
 
 	const CCPlayer = ClubCardPlayer[ClubCardTurnIndex];
-	if (!ClubCardIsStartTurn) {
+	if (ClubCardIsStartTurn == false) {
 		const message = TextGet("StartTurnLogChat").replace("TURNNUMBER", `${CCPlayer.ClubCardTurnCounter}`).replace("PLAYERNAME", CharacterNickname(CCPlayer.Character)); 
 		ClubCardMessagePacketAdd(message, ClubCardMessageType.STARTTURNINFO);
 		ClubCardCheckEventAndCardExpired();
+		//TODO StartTurnHeadPacket
 		ClubCardMessagePacketSend();
 		ClubCardIsStartTurn = true;
 	}
@@ -2898,6 +2905,10 @@ function ClubCardEndTurn(Draw = false) {
 
 	// If that player wins the game from Fame gain
 	if (ClubCardCheckVictory(CCPlayer)) {
+		const message = TextGet("EndTurnPlayer").replace("FAMEMONEY", FameMoneyText).replace("SOURCEPLAYER", CharacterNickname(CCPlayer.Character)).replace("OPPONENTPLAYER", CharacterNickname(Opponent.Character));
+		ClubCardMessagePacketAdd(message, ClubCardMessageType.FAMEMONEYINFO);
+		ClubCardMessagePacketSend();
+		
 		let Msg = TextGet("VictoryFor" + CCPlayer.Control);
 		if (ClubCardIsOnline()) Msg = TextGet("VictoryOnline").replace("PLAYERNAME", CharacterNickname(CCPlayer.Character));
 		//TODO ClubCardMessageType.SYSTEM
@@ -3170,7 +3181,6 @@ function ClubCardPlayCard(CCPlayer, Card) {
 	let Text = TextGet(ClubCardIsLiability(Card) ? "PlayACardOpponentBoard" : "PlayACard");
 	Text = Text.replace("PLAYERNAME", CharacterNickname(CCPlayer.Character));
 	Text = Text.replace("CARDNAME", Card.Title);
-	//ClubCardLogAdd(Text);
 	ClubCardMessagePacketAdd(Text, ClubCardMessageType.ACTION);
 	ClubCardTurnCardPlayed++;
 
@@ -3224,7 +3234,6 @@ function ClubCardPlayCard(CCPlayer, Card) {
 	//TODO ClubCardMessageType.SYSTEM   / extra turn
 	ClubCardLogAdd(Text);
 	ClubCardAIStart();
-
 }
 
 /**
@@ -3453,6 +3462,8 @@ function ClubCardLoad() {
 	ClubCardTurnCardPlayed = 0;
 	ClubCardOldLogText = "";
 	ClubCardLogText = "";
+	ClubCardIsStartTurn = false;
+	ClubCardMessagePacket = [];
 	ClubCardFocus = null;
 	ClubCardLogScroll = false;
 	ClubCardLog = [];
