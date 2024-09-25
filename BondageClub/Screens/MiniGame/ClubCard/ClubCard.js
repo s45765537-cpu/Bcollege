@@ -35,9 +35,9 @@ let ClubCardMessageStorage = [];
 
 const ClubCardMessageType = Object.freeze({
     STARTTURNINFO: "StartTurnInfo",  // Turn Idex + Player
-	STARTTURNEVENT: "StartTurnEvent", // Quick Doctor, Master Class
+	STARTTURNEVENT: "StartTurnEvent", // Quack Doctor, Master Class
 	ACTION: "Actions", // Play Card, Draw Card, Level up Club, Bankrupt, give up and leave the game
-	CARDEFFECT: "CardsEffect", // ( Alvin , Nanny , Fussy Baby,Contract Caretaker , etc)
+	CARDEFFECT: "CardsEffect", // ( Alvin , Nanny , Fussy Baby, Contract Caretaker , etc)
 	KNOTEVENT: "KnotEvent",
 	TURNENDEFFECT: "TurnEndEffect",
 	FAMEMONEYINFO: "FameMoneyInfo", //end turn income and general increase  money and fame. 
@@ -2054,7 +2054,7 @@ function ClubCardMessagePacketAdd(Message, MessageType) {
 }
 
 /**
- * Function for sending system messages or player messages.
+ * Function for sending system messages or player messages in chat log.
  * @param {string} Message 
  * @param {string} MessageType 
  */
@@ -2121,7 +2121,7 @@ function ClubCardProcessingRopeSlaveLivingArt(MessagePacket) {
 }
 
 /**
- * Send Message Packet
+ * Send Message Packet in Chat Log
  * @param {ClubCardMessage[]} MessagePacket 
  */
 function ClubCardMessagePacketSend(MessagePacket) {
