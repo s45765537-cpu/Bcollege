@@ -418,9 +418,12 @@ function GameClubCardAssignPlayers(Packet, Char) {
 		ClubCardTurnIndex = Math.floor(Packet.RNG * 2);
 		ClubCardDestroyPopup();
 	}
-	//TODO Check what is it send in ClubCardLogAdd     // (PLAYERNAME has been selected randomly to start the game.")
-	if ((Char.MemberNumber == Player.MemberNumber) && (ClubCardTurnIndex == 0)) ClubCardLogAdd(Msg.replace("PLAYERNAME", CharacterNickname(C1)));
-	if ((Char.MemberNumber == Player.MemberNumber) && (ClubCardTurnIndex == 1)) ClubCardLogAdd(Msg.replace("PLAYERNAME", CharacterNickname(C2)));
+	if ((Char.MemberNumber == Player.MemberNumber) && (ClubCardTurnIndex == 0)) {
+		ClubCardOneMessagePacketSend(Msg.replace("PLAYERNAME", CharacterNickname(C1)), ClubCardMessageType.SYSTEM);
+	}
+	if ((Char.MemberNumber == Player.MemberNumber) && (ClubCardTurnIndex == 1)) {
+		ClubCardOneMessagePacketSend(Msg.replace("PLAYERNAME", CharacterNickname(C2)), ClubCardMessageType.SYSTEM);
+	}
 
 	if (Player.ChatSettings?.PreserveChat ?? true) {
 		ChatRoomHideElements();
@@ -445,8 +448,7 @@ function GameClubCardLoadData(Packet) {
 			if (P.MemberNumber == ClubCardPlayer[1].Character.MemberNumber) GameClubCardLoadBundle(ClubCardPlayer[1], P);
 		}
 	}
-	//TODO Check what is it send in ClubCardLogAdd   // "test's deck is selected.
-	if (Packet.Data.CCLog != null) ClubCardLogAdd(Packet.Data.CCLog, false);
+	if (Packet.Data.CCLog != null) ClubCardOneMessagePacketSend(Packet.Data.CCLog, ClubCardMessageType.SYSTEM , false);
 
 	// Check the focused card is still in the player's hand
 	ClubCardDefocusCardIfDiscarded();
@@ -482,8 +484,7 @@ function GameClubCardProcess(Packet) {
 		let Msg = TextGet("JoinedClubCardGame");
 		GameClubCardAssignPlayers(Packet, Char);
 		GameClubCardLoadData(Packet);
-		//TODO ClubCardMessageType.SYSTEM    Spectator Joined
-		ClubCardLogAdd(Msg.replace("PLAYERNAME", CharacterNickname(Player)));
+		ClubCardOneMessagePacketSend(Msg.replace("PLAYERNAME", CharacterNickname(Player)), ClubCardMessageType.SYSTEM);
 		GameClubCardExpectQuery = false;
 		ClubCardDestroyPopup();
 	}
