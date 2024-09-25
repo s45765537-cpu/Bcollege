@@ -732,6 +732,9 @@ interface AssetGroup {
 	readonly Effect: readonly EffectName[];
 	readonly MirrorGroup: AssetGroupName | "";
 	readonly RemoveItemOnRemove: readonly Readonly<{ Group: AssetGroupItemName; Name: string; TypeRecord?: TypeRecord }>[];
+	readonly EditOpacity: boolean;
+	readonly MinOpacity: number;
+	readonly MaxOpacity: number;
 	readonly DrawingPriority: number;
 	readonly DrawingLeft: TopLeft.Data;
 	readonly DrawingTop: TopLeft.Data;
