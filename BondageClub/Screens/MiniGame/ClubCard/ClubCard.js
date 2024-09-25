@@ -2047,8 +2047,7 @@ function ClubCardMessagePacketAdd(Message, MessageType) {
 		/** @type {ClubCardMessage} */
 		const packet = {
 			Message: Message,
-			MessageType: MessageType,
-			MessageOrder: ClubCardMessageStorage.length
+			MessageType: MessageType
 		};
 		ClubCardMessageStorage.push(packet)
 	}
@@ -2064,8 +2063,7 @@ function ClubCardOneMessagePacketSend(Message, MessageType , Push = true) {
 		/** @type {ClubCardMessage} */
 		const packet = {
 			Message: Message,
-			MessageType: MessageType,
-			MessageOrder: ClubCardMessageStorage.length
+			MessageType: MessageType
 		};
 		ClubCardMessageStorage.push(packet)
 	}
@@ -2077,11 +2075,58 @@ function ClubCardOneMessagePacketSend(Message, MessageType , Push = true) {
 }
 
 /**
+ * Function to merge a huge number of Rope Slave and Living Art posts into one.
+ * @param {ClubCardMessage[]} MessagePacket 
+ * @returns 
+ */
+function ClubCardProcessingRopeSlaveLivingArt(MessagePacket) {
+    const summary = {};
+    const newMessages = [];
+	const regex = /(.+) gained (\d+) (money|fame) from (.+)\./;
+	
+    for (let item of MessagePacket) {
+        const match = item.Message.match(regex);
+
+        if (match) {
+            const player = match[1];
+            const amount = parseInt(match[2], 10);
+            const resource = match[3];
+            const source = match[4];
+            const summaryKey = `${player} from ${source}`;
+
+			if (!summary[summaryKey]) summary[summaryKey] = { money: 0, fame: 0 };
+			
+            summary[summaryKey][resource] += amount;
+        } else newMessages.push(item);
+    }
+
+    for (let key in summary) {
+        const { money, fame } = summary[key];
+        const playerSource = key.split(' from ');
+        if (money > 0) {
+            newMessages.push({
+                Message: `${playerSource[0]} gained ${money} money from ${playerSource[1]}.`,
+                MessageType: ClubCardMessageType.CARDEFFECT
+            });
+        }
+        if (fame > 0) {
+            newMessages.push({
+                Message: `${playerSource[0]} gained ${fame} fame from ${playerSource[1]}.`,
+                MessageType: ClubCardMessageType.CARDEFFECT
+            });
+        }
+    }
+
+    return newMessages;
+}
+
+/**
  * Send Message Packet
  * @param {ClubCardMessage[]} MessagePacket 
  */
 function ClubCardMessagePacketSend(MessagePacket) {
-	for (let message of MessagePacket) {	
+	const updateMessagePacket = ClubCardProcessingRopeSlaveLivingArt(MessagePacket);
+	for (let message of updateMessagePacket) {	
 		ClubCardLogAdd(message.Message);
 	}
 }

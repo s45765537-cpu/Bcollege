@@ -453,7 +453,7 @@ Title Fit To Be Tied,Fit To Be Tied
 Text Fit To Be Tied,"Play all Knots in your hand, deck, and discard pile and shuffle them into your deck."
 Title Living Art,Living Art
 Text Living Art,Gain 1 Fame when you play a Knot or Shibari Event. 
-Effect Living Art,"SOURCEPLAYER gained 1 fame from Living Art"
+Effect Living Art,"SOURCEPLAYER gained 1 fame from Living Art."
 Title Attention Whore,Attention Whore
 Text Attention Whore,Select and remove one ongoing event before she enters your club.
 Prerequisite Attention Whore,Select an ongoing event to remove before Attention Whore enters.
