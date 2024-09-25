@@ -3834,6 +3834,9 @@ function ClubCardRenderPanel() {
 	const chatLogArray = differencesLogText.split("\n");
 
 	for (let chatItem of chatLogArray) {
+		if (chatItem == null || chatItem == "") {
+			continue;
+		}
 		const messageElement = document.createElement("div");
 		messageElement.style.color = "white";
 		// I think "--- Turn" look bad, but no sure how did better. Maybe with TextGet("StartTurnLogChat")
