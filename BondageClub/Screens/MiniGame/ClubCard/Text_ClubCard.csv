@@ -43,8 +43,8 @@ StartPlayer,You've been chosen to start the game.  Select a card to play or end 
 StartOpponent,Your opponent has been chosen to start the game.  Please wait for her move.
 StartOnline,PLAYERNAME has been selected to start.  Both players must pick a deck.
 StartTurnLogChat, --- Turn TURNNUMBER - PLAYERNAME ---
-EndTurnPlayer,SOURCEPLAYER FAMEMONEY.  It's OPPONENTPLAYER turn.
-EndDrawPlayer,SOURCEPLAYER draws a card.  FAMEMONEY.  It's OPPONENTPLAYER's turn.
+EndTurnPlayer,SOURCEPLAYER FAMEMONEY.
+EndDrawPlayer,SOURCEPLAYER draws a card.  FAMEMONEY.
 UpgradeToLevel2,Get Cottage (MONEY)
 UpgradeToLevel3,Get House (MONEY)
 UpgradeToLevel4,Get Mansion (MONEY)

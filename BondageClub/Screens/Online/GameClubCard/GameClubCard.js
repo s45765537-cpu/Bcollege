@@ -448,7 +448,7 @@ function GameClubCardLoadData(Packet) {
 			if (P.MemberNumber == ClubCardPlayer[1].Character.MemberNumber) GameClubCardLoadBundle(ClubCardPlayer[1], P);
 		}
 	}
-	if (Packet.Data.CCLog != null) ClubCardOneMessagePacketSend(Packet.Data.CCLog, ClubCardMessageType.SYSTEM , false);
+	if (Packet.Data.CCLog != null) ClubCardLogAdd(Packet.Data.CCLog, false);
 
 	// Check the focused card is still in the player's hand
 	ClubCardDefocusCardIfDiscarded();

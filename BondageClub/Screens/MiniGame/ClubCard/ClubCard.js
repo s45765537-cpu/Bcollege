@@ -26,9 +26,10 @@ var ClubCardOnlinePlayerMemberNumber2 = -1;
 
 
 //#region Chat Log
+/** @type {ClubCardMessage[]} */
 var ClubCardLog = [];
-var ClubCardLogText = "";
-var ClubCardOldLogText = "";
+/** @type {ClubCardMessage[]} */
+var ClubCardRenderLog = [];
 var ClubCardLogScroll = false;
 /** @type {ClubCardMessage[]} */
 let ClubCardMessageStorage = [];
@@ -2021,19 +2022,17 @@ function ClubCardIsPlaying() {
 
 /**
  * Adds a text entry to the game log
- * @param {string} LogEntry - The club card player
+ * @param {ClubCardMessage[]} LogEntry - The club card player
  * @param {boolean} Push - The club card player
  * @returns {void} - Nothing
  */
 function ClubCardLogAdd(LogEntry, Push = true) {
-	if (LogEntry != null) ClubCardLog.push(LogEntry);
+	if (LogEntry != null) {
+		ClubCardRenderLog.push(...LogEntry);
+	}
 	ClubCardLogScroll = true;
-	ClubCardLogText = "";
-	for (let L of ClubCardLog)
-		ClubCardLogText = ClubCardLogText + ((ClubCardLogText == "") ? "" : "\r\n--------------------\r\n") + L;
 	if ((LogEntry != null) && Push && ClubCardIsOnline()) {
 		ServerSend("ChatRoomGame", { GameProgress: "Action", CCLog: LogEntry });
-		// ServerSend("ChatRoomChat", { Content: LogEntry, Type: "Emote" });  Publish to chat room or not???
 	}
 }
 
@@ -2070,7 +2069,9 @@ function ClubCardOneMessagePacketSend(Message, MessageType , Push = true) {
 
 	//TODO need update
 	const lastIndex = ClubCardMessageStorage.length - 1;
-	ClubCardLogAdd(ClubCardMessageStorage[lastIndex].Message , Push);
+	let messagePackets = [];
+	messagePackets.push(ClubCardMessageStorage[lastIndex]);
+	ClubCardLogAdd(messagePackets , Push);
 	ClubCardMessageStorage.pop();
 }
 
@@ -2126,9 +2127,7 @@ function ClubCardProcessingRopeSlaveLivingArt(MessagePacket) {
  */
 function ClubCardMessagePacketSend(MessagePacket) {
 	const updateMessagePacket = ClubCardProcessingRopeSlaveLivingArt(MessagePacket);
-	for (let message of updateMessagePacket) {	
-		ClubCardLogAdd(message.Message);
-	}
+	ClubCardLogAdd(updateMessagePacket);
 }
 
 /**
@@ -2998,10 +2997,9 @@ function ClubCardEndTurn(Draw = false) {
 		const endTurnPacket = ClubCardGetLogPacket(messageTypesHeadPacker);
 		ClubCardMessagePacketSend(endTurnPacket);
 		GameClubCardSyncOnlineData();
+		ClubCardFocus = null;
 		return;
 	}
-
-	ClubCardIsStartTurn = false;
 
 		// Adds an entry to the log
 	ClubCardTurnEndDraw = Draw;
@@ -3016,7 +3014,7 @@ function ClubCardEndTurn(Draw = false) {
 	}
 
 	///
-	const messageTypesHeadPacker = [ClubCardMessageType.FAMEMONEYINFO, ClubCardMessageType.ACTION];
+	const messageTypesHeadPacker = [ClubCardMessageType.FAMEMONEYINFO, ClubCardMessageType.ACTION, ClubCardMessageType.CARDEFFECT];
 	const endTurnPacket = ClubCardGetLogPacket(messageTypesHeadPacker);
 	ClubCardMessagePacketSend(endTurnPacket);
 	///
@@ -3028,6 +3026,7 @@ function ClubCardEndTurn(Draw = false) {
 	ClubCardTurnCardPlayed = 0;
 	ClubCardAIStart();
 
+	ClubCardIsStartTurn = false;
 	ClubCardStartTurn(ClubCardStartTurnType.ENDTURN);
 
 	// Syncs online data
@@ -3557,13 +3556,12 @@ function ClubCardLoad() {
 	ClubCardOnlinePlayerMemberNumber1 = -1;
 	ClubCardOnlinePlayerMemberNumber2 = -1;
 	ClubCardTurnCardPlayed = 0;
-	ClubCardOldLogText = "";
-	ClubCardLogText = "";
 	ClubCardIsStartTurn = false;
 	ClubCardMessageStorage = [];
 	ClubCardFocus = null;
 	ClubCardLogScroll = false;
 	ClubCardLog = [];
+	ClubCardRenderLog = [];
 	ClubCardTurnIndex = Math.floor(Math.random() * 2);
 	ClubCardPlayer = [];
 	ClubCardAddPlayer(Player, "Player", []);
@@ -3812,10 +3810,9 @@ function ClubCardRenderPanel() {
 		Elem.style.overflowY = "auto";
 		Elem.style.whiteSpace = "pre-wrap";
 	}else {
-		if (ClubCardLogText == null || ClubCardLogText == "") {
+		if (ClubCardLog.length == 0) {
 			const Elem = document.getElementById("CCLog");
 			Elem.innerHTML = "";
-			ClubCardOldLogText = "";
 		}
 	}
 	if (document.getElementById("CCChat") == null) {
@@ -3829,26 +3826,32 @@ function ClubCardRenderPanel() {
 	ElementPositionFix("CCLog", 20, 1705, (ClubCardFocus == null) ? 5 : 590, 285, (ClubCardFocus == null) ? 825 : 240);
 	ElementPosition("CCChat", 1857, 865, 306);
 
-	const differencesLogText = ClubCardLogText.replace(ClubCardOldLogText,"").trim();
-	ClubCardOldLogText = ClubCardLogText;
-	const chatLogArray = differencesLogText.split("\n");
+	if (ClubCardRenderLog.length > 0) {
+		for (let messageLogItem of ClubCardRenderLog) {
+			if (messageLogItem == null || messageLogItem.Message == "") continue;
 
-	for (let chatItem of chatLogArray) {
-		if (chatItem == null || chatItem == "") {
-			continue;
+			//fix bug double Turn Message in start game
+			if (messageLogItem.MessageType == ClubCardMessageType.STARTTURNINFO) {
+				const isExist = ClubCardLog.some(item => item.Message === messageLogItem.Message);
+				if (isExist) continue;
+			}
+
+			const messageElement = document.createElement("div");
+			messageElement.style.color = "white";
+			if (messageLogItem.MessageType == ClubCardMessageType.STARTTURNINFO) {
+				messageElement.textContent = messageLogItem.Message;
+				messageElement.style.fontWeight = "bold";
+				messageElement.style.color = "#FF9999";
+			} else {
+				messageElement.innerHTML = ClubCardGetFormatTextForInnerHTML(messageLogItem.Message);
+			}
+			document.getElementById("CCLog").appendChild(messageElement);
 		}
-		const messageElement = document.createElement("div");
-		messageElement.style.color = "white";
-		// I think "--- Turn" look bad, but no sure how did better. Maybe with TextGet("StartTurnLogChat")
-		if (chatItem.includes("--- Turn")) {
-			messageElement.textContent = chatItem;
-			messageElement.style.fontWeight = "bold";
-			messageElement.style.color = "#FF9999";
-		} else {
-			messageElement.innerHTML = ClubCardGetFormatTextForInnerHTML(chatItem);
-		}
-		document.getElementById("CCLog").appendChild(messageElement);
+		ClubCardLog.push(...ClubCardRenderLog);
+		//Clear ClubCardRenderLog
+		ClubCardRenderLog = [];
 	}
+
 
 
 	if (ClubCardLogScroll) {
