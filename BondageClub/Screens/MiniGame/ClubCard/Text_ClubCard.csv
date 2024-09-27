@@ -43,8 +43,8 @@ StartPlayer,You've been chosen to start the game.  Select a card to play or end 
 StartOpponent,Your opponent has been chosen to start the game.  Please wait for her move.
 StartOnline,PLAYERNAME has been selected to start.  Both players must pick a deck.
 StartTurnLogChat, --- Turn TURNNUMBER - PLAYERNAME ---
-EndTurnPlayer,SOURCEPLAYER FAMEMONEY.  It's OPPONENTPLAYER turn.
-EndDrawPlayer,SOURCEPLAYER draws a card.  FAMEMONEY.  It's OPPONENTPLAYER's turn.
+EndTurnPlayer,SOURCEPLAYER FAMEMONEY.
+EndDrawPlayer,SOURCEPLAYER draws a card.  FAMEMONEY.
 UpgradeToLevel2,Get Cottage (MONEY)
 UpgradeToLevel3,Get House (MONEY)
 UpgradeToLevel4,Get Mansion (MONEY)
@@ -353,6 +353,7 @@ Title Big Baby,Big Baby
 Text Big Baby,+1 Money if opponent has more cards in their hand. Opponent draws a card when she enters your club.
 Title Fussy Baby,Fussy Baby
 Text Fussy Baby,Returns to hand when the opponent plays an Event and you gain 4 fame.
+Effect Fussy Baby,Fussy Baby returned to SOURCEPLAYER's hand and gave 4 fame.
 Title Daycare Enthusiast,Daycare Enthusiast
 Text Daycare Enthusiast,Gain 3 fame when an ABDL Mommy enters your club. Gain 3 money when an ABDL Baby enters your club.
 Title Daycare Party,Daycare Party
@@ -360,6 +361,7 @@ Text Daycare Party,Gain 4 Fame and draw a card for each ABDL Mommy present.
 Effect Daycare Party, Gained AMOUNT fame from the Daycare Party
 Title Nanny,Nanny
 Text Nanny,"When an ABDL Baby enters your club, gain fame equal to your club level."
+Effect Nanny,"Nanny gives AMOUNT fame SOURCEPLAYER, when baby enters your club."
 Title Dommy Mommy,Dommy Mommy
 Text Dommy Mommy,+1 Fame per turn for each ABDL Baby present. Gain 1 Fame for each member present when she enters your club.
 Title Contract Caretaker,Contract Caretaker
@@ -385,8 +387,10 @@ Title Alvin,Alvin
 Text Alvin,"Summon a Ropeslave when playing Restrain, Shibari event or Kidnapping a Dominant or Mistress (max 3 in club)"
 Title Rope Slave,Rope Slave
 Text Rope Slave,Gain 1 Money when you play a Knot or Shibari event. 
+Effect Rope Slave,"SOURCEPLAYER gained 1 money from Rope Save."
 Title Quack Doctor,Quack Doctor
 Text Quack Doctor,"Start of your turn, for each Asylum Patient present, players lose 1 fame. (Max 4)"
+Effect Quack Doctor,"SOURCEPLAYER and OPPONENTPLAYER lost AMOUNT fame."
 Title Sophie,Sophie
 Text Sophie,"Before she enters your club, select a member to double their Fame and Money."
 Effect Sophie,CARDTITLE got their fame and money boosted by the lovely Sophie~
@@ -449,6 +453,7 @@ Title Fit To Be Tied,Fit To Be Tied
 Text Fit To Be Tied,"Play all Knots in your hand, deck, and discard pile and shuffle them into your deck."
 Title Living Art,Living Art
 Text Living Art,Gain 1 Fame when you play a Knot or Shibari Event. 
+Effect Living Art,"SOURCEPLAYER gained 1 fame from Living Art."
 Title Attention Whore,Attention Whore
 Text Attention Whore,Select and remove one ongoing event before she enters your club.
 Prerequisite Attention Whore,Select an ongoing event to remove before Attention Whore enters.

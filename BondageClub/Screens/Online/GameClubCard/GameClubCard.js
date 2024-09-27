@@ -418,8 +418,12 @@ function GameClubCardAssignPlayers(Packet, Char) {
 		ClubCardTurnIndex = Math.floor(Packet.RNG * 2);
 		ClubCardDestroyPopup();
 	}
-	if ((Char.MemberNumber == Player.MemberNumber) && (ClubCardTurnIndex == 0)) ClubCardLogAdd(Msg.replace("PLAYERNAME", CharacterNickname(C1)));
-	if ((Char.MemberNumber == Player.MemberNumber) && (ClubCardTurnIndex == 1)) ClubCardLogAdd(Msg.replace("PLAYERNAME", CharacterNickname(C2)));
+	if ((Char.MemberNumber == Player.MemberNumber) && (ClubCardTurnIndex == 0)) {
+		ClubCardOneMessagePacketSend(Msg.replace("PLAYERNAME", CharacterNickname(C1)), ClubCardMessageType.SYSTEM);
+	}
+	if ((Char.MemberNumber == Player.MemberNumber) && (ClubCardTurnIndex == 1)) {
+		ClubCardOneMessagePacketSend(Msg.replace("PLAYERNAME", CharacterNickname(C2)), ClubCardMessageType.SYSTEM);
+	}
 
 	if (Player.ChatSettings?.PreserveChat ?? true) {
 		ChatRoomHideElements();
@@ -480,7 +484,7 @@ function GameClubCardProcess(Packet) {
 		let Msg = TextGet("JoinedClubCardGame");
 		GameClubCardAssignPlayers(Packet, Char);
 		GameClubCardLoadData(Packet);
-		ClubCardLogAdd(Msg.replace("PLAYERNAME", CharacterNickname(Player)));
+		ClubCardOneMessagePacketSend(Msg.replace("PLAYERNAME", CharacterNickname(Player)), ClubCardMessageType.SYSTEM);
 		GameClubCardExpectQuery = false;
 		ClubCardDestroyPopup();
 	}
