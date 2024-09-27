@@ -55,7 +55,7 @@ const ClubCardMessageType = Object.freeze({
 const ClubCardStartTurnType = Object.freeze({
 	PLAYCARD: "PlayCard",
 	DRAWENDTURN: "DrawAndEndTurn",
-	BUNKRUPT: "Bankrupt",
+	BANKRUPT: "Bankrupt",
 	UPGRADELEVEL: "UpgradeLevel",
 	ENDTURN: "EndTurn" // Technical is the start of a new turn.
 });
@@ -2021,7 +2021,7 @@ function ClubCardIsPlaying() {
 
 /**
  * Adds a text entry to the game log
- * @param {ClubCardMessage[]} LogEntry - The club card player
+ * @param {ClubCardMessage[]} LogEntry - Message Packet with message and messageType
  * @param {boolean} Push - The club card player
  * @returns {void} - Nothing
  */
@@ -2140,11 +2140,11 @@ function ClubCardGetLogPacket(MessageTypes) {
 
 /**
  * Publishes an action to the log and replaces all the tags
+ * @param {string} MessageType - Message Type
  * @param {string} Text - The text to fetch
  * @param {ClubCardPlayer|null} CCPlayer - The source player
  * @param {number|null} Amount - The amount linked to the action
  * @param {ClubCard|null} Card - The card linked to the action
- * @param {string} MessageType - Message Type
  * @returns {void}
  */
 function ClubCardLogGetDataPacket(MessageType, Text, CCPlayer = null, Amount = null, Card = null) {
@@ -2887,7 +2887,7 @@ function ClubCardRunTurnEndHandlers(CCPlayer, Opponent, Before) {
  * @param {string} StartType
  * StartType = ClubCardStartTurnType.BUNKRUPT because otherwise the bankruptcy function won't work.
  */
-function ClubCardStartTurn(StartType = ClubCardStartTurnType.BUNKRUPT) {
+function ClubCardStartTurn(StartType = ClubCardStartTurnType.BANKRUPT) {
 
 	const CCPlayer = ClubCardPlayer[ClubCardTurnIndex];
 	if (ClubCardIsStartTurn == false) {
@@ -2902,7 +2902,7 @@ function ClubCardStartTurn(StartType = ClubCardStartTurnType.BUNKRUPT) {
 	}
 
 	if (ClubCardMessageStorage.length > 0) {
-		const actionPacket = ClubCardGetLogPacket([ClubCardMessageType.CARDEFFECT]);
+		const actionPacket = ClubCardGetLogPacket([ClubCardMessageType.CARDEFFECT, ClubCardMessageType.KNOTEVENT]);
 		ClubCardMessagePacketSend(actionPacket);
 	}
 
@@ -2915,7 +2915,7 @@ function ClubCardStartTurn(StartType = ClubCardStartTurnType.BUNKRUPT) {
 			ClubCardEndTurn((ClubCardTurnCardPlayed == 0));
 			break;
 
-		case ClubCardStartTurnType.BUNKRUPT:
+		case ClubCardStartTurnType.BANKRUPT:
 			ClubCardBankrupt();
 			break;
 
@@ -3206,7 +3206,7 @@ function ClubCardPlayCard(CCPlayer, Card) {
 	// If the player must select a card before playing the current card
 	if ((Card.Prerequisite != null) && (ClubCardSelection == null) && (CCPlayer.Control == "Player")) {
 		ClubCardPending = Card;
-		//ClubCardLogAdd(TextGet("Prerequisite " + Card.Name));
+		ClubCardOneMessagePacketSend(TextGet("Prerequisite " + Card.Name), ClubCardMessageType.SYSTEM, false);
 		return;
 	}
 
