@@ -732,6 +732,9 @@ interface AssetGroup {
 	readonly Effect: readonly EffectName[];
 	readonly MirrorGroup: AssetGroupName | "";
 	readonly RemoveItemOnRemove: readonly Readonly<{ Group: AssetGroupItemName; Name: string; TypeRecord?: TypeRecord }>[];
+	readonly EditOpacity: boolean;
+	readonly MinOpacity: number;
+	readonly MaxOpacity: number;
 	readonly DrawingPriority: number;
 	readonly DrawingLeft: TopLeft.Data;
 	readonly DrawingTop: TopLeft.Data;
@@ -961,6 +964,7 @@ interface Asset {
 	readonly Opacity: number;
 	readonly MinOpacity: number;
 	readonly MaxOpacity: number;
+	readonly EditOpacity: boolean;
 	readonly Audio?: string;
 	readonly Category?: readonly AssetCategory[];
 	readonly Fetish?: readonly FetishName[];
@@ -3753,6 +3757,7 @@ interface ItemColorStateType {
 	colorInputWidth: number;
 	colorInputX: number;
 	colorInputY: number;
+	editOpacity: boolean;
 	exportButtonX: number;
 	importButtonX: number;
 	resetButtonX: number;

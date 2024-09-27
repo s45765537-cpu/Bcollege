@@ -243,7 +243,6 @@ function AsylumGGTSBuildPrivate() {
 	ChatCreateBackgroundList = BackgroundsGenerateList([BackgroundsTagAsylum]);
 	ChatSearchReturnToScreen = "AsylumGGTS";
 	ChatCreateLoad();
-	ChatRoomPlayerCanJoin = true;
 	/** @type {ChatRoomSettings} */
 	const NewRoom = {
 		Name: "GGTS" + Math.round(CurrentTime).toString() + Math.round(Math.random() * 1000).toString(),

@@ -225,9 +225,13 @@ function CraftingAssetsPopulate() {
 	// Ensure that the first member satisfies `Asset.Group.Name === Asset.DynamicGroupName` if possible at all
 	for (const assetList of Object.values(ret)) {
 		assetList.sort((a1, a2) => {
-			if (a1.Group.Name === a1.DynamicGroupName) {
+			if (a1.CraftGroup === a1.Name && a2.CraftGroup !== a2.Name) {
 				return -1;
-			} else if (a2.Group.Name === a2.DynamicGroupName) {
+			} else if (a1.CraftGroup !== a1.Name && a2.CraftGroup === a2.Name) {
+				return 1;
+			} else if (a1.Group.Name === a1.DynamicGroupName && a2.Group.Name !== a2.DynamicGroupName) {
+				return -1;
+			} else if (a1.Group.Name !== a1.DynamicGroupName && a2.Group.Name === a2.DynamicGroupName) {
 				return 1;
 			} else {
 				return (
@@ -401,9 +405,8 @@ var CraftingEventListeners = {
 		// blur the active element in order to trigger any `change` event listeners
 		document.activeElement?.dispatchEvent(new Event("blur"));
 		Player.Crafting[CraftingSlot] = CraftingConvertSelectedToItem();
-		CraftingSelectedItem = null;
 		CraftingSaveServer();
-		CraftingModeSet("Slot");
+		CraftingExit(false);
 	},
 
 	/**
@@ -507,7 +510,7 @@ var CraftingEventListeners = {
 		}
 
 		// Only relevant when switching between two assets from within the `Name` subscreen
-		const needsPropertyUpdate = CraftingSelectedItem.Asset && CraftingSelectedItem.Asset !== assets[0];
+		const needsPropertyUpdate = !CraftingSelectedItem.Asset || CraftingSelectedItem.Asset !== assets[0];
 		CraftingSelectedItem.Assets = assets;
 
 		// Set the various input fields
@@ -1749,6 +1752,7 @@ function CraftingExit(allowPanelClose=true) {
 			CharacterDelete(CraftingPreview);
 			CraftingPreview = null;
 			CraftingOffset = 0;
+			CraftingDestroy = false;
 			CraftingReorderModeSet("None");
 			if (CraftingReturnToChatroom) {
 				CommonSetScreen("Online", "ChatRoom");
