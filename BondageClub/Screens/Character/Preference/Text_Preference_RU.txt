@@ -2,7 +2,7 @@
 - Настройки -
 - General Preferences -
 - Общие настройки -
-- Multi Player Difficulty Preferences -
+- Multiplayer Difficulty Preferences -
 - Настройки сложности многопользовательской игры -
 - Restriction Preferences -
 - Настройки ограничений -
@@ -11,7 +11,7 @@
 - Audio Preferences -
 - Настройки звука -
 - Arousal Meter & Sexual Activities Preferences -
-- Настройки Измерителя возбуждения и сексуальной активности -
+- Настройки сексуальной активности и шкалы возбуждения -
 - Security Preferences -
 - Настройки безопасности -
 - Item Preferences -
@@ -30,6 +30,9 @@
 - Гендерные настройки -
 - Script Permission Preferences -
 - Настройки разрешений для скриптов -
+- Extensions Preferences -
+- Настройки расширений -
+
 General
 Общие
 Difficulty
@@ -62,64 +65,47 @@ Gender
 Пол
 Scripts
 Скрипты
+Extensions
+Расширения
+
 The difficulty mode enforces BDSM restrictions in multi-player only.  Click for details.
 Режим сложности применяет ограничения БДСМ только в многопользовательской игре. Нажми для деталей.
 Roleplay
 Ролевые игры
 Roleplay - This mode is fully open to customise your experience.
 Ролевая игра — этот режим полностью открыт для настройки вашего опыта.
-It allows you to choose which restrictions or mechanisms to ignore.
-Это позволяет вам выбирать, какие ограничения или механизмы игнорировать.
-You can select this mode any time, but you won't be able
-Вы можете выбрать этот режим в любое время, но не сможете
-to select the Hardcore or Extreme mode for seven days.
-выбрать режим Хардкор или Экстрим в течении семи дней.
-
+It allows you to choose which restrictions or mechanisms to ignore.\nYou can select this mode any time, but you won't be able\nto select the Hardcore or Extreme mode for seven days.
+Это позволяет вам выбирать, какие ограничения или механизмы игнорировать.\nВы можете выбрать этот режим в любое время, \nно вы не сможете выбрать режим "Хардкор" или "Экстрим" в течение семи дней.
 
 Regular
 Обычный
 Regular - This default mode enforces the basic rules and restrictions.
-Обычный — в этом режиме по умолчанию применяются основные правила и ограничения.
-It's made to restrict you and keep you safe at the same time.
-Он создан, чтобы ограничивать вас и в то же время обеспечивать вашу безопасность.
-Lots of options can be configured under this mode.
-В этом режиме можно настроить множество параметров.
+Обычный — в этом режиме применяются основные правила и ограничения.
+It's made to restrict you and keep you safe at the same time.\nLots of options can be configured under this mode.\nYou can select this mode any time, but you won't be able\nto select the Hardcore or Extreme mode for seven days.
+Он создан для того, чтобы ограничивать вас и одновременно обеспечивать безопасность.\nВ этом режиме можно настроить множество опций.\nВы можете выбрать этот режим в любое время, \nно вы не сможете выбрать режим "Хардкор" или "Экстрим" в течение семи дней.
+
 Hardcore
 Хардкор
 Hardcore - This mode is geared for players wanting to be helpless.
 Хардкор — этот режим предназначен для игроков, которые хотят быть беспомощными.
-No rescue maid will come, and no NPC will help you out.
-Никакая горничная-спасательница не придет, и никакой NPC вам не поможет.
-No safeword can be used, you must find help from players.
-Нельзя использовать стоп-слова, вы должны обратиться за помощью к игрокам.
-You must be a member for at least seven days to select this mode.
-Вы должны быть участником не менее семи дней, чтобы выбрать этот режим.
-You cannot select this if you've changed mode in the last seven days.
-Вы не можете выбрать это, если вы меняли режим в течение последних семи дней.
+No rescue maid will come, and no NPC will help you out.\nNo safeword can be used, you must find help from players.\nYou must be a member for at least seven days to select this mode.\nYou cannot select this if you've changed mode in the last seven days.
+Ни одна горничная не придет, ни один НПС не поможет вам.\nНельзя использовать безопасное слово, вы должны найти помощь у игроков.\nЧтобы выбрать этот режим, вы должны быть членом клуба не менее семи дней.\nВы не можете выбрать этот пункт, если вы меняли режим в течение последних семи дней.
+
 Extreme
 Экстрим
 Extreme - This mode is built for players wanting to be full slaves.
 Экстрим — этот режим создан для игроков, желающих быть полными рабами.
-No safeword can be used and you cannot leave your owner.
-Нельзя использовать стоп-слова, и вы не можете покинуть свою хозяйку.
-All immersion settings are maxed, and you cannot block any item.
-Все настройки погружения максимальны, и вы не можете заблокировать ни один элемент.
-Easy mode - Restrictions and game mechanisms
-Легкий режим - Ограничения и игровые механизмы
-can be ignored with toggles.  For pure roleplayers.
-можно игнорировать с помощью переключателей. Для ролевиков.
-Normal mode - Basic restrictions are enforced, 
-Обычный режим — применяются основные ограничения,
-many options to protect you.  For most players.
-много вариантов, чтобы защитить вас. Для большинства игроков.
-Hard mode - No rescue maids, no safeword and no 
-Жесткий режим — без спасательных горничных, без стоп-слов и
-help from any NPC.  For players that want trouble.
-без помощи от NPC. Для игроков, которые хотят неприятностей.
-Slavery mode - No maids, no safeword, no NPC help, 
-Режим рабства - без горничных, без стоп-слов, без помощи NPC, 
-no blocked items, cannot leave owner.  Fully helpless.
-нет заблокированных предметов, не может покинуть хозяйку.
+No rescue maid will come, and no NPC will help you out.\nNo safeword can be used and you cannot leave your owner.\nAll immersion settings are maxed, and you cannot block any item.\nYou cannot select this if you've changed mode in the last seven days.
+Ни одна горничная не придет, ни один НПС не поможет вам.\nНельзя использовать безопасное слово, и вы не можете покинуть своего владельца.\nВсе настройки погружения максимальны, и вы не можете заблокировать ни один предмет.\nВы не можете выбрать этот режим, если вы меняли режим в течение последних семи дней.
+
+Easy mode - Restrictions and game mechanisms\ncan be ignored with toggles.  For pure roleplayers.
+Легкий режим - Ограничения и игровые механизмы могут быть\nпроигнорированы с помощью переключателей. Для ролевиков.
+Normal mode - Basic restrictions are enforced,\nmany options to protect you.  For most players.
+Обычный режим - соблюдаются основные ограничения,\nмного опций для вашей защиты.  Для большинства игроков.
+Hard mode - No rescue maids, no safeword and no\nhelp from any NPC.  For players that want trouble. 
+Жесткий режим - нет горничных-спасателей, нет безопасного слова\n и нет помощи от любого НПС.  Для игроков, которые хотят неприятностей.
+Slavery mode - No maids, no safeword, no NPC help,\nno blocked items, cannot leave owner.  Fully helpless.
+Режим рабства - нет горничных, нет безопасного слова, нет помощи \nНПС,нет заблокированных предметов, нельзя покинуть владельца. \nПолная беспомощность.
 You're already playing on that difficulty mode.
 Вы уже играете на этом уровне сложности.
 You need to wait NumberOfHours hours before you can activate this mode.
@@ -136,10 +122,12 @@ Bypass the struggling mini-game.
 Обойти мини-игру борьбы с ограничениями.
 Cannot be slowed down from leaving a room.
 Нельзя замедлить выход из комнаты.
-Skip punishment when calling maids from chat room
-Пропустить наказание при вызове горничных из чата
+Skip punishment when calling maids from chat room.
+Пропустить наказание при вызове горничных из чата.
+Don't garble online chat and whipers when gagged.
+Не искажать разговор в онлайн-чате, если вам заткнули рот.
 Character label color:
-Цвет метки персонажа:
+Цвет ника персонажа:
 Item permission:
 Разрешение на предмет:
 Everyone, no exceptions
@@ -156,8 +144,8 @@ Owner only
 Только Хозяйка
 Put a valid hex #red-green-blue color
 Поместите допустимый шестнадцатеричный цвет #красный-зеленый-синий
-Color theme:
-Цветовая тема:
+Theme:
+Тема:
 Light
 Светлая
 Dark
@@ -167,17 +155,23 @@ Light 2
 Dark 2
 Темная 2
 Enter/Leave message style:
-Вход/выход стиль сообщений:
+Стиль сообщений:
 Normal
 Обычный
 Smaller
 Меньше
 Hidden
 Скрытый
+Font size:
+Размер шрифта:
 Display member numbers:
-Показать номера участников:
+Показать № участников:
 Always
 Всегда
+Disabled by default
+Отключено по умолчанию
+Enabled by default
+Включено по умолчанию
 Never
 Никогда
 On Mouseover
@@ -209,7 +203,7 @@ Use : as alias for /me and *
 Ban blacklist when creating a room
 Запретить блэклист при создании комнат
 Ban ghostlist when creating a room
-Запретить список призраков при создании комнат
+Запретить призраков при создании комнат
 Display full chatrooms
 Отображение полных чат-комнат
 Order rooms by number of friends
@@ -224,8 +218,14 @@ Show help on first enter
 Показать справку при первом входе
 Show beep notifications in chat
 Показывать звуковые уведомления в чате
+Preserve chat logs between rooms
+Сохранять журналы чатов между комнатами
+Auto-close OOC messages
+Автоматическое закрытие сообщений OOC
 Audio volume
 Громкость звука
+Music volume
+Громкость музыки
 Audio alarm for beeps
 Звуковая сигнализация для гудков
 Play item sounds in chatrooms
@@ -239,7 +239,7 @@ Lock this menu while bound
 Return to chatrooms on relog
 Вернуться в чат-комнату при повторном входе
 Auto-remake rooms
-Авто-переделка комнаты
+Авто-переворот комнаты
 Hide others' messages
 Скрыть чужие сообщения
 All immersion settings are maxed out under the Extreme difficulty mode
@@ -249,9 +249,11 @@ Prevent OOC & whispers while gagged
 Hide non-adjacent players while partially blind
 Скрыть не соседних игроков, пока частично слепа
 Events while plugged or vibed
-События когда вы с затычкой или под вибрацией
+События когда вы с пробкой или под вибрацией
 Garble chat room names and descriptions while blind
 Искажать названия и описания комнат чата, пока вы слепы
+Room customization:
+Персонализация комнаты:
 Sensory deprivation setting
 Настройки сенсорной депривации
 Hide names
@@ -297,9 +299,9 @@ Lowest
 Animation quality (reduce if inputs such as sliders are slow to respond)
 Качество анимации (уменьшите, если элементы ввода, такие как ползунки, реагируют медленно)
 Display all characters at maximum height
-Отображать все символы на максимальной высоте
+Отображать всех персонажей в максимальном росте
 Show AFK bubble if idle for 5 minutes
-Показывать всплывающее окно AFK, если оно не используется в течение 5 минут.
+Показывать статус AFK, если бездействует в течение 5 минут.
 Allow Safeword use (Cannot enable while bound)
 Разрешить использование безопасного слова (нельзя включить пока связана)
 (Click to confirm) Allow Safeword use (Cannot enable while bound)
@@ -317,9 +319,9 @@ Linking an email will allow password recovery
 Update Email
 Обновить электронную почту
 Current email:
-Текущая электронная почта:
+Текущий email:
 New email:
-Новый email-адрес:
+Новый email:
 No email saved, write here to add one
 Электронная почта не сохранена, напишите здесь, чтобы добавить ее
 An email is linked, write it here to update it
@@ -331,9 +333,9 @@ Current email does not match
 Invalid characters
 Недопустимые символы
 Show other characters meter
-Показать счетчик других символов
+Показать счетчик другим
 Affect your facial expressions
-Влияйте на выражение лица
+Влияет на выражение лица
 Activation:
 Активация:
 Disable sexual activities
@@ -501,7 +503,7 @@ Aroused & vibrated
 Group:
 Группа:
 Asset:
-Актив:
+Объект:
 Hide
 Скрывать
 Block
@@ -648,6 +650,8 @@ Page
 Страница
 Allow item tint effects
 Разрешить эффекты оттенка предмета
+Can only leave a map near an entry or exit
+Карту можно покинуть только возле входа или выхода
 Allow item blur effects (turn off if experiencing frame rate drops)
 Разрешить эффекты размытия предмета (отключить, если частота кадров падает)
 Females
@@ -658,6 +662,8 @@ Automatically enter the chatroom area for:
 Автоматически входить в зону чата для:
 Hide shop items exclusively for:
 Скрыть товары в магазине исключительно для:
+Hide titles in settings for:
+Скрыть заголовки в настройках для:
 Apply the censoring
 Применение цензуры
 Select the censorship to apply and the words to censor in both the chat and room labels.
@@ -689,3 +695,15 @@ Permits scripts to override the default item-hiding behaviour of Bondage Club. T
 Разрешает сценариям переопределять поведение скрытия предметов по умолчанию в Bondage Club. Это может улучшить вашу игру, позволяя комбинировать предметы, которые обычно были бы невозможны, или позволяя скрывать предметы для достижения определенного вида, который не обязательно точно отражает то, что вы носите. Однако его также можно использовать для создания серьезных визуальных сбоев, включая невидимость предметов или даже всего вашего персонажа. Используйте с осторожностью!
 Permits scripts to override the default item-blocking behaviour of Bondage Club. This is the functionality that prevents you from equipping items on others, or can prevent sexual activities on blocked zones. Allowing scripts to add custom blocking behaviour can allow for additional restriction, preventing players from removing worn items or adding new ones in a given slot, but can also result in items that you can't remove yourself without the help of a script (or by removing this permission).
 Разрешает сценариям переопределять поведение блокировки предметов по умолчанию в Bondage Club. Это функция, которая не позволяет вам надевать предметы на других или может предотвратить сексуальные действия в заблокированных зонах. Разрешение сценариям добавлять настраиваемое поведение блокировки может разрешить дополнительные ограничения, запрещающие игрокам удалять изношенные предметы или добавлять новые в заданный слот, но также может привести к тому, что предметы, которые вы не сможете удалить самостоятельно без помощи сценария (или с помощью удаление этого разрешения).
+FPS Limit
+Лимит FPS
+Unfocused FPS limit
+Несфокусированный лимит FPS
+Unlimited
+Неограниченный
+Your owner can change or lock your nickname
+Ваш владелец может изменить или заблокировать ваш ник
+Show ungarbled contents of messages if available
+Показывать неискаженное содержимое сообщений, если это доступно.
+Display FPS Counter
+Отображение счетчика FPS
