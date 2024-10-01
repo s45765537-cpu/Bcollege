@@ -4136,7 +4136,9 @@ interface ClubCardPlayer {
 
 interface ClubCardMessage {
 	Message: string,
-	MessageType: string
+	MessageType: string,
+	PlayerName: string,
+	TurnCounter:  number
 }
 
 // #region drawing
