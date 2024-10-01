@@ -126,6 +126,13 @@ function ItemColorDraw(c, group, x, y, width, height, includeResetButton) {
 				ItemColorState.colorInputWidth,
 				ItemColorConfig.colorInputHeight,
 			);
+			if (ItemColorState.editOpacity) {
+				DrawImageResize("Icons/Slider/Opacity.png", 1201, 72, 218, 48);
+				let X = 1200;
+				if ((ItemColorItem.Property != null) && (ItemColorItem.Property.Opacity != null) && (typeof ItemColorItem.Property.Opacity === "number"))
+					X = X + 200 - ItemColorItem.Property.Opacity * 200;
+				DrawEmptyRect(X, 71, 20, 50, (X > 1300) ? "#000000" : "#FFFFFF", 3);
+			}
 			return ColorPickerDraw(
 				x, contentY, width, y + height - contentY, /** @type {HTMLInputElement} */(document.getElementById("InputColor")), ItemColorOnPickerChange);
 		default:
@@ -250,6 +257,15 @@ function ItemColorClick(c, group, x, y, width, height, includeResetButton) {
 			const defaultColor = ItemColorState.defaultColors[ItemColorPickerIndices[0]] || "Default";
 			ElementValue("InputColor", defaultColor);
 			return;
+		}
+		
+		if ((ItemColorState.editOpacity) && MouseIn(1190, 65, 240, 60)) {
+			if (ItemColorItem.Property == null) ItemColorItem.Property = {};
+			let O = 1 - ((MouseX - 1210) / 200);
+			if (O < 0) O = 0;
+			if (O > 1) O = 1;
+			ItemColorItem.Property.Opacity = O;
+			CharacterRefresh(Player, false, false);
 		}
 	}
 
@@ -584,7 +600,8 @@ function ItemColorStateBuild(c, item, x, y, width, height, includeResetButton = 
 	const buttonCount = includeResetButton ? 5 : 4;
 	const colorInputWidth = Math.min(220, width - buttonCount * (headerButtonSize + buttonSpacing));
 	const colorInputX = x + 0.5 * colorInputWidth;
-	const colorInputY = y + 0.5 * headerButtonSize;
+	const colorInputY = y + (item.Asset.EditOpacity ? 0.1 : 0.5) * headerButtonSize;
+	const editOpacity = item.Asset.EditOpacity;
 
 	ItemColorState = {
 		colorGroups,
@@ -603,6 +620,7 @@ function ItemColorStateBuild(c, item, x, y, width, height, includeResetButton = 
 		colorInputWidth,
 		colorInputX,
 		colorInputY,
+		editOpacity,
 		exportButtonX,
 		importButtonX,
 		resetButtonX,
