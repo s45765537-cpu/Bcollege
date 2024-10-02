@@ -701,17 +701,20 @@ var ClubCardList = [
 		}
 	},
 	{
-		//TODO quack doctor, add if 0 pacient check
 		ID: 7008,
 		Name: "Quack Doctor",
 		MoneyPerTurn: 1,
 		Group: ["AsylumNurse"],
 		turnStart: function(CCPlayer) {
-			const opponent = ClubCardGetOpponent(CCPlayer);
-			let FameReduction = Math.min(ClubCardGroupOnBoardCount(CCPlayer, "AsylumPatient"), 4);
-			ClubCardPlayerAddFame(CCPlayer, FameReduction * -1);
-			ClubCardPlayerAddFame(opponent, FameReduction * -1);
-			ClubCardLogGetDataPacket(ClubCardMessageType.CARDEFFECT, "Effect Quack Doctor", CCPlayer, FameReduction);
+			const MAX_FAME_REDUCTION = 4;
+			let fameReduction = Math.min(ClubCardGroupOnBoardCount(CCPlayer, "AsylumPatient"), MAX_FAME_REDUCTION);
+
+			if (fameReduction != 0) {
+				const opponent = ClubCardGetOpponent(CCPlayer);
+				ClubCardPlayerAddFame(CCPlayer, fameReduction * -1);
+				ClubCardPlayerAddFame(opponent, fameReduction * -1);
+				ClubCardLogGetDataPacket(ClubCardMessageType.CARDEFFECT, "Effect Quack Doctor", CCPlayer, fameReduction);
+			}
 		}
 	},
 	{
@@ -3895,7 +3898,7 @@ function ClubCardCreateOneDivContainer(MessageItem) {
 	const playerMessageBackgound = "#15171A";
 	let divName = "";
 	let counter = 1;
-	
+
 	while (true) {
 		divName = `OneMessageDiv_Turn${MessageItem.TurnCounter}_${counter}`;
 		if (document.getElementById(divName) == null) break;
@@ -3941,7 +3944,6 @@ function ClubCardCreateTurnDivContainer(MessageItem) {
 		turnDiv.style.borderRadius = "10px";
 		//turnDivContainer.style.backgroundColor = MainTurnContainerBackgound;
 	}
-	
 	const messageElement = document.createElement("div");
 	messageElement.style.color = "white";
 	messageElement.style.marginTop = "2px";
@@ -3949,7 +3951,7 @@ function ClubCardCreateTurnDivContainer(MessageItem) {
 	messageElement.style.lineHeight = "1.4";
 	messageElement.style.overflowWrap = "break-word";
 	messageElement.textContent = MessageItem.Message;
-	
+
 	if (MessageItem.MessageType == ClubCardMessageType.STARTTURNINFO) {
 		messageElement.id = `Message ${ClubCardMessageType.STARTTURNINFO}`;
 		messageElement.style.fontWeight = "bold";
@@ -3964,9 +3966,7 @@ function ClubCardCreateTurnDivContainer(MessageItem) {
 		messageElement.textContent = null;
 		messageElement.innerHTML = ClubCardGetFormatTextForInnerHTML(MessageItem.Message);
 	}
-	
 	document.getElementById(turnDivName).appendChild(messageElement);
-
 }
 
 /**
