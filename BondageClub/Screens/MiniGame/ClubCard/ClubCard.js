@@ -43,11 +43,7 @@ const ClubCardMessageType = Object.freeze({
 	TURNENDEFFECT: "TurnEndEffect",
 	FAMEMONEYINFO: "FameMoneyInfo", //end turn income and general increase  money and fame.
 	VICTORYINFO: "VictoryInfo",
-	//PLAYERCARDSJOINED: "PlayerCardsJoined",
-	//OPPONENTCARDSJOINED: "OpponentCardsJoined",
-	//PLAYERCARDSLEFT: "PlayerCardsLeft",
-	//OPPONENTCARDSLEFT: "OpponentCardsLeft",
-	//ENDEVENT ????
+	PREREQUISTITE : "Prerequisite", //
 	ACTIONSEPARATOR: "ActionSeparator", //for key messages separating one player's turn into parts.
 	SYSTEM: "SystemMessage", // Spectator join or leave , Select Deck
 	PLAYERSMESSAGE: "PlayersMessage",
@@ -731,6 +727,9 @@ var ClubCardList = [
 		},
 	},
 	{
+		//TODO Need to handle spam messages for Hypnotherapist event.
+		//For example, combine in one line - “card 1, card 2, ......, card 10 - left player's club”.
+		//Instead of 10 notifications for each card.
 		ID: 7010,
 		Name: "Hypnotherapist",
 		Group: ["AsylumNurse"],
@@ -3224,8 +3223,7 @@ function ClubCardPlayCard(CCPlayer, Card) {
 	// If the player must select a card before playing the current card
 	if ((Card.Prerequisite != null) && (ClubCardSelection == null) && (CCPlayer.Control == "Player")) {
 		ClubCardPending = Card;
-		ClubCardOneMessagePacketSend(TextGet("Prerequisite " + Card.Name), ClubCardMessageType.SYSTEM, false);
-		//TODO Delete Prerequisite message at the end of the turn and one of the actions per turn.
+		ClubCardOneMessagePacketSend(TextGet("Prerequisite " + Card.Name), ClubCardMessageType.PREREQUISTITE, false);
 		return;
 	}
 
@@ -3836,8 +3834,11 @@ function ClubCardRenderPanel() {
 			//fix bug double Turn Message in start game
 			if (messageLogItem.MessageType == ClubCardMessageType.STARTTURNINFO)
 				if (ClubCardLog.some(item => item.Message === messageLogItem.Message)) continue;
-
-			if (messageLogItem.MessageType == ClubCardMessageType.SYSTEM || messageLogItem.MessageType == ClubCardMessageType.PLAYERSMESSAGE) {
+			//one style for all these types message
+			const isOneDivContainer = messageLogItem.MessageType == ClubCardMessageType.SYSTEM
+				|| messageLogItem.MessageType == ClubCardMessageType.PLAYERSMESSAGE
+				|| messageLogItem.MessageType == ClubCardMessageType.PREREQUISTITE;
+			if (isOneDivContainer) {
 				ClubCardCreateOneDivContainer(messageLogItem);
 			}  else {
 				ClubCardCreateTurnDivContainer(messageLogItem);
@@ -3896,14 +3897,21 @@ function ClubCardRenderPanel() {
 function ClubCardCreateOneDivContainer(MessageItem) {
 	const systemMessageBackgound = "#04122a";
 	const playerMessageBackgound = "#15171A";
-	let divName = "";
+	let divName = null;
 	let counter = 1;
 
-	while (true) {
-		divName = `OneMessageDiv_Turn${MessageItem.TurnCounter}_${counter}`;
-		if (document.getElementById(divName) == null) break;
-		counter++;
+	if (MessageItem.MessageType == ClubCardMessageType.PREREQUISTITE) {
+		divName = "OneMessagePrerequisite";
+		const existingElement = document.getElementById(divName);
+		if (existingElement) existingElement.remove();
+	} else {
+		while (true) {
+			divName = `OneMessageDiv_Turn${MessageItem.TurnCounter}_${counter}`;
+			if (document.getElementById(divName) == null) break;
+			counter++;
+		}
 	}
+
 
 	const elementDiv = ElementCreateDiv(divName);
 	elementDiv.style.color = "white";
