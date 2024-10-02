@@ -43,11 +43,8 @@ const ClubCardMessageType = Object.freeze({
 	TURNENDEFFECT: "TurnEndEffect",
 	FAMEMONEYINFO: "FameMoneyInfo", //end turn income and general increase  money and fame.
 	VICTORYINFO: "VictoryInfo",
-	//PLAYERCARDSJOINED: "PlayerCardsJoined",
-	//OPPONENTCARDSJOINED: "OpponentCardsJoined",
-	//PLAYERCARDSLEFT: "PlayerCardsLeft",
-	//OPPONENTCARDSLEFT: "OpponentCardsLeft",
-	//ENDEVENT ????
+	PREREQUISTITE : "Prerequisite", //
+	ACTIONSEPARATOR: "ActionSeparator", //for key messages separating one player's turn into parts.
 	SYSTEM: "SystemMessage", // Spectator join or leave , Select Deck
 	PLAYERSMESSAGE: "PlayersMessage",
 });
@@ -55,7 +52,7 @@ const ClubCardMessageType = Object.freeze({
 const ClubCardStartTurnType = Object.freeze({
 	PLAYCARD: "PlayCard",
 	DRAWENDTURN: "DrawAndEndTurn",
-	BUNKRUPT: "Bankrupt",
+	BANKRUPT: "Bankrupt",
 	UPGRADELEVEL: "UpgradeLevel",
 	ENDTURN: "EndTurn" // Technical is the start of a new turn.
 });
@@ -705,11 +702,15 @@ var ClubCardList = [
 		MoneyPerTurn: 1,
 		Group: ["AsylumNurse"],
 		turnStart: function(CCPlayer) {
-			const opponent = ClubCardGetOpponent(CCPlayer);
-			let FameReduction = Math.min(ClubCardGroupOnBoardCount(CCPlayer, "AsylumPatient"), 4);
-			ClubCardPlayerAddFame(CCPlayer, FameReduction * -1);
-			ClubCardPlayerAddFame(opponent, FameReduction * -1);
-			ClubCardLogGetDataPacket(ClubCardMessageType.CARDEFFECT, "Effect Quack Doctor", CCPlayer, FameReduction);
+			const MAX_FAME_REDUCTION = 4;
+			let fameReduction = Math.min(ClubCardGroupOnBoardCount(CCPlayer, "AsylumPatient"), MAX_FAME_REDUCTION);
+
+			if (fameReduction != 0) {
+				const opponent = ClubCardGetOpponent(CCPlayer);
+				ClubCardPlayerAddFame(CCPlayer, fameReduction * -1);
+				ClubCardPlayerAddFame(opponent, fameReduction * -1);
+				ClubCardLogGetDataPacket(ClubCardMessageType.CARDEFFECT, "Effect Quack Doctor", CCPlayer, fameReduction);
+			}
 		}
 	},
 	{
@@ -726,6 +727,9 @@ var ClubCardList = [
 		},
 	},
 	{
+		//TODO Need to handle spam messages for Hypnotherapist event.
+		//For example, combine in one line - “card 1, card 2, ......, card 10 - left player's club”.
+		//Instead of 10 notifications for each card.
 		ID: 7010,
 		Name: "Hypnotherapist",
 		Group: ["AsylumNurse"],
@@ -961,6 +965,7 @@ var ClubCardList = [
 		}
 	},
 	{
+		//TODO Fussy Babby, Need a fix for a bug where if your opponent wins at the end of your turn, you hang in the game.
 		ID: 10007,
 		Name: "Fussy Baby",
 		Group: ["ABDLBaby"],
@@ -1895,7 +1900,6 @@ var ClubCardList = [
 		}
 	},
 	{
-		//TODO Knot event ? Not sure. there is no notification in the chat if called through a summon.
 		ID: 31016,
 		Name: "Struggler's Knot",
 		Type: "Event",
@@ -1964,7 +1968,6 @@ var ClubCardList = [
 		turnStart: function(CCPlayer) {
 			if (ClubCardGroupIsOnBoard(CCPlayer, "Sensei")) {
 				ClubCardPlayerSummonGroupCardFromDeck(CCPlayer, ["Knot"], 1, undefined);
-				//TODO turnStart Event message???
 			}
 		}
 	},
@@ -2021,7 +2024,7 @@ function ClubCardIsPlaying() {
 
 /**
  * Adds a text entry to the game log
- * @param {ClubCardMessage[]} LogEntry - The club card player
+ * @param {ClubCardMessage[]} LogEntry - Message Packet with message and messageType
  * @param {boolean} Push - The club card player
  * @returns {void} - Nothing
  */
@@ -2042,10 +2045,16 @@ function ClubCardLogAdd(LogEntry, Push = true) {
  */
 function ClubCardMessagePacketAdd(Message, MessageType) {
 	if (ClubCardMessageStorage) {
+		const CCPlayer = ClubCardPlayer[ClubCardTurnIndex];
+		const playerName = CharacterNickname(CCPlayer.Character);
+		const turnCounter = CCPlayer.ClubCardTurnCounter;
+
 		/** @type {ClubCardMessage} */
 		const packet = {
 			Message: Message,
-			MessageType: MessageType
+			MessageType: MessageType,
+			PlayerName: playerName,
+			TurnCounter: turnCounter
 		};
 		ClubCardMessageStorage.push(packet);
 	}
@@ -2070,6 +2079,8 @@ function ClubCardProcessingRopeSlaveLivingArt(MessagePacket) {
 	const summary = {};
 	const newMessages = [];
 	const regex = /(.+) gained (\d+) (money|fame) from (.+)\./;
+	let turnCounter = null;
+	let playerName = null;
 
 	for (let item of MessagePacket) {
 		const match = item.Message.match(regex);
@@ -2080,6 +2091,8 @@ function ClubCardProcessingRopeSlaveLivingArt(MessagePacket) {
 			const resource = match[3];
 			const source = match[4];
 			const summaryKey = `${player} from ${source}`;
+			turnCounter = item.TurnCounter;
+			playerName = item.PlayerName;
 
 			if (!summary[summaryKey]) summary[summaryKey] = { money: 0, fame: 0 };
 
@@ -2093,13 +2106,17 @@ function ClubCardProcessingRopeSlaveLivingArt(MessagePacket) {
 		if (money > 0) {
 			newMessages.push({
 				Message: `${playerSource[0]} gained ${money} money from ${playerSource[1]}.`,
-				MessageType: ClubCardMessageType.CARDEFFECT
+				MessageType: ClubCardMessageType.CARDEFFECT,
+				PlayerName: playerName,
+				TurnCounter: turnCounter
 			});
 		}
 		if (fame > 0) {
 			newMessages.push({
 				Message: `${playerSource[0]} gained ${fame} fame from ${playerSource[1]}.`,
-				MessageType: ClubCardMessageType.CARDEFFECT
+				MessageType: ClubCardMessageType.CARDEFFECT,
+				PlayerName: playerName,
+				TurnCounter: turnCounter,
 			});
 		}
 	}
@@ -2140,11 +2157,11 @@ function ClubCardGetLogPacket(MessageTypes) {
 
 /**
  * Publishes an action to the log and replaces all the tags
+ * @param {string} MessageType - Message Type
  * @param {string} Text - The text to fetch
  * @param {ClubCardPlayer|null} CCPlayer - The source player
  * @param {number|null} Amount - The amount linked to the action
  * @param {ClubCard|null} Card - The card linked to the action
- * @param {string} MessageType - Message Type
  * @returns {void}
  */
 function ClubCardLogGetDataPacket(MessageType, Text, CCPlayer = null, Amount = null, Card = null) {
@@ -2887,7 +2904,7 @@ function ClubCardRunTurnEndHandlers(CCPlayer, Opponent, Before) {
  * @param {string} StartType
  * StartType = ClubCardStartTurnType.BUNKRUPT because otherwise the bankruptcy function won't work.
  */
-function ClubCardStartTurn(StartType = ClubCardStartTurnType.BUNKRUPT) {
+function ClubCardStartTurn(StartType = ClubCardStartTurnType.BANKRUPT) {
 
 	const CCPlayer = ClubCardPlayer[ClubCardTurnIndex];
 	if (ClubCardIsStartTurn == false) {
@@ -2902,7 +2919,7 @@ function ClubCardStartTurn(StartType = ClubCardStartTurnType.BUNKRUPT) {
 	}
 
 	if (ClubCardMessageStorage.length > 0) {
-		const actionPacket = ClubCardGetLogPacket([ClubCardMessageType.CARDEFFECT]);
+		const actionPacket = ClubCardGetLogPacket([ClubCardMessageType.CARDEFFECT, ClubCardMessageType.KNOTEVENT]);
 		ClubCardMessagePacketSend(actionPacket);
 	}
 
@@ -2915,7 +2932,7 @@ function ClubCardStartTurn(StartType = ClubCardStartTurnType.BUNKRUPT) {
 			ClubCardEndTurn((ClubCardTurnCardPlayed == 0));
 			break;
 
-		case ClubCardStartTurnType.BUNKRUPT:
+		case ClubCardStartTurnType.BANKRUPT:
 			ClubCardBankrupt();
 			break;
 
@@ -3206,7 +3223,7 @@ function ClubCardPlayCard(CCPlayer, Card) {
 	// If the player must select a card before playing the current card
 	if ((Card.Prerequisite != null) && (ClubCardSelection == null) && (CCPlayer.Control == "Player")) {
 		ClubCardPending = Card;
-		//ClubCardLogAdd(TextGet("Prerequisite " + Card.Name));
+		ClubCardOneMessagePacketSend(TextGet("Prerequisite " + Card.Name), ClubCardMessageType.PREREQUISTITE, false);
 		return;
 	}
 
@@ -3304,13 +3321,12 @@ function ClubCardPlayCard(CCPlayer, Card) {
 		ClubCardMessagePacketSend(actionPacket);
 		return ClubCardEndTurn();
 	} else {
-		// If that player can play more than one card per turn, we announce it
-		Text = TextGet("PlayAnotherCard").replace("PLAYERNAME", CharacterNickname(CCPlayer.Character));
-		//TODO maybe it system type ?
-		ClubCardMessagePacketAdd(Text, ClubCardMessageType.ACTION);
 		const actionPacket = ClubCardGetLogPacket(messageTypes);
 		ClubCardMessagePacketSend(actionPacket);
-		//TODO Add separete extra turn
+
+		// If that player can play more than one card per turn, we announce it
+		Text = TextGet("PlayAnotherCard").replace("PLAYERNAME", CharacterNickname(CCPlayer.Character));
+		ClubCardOneMessagePacketSend(Text, ClubCardMessageType.ACTIONSEPARATOR);
 	}
 
 	ClubCardAIStart();
@@ -3812,55 +3828,23 @@ function ClubCardRenderPanel() {
 
 	if (ClubCardRenderLog.length > 0) {
 
-		const packetDiv = document.createElement("div");
-		//packetDiv.style.display = "flex"
-		//packetDiv.style.flexDirection = "column";
-		//packetDiv.style.gap = "10px";
-
-		/*packetDiv.style.borderTop = "1px solid white";
-		packetDiv.style.borderBottom = "1px solid white";
-		packetDiv.style.marginTop = "5px";
-		packetDiv.style.marginBottom = "5px";*/
-		//packetDiv.style.backgroundColor = "red";
-
 		for (let messageLogItem of ClubCardRenderLog) {
 			if (messageLogItem == null || messageLogItem.Message == "") continue;
 
 			//fix bug double Turn Message in start game
-			if (messageLogItem.MessageType == ClubCardMessageType.STARTTURNINFO) {
-				const isExist = ClubCardLog.some(item => item.Message === messageLogItem.Message);
-				if (isExist) continue;
+			if (messageLogItem.MessageType == ClubCardMessageType.STARTTURNINFO)
+				if (ClubCardLog.some(item => item.Message === messageLogItem.Message)) continue;
+			//one style for all these types message
+			const isOneDivContainer = messageLogItem.MessageType == ClubCardMessageType.SYSTEM
+				|| messageLogItem.MessageType == ClubCardMessageType.PLAYERSMESSAGE
+				|| messageLogItem.MessageType == ClubCardMessageType.PREREQUISTITE;
+			if (isOneDivContainer) {
+				ClubCardCreateOneDivContainer(messageLogItem);
+			}  else {
+				ClubCardCreateTurnDivContainer(messageLogItem);
 			}
-
-			const messageElement = document.createElement("div");
-			messageElement.style.color = "white";
-			messageElement.style.marginTop = "2px";
-			messageElement.style.marginBottom = "2px";
-			messageElement.style.lineHeight = "1.2";
-			if (messageLogItem.MessageType == ClubCardMessageType.STARTTURNINFO) {
-				messageElement.textContent = messageLogItem.Message;
-				messageElement.style.borderTop = "1px solid white";
-				messageElement.style.fontWeight = "bold";
-				messageElement.style.color = "#FF9999";
-			} else if (messageLogItem.MessageType == ClubCardMessageType.SYSTEM) {
-				messageElement.textContent = messageLogItem.Message;
-				messageElement.style.backgroundColor = "#1C1C1C";
-				messageElement.style.borderTop = "1px solid white";
-				messageElement.style.borderBottom = "1px solid white";
-			} else if (messageLogItem.MessageType == ClubCardMessageType.PLAYERSMESSAGE) {
-				messageElement.textContent = messageLogItem.Message;
-				messageElement.style.backgroundColor = "#001A00";
-				messageElement.style.borderTop = "1px solid white";
-				messageElement.style.borderBottom = "1px solid white";
-				messageElement.style.overflowWrap = "break-word";
-			}
-			else {
-				messageElement.innerHTML = ClubCardGetFormatTextForInnerHTML(messageLogItem.Message);
-			}
-
-			packetDiv.appendChild(messageElement);
 		}
-		document.getElementById("CCLog").appendChild(packetDiv);
+
 		ClubCardLog.push(...ClubCardRenderLog);
 		//Clear ClubCardRenderLog
 		ClubCardRenderLog = [];
@@ -3904,6 +3888,93 @@ function ClubCardRenderPanel() {
 		DrawButton(5, 505, 45, 45, null, "White", "Screens/MiniGame/ClubCard/Button/DiscardPile.png", TextGet("DiscardPile"));
 	} else ClubCardStatusText(ClubCardIsPlaying() ? "OpponentPlaying" : "WatchingGame");
 
+}
+
+/**
+ * Function to create and add system or player messages to document.getElementById(“CCLog”).
+ * @param {ClubCardMessage} MessageItem - Message
+ */
+function ClubCardCreateOneDivContainer(MessageItem) {
+	const systemMessageBackgound = "#04122a";
+	const playerMessageBackgound = "#15171A";
+	let divName = null;
+	let counter = 1;
+
+	if (MessageItem.MessageType == ClubCardMessageType.PREREQUISTITE) {
+		divName = "OneMessagePrerequisite";
+		const existingElement = document.getElementById(divName);
+		if (existingElement) existingElement.remove();
+	} else {
+		while (true) {
+			divName = `OneMessageDiv_Turn${MessageItem.TurnCounter}_${counter}`;
+			if (document.getElementById(divName) == null) break;
+			counter++;
+		}
+	}
+
+
+	const elementDiv = ElementCreateDiv(divName);
+	elementDiv.style.color = "white";
+	elementDiv.style.marginTop = "2px";
+	elementDiv.style.marginBottom = "2px";
+	elementDiv.style.borderTop = "1px solid white";
+	elementDiv.style.borderBottom = "1px solid white";
+	elementDiv.style.borderRadius = "5px";
+	elementDiv.style.lineHeight = "1.4";
+	elementDiv.style.overflowWrap = "break-word";
+	elementDiv.textContent = MessageItem.Message;
+
+	if (MessageItem.MessageType == ClubCardMessageType.SYSTEM)
+		elementDiv.style.backgroundColor = systemMessageBackgound;
+	//Player Message
+	else elementDiv.style.backgroundColor = playerMessageBackgound;
+
+	document.getElementById("CCLog").appendChild(elementDiv);
+}
+
+/**
+ * Function for creating and filling a container with all objects for a stroke by index.
+ * @param {ClubCardMessage} MessageItem - Message
+ */
+function ClubCardCreateTurnDivContainer(MessageItem) {
+	//const MainTurnContainerBackgound = "#15171A";
+	const ActionSeparatorBackgound = "#2E2E2E";
+	const StartTurnTextColor = "#FF9999";
+
+	const turnDivName = `TurnDiv_Turn${MessageItem.TurnCounter}_${MessageItem.PlayerName}`;
+	if (document.getElementById(turnDivName) == null) {
+		const turnDiv = ElementCreateDiv(turnDivName);
+		document.getElementById("CCLog").appendChild(turnDiv);
+		turnDiv.style.marginTop = "10px";
+		turnDiv.style.marginBottom = "10px";
+		turnDiv.style.borderTop = "1px solid white";
+		turnDiv.style.borderBottom = "1px solid white";
+		turnDiv.style.borderRadius = "10px";
+		//turnDivContainer.style.backgroundColor = MainTurnContainerBackgound;
+	}
+	const messageElement = document.createElement("div");
+	messageElement.style.color = "white";
+	messageElement.style.marginTop = "2px";
+	messageElement.style.marginBottom = "2px";
+	messageElement.style.lineHeight = "1.4";
+	messageElement.style.overflowWrap = "break-word";
+	messageElement.textContent = MessageItem.Message;
+
+	if (MessageItem.MessageType == ClubCardMessageType.STARTTURNINFO) {
+		messageElement.id = `Message ${ClubCardMessageType.STARTTURNINFO}`;
+		messageElement.style.fontWeight = "bold";
+		messageElement.style.color = StartTurnTextColor;
+		messageElement.style.textAlign = "center";
+	} else if (MessageItem.MessageType == ClubCardMessageType.ACTIONSEPARATOR) {
+		messageElement.style.backgroundColor = ActionSeparatorBackgound;
+		messageElement.style.borderTop = "1px solid white";
+		messageElement.style.borderBottom = "1px solid white";
+	}
+	else {
+		messageElement.textContent = null;
+		messageElement.innerHTML = ClubCardGetFormatTextForInnerHTML(MessageItem.Message);
+	}
+	document.getElementById(turnDivName).appendChild(messageElement);
 }
 
 /**
