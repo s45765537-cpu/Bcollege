@@ -1,6 +1,5 @@
 .chat-room-sep {
-  padding-left: unset !important;
-  margin-left: 3px;
+  padding-left: 3px !important;
   border-bottom: min(0.4vh, 0.2vw) black solid !important;
   border-top: min(0.4vh, 0.2vw) black solid !important;
   position: sticky !important;
@@ -18,24 +17,27 @@
   height: 100%;
   display: grid;
   grid-template-columns: 6% auto;
+  gap: min(0.4vh, 0.2vw);
   justify-items: center;
   margin-right: 6%;
+  background-color: black;
+}
+
+.chat-room-sep-div > button {
+  width: 100%;
+  height: 100%;
+  color: gray;
+  background-color: var(--base-color);
+  background-color: color-mix(in srgb, var(--base-color) 90%, var(--label-color) 10%);
 }
 
 .chat-room-sep-header {
-  color: gray;
   user-select: text !important;
-  width: 100%;
-  height: 100%;
 }
 
 .chat-room-sep-collapse {
-  color: gray;
-  border-right: min(0.4vh, 0.2vw) black solid !important;
   font-weight: bold;
   text-align: center;
-  width: 100%;
-  height: 100%;
 }
 
 #chat-room-div {
