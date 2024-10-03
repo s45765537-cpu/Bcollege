@@ -127,6 +127,7 @@ var TranslationDictionary = [
 			"Screens/Character/BackgroundSelection/Text_BackgroundSelection_FR.txt",
 			"Screens/Character/Cheat/Text_Cheat_FR.txt",
 			"Screens/Character/Creation/Text_Creation_FR.txt",
+			"Screens/Character/Disclaimer/Text_Disclaimer_FR.txt",
 			"Screens/Character/FriendList/Text_FriendList_FR.txt",
 			"Screens/Character/InformationSheet/Text_InformationSheet_FR.txt",
 			"Screens/Character/ItemColor/ItemColor_FR.txt",
