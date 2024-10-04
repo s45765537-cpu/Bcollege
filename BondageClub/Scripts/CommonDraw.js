@@ -71,7 +71,17 @@ function CommonDrawAppearanceBuild(C, {
 		}
 		if (layer.Name) layerSegment = layer.Name;
 
+
 		let opacity = (item.Property && typeof item.Property.Opacity === "number") ? item.Property.Opacity : layer.Opacity;
+		if (item.Property && CommonIsArray(item.Property.Opacity)) {
+			let Pos = 0;
+			if (CommonIsArray(item.Asset.Layer))
+				for (let P = 0; P < item.Asset.Layer.length && P < item.Property.Opacity.length; P++)
+					if (layer.Name == item.Asset.Layer[P].Name)
+						Pos = P;
+			// @ts-ignore
+			if (typeof item.Property.Opacity[Pos] == "number") opacity = item.Property.Opacity[Pos];
+		}
 		let blendingMode = layer.BlendingMode;
 		opacity = Math.min(layer.MaxOpacity, Math.max(layer.MinOpacity, opacity));
 		/** @type {RectTuple[]} */
