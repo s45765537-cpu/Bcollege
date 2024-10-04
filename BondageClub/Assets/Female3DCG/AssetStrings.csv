@@ -2272,6 +2272,7 @@ ItemHeadDroneMaskModuleLayering,Adv. Layering
 ItemHeadDroneMaskModuleMouth,Mouth
 ItemHeadDroneMaskModulePattern,Pattern
 ItemHeadDroneMaskModuleSight,Lenses
+ItemHeadDroneMaskNoLayering,Must be equipped in the head slot
 ItemHeadDroneMaskOptione0,Smooth
 ItemHeadDroneMaskOptione1,Open
 ItemHeadDroneMaskOptione2,Spirals
@@ -2287,6 +2288,9 @@ ItemHeadDroneMaskOptionh2,Total Hood
 ItemHeadDroneMaskOptionj0,Hidden
 ItemHeadDroneMaskOptionj1,Right Gag Visible
 ItemHeadDroneMaskOptionj2,All Gags Visible
+ItemHeadDroneMaskOptionj3,Blindfold Visible
+ItemHeadDroneMaskOptionj4,Blindfold and Right
+ItemHeadDroneMaskOptionj5,All Visible
 ItemHeadDroneMaskOptionm0,Smooth
 ItemHeadDroneMaskOptionm1,Onahole
 ItemHeadDroneMaskOptionm2,Pussy
