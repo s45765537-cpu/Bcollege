@@ -121,7 +121,7 @@ Reach us on Discord, DeviantArt or Patreon if you need help.
 Свяжитесь с нами на Discord, DeviantArt или Patreon, если вам нужна помощь.
 Type /help in a chatroom to know the available chat commands.
 Введите /help в чате, чтобы узнать доступные команды чата.
-Try visiting your graphics preferences if you are experiencing performance issues.
+Try changing your graphics preferences if you get performance issues.
 Попробуйте посетить настройки графики, если у вас возникли проблемы с производительностью.
 Don't forget to do the daily job in the Introduction Room.
 Не забывайте выполнять ежедневную работу в Ознакомительном Классе.
@@ -129,7 +129,7 @@ Corsets can be worn both as clothing and a restraint.
 Корсеты можно носить как в качестве одежды, так и в качестве удерживающего средства.
 Chat rooms are where you can interact with other people, stay safe.
 Чаты — это место, где вы можете общаться с другими людьми и быть в безопасности.
-Locks make restraints impossible to get out of by yourself.
+Locks makes it harder to struggle out of restraints.
 Замки не позволяют освободиться самостоятельно.
 Ring the bell if you get stuck, a maid will be with you shortly.
 Позвоните в звонок, если вы застряли, горничная скоро прийдет к вам.
