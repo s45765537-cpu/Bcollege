@@ -988,6 +988,18 @@ var AssetFemale3DCGExtended = {
 			BaselineProperty: { Text: "", Text2: "", Text3: "" },
 		}, // BodyWritings
 	},
+	HairFront: {
+		HairFront60: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Band" }, { Name: "NoBand" }],
+		},
+		HairFront61: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Long" }, { Name: "Short" }],
+		},
+	},
 	HairBack: {
 		HairBack58: {
 			Archetype: ExtendedArchetype.TYPED,
