@@ -2600,7 +2600,7 @@ interface AssetDefinitionProperties {
 	 * The asset's draw opacity
 	 * @see {@link Asset.Opacity}
 	 */
-	Opacity?: number;
+	Opacity?: number | array<number>;
 
 	/**
 	 * A custom background for this option that overrides the default

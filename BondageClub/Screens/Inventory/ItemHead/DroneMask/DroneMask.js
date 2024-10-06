@@ -1,5 +1,24 @@
 "use strict";
 
+/** @type {ExtendedItemScriptHookCallbacks.Validate<ModularItemData, ModularItemOption>} */
+function ItemHeadDroneMaskValidateHook(data, originalFunction, C, item, newOption, previousOption, permitExisting) {
+	let ret = originalFunction(C, item, newOption, previousOption, permitExisting);
+	if (C.IsSimple()) {
+		return ret;
+	}
+
+	switch (newOption.ModuleName) {
+		case "Layering": {
+			const invalidOptions = [3, 4, 5];
+			if (item.Asset.Group.Name !== "ItemHood" && invalidOptions.includes(newOption.Index)) {
+				ret ||= AssetTextGet(`ItemHeadDroneMaskNoLayering`);
+			}
+			break;
+		}
+	}
+	return ret;
+}
+
 /** @type {ExtendedItemScriptHookCallbacks.AfterDraw<TextItemData>} */
 function AssetsItemHeadDroneMaskAfterDrawHook(data, originalFunction, {
 	C, A, CA, X, Y, Property, drawCanvas, drawCanvasBlink, AlphaMasks, L, Color,

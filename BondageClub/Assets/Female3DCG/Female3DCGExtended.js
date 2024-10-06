@@ -16494,9 +16494,15 @@ var AssetFemale3DCGExtended = {
 								Hide: [],
 							},
 						}, // All gags visible
+						{}, // Blindfold items visible
+						{}, // Blindfold and highest layer gag
+						{}, // Blindfold and all gags
 					],
 				},
 			],
+			ScriptHooks: {
+				Validate: ItemHeadDroneMaskValidateHook,
+			},
 			ChangeWhenLocked: false,
 			BaselineProperty: { Text: "" },
 		}, // DroneMask

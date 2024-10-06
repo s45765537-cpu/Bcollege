@@ -128,9 +128,15 @@ function ItemColorDraw(c, group, x, y, width, height, includeResetButton) {
 			);
 			if (ItemColorState.editOpacity) {
 				DrawImageResize("Icons/Slider/Opacity.png", 1201, 72, 218, 48);
-				let X = 1200;
+				let Opacity = 1;
 				if ((ItemColorItem.Property != null) && (ItemColorItem.Property.Opacity != null) && (typeof ItemColorItem.Property.Opacity === "number"))
-					X = X + 200 - ItemColorItem.Property.Opacity * 200;
+					Opacity = ItemColorItem.Property.Opacity;
+				else if ((ItemColorItem.Property != null) && CommonIsArray(ItemColorItem.Property.Opacity) && CommonIsArray(ItemColorPickerIndices) && (ItemColorPickerIndices.length > 0) && (typeof ItemColorPickerIndices[0] === "number") && (ItemColorItem.Property.Opacity.length >= ItemColorPickerIndices[0]) && (typeof ItemColorItem.Property.Opacity[ItemColorPickerIndices[0]] === "number"))
+					// @ts-ignore
+					Opacity = ItemColorItem.Property.Opacity[ItemColorPickerIndices[0]];
+				if (Opacity > 1) Opacity = 1;
+				if (Opacity < 0) Opacity = 0;
+				let X = 1400 - Opacity * 200;
 				DrawEmptyRect(X, 71, 20, 50, (X > 1300) ? "#000000" : "#FFFFFF", 3);
 			}
 			return ColorPickerDraw(
@@ -264,7 +270,18 @@ function ItemColorClick(c, group, x, y, width, height, includeResetButton) {
 			let O = 1 - ((MouseX - 1210) / 200);
 			if (O < 0) O = 0;
 			if (O > 1) O = 1;
-			ItemColorItem.Property.Opacity = O;
+			if ((ItemColorItem.Asset == null) || !CommonIsArray(ItemColorItem.Asset.Layer) || (ItemColorItem.Asset.Layer.length <= 1)) {
+				ItemColorItem.Property.Opacity = O;
+			} else {
+				if (!CommonIsArray(ItemColorItem.Property.Opacity) || (ItemColorItem.Property.Opacity.length != ItemColorItem.Asset.Layer.length)) {
+					ItemColorItem.Property.Opacity = [];
+					for (let Layer of ItemColorItem.Asset.Layer)
+						ItemColorItem.Property.Opacity.push(1);
+				}
+				if (CommonIsArray(ItemColorPickerIndices))
+					for (let I of ItemColorPickerIndices)
+						ItemColorItem.Property.Opacity[I] = O;
+			}
 			CharacterRefresh(Player, false, false);
 		}
 	}

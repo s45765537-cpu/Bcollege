@@ -116,7 +116,7 @@ Reach us on Discord, DeviantArt or Patreon if you need help.
 請在我們的Discord,DeviantArt或Patreon尋求幫助。
 Type /help in a chatroom to know the available chat commands.
 在聊天框中輸入/help來顯示可用的聊天指令。
-Try visiting your graphics preferences if you are experiencing performance issues.
+Try changing your graphics preferences if you get performance issues.
 如果你遇到了性能問題，請嘗試訪問你的圖像偏好。
 (A woman blocks your path.)  DialogPlayerName!  You've been a nuisance for Pandora's Box for far too long.  Surrender now or you will get hurt.
 （一個女人擋住了你的去路。）DialogPlayerName！你給潘多拉魔盒造成困擾的時間實在是太久了。立即投降，否則你會受傷的。
