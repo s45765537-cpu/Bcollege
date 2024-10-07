@@ -16,6 +16,10 @@ Randomize character
 随机角色
 Strip clothes
 脱下衣物
+Copy to clipboard
+复制到剪贴板
+Import from clipboard
+从剪贴板导入
 Show character in previews
 在预览中显示角色
 Strip item

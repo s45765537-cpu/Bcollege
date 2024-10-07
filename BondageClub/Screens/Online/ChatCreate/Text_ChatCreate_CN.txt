@@ -7,7 +7,7 @@ Description
 Language
 交流语言
 Description of the room
-房間描述
+房间描述
 Ban List
 封禁列表
 Administrator List

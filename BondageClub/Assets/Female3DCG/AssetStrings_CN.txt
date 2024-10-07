@@ -604,6 +604,12 @@ Zam's Stick Art
 Zam的棍棒艺术
 Eclipse
 日食
+Cesium Frog
+铯蛙
+Zam's Stick ArtII
+Zam的棍棒艺术II
+Hornyhood
+角帽
 BTG
 BTG
 Dominant
@@ -3260,6 +3266,22 @@ SourceCharacter detaches DestinationCharacter mittens from the chains.
 SourceCharacter解开了DestinationCharacter无指手套上的链条。
 Free Limbs
 自由肢体
+Harness (back)
+束带（后）
+Harness (front)
+束带（前）
+Unlinked
+未连接
+Select style
+选择样式
+SourceCharacter ties DestinationCharacter rope cuffs in her back.
+SourceCharacter将DestinationCharacter绳子手铐绑在她的背后。
+SourceCharacter ties DestinationCharacter rope cuffs to the back of her harness.
+SourceCharacter将DestinationCharacter绳子手铐绑在她的束带背后。
+SourceCharacter ties DestinationCharacter rope cuffs to the front of her harness.
+SourceCharacter将DestinationCharacter绳子手铐绑在她的束带前面。
+SourceCharacter detaches DestinationCharacter rope cuffs.
+SourceCharacter解开了DestinationCharacter绳子手铐。
 Chained
 有锁链
 SourceCharacter chains DestinationCharacter padded mittens to the harness.
@@ -3304,6 +3326,8 @@ Adv. Layering
 进阶图层排序
 Mouth
 嘴巴
+Must be equipped in the head slot
+必须装备在头部栏位
 Smooth
 平滑
 Spirals
@@ -3324,6 +3348,12 @@ Right Gag Visible
 右侧口塞可见
 All Gags Visible
 所有口塞可见
+Blindfold Visible
+眼罩可见
+Blindfold and Right
+眼罩和右侧物品栏
+All Visible
+全部可见
 Onahole
 飞机杯
 Pussy
@@ -3696,12 +3726,6 @@ SourceCharacter changes the hood cover on DestinationCharacter latex hood.
 SourceCharacter调整了DestinationCharacter乳胶头套上的头套覆盖。
 All Hidden
 全部隐藏
-Blindfold Visible
-眼罩可见
-Blindfold and Right
-眼罩和右侧物品栏
-All Visible
-全部可见
 SourceCharacter adjusts the visibility of gags and blindfolds on DestinationCharacter smooth latex mask.
 SourceCharacter调整了DestinationCharacter平滑乳胶面具上口塞和眼罩的可见性。
 Good Girl
@@ -6558,8 +6582,6 @@ SourceCharacter removes TimerTime TimerUnit from the padlock on DestinationChara
 SourceCharacter从DestinationCharacterFocusAssetGroup上的锁的计时器上移除了TimerTime TimerUnit。
 SourceCharacter restarts the five minutes timer padlock on DestinationCharacter FocusAssetGroup.
 SourceCharacter重置了DestinationCharacterFocusAssetGroup上的五分钟计时锁的计时器.
-Unknown time left
-剩余时间未知
 Toes
 脚趾
 SourceCharacter uses the tape on TargetCharacter to fully wrap TargetPronounPossessive feet with tape.
@@ -6654,6 +6676,14 @@ Wrapped
 包裹
 Select the state.
 选择状态。
+Spread
+张开
+Folded
+折叠
+Bound
+绑定
+Select the state
+选择状态
 <i>Your private room</i>
 <i>你的私人房间</i>
 Frogtie
@@ -6756,3 +6786,471 @@ Long necklace:
 长项链
 Choker style:
 贴颈样式
+Choose your Power Staff stance:
+选择你的能量法杖状态：
+A (spanker) staff
+一个（打屁股）法杖
+SourceCharacter transform the Power Staff into Wand
+SourceCharacter将能量法杖转变为魔棒
+A (kinky) wand
+一个（色色）魔棒
+SourceCharacter transform the Power Staff into Staff
+SourceCharacter将能量法杖转变为法杖
+Pole, material and bucket menu:
+竖杆，材料和桶菜单：
+Pole and ratchets
+杆和棘轮
+Choose restraint lenght:
+选择束缚长度：
+Just ankles
+仅脚踝
+Lower legs
+小腿
+Full legs
+整条腿
+Material to fill
+填充的材料
+Choose material to fill her/him feet:
+选择填充她/他脚的材料：
+Expanding foam
+膨胀泡沫
+Slime
+粘液
+Glue
+胶水
+Cement
+水泥
+Bucket option
+桶选项
+Remove or keep the bucket:
+移除或者保留桶：
+Keep bucket
+保留桶
+Remove bucket
+移除桶
+SourceCharacter frees DestinationCharacterName legs from ratchets.
+SourceCharacter解开了DestinationCharacterName腿上的棘轮束带。
+SourceCharacter ties DestinationCharacterName ankles with ratchets.
+SourceCharacter用棘轮束带绑住了DestinationCharacterName的脚踝。
+SourceCharacter ties DestinationCharacterName lower legs ankles with ratchets.
+SourceCharacter用棘轮绑住DestinationCharacterName 的小腿和脚踝。
+SourceCharacter ties DestinationCharacterName legs completely ankles with ratchets.
+SourceCharacter用棘轮将DestinationCharacterName 的腿和脚踝绑在一起。
+SourceCharacter puts DestinationCharacterName feet in the bucket.
+SourceCharacter将DestinationCharacterName 的脚放入桶中。
+SourceCharacter removes the bucket from DestinationCharacterName feet.
+SourceCharacter从DestinationCharacterName脚上移除了桶。
+SourceCharacter frees DestinationCharacterName feet.
+SourceCharacter释放DestinationCharacterName 的脚。
+SourceCharacter fills DestinationCharacterName feet with expanding foam.
+SourceCharacter用膨胀泡沫填充DestinationCharacterName 的脚。
+SourceCharacter fills DestinationCharacterName feet with hard slime.
+SourceCharacter用坚硬的粘液填满DestinationCharacterName 的脚。
+SourceCharacter fills DestinationCharacterName feet with atoxic glue.
+SourceCharacter用有毒的胶水填充了DestinationCharacterName 的脚。
+SourceCharacter fills DestinationCharacterName feet with quick drying cement.
+SourceCharacter用快干水泥填充DestinationCharacterName 的脚。
+Customize your Strict Hobble Dress:
+定制您的严格束缚服：
+Top dress
+上衣
+Cleavage option:
+乳沟选项：
+No cleavage
+无乳沟
+Cleavege
+解理
+Collar option:
+领子选择：
+Skirt length
+裙长
+Skirt lenght option:
+裙长选择：
+Knee lenght
+膝盖长度
+Full lenght (Slow)
+全长（慢速）
+Skirt end
+裙边
+End skirt option:
+尾裙选项：
+Mermaid style
+美人鱼风格
+Leg belts
+腿带
+Leg belts option:
+腿带选项：
+Belt below the knee (Slow)
+腰带位于膝盖以下（缓慢）
+Ankle belt (Slow)
+脚踝带（慢速）
+Belts in both positions (Slow)
+皮带处于两种位置（慢速）
+Select a style:
+选择样式：
+With accessory
+附有配件
+With accessory over hair
+头发上有配饰
+SourceCharacter attaches ball gag to DestinationCharacter gag harness.
+SourceCharacter将口球连接到DestinationCharacter口球带上。
+SourceCharacter attaches ring gag to DestinationCharacter gag harness.
+SourceCharacter将环形口塞附加到DestinationCharacter口塞线束上。
+Ring Gag
+口塞环
+Ball Gag
+口球
+Armbinder Suit customization menu:
+单手套服定制菜单：
+Collar menu
+项圈菜单
+Security collar
+安全颈圈
+Armbinder sector
+单手套部分
+Armbinder menu
+单手套菜单
+Binder on the left
+束缚在左侧
+Binder on the right
+束缚在右侧
+Neutral position
+中间位置
+Strict by harness belts
+拘束带严格束缚
+Harness plus link legs
+束缚连上腿部
+Short link chain
+短连接
+Security straps
+安全束带
+Strap menu
+束带菜单
+Shoulder straps
+肩部束带
+Genital access
+生殖器暴露
+Suit's zipper menu
+套装拉链菜单
+Leg lenght & belts
+腿部长度和皮带
+Lower suit menu
+下半身菜单
+No leg extension
+无腿部延伸
+Leg extension
+腿部延伸
+Knee belt
+膝盖皮带
+Full belted
+全部皮带
+Rubber skirt
+橡胶裙
+Skirt accessory menu
+裙子配饰菜单
+Single ballet boot
+单只芭蕾靴
+Single heel menu
+单跟菜单
+Free feet
+脚部自由
+Loose heel boot
+宽松高跟靴
+Tight belts
+束紧腰带
+Chained to the floor
+拴在地板上
+SourceCharacter removes the suit collar from DestinationCharacterName neck.
+SourceCharacter将单手套服项圈从DestinationCharacterName脖子上取下。
+SourceCharacter buckles the suit collar from DestinationCharacterName neck.
+SourceCharacter将单手套服项圈从DestinationCharacterName扣在了脖子上。
+DestinationCharacterName binded arms are on TargetPronounObject left side.
+DestinationCharacterName将TargetPronounObject的手臂绑在左侧。
+DestinationCharacterName binded arms are on TargetPronounObject right side.
+DestinationCharacterName将TargetPronounObject的手臂绑在右侧。
+DestinationCharacterName binded arms are in normal position.
+DestinationCharacterName绑住的手臂处于正常位置。
+SourceCharacter completely immobilizes DestinationCharacterName arms with harness belts.
+SourceCharacter使用安全带完全固定了DestinationCharacterName的手臂。
+SourceCharacter links DestinationCharacterName armbinder to the TargetPronounObject feet with chain and cuffs.
+SourceCharacter使用链条和铐将DestinationCharacterName单手套与TargetPronounObject脚部连接起来。
+SourceCharacter shorten chain to force DestinationCharacterName stands TargetPronounObject knees.
+SourceCharacter缩短链条，强迫DestinationCharacterName跪下来。
+SourceCharacter removes the straps from DestinationCharacterName shoulders.
+SourceCharacter将DestinationCharacterName肩膀上的带子取下来。
+SourceCharacter is adding some harness straps from DestinationCharacterName shoulders.
+SourceCharacter在DestinationCharacterName肩部添加了一些安全带。
+SourceCharacter closes the DestinationCharacterName suit zipper.
+SourceCharacter拉上了DestinationCharacterName拉链。
+SourceCharacter opens the suit zipper and DestinationCharacterName genital is exposed.
+SourceCharacter打开拉链，让DestinationCharacterName生殖器露出。
+SourceCharacter chooses a shorten suit model for DestinationCharacterName.
+SourceCharacter为DestinationCharacterName选择了短款的单手套服。
+SourceCharacter chooses a long suit model for DestinationCharacterName.
+SourceCharacter为DestinationCharacterName选择了长款的单手套服。
+SourceCharacter puts a belt under DestinationCharacterName knees.
+SourceCharacter在DestinationCharacterName膝盖下系了一条腰带。
+SourceCharacter binds completely DestinationCharacterName upper legs with more belts.
+SourceCharacter使用更多皮带将DestinationCharacterName 的大腿完全绑住。
+SourceCharacter removes the rubber skirt from DestinationCharacterName.
+SourceCharacter从DestinationCharacterName中移除橡胶裙。
+SourceCharacter wears a short rubber skirt in DestinationCharacterName.
+SourceCharacter在DestinationCharacterName中穿着一条短橡胶裙。
+SourceCharacter removes the single heel boot from DestinationCharacterName feet.
+SourceCharacter从DestinationCharacterName脚上取下单跟靴。
+SourceCharacter puts on the single heel boot on DestinationCharacterName feet.
+SourceCharacter为DestinationCharacterName脚穿上单跟靴。
+SourceCharacter tights the DestinationCharacterName single heel boot with another belt.
+SourceCharacter用另一条腰带将DestinationCharacterName单跟靴紧身。
+SourceCharacter chains the DestinationCharacterName single heel boot on the ground.
+SourceCharacter将DestinationCharacterName单跟靴拴在地面上。
+Select Rubber Mask options
+选择橡胶面罩选项
+Mask base
+面具基底
+Mask base menu
+面具基底菜单
+Mask mode
+面具模式
+Hood mode
+头套模式
+Sight
+视觉
+Sight menu
+视觉菜单
+Low sight
+低视力
+Opaque lenses
+不透明镜片
+Hearing control
+听力控制
+Hearing control menu
+听力控制菜单
+Add earplugs
+添加耳塞
+Hair and Wig
+头发和假发
+Hair and wig menu
+头发和假发菜单
+Default hair
+默认头发
+Wig A
+假发 A
+Wig B
+假发 B
+Wig C
+假发 C
+Wig D
+假发 D
+Wig E
+假发 E
+Wig F
+假发 F
+Wig G
+假发 G
+Wig H
+假发 H
+Wig I
+假发 I
+Wig J
+假发 J
+Wig K
+假发 K
+Wig L
+假发 L
+Wig M
+假发 M
+Wig N
+假发 N
+Eye expression menu
+眼神表情菜单
+Closed eyes
+闭上眼睛
+Wide open eyes
+睁大眼睛
+Scared
+害怕
+Feline normal
+猫正常
+Feline Wide open eyes
+猫睁大眼睛
+Feline scared
+猫害怕
+Eyebrow expression menu
+眉毛表情菜单
+Alternating (L-r)
+交换（*左-右）
+Alternating (l-R)
+交换（左-*右）
+Lip expression menu
+唇部表情菜单
+Serious
+严肃
+Open mouth
+张开嘴
+Vampire neutral
+吸血鬼中性
+Vampire serious
+吸血鬼严肃
+Vampire open mouth
+吸血鬼张开嘴
+Additional gag
+附加口塞
+Supplemental mask gag menu
+面具口塞菜单
+Single duct tape piece
+单条胶带
+Horror gag
+恐怖口塞
+SourceCharacter turns the rubber mask into mask mode on DestinationCharacterName head.
+SourceCharacter将DestinationCharacterName头上的橡胶面罩转变为面罩模式。
+SourceCharacter turns the rubber mask into hood mode on DestinationCharacterName head.
+SourceCharacter将DestinationCharacterName头上的橡胶面罩变成头套模式。
+SourceCharacter installs a one way lenses pair in DestinationCharacterName rubber mask.
+SourceCharacter在DestinationCharacterName橡胶面罩中安装了一对单向镜片。
+SourceCharacter installs a darker lenses pair in DestinationCharacterName rubber mask.
+SourceCharacter在DestinationCharacterName橡胶面罩中安装了一对颜色较暗的镜片。
+SourceCharacter almost completely obstructs DestinationCharacterName sight with opaque fake eyes.
+SourceCharacter用不透明的假眼几乎完全遮住了DestinationCharacterName的视线。
+SourceCharacter removes the rubber mask's earplugs from DestinationCharacterName ears.
+SourceCharacter从DestinationCharacterName耳朵中取下橡胶面罩的耳塞。
+SourceCharacter puts a pair of earplugs inside DestinationCharacterName ears.
+SourceCharacter将一对耳塞放入DestinationCharacterName耳朵内。
+SourceCharacter keeps the DestinationCharacterName default hair.
+SourceCharacter保留DestinationCharacterName的默认头发。
+SourceCharacter puts the wig A on the DestinationCharacterName head.
+SourceCharacter将假发A戴在了DestinationCharacterName的头上。
+SourceCharacter puts the wig B on the DestinationCharacterName head.
+SourceCharacter将假发B戴在了DestinationCharacterName的头上。
+SourceCharacter puts the wig C on the DestinationCharacterName head.
+SourceCharacter将假发C戴在了DestinationCharacterName的头上。
+SourceCharacter puts the wig D on the DestinationCharacterName head.
+SourceCharacter将假发D戴在了DestinationCharacterName的头上。
+SourceCharacter puts the wig E on the DestinationCharacterName head.
+SourceCharacter将假发E戴在了DestinationCharacterName的头上。
+SourceCharacter puts the wig F on the DestinationCharacterName head.
+SourceCharacter将假发F戴在了DestinationCharacterName的头上。
+SourceCharacter puts the wig G on the DestinationCharacterName head.
+SourceCharacter将假发G戴在了DestinationCharacterName的头上。
+SourceCharacter puts the wig H on the DestinationCharacterName head.
+SourceCharacter将假发H戴在了DestinationCharacterName的头上。
+SourceCharacter puts the wig I on the DestinationCharacterName head.
+SourceCharacter将假发I戴在了DestinationCharacterName的头上。
+SourceCharacter puts the wig J on the DestinationCharacterName head.
+SourceCharacter将假发J戴在了DestinationCharacterName的头上。
+SourceCharacter puts the wig K on the DestinationCharacterName head.
+SourceCharacter将假发K戴在了DestinationCharacterName的头上。
+SourceCharacter puts the wig L on the DestinationCharacterName head.
+SourceCharacter将假发L戴在了DestinationCharacterName的头上。
+SourceCharacter puts the wig M on the DestinationCharacterName head.
+SourceCharacter将假发M戴在了DestinationCharacterName的头上。
+SourceCharacter puts the wig N on the DestinationCharacterName head.
+SourceCharacter将假发N戴在了DestinationCharacterName的头上。
+SourceCharacter chooses a normal eye expression in DestinationCharacterName mask.
+SourceCharacter为DestinationCharacterName面具选择正常的眼睛表情。
+SourceCharacter chooses a closed eye expression in DestinationCharacterName mask.
+SourceCharacter为DestinationCharacterName面具选择了闭眼表情。
+SourceCharacter chooses a wide open eye expression in DestinationCharacterName mask.
+SourceCharacter为DestinationCharacterName面具选择了睁大眼睛的表情。
+SourceCharacter chooses a scared eye expression in DestinationCharacterName mask.
+SourceCharacter为DestinationCharacterName面具选择了害怕的眼神。
+SourceCharacter chooses a feline eye expression in DestinationCharacterName mask.
+SourceCharacter为DestinationCharacterName面具选择了猫眼睛表情。
+SourceCharacter chooses a feline wide open eye expression in DestinationCharacterName mask.
+SourceCharacter为DestinationCharacterName面具中选择了猫睁大眼睛的表情。
+SourceCharacter chooses a feline scared eye expression in DestinationCharacterName mask.
+SourceCharacter为DestinationCharacterName面具中选择了猫害怕的眼神表情。
+SourceCharacter chooses a neutral eyebrow expression in DestinationCharacterName mask.
+SourceCharacter为DestinationCharacterName面具中选择中性眉毛表情。
+SourceCharacter chooses a sad eyebrow expression in DestinationCharacterName mask.
+SourceCharacter为DestinationCharacterName面具中选择了悲伤的眉毛表情。
+SourceCharacter chooses a angry eyebrow expression in DestinationCharacterName mask.
+SourceCharacter为DestinationCharacterName面具中选择了愤怒的眉毛表情。
+SourceCharacter chooses a alterning eyebrow expression (L-r) in DestinationCharacterName mask.
+SourceCharacter为DestinationCharacterName面具中交换两侧眉毛表情（*左-右）。
+SourceCharacter chooses a alterning eyebrow expression (l-R) in DestinationCharacterName mask.
+SourceCharacter为DestinationCharacterName面具中交换两侧眉毛表情（左-*右）。
+SourceCharacter chooses a normal lip expression in DestinationCharacterName mask.
+SourceCharacter为DestinationCharacterName面具中选择正常的嘴唇表情。
+SourceCharacter chooses a serious lip expression in DestinationCharacterName mask.
+SourceCharacter为DestinationCharacterName面具中选择了严肃的嘴唇表情。
+SourceCharacter chooses a open mouth expression in DestinationCharacterName mask.
+SourceCharacter为DestinationCharacterName面具中选择一个张开的嘴巴表情。
+SourceCharacter chooses a normal vampire lip expression in DestinationCharacterName mask.
+SourceCharacter为DestinationCharacterName面具中选择了正常的吸血鬼嘴唇表情。
+SourceCharacter chooses a serious vampire lip expression in DestinationCharacterName mask.
+SourceCharacter为DestinationCharacterName面具中选择了严肃的吸血鬼嘴唇表情。
+SourceCharacter chooses a open mouth vampire expression in DestinationCharacterName mask.
+SourceCharacter为DestinationCharacterName面具中选择一个张开嘴的吸血鬼表情。
+SourceCharacter removes any rubber mask gag from DestinationCharacterName mouth.
+SourceCharacter从DestinationCharacterName嘴中取下所有橡胶面罩塞。
+SourceCharacter gags DestinationCharacterName with a single piece of duct tape.
+SourceCharacter用一块胶带封住了DestinationCharacterName的嘴。
+SourceCharacter gags DestinationCharacterName totally locking TargetPronounObject mouth with the Horror Gag.
+SourceCharacter用恐怖口塞完全锁住了DestinationCharacterName的嘴。
+Build and choose the brick wall's height:
+建造并选择砖墙的高度：
+No brick
+无砖
+Up to the hips
+臀部高度
+At breast/chest height
+胸部高度
+Neck height
+颈部高度
+Full wall
+整面墙
+Full with a grided window
+带有网格窗口
+Wall's last brick
+城墙的最后一块砖
+SourceCharacter removes all front wall brick from DestinationCharacterName.
+SourceCharacter从DestinationCharacterName中移除所有前墙砖。
+SourceCharacter builds a brick wall that reaches DestinationCharacterName hips.
+SourceCharacter建造了一堵砖墙，到达DestinationCharacterName的臀部。
+SourceCharacter builds a brick wall that reaches DestinationCharacterName chest.
+SourceCharacter建造了一堵砖墙，到达DestinationCharacterName的胸部。
+SourceCharacter builds a brick wall that reaches DestinationCharacterName neck.
+SourceCharacter建造了一堵砖墙，到达DestinationCharacterName颈部。
+SourceCharacter builds a brick wall completely but a single hole at DestinationCharacterName eye height.
+SourceCharacter建造了一堵完整的砖墙，但在DestinationCharacterName的视线高度处有一个洞。
+SourceCharacter builds a brick wall completely and puts a small grid at DestinationCharacterName eye height.
+SourceCharacter建造了一堵完整的砖墙，并在DestinationCharacterName眼睛高度处放置一个小网格。
+SourceCharacter builds a brick wall completely and puts the last brick at DestinationCharacterName eye height.
+SourceCharacter建造了一堵完整的砖墙，并将最后一块砖放在DestinationCharacterName的眼睛高度。
+Customize your heels:
+定制你的高跟鞋：
+Ankle straps
+脚踝束带
+Ankle straps menu
+脚踝束带菜单
+Ankle straps placed
+安装脚踝束带
+Mid straps
+中间束带
+Mid straps menu
+中间束带菜单
+Mid straps placed
+安装中间束带
+Lower straps
+下部束带
+Lower straps menu
+下部束带菜单
+Lower straps placed
+安装下部束带
+Choose a latex genital for attach on head harness:
+选择连接到在头带上的乳胶生殖器：
+SourceCharacter attaches a fake pussy in the DestinationCharacterName mouth.
+SourceCharacter在DestinationCharacterName嘴里安装了一个假阴部。
+A butthole
+屁眼
+SourceCharacter attaches a fake butthole in the DestinationCharacterName mouth. (Damn!)
+SourceCharacter在DestinationCharacterName嘴里安装了一个假屁眼。（该死！）
+Select Accessory.
+选择配饰。
+Band
+带子
+No Band
+无带子
+Select Hair Type.
+选择头发类型。

@@ -64,6 +64,10 @@ College Student
 大学学生
 College Teacher
 大学老师
+Shibari
+绳艺
+Knot
+绳结
 Online Player
 在线玩家
 Reward Cards

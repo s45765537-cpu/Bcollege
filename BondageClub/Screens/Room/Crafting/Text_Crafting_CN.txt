@@ -6,6 +6,8 @@ Destroy an item
 摧毁一件物品
 Craft your item
 制作物品
+: no item selected
+：没有选择物品
 Cancel
 取消
 Previous
@@ -23,19 +25,25 @@ No lock
 Select an empty slot to craft a new item, or click on the item to edit.  Page
 为你新制作的物品选择一个栏位，或者点击物品来编辑它。 页面
 Select a crafted item slot to destroy.  Page
-选择摧毁一个已经制作的物品栏来。 页面
-Select an item to craft or search on your left.
-从你的左边选择一个物品来制作或者研究。
-Select a property for your AssetDescription.
-为你的AssetDescription选择一个特性。
-Select a lock to use with your PropertyName AssetDescription.
-为你的PropertyName AssetDescription选择一个锁。
-Enter a name and description for your PropertyName AssetDescription.
-为你的PropertyName AssetDescription输入一个名称和描述。
+选择摧毁一个已经制作的物品栏。 页面
+Select an item
+选择一件物品
+Select an item property
+选择一条物品特性
+Select a lock
+选择一种锁
+Configure the crafted item
+配置制作的物品
 Pick the item colors
 选择该物品的颜色
 Configure layer priority
 配置图层优先级
+Filter properties
+筛选特性
+Filter items
+筛选物品
+Filter padlocks
+筛选锁
 Name of the crafted item
 制作物品的名称
 Engrave a description
@@ -138,3 +146,15 @@ Open Colorpicker
 打开颜色选择器
 Change item layering
 更改物品图层
+Export crafting code
+导出制作代码
+Crafting code pasted to clipboard
+制作代码已复制到剪贴板
+Import crafting code
+导入制作代码
+Please paste the crafting code. Importing crafting codes will overwrite existing settings. Are you sure?
+请粘贴制作代码。导入制作代码将覆盖现有设置。你确定吗？
+Crafting code successfully parsed
+成功解析制作代码
+Failed to parse the passed crafting code
+无法解析传入的制作代码

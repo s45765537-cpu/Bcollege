@@ -74,17 +74,15 @@ Spin your Wheel of Fortune
 [Color]: 设置背景图片的滤镜颜色（例如：#0000FF40）
 [URL]: Set the http address of the background mp3/mp4 music to use
 [URL]: 设置背景mp3/mp4音乐使用的http地址
+Copy your current appearance in your clipboard
+将你当前的外观复制到你的剪贴板中
+[Appearance]: Change your current appearance with the pasted string. No argument will use the clipboard.
+[Appearance]: 使用粘贴的字符串更改你的当前外观。不提供参数将使用剪贴板。
 Copy the current map layout in your clipboard
 将当前地图布局复制到你的剪贴板中
-[Map]: Paste your map string to load it as current.
-[Map]: 将你的地图字符串粘贴并加载为当前状态。
+[Map]: Paste your map string to load it as current. No argument will use the clipboard.
+[Map]: 粘贴你的地图字符串，并加载为当前地图。不提供参数将使用剪贴板。
 [MemberNumber|Name|Nickname]: Begin whispering to player.  Leave blank to stop whispering.<br>[MemberNumber|Name|Nickname] [Message]: Send whisper to target player.
 [MemberNumber|Name|Nickname]: 开始与玩家说悄悄话。留空停止悄悄话。<br>[MemberNumber|Name|Nickname] [Message]: 向目标玩家发送悄悄话。
 Access the shop
 访问商店
-
-########################
-### DEPRECATED LINES ###
-########################
-[Message]: Display “[PlayerName] Message” as an action. *[Message] does the same
-[Message]:显示“[PlayerName] Message”为动作.*[Message]也是同样的效果
