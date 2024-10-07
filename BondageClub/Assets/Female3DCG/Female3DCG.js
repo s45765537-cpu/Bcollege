@@ -16839,6 +16839,45 @@ var AssetFemale3DCG = [
 					}
 				]
 			},
+			{
+				Name: "HairFront59",
+				Top: 30
+			},
+			{
+				Name: "HairFront60",
+				Top: 35,
+				DefaultColor: ["Default","#E01010","#AFAFAF"],
+				Extended: true,
+				Layer: [
+					{
+						Name: "Main",
+					},
+					{
+						Name: "BandMain",
+						AllowTypes: { typed: 0},
+					},
+					{
+						Name: "BandX",
+						AllowTypes: { typed: 0},
+					},
+				]
+			},
+			{
+				Name: "HairFront61",
+				Top: 30,
+				Extended: true,
+				Layer: [
+					{
+						Name: "Long",
+						AllowTypes: { typed: 0},
+					},
+					{
+						Name: "Short",
+						CopyLayerColor: "Long",
+						AllowTypes: { typed: 1},
+					},
+				]
+			},
 		],
 		Color: [
 			"#6a3628",
@@ -19723,6 +19762,7 @@ var AssetFemale3DCG = [
 					...AssetPoseMapping.ItemLegs,
 					KneelingSpread: "KneelingSpread",
 				},
+				DefaultColor: ["#707070"],
 				AllowActivePose: [...PoseAllKneeling, "AllFours", "Hogtied"],
 				Effect: [E.Slow],
 				DrawLocks: false,
