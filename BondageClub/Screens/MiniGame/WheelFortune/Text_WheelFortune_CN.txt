@@ -4,6 +4,10 @@ Your owner requires you to spin the Wheel of Fortune
 你的主人要求你转动命运之轮
 Hold your breath
 屏住呼吸
+Invalid empty fortune wheel; at least one option required
+无效的空命运之轮；至少需要一个选项
+Empty wheel
+空轮盘
 Roleplay mode
 角色扮演模式
 Roleplay mode isn't available on hardcore or extreme difficulty

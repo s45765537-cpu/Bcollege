@@ -96,7 +96,7 @@ Oh please!  Can we make a deal?
 哦拜托！我们可以做个交易吗？
 ###_NPC
 (She smirks.)  Maybe later.  You'll write: "I will be a good student." thirty times on the board.
-（她得意地笑起来。）也许以后吧。你要在黑白上写“我会成为一个好学生。”三十次。
+（她得意地笑。）也许以后吧。你要在黑白上写“我会成为一个好学生。”三十次。
 ###_PLAYER
 All day?  Really?
 一整天？真的吗？
@@ -174,7 +174,7 @@ It's the last time I repeat.  You will write: "I will be a good student.".
 （写：“我会成为一个好学生。”）
 ###_NPC
 (She watches you write and smirks.)  It's a good start.
-（她看着你写，得意地笑起来。）这是一个好的开始。
+（她看着你写，露出得意的笑。）这是一个好的开始。
 ###_PLAYER
 (Write: "I will be a bad student.".)
 （写：“我会成为一个坏学生。”。）

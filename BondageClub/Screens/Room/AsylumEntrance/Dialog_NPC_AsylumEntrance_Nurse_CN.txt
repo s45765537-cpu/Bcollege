@@ -490,7 +490,7 @@ Yes Miss.  (Bow your head.)
 好的女士（你低下了头）
 ###_NPC
 Good girl.  (She smirks.)  Now carry on, I have work to do.
-好姑娘（她笑着说）现在继续去接受治疗吧，我还要工作要忙
+乖女孩。（她露出得意的笑。）现在继续去接受治疗吧，我还要工作要忙
 ###_PLAYER
 Fine.  I'll do it.
 行，我认了
@@ -594,7 +594,7 @@ I'll force my way out.
 不要逼我用强硬的方法
 ###_NPC
 (She smirks.)  Good luck, the doors are bolted with magnets.
-（她笑着说）行，祝你好运。顺带一提，这里的门都是用磁铁关住的
+（她露出得意的笑。）行，祝你好运。顺带一提，这里的门都是用磁铁关住的
 ###_PLAYER
 Fine!  Forget it.
 行吧，当我没说。

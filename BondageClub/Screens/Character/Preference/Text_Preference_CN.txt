@@ -2,8 +2,8 @@
 - 设置 -
 - General Preferences -
 - 通用设置 -
-- Multi Player Difficulty Preferences -
-- 多人难度设置 -
+- Multiplayer Difficulty Preferences -
+- 多人游戏难度设置 -
 - Restriction Preferences -
 - 束缚设置 -
 - Chat Preferences -
@@ -72,56 +72,34 @@ Roleplay
 角色扮演
 Roleplay - This mode is fully open to customise your experience.
 角色扮演 - 本模式下可以完全自定义你的体验
-It allows you to choose which restrictions or mechanisms to ignore.
-你可以选择不想要使用的束缚器具和机制
-You can select this mode any time, but you won't be able
-你可以随时切换到本模式，但是7天内
-to select the Hardcore or Extreme mode for seven days.
-你将无法切换到硬核或极限难度
+It allows you to choose which restrictions or mechanisms to ignore.\nYou can select this mode any time, but you won't be able\nto select the Hardcore or Extreme mode for seven days.
+你可以选择不想要使用的束缚器具和机制。\n你可以随时切换到本模式，但是7天内你将无法切换到硬核或极限难度。
 Regular
 通常
 Regular - This default mode enforces the basic rules and restrictions.
 通常 - 本模式下需要遵守基础的规则和限制.
-It's made to restrict you and keep you safe at the same time.
-这是为了同时对你进行限制并保证你的安全
-Lots of options can be configured under this mode.
-本模式下可以修改大多数选项
+It's made to restrict you and keep you safe at the same time.\nLots of options can be configured under this mode.\nYou can select this mode any time, but you won't be able\nto select the Hardcore or Extreme mode for seven days.
+这能同时对你进行限制并保证你的安全。\n本模式下可以修改大多数选项。\n你可以随时切换到本模式，但是7天内你将无法切换到硬核或极限难度。
 Hardcore
 硬核
 Hardcore - This mode is geared for players wanting to be helpless.
 硬核 - 本模式面向想要体验无助感的玩家
-No rescue maid will come, and no NPC will help you out.
-没有救援女仆，没有NPC会帮助你脱身
-No safeword can be used, you must find help from players.
-没有安全词可用，你必须从其他玩家处获得帮助
-You must be a member for at least seven days to select this mode.
-你至少需要注册7天才能选择本难度
-You cannot select this if you've changed mode in the last seven days.
-如果你更改了难度模式，7天内你将无法选择本模式
+No rescue maid will come, and no NPC will help you out.\nNo safeword can be used, you must find help from players.\nYou must be a member for at least seven days to select this mode.\nYou cannot select this if you've changed mode in the last seven days.
+没有救援女仆，没有NPC会帮助你脱身。\n没有安全词可用，你必须从其他玩家处获得帮助。\n你至少需要注册7天才能选择本难度。\n如果你更改了难度模式，7天内你将无法选择本模式。
 Extreme
 极限
 Extreme - This mode is built for players wanting to be full slaves.
 极限 - 本模式面向希望成为完全的奴隶的玩家
-No safeword can be used and you cannot leave your owner.
-没有安全词可用，并且你无法摆脱主人
-All immersion settings are maxed, and you cannot block any item.
-所有的沉浸设置都被强制固定为最大，同时你不可以屏蔽任何物品
-Easy mode - Restrictions and game mechanisms
-简单模式 - 束缚和游戏机制
-can be ignored with toggles.  For pure roleplayers.
-可以被无视，专为RP玩家设计
-Normal mode - Basic restrictions are enforced, 
-普通模式 - 需要遵守基础的规则和限制，
-many options to protect you.  For most players.
-有自我保护选项。 适合大多数玩家
-Hard mode - No rescue maids, no safeword and no 
-硬核模式 - 没有救援女仆，没有NPC帮助，
-help from any NPC.  For players that want trouble.
-也没有安全词。专为想要找事的玩家设计。
-Slavery mode - No maids, no safeword, no NPC help, 
-奴隶模式 - 没有救援女仆，没有NPC帮助，没有安全词，
-no blocked items, cannot leave owner.  Fully helpless.
-不能屏蔽物品，不能从主人处逃跑。完全的无助。
+No rescue maid will come, and no NPC will help you out.\nNo safeword can be used and you cannot leave your owner.\nAll immersion settings are maxed, and you cannot block any item.\nYou cannot select this if you've changed mode in the last seven days.
+没有救援女仆，没有NPC会帮助你脱身。\n没有安全词可用，你必须从其他玩家处获得帮助\n没有安全词可用，并且你无法摆脱主人。\n所有的沉浸设置都被强制固定为最大，同时你不可以屏蔽任何物品。\n如果你更改了难度模式，7天内你将无法选择本模式。
+Easy mode - Restrictions and game mechanisms\ncan be ignored with toggles.  For pure roleplayers.
+简单模式 - 束缚和游戏机制可以通过开关无视。\n专为RP玩家设计。
+Normal mode - Basic restrictions are enforced,\nmany options to protect you.  For most players.
+普通模式 - 需要遵守基础的规则和限制，有很多自我保护选项。\n适合大多数玩家。
+Hard mode - No rescue maids, no safeword and no\nhelp from any NPC.  For players that want trouble.
+硬核模式 - 没有救援女仆，没有NPC帮助，也没有安全词。\n专为想要麻烦的玩家设计。
+Slavery mode - No maids, no safeword, no NPC help,\nno blocked items, cannot leave owner.  Fully helpless.
+奴隶模式 - 没有救援女仆，没有NPC帮助，没有安全词，\n不能屏蔽物品，不能从主人处逃跑。完全的无助。
 You're already playing on that difficulty mode.
 你已经在游玩该难度模式了
 You need to wait NumberOfHours hours before you can activate this mode.
@@ -160,8 +138,8 @@ Owner only
 仅主人
 Put a valid hex #red-green-blue color
 请输入有效的十六位#RGB颜色
-Color theme:
-颜色主题:
+Theme:
+主题:
 Light
 明亮
 Dark
@@ -186,8 +164,8 @@ Never
 永不
 On Mouseover
 悬浮时
-Font size
-字体大小
+Font size:
+字体大小:
 Small
 小号
 Medium
@@ -748,3 +726,7 @@ Unlimited
 30 FPS
 60 FPS
 60 FPS
+Auto-close OOC messages
+自动关闭OOC消息
+Show ungarbled contents of messages if available
+如果可用，显示未混淆的消息内容

@@ -110,6 +110,14 @@ PLAYERNAME has been selected randomly to start the game.
 PLAYERNAME被随机选择开始游戏。
 PLAYERNAME has joined the Club Card game.
 PLAYERNAME加入了俱乐部卡牌游戏。
+Your appearance data has been copied to your clipboard.  Paste it somewhere else to save it.
+你的外观数据已经复制到了你的剪贴板中。粘贴到其他地方来保存。
+Your pasted appearance is loaded.
+你粘贴的外观已经加载。
+Your pasted appearance cannot be loaded.
+你粘贴的外观无法加载。
+You cannot change your appearance.
+你不能改变你的外观。
 The current map data has been copied to your clipboard.  Paste it somewhere else to save it.
 当前地图数据已经复制到了你的剪贴板中。粘贴到其他地方来保存。
 There's no map data to copy.

@@ -61,6 +61,16 @@ Silence is gold, and gags are better than gold.
 （她因自己的胜利洋洋得意。）很好！赏金是我的！
 (You surrender without a fight as she quickly restrains your arms.)  Easiest bounty ever!
 （你不战而降，她迅速束缚你的手臂。）我遇到的最轻松的赏金！
+(A costumed girl stops you.)  By the Heavenly Light and the Seven Prisms of the moon!  Your evil deeds are over!  Surrender!
+（一个穿着套装的女孩拦住你。）以圣天光和月之七圣晶之名！你的邪恶行为结束
+(A costumed girl stares at you and smirks.)  By the Seven Prisms of the moon!  Stopping evil is easy lately.
+（一个穿着套装的女孩盯着你，得意地笑起来。）以月之七圣晶之名！最近制止邪恶变得很容易。
+(She struggles one last time.)  Evil might have won this battle
+（她最后挣扎了一下。）邪恶可能赢得了这场战斗
+(She stands proudly and does a superhero pose.)  Heavenly Light shall prevail!
+（她骄傲地站着，做了一个超级英雄的姿势。）圣天光必胜！
+(You surrender without a fight as she quickly restrains your arms.)  Heavenly Light shall prevail!
+（你不战而降，她迅速束缚了你的手臂。）圣天光必胜！
 (A club Mistress stares at you.)  So, you've became one of the club master kidnapper?  Are you ready to face me?
 （一位俱乐部女主人盯着你。）所以，你已经成为一位俱乐部绑架大师了？你准备好面对我了吗？
 (A club Mistress laughs at you.)  One of the master kidnappers got herself in trouble?  This will be fun.
@@ -208,6 +218,32 @@ No bounty hunter will ever get me.
 没有赏金猎人会抓到我。
 Take this $20 and leave, bounty hunter.
 拿着这$20离开吧，赏金猎人。
+Sister!  I also follow the Heavenly Light.
+姐妹！我也追随圣天光的指引。
+###_NPC
+My apologies sister.  I thought you were evil in disguise.  Are you on a quest for the Seven Prisms of the moon?
+抱歉，姐姐。我以为你是伪装的恶魔。你是在寻找月之七圣晶吗？
+###_PLAYER
+Are you a superheroine?
+你是超级女英雄吗？
+###_NPC
+By the Seven Prisms!  I defend the Heavenly Light against villainous foes like you!  Surrender now or I shall restrain you with my super powers.
+以七圣晶之名！我将捍卫圣天光，对抗像你这样的邪恶敌人！现在就投降，否则我会用我的超能力拘束你。
+###_PLAYER
+What Seven Prisms?
+什么是七圣晶？
+###_NPC
+The Seven Prisms of the moon shines the values of the Heavenly Light.  I shall proect them with my life.
+月之七圣晶中闪耀着圣天光。我将用我的生命保护它们。
+###_PLAYER
+This costume is cute.
+这套装扮很可爱。
+###_NPC
+(She blushes and tries to stay in her role.)  Don't try villainous tricks on me!  I will capture you!
+（她脸红，试图保持她的角色。）别对我耍恶作剧！我会抓住你的！
+###_PLAYER
+Evil shall vanquish Heavenly light! (Fight her.)
+邪恶将战胜圣天光！（与她战斗。）
 You've heard about me?
 你听说过我吗？
 ###_NPC
@@ -275,6 +311,12 @@ Either I was lucky, or you've let me win.
 ###_NPC
 (She shakes her head no.)
 （她摇头，表示否认。）
+###_PLAYER
+Can I join your quest against evil?
+我可以加入你们对抗邪恶的行动吗？
+###_NPC
+You want to redeem yourself and serve the Heavenly Light?
+你想救赎自己并侍奉圣天光吗？
 ###_PLAYER
 (Play with her.)
 （玩弄她。）
@@ -605,3 +647,38 @@ Follow me!  (Bring her to your room.)
 ###_NPC
 (She lets you go and sighs.)  Sadly, I need to go.  Find your owner to get out.
 （她让你走，叹了口气。）可悲的是，我得走了。找你的主人来放你出来吧。
+###_PLAYER
+I will protect the Seven Prisms.
+我会守护七圣晶的。
+###_NPC
+By the Heavenly Light, you shall be our sister!  I will get you a proper costume.
+以圣天光之名，你将成为我们的姐妹！我会给你一套合适的服装。
+###_PLAYER
+I will wear the costume proudly.
+我会骄傲地穿上服装的。
+###_NPC
+Yes sister, I will get you a costume to suit you for battle against evil.
+是的，姐妹，我会给你一套服装，你将穿上它并与邪恶战斗。
+###_PLAYER
+(Make a superhero pose.)
+（摆出一个超级英雄的姿势。）
+###_NPC
+Be proud sister, I will get you a costume to combat the forces of evil.  Heavenly Light shall prevail.
+骄傲地展现自己，姐妹，我会给你一套服装，用来战胜邪恶的力量。圣天光必胜。
+###_PLAYER
+(Wear the superheroine clothes.)
+（穿上超级女英雄的衣服。）
+###_NPC
+(You wear the superheroine clothes.)  You look marvelous, a true Heavenly sister.  Ready to smite evil!
+（你穿着超级女英雄的衣服。）你看起来棒极了，是真正的圣天姐妹。准备打击邪恶吧！
+###_PLAYER
+I will begin my quest!  (Let her go.)
+我要开始我的行动了！（离开她。）
+Would you like to see my lair?
+你想看看我的藏身处吗？
+###_NPC
+A lair?  This could be the perfect place to gather against our foes.
+藏身处？这可能是我们对抗敌人的最佳地点。
+###_PLAYER
+Follow me.  (Bring her to your room.)
+跟我来。（把她带到你的房间。）

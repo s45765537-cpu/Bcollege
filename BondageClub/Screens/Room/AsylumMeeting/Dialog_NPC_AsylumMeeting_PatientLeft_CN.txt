@@ -28,7 +28,7 @@ I need something from you.
 I'm listening.  What do you need?
 我在听，你需要什么？
 You should know me, I'm DialogCharacterName.  I'm the best patient around.  (She smirks.)
-你应该知道我，我是DialogCharacterName。我是最好的病人。（她得意地笑起来。）
+你应该知道我，我是DialogCharacterName。我是最好的病人。（她露出得意的笑。）
 ###_PLAYER
 (Struggle in your restraints.)
 （挣扎着摆脱束缚）
