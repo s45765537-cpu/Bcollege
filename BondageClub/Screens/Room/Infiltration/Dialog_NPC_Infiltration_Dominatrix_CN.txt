@@ -4,7 +4,7 @@
 (She grumbles.)  Unbelievable!  Fine, keep your stolen loot for now, but we will recover it soon.
 （她发起牢骚。）难以置信！好吧，你就留着你偷走的东西，但我们迟早会找回它。
 (She smirks.)  Justice has been served.  Someone like you has no right to carry our locks and keys.
-（她邪恶地笑起来。）正义得到了伸张。像你这样的家伙无权携带我们的锁和钥匙。
+（她得意地笑起来。）正义得到了伸张。像你这样的家伙无权携带我们的锁和钥匙。
 (She sighs and reluctantly allows you to gag her.)
 （她叹了口气，不情愿地让你堵嘴。）
 (You remove her gag and she grumbles.)  Are you releasing me now?  It's been long enough.
@@ -176,7 +176,7 @@ Help!  Anybody!  Help me!
 （抱怨并挣扎。）
 ###_NPC
 (She smirks and takes your Pandora's locks and keys.)  Enjoy your struggling, I'll be going now.
-（她邪恶地笑起来，拿走了你的潘多拉锁和钥匙。）你就享受挣扎吧，我现在要走了。
+（她得意地笑起来，拿走了你的潘多拉锁和钥匙。）你就享受挣扎吧，我现在要走了。
 ###_PLAYER
 (Whimper in your gag.)
 （在你的口塞里发出呜咽。）

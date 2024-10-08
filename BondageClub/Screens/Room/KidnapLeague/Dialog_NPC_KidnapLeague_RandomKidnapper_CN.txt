@@ -225,7 +225,7 @@ My apologies sister.  I thought you were evil in disguise.  Are you on a quest f
 抱歉，姐姐。我以为你是伪装的恶魔。你是在寻找月之七圣晶吗？
 ###_PLAYER
 Are you a superheroine?
-你是女英雄吗？
+你是超级女英雄吗？
 ###_NPC
 By the Seven Prisms!  I defend the Heavenly Light against villainous foes like you!  Surrender now or I shall restrain you with my super powers.
 以七圣晶之名！我将捍卫圣天光，对抗像你这样的邪恶敌人！现在就投降，否则我会用我的超能力拘束你。
@@ -667,10 +667,10 @@ Be proud sister, I will get you a costume to combat the forces of evil.  Heavenl
 骄傲地展现自己，姐妹，我会给你一套服装，用来战胜邪恶的力量。圣天光必胜。
 ###_PLAYER
 (Wear the superheroine clothes.)
-（穿上女英雄的衣服。）
+（穿上超级女英雄的衣服。）
 ###_NPC
 (You wear the superheroine clothes.)  You look marvelous, a true Heavenly sister.  Ready to smite evil!
-（你穿着女英雄的衣服。）你看起来棒极了，是真正的圣天姐妹。准备打击邪恶吧！
+（你穿着超级女英雄的衣服。）你看起来棒极了，是真正的圣天姐妹。准备打击邪恶吧！
 ###_PLAYER
 I will begin my quest!  (Let her go.)
 我要开始我的行动了！（离开她。）

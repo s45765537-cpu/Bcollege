@@ -12,6 +12,12 @@ Who are you?
 (She stays silent.)
 （她保持沉默。）
 ###_PLAYER
+Are these horns and wings?
+这些是角和翅膀吗？
+###_NPC
+(The Mistress looks at you and interfere.)  She's a succubus slave.  They sometimes get sold by their owners who enjoys auctions.
+（女主人看着你，插话道。）她是一个魅魔奴隶。有时候，他们会被他们喜欢拍卖的主人卖掉。
+###_PLAYER
 Are you getting sold?
 你要被卖掉了吗？
 ###_NPC

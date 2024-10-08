@@ -104,6 +104,12 @@ Let's talk about something else.
 Fine.  What would you like know?
 好的。你想知道什么？
 ###_PLAYER
+Why the horns, wings and tail?
+为什么有角、翅膀和尾巴？
+###_NPC
+She's a succubus slave.  They sometimes get sold by their owners who enjoys auctions.  She won't bite, especially with a tight gag.
+她是一个魅魔奴隶。有时她们会被主人出售，主人喜欢拍卖。她不会咬人，尤其是紧紧地戴上口塞。
+###_PLAYER
 She's getting sold?
 她要被卖掉了？
 ###_NPC

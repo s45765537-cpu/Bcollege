@@ -4,7 +4,7 @@
 (A teacher comes and separates you.  You both clean up as she catches her breath.)  Fuck this!  I'm too hungry to fight anyway.
 （一位老师过来把你们分开。你们拍了拍衣服，她调整呼吸。）操！反正我太饿了，打不过。
 (A teacher comes and separates you.  You both clean up as she smirks.)  This is what you get for messing with me bitch.
-（一位老师过来把你们分开。你们拍了拍衣服，她傻笑起来。）这就是你惹我的结果，婊子。
+（一位老师过来把你们分开。你们拍了拍衣服，她露出得意的笑。）这就是你惹我的结果，婊子。
 (Sidney is waiting in line to get her food.)  Hey DialogPlayerName.  Don't you dare cut in front of me.
 （Sidney正在排队等着拿她的食物。）嘿，DialogPlayerName。你竟敢在我面前插队。
 Sweetheart!  (She holds your hands and smiles.)  Are you having lunch with me?
@@ -254,7 +254,7 @@ Nothing, I'm sorry.
 没什么，对不起。
 ###_NPC
 You're pathetic!  Now stay in your place and shut up.  (She smirks and ignores you.)
-你真可悲！现在呆在你的地方，闭嘴。（她得意地笑起来，不理你了。）
+你真可悲！现在呆在你的地方，闭嘴。（她露出得意的笑，不理你了。）
 ###_PLAYER
 You're going down!  (Fight her.)
 你完了！（与她战斗。）

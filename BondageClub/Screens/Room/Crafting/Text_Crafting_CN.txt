@@ -48,6 +48,10 @@ Name of the crafted item
 制作物品的名称
 Engrave a description
 雕刻描述
+Engrave an extended description
+雕刻扩展描述
+Enable longer (alphanumeric-only) descriptions
+启用更长的（仅字母数字）描述
 Enter or pick the colors
 输入或者选择颜色
 Item drawing priority
