@@ -2418,7 +2418,7 @@ What troubles you my little fiancée?
 我的小未婚妻，有什么事让你烦恼吗？
 ###_NPC [Polite|Wise]
 Let's have a tete-a-tete my submissive betrothed.
-让我们与我的顺从的未婚夫亲密地聊一聊吧。
+让我们与我的顺从的未婚妻亲密地聊一聊吧。
 ###_NPC [Dumb|Rude]
 What's up future wife slave?
 未来的妻奴怎么样？
@@ -4783,13 +4783,13 @@ This wife-to-be body is yours to possess, love and care for Mistress.
 这个未来妻子的身体是你的，你可以占有、爱护并照顾女主人。
 ###_NPC [Horny|Playful]
 This cunt is ready for her loving Mistress-fiancée.
-这个贱人已经准备好迎接她深爱的情妇未婚夫了。
+这个贱人已经准备好迎接她深爱的女主人未婚妻了。
 ###_NPC [Frigid|Serious]
 (Your fiancée bows her head and stays silent.)
 （你的未婚妻低下头，保持沉默。）
 ###_NPC [Polite|Wise]
 Mistress, what do you desire from your betrothed submissive?
-女主人，你对你的未婚夫有什么要求？
+女主人，你对你的未婚妻有什么要求？
 ###_NPC [Dumb|Rude]
 Yes my future wife?  Errr... Mistress?
 是的，我未来的妻子？呃……女主人？
@@ -5735,7 +5735,7 @@ This collar of mine would become yours to wear.  You would need to call me "Mist
 我的这根项圈就归你戴了，以后你要叫我“女主人”了。
 ###_PLAYER
 You would become my Mistress?
-你愿意成为我的情妇吗？
+你愿意成为我的女主人吗？
 You could not handle me.
 你无法应付我。
 ###_NPC
@@ -6582,13 +6582,13 @@ Greetings Mistress.
 （在你的口塞里呻吟。）
 ###_NPC
 (She removes your gag and giggles.)  You get into so much trouble.
-（她取下你的塞口物，咯咯笑起来。）你惹了大麻烦了。
+（她取下你的口塞，咯咯笑起来。）你惹了大麻烦了。
 ###_PLAYER
 (Bow your head politely.)
 （礼貌地低下头。）
 ###_NPC
 (She removes your gag and smiles.)  Such a good girl.
-（她解开你的塞口物，微笑着。）真是个乖女孩。
+（她解开你的口塞，微笑着。）真是个乖女孩。
 ###_PLAYER
 (Shake your head from left to right.)
 （左右摇头。）
