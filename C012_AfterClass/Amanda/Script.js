@@ -262,7 +262,7 @@ function C012_AfterClass_Amanda_Click() {
 	}
 
 	// Amanda can be restrained to pleasure the player on stage 633
-	if ((C012_AfterClass_Amanda_CurrentStage <= 633) && (ClickInv != "") && (ClickInv != "Player") && !Common_PlayerRestrained && !ActorIsRestrained()) {
+	if ((C012_AfterClass_Amanda_CurrentStage >= 630) && (C012_AfterClass_Amanda_CurrentStage <= 633) && (ClickInv != "") && (ClickInv != "Player") && !Common_PlayerRestrained && !ActorIsRestrained()) {
 		if ((ClickInv == "Rope") || (ClickInv == "Cuffs") || (ClickInv == "Armbinder")) {
 			ActorApplyRestrain(ClickInv);
 			C012_AfterClass_Amanda_CalcParams();
