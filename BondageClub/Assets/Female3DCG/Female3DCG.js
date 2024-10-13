@@ -15586,10 +15586,12 @@ var AssetFemale3DCG = [
 					{
 						Name: "ElegantFelineNose",
 						AllowTypes: { typed: 1},
+						CopyLayerColor: "ButtonNose",
 					},
 					{
 						Name: "LargeCanineNose",
 						AllowTypes: { typed: 2},
+						CopyLayerColor: "ButtonNose",
 					},
 				]
 			}
