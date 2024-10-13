@@ -2114,6 +2114,11 @@ MaskDemonMaskEyes,Eyes
 MaskDemonMaskHorns,Horns
 MaskDemonMaskLight,Light
 MaskDemonMaskShine,Shine
+MaskAngelMaskBase,Base
+MaskAngelMaskHalo,Halo
+MaskAngelMaskMetal,Metal
+MaskAngelMaskLight,Light
+MaskAngelMaskShine,Shine
 MouthFullLips,Lips
 MouthFullRingMiddle,Piercings
 MouthRegularLips,Lips

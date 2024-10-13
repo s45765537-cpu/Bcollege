@@ -15625,7 +15625,7 @@ var AssetFemale3DCG = [
 				InventoryID: 1171,
 				Value: 20,
 				Priority: 57,
-				DefaultColor: ["#262626","#42D8C1","#8E0000","##8E0000","#E5E5E5"],
+				DefaultColor: ["#262626","#42D8C1","#8E0000","#8E0000","#E5E5E5"],
 				Left: 170,
 				Top: 18,
 				BuyGroup: "DemonMask",
@@ -15641,6 +15641,33 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Light",
+					},
+					{
+						Name: "Shine",
+					},
+				]
+			},
+			{
+				Name: "AngelMask",
+				InventoryID: 1172,
+				Value: 20,
+				Priority: 57,
+				DefaultColor: ["#DFDFDF","#BAB65C","#BAB65C","#BAB65C","#E5E5E5"],
+				Left: 170,
+				Top: 18,
+				BuyGroup: "AngelMask",
+				Layer: [
+					{
+						Name: "Base",
+					},
+					{
+						Name: "Halo",
+					},
+					{
+						Name: "Light",
+					},
+					{
+						Name: "Metal",
 					},
 					{
 						Name: "Shine",
