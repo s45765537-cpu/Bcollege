@@ -4465,6 +4465,9 @@ MaskAnimalNosesSelect,Select Nose Type
 MaskAnimalNosesButtonNose,Button Nose
 MaskAnimalNosesElegantFelineNose,Elegant Feline Nose
 MaskAnimalNosesLargeCanineNose,Large Canine Nose
+MaskEldritchMaskSelect,Select Mask Type
+MaskEldritchMaskEyes,Eyes
+MaskEldritchMaskGlowingEyes,Glowing Eyes
 MaximumSuction,Maximum
 MediumSuction,Medium
 Medium,Medium

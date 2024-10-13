@@ -13225,8 +13225,20 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "LargeCanineNose",
 				},
-			], // Animal Noses
-		}, 
+			], 
+		}, // Animal Noses
+		EldritchMask: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages:false,
+			Options: [
+				{
+					Name: "Eyes",
+				},
+				{
+					Name: "GlowingEyes",
+				},
+			], 
+		}, // Eldritch Mask
 	}, // Mask
 	ItemLegs: {
 		DuctTape: {

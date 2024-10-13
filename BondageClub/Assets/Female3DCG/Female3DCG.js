@@ -15594,7 +15594,59 @@ var AssetFemale3DCG = [
 						CopyLayerColor: "ButtonNose",
 					},
 				]
-			}
+			},
+			{
+				Name: "EldritchMask",
+				InventoryID: 1170,
+				Value: 20,
+				Priority: 57,
+				DefaultColor: ["#191919","#35DDB9"],
+				Left: 170,
+				Top: 25,
+				BuyGroup: "EldritchMask",
+				Extended: true,
+				Layer: [
+					{
+						Name: "Base",
+					},
+					{
+						Name: "Eyes",
+						AllowTypes: { typed: 0},
+					},
+					{
+						Name: "GlowingEyes",
+						AllowTypes: { typed: 1},
+						CopyLayerColor: "Eyes"
+					},
+				]
+			},
+			{
+				Name: "DemonMask",
+				InventoryID: 1171,
+				Value: 20,
+				Priority: 57,
+				DefaultColor: ["#262626","#42D8C1","#8E0000","##8E0000","#E5E5E5"],
+				Left: 170,
+				Top: 18,
+				BuyGroup: "DemonMask",
+				Layer: [
+					{
+						Name: "Base",
+					},
+					{
+						Name: "Eyes",
+					},
+					{
+						Name: "Horns",
+					},
+					{
+						Name: "Light",
+					},
+					{
+						Name: "Shine",
+					},
+				]
+			},
 		],
 		Color: [
 			"Default",

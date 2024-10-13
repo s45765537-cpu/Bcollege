@@ -2107,6 +2107,13 @@ MaskPetNoseNose,Nose
 MaskPetNoseWhiskers,Whiskers
 MaskSwimCapCap,Cap
 MaskSwimCapStripes1,Pattern
+MaskEldritchMaskBase,Base
+MaskEldritchMaskEyes,Eyes
+MaskDemonMaskBase,Base
+MaskDemonMaskEyes,Eyes
+MaskDemonMaskHorns,Horns
+MaskDemonMaskLight,Light
+MaskDemonMaskShine,Shine
 MouthFullLips,Lips
 MouthFullRingMiddle,Piercings
 MouthRegularLips,Lips
