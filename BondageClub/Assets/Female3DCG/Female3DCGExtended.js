@@ -11112,6 +11112,22 @@ var AssetFemale3DCGExtended = {
 			},
 			BaselineProperty: { Opacity: 0 },
 		}, // Halo
+		Onihorns: {
+			Archetype: ExtendedArchetype.MODULAR,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "LeftHorn",
+					Key: "l",
+					Options: [{},{},{}], //short, med, long
+				},
+				{
+					Name: "RightHorn",
+					Key: "r",
+					Options: [{},{},{}], //short, med, long
+				},
+			]
+		}
 	}, // HairAccessory1
 	HairAccessory2: {
 		ElfEars: {

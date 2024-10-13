@@ -12894,6 +12894,75 @@ var AssetFemale3DCG = [
 				BodyCosplay: true,
 				Layer: [{ Name: "Outside" }, { Name: "Inner" }, { Name: "Light" }],
 			},
+			{
+				Name: "Onihorns",
+				InventoryID: 1168,
+				Value: 10,
+				Priority: 56,
+				BuyGroup: "Onihorns",
+				Top: 5,
+				Left: 125,
+				BodyCosplay: true,
+				Extended: true,
+				Layer: [
+					{
+						Name: "ShortLeftBase",
+						AllowTypes: { l: 0},
+					},
+					{
+						Name: "ShortRightBase",
+						AllowTypes: { r: 0},
+					},
+					{
+						Name: "ShortLeftTip",
+						AllowTypes: { l: 0},
+					},
+					{
+						Name: "ShortRightTip",
+						AllowTypes: { r: 0},
+					},
+					{
+						Name: "MedLeftBase",
+						CopyLayerColor: "ShortLeftBase",
+						AllowTypes: { l: 1},
+					},
+					{
+						Name: "MedRightBase",
+						CopyLayerColor: "ShortRightBase",
+						AllowTypes: { r: 1},
+					},
+					{
+						Name: "MedLeftTip",
+						CopyLayerColor: "ShortLeftTip",
+						AllowTypes: { l: 1},
+					},
+					{
+						Name: "MedRightTip",
+						CopyLayerColor: "ShortRightTip",
+						AllowTypes: { r: 1},
+					},
+					{
+						Name: "LongLeftBase",
+						CopyLayerColor: "ShortLeftBase",
+						AllowTypes: { l: 2},
+					},
+					{
+						Name: "LongRightBase",
+						CopyLayerColor: "ShortRightBase",
+						AllowTypes: { r: 2},
+					},
+					{
+						Name: "LongLeftTip",
+						CopyLayerColor: "ShortLeftTip",
+						AllowTypes: { l: 2},
+					},
+					{
+						Name: "LongRightTip",
+						CopyLayerColor: "ShortRightTip",
+						AllowTypes: { r: 2},
+					},
+				]
+			}
 		],
 		Color: [
 			"Default",
@@ -13428,6 +13497,15 @@ var AssetFemale3DCG = [
 				AllowActivity: ["PenetrateItem"],
 				Top: -30,
 				Layer: [{ Name: "Base" }, { Name: "Shine", AllowColorize: false }],
+			},
+			{
+				Name: "Onihorns",
+				DynamicGroupName: "HairAccessory1",
+				CopyConfig: {
+					GroupName: "HairAccessory1",
+					AssetName: "Onihorns",
+					BuyGroup: true,
+				},
 			},
 		],
 		Color: [
