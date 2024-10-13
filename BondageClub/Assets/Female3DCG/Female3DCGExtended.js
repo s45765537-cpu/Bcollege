@@ -987,6 +987,69 @@ var AssetFemale3DCGExtended = {
 			],
 			BaselineProperty: { Text: "", Text2: "", Text3: "" },
 		}, // BodyWritings
+		FaceScars: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "1",
+					Key: "a",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "2",
+					Key: "b",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "3",
+					Key: "c",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "4",
+					Key: "d",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "5",
+					Key: "e",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "6",
+					Key: "f",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "7",
+					Key: "g",
+					Options: [{}, {}], // n,y
+				},
+
+				{
+					Name: "8",
+					Key: "h",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "9",
+					Key: "i",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "10",
+					Key: "j",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "11",
+					Key: "k",
+					Options: [{}, {}], // n,y
+				},
+			]
+		}
 	},
 	HairFront: {
 		HairFront60: {
@@ -13127,6 +13190,12 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // RubberMask
+		FaceScars: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: false,
+			CopyConfig: { GroupName: "BodyMarkings", AssetName: "FaceScars" },
+		},
 	}, // Mask
 	ItemLegs: {
 		DuctTape: {

@@ -15482,6 +15482,15 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "FaceScars",
+				DynamicGroupName: "BodyMarkings",
+				CopyConfig: {
+					GroupName: "BodyMarkings",
+					AssetName: "FaceScars",
+					BuyGroup: true,
+				},
+			},
 		],
 		Color: [
 			"Default",
@@ -16088,6 +16097,75 @@ var AssetFemale3DCG = [
 						Top: 305,
 						HasImage: false,
 						AllowTypes: { t: 1 },
+					},
+				],
+			},
+			{
+				Name: "FaceScars",
+				Priority: 8,
+				Value: 10,
+				InventoryID: 1167,
+				Top: 15,
+				Left: 125,
+				DefaultColor: ["#242424"],
+				BuyGroup: "FaceScars",
+				Extended: true,
+				BodyCosplay: true,
+				Layer: [
+					{
+						Name: "1",
+						Top: 5,
+						AllowTypes: { a: 1},
+					},
+					{
+						Name: "2",
+						AllowTypes: { b: 1},
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "3",
+						AllowTypes: { c: 1},
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "4",
+						AllowTypes: { d: 1},
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "5",
+						AllowTypes: { e: 1},
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "6",
+						AllowTypes: { f: 1},
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "7",
+						AllowTypes: { g: 1},
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "8",
+						AllowTypes: { h: 1},
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "9",
+						AllowTypes: { i: 1},
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "10",
+						AllowTypes: { j: 1},
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "11",
+						AllowTypes: { j: 1},
+						CopyLayerColor: "1",
 					},
 				],
 			},
