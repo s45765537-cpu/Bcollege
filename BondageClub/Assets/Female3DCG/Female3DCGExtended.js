@@ -13211,7 +13211,22 @@ var AssetFemale3DCGExtended = {
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
 			DrawImages: false,
 			CopyConfig: { GroupName: "BodyMarkings", AssetName: "FaceScars" },
-		},
+		}, // FaceScars
+		AnimalNoses: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages:false,
+			Options: [
+				{
+					Name: "ButtonNose",
+				},
+				{
+					Name: "ElegantFelineNose",
+				},
+				{
+					Name: "LargeCanineNose",
+				},
+			], // Animal Noses
+		}, 
 	}, // Mask
 	ItemLegs: {
 		DuctTape: {

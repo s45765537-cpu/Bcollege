@@ -15569,6 +15569,30 @@ var AssetFemale3DCG = [
 					BuyGroup: true,
 				},
 			},
+			{
+				Name: "AnimalNoses",
+				InventoryID: 1169,
+				Value: 10,
+				Priority: 9,
+				Left: 232,
+				Top: 168,
+				BuyGroup: "AnimalNoses",
+				Extended: true,
+				Layer: [
+					{
+						Name: "ButtonNose",
+						AllowTypes: { typed: 0},
+					},
+					{
+						Name: "ElegantFelineNose",
+						AllowTypes: { typed: 1},
+					},
+					{
+						Name: "LargeCanineNose",
+						AllowTypes: { typed: 2},
+					},
+				]
+			}
 		],
 		Color: [
 			"Default",

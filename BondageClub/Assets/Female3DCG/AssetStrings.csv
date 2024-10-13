@@ -4461,6 +4461,10 @@ MaskSwimCapSelectHair,Adjust Hair Openings
 MaskSwimCapSelectPattern,Choose Pattern
 MaskSwimCapSetHair,SourceCharacter adjusts DestinationCharacter swimcap hair openings.
 MaskSwimCapSetPattern,SourceCharacter swaps DestinationCharacter swimcap pattern.
+MaskAnimalNosesSelect,Select Nose Type
+MaskAnimalNosesButtonNose,Button Nose
+MaskAnimalNosesElegantFelineNose,Elegant Feline Nose
+MaskAnimalNosesLargeCanineNose,Large Canine Nose
 MaximumSuction,Maximum
 MediumSuction,Medium
 Medium,Medium
