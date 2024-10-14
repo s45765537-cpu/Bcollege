@@ -13013,7 +13013,25 @@ var AssetFemale3DCG = [
 						AllowTypes: { r: 2},
 					},
 				]
-			}
+			},
+			{
+				Name: "SkunkEars",
+				InventoryID: 1179,
+				Value: 10,
+				BuyGroup: "SkunkEars",
+				DefaultColor: ["#262626","#706A3D"],
+				Top: -60,
+				Left: 0,
+				BodyCosplay: true,
+				Layer: [
+					{
+						Name: "Outer",
+					},
+					{
+						Name: "Inner",
+					},
+				]
+			},
 		],
 		Color: [
 			"Default",
@@ -13555,6 +13573,15 @@ var AssetFemale3DCG = [
 				CopyConfig: {
 					GroupName: "HairAccessory1",
 					AssetName: "Onihorns",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "SkunkEars",
+				DynamicGroupName: "HairAccessory1",
+				CopyConfig: {
+					GroupName: "HairAccessory1",
+					AssetName: "SkunkEars",
 					BuyGroup: true,
 				},
 			},
