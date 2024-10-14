@@ -15674,6 +15674,36 @@ var AssetFemale3DCG = [
 					},
 				]
 			},
+			{
+				Name: "NecromancerHelmet",
+				InventoryID: 1173,
+				Value: 20,
+				Priority: 57,
+				DefaultColor: ["#111111","#262626","#BAB65C","#B91414","#292929"],
+				Left: 170,
+				Top: 15,
+				BuyGroup: "NecromancerHelmet",
+				Layer: [
+					{
+						Name: "Base",
+					},
+					{
+						Name: "Cloth",
+					},
+					{
+						Name: "Crown",
+					},
+					{
+						Name: "Eyes",
+					},
+					{
+						Name: "Gems",
+					},
+					{
+						Name: "Shine",
+					},
+				]
+			},
 		],
 		Color: [
 			"Default",

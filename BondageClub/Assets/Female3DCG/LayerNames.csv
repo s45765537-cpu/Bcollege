@@ -2119,6 +2119,12 @@ MaskAngelMaskHalo,Halo
 MaskAngelMaskMetal,Metal
 MaskAngelMaskLight,Light
 MaskAngelMaskShine,Shine
+MaskNecromancerHelmetBase,Base
+MaskNecromancerHelmetCloth,Cloth
+MaskNecromancerHelmetCrown,Crown
+MaskNecromancerHelmetEyes,Eyes
+MaskNecromancerHelmetGems,Gems
+MaskNecromancerHelmetShine,Shine
 MouthFullLips,Lips
 MouthFullRingMiddle,Piercings
 MouthRegularLips,Lips
