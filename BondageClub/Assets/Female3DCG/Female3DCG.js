@@ -4195,6 +4195,57 @@ var AssetFemale3DCG = [
 				],
 			},
 			// Flat Chest Compatible Clothing
+			{
+				Name: "SmallNeckFur",
+				InventoryID: 1174,
+				Value: 10,
+				DefaultColor: ["#CECF6B"],
+				Left: 105,
+				Top: 177,
+				BuyGroup: "NeckFurSmall",
+			},
+			{
+				Name: "LargeNeckFur",
+				InventoryID: 1175,
+				Value: 20,
+				DefaultColor: ["#2E2D2D","#4C1C1C","#2E2D2D"],
+				Left: 105,
+				Top: 177,
+				BuyGroup: "LargeNeckFur",
+				Layer: [
+					{
+						Name: "Back",
+						Priority: 4,
+					},
+					{
+						Name: "Front",
+					},
+					{
+						Name: "Shoulders",
+					},
+				]
+			},
+			{
+				Name: "SpikyNeckFur",
+				InventoryID: 1176,
+				Value: 10,
+				DefaultColor: ["#1E1E1E","#1E1E1E","#1E1E1E"],
+				Left: 105,
+				Top: 177,
+				BuyGroup: "SpikyNeckFur",
+				Layer: [
+					{
+						Name: "Back",
+						Priority: 4,
+					},
+					{
+						Name: "Front",
+					},
+					{
+						Name: "Shoulders",
+					},
+				]
+			},
 		],
 		Color: [
 			"Default",
