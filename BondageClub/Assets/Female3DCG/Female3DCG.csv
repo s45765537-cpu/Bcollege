@@ -482,6 +482,7 @@ HairBack,HairBack60,Style 60
 HairBack,HairBack61,Style 61
 HairBack,HairBack62,Style 62
 HairBack,HairBack63,Style 63
+HairBack,ScalyBackHair,Scaly Hair
 HairBack,HairNone,None
 HairFront,,Front Hair
 HairFront,HairFront1,Style 1
@@ -579,6 +580,7 @@ HairFront,HairFront58,Style 58
 HairFront,HairFront59,Style 59
 HairFront,HairFront60,Style 60
 HairFront,HairFront61,Style 61
+HairFront,ScalyHair,Scaly Hair
 Hands,,Hands
 Hands,Default,Default
 Hat,,Hat

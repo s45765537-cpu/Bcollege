@@ -17220,6 +17220,19 @@ var AssetFemale3DCG = [
 					},
 				]
 			},
+			{
+				Name: "ScalyHair",
+				Left: 83,
+				Top: 4,
+				Layer: [
+					{
+						Name: "FrontHair",
+					},
+					{
+						Name: "FrontPlate",
+					},
+				]
+			},
 		],
 		Color: [
 			"#6a3628",
@@ -17867,6 +17880,11 @@ var AssetFemale3DCG = [
 						},
 					},
 				],
+			},
+			{
+				Name: "ScalyBackHair",
+				Left: 83,
+				Top: 4,
 			},
 		],
 		Color: [
