@@ -44386,6 +44386,122 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "CustomBallHood",
+				InventoryID: 1167,
+				Fetish: ["Latex"],
+				Value: 80,
+				Difficulty: 6,
+				Time: 8,
+				Top: 25,
+				DefaultColor: ["#222222", "#CCCCCC", "#EF870C", "#CCCCCC"],
+				AllowLock: true,
+				AllowTighten: true,
+				Extended: true,
+				Hide: [
+					"HairFront",
+					"HairBack",
+					"HairAccessory2",
+					"Mask",
+				],
+				Alpha: [{ Masks: [[0, 0, 500, 200]], Group: ["Head", "ItemHead"] },],
+				Effect: [E.BlindHeavy, E.DeafLight, E.BlockWardrobe, E.BlockMouth], 
+				Block: [
+					"ItemMouth",
+					"ItemMouth2",
+					"ItemMouth3",
+					"ItemHead",
+					"ItemNose",
+					"ItemEars",
+				],
+				Layer: [
+					{
+						Name: "Base",
+						AllowTypes: {f:0},
+					},
+					{
+						Name: "BaseShiny",
+						AllowTypes: {f:1},
+						CopyLayerColor: "Base",
+					},
+					{
+						Name: "Shine",
+					},
+					{
+						Name: "NeckBase",
+						CopyLayerColor: "Base",
+						Priority:8,
+					},
+					{
+						Name: "NeckShine",
+						CopyLayerColor: "Shine",
+						Priority:8,
+					},
+					//Patterns: Pumpkin
+					{
+						Name: "Pumpkin",
+						AllowTypes: {p:1, f:0},
+					},
+					{
+						Name: "PumpkinShiny",
+						AllowTypes: {p:1, f:1},
+						CopyLayerColor: "Pumpkin",
+					},
+					{
+						Name: "PumpkinShine",
+						AllowTypes: {p:1},
+					},
+					//Smiley
+					{
+						Name: "SmileyLines",
+						AllowTypes: {p:2, f:0},
+						CopyLayerColor: "Pumpkin",
+					},
+					{
+						Name: "SmileyLinesShiny",
+						AllowTypes: {p:2, f:1},
+						CopyLayerColor: "Pumpkin",
+					},
+					{
+						Name: "SmileyLinesShine",
+						AllowTypes: {p:2},
+						CopyLayerColor: "PumpkinShine",
+					},
+					//SmileyFill
+					{
+						Name: "SmileyFill",
+						AllowTypes: {p:3, f:0},
+						CopyLayerColor: "Pumpkin",
+					},
+					{
+						Name: "SmileyFillShiny",
+						AllowTypes: {p:3, f:1},
+						CopyLayerColor: "Pumpkin",
+					},
+					{
+						Name: "SmileyFillShine",
+						AllowTypes: {p:3},
+						CopyLayerColor: "PumpkinShine",
+					},
+					//8 Ball
+					{
+						Name: "EightBall",
+						AllowTypes: {p:4, f:0},
+						CopyLayerColor: "Pumpkin",
+					},
+					{
+						Name: "EightBallShiny",
+						AllowTypes: {p:4, f:1},
+						CopyLayerColor: "Pumpkin",
+					},
+					{
+						Name: "EightBallShine",
+						AllowTypes: {p:4},
+						CopyLayerColor: "PumpkinShine",
+					},
+				],
+				
+			},
 		],
 		Color: [
 			"Default",
