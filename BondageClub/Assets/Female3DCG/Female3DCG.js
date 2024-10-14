@@ -16023,6 +16023,28 @@ var AssetFemale3DCG = [
 				Top: 100,
 				Layer: [{ Name: "Tail" }, { Name: "Plume" }],
 			},
+			{
+				Name: "LatexFoxTail",
+				InventoryID: 1177,
+				Fetish: ["Pet"],
+				BuyGroup: "LatexFoxTail",
+				DefaultColor:["#141414"],
+				Value: 20,
+				Top: 460,
+				Left: 220,
+				Layer: [
+					{
+						Name: "Base"
+					},
+					{
+						Name: "ShineDull"
+					},
+					{
+						Name: "Shine",
+						CopyLayerColor:"ShineDull"
+					},
+				],
+			},
 		],
 		Color: [
 			"Default",
