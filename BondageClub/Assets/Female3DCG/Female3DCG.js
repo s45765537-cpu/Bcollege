@@ -16045,6 +16045,26 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "SkunkTail",
+				InventoryID: 1178,
+				Fetish: ["Pet"],
+				BuyGroup: "SkunkTail",
+				DefaultColor:["#181818","#706A3D"],
+				Value: 20,
+				Top: 350,
+				Left: 0,
+				Layer: [
+					{
+						Name: "Base"
+					},
+					{
+						Name: "Pattern",
+						Top: 355,
+						Left: 30,
+					},
+				],
+			},
 		],
 		Color: [
 			"Default",
