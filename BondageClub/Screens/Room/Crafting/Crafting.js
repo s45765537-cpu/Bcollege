@@ -516,7 +516,9 @@ var CraftingEventListeners = {
 	 */
 	_ClickUpload: function _ClickUpload() {
 		const settingsString = prompt(TextGet("UploadPrompt"));
-		if (!settingsString) {
+		if (settingsString == null) {
+			return; // The user explicitly clicked cancel; abort without further warning
+		} else if (!settingsString) {
 			alert(TextGet("UploadFailure"));
 			return;
 		}
