@@ -8034,6 +8034,22 @@ var AssetFemale3DCGExtended = {
 			],
 			ChangeWhenLocked: false,
 		}, // SpaceMask
+		CustomBallHood: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			Modules:[
+				{
+					Name: "Finish",
+					Key: "f",
+					Options:[ {}, {},], // Matte, Shiny
+				},
+				{
+					Name: "Pattern",
+					Key: "p",
+					Options:[ {}, {}, {}, {}, {},], //None, Pumpkin, Smiley Lines, Smiley Fill, 8Ball
+				},
+			],
+		}, //CustomBallHood
 	}, // ItemHood
 	Jewelry: {
 		JewelrySet: {

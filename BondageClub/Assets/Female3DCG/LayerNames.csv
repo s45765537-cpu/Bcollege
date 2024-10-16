@@ -1089,6 +1089,10 @@ ItemHoodCorsetHoodLatex, Latex
 ItemHoodCorsetHoodLines, Outline
 ItemHoodCowHoodBase,Hood
 ItemHoodCowHoodSpots,Spots
+ItemHoodCustomBallHoodBase,Base
+ItemHoodCustomBallHoodShine,Shine
+ItemHoodCustomBallHoodPumpkin,Pattern
+ItemHoodCustomBallHoodPumpkinShine,Pattern Shine
 ItemHoodCustomLatexHoodFillRoundEye,Eye Fill Panels
 ItemHoodCustomLatexHoodFillRoundMouth,Mouth Fill Panel
 ItemHoodCustomLatexHoodHairUnder,Hair Inside Hood

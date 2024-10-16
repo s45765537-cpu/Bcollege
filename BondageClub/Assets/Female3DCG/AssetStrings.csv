@@ -2494,6 +2494,19 @@ ItemHoodBigMouthHoodSetLenses,SourceCharacter put a pair of lenses on Destinatio
 ItemHoodBigMouthHoodSetMesh,SourceCharacter put a mesh on DestinationCharacter hood.
 ItemHoodBigMouthHoodSetSlim,SourceCharacter blinds DestinationCharacter completely.
 ItemHoodBigMouthHoodSlim,Blind
+ItemHoodCustomBallHoodModuleFinish,Finish
+ItemHoodCustomBallHoodModulePattern,Pattern
+ItemHoodCustomBallHoodOptionf0,Matte
+ItemHoodCustomBallHoodOptionf1,Shiny
+ItemHoodCustomBallHoodOptionp0,None
+ItemHoodCustomBallHoodOptionp1,Pumpkin
+ItemHoodCustomBallHoodOptionp2,Smiley Lines
+ItemHoodCustomBallHoodOptionp3,Smiley Filled
+ItemHoodCustomBallHoodOptionp4,8 Ball
+ItemHoodCustomBallHoodSelectFinish,Select Hood Finish
+ItemHoodCustomBallHoodSelectPattern,Select Pattern
+ItemHoodCustomBallHoodSetFinish,SourceCharacter adjusts the shine of DestinationCharacter ball hood.
+ItemHoodCustomBallHoodSetPattern,SourceCharacter changes the pattern on DestinationCharacter ball hood.
 ItemHoodCustomLatexHoodModuleEFill,Eye Panel Fill
 ItemHoodCustomLatexHoodModuleEPanel,Eye Panel
 ItemHoodCustomLatexHoodModuleHairShow,Hair Options
