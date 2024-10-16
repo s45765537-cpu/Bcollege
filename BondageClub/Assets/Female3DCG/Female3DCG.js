@@ -4195,6 +4195,57 @@ var AssetFemale3DCG = [
 				],
 			},
 			// Flat Chest Compatible Clothing
+			{
+				Name: "SmallNeckFur",
+				InventoryID: 1174,
+				Value: 10,
+				DefaultColor: ["#CECF6B"],
+				Left: 105,
+				Top: 177,
+				BuyGroup: "NeckFurSmall",
+			},
+			{
+				Name: "LargeNeckFur",
+				InventoryID: 1175,
+				Value: 20,
+				DefaultColor: ["#2E2D2D","#4C1C1C","#2E2D2D"],
+				Left: 105,
+				Top: 177,
+				BuyGroup: "LargeNeckFur",
+				Layer: [
+					{
+						Name: "Back",
+						Priority: 4,
+					},
+					{
+						Name: "Front",
+					},
+					{
+						Name: "Shoulders",
+					},
+				]
+			},
+			{
+				Name: "SpikyNeckFur",
+				InventoryID: 1176,
+				Value: 10,
+				DefaultColor: ["#1E1E1E","#1E1E1E","#1E1E1E"],
+				Left: 105,
+				Top: 177,
+				BuyGroup: "SpikyNeckFur",
+				Layer: [
+					{
+						Name: "Back",
+						Priority: 4,
+					},
+					{
+						Name: "Front",
+					},
+					{
+						Name: "Shoulders",
+					},
+				]
+			},
 		],
 		Color: [
 			"Default",
@@ -12894,6 +12945,93 @@ var AssetFemale3DCG = [
 				BodyCosplay: true,
 				Layer: [{ Name: "Outside" }, { Name: "Inner" }, { Name: "Light" }],
 			},
+			{
+				Name: "Onihorns",
+				InventoryID: 1168,
+				Value: 10,
+				Priority: 56,
+				BuyGroup: "Onihorns",
+				Top: 5,
+				Left: 125,
+				BodyCosplay: true,
+				Extended: true,
+				Layer: [
+					{
+						Name: "ShortLeftBase",
+						AllowTypes: { l: 0},
+					},
+					{
+						Name: "ShortRightBase",
+						AllowTypes: { r: 0},
+					},
+					{
+						Name: "ShortLeftTip",
+						AllowTypes: { l: 0},
+					},
+					{
+						Name: "ShortRightTip",
+						AllowTypes: { r: 0},
+					},
+					{
+						Name: "MedLeftBase",
+						CopyLayerColor: "ShortLeftBase",
+						AllowTypes: { l: 1},
+					},
+					{
+						Name: "MedRightBase",
+						CopyLayerColor: "ShortRightBase",
+						AllowTypes: { r: 1},
+					},
+					{
+						Name: "MedLeftTip",
+						CopyLayerColor: "ShortLeftTip",
+						AllowTypes: { l: 1},
+					},
+					{
+						Name: "MedRightTip",
+						CopyLayerColor: "ShortRightTip",
+						AllowTypes: { r: 1},
+					},
+					{
+						Name: "LongLeftBase",
+						CopyLayerColor: "ShortLeftBase",
+						AllowTypes: { l: 2},
+					},
+					{
+						Name: "LongRightBase",
+						CopyLayerColor: "ShortRightBase",
+						AllowTypes: { r: 2},
+					},
+					{
+						Name: "LongLeftTip",
+						CopyLayerColor: "ShortLeftTip",
+						AllowTypes: { l: 2},
+					},
+					{
+						Name: "LongRightTip",
+						CopyLayerColor: "ShortRightTip",
+						AllowTypes: { r: 2},
+					},
+				]
+			},
+			{
+				Name: "SkunkEars",
+				InventoryID: 1179,
+				Value: 10,
+				BuyGroup: "SkunkEars",
+				DefaultColor: ["#262626","#706A3D"],
+				Top: -60,
+				Left: 0,
+				BodyCosplay: true,
+				Layer: [
+					{
+						Name: "Outer",
+					},
+					{
+						Name: "Inner",
+					},
+				]
+			},
 		],
 		Color: [
 			"Default",
@@ -13428,6 +13566,24 @@ var AssetFemale3DCG = [
 				AllowActivity: ["PenetrateItem"],
 				Top: -30,
 				Layer: [{ Name: "Base" }, { Name: "Shine", AllowColorize: false }],
+			},
+			{
+				Name: "Onihorns",
+				DynamicGroupName: "HairAccessory1",
+				CopyConfig: {
+					GroupName: "HairAccessory1",
+					AssetName: "Onihorns",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "SkunkEars",
+				DynamicGroupName: "HairAccessory1",
+				CopyConfig: {
+					GroupName: "HairAccessory1",
+					AssetName: "SkunkEars",
+					BuyGroup: true,
+				},
 			},
 		],
 		Color: [
@@ -15482,6 +15638,150 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "FaceScars",
+				DynamicGroupName: "BodyMarkings",
+				CopyConfig: {
+					GroupName: "BodyMarkings",
+					AssetName: "FaceScars",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "AnimalNoses",
+				InventoryID: 1169,
+				Value: 10,
+				Priority: 9,
+				Left: 232,
+				Top: 168,
+				BuyGroup: "AnimalNoses",
+				Extended: true,
+				Layer: [
+					{
+						Name: "ButtonNose",
+						AllowTypes: { typed: 0},
+					},
+					{
+						Name: "ElegantFelineNose",
+						AllowTypes: { typed: 1},
+						CopyLayerColor: "ButtonNose",
+					},
+					{
+						Name: "LargeCanineNose",
+						AllowTypes: { typed: 2},
+						CopyLayerColor: "ButtonNose",
+					},
+				]
+			},
+			{
+				Name: "EldritchMask",
+				InventoryID: 1170,
+				Value: 20,
+				Priority: 57,
+				DefaultColor: ["#191919","#35DDB9"],
+				Left: 170,
+				Top: 25,
+				BuyGroup: "EldritchMask",
+				Extended: true,
+				Layer: [
+					{
+						Name: "Base",
+					},
+					{
+						Name: "Eyes",
+						AllowTypes: { typed: 0},
+					},
+					{
+						Name: "GlowingEyes",
+						AllowTypes: { typed: 1},
+						CopyLayerColor: "Eyes"
+					},
+				]
+			},
+			{
+				Name: "DemonMask",
+				InventoryID: 1171,
+				Value: 20,
+				Priority: 57,
+				DefaultColor: ["#262626","#42D8C1","#8E0000","#8E0000","#E5E5E5"],
+				Left: 170,
+				Top: 18,
+				BuyGroup: "DemonMask",
+				Layer: [
+					{
+						Name: "Base",
+					},
+					{
+						Name: "Eyes",
+					},
+					{
+						Name: "Horns",
+					},
+					{
+						Name: "Light",
+					},
+					{
+						Name: "Shine",
+					},
+				]
+			},
+			{
+				Name: "AngelMask",
+				InventoryID: 1172,
+				Value: 20,
+				Priority: 57,
+				DefaultColor: ["#DFDFDF","#BAB65C","#BAB65C","#BAB65C","#E5E5E5"],
+				Left: 170,
+				Top: 18,
+				BuyGroup: "AngelMask",
+				Layer: [
+					{
+						Name: "Base",
+					},
+					{
+						Name: "Halo",
+					},
+					{
+						Name: "Light",
+					},
+					{
+						Name: "Metal",
+					},
+					{
+						Name: "Shine",
+					},
+				]
+			},
+			{
+				Name: "NecromancerHelmet",
+				InventoryID: 1173,
+				Value: 20,
+				Priority: 57,
+				DefaultColor: ["#111111","#262626","#BAB65C","#B91414","#292929"],
+				Left: 170,
+				Top: 15,
+				BuyGroup: "NecromancerHelmet",
+				Layer: [
+					{
+						Name: "Base",
+					},
+					{
+						Name: "Cloth",
+					},
+					{
+						Name: "Crown",
+					},
+					{
+						Name: "Eyes",
+					},
+					{
+						Name: "Gems",
+					},
+					{
+						Name: "Shine",
+					},
+				]
+			},
 		],
 		Color: [
 			"Default",
@@ -15749,6 +16049,48 @@ var AssetFemale3DCG = [
 				Value: 20,
 				Top: 100,
 				Layer: [{ Name: "Tail" }, { Name: "Plume" }],
+			},
+			{
+				Name: "LatexFoxTail",
+				InventoryID: 1177,
+				Fetish: ["Pet"],
+				BuyGroup: "LatexFoxTail",
+				DefaultColor:["#141414"],
+				Value: 20,
+				Top: 460,
+				Left: 220,
+				Layer: [
+					{
+						Name: "Base"
+					},
+					{
+						Name: "ShineDull"
+					},
+					{
+						Name: "Shine",
+						CopyLayerColor:"ShineDull"
+					},
+				],
+			},
+			{
+				Name: "SkunkTail",
+				InventoryID: 1178,
+				Fetish: ["Pet"],
+				BuyGroup: "SkunkTail",
+				DefaultColor:["#181818","#706A3D"],
+				Value: 20,
+				Top: 350,
+				Left: 0,
+				Layer: [
+					{
+						Name: "Base"
+					},
+					{
+						Name: "Pattern",
+						Top: 355,
+						Left: 30,
+					},
+				],
 			},
 		],
 		Color: [
@@ -16088,6 +16430,75 @@ var AssetFemale3DCG = [
 						Top: 305,
 						HasImage: false,
 						AllowTypes: { t: 1 },
+					},
+				],
+			},
+			{
+				Name: "FaceScars",
+				Priority: 8,
+				Value: 10,
+				InventoryID: 1167,
+				Top: 15,
+				Left: 125,
+				DefaultColor: ["#242424"],
+				BuyGroup: "FaceScars",
+				Extended: true,
+				BodyCosplay: true,
+				Layer: [
+					{
+						Name: "1",
+						Top: 5,
+						AllowTypes: { a: 1},
+					},
+					{
+						Name: "2",
+						AllowTypes: { b: 1},
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "3",
+						AllowTypes: { c: 1},
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "4",
+						AllowTypes: { d: 1},
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "5",
+						AllowTypes: { e: 1},
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "6",
+						AllowTypes: { f: 1},
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "7",
+						AllowTypes: { g: 1},
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "8",
+						AllowTypes: { h: 1},
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "9",
+						AllowTypes: { i: 1},
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "10",
+						AllowTypes: { j: 1},
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "11",
+						AllowTypes: { j: 1},
+						CopyLayerColor: "1",
 					},
 				],
 			},
@@ -16878,6 +17289,19 @@ var AssetFemale3DCG = [
 					},
 				]
 			},
+			{
+				Name: "ScalyHair",
+				Left: 83,
+				Top: 4,
+				Layer: [
+					{
+						Name: "FrontHair",
+					},
+					{
+						Name: "FrontPlate",
+					},
+				]
+			},
 		],
 		Color: [
 			"#6a3628",
@@ -17525,6 +17949,11 @@ var AssetFemale3DCG = [
 						},
 					},
 				],
+			},
+			{
+				Name: "ScalyBackHair",
+				Left: 83,
+				Top: 4,
 			},
 		],
 		Color: [
