@@ -11,9 +11,58 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2024-09-16
-* Last recorded PR: [#5192](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5192)
-* Last recorded commit hash: `44e46719dd786ead85681c0de9fb15728f01c324`
+* Changelog last updated: 2024-10-16
+* Last recorded PR: [#5220](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5220)
+* Last recorded commit hash: `1d78642e3a60ab5b856209405af47f6c83fc6bf4`
+
+## [R109]
+
+### [Changes]
+
+* Haruhi - Adds HairFront59, 60 and 61 ([#5212](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5212))
+* Haruhi - Adds Face Scars and Oni Horns by me (Haruhi) ([#5219](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5219))
+* EllieThePink - Shibari Cards, Asylum cards & Club Card game log formatting ([#5206](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5206))
+* Sepia Oulomenohn - Add CustomBallHood, perform tests. May need alpha adjustment later ([#5220](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5220))
+* Haaa - Chinese translation College C007/C008/C012/C101 ([#5189](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5189))
+* Da'Inihlus - Cn translation ([#5213](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5213))
+* Rama - Add enter key hints for the login screen ([#5200](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5200))
+* Rama - Take `Asset.CraftGroup` into account when sorting crafted items ([#5205](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5205))
+* Rama - Ensure that the drone mask layering options are visible for all of its variants ([#5211](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5211))
+* Rama - Add the option to create longer ASCII-only crafting descriptions ([#5210](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5210))
+* gambitx8664 - Minor Bondage College improvements ([#5218](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5218))
+* Ben987 - Drawing Engine - Opacity Array - Different Opacities by Layers
+* Ben987 - Opacity Slider
+* Ben987 - Default Opacity Property for all Clothing Items by Groups
+* Ben987 - Russian Translation by Makeevchanin
+* Ben987 - Disclaimer - French Translation
+* Ben987 - Main Hall - More Tips for Players
+* Ben987 - Server - Better email validation
+* Ben987 - Change Log
+
+### [Fixes]
+
+* harmony - Crashes in the crafting screen when no item is selected ([#5201](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5201))
+* harmony - Resize input field after a command was successfuly processed ([#5202](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5202))
+* Da'Inihlus - fix parseCSV in translation template generation ([#5215](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5215))
+* Estsanatlehi - Fix the hitbox of the chat prev/next options ([#5193](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5193))
+* Estsanatlehi - Stop the old-style settings button from being added multiple times ([#5195](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5195))
+* Estsanatlehi - Fix the shadow chatlog getting entries for out-of-range messages ([#5197](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5197))
+* Estsanatlehi - Server - Fix email linking on account creation
+* Rama - Disable the crafting extended item button for non-extended items ([#5194](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5194))
+* Rama - Upon entering briefly disable the crafted exit button on mobile ([#5196](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5196))
+* Rama - Disable certain input & button elements when no crafted item asset is selected ([#5203](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5203))
+* Rama - Use `Element.get/setAttribute` over directly accessing aria properties ([#5204](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5204))
+* Rama - Fix two crafting screen bugs ([#5207](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5207))
+* Rama - Fix the appropriate default color failing to be selected upon creating a new crafted item ([#5208](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5208))
+* Rama - Fix the gap on the left side of the chat room separator ([#5209](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5209))
+* Ben987 - Appearance Screen - Missing Button Hover Text
+
+### [Technical]
+
+* Estsanatlehi - Remove ChatRoomPlayerCanJoin and check if we're already in a room instead ([#5198](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5198))
+* Estsanatlehi - Remove handler for non-Ctrl-Z shortcuts and let the normal processing happen ([#5199](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5199))
+* Rama - Briefly disable click events when creating elements on mobile ([#5216](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5216))
+
 
 ## [R108]
 
