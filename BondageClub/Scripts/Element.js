@@ -21,6 +21,36 @@ function ElementValue(ID, Value) {
 }
 
 /**
+ * Disable all clickable elements within `root` for the given duration.
+ * @param {Element} root - The root element
+ * @param {null | string} [query] - The query for identifying all clickable elements within `root`
+ * @param {number} [timeout] - The timeout in ms
+ * @returns {number} - The timeout ID as returned by {@link setTimeout}
+ */
+function ElementClickTimeout(root, query=null, timeout=100) {
+	query ??= "button,a,[role='button'],[role='link']";
+	const elemClickable = /** @type {HTMLElement[]} */(Array.from(root.querySelectorAll(query)));
+	const elemDisabledStates = elemClickable.map(e => /** @type {const} */([e, e.getAttribute("disabled"), e.getAttribute("aria-disabled")]));
+	elemDisabledStates.forEach(([e, disabled, ariaDisabled]) => {
+		if (!disabled && ariaDisabled !== "true") {
+			e.setAttribute("disabled", "true");
+			e.setAttribute("aria-disabled", "true");
+		}
+	});
+
+	return setTimeout(() => {
+		elemDisabledStates.forEach(([e, disabled, ariaDisabled]) => {
+			if (!disabled) {
+				e.removeAttribute("disabled");
+			}
+			if (ariaDisabled !== "true") {
+				e.removeAttribute("aria-disabled");
+			}
+		});
+	}, timeout);
+}
+
+/**
  * Handles the content of a HTML element. It sets the content of the element when the Content parameter is provided or it returns the value when the parameter is omitted
  * @param {string} ID - The id of the element for which we want to get/set the value.
  * @param {string} [Content] - The content/inner HTML to give to the element (if applicable)

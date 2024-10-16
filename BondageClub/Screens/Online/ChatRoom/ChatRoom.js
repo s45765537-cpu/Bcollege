@@ -1118,6 +1118,9 @@ function ChatRoomCreateElement() {
 				},
 			],
 		});
+		if (CommonIsMobile) {
+			ElementClickTimeout(elem);
+		}
 
 		ChatRoomRefreshChatSettings();
 		ElementFocus("InputChat");
@@ -1139,6 +1142,9 @@ function ChatRoomCreateElement() {
 function ChatRoomShowElements() {
 	const elem = document.getElementById("chat-room-div");
 	if (elem) {
+		if (CommonIsMobile) {
+			ElementClickTimeout(elem);
+		}
 		elem.style.display = "";
 
 		// We can't accurately keep track of the scroll height within the likes of `ChatRoomAppendChat` when an element is hidden via `display: none`,
