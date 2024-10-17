@@ -8048,6 +8048,49 @@ var AssetFemale3DCGExtended = {
 					Key: "p",
 					Options:[ {}, {}, {}, {}, {},], //None, Pumpkin, Smiley Lines, Smiley Fill, 8Ball
 				},
+				{
+					Name: "Cover",
+					Key: "c",
+					Options: [
+						{				// Hide everything that could conflict
+							Property: {
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+									"HairAccessory3",
+									"Mask",
+									"Hat",
+									"ItemMouth",
+									"ItemMouth2",
+									"ItemMouth3",
+									"ItemHead",
+									"ItemEars",
+									"Glasses",
+								],
+							},
+						},
+						{				// Hide limited conflicts
+							Property:{
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"HairAccessory2",
+									"Mask",
+								],
+							},
+						},
+						{				// Hide only hair
+							Property:{
+								Hide: [
+									"HairFront",
+									"HairBack",
+								],
+							},
+						},
+					],
+				},
 			],
 		}, //CustomBallHood
 	}, // ItemHood
