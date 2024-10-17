@@ -1055,6 +1055,10 @@ Get going girl!  Go in the club and make sure everyone see's you.  Make our cust
 去吧，女孩！走进俱乐部，确保每个人都看到你。让我们的客户和会员满意吧。
 Don't stay here girl, you're on duty.  Go in the club and make sure everyone see's you.  Make our customers and members happy.
 别呆在这里，女孩，你该当班了。走进俱乐部，确保每个人都看到你。让我们的客户和会员满意吧。
+(She slaps your face) Slave!  Why are you standing in my presence?  On your knees immediately.
+（她扇了你一巴掌）奴隶！你为什么站在我的面前？立刻跪下。
+(She looks angry as you kneel down for her.)  Slave,  why are you here?
+（她生气地看着你朝她跪下）奴隶，你来这里做什么？
 Your slave time is done girl.  Are you here to complete your contract?
 你的奴隶时间结束了，女孩。你是来完成你的合约的吗？
 ###_PLAYER
@@ -1064,8 +1068,8 @@ Miss, I wish to complete my contract.
 Very good, did you enjoy your experience?
 很好，你享受你的经历吗？
 ###_PLAYER
-(Bow your head and leave her.)
-（低下头并离开她。）
+(Lower your gaze and leave her.)
+（放低视线并离开她。）
 It was very kinky Miss.
 那非常的色，女士。
 ###_NPC

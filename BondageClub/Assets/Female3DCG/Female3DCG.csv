@@ -8,6 +8,7 @@ BodyLower,XLarge,Xlarge
 BodyMarkings,,Body Markings
 BodyMarkings,WombTattoos,Womb Tattoos
 BodyMarkings,BodyWritings,Body Writings
+BodyMarkings,FaceScars,Face Scars
 BodyUpper,,Upper Body
 BodyUpper,FlatMedium,Bulky Flat Chest
 BodyUpper,FlatSmall,Flat Chest
@@ -183,6 +184,9 @@ ClothAccessory,StudentOutfit3Bow2,Student Bow 2
 ClothAccessory,StudentOutfit3Bow3,Student Bow 3
 ClothAccessory,StudentOutfit3Scarf,Student Scarf
 ClothAccessory,ZipperBelt,Zipper Belt
+ClothAccessory,SmallNeckFur,Small Neck Fur
+ClothAccessory,LargeNeckFur,Large Neck Fur
+ClothAccessory,SpikyNeckFur,Spiky Neck Fur
 ClothLower,,Bottom
 ClothLower,AdmiralSkirt,Admiral Skirt
 ClothLower,ASRubberSkirt,ArmBSuit Rubber Skirt
@@ -390,6 +394,8 @@ HairAccessory1,WeddingVeil1,Wedding Veil
 HairAccessory1,WolfEars1,Wolf Ears One Piece
 HairAccessory1,WolfEars2,Wolf Ears Big
 HairAccessory1,CyberneticEars1,Cybernetic Ears
+HairAccessory1,Onihorns,Oni Horns
+HairAccessory1,SkunkEars,Skunk Ears
 HairAccessory2,,Ears
 HairAccessory3,,Hair Accessory
 HairBack,,Back Hair
@@ -477,6 +483,7 @@ HairBack,HairBack60,Style 60
 HairBack,HairBack61,Style 61
 HairBack,HairBack62,Style 62
 HairBack,HairBack63,Style 63
+HairBack,ScalyBackHair,Scaly Hair
 HairBack,HairNone,None
 HairFront,,Front Hair
 HairFront,HairFront1,Style 1
@@ -571,6 +578,10 @@ HairFront,HairFront55,Style 55
 HairFront,HairFront56,Style 56
 HairFront,HairFront57,Style 57
 HairFront,HairFront58,Style 58
+HairFront,HairFront59,Style 59
+HairFront,HairFront60,Style 60
+HairFront,HairFront61,Style 61
+HairFront,ScalyHair,Scaly Hair
 Hands,,Hands
 Hands,Default,Default
 Hat,,Hat
@@ -1018,6 +1029,7 @@ ItemHood,CanvasHood,Canvas Hood
 ItemHood,CollarHood,Collar Hood
 ItemHood,CorsetHood,Corset Hood
 ItemHood,CowHood,Cow Hood
+ItemHood,CustomBallHood,Custom Ball Hood
 ItemHood,CustomLatexHood,Custom Latex Hood
 ItemHood,DobermanMask,Doberman Mask
 ItemHood,DogHood,Dog Hood
@@ -1483,6 +1495,11 @@ Mask,PetNose,Pet Nose
 Mask,ShinobiMask,Shinobi Mask
 Mask,SwimCap,Swim Cap
 Mask,VenetianMask,Venetian Mask
+Mask,AnimalNoses,Animal Nose
+Mask,EldritchMask,Eldritch Mask
+Mask,DemonMask,Demon Mask
+Mask,AngelMask,Angel Mask
+Mask,NecromancerHelmet,Necromacer Helmet
 Mouth,,Mouth
 Mouth,Discreet,Discreet
 Mouth,Full,Full Lips
@@ -1734,6 +1751,8 @@ TailStraps,Tentacles,Tentacles
 TailStraps,WolfTailStrap1,Wolf Large Tail Strap
 TailStraps,WolfTailStrap2,Wolf Small Tail Strap
 TailStraps,WolfTailStrap3,Wolf White Tail Strap
+TailStraps,LatexFoxTail,Latex Fox Tail
+TailStraps,SkunkTail,Skunk Tail
 Wings,,Wings
 Wings,AngelFeather,Angel Feather
 Wings,AngelWings,Angel Wings

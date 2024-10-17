@@ -46,6 +46,10 @@ Nawashi
 Веревочный художник
 Houdini
 Гудини
+Superheroine
+Супергероиня
+Superhero
+Супергерой
 Foal
 Жеребенок
 Farm Horse
@@ -102,6 +106,22 @@ Duchess
 Герцогиня
 Switch
 Свитч
+Princess
+Принцесса
+Prince
+Принц
+Missy
+Мисси
+Sissy
+Сисси
+Tomboy
+Томбой
+Femboy
+Фембой
+Pet
+Питомец
+Brat
+Сопляк
 Kitten
 Котёнок
 Puppy
@@ -116,13 +136,33 @@ Demon
 Демон
 Angel
 Ангел
+Alien
+Чужак
 Succubus
 Суккуб
+Incubus
+Инкуб
 Good Girl
 Хорошая Девочка
+Good Boy
+Хороший Мальчик
 Good Slave Girl
 Хорошая Девочка-Рабыня
+Good Slave Boy
+Хороший Мальчик-Раб
 Good Slave
 Хороший Раб
 Drone
 Дрон
+Good One
+Хороший Вариант
+Liege
+Сеньор
+Concubus
+Сожитель
+Majesty
+Величество
+Captain
+Капитан
+Admiral
+Адмирал

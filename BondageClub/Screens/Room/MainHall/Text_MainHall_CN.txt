@@ -120,7 +120,7 @@ Reach us on Discord, DeviantArt or Patreon if you need help.
 请在我们的Discord,DeviantArt或Patreon寻求帮助。
 Type /help in a chatroom to know the available chat commands.
 在聊天框中输入/help来显示可用的聊天指令。
-Try visiting your graphics preferences if you are experiencing performance issues.
+Try changing your graphics preferences if you get performance issues.
 如果你遇到了性能问题，请尝试访问你的图像偏好。
 Don't forget to do the daily job in the Introduction Room.
 不要忘记做介绍处房间里的每日工作。
@@ -128,7 +128,7 @@ Corsets can be worn both as clothing and a restraint.
 束腰可以当做衣服穿，也可以当做束缚穿。
 Chat rooms are where you can interact with other people, stay safe.
 聊天室是你能和其他人互动的地方，注意安全。
-Locks make restraints impossible to get out of by yourself.
+Locks makes it harder to struggle out of restraints.
 锁能让束缚无法通过你自己解开。
 Ring the bell if you get stuck, a maid will be with you shortly.
 如果你被困住了，可以弄响铃铛，女仆会很快来照看你。

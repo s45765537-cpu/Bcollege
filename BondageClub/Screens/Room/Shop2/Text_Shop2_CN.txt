@@ -9,7 +9,7 @@ Clothes
 Underwear
 内衣
 Cosplay
-Cosplay
+角色扮演
 Nude
 裸体
 Use item
@@ -68,4 +68,3 @@ Show pose menu
 展开姿势菜单
 Reset pose
 重置姿势
-

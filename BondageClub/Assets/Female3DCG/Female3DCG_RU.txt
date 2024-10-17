@@ -937,6 +937,8 @@ Wolf Ears One Piece
 Уши волчьи, цельные
 Wolf Ears Big
 Уши волчьи большие
+Cybernetic Ears
+Кибернетические уши
 Fox Ears Large
 Уши лисы большие
 Fox Ears Bell

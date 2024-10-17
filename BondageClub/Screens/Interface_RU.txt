@@ -529,7 +529,7 @@ Automatically locks
 View previous page
 Посмотреть предыдущую страницу
 Private
-Личное
+Приватная
 <i>Private room</i>
 <i>Приватная комната</i>
 Click here to speed up the progress
@@ -647,7 +647,7 @@ TargetCharacterName был/а снят/а с должности админист
 SourceCharacter disconnected.
 SourceCharacter отключается.
 SourceCharacter entered.
-SourceCharacter входит в комнаты.
+SourceCharacter входит в комнату.
 SourceCharacter called the maids to escort TargetCharacterName out of the room.
 SourceCharacter позвал/а горничных, чтобы они вывели TargetCharacterName из комнаты.
 SourceCharacter left.
@@ -819,7 +819,7 @@ Try to loosen the item
 Time left:
 Оставшееся время:
 Unlocked
-Отпереть
+Открытая
 Unlocking...
 Отпираем...
 Using none of your skill...

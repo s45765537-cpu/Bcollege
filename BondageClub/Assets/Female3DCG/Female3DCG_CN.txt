@@ -156,6 +156,8 @@ Summer flower dress
 夏花裙
 Shiny dress
 反光短裙
+Cosplay Girl Suit
+角色扮演女孩套装
 Babydoll Dress
 芭比裙
 Blouse
@@ -234,6 +236,8 @@ Jacket
 夹克
 Lace Babydoll
 蕾丝娃娃裙
+Strict Hobble Dress
+严格步履礼服
 Latex Laced Suit
 织边乳胶服
 Latex Tank Top
@@ -358,6 +362,8 @@ Bottom
 下装
 Admiral Skirt
 海军裙
+ArmBSuit Rubber Skirt
+单手套服橡胶裙
 Asymmetric Skirt
 非对称裙
 Bondage Skirt
@@ -468,6 +474,8 @@ Leather Corset Top
 皮革紧身胸衣
 Steampunk Corset
 蒸汽朋克胸衣
+Leather Tight Corset
+皮革紧身束腰
 Boned Underbust Corset
 撑骨胸下束腰
 Emoticon
@@ -572,6 +580,8 @@ Gradient Sunglasses
 渐变太阳镜
 Inconspicious Glasses
 吹胡子瞪眼
+Pince-nez
+鼻夹眼镜
 Street Eyewear
 街头眼镜
 Sunglasses 1
@@ -584,6 +594,8 @@ V Glasses
 V眼镜
 Gloves
 手套
+Cosplay Girl Gloves
+角色扮演女孩手套
 Biker Gloves
 单车手套
 Catsuit Gloves
@@ -702,6 +714,8 @@ Wolf Ears One Piece
 狼耳一件套
 Wolf Ears Big
 狼耳 大
+Cybernetic Ears
+赛博耳朵
 Ears
 耳朵
 Hair Accessory
@@ -908,6 +922,8 @@ Default
 默认
 Hat
 帽子
+Cosplay Girl Tiara
+角色扮演女孩头冠
 Baker Boy Hat
 贝克男孩帽
 Baseball Cap Back
@@ -932,6 +948,8 @@ Bunny Succubus
 兔子魅魔
 Captain's Hat
 船长帽
+Cheap Helmet
+廉价头盔
 Dunce Hat
 傻帽
 Cowboy Hat
@@ -979,11 +997,13 @@ Stylish Small Hat
 Swim Cap
 游泳帽
 Tiara
-头饰
+头冠
 Veil Half Face
 半脸面纱
 Veil Full Face
 全脸面纱
+Vintage Hat
+复古帽
 Witch Hat
 女巫帽
 Head
@@ -1038,6 +1058,8 @@ Arms
 手臂
 Armbinder Jacket
 单手套衣
+Armbinder Suit
+单手套服
 Pet Suit
 宠物拘束服
 Bolero Straitjacket
@@ -1334,12 +1356,16 @@ Bed
 床
 Bondage Bench
 捆绑躺椅
+Brick Wall
+砖墙
 Burlap Sack
 麻袋
 Stand up cage
 站立式铁笼
 Changing Table
 尿布台
+Cement Shoes
+水泥鞋
 Vampire Coffin
 吸血鬼棺材
 Concealing Cloak
@@ -1500,12 +1526,16 @@ Suspension Cuffs
 吊缚手铐
  Zip Ties
 扎带
+Cosplay Girl Power Staff
+角色扮演女孩能量法杖
 Baguette
 法棍面包
 Ballgag
 口球
 Belt
 腰带
+Brick
+砖头
 Broom
 扫帚
 Candle Wax
@@ -1604,6 +1634,8 @@ Tennis Racket
 网球拍
 Toothbrush
 牙刷
+Trowel
+抹子
 Vibrator Remote
 振动玩具遥控器
 Vibrating Wand
@@ -1624,7 +1656,9 @@ Futuristic Mittens
 未来无指手套
 Glue Mittens
 胶水无指手套
- Hoof Mittens
+Hemp Rope Cuffs
+麻绳手铐
+Hoof Mittens
 马蹄手套
 Leather Mittens
 皮革无指手套
@@ -1784,6 +1818,8 @@ Pumpkin Head
 南瓜头
 Paper bag
 纸袋
+Rubber Mask
+橡胶面具
 Sack Hood
 麻袋头罩
 Sensory Hood
@@ -1954,6 +1990,8 @@ Futuristic Panel Gag
 未来板塞
 Respirator Mask
 呼吸面罩
+Latex Genital Gag
+乳胶生殖器口塞
 Glue
 胶水
 Harness Ball Gag
@@ -2024,6 +2062,8 @@ Pump Gag
 充气口塞
 Pumpkin Gag
 南瓜口塞
+Quality Harness Gag
+品质束带口塞
 Nursery Milk
 婴儿奶瓶
 Sleeping Pill
@@ -2308,6 +2348,8 @@ Heavy Duty Belt
 重型耐久贞操带
 Rope Harness
 绳缚带
+Hip Harness
+臀部束带
 Hybrid Chastity Belt
 混合贞操带
 Leather Chastity Belt
@@ -2524,6 +2566,8 @@ Regular
 常规
 Necklace
 项链
+Cosplay Girl Necklace
+角色扮演女孩项链
 Black Heart
 黑色心形项链
 Body Chain Necklace
@@ -2656,6 +2700,8 @@ Right Hand
 右手
 Shoes
 鞋子
+Cosplay Girl Boots
+角色扮演女孩靴
 Ankle Boots
 脚踝靴
 Ankle Strap Shoes
@@ -2666,6 +2712,8 @@ Boots
 靴子
 Platform Clogs
 厚底洞洞鞋
+Custom Strap Heels
+自定义束带高跟鞋
 Deluxe Mistress Boots
 豪华女王靴
 Duty Shoes
@@ -2870,3 +2918,5 @@ Succubus Feather
 魅魔羽毛翅膀
 Succubus Wings
 魅魔之翼
+Dragon Wings
+龙翼

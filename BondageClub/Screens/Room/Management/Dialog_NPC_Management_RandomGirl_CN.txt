@@ -1103,6 +1103,34 @@ Cute restraints.
 （她有点挣扎，但没有取得任何进展。她转向你。）
 (She giggles hearing your mumbles and nods politely.)
 （听到你的喃喃自语，她咯咯地笑着，礼貌地点头。）
+(As you wander in the club, you see a bunny girl squirming in bondage.)  This rope bunny is here to serve you Miss.
+（当你在俱乐部里游荡时，你看到一个兔兔女孩在束缚中扭动。）这个小绳兔在这里为你服务，女士。
+###_PLAYER
+Such a cute bunny!
+多可爱的小兔子！
+###_NPC
+(She blushes and smiles.)  Thank you Miss.  Do you require anything from me?
+（她脸红，微笑着。）谢谢女士。你需要我做什么吗？
+###_PLAYER
+(Spank her fluffy tail.)
+（拍打她的毛茸茸的尾巴。）
+###_NPC
+(She laughs and waves her tail at you.)  I hope my tail is fluffy enough for you Miss.
+（她笑着向你摇动尾巴。）我希望我的尾巴对你来说足够蓬松，女士。
+###_PLAYER
+Why are you dressed like that?
+你为什么穿成这样？
+###_NPC
+(She tugs on the ropes playfully.)  I'm a rope bunny Miss.  I wear clothes like that and enjoy being in ropes very much.
+（她玩笑地拉着绳子。）我是一个小绳兔，女士。我穿成这样，非常喜欢被绳子束缚。
+###_PLAYER
+(Hop around her.)
+（在她周围跳跃。）
+###_NPC
+(She laughs and struggles playfully.)  You would make a great rope bunny.
+（她笑着玩耍。）你会成为一个很棒的小绳兔。
+(She smiles hearing your mumbles.)  It seems I'm not the only one who had fun.
+（听到你的喃喃自语，她微笑着。）看来我不是唯一一个玩得开心的人。
 NOEXIT
 NOEXIT
 ###_PLAYER
@@ -1111,6 +1139,8 @@ Let's talk.
 ###_NPC
 Of course Miss.  What would you like to talk about?
 当然，女士。你想谈什么？
+Of course Miss.  Though bunnies are better at hopping than talking.  (She giggles.)
+当然，女士。不过小兔子更擅长跳跃而不是说话。（她咯咯地笑。）
 ###_PLAYER
 (Hug her.)
 （抱她。）
@@ -1177,6 +1207,34 @@ That's all I wanted to talk about.
 ###_NPC
 Very well.  Is there anything else I can do for you Miss?
 好的。还有什么可以为你做的吗，女士？
+I'm a simple club slave and rope bunny Miss.  It's a pleasure to meet you.
+我仅仅是一个俱乐部奴隶，以及小绳兔，女士。很高兴认识你。
+###_PLAYER
+What is a rope bunny?
+什么是小绳兔？
+###_NPC
+Everyone is different, but it's usually a submissive that enjoys being tied up with ropes.  On my side, I adore the bunny costume.
+每个人都不一样，但通常是顺从者，并且喜欢被绳子绑起来。就我而言，我喜欢兔子服装。
+###_PLAYER
+Why aren't you naked?
+你为什么没脱光？
+###_NPC
+I know that club slaves are usually naked, but they allow me to wear this bunny outfit for my contract.  I must still please customers.
+我知道俱乐部奴隶通常都是裸体的，但为了合同，他们允许我穿这套兔子装。我还是得取悦顾客。
+###_PLAYER
+You have different limits?
+你有不同的限制吗？
+###_NPC
+No Miss, I'm a regular submissive in a bunny suit.
+不，女士，我是一个穿着兔子装的普通顺从者。
+###_PLAYER
+Anyone can be a bunny?
+谁都可以是兔子吗？
+###_NPC
+(She nods happily.)  You could also be one.  Just find a costume and wear the title.
+（她高兴地点点头。）你也可以成为其中的一员。只要找一套服装，戴上这个称号就行了。
+Very well.  Is there anything else this bunny can do for you Miss?
+好的。女士，这只兔子还能为您做些什么吗？
 ###_PLAYER
 (Tickle her.)
 （给她挠痒痒。）

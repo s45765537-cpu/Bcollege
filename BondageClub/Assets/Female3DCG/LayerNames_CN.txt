@@ -72,6 +72,18 @@ Dress
 裙子
 Sash
 腰带
+Skirt
+裙子
+Brooch
+饰针
+Ribbon Tie
+丝带领结
+Cloth Collar
+布料领子
+Collar Detail
+领子细节
+Back Ribbon
+后部丝带
 Tie
 领带
 Lower Gradient
@@ -102,6 +114,14 @@ Fur
 绒毛
 Bottom
 底部
+Corset Buckles
+束腰搭扣
+Lower Belts
+下部皮带
+Lower Belt Buckles
+下部皮带搭扣
+Colar Buckle
+领子搭扣
 Shawl
 披肩
 Shawl Fur
@@ -150,8 +170,6 @@ Waist and Wrists
 拉起兜帽
  Hoodie Down
 放下兜帽
-Skirt
-裙子
 Frill
 褶边
 Crosses
@@ -248,6 +266,10 @@ Hair
 头发
 Nose
 鼻子
+Accessory
+配饰
+Elbow Stripe
+肘部条纹
 Glove
 手套
 Inner Ear
@@ -280,6 +302,10 @@ Mic
 话筒
 Stem
 连杆
+Outside
+外部
+Light
+亮色
 Bun
 包子
 Tips
@@ -304,6 +330,18 @@ Fade
 变暗
 Tint
 色调
+Tone1
+色调1
+Tone2
+色调2
+Color1
+颜色1
+Color2
+颜色2
+Tiara
+头冠
+Detail
+细节
 Button
 扣子
 Panel
@@ -340,8 +378,6 @@ Shoulders
 肩膀
 Cowl
 面巾
-Detail
-细节
 Symbol
 徽记
 Inside
@@ -370,6 +406,38 @@ Roses
 玫瑰
 Cap
 柱子顶盖
+Upper and armbinder
+上部和臂束带
+Suit lower part
+套装下部
+Latex single heel
+乳胶单鞋跟
+Cuff and chain link
+手铐和链环
+Ankle shackles
+脚踝镣铐
+Leg metal parts
+腿部金属组件
+Collar metal part
+项圈金属组件
+Harness belt buckles
+束带搭扣
+Shoulder belt buckles
+肩部带扣
+Single heel metal parts
+单鞋跟金属组件
+Leg Straps
+腿部束带
+Harness belts
+束带
+Shoulder straps
+肩部束带
+Heel straps
+鞋跟束带
+Zipper
+拉链
+Rubber skirt
+橡胶裙子
 Locks
 锁
 Zippers
@@ -414,8 +482,6 @@ Gems
 珠宝
 Wood
 木质
-Zipper
-拉链
 Stripes
 条带
 Color 1
@@ -500,6 +566,22 @@ Pillow
 枕头
 Bench
 长椅
+Background wall
+背景墙
+Portal
+传送门
+Metal restraints
+金属束缚
+Main wall
+主墙
+Wall grid
+墙壁网格
+Bucket
+桶
+Ratchets
+棘轮
+Pole
+杆子
 Tabletop
 桌面
 Lid (closed)
@@ -514,8 +596,6 @@ Pillow Trim
 枕头装饰
 Plushies
 毛绒玩具
-Outside
-外部
 Label
 标签
 Custom Text
@@ -528,8 +608,6 @@ Dildo
 假阳具
 Plastic
 塑料
-Pole
-杆子
 Blanket
 毛毯
 Padding
@@ -604,8 +682,6 @@ Bar
 穿刺棒
 Tiny Cushion
 小垫子
-Ratchets
-棘轮
 Shoes
 鞋
 Option
@@ -650,8 +726,6 @@ Arm Stocks
 手枷
 Dark
 深色
-Light
-亮色
 Lower Rope
 下部绳子
 Upper Rope
@@ -662,6 +736,18 @@ Lower Belt
 下部皮带
 Upper Belt
 上部皮带
+Wand side
+魔棒侧面
+Staff side
+手杖侧面
+Big gem
+大宝石
+Central ornament
+中央装饰
+Spheres
+球体
+Power switch
+电源开关
 Accent
 风格
 Fluids
@@ -840,6 +926,20 @@ Points
 点
 Paperbag
 纸袋
+Eyebrows
+眉毛
+Iris
+虹膜
+Cheeks
+面颊
+Lips
+嘴唇
+Wig
+假发
+Wig Accessory
+假发配件
+Earplug
+耳塞
  Silencer
 隔音器
  Lips
@@ -912,8 +1012,6 @@ Icon
 标志
 Glue
 胶水
-Lips
-嘴唇
 Metal Parts
 金属组件
 Pacifier Ring
@@ -990,6 +1088,8 @@ Serious
 严肃
 Close
 关闭
+Ball Shine
+球体高光
  BitGag
 口衔
  BitGag 2
@@ -1034,8 +1134,6 @@ Leather Strap
 皮束带
 Patch
 补丁
-Brooch
-饰针
  Buckles
 搭扣
 Middle Ring
@@ -1090,6 +1188,12 @@ Spreader Straps
 开阴器束带
 Transparent Shield
 透明挡板
+Upper belt
+上部皮带
+Center strap
+中央束带
+Leg straps
+腿部束带
 Crotch Plate
 胯部挡板
 Metal Band
@@ -1192,16 +1296,16 @@ Wedding Ring
 结婚戒指
 String
 系绳
-Cheeks
-面颊
 Nose Gloss
 鼻子光泽
 Whiskers
 胡子
-Choker
-颈环
 Necklace
 项链
+Star
+星星
+Choker
+颈环
 Center
 中部
 Card
@@ -1228,8 +1332,16 @@ Side Straps
 侧边束带
 Catsuit Panties
 紧身衣内裤
+Top Stripe
+上身条纹
 Sole
 脚底
+Ankle Straps
+脚踝束带
+Mid Straps
+中部束带
+Lower Straps
+下部束带
 Inner & Laces
 内侧和系带
 Rear
@@ -1292,3 +1404,11 @@ Shade
 阴影
 Gears
 齿轮
+Webbing
+织带
+Supports
+支撑
+Binding buckles
+束缚搭扣
+Binding straps
+束缚束带

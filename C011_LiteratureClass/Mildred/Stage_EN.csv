@@ -100,7 +100,7 @@ Stage,LoveReq,SubReq,VarReq,Interaction,Result,NextStage,LoveMod,SubMod,Function
 160,0,0,,You can take a break.|I'll do the tests.,(Sidney unlocks and Mildred quits in shame.|She leaves you her items and her blazer.),400,0,1,FreeBoth()
 160,0,0,,"It's alright, you can|resume the tests.",(She nods while Sidney unlocks.  She starts|the tests again and regains her confidence.),300,1,0,FreeBoth()
 160,0,0,,"Yes, enough|humiliation.",(She nods while Sidney unlocks.  She starts|the tests again and regains her confidence.),300,0,0,FreeBoth()
-200,0,0,,Sidney was lucky.,Maybe she was lucky or maybe|you didn't studied hard enough.,210,0,0,
+200,0,0,,Sidney was lucky.,Maybe she was lucky or maybe|you didn't study hard enough.,210,0,0,
 200,0,0,,Who cares?,YOU should care!  (She whips your arm.)|You need to study harder if you want to succeed.,210,-1,1,
 200,0,0,,Sidney cheated!,That's a lame excuse.  If you've studied|harder you would have won easily.,210,-1,0,
 200,0,0,,Sorry Miss.|I was nervous.,I know it's tough to speak in front of a new class.|But if you've studied harder it would be easier.,210,1,-1,

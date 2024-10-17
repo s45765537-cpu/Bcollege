@@ -1,5 +1,15 @@
 Tutu
 芭蕾裙
+Latex suit parts
+乳胶套装组件
+Latex shine
+乳胶光泽
+Leather parts
+皮革组件
+Metal parts
+金属组件
+Cuff-shackles and chain link
+手铐-镣铐和链环
 Canvas
 帆布
 Straps
@@ -14,6 +24,10 @@ Metal
 金属
 Stripes
 条纹
+Brick sector
+砖块部分
+Metal sector
+金属部分
 Cage
 笼子
 Coffin
@@ -62,6 +76,14 @@ Eyes
 眼睛
 Attachments
 附件
+Skin sector
+皮肤部分
+Eyes sector
+眼睛部分
+Devices sector
+装置部分
+Wig sector
+假发部分
 Tubes
 管子
 Fixing

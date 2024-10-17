@@ -5,6 +5,8 @@
 （他们释放你，付给你钱，并把你留给你的新主人。）过来，女孩，我的名字是DialogCharacterName。
 (They release, pay and leave you with your new owner.)  Hello girl, I'm DialogCharacterName, your new owner.
 （他们释放你，付给你钱，并把你留给你的新主人。）你好女孩，我是DialogCharacterName，你的新主人。
+(They release, pay and leave you with your new owner.)  Don't be afraid, I'm a succubus and your new owner.
+（他们释放你，付给你钱，并把你留给你的新主人。）不要害怕，我是一个魅魔，也是你的新主人。
 ###_PLAYER
 Hi, I'm DialogPlayerName.
 嗨，我是DialogPlayerName。

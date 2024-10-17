@@ -2770,8 +2770,13 @@ function DialogDrawCrafting(C, Item) {
 		DrawTextWrap(InterfaceTextGet("CraftingMember").replace("MemberName", Item.Craft.MemberName).replace("MemberNumber", Item.Craft.MemberNumber.toString()), 1050, 300, 900, 125, "White", null, 3);
 	if (Item.Craft.Property != null)
 		DrawTextWrap(InterfaceTextGet("CraftingProperty").replace("CraftProperty", Item.Craft.Property), 1050, 450, 900, 125, "White", null, 3);
-	if ((Item.Craft.Description != null) && (typeof Item.Craft.Description === "string"))
-		DrawTextWrap(InterfaceTextGet("CraftingDescription").replace("CraftDescription", Item.Craft.Description.substring(0, 200)), 1050, 600, 900, 125, "White", null, 4, 23, "Top");
+	if (typeof Item.Craft.Description === "string") {
+		const nLines = Item.Craft.Description.startsWith(CraftingDescription.ExtendedDescriptionMarker) ? 6 : 4;
+		DrawTextWrap(
+			InterfaceTextGet("CraftingDescription").replace("CraftDescription", CraftingDescription.Decode(Item.Craft.Description)),
+			1050, 600, 900, 125, "White", undefined, nLines, 23, "Top",
+		);
+	}
 }
 
 /**

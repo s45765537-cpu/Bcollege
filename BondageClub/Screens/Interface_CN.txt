@@ -58,12 +58,8 @@ SourceCharacter unlocks and removes the PrevAsset from DestinationCharacter Focu
 SourceCharacter打开并移除了DestinationCharacterFocusAssetGroup上的PrevAsset.
 SourceCharacter uses a NextAsset on DestinationCharacter FocusAssetGroup.
 SourceCharacter在DestinationCharacterFocusAssetGroup上使用了NextAsset.
-Sexual activities
-交互动作
 Adding...
 添加中...
-Must have an arm/torso/pelvis item to use ceiling tethers.
-手臂/躯干/小腹必须有物品才能使用牵引绳
 Add
 添加
 Add TimerTime minutes to the Timer
@@ -90,6 +86,266 @@ Brightness
 亮度
 Cancel
 取消
+Cannot use on yourself.
+不能对自己使用
+Cannot change while locked
+不能在被锁定时使用
+Challenge:
+挑战:
+Type /help for a list of commands
+输入 /help 查看命令列表
+You are not on that member's friendlist; ask TargetPronounObject to friend you before leashing TargetPronounObject.
+你不在该玩家的好友列表中。在使用链子之前，请先让该玩家添加你为好友。
+<i>Asylum</i>
+<i>收容所</i>
+Choose struggling method...
+选择挣扎方式...
+Struggle in chat room
+在聊天室中公开挣扎
+SourceCharacter struggles to remove PronounPossessive PrevAsset
+SourceCharacter 挣扎着试图移除 PronounPossessive 的 PrevAsset
+SourceCharacter gives up struggling out of PronounPossessive PrevAsset
+SourceCharacter 放弃移除 PronounPossessive 的 PrevAsset
+SourceCharacter struggles out of PronounPossessive PrevAsset
+SourceCharacter 解开了 PronounPossessive 的 PrevAsset
+SourceCharacter is slowly struggling out of PronounPossessive PrevAsset
+SourceCharacter 正缓慢的挣开 PronounPossessive 的 PrevAsset
+SourceCharacter is making progress while struggling on PronounPossessive PrevAsset
+SourceCharacter在挣扎中逐渐取得进展，试图挣脱PronounPossessive的PrevAsset。
+SourceCharacter struggles skillfully to remove PronounPossessive PrevAsset
+SourceCharacter有技巧地解松PronounPossessive的PrevAsset。
+SourceCharacter gradually struggles out of PronounPossessive PrevAsset
+SourceCharacter渐渐松开了PronounPossessive的PrevAsset。
+SourceCharacter methodically works to struggle out of PronounPossessive PrevAsset
+SourceCharacter有条不紊地从PronounPossessive的PrevAsset挣脱了
+Clear active poses
+清除当前姿势
+Clear facial expressions
+清除面部表情
+Save color to currently selected slot
+将颜色存储至目前选择的槽位
+Use this color
+使用该颜色
+Confirm
+确认
+Return to the item menu
+回到物品菜单
+Crafted item properties.
+制作的物品的特性。
+Description: CraftDescription
+描述：CraftDescription
+Crafter: MemberName (MemberNumber)
+制作者：MemberName (MemberNumber)
+Name: CraftName
+名称：CraftName
+Property: CraftProperty
+特性：CraftProperty
+Current Mode:
+目前的模式:
+Decoding the lock...
+正在解码…
+Delete
+删除
+Glans
+龟头
+Penis
+阴茎
+Sexual activities
+交互动作
+Default color
+默认颜色
+Change item color
+更换颜色
+Change expression color
+更改表情颜色
+Select default color
+选择默认颜色
+Unable to change color due to player permissions
+因玩家权限设置无法更改颜色
+Crafted properties
+制作特性
+Dismount
+起身
+Escape from the item
+逃离该物品
+Back to character
+回到角色
+GGTS controls this item
+GGTS控制这个物品
+Inspect the lock
+检查锁
+Unable to inspect due to player permissions
+因玩家权限设置无法检查
+Change item layering
+改变物品分层
+Use a lock
+使用一把锁
+Unable to lock item due to player permissions
+因角色权限设置无法上锁
+Lock related actions
+锁定相关动作
+View next items
+查看后续物品
+Exit permission mode
+退出权限编辑模式
+Edit item permissions
+编辑物品权限
+Try to pick the lock
+尝试开锁
+Unable to pick the lock
+无法撬锁
+Cannot reach lock
+无法接触到锁
+Try to pick the lock (jammed)
+尝试开锁（卡住了）
+Unable to pick without lockpicks
+没有开锁工具无法撬锁
+Unable to pick the lock due to player permissions
+由于玩家权限设置无法撬锁
+View previous items
+查看之前物品
+Use your remote
+使用你的遥控器
+Unable to use due to player permissions
+因玩家权限设置无法使用
+Your hands must be free to use remotes
+你必须双手自由才能使用遥控器
+You do not have access to this item
+没有足够的权限
+You have not bought a lover's remote yet.
+你还没买过爱人遥控器
+You have not bought a remote yet.
+你还没买过遥控器
+Your owner is preventing you from using remotes.
+你的主人禁止你使用遥控器
+Using remotes on this item has been blocked
+对该物品使用遥控器的能力被屏蔽了
+Remove the item
+移除该物品
+Try to struggle out
+尝试挣脱
+Unlock the item
+解锁物品
+Use this item
+使用该物品
+Dismounting...
+正在离开…
+Enable random input of time from everyone else
+允许所有其他人随机输入时间
+Escaping...
+正在逃离…
+Unavailable while crafting
+在制作物品时不可用。
+Blocked due to item permissions
+因物品权限而被禁止
+Remove locks before changing
+更改前移除锁
+Facial expression
+面部表情
+Hacking the item...
+正在黑入…
+hours
+小时
+in the Asylum
+在收容所
+in room
+位于房间
+Intensity:
+强度：
+Item intensity: Disabled
+物品强度：关闭
+Item intensity: Low
+物品强度：低
+Item intensity: Medium
+物品强度：中
+Item intensity: High
+物品强度：高
+Item intensity: Maximum
+物品强度：最大
+Configure total priority
+配置总优先级
+Exit
+退出
+Hide hidden layers
+隐藏隐藏层
+Configure layer-specific priority
+配置特定层的优先级
+Item configuration locked
+物品配置已锁定
+Reset layering
+重置分层
+Show hidden layers
+显示隐藏层
+Locking...
+正在锁上…
+Member number on lock:
+锁上标着的会员编号:
+Another item is blocking access to this lock
+另一个物品挡住了这个锁
+Your hands are shaky and you lose some tension by accident!
+你的双手发抖，不小心松开了一些锁芯！
+SourceCharacter jammed a lock on DestinationCharacterName and broke PronounPossessive lockpick!
+SourceCharacter卡住了DestinationCharacterName的锁并且损坏了PronounPossessive开锁器！
+You jammed the lock.
+你把锁芯卡住了
+You are too tired to continue. Time remaining:
+你太累了无法继续. 剩余时间:
+Click the pins in the correct order to open the lock!
+按照正确的顺序点击锁芯来解锁!
+Clicking the wrong pin may falsely set it.
+点击错误的锁芯可能会将它错误的抬起.
+It will fall back after clicking other pins.
+它在你点击其他锁芯后可能会重新掉落.
+Failing or quitting will break your lockpick for 1 minute
+失败或退出后的一分钟内无法尝试开锁
+Remaining tries:
+剩余尝试次数:
+Loosen...
+解松…
+Click or press space when the circles are aligned
+当圆圈对齐的时候，点击或者按下空格
+...A little
+…一点点
+...A lot
+…很多
+You can struggle to loosen this restraint
+你可以通过挣扎来解松此束缚
+Maximum:
+最大：
+Minimum:
+最小：
+minutes
+分钟
+View next expressions
+查看后续表情
+View next page
+查看下一页
+You have no items in this category
+这个分类下没有物品
+Joined Room
+加入了房间
+Chat Message
+聊天消息
+Disconnected
+掉线了
+from ChatRoomName
+来自ChatRoomName
+LARP - Your turn
+体感对战-你的回合
+Test Notification
+测试通知
+Change Opacity
+改变遮光度
+Option needs to be bought
+需要购买的选项
+Page
+页
+Picking the lock...
+正在开锁…
+Pose
+姿势
+Must have an arm/torso/pelvis item to use ceiling tethers.
+手臂/躯干/小腹必须有物品才能使用牵引绳
 Cannot change to the AllFours pose.
 无法改变到AllFours姿势。
 Cannot change to the BackBoxTie pose.
@@ -142,172 +398,10 @@ Cannot change to the Suspension pose.
 无法改变到Suspension姿势。
 Cannot change to the TapedHands pose.
 无法改变到TapedHands姿势。
-Cannot use on yourself.
-不能对自己使用
 Cannot change to the Yoked pose.
 无法改变到Yoked姿势。
-Cannot change while locked
-不能在被锁定时使用
 Cannot close on shaft.
 在支柱上无法封闭。
-Challenge:
-挑战:
-Type /help for a list of commands
-输入 /help 查看命令列表
-You are not on that member's friendlist; ask TargetPronounObject to friend you before leashing TargetPronounObject.
-你不在该玩家的好友列表中。在使用链子之前，请先让该玩家添加你为好友。
-<i>Asylum</i>
-<i>收容所</i>
-Choose struggling method...
-选择挣扎方式...
-Clear active poses
-清除当前姿势
-Clear facial expressions
-清除面部表情
-Default color
-默认颜色
-Change item color
-更换颜色
-Select default color
-选择默认颜色
-Unable to change color due to player permissions
-因玩家权限设置无法更改颜色
-Save color to currently selected slot
-将颜色存储至目前选择的槽位
-Use this color
-使用该颜色
-Confirm
-确认
-Crafted item properties.
-制作的物品的特性。
-Crafted properties
-制作特性
-Return to the item menu
-回到物品菜单
-Description: CraftDescription
-描述：CraftDescription
-Crafter: MemberName (MemberNumber)
-制作者：MemberName (MemberNumber)
-Name: CraftName
-名称：CraftName
-Property: CraftProperty
-特性：CraftProperty
-Current Mode:
-目前的模式:
-Decoding the lock...
-正在解码…
-Delete
-删除
-Try to unfasten
-试着打开扣锁
-Exit permission mode
-退出权限编辑模式
-Edit item permissions
-编辑物品权限
-Dismount
-起身
-Dismounting...
-正在离开…
-Enable random input of time from everyone else
-允许所有其他人随机输入时间
-Escape from the item
-逃离该物品
-Escaping...
-正在逃离…
-Back to character
-回到角色
-Unavailable while crafting
-在制作物品时不可用。
-Blocked due to item permissions
-因物品权限而被禁止
-Remove locks before changing
-更改前移除锁
-Facial expression
-面部表情
-Try to squeeze out
-试着挤出去
-Unlocked
-解锁
-Locked
-锁定
-Hacking the item...
-正在黑入…
-Penis
-阴茎
-hours
-小时
-Impossible to escape!
-不可能逃脱!
-in the Asylum
-在收容所
-in room
-位于房间
-Inspect the lock
-检查锁
-Unable to inspect due to player permissions
-因玩家权限设置无法检查
-Intensity:
-强度：
-Item intensity: Disabled
-物品强度：关闭
-Item intensity: Low
-物品强度：低
-Item intensity: Medium
-物品强度：中
-Item intensity: High
-物品强度：高
-Item intensity: Maximum
-物品强度：最大
-Glans
-龟头
-Held
-手持
-Use a lock
-使用一把锁
-Unable to lock item due to player permissions
-因角色权限设置无法上锁
-Locking...
-正在锁上…
-Member number on lock:
-锁上标着的会员编号:
-Lock related actions
-锁定相关动作
-Your hands are shaky and you lose some tension by accident!
-你的双手发抖，不小心松开了一些锁芯！
-DestinationCharacterName jammed a lock and broke TargetPronounPossessive lockpick!
-DestinationCharacterName把开锁器断在了锁芯里!
-You jammed the lock.
-你把锁芯卡住了
-You are too tired to continue. Time remaining:
-你太累了无法继续. 剩余时间:
-Click the pins in the correct order to open the lock!
-按照正确的顺序点击锁芯来解锁!
-Clicking the wrong pin may falsely set it.
-点击错误的锁芯可能会将它错误的抬起.
-It will fall back after clicking other pins.
-它在你点击其他锁芯后可能会重新掉落.
-Failing or quitting will break your lockpick for 1 minute
-失败或退出后的一分钟内无法尝试开锁
-Remaining tries:
-剩余尝试次数:
-Another item is blocking access to this lock
-另一个物品挡住了这个锁
-Loosen...
-解松…
-Click or press space when the circles are aligned
-当圆圈对齐的时候，点击或者按下空格
-...A little
-…一点点
-...A lot
-…很多
-You can struggle to loosen this restraint
-你可以通过挣扎来解松此束缚
-Maximum:
-最大：
-Minimum:
-最小：
-minutes
-分钟
 Must be able to kneel.
 必须可以跪下
 Must be wearing a set of arm cuffs first.
@@ -344,10 +438,10 @@ Must have male genitalia.
 必须有男性生殖器。
 Must have female genitalia.
 必须有女性生殖器。
-Must remove chastity cage first.
-必须先移除贞操笼。
 Must not have a forced erection.
 必须不能有强制勃起。
+Must remove chastity cage first.
+必须先移除贞操笼。
 Must stand up first.
 必须先站起来
 TargetPronounSubject must be wearing a baby harness to chain the mittens.
@@ -356,54 +450,34 @@ You need some padlocks to do this.
 你需要一些挂锁才能如此做。
 You need a padlock key to do this.
 你需要一些挂锁钥匙才能如此做。
-Requires a harness.
-需要一个束缚。
+Requires a chest harness.
+需要胸部束带。
+Requires a hip harness.
+需要臀部束带。
 Requires round piercings on nipples.
 需要乳头上是圆形穿环。
-View next items
-查看后续物品
-View next expressions
-查看后续表情
-View next page
-查看下一页
-You have no items in this category
-这个分类下没有物品
-Joined Room
-加入了房间
-Chat Message
-聊天消息
-Disconnected
-掉线了
-from ChatRoomName
-来自ChatRoomName
-LARP - Your turn
-体感对战-你的回合
-Test Notification
-测试通知
-Change Opacity
-改变遮光度
-Option needs to be bought
-需要购买的选项
-Page
-页
-Picking the lock...
-正在开锁…
-Try to pick the lock
-尝试开锁
-Unable to pick the lock
-无法撬锁
-Cannot reach lock
-无法接触到锁
-Try to pick the lock (jammed)
-尝试开锁（卡住了）
-Unable to pick without lockpicks
-没有开锁工具无法撬锁
-Unable to pick the lock due to player permissions
-由于玩家权限设置无法撬锁
-Pose
-姿势
-View previous items
-查看之前物品
+Unchain mittens
+移除手套链子
+Remove the chain first.
+先移除锁链
+Must remove chastity first.
+必须先移除贞操带
+Remove some clothes first.
+先脱掉些衣服
+Must remove face mask first.
+必须先摘下面具
+Remove some restraints first.
+先移除一些束缚
+Must remove shackles first.
+必须先移除镣铐
+Remove the suspension first.
+先从悬挂上下来
+Unzip the suit first.
+先解开外套
+, 
+，
+, and 
+，和
 View previous expressions
 查看之前表情
 Allowed Limited Item
@@ -414,12 +488,16 @@ Lightly blinds
 轻度遮眼
 Blinds
 遮眼
+Buygroup member
+购买物品组成员
 Heavily deafens
 重度遮耳
 Lightly deafens
 轻度遮耳
 Deafens
 遮耳
+Extended item
+扩展物品
 D/s Family only
 仅限主奴家族
 Favorite
@@ -436,6 +514,10 @@ Gags
 塞口
 Totally gags
 完全塞口
+Held
+手持
+Locked
+锁定
 Lovers only
 仅限恋人
 Owner only
@@ -444,10 +526,6 @@ Locked with a AssetName
 被AssetName锁住了
 Automatically locks
 自动上锁
-Buygroup member
-购买物品组成员
-Extended item
-扩展物品
 View previous page
 查看上一页
 Private
@@ -462,6 +540,8 @@ Click the ropes before they hit the ground to progress
 在绳索落到地面前点击以获得进度
 Alternate keys A (Q on AZERTY) and D to speed up
 交替点按A和D键加速（在AZERTY键盘上为Q和D）
+Alternate keys A and S or X and Y on a controller
+交替按下按控制器上的A键和S键，或X键和Y键
 him
 他
 her
@@ -486,42 +566,8 @@ they
 TA
 Received at
 接收于
-Use your remote
-使用你的遥控器
-Unable to use due to player permissions
-因玩家权限设置无法使用
-Your hands must be free to use remotes
-你必须双手自由才能使用遥控器
-You do not have access to this item
-没有足够的权限
-You have not bought a lover's remote yet.
-你还没买过爱人遥控器
-You have not bought a remote yet.
-你还没买过遥控器
-Your owner is preventing you from using remotes.
-你的主人禁止你使用遥控器
-Using remotes on this item has been blocked
-对该物品使用遥控器的能力被屏蔽了
-Remove the item
-移除该物品
-Unchain mittens
-移除手套链子
-Remove the chain first.
-先移除锁链
-Must remove chastity first.
-必须先移除贞操带
-Remove some clothes first.
-先脱掉些衣服
-Must remove face mask first.
-必须先摘下面具
 Remove item when the lock timer runs out
 在计时器耗尽时移除物品
-Remove some restraints first.
-先移除一些束缚
-Must remove shackles first.
-必须先移除镣铐
-Remove the suspension first.
-先从悬挂上下来
 Removing...
 移除中…
 Need Bondage ReqLevel
@@ -587,7 +633,7 @@ No activity available on the GroupName.
 Select an item to use on the GroupName.
 请选择要用在GroupName的物品
 Select a lock to use on the GroupName.
-请选择钥用在GroupName的锁。
+请选择要用在GroupName的锁。
 This looks like its locked by a AssetName.
 这看起来被AssetName锁上了。
 This looks like its locked by something.
@@ -694,6 +740,8 @@ Your owner is now preventing you from using family keys.
 你的主人现在禁止你使用家族钥匙。
 Your owner has confiscated your keys.  All your regular keys are lost.
 你的主人没收了你的钥匙。你失去了你所有的一般钥匙。
+Your owner has changed your nickname.
+你的主人更改了你的昵称
 Your owner is now allowing you to change your nickname.
 你的主人现在允许你改变你的昵称。
 Your owner is now preventing you from changing your nickname.
@@ -746,10 +794,14 @@ Show the time remaining/being added
 显示剩余时间和增加的时间
 Someone
 某人
+Try to unfasten
+试着打开扣锁
+Try to squeeze out
+试着挤出去
+Impossible to escape!
+不可能逃脱!
 Use brute force
 使用蛮力
-Try to struggle out
-尝试挣脱
 Struggling...
 挣扎中…
 Swapping...
@@ -762,18 +814,16 @@ tightens
 捆紧
 Tightness:
 松紧度：
-Time left:
-剩余时间
 Try to loosen the item
 尝试解松该物品
-Unlock the item
-解锁物品
+Time left:
+剩余时间
+Unknown time left
+未知剩余时间
+Unlocked
+解锁
 Unlocking...
 解锁中…
-Unzip the suit first.
-先解开外套
-Use this item
-使用该物品
 Using none of your skill...
 不使用你的技巧...
 Using 25% of your skill...
@@ -782,10 +832,10 @@ Using 50% of your skill...
 使用你50%的技巧...
 Using 75% of your skill...
 使用你75%的技巧...
-The item will be removed when the lock timer runs out
-在计时器耗尽时该物品会被移除
 Wink/Blink
 眨眼
+The item will be removed when the lock timer runs out
+在计时器耗尽时该物品会被移除
 The item will stay when the lock timer runs out
 在计时器耗尽时该物品会保留
 This zone is out of reach from another item
@@ -794,45 +844,3 @@ Your owner doesn't allow you to access that zone
 你的主人不允许你接触该区域
 You're too far to reach DialogCharacterObject body and items.
 你距离太远，无法触及DialogCharacterObject的身体和物品。
-Struggle in chat room
-在聊天室中公开挣扎
-SourceCharacter struggles to remove PronounPossessive PrevAsset
-SourceCharacter 挣扎着试图移除 PronounPossessive 的 PrevAsset
-SourceCharacter gives up struggling out of PronounPossessive PrevAsset
-SourceCharacter 放弃移除 PronounPossessive 的 PrevAsset
-SourceCharacter struggles out of PronounPossessive PrevAsset
-SourceCharacter 解开了 PronounPossessive 的 PrevAsset
-SourceCharacter is slowly struggling out of PronounPossessive PrevAsset
-SourceCharacter 正缓慢的挣开 PronounPossessive 的 PrevAsset
-SourceCharacter is making progress while struggling on PronounPossessive PrevAsset
-SourceCharacter在挣扎中逐渐取得进展，试图挣脱PronounPossessive的PrevAsset。
-SourceCharacter struggles skillfully to remove PronounPossessive PrevAsset
-SourceCharacter有技巧地解松PronounPossessive的PrevAsset。
-SourceCharacter gradually struggles out of PronounPossessive PrevAsset
-SourceCharacter渐渐松开了PronounPossessive的PrevAsset。
-SourceCharacter methodically works to struggle out of PronounPossessive PrevAsset
-SourceCharacter有条不紊地从PronounPossessive的PrevAsset挣脱了
-Change expression color
-更改表情颜色
-GGTS controls this item
-GGTS控制这个物品
-Change item layering
-改变物品分层
-Configure total priority
-配置总优先级
-Exit
-退出
-Configure layer-specific priority
-配置特定层的优先级
-Item configuration locked
-物品配置已锁定
-Reset layering
-重置分层
-Alternate keys A and S or X and Y on a controller
-交替按下按控制器上的A键和S键，或X键和Y键
-Your owner has changed your nickname.
-你的主人更改了你的昵称
-, 
-，
-, and 
-，和

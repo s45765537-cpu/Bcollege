@@ -189,7 +189,87 @@ const CraftingID = /** @type {const} */({
 	privateLabel: "crafting-private-label",
 	extendedButton: "crafting-extended-button",
 	extendedLabel: "crafting-extended-label",
+	asciiDescriptionCheckbox: "crafting-ascii-description-checkbox",
+	asciidescriptionLabel: "crafting-ascii-description-label",
 });
+
+var CraftingDescription = {
+	/**
+	 * Leading character for marking encoded extended crafted item descriptions.
+	 * @readonly
+	 */
+	ExtendedDescriptionMarker: /** @type {const} */("\x00"),
+
+	/**
+	 * Regex for representing legal UTF16 characters.
+	 * Note the exclusion of control characters, `§` (`\xA7`) and `¶` (`\xB6`).
+	 * @readonly
+	 */
+	Pattern: /^[\x20-\xA6\xA8-\xB5\xB7-\uFFFF]+$/g,
+
+	/**
+	 * Regex for representing legal extended ASCII characters.
+	 * Note the exclusion of control characters, `§` (`\xA7`) and `¶` (`\xB6`).
+	 * @readonly
+	 */
+	PatternASCII: /^[\x20-\xA6\xA8-\xB5\xB7-\xFF]+$/g,
+
+	/**
+	 * Decode and return the passed string if it consists of UTF16-encoded UTF8 characters.
+	 *
+	 * Encoded strings must be marked with a leading {@link CraftingDescription.ExtendedDescriptionMarker}; unencoded strings are returned unmodified.
+	 * @param {string} description - The to-be decoded string
+	 * @returns {string} - The decoded string
+	 */
+	Decode: function Decode(description) {
+		if (!description || typeof description !== "string") {
+			return "";
+		}
+
+		if (description.startsWith(CraftingDescription.ExtendedDescriptionMarker)) {
+			return Array.from(description.slice(1, 200)).flatMap(char => {
+				const id = char.charCodeAt(0);
+				const bit1 = Math.floor(id / 256);
+				const bit2 = id - bit1 * 256;
+				return [String.fromCharCode(bit1), String.fromCharCode(bit2)];
+			}).join("");
+		} else {
+			return description.slice(0, 200);
+		}
+	},
+
+	/**
+	 * Encode the passed crafted item description, extracting all UTF8 characters and encoding up to two of them into a single UTF16 character.
+	 *
+	 * The first character is marked with {@link CraftingDescription.ExtendedDescriptionMarker}
+	 * @param {string} description - The initial length <=398 string of UTF8 characters
+	 * @returns {string} - The length <=200 string of UTF16-encoded UTF8 characters
+	 */
+	Encode: function Encode(description) {
+		if (
+			!description
+			|| typeof description !== "string"
+			|| !description.match(CraftingDescription.PatternASCII)
+		) {
+			return "";
+		}
+
+		let ret = CraftingDescription.ExtendedDescriptionMarker;
+		let i = 0;
+		const iMax = Math.min(199, Math.ceil(description.length / 2));
+		while (i < iMax) {
+			const charCodeA = description.charCodeAt(i * 2);
+			const charCodeB = description.charCodeAt(1 + i * 2);
+			if (Number.isNaN(charCodeB)) {
+				ret += String.fromCharCode(charCodeA * 256);
+			} else {
+				ret += String.fromCharCode(charCodeA * 256 + charCodeB);
+			}
+			i++;
+		}
+		return ret;
+	},
+};
 
 /**
  * Construct a record mapping all crafting-valid asset names to a list of matching elligble assets.
@@ -314,8 +394,21 @@ var CraftingEventListeners = {
 	 */
 	_ChangeDescription: function _ChangeDescription() {
 		if (CraftingSelectedItem) {
-			CraftingSelectedItem.Description = this.value.trim();
+			const asciiDescriptionCheckbox = /** @type {null | HTMLInputElement} */(document.getElementById(CraftingID.asciiDescriptionCheckbox));
+			if (asciiDescriptionCheckbox?.checked) {
+				CraftingSelectedItem.Description = CraftingDescription.Encode(this.value.trim());
+			} else {
+				CraftingSelectedItem.Description = this.value.trim();
+			}
 		}
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLTextAreaElement, ev: Event) => void}
+	 */
+	_InputDescription: function _InputDescription() {
+		this.setCustomValidity(this.value.match(this.dataset.pattern) ? "" : "patternMismatch");
 	},
 
 	/**
@@ -514,19 +607,25 @@ var CraftingEventListeners = {
 		CraftingSelectedItem.Assets = assets;
 
 		// Set the various input fields
-		const [nameInput, colorsInput, descriptionInput, priorityInput, privateInput] = /** @type {HTMLInputElement[]} */([
+		const [nameInput, colorsInput, descriptionInput, priorityInput, privateInput, asciiDescriptionCheckbox] = /** @type {HTMLInputElement[]} */([
 			document.getElementById(CraftingID.nameInput),
 			document.getElementById(CraftingID.colorsInput),
 			document.getElementById(CraftingID.descriptionInput),
 			document.getElementById(CraftingID.layeringInput),
 			document.getElementById(CraftingID.privateCheckbox),
+			document.getElementById(CraftingID.asciiDescriptionCheckbox),
 		]);
 		priorityInput.defaultValue = priorityInput.placeholder = (CraftingSelectedItem.Asset.DrawingPriority ?? CraftingSelectedItem.Asset.Group.DrawingPriority).toString();
 		colorsInput.defaultValue = colorsInput.placeholder = CraftingSelectedItem.Asset.DefaultColor.join(",");
 		nameInput.defaultValue = nameInput.placeholder = CraftingSelectedItem.Asset.Description;
 		nameInput.value = CraftingSelectedItem.Name;
-		descriptionInput.value = CraftingSelectedItem.Description;
+		descriptionInput.value = CraftingDescription.Decode(CraftingSelectedItem.Description);
 		privateInput.checked = CraftingSelectedItem.Private;
+
+		const hasExtendedDescription = CraftingSelectedItem.Description.startsWith(CraftingDescription.ExtendedDescriptionMarker);
+		if (asciiDescriptionCheckbox.checked != hasExtendedDescription) {
+			asciiDescriptionCheckbox.click();
+		}
 
 		// Either we're switching between two distinct assets (in which case color and the likes cannot safely be assumed to be compatible) or we're just initializing everything after opening the `Name` subscreen
 		if (needsPropertyUpdate) {
@@ -642,6 +741,29 @@ var CraftingEventListeners = {
 				/** @type {HTMLButtonElement} */(button).style.display = displayStyle;
 			}
 		});
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLInputElement, ev: Event) => void}
+	 */
+	_ClickAsciiDescription: function _ClickAsciiDescription() {
+		const descriptionInput = /** @type {null | HTMLInputElement} */(document.getElementById(CraftingID.descriptionInput));
+		if (!descriptionInput) {
+			return;
+		}
+
+		descriptionInput.dataset.pattern = this.checked ? CraftingDescription.PatternASCII.source : CraftingDescription.Pattern.source;
+		descriptionInput.maxLength = this.checked ? 398 : 200;
+		descriptionInput.previousSibling.textContent = TextGet(this.checked ? "EnterDescriptionLong" : "EnterDescription");
+		if (descriptionInput.value.length > descriptionInput.maxLength) {
+			// Can't reliably update `ValidityState.tooLong` programmatically after changing the max length (even with input/change event dispatching),
+			// so as a work around just do it manually via a custom error
+			descriptionInput.setCustomValidity("tooLong");
+		} else if (descriptionInput.value.length <= descriptionInput.maxLength && descriptionInput.validationMessage === "tooLong") {
+			descriptionInput.setCustomValidity("");
+		}
+		descriptionInput.dispatchEvent(new InputEvent("input"));
 	},
 };
 
@@ -924,7 +1046,7 @@ function CraftingLoad() {
 						{ tag: "span", children: [TextGet("EnterName")] },
 						{
 							tag: "input",
-							attributes: { id: CraftingID.nameInput, type: "input", maxLength: "30", size: 0 },
+							attributes: { id: CraftingID.nameInput, type: "input", maxLength: "30", size: 0, pattern: CraftingDescription.Pattern.source },
 							eventListeners: { change: CraftingEventListeners._ChangeName },
 						},
 					],
@@ -938,7 +1060,11 @@ function CraftingLoad() {
 						{
 							tag: "textarea",
 							attributes: { id: CraftingID.descriptionInput, maxLength: "200", size: 0 },
-							eventListeners: { change: CraftingEventListeners._ChangeDescription },
+							dataAttributes: { pattern: CraftingDescription.Pattern.source },
+							eventListeners: {
+								change: CraftingEventListeners._ChangeDescription,
+								input: CraftingEventListeners._InputDescription,
+							},
 						},
 					],
 				},
@@ -990,6 +1116,19 @@ function CraftingLoad() {
 					children: [
 						ElementButton.Create(CraftingID.extendedButton, CraftingEventListeners._ClickExtended, { disabled: true }),
 						{ tag: "span", children: [TextGet("EnterType")] },
+					],
+				},
+				{
+					tag: "label",
+					attributes: { id: CraftingID.asciidescriptionLabel },
+					classList: ["crafting-label"],
+					children: [
+						{
+							tag: "input",
+							attributes: { id: CraftingID.asciiDescriptionCheckbox, type: "checkbox" },
+							eventListeners: { click: CraftingEventListeners._ClickAsciiDescription },
+						},
+						{ tag: "span", children: [TextGet("EnterExtendedDescription")] },
 					],
 				},
 			],
@@ -1251,12 +1390,8 @@ function CraftingModeSet(NewMode) {
 		// Most mobile phones only trigger click events if a touchstart event originates from within the DOM element.
 		// For those that do not, the mixture of DOM and canvas buttons can be problematic, as a lingering touch can _instantly_ trigger a click if a DOM button is created where a canvas button previously was.
 		// As a workaround, disable the exit button for ~100 ms on mobile when (re-)entering the `Name` subscreen
-		if (CommonIsMobile) {
-			const exitButton = /** @type {HTMLButtonElement} */(document.getElementById(CraftingID.exitButton));
-			if (exitButton) {
-				exitButton.disabled = true;
-				setTimeout(() => exitButton.disabled = false, 100);
-			}
+		if (CommonIsMobile && root) {
+			ElementClickTimeout(root);
 		}
 	}
 }
@@ -1667,7 +1802,9 @@ function CraftingExitResetElements() {
 	colorsInput.value = colorsInput.defaultValue = colorsInput.placeholder = "";
 	priorityInput.value = priorityInput.defaultValue = priorityInput.placeholder = "0";
 	descriptionInput.value = "";
+	descriptionInput.setCustomValidity("");
 	privateInput.checked = false;
+	document.querySelector(`#${CraftingID.asciiDescriptionCheckbox}[checked='true']`)?.dispatchEvent(new Event("click"));
 
 	// Select the `Normal` property and disable all others
 	document.querySelector(`#${CraftingID.propertyGrid} [data-property='Normal'][aria-checked='false']`)?.dispatchEvent(new Event("click"));

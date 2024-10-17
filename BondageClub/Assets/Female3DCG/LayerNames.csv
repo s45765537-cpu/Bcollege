@@ -43,6 +43,12 @@ ClothAccessoryGlitterFreckles,Color One
 ClothAccessoryGlitterFreckles2,Color Two
 ClothAccessoryLargeBeltBelt,Belt
 ClothAccessoryLargeBeltBuckles,Buckles
+ClothAccessoryLargeNeckFurBack,Back
+ClothAccessoryLargeNeckFurFront,Front
+ClothAccessoryLargeNeckFurShoulders,Shoulders
+ClothAccessorySpikyNeckFurBack,Back
+ClothAccessorySpikyNeckFurFront,Front
+ClothAccessorySpikyNeckFurShoulders,Shoulders
 ClothAdmiralTopJacket,Jacket
 ClothAdmiralTopShirt,Shirt
 ClothAdmiralTopTrim,Trim
@@ -324,6 +330,12 @@ HairAccessory1Ribbons4Right,Right
 HairAccessory1CyberneticEars1Outside,Outside
 HairAccessory1CyberneticEars1Inner,Inner
 HairAccessory1CyberneticEars1Light,Light
+HairAccessory1OnihornsShortLeftBase,Left Base
+HairAccessory1OnihornsShortRightBase,Right Base
+HairAccessory1OnihornsShortLeftTip,Left Tip
+HairAccessory1OnihornsShortRightTip,Right Tip
+HairAccessory1SkunkEarsInner,Inner Ears
+HairAccessory1SkunkEarsOuter,Outer Ears
 HairAccessory2BunnyEars2Inner,Inner
 HairAccessory2BunnyEars2Outer,Outer
 HairAccessory2FoxEars2Inner,Inner Ear
@@ -470,6 +482,11 @@ HairFrontHairFront57Tone,Tips
 HairFrontHairFront58Main,Main
 HairFrontHairFront58Tone1,Tone1
 HairFrontHairFront58Tone2,Tone2
+HairFrontHairFront60Main,Main
+HairFrontHairFront60BandMain,Color1
+HairFrontHairFront60BandX,Color2
+HairFrontScalyHairFrontHair,Front Hair
+HairFrontScalyHairFrontPlate,Front Plate
 HatAnimeGirlTiaraMain,Tiara
 HatAnimeGirlTiaraDetail,Detail
 HatAnimeGirlTiaraJewel,Jewel
@@ -1072,6 +1089,10 @@ ItemHoodCorsetHoodLatex, Latex
 ItemHoodCorsetHoodLines, Outline
 ItemHoodCowHoodBase,Hood
 ItemHoodCowHoodSpots,Spots
+ItemHoodCustomBallHoodBase,Base
+ItemHoodCustomBallHoodShine,Shine
+ItemHoodCustomBallHoodPumpkin,Pattern
+ItemHoodCustomBallHoodPumpkinShine,Pattern Shine
 ItemHoodCustomLatexHoodFillRoundEye,Eye Fill Panels
 ItemHoodCustomLatexHoodFillRoundMouth,Mouth Fill Panel
 ItemHoodCustomLatexHoodHairUnder,Hair Inside Hood
@@ -2100,6 +2121,24 @@ MaskPetNoseNose,Nose
 MaskPetNoseWhiskers,Whiskers
 MaskSwimCapCap,Cap
 MaskSwimCapStripes1,Pattern
+MaskEldritchMaskBase,Base
+MaskEldritchMaskEyes,Eyes
+MaskDemonMaskBase,Base
+MaskDemonMaskEyes,Eyes
+MaskDemonMaskHorns,Horns
+MaskDemonMaskLight,Light
+MaskDemonMaskShine,Shine
+MaskAngelMaskBase,Base
+MaskAngelMaskHalo,Halo
+MaskAngelMaskMetal,Metal
+MaskAngelMaskLight,Light
+MaskAngelMaskShine,Shine
+MaskNecromancerHelmetBase,Base
+MaskNecromancerHelmetCloth,Cloth
+MaskNecromancerHelmetCrown,Crown
+MaskNecromancerHelmetEyes,Eyes
+MaskNecromancerHelmetGems,Gems
+MaskNecromancerHelmetShine,Shine
 MouthFullLips,Lips
 MouthFullRingMiddle,Piercings
 MouthRegularLips,Lips
@@ -2346,6 +2385,10 @@ TailStrapsTailStrapTail,Tail
 TailStrapsTentaclesInner,Inner
 TailStrapsTentaclesOuter,Outer
 TailStrapsTentaclesSucker,Suckers
+TailStrapsLatexFoxTailBase,Base
+TailStrapsLatexFoxTailShineDull,Shine
+TailStrapsSkunkTailBase,Base
+TailStrapsSkunkTailPattern,Pattern
 WesternBoots,Shoes
 WingsBeeWingsBone,Bone
 WingsBeeWingsVeins,Veins

@@ -195,6 +195,51 @@ BodyMarkingsWombTattoosSelectViper,Apply
 BodyMarkingsWombTattoosSelectWaves,Apply
 BodyMarkingsWombTattoosSelectWingSmall,Apply
 BodyMarkingsWombTattoosSelectZoom,Apply
+BodyMarkingsFaceScarsModule1,Forehead
+BodyMarkingsFaceScarsModule2,Left Lip
+BodyMarkingsFaceScarsModule3,Right Lip
+BodyMarkingsFaceScarsModule4,Left Under eye
+BodyMarkingsFaceScarsModule5,Right Under eye
+BodyMarkingsFaceScarsModule6,Left Cheek Cross
+BodyMarkingsFaceScarsModule7,Right Cheek Cross
+BodyMarkingsFaceScarsModule8,Left Eye
+BodyMarkingsFaceScarsModule9,Right Eye
+BodyMarkingsFaceScarsModule10,Nose
+BodyMarkingsFaceScarsModule11,Vertical
+BodyMarkingsFaceScarsOptiona0,No
+BodyMarkingsFaceScarsOptiona1,Yes
+BodyMarkingsFaceScarsOptionb0,No
+BodyMarkingsFaceScarsOptionb1,Yes
+BodyMarkingsFaceScarsOptionc0,No
+BodyMarkingsFaceScarsOptionc1,Yes
+BodyMarkingsFaceScarsOptiond0,No
+BodyMarkingsFaceScarsOptiond1,Yes
+BodyMarkingsFaceScarsOptione0,No
+BodyMarkingsFaceScarsOptione1,Yes
+BodyMarkingsFaceScarsOptionf0,No
+BodyMarkingsFaceScarsOptionf1,Yes
+BodyMarkingsFaceScarsOptiong0,No
+BodyMarkingsFaceScarsOptiong1,Yes
+BodyMarkingsFaceScarsOptionh0,No
+BodyMarkingsFaceScarsOptionh1,Yes
+BodyMarkingsFaceScarsOptioni0,No
+BodyMarkingsFaceScarsOptioni1,Yes
+BodyMarkingsFaceScarsOptionj0,No
+BodyMarkingsFaceScarsOptionj1,Yes
+BodyMarkingsFaceScarsOptionk0,No
+BodyMarkingsFaceScarsOptionk1,Yes
+BodyMarkingsFaceScarsSelectBase,Select Mark
+BodyMarkingsFaceScarsSelect1,Apply
+BodyMarkingsFaceScarsSelect2,Apply
+BodyMarkingsFaceScarsSelect3,Apply
+BodyMarkingsFaceScarsSelect4,Apply
+BodyMarkingsFaceScarsSelect5,Apply
+BodyMarkingsFaceScarsSelect6,Apply
+BodyMarkingsFaceScarsSelect7,Apply
+BodyMarkingsFaceScarsSelect8,Apply
+BodyMarkingsFaceScarsSelect9,Apply
+BodyMarkingsFaceScarsSelect10,Apply
+BodyMarkingsFaceScarsSelect11,Apply
 BodyUpperFlatMediumDefault,Default
 BodyUpperFlatMediumSelect,Select body overlay.
 BodyUpperFlatSmallDefault,Default
@@ -1180,6 +1225,17 @@ HairAccessory1HaloDefault,Full
 HairAccessory1HaloSelect,Select Halo Type
 HairAccessory1HaloSetBroken,SourceCharacter shatters DestinationCharacter AssetName
 HairAccessory1HaloSetDefault,SourceCharacter mends DestinationCharacter AssetName
+HairAccessory1OnihornsModuleLeftHorn,Left Horn
+HairAccessory1OnihornsModuleRightHorn,Right Horn
+HairAccessory1OnihornsOptionl0,Short
+HairAccessory1OnihornsOptionl1,Medium
+HairAccessory1OnihornsOptionl2,Long
+HairAccessory1OnihornsOptionr0,Short
+HairAccessory1OnihornsOptionr1,Medium
+HairAccessory1OnihornsOptionr2,Long
+HairAccessory1OnihornsSelectBase,Select Horn
+HairAccessory1OnihornsSelectLeftHorn,Select Size
+HairAccessory1OnihornsSelectRightHorn,Select Size
 HairBackHairBack58Select,Select Type.
 HairBackHairBack58SetBoth,SourceCharacter changes DestinationCharacter hair.
 HairBackHairBack58SetLeftOnly,SourceCharacter changes DestinationCharacter hair.
@@ -2272,6 +2328,7 @@ ItemHeadDroneMaskModuleLayering,Adv. Layering
 ItemHeadDroneMaskModuleMouth,Mouth
 ItemHeadDroneMaskModulePattern,Pattern
 ItemHeadDroneMaskModuleSight,Lenses
+ItemHeadDroneMaskNoLayering,Must be equipped in the head slot
 ItemHeadDroneMaskOptione0,Smooth
 ItemHeadDroneMaskOptione1,Open
 ItemHeadDroneMaskOptione2,Spirals
@@ -2287,6 +2344,9 @@ ItemHeadDroneMaskOptionh2,Total Hood
 ItemHeadDroneMaskOptionj0,Hidden
 ItemHeadDroneMaskOptionj1,Right Gag Visible
 ItemHeadDroneMaskOptionj2,All Gags Visible
+ItemHeadDroneMaskOptionj3,Blindfold Visible
+ItemHeadDroneMaskOptionj4,Blindfold and Right
+ItemHeadDroneMaskOptionj5,All Visible
 ItemHeadDroneMaskOptionm0,Smooth
 ItemHeadDroneMaskOptionm1,Onahole
 ItemHeadDroneMaskOptionm2,Pussy
@@ -2434,6 +2494,19 @@ ItemHoodBigMouthHoodSetLenses,SourceCharacter put a pair of lenses on Destinatio
 ItemHoodBigMouthHoodSetMesh,SourceCharacter put a mesh on DestinationCharacter hood.
 ItemHoodBigMouthHoodSetSlim,SourceCharacter blinds DestinationCharacter completely.
 ItemHoodBigMouthHoodSlim,Blind
+ItemHoodCustomBallHoodModuleFinish,Finish
+ItemHoodCustomBallHoodModulePattern,Pattern
+ItemHoodCustomBallHoodOptionf0,Matte
+ItemHoodCustomBallHoodOptionf1,Shiny
+ItemHoodCustomBallHoodOptionp0,None
+ItemHoodCustomBallHoodOptionp1,Pumpkin
+ItemHoodCustomBallHoodOptionp2,Smiley Lines
+ItemHoodCustomBallHoodOptionp3,Smiley Filled
+ItemHoodCustomBallHoodOptionp4,8 Ball
+ItemHoodCustomBallHoodSelectFinish,Select Hood Finish
+ItemHoodCustomBallHoodSelectPattern,Select Pattern
+ItemHoodCustomBallHoodSetFinish,SourceCharacter adjusts the shine of DestinationCharacter ball hood.
+ItemHoodCustomBallHoodSetPattern,SourceCharacter changes the pattern on DestinationCharacter ball hood.
 ItemHoodCustomLatexHoodModuleEFill,Eye Panel Fill
 ItemHoodCustomLatexHoodModuleEPanel,Eye Panel
 ItemHoodCustomLatexHoodModuleHairShow,Hair Options
@@ -4401,6 +4474,13 @@ MaskSwimCapSelectHair,Adjust Hair Openings
 MaskSwimCapSelectPattern,Choose Pattern
 MaskSwimCapSetHair,SourceCharacter adjusts DestinationCharacter swimcap hair openings.
 MaskSwimCapSetPattern,SourceCharacter swaps DestinationCharacter swimcap pattern.
+MaskAnimalNosesSelect,Select Nose Type
+MaskAnimalNosesButtonNose,Button Nose
+MaskAnimalNosesElegantFelineNose,Elegant Feline Nose
+MaskAnimalNosesLargeCanineNose,Large Canine Nose
+MaskEldritchMaskSelect,Select Mask Type
+MaskEldritchMaskEyes,Eyes
+MaskEldritchMaskGlowingEyes,Glowing Eyes
 MaximumSuction,Maximum
 MediumSuction,Medium
 Medium,Medium
@@ -5415,3 +5495,13 @@ ItemMouthGenitalGagPussy,Pussy
 ItemMouthGenitalGagSetPussy,SourceCharacter attaches a fake pussy in the DestinationCharacterName mouth.
 ItemMouthGenitalGagButthole,A butthole
 ItemMouthGenitalGagSetButthole,SourceCharacter attaches a fake butthole in the DestinationCharacterName mouth. (Damn!)
+HairFrontHairFront60Select,Select Accessory.
+HairFrontHairFront60SetBand,SourceCharacter changes DestinationCharacter hair.
+HairFrontHairFront60SetNoBand,SourceCharacter changes DestinationCharacter hair.
+HairFrontHairFront60Band,Band
+HairFrontHairFront60NoBand,No Band
+HairFrontHairFront61Select,Select Hair Type.
+HairFrontHairFront61SetLong,SourceCharacter changes DestinationCharacter hair.
+HairFrontHairFront61SetShort,SourceCharacter changes DestinationCharacter hair.
+HairFrontHairFront61Long,Long
+HairFrontHairFront61Short,Short

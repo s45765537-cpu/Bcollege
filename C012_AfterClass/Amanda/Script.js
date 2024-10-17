@@ -262,7 +262,7 @@ function C012_AfterClass_Amanda_Click() {
 	}
 
 	// Amanda can be restrained to pleasure the player on stage 633
-	if ((C012_AfterClass_Amanda_CurrentStage <= 633) && (ClickInv != "") && (ClickInv != "Player") && !Common_PlayerRestrained && !ActorIsRestrained()) {
+	if ((C012_AfterClass_Amanda_CurrentStage >= 630) && (C012_AfterClass_Amanda_CurrentStage <= 633) && (ClickInv != "") && (ClickInv != "Player") && !Common_PlayerRestrained && !ActorIsRestrained()) {
 		if ((ClickInv == "Rope") || (ClickInv == "Cuffs") || (ClickInv == "Armbinder")) {
 			ActorApplyRestrain(ClickInv);
 			C012_AfterClass_Amanda_CalcParams();
@@ -426,11 +426,11 @@ function C012_AfterClass_Amanda_ForceChangePlayer(NewCloth) {
 function C012_AfterClass_Amanda_ForceRandomBondage(BondageType) {
 	if ((BondageType == "Full") || (BondageType == "Hug") || (BondageType == "Gag")) {
 		PlayerRandomGag();
-		if (!Common_PlayerGagged && (BondageType == "Gag")) OverridenIntroText = GetText("CantFindRestrain" + (BondageType == "Hug") ? "ForHug" : "");
+		if (!Common_PlayerGagged && (BondageType == "Gag")) OverridenIntroText = GetText("CantFindRestrain" + ((BondageType == "Hug") ? "ForHug" : ""));
 	}
 	if ((BondageType == "Full") || (BondageType == "Hug") || (BondageType == "Restrain")) {
 		PlayerRandomRestrain();
-		if (!Common_PlayerRestrained) OverridenIntroText = GetText("CantFindRestrain" + (BondageType == "Hug") ? "ForHug" : "");
+		if (!Common_PlayerRestrained) OverridenIntroText = GetText("CantFindRestrain" + ((BondageType == "Hug") ? "ForHug" : ""));
 	}
 	CurrentTime = CurrentTime + 50000;
 }
