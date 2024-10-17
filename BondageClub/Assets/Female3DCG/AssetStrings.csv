@@ -5468,6 +5468,51 @@ MaskRubberMaskOptionl2,Open mouth
 MaskRubberMaskOptionl3,Vampire neutral
 MaskRubberMaskOptionl4,Vampire serious
 MaskRubberMaskOptionl5,Vampire open mouth
+MaskFaceScarsModule1,Forehead
+MaskFaceScarsModule2,Left Lip
+MaskFaceScarsModule3,Right Lip
+MaskFaceScarsModule4,Left Under eye
+MaskFaceScarsModule5,Right Under eye
+MaskFaceScarsModule6,Left Cheek Cross
+MaskFaceScarsModule7,Right Cheek Cross
+MaskFaceScarsModule8,Left Eye
+MaskFaceScarsModule9,Right Eye
+MaskFaceScarsModule10,Nose
+MaskFaceScarsModule11,Vertical
+MaskFaceScarsOptiona0,No
+MaskFaceScarsOptiona1,Yes
+MaskFaceScarsOptionb0,No
+MaskFaceScarsOptionb1,Yes
+MaskFaceScarsOptionc0,No
+MaskFaceScarsOptionc1,Yes
+MaskFaceScarsOptiond0,No
+MaskFaceScarsOptiond1,Yes
+MaskFaceScarsOptione0,No
+MaskFaceScarsOptione1,Yes
+MaskFaceScarsOptionf0,No
+MaskFaceScarsOptionf1,Yes
+MaskFaceScarsOptiong0,No
+MaskFaceScarsOptiong1,Yes
+MaskFaceScarsOptionh0,No
+MaskFaceScarsOptionh1,Yes
+MaskFaceScarsOptioni0,No
+MaskFaceScarsOptioni1,Yes
+MaskFaceScarsOptionj0,No
+MaskFaceScarsOptionj1,Yes
+MaskFaceScarsOptionk0,No
+MaskFaceScarsOptionk1,Yes
+MaskFaceScarsSelectBase,Select Mark
+MaskFaceScarsSelect1,Apply
+MaskFaceScarsSelect2,Apply
+MaskFaceScarsSelect3,Apply
+MaskFaceScarsSelect4,Apply
+MaskFaceScarsSelect5,Apply
+MaskFaceScarsSelect6,Apply
+MaskFaceScarsSelect7,Apply
+MaskFaceScarsSelect8,Apply
+MaskFaceScarsSelect9,Apply
+MaskFaceScarsSelect10,Apply
+MaskFaceScarsSelect11,Apply
 ItemDevicesBrickWallSelect,Build and choose the brick wall's height:
 ItemDevicesBrickWallNone,No brick
 ItemDevicesBrickWallLegs,Up to the hips
