@@ -1126,6 +1126,9 @@ function ChatRoomCreateElement() {
 		ElementFocus("InputChat");
 		window.addEventListener("resize", ChatRoomResizeManager.ChatRoomResizeEvent);
 	} else if (ChatRoomChatHidden) {
+		if (CommonIsMobile) {
+			ElementClickTimeout(elem);
+		}
 		elem.style.display = "";
 		ElementScrollToEnd("TextAreaChatLog");
 		ChatRoomRefreshChatSettings();
