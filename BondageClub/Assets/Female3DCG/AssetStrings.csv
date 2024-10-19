@@ -2496,6 +2496,7 @@ ItemHoodBigMouthHoodSetSlim,SourceCharacter blinds DestinationCharacter complete
 ItemHoodBigMouthHoodSlim,Blind
 ItemHoodCustomBallHoodModuleFinish,Finish
 ItemHoodCustomBallHoodModulePattern,Pattern
+ItemHoodCustomBallHoodModuleCover,Coverage
 ItemHoodCustomBallHoodOptionf0,Matte
 ItemHoodCustomBallHoodOptionf1,Shiny
 ItemHoodCustomBallHoodOptionp0,None
@@ -2503,10 +2504,15 @@ ItemHoodCustomBallHoodOptionp1,Pumpkin
 ItemHoodCustomBallHoodOptionp2,Smiley Lines
 ItemHoodCustomBallHoodOptionp3,Smiley Filled
 ItemHoodCustomBallHoodOptionp4,8 Ball
+ItemHoodCustomBallHoodOptionc0,Cover All
+ItemHoodCustomBallHoodOptionc1,Cover Limited
+ItemHoodCustomBallHoodOptionc2,Cover Hair Only
 ItemHoodCustomBallHoodSelectFinish,Select Hood Finish
 ItemHoodCustomBallHoodSelectPattern,Select Pattern
+ItemHoodCustomBallHoodSelectCover,Select Coverage
 ItemHoodCustomBallHoodSetFinish,SourceCharacter adjusts the shine of DestinationCharacter ball hood.
 ItemHoodCustomBallHoodSetPattern,SourceCharacter changes the pattern on DestinationCharacter ball hood.
+ItemHoodCustomBallHoodSetCover,SourceCharacter adjusts the coverage of DestinationCharacter ball hood.
 ItemHoodCustomLatexHoodModuleEFill,Eye Panel Fill
 ItemHoodCustomLatexHoodModuleEPanel,Eye Panel
 ItemHoodCustomLatexHoodModuleHairShow,Hair Options

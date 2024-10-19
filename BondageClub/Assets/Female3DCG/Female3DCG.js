@@ -44825,12 +44825,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				Extended: true,
-				Hide: [
-					"HairFront",
-					"HairBack",
-					"HairAccessory2",
-					"Mask",
-				],
+				Hide: ["Blush"],
 				Alpha: [{ Masks: [[0, 0, 500, 200]], Group: ["Head", "ItemHead"] },],
 				Effect: [E.BlindHeavy, E.DeafLight, E.BlockWardrobe, E.BlockMouth], 
 				Block: [
