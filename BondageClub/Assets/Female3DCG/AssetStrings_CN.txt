@@ -218,6 +218,30 @@ Select Tattoos
 选择纹身
 Apply
 应用
+Forehead
+额头
+Left Lip
+左嘴唇
+Right Lip
+右嘴唇
+Left Under eye
+左眼下
+Right Under eye
+右眼下
+Left Cheek Cross
+左脸颊十字
+Right Cheek Cross
+右脸颊十字
+Left Eye
+右眼
+Right Eye
+左眼
+Nose
+鼻子
+Vertical
+垂直
+Select Mark
+选择标记
 Default
 默认
 Select body overlay.
@@ -558,8 +582,6 @@ Neck Left
 左侧脖子
 Right Cheek
 右脸颊
-Forehead
-额头
 Neck Right
 右侧脖子
 Choose Lipstick Marks
@@ -1706,6 +1728,18 @@ SourceCharacter shatters DestinationCharacter AssetName
 SourceCharacter打碎了DestinationCharacterAssetName。
 SourceCharacter mends DestinationCharacter AssetName
 SourceCharacter修好了DestinationCharacterAssetName。
+Left Horn
+左侧角
+Right Horn
+右侧角
+Short
+短
+Long
+长
+Select Horn
+选择角
+Select Size
+选择尺寸
 Select Type.
 选择类型
 SourceCharacter changes DestinationCharacter hair.
@@ -3514,10 +3548,6 @@ SourceCharacter uses some ribbons on DestinationCharacter face.
 SourceCharacter在DestinationCharacter脸上缠了一些丝带。
 SourceCharacter uses some more ribbons on DestinationCharacter face.
 SourceCharacter在DestinationCharacter脸上缠了更多的丝带。
-Left Eye
-右眼
-Right Eye
-左眼
 Straight
 直绣
 Zig Zag
@@ -3564,6 +3594,32 @@ SourceCharacter creates a blindfold out of web for TargetCharacter
 SourceCharacter用网给TargetCharacter织了一副眼罩
 SourceCharacter creates a cocoon out of web for TargetCharacter
 SourceCharacter把TargetCharacter的头完全裹在了茧里
+Finish
+Finish
+Pumpkin
+南瓜
+Smiley Lines
+笑脸线条
+Smiley Filled
+笑脸填充
+8 Ball
+8球
+Cover All
+覆盖全部
+Cover Limited
+覆盖部分
+Cover Hair Only
+只覆盖头发
+Select Hood Finish
+选择头套光泽
+Select Pattern
+选择图案
+SourceCharacter adjusts the shine of DestinationCharacter ball hood.
+SourceCharacter调整了DestinationCharacter球形头套的光泽。
+SourceCharacter changes the pattern on DestinationCharacter ball hood.
+SourceCharacter改变了DestinationCharacter球形头套的图案。
+SourceCharacter adjusts the coverage of DestinationCharacter ball hood.
+SourceCharacter调整了DestinationCharacter球形头套的覆盖程度。
 Eye Panel Fill
 眼睛遮罩填充
 Eye Panel
@@ -5530,8 +5586,6 @@ Left Ear
 左耳
 Face
 面部
-Nose
-鼻子
 Stud
 耳钉
 Cartilage
@@ -5814,6 +5868,18 @@ Select Nose
 选择鼻子
 Select Whiskers
 选择胡须
+Select Nose Type
+选择鼻子类型
+Button Nose
+小鼻子
+Elegant Feline Nose
+优雅猫鼻
+Large Canine Nose
+大狗鼻
+Select Mask Type
+选择面具类型
+Glowing Eyes
+发光眼睛
 SourceCharacter cuffs DestinationCharacter hands behind TargetPronounPossessive back.
 SourceCharacter把DestinationCharacter双手铐在了他的身后。
 SourceCharacter cuffs DestinationCharacter hands in-front of TargetPronounPossessive body.
@@ -5894,12 +5960,8 @@ Loops
 圈圈
 Select the design
 选择样式
-Long
-长
 Select the rope length
 选择绳子长度
-Short
-短
 DestinationCharacterName vibrating eggs on TargetPronounPossessive nipples stop vibrating.
 DestinationCharacterName乳头上的跳蛋停止振动。
 DestinationCharacterName vibrating eggs on TargetPronounPossessive nipples slow down into a light tease.
@@ -7254,3 +7316,5 @@ No Band
 无带子
 Select Hair Type.
 选择头发类型。
+Short
+短

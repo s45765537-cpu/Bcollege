@@ -16,6 +16,8 @@ Womb Tattoos
 子宫纹身
 Body Writings
 身体书写
+Face Scars
+脸部疤痕
 Upper Body
 上身
 Bulky Flat Chest
@@ -358,6 +360,12 @@ Student Scarf
 学园围巾
 Zipper Belt
 拉链皮带
+Small Neck Fur
+小颈毛
+Large Neck Fur
+大颈毛
+Spiky Neck Fur
+尖刺颈毛
 Bottom
 下装
 Admiral Skirt
@@ -716,6 +724,10 @@ Wolf Ears Big
 狼耳 大
 Cybernetic Ears
 赛博耳朵
+Oni Horns
+恶鬼角
+Skunk Ears
+臭鼬耳
 Ears
 耳朵
 Hair Accessory
@@ -864,6 +876,8 @@ Style 62
 样式 62
 Style 63
 样式 63
+Scaly Hair
+鳞片发
 None
 无
 Front Hair
@@ -1746,6 +1760,8 @@ Corset Hood
 束腰式头套
 Cow Hood
 奶牛头套
+Custom Ball Hood
+定制球头套
 Custom Latex Hood
 定制乳胶头套
 Doberman Mask
@@ -2558,6 +2574,16 @@ Shinobi Mask
 忍者面具
 Venetian Mask
 威尼斯面具
+Animal Nose
+动物鼻子
+Eldritch Mask
+神秘面具
+Demon Mask
+恶魔面具
+Angel Mask
+天使面具
+Necromancer Helmet
+亡灵法师头盔
 Discreet
 矜持的
 Full Lips
@@ -2894,6 +2920,10 @@ Wolf Small Tail Strap
 小型穿戴式狼尾
 Wolf White Tail Strap
 白色穿戴式狼尾
+Latex Fox Tail
+乳胶狐狸尾巴
+Skunk Tail
+臭鼬尾巴
 Angel Feather
 天使羽毛翅膀
 Angel Wings
