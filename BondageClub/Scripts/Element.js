@@ -27,8 +27,8 @@ function ElementValue(ID, Value) {
  * @param {number} [timeout] - The timeout in ms
  * @returns {number} - The timeout ID as returned by {@link setTimeout}
  */
-function ElementClickTimeout(root, query=null, timeout=100) {
-	query ??= "button,a,[role='button'],[role='link']";
+function ElementClickTimeout(root, query=null, timeout=250) {
+	query ??= "button,a,input,select,radio,[role='button'],[role='link']";
 	const elemClickable = /** @type {HTMLElement[]} */(Array.from(root.querySelectorAll(query)));
 	const elemDisabledStates = elemClickable.map(e => /** @type {const} */([e, e.getAttribute("disabled"), e.getAttribute("aria-disabled")]));
 	elemDisabledStates.forEach(([e, disabled, ariaDisabled]) => {
