@@ -15712,13 +15712,13 @@ var AssetFemale3DCG = [
 						Name: "Base",
 					},
 					{
+						Name: "Light",
+					},
+					{
 						Name: "Eyes",
 					},
 					{
 						Name: "Horns",
-					},
-					{
-						Name: "Light",
 					},
 					{
 						Name: "Shine",
