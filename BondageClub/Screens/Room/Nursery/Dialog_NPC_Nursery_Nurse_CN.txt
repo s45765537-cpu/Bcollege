@@ -533,7 +533,7 @@ It's been lovely having you here.  (She helps you change and disposes of the dia
 (Leave her.)
 （离开她。）
 I've been a good girl, honest!  My hands are cold.
-我一直是个好女孩，真的！我的手好冷。
+我一直是个乖女孩，真的！我的手好冷。
 ###_NPC
 Aww, you poor thing.  Slip you hands in these and they will soon warm up.  (She fastens mittens over your hands.)
 哇，你这个可怜的东西。把你的手放进去，很快就会暖和起来的。（她把无指手套系在你的手上。）
@@ -772,7 +772,7 @@ I'm shorry Nurshe.
 我很抱歉，护士。
 ###_NPC
 Aww, it is good to hear that.  Are you going to be a good little girl now?
-哇，听到这个真好。你现在会成为一个好女孩吗？
+哇，听到这个真好。你现在会成为一个乖乖的小女孩吗？
 ###_PLAYER
 I am really sorry Nurse.
 真的对不起，护士。
@@ -854,7 +854,7 @@ No thank you.
 不，谢谢。
 ###_NPC
 I do know when you are not being honest.  (She slips your hands into mittens and a pacifier into your mouth.)  Run along now like a good girl.
-我知道你什么时候在撒谎。（她把你的手塞进手套里，把奶嘴塞进你的嘴里。）现在像个好女孩一样走开吧。
+我知道你什么时候在撒谎。（她把你的手塞进手套里，把奶嘴塞进你的嘴里。）现在像个乖女孩一样走开吧。
 ###_PLAYER
 Whatever
 随便你

@@ -579,7 +579,7 @@
 (你想锁DialogCharacterObject多长时间？She will be isolated, and you won't be able to unlock her.)
 ###_PLAYER
 (Good Girl Training System.)
-(好女孩训练系统 (GGTS))
+(乖女孩训练系统 (GGTS))
 ###_NPC
 (How many minutes of Good Girl Training System will DialogCharacterSubject be forced to do?)
 (选择强制DialogCharacterObject使用GGTS系统的时长)

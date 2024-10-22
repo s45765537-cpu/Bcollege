@@ -498,7 +498,7 @@ Stop struggling, it's time to learn some chess.  You're in the perfect position 
 （低头。）
 ###_NPC
 Good girl, it's time to learn some chess.  You're in the perfect position to focus.
-好女孩，是时候学点象棋了。你现在是集中注意力的最佳状态。
+乖女孩，是时候学点象棋了。你现在是集中注意力的最佳状态。
 ###_PLAYER
 (Grumble and try to shake the gag off.)
 （抱怨并试图甩掉口塞。）

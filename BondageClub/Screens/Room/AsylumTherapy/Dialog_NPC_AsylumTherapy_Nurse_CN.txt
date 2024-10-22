@@ -98,7 +98,7 @@ I'll take the pain therapy.
 我选疼痛疗法。
 ###_NPC
 (She smirks.)  Good girl.  Since you're already naked, we can begin right now.
-（她露出得意的笑。）好女孩。既然你已经赤身裸体了，我们现在就可以开始了。
+（她露出得意的笑。）乖女孩。既然你已经赤身裸体了，我们现在就可以开始了。
 ###_PLAYER
 I'll take the tickle therapy.
 我选搔痒疗法。

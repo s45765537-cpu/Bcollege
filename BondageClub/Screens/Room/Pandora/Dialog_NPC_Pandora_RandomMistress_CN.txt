@@ -130,7 +130,7 @@ Can I help you with something Miss?
 女士，你需要我的帮助吗？
 ###_NPC
 You're a good girl, aren't you?  Can you deliver this document to the Dominatrix headquarters?
-你是个好女孩，不是吗？你能把这份文件送到女王总部吗？
+你是个乖女孩，不是吗？你能把这份文件送到女王总部吗？
 No, why would I need help from you?
 不，我为什么需要你的帮助？
 ###_PLAYER
@@ -146,7 +146,7 @@ Yes, I will deliver it.
 好的，我会递交它的。
 ###_NPC
 Good girl!  Take this, I need to run.  (She gives you a private Pandora's Box document and leaves.  Your infiltration skill has increased.)
-好姑娘！拿着这个，我要跑。（她给了你一个潘多拉魔盒得私人文件，然后离开了。你的潜入技能增加了。）
+乖女孩！拿着这个，我要走了。（她给了你一个潘多拉魔盒得私人文件，然后离开了。你的潜入技能增加了。）
 ###_PLAYER
 No, I cannot do that.
 不，我不能那样做。
