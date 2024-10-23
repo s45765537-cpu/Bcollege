@@ -11193,6 +11193,10 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "HairAccessory1", AssetName: "ElfEars" },
 		},
+		Onihorns: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "HairAccessory1", AssetName: "Onihorns"}
+		}
 	}, // HairAccessory2
 	HairAccessory3: {
 		Halo: {
