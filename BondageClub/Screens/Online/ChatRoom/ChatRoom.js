@@ -2680,7 +2680,6 @@ function ChatRoomLeave(clearCharacters = false) {
 	ChatRoomSlowtimer = 0;
 	ChatRoomSlowStop = false;
 	DialogLentLockpicks = false;
-	ChatRoomLeashPlayer = null;
 	ChatRoomData = null;
 	Player.MapData = null;
 	ChatRoomGame = "";
