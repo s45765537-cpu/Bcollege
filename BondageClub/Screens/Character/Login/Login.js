@@ -696,9 +696,10 @@ function LoginResponse(C) {
 			var Elements = /** @type {HTMLCollectionOf<HTMLElement>} */(document.getElementsByClassName("HideOnDisconnect"));
 			for (let E = 0; E < Elements.length; E++)
 				Elements[E].style.display = "";
-			if (ChatRoomData?.Name) {
+
+			if (RelogData.ChatRoomName) {
 				CommonSetScreen("Online", "ChatSearch");
-				ServerSend("ChatRoomJoin", { Name: ChatRoomData.Name });
+				ServerSend("ChatRoomJoin", { Name: RelogData.ChatRoomName });
 			}
 			return;
 		}
