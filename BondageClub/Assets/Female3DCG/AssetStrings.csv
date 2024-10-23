@@ -2518,6 +2518,7 @@ ItemHoodCustomBallHoodOptionp4,8 Ball
 ItemHoodCustomBallHoodOptionc0,Cover All
 ItemHoodCustomBallHoodOptionc1,Cover Limited
 ItemHoodCustomBallHoodOptionc2,Cover Hair Only
+ItemHoodCustomBallHoodSelectBase,Select Hood Details
 ItemHoodCustomBallHoodSelectFinish,Select Hood Finish
 ItemHoodCustomBallHoodSelectPattern,Select Pattern
 ItemHoodCustomBallHoodSelectCover,Select Coverage
