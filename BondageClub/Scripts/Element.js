@@ -1107,7 +1107,7 @@ var ElementButton = {
 	 * Parse the passed icon list, returning its corresponding `<img>` grid and tooltip if non-empty
 	 * @param {string} id - The ID of the parent element
 	 * @param {readonly InventoryIcon[]} [icons] - The (optional) list of icons
-	 * @returns {null | { iconGrid: HTMLDivElement, tooltip: HTMLUListElement }} - `null` if the provided icon list is empty and otherwise an object containing the icon grid and a icon-specific tooltip
+	 * @returns {null | { iconGrid: HTMLDivElement, tooltip: (string | HTMLElement)[] }} - `null` if the provided icon list is empty and otherwise an object containing the icon grid and a icon-specific tooltip
 	 */
 	_ParseIcons: function _ParseIcons(id, icons) {
 		if (!icons || icons.length === 0) {
@@ -1143,6 +1143,7 @@ var ElementButton = {
 					classList: ["button-icon-tooltip-li"],
 					children: [tooltipText],
 					parent: tooltip,
+					style: { "background-image": `url("../${src}")` },
 				});
 
 				return {
@@ -1152,7 +1153,7 @@ var ElementButton = {
 				};
 			}),
 		});
-		return { iconGrid, tooltip };
+		return { iconGrid, tooltip: ["Misc:", ElementCreate({ tag: "br" }), tooltip] };
 	},
 
 	/**
@@ -1226,7 +1227,7 @@ var ElementButton = {
 		/** @type {(null | string | Node | HTMLOptions<any>)[]} */
 		const protoTooltip = [...(CommonIsArray(options.tooltip) ? options.tooltip : [options.tooltip])];
 		if (!protoTooltip.every(i => i == null)) {
-			protoTooltip.push(icons?.tooltip);
+			protoTooltip.push(...(icons?.tooltip ?? []));
 		}
 		protoTooltip.push(...(tooltipOptions.children ?? []));
 		const tooltip = this._ParseTooltip(id, options.tooltipPosition, protoTooltip, tooltipOptions);

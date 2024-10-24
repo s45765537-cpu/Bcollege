@@ -93,8 +93,16 @@
 
 .button-icon-tooltip-ul {
 	text-align: left;
-	margin-top: 0;
-	margin-bottom: 0;
+	margin: 0;
+	padding-left: min(2.6dvh, 1.3dvw);
+}
+
+.button-icon-tooltip-li {
+	display: flex;
+	list-style: none;
+	background-repeat: no-repeat;
+	background-size: contain;
+	padding-left: min(4dvh, 2dvw);
 }
 
 .button-tooltip-left {
