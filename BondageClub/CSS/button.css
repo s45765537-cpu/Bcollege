@@ -32,6 +32,8 @@
 }
 
 .button-tooltip {
+	--tooltip-gap: min(1dvh, 0.5dvw);
+
 	cursor: auto;
 	user-select: none;
 	background-color: #FFFF88;
@@ -98,23 +100,23 @@
 .button-tooltip-left {
 	top: 50%;
 	transform: translateY(-50%);
-	right: calc(100% + min(1vh, 0.5vw));
+	right: calc(100% + var(--tooltip-gap));
 }
 
 .button-tooltip-right {
 	top: 50%;
 	transform: translateY(-50%);
-	left: calc(100% + min(1vh, 0.5vw));
+	left: calc(100% + var(--tooltip-gap));
 }
 
 .button-tooltip-top {
-	bottom: calc(100% + min(1vh, 0.5vw));
+	bottom: calc(100% + var(--tooltip-gap));
 	left: 50%;
 	transform: translateX(-50%);
 }
 
 .button-tooltip-bottom {
-	top: calc(100% + min(1vh, 0.5vw));
+	top: calc(100% + var(--tooltip-gap));
 	left: 50%;
 	transform: translateX(-50%);
 }
