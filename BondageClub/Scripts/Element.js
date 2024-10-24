@@ -1075,7 +1075,7 @@ var ElementButton = {
 			...options,
 			tag: "img",
 			classList: ["button-image", ...(options.classList ?? [])],
-			attributes: { id: `${id}-image`, decoding: "async", loading: "lazy", src: img, ...(options.attributes ?? {}) },
+			attributes: { id: `${id}-image`, decoding: "async", loading: "lazy", "aria-hidden": "true", src: img, ...(options.attributes ?? {}) },
 		});
 	},
 
@@ -1123,6 +1123,7 @@ var ElementButton = {
 		const iconGrid = ElementCreate({
 			tag: "div",
 			classList: ["button-icon-grid"],
+			attributes: { "aria-hidden": "true" },
 			children: icons.map((icon) => {
 				let src, tooltipText;
 				if (icon.endsWith("Padlock")) {
@@ -1147,7 +1148,7 @@ var ElementButton = {
 				return {
 					tag: "img",
 					classList: ["button-icon"],
-					attributes: { decoding: "async", loading: "lazy", src, "aria-labelledby": `${id}-icon-li-${icon}` },
+					attributes: { decoding: "async", loading: "lazy", src },
 				};
 			}),
 		});
