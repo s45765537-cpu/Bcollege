@@ -218,7 +218,7 @@ function ServerDisconnect(data, close = false) {
 				CurrentModule = "Online";
 				CurrentCharacter = null;
 
-				ChatRoomLeave();
+				ChatRoomData = null;
 			}
 
 			// Keeps the relog data
