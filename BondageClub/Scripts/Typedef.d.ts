@@ -4139,6 +4139,13 @@ interface ClubCardPlayer {
 	CardsPlayedThisTurn: Record<number, ClubCard[]>
 }
 
+interface ClubCardMessage {
+	Message: string,
+	MessageType: string,
+	PlayerName: string,
+	TurnCounter:  number
+}
+
 // #region drawing
 
 /** Drawing options for an item's preview box */
