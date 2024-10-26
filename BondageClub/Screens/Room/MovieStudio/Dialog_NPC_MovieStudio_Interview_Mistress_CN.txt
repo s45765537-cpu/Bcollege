@@ -224,7 +224,7 @@ Very well.
 很好。
 ###_NPC
 Good girl, but now I've heard enough from you.  (She uses a gag on you.)
-好女孩，但现在我听够你的废话了。（她对你使用口塞。）
+乖女孩，但现在我听够你的废话了。（她对你使用口塞。）
 ###_PLAYER
 What the hell?
 什么鬼？

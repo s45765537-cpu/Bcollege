@@ -920,7 +920,7 @@ I've studied very hard Miss.
 女士，我学习很努力。
 ###_NPC
 (She pets your head.)  Good girl!  I must go now, enjoy the club little slave.
-（她抚摸你的头）好姑娘！我现在得走了，享受俱乐部的小奴隶。
+（她抚摸你的头）乖女孩！我现在得走了，享受俱乐部吧，小奴隶。
 ###_PLAYER
 That was too easy.
 那太容易了。

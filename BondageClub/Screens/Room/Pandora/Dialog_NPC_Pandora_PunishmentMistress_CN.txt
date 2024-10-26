@@ -56,7 +56,7 @@ Fuck you!  I'll never tell you.
 （交代你的任务。）
 ###_NPC
 (She notes everything and smiles.)  Good girl, we won't keep you for too long in our prison.
-（她记下了一切，然后微笑起来。）好女孩，我们不会让你在监狱里呆太久的。
+（她记下了一切，然后微笑起来。）乖女孩，我们不会让你在监狱里呆太久的。
 ###_PLAYER
 Get lost!  I'll never confess.
 走开！我永远不会交代的。
