@@ -265,25 +265,6 @@ function ItemColorClick(c, group, x, y, width, height, includeResetButton) {
 			return;
 		}
 		
-		if ((ItemColorState.editOpacity) && MouseIn(1190, 65, 240, 60)) {
-			if (ItemColorItem.Property == null) ItemColorItem.Property = {};
-			let O = 1 - ((MouseX - 1210) / 200);
-			if (O < 0) O = 0;
-			if (O > 1) O = 1;
-			if ((ItemColorItem.Asset == null) || !CommonIsArray(ItemColorItem.Asset.Layer) || (ItemColorItem.Asset.Layer.length <= 1)) {
-				ItemColorItem.Property.Opacity = O;
-			} else {
-				if (!CommonIsArray(ItemColorItem.Property.Opacity) || (ItemColorItem.Property.Opacity.length != ItemColorItem.Asset.Layer.length)) {
-					ItemColorItem.Property.Opacity = [];
-					for (let Layer of ItemColorItem.Asset.Layer)
-						ItemColorItem.Property.Opacity.push(1);
-				}
-				if (CommonIsArray(ItemColorPickerIndices))
-					for (let I of ItemColorPickerIndices)
-						ItemColorItem.Property.Opacity[I] = O;
-			}
-			CharacterRefresh(Player, false, false);
-		}
 	}
 
 	if (
