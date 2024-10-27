@@ -1155,7 +1155,7 @@ var ElementButton = {
 				};
 			}),
 		});
-		return { iconGrid, tooltip: ["Status & effects:", ElementCreate({ tag: "br" }), tooltip] };
+		return { iconGrid, tooltip: [InterfaceTextGet("StatusAndEffects"), ElementCreate({ tag: "br" }), tooltip] };
 	},
 
 	/**

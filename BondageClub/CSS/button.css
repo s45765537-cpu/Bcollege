@@ -202,6 +202,15 @@
 	border: min(0.3dvh, 0.15dvw) inset black;
 }
 
+.button-styling:disabled::before,
+.button-styling[aria-disabled="true"]::before {
+	border: unset;
+}
+
+.button-styling[aria-checked="true"]::before {
+	border: min(0.3dvh, 0.15dvw) inset black;
+}
+
 .button-styling:active,
 .button-styling[data-active] {
 	background-color: var(--hover-color);
@@ -261,11 +270,6 @@
 .button-styling:disabled > .button-label,
 .button-styling[aria-disabled="true"] > .button-label {
 	background-color: color-mix(in srgb, var(--disabled-color) 50%, transparent) !important;
-}
-
-.button-styling:disabled::before,
-.button-styling[aria-disabled="true"]::before {
-	border: unset;
 }
 
 .button-tooltip:empty,

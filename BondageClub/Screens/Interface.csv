@@ -408,6 +408,7 @@ ServerUpdateRoom,SourceCharacter updated the room. Name: ChatRoomName. Limit: Ch
 ShowAllZones,Show all zones
 ShowItemWithTimerRemaining,Show the time remaining/being added
 Someone,Someone
+StatusAndEffects,Status & effects:
 StruggleDexterity,Try to unfasten
 StruggleFlexibility,Try to squeeze out
 StruggleImpossible,Impossible to escape!

@@ -1409,8 +1409,8 @@ function CharacterRefreshDialog(C) {
 	if (DialogIsInWardrobe()) return;
 
 	if (DialogMenuMode === "items" || DialogMenuMode === "activities" || DialogMenuMode === "permissions") {
-		// We were looking at some inventory, reload it to update the UI
-		DialogChangeMode(DialogMenuMode);
+		// We were looking at some inventory, perform a soft reload to update the UI
+		DialogMenuMapping[DialogMenuMode].Reload();
 	} else if (DialogMenuMode === "extended" || DialogMenuMode === "tighten") {
 		if (!focusItem) {
 			// Focused item was removed

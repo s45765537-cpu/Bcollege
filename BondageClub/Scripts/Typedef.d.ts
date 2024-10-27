@@ -121,7 +121,8 @@ interface HTMLElementEventMap {
 	bcClickDisabled: MouseEvent;
 }
 
-namespace ElementButton {
+declare namespace ElementButton {
+	/** Various options that can be passed along to {@link ElementButton.Create} */
 	interface Options {
 		/** Optional tooltip content. If not supplied then one should manually prepend it to the tooltip later */
 		tooltip?: null | string | Node | HTMLOptions<any> | readonly (null | string | Node | HTMLOptions<any>)[]
@@ -134,7 +135,7 @@ namespace ElementButton {
 		/** A background image for the button */
 		image?: string;
 		/** Button icons to-be displayed in the top-left corner of the button */
-		icons?: readonly InventoryIcon[];
+		icons?: readonly (null | InventoryIcon)[];
 		/** The role of the button. All accepted values are currently special-cased in order to set role-specific event listeners and/or attributes. */
 		role?: "radio" | "checkbox" | "menuitemradio" | "menuitemcheckbox";
 		/** Whether to limit the default styling of the button's border and background */
@@ -238,6 +239,23 @@ type DialogMenuButton = "Activity" |
 	// Wardrobe buttons
 	"Wardrobe" | "WardrobeDisabled" | "Reset" | "WearRandom" | "Random" | "Copy" | "Paste" | "Naked" | "Accept" | "Cancel" | "Character"
 	;
+
+declare namespace DialogMenu {
+	/** Customization options for {@link DialogMenu.Reload} */
+	interface ReloadOptions {
+		/** Whether to hard reset and reconstruct the button grid, rather than just re-evaluating the existing button's states via a soft reset. */
+		reset?: boolean;
+		/** The to-be assigned custom status message */
+		status?: string;
+		/** Display the {@link ReloadOptions.status} message on a timer; units are in ms */
+		statusTimer?: number;
+		/**
+		 * Reset the position of the scroll bar to the checked button, or, if unavailable, the top of the button grid.
+		 * Defaults to `true` if {@link ReloadOptions.reset} is specified.
+		 */
+		resetScrollbar?: boolean;
+	}
+}
 
 type DialogSortOrder = | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 
