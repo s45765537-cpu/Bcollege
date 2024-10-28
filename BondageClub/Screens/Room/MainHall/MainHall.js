@@ -230,9 +230,8 @@ function MainHallRun() {
 
 			// If the player is a Mistress but her Dominant reputation has fallen & stage is not
 			if (LogQuery("ClubMistress", "Management") && (ReputationGet("Dominant") < 50) && (CheatFactor("CantLoseMistress", 0) == 1) && Player.CanTalk()) {
-				CommonSetScreen("Room", "Management");
+				ManagementLoad();
 				CharacterSetCurrent(MainHallMaid);
-				CurrentScreen = "MainHall";
 				MainHallMaid.Stage = "60";
 				MainHallMaid.CurrentDialog = DialogFind(MainHallMaid, "MistressExpulsionIntro");
 				return;

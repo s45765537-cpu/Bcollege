@@ -1131,10 +1131,12 @@ function PrivateLoadCharacter(data) {
  * @param {NPCCharacter} Template - The base of the character, includes the name and appearance.
  * @param {"" | NPCArchetype} [Archetype] - The type of character such as maid or mistress.
  * @param {boolean} [CustomData=false] - Whether or not the character has non-random traits.
+ * @param {null | ModuleType} [Module]
+ * @param {null | string} [Screen]
  * @returns {NPCCharacter} - The new private room character.
  */
-function PrivateAddCharacter(Template, Archetype, CustomData) {
-	var C = CharacterLoadNPC("NPC_Private_Custom_" + PrivateCharacter.length.toString(), "NPC_Private_Custom");
+function PrivateAddCharacter(Template, Archetype, CustomData, Module=null, Screen=null) {
+	var C = CharacterLoadNPC("NPC_Private_Custom_" + PrivateCharacter.length.toString(), "NPC_Private_Custom", Module, Screen);
 	C.Name = Template.Name;
 	C.Appearance = Template.Appearance.slice();
 	C.AppearanceFull = Template.Appearance.slice();

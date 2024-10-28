@@ -290,7 +290,6 @@ function InfiltrationPayRansom(Type) {
 		if (InfiltrationDifficulty == 4) SkillProgress(Player, "Infiltration", 400);
 	} else if (Type == "Private") {
 		//Add prisoner to private room
-		CurrentScreen = "Private";
 		/** @type {NPCArchetype} */
 		var PrisonerArchetype = null;
 		if (InfiltrationPartyPrisoner.Archetype === "Slave") {
@@ -298,13 +297,12 @@ function InfiltrationPayRansom(Type) {
 		} else if (InfiltrationPartyPrisoner.Archetype === "Mistress") {
 			PrisonerArchetype = "Mistress";
 		}
-		let C = PrivateAddCharacter(InfiltrationPartyPrisoner, PrisonerArchetype);
+		let C = PrivateAddCharacter(InfiltrationPartyPrisoner, PrisonerArchetype, null, null, "Private");
 		C.FromPandora = true;
 		NPCEventAdd(C,"LastInteraction",CurrentTime+20000);
 		//Set PandoraPrisoner to new private room character and send to interrogation
 		InfiltrationPandoraPrisoner = C;
 		ServerPrivateCharacterSync();
-		CurrentScreen = "Infiltration";
 		InfiltrationPandoraPrisonerBrainwash();
 	}
 
@@ -348,8 +346,7 @@ function InfiltrationEndKidnapping(Reward) {
 	if (Reward === "Money") CharacterChangeMoney(Player, 18);
 	if (Reward === "Skill") SkillProgress(Player, "Infiltration", 400);
 	if (Reward === "Private") {
-		CurrentScreen = "Private";
-		PrivateAddCharacter(CurrentCharacter);
+		PrivateAddCharacter(CurrentCharacter, null, null, null, "Private");
 		CommonSetScreen("Room", "Private");
 		let C = PrivateCharacter[PrivateCharacter.length - 1];
 		C.Love = -80;

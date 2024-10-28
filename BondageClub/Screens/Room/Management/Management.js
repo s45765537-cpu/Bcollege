@@ -605,10 +605,8 @@ function ManagementBreakLover(L) {
 function ManagementSendMistressToPrivateRoom(RepChange) {
 	ReputationProgress("Dominant", RepChange);
 	ManagementEmpty = true;
-	CurrentScreen = "Private";
 	ManagementMistress.Name = ManagementMistress.Name.replace(TextGet("Mistress") + " ", "");
-	PrivateAddCharacter(ManagementMistress, "Mistress");
-	CurrentScreen = "Management";
+	PrivateAddCharacter(ManagementMistress, "Mistress", null, null, "Private");
 	DialogLeave();
 }
 
