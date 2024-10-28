@@ -411,7 +411,7 @@ function AsylumEntranceKidnapNurseTransferToRoom() {
 
 /**
  * When the player leaves the kidnap nurse
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["Exit"]}
  */
 function AsylumEntranceKidnapNurseExit() {
 	DialogLeave();

@@ -167,7 +167,7 @@ function GameClubCardClick() {
 
 /**
  * Triggered when the player exits the Club Card config screen.
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["Exit"]}
  */
 function GameClubCardExit() {
 

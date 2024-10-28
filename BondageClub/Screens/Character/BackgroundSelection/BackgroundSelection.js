@@ -202,8 +202,7 @@ function BackgroundSelectionKeyDown(event) {
 /**
  * Handles the exit of the selection screen. Sets the new background, if necessary, and
  * calls the previously defined callback function. Then exits the screen to the screen, the player was before
- * @param {boolean} SetBackground - Defines, wether the background must be changed (true) or not (false)
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["Exit"]}
  */
 function BackgroundSelectionExit(SetBackground) {
 	ElementRemove("InputBackground");

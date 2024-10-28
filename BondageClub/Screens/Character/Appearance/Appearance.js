@@ -1642,7 +1642,7 @@ function AppearanceMenuClick(C) {
 
 /**
  * Handle the exiting of the appearance screen. The function name is created dynamically.
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["Exit"]}
  */
 function AppearanceExit() {
 	// We quit the extended item menu instead, if applicable.
@@ -1949,7 +1949,7 @@ function CharacterAppearanceChatRoomMessage(Msg) {
 }
 
 /**
- * Creates a compressed string of a character appearance and saves it to the clipboard 
+ * Creates a compressed string of a character appearance and saves it to the clipboard
  * @param {Character} C - The character to copy from
  */
 function CharacterAppearanceCopyToClipboard(C) {
@@ -1983,7 +1983,7 @@ function CharacterAppearanceCopyToClipboard(C) {
  * @param {boolean} ChatRoomRefresh - TRUE if the character should be refreshed online
  */
 function CharacterAppearancePaste(C, CompApp, ChatRoomRefresh) {
-	
+
 	// If the data is invalid, we exit right away
 	if ((C == null) || (C.Appearance == null) || !C.IsPlayer())
 		return CharacterAppearanceChatRoomMessage("AppPasteError");

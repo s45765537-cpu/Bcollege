@@ -1859,8 +1859,7 @@ function CraftingExitResetElements() {
 
 /**
  * When the player exits the crafting room
- * @param {boolean} allowPanelClose - Whether an exit call in the `Name` mode is allowed to close the side panels before performing a proper exit of the subscreen
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["Exit"]}
  */
 function CraftingExit(allowPanelClose=true) {
 	// Return to the `Name` sub-screen, if already there move to the `Slot` sub-screen and if already there exit the crafting screen

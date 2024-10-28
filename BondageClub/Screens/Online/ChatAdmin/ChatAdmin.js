@@ -237,7 +237,7 @@ function ChatAdminClick() {
 
 /**
  * Handles exiting from the admin screen, removes the inputs and resets the state of the variables
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["Exit"]}
  */
 function ChatAdminExit() {
 	AsylumGGTSReset();

@@ -86,7 +86,7 @@ function AdvancedRuleClick() {
 
 /**
  * Handles exiting from the screen, updates the sub rules
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["Exit"]}
  */
 function AdvancedRuleExit() {
 	CommonSetScreen("Online", "ChatRoom");

@@ -2049,7 +2049,7 @@ function PrivateGetBed(Type) {
 
 /**
  * When the player exits the private room
- * @returns {void} - Nothing.
+ * @type {ScreenFunctions["Exit"]}
  */
 function PrivateExit() {
 	if (!CurrentCharacter) {
