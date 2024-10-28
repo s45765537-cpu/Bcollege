@@ -207,25 +207,16 @@ function ServerDisconnect(data, close = false) {
 		}
 	}
 
-	if (ShouldRelog) {
-		if (CurrentScreen != "Relog") {
-			let ChatRoomName = ChatRoomData?.Name;
-
-			// Exits out of the chat room or a sub screen of the chatroom, so we'll be able to get in again when we log back
-			if (ServerPlayerIsInChatRoom()) {
-				CurrentScreen = "ChatSearch";
-				CurrentModule = "Online";
-				CurrentCharacter = null;
-
-				ChatRoomData = null;
-			}
-
-			// Keeps the relog data
-			RelogData = { Screen: CurrentScreen, Module: CurrentModule, Character: CurrentCharacter, ChatRoomName: ChatRoomName };
-			CurrentCharacter = null;
-			CommonSetScreen("Character", "Relog");
-
+	if (ShouldRelog && CurrentScreen != "Relog") {
+		if (ServerPlayerIsInChatRoom()) {
+			RelogData = { Screen: "ChatSearch", Module: "Online", Character: null, ChatRoomName: ChatRoomData?.Name };
+			ChatRoomData = null;
+		} else {
+			RelogData = { Screen: CurrentScreen, Module: CurrentModule, Character: CurrentCharacter, ChatRoomName: null };
 		}
+
+		CurrentCharacter = null;
+		CommonSetScreen("Character", "Relog");
 	}
 
 	// Raise a notification to alert the user
