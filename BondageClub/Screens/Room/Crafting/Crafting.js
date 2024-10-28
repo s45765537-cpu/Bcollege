@@ -499,7 +499,7 @@ var CraftingEventListeners = {
 		document.activeElement?.dispatchEvent(new Event("blur"));
 		Player.Crafting[CraftingSlot] = CraftingConvertSelectedToItem();
 		CraftingSaveServer();
-		CraftingExit(false);
+		CraftingExit();
 	},
 
 	/**
@@ -507,7 +507,7 @@ var CraftingEventListeners = {
 	 * @type {(this: HTMLButtonElement, ev: Event) => void}
 	 */
 	_ClickExit: function _ClickExit() {
-		CraftingExit(false);
+		CraftingExit();
 	},
 
 	/**
@@ -1857,11 +1857,23 @@ function CraftingExitResetElements() {
 	document.querySelector(`#${CraftingID.leftPanel} > [aria-checked='true']`)?.dispatchEvent(new Event("click"));
 }
 
+/** @type {ScreenFunctions["KeyDown"]} */
+function CraftingKeyDown(event) {
+	if (CommonEscPressed(event)) {
+		const activePanel = document.querySelector(`#${CraftingID.leftPanel} > [aria-checked='true']`);
+		if (CraftingMode === "Name" && activePanel) {
+			activePanel.dispatchEvent(new Event("click"));
+			return true;
+		}
+	}
+	return false;
+}
+
 /**
  * When the player exits the crafting room
  * @type {ScreenFunctions["Exit"]}
  */
-function CraftingExit(allowPanelClose=true) {
+function CraftingExit() {
 	// Return to the `Name` sub-screen, if already there move to the `Slot` sub-screen and if already there exit the crafting screen
 	switch (CraftingMode) {
 		case "OverridePriority":
@@ -1873,18 +1885,12 @@ function CraftingExit(allowPanelClose=true) {
 		case "Extended":
 			DialogLeaveFocusItem();
 			return;
-		case "Name": {
-			const activePanel = document.querySelector(`#${CraftingID.leftPanel} > [aria-checked='true']`);
-			if (activePanel && allowPanelClose) {
-				activePanel.dispatchEvent(new Event("click"));
-			} else {
-				CraftingExitResetElements();
-				CraftingUnload();
-				CraftingModeSet("Slot");
-				CraftingSelectedItem = null;
-			}
+		case "Name":
+			CraftingExitResetElements();
+			CraftingUnload();
+			CraftingModeSet("Slot");
+			CraftingSelectedItem = null;
 			return;
-		}
 		case "Slot": {
 			ElementRemove(CraftingID.root);
 			CharacterDelete(CraftingPreview);

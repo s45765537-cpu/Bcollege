@@ -343,7 +343,9 @@ function PrivateBedClick() {
 	}
 
 	// Bedroom buttons on the right side
-	if (MouseIn(1890, 20, 90, 90)) PrivateBedExit();
+	if (MouseIn(1890, 20, 90, 90)) {
+		if (PrivateBedCanLeave()) { PrivateBedExit(); }
+	}
 	if (MouseIn(1890, 130, 90, 90) && Player.CanChangeOwnClothes()) CharacterAppearanceLoadCharacter(Player);
 	if (MouseIn(1890, 240, 90, 90)) { PrivateBedActivityMustRefresh = true; CharacterSetCurrent(Player); }
 
@@ -380,18 +382,33 @@ function PrivateBedClick() {
 }
 
 /**
+ * Return whether ones owner allows you to leave the bed.
+ * @returns {boolean}
+ */
+function PrivateBedCanLeave() {
+	if (PrivateBedLeaveTime > CommonTime()) {
+		if (PrivateBedLog.length >= 10) PrivateBedLog.splice(0, 1);
+		PrivateBedLog.push(TextGet("CannotLeave"));
+		return false;
+	} else {
+		return true;
+	}
+}
+
+/** @type {ScreenFunctions["KeyDown"]} */
+function PrivateBedKeyDown(event) {
+	if (CommonEscPressed(event)) {
+		if (PrivateBedCanLeave()) { PrivateBedExit(); }
+		return true;
+	}
+	return false;
+}
+
+/**
  * When the player exits the private bedroom.  The next sex scene will wait from 5 to 20 depending on luck and the frigid/honry trait.
  * @type {ScreenFunctions["Exit"]}
  */
 function PrivateBedExit() {
-
-	// Cannot leave if the owner doesn't permit it
-	if (PrivateBedLeaveTime > CommonTime()) {
-		if (PrivateBedLog.length >= 10) PrivateBedLog.splice(0, 1);
-		PrivateBedLog.push(TextGet("CannotLeave"));
-		return;
-	}
-
 	// Refreshes the characters in the private room
 	for (let C of PrivateBedCharacter) {
 		PoseSetActive(C, null);

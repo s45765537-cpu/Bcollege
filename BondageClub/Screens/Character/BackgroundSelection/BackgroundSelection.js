@@ -150,8 +150,12 @@ function BackgroundSelectionRun() {
 function BackgroundSelectionClick() {
 
 	// Exit by selecting or cancelling
-	if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 25) && (MouseY < 115)) BackgroundSelectionExit(true);
-	if ((MouseX >= 1785) && (MouseX < 1875) && (MouseY >= 25) && (MouseY < 115)) BackgroundSelectionExit(false);
+	if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 25) && (MouseY < 115)) {
+		BackgroundSelectionCallback?.(BackgroundSelectionSelect);
+		BackgroundSelectionExit();
+	} else if ((MouseX >= 1785) && (MouseX < 1875) && (MouseY >= 25) && (MouseY < 115)) {
+		BackgroundSelectionExit();
+	}
 
 	// Set next offset backward
 	if ((MouseX >= 1585) && (MouseX < 1675) && (MouseY >= 25) && (MouseY < 115)) {
@@ -193,7 +197,8 @@ function BackgroundSelectionClick() {
  */
 function BackgroundSelectionKeyDown(event) {
 	if (event.key === "Enter") {
-		BackgroundSelectionExit(true);
+		BackgroundSelectionCallback?.(BackgroundSelectionSelect);
+		BackgroundSelectionExit();
 		return true;
 	}
 	return false;
@@ -204,10 +209,9 @@ function BackgroundSelectionKeyDown(event) {
  * calls the previously defined callback function. Then exits the screen to the screen, the player was before
  * @type {ScreenFunctions["Exit"]}
  */
-function BackgroundSelectionExit(SetBackground) {
+function BackgroundSelectionExit() {
 	ElementRemove("InputBackground");
 	ElementRemove("TagDropDown");
-	if (SetBackground && BackgroundSelectionCallback) BackgroundSelectionCallback(BackgroundSelectionSelect);
 	BackgroundSelectionCallback = null;
 	if (BackgroundSelectionPreviousModule) {
 		CommonSetScreen(BackgroundSelectionPreviousModule, BackgroundSelectionPreviousScreen);
