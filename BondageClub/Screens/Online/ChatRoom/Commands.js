@@ -592,7 +592,7 @@ const CommonCommands = [
 	},
 	{
 		Tag: "appcopy",
-		Action: () => { CharacterAppearanceCopyToClipboard(Player) },
+		Action: () => { CharacterAppearanceCopyToClipboard(Player); },
 	},
 	{
 		Tag: "apppaste",

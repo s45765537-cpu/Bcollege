@@ -1961,7 +1961,7 @@ function CharacterAppearanceCopyToClipboard(C) {
 	let App = [];
 	for (let A of C.Appearance)
 		if ((A.Asset != null) && (A.Asset.Group != null) && (A.Asset.Group.Category == "Appearance") && A.Asset.Group.AllowCustomize) {
-			let Obj = { A: A.Asset.Name, G: A.Asset.Group.Name }
+			let Obj = { A: A.Asset.Name, G: A.Asset.Group.Name };
 			if ((A.Color != null) && Array.isArray(A.Color)) Obj.C = CommonCloneDeep(A.Color);
 			if ((A.Color != null) && (typeof A.Color == "string") && (A.Color != "") && (A.Color.toLowerCase() != "default")) Obj.C = A.Color;
 			App.push(Obj);

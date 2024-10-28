@@ -262,25 +262,25 @@ function GameClubCardDoBundle(Cards, IncludeTime = false) {
  * @returns {string} - A string with all the cards
  */
 function GameClubCardBoardDoBundle(Cards) {
-    let Result = "";
+	let Result = "";
 
-    for (let i = 0; i < Cards.length; i++) {
-        const card = Cards[i];
+	for (let i = 0; i < Cards.length; i++) {
+		const card = Cards[i];
 
-        let ID = `${card.ID}`;
-        let ArrayIndex = `${card.ArrayIndex !== undefined ? card.ArrayIndex : ''}`;
-        let MoneyPerTurn = `${card.MoneyPerTurn !== undefined ? card.MoneyPerTurn : ''}`;
-        let FamePerTurn = `${card.FamePerTurn !== undefined ? card.FamePerTurn : ''}`;
-        let Time = `${card.Time !== undefined ? card.Time : ''}`;
+		let ID = `${card.ID}`;
+		let ArrayIndex = `${card.ArrayIndex !== undefined ? card.ArrayIndex : ''}`;
+		let MoneyPerTurn = `${card.MoneyPerTurn !== undefined ? card.MoneyPerTurn : ''}`;
+		let FamePerTurn = `${card.FamePerTurn !== undefined ? card.FamePerTurn : ''}`;
+		let Time = `${card.Time !== undefined ? card.Time : ''}`;
 
-        Result += `${ID},${ArrayIndex},${MoneyPerTurn},${FamePerTurn},${Time};`;
-    }
+		Result += `${ID},${ArrayIndex},${MoneyPerTurn},${FamePerTurn},${Time};`;
+	}
 
-    if (Result.endsWith(";")) {
-        Result = Result.slice(0, -1);
-    }
+	if (Result.endsWith(";")) {
+		Result = Result.slice(0, -1);
+	}
 
-    return Result;
+	return Result;
 }
 
 /**
@@ -322,31 +322,31 @@ function GameClubCardUndoBundle(Bundle, IncludeTime = false, Location = null) {
  * @returns {ClubCard[]} - An array of updated ClubCard objects
  */
 function GameClubCardBoardUndoBundle(bundle, Location) {
-    const cards = bundle.split(';');
-    const result = [];
+	const cards = bundle.split(';');
+	const result = [];
 
-    for (let i = 0; i < cards.length; i++) {
-        const cardString = cards[i];
-        const [ID, ArrayIndex, MoneyPerTurn, FamePerTurn, Time] = cardString.split(',');
+	for (let i = 0; i < cards.length; i++) {
+		const cardString = cards[i];
+		const [ID, ArrayIndex, MoneyPerTurn, FamePerTurn, Time] = cardString.split(',');
 
-        const existingCard = ClubCardList.find(card => card.ID === Number(ID));
+		const existingCard = ClubCardList.find(card => card.ID === Number(ID));
 
-        if (existingCard) {
-            const card = { ...existingCard };
+		if (existingCard) {
+			const card = { ...existingCard };
 
-            if (card.Type == null) card.Type = "Member";
-            if (Location != null) card.Location = Location;
+			if (card.Type == null) card.Type = "Member";
+			if (Location != null) card.Location = Location;
 
-            if (ArrayIndex != undefined && ArrayIndex != '') card.ArrayIndex = Number(ArrayIndex);
-            if (MoneyPerTurn != undefined && MoneyPerTurn != '') card.MoneyPerTurn = Number(MoneyPerTurn);
-            if (FamePerTurn != undefined && FamePerTurn != '') card.FamePerTurn = Number(FamePerTurn);
-            if (Time != undefined && Time != '') card.Time = Number(Time);
+			if (ArrayIndex != undefined && ArrayIndex != '') card.ArrayIndex = Number(ArrayIndex);
+			if (MoneyPerTurn != undefined && MoneyPerTurn != '') card.MoneyPerTurn = Number(MoneyPerTurn);
+			if (FamePerTurn != undefined && FamePerTurn != '') card.FamePerTurn = Number(FamePerTurn);
+			if (Time != undefined && Time != '') card.Time = Number(Time);
 
-            result.push(card);
-        }
-    }
+			result.push(card);
+		}
+	}
 
-    return result;
+	return result;
 }
 
 /**
