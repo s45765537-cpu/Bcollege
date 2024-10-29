@@ -535,7 +535,6 @@ const CommonCommands = [
 	{
 		Tag: "craft",
 		Action: () => {
-			ChatRoomHideElements();
 			CraftingShowScreen(true);
 		},
 	},
@@ -564,7 +563,6 @@ const CommonCommands = [
 		Tag: "wheel",
 		Action: () => {
 			if (!InventoryAvailable(Player, "WheelFortune", "ItemDevices")) return;
-			ChatRoomHideElements();
 			WheelFortuneEntryModule = CurrentModule;
 			WheelFortuneEntryScreen = CurrentScreen;
 			WheelFortuneBackground = ChatRoomData.Background;
@@ -703,7 +701,6 @@ const CommonCommands = [
 			if (ServerPlayerIsInChatRoom()) {
 				background = ChatRoomData?.Background;
 				ChatRoomStatusUpdate("Shop");
-				ChatRoomHideElements();
 			}
 			Shop2.Init(background, screen);
 		},

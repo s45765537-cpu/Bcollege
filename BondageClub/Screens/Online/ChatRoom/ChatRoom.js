@@ -463,7 +463,6 @@ function ChatRoomCanStartWheelFortune() { return (CurrentCharacter != null) && I
  */
 function ChatRoomStartWheelFortune() {
 	if ((CurrentCharacter == null) || !InventoryIsWorn(CurrentCharacter, "WheelFortune", "ItemDevices")) return;
-	ChatRoomHideElements();
 	WheelFortuneEntryModule = CurrentModule;
 	WheelFortuneEntryScreen = CurrentScreen;
 	WheelFortuneBackground = ChatRoomData.Background;
@@ -1712,6 +1711,13 @@ function ChatRoomResize(load) {
 }
 
 /**
+ * @type {ScreenFunctions["Unload"]}
+ */
+function ChatRoomUnload() {
+	ChatRoomHideElements();
+}
+
+/**
  * Draws arousal screen filter
  * @param {number} y1 - Y to draw filter at.
  * @param {number} h - Height of filter
@@ -2418,7 +2424,6 @@ function ChatRoomOpenWardrobeScreen() {
  * The handler for the "Profile" button
  */
 function ChatRoomOpenInformationScreen() {
-	ChatRoomHideElements();
 	ChatRoomStatusUpdate("Preference");
 	InformationSheetLoadCharacter(Player);
 }
@@ -2436,7 +2441,6 @@ function ChatRoomOpenAdminScreen() {
 		return;
 	}
 
-	ChatRoomHideElements();
 	ChatRoomStatusUpdate("Preference");
 	CommonSetScreen("Online", "ChatAdmin");
 }
@@ -2485,7 +2489,6 @@ function ChatRoomMenuClick(event) {
 				}
 				case "GameOption":
 					// The cut button can become the game option button if there's an online game going on
-					ChatRoomHideElements();
 					CommonSetScreen("Online", "Game" + ChatRoomGame);
 					break;
 				case "Kneel":
@@ -5053,7 +5056,6 @@ function ChatRoomAppearanceLoadCharacter(C) {
 	const screen = CurrentScreen;
 	const inChatRoom = ServerPlayerIsInChatRoom();
 	if (inChatRoom) {
-		ChatRoomHideElements();
 		ChatRoomStatusUpdate("Wardrobe");
 	}
 	CharacterAppearanceLoadCharacter(C, (ready) => {
@@ -5359,7 +5361,6 @@ function ChatRoomSetRule(data) {
 				if (C.IsOwner())
 					CharacterSetCurrent(C);
 			if ((CurrentCharacter == null) || !CurrentCharacter.IsOwner() || !InventoryIsWorn(CurrentCharacter, "WheelFortune", "ItemDevices")) return;
-			ChatRoomHideElements();
 			WheelFortuneEntryModule = CurrentModule;
 			WheelFortuneEntryScreen = CurrentScreen;
 			WheelFortuneBackground = ChatRoomData.Background;
