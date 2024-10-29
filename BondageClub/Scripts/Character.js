@@ -959,9 +959,13 @@ function CharacterArchetypeClothes(C, Archetype, ForceColor) {
  * Loads an NPC into the character array. The appearance is randomized, and a type can be provided to dress them in a given style.
  * @param {string} CharacterID - The unique identifier for the NPC
  * @param {string} [NPCType] - The dialog used by the NPC.  Defaults to CharacterID if not specified.
+ * @param {null | ModuleType} module
+ * @param {null | string} screen
  * @returns {NPCCharacter} - The randomly generated NPC
  */
-function CharacterLoadNPC(CharacterID, NPCType, module = CurrentModule, screen = CurrentScreen) {
+function CharacterLoadNPC(CharacterID, NPCType, module=null, screen=null) {
+	module ??= CurrentModule;
+	screen ??= CurrentScreen;
 	if (!NPCType) NPCType = CharacterID;
 
 	// Checks if the NPC already exists and returns it if it's the case
