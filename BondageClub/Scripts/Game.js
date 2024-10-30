@@ -181,27 +181,27 @@ function GameKeyDown(event) {
 			break handleKeyDown;
 		}
 
-		const escPressed = (
+		if (
 			event.key == "Escape"
 			&& !(event.shiftKey || event.altKey || event.metaKey || event.ctrlKey)
-		);
-
-		if (
-			escPressed
-			&& document.activeElement instanceof HTMLElement
-			&& !(document.activeElement === document.body || document.activeElement.id === "MainCanvas")
 		) {
-			// If an element has focus, unfocus it on the first Esc press rather than calling `...Exit()`
-			document.activeElement.blur();
+			if (document.activeElement instanceof HTMLElement && !(document.activeElement === document.body || document.activeElement.id === "MainCanvas")) {
+				document.activeElement.blur();
+				handled = true;
+				break handleKeyDown;
+			} else if (CurrentScreenFunctions.Exit) {
+				CurrentScreenFunctions.Exit();
+				handled = true;
+				break handleKeyDown;
+			}
+		}
+
+		if (DialogKeyDown(event)) {
 			handled = true;
 			break handleKeyDown;
-		} else if (DialogKeyDown(event) || CurrentScreenFunctions.KeyDown?.(event)) {
-			// Allow KeyDown handlers to override Esc handling if so desired
-			handled = true;
-			break handleKeyDown;
-		} else if (escPressed) {
-			// Finally, try calling `...Exit()`
-			CurrentScreenFunctions.Exit?.();
+		}
+
+		if (CurrentScreenFunctions.KeyDown && CurrentScreenFunctions.KeyDown(event)) {
 			handled = true;
 			break handleKeyDown;
 		}

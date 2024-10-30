@@ -44,17 +44,18 @@ function OnlineProfileRun() {
  * @returns {void} - Nothing
  */
 function OnlineProfileClick() {
-	if (MouseIn(1820, 60, 90, 90)) {
-		OnlineProfileExit();
-	} else if (MouseIn(1720, 60, 90, 90) && InformationSheetSelection.IsPlayer()) {
-		OnlineProfileSave();
-		OnlineProfileExit();
-	}
+	if (MouseIn(1820, 60, 90, 90)) OnlineProfileExit(false);
+	if (InformationSheetSelection.IsPlayer() && MouseIn(1720, 60, 90, 90)) OnlineProfileExit(true);
 }
 
-/** If the current character is the player, we update the description */
-function OnlineProfileSave() {
-	if (InformationSheetSelection.Description != ElementValue("DescriptionInput").trim()) {
+/**
+ * Handles exiting while in the online profile screen. It removes the input and saves the description.
+ * @param {boolean} Save - Whether or not we should save the changes
+ * @returns {void} - Nothing
+ */
+function OnlineProfileExit(Save) {
+	// If the current character is the player, we update the description
+	if ((InformationSheetSelection.IsPlayer()) && (InformationSheetSelection.Description != ElementValue("DescriptionInput").trim()) && Save) {
 		InformationSheetSelection.Description = ElementValue("DescriptionInput").trim().substr(0, 10000);
 		let Description = InformationSheetSelection.Description;
 		const CompressedDescription = ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC + LZString.compressToUTF16(Description);
@@ -64,12 +65,5 @@ function OnlineProfileSave() {
 		ServerAccountUpdate.QueueData({ Description });
 		ChatRoomCharacterUpdate(InformationSheetSelection);
 	}
-}
-
-/**
- * Handles exiting while in the online profile screen. It removes the input and saves the description.
- * @type {ScreenFunctions["Exit"]}
- */
-function OnlineProfileExit() {
 	CommonSetScreen("Character", "InformationSheet");
 }

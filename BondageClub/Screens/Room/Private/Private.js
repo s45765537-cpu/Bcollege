@@ -974,7 +974,7 @@ function PrivateClick() {
 	// Main screens buttons
 	if (MouseIn(500, 0, 500, 1000) && !LogQuery("RentRoom", "PrivateRoom")) CharacterSetCurrent(Player);
 	if (MouseIn(1000, 0, 500, 1000) && !LogQuery("RentRoom", "PrivateRoom")) { NPCTraitDialog(PrivateVendor); CharacterSetCurrent(PrivateVendor); }
-	if (MouseIn(1885, PrivateButtonTop(0), 90, 90) && Player.CanWalk() && !Player.Cage && !CurrentCharacter) PrivateExit();
+	if (MouseIn(1885, PrivateButtonTop(0), 90, 90) && Player.CanWalk() && !Player.Cage) PrivateExit();
 	if (MouseIn(1885, PrivateButtonTop(1), 90, 90) && LogQuery("RentRoom", "PrivateRoom") && Player.CanKneel()) PoseSetActive(Player, Player.ActivePoseMapping.BodyLower !== "Kneel" ? "Kneel" : "BaseLower", true);
 	if (MouseIn(1885, PrivateButtonTop(2), 90, 90) && LogQuery("RentRoom", "PrivateRoom") && Player.CanWalk() && (!Player.Cage)) CharacterSetCurrent(PrivateVendor);
 	if (MouseIn(1885, PrivateButtonTop(3), 90, 90) && LogQuery("RentRoom", "PrivateRoom") && Player.CanChangeOwnClothes()) CharacterAppearanceLoadCharacter(Player);
@@ -2047,23 +2047,16 @@ function PrivateGetBed(Type) {
 	LogAdd(`Bed${Type}`, "PrivateRoom");
 }
 
-/** @type {ScreenFunctions["KeyDown"]} */
-function PrivateBedKeyDown(event) {
-	if (CommonEscPressed(event)) {
-		if (!CurrentCharacter) { PrivateExit(); }
-		return true;
-	}
-	return false;
-}
-
 /**
  * When the player exits the private room
  * @type {ScreenFunctions["Exit"]}
  */
 function PrivateExit() {
-	if (PrivateCharacter.length >= 2) ServerPrivateCharacterSync();
-	PrivateEntryEvent = true;
-	CommonSetScreen("Room", "MainHall");
+	if (!CurrentCharacter) {
+		if (PrivateCharacter.length >= 2) ServerPrivateCharacterSync();
+		PrivateEntryEvent = true;
+		CommonSetScreen("Room", "MainHall");
+	}
 }
 
 /**

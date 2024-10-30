@@ -499,7 +499,7 @@ var CraftingEventListeners = {
 		document.activeElement?.dispatchEvent(new Event("blur"));
 		Player.Crafting[CraftingSlot] = CraftingConvertSelectedToItem();
 		CraftingSaveServer();
-		CraftingExit();
+		CraftingExit(false);
 	},
 
 	/**
@@ -507,7 +507,7 @@ var CraftingEventListeners = {
 	 * @type {(this: HTMLButtonElement, ev: Event) => void}
 	 */
 	_ClickExit: function _ClickExit() {
-		CraftingExit();
+		CraftingExit(false);
 	},
 
 	/**
@@ -1857,23 +1857,12 @@ function CraftingExitResetElements() {
 	document.querySelector(`#${CraftingID.leftPanel} > [aria-checked='true']`)?.dispatchEvent(new Event("click"));
 }
 
-/** @type {ScreenFunctions["KeyDown"]} */
-function CraftingKeyDown(event) {
-	if (CommonEscPressed(event)) {
-		const activePanel = document.querySelector(`#${CraftingID.leftPanel} > [aria-checked='true']`);
-		if (CraftingMode === "Name" && activePanel) {
-			activePanel.dispatchEvent(new Event("click"));
-			return true;
-		}
-	}
-	return false;
-}
-
 /**
  * When the player exits the crafting room
- * @type {ScreenFunctions["Exit"]}
+ * @satisfies {ScreenFunctions["Exit"]}
+ * @param {boolean} allowPanelClose - Whether an exit call in the `Name` mode is allowed to close the side panels before performing a proper exit of the subscreen
  */
-function CraftingExit() {
+function CraftingExit(allowPanelClose=true) {
 	// Return to the `Name` sub-screen, if already there move to the `Slot` sub-screen and if already there exit the crafting screen
 	switch (CraftingMode) {
 		case "OverridePriority":
@@ -1885,12 +1874,18 @@ function CraftingExit() {
 		case "Extended":
 			DialogLeaveFocusItem();
 			return;
-		case "Name":
-			CraftingExitResetElements();
-			CraftingUnload();
-			CraftingModeSet("Slot");
-			CraftingSelectedItem = null;
+		case "Name": {
+			const activePanel = document.querySelector(`#${CraftingID.leftPanel} > [aria-checked='true']`);
+			if (activePanel && allowPanelClose) {
+				activePanel.dispatchEvent(new Event("click"));
+			} else {
+				CraftingExitResetElements();
+				CraftingUnload();
+				CraftingModeSet("Slot");
+				CraftingSelectedItem = null;
+			}
 			return;
+		}
 		case "Slot": {
 			ElementRemove(CraftingID.root);
 			CharacterDelete(CraftingPreview);

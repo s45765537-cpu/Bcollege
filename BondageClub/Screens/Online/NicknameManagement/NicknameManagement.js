@@ -38,31 +38,25 @@ function NicknameManagementRun() {
  * @returns {void} - Nothing
  */
 function NicknameManagementClick() {
-	if (MouseIn(1725, 60, 90, 90)) {
-		NicknameManagementSave();
-		NicknameManagementExit();
-	} else if (MouseIn(1830, 60, 90, 90)) {
-		NicknameManagementExit();
-	} else if (MouseIn(1000, 750, 64, 64)) {
-		NicknameManagementLock = !NicknameManagementLock;
-	}
-}
-
-/** Save the currently specified nickname */
-function NicknameManagementSave() {
-	const NewNickname = ElementValue("InputNickname");
-	if (NewNickname != NicknameManagementTarget.Nickname) {
-		NicknameManagementTarget.Nickname = NewNickname;
-		ServerSend("ChatRoomChat", { Content: "OwnerRuleNicknameNew" + NewNickname, Type: "Hidden", Target: NicknameManagementTarget.MemberNumber });
-	}
-	ServerSend("ChatRoomChat", { Content: "OwnerRuleNickname" + (NicknameManagementLock ? "Block" : "Allow"), Type: "Hidden", Target: NicknameManagementTarget.MemberNumber });
+	if (MouseIn(1725, 60, 90, 90)) NicknameManagementExit(true);
+	if (MouseIn(1830, 60, 90, 90)) NicknameManagementExit();
+	if (MouseIn(1000, 750, 64, 64)) NicknameManagementLock = !NicknameManagementLock;
 }
 
 /**
  * Handles exiting from the screen, updates the sub rules
- * @type {ScreenFunctions["Exit"]}
+ * @satisfies {ScreenFunctions["Exit"]}
+ * @param {boolean} Save - Received rule data object.
  */
-function NicknameManagementExit() {
+function NicknameManagementExit(Save = false) {
+	let NewNickname = ElementValue("InputNickname");
 	ElementRemove("InputNickname");
 	CommonSetScreen("Online", "ChatRoom");
+	if (Save) {
+		if (NewNickname != NicknameManagementTarget.Nickname) {
+			NicknameManagementTarget.Nickname = NewNickname;
+			ServerSend("ChatRoomChat", { Content: "OwnerRuleNicknameNew" + NewNickname, Type: "Hidden", Target: NicknameManagementTarget.MemberNumber });
+		}
+		ServerSend("ChatRoomChat", { Content: "OwnerRuleNickname" + (NicknameManagementLock ? "Block" : "Allow"), Type: "Hidden", Target: NicknameManagementTarget.MemberNumber });
+	}
 }

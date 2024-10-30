@@ -1563,23 +1563,3 @@ function CommonVariableContainer(defaults, extraVars=null, resetCallbacks=null) 
 	ret.Reset();
 	return ret;
 }
-
-/**
- * Return whether the passed key press is triggered by an Esc press that would normally result in an `...Exit()` call.
- * @param {KeyboardEvent} event
- * @returns {boolean}
- * @see {@link GameKeyDown}
- */
-function CommonEscPressed(event) {
-	// Treat Esc presses as invalid if an element is focused, as `GameKeyDown()` will first unfocus them rather than calling `...Exit()`
-	const elementIsFocused = (
-		document.activeElement
-		&& !(document.activeElement === document.body || document.activeElement.id === "MainCanvas")
-	);
-
-	return (
-		event.key == "Escape"
-		&& !(event.shiftKey || event.altKey || event.metaKey || event.ctrlKey)
-		&& !elementIsFocused
-	);
-}

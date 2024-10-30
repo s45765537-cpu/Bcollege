@@ -961,21 +961,12 @@ function WheelFortuneResult() {
 					O.Script();
 }
 
-/** @type {ScreenFunctions["KeyDown"]} */
-function WheelFortuneKeyDown(event) {
-	if (CommonEscPressed(event)) {
-		if (WheelFortuneVelocity == 0 && !WheelFortuneForced) { WheelFortuneExit(); }
-		return true;
-	}
-	return false;
-}
-
 /**
  * When the mini exits
  * @returns {void} - Nothing
  */
 function WheelFortuneExit() {
-	if (WheelFortuneEntryModule) {
+	if (WheelFortuneVelocity == 0 && !WheelFortuneForced && WheelFortuneEntryModule) {
 		CommonSetScreen(WheelFortuneEntryModule, WheelFortuneEntryScreen);
 	}
 }
