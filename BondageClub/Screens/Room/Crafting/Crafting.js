@@ -231,7 +231,7 @@ var CraftingDescription = {
 				const id = char.charCodeAt(0);
 				const bit1 = Math.floor(id / 256);
 				const bit2 = id - bit1 * 256;
-				return [String.fromCharCode(bit1), String.fromCharCode(bit2)];
+				return [bit1, bit2].filter(Boolean).map(i => String.fromCharCode(i));
 			}).join("");
 		} else {
 			return description.slice(0, 200);
