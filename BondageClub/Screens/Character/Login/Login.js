@@ -7,10 +7,10 @@ var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
-	"Abysseia", "Aceffect", "ArashiSama", "Aylea", "BlueWinter", "Bryce", "Canti", "Christian", 
-	"Cm382714", "Desch", "Domenico", "Dynilath", "Edwin", "Glurak", "Greendragon", "John", 
-	"Laurie", "Lyall", "Marashu", "Michel", "Mindtie", "Misa", "Nightcore", "Robin", 
-	"Setsu", "SlitheryCandy", "Soulcollar", "Sticks", "Sunny", "Tam", "Tarram", "Thkdt", 
+	"Abysseia", "Aceffect", "ArashiSama", "Aylea", "BlueWinter", "Bryce", "Canti", "Christian",
+	"Cm382714", "Desch", "Domenico", "Dynilath", "Edwin", "Glurak", "Greendragon", "John",
+	"Laurie", "Lyall", "Marashu", "Michel", "Mindtie", "Misa", "Nightcore", "Robin",
+	"Setsu", "SlitheryCandy", "Soulcollar", "Sticks", "Sunny", "Tam", "Tarram", "Thkdt",
 	"TonyBoy", "Troubadix", "Troy", "WhiteSniper", "XDWolfie", "Xepherio"
 ];
 
@@ -1107,7 +1107,7 @@ function LoginGetMessageKey() {
 
 /**
  * Exit function - called when leaving the login page
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["Exit"]}
  */
 function LoginExit() {
 	if (LoginTextCacheUnsubscribeCallback) {

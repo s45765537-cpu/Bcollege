@@ -177,9 +177,7 @@ function ColorPickerPickOpacity(Event) {
 			ItemColorItem.Property.Opacity = O;
 		} else {
 			if (!CommonIsArray(ItemColorItem.Property.Opacity) || (ItemColorItem.Property.Opacity.length != ItemColorItem.Asset.Layer.length)) {
-				ItemColorItem.Property.Opacity = [];
-				for (let Layer of ItemColorItem.Asset.Layer)
-					ItemColorItem.Property.Opacity.push(1);
+				ItemColorItem.Property.Opacity = Array(ItemColorItem.Asset.Layer.length).fill(1);
 			}
 			if (CommonIsArray(ItemColorPickerIndices))
 				for (let I of ItemColorPickerIndices)
