@@ -35,7 +35,7 @@ SourceCharacter использует веревку на TargetCharacter, что
 SourceCharacter uses rope to tie DestinationCharacter arms to the bedposts.
 SourceCharacter использует веревку, чтобы привязать руки DestinationCharacter к столбикам кровати.
 SourceCharacter uses rope on TargetCharacter to do a box tie.
-SourceCharacter использует веревку на TargetCharacter, чтобы сделать корбочное связывание.
+SourceCharacter использует веревку на TargetCharacter, чтобы сделать коробочное связывание.
 SourceCharacter uses rope on TargetCharacter to do a crossed boxtie.
 SourceCharacter использует веревку на TargetCharacter, чтобы сделать перекрещенную коробочную обвязку.
 SourceCharacter uses rope to hogtie TargetCharacter.
@@ -611,6 +611,12 @@ Zam's Stick Art
 Художественный арт
 Eclipse
 Затмение
+Cesium Frog
+Цезиевая лягушка
+Zam's Stick ArtII
+Искусство ЗамаII
+Hornyhood
+Возбуждеград
 BTG
 BTG
 Dominant
@@ -659,7 +665,7 @@ SourceCharacter switches to DestinationCharacterName AssetName to a crop top.
 SourceCharacter изменяет DestinationCharacterName AssetName на укороченный верх.
 
 SourceCharacter ties the cloth into a cleave gag over DestinationCharacter mouth.
-SourceCharacter засовывает полоску тани в качестве кляра в DestinationCharacter рот.
+SourceCharacter засовывает полоску тани в качестве кляпа в DestinationCharacter рот.
 SourceCharacter ties the cloth into a knot over DestinationCharacter mouth.
 SourceCharacter завязывает ткань узлом над DestinationCharacter ртом.
 SourceCharacter ties the cloth into a large gag over DestinationCharacter mouth.
@@ -1928,7 +1934,7 @@ DestinationCharacterName AssetName возвращается к умеренно�
 DestinationCharacterName AssetName slows down a tiny bit.
 DestinationCharacterName AssetName немного замедляется.
 SourceCharacter inflates DestinationCharacter AssetName only slightly.
-SourceCharacter слегка надуывет DestinationCharacter AssetName.
+SourceCharacter слегка надувет DestinationCharacter AssetName.
 SourceCharacter inflates DestinationCharacter AssetName till it's half full.
 SourceCharacter надувает наполовину DestinationCharacter AssetName.
 SourceCharacter inflates DestinationCharacter AssetName till three quarters filled.
@@ -2265,13 +2271,13 @@ Select suit type
 Выберите тип костюма
 
 SourceCharacter attaches the Ornate cuffs wrist and elbow chains behind DestinationCharacter back.
-SourceCharacter прикрепляет цепочку с изысканным манжетам на запястьях и локтях за спиной DestinationCharacter.
+SourceCharacter прикрепляет цепочку к изысканным манжетам на запястьях и локтях за спиной DestinationCharacter.
 SourceCharacter attaches the Ornate cuffs elbow chain behind DestinationCharacter back.
 SourceCharacter прикрепляет цепочку к изысканным манжетам на локтях за спиной DestinationCharacter.
 SourceCharacter attaches the Ornate cuffs wrist and elbow chains behind DestinationCharacter back and connects the wrist and ankle cuffs.
-SourceCharacter прикрепляет цепочку с изысканным манжетам на запястьях и локтях за спиной DestinationCharacter и соединяет вместе манжеты на запястьях и лодыжках.
+SourceCharacter прикрепляет цепочку к изысканным манжетам на запястьях и локтях за спиной DestinationCharacter и соединяет вместе манжеты на запястьях и лодыжках.
 SourceCharacter detaches the chain from DestinationCharacter Ornate cuffs.
-SourceCharacter отсоединяет цепочку от мзысканных манже DestinationCharacterт.
+SourceCharacter отсоединяет цепочку от мзысканных манжет DestinationCharacterт.
 SourceCharacter attaches the Ornate cuffs wrist chain behind DestinationCharacter back.
 SourceCharacter прикрепляет цепочку к изысканным манжетам на запястьях за спиной DestinationCharacter.
 
@@ -6799,7 +6805,7 @@ SourceCharacter подымается на ноги
 SourceCharacter tries to stand up but loses PronounPossessive balance and falls!
 SourceCharacter пытается встать, но теряет равновесие и падает!
 SourceCharacter manages to get to PronounPossessive feet.
-SourceCharacter удается добраться до PronounPossessivet.
+SourceCharacter удается добраться до PronounPossessive.
 SourceCharacter releases the leash of TargetCharacter.
 SourceCharacter отпускает поводок TargetCharacter.
 
@@ -7599,3 +7605,79 @@ Lower straps menu
 Меню нижних ремешков
 Lower straps placed
 Нижние ремешки
+
+Select Nose Type
+Выберите тип носа
+Button Nose
+Нос-пуговица
+Elegant Feline Nose
+Элегантный кошачий нос
+Large Canine Nose
+Большой собачий нос
+
+Select Mask Type
+Выберите тип маски
+Glowing Eyes
+Светящиеся глаза
+
+Select Mark
+Выберите отметину
+Left Lip
+Левая губа
+Right Lip
+Правая губа
+Left Under eye
+Слева под глазом
+Right Under eye
+Справа под глазом
+Left Cheek Cross
+Крест на левой щеке
+Right Cheek Cross
+Крест на правой щеке
+Vertical
+Вертикальный
+
+Finish
+Отделка
+Select Hood Finish
+Выберите отделку капюшона
+SourceCharacter adjusts the shine of DestinationCharacter ball hood.
+SourceCharacter регулирует блеск DestinationCharacter капюшона-шара.
+Select Pattern
+Выберите узор
+Pumpkin
+Тыква
+Smiley Lines
+Смайлик линии
+Smiley Filled
+Смайлик заполнен
+8 Ball
+8 шар
+SourceCharacter changes the pattern on DestinationCharacter ball hood.
+SourceCharacter изменяет рисунок на DestinationCharacter капюшоне-шаре.
+Cover All
+Охватить все
+Cover Limited
+Охватить ограничено
+Cover Hair Only
+Охватить только волосы
+SourceCharacter adjusts the coverage of DestinationCharacter ball hood.
+SourceCharacter регулирует охват DestinationCharacter капюшона-шара.
+
+Select Horn
+Выберите рога
+Left Horn
+Левый рог
+Right Horn
+Правый рог
+Select Size
+Выберите размер
+
+Select the state
+Выберите состояние
+Spread
+Расправленные
+Folded
+Сложенные
+Bound
+Связанные
