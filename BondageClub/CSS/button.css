@@ -32,6 +32,7 @@
 }
 
 .button-tooltip {
+	cursor: auto;
 	user-select: none;
 	background-color: #FFFF88;
 	color: black;
@@ -171,15 +172,15 @@
 
 /* Keep hover-related styling on mobile disabled as it has a tendency to stick even after the click has ended */
 @media (hover: hover) {
-	.button-styling:hover {
+	.button-styling:hover:not(:has(.button-tooltip:hover)) {
 		background-color: var(--hover-color);
 	}
 
-	.button-styling:hover > .button-label {
+	.button-styling:hover:not(:has(.button-tooltip:hover)) > .button-label {
 		background-color: color-mix(in srgb, var(--hover-color) 50%, transparent);
 	}
 
-	.button:hover > .button-tooltip {
+	.button:hover:not(:has(.button-tooltip:hover)) > .button-tooltip {
 		visibility: visible;
 	}
 }
