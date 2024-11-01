@@ -163,7 +163,6 @@ function GameMagicBattleClickProcess() {
 		if (Time >= 6)
 			for (let B = 0; B < GameMagicBattleButton.length; B++)
 				if (MouseIn(GameMagicBattleButton[B].X, GameMagicBattleButton[B].Y, GameMagicBattleButton[B].W, GameMagicBattleButton[B].H)) {
-					ChatRoomHideElements();
 					MagicPuzzleSpell = MagicBattleAvailSpell[B];
 					MagicPuzzleAutoExit = true;
 					MagicPuzzleBackground = ChatRoomData.Background;
