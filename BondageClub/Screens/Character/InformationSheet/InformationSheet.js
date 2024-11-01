@@ -262,7 +262,7 @@ function InformationSheetClick() {
 
 /**
  * Cleanup all elements, if the user exits the screen
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["Exit"]}
  */
 function InformationSheetExit() {
 	InformationSheetSecondScreen = false;

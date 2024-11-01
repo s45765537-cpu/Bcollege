@@ -437,8 +437,6 @@ function CommonCallFunctionByNameWarn(FunctionName/*, ...args */) {
  * @returns {void} - Nothing
  */
 function CommonSetScreen(NewModule, NewScreen) {
-	const prevScreen = CurrentScreen;
-
 	if (CurrentScreenFunctions && CurrentScreenFunctions.Unload) {
 		CurrentScreenFunctions.Unload();
 	}
@@ -486,9 +484,6 @@ function CommonSetScreen(NewModule, NewScreen) {
 	if (CurrentScreenFunctions.Resize) {
 		CurrentScreenFunctions.Resize(true);
 	}
-
-	if (prevScreen == "ChatSearch" || prevScreen == "ChatCreate")
-		ChatRoomStimulationMessage("Walk");
 }
 
 /**

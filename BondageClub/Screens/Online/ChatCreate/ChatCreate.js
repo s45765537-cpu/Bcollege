@@ -25,7 +25,7 @@ var ChatCreateLanguageList = ["EN", "DE", "FR", "ES", "CN", "RU", "UA"];
 
 /**
  * Loads the chat creation screen properties and creates the inputs
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["Load"]}
  */
 function ChatCreateLoad() {
 
@@ -74,9 +74,14 @@ function ChatCreateLoad() {
 	TextPrefetch("Online", "ChatBlockItem");
 }
 
+/** @type {ScreenFunctions["Unload"]} */
+function ChatCreateUnload() {
+	ChatRoomStimulationMessage("Walk");
+}
+
 /**
  * When the chat creation screen runs, draws the screen
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["Run"]}
  */
 function ChatCreateRun() {
 
@@ -137,7 +142,7 @@ function ChatCreateRun() {
 
 /**
  * Handles the click events on the chat creation screen. Is called from CommonClick()
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["Click"]}
  */
 function ChatCreateClick() {
 
@@ -226,7 +231,7 @@ function ChatCreateKeyDown(event) {
 
 /**
  * Handles exiting from the chat creation screen, removes the inputs and resets the state of the variable
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["Exit"]}
  */
 function ChatCreateExit() {
 	ChatCreatePrivate = null;

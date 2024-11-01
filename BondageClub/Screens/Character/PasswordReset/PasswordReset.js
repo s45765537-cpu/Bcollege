@@ -113,7 +113,7 @@ function PasswordResetClick() {
 
 /**
  * Sends the player back to the login screen
- * @returns {void} Nothing
+ * @type {ScreenFunctions["Exit"]}
  */
 function PasswordResetExit() {
 	ElementRemove("InputEmail");

@@ -103,7 +103,7 @@ function RelogSend() {
 
 /**
  * Sends the player back to the main login screen
- * @returns {void} Nothing
+ * @type {ScreenFunctions["Exit"]}
  */
 function RelogExit() {
 	// eslint-disable-next-line no-self-assign

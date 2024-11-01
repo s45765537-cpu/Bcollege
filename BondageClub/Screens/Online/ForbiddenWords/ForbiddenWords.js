@@ -110,7 +110,7 @@ function ForbiddenWordsClick() {
 
 /**
  * Handles exiting from the screen, updates the sub rules
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["Exit"]}
  */
 function ForbiddenWordsExit() {
 	ElementRemove("InputWord");

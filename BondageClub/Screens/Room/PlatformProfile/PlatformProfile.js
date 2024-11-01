@@ -245,7 +245,7 @@ function PlatformProfileClick() {
 
 /**
  * When the screens exits, we unload the listeners
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["Exit"]}
  */
 function PlatformProfileExit() {
 	PlatformPartySave();

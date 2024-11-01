@@ -386,7 +386,7 @@ function GameLARPClick() {
 
 /**
  * Triggered when the player exits the LARP info screen.
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["Exit"]}
  */
 function GameLARPExit() {
 

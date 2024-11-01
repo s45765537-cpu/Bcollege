@@ -150,18 +150,18 @@ function BackgroundSelectionRun() {
 function BackgroundSelectionClick() {
 
 	// Exit by selecting or cancelling
-	if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 25) && (MouseY < 115)) BackgroundSelectionExit(true);
-	if ((MouseX >= 1785) && (MouseX < 1875) && (MouseY >= 25) && (MouseY < 115)) BackgroundSelectionExit(false);
+	if (MouseIn(1885, 25, 90, 90)) BackgroundSelectionExit(true);
+	if (MouseIn(1785, 25, 90, 90)) BackgroundSelectionExit(false);
 
 	// Set next offset backward
-	if ((MouseX >= 1585) && (MouseX < 1675) && (MouseY >= 25) && (MouseY < 115)) {
+	if (MouseIn(1585, 25, 90, 90)) {
 		BackgroundSelectionOffset -= BackgroundSelectionSize;
 		if (BackgroundSelectionOffset < 0)
 			BackgroundSelectionOffset = Math.max(0, Math.ceil(BackgroundSelectionView.length / BackgroundSelectionSize - 1)) * BackgroundSelectionSize;
 	}
 
 	// Set next offset forward
-	if ((MouseX >= 1685) && (MouseX < 1775) && (MouseY >= 25) && (MouseY < 115)) {
+	if (MouseIn(1685, 25, 90, 90)) {
 		BackgroundSelectionOffset += BackgroundSelectionSize;
 		if (BackgroundSelectionOffset >= BackgroundSelectionView.length) BackgroundSelectionOffset = 0;
 	}
@@ -169,7 +169,7 @@ function BackgroundSelectionClick() {
 	let X = 45;
 	let Y = 150;
 	for (let i = BackgroundSelectionOffset; i < BackgroundSelectionView.length && i - BackgroundSelectionOffset < BackgroundSelectionSize; ++i) {
-		if ((MouseX >= X) && (MouseX < X + 450) && (MouseY >= Y) && (MouseY < Y + 225)) {
+		if (MouseIn(X, Y, 450, 225)) {
 			BackgroundSelectionIndex = i;
 			if (BackgroundSelectionIndex >= BackgroundSelectionView.length) BackgroundSelectionIndex = 0;
 			if (BackgroundSelectionIndex < 0) BackgroundSelectionIndex = BackgroundSelectionView.length - 1;
@@ -202,10 +202,10 @@ function BackgroundSelectionKeyDown(event) {
 /**
  * Handles the exit of the selection screen. Sets the new background, if necessary, and
  * calls the previously defined callback function. Then exits the screen to the screen, the player was before
+ * @satisfies {ScreenFunctions["Exit"]}
  * @param {boolean} SetBackground - Defines, wether the background must be changed (true) or not (false)
- * @returns {void} - Nothing
  */
-function BackgroundSelectionExit(SetBackground) {
+function BackgroundSelectionExit(SetBackground=false) {
 	ElementRemove("InputBackground");
 	ElementRemove("TagDropDown");
 	if (SetBackground && BackgroundSelectionCallback) BackgroundSelectionCallback(BackgroundSelectionSelect);
