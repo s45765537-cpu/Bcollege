@@ -1597,6 +1597,9 @@ var ClubCardList = [
 			ClubCardPlayerDrawCard(CCPlayer, 5);
 			const opponent = ClubCardGetOpponent(CCPlayer);
 			while (opponent.Hand.length < 4) {
+				if (opponent.Deck.length < 1) {
+					break;
+				}
 				ClubCardPlayerDrawCard(opponent, 1);
 			}
 			ClubCardPlayerDrawCard(opponent, 1);
