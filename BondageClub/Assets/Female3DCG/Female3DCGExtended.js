@@ -1062,6 +1062,50 @@ var AssetFemale3DCGExtended = {
 			DrawImages: false,
 			Options: [{ Name: "Long" }, { Name: "Short" }],
 		},
+		HairFront62a: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Style",
+					Key: "Style",
+					Options: [{}, {}], // Glossy, Tame
+				},
+				{
+					Name: "Strands",
+					Key: "Strands",
+					Options: [{},{}], // Strands, No Strands
+				},
+				{
+					Name: "Extra",
+					Key: "Extra",
+					Options: [{},{},{}], // Braids, Extra, None
+				}
+			]
+		},
+		HairFront62b: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Style",
+					Key: "Style",
+					Options: [{}, {}], // Glossy, Tame
+				},
+				{
+					Name: "Strands",
+					Key: "Strands",
+					Options: [{},{}], // Strands, No Strands
+				},
+				{
+					Name: "Extra",
+					Key: "Extra",
+					Options: [{},{},{}], // Braids, Extra, None
+				}
+			]
+		},
 	},
 	HairBack: {
 		HairBack58: {
