@@ -130,7 +130,7 @@ Do you enjoy GGTS?
 你喜欢GGTS吗？
 ###_NPC
 (She nods rapidly.)  Yes, GGTS is perfect.  I'm such a good girl now.
-（她迅速点头。）是的，GGTS是完美的。我现在真是个好女孩。
+（她迅速点头。）是的，GGTS是完美的。我现在真是个乖女孩。
 ###_PLAYER
 Would you like to play Club Cards?
 你想玩俱乐部卡牌吗？

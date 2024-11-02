@@ -82,6 +82,8 @@ Womb Tattoos
 Татуировки Матки
 Body Writings
 Надписи на теле
+Face Scars
+Шрамы на лице
 Steampunk Corset
 Корсет стимпанк
 Leather Tight Corset
@@ -186,6 +188,12 @@ Student Scarf
 Студенческий Шарф
 Zipper Belt
 Пояс на молнии
+Small Neck Fur
+Маленький мех на шее
+Large Neck Fur
+Большой мех на шее
+Spiky Neck Fur
+Колючий мех на шее
 Student Bow 1
 студенческий бант 1
 Student Bow 2
@@ -939,6 +947,10 @@ Wolf Ears Big
 Уши волчьи большие
 Cybernetic Ears
 Кибернетические уши
+Oni Horns
+Рога Они
+Skunk Ears
+Уши скунса
 Fox Ears Large
 Уши лисы большие
 Fox Ears Bell
@@ -1065,6 +1077,16 @@ Mask
 Маска
 Venetian Mask
 Венецианская маска
+Angel Mask
+Маска ангела
+Animal Nose
+Нос животного
+Demon Mask
+Маска демона
+Eldritch Mask
+Жуткая маска
+Necromancer Helmet
+Шлем некроманта
 Domino Mask
 Маска Домино
 Butterfly Mask
@@ -1139,6 +1161,10 @@ Wolf Small Tail Strap
 Ремешок с маленьким хвостом волка
 Wolf White Tail Strap
 Ремешок с белым хвостом волка
+Latex Fox Tail
+Латексный лисий хвост
+Skunk Tail
+Хвост скунса
 Demon Tail
 Хвост Демона
 Mouse Tail Strap 1
@@ -1162,7 +1188,7 @@ Succubus Feather
 Succubus Wings
 Крылья Суккуба
 Dragon Wings
-Dragon Wings
+Крылья Дракона
 Angel Feather
 Оперение Ангела
 Devil Wings
@@ -2765,6 +2791,8 @@ Latex Habit Hood
 Латексный верх рясы
 Cow Hood
 Капюшон коровы
+Custom Ball Hood
+Настраеваемый капюшон-шар
 One-Way Glass Head Box
 Одностороннея стеклянная коробка
 Kitty Hood

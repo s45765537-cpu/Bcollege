@@ -628,7 +628,7 @@ What's next?
 下一步是什么？
 ###_NPC
 Good girls need to wear their gags.
-好女孩需要戴上口塞。
+乖女孩需要戴上口塞。
 ###_PLAYER
 (Scream and moan) This isn't fair!
 （尖叫并呻吟这）这不公平！

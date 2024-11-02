@@ -134,6 +134,12 @@
   background-color: var(--hover-color);
 }
 
+#chat-room-buttons-collapse:disabled {
+  cursor: auto;
+  background-color: unset;
+  color: var(--disabled-color);
+}
+
 #chat-room-buttons {
   grid-area: chat-buttons;
   display: grid;

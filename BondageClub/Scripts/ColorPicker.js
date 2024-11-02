@@ -97,7 +97,11 @@ function ColorPickerStartPick(Event) {
 	var X = C.X;
 	var Y = C.Y;
 	if (X >= ColorPickerX && X < ColorPickerX + ColorPickerWidth) {
-		if (Y >= ColorPickerY && Y < ColorPickerY + ColorPickerHueBarHeight) {
+		if (ItemColorState.editOpacity && MouseIn(1201, 72, 218, 48)) {
+			document.addEventListener("mousemove", ColorPickerPickOpacity);
+			document.addEventListener("touchmove", ColorPickerPickOpacity);
+			ColorPickerPickOpacity(Event);
+		} else if (Y >= ColorPickerY && Y < ColorPickerY + ColorPickerHueBarHeight) {
 			document.addEventListener("mousemove", ColorPickerPickHue);
 			document.addEventListener("touchmove", ColorPickerPickHue);
 			ColorPickerPickHue(Event);
@@ -128,10 +132,12 @@ function ColorPickerStartPick(Event) {
  * @returns {void} - Nothing
  */
 function ColorPickerEndPick() {
+	document.removeEventListener("mousemove", ColorPickerPickOpacity);
 	document.removeEventListener("mousemove", ColorPickerPickHue);
 	document.removeEventListener("mousemove", ColorPickerPickSV);
 	document.removeEventListener("mouseup", ColorPickerEndPick);
 
+	document.removeEventListener("touchmove", ColorPickerPickOpacity);
 	document.removeEventListener("touchmove", ColorPickerPickHue);
 	document.removeEventListener("touchmove", ColorPickerPickSV);
 	document.removeEventListener("touchend", ColorPickerEndPick);
@@ -154,6 +160,31 @@ function ColorPickerGetCoordinates(Event) {
 	}
 
 	return { X: MouseX, Y: MouseY };
+}
+
+/**
+ * Sets the picked hue based on the Event coordinates on the canvas
+ * @param {MouseEvent|TouchEvent} Event - The touch/mouse event
+ * @returns {void} - Nothing
+ */
+function ColorPickerPickOpacity(Event) {
+	if ((ItemColorState.editOpacity) && MouseIn(1190 - 50, 65 - 50, 240 + 100, 60 + 100)) {
+		if (ItemColorItem.Property == null) ItemColorItem.Property = {};
+		let O = 1 - ((MouseX - 1210) / 200);
+		if (O < 0) O = 0;
+		if (O > 1) O = 1;
+		if ((ItemColorItem.Asset == null) || !CommonIsArray(ItemColorItem.Asset.Layer) || (ItemColorItem.Asset.Layer.length <= 1)) {
+			ItemColorItem.Property.Opacity = O;
+		} else {
+			if (!CommonIsArray(ItemColorItem.Property.Opacity) || (ItemColorItem.Property.Opacity.length != ItemColorItem.Asset.Layer.length)) {
+				ItemColorItem.Property.Opacity = Array(ItemColorItem.Asset.Layer.length).fill(1);
+			}
+			if (CommonIsArray(ItemColorPickerIndices))
+				for (let I of ItemColorPickerIndices)
+					ItemColorItem.Property.Opacity[I] = O;
+		}
+		CharacterRefresh(Player, false, false);
+	}
 }
 
 /**

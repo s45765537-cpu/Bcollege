@@ -218,6 +218,30 @@ Select Tattoos
 选择纹身
 Apply
 应用
+Forehead
+额头
+Left Lip
+左嘴唇
+Right Lip
+右嘴唇
+Left Under eye
+左眼下
+Right Under eye
+右眼下
+Left Cheek Cross
+左脸颊十字
+Right Cheek Cross
+右脸颊十字
+Left Eye
+右眼
+Right Eye
+左眼
+Nose
+鼻子
+Vertical
+垂直
+Select Mark
+选择标记
 Default
 默认
 Select body overlay.
@@ -558,8 +582,6 @@ Neck Left
 左侧脖子
 Right Cheek
 右脸颊
-Forehead
-额头
 Neck Right
 右侧脖子
 Choose Lipstick Marks
@@ -1425,11 +1447,11 @@ Gag configuration:
 [GGTS] GGTS inactive for SourceCharacter.  Three strikes recorded.  Report GGTS for punishment.
 [GGTS] SourceCharacter的GGTS已禁用。三次记过记录在案。去向GGTS汇报并接受惩罚。
 [GGTS] Launching GGTS private room.  Time counts triple.  GGTS more active.  Good girl follow commands.  Three strikes equal punishment.  GGTS in control.  Be good girl SourceCharacter.
-[GGTS] GGTS私人训练启动中。私人房间3倍速。GGTS发令更频繁。好姑娘服从指令。三次记过等于惩罚。GGTS已介入。SourceCharacter，做个好姑娘。
+[GGTS] GGTS私人训练启动中。私人房间3倍速。GGTS发令更频繁。乖女孩服从指令。三次记过等于惩罚。GGTS已介入。SourceCharacter，做个乖女孩。
 [GGTS] Launching GGTS private room.  Time counts triple.  GGTS more active.  Good slave follow commands.  Strike remove sixty minutes.  Master GGTS in control.  Be good slave SourceCharacter.
-[GGTS] GGTS私人训练启动中。私人房间3倍速。GGTS发令更频繁。好女奴服从指令。记过将减去60 GGTS分钟。GGTS主人已介入，SourceCharacter，做个好女奴。
+[GGTS] GGTS私人训练启动中。私人房间3倍速。GGTS发令更频繁。乖奴隶服从指令。记过将减去60 GGTS分钟。GGTS主人已介入，SourceCharacter，做个乖奴隶。
 [GGTS] GGTS control public room.  Be good girl SourceCharacter.
-[GGTS] 该公开房间由GGTS控制。SourceCharacter，做个好姑娘。
+[GGTS] 该公开房间由GGTS控制。SourceCharacter，做个乖女孩。
 [GGTS] SourceCharacter broke pose rule.  Strike recorded.  Sixty minutes removed.
 [GGTS] SourceCharacter未服从姿势保持命令。记一次过。减去60 GGTS分钟。
 [GGTS] SourceCharacter broke pose rule.  Strike one recorded.  Three strikes equal punishment.
@@ -1439,9 +1461,9 @@ Gag configuration:
 [GGTS] SourceCharacter broke pose rule.  Strike three recorded.  Level failed.  Report GGTS for punishment.
 [GGTS] SourceCharacter未服从姿势保持命令。第三次记过。三次记过等于惩罚。
 [GGTS] Good girl do not administrate locked room.
-[GGTS] 好姑娘不可以管理上锁房间。
+[GGTS] 乖女孩不可以管理上锁房间。
 [GGTS] Good girl do not administrate room.
-[GGTS] 好姑娘不可以管理房间。
+[GGTS] 乖女孩不可以管理房间。
 [GGTS] SourceCharacter broke orgasm rule.  Strike recorded.  Sixty minutes removed.
 [GGTS] SourceCharacter未服从高潮禁止命令。记一次过。减去60 GGTS分钟。
 [GGTS] SourceCharacter broke orgasm rule.  Strike one recorded.  Three strikes equal punishment.
@@ -1509,11 +1531,11 @@ Gag configuration:
 [GGTS] SourceCharacter.  Dress with clothes.
 [GGTS] SourceCharacter.  穿上衣服。
 [GGTS] Good girl SourceCharacter.
-[GGTS] 好姑娘，SourceCharacter.
+[GGTS] 乖女孩，SourceCharacter.
 [GGTS] Good slave SourceCharacter.
-[GGTS] 好女奴，SourceCharacter.
+[GGTS] 乖奴隶，SourceCharacter.
 [GGTS] Good slave girl SourceCharacter.
-[GGTS] 好女奴，SourceCharacter.
+[GGTS] 乖女奴，SourceCharacter.
 [GGTS] SourceCharacter.  Wear futuristic arms, legs and ankles cuffs.
 [GGTS] SourceCharacter.  给自己穿戴未来臂铐，腿铐和脚铐。
 [GGTS] SourceCharacter.  Use futuristic arms, legs and ankles cuffs on TargetCharacter.
@@ -1639,7 +1661,7 @@ Gag configuration:
 [GGTS] SourceCharacter, you love Master GGTS?
 [GGTS] SourceCharacter, 英文回答你喜欢GGTS主人么？ you love Master GGTS?
 [GGTS] SourceCharacter, who you serve and obey?
-[GGTS] SourceCharacter, 英文回答你服务和效忠与谁？ who you serve and obey?
+[GGTS] SourceCharacter, 英文回答你服从于谁？ who you serve and obey?
 [GGTS] SourceCharacter, are you slave worthy?
 [GGTS] SourceCharacter, 英文回答你配得上做我的奴隶么？ are you slave worthy?
 [GGTS] SourceCharacter, you surrender to GGTS?
@@ -1706,6 +1728,18 @@ SourceCharacter shatters DestinationCharacter AssetName
 SourceCharacter打碎了DestinationCharacterAssetName。
 SourceCharacter mends DestinationCharacter AssetName
 SourceCharacter修好了DestinationCharacterAssetName。
+Left Horn
+左侧角
+Right Horn
+右侧角
+Short
+短
+Long
+长
+Select Horn
+选择角
+Select Size
+选择尺寸
 Select Type.
 选择类型
 SourceCharacter changes DestinationCharacter hair.
@@ -3514,10 +3548,6 @@ SourceCharacter uses some ribbons on DestinationCharacter face.
 SourceCharacter在DestinationCharacter脸上缠了一些丝带。
 SourceCharacter uses some more ribbons on DestinationCharacter face.
 SourceCharacter在DestinationCharacter脸上缠了更多的丝带。
-Left Eye
-右眼
-Right Eye
-左眼
 Straight
 直绣
 Zig Zag
@@ -3564,6 +3594,32 @@ SourceCharacter creates a blindfold out of web for TargetCharacter
 SourceCharacter用网给TargetCharacter织了一副眼罩
 SourceCharacter creates a cocoon out of web for TargetCharacter
 SourceCharacter把TargetCharacter的头完全裹在了茧里
+Finish
+Finish
+Pumpkin
+南瓜
+Smiley Lines
+笑脸线条
+Smiley Filled
+笑脸填充
+8 Ball
+8球
+Cover All
+覆盖全部
+Cover Limited
+覆盖部分
+Cover Hair Only
+只覆盖头发
+Select Hood Finish
+选择头套光泽
+Select Pattern
+选择图案
+SourceCharacter adjusts the shine of DestinationCharacter ball hood.
+SourceCharacter调整了DestinationCharacter球形头套的光泽。
+SourceCharacter changes the pattern on DestinationCharacter ball hood.
+SourceCharacter改变了DestinationCharacter球形头套的图案。
+SourceCharacter adjusts the coverage of DestinationCharacter ball hood.
+SourceCharacter调整了DestinationCharacter球形头套的覆盖程度。
 Eye Panel Fill
 眼睛遮罩填充
 Eye Panel
@@ -3729,7 +3785,7 @@ All Hidden
 SourceCharacter adjusts the visibility of gags and blindfolds on DestinationCharacter smooth latex mask.
 SourceCharacter调整了DestinationCharacter平滑乳胶面具上口塞和眼罩的可见性。
 Good Girl
-好女孩
+乖女孩
 Good Slave Girl
 乖女奴
 Perfect Girl
@@ -5530,8 +5586,6 @@ Left Ear
 左耳
 Face
 面部
-Nose
-鼻子
 Stud
 耳钉
 Cartilage
@@ -5814,6 +5868,18 @@ Select Nose
 选择鼻子
 Select Whiskers
 选择胡须
+Select Nose Type
+选择鼻子类型
+Button Nose
+小鼻子
+Elegant Feline Nose
+优雅猫鼻
+Large Canine Nose
+大狗鼻
+Select Mask Type
+选择面具类型
+Glowing Eyes
+发光眼睛
 SourceCharacter cuffs DestinationCharacter hands behind TargetPronounPossessive back.
 SourceCharacter把DestinationCharacter双手铐在了他的身后。
 SourceCharacter cuffs DestinationCharacter hands in-front of TargetPronounPossessive body.
@@ -5894,12 +5960,8 @@ Loops
 圈圈
 Select the design
 选择样式
-Long
-长
 Select the rope length
 选择绳子长度
-Short
-短
 DestinationCharacterName vibrating eggs on TargetPronounPossessive nipples stop vibrating.
 DestinationCharacterName乳头上的跳蛋停止振动。
 DestinationCharacterName vibrating eggs on TargetPronounPossessive nipples slow down into a light tease.
@@ -7254,3 +7316,5 @@ No Band
 无带子
 Select Hair Type.
 选择头发类型。
+Short
+短

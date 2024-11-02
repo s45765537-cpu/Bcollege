@@ -27,8 +27,8 @@ function ElementValue(ID, Value) {
  * @param {number} [timeout] - The timeout in ms
  * @returns {number} - The timeout ID as returned by {@link setTimeout}
  */
-function ElementClickTimeout(root, query=null, timeout=100) {
-	query ??= "button,a,[role='button'],[role='link']";
+function ElementClickTimeout(root, query=null, timeout=250) {
+	query ??= "button,a,input,select,radio,[role='button'],[role='link']";
 	const elemClickable = /** @type {HTMLElement[]} */(Array.from(root.querySelectorAll(query)));
 	const elemDisabledStates = elemClickable.map(e => /** @type {const} */([e, e.getAttribute("disabled"), e.getAttribute("aria-disabled")]));
 	elemDisabledStates.forEach(([e, disabled, ariaDisabled]) => {
@@ -881,14 +881,33 @@ var ElementButton = {
 	_Click: function _Click(ev) {
 		if (this.getAttribute("aria-disabled") === "true") {
 			ev.stopImmediatePropagation();
+		} else if (ev.target instanceof Element && ev.target.classList.contains("button-tooltip")) {
+			ev.stopImmediatePropagation();
 		}
 	},
 
 	/**
 	 * @private
-	 * @type {(this: HTMLButtonElement) => void}
+	 * @type {(this: HTMLButtonElement, ev: Event) => void}
 	 */
-	_MouseUp: function _MouseUp() {
+	_MouseDown: function _MouseDown(ev) {
+		// Prevent tooltips from handling any click-related actions intended for the button
+		if (ev.target instanceof Element && ev.target.classList.contains("button-tooltip")) {
+			ev.stopImmediatePropagation();
+			ev.preventDefault();
+		}
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLButtonElement, ev: Event) => void}
+	 */
+	_MouseUp: function _MouseUp(ev) {
+		if (ev.target instanceof Element && ev.target.classList.contains("button-tooltip")) {
+			ev.stopImmediatePropagation();
+			return;
+		}
+
 		// Fix buttons not automatically losing focus after a click event
 		this.blur();
 	},
@@ -1228,6 +1247,7 @@ var ElementButton = {
 				keydown: this._KeyDown,
 				keyup: this._KeyUp,
 				mouseup: this._MouseUp,
+				mousedown: this._MouseDown,
 				touchend: this._MouseUp,
 				touchcancel: this._MouseUp,
 				...(buttonOptions.eventListeners ?? {}),

@@ -11,9 +11,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2024-10-16
-* Last recorded PR: [#5220](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5220)
-* Last recorded commit hash: `1d78642e3a60ab5b856209405af47f6c83fc6bf4`
+* Changelog last updated: 2024-10-21
+* Last recorded PR: [#5227](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5227)
+* Last recorded commit hash: `62931c7e89c470100024b0ff2ccfc037c1de45c9`
 
 ## [R109]
 
@@ -21,15 +21,19 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 * Haruhi - Adds HairFront59, 60 and 61 ([#5212](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5212))
 * Haruhi - Adds Face Scars and Oni Horns by me (Haruhi) ([#5219](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5219))
+* Haruhi - Add Light behind Eyes on Demon Mask ([#5226](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5226))
 * EllieThePink - Shibari Cards, Asylum cards & Club Card game log formatting ([#5206](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5206))
 * Sepia Oulomenohn - Add CustomBallHood, perform tests. May need alpha adjustment later ([#5220](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5220))
+* Sepia Oulomenohn - Add new module 'cover' to resolve layering issues ([#5222](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5222))
 * Haaa - Chinese translation College C007/C008/C012/C101 ([#5189](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5189))
 * Da'Inihlus - Cn translation ([#5213](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5213))
 * Rama - Add enter key hints for the login screen ([#5200](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5200))
 * Rama - Take `Asset.CraftGroup` into account when sorting crafted items ([#5205](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5205))
 * Rama - Ensure that the drone mask layering options are visible for all of its variants ([#5211](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5211))
 * Rama - Add the option to create longer ASCII-only crafting descriptions ([#5210](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5210))
+* Rama - Do not display a warning message when a user explicitly cancels the crafting code import dialog box ([#5221](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5221))
 * gambitx8664 - Minor Bondage College improvements ([#5218](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5218))
+* Da'Inihlus - CN translation updates ([#5227](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5227))
 * Ben987 - Drawing Engine - Opacity Array - Different Opacities by Layers
 * Ben987 - Opacity Slider
 * Ben987 - Default Opacity Property for all Clothing Items by Groups
@@ -41,6 +45,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 ### [Fixes]
 
+* Haruhi - Fixed Skunk Tail position, Face Scars asset strings and Necromance typo ([#5223](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5223))
 * harmony - Crashes in the crafting screen when no item is selected ([#5201](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5201))
 * harmony - Resize input field after a command was successfuly processed ([#5202](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5202))
 * Da'Inihlus - fix parseCSV in translation template generation ([#5215](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5215))
@@ -61,8 +66,8 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 * Estsanatlehi - Remove ChatRoomPlayerCanJoin and check if we're already in a room instead ([#5198](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5198))
 * Estsanatlehi - Remove handler for non-Ctrl-Z shortcuts and let the normal processing happen ([#5199](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5199))
+* Rama - Increase the default `ElementClickTimeout` timeout to 250 ms and expand... ([#5225](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5225))
 * Rama - Briefly disable click events when creating elements on mobile ([#5216](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5216))
-
 
 ## [R108]
 

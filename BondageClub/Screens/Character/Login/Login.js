@@ -8,10 +8,10 @@ var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
 	"Abysseia", "Aceffect", "ArashiSama", "Aylea", "BlueWinter", "Bryce", "Canti", "Christian",
-	"Desch", "Domenico", "Dynilath", "Edwin", "FanRunner", "Glurak", "Greendragon", "John",
-	"Laurie", "Marashu", "Michel", "Mindtie", "Nightcore", "Robin", "Setsu", "SlitheryCandy",
-	"Soulcollar", "Sunny", "Tam", "Tarram", "Thkdt", "TonyBoy", "TopHat", "Troubadix",
-	"Troy", "WhiteSniper", "XDWolfie", "Xepherio"
+	"Cm382714", "Desch", "Domenico", "Dynilath", "Edwin", "Glurak", "Greendragon", "John",
+	"Laurie", "Lyall", "Marashu", "Michel", "Mindtie", "Misa", "Nightcore", "Robin",
+	"Setsu", "SlitheryCandy", "Soulcollar", "Sticks", "Sunny", "Tam", "Tarram", "Thkdt",
+	"TonyBoy", "Troubadix", "Troy", "WhiteSniper", "XDWolfie", "Xepherio"
 ];
 
 /* eslint-enable */
@@ -696,9 +696,10 @@ function LoginResponse(C) {
 			var Elements = /** @type {HTMLCollectionOf<HTMLElement>} */(document.getElementsByClassName("HideOnDisconnect"));
 			for (let E = 0; E < Elements.length; E++)
 				Elements[E].style.display = "";
-			if (ChatRoomData?.Name) {
+
+			if (RelogData.ChatRoomName) {
 				CommonSetScreen("Online", "ChatSearch");
-				ServerSend("ChatRoomJoin", { Name: ChatRoomData.Name });
+				ServerSend("ChatRoomJoin", { Name: RelogData.ChatRoomName });
 			}
 			return;
 		}
@@ -1106,7 +1107,7 @@ function LoginGetMessageKey() {
 
 /**
  * Exit function - called when leaving the login page
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["Exit"]}
  */
 function LoginExit() {
 	if (LoginTextCacheUnsubscribeCallback) {

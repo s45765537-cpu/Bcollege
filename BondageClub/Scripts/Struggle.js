@@ -1360,9 +1360,22 @@ function StruggleLockPickDraw(C) {
 						ChatRoomPublishCustomAction("LockPickBreak", false, Dictionary);
 					}
 				} else {
-					LogAdd("FailedLockPick", "LockPick", CurrentTime + StruggleLockPickFailTimeout);
-					StruggleLockPickFailTime = CurrentTime + StruggleLockPickFailTimeout;
-					StruggleLockPickTotalTries = 0;
+					/*
+					 * Scale time penalty by skill level -- low skill levels give full penalty,
+					 * reducing to zero time at level 10, with each skill level granting a
+					 * greater time reduction.
+					 */
+					const skill_norm = SkillGetLevel (Player, "LockPicking") / SkillLevelMaximum;
+					const scalar = Math.sqrt (1.0 - skill_norm * skill_norm);
+					if (Math.abs (scalar) > 0.00001) {
+						/*  Impose time penalty.  */
+						StruggleLockPickFailTime = CurrentTime + StruggleLockPickFailTimeout * scalar;
+						StruggleLockPickTotalTries = 0;
+						LogAdd("FailedLockPick", "LockPick", StruggleLockPickFailTime);
+					} else {
+						/*  She's an expert; just jam the lock.  */
+						StruggleLockPickFailTime = CurrentTime + 1500;
+					}
 				}
 			} else
 				StruggleLockPickFailTime = CurrentTime + 1500;

@@ -163,7 +163,6 @@ function GameMagicBattleClickProcess() {
 		if (Time >= 6)
 			for (let B = 0; B < GameMagicBattleButton.length; B++)
 				if (MouseIn(GameMagicBattleButton[B].X, GameMagicBattleButton[B].Y, GameMagicBattleButton[B].W, GameMagicBattleButton[B].H)) {
-					ChatRoomHideElements();
 					MagicPuzzleSpell = MagicBattleAvailSpell[B];
 					MagicPuzzleAutoExit = true;
 					MagicPuzzleBackground = ChatRoomData.Background;
@@ -274,7 +273,7 @@ function GameMagicBattleClick() {
 
 /**
  * Triggered when the player exits the Magic Battle info screen.
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["Exit"]}
  */
 function GameMagicBattleExit() {
 

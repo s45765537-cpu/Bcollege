@@ -1,7 +1,7 @@
 "use strict";
 var RelogBackground = "";
 var RelogCanvas = document.createElement("canvas");
-/** @type {null | { Screen: string, Module: ModuleType, Character: Character }} */
+/** @type {null | { Screen: string, Module: ModuleType, Character: Character, ChatRoomName: string | null}} */
 var RelogData = null;
 
 /**
@@ -103,7 +103,7 @@ function RelogSend() {
 
 /**
  * Sends the player back to the main login screen
- * @returns {void} Nothing
+ * @type {ScreenFunctions["Exit"]}
  */
 function RelogExit() {
 	// eslint-disable-next-line no-self-assign

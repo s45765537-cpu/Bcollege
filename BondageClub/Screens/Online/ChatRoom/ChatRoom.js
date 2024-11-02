@@ -463,7 +463,6 @@ function ChatRoomCanStartWheelFortune() { return (CurrentCharacter != null) && I
  */
 function ChatRoomStartWheelFortune() {
 	if ((CurrentCharacter == null) || !InventoryIsWorn(CurrentCharacter, "WheelFortune", "ItemDevices")) return;
-	ChatRoomHideElements();
 	WheelFortuneEntryModule = CurrentModule;
 	WheelFortuneEntryScreen = CurrentScreen;
 	WheelFortuneBackground = ChatRoomData.Background;
@@ -1126,6 +1125,9 @@ function ChatRoomCreateElement() {
 		ElementFocus("InputChat");
 		window.addEventListener("resize", ChatRoomResizeManager.ChatRoomResizeEvent);
 	} else if (ChatRoomChatHidden) {
+		if (CommonIsMobile) {
+			ElementClickTimeout(elem);
+		}
 		elem.style.display = "";
 		ElementScrollToEnd("TextAreaChatLog");
 		ChatRoomRefreshChatSettings();
@@ -1706,6 +1708,13 @@ function ChatRoomResize(load) {
 		ElementPositionFix("chat-room-div", ChatRoomFontSize, ...ChatRoomDivRect);
 		chatInput.dispatchEvent(new Event("input"));
 	}
+}
+
+/**
+ * @type {ScreenFunctions["Unload"]}
+ */
+function ChatRoomUnload() {
+	ChatRoomHideElements();
 }
 
 /**
@@ -2415,7 +2424,6 @@ function ChatRoomOpenWardrobeScreen() {
  * The handler for the "Profile" button
  */
 function ChatRoomOpenInformationScreen() {
-	ChatRoomHideElements();
 	ChatRoomStatusUpdate("Preference");
 	InformationSheetLoadCharacter(Player);
 }
@@ -2433,7 +2441,6 @@ function ChatRoomOpenAdminScreen() {
 		return;
 	}
 
-	ChatRoomHideElements();
 	ChatRoomStatusUpdate("Preference");
 	CommonSetScreen("Online", "ChatAdmin");
 }
@@ -2482,7 +2489,6 @@ function ChatRoomMenuClick(event) {
 				}
 				case "GameOption":
 					// The cut button can become the game option button if there's an online game going on
-					ChatRoomHideElements();
 					CommonSetScreen("Online", "Game" + ChatRoomGame);
 					break;
 				case "Kneel":
@@ -2677,7 +2683,6 @@ function ChatRoomLeave(clearCharacters = false) {
 	ChatRoomSlowtimer = 0;
 	ChatRoomSlowStop = false;
 	DialogLentLockpicks = false;
-	ChatRoomLeashPlayer = null;
 	ChatRoomData = null;
 	Player.MapData = null;
 	ChatRoomGame = "";
@@ -5051,7 +5056,6 @@ function ChatRoomAppearanceLoadCharacter(C) {
 	const screen = CurrentScreen;
 	const inChatRoom = ServerPlayerIsInChatRoom();
 	if (inChatRoom) {
-		ChatRoomHideElements();
 		ChatRoomStatusUpdate("Wardrobe");
 	}
 	CharacterAppearanceLoadCharacter(C, (ready) => {
@@ -5357,7 +5361,6 @@ function ChatRoomSetRule(data) {
 				if (C.IsOwner())
 					CharacterSetCurrent(C);
 			if ((CurrentCharacter == null) || !CurrentCharacter.IsOwner() || !InventoryIsWorn(CurrentCharacter, "WheelFortune", "ItemDevices")) return;
-			ChatRoomHideElements();
 			WheelFortuneEntryModule = CurrentModule;
 			WheelFortuneEntryScreen = CurrentScreen;
 			WheelFortuneBackground = ChatRoomData.Background;

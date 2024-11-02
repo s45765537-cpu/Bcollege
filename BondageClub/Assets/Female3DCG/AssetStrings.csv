@@ -1236,6 +1236,17 @@ HairAccessory1OnihornsOptionr2,Long
 HairAccessory1OnihornsSelectBase,Select Horn
 HairAccessory1OnihornsSelectLeftHorn,Select Size
 HairAccessory1OnihornsSelectRightHorn,Select Size
+HairAccessory2OnihornsModuleLeftHorn,Left Horn
+HairAccessory2OnihornsModuleRightHorn,Right Horn
+HairAccessory2OnihornsOptionl0,Short
+HairAccessory2OnihornsOptionl1,Medium
+HairAccessory2OnihornsOptionl2,Long
+HairAccessory2OnihornsOptionr0,Short
+HairAccessory2OnihornsOptionr1,Medium
+HairAccessory2OnihornsOptionr2,Long
+HairAccessory2OnihornsSelectBase,Select Horn
+HairAccessory2OnihornsSelectLeftHorn,Select Size
+HairAccessory2OnihornsSelectRightHorn,Select Size
 HairBackHairBack58Select,Select Type.
 HairBackHairBack58SetBoth,SourceCharacter changes DestinationCharacter hair.
 HairBackHairBack58SetLeftOnly,SourceCharacter changes DestinationCharacter hair.
@@ -2496,6 +2507,7 @@ ItemHoodBigMouthHoodSetSlim,SourceCharacter blinds DestinationCharacter complete
 ItemHoodBigMouthHoodSlim,Blind
 ItemHoodCustomBallHoodModuleFinish,Finish
 ItemHoodCustomBallHoodModulePattern,Pattern
+ItemHoodCustomBallHoodModuleCover,Coverage
 ItemHoodCustomBallHoodOptionf0,Matte
 ItemHoodCustomBallHoodOptionf1,Shiny
 ItemHoodCustomBallHoodOptionp0,None
@@ -2503,10 +2515,16 @@ ItemHoodCustomBallHoodOptionp1,Pumpkin
 ItemHoodCustomBallHoodOptionp2,Smiley Lines
 ItemHoodCustomBallHoodOptionp3,Smiley Filled
 ItemHoodCustomBallHoodOptionp4,8 Ball
+ItemHoodCustomBallHoodOptionc0,Cover All
+ItemHoodCustomBallHoodOptionc1,Cover Limited
+ItemHoodCustomBallHoodOptionc2,Cover Hair Only
+ItemHoodCustomBallHoodSelectBase,Select Hood Details
 ItemHoodCustomBallHoodSelectFinish,Select Hood Finish
 ItemHoodCustomBallHoodSelectPattern,Select Pattern
+ItemHoodCustomBallHoodSelectCover,Select Coverage
 ItemHoodCustomBallHoodSetFinish,SourceCharacter adjusts the shine of DestinationCharacter ball hood.
 ItemHoodCustomBallHoodSetPattern,SourceCharacter changes the pattern on DestinationCharacter ball hood.
+ItemHoodCustomBallHoodSetCover,SourceCharacter adjusts the coverage of DestinationCharacter ball hood.
 ItemHoodCustomLatexHoodModuleEFill,Eye Panel Fill
 ItemHoodCustomLatexHoodModuleEPanel,Eye Panel
 ItemHoodCustomLatexHoodModuleHairShow,Hair Options
@@ -5462,6 +5480,51 @@ MaskRubberMaskOptionl2,Open mouth
 MaskRubberMaskOptionl3,Vampire neutral
 MaskRubberMaskOptionl4,Vampire serious
 MaskRubberMaskOptionl5,Vampire open mouth
+MaskFaceScarsModule1,Forehead
+MaskFaceScarsModule2,Left Lip
+MaskFaceScarsModule3,Right Lip
+MaskFaceScarsModule4,Left Under eye
+MaskFaceScarsModule5,Right Under eye
+MaskFaceScarsModule6,Left Cheek Cross
+MaskFaceScarsModule7,Right Cheek Cross
+MaskFaceScarsModule8,Left Eye
+MaskFaceScarsModule9,Right Eye
+MaskFaceScarsModule10,Nose
+MaskFaceScarsModule11,Vertical
+MaskFaceScarsOptiona0,No
+MaskFaceScarsOptiona1,Yes
+MaskFaceScarsOptionb0,No
+MaskFaceScarsOptionb1,Yes
+MaskFaceScarsOptionc0,No
+MaskFaceScarsOptionc1,Yes
+MaskFaceScarsOptiond0,No
+MaskFaceScarsOptiond1,Yes
+MaskFaceScarsOptione0,No
+MaskFaceScarsOptione1,Yes
+MaskFaceScarsOptionf0,No
+MaskFaceScarsOptionf1,Yes
+MaskFaceScarsOptiong0,No
+MaskFaceScarsOptiong1,Yes
+MaskFaceScarsOptionh0,No
+MaskFaceScarsOptionh1,Yes
+MaskFaceScarsOptioni0,No
+MaskFaceScarsOptioni1,Yes
+MaskFaceScarsOptionj0,No
+MaskFaceScarsOptionj1,Yes
+MaskFaceScarsOptionk0,No
+MaskFaceScarsOptionk1,Yes
+MaskFaceScarsSelectBase,Select Mark
+MaskFaceScarsSelect1,Apply
+MaskFaceScarsSelect2,Apply
+MaskFaceScarsSelect3,Apply
+MaskFaceScarsSelect4,Apply
+MaskFaceScarsSelect5,Apply
+MaskFaceScarsSelect6,Apply
+MaskFaceScarsSelect7,Apply
+MaskFaceScarsSelect8,Apply
+MaskFaceScarsSelect9,Apply
+MaskFaceScarsSelect10,Apply
+MaskFaceScarsSelect11,Apply
 ItemDevicesBrickWallSelect,Build and choose the brick wall's height:
 ItemDevicesBrickWallNone,No brick
 ItemDevicesBrickWallLegs,Up to the hips
@@ -5505,3 +5568,31 @@ HairFrontHairFront61SetLong,SourceCharacter changes DestinationCharacter hair.
 HairFrontHairFront61SetShort,SourceCharacter changes DestinationCharacter hair.
 HairFrontHairFront61Long,Long
 HairFrontHairFront61Short,Short
+HairFrontHairFront62aModuleStyle,Base
+HairFrontHairFront62aModuleStrands,Strands
+HairFrontHairFront62aModuleExtra,Extra
+HairFrontHairFront62aOptionStyle0,Shiny
+HairFrontHairFront62aOptionStyle1,Normal
+HairFrontHairFront62aOptionStrands0,Colored Strands
+HairFrontHairFront62aOptionStrands1,No Strands
+HairFrontHairFront62aOptionExtra0,Braids
+HairFrontHairFront62aOptionExtra1,Extra
+HairFrontHairFront62aOptionExtra2,None
+HairFrontHairFront62aSelectBase,Select Options
+HairFrontHairFront62aSelectStyle,Select Style
+HairFrontHairFront62aSelectStrands,Select Strands
+HairFrontHairFront62aSelectExtra,Select Extras
+HairFrontHairFront62bModuleStyle,Base
+HairFrontHairFront62bModuleStrands,Strands
+HairFrontHairFront62bModuleExtra,Extra
+HairFrontHairFront62bOptionStyle0,Shiny
+HairFrontHairFront62bOptionStyle1,Normal
+HairFrontHairFront62bOptionStrands0,Colored Strands
+HairFrontHairFront62bOptionStrands1,No Strands
+HairFrontHairFront62bOptionExtra0,Braids
+HairFrontHairFront62bOptionExtra1,Extra
+HairFrontHairFront62bOptionExtra2,None
+HairFrontHairFront62bSelectBase,Select Options
+HairFrontHairFront62bSelectStyle,Select Style
+HairFrontHairFront62bSelectStrands,Select Strands
+HairFrontHairFront62bSelectExtra,Select Extras

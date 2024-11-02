@@ -665,7 +665,7 @@ I vow to be a good submissive for you Mistress.  To be always honest.
 我发誓要成为你的好顺从者，女主人。永远诚实。
 ###_NPC [Serious|Submissive]
 I vow to be a good slave for you Mistress.  To accept any punishment with dignity.
-我发誓要做你的好奴隶，女主人。有尊严地接受任何惩罚。
+我发誓要做你的乖奴隶，女主人。有尊严地接受任何惩罚。
 ###_NPC [Playful|Frigid]
 I vow to be a good subbie for you Mistress.  To be a friend in good and bad times.
 我发誓要成为你的好仆人，女主人。无论顺境逆境，我都会成为你的朋友。
@@ -4094,7 +4094,7 @@ I'll be your schoolgirl.  (Change for her.)
 我会成为你的女学生。（为她换衣服。）
 ###_NPC
 (You change for her as she smirks.)  You're a good schoolgirl, and you cannot change again for 5 minutes.
-（你为她换衣服，她得意地笑了。）你是个好女学生，五分钟内你不能再换衣服了。
+（你为她换衣服，她得意地笑了。）你是个乖女学生，五分钟内你不能再换衣服了。
 ###_PLAYER
 No!  This is silly.
 不！这太傻了。
@@ -4174,7 +4174,7 @@ I'll watch you to make sure you don't change.
 我会看着你，确保你不会改变。
 ###_NPC [Dominant]
 You're a good slave and should be rewarded.  Let's make it only 2 minutes without changing.
-你是个好奴隶，应该得到奖励。让我们只花 2 分钟不做任何改变吧。
+你是个乖奴隶，应该得到奖励。让我们只花 2 分钟不做任何改变吧。
 ###_NPC [Playful]
 I'll watch you.  It won't take that long.
 我会看着你的。不会花太长时间。
@@ -6576,7 +6576,7 @@ Greetings Mistress.
 你好，女主人。
 ###_NPC
 (She smiles and pets your head.)  I have a good girl.
-（她微笑着抚摸着你的头。）我有一个好女儿。
+（她微笑着抚摸着你的头。）我有一个乖女孩。
 ###_PLAYER
 (Moan in your gag.)
 （在你的口塞里呻吟。）

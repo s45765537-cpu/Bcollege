@@ -64,6 +64,8 @@ Color Two
 颜色2
 Belt
 皮带
+Shoulders
+肩膀
 Jacket
 外套
 Shirt
@@ -306,6 +308,18 @@ Outside
 外部
 Light
 亮色
+Left Base
+左侧基础
+Right Base
+右侧基础
+Left Tip
+左侧顶端
+Right Tip
+右侧顶端
+Inner Ears
+耳朵内侧
+Outer Ears
+耳朵外侧
 Bun
 包子
 Tips
@@ -338,6 +352,10 @@ Color1
 颜色1
 Color2
 颜色2
+Front Hair
+前发
+Front Plate
+前部板
 Tiara
 头冠
 Detail
@@ -374,8 +392,6 @@ Main Flowers
 主要花朵
 Petals
 花瓣
-Shoulders
-肩膀
 Cowl
 面巾
 Symbol
@@ -828,6 +844,8 @@ Hood
 边缘
 Spots
 斑点
+Pattern Shine
+图案高光
 Eye Fill Panels
 眼睛填充遮罩
 Mouth Fill Panel
@@ -1300,6 +1318,8 @@ Nose Gloss
 鼻子光泽
 Whiskers
 胡子
+Halo
+光环
 Necklace
 项链
 Star

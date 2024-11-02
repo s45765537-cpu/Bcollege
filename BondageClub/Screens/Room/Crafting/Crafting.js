@@ -231,7 +231,7 @@ var CraftingDescription = {
 				const id = char.charCodeAt(0);
 				const bit1 = Math.floor(id / 256);
 				const bit2 = id - bit1 * 256;
-				return [String.fromCharCode(bit1), String.fromCharCode(bit2)];
+				return [bit1, bit2].filter(Boolean).map(i => String.fromCharCode(i));
 			}).join("");
 		} else {
 			return description.slice(0, 200);
@@ -516,7 +516,9 @@ var CraftingEventListeners = {
 	 */
 	_ClickUpload: function _ClickUpload() {
 		const settingsString = prompt(TextGet("UploadPrompt"));
-		if (!settingsString) {
+		if (settingsString == null) {
+			return; // The user explicitly clicked cancel; abort without further warning
+		} else if (!settingsString) {
 			alert(TextGet("UploadFailure"));
 			return;
 		}
@@ -1857,8 +1859,8 @@ function CraftingExitResetElements() {
 
 /**
  * When the player exits the crafting room
+ * @satisfies {ScreenFunctions["Exit"]}
  * @param {boolean} allowPanelClose - Whether an exit call in the `Name` mode is allowed to close the side panels before performing a proper exit of the subscreen
- * @returns {void} - Nothing
  */
 function CraftingExit(allowPanelClose=true) {
 	// Return to the `Name` sub-screen, if already there move to the `Slot` sub-screen and if already there exit the crafting screen

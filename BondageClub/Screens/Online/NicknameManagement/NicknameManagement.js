@@ -45,8 +45,8 @@ function NicknameManagementClick() {
 
 /**
  * Handles exiting from the screen, updates the sub rules
+ * @satisfies {ScreenFunctions["Exit"]}
  * @param {boolean} Save - Received rule data object.
- * @returns {void} - Nothing
  */
 function NicknameManagementExit(Save = false) {
 	let NewNickname = ElementValue("InputNickname");

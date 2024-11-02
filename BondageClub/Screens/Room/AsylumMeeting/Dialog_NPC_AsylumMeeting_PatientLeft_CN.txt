@@ -202,19 +202,19 @@ You were forced to join?
 你是被迫加入的？
 ###_NPC
 Yeah, that stupid machine ran some kind of algorithm and I was selected.  Now I need to say: "I'm a good girl." like a robot.
-是的，那台蠢机器运行了某种算法，并且我被选中了。现在我得像个机器人一样说：“我是好女孩。”
+是的，那台蠢机器运行了某种算法，并且我被选中了。现在我得像个机器人一样说：“我是乖女孩。”
 ###_PLAYER
 Calm down.
 冷静冷静。
 ###_NPC
 I won't calm down!  I can't stand saying: "I'm a good girl.".  Good girl my ass!
-我怎么冷静啊！我根本受不了说：“我是好女孩。”好女孩个屁！
+我怎么冷静啊！我根本受不了说：“我是乖女孩。”乖女孩个屁！
 ###_PLAYER
 Piece of junk?
 破垃圾？
 ###_NPC
 Fucking piece of computer junk.  I will smash it to the ground.  I can't stand saying: "I'm a good girl.".  Good girl my ass!
-一坨他妈的破垃圾。我要把它砸烂砸碎。我根本受不了说：“我是好女孩。”好女孩个屁！
+一坨他妈的破垃圾。我要把它砸烂砸碎。我根本受不了说：“我是乖女孩。”乖女孩个屁！
 ###_PLAYER
 Let's talk about something else.
 我们讲点别的吧。
@@ -229,7 +229,7 @@ It won't work!  But still, that GGTS stuff is dangerous.
 那不会有用的！但是，那GGTS挺危险的。
 ###_PLAYER
 But you're such a good girl.  (Laugh.)
-但你真的是个好女孩。（笑起来。）
+但你真的是个乖女孩。（笑起来。）
 ###_NPC
 Fuck you!  Let's talk about something else.
 去死吧！我们讲点别的吧。

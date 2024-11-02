@@ -1048,8 +1048,8 @@ var AssetFemale3DCGExtended = {
 					Key: "k",
 					Options: [{}, {}], // n,y
 				},
-			]
-		}
+			],
+		},
 	},
 	HairFront: {
 		HairFront60: {
@@ -1061,6 +1061,50 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			DrawImages: false,
 			Options: [{ Name: "Long" }, { Name: "Short" }],
+		},
+		HairFront62a: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Style",
+					Key: "Style",
+					Options: [{}, {}], // Glossy, Tame
+				},
+				{
+					Name: "Strands",
+					Key: "Strands",
+					Options: [{},{}], // Strands, No Strands
+				},
+				{
+					Name: "Extra",
+					Key: "Extra",
+					Options: [{},{},{}], // Braids, Extra, None
+				}
+			]
+		},
+		HairFront62b: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Style",
+					Key: "Style",
+					Options: [{}, {}], // Glossy, Tame
+				},
+				{
+					Name: "Strands",
+					Key: "Strands",
+					Options: [{},{}], // Strands, No Strands
+				},
+				{
+					Name: "Extra",
+					Key: "Extra",
+					Options: [{},{},{}], // Braids, Extra, None
+				}
+			]
 		},
 	},
 	HairBack: {
@@ -8037,16 +8081,54 @@ var AssetFemale3DCGExtended = {
 		CustomBallHood: {
 			Archetype: ExtendedArchetype.MODULAR,
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
-			Modules:[
+			Modules: [
 				{
 					Name: "Finish",
 					Key: "f",
-					Options:[ {}, {},], // Matte, Shiny
+					Options: [{}, {}], // Matte, Shiny
 				},
 				{
 					Name: "Pattern",
 					Key: "p",
-					Options:[ {}, {}, {}, {}, {},], //None, Pumpkin, Smiley Lines, Smiley Fill, 8Ball
+					Options: [{}, {}, {}, {}, {}], //None, Pumpkin, Smiley Lines, Smiley Fill, 8Ball
+				},
+				{
+					Name: "Cover",
+					Key: "c",
+					Options: [
+						{
+							// Hide everything that could conflict
+							Property: {
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+									"HairAccessory3",
+									"Mask",
+									"Hat",
+									"ItemMouth",
+									"ItemMouth2",
+									"ItemMouth3",
+									"ItemHead",
+									"ItemEars",
+									"Glasses",
+								],
+							},
+						},
+						{
+							// Hide limited conflicts
+							Property: {
+								Hide: ["HairFront", "HairBack", "HairAccessory2", "Mask"],
+							},
+						},
+						{
+							// Hide only hair
+							Property: {
+								Hide: ["HairFront", "HairBack"],
+							},
+						},
+					],
 				},
 			],
 		}, //CustomBallHood
@@ -11135,20 +11217,24 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "LeftHorn",
 					Key: "l",
-					Options: [{},{},{}], //short, med, long
+					Options: [{}, {}, {}], //short, med, long
 				},
 				{
 					Name: "RightHorn",
 					Key: "r",
-					Options: [{},{},{}], //short, med, long
+					Options: [{}, {}, {}], //short, med, long
 				},
-			]
-		}
+			],
+		},
 	}, // HairAccessory1
 	HairAccessory2: {
 		ElfEars: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "HairAccessory1", AssetName: "ElfEars" },
+		},
+		Onihorns: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "HairAccessory1", AssetName: "Onihorns" },
 		},
 	}, // HairAccessory2
 	HairAccessory3: {
@@ -13230,7 +13316,7 @@ var AssetFemale3DCGExtended = {
 		}, // FaceScars
 		AnimalNoses: {
 			Archetype: ExtendedArchetype.TYPED,
-			DrawImages:false,
+			DrawImages: false,
 			Options: [
 				{
 					Name: "ButtonNose",
@@ -13241,11 +13327,11 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "LargeCanineNose",
 				},
-			], 
+			],
 		}, // Animal Noses
 		EldritchMask: {
 			Archetype: ExtendedArchetype.TYPED,
-			DrawImages:false,
+			DrawImages: false,
 			Options: [
 				{
 					Name: "Eyes",
@@ -13253,7 +13339,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "GlowingEyes",
 				},
-			], 
+			],
 		}, // Eldritch Mask
 	}, // Mask
 	ItemLegs: {

@@ -207,23 +207,16 @@ function ServerDisconnect(data, close = false) {
 		}
 	}
 
-	if (ShouldRelog) {
-		if (CurrentScreen != "Relog") {
-
-			// Exits out of the chat room or a sub screen of the chatroom, so we'll be able to get in again when we log back
-			if (ServerPlayerIsInChatRoom()) {
-				ChatRoomHideElements();
-				CurrentScreen = "ChatSearch";
-				CurrentModule = "Online";
-				CurrentCharacter = null;
-			}
-
-			// Keeps the relog data
-			RelogData = { Screen: CurrentScreen, Module: CurrentModule, Character: CurrentCharacter };
-			CurrentCharacter = null;
-			CommonSetScreen("Character", "Relog");
-
+	if (ShouldRelog && CurrentScreen != "Relog") {
+		if (ServerPlayerIsInChatRoom()) {
+			RelogData = { Screen: "ChatSearch", Module: "Online", Character: null, ChatRoomName: ChatRoomData?.Name };
+			ChatRoomData = null;
+		} else {
+			RelogData = { Screen: CurrentScreen, Module: CurrentModule, Character: CurrentCharacter, ChatRoomName: null };
 		}
+
+		CurrentCharacter = null;
+		CommonSetScreen("Character", "Relog");
 	}
 
 	// Raise a notification to alert the user
@@ -887,16 +880,12 @@ function ServerAccountBeep(data) {
 				if (ChatRoomCanBeLeashedBy(data.MemberNumber, Player) && ChatSelectGendersAllowed(data.ChatRoomSpace, Player.GetGenders())) {
 					ChatRoomJoinLeash = data.ChatRoomName;
 
-					// TODO: Consider using `ChatRoomLeave` here after a review, it being the canonical function for leaving chatrooms
-					ChatRoomCharacter = [];
-					DialogLeave();
-					ChatRoomSetTarget(-1);
-					ChatRoomClearAllElements();
+					ChatRoomLeave();
 					if (CurrentScreen == "ChatRoom") {
-						ServerSend("ChatRoomLeave", "");
 						CommonSetScreen("Online", "ChatSearch");
+					} else {
+						ChatRoomStart(data.ChatRoomSpace, "", null, null, "Introduction", BackgroundsTagList);
 					}
-					else ChatRoomStart(data.ChatRoomSpace, "", null, null, "Introduction", BackgroundsTagList); //CommonSetScreen("Room", "ChatSearch")
 				} else {
 					ChatRoomLeashPlayer = null;
 				}

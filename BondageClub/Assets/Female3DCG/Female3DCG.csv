@@ -582,6 +582,8 @@ HairFront,HairFront59,Style 59
 HairFront,HairFront60,Style 60
 HairFront,HairFront61,Style 61
 HairFront,ScalyHair,Scaly Hair
+HairFront,HairFront62a,Style 62a
+HairFront,HairFront62b,Style 62b
 Hands,,Hands
 Hands,Default,Default
 Hat,,Hat
@@ -1499,7 +1501,7 @@ Mask,AnimalNoses,Animal Nose
 Mask,EldritchMask,Eldritch Mask
 Mask,DemonMask,Demon Mask
 Mask,AngelMask,Angel Mask
-Mask,NecromancerHelmet,Necromacer Helmet
+Mask,NecromancerHelmet,Necromancer Helmet
 Mouth,,Mouth
 Mouth,Discreet,Discreet
 Mouth,Full,Full Lips
