@@ -17300,6 +17300,74 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "HairFront62a",
+				Top: 30,
+				Left: 150,
+				Random: false,
+				Extended: true,
+				Layer: [
+					{
+						Name: "GlossyBase",
+						AllowTypes: {Style : 0}
+					},
+					{
+						Name: "TameBase",
+						CopyLayerColor: "GlossyBase",
+						AllowTypes: {Style: 1}
+					},
+					{
+						Name: "Tone"
+					},
+					{
+						Name: "Strands",
+						AllowTypes: {Strands: 0}
+					},
+					{
+						Name: "Braids",
+						AllowTypes: {Extra: 0}
+					},
+					{
+						Name: "Extra",
+						CopyLayerColor: "Braids",
+						AllowTypes: {Extra: 1}
+					}
+				]
+			},
+			{
+				Name: "HairFront62b",
+				Top: 30,
+				Left: 150,
+				Random: false,
+				Extended: true,
+				Layer: [
+					{
+						Name: "GlossyBase",
+						AllowTypes: {Style : 0}
+					},
+					{
+						Name: "TameBase",
+						CopyLayerColor: "GlossyBase",
+						AllowTypes: {Style: 1}
+					},
+					{
+						Name: "Tone"
+					},
+					{
+						Name: "Strands",
+						AllowTypes: {Strands: 0}
+					},
+					{
+						Name: "Braids",
+						AllowTypes: {Extra: 0}
+					},
+					{
+						Name: "Extra",
+						CopyLayerColor: "Braids",
+						AllowTypes: {Extra: 1}
+					}
+				]
+			}
 		],
 		Color: [
 			"#6a3628",
