@@ -3976,6 +3976,21 @@ var AssetFemale3DCGExtended = {
 			],
 			DrawImages: false,
 		}, // Collar Handcuffs
+		BedMetalCuffs: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Left",
+				},
+				{
+					Name: "Right",
+				},
+				{
+					Name: "Both",
+				},
+			],
+			DrawImages: false,
+		}, // BedMetalCuffs
 	}, // ItemArms
 	ItemNeck: {
 		ShinySteelCollar: {

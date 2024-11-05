@@ -30299,6 +30299,47 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "BedMetalCuffs",
+				InventoryID: 1182,
+				Fetish: ["Metal"],
+				Value: 20,
+				Difficulty: 6,
+				Random: false,
+				IsRestraint: true,
+				ParentGroup: null,
+				Audio: "MetalCuffs",
+				SetPose: ["Yoked"],
+				Prerequisite: ["OnBed"],
+				Effect: [E.Block, E.BlockWardrobe, E.Freeze],
+				Block: ["ItemDevices"],
+				Left: -3,
+				Top: 40,
+				Extended: true,
+				DefaultColor: ["#999999","#999999"],
+				Layer: [
+					{
+						Name: "Leftundercuff",
+						Priority: 2,
+						AllowTypes: { typed: [0, 2]},
+					},
+					{
+						Name: "Leftcuff",
+						CopyLayerColor: "Leftundercuff",
+						AllowTypes: { typed: [0, 2]},
+					},
+					{
+						Name: "Rightundercuff",
+						Priority: 2,
+						AllowTypes: { typed: [1, 2]},
+					},
+					{
+						Name: "Rightcuff",
+						CopyLayerColor: "Rightundercuff",
+						AllowTypes: { typed: [1, 2]},
+					}
+				]
+			},
 		],
 		Color: [
 			"Default",
