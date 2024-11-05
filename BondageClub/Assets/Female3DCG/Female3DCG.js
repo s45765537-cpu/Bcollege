@@ -33109,6 +33109,68 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "MoonCollar",
+				InventoryID: 1183,
+				Fetish: ["Metal"],
+				Value: 30,
+				Difficulty: 50,
+				Top: 159,
+				Time: 5,
+				AllowLock: true,
+				DefaultColor: ["#7E7E7E", "#961006", "#198E9D"],
+				Layer: [
+					{
+						Name: "Base",
+						AllowColorize: true,
+					},
+					{
+						Name: "Suns",
+						AllowColorize: true,
+					},
+					{
+						Name: "Centermoon",
+						AllowColorize: true,
+					},
+					{
+						Name: "Lock",
+						AllowColorize: false,
+						LockLayer: true,
+						Priority: 5
+					}
+				],
+			},
+			{
+				Name: "SunCollar",
+				InventoryID: 1184,
+				Fetish: ["Metal"],
+				Value: 30,
+				Difficulty: 50,
+				Top: 159,
+				Time: 5,
+				AllowLock: true,
+				DefaultColor: ["#7E7E7E", "#198E9D", "#961006"],
+				Layer: [
+					{
+						Name: "Base",
+						AllowColorize: true,
+					},
+					{
+						Name: "Moons",
+						AllowColorize: true,
+					},
+					{
+						Name: "Centersun",
+						AllowColorize: true,
+					},
+					{
+						Name: "Lock",
+						AllowColorize: false,
+						LockLayer: true,
+						Priority: 5
+					}
+				],
+			},
 		],
 		Color: [
 			"Default",
