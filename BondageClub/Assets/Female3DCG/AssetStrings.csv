@@ -5596,3 +5596,23 @@ HairFrontHairFront62bSelectBase,Select Options
 HairFrontHairFront62bSelectStyle,Select Style
 HairFrontHairFront62bSelectStrands,Select Strands
 HairFrontHairFront62bSelectExtra,Select Extras
+PremiumMuzzleMouthSetCrossStraps,SourceCharacter adds extra straps to DestinationCharacter muzzle
+PremiumMuzzleMouthSetNormal,SourceCharacter turns DestinationCharacter muzzle back to normal.
+PremiumMuzzleMouthSetExtraMuzzle,SourceCharacter attaches an extra panel over DestinationCharacter muzzle.
+PremiumMuzzleMouthTypeCrossStraps,Cross Straps
+PremiumMuzzleMouthTypeNormal,Normal
+PremiumMuzzleMouthTypeExtraMuzzle,Extra Panel
+OverfilledGagModuleGagtype,Gag Type
+OverfilledGagModuleStuffing,Stuffing Type
+OverfilledGagOptionGagtype0,Cloth Mask
+OverfilledGagOptionGagtype1,Cross Tape
+OverfilledGagOptionGagtype2,Full Tape
+OverfilledGagOptionGagtype3,Tape + Panties
+OverfilledGagOptionGagtype4,None
+OverfilledGagOptionStuffing0,Panties
+OverfilledGagOptionStuffing1,Rolled Wad
+OverfilledGagSelectBase,Configure Options
+OverfilledGagSelectGagtype,Select Gag Type
+OverfilledGagSelectStuffing,Select Stuffing Type
+OverfilledGagSetGagtype,SourceCharacter changes the gag type on DestinationCharacter mouth.
+OverfilledGagSetStuffing,SourceCharacter shoves a huge stuffing into DestinationCharacter mouth.
