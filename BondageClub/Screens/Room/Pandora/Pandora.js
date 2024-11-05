@@ -953,10 +953,8 @@ function PandoraCanJoinPrivateRoom() { return PrivateHasEmptySlot(); }
  * @returns {void} - Nothing
  */
 function PandoraCharacterJoinPrivateRoom() {
-	CurrentScreen = "Private";
-	let C = PrivateAddCharacter(CurrentCharacter, (CurrentCharacter.Archetype === "Slave") ? "Submissive" : null);
+	let C = PrivateAddCharacter(CurrentCharacter, (CurrentCharacter.Archetype === "Slave") ? "Submissive" : null, null, null, "Private");
 	C.FromPandora = true;
-	CurrentScreen = "Pandora";
 	PandoraRemoveCurrentCharacter();
 }
 

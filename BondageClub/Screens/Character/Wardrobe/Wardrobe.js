@@ -276,7 +276,7 @@ function WardrobeReorderModeSet (newmode=null)
 
 /**
  * Exits the wardorbe screen and sends the player back to her private room
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["Exit"]}
  */
 function WardrobeExit() {
 	WardrobeReorderModeSet ("None");

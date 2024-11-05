@@ -273,7 +273,7 @@ function GameMagicBattleClick() {
 
 /**
  * Triggered when the player exits the Magic Battle info screen.
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["Exit"]}
  */
 function GameMagicBattleExit() {
 

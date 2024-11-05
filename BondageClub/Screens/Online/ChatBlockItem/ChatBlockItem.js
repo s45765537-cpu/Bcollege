@@ -48,7 +48,7 @@ function ChatBlockItemClick() {
 
 /**
  * Handles exiting from the screen
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["Exit"]}
  */
 function ChatBlockItemExit() {
 	CommonSetScreen("Online", ChatBlockItemReturnData.Screen);

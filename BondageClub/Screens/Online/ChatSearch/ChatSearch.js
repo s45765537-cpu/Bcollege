@@ -45,7 +45,7 @@ var ChatSearchCurrentRoomSpaceIndex = 0;
 
 /**
  * Loads the chat search screen properties, creates the inputs and loads up the first 24 rooms.
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["Load"]}
  */
 function ChatSearchLoad() {
 	ChatRoomCustomizationClear();
@@ -84,9 +84,14 @@ function ChatSearchLoad() {
 	TextPrefetch("Online", "ChatRoom");
 }
 
+/** @type {ScreenFunctions["Unload"]} */
+function ChatSearchUnload() {
+	ChatRoomStimulationMessage("Walk");
+}
+
 /**
  * When the chat Search screen runs, draws the screen
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["Run"]}
  */
 function ChatSearchRun() {
 	KidnapLeagueResetOnlineBountyProgress();
@@ -149,7 +154,7 @@ function ChatSearchRun() {
 
 /**
  * Handles the click events on the chat search screen. Is called from CommonClick()
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["Click"]}
  */
 function ChatSearchClick() {
 	if (ChatSearchFilterUnhideConfirm) {
@@ -414,7 +419,7 @@ function ChatSearchKeyDown(event) {
 
 /**
  * Handles exiting from the chat search screen, removes the input.
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["Exit"]}
  */
 function ChatSearchExit() {
 	ChatSearchMode = "";

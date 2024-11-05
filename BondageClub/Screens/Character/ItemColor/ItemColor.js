@@ -264,7 +264,7 @@ function ItemColorClick(c, group, x, y, width, height, includeResetButton) {
 			ElementValue("InputColor", defaultColor);
 			return;
 		}
-		
+
 	}
 
 	if (

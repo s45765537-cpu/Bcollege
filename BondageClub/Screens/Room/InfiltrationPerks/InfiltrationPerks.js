@@ -86,7 +86,7 @@ function InfiltrationPerksClick() {
 
 /**
  * Updates the infiltration data for the player
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["Exit"]}
  */
 function InfiltrationPerksExit() {
 	ServerAccountUpdate.QueueData({ Infiltration: Player.Infiltration });

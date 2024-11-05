@@ -114,7 +114,7 @@ function CheatClick() {
 
 /**
  * Handles exiting the cheat screen by saving the cheats and going back to the login screen.
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["Exit"]}
  */
 function CheatExit() {
 	CheatExport();
