@@ -12395,6 +12395,96 @@ var AssetFemale3DCGExtended = {
 			],
 			DrawImages: false,
 		}, // GenitalGag
+		PremiumMuzzle: {
+			Archetype: ExtendedArchetype.TYPED,
+			ChangeWhenLocked: false,
+			Options: [
+				{
+					Name: "Normal",
+					Property: {
+						Effect: [E.GagMedium],
+						Difficulty: 4,
+					},
+				},
+				{
+					Name: "CrossStraps",
+					Property: {
+						Effect: [E.GagMedium],
+						Difficulty: 5,
+					},
+				},
+				{
+					Name: "ExtraMuzzle",
+					Property: {
+						Effect: [E.GagHeavy],
+						Difficulty: 6,
+					},
+				},
+			],
+			DialogPrefix: {
+				Header: "SelectGagType",
+				Option: "PremiumMuzzleMouthType",
+				Chat: "PremiumMuzzleMouthSet",
+			},
+		}, // PremiumMuzzle
+		OverfilledGag: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Gagtype",
+					Key: "Gagtype",
+					Options: [
+						{
+							Property: {
+								Effect: [E.GagMedium],
+							},
+						},
+						{
+							Property: {
+								Effect: [E.GagLight],
+							},
+						},
+						{
+							Property: {
+								Effect: [E.GagHeavy],
+							},
+						},
+						
+						{
+							Property: {
+								Effect: [E.GagHeavy],
+							},
+						},
+						{},
+					], // Cloth, Cross Tape, Tape, Tape + panties, None
+				},
+				{
+					Name: "Stuffing",
+					Key: "Stuffing",
+					Options: [
+						{
+							Property: {
+								Effect: [E.GagMedium],
+								Fetish: ["Lingerie"],
+							},
+						},
+						{
+							Property: {
+								Effect: [E.GagMedium],
+								Fetish: ["Lingerie"],
+							},
+						}], // Panties, Wad
+				},
+			],
+			DialogPrefix: {
+				Header: "OverfilledGagSelect",
+				Module: "OverfilledGagModule",
+				Option: "OverfilledGagOption",
+				Chat: "OverfilledGagSet",
+			},
+		} // Overfilled Gag
 	}, // ItemMouth
 	ItemMouth2: {
 		ClothGag: {
@@ -12558,6 +12648,14 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "GenitalGag" },
 		}, // GenitalGag
+		PremiumMuzzle: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "PremiumMuzzle" },
+		}, // PremiumMuzzle
+		OverfilledGag: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "OverfilledGag" },
+		}, // OverfilledGag
 	}, // ItemMouth2
 	ItemMouth3: {
 		ClothGag: {
@@ -12717,6 +12815,14 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "QualityHarnessGag" },
 		}, // QualityHarnessGag
+		PremiumMuzzle: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "PremiumMuzzle" },
+		}, // PremiumMuzzle
+		OverfilledGag: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "OverfilledGag" },
+		}, // OverfilledGag
 	}, // ItemMouth3
 	Mask: {
 		BunnyMask1: {

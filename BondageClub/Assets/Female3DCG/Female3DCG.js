@@ -36521,6 +36521,110 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "PremiumMuzzle",
+				InventoryID: 1180,
+				Fetish: ["Leather"],
+				Value: 70,
+				Time: 20,
+				Random: false,
+				AllowLock: true,
+				DrawLocks: false,
+				AllowTighten: true,
+				BuyGroup: "PremiumMuzzle",
+				Extended: true,
+				Top: 0,
+				Left: 0,
+				Hide: ["Mouth"],
+				Prerequisite: "GagFlat",
+				Effect: ["BlockMouth"],
+				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
+				DefaultColor: [
+					"#7E0000",
+					"#950000",
+					"#AFAFAF",
+					"#1B1B1B",
+					"#D3D3D3",
+					"#6C0B0B",
+					"#7B1D1D"
+				],
+				Layer: [
+					{ Name: "Main"},
+					{
+						Name: "VertStrap",
+						AllowTypes: { typed: [0, 1] },
+					},
+					{
+						Name: "Rivets",
+						AllowTypes: { typed: [0, 1] },
+					},
+					{ Name: "CrossStraps", AllowTypes: { typed: [1, 2] } },
+					{ Name: "CrossStrapsBuckles", AllowTypes: { typed: [1, 2] } },
+					{
+						Name: "Muzzle",
+						AllowTypes: { typed: 2 },
+					},
+					{
+						Name: "MuzzleStraps",
+						AllowTypes: { typed: 2 },
+					},
+					{
+						Name: "MuzzleRivets",
+						CopyLayerColor: "Rivets",
+						AllowTypes: { typed: 2 },
+					},
+					{
+						Name: "CrossStrapsLocks",
+						AllowColorize: false,
+						LockLayer: true,
+						AllowTypes: { typed: [1, 2] },
+					},
+				],
+			},
+			{
+				Name: "OverfilledGag",
+				InventoryID: 1181,
+				Value: 50,
+				Time: 20,
+				Random: false,
+				AllowLock: false,
+				AllowTighten: true,
+				BuyGroup: "OverfilledGag",
+				Extended: true,
+				Hide: ["Mouth"],
+				Prerequisite: "AccessMouth",
+				Effect: ["BlockMouth"],
+				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
+				DefaultColor: ["#890000","#B41414","#929292"],
+				Layer: [
+					{
+						Name: "Panties",
+						AllowTypes: { Stuffing: 0 },
+					},
+					{
+						Name: "RolledWad",
+						AllowTypes: { Stuffing: 1 },
+						CopyLayerColor: "Panties"
+					},
+					{
+						Name: "Mouth",
+						AllowTypes: { Stuffing: [0, 1] },
+						AllowColorize: false,
+					},
+					{ Name: "Clothmask", AllowTypes: { Gagtype: 0}},
+					{ Name: "Tape1", AllowTypes: { Gagtype: 1 } },
+					{
+						Name: "Tape2",
+						CopyLayerColor: "Tape1",
+						AllowTypes: { Gagtype: [2, 3] },
+					},
+					{
+						Name: "TapePanties",
+						CopyLayerColor: "Panties",
+						AllowTypes: { Gagtype: 3 },
+					},
+				],
+			}
 		],
 		Color: [
 			"Default",
@@ -38561,6 +38665,22 @@ var AssetFemale3DCG = [
 					BuyGroup: true,
 				},
 			},
+			{
+				Name: "PremiumMuzzle",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "PremiumMuzzle",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "OverfilledGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "OverfilledGag",
+					BuyGroup: true,
+				},
+			},
 		],
 		Color: [
 			"Default",
@@ -40572,6 +40692,22 @@ var AssetFemale3DCG = [
 				CopyConfig: {
 					GroupName: "ItemMouth",
 					AssetName: "QualityHarnessGag",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "PremiumMuzzle",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "PremiumMuzzle",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "OverfilledGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "OverfilledGag",
 					BuyGroup: true,
 				},
 			},
