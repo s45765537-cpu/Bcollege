@@ -891,12 +891,15 @@ ItemFeet,FloorShackles,Floor Shackles
 ItemFeet,FuturisticAnkleCuffs,Futuristic Ankle Cuffs
 ItemFeet,HeavyAnkleCuffs,Heavy Ankle Cuffs
 ItemFeet,HeavySpreaderMetal, Heavy Leg Spreader
+ItemFeet,HeelBinders,Heel Binders
 ItemFeet,HempRope,Hemp Rope
 ItemFeet,HighStyleSteelAnkleCuffs,HighStyle Steel Ankle Cuffs
 ItemFeet,Irish8Cuffs,Irish 8 Feet Cuffs
+ItemFeet,KneeOvernighter,Under Knee Overnighter
 ItemFeet,LeatherAnkleCuffs,Leather Ankle Cuffs
 ItemFeet,LeatherBelt,Leather Belt
 ItemFeet,LeatherDeluxeAnkleCuffs,Leather Deluxe Ankle Cuffs
+ItemFeet,MassiveAnkleCuffs,Massive Ankle Cuffs
 ItemFeet,MedicalBedRestraints,Medical Bed Restraints
 ItemFeet,NylonRope,Nylon Rope
 ItemFeet,OrnateAnkleCuffs,Ornate Ankle Cuffs
@@ -979,6 +982,7 @@ ItemHands,CheerleaderPomPoms,Pom Pom Mitts
 ItemHands,DuctTape,Duct Tape
 ItemHands,ElbowLengthMittens,Long Leather Paw Mittens
 ItemHands,FuturisticMittens,Futuristic Mittens
+ItemHands,FullMittens,Full Mittens
 ItemHands,GlueMittens,Glue Mittens
 ItemHands,HempRopeCuffs,Hemp Rope Cuffs
 ItemHands,HoofMittens,Hoof Mittens
@@ -1468,6 +1472,7 @@ Jewelry,,Jewelry
 Jewelry,JewelrySet,Piercing Set
 LeftAnklet,,Anklet (Left)
 LeftAnklet,BandAnklet,Band Anklet
+LeftAnklet,HeelBinders,Heel Binder (Left ankle)
 LeftAnklet,LegFur,Fur Accessory
 LeftAnklet,Ribbon,Ribbon
 LeftAnklet,Ribbon1,Ribbon Bow
@@ -1588,6 +1593,7 @@ Pussy,Pussy2,Pussy 2
 Pussy,Pussy3,Pussy 3
 RightAnklet,,Anklet (Right)
 RightAnklet,BandAnklet,Band Anklet
+RightAnklet,HeelBinders,Heel Binder (Right ankle)
 RightAnklet,LegFur,Fur Accessory
 RightAnklet,Ribbon,Ribbon
 RightAnklet,Ribbon1,Ribbon Bow
@@ -1608,6 +1614,7 @@ Shoes,CustomHeels,Custom Strap Heels
 Shoes,DeluxeBoots,Deluxe Mistress Boots
 Shoes,DutyShoes,Duty Shoes
 Shoes,Flippers,Flippers
+Shoes,FullLegBoots,Full Leg Leather Boots
 Shoes,FuzzyBoots,Fuzzy Boots
 Shoes,Geta,Geta Sandals
 Shoes,Heels1,Heels
@@ -1665,6 +1672,7 @@ SocksLeft,,Left Leg
 SocksLeft,CowPrintedSocks,Cow Printed Socks
 SocksLeft,FootlessSocks1,Footless Socks
 SocksLeft,HaremStockings,Harem Stockings
+SocksLeft,HeelBinders,Heel Binder (Left ankle)
 SocksLeft,KneePads,Knee Pads
 SocksLeft,LatexSocks1,Latex Socks
 SocksLeft,LeatherSocks1,Short Leather Socks
@@ -1687,6 +1695,7 @@ SocksRight,,Right Leg
 SocksRight,CowPrintedSocks,Cow Printed Socks
 SocksRight,FootlessSocks1,Footless Socks
 SocksRight,HaremStockings,Harem Stockings
+SocksRight,HeelBinders,Heel Binder (Right ankle)
 SocksRight,KneePads,Knee Pads
 SocksRight,LatexSocks1,Latex Socks
 SocksRight,LeatherSocks1,Short Leather Socks
