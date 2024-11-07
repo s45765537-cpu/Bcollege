@@ -13,10 +13,13 @@ const TightenLoosenScreenBlacklist = new Set([
  * @returns {void} Nothing
  */
 function TightenLoosenItemLoad() {
-	if (DialogTightenLoosenItem.Difficulty == null) DialogTightenLoosenItem.Difficulty = 0;
-	TightenLoosenItemMaximumDifficulty = SkillGetLevel(Player, "Bondage") + 4;
-	if (DialogTightenLoosenItem.Asset.Difficulty != null) TightenLoosenItemMaximumDifficulty = TightenLoosenItemMaximumDifficulty + DialogTightenLoosenItem.Asset.Difficulty;
-	if ((DialogTightenLoosenItem.Craft != null) && (DialogTightenLoosenItem.Craft.Property === "Secure")) TightenLoosenItemMaximumDifficulty = TightenLoosenItemMaximumDifficulty + 4;
+	DialogTightenLoosenItem.Difficulty ??= DialogTightenLoosenItem.Asset.Difficulty;
+	TightenLoosenItemMaximumDifficulty = (
+		SkillGetLevel(Player, "Bondage")
+		+ 4
+		+ DialogTightenLoosenItem.Asset.Difficulty
+		+ (DialogTightenLoosenItem.Craft?.Property === "Secure" ? 4 : 0)
+	);
 }
 
 /**
@@ -53,6 +56,10 @@ function TightenLoosenItemDraw() {
  * @returns {void} Nothing
  */
 function TightenLoosenFacialExpression(C, Blush, Eyes, Eyebrows) {
+	if (!(C.OnlineSharedSettings?.ItemsAffectExpressions ?? true)) {
+		return;
+	}
+
 	if ((Blush != "") && ((InventoryGet(C, "Blush") == null) || (InventoryGet(C, "Blush").Property == null) || (InventoryGet(C, "Blush").Property.Expression == null))) CharacterSetFacialExpression(C, "Blush", Blush, 7);
 	if ((Eyes != "") && ((InventoryGet(C, "Eyes") == null) || (InventoryGet(C, "Eyes").Property == null) || (InventoryGet(C, "Eyes").Property.Expression == null))) CharacterSetFacialExpression(C, "Eyes", Eyes, 3);
 	if ((Eyebrows != "") && ((InventoryGet(C, "Eyebrows") == null) || (InventoryGet(C, "Eyebrows").Property == null) || (InventoryGet(C, "Eyebrows").Property.Expression == null))) CharacterSetFacialExpression(C, "Eyebrows", Eyebrows, 5);
@@ -111,7 +118,7 @@ function TightenLoosenItemClick() {
 
 	// If the difficulty changed and we must refresh, improves the skill a little if done in a multiplayer
 	if (Action != "") {
-		CharacterRefresh(C, true);
+		CharacterRefresh(C, true, false);
 		if (CurrentScreen == "ChatRoom") {
 			if (((Action == "LoosenLot") || (Action == "LoosenLittle")) && C.IsPlayer()) SkillProgress(Player, "Evasion", 25);
 			if (((Action == "LoosenLot") || (Action == "LoosenLittle")) && !C.IsPlayer()) SkillProgress(Player, "Bondage", 25);
