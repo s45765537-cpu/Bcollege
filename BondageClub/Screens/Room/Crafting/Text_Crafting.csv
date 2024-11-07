@@ -28,6 +28,7 @@ EnterExtendedDescription,Enable longer (alphanumeric-only) descriptions
 EnterColor,Enter or pick the colors
 EnterPriority,Item drawing priority
 EnterPrivate,Private (only you can use it)
+EnterTighten,Tighten or loosen item
 EnterType,Configure extended item
 EmptySlot,Empty
 PropertyNormal,Normal

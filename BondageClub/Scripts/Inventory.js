@@ -663,6 +663,7 @@ function InventoryCraft(Source, Target, GroupName, Craft, Refresh, ApplyColor=tr
 	if ((Item == null) || !CraftingValidate(Craft, Item.Asset, CraftWarn, Source.IsPlayer())) return;
 	if (Item.Craft == null) Item.Craft = Craft;
 	if (Item.Property == null) Item.Property = {};
+	Item.Difficulty ??= Item.Asset.Difficulty;
 
 	// Applies the color schema, separated by commas
 	if (ApplyColor) {
@@ -684,17 +685,16 @@ function InventoryCraft(Source, Target, GroupName, Craft, Refresh, ApplyColor=tr
 
 	// The properties are only applied on self or NPCs to prevent duplicating the effect
 	if (Target.IsPlayer() || Target.IsNpc()) {
+		Item.Difficulty += Craft.DifficultyFactor ?? 0;
 
 		// The secure property adds 5 to the difficulty rating to struggle out
 		if (Craft.Property === "Secure") {
-			if (Item.Difficulty == null) Item.Difficulty = 4;
-			else Item.Difficulty = Item.Difficulty + 4;
+			Item.Difficulty += 4;
 		}
 
 		// The loose property removes 5 to the difficulty rating to struggle out
 		if (Craft.Property === "Loose") {
-			if (Item.Difficulty == null) Item.Difficulty = -4;
-			else Item.Difficulty = Item.Difficulty - 4;
+			Item.Difficulty -= 4;
 		}
 
 		// The decoy property makes it always possible to struggle out
