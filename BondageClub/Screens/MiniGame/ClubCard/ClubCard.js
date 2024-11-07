@@ -2588,10 +2588,7 @@ function ClubCardPlayerSummonGroupCardFromDeck(CCPlayer, groups, amount, level) 
 	}
 
 	let groupCardsInDeck;
-	groupCardsInDeck = CCPlayer.Deck.filter(value => groups.some(group => ClubCardCardHasGroup(value, group)
-		&& value.RequiredLevel == level
-		&& ClubCardIsLiability(value) != true
-		&& ClubCardCanSummonCard(CCPlayer, value)));
+	groupCardsInDeck = CCPlayer.Deck.filter(value => groups.some(group => ClubCardCardHasGroup(value, group) && value.RequiredLevel == level && ClubCardCanSummonCard(CCPlayer, value)));
 	if (groupCardsInDeck.length === 0) {
 		return false;
 	}
