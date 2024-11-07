@@ -685,7 +685,7 @@ For 3 turns, you can play an extra card.
 Quick Release Knot
 Quick Release Knot
 Gain money equal to the number of knots in your discard pile plus 4. Shuffle this and all knots from your discard pile into your deck. 
-Дает (4 + кол-во сыгранных узлов) Денег. Перемешивает все узлы из вашей кучи и возвращает их в колоду.
+Дает (4 + кол-во Узлов в куче) Денег. Перемешивает все Узлы из вашей кучи и возвращает их в колоду.
 Ransomware
 Вирус-Вымогатель
 Opponent loses 5 Money per building level.  Cannot be played if your opponent has Amanda or Jennifer.

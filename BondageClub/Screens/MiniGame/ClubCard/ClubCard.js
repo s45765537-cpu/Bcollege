@@ -1766,7 +1766,7 @@ var ClubCardList = [
 			ClubCardPlayerAddFame(CCPlayer, mommyCount * 4);
 			ClubCardPlayerDrawCard(CCPlayer, mommyCount);
 			if (mommyCount > 0) {
-				ClubCardLogGetDataPacket(ClubCardMessageType.CARDEFFECT, "Effect Daycare Party", CCPlayer, mommyCount);
+				ClubCardLogGetDataPacket(ClubCardMessageType.CARDEFFECT, "Effect Daycare Party", CCPlayer, mommyCount * 4);
 			}
 		}
 	},
@@ -2583,7 +2583,10 @@ function ClubCardPlayerSummonGroupCardFromDeck(CCPlayer, groups, amount, level) 
 	}
 
 	let groupCardsInDeck;
-	groupCardsInDeck = CCPlayer.Deck.filter(value => groups.some(group => ClubCardCardHasGroup(value, group) && value.RequiredLevel == level && ClubCardCanSummonCard(CCPlayer, value)));
+	groupCardsInDeck = CCPlayer.Deck.filter(value => groups.some(group => ClubCardCardHasGroup(value, group)
+		&& value.RequiredLevel == level
+		&& ClubCardIsLiability(value) != true
+		&& ClubCardCanSummonCard(CCPlayer, value)));
 	if (groupCardsInDeck.length === 0) {
 		return false;
 	}
