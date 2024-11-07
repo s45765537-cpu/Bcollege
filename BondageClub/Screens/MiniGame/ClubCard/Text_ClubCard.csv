@@ -387,7 +387,7 @@ Title Alvin,Alvin
 Text Alvin,"Summon a Ropeslave when playing Restrain, Shibari event or Kidnapping a Dominant or Mistress (max 3 in club)"
 Title Rope Slave,Rope Slave
 Text Rope Slave,Gain 1 Money when you play a Knot or Shibari event. 
-Effect Rope Slave,"SOURCEPLAYER gained 1 money from Rope Save."
+Effect Rope Slave,"SOURCEPLAYER gained 1 money from Rope Slave."
 Title Quack Doctor,Quack Doctor
 Text Quack Doctor,"Start of your turn, for each Asylum Patient present, players lose 1 fame. (Max 4)"
 Effect Quack Doctor,"SOURCEPLAYER and OPPONENTPLAYER lost AMOUNT fame."
