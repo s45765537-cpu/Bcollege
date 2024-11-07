@@ -42,7 +42,7 @@ PlayAnotherCard,PLAYERNAME can play another card.  The turn continues.
 StartPlayer,You've been chosen to start the game.  Select a card to play or end your turn by drawing.
 StartOpponent,Your opponent has been chosen to start the game.  Please wait for her move.
 StartOnline,PLAYERNAME has been selected to start.  Both players must pick a deck.
-StartTurnLogChat, --- Turn TURNNUMBER - PLAYERNAME ---
+StartTurnLogChat,Turn TURNNUMBER - PLAYERNAME
 EndTurnPlayer,SOURCEPLAYER FAMEMONEY.
 EndDrawPlayer,SOURCEPLAYER draws a card.  FAMEMONEY.
 UpgradeToLevel2,Get Cottage (MONEY)

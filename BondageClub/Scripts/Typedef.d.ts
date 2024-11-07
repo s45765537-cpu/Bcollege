@@ -4142,7 +4142,7 @@ interface ClubCardPlayer {
 interface ClubCardMessage {
 	Message: string,
 	MessageType: string,
-	PlayerName: string,
+	PlayerId: string,
 	TurnCounter:  number
 }
 

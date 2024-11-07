@@ -2049,14 +2049,19 @@ function ClubCardLogAdd(LogEntry, Push = true) {
 function ClubCardMessagePacketAdd(Message, MessageType) {
 	if (ClubCardMessageStorage) {
 		const CCPlayer = ClubCardPlayer[ClubCardTurnIndex];
-		const playerName = CharacterNickname(CCPlayer.Character);
+		//const playerName = CharacterNickname(CCPlayer.Character);
+		const playerId = (CCPlayer.Control === "AI")
+			? "ControlAI"
+			: `${CCPlayer.Character.MemberNumber}`;
+		
+		//if AI MemberNumber null
 		const turnCounter = CCPlayer.ClubCardTurnCounter;
 
 		/** @type {ClubCardMessage} */
 		const packet = {
 			Message: Message,
 			MessageType: MessageType,
-			PlayerName: playerName,
+			PlayerId: playerId,
 			TurnCounter: turnCounter
 		};
 		ClubCardMessageStorage.push(packet);
@@ -2083,7 +2088,7 @@ function ClubCardProcessingRopeSlaveLivingArt(MessagePacket) {
 	const newMessages = [];
 	const regex = /(.+) gained (\d+) (money|fame) from (.+)\./;
 	let turnCounter = null;
-	let playerName = null;
+	let PlayerId = null;
 
 	for (let item of MessagePacket) {
 		const match = item.Message.match(regex);
@@ -2095,7 +2100,7 @@ function ClubCardProcessingRopeSlaveLivingArt(MessagePacket) {
 			const source = match[4];
 			const summaryKey = `${player} from ${source}`;
 			turnCounter = item.TurnCounter;
-			playerName = item.PlayerName;
+			PlayerId = item.PlayerId;
 
 			if (!summary[summaryKey]) summary[summaryKey] = { money: 0, fame: 0 };
 
@@ -2110,7 +2115,7 @@ function ClubCardProcessingRopeSlaveLivingArt(MessagePacket) {
 			newMessages.push({
 				Message: `${playerSource[0]} gained ${money} money from ${playerSource[1]}.`,
 				MessageType: ClubCardMessageType.CARDEFFECT,
-				PlayerName: playerName,
+				PlayerId: PlayerId,
 				TurnCounter: turnCounter
 			});
 		}
@@ -2118,7 +2123,7 @@ function ClubCardProcessingRopeSlaveLivingArt(MessagePacket) {
 			newMessages.push({
 				Message: `${playerSource[0]} gained ${fame} fame from ${playerSource[1]}.`,
 				MessageType: ClubCardMessageType.CARDEFFECT,
-				PlayerName: playerName,
+				PlayerId: PlayerId,
 				TurnCounter: turnCounter,
 			});
 		}
@@ -3605,12 +3610,15 @@ function ClubCardGetGroupText(Group) {
 
 /**
    * Updated the text by mask, for InnerHTML
+   * The function finds the necessary words from the arrays and adds colour labels to them.
    * @param {String} text -Normal Card Text
    * @returns {String} -  Updated for InnerHTML Card Text
    */
 function ClubCardGetFormatTextForInnerHTML(text) {
-	const fameRegex = /[+-]?\d*\s*fame/gi;
-	const moneyRegex = /[+-]?\d*\s*money/gi;
+	const ClubcardLanguageFame = ["fame","Славы","声望"];
+	const ClubcardLanguageMoney = ["money", "Денег", "金钱"];
+	const fameRegex = new RegExp(`[+-]?\\d*\\s*(${ClubcardLanguageFame.join("|")})`, "gi");
+	const moneyRegex = new RegExp(`[+-]?\\d*\\s*(${ClubcardLanguageMoney.join("|")})`, "gi");
 
 	const formattedText = text
 		.replace(fameRegex, (match) => `<span style='color: ${ClubCardFameTextColor};'>${match}</span>`)
@@ -3947,7 +3955,7 @@ function ClubCardCreateTurnDivContainer(MessageItem) {
 	const ActionSeparatorBackgound = "#2E2E2E";
 	const StartTurnTextColor = "#FF9999";
 
-	const turnDivName = `TurnDiv_Turn${MessageItem.TurnCounter}_${MessageItem.PlayerName}`;
+	const turnDivName = `TurnDiv_Turn${MessageItem.TurnCounter}_${MessageItem.PlayerId}`;
 	if (document.getElementById(turnDivName) == null) {
 		const turnDiv = ElementCreateDiv(turnDivName);
 		document.getElementById("CCLog").appendChild(turnDiv);
