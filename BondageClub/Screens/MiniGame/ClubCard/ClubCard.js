@@ -2049,13 +2049,10 @@ function ClubCardLogAdd(LogEntry, Push = true) {
 function ClubCardMessagePacketAdd(Message, MessageType) {
 	if (ClubCardMessageStorage) {
 		const CCPlayer = ClubCardPlayer[ClubCardTurnIndex];
-		//const playerName = CharacterNickname(CCPlayer.Character);
+		const turnCounter = CCPlayer.ClubCardTurnCounter;
 		const playerId = (CCPlayer.Control === "AI")
 			? "ControlAI"
 			: `${CCPlayer.Character.MemberNumber}`;
-		
-		//if AI MemberNumber null
-		const turnCounter = CCPlayer.ClubCardTurnCounter;
 
 		/** @type {ClubCardMessage} */
 		const packet = {
