@@ -5616,6 +5616,47 @@ OverfilledGagSelectGagtype,Select Gag Type
 OverfilledGagSelectStuffing,Select Stuffing Type
 OverfilledGagSetGagtype,SourceCharacter changes the gag type on DestinationCharacter mouth.
 OverfilledGagSetStuffing,SourceCharacter shoves a huge stuffing into DestinationCharacter mouth.
+ItemHandsFullMittensSelectBase,Choose a extended restraint:
+ItemHandsFullMittensModuleRestraints,Current condition
+ItemHandsFullMittensSelectRestraints,Full Mittens menu:
+ItemHandsFullMittensOptionr0,Just Mittens
+ItemHandsFullMittensOptionr1,Yoked with bar
+ItemHandsFullMittensOptionr2,Hands up with bar
+ItemHandsFullMittensOptionr3,Straitjacket mode
+ItemHandsFullMittensOptionr4,Harness belts
+ItemHandsFullMittensOptionr5,Armbinder mode
+ItemHandsFullMittensOptionr6,Ankle shackles combo
+ItemHandsFullMittensSetr0,SourceCharacter removes any restraint accessory from DestinationCharacterName mittens.
+ItemHandsFullMittensSetr1,SourceCharacter tied DestinationCharacterName mittens to the bar in yoke pose. 
+ItemHandsFullMittensSetr2,SourceCharacter tied DestinationCharacterName mittens to the bar with hands up.
+ItemHandsFullMittensSetr3,SourceCharacter binds DestinationCharacterName arms as straitjacket style.
+ItemHandsFullMittensSetr4,SourceCharacter binds DestinationCharacterName hands in the back and put some harness belt on TargetPronounObject torso.
+ItemHandsFullMittensSetr5,SourceCharacter binds DestinationCharacterName arms as armbinder style.
+ItemHandsFullMittensSetr6,SourceCharacter links DestinationCharacterName mittens in TargetPronounObject ankles with chain and shackles.
+ItemFeetKneeOvernighterSelect,How would you like to adjust this?
+ItemFeetKneeOvernighterLoose,Just for fun
+ItemFeetKneeOvernighterSetLoose,SourceCharacter takes it easy on the DestinationCharacterName and left the Under Knee Overnight belts loose a bit.
+ItemFeetKneeOvernighterThigh,Real Deal
+ItemFeetKneeOvernighterSetThigh,SourceCharacter thighens the Under Knee Overnighter belts a lot on the DestinationCharacterName feet.
+ItemFeetHeelBindersSelectBase,Choose a extended restraint:
+ItemFeetHeelBindersModuleRestraints,Current condition
+ItemFeetHeelBindersSelectRestraints,Feet Binders menu:
+ItemFeetHeelBindersOptionr0,Just cuffs
+ItemFeetHeelBindersOptionr1,Long chain link
+ItemFeetHeelBindersOptionr2,Chain around ankles
+ItemFeetHeelBindersOptionr3,Link strap limiter
+ItemFeetHeelBindersOptionr4,Metal bar
+ItemFeetHeelBindersOptionr5,Spread bar
+ItemFeetHeelBindersOptionr6,Spread bar suspension
+ItemFeetHeelBindersOptionr7,Grounded spread bar
+ItemFeetHeelBindersSetr0,SourceCharacter removes any bind accessory from DestinationCharacterName ankle cuffs.
+ItemFeetHeelBindersSetr1,SourceCharacter links the DestinationCharacterName ankle cuffs with a long chain. 
+ItemFeetHeelBindersSetr2,SourceCharacter tightens the chain around DestinationCharacterName ankles.
+ItemFeetHeelBindersSetr3,SourceCharacter links DestinationCharacterName ankle cuffs with a short leather strap.
+ItemFeetHeelBindersSetr4,SourceCharacter links DestinationCharacterName ankle cuffs with a metal bar.
+ItemFeetHeelBindersSetr5,SourceCharacter spreads the DestinationCharacterName legs with a spread bar.
+ItemFeetHeelBindersSetr6,SourceCharacter suspends the spread bar and DestinationCharacterName is suspended upside down.
+ItemFeetHeelBindersSetr7,SourceCharacter chained the spread bar to the floor and DestinationCharacterName feet are stuck in place.
 ItemArmsBedMetalCuffsLeft,Left
 ItemArmsBedMetalCuffsRight,Right
 ItemArmsBedMetalCuffsBoth,Both

@@ -14236,6 +14236,133 @@ var AssetFemale3DCGExtended = {
 		SpreaderVibratingDildoBar: {
 			Archetype: ExtendedArchetype.VIBRATING,
 		}, // SpreaderVibratingDildoBar
+		KneeOvernighter: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Loose",
+					Property: {
+						Difficulty: 5,
+					},
+				},
+				{
+					Name: "Thigh",
+					Property: {
+						Difficulty: 7,
+						Effect: [E.Freeze],
+					Random: false,
+					},
+				},
+			],
+			DrawImages: false,
+			ChangeWhenLocked: false,
+		}, // KneeOvernighter
+		HeelBinders: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChangeWhenLocked: false,
+			Modules: [
+				{
+					Name: "Restraints",
+					Key: "r",
+					Options: [
+						{
+							// r0 - None
+							Property: {},
+						},
+						{
+							// r1 - Chain
+							Property: {
+								Effect: [E.Slow],
+								Difficulty: 5,
+							},
+						},
+						{
+							// r2 - ShortChain
+							Property: {
+								SetPose: ["LegsClosed"],
+								AllowActivePose: ["Kneel"],
+								Effect: [
+									E.Slow,
+									E.BlockWardrobe,
+								],
+								Difficulty: 6,
+							},
+						},
+						{
+							// r3 - Strap Limiter
+							Property: {
+								AllowActivePose: [
+									"LegsOpen",
+									"LegsClosed",
+									"Kneel",
+									"AllFours",
+									"Hogtied",
+								],
+								Effect: [
+									E.Slow,
+									E.BlockWardrobe,
+								],
+								Difficulty: 5,
+							},
+						},
+						{
+							// r4 - Spread Bar Stand
+							Property: {
+								SetPose: ["LegsOpen"],
+								AllowActivePose: ["Kneel"],
+								Effect: [
+									E.BlockWardrobe,
+									E.Freeze,
+									E.MapImmobile,
+								],
+								Difficulty: 7,
+							},
+						},
+						{
+							// r5 - Spread Bar Spread
+							Property: {
+								SetPose: ["Spread"],
+								AllowActivePose: ["KneelingSpread"],
+								Effect: [
+									E.BlockWardrobe,
+									E.Freeze,
+									E.MapImmobile,
+								],
+								Difficulty: 8,
+							},
+						},
+						{
+							// r6 - Spread Bar Sus.Inverted
+							Property: {
+								SetPose: ["Spread", "Suspension"],
+								Effect: [
+									E.BlockWardrobe,
+									E.Freeze,
+									E.Tethered,
+									E.MapImmobile,
+								],
+								OverrideHeight: { Height: -20, Priority: 41 },
+								Difficulty: 9,
+								Expression: [{ Group: "Blush", Name: "High", Timer: 12 }],
+							},
+						},
+						{
+							// r7 - Spread Bar Spread.Ground
+							Property: {
+								SetPose: ["Spread"],
+								Effect: [
+									E.BlockWardrobe,
+									E.Freeze,
+									E.Tethered,
+									E.MapImmobile,
+								],
+								Difficulty: 9,
+							},
+						},
+					],
+				},
+			],
+		}, // HeelBinders
 	}, // ItemFeet
 	ItemMisc: {
 		ServingTray: {
@@ -17018,6 +17145,104 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		},
+		FullMittens: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Restraints",
+					Key: "r",
+					Options: [
+						{
+							// r0 - None
+							Property: {},
+						},
+						{
+							// r1 - Bar Yoke Position
+							Property: {
+								SetPose: ["Yoked"],
+								Effect: [
+									E.Block,
+									E.BlockWardrobe,
+									E.Freeze,
+									E.NotSelfPickable,
+									E.Tethered,
+									E.MapImmobile,
+								],
+								Difficulty: 9,
+							},
+						},
+						{
+							// r2 - Bar Over Position
+							Property: {
+								SetPose: ["OverTheHead"],
+								Effect: [
+									E.Block,
+									E.BlockWardrobe,
+									E.Freeze,
+									E.NotSelfPickable,
+									E.Tethered,
+									E.MapImmobile,
+								],
+								Difficulty: 12,
+							},
+						},
+						{
+							// r3 - StraitJacket Mode
+							Property: {
+								SetPose: ["BackBoxTie"],
+								Block: ["ItemArms"],
+								Effect: [
+									E.Block,
+									E.BlockWardrobe,
+									E.NotSelfPickable,
+								],
+								Difficulty: 8,
+							},
+						},
+						{
+							// r4 - Restrict Belts
+							Property: {
+								SetPose: ["BackElbowTouch"],
+								Effect: [
+									E.Block,
+									E.BlockWardrobe,
+									E.NotSelfPickable,
+								],
+								Difficulty: 6,
+							},
+						},
+						{
+							// r5 - Armbinder Mode
+							Property: {
+								SetPose: ["BackElbowTouch"],
+								Block: ["ItemArms"],
+								Effect: [
+									E.Block,
+									E.BlockWardrobe,
+									E.NotSelfPickable,
+								],
+								Difficulty: 9,
+							},
+						},
+						{
+							// r6 - Full Armbinder and Ankles Combo
+							Property: {
+								SetPose: ["BackElbowTouch"],
+								Block: ["ItemArms"],
+								Effect: [
+									E.Block,
+									E.BlockWardrobe,
+									E.Slow,
+									E.NotSelfPickable,
+								],
+								Difficulty: 12,
+							},
+						},
+					],
+				},
+			],
+			ChangeWhenLocked: false,
+		}, // FullMittens
 	}, // ItemHands
 	ItemAddon: {
 		CeilingChain: {

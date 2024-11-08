@@ -1597,6 +1597,9 @@ var ClubCardList = [
 			ClubCardPlayerDrawCard(CCPlayer, 5);
 			const opponent = ClubCardGetOpponent(CCPlayer);
 			while (opponent.Hand.length < 4) {
+				if (opponent.Deck.length < 1) {
+					break;
+				}
 				ClubCardPlayerDrawCard(opponent, 1);
 			}
 			ClubCardPlayerDrawCard(opponent, 1);
@@ -3662,7 +3665,7 @@ function ClubCardRenderCard(Card, X, Y, W, Sleeve = null, Source = null) {
 		DrawText(Card.Time.toString(), X + W * 0.5, Y + W * 0.9, "Black", "Silver");
 	}
 	MainCanvas.font = "bold " + Math.round(W / 12) + "px arial";
-	DrawTextWrap(Card.Title, X + W * 0.05, Y + W * 0.05, W * 0.9, W * 0.1, "Black");
+	DrawTextWrap(Card.Title, X + W * 0.05, Y + W * 0.05, W * 0.9, W * 0.1, "Black", null, null, Math.round(W / 22));
 	let BubblePos = Y + W * 0.2;
 	let WModifier = 0.125; // Modifier for adjusting fame, money, level, liability icons
 	if (ClubCardIsLiability(Card)) BubblePos = ClubCardRenderBubble(null, X + W * 0.05, BubblePos, W * WModifier, "Liability");
