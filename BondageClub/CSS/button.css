@@ -213,12 +213,12 @@
 
 .button-styling:disabled,
 .button-styling[aria-disabled="true"] {
-	background-color: var(--disabled-color);
+	background-color: var(--disabled-color) !important;
 }
 
 .button-styling:disabled > .button-label,
 .button-styling[aria-disabled="true"] > .button-label {
-	background-color: color-mix(in srgb, var(--disabled-color) 50%, transparent);
+	background-color: color-mix(in srgb, var(--disabled-color) 50%, transparent) !important;
 }
 
 .button-styling:disabled::before,
