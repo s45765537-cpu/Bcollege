@@ -6442,6 +6442,15 @@ var AssetFemale3DCG = [
 					{ Name: "Lock", AllowTypes: { typed: 3 } },
 				],
 			},
+			{
+				Name: "LongFishnets",
+				DynamicGroupName: "Socks",
+				CopyConfig: {
+					GroupName: "Socks",
+					AssetName: "LongFishnets",
+					BuyGroup: true,
+				},
+			}
 		],
 
 		Color: [
@@ -8626,6 +8635,18 @@ var AssetFemale3DCG = [
 					{ Name: "Body", AllowColorize: true },
 					{ Name: "Guards", AllowColorize: true },
 				],
+			},
+			{
+				Name: "LongFishnets",
+				InventoryID: 1185,
+				Fetish: ["Nylon"],
+				Value: 15,
+				BuyGroup: "LongFishnets",
+				Left: {
+					[PoseType.DEFAULT] : 75,
+					KneelingSpread: 105,
+					Hogtied: 125,
+				}
 			},
 		],
 		Color: [
@@ -13084,7 +13105,7 @@ var AssetFemale3DCG = [
 				Priority: 56,
 				BuyGroup: "Onihorns",
 				Top: 5,
-				Left: 125,
+				Left: 127,
 				BodyCosplay: true,
 				Extended: true,
 				Layer: [
@@ -30686,6 +30707,47 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "BedMetalCuffs",
+				InventoryID: 1182,
+				Fetish: ["Metal"],
+				Value: 20,
+				Difficulty: 6,
+				Random: false,
+				IsRestraint: true,
+				ParentGroup: null,
+				Audio: "MetalCuffs",
+				SetPose: ["Yoked"],
+				Prerequisite: ["OnBed"],
+				Effect: [E.Block, E.BlockWardrobe, E.Freeze],
+				Block: ["ItemDevices"],
+				Left: -3,
+				Top: 40,
+				Extended: true,
+				DefaultColor: ["#999999","#999999"],
+				Layer: [
+					{
+						Name: "Leftundercuff",
+						Priority: 2,
+						AllowTypes: { typed: [0, 2]},
+					},
+					{
+						Name: "Leftcuff",
+						CopyLayerColor: "Leftundercuff",
+						AllowTypes: { typed: [0, 2]},
+					},
+					{
+						Name: "Rightundercuff",
+						Priority: 2,
+						AllowTypes: { typed: [1, 2]},
+					},
+					{
+						Name: "Rightcuff",
+						CopyLayerColor: "Rightundercuff",
+						AllowTypes: { typed: [1, 2]},
+					}
+				]
+			},
 		],
 		Color: [
 			"Default",
@@ -33690,6 +33752,68 @@ var AssetFemale3DCG = [
 						AllowColorize: true,
 						LockLayer: true,
 					},
+				],
+			},
+			{
+				Name: "MoonCollar",
+				InventoryID: 1186,
+				Fetish: ["Metal"],
+				Value: 30,
+				Difficulty: 50,
+				Top: 159,
+				Time: 5,
+				AllowLock: true,
+				DefaultColor: ["#7E7E7E", "#961006", "#198E9D"],
+				Layer: [
+					{
+						Name: "Base",
+						AllowColorize: true,
+					},
+					{
+						Name: "Suns",
+						AllowColorize: true,
+					},
+					{
+						Name: "Centermoon",
+						AllowColorize: true,
+					},
+					{
+						Name: "Lock",
+						AllowColorize: false,
+						LockLayer: true,
+						Priority: 5
+					}
+				],
+			},
+			{
+				Name: "SunCollar",
+				InventoryID: 1187,
+				Fetish: ["Metal"],
+				Value: 30,
+				Difficulty: 50,
+				Top: 159,
+				Time: 5,
+				AllowLock: true,
+				DefaultColor: ["#7E7E7E", "#198E9D", "#961006"],
+				Layer: [
+					{
+						Name: "Base",
+						AllowColorize: true,
+					},
+					{
+						Name: "Moons",
+						AllowColorize: true,
+					},
+					{
+						Name: "Centersun",
+						AllowColorize: true,
+					},
+					{
+						Name: "Lock",
+						AllowColorize: false,
+						LockLayer: true,
+						Priority: 5
+					}
 				],
 			},
 		],

@@ -718,6 +718,8 @@ ItemArmsWristShacklesChain,Chain
 ItemArmsWristShacklesCuffs,Cuffs
 ItemArmsYokeBars,Bars
 ItemArmsYokeStraps,Straps
+ItemArmsBedMetalCuffsLeftundercuff,Left
+ItemArmsBedMetalCuffsRightundercuff,Right
 ItemBootsFuturisticHeels2Cuffs,Cuffs
 ItemBootsFuturisticHeels2Display,Display
 ItemBootsFuturisticHeels2Lock,Lock
@@ -1893,6 +1895,12 @@ ItemNeckSpikedChokerShine,Shine
 ItemNeckSpikedChokerSpikes,Spikes
 ItemNeckTechnoCollarSlenderCollarBase,Collar
 ItemNeckTechnoCollarSlenderCollarSides,Side Plates
+ItemNeckMoonCollarBase,Base
+ItemNeckMoonCollarSuns,Suns
+ItemNeckMoonCollarCentermoon,Center Moon
+ItemNeckMoonCollarBase,Base
+ItemNeckMoonCollarMoons,Moons
+ItemNeckMoonCollarCentersun,Center Sun
 ItemNipplesChainClampChain,Chain
 ItemNipplesChainClampClamp,Clamps
 ItemNipplesChainClampMetal,Metal

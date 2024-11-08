@@ -5657,3 +5657,10 @@ ItemFeetHeelBindersSetr4,SourceCharacter links DestinationCharacterName ankle cu
 ItemFeetHeelBindersSetr5,SourceCharacter spreads the DestinationCharacterName legs with a spread bar.
 ItemFeetHeelBindersSetr6,SourceCharacter suspends the spread bar and DestinationCharacterName is suspended upside down.
 ItemFeetHeelBindersSetr7,SourceCharacter chained the spread bar to the floor and DestinationCharacterName feet are stuck in place.
+ItemArmsBedMetalCuffsLeft,Left
+ItemArmsBedMetalCuffsRight,Right
+ItemArmsBedMetalCuffsBoth,Both
+ItemArmsBedMetalCuffsSelect,Select cuffs location.
+ItemArmsBedMetalCuffsSetLeft,SourceCharacter cuffs DestinationCharacter left arm to the bed.
+ItemArmsBedMetalCuffsSetRight,SourceCharacter cuffs DestinationCharacter right arm to the bed.
+ItemArmsBedMetalCuffsSetBoth,SourceCharacter cuffs DestinationCharacter both arms to the bed.
