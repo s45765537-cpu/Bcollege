@@ -12973,7 +12973,7 @@ var AssetFemale3DCG = [
 				Priority: 56,
 				BuyGroup: "Onihorns",
 				Top: 5,
-				Left: 125,
+				Left: 127,
 				BodyCosplay: true,
 				Extended: true,
 				Layer: [
