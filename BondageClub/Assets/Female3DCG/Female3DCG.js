@@ -6442,6 +6442,15 @@ var AssetFemale3DCG = [
 					{ Name: "Lock", AllowTypes: { typed: 3 } },
 				],
 			},
+			{
+				Name: "LongFishnets",
+				DynamicGroupName: "Socks",
+				CopyConfig: {
+					GroupName: "Socks",
+					AssetName: "LongFishnets",
+					BuyGroup: true,
+				},
+			}
 		],
 
 		Color: [
@@ -8626,6 +8635,18 @@ var AssetFemale3DCG = [
 					{ Name: "Body", AllowColorize: true },
 					{ Name: "Guards", AllowColorize: true },
 				],
+			},
+			{
+				Name: "LongFishnets",
+				InventoryID: 1185,
+				Fetish: ["Nylon"],
+				Value: 15,
+				BuyGroup: "LongFishnets",
+				Left: {
+					[PoseType.DEFAULT] : 75,
+					KneelingSpread: 105,
+					Hogtied: 125,
+				}
 			},
 		],
 		Color: [
