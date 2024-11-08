@@ -42,7 +42,7 @@ PlayAnotherCard,PLAYERNAME can play another card.  The turn continues.
 StartPlayer,You've been chosen to start the game.  Select a card to play or end your turn by drawing.
 StartOpponent,Your opponent has been chosen to start the game.  Please wait for her move.
 StartOnline,PLAYERNAME has been selected to start.  Both players must pick a deck.
-StartTurnLogChat, --- Turn TURNNUMBER - PLAYERNAME ---
+StartTurnLogChat,Turn TURNNUMBER - PLAYERNAME
 EndTurnPlayer,SOURCEPLAYER FAMEMONEY.
 EndDrawPlayer,SOURCEPLAYER draws a card.  FAMEMONEY.
 UpgradeToLevel2,Get Cottage (MONEY)
@@ -358,7 +358,7 @@ Title Daycare Enthusiast,Daycare Enthusiast
 Text Daycare Enthusiast,Gain 3 fame when an ABDL Mommy enters your club. Gain 3 money when an ABDL Baby enters your club.
 Title Daycare Party,Daycare Party
 Text Daycare Party,Gain 4 Fame and draw a card for each ABDL Mommy present.
-Effect Daycare Party, Gained AMOUNT fame from the Daycare Party
+Effect Daycare Party,Gained AMOUNT fame from the Daycare Party
 Title Nanny,Nanny
 Text Nanny,"When an ABDL Baby enters your club, gain fame equal to your club level."
 Effect Nanny,"Nanny gives AMOUNT fame SOURCEPLAYER, when baby enters your club."
@@ -376,18 +376,18 @@ Text Student Custodian,"If a Teacher or Staff is present, draw a card and lose 1
 Effect Student Custodian,SOURCEPLAYER lost AMOUNT money and drew a card from Student Custodian
 Title Recess,Recess
 Text Recess,Draw 2 cards. Gain 2 money for each ABDL Baby and College Student present.
-Effect Recess, SOURCEPLAYER draws 2 cards and gains AMOUNT money from Recess
+Effect Recess,SOURCEPLAYER draws 2 cards and gains AMOUNT money from Recess
 Title Med Student,Med Student
 Text Med Student,+1 Money per turn if an Asylum Patient is present. +1 Fame per turn if a College Teacher is present.
 Title First Bell,First Bell
 Text First Bell,"Draw a random college student from your deck. If it's your first turn or you control a teacher, play again."
-Effect First Bell Draw, SOURCEPLAYER draws 1 card from First Bell
-Effect First Bell No Draw, SOURCEPLAYER could not draw any cards from First Bell
+Effect First Bell Draw,SOURCEPLAYER draws 1 card from First Bell
+Effect First Bell No Draw,SOURCEPLAYER could not draw any cards from First Bell
 Title Alvin,Alvin
 Text Alvin,"Summon a Ropeslave when playing Restrain, Shibari event or Kidnapping a Dominant or Mistress (max 3 in club)"
 Title Rope Slave,Rope Slave
 Text Rope Slave,Gain 1 Money when you play a Knot or Shibari event. 
-Effect Rope Slave,"SOURCEPLAYER gained 1 money from Rope Save."
+Effect Rope Slave,"SOURCEPLAYER gained 1 money from Rope Slave."
 Title Quack Doctor,Quack Doctor
 Text Quack Doctor,"Start of your turn, for each Asylum Patient present, players lose 1 fame. (Max 4)"
 Effect Quack Doctor,"SOURCEPLAYER and OPPONENTPLAYER lost AMOUNT fame."
@@ -401,7 +401,7 @@ Title Help Button,Help Button
 Text Help Button,"Return a member from your club to its owners deck, a random Maid or Nurse of equal level joins your club from your deck."
 Effect Help Button No Draw,SOURCEPLAYER could not summon any cards from Help Button.
 Prerequisite Help Button,Select a member from your club to return to deck.
-Effect First Bell Draw, SOURCEPLAYER draws 1 card from First Bell
+Effect First Bell Draw,SOURCEPLAYER draws 1 card from First Bell
 Title Prodigious Patient,Prodigious Patient
 Text Prodigious Patient,"When she leaves your club, your opponent loses 15 fame and discards a random card. Leaves your club after 6 turns."
 Title Theatre Nurse,Theatre Nurse
