@@ -652,82 +652,81 @@ function InventoryGet(C, AssetGroup) {
 * @param {AssetGroupItemName} GroupName - The name of the asset group to scan
 * @param {CraftingItem} Craft - The crafted properties to apply
 * @param {Boolean} Refresh - TRUE if we must refresh the character
-* @param {Boolean} ApplyColor - TRUE if the items color must be (re-)applied
+* @param {Boolean} PreConfigureItem - TRUE if the default, pre-configured item state of the crafted item must be (re-)applied
 * @param {Boolean} CraftWarn - Whether a warning should logged whenever the crafting validation fails
 * @returns {void}
 */
-function InventoryCraft(Source, Target, GroupName, Craft, Refresh, ApplyColor=true, CraftWarn=true) {
+function InventoryCraft(Source, Target, GroupName, Craft, Refresh, PreConfigureItem=true, CraftWarn=true) {
 	// Gets the item first
 	if ((Source == null) || (Target == null) || (GroupName == null)) return;
 	let Item = InventoryGet(Target, GroupName);
 	if ((Item == null) || !CraftingValidate(Craft, Item.Asset, CraftWarn, Source.IsPlayer())) return;
-	if (Item.Craft == null) Item.Craft = Craft;
-	if (Item.Property == null) Item.Property = {};
+
+	const hasCraft = Item.Craft != null;
+	Item.Craft ??= Craft;
+	Item.Property ??= {};
 	Item.Difficulty ??= Item.Asset.Difficulty;
 
-	// Applies the color schema, separated by commas
-	if (ApplyColor) {
-		Item.Color = Craft.Color.replace(" ", "").split(",");
+	// Sets the crafter name and ID
+	Item.Craft.MemberNumber ??= Source.MemberNumber;
+	Item.Craft.MemberName ??= CharacterNickname(Source);
+
+	// Abort; the properties below are pre-configured by crafted items the first time they're applied,
+	// but should otherwise not be touched by this function lest they undo any further item customization applied after the fact
+	if (hasCraft && !PreConfigureItem) {
+		return;
 	}
 
-	// Applies a lock to the item
-	if (Craft.Lock != "")
-		InventoryLock(Target, Item, Craft.Lock, Source.MemberNumber, false);
+	// Applies the color schema, separated by commas
+	Item.Color = Craft.Color.replace(" ", "").split(",");
 
-	// Sets the crafter name and ID
-	if (Item.Craft.MemberNumber == null) Item.Craft.MemberNumber = Source.MemberNumber;
-	if (Item.Craft.MemberName == null) Item.Craft.MemberName = CharacterNickname(Source);
+	// Applies a lock to the item
+	if (Craft.Lock != "") {
+		InventoryLock(Target, Item, Craft.Lock, Source.MemberNumber, false);
+	}
 
 	// Set the item priority
 	if (Craft.ItemProperty) {
 		Object.assign(Item.Property, CommonCloneDeep(Craft.ItemProperty));
 	}
 
-	// The properties are only applied on self or NPCs to prevent duplicating the effect
-	if (Target.IsPlayer() || Target.IsNpc()) {
-		Item.Difficulty += Craft.DifficultyFactor ?? 0;
+	// Update the item's difficulty
+	Item.Difficulty += Craft.DifficultyFactor ?? 0;
 
-		// The secure property adds 5 to the difficulty rating to struggle out
-		if (Craft.Property === "Secure") {
+	// Apply Property-specific effects such as difficulty modifiers and facial expressions
+	switch (Craft.Property) {
+		case "Secure":
 			Item.Difficulty += 4;
-		}
-
-		// The loose property removes 5 to the difficulty rating to struggle out
-		if (Craft.Property === "Loose") {
+			break;
+		case "Loose":
 			Item.Difficulty -= 4;
-		}
-
-		// The decoy property makes it always possible to struggle out
-		if (Craft.Property === "Decoy") Item.Difficulty = -50;
-
-		// Expressions cannot be changed if the settings doesn't allow it for the player
-		if (!Target.IsPlayer() || (Player.OnlineSharedSettings == null) || Player.OnlineSharedSettings.ItemsAffectExpressions) {
-
-			// The painful property triggers an expression change
-			if (Craft.Property === "Painful") {
+			break;
+		case "Decoy":
+			Item.Difficulty = -50;
+			break;
+		case "Painful":
+			if (Target.OnlineSharedSettings?.ItemsAffectExpressions ?? true) {
 				CharacterSetFacialExpression(Target, "Blush", "ShortBreath", 10);
 				CharacterSetFacialExpression(Target, "Eyes", "Angry", 10);
 				CharacterSetFacialExpression(Target, "Eyes2", "Angry", 10);
 				CharacterSetFacialExpression(Target, "Eyebrows", "Angry", 10);
-				Item.Property.Fetish = CommonArrayConcatDedupe(Item.Property.Fetish || [], ["Masochism"]);
 			}
-
-			// The comfy property triggers an expression change
-			if (Craft.Property === "Comfy") {
+			Item.Property.Fetish = CommonArrayConcatDedupe(Item.Property.Fetish || [], ["Masochism"]);
+			break;
+		case "Comfy":
+			if (Target.OnlineSharedSettings?.ItemsAffectExpressions ?? true) {
 				CharacterSetFacialExpression(Target, "Blush", "Low", 10);
 				CharacterSetFacialExpression(Target, "Eyes", "Horny", 10);
 				CharacterSetFacialExpression(Target, "Eyes2", "Horny", 10);
 				CharacterSetFacialExpression(Target, "Eyebrows", "Raised", 10);
 			}
-
-		}
-
+			break;
 	}
 
 	// Refreshes the character if needed
-	if (Refresh)
+	if (Refresh) {
 		CharacterRefresh(Target, true);
-
+	}
 }
 
 /**
