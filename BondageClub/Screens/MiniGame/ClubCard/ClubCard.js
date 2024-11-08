@@ -2800,7 +2800,7 @@ function ClubCardLoadDeckNumber(DeckNum) {
 	if (ClubCardReward != null) {
 		if (ClubCardReward.Type == null) ClubCardReward.Type = "Member";
 		ClubCardFocus = ClubCardReward;
-		ClubCardPlayer[1].Hand.push({ ...ClubCardReward });
+		if (ClubCardPlayer[1].Control === "AI") ClubCardPlayer[1].Hand.push({ ...ClubCardReward });
 		ClubCardCreatePopup("TEXT", TextGet("CanWinNewCard") + " " + ClubCardReward.Title, TextGet("Play"), null, "ClubCardAIStart()", null);
 	} else ClubCardAIStart();
 
