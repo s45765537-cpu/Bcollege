@@ -33773,7 +33773,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "MoonCollar",
-				InventoryID: 1183,
+				InventoryID: 1186,
 				Fetish: ["Metal"],
 				Value: 30,
 				Difficulty: 50,
@@ -33804,7 +33804,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SunCollar",
-				InventoryID: 1184,
+				InventoryID: 1187,
 				Fetish: ["Metal"],
 				Value: 30,
 				Difficulty: 50,
