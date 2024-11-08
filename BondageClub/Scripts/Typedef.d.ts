@@ -956,7 +956,7 @@ interface Asset {
 	readonly AllowHideItem?: readonly string[];
 	/** @deprecated */
 	readonly AllowTypes?: never;
-	readonly AllowTighten?: boolean;
+	readonly AllowTighten: boolean;
 	/**
 	 * The default color of the item: an array of length {@link Asset.ColorableLayerCount} consisting of {@link AssetGroup.DefaultColor} and/or valid color hex codes.
 	 */
@@ -3599,6 +3599,7 @@ type CraftingMode = (
 	| "Name"
 	| "Color"
 	| "Extended"
+	| "Tighten"
 	| "OverridePriority"
 );
 
@@ -3655,6 +3656,12 @@ interface CraftingItem {
 	 * Only relevant if the player is the craft's owner but do they not own the underlying item (_e.g._ due to an inventory wipe).
 	 */
 	Disabled?: boolean;
+	/**
+	 * A tighten-/loosen-specific modifier to-be added to the base difficulty[1] of the item
+	 *
+	 * [1] The sum of the asset difficulty, `Bondage` skill modifier and crafted property `Secure`/`Loose` modifiers.
+	 */
+	DifficultyFactor?: number;
 }
 
 /**
@@ -3666,6 +3673,12 @@ interface CraftingItemSelected {
 	Name: string;
 	/** The custom item description. */
 	Description: string;
+	/**
+	 * A tighten-/loosen-specific modifier to-be added to the base difficulty[1] of the item
+	 *
+	 * [1] The sum of the asset difficulty, `Bondage` skill modifier and crafted property `Secure`/`Loose` modifiers.
+	 */
+	DifficultyFactor: number;
 	/** The comma-separated color(s) of the item. */
 	Color: string;
 	/** The names of the crafted item's supported assets. */
