@@ -898,7 +898,7 @@ interface Asset {
 	readonly AllowActivity?: readonly ActivityName[];
 	readonly ActivityAudio?: readonly string[];
 	readonly ActivityExpression: Readonly<Partial<Record<ActivityName, readonly ExpressionTrigger[]>>>;
-	readonly AllowActivityOn?: readonly AssetGroupItemName[];
+	readonly AllowActivityOn: readonly AssetGroupItemName[];
 	readonly InventoryID?: number;
 	readonly BuyGroup?: string;
 	readonly Effect: readonly EffectName[];

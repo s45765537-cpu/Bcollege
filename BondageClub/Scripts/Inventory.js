@@ -1030,45 +1030,31 @@ function InventoryRemove(C, AssetGroup, Refresh) {
 }
 
 /**
-* Returns TRUE if the body area (Asset Group) for a character is blocked and cannot be used
+* Returns TRUE if the body area (Asset Group) for a character is blocked for either restraints (default) or activities and cannot be used
 * @param {Character} C - The character on which we validate the group
-* @param {AssetGroupItemName} [GroupName] - The name of the asset group (body area), defaults to `C.FocusGroup`
+* @param {null | AssetGroupItemName} [GroupName] - The name of the asset group (body area), defaults to `C.FocusGroup`
 * @param {boolean} [Activity=false] - if TRUE check if activity is allowed on the asset group
 * @returns {boolean} - TRUE if the group is blocked
 */
-function InventoryGroupIsBlockedForCharacter(C, GroupName, Activity) {
-	if (Activity == null) Activity = false;
+function InventoryGroupIsBlockedForCharacter(C, GroupName=null, Activity=false) {
+	GroupName ??= C.FocusGroup.Name;
+	const restraints = C.Appearance.filter(i => i.Asset.Group.IsItem());
 
-	// Default to characters focused group
-	if (GroupName == null) GroupName = C.FocusGroup.Name;
-
-	if (Activity) {
-		for (let E = 0; E < C.Appearance.length; E++) {
-			if (!C.Appearance[E].Asset.Group.Clothing && (C.Appearance[E].Asset.AllowActivityOn != null) && (C.Appearance[E].Asset.AllowActivityOn.includes(GroupName))){
-				Activity = true;
-				break;
-			} else if (!C.Appearance[E].Asset.Group.Clothing && (C.Appearance[E].Property != null) && (C.Appearance[E].Property.AllowActivityOn != null) && (C.Appearance[E].Property.AllowActivityOn.indexOf(GroupName) >= 0)){
-				Activity = true;
-				break;
-			} else Activity = false;
-		}
+	if (Activity && !restraints.some(i => i.Asset.AllowActivityOn.includes(GroupName) || i.Property?.AllowActivityOn?.includes(GroupName))) {
+		Activity = false;
 	}
 
 	// Items can block each other (hoods blocks gags, belts blocks eggs, etc.)
-	for (let E = 0; E < C.Appearance.length; E++) {
-		if (!C.Appearance[E].Asset.Group.Clothing && (C.Appearance[E].Asset.Block != null) && (C.Appearance[E].Asset.Block.includes(GroupName)) && !Activity) return true;
-		if (!C.Appearance[E].Asset.Group.Clothing && (C.Appearance[E].Property != null) && (C.Appearance[E].Property.Block != null) && Array.isArray(C.Appearance[E].Property.Block) && (C.Appearance[E].Property.Block.indexOf(GroupName) >= 0) && !Activity) return true;
+	if (!Activity && restraints.some(i => i.Asset.Block?.includes(GroupName) || i.Property?.Block?.includes(GroupName))) {
+		return true;
 	}
 
 	// If another character is enclosed, items other than the enclosing one cannot be used
-	if ((!C.IsPlayer()) && C.IsEnclose()) {
-		for (let E = 0; E < C.Appearance.length; E++)
-			if ((C.Appearance[E].Asset.Group.Name == GroupName) && InventoryItemHasEffect(C.Appearance[E], "Enclose", true))
-				return false;
-		return true;
+	if (!C.IsPlayer() && C.IsEnclose()) {
+		return !restraints.some(i => i.Asset.Group.Name == GroupName && InventoryItemHasEffect(i, "Enclose", true));
+	} else {
+		return false;
 	}
-	// Nothing is preventing the group from being used
-	return false;
 }
 
 /**
