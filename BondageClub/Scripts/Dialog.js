@@ -2036,7 +2036,45 @@ function DialogAllowItemClick(CurrentItem, ClickItem) {
 }
 
 /**
- * Handles clicks on an item
+ * Handles `permissions`-mode clicks on an item
+ * @param {DialogInventoryItem} ClickItem - The item that is clicked
+ * @returns {void} - Nothing
+ */
+function DialogPermissionsClick(ClickItem) {
+	const C = CharacterGetCurrent();
+	const CurrentItem = InventoryGet(C, C.FocusGroup.Name);
+
+	if (C.IsPlayer()) {
+		const worn = (ClickItem.Worn || (CurrentItem && (CurrentItem.Asset.Name == ClickItem.Asset.Name)));
+		DialogInventoryTogglePermission(ClickItem, worn);
+	}
+}
+
+/**
+ * Handles `locking`-mode clicks on an item
+ * @param {DialogInventoryItem} ClickItem - The item that is clicked
+ * @returns {void} - Nothing
+ */
+function DialogLockingClick(ClickItem) {
+	const C = CharacterGetCurrent();
+	const CurrentItem = InventoryGet(C, C.FocusGroup.Name);
+
+	if (
+		CurrentItem
+		&& InventoryDoesItemAllowLock(CurrentItem)
+		&& !InventoryBlockedOrLimited(C, ClickItem)
+	) {
+		InventoryLock(C, CurrentItem, ClickItem, Player.MemberNumber);
+		IntroductionJobProgress("DomLock", ClickItem.Asset.Name, true);
+		DialogChangeMode("items");
+		if (ChatRoomPublishAction(C, "ActionAddLock", CurrentItem, ClickItem)) {
+			DialogLeave();
+		}
+	}
+}
+
+/**
+ * Handles `items`-mode clicks on an item
  * @param {DialogInventoryItem} ClickItem - The item that is clicked
  * @returns {void} - Nothing
  */
@@ -2047,27 +2085,8 @@ function DialogItemClick(ClickItem) {
 	var CurrentItem = InventoryGet(C, C.FocusGroup.Name);
 	if (AsylumGGTSControlItem(C, CurrentItem)) return;
 
-	// In permission mode, the player can allow or block items for herself
-	if ((C.IsPlayer()) && DialogMenuMode === "permissions") {
-		const worn = (ClickItem.Worn || (CurrentItem && (CurrentItem.Asset.Name == ClickItem.Asset.Name)));
-		DialogInventoryTogglePermission(ClickItem, worn);
-		return;
-	}
-
 	// If the item is blocked or limited for that character, we do not use it
 	if (InventoryBlockedOrLimited(C, ClickItem)) return;
-
-	// If we must apply a lock to an item (can trigger a daily job)
-	if (DialogMenuMode === "locking") {
-		if (CurrentItem && InventoryDoesItemAllowLock(CurrentItem)) {
-			InventoryLock(C, CurrentItem, ClickItem, Player.MemberNumber);
-			IntroductionJobProgress("DomLock", ClickItem.Asset.Name, true);
-			DialogChangeMode("items");
-			if (ChatRoomPublishAction(C, "ActionAddLock", CurrentItem, ClickItem))
-				DialogLeave();
-		}
-		return;
-	}
 
 	// Main check: If there was no previous item, or it wasn't locked,
 	// or we can unlock it, use/swap/remove what's in the group
@@ -2466,8 +2485,17 @@ function DialogClick() {
 			// If the item is clicked
 			if (!MouseIn(x, y, width, height)) return false;
 			if (item.Asset.Enable || (item.Asset.Extended && item.Asset.OwnerOnly && CurrentCharacter.IsOwnedByPlayer())) {
-				DialogItemClick(item);
-				return true;
+				switch (DialogMenuMode) {
+					case "items":
+						DialogItemClick(item);
+						return;
+					case "locking":
+						DialogLockingClick(item);
+						return;
+					case "permissions":
+						DialogPermissionsClick(item);
+						return;
+				}
 			}
 		});
 	}
