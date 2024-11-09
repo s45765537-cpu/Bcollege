@@ -2083,10 +2083,16 @@ function DialogItemClick(ClickItem) {
 	var C = CharacterGetCurrent();
 	var CurrentItem = InventoryGet(C, C.FocusGroup.Name);
 
-	if (AsylumGGTSControlItem(C, CurrentItem)) return;
+	if (AsylumGGTSControlItem(C, CurrentItem)) {
+		DialogSetStatus(InterfaceTextGet("BlockedByGGTS"), DialogTextDefaultDuration);
+		return;
+	}
 
 	// If the item is blocked or limited for that character, we do not use it
-	if (InventoryBlockedOrLimited(C, ClickItem)) return;
+	if (InventoryBlockedOrLimited(C, ClickItem)) {
+		DialogSetStatus(InterfaceTextGet("BlockedByPermissions"), DialogTextDefaultDuration);
+		return;
+	}
 
 	// We're dealing with a previously equipped extended item; open the extended item menu
 	if (CurrentItem?.Asset.Extended && (CurrentItem.Asset.Name == ClickItem.Asset.Name)) {
@@ -2110,21 +2116,24 @@ function DialogItemClick(ClickItem) {
 		return;
 	}
 
+	// Check any prerequisites
 	if (!InventoryAllow(C, ClickItem.Asset)) {
+		// `InventoryAllow()` already sets a dialog status
 		return;
 	}
 
-	// Main check: If there was no previous item, or it wasn't locked,
-	// or we can unlock it, use/swap/remove what's in the group
-	if (
-		CurrentItem != null
-		&& (
-			InventoryGroupIsBlocked(C)
-			|| !DialogAllowItemClick(CurrentItem, ClickItem)
-			|| (InventoryItemHasEffect(CurrentItem, "Lock", true) && !DialogCanUnlock(C, CurrentItem))
-		)
-	) {
-		return;
+	// If there was  previous item, check if it is not blocked by another, has a valid click action and (if applicable) whether it can be unlocked
+	if (CurrentItem != null) {
+		if (InventoryGroupIsBlocked(C, C.FocusGroup.Name, false, true)) {
+			// `InventoryGroupIsBlocked()` already sets a dialog status
+			return;
+		} else if (!DialogAllowItemClick(CurrentItem, ClickItem)) {
+			DialogSetStatus(InterfaceTextGet("BlockedByEquipped"), DialogTextDefaultDuration);
+			return;
+		} else if (InventoryItemHasEffect(CurrentItem, "Lock", true) && !DialogCanUnlock(C, CurrentItem)) {
+			DialogSetStatus(InterfaceTextGet("BlockedByLock").replace("AssetName", CurrentItem.Asset.Description), DialogTextDefaultDuration);
+			return;
+		}
 	}
 
 	// If the room allows the item
@@ -3174,7 +3183,7 @@ function DialogDraw() {
 		if (InventoryGroupIsBlockedByOwnerRule(C))
 			DialogDrawItemMessage(C, InterfaceTextGet("ZoneBlockedOwner"), FocusItem);
 		else if (InventoryIsBlockedByDistance(C))
-			DialogDrawItemMessage(C, InterfaceTextGet("ZoneBlockedRange"), FocusItem);
+			DialogDrawItemMessage(C, InterfaceTextGet("ZoneBlockedRange").replace("DialogCharacterObject", C.Nickname || C.Name), FocusItem);
 		else if (InventoryGroupIsBlocked(C))
 			DialogDrawItemMessage(C, InterfaceTextGet("ZoneBlocked"), FocusItem);
 		else if (!Player.CanInteract())

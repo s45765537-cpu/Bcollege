@@ -1116,30 +1116,36 @@ function InventoryGroupIsBlockedByOwnerRule(C, GroupName) {
 }
 
 /**
-* Returns TRUE if the body area (Asset Group) for a character is blocked and cannot be used
-* Similar to InventoryGroupIsBlockedForCharacter but also blocks groups on all characters if the player is enclosed.
-* @param {Character} C - The character on which we validate the group
-* @param {AssetGroupItemName} [GroupName] - The name of the asset group (body area)
-* @param {boolean} [Activity] - if TRUE check if activity is allowed on the asset group
-* @returns {boolean} - TRUE if the group is blocked
-*/
-function InventoryGroupIsBlocked(C, GroupName, Activity) {
-
-	// Checks for regular blocks
-	if (InventoryGroupIsBlockedForCharacter(C, GroupName, Activity)) return true;
+ * Returns TRUE if the body area (Asset Group) for a character is blocked and cannot be used.
+ *
+ * Similar to {@link InventoryGroupIsBlockedForCharacter} but also checks for map range and owner rules.
+ * @param {Character} C - The character on which we validate the group
+ * @param {null | AssetGroupItemName} [GroupName] - The name of the asset group (body area)
+ * @param {boolean} [Activity] - if TRUE check if activity is allowed on the asset group
+ * @param {boolean} [setDialog]
+ * @returns {boolean} - TRUE if the group is blocked
+ */
+function InventoryGroupIsBlocked(C, GroupName=null, Activity=false, setDialog=false) {
+	// Checks for regular blocks and enclose effects
+	if (InventoryGroupIsBlockedForCharacter(C, GroupName, Activity)) {
+		if (setDialog) { DialogSetStatus(InterfaceTextGet("ZoneBlocked"), DialogTextDefaultDuration); }
+		return true;
+	}
 
 	// Check for map range
-	if (InventoryIsBlockedByDistance(C)) return true;
-
-	// If the player is enclosed, all groups for another character are blocked
-	if ((!C.IsPlayer()) && Player.IsEnclose()) return true;
+	if (InventoryIsBlockedByDistance(C)) {
+		if (setDialog) { DialogSetStatus(InterfaceTextGet("ZoneBlockedRange").replace("DialogCharacterObject", C.Nickname || C.Name), DialogTextDefaultDuration); }
+		return true;
+	}
 
 	// Checks if there's an owner rule that blocks the group
-	if (InventoryGroupIsBlockedByOwnerRule(C, GroupName)) return true;
+	if (InventoryGroupIsBlockedByOwnerRule(C, GroupName)) {
+		if (setDialog) { DialogSetStatus(InterfaceTextGet("ZoneBlockedOwner"), DialogTextDefaultDuration); }
+		return true;
+	}
 
 	// Nothing is preventing the group from being used
 	return false;
-
 }
 
 /**
