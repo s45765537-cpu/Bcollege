@@ -2079,81 +2079,82 @@ function DialogLockingClick(ClickItem) {
  * @returns {void} - Nothing
  */
 function DialogItemClick(ClickItem) {
-
 	// Gets the current character and item
 	var C = CharacterGetCurrent();
 	var CurrentItem = InventoryGet(C, C.FocusGroup.Name);
+
 	if (AsylumGGTSControlItem(C, CurrentItem)) return;
 
 	// If the item is blocked or limited for that character, we do not use it
 	if (InventoryBlockedOrLimited(C, ClickItem)) return;
 
-	// Main check: If there was no previous item, or it wasn't locked,
-	// or we can unlock it, use/swap/remove what's in the group
-	if (
-		CurrentItem == null || !InventoryItemHasEffect(CurrentItem, "Lock", true) || DialogCanUnlock(C, CurrentItem)
-	) {
-		if (!InventoryGroupIsBlocked(C, null, true) && (!InventoryGroupIsBlocked(C) || !ClickItem.Worn))
-			if (InventoryAllow(C, ClickItem.Asset)) {
-
-				// If the room allows the item
-				if (!InventoryChatRoomAllow(ClickItem.Asset.Category)) {
-					DialogSetStatus(InterfaceTextGet("BlockedByRoom"), DialogTextDefaultDuration);
-					return;
-				}
-
-				// Make sure we do not use the same item
-				if (DialogAllowItemClick(CurrentItem, ClickItem)) {
-					if (ClickItem.Asset.Wear) {
-
-						// Check if selfbondage is allowed for the item if used on self
-						if ((ClickItem.Asset.SelfBondage <= 0) || (SkillGetLevel(Player, "SelfBondage") >= ClickItem.Asset.SelfBondage) || (!C.IsPlayer()) || DialogAlwaysAllowRestraint()) {
-							/** @type {DialogStruggleActionType} */
-							let action;
-							if (CurrentItem && ClickItem) {
-								action = "ActionSwap";
-							} else if (ClickItem) {
-								action = "ActionUse";
-							} else {
-								action = "ActionRemove";
-							}
-							DialogStruggleStart(C, action, CurrentItem, ClickItem);
-						} else if (ClickItem.Asset.SelfBondage <= 10)
-							DialogSetStatus(InterfaceTextGet("RequireSelfBondage" + ClickItem.Asset.SelfBondage), DialogTextDefaultDuration);
-						else
-							DialogSetStatus(InterfaceTextGet("CannotUseOnSelf"), DialogTextDefaultDuration);
-
-					} else {
-
-						// The vibrating egg remote can open the vibrating egg's extended dialog
-						if ((ClickItem.Asset.Name === "VibratorRemote" || ClickItem.Asset.Name === "LoversVibratorRemote")
-							&& DialogCanUseRemoteState(C, CurrentItem) === "Available") {
-							DialogExtendItem(InventoryGet(C, C.FocusGroup.Name));
-						}
-
-						// Runs the activity arousal process if activated, & publishes the item action text to the chatroom
-						DialogPublishAction(C, "ActionUse", ClickItem);
-						ActivityArousalItem(Player, C, ClickItem.Asset);
-
-					}
-				}
-				else if ((CurrentItem.Asset.Name == ClickItem.Asset.Name) && CurrentItem.Asset.Extended)
-					DialogExtendItem(CurrentItem);
-
-			}
+	// We're dealing with a previously equipped extended item; open the extended item menu
+	if (CurrentItem?.Asset.Extended && (CurrentItem.Asset.Name == ClickItem.Asset.Name)) {
+		DialogExtendItem(CurrentItem);
 		return;
 	}
 
-	// If the item can unlock another item or simply show dialog text (not wearable)
-	if (InventoryAllow(C, ClickItem.Asset))
-		if (InventoryItemHasEffect(ClickItem, /** @type {EffectName} */("Unlock" + CurrentItem.Asset.Name)))
+	// Special-casing for items that cannot actually be worn
+	if (!ClickItem.Asset.Wear) {
+		if (InventoryItemHasEffect(ClickItem, /** @type {EffectName} */(`Unlock${CurrentItem?.Asset.Name}`))) {
+			// Unlock an item if one clicks the key
 			DialogStruggleStart(C, "ActionUnlock", CurrentItem, null);
-		else if ((CurrentItem.Asset.Name == ClickItem.Asset.Name) && CurrentItem.Asset.Extended)
-			DialogExtendItem(CurrentItem);
-		else if (!ClickItem.Asset.Wear) {
+		} else if (ClickItem.Asset.Name === "VibratorRemote" || ClickItem.Asset.Name === "LoversVibratorRemote") {
+			// The vibrating egg remote can open the vibrating egg's extended dialog
+			if (DialogCanUseRemoteState(C, CurrentItem) === "Available") { DialogExtendItem(CurrentItem); }
+		} else {
+			// Runs the activity arousal process if activated, & publishes the item action text to the chatroom
 			DialogPublishAction(C, "ActionUse", ClickItem);
+			ActivityArousalItem(Player, C, ClickItem.Asset);
 		}
+		return;
+	}
 
+	if (!InventoryAllow(C, ClickItem.Asset)) {
+		return;
+	}
+
+	// Main check: If there was no previous item, or it wasn't locked,
+	// or we can unlock it, use/swap/remove what's in the group
+	if (
+		CurrentItem != null
+		&& (
+			InventoryGroupIsBlocked(C)
+			|| !DialogAllowItemClick(CurrentItem, ClickItem)
+			|| (InventoryItemHasEffect(CurrentItem, "Lock", true) && !DialogCanUnlock(C, CurrentItem))
+		)
+	) {
+		return;
+	}
+
+	// If the room allows the item
+	if (!InventoryChatRoomAllow(ClickItem.Asset.Category)) {
+		DialogSetStatus(InterfaceTextGet("BlockedByRoom"), DialogTextDefaultDuration);
+		return;
+	}
+
+	// Check if selfbondage is allowed for the item if used on self
+	if (
+		ClickItem.Asset.SelfBondage <= 0
+		|| SkillGetLevel(Player, "SelfBondage") >= ClickItem.Asset.SelfBondage
+		|| !C.IsPlayer()
+		|| DialogAlwaysAllowRestraint()
+	) {
+		/** @type {DialogStruggleActionType} */
+		let action;
+		if (CurrentItem && ClickItem) {
+			action = "ActionSwap";
+		} else if (ClickItem) {
+			action = "ActionUse";
+		} else {
+			action = "ActionRemove";
+		}
+		DialogStruggleStart(C, action, CurrentItem, ClickItem);
+	} else if (ClickItem.Asset.SelfBondage <= 10) {
+		DialogSetStatus(InterfaceTextGet(`RequireSelfBondage${ClickItem.Asset.SelfBondage}`), DialogTextDefaultDuration);
+	} else {
+		DialogSetStatus(InterfaceTextGet("CannotUseOnSelf"), DialogTextDefaultDuration);
+	}
 }
 
 /**
