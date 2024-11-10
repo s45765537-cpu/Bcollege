@@ -1,0 +1,13 @@
+.dialog-status {
+	font: inherit;
+	color: white;
+	user-select: none;
+	overflow: clip;
+	white-space: nowrap;
+	text-align: center;
+	text-overflow: ellipsis;
+}
+
+.dialog-status[data-unload] {
+	display: none;
+}

@@ -1,7 +1,12 @@
 "use strict";
-var DialogText = "";
-var DialogTextDefault = "";
-var DialogTextDefaultTimer = -1;
+
+/** @deprecated - Superseded by `span.dialog-status`. */
+var DialogText = /** @type {never} */("");
+/** @deprecated  - Superseded by `span.dialog-status[data-default]`.*/
+var DialogTextDefault = /** @type {never} */("");
+/** @deprecated  - Superseded by `span.dialog-status[data-timeout-id]`.*/
+var DialogTextDefaultTimer = /** @type {never} */(-1);
+
 /** The duration temporary status message show up for, in ms
  * @type {number}
  */
@@ -800,6 +805,7 @@ function DialogLeave() {
 		DialogChangeFocusToGroup(CurrentCharacter, null);
 	}
 	CurrentCharacter = null;
+	document.querySelectorAll(".dialog-status").forEach(e => e.remove());
 
 	// Reset the state of the self menu
 	DialogSelfMenuSelected = null;
@@ -2212,6 +2218,7 @@ function DialogChangeMode(mode, reset=false) {
 
 	// Clear status so that messages don't bleed through from one group to another
 	DialogStatusClear();
+	document.querySelector(".dialog-status")?.removeAttribute("data-unload");
 
 	switch (DialogMenuMode) {
 		case "activities":
@@ -2266,9 +2273,7 @@ function DialogChangeMode(mode, reset=false) {
 	}
 
 	// Set the status message
-	if (!C.FocusGroup) {
-		// Ignore setting a message if we have no focused group
-	} else if (DialogMenuMode === "items") {
+	if (DialogMenuMode === "items") {
 		DialogSetStatus(InterfaceTextGet("SelectItemGroup"), undefined, { C, group: C.FocusGroup });
 	} else if (DialogMenuMode === "permissions") {
 		DialogSetStatus(DialogFind(Player, "DialogPermissionMode"));
@@ -2287,12 +2292,11 @@ function DialogChangeMode(mode, reset=false) {
 		else
 			DialogSetStatus(InterfaceTextGet("SelectLocked"), undefined, { C, group: C.FocusGroup });
 	} else {
-		DialogSetStatus("");
+		document.querySelector(".dialog-status")?.setAttribute("data-unload", "");
 	}
 
-	if (modeChange) {
-		DialogResize(true);
-	}
+	// `DialogChangeMode()` acts as the de facto `Load()` function for dialog subscreens, hence passing along `load: true`
+	DialogResize(true);
 }
 
 /**
@@ -2656,6 +2660,11 @@ function DialogFindFacialExpressionMenuGroup(ExpressionGroup) {
  * @returns {void} - Nothing
  */
 function DialogSetStatus(status, timer=0, replace=null) {
+	const elem = document.querySelector(".dialog-status");
+	if (!elem) {
+		return;
+	}
+
 	replace ??= {};
 	if (replace.group || replace.asset) {
 		status = status.replaceAll("GroupName", DialogActualNameForGroup(replace.C ?? Player, replace.group ?? replace.asset.Group).toLowerCase());
@@ -2667,46 +2676,54 @@ function DialogSetStatus(status, timer=0, replace=null) {
 		status = status.replaceAll("DialogCharacterObject", CharacterNickname(replace.C));
 	}
 
+	const timeoutID = elem.getAttribute("data-timeout-id");
 	if (timer > 0) {
-		DialogTextDefaultTimer = CommonTime() + timer;
-		DialogText = status;
+		if (timeoutID) {
+			clearTimeout(Number.parseInt(timeoutID, 10));
+		} else {
+			elem.setAttribute("data-default", elem.textContent);
+		}
+
+		elem.textContent = status;
+		elem.setAttribute("data-timeout-id", setTimeout(DialogStatusTimerHandler, timer, elem).toString());
 	} else {
 		// We let the timer for the non-default message expire normally
-		DialogTextDefault = status;
+		if (timeoutID) {
+			elem.setAttribute("data-default", status);
+		} else {
+			elem.textContent = status;
+		}
 	}
 }
 
 /**
- * Clears the current status message.
- *
- * @param {boolean} clearDefault Whether to also clear the default status.
+ * Timer handler for managing timed dialog statuses.
+ * @param {Element} elem - The relevant `span.dialog-status` element
+ * @satisfies {TimerHandler}
  */
-function DialogStatusClear(clearDefault = false) {
-	if (clearDefault || DialogText === "")
-		DialogTextDefault = "";
-	DialogTextDefaultTimer = -1;
-	DialogText = "";
+function DialogStatusTimerHandler(elem) {
+	elem.textContent = elem.getAttribute("data-default") ?? "";
+	elem.removeAttribute("data-default");
+	elem.removeAttribute("data-timeout-id");
+}
+
+/** Clears the current status message. */
+function DialogStatusClear() {
+	const elem = document.querySelector(".dialog-status");
+	if (!elem) {
+		return;
+	}
+
+	if (elem.hasAttribute("data-timeout-id")) { DialogStatusTimerHandler(elem); }
+	elem.textContent = "";
 }
 
 /**
  * Draws the current dialog status
- *
+ * @param {Character} C
+ * @deprecated - Superseded by `span.dialog-status` elements
  */
 function DialogStatusDraw(C) {
-	let status = "";
-	if (CommonTime() <= DialogTextDefaultTimer) {
-		status = DialogText;
-	} else {
-		status = DialogTextDefault;
-		DialogStatusClear();
-	}
-
-	// Don't draw status in items mode if we can't interact, as the screen shows a blocked message in that case
-	if ((!Player.CanInteract() || InventoryGroupIsBlocked(C)) && DialogMenuMode === "items") return;
-
-	if (["extended", "tighten", "colorDefault", "colorExpression", "colorItem", "struggle", "crafted", "layering"].includes(DialogMenuMode)) return;
-
-	DrawTextWrap(status, 1000, 113, 975, 60, "White", null, 1);
 }
 
 /**
@@ -2964,9 +2981,6 @@ function DialogDrawRepositionButton() {
 function DialogDrawTopMenu(C) {
 	const FocusItem = InventoryGet(C, C.FocusGroup.Name);
 
-	// Draw the status message if possible
-	DialogStatusDraw(C);
-
 	for (let I = DialogMenuButton.length - 1; I >= 0; I--) {
 		const ButtonColor = DialogGetMenuButtonColor(DialogMenuButton[I]);
 		const ButtonImage = DialogGetMenuButtonImage(DialogMenuButton[I], FocusItem);
@@ -3118,10 +3132,6 @@ function DialogDraw() {
 	// Block out drawing anything else if we're not supposed to interact with the selected character
 	if (C.FocusGroup === null || !C.AllowItem || DialogIntro() === "") return;
 
-	// Reset the status text to the default after 5 seconds
-	if (DialogTextDefaultTimer < CommonTime())
-		DialogText = DialogTextDefault;
-
 	/** The item currently sitting in the focused group */
 	const FocusItem = InventoryGet(C, C.FocusGroup.Name);
 
@@ -3197,7 +3207,6 @@ function DialogDraw() {
 			DialogChangeMode("items");
 		}
 	} else if (DialogMenuMode === "layering") {
-		Layering.Resize(false);
 		return;
 	}
 
