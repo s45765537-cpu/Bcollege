@@ -930,6 +930,10 @@ Style 52b
 样式 52b
 Style 8b
 样式 8b
+Style 62a
+样式 62a
+Style 62b
+样式 62b
 Hands
 手
 Default
@@ -1218,6 +1222,8 @@ Yoke
 轭
 Zip Ties
 扎带
+Cuffed to Bed
+铐在床上
 Feet
 脚
 Ballet Heels
@@ -1516,16 +1522,22 @@ Heavy Ankle Cuffs
 重型脚铐
  Heavy Leg Spreader
 重型分腿器
+Heel Binders
+高跟鞋束缚
 HighStyle Steel Ankle Cuffs
 高品位钢质脚铐
 Irish 8 Feet Cuffs
 爱尔兰制8尺铐
+Under Knee Overnighter
+膝下过夜束缚器
 Leather Ankle Cuffs
 皮革脚铐
 Leather Belt
 皮带
 Leather Deluxe Ankle Cuffs
 皮革豪华脚铐
+Massive Ankle Cuffs
+重型脚踝铐
 Ornate Ankle Cuffs
 华丽脚铐
 Spreader Dildo Bar
@@ -1668,6 +1680,8 @@ Long Leather Paw Mittens
 长皮革猫爪无指手套
 Futuristic Mittens
 未来无指手套
+Full Mittens
+全手无指手套
 Glue Mittens
 胶水无指手套
 Hemp Rope Cuffs
@@ -2114,6 +2128,10 @@ Wiffle Ball Gag
 有孔口球
 XL Bone Gag
 超大号骨头口塞
+Premium Muzzle Gag
+高级口套
+Overfilling Gag
+过度填满口塞
 Neck
 颈部
 Automatic Shock Collar
@@ -2200,6 +2218,10 @@ Strict Posture Collar
 严苛姿势项圈
 Techno Collar
 科幻项圈
+Benim ayım
+吾之月
+Benim Güneşim
+吾之日
 Collar
 项圈
 Automatic Shock Unit
@@ -2524,6 +2546,8 @@ Anklet (Left)
 踝绳 (左)
 Band Anklet
 脚踝箍带
+Heel Binder (Left ankle)
+高跟鞋束缚（左脚踝）
 Fur Accessory
 毛绒配件
 Ribbon
@@ -2722,6 +2746,8 @@ Pussy 3
 阴阜 3
 Anklet (Right)
 踝绳 (右)
+Heel Binder (Right ankle)
+高跟鞋束缚（右脚踝）
 Right Hand
 右手
 Shoes
@@ -2746,6 +2772,8 @@ Duty Shoes
 工作鞋
 Flippers
 脚蹼
+Full Leg Leather Boots
+全腿皮靴
 Fuzzy Boots
 毛绒靴子
 Geta Sandals
@@ -2834,6 +2862,8 @@ Fishnet Stockings
 渔网袜
 Vinyl Socks
 聚乙烯袜
+Long Fishnet Stockings
+长渔网袜
 Left Leg
 左腿
 Loose Socks
