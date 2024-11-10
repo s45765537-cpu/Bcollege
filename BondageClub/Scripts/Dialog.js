@@ -2289,6 +2289,10 @@ function DialogChangeMode(mode, reset=false) {
 	} else {
 		DialogSetStatus("");
 	}
+
+	if (modeChange) {
+		DialogResize(true);
+	}
 }
 
 /**
@@ -2531,6 +2535,18 @@ function DialogClick() {
 			if (DialogPaginateClick()) {
 				return;
 			}
+			break;
+	}
+}
+
+/**@type {ScreenFunctions["Resize"]} */
+function DialogResize(load) {
+	switch (DialogMenuMode) {
+		case "layering":
+			Layering.Resize(load);
+			break;
+		default:
+			ElementPositionFixed("dialog-status", 1005, 120, 995, 50);
 			break;
 	}
 }

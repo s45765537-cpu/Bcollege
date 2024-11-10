@@ -1422,8 +1422,10 @@ function DrawProcess(time) {
 	const newCanvasPosition = [MainCanvas.canvas.offsetLeft, MainCanvas.canvas.offsetTop, MainCanvas.canvas.clientWidth, MainCanvas.canvas.clientHeight];
 	if (!CommonArraysEqual(newCanvasPosition, DrawCanvasPosition)) {
 		DrawCanvasPosition = newCanvasPosition;
-		if (CurrentScreenFunctions.Resize) {
-			CurrentScreenFunctions.Resize(false);
+		if (CurrentCharacter != null) {
+			DialogResize(false);
+		} else {
+			CurrentScreenFunctions.Resize?.(false);
 		}
 	}
 
