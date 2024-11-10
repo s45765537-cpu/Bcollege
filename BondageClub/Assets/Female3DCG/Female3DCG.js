@@ -15935,36 +15935,6 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
-			{
-				Name: "FacePaintMuzzle",
-				DynamicGroupName: "BodyMarkings",
-				Priority: 8,
-				CopyConfig: {
-					GroupName: "BodyMarkings",
-					AssetName: "FacePaintMuzzle",
-					BuyGroup: true,
-				},
-			},
-			{
-				Name: "FacePaintSpots",
-				DynamicGroupName: "BodyMarkings",
-				Priority: 8,
-				CopyConfig: {
-					GroupName: "BodyMarkings",
-					AssetName: "FacePaintSpots",
-					BuyGroup: true,
-				},
-			},
-			{
-				Name: "FacePaintStripes",
-				DynamicGroupName: "BodyMarkings",
-				Priority: 8,
-				CopyConfig: {
-					GroupName: "BodyMarkings",
-					AssetName: "FacePaintStripes",
-					BuyGroup: true,
-				},
-			},
 		],
 		Color: [
 			"Default",
@@ -16684,28 +16654,59 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "FacePaintMuzzle",
+				Name: "FacePaints",
 				Value: 10,
 				InventoryID: 1189,
-				Top: 83,
-				Left: 197,
-				BuyGroup: "FacePaint",
-			},
-			{
-				Name: "FacePaintSpots",
-				Value: 10,
-				InventoryID: 1190,
-				Top: 83,
-				Left: 197,
-				BuyGroup: "FacePaint",
-			},
-			{
-				Name: "FacePaintStripes",
-				Value: 10,
-				InventoryID: 1191,
-				Top: 83,
-				Left: 197,
-				BuyGroup: "FacePaint",
+				Top: 85,
+				Left: 195,
+				BuyGroup: "FacePaints",
+				Layer: [
+					{
+						Name: "1",
+						AllowTypes: { a: 1},
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "2",
+						AllowTypes: { b: 1 },
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "3",
+						AllowTypes: { c: 1 },
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "4",
+						AllowTypes: { d: 1 },
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "5",
+						AllowTypes: { e: 1 },
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "6",
+						AllowTypes: { f: 1 },
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "7",
+						AllowTypes: { g: 1 },
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "8",
+						AllowTypes: { h: 1 },
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "9",
+						AllowTypes: { i: 1 },
+						CopyLayerColor: "1",
+					},
+				],
 			},
 		],
 		Color: [
