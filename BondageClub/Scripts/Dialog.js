@@ -2131,7 +2131,7 @@ function DialogItemClick(ClickItem) {
 			DialogSetStatus(InterfaceTextGet("BlockedByEquipped"), DialogTextDefaultDuration);
 			return;
 		} else if (InventoryItemHasEffect(CurrentItem, "Lock", true) && !DialogCanUnlock(C, CurrentItem)) {
-			DialogSetStatus(InterfaceTextGet("BlockedByLock").replace("AssetName", CurrentItem.Asset.Description), DialogTextDefaultDuration);
+			DialogSetStatus(InterfaceTextGet("BlockedByLock"), DialogTextDefaultDuration, { asset: CurrentItem.Asset });
 			return;
 		}
 	}
@@ -2256,23 +2256,23 @@ function DialogChangeMode(mode, reset=false) {
 	if (!C.FocusGroup) {
 		// Ignore setting a message if we have no focused group
 	} else if (DialogMenuMode === "items") {
-		DialogSetStatus(InterfaceTextGet("SelectItemGroup").replace("GroupName", DialogActualNameForGroup(C, C.FocusGroup).toLowerCase()));
+		DialogSetStatus(InterfaceTextGet("SelectItemGroup"), undefined, { C, group: C.FocusGroup });
 	} else if (DialogMenuMode === "permissions") {
 		DialogSetStatus(DialogFind(Player, "DialogPermissionMode"));
 	} else if (DialogMenuMode === "activities") {
 		if (DialogActivity.length > 0)
-			DialogSetStatus(InterfaceTextGet("SelectActivityGroup").replace("GroupName", DialogActualNameForGroup(C, C.FocusGroup).toLowerCase()));
+			DialogSetStatus(InterfaceTextGet("SelectActivityGroup"), undefined, { C, group: C.FocusGroup });
 		else
-			DialogSetStatus(InterfaceTextGet("SelectActivityNone").replace("GroupName", DialogActualNameForGroup(C, C.FocusGroup).toLowerCase()));
+			DialogSetStatus(InterfaceTextGet("SelectActivityNone"), undefined, { C, group: C.FocusGroup });
 	} else if (DialogMenuMode === "locking") {
-		DialogSetStatus(InterfaceTextGet("SelectLock").replace("GroupName", DialogActualNameForGroup(C, C.FocusGroup).toLowerCase()));
+		DialogSetStatus(InterfaceTextGet("SelectLock"), undefined, { C, group: C.FocusGroup });
 	} else if (DialogMenuMode === "locked") {
 		const item = InventoryGet(C, C.FocusGroup.Name);
 		const lock = InventoryGetLock(item);
 		if (!lock || !DialogCanInspectLock(item))
 			DialogSetStatus(InterfaceTextGet("SelectLockedUnknown"));
 		else
-			DialogSetStatus(InterfaceTextGet("SelectLocked").replace("AssetName", lock.Asset.DynamicDescription(C).toLowerCase()));
+			DialogSetStatus(InterfaceTextGet("SelectLocked"), undefined, { C, group: C.FocusGroup });
 	} else {
 		DialogSetStatus("");
 	}
@@ -2623,9 +2623,21 @@ function DialogFindFacialExpressionMenuGroup(ExpressionGroup) {
  * Displays the given text for 5 seconds
  * @param {string} status - The text to be displayed
  * @param {number} timer - the number of milliseconds to display the message for
+ * @param {null | { asset?: Asset, group?: AssetGroup, C?: Character }} replace - Attempt to perform replacements within the `status` text
  * @returns {void} - Nothing
  */
-function DialogSetStatus(status, timer = 0) {
+function DialogSetStatus(status, timer=0, replace=null) {
+	replace ??= {};
+	if (replace.group || replace.asset) {
+		status = status.replaceAll("GroupName", DialogActualNameForGroup(replace.C ?? Player, replace.group ?? replace.asset.Group).toLowerCase());
+	}
+	if (replace.asset) {
+		status = status.replaceAll("AssetName", replace.asset.Description);
+	}
+	if (replace.C) {
+		status = status.replaceAll("DialogCharacterObject", CharacterNickname(replace.C));
+	}
+
 	if (timer > 0) {
 		DialogTextDefaultTimer = CommonTime() + timer;
 		DialogText = status;

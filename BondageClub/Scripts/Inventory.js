@@ -1134,7 +1134,7 @@ function InventoryGroupIsBlocked(C, GroupName=null, Activity=false, setDialog=fa
 
 	// Check for map range
 	if (InventoryIsBlockedByDistance(C)) {
-		if (setDialog) { DialogSetStatus(InterfaceTextGet("ZoneBlockedRange").replace("DialogCharacterObject", CharacterNickname(C)), DialogTextDefaultDuration); }
+		if (setDialog) { DialogSetStatus(InterfaceTextGet("ZoneBlockedRange"), DialogTextDefaultDuration, { C }); }
 		return true;
 	}
 
