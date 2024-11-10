@@ -3073,6 +3073,35 @@ function DialogPaginateClick() {
 }
 
 /**
+ * Load function for starting the Dialog subscreen.
+ * @type {ScreenFunctions["Load"]}
+ */
+function DialogLoad() {
+	if (CurrentCharacter == null) {
+		return;
+	}
+	const C = CurrentCharacter;
+
+	const newDialog = !Player.CanTalk() ? DialogFind(C, "PlayerGagged", "") : DialogIntro();
+	if (newDialog) {
+		C.CurrentDialog = newDialog;
+	}
+
+	// NOTE: Future work may or may not introduce multiple `.dialog-status` elements (one for each distinct subscreen),
+	// so, for the sake of future compatibility, avoid querying via the ID as much as possible in favor of the css class
+	if (!document.querySelector(".dialog-status")) {
+		ElementCreate({
+			tag: "span",
+			classList: ["dialog-status", "HideOnPopup"],
+			attributes: { id: "dialog-status" },
+			parent: document.body,
+		});
+	}
+
+	DialogChangeMode(DialogMenuMode ?? "dialog", true);
+}
+
+/**
  * Draws the initial Dialog screen.
  *
  * This is the main handler for drawing the Dialog UI, which activates

@@ -1331,28 +1331,12 @@ function CharacterLoadCanvasAll() {
 /**
  * Sets the current character to have a dialog with.
  *
- * TODO: This serves as a the _de facto_ `Load()` function for the dialog screen; consider splitting of parts into a new `DialogLoad()` function?
  * @param {Character} C - Character to have a conversation with
  * @returns {void} - Nothing
  */
 function CharacterSetCurrent(C) {
 	CurrentCharacter = C;
-	DialogMenuMode = "dialog";
-	var NewDialog = DialogIntro();
-	if (!Player.CanTalk()) NewDialog = DialogFind(CurrentCharacter, "PlayerGagged", "");
-	if (NewDialog != "") C.CurrentDialog = NewDialog;
-
-	let elem = document.querySelector("dialog-status");
-	if (!elem) {
-		elem = ElementCreate({
-			tag: "span",
-			classList: ["dialog-status", "HideOnPopup"],
-			attributes: { id: "dialog-status" },
-			parent: document.body,
-		});
-	}
-	elem.setAttribute("data-unload", "");
-	DialogResize(true);
+	DialogLoad();
 }
 
 /**
