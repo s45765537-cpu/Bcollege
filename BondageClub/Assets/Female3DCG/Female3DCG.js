@@ -15935,6 +15935,36 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "FacePaintMuzzle",
+				DynamicGroupName: "BodyMarkings",
+				Priority: 8,
+				CopyConfig: {
+					GroupName: "BodyMarkings",
+					AssetName: "FacePaintMuzzle",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "FacePaintSpots",
+				DynamicGroupName: "BodyMarkings",
+				Priority: 8,
+				CopyConfig: {
+					GroupName: "BodyMarkings",
+					AssetName: "FacePaintSpots",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "FacePaintStripes",
+				DynamicGroupName: "BodyMarkings",
+				Priority: 8,
+				CopyConfig: {
+					GroupName: "BodyMarkings",
+					AssetName: "FacePaintStripes",
+					BuyGroup: true,
+				},
+			},
 		],
 		Color: [
 			"Default",
@@ -16652,6 +16682,30 @@ var AssetFemale3DCG = [
 						CopyLayerColor: "1",
 					},
 				],
+			},
+			{
+				Name: "FacePaintMuzzle",
+				Value: 10,
+				InventoryID: 1189,
+				Top: 83,
+				Left: 197,
+				BuyGroup: "FacePaint",
+			},
+			{
+				Name: "FacePaintSpots",
+				Value: 10,
+				InventoryID: 1190,
+				Top: 83,
+				Left: 197,
+				BuyGroup: "FacePaint",
+			},
+			{
+				Name: "FacePaintStripes",
+				Value: 10,
+				InventoryID: 1191,
+				Top: 83,
+				Left: 197,
+				BuyGroup: "FacePaint",
 			},
 		],
 		Color: [
