@@ -2360,9 +2360,9 @@ function DialogChangeFocusToGroup(C, Group) {
 
 /**
  * Handles the click in the dialog screen
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["Click"]}
  */
-function DialogClick() {
+function DialogClick(event) {
 	// Check that there's actually a character selected
 	if (!CurrentCharacter) return;
 
@@ -3107,7 +3107,7 @@ function DialogLoad() {
  * This is the main handler for drawing the Dialog UI, which activates
  * when the player clicks on herself or another player.
  *
- * @returns {void} - Nothing
+ * @type {ScreenFunctions["Draw"]}
  */
 function DialogDraw() {
 
@@ -3278,7 +3278,7 @@ function DialogDraw() {
 
 /**
  * Handles mouse wheel scrolling while in DialogMode
- * @param {WheelEvent} Event
+ * @type {ScreenFunctions["MouseWheel"]}
  */
 const DialogMouseWheel = CommonLimitFunction((Event) => {
 	if (!DialogModeShowsInventory()) return false;
