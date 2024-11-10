@@ -3183,7 +3183,7 @@ function DialogDraw() {
 		if (InventoryGroupIsBlockedByOwnerRule(C))
 			DialogDrawItemMessage(C, InterfaceTextGet("ZoneBlockedOwner"), FocusItem);
 		else if (InventoryIsBlockedByDistance(C))
-			DialogDrawItemMessage(C, InterfaceTextGet("ZoneBlockedRange").replace("DialogCharacterObject", C.Nickname || C.Name), FocusItem);
+			DialogDrawItemMessage(C, InterfaceTextGet("ZoneBlockedRange").replace("DialogCharacterObject", CharacterNickname(C)), FocusItem);
 		else if (InventoryGroupIsBlocked(C))
 			DialogDrawItemMessage(C, InterfaceTextGet("ZoneBlocked"), FocusItem);
 		else if (!Player.CanInteract())
