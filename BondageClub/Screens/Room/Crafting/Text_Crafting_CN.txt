@@ -58,6 +58,8 @@ Item drawing priority
 物品绘图优先级
 Private (only you can use it)
 私用（只有你能使用它）
+Tighten or loosen item
+收紧或者放松物品
 Configure extended item
 配置扩展物品
 Empty
