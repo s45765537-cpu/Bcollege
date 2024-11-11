@@ -30,10 +30,10 @@ function ElementValue(ID, Value) {
 function ElementClickTimeout(root, query=null, timeout=250) {
 	query ??= "button,a,input,select,radio,[role='button'],[role='link']";
 	const elemClickable = /** @type {HTMLElement[]} */(Array.from(root.querySelectorAll(query)));
-	const elemDisabledStates = elemClickable.map(e => /** @type {const} */([e, e.getAttribute("disabled"), e.getAttribute("aria-disabled")]));
+	const elemDisabledStates = elemClickable.map(e => /** @type {const} */([e, e.hasAttribute("disabled"), e.getAttribute("aria-disabled")]));
 	elemDisabledStates.forEach(([e, disabled, ariaDisabled]) => {
 		if (!disabled && ariaDisabled !== "true") {
-			e.setAttribute("disabled", "true");
+			e.toggleAttribute("disabled", true);
 			e.setAttribute("aria-disabled", "true");
 		}
 	});
@@ -41,7 +41,7 @@ function ElementClickTimeout(root, query=null, timeout=250) {
 	return setTimeout(() => {
 		elemDisabledStates.forEach(([e, disabled, ariaDisabled]) => {
 			if (!disabled) {
-				e.removeAttribute("disabled");
+				e.toggleAttribute("disabled", false);
 			}
 			if (ariaDisabled !== "true") {
 				e.removeAttribute("aria-disabled");
