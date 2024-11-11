@@ -170,36 +170,39 @@ function AsylumGGTSClick() {
  * @returns {void} - Nothing
  */
 function AsylumGGTSSAddItems() {
-	let Level = AsylumGGTSGetLevel(Player);
-	if (Level >= 1) {
-		InventoryAdd(Player, "FuturisticCuffs", "ItemArms");
-		InventoryAdd(Player, "FuturisticMittens", "ItemHands");
+	/** @type {ItemBundle[]} */
+	const items = [];
+	switch (AsylumGGTSGetLevel(Player)) {
+		case 5:
+			items.push({ Name: "FuturisticCollar", Group: "ItemNeck" });
+			items.push({ Name: "FuturisticEarphones", Group: "ItemEars" });
+			items.push({ Name: "FuturisticMask", Group: "ItemHead" });
+			items.push({ Name: "FuturisticStraitjacket", Group: "ItemArms" });
+			// eslint-disable-next-line no-fallthrough
+		case 4:
+			items.push({ Name: "FuturisticChastityBelt", Group: "ItemPelvis" });
+			items.push({ Name: "FuturisticTrainingBelt", Group: "ItemPelvis" });
+			items.push({ Name: "FuturisticBra", Group: "ItemBreast" });
+			items.push({ Name: "FuturisticBra2", Group: "ItemBreast" });
+			items.push({ Name: "FuturisticHarness", Group: "ItemTorso" });
+			// eslint-disable-next-line no-fallthrough
+		case 3:
+			items.push({ Name: "FuturisticArmbinder", Group: "ItemArms" });
+			items.push({ Name: "FuturisticPanelGag", Group: "ItemMouth" });
+			items.push({ Name: "FuturisticHarnessPanelGag", Group: "ItemMouth" });
+			items.push({ Name: "FuturisticHarnessBallGag", Group: "ItemMouth" });
+			// eslint-disable-next-line no-fallthrough
+		case 2:
+			items.push({ Name: "FuturisticAnkleCuffs", Group: "ItemFeet" });
+			items.push({ Name: "FuturisticLegCuffs", Group: "ItemLegs" });
+			items.push({ Name: "FuturisticHeels", Group: "ItemBoots" });
+			items.push({ Name: "FuturisticHeels2", Group: "ItemBoots" });
+			// eslint-disable-next-line no-fallthrough
+		case 1:
+			items.push({ Name: "FuturisticCuffs", Group: "ItemArms" });
+			items.push({ Name: "FuturisticMittens", Group: "ItemHands" });
 	}
-	if (Level >= 2) {
-		InventoryAdd(Player, "FuturisticAnkleCuffs", "ItemFeet");
-		InventoryAdd(Player, "FuturisticLegCuffs", "ItemLegs");
-		InventoryAdd(Player, "FuturisticHeels", "ItemBoots");
-		InventoryAdd(Player, "FuturisticHeels2", "ItemBoots");
-	}
-	if (Level >= 3) {
-		InventoryAdd(Player, "FuturisticArmbinder", "ItemArms");
-		InventoryAdd(Player, "FuturisticPanelGag", "ItemMouth");
-		InventoryAdd(Player, "FuturisticHarnessPanelGag", "ItemMouth");
-		InventoryAdd(Player, "FuturisticHarnessBallGag", "ItemMouth");
-	}
-	if (Level >= 4) {
-		InventoryAdd(Player, "FuturisticChastityBelt", "ItemPelvis");
-		InventoryAdd(Player, "FuturisticTrainingBelt", "ItemPelvis");
-		InventoryAdd(Player, "FuturisticBra", "ItemBreast");
-		InventoryAdd(Player, "FuturisticBra2", "ItemBreast");
-		InventoryAdd(Player, "FuturisticHarness", "ItemTorso");
-	}
-	if (Level >= 5) {
-		InventoryAdd(Player, "FuturisticCollar", "ItemNeck");
-		InventoryAdd(Player, "FuturisticEarphones", "ItemEars");
-		InventoryAdd(Player, "FuturisticMask", "ItemHead");
-		InventoryAdd(Player, "FuturisticStraitjacket", "ItemArms");
-	}
+	InventoryAddMany(Player, items);
 }
 
 /**
