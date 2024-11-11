@@ -178,6 +178,8 @@ function MainHallLoad() {
 	TextPrefetch("Character", "Relog");
 	TextPrefetch("Online", "ChatSearch");
 
+	// A maid will introduce the player to the club and explain the basic rules
+	MainHallMaidIntroduction();
 }
 
 /**

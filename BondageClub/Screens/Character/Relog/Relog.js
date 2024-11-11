@@ -37,6 +37,18 @@ function RelogLoad() {
 }
 
 /**
+ * Unload the relog screen
+ */
+function RelogUnload() {
+	ElementRemove("InputPassword");
+
+	const Elements = /** @type {HTMLCollectionOf<HTMLElement>} */(document.getElementsByClassName("HideOnDisconnect"));
+	for (const element of Elements) {
+		element.style.display = "";
+	}
+}
+
+/**
  * Runs the relog screen
  * @returns {void} Nothing
  */
