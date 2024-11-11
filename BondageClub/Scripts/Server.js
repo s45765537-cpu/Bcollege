@@ -137,12 +137,10 @@ function ServerSetConnected(connected, errorMessage) {
 	ServerIsConnected = connected;
 	if (connected) {
 		ServerReconnectCount = 0;
-		LoginErrorMessage = "";
+		LoginSetStatus();
 	} else {
-		LoginErrorMessage = errorMessage || "";
-		LoginSubmitted = false;
+		LoginSetStatus(errorMessage, true);
 	}
-	LoginUpdateMessage();
 }
 
 /**
@@ -168,8 +166,7 @@ function ServerConnect() {
  */
 function ServerReconnecting() {
 	ServerReconnectCount++;
-	if (ServerReconnectCount >= 3) LoginErrorMessage = "ErrorUnableToConnect";
-	LoginUpdateMessage();
+	if (ServerReconnectCount >= 3) LoginSetStatus("ErrorUnableToConnect");
 }
 
 /**

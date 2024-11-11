@@ -18,8 +18,7 @@ function RelogLoad() {
 	}
 
 	// Resets login variables and sets the login message
-	LoginStatusReset(null, true);
-	LoginUpdateMessage();
+	LoginStatusReset();
 
 	// Keeps a copy of the main canvas and darkens it
 	var Context = RelogCanvas.getContext("2d");
@@ -48,8 +47,10 @@ function RelogRun() {
 	const CanLogin = ServerIsConnected && !LoginSubmitted;
 
 	// Draw the relog controls
-	if (!LoginMessage) LoginUpdateMessage();
-	if (LoginMessage != TextGet("EnterPassword")) DrawText(LoginMessage, 1000, 150, "White", "Black");
+	const status = LoginGetStatus();
+	if (status) {
+		DrawText(status, 1000, 150, "White", "Black");
+	}
 	DrawText(TextGet("EnterPassword"), 1000, 230, "White", "Black");
 	DrawText(TextGet("Account") + "  " + Player.AccountName, 1000, 400, "White", "Black");
 	DrawText(TextGet("Password"), 1000, 500, "White", "Black");
@@ -66,7 +67,11 @@ function RelogRun() {
  * @returns {void} Nothing
  */
 function RelogClick() {
-	if (MouseIn(675, 750, 300, 60)) RelogSend(); // Log Back button
+	if (MouseIn(675, 750, 300, 60)) {
+		// Log Back button
+		const Password = ElementValue("InputPassword");
+		LoginDoLogin(Player.AccountName, Password);
+	}
 	if (MouseIn(1025, 750, 300, 60)) RelogExit(); // Give Up button
 }
 
@@ -77,28 +82,12 @@ function RelogClick() {
 function RelogKeyDown(event) {
 	if (CommonKey.IsPressed(event, "Enter")) {
 		// On an "enter" key press, try to relog the player
-		RelogSend();
+		const Name = Player.AccountName;
+		const Password = ElementValue("InputPassword");
+		LoginDoLogin(Name, Password);
 		return true;
 	}
 	return false;
-}
-
-/**
- * Attempt to log the user in based on the current player account name and the input password
- * @returns {void} Nothing
- */
-function RelogSend() {
-	// Ensure the login request is not sent twice
-	if (!LoginSubmitted && ServerIsConnected) {
-		var Name = Player.AccountName;
-		var Password = ElementValue("InputPassword");
-		var letters = /^[a-zA-Z0-9]+$/;
-		if (Name.match(letters) && Password.match(letters) && (Name.length > 0) && (Name.length <= 20) && (Password.length > 0) && (Password.length <= 20)) {
-			LoginSetSubmitted();
-			ServerSend("AccountLogin", { AccountName: Name, Password: Password });
-		} else LoginStatusReset("InvalidNamePassword", true);
-	}
-	LoginUpdateMessage();
 }
 
 /**

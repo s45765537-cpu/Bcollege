@@ -1,6 +1,5 @@
 "use strict";
 var LoginBackground = "Dressing";
-var LoginMessage = "";
 /** @type {null | string[][]} */
 var LoginCredits = null;
 var LoginCreditsPosition = 0;
@@ -17,11 +16,11 @@ var LoginThankYouList = [
 /* eslint-enable */
 var LoginThankYouNext = 0;
 var LoginSubmitted = false;
-var LoginIsRelog = false;
+var LoginQueuePosition = -1;
+/** The server login status */
 var LoginErrorMessage = "";
 /** @type {NPCCharacter} */
 var LoginCharacter = null;
-let LoginTextCacheUnsubscribeCallback;
 
 /* DEBUG: To measure FPS - uncomment this and change the + 4000 to + 40
 var LoginLastCT = 0;
@@ -113,7 +112,9 @@ var LoginEventListeners = {
 	 */
 	_KeyDownInputPassword: function _KeyDownInputPassword(ev) {
 		if (CommonKey.IsPressed(ev, "Enter")) {
-			LoginDoLogin();
+			const Name = ElementValue("InputName");
+			const Password = ElementValue("InputPassword");
+			LoginDoLogin(Name, Password);
 			ev.stopPropagation();
 		}
 	},
@@ -135,7 +136,6 @@ function LoginLoad() {
 	LoginCharacter = CharacterLoadNPC("NPC_Login");
 	LoginDoNextThankYou();
 	LoginStatusReset();
-	LoginErrorMessage = "";
 	if (LoginCredits == null) CommonReadCSV("LoginCredits", CurrentModule, CurrentScreen, "GameCredits");
 	ActivityDictionaryLoad();
 	OnlneGameDictionaryLoad();
@@ -169,8 +169,6 @@ function LoginLoad() {
 	TextPrefetchFile(InterfaceStringsPath);
 	TextPrefetch("Room", "MainHall");
 	DrawGetImage("Backgrounds/MainHall.jpg");
-	LoginTextCacheUnsubscribeCallback = TextScreenCache.onRebuild(LoginUpdateMessage);
-
 }
 
 /**
@@ -186,7 +184,7 @@ function LoginRun() {
 
 	// Draw the login controls
 	DrawText(TextGet("Welcome"), 1000, 50, "White", "Black");
-	DrawText(LoginMessage, 1000, 100, "White", "Black");
+	DrawText(LoginGetStatus() ?? TextGet("EnterNamePassword"), 1000, 100, "White", "Black");
 	DrawText(TextGet("AccountName"), 1000, 200, "White", "Black");
 	ElementPosition("InputName", 1000, 260, 500);
 	DrawText(TextGet("Password"), 1000, 350, "White", "Black");
@@ -659,7 +657,7 @@ function LoginLoadInventoryObject(InventoryObject) {
  */
 function LoginQueue(Pos) {
 	if (typeof Pos !== "number") return;
-	LoginMessage = TextGet("LoginQueueWait").replace("QUEUE_POS", `${Pos}`);
+	LoginQueuePosition = Pos;
 }
 
 /**
@@ -682,12 +680,16 @@ function LoginFixOwner() {
 function LoginResponse(C) {
 	LoginCheckES2020();
 
+	if (typeof C === "string") {
+		LoginSetStatus(C, true);
+		return;
+	}
+
 	// If the return package contains a name and a account name
 	if (CommonIsObject(C)) {
 
 		// In relog mode, we jump back to the previous screen, keeping the current game flow
 		if (RelogData != null) {
-			LoginUpdateMessage();
 			ElementRemove("InputPassword");
 			Player.CharacterID = C.ID.toString();
 			Player.OnlineID = C.ID.toString();
@@ -856,7 +858,6 @@ function LoginResponse(C) {
 				InventoryLoadCompressedData(Player, C.InventoryData);
 				ServerAppearanceLoadFromBundle(Player, C.AssetFamily, C.Appearance, C.MemberNumber);
 			} else {
-
 				// Since InventoryData wasn't found (R104 and before), we load the inventory object
 				/** @type {Partial<Record<AssetGroupName, string[]>>} */
 				console.log("Converting from Inventory to InventoryData...");
@@ -865,7 +866,6 @@ function LoginResponse(C) {
 				ServerAppearanceLoadFromBundle(Player, C.AssetFamily, C.Appearance, C.MemberNumber);
 				InventoryLoad(Player, InventoryObject);
 				ServerPlayerInventorySync();
-
 			}
 
 			// Loads the current appearance, log, reputation and skills
@@ -971,12 +971,9 @@ function LoginResponse(C) {
 			}
 
 		} else {
-			LoginStatusReset("ErrorLoadingCharacterData");
+			LoginSetStatus("ErrorLoadingCharacterData", true);
 		}
-	} else if (typeof C === "string") {
-		LoginStatusReset(C);
 	}
-	LoginUpdateMessage();
 }
 
 /** Check if the player's browser has ES2020 support */
@@ -1028,7 +1025,11 @@ function LoginClick() {
 	}
 
 	// Try to login
-	if (MouseIn(775, 500, 200, 60)) LoginDoLogin();
+	if (MouseIn(775, 500, 200, 60)) {
+		const Name = ElementValue("InputName");
+		const Password = ElementValue("InputPassword");
+		LoginDoLogin(Name, Password);
+	}
 }
 
 /**
@@ -1037,7 +1038,9 @@ function LoginClick() {
  */
 function LoginKeyDown(ev) {
 	if (CommonKey.IsPressed(ev, "Enter")) {
-		LoginDoLogin();
+		const Name = ElementValue("InputName");
+		const Password = ElementValue("InputPassword");
+		LoginDoLogin(Name, Password);
 		return true;
 	}
 	return false;
@@ -1045,61 +1048,60 @@ function LoginKeyDown(ev) {
 
 /**
  * Attempt to log the user in based on their input username and password
+ * @param {string} Name
+ * @param {string} Password
  * @returns {void} Nothing
  */
-function LoginDoLogin() {
-
+function LoginDoLogin(Name, Password) {
 	// Ensure the login request is not sent twice
-	if (!LoginSubmitted && ServerIsConnected) {
-		var Name = ElementValue("InputName");
-		var Password = ElementValue("InputPassword");
-		if (Name.match(ServerAccountPasswordRegex) && Password.match(ServerAccountPasswordRegex)) {
-			LoginSetSubmitted();
-			ServerSend("AccountLogin", { AccountName: Name, Password: Password });
-		} else LoginStatusReset("InvalidNamePassword");
+	if (LoginSubmitted || !ServerIsConnected) return;
+
+	if (!ServerAccountPasswordRegex.test(Name) || !ServerAccountPasswordRegex.test(Password)) {
+		LoginSetStatus("InvalidNamePassword");
+		return;
 	}
-	LoginUpdateMessage();
-
-}
-
-/**
- * Sets the state of the login page to the submitted state
- * @returns {void} Nothing
- */
-function LoginSetSubmitted() {
+	LoginStatusReset();
 	LoginSubmitted = true;
-	if (ServerIsConnected) LoginErrorMessage = "";
+	ServerSend("AccountLogin", { AccountName: Name, Password: Password });
 }
 
 /**
  * Resets the login submission state
- * @param {string} [ErrorMessage] - the login error message to set if the login is invalid - if not specified, will clear the login error message
- * @param {boolean} [IsRelog=false] - whether or not we're on the relog screen
  * @returns {void} Nothing
  */
-function LoginStatusReset(ErrorMessage, IsRelog) {
+function LoginStatusReset() {
 	LoginSubmitted = false;
-	LoginIsRelog = !!IsRelog;
-	if (ErrorMessage) LoginErrorMessage = ErrorMessage;
+	LoginQueuePosition = -1;
+	LoginErrorMessage = "";
 }
 
 /**
- * Updates the message on the login page
- * @returns {void} Nothing
+ *
+ * @param {string} [ErrorMessage] - the login error message to set if the login is invalid - if not specified, will clear the login error message
  */
-function LoginUpdateMessage() {
-	LoginMessage = TextGet(LoginGetMessageKey());
+function LoginSetStatus(ErrorMessage = "", reset = false) {
+	if (reset) {
+		LoginStatusReset();
+	}
+	LoginErrorMessage = ErrorMessage ?? "";
 }
 
 /**
  * Retrieves the correct message key based on the current state of the login page
- * @returns {string} The key of the message to display
+ * @returns {string | null} The current login status, or null if we're not currently attempting to log in
  */
-function LoginGetMessageKey() {
-	if (LoginErrorMessage) return LoginErrorMessage;
-	else if (!ServerIsConnected) return "ConnectingToServer";
-	else if (LoginSubmitted) return "ValidatingNamePassword";
-	else return LoginIsRelog ? "EnterPassword" : "EnterNamePassword";
+function LoginGetStatus() {
+	if (LoginErrorMessage) {
+		return TextGet(LoginErrorMessage);
+	} else if (!ServerIsConnected) {
+		return TextGet("ConnectingToServer");
+	} else if (LoginQueuePosition !== -1) {
+		return TextGet("LoginQueueWait").replace("QUEUE_POS", `${LoginQueuePosition}`);
+	} else if (LoginSubmitted) {
+		return TextGet("ValidatingNamePassword");
+	} else {
+		return null;
+	}
 }
 
 /**
@@ -1107,7 +1109,4 @@ function LoginGetMessageKey() {
  * @type {ScreenFunctions["Exit"]}
  */
 function LoginExit() {
-	if (LoginTextCacheUnsubscribeCallback) {
-		LoginTextCacheUnsubscribeCallback();
-	}
 }
