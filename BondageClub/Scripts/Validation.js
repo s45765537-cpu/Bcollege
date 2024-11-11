@@ -707,6 +707,21 @@ function ValidationSanitizeProperties(C, item) {
 			property.Opacity = asset.MinOpacity;
 			changed = true;
 		}
+	} else if (CommonIsArray(property.Opacity)) {
+		// @ts-expect-error We just checked this is an array
+		for (let idx = 0; idx < property.Opacity; idx++) {
+			const layer = asset.Layer[idx];
+			const maxOpacity = layer.MaxOpacity ?? asset.MaxOpacity;
+			const minOpacity = layer.MinOpacity ?? asset.MinOpacity;
+			if (!CommonIsNumeric(property.Opacity[idx]) || property.Opacity[idx] > layer.MaxOpacity) {
+				property.Opacity[idx] = maxOpacity;
+				changed = true;
+			}
+			if (property.Opacity[idx] < layer.MinOpacity) {
+				property.Opacity[idx] = minOpacity;
+				changed = true;
+			}
+		}
 	}
 
 	if (property.Tint && !asset.AllowTint) {
