@@ -705,4 +705,12 @@ const CommonCommands = [
 			Shop2.Init(background, screen);
 		},
 	},
+	{
+		Tag: "changelog",
+		Action: () => {
+			const gameVersionArray = GameVersionFormat.exec(GameVersion);
+			const url = gameVersionArray ? `./changelog.html#r${gameVersionArray[1]}` : "./changelog.html";
+			window.open(url, "_blank");
+		},
+	},
 ];
