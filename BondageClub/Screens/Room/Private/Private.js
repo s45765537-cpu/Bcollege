@@ -1742,7 +1742,7 @@ function PrivateStartGirlfriend() {
  * @returns {void} - Nothing.
  */
 function PrivateWearRing(C, Color) {
-	const item = InventoryWear(C, "Rings", "RightHand", Color);
+	const item = InventoryWear(C, "Rings", "HandAccessoryRight", Color);
 	if (item == null) return;
 	ExtendedItemSetOptionByRecord(C, item, { r: 2 });
 }

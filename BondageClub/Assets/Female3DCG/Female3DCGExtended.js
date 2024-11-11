@@ -281,7 +281,7 @@ var AssetFemale3DCGExtended = {
 			],
 		}, // PirateHat
 	},
-	LeftHand: {
+	HandAccessoryLeft: {
 		Rings: {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
@@ -313,7 +313,7 @@ var AssetFemale3DCGExtended = {
 			],
 		},
 	},
-	RightHand: {
+	HandAccessoryRight: {
 		Rings: {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
@@ -9446,8 +9446,8 @@ var AssetFemale3DCGExtended = {
 							"Panties",
 							"Garters",
 							"Socks",
-							"RightAnklet",
-							"LeftAnklet",
+							"AnkletRight",
+							"AnkletLeft",
 							"Shoes",
 							"Gloves",
 							"TailStraps",
@@ -9470,8 +9470,8 @@ var AssetFemale3DCGExtended = {
 							"Pussy",
 							"Corset",
 							"Bracelet",
-							"LeftHand",
-							"RightHand",
+							"HandAccessoryLeft",
+							"HandAccessoryRight",
 						],
 					},
 				},
@@ -16078,7 +16078,7 @@ var AssetFemale3DCGExtended = {
 			DrawImages: false,
 		}, // GarterBelt
 	}, // Garters
-	RightAnklet: {
+	AnkletRight: {
 		LegFur: {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
@@ -16113,8 +16113,8 @@ var AssetFemale3DCGExtended = {
 			],
 			DrawImages: false,
 		}, // LegFur
-	}, // RightAnklet
-	LeftAnklet: {
+	}, // AnkletRight
+	AnkletLeft: {
 		LegFur: {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
@@ -16149,7 +16149,7 @@ var AssetFemale3DCGExtended = {
 			],
 			DrawImages: false,
 		}, // LegFur
-	}, // LeftAnklet
+	}, // AnkletLeft
 	Gloves: {
 		WarmGloves: {
 			Archetype: ExtendedArchetype.TYPED,
