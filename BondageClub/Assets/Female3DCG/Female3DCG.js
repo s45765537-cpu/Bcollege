@@ -6450,6 +6450,12 @@ var AssetFemale3DCG = [
 					AssetName: "LongFishnets",
 					BuyGroup: true,
 				},
+				Top: 400,
+				Left: {
+					[PoseType.DEFAULT] : 75,
+					KneelingSpread: 105,
+					Hogtied: 125,
+				},
 			}
 		],
 
