@@ -30724,6 +30724,8 @@ var AssetFemale3DCG = [
 				Left: -3,
 				Top: 40,
 				Extended: true,
+				AllowLock: true,
+				DrawLocks: false,
 				DefaultColor: ["#999999","#999999"],
 				Layer: [
 					{
@@ -33780,6 +33782,7 @@ var AssetFemale3DCG = [
 				Top: 159,
 				Time: 5,
 				AllowLock: true,
+				DrawLocks: false,
 				DefaultColor: ["#7E7E7E", "#961006", "#198E9D"],
 				Layer: [
 					{
@@ -33811,6 +33814,7 @@ var AssetFemale3DCG = [
 				Top: 159,
 				Time: 5,
 				AllowLock: true,
+				DrawLocks: false,
 				DefaultColor: ["#7E7E7E", "#198E9D", "#961006"],
 				Layer: [
 					{
