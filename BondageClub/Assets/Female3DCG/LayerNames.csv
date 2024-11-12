@@ -1898,9 +1898,9 @@ ItemNeckTechnoCollarSlenderCollarSides,Side Plates
 ItemNeckMoonCollarBase,Base
 ItemNeckMoonCollarSuns,Suns
 ItemNeckMoonCollarCentermoon,Center Moon
-ItemNeckMoonCollarBase,Base
-ItemNeckMoonCollarMoons,Moons
-ItemNeckMoonCollarCentersun,Center Sun
+ItemNeckSunCollarBase,Base
+ItemNeckSunCollarMoons,Moons
+ItemNeckSunCollarCentersun,Center Sun
 ItemNipplesChainClampChain,Chain
 ItemNipplesChainClampClamp,Clamps
 ItemNipplesChainClampMetal,Metal
