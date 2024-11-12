@@ -34,7 +34,7 @@ function InventoryItemDevicesWoodenBoxExitHook(data, originalFunction) {
 
 	// Apply extra opacity-specific effects
 	const Property = DialogFocusItem.Property;
-	const Transparent = Property.Opacity < 0.15;
+	const Transparent = CommonIsNumeric(Property.Opacity) ? Property.Opacity < 0.15 : false;
 	if (Transparent) {
 		delete Property.Effect;
 	} else {

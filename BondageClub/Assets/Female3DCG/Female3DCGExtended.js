@@ -14251,7 +14251,6 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 7,
 						Effect: [E.Freeze],
-						Random: false,
 					},
 				},
 			],
@@ -14325,7 +14324,6 @@ var AssetFemale3DCGExtended = {
 								Effect: [E.BlockWardrobe, E.Freeze, E.Tethered, E.MapImmobile],
 								OverrideHeight: { Height: -20, Priority: 41 },
 								Difficulty: 9,
-								Expression: [{ Group: "Blush", Name: "High", Timer: 12 }],
 							},
 						},
 						{
