@@ -6,7 +6,7 @@ blacklistadd,[MemberNumber]: Add the player to your blacklist
 blacklistremove,[MemberNumber]: Remove the player from your blacklist
 blush,"[0-5], ”+”, ”-” or ”b” or ”blue”: Remove blush with ”0”, set red blush intensity with ”1” to ”5” or increase and decrease it with ”+” and ”-”, or set blue blush with ”b” or ”blue”. Giving no blush opens the blush menu."
 bot,[Message]: sends hidden message to bots
-changelog,: Open the Bondage Club changelog
+changelog,[start][stop]: Show the Bondage Club changelog for the specified version(s); defaults to the latest version
 coin,: Toss a coin
 craft,: Open the crafting menu
 demote,[MemberNumber]: Demote the player from room administrator
