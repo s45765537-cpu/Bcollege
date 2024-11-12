@@ -189,6 +189,8 @@ const CraftingID = /** @type {const} */({
 	privateLabel: "crafting-private-label",
 	extendedButton: "crafting-extended-button",
 	extendedLabel: "crafting-extended-label",
+	tightenButton: "crafting-tighten-button",
+	tightenLabel: "crafting-tighten-label",
 	asciiDescriptionCheckbox: "crafting-ascii-description-checkbox",
 	asciidescriptionLabel: "crafting-ascii-description-label",
 });
@@ -446,6 +448,30 @@ var CraftingEventListeners = {
 	 * @private
 	 * @type {(this: HTMLButtonElement, ev: Event) => void}
 	 */
+	_ClickTighten: function _ClickTighten() {
+		if (!CraftingPreview || !CraftingSelectedItem?.Asset.AllowTighten) {
+			return;
+		}
+
+		const item = InventoryGet(CraftingPreview, CraftingSelectedItem.Asset.DynamicGroupName);
+		if (item) {
+			// Make sure that all expected modifiers are present so that the difficulty factor can easily be extracted afterwards by extracting a deterministic value
+			item.Craft.Property = CraftingSelectedItem.Property;
+			item.Difficulty = (
+				item.Asset.Difficulty
+				+ SkillGetLevel(Player, "Bondage")
+				+ (item.Craft?.Property === "Secure" ? 4 : 0)
+				+ CraftingSelectedItem.DifficultyFactor
+			);
+			DialogSetTightenLoosenItem(item);
+			CraftingModeSet("Tighten");
+		}
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLButtonElement, ev: Event) => void}
+	 */
 	_ClickLayering: function _ClickLayering() {
 		if (CraftingPreview && CraftingSelectedItem?.Asset) {
 			const item = InventoryGet(CraftingPreview, CraftingSelectedItem.Asset.DynamicGroupName);
@@ -658,12 +684,14 @@ var CraftingEventListeners = {
 		}
 
 		// Disable the extended item config button for non-extended items
-		const [extendedButton, colorButton, layeringButton] = /** @type {HTMLButtonElement[]} */([
+		const [extendedButton, colorButton, layeringButton, tightenButton] = /** @type {HTMLButtonElement[]} */([
 			document.getElementById(CraftingID.extendedButton),
 			document.getElementById(CraftingID.colorsButton),
 			document.getElementById(CraftingID.layeringButton),
+			document.getElementById(CraftingID.tightenButton),
 		]);
 		extendedButton.disabled = !CraftingSelectedItem.Asset.Extended;
+		tightenButton.disabled = !CraftingSelectedItem.Asset.AllowTighten;
 		colorButton.disabled = false;
 		colorsInput.disabled = false;
 		layeringButton.disabled = false;
@@ -1122,6 +1150,15 @@ function CraftingLoad() {
 				},
 				{
 					tag: "label",
+					attributes: { id: CraftingID.tightenLabel },
+					classList: ["crafting-label"],
+					children: [
+						ElementButton.Create(CraftingID.tightenButton, CraftingEventListeners._ClickTighten, { disabled: true }),
+						{ tag: "span", children: [TextGet("EnterTighten")] },
+					],
+				},
+				{
+					tag: "label",
 					attributes: { id: CraftingID.asciidescriptionLabel },
 					classList: ["crafting-label"],
 					children: [
@@ -1266,6 +1303,12 @@ function CraftingRun() {
 	// Need the `DialogFocusItem` check here as there's a bit of a race condition
 	if (CraftingMode == "Extended" && DialogFocusItem) {
 		CommonCallFunctionByNameWarn(`Inventory${DialogFocusItem.Asset.Group.Name}${DialogFocusItem.Asset.Name}Draw`);
+		DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
+		DrawCharacter(CraftingPreview, 500, 100, 0.9, false);
+	}
+
+	if (CraftingMode == "Tighten" && DialogTightenLoosenItem) {
+		TightenLoosenItemDraw();
 		DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
 		DrawCharacter(CraftingPreview, 500, 100, 0.9, false);
 	}
@@ -1418,6 +1461,7 @@ function CraftingSerialize(craft) {
 		"", // Old field as used by the deprecated `OverridePriority` crafted craft property, DO NOT REMOVE!
 		(craft.ItemProperty == null) ? "" : JSON.stringify(craft.ItemProperty),
 		(craft.TypeRecord == null) ? "" : JSON.stringify(craft.TypeRecord),
+		(!craft.DifficultyFactor) ? "" : craft.DifficultyFactor.toString(),
 	];
 	return stringData.map(i => i.replace(CraftingSerializeSanitize, "")).join(CraftingSerializeFieldSep);
 }
@@ -1455,6 +1499,7 @@ function CraftingDeserialize(craftString) {
 		OverridePriority,
 		ItemProperty,
 		TypeRecord,
+		DifficultyFactor,
 	] = craftString.split(CraftingSerializeFieldSep);
 
 	/** @type {CraftingItem} */
@@ -1469,6 +1514,7 @@ function CraftingDeserialize(craftString) {
 		ItemProperty: ItemProperty ? CommonJSONParse(ItemProperty) : {},
 		Type: Type || null,
 		TypeRecord: TypeRecord ? CommonJSONParse(TypeRecord) : null,
+		DifficultyFactor: DifficultyFactor ? Number.parseInt(DifficultyFactor, 10) : undefined,
 	};
 
 	const priority = Number.parseInt(OverridePriority);
@@ -1679,6 +1725,7 @@ function CraftingClick(event) {
 				CraftingSelectedItem = {
 					Name: "",
 					Description: "",
+					DifficultyFactor: 0,
 					Color: "Default",
 					Assets: [],
 					get Asset() {
@@ -1723,6 +1770,10 @@ function CraftingClick(event) {
 		CommonCallFunctionByNameWarn(`Inventory${DialogFocusItem.Asset.Group.Name}${DialogFocusItem.Asset.Name}Click`);
 	}
 
+	if (CraftingMode == "Tighten" && DialogTightenLoosenItem) {
+		TightenLoosenItemClick();
+	}
+
 	if (CraftingMode == "OverridePriority") {
 		return;
 	}
@@ -1754,6 +1805,7 @@ function CraftingConvertSelectedToItem() {
 		Color: CraftingSelectedItem.Color,
 		Private: CraftingSelectedItem.Private,
 		TypeRecord: CraftingSelectedItem.TypeRecord || null,
+		DifficultyFactor: CraftingSelectedItem.DifficultyFactor || undefined,
 		ItemProperty: CraftingSelectedItem.ItemProperty,
 	};
 }
@@ -1767,6 +1819,7 @@ function CraftingConvertItemToSelected(Craft) {
 	return {
 		Name: Craft.Name,
 		Description: Craft.Description,
+		DifficultyFactor: Craft.DifficultyFactor ?? 0,
 		Color: Craft.Color,
 		Private: Craft.Private,
 		TypeRecord: Craft.TypeRecord || null,
@@ -1833,12 +1886,14 @@ function CraftingExitResetElements() {
 	}
 
 	// Disable all buttons that _must_ have an asset selected
-	const [extendedButton, colorButton, layeringButton] = /** @type {(HTMLButtonElement)[]} */([
+	const [extendedButton, colorButton, layeringButton, tightenButton] = /** @type {(HTMLButtonElement)[]} */([
 		document.getElementById(CraftingID.extendedButton),
 		document.getElementById(CraftingID.colorsButton),
 		document.getElementById(CraftingID.layeringButton),
+		document.getElementById(CraftingID.tightenButton),
 	]);
 	extendedButton.disabled = true;
+	tightenButton.disabled = true;
 	colorButton.disabled = true;
 	colorsInput.disabled = true;
 	layeringButton.disabled = true;
@@ -1871,6 +1926,7 @@ function CraftingExit(allowPanelClose=true) {
 		case "Color":
 			ItemColorExitClick();
 			return;
+		case "Tighten":
 		case "Extended":
 			DialogLeaveFocusItem();
 			return;
@@ -1961,6 +2017,15 @@ const CraftingValidationRecord = {
 	Description: {
 		Validate: (c, a) => typeof c.Description === "string",
 		GetDefault: (c, a) => "",
+		StatusCode: CraftingStatusType.ERROR,
+	},
+	DifficultyFactor: {
+		Validate: function (c, a) {
+			return (c.DifficultyFactor == null || CommonIsInteger(c.DifficultyFactor, -100, 4)) ? true : false;
+		},
+		GetDefault: function (c, a) {
+			return CommonIsInteger(c.DifficultyFactor) ? CommonClamp(c.DifficultyFactor, -100, 4) : undefined;
+		},
 		StatusCode: CraftingStatusType.ERROR,
 	},
 	Disabled: {

@@ -1075,14 +1075,14 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Strands",
 					Key: "Strands",
-					Options: [{},{}], // Strands, No Strands
+					Options: [{}, {}], // Strands, No Strands
 				},
 				{
 					Name: "Extra",
 					Key: "Extra",
-					Options: [{},{},{}], // Braids, Extra, None
-				}
-			]
+					Options: [{}, {}, {}], // Braids, Extra, None
+				},
+			],
 		},
 		HairFront62b: {
 			Archetype: ExtendedArchetype.MODULAR,
@@ -1097,14 +1097,14 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Strands",
 					Key: "Strands",
-					Options: [{},{}], // Strands, No Strands
+					Options: [{}, {}], // Strands, No Strands
 				},
 				{
 					Name: "Extra",
 					Key: "Extra",
-					Options: [{},{},{}], // Braids, Extra, None
-				}
-			]
+					Options: [{}, {}, {}], // Braids, Extra, None
+				},
+			],
 		},
 	},
 	HairBack: {
@@ -12461,7 +12461,7 @@ var AssetFemale3DCGExtended = {
 								Effect: [E.GagHeavy],
 							},
 						},
-						
+
 						{
 							Property: {
 								Effect: [E.GagHeavy],
@@ -12485,7 +12485,8 @@ var AssetFemale3DCGExtended = {
 								Effect: [E.GagMedium],
 								Fetish: ["Lingerie"],
 							},
-						}], // Panties, Wad
+						},
+					], // Panties, Wad
 				},
 			],
 			DialogPrefix: {
@@ -12494,7 +12495,7 @@ var AssetFemale3DCGExtended = {
 				Option: "OverfilledGagOption",
 				Chat: "OverfilledGagSet",
 			},
-		} // Overfilled Gag
+		}, // Overfilled Gag
 	}, // ItemMouth
 	ItemMouth2: {
 		ClothGag: {
@@ -14250,7 +14251,7 @@ var AssetFemale3DCGExtended = {
 					Property: {
 						Difficulty: 7,
 						Effect: [E.Freeze],
-					Random: false,
+						Random: false,
 					},
 				},
 			],
@@ -14281,10 +14282,7 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								SetPose: ["LegsClosed"],
 								AllowActivePose: ["Kneel"],
-								Effect: [
-									E.Slow,
-									E.BlockWardrobe,
-								],
+								Effect: [E.Slow, E.BlockWardrobe],
 								Difficulty: 6,
 							},
 						},
@@ -14298,10 +14296,7 @@ var AssetFemale3DCGExtended = {
 									"AllFours",
 									"Hogtied",
 								],
-								Effect: [
-									E.Slow,
-									E.BlockWardrobe,
-								],
+								Effect: [E.Slow, E.BlockWardrobe],
 								Difficulty: 5,
 							},
 						},
@@ -14310,11 +14305,7 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								SetPose: ["LegsOpen"],
 								AllowActivePose: ["Kneel"],
-								Effect: [
-									E.BlockWardrobe,
-									E.Freeze,
-									E.MapImmobile,
-								],
+								Effect: [E.BlockWardrobe, E.Freeze, E.MapImmobile],
 								Difficulty: 7,
 							},
 						},
@@ -14323,11 +14314,7 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								SetPose: ["Spread"],
 								AllowActivePose: ["KneelingSpread"],
-								Effect: [
-									E.BlockWardrobe,
-									E.Freeze,
-									E.MapImmobile,
-								],
+								Effect: [E.BlockWardrobe, E.Freeze, E.MapImmobile],
 								Difficulty: 8,
 							},
 						},
@@ -14335,12 +14322,7 @@ var AssetFemale3DCGExtended = {
 							// r6 - Spread Bar Sus.Inverted
 							Property: {
 								SetPose: ["Spread", "Suspension"],
-								Effect: [
-									E.BlockWardrobe,
-									E.Freeze,
-									E.Tethered,
-									E.MapImmobile,
-								],
+								Effect: [E.BlockWardrobe, E.Freeze, E.Tethered, E.MapImmobile],
 								OverrideHeight: { Height: -20, Priority: 41 },
 								Difficulty: 9,
 								Expression: [{ Group: "Blush", Name: "High", Timer: 12 }],
@@ -14350,12 +14332,7 @@ var AssetFemale3DCGExtended = {
 							// r7 - Spread Bar Spread.Ground
 							Property: {
 								SetPose: ["Spread"],
-								Effect: [
-									E.BlockWardrobe,
-									E.Freeze,
-									E.Tethered,
-									E.MapImmobile,
-								],
+								Effect: [E.BlockWardrobe, E.Freeze, E.Tethered, E.MapImmobile],
 								Difficulty: 9,
 							},
 						},
@@ -17191,11 +17168,7 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								SetPose: ["BackBoxTie"],
 								Block: ["ItemArms"],
-								Effect: [
-									E.Block,
-									E.BlockWardrobe,
-									E.NotSelfPickable,
-								],
+								Effect: [E.Block, E.BlockWardrobe, E.NotSelfPickable],
 								Difficulty: 8,
 							},
 						},
@@ -17203,11 +17176,7 @@ var AssetFemale3DCGExtended = {
 							// r4 - Restrict Belts
 							Property: {
 								SetPose: ["BackElbowTouch"],
-								Effect: [
-									E.Block,
-									E.BlockWardrobe,
-									E.NotSelfPickable,
-								],
+								Effect: [E.Block, E.BlockWardrobe, E.NotSelfPickable],
 								Difficulty: 6,
 							},
 						},
@@ -17216,11 +17185,7 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								SetPose: ["BackElbowTouch"],
 								Block: ["ItemArms"],
-								Effect: [
-									E.Block,
-									E.BlockWardrobe,
-									E.NotSelfPickable,
-								],
+								Effect: [E.Block, E.BlockWardrobe, E.NotSelfPickable],
 								Difficulty: 9,
 							},
 						},
@@ -17229,12 +17194,7 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								SetPose: ["BackElbowTouch"],
 								Block: ["ItemArms"],
-								Effect: [
-									E.Block,
-									E.BlockWardrobe,
-									E.Slow,
-									E.NotSelfPickable,
-								],
+								Effect: [E.Block, E.BlockWardrobe, E.Slow, E.NotSelfPickable],
 								Difficulty: 12,
 							},
 						},

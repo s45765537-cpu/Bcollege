@@ -224,7 +224,19 @@ var DialogLeaveFocusItemHandlers = {
 	 * Screen setup callbacks for after exiting the tighten/loosen menu; screen names are used as keys.
 	 * @type {Record<string, (item: Item) => void>}
 	 */
-	DialogTightenLoosenItem: {},
+	DialogTightenLoosenItem: {
+		Crafting: (item) => {
+			// Subtract deterministic modifiers so that only the difficulty factor remains
+			CraftingSelectedItem.DifficultyFactor = (
+				item.Difficulty
+				- SkillGetLevel(Player, "Bondage")
+				- item.Asset.Difficulty
+				- (item.Craft?.Property === "Secure" ? 4 : 0)
+			);
+			item.Difficulty = item.Asset.Difficulty;
+			CraftingModeSet("Name");
+		},
+	},
 
 	/**
 	 * Screen setup callbacks for after exiting the extended item menu; screen names are used as keys.

@@ -11,9 +11,43 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2024-10-21
-* Last recorded PR: [#5227](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5227)
-* Last recorded commit hash: `62931c7e89c470100024b0ff2ccfc037c1de45c9`
+* Changelog last updated: 2024-11-09
+* Last recorded PR: [#5244](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5244)
+* Last recorded commit hash: `0426020794ac887d723c6ea22f4d58d96e1c4341`
+
+## [R110]
+
+### [Changes]
+
+* Cleon - [ADD] HeelBinders,MassiveAnkleCuffs,KneeOver,FullLegBoots and FullMittens ([#5241](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5241))
+* EllieThePink - Rich formatted club card game log ([#5224](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5224))
+* Da'Inihlus - General improvement for CN translation, mainly the GGTS part ([#5228](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5228))
+* ewhac - Scale LockPicking "Tired" Delay by Skill ([#5234](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5234))
+* Haruhi - Adds HairFront62a and HairFront62b ([#5238](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5238))
+* Haruhi - Adds Premium Muzzle Gag and Overfilled Gag ([#5240](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5240))
+* Haruhi - Added Long Fishnet Stockings, 2 Collars and Bed Metal Cuffs ([#5244](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5244))
+* michiru - Adds missing russian translation and fixes formatting for russian and chinese cards ([#5242](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5242))
+* Rama - Allow crafted items access to the tighten/loosen screen ([#5243](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5243))
+* Ben987 - Russian Translation by Makeevchanin
+* Ben987 - Proof Reading
+* Ben987 - Color Picker - Opacity Slider Instead of Click
+* Ben987 - Bondage College - Intro Text Warning
+* Ben987 - Change Log
+
+### [Fixes]
+
+* harmony - Correctly reset ChatRoomData on relog and leash following ([#5231](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5231))
+* harmony - Quick fix for chat room recration on relog ([#5233](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5233))
+* Haruhi - Onihorns config fixed on Ears slot ([#5232](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5232))
+* Sepia Oulomenohn - Fix missing SelectBase dialogue in Custom Ball Hood ([#5229](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5229))
+* EllieThePink - BUG: Fix for empty opponent deck with Pandora's Box card ([#5239](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5239))
+* Rama - Prevent tooltips from handling any click- or hover-related actions... ([#5236](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5236))
+* Rama - Fix `CraftingDescription.Decode` failing to properly handle zero-terminated bits ([#5237](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5237))
+
+### [Technical]
+
+* Rama - Introduce `ChatRoomUnload` ([#5230](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5230))
+* Rama - Clean up of various minor screen changing & exit logic ([#5235](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5235))
 
 ## [R109]
 
