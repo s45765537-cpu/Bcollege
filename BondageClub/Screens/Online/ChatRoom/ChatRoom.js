@@ -2232,6 +2232,8 @@ function ChatRoomMenuDraw() {
 	for (let [idx, name] of Object.entries(ChatRoomMenuButtons)) {
 		let color = "White";
 		let suffix = "";
+		let hoverText = "";
+		const buttonX = 1005 + Space * Number(idx);
 		switch (name) {
 			case "Exit":
 				if (!ChatRoomCanLeave()) {
@@ -2269,12 +2271,29 @@ function ChatRoomMenuDraw() {
 				break;
 			}
 			case "Dress":
-				color = Player.CanChangeOwnClothes() ? "White" : "Pink";
+				if (!Player.CanChangeOwnClothes()) {
+					color = "Pink";
+					// Exploded version of `CanChangeClothesOn`
+					if (Player.IsRestrained()) {
+						hoverText = TextGet("MenuDressIsRestrained");
+					} else if (ManagementIsClubSlave()) {
+						hoverText = TextGet("MenuDressIsClubSlave");
+					} else if (!OnlineGameAllowChange()) {
+						hoverText = TextGet("MenuDressGameBlocked");
+					} else if (!AsylumGGTSAllowChange(Player)) {
+						hoverText = TextGet("MenuDressGGTSBlocked");
+					} else if (LogQuery("BlockChange", "Rule")) {
+						hoverText = TextGet("MenuDressRuleBlocked");
+					} else if (LogQuery("BlockChange", "OwnerRule") && !Player.IsFullyOwned()) {
+						hoverText = TextGet("MenuDressOwnerBlocked");
+					}
+				} else {
+					color = "White";
+				}
 				break;
 		}
-
-		const buttonX = 1005 + Space * Number(idx);
-		DrawButton(buttonX, 2, Space - 2, 60, "", color, null, TextGet("Menu" + name));
+		hoverText ??= TextGet("Menu" + name);
+		DrawButton(buttonX, 2, Space - 2, 60, "", color, null, hoverText);
 
 		const imageWidth = Math.min(114, Space - 4);
 		DrawImageEx("Icons/Rectangle/" + name + suffix + ".png", MainCanvas, buttonX + 1 + (Space - 4 - imageWidth) / 2, 4,
