@@ -640,10 +640,11 @@ function CommonColorsEqual(C1, C2) {
 /**
  * Checks whether two arrays are equal. The arrays are considered equal if they have the same length and contain the same items in the same
  * order, as determined by === comparison
- * @param {readonly *[]} a1 - The first array to compare
+ * @template {readonly *[]} T
+ * @param {T} a1 - The first array to compare
  * @param {readonly *[]} a2 - The second array to compare
  * @param {boolean} [ignoreOrder] - Whether to ignore item order when considering equality
- * @returns {boolean} - TRUE if both arrays have the same length and contain the same items in the same order, FALSE otherwise
+ * @returns {a2 is T} - TRUE if both arrays have the same length and contain the same items in the same order, FALSE otherwise
  */
 function CommonArraysEqual(a1, a2, ignoreOrder = false) {
 	return a1.length === a2.length && a1.every((item, i) => ignoreOrder ? a2.includes(item) : item === a2[i]);
