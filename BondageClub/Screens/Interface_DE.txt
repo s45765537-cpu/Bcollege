@@ -35,27 +35,27 @@ SourceCharacter wurde unterbrochen ein PrevAsset gegen NextAsset bei TargetChara
 SourceCharacter locks a NextAsset on DestinationCharacter FocusAssetGroup.
 SourceCharacter schliesst ein NextAsset an DestinationCharacter FocusAssetGroup.
 SourceCharacter loosens the PrevAsset on DestinationCharacter FocusAssetGroup a little.
-SourceCharacter lockert das PrevAsset an DestinationCharacter FocusAssetGroup ein bisschen.
+SourceCharacter lockert PrevAsset an DestinationCharacter FocusAssetGroup ein bisschen.
 SourceCharacter loosens the PrevAsset on DestinationCharacter FocusAssetGroup a lot.
-SourceCharacter loosens das PrevAsset an DestinationCharacter FocusAssetGroup stark.
+SourceCharacter loosens PrevAsset an DestinationCharacter FocusAssetGroup stark.
 SourceCharacter struggles and loosens the PrevAsset on DestinationCharacter FocusAssetGroup.
-SourceCharacter windet sich und lockert das PrevAsset an DestinationCharacter FocusAssetGroup.
+SourceCharacter windet sich und lockert PrevAsset an DestinationCharacter FocusAssetGroup.
 SourceCharacter picks the lock on DestinationCharacter PrevAsset.
 SourceCharacter knackt das Schloss an DestinationCharacter PrevAsset.
 SourceCharacter removes the PrevAsset from DestinationCharacter FocusAssetGroup.
-SourceCharacter entfernt das PrevAsset von DestinationCharacter FocusAssetGroup.
+SourceCharacter entfernt PrevAsset von DestinationCharacter FocusAssetGroup.
 SourceCharacter slips out of TargetPronounPossessive PrevAsset.
 SourceCharacter schlüpft aus TargetPronounPossessive PrevAsset.
 SourceCharacter swaps a PrevAsset for a NextAsset on DestinationCharacter FocusAssetGroup.
-SourceCharacter tauscht das PrevAsset gegen das NextAsset an DestinationCharacter FocusAssetGroup.
+SourceCharacter tauscht PrevAsset gegen NextAsset an DestinationCharacter FocusAssetGroup.
 SourceCharacter tightens the PrevAsset on DestinationCharacter FocusAssetGroup a little.
-SourceCharacter festigt das PrevAsset an DestinationCharacter FocusAssetGroup ein bisschen.
+SourceCharacter festigt PrevAsset an DestinationCharacter FocusAssetGroup ein bisschen.
 SourceCharacter tightens the PrevAsset on DestinationCharacter FocusAssetGroup a lot.
-SourceCharacter festigt das PrevAsset an DestinationCharacter FocusAssetGroup stark.
+SourceCharacter festigt PrevAsset an DestinationCharacter FocusAssetGroup stark.
 SourceCharacter unlocks the PrevAsset on DestinationCharacter FocusAssetGroup.
-SourceCharacter öffnet das PrevAsset an DestinationCharacter FocusAssetGroup.
+SourceCharacter öffnet PrevAsset an DestinationCharacter FocusAssetGroup.
 SourceCharacter unlocks and removes the PrevAsset from DestinationCharacter FocusAssetGroup.
-SourceCharacter öffnet und entfernt das PrevAsset von DestinationCharacter FocusAssetGroup.
+SourceCharacter öffnet und entfernt PrevAsset von DestinationCharacter FocusAssetGroup.
 SourceCharacter uses a NextAsset on DestinationCharacter FocusAssetGroup.
 SourceCharacter benutzt NextAsset an DestinationCharacter FocusAssetGroup.
 Adding...
