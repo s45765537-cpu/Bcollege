@@ -65,6 +65,7 @@ function ChatRoomCharacterViewClick(event) {
 
 }
 
+/** @type {ScreenFunctions["KeyDown"]} */
 function ChatRoomCharacterViewKeyDown(event) {
 	return false;
 }

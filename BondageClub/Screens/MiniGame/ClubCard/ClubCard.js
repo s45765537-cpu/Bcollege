@@ -4126,7 +4126,7 @@ function ClubCardClick() {
 function ClubCardKeyDown(event) {
 	if (document.activeElement.id !== "CCChat") return false;
 
-	if (event.key === "Enter") {
+	if (event.key === "Enter" && !CommonGetKeyModifiers(event)) {
 		let Value = ElementValue("CCChat").trim();
 		if (Value != "") {
 			const Msg = CharacterNickname(Player) + ": " + Value;

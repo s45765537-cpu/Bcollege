@@ -2702,21 +2702,22 @@ function ChatRoomLeave(clearCharacters = false) {
  * @type {KeyboardEventListener}
  */
 function ChatRoomCommonKeyDown(event) {
-	if (event.key === "Escape" && !event.shiftKey) {
+	const modifiers = CommonGetKeyModifiers(event);
+	if (event.key === "Escape" && !modifiers) {
 		// Escape toggles between main view and chat
 		ElementScrollToEnd("TextAreaChatLog");
 		ElementFocus("InputChat");
 		return true;
-	} else if (event.altKey && event.key === "k") {
+	} else if (event.key === "k" && CommonArraysEqual(modifiers, ["Alt"])) {
 		if (!event.repeat) ChatRoomToggleKneel();
 		return true;
-	} else if (event.altKey && event.key === "i") {
+	} else if (event.key === "i" && CommonArraysEqual(modifiers, ["Alt"])) {
 		ChatRoomOpenInformationScreen();
 		return true;
-	} else if (event.altKey && event.key === "b") {
+	} else if (event.key === "b" && CommonArraysEqual(modifiers, ["Alt"])) {
 		ChatRoomOpenWardrobeScreen();
 		return true;
-	} else if (event.altKey && event.key === "h") {
+	} else if (event.key === "h" && CommonArraysEqual(modifiers, ["Alt"])) {
 		ChatRoomOpenAdminScreen();
 		return true;
 	}
@@ -2725,31 +2726,38 @@ function ChatRoomCommonKeyDown(event) {
 
 /**
  * Handles keyboard shortcuts in the chatroom screen.
- * @param {KeyboardEvent} event - The event that triggered this
- * @returns {boolean} - Nothing.
+ * @type {KeyboardEventListener}
  */
 function ChatRoomKeyDown(event) {
 	const inputChat = /** @type {HTMLTextAreaElement} */(document.getElementById("InputChat"));
 	const chatHasFocus = inputChat && document.activeElement === inputChat;
+	const modifiers = CommonGetKeyModifiers(event);
 
 	if (chatHasFocus) {
 		// Why are these room-level event listeners!?
-		if (event.code === "Tab" && !event.shiftKey && inputChat.value.length !== 0) {
-			// Autocomplete whatever the chat contains
-			CommandAutoComplete(inputChat.value);
-			return true;
-		} else if (event.key === "Enter" && !event.shiftKey) {
-			// The ENTER key sends the chat.
-			ChatRoomSendChat();
-			return true;
-		} else if (event.key === "PageUp" || event.key === "PageDown") {
-			// On page up/down, we scroll through chat history
-			ChatRoomScrollHistory(event.key === "PageUp");
-			return true;
-		} else if (event.key === "Escape" && !event.shiftKey) {
-			// Escape toggles between main view and chat
-			ElementFocus("MainCanvas");
-			return true;
+		if (!modifiers) {
+			switch (event.key) {
+				case "Tab":
+					// Autocomplete whatever the chat contains
+					if (inputChat.value.length !== 0) {
+						CommandAutoComplete(inputChat.value);
+						return true;
+					}
+					break;
+				case "Enter":
+					// The ENTER key sends the chat.
+					ChatRoomSendChat();
+					return true;
+				case "PageUp":
+				case "PageDown":
+					// On page up/down, we scroll through chat history
+					ChatRoomScrollHistory(event.key === "PageUp");
+					return true;
+				case "Escape":
+					// Escape toggles between main view and chat
+					ElementFocus("MainCanvas");
+					return true;
+			}
 		}
 	} else if (ChatRoomCommonKeyDown(event)) {
 		return true;
@@ -2757,7 +2765,7 @@ function ChatRoomKeyDown(event) {
 		return true;
 	}
 
-	if (event.key === "Escape" && event.shiftKey) {
+	if (event.key === "Escape" && CommonArraysEqual(modifiers, ["Shift"])) {
 		// Try to leave the room on Shift-Escape
 		ChatRoomAttemptLeave();
 	}
@@ -2772,7 +2780,7 @@ function ChatRoomKeyDown(event) {
 			return false;
 		}
 
-		if (!(event.ctrlKey || event.altKey || event.shiftKey || event.metaKey)) {
+		if (!modifiers) {
 			switch (event.key) {
 				case "Home":
 					// Scroll to the top

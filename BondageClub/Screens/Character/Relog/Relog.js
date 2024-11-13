@@ -75,7 +75,7 @@ function RelogClick() {
  * @type {KeyboardEventListener}
  */
 function RelogKeyDown(event) {
-	if (event.key === "Enter") {
+	if (event.key === "Enter" && !CommonGetKeyModifiers(event)) {
 		// On an "enter" key press, try to relog the player
 		RelogSend();
 		return true;

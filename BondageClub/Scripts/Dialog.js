@@ -3673,7 +3673,7 @@ function DialogKeyDown(event) {
 	if (CurrentCharacter) {
 		if (StruggleKeyDown(event)) {
 			return true;
-		} else if (event.key === "Escape") {
+		} else if (event.key === "Escape" && !CommonGetKeyModifiers(event)) {
 			DialogMenuBack();
 			return true;
 		}

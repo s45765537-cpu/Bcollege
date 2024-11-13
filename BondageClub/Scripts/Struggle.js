@@ -243,7 +243,7 @@ function StruggleAllowLoosen() {
  * @type {KeyboardEventListener}
  */
 function StruggleKeyDown(event) {
-	if (event.repeat) return false;
+	if (event.repeat || CommonGetKeyModifiers(event)) return false;
 
 	if (!StruggleMinigameIsRunning()) return false;
 

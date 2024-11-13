@@ -222,7 +222,7 @@ function ChatCreateClick() {
 function ChatCreateKeyDown(event) {
 	if (event.repeat) return false;
 
-	if (event.key === "Enter") {
+	if (event.key === "Enter" && !CommonGetKeyModifiers(event)) {
 		ChatCreateRoom();
 		return true;
 	}

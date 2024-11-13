@@ -406,7 +406,7 @@ function ChatSearchLoadLanguageAndFilterTerms() {
 function ChatSearchKeyDown(event) {
 	if (event.repeat) return false;
 
-	if (event.key === "Enter") {
+	if (event.key === "Enter" && !CommonGetKeyModifiers(event)) {
 		if (ChatSearchMode == "") {
 			ChatSearchQuery();
 		} else {

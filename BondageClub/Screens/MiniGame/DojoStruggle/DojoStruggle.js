@@ -134,7 +134,7 @@ function DojoStruggleMouseDown() {
 function DojoStruggleKeyDown(event) {
 	if (event.repeat) return false;
 
-	if (!MiniGameEnded && event.code === "Space") {
+	if (!MiniGameEnded && event.code === "Space" && !CommonGetKeyModifiers(event)) {
 		if (!MiniGameStarted)
 			MiniGameStarted = true;
 		else

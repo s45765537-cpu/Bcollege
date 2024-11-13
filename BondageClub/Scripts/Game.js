@@ -181,10 +181,7 @@ function GameKeyDown(event) {
 			break handleKeyDown;
 		}
 
-		if (
-			event.key == "Escape"
-			&& !(event.shiftKey || event.altKey || event.metaKey || event.ctrlKey)
-		) {
+		if (event.key == "Escape" && !CommonGetKeyModifiers(event)) {
 			if (document.activeElement instanceof HTMLElement && !(document.activeElement === document.body || document.activeElement.id === "MainCanvas")) {
 				document.activeElement.blur();
 				handled = true;

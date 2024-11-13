@@ -317,15 +317,16 @@ function FriendListClick() {
 function FriendListKeyDown(event) {
 	const beepTextArea = /** @type {HTMLTextAreaElement} */(document.getElementById(FriendListIDs.beepTextArea));
 	const beepTextAreaHasFocus = beepTextArea && document.activeElement === beepTextArea;
+	const modifiers = CommonGetKeyModifiers(event);
 
 	if (FriendListBeepTarget !== -1 || beepTextArea) {
-		if (event.key === 'Escape' && !event.shiftKey) {
+		if (event.key === 'Escape' && !modifiers) {
 			FriendListBeepMenuClose();
 			return true;
 		}
 	}
 	if (beepTextAreaHasFocus) {
-		if (event.key === 'Enter' && event.ctrlKey) {
+		if (event.key === 'Enter' && CommonArraysEqual(modifiers, ["Control"])) {
 			FriendListBeepMenuSend();
 			return true;
 		}
