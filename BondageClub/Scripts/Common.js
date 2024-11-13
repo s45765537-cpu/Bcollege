@@ -1563,3 +1563,22 @@ function CommonVariableContainer(defaults, extraVars=null, resetCallbacks=null) 
 	ret.Reset();
 	return ret;
 }
+
+/**
+ * Return a list of all active key modifiers, or `null` if none are active
+ * @param {KeyboardEvent} event - The keyboard event to-be examined for modifiers
+ * @returns {null | ("Alt" | "Control" | "Meta" | "Shift")[]} - A (length >=1) list of keyboard modifiers or `null` if none are present
+ */
+function CommonGetKeyModifiers(event) {
+	if (!event) {
+		return null;
+	}
+
+	const ret = /** @type {const} */([
+		event.altKey ? "Alt" : undefined,
+		event.ctrlKey ? "Control" : undefined,
+		event.metaKey ? "Meta" : undefined,
+		event.shiftKey ? "Shift" : undefined,
+	]).filter(Boolean);
+	return ret.length > 0 ? ret : null;
+}
