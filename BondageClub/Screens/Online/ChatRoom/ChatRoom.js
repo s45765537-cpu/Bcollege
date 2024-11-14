@@ -2702,22 +2702,21 @@ function ChatRoomLeave(clearCharacters = false) {
  * @type {KeyboardEventListener}
  */
 function ChatRoomCommonKeyDown(event) {
-	const modifiers = CommonGetKeyModifiers(event);
-	if (event.key === "Escape" && !modifiers) {
+	if (CommonKey.IsPressed(event, "Escape")) {
 		// Escape toggles between main view and chat
 		ElementScrollToEnd("TextAreaChatLog");
 		ElementFocus("InputChat");
 		return true;
-	} else if (event.key === "k" && CommonArraysEqual(modifiers, ["Alt"])) {
+	} else if (CommonKey.IsPressed(event, "k", CommonKey.Alt)) {
 		if (!event.repeat) ChatRoomToggleKneel();
 		return true;
-	} else if (event.key === "i" && CommonArraysEqual(modifiers, ["Alt"])) {
+	} else if (CommonKey.IsPressed(event, "i", CommonKey.Alt)) {
 		ChatRoomOpenInformationScreen();
 		return true;
-	} else if (event.key === "b" && CommonArraysEqual(modifiers, ["Alt"])) {
+	} else if (CommonKey.IsPressed(event, "b", CommonKey.Alt)) {
 		ChatRoomOpenWardrobeScreen();
 		return true;
-	} else if (event.key === "h" && CommonArraysEqual(modifiers, ["Alt"])) {
+	} else if (CommonKey.IsPressed(event, "h", CommonKey.Alt)) {
 		ChatRoomOpenAdminScreen();
 		return true;
 	}
@@ -2731,7 +2730,7 @@ function ChatRoomCommonKeyDown(event) {
 function ChatRoomKeyDown(event) {
 	const inputChat = /** @type {HTMLTextAreaElement} */(document.getElementById("InputChat"));
 	const chatHasFocus = inputChat && document.activeElement === inputChat;
-	const modifiers = CommonGetKeyModifiers(event);
+	const modifiers = CommonKey.GetModifiers(event);
 
 	if (chatHasFocus) {
 		// Why are these room-level event listeners!?
@@ -2765,7 +2764,7 @@ function ChatRoomKeyDown(event) {
 		return true;
 	}
 
-	if (event.key === "Escape" && CommonArraysEqual(modifiers, ["Shift"])) {
+	if (CommonKey.IsPressed(event, "Escape", CommonKey.Shift)) {
 		// Try to leave the room on Shift-Escape
 		ChatRoomAttemptLeave();
 	}
@@ -2809,11 +2808,10 @@ function ChatRoomKeyDown(event) {
 			}
 		}
 
-		// Move focus to the chat
-		if (
-			(event.key.length === 1 || event.key === "Enter")
-			&& !(event.altKey || event.metaKey || (event.ctrlKey && event.key !== "v"))
-		) {
+		if (CommonKey.IsPressed(event, "v", CommonKey.CTRL)) {
+			return false;
+		} else if ((event.key.length === 1 || event.key === "Enter") && !modifiers) {
+			// Move focus to the chat
 			ElementFocus("InputChat");
 			// We have to lie here so that the first keystroke without
 			// focus still goes through, but we want to eat Enter so

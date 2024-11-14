@@ -1436,7 +1436,9 @@ function CommonJSONParse(data) {
  * @returns {"u"|"d"|"l"|"r"|undefined}
  */
 function CommonKeyMove(event, allowArrowKeys = true) {
-	if (event.code === "KeyW" || allowArrowKeys && event.code === "ArrowUp") {
+	if (CommonKey.GetModifiers(event)) {
+		return undefined;
+	} else if (event.code === "KeyW" || allowArrowKeys && event.code === "ArrowUp") {
 		return "u";
 	} else if (event.code === "KeyA" || allowArrowKeys && event.code === "ArrowLeft") {
 		return "l";
@@ -1566,20 +1568,47 @@ function CommonVariableContainer(defaults, extraVars=null, resetCallbacks=null) 
 }
 
 /**
- * Return a list of all active key modifiers, or `null` if none are active
- * @param {KeyboardEvent} event - The keyboard event to-be examined for modifiers
- * @returns {null | ("Alt" | "Control" | "Meta" | "Shift")[]} - A (length >=1) list of keyboard modifiers or `null` if none are present
+ * Namespace with helper functions for validating key presses.
+ * @namespace
  */
-function CommonGetKeyModifiers(event) {
-	if (!event) {
-		return null;
-	}
+var CommonKey = /** @type {const} */({
+	/** Bitmask component for the {@link KeyboardEvent.altKey} modifier */
+	ALT: 1,
+	/** Bitmask component for the {@link KeyboardEvent.ctrlKey} modifier */
+	CTRL: 2,
+	/** Bitmask component for the {@link KeyboardEvent.metaKey} modifier */
+	META: 4,
+	/** Bitmask component for the {@link KeyboardEvent.shiftKey} modifier */
+	SHIFT: 8,
 
-	const ret = /** @type {const} */([
-		event.altKey ? "Alt" : undefined,
-		event.ctrlKey ? "Control" : undefined,
-		event.metaKey ? "Meta" : undefined,
-		event.shiftKey ? "Shift" : undefined,
-	]).filter(Boolean);
-	return ret.length > 0 ? ret : null;
-}
+	/**
+	 * Check whether the expected key and all its modifiers were pressed
+	 * @example
+	 * // `Enter` without modifiers
+	 * CommonKey(event, "Enter");
+	 * // `Enter` with the `Ctrl` and `Shift` modifiers
+	 * CommonKey(event, "Enter", CommonKey.SHIFT | CommonKey.CTRL);
+	 * @param {KeyboardEvent} event - The keyboard event in question
+	 * @param {string} key - The expected key (see {@link KeyboardEvent.key})
+	 * @param {null | number} modifiers - An optional bit mask of all expected modifiers (see examples)
+	 * @returns {boolean} - Whether the expected key and all its modifiers were pressed
+	 */
+	IsPressed: function IsPressed(event, key, modifiers=null) {
+		modifiers ??= 0;
+		return event.key === key && modifiers === CommonKey.GetModifiers(event);
+	},
+
+	/**
+	 * Return a bit mask with all modifiers in the passed keyboard event
+	 * @param {KeyboardEvent} event - The keyboard event in question
+	 * @returns {number} - The bitmask of keyboard modifiers
+	 */
+	GetModifiers: function GetModifiers(event) {
+		return [
+			event.altKey ? CommonKey.ALT : undefined,
+			event.ctrlKey ? CommonKey.CTRL : undefined,
+			event.metaKey ? CommonKey.META : undefined,
+			event.shiftKey ? CommonKey.SHIFT : undefined,
+		].filter(Boolean).reduce((sum, bit) => sum | bit, 0);
+	},
+});

@@ -607,7 +607,7 @@ function PokerClick() {
  * @type {KeyboardEventListener}
  */
 function PokerKeyDown(event) {
-	if (event.repeat || CommonGetKeyModifiers(event)) return false;
+	if (event.repeat || CommonKey.GetModifiers(event)) return false;
 
 	let modeCheck = ["DEAL", "FLOP", "TURN", "RIVER"].includes(PokerMode);
 	let handSize = PokerPlayer[0].Hand.length;

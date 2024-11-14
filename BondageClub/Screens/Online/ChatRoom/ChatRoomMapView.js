@@ -1527,36 +1527,43 @@ function ChatRoomMapViewKeyDown(event) {
 	// Nothing to do if a character dialog is open
 	if (CurrentCharacter != null) return false;
 
-	// ENTER to go back to the chat box
-	const modifiers = CommonGetKeyModifiers(event);
-	if (event.key === "z" && CommonArraysEqual(modifiers, ["Control"])) {
-		if (ChatRoomPlayerIsAdmin()) ChatRoomMapViewUndo();
-		return true;
-	} else if (modifiers) {
-		return false;
-	} else if (event.key === "Enter") {
-		ElementFocus("InputChat");
-		return true;
-	} else if ((event.key === "-") || (event.key === "_")) {
-		if (ChatRoomMapViewPerceptionRange > ChatRoomMapViewPerceptionRangeMin) ChatRoomMapViewPerceptionRange--;
-		return true;
-	} else if ((event.key === "+") || (event.key === "=")) {
-		if (ChatRoomMapViewPerceptionRange < ChatRoomMapViewPerceptionRangeMax) ChatRoomMapViewPerceptionRange++;
-		return true;
-	} else if (CommonKeyMove(event) === "u") {
-		ChatRoomMapViewMove("North");
-		return true;
-	} else if (CommonKeyMove(event) === "l") {
-		ChatRoomMapViewMove("West");
-		return true;
-	} else if (CommonKeyMove(event) === "d") {
-		ChatRoomMapViewMove("South");
-		return true;
-	} else if (CommonKeyMove(event) === "r") {
-		ChatRoomMapViewMove("East");
-		return true;
+	const modifiers = CommonKey.GetModifiers(event);
+	switch (event.key) {
+		case "Enter":
+			ElementFocus("InputChat");
+			return true;
+		case "-":
+		case "_":
+			if (ChatRoomMapViewPerceptionRange > ChatRoomMapViewPerceptionRangeMin) ChatRoomMapViewPerceptionRange--;
+			return true;
+		case "+":
+		case "=":
+			if (ChatRoomMapViewPerceptionRange < ChatRoomMapViewPerceptionRangeMax) ChatRoomMapViewPerceptionRange++;
+			return true;
+		case "z":
+			if (modifiers === CommonKey.CTRL) {
+				if (ChatRoomPlayerIsAdmin()) ChatRoomMapViewUndo();
+				return true;
+			}
+			return false;
 	}
-	return false;
+
+	switch (CommonKeyMove(event)) {
+		case "u":
+			ChatRoomMapViewMove("North");
+			return true;
+		case "l":
+			ChatRoomMapViewMove("West");
+			return true;
+		case "d":
+			ChatRoomMapViewMove("South");
+			return true;
+		case "r":
+			ChatRoomMapViewMove("East");
+			return true;
+		default:
+			return false;
+	}
 }
 
 /**

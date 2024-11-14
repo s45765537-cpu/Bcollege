@@ -5446,7 +5446,7 @@ function PlatformDialogProcess() {
  * @type {KeyboardEventListener}
  */
 function PlatformDialogKeyDown(event) {
-	if (CommonGetKeyModifiers(event)) {
+	if (CommonKey.GetModifiers(event)) {
 		return false;
 	} else if (event.code === "Space" || event.code === "Enter" || event.code === "KeyJ" || event.code === "KeyK" || event.code === "KeyL") {
 		PlatformDialogProcess();

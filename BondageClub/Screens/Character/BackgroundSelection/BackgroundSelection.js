@@ -192,7 +192,7 @@ function BackgroundSelectionClick() {
  * @type {KeyboardEventListener}
  */
 function BackgroundSelectionKeyDown(event) {
-	if (event.key === "Enter" && !CommonGetKeyModifiers(event)) {
+	if (CommonKey.IsPressed(event, "Enter")) {
 		BackgroundSelectionExit(true);
 		return true;
 	}

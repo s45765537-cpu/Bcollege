@@ -406,7 +406,7 @@ function ChatSearchLoadLanguageAndFilterTerms() {
 function ChatSearchKeyDown(event) {
 	if (event.repeat) return false;
 
-	if (event.key === "Enter" && !CommonGetKeyModifiers(event)) {
+	if (CommonKey.IsPressed(event, "Enter")) {
 		if (ChatSearchMode == "") {
 			ChatSearchQuery();
 		} else {

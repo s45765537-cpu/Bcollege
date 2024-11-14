@@ -109,7 +109,7 @@ function ChestLockpickKeyDown(event) {
 	}
 
 	// The Space bar is like a click
-	if (event.code === "Space" && !CommonGetKeyModifiers(event)) {
+	if (CommonKey.IsPressed(event, "Space")) {
 		ChestLockpickMouseDown();
 		return true;
 	}
