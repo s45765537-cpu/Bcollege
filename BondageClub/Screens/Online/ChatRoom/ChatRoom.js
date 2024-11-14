@@ -1153,6 +1153,7 @@ function ChatRoomShowElements() {
 		// so as a compromise just scroll to the very bottom of the chat log when unhiding (which should be desireable in the majority cases)
 		ElementScrollToEnd("TextAreaChatLog");
 	}
+	ChatRoomResize(false);
 	ChatRoomChatHidden = false;
 }
 
