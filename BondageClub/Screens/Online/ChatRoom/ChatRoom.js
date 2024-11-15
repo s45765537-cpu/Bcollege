@@ -3488,7 +3488,7 @@ var ChatRoomMessageHandlers = [
 
 			// When the player is in total sensory deprivation, hide non-whisper messages if the player is not involved
 			const IsPlayerMentioned = ChatRoomMessageMentionsCharacter(Player, msg);
-			return (IsPlayerInSensoryDep && !IsPlayerInvolved && !IsPlayerMentioned && data.Type !== "Whisper");
+			return (IsPlayerInSensoryDep && !IsPlayerInvolved && !IsPlayerMentioned && data.Type !== "Whisper" && !SpeechGetOOCRanges(msg).length);
 		}
 	},
 	{
