@@ -576,17 +576,16 @@ var InventoryPrerequisiteConflicts = {
 };
 
 /**
- * Returns TRUE if we can add the item, no other items must block that prerequisite
+ * Returns an error message if we cannot add the item, no other items must block that prerequisite; `null` is returned otherwise
  * @param {Character} C - The character on which we check for prerequisites
  * @param {Asset} asset - The asset for which prerequisites should be checked. Any item equipped in the asset's group
  * will be ignored for the purposes of the prerequisite check.
  * @param {AssetPrerequisite | readonly AssetPrerequisite[]} [prerequisites=asset.Prerequisite] - An array of prerequisites or a string for a single
  * prerequisite. If nothing is provided, the asset's default prerequisites will be used
- * @param {boolean} [setDialog=true] - If TRUE, set the screen dialog message at the same time
  * @param {readonly AssetPoseName[]} [allowActivePose=asset.AllowActivePose]
- * @returns {boolean} - TRUE if the item can be added to the character
+ * @returns {string | null} - An error message (if any)
  */
-function InventoryAllow(C, asset, prerequisites = asset.Prerequisite, setDialog = true, allowActivePose = asset.AllowActivePose) {
+function InventoryDisallow(C, asset, prerequisites = asset.Prerequisite, allowActivePose = asset.AllowActivePose) {
 	// Prerequisite can be a string
 	if (typeof prerequisites === "string") {
 		prerequisites = [prerequisites];
@@ -594,7 +593,7 @@ function InventoryAllow(C, asset, prerequisites = asset.Prerequisite, setDialog 
 
 	// If prerequisite isn't a valid array, return true
 	if (!CommonIsArray(prerequisites)) {
-		return true;
+		return null;
 	}
 
 	// Create/load a simple character for prerequisite checking
@@ -627,9 +626,26 @@ function InventoryAllow(C, asset, prerequisites = asset.Prerequisite, setDialog 
 		}
 	}
 
+	return Msg ? InterfaceTextGet(`Prerequisite${Msg}`) : null;
+}
+
+/**
+ * Returns TRUE if we can add the item, no other items must block that prerequisite
+ * @param {Character} C - The character on which we check for prerequisites
+ * @param {Asset} asset - The asset for which prerequisites should be checked. Any item equipped in the asset's group
+ * will be ignored for the purposes of the prerequisite check.
+ * @param {AssetPrerequisite | readonly AssetPrerequisite[]} [prerequisites=asset.Prerequisite] - An array of prerequisites or a string for a single
+ * prerequisite. If nothing is provided, the asset's default prerequisites will be used
+ * @param {boolean} [setDialog=true] - If TRUE, set the screen dialog message at the same time
+ * @param {readonly AssetPoseName[]} [allowActivePose=asset.AllowActivePose]
+ * @returns {boolean} - TRUE if the item can be added to the character
+ */
+function InventoryAllow(C, asset, prerequisites = asset.Prerequisite, setDialog = true, allowActivePose = asset.AllowActivePose) {
+	const errMessage = InventoryDisallow(C, asset, prerequisites, allowActivePose);
+
 	// If no error message was found, we return TRUE, if a message was found, we can show it in the dialog
-	if (Msg && setDialog) DialogSetStatus(InterfaceTextGet(`Prerequisite${Msg}`), DialogTextDefaultDuration);
-	return !Msg;
+	if (errMessage && setDialog) DialogSetStatus(InterfaceTextGet(`Prerequisite${errMessage}`), DialogTextDefaultDuration);
+	return errMessage === null;
 }
 
 /**
@@ -1116,36 +1132,45 @@ function InventoryGroupIsBlockedByOwnerRule(C, GroupName) {
 }
 
 /**
+ * Returns an error message if the body area (Asset Group) for a character is blocked, and `null` otherwise.
+ *
+ * Similar to {@link InventoryGroupIsBlockedForCharacter} but also checks for map range and owner rules.
+ * @param {Character} C - The character on which we validate the group
+ * @param {null | AssetGroupItemName} [GroupName] - The name of the asset group (body area)
+ * @param {boolean} [Activity] - if TRUE check if activity is allowed on the asset group
+ * @returns {null | string} - The error message (if any)
+ */
+function InventoryGroupIsAvailable(C, GroupName=null, Activity=false) {
+	// Checks for regular blocks and enclose effects
+	if (InventoryGroupIsBlockedForCharacter(C, GroupName, Activity)) {
+		return InterfaceTextGet("ZoneBlocked");
+	}
+
+	// Check for map range
+	if (InventoryIsBlockedByDistance(C)) {
+		return InterfaceTextGet("ZoneBlockedRange");
+	}
+
+	// Checks if there's an owner rule that blocks the group
+	if (InventoryGroupIsBlockedByOwnerRule(C, GroupName)) {
+		return InterfaceTextGet("ZoneBlockedOwner");
+	}
+
+	// Nothing is preventing the group from being used
+	return null;
+}
+
+/**
  * Returns TRUE if the body area (Asset Group) for a character is blocked and cannot be used.
  *
  * Similar to {@link InventoryGroupIsBlockedForCharacter} but also checks for map range and owner rules.
  * @param {Character} C - The character on which we validate the group
  * @param {null | AssetGroupItemName} [GroupName] - The name of the asset group (body area)
  * @param {boolean} [Activity] - if TRUE check if activity is allowed on the asset group
- * @param {boolean} [setDialog]
  * @returns {boolean} - TRUE if the group is blocked
  */
-function InventoryGroupIsBlocked(C, GroupName=null, Activity=false, setDialog=false) {
-	// Checks for regular blocks and enclose effects
-	if (InventoryGroupIsBlockedForCharacter(C, GroupName, Activity)) {
-		if (setDialog) { DialogSetStatus(InterfaceTextGet("ZoneBlocked"), DialogTextDefaultDuration); }
-		return true;
-	}
-
-	// Check for map range
-	if (InventoryIsBlockedByDistance(C)) {
-		if (setDialog) { DialogSetStatus(InterfaceTextGet("ZoneBlockedRange"), DialogTextDefaultDuration, { C }); }
-		return true;
-	}
-
-	// Checks if there's an owner rule that blocks the group
-	if (InventoryGroupIsBlockedByOwnerRule(C, GroupName)) {
-		if (setDialog) { DialogSetStatus(InterfaceTextGet("ZoneBlockedOwner"), DialogTextDefaultDuration); }
-		return true;
-	}
-
-	// Nothing is preventing the group from being used
-	return false;
+function InventoryGroupIsBlocked(C, GroupName=null, Activity=false) {
+	return InventoryGroupIsAvailable(C, GroupName, Activity) !== null;
 }
 
 /**

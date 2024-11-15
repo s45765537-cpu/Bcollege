@@ -2124,8 +2124,9 @@ function DialogItemClick(ClickItem) {
 
 	// If there was  previous item, check if it is not blocked by another, has a valid click action and (if applicable) whether it can be unlocked
 	if (CurrentItem != null) {
-		if (InventoryGroupIsBlocked(C, C.FocusGroup.Name, false, true)) {
-			// `InventoryGroupIsBlocked()` already sets a dialog status
+		const blockedErrMessage = InventoryGroupIsAvailable(C, C.FocusGroup.Name, false);
+		if (blockedErrMessage) {
+			DialogSetStatus(blockedErrMessage, DialogTextDefaultDuration, { C });
 			return;
 		} else if (!DialogAllowItemClick(CurrentItem, ClickItem)) {
 			DialogSetStatus(InterfaceTextGet("BlockedByEquipped"), DialogTextDefaultDuration);
