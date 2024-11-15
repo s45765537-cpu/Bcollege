@@ -356,6 +356,12 @@ Front Hair
 前发
 Front Plate
 前部板
+Ends
+顶端
+Strands
+发缕
+Extra
+额外
 Tiara
 头冠
 Detail
@@ -742,6 +748,12 @@ Arm Stocks
 手枷
 Dark
 深色
+Leather Cuff Link
+皮革手铐连接
+Spread Bar
+开腿杆
+Details
+细节
 Lower Rope
 下部绳子
 Upper Rope
@@ -798,6 +810,8 @@ Beans Behind
 后部肉球
 Locks Behind
 后部锁
+Belt buckles
+皮带搭扣
 Harness Ring
 束带环
 Cuff Rings
@@ -962,8 +976,6 @@ Earplug
 隔音器
  Lips
 嘴唇
-Details
-细节
 Helmet
 头盔
 Chin Strap
@@ -1130,6 +1142,22 @@ Padlock
 挂锁
 Tongue
 舌头
+Main Strap
+主要束带
+Cross Straps
+交叉束带
+Cross Straps Buckles
+交叉束带搭扣
+Extra Muzzle
+额外口套
+EXtra Muzzle Straps
+额外口套束带
+Cloth mask
+布料面具
+Stuffing
+填充
+Tape
+胶带
 Tag
 标签
 Stripes Shine
@@ -1170,6 +1198,14 @@ Baseplate
 底板
 Side Plates
 两侧面板
+Suns
+太阳
+Center Moon
+中央月亮
+Moons
+月亮
+Center Sun
+中央太阳
 Clamps
 夹子
 Rubber Tips
@@ -1188,8 +1224,6 @@ Diaper
 尿裤
 Crotch Padding
 跨部垫子
-Tape
-胶带
 Waist Band
 腰带
 Plug Cap

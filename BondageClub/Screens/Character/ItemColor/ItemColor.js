@@ -132,7 +132,6 @@ function ItemColorDraw(c, group, x, y, width, height, includeResetButton) {
 				if ((ItemColorItem.Property != null) && (ItemColorItem.Property.Opacity != null) && (typeof ItemColorItem.Property.Opacity === "number"))
 					Opacity = ItemColorItem.Property.Opacity;
 				else if ((ItemColorItem.Property != null) && CommonIsArray(ItemColorItem.Property.Opacity) && CommonIsArray(ItemColorPickerIndices) && (ItemColorPickerIndices.length > 0) && (typeof ItemColorPickerIndices[0] === "number") && (ItemColorItem.Property.Opacity.length >= ItemColorPickerIndices[0]) && (typeof ItemColorItem.Property.Opacity[ItemColorPickerIndices[0]] === "number"))
-					// @ts-ignore
 					Opacity = ItemColorItem.Property.Opacity[ItemColorPickerIndices[0]];
 				if (Opacity > 1) Opacity = 1;
 				if (Opacity < 0) Opacity = 0;

@@ -662,7 +662,6 @@ function InventoryCraft(Source, Target, GroupName, Craft, Refresh, PreConfigureI
 	let Item = InventoryGet(Target, GroupName);
 	if ((Item == null) || !CraftingValidate(Craft, Item.Asset, CraftWarn, Source.IsPlayer())) return;
 
-	const hasCraft = Item.Craft != null;
 	Item.Craft ??= Craft;
 	Item.Property ??= {};
 	Item.Difficulty ??= Item.Asset.Difficulty;
@@ -673,7 +672,7 @@ function InventoryCraft(Source, Target, GroupName, Craft, Refresh, PreConfigureI
 
 	// Abort; the properties below are pre-configured by crafted items the first time they're applied,
 	// but should otherwise not be touched by this function lest they undo any further item customization applied after the fact
-	if (hasCraft && !PreConfigureItem) {
+	if (!PreConfigureItem) {
 		return;
 	}
 

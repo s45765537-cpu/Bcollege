@@ -3610,6 +3610,8 @@ Cover Limited
 覆盖部分
 Cover Hair Only
 只覆盖头发
+Select Hood Details
+选择头套细节
 Select Hood Finish
 选择头套光泽
 Select Pattern
@@ -3750,8 +3752,6 @@ Open Transparent Hood Cover
 打开透明头套覆盖
 Closed Transparent Hood Cover
 关闭透明头套覆盖
-Select Hood Details
-选择头套细节
 Select Eye Panel Fill
 选择眼睛遮罩填充
 Select Eye Panel
@@ -7316,5 +7316,141 @@ No Band
 无带子
 Select Hair Type.
 选择头发类型。
-Short
-短
+Strands
+发缕
+Extra
+额外
+Colored Strands
+彩色发缕
+No Strands
+无发缕
+Braids
+辫子
+Select Style
+选择风格
+Select Strands
+选择发缕
+Select Extras
+选择额外
+SourceCharacter adds extra straps to DestinationCharacter muzzle
+SourceCharacter在DestinationCharacter口罩上添加了额外的带子
+SourceCharacter turns DestinationCharacter muzzle back to normal.
+SourceCharacter将DestinationCharacter口罩恢复正常。
+SourceCharacter attaches an extra panel over DestinationCharacter muzzle.
+SourceCharacter在DestinationCharacter口罩上方添加了一个额外的挡板。
+Cross Straps
+交叉带
+Extra Panel
+额外面板
+Gag Type
+口球类型
+Stuffing Type
+填充类型
+Cloth Mask
+布口罩
+Cross Tape
+交叉胶带
+Full Tape
+全胶带
+Tape + Panties
+胶带+内裤
+Panties
+内裤
+Rolled Wad
+卷状填充
+Configure Options
+配置选项
+Select Gag Type
+选择口球类型
+Select Stuffing Type
+选择填充类型
+SourceCharacter changes the gag type on DestinationCharacter mouth.
+SourceCharacter更改了DestinationCharacter嘴上的口球类型。
+SourceCharacter shoves a huge stuffing into DestinationCharacter mouth.
+SourceCharacter将一个巨大的填充物塞进DestinationCharacter的嘴里。
+Choose a extended restraint:
+选择扩展束缚：
+Current condition
+目前状态
+Full Mittens menu:
+全手无指手套菜单：
+Just Mittens
+仅无指手套
+Yoked with bar
+带杆的轭
+Hands up with bar
+带杆举手
+Straitjacket mode
+拘束衣模式
+Harness belts
+固定带
+Armbinder mode
+单手套模式
+Ankle shackles combo
+脚镣组合
+SourceCharacter removes any restraint accessory from DestinationCharacterName mittens.
+SourceCharacter从DestinationCharacterName手套上移除了所有束缚配件。
+SourceCharacter tied DestinationCharacterName mittens to the bar in yoke pose. 
+SourceCharacter将DestinationCharacterName手套绑在了轭上。
+SourceCharacter tied DestinationCharacterName mittens to the bar with hands up.
+SourceCharacter将DestinationCharacterName手套绑在了杆上，并举起手。
+SourceCharacter binds DestinationCharacterName arms as straitjacket style.
+SourceCharacter将DestinationCharacterName的手臂绑成了拘束衣样式。
+SourceCharacter binds DestinationCharacterName hands in the back and put some harness belt on TargetPronounObject torso.
+SourceCharacter将DestinationCharacterName的手绑在背后，并在TargetPronounObject躯干上加了一些安全带。
+SourceCharacter binds DestinationCharacterName arms as armbinder style.
+SourceCharacter将DestinationCharacterName的手臂绑成了单手套样式。
+SourceCharacter links DestinationCharacterName mittens in TargetPronounObject ankles with chain and shackles.
+SourceCharacter用链条和脚镣将DestinationCharacterName的手套连接到TargetPronounObject的脚踝。
+How would you like to adjust this?
+你想如何调整这个？
+Just for fun
+只是为了好玩
+SourceCharacter takes it easy on the DestinationCharacterName and left the Under Knee Overnight belts loose a bit.
+SourceCharacter对DestinationCharacterName手下留情，让膝下过夜束缚器绑得稍微松了一点。
+Real Deal
+认真对待
+SourceCharacter thighens the Under Knee Overnighter belts a lot on the DestinationCharacterName feet.
+SourceCharacter将DestinationCharacterName的膝下过夜束缚器系得很紧。
+Feet Binders menu:
+脚部束缚菜单：
+Just cuffs
+只有脚铐
+Long chain link
+长链条连接
+Chain around ankles
+链条围绕脚踝
+Link strap limiter
+链接带限制器
+Metal bar
+金属杆
+Spread bar
+开腿杆
+Spread bar suspension
+开腿杆悬挂
+Grounded spread bar
+地面开腿杆
+SourceCharacter removes any bind accessory from DestinationCharacterName ankle cuffs.
+SourceCharacter从DestinationCharacterName脚镣上移除了所有束缚配件。
+SourceCharacter links the DestinationCharacterName ankle cuffs with a long chain. 
+SourceCharacter用长链条将DestinationCharacterName的脚镣连接起来。
+SourceCharacter tightens the chain around DestinationCharacterName ankles.
+SourceCharacter将链条系在DestinationCharacterName的脚踝上。
+SourceCharacter links DestinationCharacterName ankle cuffs with a short leather strap.
+SourceCharacter用短皮带将DestinationCharacterName的脚镣连接起来。
+SourceCharacter links DestinationCharacterName ankle cuffs with a metal bar.
+SourceCharacter用金属杆将DestinationCharacterName的脚镣连接起来。
+SourceCharacter spreads the DestinationCharacterName legs with a spread bar.
+SourceCharacter用开腿杆将DestinationCharacterName的腿张开。
+SourceCharacter suspends the spread bar and DestinationCharacterName is suspended upside down.
+SourceCharacter悬挂开腿杆，DestinationCharacterName倒挂。
+SourceCharacter chained the spread bar to the floor and DestinationCharacterName feet are stuck in place.
+SourceCharacter将开腿杆锁在地板上，DestinationCharacterName的脚被固定在原地。
+Select cuffs location.
+选择脚铐位置。
+SourceCharacter cuffs DestinationCharacter left arm to the bed.
+SourceCharacter将DestinationCharacter的左臂铐在床上。
+SourceCharacter cuffs DestinationCharacter right arm to the bed.
+SourceCharacter将DestinationCharacter的右臂铐在床上。
+SourceCharacter cuffs DestinationCharacter both arms to the bed.
+SourceCharacter将DestinationCharacter的双臂铐在床上。

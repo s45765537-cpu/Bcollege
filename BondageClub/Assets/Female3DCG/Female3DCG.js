@@ -8649,10 +8649,10 @@ var AssetFemale3DCG = [
 				Value: 15,
 				BuyGroup: "LongFishnets",
 				Left: {
-					[PoseType.DEFAULT] : 75,
+					[PoseType.DEFAULT]: 75,
 					KneelingSpread: 105,
 					Hogtied: 125,
-				}
+				},
 			},
 		],
 		Color: [
@@ -8882,7 +8882,7 @@ var AssetFemale3DCG = [
 				InventoryID: 1182,
 				Left: 125,
 				Top: 725,
-				FetishID: 10,
+				Fetish: ["Leather"],
 				Priority: 24,
 				Value: -1,
 				DynamicGroupName: "RightAnklet",
@@ -9128,7 +9128,7 @@ var AssetFemale3DCG = [
 				InventoryID: 1182,
 				Left: 125,
 				Top: 725,
-				FetishID: 10,
+				Fetish: ["Leather"],
 				Priority: 24,
 				Value: -1,
 				DynamicGroupName: "LeftAnklet",
@@ -9238,7 +9238,7 @@ var AssetFemale3DCG = [
 				InventoryID: 1182,
 				Left: 125,
 				Top: 725,
-				FetishID: 10,
+				Fetish: ["Leather"],
 				Priority: 24,
 				Value: -1,
 				BuyGroup: "HeelBinders",
@@ -9344,7 +9344,7 @@ var AssetFemale3DCG = [
 				InventoryID: 1182,
 				Left: 125,
 				Top: 725,
-				FetishID: 10,
+				Fetish: ["Leather"],
 				Priority: 24,
 				Value: -1,
 				BuyGroup: "HeelBinders",
@@ -10891,14 +10891,14 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FullLegBoots",
-				FetishID: 10,
 				Height: 34,
+				Fetish: ["Leather"],
+				DefaultColor: ["#353535"],
 				Layer: [
 					{
 						Name: "Main",
 						Left: 115,
 						Top: 400,
-						DefaultColor: ["#353535"],
 						PoseMapping: {
 							...AssetPoseMapping.Shoes,
 							Hogtied: PoseType.HIDE,
@@ -19572,7 +19572,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "MassiveAnkleCuffs",
 				InventoryID: 1185,
-				FetishID: 11,
+				Fetish: ["Metal"],
 				Priority: 26,
 				Value: 38,
 				Difficulty: 8,
@@ -19581,7 +19581,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DrawLocks: false,
 				AllowTighten: true,
-				Audio: ["LockLarge"],
+				Audio: "LockLarge",
 				Effect: [E.CuffedFeet, E.Slow],
 				AllowActivePose: ["LegsClosed", "Kneel", "Hogtied"],
 				RemoveItemOnRemove: [{ Name: "X-Cross", Group: "ItemDevices" }],
@@ -19635,7 +19635,7 @@ var AssetFemale3DCG = [
 				Name: "HeelBinders",
 				InventoryID: 1182,
 				BuyGroup: "HeelBinders",
-				FetishID: 10,
+				Fetish: ["Leather"],
 				Priority: 26,
 				Value: 26,
 				Difficulty: 5,
@@ -19644,10 +19644,11 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DrawLocks: false,
 				AllowTighten: true,
-				Audio: ["Buckle"],
+				Audio: "Buckle",
 				Effect: [E.CuffedFeet],
-				Block: ["Shoes", "ItemBoots"],
+				Block: ["ItemBoots"],
 				RemoveItemOnRemove: [{ Name: "X-Cross", Group: "ItemDevices" }],
+				DefaultColor: ["#808080", "#AAAAAA", "#606060", "#AAAAAA"],
 				Layer: [
 					{
 						Name: "Cuffs",
@@ -19657,7 +19658,6 @@ var AssetFemale3DCG = [
 							Spread: "Spread",
 							Kneel: PoseType.HIDE,
 						},
-						DefaultColor: ["#808080"],
 						AllowColorize: true,
 					},
 					{
@@ -19683,7 +19683,6 @@ var AssetFemale3DCG = [
 						},
 						CreateLayerTypes: ["r"],
 						AllowTypes: { r: 1 },
-						DefaultColor: ["#AAAAAA"],
 						AllowColorize: true,
 					},
 					{
@@ -19711,7 +19710,6 @@ var AssetFemale3DCG = [
 						},
 						CreateLayerTypes: ["r"],
 						AllowTypes: { r: 3 },
-						DefaultColor: ["#606060"],
 						AllowColorize: true,
 					},
 					{
@@ -19725,7 +19723,6 @@ var AssetFemale3DCG = [
 						},
 						CreateLayerTypes: ["r"],
 						AllowTypes: { r: [4, 5, 6, 7] },
-						DefaultColor: ["#AAAAAA"],
 						AllowColorize: true,
 					},
 					{
@@ -19767,7 +19764,6 @@ var AssetFemale3DCG = [
 							Spread: "Spread",
 							Kneel: PoseType.HIDE,
 						},
-						DefaultColor: ["Default"],
 						AllowColorize: true,
 					},
 				],
@@ -19775,7 +19771,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "KneeOvernighter",
 				InventoryID: 1184,
-				FetishID: 10,
+				Fetish: ["Leather"],
 				Difficulty: 5,
 				Priority: 26,
 				Value: 31,
@@ -30737,24 +30733,24 @@ var AssetFemale3DCG = [
 					{
 						Name: "Leftundercuff",
 						Priority: 2,
-						AllowTypes: { typed: [0, 2]},
+						AllowTypes: { typed: [0, 2] },
 					},
 					{
 						Name: "Leftcuff",
 						CopyLayerColor: "Leftundercuff",
-						AllowTypes: { typed: [0, 2]},
+						AllowTypes: { typed: [0, 2] },
 					},
 					{
 						Name: "Rightundercuff",
 						Priority: 2,
-						AllowTypes: { typed: [1, 2]},
+						AllowTypes: { typed: [1, 2] },
 					},
 					{
 						Name: "Rightcuff",
 						CopyLayerColor: "Rightundercuff",
-						AllowTypes: { typed: [1, 2]},
-					}
-				]
+						AllowTypes: { typed: [1, 2] },
+					},
+				],
 			},
 		],
 		Color: [
@@ -31624,7 +31620,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "FullMittens",
 				InventoryID: 1183,
-				FetishID: 10,
+				Fetish: ["Leather"],
 				Top: -130,
 				Value: 10,
 				Difficulty: 6,
@@ -33790,8 +33786,8 @@ var AssetFemale3DCG = [
 						Name: "Lock",
 						AllowColorize: false,
 						LockLayer: true,
-						Priority: 5
-					}
+						Priority: 5,
+					},
 				],
 			},
 			{
@@ -33822,8 +33818,8 @@ var AssetFemale3DCG = [
 						Name: "Lock",
 						AllowColorize: false,
 						LockLayer: true,
-						Priority: 5
-					}
+						Priority: 5,
+					},
 				],
 			},
 		],
