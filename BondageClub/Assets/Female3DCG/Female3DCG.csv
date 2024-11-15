@@ -733,7 +733,7 @@ ItemArms,WrappedBlanket,Wrapped Blanket
 ItemArms,WristShackles,Wrist Shackles
 ItemArms,Yoke,Yoke
 ItemArms,Zipties,Zip Ties
-ItemArms,BedMetalCuffs,Cuffed to Bed
+ItemArms,BedMetalCuffs,Bed Metal Cuffs
 ItemBoots,,Feet
 ItemBoots,BalletHeels,Ballet Heels
 ItemBoots,BalletHeels1,Ballet Hi-Shoes
@@ -1288,8 +1288,8 @@ ItemNeck,SpikedChoker,Spiked Choker
 ItemNeck,SteelPostureCollar,Steel Collar
 ItemNeck,StrictPostureCollar,Strict Posture Collar
 ItemNeck,TechnoCollar,Techno Collar
-ItemNeck,MoonCollar,Benim ayım
-ItemNeck,SunCollar,Benim Güneşim
+ItemNeck,MoonCollar,Moon Collar
+ItemNeck,SunCollar,Sun Collar
 ItemNeckAccessories,,Collar
 ItemNeckAccessories,CollarAutoShockUnit,Automatic Shock Unit
 ItemNeckAccessories,CollarBell,Bell

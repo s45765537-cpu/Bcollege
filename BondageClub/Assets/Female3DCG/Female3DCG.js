@@ -6450,7 +6450,13 @@ var AssetFemale3DCG = [
 					AssetName: "LongFishnets",
 					BuyGroup: true,
 				},
-			},
+				Top: 400,
+				Left: {
+					[PoseType.DEFAULT] : 75,
+					KneelingSpread: 105,
+					Hogtied: 125,
+				},
+			}
 		],
 
 		Color: [
@@ -30720,7 +30726,9 @@ var AssetFemale3DCG = [
 				Left: -3,
 				Top: 40,
 				Extended: true,
-				DefaultColor: ["#999999", "#999999"],
+				AllowLock: true,
+				DrawLocks: false,
+				DefaultColor: ["#999999","#999999"],
 				Layer: [
 					{
 						Name: "Leftundercuff",

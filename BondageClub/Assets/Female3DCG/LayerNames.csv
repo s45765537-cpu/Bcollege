@@ -1789,7 +1789,7 @@ ItemMouthPremiumMuzzleRivets,Rivets
 ItemMouthPremiumMuzzleCrossStraps,Cross Straps
 ItemMouthPremiumMuzzleCrossStrapsBuckles,Cross Straps Buckles
 ItemMouthPremiumMuzzleMuzzle,Extra Muzzle
-ItemMouthPremiumMuzzleMuzzleStraps,EXtra Muzzle Straps
+ItemMouthPremiumMuzzleMuzzleStraps,Extra Muzzle Straps
 ItemMouthOverfilledGagClothmask,Cloth mask
 ItemMouthOverfilledGagPanties,Stuffing
 ItemMouthOverfilledGagTape1,Tape
@@ -1898,9 +1898,9 @@ ItemNeckTechnoCollarSlenderCollarSides,Side Plates
 ItemNeckMoonCollarBase,Base
 ItemNeckMoonCollarSuns,Suns
 ItemNeckMoonCollarCentermoon,Center Moon
-ItemNeckMoonCollarBase,Base
-ItemNeckMoonCollarMoons,Moons
-ItemNeckMoonCollarCentersun,Center Sun
+ItemNeckSunCollarBase,Base
+ItemNeckSunCollarMoons,Moons
+ItemNeckSunCollarCentersun,Center Sun
 ItemNipplesChainClampChain,Chain
 ItemNipplesChainClampClamp,Clamps
 ItemNipplesChainClampMetal,Metal
