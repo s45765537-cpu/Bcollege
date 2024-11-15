@@ -1056,7 +1056,7 @@ type ActivityNameBasic = "Bite" | "Caress" | "Choke" | "Cuddle" | "FrenchKiss" |
 	"PenetrateSlow" | "Pet" | "Pinch" | "PoliteKiss" | "Pull" |
 	"RestHead" | "Rub" | "Scratch" | "Sit" | "Slap" | "Spank" | "Step" | "StruggleArms" | "StruggleLegs" |
 	"Suck" | "TakeCare" | "Tickle" | "Whisper" | "Wiggle" |
-	"SistersHug" | "BrothersHandshake" | "SiblingsCheekKiss"
+	"SistersHug" | "BrothersHandshake" | "SiblingsCheekKiss" | "CollarGrab"
 ;
 
 type ActivityNameItem = "Inject" | "MasturbateItem" | "PenetrateItem" | "PourItem" | "RollItem" | "RubItem" | "ShockItem" | "SipItem" | "SpankItem" | "TickleItem" | "EatItem" | "Scratch" | "ThrowItem";
@@ -1068,7 +1068,7 @@ type ActivityPrerequisite =
 	`Needs-${ActivityNameItem}` |
 	"TargetCanUseTongue" | "TargetKneeling" | "TargetMouthBlocked" | "TargetMouthOpen" | "TargetZoneAccessible" | "TargetZoneNaked" |
 	"UseArms" | "UseFeet" | "UseHands" | "UseMouth" | "UseTongue" | "VulvaEmpty" | "ZoneAccessible" | "ZoneNaked" |
-	"Sisters" | "Brothers" | "SiblingsWithDifferentGender"
+	"Sisters" | "Brothers" | "SiblingsWithDifferentGender" | "Collared"
 ;
 
 interface Activity {
@@ -1536,6 +1536,7 @@ interface Character {
 	HasPenis: () => boolean;
 	HasVagina: () => boolean;
 	IsFlatChested: () => boolean;
+	WearingCollar: () => boolean;
 	// Properties created in other places
 	ArousalSettings?: ArousalSettingsType;
 	AppearanceFull?: Item[];

@@ -635,6 +635,9 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		IsFlatChested: function () {
 			return InventoryIsItemInList(this, "BodyUpper", ["FlatSmall", "FlatMedium"]);
 		},
+		WearingCollar: function () {
+			return InventoryGet(this, "ItemNeck") !== null;
+		},
 		// Adds a new hook with a Name (determines when the hook will happen, an Instance ID (used to differentiate between different hooks happening at the same time), and a function that is run when the hook is called)
 		RegisterHook: function (hookName, hookInstance, callback) {
 			if (!this.Hooks) this.Hooks = new Map();

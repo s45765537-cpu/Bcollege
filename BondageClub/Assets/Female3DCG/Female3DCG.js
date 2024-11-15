@@ -51984,6 +51984,14 @@ var ActivityFemale3DCG = [
 		Target: ["ItemTorso", "ItemMouth", "ItemBreast", "ItemFeet", "ItemHead"],
 		TargetSelf: true,
 	},
+	{
+		Name: "CollarGrab",
+		ActivityID: 60,
+		MaxProgress: 40,
+		Prerequisite: ["UseHands", "Collared"],
+		Target: ["ItemNeck"],
+		TargetSelf: true,
+	},
 
 	/* Family activities */
 	{
