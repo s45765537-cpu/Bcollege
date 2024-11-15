@@ -248,6 +248,7 @@ PreviewIconAllowedLimited,Allowed Limited Item
 PreviewIconBlindHeavy,Heavily blinds
 PreviewIconBlindLight,Lightly blinds
 PreviewIconBlindNormal,Blinds
+PreviewIconBlock,Restrains hands
 PreviewIconBuyGroup,Buygroup member
 PreviewIconDeafHeavy,Heavily deafens
 PreviewIconDeafLight,Lightly deafens
@@ -257,6 +258,7 @@ PreviewIconFamilyOnly,D/s Family only
 PreviewIconFavorite,Favorite
 PreviewIconFavoriteBoth,Favorite (theirs & yours)
 PreviewIconFavoritePlayer,Favorite (yours)
+PreviewIconFreeze,Restrains legs
 PreviewIconGagHeavy,Heavily gags
 PreviewIconGagLight,Lightly gags
 PreviewIconGagNormal,Gags

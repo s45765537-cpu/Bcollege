@@ -1169,6 +1169,13 @@ const DialogEffectIcons = /** @type {const} */({
 		/** @type {InventoryIcon[]} */
 		const icons = [];
 		for (const effect of effects) {
+			switch (effect) {
+				case "Block":
+				case "Freeze":
+					icons.push(effect)
+					continue;
+			}
+
 			const icon = (
 				DialogEffectIcons._GetGagIcon(effect, prop)
 				|| DialogEffectIcons._GetBlindIcon(effect, prop)
