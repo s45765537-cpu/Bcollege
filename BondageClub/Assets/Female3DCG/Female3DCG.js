@@ -19583,6 +19583,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				Audio: "LockLarge",
 				Effect: [E.CuffedFeet, E.Slow],
+				SetPose: ["LegsOpen"],
 				AllowActivePose: ["LegsClosed", "Kneel", "Hogtied"],
 				RemoveItemOnRemove: [{ Name: "X-Cross", Group: "ItemDevices" }],
 				Layer: [
