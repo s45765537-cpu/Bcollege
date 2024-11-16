@@ -1227,6 +1227,16 @@ function ChatRoomLoad() {
 	TextPrefetch("Character", "FriendList");
 	TextPrefetch("Online", "ChatAdmin");
 	TextPrefetch("Room", "Shop2");
+
+	if (CommonVersionUpdated) {
+		CommonGet("./changelog.html", (xhr) => {
+			if (xhr.status === 200) {
+				const changelog = CommandsChangelog.Publish(xhr.responseText);
+				changelog.querySelectorAll(".chat-room-changelog-button-collapse[data-level='2']").forEach(e => e.dispatchEvent(new Event("click")));
+				CommonVersionUpdated = false;
+			}
+		});
+	}
 }
 
 /**

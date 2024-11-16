@@ -485,6 +485,7 @@ var CommandsChangelog = {
 		CommandsChangelog._ParseA(changelog);
 		CommandsChangelog._ParseImg(changelog);
 		[2, 3, 4, 5, 6].forEach(n => CommandsChangelog._ParseHeader(changelog, id, href, n, n === 2 ? h1Content : null));
+		CommandsChangelog._SetTranslationText(changelog);
 		return changelog;
 	},
 
@@ -1075,8 +1076,7 @@ const CommonCommands = [
 
 			CommonGet("./changelog.html", (xhr) => {
 				if (xhr.status === 200) {
-					changelog = CommandsChangelog.Publish(xhr.responseText, { id: "chat-room-changelog", startID, stopID });
-					CommandsChangelog._SetTranslationText(changelog);
+					CommandsChangelog.Publish(xhr.responseText, { id: "chat-room-changelog", startID, stopID });
 				}
 			});
 		},
