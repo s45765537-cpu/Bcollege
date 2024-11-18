@@ -100,12 +100,18 @@ class TextCache {
 	 * @param {string} path - The path to the CSV lookup file for this TextCache instance
 	 */
 	constructor(path, _build_cache=true) {
+		/** @type {string} */
 		this.path = path;
+		/** @type {ServerChatRoomLanguage | "TW"} */
 		this.language = TranslationLanguage;
 		/** @type {Record<string, string>} */
 		this.cache = {};
 		/** @type {((cache?: TextCache) => void)[]} */
 		this.rebuildListeners = [];
+		/**
+		 * Whether the cache has finished building.
+		 * @type {boolean}
+		 */
 		this.loaded = false;
 		if (_build_cache) {
 			this.buildCache();
