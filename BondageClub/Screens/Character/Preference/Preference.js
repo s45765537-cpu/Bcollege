@@ -444,7 +444,7 @@ var PreferenceArousalSettingsDefault = {
 	VFXVibrator: "VFXVibratorAnimated",
 	VFXFilter: "VFXFilterLight",
 	Progress: 0,
-	ProgressTimer: 100,
+	ProgressTimer: 0,
 	VibratorLevel: 0,
 	ChangeTime: 0,
 	Activity: PreferenceArousalActivityDefaultCompressedString,
