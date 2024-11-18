@@ -69,7 +69,7 @@ function FriendListLoad() {
 		parent: document.body,
 	});
 
-	TextCache.buildAsync(`Screens/Character/FriendList/Text_FriendList.csv`).then(async () => {
+	TextScreenCache?.loadedPromise.then(async () => {
 		root.replaceChildren(
 			ElementCreate({
 				tag: "div",
