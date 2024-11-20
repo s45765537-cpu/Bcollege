@@ -116,6 +116,31 @@ type HTMLOptions<T extends keyof HTMLElementTagNameMap> = {
 	innerHTML?: string;
 };
 
+namespace ElementButton {
+	interface Options {
+		/** Optional tooltip content. If not supplied then one should manually prepend it to the tooltip later */
+		tooltip?: null | string | Node | HTMLOptions<any> | readonly (null | string | Node | HTMLOptions<any>)[]
+		/** The position of the tooltip w.r.t. the button */
+		tooltipPosition?: "left" | "right" | "top" | "bottom";
+		/** A button label */
+		label?: string;
+		/** The position of the button label */
+		labelPosition?: "top" | "center" | "bottom";
+		/** A background image for the button */
+		image?: string;
+		/** Button icons to-be displayed in the top-left corner of the button */
+		icons?: readonly InventoryIcon[];
+		/** The role of the button. All accepted values are currently special-cased in order to set role-specific event listeners and/or attributes. */
+		role?: "radio" | "checkbox" | "menuitemradio" | "menuitemcheckbox";
+		/** Whether to limit the default styling of the button's border and background */
+		noStyling?: boolean;
+		/** Whether the button should be disabled or not */
+		disabled?: boolean;
+		/** A click event listener to-be fired when a button is disabled via `aria-disabled: "true"`. */
+		clickDisabled?: (this: HTMLButtonElement, event: MouseEvent) => any;
+	}
+}
+
 type Rect = { x: number, y: number, w: number, h: number };
 
 /** A 4-tuple with X & Y coordinates, width and height */

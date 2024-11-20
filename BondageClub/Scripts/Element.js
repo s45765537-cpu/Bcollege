@@ -1185,25 +1185,11 @@ var ElementButton = {
 	},
 
 	/**
-	 * Create a button with a tooltip
-	 *
-	 * @example
-	 * <button id={id}>
-	 *     <div id={`${id}-tooltip`} />
-	 * </button>
+	 * Create a generic button.
 	 * @param {null | string} id - The ID of the to-be created search button
 	 * @param {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => any} onClick - The click event listener to-be attached to the tooltip
-	 * @param {Object} [options]
-	 * @param {null | string | Node | HTMLOptions<any> | readonly (null | string | Node | HTMLOptions<any>)[]} [options.tooltip] - Optional tooltip content. If not supplied then one should manually prepend it to the tooltip later
-	 * @param {"left" | "right" | "top" | "bottom"} [options.tooltipPosition] - The position of the tooltip w.r.t. the button
-	 * @param {string} [options.label]
-	 * @param {"top" | "center" | "bottom"} [options.labelPosition]
-	 * @param {string} [options.image]
-	 * @param {readonly InventoryIcon[]} [options.icons]
-	 * @param {"radio" | "checkbox" | "menuitemradio" | "menuitemcheckbox"} [options.role] - The role of the button. All accepted values are currently special-cased in order to set role-specific event listeners and/or attributes.
-	 * @param {boolean} [options.noStyling] - Whether to limit the default styling of the button's border and background
-	 * @param {boolean} [options.disabled] - Whether the button should be disabled or not
-	 * @param {null | Partial<Record<"button" | "tooltip" | "img" | "label", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the either the button or tooltip
+	 * @param {null | ElementButton.Options} [options] - High level options for the to-be created button
+	 * @param {null | Partial<Record<"button" | "tooltip" | "img" | "label", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional low-level {@link ElementCreate} options to-be applied to the either the button or tooltip
 	 * @returns {HTMLButtonElement} - The created button
 	 */
 	Create: function Create(id, onClick, options=null, htmlOptions=null) {
