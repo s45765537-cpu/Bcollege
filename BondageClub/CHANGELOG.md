@@ -23,7 +23,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * EllieThePink - Rich formatted club card game log ([#5224](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5224))
 * Da'Inihlus - General improvement for CN translation, mainly the GGTS part ([#5228](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5228))
 * ewhac - Scale LockPicking "Tired" Delay by Skill ([#5234](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5234))
-* harmony - German translation of activities and interface ([#5259](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5259))
+* Juli - German translation of activities and interface ([#5259](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5259))
 * Da'Inihlus - CN translation updates ([#5249](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5249))
 * Haruhi - Adds HairFront62a and HairFront62b ([#5238](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5238))
 * Haruhi - Adds Premium Muzzle Gag and Overfilled Gag ([#5240](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5240))
