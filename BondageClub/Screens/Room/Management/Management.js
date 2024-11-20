@@ -392,11 +392,11 @@ function ManagementFriendIsChaste() {
 function ManagementLoad() {
 	ManagementBackground = "Management";
 	if ((ManagementMistress == null) && (TextGet("Mistress") != "")) {
-		ManagementMistress = CharacterLoadNPC("NPC_Management_Mistress");
+		ManagementMistress = CharacterLoadNPC("NPC_Management_Mistress", null, "Room", "Management");
 		ManagementMistress.Name = TextGet("Mistress") + " " + ManagementMistress.Name;
 		ManagementMistress.AllowItem = false;
 		ManagementMistressAngryCount = 0;
-		ManagementSub = CharacterLoadNPC("NPC_Management_Sub");
+		ManagementSub = CharacterLoadNPC("NPC_Management_Sub", null, "Room", "Management");
 		CharacterNaked(ManagementSub);
 		InventoryWear(ManagementSub, "SlaveCollar", "ItemNeck");
 		CharacterFullRandomRestrain(ManagementSub, "LOT");
