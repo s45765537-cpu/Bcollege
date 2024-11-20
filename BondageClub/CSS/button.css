@@ -52,11 +52,43 @@
 
 .button-image {
 	position: absolute;
+	pointer-events: none;
 	top: 2%;
 	left: 2%;
 	width: 96%;
 	max-height: 96%;
 	aspect-ratio: 1 /1;
+}
+
+.button-image[data-hidden] {
+	display: none;
+}
+
+.button[data-hidden] > .button-image[data-hidden] {
+	display: inline;
+}
+
+.button[data-hidden] > .button-image:not([data-hidden]) {
+	display: none;
+}
+
+.button[data-vibrating] > .button-image:not([data-hidden]) {
+	  animation: button-shake calc(1s / 6);
+	  animation-iteration-count: infinite;
+}
+
+@keyframes button-shake {
+	0% { transform: translate(0.333%, 0.333%); }
+	10% { transform: translate(-0.333%, -0.666%); }
+	20% { transform: translate(-1%, 0%); }
+	30% { transform: translate(1%, 0.666%); }
+	40% { transform: translate(0.333%, -0.333%); }
+	50% { transform: translate(-0.333%, 0.666%); }
+	60% { transform: translate(-1%, 0.333%); }
+	70% { transform: translate(1%, 0.333%); }
+	80% { transform: translate(-0.333%, -0.333%); }
+	90% { transform: translate(0.333%, 0.666%); }
+	100% { transform: translate(0.333%, -0.666%); }
 }
 
 .button-label {
@@ -80,6 +112,7 @@
 
 	display: grid;
 	position: absolute;
+	pointer-events: none;
 	top: min(0.3dvh, 0.15dvw);
 	left: min(0.3dvh, 0.15dvw);
 	grid-template-rows: repeat(4, var(--icon-size));

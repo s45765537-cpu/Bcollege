@@ -1111,6 +1111,7 @@ var ElementButton = {
 	 * @returns {null | { iconGrid: HTMLDivElement, tooltip: (string | HTMLElement)[] }} - `null` if the provided icon list is empty and otherwise an object containing the icon grid and a icon-specific tooltip
 	 */
 	_ParseIcons: function _ParseIcons(id, icons) {
+		icons = icons?.filter(i => i != null);
 		if (!icons || icons.length === 0) {
 			return null;
 		}
@@ -1154,7 +1155,7 @@ var ElementButton = {
 				};
 			}),
 		});
-		return { iconGrid, tooltip: ["Misc:", ElementCreate({ tag: "br" }), tooltip] };
+		return { iconGrid, tooltip: ["Status & effects:", ElementCreate({ tag: "br" }), tooltip] };
 	},
 
 	/**
@@ -1287,6 +1288,71 @@ var ElementButton = {
 			}
 		}
 		return elem;
+	},
+
+	/**
+	 * Create a button for an asset or item, including image, label and icons.
+	 * @param {null | string} idPrefix - The ID of the to-be created search button
+	 * @param {Asset | Item} asset - The asset (or item) for which to create a button
+	 * @param {null | Character} C - The character wearing the asset/item (if any)
+	 * @param {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => any} onClick - The click event listener to-be attached to the tooltip
+	 * @param {null | ElementButton.Options} [options] - High level options for the to-be created button
+	 * @param {null | Partial<Record<"button" | "tooltip" | "img" | "label", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional low-level {@link ElementCreate} options to-be applied to the either the button or tooltip
+	 * @returns {HTMLButtonElement} - The created button
+	 */
+	CreateForAsset: function CreateForAsset(idPrefix, asset, C, onClick, options=null, htmlOptions=null) {
+		const item = "Asset" in asset ? asset : { Asset: asset };
+		asset = item.Asset;
+
+		const id = `${idPrefix}-${asset.Group.Name}-${asset.Name}`;
+		const elem = /** @type {HTMLButtonElement | null} */(document.getElementById(id));
+		if (elem) {
+			console.error(`Element "${id}" already exists`);
+			return elem;
+		}
+
+		htmlOptions ??= {};
+		htmlOptions.button ??= {};
+		htmlOptions.button.dataAttributes ??= {};
+		htmlOptions.button.dataAttributes.name ??= asset.Name;
+		htmlOptions.button.dataAttributes.group ??= asset.Group.Name;
+		htmlOptions.button.dataAttributes.craft ??= item.Craft ? "" : undefined;
+		htmlOptions.button.dataAttributes.hidden ??= CharacterAppearanceItemIsHidden(asset.Name, asset.Group.Name) ? "" : undefined;
+		htmlOptions.button.dataAttributes.vibrating ??= item.Property?.Effect?.includes("Vibrating") ? "" : undefined;
+		htmlOptions.button.children = [
+			...(htmlOptions.button.children ?? []),
+			ElementButton._ParseImage(`${idPrefix}-hidden`, "./Icons/HiddenItem.png", { dataAttributes: { hidden: "" } }),
+		];
+
+		options ??= {};
+		options.label ??= item.Craft?.Name || asset.Description;
+		options.image ??= `./Assets/Female3DCG/${asset.DynamicGroupName}/Preview/${asset.Name}.png`;
+		options.icons ??= [
+			DialogGetFavoriteStateDetails(C ?? Player, asset)?.Icon,
+			...DialogGetLockIcon(item, "Property" in item),
+			...DialogGetAssetIcons(asset),
+			...DialogEffectIcons.GetIcons(item),
+		];
+		options.tooltipPosition ??= "bottom";
+		options.tooltip ??= !item.Craft ? "" : [
+			...(item.Craft.Property ? [
+				"Property: ",
+				{ tag: "q", children: [item.Craft.Property] },
+				{ tag: "br" },
+			] : []),
+			...((item.Craft.MemberName && item.Craft.MemberNumber) ? [
+				"Crafter: ",
+				{ tag: "q", children: [`${item.Craft.MemberName} (${item.Craft.MemberNumber})`] },
+				{ tag: "br" },
+			] : []),
+			...(item.Craft.Description ? [
+				"Description: ",
+				{ tag: "q", children: [CraftingDescription.Decode(item.Craft.Description)] },
+				{ tag: "br" },
+			] : []),
+		];
+
+		return ElementButton.Create(id, onClick, options, htmlOptions);
 	},
 };
 
