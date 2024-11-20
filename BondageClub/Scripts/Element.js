@@ -879,9 +879,10 @@ var ElementButton = {
 	 * @type {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => void}
 	 */
 	_Click: function _Click(ev) {
-		if (this.getAttribute("aria-disabled") === "true") {
+		if (ev.target instanceof Element && ev.target.classList.contains("button-tooltip")) {
 			ev.stopImmediatePropagation();
-		} else if (ev.target instanceof Element && ev.target.classList.contains("button-tooltip")) {
+		} else if (this.getAttribute("aria-disabled") === "true") {
+			this.dispatchEvent(new MouseEvent("bcClickDisabled", ev));
 			ev.stopImmediatePropagation();
 		}
 	},
@@ -1238,6 +1239,7 @@ var ElementButton = {
 				mousedown: this._MouseDown,
 				touchend: this._MouseUp,
 				touchcancel: this._MouseUp,
+				bcClickDisabled: options.clickDisabled,
 				...(buttonOptions.eventListeners ?? {}),
 			},
 			children: [

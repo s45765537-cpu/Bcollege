@@ -116,6 +116,11 @@ type HTMLOptions<T extends keyof HTMLElementTagNameMap> = {
 	innerHTML?: string;
 };
 
+interface HTMLElementEventMap {
+	/** Custom event fired by {@link ElementButton.Create} buttons whenever a click-event encounters `aria-disabled: "true"`. */
+	bcClickDisabled: MouseEvent;
+}
+
 namespace ElementButton {
 	interface Options {
 		/** Optional tooltip content. If not supplied then one should manually prepend it to the tooltip later */
