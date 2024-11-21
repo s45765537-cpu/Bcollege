@@ -16688,6 +16688,61 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "FacePaints",
+				Value: 10,
+				InventoryID: 1189,
+				Top: 85,
+				Left: 195,
+				BuyGroup: "FacePaints",
+				Layer: [
+					{
+						Name: "1",
+						AllowTypes: { a: 1},
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "2",
+						AllowTypes: { b: 1 },
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "3",
+						AllowTypes: { c: 1 },
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "4",
+						AllowTypes: { d: 1 },
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "5",
+						AllowTypes: { e: 1 },
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "6",
+						AllowTypes: { f: 1 },
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "7",
+						AllowTypes: { g: 1 },
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "8",
+						AllowTypes: { h: 1 },
+						CopyLayerColor: "1",
+					},
+					{
+						Name: "9",
+						AllowTypes: { i: 1 },
+						CopyLayerColor: "1",
+					},
+				],
+			},
 		],
 		Color: [
 			"Default",
