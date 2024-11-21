@@ -229,6 +229,8 @@ function ActivityCheckPrerequisite(prereq, acting, acted, group) {
 			return acting.HasPenis() && acted.HasPenis() && acting.IsSiblingOfCharacter(acted);
 		case "SiblingsWithDifferentGender":
 			return (acting.HasPenis() != acted.HasPenis()) && acting.IsSiblingOfCharacter(acted);
+		case "Collared":
+			return acted.WearingCollar();
 		default:
 			break;
 	}
