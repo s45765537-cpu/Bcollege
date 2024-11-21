@@ -680,7 +680,7 @@ function ActivityOrgasmPrepare(C, Bypass) {
 		else return;
 	}
 
-	if (C.IsEdged()) {
+	if (C.IsEdged() || ((InventoryCraftCount(Player, "Edging")) > 0)) {
 		C.ArousalSettings.Progress = 95;
 		if (C.IsPlayer() && Bypass) ActivityOrgasmRuined = true;
 		else return;

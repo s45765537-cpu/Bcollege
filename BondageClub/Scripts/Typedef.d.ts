@@ -370,7 +370,7 @@ type AssetLockType =
 type CraftingPropertyType =
 	"Normal" | "Large" | "Small" | "Thick" | "Thin" | "Secure" | "Loose" | "Decoy" |
 	"Malleable" | "Rigid" | "Simple" | "Puzzling" | "Painful" | "Comfy" | "Strong" |
-	"Flexible" | "Nimble" | "Arousing" | "Dull" | "Heavy" | "Light"
+	"Flexible" | "Nimble" | "Arousing" | "Dull" | "Edging" | "Heavy" | "Light"
 	;
 
 type AssetAttribute =
