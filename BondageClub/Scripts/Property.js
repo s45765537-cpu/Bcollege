@@ -268,10 +268,11 @@ const PropertyAutoPunishKeywords = [
  * @returns {boolean} Whether the passed message should trigger automatic speech-based punishment
  */
 function PropertyAutoPunishParseMessage(Sensitivity, msg) {
-	// Conditions which are never punishable
-	if (msg.startsWith("(")) {
-		return false;
-	}
+	// Remove the OOC component(s) from the message, as those are never punishable
+	const oocRanges = SpeechGetOOCRanges(msg).reverse();
+	const arrayMsg = Array.from(msg);
+	oocRanges.forEach(({ start, length }) => arrayMsg.splice(start, length));
+	msg = arrayMsg.join("");
 
 	// Conditions that are always punishable
 	const PunishableSpeech = (
