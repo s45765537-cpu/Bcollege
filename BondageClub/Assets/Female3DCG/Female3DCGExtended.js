@@ -11241,6 +11241,18 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		},
+		AquaticEars: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "Small",
+				},
+				{
+					Name: "Large",
+				}
+			],
+		},
 	}, // HairAccessory1
 	HairAccessory2: {
 		ElfEars: {
@@ -11250,6 +11262,10 @@ var AssetFemale3DCGExtended = {
 		Onihorns: {
 			Archetype: ExtendedArchetype.MODULAR,
 			CopyConfig: { GroupName: "HairAccessory1", AssetName: "Onihorns" },
+		},
+		AquaticEars: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "HairAccessory1", AssetName: "AquaticEars" },
 		},
 	}, // HairAccessory2
 	HairAccessory3: {

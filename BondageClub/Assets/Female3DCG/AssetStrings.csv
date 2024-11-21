@@ -1236,6 +1236,9 @@ HairAccessory1OnihornsOptionr2,Long
 HairAccessory1OnihornsSelectBase,Select Horn
 HairAccessory1OnihornsSelectLeftHorn,Select Size
 HairAccessory1OnihornsSelectRightHorn,Select Size
+HairAccessory1AquaticEarsSmall,Small
+HairAccessory1AquaticEarsLarge,Large
+HairAccessory1AquaticEarsSelect,Select inner style
 HairAccessory2OnihornsModuleLeftHorn,Left Horn
 HairAccessory2OnihornsModuleRightHorn,Right Horn
 HairAccessory2OnihornsOptionl0,Short
@@ -1247,6 +1250,9 @@ HairAccessory2OnihornsOptionr2,Long
 HairAccessory2OnihornsSelectBase,Select Horn
 HairAccessory2OnihornsSelectLeftHorn,Select Size
 HairAccessory2OnihornsSelectRightHorn,Select Size
+HairAccessory2AquaticEarsSmall,Small
+HairAccessory2AquaticEarsLarge,Large
+HairAccessory2AquaticEarsSelect,Select inner style
 HairBackHairBack58Select,Select Type.
 HairBackHairBack58SetBoth,SourceCharacter changes DestinationCharacter hair.
 HairBackHairBack58SetLeftOnly,SourceCharacter changes DestinationCharacter hair.

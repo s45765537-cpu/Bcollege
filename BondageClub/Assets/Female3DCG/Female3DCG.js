@@ -13185,6 +13185,26 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "AquaticEars",
+				InventoryID: 1188,
+				Value: 10,
+				Priority: 10,
+				BuyGroup: "AquaticEars",
+				BodyCosplay: true,
+				Extended: true,
+				CreateLayerTypes: ["typed"],
+				Top: 120,
+				Left: 135,
+				Layer: [
+					{
+						Name: "Outer",
+					},
+					{
+						Name: "Inner",
+					}
+				]
+			},
 		],
 		Color: [
 			"Default",
@@ -13738,6 +13758,15 @@ var AssetFemale3DCG = [
 					BuyGroup: true,
 				},
 			},
+			{
+				Name: "AquaticEars",
+				DynamicGroupName: "HairAccessory1",
+				CopyConfig: {
+					GroupName: "HairAccessory1",
+					AssetName: "AquaticEars",
+					BuyGroup: true,
+				},
+			}
 		],
 		Color: [
 			"Default",
