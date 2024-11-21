@@ -32547,7 +32547,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "Phone1",
 				InventoryID: 831,
-				Gender: "F",
 				Prerequisite: ["HasBreasts", "HasVagina"],
 				ParentGroup: null,
 				Priority: 46,
@@ -32563,7 +32562,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "Phone2",
 				InventoryID: 832,
-				Gender: "F",
 				Prerequisite: ["HasBreasts", "HasVagina"],
 				ParentGroup: null,
 				Priority: 46,
