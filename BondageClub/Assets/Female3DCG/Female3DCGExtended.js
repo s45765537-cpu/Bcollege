@@ -681,19 +681,6 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [{ Name: "Normal" }, { Name: "NoSkirt" }],
 		}, // CorsetDress
-		FrilledShirt: {
-			Archetype: ExtendedArchetype.NOARCH,
-			DialogPrefix: {
-				Header: "OpacityLabel",
-			},
-			ScriptHooks: {
-				Init: PropertyOpacityInit,
-				Load: PropertyOpacityLoad,
-				Draw: PropertyOpacityDraw,
-				Exit: PropertyOpacityExit,
-			},
-			BaselineProperty: { Opacity: 1 },
-		}, // FrilledShirt
 		LatexHobbleDress: {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
@@ -17436,55 +17423,4 @@ var AssetFemale3DCGExtended = {
 			],
 		}, // AnimeGirlWand
 	}, // ItemHandheld
-	EyeShadow: {
-		CatEye: {
-			Archetype: ExtendedArchetype.NOARCH,
-			CopyConfig: { GroupName: "Cloth", AssetName: "FrilledShirt" },
-			BaselineProperty: { Opacity: 0.8 },
-		}, // CatEye
-		CatEye2: {
-			Archetype: ExtendedArchetype.NOARCH,
-			CopyConfig: { GroupName: "EyeShadow", AssetName: "CatEye" },
-		}, // CatEye2
-		LargeBlurred: {
-			Archetype: ExtendedArchetype.NOARCH,
-			CopyConfig: { GroupName: "EyeShadow", AssetName: "CatEye" },
-		}, // LargeBlurred
-		LargeSolid: {
-			Archetype: ExtendedArchetype.NOARCH,
-			CopyConfig: { GroupName: "EyeShadow", AssetName: "CatEye" },
-		}, // LargeSolid
-		SmallBlurred: {
-			Archetype: ExtendedArchetype.NOARCH,
-			CopyConfig: { GroupName: "EyeShadow", AssetName: "CatEye" },
-		}, // SmallBlurred
-		SmallSolid: {
-			Archetype: ExtendedArchetype.NOARCH,
-			CopyConfig: { GroupName: "EyeShadow", AssetName: "CatEye" },
-		}, // SmallSolid
-		SuperstarBlurred: {
-			Archetype: ExtendedArchetype.NOARCH,
-			CopyConfig: { GroupName: "EyeShadow", AssetName: "CatEye" },
-		}, // SuperstarBlurred
-		SuperstarSolid: {
-			Archetype: ExtendedArchetype.NOARCH,
-			CopyConfig: { GroupName: "EyeShadow", AssetName: "CatEye" },
-		}, // SuperstarSolid
-		Tanuki: {
-			Archetype: ExtendedArchetype.NOARCH,
-			CopyConfig: { GroupName: "EyeShadow", AssetName: "CatEye" },
-		}, // Tanuki
-		UndershadowedBlurred: {
-			Archetype: ExtendedArchetype.NOARCH,
-			CopyConfig: { GroupName: "EyeShadow", AssetName: "CatEye" },
-		}, // UndershadowedBlurred
-		UndershadowedSolid: {
-			Archetype: ExtendedArchetype.NOARCH,
-			CopyConfig: { GroupName: "EyeShadow", AssetName: "CatEye" },
-		}, // UndershadowedSolid
-		Wings: {
-			Archetype: ExtendedArchetype.NOARCH,
-			CopyConfig: { GroupName: "EyeShadow", AssetName: "CatEye" },
-		}, // Wings
-	}, //EyeShadow
 };
