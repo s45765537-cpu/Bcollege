@@ -2732,21 +2732,21 @@ function ChatRoomLeave(clearCharacters = false) {
  * @type {KeyboardEventListener}
  */
 function ChatRoomCommonKeyDown(event) {
-	if (event.key === "Escape" && !event.shiftKey) {
+	if (CommonKey.IsPressed(event, "Escape")) {
 		// Escape toggles between main view and chat
 		ElementScrollToEnd("TextAreaChatLog");
 		ElementFocus("InputChat");
 		return true;
-	} else if (event.altKey && event.key === "k") {
+	} else if (CommonKey.IsPressed(event, "k", CommonKey.Alt)) {
 		if (!event.repeat) ChatRoomToggleKneel();
 		return true;
-	} else if (event.altKey && event.key === "i") {
+	} else if (CommonKey.IsPressed(event, "i", CommonKey.Alt)) {
 		ChatRoomOpenInformationScreen();
 		return true;
-	} else if (event.altKey && event.key === "b") {
+	} else if (CommonKey.IsPressed(event, "b", CommonKey.Alt)) {
 		ChatRoomOpenWardrobeScreen();
 		return true;
-	} else if (event.altKey && event.key === "h") {
+	} else if (CommonKey.IsPressed(event, "h", CommonKey.Alt)) {
 		ChatRoomOpenAdminScreen();
 		return true;
 	}
@@ -2755,31 +2755,38 @@ function ChatRoomCommonKeyDown(event) {
 
 /**
  * Handles keyboard shortcuts in the chatroom screen.
- * @param {KeyboardEvent} event - The event that triggered this
- * @returns {boolean} - Nothing.
+ * @type {KeyboardEventListener}
  */
 function ChatRoomKeyDown(event) {
 	const inputChat = /** @type {HTMLTextAreaElement} */(document.getElementById("InputChat"));
 	const chatHasFocus = inputChat && document.activeElement === inputChat;
+	const modifiers = CommonKey.GetModifiers(event);
 
 	if (chatHasFocus) {
 		// Why are these room-level event listeners!?
-		if (event.code === "Tab" && !event.shiftKey && inputChat.value.length !== 0) {
-			// Autocomplete whatever the chat contains
-			CommandAutoComplete(inputChat.value);
-			return true;
-		} else if (event.key === "Enter" && !event.shiftKey) {
-			// The ENTER key sends the chat.
-			ChatRoomSendChat();
-			return true;
-		} else if (event.key === "PageUp" || event.key === "PageDown") {
-			// On page up/down, we scroll through chat history
-			ChatRoomScrollHistory(event.key === "PageUp");
-			return true;
-		} else if (event.key === "Escape" && !event.shiftKey) {
-			// Escape toggles between main view and chat
-			ElementFocus("MainCanvas");
-			return true;
+		if (!modifiers) {
+			switch (event.key) {
+				case "Tab":
+					// Autocomplete whatever the chat contains
+					if (inputChat.value.length !== 0) {
+						CommandAutoComplete(inputChat.value);
+						return true;
+					}
+					break;
+				case "Enter":
+					// The ENTER key sends the chat.
+					ChatRoomSendChat();
+					return true;
+				case "PageUp":
+				case "PageDown":
+					// On page up/down, we scroll through chat history
+					ChatRoomScrollHistory(event.key === "PageUp");
+					return true;
+				case "Escape":
+					// Escape toggles between main view and chat
+					ElementFocus("MainCanvas");
+					return true;
+			}
 		}
 	} else if (ChatRoomCommonKeyDown(event)) {
 		return true;
@@ -2787,7 +2794,7 @@ function ChatRoomKeyDown(event) {
 		return true;
 	}
 
-	if (event.key === "Escape" && event.shiftKey) {
+	if (CommonKey.IsPressed(event, "Escape", CommonKey.Shift)) {
 		// Try to leave the room on Shift-Escape
 		ChatRoomAttemptLeave();
 	}
@@ -2802,7 +2809,7 @@ function ChatRoomKeyDown(event) {
 			return false;
 		}
 
-		if (!(event.ctrlKey || event.altKey || event.shiftKey || event.metaKey)) {
+		if (!modifiers) {
 			switch (event.key) {
 				case "Home":
 					// Scroll to the top
@@ -2831,11 +2838,10 @@ function ChatRoomKeyDown(event) {
 			}
 		}
 
-		// Move focus to the chat
-		if (
-			(event.key.length === 1 || event.key === "Enter")
-			&& !(event.altKey || event.metaKey || (event.ctrlKey && event.key !== "v"))
-		) {
+		if (CommonKey.IsPressed(event, "v", CommonKey.CTRL)) {
+			return false;
+		} else if ((event.key.length === 1 || event.key === "Enter") && !modifiers) {
+			// Move focus to the chat
 			ElementFocus("InputChat");
 			// We have to lie here so that the first keystroke without
 			// focus still goes through, but we want to eat Enter so

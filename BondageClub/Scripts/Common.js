@@ -640,10 +640,11 @@ function CommonColorsEqual(C1, C2) {
 /**
  * Checks whether two arrays are equal. The arrays are considered equal if they have the same length and contain the same items in the same
  * order, as determined by === comparison
- * @param {readonly *[]} a1 - The first array to compare
+ * @template {readonly *[]} T
+ * @param {T} a1 - The first array to compare
  * @param {readonly *[]} a2 - The second array to compare
  * @param {boolean} [ignoreOrder] - Whether to ignore item order when considering equality
- * @returns {boolean} - TRUE if both arrays have the same length and contain the same items in the same order, FALSE otherwise
+ * @returns {a2 is T} - TRUE if both arrays have the same length and contain the same items in the same order, FALSE otherwise
  */
 function CommonArraysEqual(a1, a2, ignoreOrder = false) {
 	return a1.length === a2.length && a1.every((item, i) => ignoreOrder ? a2.includes(item) : item === a2[i]);
@@ -1435,7 +1436,9 @@ function CommonJSONParse(data) {
  * @returns {"u"|"d"|"l"|"r"|undefined}
  */
 function CommonKeyMove(event, allowArrowKeys = true) {
-	if (event.code === "KeyW" || allowArrowKeys && event.code === "ArrowUp") {
+	if (CommonKey.GetModifiers(event)) {
+		return undefined;
+	} else if (event.code === "KeyW" || allowArrowKeys && event.code === "ArrowUp") {
 		return "u";
 	} else if (event.code === "KeyA" || allowArrowKeys && event.code === "ArrowLeft") {
 		return "l";
@@ -1563,3 +1566,49 @@ function CommonVariableContainer(defaults, extraVars=null, resetCallbacks=null) 
 	ret.Reset();
 	return ret;
 }
+
+/**
+ * Namespace with helper functions for validating key presses.
+ * @namespace
+ */
+var CommonKey = /** @type {const} */({
+	/** Bitmask component for the {@link KeyboardEvent.altKey} modifier */
+	ALT: 1,
+	/** Bitmask component for the {@link KeyboardEvent.ctrlKey} modifier */
+	CTRL: 2,
+	/** Bitmask component for the {@link KeyboardEvent.metaKey} modifier */
+	META: 4,
+	/** Bitmask component for the {@link KeyboardEvent.shiftKey} modifier */
+	SHIFT: 8,
+
+	/**
+	 * Check whether the expected key and all its modifiers were pressed
+	 * @example
+	 * // `Enter` without modifiers
+	 * CommonKey(event, "Enter");
+	 * // `Enter` with the `Ctrl` and `Shift` modifiers
+	 * CommonKey(event, "Enter", CommonKey.SHIFT | CommonKey.CTRL);
+	 * @param {KeyboardEvent} event - The keyboard event in question
+	 * @param {string} key - The expected key (see {@link KeyboardEvent.key})
+	 * @param {null | number} modifiers - An optional bit mask of all expected modifiers (see examples)
+	 * @returns {boolean} - Whether the expected key and all its modifiers were pressed
+	 */
+	IsPressed: function IsPressed(event, key, modifiers=null) {
+		modifiers ??= 0;
+		return event.key === key && modifiers === CommonKey.GetModifiers(event);
+	},
+
+	/**
+	 * Return a bit mask with all modifiers in the passed keyboard event
+	 * @param {KeyboardEvent} event - The keyboard event in question
+	 * @returns {number} - The bitmask of keyboard modifiers
+	 */
+	GetModifiers: function GetModifiers(event) {
+		return [
+			event.altKey ? CommonKey.ALT : undefined,
+			event.ctrlKey ? CommonKey.CTRL : undefined,
+			event.metaKey ? CommonKey.META : undefined,
+			event.shiftKey ? CommonKey.SHIFT : undefined,
+		].filter(Boolean).reduce((sum, bit) => sum | bit, 0);
+	},
+});

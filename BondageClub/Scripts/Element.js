@@ -834,7 +834,7 @@ var ElementButton = {
 	 * @type {(this: HTMLButtonElement, ev: KeyboardEvent) => Promise<void>}
 	 */
 	_KeyDown: async function _KeyDown(ev) {
-		if (ev.shiftKey || ev.ctrlKey || ev.metaKey || ev.altKey) {
+		if (CommonKey.GetModifiers(ev)) {
 			return;
 		}
 		switch (ev.key) {
@@ -1004,7 +1004,7 @@ var ElementButton = {
 	 * @param {KeyboardEvent} ev
 	 */
 	_KeyDownRadio: function _KeyDownRadio(ev) {
-		if (ev.altKey || ev.metaKey || ev.ctrlKey || ev.shiftKey) {
+		if (CommonKey.GetModifiers(ev)) {
 			return;
 		}
 

@@ -101,7 +101,7 @@ var LoginEventListeners = {
 	 * @type {(this: HTMLInputElement, ev: KeyboardEvent) => void}
 	 */
 	_KeyDownInputName: function _KeyDownInputName(ev) {
-		if (!(ev.shiftKey || ev.altKey || ev.metaKey || ev.ctrlKey) && ev.key === "Enter") {
+		if (CommonKey.IsPressed(ev, "Enter")) {
 			document.getElementById("InputPassword")?.focus();
 			ev.stopPropagation();
 		}
@@ -112,7 +112,7 @@ var LoginEventListeners = {
 	 * @type {(this: HTMLInputElement, ev: KeyboardEvent) => void}
 	 */
 	_KeyDownInputPassword: function _KeyDownInputPassword(ev) {
-		if (!(ev.shiftKey || ev.altKey || ev.metaKey || ev.ctrlKey) && ev.key === "Enter") {
+		if (CommonKey.IsPressed(ev, "Enter")) {
 			LoginDoLogin();
 			ev.stopPropagation();
 		}
@@ -1036,10 +1036,7 @@ function LoginClick() {
  * @type {KeyboardEventListener}
  */
 function LoginKeyDown(ev) {
-	if (
-		!(ev.shiftKey || ev.altKey || ev.metaKey || ev.ctrlKey)
-		&& ev.key === "Enter"
-	) {
+	if (CommonKey.IsPressed(ev, "Enter")) {
 		LoginDoLogin();
 		return true;
 	}

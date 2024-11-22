@@ -222,7 +222,7 @@ function ChatCreateClick() {
 function ChatCreateKeyDown(event) {
 	if (event.repeat) return false;
 
-	if (event.key === "Enter") {
+	if (CommonKey.IsPressed(event, "Enter")) {
 		ChatCreateRoom();
 		return true;
 	}

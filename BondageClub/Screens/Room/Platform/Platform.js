@@ -3591,6 +3591,9 @@ function PlatformEventKeyDown(Code) {
  * @returns {boolean} - TRUE if we handled the key pressed
  */
 function PlatformKeyDown(e) {
+	if (CommonKey.GetModifiers(e)) {
+		return false;
+	}
 	PlatformEventKeyDown(e.code);
 	return ((e != null) && (e.code != null) && ((e.code.substring(0, 3) == "Key") || (e.code.substring(0, 5) == "Arrow") || (e.code.substring(0, 5) == "Digit") || (e.code == "Space")));
 }

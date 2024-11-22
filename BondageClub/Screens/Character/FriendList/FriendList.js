@@ -319,13 +319,13 @@ function FriendListKeyDown(event) {
 	const beepTextAreaHasFocus = beepTextArea && document.activeElement === beepTextArea;
 
 	if (FriendListBeepTarget !== -1 || beepTextArea) {
-		if (event.key === 'Escape' && !event.shiftKey) {
+		if (CommonKey.IsPressed(event, "Escape")) {
 			FriendListBeepMenuClose();
 			return true;
 		}
 	}
 	if (beepTextAreaHasFocus) {
-		if (event.key === 'Enter' && event.ctrlKey) {
+		if (event.key === 'Enter' && CommonKey.IsPressed(event, "Enter", CommonKey.CTRL)) {
 			FriendListBeepMenuSend();
 			return true;
 		}
