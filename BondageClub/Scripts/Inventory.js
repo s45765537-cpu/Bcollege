@@ -576,17 +576,16 @@ var InventoryPrerequisiteConflicts = {
 };
 
 /**
- * Returns TRUE if we can add the item, no other items must block that prerequisite
+ * Returns an error message if we cannot add the item, no other items must block that prerequisite; `null` is returned otherwise
  * @param {Character} C - The character on which we check for prerequisites
  * @param {Asset} asset - The asset for which prerequisites should be checked. Any item equipped in the asset's group
  * will be ignored for the purposes of the prerequisite check.
  * @param {AssetPrerequisite | readonly AssetPrerequisite[]} [prerequisites=asset.Prerequisite] - An array of prerequisites or a string for a single
  * prerequisite. If nothing is provided, the asset's default prerequisites will be used
- * @param {boolean} [setDialog=true] - If TRUE, set the screen dialog message at the same time
  * @param {readonly AssetPoseName[]} [allowActivePose=asset.AllowActivePose]
- * @returns {boolean} - TRUE if the item can be added to the character
+ * @returns {string | null} - An error message (if any)
  */
-function InventoryAllow(C, asset, prerequisites = asset.Prerequisite, setDialog = true, allowActivePose = asset.AllowActivePose) {
+function InventoryDisallow(C, asset, prerequisites = asset.Prerequisite, allowActivePose = asset.AllowActivePose) {
 	// Prerequisite can be a string
 	if (typeof prerequisites === "string") {
 		prerequisites = [prerequisites];
@@ -594,7 +593,7 @@ function InventoryAllow(C, asset, prerequisites = asset.Prerequisite, setDialog 
 
 	// If prerequisite isn't a valid array, return true
 	if (!CommonIsArray(prerequisites)) {
-		return true;
+		return null;
 	}
 
 	// Create/load a simple character for prerequisite checking
@@ -627,9 +626,26 @@ function InventoryAllow(C, asset, prerequisites = asset.Prerequisite, setDialog 
 		}
 	}
 
+	return Msg ? InterfaceTextGet(`Prerequisite${Msg}`) : null;
+}
+
+/**
+ * Returns TRUE if we can add the item, no other items must block that prerequisite
+ * @param {Character} C - The character on which we check for prerequisites
+ * @param {Asset} asset - The asset for which prerequisites should be checked. Any item equipped in the asset's group
+ * will be ignored for the purposes of the prerequisite check.
+ * @param {AssetPrerequisite | readonly AssetPrerequisite[]} [prerequisites=asset.Prerequisite] - An array of prerequisites or a string for a single
+ * prerequisite. If nothing is provided, the asset's default prerequisites will be used
+ * @param {boolean} [setDialog=true] - If TRUE, set the screen dialog message at the same time
+ * @param {readonly AssetPoseName[]} [allowActivePose=asset.AllowActivePose]
+ * @returns {boolean} - TRUE if the item can be added to the character
+ */
+function InventoryAllow(C, asset, prerequisites = asset.Prerequisite, setDialog = true, allowActivePose = asset.AllowActivePose) {
+	const errMessage = InventoryDisallow(C, asset, prerequisites, allowActivePose);
+
 	// If no error message was found, we return TRUE, if a message was found, we can show it in the dialog
-	if (Msg && setDialog) DialogSetStatus(InterfaceTextGet(`Prerequisite${Msg}`), DialogTextDefaultDuration);
-	return !Msg;
+	if (errMessage && setDialog) DialogSetStatus(InterfaceTextGet(`Prerequisite${errMessage}`), DialogTextDefaultDuration);
+	return errMessage === null;
 }
 
 /**
@@ -1030,45 +1046,31 @@ function InventoryRemove(C, AssetGroup, Refresh) {
 }
 
 /**
-* Returns TRUE if the body area (Asset Group) for a character is blocked and cannot be used
+* Returns TRUE if the body area (Asset Group) for a character is blocked for either restraints (default) or activities and cannot be used
 * @param {Character} C - The character on which we validate the group
-* @param {AssetGroupItemName} [GroupName] - The name of the asset group (body area), defaults to `C.FocusGroup`
+* @param {null | AssetGroupItemName} [GroupName] - The name of the asset group (body area), defaults to `C.FocusGroup`
 * @param {boolean} [Activity=false] - if TRUE check if activity is allowed on the asset group
 * @returns {boolean} - TRUE if the group is blocked
 */
-function InventoryGroupIsBlockedForCharacter(C, GroupName, Activity) {
-	if (Activity == null) Activity = false;
+function InventoryGroupIsBlockedForCharacter(C, GroupName=null, Activity=false) {
+	GroupName ??= C.FocusGroup.Name;
+	const restraints = C.Appearance.filter(i => i.Asset.Group.IsItem());
 
-	// Default to characters focused group
-	if (GroupName == null) GroupName = C.FocusGroup.Name;
-
-	if (Activity) {
-		for (let E = 0; E < C.Appearance.length; E++) {
-			if (!C.Appearance[E].Asset.Group.Clothing && (C.Appearance[E].Asset.AllowActivityOn != null) && (C.Appearance[E].Asset.AllowActivityOn.includes(GroupName))){
-				Activity = true;
-				break;
-			} else if (!C.Appearance[E].Asset.Group.Clothing && (C.Appearance[E].Property != null) && (C.Appearance[E].Property.AllowActivityOn != null) && (C.Appearance[E].Property.AllowActivityOn.indexOf(GroupName) >= 0)){
-				Activity = true;
-				break;
-			} else Activity = false;
-		}
+	if (Activity && !restraints.some(i => i.Asset.AllowActivityOn.includes(GroupName) || i.Property?.AllowActivityOn?.includes(GroupName))) {
+		Activity = false;
 	}
 
 	// Items can block each other (hoods blocks gags, belts blocks eggs, etc.)
-	for (let E = 0; E < C.Appearance.length; E++) {
-		if (!C.Appearance[E].Asset.Group.Clothing && (C.Appearance[E].Asset.Block != null) && (C.Appearance[E].Asset.Block.includes(GroupName)) && !Activity) return true;
-		if (!C.Appearance[E].Asset.Group.Clothing && (C.Appearance[E].Property != null) && (C.Appearance[E].Property.Block != null) && Array.isArray(C.Appearance[E].Property.Block) && (C.Appearance[E].Property.Block.indexOf(GroupName) >= 0) && !Activity) return true;
+	if (!Activity && restraints.some(i => i.Asset.Block?.includes(GroupName) || i.Property?.Block?.includes(GroupName))) {
+		return true;
 	}
 
 	// If another character is enclosed, items other than the enclosing one cannot be used
-	if ((!C.IsPlayer()) && C.IsEnclose()) {
-		for (let E = 0; E < C.Appearance.length; E++)
-			if ((C.Appearance[E].Asset.Group.Name == GroupName) && InventoryItemHasEffect(C.Appearance[E], "Enclose", true))
-				return false;
-		return true;
+	if (!C.IsPlayer() && C.IsEnclose()) {
+		return !restraints.some(i => i.Asset.Group.Name == GroupName && InventoryItemHasEffect(i, "Enclose", true));
+	} else {
+		return false;
 	}
-	// Nothing is preventing the group from being used
-	return false;
 }
 
 /**
@@ -1130,30 +1132,45 @@ function InventoryGroupIsBlockedByOwnerRule(C, GroupName) {
 }
 
 /**
-* Returns TRUE if the body area (Asset Group) for a character is blocked and cannot be used
-* Similar to InventoryGroupIsBlockedForCharacter but also blocks groups on all characters if the player is enclosed.
-* @param {Character} C - The character on which we validate the group
-* @param {AssetGroupItemName} [GroupName] - The name of the asset group (body area)
-* @param {boolean} [Activity] - if TRUE check if activity is allowed on the asset group
-* @returns {boolean} - TRUE if the group is blocked
-*/
-function InventoryGroupIsBlocked(C, GroupName, Activity) {
-
-	// Checks for regular blocks
-	if (InventoryGroupIsBlockedForCharacter(C, GroupName, Activity)) return true;
+ * Returns an error message if the body area (Asset Group) for a character is blocked, and `null` otherwise.
+ *
+ * Similar to {@link InventoryGroupIsBlockedForCharacter} but also checks for map range and owner rules.
+ * @param {Character} C - The character on which we validate the group
+ * @param {null | AssetGroupItemName} [GroupName] - The name of the asset group (body area)
+ * @param {boolean} [Activity] - if TRUE check if activity is allowed on the asset group
+ * @returns {null | string} - The error message (if any)
+ */
+function InventoryGroupIsAvailable(C, GroupName=null, Activity=false) {
+	// Checks for regular blocks and enclose effects
+	if (InventoryGroupIsBlockedForCharacter(C, GroupName, Activity)) {
+		return InterfaceTextGet("ZoneBlocked");
+	}
 
 	// Check for map range
-	if (InventoryIsBlockedByDistance(C)) return true;
-
-	// If the player is enclosed, all groups for another character are blocked
-	if ((!C.IsPlayer()) && Player.IsEnclose()) return true;
+	if (InventoryIsBlockedByDistance(C)) {
+		return InterfaceTextGet("ZoneBlockedRange");
+	}
 
 	// Checks if there's an owner rule that blocks the group
-	if (InventoryGroupIsBlockedByOwnerRule(C, GroupName)) return true;
+	if (InventoryGroupIsBlockedByOwnerRule(C, GroupName)) {
+		return InterfaceTextGet("ZoneBlockedOwner");
+	}
 
 	// Nothing is preventing the group from being used
-	return false;
+	return null;
+}
 
+/**
+ * Returns TRUE if the body area (Asset Group) for a character is blocked and cannot be used.
+ *
+ * Similar to {@link InventoryGroupIsBlockedForCharacter} but also checks for map range and owner rules.
+ * @param {Character} C - The character on which we validate the group
+ * @param {null | AssetGroupItemName} [GroupName] - The name of the asset group (body area)
+ * @param {boolean} [Activity] - if TRUE check if activity is allowed on the asset group
+ * @returns {boolean} - TRUE if the group is blocked
+ */
+function InventoryGroupIsBlocked(C, GroupName=null, Activity=false) {
+	return InventoryGroupIsAvailable(C, GroupName, Activity) !== null;
 }
 
 /**

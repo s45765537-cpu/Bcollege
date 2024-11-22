@@ -2036,105 +2036,135 @@ function DialogAllowItemClick(CurrentItem, ClickItem) {
 }
 
 /**
- * Handles clicks on an item
+ * Handles `permissions`-mode clicks on an item
+ * @param {DialogInventoryItem} ClickItem - The item that is clicked
+ * @returns {void} - Nothing
+ */
+function DialogPermissionsClick(ClickItem) {
+	const C = CharacterGetCurrent();
+	const CurrentItem = InventoryGet(C, C.FocusGroup.Name);
+
+	if (C.IsPlayer()) {
+		const worn = (ClickItem.Worn || (CurrentItem && (CurrentItem.Asset.Name == ClickItem.Asset.Name)));
+		DialogInventoryTogglePermission(ClickItem, worn);
+	}
+}
+
+/**
+ * Handles `locking`-mode clicks on an item
+ * @param {DialogInventoryItem} ClickItem - The item that is clicked
+ * @returns {void} - Nothing
+ */
+function DialogLockingClick(ClickItem) {
+	const C = CharacterGetCurrent();
+	const CurrentItem = InventoryGet(C, C.FocusGroup.Name);
+
+	if (
+		CurrentItem
+		&& InventoryDoesItemAllowLock(CurrentItem)
+		&& !InventoryBlockedOrLimited(C, ClickItem)
+	) {
+		InventoryLock(C, CurrentItem, ClickItem, Player.MemberNumber);
+		IntroductionJobProgress("DomLock", ClickItem.Asset.Name, true);
+		DialogChangeMode("items");
+		if (ChatRoomPublishAction(C, "ActionAddLock", CurrentItem, ClickItem)) {
+			DialogLeave();
+		}
+	}
+}
+
+/**
+ * Handles `items`-mode clicks on an item
  * @param {DialogInventoryItem} ClickItem - The item that is clicked
  * @returns {void} - Nothing
  */
 function DialogItemClick(ClickItem) {
-
 	// Gets the current character and item
 	var C = CharacterGetCurrent();
 	var CurrentItem = InventoryGet(C, C.FocusGroup.Name);
-	if (AsylumGGTSControlItem(C, CurrentItem)) return;
 
-	// In permission mode, the player can allow or block items for herself
-	if ((C.IsPlayer()) && DialogMenuMode === "permissions") {
-		const worn = (ClickItem.Worn || (CurrentItem && (CurrentItem.Asset.Name == ClickItem.Asset.Name)));
-		DialogInventoryTogglePermission(ClickItem, worn);
+	if (AsylumGGTSControlItem(C, CurrentItem)) {
+		DialogSetStatus(InterfaceTextGet("BlockedByGGTS"), DialogTextDefaultDuration);
 		return;
 	}
 
 	// If the item is blocked or limited for that character, we do not use it
-	if (InventoryBlockedOrLimited(C, ClickItem)) return;
-
-	// If we must apply a lock to an item (can trigger a daily job)
-	if (DialogMenuMode === "locking") {
-		if (CurrentItem && InventoryDoesItemAllowLock(CurrentItem)) {
-			InventoryLock(C, CurrentItem, ClickItem, Player.MemberNumber);
-			IntroductionJobProgress("DomLock", ClickItem.Asset.Name, true);
-			DialogChangeMode("items");
-			if (ChatRoomPublishAction(C, "ActionAddLock", CurrentItem, ClickItem))
-				DialogLeave();
-		}
+	if (InventoryBlockedOrLimited(C, ClickItem)) {
+		DialogSetStatus(InterfaceTextGet("BlockedByPermissions"), DialogTextDefaultDuration);
 		return;
 	}
 
-	// Main check: If there was no previous item, or it wasn't locked,
-	// or we can unlock it, use/swap/remove what's in the group
-	if (
-		CurrentItem == null || !InventoryItemHasEffect(CurrentItem, "Lock", true) || DialogCanUnlock(C, CurrentItem)
-	) {
-		if (!InventoryGroupIsBlocked(C, null, true) && (!InventoryGroupIsBlocked(C) || !ClickItem.Worn))
-			if (InventoryAllow(C, ClickItem.Asset)) {
-
-				// If the room allows the item
-				if (!InventoryChatRoomAllow(ClickItem.Asset.Category)) {
-					DialogSetStatus(InterfaceTextGet("BlockedByRoom"), DialogTextDefaultDuration);
-					return;
-				}
-
-				// Make sure we do not use the same item
-				if (DialogAllowItemClick(CurrentItem, ClickItem)) {
-					if (ClickItem.Asset.Wear) {
-
-						// Check if selfbondage is allowed for the item if used on self
-						if ((ClickItem.Asset.SelfBondage <= 0) || (SkillGetLevel(Player, "SelfBondage") >= ClickItem.Asset.SelfBondage) || (!C.IsPlayer()) || DialogAlwaysAllowRestraint()) {
-							/** @type {DialogStruggleActionType} */
-							let action;
-							if (CurrentItem && ClickItem) {
-								action = "ActionSwap";
-							} else if (ClickItem) {
-								action = "ActionUse";
-							} else {
-								action = "ActionRemove";
-							}
-							DialogStruggleStart(C, action, CurrentItem, ClickItem);
-						} else if (ClickItem.Asset.SelfBondage <= 10)
-							DialogSetStatus(InterfaceTextGet("RequireSelfBondage" + ClickItem.Asset.SelfBondage), DialogTextDefaultDuration);
-						else
-							DialogSetStatus(InterfaceTextGet("CannotUseOnSelf"), DialogTextDefaultDuration);
-
-					} else {
-
-						// The vibrating egg remote can open the vibrating egg's extended dialog
-						if ((ClickItem.Asset.Name === "VibratorRemote" || ClickItem.Asset.Name === "LoversVibratorRemote")
-							&& DialogCanUseRemoteState(C, CurrentItem) === "Available") {
-							DialogExtendItem(InventoryGet(C, C.FocusGroup.Name));
-						}
-
-						// Runs the activity arousal process if activated, & publishes the item action text to the chatroom
-						DialogPublishAction(C, "ActionUse", ClickItem);
-						ActivityArousalItem(Player, C, ClickItem.Asset);
-
-					}
-				}
-				else if ((CurrentItem.Asset.Name == ClickItem.Asset.Name) && CurrentItem.Asset.Extended)
-					DialogExtendItem(CurrentItem);
-
-			}
+	// We're dealing with a previously equipped extended item; open the extended item menu
+	if (CurrentItem?.Asset.Extended && (CurrentItem.Asset.Name == ClickItem.Asset.Name)) {
+		DialogExtendItem(CurrentItem);
 		return;
 	}
 
-	// If the item can unlock another item or simply show dialog text (not wearable)
-	if (InventoryAllow(C, ClickItem.Asset))
-		if (InventoryItemHasEffect(ClickItem, /** @type {EffectName} */("Unlock" + CurrentItem.Asset.Name)))
+	// Special-casing for items that cannot actually be worn
+	if (!ClickItem.Asset.Wear) {
+		if (InventoryItemHasEffect(ClickItem, /** @type {EffectName} */(`Unlock${CurrentItem?.Asset.Name}`))) {
+			// Unlock an item if one clicks the key
 			DialogStruggleStart(C, "ActionUnlock", CurrentItem, null);
-		else if ((CurrentItem.Asset.Name == ClickItem.Asset.Name) && CurrentItem.Asset.Extended)
-			DialogExtendItem(CurrentItem);
-		else if (!ClickItem.Asset.Wear) {
+		} else if (ClickItem.Asset.Name === "VibratorRemote" || ClickItem.Asset.Name === "LoversVibratorRemote") {
+			// The vibrating egg remote can open the vibrating egg's extended dialog
+			if (DialogCanUseRemoteState(C, CurrentItem) === "Available") { DialogExtendItem(CurrentItem); }
+		} else {
+			// Runs the activity arousal process if activated, & publishes the item action text to the chatroom
 			DialogPublishAction(C, "ActionUse", ClickItem);
+			ActivityArousalItem(Player, C, ClickItem.Asset);
 		}
+		return;
+	}
 
+	// Check any prerequisites
+	if (!InventoryAllow(C, ClickItem.Asset)) {
+		// `InventoryAllow()` already sets a dialog status
+		return;
+	}
+
+	// If there was  previous item, check if it is not blocked by another, has a valid click action and (if applicable) whether it can be unlocked
+	if (CurrentItem != null) {
+		const blockedErrMessage = InventoryGroupIsAvailable(C, C.FocusGroup.Name, false);
+		if (blockedErrMessage) {
+			DialogSetStatus(blockedErrMessage, DialogTextDefaultDuration, { C });
+			return;
+		} else if (!DialogAllowItemClick(CurrentItem, ClickItem)) {
+			DialogSetStatus(InterfaceTextGet("BlockedByEquipped"), DialogTextDefaultDuration);
+			return;
+		} else if (InventoryItemHasEffect(CurrentItem, "Lock", true) && !DialogCanUnlock(C, CurrentItem)) {
+			DialogSetStatus(InterfaceTextGet("BlockedByLock"), DialogTextDefaultDuration, { asset: CurrentItem.Asset });
+			return;
+		}
+	}
+
+	// If the room allows the item
+	if (!InventoryChatRoomAllow(ClickItem.Asset.Category)) {
+		DialogSetStatus(InterfaceTextGet("BlockedByRoom"), DialogTextDefaultDuration);
+		return;
+	}
+
+	// Check if selfbondage is allowed for the item if used on self
+	if (
+		ClickItem.Asset.SelfBondage <= 0
+		|| SkillGetLevel(Player, "SelfBondage") >= ClickItem.Asset.SelfBondage
+		|| !C.IsPlayer()
+		|| DialogAlwaysAllowRestraint()
+	) {
+		/** @type {DialogStruggleActionType} */
+		let action;
+		if (CurrentItem && ClickItem) {
+			action = "ActionSwap";
+		} else if (ClickItem) {
+			action = "ActionUse";
+		} else {
+			action = "ActionRemove";
+		}
+		DialogStruggleStart(C, action, CurrentItem, ClickItem);
+	} else if (ClickItem.Asset.SelfBondage <= 10) {
+		DialogSetStatus(InterfaceTextGet(`RequireSelfBondage${ClickItem.Asset.SelfBondage}`), DialogTextDefaultDuration);
+	} else {
+		DialogSetStatus(InterfaceTextGet("CannotUseOnSelf"), DialogTextDefaultDuration);
+	}
 }
 
 /**
@@ -2227,23 +2257,23 @@ function DialogChangeMode(mode, reset=false) {
 	if (!C.FocusGroup) {
 		// Ignore setting a message if we have no focused group
 	} else if (DialogMenuMode === "items") {
-		DialogSetStatus(InterfaceTextGet("SelectItemGroup").replace("GroupName", DialogActualNameForGroup(C, C.FocusGroup).toLowerCase()));
+		DialogSetStatus(InterfaceTextGet("SelectItemGroup"), undefined, { C, group: C.FocusGroup });
 	} else if (DialogMenuMode === "permissions") {
 		DialogSetStatus(DialogFind(Player, "DialogPermissionMode"));
 	} else if (DialogMenuMode === "activities") {
 		if (DialogActivity.length > 0)
-			DialogSetStatus(InterfaceTextGet("SelectActivityGroup").replace("GroupName", DialogActualNameForGroup(C, C.FocusGroup).toLowerCase()));
+			DialogSetStatus(InterfaceTextGet("SelectActivityGroup"), undefined, { C, group: C.FocusGroup });
 		else
-			DialogSetStatus(InterfaceTextGet("SelectActivityNone").replace("GroupName", DialogActualNameForGroup(C, C.FocusGroup).toLowerCase()));
+			DialogSetStatus(InterfaceTextGet("SelectActivityNone"), undefined, { C, group: C.FocusGroup });
 	} else if (DialogMenuMode === "locking") {
-		DialogSetStatus(InterfaceTextGet("SelectLock").replace("GroupName", DialogActualNameForGroup(C, C.FocusGroup).toLowerCase()));
+		DialogSetStatus(InterfaceTextGet("SelectLock"), undefined, { C, group: C.FocusGroup });
 	} else if (DialogMenuMode === "locked") {
 		const item = InventoryGet(C, C.FocusGroup.Name);
 		const lock = InventoryGetLock(item);
 		if (!lock || !DialogCanInspectLock(item))
 			DialogSetStatus(InterfaceTextGet("SelectLockedUnknown"));
 		else
-			DialogSetStatus(InterfaceTextGet("SelectLocked").replace("AssetName", lock.Asset.DynamicDescription(C).toLowerCase()));
+			DialogSetStatus(InterfaceTextGet("SelectLocked"), undefined, { C, group: C.FocusGroup });
 	} else {
 		DialogSetStatus("");
 	}
@@ -2466,8 +2496,17 @@ function DialogClick() {
 			// If the item is clicked
 			if (!MouseIn(x, y, width, height)) return false;
 			if (item.Asset.Enable || (item.Asset.Extended && item.Asset.OwnerOnly && CurrentCharacter.IsOwnedByPlayer())) {
-				DialogItemClick(item);
-				return true;
+				switch (DialogMenuMode) {
+					case "items":
+						DialogItemClick(item);
+						return;
+					case "locking":
+						DialogLockingClick(item);
+						return;
+					case "permissions":
+						DialogPermissionsClick(item);
+						return;
+				}
 			}
 		});
 	}
@@ -2585,9 +2624,21 @@ function DialogFindFacialExpressionMenuGroup(ExpressionGroup) {
  * Displays the given text for 5 seconds
  * @param {string} status - The text to be displayed
  * @param {number} timer - the number of milliseconds to display the message for
+ * @param {null | { asset?: Asset, group?: AssetGroup, C?: Character }} replace - Attempt to perform replacements within the `status` text
  * @returns {void} - Nothing
  */
-function DialogSetStatus(status, timer = 0) {
+function DialogSetStatus(status, timer=0, replace=null) {
+	replace ??= {};
+	if (replace.group || replace.asset) {
+		status = status.replaceAll("GroupName", DialogActualNameForGroup(replace.C ?? Player, replace.group ?? replace.asset.Group).toLowerCase());
+	}
+	if (replace.asset) {
+		status = status.replaceAll("AssetName", replace.asset.Description);
+	}
+	if (replace.C) {
+		status = status.replaceAll("DialogCharacterObject", CharacterNickname(replace.C));
+	}
+
 	if (timer > 0) {
 		DialogTextDefaultTimer = CommonTime() + timer;
 		DialogText = status;
@@ -3145,7 +3196,7 @@ function DialogDraw() {
 		if (InventoryGroupIsBlockedByOwnerRule(C))
 			DialogDrawItemMessage(C, InterfaceTextGet("ZoneBlockedOwner"), FocusItem);
 		else if (InventoryIsBlockedByDistance(C))
-			DialogDrawItemMessage(C, InterfaceTextGet("ZoneBlockedRange"), FocusItem);
+			DialogDrawItemMessage(C, InterfaceTextGet("ZoneBlockedRange").replace("DialogCharacterObject", CharacterNickname(C)), FocusItem);
 		else if (InventoryGroupIsBlocked(C))
 			DialogDrawItemMessage(C, InterfaceTextGet("ZoneBlocked"), FocusItem);
 		else if (!Player.CanInteract())

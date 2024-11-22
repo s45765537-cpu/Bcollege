@@ -39,7 +39,11 @@ BeepFromOwner,Beep from your owner in your private room
 BeepWithMail,(Mail)
 BeepWithMessage,With Message
 BlindToggleFacialExpressions,Toggle closed eyes blindness
-BlockedByRoom,Blocked in this room.
+BlockedByEquipped,Item is already equipped.
+BlockedByGGTS,Item is blocked by GGTS.
+BlockedByLock,AssetName must be unlocked first.
+BlockedByPermissions,Item is blocked by user.
+BlockedByRoom,Item is blocked in this room.
 Brightness,Brightness
 Cancel,Cancel
 CannotUseOnSelf,Cannot use on yourself.
@@ -428,4 +432,4 @@ WillRemoveItemWithTimer,The item will be removed when the lock timer runs out
 WontRemoveItemWithTimer,The item will stay when the lock timer runs out
 ZoneBlocked,This zone is out of reach from another item
 ZoneBlockedOwner,Your owner doesn't allow you to access that zone
-ZoneBlockedRange,You're too far to reach DialogCharacterObject body and items.
+ZoneBlockedRange,You're too far to reach DialogCharacterObject's body and items.
