@@ -66,3 +66,9 @@ MapCopyError,There's no map data to copy.
 MapPasteDone,Your pasted map data is loaded.
 MapPasteError,Your pasted map data cannot be loaded.
 MapPasteAdmin,Only room administrators can paste the map.
+MenuDressIsRestrained,You are restrained
+MenuDressIsClubSlave,You are a club slave
+MenuDressGameBlocked,The game blocks it
+MenuDressGGTSBlocked,GGTS blocks it
+MenuDressRuleBlocked,A rule blocks it
+MenuDressOwnerBlocked,Your owner forbids it
