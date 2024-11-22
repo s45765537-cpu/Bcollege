@@ -1192,7 +1192,7 @@ var ElementButton = {
 	 * @param {null | string} id - The ID of the to-be created search button
 	 * @param {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => any} onClick - The click event listener to-be attached to the tooltip
 	 * @param {Object} [options]
-	 * @param {null | string | Node | readonly (null | string | Node)[]} [options.tooltip] - Optional tooltip content. If not supplied then one should manually prepend it to the tooltip later
+	 * @param {null | string | Node | HTMLOptions<any> | readonly (null | string | Node | HTMLOptions<any>)[]} [options.tooltip] - Optional tooltip content. If not supplied then one should manually prepend it to the tooltip later
 	 * @param {"left" | "right" | "top" | "bottom"} [options.tooltipPosition] - The position of the tooltip w.r.t. the button
 	 * @param {string} [options.label]
 	 * @param {"top" | "center" | "bottom"} [options.labelPosition]

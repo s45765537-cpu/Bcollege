@@ -38,6 +38,9 @@ CommandFriendlist,Friendlist:
 CommandGhostlist,Ghostlist:
 CommandWhitelist,Whitelist:
 CommandBlacklist,Blacklist:
+CommandChangeLogClear,Clear changelog
+CommandChangeLogCollapse,Collapse section
+CommandChangeLogCollapseShift,{shift} to collapse all
 CommandNoWhisperTarget,Whisper target was not found:
 CommandNoMessage,No message provided.
 CommandMultipleWhisperTargets,You can whisper to: $TargetsClick on the name or use the member number.

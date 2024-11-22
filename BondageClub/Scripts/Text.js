@@ -167,7 +167,7 @@ class TextCache {
 	 * initial construction, or after a language change).
 	 * @param {(cache?: TextCache) => void} callback - The callback to register
 	 * @param {boolean} [immediate] - Whether or not the callback should be called on registration
-	 * @returns {Function} - A callback function which can be used to unsubscribe the added listener
+	 * @returns {() => void} - A callback function which can be used to unsubscribe the added listener
 	 */
 	onRebuild(callback, immediate = true) {
 		if (typeof callback === "function") {
