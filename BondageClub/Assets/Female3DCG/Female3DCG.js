@@ -45857,6 +45857,7 @@ var AssetFemale3DCG = [
 				Top: 25,
 				DefaultColor: ["#222222", "#CCCCCC", "#EF870C", "#CCCCCC"],
 				AllowLock: true,
+				DrawLocks: false,
 				AllowTighten: true,
 				Extended: true,
 				Hide: ["Blush"],
