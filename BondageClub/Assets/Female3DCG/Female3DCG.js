@@ -31704,7 +31704,7 @@ var AssetFemale3DCG = [
 				Extended: true,
 				SetPose: ["TapedHands"],
 				DefaultColor: ["#454545", "#707070", "#8D908F", "#404040", "#AAB2AF"],
-				Effect: [E.Block, E.BlockWardrobe, E.MergedFingers, E.CuffedArms],
+				Effect: [E.MergedFingers, E.CuffedArms],
 				RemoveItemOnRemove: [
 					{
 						Name: "X-Cross",
