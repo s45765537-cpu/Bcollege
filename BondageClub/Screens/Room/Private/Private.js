@@ -1319,10 +1319,11 @@ function PrivateRelationDecay() {
 			const LoveDecay = Math.floor((CurrentTime - LastDecay) / PrivateBaseDecay * ((480 - EntryDays) / 480));
 			if (LoveDecay > 0) NPCLoveChange(C, LoveDecay * -1);
 
-			// The NPC will disappear if love is under -100, can be prevented with any cage
-			if ((C.Love <= -100) && !C.Cage && !C.IsEnclose()) {
+			/** @type {Set<EffectName>} */
+			const stuckingEffects = new Set([E.Freeze, E.Tethered, E.Mounted, E.IsChained, E.Shackled, E.Suspended]);
+			const isStuck = C.Cage || C.Effect.some(e => stuckingEffects.has(e));
+			if (C.Love <= -100 && !isStuck) {
 				PrivateKickCharacterOut(C);
-				Index--;
 			}
 
 		}
