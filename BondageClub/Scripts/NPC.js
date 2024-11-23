@@ -165,10 +165,8 @@ function NPCArousal(C) {
 			if (Dominant + 125 < Math.random() * 250) LoveOther -= 1;
 
 			// 0 and 4 are the limits
-			if (LoveSelf < 0) LoveSelf = 0;
-			if (LoveOther < 0) LoveOther = 0;
-			if (LoveSelf > 4) LoveSelf = 4;
-			if (LoveOther > 4) LoveOther = 4;
+			LoveSelf = /** @type {ArousalFactor} */ (CommonClamp(LoveSelf, 0, 4));
+			LoveOther = /** @type {ArousalFactor} */ (CommonClamp(LoveOther, 0, 4));
 
 			// Sets the final values
 			PreferenceSetActivityFactor(C, A.Name, true, LoveSelf);
