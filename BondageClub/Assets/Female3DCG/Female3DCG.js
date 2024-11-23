@@ -6451,11 +6451,11 @@ var AssetFemale3DCG = [
 				},
 				Top: 400,
 				Left: {
-					[PoseType.DEFAULT] : 75,
+					[PoseType.DEFAULT]: 75,
 					KneelingSpread: 105,
 					Hogtied: 125,
 				},
-			}
+			},
 		],
 
 		Color: [
@@ -13207,8 +13207,8 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Inner",
-					}
-				]
+					},
+				],
 			},
 		],
 		Color: [
@@ -13771,7 +13771,7 @@ var AssetFemale3DCG = [
 					AssetName: "AquaticEars",
 					BuyGroup: true,
 				},
-			}
+			},
 		],
 		Color: [
 			"Default",
@@ -16697,7 +16697,7 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "1",
-						AllowTypes: { a: 1},
+						AllowTypes: { a: 1 },
 						CopyLayerColor: "1",
 					},
 					{
@@ -30800,7 +30800,7 @@ var AssetFemale3DCG = [
 				Extended: true,
 				AllowLock: true,
 				DrawLocks: false,
-				DefaultColor: ["#999999","#999999"],
+				DefaultColor: ["#999999", "#999999"],
 				Layer: [
 					{
 						Name: "Leftundercuff",

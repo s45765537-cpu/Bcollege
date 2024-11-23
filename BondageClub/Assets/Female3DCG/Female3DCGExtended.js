@@ -11290,7 +11290,7 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "Large",
-				}
+				},
 			],
 		},
 	}, // HairAccessory1
