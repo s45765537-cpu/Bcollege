@@ -3163,7 +3163,7 @@ class _DialogItemMenu extends DialogMenu {
 				return;
 			}
 
-			if (DialogItemClick(clickedItem, C, focusGroup)) {
+			if (DialogItemClick(clickedItem, C, focusGroup) ?? true) {
 				if (clickedItem.Asset.Wear && this.getAttribute("aria-checked") !== "true") {
 					this.closest(".dialog-grid")?.querySelector("[aria-checked='true']")?.setAttribute("aria-checked", "false");
 					this.setAttribute("aria-checked", "true");
