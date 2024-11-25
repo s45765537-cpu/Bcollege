@@ -196,7 +196,7 @@ interface ServerPrivateCharacterData {
 	Appearance: ServerAppearanceBundle;
 	AppearanceFull: ServerAppearanceBundle;
 	ArousalSettings: ArousalSettingsType;
-	Event: NPCTrait[];
+	Event: NPCEvent[];
 	FromPandora?: boolean;
 }
 

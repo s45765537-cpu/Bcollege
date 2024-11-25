@@ -1292,7 +1292,7 @@ interface PrivateCharacterData {
 	Appearance: AppearanceBundle,
 	AppearanceFull: AppearanceBundle,
 	ArousalSettings: Character["ArousalSettings"];
-	Event: NPCTrait[];
+	Event: NPCEvent[];
 	FromPandora?: boolean;
 }
 
@@ -1618,7 +1618,7 @@ interface Character {
 interface NPCCharacter extends Character {
 	Archetype?: NPCArchetype;
 	Trait?: NPCTrait[];
-	Event?: NPCTrait[];
+	Event?: NPCEvent[];
 	Affection?: number;
 	Domination?: number;
 }
@@ -1953,8 +1953,40 @@ interface PlayerCharacter {
 	KinkyDungeonExploredLore?: any[];
 }
 
+type NPCTraitType =
+	| "Dominant" | "Submissive"
+	| "Violent" | "Peaceful"
+	| "Horny" | "Frigid"
+	| "Rude" | "Polite"
+	| "Wise" | "Dumb"
+	| "Serious" | "Playful";
+
 interface NPCTrait {
-	Name: string;
+	Name: NPCTraitType;
+	/** 1 to 100 */
+	Value: number;
+}
+
+type NPCEventType =
+	| "LastInteraction"
+	| "Wife" | "Fiancee" | "Girlfriend"
+	| "PrivateRoomEntry"
+	| "NPCCollaring" | "PlayerCollaring"
+	| "NextGift" | "LastGift"
+	| "Kidnap" | "NextKidnap"
+	| "NPCBrainwashing"
+	| "EndSubTrial" | "EndDomTrial"
+	| "NextBed"
+	| "NewCloth"
+	| "RefusedActivity"
+	| "SlaveMarketRent"
+	| "AsylumSent"
+	| "LastDecay"
+;
+
+interface NPCEvent {
+	Name: NPCEventType;
+	/** timestamp */
 	Value: number;
 }
 

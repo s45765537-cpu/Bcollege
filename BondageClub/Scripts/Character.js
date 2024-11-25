@@ -467,7 +467,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 				/** @type {Lovership} */
 				const love = { Name: this.Lover, MemberNumber: Player.MemberNumber };
 
-				let stages = ["Wife", "Fiancee", "Girlfriend"];
+				let stages = /** @type {NPCEventType[]} */ (["Wife", "Fiancee", "Girlfriend"]);
 				for (const [idx, stage] of stages.entries()) {
 					love.Start = NPCEventGet(this, stage);
 					if (love.Start > 0) {
