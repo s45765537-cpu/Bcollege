@@ -1112,7 +1112,7 @@ interface Item {
 }
 
 type FavoriteIcon = "Favorite" | "FavoriteBoth" | "FavoritePlayer";
-type ItemEffectIcon = "BlindLight" | "BlindNormal" | "BlindHeavy" | "DeafLight" | "DeafNormal" | "DeafHeavy" | "GagLight" | "GagNormal" | "GagHeavy" | "GagTotal";
+type ItemEffectIcon = "BlindLight" | "BlindNormal" | "BlindHeavy" | "DeafLight" | "DeafNormal" | "DeafHeavy" | "GagLight" | "GagNormal" | "GagHeavy" | "GagTotal" | "Freeze" | "Block";
 type ShopIcon = "Extended" | "BuyGroup";
 type InventoryIcon = (
 	FavoriteIcon
