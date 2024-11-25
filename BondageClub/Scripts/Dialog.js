@@ -1404,8 +1404,13 @@ function DialogMenuButtonBuild(C) {
 		if (IsItemLocked && DialogCanUnlock(C, Item) && !IsGroupBlocked && (!C.IsPlayer() || Player.CanInteract()))
 			DialogMenuButton.push("Remove");
 
-		if (!IsItemLocked && !IsGroupBlocked && (Item != null) && (Item.Asset != null) && Item.Asset.AllowTighten && Player.CanInteract())
+		if (
+			!IsGroupBlocked
+			&& Item?.Asset.AllowTighten
+			&& (IsItemLocked ? DialogCanUnlock(C, Item) : Player.CanInteract())
+		) {
 			DialogMenuButton.push("TightenLoosen");
+		}
 
 		if (DialogCanCheckLock(C, Item))
 			DialogMenuButton.push("LockMenu");

@@ -1447,7 +1447,6 @@ function ExtendedItemTypeToRecord(asset, type) {
 	}
 }
 
-// TODO: Add crafting support
 /**
  * Namespace with extended item functions for accessing the tighten/loosen menu.
  * @namespace
@@ -1463,7 +1462,9 @@ const ExtendedItemTighten = {
 		if (asset.AllowTighten && !TightenLoosenScreenBlacklist.has(CurrentScreen)) {
 			const Difficulty = item.Difficulty ?? 0;
 			DrawText(`${InterfaceTextGet("Tightness")} ${Difficulty}`, 1200, 140, "White", "Silver");
-			if (Player.CanInteract() && !InventoryItemHasEffect(item, "Lock")) {
+
+			const canUnlock = InventoryItemHasEffect(item, "Lock") ? DialogCanUnlock(CharacterGetCurrent(), item) : Player.CanInteract();
+			if (canUnlock) {
 				DrawButton(...buttonCoords, InterfaceTextGet("AdjustTightness"), "White");
 			} else {
 				DrawButton(...buttonCoords, InterfaceTextGet("AdjustTightness"), "Gray", undefined, undefined, true);
@@ -1483,10 +1484,10 @@ const ExtendedItemTighten = {
 			return false;
 		}
 
+		const canUnlock = InventoryItemHasEffect(item, "Lock") ? DialogCanUnlock(CharacterGetCurrent(), item) : Player.CanInteract();
 		if (
 			asset.AllowTighten
-			&& Player.CanInteract()
-			&& !InventoryItemHasEffect(item, "Lock")
+			&& canUnlock
 			&& !TightenLoosenScreenBlacklist.has(CurrentScreen)
 		) {
 			DialogSetTightenLoosenItem(item);
