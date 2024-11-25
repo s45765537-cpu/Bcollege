@@ -72,6 +72,7 @@ CraftedItemProperties,Crafted item properties.
 CraftingDescription,Description: CraftDescription
 CraftingMember,Crafter: MemberName (MemberNumber)
 CraftingName,Name: CraftName
+CraftingPrivate,Private: CraftPrivate
 CraftingProperty,Property: CraftProperty
 CurrentMode,Current Mode:
 Decoding,Decoding the lock...

@@ -172,6 +172,7 @@
 		"dialog-crafted-name dialog-crafted-icon ." auto
 		"dialog-crafted-crafter dialog-crafted-icon ." auto
 		"dialog-crafted-property dialog-crafted-icon ." auto
+		"dialog-crafted-private dialog-crafted-icon ." auto
 		"dialog-crafted-footer dialog-crafted-footer dialog-crafted-footer" auto / calc(3 * var(--button-width) + 2 * var(--gap)) auto auto
 }
 
@@ -196,6 +197,10 @@
 
 #dialog-crafted-property {
 	grid-area: dialog-crafted-property;
+}
+
+#dialog-crafted-private {
+	grid-area: dialog-crafted-private;
 }
 
 #dialog-crafted-icon {

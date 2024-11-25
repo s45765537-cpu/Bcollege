@@ -3675,6 +3675,7 @@ class _DialogCraftedMenu extends DialogMenu {
 		footer: "dialog-crafted-footer",
 		info: "dialog-crafted-info",
 		description: "dialog-crafted-description",
+		private: "dialog-crafted-private",
 		name: "dialog-crafted-name",
 		property: "dialog-crafted-property",
 		crafter: "dialog-crafted-crafter",
@@ -3696,6 +3697,7 @@ class _DialogCraftedMenu extends DialogMenu {
 						{ tag: "span", attributes: { id: ids.name }, classList: [ids.info] },
 						{ tag: "span", attributes: { id: ids.crafter }, classList: [ids.info] },
 						{ tag: "span", attributes: { id: ids.property }, classList: [ids.info] },
+						{ tag: "span", attributes: { id: ids.private }, classList: [ids.info] },
 						{ tag: "div", classList: ["button", "blank-button", "button-styling", "dialog-grid-button", "dialog-icon"], attributes: { id: ids.icon } },
 						{
 							tag: "div",
@@ -3737,11 +3739,12 @@ class _DialogCraftedMenu extends DialogMenu {
 			])?.iconGrid,
 		].filter(Boolean).forEach(e => icon.append(e));
 
-		const [name, crafter, property, description] = [ids.name, ids.crafter, ids.property, ids.description].map(i => document.getElementById(i));
+		const [name, crafter, property, description, private_] = [ids.name, ids.crafter, ids.property, ids.description, ids.private].map(i => document.getElementById(i));
 		name.textContent = InterfaceTextGet("CraftingName").replace("CraftName", item.Craft.Name);
 		crafter.textContent = InterfaceTextGet("CraftingMember").replace("MemberName", item.Craft.MemberName).replace("MemberNumber", item.Craft.MemberNumber.toString());
 		property.textContent = InterfaceTextGet("CraftingProperty").replace("CraftProperty", item.Craft.Property);
 		description.textContent = InterfaceTextGet("CraftingDescription").replace("CraftDescription", CraftingDescription.Decode(item.Craft.Description));
+		private_.textContent = InterfaceTextGet("CraftingPrivate").replace("CraftPrivate", CommonCapitalize(item.Craft.Private.toString()));
 	}
 }
 

@@ -1336,17 +1336,22 @@ var ElementButton = {
 		options.tooltipPosition ??= "bottom";
 		options.tooltip ??= !item.Craft ? "" : [
 			...(item.Craft.Property ? [
-				"Property: ",
+				InterfaceTextGet("CraftingProperty").replace("CraftProperty", ""),
 				{ tag: "q", children: [item.Craft.Property] },
 				{ tag: "br" },
 			] : []),
 			...((item.Craft.MemberName && item.Craft.MemberNumber) ? [
-				"Crafter: ",
+				InterfaceTextGet("CraftingMember").replace("MemberName (MemberNumber)", ""),
 				{ tag: "q", children: [`${item.Craft.MemberName} (${item.Craft.MemberNumber})`] },
 				{ tag: "br" },
 			] : []),
+			...([
+				InterfaceTextGet("CraftingPrivate").replace("CraftPrivate", ""),
+				{ tag: "q", children: [CommonCapitalize(item.Craft.Private.toString())] },
+				{ tag: "br" },
+			]),
 			...(item.Craft.Description ? [
-				"Description: ",
+				InterfaceTextGet("CraftingDescription").replace("CraftDescription", ""),
 				{ tag: "q", children: [CraftingDescription.Decode(item.Craft.Description)] },
 				{ tag: "br" },
 			] : []),
