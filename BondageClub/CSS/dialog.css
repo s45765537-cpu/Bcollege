@@ -89,10 +89,12 @@
 	--tooltip-gap: var(--gap);
 
 	width: calc(4 * var(--button-width) + 3 * var(--gap));
-	text-align: justify;
-	text-wrap: wrap;
 	font-size: min(2.6dvh, 1.3dvw);
 	text-indent: min(2.6dvh, 1.3dvw) hanging each-line;
+}
+
+.dialog-grid-button .button-tooltip-craft {
+	padding-left: min(2.6dvh, 1.3dvw);
 }
 
 .dialog-grid-button[data-unload] {

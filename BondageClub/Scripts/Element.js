@@ -1334,28 +1334,38 @@ var ElementButton = {
 			...DialogEffectIcons.GetIcons(item),
 		];
 		options.tooltipPosition ??= "bottom";
-		options.tooltip ??= !item.Craft ? "" : [
-			...(item.Craft.Property ? [
-				InterfaceTextGet("CraftingProperty").replace("CraftProperty", ""),
-				{ tag: "q", children: [item.Craft.Property] },
-				{ tag: "br" },
-			] : []),
-			...((item.Craft.MemberName && item.Craft.MemberNumber) ? [
-				InterfaceTextGet("CraftingMember").replace("MemberName (MemberNumber)", ""),
-				{ tag: "q", children: [`${item.Craft.MemberName} (${item.Craft.MemberNumber})`] },
-				{ tag: "br" },
-			] : []),
-			...([
-				InterfaceTextGet("CraftingPrivate").replace("CraftPrivate", ""),
-				{ tag: "q", children: [CommonCapitalize(item.Craft.Private.toString())] },
-				{ tag: "br" },
-			]),
-			...(item.Craft.Description ? [
-				InterfaceTextGet("CraftingDescription").replace("CraftDescription", ""),
-				{ tag: "q", children: [CraftingDescription.Decode(item.Craft.Description)] },
-				{ tag: "br" },
-			] : []),
-		];
+		options.tooltip ??= !item.Craft ? "" : /** @type {HTMLOptions<any>[]} */([
+			{
+				tag: "span",
+				children: [InterfaceTextGet("DialogMenuCrafting") + ":"],
+			},
+			{
+				tag: "div",
+				classList: ["button-tooltip-craft"],
+				children: [
+					...(item.Craft.Property ? [
+						InterfaceTextGet("CraftingProperty").replace("CraftProperty", ""),
+						{ tag: "q", children: [item.Craft.Property] },
+						{ tag: "br" },
+					] : []),
+					...((item.Craft.MemberName && item.Craft.MemberNumber) ? [
+						InterfaceTextGet("CraftingMember").replace("MemberName (MemberNumber)", ""),
+						{ tag: "q", children: [`${item.Craft.MemberName} (${item.Craft.MemberNumber})`] },
+						{ tag: "br" },
+					] : []),
+					...([
+						InterfaceTextGet("CraftingPrivate").replace("CraftPrivate", ""),
+						{ tag: "q", children: [CommonCapitalize(item.Craft.Private.toString())] },
+						{ tag: "br" },
+					]),
+					...(item.Craft.Description ? [
+						InterfaceTextGet("CraftingDescription").replace("CraftDescription", ""),
+						{ tag: "q", children: [CraftingDescription.Decode(item.Craft.Description)] },
+						{ tag: "br" },
+					] : []),
+				],
+			},
+		]);
 
 		return ElementButton.Create(id, onClick, options, htmlOptions);
 	},
