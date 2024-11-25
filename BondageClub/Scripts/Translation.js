@@ -1,4 +1,6 @@
 "use strict";
+
+/** @type {ServerChatRoomLanguage | "TW"} */
 var TranslationLanguage = "EN";
 /** @type {Record<string, string[]>} */
 var TranslationCache = {};
@@ -7,7 +9,7 @@ var TranslationCache = {};
  * Dictionary for all supported languages and their files
  * @constant
  */
-var TranslationDictionary = [
+var TranslationDictionary = /** @type {const} */([
 
 	{
 		LanguageCode: "EN",
@@ -1040,7 +1042,7 @@ var TranslationDictionary = [
 			"Screens/Room/Stable/Text_Stable_UA.txt" */
 		]
 	},
-];
+]);
 
 /**
  * Checks whether we're running a translation
@@ -1296,6 +1298,6 @@ function TranslationSwitchLanguage(language) {
  * @returns {void} - Nothing
  */
 function TranslationLoad() {
-	var L = localStorage.getItem("BondageClubLanguage");
+	var L = /** @type {ServerChatRoomLanguage | "TW"} */(localStorage.getItem("BondageClubLanguage"));
 	if (L != null) TranslationLanguage = L;
 }

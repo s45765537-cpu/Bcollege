@@ -895,7 +895,7 @@ function CraftingLoad() {
 		parent: document.body,
 	});
 
-	TextCache.buildAsync("Screens/Room/Crafting/Text_Crafting.csv").then(async () => {
+	TextScreenCache?.loadedPromise.then(async () => {
 		ElementCreate({
 			tag: "div",
 			attributes: { id: CraftingID.topBar },
