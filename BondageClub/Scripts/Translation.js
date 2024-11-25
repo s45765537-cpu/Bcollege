@@ -1132,7 +1132,6 @@ function TranslationDialogArray(C, T) {
 function TranslationTextArray(S, T) {
 	for (let P = 0; P < S.length; P++)
 		S[P].Value = TranslationString(S[P].Value, T);
-	if (CurrentScreen == "Login") LoginUpdateMessage();
 }
 
 /**
