@@ -2752,6 +2752,17 @@ function DialogChangeItemColor(C, Color) {
 }
 
 /**
+ * Draw the list of activities
+ *
+ * @deprecated - See {@link DialogMenuMapping.activities.Load} and {@link DialogMenuMapping.activities.Reload} for the new DOM-based menu
+ * @param {Character} C - The character currently focused in the dialog.
+ * @returns {void} - Nothing
+ */
+function DialogDrawActivityMenu(C) {
+	// Keep around as deprecated no-op
+}
+
+/**
  * Returns the button image name for a dialog menu button based on the button name.
  * @param {DialogMenuButton} ButtonName - The menu button name
  * @param {Item} FocusItem - The focused item
@@ -2796,7 +2807,7 @@ function DialogIsMenuButtonDisabled(ButtonName) {
 /**
  * Draw the list of items
  *
- * @deprecated - See {@link DialogMenu.Load} and {@link DialogMenu.Reload} for the new DOM-based menu
+ * @deprecated - See {@link DialogMenuMapping.items.Load} and {@link DialogMenuMapping.items.Reload} for the new DOM-based menu
  * @param {Character} C - The character currently focused in the dialog.
  * @returns {void} - Nothing
  */
