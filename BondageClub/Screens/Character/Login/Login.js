@@ -633,24 +633,6 @@ function LoginExtremeItemSettings(applyDefaults) {
 }
 
 /**
- * Since InventoryData wasn't found (R104 and before), we load the inventory object directly
- * @param {object} InventoryObject - The inventory object from the server
- */
-function LoginLoadInventoryObject(InventoryObject) {
-	let Inv = {};
-	if (typeof InventoryObject === "string") {
-		try {
-			Inv = JSON.parse(LZString.decompressFromUTF16(InventoryObject));
-		} catch(err) {
-			console.warn("Error while loading compressed inventory, no inventory loaded.", err);
-		}
-	} else {
-		Inv = InventoryObject;
-	}
-	return Inv;
-}
-
-/**
  * Handles server response, when login has been queued
  * @param {number} Pos - The position in queue
  * @returns {void} Nothing
@@ -813,21 +795,15 @@ function LoginSetupPlayer(C) {
 	// Loads the crafting data
 	const CraftingDecompressed = CraftingDecompressServerData(C.Crafting);
 
-	// Loads the inventory array from the compressed inventory data string
-	if ((C.InventoryData != null) && (C.InventoryData != "")) {
+	// Loads the inventory data
+	if (typeof C.InventoryData === "string" && C.InventoryData !== "") {
+		// We keep track of that to be able to tell if there's been changes in the inventory
 		Player.InventoryData = C.InventoryData;
-		InventoryLoadCompressedData(Player, C.InventoryData);
-		ServerAppearanceLoadFromBundle(Player, C.AssetFamily, C.Appearance, C.MemberNumber);
-	} else {
-		// Since InventoryData wasn't found (R104 and before), we load the inventory object
-		console.log("Converting from Inventory to InventoryData...");
-		/** @type {Partial<Record<AssetGroupName, string[]>>} */
-		const InventoryObject = LoginLoadInventoryObject(C.Inventory);
-		LoginPerformInventoryFixups(InventoryObject, C.Appearance, CraftingDecompressed);
-		ServerAppearanceLoadFromBundle(Player, C.AssetFamily, C.Appearance, C.MemberNumber);
-		InventoryLoad(Player, InventoryObject);
-		ServerPlayerInventorySync();
 	}
+	const loadedInventory = InventoryLoad(C.Inventory, C.InventoryData);
+	InventoryAddMany(Player, loadedInventory, false);
+	ServerPlayerInventorySync();
+	ServerAppearanceLoadFromBundle(Player, C.AssetFamily, C.Appearance, C.MemberNumber);
 
 	// Loads the current appearance, log, reputation and skills
 	LogLoad(C.Log);

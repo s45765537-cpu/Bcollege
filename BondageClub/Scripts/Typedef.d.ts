@@ -1130,9 +1130,11 @@ type InventoryIcon = (
 	| ShopIcon
 );
 
-interface InventoryItem {
+interface InventoryBundle {
 	Group: AssetGroupName;
-	Name: string;
+	Name: string
+}
+interface InventoryItem extends InventoryBundle {
 	Asset: Asset;
 }
 

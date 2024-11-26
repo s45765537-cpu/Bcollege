@@ -29,11 +29,11 @@ function InventoryAdd(C, NewItemName, NewItemGroup, Push) {
 }
 
 /**
-* Adds multiple new items by group & name to the character inventory
-* @param {Character} C - The character that gets the new items added to her inventory
-* @param {readonly ItemBundle[]} NewItems - The new items to add
-* @param {Boolean} [Push=true] - Set to TRUE to push to the server, pushed by default
-*/
+ * Adds multiple new items by group & name to the character inventory
+ * @param {Character} C - The character that gets the new items added to her inventory
+ * @param {InventoryBundle[]} NewItems - The new items to add
+ * @param {Boolean} [Push=true] - Set to TRUE to push to the server, pushed by default
+ */
 function InventoryAddMany(C, NewItems, Push) {
 
 	// Return if data is invalid
@@ -134,40 +134,50 @@ function InventoryDeleteGroup(C, group, push) {
 }
 
 /**
-* Loads the current inventory for a character, can be loaded from an object of Name/Group or a compressed array using LZString
-* @param {Character} C - The character on which we should load the inventory
-* @param {string | readonly ItemBundle[] | Partial<Record<AssetGroupName, readonly string[]>>} Inventory - An array of Name / Group of items to load
-*/
-function InventoryLoad(C, Inventory) {
-	if (Inventory == null) return;
+ * Loads the current inventory for a character, can be loaded from an object of Name/Group or a compressed array using LZString
+ * @param {string | readonly ItemBundle[] | Partial<Record<AssetGroupName, readonly string[]>>} Inventory - An array of Name / Group of items to load
+ * @return {InventoryBundle[]}
+ */
+function InventoryLoad(Inventory, InventoryData) {
+	if (typeof InventoryData === "string" && InventoryData !== "") {
+		return InventoryLoadCompressedData(InventoryData);
+	}
+	/** @type {InventoryBundle[]} */
+	// Since InventoryData wasn't found (R104 and before), we load the old-style inventory object
+	if (Inventory == null) return [];
+	const items = [];
 	if (typeof Inventory === "string") {
 		try {
-			var Inv = JSON.parse(LZString.decompressFromUTF16(Inventory));
-			for (let I = 0; I < Inv.length; I++)
-				InventoryAdd(C, Inv[I][0], Inv[I][1], false);
+			const Inv = JSON.parse(LZString.decompressFromUTF16(Inventory));
+			for (let I = 0; I < Inv.length; I++) {
+				items.push({ Group: Inv[I][1], Name: Inv[I][0] });
+			}
 		} catch(err) {
 			console.log("Error while loading compressed inventory, no inventory loaded.");
 		}
 	}
 	if (CommonIsArray(Inventory)) {
-		for (let I = 0; I < Inventory.length; I++)
-			InventoryAdd(C, Inventory[I].Name, Inventory[I].Group, false);
+		for (let I = 0; I < Inventory.length; I++) {
+			items.push(Inventory[I]);
+		}
 	} else if (typeof Inventory === "object") {
 		for (const G of CommonKeys(Inventory)) {
 			for (const A of Inventory[G]) {
-				InventoryAdd(C, A, G, false);
+				items.push({ Group: G, Name: A });
 			}
 		}
 	}
+	return items;
 }
 
 /**
-* Loads the current inventory for a character, based on compressed data
-* @param {Character} C - The character on which we should load the inventory
-* @param {string} Data - The string of data to load
-*/
-function InventoryLoadCompressedData(C, Data) {
-
+ * Decompress inventory data into an item bundle
+ * @param {string} Data - The string of data to load
+ * @return {InventoryBundle[]}
+ */
+function InventoryLoadCompressedData(Data) {
+	/** @type {ItemBundle[]} */
+	const items = [];
 	// For each character in the string
 	let Pos = 0;
 	let LastID = -1;
@@ -181,16 +191,19 @@ function InventoryLoadCompressedData(C, Data) {
 		}
 
 		// Adds all the assets linked to that inventory ID
-		for (let A of Asset)
-			if (A.InventoryID === ID)
-				InventoryAdd(C, A.Name, A.Group.Name, false);
+		const A = Asset.find(a => a.InventoryID === ID);
+		if (A) {
+			items.push({ Group: A. Group.Name, Name: A.Name });
+		} else {
+			console.warn(`unable to find asset for InventoryID: ${ID}, skipping`);
+		}
 
 		// Keeps the last ID for ranges and jump to the next position
 		LastID = ID;
 		Pos++;
 
 	}
-
+	return items;
 }
 
 /**
