@@ -2793,6 +2793,17 @@ function DialogIsMenuButtonDisabled(ButtonName) {
 	return DialogButtonDisabledTester.test(ButtonName);
 }
 
+/**
+ * Draw the list of items
+ *
+ * @deprecated - See {@link DialogMenu.Load} and {@link DialogMenu.Reload} for the new DOM-based menu
+ * @param {Character} C - The character currently focused in the dialog.
+ * @returns {void} - Nothing
+ */
+function DialogDrawItemMenu(C) {
+	// Keep around as deprecated no-op
+}
+
 // NOTE: The `Dialog` screen/subscreen lacks proper `Run()` support (see `DrawProcess`), hence its explicit omission here
 /**
  * Base class for managing various {@link DialogMenu} subscreens.
