@@ -2035,10 +2035,12 @@ function CharacterAppearancePaste(C, CompApp, ChatRoomRefresh) {
 							C.Appearance.splice(A, 1);
 
 			// Apply potential fixups when pasting
-			const fixup = LoginInventoryFixups.find(f => f.Old.Group === AppRow.G && f.Old.Name === AppRow.A);
+			const fixup = LoginInventoryFixups.find(f => f.Old.Group === AppRow.G && (f.Old.Name === AppRow.A || f.Old.Name === "*"));
 			if (fixup) {
 				AppRow.G = fixup.New.Group;
-				AppRow.A = fixup.New.Name;
+				if (fixup.New.Name) {
+					AppRow.A = fixup.New.Name;
+				}
 			}
 
 			// Wear the appearance asset and flags for a refresh

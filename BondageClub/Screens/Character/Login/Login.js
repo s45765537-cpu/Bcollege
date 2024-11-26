@@ -217,7 +217,7 @@ function LoginRun() {
  * If it's an asset merge (say 3 into one typed asset), it will either set
  * the fixed up item to the specified `Option` or the first one if unspecified.
  *
- * @type {{ Old: {Group: AssetGroupName, Name: string}, New: {Group: AssetGroupName, Name: string, Option?: string} }[]}
+ * @type {{ Old: { Group: string, Name: string | '*' }, New: { Group: AssetGroupName, Name?: string, Option?: string } }[]}
  */
 let LoginInventoryFixups = [
 	{ Old: { Group: "ItemLegs", Name: "WoodenHorse" }, New: { Group: "ItemDevices", Name: "WoodenHorse" } },
@@ -283,6 +283,10 @@ let LoginInventoryFixups = [
 	{ Old: { Group: "Pussy", Name: "PussyDark1" }, New: { Group: "Pussy", Name: "Pussy1" } },
 	{ Old: { Group: "Pussy", Name: "PussyDark2" }, New: { Group: "Pussy", Name: "Pussy2" } },
 	{ Old: { Group: "Pussy", Name: "PussyDark3" }, New: { Group: "Pussy", Name: "Pussy3" } },
+	{ Old: { Group: "LeftAnklet", Name: "*" }, New: { Group: "AnkletLeft" }},
+	{ Old: { Group: "RightAnklet", Name: "*" }, New: { Group: "AnkletRight" }},
+	{ Old: { Group: "LeftHand", Name: "*" }, New: { Group: "HandAccessoryLeft" }},
+	{ Old: { Group: "RightHand", Name: "*" }, New: { Group: "HandAccessoryRight" }},
 ];
 
 /**
@@ -295,10 +299,12 @@ function LoginPerformInventoryFixups(Inventory) {
 
 	for (const fixup of LoginInventoryFixups) {
 		// For every asset fixup to do, update the inventory
-		const item = Inventory.find(i => i.Group === fixup.Old.Group && i.Name === fixup.Old.Name);
+		const item = Inventory.find(i => i.Group === fixup.Old.Group && (i.Name === fixup.Old.Name || fixup.Old.Name === "*"));
 		if (item) {
 			item.Group = fixup.New.Group;
-			item.Name = fixup.New.Name;
+			if (fixup.New.Name) {
+				item.Name = fixup.New.Name;
+			}
 		}
 	}
 }
@@ -314,7 +320,7 @@ function LoginPerformAppearanceFixups(Appearance) {
 
 	let fixedUp = false;
 	for (const fixup of LoginInventoryFixups) {
-		const idx = Appearance.findIndex(a => a.Group === fixup.Old.Group && a.Name === fixup.Old.Name);
+		const idx = Appearance.findIndex(a => a.Group === fixup.Old.Group && (a.Name === fixup.Old.Name || fixup.Old.Name === "*"));
 		if (idx != -1) {
 			// The item is currently worn, remove it
 			let worn = Appearance[idx];
@@ -327,7 +333,9 @@ function LoginPerformAppearanceFixups(Appearance) {
 
 			// Set up the new item and its properties
 			worn.Group = fixup.New.Group;
-			worn.Name = fixup.New.Name;
+			if (fixup.New.Name) {
+				worn.Name = fixup.New.Name;
+			}
 
 			const asset = AssetGet("Female3DCG", worn.Group, worn.Name);
 			let opt = null;
@@ -335,7 +343,7 @@ function LoginPerformAppearanceFixups(Appearance) {
 				switch (asset.Archetype) {
 					case ExtendedArchetype.TYPED:
 						{
-							const opts = TypedItemGetOptions(fixup.New.Group, fixup.New.Name);
+							const opts = TypedItemGetOptions(worn.Group, worn.Name);
 							if (typeof fixup.New.Option === "undefined")
 								opt = opts[0];
 							else
