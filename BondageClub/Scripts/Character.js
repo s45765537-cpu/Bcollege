@@ -1049,6 +1049,7 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 
 	const oldPronouns = Char.GetPronouns();
 	const currentAppearance = Char.Appearance;
+	LoginPerformAppearanceFixups(data.Appearance);
 	ServerAppearanceLoadFromBundle(Char, "Female3DCG", data.Appearance, SourceMemberNumber);
 	CharacterAppearanceResolveSync(Char, currentAppearance);
 

@@ -207,6 +207,16 @@ function LoginRun() {
 /**
  * The list of item fixups to apply on login.
  *
+ * Those are applied by the login code, after the player's item lists are set up
+ * but before the inventory and appearance are loaded from the server's data,
+ * and applies the specified asset fixups by swapping Old with New in the list
+ * of owned items, in the various player item lists, and in the appearance.
+ *
+ * If you're only moving items around, it should work just fine as long as
+ * the `Old` and `New` asset definitions are compatible.
+ * If it's an asset merge (say 3 into one typed asset), it will either set
+ * the fixed up item to the specified `Option` or the first one if unspecified.
+ *
  * @type {{ Old: {Group: AssetGroupName, Name: string}, New: {Group: AssetGroupName, Name: string, Option?: string} }[]}
  */
 let LoginInventoryFixups = [
@@ -276,51 +286,44 @@ let LoginInventoryFixups = [
 ];
 
 /**
- * Perform the inventory and appearance fixups needed.
- *
- * This is called by the login code, after the player's item lists are set up
- * but before the inventory and appearance are loaded from the server's data,
- * and applies the specified asset fixups by swapping Old with New in the list
- * of owned items, in the various player item lists, and in the appearance.
- *
- * If you're only moving items around, it should work just fine as long as
- * the `Old` and `New` asset definitions are compatible.
- * If it's an asset merge (say 3 into one typed asset), it will either set
- * the fixed up item to the specified `Option` or the first one if unspecified.
- *
- * TODO: only typed items are supported.
- *
- * @param {Partial<Record<AssetGroupName, string[]>>} Inventory - The server-provided inventory object
- * @param {ItemBundle[]} Appearance - The server-provided appearance object
- * @param {readonly CraftingItem[]} Crafting - The server-provided, uncompressed crafting data
+ * Perform the inventory fixups needed.
+ * @param {InventoryBundle[]} Inventory - The server-provided inventory object
  */
-function LoginPerformInventoryFixups(Inventory, Appearance, Crafting) {
+function LoginPerformInventoryFixups(Inventory) {
 	// Skip fixups on new characters
-	if (!Inventory || !Appearance) return;
+	if (!Inventory) return;
 
-	let listsUpdated = false;
-	LoginInventoryFixups.forEach(fixup => {
+	for (const fixup of LoginInventoryFixups) {
 		// For every asset fixup to do, update the inventory
-		const group = Inventory[fixup.Old.Group];
-		let idx = group && group.indexOf(fixup.Old.Name);
-		if (group && idx != -1) {
-			// Replace the old with the new in the inventory, making sure we don't add a duplicate
-			group.splice(idx, 1);
-			if (!Inventory[fixup.New.Group])
-				Inventory[fixup.New.Group] = [];
-			if (!Inventory[fixup.New.Group].includes(fixup.New.Name))
-				Inventory[fixup.New.Group].push(fixup.New.Name);
+		const item = Inventory.find(i => i.Group === fixup.Old.Group && i.Name === fixup.Old.Name);
+		if (item) {
+			item.Group = fixup.New.Group;
+			item.Name = fixup.New.Name;
 		}
+	}
+}
 
-		idx = Appearance.findIndex(a => a.Group === fixup.Old.Group && a.Name === fixup.Old.Name);
+/**
+ * Perform the appearance fixups needed.
+ * TODO: only typed items are supported.
+ * @param {ItemBundle[]} Appearance - The server-provided appearance object
+ * @return {boolean}
+ */
+function LoginPerformAppearanceFixups(Appearance) {
+	if (!Appearance) return;
+
+	let fixedUp = false;
+	for (const fixup of LoginInventoryFixups) {
+		const idx = Appearance.findIndex(a => a.Group === fixup.Old.Group && a.Name === fixup.Old.Name);
 		if (idx != -1) {
 			// The item is currently worn, remove it
 			let worn = Appearance[idx];
 			Appearance.splice(idx, 1);
 
 			// There're already something else in that slot, preserve it
-			if (Appearance.find(a => a.Group === fixup.New.Group))
-				return;
+			if (Appearance.find(a => a.Group === fixup.New.Group)) {
+				continue;
+			}
 
 			// Set up the new item and its properties
 			worn.Group = fixup.New.Group;
@@ -340,7 +343,7 @@ function LoginPerformInventoryFixups(Inventory, Appearance, Crafting) {
 
 							if (!opt) {
 								console.error(`Unknown option ${fixup.New.Option}`);
-								return;
+								continue;
 							}
 						}
 						break;
@@ -358,21 +361,26 @@ function LoginPerformInventoryFixups(Inventory, Appearance, Crafting) {
 
 			// Push back the updated data
 			Appearance.push(worn);
+			fixedUp = true;
 		}
+	}
+	return fixedUp;
+}
 
+/**
+ * Perform the crafting fixups needed
+ * @param {readonly CraftingItem[]} Crafting - The server-provided, uncompressed crafting data
+ */
+function LoginPerformCraftingFixups(Crafting) {
+	if (!Crafting || !CommonIsArray(Crafting)) return;
+
+	for (const fixup of LoginInventoryFixups) {
 		// Move crafts over to the new name
-		if (CommonIsArray(Crafting)) {
-			Crafting.forEach(C => {
-				if (C == null) return;
-				if (C.Item !== fixup.Old.Name) return;
-				C.Item = fixup.New.Name;
-			});
+		for (const craft of Crafting) {
+			if (!craft || craft.Item !== fixup.Old.Name) continue;
+			craft.Item = fixup.New.Name;
 		}
-
-	});
-
-	if (listsUpdated)
-		ServerPlayerBlockItemsSync();
+	}
 }
 
 /**
@@ -801,9 +809,16 @@ function LoginSetupPlayer(C) {
 		Player.InventoryData = C.InventoryData;
 	}
 	const loadedInventory = InventoryLoad(C.Inventory, C.InventoryData);
+	LoginPerformInventoryFixups(loadedInventory);
+	const fixedUp = LoginPerformAppearanceFixups(C.Appearance);
+	LoginPerformCraftingFixups(CraftingDecompressed);
 	InventoryAddMany(Player, loadedInventory, false);
 	ServerPlayerInventorySync();
-	ServerAppearanceLoadFromBundle(Player, C.AssetFamily, C.Appearance, C.MemberNumber);
+	const updated = ServerAppearanceLoadFromBundle(Player, C.AssetFamily, C.Appearance, C.MemberNumber);
+	if (fixedUp || updated) {
+		// Refresh the character server-side if we had to tweak the appearance
+		ServerPlayerAppearanceSync();
+	}
 
 	// Loads the current appearance, log, reputation and skills
 	LogLoad(C.Log);

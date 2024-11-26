@@ -1039,6 +1039,17 @@ type WardrobeItemBundle = [
 /** An AppearanceBundle is whole minified appearance of a character */
 type AppearanceBundle = ItemBundle[];
 
+interface ClipboardItemBundle {
+	/** The item's asset group name */
+	G: AssetGroupName;
+	/** The item's asset name */
+	A: string;
+	/** The item's color */
+	C?: string;
+}
+
+type ClipboardAppearanceBundle = ClipboardItemBundle[];
+
 interface Pose {
 	Name: AssetPoseName;
 	Category: AssetPoseCategory;
