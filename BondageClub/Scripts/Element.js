@@ -1323,6 +1323,12 @@ var ElementButton = {
 			...(htmlOptions.button.children ?? []),
 			ElementButton._ParseImage(`${idPrefix}-hidden`, "./Icons/HiddenItem.png", { dataAttributes: { hidden: "" } }),
 		];
+		htmlOptions.tooltip ??= {};
+		htmlOptions.tooltip.classList ??= [];
+		htmlOptions.tooltip.classList = [
+			"button-tooltip-asset",
+			...htmlOptions.tooltip.classList,
+		];
 
 		options ??= {};
 		options.label ??= item.Craft?.Name || asset.Description;
