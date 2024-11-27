@@ -492,3 +492,5 @@ Title Mousey Mousegirl,Mousey Mousegirl
 Text Mousey Mousegirl,"Costs 1 Money. When you play a pet, gain 1 money per 2 building tiers. Gains +1 Fame if owner present."
 Title Rich Owner,Rich Owner
 Text Rich Owner,"Pets treat your building level as 1 higher. When you play a Pet, you gain 1 Money for each pet in your club. Gains +1 money if a maid is present"
+Title Tour Guide,Tour Guide
+Text Tour Guide,"When she enters your club, draw a card. Gains +3 money if tourist is present, gains +3 fame if diplomat is present."

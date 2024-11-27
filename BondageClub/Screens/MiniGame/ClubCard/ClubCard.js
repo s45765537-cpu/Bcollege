@@ -254,6 +254,20 @@ var ClubCardList = [
 			ClubCardLogGetDataPacket(ClubCardMessageType.CARDEFFECT, "EventExpired", CCPlayer, null, ClubCardSelection);
 		},
 	},
+	{
+		ID: 1020,
+		Name: "Tour Guide",
+		RequiredLevel: 3,
+		FamePerTurn: 1,
+		MoneyPerTurn: 1,
+		OnPlay: function(CCPlayer) {
+			ClubCardPlayerDrawCard(CCPlayer, 1);
+		},
+		BeforeTurnEnd: function(CCPlayer) {
+			if (ClubCardNameIsOnBoard(CCPlayer, "Tourist")) ClubCardPlayerAddMoney(CCPlayer, 3);
+			if (ClubCardNameIsOnBoard(CCPlayer, "Diplomat")) ClubCardPlayerAddFame(CCPlayer, 3);
+		}
+	},
 
 	// 2000 - Staff Members (Club employees that can be targetted by events)
 	{
@@ -2979,6 +2993,8 @@ function ClubCardLoadDeckNumber(DeckNum) {
 		const jessiGift = ClubCardList.find(card => card.Name === "Jessi Gift");
 		ClubCardPlayer[0].Hand.push(jessiGift);
 		ClubCardPlayer[1].Hand.push(jessiGift);
+		ClubCardPlayer[0].Hand.push({...jessiGift});	ClubCardPlayer[1].Hand.push({...jessiGift});
+
 		ClubCardPlayerDrawCard(ClubCardPlayer[0], (ClubCardTurnIndex == 0) ? 5 : 6);
 		ClubCardPlayerDrawCard(ClubCardPlayer[1], (ClubCardTurnIndex == 1) ? 5 : 6);
 	} else {
