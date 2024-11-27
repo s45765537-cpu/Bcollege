@@ -2737,16 +2737,16 @@ function ChatRoomCommonKeyDown(event) {
 		ElementScrollToEnd("TextAreaChatLog");
 		ElementFocus("InputChat");
 		return true;
-	} else if (CommonKey.IsPressed(event, "k", CommonKey.Alt)) {
+	} else if (CommonKey.IsPressed(event, "k", CommonKey.ALT)) {
 		if (!event.repeat) ChatRoomToggleKneel();
 		return true;
-	} else if (CommonKey.IsPressed(event, "i", CommonKey.Alt)) {
+	} else if (CommonKey.IsPressed(event, "i", CommonKey.ALT)) {
 		ChatRoomOpenInformationScreen();
 		return true;
-	} else if (CommonKey.IsPressed(event, "b", CommonKey.Alt)) {
+	} else if (CommonKey.IsPressed(event, "b", CommonKey.ALT)) {
 		ChatRoomOpenWardrobeScreen();
 		return true;
-	} else if (CommonKey.IsPressed(event, "h", CommonKey.Alt)) {
+	} else if (CommonKey.IsPressed(event, "h", CommonKey.ALT)) {
 		ChatRoomOpenAdminScreen();
 		return true;
 	}
