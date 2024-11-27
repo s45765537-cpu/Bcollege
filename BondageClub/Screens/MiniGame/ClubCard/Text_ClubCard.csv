@@ -99,7 +99,7 @@ Text Tourist,<F>I'll need a vacation from my vacation.
 Title Diplomat,Diplomat
 Text Diplomat,<F>Business or leasure?  Pain and pleasure.
 Title Gambler,Gambler
-Text Gambler,+4 Money when she enters your club.
+Text Gambler,"When she enters your club, discard a card at random then draw a card."
 Title Red Twin,Red Twin
 Text Red Twin,<F>We don't share minds but can share orgasms.
 Title Blue Twin,Blue Twin
@@ -107,7 +107,7 @@ Text Blue Twin,+3 Fame per turn if Red Twin is present.
 Title Rope Bunny,Rope Bunny
 Text Rope Bunny,+2 Money per turn if at least one Dominant is present.
 Title Shy Submissive,Shy Submissive
-Text Shy Submissive,Will leave your club at end of turn if there are more than 6 members.
+Text Shy Submissive,Will leave your club at start of turn if there are more than 7 members.
 Title Rope Sensei,Rope Sensei
 Text Rope Sensei,<F>ロープを尊重する
 Title LARP Queen,LARP Queen
@@ -187,7 +187,7 @@ Text Confused Maid,<F>I've tried three dusters but this toilet is still clogged.
 Title Curious Patient,Curious Patient
 Text Curious Patient,<F>Why are the walls padded?
 Title Part-Time Patient,Part-Time Patient
-Text Part-Time Patient,+6 Money when she enters your club.
+Text Part-Time Patient,Lose 1 fame and gain 1 Money when you take the draw action.
 Title Novice Nurse,Novice Nurse
 Text Novice Nurse,+1 Fame per turn for each Asylum Patient present. Max 3
 Title Commited Patient,Commited Patient
@@ -458,3 +458,29 @@ Title Attention Whore,Attention Whore
 Text Attention Whore,Select and remove one ongoing event before she enters your club.
 Prerequisite Attention Whore,Select an ongoing event to remove before Attention Whore enters.
 MemberSummoned,CARDTITLE joins SOURCEPLAYER's club.
+GroupPet,Pet
+GroupOwner,Owner
+Title Bun Bun,Bun Bun
+Text Bun Bun,"When she enters the club, lose 1 money and gain 1 fame. +1 money if owner Present. +1 money and fame at building level 4."
+Title Naughty Kitty,Naughty Kitty
+Text Naughty Kitty,"When she enters the club, discard your hand and lose 3 money. For each card you draw, gain money equal to your building level."
+Title Jessica,Jessica
+Text Jessica,"Pets treat your building level as 2 higher. When you play a pet, draw a card and gain 1 fame."
+Title MerMaid,MerMaid
+Text MerMaid,"When she enters the club, lose 22 money. When she enters your club, draw a card and take another action."
+Title Puppy Dog,Puppy Dog
+Text Puppy Dog,"When she enters the club, lose 8 money. Gains +1 money per 2 building tiers. Gains +1 Fame if an owner is present."
+Title Protective Owner,Protective Owner
+Text Protective Owner,"Pets treat your building level as 1 higher. If you would discard a pet from your hand, shuffle it into your deck instead."
+Title Feline Fatale,Feline Fatale
+Text Feline Fatale,"When she enters the club, lose 14 money and remove a member from the opponent's club and they lose fame equal to your building level."
+Title Wolf Girl,Wolf Girl
+Text Wolf Girl,"When she enters the club, lose 7 money and the opponent discards a card. Gains +1 Fame per 2 building levels. Gains 1 money if an owner is present in your club."
+Title Pet toys,Pet toys
+Text Pet toys,"Gain 2 money per pet in your club and gain 2 Fame per owner in your club, then play again. "
+Title Pet Sitter,Pet Sitter
+Text Pet Sitter,"Gains +1 money for each pet in either club (Max 5). If your opponent has any Pets in their club, they gain 1 money each turn."
+Title Pet Rock,Pet Rock
+Text Pet Rock,<F>Just a rock...
+Title Jessi Gift,Jessi's Gift
+Text Jessi Gift,"At the start of your next 5 turns, gain 1 money"

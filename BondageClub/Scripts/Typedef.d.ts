@@ -4137,6 +4137,7 @@ interface ClubCardPlayer {
 	LastMoneyPerTurn?: number;
 	ClubCardTurnCounter: number;
 	CardsPlayedThisTurn: Record<number, ClubCard[]>
+	FreeBankrupt: number;
 }
 
 interface ClubCardMessage {
