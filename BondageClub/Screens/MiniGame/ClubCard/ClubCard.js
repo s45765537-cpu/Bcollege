@@ -527,6 +527,19 @@ var ClubCardList = [
 			if (ClubCardGroupIsOnBoard(CCPlayer, "Pet")) ClubCardPlayerAddMoney(CCPlayer, 1);
 		}
 	},
+	{
+		ID: 4011,
+		Name: "Pet Trainer",
+		Group: ["Fetishist"],
+		RequiredLevel: 2,
+		MoneyPerTurn: 1,
+		BeforeTurnEnd: function(CCPlayer) {
+			if (ClubCardNameIsOnBoard(CCPlayer, "Show Dog")) ClubCardPlayerAddFame(CCPlayer, 3);
+		},
+		onPlayedCard: function(CCPlayer, cardPlayed) {
+			if (ClubCardCardHasGroup(cardPlayed, "Pet")) ClubCardPlayerAddFame(CCPlayer, 2);
+		}
+	},
 
 	// 5000 - Porn Members (Raise both Fame and Money)
 	{
@@ -1423,6 +1436,45 @@ var ClubCardList = [
 		ID: 14008,
 		Name: "Pet Rock",
 		Group: ["Pet"]
+	},
+	{
+		ID: 14009,
+		Name: "Show Dog",
+		Group: ["Pet"],
+		RequiredLevel: 1,
+		MoneyPerTurn: 4,
+		FamePerTurn: 4,
+		OnPlay: function(CCPlayer) {
+			ClubCardPlayerAddMoney(CCPlayer, -15);
+		}
+	},
+	{
+		ID: 14010,
+		Name: "Mousey Mousegirl",
+		Group: ["Pet"],
+		OnPlay: function(CCPlayer) {
+			ClubCardPlayerAddMoney(CCPlayer, -1);
+		},
+		onPlayedCard: function(CCPlayer, cardPlayed) {
+			if (ClubCardCardHasGroup(cardPlayed, "Pet")) ClubCardPlayerAddMoney(CCPlayer, Math.floor(ClubCardCalculateLevelForPets(CCPlayer) / 2));
+		},
+		BeforeTurnEnd: function(CCPlayer) {
+			if (ClubCardGroupIsOnBoard(CCPlayer, "Owner")) ClubCardPlayerAddFame(CCPlayer, 1);
+		}
+	},
+	{
+		ID: 14011,
+		Name: "Rich Owner",
+		Group: ["Owner"],
+		RequiredLevel: 3,
+		MoneyPerTurn: 2,
+		FamePerTurn: -1,
+		onPlayedCard: function(CCPlayer, cardPlayed) {
+			if (ClubCardCardHasGroup(cardPlayed, "Pet")) ClubCardPlayerAddMoney(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "Pet"));
+		},
+		BeforeTurnEnd: function(CCPlayer) {
+			if (ClubCardGroupIsOnBoard(CCPlayer, "Maid")) ClubCardPlayerAddMoney(CCPlayer, 1);
+		}
 	},
 
 	// Event cards
@@ -2546,7 +2598,7 @@ function ClubCardCalculateLevelCost(CCPlayer) {
  * @returns {number} club level for pets effects
  */
 function ClubCardCalculateLevelForPets(CCPlayer) {
-	let level = CCPlayer.Level + (ClubCardNameIsOnBoard(CCPlayer, "Protective Owner") ? 1 : 0) + (ClubCardNameIsOnBoard(CCPlayer, "Rich owner") ? 1 : 0) + (ClubCardNameIsOnBoard(CCPlayer, "Loving Owner") ? 1 : 0) + (ClubCardNameIsOnBoard(CCPlayer, "Jessica") ? 2 : 0);
+	let level = CCPlayer.Level + (ClubCardNameIsOnBoard(CCPlayer, "Protective Owner") ? 1 : 0) + (ClubCardNameIsOnBoard(CCPlayer, "Rich Owner") ? 1 : 0) + (ClubCardNameIsOnBoard(CCPlayer, "Loving Owner") ? 1 : 0) + (ClubCardNameIsOnBoard(CCPlayer, "Jessica") ? 2 : 0);
 	return level;
 }
 
@@ -3943,7 +3995,7 @@ function ClubCardRenderHand(CCPlayer, X, Y, W, H) {
 		IncX = Math.round(W / CCPlayer.Hand.length);
 	}
 	for (let C of CCPlayer.Hand) {
-		ClubCardRenderCard(C, PosX + 5, Y + 5 + (H * 0.1), (W / 10) - 5, (CCPlayer.Control == "Player") ? null : CCPlayer.Sleeve, (CCPlayer.Control == "Player") ? "PlayerHand" : "OpponentHand");
+		ClubCardRenderCard(C, PosX + 5, Y + 5 + (H * 0.1), (W / 10) - 5, (CCPlayer.Control == "Player") ? null : (ClubCardNameIsOnBoard(CCPlayer, "Show Dog") ? null : CCPlayer.Sleeve), (CCPlayer.Control == "Player") ? "PlayerHand" : "OpponentHand");
 		PosX = PosX + IncX;
 	}
 }
