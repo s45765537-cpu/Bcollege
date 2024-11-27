@@ -2993,8 +2993,6 @@ function ClubCardLoadDeckNumber(DeckNum) {
 		const jessiGift = ClubCardList.find(card => card.Name === "Jessi Gift");
 		ClubCardPlayer[0].Hand.push(jessiGift);
 		ClubCardPlayer[1].Hand.push(jessiGift);
-		ClubCardPlayer[0].Hand.push({...jessiGift});	ClubCardPlayer[1].Hand.push({...jessiGift});
-
 		ClubCardPlayerDrawCard(ClubCardPlayer[0], (ClubCardTurnIndex == 0) ? 5 : 6);
 		ClubCardPlayerDrawCard(ClubCardPlayer[1], (ClubCardTurnIndex == 1) ? 5 : 6);
 	} else {
