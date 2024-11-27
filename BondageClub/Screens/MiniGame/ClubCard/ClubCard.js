@@ -1441,7 +1441,7 @@ var ClubCardList = [
 		ID: 14009,
 		Name: "Show Dog",
 		Group: ["Pet"],
-		RequiredLevel: 1,
+		RequiredLevel: 4,
 		MoneyPerTurn: 4,
 		FamePerTurn: 4,
 		OnPlay: function(CCPlayer) {
