@@ -2741,12 +2741,15 @@ function ChatRoomCommonKeyDown(event) {
 		if (!event.repeat) ChatRoomToggleKneel();
 		return true;
 	} else if (CommonKey.IsPressed(event, "i", CommonKey.ALT)) {
+		if (CurrentCharacter) { DialogLeave(); }
 		ChatRoomOpenInformationScreen();
 		return true;
 	} else if (CommonKey.IsPressed(event, "b", CommonKey.ALT)) {
+		if (CurrentCharacter) { DialogLeave(); }
 		ChatRoomOpenWardrobeScreen();
 		return true;
 	} else if (CommonKey.IsPressed(event, "h", CommonKey.ALT)) {
+		if (CurrentCharacter) { DialogLeave(); }
 		ChatRoomOpenAdminScreen();
 		return true;
 	}
