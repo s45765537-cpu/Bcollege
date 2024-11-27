@@ -7,7 +7,7 @@
 	gap: var(--gap);
 	grid-template:
 		"dialog-status" min-content
-		"dialog-grid" minmax(auto, min-content) / auto;
+		"dialog-grid" auto / auto;
 }
 
 .dialog-root[data-unload] {
@@ -51,6 +51,7 @@
 	display: grid;
 	gap: var(--gap);
 	grid-template-columns: repeat(4, min-content);
+	grid-template-rows: repeat(auto-fill, var(--button-height));
 	padding: 3px;
 	overflow: hidden auto;
 	grid-area: dialog-grid;
