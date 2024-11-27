@@ -1108,6 +1108,8 @@ function AsylumGGTSStartPunishment() {
 
 /**
  * Returns TRUE if the item is controlled by GGTS, so the player should not have control.  The rules changes on level 3 and GGTS takes control throughout the asylum.
+ * @param {Character} C
+ * @param {Item} Item
  * @returns {boolean} - TRUE if the item is controlled by GGTS
  */
 function AsylumGGTSControlItem(C, Item) {

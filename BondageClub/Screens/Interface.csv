@@ -169,6 +169,7 @@ Minutes,minutes
 NextExpressions,View next expressions
 NextPage,View next page
 NoItems,You have no items in this category
+NoItemEquipped,No lockable item equipped
 NotificationTitleBeep,Beep
 NotificationTitleChatJoin,Joined Room
 NotificationTitleChatMessage,Chat Message
@@ -298,6 +299,7 @@ ReceivedBeep,Received at
 RemoveItemWithTimer,Remove item when the lock timer runs out
 Removing,Removing...
 RequireBondageLevel,Need Bondage ReqLevel
+RequirePlayer,Requires the player character
 RequireSelfBondage1,Requires self-bondage 1.
 RequireSelfBondage10,Requires self-bondage 10.
 RequireSelfBondage2,Requires self-bondage 2.

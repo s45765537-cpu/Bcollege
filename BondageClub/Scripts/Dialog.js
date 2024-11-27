@@ -2076,12 +2076,10 @@ function DialogAllowItemClick(CurrentItem, ClickItem) {
 /**
  * Handles `permissions`-mode clicks on an item
  * @param {DialogInventoryItem} ClickItem - The item that is clicked
- * @param {Character} C
- * @param {AssetGroupItemName} focusGroup
+ * @param {null | Item} CurrentItem
  * @returns {ItemPermissionMode} - Nothing
  */
-function DialogPermissionsClick(ClickItem, C, focusGroup) {
-	const CurrentItem = InventoryGet(C, focusGroup);
+function DialogPermissionsClick(ClickItem, CurrentItem=null) {
 	const worn = (ClickItem.Worn || (CurrentItem && (CurrentItem.Asset.Name == ClickItem.Asset.Name)));
 	return DialogInventoryTogglePermission(ClickItem, worn);
 }
@@ -2090,100 +2088,28 @@ function DialogPermissionsClick(ClickItem, C, focusGroup) {
  * Handles `locking`-mode clicks on an item
  * @param {DialogInventoryItem} ClickedLock - The item that is clicked
  * @param {Character} C
- * @param {AssetGroupItemName} focusGroup
- * @returns {void} - Nothing
+ * @param {null | Item} CurrentItem
  */
-function DialogLockingClick(ClickedLock, C, focusGroup) {
-	const CurrentItem = InventoryGet(C, focusGroup);
-
-	if (
-		CurrentItem
-		&& InventoryDoesItemAllowLock(CurrentItem)
-		&& !InventoryBlockedOrLimited(C, ClickedLock)
-	) {
-		InventoryLock(C, CurrentItem, ClickedLock, Player.MemberNumber);
-		IntroductionJobProgress("DomLock", ClickedLock.Asset.Name, true);
-		DialogChangeMode("items");
-		if (ChatRoomPublishAction(C, "ActionAddLock", CurrentItem, ClickedLock)) {
-			DialogLeave();
-		}
-	}
-}
-
-/**
- * Return an error status (if any) for when an item is clicked.
- * @param {Character} C
- * @param {DialogInventoryItem} clickedItem
- * @param {null | Item} equippedItem
- * @returns {null | string}
- */
-function DialogItemClickGetStatus(C, clickedItem, equippedItem=null) {
-	if (InventoryBlockedOrLimited(C, clickedItem)) {
-		return InterfaceTextGet("ExtendedItemNoItemPermission");
-	}
-
-	let status = InventoryDisallow(C, clickedItem.Asset);
-	if (status) {
-		return status;
-	}
-
-	if (!Player.CanInteract()) {
-		return InterfaceTextGet("AccessBlocked");
-	}
-
-	// If there was  previous item, check if it is not blocked by another, has a valid click action and (if applicable) whether it can be unlocked
-	if (equippedItem) {
-		status = InventoryGroupIsAvailable(C, C.FocusGroup.Name, false);
-		if (status) {
-			return status;
-		} else if (AsylumGGTSControlItem(C, equippedItem)) {
-			return InterfaceTextGet("BlockedByGGTS");
-		} else if (!DialogAllowItemClick(equippedItem, clickedItem)) {
-			// Clicking on equipped extended items opens the extended item menu
-			if (!equippedItem.Asset.Extended) { return InterfaceTextGet("BlockedByEquipped"); }
-		} else if (InventoryItemHasEffect(equippedItem, "Lock", true) && !DialogCanUnlock(C, equippedItem)) {
-			return InterfaceTextGet("BlockedByLock");
-		}
-	}
-
-	if (!InventoryChatRoomAllow(clickedItem.Asset.Category)) {
-		return InterfaceTextGet("BlockedByRoom");
-	}
-
-	if (
-		clickedItem.Asset.SelfBondage <= 0
-		|| SkillGetLevel(Player, "SelfBondage") >= clickedItem.Asset.SelfBondage
-		|| !C.IsPlayer()
-		|| DialogAlwaysAllowRestraint()
-	) {
-		return null;
-	} else if (clickedItem.Asset.SelfBondage <= 10) {
-		return InterfaceTextGet(`RequireSelfBondage${clickedItem.Asset.SelfBondage}`);
-	} else {
-		return InterfaceTextGet("CannotUseOnSelf");
+function DialogLockingClick(ClickedLock, C, CurrentItem=null) {
+	InventoryLock(C, CurrentItem, ClickedLock, Player.MemberNumber);
+	IntroductionJobProgress("DomLock", ClickedLock.Asset.Name, true);
+	DialogChangeMode("items");
+	if (ChatRoomPublishAction(C, "ActionAddLock", CurrentItem, ClickedLock)) {
+		DialogLeave();
 	}
 }
 
 /**
  * Handles `items`-mode clicks on an item
  * @param {DialogInventoryItem} ClickItem - The item that is clicked
- * @param {Character} C
- * @param {AssetGroupItemName} focusGroup
- * @returns {boolean} - Nothing
+ * @param {Character} C - The target character
+ * @param {null | Item} CurrentItem - The equipped item (if any)
  */
-function DialogItemClick(ClickItem, C, focusGroup) {
-	// Gets the current item
-	var CurrentItem = InventoryGet(C, focusGroup);
-	const status = DialogItemClickGetStatus(C, ClickItem, CurrentItem);
-	if (status) {
-		DialogSetStatus(status, DialogTextDefaultDuration, { asset: ClickItem.Asset, C, group: AssetGroupGet(C.AssetFamily, focusGroup) });
-		return false;
-	}
-
+function DialogItemClick(ClickItem, C, CurrentItem=null) {
 	// We're dealing with a previously equipped extended item; open the extended item menu
 	if (CurrentItem?.Asset.Extended && !DialogAllowItemClick(CurrentItem, ClickItem)) {
 		DialogExtendItem(CurrentItem);
-		return true;
+		return;
 	}
 
 	// Special-casing for items that cannot actually be worn
@@ -2199,7 +2125,7 @@ function DialogItemClick(ClickItem, C, focusGroup) {
 			DialogPublishAction(C, "ActionUse", ClickItem);
 			ActivityArousalItem(Player, C, ClickItem.Asset);
 		}
-		return true;
+		return;
 	}
 
 	/** @type {DialogStruggleActionType} */
@@ -2212,31 +2138,30 @@ function DialogItemClick(ClickItem, C, focusGroup) {
 		action = "ActionRemove";
 	}
 	DialogStruggleStart(C, action, CurrentItem, ClickItem);
-	return true;
 }
 
 /**
  *
  * @param {Character} C
- * @param {ItemActivity} item
+ * @param {ItemActivity} clickedActivity
+ * @param {null | Item} equippedItem
  */
-function DialogActivityClick(C, item) {
-	if (C.IsNpc() && item.Item) {
-		let Line = C.FocusGroup.Name + item.Item.Asset.DynamicName(Player);
+function DialogActivityClick(C, clickedActivity, equippedItem) {
+	if (C.IsNpc() && clickedActivity.Item) {
+		let Line = C.FocusGroup.Name + clickedActivity.Item.Asset.DynamicName(Player);
 		let D = DialogFind(C, Line, null, false);
 		if (D != "") {
 			C.CurrentDialog = D;
 		}
 	}
-	IntroductionJobProgress("SubActivity", item.Activity.MaxProgress.toString(), true);
-	if (item.Item && item.Item.Asset.Name === "ShockRemote") {
-		let targetItem = InventoryGet(C, C.FocusGroup.Name);
-		if (targetItem && targetItem.Property && typeof targetItem.Property.TriggerCount === "number") {
-			targetItem.Property.TriggerCount++;
+	IntroductionJobProgress("SubActivity", clickedActivity.Activity.MaxProgress.toString(), true);
+	if (clickedActivity.Item?.Asset.Name === "ShockRemote") {
+		if (typeof equippedItem?.Property?.TriggerCount === "number") {
+			equippedItem.Property.TriggerCount++;
 			ChatRoomCharacterItemUpdate(C, C.FocusGroup.Name);
 		}
 	}
-	ActivityRun(Player, C, C.FocusGroup, item);
+	ActivityRun(Player, C, C.FocusGroup, clickedActivity);
 	// Leave the dialog so we see the character's reaction
 	if (CurrentScreen === "ChatRoom")
 		DialogLeave();
@@ -2818,7 +2743,8 @@ function DialogDrawItemMenu(C) {
 // NOTE: The `Dialog` screen/subscreen lacks proper `Run()` support (see `DrawProcess`), hence its explicit omission here
 /**
  * Base class for managing various {@link DialogMenu} subscreens.
- * @template {string} [ModeType=string] - The name of the mode associated with this instance
+ * @template {string} [ModeType=string] - The name of the mode associated with this instance (_e.g._ {@link DialogMenuMode})
+ * @template {DialogInventoryItem | ItemActivity | null} [ClickedObj=any] - The underlying item or activity object of the clicked grid buttons (if applicable)
  * @abstract
  * @extends {Omit<ScreenFunctions, "Run">}
  */
@@ -2833,9 +2759,8 @@ class DialogMenu {
 
 	/**
 	 * An object containg all event listeners referenced in the {@link DialogMenu} subclass.
-	 * @abstract
 	 * @readonly
-	 * @type {Record<string, (this: HTMLElement, ev: Event) => any>}
+	 * @satisfies {Record<string, (this: HTMLElement, ev: Event) => any>}
 	 */
 	eventListeners;
 
@@ -2845,6 +2770,17 @@ class DialogMenu {
 	 * @type {ModeType}
 	 */
 	mode;
+
+	/**
+	 * An object mapping IDs to {@link DialogMenu.GetClickStatus} helper functions.
+	 * Used for evaluating the error statuses of item clicks.
+	 *
+	 * Additional checks can be freely added here.
+	 * @abstract
+	 * @readonly
+	 * @type {Record<string, DialogMenu<string, ClickedObj>["GetClickStatus"]>}
+	 */
+	clickStatusCallbacks;
 
 	/**
 	 * See {@link DialogMenu.shape}
@@ -2936,6 +2872,60 @@ class DialogMenu {
 	 */
 	constructor(mode) {
 		this.mode = mode;
+
+		const dialogMenu = this;
+		this.eventListeners = {
+			/**
+			 * @type {(this: HTMLButtonElement, ev: MouseEvent) => null | string}
+			 * @returns A status message if an _unexpected_ error is encountered and null otherwise
+			 */
+			_ClickButton: function(event) {
+				const clickedObj = dialogMenu._GetClickedObject(this);
+				if (!clickedObj || !dialogMenu.C || !dialogMenu.focusGroup) {
+					event.stopImmediatePropagation();
+					return "Internal error";
+				}
+
+				const equippedItem = InventoryGet(dialogMenu.C, dialogMenu.focusGroup.Name);
+				const status = dialogMenu.GetClickStatus(dialogMenu.C, clickedObj, equippedItem);
+				if (status) {
+					event.stopImmediatePropagation();
+					dialogMenu.Reload(null, null, { status, statusTimer: DialogTextDefaultDuration });
+					return status;
+				} else {
+					dialogMenu._ClickButton(this, dialogMenu.C, clickedObj, equippedItem);
+					return null;
+				}
+			},
+
+			/**
+			 * @type {(this: HTMLButtonElement, ev: MouseEvent) => null | string}
+			 * @returns A status message if an _expected_ error is encountered and null otherwise
+			 */
+			_ClickDisabledButton: function(event) {
+				const clickedObj = dialogMenu._GetClickedObject(this);
+				if (!clickedObj || !dialogMenu.C || !dialogMenu.focusGroup) {
+					event.stopImmediatePropagation();
+					return null;
+				}
+
+				const equippedItem = InventoryGet(dialogMenu.C, dialogMenu.focusGroup.Name);
+				const status = dialogMenu.GetClickStatus(dialogMenu.C, clickedObj, equippedItem);
+				if (status) {
+					DialogSetStatus(status, DialogTextDefaultDuration, { asset: equippedItem?.Asset, C: dialogMenu.C, group: dialogMenu.focusGroup });
+					return status;
+				} else {
+					// Force a reload (and a new click event) if the click somehow _did not_ fail
+					dialogMenu.Reload().then((reloadStatus) => {
+						if (reloadStatus && this.getAttribute("aria-disabled") !== "true") {
+							this.dispatchEvent(new MouseEvent("click", event));
+						}
+					});
+					event.stopImmediatePropagation();
+					return null;
+				}
+			},
+		};
 	}
 
 	/**
@@ -3146,27 +3136,51 @@ class DialogMenu {
 	}
 
 	/**
-	 * Convert the attributes of the passed (clicked) button into concrete JS objects.
-	 * @param {HTMLButtonElement} button
-	 * @returns {{ C?: Character, focusGroup?: AssetGroupItemName }}
+	 * Return an error status (if any) for when an item or activity is clicked.
+	 *
+	 * Error statuses are used for evaluating whether the relevant grid buttons must be disabled or not.
+	 * @param {Character} C - The target character
+	 * @param {ClickedObj} clickedObj - The item that is clicked
+	 * @param {null | Item} equippedItem - The item that is equipped (if any)
+	 * @returns {null | string} - The error status or `null` if everything is ok
 	 */
-	static ExtractAttributes(button) {
-		const root = button?.closest(".dialog-root");
-		if (!root) {
-			return {};
+	GetClickStatus(C, clickedObj, equippedItem=null) {
+		for (const statusCallback of Object.values(this.clickStatusCallbacks)) {
+			const status = statusCallback(C, clickedObj, equippedItem);
+			if (status != null) {
+				return status;
+			}
 		}
+		return null;
+	}
 
-		const characterID = Number.parseInt(root?.getAttribute("data-character-id"), 10);
-		const C = Character.find(c => c.ID === characterID);
+	/**
+	 * Return the underlying item or activity object of the passed grid button.
+	 * @abstract
+	 * @param {HTMLButtonElement} button - The clicked button
+	 * @returns {ClickedObj | undefined} - The button's underlying item or activity object
+	 */
+	_GetClickedObject(button) {
+		throw new Error("Trying to all an abstract method");
+	}
 
-		const focusGroup = /** @type {undefined | AssetGroupItemName} */(root?.getAttribute("data-group") ?? undefined);
-		return { C, focusGroup };
+	/**
+	 * Helper function for handling the clicks of succesfully validated grid button clicks.
+	 * @abstract
+	 * @param {HTMLButtonElement} button - The clicked button
+	 * @param {Character} C - The target character
+	 * @param {ClickedObj} clickedObj - The buttons underlying object (item or activity)
+	 * @param {null | Item} equippedItem - The currently equipped item
+	 * @returns {void}
+	 */
+	_ClickButton(button, C, clickedObj, equippedItem) {
+		throw new Error("Trying to all an abstract method");
 	}
 }
 
 /**
  * @template {string} T
- * @extends {DialogMenu<T>}
+ * @extends {DialogMenu<T, DialogInventoryItem>}
  */
 class _DialogItemMenu extends DialogMenu {
 	ids = Object.freeze({
@@ -3176,51 +3190,58 @@ class _DialogItemMenu extends DialogMenu {
 		icon: "dialog-inventory-icon",
 	});
 
-	eventListeners = {
-		/** @type {(this: HTMLButtonElement, ev: Event) => void} */
-		_ClickButton: function(event) {
-			const { clickedItem, C, focusGroup } = _DialogItemMenu.ExtractAttributes(this);
-			if (!clickedItem || !C || !focusGroup) {
-				event.stopImmediatePropagation();
-				return;
-			}
-
-			if (DialogItemClick(clickedItem, C, focusGroup) ?? true) {
-				if (clickedItem.Asset.Wear && this.getAttribute("aria-checked") !== "true") {
-					this.closest(".dialog-grid")?.querySelector("[aria-checked='true']")?.setAttribute("aria-checked", "false");
-					this.setAttribute("aria-checked", "true");
-				}
+	/** @satisfies {DialogMenu<T, DialogInventoryItem>["clickStatusCallbacks"]} */
+	clickStatusCallbacks = {
+		InventoryBlockedOrLimited: (C, clickedItem, equippedItem) => {
+			return InventoryBlockedOrLimited(C, clickedItem) ? InterfaceTextGet("ExtendedItemNoItemPermission") : null;
+		},
+		InventoryDisallow: (C, clickedItem, equippedItem) => {
+			return InventoryDisallow(C, clickedItem.Asset);
+		},
+		CanInteract: (C, clickedItem, equippedItem) => {
+			return Player.CanInteract() ? null : InterfaceTextGet("AccessBlocked");
+		},
+		InventoryGroupIsAvailable: (C, clickedItem, equippedItem) => {
+			return equippedItem ? InventoryGroupIsAvailable(C, C.FocusGroup.Name, false) : null;
+		},
+		AsylumGGTSControlItem: (C, clickedItem, equippedItem) => {
+			return equippedItem && AsylumGGTSControlItem(C, equippedItem) ? InterfaceTextGet("BlockedByGGTS") : null;
+		},
+		DialogAllowItemClick: (C, clickedItem, equippedItem) => {
+			// Allow extended items to pass through; clicking them opens their extended item mneu
+			return (
+				equippedItem
+				&& !DialogAllowItemClick(equippedItem, clickedItem)
+				&& !equippedItem.Asset.Extended
+			) ? InterfaceTextGet("BlockedByEquipped") : null;
+		},
+		DialogCanUnlock: (C, clickedItem, equippedItem) => {
+			if (!equippedItem) {
+				return null;
+			} else if (!DialogAllowItemClick(equippedItem, clickedItem) && equippedItem.Asset.Extended) {
+				// Always allow access for equipped extended items; the extended item menu is responsible for enabling/disabling its own buttons
+				return null;
+			} else if (InventoryItemHasEffect(equippedItem, "Lock", true) && !DialogCanUnlock(C, equippedItem)) {
+				return InterfaceTextGet("BlockedByLock");
 			} else {
-				// Force a reload if a click fails
-				/** @type {undefined | DialogMenu} */
-				const dialogMenu = DialogMenuMapping[this.closest(".dialog-root")?.getAttribute("data-mode")];
-				dialogMenu?.Reload();
-				event.stopImmediatePropagation();
+				return null;
 			}
 		},
-
-		/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
-		_ClickDisabledButton: function(event) {
-			const { clickedItem, C, focusGroup } = _DialogItemMenu.ExtractAttributes(this);
-			if (!clickedItem || !C || !focusGroup) {
-				event.stopImmediatePropagation();
-				return;
-			}
-
-			const equippedItem = InventoryGet(C, focusGroup);
-			const status = DialogItemClickGetStatus(C, clickedItem, equippedItem);
-			if (status) {
-				DialogSetStatus(status, DialogTextDefaultDuration, { asset: equippedItem?.Asset, C, group: AssetGroupGet(C.AssetFamily, focusGroup) });
+		InventoryChatRoomAllow: (C, clickedItem, equippedItem) => {
+			return InventoryChatRoomAllow(clickedItem.Asset.Category) ? null : InterfaceTextGet("BlockedByRoom");
+		},
+		SelfBondage: (C, clickedItem, equippedItem) => {
+			if (
+				clickedItem.Asset.SelfBondage <= 0
+				|| SkillGetLevel(Player, "SelfBondage") >= clickedItem.Asset.SelfBondage
+				|| !C.IsPlayer()
+				|| DialogAlwaysAllowRestraint()
+			) {
+				return null;
+			} else if (clickedItem.Asset.SelfBondage <= 10) {
+				return InterfaceTextGet(`RequireSelfBondage${clickedItem.Asset.SelfBondage}`);
 			} else {
-				// Force a reload (and a new click event) if the click somehow _did not_ fail
-				/** @type {undefined | DialogMenu} */
-				const dialogMenu = DialogMenuMapping[this.closest(".dialog-root")?.getAttribute("data-mode")];
-				dialogMenu?.Reload().then((reloadStatus) => {
-					if (reloadStatus && this.getAttribute("aria-disabled") !== "true") {
-						this.dispatchEvent(new MouseEvent("click", event));
-					}
-				});
-				event.stopImmediatePropagation();
+				return InterfaceTextGet("CannotUseOnSelf");
 			}
 		},
 	};
@@ -3319,7 +3340,7 @@ class _DialogItemMenu extends DialogMenu {
 		for (const [i, button] of Array.from(buttonGrid.children).entries()) {
 			const clickedItem = DialogInventory[i];
 
-			const status = DialogItemClickGetStatus(this.C, clickedItem, equippedItem);
+			const status = this.GetClickStatus(this.C, clickedItem, equippedItem);
 			if (status) {
 				button.setAttribute("aria-disabled", "true");
 			} else {
@@ -3354,25 +3375,28 @@ class _DialogItemMenu extends DialogMenu {
 	}
 
 	/**
-	 * Convert the attributes of the passed (clicked) button into concrete JS objects.
-	 * @param {HTMLButtonElement} button
-	 * @returns {{ C?: Character, focusGroup?: AssetGroupItemName, clickedItem?: DialogInventoryItem }}
+	 * For a given grid button return the underlying item or activity.
+	 * @type {DialogMenu<string, DialogInventoryItem>["_GetClickedObject"]}
 	 */
-	static ExtractAttributes(button) {
-		if (!button) {
-			return {};
-		}
+	_GetClickedObject(button) {
+		return DialogInventory[Number.parseInt(button.getAttribute("data-index"), 10)];
+	}
 
-		return {
-			...DialogMenu.ExtractAttributes(button),
-			clickedItem: DialogInventory[Number.parseInt(button?.getAttribute("data-index"), 10)],
-		};
+	/**
+	 * @type {DialogMenu<string, DialogInventoryItem>["_ClickButton"]}
+	 */
+	_ClickButton(button, C, clickedObj, equippedItem) {
+		DialogItemClick(clickedObj, C, equippedItem);
+		if (clickedObj.Asset.Wear && button.getAttribute("aria-checked") !== "true") {
+			button.closest(".dialog-grid")?.querySelector("[aria-checked='true']")?.setAttribute("aria-checked", "false");
+			button.setAttribute("aria-checked", "true");
+		}
 	}
 }
 
 /**
  * @template {string} T
- * @extends {DialogMenu<T>}
+ * @extends {DialogMenu<T, DialogInventoryItem>}
  */
 class _DialogLockingMenu extends DialogMenu {
 	ids = Object.freeze({
@@ -3381,16 +3405,16 @@ class _DialogLockingMenu extends DialogMenu {
 		grid: "dialog-locking-grid",
 	});
 
-	eventListeners = {
-		/** @type {(this: HTMLButtonElement, ev: Event) => void} */
-		_ClickButton: function(event) {
-			const { C, focusGroup, clickedLock } = _DialogLockingMenu.ExtractAttributes(this);
-			if (!C || !focusGroup || !clickedLock) {
-				event.stopImmediatePropagation();
-				return;
-			}
-
-			DialogLockingClick(clickedLock, C, focusGroup);
+	/** @satisfies {DialogMenu<T, DialogInventoryItem>["clickStatusCallbacks"]} */
+	clickStatusCallbacks = {
+		InventoryBlockedOrLimited: (C, clickedLock, equippedItem) => {
+			return InventoryBlockedOrLimited(C, clickedLock) ? InterfaceTextGet("ExtendedItemNoItemPermission") : null;
+		},
+		CurrentItem: (C, clickedLock, equippedItem) => {
+			return equippedItem ? null : InterfaceTextGet("NoItemEquipped");
+		},
+		InventoryDoesItemAllowLock: (C, clickedLock, equippedItem) => {
+			return InventoryDoesItemAllowLock(equippedItem) ? null : InterfaceTextGet("AccessBlocked");
 		},
 	};
 
@@ -3422,7 +3446,7 @@ class _DialogLockingMenu extends DialogMenu {
 				clickedItem,
 				this.C,
 				this.eventListeners._ClickButton,
-				null,
+				{ clickDisabled: this.eventListeners._ClickDisabledButton },
 				{ button: {
 					parent: buttonGrid,
 					classList: ["dialog-grid-button"],
@@ -3435,7 +3459,7 @@ class _DialogLockingMenu extends DialogMenu {
 		for (const [i, button] of Array.from(buttonGrid.children).entries()) {
 			const clickedLock = DialogInventory[i];
 
-			if (DialogItemClickGetStatus(this.C, clickedLock, equippedItem)) {
+			if (this.GetClickStatus(this.C, clickedLock, equippedItem)) {
 				button.setAttribute("aria-disabled", "true");
 			} else {
 				button.removeAttribute("aria-disabled");
@@ -3451,25 +3475,20 @@ class _DialogLockingMenu extends DialogMenu {
 	/** @type {DialogMenu["_ReloadIcon"]} */
 	_ReloadIcon(root, icon, options) { /** noop */ }
 
-	/**
-	 * Convert the attributes of the passed (clicked) button into concrete JS objects.
-	 * @param {HTMLButtonElement} button
-	 * @returns {{ C?: Character, focusGroup?: AssetGroupItemName, clickedLock?: DialogInventoryItem }}
-	 */
-	static ExtractAttributes(button) {
-		if (!button) {
-			return {};
-		}
-		return {
-			...DialogMenu.ExtractAttributes(button),
-			clickedLock: DialogInventory[Number.parseInt(button?.getAttribute("data-index"), 10)],
-		};
+	/** @type {DialogMenu<string, DialogInventoryItem>["_GetClickedObject"]} */
+	_GetClickedObject(button) {
+		return DialogInventory[Number.parseInt(button.getAttribute("data-index"), 10)];
+	}
+
+	/** @type {DialogMenu<string, DialogInventoryItem>["_ClickButton"]} */
+	_ClickButton(button, C, clickedLock, equippedItem) {
+		DialogLockingClick(clickedLock, C, equippedItem);
 	}
 }
 
 /**
  * @template {string} T
- * @extends {DialogMenu<T>}
+ * @extends {DialogMenu<T, DialogInventoryItem>}
  */
 class _DialogPermissionMenu extends DialogMenu {
 	ids = Object.freeze({
@@ -3478,17 +3497,10 @@ class _DialogPermissionMenu extends DialogMenu {
 		grid: "dialog-permission-grid",
 	});
 
-	eventListeners = {
-		/** @type {(this: HTMLButtonElement, ev: Event) => void} */
-		_ClickButton: function(event) {
-			const { C, focusGroup, clickedItem } = _DialogPermissionMenu.ExtractAttributes(this);
-			if (!clickedItem || !focusGroup || !C) {
-				event.stopImmediatePropagation();
-				return;
-			}
-
-			const permission = DialogPermissionsClick(clickedItem, C, focusGroup);
-			this.setAttribute("data-permission", permission);
+	/** @type {DialogMenu<T, DialogInventoryItem>["clickStatusCallbacks"]} */
+	clickStatusCallbacks = {
+		IsPlayer: (C, clickedItem, equippedItem) => {
+			return C.IsPlayer() ? null : InterfaceTextGet("RequirePlayer");
 		},
 	};
 
@@ -3520,7 +3532,7 @@ class _DialogPermissionMenu extends DialogMenu {
 				clickedItem,
 				this.C,
 				this.eventListeners._ClickButton,
-				null,
+				{ clickDisabled: this.eventListeners._ClickDisabledButton },
 				{ button: {
 					parent: buttonGrid,
 					classList: ["dialog-grid-button"],
@@ -3545,26 +3557,21 @@ class _DialogPermissionMenu extends DialogMenu {
 	/** @type {DialogMenu["_ReloadIcon"]} */
 	_ReloadIcon(root, icon, options) { /** noop */ }
 
-	/**
-	 * Convert the attributes of the passed (clicked) button into concrete JS objects.
-	 * @param {HTMLButtonElement} button
-	 * @returns {{ C?: Character, focusGroup?: AssetGroupItemName, clickedItem?: DialogInventoryItem }}
-	 */
-	static ExtractAttributes(button) {
-		if (!button) {
-			return {};
-		}
+	/** @type {DialogMenu<string, DialogInventoryItem>["_GetClickedObject"]} */
+	_GetClickedObject(button) {
+		return DialogInventory[Number.parseInt(button.getAttribute("data-index"), 10)];
+	}
 
-		return {
-			...DialogMenu.ExtractAttributes(button),
-			clickedItem: DialogInventory[Number.parseInt(button.getAttribute("data-index"), 10)],
-		};
+	/** @type {DialogMenu<string, DialogInventoryItem>["_ClickButton"]} */
+	_ClickButton(button, C, clickedObj, equippedItem) {
+		const permission = DialogPermissionsClick(clickedObj, equippedItem);
+		button.setAttribute("data-permission", permission);
 	}
 }
 
 /**
  * @template {string} T
- * @extends {DialogMenu<T>}
+ * @extends {DialogMenu<T, ItemActivity>}
  */
 class _DialogActivitiesMenu extends DialogMenu {
 	ids = Object.freeze({
@@ -3573,18 +3580,8 @@ class _DialogActivitiesMenu extends DialogMenu {
 		grid: "dialog-activity-grid",
 	});
 
-	eventListeners = {
-		/** @type {(this: HTMLButtonElement, ev: Event) => void} */
-		_ClickButton: function(event) {
-			const { C, clickedActivity } = _DialogActivitiesMenu.ExtractAttributes(this);
-			if (!C || !clickedActivity) {
-				event.stopImmediatePropagation();
-				return;
-			}
-
-			DialogActivityClick(C, clickedActivity);
-		},
-	};
+	/** @type {DialogMenu<T, ItemActivity>["clickStatusCallbacks"]} */
+	clickStatusCallbacks = {};
 
 	_Load() {
 		DialogBuildActivities(this.C);
@@ -3628,6 +3625,7 @@ class _DialogActivitiesMenu extends DialogMenu {
 				tooltipPosition: "bottom",
 				image: activity.Item ? `./${AssetGetPreviewPath(activity.Item.Asset)}/${activity.Item.Asset.Name}.png` : `./Assets/Female3DCG/Activity/${activity.Activity.Name}.png`,
 				label: activity.Activity.Name,
+				clickDisabled: this.eventListeners._ClickDisabledButton,
 			},
 			{ button: {
 				parent,
@@ -3667,26 +3665,20 @@ class _DialogActivitiesMenu extends DialogMenu {
 	/** @type {DialogMenu["_ReloadIcon"]} */
 	_ReloadIcon(icon) { /** noop */ }
 
-	/**
-	 * Convert the attributes of the passed (clicked) button into concrete JS objects.
-	 * @param {HTMLButtonElement} button
-	 * @returns {{ C?: Character, focusGroup?: AssetGroupItemName, clickedActivity?: ItemActivity }}
-	 */
-	static ExtractAttributes(button) {
-		if (!button) {
-			return {};
-		}
+	/** @type {DialogMenu<string, ItemActivity>["_GetClickedObject"]} */
+	_GetClickedObject(button) {
+		return DialogActivity[Number.parseInt(button.getAttribute("data-index"), 10)];
+	}
 
-		return {
-			...DialogMenu.ExtractAttributes(button),
-			clickedActivity: DialogActivity[Number.parseInt(button.getAttribute("data-index"), 10)],
-		};
+	/** @type {DialogMenu<string, ItemActivity>["_ClickButton"]} */
+	_ClickButton(button, C, clickedObj, equippedItem) {
+		DialogActivityClick(C, clickedObj, equippedItem);
 	}
 }
 
 /**
  * @template {string} T
- * @extends {DialogMenu<T>}
+ * @extends {DialogMenu<T, null>}
  */
 class _DialogCraftedMenu extends DialogMenu {
 	ids = Object.freeze({
@@ -3703,8 +3695,8 @@ class _DialogCraftedMenu extends DialogMenu {
 		crafter: "dialog-crafted-crafter",
 	});
 
-	/** @type {Readonly<Record<string, never>>} */
-	eventListeners = {};
+	/** @type {DialogMenu["clickStatusCallbacks"]} */
+	clickStatusCallbacks = {};
 
 	_Load() {
 		const ids = this.ids;
@@ -3768,6 +3760,12 @@ class _DialogCraftedMenu extends DialogMenu {
 		description.textContent = InterfaceTextGet("CraftingDescription").replace("CraftDescription", CraftingDescription.Decode(item.Craft.Description));
 		private_.textContent = InterfaceTextGet("CraftingPrivate").replace("CraftPrivate", CommonCapitalize(item.Craft.Private.toString()));
 	}
+
+	/** @type {DialogMenu<string, null>["_GetClickedObject"]} */
+	_GetClickedObject(button) { return null; /** noop */ }
+
+	/** @type {DialogMenu<string, null>["_ClickButton"]} */
+	_ClickButton(button, C, clickedObj, equippedItem) { /** noop */ }
 }
 
 /** @satisfies {Partial<Record<DialogMenuMode, DialogMenu<DialogMenuMode>>>} */
