@@ -172,11 +172,11 @@
 	grid-area: dialog-grid;
 	gap: var(--gap);
 	grid-template:
-		"dialog-crafted-name dialog-crafted-icon ." auto
-		"dialog-crafted-crafter dialog-crafted-icon ." auto
-		"dialog-crafted-property dialog-crafted-icon ." auto
-		"dialog-crafted-private dialog-crafted-icon ." auto
-		"dialog-crafted-footer dialog-crafted-footer dialog-crafted-footer" auto / calc(3 * var(--button-width) + 2 * var(--gap)) auto auto
+		"dialog-crafted-name dialog-crafted-icon ." minmax(auto, min-content)
+		"dialog-crafted-crafter dialog-crafted-icon ." minmax(auto, min-content)
+		"dialog-crafted-property dialog-crafted-icon ." minmax(auto, min-content)
+		"dialog-crafted-private dialog-crafted-icon ." minmax(auto, min-content)
+		"dialog-crafted-footer dialog-crafted-footer dialog-crafted-footer" minmax(auto, min-content) / calc(3 * var(--button-width) + 2 * var(--gap)) auto auto
 }
 
 .dialog-crafted-info {
