@@ -2197,11 +2197,7 @@ function DialogChangeMode(mode, reset=false) {
 		DialogExpressionPreviousMode = { mode: DialogMenuMode, group: C.FocusGroup };
 	}
 
-	if (DialogMenuMode !== mode) {
-		// Call `Unload()` if any actual change in subscreen occurs (the `reset` parameter is irrelevant here)
-		DialogMenuMapping[DialogMenuMode]?.Unload();
-	}
-
+	DialogMenuMapping[DialogMenuMode]?.Unload();
 	const modeChange = DialogMenuMode !== mode || reset;
 	DialogMenuMode = mode;
 
@@ -2609,7 +2605,12 @@ function DialogStatusTimerHandler(elem) {
 
 /** Clears the current status message. */
 function DialogStatusClear() {
-	const elem = document.getElementById(DialogMenuMapping[DialogMenuMode]?.ids.status ?? "");
+	const id = DialogMenuMapping[DialogMenuMode]?.ids.status;
+	if (!id) {
+		return;
+	}
+
+	const elem = document.getElementById(id);
 	const timeoutID = elem?.getAttribute("data-timeout-id");
 	if (timeoutID) {
 		clearTimeout(Number.parseInt(timeoutID, 10));
@@ -3054,10 +3055,10 @@ class DialogMenu {
 	}
 
 	/**
-	 *
+	 * Reload the subscreen, updating the DOM elements and, if required, re-assigning the character and focus group.
 	 * @param {null | Character} C - The selected character; defaults to {@link DialogMenu.C} and will update it inplace otherwise
 	 * @param {null | AssetItemGroup} focusGroup - The selected group; defaults to {@link DialogMenu.focusGroup} and will update it inplace otherwise
-	 * @param {null | DialogMenu.ReloadOptions} [options]
+	 * @param {null | DialogMenu.ReloadOptions} [options] - Further customization options
 	 * @returns {Promise<boolean>} - Whether an update was triggered or aborted
 	 */
 	async Reload(C=null, focusGroup=null, options=null) {
