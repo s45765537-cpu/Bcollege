@@ -3331,7 +3331,7 @@ class _DialogItemMenu extends DialogMenu {
 				{ button: {
 					parent: buttonGrid,
 					classList: ["dialog-grid-button"],
-					attributes: { "aria-checked": clickedItem.Worn },
+					attributes: { "aria-checked": clickedItem.Worn, "screen-generated": undefined },
 					dataAttributes: { index: i },
 				}},
 			));
@@ -3451,6 +3451,7 @@ class _DialogLockingMenu extends DialogMenu {
 				{ button: {
 					parent: buttonGrid,
 					classList: ["dialog-grid-button"],
+					attributes: { "screen-generated": undefined },
 					dataAttributes: { index: i },
 				}},
 			));
@@ -3537,6 +3538,7 @@ class _DialogPermissionMenu extends DialogMenu {
 				{ button: {
 					parent: buttonGrid,
 					classList: ["dialog-grid-button"],
+					attributes: { "screen-generated": undefined },
 					dataAttributes: { index: i },
 				}},
 			));
@@ -3631,6 +3633,7 @@ class _DialogActivitiesMenu extends DialogMenu {
 			{ button: {
 				parent,
 				classList: ["dialog-grid-button"],
+				attributes: { "screen-generated": undefined },
 				dataAttributes: {
 					name: activity.Activity.Name,
 					group: this.focusGroup.Name,
