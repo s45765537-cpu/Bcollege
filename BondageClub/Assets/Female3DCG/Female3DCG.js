@@ -4213,7 +4213,7 @@ var AssetFemale3DCG = [
 					Hogtied: PoseType.HIDE,
 				},
 				Layer: [
-					{ Name: "Main" , AllowColorize: true },
+					{ Name: "Main", AllowColorize: true },
 					{ Name: "Metal", ParentGroup: null, AllowColorize: true },
 				],
 			},
@@ -8335,7 +8335,7 @@ var AssetFemale3DCG = [
 						},
 						AllowColorize: true,
 					},
-					//LowerBody part: 
+					//LowerBody part:
 					{
 						Name: "BeltsB",
 						Priority: 20,
