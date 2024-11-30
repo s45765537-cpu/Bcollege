@@ -2748,16 +2748,19 @@ function ChatRoomCommonKeyDown(event) {
 		ElementScrollToEnd("TextAreaChatLog");
 		ElementFocus("InputChat");
 		return true;
-	} else if (CommonKey.IsPressed(event, "k", CommonKey.Alt)) {
+	} else if (CommonKey.IsPressed(event, "k", CommonKey.ALT)) {
 		if (!event.repeat) ChatRoomToggleKneel();
 		return true;
-	} else if (CommonKey.IsPressed(event, "i", CommonKey.Alt)) {
+	} else if (CommonKey.IsPressed(event, "i", CommonKey.ALT)) {
+		if (CurrentCharacter) { DialogLeave(); }
 		ChatRoomOpenInformationScreen();
 		return true;
-	} else if (CommonKey.IsPressed(event, "b", CommonKey.Alt)) {
+	} else if (CommonKey.IsPressed(event, "b", CommonKey.ALT)) {
+		if (CurrentCharacter) { DialogLeave(); }
 		ChatRoomOpenWardrobeScreen();
 		return true;
-	} else if (CommonKey.IsPressed(event, "h", CommonKey.Alt)) {
+	} else if (CommonKey.IsPressed(event, "h", CommonKey.ALT)) {
+		if (CurrentCharacter) { DialogLeave(); }
 		ChatRoomOpenAdminScreen();
 		return true;
 	}
