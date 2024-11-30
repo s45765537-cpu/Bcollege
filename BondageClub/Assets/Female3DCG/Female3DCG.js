@@ -4197,7 +4197,7 @@ var AssetFemale3DCG = [
 				Name: "LeatherBeltCloth",
 				InventoryID: 1190,
 				Top: 366,
-				FetishID: 10,
+				Fetish: ["Leather"],
 				ParentGroup: "BodyUpper",
 				Value: 12,
 				Priority: 30,
