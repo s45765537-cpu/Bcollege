@@ -448,6 +448,16 @@ function ChatRoomPlayerIsAdmin() { return ((ChatRoomData != null && ChatRoomData
  */
 function ChatRoomCurrentCharacterIsAdmin() { return ((CurrentCharacter != null) && (ChatRoomData.Admin != null) && (ChatRoomData.Admin.indexOf(CurrentCharacter.MemberNumber) >= 0)); }
 /**
+ * Checks if the player is in the chatroom whitelist.
+ * @returns {boolean} - TRUE if the player is in the chatroom whitelist.
+ */
+function ChatRoomPlayerIsWhitelisted() { return ((ChatRoomData != null && ChatRoomData.Whitelist != null) && (ChatRoomData.Whitelist.indexOf(Player.MemberNumber) >= 0)); }
+/**
+ * Checks if the current character is in the chatroom whitelist.
+ * @returns {boolean} - TRUE if the current character is in the chatroom whitelist.
+ */
+function ChatRoomCurrentCharacterIsWhitelisted() { return ((CurrentCharacter != null) && (ChatRoomData.Whitelist != null) && (ChatRoomData.Whitelist.indexOf(CurrentCharacter.MemberNumber) >= 0)); }
+/**
  * Checks if the room allows the photograph feature to be used.
  * @returns {boolean} - TRUE if the player can take a photo.
  */
@@ -2613,7 +2623,7 @@ function ChatRoomCanLeave() {
 	if (!Player.CanWalk()) return false; // Cannot leave if cannot walk
 	if (ChatRoomData.Locked && (ChatRoomData.Game == "GGTS")) return false; // GGTS game can forbid anyone to leave
 	if (ChatRoomActiveView.CanLeave && !ChatRoomActiveView.CanLeave()) return false;
-	if (!ChatRoomData.Locked || ChatRoomPlayerIsAdmin()) return true; // Can leave if the room isn't locked or is an administrator
+	if (!ChatRoomData.Locked || ChatRoomPlayerIsAdmin() || ChatRoomPlayerIsWhitelisted()) return true; // Player can leave if the room isn't locked, they are an administrator, or are on the whitelist
 	for (let C = 0; C < ChatRoomCharacter.length; C++)
 		if (ChatRoomData.Admin.indexOf(ChatRoomCharacter[C].MemberNumber) >= 0)
 			return false; // Cannot leave if the room is locked and there's an administrator inside
