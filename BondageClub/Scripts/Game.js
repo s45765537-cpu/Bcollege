@@ -18,7 +18,7 @@ var CommonTouchList = null;
 const DEFAULT_FRAMERATE = 60;
 
 function GameStart() {
-	// ServerURL = CommonGetServer();
+	ServerURL = CommonGetServer();
 	//CheatImport();
 	console.log("Version: " + GameVersion + ", Server: " + ServerURL);
 	if (!GameVersionFormat.test(GameVersion)) console.error("GameVersion is not valid!");
