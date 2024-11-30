@@ -46,6 +46,8 @@ ClothAccessoryLargeBeltBuckles,Buckles
 ClothAccessoryLargeNeckFurBack,Back
 ClothAccessoryLargeNeckFurFront,Front
 ClothAccessoryLargeNeckFurShoulders,Shoulders
+ClothAccessoryLeatherBeltClothMain,Belt
+ClothAccessoryLeatherBeltClothMetal,Buckle
 ClothAccessorySpikyNeckFurBack,Back
 ClothAccessorySpikyNeckFurFront,Front
 ClothAccessorySpikyNeckFurShoulders,Shoulders
@@ -2244,6 +2246,13 @@ PantiesPoofyDiaperFrills,Frills
 PantiesPoofyDiaperTape,Tape
 PantiesRedBowPantiesBow,Bow
 PantiesRedBowPantiesPanties,Panties
+PantiesWaistLegHarnessBeltsA,Waist belt
+PantiesWaistLegHarnessBeltsA2,Waist detail parts
+PantiesWaistLegHarnessMetalA,Waist metal parts
+PantiesWaistLegHarnessBeltsB,Leg belts
+PantiesWaistLegHarnessMetalB,Leg metal parts
+PantiesWaistLegHarnessBeltsC,Link belts
+PantiesWaistLegHarnessMetalC,Link metal parts
 RightAnkletLegFurAnkle,Fur Ankle
 RightAnkletLegFurKnee,Fur Knee
 RightHandClawsColor,Color
