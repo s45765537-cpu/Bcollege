@@ -6,6 +6,8 @@ Description
 Beschreibung
 Ban List
 Bannliste
+Whitelist
+Whitelist
 Administrator List
 Administratorliste
 Private
@@ -14,16 +16,20 @@ Locked
 Abgeschlossen
 Size (2-20)
 Größe (2-20)
-Use member numbers, separated by commas (ex: 3571,541,7001)
-Mitgliedernummern, mit Kommas getrennt (Bsp: 3571,541,7001)
-Ban blacklist
-Bann Blacklist
-Ban ghostlist
-Bann Ghostlist
-Add Owner
-Besitzer hinzufügen
-Add Lovers
-Liebhaber hinzufügen
+Use member numbers, separated by commas (ex: 123, ...)
+Mitgliedernummern, mit Kommas getrennt (Bsp: 123, ...)
+Quick Ban
+Schnelles Verbot
+Quick Add
+Schnell hinzufügen
+Blacklist
+Blackliste
+Ghostlist
+Geistliste
+Owner
+Eigentümer
+Lovers
+Liebhaber
 Room settings can only be updated by administrators
 Raum-Einstellungen können nur von Administratoren bearbeitet werden
 Background

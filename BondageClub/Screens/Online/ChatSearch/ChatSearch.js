@@ -1028,6 +1028,7 @@ function ChatSearchAutoJoinRoom() {
 						Name: Player.LastChatRoom.Name.trim(),
 						Description: Player.LastChatRoom.Description.trim(),
 						Admin: [Player.MemberNumber],
+						Whitelist: [],
 						Ban: [],
 						Background: Player.LastChatRoom.Background,
 						Limit: Math.min(Math.max(Player.LastChatRoom.Limit, 2), 10),

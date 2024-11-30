@@ -10,12 +10,14 @@ Description of the room
 房間描述
 Ban List
 封禁列表
+Whitelist
+白名單
 Administrator List
 管理員列表
 Private (Need exact name to find it)
 私有 (需要名稱完全正確才能搜索到)
-Locked (Only admins can leave or enter)
-鎖定 (只有管理員能夠進入或離開)
+Locked (Only admins/whitelist can leave/enter)
+鎖定 (只有管理員/白名單可以離開/進入)
 Select the background
 選擇背景
 Size (2-20)
@@ -36,18 +38,20 @@ Invalid room data
 無效的房間數據
 Room created, joining it...
 房間已創建，正在加入...
-Use member numbers separated by commas (ex: 2313, 12401, ...)
-使用逗號分隔的用戶號 (如: 2313, 12401, ...)
-Use member numbers separated by commas (ex: 16780, ...)
-使用逗號分隔的用戶號 (如: 16780, ...)
-Ban blacklist
-封禁黑名單成員
-Ban ghostlist
-封禁忽視列表成員
-Add Owner
-添加主人
-Add Lovers
-添加戀人
+Member numbers separated by commas (ex: 123, ...)
+逗號分隔的用戶號 (如: 123, ...)
+Quick Ban
+快速禁令
+Quick Add
+快速添加
+Blacklist
+黑名單成員
+Ghostlist
+忽視列表成員
+Owner
+主人
+Lovers
+戀人
 Background
 背景
 Block Categories

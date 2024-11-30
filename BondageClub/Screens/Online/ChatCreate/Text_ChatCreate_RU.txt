@@ -10,12 +10,14 @@ Description of the room
 Описание комнаты
 Ban List
 бан-лист
+Whitelist
+Белый список
 Administrator List
 Список Администраторов
 Private (Need exact name to find it)
 Частный (нужно точное имя, чтобы найти его)
-Locked (Only admins can leave or enter)
-Заблокировано (только администраторы могут выйти или войти)
+Locked (Only admins/whitelist can leave/enter)
+Заблокировано (только администраторы/whitelist могут выходить/входить)
 Select the background
 Выберите фон
 Size (2-20)
@@ -36,18 +38,20 @@ Invalid room data
 Неверные данные комнаты
 Room created, joining it...
 Комната создана, присоединяюсь к ней...
-Use member numbers separated by commas (ex: 2313, 12401, ...)
-Используйте номера членов, разделенные запятыми (ex: 2313, 12401, ...)
-Use member numbers separated by commas (ex: 16780, ...)
-Используйте номера членов, разделенные запятыми (ex: 16780, ...)
-Ban blacklist
-Запретить черный список
-Ban ghostlist
-Запретить список призраков
-Add Owner
-Добавить Хозяина
-Add Lovers
-Добавить Возлюбленных
+Member numbers separated by commas (ex: 123, ...)
+Номера членов, разделенные запятыми (Например: 123, ...)
+Quick Ban
+Быстрый запрет
+Quick Add
+Быстрое добавление
+Blacklist
+черный список
+Ghostlist
+список призраков
+Owner
+Хозяина
+Lovers
+Возлюбленных
 Background
 Фон
 Block Categories

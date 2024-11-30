@@ -10,12 +10,14 @@ Description of the room
 Опис кімнати
 Ban List
 Бан-лист
+Whitelist
+Білий список
 Administrator List
 Список адміністраторів
 Private (Need exact name to find it)
 Приватна (Потрібна точна назва, щоб знайти її)
-Locked (Only admins can leave or enter)
-Заблокована (Тільки адміністратори можуть увійти чи вийти)
+Locked (Only admins/whitelist can leave/enter)
+Заблоковано (тільки адміністратори/білий список можуть виходити/входити)
 Never use the map exploration
 Ніколи не використовувати режим карти
 Hybrid map, can go on and off
@@ -42,18 +44,20 @@ Invalid room data
 Недійсні дані кімнати
 Room created, joining it...
 Кімната створена, приєднання до неї...
-Use member numbers separated by commas (ex: 2313, 12401, ...)
-Використовуйте номери учасників, розділені комами (наприклад: 2313, 12401, ...)
-Use member numbers separated by commas (ex: 16780, ...)
-Використовуйте номери учасників, розділені комами (ex: 16780, ...)
-Ban blacklist
-Забанити чорний список
-Ban ghostlist
-Заборонити список привидів
-Add Owner
-Додати власника
-Add Lovers
-Додати коханих
+Member numbers separated by commas (ex: 123, ...)
+Номери учасників, розділені комами (пр: 123, ...)
+Quick Ban
+Швидкий бан
+Quick Add
+Швидке додавання
+Blacklist
+чорний список
+Ghostlist
+список привидів
+Owner
+власника
+Lovers
+коханих
 Background
 Фон
 Block Categories

@@ -6,6 +6,8 @@ Description
 Опис
 Ban List
 Список банів
+Whitelist
+Білий список
 Administrator List
 Список адмінів
 Private
@@ -14,16 +16,20 @@ Locked
 Закрита
 Size (2-20)
 Розмір (2-20)
-Use member numbers, separated by commas (ex: 3571,541,7001)
-Використовуйте номери членів, розділені комами (пр: 3571,541,7001)
-Ban blacklist
-Забанити чорний список
-Ban ghostlist
-Забанити список привидів
-Add Owner
-Додати власника
-Add Lovers
-Додати коханих
+Use member numbers, separated by commas (ex: 123, ...)
+Використовуйте номери членів, розділені комами (пр: 123, ...)
+Quick Ban
+Швидкий бан
+Quick Add
+Швидке додавання
+Blacklist
+чорний список
+Ghostlist
+список привидів
+Owner
+власника
+Lovers
+коханих
 Room settings can only be updated by administrators
 Налаштування кімнати можуть оновлювати лише адміністратори
 Background

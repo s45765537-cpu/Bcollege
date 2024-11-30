@@ -4,6 +4,8 @@ Description
 Description
 Ban List
 Liste des interdictions
+Whitelist
+Liste blanche
 Administrator List
 Liste des administrateurs
 Private
@@ -12,8 +14,19 @@ Locked
 Barré
 Size (2-20)
 Taille (2-20)
-Use member numbers, separated by commas (ex: 3571,541,7001)
-Utilisez des numéros de membre, séparés par des virgules (ex: 3571,541)
+Use member numbers, separated by commas (ex: 123, ...)
+Utilisez des numéros de membre, séparés par des virgules (ex: 123, ...)
+Quick Ban
+Interdiction rapide
+Quick Add
+Ajout rapide
+Blacklist
+Liste noire
+Ghostlist
+Liste phantôme
+Owner
+Maitresse
+Lovers
 Room settings can only be updated by administrators
 Les paramètres des salons peuvent être mis à jour que par les administrateurs
 Background
@@ -32,9 +45,5 @@ Account error, please try to relog
 Erreur de compte, veuillez essayer de vous reconnecter
 Invalid chat room data detected
 Donnée(s) de salle de chat non valide(s) détectée(s)
-Ban blacklist
-Barré la liste noire
-Ban ghostlist
-Barré la liste des fantômes
 Selection
 Sélection

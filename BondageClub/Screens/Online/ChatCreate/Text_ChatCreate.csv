@@ -4,9 +4,10 @@ RoomDescription,Description
 RoomLanguage,Language
 DescriptionExplanation,Description of the room
 RoomBanList,Ban List
+RoomWhitelist,Whitelist
 RoomAdminList,Administrator List
 RoomPrivate,Private (Need exact name to find it)
-RoomLocked,Locked (Only admins can leave or enter)
+RoomLocked,Locked (Only admins/whitelist can leave/enter)
 MapNever,Never use the map exploration
 MapHybrid,"Hybrid map, can go on and off"
 MapAlways,"Only use the map, no regular chat"
@@ -20,12 +21,17 @@ ResponseRoomAlreadyExist,This room name is already taken
 ResponseAccountError,"Account error, try to relog"
 ResponseInvalidRoomData,Invalid room data
 ResponseChatRoomCreated,"Room created, joining it..."
-UseMemberNumbersAdmin,"Use member numbers separated by commas (ex: 2313, 12401, ...)"
-UseMemberNumbersBan,"Use member numbers separated by commas (ex: 16780, ...)"
-QuickbanBlackList,Ban blacklist
-QuickbanGhostList,Ban ghostlist
-AddOwnerAdminList,Add Owner
-AddLoverAdminList,Add Lovers
+MemberNumbersFormatPlaceholder,"Member numbers separated by commas (ex: 123, ...)"
+QuickaddAdminHeader,Quick Add
+QuickaddAdminOwner,Owner
+QuickaddAdminLovers,Lovers
+QuickaddWhitelistHeader,Quick Add
+QuickaddWhitelistOwner,Owner
+QuickaddWhitelistLovers,Lovers
+QuickaddWhitelistWhitelist,Whitelist
+QuickaddBanHeader,Quick Ban
+QuickaddBanBlacklist,Blacklist
+QuickaddBanGhostlist,Ghostlist
 Background,Background
 BlockCategory,Block Categories
 Game,No Game

@@ -1257,6 +1257,7 @@ function ChatRoomClearAllElements() {
 	ElementRemove("InputDescription");
 	ElementRemove("InputSize");
 	ElementRemove("InputAdminList");
+	ElementRemove("InputWhitelist")
 	ElementRemove("InputBanList");
 	ElementRemove("InputBackground");
 	ElementRemove("TagDropDown");
@@ -4305,6 +4306,7 @@ function ChatRoomValidateProperties(obj)
 		&& typeof room.Name === "string"
 		&& typeof room.Description === "string"
 		&& Array.isArray(room.Admin) && room.Admin.every(n => typeof n === "number")
+		&& Array.isArray(room.Whitelist) && room.Whitelist.every(n => typeof n === "number")
 		&& Array.isArray(room.Ban) && room.Ban.every(n => typeof n === "number")
 		&& typeof room.Background === "string"
 		&& typeof room.Limit === "number"
@@ -5568,6 +5570,22 @@ function ChatRoomConcatenateBanList(IncludesBlackList, IncludesGhostList, Existi
 }
 
 /**
+ * Concatenates the list of users for the whitelist.
+ * @param {boolean} IncludesOwner - Adds the owner to the whitelist
+ * @param {boolean} IncludesLovers - Adds lovers to the whitelist
+ * @param {boolean} IncludesWhitelist - Adds whitelisted members to the whitelist
+ * @param {readonly number[]} ExistingList - The existing Whitelist, if applicable
+ * @returns {number[]} Complete array of whitelisted members
+ */
+function ChatRoomConcatenateWhitelist(IncludesOwner, IncludesLovers, IncludesWhitelist, ExistingList) {
+	var Whitelist = Array.isArray(ExistingList) ? ExistingList : [];
+	if (IncludesOwner && Player.OwnerNumber() !== -1) Whitelist = Whitelist.concat(Player.OwnerNumber());
+	if (IncludesLovers) CommonArrayConcatDedupe(Whitelist, Player.GetLoversNumbers(true));
+	if (IncludesWhitelist) CommonArrayConcatDedupe(Whitelist, Player.WhiteList);
+	return Whitelist.filter((MemberNumber, Idx, Arr) => Arr.indexOf(MemberNumber) == Idx);
+}
+
+/**
  * Concatenates the list of users for Admin list.
  * @param {boolean} IncludesOwner - Adds the owner to the admin list
  * @param {boolean} IncludesLovers - Adds lovers to the admin list
@@ -5795,6 +5813,7 @@ function ChatRoomDataChanged() {
 		prev.Private !== curr.Private ||
 		prev.Description !== curr.Description ||
 		!CommonArraysEqual(prev.Admin, curr.Admin) ||
+		!CommonArraysEqual(prev.Whitelist, curr.Whitelist) ||
 		!CommonArraysEqual(prev.Ban, curr.Ban) ||
 		!CommonArraysEqual(prev.BlockCategory, curr.BlockCategory) ||
 		prev.Space !== curr.Space ||
@@ -5953,6 +5972,6 @@ function ChatRoomPronounSubstitutions(C, key, hideIdentity) {
  */
 function ChatRoomGetSettings(room) {
 	/** @type {(keyof ChatRoomSettings)[]} */
-	const keys = ["Name", "Description", "Admin", "Ban", "Background", "Limit", "Game", "Locked", "Private", "BlockCategory", "Language", "Space", "MapData", "Custom"];
+	const keys = ["Name", "Description", "Admin", "Whitelist", "Ban", "Background", "Limit", "Game", "Locked", "Private", "BlockCategory", "Language", "Space", "MapData", "Custom"];
 	return /** @type {ChatRoomSettings} */(Object.fromEntries(keys.map(k => [k, room[k]])));
 }
