@@ -5567,45 +5567,47 @@ function ChatRoomSafewordRelease() {
 
 /**
  * Concatenates the list of users to ban.
- * @param {boolean} IncludesBlackList - Adds the blacklist to the banlist
- * @param {boolean} IncludesGhostList - Adds the ghostlist to the banlist
+ * @param {("BlackList" | "GhostList")[]} [IncludesTypes] - The types of lists to concatenate to the banlist
  * @param {readonly number[]} [ExistingList] - The existing Banlist, if applicable
  * @returns {number[]} Complete array of members to ban
  */
-function ChatRoomConcatenateBanList(IncludesBlackList, IncludesGhostList, ExistingList) {
+function ChatRoomConcatenateBanList(IncludesTypes, ExistingList) {
 	var BanList = Array.isArray(ExistingList) ? ExistingList : [];
-	if (IncludesBlackList) BanList = BanList.concat(Player.BlackList);
-	if (IncludesGhostList) BanList = BanList.concat(Player.GhostList);
+	IncludesTypes.forEach(Type => {
+		if (Type == "BlackList") BanList = BanList.concat(Player.BlackList);
+		else if (Type == "GhostList") BanList = BanList.concat(Player.GhostList);
+	});
 	return BanList.filter((MemberNumber, Idx, Arr) => Arr.indexOf(MemberNumber) == Idx);
 }
 
 /**
  * Concatenates the list of users for the whitelist.
- * @param {boolean} IncludesOwner - Adds the owner to the whitelist
- * @param {boolean} IncludesLovers - Adds lovers to the whitelist
- * @param {boolean} IncludesWhitelist - Adds whitelisted members to the whitelist
- * @param {readonly number[]} ExistingList - The existing Whitelist, if applicable
+ * @param {("Owner" | "Lovers" | "Whitelist")[]} [IncludesTypes] - The types of lists to concatenate to the whitelist
+ * @param {readonly number[]} [ExistingList] - The existing Whitelist, if applicable
  * @returns {number[]} Complete array of whitelisted members
  */
-function ChatRoomConcatenateWhitelist(IncludesOwner, IncludesLovers, IncludesWhitelist, ExistingList) {
+function ChatRoomConcatenateWhitelist(IncludesTypes, ExistingList) {
 	var Whitelist = Array.isArray(ExistingList) ? ExistingList : [];
-	if (IncludesOwner && Player.OwnerNumber() !== -1) Whitelist = Whitelist.concat(Player.OwnerNumber());
-	if (IncludesLovers) CommonArrayConcatDedupe(Whitelist, Player.GetLoversNumbers(true));
-	if (IncludesWhitelist) CommonArrayConcatDedupe(Whitelist, Player.WhiteList);
+	IncludesTypes.forEach(Type => {
+		if (Type == "Owner" && Player.OwnerNumber() !== -1) Whitelist = Whitelist.concat(Player.OwnerNumber());
+		else if (Type == "Lovers") Whitelist = Whitelist.concat(Player.GetLoversNumbers(true));
+		else if (Type == "Whitelist") Whitelist = Whitelist.concat(Player.WhiteList);
+	});
 	return Whitelist.filter((MemberNumber, Idx, Arr) => Arr.indexOf(MemberNumber) == Idx);
 }
 
 /**
  * Concatenates the list of users for Admin list.
- * @param {boolean} IncludesOwner - Adds the owner to the admin list
- * @param {boolean} IncludesLovers - Adds lovers to the admin list
+ * @param {("Owner" | "Lovers")[]} [IncludesTypes] - The types of lists to concatenate to the adminlist
  * @param {readonly number[]} [ExistingList] - The existing Admin list, if applicable
  * @returns {number[]} Complete array of admin members
  */
-function ChatRoomConcatenateAdminList(IncludesOwner, IncludesLovers, ExistingList) {
+function ChatRoomConcatenateAdminList(IncludesTypes, ExistingList) {
 	var AdminList = Array.isArray(ExistingList) ? ExistingList : [];
-	if (IncludesOwner && Player.OwnerNumber() !== -1) AdminList = AdminList.concat(Player.OwnerNumber());
-	if (IncludesLovers) CommonArrayConcatDedupe(AdminList, Player.GetLoversNumbers(true));
+	IncludesTypes.forEach(Type => {
+		if (Type == "Owner" && Player.OwnerNumber() !== -1) AdminList = AdminList.concat(Player.OwnerNumber());
+		else if (Type == "Lovers") AdminList = AdminList.concat(Player.GetLoversNumbers(true));
+	});
 	return AdminList.filter((MemberNumber, Idx, Arr) => Arr.indexOf(MemberNumber) == Idx);
 }
 
