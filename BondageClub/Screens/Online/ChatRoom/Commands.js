@@ -669,6 +669,16 @@ const CommonCommands = [
 		Action: args => ChatRoomAdminChatAction("Demote", args),
 	},
 	{
+		Tag: 'roomwhitelist',
+		Prerequisite: () => ChatRoomPlayerIsAdmin(),
+		Action: args => ChatRoomAdminChatAction("Whitelist", args),
+	},
+	{
+		Tag: 'roomunwhitelist',
+		Prerequisite: () => ChatRoomPlayerIsAdmin(),
+		Action: args => ChatRoomAdminChatAction("Unwhitelist", args),
+	},
+	{
 		Tag: 'me',
 		Action: (_, msg) => {
 			ChatRoomSendEmote(msg);

@@ -212,6 +212,10 @@ kauft einen Cappuccino von DialogCharacterName Servierplatte.
 (Ihr Administratorrechte geben.)
 (Demote DialogCharacterObject from room administration.)
 (Ihre Administratorrechte aberkennen.)
+(Add DialogCharacterObject to the room whitelist.)
+(DialogCharacterObject zur weißen Liste der Räume hinzufügen.)
+(Remove DialogCharacterObject from the room whitelist.)
+(DialogCharacterObject aus der Whitelist des Raums entfernen.)
 (Wardrobe access.)
 (Kleiderschrank-Zugriff.)
 ###_NPC

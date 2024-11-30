@@ -87,6 +87,8 @@ ReleaseLoverConfirm,0,"(Cancel)",(Main menu),,
 30,0,(Move Character.),(Move started.),"AdminAction(""Move"")",
 30,0,(Promote DialogCharacterObject as room administrator.),,"AdminAction(""Promote"")",!CurrentCharacterIsAdmin()
 30,0,(Demote DialogCharacterObject from room administration.),,"AdminAction(""Demote"")",CurrentCharacterIsAdmin()
+30,0,(Add DialogCharacterObject to the room whitelist.),,"AdminAction(""Whitelist"")",!CurrentCharacterIsWhitelisted()
+30,0,(Remove DialogCharacterObject from the room whitelist.),,"AdminAction(""Unwhitelist"")",CurrentCharacterIsWhitelisted()
 30,0,(Back to main menu.),(Main menu.),,
 40,,,(Possible character actions.),,
 40,0,(Whisper to DialogCharacterObject.),,StartWhisper(),CanStartWhisper()

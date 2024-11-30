@@ -776,6 +776,10 @@ TargetCharacterName was moved to the right by SourceCharacter.
 Гравця TargetCharacterName було переміщено вправо гравцем SourceCharacter.
 TargetCharacterName was promoted to administrator by SourceCharacter.
 Гравця TargetCharacterName було проголошено адміністратором гравцем SourceCharacter.
+TargetCharacterName was added to the room whitelist by SourceCharacter.
+TargetCharacterName було додано до білого списку кімнат за допомогою SourceCharacter.
+TargetCharacterName was removed from the room whitelist by SourceCharacter.
+TargetCharacterName було вилучено з білого списку кімнати за допомогою SourceCharacter.
 SourceCharacter shuffles the position of everyone in the room randomly.
 SourceCharacter shuffles the position of everyone in the room randomly.
 SourceCharacter swapped TargetCharacterName and DestinationCharacterName1 places.

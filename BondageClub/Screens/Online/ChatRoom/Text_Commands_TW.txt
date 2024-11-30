@@ -46,6 +46,10 @@ do nothing
 [Message]:顯示“[PlayerName] Message”為動作.*[Message]也是同樣的效果
 [MemberNumber]: Promote the user to room administrator
 [MemberNumber]:使玩家成為房管
+[MemberNumber]: Adds the user to the room whitelist
+[MemberNumber]:將使用者加入房間白名單
+[MemberNumber]: Removes the user from the room whitelist
+[MemberNumber]:從房間白名單中移除使用者
 use safeword
 使用安全詞
 : View your blacklist
