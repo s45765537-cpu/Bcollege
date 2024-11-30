@@ -30,6 +30,8 @@ Owner
 Хозяина
 Lovers
 Возлюбленных
+Friends
+Друзья
 Room settings can only be updated by administrators
 Параметры комнаты могут быть обновлены только администраторами
 Background

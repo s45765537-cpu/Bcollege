@@ -30,6 +30,8 @@ Owner
 власника
 Lovers
 коханих
+Friends
+Друзі
 Room settings can only be updated by administrators
 Налаштування кімнати можуть оновлювати лише адміністратори
 Background

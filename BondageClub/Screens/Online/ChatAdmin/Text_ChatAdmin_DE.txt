@@ -30,6 +30,8 @@ Owner
 Eigentümer
 Lovers
 Liebhaber
+Friends
+Freunde
 Room settings can only be updated by administrators
 Raum-Einstellungen können nur von Administratoren bearbeitet werden
 Background

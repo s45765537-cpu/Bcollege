@@ -54,6 +54,8 @@ Owner
 主人
 Lovers
 恋人
+Friends
+朋友
 Background
 背景
 Block Categories

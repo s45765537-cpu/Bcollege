@@ -27,6 +27,9 @@ Liste phantôme
 Owner
 Maitresse
 Lovers
+Amantes
+Friends
+Amis
 Room settings can only be updated by administrators
 Les paramètres des salons peuvent être mis à jour que par les administrateurs
 Background

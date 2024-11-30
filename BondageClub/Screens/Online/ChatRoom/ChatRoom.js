@@ -5582,7 +5582,7 @@ function ChatRoomConcatenateBanList(IncludesTypes, ExistingList) {
 
 /**
  * Concatenates the list of users for the whitelist.
- * @param {("Owner" | "Lovers" | "Whitelist")[]} [IncludesTypes] - The types of lists to concatenate to the whitelist
+ * @param {("Owner" | "Lovers" | "Friends" | "Whitelist")[]} [IncludesTypes] - The types of lists to concatenate to the whitelist
  * @param {readonly number[]} [ExistingList] - The existing Whitelist, if applicable
  * @returns {number[]} Complete array of whitelisted members
  */
@@ -5591,6 +5591,7 @@ function ChatRoomConcatenateWhitelist(IncludesTypes, ExistingList) {
 	IncludesTypes.forEach(Type => {
 		if (Type == "Owner" && Player.OwnerNumber() !== -1) Whitelist = Whitelist.concat(Player.OwnerNumber());
 		else if (Type == "Lovers") Whitelist = Whitelist.concat(Player.GetLoversNumbers(true));
+		else if (Type == "Friends") Whitelist = Whitelist.concat(Player.FriendList);
 		else if (Type == "Whitelist") Whitelist = Whitelist.concat(Player.WhiteList);
 	});
 	return Whitelist.filter((MemberNumber, Idx, Arr) => Arr.indexOf(MemberNumber) == Idx);

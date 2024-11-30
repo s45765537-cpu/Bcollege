@@ -133,7 +133,8 @@ function ChatCreateRun() {
 	DrawText(TextGet("QuickaddWhitelistHeader"), 675, 775, "Black", "Gray");
 	DrawButton(505, 800, 165, 42, TextGet("QuickaddWhitelistOwner"), "White");
 	DrawButton(680, 800, 165, 42, TextGet("QuickaddWhitelistLovers"), "White");
-	DrawButton(505, 846, 340, 42, TextGet("QuickaddWhitelistWhitelist"), "White");
+	DrawButton(505, 846, 165, 42, TextGet("QuickaddWhitelistFriends"), "White");
+	DrawButton(680, 846, 165, 42, TextGet("QuickaddWhitelistWhitelist"), "White");
 	DrawText(TextGet("QuickaddBanHeader"), 1055, 775, "Black", "Gray");
 	DrawButton(885, 800, 165, 88, TextGet("QuickaddBanBlacklist"), "White");
 	DrawButton(1060, 800, 165, 88, TextGet("QuickaddBanGhostlist"), "White");
@@ -231,7 +232,8 @@ function ChatCreateClick() {
 	if (MouseIn(300, 800, 165, 88)) ElementValue("InputAdminList", CommonConvertArrayToString(ChatRoomConcatenateAdminList(["Lovers"], CommonConvertStringToArray(ElementValue("InputAdminList").trim()))));
 	if (MouseIn(505, 800, 165, 42)) ElementValue("InputWhitelist", CommonConvertArrayToString(ChatRoomConcatenateWhitelist(["Owner"], CommonConvertStringToArray(ElementValue("InputWhitelist").trim()))));
 	if (MouseIn(680, 800, 165, 42)) ElementValue("InputWhitelist", CommonConvertArrayToString(ChatRoomConcatenateWhitelist(["Lovers"], CommonConvertStringToArray(ElementValue("InputWhitelist").trim()))));
-	if (MouseIn(505, 846, 340, 42)) ElementValue("InputWhitelist", CommonConvertArrayToString(ChatRoomConcatenateWhitelist(["Whitelist"], CommonConvertStringToArray(ElementValue("InputWhitelist").trim()))));
+	if (MouseIn(505, 846, 165, 42)) ElementValue("InputWhitelist", CommonConvertArrayToString(ChatRoomConcatenateWhitelist(["Friends"], CommonConvertStringToArray(ElementValue("InputWhitelist").trim()))));
+	if (MouseIn(680, 846, 165, 42)) ElementValue("InputWhitelist", CommonConvertArrayToString(ChatRoomConcatenateWhitelist(["Whitelist"], CommonConvertStringToArray(ElementValue("InputWhitelist").trim()))));
 	if (MouseIn(885, 800, 165, 88)) ElementValue("InputBanList", CommonConvertArrayToString(ChatRoomConcatenateBanList(["BlackList"], CommonConvertStringToArray(ElementValue("InputBanList").trim()))));
 	if (MouseIn(1060, 800, 165, 88)) ElementValue("InputBanList", CommonConvertArrayToString(ChatRoomConcatenateBanList(["GhostList"], CommonConvertStringToArray(ElementValue("InputBanList").trim()))));
 

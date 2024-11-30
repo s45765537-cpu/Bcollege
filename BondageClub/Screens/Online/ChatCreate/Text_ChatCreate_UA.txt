@@ -58,6 +58,8 @@ Owner
 власника
 Lovers
 коханих
+Friends
+Друзі
 Background
 Фон
 Block Categories

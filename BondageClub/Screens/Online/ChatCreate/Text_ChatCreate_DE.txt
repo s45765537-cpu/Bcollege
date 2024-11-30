@@ -58,6 +58,8 @@ Owner
 Eigentümer
 Lovers
 Liebhaber
+Friends
+Freunde
 Background
 Hintergrund
 Block Categories

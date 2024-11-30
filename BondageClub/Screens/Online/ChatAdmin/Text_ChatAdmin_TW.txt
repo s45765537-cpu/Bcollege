@@ -30,6 +30,8 @@ Owner
 主人
 Lovers
 戀人
+Friends
+朋友們
 Room settings can only be updated by administrators
 房間選項僅能被房管修改
 Background
