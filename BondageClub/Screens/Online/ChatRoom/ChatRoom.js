@@ -1267,7 +1267,7 @@ function ChatRoomClearAllElements() {
 	ElementRemove("InputDescription");
 	ElementRemove("InputSize");
 	ElementRemove("InputAdminList");
-	ElementRemove("InputWhitelist")
+	ElementRemove("InputWhitelist");
 	ElementRemove("InputBanList");
 	ElementRemove("InputBackground");
 	ElementRemove("TagDropDown");
