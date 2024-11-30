@@ -521,7 +521,10 @@ var ClubCardList = [
 		ID: 4009,
 		Name: "Shibari Lover",
 		Group: ["Fetishist"],
-		RequiredLevel: 3,
+		RequiredLevel: 2,
+		OnPlay: function(CCPlayer) {
+			ClubCardPlayerSummonGroupCardFromDeck(CCPlayer, ["Knot"], 1, undefined);
+		},
 		onPlayedCard: function(CCPlayer, cardPlayed) {
 			if (ClubCardCardHasGroup(cardPlayed, "Shibari") && cardPlayed.Type == "Member") {
 				ClubCardPlayerSummonGroupCardFromDeck(CCPlayer, ["Knot"], 1, undefined);
@@ -1324,7 +1327,17 @@ var ClubCardList = [
 		RequiredLevel: 2,
 		FamePerTurn: 1,
 		OnPlay: function(CCPlayer) {
-			ClubCardPlayerSummonGroupCardFromDeck(CCPlayer, ["Knot"], 1, undefined);
+			for (const card of CCPlayer.Hand.slice()) {
+				if (ClubCardCardHasGroup(card, "Knot") && ClubCardCanSummonCard(CCPlayer, card)) {
+					ClubCardSummonCard(CCPlayer, card);
+					const cardIndexInHnad = CCPlayer.Hand.findIndex(value => value.ID === card.ID);
+			        CCPlayer.Hand.splice(cardIndexInHnad, 1);
+				}
+			}
+		},
+		onLevelUp: function(CCPlayer) {
+			ClubCardRemoveFromBoard(CCPlayer, this, true);
+			ClubCardAddToHand(CCPlayer, this);
 		}
 	},
 	{
@@ -1352,7 +1365,7 @@ var ClubCardList = [
 			ClubCardPlayerAddFame(CCPlayer, 1);
 		},
 		BeforeTurnEnd: function(CCPlayer) {
-			if (ClubCardCalculateLevelForPets(CCPlayer) >= 4) ClubCardPlayerAddMoney(CCPlayer, 1);
+			if (ClubCardCalculateLevelForPets(CCPlayer) >= 5) ClubCardPlayerAddMoney(CCPlayer, 1);
 			if (ClubCardGroupIsOnBoard(CCPlayer, "Owner")) ClubCardPlayerAddMoney(CCPlayer, 1);
 		}
 	},
@@ -1399,7 +1412,6 @@ var ClubCardList = [
 		Name: "Puppy Dog",
 		Group: ["Pet"],
 		RequiredLevel: 2,
-		MoneyPerTurn: 1,
 		FamePerTurn: 1,
 		OnPlay: function(CCPlayer) {
 			ClubCardPlayerAddMoney(CCPlayer, -8);
@@ -1456,7 +1468,7 @@ var ClubCardList = [
 		Name: "Show Dog",
 		Group: ["Pet"],
 		RequiredLevel: 4,
-		MoneyPerTurn: 4,
+		MoneyPerTurn: 2,
 		FamePerTurn: 4,
 		OnPlay: function(CCPlayer) {
 			ClubCardPlayerAddMoney(CCPlayer, -15);
@@ -1470,10 +1482,10 @@ var ClubCardList = [
 			ClubCardPlayerAddMoney(CCPlayer, -1);
 		},
 		onPlayedCard: function(CCPlayer, cardPlayed) {
-			if (ClubCardCardHasGroup(cardPlayed, "Pet")) ClubCardPlayerAddMoney(CCPlayer, Math.floor(ClubCardCalculateLevelForPets(CCPlayer) / 2));
+			if (ClubCardCardHasGroup(cardPlayed, "Pet")) ClubCardPlayerAddFame(CCPlayer, Math.floor(ClubCardCalculateLevelForPets(CCPlayer) / 2));
 		},
 		BeforeTurnEnd: function(CCPlayer) {
-			if (ClubCardGroupIsOnBoard(CCPlayer, "Owner")) ClubCardPlayerAddFame(CCPlayer, 1);
+			if (ClubCardGroupIsOnBoard(CCPlayer, "Owner")) ClubCardPlayerAddMoney(CCPlayer, 1);
 		}
 	},
 	{
@@ -1484,10 +1496,10 @@ var ClubCardList = [
 		MoneyPerTurn: 2,
 		FamePerTurn: -1,
 		onPlayedCard: function(CCPlayer, cardPlayed) {
-			if (ClubCardCardHasGroup(cardPlayed, "Pet")) ClubCardPlayerAddMoney(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "Pet"));
+			if (ClubCardCardHasGroup(cardPlayed, "Pet")) ClubCardPlayerAddMoney(CCPlayer, Math.min(ClubCardGroupOnBoardCount(CCPlayer, "Pet"), 5));
 		},
 		BeforeTurnEnd: function(CCPlayer) {
-			if (ClubCardGroupIsOnBoard(CCPlayer, "Maid")) ClubCardPlayerAddMoney(CCPlayer, 1);
+			if (ClubCardGroupIsOnBoard(CCPlayer, "Maid")) ClubCardPlayerAddFame(CCPlayer, 1);
 		}
 	},
 
@@ -2067,7 +2079,7 @@ var ClubCardList = [
 		Group: ["Knot"],
 		OnPlay: function(CCPlayer) {
 			const senseiInClub = CCPlayer.Board.filter(card => ClubCardCardHasGroup(card, "Sensei"));
-			const amount = CCPlayer.Level + senseiInClub.length;
+			const amount = 4 + (senseiInClub.length * 2);
 			ClubCardPlayerAddFame(CCPlayer, amount);
 			ClubCardLogGetDataPacket(ClubCardMessageType.KNOTEVENT, "Effect Burlington Bowtie", CCPlayer, amount);
 		}
@@ -2079,6 +2091,10 @@ var ClubCardList = [
 		Group: ["Knot"],
 		OnPlay: function(CCPlayer) {
 			ClubCardPlayerAddFame(ClubCardGetOpponent(CCPlayer), -4);
+			if (ClubCardGroupIsOnBoard(CCPlayer, "Sensei")) {
+				ClubCardPlayerAddFame(CCPlayer, 4);
+				ClubCardLogGetDataPacket(ClubCardMessageType.KNOTEVENT, "Effect Square Knot Sensei", CCPlayer, 4);
+			}
 			ClubCardLogGetDataPacket(ClubCardMessageType.KNOTEVENT, "Effect Square Knot", CCPlayer, 4);
 		}
 	},
@@ -2202,9 +2218,11 @@ var ClubCardList = [
 		Name: "Pet toys",
 		Type: "Event",
 		RequiredLevel: 2,
+		ExtraPlay: 1,
+		Time: 0,
 		OnPlay: function(CCPlayer) {
-			ClubCardPlayerAddMoney(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "Pet") * 2);
-			ClubCardPlayerAddFame(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "Owner") * 2);
+			ClubCardPlayerAddMoney(CCPlayer, (ClubCardGroupOnBoardCount(CCPlayer, "Pet") * 2));
+			ClubCardPlayerAddFame(CCPlayer, (ClubCardGroupOnBoardCount(CCPlayer, "Owner") * 2));
 		}
 	},
 	{
@@ -2488,6 +2506,10 @@ function ClubCardUpgradeLevel(CCPlayer) {
 
 	ClubCardPlayerAddMoney(CCPlayer, updatedCost * -1);
 	CCPlayer.Level++;
+	// On level up effects
+	for (const card of CCPlayer.Board.slice()) {
+		if (card.onLevelUp != null) card.onLevelUp(CCPlayer);
+	}
 	let Text = TextGet("UpgradedToLevel" + CCPlayer.Level.toString());
 	Text = Text.replace("PLAYERNAME", CharacterNickname(CCPlayer.Character));
 	Text = Text.replace("MONEYAMOUNT", updatedCost.toString());
@@ -2819,6 +2841,7 @@ function ClubCardPlayerSummonGroupCardFromDeck(CCPlayer, groups, amount, level) 
 			CCPlayer.Deck.splice(cardIndexInDeck, 1);
 
 			ClubCardSummonCard(CCPlayer, card);
+			groupCardsInDeck = groupCardsInDeck.filter(value => ClubCardCanSummonCard(CCPlayer, value));
 		}
 		amount--;
 	}
@@ -2904,7 +2927,7 @@ function ClubCardAlvinCondition(CCPlayer) {
 	const hasBoardRoom = CCPlayer.Board.length < ClubCardLevelLimit[CCPlayer.Level];
 	if (hasAlvin && hasBoardRoom && count < 3) {
 		const ropeSlave = ClubCardList.find(card => card.Name === "Rope Slave");
-		ClubCardSummonCard(CCPlayer, ropeSlave);
+		ClubCardSummonCard(CCPlayer, {...ropeSlave});
 	}
 }
 
@@ -2991,13 +3014,13 @@ function ClubCardLoadDeckNumber(DeckNum) {
 		const message = ClubCardTextGet("Start" + ((ClubCardTurnIndex == 0) ? "Player" : "Opponent"));
 		ClubCardOneMessagePacketSend(message, ClubCardMessageType.SYSTEM);
 		const jessiGift = ClubCardList.find(card => card.Name === "Jessi Gift");
-		ClubCardPlayer[0].Hand.push(jessiGift);
-		ClubCardPlayer[1].Hand.push(jessiGift);
+		ClubCardPlayer[0].Hand.push({...jessiGift});
+		ClubCardPlayer[1].Hand.push({...jessiGift});
 		ClubCardPlayerDrawCard(ClubCardPlayer[0], (ClubCardTurnIndex == 0) ? 5 : 6);
 		ClubCardPlayerDrawCard(ClubCardPlayer[1], (ClubCardTurnIndex == 1) ? 5 : 6);
 	} else {
 		const jessiGift = ClubCardList.find(card => card.Name === "Jessi Gift");
-		ClubCardPlayer[Index].Hand.push(jessiGift);
+		ClubCardPlayer[Index].Hand.push({...jessiGift});
 		ClubCardPlayerDrawCard(ClubCardPlayer[Index], (ClubCardTurnIndex == Index) ? 5 : 6);
 	}
 	// Syncs online data
@@ -3663,7 +3686,7 @@ function ClubCardAIPlay() {
  */
 function ClubCardAIStart() {
 	ClubCardDestroyPopup();
-	if (!MiniGameEnded && ClubCardPlayer[ClubCardTurnIndex].Control == "AI") setTimeout(ClubCardAIPlay, 3000);
+	if (!MiniGameEnded && ClubCardPlayer[ClubCardTurnIndex].Control == "AI") setTimeout(ClubCardAIPlay, 1000);
 }
 
 /**

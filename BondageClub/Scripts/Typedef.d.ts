@@ -4117,6 +4117,7 @@ interface ClubCard {
 	 */
 	onLeaveClub?: (C: ClubCardPlayer) => void;
 	turnStart?: (C: ClubCardPlayer) => void;
+	onLevelUp?: (C: ClubCardPlayer) => void;
 }
 
 interface ClubCardPlayer {

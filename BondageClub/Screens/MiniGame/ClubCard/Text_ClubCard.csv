@@ -420,11 +420,12 @@ DiscardPile,View discard pile
 OpponentDiscardPile,View opponent's discard pile
 Close,Close
 Title Burlington Bowtie,Burlington Bowtie
-Text Burlington Bowtie,Gain 1 fame per club level. Gain 1 fame per Sensei present. 
+Text Burlington Bowtie,"Gain 4 fame. Gain 2 fame per Sensei present."
 Effect Burlington Bowtie,SOURCEPLAYER gained AMOUNT Fame from Burlington Bowtie.
 Title Square Knot,Square Knot
-Text Square Knot,Your opponent loses 4 fame.
+Text Square Knot,"Your opponent loses 4 fame. If a Sensei is present, you gain 4 fame."
 Effect Square Knot,OPPONENTPLAYER lost AMOUNT Fame from Square Knot.
+Effect Square Knot Sensei,SOURCEPLAYER gained AMOUNT Fame from Square Knot
 Title Closed Hitch,Closed Hitch
 Text Closed Hitch,Draw a card.
 Effect Closed Hitch,SOURCEPLAYER draws a card from Closed Hitch.
@@ -444,11 +445,11 @@ Prerequisite Rope Auction,Select a member from your club to remove.
 GroupSensei,Sensei
 GroupKnot,Knot
 Title Shibari Lover,Shibari Lover
-Text Shibari Lover,"When a Shibari member enters your club, play a random Knot from your deck."
+Text Shibari Lover,"When this card or another Shibari member enters your club, play a random Knot from your deck. "
 Title Goddess of Ropes,Goddess of Ropes
 Text Goddess of Ropes,"When you play a Shibari card, play a random Knot from your deck." 
 Title Rope Slinger,Rope Slinger
-Text Rope Slinger,"When she enters your club, play a random Knot from your deck."
+Text Rope Slinger,"When she enters your club, play all knots in your hand. When you upgrade your building, return this member to your hand."
 Title Fit To Be Tied,Fit To Be Tied
 Text Fit To Be Tied,"Play all Knots in your hand, deck, and discard pile and shuffle them into your deck."
 Title Living Art,Living Art
@@ -489,8 +490,8 @@ Text Pet Trainer,"When you play a pet you gain 2 fame. Gains +3 fame if show dog
 Title Show Dog,Show Dog
 Text Show Dog,"When she enters the club, lose 15 money. Your opponent can see your hand as long as this member is in your club."
 Title Mousey Mousegirl,Mousey Mousegirl
-Text Mousey Mousegirl,"Costs 1 Money. When you play a pet, gain 1 money per 2 building tiers. Gains +1 Fame if owner present."
+Text Mousey Mousegirl,"Costs 1 Money. When you play a pet, gain 1 Fame per 2 building tiers. Gains +1 Money if owner present."
 Title Rich Owner,Rich Owner
-Text Rich Owner,"Pets treat your building level as 1 higher. When you play a Pet, you gain 1 Money for each pet in your club. Gains +1 money if a maid is present"
+Text Rich Owner,"Pets treat your building level as 1 higher. When you play a Pet, you gain 1 Money for each pet in your club (Max 5). Gains +1 Fame if a maid is present"
 Title Tour Guide,Tour Guide
 Text Tour Guide,"When she enters your club, draw a card. Gains +3 money if tourist is present, gains +3 fame if diplomat is present."
