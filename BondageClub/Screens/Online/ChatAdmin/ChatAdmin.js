@@ -102,12 +102,15 @@ function ChatAdminLoad() {
  */
 function ChatAdminRun() {
 
+	// Grey button backgrounds if the player isn't an admin
+	const ButtonBackground = ChatRoomPlayerIsAdmin() ? "White" : "#ebebe4";
+
 	// Draw the main controls
 	DrawText(TextGet(ChatAdminMessage), 675, 914, "Black", "Gray");
 	DrawText(TextGet("RoomName"), 250, 120, "Black", "Gray");
 	ElementPosition("InputName", 815, 115, 820);
 	DrawText(TextGet("RoomLanguage"), 250, 205, "Black", "Gray");
-	DrawButton(405, 172, 300, 60, TextGet("Language" + ChatAdminLanguage), ChatRoomPlayerIsAdmin() ? "White" : "#ebebe4", null, null, !ChatRoomPlayerIsAdmin());
+	DrawButton(405, 172, 300, 60, TextGet("Language" + ChatAdminLanguage), ButtonBackground, null, null, !ChatRoomPlayerIsAdmin());
 	DrawText(TextGet("RoomSize"), 850, 205, "Black", "Gray");
 	ElementPosition("InputSize", 1099, 200, 250);
 	DrawText(TextGet("RoomDescription"), 675, 265, "Black", "Gray");
@@ -119,35 +122,35 @@ function ChatAdminRun() {
 	DrawText(TextGet("RoomBanList"), 1055, 485, "Black", "Gray");
 	ElementPosition("InputBanList", 1055, 625, 340, 250);
 	DrawText(TextGet("QuickaddAdminHeader"), 295, 775, "Black", "Gray");
-	DrawButton(125, 800, 165, 88, TextGet("QuickaddAdminOwner"), "White");
-	DrawButton(300, 800, 165, 88, TextGet("QuickaddAdminLovers"), "White");
+	DrawButton(125, 800, 165, 88, TextGet("QuickaddAdminOwner"), ButtonBackground, null, null, !ChatRoomPlayerIsAdmin());
+	DrawButton(300, 800, 165, 88, TextGet("QuickaddAdminLovers"), ButtonBackground, null, null, !ChatRoomPlayerIsAdmin());
 	DrawText(TextGet("QuickaddWhitelistHeader"), 675, 775, "Black", "Gray");
-	DrawButton(505, 800, 165, 42, TextGet("QuickaddWhitelistOwner"), "White");
-	DrawButton(680, 800, 165, 42, TextGet("QuickaddWhitelistLovers"), "White");
-	DrawButton(505, 846, 340, 42, TextGet("QuickaddWhitelistWhitelist"), "White");
+	DrawButton(505, 800, 165, 42, TextGet("QuickaddWhitelistOwner"), ButtonBackground, null, null, !ChatRoomPlayerIsAdmin());
+	DrawButton(680, 800, 165, 42, TextGet("QuickaddWhitelistLovers"), ButtonBackground, null, null, !ChatRoomPlayerIsAdmin());
+	DrawButton(505, 846, 340, 42, TextGet("QuickaddWhitelistWhitelist"), ButtonBackground, null, null, !ChatRoomPlayerIsAdmin());
 	DrawText(TextGet("QuickaddBanHeader"), 1055, 775, "Black", "Gray");
-	DrawButton(885, 800, 165, 88, TextGet("QuickaddBanBlacklist"), "White");
-	DrawButton(1060, 800, 165, 88, TextGet("QuickaddBanGhostlist"), "White");
+	DrawButton(885, 800, 165, 88, TextGet("QuickaddBanBlacklist"), ButtonBackground, null, null, !ChatRoomPlayerIsAdmin());
+	DrawButton(1060, 800, 165, 88, TextGet("QuickaddBanGhostlist"), ButtonBackground, null, null, !ChatRoomPlayerIsAdmin());
 
 	// Background selection, block button and game selection
 	DrawImageResize("Backgrounds/" + ChatAdminBackgroundSelect + ".jpg", 1300, 75, 600, 350);
-	DrawBackNextButton(1300, 450, 500, 60, BackgroundsTextGet(ChatAdminBackgroundSelect), ChatRoomPlayerIsAdmin() ? "White" : "#ebebe4", null,
+	DrawBackNextButton(1300, 450, 500, 60, BackgroundsTextGet(ChatAdminBackgroundSelect), ButtonBackground, null,
 		() => BackgroundsTextGet((ChatAdminBackgroundIndex == 0) ? ChatCreateBackgroundList[ChatCreateBackgroundList.length - 1] : ChatCreateBackgroundList[ChatAdminBackgroundIndex - 1]),
 		() => BackgroundsTextGet((ChatAdminBackgroundIndex >= ChatCreateBackgroundList.length - 1) ? ChatCreateBackgroundList[0] : ChatCreateBackgroundList[ChatAdminBackgroundIndex + 1]), !ChatRoomPlayerIsAdmin());
-	DrawButton(1840, 450, 60, 60, "", ChatRoomPlayerIsAdmin() ? "White" : "#ebebe4", "Icons/Small/Preference.png", null, !ChatRoomPlayerIsAdmin());
+	DrawButton(1840, 450, 60, 60, "", ButtonBackground, "Icons/Small/Preference.png", null, !ChatRoomPlayerIsAdmin());
 	DrawButton(1300, 550, 275, 60, TextGet("BlockCategory"), "White");
-	DrawBackNextButton(1625, 550, 275, 60, TextGet("Game" + ChatAdminGame), ChatRoomPlayerIsAdmin() ? "White" : "#ebebe4", null, () => "", () => "");
+	DrawBackNextButton(1625, 550, 275, 60, TextGet("Game" + ChatAdminGame), ButtonBackground, null, () => "", () => "");
 	DrawButton(1300, 640, 275, 60, TextGet("RoomCustomization"), (ChatAdminCustom == null) ? "White" : "#B0FFB0");
-	DrawBackNextButton(1625, 640, 275, 60, TextGet("Map" + ChatAdminMapData.Type), ChatRoomPlayerIsAdmin() ? "White" : "#ebebe4", null, () => "", () => "");
+	DrawBackNextButton(1625, 640, 275, 60, TextGet("Map" + ChatAdminMapData.Type), ButtonBackground, null, () => "", () => "");
 
 	// Private and Locked check boxes
 	DrawText(TextGet("RoomPrivate"), 1347, 760, "Black", "Gray");
-	DrawButton(1426, 728, 64, 64, "", ChatRoomPlayerIsAdmin() ? "White" : "#ebebe4", ChatAdminPrivate ? "Icons/Checked.png" : "", null, !ChatRoomPlayerIsAdmin());
+	DrawButton(1426, 728, 64, 64, "", ButtonBackground, ChatAdminPrivate ? "Icons/Checked.png" : "", null, !ChatRoomPlayerIsAdmin());
 	DrawText(TextGet("RoomLocked"), 1676, 760, "Black", "Gray");
-	DrawButton(1756, 728, 64, 64, "", ChatRoomPlayerIsAdmin() ? "White" : "#ebebe4", ChatAdminLocked ? "Icons/Checked.png" : "", null, !ChatRoomPlayerIsAdmin());
+	DrawButton(1756, 728, 64, 64, "", ButtonBackground, ChatAdminLocked ? "Icons/Checked.png" : "", null, !ChatRoomPlayerIsAdmin());
 
 	// Save & Cancel/Exit buttons + help text
-	DrawButton(1325, 840, 250, 65, TextGet("Save"), ChatRoomPlayerIsAdmin() ? "White" : "#ebebe4", null, null, !ChatRoomPlayerIsAdmin());
+	DrawButton(1325, 840, 250, 65, TextGet("Save"), ButtonBackground, null, null, !ChatRoomPlayerIsAdmin());
 	DrawButton(1625, 840, 250, 65, TextGet(ChatRoomPlayerIsAdmin() ? "Cancel" : "Exit"), "White");
 }
 
