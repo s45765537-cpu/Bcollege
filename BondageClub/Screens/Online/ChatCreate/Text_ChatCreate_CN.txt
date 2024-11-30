@@ -14,8 +14,8 @@ Whitelist
 白名单
 Administrator List
 管理员列表
-Private (Need exact name to find it)
-私有 (需要名称完全正确才能搜索到)
+Private (Need exact name or whitelist to find it)
+私人（需要准确的名称或白名单才能找到它）
 Locked (Only admins/whitelist can leave/enter)
 锁定（只有管理员/白名单可以离开/进入）
 Never use the map exploration

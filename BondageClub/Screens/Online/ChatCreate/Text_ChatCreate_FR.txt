@@ -7,8 +7,8 @@ Description
 Description
 Description of the room
 Description du salon
-Private (Need exact name to find it)
-Privé (Nom exact nécéssaire pour le retrouver)
+Private (Need exact name or whitelist to find it)
+Privé (Besoin du nom exact ou d'une liste blanche pour le trouver)
 Locked (Only admins/whitelist can leave/enter)
 Verrouillé (Seuls les administrateurs/la liste blanche peuvent quitter/entrer)
 Background

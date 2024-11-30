@@ -14,8 +14,8 @@ Whitelist
 白名單
 Administrator List
 管理員列表
-Private (Need exact name to find it)
-私有 (需要名稱完全正確才能搜索到)
+Private (Need exact name or whitelist to find it)
+隱私 (需要確切的名稱或白名單才能找到)
 Locked (Only admins/whitelist can leave/enter)
 鎖定 (只有管理員/白名單可以離開/進入)
 Select the background
