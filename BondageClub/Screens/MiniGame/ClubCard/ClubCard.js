@@ -553,8 +553,12 @@ var ClubCardList = [
 		BeforeTurnEnd: function(CCPlayer) {
 			if (ClubCardNameIsOnBoard(CCPlayer, "Show Dog")) ClubCardPlayerAddFame(CCPlayer, 3);
 		},
-		onPlayedCard: function(CCPlayer, cardPlayed) {
-			if (ClubCardCardHasGroup(cardPlayed, "Pet")) ClubCardPlayerAddFame(CCPlayer, 2);
+		onPlayedCard: function (CCPlayer, cardPlayed) {
+			const famePerPet = 2;
+			if (ClubCardCardHasGroup(cardPlayed, "Pet")) {
+				ClubCardPlayerAddFame(CCPlayer, famePerPet);
+				ClubCardLogGetDataPacket(ClubCardMessageType.CARDEFFECT, "Effect Pet Trainer", CCPlayer, famePerPet);
+			}
 		}
 	},
 
@@ -1387,8 +1391,10 @@ var ClubCardList = [
 		MoneyPerTurn: 6,
 		onPlayedCard: function(CCPlayer, cardPlayed) {
 			if (ClubCardCardHasGroup(cardPlayed, "Pet")) {
-				ClubCardPlayerAddFame(CCPlayer, 1);
+				const famePerPet = 1;
+				ClubCardPlayerAddFame(CCPlayer, famePerPet);
 				ClubCardPlayerDrawCard(CCPlayer, 1);
+				ClubCardLogGetDataPacket(ClubCardMessageType.CARDEFFECT, "Effect Jessica", CCPlayer, famePerPet);
 			}
 		}
 	},
@@ -1482,7 +1488,11 @@ var ClubCardList = [
 			ClubCardPlayerAddMoney(CCPlayer, -1);
 		},
 		onPlayedCard: function(CCPlayer, cardPlayed) {
-			if (ClubCardCardHasGroup(cardPlayed, "Pet")) ClubCardPlayerAddFame(CCPlayer, Math.floor(ClubCardCalculateLevelForPets(CCPlayer) / 2));
+			if (ClubCardCardHasGroup(cardPlayed, "Pet")) {
+				const famePerPet = Math.floor(ClubCardCalculateLevelForPets(CCPlayer) / 2);
+				ClubCardPlayerAddFame(CCPlayer, famePerPet);
+				ClubCardLogGetDataPacket(ClubCardMessageType.CARDEFFECT, "Effect Mousey Mousegirl", CCPlayer, famePerPet);
+			}
 		},
 		BeforeTurnEnd: function(CCPlayer) {
 			if (ClubCardGroupIsOnBoard(CCPlayer, "Owner")) ClubCardPlayerAddMoney(CCPlayer, 1);
@@ -2634,7 +2644,11 @@ function ClubCardCalculateLevelCost(CCPlayer) {
  * @returns {number} club level for pets effects
  */
 function ClubCardCalculateLevelForPets(CCPlayer) {
-	let level = CCPlayer.Level + (ClubCardNameIsOnBoard(CCPlayer, "Protective Owner") ? 1 : 0) + (ClubCardNameIsOnBoard(CCPlayer, "Rich Owner") ? 1 : 0) + (ClubCardNameIsOnBoard(CCPlayer, "Loving Owner") ? 1 : 0) + (ClubCardNameIsOnBoard(CCPlayer, "Jessica") ? 2 : 0);
+	let level = CCPlayer.Level
+		+ (ClubCardNameIsOnBoard(CCPlayer, "Protective Owner") ? 1 : 0)
+		+ (ClubCardNameIsOnBoard(CCPlayer, "Rich Owner") ? 1 : 0)
+		+ (ClubCardNameIsOnBoard(CCPlayer, "Loving Owner") ? 1 : 0)
+		+ (ClubCardNameIsOnBoard(CCPlayer, "Jessica") ? 2 : 0);
 	return level;
 }
 
@@ -3010,16 +3024,15 @@ function ClubCardLoadDeckNumber(DeckNum) {
 	}
 
 	// Starts the game with the loaded deck
+	const jessiGift = ClubCardList.find(card => card.Name === "Jessi Gift");
 	if (!ClubCardIsOnline()) {
 		const message = ClubCardTextGet("Start" + ((ClubCardTurnIndex == 0) ? "Player" : "Opponent"));
 		ClubCardOneMessagePacketSend(message, ClubCardMessageType.SYSTEM);
-		const jessiGift = ClubCardList.find(card => card.Name === "Jessi Gift");
 		ClubCardPlayer[0].Hand.push({...jessiGift});
 		ClubCardPlayer[1].Hand.push({...jessiGift});
 		ClubCardPlayerDrawCard(ClubCardPlayer[0], (ClubCardTurnIndex == 0) ? 5 : 6);
 		ClubCardPlayerDrawCard(ClubCardPlayer[1], (ClubCardTurnIndex == 1) ? 5 : 6);
 	} else {
-		const jessiGift = ClubCardList.find(card => card.Name === "Jessi Gift");
 		ClubCardPlayer[Index].Hand.push({...jessiGift});
 		ClubCardPlayerDrawCard(ClubCardPlayer[Index], (ClubCardTurnIndex == Index) ? 5 : 6);
 	}
@@ -3720,7 +3733,7 @@ function ClubCardBankrupt() {
 	CCPlayer.Hand = [];
 	CCPlayer.Deck = ClubCardShuffle(CCPlayer.FullDeck.slice());
 	const jessiGift = ClubCardList.find(card => card.Name === "Jessi Gift");
-	CCPlayer.Hand.push(jessiGift);
+	CCPlayer.Hand.push({...jessiGift});
 	ClubCardPlayerDrawCard(CCPlayer, 5);
 
 	// The opponent loses all liability cards on her board
