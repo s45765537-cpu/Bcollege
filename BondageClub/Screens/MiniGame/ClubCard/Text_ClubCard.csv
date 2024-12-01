@@ -462,13 +462,13 @@ MemberSummoned,CARDTITLE joins SOURCEPLAYER's club.
 GroupPet,Pet
 GroupOwner,Owner
 Title Bun Bun,Bun Bun
-Text Bun Bun,"When she enters the club, lose 1 money and gain 1 fame. +1 money if owner Present. +1 money and fame at building level 4."
+Text Bun Bun,"Costs 1 money and gain 1 fame. +1 money if owner Present. +1 fame at building level 5."
 Title Naughty Kitty,Naughty Kitty
 Text Naughty Kitty,"When she enters the club, discard your hand and lose 3 money. For each card you draw, gain money equal to your building level."
 Title Jessica,Jessica
 Text Jessica,"Pets treat your building level as 2 higher. When you play a pet, draw a card and gain 1 fame."
 Title MerMaid,MerMaid
-Text MerMaid,"When she enters the club, lose 22 money. When she enters your club, draw a card and take another action."
+Text MerMaid,"When she enters the club, lose 25 money. When she enters your club, draw a card and take another action."
 Title Puppy Dog,Puppy Dog
 Text Puppy Dog,"When she enters the club, lose 8 money. Gains +1 money per 2 building tiers. Gains +1 Fame if an owner is present."
 Title Protective Owner,Protective Owner

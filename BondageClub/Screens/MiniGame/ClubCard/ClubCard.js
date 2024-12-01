@@ -1365,7 +1365,7 @@ var ClubCardList = [
 			ClubCardPlayerAddFame(CCPlayer, 1);
 		},
 		BeforeTurnEnd: function(CCPlayer) {
-			if (ClubCardCalculateLevelForPets(CCPlayer) >= 5) ClubCardPlayerAddMoney(CCPlayer, 1);
+			if (ClubCardCalculateLevelForPets(CCPlayer) >= 5) ClubCardPlayerAddFame(CCPlayer, 1);
 			if (ClubCardGroupIsOnBoard(CCPlayer, "Owner")) ClubCardPlayerAddMoney(CCPlayer, 1);
 		}
 	},
@@ -1399,7 +1399,7 @@ var ClubCardList = [
 		RequiredLevel: 4,
 		FamePerTurn: 6,
 		OnPlay: function(CCPlayer) {
-			ClubCardPlayerAddMoney(CCPlayer, -22);
+			ClubCardPlayerAddMoney(CCPlayer, -25);
 			ClubCardPlayerDrawCard(CCPlayer, 1);
 			this.ExtraPlay = 1;
 		},
