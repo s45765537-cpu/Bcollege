@@ -159,7 +159,10 @@ function ChatSearchRun() {
 
 	DrawButton(905, 25, 90, 90, "", ChatSearchMode != "Filter" ? "White" : "Lime", "Icons/Private.png", TextGet(ChatSearchMode != "Filter" ? "FilterMode" : "NormalMode"));
 
-	DrawButton(25, 898, 350, 64, TextGet("Language" + ChatSearchLanguageTemp), "White");
+	// FIXME: technically the `TextGet` is only needed for the "All language" cases,
+	// but we also support Spanish as a room language which isn't actually in the translation files
+	const languageLabel = TranslationGetLanguageName(ChatSearchLanguageTemp, true) || TextGet("Language" + ChatSearchLanguageTemp);
+	DrawButton(25, 898, 350, 64, languageLabel, "White");
 	DrawButton(685, 25, 90, 90, "", "White", "Icons/Accept.png", ChatSearchMode == "" ? TextGet("SearchRoom") : TextGet("ApplyFilter"));
 	DrawButton(795, 25, 90, 90, "", "White", "Icons/Cancel.png", ChatSearchMode == "" ? TextGet("ClearFilter") : TextGet("LoadFilter"));
 
