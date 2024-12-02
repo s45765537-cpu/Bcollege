@@ -3605,61 +3605,31 @@ class _DialogActivitiesMenu extends DialogMenu {
 		DialogSetStatus(textContent, options.statusTimer ?? 0, { C: this.C, group: this.focusGroup });
 	}
 
-	/**
-	 *
-	 * @param {HTMLElement} parent
-	 * @param {ItemActivity} activity
-	 * @param {number} index
-	 * @returns {HTMLButtonElement}
-	 */
-	_ConstructButton(parent, activity, index) {
-		/** @type {InventoryIcon[]} */
-		const icons = [];
-		if (activity.Blocked === "limited") { icons.push("AllowedLimited"); }
-		if (activity.Item) { icons.push("Handheld"); }
-		const tooltip = icons.length ? [""] : undefined;
-
-		return ElementButton.Create(
-			`dialog-activities-${index}`,
-			this.eventListeners._ClickButton,
-			{
-				icons,
-				tooltip,
-				tooltipPosition: "bottom",
-				image: activity.Item ? `./${AssetGetPreviewPath(activity.Item.Asset)}/${activity.Item.Asset.Name}.png` : `./Assets/Female3DCG/Activity/${activity.Activity.Name}.png`,
-				label: activity.Activity.Name,
-				clickDisabled: this.eventListeners._ClickDisabledButton,
-			},
-			{ button: {
-				parent,
-				classList: ["dialog-grid-button"],
-				attributes: {
-					name: activity.Activity.Name,
-					"screen-generated": undefined,
-				},
-				dataAttributes: {
-					group: this.focusGroup.Name,
-					index,
-				},
-			}},
-		);
-	}
-
 	/** @type {DialogMenu["_ReloadButtonGrid"]} */
 	_ReloadButtonGrid(root, buttonGrid, options) {
 		if (options.reset) {
 			buttonGrid.innerHTML = "";
-			DialogActivity.forEach((clickedActivity, i) => this._ConstructButton(buttonGrid, clickedActivity, i));
+			DialogActivity.forEach((clickedActivity, index) => ElementButton.CreateForActivity(
+				`dialog-activities-${index}`,
+				clickedActivity,
+				this.C,
+				this.eventListeners._ClickButton,
+				{ clickDisabled: this.eventListeners._ClickDisabledButton },
+				{ button: {
+					parent: buttonGrid,
+					classList: ["dialog-grid-button"],
+					attributes: { "screen-generated": undefined },
+					dataAttributes: { index, group: this.focusGroup.Name },
+				}},
+			));
 		}
 
 		for (const [i, button] of Array.from(buttonGrid.children).entries()) {
 			const clickedActivity = DialogActivity[i];
-			if (clickedActivity.Blocked) {
-				button.setAttribute("data-permission", "Blocked");
-				button.toggleAttribute("disabled", true);
+			if (clickedActivity.Blocked === "blocked") {
+				button.setAttribute("aria-disabled", "true");
 			} else {
-				button.removeAttribute("data-permission");
-				button.toggleAttribute("disabled", false);
+				button.removeAttribute("aria-disabled");
 			}
 		}
 

@@ -50,7 +50,7 @@
 	z-index: 1;
 }
 
-.button-tooltip-asset {
+.button-tooltip-justify {
 	text-align: justify;
 	text-wrap: wrap;
 	text-indent: min(3.6dvh, 1.8dvw) hanging each-line;
