@@ -1313,8 +1313,9 @@ var ElementButton = {
 
 		htmlOptions ??= {};
 		htmlOptions.button ??= {};
+		htmlOptions.button.attributes ??= {};
+		htmlOptions.button.attributes.name ??= asset.Name;
 		htmlOptions.button.dataAttributes ??= {};
-		htmlOptions.button.dataAttributes.name ??= asset.Name;
 		htmlOptions.button.dataAttributes.group ??= asset.Group.Name;
 		htmlOptions.button.dataAttributes.craft ??= item.Craft ? "" : undefined;
 		htmlOptions.button.dataAttributes.hidden ??= CharacterAppearanceItemIsHidden(asset.Name, asset.Group.Name) ? "" : undefined;

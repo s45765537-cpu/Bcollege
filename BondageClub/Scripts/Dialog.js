@@ -3633,9 +3633,11 @@ class _DialogActivitiesMenu extends DialogMenu {
 			{ button: {
 				parent,
 				classList: ["dialog-grid-button"],
-				attributes: { "screen-generated": undefined },
-				dataAttributes: {
+				attributes: {
 					name: activity.Activity.Name,
+					"screen-generated": undefined,
+				},
+				dataAttributes: {
 					group: this.focusGroup.Name,
 					index,
 				},
