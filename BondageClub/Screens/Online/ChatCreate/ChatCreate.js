@@ -85,6 +85,12 @@ function ChatCreateLoad() {
 
 /** @type {ScreenFunctions["Unload"]} */
 function ChatCreateUnload() {
+	ElementRemove("InputName");
+	ElementRemove("InputDescription");
+	ElementRemove("InputAdminList");
+	ElementRemove("InputBanList");
+	ElementRemove("InputWhitelist");
+	ElementRemove("InputSize");
 	ChatRoomStimulationMessage("Walk");
 }
 
@@ -257,7 +263,6 @@ function ChatCreateExit() {
 	ChatCreatePrivate = null;
 	ChatCreateLocked = null;
 	ChatCreateMap = "Never";
-	ChatRoomCreateRemoveInput();
 	CommonSetScreen("Online", "ChatSearch");
 }
 
@@ -306,16 +311,4 @@ function ChatCreateRoom() {
 function ChatCreateBlockItems() {
 	ChatBlockItemReturnData = { Screen: "ChatCreate" };
 	CommonSetScreen("Online", "ChatBlockItem");
-}
-
-/**
- * Removes all chatroom creation inputs
- */
-function ChatRoomCreateRemoveInput() {
-	ElementRemove("InputName");
-	ElementRemove("InputDescription");
-	ElementRemove("InputAdminList");
-	ElementRemove("InputWhitelist");
-	ElementRemove("InputBanList");
-	ElementRemove("InputSize");
 }

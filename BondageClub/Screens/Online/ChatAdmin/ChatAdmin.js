@@ -99,6 +99,15 @@ function ChatAdminLoad() {
 
 }
 
+function ChatAdminUnload() {
+	ElementRemove("InputName");
+	ElementRemove("InputDescription");
+	ElementRemove("InputSize");
+	ElementRemove("InputAdminList");
+	ElementRemove("InputBanList");
+	ElementRemove("InputWhitelist");
+}
+
 /**
  * When the chat Admin screen runs, draws the screen
  * @returns {void} - Nothing
@@ -180,12 +189,6 @@ function ChatAdminClick() {
 			MapData: ChatAdminMapData,
 			Custom: ChatAdminCustom
 		};
-		ElementRemove("InputName");
-		ElementRemove("InputDescription");
-		ElementRemove("InputSize");
-		ElementRemove("InputAdminList");
-		ElementRemove("InputWhitelist");
-		ElementRemove("InputBanList");
 		if (MouseIn(1300, 640, 275, 60)) {
 			CommonSetScreen("Online", "ChatAdminRoomCustomization");
 		} else {
@@ -258,12 +261,6 @@ function ChatAdminExit() {
 	AsylumGGTSReset();
 	ChatAdminBackgroundSelected = null;
 	ChatAdminTemporaryData = null;
-	ElementRemove("InputName");
-	ElementRemove("InputDescription");
-	ElementRemove("InputSize");
-	ElementRemove("InputAdminList");
-	ElementRemove("InputWhitelist");
-	ElementRemove("InputBanList");
 	CommonSetScreen("Online", "ChatRoom");
 	ChatAdminInitialLoad = false;
 }
