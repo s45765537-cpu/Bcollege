@@ -42,7 +42,6 @@ function ChatCreateLoad() {
 	ChatCreateBackgroundSelect = ChatCreateBackgroundList[ChatCreateBackgroundIndex];
 
 	// Prepares the controls to create a room
-	ElementRemove("InputSearch");
 	if (document.getElementById("InputName") == null) {
 		// Prepares the controls to edit a room
 		const InputName = ElementCreateInput("InputName", "text", "", "20");

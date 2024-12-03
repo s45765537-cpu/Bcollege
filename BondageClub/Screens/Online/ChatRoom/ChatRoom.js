@@ -1239,7 +1239,6 @@ function ChatRoomAppendChat(div) {
  * @returns {void} - Nothing.
  */
 function ChatRoomLoad() {
-	ElementRemove("InputSearch");
 	ChatRoomCreateRemoveInput();
 	ChatRoomRefreshFontSize();
 	ChatRoomCreateElement();

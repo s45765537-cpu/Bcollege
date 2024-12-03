@@ -108,6 +108,7 @@ function ChatSearchLoad() {
 
 /** @type {ScreenFunctions["Unload"]} */
 function ChatSearchUnload() {
+	ElementRemove("InputSearch");
 	ChatRoomStimulationMessage("Walk");
 }
 
