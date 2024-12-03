@@ -199,14 +199,6 @@ function ChatAdminClick() {
 			ChatAdminGame = ChatAdminGameList[Index];
 		}
 
-		// When we select a new background
-		if (MouseIn(1300, 450, 500, 60)) {
-			ChatAdminBackgroundIndex += ((MouseX < 1550) ? -1 : 1);
-			if (ChatAdminBackgroundIndex >= ChatCreateBackgroundList.length) ChatAdminBackgroundIndex = 0;
-			if (ChatAdminBackgroundIndex < 0) ChatAdminBackgroundIndex = ChatCreateBackgroundList.length - 1;
-			ChatAdminBackgroundSelect = ChatCreateBackgroundList[ChatAdminBackgroundIndex];
-		}
-
 		// When we select a new map type
 		if (MouseIn(1625, 640, 275, 60)) {
 			let Index = ChatRoomMapViewTypeList.indexOf(ChatAdminMapData.Type);
