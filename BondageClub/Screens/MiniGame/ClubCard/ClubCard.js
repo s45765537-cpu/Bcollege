@@ -1512,6 +1512,24 @@ var ClubCardList = [
 			if (ClubCardGroupIsOnBoard(CCPlayer, "Maid")) ClubCardPlayerAddFame(CCPlayer, 1);
 		}
 	},
+	{
+		ID: 14012,
+		Name: "Moon",
+		Group: ["Pet","Player"],
+		RewardMemberNumber: 162726,
+		RequiredLevel: 3,
+		MoneyPerTurn: 0,
+		FamePerTurn: 2,
+		OnPlay: function (CCPlayer) {
+			ClubCardPlayerAddMoney(CCPlayer, -13);
+			ClubCardPlayerDrawLevelCard(CCPlayer, [4, 5]);
+			ClubCardLogGetDataPacket(ClubCardMessageType.CARDEFFECT, "Effect Moon", CCPlayer);
+			this.ExtraPlay = 1;
+		},
+		BeforeOpponentTurnEnd: function() {
+			this.ExtraPlay = 0;
+		}
+	},
 
 	// Event cards
 	{
@@ -2827,6 +2845,31 @@ function ClubCardPlayerDrawGroupCard(CCPlayer, groups, level) {
 }
 
 /**
+ * Draw cards from the player deck into it's hand
+ * @param {ClubCardPlayer} CCPlayer - The club card player that draws the cards
+ * @param {number[]} levels - The levels
+ * @returns {boolean} - if cards were drawn or not
+ */
+function ClubCardPlayerDrawLevelCard(CCPlayer, levels) {
+	if ((CCPlayer === null) || (CCPlayer.Deck === null) || (CCPlayer.Hand === null))
+		return false;
+
+	const levelsCardsInDeck = CCPlayer.Deck.filter(value => levels.some(level => value.RequiredLevel === level));
+
+	if (levelsCardsInDeck.length === 0) return false;
+
+	const card = levelsCardsInDeck[Math.floor(Math.random() * levelsCardsInDeck.length)];
+	ClubCardSetGlow(card, "#00FFFF");
+
+	CCPlayer.Hand.push(card);
+	const cardIndex = CCPlayer.Deck.findIndex(value => value.ID === card.ID);
+	CCPlayer.Deck.splice(cardIndex, 1);
+
+	ClubCardCheckDetectiveDraw(CCPlayer);
+	return true;
+}
+
+/**
  * Summon cards from the player deck into it's board
  * @param {ClubCardPlayer} CCPlayer - The club card player that summons the cards
  * @param {string[]} groups - The group to summon from
@@ -3456,10 +3499,20 @@ function ClubCardCanPlayCard(CCPlayer, Card) {
 	if ((CCPlayer.Index != 0) && (Card.Location != "OpponentHand")) return false;
 	if ((Card.CanPlay != null) && !Card.CanPlay(CCPlayer)) return false;
 	let Target = ClubCardFindTarget(Card);
+	let targetLevel = Target.Level;
+
+	//Moon's card effect
+	const playedCards = CCPlayer.CardsPlayedThisTurn[CCPlayer.ClubCardTurnCounter];
+	const isMoonEffect = playedCards && playedCards.length > 0 && playedCards[playedCards.length - 1].Name === "Moon";
+
+	//const isMoonEffect = CCPlayer.CardsPlayedThisTurn[CCPlayer.ClubCardTurnCounter]?.some(card => card.Name === "Moon") || false;
+	if (isMoonEffect && !ClubCardIsLiability(Card) && Card.Type != "Event")
+		targetLevel++;
+	
 	// Jennifer removes a card on her board before entering so should therefor be playable on a full board.
 	const boardFull = Target.Board.length >= ClubCardLevelLimit[Target.Level] && Card.Name !== "Jennifer";
 	if ((Target.Board != null) && (Card.Type == "Member") && (Target.Level != null) && boardFull) return false;
-	if ((Card.RequiredLevel != null) && (Target.Level != null) && (Card.RequiredLevel > Target.Level)) return false;
+	if ((Card.RequiredLevel != null) && (Target.Level != null) && (Card.RequiredLevel > targetLevel)) return false;
 	if ((Card.Prerequisite === "SelectOwnMember") && (CCPlayer.Board.length <= 0)) return false;
 	if ((Card.Prerequisite === "SelectOwnMember") && (CCPlayer.Control == "AI") && !ClubCardGroupIsOnBoard(CCPlayer, "Liability")) return false;
 	if ((Card.Prerequisite === "SelectOpponentMember") && (ClubCardGetOpponent(CCPlayer).Board.length <= 0)) return false;
