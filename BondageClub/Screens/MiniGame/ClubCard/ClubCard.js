@@ -1517,12 +1517,12 @@ var ClubCardList = [
 		Name: "Moon",
 		Group: ["Pet","Player"],
 		RewardMemberNumber: 162726,
+		Reward: null,
 		RequiredLevel: 3,
-		MoneyPerTurn: 0,
 		FamePerTurn: 2,
 		OnPlay: function (CCPlayer) {
 			ClubCardPlayerAddMoney(CCPlayer, -13);
-			ClubCardPlayerDrawLevelCard(CCPlayer, [4, 5]);
+			ClubCardPlayerDrawLevelCard(CCPlayer, [4, 5], ["Member"]);
 			ClubCardLogGetDataPacket(ClubCardMessageType.CARDEFFECT, "Effect Moon", CCPlayer);
 			this.ExtraPlay = 1;
 		},
@@ -2848,13 +2848,19 @@ function ClubCardPlayerDrawGroupCard(CCPlayer, groups, level) {
  * Draw cards from the player deck into it's hand
  * @param {ClubCardPlayer} CCPlayer - The club card player that draws the cards
  * @param {number[]} levels - The levels
+ * @param {string[] | undefined} types - check on type
  * @returns {boolean} - if cards were drawn or not
  */
-function ClubCardPlayerDrawLevelCard(CCPlayer, levels) {
+function ClubCardPlayerDrawLevelCard(CCPlayer, levels, types) {
 	if ((CCPlayer === null) || (CCPlayer.Deck === null) || (CCPlayer.Hand === null))
 		return false;
 
-	const levelsCardsInDeck = CCPlayer.Deck.filter(value => levels.some(level => value.RequiredLevel === level));
+
+	let levelsCardsInDeck = CCPlayer.Deck.filter(value => levels.some(level => value.RequiredLevel === level));
+
+	if (types) {
+		levelsCardsInDeck = levelsCardsInDeck.filter(card => types.some(type => card.Type === type));
+	}
 
 	if (levelsCardsInDeck.length === 0) return false;
 
