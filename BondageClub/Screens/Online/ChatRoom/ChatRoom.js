@@ -4437,6 +4437,8 @@ function ChatRoomSync(data) {
 		OnlineGameReset();
 	}
 
+	ChatRoomPingLeashedPlayers();
+
 	// Check whether the player's last chatroom data needs updating
 	ChatRoomCheckForLastChatRoomUpdates();
 

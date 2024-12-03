@@ -274,9 +274,12 @@ function ChatAdminExit() {
  * @returns {void} - Nothing
  */
 function ChatAdminResponse(data) {
-	if (typeof data === "string" && data)
-		if (data === "Updated") ChatAdminExit();
-		else ChatAdminMessage = "Response" + data;
+	if (typeof data !== "string") return;
+	if (data === "Updated") {
+		ChatAdminExit();
+	} else {
+		ChatAdminMessage = "Response" + data;
+	}
 }
 
 /**

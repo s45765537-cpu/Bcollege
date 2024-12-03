@@ -267,8 +267,9 @@ function ChatCreateExit() {
  * @returns {void} - Nothing
  */
 function ChatCreateResponse(data) {
-	if (typeof data === "string" && data)
-		ChatCreateMessage = "Response" + data;
+	if (typeof data !== "string") return;
+
+	ChatCreateMessage = "Response" + data;
 }
 
 /**
@@ -296,7 +297,6 @@ function ChatCreateRoom() {
 	if (ChatCreateMap != null) NewRoom.MapData = ChatRoomMapViewInitialize(ChatCreateMap);
 	ServerSend("ChatRoomCreate", NewRoom);
 	ChatCreateMessage = "CreatingRoom";
-	ChatRoomPingLeashedPlayers();
 }
 
 /**

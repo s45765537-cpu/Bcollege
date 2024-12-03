@@ -662,7 +662,6 @@ function ChatSearchJoin() {
 			ChatSearchLastQueryJoinTime = CommonTime();
 			ChatSearchLastQueryJoin = RoomName;
 			ServerSend("ChatRoomJoin", { Name: RoomName });
-			ChatRoomPingLeashedPlayers();
 		}
 		return true;
 	});
@@ -861,15 +860,14 @@ function ChatSearchClickUnhideRoom(C, Confirmed) {
  * @returns {void} - Nothing
  */
 function ChatSearchResponse(data) {
-	if (typeof data === "string" && data) {
-		if (((data == "RoomBanned") || (data == "RoomKicked")) && ServerPlayerIsInChatRoom()) {
-			ChatRoomClearAllElements();
-			CommonSetScreen("Online", "ChatSearch");
-			CharacterDeleteAllOnline();
-			ChatRoomSetLastChatRoom(null);
-		}
-		ChatSearchMessage = "Response" + data;
+	if (typeof data !== "string") return;
+	if (((data == "RoomBanned") || (data == "RoomKicked")) && ServerPlayerIsInChatRoom()) {
+		ChatRoomClearAllElements();
+		CommonSetScreen("Online", "ChatSearch");
+		CharacterDeleteAllOnline();
+		ChatRoomSetLastChatRoom(null);
 	}
+	ChatSearchMessage = "Response" + data;
 }
 
 /**
