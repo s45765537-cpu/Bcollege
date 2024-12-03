@@ -226,8 +226,13 @@ var GameMouseIsDown = false;
  * @param {MouseEvent} event
  */
 function GameMouseDown(event) {
-	if (CommonIsMobile) { return; }
-	if (GameMouseIsDown) { return; }
+	if (
+		CommonIsMobile
+		|| GameMouseIsDown
+		|| event.button !== 0 // 0: Main button pressed, usually the left button or the un-initialized state
+	) {
+		return;
+	}
 	CommonMouseDown(event);
 	GameMouseIsDown = true;
 }
@@ -237,8 +242,13 @@ function GameMouseDown(event) {
  * @param {MouseEvent} event
  */
 function GameMouseUp(event) {
-	if (CommonIsMobile) { return; }
-	if (!GameMouseIsDown) { return; }
+	if (
+		CommonIsMobile
+		|| !GameMouseIsDown
+		|| event.button !== 0 // 0: Main button pressed, usually the left button or the un-initialized state
+	) {
+		return;
+	}
 	GameMouseMove(event, false);
 	CommonMouseUp(event);
 	CommonClick(event);
