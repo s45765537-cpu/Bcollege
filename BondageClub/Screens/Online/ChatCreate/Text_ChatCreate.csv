@@ -1,4 +1,3 @@
-EnterRoomInfo,Enter your room information
 RoomName,Room Name
 RoomDescription,Description
 RoomLanguage,Language
@@ -6,7 +5,7 @@ DescriptionExplanation,Description of the room
 RoomBanList,Ban List
 RoomWhitelist,Whitelist
 RoomAdminList,Administrator List
-RoomPrivate,Private (Need exact name or whitelist to find it)
+RoomPrivate,"Private (Need exact name, admin, or whitelist to find it)"
 RoomLocked,Locked (Only admins/whitelist can leave/enter)
 MapNever,Never use the map exploration
 MapHybrid,"Hybrid map, can go on and off"
@@ -22,15 +21,13 @@ ResponseAccountError,"Account error, try to relog"
 ResponseInvalidRoomData,Invalid room data
 ResponseChatRoomCreated,"Room created, joining it..."
 MemberNumbersFormatPlaceholder,"Member numbers separated by commas (ex: 123, ...)"
-QuickaddAdminHeader,Quick Add
+QuickaddExplanation,Use the above buttons to quickadd to the respective lists
 QuickaddAdminOwner,Owner
 QuickaddAdminLovers,Lovers
-QuickaddWhitelistHeader,Quick Add
 QuickaddWhitelistOwner,Owner
 QuickaddWhitelistLovers,Lovers
 QuickaddWhitelistFriends,Friends
 QuickaddWhitelistWhitelist,Whitelist
-QuickaddBanHeader,Quick Ban
 QuickaddBanBlacklist,Blacklist
 QuickaddBanGhostlist,Ghostlist
 Background,Background

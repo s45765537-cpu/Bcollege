@@ -16,12 +16,10 @@ Locked
 Закрита
 Size (2-20)
 Розмір (2-20)
-Use member numbers, separated by commas (ex: 123, ...)
-Використовуйте номери членів, розділені комами (пр: 123, ...)
-Quick Ban
-Швидкий бан
-Quick Add
-Швидке додавання
+Member numbers separated by commas (ex: 123, ...)
+Номери учасників, розділені комами (пр: 123, ...)
+Use the above buttons to quickadd to the respective lists
+Використовуйте вищевказані кнопки для швидкого додавання до відповідних списків
 Blacklist
 чорний список
 Ghostlist

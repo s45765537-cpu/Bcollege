@@ -1,6 +1,4 @@
-﻿Enter your room information
-Введите информацию о вашей комнате
-Room Name
+﻿Room Name
 Название Комнаты
 Description
 Описание
@@ -14,8 +12,8 @@ Whitelist
 Белый список
 Administrator List
 Список Администраторов
-Private (Need exact name or whitelist to find it)
-Приватный (нужно точное имя или белый список, чтобы найти его)
+Private (Need exact name, admin, or whitelist to find it)
+Приватный (нужно точное имя, администратор или белый список, чтобы найти его)
 Locked (Only admins/whitelist can leave/enter)
 Заблокировано (только администраторы/whitelist могут выходить/входить)
 Select the background
@@ -40,10 +38,8 @@ Room created, joining it...
 Комната создана, присоединяюсь к ней...
 Member numbers separated by commas (ex: 123, ...)
 Номера членов, разделенные запятыми (Например: 123, ...)
-Quick Ban
-Быстрый запрет
-Quick Add
-Быстрое добавление
+Use the above buttons to quickadd to the respective lists
+Используйте указанные выше кнопки для быстрого добавления в соответствующие списки
 Blacklist
 черный список
 Ghostlist

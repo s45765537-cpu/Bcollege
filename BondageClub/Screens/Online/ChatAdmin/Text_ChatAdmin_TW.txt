@@ -16,12 +16,10 @@ Locked
 鎖定
 Size (2-20)
 大小 (2-20)
-Use member numbers, separated by commas (ex: 123, ...)
-使用逗號分隔的用戶號 (如: 123, ...)
-Quick Ban
-快速禁令
-Quick Add
-快速添加
+Member numbers separated by commas (ex: 123, ...)
+逗號分隔的用戶號 (如: 123, ...)
+Use the above buttons to quickadd to the respective lists
+使用上述按鈕快速新增至相關清單
 Blacklist
 黑名單成員
 Ghostlist

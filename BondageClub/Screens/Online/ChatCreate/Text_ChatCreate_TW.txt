@@ -1,5 +1,3 @@
-Enter your room information
-請輸入房間訊息
 Room Name
 房間名
 Description
@@ -14,8 +12,8 @@ Whitelist
 白名單
 Administrator List
 管理員列表
-Private (Need exact name or whitelist to find it)
-隱私 (需要確切的名稱或白名單才能找到)
+Private (Need exact name, admin, or whitelist to find it)
+隱私 (需要確切的名稱、管理員或白名單才能找到)
 Locked (Only admins/whitelist can leave/enter)
 鎖定 (只有管理員/白名單可以離開/進入)
 Select the background
@@ -40,10 +38,8 @@ Room created, joining it...
 房間已創建，正在加入...
 Member numbers separated by commas (ex: 123, ...)
 逗號分隔的用戶號 (如: 123, ...)
-Quick Ban
-快速禁令
-Quick Add
-快速添加
+Use the above buttons to quickadd to the respective lists
+使用上述按鈕快速新增至相關清單
 Blacklist
 黑名單成員
 Ghostlist

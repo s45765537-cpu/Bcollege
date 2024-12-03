@@ -14,12 +14,10 @@ Locked
 Barré
 Size (2-20)
 Taille (2-20)
-Use member numbers, separated by commas (ex: 123, ...)
-Utilisez des numéros de membre, séparés par des virgules (ex: 123, ...)
-Quick Ban
-Interdiction rapide
-Quick Add
-Ajout rapide
+Member numbers separated by commas (ex: 123, ...)
+Numéros de membre séparés par des virgules (ex: 123, ...)
+Use the above buttons to quickadd to the respective lists
+Utilisez les boutons ci-dessus pour ajouter rapidement aux listes respectives
 Blacklist
 Liste noire
 Ghostlist

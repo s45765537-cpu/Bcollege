@@ -1,6 +1,4 @@
-﻿Enter your room information
-Raum-Informationen eingeben
-Room Name
+﻿Room Name
 Raumname
 Description
 Beschreibung
@@ -14,8 +12,8 @@ Whitelist
 Whitelist
 Administrator List
 Administrator Liste
-Private (Need exact name or whitelist to find it)
-Privat (Benötigt genauen Namen oder Whitelist, um es zu finden)
+Private (Need exact name, admin, or whitelist to find it)
+Privat (exakter Name, Admin oder Whitelist erforderlich, um es zu finden)
 Locked (Only admins/whitelist can leave/enter)
 Verschlossen (Nur Admins/Whitelist können gehen/eintreten)
 Never use the map exploration
@@ -46,10 +44,8 @@ Room created, joining it...
 Raum wurde erstellt, wird beigetreten...
 Member numbers separated by commas (ex: 123, ...)
 Mitgliedsnummer, getrennt durch Kommas (Bsp: 123, ...)
-Quick Ban
-Schnelles Verbot
-Quick Add
-Schnell hinzufügen
+Use the above buttons to quickadd to the respective lists
+Benutzen Sie die obigen Schaltflächen, um schnell zu den jeweiligen Listen hinzuzufügen
 Blacklist
 Blackliste
 Ghostlist
