@@ -1292,7 +1292,7 @@ var ElementButton = {
 
 	/**
 	 * Create a button for an asset or item, including image, label and icons.
-	 * @param {null | string} idPrefix - The ID of the to-be created search button
+	 * @param {string} idPrefix - The ID of the to-be created search button
 	 * @param {Asset | Item} asset - The asset (or item) for which to create a button
 	 * @param {null | Character} C - The character wearing the asset/item (if any)
 	 * @param {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => any} onClick - The click event listener to-be attached to the tooltip
@@ -1379,7 +1379,7 @@ var ElementButton = {
 
 	/**
 	 * Create a button for an activity, including image, label and icons.
-	 * @param {null | string} idPrefix - The ID of the to-be created search button
+	 * @param {string} idPrefix - The ID of the to-be created search button
 	 * @param {ItemActivity} activity - The activity for which to create a button
 	 * @param {Character} C - The target character of the activity
 	 * @param {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => any} onClick - The click event listener to-be attached to the tooltip
