@@ -17007,9 +17007,9 @@ var AssetFemale3DCG = [
 	{
 		Group: "ArmsLeft",
 		Priority: 7,
+		Category: "Appearance",
 		AllowNone: false,
 		AllowCustomize: false,
-		ParentSize: "BodyUpper",
 		ParentGroup: "BodyUpper",
 		PoseMapping: {
 			...AssetPoseMapping.BodyUpper,
@@ -17024,9 +17024,9 @@ var AssetFemale3DCG = [
 	{
 		Group: "ArmsRight",
 		Priority: 7,
+		Category: "Appearance",
 		AllowNone: false,
 		AllowCustomize: false,
-		ParentSize: "BodyUpper",
 		ParentGroup: "BodyUpper",
 		PoseMapping: {
 			...AssetPoseMapping.BodyUpper,
@@ -17041,12 +17041,12 @@ var AssetFemale3DCG = [
 	{
 		Group: "HandsLeft",
 		Priority: 27.001, // So it stays over the right hand
+		Category: "Appearance",
 		AllowNone: false,
 		AllowCustomize: false,
 		PoseMapping: { ...AssetPoseMapping.HandsLeft },
 		ParentColor: "BodyUpper",
 		InheritColor: "BodyUpper",
-		ParentSize: "BodyUpper",
 		ParentGroup: "BodyUpper",
 		ColorSuffix: { HEX_COLOR: "White" },
 		Asset: [""],
@@ -17055,12 +17055,12 @@ var AssetFemale3DCG = [
 	{
 		Group: "HandsRight",
 		Priority: 27,
+		Category: "Appearance",
 		AllowNone: false,
 		AllowCustomize: false,
 		PoseMapping: { ...AssetPoseMapping.HandsRight },
 		ParentColor: "BodyUpper",
 		InheritColor: "BodyUpper",
-		ParentSize: "BodyUpper",
 		ParentGroup: "BodyUpper",
 		ColorSuffix: { HEX_COLOR: "White" },
 		Asset: [""],
