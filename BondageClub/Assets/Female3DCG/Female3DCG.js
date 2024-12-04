@@ -16472,6 +16472,7 @@ var AssetFemale3DCG = [
 				Name: "DragonTailStrap1",
 				InventoryID: 522,
 				Fetish: ["Pet"],
+				BuyGroup: "DragonTail",
 				Value: 20,
 				Layer: [{ Name: "Primary" }, { Name: "Secondary" }],
 			},
@@ -19972,7 +19973,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "MassiveAnkleCuffs",
-				InventoryID: 1185,
+				InventoryID: 1197,
 				Fetish: ["Metal"],
 				Priority: 26,
 				Value: 38,
@@ -24844,7 +24845,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HeavyLatexCorset",
-				InventoryID: 678,
+				InventoryID: 1194,
 				Fetish: ["Lingerie", "Latex"],
 				Priority: 22,
 				Value: 60,
@@ -25659,7 +25660,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HeavyLatexCorset",
-				InventoryID: 678,
+				InventoryID: 1194,
 				Fetish: ["Lingerie", "Latex"],
 				Priority: 22,
 				Value: 60,
@@ -31123,7 +31124,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BedMetalCuffs",
-				InventoryID: 1182,
+				InventoryID: 1195,
 				Fetish: ["Metal"],
 				Value: 20,
 				Difficulty: 6,
@@ -47283,7 +47284,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CustomBallHood",
-				InventoryID: 1167,
+				InventoryID: 1196,
 				Fetish: ["Latex"],
 				Value: 80,
 				Difficulty: 6,
