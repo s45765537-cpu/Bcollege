@@ -32189,6 +32189,7 @@ var AssetFemale3DCG = [
                 AllowLock: true,
                 Extended: true,
                 ParentGroup: null,
+				SetPose: ["TapedHands"],
                 Layer:[
                     // RIGHT HAND
                     {   
@@ -32941,7 +32942,8 @@ var AssetFemale3DCG = [
                     {   
                         Name: "WristBaseCuff", 
                         AllowTypes: {w:1}, 
-                        CopyLayerColor: "WristBase", 
+                        CopyLayerColor: "WristBase",
+						Priority: 34, 
                         PoseMapping: {
                             BaseUpper: PoseType.HIDE,
                             BackBoxTie: PoseType.HIDE,
@@ -32957,6 +32959,7 @@ var AssetFemale3DCG = [
                         Name: "WristShineCuff", 
                         AllowTypes: {w:1}, 
                         CopyLayerColor: "WristShine",
+						Priority: 34, 
                         PoseMapping: {
                             BaseUpper: PoseType.HIDE,
                             BackBoxTie: PoseType.HIDE,
@@ -32973,6 +32976,7 @@ var AssetFemale3DCG = [
                         AllowTypes: {w:2}, 
                         ParentGroup: "BodyUpper", 
                         CopyLayerColor: "WristBase",
+						Priority: 34, 
                         PoseMapping: {
                             BaseUpper: PoseType.HIDE,
                             BackBoxTie: PoseType.HIDE,
@@ -32989,6 +32993,7 @@ var AssetFemale3DCG = [
                         AllowTypes: {w:2}, 
                         ParentGroup: "BodyUpper", 
                         CopyLayerColor: "WristShine",
+						Priority: 34, 
                         PoseMapping: {
                             BaseUpper: PoseType.HIDE,
                             BackBoxTie: PoseType.HIDE,
@@ -33004,6 +33009,7 @@ var AssetFemale3DCG = [
                         Name: "BaseCuff", 
                         AllowTypes: {t:0}, 
                         CopyLayerColor: "Base",
+						Priority: 34,
                         PoseMapping: {
                             BaseUpper: PoseType.HIDE,
                             BackBoxTie: PoseType.HIDE,
@@ -33019,6 +33025,7 @@ var AssetFemale3DCG = [
                         Name: "ShineCuff", 
                         AllowTypes: {t:0}, 
                         CopyLayerColor: "Shine",
+						Priority: 34,
                         PoseMapping: {
                             BaseUpper: PoseType.HIDE,
                             BackBoxTie: PoseType.HIDE,
@@ -33034,6 +33041,7 @@ var AssetFemale3DCG = [
                         Name: "BalloonBaseCuff", 
                         AllowTypes: {t: [1, 2]}, 
                         CopyLayerColor: "Base",
+						Priority: 34,
                         PoseMapping: {
                             BaseUpper: PoseType.HIDE,
                             BackBoxTie: PoseType.HIDE,
@@ -33048,7 +33056,8 @@ var AssetFemale3DCG = [
                     {   
                         Name: "BalloonShineCuff", 
                         AllowTypes: {t: [1, 2]}, 
-                        CopyLayerColor: "Shine", 
+                        CopyLayerColor: "Shine",
+						Priority: 34, 
                         PoseMapping: {
                             BaseUpper: PoseType.HIDE,
                             BackBoxTie: PoseType.HIDE,
@@ -33065,6 +33074,7 @@ var AssetFemale3DCG = [
                         Name: "PumpkinCuff", 
                         AllowTypes: {r: [1, 2], t:0}, 
                         CopyLayerColor: "Pumpkin",
+						Priority: 34,
                         PoseMapping: {
                             BaseUpper: PoseType.HIDE,
                             BackBoxTie: PoseType.HIDE,
@@ -33079,7 +33089,8 @@ var AssetFemale3DCG = [
                     {   
                         Name: "PumpkinShineCuff", 
                         AllowTypes: {r: [1, 2], t:0}, 
-                        CopyLayerColor: "PumpkinShine", 
+                        CopyLayerColor: "PumpkinShine",
+						Priority: 34,
                         PoseMapping: {
                             BaseUpper: PoseType.HIDE,
                             BackBoxTie: PoseType.HIDE,
@@ -33095,7 +33106,8 @@ var AssetFemale3DCG = [
                     {   
                         Name: "BalloonPumpkinCuff", 
                         AllowTypes: {r: [1, 2], t: [1, 2]}, 
-                        CopyLayerColor: "Pumpkin", 
+                        CopyLayerColor: "Pumpkin",
+						Priority: 34, 
                         PoseMapping: {
                             BaseUpper: PoseType.HIDE,
                             BackBoxTie: PoseType.HIDE,
@@ -33110,7 +33122,8 @@ var AssetFemale3DCG = [
                     {   
                         Name: "BalloonPumpkinShineCuff", 
                         AllowTypes: {r: [1, 2], t: [1, 2]}, 
-                        CopyLayerColor: "PumpkinShine", 
+                        CopyLayerColor: "PumpkinShine",
+						Priority: 34, 
                         PoseMapping: {
                             BaseUpper: PoseType.HIDE,
                             BackBoxTie: PoseType.HIDE,
@@ -33126,6 +33139,7 @@ var AssetFemale3DCG = [
                         Name: "SmileyCuff", 
                         AllowTypes: {r: [3, 4], t:0}, 
                         CopyLayerColor: "Pumpkin",
+						Priority: 34,
                         PoseMapping: {
                             BaseUpper: PoseType.HIDE,
                             BackBoxTie: PoseType.HIDE,
@@ -33140,7 +33154,8 @@ var AssetFemale3DCG = [
                     {   
                         Name: "SmileyShineCuff", 
                         AllowTypes: {r: [3, 4], t:0}, 
-                        CopyLayerColor: "PumpkinShine", 
+                        CopyLayerColor: "PumpkinShine",
+						Priority: 34, 
                         PoseMapping: {
                             BaseUpper: PoseType.HIDE,
                             BackBoxTie: PoseType.HIDE,
@@ -33156,7 +33171,8 @@ var AssetFemale3DCG = [
                     {   
                         Name: "BalloonSmileyCuff", 
                         AllowTypes: {r: [3, 4], t: [1, 2]}, 
-                        CopyLayerColor: "Pumpkin", 
+                        CopyLayerColor: "Pumpkin",
+						Priority: 34, 
                         PoseMapping: {
                             BaseUpper: PoseType.HIDE,
                             BackBoxTie: PoseType.HIDE,
@@ -33171,7 +33187,8 @@ var AssetFemale3DCG = [
                     {   
                         Name: "BalloonSmileyShineCuff", 
                         AllowTypes: {r: [3, 4], t: [1, 2]}, 
-                        CopyLayerColor: "PumpkinShine", 
+                        CopyLayerColor: "PumpkinShine",
+						Priority: 34, 
                         PoseMapping: {
                             BaseUpper: PoseType.HIDE,
                             BackBoxTie: PoseType.HIDE,
