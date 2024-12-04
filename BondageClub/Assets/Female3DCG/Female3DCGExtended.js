@@ -17260,6 +17260,32 @@ var AssetFemale3DCGExtended = {
 			],
 			ChangeWhenLocked: false,
 		}, // FullMittens
+		LatexBondageMitts: {
+            Archetype: ExtendedArchetype.MODULAR,
+            ChatSetting: ModularItemChatSetting.PER_MODULE,
+            Modules:[
+                {
+                    Name: "GloveType", 
+                    Key: "t",
+                    Options:[ {}, {}, {} ] // Padded, Balloon, Balloon w nozzle 
+                },
+                {
+                    Name: "Wrist", 
+                    Key: "w",
+                    Options:[ {}, {}, {} ] // No wrist, Firm Wrist, Fitted Wrist
+                },
+                {
+                    Name: "PatternRight", 
+                    Key: "r",
+                    Options:[ {}, {}, {}, {}, {} ] // None, Pumpkin (underside only), Pumpkin, Smiley (underside only), Smiley
+                },
+                {
+                    Name: "PatternLeft", 
+                    Key: "l",
+                    Options:[ {}, {}, {}, {}, {} ] // None, Pumpkin (underside only), Pumpkin, Smiley (underside only), Smiley
+                },
+            ],
+        }, //LatexBondageMitts
 	}, // ItemHands
 	ItemAddon: {
 		CeilingChain: {
