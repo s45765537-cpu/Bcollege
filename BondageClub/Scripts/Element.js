@@ -1129,13 +1129,13 @@ var ElementButton = {
 			children: icons.map((icon) => {
 				let src, tooltipText;
 				if (icon.endsWith("Padlock")) {
-					src = `Assets/Female3DCG/ItemMisc/Preview/${icon}.png`;
+					src = `./Assets/Female3DCG/ItemMisc/Preview/${icon}.png`;
 					tooltipText = InterfaceTextGet("PreviewIconPadlock").replace(
 						"AssetName",
 						AssetGet("Female3DCG", "ItemMisc", icon).Description,
 					);
 				} else {
-					src = `Icons/Previews/${icon}.png`;
+					src = `./Icons/Previews/${icon}.png`;
 					tooltipText = InterfaceTextGet(`PreviewIcon${icon}`);
 				}
 
