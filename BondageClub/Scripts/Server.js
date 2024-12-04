@@ -1,10 +1,3 @@
-/**
- * A map containing appearance item diffs, keyed according to the item group. Used to compare and validate before/after
- * for appearance items.
- * @typedef AppearanceDiffMap
- * @type {Partial<Record<AssetGroupName, Item[]>>}
- */
-
 "use strict";
 
 /** @type {SocketIO.Socket} */
