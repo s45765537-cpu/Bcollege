@@ -477,6 +477,7 @@ var Layering = {
 								input: (event) => this._AssetInputListener(event),
 								focus: (event) => /** @type {HTMLInputElement} */(event.target).select(),
 								blur: ElementNumberInputBlur,
+								wheel: ElementNumberInputWheel,
 							},
 						},
 						{
@@ -529,6 +530,7 @@ var Layering = {
 															input: (event) => this._LayerInputListener(event),
 															focus: (event) => /** @type {HTMLInputElement} */(event.target).select(),
 															blur: ElementNumberInputBlur,
+															wheel: ElementNumberInputWheel,
 														},
 													},
 													{

@@ -190,6 +190,43 @@ function ElementNumberInputBlur(event) {
 }
 
 /**
+ * Wheel event listener for `number`-based `<input>` elements. Allows one to increment/decrement the value
+ * @this {HTMLInputElement}
+ * @param {WheelEvent} event
+ */
+function ElementNumberInputWheel(event) {
+	if (this.disabled || this.readOnly) {
+		event.stopImmediatePropagation();
+		return;
+	}
+
+	let min = this.min ? Number(this.min) : -Infinity;
+	let max = this.max ? Number(this.max) : Infinity;
+	let step = this.step ? Number(this.step) : 1;
+	if (Number.isNaN(min)) { min = -Infinity; }
+	if (Number.isNaN(max)) { max = Infinity; }
+	if (Number.isNaN(step)) { step = 1; }
+
+	let value = this.valueAsNumber;
+	if (event.deltaY < 0) {
+		value = CommonClamp(value + step, min, max);
+	} else if (event.deltaY > 0) {
+		value = CommonClamp(value - step, min, max);
+	}
+
+	if (value !== this.valueAsNumber) {
+		this.valueAsNumber = value;
+		this.dispatchEvent(new Event("input"));
+		if (document.activeElement !== this) {
+			this.dispatchEvent(new Event("change"));
+		}
+	}
+
+	event.preventDefault();
+	event.stopPropagation();
+}
+
+/**
  * Creates a new text input element in the main document.Does not create a new element if there is already an existing one with the same ID
  * @param {string} ID - The id of the input tag to create.
  * @param {string} Type - Type of the input tag to create.
@@ -225,6 +262,7 @@ function ElementCreateInput(ID, Type, Value, MaxLength, form) {
 		case "number":
 			e.inputMode = "numeric";
 			e.addEventListener("blur", ElementNumberInputBlur);
+			e.addEventListener("wheel", ElementNumberInputWheel);
 			break;
 	}
 
