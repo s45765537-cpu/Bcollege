@@ -879,9 +879,10 @@ var ElementButton = {
 	 * @type {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => void}
 	 */
 	_Click: function _Click(ev) {
-		if (this.getAttribute("aria-disabled") === "true") {
+		if (ev.target instanceof Element && ev.target.classList.contains("button-tooltip")) {
 			ev.stopImmediatePropagation();
-		} else if (ev.target instanceof Element && ev.target.classList.contains("button-tooltip")) {
+		} else if (this.getAttribute("aria-disabled") === "true") {
+			this.dispatchEvent(new MouseEvent("bcClickDisabled", ev));
 			ev.stopImmediatePropagation();
 		}
 	},
@@ -1075,7 +1076,7 @@ var ElementButton = {
 			...options,
 			tag: "img",
 			classList: ["button-image", ...(options.classList ?? [])],
-			attributes: { id: `${id}-image`, decoding: "async", loading: "lazy", src: img, ...(options.attributes ?? {}) },
+			attributes: { id: `${id}-image`, decoding: "async", loading: "lazy", "aria-hidden": "true", src: img, ...(options.attributes ?? {}) },
 		});
 	},
 
@@ -1107,9 +1108,10 @@ var ElementButton = {
 	 * Parse the passed icon list, returning its corresponding `<img>` grid and tooltip if non-empty
 	 * @param {string} id - The ID of the parent element
 	 * @param {readonly InventoryIcon[]} [icons] - The (optional) list of icons
-	 * @returns {null | { iconGrid: HTMLDivElement, tooltip: HTMLUListElement }} - `null` if the provided icon list is empty and otherwise an object containing the icon grid and a icon-specific tooltip
+	 * @returns {null | { iconGrid: HTMLDivElement, tooltip: (string | HTMLElement)[] }} - `null` if the provided icon list is empty and otherwise an object containing the icon grid and a icon-specific tooltip
 	 */
 	_ParseIcons: function _ParseIcons(id, icons) {
+		icons = icons?.filter(i => i != null);
 		if (!icons || icons.length === 0) {
 			return null;
 		}
@@ -1123,6 +1125,7 @@ var ElementButton = {
 		const iconGrid = ElementCreate({
 			tag: "div",
 			classList: ["button-icon-grid"],
+			attributes: { "aria-hidden": "true" },
 			children: icons.map((icon) => {
 				let src, tooltipText;
 				if (icon.endsWith("Padlock")) {
@@ -1142,16 +1145,17 @@ var ElementButton = {
 					classList: ["button-icon-tooltip-li"],
 					children: [tooltipText],
 					parent: tooltip,
+					style: { "background-image": `url("../${src}")` },
 				});
 
 				return {
 					tag: "img",
 					classList: ["button-icon"],
-					attributes: { decoding: "async", loading: "lazy", src, "aria-labelledby": `${id}-icon-li-${icon}` },
+					attributes: { decoding: "async", loading: "lazy", src },
 				};
 			}),
 		});
-		return { iconGrid, tooltip };
+		return { iconGrid, tooltip: [InterfaceTextGet("StatusAndEffects"), ElementCreate({ tag: "br" }), tooltip] };
 	},
 
 	/**
@@ -1183,25 +1187,11 @@ var ElementButton = {
 	},
 
 	/**
-	 * Create a button with a tooltip
-	 *
-	 * @example
-	 * <button id={id}>
-	 *     <div id={`${id}-tooltip`} />
-	 * </button>
+	 * Create a generic button.
 	 * @param {null | string} id - The ID of the to-be created search button
 	 * @param {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => any} onClick - The click event listener to-be attached to the tooltip
-	 * @param {Object} [options]
-	 * @param {null | string | Node | HTMLOptions<any> | readonly (null | string | Node | HTMLOptions<any>)[]} [options.tooltip] - Optional tooltip content. If not supplied then one should manually prepend it to the tooltip later
-	 * @param {"left" | "right" | "top" | "bottom"} [options.tooltipPosition] - The position of the tooltip w.r.t. the button
-	 * @param {string} [options.label]
-	 * @param {"top" | "center" | "bottom"} [options.labelPosition]
-	 * @param {string} [options.image]
-	 * @param {readonly InventoryIcon[]} [options.icons]
-	 * @param {"radio" | "checkbox" | "menuitemradio" | "menuitemcheckbox"} [options.role] - The role of the button. All accepted values are currently special-cased in order to set role-specific event listeners and/or attributes.
-	 * @param {boolean} [options.noStyling] - Whether to limit the default styling of the button's border and background
-	 * @param {boolean} [options.disabled] - Whether the button should be disabled or not
-	 * @param {null | Partial<Record<"button" | "tooltip" | "img" | "label", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the either the button or tooltip
+	 * @param {null | ElementButton.Options} [options] - High level options for the to-be created button
+	 * @param {null | Partial<Record<"button" | "tooltip" | "img" | "label", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional low-level {@link ElementCreate} options to-be applied to the either the button or tooltip
 	 * @returns {HTMLButtonElement} - The created button
 	 */
 	Create: function Create(id, onClick, options=null, htmlOptions=null) {
@@ -1225,7 +1215,7 @@ var ElementButton = {
 		/** @type {(null | string | Node | HTMLOptions<any>)[]} */
 		const protoTooltip = [...(CommonIsArray(options.tooltip) ? options.tooltip : [options.tooltip])];
 		if (!protoTooltip.every(i => i == null)) {
-			protoTooltip.push(icons?.tooltip);
+			protoTooltip.push(...(icons?.tooltip ?? []));
 		}
 		protoTooltip.push(...(tooltipOptions.children ?? []));
 		const tooltip = this._ParseTooltip(id, options.tooltipPosition, protoTooltip, tooltipOptions);
@@ -1250,6 +1240,7 @@ var ElementButton = {
 				mousedown: this._MouseDown,
 				touchend: this._MouseUp,
 				touchcancel: this._MouseUp,
+				bcClickDisabled: options.clickDisabled,
 				...(buttonOptions.eventListeners ?? {}),
 			},
 			children: [
@@ -1297,6 +1288,136 @@ var ElementButton = {
 			}
 		}
 		return elem;
+	},
+
+	/**
+	 * Create a button for an asset or item, including image, label and icons.
+	 * @param {null | string} idPrefix - The ID of the to-be created search button
+	 * @param {Asset | Item} asset - The asset (or item) for which to create a button
+	 * @param {null | Character} C - The character wearing the asset/item (if any)
+	 * @param {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => any} onClick - The click event listener to-be attached to the tooltip
+	 * @param {null | ElementButton.Options} [options] - High level options for the to-be created button
+	 * @param {null | Partial<Record<"button" | "tooltip" | "img" | "label", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional low-level {@link ElementCreate} options to-be applied to the either the button or tooltip
+	 * @returns {HTMLButtonElement} - The created button
+	 */
+	CreateForAsset: function CreateForAsset(idPrefix, asset, C, onClick, options=null, htmlOptions=null) {
+		const item = "Asset" in asset ? asset : { Asset: asset };
+		asset = item.Asset;
+
+		const id = `${idPrefix}-${asset.Group.Name}-${asset.Name}`;
+		const elem = /** @type {HTMLButtonElement | null} */(document.getElementById(id));
+		if (elem) {
+			console.error(`Element "${id}" already exists`);
+			return elem;
+		}
+
+		htmlOptions ??= {};
+		htmlOptions.button ??= {};
+		htmlOptions.button.attributes ??= {};
+		htmlOptions.button.attributes.name ??= asset.Name;
+		htmlOptions.button.dataAttributes ??= {};
+		htmlOptions.button.dataAttributes.group ??= asset.Group.Name;
+		htmlOptions.button.dataAttributes.craft ??= item.Craft ? "" : undefined;
+		htmlOptions.button.dataAttributes.hidden ??= CharacterAppearanceItemIsHidden(asset.Name, asset.Group.Name) ? "" : undefined;
+		htmlOptions.button.dataAttributes.vibrating ??= item.Property?.Effect?.includes("Vibrating") ? "" : undefined;
+		htmlOptions.button.children = [
+			...(htmlOptions.button.children ?? []),
+			ElementButton._ParseImage(`${idPrefix}-hidden`, "./Icons/HiddenItem.png", { dataAttributes: { hidden: "" } }),
+		];
+		htmlOptions.tooltip ??= {};
+		htmlOptions.tooltip.classList ??= [];
+		htmlOptions.tooltip.classList = [
+			"button-tooltip-justify",
+			...htmlOptions.tooltip.classList,
+		];
+
+		options ??= {};
+		options.label ??= item.Craft?.Name || asset.Description;
+		options.image ??= `./Assets/Female3DCG/${asset.DynamicGroupName}/Preview/${asset.Name}.png`;
+		options.icons ??= [
+			DialogGetFavoriteStateDetails(C ?? Player, asset)?.Icon,
+			...DialogGetLockIcon(item, "Property" in item),
+			...DialogGetAssetIcons(asset),
+			...DialogEffectIcons.GetIcons(item),
+		];
+		options.tooltipPosition ??= "bottom";
+		options.tooltip ??= !item.Craft ? "" : /** @type {HTMLOptions<any>[]} */([
+			{
+				tag: "span",
+				children: [InterfaceTextGet("DialogMenuCrafting") + ":"],
+			},
+			{
+				tag: "div",
+				classList: ["button-tooltip-craft"],
+				children: [
+					...(item.Craft.Property ? [
+						InterfaceTextGet("CraftingProperty").replace("CraftProperty", ""),
+						{ tag: "q", children: [item.Craft.Property] },
+						{ tag: "br" },
+					] : []),
+					...((item.Craft.MemberName && item.Craft.MemberNumber) ? [
+						InterfaceTextGet("CraftingMember").replace("MemberName (MemberNumber)", ""),
+						{ tag: "q", children: [`${item.Craft.MemberName} (${item.Craft.MemberNumber})`] },
+						{ tag: "br" },
+					] : []),
+					...([
+						InterfaceTextGet("CraftingPrivate").replace("CraftPrivate", ""),
+						{ tag: "q", children: [CommonCapitalize(item.Craft.Private.toString())] },
+						{ tag: "br" },
+					]),
+					...(item.Craft.Description ? [
+						InterfaceTextGet("CraftingDescription").replace("CraftDescription", ""),
+						{ tag: "q", children: [CraftingDescription.Decode(item.Craft.Description)] },
+						{ tag: "br" },
+					] : []),
+				],
+			},
+		]);
+
+		return ElementButton.Create(id, onClick, options, htmlOptions);
+	},
+
+	/**
+	 * Create a button for an activity, including image, label and icons.
+	 * @param {null | string} idPrefix - The ID of the to-be created search button
+	 * @param {ItemActivity} activity - The activity for which to create a button
+	 * @param {null | Character} C - The target character of the activity (noop as of now)
+	 * @param {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => any} onClick - The click event listener to-be attached to the tooltip
+	 * @param {null | ElementButton.Options} [options] - High level options for the to-be created button
+	 * @param {null | Partial<Record<"button" | "tooltip" | "img" | "label", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional low-level {@link ElementCreate} options to-be applied to the either the button or tooltip
+	 * @returns {HTMLButtonElement} - The created button
+	 */
+	CreateForActivity: function CreateForActivity(idPrefix, activity, C, onClick, options=null, htmlOptions=null) {
+		const id = `${idPrefix}-${activity.Activity.Name}`;
+		const elem = /** @type {HTMLButtonElement | null} */(document.getElementById(id));
+		if (elem) {
+			console.error(`Element "${id}" already exists`);
+			return elem;
+		}
+
+		htmlOptions ??= {};
+		htmlOptions.button ??= {};
+		htmlOptions.button.attributes ??= {};
+		htmlOptions.button.attributes.name ??= activity.Activity.Name;
+		htmlOptions.button.dataAttributes ??= {};
+		htmlOptions.button.dataAttributes.group ??= activity.Item?.Asset.Group.Name;
+		htmlOptions.tooltip ??= {};
+		htmlOptions.tooltip.classList ??= [];
+		htmlOptions.tooltip.classList = [
+			"button-tooltip-justify",
+			...htmlOptions.tooltip.classList,
+		];
+
+		options ??= {};
+		options.label ??= activity.Activity.Name;
+		options.image ??= (activity.Item ? `./${AssetGetPreviewPath(activity.Item.Asset)}/${activity.Item.Asset.Name}.png` : `./Assets/Female3DCG/Activity/${activity.Activity.Name}.png`);
+		options.icons ??= [
+			activity.Blocked === "limited" ? "AllowedLimited" : undefined,
+			activity.Item ? "Handheld" : undefined,
+		];
+		options.tooltipPosition ??= "bottom";
+		options.tooltip ??= options.icons.length ? [""] : undefined;
+		return ElementButton.Create(id, onClick, options, htmlOptions);
 	},
 };
 

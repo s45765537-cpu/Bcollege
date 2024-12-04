@@ -1601,7 +1601,7 @@ function InventorySetPermission(groupName, assetName, permissionType, type=null,
  * @param {string} [Type] - The relevant extended item option identifier of the item (if any)
  * @param {boolean} [Worn] - True if the player is changing permissions for an item they're wearing or if it's the first option
  * @param {boolean} push - Whether to push the permission changes to the server
- * @returns {void} - Nothing
+ * @returns {ItemPermissionMode} - The new item permission
  */
 function InventoryTogglePermission(Item, Type=null, Worn=false, push=true) {
 	const onExtreme = Player.GetDifficulty() >= 3;
@@ -1614,23 +1614,30 @@ function InventoryTogglePermission(Item, Type=null, Worn=false, push=true) {
 	const permission = (Type ? Player.PermissionItems[key]?.TypePermissions[Type] : Player.PermissionItems[key]?.Permission) ?? "Default";
 	switch (permission) {
 		case "Default":
-			return InventorySetPermission(groupName, assetName, "Favorite", Type, push);
+			InventorySetPermission(groupName, assetName, "Favorite", Type, push);
+			return "Favorite";
 		case "Favorite":
 			if (blockAllowed) {
-				return InventorySetPermission(groupName, assetName, "Block", Type, push);
+				InventorySetPermission(groupName, assetName, "Block", Type, push);
+				return "Block";
 			} else if (limitedAllowed) {
-				return InventorySetPermission(groupName, assetName, "Limited", Type, push);
+				InventorySetPermission(groupName, assetName, "Limited", Type, push);
+				return "Limited";
 			} else {
-				return InventorySetPermission(groupName, assetName, "Default", Type, push);
+				InventorySetPermission(groupName, assetName, "Default", Type, push);
+				return "Default";
 			}
 		case "Block":
 			if (limitedAllowed) {
-				return InventorySetPermission(groupName, assetName, "Limited", Type, push);
+				InventorySetPermission(groupName, assetName, "Limited", Type, push);
+				return "Limited";
 			} else {
-				return InventorySetPermission(groupName, assetName, "Default", Type, push);
+				InventorySetPermission(groupName, assetName, "Default", Type, push);
+				return "Default";
 			}
 		case "Limited":
-			return InventorySetPermission(groupName, assetName, "Default", Type, push);
+			InventorySetPermission(groupName, assetName, "Default", Type, push);
+			return "Default";
 	}
 }
 

@@ -32,6 +32,8 @@
 }
 
 .button-tooltip {
+	--tooltip-gap: min(1dvh, 0.5dvw);
+
 	cursor: auto;
 	user-select: none;
 	background-color: #FFFF88;
@@ -48,13 +50,55 @@
 	z-index: 1;
 }
 
+.button-tooltip-justify {
+	text-align: justify;
+	text-wrap: wrap;
+	text-indent: min(3.6dvh, 1.8dvw) hanging each-line;
+}
+
+.button-tooltip-craft {
+	padding-left: min(3.6dvh, 1.8dvw);
+}
+
 .button-image {
 	position: absolute;
+	pointer-events: none;
 	top: 2%;
 	left: 2%;
 	width: 96%;
 	max-height: 96%;
 	aspect-ratio: 1 /1;
+}
+
+.button-image[data-hidden] {
+	display: none;
+}
+
+.button[data-hidden] > .button-image[data-hidden] {
+	display: inline;
+}
+
+.button[data-hidden] > .button-image:not([data-hidden]) {
+	display: none;
+}
+
+.button[data-vibrating] > .button-image:not([data-hidden]) {
+	  animation: button-shake calc(1s / 6);
+	  animation-iteration-count: infinite;
+}
+
+@keyframes button-shake {
+	0% { transform: translate(0.333%, 0.333%); }
+	10% { transform: translate(-0.333%, -0.666%); }
+	20% { transform: translate(-1%, 0%); }
+	30% { transform: translate(1%, 0.666%); }
+	40% { transform: translate(0.333%, -0.333%); }
+	50% { transform: translate(-0.333%, 0.666%); }
+	60% { transform: translate(-1%, 0.333%); }
+	70% { transform: translate(1%, 0.333%); }
+	80% { transform: translate(-0.333%, -0.333%); }
+	90% { transform: translate(0.333%, 0.666%); }
+	100% { transform: translate(0.333%, -0.666%); }
 }
 
 .button-label {
@@ -78,8 +122,9 @@
 
 	display: grid;
 	position: absolute;
-	top: 0%;
-	left: 0%;
+	pointer-events: none;
+	top: min(0.3dvh, 0.15dvw);
+	left: min(0.3dvh, 0.15dvw);
 	grid-template-rows: repeat(4, var(--icon-size));
 	gap: calc(var(--icon-size) / 8);
 }
@@ -91,30 +136,38 @@
 
 .button-icon-tooltip-ul {
 	text-align: left;
-	margin-top: 0;
-	margin-bottom: 0;
+	margin: 0;
+	padding-left: min(2.6dvh, 1.3dvw);
+}
+
+.button-icon-tooltip-li {
+	display: flex;
+	list-style: none;
+	background-repeat: no-repeat;
+	background-size: contain;
+	padding-left: min(4dvh, 2dvw);
 }
 
 .button-tooltip-left {
 	top: 50%;
 	transform: translateY(-50%);
-	right: calc(100% + min(1vh, 0.5vw));
+	right: calc(100% + var(--tooltip-gap));
 }
 
 .button-tooltip-right {
 	top: 50%;
 	transform: translateY(-50%);
-	left: calc(100% + min(1vh, 0.5vw));
+	left: calc(100% + var(--tooltip-gap));
 }
 
 .button-tooltip-top {
-	bottom: calc(100% + min(1vh, 0.5vw));
+	bottom: calc(100% + var(--tooltip-gap));
 	left: 50%;
 	transform: translateX(-50%);
 }
 
 .button-tooltip-bottom {
-	top: calc(100% + min(1vh, 0.5vw));
+	top: calc(100% + var(--tooltip-gap));
 	left: 50%;
 	transform: translateX(-50%);
 }
@@ -156,7 +209,16 @@
 	left: 0;
 	right: 0;
 	bottom: 0;
-	border: min(0.3vh, 0.15vw) inset black;
+	border: min(0.3dvh, 0.15dvw) inset black;
+}
+
+.button-styling:disabled::before,
+.button-styling[aria-disabled="true"]::before {
+	border: unset;
+}
+
+.button-styling[aria-checked="true"]::before {
+	border: min(0.3dvh, 0.15dvw) inset black;
 }
 
 .button-styling:active,
@@ -218,11 +280,6 @@
 .button-styling:disabled > .button-label,
 .button-styling[aria-disabled="true"] > .button-label {
 	background-color: color-mix(in srgb, var(--disabled-color) 50%, transparent) !important;
-}
-
-.button-styling:disabled::before,
-.button-styling[aria-disabled="true"]::before {
-	border: unset;
 }
 
 .button-tooltip:empty,

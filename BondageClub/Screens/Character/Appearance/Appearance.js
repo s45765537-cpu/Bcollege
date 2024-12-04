@@ -1491,9 +1491,6 @@ function AppearanceClick() {
 							AppearancePreviewBuild(C, true);
 							AppearanceMenuBuild(C);
 						}
-					} else {
-						CharacterAppearanceHeaderTextTime = DialogTextDefaultTimer;
-						CharacterAppearanceHeaderText = DialogText;
 					}
 				}
 				return;
