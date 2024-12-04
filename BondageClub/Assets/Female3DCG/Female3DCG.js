@@ -32179,6 +32179,7 @@ var AssetFemale3DCG = [
 			},
             {
                 Name: "LatexBondageMitts",
+				InventoryID: 1192,
                 Fetish: ["Latex"],
                 Value: 40,
                 Difficulty: 5,
@@ -32517,6 +32518,7 @@ var AssetFemale3DCG = [
                             Yoked: "Yoked",
                             Hogtied: PoseType.HIDE,
                             AllFours: "AllFours",
+							TapedHands: PoseType.HIDE,
                         },  
                     },
                     {   
@@ -32532,6 +32534,7 @@ var AssetFemale3DCG = [
                             Yoked: "Yoked",
                             Hogtied: PoseType.HIDE,
                             AllFours: "AllFours",
+							TapedHands: PoseType.HIDE,
                         },  
                     },
                     {   
@@ -32710,6 +32713,7 @@ var AssetFemale3DCG = [
                             Yoked: "Yoked",
                             Hogtied: PoseType.HIDE,
                             AllFours: PoseType.HIDE,
+							TapedHands: PoseType.HIDE,
                         },   
                     },
                     {   
@@ -32724,6 +32728,7 @@ var AssetFemale3DCG = [
                             Yoked: "Yoked",
                             Hogtied: PoseType.HIDE,
                             AllFours: PoseType.HIDE,
+							TapedHands: PoseType.HIDE,
                         },   
                     },
                     {   
@@ -32770,6 +32775,7 @@ var AssetFemale3DCG = [
                             Yoked: "Yoked",
                             Hogtied: PoseType.HIDE,
                             AllFours: "AllFours",
+							TapedHands: PoseType.HIDE,
                         }, 
                     },
                     {   
@@ -32785,6 +32791,7 @@ var AssetFemale3DCG = [
                             Yoked: "Yoked",
                             Hogtied: PoseType.HIDE,
                             AllFours: "AllFours",
+							TapedHands: PoseType.HIDE,
                         }, 
                     },
                     {   
@@ -32830,6 +32837,7 @@ var AssetFemale3DCG = [
                             Yoked: "Yoked",
                             Hogtied: PoseType.HIDE,
                             AllFours: PoseType.HIDE,
+							TapedHands: PoseType.HIDE,
                         }, 
                     },
                     {   
@@ -32845,6 +32853,7 @@ var AssetFemale3DCG = [
                             Yoked: "Yoked",
                             Hogtied: PoseType.HIDE,
                             AllFours: PoseType.HIDE,
+							TapedHands: PoseType.HIDE,
                         }, 
                     },
                     {   
@@ -32891,6 +32900,7 @@ var AssetFemale3DCG = [
                             Yoked: "Yoked",
                             Hogtied: PoseType.HIDE,
                             AllFours: "AllFours",
+							TapedHands: PoseType.HIDE,
                         }, 
                     },
                     {   
@@ -32906,6 +32916,7 @@ var AssetFemale3DCG = [
                             Yoked: "Yoked",
                             Hogtied: PoseType.HIDE,
                             AllFours: "AllFours",
+							TapedHands: PoseType.HIDE,
                         }, 
                     },
                     {   
@@ -32953,6 +32964,7 @@ var AssetFemale3DCG = [
                             Yoked: PoseType.HIDE,
                             Hogtied: PoseType.HIDE,
                             AllFours: PoseType.HIDE,
+							TapedHands: PoseType.HIDE,
                         },
                     },
                     {   
@@ -32969,6 +32981,7 @@ var AssetFemale3DCG = [
                             Yoked: PoseType.HIDE,
                             Hogtied: PoseType.HIDE,
                             AllFours: PoseType.HIDE,
+							TapedHands: PoseType.HIDE,
                         },
                     },
                     {   
@@ -32986,6 +32999,7 @@ var AssetFemale3DCG = [
                             Yoked: PoseType.HIDE,
                             Hogtied: PoseType.HIDE,
                             AllFours: PoseType.HIDE,
+							TapedHands: PoseType.HIDE,
                         }, 
                     },
                     {   
@@ -33003,6 +33017,7 @@ var AssetFemale3DCG = [
                             Yoked: PoseType.HIDE,
                             Hogtied: PoseType.HIDE,
                             AllFours: PoseType.HIDE,
+							TapedHands: PoseType.HIDE,
                         },
                     },
                     {   
@@ -33019,6 +33034,7 @@ var AssetFemale3DCG = [
                             Yoked: PoseType.HIDE,
                             Hogtied: PoseType.HIDE,
                             AllFours: PoseType.HIDE,
+							TapedHands: PoseType.HIDE,
                         }, 
                     },
                     {   
@@ -33035,6 +33051,7 @@ var AssetFemale3DCG = [
                             Yoked: PoseType.HIDE,
                             Hogtied: PoseType.HIDE,
                             AllFours: PoseType.HIDE,
+							TapedHands: PoseType.HIDE,
                         },
                     },
                     {   
@@ -33051,6 +33068,7 @@ var AssetFemale3DCG = [
                             Yoked: PoseType.HIDE,
                             Hogtied: PoseType.HIDE,
                             AllFours: PoseType.HIDE,
+							TapedHands: PoseType.HIDE,
                         },
                     },
                     {   
@@ -33067,6 +33085,7 @@ var AssetFemale3DCG = [
                             Yoked: PoseType.HIDE,
                             Hogtied: PoseType.HIDE,
                             AllFours: PoseType.HIDE,
+							TapedHands: PoseType.HIDE,
                         }, 
                     },
                     // Patterns
@@ -33084,6 +33103,7 @@ var AssetFemale3DCG = [
                             Yoked: PoseType.HIDE,
                             Hogtied: PoseType.HIDE,
                             AllFours: PoseType.HIDE,
+							TapedHands: PoseType.HIDE,
                         },
                     },
                     {   
@@ -33100,6 +33120,7 @@ var AssetFemale3DCG = [
                             Yoked: PoseType.HIDE,
                             Hogtied: PoseType.HIDE,
                             AllFours: PoseType.HIDE,
+							TapedHands: PoseType.HIDE,
                         }, 
                     },
                 
@@ -33117,6 +33138,7 @@ var AssetFemale3DCG = [
                             Yoked: PoseType.HIDE,
                             Hogtied: PoseType.HIDE,
                             AllFours: PoseType.HIDE,
+							TapedHands: PoseType.HIDE,
                         }, 
                     },
                     {   
@@ -33133,6 +33155,7 @@ var AssetFemale3DCG = [
                             Yoked: PoseType.HIDE,
                             Hogtied: PoseType.HIDE,
                             AllFours: PoseType.HIDE,
+							TapedHands: PoseType.HIDE,
                         }, 
                     },
                     {   
@@ -33149,6 +33172,7 @@ var AssetFemale3DCG = [
                             Yoked: PoseType.HIDE,
                             Hogtied: PoseType.HIDE,
                             AllFours: PoseType.HIDE,
+							TapedHands: PoseType.HIDE,
                         }, 
                     },
                     {   
@@ -33165,6 +33189,7 @@ var AssetFemale3DCG = [
                             Yoked: PoseType.HIDE,
                             Hogtied: PoseType.HIDE,
                             AllFours: PoseType.HIDE,
+							TapedHands: PoseType.HIDE,
                         }, 
                     },
                     
@@ -33182,6 +33207,7 @@ var AssetFemale3DCG = [
                             Yoked: PoseType.HIDE,
                             Hogtied: PoseType.HIDE,
                             AllFours: PoseType.HIDE,
+							TapedHands: PoseType.HIDE,
                         }, 
                     },
                     {   
@@ -33198,6 +33224,7 @@ var AssetFemale3DCG = [
                             Yoked: PoseType.HIDE,
                             Hogtied: PoseType.HIDE,
                             AllFours: PoseType.HIDE,
+							TapedHands: PoseType.HIDE,
                         }, 
                     },
                     
