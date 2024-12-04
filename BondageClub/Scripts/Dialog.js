@@ -2213,11 +2213,8 @@ function DialogChangeMode(mode, reset=false) {
 				DialogFocusSourceItem = null;
 			}
 
-			/** @type {DialogMenu} */
-			const screenfunctions = DialogMenuMapping[DialogMenuMode];
 			if (C && C.FocusGroup) {
-				screenfunctions.Init(C, C.FocusGroup);
-				screenfunctions.Resize(true);
+				DialogMenuMapping[DialogMenuMode].Init(C, C.FocusGroup);
 			}
 			break;
 		}
