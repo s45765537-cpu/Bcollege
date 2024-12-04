@@ -2054,7 +2054,13 @@ const CraftingValidationRecord = {
 				return Asset.some((i) => i.Name === c.Item);
 			}
 		},
-		GetDefault: (c, a) => null,
+		GetDefault: (c, a, checkPlayerInventory=false) => {
+			if (checkPlayerInventory) {
+				return Asset.find((i) => i.Name === c.Item)?.Name ?? a?.Name ?? null;
+			} else {
+				return a?.Name ?? null;
+			}
+		},
 		StatusCode: CraftingStatusType.CRITICAL_ERROR,
 	},
 	Lock: {
@@ -2288,10 +2294,9 @@ function CraftingValidate(Craft, asset=null, Warn=true, checkPlayerInventory=fal
 
 	// If the Asset has been explicetly passed then `Craft.Item` errors are fully recoverable,
 	// though the player should actually own the item
-	if (asset != null && StatusMap.get("Item") === CraftingStatusType.CRITICAL_ERROR) {
+	if (Craft.Item && StatusMap.get("Item") === CraftingStatusType.CRITICAL_ERROR) {
 		StatusMap.set("Item", CraftingStatusType.ERROR);
-		Craft.Item = asset.Name;
-		if (checkPlayerInventory && !Player.Inventory.some((i) => i.Name === asset.Name)) {
+		if (checkPlayerInventory && !Player.Inventory.some((i) => i.Name === Craft.Item)) {
 			Craft.Disabled = true;
 		}
 	}
