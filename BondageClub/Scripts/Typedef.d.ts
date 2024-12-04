@@ -251,9 +251,16 @@ declare namespace DialogMenu {
 		statusTimer?: number;
 		/**
 		 * Reset the position of the scroll bar to the checked button, or, if unavailable, the top of the button grid.
+		 *
 		 * Defaults to `true` if {@link ReloadOptions.reset} is specified.
 		 */
 		resetScrollbar?: boolean;
+		/**
+		 * Whether to regenerate the subscreen's underlying item or activity list (see {@link DialogBuildActivities} and {@link DialogInventoryBuild}).
+		 *
+		 * Defaults to `true` if {@link ReloadOptions.reset} is specified.
+		 */
+		resetDialogItems?: boolean;
 	}
 }
 

@@ -1336,7 +1336,7 @@ function DialogBuildActivities(C, reload=true) {
 	if (reload) {
 		switch (DialogMenuMode) {
 			case "activities":
-				DialogMenuMapping.activities.Reload(null, null, { reset: true });
+				DialogMenuMapping.activities.Reload(null, null, { reset: true, resetDialogItems: false });
 				break;
 		}
 	}
@@ -1691,7 +1691,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 			case "items":
 			case "locking":
 			case "permissions":
-				DialogMenuMapping[DialogMenuMode]?.Reload(null, null, { reset: true });
+				DialogMenuMapping[DialogMenuMode]?.Reload(null, null, { reset: true, resetDialogItems: false });
 				break;
 		}
 	}
@@ -3079,6 +3079,7 @@ class DialogMenu {
 			this._focusGroup = focusGroup;
 		}
 		options.resetScrollbar ??= options.reset;
+		options.resetDialogItems ??= options.reset;
 
 		// Update the label, icon and grid (if applicable)
 		const statusSpan = document.getElementById(this.ids.status);
@@ -3116,7 +3117,7 @@ class DialogMenu {
 	 * @abstract
 	 * @param {HTMLElement} root
 	 * @param {HTMLElement} buttonGrid
-	 * @param {Pick<DialogMenu.ReloadOptions, "reset" | "resetScrollbar">} options
+	 * @param {Pick<DialogMenu.ReloadOptions, "reset" | "resetScrollbar" | "resetDialogItems">} options
 	 */
 	_ReloadButtonGrid(root, buttonGrid, options) {
 		throw new Error("Trying to call an abstract method");
@@ -3245,7 +3246,6 @@ class _DialogItemMenu extends DialogMenu {
 	};
 
 	_Load() {
-		DialogInventoryBuild(this.C, false, false, false);
 		DialogBuildActivities(this.C, false);
 
 		const ids = this.ids;
@@ -3317,6 +3317,10 @@ class _DialogItemMenu extends DialogMenu {
 
 	/** @type {DialogMenu["_ReloadButtonGrid"]} */
 	_ReloadButtonGrid(root, buttonGrid, options) {
+		if (options.resetDialogItems) {
+			DialogInventoryBuild(this.C, false, false, false);
+		}
+
 		if (options.reset) {
 			buttonGrid.innerHTML = "";
 			DialogInventory.forEach((clickedItem, i) => ElementButton.CreateForAsset(
@@ -3417,8 +3421,6 @@ class _DialogLockingMenu extends DialogMenu {
 	};
 
 	_Load() {
-		DialogInventoryBuild(this.C, false, true, false);
-
 		const ids = this.ids;
 		return document.getElementById(ids.root) ?? ElementCreate({
 			tag: "div",
@@ -3437,6 +3439,10 @@ class _DialogLockingMenu extends DialogMenu {
 
 	/** @type {DialogMenu["_ReloadButtonGrid"]} */
 	_ReloadButtonGrid(root, buttonGrid, options) {
+		if (options.resetDialogItems) {
+			DialogInventoryBuild(this.C, false, true, false);
+		}
+
 		if (options.reset) {
 			buttonGrid.innerHTML = "";
 			DialogInventory.forEach((clickedItem, i) => ElementButton.CreateForAsset(
@@ -3504,8 +3510,6 @@ class _DialogPermissionMenu extends DialogMenu {
 	};
 
 	_Load() {
-		DialogInventoryBuild(this.C, false, false, false);
-
 		const ids = this.ids;
 		return document.getElementById(ids.root) ?? ElementCreate({
 			tag: "div",
@@ -3524,6 +3528,10 @@ class _DialogPermissionMenu extends DialogMenu {
 
 	/** @type {DialogMenu["_ReloadButtonGrid"]} */
 	_ReloadButtonGrid(root, buttonGrid, options) {
+		if (options.resetDialogItems) {
+			DialogInventoryBuild(this.C, false, false, false);
+		}
+
 		if (options.reset) {
 			buttonGrid.innerHTML = "";
 			DialogInventory.forEach((clickedItem, i) => ElementButton.CreateForAsset(
@@ -3584,8 +3592,6 @@ class _DialogActivitiesMenu extends DialogMenu {
 	clickStatusCallbacks = {};
 
 	_Load() {
-		DialogBuildActivities(this.C);
-
 		const ids = this.ids;
 		return document.getElementById(ids.root) ?? ElementCreate({
 			tag: "div",
@@ -3604,6 +3610,10 @@ class _DialogActivitiesMenu extends DialogMenu {
 
 	/** @type {DialogMenu["_ReloadButtonGrid"]} */
 	_ReloadButtonGrid(root, buttonGrid, options) {
+		if (options.resetDialogItems) {
+			DialogBuildActivities(this.C, false);
+		}
+
 		if (options.reset) {
 			buttonGrid.innerHTML = "";
 			DialogActivity.forEach((clickedActivity, index) => ElementButton.CreateForActivity(
