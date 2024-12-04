@@ -2553,7 +2553,8 @@ function DialogFindFacialExpressionMenuGroup(ExpressionGroup) {
  * @returns {void} - Nothing
  */
 function DialogSetStatus(status, timer=0, replace=null) {
-	const elem = document.getElementById(DialogMenuMapping[DialogMenuMode]?.ids.status ?? "");
+	const id = DialogMenuMapping[DialogMenuMode]?.ids.status;
+	const elem = id ? document.getElementById(id) : null;
 	if (!elem) {
 		return;
 	}
@@ -3075,17 +3076,17 @@ class DialogMenu {
 		options.resetDialogItems ??= options.reset;
 
 		// Update the label, icon and grid (if applicable)
-		const statusSpan = document.getElementById(this.ids.status);
+		const statusSpan = this.ids.status ? document.getElementById(this.ids.status) : null;
 		if (statusSpan) {
 			this._ReloadStatus(root, statusSpan, options);
 		}
 
-		const buttonGrid = document.getElementById(this.ids.grid);
+		const buttonGrid = this.ids.grid ? document.getElementById(this.ids.grid) : null;
 		if (buttonGrid) {
 			this._ReloadButtonGrid(root, buttonGrid, options);
 		}
 
-		const icon = document.getElementById(this.ids.icon);
+		const icon = this.ids.icon ? document.getElementById(this.ids.icon) : null;
 		if (icon) {
 			this._ReloadIcon(root, icon, options);
 		}
