@@ -853,7 +853,7 @@ var CraftingElements = {
 				id,
 				CraftingEventListeners._ClickRadio,
 				{ label, role: "radio" },
-				{ button: { children, attributes: { tabindex: first ? 0 : -1 }, parent: ElementNoParent, ...(attributes ?? {}) }},
+				{ button: { children, attributes: { tabindex: first ? 0 : -1, ...(attributes ?? {}) }, parent: ElementNoParent }},
 			);
 		}
 		ret.addEventListener("click", onClick);
