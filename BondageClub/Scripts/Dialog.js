@@ -2936,7 +2936,7 @@ class DialogMenu {
 	 * @param {Character} C The character in question
 	 * @param {AssetItemGroup} focusGroup The focused item group
 	 * @param {null | { shape?: RectTuple }} style Misc styling for the subscreen
-	 * @returns {HTMLDivElement} The div containing the dialog subscreen root element
+	 * @returns {null | HTMLDivElement} The div containing the dialog subscreen root element or `null` if the screen failed to initialize
 	 */
 	Init(C, focusGroup, style=null) {
 		style ??= {};
@@ -2944,7 +2944,7 @@ class DialogMenu {
 		this._focusGroup = focusGroup;
 		this._shape = style.shape ?? [...this.defaultShape];
 		this.Load();
-		return /** @type {HTMLDivElement} */(document.getElementById(this.ids.root));
+		return /** @type {null | HTMLDivElement} */(document.getElementById(this.ids.root));
 	}
 
 	/** @type {ScreenFunctions["Load"]} */
