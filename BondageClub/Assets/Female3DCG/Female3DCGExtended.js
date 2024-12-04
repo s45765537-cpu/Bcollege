@@ -443,6 +443,11 @@ var AssetFemale3DCGExtended = {
 						{}, // t12 - RadFrog
 						{}, // t13 - ZamStickII
 						{}, // t14 - Hornywood
+						{}, // t15 - BondageClubRules
+						{}, // t16 - BornToBeTied
+						{}, // t17 - Hogtied
+						{}, // t18 - BCollege2
+						{}, // t19 - ControlPad1
 					],
 				},
 			],
