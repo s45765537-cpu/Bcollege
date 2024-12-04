@@ -3915,6 +3915,7 @@ interface LogNameType {
 	Cell: "Locked" | "KeyDeposit",
 	College: "TeacherKey",
 	Import: "BondageCollege",
+	Infiltration: "Penitentiary",
 	Introduction: "MaidOpinion" | "DailyJobDone",
 	LockPick: "FailedLockPick",
 	LoverRule: "BlockLoverLockSelf" | "BlockLoverLockOwner",

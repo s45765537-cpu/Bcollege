@@ -13,6 +13,7 @@ ClubCardDefeat,,,"You'll need to review your strategies comrade.  Losing is part
 0,30,What are the perks?,"You can train some perks to help you, before going into a mission.  Do you need details?",,
 0,40,I'd like to take a mission.,Very good comrade DialogPlayerName!  (She salutes you.)  What kind of challenge are you up to?,,"DialogSkillGreater(""Infiltration"", 3)"
 0,40,I'd like to take a mission.,Very good!  What kind of challenge are you up to?,,"!DialogSkillGreater(""Infiltration"", 3)"
+0,90,Let's talk about Pandora Penitentiary.,(She nods.)  What would you like to know comrade?,,
 0,Brainwash0,"Comrade, I've got a prisoner from Pandora in my private room.",Very good comrade DialogPlayerName! We can send someone to pick her up for interrogation!,,PandoraPrisonerPresent()
 0,80,Would you like to play Club Cards?,(She thinks aloud.)  I guess we could do a game between two missions.  It's not too busy right now.,,CanPlayClubCard()
 0,,I need to go.  (Leave her.),,DialogLeave(),
@@ -52,6 +53,19 @@ ClubCardDefeat,,,"You'll need to review your strategies comrade.  Losing is part
 80,,Can I tie you up if I win?,"No, I don't have time for that.  We'll play to hone our tactical skills.",,
 80,,(Play Club Card with her.),,ClubCardStart(),
 80,0,Let's talk about something else.,"Good, we have no time to waste.",,
+90,,What is that jail?,"Pandora's Box created a huge penitentiary facility, to jail many of our members at once.  We need to investigate the place so we can rescue our infiltrators.",,
+90,91,I could get locked up to spy on it.,"If you're willing to get locked up, we will pay you comrade.  I can arrange your captivity, how long do you need?",,
+90,0,Let's talk about something else.,"Good, we have no time to waste.",,
+91,92,5 minutes.,Easy enough.  I will arrange a 5 minutes sentence for you.  Here's $5 for the trouble.  Bring lots of information.,"PreparePenitentiary(5, 5)",
+91,92,15 minutes.,Alright.  I will arrange a 15 minutes sentence for you.  Here's $10 for the trouble.  Bring lots of information.,"PreparePenitentiary(15, 10)",
+91,92,30 minutes.,Very well.  I will arrange a 30 minutes sentence for you.  Here's $15 for the trouble.  Bring lots of information.,"PreparePenitentiary(30, 15)",
+91,92,1 hour.,Good.  I will arrange a 1 hour sentence for you.  Here's $25 for the trouble.  Bring lots of information.,"PreparePenitentiary(60, 25)","DialogSkillGreater(""Infiltration"", 1)"
+91,92,4 hours.,Impressive.  I will arrange a 4 hours sentence for you.  Here's $40 for the trouble.  Bring lots of information.,"PreparePenitentiary(240, 40)","DialogSkillGreater(""Infiltration"", 3)"
+91,92,12 hours.,"Excellent, I will arrange a 12 hours sentence for you.  Here's $60 for the trouble.  Bring lots of information.","PreparePenitentiary(720, 60)","DialogSkillGreater(""Infiltration"", 5)"
+91,92,24 hours.,Wow!  I will arrange a 24 hours sentence for you.  Here's $80 for the trouble.  Bring lots of information.,"PreparePenitentiary(1440, 80)","DialogSkillGreater(""Infiltration"", 7)"
+91,0,Let me think about it first.,"Think quickly, the clock is ticking.",,
+92,0,Let's go!  (Get locked up.),,StartPenitentiary(),
+92,0,Wait!  I've changed my mind.,(She grumbles)  You're wasting my time comrade.,,
 ObjectUSBKey,,,USB key,,
 ObjectBDSMPainting,,,BDSM painting,,
 ObjectGoldCollar,,,gold plated collar,,

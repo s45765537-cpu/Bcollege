@@ -18,6 +18,8 @@ var InfiltrationKidnapper = null;
 var InfiltrationPandoraPrisoner = null;
 /** @type {NPCCharacter} */
 var InfiltrationPartyPrisoner = null;
+var InfiltrationPenitentiaryMinutes = 0;
+var InfiltrationPenitentiaryAmount = 0;
 
 /**
  * Returns TRUE if the mission can complete as a success
@@ -565,4 +567,27 @@ function InfiltrationClubCardEnd() {
 	CommonSetScreen("Room", "Infiltration");
 	CharacterSetCurrent(InfiltrationSupervisor);
 	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
+}
+
+/**
+ * Starts the Pandora's padlock special mission, cannot be given randomly
+ * @param {string} Minutes - The number of minutes to lock the player
+ * @param {string} Amount - The money amount and infiltration skill gained
+ * @returns {void} - Nothing
+ */
+function InfiltrationPreparePenitentiary(Minutes, Amount) {
+	InfiltrationPenitentiaryMinutes = parseInt(Minutes);
+	InfiltrationPenitentiaryAmount = parseInt(Amount);
+}
+
+/**
+ * Starts the Pandora's padlock special mission, cannot be given randomly
+ * @returns {void} - Nothing
+ */
+function InfiltrationStartPenitentiary() {
+	LogAdd("Penitentiary", "Infiltration", CurrentTime + (InfiltrationPenitentiaryMinutes * 60 * 1000));
+	CharacterChangeMoney(Player, InfiltrationPenitentiaryAmount);
+	SkillProgress(Player, "Infiltration", InfiltrationPenitentiaryAmount * 10);
+	DialogLeave();
+	CommonSetScreen("Room", "MainHall");
 }
