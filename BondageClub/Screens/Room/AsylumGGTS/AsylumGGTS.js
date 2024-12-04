@@ -256,6 +256,7 @@ function AsylumGGTSBuildPrivate() {
 		Space: /** @type {ServerChatRoomSpace} */ ("Asylum"),
 		Game: "GGTS",
 		Admin: [Player.MemberNumber],
+		Whitelist: [],
 		Ban: [],
 		Limit: 2,
 		BlockCategory: [],

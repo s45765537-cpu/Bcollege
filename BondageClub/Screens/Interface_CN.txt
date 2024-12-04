@@ -782,6 +782,10 @@ TargetCharacterName was moved to the right by SourceCharacter.
 TargetCharacterName被SourceCharacter移到了右边.
 TargetCharacterName was promoted to administrator by SourceCharacter.
 TargetCharacterName被SourceCharacter设为了房间管理员.
+TargetCharacterName was added to the room whitelist by SourceCharacter.
+TargetCharacterName已被SourceCharacter添加到房间白名单。
+TargetCharacterName was removed from the room whitelist by SourceCharacter.
+TargetCharacterName已被SourceCharacter从房间白名单中删除。
 SourceCharacter shuffles the position of everyone in the room randomly.
 SourceCharacter随机安排了房间中所有人的位置.
 SourceCharacter swapped TargetCharacterName and DestinationCharacterName1 places.

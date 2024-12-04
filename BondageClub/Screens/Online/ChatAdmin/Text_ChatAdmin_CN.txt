@@ -6,6 +6,8 @@ Description
 描述
 Ban List
 封禁列表
+Whitelist
+白名单
 Administrator List
 房管列表
 Private
@@ -14,16 +16,20 @@ Locked
 锁定
 Size (2-20)
 大小 (2-20)
-Use member numbers, separated by commas (ex: 3571,541,7001)
-使用逗号分隔的用户号 (如: 3571,541,7001)
-Ban blacklist
-封禁黑名单成员
-Ban ghostlist
-封禁忽视列表成员
-Add Owner
-添加主人
-Add Lovers
-添加恋人
+Member numbers separated by commas (ex: 123, ...)
+逗号分隔的用户号 (如: 123, ...)
+Use the above buttons to quickadd to the respective lists
+使用上述按钮快速添加到相应列表中
+Blacklist
+黑名单成员
+Ghostlist
+忽视列表成员
+Owner
+主人
+Lovers
+恋人
+Friends
+朋友
 Room settings can only be updated by administrators
 房间选项仅能被房管修改
 Background

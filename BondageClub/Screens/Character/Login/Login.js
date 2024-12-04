@@ -721,6 +721,7 @@ function LoginSetupPlayer(C) {
 			Name: C.LastChatRoom,
 			Description: C.LastChatRoomDesc,
 			Admin: typeof C.LastChatRoomAdmin == "string" ? CommonConvertStringToArray(C.LastChatRoomAdmin) : [],
+			Whitelist: typeof C.LastChatRoomWhitelist == "string" ? CommonConvertStringToArray(C.LastChatRoomWhitelist) : [],
 			Ban: typeof C.LastChatRoomBan == "string" ? CommonConvertStringToArray(C.LastChatRoomBan) : [],
 			Background: C.LastChatRoomBG,
 			Limit: C.LastChatRoomSize,

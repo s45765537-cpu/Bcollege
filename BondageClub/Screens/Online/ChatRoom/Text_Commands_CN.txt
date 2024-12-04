@@ -44,6 +44,10 @@
 [Percentage 0-100]% [Message]:以尝试动作来显示“[PlayerName] Message: ✔或者❌ (Percentage %)”。Percentage是成功率。*[Percentage]% [Message]是同样的效果。如果没有提供Percentage参数，成功率是50%。
 [MemberNumber]: Promote the user to room administrator
 [MemberNumber]:使玩家成为房管
+[MemberNumber]: Adds the user to the room whitelist
+[MemberNumber]:将用户加入房间白名单
+[MemberNumber]: Removes the user from the room whitelist
+[MemberNumber]:将用户从房间白名单中删除
 use safeword
 使用安全词
 : View your blacklist

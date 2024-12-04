@@ -405,6 +405,8 @@ ServerMessageStartTrial,The Bondage Club is pleased to announce that SourceChara
 ServerMoveLeft,TargetCharacterName was moved to the left by SourceCharacter.
 ServerMoveRight,TargetCharacterName was moved to the right by SourceCharacter.
 ServerPromoteAdmin,TargetCharacterName was promoted to administrator by SourceCharacter.
+ServerRoomUnwhitelist,TargetCharacterName was removed from the room whitelist by SourceCharacter.
+ServerRoomWhitelist,TargetCharacterName was added to the room whitelist by SourceCharacter.
 ServerShuffle,SourceCharacter shuffles the position of everyone in the room randomly.
 ServerSwap,SourceCharacter swapped TargetCharacterName and DestinationCharacterName1 places.
 ServerUpdateRoom,SourceCharacter updated the room. Name: ChatRoomName. Limit: ChatRoomLimit.  ChatRoomPrivacy.  ChatRoomLocked.

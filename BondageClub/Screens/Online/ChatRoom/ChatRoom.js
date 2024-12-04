@@ -448,6 +448,16 @@ function ChatRoomPlayerIsAdmin() { return ((ChatRoomData != null && ChatRoomData
  */
 function ChatRoomCurrentCharacterIsAdmin() { return ((CurrentCharacter != null) && (ChatRoomData.Admin != null) && (ChatRoomData.Admin.indexOf(CurrentCharacter.MemberNumber) >= 0)); }
 /**
+ * Checks if the player is in the chatroom whitelist.
+ * @returns {boolean} - TRUE if the player is in the chatroom whitelist.
+ */
+function ChatRoomPlayerIsWhitelisted() { return ((ChatRoomData != null && ChatRoomData.Whitelist != null) && (ChatRoomData.Whitelist.indexOf(Player.MemberNumber) >= 0)); }
+/**
+ * Checks if the current character is in the chatroom whitelist.
+ * @returns {boolean} - TRUE if the current character is in the chatroom whitelist.
+ */
+function ChatRoomCurrentCharacterIsWhitelisted() { return ((CurrentCharacter != null) && (ChatRoomData.Whitelist != null) && (ChatRoomData.Whitelist.indexOf(CurrentCharacter.MemberNumber) >= 0)); }
+/**
  * Checks if the room allows the photograph feature to be used.
  * @returns {boolean} - TRUE if the player can take a photo.
  */
@@ -1257,6 +1267,7 @@ function ChatRoomClearAllElements() {
 	ElementRemove("InputDescription");
 	ElementRemove("InputSize");
 	ElementRemove("InputAdminList");
+	ElementRemove("InputWhitelist");
 	ElementRemove("InputBanList");
 	ElementRemove("InputBackground");
 	ElementRemove("TagDropDown");
@@ -2612,7 +2623,7 @@ function ChatRoomCanLeave() {
 	if (!Player.CanWalk()) return false; // Cannot leave if cannot walk
 	if (ChatRoomData.Locked && (ChatRoomData.Game == "GGTS")) return false; // GGTS game can forbid anyone to leave
 	if (ChatRoomActiveView.CanLeave && !ChatRoomActiveView.CanLeave()) return false;
-	if (!ChatRoomData.Locked || ChatRoomPlayerIsAdmin()) return true; // Can leave if the room isn't locked or is an administrator
+	if (!ChatRoomData.Locked || ChatRoomPlayerIsAdmin() || ChatRoomPlayerIsWhitelisted()) return true; // Player can leave if the room isn't locked, they are an administrator, or are on the whitelist
 	for (let C = 0; C < ChatRoomCharacter.length; C++)
 		if (ChatRoomData.Admin.indexOf(ChatRoomCharacter[C].MemberNumber) >= 0)
 			return false; // Cannot leave if the room is locked and there's an administrator inside
@@ -4308,6 +4319,7 @@ function ChatRoomValidateProperties(obj)
 		&& typeof room.Name === "string"
 		&& typeof room.Description === "string"
 		&& Array.isArray(room.Admin) && room.Admin.every(n => typeof n === "number")
+		&& Array.isArray(room.Whitelist) && room.Whitelist.every(n => typeof n === "number")
 		&& Array.isArray(room.Ban) && room.Ban.every(n => typeof n === "number")
 		&& typeof room.Background === "string"
 		&& typeof room.Limit === "number"
@@ -4992,7 +5004,7 @@ function ChatRoomAdminAction(ActionType, Publish) {
 
 /**
  * Sends an administrative command to the server from the chat text field.
- * @param {"Ban"|"Unban"|"Kick"|"Promote"|"Demote"} ActionType - Type of action performed.
+ * @param {"Ban"|"Unban"|"Kick"|"Promote"|"Demote"|"Whitelist"|"Unwhitelist"} ActionType - Type of action performed.
  * @param {string} Argument - Target number of the action.
  * @returns {void} - Nothing
  */
@@ -5558,29 +5570,48 @@ function ChatRoomSafewordRelease() {
 
 /**
  * Concatenates the list of users to ban.
- * @param {boolean} IncludesBlackList - Adds the blacklist to the banlist
- * @param {boolean} IncludesGhostList - Adds the ghostlist to the banlist
+ * @param {("BlackList" | "GhostList")[]} [IncludesTypes] - The types of lists to concatenate to the banlist
  * @param {readonly number[]} [ExistingList] - The existing Banlist, if applicable
  * @returns {number[]} Complete array of members to ban
  */
-function ChatRoomConcatenateBanList(IncludesBlackList, IncludesGhostList, ExistingList) {
+function ChatRoomConcatenateBanList(IncludesTypes, ExistingList) {
 	var BanList = Array.isArray(ExistingList) ? ExistingList : [];
-	if (IncludesBlackList) BanList = BanList.concat(Player.BlackList);
-	if (IncludesGhostList) BanList = BanList.concat(Player.GhostList);
+	IncludesTypes.forEach(Type => {
+		if (Type == "BlackList") BanList = BanList.concat(Player.BlackList);
+		else if (Type == "GhostList") BanList = BanList.concat(Player.GhostList);
+	});
 	return BanList.filter((MemberNumber, Idx, Arr) => Arr.indexOf(MemberNumber) == Idx);
 }
 
 /**
+ * Concatenates the list of users for the whitelist.
+ * @param {("Owner" | "Lovers" | "Friends" | "Whitelist")[]} [IncludesTypes] - The types of lists to concatenate to the whitelist
+ * @param {readonly number[]} [ExistingList] - The existing Whitelist, if applicable
+ * @returns {number[]} Complete array of whitelisted members
+ */
+function ChatRoomConcatenateWhitelist(IncludesTypes, ExistingList) {
+	var Whitelist = Array.isArray(ExistingList) ? ExistingList : [];
+	IncludesTypes.forEach(Type => {
+		if (Type == "Owner" && Player.OwnerNumber() !== -1) Whitelist = Whitelist.concat(Player.OwnerNumber());
+		else if (Type == "Lovers") Whitelist = Whitelist.concat(Player.GetLoversNumbers(true));
+		else if (Type == "Friends") Whitelist = Whitelist.concat(Player.FriendList);
+		else if (Type == "Whitelist") Whitelist = Whitelist.concat(Player.WhiteList);
+	});
+	return Whitelist.filter((MemberNumber, Idx, Arr) => Arr.indexOf(MemberNumber) == Idx);
+}
+
+/**
  * Concatenates the list of users for Admin list.
- * @param {boolean} IncludesOwner - Adds the owner to the admin list
- * @param {boolean} IncludesLovers - Adds lovers to the admin list
+ * @param {("Owner" | "Lovers")[]} [IncludesTypes] - The types of lists to concatenate to the adminlist
  * @param {readonly number[]} [ExistingList] - The existing Admin list, if applicable
  * @returns {number[]} Complete array of admin members
  */
-function ChatRoomConcatenateAdminList(IncludesOwner, IncludesLovers, ExistingList) {
+function ChatRoomConcatenateAdminList(IncludesTypes, ExistingList) {
 	var AdminList = Array.isArray(ExistingList) ? ExistingList : [];
-	if (IncludesOwner && Player.OwnerNumber() !== -1) AdminList = AdminList.concat(Player.OwnerNumber());
-	if (IncludesLovers) CommonArrayConcatDedupe(AdminList, Player.GetLoversNumbers(true));
+	IncludesTypes.forEach(Type => {
+		if (Type == "Owner" && Player.OwnerNumber() !== -1) AdminList = AdminList.concat(Player.OwnerNumber());
+		else if (Type == "Lovers") AdminList = AdminList.concat(Player.GetLoversNumbers(true));
+	});
 	return AdminList.filter((MemberNumber, Idx, Arr) => Arr.indexOf(MemberNumber) == Idx);
 }
 
@@ -5798,6 +5829,7 @@ function ChatRoomDataChanged() {
 		prev.Private !== curr.Private ||
 		prev.Description !== curr.Description ||
 		!CommonArraysEqual(prev.Admin, curr.Admin) ||
+		!CommonArraysEqual(prev.Whitelist, curr.Whitelist) ||
 		!CommonArraysEqual(prev.Ban, curr.Ban) ||
 		!CommonArraysEqual(prev.BlockCategory, curr.BlockCategory) ||
 		prev.Space !== curr.Space ||
@@ -5956,6 +5988,6 @@ function ChatRoomPronounSubstitutions(C, key, hideIdentity) {
  */
 function ChatRoomGetSettings(room) {
 	/** @type {(keyof ChatRoomSettings)[]} */
-	const keys = ["Name", "Description", "Admin", "Ban", "Background", "Limit", "Game", "Locked", "Private", "BlockCategory", "Language", "Space", "MapData", "Custom"];
+	const keys = ["Name", "Description", "Admin", "Whitelist", "Ban", "Background", "Limit", "Game", "Locked", "Private", "BlockCategory", "Language", "Space", "MapData", "Custom"];
 	return /** @type {ChatRoomSettings} */(Object.fromEntries(keys.map(k => [k, room[k]])));
 }

@@ -32,6 +32,10 @@ achète une carafe de bière de DialogCharacterName.
 (La jeter en dehors de la pièce.)
 (Ban DialogCharacterObject from the room.)
 (La bannir de la pièce.)
+(Add DialogCharacterObject to the room whitelist.)
+(Ajouter DialogCharacterObject à la liste blanche des salles.)
+(Remove DialogCharacterObject from the room whitelist.)
+(Retirer DialogCharacterObject de la liste blanche de la salle.)
 (Check DialogCharacterPossessive drink tray.)
 (Voir les brevages offerts.)
 ###_NPC
