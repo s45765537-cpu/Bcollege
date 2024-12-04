@@ -764,29 +764,27 @@ function ServerPlayerAppearanceSync() {
  * @returns {void} - Nothing
  */
 function ServerPrivateCharacterSync() {
-	if (PrivateVendor != null) {
-		/** @type {{ PrivateCharacter: ServerPrivateCharacterData[] }} */
-		const D = { PrivateCharacter: [] };
-		for (let ID = 1; ID < PrivateCharacter.length; ID++) {
-			var C = {
-				Name: PrivateCharacter[ID].Name,
-				Love: PrivateCharacter[ID].Love,
-				Title: PrivateCharacter[ID].Title,
-				Trait: PrivateCharacter[ID].Trait,
-				Cage: PrivateCharacter[ID].Cage,
-				Owner: PrivateCharacter[ID].Owner,
-				Lover: PrivateCharacter[ID].Lover,
-				AssetFamily: PrivateCharacter[ID].AssetFamily,
-				Appearance: ServerAppearanceBundle(PrivateCharacter[ID].Appearance),
-				AppearanceFull: ServerAppearanceBundle(PrivateCharacter[ID].AppearanceFull),
-				ArousalSettings: PrivateCharacter[ID].ArousalSettings,
-				Event: PrivateCharacter[ID].Event
-			};
-			if (PrivateCharacter[ID].FromPandora != null) C.FromPandora = PrivateCharacter[ID].FromPandora;
-			D.PrivateCharacter.push(C);
-		}
-		ServerAccountUpdate.QueueData(D);
+	/** @type {{ PrivateCharacter: ServerPrivateCharacterData[] }} */
+	const D = { PrivateCharacter: [] };
+	for (let ID = 1; ID < PrivateCharacter.length; ID++) {
+		var C = {
+			Name: PrivateCharacter[ID].Name,
+			Love: PrivateCharacter[ID].Love,
+			Title: PrivateCharacter[ID].Title,
+			Trait: PrivateCharacter[ID].Trait,
+			Cage: PrivateCharacter[ID].Cage,
+			Owner: PrivateCharacter[ID].Owner,
+			Lover: PrivateCharacter[ID].Lover,
+			AssetFamily: PrivateCharacter[ID].AssetFamily,
+			Appearance: ServerAppearanceBundle(PrivateCharacter[ID].Appearance),
+			AppearanceFull: ServerAppearanceBundle(PrivateCharacter[ID].AppearanceFull),
+			ArousalSettings: PrivateCharacter[ID].ArousalSettings,
+			Event: PrivateCharacter[ID].Event
+		};
+		if (PrivateCharacter[ID].FromPandora != null) C.FromPandora = PrivateCharacter[ID].FromPandora;
+		D.PrivateCharacter.push(C);
 	}
+	ServerAccountUpdate.QueueData(D);
 }
 
 /**

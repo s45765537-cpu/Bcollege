@@ -853,9 +853,13 @@ function LoginSetupPlayer(C) {
 	// Starts the game in the main hall while loading characters in the private room
 	PrivateCharacter = [];
 	PrivateCharacter.push(Player);
+	let shouldSyncPrivate = false;
 	if (C.PrivateCharacter != null)
 		for (let P = 0; P < C.PrivateCharacter.length; P++)
-			PrivateCharacterShouldSync = PrivateLoadCharacter(C.PrivateCharacter[P]) || PrivateCharacterShouldSync;
+			shouldSyncPrivate = PrivateLoadCharacter(C.PrivateCharacter[P]) || shouldSyncPrivate;
+	if (shouldSyncPrivate) {
+		ServerPrivateCharacterSync();
+	}
 	SarahSetStatus();
 
 	// Fixes a few items
