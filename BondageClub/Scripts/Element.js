@@ -1381,7 +1381,7 @@ var ElementButton = {
 	 * Create a button for an activity, including image, label and icons.
 	 * @param {null | string} idPrefix - The ID of the to-be created search button
 	 * @param {ItemActivity} activity - The activity for which to create a button
-	 * @param {null | Character} C - The target character of the activity (noop as of now)
+	 * @param {Character} C - The target character of the activity
 	 * @param {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => any} onClick - The click event listener to-be attached to the tooltip
 	 * @param {null | ElementButton.Options} [options] - High level options for the to-be created button
 	 * @param {null | Partial<Record<"button" | "tooltip" | "img" | "label", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional low-level {@link ElementCreate} options to-be applied to the either the button or tooltip
@@ -1400,7 +1400,7 @@ var ElementButton = {
 		htmlOptions.button.attributes ??= {};
 		htmlOptions.button.attributes.name ??= activity.Activity.Name;
 		htmlOptions.button.dataAttributes ??= {};
-		htmlOptions.button.dataAttributes.group ??= activity.Item?.Asset.Group.Name;
+		htmlOptions.button.dataAttributes.group ??= activity.Group;
 		htmlOptions.tooltip ??= {};
 		htmlOptions.tooltip.classList ??= [];
 		htmlOptions.tooltip.classList = [
@@ -1409,7 +1409,7 @@ var ElementButton = {
 		];
 
 		options ??= {};
-		options.label ??= activity.Activity.Name;
+		options.label ??= ActivityDictionaryText(ActivityBuildChatTag(C, AssetGroupGet(C.AssetFamily, activity.Group), activity.Activity, true));
 		options.image ??= (activity.Item ? `./${AssetGetPreviewPath(activity.Item.Asset)}/${activity.Item.Asset.Name}.png` : `./Assets/Female3DCG/Activity/${activity.Activity.Name}.png`);
 		options.icons ??= [
 			activity.Blocked === "limited" ? "AllowedLimited" : undefined,
