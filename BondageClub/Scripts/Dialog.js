@@ -3053,8 +3053,8 @@ class DialogMenu {
 
 	/**
 	 * Reload the subscreen, updating the DOM elements and, if required, re-assigning the character and focus group.
-	 * @param {null | Character} C - The selected character; defaults to {@link DialogMenu.C} and will update it inplace otherwise
-	 * @param {null | AssetItemGroup} focusGroup - The selected group; defaults to {@link DialogMenu.focusGroup} and will update it inplace otherwise
+	 * @param {null | Character} C - The selected character; defaults to {@link DialogMenu.C} and will update the property inplace otherwise
+	 * @param {null | AssetItemGroup} focusGroup - The selected group; defaults to {@link DialogMenu.focusGroup} and will update the property inplace otherwise
 	 * @param {null | DialogMenu.ReloadOptions} [options] - Further customization options
 	 * @returns {Promise<boolean>} - Whether an update was triggered or aborted
 	 */
