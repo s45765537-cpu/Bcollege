@@ -326,12 +326,14 @@ type AssetGroupItemName =
 type AssetGroupScriptName = 'ItemScript';
 
 type AssetGroupBodyName =
-	ExpressionGroupName | 'BodyLower' | 'BodyUpper' | 'BodyMarkings' | 'Bra' | 'Bracelet' | 'Cloth' |
+	ExpressionGroupName | 'AnkletLeft' | 'AnkletRight' | 'ArmsLeft' | 'ArmsRight' |
+	'BodyLower' | 'BodyUpper' | 'BodyMarkings' | 'Bra' | 'Bracelet' | 'Cloth' |
 	'ClothAccessory' | 'ClothLower' | 'Corset' | 'EyeShadow' | 'FacialHair' | 'Garters' | 'Glasses' | 'Gloves' |
 	'HairAccessory1' | 'HairAccessory2' | 'HairAccessory3' | 'HairBack' |
-	'HairFront' | 'FacialHair' | 'Hands' | 'Hat' | 'Head' | 'Height' | 'Jewelry' | 'LeftAnklet' | 'LeftHand' | 'Mask' |
-	'Necklace' | 'Nipples' | 'Panties' | 'Pronouns' | 'RightAnklet' | 'RightHand' |
-	'Shoes' | 'Socks' | 'SocksLeft' | 'SocksRight' | 'Suit' | 'SuitLower' | 'TailStraps' | 'Wings'
+	'HairFront' | 'HandAccessoryLeft' | 'HandAccessoryRight' |  'FacialHair' | 'Hat' | 'Head' | 'Height' | 'Jewelry' | 'Mask' |
+	'Necklace' | 'Nipples' | 'Panties' | 'Pronouns' |
+	'Shoes' | 'Socks' | 'SocksLeft' | 'SocksRight' | 'Suit' | 'SuitLower' | 'TailStraps' | 'Wings' |
+	'HandsLeft' | 'HandsRight'
 	;
 
 type AssetGroupName = AssetGroupBodyName | AssetGroupItemName | AssetGroupScriptName;
@@ -1037,6 +1039,17 @@ type WardrobeItemBundle = [
 /** An AppearanceBundle is whole minified appearance of a character */
 type AppearanceBundle = ItemBundle[];
 
+interface ClipboardItemBundle {
+	/** The item's asset group name */
+	G: AssetGroupName;
+	/** The item's asset name */
+	A: string;
+	/** The item's color */
+	C?: string;
+}
+
+type ClipboardAppearanceBundle = ClipboardItemBundle[];
+
 interface Pose {
 	Name: AssetPoseName;
 	Category: AssetPoseCategory;
@@ -1128,9 +1141,11 @@ type InventoryIcon = (
 	| ShopIcon
 );
 
-interface InventoryItem {
+interface InventoryBundle {
 	Group: AssetGroupName;
-	Name: string;
+	Name: string
+}
+interface InventoryItem extends InventoryBundle {
 	Asset: Asset;
 }
 

@@ -2118,20 +2118,20 @@ ItemVulvaWiredEggStrap,Strap
 JewelryJewelrySetEarHoopLeft,Ears
 JewelryJewelrySetFaceDermalLeft,Face
 JewelryJewelrySetSeptumRing1,Nose
-LeftAnkletLegFurAnkle,Fur Ankle
-LeftAnkletLegFurKnee,Fur Knee
-LeftHandClawsColor,Color
-LeftHandClawsOutline,Outline
-LeftHandFingernailsColor,Color
-LeftHandFingernailsOutline,Outline
-LeftHandRingsHonorBase,Honor Ring
-LeftHandRingsHonorJewels,Honor Ring Jewels
-LeftHandRingsIndexSteel,Index Ring
-LeftHandRingsMiddleSteel,Middle Finger Ring
-LeftHandRingsPinkieSteel,Pinkie Ring
-LeftHandRingsRingSteel,Ring Finger Ring
-LeftHandRingsThumbSteel,Thumb Ring
-LeftHandRingsWedding,Wedding Ring
+AnkletLeftLegFurAnkle,Fur Ankle
+AnkletLeftLegFurKnee,Fur Knee
+HandAccessoryLeftClawsColor,Color
+HandAccessoryLeftClawsOutline,Outline
+HandAccessoryLeftFingernailsColor,Color
+HandAccessoryLeftFingernailsOutline,Outline
+HandAccessoryLeftRingsHonorBase,Honor Ring
+HandAccessoryLeftRingsHonorJewels,Honor Ring Jewels
+HandAccessoryLeftRingsIndexSteel,Index Ring
+HandAccessoryLeftRingsMiddleSteel,Middle Finger Ring
+HandAccessoryLeftRingsPinkieSteel,Pinkie Ring
+HandAccessoryLeftRingsRingSteel,Ring Finger Ring
+HandAccessoryLeftRingsThumbSteel,Thumb Ring
+HandAccessoryLeftRingsWedding,Wedding Ring
 MaskAnimeLensesLeftEyelids,Left Eyelids
 MaskAnimeLensesLeftIris,Left Lens
 MaskAnimeLensesRightEyelids,Right Eyelids
@@ -2253,20 +2253,20 @@ PantiesWaistLegHarnessBeltsB,Leg belts
 PantiesWaistLegHarnessMetalB,Leg metal parts
 PantiesWaistLegHarnessBeltsC,Link belts
 PantiesWaistLegHarnessMetalC,Link metal parts
-RightAnkletLegFurAnkle,Fur Ankle
-RightAnkletLegFurKnee,Fur Knee
-RightHandClawsColor,Color
-RightHandClawsOutline,Outline
-RightHandFingernailsColor,Color
-RightHandFingernailsOutline,Outline
-RightHandRingsHonorBase,Honor Ring
-RightHandRingsHonorJewels,Honor Ring Jewels
-RightHandRingsIndexSteel,Index Ring
-RightHandRingsMiddleSteel,Middle Finger Ring
-RightHandRingsPinkieSteel,Pinkie Ring
-RightHandRingsRingSteel,Ring Finger Ring
-RightHandRingsThumbSteel,Thumb Ring
-RightHandRingsWedding,Wedding Ring
+AnkletRightLegFurAnkle,Fur Ankle
+AnkletRightLegFurKnee,Fur Knee
+HandAccessoryRightClawsColor,Color
+HandAccessoryRightClawsOutline,Outline
+HandAccessoryRightFingernailsColor,Color
+HandAccessoryRightFingernailsOutline,Outline
+HandAccessoryRightRingsHonorBase,Honor Ring
+HandAccessoryRightRingsHonorJewels,Honor Ring Jewels
+HandAccessoryRightRingsIndexSteel,Index Ring
+HandAccessoryRightRingsMiddleSteel,Middle Finger Ring
+HandAccessoryRightRingsPinkieSteel,Pinkie Ring
+HandAccessoryRightRingsRingSteel,Ring Finger Ring
+HandAccessoryRightRingsThumbSteel,Thumb Ring
+HandAccessoryRightRingsWedding,Wedding Ring
 ShoesAnimeGirlBootsBoots,Boots
 ShoesAnimeGirlBootsDetail,Top Stripe
 ShoesAnkleBoots1Laces,Laces

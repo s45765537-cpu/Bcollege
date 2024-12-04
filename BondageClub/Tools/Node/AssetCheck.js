@@ -1135,16 +1135,16 @@ function testAssetHasPNG(assets, extendedDataRecords, poseRecord) {
 					for (const expression of expressions) {
 						for (const [type, poseList] of layerTypes) {
 							for (const pose of poseList) {
-								const file = (
-									root
+								const path = root
 									+ (pose ? `${pose}/` : "")
-									+ (expression ? `${expression}/` : "")
-									+ asset.Name
-									+ (parent ? `_${parent}` : "")
-									+ (type ? `_${type}` : "")
-									+ (color == null ? "" : `_${color}`)
-									+ (layer.Name == null ? ".png" : `_${layer.Name}.png`)
-								);
+									+ (expression ? `${expression}/` : "");
+								const fileParts = [];
+								if (asset.Name) fileParts.push(asset.Name);
+								if (parent) fileParts.push(parent);
+								if (type) fileParts.push(type);
+								if (color) fileParts.push(color);
+								if (layer.Name) fileParts.push(layer.Name);
+								const file = path + fileParts.join("_") + ".png";
 								if (!fs.existsSync(file)) {
 									error(`${asset.Group.Name}:${asset.Name}:${layer.Name}: Missing asset "${file}"`);
 								}
@@ -1463,6 +1463,10 @@ function sanitizeVMOutput(input) {
 		// Check all type-valid assets for specific data
 		for (const Asset of Group.Asset) {
 			if (Asset.DynamicGroupName !== Group.Name) {
+				continue;
+			}
+			if (Asset.Name === "" && !Group.AllowCustomize) {
+				// Special case for the "static" body groups (arms and hands)
 				continue;
 			}
 

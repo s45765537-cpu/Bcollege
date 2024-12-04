@@ -53,7 +53,8 @@ function CollegeTheaterJuliaClothes(C) {
 	InventoryWear(C, "H0990", "Height", "Default");
 	InventoryWear(C, "XLarge", "BodyUpper", "White");
 	InventoryWear(C, "XLarge", "BodyLower", "White");
-	InventoryWear(C, "Default", "Hands", "Default");
+	InventoryWear(C, "XLarge", "HandsLeft", "Default");
+	InventoryWear(C, "XLarge", "HandsRight", "Default");
 	InventoryWear(C, "Default", "Head", "Default");
 	InventoryWear(C, "HairBack5", "HairBack", "#e86e37");
 	InventoryWear(C, "HairFront6", "HairFront", "#e86e37");

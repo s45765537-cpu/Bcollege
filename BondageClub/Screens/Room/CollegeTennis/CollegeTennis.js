@@ -52,7 +52,8 @@ function CollegeTennisLoad() {
 			InventoryWear(CollegeTennisJennifer, "H0980", "Height", "Default");
 			InventoryWear(CollegeTennisJennifer, "Small", "BodyUpper", "White");
 			InventoryWear(CollegeTennisJennifer, "Small", "BodyLower", "White");
-			InventoryWear(CollegeTennisJennifer, "Default", "Hands", "Default");
+			InventoryWear(CollegeTennisJennifer, "Small", "HandsLeft", "Default");
+			InventoryWear(CollegeTennisJennifer, "Small", "HandsRight", "Default");
 			InventoryWear(CollegeTennisJennifer, "Default", "Head", "Default");
 			InventoryWear(CollegeTennisJennifer, "HairBack6", "HairBack", "#8dccce");
 			InventoryWear(CollegeTennisJennifer, "HairFront5", "HairFront", "#8dccce");

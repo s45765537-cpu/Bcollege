@@ -307,7 +307,7 @@ const AssetPoseMapping = /** @type {const} */ ({
 		BackElbowTouch: "BackElbowTouch",
 		Hogtied: "Hogtied",
 		OverTheHead: "OverTheHead",
-		TapedHands: "TapedHands",
+		TapedHands: PoseType.DEFAULT,
 		Yoked: "Yoked",
 	},
 	Bra: {
@@ -364,15 +364,25 @@ const AssetPoseMapping = /** @type {const} */ ({
 		TapedHands: "TapedHands",
 		Yoked: "Yoked",
 	},
-	Hands: {
+	HandsLeft: {
 		AllFours: "AllFours",
 		BackBoxTie: PoseType.HIDE,
-		BackCuffs: PoseType.HIDE,
+		BackCuffs: "BackCuffs",
 		BackElbowTouch: PoseType.HIDE,
 		Hogtied: PoseType.HIDE,
-		OverTheHead: PoseType.HIDE,
+		OverTheHead: "OverTheHead",
 		TapedHands: "TapedHands",
-		Yoked: PoseType.HIDE,
+		Yoked: "Yoked",
+	},
+	HandsRight: {
+		AllFours: "AllFours",
+		BackBoxTie: PoseType.HIDE,
+		BackCuffs: "BackCuffs",
+		BackElbowTouch: PoseType.HIDE,
+		Hogtied: PoseType.HIDE,
+		OverTheHead: "OverTheHead",
+		TapedHands: "TapedHands",
+		Yoked: "Yoked",
 	},
 	ItemBoots: {
 		AllFours: PoseType.HIDE,
@@ -440,7 +450,7 @@ const AssetPoseMapping = /** @type {const} */ ({
 		AllFours: PoseType.HIDE,
 		Hogtied: PoseType.HIDE,
 	},
-	LeftAnklet: {
+	AnkletLeft: {
 		AllFours: PoseType.HIDE,
 		Hogtied: PoseType.HIDE,
 		Kneel: PoseType.HIDE,
@@ -448,7 +458,7 @@ const AssetPoseMapping = /** @type {const} */ ({
 		LegsClosed: "LegsClosed",
 		Spread: "Spread",
 	},
-	LeftHand: {
+	HandAccessoryLeft: {
 		AllFours: "AllFours",
 		BackBoxTie: "BackBoxTie",
 		BackCuffs: "BackCuffs",
@@ -469,7 +479,7 @@ const AssetPoseMapping = /** @type {const} */ ({
 		AllFours: PoseType.HIDE,
 		Hogtied: PoseType.HIDE,
 	},
-	RightAnklet: {
+	AnkletRight: {
 		AllFours: PoseType.HIDE,
 		Hogtied: PoseType.HIDE,
 		Kneel: PoseType.HIDE,
@@ -477,7 +487,7 @@ const AssetPoseMapping = /** @type {const} */ ({
 		LegsClosed: "LegsClosed",
 		Spread: "Spread",
 	},
-	RightHand: {
+	HandAccessoryRight: {
 		AllFours: "AllFours",
 		BackBoxTie: "BackBoxTie",
 		BackCuffs: "BackCuffs",
@@ -1802,8 +1812,8 @@ var AssetFemale3DCG = [
 					"Panties",
 					"Shoes",
 					"ItemBoots",
-					"RightAnklet",
-					"LeftAnklet",
+					"AnkletRight",
+					"AnkletLeft",
 					"ItemNipples",
 				],
 				HideItem: [
@@ -1861,8 +1871,8 @@ var AssetFemale3DCG = [
 					"Panties",
 					"Shoes",
 					"ItemBoots",
-					"RightAnklet",
-					"LeftAnklet",
+					"AnkletRight",
+					"AnkletLeft",
 					"ItemNipples",
 				],
 				HideItem: [
@@ -9035,7 +9045,7 @@ var AssetFemale3DCG = [
 				Fetish: ["Leather"],
 				Priority: 24,
 				Value: -1,
-				DynamicGroupName: "RightAnklet",
+				DynamicGroupName: "AnkletRight",
 				BuyGroup: "HeelBinders",
 				ParentItem: "RightAnketHeelBinders",
 				DefaultColor: ["#808080"],
@@ -9281,7 +9291,7 @@ var AssetFemale3DCG = [
 				Fetish: ["Leather"],
 				Priority: 24,
 				Value: -1,
-				DynamicGroupName: "LeftAnklet",
+				DynamicGroupName: "AnkletLeft",
 				BuyGroup: "HeelBinders",
 				ParentItem: "LeftAnketHeelBinders",
 				DefaultColor: ["#808080"],
@@ -9320,7 +9330,7 @@ var AssetFemale3DCG = [
 		],
 	},
 	{
-		Group: "RightAnklet",
+		Group: "AnkletRight",
 		ParentGroup: "BodyLower",
 		Priority: 22,
 		Clothing: true,
@@ -9330,7 +9340,7 @@ var AssetFemale3DCG = [
 		Default: false,
 		Left: 115,
 		Top: 500,
-		PoseMapping: { ...AssetPoseMapping.RightAnklet },
+		PoseMapping: { ...AssetPoseMapping.AnkletRight },
 		PreviewZone: [100, 700, 300, 300],
 		Asset: [
 			{ Name: "BandAnklet", BuyGroup: "BandAnklet" },
@@ -9355,7 +9365,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "LegFur",
 				DefaultColor: ["Default"],
 				PoseMapping: {
-					...AssetPoseMapping.RightAnklet,
+					...AssetPoseMapping.AnkletRight,
 					LegsClosed: "LegsClosed",
 					Spread: "Spread",
 					Kneel: "Kneel",
@@ -9426,7 +9436,7 @@ var AssetFemale3DCG = [
 	},
 
 	{
-		Group: "LeftAnklet",
+		Group: "AnkletLeft",
 		ParentGroup: "BodyLower",
 		Priority: 22,
 		Clothing: true,
@@ -9436,7 +9446,7 @@ var AssetFemale3DCG = [
 		Default: false,
 		Left: 115,
 		Top: 500,
-		PoseMapping: { ...AssetPoseMapping.LeftAnklet },
+		PoseMapping: { ...AssetPoseMapping.AnkletLeft },
 		PreviewZone: [100, 700, 300, 300],
 		Asset: [
 			{ Name: "BandAnklet", BuyGroup: "BandAnklet" },
@@ -9461,7 +9471,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "LegFur",
 				DefaultColor: ["Default"],
 				PoseMapping: {
-					...AssetPoseMapping.LeftAnklet,
+					...AssetPoseMapping.AnkletLeft,
 					LegsClosed: "LegsClosed",
 					Spread: "Spread",
 					Kneel: "Kneel",
@@ -9853,7 +9863,7 @@ var AssetFemale3DCG = [
 					Kneel: PoseType.HIDE,
 					KneelingSpread: PoseType.HIDE,
 				},
-				HideItem: ["LeftAnkletRibbon1", "RightAnkletRibbon1"],
+				HideItem: ["AnkletLeftRibbon1", "AnkletRightRibbon1"],
 				Layer: [
 					{ Name: "Shoes", AllowColorize: true },
 					{ Name: "Sides", AllowColorize: true },
@@ -9869,7 +9879,7 @@ var AssetFemale3DCG = [
 					KneelingSpread: PoseType.HIDE,
 					Hogtied: PoseType.HIDE,
 				},
-				HideItem: ["LeftAnkletRibbon1", "RightAnkletRibbon1"],
+				HideItem: ["AnkletLeftRibbon1", "AnkletRightRibbon1"],
 				DefaultColor: ["#874D4D", "#5A3A3A", "#976E6E"],
 				Layer: [
 					{
@@ -9899,8 +9909,8 @@ var AssetFemale3DCG = [
 				HideItem: [
 					"SocksSocks4",
 					"SocksSocks5",
-					"LeftAnkletRibbon1",
-					"RightAnkletRibbon1",
+					"AnkletLeftRibbon1",
+					"AnkletRightRibbon1",
 				],
 				Alpha: [
 					{
@@ -10001,7 +10011,7 @@ var AssetFemale3DCG = [
 				InventoryID: 360,
 				Fetish: ["Pet"],
 				Value: 45,
-				HideItem: ["LeftAnkletRibbon1", "RightAnkletRibbon1"],
+				HideItem: ["AnkletLeftRibbon1", "AnkletRightRibbon1"],
 				Height: 3,
 				PoseMapping: {
 					...AssetPoseMapping.Shoes,
@@ -10014,7 +10024,7 @@ var AssetFemale3DCG = [
 				InventoryID: 361,
 				Fetish: ["Pet"],
 				Value: 60,
-				HideItem: ["LeftAnkletRibbon1", "RightAnkletRibbon1"],
+				HideItem: ["AnkletLeftRibbon1", "AnkletRightRibbon1"],
 				Height: 9,
 				PoseMapping: {
 					...AssetPoseMapping.Shoes,
@@ -10026,7 +10036,7 @@ var AssetFemale3DCG = [
 				InventoryID: 362,
 				Fetish: ["Latex"],
 				Value: 80,
-				HideItem: ["LeftAnkletRibbon1", "RightAnkletRibbon1"],
+				HideItem: ["AnkletLeftRibbon1", "AnkletRightRibbon1"],
 				BuyGroup: "ThighHighLatexHeels",
 				Alpha: [
 					{
@@ -10101,7 +10111,7 @@ var AssetFemale3DCG = [
 					Kneel: PoseType.HIDE,
 					KneelingSpread: PoseType.HIDE,
 				},
-				HideItem: ["LeftAnkletRibbon1", "RightAnkletRibbon1"],
+				HideItem: ["AnkletLeftRibbon1", "AnkletRightRibbon1"],
 				Left: 84,
 				Random: false,
 				Layer: [
@@ -10114,7 +10124,7 @@ var AssetFemale3DCG = [
 				InventoryID: 367,
 				Fetish: ["Leather"],
 				Value: -1,
-				HideItem: ["LeftAnkletRibbon1", "RightAnkletRibbon1"],
+				HideItem: ["AnkletLeftRibbon1", "AnkletRightRibbon1"],
 				Alpha: [
 					{
 						Group: [
@@ -10269,7 +10279,7 @@ var AssetFemale3DCG = [
 					KneelingSpread: PoseType.HIDE,
 					Hogtied: PoseType.HIDE,
 				},
-				Hide: ["LeftAnklet", "RightAnklet"],
+				Hide: ["AnkletLeft", "AnkletRight"],
 				Layer: [
 					{ Name: "Heels", ParentGroup: null },
 					{ Name: "Boots" },
@@ -10700,8 +10710,8 @@ var AssetFemale3DCG = [
 				HideItem: [
 					"SocksSocks4",
 					"SocksSocks5",
-					"LeftAnkletRibbon1",
-					"RightAnkletRibbon1",
+					"AnkletLeftRibbon1",
+					"AnkletRightRibbon1",
 				],
 				Alpha: [
 					{
@@ -14035,7 +14045,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Catsuit",
 				InventoryID: 176,
-				Hide: ["Hands"],
+				Hide: ["HandsLeft", "HandsRight"],
 				Fetish: ["Nylon"],
 				Value: -1,
 				BuyGroup: "Catsuit",
@@ -14167,7 +14177,7 @@ var AssetFemale3DCG = [
 					BackElbowTouch: PoseType.HIDE,
 					BackBoxTie: PoseType.HIDE,
 				},
-				Hide: ["LeftHand", "RightHand"],
+				Hide: ["HandAccessoryLeft", "HandAccessoryRight"],
 				Layer: [
 					{ Name: "Main", Priority: 29 },
 					{ Name: "Fur", AllowTypes: { typed: 0 }, Priority: 33 },
@@ -14201,7 +14211,10 @@ var AssetFemale3DCG = [
 					BackElbowTouch: PoseType.HIDE,
 					Hogtied: "Hogtied",
 				},
-				HideItem: ["LeftHandCatsuitGloves", "RightHandCatsuitGloves"],
+				HideItem: [
+					"HandAccessoryLeftCatsuitGloves",
+					"HandAccessoryRightCatsuitGloves",
+				],
 				Layer: [
 					{
 						Name: "Default",
@@ -14226,7 +14239,10 @@ var AssetFemale3DCG = [
 					...AssetPoseMapping.Gloves,
 					BackElbowTouch: PoseType.HIDE,
 				},
-				HideItem: ["LeftHandCatsuitGloves", "RightHandCatsuitGloves"],
+				HideItem: [
+					"HandAccessoryLeftCatsuitGloves",
+					"HandAccessoryRightCatsuitGloves",
+				],
 				Layer: [
 					{
 						Name: "Gloves",
@@ -14294,7 +14310,7 @@ var AssetFemale3DCG = [
 		],
 	},
 	{
-		Group: "LeftHand",
+		Group: "HandAccessoryLeft",
 		Priority: 28,
 		Default: false,
 		Clothing: true,
@@ -14302,7 +14318,7 @@ var AssetFemale3DCG = [
 		MinOpacity: 0,
 		MaxOpacity: 1,
 		Underwear: true,
-		PoseMapping: { ...AssetPoseMapping.LeftHand },
+		PoseMapping: { ...AssetPoseMapping.HandAccessoryLeft },
 		PreviewZone: [183, 360, 135, 135],
 		Asset: [
 			{
@@ -14311,7 +14327,7 @@ var AssetFemale3DCG = [
 				IsRestraint: false,
 				Random: false,
 				PoseMapping: {
-					...AssetPoseMapping.LeftHand,
+					...AssetPoseMapping.HandAccessoryLeft,
 					BackElbowTouch: PoseType.HIDE,
 					TapedHands: PoseType.HIDE,
 					BackBoxTie: PoseType.HIDE,
@@ -14324,7 +14340,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#CC3333", "#222222"],
 				AllowActivity: ["Scratch"],
 				PoseMapping: {
-					...AssetPoseMapping.LeftHand,
+					...AssetPoseMapping.HandAccessoryLeft,
 					BackElbowTouch: PoseType.HIDE,
 					TapedHands: PoseType.HIDE,
 					BackBoxTie: PoseType.HIDE,
@@ -14341,7 +14357,7 @@ var AssetFemale3DCG = [
 				IsRestraint: false,
 				Random: false,
 				PoseMapping: {
-					...AssetPoseMapping.LeftHand,
+					...AssetPoseMapping.HandAccessoryLeft,
 					BackElbowTouch: PoseType.HIDE,
 					TapedHands: PoseType.HIDE,
 					BackBoxTie: PoseType.HIDE,
@@ -14366,7 +14382,7 @@ var AssetFemale3DCG = [
 					"#00D307",
 				],
 				PoseMapping: {
-					...AssetPoseMapping.LeftHand,
+					...AssetPoseMapping.HandAccessoryLeft,
 					BackElbowTouch: PoseType.HIDE,
 					TapedHands: PoseType.HIDE,
 					BackBoxTie: PoseType.HIDE,
@@ -14413,7 +14429,7 @@ var AssetFemale3DCG = [
 		],
 	},
 	{
-		Group: "RightHand",
+		Group: "HandAccessoryRight",
 		Priority: 28,
 		Default: false,
 		Clothing: true,
@@ -14421,14 +14437,14 @@ var AssetFemale3DCG = [
 		MinOpacity: 0,
 		MaxOpacity: 1,
 		Underwear: true,
-		PoseMapping: { ...AssetPoseMapping.RightHand },
+		PoseMapping: { ...AssetPoseMapping.HandAccessoryRight },
 		PreviewZone: [183, 360, 135, 135],
 		Asset: [
 			{
 				Name: "Claws",
 				AllowActivity: ["Scratch"],
 				PoseMapping: {
-					...AssetPoseMapping.RightHand,
+					...AssetPoseMapping.HandAccessoryRight,
 					BackElbowTouch: PoseType.HIDE,
 					TapedHands: PoseType.HIDE,
 					BackBoxTie: PoseType.HIDE,
@@ -14442,7 +14458,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#CC3333", "#222222"],
 				AllowActivity: ["Scratch"],
 				PoseMapping: {
-					...AssetPoseMapping.RightHand,
+					...AssetPoseMapping.HandAccessoryRight,
 					BackElbowTouch: PoseType.HIDE,
 					TapedHands: PoseType.HIDE,
 					BackBoxTie: PoseType.HIDE,
@@ -14460,7 +14476,7 @@ var AssetFemale3DCG = [
 				IsRestraint: false,
 				Random: false,
 				PoseMapping: {
-					...AssetPoseMapping.RightHand,
+					...AssetPoseMapping.HandAccessoryRight,
 					BackElbowTouch: PoseType.HIDE,
 					TapedHands: PoseType.HIDE,
 					BackBoxTie: PoseType.HIDE,
@@ -14485,7 +14501,7 @@ var AssetFemale3DCG = [
 					"#00D307",
 				],
 				PoseMapping: {
-					...AssetPoseMapping.RightHand,
+					...AssetPoseMapping.HandAccessoryRight,
 					TapedHands: PoseType.HIDE,
 					BackBoxTie: PoseType.HIDE,
 					BackElbowTouch: PoseType.HIDE,
@@ -16989,6 +17005,68 @@ var AssetFemale3DCG = [
 	},
 
 	{
+		Group: "ArmsLeft",
+		Priority: 7,
+		AllowNone: false,
+		AllowCustomize: false,
+		ParentSize: "BodyUpper",
+		ParentGroup: "BodyUpper",
+		PoseMapping: {
+			...AssetPoseMapping.BodyUpper,
+			AllFours: PoseType.HIDE,
+			Hogtied: PoseType.HIDE,
+		},
+		InheritColor: "BodyUpper",
+		ColorSuffix: { HEX_COLOR: "White", Default: "White" },
+		Asset: [""],
+	},
+
+	{
+		Group: "ArmsRight",
+		Priority: 7,
+		AllowNone: false,
+		AllowCustomize: false,
+		ParentSize: "BodyUpper",
+		ParentGroup: "BodyUpper",
+		PoseMapping: {
+			...AssetPoseMapping.BodyUpper,
+			AllFours: PoseType.HIDE,
+			Hogtied: PoseType.HIDE,
+		},
+		InheritColor: "BodyUpper",
+		ColorSuffix: { HEX_COLOR: "White", Default: "White" },
+		Asset: [""],
+	},
+
+	{
+		Group: "HandsLeft",
+		Priority: 27.001, // So it stays over the right hand
+		AllowNone: false,
+		AllowCustomize: false,
+		PoseMapping: { ...AssetPoseMapping.HandsLeft },
+		ParentColor: "BodyUpper",
+		InheritColor: "BodyUpper",
+		ParentSize: "BodyUpper",
+		ParentGroup: "BodyUpper",
+		ColorSuffix: { HEX_COLOR: "White" },
+		Asset: [""],
+	},
+
+	{
+		Group: "HandsRight",
+		Priority: 27,
+		AllowNone: false,
+		AllowCustomize: false,
+		PoseMapping: { ...AssetPoseMapping.HandsRight },
+		ParentColor: "BodyUpper",
+		InheritColor: "BodyUpper",
+		ParentSize: "BodyUpper",
+		ParentGroup: "BodyUpper",
+		ColorSuffix: { HEX_COLOR: "White" },
+		Asset: [""],
+	},
+
+	{
 		Group: "BodyLower",
 		ParentSize: "BodyUpper",
 		InheritColor: "BodyUpper",
@@ -19091,20 +19169,6 @@ var AssetFemale3DCG = [
 			"Bathing",
 		],
 		Asset: ["Emoticon"],
-	},
-	// Uncolorable body parts
-
-	{
-		Group: "Hands",
-		ParentColor: "BodyUpper",
-		InheritColor: "BodyUpper",
-		Priority: 27,
-		AllowNone: false,
-		AllowCustomize: false,
-		PoseMapping: { ...AssetPoseMapping.Hands },
-		Asset: [{ Name: "Default" }],
-		ColorSuffix: { HEX_COLOR: "White" },
-		Color: ["Default"],
 	},
 
 	// Item specific
@@ -26870,7 +26934,7 @@ var AssetFemale3DCG = [
 				RemoveTime: 25,
 				AllowLock: true,
 				AllowTighten: true,
-				Hide: ["Cloth", "LeftHand", "RightHand"],
+				Hide: ["Cloth", "HandAccessoryLeft", "HandAccessoryRight"],
 				SetPose: ["BackElbowTouch"],
 				Effect: [E.Block, E.BlockWardrobe],
 				HideItem: [
@@ -27193,7 +27257,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				DefaultColor: "#70C0C0",
-				Hide: ["LeftHand", "RightHand"],
+				Hide: ["HandAccessoryLeft", "HandAccessoryRight"],
 				HideItemExclude: ["CorsetCorset1", "CorsetLatexCorset1"],
 				HideItem: [
 					"ItemButtAnalBeads2",
@@ -27489,9 +27553,10 @@ var AssetFemale3DCG = [
 					"ItemLegs",
 					"ItemFeet",
 					"Gloves",
-					"Hands",
-					"LeftHand",
-					"RightHand",
+					"HandsLeft",
+					"HandsRight",
+					"HandAccessoryLeft",
+					"HandAccessoryRight",
 					"ItemHandheld",
 					"ItemHands",
 				],
@@ -27592,9 +27657,10 @@ var AssetFemale3DCG = [
 					"ItemFeet",
 					"Corset",
 					"Gloves",
-					"Hands",
-					"LeftHand",
-					"RightHand",
+					"HandsLeft",
+					"HandsRight",
+					"HandAccessoryLeft",
+					"HandAccessoryRight",
 					"ItemHandheld",
 					"ItemHands",
 					"Garters",
@@ -27743,9 +27809,10 @@ var AssetFemale3DCG = [
 					"ClothLower",
 					"Corset",
 					"Gloves",
-					"Hands",
-					"LeftHand",
-					"RightHand",
+					"HandsLeft",
+					"HandsRight",
+					"HandAccessoryLeft",
+					"HandAccessoryRight",
 					"ItemHandheld",
 					"ItemHands",
 					"Garters",
@@ -27974,8 +28041,8 @@ var AssetFemale3DCG = [
 					"ItemNipples",
 					"ItemNipplesPiercings",
 					"Suit",
-					"LeftAnklet",
-					"RightAnklet",
+					"AnkletLeft",
+					"AnkletRight",
 					"Garters",
 				],
 				HideItem: ["NecklaceBodyChainNecklace"],
@@ -28122,8 +28189,8 @@ var AssetFemale3DCG = [
 					"ItemNipples",
 					"ItemNipplesPiercings",
 					"Suit",
-					"LeftAnklet",
-					"RightAnklet",
+					"AnkletLeft",
+					"AnkletRight",
 					"Garters",
 				],
 				HideItem: ["NecklaceBodyChainNecklace"],
@@ -28427,8 +28494,8 @@ var AssetFemale3DCG = [
 					"ItemNipplesHeartPasties",
 					"ItemNipplesNippleTape",
 					"ItemNipplesKittyPasties",
-					"LeftHandRings",
-					"RightHandRings",
+					"HandAccessoryLeftRings",
+					"HandAccessoryRightRings",
 				],
 				SetPose: ["AllFours"],
 				Effect: [E.Block, E.BlockWardrobe],
@@ -30319,8 +30386,8 @@ var AssetFemale3DCG = [
 					"Panties",
 					"ItemPelvis",
 					"Garters",
-					"LeftHand",
-					"RightHand",
+					"HandAccessoryLeft",
+					"HandAccessoryRight",
 					"ItemBoots",
 					"ItemLegs",
 					"ItemFeet",
@@ -30372,7 +30439,14 @@ var AssetFemale3DCG = [
 				RemoveTime: 15,
 				AllowLock: true,
 				DrawLocks: false,
-				Hide: ["ItemVulva", "LeftHand", "RightHand", "Cloth", "Panties", "Bra"],
+				Hide: [
+					"ItemVulva",
+					"HandAccessoryLeft",
+					"HandAccessoryRight",
+					"Cloth",
+					"Panties",
+					"Bra",
+				],
 				PoseMapping: {
 					Kneel: "Kneel",
 					KneelingSpread: "KneelingSpread",
@@ -31022,7 +31096,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DefaultColor: "#bbbbbb",
 				Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
-				Hide: ["LeftHand", "RightHand", "ItemHandheld"],
+				Hide: ["HandAccessoryLeft", "HandAccessoryRight", "ItemHandheld"],
 				HideItem: ["BraceletSpikeBands"],
 				Extended: true,
 				AllowColorize: true,
@@ -31056,7 +31130,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DefaultColor: ["#bbbbbb", "#bbbbbb", "#bbbbbb", "#B38295"],
 				Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
-				Hide: ["LeftHand", "RightHand", "ItemHandheld"],
+				Hide: ["HandAccessoryLeft", "HandAccessoryRight", "ItemHandheld"],
 				HideItem: ["BraceletSpikeBands"],
 				Extended: true,
 				AllowColorize: true,
@@ -31198,7 +31272,12 @@ var AssetFemale3DCG = [
 				RemoveTime: 10,
 				BuyGroup: "DuctTape",
 				Audio: "DuctTapeRollShort",
-				Hide: ["Gloves", "LeftHand", "RightHand", "ItemHandheld"],
+				Hide: [
+					"Gloves",
+					"HandAccessoryLeft",
+					"HandAccessoryRight",
+					"ItemHandheld",
+				],
 				SetPose: ["TapedHands"],
 				AllowActivePose: ["Hogtied", "AllFours"],
 				Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
@@ -31251,7 +31330,12 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				SetPose: ["TapedHands"],
 				AllowActivePose: ["Hogtied", "AllFours"],
-				Hide: ["Gloves", "LeftHand", "RightHand", "ItemHandheld"],
+				Hide: [
+					"Gloves",
+					"HandAccessoryLeft",
+					"HandAccessoryRight",
+					"ItemHandheld",
+				],
 				HideItemExclude: [
 					"ItemHandheldFoxPlush",
 					"ItemHandheldBunPlush",
@@ -31345,7 +31429,12 @@ var AssetFemale3DCG = [
 				],
 				Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
 				Block: ["ItemHandheld"],
-				Hide: ["Gloves", "LeftHand", "RightHand", "ItemHandheld"],
+				Hide: [
+					"Gloves",
+					"HandAccessoryLeft",
+					"HandAccessoryRight",
+					"ItemHandheld",
+				],
 				HideItem: ["BraceletSpikeBands"],
 				Extended: true,
 				AlwaysExtend: true,
@@ -31614,7 +31703,12 @@ var AssetFemale3DCG = [
 					"#A5A5A5",
 				],
 				Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
-				Hide: ["Gloves", "LeftHand", "RightHand", "ItemHandheld"],
+				Hide: [
+					"Gloves",
+					"HandAccessoryLeft",
+					"HandAccessoryRight",
+					"ItemHandheld",
+				],
 				PoseMapping: {
 					BaseUpper: PoseType.DEFAULT,
 					BackBoxTie: "BackBoxTie",
@@ -31648,7 +31742,7 @@ var AssetFemale3DCG = [
 						Masks: [[345, 380, 60, 60]],
 					},
 					{
-						Group: ["Hands"],
+						Group: ["HandsLeft", "HandsRight"],
 						Pose: ["AllFours"],
 						Masks: [[100, 100, 400, 400]],
 					},
@@ -31863,7 +31957,13 @@ var AssetFemale3DCG = [
 					},
 				],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
-				Hide: ["Gloves", "LeftHand", "RightHand", "Bracelet", "ItemHandheld"],
+				Hide: [
+					"Gloves",
+					"HandAccessoryLeft",
+					"HandAccessoryRight",
+					"Bracelet",
+					"ItemHandheld",
+				],
 				PoseMapping: {
 					...AssetPoseMapping.ItemHands,
 					BackBoxTie: "BackBoxTie",
@@ -47171,8 +47271,8 @@ var AssetFemale3DCG = [
 					"ItemTorso2",
 					"Panties",
 					"Garters",
-					"LeftHand",
-					"RightHand",
+					"HandAccessoryLeft",
+					"HandAccessoryRight",
 				],
 				SetPose: ["Kneel", "BackElbowTouch"],
 				Effect: [E.Block, E.BlockWardrobe, E.Freeze],
@@ -47230,8 +47330,8 @@ var AssetFemale3DCG = [
 					"Panties",
 					"ItemPelvis",
 					"Garters",
-					"LeftHand",
-					"RightHand",
+					"HandAccessoryLeft",
+					"HandAccessoryRight",
 				],
 				HideItem: [
 					"ItemVulvaFullLatexSuitWand",
@@ -48216,7 +48316,8 @@ var AssetFemale3DCG = [
 				MaxOpacity: 1,
 				Opacity: 1,
 				Hide: [
-					"Hands",
+					"HandsLeft",
+					"HandsRight",
 					"HairBack",
 					"Cloth",
 					"ClothLower",
@@ -48229,8 +48330,8 @@ var AssetFemale3DCG = [
 					"Socks",
 					"SocksRight",
 					"SocksLeft",
-					"RightAnklet",
-					"LeftAnklet",
+					"AnkletRight",
+					"AnkletLeft",
 					"Shoes",
 					"Gloves",
 					"TailStraps",
@@ -48254,8 +48355,8 @@ var AssetFemale3DCG = [
 					"Corset",
 					"Bracelet",
 					"Garters",
-					"LeftHand",
-					"RightHand",
+					"HandAccessoryLeft",
+					"HandAccessoryRight",
 				],
 				SetPose: ["BaseUpper", "BaseLower"],
 				HideItem: ["ItemMiscTeddyBear"],
@@ -48847,7 +48948,8 @@ var AssetFemale3DCG = [
 				Prerequisite: ["NoItemArms", "NoItemLegs", "NoItemFeet", "HasBreasts"],
 				Hide: [
 					"BodyLower",
-					"Hands",
+					"HandsLeft",
+					"HandsRight",
 					"HairBack",
 					"Cloth",
 					"ClothLower",
@@ -48860,8 +48962,8 @@ var AssetFemale3DCG = [
 					"Socks",
 					"SocksRight",
 					"SocksLeft",
-					"RightAnklet",
-					"LeftAnklet",
+					"AnkletRight",
+					"AnkletLeft",
 					"Shoes",
 					"Gloves",
 					"TailStraps",
@@ -48884,8 +48986,8 @@ var AssetFemale3DCG = [
 					"Pussy",
 					"Corset",
 					"Bracelet",
-					"LeftHand",
-					"RightHand",
+					"HandAccessoryLeft",
+					"HandAccessoryRight",
 				],
 				HideItem: ["ItemMiscTeddyBear", "ItemMiscBunPlush", "ItemMiscFoxPlush"],
 				SetPose: ["BaseUpper", "BaseLower"],
@@ -49072,7 +49174,10 @@ var AssetFemale3DCG = [
 				Effect: [E.Freeze, E.Block, E.BlockWardrobe],
 				Hide: [
 					"BodyLower",
-					"Hands",
+					"HandsLeft",
+					"HandsRight",
+					"ArmsLeft",
+					"ArmsRight",
 					"Cloth",
 					"ClothLower",
 					"SuitLower",
@@ -49082,8 +49187,8 @@ var AssetFemale3DCG = [
 					"Socks",
 					"SocksRight",
 					"SocksLeft",
-					"RightAnklet",
-					"LeftAnklet",
+					"AnkletRight",
+					"AnkletLeft",
 					"Garters",
 					"Shoes",
 					"Gloves",
@@ -49104,8 +49209,8 @@ var AssetFemale3DCG = [
 					"ItemHands",
 					"ItemHandheld",
 					"ItemBoots",
-					"LeftHand",
-					"RightHand",
+					"HandAccessoryLeft",
+					"HandAccessoryRight",
 				],
 				Block: [
 					"ItemFeet",
@@ -49732,8 +49837,8 @@ var AssetFemale3DCG = [
 				],
 				Hide: [
 					"Shoes",
-					"RightAnklet",
-					"LeftAnklet",
+					"AnkletRight",
+					"AnkletLeft",
 					"ItemHands",
 					"ItemFeet",
 					"ItemBoots",

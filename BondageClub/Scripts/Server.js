@@ -342,23 +342,7 @@ function ServerPlayerSync() {
  * @returns {void} - Nothing
  */
 function ServerPlayerInventorySync() {
-
 	InventoryDataBuild(Player);
-
-	/*
-	** @type {Partial<Record<AssetGroupName, string[]>>} *
-	const Inv = {};
-	for (let I = 0; I < Player.Inventory.length; I++) {
-		if (Player.Inventory[I].Asset != null) {
-			let G = Inv[Player.Inventory[I].Asset.Group.Name];
-			if (G === undefined) {
-				G = Inv[Player.Inventory[I].Asset.Group.Name] = [];
-			}
-			G.push(Player.Inventory[I].Asset.Name);
-		}
-	}
-	ServerAccountUpdate.QueueData({ Inventory: Inv });
-	*/
 }
 
 /**
@@ -451,15 +435,21 @@ function ServerUnPackItemPermissions(data, onExtreme) {
 				let { Group, Name, Type } = protoPermission ?? {};
 				let asset = AssetGet("Female3DCG", Group, Name);
 				if (!asset) {
-					const fixup = LoginInventoryFixups.find(({ Old }) => Old.Group === Group && Old.Name === Name);
+					const fixup = LoginInventoryFixups.find(({ Old }) => Old.Group === Group && (Old.Name === Name || Old.Name === "*"));
 					if (!fixup) {
 						ret.shouldSync = true;
 						continue;
 					}
 
-					asset = AssetGet("Female3DCG", fixup.New.Group, fixup.New.Name);
 					Group = fixup.New.Group;
-					Name = fixup.New.Name;
+					if (fixup.New.Name) {
+						Name = fixup.New.Name;
+					}
+					asset = AssetGet("Female3DCG", Group, Name);
+				}
+				if (!asset) {
+					ret.shouldSync = true;
+					continue;
 				}
 
 				const key = /** @type {const} */(`${Group}/${Name}`);

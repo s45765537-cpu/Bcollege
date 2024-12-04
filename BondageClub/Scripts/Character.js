@@ -1049,6 +1049,7 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 
 	const oldPronouns = Char.GetPronouns();
 	const currentAppearance = Char.Appearance;
+	LoginPerformAppearanceFixups(data.Appearance);
 	ServerAppearanceLoadFromBundle(Char, "Female3DCG", data.Appearance, SourceMemberNumber);
 	CharacterAppearanceResolveSync(Char, currentAppearance);
 
@@ -1056,7 +1057,8 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 	//if ((!Char.IsPlayer()) && ((Char.MemberNumber == SourceMemberNumber) || (Char.Inventory == null) || (Char.Inventory.length == 0))) InventoryLoad(Char, data.Inventory);
 	if ((!Char.IsPlayer()) && (Char.MemberNumber == SourceMemberNumber) && (data.InventoryData != null) && (data.InventoryData != "") && (data.InventoryData != Char.InventoryData)) {
 		Char.InventoryData = data.InventoryData;
-		InventoryLoadCompressedData(Char, data.InventoryData);
+		const items = InventoryLoadCompressedData(data.InventoryData);
+		InventoryAddMany(Char, items, false);
 	}
 
 	const newPronouns = Char.GetPronouns();
