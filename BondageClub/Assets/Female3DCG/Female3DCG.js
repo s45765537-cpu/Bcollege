@@ -32551,7 +32551,7 @@ var AssetFemale3DCG = [
 						AllowTypes: { r: 2, t: [1, 2] },
 						CopyLayerColor: "Pumpkin",
 						PoseMapping: {
-							BaseUpper: PoseType.Default,
+							BaseUpper: PoseType.DEFAULT,
 							BackBoxTie: PoseType.HIDE,
 							BackCuffs: PoseType.HIDE,
 							BackElbowTouch: PoseType.HIDE,
@@ -32566,7 +32566,7 @@ var AssetFemale3DCG = [
 						AllowTypes: { r: 2, t: [1, 2] },
 						CopyLayerColor: "PumpkinShine",
 						PoseMapping: {
-							BaseUpper: PoseType.Default,
+							BaseUpper: PoseType.DEFAULT,
 							BackBoxTie: PoseType.HIDE,
 							BackCuffs: PoseType.HIDE,
 							BackElbowTouch: PoseType.HIDE,
@@ -32674,7 +32674,7 @@ var AssetFemale3DCG = [
 						AllowTypes: { r: 4, t: [1, 2] },
 						CopyLayerColor: "Pumpkin",
 						PoseMapping: {
-							BaseUpper: PoseType.Default,
+							BaseUpper: PoseType.DEFAULT,
 							BackBoxTie: PoseType.HIDE,
 							BackCuffs: PoseType.HIDE,
 							BackElbowTouch: PoseType.HIDE,
@@ -32689,7 +32689,7 @@ var AssetFemale3DCG = [
 						AllowTypes: { r: 4, t: [1, 2] },
 						CopyLayerColor: "PumpkinShine",
 						PoseMapping: {
-							BaseUpper: PoseType.Default,
+							BaseUpper: PoseType.DEFAULT,
 							BackBoxTie: PoseType.HIDE,
 							BackCuffs: PoseType.HIDE,
 							BackElbowTouch: PoseType.HIDE,
