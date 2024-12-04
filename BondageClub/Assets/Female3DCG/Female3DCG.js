@@ -32294,7 +32294,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LatexBondageMitts",
-				InventoryID: 1192,
+				InventoryID: 1193,
 				Fetish: ["Latex"],
 				Value: 40,
 				Difficulty: 5,
