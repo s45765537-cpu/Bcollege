@@ -335,7 +335,13 @@ function ServerPlayerSync() {
  * @returns {void} - Nothing
  */
 function ServerPlayerInventorySync() {
-	InventoryDataBuild(Player);
+	const Data = InventoryDataBuild(Player);
+
+	// If the result is different, we assign it and update the server account
+	if (Data !== Player.InventoryData) {
+		Player.InventoryData = Data;
+		ServerAccountUpdate.QueueData({ InventoryData: Data }, true);
+	}
 }
 
 /**

@@ -193,7 +193,7 @@ function InventoryLoadCompressedData(Data) {
 		// Adds all the assets linked to that inventory ID
 		const A = Asset.find(a => a.InventoryID === ID);
 		if (A) {
-			items.push({ Group: A. Group.Name, Name: A.Name });
+			items.push({ Group: A.Group.Name, Name: A.Name });
 		} else {
 			console.warn(`unable to find asset for InventoryID: ${ID}, skipping`);
 		}
@@ -238,12 +238,7 @@ function InventoryDataBuild(C) {
 	for (let I of IDList)
 		Data = Data + String.fromCharCode(I);
 
-	// If the result is different, we assign it and update the server account
-	if (Data !== C.InventoryData) {
-		C.InventoryData = Data;
-		if (C.IsPlayer()) ServerAccountUpdate.QueueData({ InventoryData: Data }, true);
-	}
-
+	return Data;
 }
 
 /**
