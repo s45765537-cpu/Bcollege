@@ -12,8 +12,12 @@ Whitelist
 白名单
 Private
 私有
+Need exact name to find it
+需要名称完全正确才能搜索到
 Locked
 锁定
+Only admins can leave or enter
+只有管理员能够进入或离开
 Size (2-20)
 大小 (2-20)
 Member numbers separated by commas (ex: 123, ...)
@@ -38,6 +42,8 @@ Room settings can only be updated by administrators
 房间选项仅能被房管修改
 Background
 背景
+Create
+创建
 Save
 保存
 Exit
@@ -52,6 +58,8 @@ Account error, please try to relog
 账号错误,请重新登录
 Invalid chat room data detected
 无效的聊天室数据
+Room created, joining it...
+房间已创建，正在加入...
 Block Categories
 屏蔽性癖
 Customization
@@ -62,6 +70,12 @@ Allow on and off
 允许开关
 Only use maps
 只使用地图
+Never use the map exploration
+永不使用地图探索
+Hybrid map, can go on and off
+混合地图，能够开关
+Only use the map, no regular chat
+只使用地图，没有常规聊天
 No Game
 无游戏
 Club Card
@@ -74,6 +88,8 @@ GGTS
 GGTS
 Pandora
 潘多拉
+(Click anywhere to return)
+(点击任意位置返回)
 English
 英语
 French

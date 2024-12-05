@@ -2,9 +2,11 @@
 var ChatAdminRoomCustomizationBackground = "Sheet";
 /** @type {ServerChatRoomCustomData} */
 var ChatAdminRoomCustomizationCurrent = null;
-var ChatAdminRoomCustomizationMusic = null;
+var ChatAdminRoomCustomizationMusic = null
+/** @type {null | "MusicLibrary"} */;
 var ChatAdminRoomCustomizationMode = null;
-var ChatAdminRoomCustomizationSizeMode = null;
+/** @type {number} */
+var ChatAdminRoomCustomizationSizeMode = 0;
 var ChatAdminRoomCustomizationMusicLibrary = [
 	{
 		Name: "FantasyAmbience",
@@ -102,20 +104,19 @@ function ChatAdminRoomCustomizationCommand(Property, Value) {
 function ChatAdminRoomCustomizationLoad() {
 	ChatAdminRoomCustomizationMode = null;
 	ChatAdminRoomCustomizationCurrent = null;
-	let Data = ChatAdminTemporaryData ? ChatAdminTemporaryData.Custom : ChatRoomData.Custom;
-	if (Data == null) Data = {};
-	ElementCreateInput("InputImageURL", "text", (Data.ImageURL == null) ? "" : Data.ImageURL, "250");
-	ElementCreateInput("InputImageFilter", "text", (Data.ImageFilter == null) ? "" : Data.ImageFilter, "10");
-	ElementCreateInput("InputMusicURL", "text", (Data.MusicURL == null) ? "" : Data.MusicURL, "250");
-	document.getElementById("InputImageURL").setAttribute("autocomplete", "off");
-	document.getElementById("InputImageFilter").setAttribute("autocomplete", "off");
-	document.getElementById("InputMusicURL").setAttribute("autocomplete", "off");
+	const data = ChatAdminData.Custom ? CommonCloneDeep(ChatAdminData.Custom) : { ImageURL: "", ImageFilter: "", MusicURL: ""};
+	const imageInput = ElementCreateInput("InputImageURL", "text", data.ImageURL, "250");
+	const filterInput = ElementCreateInput("InputImageFilter", "text", data.ImageFilter, "10");
+	const musicInput = ElementCreateInput("InputMusicURL", "text", data.MusicURL, "250");
+	imageInput.setAttribute("autocomplete", "off");
+	filterInput.setAttribute("autocomplete", "off");
+	musicInput.setAttribute("autocomplete", "off");
 	if (!ChatRoomPlayerIsAdmin()) {
-		document.getElementById("InputImageURL").setAttribute("disabled", "disabled");
-		document.getElementById("InputImageFilter").setAttribute("disabled", "disabled");
-		document.getElementById("InputMusicURL").setAttribute("disabled", "disabled");
+		imageInput.setAttribute("disabled", "disabled");
+		filterInput.setAttribute("disabled", "disabled");
+		musicInput.setAttribute("disabled", "disabled");
 	}
-	ChatAdminRoomCustomizationSizeMode = Data?.SizeMode ?? DrawingResizeMode.Fill;
+	ChatAdminRoomCustomizationSizeMode = data?.SizeMode ?? DrawingResizeMode.Fill;
 }
 
 function ChatAdminRoomCustomizationUnload() {
@@ -341,19 +342,19 @@ function ChatAdminRoomCustomizationClick() {
 
 	// Clear the current data and goes back to the admin screen
 	if (MouseIn(725, 840, 250, 65) && ChatRoomPlayerIsAdmin()) {
-		ChatAdminTemporaryData.Custom = null;
+		ChatAdminData.Custom = null;
 		ChatAdminRoomCustomizationExit();
 	}
 
 	// Admins can save the changes
 	if (MouseIn(1025, 840, 250, 65) && ChatRoomPlayerIsAdmin()) {
-		if (ChatAdminTemporaryData.Custom == null) ChatAdminTemporaryData.Custom = {};
-		ChatAdminTemporaryData.Custom.ImageURL = ElementValue("InputImageURL").trim();
-		ChatAdminTemporaryData.Custom.SizeMode = ChatAdminRoomCustomizationSizeMode;
-		ChatAdminTemporaryData.Custom.ImageFilter = ElementValue("InputImageFilter").trim();
-		ChatAdminTemporaryData.Custom.MusicURL = ElementValue("InputMusicURL").trim();
-		if ((ChatAdminTemporaryData.Custom.ImageURL == "") && (ChatAdminTemporaryData.Custom.ImageFilter == "") && (ChatAdminTemporaryData.Custom.MusicURL == ""))
-			ChatAdminTemporaryData.Custom = null;
+		if (ChatAdminData.Custom == null) ChatAdminData.Custom = {};
+		ChatAdminData.Custom.ImageURL = ElementValue("InputImageURL").trim();
+		ChatAdminData.Custom.SizeMode = ChatAdminRoomCustomizationSizeMode;
+		ChatAdminData.Custom.ImageFilter = ElementValue("InputImageFilter").trim();
+		ChatAdminData.Custom.MusicURL = ElementValue("InputMusicURL").trim();
+		if ((ChatAdminData.Custom.ImageURL == "") && (ChatAdminData.Custom.ImageFilter == "") && (ChatAdminData.Custom.MusicURL == ""))
+			ChatAdminData.Custom = null;
 		ChatAdminRoomCustomizationExit();
 	}
 

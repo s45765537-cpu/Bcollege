@@ -14,6 +14,16 @@ Private
 Приватна
 Locked
 Закрита
+Need exact name to find it
+Потрібна точна назва, щоб знайти її
+Only admins can leave or enter
+Тільки адміністратори можуть увійти чи вийти
+Never use the map exploration
+Ніколи не використовувати режим карти
+Hybrid map, can go on and off
+Гібрид (карта та звичайний режим)
+Only use the map, no regular chat
+Використовувати лише режим карти
 Size (2-20)
 Розмір (2-20)
 Member numbers separated by commas (ex: 123, ...)
@@ -34,6 +44,8 @@ Room settings can only be updated by administrators
 Налаштування кімнати можуть оновлювати лише адміністратори
 Background
 Задній фон
+Create
+Створити
 Save
 Зберегти
 Exit
@@ -68,6 +80,8 @@ Magic Battle
 Магічна битва
 GGTS
 GGTS‎
+(Click anywhere to return)
+(Натисніть будь-де, щоб повернутися)
 English
 Англійська
 French
