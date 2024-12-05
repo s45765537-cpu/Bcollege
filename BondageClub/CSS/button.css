@@ -107,10 +107,13 @@
 	left: 2%;
 	width: 96%;
 	max-height: 98%;
-	font-size: min(2.6dvh, 1.3dvw);
 	pointer-events: none;
 	cursor: inherit;
 	overflow: hidden;
+}
+
+.button-image ~ .button-label {
+	font-size: min(2.6dvh, 1.3dvw);
 }
 
 .button-styling > .button-label {
