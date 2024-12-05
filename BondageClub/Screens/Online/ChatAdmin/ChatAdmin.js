@@ -229,8 +229,8 @@ function ChatAdminRun() {
 	// Background selection, block button and game selection
 	DrawImageResize("Backgrounds/" + ChatAdminData.Background + ".jpg", 1300, 75, 600, 350);
 	DrawBackNextButton(1300, 450, 500, 60, BackgroundsTextGet(ChatAdminData.Background), ButtonBackground, null,
-		() => BackgroundsTextGet((ChatAdminBackgroundIndex == 0) ? ChatCreateBackgroundList[ChatCreateBackgroundList.length - 1] : ChatCreateBackgroundList[ChatAdminBackgroundIndex - 1]),
-		() => BackgroundsTextGet((ChatAdminBackgroundIndex >= ChatCreateBackgroundList.length - 1) ? ChatCreateBackgroundList[0] : ChatCreateBackgroundList[ChatAdminBackgroundIndex + 1]),
+		() => BackgroundsTextGet((ChatAdminBackgroundIndex == 0) ? ChatAdminBackgroundList[ChatAdminBackgroundList.length - 1] : ChatAdminBackgroundList[ChatAdminBackgroundIndex - 1]),
+		() => BackgroundsTextGet((ChatAdminBackgroundIndex >= ChatAdminBackgroundList.length - 1) ? ChatAdminBackgroundList[0] : ChatAdminBackgroundList[ChatAdminBackgroundIndex + 1]),
 		!canEdit);
 	DrawButton(1840, 450, 60, 60, "", ButtonBackground, "Icons/Small/Preference.png", null, !canEdit);
 	DrawButton(1300, 550, 275, 60, TextGet("BlockCategory"), "White");
