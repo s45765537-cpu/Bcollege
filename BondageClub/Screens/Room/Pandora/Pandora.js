@@ -1127,7 +1127,7 @@ function PandoraPunishmentSentence(Minutes) {
 }
 
 /**
- * Starts the punishment
+ * Starts the single-player punishment
  * @returns {void} - Nothing
  */
 function PandoraPunishmentStart() {
@@ -1136,6 +1136,27 @@ function PandoraPunishmentStart() {
 	ServerSend("AccountUpdate", { Infiltration: Player.Infiltration });
 	DialogLeave();
 	CommonSetScreen("Room", "PandoraPrison");
+}
+
+/**
+ * Prepares the multi-player punishment
+ * @returns {void} - Nothing
+ */
+function PandoraPenitentiaryPrepare() {
+	PandoraPenitentiaryStart(Player.Infiltration.Punishment.Minutes);
+}
+
+/**
+ * Starts the multi-player punishment
+ * @param {number} Minutes - The number of minutes for the sentence
+ * @returns {void} - Nothing
+ */
+function PandoraPenitentiaryStart(Minutes) {
+	if (Player.Game.Prison == null) Player.Game.Prison = {};
+	Player.Game.Prison.Timer = Math.round(CurrentTime + (Minutes * 60 * 1000));
+	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+	DialogLeave();
+	CommonSetScreen("Room", "MainHall");
 }
 
 /**

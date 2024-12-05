@@ -585,9 +585,7 @@ function InfiltrationPreparePenitentiary(Minutes, Amount) {
  * @returns {void} - Nothing
  */
 function InfiltrationStartPenitentiary() {
-	LogAdd("Penitentiary", "Infiltration", CurrentTime + (InfiltrationPenitentiaryMinutes * 60 * 1000));
 	CharacterChangeMoney(Player, InfiltrationPenitentiaryAmount);
 	SkillProgress(Player, "Infiltration", InfiltrationPenitentiaryAmount * 10);
-	DialogLeave();
-	CommonSetScreen("Room", "MainHall");
+	PandoraPenitentiaryStart(InfiltrationPenitentiaryMinutes);
 }

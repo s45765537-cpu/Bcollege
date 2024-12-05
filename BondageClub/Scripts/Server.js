@@ -1063,6 +1063,7 @@ var ServerAccountDataSyncedValidate = {
 			GGTS: CommonIsObject(arg.GGTS) ? arg.GGTS : undefined,
 			Poker: CommonIsObject(arg.Poker) ? arg.Poker : undefined,
 			ClubCard: CommonIsObject(arg.ClubCard) ? arg.ClubCard : undefined,
+			Prison: CommonIsObject(arg.Prison) ? arg.Prison : undefined,
 		};
 	},
 	LabelColor: (arg, C) => {

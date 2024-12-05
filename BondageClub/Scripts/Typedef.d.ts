@@ -1648,6 +1648,7 @@ interface CharacterGameParameters {
 	GGTS?: GameGGTSParameters,
 	Poker?: GamePokerParameters,
 	ClubCard?: GameClubCardParameters,
+	Prison? : GamePrionParameters;
 }
 
 /**
@@ -3407,6 +3408,10 @@ interface GameClubCardParameters {
 	PlayerSlot?: number;
 }
 
+interface GamePrisonParameters {
+	Timer?: number;
+}
+
 //#endregion
 
 // #region Online Games
@@ -3930,7 +3935,6 @@ interface LogNameType {
 	Cell: "Locked" | "KeyDeposit",
 	College: "TeacherKey",
 	Import: "BondageCollege",
-	Infiltration: "Penitentiary",
 	Introduction: "MaidOpinion" | "DailyJobDone",
 	LockPick: "FailedLockPick",
 	LoverRule: "BlockLoverLockSelf" | "BlockLoverLockOwner",
