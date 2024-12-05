@@ -1129,7 +1129,7 @@ function CraftingLoad() {
 						{
 							tag: "input",
 							attributes: { id: CraftingID.layeringInput, type: "number", min: -99, max: 99, inputmode: "numeric", size: 0, disabled: true },
-							eventListeners: { blur: ElementNumberInputBlur, input: CraftingEventListeners._InputLayering },
+							eventListeners: { blur: ElementNumberInputBlur, wheel: ElementNumberInputWheel, input: CraftingEventListeners._InputLayering },
 						},
 						ElementButton.Create(CraftingID.layeringButton, CraftingEventListeners._ClickLayering, { disabled: true }),
 						{ tag: "span", children: [TextGet("EnterPriority")] },
