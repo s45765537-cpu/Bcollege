@@ -100,6 +100,7 @@
 	overflow: hidden;
 }
 
+.dialog-grid-button .button-icon-tooltip-ul,
 .dialog-grid-button .button-tooltip-craft {
 	padding-left: min(2.6dvh, 1.3dvw);
 }

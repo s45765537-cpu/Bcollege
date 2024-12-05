@@ -141,7 +141,7 @@
 .button-icon-tooltip-ul {
 	text-align: left;
 	margin: 0;
-	padding-left: min(2.6dvh, 1.3dvw);
+	padding-left: min(3.6dvh, 1.8dvw);
 }
 
 .button-icon-tooltip-li {
