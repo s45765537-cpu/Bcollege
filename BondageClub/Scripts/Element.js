@@ -1145,7 +1145,7 @@ var ElementButton = {
 	/**
 	 * Parse the passed icon list, returning its corresponding `<img>` grid and tooltip if non-empty
 	 * @param {string} id - The ID of the parent element
-	 * @param {readonly InventoryIcon[]} [icons] - The (optional) list of icons
+	 * @param {readonly (InventoryIcon | { iconSrc: string, tooltipText: string | Node })[]} [icons] - The (optional) list of icons
 	 * @returns {null | { iconGrid: HTMLDivElement, tooltip: (string | HTMLElement)[] }} - `null` if the provided icon list is empty and otherwise an object containing the icon grid and a icon-specific tooltip
 	 */
 	_ParseIcons: function _ParseIcons(id, icons) {
@@ -1165,8 +1165,14 @@ var ElementButton = {
 			classList: ["button-icon-grid"],
 			attributes: { "aria-hidden": "true" },
 			children: icons.map((icon) => {
-				let src, tooltipText;
-				if (icon.endsWith("Padlock")) {
+				/** @type {string} */
+				let src;
+				/** @type {string | Node} */
+				let tooltipText;
+				if (typeof icon === "object") {
+					src = icon.iconSrc;
+					tooltipText = icon.tooltipText;
+				} else if (icon.endsWith("Padlock")) {
 					src = `./Assets/Female3DCG/ItemMisc/Preview/${icon}.png`;
 					tooltipText = InterfaceTextGet("PreviewIconPadlock").replace(
 						"AssetName",
@@ -1365,14 +1371,15 @@ var ElementButton = {
 		htmlOptions.tooltip ??= {};
 		htmlOptions.tooltip.classList ??= [];
 		htmlOptions.tooltip.classList = [
-			"button-tooltip-justify",
 			...htmlOptions.tooltip.classList,
+			"button-tooltip-justify",
 		];
 
 		options ??= {};
 		options.label ??= item.Craft?.Name || asset.Description;
 		options.image ??= `./Assets/Female3DCG/${asset.DynamicGroupName}/Preview/${asset.Name}.png`;
 		options.icons ??= [
+			...(options.icons ?? []),
 			DialogGetFavoriteStateDetails(C ?? Player, asset)?.Icon,
 			...DialogGetLockIcon(item, "Property" in item),
 			...DialogGetAssetIcons(asset),
@@ -1380,6 +1387,7 @@ var ElementButton = {
 		];
 		options.tooltipPosition ??= "bottom";
 		options.tooltip ??= !item.Craft ? "" : /** @type {HTMLOptions<any>[]} */([
+			...(CommonIsArray(options.tooltip) ? options.tooltip : [options.tooltip]),
 			{
 				tag: "span",
 				children: [InterfaceTextGet("DialogMenuCrafting") + ":"],
@@ -1442,14 +1450,15 @@ var ElementButton = {
 		htmlOptions.tooltip ??= {};
 		htmlOptions.tooltip.classList ??= [];
 		htmlOptions.tooltip.classList = [
-			"button-tooltip-justify",
 			...htmlOptions.tooltip.classList,
+			"button-tooltip-justify",
 		];
 
 		options ??= {};
 		options.label ??= ActivityDictionaryText(ActivityBuildChatTag(C, AssetGroupGet(C.AssetFamily, activity.Group), activity.Activity, true));
 		options.image ??= (activity.Item ? `./${AssetGetPreviewPath(activity.Item.Asset)}/${activity.Item.Asset.Name}.png` : `./Assets/Female3DCG/Activity/${activity.Activity.Name}.png`);
 		options.icons ??= [
+			...(options.icons ?? []),
 			activity.Blocked === "limited" ? "AllowedLimited" : undefined,
 			activity.Item ? "Handheld" : undefined,
 		];

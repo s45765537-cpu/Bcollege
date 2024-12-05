@@ -64,14 +64,16 @@
 	position: absolute;
 	pointer-events: none;
 	top: 2%;
-	left: 2%;
-	width: 96%;
-	max-height: 96%;
+	left: 50%;
+	transform: translateX(-50%);
+	width: min(221px, 96%);
+	max-height: min(221px, 96%);
 	aspect-ratio: 1 /1;
 }
 
 .button-image[data-hidden] {
 	display: none;
+	opacity: 20%;
 }
 
 .button[data-hidden] > .button-image[data-hidden] {
@@ -106,10 +108,13 @@
 	left: 2%;
 	width: 96%;
 	max-height: 98%;
-	font-size: min(2.6dvh, 1.3dvw);
 	pointer-events: none;
 	cursor: inherit;
 	overflow: hidden;
+}
+
+.button-image ~ .button-label {
+	font-size: min(2.6dvh, 1.3dvw);
 }
 
 .button-styling > .button-label {
@@ -118,7 +123,7 @@
 }
 
 .button-icon-grid {
-	--icon-size: min(5dvh, 2.5dvw);
+	--icon-size: min(50px, 5dvh, 2.5dvw);
 
 	display: grid;
 	position: absolute;
@@ -137,7 +142,7 @@
 .button-icon-tooltip-ul {
 	text-align: left;
 	margin: 0;
-	padding-left: min(2.6dvh, 1.3dvw);
+	padding-left: min(3.6dvh, 1.8dvw);
 }
 
 .button-icon-tooltip-li {
@@ -284,5 +289,5 @@
 
 .button-tooltip:empty,
 .button-label:empty {
-	display: none;
+	display: none !important;
 }

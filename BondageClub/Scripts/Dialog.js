@@ -1020,12 +1020,7 @@ function DialogInventoryAdd(C, item, isWorn, sortOrder) {
 
 		// Make sure we do not duplicate the item in the list
 		for (const invItem of DialogInventory) {
-			if (
-				invItem.Asset.Name === item.Asset.Name
-				&& invItem.Asset.Group.Name === item.Asset.Group.Name
-				&& invItem.Craft == null
-				&& item.Craft == null
-			) {
+			if (!DialogAllowItemClick(invItem, item)) {
 				return;
 			}
 		}
@@ -1035,8 +1030,8 @@ function DialogInventoryAdd(C, item, isWorn, sortOrder) {
 	const inventoryItem = DialogInventoryCreateItem(C, item, isWorn, sortOrder);
 	if (item.Craft != null) {
 		inventoryItem.Craft = item.Craft;
-		if (inventoryItem.SortOrder.charAt(0) == DialogSortOrder.Usable.toString()) inventoryItem.SortOrder = DialogSortOrder.PlayerFavoriteUsable.toString() + item.Asset.Description;
-		if (inventoryItem.SortOrder.charAt(0) == DialogSortOrder.Unusable.toString()) inventoryItem.SortOrder = DialogSortOrder.PlayerFavoriteUnusable.toString() + item.Asset.Description;
+		if (inventoryItem.SortOrder.charAt(0) == DialogSortOrder.Usable.toString()) inventoryItem.SortOrder = DialogSortOrder.PlayerFavoriteUsable.toString() + (item.Craft.Name || item.Asset.Description);
+		if (inventoryItem.SortOrder.charAt(0) == DialogSortOrder.Unusable.toString()) inventoryItem.SortOrder = DialogSortOrder.PlayerFavoriteUnusable.toString() + (item.Craft.Name || item.Asset.Description);
 	}
 	DialogInventory.push(inventoryItem);
 
@@ -1088,7 +1083,7 @@ function DialogInventoryCreateItem(C, item, isWorn, sortOrder) {
 		...item,
 		Worn: isWorn,
 		Icons: icons,
-		SortOrder: sortOrder.toString() + asset.Description,
+		SortOrder: sortOrder.toString() + (item.Craft?.Name || asset.Description),
 		Vibrating: isWorn && InventoryItemHasEffect(item, "Vibrating", true),
 	};
 }
@@ -3248,7 +3243,7 @@ class _DialogItemMenu extends DialogMenu {
 			children: [
 				{
 					tag: "span",
-					attributes: { id: ids.status },
+					attributes: { id: ids.status, "aria-hidden": "true" },
 					classList: ["dialog-status"],
 				},
 				{
@@ -3419,8 +3414,16 @@ class _DialogLockingMenu extends DialogMenu {
 		return document.getElementById(ids.root) ?? ElementCreate({
 			tag: "div",
 			children: [
-				{ tag: "span", attributes: { id: ids.status }, classList: ["dialog-status"] },
-				{ tag: "div", attributes: { id: ids.grid, "aria-labelledby": ids.status }, classList: ["dialog-grid"] },
+				{
+					tag: "span",
+					attributes: { id: ids.status, "aria-hidden": "true" },
+					classList: ["dialog-status"],
+				},
+				{
+					tag: "div",
+					attributes: { id: ids.grid, "aria-labelledby": ids.status },
+					classList: ["dialog-grid"],
+				},
 			],
 		});
 	}
@@ -3508,8 +3511,16 @@ class _DialogPermissionMenu extends DialogMenu {
 		return document.getElementById(ids.root) ?? ElementCreate({
 			tag: "div",
 			children: [
-				{ tag: "span", attributes: { id: ids.status }, classList: ["dialog-status"] },
-				{ tag: "div", attributes: { id: ids.grid, "aria-labelledby": ids.status }, classList: ["dialog-grid"] },
+				{
+					tag: "span",
+					attributes: { id: ids.status, "aria-hidden": "true" },
+					classList: ["dialog-status"],
+				},
+				{
+					tag: "div",
+					attributes: { id: ids.grid, "aria-labelledby": ids.status },
+					classList: ["dialog-grid"],
+				},
 			],
 		});
 	}
@@ -3590,8 +3601,16 @@ class _DialogActivitiesMenu extends DialogMenu {
 		return document.getElementById(ids.root) ?? ElementCreate({
 			tag: "div",
 			children: [
-				{ tag: "span", attributes: { id: ids.status }, classList: ["dialog-status"] },
-				{ tag: "div", attributes: { id: ids.grid, "aria-labelledby": ids.status }, classList: ["dialog-grid"] },
+				{
+					tag: "span",
+					attributes: { id: ids.status, "aria-hidden": "true" },
+					classList: ["dialog-status"],
+				},
+				{
+					tag: "div",
+					attributes: { id: ids.grid, "aria-labelledby": ids.status },
+					classList: ["dialog-grid"],
+				},
 			],
 		});
 	}
@@ -3680,7 +3699,11 @@ class _DialogCraftedMenu extends DialogMenu {
 		return document.getElementById(ids.root) ?? ElementCreate({
 			tag: "div",
 			children: [
-				{ tag: "span", attributes: { id: ids.status }, classList: ["dialog-status"] },
+				{
+					tag: "span",
+					attributes: { id: ids.status, "aria-hidden": "true" },
+					classList: ["dialog-status"],
+				},
 				{
 					tag: "div",
 					attributes: { id: ids.info, "aria-labelledby": ids.status },
