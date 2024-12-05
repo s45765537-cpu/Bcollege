@@ -1020,12 +1020,7 @@ function DialogInventoryAdd(C, item, isWorn, sortOrder) {
 
 		// Make sure we do not duplicate the item in the list
 		for (const invItem of DialogInventory) {
-			if (
-				invItem.Asset.Name === item.Asset.Name
-				&& invItem.Asset.Group.Name === item.Asset.Group.Name
-				&& invItem.Craft == null
-				&& item.Craft == null
-			) {
+			if (!DialogAllowItemClick(invItem, item)) {
 				return;
 			}
 		}
