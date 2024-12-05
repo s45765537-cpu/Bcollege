@@ -862,10 +862,9 @@ function ChatSearchClickUnhideRoom(C, Confirmed) {
 function ChatSearchResponse(data) {
 	if (typeof data !== "string") return;
 	if (((data == "RoomBanned") || (data == "RoomKicked")) && ServerPlayerIsInChatRoom()) {
-		ChatRoomClearAllElements();
+		// This will cause us to send an extra ChatRoomLeave message
+		ChatRoomLeave(true);
 		CommonSetScreen("Online", "ChatSearch");
-		CharacterDeleteAllOnline();
-		ChatRoomSetLastChatRoom(null);
 	}
 	ChatSearchMessage = "Response" + data;
 }
