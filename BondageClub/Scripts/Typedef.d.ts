@@ -1652,7 +1652,7 @@ interface CharacterGameParameters {
 	GGTS?: GameGGTSParameters,
 	Poker?: GamePokerParameters,
 	ClubCard?: GameClubCardParameters,
-	Prison? : GamePrionParameters;
+	Prison? : GamePrisonParameters;
 }
 
 /**
