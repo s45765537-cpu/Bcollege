@@ -251,9 +251,16 @@ declare namespace DialogMenu {
 		statusTimer?: number;
 		/**
 		 * Reset the position of the scroll bar to the checked button, or, if unavailable, the top of the button grid.
+		 *
 		 * Defaults to `true` if {@link ReloadOptions.reset} is specified.
 		 */
 		resetScrollbar?: boolean;
+		/**
+		 * Whether to regenerate the subscreen's underlying item or activity list (see {@link DialogBuildActivities} and {@link DialogInventoryBuild}).
+		 *
+		 * Defaults to `true` if {@link ReloadOptions.reset} is specified.
+		 */
+		resetDialogItems?: boolean;
 	}
 }
 
@@ -1155,6 +1162,8 @@ type ItemActivityRestriction = "blocked" | "limited" | "unavail";
 interface ItemActivity {
 	/** The activity performed */
 	Activity: Activity;
+	/** The target group of the activity */
+	Group: AssetGroupName;
 	/** An optional item used for the activity. Null if the player is used their hand, for example. */
 	Item?: Item;
 	/** Whether the item is blocked or limited on the target character, or unavailable because the player is blocked. Undefined means no restriction. */

@@ -1336,7 +1336,7 @@ function DialogBuildActivities(C, reload=true) {
 	if (reload) {
 		switch (DialogMenuMode) {
 			case "activities":
-				DialogMenuMapping.activities.Reload(null, null, { reset: true });
+				DialogMenuMapping.activities.Reload(null, null, { reset: true, resetDialogItems: false });
 				break;
 		}
 	}
@@ -1691,7 +1691,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 			case "items":
 			case "locking":
 			case "permissions":
-				DialogMenuMapping[DialogMenuMode]?.Reload(null, null, { reset: true });
+				DialogMenuMapping[DialogMenuMode]?.Reload(null, null, { reset: true, resetDialogItems: false });
 				break;
 		}
 	}
@@ -2213,11 +2213,8 @@ function DialogChangeMode(mode, reset=false) {
 				DialogFocusSourceItem = null;
 			}
 
-			/** @type {DialogMenu} */
-			const screenfunctions = DialogMenuMapping[DialogMenuMode];
 			if (C && C.FocusGroup) {
-				screenfunctions.Init(C, C.FocusGroup);
-				screenfunctions.Resize(true);
+				DialogMenuMapping[DialogMenuMode].Init(C, C.FocusGroup);
 			}
 			break;
 		}
@@ -2556,7 +2553,8 @@ function DialogFindFacialExpressionMenuGroup(ExpressionGroup) {
  * @returns {void} - Nothing
  */
 function DialogSetStatus(status, timer=0, replace=null) {
-	const elem = document.getElementById(DialogMenuMapping[DialogMenuMode]?.ids.status ?? "");
+	const id = DialogMenuMapping[DialogMenuMode]?.ids.status;
+	const elem = id ? document.getElementById(id) : null;
 	if (!elem) {
 		return;
 	}
@@ -2936,7 +2934,7 @@ class DialogMenu {
 	 * @param {Character} C The character in question
 	 * @param {AssetItemGroup} focusGroup The focused item group
 	 * @param {null | { shape?: RectTuple }} style Misc styling for the subscreen
-	 * @returns {HTMLDivElement} The div containing the dialog subscreen root element
+	 * @returns {null | HTMLDivElement} The div containing the dialog subscreen root element or `null` if the screen failed to initialize
 	 */
 	Init(C, focusGroup, style=null) {
 		style ??= {};
@@ -2944,7 +2942,7 @@ class DialogMenu {
 		this._focusGroup = focusGroup;
 		this._shape = style.shape ?? [...this.defaultShape];
 		this.Load();
-		return /** @type {HTMLDivElement} */(document.getElementById(this.ids.root));
+		return /** @type {null | HTMLDivElement} */(document.getElementById(this.ids.root));
 	}
 
 	/** @type {ScreenFunctions["Load"]} */
@@ -2968,9 +2966,9 @@ class DialogMenu {
 		if (!root.parentElement) { document.body.append(root); }
 		root.toggleAttribute("data-unload", false);
 
-		// Scroll bar resetting is handled by `Resize(load=true)` here; don't perform it twice
+		// Perform the element resizing here asynchronically in order to circumvent a race condition with the scroll bar reallignment
 		DialogMenuButtonBuild(this.C);
-		this.Reload(null, null, { reset: true, resetScrollbar: false });
+		this.Reload(null, null, { reset: true }).then(() => ElementPositionFixed(this.ids.root, ...this.shape));
 	}
 
 	/**
@@ -2996,18 +2994,9 @@ class DialogMenu {
 
 	/** @type {ScreenFunctions["Resize"]} */
 	Resize(load) {
-		ElementPositionFixed(this.ids.root, ...this.shape);
-
-		if (load) {
-			// Scroll to the checked button upon loading
-			// Needs to be performed after `ElementPositionFixed()` due to its sensitivity towards the exact shape of the root
-			const grid = document.getElementById(this.ids.grid);
-			const checkedButton = grid?.querySelector(`.dialog-grid-button[aria-checked='true']`);
-			if (checkedButton) {
-				checkedButton.scrollIntoView();
-			} else {
-				grid?.scrollTo({ top: 0 });
-			}
+		if (!load) {
+			// Tasks already handled asynchronically by `Load`
+			ElementPositionFixed(this.ids.root, ...this.shape);
 		}
 	}
 
@@ -3056,8 +3045,8 @@ class DialogMenu {
 
 	/**
 	 * Reload the subscreen, updating the DOM elements and, if required, re-assigning the character and focus group.
-	 * @param {null | Character} C - The selected character; defaults to {@link DialogMenu.C} and will update it inplace otherwise
-	 * @param {null | AssetItemGroup} focusGroup - The selected group; defaults to {@link DialogMenu.focusGroup} and will update it inplace otherwise
+	 * @param {null | Character} C - The selected character; defaults to {@link DialogMenu.C} and will update the property inplace otherwise
+	 * @param {null | AssetItemGroup} focusGroup - The selected group; defaults to {@link DialogMenu.focusGroup} and will update the property inplace otherwise
 	 * @param {null | DialogMenu.ReloadOptions} [options] - Further customization options
 	 * @returns {Promise<boolean>} - Whether an update was triggered or aborted
 	 */
@@ -3066,11 +3055,13 @@ class DialogMenu {
 		C ??= this.C;
 		focusGroup ??= this.focusGroup;
 		const root = document.getElementById(this.ids.root);
-		if (!root || !C || !focusGroup) {
+		const textCache = TextAllScreenCache.get(InterfaceStringsPath);
+		if (!root || !C || !focusGroup || !textCache) {
 			return false;
 		}
 
 		root.setAttribute("aria-busy", "true");
+		await textCache.loadedPromise;
 
 		// Check if any class-level properties have to be updated
 		if (C !== this.C) {
@@ -3082,19 +3073,20 @@ class DialogMenu {
 			this._focusGroup = focusGroup;
 		}
 		options.resetScrollbar ??= options.reset;
+		options.resetDialogItems ??= options.reset;
 
 		// Update the label, icon and grid (if applicable)
-		const statusSpan = document.getElementById(this.ids.status);
+		const statusSpan = this.ids.status ? document.getElementById(this.ids.status) : null;
 		if (statusSpan) {
 			this._ReloadStatus(root, statusSpan, options);
 		}
 
-		const buttonGrid = document.getElementById(this.ids.grid);
+		const buttonGrid = this.ids.grid ? document.getElementById(this.ids.grid) : null;
 		if (buttonGrid) {
 			this._ReloadButtonGrid(root, buttonGrid, options);
 		}
 
-		const icon = document.getElementById(this.ids.icon);
+		const icon = this.ids.icon ? document.getElementById(this.ids.icon) : null;
 		if (icon) {
 			this._ReloadIcon(root, icon, options);
 		}
@@ -3119,7 +3111,7 @@ class DialogMenu {
 	 * @abstract
 	 * @param {HTMLElement} root
 	 * @param {HTMLElement} buttonGrid
-	 * @param {Pick<DialogMenu.ReloadOptions, "reset" | "resetScrollbar">} options
+	 * @param {Pick<DialogMenu.ReloadOptions, "reset" | "resetScrollbar" | "resetDialogItems">} options
 	 */
 	_ReloadButtonGrid(root, buttonGrid, options) {
 		throw new Error("Trying to call an abstract method");
@@ -3248,7 +3240,6 @@ class _DialogItemMenu extends DialogMenu {
 	};
 
 	_Load() {
-		DialogInventoryBuild(this.C, false, false, false);
 		DialogBuildActivities(this.C, false);
 
 		const ids = this.ids;
@@ -3320,6 +3311,10 @@ class _DialogItemMenu extends DialogMenu {
 
 	/** @type {DialogMenu["_ReloadButtonGrid"]} */
 	_ReloadButtonGrid(root, buttonGrid, options) {
+		if (options.resetDialogItems) {
+			DialogInventoryBuild(this.C, false, false, false);
+		}
+
 		if (options.reset) {
 			buttonGrid.innerHTML = "";
 			DialogInventory.forEach((clickedItem, i) => ElementButton.CreateForAsset(
@@ -3420,8 +3415,6 @@ class _DialogLockingMenu extends DialogMenu {
 	};
 
 	_Load() {
-		DialogInventoryBuild(this.C, false, true, false);
-
 		const ids = this.ids;
 		return document.getElementById(ids.root) ?? ElementCreate({
 			tag: "div",
@@ -3440,6 +3433,10 @@ class _DialogLockingMenu extends DialogMenu {
 
 	/** @type {DialogMenu["_ReloadButtonGrid"]} */
 	_ReloadButtonGrid(root, buttonGrid, options) {
+		if (options.resetDialogItems) {
+			DialogInventoryBuild(this.C, false, true, false);
+		}
+
 		if (options.reset) {
 			buttonGrid.innerHTML = "";
 			DialogInventory.forEach((clickedItem, i) => ElementButton.CreateForAsset(
@@ -3507,8 +3504,6 @@ class _DialogPermissionMenu extends DialogMenu {
 	};
 
 	_Load() {
-		DialogInventoryBuild(this.C, false, false, false);
-
 		const ids = this.ids;
 		return document.getElementById(ids.root) ?? ElementCreate({
 			tag: "div",
@@ -3527,6 +3522,10 @@ class _DialogPermissionMenu extends DialogMenu {
 
 	/** @type {DialogMenu["_ReloadButtonGrid"]} */
 	_ReloadButtonGrid(root, buttonGrid, options) {
+		if (options.resetDialogItems) {
+			DialogInventoryBuild(this.C, false, false, false);
+		}
+
 		if (options.reset) {
 			buttonGrid.innerHTML = "";
 			DialogInventory.forEach((clickedItem, i) => ElementButton.CreateForAsset(
@@ -3587,8 +3586,6 @@ class _DialogActivitiesMenu extends DialogMenu {
 	clickStatusCallbacks = {};
 
 	_Load() {
-		DialogBuildActivities(this.C);
-
 		const ids = this.ids;
 		return document.getElementById(ids.root) ?? ElementCreate({
 			tag: "div",
@@ -3607,6 +3604,10 @@ class _DialogActivitiesMenu extends DialogMenu {
 
 	/** @type {DialogMenu["_ReloadButtonGrid"]} */
 	_ReloadButtonGrid(root, buttonGrid, options) {
+		if (options.resetDialogItems) {
+			DialogBuildActivities(this.C, false);
+		}
+
 		if (options.reset) {
 			buttonGrid.innerHTML = "";
 			DialogActivity.forEach((clickedActivity, index) => ElementButton.CreateForActivity(
