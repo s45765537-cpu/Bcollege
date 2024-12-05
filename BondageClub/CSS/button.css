@@ -73,6 +73,7 @@
 
 .button-image[data-hidden] {
 	display: none;
+	opacity: 20%;
 }
 
 .button[data-hidden] > .button-image[data-hidden] {
