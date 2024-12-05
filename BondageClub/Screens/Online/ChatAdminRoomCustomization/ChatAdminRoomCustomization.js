@@ -118,6 +118,12 @@ function ChatAdminRoomCustomizationLoad() {
 	ChatAdminRoomCustomizationSizeMode = Data?.SizeMode ?? DrawingResizeMode.Fill;
 }
 
+function ChatAdminRoomCustomizationUnload() {
+	ElementRemove("InputImageURL");
+	ElementRemove("InputImageFilter");
+	ElementRemove("InputMusicURL");
+}
+
 /**
  * Plays or stop the background music
  * @param {string} Music - The URL of the music to play

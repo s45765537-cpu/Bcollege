@@ -63,6 +63,11 @@ function BackgroundSelectionLoad() {
 	if (BackgroundSelectionTagList.length >= 2) ElementCreateDropdown("TagDropDown", BackgroundsTagList, function() { BackgroundSelectionTagChanged(); });
 }
 
+function BackgroundSelectionUnload() {
+	ElementRemove("InputBackground");
+	ElementRemove("TagDropDown");
+}
+
 /**
  * Handles input in the text box in the topmost row of the selection screen
  * and changes the offset of the background selection appropriately

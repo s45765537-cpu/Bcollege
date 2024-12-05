@@ -1282,21 +1282,6 @@ function ChatRoomClearAllElements() {
 	FriendListBeepMenuClose();
 	FriendListModeIndex = 0;
 
-	// Admin
-	ElementRemove("InputName");
-	ElementRemove("InputDescription");
-	ElementRemove("InputSize");
-	ElementRemove("InputAdminList");
-	ElementRemove("InputWhitelist");
-	ElementRemove("InputBanList");
-	ElementRemove("InputBackground");
-	ElementRemove("TagDropDown");
-
-	// Admin Custom
-	ElementRemove("InputImageURL");
-	ElementRemove("InputImageFilter");
-	ElementRemove("InputMusicURL");
-
 	// Chatroom
 	if (Player.ChatSettings?.PreserveChat ?? true) {
 		ChatRoomHideElements();
