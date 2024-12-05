@@ -34,6 +34,7 @@ function ChatAdminShowEdit(roomData) {
 		Name: roomData.Name,
 		Description: roomData.Description,
 		Admin: roomData.Admin,
+		Whitelist: roomData.Whitelist,
 		Ban: roomData.Ban,
 		Background: roomData.Background,
 		Limit: roomData.Limit,
@@ -73,6 +74,7 @@ function ChatAdminStart(mode, roomData = undefined) {
 			Name: "",
 			Description: "",
 			Admin: [Player.MemberNumber],
+			Whitelist: [],
 			Ban: banList,
 			Background: "",
 			Limit: 10,
@@ -462,6 +464,7 @@ function ChatEditorCreateRoom() {
 		Space: ChatAdminData.Space,
 		Game: ChatAdminData.Game,
 		Admin: CommonConvertStringToArray(ElementValue("InputAdminList").trim()),
+		Whitelist: CommonConvertStringToArray(ElementValue("InputWhitelist").trim()),
 		Ban: CommonConvertStringToArray(ElementValue("InputBanList").trim()),
 		Limit: parseInt(ElementValue("InputSize"), 10),
 		BlockCategory: ChatAdminData.BlockCategory
