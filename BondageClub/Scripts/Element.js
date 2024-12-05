@@ -1145,7 +1145,7 @@ var ElementButton = {
 	/**
 	 * Parse the passed icon list, returning its corresponding `<img>` grid and tooltip if non-empty
 	 * @param {string} id - The ID of the parent element
-	 * @param {readonly InventoryIcon[]} [icons] - The (optional) list of icons
+	 * @param {readonly (InventoryIcon | { iconSrc: string, tooltipText: string | Node })[]} [icons] - The (optional) list of icons
 	 * @returns {null | { iconGrid: HTMLDivElement, tooltip: (string | HTMLElement)[] }} - `null` if the provided icon list is empty and otherwise an object containing the icon grid and a icon-specific tooltip
 	 */
 	_ParseIcons: function _ParseIcons(id, icons) {
@@ -1165,8 +1165,14 @@ var ElementButton = {
 			classList: ["button-icon-grid"],
 			attributes: { "aria-hidden": "true" },
 			children: icons.map((icon) => {
-				let src, tooltipText;
-				if (icon.endsWith("Padlock")) {
+				/** @type {string} */
+				let src;
+				/** @type {string | Node} */
+				let tooltipText;
+				if (typeof icon === "object") {
+					src = icon.iconSrc;
+					tooltipText = icon.tooltipText;
+				} else if (icon.endsWith("Padlock")) {
 					src = `./Assets/Female3DCG/ItemMisc/Preview/${icon}.png`;
 					tooltipText = InterfaceTextGet("PreviewIconPadlock").replace(
 						"AssetName",

@@ -134,8 +134,12 @@ declare namespace ElementButton {
 		labelPosition?: "top" | "center" | "bottom";
 		/** A background image for the button */
 		image?: string;
-		/** Button icons to-be displayed in the top-left corner of the button */
-		icons?: readonly (null | InventoryIcon)[];
+		/**
+		 * Button icons to-be displayed in the top-left corner of the button.
+		 *
+		 * Alternatively, one can directly pass the icon's {@link HTMLImageElement.src} and its tooltip component.
+		 */
+		icons?: readonly (null | InventoryIcon | { iconSrc: string, tooltipText: string | Node })[];
 		/** The role of the button. All accepted values are currently special-cased in order to set role-specific event listeners and/or attributes. */
 		role?: "radio" | "checkbox" | "menuitemradio" | "menuitemcheckbox";
 		/** Whether to limit the default styling of the button's border and background */
