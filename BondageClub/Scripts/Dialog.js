@@ -3248,7 +3248,7 @@ class _DialogItemMenu extends DialogMenu {
 			children: [
 				{
 					tag: "span",
-					attributes: { id: ids.status },
+					attributes: { id: ids.status, "aria-hidden": "true" },
 					classList: ["dialog-status"],
 				},
 				{
@@ -3419,8 +3419,16 @@ class _DialogLockingMenu extends DialogMenu {
 		return document.getElementById(ids.root) ?? ElementCreate({
 			tag: "div",
 			children: [
-				{ tag: "span", attributes: { id: ids.status }, classList: ["dialog-status"] },
-				{ tag: "div", attributes: { id: ids.grid, "aria-labelledby": ids.status }, classList: ["dialog-grid"] },
+				{
+					tag: "span",
+					attributes: { id: ids.status, "aria-hidden": "true" },
+					classList: ["dialog-status"],
+				},
+				{
+					tag: "div",
+					attributes: { id: ids.grid, "aria-labelledby": ids.status },
+					classList: ["dialog-grid"],
+				},
 			],
 		});
 	}
@@ -3508,8 +3516,16 @@ class _DialogPermissionMenu extends DialogMenu {
 		return document.getElementById(ids.root) ?? ElementCreate({
 			tag: "div",
 			children: [
-				{ tag: "span", attributes: { id: ids.status }, classList: ["dialog-status"] },
-				{ tag: "div", attributes: { id: ids.grid, "aria-labelledby": ids.status }, classList: ["dialog-grid"] },
+				{
+					tag: "span",
+					attributes: { id: ids.status, "aria-hidden": "true" },
+					classList: ["dialog-status"],
+				},
+				{
+					tag: "div",
+					attributes: { id: ids.grid, "aria-labelledby": ids.status },
+					classList: ["dialog-grid"],
+				},
 			],
 		});
 	}
@@ -3590,8 +3606,16 @@ class _DialogActivitiesMenu extends DialogMenu {
 		return document.getElementById(ids.root) ?? ElementCreate({
 			tag: "div",
 			children: [
-				{ tag: "span", attributes: { id: ids.status }, classList: ["dialog-status"] },
-				{ tag: "div", attributes: { id: ids.grid, "aria-labelledby": ids.status }, classList: ["dialog-grid"] },
+				{
+					tag: "span",
+					attributes: { id: ids.status, "aria-hidden": "true" },
+					classList: ["dialog-status"],
+				},
+				{
+					tag: "div",
+					attributes: { id: ids.grid, "aria-labelledby": ids.status },
+					classList: ["dialog-grid"],
+				},
 			],
 		});
 	}
@@ -3680,7 +3704,11 @@ class _DialogCraftedMenu extends DialogMenu {
 		return document.getElementById(ids.root) ?? ElementCreate({
 			tag: "div",
 			children: [
-				{ tag: "span", attributes: { id: ids.status }, classList: ["dialog-status"] },
+				{
+					tag: "span",
+					attributes: { id: ids.status, "aria-hidden": "true" },
+					classList: ["dialog-status"],
+				},
 				{
 					tag: "div",
 					attributes: { id: ids.info, "aria-labelledby": ids.status },
