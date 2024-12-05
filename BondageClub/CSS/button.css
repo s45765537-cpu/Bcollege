@@ -284,5 +284,5 @@
 
 .button-tooltip:empty,
 .button-label:empty {
-	display: none;
+	display: none !important;
 }
