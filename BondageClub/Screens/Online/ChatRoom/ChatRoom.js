@@ -1492,6 +1492,8 @@ function ChatRoomDrawCharacterStatusIcons(C, CharX, CharY, Zoom)
 	if (Array.isArray(ChatRoomData.Admin) && ChatRoomData.Admin.includes(C.MemberNumber))
 	{
 		DrawImageResize("Icons/Small/Admin.png", CharX + 390 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
+	} else if (Array.isArray(ChatRoomData.Whitelist) && ChatRoomData.Whitelist.includes(C.MemberNumber)) {
+		DrawImageResize("Icons/Small/RoomWhitelist.png", CharX + 390 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
 	}
 }
 
