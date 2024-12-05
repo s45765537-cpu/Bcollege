@@ -12,6 +12,8 @@ Whitelist
 白名单
 Private
 私有
+Need exact name to find it
+需要名称完全正确才能搜索到
 Locked
 锁定
 Need exact name, admin, or whitelist to find it

@@ -12,6 +12,8 @@ Whitelist
 Whitelist
 Private
 Privat
+Need exact name to find it
+Zutritt nur mit genauem Namen
 Locked
 Abgeschlossen
 Need exact name, admin, or whitelist to find it
@@ -86,8 +88,11 @@ Magic Battle
 Magischer Kampf
 GGTS
 GGTS
+<<<<<<< HEAD
 Pandora
 Pandora
+=======
+>>>>>>> c9e2a064b (Merge the ChatCreate screen into ChatAdmin)
 (Click anywhere to return)
 (Klicke irgendwo um zurückzukehren)
 English

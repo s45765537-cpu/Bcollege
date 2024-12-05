@@ -2,8 +2,11 @@ RoomName,Room Name
 RoomLanguage,Language
 RoomDescription,Description
 InputDescriptionPlaceholder,Description of the room
+InputDescriptionPlaceholder,Description of the room
 RoomBanList,Ban List
+InputBanListPlaceholder,"Use member numbers separated by commas (ex: 16780, ...)"
 RoomAdminList,Administrator List
+InputAdminListPlaceholder,"Use member numbers separated by commas (ex: 2313, 12401, ...)"
 RoomWhitelist,Whitelist
 RoomPrivate,Private
 RoomPrivateTooltip,"Need exact name, admin, or whitelist to find it"

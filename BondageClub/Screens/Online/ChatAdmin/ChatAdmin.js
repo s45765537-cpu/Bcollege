@@ -34,7 +34,10 @@ function ChatAdminShowEdit(roomData) {
 		Name: roomData.Name,
 		Description: roomData.Description,
 		Admin: roomData.Admin,
+<<<<<<< HEAD
 		Whitelist: roomData.Whitelist,
+=======
+>>>>>>> c9e2a064b (Merge the ChatCreate screen into ChatAdmin)
 		Ban: roomData.Ban,
 		Background: roomData.Background,
 		Limit: roomData.Limit,
@@ -74,7 +77,10 @@ function ChatAdminStart(mode, roomData = undefined) {
 			Name: "",
 			Description: "",
 			Admin: [Player.MemberNumber],
+<<<<<<< HEAD
 			Whitelist: [],
+=======
+>>>>>>> c9e2a064b (Merge the ChatCreate screen into ChatAdmin)
 			Ban: banList,
 			Background: "",
 			Limit: 10,
@@ -83,7 +89,11 @@ function ChatAdminStart(mode, roomData = undefined) {
 			Private: false,
 			BlockCategory: [],
 			Language: ChatAdminDefaultLanguage,
+<<<<<<< HEAD
 			Space: ChatRoomSpace,
+=======
+			Space: "",
+>>>>>>> c9e2a064b (Merge the ChatCreate screen into ChatAdmin)
 			MapData: { Type: "Never" },
 			// Custom: {},
 		};
@@ -140,18 +150,31 @@ function ChatAdminLoad() {
 	const adminListInput = ElementCreateTextArea("InputAdminList");
 	adminListInput.setAttribute("maxLength", 2000);
 	adminListInput.setAttribute("autocomplete", "off");
+<<<<<<< HEAD
 	adminListInput.setAttribute("placeholder", TextGet("MemberNumbersFormatPlaceholder"));
 	ElementValue("InputAdminList", CommonConvertArrayToString(ChatAdminData.Admin));
+=======
+	adminListInput.setAttribute("placeholder", TextGet("InputAdminListPlaceholder"));
+	ElementValue("InputAdminList", CommonConvertArrayToString(ChatAdminData.Admin));
+	const banListInput = ElementCreateTextArea("InputBanList");
+	banListInput.setAttribute("maxLength", 2000);
+	banListInput.setAttribute("autocomplete", "off");
+	banListInput.setAttribute("placeholder", TextGet("InputBanListPlaceholder"));
+	ElementValue("InputBanList", CommonConvertArrayToString(ChatAdminData.Ban));
+>>>>>>> c9e2a064b (Merge the ChatCreate screen into ChatAdmin)
 	const whitelistInput = ElementCreateTextArea("InputWhitelist");
 	whitelistInput.setAttribute("maxLength", 2000);
 	whitelistInput.setAttribute("autocomplete", "off");
 	whitelistInput.setAttribute("placeholder", TextGet("MemberNumbersFormatPlaceholder"));
 	ElementValue("InputWhitelist", CommonConvertArrayToString(ChatAdminData.Whitelist));
+<<<<<<< HEAD
 	const banListInput = ElementCreateTextArea("InputBanList");
 	banListInput.setAttribute("maxLength", 2000);
 	banListInput.setAttribute("autocomplete", "off");
 	banListInput.setAttribute("placeholder", TextGet("MemberNumbersFormatPlaceholder"));
 	ElementValue("InputBanList", CommonConvertArrayToString(ChatAdminData.Ban));
+=======
+>>>>>>> c9e2a064b (Merge the ChatCreate screen into ChatAdmin)
 
 	// If the player isn't an admin, we disable the inputs
 	if (!ChatAdminCanEdit()) {
@@ -163,12 +186,12 @@ function ChatAdminLoad() {
 		ElementValue("InputDescription", ChatSearchMuffle(ChatAdminData.Description));
 
 		adminListInput.setAttribute("disabled", "disabled");
-		whitelistInput.setAttribute("disabled", "disabled");
 		banListInput.setAttribute("disabled", "disabled");
+		whitelistInput.setAttribute("disabled", "disabled");
 		sizeInput.setAttribute("disabled", "disabled");
 		ChatAdminMessage = "AdminOnly";
 	} else {
-		ChatAdminMessage = "QuickaddExplanation";
+		ChatAdminMessage = "UseMemberNumbers";
 	}
 	TextPrefetch("Online", "ChatBlockItem");
 }
@@ -231,8 +254,13 @@ function ChatAdminRun() {
 	// Background selection, block button and game selection
 	DrawImageResize("Backgrounds/" + ChatAdminData.Background + ".jpg", 1300, 75, 600, 350);
 	DrawBackNextButton(1300, 450, 500, 60, BackgroundsTextGet(ChatAdminData.Background), ButtonBackground, null,
+<<<<<<< HEAD
 		() => BackgroundsTextGet((ChatAdminBackgroundIndex == 0) ? ChatAdminBackgroundList[ChatAdminBackgroundList.length - 1] : ChatAdminBackgroundList[ChatAdminBackgroundIndex - 1]),
 		() => BackgroundsTextGet((ChatAdminBackgroundIndex >= ChatAdminBackgroundList.length - 1) ? ChatAdminBackgroundList[0] : ChatAdminBackgroundList[ChatAdminBackgroundIndex + 1]),
+=======
+		() => BackgroundsTextGet((ChatAdminBackgroundIndex == 0) ? ChatCreateBackgroundList[ChatCreateBackgroundList.length - 1] : ChatCreateBackgroundList[ChatAdminBackgroundIndex - 1]),
+		() => BackgroundsTextGet((ChatAdminBackgroundIndex >= ChatCreateBackgroundList.length - 1) ? ChatCreateBackgroundList[0] : ChatCreateBackgroundList[ChatAdminBackgroundIndex + 1]),
+>>>>>>> c9e2a064b (Merge the ChatCreate screen into ChatAdmin)
 		!canEdit);
 	DrawButton(1840, 450, 60, 60, "", ButtonBackground, "Icons/Small/Preference.png", null, !canEdit);
 	DrawButton(1300, 550, 275, 60, TextGet("BlockCategory"), "White");
@@ -464,7 +492,10 @@ function ChatEditorCreateRoom() {
 		Space: ChatAdminData.Space,
 		Game: ChatAdminData.Game,
 		Admin: CommonConvertStringToArray(ElementValue("InputAdminList").trim()),
+<<<<<<< HEAD
 		Whitelist: CommonConvertStringToArray(ElementValue("InputWhitelist").trim()),
+=======
+>>>>>>> c9e2a064b (Merge the ChatCreate screen into ChatAdmin)
 		Ban: CommonConvertStringToArray(ElementValue("InputBanList").trim()),
 		Limit: parseInt(ElementValue("InputSize"), 10),
 		BlockCategory: ChatAdminData.BlockCategory
