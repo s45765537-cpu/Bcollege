@@ -142,16 +142,16 @@ function ChatAdminLoad() {
 	adminListInput.setAttribute("autocomplete", "off");
 	adminListInput.setAttribute("placeholder", TextGet("InputAdminListPlaceholder"));
 	ElementValue("InputAdminList", CommonConvertArrayToString(ChatAdminData.Admin));
-	const banListInput = ElementCreateTextArea("InputBanList");
-	banListInput.setAttribute("maxLength", 2000);
-	banListInput.setAttribute("autocomplete", "off");
-	banListInput.setAttribute("placeholder", TextGet("InputBanListPlaceholder"));
-	ElementValue("InputBanList", CommonConvertArrayToString(ChatAdminData.Ban));
 	const whitelistInput = ElementCreateTextArea("InputWhitelist");
 	whitelistInput.setAttribute("maxLength", 2000);
 	whitelistInput.setAttribute("autocomplete", "off");
 	whitelistInput.setAttribute("placeholder", TextGet("MemberNumbersFormatPlaceholder"));
 	ElementValue("InputWhitelist", CommonConvertArrayToString(ChatAdminData.Whitelist));
+	const banListInput = ElementCreateTextArea("InputBanList");
+	banListInput.setAttribute("maxLength", 2000);
+	banListInput.setAttribute("autocomplete", "off");
+	banListInput.setAttribute("placeholder", TextGet("InputBanListPlaceholder"));
+	ElementValue("InputBanList", CommonConvertArrayToString(ChatAdminData.Ban));
 
 	// If the player isn't an admin, we disable the inputs
 	if (!ChatAdminCanEdit()) {
@@ -163,8 +163,8 @@ function ChatAdminLoad() {
 		ElementValue("InputDescription", ChatSearchMuffle(ChatAdminData.Description));
 
 		adminListInput.setAttribute("disabled", "disabled");
-		banListInput.setAttribute("disabled", "disabled");
 		whitelistInput.setAttribute("disabled", "disabled");
+		banListInput.setAttribute("disabled", "disabled");
 		sizeInput.setAttribute("disabled", "disabled");
 		ChatAdminMessage = "AdminOnly";
 	} else {
@@ -182,8 +182,8 @@ function ChatAdminUnload() {
 	ElementRemove("InputDescription");
 	ElementRemove("InputSize");
 	ElementRemove("InputAdminList");
-	ElementRemove("InputBanList");
 	ElementRemove("InputWhitelist");
+	ElementRemove("InputBanList");
 }
 
 /**
