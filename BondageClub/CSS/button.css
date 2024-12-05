@@ -64,9 +64,10 @@
 	position: absolute;
 	pointer-events: none;
 	top: 2%;
-	left: 2%;
-	width: 96%;
-	max-height: 96%;
+	left: 50%;
+	transform: translateX(-50%);
+	width: min(221px, 96%);
+	max-height: min(221px, 96%);
 	aspect-ratio: 1 /1;
 }
 
@@ -118,7 +119,7 @@
 }
 
 .button-icon-grid {
-	--icon-size: min(5dvh, 2.5dvw);
+	--icon-size: min(50px, 5dvh, 2.5dvw);
 
 	display: grid;
 	position: absolute;
