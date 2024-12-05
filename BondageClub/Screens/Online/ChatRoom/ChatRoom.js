@@ -1277,11 +1277,6 @@ function ChatRoomClearAllElements() {
 	// Dialog
 	DialogLeave();
 
-	// Friendlist
-	ElementRemove("FriendList");
-	FriendListBeepMenuClose();
-	FriendListModeIndex = 0;
-
 	// Chatroom
 	if (Player.ChatSettings?.PreserveChat ?? true) {
 		ChatRoomHideElements();
@@ -1289,18 +1284,6 @@ function ChatRoomClearAllElements() {
 		ElementRemove("chat-room-div");
 		window.removeEventListener("resize", ChatRoomResizeManager.ChatRoomResizeEvent);
 	}
-
-	// Preferences
-	ElementRemove("InputEmailOld");
-	ElementRemove("InputEmailNew");
-	ElementRemove("InputCharacterLabelColor");
-
-	// Profile
-	ElementRemove("DescriptionInput");
-
-	// Wardrobe
-	ElementRemove("InputWardrobeName");
-	CharacterAppearanceMode = "";
 }
 
 /**
