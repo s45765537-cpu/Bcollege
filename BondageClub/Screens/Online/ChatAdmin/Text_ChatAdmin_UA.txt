@@ -14,10 +14,10 @@ Private
 Приватна
 Locked
 Закрита
-Need exact name to find it
-Потрібна точна назва, щоб знайти її
-Only admins can leave or enter
-Тільки адміністратори можуть увійти чи вийти
+Need exact name, admin, or whitelist to find it
+Щоб знайти його, потрібне точне ім'я, адміністратор або білий список
+Only admins and whitelisted members can enter or leave
+Тільки адміністратори та користувачі з білого списку можуть входити або виходити
 Never use the map exploration
 Ніколи не використовувати режим карти
 Hybrid map, can go on and off

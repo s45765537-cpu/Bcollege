@@ -12,12 +12,12 @@ Whitelist
 白名单
 Private
 私有
-Need exact name to find it
-需要名称完全正确才能搜索到
 Locked
 锁定
-Only admins can leave or enter
-只有管理员能够进入或离开
+Need exact name, admin, or whitelist to find it
+需要准确的名称、管理员或白名单才能找到它
+Only admins and whitelisted members can enter or leave
+只有管理员和白名单成员可以进出
 Size (2-20)
 大小 (2-20)
 Member numbers separated by commas (ex: 123, ...)

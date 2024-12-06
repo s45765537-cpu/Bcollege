@@ -14,10 +14,10 @@ Private
 私有
 Locked
 鎖定
-Need exact name to find it
-需要名稱完全正確才能搜索到
-Only admins can leave or enter
-只有管理員能夠進入或離開
+Need exact name, admin, or whitelist to find it
+需要確切的名稱、管理員或白名單才能找到它
+Only admins and whitelisted members can enter or leave
+只有管理員和白名單上的會員可以進入或離開
 Size (2-20)
 大小 (2-20)
 Member numbers separated by commas (ex: 123, ...)

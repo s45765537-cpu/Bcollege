@@ -140,7 +140,7 @@ function ChatAdminLoad() {
 	const adminListInput = ElementCreateTextArea("InputAdminList");
 	adminListInput.setAttribute("maxLength", 2000);
 	adminListInput.setAttribute("autocomplete", "off");
-	adminListInput.setAttribute("placeholder", TextGet("InputAdminListPlaceholder"));
+	adminListInput.setAttribute("placeholder", TextGet("MemberNumbersFormatPlaceholder"));
 	ElementValue("InputAdminList", CommonConvertArrayToString(ChatAdminData.Admin));
 	const whitelistInput = ElementCreateTextArea("InputWhitelist");
 	whitelistInput.setAttribute("maxLength", 2000);
@@ -150,7 +150,7 @@ function ChatAdminLoad() {
 	const banListInput = ElementCreateTextArea("InputBanList");
 	banListInput.setAttribute("maxLength", 2000);
 	banListInput.setAttribute("autocomplete", "off");
-	banListInput.setAttribute("placeholder", TextGet("InputBanListPlaceholder"));
+	banListInput.setAttribute("placeholder", TextGet("MemberNumbersFormatPlaceholder"));
 	ElementValue("InputBanList", CommonConvertArrayToString(ChatAdminData.Ban));
 
 	// If the player isn't an admin, we disable the inputs
@@ -168,7 +168,7 @@ function ChatAdminLoad() {
 		sizeInput.setAttribute("disabled", "disabled");
 		ChatAdminMessage = "AdminOnly";
 	} else {
-		ChatAdminMessage = "UseMemberNumbers";
+		ChatAdminMessage = "QuickaddExplanation";
 	}
 	TextPrefetch("Online", "ChatBlockItem");
 }

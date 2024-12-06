@@ -12,12 +12,12 @@ Whitelist
 Whitelist
 Private
 Privat
-Need exact name to find it
-Zutritt nur mit genauem Namen
 Locked
 Abgeschlossen
-Only admins can leave or enter
-Nur Admins können betreten oder verlassen
+Need exact name, admin, or whitelist to find it
+Benötigt genauen Namen, Admin oder Whitelist, um es zu finden
+Only admins and whitelisted members can enter or leave
+Nur Admins und Mitglieder auf der Whitelist können den Bereich betreten oder verlassen.
 Size (2-20)
 Größe (2-20)
 Member numbers separated by commas (ex: 123, ...)
