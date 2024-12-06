@@ -3508,10 +3508,9 @@ function ClubCardCanPlayCard(CCPlayer, Card) {
 	let targetLevel = Target.Level;
 
 	//Moon's card effect
-	const playedCards = CCPlayer.CardsPlayedThisTurn[CCPlayer.ClubCardTurnCounter];
-	const isMoonEffect = playedCards && playedCards.length > 0 && playedCards[playedCards.length - 1].Name === "Moon";
-
-	//const isMoonEffect = CCPlayer.CardsPlayedThisTurn[CCPlayer.ClubCardTurnCounter]?.some(card => card.Name === "Moon") || false;
+	//const playedCards = CCPlayer.CardsPlayedThisTurn[CCPlayer.ClubCardTurnCounter];
+	//const isMoonEffect = playedCards && playedCards.length > 0 && playedCards[playedCards.length - 1].Name === "Moon";	
+	const isMoonEffect = (ClubCardNameIsOnBoard(CCPlayer, "Moon"));
 	if (isMoonEffect && !ClubCardIsLiability(Card) && Card.Type != "Event")
 		targetLevel++;
 	
@@ -3632,6 +3631,13 @@ function ClubCardPlayCard(CCPlayer, Card) {
 			Index++;
 		}
 		ClubCardUpdateBoardCardsIndex(Target);
+	}
+
+	//Moon card cost effect
+	if (ClubCardNameIsOnBoard(CCPlayer, "Moon") && CCPlayer.Level < Card.RequiredLevel) {
+		const moonLostFame = -5;
+		ClubCardPlayerAddFame(CCPlayer, moonLostFame);
+		ClubCardLogGetDataPacket(ClubCardMessageType.CARDEFFECT, "Effect Moon", CCPlayer, moonLostFame);
 	}
 
 	// Focuses on the card, runs it's scripts

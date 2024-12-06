@@ -499,5 +499,5 @@ Text Rich Owner,"Pets treat your building level as 1 higher. When you play a Pet
 Title Tour Guide,Tour Guide
 Text Tour Guide,"When she enters your club, draw a card. Gains +3 money if tourist is present, gains +3 fame if diplomat is present."
 Title Moon,"Moon"
-Text Moon,"Enters: lose 13 money and draw a random T4 or T5 member to your hand. Take another action and may play a member 1 tier above your club" 
-Effect Moon,"SOURCEPLAYER can play a card one level above the club level."
+Text Moon,"Enters: Lose 13 money and draw a random higher level member. For 5 fame you may play members 1 tier higher than your club level." 
+Effect Moon,"SOURCEPLAYER pays 5 fame to play a card above her club level."
