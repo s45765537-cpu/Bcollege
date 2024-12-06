@@ -816,6 +816,14 @@ interface AssetLayerDefinition extends AssetCommonPropertiesGroupAssetLayer, Ass
 	PoseMapping?: AssetPoseMapping;
 	/** Let layer inherit the asset's pose mapping on an individual pose by pose basis, rather than inheriting the pose mapping as a whole (_i.e._ all or nothing) */
 	InheritPoseMappingFields?: boolean;
+
+	/**
+	 * Copy the pose mapping of another layer.
+	 *
+	 * Serves as the pose mapping equivalent of {@link AssetLayerDefinition.CopyLayerColor}.
+	 */
+	CopyLayerPoseMapping?: string;
+
 	CreateLayerTypes?: string[];
 	/* Specifies that this layer should not be drawn if the character is wearing any item with the given attributes */
 	HideForAttribute?: AssetAttribute[];

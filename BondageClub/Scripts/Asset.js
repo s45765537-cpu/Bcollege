@@ -305,6 +305,23 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		layers.push({ Name: "Lock", LockLayer: true, AllowColorize: false, ParentGroup: null });
 	}
 	A.Layer = layers.map((Layer, I) => AssetMapLayer(Layer, A, I));
+	A.Layer.forEach((layer, i) => {
+		// Now that most layer pose mappings are initialized, handle all `Layer.CopyLayerPoseMapping` cases
+		if (layer.PoseMapping) {
+			return;
+		}
+
+		const layerDef = layers[i];
+		const copiedLayer = A.Layer.find(l => l.Name === layerDef.CopyLayerPoseMapping);
+		if (copiedLayer) {
+			if (!copiedLayer.PoseMapping) {
+				throw new Error(`${A.Group.Name}:${A.Name}:${layer.Name}: Trying to copy a null-valued pose mapping from layer "${copiedLayer.Name}"`);
+			}
+			/** @type {Mutable<AssetLayer>} */(layer).PoseMapping = AssetParsePoseMapping(
+				layerDef.PoseMapping, copiedLayer.PoseMapping, layerDef.InheritPoseMappingFields,
+			);
+		}
+	});
 
 	AssetAssignColorIndices(A);
 	A.DefaultColor = AssetParseDefaultColor(A.ColorableLayerCount, Group.DefaultColor, AssetDef.DefaultColor);
@@ -614,7 +631,7 @@ function AssetMapLayer(Layer, A, I) {
 		LockLayer: typeof Layer.LockLayer === "boolean" ? Layer.LockLayer : false,
 		MirrorExpression: Layer.MirrorExpression,
 		ColorIndex: 0,
-		PoseMapping: AssetParsePoseMapping(Layer.PoseMapping, A.PoseMapping, Layer.InheritPoseMappingFields),
+		PoseMapping: AssetParsePoseMapping(Layer.PoseMapping, A.PoseMapping, Layer.InheritPoseMappingFields, Layer.CopyLayerPoseMapping != null),
 		HideForAttribute: Array.isArray(Layer.HideForAttribute) ? Layer.HideForAttribute : null,
 		ShowForAttribute: Array.isArray(Layer.ShowForAttribute) ? Layer.ShowForAttribute : null,
 		ColorSuffix: Layer.ColorSuffix || A.ColorSuffix,
@@ -627,8 +644,13 @@ function AssetMapLayer(Layer, A, I) {
  * @param {null | AssetPoseMapping} poseMapping
  * @param {AssetPoseMapping} superPoseMapping
  * @param {boolean} inheritFields
+ * @param {boolean} skip
+ * @returns {null | AssetPoseMapping}
  */
-function AssetParsePoseMapping(poseMapping, superPoseMapping, inheritFields=false) {
+function AssetParsePoseMapping(poseMapping, superPoseMapping, inheritFields=false, skip=false) {
+	if (skip) {
+		return null;
+	}
 	if (inheritFields) {
 		return { ...superPoseMapping, ...(poseMapping ?? {}) };
 	} else {
