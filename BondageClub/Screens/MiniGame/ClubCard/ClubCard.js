@@ -1523,7 +1523,6 @@ var ClubCardList = [
 		OnPlay: function (CCPlayer) {
 			ClubCardPlayerAddMoney(CCPlayer, -13);
 			ClubCardPlayerDrawLevelCard(CCPlayer, [4, 5], ["Member"]);
-			ClubCardLogGetDataPacket(ClubCardMessageType.CARDEFFECT, "Effect Moon", CCPlayer);
 			this.ExtraPlay = 1;
 		},
 		BeforeOpponentTurnEnd: function() {
