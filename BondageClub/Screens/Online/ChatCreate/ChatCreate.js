@@ -121,12 +121,12 @@ function ChatCreateRun() {
 	ElementPosition("InputSize", 1099, 185, 250);
 	DrawText(TextGet("RoomDescription"), 675, 250, "Black", "Gray");
 	ElementPosition("InputDescription", 675, 355, 1100, 170);
-	DrawText(TextGet("RoomAdminList"), 295, 470, "Black", "Gray");
-	ElementPosition("InputAdminList", 295, 610, 340, 250);
-	DrawText(TextGet("RoomWhitelist"), 675, 470, "Black", "Gray");
-	ElementPosition("InputWhitelist", 675, 610, 340, 250);
-	DrawText(TextGet("RoomBanList"), 1055, 470, "Black", "Gray");
-	ElementPosition("InputBanList", 1055, 610, 340, 250);
+	DrawText(TextGet("RoomAdminList"), 295, 475, "Black", "Gray");
+	ElementPosition("InputAdminList", 295, 615, 340, 240);
+	DrawText(TextGet("RoomWhitelist"), 675, 475, "Black", "Gray");
+	ElementPosition("InputWhitelist", 675, 615, 340, 240);
+	DrawText(TextGet("RoomBanList"), 1055, 475, "Black", "Gray");
+	ElementPosition("InputBanList", 1055, 615, 340, 240);
 	DrawButton(125, 746, 340, 60, TextGet("QuickaddAdminOwner"), "White");
 	DrawButton(125, 816, 340, 60, TextGet("QuickaddAdminLovers"), "White");
 	DrawButton(505, 746, 165, 60, TextGet("QuickaddWhitelistOwner"), "White");
