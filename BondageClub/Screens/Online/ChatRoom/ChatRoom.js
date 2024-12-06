@@ -4346,8 +4346,11 @@ function ChatRoomValidateProperties(obj)
 }
 
 /**
- * Handles the reception of the new room data from the server.
- * @param {ServerChatRoomSyncMessage} data - Room object containing the updated chatroom data.
+ * Handles the reception of the data for a room we've just entered.
+ *
+ * This only happens once per ChatRoom "lifetime".
+ *
+ * @param {ServerChatRoomSyncMessage} data - Room object containing the new chatroom data.
  * @returns {void} - Nothing.
  */
 function ChatRoomSync(data) {
@@ -4378,7 +4381,7 @@ function ChatRoomSync(data) {
 	ChatRoomData = data;
 
 	// Loads the room
-	if ((CurrentScreen != "ChatRoom") && (CurrentScreen != "ChatAdmin") && (CurrentScreen != "Appearance") && (CurrentModule != "Character")) {
+	if (!ServerPlayerIsInChatRoom() || CurrentScreen === "ChatAdmin") {
 		CommonSetScreen("Online", "ChatRoom");
 	}
 
