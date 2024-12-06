@@ -83,7 +83,7 @@ function ChatAdminStart(mode, roomData = undefined) {
 			Private: false,
 			BlockCategory: [],
 			Language: ChatAdminDefaultLanguage,
-			Space: "",
+			Space: ChatRoomSpace,
 			MapData: { Type: "Never" },
 			// Custom: {},
 		};
