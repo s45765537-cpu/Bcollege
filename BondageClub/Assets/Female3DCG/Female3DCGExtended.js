@@ -1399,6 +1399,25 @@ var AssetFemale3DCGExtended = {
 			Options: [{ Name: "Long" }, { Name: "Mid" }],
 		}, //SatinSkirt
 	}, // ClothLower
+	Socks: {
+		RippedPantyhose: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "RippedA",
+				},
+				{
+					Name: "RippedB",
+				},
+				{
+					Name: "RippedC",
+				},
+				{
+					Name: "Normal",
+				},
+			]
+		}
+	},
 	SocksLeft: {
 		LooseSocks: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -16416,6 +16435,10 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "SuitLower", AssetName: "MaleSeamlessCatsuit" },
 		}, // MaleCatsuitPanties - SuitLower
+		RippedPantyhose: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "Socks", AssetName: "RippedPantyhose" },
+		},
 	}, // SuitLower
 	ItemHead: {
 		DuctTape: {

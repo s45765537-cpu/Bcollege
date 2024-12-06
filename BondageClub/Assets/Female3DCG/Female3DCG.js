@@ -8849,6 +8849,60 @@ var AssetFemale3DCG = [
 					Hogtied: 125,
 				},
 			},
+			{
+				Name: "RippedPantyhose",
+				InventoryID: 1199,
+				Fetish: ["Nylon"],
+				Value: 15,
+				BuyGroup: "RippedPantyhose",
+				Left: {
+					[PoseType.DEFAULT] : 75,
+					KneelingSpread: 105,
+					Hogtied: 125,
+				},
+				Top: 400,
+				Extended: true,
+				Layer: [
+					{
+						Name: "BaseUpper",
+						AllowTypes: {typed : 3},
+					},
+					{
+						Name: "AUpper",
+						CopyLayerColor: "BaseUpper",
+						AllowTypes: {typed : 0},
+					},
+					{
+						Name: "BUpper",
+						CopyLayerColor: "BaseUpper",
+						AllowTypes: {typed : 1},
+					},
+					{
+						Name: "CUpper",
+						CopyLayerColor: "BaseUpper",
+						AllowTypes: {typed : 2},
+					},
+					{
+						Name: "BaseLower",
+						AllowTypes: {typed : 3},
+					},
+					{
+						Name: "ALower",
+						CopyLayerColor: "BaseLower",
+						AllowTypes: {typed : 0},
+					},
+					{
+						Name: "BLower",
+						CopyLayerColor: "BaseLower",
+						AllowTypes: {typed : 1},
+					},
+					{
+						Name: "CLower",
+						CopyLayerColor: "BaseLower",
+						AllowTypes: {typed : 2},
+					}
+				]
+			},
 		],
 		Color: [
 			"Default",
@@ -36046,6 +36100,35 @@ var AssetFemale3DCG = [
 						CopyLayerColor: "Paw",
 						AllowTypes: { s: 6 },
 					},
+				],
+			},
+			{
+				Name: "Bedchain",
+				InventoryID: 1198,
+				Random: false,
+				Fetish: ["Metal"],
+				Value: 10,
+				Difficulty: 6,
+				AllowLock: true,
+				Audio: "ChainLong",
+				Prerequisite: ["OnBed", "Collared"],
+				Block: ["ItemDevices"],
+				Effect: [E.IsChained, E.MapImmobile],
+				Left: 105,
+				Top: 10,
+				ExpressionTrigger: [
+					{ Name: "Medium", Group: "Blush", Timer: 15 },
+					{ Name: "Soft", Group: "Eyebrows", Timer: 5 },
+				],
+				Layer: [
+					{
+						Name: "Back",
+						Priority: 2,
+					},
+					{
+						Name: "Front",
+						CopyLayerColor: "Back"
+					}
 				],
 			},
 		],
