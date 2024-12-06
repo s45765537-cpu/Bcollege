@@ -12,8 +12,6 @@ Whitelist
 Whitelist
 Private
 Privat
-Need exact name to find it
-Zutritt nur mit genauem Namen
 Locked
 Abgeschlossen
 Need exact name, admin, or whitelist to find it
