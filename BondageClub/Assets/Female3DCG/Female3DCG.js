@@ -32301,26 +32301,27 @@ var AssetFemale3DCG = [
 				Difficulty: 5,
 				Time: 5,
 				DefaultColor: [
-					"#222222",
-					"#CCCCCC",
-					"#222222",
-					"#CCCCCC",
-					"#CCCCCC",
-					"#FFFF66",
-					"#CCCC33",
-					"#222222",
-					"#CCCCCC",
-					"#222222",
-					"#CCCCCC",
-					"#CCCCCC",
-					"#FFFF66",
-					"#CCCC33",
+					"#222222", // Right Wrist Base
+					"#CCCCCC", // Right Wrist Shine
+					"#222222", // Right Mitt Base
+					"#CCCCCC", // Right Mitt Shine
+					"#CCCCCC", // Right Nozzle
+					"#FFFF66", // Right Pattern Base
+					"#CCCC33", // Right Pattern Shine
+					"#222222", // Left Wrist Base
+					"#CCCCCC", // Left Wrist Shine
+					"#222222", // Left Mitt Base
+					"#CCCCCC", // Left Mitt Shine
+					"#CCCCCC", // Left Nozzle
+					"#FFFF66", // Left Pattern Base
+					"#CCCC33", // Left Pattern Shine
 				],
 				Effect: [E.Block, E.MergedFingers], //E.BlockWardrobe
 				Hide: ["Gloves", "ItemHandheld", "HandsLeft", "HandsRight"],
 				AllowLock: true,
 				Extended: true,
 				ParentGroup: null,
+				DrawLocks: false,
 				SetPose: ["TapedHands"],
 				Layer: [
 					// RIGHT HAND
