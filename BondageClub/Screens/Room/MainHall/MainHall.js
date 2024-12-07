@@ -187,9 +187,11 @@ function MainHallLoad() {
  * @returns {void} - Nothing
  */
 function MainHallRun() {
+	
+	// Calls the other screens that could trigger
 	KidnapLeagueResetOnlineBountyProgress();
-
 	MainHallCycleTips();
+	PandoraPenitentiaryCreate();
 
 	// Out of punishment mode
 	if (!MainHallBeingPunished) {

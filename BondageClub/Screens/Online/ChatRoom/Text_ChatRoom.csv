@@ -38,6 +38,27 @@ CommandFriendlist,Friendlist:
 CommandGhostlist,Ghostlist:
 CommandWhitelist,Whitelist:
 CommandBlacklist,Blacklist:
+FocusEnabledWarningIcon,"<img src='Icons/Small/FocusEnabledWarning.png' style='display: inline-block; height: 1em; vertical-align: middle; transform: translateY(-0.15em);' aria-hidden='true'>"
+FocusEnabled,"<strong>NOTICE</strong>: The FocusEnabledWarningIcon <strong>focus list</strong> FocusEnabledWarningIcon is now <strong>enabled</strong>. <i>Only characters on your focus list will be visible to you in the chatroom</i>. To disable this, use <code>/focus clear</code> or the button in the menu bar."
+CommandFocusTargeterAmbiguous,"IGNORING 'Targeter': multiple matches found."
+CommandFocusTargeterDuplicate,"IGNORING 'Targeter': result was previously matched."
+CommandFocusTargeterNoMatch,"IGNORING 'Targeter': no match was found."
+CommandFocusNoTargets,"<strong>FAIL</strong>: no targets were found (targeters did not match or were not provided) -- no changes were made."
+CommandFocusSuccessAdd,"<strong>SUCCESS</strong>: The following targets were added to your focus list: Changed."
+CommandFocusSuccessRemove,"<strong>SUCCESS</strong>: The following targets were removed from your focus list: Changed."
+CommandFocusSuccessClear,"<strong>SUCCESS</strong>: Your focus list was cleared."
+CommandFocusList,"Focus List:"
+CommandFocusHelpSyntax,/focus add/remove/list/clear/help [targeter(s)]
+CommandFocusHelpSummary,"Modifies your focus list. When you have users on your focus list, the characters you can visually see in the chatroom are filtered to only those on your focus list. When your focus list is enabled, you will see the FocusEnabledWarningIcon icon on all characters. To go back to viewing all characters, use <code>/focus clear</code> or the button in the menu bar."
+CommandFocusHelpNotesHeader,"Notes:"
+CommandFocusHelpNotes,"<li>If you normally would not be able to see a character on your focus list (e.g. sensory deprivation), they still will not be visible to you.</li><li>Neither chat messages nor map rooms are affected by the focus list.</li><li>If a player on your focus list leaves the room, they are removed from the list.</li>"
+CommandFocusHelpSubcommandsHeader,"Subcommands:"
+CommandFocusHelpAdd,Add the members to your focus list
+CommandFocusHelpRemove,Removes the members from your focus list
+CommandFocusHelpList,Shows the members on your focus list
+CommandFocusHelpClear,Clears your focus list (returns to viewing all members)
+CommandFocusHelpHelp,Display this help message
+CommandFocusHelpTargeters,"Targeters: A list of names or member numbers to target in a subcommand, separated by spaces. Names can be partial, but must be unique. Exact name matches will take precedence over partial matches."
 CommandChangeLogClear,Clear changelog
 CommandChangeLogCollapse,Collapse section
 CommandChangeLogCollapseShift,{shift} to collapse all

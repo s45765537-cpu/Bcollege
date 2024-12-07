@@ -32,6 +32,7 @@ var PandoraChestCount = 0;
 var PandoraPaint = false;
 var PandoraReverseMaidDone = 0;
 var PandoraReverseMaidTotal = 0;
+var PandoraPenitentiaryCreateTimer = 0;
 
 /**
  * NPC Dialog functions
@@ -1157,6 +1158,51 @@ function PandoraPenitentiaryStart(Minutes) {
 	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
 	DialogLeave();
 	CommonSetScreen("Room", "MainHall");
+}
+
+/**
+ * Checks if the current character is currently under Pandora Penitentiary sentence
+ * @param {Character} C - The character to evaluate
+ * @returns {boolean} - TRUE if sentence is active
+ */
+function PandoraPenitentiaryActive(C) {
+	return (C.Game != null) && (C.Game.Prison != null) && (C.Game.Prison.Timer != null) && (C.Game.Prison.Timer > CurrentTime);
+}
+
+/**
+ * Called from MainHall and ChatSearch - Checks if we must create the Pandora prison and creates it
+ * @returns {void} - Nothing
+ */
+function PandoraPenitentiaryCreate() {
+
+	// Exits right away if the prison should not be loaded
+	if ((PandoraPenitentiaryCreateTimer > CommonTime()) || !PandoraPenitentiaryActive(Player) || (CurrentCharacter != null)) return;
+
+	// Setup the parameters
+	ChatRoomSpace = ChatRoomSpaceType.MIXED;
+	ChatCreateBackgroundList = BackgroundsGenerateList([BackgroundsTagAsylum]);
+	ChatSearchReturnToScreen = null;
+	PandoraPenitentiaryCreateTimer = CommonTime() + 10000;
+
+	// Creates the prison chat room
+	/** @type {ChatRoomSettings} */
+	const NewRoom = {
+		Name: "Pandora " + Math.round(Math.random() * 1000000000).toString(),
+		Description: "Pandora Penitentiary Cell",
+		Background: "PrisonHall",
+		Private: false,
+		Locked: false,
+		Limit: 10,
+		Space: ChatRoomSpaceType.MIXED,
+		Game: "Prison",
+		Admin: [],
+		Whitelist: [],
+		Ban: [],
+		BlockCategory: ["Leashing"],
+		Language: ChatCreateLanguage,
+	};
+	ServerSend("ChatRoomCreate", NewRoom);
+
 }
 
 /**
