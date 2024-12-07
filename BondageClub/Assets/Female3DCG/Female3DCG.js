@@ -32322,60 +32322,72 @@ var AssetFemale3DCG = [
 				Extended: true,
 				ParentGroup: null,
 				DrawLocks: false,
-				SetPose: ["TapedHands"],
 				PoseMapping: {
 					BaseUpper: PoseType.DEFAULT,
 					BackBoxTie: PoseType.HIDE,
-					BackCuffs: PoseType.HIDE,
+					BackCuffs: "BackCuffs",
 					BackElbowTouch: PoseType.HIDE,
 					OverTheHead: "OverTheHead",
 					Yoked: "Yoked",
 					Hogtied: PoseType.HIDE,
 					AllFours: "AllFours",
 				},
+				SetPose: ["TapedHands"],
 				Layer: [
 					// RIGHT HAND
 					{
 						Name: "WristBase",
 						AllowTypes: { w: 1 },
+						InheritPoseMappingFields: true,
+						PoseMapping: {
+							BackCuffs: PoseType.HIDE,
+						},
 					},
 					{
 						Name: "WristShine",
 						AllowTypes: { w: 1 },
+						CopyLayerPoseMapping: "WristBase",
 					},
 					{
 						Name: "WristBaseFitted",
 						AllowTypes: { w: 2 },
 						ParentGroup: "BodyUpper",
 						CopyLayerColor: "WristBase",
+						CopyLayerPoseMapping: "WristBase",
 					},
 					{
 						Name: "WristShineFitted",
 						AllowTypes: { w: 2 },
 						ParentGroup: "BodyUpper",
 						CopyLayerColor: "WristShine",
+						CopyLayerPoseMapping: "WristBase",
 					},
 					{
 						Name: "Base",
 						AllowTypes: { t: 0 },
+						CopyLayerPoseMapping: "WristBase",
 					},
 					{
 						Name: "Shine",
 						AllowTypes: { t: 0 },
+						CopyLayerPoseMapping: "WristBase",
 					},
 					{
 						Name: "BalloonBase",
 						AllowTypes: { t: [1, 2] },
 						CopyLayerColor: "Base",
+						CopyLayerPoseMapping: "WristBase",
 					},
 					{
 						Name: "BalloonShine",
 						AllowTypes: { t: [1, 2] },
 						CopyLayerColor: "Shine",
+						CopyLayerPoseMapping: "WristBase",
 					},
 					{
 						Name: "Nozzle",
 						AllowTypes: { t: 2 },
+						CopyLayerPoseMapping: "WristBase",
 					},
 					// Patterns
 					{
@@ -32384,6 +32396,7 @@ var AssetFemale3DCG = [
 						InheritPoseMappingFields: true,
 						PoseMapping: {
 							BaseUpper: PoseType.HIDE,
+							BackCuffs: PoseType.HIDE,
 							AllFours: PoseType.HIDE,
 							TapedHands: PoseType.HIDE,
 						},
@@ -32399,6 +32412,7 @@ var AssetFemale3DCG = [
 						CopyLayerColor: "Pumpkin",
 						InheritPoseMappingFields: true,
 						PoseMapping: {
+							BackCuffs: PoseType.HIDE,
 							OverTheHead: PoseType.HIDE,
 							Yoked: PoseType.HIDE,
 						},
@@ -32416,6 +32430,7 @@ var AssetFemale3DCG = [
 						CopyLayerColor: "Pumpkin",
 						InheritPoseMappingFields: true,
 						PoseMapping: {
+							BackCuffs: PoseType.HIDE,
 							BaseUpper: PoseType.HIDE,
 							TapedHands: PoseType.HIDE,
 						},
@@ -32432,6 +32447,7 @@ var AssetFemale3DCG = [
 						CopyLayerColor: "Pumpkin",
 						InheritPoseMappingFields: true,
 						PoseMapping: {
+							BackCuffs: PoseType.HIDE,
 							OverTheHead: PoseType.HIDE,
 							Yoked: PoseType.HIDE,
 							AllFours: PoseType.HIDE,
@@ -32496,56 +32512,44 @@ var AssetFemale3DCG = [
 					{
 						Name: "WristBaseLeft",
 						AllowTypes: { w: 1 },
-						InheritPoseMappingFields: true,
-						PoseMapping: {
-							BackCuffs: "BackCuffs",
-						},
 					},
 					{
 						Name: "WristShineLeft",
 						AllowTypes: { w: 1 },
-						CopyLayerPoseMapping: "WristBaseLeft",
 					},
 					{
 						Name: "WristBaseFittedLeft",
 						AllowTypes: { w: 2 },
 						ParentGroup: "BodyUpper",
 						CopyLayerColor: "WristBaseLeft",
-						CopyLayerPoseMapping: "WristBaseLeft",
 					},
 					{
 						Name: "WristShineFittedLeft",
 						AllowTypes: { w: 2 },
 						ParentGroup: "BodyUpper",
 						CopyLayerColor: "WristShineLeft",
-						CopyLayerPoseMapping: "WristBaseLeft",
 					},
 					{
 						Name: "BaseLeft",
 						AllowTypes: { t: 0 },
-						CopyLayerPoseMapping: "WristBaseLeft",
 					},
 					{
 						Name: "ShineLeft",
 						AllowTypes: { t: 0 },
-						CopyLayerPoseMapping: "WristBaseLeft",
 					},
 					{
 						Name: "BalloonBaseLeft",
 						AllowTypes: { t: [1, 2] },
 						CopyLayerColor: "BaseLeft",
-						CopyLayerPoseMapping: "WristBaseLeft",
 					},
 					{
 						Name: "BalloonShineLeft",
 						AllowTypes: { t: [1, 2] },
 						CopyLayerColor: "ShineLeft",
-						CopyLayerPoseMapping: "WristBaseLeft",
 					},
 					{
 						Name: "NozzleLeft",
 						AllowTypes: { t: 2 },
-						CopyLayerPoseMapping: "WristBaseLeft",
 					},
 					// Patterns
 					{
@@ -32554,7 +32558,6 @@ var AssetFemale3DCG = [
 						InheritPoseMappingFields: true,
 						PoseMapping: {
 							BaseUpper: PoseType.HIDE,
-							BackCuffs: "BackCuffs",
 							AllFours: PoseType.HIDE,
 							TapedHands: PoseType.HIDE,
 						},
@@ -32588,7 +32591,6 @@ var AssetFemale3DCG = [
 						InheritPoseMappingFields: true,
 						PoseMapping: {
 							BaseUpper: PoseType.HIDE,
-							BackCuffs: "BackCuffs",
 							TapedHands: PoseType.HIDE,
 						},
 					},
@@ -32613,7 +32615,7 @@ var AssetFemale3DCG = [
 						Name: "BalloonPumpkinTopShineLeft",
 						AllowTypes: { l: 2, t: [1, 2] },
 						CopyLayerColor: "PumpkinShineLeft",
-						CopyLayerPoseMapping: "BallonPumpkinTopLeft",
+						CopyLayerPoseMapping: "BalloonPumpkinTopLeft",
 					},
 					{
 						Name: "SmileyLeft",
@@ -32673,7 +32675,6 @@ var AssetFemale3DCG = [
 						InheritPoseMappingFields: true,
 						PoseMapping: {
 							BaseUpper: PoseType.HIDE,
-							BackCuffs: "BackCuffs",
 							OverTheHead: PoseType.HIDE,
 							Yoked: PoseType.HIDE,
 							AllFours: PoseType.HIDE,
