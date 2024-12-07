@@ -957,6 +957,10 @@ function ChatSearchParseResponse(searchResults) {
  * @returns {void} - Nothing
  */
 function ChatSearchResultResponse(data) {
+	if (PandoraPenitentiaryActive(Player)) {
+		PandoraPenitentiaryResult(ChatSearchParseResponse(data ?? []));
+		return;
+	}
 	ElementContent("InputSearch-datalist", "");
 	ChatSearchResult = ChatSearchParseResponse(data ?? []);
 	ChatSearchResultOffset = 0;
@@ -986,7 +990,7 @@ function ChatSearchAutoJoinRoom() {
 	}
 
 	// This is a search triggered from a relog
-	if (Player.ImmersionSettings && Player.ImmersionSettings.ReturnToChatRoom && Player.LastChatRoom && ((ChatSearchLeaveRoom !== "AsylumEntrance") || (AsylumGGTSGetLevel(Player) <= 0))) {
+	if (Player.ImmersionSettings && Player.ImmersionSettings.ReturnToChatRoom && Player.LastChatRoom && !PandoraPenitentiaryActive(Player) && ((ChatSearchLeaveRoom !== "AsylumEntrance") || (AsylumGGTSGetLevel(Player) <= 0))) {
 		let roomFound = false;
 		let roomIsFull = false;
 		// Try joining our previous room
@@ -1067,6 +1071,10 @@ function ChatSearchAutoJoinRoom() {
  * @returns {void} - Nothing
  */
 function ChatSearchQuery() {
+
+	// No regular chat result if locked in Pandora prison
+	if (PandoraPenitentiaryActive(Player)) return;
+
 	var Query = ChatSearchMode == "Filter" ? "" : ElementValue("InputSearch").toUpperCase().trim();
 	let FullRooms = (Player.OnlineSettings && Player.OnlineSettings.SearchShowsFullRooms);
 

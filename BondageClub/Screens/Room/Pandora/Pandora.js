@@ -1175,34 +1175,71 @@ function PandoraPenitentiaryActive(C) {
  */
 function PandoraPenitentiaryCreate() {
 
-	// Exits right away if the prison should not be loaded
-	if ((PandoraPenitentiaryCreateTimer > CommonTime()) || !PandoraPenitentiaryActive(Player) || (CurrentCharacter != null)) return;
+	// Exits right away if the prison should not be loaded, there's a 10 seconds delay between each retry
+	if ((PandoraPenitentiaryCreateTimer > CommonTime()) || !PandoraPenitentiaryActive(Player) || (CurrentCharacter != null) || (CurrentScreen == "ChatRoom")) return;
 
-	// Setup the parameters
-	ChatRoomSpace = ChatRoomSpaceType.MIXED;
-	ChatCreateBackgroundList = BackgroundsGenerateList([BackgroundsTagAsylum]);
-	ChatSearchReturnToScreen = null;
+	// First we search for a prison that already exists
+	/** @type {ServerChatRoomGame} */
+	let Game = "Prison";
+	const SearchData = { Query: "", Language: "", Space: ChatRoomSpaceType.MIXED, Game: Game, FullRooms: false };
+	ChatSearchLastQuerySearchTime = CommonTime();
+	ChatSearchResult = [];
 	PandoraPenitentiaryCreateTimer = CommonTime() + 10000;
+	ServerSend("ChatRoomSearch", SearchData);
 
-	// Creates the prison chat room
-	/** @type {ChatRoomSettings} */
-	const NewRoom = {
-		Name: "Pandora " + Math.round(Math.random() * 1000000000).toString(),
-		Description: "Pandora Penitentiary Cell",
-		Background: "PrisonHall",
-		Private: false,
-		Locked: false,
-		Limit: 10,
-		Space: ChatRoomSpaceType.MIXED,
-		Game: "Prison",
-		Admin: [],
-		Whitelist: [],
-		Ban: [],
-		BlockCategory: ["Leashing"],
-		Language: ChatCreateLanguage,
-	};
-	ServerSend("ChatRoomCreate", NewRoom);
+}
 
+/**
+ * Called from MainHall and ChatSearch - Checks if we must create the Pandora prison and creates it
+ * @param {object} Result - The result of the search
+ * @returns {void} - Nothing
+ */
+function PandoraPenitentiaryResult(Result) {
+
+	// Exits right away if already in a chat room
+	if (CurrentScreen == "ChatRoom") return;
+
+	// Prepares a list of all the rooms
+	let List = [];
+	for (let R of Result)
+		if (R.Name.startsWith("Pandora") && (R.Game == "Prison") && (R.MemberCount < R.MemberLimit))
+			List.push(R.Name);
+
+	// If we find some results
+	if (List.length > 0) {
+
+		// Try to join a random prison
+		ServerSend("ChatRoomJoin", { Name: CommonRandomItemFromList(null, List) });
+
+	} else {
+
+		// Since we did not found any prison, we Setup the parameters for a new one
+		ChatRoomSpace = ChatRoomSpaceType.MIXED;
+		ChatCreateBackgroundList = BackgroundsGenerateList([BackgroundsTagAsylum]);
+		ChatSearchReturnToScreen = null;
+		PandoraPenitentiaryCreateTimer = CommonTime() + 10000;
+	
+		// Creates the prison chat room
+		/** @type {ChatRoomSettings} */
+		const NewRoom = {
+			Name: "Pandora " + Math.round(Math.random() * 1000000000).toString(),
+			Description: "Pandora Penitentiary Cell",
+			Background: "PrisonHall",
+			Private: false,
+			Locked: false,
+			Limit: 10,
+			Space: ChatRoomSpaceType.MIXED,
+			Game: "Prison",
+			Admin: [],
+			Whitelist: [],
+			Ban: [],
+			BlockCategory: ["Leashing"],
+			Language: ChatCreateLanguage,
+		};
+		ServerSend("ChatRoomCreate", NewRoom);
+		
+	}
+	
 }
 
 /**

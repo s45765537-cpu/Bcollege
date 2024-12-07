@@ -423,7 +423,7 @@ function ChatRoomCharacterViewDrawOverlay(C, CharX, CharY, Zoom) {
 
 	// Draws the prison timer for Pandora prisoners
 	if ((ChatRoomData.Game == "Prison") && PandoraPenitentiaryActive(C)) {
-		DrawText(TimerToString(C.Game.Prison.Timer - CurrentTime), CharX + 257 * Zoom, CharY + 922 * Zoom, "Red", "Black");
+		DrawText(TimerToString(C.Game.Prison.Timer - CurrentTime), CharX + 252 * Zoom, CharY + 922 * Zoom, "Red", "Black");
 	}
 
 }
