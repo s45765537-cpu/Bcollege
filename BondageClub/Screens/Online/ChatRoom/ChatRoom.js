@@ -86,6 +86,18 @@ var ChatRoomChatHidden = false;
  * @type {Character[]}
  */
 var ChatRoomCharacterDrawlist = [];
+/**
+ * If non-empty, ChatRoomCharacterDrawlist will be filtered (after immersion removals) to only include the player and these character(s).
+ * Used for the /focus command. List will be automatically removed if characters are removed from the room.
+ * @type {Character[]}
+ */
+var ChatRoomDrawFocusList = [];
+/**
+ * The list of characters currently impacted (not drawn) by sensory deprivation in the chat room
+ * Used as a check for whether to apply further sense dep effects to a given character (i.e. name removal, message, hiding, etc). Characters from {@link ChatRoomCharacter}
+ * @type {Character[]}
+ */
+var ChatRoomImpactedBySenseDep = [];
 var ChatRoomSenseDepBypass = false;
 var ChatRoomGetUpTimer = 0;
 /**
@@ -443,6 +455,11 @@ function ChatRoomCanGiveMoneyForOwner() { return (CurrentCharacter != null && Pl
  */
 function ChatRoomPlayerIsAdmin() { return ((ChatRoomData != null && ChatRoomData.Admin != null) && (ChatRoomData.Admin.indexOf(Player.MemberNumber) >= 0)); }
 /**
+ * Checks if the player is currently in focus mode (non-empty {@link ChatRoomDrawFocusList})
+ * @returns {boolean} - TRUE if the player is in focus mode
+ */
+function ChatRoomPlayerIsInDrawFocus() { return ChatRoomDrawFocusList.length > 0; }
+/**
  * Checks if the current character is an admin of the chatroom.
  * @returns {boolean} - TRUE if the current character is an admin.
  */
@@ -457,6 +474,11 @@ function ChatRoomPlayerIsWhitelisted() { return ((ChatRoomData != null && ChatRo
  * @returns {boolean} - TRUE if the current character is in the chatroom whitelist.
  */
 function ChatRoomCurrentCharacterIsWhitelisted() { return ((CurrentCharacter != null) && (ChatRoomData.Whitelist != null) && (ChatRoomData.Whitelist.indexOf(CurrentCharacter.MemberNumber) >= 0)); }
+/**
+ * Checks if the current character is in the player's focuslist (/focus).
+ * @returns {boolean} - TRUE if the current character is in the player's focuslist.
+ */
+function ChatRoomCurrentCharacterInDrawFocusList() { return ((CurrentCharacter != null) && (ChatRoomDrawFocusList.indexOf(CurrentCharacter) >= 0)); }
 /**
  * Checks if the room allows the photograph feature to be used.
  * @returns {boolean} - TRUE if the player can take a photo.
@@ -1340,6 +1362,7 @@ function ChatRoomMenuBuild() {
 	ChatRoomMenuButtons.push("Exit");
 	ChatRoomMenuButtons.push("Kneel");
 	ChatRoomMenuButtons.push("Icons");
+	if (ChatRoomPlayerIsInDrawFocus()) ChatRoomMenuButtons.push("ClearFocus");
 	if (DialogCanTakePhotos()) ChatRoomMenuButtons.push("Camera");
 	ChatRoomMenuButtons.push("Cut");
 	if (ChatRoomMapViewIsActive() && ((ChatRoomData == null) || (ChatRoomData.MapData == null) || (ChatRoomData.MapData.Type == null) || (ChatRoomData.MapData.Type != "Always"))) ChatRoomMenuButtons.push("CharacterView");
@@ -1373,14 +1396,17 @@ function ChatRoomUpdateDisplay() {
 	ChatRoomCharacterDrawlist = ChatRoomCharacter;
 	ChatRoomSenseDepBypass = false;
 	if (Player.Effect.includes("VRAvatars")) {
+		ChatRoomImpactedBySenseDep = ChatRoomCharacterDrawlist.slice();
 		ChatRoomCharacterDrawlist = [];
 		ChatRoomSenseDepBypass = true;
 		for (let CC = 0; CC < ChatRoomCharacter.length; CC++) {
 			if (ChatRoomCharacter[CC].Effect.includes("VRAvatars")) {
 				ChatRoomCharacterDrawlist.push(ChatRoomCharacter[CC]);
+				ChatRoomImpactedBySenseDep.splice(ChatRoomImpactedBySenseDep.indexOf(ChatRoomCharacter[CC]), 1);
 			}
 		}
 	} else if (Player.GetBlindLevel() > 0 && Player.GetBlindLevel() < 3 && Player.ImmersionSettings.BlindAdjacent) {
+		ChatRoomImpactedBySenseDep = ChatRoomCharacterDrawlist.slice();
 		// We hide all players except those who are adjacent
 		ChatRoomCharacterDrawlist = [];
 		ChatRoomSenseDepBypass = true;
@@ -1396,8 +1422,14 @@ function ChatRoomUpdateDisplay() {
 		for (let CC = 0; CC < ChatRoomCharacter.length; CC++) {
 			if (Math.abs(CC - PlayerIndex) <= 1) {
 				ChatRoomCharacterDrawlist.push(ChatRoomCharacter[CC]);
+				ChatRoomImpactedBySenseDep.splice(ChatRoomImpactedBySenseDep.indexOf(ChatRoomCharacter[CC]), 1);
 			}
 		}
+	}
+
+	// If we're in focus (focuslist exists), filter out any players not in it (/focus)
+	if (ChatRoomPlayerIsInDrawFocus()) {
+		ChatRoomCharacterDrawlist = ChatRoomCharacterDrawlist.filter(C => C.IsPlayer() || ChatRoomDrawFocusList.includes(C));
 	}
 
 	// Keeps the current character count and total
@@ -1459,6 +1491,12 @@ function ChatRoomDrawCharacterStatusIcons(C, CharX, CharY, Zoom)
 		DrawImageResize("Icons/Small/WhiteList.png", CharX + 70 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
 	} else if (Player.BlackList.includes(C.MemberNumber)) {
 		DrawImageResize("Icons/Small/BlackList.png", CharX + 70 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
+	}
+	// Unobtrusive but prominent warnings to alert user they are in focus mode -- drawn on player and all focused (visible) characters
+	if (ChatRoomPlayerIsInDrawFocus() && (C.IsPlayer() || ChatRoomDrawFocusList.includes(C)))
+	{
+		DrawImageResize("Icons/Small/FocusEnabledWarning.png", CharX + 30 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
+		DrawImageResize("Icons/Small/FocusEnabledWarning.png", CharX + 30 * Zoom, CharY + 950 * Zoom, 40 * Zoom, 40 * Zoom);
 	}
 	if (Player.GhostList.includes(C.MemberNumber)) {
 		DrawImageResize("Icons/Small/GhostList.png", CharX + 110 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
@@ -2542,6 +2580,10 @@ function ChatRoomMenuClick(event) {
 					ChatRoomHideIconState += 1;
 					if (ChatRoomHideIconState > 3) ChatRoomHideIconState = 0;
 					break;
+				case "ClearFocus":
+					// When the user wants to exit focus mode (clear their focus list)
+					ChatRoomDrawFocusListClear();
+					break;
 				case "Camera":
 					// When the user takes a photo of the room
 					ChatRoomPhotoFullRoom();
@@ -2730,6 +2772,7 @@ function ChatRoomLeave(clearCharacters = false) {
 	Player.MapData = null;
 	ChatRoomGame = "";
 	ChatRoomCharacter = [];
+	ChatRoomDrawFocusList = [];
 	ChatRoomMapViewTileFog = "";
 	ChatRoomMapViewObjectFog = "";
 	ChatRoomSetTarget(-1);
@@ -3312,7 +3355,7 @@ function ChatRoomMessageInvolvesPlayer(data) {
  * @returns true if the player is sensory-deprived from character, false otherwise.
  */
 function ChatRoomIsCharacterImpactedBySensoryDeprivation(character) {
-	return PreferenceIsPlayerInSensDep() && character.MemberNumber != Player.MemberNumber && (!ChatRoomSenseDepBypass || !ChatRoomCharacterDrawlist.includes(character));
+	return PreferenceIsPlayerInSensDep() && character.MemberNumber != Player.MemberNumber && (!ChatRoomSenseDepBypass || ChatRoomImpactedBySenseDep.includes(character));
 }
 
 /** @type {ChatRoomMessageExtractor[]} */
@@ -3535,7 +3578,7 @@ var ChatRoomMessageHandlers = [
 			const IsPlayerInSensoryDep = Player.ImmersionSettings.SenseDepMessages
 				&& PreferenceIsPlayerInSensDep()
 				&& Player.GetDeafLevel() >= 4
-				&& (!ChatRoomSenseDepBypass || !ChatRoomCharacterDrawlist.includes(sender));
+				&& (!ChatRoomSenseDepBypass || ChatRoomImpactedBySenseDep.includes(sender));
 
 			// When the player is in total sensory deprivation, hide non-whisper messages if the player is not involved
 			const IsPlayerMentioned = ChatRoomMessageMentionsCharacter(Player, msg);
@@ -4268,7 +4311,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 function ChatRoomHideIdentity(C) {
 	return PreferenceIsPlayerInSensDep()
 		&& C.MemberNumber != Player.MemberNumber
-		&& (!ChatRoomSenseDepBypass || !ChatRoomCharacterDrawlist.includes(C));
+		&& (!ChatRoomSenseDepBypass || ChatRoomImpactedBySenseDep.includes(C));
 }
 
 /**
@@ -4384,6 +4427,9 @@ function ChatRoomSync(data) {
 		ChatRoomCharacter.push(Char);
 	}
 
+	// Reset when creating/joining a room, in case it wasn't by ChatRoomLeave() for whatever reason
+	ChatRoomDrawFocusList = [];
+
 	// If there's a game running in that chatroom, save it and perform a reset
 	if (ChatRoomData.Game != null) {
 		ChatRoomGame = ChatRoomData.Game;
@@ -4482,6 +4528,7 @@ function ChatRoomSyncMemberLeave(data) {
 
 	// Remove the character
 	ChatRoomCharacter = ChatRoomCharacter.filter(x => x.MemberNumber != data.SourceMemberNumber);
+	ChatRoomDrawFocusList = ChatRoomDrawFocusList.filter(x => x.MemberNumber != data.SourceMemberNumber);
 	ChatRoomData.Character = ChatRoomData.Character.filter(x => x.MemberNumber != data.SourceMemberNumber);
 
 	// Check whether the player's last chatroom data needs updating
@@ -5030,12 +5077,18 @@ function ChatRoomCurrentTime() {
 /**
  * Adds or removes an online member to/from a specific list. (From the dialog menu)
  * @param {"Add" | "Remove"} Operation - Operation to perform.
- * @param {"WhiteList" | "FriendList" | "BlackList" | "GhostList"} ListType - Name of the list to alter. (Whitelist, friendlist, blacklist, ghostlist)
+ * @param {"WhiteList" | "FriendList" | "BlackList" | "GhostList" | "DrawFocusList"} ListType - Name of the list to alter. (Whitelist, friendlist, blacklist, ghostlist, drawfocuslist)
  * @returns {void} - Nothing
  */
 function ChatRoomListManage(Operation, ListType) {
-	if (CurrentCharacter && CurrentCharacter.MemberNumber && Array.isArray(Player[ListType])) {
-		ChatRoomListUpdate(Player[ListType], Operation == "Add", CurrentCharacter.MemberNumber);
+	if (CurrentCharacter) {
+		const isAdd = Operation === "Add";
+		if (ListType === "DrawFocusList"){
+			if (isAdd) ChatRoomDrawFocusListAdd([CurrentCharacter]);
+			else ChatRoomDrawFocusListRemove([CurrentCharacter]);
+		} else if (CurrentCharacter.MemberNumber && Array.isArray(Player[ListType])) {
+			ChatRoomListUpdate(Player[ListType], isAdd, CurrentCharacter.MemberNumber);
+		}
 	}
 }
 
@@ -5084,6 +5137,51 @@ function ChatRoomListUpdate(list, adding, memberNumber) {
 
 	ServerPlayerRelationsSync();
 	setTimeout(() => ChatRoomCharacterUpdate(Player), 5000);
+}
+
+/**
+ * Adds a list of character(s) into the Focus List
+ * @param {Character[]} characters - Characters to add
+ * @param {boolean} [enableMessage=true] - If enabled, will tell (warn) the user when the focus feature becomes enabled (empty -> non-empty)
+ * @returns {Character[]} - Characters that were actually added (not already in the list)
+ */
+function ChatRoomDrawFocusListAdd(characters, enableMessage=true) {
+	const added = [];
+	const wasInFocus = ChatRoomPlayerIsInDrawFocus();
+	characters.forEach(c => {
+		if (!ChatRoomDrawFocusList.includes(c)) {
+			ChatRoomDrawFocusList.push(c);
+			added.push(c);
+		}
+	});
+	if (enableMessage && !wasInFocus && ChatRoomPlayerIsInDrawFocus()) {
+		const enableMessageText = TextGet("FocusEnabled").replaceAll('FocusEnabledWarningIcon', TextGet("FocusEnabledWarningIcon"));
+		ChatRoomSendLocal(`<span style="color: deepskyblue">${enableMessageText}</span>`, 60_000);
+	}
+	return added;
+}
+
+/**
+ * Removes a list of character(s) from the Focus List
+ * @param {Character[]} characters - Characters to remove
+ * @returns {Character[]} - Characters that were actually removed (were in the list)
+ */
+function ChatRoomDrawFocusListRemove(characters) {
+	const removed = [];
+	characters.forEach(c => {
+		if (ChatRoomDrawFocusList.includes(c)) {
+			ChatRoomDrawFocusList.splice(ChatRoomDrawFocusList.indexOf(c), 1);
+			removed.push(c);
+		}
+	});
+	return removed;
+}
+
+/**
+ * Clears the Focus List
+ */
+function ChatRoomDrawFocusListClear() {
+	ChatRoomDrawFocusList = [];
 }
 
 /**
