@@ -1527,6 +1527,13 @@ var ClubCardList = [
 		},
 		BeforeOpponentTurnEnd: function() {
 			this.ExtraPlay = 0;
+		},
+		onPlayedCard: function (CCPlayer, cardPlayed) {
+			if (CCPlayer.Level < cardPlayed.RequiredLevel) {
+				const moonLostFame = -5;
+				ClubCardPlayerAddFame(CCPlayer, moonLostFame);
+				ClubCardLogGetDataPacket(ClubCardMessageType.CARDEFFECT, "Effect Moon", CCPlayer, moonLostFame);
+			}
 		}
 	},
 
@@ -3325,7 +3332,16 @@ function ClubCardEndTurn(Draw = false) {
 		const victoryEndTurnPacket = ClubCardGetLogPacket(messageVictoryTypesHeadPacker);
 		ClubCardMessagePacketSend(victoryEndTurnPacket);
 		GameClubCardSyncOnlineData();
+
 		ClubCardFocus = null;
+
+		// Notices everyone in the room that the game end
+		if (ClubCardIsOnline()) {
+			const Dictionary = new DictionaryBuilder().sourceCharacter(Player).build();
+			Dictionary.push({Tag: "SourceCharacter", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber});
+			ServerSend("ChatRoomChat", { Content: "ClubCardGameEnd", Type: "Action" , Dictionary: Dictionary});	
+		}
+
 		return;
 	}
 
@@ -3630,13 +3646,6 @@ function ClubCardPlayCard(CCPlayer, Card) {
 			Index++;
 		}
 		ClubCardUpdateBoardCardsIndex(Target);
-	}
-
-	//Moon card cost effect
-	if (ClubCardNameIsOnBoard(CCPlayer, "Moon") && CCPlayer.Level < Card.RequiredLevel) {
-		const moonLostFame = -5;
-		ClubCardPlayerAddFame(CCPlayer, moonLostFame);
-		ClubCardLogGetDataPacket(ClubCardMessageType.CARDEFFECT, "Effect Moon", CCPlayer, moonLostFame);
 	}
 
 	// Focuses on the card, runs it's scripts
