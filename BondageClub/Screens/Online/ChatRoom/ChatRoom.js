@@ -4437,6 +4437,8 @@ function ChatRoomSyncMemberLeave(data) {
 	// The allowed menu actions may have changed
 	ChatRoomMenuBuild();
 
+	//For ClubCard, in case one of the players disconnects from the server, the other player sends a message about it to the game chat.
+	if (CurrentScreen === "ClubCard") ClubCardCheckDisconnected(data.SourceMemberNumber);
 }
 
 /**

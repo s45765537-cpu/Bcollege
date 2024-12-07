@@ -47,6 +47,7 @@ const ClubCardMessageType = Object.freeze({
 	ACTIONSEPARATOR: "ActionSeparator", //for key messages separating one player's turn into parts.
 	SYSTEM: "SystemMessage", // Spectator join or leave , Select Deck
 	PLAYERSMESSAGE: "PlayersMessage",
+	PLAYERSDISCONNECTED: "PlayersDisconnected",
 });
 
 const ClubCardStartTurnType = Object.freeze({
@@ -2287,6 +2288,20 @@ function ClubCardIsPlaying() {
 }
 
 /**
+ * In case one of the players disconnects from the server, the other player sends a message about it to the game chat.
+ * @param {number} disconnectedMemberNumber 
+ */
+function ClubCardCheckDisconnected(disconnectedMemberNumber) {
+	const isPlayer1 = Player.MemberNumber == ClubCardPlayer[0].Character.MemberNumber;
+	const isPlayer2 = disconnectedMemberNumber == ClubCardPlayer[1].Character.MemberNumber;
+	
+	if (isPlayer1 && isPlayer2) {
+		const Msg = TextGet("OnlicePlayerDisconnected").replace("SOURCEPLAYER", CharacterNickname(ClubCardPlayer[1].Character));
+		ClubCardOneMessagePacketSend(Msg, ClubCardMessageType.PLAYERSDISCONNECTED);
+	}
+}
+
+/**
  * Adds a text entry to the game log
  * @param {ClubCardMessage[]} LogEntry - Message Packet with message and messageType
  * @param {boolean} Push - The club card player
@@ -3258,7 +3273,8 @@ function ClubCardStartTurn(StartType = ClubCardStartTurnType.BANKRUPT) {
 			break;
 
 		case ClubCardStartTurnType.DRAWENDTURN:		
-		    if (ClubCardNameIsOnBoard(CCPlayer, "Part-Time Patient")) {		
+			if (ClubCardNameIsOnBoard(CCPlayer, "Part-Time Patient")) {		
+				//TODO make like ClubCard function
 				ClubCardPlayerAddMoney(CCPlayer, 1);
 			    ClubCardPlayerAddFame(CCPlayer, -1);
 			}
@@ -4201,7 +4217,8 @@ function ClubCardRenderPanel() {
 			//one style for all these types message
 			const isOneDivContainer = messageLogItem.MessageType == ClubCardMessageType.SYSTEM
 				|| messageLogItem.MessageType == ClubCardMessageType.PLAYERSMESSAGE
-				|| messageLogItem.MessageType == ClubCardMessageType.PREREQUISTITE;
+				|| messageLogItem.MessageType == ClubCardMessageType.PREREQUISTITE
+				|| messageLogItem.MessageType == ClubCardMessageType.PLAYERSDISCONNECTED;
 			if (isOneDivContainer) {
 				ClubCardCreateOneDivContainer(messageLogItem);
 			}  else {
@@ -4259,8 +4276,9 @@ function ClubCardRenderPanel() {
  * @param {ClubCardMessage} MessageItem - Message
  */
 function ClubCardCreateOneDivContainer(MessageItem) {
-	const systemMessageBackgound = "#04122a";
-	const playerMessageBackgound = "#15171A";
+	const systemMessageBackground = "#04122a";
+	const playerMessageBackground = "#15171A";
+	const playersDisconnectedBackground = "#8B0000";
 	let divName = null;
 	let counter = 1;
 
@@ -4289,9 +4307,11 @@ function ClubCardCreateOneDivContainer(MessageItem) {
 	elementDiv.textContent = MessageItem.Message;
 
 	if (MessageItem.MessageType == ClubCardMessageType.SYSTEM)
-		elementDiv.style.backgroundColor = systemMessageBackgound;
-	//Player Message
-	else elementDiv.style.backgroundColor = playerMessageBackgound;
+		elementDiv.style.backgroundColor = systemMessageBackground;
+	else if (MessageItem.MessageType == ClubCardMessageType.PLAYERSMESSAGE)
+		elementDiv.style.backgroundColor = playerMessageBackground;
+	else
+		elementDiv.style.backgroundColor = playersDisconnectedBackground;
 
 	document.getElementById("CCLog").appendChild(elementDiv);
 }
