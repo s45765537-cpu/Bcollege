@@ -1373,7 +1373,7 @@ function ChatRoomMenuBuild() {
 	if (ChatRoomCustomizationButton() && ChatRoomCustomized) ChatRoomMenuButtons.push("CustomizationOff");
 	ChatRoomMenuButtons.push("Dress");
 	ChatRoomMenuButtons.push("Profile");
-	if ((ChatRoomGame !== "") && (ChatRoomGame !== "GGTS")) ChatRoomMenuButtons.push("GameOption");
+	if ((ChatRoomGame !== "") && (ChatRoomGame !== "GGTS") && (ChatRoomGame !== "Prison")) ChatRoomMenuButtons.push("GameOption");
 	ChatRoomMenuButtons.push("RoomAdmin");
 }
 
@@ -2659,12 +2659,13 @@ function ChatRoomAttemptStandMinigameEnd() {
  * @returns {boolean} - Returns TRUE if the player can leave the current chat room.
  */
 function ChatRoomCanLeave() {
-	if (ChatRoomLeashPlayer != null) {
+	if (ChatRoomLeashPlayer != null) { // Cannot leave if leashed
 		if (ChatRoomCanBeLeashedBy(0, Player)) {
 			return false;
 		} else ChatRoomLeashPlayer = null;
 	}
 	if (!Player.CanWalk()) return false; // Cannot leave if cannot walk
+	if ((ChatRoomData.Game == "Prison") && PandoraPenitentiaryActive(Player)) return false; // Cannot leave if locked down in Pandora Penitentiary
 	if (ChatRoomData.Locked && (ChatRoomData.Game == "GGTS")) return false; // GGTS game can forbid anyone to leave
 	if (ChatRoomActiveView.CanLeave && !ChatRoomActiveView.CanLeave()) return false;
 	if (!ChatRoomData.Locked || ChatRoomPlayerIsAdmin() || ChatRoomPlayerIsWhitelisted()) return true; // Player can leave if the room isn't locked, they are an administrator, or are on the whitelist

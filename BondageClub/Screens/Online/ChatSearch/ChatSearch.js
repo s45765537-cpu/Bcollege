@@ -94,7 +94,10 @@ function ChatSearchUnload() {
  * @type {ScreenFunctions["Run"]}
  */
 function ChatSearchRun() {
+
+	// Calls the other screens that could trigger
 	KidnapLeagueResetOnlineBountyProgress();
+	PandoraPenitentiaryCreate();
 
 	// Draw special screens that hide everything else
 	if (ChatSearchFilterHelpActive) return ChatSearchFilterHelpDraw();
