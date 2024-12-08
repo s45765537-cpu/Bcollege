@@ -6525,6 +6525,21 @@ var AssetFemale3DCG = [
 					Hogtied: 125,
 				},
 			},
+			{
+				Name: "RippedPantyhose",
+				DynamicGroupName: "Socks",
+				CopyConfig: {
+					GroupName: "Socks",
+					AssetName: "RippedPantyhose",
+					BuyGroup: true,
+				},
+				Top: 400,
+				Left: {
+					[PoseType.DEFAULT]: 75,
+					KneelingSpread: 105,
+					Hogtied: 125,
+				},
+			},
 		],
 
 		Color: [
@@ -8860,7 +8875,8 @@ var AssetFemale3DCG = [
 					KneelingSpread: 105,
 					Hogtied: 125,
 				},
-				Top: 400,
+				DefaultColor: ["#755656","#5D041E"],
+				Top: 402,
 				Extended: true,
 				Layer: [
 					{

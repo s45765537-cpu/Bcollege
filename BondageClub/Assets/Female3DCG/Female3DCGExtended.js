@@ -1402,6 +1402,7 @@ var AssetFemale3DCGExtended = {
 	Socks: {
 		RippedPantyhose: {
 			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
 			Options: [
 				{
 					Name: "RippedA",
