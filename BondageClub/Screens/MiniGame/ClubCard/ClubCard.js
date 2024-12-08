@@ -727,7 +727,8 @@ var ClubCardList = [
 		Group: ["AsylumNurse"],
 		RequiredLevel: 5,
 		BeforeTurnEnd: function(CCPlayer) {
-			ClubCardPlayerAddFame(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "AsylumPatient") * 3);
+			const effectFame = ClubCardGroupOnBoardCount(CCPlayer, "AsylumPatient") * 3;
+			ClubCardPlayerAddFame(CCPlayer, ClubCardGetMaxEffectFromCard(this, effectFame));
 		}
 	},
 	{
@@ -1132,7 +1133,7 @@ var ClubCardList = [
 		MoneyPerTurn: -2,
 		BeforeTurnEnd: function(CCPlayer) {
 			const effectFame = ClubCardGroupOnBoardCount(CCPlayer, "CollegeStudent");
-			ClubCardPlayerAddFame(CCPlayer, ClubCardGetMaxEffectFromCard(this, effectFame));
+			ClubCardPlayerAddFame(CCPlayer, Math.min(effectFame, 4));
 		}
 	},
 	{
@@ -1656,8 +1657,9 @@ var ClubCardList = [
 		Name: "Straitjacket Saturday",
 		Type: "Event",
 		OnPlay: function(CCPlayer) {
-			let Money = (ClubCardGroupOnBoardCount(CCPlayer, "AsylumPatient") + ClubCardGroupOnBoardCount(CCPlayer, "AsylumNurse")) * 4;
+			let Money = ClubCardGroupOnBoardCount(CCPlayer, "AsylumPatient") * 4;
 			ClubCardPlayerAddMoney(CCPlayer, Money);
+			ClubCardPlayerDrawGroupCard(CCPlayer, ["AsylumNurse"], undefined);
 			ClubCardLogGetDataPacket(ClubCardMessageType.CARDEFFECT, "GainMoney", CCPlayer, Money);
 		}
 	},
@@ -1707,6 +1709,7 @@ var ClubCardList = [
 		ID: 30012,
 		Name: "Ransomware",
 		Type: "Event",
+		RequiredLevel: 2,
 		Reward: "NPC_Infiltration_Supervisor",
 		OnPlay: function(CCPlayer) {
 			let Opponent = ClubCardGetOpponent(CCPlayer);
@@ -2703,8 +2706,7 @@ function ClubCardGetMaxEffectFromCard(Card, fame) {
 		2: 4,
 		3: 6,
 		4: 7,
-		// Uncapped
-		5: 100,
+		5: 12,
 	};
 
 	return Math.min(fame, ClubCardMaxFamePerTier[Card.RequiredLevel ?? 1]);
@@ -4265,10 +4267,9 @@ function ClubCardRenderPanel() {
 		DrawButton(1805, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/Bankrupt.png", TextGet("Bankrupt"));
 		DrawButton(1705, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/" + ((ClubCardTurnCardPlayed == 0) ? "Draw" : "CannotDraw") + ".png", TextGet((ClubCardTurnCardPlayed == 0) ? "Draw" : "CannotDraw"));
 		if (ClubCardCanPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) DrawButton(1725, 300, 250, 60, TextGet("PlayCard"), "White");
-		DrawButton(5, 450, 45, 45, null, "White", "Screens/MiniGame/ClubCard/Button/DiscardPile.png", TextGet("OpponentDiscardPile"));
-		DrawButton(5, 505, 45, 45, null, "White", "Screens/MiniGame/ClubCard/Button/DiscardPile.png", TextGet("DiscardPile"));
 	} else ClubCardStatusText(ClubCardIsPlaying() ? "OpponentPlaying" : "WatchingGame");
-
+	DrawButton(5, 450, 45, 45, null, "White", "Screens/MiniGame/ClubCard/Button/DiscardPile.png", TextGet("OpponentDiscardPile"));
+	DrawButton(5, 505, 45, 45, null, "White", "Screens/MiniGame/ClubCard/Button/DiscardPile.png", TextGet("DiscardPile"));
 }
 
 /**
@@ -4385,9 +4386,9 @@ function ClubCardRenderPopup() {
 		DrawRect(50, 260, 1600, 480, "Black");
 		DrawButton(760, 650, 180, 60, ClubCardPopup.Button1, "White");
 		if (ClubCardPopup.Text == "Opponent") {
-			ClubCardRenderDiscardPile(ClubCardGetOpponent(ClubCardPlayer[ClubCardTurnIndex]), 52, 252, 1516, 428);
+			ClubCardRenderDiscardPile(ClubCardPlayer[1], 52, 252, 1516, 428);
 		} else {
-			ClubCardRenderDiscardPile(ClubCardPlayer[ClubCardTurnIndex], 52, 252, 1516, 428);
+			ClubCardRenderDiscardPile(ClubCardPlayer[0], 52, 252, 1516, 428);
 		}
 		return;
 	}
@@ -4487,8 +4488,8 @@ function ClubCardClick() {
 	if (MouseIn(1390, 435, 300, 60) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") && (ClubCardPlayer[ClubCardTurnIndex].Level < ClubCardLevelCost.length - 1) && (ClubCardPlayer[ClubCardTurnIndex].Money >= ClubCardCalculateLevelCost(ClubCardPlayer[ClubCardTurnIndex]))) return ClubCardStartTurn(ClubCardStartTurnType.UPGRADELEVEL);
 
 	//DISCARDPILE
-	if (MouseIn(5, 450, 45, 45) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")) return ClubCardCreatePopup("DISCARDPILE", "Opponent", TextGet("Close"), null, "ClubCardDestroyPopup()", null);
-	if (MouseIn(5, 505, 45, 45) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")) return ClubCardCreatePopup("DISCARDPILE", null, TextGet("Close"), null, "ClubCardDestroyPopup()", null);
+	if (MouseIn(5, 450, 45, 45)) return ClubCardCreatePopup("DISCARDPILE", "Opponent", TextGet("Close"), null, "ClubCardDestroyPopup()", null);
+	if (MouseIn(5, 505, 45, 45)) return ClubCardCreatePopup("DISCARDPILE", null, TextGet("Close"), null, "ClubCardDestroyPopup()", null);
 
 	// Sets the focus card if nothing else was clicked
 	if (ClubCardHover != null) return ClubCardFocus = { ...ClubCardHover };

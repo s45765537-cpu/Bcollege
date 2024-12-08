@@ -198,7 +198,7 @@ Text Veteran Nurse,+2 Fame per turn for each Asylum Patient present. Max 6
 Title Permanent Patient,Permanent Patient
 Text Permanent Patient,<F>Monday exam is quite similar to therapy Tuesday.
 Title Doctor,Doctor
-Text Doctor,+3 Fame per turn for each Asylum Patient present.
+Text Doctor,+3 Fame per turn for each Asylum Patient present. Max 12
 Title Picky Nurse,Picky Nurse
 Text Picky Nurse,Only enters if 2 Asylum Patient or more are present.  Leaves if there are less than 2 Asylum Patient.
 Title Amateur Rigger,Amateur Rigger
@@ -259,7 +259,7 @@ Text College Nerd,+1 Money per turn if Julia is present.  +1 Money per turn if Y
 Title College Hidden Genius,Hidden Genius
 Text College Hidden Genius,+5 Fame per turn if Mildred is present.
 Title Substitute Teacher,Substitute Teacher
-Text Substitute Teacher,+1 Fame per turn for each College Student present. Max 3
+Text Substitute Teacher,+1 Fame per turn for each College Student present. Max 4
 Title Julia,Julia
 Text Julia,<F>Seeing them learn and grow is magnifico.
 Title Yuki,Yuki
@@ -289,7 +289,7 @@ Text BDSM Ball,"+1 Fame for each member that's not Dominant, Liability, Maid or 
 Title Vampire Ball,Vampire Ball
 Text Vampire Ball,"+3 Fame for each member that's not Dominant, Liability, Maid or Staff."
 Title Straitjacket Saturday,Straitjacket Saturday
-Text Straitjacket Saturday,+4 Money for each Asylum Patient and Asylum Nurse.
+Text Straitjacket Saturday,Draw a random Ayslum Nurse. Gain 4 money for each Asylum Patient present.
 Title Charity Auction,Charity Auction
 Text Charity Auction,"Select and remove one member from your club, gain 1 Fame per building level."
 Prerequisite Charity Auction,Select a member from your club to remove for Fame.
