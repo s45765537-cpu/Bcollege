@@ -33,6 +33,7 @@ var PandoraPaint = false;
 var PandoraReverseMaidDone = 0;
 var PandoraReverseMaidTotal = 0;
 var PandoraPenitentiaryCreateTimer = 0;
+var PandoraPenitentiaryActivityTimer = 0;
 
 /**
  * NPC Dialog functions
@@ -1185,6 +1186,7 @@ function PandoraPenitentiaryCreate() {
 	ChatSearchLastQuerySearchTime = CommonTime();
 	ChatSearchResult = [];
 	PandoraPenitentiaryCreateTimer = CommonTime() + 10000;
+	PandoraPenitentiaryActivityTimer = CommonTime() + 60000 + Math.random() * 240000;
 	ServerSend("ChatRoomSearch", SearchData);
 
 }
@@ -1240,6 +1242,36 @@ function PandoraPenitentiaryResult(Result) {
 		
 	}
 	
+}
+
+/**
+ * Runs the pandora prison events
+ * @returns {void} - Nothing
+ */
+function PandoraPenitentiaryRun() {
+
+	// Exits right away if Pandora Penitentiary isn't active or not ready to run
+	if (!PandoraPenitentiaryActive(Player) || (CurrentScreen != "ChatRoom") || (PandoraPenitentiaryActivityTimer > CommonTime())) return;
+
+	// Picks a random activity to do on the player (TO DO: Add more activities)
+	let Activity = "Bondage";
+	let Level = SkillGetLevel(Player, "Infiltration");
+
+	// Puts the player in restraints, heavier restraints based on inflitration level
+	CharacterReleaseNoLock(Player);
+	if (Level <= 1) CharacterFullRandomRestrain(Player, "FEW");
+	else if (Level <= 4) CharacterFullRandomRestrain(Player);
+	else if (Level <= 7) CharacterFullRandomRestrain(Player, "LOT");
+	else CharacterFullRandomRestrain(Player, "ALL");
+	ChatRoomCharacterUpdate(Player);
+
+	// Publishes the activity to everyone in chat
+	const Dict = new DictionaryBuilder().sourceCharacter(Player).build();
+	ServerSend("ChatRoomChat", { Content: "PandoraActivity" + Activity, Type: "Action", Dictionary: Dict });
+
+	// Sets the next activity time
+	PandoraPenitentiaryActivityTimer = CommonTime() + 60000 + Math.random() * 240000;
+
 }
 
 /**
