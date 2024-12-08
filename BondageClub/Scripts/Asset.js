@@ -641,7 +641,7 @@ function AssetMapLayer(Layer, A, I) {
 
 /**
  *
- * @param {null | AssetPoseMapping} poseMapping
+ * @param {null | undefined | AssetPoseMapping} poseMapping
  * @param {AssetPoseMapping} superPoseMapping
  * @param {boolean} inheritFields
  * @param {boolean} skip
