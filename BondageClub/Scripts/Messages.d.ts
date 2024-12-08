@@ -207,7 +207,7 @@ type ServerAppearanceBundle = ServerItemBundle[];
 
 type ServerChatRoomSpace = "X" | "" | "M" | "Asylum";
 type ServerChatRoomLanguage = "EN" | "DE" | "FR" | "ES" | "CN" | "RU" | "UA";
-type ServerChatRoomGame = "" | "ClubCard" | "LARP" | "MagicBattle" | "GGTS";
+type ServerChatRoomGame = "" | "ClubCard" | "LARP" | "MagicBattle" | "GGTS" | "Prison";
 type ServerChatRoomBlockCategory =
 	/** Those are known as AssetCategory to the client */
 	"Medical" | "Extreme" | "Pony" | "SciFi" | "ABDL" | "Fantasy" |
