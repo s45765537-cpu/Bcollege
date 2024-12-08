@@ -2111,6 +2111,7 @@ function ChatRoomRun(time) {
 
 	// Handles online GGTS, bounty & customizations
 	AsylumGGTSProcess();
+	PandoraPenitentiaryRun();
 	ChatRoomUpdateOnlineBounty();
 	ChatRoomCustomizationRun();
 	ChatRoomMenuBuild();
