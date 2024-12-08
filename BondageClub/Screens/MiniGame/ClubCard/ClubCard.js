@@ -2299,7 +2299,7 @@ function ClubCardCheckDisconnected(disconnectedMemberNumber) {
 	const isPlayer2 = disconnectedMemberNumber == ClubCardPlayer[1].Character.MemberNumber;
 	
 	if (isPlayer1 && isPlayer2) {
-		const Msg = TextGet("OnlicePlayerDisconnected").replace("SOURCEPLAYER", CharacterNickname(ClubCardPlayer[1].Character));
+		const Msg = TextGet("OnlinePlayerDisconnected").replace("SOURCEPLAYER", CharacterNickname(ClubCardPlayer[1].Character));
 		ClubCardOneMessagePacketSend(Msg, ClubCardMessageType.PLAYERSDISCONNECTED);
 	}
 }
@@ -4309,10 +4309,10 @@ function ClubCardCreateOneDivContainer(MessageItem) {
 
 	if (MessageItem.MessageType == ClubCardMessageType.SYSTEM)
 		elementDiv.style.backgroundColor = systemMessageBackground;
-	else if (MessageItem.MessageType == ClubCardMessageType.PLAYERSMESSAGE)
-		elementDiv.style.backgroundColor = playerMessageBackground;
-	else
+	else if (MessageItem.MessageType == ClubCardMessageType.PLAYERSDISCONNECTED)
 		elementDiv.style.backgroundColor = playersDisconnectedBackground;
+	else
+		elementDiv.style.backgroundColor = playerMessageBackground;
 
 	document.getElementById("CCLog").appendChild(elementDiv);
 }

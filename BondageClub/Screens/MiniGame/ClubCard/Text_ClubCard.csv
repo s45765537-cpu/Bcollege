@@ -16,7 +16,7 @@ Concede,Concede the game
 StopWatch,Stop watching
 OnlineConcede,SOURCEPLAYER conceded and left the game.
 OnlineStopWatch,SOURCEPLAYER stopped watching and left the game.
-OnlicePlayerDisconnected,SOURCEPLAYER disconnected.
+OnlinePlayerDisconnected,SOURCEPLAYER has disconnected.
 Yes,Yes
 No,No
 DeckNumber,Deck #
