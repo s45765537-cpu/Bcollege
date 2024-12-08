@@ -47290,7 +47290,7 @@ var AssetFemale3DCG = [
 				Difficulty: 6,
 				Time: 8,
 				Top: 25,
-				DefaultColor: ["#222222", "#CCCCCC", "#EF870C", "#CCCCCC", "#EF870C", '#CCCCCC'],
+				DefaultColor: ["#222222", "#CCCCCC", "#EF870C", "#CCCCCC", "#F9EC0C", '#CCCCCC'],
 				AllowLock: true,
 				DrawLocks: false,
 				AllowTighten: true,
@@ -47499,6 +47499,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Quarters2",
 						AllowTypes: {p: 6, f: 0 },
+						CopyLayerColor: "Pumpkin2"
 					},
 					{
 						Name: "QuartersShiny2",
@@ -47508,6 +47509,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "QuartersShine2",
 						AllowTypes: {p: 6 },
+						CopyLayerColor: "PumpkinShine2"
 					},
 				],
 			},
