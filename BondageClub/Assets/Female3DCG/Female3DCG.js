@@ -47290,7 +47290,7 @@ var AssetFemale3DCG = [
 				Difficulty: 6,
 				Time: 8,
 				Top: 25,
-				DefaultColor: ["#222222", "#CCCCCC", "#EF870C", "#CCCCCC"],
+				DefaultColor: ["#222222", "#CCCCCC", "#EF870C", "#CCCCCC", "#EF870C", '#CCCCCC'],
 				AllowLock: true,
 				DrawLocks: false,
 				AllowTighten: true,
@@ -47343,6 +47343,19 @@ var AssetFemale3DCG = [
 						Name: "PumpkinShine",
 						AllowTypes: { p: 1 },
 					},
+					{
+						Name: "Pumpkin2",
+						AllowTypes: {p: 1, f: 0 },
+					},
+					{
+						Name: "PumpkinShiny2",
+						AllowTypes: {p: 1, f: 1 },
+						CopyLayerColor: "Pumpkin2"
+					},
+					{
+						Name: "PumpkinShine2",
+						AllowTypes: {p: 1 },
+					},
 					//Smiley
 					{
 						Name: "SmileyLines",
@@ -47358,6 +47371,21 @@ var AssetFemale3DCG = [
 						Name: "SmileyLinesShine",
 						AllowTypes: { p: 2 },
 						CopyLayerColor: "PumpkinShine",
+					},
+					{
+						Name: "SmileyLines2",
+						AllowTypes: {p: 2, f: 0 },
+						CopyLayerColor: "Pumpkin2",
+					},
+					{
+						Name: "SmileyLinesShiny2",
+						AllowTypes: {p: 2, f: 1 },
+						CopyLayerColor: "Pumpkin2"
+					},
+					{
+						Name: "SmileyLinesShine2",
+						AllowTypes: {p: 2 },
+						CopyLayerColor: "PumpkinShine2",
 					},
 					//SmileyFill
 					{
@@ -47375,6 +47403,21 @@ var AssetFemale3DCG = [
 						AllowTypes: { p: 3 },
 						CopyLayerColor: "PumpkinShine",
 					},
+					{
+						Name: "SmileyFill2",
+						AllowTypes: {p: 3, f: 0 },
+						CopyLayerColor: "Pumpkin2",
+					},
+					{
+						Name: "SmileyFillShiny2",
+						AllowTypes: {p: 3, f: 1 },
+						CopyLayerColor: "Pumpkin2"
+					},
+					{
+						Name: "SmileyFillShine2",
+						AllowTypes: {p: 3 },
+						CopyLayerColor: "PumpkinShine2",
+					},
 					//8 Ball
 					{
 						Name: "EightBall",
@@ -47390,6 +47433,81 @@ var AssetFemale3DCG = [
 						Name: "EightBallShine",
 						AllowTypes: { p: 4 },
 						CopyLayerColor: "PumpkinShine",
+					},
+					{
+						Name: "EightBall2",
+						AllowTypes: {p: 4, f: 0 },
+						CopyLayerColor: "Pumpkin2",
+					},
+					{
+						Name: "EightBallShiny2",
+						AllowTypes: {p: 4, f: 1 },
+						CopyLayerColor: "Pumpkin2"
+					},
+					{
+						Name: "EightBallShine2",
+						AllowTypes: {p: 4 },
+						CopyLayerColor: "PumpkinShine2",
+					},
+					//Tree
+					{
+						Name: "Tree",
+						AllowTypes: { p: 5, f: 0 },
+						CopyLayerColor: "Pumpkin",
+					},
+					{
+						Name: "TreeShiny",
+						AllowTypes: { p: 5, f: 1 },
+						CopyLayerColor: "Pumpkin",
+					},
+					{
+						Name: "TreeShine",
+						AllowTypes: { p: 5 },
+						CopyLayerColor: "PumpkinShine",
+					},
+					{
+						Name: "Tree2",
+						AllowTypes: {p: 5, f: 0 },
+						CopyLayerColor: "Pumpkin2",
+					},
+					{
+						Name: "TreeShiny2",
+						AllowTypes: {p: 5, f: 1 },
+						CopyLayerColor: "Pumpkin2",
+					},
+					{
+						Name: "TreeShine2",
+						AllowTypes: {p: 5 },
+						CopyLayerColor: "PumpkinShine2",
+					},
+					// Quarters
+					{
+						Name: "Quarters",
+						AllowTypes: { p: 6, f: 0 },
+						CopyLayerColor: "Pumpkin",
+					},
+					{
+						Name: "QuartersShiny",
+						AllowTypes: { p: 6, f: 1 },
+						CopyLayerColor: "Pumpkin",
+					},
+					{
+						Name: "QuartersShine",
+						AllowTypes: { p: 6 },
+						CopyLayerColor: "PumpkinShine",
+					},
+					{
+						Name: "Quarters2",
+						AllowTypes: {p: 6, f: 0 },
+					},
+					{
+						Name: "QuartersShiny2",
+						AllowTypes: {p: 6, f: 1 },
+						CopyLayerColor: "Pumpkin2"
+					},
+					{
+						Name: "QuartersShine2",
+						AllowTypes: {p: 6 },
 					},
 				],
 			},
