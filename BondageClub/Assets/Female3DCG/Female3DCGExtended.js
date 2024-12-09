@@ -17306,12 +17306,12 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "PatternRight",
 					Key: "r",
-					Options: [{}, {}, {}, {}, {}], // None, Pumpkin (underside only), Pumpkin, Smiley (underside only), Smiley
+					Options: [{}, {}, {}, {}, {}, {}, {}], // None, Pumpkin (underside only), Pumpkin, Smiley (underside only), Smiley, Split, Quarters
 				},
 				{
 					Name: "PatternLeft",
 					Key: "l",
-					Options: [{}, {}, {}, {}, {}], // None, Pumpkin (underside only), Pumpkin, Smiley (underside only), Smiley
+					Options: [{}, {}, {}, {}, {}, {}, {}], // None, Pumpkin (underside only), Pumpkin, Smiley (underside only), Smiley, Split, Quarters
 				},
 			],
 		}, //LatexBondageMitts

@@ -32578,6 +32578,56 @@ var AssetFemale3DCG = [
 						CopyLayerColor: "PumpkinShine",
 						CopyLayerPoseMapping: "BalloonPumpkinTop",
 					},
+					
+					{
+						Name: "Split",
+						AllowTypes: { r: 5, t: 0 },
+						CopyLayerColor: "Pumpkin",
+						CopyLayerPoseMapping: "WristBase",
+					},
+					{
+						Name: "SplitShine",
+						AllowTypes: { r: 5, t: 0 },
+						CopyLayerColor: "PumpkinShine",
+						CopyLayerPoseMapping: "WristBase",
+					},
+					{
+						Name: "BalloonSplit",
+						AllowTypes: { r: 5, t: [1, 2] },
+						CopyLayerColor: "Pumpkin",
+						CopyLayerPoseMapping: "WristBase",
+					},
+					{
+						Name: "BalloonSplitShine",
+						AllowTypes: { r: 5, t: [1, 2] },
+						CopyLayerColor: "PumpkinShine",
+						CopyLayerPoseMapping: "WristBase",
+					},
+
+					{
+						Name: "Quarters",
+						AllowTypes: { r: 6, t: 0 },
+						CopyLayerColor: "Pumpkin",
+						CopyLayerPoseMapping: "WristBase",
+					},
+					{
+						Name: "QuartersShine",
+						AllowTypes: { r: 6, t: 0 },
+						CopyLayerColor: "PumpkinShine",
+						CopyLayerPoseMapping: "WristBase",
+					},
+					{
+						Name: "BalloonQuarters",
+						AllowTypes: { r: 6, t: [1, 2] },
+						CopyLayerColor: "Pumpkin",
+						CopyLayerPoseMapping: "WristBase",
+					},
+					{
+						Name: "BalloonQuartersShine",
+						AllowTypes: { r: 6, t: [1, 2] },
+						CopyLayerColor: "PumpkinShine",
+						CopyLayerPoseMapping: "WristBase",
+					},
 					// LEFT HAND
 					{
 						Name: "WristBaseLeft",
@@ -32736,6 +32786,48 @@ var AssetFemale3DCG = [
 						CopyLayerColor: "PumpkinShineLeft",
 						CopyLayerPoseMapping: "BalloonPumpkinTopLeft",
 					},
+
+					{
+						Name: "SplitLeft",
+						AllowTypes: { l: 5, t: 0 },
+						CopyLayerColor: "PumpkinLeft",
+					},
+					{
+						Name: "SplitShineLeft",
+						AllowTypes: { l: 5, t: 0 },
+						CopyLayerColor: "PumpkinShineLeft",
+					},
+					{
+						Name: "BalloonSplitLeft",
+						AllowTypes: { l: 5, t: [1, 2] },
+						CopyLayerColor: "PumpkinLeft",
+					},
+					{
+						Name: "BalloonSplitShineLeft",
+						AllowTypes: { l: 5, t: [1, 2] },
+						CopyLayerColor: "PumpkinShineLeft",
+					},
+
+					{
+						Name: "QuartersLeft",
+						AllowTypes: { l: 6, t: 0 },
+						CopyLayerColor: "PumpkinLeft",
+					},
+					{
+						Name: "QuartersShineLeft",
+						AllowTypes: { l: 6, t: 0 },
+						CopyLayerColor: "PumpkinShineLeft",
+					},
+					{
+						Name: "BalloonQuartersLeft",
+						AllowTypes: { l: 6, t: [1, 2] },
+						CopyLayerColor: "PumpkinLeft",
+					},
+					{
+						Name: "BalloonQuartersShineLeft",
+						AllowTypes: { l: 6, t: [1, 2] },
+						CopyLayerColor: "PumpkinShineLeft",
+					},
 					// Can't believe I gotta' make a whole chain of layers just for the back cuffed hand
 					{
 						Name: "WristBaseCuff",
@@ -32861,6 +32953,56 @@ var AssetFemale3DCG = [
 						Priority: 34,
 						CopyLayerPoseMapping: "WristBaseCuff",
 					},
+					{
+						Name: "SplitCuff",
+						AllowTypes: { r: 5, t: 0 },
+						CopyLayerColor: "Pumpkin",
+						CopyLayerPoseMapping: "WristBaseCuff",
+					},
+
+					{
+						Name: "SplitShineCuff",
+						AllowTypes: { r: 5, t: 0 },
+						CopyLayerColor: "PumpkinShine",
+						CopyLayerPoseMapping: "WristBaseCuff",
+					},
+					{
+						Name: "BalloonSplitCuff",
+						AllowTypes: { r: 5, t: [1, 2] },
+						CopyLayerColor: "Pumpkin",
+						CopyLayerPoseMapping: "WristBaseCuff",
+					},
+					{
+						Name: "BalloonSplitShineCuff",
+						AllowTypes: { r: 5, t: [1, 2] },
+						CopyLayerColor: "PumpkinShine",
+						CopyLayerPoseMapping: "WristBaseCuff",
+					},
+
+					{
+						Name: "QuartersCuff",
+						AllowTypes: { r: 6, t: 0 },
+						CopyLayerColor: "Pumpkin",
+						CopyLayerPoseMapping: "WristBaseCuff",
+					},
+					{
+						Name: "QuartersShineCuff",
+						AllowTypes: { r: 6, t: 0 },
+						CopyLayerColor: "PumpkinShine",
+						CopyLayerPoseMapping: "WristBaseCuff",
+					},
+					{
+						Name: "BalloonQuartersCuff",
+						AllowTypes: { r: 6, t: [1, 2] },
+						CopyLayerColor: "Pumpkin",
+						CopyLayerPoseMapping: "WristBaseCuff",
+					},
+					{
+						Name: "BalloonQuartersShineCuff",
+						AllowTypes: { r: 6, t: [1, 2] },
+						CopyLayerColor: "PumpkinShine",
+						CopyLayerPoseMapping: "WristBaseCuff",
+					},					
 				],
 			},
 		],
