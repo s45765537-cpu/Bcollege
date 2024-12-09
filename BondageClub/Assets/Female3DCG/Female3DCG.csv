@@ -1351,6 +1351,7 @@ ItemNeckRestraints,CollarRopeMedium,Medium Rope
 ItemNeckRestraints,CollarRopeShort,Short Rope
 ItemNeckRestraints,PetPost,Pet Sign
 ItemNeckRestraints,Post,Hitching Post
+ItemNeckRestraints,Bedchain,Chain to Bed
 ItemNipples,,Nipples
 ItemNipples,BellClamps,Nipple Bell Clamps
 ItemNipples,ChainClamp,Chain Clamps
@@ -1680,6 +1681,7 @@ Socks,Stockings4,Fishnet Stockings
 Socks,VSocks1,Vinyl Socks
 Socks,YuletideVelvetWarmth,Yuletide Velvet Warmth
 Socks,LongFishnets,Long Fishnet Stockings
+Socks,RippedPantyhose,Customizable Pantyhose
 SocksLeft,,Left Leg
 SocksLeft,CowPrintedSocks,Cow Printed Socks
 SocksLeft,FootlessSocks1,Footless Socks

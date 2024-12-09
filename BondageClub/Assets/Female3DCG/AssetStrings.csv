@@ -5741,3 +5741,13 @@ ItemArmsBedMetalCuffsSelect,Select cuffs location.
 ItemArmsBedMetalCuffsSetLeft,SourceCharacter cuffs DestinationCharacter left arm to the bed.
 ItemArmsBedMetalCuffsSetRight,SourceCharacter cuffs DestinationCharacter right arm to the bed.
 ItemArmsBedMetalCuffsSetBoth,SourceCharacter cuffs DestinationCharacter both arms to the bed.
+SocksRippedPantyhoseRippedA,Ripped A
+SocksRippedPantyhoseRippedB,Ripped B
+SocksRippedPantyhoseRippedC,Ripped C
+SocksRippedPantyhoseNormal,Normal
+SocksRippedPantyhoseSelect,Choose the pantyhose type:
+SuitLowerRippedPantyhoseRippedA,Ripped A
+SuitLowerRippedPantyhoseRippedB,Ripped B
+SuitLowerRippedPantyhoseRippedC,Ripped C
+SuitLowerRippedPantyhoseNormal,Normal
+SuitLowerRippedPantyhoseSelect,Choose the pantyhose type:
