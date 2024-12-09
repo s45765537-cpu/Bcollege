@@ -2793,7 +2793,9 @@ class DialogMenu {
 		return this._shape;
 	}
 	set shape(value) {
-		if (value != null && !CommonArraysEqual(this._shape, value)) {
+		if (value == null) {
+			this._shape = null;
+		} else if (value != null && !CommonArraysEqual(this._shape, value)) {
 			this._shape = value;
 			this.Resize(false);
 		}
