@@ -1251,7 +1251,7 @@ const DialogEffectIcons = /** @type {const} */({
  * @returns {boolean} - Returns trues, if it is possible to put on new restraints.
  */
 function DialogAlwaysAllowRestraint() {
-	return (CurrentScreen == "Photographic");
+	return (CurrentScreen == "Photographic" || CurrentScreen == "Crafting");
 }
 
 /**
