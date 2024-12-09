@@ -391,10 +391,12 @@ function ChatRoomCharacterViewDrawOverlay(C, CharX, CharY, Zoom) {
 		ChatRoomDrawCharacterStatusIcons(C, CharX, CharY, Zoom);
 	}
 
+	// Draws the whisper bubble if we hover over a character
 	if (ChatRoomTargetMemberNumber == C.MemberNumber && ChatRoomHideIconState <= 1) {
 		DrawImage("Icons/Small/Whisper.png", CharX + 75 * Zoom, CharY + 950 * Zoom);
 	}
 
+	// Draws the move/swap buttons if there's a target to assign
 	if (ChatRoomCharacterViewMoveTarget !== null) {
 		const MoveTargetPos = ChatRoomCharacter.findIndex(c => c.MemberNumber === ChatRoomCharacterViewMoveTarget);
 		if (MoveTargetPos < 0) {
@@ -418,4 +420,10 @@ function ChatRoomCharacterViewDrawOverlay(C, CharX, CharY, Zoom) {
 			}
 		}
 	}
+
+	// Draws the prison timer for Pandora prisoners
+	if ((ChatRoomData.Game == "Prison") && PandoraPenitentiaryActive(C)) {
+		DrawText(TimerToString(C.Game.Prison.Timer - CurrentTime), CharX + 252 * Zoom, CharY + 922 * Zoom, "Red", "Black");
+	}
+
 }

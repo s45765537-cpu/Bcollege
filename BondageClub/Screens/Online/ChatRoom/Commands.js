@@ -679,6 +679,136 @@ const CommonCommands = [
 		Action: args => ChatRoomAdminChatAction("Unwhitelist", args),
 	},
 	{
+		Tag: 'focus',
+		Prerequisite: () => ServerPlayerIsInChatRoom(),
+		Action: (args) => {
+			const parts = args.split(' ');
+
+			const subcommand = parts.length > 0 ? parts[0].toLowerCase() : 'help';
+			if (/^(add|remove)$/.test(subcommand)) {
+				if (parts.length === 1) {
+					ChatRoomSendLocal(TextGet("CommandFocusNoTargets"), 30_000);
+					return;
+				}
+
+				/** @type {Character[]} */
+				const matchingCharacters = [];
+				parts.slice(1).forEach(targeter => { // For each targeter the user provided
+					const memberNumber = parseInt(targeter);
+					const targeterSanitized = ChatRoomHTMLEntities(targeter);
+
+					let targeterResult = ChatRoomCharacter.find(C => // Attempt to first find an exact match
+						!C.IsPlayer() &&
+						(
+							C.MemberNumber === memberNumber ||
+							C.Name.toLowerCase() === targeter.toLowerCase() ||
+							C.Nickname?.toLowerCase() === targeter.toLowerCase()
+						)
+					);
+					if (!targeterResult) { // If no exact match, attempt a partial match
+						const partialMatches = ChatRoomCharacter.filter(C =>
+							!C.IsPlayer() &&
+							(
+								C.Name.toLowerCase().includes(targeter.toLowerCase()) ||
+								C.Nickname?.toLowerCase().includes(targeter.toLowerCase())
+							)
+						);
+
+						if (partialMatches.length === 1) { // If only one partial match, use it
+							targeterResult = partialMatches[0];
+						} else if (partialMatches.length > 1) { // If multiple partial matches, inform the user
+							ChatRoomSendLocal(TextGet("CommandFocusTargeterAmbiguous").replace("Targeter", targeterSanitized), 5_000);
+							return;
+						}
+					}
+
+					if (targeterResult) {
+						if (matchingCharacters.includes(targeterResult)) { // If the targeter is already in the list, don't add it again
+							ChatRoomSendLocal(TextGet("CommandFocusTargeterDuplicate").replace("Targeter", targeterSanitized), 5_000);
+						} else {
+							matchingCharacters.push(targeterResult);
+						}
+					} else {
+						ChatRoomSendLocal(TextGet("CommandFocusTargeterNoMatch").replace("Targeter", targeterSanitized), 5_000);
+					}
+				});
+
+				if (matchingCharacters.length === 0) {
+					ChatRoomSendLocal(TextGet("CommandFocusNoTargets"), 10_000);
+					return;
+				}
+
+				/** @type {Character[]} */
+				let changed;
+				if (subcommand === 'add') {
+					changed = ChatRoomDrawFocusListAdd(matchingCharacters);
+				} else if (subcommand === 'remove') {
+					changed = ChatRoomDrawFocusListRemove(matchingCharacters);
+				} else { // Shouldn't happen, but sanity check
+					return;
+				}
+				ChatRoomSendLocal(
+					TextGet(`CommandFocusSuccess${subcommand.charAt(0).toUpperCase()}${subcommand.slice(1)}`)
+						.replace("Changed", changed.map(C => `${CharacterNickname(C)} (${C.MemberNumber})`).join(", ")),
+					10_000
+				);
+			} else if (/^(list|clear)$/.test(subcommand) && parts.length === 1) {
+				if (subcommand === 'list') {
+					ChatRoomSendLocal(TextGet("CommandFocusList") + "<br>" + ChatRoomDrawFocusList.map(C => `${CharacterNickname(C)} (${C.MemberNumber})`).join("<br>"), 30_000);
+				} else if (subcommand === 'clear') {
+					ChatRoomDrawFocusListClear();
+					ChatRoomSendLocal(TextGet("CommandFocusSuccessClear"), 10_000);
+				}
+			} else { // If the subcommand is not recognized (also handles the "help" subcommand implicitly)
+				ChatRoomSendLocal(
+					`<code>${TextGet("CommandFocusHelpSyntax")}</code>` +
+					"<br><br>" +
+					TextGet("CommandFocusHelpSummary").replaceAll("FocusEnabledWarningIcon", TextGet("FocusEnabledWarningIcon")) +
+					"<br><br>" +
+					TextGet("CommandFocusHelpNotesHeader") +
+					"<br><ul>" +
+					TextGet("CommandFocusHelpNotes") +
+					"</ul><br>" +
+					TextGet("CommandFocusHelpSubcommandsHeader") +
+					"<br><ul>" +
+					`<li><code>add [targeter(s)]</code>: ${TextGet("CommandFocusHelpAdd")}</li>` +
+					`<li><code>remove [targeter(s)]</code>: ${TextGet("CommandFocusHelpRemove")}</li>` +
+					`<li><code>list</code>: ${TextGet("CommandFocusHelpList")}</li>` +
+					`<li><code>clear</code>: ${TextGet("CommandFocusHelpClear")}</li>` +
+					`<li><code>help</code>: ${TextGet("CommandFocusHelpHelp")}</li>` +
+					"</ul><br>" +
+					TextGet("CommandFocusHelpTargeters"),
+					120_000
+				);
+			}
+		}
+	},
+	{
+		Tag: 'focusadd',
+		Prerequisite: () => ServerPlayerIsInChatRoom(),
+		Action: (args) => CommandExecute("/focus add " + args),
+	},
+	{
+		Tag: 'focusremove',
+		Prerequisite: () => ServerPlayerIsInChatRoom(),
+		Action: (args) => CommandExecute("/focus remove " + args),
+	},
+	{
+		Tag: 'focuslist',
+		Prerequisite: () => ServerPlayerIsInChatRoom(),
+		Action: () => CommandExecute("/focus list"),
+	},
+	{
+		Tag: 'focusclear',
+		Prerequisite: () => ServerPlayerIsInChatRoom(),
+		Action: () => CommandExecute("/focus clear"),
+	},
+	{
+		Tag: 'focushelp',
+		Prerequisite: () => ServerPlayerIsInChatRoom(),
+		Action: () => CommandExecute("/focus help"),
+	},
+	{
 		Tag: 'me',
 		Action: (_, msg) => {
 			ChatRoomSendEmote(msg);

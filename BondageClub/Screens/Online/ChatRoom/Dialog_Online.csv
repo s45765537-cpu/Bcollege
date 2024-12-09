@@ -93,6 +93,8 @@ ReleaseLoverConfirm,0,"(Cancel)",(Main menu),,
 40,,,(Possible character actions.),,
 40,0,(Whisper to DialogCharacterObject.),,StartWhisper(),CanStartWhisper()
 40,0,(Stop whispering to DialogCharacterObject.),,StopWhisper(),CanStopWhisper()
+40,,(Add to focuslist.),(This member was added to your focus list. You will only be able to visually see DialogCharacterObject and others on your focus list in the room. See /focus for more details.),"ListManage(""Add"", ""DrawFocusList"")",!CurrentCharacterInDrawFocusList()
+40,,(Remove from focuslist.),(This member was removed from your focus list. See /focus for more details.),"ListManage(""Remove"", ""DrawFocusList"")",CurrentCharacterInDrawFocusList()
 40,,(Hold on to DialogCharacterPossessive leash.),,HoldLeash(),CanHoldLeash()
 40,,(Let go of DialogCharacterPossessive leash.),,StopHoldLeash(),CanStopHoldLeash()
 40,0,(Help DialogCharacterObject stand.),(You help DialogCharacterObject up on DialogCharacterPossessive feet.),KneelStandAssist(),CanAssistStand()
