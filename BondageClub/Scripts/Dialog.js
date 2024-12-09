@@ -2964,7 +2964,21 @@ class DialogMenu {
 
 		// Perform the element resizing here asynchronically in order to circumvent a race condition with the scroll bar reallignment
 		DialogMenuButtonBuild(this.C);
-		this.Reload(null, null, { reset: true }).then(() => ElementPositionFixed(this.ids.root, ...this.shape));
+		this.Reload(null, null, { reset: true, resetScrollbar: false }).then((status) => {
+			// Double check that `Exit` has not been called while `Reload` is still running asynchronously
+			const shape = this.shape;
+			if (status && shape) {
+				ElementPositionFixed(this.ids.root, ...shape);
+
+				const buttonGrid = this.ids.grid ? document.getElementById(this.ids.grid) : null;
+				const checkedButton = buttonGrid?.querySelector(`.dialog-grid-button[aria-checked='true']`);
+				if (checkedButton) {
+					checkedButton.scrollIntoView();
+				} else {
+					buttonGrid?.scrollTo({ top: 0 });
+				}
+			}
+		});
 	}
 
 	/**
