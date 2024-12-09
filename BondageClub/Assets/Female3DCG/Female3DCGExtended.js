@@ -8170,7 +8170,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Pattern",
 					Key: "p",
-					Options: [{}, {}, {}, {}, {}], //None, Pumpkin, Smiley Lines, Smiley Fill, 8Ball
+					Options: [{}, {}, {}, {}, {}, {}, {},], //None, Pumpkin, Smiley Lines, Smiley Fill, 8Ball, Tree, Quarters
 				},
 				{
 					Name: "Cover",

@@ -281,7 +281,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		CustomBlindBackground: typeof AssetDef.CustomBlindBackground === 'string' ? AssetDef.CustomBlindBackground : undefined,
 		Attribute: AssetDef.Attribute || [],
 		PreviewIcons: AssetDef.PreviewIcons || [],
-		PoseMapping: AssetDef.PoseMapping || Group.PoseMapping,
+		PoseMapping: AssetParsePoseMapping(AssetDef.PoseMapping, Group.PoseMapping, AssetDef.InheritPoseMappingFields),
 		Tint: Array.isArray(AssetDef.Tint) ? AssetDef.Tint : [],
 		AllowTint: Array.isArray(AssetDef.Tint) && AssetDef.Tint.length > 0,
 		DefaultTint: typeof AssetDef.DefaultTint === "string" ? AssetDef.DefaultTint : undefined,
@@ -305,6 +305,23 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		layers.push({ Name: "Lock", LockLayer: true, AllowColorize: false, ParentGroup: null });
 	}
 	A.Layer = layers.map((Layer, I) => AssetMapLayer(Layer, A, I));
+	A.Layer.forEach((layer, i) => {
+		// Now that most layer pose mappings are initialized, handle all `Layer.CopyLayerPoseMapping` cases
+		if (layer.PoseMapping) {
+			return;
+		}
+
+		const layerDef = layers[i];
+		const copiedLayer = A.Layer.find(l => l.Name === layerDef.CopyLayerPoseMapping);
+		if (copiedLayer) {
+			if (!copiedLayer.PoseMapping) {
+				throw new Error(`${A.Group.Name}:${A.Name}:${layer.Name}: Trying to copy a null-valued pose mapping from layer "${copiedLayer.Name}"`);
+			}
+			/** @type {Mutable<AssetLayer>} */(layer).PoseMapping = AssetParsePoseMapping(
+				layerDef.PoseMapping, copiedLayer.PoseMapping, layerDef.InheritPoseMappingFields,
+			);
+		}
+	});
 
 	AssetAssignColorIndices(A);
 	A.DefaultColor = AssetParseDefaultColor(A.ColorableLayerCount, Group.DefaultColor, AssetDef.DefaultColor);
@@ -614,12 +631,31 @@ function AssetMapLayer(Layer, A, I) {
 		LockLayer: typeof Layer.LockLayer === "boolean" ? Layer.LockLayer : false,
 		MirrorExpression: Layer.MirrorExpression,
 		ColorIndex: 0,
-		PoseMapping: Layer.PoseMapping || A.PoseMapping,
+		PoseMapping: AssetParsePoseMapping(Layer.PoseMapping, A.PoseMapping, Layer.InheritPoseMappingFields, Layer.CopyLayerPoseMapping != null),
 		HideForAttribute: Array.isArray(Layer.HideForAttribute) ? Layer.HideForAttribute : null,
 		ShowForAttribute: Array.isArray(Layer.ShowForAttribute) ? Layer.ShowForAttribute : null,
 		ColorSuffix: Layer.ColorSuffix || A.ColorSuffix,
 	};
 	return L;
+}
+
+/**
+ *
+ * @param {null | undefined | AssetPoseMapping} poseMapping
+ * @param {AssetPoseMapping} superPoseMapping
+ * @param {boolean} inheritFields
+ * @param {boolean} skip
+ * @returns {null | AssetPoseMapping}
+ */
+function AssetParsePoseMapping(poseMapping, superPoseMapping, inheritFields=false, skip=false) {
+	if (skip) {
+		return null;
+	}
+	if (inheritFields) {
+		return { ...superPoseMapping, ...(poseMapping ?? {}) };
+	} else {
+		return poseMapping ?? { ...superPoseMapping };
+	}
 }
 
 /**
