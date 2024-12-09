@@ -8882,40 +8882,76 @@ var AssetFemale3DCG = [
 					{
 						Name: "BaseUpper",
 						AllowTypes: {typed : 3},
+						PoseMapping: {
+							...AssetPoseMapping.Socks,
+							Hogtied: PoseType.HIDE,
+						},						
 					},
 					{
 						Name: "AUpper",
 						CopyLayerColor: "BaseUpper",
 						AllowTypes: {typed : 0},
+						PoseMapping: {
+							...AssetPoseMapping.Socks,
+							Hogtied: PoseType.HIDE,
+						},						
 					},
 					{
 						Name: "BUpper",
 						CopyLayerColor: "BaseUpper",
 						AllowTypes: {typed : 1},
+						PoseMapping: {
+							...AssetPoseMapping.Socks,
+							Hogtied: PoseType.HIDE,
+						},						
 					},
 					{
 						Name: "CUpper",
 						CopyLayerColor: "BaseUpper",
 						AllowTypes: {typed : 2},
+						PoseMapping: {
+							...AssetPoseMapping.Socks,
+							Hogtied: PoseType.HIDE,
+						},						
 					},
 					{
 						Name: "BaseLower",
 						AllowTypes: {typed : 3},
+						PoseMapping: {
+							...AssetPoseMapping.Socks,
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+						},
 					},
 					{
 						Name: "ALower",
 						CopyLayerColor: "BaseLower",
 						AllowTypes: {typed : 0},
+						PoseMapping: {
+							...AssetPoseMapping.Socks,
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+						},						
 					},
 					{
 						Name: "BLower",
 						CopyLayerColor: "BaseLower",
 						AllowTypes: {typed : 1},
+						PoseMapping: {
+							...AssetPoseMapping.Socks,
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+						},						
 					},
 					{
 						Name: "CLower",
 						CopyLayerColor: "BaseLower",
 						AllowTypes: {typed : 2},
+						PoseMapping: {
+							...AssetPoseMapping.Socks,
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+						},						
 					}
 				]
 			},
