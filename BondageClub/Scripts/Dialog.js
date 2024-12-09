@@ -796,7 +796,7 @@ function DialogLeave() {
 	// Reset the character's height
 	if (CurrentCharacter && CharacterAppearanceForceUpCharacter == CurrentCharacter.MemberNumber) {
 		CharacterAppearanceForceUpCharacter = -1;
-		CharacterRefresh(CurrentCharacter, false);
+		CharacterRefresh(CurrentCharacter, false, false);
 	}
 
 	// Reset the mode, selected group & character, exiting the dialog
@@ -1903,7 +1903,7 @@ function DialogMenuButtonClick() {
 				// Check that this is not one of the sticky-locked items
 				const isNotStickyLock = InventoryItemHasEffect(Item, "Lock", true) && !InventoryItemHasEffect(Item, "Lock", false);
 				if (C.FocusGroup.IsItem() && isNotStickyLock && (!C.IsPlayer() || C.CanInteract())) {
-					InventoryUnlock(C, C.FocusGroup.Name);
+					InventoryUnlock(C, C.FocusGroup.Name, false);
 					if (ChatRoomPublishAction(C, "ActionUnlock", Item, null)) {
 						DialogLeave();
 					} else {
