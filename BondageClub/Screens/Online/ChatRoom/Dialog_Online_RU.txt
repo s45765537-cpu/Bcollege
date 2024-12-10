@@ -172,8 +172,8 @@
 ###_PLAYER
 (Yes, I want to permanently break the ownership!)
 (Да, я хочу навсегда разорвать право собственности!)
-(Tell DialogCharacterObject you want to break up).
-(Скажите DialogCharacterObject, что хотите расстаться).
+(Tell DialogCharacterObject you want to break up.)
+(Скажите DialogCharacterObject, что хотите расстаться.)
 ###_NPC
 (You can give more access to your items by putting DialogCharacterObject on your whitelist, or less control by putting DialogCharacterObject on your blacklist.)
 (Вы можете предоставить больше доступа к своим элементам, поместив DialogCharacterObject в свой белый список, или уменьшить контроль, поместив DialogCharacterObject в свой черный список.)

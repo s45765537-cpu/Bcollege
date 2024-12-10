@@ -166,8 +166,8 @@
 (Are you sure you want to release DialogCharacterObject? THIS ACTION IS NOT REVERSIBLE!)
 (你确定要释放DialogCharacterObject吗？此操作无法撤销！)
 ###_PLAYER
-(Tell DialogCharacterObject you want to break up).
-(告诉DialogCharacterObject你想要分手).
+(Tell DialogCharacterObject you want to break up.)
+(告诉DialogCharacterObject你想要分手.)
 ###_NPC
 (Are you sure you want to break up with DialogCharacterObject? THIS ACTION IS NOT REVERSIBLE!)
 (你确定想要和DialogCharacterObject分手？此操作无法撤销！)

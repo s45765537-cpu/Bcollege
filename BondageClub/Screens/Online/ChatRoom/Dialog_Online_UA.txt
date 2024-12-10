@@ -166,8 +166,8 @@
 (Are you sure you want to release DialogCharacterObject? THIS ACTION IS NOT REVERSIBLE!)
 (Are you sure you want to release DialogCharacterObject? THIS ACTION IS NOT REVERSIBLE!)
 ###_PLAYER
-(Tell DialogCharacterObject you want to break up).
-(Tell DialogCharacterObject you want to break up).
+(Tell DialogCharacterObject you want to break up.)
+(Tell DialogCharacterObject you want to break up.)
 ###_NPC
 (Are you sure you want to break up with DialogCharacterObject? THIS ACTION IS NOT REVERSIBLE!)
 (Are you sure you want to break up with DialogCharacterObject? THIS ACTION IS NOT REVERSIBLE!)
