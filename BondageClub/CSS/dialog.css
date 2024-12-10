@@ -1,17 +1,35 @@
 .dialog-root {
-	--button-height: calc(min(25dvh, 12.5dvw) - 3px);
+	--button-height: calc(min(25dvh, 12.5dvw) - 2px);
 	--button-width: min(20dvh, 10dvw);
 	--gap: min(2dvh, 1dvw);
 
 	display: grid;
 	gap: var(--gap);
 	grid-template:
-		"dialog-status" min-content
-		"dialog-grid" auto / auto;
+		". dialog-status" min-content
+		"dialog-paginate dialog-grid" auto / min(9dvh, 4.5dvw) auto;
 }
 
 .dialog-root[data-unload] {
 	display: none;
+}
+
+.dialog-paginate {
+	grid-area: dialog-paginate;
+	align-self: end;
+	display: grid;
+	gap: var(--gap);
+	grid-template-rows: repeat(2, min-content);
+	padding-bottom: 3px;
+}
+
+.dialog-paginate-button {
+	height: min(9dvh, 4.5dvw);
+	width: min(9dvh, 4.5dvw);
+}
+
+.dialog-paginate-button > .button-tooltip {
+	--tooltip-gap: var(--gap);
 }
 
 .dialog-icon {
@@ -55,6 +73,8 @@
 	padding: 3px;
 	overflow: hidden auto;
 	grid-area: dialog-grid;
+	scroll-snap-type: y proximity;
+	scroll-padding: 3px;
 }
 
 .dialog-root[data-show-icon] {
@@ -70,6 +90,7 @@
 }
 
 .dialog-grid-button {
+	scroll-snap-align: start;
 	height: var(--button-height);
 	width: var(--button-width);
 }
