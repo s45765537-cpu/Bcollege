@@ -2750,7 +2750,7 @@ class DialogMenu {
 	 * An object containg all DOM element IDs referenced in the {@link DialogMenu} subclass.
 	 * @abstract
 	 * @readonly
-	 * @type {Readonly<Record<string, string> & { root: string, status?: string, grid?: string, icon?: string }>}
+	 * @type {Readonly<Record<string, string> & { root: string, status?: string, grid?: string, paginate?: string, icon?: string }>}
 	 */
 	ids;
 
@@ -2810,7 +2810,7 @@ class DialogMenu {
 	 * @readonly
 	 * @satisfies {Readonly<RectTuple>}
 	 */
-	defaultShape = Object.freeze(/** @type {const} */([1115, 120, 885, 855]));
+	defaultShape = Object.freeze(/** @type {const} */([1005, 120, 995, 857]));
 
 	/**
 	 * See {@link DialogMenu.C}
@@ -2924,6 +2924,22 @@ class DialogMenu {
 					return null;
 				}
 			},
+
+			/**
+			 * See {@link DialogMenu.KeyDown}
+			 * @type {(this: HTMLButtonElement, ev: MouseEvent) => void}
+			 */
+			_ClickPaginatePrev: function(event) {
+				document.getElementById("MainCanvas")?.dispatchEvent(new KeyboardEvent("keydown", { key: "PageUp" }))
+			},
+
+			/**
+			 * See {@link DialogMenu.KeyDown}
+			 * @type {(this: HTMLButtonElement, ev: MouseEvent) => void}
+			 */
+			_ClickPaginateNext: function(event) {
+				document.getElementById("MainCanvas")?.dispatchEvent(new KeyboardEvent("keydown", { key: "PageDown" }))
+			},
 		};
 	}
 
@@ -3029,12 +3045,6 @@ class DialogMenu {
 			return false;
 		}
 
-		/** @type {(el: Element) => boolean} */
-		const isInView = (el) => {
-			const rect = el.getBoundingClientRect();
-			return rect.top >= 0 && rect.bottom <= grid.clientHeight;
-		}
-
 		const sign = (event.key === "PageUp" || event.key === "ArrowUp") ? -1 : 1;
 		switch (event.key) {
 			case "Home":
@@ -3045,38 +3055,12 @@ class DialogMenu {
 				return true;
 			case "PageUp":
 			case "PageDown":
-				// Find the first element scrolled into view, and then scroll down by 3, 2 or 1 row(s)
-				/** @type {null | Element} */
-				let element = null;
-				const itemsPerRow = 4;
-				for (const [i, el] of Array.from(grid.children).entries()) {
-					if ((i % itemsPerRow) !== 0 || !isInView(el)) {
-						continue;
-					}
-					for (const j of [3, 2, 1]) {
-						element = grid.children[i + sign * j * itemsPerRow];
-						if (element) {
-							break;
-						}
-					}
-					break;
-				}
-				element?.scrollIntoView();
+				grid.scrollTop = CommonClamp(grid.scrollTop + sign * grid.clientHeight, 0, grid.scrollHeight);
 				return true;
 			case "ArrowUp":
 			case "ArrowDown": {
-				// Find the first element scrolled into view, and then scroll down by 1 row
-				/** @type {null | Element} */
-				let element = null;
-				const itemsPerRow = 4;
-				for (const [i, el] of Array.from(grid.children).entries()) {
-					if ((i % itemsPerRow) !== 0 || !isInView(el)) {
-						continue;
-					}
-					element = grid.children[i + sign * itemsPerRow];
-					break;
-				}
-				element?.scrollIntoView();
+				const increment = grid.querySelector(".dialog-button")?.clientHeight ?? grid.clientHeight / 3;
+				grid.scrollTop = CommonClamp(grid.scrollTop + sign * increment, 0, grid.scrollHeight);
 				return true;
 			}
 			default:
@@ -3210,6 +3194,48 @@ class DialogMenu {
 	_ClickButton(button, C, clickedObj, equippedItem) {
 		throw new Error("Trying to all an abstract method");
 	}
+
+	/**
+	 * @param {string} id
+	 * @returns {HTMLOptions<"div">}
+	 */
+	_ConstructPaginateButtons(id) {
+		return {
+			tag: "div",
+			classList: ["dialog-paginate"],
+			attributes: { id },
+			children: [
+				ElementButton.Create(
+					`${id}-prev`,
+					this.eventListeners._ClickPaginatePrev,
+					{ image: "./Icons/Up.png", tooltip: InterfaceTextGet("PrevPage"), tooltipPosition: "left" },
+					{ button: {
+						classList: ["dialog-paginate-button"],
+						attributes: {
+							"aria-keyshortcuts": "PageUp",
+							"aria-labelledby": `${id}-prev-tooltip`,
+							"aria-describedby": undefined,
+							"aria-controls": this.ids.root,
+						},
+					}},
+				),
+				ElementButton.Create(
+					`${id}-next`,
+					this.eventListeners._ClickPaginateNext,
+					{ image: "./Icons/Down.png", tooltip: InterfaceTextGet("NextPage"), tooltipPosition: "left" },
+					{ button: {
+						classList: ["dialog-paginate-button"],
+						attributes: {
+							"aria-keyshortcuts": "PageDown",
+							"aria-labelledby": `${id}-next-tooltip`,
+							"aria-describedby": undefined,
+							"aria-controls": this.ids.root,
+						}
+					}},
+				),
+			],
+		};
+	}
 }
 
 /**
@@ -3222,6 +3248,7 @@ class _DialogItemMenu extends DialogMenu {
 		status: "dialog-inventory-status",
 		grid: "dialog-inventory-grid",
 		icon: "dialog-inventory-icon",
+		paginate: "dialog-inventory-paginate",
 	});
 
 	/** @satisfies {DialogMenu<T, DialogInventoryItem>["clickStatusCallbacks"]} */
@@ -3292,6 +3319,7 @@ class _DialogItemMenu extends DialogMenu {
 					attributes: { id: ids.status, "aria-hidden": "true" },
 					classList: ["dialog-status"],
 				},
+				this._ConstructPaginateButtons(this.ids.paginate),
 				{
 					tag: "div",
 					attributes: { id: ids.grid, "aria-labelledby": ids.status },
@@ -3440,6 +3468,7 @@ class _DialogLockingMenu extends DialogMenu {
 		root: "dialog-locking",
 		status: "dialog-locking-status",
 		grid: "dialog-locking-grid",
+		paginate: "dialog-locking-paginate",
 	});
 
 	/** @satisfies {DialogMenu<T, DialogInventoryItem>["clickStatusCallbacks"]} */
@@ -3465,6 +3494,7 @@ class _DialogLockingMenu extends DialogMenu {
 					attributes: { id: ids.status, "aria-hidden": "true" },
 					classList: ["dialog-status"],
 				},
+				this._ConstructPaginateButtons(this.ids.paginate),
 				{
 					tag: "div",
 					attributes: { id: ids.grid, "aria-labelledby": ids.status },
@@ -3543,6 +3573,7 @@ class _DialogPermissionMenu extends DialogMenu {
 		root: "dialog-permission",
 		status: "dialog-permission-status",
 		grid: "dialog-permission-grid",
+		paginate: "dialog-permission-paginate",
 	});
 
 	/** @type {DialogMenu<T, DialogInventoryItem>["clickStatusCallbacks"]} */
@@ -3562,6 +3593,7 @@ class _DialogPermissionMenu extends DialogMenu {
 					attributes: { id: ids.status, "aria-hidden": "true" },
 					classList: ["dialog-status"],
 				},
+				this._ConstructPaginateButtons(this.ids.paginate),
 				{
 					tag: "div",
 					attributes: { id: ids.grid, "aria-labelledby": ids.status },
@@ -3637,6 +3669,7 @@ class _DialogActivitiesMenu extends DialogMenu {
 		root: "dialog-activity",
 		status: "dialog-activity-status",
 		grid: "dialog-activity-grid",
+		paginate: "dialog-activity-paginate",
 	});
 
 	/** @type {DialogMenu<T, ItemActivity>["clickStatusCallbacks"]} */
@@ -3652,6 +3685,7 @@ class _DialogActivitiesMenu extends DialogMenu {
 					attributes: { id: ids.status, "aria-hidden": "true" },
 					classList: ["dialog-status"],
 				},
+				this._ConstructPaginateButtons(this.ids.paginate),
 				{
 					tag: "div",
 					attributes: { id: ids.grid, "aria-labelledby": ids.status },
