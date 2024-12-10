@@ -1251,7 +1251,7 @@ const DialogEffectIcons = /** @type {const} */({
  * @returns {boolean} - Returns trues, if it is possible to put on new restraints.
  */
 function DialogAlwaysAllowRestraint() {
-	return (CurrentScreen == "Photographic");
+	return (CurrentScreen == "Photographic" || CurrentScreen == "Crafting");
 }
 
 /**
@@ -1298,9 +1298,11 @@ function DialogCanUseRemoteState(C, Item) {
  * @returns {boolean} - TRUE if the player is able to color the item, FALSE otherwise
  */
 function DialogCanColor(C, Item) {
-	const ItemColorable = Item && Item.Asset && Item.Asset.ColorableLayerCount > 0;
-	const CanUnlock = InventoryItemHasEffect(Item, "Lock", true) ? DialogCanUnlock(C, Item) : true;
-	return (Player.CanInteract() && CanUnlock && ItemColorable) || DialogAlwaysAllowRestraint();
+	if (!Item || Item.Asset.ColorableLayerCount === 0) {
+		return false;
+	}
+	const canColor = InventoryItemHasEffect(Item, "Lock", true) ? DialogCanUnlock(C, Item) : Player.CanInteract();
+	return canColor || DialogAlwaysAllowRestraint();
 }
 
 /**
