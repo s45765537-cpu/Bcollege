@@ -180,7 +180,19 @@ NotificationTitleTest,Test Notification
 OpacityLabel,Change Opacity
 OptionNeedsToBeBought,Option needs to be bought
 Page,Page
-PandoraActivityBondage,A guard puts SourceCharacter in new restraints.
+PandoraActivityBondage,A Pandora guard puts SourceCharacter in new restraints.
+PandoraActivitySpank,A Pandora guard spanks SourceCharacter butt many times.
+PandoraActivityHose,A Pandora guard hoses SourceCharacter with cold water.
+PandoraActivityGag,A Pandora guard gags SourceCharacter.
+PandoraActivityUngag,A Pandora guard removes the gag from SourceCharacter.
+PandoraActivityHogtie,A Pandora guard chains and hogties SourceCharacter.
+PandoraActivityShibari,A Pandora guard puts SourceCharacter in shibari bondage.
+PandoraActivityNaked,A Pandora guard strips SourceCharacter and confiscates the clothes for a while.
+PandoraActivityLock,A Pandora guard adds locks on SourceCharacter restraints.
+PandoraActivityChastity,A Pandora guard locks a chastity device on SourceCharacter.
+PandoraActivityUnchaste,A Pandora guard removes the chastity device from SourceCharacter.
+PandoraActivityUnlock,A Pandora guard unlocks some restraints on SourceCharacter.
+PandoraActivityRelease,A Pandora guard removes some restraints on SourceCharacter.
 Picking,Picking the lock...
 PoseMenu,Pose
 PrerequisiteAddItemsToUse,Must have an arm/torso/pelvis item to use ceiling tethers.

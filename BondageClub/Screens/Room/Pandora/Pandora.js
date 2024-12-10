@@ -1253,24 +1253,153 @@ function PandoraPenitentiaryRun() {
 	// Exits right away if Pandora Penitentiary isn't active or not ready to run
 	if (!PandoraPenitentiaryActive(Player) || (CurrentScreen != "ChatRoom") || (PandoraPenitentiaryActivityTimer > CommonTime())) return;
 
-	// Picks a random activity to do on the player (TO DO: Add more activities)
-	let Activity = "Bondage";
-	let Level = SkillGetLevel(Player, "Infiltration");
-
-	// Puts the player in restraints, heavier restraints based on inflitration level
-	CharacterReleaseNoLock(Player);
-	if (Level <= 1) CharacterFullRandomRestrain(Player, "FEW");
-	else if (Level <= 4) CharacterFullRandomRestrain(Player);
-	else if (Level <= 7) CharacterFullRandomRestrain(Player, "LOT");
-	else CharacterFullRandomRestrain(Player, "ALL");
-	ChatRoomCharacterUpdate(Player);
-
-	// Publishes the activity to everyone in chat
-	const Dict = new DictionaryBuilder().sourceCharacter(Player).build();
-	ServerSend("ChatRoomChat", { Content: "PandoraActivity" + Activity, Type: "Action", Dictionary: Dict });
-
 	// Sets the next activity time
 	PandoraPenitentiaryActivityTimer = CommonTime() + 60000 + Math.random() * 240000;
+
+	// No activity is feasible if the player is enclosed, we skip
+	if (Player.IsEnclose()) return;
+
+	// Picks a random activity to do on the player
+	let ActivityList = ["Bondage", "Spank", "Hose"];
+	let Level = SkillGetLevel(Player, "Infiltration");
+	
+	// Adds more possible activities to the random pool
+	ActivityList.push(Player.IsGagged() ? "Ungag" : "Gag");
+	if ((Player.PoseMapping.BodyFull !== "Hogtied") && (Level >= 3) && !InventoryOwnerOnlyItem(InventoryGet(Player, "ItemArms")) && !InventoryLoverOnlyItem(InventoryGet(Player, "ItemArms")) && !InventoryFamilyOnlyItem(InventoryGet(Player, "ItemArms"))) ActivityList.push("Hogtie");
+	if (!InventoryIsWorn(Player, "HempRope", "ItemArms") && !InventoryOwnerOnlyItem(InventoryGet(Player, "ItemArms")) && !InventoryLoverOnlyItem(InventoryGet(Player, "ItemArms")) && !InventoryFamilyOnlyItem(InventoryGet(Player, "ItemArms"))) ActivityList.push("Shibari");
+	if (!Player.IsNaked()) ActivityList.push("Naked");
+	if (!Player.IsVulvaChaste()) ActivityList.push("Chastity");
+	if (Player.IsVulvaChaste() && !InventoryOwnerOnlyItem(InventoryGet(Player, "ItemPelvis")) && !InventoryLoverOnlyItem(InventoryGet(Player, "ItemPelvis")) && !InventoryFamilyOnlyItem(InventoryGet(Player, "ItemPelvis"))) ActivityList.push("Unchaste");
+	if (InventoryHasLockableItems(Player)) ActivityList.push("Lock");
+	if (InventoryCharacterIsWearingLock(Player, "MetalPadlock") || InventoryCharacterIsWearingLock(Player, "IntricatePadlock") || InventoryCharacterIsWearingLock(Player, "ExclusivePadlock") || InventoryCharacterIsWearingLock(Player, "HighSecurityPadlock") || InventoryCharacterIsWearingLock(Player, "PandoraPadlock")) ActivityList.push("Unlock");
+	if (Player.IsRestrained()) ActivityList.push("Release");
+
+	// Picks a random activity to do on the player
+	let Activity = CommonRandomItemFromList(null, ActivityList);
+
+	// The higher the level, the stronger the lock type to use
+	/** @type {AssetLockType} */
+	let LockType = "MetalPadlock";
+	if (Level >= 8) LockType = "PandoraPadlock";
+	else if (Level >= 6) LockType = "HighSecurityPadlock";
+	else if (Level >= 4) LockType = "ExclusivePadlock";
+	else if (Level >= 2) LockType = "IntricatePadlock";
+
+	// A few activities releases some locks first
+	if ((Activity == "Unlock") || (Activity == "Release") || (Activity == "Bondage") || (Activity == "Shibari") || (Activity == "Hogtie") || (Activity == "Naked")) {
+		CharacterReleaseFromLock(Player, "MetalPadlock");
+		CharacterReleaseFromLock(Player, "IntricatePadlock");
+		CharacterReleaseFromLock(Player, "ExclusivePadlock");
+		CharacterReleaseFromLock(Player, "HighSecurityPadlock");
+		CharacterReleaseFromLock(Player, "PandoraPadlock");
+	}
+
+	// Bondage - Puts the player in restraints, heavier restraints based on inflitration level
+	if (Activity == "Bondage") {
+		CharacterReleaseNoLock(Player);
+		if (Level <= 1) CharacterFullRandomRestrain(Player, "FEW");
+		else if (Level <= 4) CharacterFullRandomRestrain(Player);
+		else if (Level <= 7) CharacterFullRandomRestrain(Player, "LOT");
+		else CharacterFullRandomRestrain(Player, "ALL");
+	}
+
+	// Spank - Spanks the player - Only changes the facial expression
+	if (Activity == "Spank") {
+		CharacterSetFacialExpression(Player, "Blush", "High", 15);
+		CharacterSetFacialExpression(Player, "Eyes", "Surprised", 15);
+	}
+
+	// Hose - Hoses the player with cold water - Only changes the facial expression
+	if (Activity == "Hose") {
+		CharacterSetFacialExpression(Player, "Blush", "ShortBreath", 15);
+		CharacterSetFacialExpression(Player, "Eyes", "Angry", 15);
+	}
+
+	// Shibari - Strips the player and rope her up
+	if (Activity == "Shibari") {
+		CharacterReleaseNoLock(Player);
+		CharacterNaked(Player);
+		ShibariRandomBondage(Player, Math.floor((Level / 3) + 1));
+	}
+
+	// Gag - Gags the player with a random mouth item
+	if (Activity == "Gag") {
+		InventoryWearRandom(Player, "ItemMouth");
+	}
+
+	// Ungag - Remove hoods and mouth items from the player
+	if (Activity == "Ungag") {
+		InventoryRemove(Player, "ItemMouth");
+		InventoryRemove(Player, "ItemMouth2");
+		InventoryRemove(Player, "ItemMouth3");
+		InventoryRemove(Player, "ItemHead");
+		InventoryRemove(Player, "ItemHood");
+	}
+
+	// Hogtie - Puts the player in chains and hogtie her, at higher levels she gets suspended
+	if (Activity == "Hogtie") {
+
+		// Adds chains to the player
+		CharacterReleaseNoLock(Player);
+		InventoryWear(Player, "Chains", "ItemArms");
+		InventoryWear(Player, "Chains", "ItemLegs");
+		InventoryWear(Player, "Chains", "ItemFeet");
+
+		// At level 7 or more the player gets suspended
+		if (Level < 7) {
+			TypedItemSetOptionByName(Player, "ItemArms", "Hogtied");
+		} else {
+			const item = InventoryGet(Player, "ItemArms");
+			TypedItemSetOptionByName(Player, item, "SuspensionHogtied");
+			const Height = 0.67 * Math.random();
+			item.Property.OverrideHeight = {
+				Height: Height * Pose.find(p => p.Name == "Hogtied").OverrideHeight.Height,
+				HeightRatioProportion: Height,
+				Priority: 0,
+			};
+		}
+
+		// Locks the chains
+		InventoryLock(Player, "ItemArms", LockType);
+		InventoryLock(Player, "ItemLegs", LockType);
+		InventoryLock(Player, "ItemFeet", LockType);
+
+	}
+
+	// Naked - Strips the player and prevents changing for (Level + 2) minutes
+	if (Activity == "Naked") {
+		CharacterReleaseNoLock(Player);
+		CharacterNaked(Player);
+		let Time = CurrentTime + 60000 * (Level + 2);
+		if (Time > Player.Game.Prison.Timer) Time = Player.Game.Prison.Timer;
+		LogAdd("BlockChange", "Rule", Time);
+	}
+
+	// Lock - Locks all lockable items of the player in a specific lock
+	if (Activity == "Lock") {
+		InventoryFullLock(Player, LockType);
+	}
+
+	// Chastity - Puts the player in a chastity belt and locks it
+	if (Activity == "Chastity") {
+		InventoryWearRandom(Player, "ItemPelvis", null, null, false, true, PrivateBeltList, true); 
+		InventoryLock(Player, "ItemPelvis", LockType, null);
+	}
+
+	// Unchaste - Removes the chastity belt from the player
+	if (Activity == "Unchaste") {
+		InventoryRemove(Player, "ItemPelvis");
+	}
+
+	// Release - Releases the player from all non-locked restraints
+	if (Activity == "Release") {
+		CharacterReleaseNoLock(Player);
+	}
+
+	// Publishes the activity to everyone in chat
+	ChatRoomCharacterUpdate(Player);
+	const Dict = new DictionaryBuilder().sourceCharacter(Player).build();
+	ServerSend("ChatRoomChat", { Content: "PandoraActivity" + Activity, Type: "Action", Dictionary: Dict });
 
 }
 
