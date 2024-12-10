@@ -631,7 +631,8 @@ function AssetMapLayer(Layer, A, I) {
 		LockLayer: typeof Layer.LockLayer === "boolean" ? Layer.LockLayer : false,
 		MirrorExpression: Layer.MirrorExpression,
 		ColorIndex: 0,
-		PoseMapping: AssetParsePoseMapping(Layer.PoseMapping, A.PoseMapping, Layer.InheritPoseMappingFields, Layer.CopyLayerPoseMapping != null),
+		// If `null`, initialized in the second asset layer loop in `AssetAdd()`
+		PoseMapping: Layer.CopyLayerPoseMapping != null ? /** @type {never} */(null) : AssetParsePoseMapping(Layer.PoseMapping, A.PoseMapping, Layer.InheritPoseMappingFields),
 		HideForAttribute: Array.isArray(Layer.HideForAttribute) ? Layer.HideForAttribute : null,
 		ShowForAttribute: Array.isArray(Layer.ShowForAttribute) ? Layer.ShowForAttribute : null,
 		ColorSuffix: Layer.ColorSuffix || A.ColorSuffix,
@@ -644,13 +645,9 @@ function AssetMapLayer(Layer, A, I) {
  * @param {null | undefined | AssetPoseMapping} poseMapping
  * @param {AssetPoseMapping} superPoseMapping
  * @param {boolean} inheritFields
- * @param {boolean} skip
- * @returns {null | AssetPoseMapping}
+ * @returns {AssetPoseMapping}
  */
-function AssetParsePoseMapping(poseMapping, superPoseMapping, inheritFields=false, skip=false) {
-	if (skip) {
-		return null;
-	}
+function AssetParsePoseMapping(poseMapping, superPoseMapping, inheritFields=false) {
 	if (inheritFields) {
 		return { ...superPoseMapping, ...(poseMapping ?? {}) };
 	} else {

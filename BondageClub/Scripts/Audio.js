@@ -4,6 +4,8 @@ var AudioDialog = new Audio();
 /** @type AudioEffect[] */
 var AudioList = [
 	{ Name: "Bag", File: "Bag" },
+	{ Name: "BalloonRubbing", File: "BalloonRubbing" },
+	{ Name: "BalloonStretch", File: "BalloonStretch" },
 	{ Name: "Beep", File: "BeepAlarm" },
 	{ Name: "BellMedium", File: "BellMedium" },
 	{ Name: "BellSmall", File: "BellSmall" },
@@ -318,6 +320,19 @@ var AudioActions = [
 			"PersonalCageHeightSet",
 		].some(A => data.Content.includes(A)),
 		GetSoundEffect: () => "LeverShort"
+	},
+	{
+		IsAction: (data) => [
+			"ItemHoodBalloonSetTight",
+			"ItemHoodBalloonSetExtreme",
+		].some(A => data.Content.includes(A)),
+		GetSoundEffect: () => "BalloonRubbing"
+	},
+	{
+		IsAction: (data) => [
+			"ItemHoodBalloonSetLoose",
+		].some(A => data.Content.includes(A)),
+		GetSoundEffect: () => "Inflation"
 	},
 ];
 

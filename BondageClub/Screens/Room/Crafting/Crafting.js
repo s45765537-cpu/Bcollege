@@ -693,8 +693,7 @@ var CraftingEventListeners = {
 		]);
 		extendedButton.disabled = !CraftingSelectedItem.Asset.Extended;
 		tightenButton.disabled = !CraftingSelectedItem.Asset.AllowTighten;
-		colorButton.disabled = false;
-		colorsInput.disabled = false;
+		colorButton.disabled = colorsInput.disabled = !DialogCanColor(Player, { Asset: CraftingSelectedItem.Asset });
 		layeringButton.disabled = false;
 		priorityInput.disabled = false;
 

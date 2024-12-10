@@ -2440,6 +2440,8 @@ ItemHandsLatexBondageMittsOptionr1,Pumpkin (Under Only)
 ItemHandsLatexBondageMittsOptionr2,Pumpkin
 ItemHandsLatexBondageMittsOptionr3,Smiley (Under Only)
 ItemHandsLatexBondageMittsOptionr4,Smiley
+ItemHandsLatexBondageMittsOptionr5,Split
+ItemHandsLatexBondageMittsOptionr6,Quarters
 ItemHandsLatexBondageMittsSetPatternRight,SourceCharacter changes the pattern of DestinationCharacter right bondage mitt.
 ItemHandsLatexBondageMittsSelectPatternLeft,Select Left Hand Pattern
 ItemHandsLatexBondageMittsModulePatternLeft,Left Pattern
@@ -2448,6 +2450,8 @@ ItemHandsLatexBondageMittsOptionl1,Pumpkin (Under Only)
 ItemHandsLatexBondageMittsOptionl2,Pumpkin
 ItemHandsLatexBondageMittsOptionl3,Smiley (Under Only)
 ItemHandsLatexBondageMittsOptionl4,Smiley
+ItemHandsLatexBondageMittsOptionl5,Split
+ItemHandsLatexBondageMittsOptionl6,Quarters
 ItemHandsLatexBondageMittsSetPatternLeft,SourceCharacter changes the pattern of DestinationCharacter left bondage mitt.
 ItemHandsPaddedMittensChained,Chained
 ItemHandsPaddedMittensSelect,Select options
@@ -5753,3 +5757,65 @@ SuitLowerRippedPantyhoseRippedB,Ripped B
 SuitLowerRippedPantyhoseRippedC,Ripped C
 SuitLowerRippedPantyhoseNormal,Normal
 SuitLowerRippedPantyhoseSelect,Choose the pantyhose type:
+ItemPelvisWaistLegHarnessSelectBase,Waist-Leg Combo Harness main menu
+ItemPelvisWaistLegHarnessModuleLinkLegs,Link strap legs
+ItemPelvisWaistLegHarnessSelectLinkLegs,Link strap menu
+ItemPelvisWaistLegHarnessOptionl0,None
+ItemPelvisWaistLegHarnessOptionl1,Flexible strap
+ItemPelvisWaistLegHarnessOptionl2,Restrain legs
+ItemPelvisWaistLegHarnessModuleBeltAcc_A,Accessory strap A
+ItemPelvisWaistLegHarnessSelectBeltAcc_A,Accessory strap A menu
+ItemPelvisWaistLegHarnessOptionx0,None
+ItemPelvisWaistLegHarnessOptionx1,Equipped
+ItemPelvisWaistLegHarnessModuleBeltAcc_B,Accessory strap B
+ItemPelvisWaistLegHarnessSelectBeltAcc_B,Accessory strap B menu
+ItemPelvisWaistLegHarnessOptiony0,None
+ItemPelvisWaistLegHarnessOptiony1,Equipped
+ItemPelvisWaistLegHarnessModuleStrapOn,Strap-on belt
+ItemPelvisWaistLegHarnessSelectStrapOn,Strap-on belt menu
+ItemPelvisWaistLegHarnessOptionc0,None
+ItemPelvisWaistLegHarnessOptionc1,Equipped
+ItemPelvisWaistLegHarnessModuleVibrator,Wand Vibrating
+ItemPelvisWaistLegHarnessSelectStrapOn,Wand Vibrating menu
+ItemPelvisWaistLegHarnessOptionv0,None
+ItemPelvisWaistLegHarnessOptionv1,Equipped-Off
+ItemPelvisWaistLegHarnessOptionv2,Low
+ItemPelvisWaistLegHarnessOptionv3,Mid-Low
+ItemPelvisWaistLegHarnessOptionv4,Mid
+ItemPelvisWaistLegHarnessOptionv5,High
+ItemPelvisWaistLegHarnessOptionv6,Maximum
+ItemPelvisWaistLegHarnessModuleChastity,Chastity mode
+ItemPelvisWaistLegHarnessSelectChastity,Chastity mode menu
+ItemPelvisWaistLegHarnessOptiont0,None
+ItemPelvisWaistLegHarnessOptiont1,Just base
+ItemPelvisWaistLegHarnessOptiont2,Closed front
+ItemPelvisWaistLegHarnessOptiont3,Closed rear
+ItemPelvisWaistLegHarnessOptiont4,Closed both
+ItemPelvisWaistLegHarnessSetl0,SourceCharacter removes the link strap from between the DestinationCharacterName legs.
+ItemPelvisWaistLegHarnessSetl1,SourceCharacter installs the link strap from between the DestinationCharacterName legs.
+ItemPelvisWaistLegHarnessSetl2,SourceCharacter restrain DestinationCharacterName legs with a shorter device.
+ItemPelvisWaistLegHarnessSetx0,SourceCharacter removes a accessory strap (A) on the DestinationCharacterName pelvis.
+ItemPelvisWaistLegHarnessSetx1,SourceCharacter puts a accessory strap (A) on the DestinationCharacterName pelvis.
+ItemPelvisWaistLegHarnessSety0,SourceCharacter removes a accessory strap (B) on the DestinationCharacterName pelvis.
+ItemPelvisWaistLegHarnessSety1,SourceCharacter puts a accessory strap (B) on the DestinationCharacterName pelvis.
+ItemPelvisWaistLegHarnessSetc0,SourceCharacter removes the strap-on belt accessory from the DestinationCharacterName pelvis.
+ItemPelvisWaistLegHarnessSetc1,SourceCharacter installs the strap-on belt accessory from the DestinationCharacterName pelvis.
+ItemPelvisWaistLegHarnessSetv0,SourceCharacter removes the wand device accessory from the DestinationCharacterName pelvis.
+ItemPelvisWaistLegHarnessSetv1,SourceCharacter just installs the wand device accessory from the DestinationCharacterName pelvis and doesn't turn it on.
+ItemPelvisWaistLegHarnessSetv2,SourceCharacter installs the wand device accessory from the DestinationCharacterName pelvis and puts it in lowest intensity.
+ItemPelvisWaistLegHarnessSetv3,SourceCharacter installs the wand device accessory from the DestinationCharacterName pelvis and select a low intensity.
+ItemPelvisWaistLegHarnessSetv4,SourceCharacter installs the wand device accessory from the DestinationCharacterName pelvis and select a mid intensity.
+ItemPelvisWaistLegHarnessSetv5,SourceCharacter installs the wand device accessory from the DestinationCharacterName pelvis and select a high intensity.
+ItemPelvisWaistLegHarnessSetv6,SourceCharacter installs the wand device accessory from the DestinationCharacterName pelvis and select a max intensity.
+ItemPelvisWaistLegHarnessSett0,SourceCharacter removes any chastity module on the DestinationCharacterName pelvis.
+ItemPelvisWaistLegHarnessSett1,SourceCharacter attaches the chastity base on the DestinationCharacterName pelvis.
+ItemPelvisWaistLegHarnessSett2,SourceCharacter locks the chastity module on the DestinationCharacterName vagina only.
+ItemPelvisWaistLegHarnessSett3,SourceCharacter locks the chastity module on the DestinationCharacterName butt only.
+ItemPelvisWaistLegHarnessSett4,SourceCharacter locks the chastity module on the DestinationCharacterName both sides.
+ItemHoodBalloonSelect,Balloon hood adjustment menu:
+ItemHoodBalloonLoose,Loose on the head
+ItemHoodBalloonTight,Tight on the head
+ItemHoodBalloonExtreme,Breathplay condition
+ItemHoodBalloonSetLoose,SourceCharacter fills the DestinationCharacterName balloon with air.
+ItemHoodBalloonSetTight,SourceCharacter empties the DestinationCharacterName balloon a little.
+ItemHoodBalloonSetExtreme,SourceCharacter empties completely the DestinationCharacterName balloon.

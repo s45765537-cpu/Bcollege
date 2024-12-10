@@ -796,7 +796,7 @@ function DialogLeave() {
 	// Reset the character's height
 	if (CurrentCharacter && CharacterAppearanceForceUpCharacter == CurrentCharacter.MemberNumber) {
 		CharacterAppearanceForceUpCharacter = -1;
-		CharacterRefresh(CurrentCharacter, false);
+		CharacterRefresh(CurrentCharacter, false, false);
 	}
 
 	// Reset the mode, selected group & character, exiting the dialog
@@ -1251,7 +1251,7 @@ const DialogEffectIcons = /** @type {const} */({
  * @returns {boolean} - Returns trues, if it is possible to put on new restraints.
  */
 function DialogAlwaysAllowRestraint() {
-	return (CurrentScreen == "Photographic");
+	return (CurrentScreen == "Photographic" || CurrentScreen == "Crafting");
 }
 
 /**
@@ -1298,9 +1298,11 @@ function DialogCanUseRemoteState(C, Item) {
  * @returns {boolean} - TRUE if the player is able to color the item, FALSE otherwise
  */
 function DialogCanColor(C, Item) {
-	const ItemColorable = Item && Item.Asset && Item.Asset.ColorableLayerCount > 0;
-	const CanUnlock = InventoryItemHasEffect(Item, "Lock", true) ? DialogCanUnlock(C, Item) : true;
-	return (Player.CanInteract() && CanUnlock && ItemColorable) || DialogAlwaysAllowRestraint();
+	if (!Item || Item.Asset.ColorableLayerCount === 0) {
+		return false;
+	}
+	const canColor = InventoryItemHasEffect(Item, "Lock", true) ? DialogCanUnlock(C, Item) : Player.CanInteract();
+	return canColor || DialogAlwaysAllowRestraint();
 }
 
 /**
@@ -1903,7 +1905,7 @@ function DialogMenuButtonClick() {
 				// Check that this is not one of the sticky-locked items
 				const isNotStickyLock = InventoryItemHasEffect(Item, "Lock", true) && !InventoryItemHasEffect(Item, "Lock", false);
 				if (C.FocusGroup.IsItem() && isNotStickyLock && (!C.IsPlayer() || C.CanInteract())) {
-					InventoryUnlock(C, C.FocusGroup.Name);
+					InventoryUnlock(C, C.FocusGroup.Name, false);
 					if (ChatRoomPublishAction(C, "ActionUnlock", Item, null)) {
 						DialogLeave();
 					} else {
@@ -2088,9 +2090,10 @@ function DialogPermissionsClick(ClickItem, CurrentItem=null) {
 function DialogLockingClick(ClickedLock, C, CurrentItem=null) {
 	InventoryLock(C, CurrentItem, ClickedLock, Player.MemberNumber);
 	IntroductionJobProgress("DomLock", ClickedLock.Asset.Name, true);
-	DialogChangeMode("items");
 	if (ChatRoomPublishAction(C, "ActionAddLock", CurrentItem, ClickedLock)) {
 		DialogLeave();
+	} else {
+		DialogChangeMode("items");
 	}
 }
 
@@ -2792,7 +2795,9 @@ class DialogMenu {
 		return this._shape;
 	}
 	set shape(value) {
-		if (value != null && !CommonArraysEqual(this._shape, value)) {
+		if (value == null) {
+			this._shape = null;
+		} else if (value != null && !CommonArraysEqual(this._shape, value)) {
 			this._shape = value;
 			this.Resize(false);
 		}
@@ -2963,7 +2968,21 @@ class DialogMenu {
 
 		// Perform the element resizing here asynchronically in order to circumvent a race condition with the scroll bar reallignment
 		DialogMenuButtonBuild(this.C);
-		this.Reload(null, null, { reset: true }).then(() => ElementPositionFixed(this.ids.root, ...this.shape));
+		this.Reload(null, null, { reset: true, resetScrollbar: false }).then((status) => {
+			// Double check that `Exit` has not been called while `Reload` is still running asynchronously
+			const shape = this.shape;
+			if (status && shape) {
+				ElementPositionFixed(this.ids.root, ...shape);
+
+				const buttonGrid = this.ids.grid ? document.getElementById(this.ids.grid) : null;
+				const checkedButton = buttonGrid?.querySelector(`.dialog-grid-button[aria-checked='true']`);
+				if (checkedButton) {
+					checkedButton.scrollIntoView();
+				} else {
+					buttonGrid?.scrollTo({ top: 0 });
+				}
+			}
+		});
 	}
 
 	/**
