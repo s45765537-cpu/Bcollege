@@ -83,7 +83,11 @@
 .dialog-grid-button:disabled[aria-checked="true"] > .button-label,
 .dialog-grid-button[aria-disabled="true"][aria-checked="true"] > .button-label {
 	background-color: var(--disabled-color) !important;
-	background-color: color-mix(in srgb, var(--disabled-color) 50%, var(--hover-color) 50%) !important;
+	background-color: color-mix(
+		in srgb,
+		color-mix(in srgb, var(--disabled-color) 50%, var(--hover-color) 50%) 50%,
+		transparent
+	) !important;
 }
 
 .dialog-grid-button > .button-tooltip {
