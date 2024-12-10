@@ -1470,20 +1470,20 @@ function InventoryLock(C, Item, Lock, MemberNumber, Update = true) {
 	CommonCallFunctionByName(`Inventory${Lock.Asset.Group.Name}${Lock.Asset.Name}Init`, ...args);
 	if (Update) {
 		if (Lock.Asset.RemoveTimer > 0) TimerInventoryRemoveSet(C, Item.Asset.Group.Name, Lock.Asset.RemoveTimer);
-		CharacterRefresh(C, true);
+		CharacterRefresh(C, true, false);
 	}
 }
 
 /**
-* Unlocks an item and removes all related properties
-* @param {Character} C - The character on which the item must be unlocked
-* @param {Item|AssetGroupItemName} Item - The item from appearance to unlock
-*/
-function InventoryUnlock(C, Item) {
+ * Unlocks an item and removes all related properties
+ * @param {Character} C - The character on which the item must be unlocked
+ * @param {Item|AssetGroupItemName} Item - The item from appearance to unlock
+ * @param RefreshDialog — Refreshes the character dialog
+ */
+function InventoryUnlock(C, Item, refreshDialog=true) {
 	if (typeof Item === 'string') Item = InventoryGet(C, Item);
-	if (Item && Item.Property && Item.Property.Effect) {
-		ValidationDeleteLock(Item.Property, false);
-		CharacterRefresh(C);
+	if (Item?.Property?.Effect && ValidationDeleteLock(Item.Property, false)) {
+		CharacterRefresh(C, true, refreshDialog);
 	}
 }
 
