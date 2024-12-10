@@ -32578,7 +32578,7 @@ var AssetFemale3DCG = [
 						CopyLayerColor: "PumpkinShine",
 						CopyLayerPoseMapping: "BalloonPumpkinTop",
 					},
-					
+
 					{
 						Name: "Split",
 						AllowTypes: { r: 5, t: 0 },
@@ -32957,6 +32957,7 @@ var AssetFemale3DCG = [
 						Name: "SplitCuff",
 						AllowTypes: { r: 5, t: 0 },
 						CopyLayerColor: "Pumpkin",
+						Priority: 34,
 						CopyLayerPoseMapping: "WristBaseCuff",
 					},
 
@@ -32964,18 +32965,21 @@ var AssetFemale3DCG = [
 						Name: "SplitShineCuff",
 						AllowTypes: { r: 5, t: 0 },
 						CopyLayerColor: "PumpkinShine",
+						Priority: 34,
 						CopyLayerPoseMapping: "WristBaseCuff",
 					},
 					{
 						Name: "BalloonSplitCuff",
 						AllowTypes: { r: 5, t: [1, 2] },
 						CopyLayerColor: "Pumpkin",
+						Priority: 34,
 						CopyLayerPoseMapping: "WristBaseCuff",
 					},
 					{
 						Name: "BalloonSplitShineCuff",
 						AllowTypes: { r: 5, t: [1, 2] },
 						CopyLayerColor: "PumpkinShine",
+						Priority: 34,
 						CopyLayerPoseMapping: "WristBaseCuff",
 					},
 
@@ -32983,24 +32987,28 @@ var AssetFemale3DCG = [
 						Name: "QuartersCuff",
 						AllowTypes: { r: 6, t: 0 },
 						CopyLayerColor: "Pumpkin",
+						Priority: 34,
 						CopyLayerPoseMapping: "WristBaseCuff",
 					},
 					{
 						Name: "QuartersShineCuff",
 						AllowTypes: { r: 6, t: 0 },
 						CopyLayerColor: "PumpkinShine",
+						Priority: 34,
 						CopyLayerPoseMapping: "WristBaseCuff",
 					},
 					{
 						Name: "BalloonQuartersCuff",
 						AllowTypes: { r: 6, t: [1, 2] },
 						CopyLayerColor: "Pumpkin",
+						Priority: 34,
 						CopyLayerPoseMapping: "WristBaseCuff",
 					},
 					{
 						Name: "BalloonQuartersShineCuff",
 						AllowTypes: { r: 6, t: [1, 2] },
 						CopyLayerColor: "PumpkinShine",
+						Priority: 34,
 						CopyLayerPoseMapping: "WristBaseCuff",
 					},					
 				],
