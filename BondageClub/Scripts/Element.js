@@ -1189,7 +1189,7 @@ var ElementButton = {
 					classList: ["button-icon-tooltip-li"],
 					children: [tooltipText],
 					parent: tooltip,
-					style: { "background-image": `url("../${src}")` },
+					style: { "background-image": `url("./${src}")` },
 				});
 
 				return {
