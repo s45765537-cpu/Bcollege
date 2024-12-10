@@ -1416,8 +1416,8 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Normal",
 				},
-			]
-		}
+			],
+		},
 	},
 	SocksLeft: {
 		LooseSocks: {
@@ -8170,7 +8170,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Pattern",
 					Key: "p",
-					Options: [{}, {}, {}, {}, {}, {}, {},], //None, Pumpkin, Smiley Lines, Smiley Fill, 8Ball, Tree, Quarters
+					Options: [{}, {}, {}, {}, {}, {}, {}], //None, Pumpkin, Smiley Lines, Smiley Fill, 8Ball, Tree, Quarters
 				},
 				{
 					Name: "Cover",
@@ -8217,13 +8217,8 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Loose",
-					Property: { 
-						Effect: [
-							"BlindLight",						
-							"GagLight", 
-							"DeafLight", 
-							"Prone",
-						],	
+					Property: {
+						Effect: ["BlindLight", "GagLight", "DeafLight", "BlockWardrobe"],
 					},
 					Expression: [
 						{ Group: "Blush", Name: "Low", Timer: 15 },
@@ -8233,12 +8228,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Tight",
 					Property: {
-						Effect: [ 
-							"BlindLight",
-							"GagHeavy", 
-							"DeafLight", 
-							"Prone",
-						],
+						Effect: ["BlindLight", "GagHeavy", "DeafLight", "BlockWardrobe"],
 					},
 					Expression: [
 						{ Group: "Blush", Name: "VeryHigh", Timer: 15 },
@@ -8250,12 +8240,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Extreme",
 					Property: {
-						Effect: [ 
-							"BlindLight",
-							"GagHeavy", 
-							"DeafLight", 
-							"Prone",
-						],
+						Effect: ["BlindLight", "GagHeavy", "DeafLight", "BlockWardrobe"],
 					},
 					Expression: [
 						{ Group: "Blush", Name: "ShortBreath", Timer: 15 },
@@ -15808,7 +15793,7 @@ var AssetFemale3DCGExtended = {
 						},
 						{
 							// c1 - Eqquiped
-							Property: { 
+							Property: {
 								Difficulty: 1,
 								AllowActivity: ["PenetrateItem"],
 							},
@@ -15827,7 +15812,7 @@ var AssetFemale3DCGExtended = {
 							// v1 - With wand
 							Property: { Difficulty: 2 },
 						},
-							// v2 to v6 - Wand intensity
+						// v2 to v6 - Wand intensity
 						{ Property: { Intensity: 0, Effect: [E.Vibrating] } }, // v2 - Low
 						{ Property: { Intensity: 1, Effect: [E.Vibrating] } }, // v3 - Mid-Low
 						{ Property: { Intensity: 2, Effect: [E.Vibrating] } }, // v4 - Medium
@@ -15844,7 +15829,7 @@ var AssetFemale3DCGExtended = {
 							Property: { Difficulty: 0 },
 						},
 						{
-							// t1 - Just Strap 
+							// t1 - Just Strap
 							Property: { Difficulty: 5 },
 						},
 						{
@@ -15883,7 +15868,7 @@ var AssetFemale3DCGExtended = {
 						},
 						{
 							// t3 - Lock Ass
-							Property: { 
+							Property: {
 								Difficulty: 9,
 								Effect: ["ButtChaste"],
 								Block: ["ItemButt"],
@@ -15893,7 +15878,7 @@ var AssetFemale3DCGExtended = {
 							// t4 - Lock Both
 							Prerequisite: ["CanCoverVulva"],
 							Property: {
-								Difficult: 20,
+								Difficulty: 20,
 								Effect: ["Chaste", "ButtChaste"],
 								Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 								HideItem: [

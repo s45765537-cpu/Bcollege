@@ -1240,9 +1240,9 @@ function PandoraPenitentiaryResult(Result) {
 			Language: ChatCreateLanguage,
 		};
 		ServerSend("ChatRoomCreate", NewRoom);
-		
+
 	}
-	
+
 }
 
 /**
@@ -1263,7 +1263,7 @@ function PandoraPenitentiaryRun() {
 	// Picks a random activity to do on the player
 	let ActivityList = ["Bondage", "Spank", "Hose"];
 	let Level = SkillGetLevel(Player, "Infiltration");
-	
+
 	// Adds more possible activities to the random pool
 	ActivityList.push(Player.IsGagged() ? "Ungag" : "Gag");
 	if ((Player.PoseMapping.BodyFull !== "Hogtied") && (Level >= 3) && !InventoryOwnerOnlyItem(InventoryGet(Player, "ItemArms")) && !InventoryLoverOnlyItem(InventoryGet(Player, "ItemArms")) && !InventoryFamilyOnlyItem(InventoryGet(Player, "ItemArms"))) ActivityList.push("Hogtie");
@@ -1383,7 +1383,7 @@ function PandoraPenitentiaryRun() {
 
 	// Chastity - Puts the player in a chastity belt and locks it
 	if (Activity == "Chastity") {
-		InventoryWearRandom(Player, "ItemPelvis", null, null, false, true, PrivateBeltList, true); 
+		InventoryWearRandom(Player, "ItemPelvis", null, null, false, true, PrivateBeltList, true);
 		InventoryLock(Player, "ItemPelvis", LockType, null);
 	}
 
