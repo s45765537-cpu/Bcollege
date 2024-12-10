@@ -40,7 +40,7 @@ function AssetsItemNipplesLactationPumpScriptDraw(data) {
 
 	if ((CurrentTime - persist.LastSuction) >= persist.SuctionDuration) {
 		/** @type {ItemActivity} */
-		const activity = { Activity: AssetGetActivity("Female3DCG", "Suck"), Item: Item, Group: Item.Asset.Group.Name };
+		const activity = { Activity: AssetGetActivity("Female3DCG", "Suck"), Item: Item, Group: Item.Asset.Group.MirrorActivitiesFrom ?? Item.Asset.Group.Name };
 		ActivityRun(C, C, Item.Asset.Group, activity, false);
 
 		const dict = new DictionaryBuilder()

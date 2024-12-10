@@ -260,7 +260,7 @@ function ActivityCheckPrerequisites(activity, acting, acted, group) {
  * @param {Character} acted
  * @param {string} needsItem
  * @param {Activity} activity
- * @param {AssetGroupName} targetGroup
+ * @param {AssetGroup} targetGroup
  */
 function ActivityGenerateItemActivitiesFromNeed(allowed, acting, acted, needsItem, activity, targetGroup) {
 	const reverse = activity.Reverse;
@@ -291,7 +291,7 @@ function ActivityGenerateItemActivitiesFromNeed(allowed, acting, acted, needsIte
 			// This is a reverse activity, but we're targetting the wrong slot, just skip
 			handled = true;
 		} else {
-			allowed.push({ Activity: activity, Item: item, Blocked: blocked, Group: targetGroup });
+			allowed.push({ Activity: activity, Item: item, Blocked: blocked, Group: targetGroup.MirrorActivitiesFrom ?? targetGroup.Name });
 			handled = true;
 		}
 	}
@@ -342,19 +342,19 @@ function ActivityAllowedForGroup(character, groupname) {
 		let needsItem = activity.Prerequisite.find(p => p.startsWith("Needs-"));
 
 		if (needsItem) {
-			handled = ActivityGenerateItemActivitiesFromNeed(allowed, Player, character, needsItem.substring(6), activity, groupname);
+			handled = ActivityGenerateItemActivitiesFromNeed(allowed, Player, character, needsItem.substring(6), activity, group);
 		}
 
 		if (activity.Name === "ShockItem" && InventoryItemHasEffect(targetedItem, "ReceiveShock")) {
 			let remote = Player.Appearance.find(a => InventoryItemHasEffect(a, "TriggerShock"));
 			if (remote) {
-				allowed.push({ Activity: activity, Item: remote, Group: groupname });
+				allowed.push({ Activity: activity, Item: remote, Group: group.Name });
 				handled = true;
 			}
 		}
 
 		if (!handled) {
-			allowed.push({ Activity: activity, Group: groupname });
+			allowed.push({ Activity: activity, Group: group.Name });
 		}
 	});
 
