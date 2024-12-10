@@ -91,18 +91,13 @@
 
 	width: calc(4 * var(--button-width) + 3 * var(--gap));
 	font-size: min(2.6dvh, 1.3dvw);
-	text-indent: min(2.6dvh, 1.3dvw) hanging each-line;
+	text-indent: 1em hanging each-line;
 	max-height: calc(2 * var(--button-height) + var(--gap));
 	display: -webkit-box;
 	line-clamp: 15;
 	-webkit-line-clamp: 15;
 	-webkit-box-orient: vertical;
 	overflow: hidden;
-}
-
-.dialog-grid-button .button-icon-tooltip-ul,
-.dialog-grid-button .button-tooltip-craft {
-	padding-left: min(2.6dvh, 1.3dvw);
 }
 
 .dialog-grid-button[data-unload] {
@@ -194,7 +189,7 @@
 	width: 100%;
 	color: white;
 	user-select: none;
-	text-indent: min(6dvh, 3dvw) each-line;
+	text-indent: 1em each-line;
 }
 
 #dialog-crafted-name {

@@ -41,7 +41,7 @@
 	border: min(0.2vh, 0.1vw) solid black;
 	box-shadow: min(0.4vh, 0.2vw) min(0.4vh, 0.2vw) min(2vh, 1vw) 0 rgb(0 0 0 / 50%);
 	box-sizing: border-box;
-	padding: min(1vh, 0.5vw) min(2vh, 1vw) min(1vh, 0.5vw) min(2vh, 1vw);
+	padding: 0.3em 0.6em 0.3em 0.6em;
 	position: absolute;
 	text-align: center;
 	visibility: hidden;
@@ -53,11 +53,11 @@
 .button-tooltip-justify {
 	text-align: justify;
 	text-wrap: wrap;
-	text-indent: min(3.6dvh, 1.8dvw) hanging each-line;
+	text-indent: 1em hanging each-line;
 }
 
 .button-tooltip-craft {
-	padding-left: min(3.6dvh, 1.8dvw);
+	padding-left: 1em;
 }
 
 .button-image {
@@ -142,7 +142,7 @@
 .button-icon-tooltip-ul {
 	text-align: left;
 	margin: 0;
-	padding-left: min(3.6dvh, 1.8dvw);
+	padding-left: 0.5em;
 }
 
 .button-icon-tooltip-li {
@@ -150,7 +150,7 @@
 	list-style: none;
 	background-repeat: no-repeat;
 	background-size: contain;
-	padding-left: min(4dvh, 2dvw);
+	padding-left: 1.5em;
 }
 
 .button-tooltip-left {
