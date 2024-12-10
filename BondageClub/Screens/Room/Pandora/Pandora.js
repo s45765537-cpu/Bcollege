@@ -1183,6 +1183,7 @@ function PandoraPenitentiaryCreate() {
 	/** @type {ServerChatRoomGame} */
 	let Game = "Prison";
 	const SearchData = { Query: "", Language: "", Space: ChatRoomSpaceType.MIXED, Game: Game, FullRooms: false };
+	ChatCreateBackgroundList = BackgroundsGenerateList([BackgroundsTagAsylum]);
 	ChatSearchLastQuerySearchTime = CommonTime();
 	ChatSearchResult = [];
 	PandoraPenitentiaryCreateTimer = CommonTime() + 10000;
@@ -1217,10 +1218,9 @@ function PandoraPenitentiaryResult(Result) {
 
 		// Since we did not found any prison, we Setup the parameters for a new one
 		ChatRoomSpace = ChatRoomSpaceType.MIXED;
-		ChatCreateBackgroundList = BackgroundsGenerateList([BackgroundsTagAsylum]);
 		ChatSearchReturnToScreen = null;
 		PandoraPenitentiaryCreateTimer = CommonTime() + 10000;
-	
+
 		// Creates the prison chat room
 		/** @type {ChatRoomSettings} */
 		const NewRoom = {
