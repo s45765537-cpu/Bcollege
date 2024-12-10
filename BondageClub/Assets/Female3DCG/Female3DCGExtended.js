@@ -8212,6 +8212,60 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, //CustomBallHood
+		Balloon: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Loose",
+					Property: { 
+						Effect: [
+							"BlindLight",						
+							"GagLight", 
+							"DeafLight", 
+							"Prone",
+						],	
+					},
+					Expression: [
+						{ Group: "Blush", Name: "Low", Timer: 15 },
+						{ Group: "Eyebrows", Name: "Lowered", Timer: 15 },
+					],
+				},
+				{
+					Name: "Tight",
+					Property: {
+						Effect: [ 
+							"BlindLight",
+							"GagHeavy", 
+							"DeafLight", 
+							"Prone",
+						],
+					},
+					Expression: [
+						{ Group: "Blush", Name: "VeryHigh", Timer: 15 },
+						{ Group: "Eyes", Name: "Surprised", Timer: 15 },
+						{ Group: "Eyebrows", Name: "Soft", Timer: 15 },
+						{ Group: "Mouth", Name: "HalfOpen", Timer: 15 },
+					],
+				},
+				{
+					Name: "Extreme",
+					Property: {
+						Effect: [ 
+							"BlindLight",
+							"GagHeavy", 
+							"DeafLight", 
+							"Prone",
+						],
+					},
+					Expression: [
+						{ Group: "Blush", Name: "ShortBreath", Timer: 15 },
+						{ Group: "Eyes", Name: "Scared", Timer: 15 },
+						{ Group: "Eyebrows", Name: "Raised", Timer: 15 },
+						{ Group: "Mouth", Name: "Open", Timer: 15 },
+					],
+				},
+			],
+		}, // Balloon
 	}, // ItemHood
 	Jewelry: {
 		JewelrySet: {
@@ -15689,6 +15743,190 @@ var AssetFemale3DCGExtended = {
 				),
 			},
 		}, // ModularChastityBelt
+		WaistLegHarness: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChangeWhenLocked: false,
+			Modules: [
+				{
+					Name: "LinkLegs",
+					Key: "l",
+					Options: [
+						{
+							// l0 - None
+							Property: {},
+						},
+						{
+							// l1 - Loose Strap
+							Property: { Difficulty: 2 },
+						},
+						{
+							// l2 - Locked
+							Property: {
+								SetPose: ["LegsClosed"],
+								AllowActivePose: ["Kneel"],
+								Effect: [E.Slow],
+								Difficulty: 3,
+							},
+						},
+					],
+				},
+				{
+					Name: "BeltAcc_A",
+					Key: "x",
+					Options: [
+						{
+							// x0 - None
+							Property: { Difficulty: 0 },
+						},
+						{
+							// x1 - Eqquiped
+							Property: { Difficulty: 1 },
+						},
+					],
+				},
+				{
+					Name: "BeltAcc_B",
+					Key: "y",
+					Options: [
+						{
+							// y0 - None
+							Property: { Difficulty: 0 },
+						},
+						{
+							// y1 - Eqquiped
+							Property: { Difficulty: 1 },
+						},
+					],
+				},
+				{
+					Name: "StrapOn",
+					Key: "c",
+					Options: [
+						{
+							// c0 - None
+							Property: { Difficulty: 0 },
+						},
+						{
+							// c1 - Eqquiped
+							Property: { 
+								Difficulty: 1,
+								AllowActivity: ["PenetrateItem"],
+							},
+						},
+					],
+				},
+				{
+					Name: "Vibrator",
+					Key: "v",
+					Options: [
+						{
+							// v0 - None
+							Property: { Difficulty: 1 },
+						},
+						{
+							// v1 - With wand
+							Property: { Difficulty: 2 },
+						},
+							// v2 to v6 - Wand intensity
+						{ Property: { Intensity: 0, Effect: [E.Vibrating] } }, // v2 - Low
+						{ Property: { Intensity: 1, Effect: [E.Vibrating] } }, // v3 - Mid-Low
+						{ Property: { Intensity: 2, Effect: [E.Vibrating] } }, // v4 - Medium
+						{ Property: { Intensity: 2, Effect: [E.Egged, E.Vibrating] } }, // v5 - High
+						{ Property: { Intensity: 3, Effect: [E.Egged, E.Vibrating] } }, // v6 - Maximum
+					],
+				},
+				{
+					Name: "Chastity",
+					Key: "t",
+					Options: [
+						{
+							// t0 - None
+							Property: { Difficulty: 0 },
+						},
+						{
+							// t1 - Just Strap 
+							Property: { Difficulty: 5 },
+						},
+						{
+							// t2 - Lock Vagina
+							Prerequisite: ["CanCoverVulva"],
+							Property: {
+								Difficulty: 10,
+								Block: ["ItemVulva", "ItemVulvaPiercings"],
+								Effect: [E.Chaste],
+								HideItem: [
+									"ItemButtAnalBeads2",
+									"ItemVulvaPenisDildo",
+									"ItemVulvaShockDildo",
+									"ItemVulvaVibratingDildo",
+									"ItemVulvaInflatableVibeDildo",
+									"ItemVulvaClitoralStimulator",
+									"ItemVulvaClitSuctionCup",
+									"ItemVulvaHeavyWeightClamp",
+									"ItemVulvaLoversVibrator",
+									"ItemVulvaDoubleEndDildo",
+									"ItemVulvaBasicCockring",
+									"ItemVulvaPlasticChastityCage1",
+									"ItemVulvaVibeEggPenisBase",
+									"ItemVulvaPlasticChastityCage2",
+									"ItemVulvaTechnoChastityCage",
+									"ItemVulvaFlatChastityCage",
+									"ItemVulvaChastityPouch",
+									"ItemVulvaFullCasingCage",
+									"ItemVulvaPiercingsVibeHeartClitPiercing",
+									"ItemVulvaPiercingsClitRing",
+									"ItemVulvaPiercingsChastityClitShield",
+									"ItemVulvaPiercingsHighSecurityVulvaShield",
+								],
+								Hide: ["Pussy"],
+							},
+						},
+						{
+							// t3 - Lock Ass
+							Property: { 
+								Difficulty: 9,
+								Effect: ["ButtChaste"],
+								Block: ["ItemButt"],
+							},
+						},
+						{
+							// t4 - Lock Both
+							Prerequisite: ["CanCoverVulva"],
+							Property: {
+								Difficult: 20,
+								Effect: ["Chaste", "ButtChaste"],
+								Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
+								HideItem: [
+									"ItemButtAnalBeads2",
+									"ItemVulvaPenisDildo",
+									"ItemVulvaShockDildo",
+									"ItemVulvaVibratingDildo",
+									"ItemVulvaInflatableVibeDildo",
+									"ItemVulvaClitoralStimulator",
+									"ItemVulvaClitSuctionCup",
+									"ItemVulvaHeavyWeightClamp",
+									"ItemVulvaLoversVibrator",
+									"ItemVulvaDoubleEndDildo",
+									"ItemVulvaBasicCockring",
+									"ItemVulvaPlasticChastityCage1",
+									"ItemVulvaVibeEggPenisBase",
+									"ItemVulvaPlasticChastityCage2",
+									"ItemVulvaTechnoChastityCage",
+									"ItemVulvaFlatChastityCage",
+									"ItemVulvaChastityPouch",
+									"ItemVulvaFullCasingCage",
+									"ItemVulvaPiercingsVibeHeartClitPiercing",
+									"ItemVulvaPiercingsClitRing",
+									"ItemVulvaPiercingsChastityClitShield",
+									"ItemVulvaPiercingsHighSecurityVulvaShield",
+								],
+								Hide: ["Pussy"],
+							},
+						},
+					],
+				},
+			],
+		}, // WaistLegHarness
 	}, // ItemPelvis
 	ItemEars: {
 		FuturisticEarphones: {
