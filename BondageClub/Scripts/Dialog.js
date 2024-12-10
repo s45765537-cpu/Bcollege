@@ -3029,6 +3029,13 @@ class DialogMenu {
 			return false;
 		}
 
+		/** @type {(el: Element) => boolean} */
+		const isInView = (el) => {
+			const rect = el.getBoundingClientRect();
+			return rect.top >= 0 && rect.bottom <= grid.clientHeight;
+		}
+
+		const sign = (event.key === "PageUp" || event.key === "ArrowUp") ? -1 : 1;
 		switch (event.key) {
 			case "Home":
 				grid.scrollTop = 0;
@@ -3037,19 +3044,39 @@ class DialogMenu {
 				grid.scrollTop = grid.scrollHeight;
 				return true;
 			case "PageUp":
-				grid.scrollTop = Math.max(0, grid.scrollTop - grid.clientHeight);
-				return true;
 			case "PageDown":
-				grid.scrollTop = Math.min(grid.scrollHeight, grid.scrollTop + grid.clientHeight);
+				// Find the first element scrolled into view, and then scroll down by 3, 2 or 1 row(s)
+				/** @type {null | Element} */
+				let element = null;
+				const itemsPerRow = 4;
+				for (const [i, el] of Array.from(grid.children).entries()) {
+					if ((i % itemsPerRow) !== 0 || !isInView(el)) {
+						continue;
+					}
+					for (const j of [3, 2, 1]) {
+						element = grid.children[i + sign * j * itemsPerRow];
+						if (element) {
+							break;
+						}
+					}
+					break;
+				}
+				element?.scrollIntoView();
 				return true;
-			case "ArrowUp": {
-				const increment = grid.querySelector(".dialog-button")?.clientHeight ?? grid.clientHeight / 3;
-				grid.scrollTop = Math.max(0, grid.scrollTop - increment);
-				return true;
-			}
+			case "ArrowUp":
 			case "ArrowDown": {
-				const increment = grid.querySelector(".dialog-button")?.clientHeight ?? grid.clientHeight / 3;
-				grid.scrollTop = Math.min(grid.scrollHeight, grid.scrollTop + increment);
+				// Find the first element scrolled into view, and then scroll down by 1 row
+				/** @type {null | Element} */
+				let element = null;
+				const itemsPerRow = 4;
+				for (const [i, el] of Array.from(grid.children).entries()) {
+					if ((i % itemsPerRow) !== 0 || !isInView(el)) {
+						continue;
+					}
+					element = grid.children[i + sign * itemsPerRow];
+					break;
+				}
+				element?.scrollIntoView();
 				return true;
 			}
 			default:

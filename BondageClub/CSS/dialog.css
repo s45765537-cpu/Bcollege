@@ -55,6 +55,7 @@
 	padding: 3px;
 	overflow: hidden auto;
 	grid-area: dialog-grid;
+	scroll-snap-type: y proximity;
 }
 
 .dialog-root[data-show-icon] {
@@ -70,6 +71,7 @@
 }
 
 .dialog-grid-button {
+	scroll-snap-align: start;
 	height: var(--button-height);
 	width: var(--button-width);
 }
