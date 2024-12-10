@@ -14285,6 +14285,17 @@ var AssetFemale3DCG = [
 					BuyGroup: true,
 				},
 			},
+			{
+				Name: "CyberneticEars1",
+				InventoryID: 1166,
+				Value: 10,
+				DynamicGroupName: "HairAccessory1",
+				CopyConfig: {
+					GroupName: "HairAccessory1",
+					AssetName: "CyberneticEars1",
+					BuyGroup: true,
+				},
+			},
 		],
 		Color: [
 			"Default",
