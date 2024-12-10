@@ -5659,13 +5659,13 @@ function ChatRoomSafewordRevert() {
  * @returns {void} - Nothing
  */
 function ChatRoomSafewordRelease() {
+	PandoraPenitentiarySafewordRooms.push(ChatRoomData.Name);
 	CharacterReleaseTotal(Player);
 	CharacterRefresh(Player);
 	const Dictionary = new DictionaryBuilder()
 		.sourceCharacter(Player)
 		.build();
 	ServerSend("ChatRoomChat", { Content: "ActionActivateSafewordRelease", Type: "Action", Dictionary });
-
 	ChatRoomLeave();
 	CommonSetScreen("Online", "ChatSearch");
 }

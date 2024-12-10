@@ -34,6 +34,7 @@ var PandoraReverseMaidDone = 0;
 var PandoraReverseMaidTotal = 0;
 var PandoraPenitentiaryCreateTimer = 0;
 var PandoraPenitentiaryActivityTimer = 0;
+var PandoraPenitentiarySafewordRooms = [];
 
 /**
  * NPC Dialog functions
@@ -1202,10 +1203,10 @@ function PandoraPenitentiaryResult(Result) {
 	// Exits right away if already in a chat room
 	if (CurrentScreen == "ChatRoom") return;
 
-	// Prepares a list of all the rooms
+	// Prepares a list of all available prisons, do not return in a room where we used a safeword
 	let List = [];
 	for (let R of Result)
-		if (R.Name.startsWith("Pandora") && (R.Game == "Prison") && (R.MemberCount < R.MemberLimit))
+		if (R.Name.startsWith("Pandora") && !PandoraPenitentiarySafewordRooms.includes(R.Name) && (R.Game == "Prison") && (R.MemberCount < R.MemberLimit))
 			List.push(R.Name);
 
 	// If we find some results
@@ -1268,7 +1269,7 @@ function PandoraPenitentiaryRun() {
 	if ((Player.PoseMapping.BodyFull !== "Hogtied") && (Level >= 3) && !InventoryOwnerOnlyItem(InventoryGet(Player, "ItemArms")) && !InventoryLoverOnlyItem(InventoryGet(Player, "ItemArms")) && !InventoryFamilyOnlyItem(InventoryGet(Player, "ItemArms"))) ActivityList.push("Hogtie");
 	if (!InventoryIsWorn(Player, "HempRope", "ItemArms") && !InventoryOwnerOnlyItem(InventoryGet(Player, "ItemArms")) && !InventoryLoverOnlyItem(InventoryGet(Player, "ItemArms")) && !InventoryFamilyOnlyItem(InventoryGet(Player, "ItemArms"))) ActivityList.push("Shibari");
 	if (!Player.IsNaked()) ActivityList.push("Naked");
-	if (!Player.IsVulvaChaste()) ActivityList.push("Chastity");
+	if (!Player.IsVulvaChaste() && (InventoryGet(Player, "ItemPelvis") == null)) ActivityList.push("Chastity");
 	if (Player.IsVulvaChaste() && !InventoryOwnerOnlyItem(InventoryGet(Player, "ItemPelvis")) && !InventoryLoverOnlyItem(InventoryGet(Player, "ItemPelvis")) && !InventoryFamilyOnlyItem(InventoryGet(Player, "ItemPelvis"))) ActivityList.push("Unchaste");
 	if (InventoryHasLockableItems(Player)) ActivityList.push("Lock");
 	if (InventoryCharacterIsWearingLock(Player, "MetalPadlock") || InventoryCharacterIsWearingLock(Player, "IntricatePadlock") || InventoryCharacterIsWearingLock(Player, "ExclusivePadlock") || InventoryCharacterIsWearingLock(Player, "HighSecurityPadlock") || InventoryCharacterIsWearingLock(Player, "PandoraPadlock")) ActivityList.push("Unlock");
