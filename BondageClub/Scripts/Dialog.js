@@ -3815,6 +3815,7 @@ class _DialogCraftedMenu extends DialogMenu {
 		name: "dialog-crafted-name",
 		property: "dialog-crafted-property",
 		crafter: "dialog-crafted-crafter",
+		gap: "dialog-crafted-gap",
 	});
 
 	/** @type {DialogMenu["clickStatusCallbacks"]} */
@@ -3838,6 +3839,7 @@ class _DialogCraftedMenu extends DialogMenu {
 						{ tag: "span", attributes: { id: ids.crafter }, classList: [ids.info] },
 						{ tag: "span", attributes: { id: ids.property }, classList: [ids.info] },
 						{ tag: "span", attributes: { id: ids.private }, classList: [ids.info] },
+						{ tag: "div", attributes: { id: ids.gap } },
 						{ tag: "div", classList: ["button", "blank-button", "button-styling", "dialog-grid-button", "dialog-icon"], attributes: { id: ids.icon } },
 						{
 							tag: "div",
