@@ -3405,6 +3405,19 @@ class _DialogItemMenu extends DialogMenu {
 		for (const [i, button] of Array.from(buttonGrid.children).entries()) {
 			const clickedItem = DialogInventory[i];
 
+			// Tasks already performed during a full `options.resetDialogItems` operation
+			if (!options.resetDialogItems) {
+				const wasWorn = clickedItem.Worn;
+				const isWorn = !!(equippedItem && !DialogAllowItemClick(equippedItem, clickedItem));
+				if (isWorn) {
+					Object.assign(clickedItem, equippedItem);
+				}
+				if (isWorn !== wasWorn) {
+					clickedItem.Worn = isWorn;
+					button.setAttribute("aria-checked", isWorn.toString());
+				}
+			}
+
 			const status = this.GetClickStatus(this.C, clickedItem, equippedItem);
 			if (status) {
 				button.setAttribute("aria-disabled", "true");
@@ -3412,12 +3425,14 @@ class _DialogItemMenu extends DialogMenu {
 				button.removeAttribute("aria-disabled");
 			}
 
-			if (!options.reset) {
-				// Tasks already performed during a full `options.reset`
-				button.toggleAttribute("data-hidden", CharacterAppearanceItemIsHidden(clickedItem.Asset.Name, clickedItem.Asset.Group.Name));
-				button.toggleAttribute("data-vibrating", clickedItem.Property?.Effect?.includes("Vibrating") ?? false);
-				ElementButton.ReloadAssetIcons(/** @type {HTMLButtonElement} */(button), clickedItem, this.C);
+			if (options.reset) {
+				continue;
 			}
+
+			// Tasks already performed during a full `options.reset` operation
+			button.toggleAttribute("data-hidden", CharacterAppearanceItemIsHidden(clickedItem.Asset.Name, clickedItem.Asset.Group.Name));
+			button.toggleAttribute("data-vibrating", clickedItem.Property?.Effect?.includes("Vibrating") ?? false);
+			ElementButton.ReloadAssetIcons(/** @type {HTMLButtonElement} */(button), clickedItem, this.C);
 		}
 
 		if (options.resetScrollbar) {
