@@ -3632,8 +3632,16 @@ class _DialogPermissionMenu extends DialogMenu {
 			));
 		}
 
+		const equippedItem = InventoryGet(this.C, this.focusGroup.Name);
 		for (const [i, button] of Array.from(buttonGrid.children).entries()) {
 			const clickedItem = DialogInventory[i];
+
+			const status = this.GetClickStatus(this.C, clickedItem, equippedItem);
+			if (status) {
+				button.setAttribute("aria-disabled", "true");
+			} else {
+				button.removeAttribute("aria-disabled");
+			}
 
 			const permissions = this.C.PermissionItems[`${clickedItem.Asset.Group.Name}/${clickedItem.Asset.Name}`];
 			button.setAttribute("data-permission", permissions?.Permission ?? "Default");
@@ -3673,7 +3681,11 @@ class _DialogActivitiesMenu extends DialogMenu {
 	});
 
 	/** @type {DialogMenu<T, ItemActivity>["clickStatusCallbacks"]} */
-	clickStatusCallbacks = {};
+	clickStatusCallbacks = {
+		IsBlocked: (C, clickedActivity, equippedItem) => {
+			return clickedActivity.Blocked === "blocked" ? InterfaceTextGet("ExtendedItemNoItemPermission") : null;
+		},
+	};
 
 	_Load() {
 		const ids = this.ids;
@@ -3724,9 +3736,12 @@ class _DialogActivitiesMenu extends DialogMenu {
 			));
 		}
 
+		const equippedItem = InventoryGet(this.C, this.focusGroup.Name);
 		for (const [i, button] of Array.from(buttonGrid.children).entries()) {
 			const clickedActivity = DialogActivity[i];
-			if (clickedActivity.Blocked === "blocked") {
+
+			const status = this.GetClickStatus(this.C, clickedActivity, equippedItem);
+			if (status) {
 				button.setAttribute("aria-disabled", "true");
 			} else {
 				button.removeAttribute("aria-disabled");
