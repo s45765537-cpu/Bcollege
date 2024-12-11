@@ -339,7 +339,7 @@ type EffectName =
 	"UnlockLoversPadlock" | "UnlockLoversTimerPadlock" |
 	"UnlockFamilyPadlock" | "UnlockMistressPadlock" | "UnlockMistressTimerPadlock" |
 	"UnlockPandoraPadlock" | "UnlockMetalCuffs" | "UnlockEscortAnkleCuffs" | "UnlockPortalPanties" |
-	"ProtrudingMouth" | "Wiggling"
+	"ProtrudingMouth" | "Wiggling" | "CanEdge"
 	;
 
 interface ExpressionNameMap {
