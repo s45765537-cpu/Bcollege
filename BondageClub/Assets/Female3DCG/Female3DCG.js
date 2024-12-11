@@ -285,6 +285,10 @@ const E = /** @type {const} */ ({
 	DeafHeavy: "DeafHeavy",
 	DeafTotal: "DeafTotal",
 	// #endregion
+
+	// #region Crafting option effects
+	CanEdge: "CanEdge", // Used for if non-vibrating items can have the "Edging" effect on them
+	// #endregion
 });
 
 /**
@@ -21770,6 +21774,7 @@ var AssetFemale3DCG = [
 				Left: 200,
 				Top: 410,
 				Prerequisite: ["AccessVulva", "HasPenis"],
+				Effect: [E.CanEdge],
 				AllowExpression: ["Hard"],
 				Priority: 24,
 				PoseMapping: {
@@ -21787,6 +21792,7 @@ var AssetFemale3DCG = [
 				Left: 200,
 				Top: 465,
 				Prerequisite: ["AccessVulva", "HasPenis"],
+				Effect: [E.CanEdge],
 				AllowExpression: ["Hard"],
 				AllowLock: true,
 				DrawLocks: false,
@@ -22434,7 +22440,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#A2A2A2", "#787878", "#2C2C2C"],
 				AllowLock: true,
 				DrawLocks: false,
-				Effect: [E.Leash],
+				Effect: [E.Leash, E.CanEdge],
 				Layer: [
 					{
 						Name: "Lock",
@@ -23074,7 +23080,7 @@ var AssetFemale3DCG = [
 					"ItemVulvaPiercingsChastityClitShield",
 					"ItemVulvaPiercingsHighSecurityVulvaShield",
 				],
-				Effect: [E.Chaste],
+				Effect: [E.Chaste, E.CanEdge],
 				Block: ["ItemVulva", "ItemButt", "ItemVulvaPiercings"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Layer: [{ Name: "Belt" }, { Name: "Studs" }],
@@ -23104,7 +23110,7 @@ var AssetFemale3DCG = [
 					"ItemVulvaPiercingsChastityClitShield",
 					"ItemVulvaPiercingsHighSecurityVulvaShield",
 				],
-				Effect: [E.Chaste],
+				Effect: [E.Chaste, E.CanEdge],
 				Block: ["ItemVulva", "ItemButt", "ItemVulvaPiercings"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 			},
@@ -23133,7 +23139,7 @@ var AssetFemale3DCG = [
 					"ItemVulvaPiercingsChastityClitShield",
 					"ItemVulvaPiercingsHighSecurityVulvaShield",
 				],
-				Effect: [E.Chaste],
+				Effect: [E.Chaste, E.CanEdge],
 				Block: ["ItemVulva", "ItemVulvaPiercings"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Extended: true,
@@ -23166,7 +23172,7 @@ var AssetFemale3DCG = [
 					"ItemVulvaPiercingsChastityClitShield",
 					"ItemVulvaPiercingsHighSecurityVulvaShield",
 				],
-				Effect: [E.Chaste],
+				Effect: [E.Chaste, E.CanEdge],
 				Block: ["ItemVulva", "ItemVulvaPiercings"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Extended: true,
@@ -23205,6 +23211,7 @@ var AssetFemale3DCG = [
 					"ItemVulvaPiercingsChastityClitShield",
 					"ItemVulvaPiercingsHighSecurityVulvaShield",
 				],
+				Effect: [E.CanEdge],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Extended: true,
 				Layer: [
@@ -23242,7 +23249,7 @@ var AssetFemale3DCG = [
 					"ItemVulvaPiercingsChastityClitShield",
 					"ItemVulvaPiercingsHighSecurityVulvaShield",
 				],
-				Effect: [E.Chaste],
+				Effect: [E.Chaste, E.CanEdge],
 				Block: ["ItemVulva", "ItemVulvaPiercings"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Extended: true,
@@ -23288,7 +23295,7 @@ var AssetFemale3DCG = [
 					"ItemVulvaPiercingsChastityClitShield",
 					"ItemVulvaPiercingsHighSecurityVulvaShield",
 				],
-				Effect: [E.UseRemote],
+				Effect: [E.UseRemote, E.CanEdge],
 				Block: [],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Extended: true,
@@ -23640,7 +23647,7 @@ var AssetFemale3DCG = [
 					"ItemVulvaPiercingsChastityClitShield",
 					"ItemVulvaPiercingsHighSecurityVulvaShield",
 				],
-				Effect: [E.Chaste],
+				Effect: [E.Chaste, E.CanEdge],
 				Block: ["ItemVulva", "ItemVulvaPiercings"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Extended: true,
@@ -23659,7 +23666,7 @@ var AssetFemale3DCG = [
 				Audio: "CuffsMetal",
 				Prerequisite: ["AccessCrotch", "HasVagina", "CanCoverVulva"],
 				Hide: ["ItemVulva", "ItemVulvaPiercings"],
-				Effect: [E.Chaste],
+				Effect: [E.Chaste, E.CanEdge],
 				Block: ["ItemVulva", "ItemButt", "ItemVulvaPiercings"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 			},
@@ -24017,7 +24024,7 @@ var AssetFemale3DCG = [
 					"ItemVulvaPiercingsChastityClitShield",
 					"ItemVulvaPiercingsHighSecurityVulvaShield",
 				],
-				Effect: [E.Chaste],
+				Effect: [E.Chaste, E.CanEdge],
 				Block: ["ItemVulva", "ItemButt", "ItemVulvaPiercings"],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Layer: [
@@ -24043,6 +24050,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DrawLocks: false,
 				Prerequisite: ["AccessCrotch", "HasVagina"],
+				Effect: [E.CanEdge],
 				DefaultColor: [
 					"Default",
 					"Default",
@@ -24094,6 +24102,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DrawLocks: false,
 				Prerequisite: ["AccessCrotch"],
+				Effect: [E.CanEdge],
 				Attribute: ["PortalLinkLockable", "PortalLinkChastityCrotchShield"],
 				HideItem: [
 					"ItemButtAnalBeads2",
@@ -24149,7 +24158,7 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				DefaultColor: ["Default", "Default", "#FF98EC"],
 				Prerequisite: ["AccessCrotch"],
-				Effect: [E.UseRemote],
+				Effect: [E.UseRemote, E.CanEdge],
 				ArousalZone: "ItemVulva",
 				Block: [],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
@@ -24408,7 +24417,7 @@ var AssetFemale3DCG = [
 				Audio: "CuffsMetal",
 				Prerequisite: ["AccessCrotch"],
 				HideItem: [],
-				Effect: ["UseRemote"],
+				Effect: ["UseRemote", E.CanEdge],
 				Block: [],
 				Extended: true,
 				DynamicScriptDraw: true,
