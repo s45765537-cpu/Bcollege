@@ -122,6 +122,8 @@ Scratch
 抓挠
 Throw Item
 扔物品
+Grab Collar
+抓住项圈
 SourceCharacter is tormented by the vibrations, struggling to keep PronounPossessive cool.
 SourceCharacter在欲望和快感的交替中,苦苦保持着自己为数不多的清明和理智.
 SourceCharacter struggles against the intense vibrations, hardly able to control PronounPossessiveself.
@@ -1300,6 +1302,8 @@ SourceCharacter tickles TargetCharacter's neck.
 SourceCharacter挠了挠TargetCharacter的脖子。
 SourceCharacter tickles TargetCharacter's neck with PronounPossessive ActivityAsset.
 SourceCharacter用ActivityAsset搔挠TargetCharacter的脖子。
+SourceCharacter grabs TargetCharacter's collar and pulls TargetPronounObject closer.
+SourceCharacter抓住TargetCharacter的项圈，把TargetPronounObject拉近。
 SourceCharacter bites TargetCharacter's nipple.
 SourceCharacter咬了一口TargetCharacter的乳头.
 SourceCharacter caresses TargetCharacter's nipples.
@@ -1886,6 +1890,8 @@ SourceCharacter tickles PronounPossessive neck.
 SourceCharacter挠了挠自己的脖子。
 SourceCharacter tickles PronounPossessive own neck with PronounPossessive ActivityAsset.
 SourceCharacter用ActivityAsset搔挠自己的脖子。
+SourceCharacter holds onto PronounPossessive collar tightly.
+SourceCharacter紧紧抓住自己的项圈.
 SourceCharacter caresses PronounPossessive nipples.
 SourceCharacter轻抚自己的乳头.
 SourceCharacter kisses PronounPossessive own nipple.

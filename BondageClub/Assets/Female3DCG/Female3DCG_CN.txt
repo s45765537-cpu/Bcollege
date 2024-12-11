@@ -1,3 +1,21 @@
+Anklet (Left)
+踝绳 (左)
+Band Anklet
+脚踝箍带
+Heel Binder
+高跟鞋束带
+Fur Accessory
+毛绒配件
+Ribbon
+丝带
+Ribbon Bow
+蝴蝶结
+Anklet (Right)
+踝绳 (右)
+Arm (Left)
+手臂 (左)
+Arm (Right)
+手臂 (右)
 Blush
 腮红
 Lower Body
@@ -18,6 +36,8 @@ Body Writings
 身体书写
 Face Scars
 脸部疤痕
+Face paints
+脸部彩绘
 Upper Body
 上身
 Bulky Flat Chest
@@ -344,6 +364,8 @@ Large Belt
 大腰带
 Latex Apron
 乳胶围裙
+Leather Waist Belt
+皮革腰带
 Leather Straps
 皮革束带
 Poncho
@@ -611,7 +633,7 @@ Catsuit Gloves
 Cow Printed Gloves
 奶牛印花手套
 Fingerless Gloves
-无指手套
+连指手套
  Fishnet Gloves
 渔网手套
 Short Gloves
@@ -728,6 +750,8 @@ Oni Horns
 恶鬼角
 Skunk Ears
 臭鼬耳
+AquaticEars
+水生耳
 Ears
 耳朵
 Hair Accessory
@@ -934,10 +958,20 @@ Style 62a
 样式 62a
 Style 62b
 样式 62b
-Hands
-手
-Default
-默认
+Hand Accessory (Left)
+手饰 (左)
+Claws
+爪子
+Fingernails
+指甲
+Rings
+指环
+Hand Accessory (Right)
+手饰 (右)
+Hand (Left)
+手 (左)
+Hand (Right)
+手 (右)
 Hat
 帽子
 Cosplay Girl Tiara
@@ -1222,8 +1256,8 @@ Yoke
 轭
 Zip Ties
 扎带
-Cuffed to Bed
-铐在床上
+Bed Metal Cuffs
+床上金属铐
 Feet
 脚
 Ballet Heels
@@ -1552,6 +1586,8 @@ Suspension Cuffs
 吊缚手铐
  Zip Ties
 扎带
+Hands
+手
 Cosplay Girl Power Staff
 角色扮演女孩能量法杖
 Baguette
@@ -1675,33 +1711,35 @@ Whip
 Whip Paddle
 板鞭
 Pom Pom Mitts
-绒球无指手套
+绒球连指手套
 Long Leather Paw Mittens
-长皮革猫爪无指手套
+长皮革猫爪连指手套
 Futuristic Mittens
-未来无指手套
+未来连指手套
 Full Mittens
-全手无指手套
+全手连指手套
 Glue Mittens
-胶水无指手套
+胶水连指手套
 Hemp Rope Cuffs
 麻绳手铐
 Hoof Mittens
 马蹄手套
+Latex Bondage Mitts
+乳胶束缚连指手套
 Leather Mittens
-皮革无指手套
+皮革连指手套
 Padded Leather Mittens
-衬套皮革无指手套
+衬套皮革连指手套
 Padded Mittens
-衬套无指手套
+衬套连指手套
 Paw Mittens
-猫爪无指手套
+猫爪连指手套
 Polished Steel Mittens
-抛光不锈钢无指手套
+抛光不锈钢连指手套
 Pony Mittens Binder
-小马无指手套束手
+小马连指手套束手
 Short Smooth Leather Mittens
-短平滑皮革无指手套
+短平滑皮革连指手套
 Eyes
 眼睛
 Anime Lenses
@@ -1762,6 +1800,8 @@ Studded Blindfold
 铆钉眼罩
 Accent Hood
 重点头套
+Balloon Hood
+气球头套
 Big Mouth Hood
 大嘴头套
 Blanket Hood
@@ -2132,6 +2172,8 @@ Premium Muzzle Gag
 高级口套
 Overfilling Gag
 过度填满口塞
+XMas Sticker Gag
+圣诞贴纸口塞
 Neck
 颈部
 Automatic Shock Collar
@@ -2218,10 +2260,10 @@ Strict Posture Collar
 严苛姿势项圈
 Techno Collar
 科幻项圈
-Benim ayım
-吾之月
-Benim Güneşim
-吾之日
+Moon Collar
+月亮项圈
+Sun Collar
+太阳项圈
 Collar
 项圈
 Automatic Shock Unit
@@ -2284,6 +2326,8 @@ Pet Sign
 宠物标牌
 Hitching Post
 马桩
+Chain to Bed
+锁链连到床
 Nipples
 乳头
 Nipple Bell Clamps
@@ -2422,6 +2466,8 @@ Strap-On Panties
 绑带式内裤
 Studded Chastity Belt
 铆钉式贞操腰带
+Waist-Leg Full Harness
+腰腿完全束缚带
 Script
 脚本
 Torso
@@ -2542,26 +2588,6 @@ Cock Ring Leash
 阴茎环牵引绳
 Jewelry
 珠宝
-Anklet (Left)
-踝绳 (左)
-Band Anklet
-脚踝箍带
-Heel Binder (Left ankle)
-高跟鞋束缚（左脚踝）
-Fur Accessory
-毛绒配件
-Ribbon
-丝带
-Ribbon Bow
-蝴蝶结
-Left Hand
-左手
-Claws
-爪子
-Fingernails
-指甲
-Rings
-指环
 Mask
 面具
 Bunny Mask Filigrane
@@ -2724,6 +2750,8 @@ Sunstripe Panties
 太阳条纹内裤
 Thong 2
 丁字裤
+Waist-Leg Harness
+腰腿束缚带
 Wrap Panties
 包裹形内裤
 Zip-String Panties
@@ -2744,12 +2772,6 @@ Pussy 2
 阴阜 2
 Pussy 3
 阴阜 3
-Anklet (Right)
-踝绳 (右)
-Heel Binder (Right ankle)
-高跟鞋束缚（右脚踝）
-Right Hand
-右手
 Shoes
 鞋子
 Cosplay Girl Boots
@@ -2784,6 +2806,8 @@ Heels Strap
 箍带高跟鞋
 Multi-Strap Heels
 多带高跟鞋
+Indoor Slippers
+室内拖鞋
  Latex Ankle Shoes
 乳胶系踝鞋
  Latex Heels
@@ -2864,6 +2888,8 @@ Vinyl Socks
 聚乙烯袜
 Long Fishnet Stockings
 长渔网袜
+Customizable Pantyhose
+自定义裤袜
 Left Leg
 左腿
 Loose Socks
