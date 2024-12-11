@@ -32556,6 +32556,8 @@ var AssetFemale3DCG = [
 					"HandAccessoryLeft",
 					"HandAccessoryRight",
 					"ItemHandheld",
+					"HandsLeft",
+					"HandsRight",
 				],
 				PoseMapping: {
 					BaseUpper: PoseType.DEFAULT,
@@ -33049,7 +33051,7 @@ var AssetFemale3DCG = [
 					"#CCCC33", // Left Pattern Shine
 				],
 				Effect: [E.Block, E.MergedFingers], //E.BlockWardrobe
-				Hide: ["Gloves", "ItemHandheld", "HandsLeft", "HandsRight"],
+				Hide: ["Gloves", "ItemHandheld", "HandsLeft", "HandsRight", "HandAccessoryLeft", "HandAccessoryRight"],
 				AllowLock: true,
 				Extended: true,
 				ParentGroup: null,
@@ -33294,22 +33296,26 @@ var AssetFemale3DCG = [
 					{
 						Name: "WristBaseLeft",
 						AllowTypes: { w: 1 },
+						Priority: 34,
 					},
 					{
 						Name: "WristShineLeft",
 						AllowTypes: { w: 1 },
+						Priority: 34,
 					},
 					{
 						Name: "WristBaseFittedLeft",
 						AllowTypes: { w: 2 },
 						ParentGroup: "BodyUpper",
 						CopyLayerColor: "WristBaseLeft",
+						Priority: 34,
 					},
 					{
 						Name: "WristShineFittedLeft",
 						AllowTypes: { w: 2 },
 						ParentGroup: "BodyUpper",
 						CopyLayerColor: "WristShineLeft",
+						Priority: 34,
 					},
 					{
 						Name: "BaseLeft",
