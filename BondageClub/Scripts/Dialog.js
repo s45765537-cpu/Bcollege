@@ -2930,7 +2930,7 @@ class DialogMenu {
 			 * @type {(this: HTMLButtonElement, ev: MouseEvent) => void}
 			 */
 			_ClickPaginatePrev: function(event) {
-				document.getElementById("MainCanvas")?.dispatchEvent(new KeyboardEvent("keydown", { key: "PageUp" }))
+				document.getElementById("MainCanvas")?.dispatchEvent(new KeyboardEvent("keydown", { key: "PageUp" }));
 			},
 
 			/**
@@ -2938,7 +2938,7 @@ class DialogMenu {
 			 * @type {(this: HTMLButtonElement, ev: MouseEvent) => void}
 			 */
 			_ClickPaginateNext: function(event) {
-				document.getElementById("MainCanvas")?.dispatchEvent(new KeyboardEvent("keydown", { key: "PageDown" }))
+				document.getElementById("MainCanvas")?.dispatchEvent(new KeyboardEvent("keydown", { key: "PageDown" }));
 			},
 		};
 	}
@@ -3405,14 +3405,34 @@ class _DialogItemMenu extends DialogMenu {
 		for (const [i, button] of Array.from(buttonGrid.children).entries()) {
 			const clickedItem = DialogInventory[i];
 
+			// Tasks already performed during a full `options.resetDialogItems` operation
+			if (!options.resetDialogItems) {
+				const wasWorn = clickedItem.Worn;
+				const isWorn = !!(equippedItem && !DialogAllowItemClick(equippedItem, clickedItem));
+				if (isWorn) {
+					Object.assign(clickedItem, equippedItem);
+				}
+				if (isWorn !== wasWorn) {
+					clickedItem.Worn = isWorn;
+					button.setAttribute("aria-checked", isWorn.toString());
+				}
+			}
+
 			const status = this.GetClickStatus(this.C, clickedItem, equippedItem);
 			if (status) {
 				button.setAttribute("aria-disabled", "true");
 			} else {
 				button.removeAttribute("aria-disabled");
 			}
+
+			if (options.reset) {
+				continue;
+			}
+
+			// Tasks already performed during a full `options.reset` operation
 			button.toggleAttribute("data-hidden", CharacterAppearanceItemIsHidden(clickedItem.Asset.Name, clickedItem.Asset.Group.Name));
 			button.toggleAttribute("data-vibrating", clickedItem.Property?.Effect?.includes("Vibrating") ?? false);
+			ElementButton.ReloadAssetIcons(/** @type {HTMLButtonElement} */(button), clickedItem, this.C);
 		}
 
 		if (options.resetScrollbar) {
@@ -3542,7 +3562,12 @@ class _DialogLockingMenu extends DialogMenu {
 			} else {
 				button.removeAttribute("aria-disabled");
 			}
-			button.toggleAttribute("data-hidden", CharacterAppearanceItemIsHidden(clickedLock.Asset.Name, clickedLock.Asset.Group.Name));
+
+			if (!options.reset) {
+				// Tasks already performed during a full `options.reset`
+				button.toggleAttribute("data-hidden", CharacterAppearanceItemIsHidden(clickedLock.Asset.Name, clickedLock.Asset.Group.Name));
+				ElementButton.ReloadAssetIcons(/** @type {HTMLButtonElement} */(button), clickedLock, this.C);
+			}
 		}
 
 		if (options.resetScrollbar) {
@@ -3632,12 +3657,25 @@ class _DialogPermissionMenu extends DialogMenu {
 			));
 		}
 
+		const equippedItem = InventoryGet(this.C, this.focusGroup.Name);
 		for (const [i, button] of Array.from(buttonGrid.children).entries()) {
 			const clickedItem = DialogInventory[i];
 
+			const status = this.GetClickStatus(this.C, clickedItem, equippedItem);
+			if (status) {
+				button.setAttribute("aria-disabled", "true");
+			} else {
+				button.removeAttribute("aria-disabled");
+			}
+
 			const permissions = this.C.PermissionItems[`${clickedItem.Asset.Group.Name}/${clickedItem.Asset.Name}`];
 			button.setAttribute("data-permission", permissions?.Permission ?? "Default");
-			button.toggleAttribute("data-hidden", CharacterAppearanceItemIsHidden(clickedItem.Asset.Name, clickedItem.Asset.Group.Name));
+
+			if (!options.reset) {
+				// Tasks already performed during a full `options.reset`
+				button.toggleAttribute("data-hidden", CharacterAppearanceItemIsHidden(clickedItem.Asset.Name, clickedItem.Asset.Group.Name));
+				ElementButton.ReloadAssetIcons(/** @type {HTMLButtonElement} */(button), clickedItem, this.C);
+			}
 		}
 
 		if (options.resetScrollbar) {
@@ -3673,7 +3711,11 @@ class _DialogActivitiesMenu extends DialogMenu {
 	});
 
 	/** @type {DialogMenu<T, ItemActivity>["clickStatusCallbacks"]} */
-	clickStatusCallbacks = {};
+	clickStatusCallbacks = {
+		IsBlocked: (C, clickedActivity, equippedItem) => {
+			return clickedActivity.Blocked === "blocked" ? InterfaceTextGet("ExtendedItemNoItemPermission") : null;
+		},
+	};
 
 	_Load() {
 		const ids = this.ids;
@@ -3724,9 +3766,12 @@ class _DialogActivitiesMenu extends DialogMenu {
 			));
 		}
 
+		const equippedItem = InventoryGet(this.C, this.focusGroup.Name);
 		for (const [i, button] of Array.from(buttonGrid.children).entries()) {
 			const clickedActivity = DialogActivity[i];
-			if (clickedActivity.Blocked === "blocked") {
+
+			const status = this.GetClickStatus(this.C, clickedActivity, equippedItem);
+			if (status) {
 				button.setAttribute("aria-disabled", "true");
 			} else {
 				button.removeAttribute("aria-disabled");
