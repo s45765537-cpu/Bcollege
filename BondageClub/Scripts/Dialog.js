@@ -3411,6 +3411,7 @@ class _DialogItemMenu extends DialogMenu {
 				const isWorn = !!(equippedItem && !DialogAllowItemClick(equippedItem, clickedItem));
 				if (isWorn) {
 					Object.assign(clickedItem, equippedItem);
+					button.toggleAttribute("data-unload", false);
 				}
 				if (isWorn !== wasWorn) {
 					clickedItem.Worn = isWorn;
