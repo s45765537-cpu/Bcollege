@@ -14,6 +14,8 @@
 [0-5]、“+”、”-”或者“b”或者”blue”: 使用“0”移除脸红，使用“1”到“5”设置脸红程度，或者使用“+”或者“-”来增减脸红程度，或使用“b”或者“blue”设置为蓝色。不提供脸红会打开脸红菜单。
 [Message]: sends hidden message to bots
 [Message]:对机器人发送隐藏消息
+[start][stop]: Show the Bondage Club changelog for the specified version(s); defaults to the latest version
+[start][stop]:显示指定版本的Bondage Club变更日志；默认为最新版本
 : Toss a coin
 :丢一枚硬币
 : Open the crafting menu
@@ -26,6 +28,18 @@
 [0-5]: 清空或加载面部表情。指令后的“0”会清空当前的表情。“1”到“5”会从保存栏位加载表情。如果没有提供数字，会打开已保存的表情菜单。
 [o|c][l|r] or [expression]: Open or close eyes or change expression. ”c” will close, ”o” will open, using ”l” or ”r” will target only one eye. Giving no action opens the expression menu, using one of ”default”, ”dazed”, ”shy”, ”sad”, ”horny”, ”lewd”, ”verylewd”, ”heart”, ”heartpink”, ”lewdheart”, ”lewdheartpink”, ”dizzy” (or ”@@”), ”daydream” (or ”><”), ”shylyhappy” (or ”^^”), ”angry” (or ”èé”), ”surprised” (or ”éè”) or ”scared” will change expression.
 [o|c][l|r] 或者 [expression]: 睁开或关闭眼睛，或者改变表情。“c”会闭眼，“o”会睁眼，使用“l”或者“r”来只针对一侧的眼睛。如果没有提供动作，会打开表情菜单，使用下列之一来改变表情：“defualt”、“dazed”、“shy”、“sad”、“horny”、“lewd”、“verylewd”、“heart”、“heartpink”、“lewdheartpink”、“dizzy”（或“@@”）、“daydream”（或者“><”）、“shylyhappy”（或者“^^”）、“angry”（或“èé”）、“surprised”（或“éè”）、“scared”。
+add/remove/list/clear/help [targeter(s)]: Modifies your focus list (which allows you to selectively view players in a chatroom). Run '/focus' for more information.
+add/remove/list/clear/help [目标]: 修改你的关注列表（允许你选择性地查看聊天室中的玩家）。运行'/focus'获取更多信息。
+[targeter(s)]: Alias for /focus add [targeter(s)]
+[targeter(s)]: 这个指令 /focus add [targeter(s)] 的别名
+[targeter(s)]: Alias for /focus remove [targeter(s)]
+[targeter(s)]: 这个指令 /focus remove [targeter(s)] 的别名
+: Alias for /focus list
+: /focus list 的别名
+: Alias for /focus clear
+: /focus clear 的别名
+: Alias for /focus help
+: /focus help 的别名    
 [MemberNumber]: Add the player to your friendlist
 [MemberNumber]:将玩家添加到好友列表
 [MemberNumber]: Remove the player from your friendlist
@@ -44,10 +58,10 @@
 [Percentage 0-100]% [Message]:以尝试动作来显示“[PlayerName] Message: ✔或者❌ (Percentage %)”。Percentage是成功率。*[Percentage]% [Message]是同样的效果。如果没有提供Percentage参数，成功率是50%。
 [MemberNumber]: Promote the user to room administrator
 [MemberNumber]:使玩家成为房管
-[MemberNumber]: Adds the user to the room whitelist
-[MemberNumber]:将用户加入房间白名单
 [MemberNumber]: Removes the user from the room whitelist
 [MemberNumber]:将用户从房间白名单中删除
+[MemberNumber]: Adds the user to the room whitelist
+[MemberNumber]:将用户加入房间白名单
 use safeword
 使用安全词
 : View your blacklist

@@ -300,6 +300,18 @@
 (和DialogCharacterObject说悄悄话)
 (Stop whispering to DialogCharacterObject.)
 (停止和DialogCharacterObject说悄悄话)
+(Add to focuslist.)
+(添加到关注列表)
+###_NPC
+(This member was added to your focus list. You will only be able to visually see DialogCharacterObject and others on your focus list in the room. See /focus for more details.)
+(这个成员已经被添加到你的关注列表。你只能在房间中看到DialogCharacterObject和其他在你的关注列表中的人。查看/focus获取更多信息)
+###_PLAYER
+(Remove from focuslist.)
+(从关注列表中移除)
+###_NPC
+(This member was removed from your focus list. See /focus for more details.)
+(这个成员已经从你的关注列表中移除。查看/focus获取更多信息)
+###_PLAYER
 (Hold on to DialogCharacterPossessive leash.)
 (抓住DialogCharacterPossessive的链子)
 (Let go of DialogCharacterPossessive leash.)
