@@ -3411,8 +3411,13 @@ class _DialogItemMenu extends DialogMenu {
 			} else {
 				button.removeAttribute("aria-disabled");
 			}
-			button.toggleAttribute("data-hidden", CharacterAppearanceItemIsHidden(clickedItem.Asset.Name, clickedItem.Asset.Group.Name));
-			button.toggleAttribute("data-vibrating", clickedItem.Property?.Effect?.includes("Vibrating") ?? false);
+
+			if (!options.reset) {
+				// Tasks already performed during a full `options.reset`
+				button.toggleAttribute("data-hidden", CharacterAppearanceItemIsHidden(clickedItem.Asset.Name, clickedItem.Asset.Group.Name));
+				button.toggleAttribute("data-vibrating", clickedItem.Property?.Effect?.includes("Vibrating") ?? false);
+				ElementButton.ReloadAssetIcons(/** @type {HTMLButtonElement} */(button), clickedItem, this.C);
+			}
 		}
 
 		if (options.resetScrollbar) {
@@ -3542,7 +3547,12 @@ class _DialogLockingMenu extends DialogMenu {
 			} else {
 				button.removeAttribute("aria-disabled");
 			}
-			button.toggleAttribute("data-hidden", CharacterAppearanceItemIsHidden(clickedLock.Asset.Name, clickedLock.Asset.Group.Name));
+
+			if (!options.reset) {
+				// Tasks already performed during a full `options.reset`
+				button.toggleAttribute("data-hidden", CharacterAppearanceItemIsHidden(clickedLock.Asset.Name, clickedLock.Asset.Group.Name));
+				ElementButton.ReloadAssetIcons(/** @type {HTMLButtonElement} */(button), clickedLock, this.C);
+			}
 		}
 
 		if (options.resetScrollbar) {
@@ -3645,7 +3655,12 @@ class _DialogPermissionMenu extends DialogMenu {
 
 			const permissions = this.C.PermissionItems[`${clickedItem.Asset.Group.Name}/${clickedItem.Asset.Name}`];
 			button.setAttribute("data-permission", permissions?.Permission ?? "Default");
-			button.toggleAttribute("data-hidden", CharacterAppearanceItemIsHidden(clickedItem.Asset.Name, clickedItem.Asset.Group.Name));
+
+			if (!options.reset) {
+				// Tasks already performed during a full `options.reset`
+				button.toggleAttribute("data-hidden", CharacterAppearanceItemIsHidden(clickedItem.Asset.Name, clickedItem.Asset.Group.Name));
+				ElementButton.ReloadAssetIcons(/** @type {HTMLButtonElement} */(button), clickedItem, this.C);
+			}
 		}
 
 		if (options.resetScrollbar) {
