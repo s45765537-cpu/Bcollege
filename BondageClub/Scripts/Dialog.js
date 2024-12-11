@@ -1619,7 +1619,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 	} else {
 		// First, we add anything that's currently equipped
 		if (CurItem)
-			DialogInventoryAdd(C, CurItem, true);
+			DialogInventoryAdd(C, CurItem, true, DialogSortOrder.Enabled);
 
 		// Second, we add everything from the victim inventory
 		for (const I of C.Inventory)
