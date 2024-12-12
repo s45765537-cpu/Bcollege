@@ -1145,7 +1145,7 @@ var ElementButton = {
 	/**
 	 * Parse the passed icon list, returning its corresponding `<img>` grid and tooltip if non-empty
 	 * @param {string} id - The ID of the parent element
-	 * @param {readonly (InventoryIcon | { iconSrc: string, tooltipText: string | Node })[]} [icons] - The (optional) list of icons
+	 * @param {readonly (InventoryIcon | { name: string, iconSrc: string, tooltipText: string | Node })[]} [icons] - The (optional) list of icons
 	 * @returns {null | { iconGrid: HTMLDivElement, tooltip: (string | HTMLElement)[] }} - `null` if the provided icon list is empty and otherwise an object containing the icon grid and a icon-specific tooltip
 	 */
 	_ParseIcons: function _ParseIcons(id, icons) {
@@ -1154,50 +1154,65 @@ var ElementButton = {
 			return null;
 		}
 
-		const tooltip = ElementCreate({
+		const tooltip = document.getElementById(`${id}-icon-ul`) ?? ElementCreate({
 			tag: "ul",
 			attributes: { id: `${id}-icon-ul` },
 			classList: ["button-icon-tooltip-ul"],
 			children: [],
 		});
-		const iconGrid = ElementCreate({
+
+		const iconGrid = /** @type {HTMLDivElement} */(document.getElementById(`${id}-icon-grid`)) ?? ElementCreate({
 			tag: "div",
 			classList: ["button-icon-grid"],
-			attributes: { "aria-hidden": "true" },
-			children: icons.map((icon) => {
-				/** @type {string} */
-				let src;
-				/** @type {string | Node} */
-				let tooltipText;
-				if (typeof icon === "object") {
-					src = icon.iconSrc;
-					tooltipText = icon.tooltipText;
-				} else if (icon.endsWith("Padlock")) {
-					src = `./Assets/Female3DCG/ItemMisc/Preview/${icon}.png`;
-					tooltipText = InterfaceTextGet("PreviewIconPadlock").replace(
-						"AssetName",
-						AssetGet("Female3DCG", "ItemMisc", icon).Description,
-					);
-				} else {
-					src = `./Icons/Previews/${icon}.png`;
-					tooltipText = InterfaceTextGet(`PreviewIcon${icon}`);
-				}
+			attributes: { id: `${id}-icon-grid`, "aria-hidden": "true" },
+		});
+		const iconNames = Array.from(iconGrid.querySelectorAll(".button-icon")).map(el => el.getAttribute("data-name"));
 
-				ElementCreate({
-					tag: "li",
-					attributes: { id: `${id}-icon-li-${icon}` },
-					classList: ["button-icon-tooltip-li"],
-					children: [tooltipText],
-					parent: tooltip,
-					style: { "background-image": `url("./${src}")` },
-				});
+		icons.forEach((icon) => {
+			let custom = false;
+			/** @type {string} */
+			let name;
+			/** @type {string} */
+			let src;
+			/** @type {string | Node} */
+			let tooltipText;
+			if (typeof icon === "object") {
+				custom = true;
+				name = icon.name;
+				src = icon.iconSrc;
+				tooltipText = icon.tooltipText;
+			} else if (icon.endsWith("Padlock")) {
+				name = icon;
+				src = `./Assets/Female3DCG/ItemMisc/Preview/${icon}.png`;
+				tooltipText = InterfaceTextGet("PreviewIconPadlock").replace(
+					"AssetName",
+					AssetGet("Female3DCG", "ItemMisc", icon).Description,
+				);
+			} else {
+				name = icon;
+				src = `./Icons/Previews/${icon}.png`;
+				tooltipText = InterfaceTextGet(`PreviewIcon${icon}`);
+			}
+			if (iconNames.includes(name)) {
+				return;
+			}
 
-				return {
-					tag: "img",
-					classList: ["button-icon"],
-					attributes: { decoding: "async", loading: "lazy", src },
-				};
-			}),
+			ElementCreate({
+				tag: "li",
+				attributes: { id: `${id}-icon-li-${name}` },
+				classList: ["button-icon-tooltip-li"],
+				children: [tooltipText],
+				parent: tooltip,
+				style: { "background-image": `url("./${src}")` },
+			});
+
+			ElementCreate({
+				tag: "img",
+				classList: ["button-icon"],
+				attributes: { decoding: "async", loading: "lazy", src, "aria-owns": `${id}-icon-li-${name}` },
+				dataAttributes: { name, custom: custom ? "" : undefined },
+				parent: iconGrid,
+			});
 		});
 		return { iconGrid, tooltip: [InterfaceTextGet("StatusAndEffects"), ElementCreate({ tag: "br" }), tooltip] };
 	},
@@ -1465,6 +1480,44 @@ var ElementButton = {
 		options.tooltipPosition ??= "bottom";
 		options.tooltip ??= options.icons.length ? [""] : undefined;
 		return ElementButton.Create(id, onClick, options, htmlOptions);
+	},
+
+	/**
+	 * Reload the icons of the passed {@link ElementButton.CreateForAsset} button based on the items & characters current state.
+	 * @param {HTMLButtonElement} button - The button in question
+	 * @param {Asset | Item} asset - The asset (or item) for linked to the button
+	 * @param {null | Character} C - The character wearing the asset/item (if any)
+	 * @returns {boolean} - Whether the icons were updated or not
+	 */
+	ReloadAssetIcons: function ReloadAssetIcons(button, asset, C) {
+		const item = "Asset" in asset ? asset : { Asset: asset };
+		asset = item.Asset;
+
+		const icons = Array.from(button.querySelectorAll(".button-icon"));
+		const iconNamesOld = icons.map(el => el.getAttribute("data-name"));
+		const iconNamesNew = [
+			DialogGetFavoriteStateDetails(C ?? Player, asset)?.Icon,
+			...DialogGetLockIcon(item, "Property" in item),
+			...DialogGetAssetIcons(asset),
+			...DialogEffectIcons.GetIcons(item),
+		];
+
+		const iconNamesAdded = iconNamesNew.filter(i => i != null && !iconNamesOld.includes(i));
+		const iconNamesRemoved = iconNamesOld.filter(i => !/** @type {string[]} */(iconNamesNew).includes(i));
+		if (iconNamesAdded.length === 0 && iconNamesRemoved.length === 0) {
+			return false;
+		}
+
+		for (const icon of icons) {
+			if (!icon.hasAttribute("data-custom")) {
+				const tooltipComponentID = icon.getAttribute("aria-owns");
+				if (tooltipComponentID) { document.getElementById(tooltipComponentID)?.remove(); }
+				icon.remove();
+			}
+		}
+
+		ElementButton._ParseIcons(button.id, iconNamesAdded);
+		return true;
 	},
 };
 

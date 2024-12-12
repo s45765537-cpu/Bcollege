@@ -214,7 +214,7 @@
 	left: 0;
 	right: 0;
 	bottom: 0;
-	border: min(0.3dvh, 0.15dvw) inset black;
+	border: min(0.4dvh, 0.2dvw) inset black;
 }
 
 .button-styling:disabled::before,
@@ -223,7 +223,7 @@
 }
 
 .button-styling[aria-checked="true"]::before {
-	border: min(0.3dvh, 0.15dvw) inset black;
+	border: min(0.4dvh, 0.2dvw) inset black;
 }
 
 .button-styling:active,

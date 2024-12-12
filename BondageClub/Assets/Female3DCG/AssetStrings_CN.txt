@@ -10,6 +10,20 @@ SourceCharacter attaches a chain to DestinationCharacter anal hook.
 SourceCharacter将一根锁链连接到DestinationCharacter肛钩上。
 SourceCharacter attaches DestinationCharacter anal hook to TargetPronounPossessive hair.
 SourceCharacter将DestinationCharacter肛钩连接到TargetPronounObject的头发上。
+Ankle zone
+脚踝区域
+Knee zone
+膝盖区域
+None
+无
+Adding fur
+添加绒毛
+Wear or remove it
+穿戴或移除
+Customise your fur accessory:
+自定义你的绒毛配件：
+wear or remove it
+穿戴或移除
 SourceCharacter uses chains on TargetCharacter to have TargetPronounObject crawling on all fours.
 SourceCharacter用锁链把TargetCharacter绑起来，让TargetPronounObject只能四肢着地。
 SourceCharacter uses chains on TargetCharacter to do a box tie.
@@ -242,6 +256,26 @@ Vertical
 垂直
 Select Mark
 选择标记
+Bottom stripes
+底部条纹
+Top stripes
+顶部条纹
+Cheek spots
+脸颊斑点
+Eye spots
+眼睛斑点
+Forhead spots
+额头斑点
+Muzzle
+口套
+Nose spots
+鼻子斑点
+Left barcode
+左侧条码
+Right barcode
+右侧条码
+Select marks
+选择标记
 Default
 默认
 Select body overlay.
@@ -308,8 +342,6 @@ Circle
 环形
 Square
 方形
-None
-无
 Cirle
 环形
 Choose Design
@@ -632,6 +664,16 @@ Zam's Stick ArtII
 Zam的棍棒艺术II
 Hornyhood
 角帽
+Bondage Club Rules!
+束缚俱乐部规则！
+Born To Be Tied
+生而为缚
+Hogtied
+驷马
+Bondage College 2
+束缚大学2
+S.Tiyana's White C-Pad
+S.Tiyana的白色手柄
 BTG
 BTG
 Dominant
@@ -1740,6 +1782,10 @@ Select Horn
 选择角
 Select Size
 选择尺寸
+Large
+大
+Select inner style
+选择内部风格
 Select Type.
 选择类型
 SourceCharacter changes DestinationCharacter hair.
@@ -1748,6 +1794,34 @@ Left Only
 仅左侧
 Right Only
 仅右侧
+Index
+食指
+Middle finger
+中指
+Pinkie
+小拇指
+Ring finger
+无名指
+Thumb
+大拇指
+Steel Ring
+钢戒指
+Honor Ring
+荣誉戒指
+Wedding Ring
+结婚戒指
+Choose your rings
+选择你的戒指
+Choose a ring for the Index
+为食指选择一个戒指
+Choose a ring for the Middle finger
+为中指选择一个戒指
+Choose a ring for the Pinkie
+为小拇指选择一个戒指
+Choose a ring for the Ring finger
+为无名指选择一个戒指
+Choose a ring for the Thumb
+为大拇指选择一个戒指
 Select strap location.
 选择束带位置。
 Over the hair
@@ -3316,6 +3390,50 @@ SourceCharacter ties DestinationCharacter rope cuffs to the front of her harness
 SourceCharacter将DestinationCharacter绳子手铐绑在她的束带前面。
 SourceCharacter detaches DestinationCharacter rope cuffs.
 SourceCharacter解开了DestinationCharacter绳子手铐。
+Select Bondage Mitt Details
+选择束缚连指手套细节
+Select Mitt Type
+选择连指手套类型
+Mitt Type
+连指手套类型
+Padded
+板状
+Nozzle Inflated
+管口充气
+SourceCharacter changes the glove type of DestinationCharacter bondage mitts.
+SourceCharacter改变了DestinationCharacter束缚连指手套的手套类型。
+Select Cuff Style
+选择铐样式
+Cuff Style
+铐样式
+Firm Cuffs
+结实的铐
+Fitted Cuffs
+合身的铐
+SourceCharacter adjusts the cuffs of DestinationCharacter bondage mitts.
+SourceCharacter调整了DestinationCharacter束缚连指手套的铐。
+Select Right Hand Pattern
+选择右手图案
+Right Pattern
+右手图案
+Pumpkin (Under Only)
+南瓜（仅下）
+Pumpkin
+南瓜
+Smiley (Under Only)
+笑脸（仅下）
+Split
+分开
+Quarters
+四分之一
+SourceCharacter changes the pattern of DestinationCharacter right bondage mitt.
+SourceCharacter改变了DestinationCharacter右手束缚连指手套的图案。
+Select Left Hand Pattern
+选择左手图案
+Left Pattern
+左手图案
+SourceCharacter changes the pattern of DestinationCharacter left bondage mitt.
+SourceCharacter改变了DestinationCharacter左手束缚连指手套的图案。
 Chained
 有锁链
 SourceCharacter chains DestinationCharacter padded mittens to the harness.
@@ -3596,14 +3714,14 @@ SourceCharacter creates a cocoon out of web for TargetCharacter
 SourceCharacter把TargetCharacter的头完全裹在了茧里
 Finish
 Finish
-Pumpkin
-南瓜
 Smiley Lines
 笑脸线条
 Smiley Filled
 笑脸填充
 8 Ball
 8球
+Tree
+树
 Cover All
 覆盖全部
 Cover Limited
@@ -3932,8 +4050,6 @@ SourceCharacter tightens DestinationCharacter dog hood.
 SourceCharacter绑紧了DestinationCharacter狗狗头套。
 Collar
 项圈
-Muzzle
-口套
 No Collar
 没有想去哪
 Banded Collar
@@ -4510,8 +4626,6 @@ Auto-Inflation
 自动充气
 Deflation Timer
 排气计时器
-Padded
-板状
 Select Auto-Inflation Sensitivity:
 选择自动充气敏感度：
 Select Deflation Timer
@@ -5708,44 +5822,6 @@ SourceCharacter attaches the Leather Deluxe ankle cuffs chain on DestinationChar
 SourceCharacter将DestinationCharacter脚踝上的皮革豪华脚铐的锁链连在一起。
 SourceCharacter detaches the chain from DestinationCharacter Leather Deluxe ankle cuffs.
 SourceCharacter解开了DestinationCharacter皮革豪华脚铐上的锁链。
-Ankle zone
-脚踝区域
-Knee zone
-膝盖区域
-Adding fur
-添加绒毛
-Wear or remove it
-穿戴或移除
-Customise your fur accessory:
-自定义你的绒毛配件：
-Index
-食指
-Middle finger
-中指
-Pinkie
-小拇指
-Ring finger
-无名指
-Thumb
-大拇指
-Steel Ring
-钢戒指
-Honor Ring
-荣誉戒指
-Wedding Ring
-结婚戒指
-Choose your rings
-选择你的戒指
-Choose a ring for the Index
-为食指选择一个戒指
-Choose a ring for the Middle finger
-为中指选择一个戒指
-Choose a ring for the Pinkie
-为小拇指选择一个戒指
-Choose a ring for the Ring finger
-为无名指选择一个戒指
-Choose a ring for the Thumb
-为大拇指选择一个戒指
 SourceCharacter uses the chain on TargetCharacter to do a basic tie.
 SourceCharacter用锁链在TargetCharacter身上绑了一个基础束缚。
 SourceCharacter uses the chain on TargetCharacter to do a strict tie.
@@ -6264,8 +6340,6 @@ Wrapped Up
 层层包裹
 Harness 2
 束缚带2
-wear or remove it
-穿戴或移除
 Ankles Tie
 脚踝结
 Ankles and Knees Tie
@@ -6724,8 +6798,6 @@ Tease
 玩弄
 Cocooned
 茧状
-Hogtied
-驷马
 Suspension Cocooned
 茧状悬挂
 Select web type
@@ -7454,3 +7526,109 @@ SourceCharacter cuffs DestinationCharacter right arm to the bed.
 SourceCharacter将DestinationCharacter的右臂铐在床上。
 SourceCharacter cuffs DestinationCharacter both arms to the bed.
 SourceCharacter将DestinationCharacter的双臂铐在床上。
+Ripped A
+撕破 A
+Ripped B
+撕破 B
+Ripped C
+撕破 C
+Choose the pantyhose type:
+选择连裤袜类型：
+Waist-Leg Combo Harness main menu
+腰腿组合束缚主菜单
+Link strap legs
+链接束带腿
+Link strap menu
+链接束带菜单
+Flexible strap
+柔软束带
+Restrain legs
+束缚腿
+Accessory strap A
+配饰束带 A
+Accessory strap A menu
+配饰束带 A 菜单
+Equipped
+装备
+Accessory strap B
+配饰束带 B
+Accessory strap B menu
+配饰束带 B 菜单
+Strap-on belt
+假阳具带
+Strap-on belt menu
+假阳具带菜单
+Wand Vibrating
+按摩棒振动
+Wand Vibrating menu
+按摩棒振动菜单
+Equipped-Off
+装备-关闭
+Mid-Low
+中低
+Mid
+中
+Chastity mode
+贞操模式
+Chastity mode menu
+贞操模式菜单
+Just base
+只有基础
+Closed rear
+关闭后部
+SourceCharacter removes the link strap from between the DestinationCharacterName legs.
+SourceCharacter从DestinationCharacterName腿之间移除了链接带。
+SourceCharacter installs the link strap from between the DestinationCharacterName legs.
+SourceCharacter在DestinationCharacterName腿之间安装了链接带。
+SourceCharacter restrain DestinationCharacterName legs with a shorter device.
+SourceCharacter用一个较短的设备束缚了DestinationCharacterName的腿。
+SourceCharacter removes a accessory strap (A) on the DestinationCharacterName pelvis.
+SourceCharacter从DestinationCharacterName髋部移除了一个配饰带（A）。
+SourceCharacter puts a accessory strap (A) on the DestinationCharacterName pelvis.
+SourceCharacter在DestinationCharacterName髋部安装了一个配饰带（A）。
+SourceCharacter removes a accessory strap (B) on the DestinationCharacterName pelvis.
+SourceCharacter从DestinationCharacterName髋部移除了一个配饰带（B）。
+SourceCharacter puts a accessory strap (B) on the DestinationCharacterName pelvis.
+SourceCharacter在DestinationCharacterName髋部安装了一个配饰带（B）。
+SourceCharacter removes the strap-on belt accessory from the DestinationCharacterName pelvis.
+SourceCharacter从DestinationCharacterName髋部移除了假阳具带配饰。
+SourceCharacter installs the strap-on belt accessory from the DestinationCharacterName pelvis.
+SourceCharacter在DestinationCharacterName髋部安装了假阳具带配饰。
+SourceCharacter removes the wand device accessory from the DestinationCharacterName pelvis.
+SourceCharacter从DestinationCharacterName髋部移除了按摩棒配饰。
+SourceCharacter just installs the wand device accessory from the DestinationCharacterName pelvis and doesn't turn it on.
+SourceCharacter只是在DestinationCharacterName髋部安装了按摩棒配件，但没有打开。
+SourceCharacter installs the wand device accessory from the DestinationCharacterName pelvis and puts it in lowest intensity.
+SourceCharacter在DestinationCharacterName髋部安装了按摩棒配件，并将其设置为最低强度。
+SourceCharacter installs the wand device accessory from the DestinationCharacterName pelvis and select a low intensity.
+SourceCharacter在DestinationCharacterName髋部安装了按摩棒配件，并选择了低强度。
+SourceCharacter installs the wand device accessory from the DestinationCharacterName pelvis and select a mid intensity.
+SourceCharacter在DestinationCharacterName髋部安装了按摩棒配件，并选择了中强度。
+SourceCharacter installs the wand device accessory from the DestinationCharacterName pelvis and select a high intensity.
+SourceCharacter在DestinationCharacterName髋部安装了按摩棒配件，并选择了高强度。
+SourceCharacter installs the wand device accessory from the DestinationCharacterName pelvis and select a max intensity.
+SourceCharacter在DestinationCharacterName髋部安装了按摩棒配件，并选择了最大强度。
+SourceCharacter removes any chastity module on the DestinationCharacterName pelvis.
+SourceCharacter从DestinationCharacterName髋部移除了贞操模块。
+SourceCharacter attaches the chastity base on the DestinationCharacterName pelvis.
+SourceCharacter在DestinationCharacterName髋部安装了贞操基底。
+SourceCharacter locks the chastity module on the DestinationCharacterName vagina only.
+SourceCharacter将DestinationCharacterName的贞操模块锁定为仅阴部。
+SourceCharacter locks the chastity module on the DestinationCharacterName butt only.
+SourceCharacter将DestinationCharacterName的贞操模块锁定为仅臀部。
+SourceCharacter locks the chastity module on the DestinationCharacterName both sides.
+SourceCharacter将DestinationCharacterName的贞操模块锁定为均锁住。
+Balloon hood adjustment menu:
+气球头套调整菜单：
+Loose on the head
+放松头部
+Tight on the head
+收紧头部
+Breathplay condition
+呼吸控制状态
+SourceCharacter fills the DestinationCharacterName balloon with air.
+SourceCharacter将DestinationCharacterName气球充满空气。
+SourceCharacter empties the DestinationCharacterName balloon a little.
+SourceCharacter将DestinationCharacterName气球稍稍放气。
+SourceCharacter empties completely the DestinationCharacterName balloon.
+SourceCharacter将DestinationCharacterName气球中的气体放空。

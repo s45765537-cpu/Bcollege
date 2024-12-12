@@ -1,6 +1,5 @@
 .dialog-root {
 	--button-height: calc(min(25dvh, 12.5dvw) - 2px);
-	--button-width: min(20dvh, 10dvw);
 	--gap: min(2dvh, 1dvw);
 
 	display: grid;
@@ -68,10 +67,11 @@
 .dialog-grid {
 	display: grid;
 	gap: var(--gap);
-	grid-template-columns: repeat(4, min-content);
 	grid-template-rows: repeat(auto-fill, var(--button-height));
+	grid-template-columns: repeat(4, 1fr);
 	padding: 3px;
 	overflow: hidden auto;
+	padding-right: max(20px, var(--gap));
 	grid-area: dialog-grid;
 	scroll-snap-type: y proximity;
 	scroll-padding: 3px;
@@ -92,7 +92,7 @@
 .dialog-grid-button {
 	scroll-snap-align: start;
 	height: var(--button-height);
-	width: var(--button-width);
+	width: min(100%, 20dvh, 10dvw);
 }
 
 .dialog-grid-button:disabled[aria-checked="true"],
@@ -114,9 +114,8 @@
 .dialog-grid-button > .button-tooltip {
 	--tooltip-gap: var(--gap);
 
-	width: calc(4 * var(--button-width) + 3 * var(--gap));
+	width: calc(400% + 4 * min(0.2dvh, 0.1dvw) + 3 * var(--gap));
 	font-size: min(2.6dvh, 1.3dvw);
-	text-indent: 1em hanging each-line;
 	max-height: calc(2 * var(--button-height) + var(--gap));
 	display: -webkit-box;
 	line-clamp: 15;
@@ -197,13 +196,13 @@
 	display: grid;
 	overflow: hidden;
 	grid-area: dialog-grid;
-	gap: var(--gap);
+	gap: var(--gap) 0px;
 	grid-template:
-		"dialog-crafted-name dialog-crafted-icon ." minmax(auto, min-content)
-		"dialog-crafted-crafter dialog-crafted-icon ." minmax(auto, min-content)
-		"dialog-crafted-property dialog-crafted-icon ." minmax(auto, min-content)
-		"dialog-crafted-private dialog-crafted-icon ." minmax(auto, min-content)
-		"dialog-crafted-footer dialog-crafted-footer dialog-crafted-footer" minmax(auto, min-content) / calc(3 * var(--button-width) + 2 * var(--gap)) auto auto
+		"dialog-crafted-name dialog-crafted-gap dialog-crafted-icon ." minmax(auto, min-content)
+		"dialog-crafted-crafter dialog-crafted-gap dialog-crafted-icon ." minmax(auto, min-content)
+		"dialog-crafted-property dialog-crafted-gap dialog-crafted-icon ." minmax(auto, min-content)
+		"dialog-crafted-private dialog-crafted-gap dialog-crafted-icon ." minmax(auto, min-content)
+		"dialog-crafted-footer dialog-crafted-footer dialog-crafted-footer dialog-crafted-footer" minmax(auto, min-content) / auto var(--gap) min(100%, 20dvh, 10dvw) max(20px, var(--gap))
 }
 
 .dialog-crafted-info {
@@ -233,9 +232,12 @@
 	grid-area: dialog-crafted-private;
 }
 
+#dialog-crafted-gap {
+	grid-area: dialog-crafted-gap;
+}
+
 #dialog-crafted-icon {
 	grid-area: dialog-crafted-icon;
-	margin-left: 3px;
 	margin-top: 3px;
 	display: block;
 }
@@ -248,5 +250,6 @@
 
 #dialog-crafted-footer > * {
 	display: block;
-	max-width: calc(100% - var(--gap));
+	max-width: calc(100% - max(20px, var(--gap)));
+	padding-right: unset;
 }
