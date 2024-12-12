@@ -24845,6 +24845,7 @@ var AssetFemale3DCG = [
 						ParentGroup: ["BodyUpper", null],
 						Priority: 20,
 						PoseMapping: {
+							TapedHands: "BackBoxTie",
 							BackBoxTie: "BackBoxTie",
 							BackCuffs: "BackBoxTie",
 							Yoked: "BackBoxTie",
@@ -24863,6 +24864,7 @@ var AssetFemale3DCG = [
 						ParentGroup: ["BodyUpper", null],
 						Priority: 20,
 						PoseMapping: {
+							TapedHands: "BackBoxTie",
 							BackBoxTie: "BackBoxTie",
 							BackCuffs: "BackBoxTie",
 							Yoked: "BackBoxTie",
@@ -24881,6 +24883,7 @@ var AssetFemale3DCG = [
 						ParentGroup: ["BodyUpper", null],
 						Priority: 20,
 						PoseMapping: {
+							TapedHands: "BackBoxTie",
 							BackBoxTie: "BackBoxTie",
 							BackCuffs: "BackBoxTie",
 							Yoked: "BackBoxTie",
@@ -24899,13 +24902,14 @@ var AssetFemale3DCG = [
 						ParentGroup: ["BodyUpper", null],
 						Priority: 20,
 						PoseMapping: {
+							TapedHands: "BackBoxTie",
 							BackBoxTie: "BackBoxTie",
 							BackCuffs: "BackBoxTie",
 							Yoked: "BackBoxTie",
 							OverTheHead: "BackBoxTie",
 							BackElbowTouch: "BackBoxTie",
 							Hogtied: PoseType.HIDE,
-							AllFours: PoseType.HIDE
+							AllFours: PoseType.HIDE,
 						},
 						AllowColorize: true,
 						ColorGroup: "AccessoryBelts",
@@ -24918,6 +24922,7 @@ var AssetFemale3DCG = [
 						ParentGroup: ["BodyUpper", null],
 						Priority: 23,
 						PoseMapping: {
+							TapedHands: "BackBoxTie",
 							BackBoxTie: "BackBoxTie",
 							BackCuffs: "BackBoxTie",
 							Yoked: "BackBoxTie",
@@ -24936,6 +24941,7 @@ var AssetFemale3DCG = [
 						ParentGroup: ["BodyUpper", null],
 						Priority: 23,
 						PoseMapping: {
+							TapedHands: "BackBoxTie",
 							BackBoxTie: "BackBoxTie",
 							BackCuffs: "BackBoxTie",
 							Yoked: "BackBoxTie",
@@ -24954,6 +24960,7 @@ var AssetFemale3DCG = [
 						ParentGroup: ["BodyUpper", null],
 						Priority: 24,
 						PoseMapping: {
+							TapedHands: PoseType.DEFAULT,
 							BackBoxTie: PoseType.DEFAULT,
 							BackCuffs: PoseType.DEFAULT,
 							Yoked: PoseType.DEFAULT,
@@ -24973,6 +24980,7 @@ var AssetFemale3DCG = [
 						ParentGroup: ["BodyUpper", null],
 						Priority: 21,
 						PoseMapping: {
+							TapedHands: "BackBoxTie",
 							BackBoxTie: "BackBoxTie",
 							BackCuffs: "BackBoxTie",
 							Yoked: "BackBoxTie",
@@ -24991,6 +24999,7 @@ var AssetFemale3DCG = [
 						ParentGroup: ["BodyUpper", null],
 						Priority: 21,
 						PoseMapping: {
+							TapedHands: "BackBoxTie",
 							BackBoxTie: "BackBoxTie",
 							BackCuffs: "BackBoxTie",
 							Yoked: "BackBoxTie",
@@ -25009,6 +25018,7 @@ var AssetFemale3DCG = [
 						ParentGroup: ["BodyUpper", null],
 						Priority: 22,
 						PoseMapping: {
+							TapedHands: "BackBoxTie",
 							BackBoxTie: "BackBoxTie",
 							BackCuffs: "BackBoxTie",
 							Yoked: "BackBoxTie",
@@ -25027,6 +25037,7 @@ var AssetFemale3DCG = [
 						ParentGroup: ["BodyUpper", null],
 						Priority: 22,
 						PoseMapping: {
+							TapedHands: "BackBoxTie",
 							BackBoxTie: "BackBoxTie",
 							BackCuffs: "BackBoxTie",
 							Yoked: "BackBoxTie",
