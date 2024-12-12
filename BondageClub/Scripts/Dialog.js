@@ -1619,7 +1619,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 	} else {
 		// First, we add anything that's currently equipped
 		if (CurItem)
-			DialogInventoryAdd(C, CurItem, true);
+			DialogInventoryAdd(C, CurItem, true, DialogSortOrder.Enabled);
 
 		// Second, we add everything from the victim inventory
 		for (const I of C.Inventory)
@@ -3411,6 +3411,7 @@ class _DialogItemMenu extends DialogMenu {
 				const isWorn = !!(equippedItem && !DialogAllowItemClick(equippedItem, clickedItem));
 				if (isWorn) {
 					Object.assign(clickedItem, equippedItem);
+					button.toggleAttribute("data-unload", false);
 				}
 				if (isWorn !== wasWorn) {
 					clickedItem.Worn = isWorn;
@@ -3814,6 +3815,7 @@ class _DialogCraftedMenu extends DialogMenu {
 		name: "dialog-crafted-name",
 		property: "dialog-crafted-property",
 		crafter: "dialog-crafted-crafter",
+		gap: "dialog-crafted-gap",
 	});
 
 	/** @type {DialogMenu["clickStatusCallbacks"]} */
@@ -3837,6 +3839,7 @@ class _DialogCraftedMenu extends DialogMenu {
 						{ tag: "span", attributes: { id: ids.crafter }, classList: [ids.info] },
 						{ tag: "span", attributes: { id: ids.property }, classList: [ids.info] },
 						{ tag: "span", attributes: { id: ids.private }, classList: [ids.info] },
+						{ tag: "div", attributes: { id: ids.gap } },
 						{ tag: "div", classList: ["button", "blank-button", "button-styling", "dialog-grid-button", "dialog-icon"], attributes: { id: ids.icon } },
 						{
 							tag: "div",

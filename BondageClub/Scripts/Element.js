@@ -1166,6 +1166,7 @@ var ElementButton = {
 			classList: ["button-icon-grid"],
 			attributes: { id: `${id}-icon-grid`, "aria-hidden": "true" },
 		});
+		const iconNames = Array.from(iconGrid.querySelectorAll(".button-icon")).map(el => el.getAttribute("data-name"));
 
 		icons.forEach((icon) => {
 			let custom = false;
@@ -1191,6 +1192,9 @@ var ElementButton = {
 				name = icon;
 				src = `./Icons/Previews/${icon}.png`;
 				tooltipText = InterfaceTextGet(`PreviewIcon${icon}`);
+			}
+			if (iconNames.includes(name)) {
+				return;
 			}
 
 			ElementCreate({
@@ -1503,7 +1507,6 @@ var ElementButton = {
 		if (iconNamesAdded.length === 0 && iconNamesRemoved.length === 0) {
 			return false;
 		}
-		console.log(true, button, asset, C, iconNamesAdded, iconNamesRemoved);
 
 		for (const icon of icons) {
 			if (!icon.hasAttribute("data-custom")) {
