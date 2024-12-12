@@ -24630,7 +24630,11 @@ var AssetFemale3DCG = [
 				Name: "WaistLegHarness",
 				InventoryID: 1191,
 				Gender: "F",
-				Prerequisite: ["AccessCrotch", "HasVagina", "CanCoverVulva"],
+				Prerequisite: [
+					"AccessCrotch",
+					"HasVagina",
+					"CanCoverVulva",
+				],
 				Fetish: ["Leather", "Chastity"],
 				Value: 70,
 				BuyGroup: "WaistLegHarness",
@@ -24638,8 +24642,8 @@ var AssetFemale3DCG = [
 				Left: 0,
 				Difficulty: 30,
 				Time: 10,
-				RemoveTime: 15,
-				Audio: "Buckle",
+				RemoveTime: 10,
+				Audio: ["Buckle"],
 				AllowLock: true,
 				DrawLocks: false,
 				AllowTighten: true,
@@ -24783,7 +24787,22 @@ var AssetFemale3DCG = [
 						AllowColorize: true,
 						ColorGroup: "LinkStrap",
 						CreateLayerTypes: ["l"],
-						AllowTypes: { l: [1, 2] },
+						AllowTypes: { l: 1 },
+					},
+					{
+						Name: "ShortLink",
+						Priority: 19,
+						ParentGroup: "BodyLower",
+						PoseMapping: {
+							...AssetPoseMapping.Panties,
+							LegsClosed: "LegsClosed",
+							Spread: PoseType.HIDE,
+							Kneel: "Kneel",
+							KneelingSpread: PoseType.HIDE,
+						},
+						CopyLayerColor: "LinkMetal",
+						CreateLayerTypes: ["l"],
+						AllowTypes: { l: 2 },
 					},
 					{
 						Name: "BeltsC",
@@ -24821,10 +24840,9 @@ var AssetFemale3DCG = [
 						ColorGroup: "HarnessStraps",
 						AllowColorize: true,
 					},
-					// Accessories Section
 					{
 						Name: "BeltAccA",
-						ParentGroup: "BodyUpper",
+						ParentGroup: ["BodyUpper", null],
 						Priority: 20,
 						PoseMapping: {
 							BackBoxTie: "BackBoxTie",
@@ -24842,7 +24860,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "AccMetalA",
-						ParentGroup: "BodyUpper",
+						ParentGroup: ["BodyUpper", null],
 						Priority: 20,
 						PoseMapping: {
 							BackBoxTie: "BackBoxTie",
@@ -24860,7 +24878,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "BeltAccB",
-						ParentGroup: "BodyUpper",
+						ParentGroup: ["BodyUpper", null],
 						Priority: 20,
 						PoseMapping: {
 							BackBoxTie: "BackBoxTie",
@@ -24878,7 +24896,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "AccMetalB",
-						ParentGroup: "BodyUpper",
+						ParentGroup: ["BodyUpper", null],
 						Priority: 20,
 						PoseMapping: {
 							BackBoxTie: "BackBoxTie",
@@ -24887,7 +24905,7 @@ var AssetFemale3DCG = [
 							OverTheHead: "BackBoxTie",
 							BackElbowTouch: "BackBoxTie",
 							Hogtied: PoseType.HIDE,
-							AllFours: PoseType.HIDE,
+							AllFours: PoseType.HIDE
 						},
 						AllowColorize: true,
 						ColorGroup: "AccessoryBelts",
@@ -24897,8 +24915,8 @@ var AssetFemale3DCG = [
 					// StrapOn Section
 					{
 						Name: "StrapBelt",
-						ParentGroup: "BodyUpper",
-						Priority: 24,
+						ParentGroup: ["BodyUpper", null],
+						Priority: 23,
 						PoseMapping: {
 							BackBoxTie: "BackBoxTie",
 							BackCuffs: "BackBoxTie",
@@ -24915,8 +24933,8 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "StrapBMetal",
-						ParentGroup: "BodyUpper",
-						Priority: 24,
+						ParentGroup: ["BodyUpper", null],
+						Priority: 23,
 						PoseMapping: {
 							BackBoxTie: "BackBoxTie",
 							BackCuffs: "BackBoxTie",
@@ -24933,7 +24951,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "StrapDildo",
-						ParentGroup: "BodyUpper",
+						ParentGroup: ["BodyUpper", null],
 						Priority: 24,
 						PoseMapping: {
 							BackBoxTie: PoseType.DEFAULT,
@@ -24952,7 +24970,7 @@ var AssetFemale3DCG = [
 					// Chastity Section
 					{
 						Name: "Chastity",
-						ParentGroup: "BodyUpper",
+						ParentGroup: ["BodyUpper", null],
 						Priority: 21,
 						PoseMapping: {
 							BackBoxTie: "BackBoxTie",
@@ -24966,11 +24984,11 @@ var AssetFemale3DCG = [
 						AllowColorize: true,
 						ColorGroup: "Chastity",
 						CreateLayerTypes: ["t"],
-						AllowTypes: { t: [1, 2, 3, 4] },
+						AllowTypes: { t: [ 1, 2, 3, 4 ] },
 					},
 					{
 						Name: "ChastityMetal",
-						ParentGroup: "BodyUpper",
+						ParentGroup: ["BodyUpper", null],
 						Priority: 21,
 						PoseMapping: {
 							BackBoxTie: "BackBoxTie",
@@ -24984,11 +25002,11 @@ var AssetFemale3DCG = [
 						AllowColorize: true,
 						ColorGroup: "Chastity",
 						CreateLayerTypes: ["t"],
-						AllowTypes: { t: [1, 2, 3, 4] },
+						AllowTypes: { t: [ 1, 2, 3, 4 ] },
 					},
 					{
 						Name: "ChastityClosed",
-						ParentGroup: "BodyUpper",
+						ParentGroup: ["BodyUpper", null],
 						Priority: 22,
 						PoseMapping: {
 							BackBoxTie: "BackBoxTie",
@@ -25002,11 +25020,11 @@ var AssetFemale3DCG = [
 						AllowColorize: true,
 						ColorGroup: "Chastity",
 						CreateLayerTypes: ["t"],
-						AllowTypes: { t: [2, 4] },
+						AllowTypes: { t: [ 2, 4 ] },
 					},
 					{
 						Name: "ChastityClMetal",
-						ParentGroup: "BodyUpper",
+						ParentGroup: ["BodyUpper", null],
 						Priority: 22,
 						PoseMapping: {
 							BackBoxTie: "BackBoxTie",
@@ -25020,12 +25038,12 @@ var AssetFemale3DCG = [
 						AllowColorize: true,
 						ColorGroup: "Chastity",
 						CreateLayerTypes: ["t"],
-						AllowTypes: { t: [2, 4] },
+						AllowTypes: { t: [ 2, 4 ] },
 					},
 					// Vibrator Section
 					{
 						Name: "BeltVib",
-						ParentGroup: "BodyUpper",
+						ParentGroup: ["BodyUpper", null],
 						Priority: 23,
 						PoseMapping: {
 							...AssetPoseMapping.ItemPelvis,
@@ -25040,11 +25058,11 @@ var AssetFemale3DCG = [
 						AllowColorize: true,
 						ColorGroup: "Vibrator",
 						CreateLayerTypes: ["v"],
-						AllowTypes: { v: [1, 2, 3, 4, 5, 6] },
+						AllowTypes: { v: [ 1, 2, 3, 4, 5, 6 ] },
 					},
 					{
 						Name: "BeltVibMetal",
-						ParentGroup: "BodyUpper",
+						ParentGroup: ["BodyUpper", null],
 						Priority: 23,
 						PoseMapping: {
 							...AssetPoseMapping.ItemPelvis,
@@ -25059,45 +25077,39 @@ var AssetFemale3DCG = [
 						AllowColorize: true,
 						ColorGroup: "Vibrator",
 						CreateLayerTypes: ["v"],
-						AllowTypes: { v: [1, 2, 3, 4, 5, 6] },
+						AllowTypes: { v: [ 1, 2, 3, 4, 5, 6 ] },
 					},
 					{
 						Name: "VibTop",
-						ParentGroup: "BodyUpper",
-						Priority: 24,
+						ParentGroup: ["BodyLower", null],
+						Priority: 23,
 						PoseMapping: {
-							...AssetPoseMapping.ItemPelvis,
-							BackBoxTie: PoseType.DEFAULT,
-							BackCuffs: PoseType.DEFAULT,
-							Yoked: PoseType.DEFAULT,
-							OverTheHead: PoseType.DEFAULT,
-							BackElbowTouch: PoseType.DEFAULT,
-							Hogtied: PoseType.HIDE,
-							AllFours: PoseType.HIDE,
+							...AssetPoseMapping.Panties,
+							LegsClosed: PoseType.DEFAULT,
+							Spread: PoseType.DEFAULT,
+							Kneel: PoseType.DEFAULT,
+							KneelingSpread: PoseType.DEFAULT,
 						},
 						AllowColorize: true,
 						ColorGroup: "Vibrator",
 						CreateLayerTypes: ["v"],
-						AllowTypes: { v: [1, 2, 3, 4, 5, 6] },
+						AllowTypes: { v: [ 1, 2, 3, 4, 5, 6 ] },
 					},
 					{
 						Name: "VibBelow",
-						ParentGroup: "BodyUpper",
+						ParentGroup: ["BodyLower", null],
 						Priority: 24,
 						PoseMapping: {
-							...AssetPoseMapping.ItemPelvis,
-							BackBoxTie: PoseType.DEFAULT,
-							BackCuffs: PoseType.DEFAULT,
-							Yoked: PoseType.DEFAULT,
-							OverTheHead: PoseType.DEFAULT,
-							BackElbowTouch: PoseType.DEFAULT,
-							Hogtied: PoseType.HIDE,
-							AllFours: PoseType.HIDE,
+							...AssetPoseMapping.Panties,
+							LegsClosed: PoseType.DEFAULT,
+							Spread: PoseType.DEFAULT,
+							Kneel: PoseType.DEFAULT,
+							KneelingSpread: PoseType.DEFAULT,
 						},
 						AllowColorize: true,
 						ColorGroup: "Vibrator",
 						CreateLayerTypes: ["v"],
-						AllowTypes: { v: [1, 2, 3, 4, 5, 6] },
+						AllowTypes: { v: [ 1, 2, 3, 4, 5, 6 ] },
 					},
 				],
 			},
@@ -47992,7 +48004,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "NShine",
-						CopyLayerColor: "Shiny",
+						CopyLayerColor: "Shine",
 						Priority: 26,
 					},
 					{
