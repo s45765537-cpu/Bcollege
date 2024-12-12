@@ -33051,7 +33051,14 @@ var AssetFemale3DCG = [
 					"#CCCC33", // Left Pattern Shine
 				],
 				Effect: [E.Block, E.MergedFingers], //E.BlockWardrobe
-				Hide: ["Gloves", "ItemHandheld", "HandsLeft", "HandsRight", "HandAccessoryLeft", "HandAccessoryRight"],
+				Hide: [
+					"Gloves",
+					"ItemHandheld",
+					"HandsLeft",
+					"HandsRight",
+					"HandAccessoryLeft",
+					"HandAccessoryRight",
+				],
 				AllowLock: true,
 				Extended: true,
 				ParentGroup: null,
