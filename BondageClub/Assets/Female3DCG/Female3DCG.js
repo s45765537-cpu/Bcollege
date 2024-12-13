@@ -24643,7 +24643,7 @@ var AssetFemale3DCG = [
 				Difficulty: 30,
 				Time: 10,
 				RemoveTime: 10,
-				Audio: ["Buckle"],
+				Audio: "Buckle",
 				AllowLock: true,
 				DrawLocks: false,
 				AllowTighten: true,
@@ -24721,6 +24721,7 @@ var AssetFemale3DCG = [
 						ParentGroup: null,
 						Priority: 23,
 						PoseMapping: {
+							...AssetPoseMapping.BodyUpper,
 							BackBoxTie: "BackBoxTie",
 							BackCuffs: "BackBoxTie",
 							Yoked: "BackBoxTie",
@@ -24842,9 +24843,10 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "BeltAccA",
-						ParentGroup: ["BodyUpper", null],
+						ParentGroup: null,
 						Priority: 20,
 						PoseMapping: {
+							...AssetPoseMapping.BodyUpper,
 							TapedHands: "BackBoxTie",
 							BackBoxTie: "BackBoxTie",
 							BackCuffs: "BackBoxTie",
@@ -24861,9 +24863,10 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "AccMetalA",
-						ParentGroup: ["BodyUpper", null],
+						ParentGroup: null,
 						Priority: 20,
 						PoseMapping: {
+							...AssetPoseMapping.BodyUpper,
 							TapedHands: "BackBoxTie",
 							BackBoxTie: "BackBoxTie",
 							BackCuffs: "BackBoxTie",
@@ -24880,9 +24883,10 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "BeltAccB",
-						ParentGroup: ["BodyUpper", null],
+						ParentGroup: null,
 						Priority: 20,
 						PoseMapping: {
+							...AssetPoseMapping.BodyUpper,
 							TapedHands: "BackBoxTie",
 							BackBoxTie: "BackBoxTie",
 							BackCuffs: "BackBoxTie",
@@ -24899,9 +24903,10 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "AccMetalB",
-						ParentGroup: ["BodyUpper", null],
+						ParentGroup: null,
 						Priority: 20,
 						PoseMapping: {
+							...AssetPoseMapping.BodyUpper,
 							TapedHands: "BackBoxTie",
 							BackBoxTie: "BackBoxTie",
 							BackCuffs: "BackBoxTie",
@@ -24919,9 +24924,10 @@ var AssetFemale3DCG = [
 					// StrapOn Section
 					{
 						Name: "StrapBelt",
-						ParentGroup: ["BodyUpper", null],
+						ParentGroup: null,
 						Priority: 23,
 						PoseMapping: {
+							...AssetPoseMapping.BodyUpper,
 							TapedHands: "BackBoxTie",
 							BackBoxTie: "BackBoxTie",
 							BackCuffs: "BackBoxTie",
@@ -24938,9 +24944,10 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "StrapBMetal",
-						ParentGroup: ["BodyUpper", null],
+						ParentGroup: null,
 						Priority: 23,
 						PoseMapping: {
+							...AssetPoseMapping.BodyUpper,
 							TapedHands: "BackBoxTie",
 							BackBoxTie: "BackBoxTie",
 							BackCuffs: "BackBoxTie",
@@ -24957,9 +24964,10 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "StrapDildo",
-						ParentGroup: ["BodyUpper", null],
+						ParentGroup: null,
 						Priority: 24,
 						PoseMapping: {
+							...AssetPoseMapping.BodyUpper,
 							TapedHands: PoseType.DEFAULT,
 							BackBoxTie: PoseType.DEFAULT,
 							BackCuffs: PoseType.DEFAULT,
@@ -24977,9 +24985,10 @@ var AssetFemale3DCG = [
 					// Chastity Section
 					{
 						Name: "Chastity",
-						ParentGroup: ["BodyUpper", null],
+						ParentGroup: null,
 						Priority: 21,
 						PoseMapping: {
+							...AssetPoseMapping.BodyUpper,
 							TapedHands: "BackBoxTie",
 							BackBoxTie: "BackBoxTie",
 							BackCuffs: "BackBoxTie",
@@ -24996,9 +25005,10 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "ChastityMetal",
-						ParentGroup: ["BodyUpper", null],
+						ParentGroup: null,
 						Priority: 21,
 						PoseMapping: {
+							...AssetPoseMapping.BodyUpper,
 							TapedHands: "BackBoxTie",
 							BackBoxTie: "BackBoxTie",
 							BackCuffs: "BackBoxTie",
@@ -25015,9 +25025,10 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "ChastityClosed",
-						ParentGroup: ["BodyUpper", null],
+						ParentGroup: null,
 						Priority: 22,
 						PoseMapping: {
+							...AssetPoseMapping.BodyUpper,
 							TapedHands: "BackBoxTie",
 							BackBoxTie: "BackBoxTie",
 							BackCuffs: "BackBoxTie",
@@ -25034,9 +25045,10 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "ChastityClMetal",
-						ParentGroup: ["BodyUpper", null],
+						ParentGroup: null,
 						Priority: 22,
 						PoseMapping: {
+							...AssetPoseMapping.BodyUpper,
 							TapedHands: "BackBoxTie",
 							BackBoxTie: "BackBoxTie",
 							BackCuffs: "BackBoxTie",
@@ -25054,7 +25066,7 @@ var AssetFemale3DCG = [
 					// Vibrator Section
 					{
 						Name: "BeltVib",
-						ParentGroup: ["BodyUpper", null],
+						ParentGroup: null,
 						Priority: 23,
 						PoseMapping: {
 							...AssetPoseMapping.ItemPelvis,
@@ -25073,7 +25085,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "BeltVibMetal",
-						ParentGroup: ["BodyUpper", null],
+						ParentGroup: null,
 						Priority: 23,
 						PoseMapping: {
 							...AssetPoseMapping.ItemPelvis,
@@ -25092,7 +25104,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "VibTop",
-						ParentGroup: ["BodyLower", null],
+						ParentGroup: null,
 						Priority: 23,
 						PoseMapping: {
 							...AssetPoseMapping.Panties,
@@ -25108,7 +25120,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "VibBelow",
-						ParentGroup: ["BodyLower", null],
+						ParentGroup: null,
 						Priority: 24,
 						PoseMapping: {
 							...AssetPoseMapping.Panties,
