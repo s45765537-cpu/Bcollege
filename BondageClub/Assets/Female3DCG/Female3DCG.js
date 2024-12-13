@@ -6537,7 +6537,7 @@ var AssetFemale3DCG = [
 					AssetName: "RippedPantyhose",
 					BuyGroup: true,
 				},
-				Top: 400,
+				Top: 402,
 				Left: {
 					[PoseType.DEFAULT]: 75,
 					KneelingSpread: 105,
