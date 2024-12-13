@@ -12,8 +12,8 @@ Whitelist
 Белый список
 Administrator List
 Список Администраторов
-Private (Need exact name, admin, or whitelist to find it)
-Приватный (нужно точное имя, администратор или белый список, чтобы найти его)
+Private (Need exact name or admin to find it)
+Приватный (нужно точное имя, иначе администратор не сможет его найти)
 Locked (Only admins/whitelist can leave/enter)
 Заблокировано (только администраторы/whitelist могут выходить/входить)
 Select the background
