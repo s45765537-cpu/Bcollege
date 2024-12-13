@@ -5,7 +5,7 @@ DescriptionExplanation,Description of the room
 RoomBanList,Ban List
 RoomWhitelist,Whitelist
 RoomAdminList,Administrator List
-RoomPrivate,"Private (Need exact name, admin, or whitelist to find it)"
+RoomPrivate,"Private (Need exact name or admin to find it)"
 RoomLocked,Locked (Only admins/whitelist can leave/enter)
 MapNever,Never use the map exploration
 MapHybrid,"Hybrid map, can go on and off"
