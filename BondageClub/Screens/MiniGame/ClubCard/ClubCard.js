@@ -303,7 +303,12 @@ var ClubCardList = [
 		Name: "Secretary",
 		Group: ["Staff"],
 		ExtraTime: 1,
-		RequiredLevel: 2
+		RequiredLevel: 2,
+		OnPlay: function(CCPlayer) {
+			for (const card of CCPlayer.Event) {
+				card.Time++
+			}
+		}
 	},
 	{
 		ID: 2004,
@@ -1285,6 +1290,25 @@ var ClubCardList = [
 			ClubCardLogGetDataPacket(ClubCardMessageType.CARDEFFECT, "Effect Sophie", null, null, ClubCardSelection);
 		}
 	},
+	{
+		ID: 12005,
+		Name: "Moon",
+		Group: ["Pet","Player"],
+		RewardMemberNumber: 162726,
+		Prerequisite: "SelectOpponentMember",
+		RequiredLevel: 4,
+		FamePerTurn: 1,
+		MoneyPerTurn: 1,
+		OnPlay: function (CCPlayer) {
+			ClubCardRemoveFromBoard(ClubCardGetOpponent(CCPlayer), ClubCardSelection, true);
+			CCPlayer.Hand.push(ClubCardSelection);
+			if (ClubCardSelection.RequiredLevel > 2) {
+				ClubCardPlayerDrawCard(ClubCardGetOpponent(CCPlayer), 3);
+			} else {
+				ClubCardPlayerDrawCard(ClubCardGetOpponent(CCPlayer), 1);
+			}
+		}
+	},
 
 	// 13000 - Shibari Members
 	{
@@ -1417,7 +1441,7 @@ var ClubCardList = [
 	},
 	{
 		ID: 14004,
-		Name: "Puppy Dog",
+		Name: "Puppy",
 		Group: ["Pet"],
 		RequiredLevel: 2,
 		FamePerTurn: 1,
@@ -1484,7 +1508,7 @@ var ClubCardList = [
 	},
 	{
 		ID: 14010,
-		Name: "Mousey Mousegirl",
+		Name: "Miss Mouse",
 		Group: ["Pet"],
 		OnPlay: function(CCPlayer) {
 			ClubCardPlayerAddMoney(CCPlayer, -1);
@@ -1512,30 +1536,6 @@ var ClubCardList = [
 		},
 		BeforeTurnEnd: function(CCPlayer) {
 			if (ClubCardGroupIsOnBoard(CCPlayer, "Maid")) ClubCardPlayerAddFame(CCPlayer, 1);
-		}
-	},
-	{
-		ID: 14012,
-		Name: "Moon",
-		Group: ["Pet","Player"],
-		RewardMemberNumber: 162726,
-		Reward: null,
-		RequiredLevel: 3,
-		FamePerTurn: 2,
-		OnPlay: function (CCPlayer) {
-			ClubCardPlayerAddMoney(CCPlayer, -13);
-			ClubCardPlayerDrawLevelCard(CCPlayer, [4, 5], ["Member"]);
-			this.ExtraPlay = 1;
-		},
-		BeforeOpponentTurnEnd: function() {
-			this.ExtraPlay = 0;
-		},
-		onPlayedCard: function (CCPlayer, cardPlayed) {
-			if (CCPlayer.Level < cardPlayed.RequiredLevel) {
-				const moonLostFame = -5;
-				ClubCardPlayerAddFame(CCPlayer, moonLostFame);
-				ClubCardLogGetDataPacket(ClubCardMessageType.CARDEFFECT, "Effect Moon", CCPlayer, moonLostFame);
-			}
 		}
 	},
 
@@ -2986,11 +2986,13 @@ function ClubCardCanSummonCard(CCPlayer, Card) {
  *
  */
 function ClubCardCheckDetectiveDraw(CCPlayer) {
-	if (ClubCardNameIsOnBoard(ClubCardGetOpponent(CCPlayer), "Detective")) {
-		ClubCardPlayerAddMoney(ClubCardGetOpponent(CCPlayer), 1);
+	const opponent = ClubCardGetOpponent(CCPlayer);
+
+	if (ClubCardNameIsOnBoard(opponent, "Detective")) {
+		ClubCardPlayerAddMoney(opponent, 1);
 	}
-	if (ClubCardNameIsOnBoard(ClubCardGetOpponent(CCPlayer), "Detective") && !ClubCardGroupIsOnBoard(ClubCardGetOpponent(CCPlayer), "Liability")) {
-		ClubCardPlayerAddFame(ClubCardGetOpponent(CCPlayer), 1);
+	if (ClubCardNameIsOnBoard(opponent, "Detective") && !ClubCardGroupIsOnBoard(opponent, "Liability")) {
+		ClubCardPlayerAddFame(opponent, 1);
 	}
 	//Naughty Kitty check
 	if (ClubCardNameIsOnBoard(CCPlayer, "Naughty Kitty")) ClubCardPlayerAddMoney(CCPlayer, ClubCardCalculateLevelForPets(CCPlayer));
@@ -3543,9 +3545,9 @@ function ClubCardCanPlayCard(CCPlayer, Card) {
 	//Moon's card effect
 	//const playedCards = CCPlayer.CardsPlayedThisTurn[CCPlayer.ClubCardTurnCounter];
 	//const isMoonEffect = playedCards && playedCards.length > 0 && playedCards[playedCards.length - 1].Name === "Moon";	
-	const isMoonEffect = (ClubCardNameIsOnBoard(CCPlayer, "Moon"));
-	if (isMoonEffect && !ClubCardIsLiability(Card) && Card.Type != "Event")
-		targetLevel++;
+	//const isMoonEffect = (ClubCardNameIsOnBoard(CCPlayer, "Moon"));
+	//if (isMoonEffect && !ClubCardIsLiability(Card) && Card.Type != "Event")
+	//	targetLevel++;
 	
 	// Jennifer removes a card on her board before entering so should therefor be playable on a full board.
 	const boardFull = Target.Board.length >= ClubCardLevelLimit[Target.Level] && Card.Name !== "Jennifer";

@@ -124,7 +124,7 @@ Text Bouncer,<F>Your ass will bounce on the street if you make me mad.
 Title Accountant,Accountant
 Text Accountant,+1 Money per turn at House level or better.  +1 Money per turn at Manor level.
 Title Secretary,Secretary
-Text Secretary,Your 3 turns event cards will last one extra turn.
+Text Secretary,Your timed events will last one extra turn.
 Title Associate,Associate
 Text Associate,You can play one extra card per turn.
 Title Human Resource,Human Resource
@@ -468,11 +468,11 @@ Title Naughty Kitty,Naughty Kitty
 Text Naughty Kitty,"When she enters the club, discard your hand and lose 3 money. For each card you draw, gain money equal to your building level."
 Title Jessica,Jessica
 Text Jessica,"Pets treat your building level as 2 higher. When you play a pet, draw a card and gain 1 fame."
-Effect Jessica,"Jessica gives AMOUNT fame SOURCEPLAYER, when pet enters your club."
+Effect Jessica,"SOURCEPLAYER gained AMOUNT fame from Jessica"
 Title MerMaid,MerMaid
 Text MerMaid,"When she enters the club, lose 25 money. When she enters your club, draw a card and take another action."
-Title Puppy Dog,Puppy Dog
-Text Puppy Dog,"When she enters the club, lose 8 money. Gains +1 money per 2 building tiers. Gains +1 Fame if an owner is present."
+Title Puppy,Puppy
+Text Puppy,"When she enters the club, lose 8 money. Gains +1 money per 2 building tiers. Gains +1 Fame if an owner is present."
 Title Protective Owner,Protective Owner
 Text Protective Owner,"Pets treat your building level as 1 higher. If you would discard a pet from your hand, shuffle it into your deck instead."
 Title Feline Fatale,Feline Fatale
@@ -489,16 +489,16 @@ Title Jessi Gift,Jessi's Gift
 Text Jessi Gift,"At the start of your next 5 turns, gain 1 money."
 Title Pet Trainer,Pet Trainer
 Text Pet Trainer,"When you play a pet you gain 2 fame. Gains +3 fame if show dog is present in your club."
-Effect Pet Trainer,"Pet Trainer gives AMOUNT fame SOURCEPLAYER, when pet enters your club."
+Effect Pet Trainer,"SOURCEPLAYER gained AMOUNT fame from Pet Trainer"
 Title Show Dog,Show Dog
 Text Show Dog,"When she enters the club, lose 15 money. Your opponent can see your hand as long as this member is in your club."
-Title Mousey Mousegirl,Mousey Mousegirl
-Text Mousey Mousegirl,"Costs 1 Money. When you play a pet, gain 1 Fame per 2 building tiers. Gains +1 Money if owner present."
-Effect Mousey Mousegirl,"Mousey Mousegirl gives AMOUNT fame SOURCEPLAYER, when pet enters your club."
+Title Miss Mouse,Miss Mouse
+Text Miss Mouse,"Costs 1 Money. When you play a pet, gain 1 Fame per 2 building tiers. Gains +1 Money if owner present."
+Effect Miss Mouse,"SOURCEPLAYER gained AMOUNT fame from Miss Mouse"
 Title Rich Owner,Rich Owner
 Text Rich Owner,"Pets treat your building level as 1 higher. When you play a Pet, you gain 1 Money for each pet in your club (Max 5). Gains +1 Fame if a maid is present"
 Title Tour Guide,Tour Guide
 Text Tour Guide,"When she enters your club, draw a card. Gains +3 money if tourist is present, gains +3 fame if diplomat is present."
 Title Moon,"Moon"
-Text Moon,"Enters: Lose 13 money and draw a random higher level member. For 5 fame you may play members 1 tier higher than your club level." 
-Effect Moon,"SOURCEPLAYER pays 5 fame to play a card above her club level."
+Text Moon,"Send a card from your opponent's club to your hand. Your opponent draws a card, draws 3 instead if the member was level 3 or higher." 
+Prerequisite Moon,Select a member from your opponent's club to remove and add to your hand.
