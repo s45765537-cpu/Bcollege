@@ -5776,7 +5776,7 @@ ItemPelvisWaistLegHarnessSelectStrapOn,Strap-on belt menu
 ItemPelvisWaistLegHarnessOptionc0,None
 ItemPelvisWaistLegHarnessOptionc1,Equipped
 ItemPelvisWaistLegHarnessModuleVibrator,Wand Vibrating
-ItemPelvisWaistLegHarnessSelectStrapOn,Wand Vibrating menu
+ItemPelvisWaistLegHarnessSelectVibrator,Wand Vibrating menu
 ItemPelvisWaistLegHarnessOptionv0,None
 ItemPelvisWaistLegHarnessOptionv1,Equipped-Off
 ItemPelvisWaistLegHarnessOptionv2,Low
