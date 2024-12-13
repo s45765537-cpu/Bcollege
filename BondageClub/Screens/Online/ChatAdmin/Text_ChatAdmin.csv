@@ -2,14 +2,9 @@ RoomName,Room Name
 RoomLanguage,Language
 RoomDescription,Description
 InputDescriptionPlaceholder,Description of the room
-InputDescriptionPlaceholder,Description of the room
 RoomBanList,Ban List
 RoomAdminList,Administrator List
 RoomWhitelist,Whitelist
-RoomPrivate,Private
-RoomPrivateTooltip,"Need exact name, admin, or whitelist to find it"
-RoomLocked,Locked
-RoomLockedTooltip,"Only admins and whitelisted members can enter or leave"
 RoomSize,Size (2-20)
 MemberNumbersFormatPlaceholder,"Member numbers separated by commas (ex: 123, ...)"
 QuickaddExplanation,Use the above buttons to quickadd to the respective lists
@@ -26,6 +21,15 @@ QuickaddBanBlacklist,Blacklist
 QuickaddBanGhostlist,Ghostlist
 AdminOnly,Room settings can only be updated by administrators
 Background,Background
+VisibilityModeHeader,Visibility
+VisibilityModePUBLIC,Public
+VisibilityModeADMIN_WHITELIST,Admin + Whitelist
+VisibilityModeADMIN,Admin
+VisibilityModeUNLISTED,Unlisted
+AccessModeHeader,Access
+AccessModePUBLIC,Public
+AccessModeADMIN_WHITELIST,Admin + Whitelist
+AccessModeADMIN,Admin
 Create,Create
 Save,Save
 Exit,Exit
