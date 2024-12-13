@@ -1419,7 +1419,7 @@ function DialogMenuButtonBuild(C) {
 		if (
 			!IsGroupBlocked
 			&& Item?.Asset.AllowTighten
-			&& (IsItemLocked ? DialogCanUnlock(C, Item) : Player.CanInteract())
+			&& (Player.CanInteract() && (!IsItemLocked || DialogCanUnlock(C, Item)))
 		) {
 			DialogMenuButton.push("TightenLoosen");
 		}
@@ -2239,7 +2239,7 @@ function DialogChangeMode(mode, reset=false) {
 		case "layering": {
 			const item = InventoryGet(C, C?.FocusGroup?.Name);
 			if (item) {
-				const mutable = InventoryItemHasEffect(item, "Lock") ? DialogCanUnlock(C, item) : Player.CanInteract();
+				const mutable = Player.CanInteract() && (!InventoryItemHasEffect(item, "Lock") || DialogCanUnlock(C, item));
 				Layering.Init(item, C, {
 					x: DialogInventoryGrid.x,
 					y: Layering.DisplayDefault.y - 10,
