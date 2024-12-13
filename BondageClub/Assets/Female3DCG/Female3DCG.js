@@ -24689,6 +24689,7 @@ var AssetFemale3DCG = [
 						Priority: 22,
 						ParentGroup: "BodyUpper",
 						PoseMapping: {
+							TapedHands: "BackBoxTie",
 							BackBoxTie: "BackBoxTie",
 							BackCuffs: "BackBoxTie",
 							Yoked: "BackBoxTie",
@@ -24705,6 +24706,7 @@ var AssetFemale3DCG = [
 						Priority: 22,
 						ParentGroup: "BodyUpper",
 						PoseMapping: {
+							TapedHands: "BackBoxTie",
 							BackBoxTie: "BackBoxTie",
 							BackCuffs: "BackBoxTie",
 							Yoked: "BackBoxTie",
@@ -24722,6 +24724,7 @@ var AssetFemale3DCG = [
 						Priority: 23,
 						PoseMapping: {
 							...AssetPoseMapping.BodyUpper,
+							TapedHands: "BackBoxTie",
 							BackBoxTie: "BackBoxTie",
 							BackCuffs: "BackBoxTie",
 							Yoked: "BackBoxTie",
