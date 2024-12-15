@@ -242,6 +242,19 @@ var CraftingDescription = {
 	},
 
 	/**
+	 * Decode the passed string and return it as a list of valid {@link Element.append} nodes, converting `\n` characters into `<br>` elements.
+	 * @param {string} description - The to-be decoded string
+	 * @returns {(string | HTMLElement)[]} - The decoded string as a list of nodes
+	 */
+	DecodeToHTML: function DecodeToHTML(description) {
+		const descriptionParsed = CraftingDescription.Decode(description);
+		return descriptionParsed.split("\n").flatMap(_line => {
+			const line = _line.trim();
+			return line ? [line, document.createElement("br")] : [];
+		}).slice(0, -1);
+	},
+
+	/**
 	 * Encode the passed crafted item description, extracting all UTF8 characters and encoding up to two of them into a single UTF16 character.
 	 *
 	 * The first character is marked with {@link CraftingDescription.ExtendedDescriptionMarker}

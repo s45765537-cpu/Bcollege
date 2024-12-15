@@ -3885,8 +3885,13 @@ class _DialogCraftedMenu extends DialogMenu {
 		name.textContent = InterfaceTextGet("CraftingName").replace("CraftName", item.Craft.Name);
 		crafter.textContent = InterfaceTextGet("CraftingMember").replace("MemberName", item.Craft.MemberName).replace("MemberNumber", item.Craft.MemberNumber.toString());
 		property.textContent = InterfaceTextGet("CraftingProperty").replace("CraftProperty", item.Craft.Property);
-		description.textContent = InterfaceTextGet("CraftingDescription").replace("CraftDescription", CraftingDescription.Decode(item.Craft.Description));
 		private_.textContent = InterfaceTextGet("CraftingPrivate").replace("CraftPrivate", CommonCapitalize(item.Craft.Private.toString()));
+
+		description.innerHTML = "";
+		description.append(
+			InterfaceTextGet("CraftingDescription").replace("CraftDescription", ""),
+			...CraftingDescription.DecodeToHTML(item.Craft.Description),
+		);
 	}
 
 	/** @type {DialogMenu<string, null>["_GetClickedObject"]} */
