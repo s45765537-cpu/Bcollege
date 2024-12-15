@@ -1464,7 +1464,8 @@ const ExtendedItemTighten = {
 			const Difficulty = item.Difficulty ?? 0;
 			DrawText(`${InterfaceTextGet("Tightness")} ${Difficulty}`, 1200, 140, "White", "Silver");
 
-			const canUnlock = InventoryItemHasEffect(item, "Lock") ? DialogCanUnlock(CharacterGetCurrent(), item) : Player.CanInteract();
+			const C = CharacterGetCurrent();
+			const canUnlock = (Player.CanInteract() && (!InventoryItemHasEffect(item, "Lock") || DialogCanUnlock(C, item)));
 			if (canUnlock) {
 				DrawButton(...buttonCoords, InterfaceTextGet("AdjustTightness"), "White");
 			} else {
@@ -1485,7 +1486,8 @@ const ExtendedItemTighten = {
 			return false;
 		}
 
-		const canUnlock = InventoryItemHasEffect(item, "Lock") ? DialogCanUnlock(CharacterGetCurrent(), item) : Player.CanInteract();
+		const C = CharacterGetCurrent();
+		const canUnlock = (Player.CanInteract() && (!InventoryItemHasEffect(item, "Lock") || DialogCanUnlock(C, item)));
 		if (
 			asset.AllowTighten
 			&& canUnlock

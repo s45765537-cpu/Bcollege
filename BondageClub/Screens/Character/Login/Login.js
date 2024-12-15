@@ -6,10 +6,10 @@ var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
-	"Abysseia", "Aceffect", "ArashiSama", "Aylea", "BlueWinter", "Bryce", "Canti", "Christian", 
-	"Cm382714", "Desch", "Domenico", "Dynilath", "Edwin", "ErrorKH", "Glurak", "Greendragon", 
-	"John", "Laurie", "Marashu", "Michel", "Mindtie", "Misa", "Nightcore", "Robin", "Samonas", 
-	"Setsu", "SlitheryCandy", "Soulcollar", "Sticks", "Sunny", "Tam", "Tarram", "Thkdt", 
+	"Abysseia", "Aceffect", "ArashiSama", "Aylea", "BlueWinter", "Bryce", "Canti", "Christian",
+	"Cm382714", "Desch", "Domenico", "Dynilath", "Edwin", "ErrorKH", "Glurak", "Greendragon",
+	"John", "Laurie", "Marashu", "Michel", "Mindtie", "Misa", "Nightcore", "Robin", "Samonas",
+	"Setsu", "SlitheryCandy", "Soulcollar", "Sticks", "Sunny", "Tam", "Tarram", "Thkdt",
 	"TonyBoy", "Troubadix", "Troy", "Umbrapop", "WhiteSniper", "XDWolfie", "Xepherio"
 ];
 
@@ -833,7 +833,6 @@ function LoginSetupPlayer(C) {
 	LogLoad(C.Log);
 	ReputationLoad(C.Reputation);
 	SkillLoad(C.Skill);
-	CraftingLoadServer(CraftingDecompressed);
 	Player.ConfiscatedItems = C.ConfiscatedItems;
 	Player.ExtensionSettings = (C.ExtensionSettings || {});
 
@@ -875,6 +874,8 @@ function LoginSetupPlayer(C) {
 	LoginCheatItems();
 	LoginValideBuyGroups();
 	PrisonRestoreConfiscatedItems();
+	CraftingLoadServer(CraftingDecompressed); // Only run this _after_ `Player.Inventory` is fully ready
+
 	if (InventoryBeforeFixes != InventoryStringify(Player)) ServerPlayerInventorySync();
 	CharacterAppearanceValidate(Player);
 	AsylumGGTSSAddItems();

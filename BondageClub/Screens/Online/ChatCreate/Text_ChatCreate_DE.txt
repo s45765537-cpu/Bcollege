@@ -12,8 +12,8 @@ Whitelist
 Whitelist
 Administrator List
 Administrator Liste
-Private (Need exact name, admin, or whitelist to find it)
-Privat (exakter Name, Admin oder Whitelist erforderlich, um es zu finden)
+Private (Need exact name or admin to find it)
+Privat (Benötigt genauen Namen oder Admin, um ihn zu finden)
 Locked (Only admins/whitelist can leave/enter)
 Verschlossen (Nur Admins/Whitelist können gehen/eintreten)
 Never use the map exploration
