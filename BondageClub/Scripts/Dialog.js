@@ -3197,14 +3197,12 @@ class DialogMenu {
 
 	/**
 	 * @param {string} id
-	 * @returns {HTMLOptions<"div">}
+	 * @returns {HTMLDivElement}
 	 */
 	_ConstructPaginateButtons(id) {
-		return {
-			tag: "div",
-			classList: ["dialog-paginate"],
-			attributes: { id },
-			children: [
+		return ElementMenu.Create(
+			id,
+			[
 				ElementButton.Create(
 					`${id}-prev`,
 					this.eventListeners._ClickPaginatePrev,
@@ -3230,11 +3228,17 @@ class DialogMenu {
 							"aria-labelledby": `${id}-next-tooltip`,
 							"aria-describedby": undefined,
 							"aria-controls": this.ids.root,
-						}
+						},
 					}},
 				),
 			],
-		};
+			{},
+			{ "menu": {
+				classList: ["dialog-paginate"],
+				attributes: { "aria-orientation": "vertical" },
+				parent: ElementNoParent,
+			}},
+		);
 	}
 }
 
