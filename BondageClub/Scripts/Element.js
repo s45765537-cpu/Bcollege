@@ -1748,44 +1748,71 @@ var ElementMenu = {
 
 	/**
 	 * Append a menuitem to the passed menubar
-	 * @param {HTMLElement} div - The menubar
-	 * @param {HTMLElement} menuitem - The to-be prepended menuitem
+	 * @param {HTMLElement} menu - The menubar
+	 * @param {readonly HTMLElement[]} menuitems - The to-be prepended menuitem
 	 */
-	AppendButton: function AppendButton(div, menuitem) {
-		if (!div || !menuitem) {
+	AppendButton: function AppendButton(menu, ...menuitems) {
+		if (!menu || !menuitems) {
 			return;
 		}
 
-		menuitem.tabIndex = -1;
-		menuitem.setAttribute("role", "menuitem");
-		menuitem.addEventListener("keydown", this._KeyDown);
-		div.append(menuitem);
+		let i = 0;
+		const firstMenuItem = menu.querySelector("[role='menuitem'][tab-index='0'], [role='menuitemradio'][tab-index='0'], [role='menuitemcheckbox'][tab-index='0']");
+		for (const elem of menuitems) {
+			let role = elem.getAttribute("role");
+			if (!role) {
+				role = "menuitem";
+				elem.setAttribute("role", "menuitem");
+			}
+
+			if (role !== "menuitem" && role !== "menuitemradio" && role !== "menuitemcheckbox") {
+				continue;
+			}
+
+			if (i === 0 && !firstMenuItem) {
+				elem.tabIndex = 0;
+			} else {
+				elem.tabIndex = -1;
+			}
+			elem.addEventListener("keydown", this._KeyDown);
+			i++;
+		}
+		menu.append(...menuitems);
 	},
 
 	/**
 	 * Prepend a menuitem to the passed menubar
-	 * @param {HTMLElement} div - The menubar
-	 * @param {HTMLElement} menuitem - The to-be prepended menuitem
+	 * @param {HTMLElement} menu - The menubar
+	 * @param {readonly HTMLElement[]} menuitems - The to-be prepended menuitem
 	 */
-	PrependItem: function PrependButton(div, menuitem) {
-		if (!div || !menuitem) {
+	PrependItem: function PrependButton(menu, ...menuitems) {
+		if (!menu || !menuitems) {
 			return;
 		}
 
-		// Only the first visible menuitem must be directly focusable via tab
-		if (ElementCheckVisibility(menuitem)) {
-			const menuitemOld = div.querySelector("[role='menuitem'][tab-index='0']");
-			if (menuitemOld) {
-				menuitemOld.setAttribute("tabindex", "-1");
+		let i = 0;
+		const firstMenuItem = menu.querySelector("[role='menuitem'][tab-index='0'], [role='menuitemradio'][tab-index='0'], [role='menuitemcheckbox'][tab-index='0']");
+		for (const elem of menuitems) {
+			let role = elem.getAttribute("role");
+			if (!role) {
+				role = "menuitem";
+				elem.setAttribute("role", "menuitem");
 			}
-			menuitem.tabIndex = 0;
-		} else {
-			menuitem.tabIndex = -1;
-		}
 
-		menuitem.setAttribute("role", "menuitem");
-		menuitem.addEventListener("keydown", this._KeyDown);
-		div.prepend(menuitem);
+			if (role !== "menuitem" && role !== "menuitemradio" && role !== "menuitemcheckbox") {
+				continue;
+			}
+
+			if (i === 0) {
+				firstMenuItem?.setAttribute("tabindex", "-1");
+				elem.tabIndex = 0;
+			} else {
+				elem.tabIndex = -1;
+			}
+			elem.addEventListener("keydown", this._KeyDown);
+			i++;
+		}
+		menu.prepend(...menuitems);
 	},
 };
 
