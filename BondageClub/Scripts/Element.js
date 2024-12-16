@@ -1428,7 +1428,7 @@ var ElementButton = {
 					]),
 					...(item.Craft.Description ? [
 						InterfaceTextGet("CraftingDescription").replace("CraftDescription", ""),
-						{ tag: "q", children: [CraftingDescription.Decode(item.Craft.Description)] },
+						{ tag: "q", children: CraftingDescription.DecodeToHTML(item.Craft.Description) },
 						{ tag: "br" },
 					] : []),
 				],
