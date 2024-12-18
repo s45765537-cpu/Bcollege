@@ -3273,7 +3273,6 @@ var AssetFemale3DCG = [
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
 				Value: 30,
-				Hide: ["ItemNeck"],
 				HideItem: [
 					"ItemArmsLeatherCuffs",
 					"ItemArmsLeatherDeluxeCuffs",
@@ -7003,7 +7002,7 @@ var AssetFemale3DCG = [
 				Fetish: ["Lingerie", "Leather"],
 				Priority: 20,
 				Value: -1,
-				DefaultColor: "#343131",
+				DefaultColor: ["#343131", "#808080"],
 				BuyGroup: "StuddedHarness",
 				Expose: ["ItemBreast"],
 				Hide: ["ItemNipples", "ItemNipplesPiercings"],
@@ -7015,7 +7014,7 @@ var AssetFemale3DCG = [
 				],
 				Layer: [
 					{ Name: "Harness", AllowColorize: true },
-					{ Name: "Metal", AllowColorize: false },
+					{ Name: "Metal", AllowColorize: true },
 				],
 			},
 			{
@@ -25587,7 +25586,7 @@ var AssetFemale3DCG = [
 				Fetish: ["Lingerie", "Leather"],
 				Priority: 20,
 				Value: 100,
-				DefaultColor: "#343131",
+				DefaultColor: ["#343131", "#808080"],
 				Difficulty: 50,
 				Time: 15,
 				RemoveTime: 10,
@@ -25610,7 +25609,7 @@ var AssetFemale3DCG = [
 				Attribute: ["CanAttachMittens"],
 				Layer: [
 					{ Name: "Harness", AllowColorize: true },
-					{ Name: "Metal", AllowColorize: false },
+					{ Name: "Metal", AllowColorize: true },
 				],
 			},
 			{
@@ -26402,7 +26401,7 @@ var AssetFemale3DCG = [
 				Fetish: ["Lingerie", "Leather"],
 				Priority: 20,
 				Value: 100,
-				DefaultColor: "#343131",
+				DefaultColor: ["#343131", "#808080"],
 				Difficulty: 50,
 				Time: 15,
 				RemoveTime: 10,
@@ -26425,7 +26424,7 @@ var AssetFemale3DCG = [
 				Attribute: ["CanAttachMittens"],
 				Layer: [
 					{ Name: "Harness", AllowColorize: true },
-					{ Name: "Metal", AllowColorize: false },
+					{ Name: "Metal", AllowColorize: true },
 				],
 			},
 			{
