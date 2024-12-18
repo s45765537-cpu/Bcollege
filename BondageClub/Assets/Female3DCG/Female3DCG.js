@@ -24629,11 +24629,7 @@ var AssetFemale3DCG = [
 				Name: "WaistLegHarness",
 				InventoryID: 1191,
 				Gender: "F",
-				Prerequisite: [
-					"AccessCrotch",
-					"HasVagina",
-					"CanCoverVulva",
-				],
+				Prerequisite: ["AccessCrotch", "HasVagina", "CanCoverVulva"],
 				Fetish: ["Leather", "Chastity"],
 				Value: 70,
 				BuyGroup: "WaistLegHarness",
@@ -25003,7 +24999,7 @@ var AssetFemale3DCG = [
 						AllowColorize: true,
 						ColorGroup: "Chastity",
 						CreateLayerTypes: ["t"],
-						AllowTypes: { t: [ 1, 2, 3, 4 ] },
+						AllowTypes: { t: [1, 2, 3, 4] },
 					},
 					{
 						Name: "ChastityMetal",
@@ -25023,7 +25019,7 @@ var AssetFemale3DCG = [
 						AllowColorize: true,
 						ColorGroup: "Chastity",
 						CreateLayerTypes: ["t"],
-						AllowTypes: { t: [ 1, 2, 3, 4 ] },
+						AllowTypes: { t: [1, 2, 3, 4] },
 					},
 					{
 						Name: "ChastityClosed",
@@ -25043,7 +25039,7 @@ var AssetFemale3DCG = [
 						AllowColorize: true,
 						ColorGroup: "Chastity",
 						CreateLayerTypes: ["t"],
-						AllowTypes: { t: [ 2, 4 ] },
+						AllowTypes: { t: [2, 4] },
 					},
 					{
 						Name: "ChastityClMetal",
@@ -25063,7 +25059,7 @@ var AssetFemale3DCG = [
 						AllowColorize: true,
 						ColorGroup: "Chastity",
 						CreateLayerTypes: ["t"],
-						AllowTypes: { t: [ 2, 4 ] },
+						AllowTypes: { t: [2, 4] },
 					},
 					// Vibrator Section
 					{
@@ -25083,7 +25079,7 @@ var AssetFemale3DCG = [
 						AllowColorize: true,
 						ColorGroup: "Vibrator",
 						CreateLayerTypes: ["v"],
-						AllowTypes: { v: [ 1, 2, 3, 4, 5, 6 ] },
+						AllowTypes: { v: [1, 2, 3, 4, 5, 6] },
 					},
 					{
 						Name: "BeltVibMetal",
@@ -25102,7 +25098,7 @@ var AssetFemale3DCG = [
 						AllowColorize: true,
 						ColorGroup: "Vibrator",
 						CreateLayerTypes: ["v"],
-						AllowTypes: { v: [ 1, 2, 3, 4, 5, 6 ] },
+						AllowTypes: { v: [1, 2, 3, 4, 5, 6] },
 					},
 					{
 						Name: "VibTop",
@@ -25118,7 +25114,7 @@ var AssetFemale3DCG = [
 						AllowColorize: true,
 						ColorGroup: "Vibrator",
 						CreateLayerTypes: ["v"],
-						AllowTypes: { v: [ 1, 2, 3, 4, 5, 6 ] },
+						AllowTypes: { v: [1, 2, 3, 4, 5, 6] },
 					},
 					{
 						Name: "VibBelow",
@@ -25134,7 +25130,7 @@ var AssetFemale3DCG = [
 						AllowColorize: true,
 						ColorGroup: "Vibrator",
 						CreateLayerTypes: ["v"],
-						AllowTypes: { v: [ 1, 2, 3, 4, 5, 6 ] },
+						AllowTypes: { v: [1, 2, 3, 4, 5, 6] },
 					},
 				],
 			},
