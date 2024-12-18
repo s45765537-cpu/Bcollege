@@ -3700,6 +3700,7 @@ class _DialogPermissionMenu extends DialogMenu {
 	_ClickButton(button, C, clickedObj, equippedItem) {
 		const permission = DialogPermissionsClick(clickedObj, equippedItem);
 		button.setAttribute("data-permission", permission);
+		ElementButton.ReloadAssetIcons(button, clickedObj, C);
 	}
 }
 
