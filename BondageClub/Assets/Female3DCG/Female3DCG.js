@@ -52848,7 +52848,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				RemoveTime: 10,
 				AllowLock: true,
-				Hide: ["ItemFeet", "Shoes"],
+				Hide: ["Shoes"],
 				PoseMapping: {
 					Hogtied: "Hogtied",
 					Kneel: "Kneel",
