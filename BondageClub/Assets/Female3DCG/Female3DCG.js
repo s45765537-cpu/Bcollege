@@ -17408,7 +17408,7 @@ var AssetFemale3DCG = [
 
 	{
 		Group: "HandsLeft",
-		Priority: 27.001, // So it stays over the right hand
+		Priority: 27,
 		Category: "Appearance",
 		AllowNone: false,
 		AllowCustomize: false,
