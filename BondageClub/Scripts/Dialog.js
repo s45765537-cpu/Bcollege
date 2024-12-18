@@ -3346,7 +3346,10 @@ class _DialogItemMenu extends DialogMenu {
 					tag: "div",
 					attributes: { id: ids.grid, "aria-labelledby": ids.status },
 					classList: ["dialog-grid"],
-					eventListeners: { wheel: this.eventListeners._WheelGrid },
+					// FIXME: Figure out how the let the listeners distinguish between mouse wheels and touch pads,
+					// as the latter really needs smooth scrolling behavior while the former needs instant
+					//
+					// eventListeners: { wheel: this.eventListeners._WheelGrid },
 				},
 				{
 					tag: "div",
@@ -3543,7 +3546,10 @@ class _DialogLockingMenu extends DialogMenu {
 					tag: "div",
 					attributes: { id: ids.grid, "aria-labelledby": ids.status },
 					classList: ["dialog-grid"],
-					eventListeners: { wheel: this.eventListeners._WheelGrid },
+					// FIXME: Figure out how the let the listeners distinguish between mouse wheels and touch pads,
+					// as the latter really needs smooth scrolling behavior while the former needs instant
+					//
+					// eventListeners: { wheel: this.eventListeners._WheelGrid },
 				},
 			],
 		});
@@ -3648,7 +3654,10 @@ class _DialogPermissionMenu extends DialogMenu {
 					tag: "div",
 					attributes: { id: ids.grid, "aria-labelledby": ids.status },
 					classList: ["dialog-grid"],
-					eventListeners: { wheel: this.eventListeners._WheelGrid },
+					// FIXME: Figure out how the let the listeners distinguish between mouse wheels and touch pads,
+					// as the latter really needs smooth scrolling behavior while the former needs instant
+					//
+					// eventListeners: { wheel: this.eventListeners._WheelGrid },
 				},
 			],
 		});
@@ -3758,7 +3767,10 @@ class _DialogActivitiesMenu extends DialogMenu {
 					tag: "div",
 					attributes: { id: ids.grid, "aria-labelledby": ids.status },
 					classList: ["dialog-grid"],
-					eventListeners: { wheel: this.eventListeners._WheelGrid },
+					// FIXME: Figure out how the let the listeners distinguish between mouse wheels and touch pads,
+					// as the latter really needs smooth scrolling behavior while the former needs instant
+					//
+					// eventListeners: { wheel: this.eventListeners._WheelGrid },
 				},
 			],
 		});
