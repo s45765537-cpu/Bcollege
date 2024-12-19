@@ -2940,6 +2940,24 @@ class DialogMenu {
 			_ClickPaginateNext: function(event) {
 				document.getElementById("MainCanvas")?.dispatchEvent(new KeyboardEvent("keydown", { key: "PageDown" }));
 			},
+
+			/**
+			 * Provide more consistent mouse wheel scroll behavior by using browser-independent increments.
+			 * @type {(this: HTMLDivElement, event: WheelEvent) => void}
+			 */
+			_WheelGrid: function(event) {
+				event.preventDefault();
+				if (event.deltaY === 0) {
+					event.stopImmediatePropagation();
+					return;
+				}
+
+				const increment = this.querySelector(".dialog-button")?.clientHeight ?? this.clientHeight / 3;
+				this.scrollBy({
+					top: Math.sign(event.deltaY) * increment,
+					behavior: "instant",
+				});
+			},
 		};
 	}
 
@@ -3328,6 +3346,10 @@ class _DialogItemMenu extends DialogMenu {
 					tag: "div",
 					attributes: { id: ids.grid, "aria-labelledby": ids.status },
 					classList: ["dialog-grid"],
+					// FIXME: Figure out how the let the listeners distinguish between mouse wheels and touch pads,
+					// as the latter really needs smooth scrolling behavior while the former needs instant
+					//
+					// eventListeners: { wheel: this.eventListeners._WheelGrid },
 				},
 				{
 					tag: "div",
@@ -3524,6 +3546,10 @@ class _DialogLockingMenu extends DialogMenu {
 					tag: "div",
 					attributes: { id: ids.grid, "aria-labelledby": ids.status },
 					classList: ["dialog-grid"],
+					// FIXME: Figure out how the let the listeners distinguish between mouse wheels and touch pads,
+					// as the latter really needs smooth scrolling behavior while the former needs instant
+					//
+					// eventListeners: { wheel: this.eventListeners._WheelGrid },
 				},
 			],
 		});
@@ -3628,6 +3654,10 @@ class _DialogPermissionMenu extends DialogMenu {
 					tag: "div",
 					attributes: { id: ids.grid, "aria-labelledby": ids.status },
 					classList: ["dialog-grid"],
+					// FIXME: Figure out how the let the listeners distinguish between mouse wheels and touch pads,
+					// as the latter really needs smooth scrolling behavior while the former needs instant
+					//
+					// eventListeners: { wheel: this.eventListeners._WheelGrid },
 				},
 			],
 		});
@@ -3737,6 +3767,10 @@ class _DialogActivitiesMenu extends DialogMenu {
 					tag: "div",
 					attributes: { id: ids.grid, "aria-labelledby": ids.status },
 					classList: ["dialog-grid"],
+					// FIXME: Figure out how the let the listeners distinguish between mouse wheels and touch pads,
+					// as the latter really needs smooth scrolling behavior while the former needs instant
+					//
+					// eventListeners: { wheel: this.eventListeners._WheelGrid },
 				},
 			],
 		});

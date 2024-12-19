@@ -205,17 +205,17 @@ var CraftingDescription = {
 
 	/**
 	 * Regex for representing legal UTF16 characters.
-	 * Note the exclusion of control characters (except Newline aka `\x0A`), `§` (`\xA7`) and `¶` (`\xB6`).
+	 * Note the exclusion of control characters (except Newline aka `\n`), `§` (`\xA7`) and `¶` (`\xB6`).
 	 * @readonly
 	 */
-	Pattern: /^([\x0A\x20-\xA6\xA8-\xB5\xB7-\uFFFF]+)?$/g,
+	Pattern: /^([\n\x20-\xA6\xA8-\xB5\xB7-\uFFFF]+)?$/g,
 
 	/**
 	 * Regex for representing legal extended ASCII characters.
-	 * Note the exclusion of control characters (except Newline aka `\x0A`), `§` (`\xA7`) and `¶` (`\xB6`).
+	 * Note the exclusion of control characters (except Newline aka `\n`), `§` (`\xA7`) and `¶` (`\xB6`).
 	 * @readonly
 	 */
-	PatternASCII: /^([\x0A\x20-\xA6\xA8-\xB5\xB7-\xFF]+)?$/g,
+	PatternASCII: /^([\n\x20-\xA6\xA8-\xB5\xB7-\xFF]+)?$/g,
 
 	/**
 	 * Decode and return the passed string if it consists of UTF16-encoded UTF8 characters.
