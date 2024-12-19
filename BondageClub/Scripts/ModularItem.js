@@ -130,17 +130,23 @@ function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
 			return existingValue == null && typeof existingValue !== typeof v;
 		});
 
+		// Make sure that the `Lock` effect persists if the `Effect` array is reset
+		const hasLock = Item.Property.Effect?.includes("Lock") && Item.Asset.AllowLock;
 		let update = false;
 		if (!CommonDeepIsSubset(newProps, Item.Property)) {
 			Item.Property = Object.assign(Item.Property, newProps);
 			update = true;
 		}
+
 		if (baseLineProps.length > 0) {
 			baseLineProps.forEach(([k, v]) => Item.Property[k] = v);
 			update = true;
 		}
+
 		if (!update) {
 			return false;
+		} else if (hasLock) {
+			Item.Property.Effect = CommonArrayConcatDedupe(Item.Property.Effect ?? [], ["Lock"]);
 		}
 	} else {
 		const currentModuleValues = ModularItemParseCurrent(Data, null);
