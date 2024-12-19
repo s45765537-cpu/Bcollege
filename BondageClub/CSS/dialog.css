@@ -70,7 +70,6 @@
 	grid-template-rows: repeat(auto-fill, var(--button-height));
 	grid-template-columns: repeat(4, 1fr);
 	padding: 3px;
-	overflow: hidden auto;
 	padding-right: max(20px, 1.25 * var(--gap));
 	grid-area: dialog-grid;
 	scroll-snap-type: y proximity;

@@ -988,7 +988,7 @@ function CraftingLoad() {
 						},
 						{
 							tag: "div",
-							classList: ["crafting-grid"],
+							classList: ["crafting-grid", "scroll-box"],
 							attributes: { id: CraftingID.propertyGrid, role: "radiogroup", "aria-required": true },
 							children: Array.from(CraftingPropertyMap.keys()).map((property, i) => {
 								return CraftingElements._RadioButton(
@@ -1023,7 +1023,7 @@ function CraftingLoad() {
 						},
 						{
 							tag: "div",
-							classList: ["crafting-grid"],
+							classList: ["crafting-grid", "scroll-box"],
 							attributes: { id: CraftingID.assetGrid, role: "radiogroup", "aria-required": true },
 							children: CraftingItemListBuild().map((a, i) => {
 								return CraftingElements._RadioButton(
@@ -1059,7 +1059,7 @@ function CraftingLoad() {
 						},
 						{
 							tag: "div",
-							classList: ["crafting-grid"],
+							classList: ["crafting-grid", "scroll-box"],
 							attributes: { id: CraftingID.padlockGrid, role: "radiogroup" },
 							children: CraftingLockList.filter(name => !!name && InventoryAvailable(Player, name, "ItemMisc")).map((name, i) => {
 								const a = AssetGet("Female3DCG", "ItemMisc", name);
@@ -1088,6 +1088,7 @@ function CraftingLoad() {
 			tag: "div",
 			parent,
 			attributes: { id: CraftingID.rightPanel },
+			classList: ["scroll-box"],
 			children: [
 				{
 					tag: "label",
