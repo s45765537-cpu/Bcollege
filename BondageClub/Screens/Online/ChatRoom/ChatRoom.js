@@ -2870,36 +2870,9 @@ function ChatRoomKeyDown(event) {
 			return false;
 		}
 
-		if (!modifiers) {
-			switch (event.key) {
-				case "Home":
-					// Scroll to the top
-					chatLog.scrollTop = 0;
-					return true;
-				case "End":
-					// Scroll to the bottom
-					chatLog.scrollTop = chatLog.scrollHeight;
-					return true;
-				case "PageUp":
-					// Scroll up by the height of the chat area
-					chatLog.scrollTop = Math.max(0, chatLog.scrollTop - chatLog.clientHeight);
-					return true;
-				case "PageDown":
-					// Scroll down by the height of the chat area
-					chatLog.scrollTop = Math.min(chatLog.scrollHeight, chatLog.scrollTop + chatLog.clientHeight);
-					return true;
-				case "ArrowUp":
-					// Scroll up by 5% of the chat area height
-					chatLog.scrollTop = Math.max(0, chatLog.scrollTop - chatLog.clientHeight * 0.05);
-					return true;
-				case "ArrowDown":
-					// Scroll down by 5% of the chat area height
-					chatLog.scrollTop = Math.min(chatLog.scrollHeight, chatLog.scrollTop + chatLog.clientHeight * 0.05);
-					return true;
-			}
-		}
-
-		if (CommonKey.IsPressed(event, "v", CommonKey.CTRL)) {
+		if (CommonKey.NavigationKeyDown(chatLog, event, (el) => el.clientHeight * 0.05)) {
+			return true;
+		} else if (CommonKey.IsPressed(event, "v", CommonKey.CTRL)) {
 			return false;
 		} else if ((event.key.length === 1 || event.key === "Enter") && !modifiers) {
 			// Move focus to the chat

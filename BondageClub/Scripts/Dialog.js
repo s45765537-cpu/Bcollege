@@ -3059,30 +3059,13 @@ class DialogMenu {
 	/** @type {ScreenFunctions["KeyDown"]} */
 	KeyDown(event) {
 		const grid = this.ids.grid ? document.getElementById(this.ids.grid) : null;
-		if (!grid || CommonKey.GetModifiers(event)) {
+		if (grid) {
+			return CommonKey.NavigationKeyDown(
+				grid, event,
+				(el) => el.querySelector(".dialog-button")?.clientHeight ?? el.clientHeight / 3,
+			);
+		} else {
 			return false;
-		}
-
-		const sign = (event.key === "PageUp" || event.key === "ArrowUp") ? -1 : 1;
-		switch (event.key) {
-			case "Home":
-				grid.scrollTop = 0;
-				return true;
-			case "End":
-				grid.scrollTop = grid.scrollHeight;
-				return true;
-			case "PageUp":
-			case "PageDown":
-				grid.scrollTop = CommonClamp(grid.scrollTop + sign * grid.clientHeight, 0, grid.scrollHeight);
-				return true;
-			case "ArrowUp":
-			case "ArrowDown": {
-				const increment = grid.querySelector(".dialog-button")?.clientHeight ?? grid.clientHeight / 3;
-				grid.scrollTop = CommonClamp(grid.scrollTop + sign * increment, 0, grid.scrollHeight);
-				return true;
-			}
-			default:
-				return false;
 		}
 	}
 
