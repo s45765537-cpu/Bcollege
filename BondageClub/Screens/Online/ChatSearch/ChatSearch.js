@@ -94,7 +94,10 @@ function ChatSearchUnload() {
  * @type {ScreenFunctions["Run"]}
  */
 function ChatSearchRun() {
+
+	// Calls the other screens that could trigger
 	KidnapLeagueResetOnlineBountyProgress();
+	PandoraPenitentiaryCreate();
 
 	// Draw special screens that hide everything else
 	if (ChatSearchFilterHelpActive) return ChatSearchFilterHelpDraw();
@@ -406,7 +409,7 @@ function ChatSearchLoadLanguageAndFilterTerms() {
 function ChatSearchKeyDown(event) {
 	if (event.repeat) return false;
 
-	if (event.key === "Enter") {
+	if (CommonKey.IsPressed(event, "Enter")) {
 		if (ChatSearchMode == "") {
 			ChatSearchQuery();
 		} else {
@@ -954,6 +957,10 @@ function ChatSearchParseResponse(searchResults) {
  * @returns {void} - Nothing
  */
 function ChatSearchResultResponse(data) {
+	if (PandoraPenitentiaryActive(Player)) {
+		PandoraPenitentiaryResult(ChatSearchParseResponse(data ?? []));
+		return;
+	}
 	ElementContent("InputSearch-datalist", "");
 	ChatSearchResult = ChatSearchParseResponse(data ?? []);
 	ChatSearchResultOffset = 0;
@@ -983,7 +990,7 @@ function ChatSearchAutoJoinRoom() {
 	}
 
 	// This is a search triggered from a relog
-	if (Player.ImmersionSettings && Player.ImmersionSettings.ReturnToChatRoom && Player.LastChatRoom && ((ChatSearchLeaveRoom !== "AsylumEntrance") || (AsylumGGTSGetLevel(Player) <= 0))) {
+	if (Player.ImmersionSettings && Player.ImmersionSettings.ReturnToChatRoom && Player.LastChatRoom && !PandoraPenitentiaryActive(Player) && ((ChatSearchLeaveRoom !== "AsylumEntrance") || (AsylumGGTSGetLevel(Player) <= 0))) {
 		let roomFound = false;
 		let roomIsFull = false;
 		// Try joining our previous room
@@ -1028,6 +1035,7 @@ function ChatSearchAutoJoinRoom() {
 						Name: Player.LastChatRoom.Name.trim(),
 						Description: Player.LastChatRoom.Description.trim(),
 						Admin: [Player.MemberNumber],
+						Whitelist: [],
 						Ban: [],
 						Background: Player.LastChatRoom.Background,
 						Limit: Math.min(Math.max(Player.LastChatRoom.Limit, 2), 10),
@@ -1063,6 +1071,10 @@ function ChatSearchAutoJoinRoom() {
  * @returns {void} - Nothing
  */
 function ChatSearchQuery() {
+
+	// No regular chat result if locked in Pandora prison
+	if (PandoraPenitentiaryActive(Player)) return;
+
 	var Query = ChatSearchMode == "Filter" ? "" : ElementValue("InputSearch").toUpperCase().trim();
 	let FullRooms = (Player.OnlineSettings && Player.OnlineSettings.SearchShowsFullRooms);
 

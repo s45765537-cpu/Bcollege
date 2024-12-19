@@ -6,12 +6,19 @@ blacklistadd,[MemberNumber]: Add the player to your blacklist
 blacklistremove,[MemberNumber]: Remove the player from your blacklist
 blush,"[0-5], ”+”, ”-” or ”b” or ”blue”: Remove blush with ”0”, set red blush intensity with ”1” to ”5” or increase and decrease it with ”+” and ”-”, or set blue blush with ”b” or ”blue”. Giving no blush opens the blush menu."
 bot,[Message]: sends hidden message to bots
+changelog,[start][stop]: Show the Bondage Club changelog for the specified version(s); defaults to the latest version
 coin,: Toss a coin
 craft,: Open the crafting menu
 demote,[MemberNumber]: Demote the player from room administrator
 dice,[Number]: Roll a 6-sided die. Adding “[Number]” after the command for any number between 2 and 100 will roll a die of that many sides instead. Adding “[Number]d[Number]” will roll multiple dice and sum the total.
 expr,[0-5]: Clear or load facial expression. ”0” after the command will clear current expression. ”1” to ”5” will load expression from the saved slot. Giving no number opens the saved expression menu.
 eyes,"[o|c][l|r] or [expression]: Open or close eyes or change expression. ”c” will close, ”o” will open, using ”l” or ”r” will target only one eye. Giving no action opens the expression menu, using one of ”default”, ”dazed”, ”shy”, ”sad”, ”horny”, ”lewd”, ”verylewd”, ”heart”, ”heartpink”, ”lewdheart”, ”lewdheartpink”, ”dizzy” (or ”@@”), ”daydream” (or ”><”), ”shylyhappy” (or ”^^”), ”angry” (or ”èé”), ”surprised” (or ”éè”) or ”scared” will change expression."
+focus,add/remove/list/clear/help [targeter(s)]: Modifies your focus list (which allows you to selectively view players in a chatroom). Run '/focus' for more information.
+focusadd,[targeter(s)]: Alias for /focus add [targeter(s)]
+focusremove,[targeter(s)]: Alias for /focus remove [targeter(s)]
+focuslist,: Alias for /focus list
+focusclear,: Alias for /focus clear
+focushelp,: Alias for /focus help
 friendlistadd,[MemberNumber]: Add the player to your friendlist
 friendlistremove,[MemberNumber]: Remove the player from your friendlist
 ghostadd,[MemberNumber]: Add the player to your ghostlist
@@ -21,6 +28,8 @@ kick,[MemberNumber]: Kick the player out of the room
 me,[Message]: Display “[PlayerName] Message” as an action. *[Message] does the same.
 attempt,"[Percentage 0-100]% [Message]: Display “[PlayerName] Message: ✔ or ❌ (Percentage %) as an attempt action. Percentage is a success chance. *[Percentage]% [Message] does the same. If percentage is omitted, success chance is 50%."
 promote,[MemberNumber]: Promote the user to room administrator
+roomunwhitelist,[MemberNumber]: Removes the user from the room whitelist
+roomwhitelist,[MemberNumber]: Adds the user to the room whitelist
 safeword,use safeword
 showblacklist,: View your blacklist
 showfriendlist,: View you friendlist

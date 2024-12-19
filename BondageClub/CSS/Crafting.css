@@ -179,6 +179,7 @@
 }
 
 #crafting-extended-button,
+#crafting-tighten-button,
 #crafting-layering-button,
 #crafting-colors-button,
 #crafting-private-checkbox,
@@ -189,6 +190,10 @@
 
 #crafting-extended-button {
 	background-image: url("../Icons/Use.png");
+}
+
+#crafting-tighten-button {
+	background-image: url("../Icons/TightenLoosen.png");
 }
 
 #crafting-layering-button {
@@ -259,6 +264,7 @@
 
 #crafting-private-label,
 #crafting-extended-label,
+#crafting-tighten-label,
 #crafting-ascii-description-label {
 	grid-template-columns: min-content auto;
 }

@@ -97,7 +97,7 @@ function ColorPickerStartPick(Event) {
 	var X = C.X;
 	var Y = C.Y;
 	if (X >= ColorPickerX && X < ColorPickerX + ColorPickerWidth) {
-		if (ItemColorState.editOpacity && MouseIn(1201, 72, 218, 48)) {
+		if (ItemColorState?.editOpacity && MouseIn(1201, 72, 218, 48)) {
 			document.addEventListener("mousemove", ColorPickerPickOpacity);
 			document.addEventListener("touchmove", ColorPickerPickOpacity);
 			ColorPickerPickOpacity(Event);

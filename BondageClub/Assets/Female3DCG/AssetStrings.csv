@@ -4,6 +4,24 @@ AnalHookPoseHair,Hair
 AnalHookRestrainBase,SourceCharacter detaches DestinationCharacter anal hook.
 AnalHookRestrainChain,SourceCharacter attaches a chain to DestinationCharacter anal hook.
 AnalHookRestrainHair,SourceCharacter attaches DestinationCharacter anal hook to TargetPronounPossessive hair.
+AnkletLeftLegFurModuleAnkle,Ankle zone
+AnkletLeftLegFurModuleKnee,Knee zone
+AnkletLeftLegFurOptionk0,None
+AnkletLeftLegFurOptionk1,Adding fur
+AnkletLeftLegFurOptionn0,None
+AnkletLeftLegFurOptionn1,Adding fur
+AnkletLeftLegFurSelectAnkle,Wear or remove it
+AnkletLeftLegFurSelectBase,Customise your fur accessory:
+AnkletLeftLegFurSelectKnee,Wear or remove it
+AnkletRightLegFurModuleAnkle,Ankle zone
+AnkletRightLegFurModuleKnee,Knee zone
+AnkletRightLegFurOptionk0,None
+AnkletRightLegFurOptionk1,Adding fur
+AnkletRightLegFurOptionn0,None
+AnkletRightLegFurOptionn1,Adding fur
+AnkletRightLegFurSelectAnkle,wear or remove it
+AnkletRightLegFurSelectBase,Customise your fur accessory:
+AnkletRightLegFurSelectKnee,wear or remove it
 ArmsChainSetAllFours,SourceCharacter uses chains on TargetCharacter to have TargetPronounObject crawling on all fours.
 ArmsChainSetBoxTie,SourceCharacter uses chains on TargetCharacter to do a box tie.
 ArmsChainSetChainCuffs,SourceCharacter uses chains to tie chain cuffs on DestinationCharacter wrists.
@@ -240,6 +258,43 @@ BodyMarkingsFaceScarsSelect8,Apply
 BodyMarkingsFaceScarsSelect9,Apply
 BodyMarkingsFaceScarsSelect10,Apply
 BodyMarkingsFaceScarsSelect11,Apply
+BodyMarkingsFacePaintsModule1,Bottom stripes
+BodyMarkingsFacePaintsModule2,Top stripes
+BodyMarkingsFacePaintsModule3,Cheek spots
+BodyMarkingsFacePaintsModule4,Eye spots
+BodyMarkingsFacePaintsModule5,Forhead spots
+BodyMarkingsFacePaintsModule6,Muzzle
+BodyMarkingsFacePaintsModule7,Nose spots
+BodyMarkingsFacePaintsModule8,Left barcode
+BodyMarkingsFacePaintsModule9,Right barcode
+BodyMarkingsFacePaintsOptiona0,No
+BodyMarkingsFacePaintsOptiona1,Yes
+BodyMarkingsFacePaintsOptionb0,No
+BodyMarkingsFacePaintsOptionb1,Yes
+BodyMarkingsFacePaintsOptionc0,No
+BodyMarkingsFacePaintsOptionc1,Yes
+BodyMarkingsFacePaintsOptiond0,No
+BodyMarkingsFacePaintsOptiond1,Yes
+BodyMarkingsFacePaintsOptione0,No
+BodyMarkingsFacePaintsOptione1,Yes
+BodyMarkingsFacePaintsOptionf0,No
+BodyMarkingsFacePaintsOptionf1,Yes
+BodyMarkingsFacePaintsOptiong0,No
+BodyMarkingsFacePaintsOptiong1,Yes
+BodyMarkingsFacePaintsOptionh0,No
+BodyMarkingsFacePaintsOptionh1,Yes
+BodyMarkingsFacePaintsOptioni0,No
+BodyMarkingsFacePaintsOptioni1,Yes
+BodyMarkingsFacePaintsSelectBase,Select marks
+BodyMarkingsFacePaintsSelect1,Apply
+BodyMarkingsFacePaintsSelect2,Apply
+BodyMarkingsFacePaintsSelect3,Apply
+BodyMarkingsFacePaintsSelect4,Apply
+BodyMarkingsFacePaintsSelect5,Apply
+BodyMarkingsFacePaintsSelect6,Apply
+BodyMarkingsFacePaintsSelect7,Apply
+BodyMarkingsFacePaintsSelect8,Apply
+BodyMarkingsFacePaintsSelect9,Apply
 BodyUpperFlatMediumDefault,Default
 BodyUpperFlatMediumSelect,Select body overlay.
 BodyUpperFlatSmallDefault,Default
@@ -617,6 +672,11 @@ ClothCustomTShirtOptiont11,Eclipse
 ClothCustomTShirtOptiont12,Cesium Frog
 ClothCustomTShirtOptiont13,Zam's Stick ArtII
 ClothCustomTShirtOptiont14,Hornyhood
+ClothCustomTShirtOptiont15,Bondage Club Rules!
+ClothCustomTShirtOptiont16,Born To Be Tied
+ClothCustomTShirtOptiont17,Hogtied
+ClothCustomTShirtOptiont18,Bondage College 2
+ClothCustomTShirtOptiont19,S.Tiyana's White C-Pad
 ClothCustomTShirtOptiont2,BTG
 ClothCustomTShirtOptiont3,Dominant
 ClothCustomTShirtOptiont4,Bonk!
@@ -1237,6 +1297,9 @@ HairAccessory1OnihornsOptionr2,Long
 HairAccessory1OnihornsSelectBase,Select Horn
 HairAccessory1OnihornsSelectLeftHorn,Select Size
 HairAccessory1OnihornsSelectRightHorn,Select Size
+HairAccessory1AquaticEarsSmall,Small
+HairAccessory1AquaticEarsLarge,Large
+HairAccessory1AquaticEarsSelect,Select inner style
 HairAccessory2OnihornsModuleLeftHorn,Left Horn
 HairAccessory2OnihornsModuleRightHorn,Right Horn
 HairAccessory2OnihornsOptionl0,Short
@@ -1248,6 +1311,9 @@ HairAccessory2OnihornsOptionr2,Long
 HairAccessory2OnihornsSelectBase,Select Horn
 HairAccessory2OnihornsSelectLeftHorn,Select Size
 HairAccessory2OnihornsSelectRightHorn,Select Size
+HairAccessory2AquaticEarsSmall,Small
+HairAccessory2AquaticEarsLarge,Large
+HairAccessory2AquaticEarsSelect,Select inner style
 HairBackHairBack58Select,Select Type.
 HairBackHairBack58SetBoth,SourceCharacter changes DestinationCharacter hair.
 HairBackHairBack58SetLeftOnly,SourceCharacter changes DestinationCharacter hair.
@@ -1276,6 +1342,52 @@ HairBackHairBack61SetRightOnly,SourceCharacter changes DestinationCharacter hair
 HairBackHairBack61Both,Both
 HairBackHairBack61LeftOnly,Left Only
 HairBackHairBack61RightOnly,Right Only
+HandAccessoryLeftRingsModuleIndex,Index
+HandAccessoryLeftRingsModuleMiddle,Middle finger
+HandAccessoryLeftRingsModulePinkie,Pinkie
+HandAccessoryLeftRingsModuleRing,Ring finger
+HandAccessoryLeftRingsModuleThumb,Thumb
+HandAccessoryLeftRingsOptioni0,None
+HandAccessoryLeftRingsOptioni1,Steel Ring
+HandAccessoryLeftRingsOptionm0,None
+HandAccessoryLeftRingsOptionm1,Steel Ring
+HandAccessoryLeftRingsOptionp0,None
+HandAccessoryLeftRingsOptionp1,Steel Ring
+HandAccessoryLeftRingsOptionp2,Honor Ring
+HandAccessoryLeftRingsOptionr0,None
+HandAccessoryLeftRingsOptionr1,Steel Ring
+HandAccessoryLeftRingsOptionr2,Wedding Ring
+HandAccessoryLeftRingsOptiont0,None
+HandAccessoryLeftRingsOptiont1,Steel Ring
+HandAccessoryLeftRingsSelectBase,Choose your rings
+HandAccessoryLeftRingsSelectIndex,Choose a ring for the Index
+HandAccessoryLeftRingsSelectMiddle,Choose a ring for the Middle finger
+HandAccessoryLeftRingsSelectPinkie,Choose a ring for the Pinkie
+HandAccessoryLeftRingsSelectRing,Choose a ring for the Ring finger
+HandAccessoryLeftRingsSelectThumb,Choose a ring for the Thumb
+HandAccessoryRightRingsModuleIndex,Index
+HandAccessoryRightRingsModuleMiddle,Middle finger
+HandAccessoryRightRingsModulePinkie,Pinkie
+HandAccessoryRightRingsModuleRing,Ring finger
+HandAccessoryRightRingsModuleThumb,Thumb
+HandAccessoryRightRingsOptioni0,None
+HandAccessoryRightRingsOptioni1,Steel Ring
+HandAccessoryRightRingsOptionm0,None
+HandAccessoryRightRingsOptionm1,Steel Ring
+HandAccessoryRightRingsOptionp0,None
+HandAccessoryRightRingsOptionp1,Steel Ring
+HandAccessoryRightRingsOptionp2,Honor Ring
+HandAccessoryRightRingsOptionr0,None
+HandAccessoryRightRingsOptionr1,Steel Ring
+HandAccessoryRightRingsOptionr2,Wedding Ring
+HandAccessoryRightRingsOptiont0,None
+HandAccessoryRightRingsOptiont1,Steel Ring
+HandAccessoryRightRingsSelectBase,Choose your rings
+HandAccessoryRightRingsSelectIndex,Choose a ring for the Index
+HandAccessoryRightRingsSelectMiddle,Choose a ring for the Middle finger
+HandAccessoryRightRingsSelectPinkie,Choose a ring for the Pinkie
+HandAccessoryRightRingsSelectRing,Choose a ring for the Ring finger
+HandAccessoryRightRingsSelectThumb,Choose a ring for the Thumb
 HatBallCapBackSelect,Select strap location.
 HatBallCapBackStrapOver,Over the hair
 HatBallCapBackStrapUnder,Under the hair
@@ -2309,6 +2421,39 @@ ItemHandsHempRopeCuffsSetCuffed,SourceCharacter ties DestinationCharacter rope c
 ItemHandsHempRopeCuffsSetHarnessBack,SourceCharacter ties DestinationCharacter rope cuffs to the back of her harness.
 ItemHandsHempRopeCuffsSetHarnessFront,SourceCharacter ties DestinationCharacter rope cuffs to the front of her harness.
 ItemHandsHempRopeCuffsSetUnlinked,SourceCharacter detaches DestinationCharacter rope cuffs.
+ItemHandsLatexBondageMittsSelectBase,Select Bondage Mitt Details
+ItemHandsLatexBondageMittsSelectGloveType,Select Mitt Type
+ItemHandsLatexBondageMittsModuleGloveType,Mitt Type
+ItemHandsLatexBondageMittsOptiont0,Padded
+ItemHandsLatexBondageMittsOptiont1,Inflated
+ItemHandsLatexBondageMittsOptiont2,Nozzle Inflated
+ItemHandsLatexBondageMittsSetGloveType,SourceCharacter changes the glove type of DestinationCharacter bondage mitts.
+ItemHandsLatexBondageMittsSelectWrist,Select Cuff Style
+ItemHandsLatexBondageMittsModuleWrist,Cuff Style
+ItemHandsLatexBondageMittsOptionw0,None
+ItemHandsLatexBondageMittsOptionw1,Firm Cuffs
+ItemHandsLatexBondageMittsOptionw2,Fitted Cuffs
+ItemHandsLatexBondageMittsSetWrist,SourceCharacter adjusts the cuffs of DestinationCharacter bondage mitts.
+ItemHandsLatexBondageMittsSelectPatternRight,Select Right Hand Pattern
+ItemHandsLatexBondageMittsModulePatternRight,Right Pattern
+ItemHandsLatexBondageMittsOptionr0,None
+ItemHandsLatexBondageMittsOptionr1,Pumpkin (Under Only)
+ItemHandsLatexBondageMittsOptionr2,Pumpkin
+ItemHandsLatexBondageMittsOptionr3,Smiley (Under Only)
+ItemHandsLatexBondageMittsOptionr4,Smiley
+ItemHandsLatexBondageMittsOptionr5,Split
+ItemHandsLatexBondageMittsOptionr6,Quarters
+ItemHandsLatexBondageMittsSetPatternRight,SourceCharacter changes the pattern of DestinationCharacter right bondage mitt.
+ItemHandsLatexBondageMittsSelectPatternLeft,Select Left Hand Pattern
+ItemHandsLatexBondageMittsModulePatternLeft,Left Pattern
+ItemHandsLatexBondageMittsOptionl0,None
+ItemHandsLatexBondageMittsOptionl1,Pumpkin (Under Only)
+ItemHandsLatexBondageMittsOptionl2,Pumpkin
+ItemHandsLatexBondageMittsOptionl3,Smiley (Under Only)
+ItemHandsLatexBondageMittsOptionl4,Smiley
+ItemHandsLatexBondageMittsOptionl5,Split
+ItemHandsLatexBondageMittsOptionl6,Quarters
+ItemHandsLatexBondageMittsSetPatternLeft,SourceCharacter changes the pattern of DestinationCharacter left bondage mitt.
 ItemHandsPaddedMittensChained,Chained
 ItemHandsPaddedMittensSelect,Select options
 ItemHandsPaddedMittensSetChained,SourceCharacter chains DestinationCharacter padded mittens to the harness.
@@ -2516,6 +2661,8 @@ ItemHoodCustomBallHoodOptionp1,Pumpkin
 ItemHoodCustomBallHoodOptionp2,Smiley Lines
 ItemHoodCustomBallHoodOptionp3,Smiley Filled
 ItemHoodCustomBallHoodOptionp4,8 Ball
+ItemHoodCustomBallHoodOptionp5,Tree
+ItemHoodCustomBallHoodOptionp6,Quarters
 ItemHoodCustomBallHoodOptionc0,Cover All
 ItemHoodCustomBallHoodOptionc1,Cover Limited
 ItemHoodCustomBallHoodOptionc2,Cover Hair Only
@@ -4317,38 +4464,6 @@ LeatherDeluxeAnkleCuffsPoseNone,Detached
 LeatherDeluxeAnkleCuffsRestrainChained,SourceCharacter attaches the Leather Deluxe ankle cuffs chain on DestinationCharacter ankles.
 LeatherDeluxeAnkleCuffsRestrainClosed,SourceCharacter attaches the Leather Deluxe ankle cuffs chain on DestinationCharacter ankles.
 LeatherDeluxeAnkleCuffsRestrainNone,SourceCharacter detaches the chain from DestinationCharacter Leather Deluxe ankle cuffs.
-LeftAnkletLegFurModuleAnkle,Ankle zone
-LeftAnkletLegFurModuleKnee,Knee zone
-LeftAnkletLegFurOptionk0,None
-LeftAnkletLegFurOptionk1,Adding fur
-LeftAnkletLegFurOptionn0,None
-LeftAnkletLegFurOptionn1,Adding fur
-LeftAnkletLegFurSelectAnkle,Wear or remove it
-LeftAnkletLegFurSelectBase,Customise your fur accessory:
-LeftAnkletLegFurSelectKnee,Wear or remove it
-LeftHandRingsModuleIndex,Index
-LeftHandRingsModuleMiddle,Middle finger
-LeftHandRingsModulePinkie,Pinkie
-LeftHandRingsModuleRing,Ring finger
-LeftHandRingsModuleThumb,Thumb
-LeftHandRingsOptioni0,None
-LeftHandRingsOptioni1,Steel Ring
-LeftHandRingsOptionm0,None
-LeftHandRingsOptionm1,Steel Ring
-LeftHandRingsOptionp0,None
-LeftHandRingsOptionp1,Steel Ring
-LeftHandRingsOptionp2,Honor Ring
-LeftHandRingsOptionr0,None
-LeftHandRingsOptionr1,Steel Ring
-LeftHandRingsOptionr2,Wedding Ring
-LeftHandRingsOptiont0,None
-LeftHandRingsOptiont1,Steel Ring
-LeftHandRingsSelectBase,Choose your rings
-LeftHandRingsSelectIndex,Choose a ring for the Index
-LeftHandRingsSelectMiddle,Choose a ring for the Middle finger
-LeftHandRingsSelectPinkie,Choose a ring for the Pinkie
-LeftHandRingsSelectRing,Choose a ring for the Ring finger
-LeftHandRingsSelectThumb,Choose a ring for the Thumb
 LegChainSetBasic,SourceCharacter uses the chain on TargetCharacter to do a basic tie.
 LegChainSetStrict,SourceCharacter uses the chain on TargetCharacter to do a strict tie.
 LegChainSetSuspension,SourceCharacter uses the chain on TargetCharacter to do a suspension tie.
@@ -4766,38 +4881,6 @@ RibbonsTorsoHarness1,Harness
 RibbonsTorsoHarness2,Harness 2
 RibbonTypeBasic,Basic
 RibbonTypeBow,Bow
-RightAnkletLegFurModuleAnkle,Ankle zone
-RightAnkletLegFurModuleKnee,Knee zone
-RightAnkletLegFurOptionk0,None
-RightAnkletLegFurOptionk1,Adding fur
-RightAnkletLegFurOptionn0,None
-RightAnkletLegFurOptionn1,Adding fur
-RightAnkletLegFurSelectAnkle,wear or remove it
-RightAnkletLegFurSelectBase,Customise your fur accessory:
-RightAnkletLegFurSelectKnee,wear or remove it
-RightHandRingsModuleIndex,Index
-RightHandRingsModuleMiddle,Middle finger
-RightHandRingsModulePinkie,Pinkie
-RightHandRingsModuleRing,Ring finger
-RightHandRingsModuleThumb,Thumb
-RightHandRingsOptioni0,None
-RightHandRingsOptioni1,Steel Ring
-RightHandRingsOptionm0,None
-RightHandRingsOptionm1,Steel Ring
-RightHandRingsOptionp0,None
-RightHandRingsOptionp1,Steel Ring
-RightHandRingsOptionp2,Honor Ring
-RightHandRingsOptionr0,None
-RightHandRingsOptionr1,Steel Ring
-RightHandRingsOptionr2,Wedding Ring
-RightHandRingsOptiont0,None
-RightHandRingsOptiont1,Steel Ring
-RightHandRingsSelectBase,Choose your rings
-RightHandRingsSelectIndex,Choose a ring for the Index
-RightHandRingsSelectMiddle,Choose a ring for the Middle finger
-RightHandRingsSelectPinkie,Choose a ring for the Pinkie
-RightHandRingsSelectRing,Choose a ring for the Ring finger
-RightHandRingsSelectThumb,Choose a ring for the Thumb
 RopeBondageAllFours,All Fours
 RopeBondageAnkles,Ankles Tie
 RopeBondageAnklesKnees,Ankles and Knees Tie
@@ -5597,3 +5680,143 @@ HairFrontHairFront62bSelectBase,Select Options
 HairFrontHairFront62bSelectStyle,Select Style
 HairFrontHairFront62bSelectStrands,Select Strands
 HairFrontHairFront62bSelectExtra,Select Extras
+PremiumMuzzleMouthSetCrossStraps,SourceCharacter adds extra straps to DestinationCharacter muzzle
+PremiumMuzzleMouthSetNormal,SourceCharacter turns DestinationCharacter muzzle back to normal.
+PremiumMuzzleMouthSetExtraMuzzle,SourceCharacter attaches an extra panel over DestinationCharacter muzzle.
+PremiumMuzzleMouthTypeCrossStraps,Cross Straps
+PremiumMuzzleMouthTypeNormal,Normal
+PremiumMuzzleMouthTypeExtraMuzzle,Extra Panel
+OverfilledGagModuleGagtype,Gag Type
+OverfilledGagModuleStuffing,Stuffing Type
+OverfilledGagOptionGagtype0,Cloth Mask
+OverfilledGagOptionGagtype1,Cross Tape
+OverfilledGagOptionGagtype2,Full Tape
+OverfilledGagOptionGagtype3,Tape + Panties
+OverfilledGagOptionGagtype4,None
+OverfilledGagOptionStuffing0,Panties
+OverfilledGagOptionStuffing1,Rolled Wad
+OverfilledGagSelectBase,Configure Options
+OverfilledGagSelectGagtype,Select Gag Type
+OverfilledGagSelectStuffing,Select Stuffing Type
+OverfilledGagSetGagtype,SourceCharacter changes the gag type on DestinationCharacter mouth.
+OverfilledGagSetStuffing,SourceCharacter shoves a huge stuffing into DestinationCharacter mouth.
+ItemHandsFullMittensSelectBase,Choose a extended restraint:
+ItemHandsFullMittensModuleRestraints,Current condition
+ItemHandsFullMittensSelectRestraints,Full Mittens menu:
+ItemHandsFullMittensOptionr0,Just Mittens
+ItemHandsFullMittensOptionr1,Yoked with bar
+ItemHandsFullMittensOptionr2,Hands up with bar
+ItemHandsFullMittensOptionr3,Straitjacket mode
+ItemHandsFullMittensOptionr4,Harness belts
+ItemHandsFullMittensOptionr5,Armbinder mode
+ItemHandsFullMittensOptionr6,Ankle shackles combo
+ItemHandsFullMittensSetr0,SourceCharacter removes any restraint accessory from DestinationCharacterName mittens.
+ItemHandsFullMittensSetr1,SourceCharacter tied DestinationCharacterName mittens to the bar in yoke pose. 
+ItemHandsFullMittensSetr2,SourceCharacter tied DestinationCharacterName mittens to the bar with hands up.
+ItemHandsFullMittensSetr3,SourceCharacter binds DestinationCharacterName arms as straitjacket style.
+ItemHandsFullMittensSetr4,SourceCharacter binds DestinationCharacterName hands in the back and put some harness belt on TargetPronounObject torso.
+ItemHandsFullMittensSetr5,SourceCharacter binds DestinationCharacterName arms as armbinder style.
+ItemHandsFullMittensSetr6,SourceCharacter links DestinationCharacterName mittens in TargetPronounObject ankles with chain and shackles.
+ItemFeetKneeOvernighterSelect,How would you like to adjust this?
+ItemFeetKneeOvernighterLoose,Just for fun
+ItemFeetKneeOvernighterSetLoose,SourceCharacter takes it easy on the DestinationCharacterName and left the Under Knee Overnight belts loose a bit.
+ItemFeetKneeOvernighterThigh,Real Deal
+ItemFeetKneeOvernighterSetThigh,SourceCharacter thighens the Under Knee Overnighter belts a lot on the DestinationCharacterName feet.
+ItemFeetHeelBindersSelectBase,Choose a extended restraint:
+ItemFeetHeelBindersModuleRestraints,Current condition
+ItemFeetHeelBindersSelectRestraints,Feet Binders menu:
+ItemFeetHeelBindersOptionr0,Just cuffs
+ItemFeetHeelBindersOptionr1,Long chain link
+ItemFeetHeelBindersOptionr2,Chain around ankles
+ItemFeetHeelBindersOptionr3,Link strap limiter
+ItemFeetHeelBindersOptionr4,Metal bar
+ItemFeetHeelBindersOptionr5,Spread bar
+ItemFeetHeelBindersOptionr6,Spread bar suspension
+ItemFeetHeelBindersOptionr7,Grounded spread bar
+ItemFeetHeelBindersSetr0,SourceCharacter removes any bind accessory from DestinationCharacterName ankle cuffs.
+ItemFeetHeelBindersSetr1,SourceCharacter links the DestinationCharacterName ankle cuffs with a long chain. 
+ItemFeetHeelBindersSetr2,SourceCharacter tightens the chain around DestinationCharacterName ankles.
+ItemFeetHeelBindersSetr3,SourceCharacter links DestinationCharacterName ankle cuffs with a short leather strap.
+ItemFeetHeelBindersSetr4,SourceCharacter links DestinationCharacterName ankle cuffs with a metal bar.
+ItemFeetHeelBindersSetr5,SourceCharacter spreads the DestinationCharacterName legs with a spread bar.
+ItemFeetHeelBindersSetr6,SourceCharacter suspends the spread bar and DestinationCharacterName is suspended upside down.
+ItemFeetHeelBindersSetr7,SourceCharacter chained the spread bar to the floor and DestinationCharacterName feet are stuck in place.
+ItemArmsBedMetalCuffsLeft,Left
+ItemArmsBedMetalCuffsRight,Right
+ItemArmsBedMetalCuffsBoth,Both
+ItemArmsBedMetalCuffsSelect,Select cuffs location.
+ItemArmsBedMetalCuffsSetLeft,SourceCharacter cuffs DestinationCharacter left arm to the bed.
+ItemArmsBedMetalCuffsSetRight,SourceCharacter cuffs DestinationCharacter right arm to the bed.
+ItemArmsBedMetalCuffsSetBoth,SourceCharacter cuffs DestinationCharacter both arms to the bed.
+SocksRippedPantyhoseRippedA,Ripped A
+SocksRippedPantyhoseRippedB,Ripped B
+SocksRippedPantyhoseRippedC,Ripped C
+SocksRippedPantyhoseNormal,Normal
+SocksRippedPantyhoseSelect,Choose the pantyhose type:
+SuitLowerRippedPantyhoseRippedA,Ripped A
+SuitLowerRippedPantyhoseRippedB,Ripped B
+SuitLowerRippedPantyhoseRippedC,Ripped C
+SuitLowerRippedPantyhoseNormal,Normal
+SuitLowerRippedPantyhoseSelect,Choose the pantyhose type:
+ItemPelvisWaistLegHarnessSelectBase,Waist-Leg Combo Harness main menu
+ItemPelvisWaistLegHarnessModuleLinkLegs,Link strap legs
+ItemPelvisWaistLegHarnessSelectLinkLegs,Link strap menu
+ItemPelvisWaistLegHarnessOptionl0,None
+ItemPelvisWaistLegHarnessOptionl1,Flexible strap
+ItemPelvisWaistLegHarnessOptionl2,Restrain legs
+ItemPelvisWaistLegHarnessModuleBeltAcc_A,Accessory strap A
+ItemPelvisWaistLegHarnessSelectBeltAcc_A,Accessory strap A menu
+ItemPelvisWaistLegHarnessOptionx0,None
+ItemPelvisWaistLegHarnessOptionx1,Equipped
+ItemPelvisWaistLegHarnessModuleBeltAcc_B,Accessory strap B
+ItemPelvisWaistLegHarnessSelectBeltAcc_B,Accessory strap B menu
+ItemPelvisWaistLegHarnessOptiony0,None
+ItemPelvisWaistLegHarnessOptiony1,Equipped
+ItemPelvisWaistLegHarnessModuleStrapOn,Strap-on belt
+ItemPelvisWaistLegHarnessSelectStrapOn,Strap-on belt menu
+ItemPelvisWaistLegHarnessOptionc0,None
+ItemPelvisWaistLegHarnessOptionc1,Equipped
+ItemPelvisWaistLegHarnessModuleVibrator,Wand Vibrating
+ItemPelvisWaistLegHarnessSelectVibrator,Wand Vibrating menu
+ItemPelvisWaistLegHarnessOptionv0,None
+ItemPelvisWaistLegHarnessOptionv1,Equipped-Off
+ItemPelvisWaistLegHarnessOptionv2,Low
+ItemPelvisWaistLegHarnessOptionv3,Mid-Low
+ItemPelvisWaistLegHarnessOptionv4,Mid
+ItemPelvisWaistLegHarnessOptionv5,High
+ItemPelvisWaistLegHarnessOptionv6,Maximum
+ItemPelvisWaistLegHarnessModuleChastity,Chastity mode
+ItemPelvisWaistLegHarnessSelectChastity,Chastity mode menu
+ItemPelvisWaistLegHarnessOptiont0,None
+ItemPelvisWaistLegHarnessOptiont1,Just base
+ItemPelvisWaistLegHarnessOptiont2,Closed front
+ItemPelvisWaistLegHarnessOptiont3,Closed rear
+ItemPelvisWaistLegHarnessOptiont4,Closed both
+ItemPelvisWaistLegHarnessSetl0,SourceCharacter removes the link strap from between the DestinationCharacterName legs.
+ItemPelvisWaistLegHarnessSetl1,SourceCharacter installs the link strap from between the DestinationCharacterName legs.
+ItemPelvisWaistLegHarnessSetl2,SourceCharacter restrain DestinationCharacterName legs with a shorter device.
+ItemPelvisWaistLegHarnessSetx0,SourceCharacter removes a accessory strap (A) on the DestinationCharacterName pelvis.
+ItemPelvisWaistLegHarnessSetx1,SourceCharacter puts a accessory strap (A) on the DestinationCharacterName pelvis.
+ItemPelvisWaistLegHarnessSety0,SourceCharacter removes a accessory strap (B) on the DestinationCharacterName pelvis.
+ItemPelvisWaistLegHarnessSety1,SourceCharacter puts a accessory strap (B) on the DestinationCharacterName pelvis.
+ItemPelvisWaistLegHarnessSetc0,SourceCharacter removes the strap-on belt accessory from the DestinationCharacterName pelvis.
+ItemPelvisWaistLegHarnessSetc1,SourceCharacter installs the strap-on belt accessory from the DestinationCharacterName pelvis.
+ItemPelvisWaistLegHarnessSetv0,SourceCharacter removes the wand device accessory from the DestinationCharacterName pelvis.
+ItemPelvisWaistLegHarnessSetv1,SourceCharacter just installs the wand device accessory from the DestinationCharacterName pelvis and doesn't turn it on.
+ItemPelvisWaistLegHarnessSetv2,SourceCharacter installs the wand device accessory from the DestinationCharacterName pelvis and puts it in lowest intensity.
+ItemPelvisWaistLegHarnessSetv3,SourceCharacter installs the wand device accessory from the DestinationCharacterName pelvis and select a low intensity.
+ItemPelvisWaistLegHarnessSetv4,SourceCharacter installs the wand device accessory from the DestinationCharacterName pelvis and select a mid intensity.
+ItemPelvisWaistLegHarnessSetv5,SourceCharacter installs the wand device accessory from the DestinationCharacterName pelvis and select a high intensity.
+ItemPelvisWaistLegHarnessSetv6,SourceCharacter installs the wand device accessory from the DestinationCharacterName pelvis and select a max intensity.
+ItemPelvisWaistLegHarnessSett0,SourceCharacter removes any chastity module on the DestinationCharacterName pelvis.
+ItemPelvisWaistLegHarnessSett1,SourceCharacter attaches the chastity base on the DestinationCharacterName pelvis.
+ItemPelvisWaistLegHarnessSett2,SourceCharacter locks the chastity module on the DestinationCharacterName vagina only.
+ItemPelvisWaistLegHarnessSett3,SourceCharacter locks the chastity module on the DestinationCharacterName butt only.
+ItemPelvisWaistLegHarnessSett4,SourceCharacter locks the chastity module on the DestinationCharacterName both sides.
+ItemHoodBalloonSelect,Balloon hood adjustment menu:
+ItemHoodBalloonLoose,Loose on the head
+ItemHoodBalloonTight,Tight on the head
+ItemHoodBalloonExtreme,Breathplay condition
+ItemHoodBalloonSetLoose,SourceCharacter fills the DestinationCharacterName balloon with air.
+ItemHoodBalloonSetTight,SourceCharacter empties the DestinationCharacterName balloon a little.
+ItemHoodBalloonSetExtreme,SourceCharacter empties completely the DestinationCharacterName balloon.

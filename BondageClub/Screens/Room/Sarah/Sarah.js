@@ -127,7 +127,8 @@ function SarahLoad() {
 			InventoryWear(Sarah, "H0930", "Height", "Default");
 			InventoryWear(Sarah, "Small", "BodyUpper", "White");
 			InventoryWear(Sarah, "Small", "BodyLower", "White");
-			InventoryWear(Sarah, "Default", "Hands", "Default");
+			InventoryWear(Sarah, "Small", "HandsLeft", "Default");
+			InventoryWear(Sarah, "Small", "HandsRight", "Default");
 			InventoryWear(Sarah, "Default", "Head", "Default");
 			InventoryWear(Sarah, "HairBack19", "HairBack", "#edd6b0");
 			InventoryWear(Sarah, "HairFront11", "HairFront", "#edd6b0");
@@ -163,7 +164,8 @@ function SarahLoad() {
 		InventoryWear(Amanda, "H0950", "Height", "Default");
 		InventoryWear(Amanda, "Normal", "BodyUpper", "White");
 		InventoryWear(Amanda, "Normal", "BodyLower", "White");
-		InventoryWear(Amanda, "Default", "Hands", "Default");
+		InventoryWear(Amanda, "Normal", "HandsLeft", "Default");
+		InventoryWear(Amanda, "Normal", "HandsRight", "Default");
 		InventoryWear(Amanda, "Default", "Head", "Default");
 		InventoryWear(Amanda, "HairBack15", "HairBack", "#623123");
 		InventoryWear(Amanda, "HairFront4", "HairFront", "#623123");
@@ -200,7 +202,8 @@ function SarahLoad() {
 		InventoryWear(Sophie, "H0970", "Height", "Default");
 		InventoryWear(Sophie, "Large", "BodyUpper", "White");
 		InventoryWear(Sophie, "Large", "BodyLower", "White");
-		InventoryWear(Sophie, "Default", "Hands", "Default");
+		InventoryWear(Sophie, "Large", "HandsLeft", "Default");
+		InventoryWear(Sophie, "Large", "HandsRight", "Default");
 		InventoryWear(Sophie, "Default", "Head", "Default");
 		InventoryWear(Sophie, "HairBack16", "HairBack", "#CCCCCC");
 		InventoryWear(Sophie, "HairFront1", "HairFront", "#CCCCCC");

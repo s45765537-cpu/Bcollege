@@ -42,9 +42,19 @@ function PropertyOpacityInit({ asset }, originalFunction, C, item, push=true, re
 		item.Property = {};
 	}
 
-	if (item.Property.Opacity >= asset.MinOpacity && item.Property.Opacity <= asset.MaxOpacity) {
-		return (originalFunction == null) ? false : originalFunction(C, item, push, refresh);
+	// Abort prematurely if all opacity values are within bounds; no need for any refreshes or pushes as nothing was changed
+	const opacity = item.Property.Opacity;
+	if (CommonIsFinite(opacity, asset.MinOpacity, asset.MaxOpacity)) {
+		return originalFunction?.(C, item, push, refresh) ?? false;
+	} else if (
+		CommonIsArray(opacity)
+		&& opacity.length === asset.Layer.length
+		&& opacity.every((o, i) => CommonIsFinite(o, asset.Layer[i].MinOpacity, asset.Layer[i].MaxOpacity))
+	) {
+		return originalFunction?.(C, item, push, refresh) ?? false;
 	}
+
+	// Illegal or uninitialized opacity value; restore a valid default and perform the whole push + refresh dance
 	item.Property.Opacity = asset.Opacity;
 
 	if (originalFunction) originalFunction(C, item, false, false);
@@ -69,9 +79,10 @@ function PropertyOpacityLoad({ asset, dialogPrefix }, OriginalFunction, thumbIco
 		PropertyOriginalValue.set(ID, DialogFocusItem.Property.Opacity);
 	}
 
+	const opacity = CommonIsNumeric(DialogFocusItem.Property.Opacity) ? DialogFocusItem.Property.Opacity : 1;
 	const opacitySlider = ElementCreateRangeInput(
 		ID,
-		DialogFocusItem.Property.Opacity,
+		opacity,
 		asset.MinOpacity,
 		asset.MaxOpacity,
 		0.01,
@@ -107,8 +118,9 @@ function PropertyOpacityDraw(Data, OriginalFunction, XOffset=0, YOffset=0, Label
 		400, "#FFFFFF", "#000",
 	);
 	ElementPosition(ID, 1625 + XOffset, 450 + YOffset, 400);
+	const opacity = CommonIsNumeric(DialogFocusItem.Property.Opacity) ? DialogFocusItem.Property.Opacity : 1;
 	DrawTextFit(
-		`${Math.round(DialogFocusItem.Property.Opacity * 100)}%`, 1925 + XOffset, 450 + YOffset,
+		`${Math.round(opacity * 100)}%`, 1925 + XOffset, 450 + YOffset,
 		400, "#FFFFFF", "#000",
 	);
 	MainCanvas.textAlign = "center";
@@ -256,10 +268,11 @@ const PropertyAutoPunishKeywords = [
  * @returns {boolean} Whether the passed message should trigger automatic speech-based punishment
  */
 function PropertyAutoPunishParseMessage(Sensitivity, msg) {
-	// Conditions which are never punishable
-	if (msg.startsWith("(")) {
-		return false;
-	}
+	// Remove the OOC component(s) from the message, as those are never punishable
+	const oocRanges = SpeechGetOOCRanges(msg).reverse();
+	const arrayMsg = Array.from(msg);
+	oocRanges.forEach(({ start, length }) => arrayMsg.splice(start, length));
+	msg = arrayMsg.join("");
 
 	// Conditions that are always punishable
 	const PunishableSpeech = (

@@ -66,7 +66,7 @@ function MiniGameRunning() {
  * @returns {boolean} - TRUE if C and cheats are allowed
  */
 function MiniGameCheatKeyDown(event) {
-	if (event.repeat) return false;
+	if (event.repeat || CommonKey.GetModifiers(event)) return false;
 
 	if (MiniGameCheatAvailable && (event.key === "c" || event.key === "C")) {
 		MiniGameCheatAvailable = false;

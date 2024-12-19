@@ -44,6 +44,10 @@ do nothing
 [Message]: Отображать “[PlayerName] Message” как действие. * [Message] делает то же самое
 [MemberNumber]: Promote the user to room administrator
 [MemberNumber]: Повышение роли пользователя до администратора комнаты
+[MemberNumber]: Adds the user to the room whitelist
+[MemberNumber]: Добавляет пользователя в белый список комнат
+[MemberNumber]: Removes the user from the room whitelist
+[MemberNumber]: Удаляет пользователя из белого списка комнат
 use safeword
 использовать стоп-слово
 : View your blacklist

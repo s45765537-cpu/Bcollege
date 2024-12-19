@@ -1,27 +1,26 @@
 "use strict";
 var LoginBackground = "Dressing";
-var LoginMessage = "";
 /** @type {null | string[][]} */
 var LoginCredits = null;
 var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
-	"Abysseia", "Aceffect", "ArashiSama", "Aylea", "BlueWinter", "Bryce", "Canti", "Christian",
-	"Cm382714", "Desch", "Domenico", "Dynilath", "Edwin", "Glurak", "Greendragon", "John",
-	"Laurie", "Lyall", "Marashu", "Michel", "Mindtie", "Misa", "Nightcore", "Robin",
-	"Setsu", "SlitheryCandy", "Soulcollar", "Sticks", "Sunny", "Tam", "Tarram", "Thkdt",
-	"TonyBoy", "Troubadix", "Troy", "WhiteSniper", "XDWolfie", "Xepherio"
+	"Abysseia", "ArashiSama", "BlueWinter", "Bryce", "Canti", "Christian", "Cm382714", "Dahmia",
+	"DarbSup", "Desch", "Domenico", "Dragokahn", "Dynilath", "Edwin", "Glurak", "Greendragon",
+	"John", "Laurie", "Lyall", "Marashu", "Michel", "Mindtie", "Nightcore", "Robin", "Samonas",
+	"Setsu", "Sticks", "Sunny", "Tam", "Tarram", "Teli", "Thkdt", "TonyBoy", "Troubadix",
+	"Troy", "Umbrapop", "WhiteSniper", "XDWolfie", "Xepherio"
 ];
 
 /* eslint-enable */
 var LoginThankYouNext = 0;
 var LoginSubmitted = false;
-var LoginIsRelog = false;
+var LoginQueuePosition = -1;
+/** The server login status */
 var LoginErrorMessage = "";
 /** @type {NPCCharacter} */
 var LoginCharacter = null;
-let LoginTextCacheUnsubscribeCallback;
 
 /* DEBUG: To measure FPS - uncomment this and change the + 4000 to + 40
 var LoginLastCT = 0;
@@ -101,7 +100,7 @@ var LoginEventListeners = {
 	 * @type {(this: HTMLInputElement, ev: KeyboardEvent) => void}
 	 */
 	_KeyDownInputName: function _KeyDownInputName(ev) {
-		if (!(ev.shiftKey || ev.altKey || ev.metaKey || ev.ctrlKey) && ev.key === "Enter") {
+		if (CommonKey.IsPressed(ev, "Enter")) {
 			document.getElementById("InputPassword")?.focus();
 			ev.stopPropagation();
 		}
@@ -112,8 +111,10 @@ var LoginEventListeners = {
 	 * @type {(this: HTMLInputElement, ev: KeyboardEvent) => void}
 	 */
 	_KeyDownInputPassword: function _KeyDownInputPassword(ev) {
-		if (!(ev.shiftKey || ev.altKey || ev.metaKey || ev.ctrlKey) && ev.key === "Enter") {
-			LoginDoLogin();
+		if (CommonKey.IsPressed(ev, "Enter")) {
+			const Name = ElementValue("InputName");
+			const Password = ElementValue("InputPassword");
+			LoginDoLogin(Name, Password);
 			ev.stopPropagation();
 		}
 	},
@@ -135,7 +136,6 @@ function LoginLoad() {
 	LoginCharacter = CharacterLoadNPC("NPC_Login");
 	LoginDoNextThankYou();
 	LoginStatusReset();
-	LoginErrorMessage = "";
 	if (LoginCredits == null) CommonReadCSV("LoginCredits", CurrentModule, CurrentScreen, "GameCredits");
 	ActivityDictionaryLoad();
 	OnlneGameDictionaryLoad();
@@ -169,8 +169,6 @@ function LoginLoad() {
 	TextPrefetchFile(InterfaceStringsPath);
 	TextPrefetch("Room", "MainHall");
 	DrawGetImage("Backgrounds/MainHall.jpg");
-	LoginTextCacheUnsubscribeCallback = TextScreenCache.onRebuild(LoginUpdateMessage);
-
 }
 
 /**
@@ -186,7 +184,7 @@ function LoginRun() {
 
 	// Draw the login controls
 	DrawText(TextGet("Welcome"), 1000, 50, "White", "Black");
-	DrawText(LoginMessage, 1000, 100, "White", "Black");
+	DrawText(LoginGetStatus() ?? TextGet("EnterNamePassword"), 1000, 100, "White", "Black");
 	DrawText(TextGet("AccountName"), 1000, 200, "White", "Black");
 	ElementPosition("InputName", 1000, 260, 500);
 	DrawText(TextGet("Password"), 1000, 350, "White", "Black");
@@ -209,7 +207,17 @@ function LoginRun() {
 /**
  * The list of item fixups to apply on login.
  *
- * @type {{ Old: {Group: AssetGroupName, Name: string}, New: {Group: AssetGroupName, Name: string, Option?: string} }[]}
+ * Those are applied by the login code, after the player's item lists are set up
+ * but before the inventory and appearance are loaded from the server's data,
+ * and applies the specified asset fixups by swapping Old with New in the list
+ * of owned items, in the various player item lists, and in the appearance.
+ *
+ * If you're only moving items around, it should work just fine as long as
+ * the `Old` and `New` asset definitions are compatible.
+ * If it's an asset merge (say 3 into one typed asset), it will either set
+ * the fixed up item to the specified `Option` or the first one if unspecified.
+ *
+ * @type {{ Old: { Group: string, Name: string | '*' }, New: { Group: AssetGroupName, Name?: string, Option?: string } }[]}
  */
 let LoginInventoryFixups = [
 	{ Old: { Group: "ItemLegs", Name: "WoodenHorse" }, New: { Group: "ItemDevices", Name: "WoodenHorse" } },
@@ -275,58 +283,59 @@ let LoginInventoryFixups = [
 	{ Old: { Group: "Pussy", Name: "PussyDark1" }, New: { Group: "Pussy", Name: "Pussy1" } },
 	{ Old: { Group: "Pussy", Name: "PussyDark2" }, New: { Group: "Pussy", Name: "Pussy2" } },
 	{ Old: { Group: "Pussy", Name: "PussyDark3" }, New: { Group: "Pussy", Name: "Pussy3" } },
+	{ Old: { Group: "LeftAnklet", Name: "*" }, New: { Group: "AnkletLeft" }},
+	{ Old: { Group: "RightAnklet", Name: "*" }, New: { Group: "AnkletRight" }},
+	{ Old: { Group: "LeftHand", Name: "*" }, New: { Group: "HandAccessoryLeft" }},
+	{ Old: { Group: "RightHand", Name: "*" }, New: { Group: "HandAccessoryRight" }},
 ];
 
 /**
- * Perform the inventory and appearance fixups needed.
- *
- * This is called by the login code, after the player's item lists are set up
- * but before the inventory and appearance are loaded from the server's data,
- * and applies the specified asset fixups by swapping Old with New in the list
- * of owned items, in the various player item lists, and in the appearance.
- *
- * If you're only moving items around, it should work just fine as long as
- * the `Old` and `New` asset definitions are compatible.
- * If it's an asset merge (say 3 into one typed asset), it will either set
- * the fixed up item to the specified `Option` or the first one if unspecified.
- *
- * TODO: only typed items are supported.
- *
- * @param {Partial<Record<AssetGroupName, string[]>>} Inventory - The server-provided inventory object
- * @param {ItemBundle[]} Appearance - The server-provided appearance object
- * @param {readonly CraftingItem[]} Crafting - The server-provided, uncompressed crafting data
+ * Perform the inventory fixups needed.
+ * @param {InventoryBundle[]} Inventory - The server-provided inventory object
  */
-function LoginPerformInventoryFixups(Inventory, Appearance, Crafting) {
+function LoginPerformInventoryFixups(Inventory) {
 	// Skip fixups on new characters
-	if (!Inventory || !Appearance) return;
+	if (!Inventory) return;
 
-	let listsUpdated = false;
-	LoginInventoryFixups.forEach(fixup => {
+	for (const fixup of LoginInventoryFixups) {
 		// For every asset fixup to do, update the inventory
-		const group = Inventory[fixup.Old.Group];
-		let idx = group && group.indexOf(fixup.Old.Name);
-		if (group && idx != -1) {
-			// Replace the old with the new in the inventory, making sure we don't add a duplicate
-			group.splice(idx, 1);
-			if (!Inventory[fixup.New.Group])
-				Inventory[fixup.New.Group] = [];
-			if (!Inventory[fixup.New.Group].includes(fixup.New.Name))
-				Inventory[fixup.New.Group].push(fixup.New.Name);
+		const item = Inventory.find(i => i.Group === fixup.Old.Group && (i.Name === fixup.Old.Name || fixup.Old.Name === "*"));
+		if (item) {
+			item.Group = fixup.New.Group;
+			if (fixup.New.Name) {
+				item.Name = fixup.New.Name;
+			}
 		}
+	}
+}
 
-		idx = Appearance.findIndex(a => a.Group === fixup.Old.Group && a.Name === fixup.Old.Name);
+/**
+ * Perform the appearance fixups needed.
+ * TODO: only typed items are supported.
+ * @param {ItemBundle[]} Appearance - The server-provided appearance object
+ * @return {boolean}
+ */
+function LoginPerformAppearanceFixups(Appearance) {
+	if (!Appearance) return;
+
+	let fixedUp = false;
+	for (const fixup of LoginInventoryFixups) {
+		const idx = Appearance.findIndex(a => a.Group === fixup.Old.Group && (a.Name === fixup.Old.Name || fixup.Old.Name === "*"));
 		if (idx != -1) {
 			// The item is currently worn, remove it
 			let worn = Appearance[idx];
 			Appearance.splice(idx, 1);
 
 			// There're already something else in that slot, preserve it
-			if (Appearance.find(a => a.Group === fixup.New.Group))
-				return;
+			if (Appearance.find(a => a.Group === fixup.New.Group)) {
+				continue;
+			}
 
 			// Set up the new item and its properties
 			worn.Group = fixup.New.Group;
-			worn.Name = fixup.New.Name;
+			if (fixup.New.Name) {
+				worn.Name = fixup.New.Name;
+			}
 
 			const asset = AssetGet("Female3DCG", worn.Group, worn.Name);
 			let opt = null;
@@ -334,7 +343,7 @@ function LoginPerformInventoryFixups(Inventory, Appearance, Crafting) {
 				switch (asset.Archetype) {
 					case ExtendedArchetype.TYPED:
 						{
-							const opts = TypedItemGetOptions(fixup.New.Group, fixup.New.Name);
+							const opts = TypedItemGetOptions(worn.Group, worn.Name);
 							if (typeof fixup.New.Option === "undefined")
 								opt = opts[0];
 							else
@@ -342,7 +351,7 @@ function LoginPerformInventoryFixups(Inventory, Appearance, Crafting) {
 
 							if (!opt) {
 								console.error(`Unknown option ${fixup.New.Option}`);
-								return;
+								continue;
 							}
 						}
 						break;
@@ -360,21 +369,26 @@ function LoginPerformInventoryFixups(Inventory, Appearance, Crafting) {
 
 			// Push back the updated data
 			Appearance.push(worn);
+			fixedUp = true;
 		}
+	}
+	return fixedUp;
+}
 
+/**
+ * Perform the crafting fixups needed
+ * @param {readonly CraftingItem[]} Crafting - The server-provided, uncompressed crafting data
+ */
+function LoginPerformCraftingFixups(Crafting) {
+	if (!Crafting || !CommonIsArray(Crafting)) return;
+
+	for (const fixup of LoginInventoryFixups) {
 		// Move crafts over to the new name
-		if (CommonIsArray(Crafting)) {
-			Crafting.forEach(C => {
-				if (C == null) return;
-				if (C.Item !== fixup.Old.Name) return;
-				C.Item = fixup.New.Name;
-			});
+		for (const craft of Crafting) {
+			if (!craft || craft.Item !== fixup.Old.Name) continue;
+			craft.Item = fixup.New.Name;
 		}
-
-	});
-
-	if (listsUpdated)
-		ServerPlayerBlockItemsSync();
+	}
 }
 
 /**
@@ -635,31 +649,13 @@ function LoginExtremeItemSettings(applyDefaults) {
 }
 
 /**
- * Since InventoryData wasn't found (R104 and before), we load the inventory object directly
- * @param {object} InventoryObject - The inventory object from the server
- */
-function LoginLoadInventoryObject(InventoryObject) {
-	let Inv = {};
-	if (typeof InventoryObject === "string") {
-		try {
-			Inv = JSON.parse(LZString.decompressFromUTF16(InventoryObject));
-		} catch(err) {
-			console.warn("Error while loading compressed inventory, no inventory loaded.", err);
-		}
-	} else {
-		Inv = InventoryObject;
-	}
-	return Inv;
-}
-
-/**
  * Handles server response, when login has been queued
  * @param {number} Pos - The position in queue
  * @returns {void} Nothing
  */
 function LoginQueue(Pos) {
 	if (typeof Pos !== "number") return;
-	LoginMessage = TextGet("LoginQueueWait").replace("QUEUE_POS", `${Pos}`);
+	LoginQueuePosition = Pos;
 }
 
 /**
@@ -674,6 +670,220 @@ function LoginFixOwner() {
 }
 
 /**
+ * Sets the player character info from the server data
+ * @param {Partial<ServerAccountData>} C
+ */
+function LoginSetupPlayer(C) {
+	Player.Name = C.Name;
+	Player.AccountName = C.AccountName;
+	Player.AssetFamily = C.AssetFamily;
+	Player.Title = C.Title;
+	Player.Nickname = (C.Nickname == null) ? "" : C.Nickname;
+	if (CommonIsNumeric(C.Money)) Player.Money = C.Money;
+	Player.Owner = ((C.Owner == null) || (C.Owner == "undefined")) ? "" : C.Owner;
+	Player.Game = C.Game;
+	if (typeof C.Description === "string" && C.Description.startsWith(ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC)) {
+		C.Description = LZString.decompressFromUTF16(C.Description.substring(1));
+	}
+	Player.Description = (C.Description == null) ? "" : C.Description.substring(0, 10000);
+	Player.Creation = C.Creation;
+	Player.Wardrobe = CharacterDecompressWardrobe(C.Wardrobe);
+	WardrobeFixLength();
+	Player.CharacterID = C.ID.toString();
+	Player.OnlineID = C.ID.toString();
+	Player.MemberNumber = C.MemberNumber;
+	const { permissions, shouldSync } = ServerUnPackItemPermissions(C, C.Difficulty?.Level >= 3);
+	Player.PermissionItems = permissions;
+	if (shouldSync) {
+		ServerPlayerBlockItemsSync();
+	}
+	Player.ChatSearchFilterTerms = C.ChatSearchFilterTerms || "";
+
+	Player.Difficulty = C.Difficulty;
+	Player.WardrobeCharacterNames = C.WardrobeCharacterNames;
+
+	// Sets the default language when creating or searching for chat rooms
+	ChatCreateLanguage = C.RoomCreateLanguage;
+	if (ChatCreateLanguage == null) ChatCreateLanguage = ChatCreateLanguageList[0];
+	if (ChatCreateLanguageList.indexOf(ChatCreateLanguage) < 0) ChatCreateLanguage = ChatCreateLanguageList[0];
+	ChatSearchLanguage = C.RoomSearchLanguage;
+	if (ChatSearchLanguage == null) ChatSearchLanguage = "";
+	if (ChatSearchLanguage && ChatCreateLanguageList.indexOf(ChatSearchLanguage) < 0) ChatSearchLanguage = "";
+
+	// Load the last chat room
+	Player.LastMapData = C.LastMapData;
+	if (typeof C.LastChatRoom !== "string" && ChatRoomValidateProperties(C.LastChatRoom)) {
+		Player.LastChatRoom = C.LastChatRoom;
+	} else if (typeof C.LastChatRoom === "string" && C.LastChatRoom) {
+		// Backward compatibility: Automatically convert old-style data to a real ChatRoom object
+		/** @type {ChatRoomSettings} */
+		const room = {
+			Name: C.LastChatRoom,
+			Description: C.LastChatRoomDesc,
+			Admin: typeof C.LastChatRoomAdmin == "string" ? CommonConvertStringToArray(C.LastChatRoomAdmin) : [],
+			Whitelist: typeof C.LastChatRoomWhitelist == "string" ? CommonConvertStringToArray(C.LastChatRoomWhitelist) : [],
+			Ban: typeof C.LastChatRoomBan == "string" ? CommonConvertStringToArray(C.LastChatRoomBan) : [],
+			Background: C.LastChatRoomBG,
+			Limit: C.LastChatRoomSize,
+			Game: "",
+			Locked: false,
+			Private: C.LastChatRoomPrivate,
+			BlockCategory: C.LastChatRoomBlockCategory,
+			Space: C.LastChatRoomSpace,
+			Language: C.LastChatRoomLanguage,
+			Custom: C.LastChatRoomCustom,
+			MapData: C.LastChatRoomMapData,
+		};
+
+		if (ChatRoomValidateProperties(room)) {
+			Player.LastChatRoom = room;
+		}
+	}
+
+	// Loads the ownership data
+	Player.Ownership = ServerAccountDataSyncedValidate.Ownership(C.Ownership);
+	if (Player.Ownership != null) {
+		Player.Owner = (Player.Ownership.Stage == 1) ? Player.Ownership.Name : "";
+	}
+
+	// @ts-expect-error: FIXME: Property 'Name' is optional in type 'ServerLovership' but required in type 'Lovership'
+	// Ensures lovership data is compatible and converts lovers to lovership
+	Player.Lovership = Array.isArray(C.Lovership) ? C.Lovership : C.Lovership != undefined ? [C.Lovership] : [];
+	if ((C.Lover != null) && (C.Lover != "undefined") && C.Lover.startsWith("NPC-")) {
+		Player.Lover = C.Lover;
+		ServerPlayerSync();
+	}
+
+	// Gets the online preferences
+	Player.LabelColor = C.LabelColor;
+	Player.ItemPermission = C.ItemPermission;
+	Player.KinkyDungeonExploredLore = C.KinkyDungeonExploredLore;
+	Player.ArousalSettings = C.ArousalSettings;
+	Player.ChatSettings = C.ChatSettings;
+	Player.VisualSettings = C.VisualSettings;
+	Player.AudioSettings = C.AudioSettings;
+	Player.ControllerSettings = C.ControllerSettings;
+	Player.GameplaySettings = C.GameplaySettings;
+	Player.ImmersionSettings = C.ImmersionSettings;
+	Player.RestrictionSettings = C.RestrictionSettings;
+	Player.OnlineSettings = C.OnlineSettings;
+	Player.OnlineSharedSettings = C.OnlineSharedSettings;
+	Player.GraphicsSettings = C.GraphicsSettings;
+	Player.NotificationSettings = C.NotificationSettings;
+	Player.GenderSettings = C.GenderSettings;
+	Player.SavedExpressions = C.SavedExpressions;
+	PreferenceValidateArousalData(Player);
+	if (!Array.isArray(Player.SavedExpressions))
+		Player.SavedExpressions = [];
+	if (Player.SavedExpressions.length < 5)
+		for (let x = Player.SavedExpressions.length; x < 5; x++)
+			Player.SavedExpressions.push(null);
+
+	// Load Favorited Colors
+	Player.SavedColors = C.SavedColors;
+	if (!Array.isArray(Player.SavedColors))
+		Player.SavedColors = [];
+	for (let i = 0; i < ColorPickerNumSaved; i++)
+		if (typeof Player.SavedColors[i] != "object" || isNaN(Player.SavedColors[i].H) || isNaN(Player.SavedColors[i].S) || isNaN(Player.SavedColors[i].V))
+			Player.SavedColors[i] = GetDefaultSavedColors()[i];
+	Player.SavedColors.length = ColorPickerNumSaved;
+
+	// Loads the online lists
+	Player.WhiteList = ((C.WhiteList == null) || !Array.isArray(C.WhiteList)) ? [] : C.WhiteList;
+	Player.BlackList = ((C.BlackList == null) || !Array.isArray(C.BlackList)) ? [] : C.BlackList;
+	Player.FriendList = ((C.FriendList == null) || !Array.isArray(C.FriendList)) ? [] : C.FriendList;
+
+	// Attempt to parse friend names
+	if (typeof C.FriendNames === "string") {
+		try {
+			Player.FriendNames = new Map(JSON.parse(LZString.decompressFromUTF16(C.FriendNames)));
+		} catch(err) {
+			console.warn("An error occured while parsing friendnames, entries have been reset.");
+		}
+	}
+	if (Player.FriendNames == null) {
+		Player.FriendNames = new Map();
+	}
+	Player.SubmissivesList = typeof C.SubmissivesList === "string" ? new Set(JSON.parse(LZString.decompressFromUTF16(C.SubmissivesList))) : new Set();
+	Player.GhostList = ((C.GhostList == null) || !Array.isArray(C.GhostList)) ? [] : C.GhostList;
+	Player.Infiltration = C.Infiltration;
+	LoginDifficulty(false);
+
+	// Loads the crafting data
+	const CraftingDecompressed = CraftingDecompressServerData(C.Crafting);
+
+	// Loads the inventory data
+	if (typeof C.InventoryData === "string" && C.InventoryData !== "") {
+		// We keep track of that to be able to tell if there's been changes in the inventory
+		Player.InventoryData = C.InventoryData;
+	}
+	const loadedInventory = InventoryLoad(C.Inventory, C.InventoryData);
+	LoginPerformInventoryFixups(loadedInventory);
+	const fixedUp = LoginPerformAppearanceFixups(C.Appearance);
+	LoginPerformCraftingFixups(CraftingDecompressed);
+	InventoryAddMany(Player, loadedInventory, false);
+	ServerPlayerInventorySync();
+	const updated = ServerAppearanceLoadFromBundle(Player, C.AssetFamily, C.Appearance, C.MemberNumber);
+	if (fixedUp || updated) {
+		// Refresh the character server-side if we had to tweak the appearance
+		ServerPlayerAppearanceSync();
+	}
+
+	// Loads the current appearance, log, reputation and skills
+	LogLoad(C.Log);
+	ReputationLoad(C.Reputation);
+	SkillLoad(C.Skill);
+	Player.ConfiscatedItems = C.ConfiscatedItems;
+	Player.ExtensionSettings = (C.ExtensionSettings || {});
+
+	// Calls the preference init to make sure the preferences are loaded correctly
+	PreferenceInitPlayer();
+	if (Player.VisualSettings) {
+		if (Player.VisualSettings.PrivateRoomBackground) PrivateBackground = Player.VisualSettings.PrivateRoomBackground;
+		if (Player.VisualSettings.MainHallBackground) MainHallBackground = Player.VisualSettings.MainHallBackground;
+	}
+
+	// Loads the dialog and removes the login controls
+	CharacterLoadCSVDialog(Player, { module: "Character", screen: "Player", name: "Player" });
+	PrivateCharacterMax = 4 + (LogQuery("Expansion", "PrivateRoom") ? 4 : 0) + (LogQuery("SecondExpansion", "PrivateRoom") ? 4 : 0);
+	CharacterRefresh(Player, false);
+	if (ManagementIsClubSlave()) CharacterNaked(Player);
+
+	// Starts the game in the main hall while loading characters in the private room
+	PrivateCharacter = [];
+	PrivateCharacter.push(Player);
+	let shouldSyncPrivate = false;
+	if (C.PrivateCharacter != null)
+		for (let P = 0; P < C.PrivateCharacter.length; P++)
+			shouldSyncPrivate = PrivateLoadCharacter(C.PrivateCharacter[P]) || shouldSyncPrivate;
+	if (shouldSyncPrivate) {
+		ServerPrivateCharacterSync();
+	}
+	SarahSetStatus();
+
+	// Fixes a few items
+	var InventoryBeforeFixes = InventoryStringify(Player);
+	LoginFixOwner();
+	LoginValidCollar();
+	LoginMistressItems();
+	LoginClubCard();
+	LoginStableItems();
+	LoginMaidItems();
+	LoginLoversItems();
+	LoginAsylumItems();
+	LoginCheatItems();
+	LoginValideBuyGroups();
+	PrisonRestoreConfiscatedItems();
+	CraftingLoadServer(CraftingDecompressed); // Only run this _after_ `Player.Inventory` is fully ready
+
+	if (InventoryBeforeFixes != InventoryStringify(Player)) ServerPlayerInventorySync();
+	CharacterAppearanceValidate(Player);
+	AsylumGGTSSAddItems();
+	ChatRoomCustomized = ((Player.OnlineSettings != null) && (Player.OnlineSettings.ShowRoomCustomization != null) && (Player.OnlineSettings.ShowRoomCustomization >= 2));
+	if (Player.Crafting.length > 80) Player.Crafting = Player.Crafting.slice(0, 80);
+}
+
+/**
  * Handles player login response data
  * @param {ServerLoginResponse} C - The Login response data - this will either be the player's character data if the
  * login was successful, or a string error message if the login failed.
@@ -682,301 +892,78 @@ function LoginFixOwner() {
 function LoginResponse(C) {
 	LoginCheckES2020();
 
-	// If the return package contains a name and a account name
-	if (CommonIsObject(C)) {
-
-		// In relog mode, we jump back to the previous screen, keeping the current game flow
-		if (RelogData != null) {
-			LoginUpdateMessage();
-			ElementRemove("InputPassword");
-			Player.CharacterID = C.ID.toString();
-			Player.OnlineID = C.ID.toString();
-			CurrentCharacter = RelogData.Character;
-			CommonSetScreen(RelogData.Module, RelogData.Screen);
-			var Elements = /** @type {HTMLCollectionOf<HTMLElement>} */(document.getElementsByClassName("HideOnDisconnect"));
-			for (let E = 0; E < Elements.length; E++)
-				Elements[E].style.display = "";
-
-			if (RelogData.ChatRoomName) {
-				CommonSetScreen("Online", "ChatSearch");
-				ServerSend("ChatRoomJoin", { Name: RelogData.ChatRoomName });
-			}
-			return;
-		}
-
-		// In regular mode, we set the account properties for a new club session
-		if ((C.Name != null) && (C.AccountName != null)) {
-
-			// Make sure we have values
-			if (C.Appearance == null) C.Appearance = [];
-			if (C.AssetFamily == null) C.AssetFamily = "Female3DCG";
-
-			// Sets the player character info
-			Player.Name = C.Name;
-			Player.AccountName = C.AccountName;
-			Player.AssetFamily = C.AssetFamily;
-			Player.Title = C.Title;
-			Player.Nickname = (C.Nickname == null) ? "" : C.Nickname;
-			if (CommonIsNumeric(C.Money)) Player.Money = C.Money;
-			Player.Owner = ((C.Owner == null) || (C.Owner == "undefined")) ? "" : C.Owner;
-			Player.Game = C.Game;
-			if (typeof C.Description === "string" && C.Description.startsWith(ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC)) {
-				C.Description = LZString.decompressFromUTF16(C.Description.substr(1));
-			}
-			Player.Description = (C.Description == null) ? "" : C.Description.substr(0, 10000);
-			Player.Creation = C.Creation;
-			Player.Wardrobe = CharacterDecompressWardrobe(C.Wardrobe);
-			WardrobeFixLength();
-			Player.CharacterID = C.ID.toString();
-			Player.OnlineID = C.ID.toString();
-			Player.MemberNumber = C.MemberNumber;
-			const { permissions, shouldSync } = ServerUnPackItemPermissions(C, C.Difficulty?.Level >= 3);
-			Player.PermissionItems = permissions;
-			if (shouldSync) {
-				ServerPlayerBlockItemsSync();
-			}
-			Player.ChatSearchFilterTerms = C.ChatSearchFilterTerms || "";
-
-			Player.Difficulty = C.Difficulty;
-			Player.WardrobeCharacterNames = C.WardrobeCharacterNames;
-			WardrobeCharacter = [];
-
-			// Sets the default language when creating or searching for chat rooms
-			ChatCreateLanguage = C.RoomCreateLanguage;
-			if (ChatCreateLanguage == null) ChatCreateLanguage = ChatCreateLanguageList[0];
-			if (ChatCreateLanguageList.indexOf(ChatCreateLanguage) < 0) ChatCreateLanguage = ChatCreateLanguageList[0];
-			ChatSearchLanguage = C.RoomSearchLanguage;
-			if (ChatSearchLanguage == null) ChatSearchLanguage = "";
-			if (ChatSearchLanguage && ChatCreateLanguageList.indexOf(ChatSearchLanguage) < 0) ChatSearchLanguage = "";
-
-			// Load the last chat room
-			Player.LastMapData = C.LastMapData;
-			if (typeof C.LastChatRoom !== "string" && ChatRoomValidateProperties(C.LastChatRoom)) {
-				Player.LastChatRoom = C.LastChatRoom;
-			} else if (typeof C.LastChatRoom === "string" && C.LastChatRoom) {
-				// Backward compatibility: Automatically convert old-style data to a real ChatRoom object
-				/** @type {ChatRoomSettings} */
-				const room = {
-					Name: C.LastChatRoom,
-					Description: C.LastChatRoomDesc,
-					Admin: typeof C.LastChatRoomAdmin == "string" ? CommonConvertStringToArray(C.LastChatRoomAdmin) : [],
-					Ban: typeof C.LastChatRoomBan == "string" ? CommonConvertStringToArray(C.LastChatRoomBan) : [],
-					Background: C.LastChatRoomBG,
-					Limit: C.LastChatRoomSize,
-					Game: "",
-					Locked: false,
-					Private: C.LastChatRoomPrivate,
-					BlockCategory: C.LastChatRoomBlockCategory,
-					Space: C.LastChatRoomSpace,
-					Language: C.LastChatRoomLanguage,
-					Custom: C.LastChatRoomCustom,
-					MapData: C.LastChatRoomMapData,
-				};
-
-				if (ChatRoomValidateProperties(room)) {
-					Player.LastChatRoom = room;
-				}
-			}
-
-			// Loads the ownership data
-			Player.Ownership = ServerAccountDataSyncedValidate.Ownership(C.Ownership);
-			if (Player.Ownership != null) {
-				Player.Owner = (Player.Ownership.Stage == 1) ? Player.Ownership.Name : "";
-			}
-
-			// @ts-expect-error: FIXME: Property 'Name' is optional in type 'ServerLovership' but required in type 'Lovership'
-			// Ensures lovership data is compatible and converts lovers to lovership
-			Player.Lovership = Array.isArray(C.Lovership) ? C.Lovership : C.Lovership != undefined ? [C.Lovership] : [];
-			if ((C.Lover != null) && (C.Lover != "undefined") && C.Lover.startsWith("NPC-")) {
-				Player.Lover = C.Lover;
-				ServerPlayerSync();
-			}
-
-			// Gets the online preferences
-			Player.LabelColor = C.LabelColor;
-			Player.ItemPermission = C.ItemPermission;
-			Player.KinkyDungeonExploredLore = C.KinkyDungeonExploredLore;
-			Player.ArousalSettings = C.ArousalSettings;
-			Player.ChatSettings = C.ChatSettings;
-			Player.VisualSettings = C.VisualSettings;
-			Player.AudioSettings = C.AudioSettings;
-			Player.ControllerSettings = C.ControllerSettings;
-			Player.GameplaySettings = C.GameplaySettings;
-			Player.ImmersionSettings = C.ImmersionSettings;
-			Player.RestrictionSettings = C.RestrictionSettings;
-			Player.OnlineSettings = C.OnlineSettings;
-			Player.OnlineSharedSettings = C.OnlineSharedSettings;
-			Player.GraphicsSettings = C.GraphicsSettings;
-			Player.NotificationSettings = C.NotificationSettings;
-			Player.GenderSettings = C.GenderSettings;
-			Player.SavedExpressions = C.SavedExpressions;
-			PreferenceValidateArousalData(Player);
-			if (!Array.isArray(Player.SavedExpressions))
-				Player.SavedExpressions = [];
-			if (Player.SavedExpressions.length < 5)
-				for (let x = Player.SavedExpressions.length; x < 5; x++)
-					Player.SavedExpressions.push(null);
-
-			// Load Favorited Colors
-			Player.SavedColors = C.SavedColors;
-			if (!Array.isArray(Player.SavedColors))
-				Player.SavedColors = [];
-			for (let i = 0; i < ColorPickerNumSaved; i++)
-				if (typeof Player.SavedColors[i] != "object" || isNaN(Player.SavedColors[i].H) || isNaN(Player.SavedColors[i].S) || isNaN(Player.SavedColors[i].V))
-					Player.SavedColors[i] = GetDefaultSavedColors()[i];
-			Player.SavedColors.length = ColorPickerNumSaved;
-
-			// Loads the online lists
-			Player.WhiteList = ((C.WhiteList == null) || !Array.isArray(C.WhiteList)) ? [] : C.WhiteList;
-			Player.BlackList = ((C.BlackList == null) || !Array.isArray(C.BlackList)) ? [] : C.BlackList;
-			Player.FriendList = ((C.FriendList == null) || !Array.isArray(C.FriendList)) ? [] : C.FriendList;
-
-			// Attempt to parse friend names
-			if (typeof C.FriendNames === "string") {
-				try {
-					Player.FriendNames = new Map(JSON.parse(LZString.decompressFromUTF16(C.FriendNames)));
-				} catch(err) {
-					console.warn("An error occured while parsing friendnames, entries have been reset.");
-				}
-			}
-			if (Player.FriendNames == null) {
-				Player.FriendNames = new Map();
-			}
-			Player.SubmissivesList = typeof C.SubmissivesList === "string" ? new Set(JSON.parse(LZString.decompressFromUTF16(C.SubmissivesList))) : new Set();
-			Player.GhostList = ((C.GhostList == null) || !Array.isArray(C.GhostList)) ? [] : C.GhostList;
-			Player.Infiltration = C.Infiltration;
-			LoginDifficulty(false);
-
-			// Loads the crafting data
-			const CraftingDecompressed = CraftingDecompressServerData(C.Crafting);
-
-			// Loads the inventory array from the compressed inventory data string
-			if ((C.InventoryData != null) && (C.InventoryData != "")) {
-				Player.InventoryData = C.InventoryData;
-				InventoryLoadCompressedData(Player, C.InventoryData);
-				ServerAppearanceLoadFromBundle(Player, C.AssetFamily, C.Appearance, C.MemberNumber);
-			} else {
-
-				// Since InventoryData wasn't found (R104 and before), we load the inventory object
-				/** @type {Partial<Record<AssetGroupName, string[]>>} */
-				console.log("Converting from Inventory to InventoryData...");
-				const InventoryObject = LoginLoadInventoryObject(C.Inventory);
-				LoginPerformInventoryFixups(InventoryObject, C.Appearance, CraftingDecompressed);
-				ServerAppearanceLoadFromBundle(Player, C.AssetFamily, C.Appearance, C.MemberNumber);
-				InventoryLoad(Player, InventoryObject);
-				ServerPlayerInventorySync();
-
-			}
-
-			// Loads the current appearance, log, reputation and skills
-			LogLoad(C.Log);
-			ReputationLoad(C.Reputation);
-			SkillLoad(C.Skill);
-			CraftingLoadServer(CraftingDecompressed);
-			Player.ConfiscatedItems = C.ConfiscatedItems;
-			Player.ExtensionSettings = (C.ExtensionSettings || {});
-
-			// Calls the preference init to make sure the preferences are loaded correctly
-			PreferenceInitPlayer();
-			if (Player.VisualSettings) {
-				if (Player.VisualSettings.PrivateRoomBackground) PrivateBackground = Player.VisualSettings.PrivateRoomBackground;
-				if (Player.VisualSettings.MainHallBackground) MainHallBackground = Player.VisualSettings.MainHallBackground;
-			}
-			ActivitySetArousal(Player, 0);
-			ActivityTimerProgress(Player, 0);
-			NotificationLoad();
-
-			// Loads the dialog and removes the login controls
-			CharacterLoadCSVDialog(Player, { module: "Character", screen: "Player", name: "Player" });
-			PrivateCharacterMax = 4 + (LogQuery("Expansion", "PrivateRoom") ? 4 : 0) + (LogQuery("SecondExpansion", "PrivateRoom") ? 4 : 0);
-			CharacterRefresh(Player, false);
-			ElementRemove("InputName");
-			ElementRemove("InputPassword");
-			ElementRemove("LanguageDropdown");
-			CharacterDelete(LoginCharacter);
-			LoginCharacter = null;
-			if (ManagementIsClubSlave()) CharacterNaked(Player);
-
-			// Starts the game in the main hall while loading characters in the private room
-			PrivateCharacter = [];
-			PrivateCharacter.push(Player);
-			if (C.PrivateCharacter != null)
-				for (let P = 0; P < C.PrivateCharacter.length; P++)
-					PrivateCharacterShouldSync = PrivateLoadCharacter(C.PrivateCharacter[P]) || PrivateCharacterShouldSync;
-			SarahSetStatus();
-
-			// Fixes a few items
-			var InventoryBeforeFixes = InventoryStringify(Player);
-			LoginFixOwner();
-			LoginValidCollar();
-			LoginMistressItems();
-			LoginClubCard();
-			LoginStableItems();
-			LoginMaidItems();
-			LoginLoversItems();
-			LoginAsylumItems();
-			LoginCheatItems();
-			LoginValideBuyGroups();
-			PrisonRestoreConfiscatedItems();
-			if (InventoryBeforeFixes != InventoryStringify(Player)) ServerPlayerInventorySync();
-			CharacterAppearanceValidate(Player);
-			AsylumGGTSSAddItems();
-			ChatRoomCustomized = ((Player.OnlineSettings != null) && (Player.OnlineSettings.ShowRoomCustomization != null) && (Player.OnlineSettings.ShowRoomCustomization >= 2));
-			if (Player.Crafting.length > 80) Player.Crafting = Player.Crafting.slice(0, 80);
-
-			// If the player must log back in the cell
-			if (LogQuery("Locked", "Cell")) {
-				CommonSetScreen("Room", "Cell");
-			} else {
-
-				// If the player must log back in Pandora's Box prison
-				if ((Player.Infiltration != null) && (Player.Infiltration.Punishment != null) && (Player.Infiltration.Punishment.Timer != null) && (Player.Infiltration.Punishment.Timer > CurrentTime)) {
-					PandoraWillpower = 0;
-					InfiltrationDifficulty = Player.Infiltration.Punishment.Difficulty;
-					CommonSetScreen("Room", "PandoraPrison");
-				} else {
-
-					// If the player must log back in the asylum
-					if (LogQuery("Committed", "Asylum") || LogQuery("Isolated", "Asylum") || (AsylumGGTSGetLevel(Player) >= 6)) {
-						if (AsylumGGTSGetLevel(Player) <= 5)
-							AsylumEntranceWearPatientClothes(Player, true);
-						else
-							AsylumGGTSDroneDress(Player);
-						CommonSetScreen("Room", "AsylumBedroom");
-					} else {
-
-						// If the owner is forcing the player to do GGTS
-						if (LogValue("ForceGGTS", "Asylum") > 0) {
-							CommonSetScreen("Room", "AsylumEntrance");
-						} else {
-
-							// If the player must start in her room, in her cage
-							if (LogQuery("SleepCage", "Rule") && Player.IsOwned() === "npc" && PrivateOwnerInRoom()) {
-								InventoryRemove(Player, "ItemFeet");
-								InventoryRemove(Player, "ItemLegs");
-								Player.Cage = true;
-								PoseSetActive(Player, "Kneel", true);
-								CommonSetScreen("Room", "Private");
-							} else {
-								CommonSetScreen("Room", "MainHall");
-								MainHallMaidIntroduction();
-							}
-
-						}
-
-					}
-
-				}
-
-			}
-
-		} else {
-			LoginStatusReset("ErrorLoadingCharacterData");
-		}
-	} else if (typeof C === "string") {
-		LoginStatusReset(C);
+	if (typeof C === "string") {
+		LoginSetStatus(C, true);
+		return;
 	}
-	LoginUpdateMessage();
+
+	// The response must contain a name, an ID and an account name
+	if (!(CommonIsObject(C)
+		&& typeof C.AccountName === "string" && !!C.AccountName.length
+		&& typeof C.Name === "string" && !!C.Name.length
+		&& typeof C.ID === "string" && !!C.ID.length)) {
+		LoginSetStatus("ErrorLoadingCharacterData", true);
+		return;
+	}
+
+	// In relog mode, we jump back to the previous screen, keeping the current game flow
+	if (RelogData) {
+		Player.CharacterID = C.ID.toString();
+		Player.OnlineID = C.ID.toString();
+		CurrentCharacter = RelogData.Character;
+
+		if (RelogData.ChatRoomName) {
+			CommonSetScreen("Online", "ChatSearch");
+			ServerSend("ChatRoomJoin", { Name: RelogData.ChatRoomName });
+		} else {
+			CommonSetScreen(RelogData.Module, RelogData.Screen);
+		}
+		return;
+	}
+
+	// In regular mode, we set the account properties for a new club session
+	if (C.Appearance == null) C.Appearance = [];
+	if (C.AssetFamily == null) C.AssetFamily = "Female3DCG";
+
+	LoginSetupPlayer(C);
+
+	ActivitySetArousal(Player, 0);
+	ActivityTimerProgress(Player, 0);
+	NotificationLoad();
+	WardrobeCharacter = []; // Hmm…
+
+	if (ManagementIsClubSlave()) CharacterNaked(Player);
+
+	// We're done loading, now start the player in whatever screen is appropriate
+	if (LogQuery("Locked", "Cell")) {
+		// The player has been locked up, they must log back in the cell
+		CommonSetScreen("Room", "Cell");
+	} else if ((Player.Infiltration?.Punishment?.Timer ?? 0) > CurrentTime) {
+		// The player must log back in Pandora's Box prison
+		PandoraWillpower = 0;
+		InfiltrationDifficulty = Player.Infiltration.Punishment.Difficulty;
+		CommonSetScreen("Room", "PandoraPrison");
+	} else if (LogQuery("Committed", "Asylum") || LogQuery("Isolated", "Asylum") || (AsylumGGTSGetLevel(Player) >= 6)) {
+		// The player must log back in the asylum
+		if (AsylumGGTSGetLevel(Player) <= 5) {
+			AsylumEntranceWearPatientClothes(Player, true);
+		} else {
+			AsylumGGTSDroneDress(Player);
+		}
+		CommonSetScreen("Room", "AsylumBedroom");
+	} else if (LogValue("ForceGGTS", "Asylum") > 0) {
+		// The owner is forcing the player to do GGTS
+		CommonSetScreen("Room", "AsylumEntrance");
+	} else if (LogQuery("SleepCage", "Rule") && Player.IsOwned() === "npc" && PrivateOwnerInRoom()) {
+		// The player must start in her room, in her cage
+		InventoryRemove(Player, "ItemFeet");
+		InventoryRemove(Player, "ItemLegs");
+		Player.Cage = true;
+		PoseSetActive(Player, "Kneel", true);
+		CommonSetScreen("Room", "Private");
+	} else {
+		CommonSetScreen("Room", "MainHall");
+	}
 }
 
 /** Check if the player's browser has ES2020 support */
@@ -1005,30 +992,25 @@ function LoginClick() {
 
 	// Opens the cheat panel
 	if (CheatAllow && MouseIn(825, 800, 350, 60)) {
-		ElementRemove("InputName");
-		ElementRemove("InputPassword");
-		ElementRemove("LanguageDropdown");
 		CommonSetScreen("Character", "Cheat");
 	}
 
 	// Opens the password reset screen
 	if (ServerIsConnected && MouseIn(825, 890, 350, 60)) {
-		ElementRemove("InputName");
-		ElementRemove("InputPassword");
-		ElementRemove("LanguageDropdown");
 		CommonSetScreen("Character", "PasswordReset");
 	}
 
 	// If we must create a new character
 	if (ServerIsConnected && MouseIn(825, 710, 350, 60)) {
-		ElementRemove("InputName");
-		ElementRemove("InputPassword");
-		ElementRemove("LanguageDropdown");
 		CommonSetScreen("Character", "Disclaimer");
 	}
 
 	// Try to login
-	if (MouseIn(775, 500, 200, 60)) LoginDoLogin();
+	if (MouseIn(775, 500, 200, 60)) {
+		const Name = ElementValue("InputName");
+		const Password = ElementValue("InputPassword");
+		LoginDoLogin(Name, Password);
+	}
 }
 
 /**
@@ -1036,11 +1018,10 @@ function LoginClick() {
  * @type {KeyboardEventListener}
  */
 function LoginKeyDown(ev) {
-	if (
-		!(ev.shiftKey || ev.altKey || ev.metaKey || ev.ctrlKey)
-		&& ev.key === "Enter"
-	) {
-		LoginDoLogin();
+	if (CommonKey.IsPressed(ev, "Enter")) {
+		const Name = ElementValue("InputName");
+		const Password = ElementValue("InputPassword");
+		LoginDoLogin(Name, Password);
 		return true;
 	}
 	return false;
@@ -1048,61 +1029,60 @@ function LoginKeyDown(ev) {
 
 /**
  * Attempt to log the user in based on their input username and password
+ * @param {string} Name
+ * @param {string} Password
  * @returns {void} Nothing
  */
-function LoginDoLogin() {
-
+function LoginDoLogin(Name, Password) {
 	// Ensure the login request is not sent twice
-	if (!LoginSubmitted && ServerIsConnected) {
-		var Name = ElementValue("InputName");
-		var Password = ElementValue("InputPassword");
-		if (Name.match(ServerAccountPasswordRegex) && Password.match(ServerAccountPasswordRegex)) {
-			LoginSetSubmitted();
-			ServerSend("AccountLogin", { AccountName: Name, Password: Password });
-		} else LoginStatusReset("InvalidNamePassword");
+	if (LoginSubmitted || !ServerIsConnected) return;
+
+	if (!ServerAccountPasswordRegex.test(Name) || !ServerAccountPasswordRegex.test(Password)) {
+		LoginSetStatus("InvalidNamePassword");
+		return;
 	}
-	LoginUpdateMessage();
-
-}
-
-/**
- * Sets the state of the login page to the submitted state
- * @returns {void} Nothing
- */
-function LoginSetSubmitted() {
+	LoginStatusReset();
 	LoginSubmitted = true;
-	if (ServerIsConnected) LoginErrorMessage = "";
+	ServerSend("AccountLogin", { AccountName: Name, Password: Password });
 }
 
 /**
  * Resets the login submission state
- * @param {string} [ErrorMessage] - the login error message to set if the login is invalid - if not specified, will clear the login error message
- * @param {boolean} [IsRelog=false] - whether or not we're on the relog screen
  * @returns {void} Nothing
  */
-function LoginStatusReset(ErrorMessage, IsRelog) {
+function LoginStatusReset() {
 	LoginSubmitted = false;
-	LoginIsRelog = !!IsRelog;
-	if (ErrorMessage) LoginErrorMessage = ErrorMessage;
+	LoginQueuePosition = -1;
+	LoginErrorMessage = "";
 }
 
 /**
- * Updates the message on the login page
- * @returns {void} Nothing
+ *
+ * @param {string} [ErrorMessage] - the login error message to set if the login is invalid - if not specified, will clear the login error message
  */
-function LoginUpdateMessage() {
-	LoginMessage = TextGet(LoginGetMessageKey());
+function LoginSetStatus(ErrorMessage = "", reset = false) {
+	if (reset) {
+		LoginStatusReset();
+	}
+	LoginErrorMessage = ErrorMessage ?? "";
 }
 
 /**
  * Retrieves the correct message key based on the current state of the login page
- * @returns {string} The key of the message to display
+ * @returns {string | null} The current login status, or null if we're not currently attempting to log in
  */
-function LoginGetMessageKey() {
-	if (LoginErrorMessage) return LoginErrorMessage;
-	else if (!ServerIsConnected) return "ConnectingToServer";
-	else if (LoginSubmitted) return "ValidatingNamePassword";
-	else return LoginIsRelog ? "EnterPassword" : "EnterNamePassword";
+function LoginGetStatus() {
+	if (LoginErrorMessage) {
+		return TextGet(LoginErrorMessage);
+	} else if (!ServerIsConnected) {
+		return TextGet("ConnectingToServer");
+	} else if (LoginQueuePosition !== -1) {
+		return TextGet("LoginQueueWait").replace("QUEUE_POS", `${LoginQueuePosition}`);
+	} else if (LoginSubmitted) {
+		return TextGet("ValidatingNamePassword");
+	} else {
+		return null;
+	}
 }
 
 /**
@@ -1110,7 +1090,16 @@ function LoginGetMessageKey() {
  * @type {ScreenFunctions["Exit"]}
  */
 function LoginExit() {
-	if (LoginTextCacheUnsubscribeCallback) {
-		LoginTextCacheUnsubscribeCallback();
-	}
+
+}
+
+/**
+ * Unload function - called when the login page unloads
+ */
+function LoginUnload() {
+	ElementRemove("InputName");
+	ElementRemove("InputPassword");
+	ElementRemove("LanguageDropdown");
+	CharacterDelete(LoginCharacter);
+	LoginCharacter = null;
 }

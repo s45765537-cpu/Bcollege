@@ -29,7 +29,7 @@ function AssetsItemNipplesLactationPumpScriptDraw(data) {
 	const persist = data.PersistentData();
 
 	// We do nothing if suction is disabled or if we're rendering someone else
-	if (Item.Property.SuctionLevel < 0 || !C.IsPlayer()) return;
+	if (!Item.Property.SuctionLevel || !C.IsPlayer()) return;
 
 	if (persist.LastSuction === undefined) {
 		persist.LastSuction = CurrentTime;
@@ -40,7 +40,7 @@ function AssetsItemNipplesLactationPumpScriptDraw(data) {
 
 	if ((CurrentTime - persist.LastSuction) >= persist.SuctionDuration) {
 		/** @type {ItemActivity} */
-		const activity = { Activity: AssetGetActivity("Female3DCG", "Suck"), Item: Item };
+		const activity = { Activity: AssetGetActivity("Female3DCG", "Suck"), Item: Item, Group: Item.Asset.Group.MirrorActivitiesFrom ?? Item.Asset.Group.Name };
 		ActivityRun(C, C, Item.Asset.Group, activity, false);
 
 		const dict = new DictionaryBuilder()

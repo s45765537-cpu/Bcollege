@@ -39,7 +39,7 @@ Yes
 No
 否
 Deck #
-套牌#
+牌组#
 Play
 打出
 Your opponent has this card you can win:
@@ -49,7 +49,7 @@ You've reached 100 Fame and won this card:
 PLAYERNAME's deck isn't valid.  Using the default deck instead.
 PLAYERNAME的牌组不合规则。改为使用默认牌组。
 Select the deck to play with.
-选择要游玩的套牌。
+选择要游玩的牌组。
 Waiting for deck selection.
 等待选择牌组。
 PLAYERNAME's deck is selected.
@@ -86,12 +86,12 @@ Your opponent has been chosen to start the game.  Please wait for her move.
 由你的对手开始游戏。请等待她的行动。
 PLAYERNAME has been selected to start.  Both players must pick a deck.
 PLAYERNAME选择了开始。每位玩家必须选择一个牌组。
- --- Turn TURNNUMBER - PLAYERNAME ---
- --- 回合 TURNNUMBER - PLAYERNAME ---
-SOURCEPLAYER FAMEMONEY.  It's OPPONENTPLAYER turn.
-SOURCEPLAYER FAMEMONEY。现在是OPPONENTPLAYER的回合。
-SOURCEPLAYER draws a card.  FAMEMONEY.  It's OPPONENTPLAYER's turn.
-SOURCEPLAYER抽了一张牌。FAMEMONEY。现在是OPPONENTPLAYER的回合。
+Turn TURNNUMBER - PLAYERNAME
+回合TURNNUMBER - PLAYERNAME
+SOURCEPLAYER FAMEMONEY.
+SOURCEPLAYER FAMEMONEY.
+SOURCEPLAYER draws a card.  FAMEMONEY.
+SOURCEPLAYER抽了一张卡牌。FAMEMONEY。
 Get Cottage (MONEY)
 获得小屋(MONEY)
 Get House (MONEY)
@@ -671,7 +671,7 @@ Porn Convention
 For 3 turns, all players gain 3 Fame for each Porn Actress in their club at end of turn.
 在3回合内，所有玩家在回合结束时，俱乐部中每有一个色情演员，获得3声望。
 SOURCEPLAYER gains AMOUNT Fame from the Porn Convention.
-SOURCEPLAYER从色情大会中获得了AMOUNT声望。
+SOURCEPLAYER由于色情大会获得了AMOUNT声望。
 Kidnapping
 绑架
 Remove any member from your opponent club.  You lose opponent building level^2 Money.
@@ -679,9 +679,9 @@ Remove any member from your opponent club.  You lose opponent building level^2 M
 Pandora's Box
 潘多拉魔盒
 Discard your hand. Each player draws until they have at least 4 cards in hand. Each player draws a card.
-弃掉你的手牌。每个玩家抽牌，直到他们手牌中至少有4张牌。每个玩家抽一张牌。
+弃掉你的手牌。每个玩家抽牌，直到TA手牌中至少有4张牌。每个玩家抽一张牌。
 SOURCEPLAYER opens Pandora's Box and discard their hand. All players draw until they have 4 cards, then draw a card.
-SOURCEPLAYER打开了潘多拉魔盒并弃掉了他们的手牌。所有玩家抽牌，直到他们手牌中有4张牌，然后抽一张牌。
+SOURCEPLAYER打开了潘多拉魔盒并弃掉了TA的手牌。所有玩家抽牌，直到TA手牌中有4张牌，然后抽一张牌。
 Toy Box
 玩具箱
 +3 Money and draw a card.
@@ -706,6 +706,8 @@ Fussy Baby
 挑剔宝贝
 Returns to hand when the opponent plays an Event and you gain 4 fame.
 当对手打出事件时返回手牌，你获得4声望。
+Fussy Baby returned to SOURCEPLAYER's hand and gave 4 fame.
+挑剔宝贝返回到SOURCEPLAYER的手牌并且给了4声望。
 Daycare Enthusiast
 托儿所狂热者
 Gain 3 fame when an ABDL Mommy enters your club. Gain 3 money when an ABDL Baby enters your club.
@@ -714,12 +716,14 @@ Daycare Party
 托儿所派对
 Gain 4 Fame and draw a card for each ABDL Mommy present.
 每有一个ABDL妈咪在场，获得4声望并抽一张牌。
- Gained AMOUNT fame from the Daycare Party
-从托儿所派对中获得了AMOUNT声望
+Gained AMOUNT fame from the Daycare Party
+由于托儿所派对获得了AMOUNT声望
 Nanny
 保姆奶奶
 When an ABDL Baby enters your club, gain fame equal to your club level.
 当一个ABDL宝宝进入你的俱乐部时，获得与你俱乐部等级相等的声望。
+Nanny gives AMOUNT fame SOURCEPLAYER, when baby enters your club.
+当宝宝进入你的俱乐部时，保姆奶奶给了SOURCEPLAYER AMOUNT声望。
 Dommy Mommy
 支配妈咪
 +1 Fame per turn for each ABDL Baby present. Gain 1 Fame for each member present when she enters your club.
@@ -748,7 +752,7 @@ Recess
 课间休息
 Draw 2 cards. Gain 2 money for each ABDL Baby and College Student present.
 抽2张牌。每有一个ABDL宝贝和大学学生在场，获得2金钱。
- SOURCEPLAYER draws 2 cards and gains AMOUNT money from Recess
+SOURCEPLAYER draws 2 cards and gains AMOUNT money from Recess
 SOURCEPLAYER由于课间休息抽了2张牌并获得了AMOUNT金钱
 Med Student
 医学生
@@ -757,11 +761,11 @@ Med Student
 First Bell
 预备铃
 Draw a random college student from your deck. If it's your first turn or you control a teacher, play again.
-从你的牌库中抽取一个随机的大学学生。如果这是你的第一个回合或者你控制一个老师，再次抽取。
- SOURCEPLAYER draws 1 card from First Bell
+从你的牌组中抽取一个随机的大学学生。如果这是你的第一个回合或者你控制一个老师，再次抽取。
+SOURCEPLAYER draws 1 card from First Bell
 SOURCEPLAYER由于预备铃抽取了1张牌
- SOURCEPLAYER could not draw any cards from First Bell
-SOURCEPLAYER无法从预备铃中抽取任何卡牌
+SOURCEPLAYER could not draw any cards from First Bell
+SOURCEPLAYER无法由于预备铃抽取任何卡牌
 Alvin
 Alvin
 Summon a Ropeslave when playing Restrain, Shibari event or Kidnapping a Dominant or Mistress (max 3 in club)
@@ -770,14 +774,18 @@ Rope Slave
 绳奴
 Gain 1 Money when you play a Knot or Shibari event. 
 当你打出一个绳结或者绳艺事件时，获得1金钱。
+SOURCEPLAYER gained 1 money from Rope Slave.
+SOURCEPLAYER从绳奴获得了1金钱。
 Quack Doctor
 江湖郎中
 Start of your turn, for each Asylum Patient present, players lose 1 fame. (Max 4)
 在你的回合开始时，每有一个收容所病人在场，玩家失去1声望。（最多4）
+SOURCEPLAYER and OPPONENTPLAYER lost AMOUNT fame.
+SOURCEPLAYER和OPPONENTPLAYER失去了AMOUNT声望。
 Sophie
 Sophie
 Before she enters your club, select a member to double their Fame and Money.
-在她进入你的俱乐部之前，选择一个会员，使他们的声望和金钱翻倍。
+在她进入你的俱乐部之前，选择一个会员，使TA的声望和金钱翻倍。
 CARDTITLE got their fame and money boosted by the lovely Sophie~
 CARDTITLE的声望和金钱被可爱的Sophie翻倍了~
 Select a member to enhance before Sophie enters.
@@ -785,15 +793,15 @@ Select a member to enhance before Sophie enters.
 Hypnotherapist
 催眠治疗师
 When she enters your club, return all Tier 1 members to their owner's hands, then take another action.
-当她进入你的俱乐部时，将所有一级会员返回到他们的所有者手中，然后再进行一次行动。
+当她进入你的俱乐部时，将所有一级会员返回到TA的所有者手中，然后再进行一次行动。
 Help Button
 帮助按钮
 Return a member from your club to its owners deck, a random Maid or Nurse of equal level joins your club from your deck.
-将一个会员从你的俱乐部返回到他们的牌库，从你的牌库中将一个随机的女仆或者护士会员加入你的俱乐部。
+将一个会员从你的俱乐部返回到拥有者的牌组，从你的牌组中将一个随机的女仆或者护士会员加入你的俱乐部。
 SOURCEPLAYER could not summon any cards from Help Button.
-SOURCEPLAYER无法从帮助按钮中召唤任何卡牌。
+SOURCEPLAYER无法由于帮助按钮召唤任何卡牌。
 Select a member from your club to return to deck.
-选择一个会员从你的俱乐部返回到牌库。
+选择一个会员从你的俱乐部返回到牌组。
 Prodigious Patient
 神童病人
 When she leaves your club, your opponent loses 15 fame and discards a random card. Leaves your club after 6 turns.
@@ -833,7 +841,7 @@ Burlington Bowtie
 Gain 1 fame per club level. Gain 1 fame per Sensei present. 
 每个俱乐部等级获得1声望。每有一个绳艺老师在场，获得1声望。
 SOURCEPLAYER gained AMOUNT Fame from Burlington Bowtie.
-SOURCEPLAYER从伯灵顿蝴蝶结中获得了AMOUNT声望。
+SOURCEPLAYER由于伯灵顿蝴蝶结获得了AMOUNT声望。
 Square Knot
 方结
 Your opponent loses 4 fame.
@@ -845,7 +853,7 @@ Closed Hitch
 Draw a card.
 抽一张卡牌。
 SOURCEPLAYER draws a card from Closed Hitch.
-SOURCEPLAYER从双套结中抽了一张卡牌。
+SOURCEPLAYER由于双套结抽了一张卡牌。
 Struggler's Knot
 称人结
 Take another action. 
@@ -853,23 +861,23 @@ Take another action.
 Quick Release Knot
 快解结
 Gain money equal to the number of knots in your discard pile plus 4. Shuffle this and all knots from your discard pile into your deck. 
-获得等于你弃牌堆中绳结数量加4的金钱。将这张牌和你弃牌堆中的所有绳结洗入你的牌库。
+获得等于你弃牌堆中绳结数量加4的金钱。将这张牌和你弃牌堆中的所有绳结洗入你的牌组。
 SOURCEPLAYER gained AMOUNT Money from Quick Release Knot.
-SOURCEPLAYER从快解结中获得了AMOUNT金钱。
+SOURCEPLAYER由于快解结获得了AMOUNT金钱。
 Master Class
 大师课程
 For the next 3 turns, if a Sensei is present, play a random Knot from your deck at the start of your turn.
-在接下来的3回合内，如果有一个绳艺老师在场，你的回合开始时从你的牌库中打出一个随机绳结。
+在接下来的3回合内，如果有一个绳艺老师在场，你的回合开始时从你的牌组中打出一个随机绳结。
 Tie Tight
 绑紧
 Shuffle a member from your opponents club into their deck. They draw a card. 
-将对手俱乐部中的一个会员洗入他们的牌库。他们抽一张卡牌。
+将对手俱乐部中的一个会员洗入TA的牌组。TA抽一张卡牌。
 Rope Auction
 绳索拍卖
 Remove a member from your club to play 1 random Knot from your deck. 
-移除一个会员从你的俱乐部，打出你的牌库中的一个随机绳结。
+从你的俱乐部移除一个会员，打出你的牌组中的一个随机绳结。
 Select a member from your club to remove.
-选择一个会员从你的俱乐部移除。
+从你的俱乐部选择一个会员移除。
 Sensei
 绳艺老师
 Knot
@@ -877,23 +885,25 @@ Knot
 Shibari Lover
 绳艺爱好者
 When a Shibari member enters your club, play a random Knot from your deck.
-当一个绳艺会员进入你的俱乐部时，从你的牌库中打出一个随机绳结。
+当一个绳艺会员进入你的俱乐部时，从你的牌组中打出一个随机绳结。
 Goddess of Ropes
 绳艺女神
 When you play a Shibari card, play a random Knot from your deck. 
-当你打出一个绳艺卡牌时，从你的牌库中打出一个随机绳结。
+当你打出一个绳艺卡牌时，从你的牌组中打出一个随机绳结。
 Rope Slinger
 绳索射手
 When she enters your club, play a random Knot from your deck.
-当她进入你的俱乐部时，从你的牌库中打出一个随机绳结。
+当她进入你的俱乐部时，从你的牌组中打出一个随机绳结。
 Fit To Be Tied
 绑得紧紧
 Play all Knots in your hand, deck, and discard pile and shuffle them into your deck.
-打出你手牌、牌库和弃牌堆中的所有绳结，并将它们洗入你的牌库。
+打出你手牌、牌组和弃牌堆中的所有绳结，并将它们洗入你的牌组。
 Living Art
 人体艺术
 Gain 1 Fame when you play a Knot or Shibari Event. 
 当你打出一个绳结或者绳艺事件时，获得1声望。
+SOURCEPLAYER gained 1 fame from Living Art.
+SOURCEPLAYER由于人体艺术获得了1声望。
 Attention Whore
 渴求关注
 Select and remove one ongoing event before she enters your club.

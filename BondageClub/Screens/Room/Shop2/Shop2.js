@@ -689,12 +689,14 @@ var Shop2 = {
 			Coords: [25, 38, 660, 60],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
 			Load: () => {
-				if (document.getElementById("Shop2InputSearch")) {
+				let elem = /** @type {null | HTMLInputElement} */(document.getElementById("Shop2InputSearch"));
+				if (elem) {
+					elem.style.display = "";
 					return;
 				}
 
 				// We've got a caching related race condition going on for `TextGet("InputSearch")`, so hard code the english text as fallback
-				const elem = ElementCreateSearchInput("Shop2InputSearch", () => {
+				elem = ElementCreateSearchInput("Shop2InputSearch", () => {
 					switch (Shop2Vars.Mode) {
 						case "Preview":
 							return new Set(Shop2Vars.PreviewItems.map(i => i.Asset.Description).sort());

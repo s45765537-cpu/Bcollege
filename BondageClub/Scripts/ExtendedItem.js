@@ -588,7 +588,8 @@ function ExtendedItemValidate(data, C, Item, newOption, previousOption, permitEx
 		return InterfaceTextGet("CantChangeWhileLocked");
 	} else if (newOption.Prerequisite && !InventoryAllow(C, Item.Asset, newOption.Prerequisite, true, newOption.Property?.AllowActivePose)) {
 		// Otherwise use the standard prerequisite check
-		return DialogText;
+		const statusID = DialogMenuMapping[DialogMenuMode]?.ids.status;
+		return !statusID ? "error" : (document.getElementById(statusID)?.textContent ?? "error");
 	} else if (previousOption.AllowLock && !newOption.AllowLock && InventoryItemHasEffect(Item, "Lock", true)) {
 		// We're switching from a locked, lockable option to one that can't be locked. Prevent that.
 		return InterfaceTextGet("ExtendedItemUnlockBeforeChange");
@@ -1447,7 +1448,6 @@ function ExtendedItemTypeToRecord(asset, type) {
 	}
 }
 
-// TODO: Add crafting support
 /**
  * Namespace with extended item functions for accessing the tighten/loosen menu.
  * @namespace
@@ -1463,7 +1463,10 @@ const ExtendedItemTighten = {
 		if (asset.AllowTighten && !TightenLoosenScreenBlacklist.has(CurrentScreen)) {
 			const Difficulty = item.Difficulty ?? 0;
 			DrawText(`${InterfaceTextGet("Tightness")} ${Difficulty}`, 1200, 140, "White", "Silver");
-			if (Player.CanInteract() && !InventoryItemHasEffect(item, "Lock")) {
+
+			const C = CharacterGetCurrent();
+			const canUnlock = (Player.CanInteract() && (!InventoryItemHasEffect(item, "Lock") || DialogCanUnlock(C, item)));
+			if (canUnlock) {
 				DrawButton(...buttonCoords, InterfaceTextGet("AdjustTightness"), "White");
 			} else {
 				DrawButton(...buttonCoords, InterfaceTextGet("AdjustTightness"), "Gray", undefined, undefined, true);
@@ -1483,10 +1486,11 @@ const ExtendedItemTighten = {
 			return false;
 		}
 
+		const C = CharacterGetCurrent();
+		const canUnlock = (Player.CanInteract() && (!InventoryItemHasEffect(item, "Lock") || DialogCanUnlock(C, item)));
 		if (
 			asset.AllowTighten
-			&& Player.CanInteract()
-			&& !InventoryItemHasEffect(item, "Lock")
+			&& canUnlock
 			&& !TightenLoosenScreenBlacklist.has(CurrentScreen)
 		) {
 			DialogSetTightenLoosenItem(item);

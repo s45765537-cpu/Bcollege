@@ -1153,6 +1153,10 @@ TargetCharacterName was promoted to administrator by SourceCharacter.
 TargetCharacterName被SourceCharacter設為了房間管理員.
 TargetCharacterName was demoted from administration by SourceCharacter.
 TargetCharacterName被SourceCharacter取消了房間管理員權限.
+TargetCharacterName was added to the room whitelist by SourceCharacter.
+TargetCharacterName已被SourceCharacter加入房間白名單。
+TargetCharacterName was removed from the room whitelist by SourceCharacter.
+TargetCharacterName已被SourceCharacter從房間白名單中移除。
 SourceCharacter updated the room. Name: ChatRoomName. Limit: ChatRoomLimit.  ChatRoomPrivacy.  ChatRoomLocked.
 SourceCharacter更新了房間訊息. 名稱: ChatRoomName. 人數上限: ChatRoomLimit.  ChatRoomPrivacy.  ChatRoomLocked.
 SourceCharacter starts unlocking DestinationCharacterName suitcase! PronounSubject will finish in 5 minutes.

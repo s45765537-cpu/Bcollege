@@ -1063,7 +1063,7 @@ function StableGenericProgressEnd() {
 
 /** @type {KeyboardEventListener} */
 function StableKeyDown(event) {
-	if (event.repeat) return false;
+	if (event.repeat || CommonKey.GetModifiers(event)) return false;
 
 	if (StableProgress >= 0 && (CommonKeyMove(event) === "l" || CommonKeyMove(event) === "r")) {
 		StableGenericRun((StableProgressLastKeyPress == event.code));

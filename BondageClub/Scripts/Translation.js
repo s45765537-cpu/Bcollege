@@ -1,4 +1,6 @@
 "use strict";
+
+/** @type {ServerChatRoomLanguage | "TW"} */
 var TranslationLanguage = "EN";
 /** @type {Record<string, string[]>} */
 var TranslationCache = {};
@@ -7,7 +9,7 @@ var TranslationCache = {};
  * Dictionary for all supported languages and their files
  * @constant
  */
-var TranslationDictionary = [
+var TranslationDictionary = /** @type {const} */([
 
 	{
 		LanguageCode: "EN",
@@ -33,6 +35,7 @@ var TranslationDictionary = [
 			"Screens/Character/PasswordReset/Text_PasswordReset_DE.txt",
 			"Screens/Character/Player/Dialog_Player_DE.txt",
 			"Screens/Character/Preference/Text_Preference_DE.txt",
+			"Screens/Character/Preference/ActivityDictionary_DE.txt",
 			"Screens/Character/Title/Text_Title_DE.txt",
 			"Screens/Character/Wardrobe/Text_Wardrobe_DE.txt",
 			"Screens/Cutscene/NPCCollaring/Text_NPCCollaring_DE.txt",
@@ -40,6 +43,7 @@ var TranslationDictionary = [
 			"Screens/Cutscene/PlayerCollaring/Text_PlayerCollaring_DE.txt",
 			"Screens/Cutscene/PlayerMistress/Text_PlayerMistress_DE.txt",
 			"Screens/Cutscene/SarahIntro/Text_SarahIntro_DE.txt",
+			"Screens/Interface_DE.txt",
 			"Screens/MiniGame/HorseWalk/Text_HorseWalk_DE.txt",
 			"Screens/MiniGame/Kidnap/Text_Kidnap_DE.txt",
 			"Screens/MiniGame/MaidCleaning/Text_MaidCleaning_DE.txt",
@@ -1038,7 +1042,7 @@ var TranslationDictionary = [
 			"Screens/Room/Stable/Text_Stable_UA.txt" */
 		]
 	},
-];
+]);
 
 /**
  * Checks whether we're running a translation
@@ -1130,7 +1134,6 @@ function TranslationDialogArray(C, T) {
 function TranslationTextArray(S, T) {
 	for (let P = 0; P < S.length; P++)
 		S[P].Value = TranslationString(S[P].Value, T);
-	if (CurrentScreen == "Login") LoginUpdateMessage();
 }
 
 /**
@@ -1295,6 +1298,6 @@ function TranslationSwitchLanguage(language) {
  * @returns {void} - Nothing
  */
 function TranslationLoad() {
-	var L = localStorage.getItem("BondageClubLanguage");
+	var L = /** @type {ServerChatRoomLanguage | "TW"} */(localStorage.getItem("BondageClubLanguage"));
 	if (L != null) TranslationLanguage = L;
 }

@@ -178,6 +178,8 @@ function MainHallLoad() {
 	TextPrefetch("Character", "Relog");
 	TextPrefetch("Online", "ChatSearch");
 
+	// A maid will introduce the player to the club and explain the basic rules
+	MainHallMaidIntroduction();
 }
 
 /**
@@ -185,9 +187,11 @@ function MainHallLoad() {
  * @returns {void} - Nothing
  */
 function MainHallRun() {
-	KidnapLeagueResetOnlineBountyProgress();
 
+	// Calls the other screens that could trigger
+	KidnapLeagueResetOnlineBountyProgress();
 	MainHallCycleTips();
+	PandoraPenitentiaryCreate();
 
 	// Out of punishment mode
 	if (!MainHallBeingPunished) {

@@ -80,8 +80,16 @@ With Message
 以及以下信息
 Toggle closed eyes blindness
 更改闭眼时的失明等级
-Blocked in this room.
-被房间禁止
+Item is already equipped.
+物品已经装备.
+Item is blocked by GGTS.
+物品被GGTS锁住了.
+AssetName must be unlocked first.
+AssetName必须先解锁.
+Item is blocked by user.
+物品被用户屏蔽了.
+Item is blocked in this room.
+物品在这个房间被屏蔽了.
 Brightness
 亮度
 Cancel
@@ -138,6 +146,8 @@ Crafter: MemberName (MemberNumber)
 制作者：MemberName (MemberNumber)
 Name: CraftName
 名称：CraftName
+Private: CraftPrivate
+私有: CraftPrivate
 Property: CraftProperty
 特性：CraftProperty
 Current Mode:
@@ -322,6 +332,8 @@ View next page
 查看下一页
 You have no items in this category
 这个分类下没有物品
+No lockable item equipped
+没有装备可上锁的物品
 Joined Room
 加入了房间
 Chat Message
@@ -340,6 +352,32 @@ Option needs to be bought
 需要购买的选项
 Page
 页
+A Pandora guard puts SourceCharacter in new restraints.
+一位潘多拉守卫将SourceCharacter用新的束缚固定。
+A Pandora guard spanks SourceCharacter butt many times.
+一位潘多拉守卫拍打了SourceCharacter的屁股很多次。
+A Pandora guard hoses SourceCharacter with cold water.
+一位潘多拉守卫用冷水冲洗了SourceCharacter。
+A Pandora guard gags SourceCharacter.
+一位潘多拉守卫给SourceCharacter塞上口塞。
+A Pandora guard removes the gag from SourceCharacter.
+一位潘多拉守卫从SourceCharacter的嘴里拿掉了口塞。
+A Pandora guard chains and hogties SourceCharacter.
+一位潘多拉守卫用锁链将SourceCharacter绑成了驷马束缚。
+A Pandora guard puts SourceCharacter in shibari bondage.
+一位潘多拉守卫将SourceCharacter绑成了绳艺束缚。
+A Pandora guard strips SourceCharacter and confiscates the clothes for a while.
+一位潘多拉守卫脱掉了SourceCharacter的衣服，并没收了一段时间。
+A Pandora guard adds locks on SourceCharacter restraints.
+一位潘多拉守卫在SourceCharacter的束缚上加了锁。
+A Pandora guard locks a chastity device on SourceCharacter.
+一位潘多拉守卫在SourceCharacter身上锁上了贞操带。
+A Pandora guard removes the chastity device from SourceCharacter.
+一位潘多拉守卫从SourceCharacter身上移除了贞操带。
+A Pandora guard unlocks some restraints on SourceCharacter.
+一位潘多拉守卫解锁了SourceCharacter的一些束缚。
+A Pandora guard removes some restraints on SourceCharacter.
+一位潘多拉守卫移除了SourceCharacter的一些束缚。
 Picking the lock...
 正在开锁…
 Pose
@@ -488,6 +526,8 @@ Lightly blinds
 轻度遮眼
 Blinds
 遮眼
+Restrains hands
+束缚手
 Buygroup member
 购买物品组成员
 Heavily deafens
@@ -506,6 +546,8 @@ Favorite (theirs & yours)
 最爱(对方的&你的)
 Favorite (yours)
 最爱(你的)
+Restrains legs
+束缚腿
 Heavily gags
 重度塞口
 Lightly gags
@@ -572,6 +614,8 @@ Removing...
 移除中…
 Need Bondage ReqLevel
 需要束缚技能等级ReqLevel
+Requires the player character
+需要玩家角色
 Requires self-bondage 1.
 需要自缚技能等级1
 Requires self-bondage 10.
@@ -782,6 +826,10 @@ TargetCharacterName was moved to the right by SourceCharacter.
 TargetCharacterName被SourceCharacter移到了右边.
 TargetCharacterName was promoted to administrator by SourceCharacter.
 TargetCharacterName被SourceCharacter设为了房间管理员.
+TargetCharacterName was removed from the room whitelist by SourceCharacter.
+TargetCharacterName已被SourceCharacter从房间白名单中删除。
+TargetCharacterName was added to the room whitelist by SourceCharacter.
+TargetCharacterName已被SourceCharacter添加到房间白名单。
 SourceCharacter shuffles the position of everyone in the room randomly.
 SourceCharacter随机安排了房间中所有人的位置.
 SourceCharacter swapped TargetCharacterName and DestinationCharacterName1 places.
@@ -794,6 +842,8 @@ Show the time remaining/being added
 显示剩余时间和增加的时间
 Someone
 某人
+Status & effects:
+状态和效果：
 Try to unfasten
 试着打开扣锁
 Try to squeeze out
@@ -842,5 +892,5 @@ This zone is out of reach from another item
 这个区域目前因其他物品影响无法触及
 Your owner doesn't allow you to access that zone
 你的主人不允许你接触该区域
-You're too far to reach DialogCharacterObject body and items.
+You're too far to reach DialogCharacterObject's body and items.
 你距离太远，无法触及DialogCharacterObject的身体和物品。

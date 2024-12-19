@@ -2,7 +2,7 @@
 /**
  * List for all possible pairs of NPC traits. A pair defines opposites.
  * @constant
- * @type {[string, string][]}
+ * @type {[NPCTraitType, NPCTraitType][]}
  */
 var NPCTrait = [
 	["Dominant", "Submissive"],
@@ -16,7 +16,7 @@ var NPCTrait = [
 /**
  * Sets a specific trait for a NPC
  * @param {NPCCharacter} C - NPC to set the trait for
- * @param {string} TraitName - Name of the trait to set
+ * @param {NPCTraitType} TraitName - Name of the trait to set
  * @param {number} TraitValue - Value of the trait to set
  * @returns {void} - Nothing
  */
@@ -49,8 +49,8 @@ function NPCTraitGenerate(C) {
 
 /**
  * Get the opposite trait of a specified trait.
- * @param {string} Trait - Name of the trait to find the opposite of.
- * @returns {string} - Name of the opposite trait.
+ * @param {NPCTraitType} Trait - Name of the trait to find the opposite of.
+ * @returns {NPCTraitType | null} - Name of the opposite trait.
  */
 function NPCTraitReverse(Trait) {
 	for (let T = 0; T < NPCTrait.length; T++)
@@ -58,7 +58,7 @@ function NPCTraitReverse(Trait) {
 			if (NPCTrait[T][0] == Trait) return NPCTrait[T][1];
 			if (NPCTrait[T][1] == Trait) return NPCTrait[T][0];
 		}
-	return "No opposite found";
+	return null;
 }
 
 
@@ -72,14 +72,16 @@ function NPCTraitGetOptionValue(Dialog, Trait) {
 	if ((Dialog != null) && (Trait != null)) {
 		var Value = 0;
 		var DialogTrait = Dialog.split("|");
-		for (let T = 0; T < DialogTrait.length; T++)
+		for (let T = 0; T < DialogTrait.length; T++) {
+			const traitName = /** @type {NPCTraitType} */ (DialogTrait[T].trim());
 			for (let N = 0; N < Trait.length; N++)
 				if (Trait[N].Name != null) {
-					if (Trait[N].Name.trim() == DialogTrait[T].trim())
+					if (Trait[N].Name.trim() === traitName)
 						Value = Value + Trait[N].Value;
-					else if (Trait[N].Name.trim() == NPCTraitReverse(DialogTrait[T].trim()))
+					else if (Trait[N].Name.trim() == NPCTraitReverse(traitName))
 						Value = Value - 10000;
 				}
+		}
 		return Value;
 	} else return 0;
 }
@@ -163,10 +165,8 @@ function NPCArousal(C) {
 			if (Dominant + 125 < Math.random() * 250) LoveOther -= 1;
 
 			// 0 and 4 are the limits
-			if (LoveSelf < 0) LoveSelf = 0;
-			if (LoveOther < 0) LoveOther = 0;
-			if (LoveSelf > 4) LoveSelf = 4;
-			if (LoveOther > 4) LoveOther = 4;
+			LoveSelf = /** @type {ArousalFactor} */ (CommonClamp(LoveSelf, 0, 4));
+			LoveOther = /** @type {ArousalFactor} */ (CommonClamp(LoveOther, 0, 4));
 
 			// Sets the final values
 			PreferenceSetActivityFactor(C, A.Name, true, LoveSelf);
@@ -222,7 +222,7 @@ function NPCArousal(C) {
 /**
  * Returns the trait value of an NPC. If the opposite trait is found, it will return a negative value.
  * @param {NPCCharacter} C - NPC to get the trait of
- * @param {string} TraitType - Name of the trait to get the value of
+ * @param {NPCTraitType} TraitType - Name of the trait to get the value of
  * @returns {number} - Value of the trait, returns 0 if it was never set.
  */
 function NPCTraitGet(C, TraitType) {
@@ -240,7 +240,7 @@ function NPCTraitGet(C, TraitType) {
 /**
  * Adds a new event in a specified NPC log or updates an existing event if it was previously logged.
  * @param {NPCCharacter} C - NPC for which to add the event to
- * @param {string} EventName - Name of the even to add
+ * @param {NPCEventType} EventName - Name of the even to add
  * @param {number} EventValue - Value of the even to add (time in ms)
  * @returns {void} - Nothing
  */
@@ -262,7 +262,7 @@ function NPCEventAdd(C, EventName, EventValue) {
 /**
  * Deletes a specified NPC event from the log
  * @param {NPCCharacter} C - NPC for which to delete the event
- * @param {string} EventName - Name of the even to delete
+ * @param {NPCEventType} EventName - Name of the even to delete
  * @returns {void} - Nothing
  */
 function NPCEventDelete(C, EventName) {
@@ -275,7 +275,7 @@ function NPCEventDelete(C, EventName) {
 /**
  * Returns a specified NPC event value.
  * @param {NPCCharacter} C - NPC to get the event value of
- * @param {string} EventName - Name of the even to get the value of
+ * @param {NPCEventType} EventName - Name of the even to get the value of
  * @returns {number} - Value of the event as the time in ms, returns 0 if it was never logged
  */
 function NPCEventGet(C, EventName) {

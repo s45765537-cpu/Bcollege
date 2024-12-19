@@ -66,6 +66,8 @@ Belt
 皮带
 Shoulders
 肩膀
+Buckle
+皮带扣
 Jacket
 外套
 Shirt
@@ -144,8 +146,6 @@ Main Dress
 裙子主体
 Belts
 皮带
-Buckle
-皮带扣
 Dress Trim
 裙边
 Corset Buttons
@@ -320,6 +320,10 @@ Inner Ears
 耳朵内侧
 Outer Ears
 耳朵外侧
+Inner Webbing
+内侧网状
+Edge
+边缘
 Bun
 包子
 Tips
@@ -356,6 +360,12 @@ Front Hair
 前发
 Front Plate
 前部板
+Ends
+顶端
+Strands
+发缕
+Extra
+额外
 Tiara
 头冠
 Detail
@@ -742,6 +752,12 @@ Arm Stocks
 手枷
 Dark
 深色
+Leather Cuff Link
+皮革手铐连接
+Spread Bar
+开腿杆
+Details
+细节
 Lower Rope
 下部绳子
 Upper Rope
@@ -798,6 +814,36 @@ Beans Behind
 后部肉球
 Locks Behind
 后部锁
+Belt buckles
+皮带搭扣
+Right Mitt Base
+右侧连指手套基础
+Left Mitt Base
+左侧连指手套基础
+Right Mitt Shine
+右侧连指手套高光
+Left Mitt Shine
+左侧连指手套高光
+Right Wrist Base
+右侧手腕基础
+Left Wrist Base
+左侧手腕基础
+Right Wrist Shine
+右侧手腕高光
+Left Wrist Shine
+左侧手腕高光
+Right Nozzle
+右侧管口
+Left Nozzle
+左侧管口
+Right Pattern
+右侧样式
+Left Pattern
+左侧样式
+Right Pattern Shine
+右侧样式高光
+Left Pattern Shine
+左侧样式高光
 Harness Ring
 束带环
 Cuff Rings
@@ -834,6 +880,12 @@ Thread Right
 右侧线条
 Thread Left
 左侧线条
+Rubber balloon
+橡胶气球
+Balloon shine
+气球高光
+Neck rope
+颈部绳索
 Canvas
 画布
 Hood
@@ -846,6 +898,10 @@ Spots
 斑点
 Pattern Shine
 图案高光
+Pattern 2
+图案2
+Pattern 2 Shine
+图案2高光
 Eye Fill Panels
 眼睛填充遮罩
 Mouth Fill Panel
@@ -962,8 +1018,6 @@ Earplug
 隔音器
  Lips
 嘴唇
-Details
-细节
 Helmet
 头盔
 Chin Strap
@@ -1094,6 +1148,12 @@ Shoe
 鞋
 Thread
 线条
+Main sticker
+主要贴纸
+Sticker text
+贴纸文字
+Sticker border
+贴纸边框
 Rod
 杆
 Default
@@ -1130,6 +1190,22 @@ Padlock
 挂锁
 Tongue
 舌头
+Main Strap
+主要束带
+Cross Straps
+交叉束带
+Cross Straps Buckles
+交叉束带搭扣
+Extra Muzzle
+额外口套
+Extra Muzzle Straps
+额外口套束带
+Cloth mask
+布料面具
+Stuffing
+填充
+Tape
+胶带
 Tag
 标签
 Stripes Shine
@@ -1170,6 +1246,14 @@ Baseplate
 底板
 Side Plates
 两侧面板
+Suns
+太阳
+Center Moon
+中央月亮
+Moons
+月亮
+Center Sun
+中央太阳
 Clamps
 夹子
 Rubber Tips
@@ -1188,8 +1272,6 @@ Diaper
 尿裤
 Crotch Padding
 跨部垫子
-Tape
-胶带
 Waist Band
 腰带
 Plug Cap
@@ -1248,6 +1330,50 @@ Pussy Toy
 阴部玩具
 Interface
 屏幕
+Waist belt
+腰部皮带
+Waist belt detail
+腰部皮带细节
+Waist metal
+腰部金属
+Leg straps metal
+腿部束带金属
+Harness belts metal
+固定束带基础
+Link leg strap
+腿部连接束带
+Link strap metal
+连接束带金属
+Strap accessory A
+束带配件A
+Strap accessory metal A
+束带配件金属A
+Strap accessory B
+束带配件B
+Strap accessory metal B
+束带配件金属B
+Strap On support
+假阳具托
+Strap On metal support
+假阳具金属托
+Strap On dildo
+假阳具
+Chastity belt base
+贞操带基础
+Chastity metal base parts
+贞操带基础组件
+Chastity metal cover
+贞操带金属覆盖
+Chastity cover bolts
+贞操带覆盖螺丝
+Vibrator strap support
+振动器束带固定
+Vibrator metal part support
+振动器金属部分固定
+Vibrator head
+振动器头部
+Vibrator body
+振动器身体
 Module
 模块
 Clasps
@@ -1352,6 +1478,16 @@ Side Straps
 侧边束带
 Catsuit Panties
 紧身衣内裤
+Waist detail parts
+腰部细节组件
+Waist metal parts
+腰部金属组件
+Leg belts
+腿部束带
+Link belts
+连接束带
+Link metal parts
+束带金属组件
 Top Stripe
 上身条纹
 Sole

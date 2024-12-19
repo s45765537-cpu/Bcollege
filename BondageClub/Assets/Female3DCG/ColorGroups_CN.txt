@@ -108,3 +108,19 @@ Lock
 锁
 Addons
 配件
+Main Belts
+主要皮带
+Leg Straps
+腿束带
+Leg Link Strap
+腿连接束带
+Primary Harness Straps
+主要固定束带
+Accessory Harness Straps
+附属固定束带
+Strap On Device
+装置上的束带
+Chastity Belt Device
+贞操带装置
+Vibrator Wand Device
+振动器装置

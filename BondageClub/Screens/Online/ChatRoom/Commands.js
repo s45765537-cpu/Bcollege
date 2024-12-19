@@ -182,6 +182,342 @@ function CommandAutoComplete(msg) {
 	}
 }
 
+var CommandsChangelog = {
+	/**
+	 * Iterate through the passed changelog element and remove all (redundant) elements outside the `[startID, stopID)` interval.
+	 * @param {Element} root - The changelog-containing element
+	 * @param {string} startID - The ID of the element representing the interval's start
+	 * @param {string | null} stopID - The ID of the element representing the interval's end.
+	 * If not provided, use the first element matching the tag name of the `startID` element instead.
+	 */
+	_FilterContent: function _FilterContent(root, startID, stopID=null) {
+		let segmentState = /** @type {"start" | "mid" | "end"} */("start");
+		/** @type {string} */
+		let startTagName = null;
+
+		/**
+		 * Function for handling iteration before the `[startID, stopID)` interval.
+		 *
+		 * The desired interval can be specified as `[startID, stopID)` or `[stopID, startID)`.
+		 * @type {(e: Element) => null | Element}
+		 */
+		const handleStartState = (e) => {
+			const next = e.nextElementSibling;
+			if (e.id === startID) {
+				startTagName = e.tagName;
+				segmentState = "mid";
+			} else if (stopID && e.id === stopID) {
+				startTagName = e.tagName;
+				segmentState = "mid";
+				stopID = startID;
+			} else {
+				e.remove();
+			}
+			return next;
+		};
+
+		/**
+		 * Function for handling iteration within the `[startID, stopID]` interval.
+		 *
+		 * If no `stopID` is present use the tag name of the `startID` element instead for identifying the end of the interval.
+		 * @type {(e: Element) => null | Element}
+		 */
+		const handleMidState = (e) => {
+			let next = e.nextElementSibling;
+			if (stopID) {
+				if (stopID === e.id) {
+					segmentState = "end";
+					e.remove();
+				}
+			} else if (e.tagName === startTagName) {
+				segmentState = "end";
+				e.remove();
+			}
+			return next;
+		};
+
+		let elem = root.children[0];
+		while (elem) {
+			switch (segmentState) {
+				case "start":
+					// Find the start of the version interval
+					elem = handleStartState(elem);
+					break;
+				case "mid":
+					// Find the end of the version interval
+					elem = handleMidState(elem);
+					break;
+				case "end": {
+					// We're past the version interval at this point; remove all remaining elements
+					const next = elem.nextElementSibling;
+					elem.remove();
+					elem = next;
+					break;
+				}
+			}
+		}
+	},
+
+	/**
+	 * Construct a button for all `h1` buttons for deleting the changelog in question.
+	 * @param {string} id
+	 * @param {HTMLHeadingElement} header
+	 * @param {number} level
+	 * @returns {HTMLButtonElement}
+	 */
+	_GetH1Button: function _GetH1Button(id, header, level) {
+		return ElementButton.Create(
+			`${id}-delete-${header.id}`,
+			function () { this.closest(".chat-room-changelog")?.remove(); },
+			{
+				tooltip: "", // See _SetTranslationText()
+				tooltipPosition: "bottom",
+				noStyling: true,
+				label: "🗑",
+				labelPosition: "center",
+			},
+			{ button: {
+				classList: ["chat-room-changelog-button", "chat-room-changelog-button-delete"],
+				attributes: { "aria-label": `Clear ${header.textContent} changelog` },
+				dataAttributes: { level },
+			} },
+		);
+	},
+
+	/**
+	 * Construct a button for all `hn` buttons (with `n > 1`) for collapsing their respective section sibblings.
+	 * @param {string} id
+	 * @param {HTMLHeadingElement} header
+	 * @param {number} level
+	 * @returns {HTMLButtonElement}
+	 */
+	_GetHNButton: function _GetHNButton(id, header, level) {
+		return ElementButton.Create(
+			`${id}-collapse-${header.id}`,
+			function (event) {
+				if (event.shiftKey) {
+					const isExpanded = this.getAttribute("aria-expanded") === "true";
+					const parent = this.closest(".chat-room-changelog-section");
+					const children = parent?.querySelectorAll(`.chat-room-changelog-button-collapse[aria-expanded="${!isExpanded}"`);
+					children?.forEach(e => e.dispatchEvent(new Event("click")));
+					if (children?.length && !isExpanded) {
+						// Revert the collapsed state of the `h{n}` if not all `h{<n}` blocks are collapsed
+						this.dispatchEvent(new Event("click"));
+						return;
+					}
+				}
+
+				const label = this.querySelector(".button-label");
+				if (label) {
+					label.textContent = this.getAttribute("aria-expanded") === "true" ? "▼" : "▶";
+				}
+			},
+			{
+				tooltip: "", // See _SetTranslationText()
+				tooltipPosition: "bottom",
+				noStyling: true,
+				role: "checkbox",
+				label: "▼",
+				labelPosition: "center",
+			},
+			{ button: {
+				classList: ["chat-room-changelog-button", "chat-room-changelog-button-collapse"],
+				attributes: { "aria-label": `Collapse ${header.textContent} section`, "aria-checked": "true", "aria-expanded": "true" },
+				dataAttributes: { level },
+			} },
+		);
+	},
+
+	/**
+	 * Ensure that all elements at the passed header level get a companion button, and ensure they and their respective contents are nested together in a `<section>`.
+	 * @param {Element} root
+	 * @param {string} id
+	 * @param {string} href
+	 * @param {number} headerLevel
+	 * @param {null | string} headerPrefix
+	 */
+	_ParseHeader: function _ParseHeader(root, id, href, headerLevel, headerPrefix=null) {
+		const headerTag = /** @type {"h1" | "h2" | "h3" | "h4" | "h5"} */(`h${headerLevel - 1}`);
+		const selector = /** @type {"h2" | "h3" | "h4" | "h5" | "h6"} */(`h${headerLevel}`);
+		root.querySelectorAll(selector).forEach(header => {
+			// Collect all sibblings
+			const sibblings = [];
+			let sibbling = header.nextElementSibling;
+			while (sibbling && sibbling.tagName !== `H${headerLevel}`) {
+				sibblings.push(sibbling);
+				sibbling = sibbling.nextElementSibling;
+			}
+
+			/** @type {(string | Node | HTMLOptions<keyof HTMLElementTagNameMap>)[]} */
+			const extraChildren = [];
+			if (headerTag === "h1") {
+				extraChildren.push(
+					{ tag: "span", children: ["•"], attributes: { "aria-hidden": "true" }},
+					CommandsChangelog._GetH1Button(id, header, headerLevel - 1),
+				);
+			}
+
+			const headerID = `${id}-h${headerLevel - 1}-${header.id}`;
+			header.parentElement?.replaceChild(
+				ElementCreate({
+					tag: "section",
+					classList: ["chat-room-changelog-section"],
+					attributes: { "aria-labelledby": headerID },
+					children: [
+						{
+							tag: "div",
+							classList: ["chat-room-changelog-header-div"],
+							children: [
+								CommandsChangelog._GetHNButton(id, header, headerLevel - 1),
+								{ tag: "span", children: ["•"], attributes: { "aria-hidden": "true" }},
+								{
+									tag: headerTag,
+									attributes: { id: headerID },
+									children: [{
+										tag: "a",
+										attributes: { target: "_blank", href: `${href}#${header.id}` },
+										children: [[headerPrefix, header.textContent].filter(Boolean).join(" ")],
+									}],
+								},
+								...extraChildren,
+							],
+						},
+						...sibblings,
+					],
+				}),
+				header,
+			);
+		});
+	},
+
+	/**
+	 * Ensure that all `<img>` elements can be clicked, opening their image in a new tab.
+	 * @param {Element} root
+	 */
+	_ParseImg: function _ParseImg(root) {
+		root.querySelectorAll("img").forEach(img => {
+			const a = ElementCreate({
+				tag: "a",
+				attributes: { href: img.src, target: "_blank", class: "chat-room-changelog-image" },
+			});
+			img.parentElement.replaceChild(a, img);
+			a.append(img);
+		});
+	},
+
+	/**
+	 * Ensure that all `<a>` elements open their links in a new tab.
+	 * @param {Element} root
+	 */
+	_ParseA: function _ParseA(root) {
+		root.querySelectorAll("a").forEach(a => a.target = "_blank");
+	},
+
+	/**
+	 * Set all translation-sensitive text in the changelog.
+	 * @param {Element} changelog
+	 */
+	_SetTranslationText: async function _SetTranslationText(changelog) {
+		const cache = await TextCache.buildAsync("Screens/Online/ChatRoom/Text_ChatRoom.csv");
+
+		const clear = cache.get("CommandChangeLogClear");
+		changelog.querySelectorAll(".chat-room-changelog-button-delete > .button-tooltip")?.forEach(e => e.textContent = clear);
+
+		const collapse = cache.get("CommandChangeLogCollapse");
+		const collapseShift = cache.get("CommandChangeLogCollapseShift").split("{shift}")[1] ?? "";
+		changelog.querySelectorAll(".chat-room-changelog-button-collapse > .button-tooltip")?.forEach(e => {
+			e.append(
+				collapse,
+				ElementCreate({ tag: "br" }),
+				ElementCreate({ tag: "kbd", children: ["shift"] }),
+				collapseShift,
+			);
+		});
+
+		changelog.removeAttribute("aria-busy");
+	},
+
+	/**
+	 * Construct a changelog from the passed stringified HTML (constructed via _e.g._ the [marked](https://www.npmjs.com/package/marked) package).
+	 *
+	 * The stringified HTML is expected to have the following structure:
+	 * * A single `<h1>` element _may_ be present in order to represent a general changelog title
+	 * * Version-specific sections of the changelog _must_ be represented by `<h2>` elements and _may_ contain an arbitrary number of sub-headers
+	 * * Headers and their sections _must not_ be grouped together inside an element; an overal flat structure is expected
+	 * @param {string} innerHTML - The inner html representing containing a superset of the changelog's final content
+	 * @param {Object} [options]
+	 * @param {null | string} [options.id] - The (root) ID of the to-be created changelog; defaults to `chat-room-changelog`
+	 * @param {null | string} [options.href] - The URL leading to the (external) changelog; defaults to `./changelog.html`
+	 * @param {null | string} [options.startID] - The header ID of the first to-be included segment within the changelog; defaults to the latest BC version (`r[0-9]{3}`)
+	 * @param {null | string} [options.stopID] - The header ID of the final to-be included segment within the changelog; defaults to `options.startID` if unspecified
+	 * @returns {HTMLDivElement} - The newly created changelog
+	 */
+	Parse: function Parse(innerHTML, options=null) {
+		options ??= {};
+		const id = options.id ?? "chat-room-changelog";
+		const href = options.href ?? "./changelog.html";
+		const startID = options.startID ?? `r${GameVersionFormat.exec(GameVersion)?.[1]}`;
+		const stopID = options.stopID;
+
+		let changelog = /** @type {null | HTMLDivElement} */(document.getElementById(id));
+		if (changelog) {
+			console.error(`Element "${id}" already exists`);
+			return changelog;
+		}
+
+		// Ensure that any and all images are loaded lazily _before_ setting the innerHTML, lest they are all loaded right away
+		changelog = ElementCreate({
+			tag: "div",
+			classList: ["chat-room-changelog"],
+			attributes: { id, "aria-busy": "true" },
+			dataAttributes: { start: startID, stop: stopID },
+			innerHTML: innerHTML.replace("<img", "<img loading='lazy'"),
+		});
+
+		// The original <h1> will eventually be removed, but keep hold of its text content for later
+		const h1Content = changelog.querySelector("h1")?.textContent;
+		if (h1Content) {
+			changelog.setAttribute("aria-label", h1Content);
+		}
+
+		// Perform any filtering and clean up of the changelog's elements
+		CommandsChangelog._FilterContent(changelog, startID, stopID);
+		CommandsChangelog._ParseA(changelog);
+		CommandsChangelog._ParseImg(changelog);
+		[2, 3, 4, 5, 6].forEach(n => CommandsChangelog._ParseHeader(changelog, id, href, n, n === 2 ? h1Content : null));
+		CommandsChangelog._SetTranslationText(changelog);
+		return changelog;
+	},
+
+	/**
+	 * Construct a changelog from the passed stringified HTML and publish it to the chat room chatlog.
+	 *
+	 * @param {string} innerHTML - The inner html representing containing a superset of the changelog's final content
+	 * @param {Object} [options]
+	 * @param {null | string} [options.id] - The (root) ID of the to-be created changelog; defaults to `chat-room-changelog`
+	 * @param {null | string} [options.href] - The URL leading to the (external) changelog; defaults to `./changelog.html`
+	 * @param {null | string} [options.startID] - The header ID of the first to-be included segment within the changelog; defaults to the latest BC version (`r[0-9]{3}`)
+	 * @param {null | string} [options.stopID] - The header ID of the final to-be included segment within the changelog; defaults to `options.startID` if unspecified
+	 * @returns {HTMLDivElement} - The newly created changelog
+	 */
+	Publish(innerHTML, options=null) {
+		const changelog = CommandsChangelog.Parse(innerHTML, options);
+		changelog.setAttribute("data-sender", Player.MemberNumber);
+		changelog.setAttribute("data-time", ChatRoomCurrentTime());
+		changelog.classList.add("ChatMessage");
+
+		// Ensure that all requested changelogs except the most recent one are collapsed
+		const buttons = changelog.querySelectorAll(".chat-room-changelog-button-collapse[data-level='1']");
+		buttons.forEach((button, i) => {
+			if (i !== 0) {
+				button.dispatchEvent(new Event("click"));
+			}
+		});
+		ChatRoomAppendChat(changelog);
+		return changelog;
+	},
+};
+
 /**
  * @type {ICommand[]}
  */
@@ -331,6 +667,146 @@ const CommonCommands = [
 		Tag: 'demote',
 		Prerequisite: () => ChatRoomPlayerIsAdmin(),
 		Action: args => ChatRoomAdminChatAction("Demote", args),
+	},
+	{
+		Tag: 'roomwhitelist',
+		Prerequisite: () => ChatRoomPlayerIsAdmin(),
+		Action: args => ChatRoomAdminChatAction("Whitelist", args),
+	},
+	{
+		Tag: 'roomunwhitelist',
+		Prerequisite: () => ChatRoomPlayerIsAdmin(),
+		Action: args => ChatRoomAdminChatAction("Unwhitelist", args),
+	},
+	{
+		Tag: 'focus',
+		Prerequisite: () => ServerPlayerIsInChatRoom(),
+		Action: (args) => {
+			const parts = args.split(' ');
+
+			const subcommand = parts.length > 0 ? parts[0].toLowerCase() : 'help';
+			if (/^(add|remove)$/.test(subcommand)) {
+				if (parts.length === 1) {
+					ChatRoomSendLocal(TextGet("CommandFocusNoTargets"), 30_000);
+					return;
+				}
+
+				/** @type {Character[]} */
+				const matchingCharacters = [];
+				parts.slice(1).forEach(targeter => { // For each targeter the user provided
+					const memberNumber = parseInt(targeter);
+					const targeterSanitized = ChatRoomHTMLEntities(targeter);
+
+					let targeterResult = ChatRoomCharacter.find(C => // Attempt to first find an exact match
+						!C.IsPlayer() &&
+						(
+							C.MemberNumber === memberNumber ||
+							C.Name.toLowerCase() === targeter.toLowerCase() ||
+							C.Nickname?.toLowerCase() === targeter.toLowerCase()
+						)
+					);
+					if (!targeterResult) { // If no exact match, attempt a partial match
+						const partialMatches = ChatRoomCharacter.filter(C =>
+							!C.IsPlayer() &&
+							(
+								C.Name.toLowerCase().includes(targeter.toLowerCase()) ||
+								C.Nickname?.toLowerCase().includes(targeter.toLowerCase())
+							)
+						);
+
+						if (partialMatches.length === 1) { // If only one partial match, use it
+							targeterResult = partialMatches[0];
+						} else if (partialMatches.length > 1) { // If multiple partial matches, inform the user
+							ChatRoomSendLocal(TextGet("CommandFocusTargeterAmbiguous").replace("Targeter", targeterSanitized), 5_000);
+							return;
+						}
+					}
+
+					if (targeterResult) {
+						if (matchingCharacters.includes(targeterResult)) { // If the targeter is already in the list, don't add it again
+							ChatRoomSendLocal(TextGet("CommandFocusTargeterDuplicate").replace("Targeter", targeterSanitized), 5_000);
+						} else {
+							matchingCharacters.push(targeterResult);
+						}
+					} else {
+						ChatRoomSendLocal(TextGet("CommandFocusTargeterNoMatch").replace("Targeter", targeterSanitized), 5_000);
+					}
+				});
+
+				if (matchingCharacters.length === 0) {
+					ChatRoomSendLocal(TextGet("CommandFocusNoTargets"), 10_000);
+					return;
+				}
+
+				/** @type {Character[]} */
+				let changed;
+				if (subcommand === 'add') {
+					changed = ChatRoomDrawFocusListAdd(matchingCharacters);
+				} else if (subcommand === 'remove') {
+					changed = ChatRoomDrawFocusListRemove(matchingCharacters);
+				} else { // Shouldn't happen, but sanity check
+					return;
+				}
+				ChatRoomSendLocal(
+					TextGet(`CommandFocusSuccess${subcommand.charAt(0).toUpperCase()}${subcommand.slice(1)}`)
+						.replace("Changed", changed.map(C => `${CharacterNickname(C)} (${C.MemberNumber})`).join(", ")),
+					10_000
+				);
+			} else if (/^(list|clear)$/.test(subcommand) && parts.length === 1) {
+				if (subcommand === 'list') {
+					ChatRoomSendLocal(TextGet("CommandFocusList") + "<br>" + ChatRoomDrawFocusList.map(C => `${CharacterNickname(C)} (${C.MemberNumber})`).join("<br>"), 30_000);
+				} else if (subcommand === 'clear') {
+					ChatRoomDrawFocusListClear();
+					ChatRoomSendLocal(TextGet("CommandFocusSuccessClear"), 10_000);
+				}
+			} else { // If the subcommand is not recognized (also handles the "help" subcommand implicitly)
+				ChatRoomSendLocal(
+					`<code>${TextGet("CommandFocusHelpSyntax")}</code>` +
+					"<br><br>" +
+					TextGet("CommandFocusHelpSummary").replaceAll("FocusEnabledWarningIcon", TextGet("FocusEnabledWarningIcon")) +
+					"<br><br>" +
+					TextGet("CommandFocusHelpNotesHeader") +
+					"<br><ul>" +
+					TextGet("CommandFocusHelpNotes") +
+					"</ul><br>" +
+					TextGet("CommandFocusHelpSubcommandsHeader") +
+					"<br><ul>" +
+					`<li><code>add [targeter(s)]</code>: ${TextGet("CommandFocusHelpAdd")}</li>` +
+					`<li><code>remove [targeter(s)]</code>: ${TextGet("CommandFocusHelpRemove")}</li>` +
+					`<li><code>list</code>: ${TextGet("CommandFocusHelpList")}</li>` +
+					`<li><code>clear</code>: ${TextGet("CommandFocusHelpClear")}</li>` +
+					`<li><code>help</code>: ${TextGet("CommandFocusHelpHelp")}</li>` +
+					"</ul><br>" +
+					TextGet("CommandFocusHelpTargeters"),
+					120_000
+				);
+			}
+		}
+	},
+	{
+		Tag: 'focusadd',
+		Prerequisite: () => ServerPlayerIsInChatRoom(),
+		Action: (args) => CommandExecute("/focus add " + args),
+	},
+	{
+		Tag: 'focusremove',
+		Prerequisite: () => ServerPlayerIsInChatRoom(),
+		Action: (args) => CommandExecute("/focus remove " + args),
+	},
+	{
+		Tag: 'focuslist',
+		Prerequisite: () => ServerPlayerIsInChatRoom(),
+		Action: () => CommandExecute("/focus list"),
+	},
+	{
+		Tag: 'focusclear',
+		Prerequisite: () => ServerPlayerIsInChatRoom(),
+		Action: () => CommandExecute("/focus clear"),
+	},
+	{
+		Tag: 'focushelp',
+		Prerequisite: () => ServerPlayerIsInChatRoom(),
+		Action: () => CommandExecute("/focus help"),
 	},
 	{
 		Tag: 'me',
@@ -703,6 +1179,46 @@ const CommonCommands = [
 				ChatRoomStatusUpdate("Shop");
 			}
 			Shop2.Init(background, screen);
+		},
+	},
+	{
+		Tag: "changelog",
+		Action: (args, msg, [start, stop]) => {
+			const startArray = GameVersionFormat.exec(start?.toUpperCase());
+			const stopArray = GameVersionFormat.exec(stop?.toUpperCase());
+			const defaultVersion = GameVersionFormat.exec(GameVersion)?.[1];
+			if (defaultVersion == null) {
+				console.error(`Invalid BC GameVersion: "${GameVersion}"`);
+				return;
+			} else if ((!startArray && start) || (!stopArray && stop)) {
+				const Content = start ? `Invalid [start] version: "${start}"` : `Invalid [stop] version: "${stop}"`;
+				ChatRoomMessageDisplay({ Type: "LocalMessage", Content, Timeout: 5000 }, "", Player, {});
+				return;
+			}
+
+			const startID = `r${startArray?.[1] ?? defaultVersion}`;
+			let stopID = stopArray?.[1] != null ? `r${stopArray[1]}` : null;
+			if (stopID === startID) {
+				stopID = null;
+			}
+
+			let changelog = document.getElementById("chat-room-changelog");
+			if (changelog) {
+				// Move a previously opened changelog to the end of the chat again
+				if (changelog.getAttribute("data-start") === startID && changelog.getAttribute("data-stop") === stopID) {
+					changelog.remove();
+					ChatRoomAppendChat(changelog);
+					return;
+				} else {
+					changelog.remove();
+				}
+			}
+
+			CommonGet("./changelog.html", (xhr) => {
+				if (xhr.status === 200) {
+					CommandsChangelog.Publish(xhr.responseText, { id: "chat-room-changelog", startID, stopID });
+				}
+			});
 		},
 	},
 ];

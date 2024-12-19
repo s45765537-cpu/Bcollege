@@ -11289,7 +11289,7 @@
             "FaceCheeks": {}
         }
     },
-    "LeftAnklet": {
+    "AnkletLeft": {
         "BandAnklet": {
             "": {
                 "LegsClosed": "LegsClosed",
@@ -11309,7 +11309,7 @@
             }
         }
     },
-    "LeftHand": {
+    "HandAccessoryLeft": {
         "Rings": {
             "ThumbSteel": {
                 "AllFours": "AllFours",
@@ -11948,7 +11948,7 @@
             "": {}
         }
     },
-    "RightAnklet": {
+    "AnkletRight": {
         "BandAnklet": {
             "": {
                 "LegsClosed": "LegsClosed",
@@ -11968,7 +11968,7 @@
             }
         }
     },
-    "RightHand": {
+    "HandAccessoryRight": {
         "Rings": {
             "ThumbSteel": {
                 "AllFours": "AllFours",

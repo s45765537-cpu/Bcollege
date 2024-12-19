@@ -65,7 +65,8 @@ function CollegeDetentionYukiClothes(C) {
 	InventoryWear(C, "H0920", "Height", "Default");
 	InventoryWear(C, "Small", "BodyUpper", "Asian");
 	InventoryWear(C, "Small", "BodyLower", "Asian");
-	InventoryWear(C, "Default", "Hands", "Default");
+	InventoryWear(C, "Small", "HandsLeft", "Default");
+	InventoryWear(C, "Small", "HandsRight", "Default");
 	InventoryWear(C, "Default", "Head", "Default");
 	InventoryWear(C, "HairBack6", "HairBack", "#603022");
 	InventoryWear(C, "HairFront4", "HairFront", "#603022");

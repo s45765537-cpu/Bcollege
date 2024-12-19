@@ -99,17 +99,25 @@ class TextCache {
 	 * Creates a new TextCache from the provided CSV file path.
 	 * @param {string} path - The path to the CSV lookup file for this TextCache instance
 	 */
-	constructor(path, _build_cache=true) {
+	constructor(path) {
+		/** @type {string} */
 		this.path = path;
+		/** @type {ServerChatRoomLanguage | "TW"} */
 		this.language = TranslationLanguage;
 		/** @type {Record<string, string>} */
 		this.cache = {};
 		/** @type {((cache?: TextCache) => void)[]} */
 		this.rebuildListeners = [];
+		/**
+		 * Whether the cache has finished building.
+		 * @type {boolean}
+		 */
 		this.loaded = false;
-		if (_build_cache) {
-			this.buildCache();
-		}
+		/**
+		 * Promised object used for building the cache (see {@link TextCache.loaded}).
+		 * @type {Promise<TextCache>}
+		 */
+		this.loadedPromise = this.buildCache();
 	}
 
 	/**
@@ -118,8 +126,8 @@ class TextCache {
 	 * @param {string} path - The path to the CSV lookup file for this TextCache instance
 	 */
 	static async buildAsync(path) {
-		const cache = new TextCache(path, false);
-		await cache.buildCache();
+		const cache = new TextCache(path);
+		await cache.loadedPromise;
 		return cache;
 	}
 
@@ -151,7 +159,7 @@ class TextCache {
 	get(key) {
 		if (!this.loaded) return "";
 		if (TranslationLanguage !== this.language) {
-			this.buildCache();
+			this.loadedPromise = this.buildCache();
 		}
 		const value = this.cache[key];
 		if (typeof value !== "string") {
@@ -167,7 +175,7 @@ class TextCache {
 	 * initial construction, or after a language change).
 	 * @param {(cache?: TextCache) => void} callback - The callback to register
 	 * @param {boolean} [immediate] - Whether or not the callback should be called on registration
-	 * @returns {Function} - A callback function which can be used to unsubscribe the added listener
+	 * @returns {() => void} - A callback function which can be used to unsubscribe the added listener
 	 */
 	onRebuild(callback, immediate = true) {
 		if (typeof callback === "function") {
@@ -183,7 +191,8 @@ class TextCache {
 	}
 
 	/**
-	 * Kicks off a build of the text lookup cache
+	 * Kicks off a build of the text lookup cache.
+	 * @returns {Promise<TextCache>} - Promised object that returns the original text cache
 	 */
 	async buildCache() {
 		if (!this.path) return;
@@ -191,7 +200,10 @@ class TextCache {
 		return this.fetchCsv()
 			.then((lines) => this.translate(lines))
 			.then((lines) => this.cacheLines(lines))
-			.then(() => this.rebuildListeners.forEach((listener) => listener(this)));
+			.then(() => {
+				this.rebuildListeners.forEach((listener) => listener(this));
+				return this;
+			});
 	}
 
 	/**

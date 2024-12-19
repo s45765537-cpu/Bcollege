@@ -1255,7 +1255,7 @@ function DrawRoomBackground(URL, bounds, opts) {
 	let { inverted, blur, darken, tints, sizeMode } = opts;
 
 	inverted ??= false;
-	blur ??= 1.0;
+	blur ??= 0.0;
 	darken ??= 1.0;
 	tints ??= [];
 	sizeMode ??= DrawingResizeMode.FillOriginalRatio;
@@ -1422,8 +1422,10 @@ function DrawProcess(time) {
 	const newCanvasPosition = [MainCanvas.canvas.offsetLeft, MainCanvas.canvas.offsetTop, MainCanvas.canvas.clientWidth, MainCanvas.canvas.clientHeight];
 	if (!CommonArraysEqual(newCanvasPosition, DrawCanvasPosition)) {
 		DrawCanvasPosition = newCanvasPosition;
-		if (CurrentScreenFunctions.Resize) {
-			CurrentScreenFunctions.Resize(false);
+		if (CurrentCharacter != null) {
+			DialogResize(false);
+		} else {
+			CurrentScreenFunctions.Resize?.(false);
 		}
 	}
 

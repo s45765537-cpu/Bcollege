@@ -432,7 +432,10 @@ function ValidationLockWasModified(previousProperty, newProperty) {
  * @returns {string} - The warning message
  */
 function ValidationItemWarningMessage(item, { C, sourceMemberNumber }) {
-	return `${item.Asset.Name} on member number ${C.IsNpc() ? C.Name : C.MemberNumber} by member number ${sourceMemberNumber || Player.MemberNumber} blocked`;
+	const assetName = [item.Asset.Group.Name, item.Asset.Name || "<untitled>"].filter(Boolean).join("/");
+	const onChar = C.IsNpc() ? `NPC ${C.Name}` : `character ${C.Name} (${C.MemberNumber})`;
+	const byChar = sourceMemberNumber ? `member number ${sourceMemberNumber}` : `Player (${Player.MemberNumber})`;
+	return `"${assetName}" on ${onChar} by ${byChar} blocked`;
 }
 
 /**
@@ -706,6 +709,21 @@ function ValidationSanitizeProperties(C, item) {
 		if (property.Opacity < asset.MinOpacity) {
 			property.Opacity = asset.MinOpacity;
 			changed = true;
+		}
+	} else if (CommonIsArray(property.Opacity)) {
+		// @ts-expect-error We just checked this is an array
+		for (let idx = 0; idx < property.Opacity; idx++) {
+			const layer = asset.Layer[idx];
+			const maxOpacity = layer.MaxOpacity ?? asset.MaxOpacity;
+			const minOpacity = layer.MinOpacity ?? asset.MinOpacity;
+			if (!CommonIsNumeric(property.Opacity[idx]) || property.Opacity[idx] > layer.MaxOpacity) {
+				property.Opacity[idx] = maxOpacity;
+				changed = true;
+			}
+			if (property.Opacity[idx] < layer.MinOpacity) {
+				property.Opacity[idx] = minOpacity;
+				changed = true;
+			}
 		}
 	}
 

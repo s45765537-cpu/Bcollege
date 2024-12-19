@@ -18,7 +18,8 @@ var PrivatePunishment = "";
 var PrivatePunishmentList = ["Cage", "Bound", "BoundPet", "ChastityBelt", "ChastityBra", "ForceNaked", "ConfiscateKey", "ConfiscateCrop", "ConfiscateWhip", "SleepCage", "LockOut", "Cell", "OwnerLocks", "Asylum"];
 /** @type {null | NPCCharacter} */
 var PrivateCharacterNewClothes = null;
-var PrivateSlaveImproveType = "";
+/** @type {NPCTraitType | null} */
+var PrivateSlaveImproveType = null;
 var PrivateNextLoveYou = 0;
 var PrivateLoverActivity = "";
 var PrivateLoverActivityList = ["Skip1", "Skip2", "Kiss", "FrenchKiss", "Caress", "Rub", "MasturbateHand", "MasturbateTongue", "MasturbatePlayer", "MasturbateSelf", "Underwear", "Naked", "EggInsert", "LockBelt", "UnlockBelt", "EggSpeedUp", "EggSpeedDown", "Bed", "LoverLock", "LoverUnlock"];
@@ -1318,10 +1319,11 @@ function PrivateRelationDecay() {
 			const LoveDecay = Math.floor((CurrentTime - LastDecay) / PrivateBaseDecay * ((480 - EntryDays) / 480));
 			if (LoveDecay > 0) NPCLoveChange(C, LoveDecay * -1);
 
-			// The NPC will disappear if love is under -100, can be prevented with any cage
-			if ((C.Love <= -100) && !C.Cage && !C.IsEnclose()) {
+			/** @type {Set<EffectName>} */
+			const stuckingEffects = new Set([E.Freeze, E.Tethered, E.Mounted, E.IsChained, E.Shackled, E.Suspended]);
+			const isStuck = C.Cage || C.Effect.some(e => stuckingEffects.has(e));
+			if (C.Love <= -100 && !isStuck) {
 				PrivateKickCharacterOut(C);
-				Index--;
 			}
 
 		}
@@ -1740,7 +1742,7 @@ function PrivateStartGirlfriend() {
  * @returns {void} - Nothing.
  */
 function PrivateWearRing(C, Color) {
-	const item = InventoryWear(C, "Rings", "RightHand", Color);
+	const item = InventoryWear(C, "Rings", "HandAccessoryRight", Color);
 	if (item == null) return;
 	ExtendedItemSetOptionByRecord(C, item, { r: 2 });
 }
@@ -1808,7 +1810,7 @@ function PrivateSlaveMarketStart(AuctionType) {
 
 /**
  * Triggered when the player selects how to improve her slave.
- * @param {string} Type - Trait to improve.
+ * @param {NPCTraitType} Type - Trait to improve.
  * @returns {void} - Nothing.
  */
 function PrivateSlaveImproveSelect(Type) {

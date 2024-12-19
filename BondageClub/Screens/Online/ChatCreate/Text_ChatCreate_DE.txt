@@ -1,6 +1,4 @@
-﻿Enter your room information
-Raum-Informationen eingeben
-Room Name
+﻿Room Name
 Raumname
 Description
 Beschreibung
@@ -10,12 +8,14 @@ Description of the room
 Beschreibung des Raums
 Ban List
 Bannliste
+Whitelist
+Whitelist
 Administrator List
 Administrator Liste
-Private (Need exact name to find it)
-Privat (Zutritt nur mit genauem Namen)
-Locked (Only admins can leave or enter)
-Verschlossen (Nur Admins können betreten oder verlassen)
+Private (Need exact name or admin to find it)
+Privat (Benötigt genauen Namen oder Admin, um ihn zu finden)
+Locked (Only admins/whitelist can leave/enter)
+Verschlossen (Nur Admins/Whitelist können gehen/eintreten)
 Never use the map exploration
 Die Karte niemals benutzen
 Hybrid map, can go on and off
@@ -42,18 +42,20 @@ Invalid room data
 Ungültige Raumdaten
 Room created, joining it...
 Raum wurde erstellt, wird beigetreten...
-Use member numbers separated by commas (ex: 2313, 12401, ...)
-Benutze Mitgliedsnummer, getrennt durch Kommas (ex: 2313, 12401, ...)
-Use member numbers separated by commas (ex: 16780, ...)
-Benutze Mitgliedsnummer, getrennt durch Kommas (ex: 16780, ...)
-Ban blacklist
-Blackliste bannen
-Ban ghostlist
-Geistliste bannen
-Add Owner
-Eigentümer hinzufügen
-Add Lovers
-Liebhaber hinzufügen
+Member numbers separated by commas (ex: 123, ...)
+Mitgliedsnummer, getrennt durch Kommas (Bsp: 123, ...)
+Use the above buttons to quickadd to the respective lists
+Benutzen Sie die obigen Schaltflächen, um schnell zu den jeweiligen Listen hinzuzufügen
+Blacklist
+Blackliste
+Ghostlist
+Geistliste
+Owner
+Eigentümer
+Lovers
+Liebhaber
+Friends
+Freunde
 Background
 Hintergrund
 Block Categories

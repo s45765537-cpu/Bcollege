@@ -38,7 +38,7 @@ RelationshipSubmenu,0,(Accept DialogCharacterObject proposal of engagement.),,"S
 RelationshipSubmenu,12,(Offer DialogCharacterObject to marry each other.),(There's a $100 fee asked of both sides for the wedding.  Will you pay now?),,"LovershipOptionIs(""CanOfferBeginWedding"")"
 RelationshipSubmenu,13,(Accept DialogCharacterObject proposal and become DialogCharacterPossessive wife.),(There's a $100 fee asked of both sides for the wedding.  Will you pay now?),,"LovershipOptionIs(""CanBeginWedding"")"
 RelationshipSubmenu,ReleaseSubmissiveConfirm,(Release DialogCharacterObject from the slave bond.),(Are you sure you want to release DialogCharacterObject? THIS ACTION IS NOT REVERSIBLE!),,IsOwnedByPlayer()
-RelationshipSubmenu,ReleaseLoverConfirm,(Tell DialogCharacterObject you want to break up).,(Are you sure you want to break up with DialogCharacterObject? THIS ACTION IS NOT REVERSIBLE!),,IsLoverOfPlayer()
+RelationshipSubmenu,ReleaseLoverConfirm,(Tell DialogCharacterObject you want to break up.),(Are you sure you want to break up with DialogCharacterObject? THIS ACTION IS NOT REVERSIBLE!),,IsLoverOfPlayer()
 RelationshipSubmenu,10,(Back),"(You can give more access to your items by putting DialogCharacterObject on your whitelist, or less control by putting DialogCharacterObject on your blacklist.)",,
 ReleaseSubmissiveConfirm,0,"(Yes, I want to permanently break the ownership!)",(The ownership has been broken.),"SendOwnershipRequest(""Release"")",!IsWearingCollar()
 ReleaseSubmissiveConfirm,,"(Yes, I want to permanently break the ownership!)",(The submissive must not be wearing any collar to complete this action.),,IsWearingCollar()
@@ -87,10 +87,14 @@ ReleaseLoverConfirm,0,"(Cancel)",(Main menu),,
 30,0,(Move Character.),(Move started.),"AdminAction(""Move"")",
 30,0,(Promote DialogCharacterObject as room administrator.),,"AdminAction(""Promote"")",!CurrentCharacterIsAdmin()
 30,0,(Demote DialogCharacterObject from room administration.),,"AdminAction(""Demote"")",CurrentCharacterIsAdmin()
+30,0,(Add DialogCharacterObject to the room whitelist.),,"AdminAction(""Whitelist"")",!CurrentCharacterIsWhitelisted()
+30,0,(Remove DialogCharacterObject from the room whitelist.),,"AdminAction(""Unwhitelist"")",CurrentCharacterIsWhitelisted()
 30,0,(Back to main menu.),(Main menu.),,
 40,,,(Possible character actions.),,
 40,0,(Whisper to DialogCharacterObject.),,StartWhisper(),CanStartWhisper()
 40,0,(Stop whispering to DialogCharacterObject.),,StopWhisper(),CanStopWhisper()
+40,,(Add to focuslist.),(This member was added to your focus list. You will only be able to visually see DialogCharacterObject and others on your focus list in the room. See /focus for more details.),"ListManage(""Add"", ""DrawFocusList"")",!CurrentCharacterInDrawFocusList()
+40,,(Remove from focuslist.),(This member was removed from your focus list. See /focus for more details.),"ListManage(""Remove"", ""DrawFocusList"")",CurrentCharacterInDrawFocusList()
 40,,(Hold on to DialogCharacterPossessive leash.),,HoldLeash(),CanHoldLeash()
 40,,(Let go of DialogCharacterPossessive leash.),,StopHoldLeash(),CanStopHoldLeash()
 40,0,(Help DialogCharacterObject stand.),(You help DialogCharacterObject up on DialogCharacterPossessive feet.),KneelStandAssist(),CanAssistStand()
