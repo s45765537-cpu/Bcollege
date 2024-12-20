@@ -1,12 +1,16 @@
 .dialog-root {
+	--menu-button-size: min(9vh, 4.5vw);
+	--menu-button-size: min(9dvh, 4.5dvw);
+	--button-height: calc(min(25vh, 12.5vw) - 2px);
 	--button-height: calc(min(25dvh, 12.5dvw) - 2px);
+	--gap: min(2vh, 1vw);
 	--gap: min(2dvh, 1dvw);
 
 	display: grid;
 	gap: var(--gap);
 	grid-template:
 		". dialog-status" min-content
-		"dialog-paginate dialog-grid" auto / min(9dvh, 4.5dvw) auto;
+		"dialog-paginate dialog-grid" auto / var(--menu-button-size) auto;
 }
 
 .dialog-root[data-unload] {
@@ -23,8 +27,8 @@
 }
 
 .dialog-paginate-button {
-	height: min(9dvh, 4.5dvw);
-	width: min(9dvh, 4.5dvw);
+	height: var(--menu-button-size);
+	width: var(--menu-button-size);
 }
 
 .dialog-paginate-button > .button-tooltip {
@@ -105,7 +109,7 @@
 .dialog-grid-button {
 	scroll-snap-align: start;
 	height: var(--button-height);
-	width: min(100%, 20dvh, 10dvw);
+	width: min(100%, calc(0.8 * var(--button-height)));
 }
 
 .dialog-grid-button:disabled[aria-checked="true"],
@@ -127,7 +131,9 @@
 .dialog-grid-button > .button-tooltip {
 	--tooltip-gap: var(--gap);
 
+	width: calc(400% + 4 * min(0.2vh, 0.1vw) + 3 * var(--gap));
 	width: calc(400% + 4 * min(0.2dvh, 0.1dvw) + 3 * var(--gap));
+	font-size: min(2.6vh, 1.3vw);
 	font-size: min(2.6dvh, 1.3dvw);
 	max-height: calc(2 * var(--button-height) + var(--gap));
 	display: -webkit-box;
@@ -215,7 +221,7 @@
 		"dialog-crafted-crafter dialog-crafted-gap dialog-crafted-icon ." minmax(auto, min-content)
 		"dialog-crafted-property dialog-crafted-gap dialog-crafted-icon ." minmax(auto, min-content)
 		"dialog-crafted-private dialog-crafted-gap dialog-crafted-icon ." minmax(auto, min-content)
-		"dialog-crafted-footer dialog-crafted-footer dialog-crafted-footer dialog-crafted-footer" minmax(auto, min-content) / auto var(--gap) min(100%, 20dvh, 10dvw) max(20px, 1.25 * var(--gap))
+		"dialog-crafted-footer dialog-crafted-footer dialog-crafted-footer dialog-crafted-footer" minmax(auto, min-content) / auto var(--gap) min(100%, calc(0.8 * var(--button-height))) max(20px, 1.25 * var(--gap))
 }
 
 .dialog-crafted-info {
