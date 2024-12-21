@@ -959,6 +959,23 @@ var AssetFemale3DCGExtended = {
 					},
 				},
 				{
+					Name: "Style",
+					Key: "s",
+					Options: [
+						{}, // Print (Ananda Black) 0
+						{}, // Cursive (Satisfy) 1
+						{}, // Boilerplate (Saira Stencil One) 2
+					],
+					DrawData: {
+						elementData: [
+							{ position: ExtendedXYWithoutImages[3][0] },
+							{ position: ExtendedXYWithoutImages[3][1] },
+							{ position: ExtendedXYWithoutImages[3][2] },
+						],
+						itemsPerPage: 3,
+					},
+				},
+				{
 					Name: "Text",
 					Key: "t",
 					Options: [
@@ -1120,6 +1137,23 @@ var AssetFemale3DCGExtended = {
 					},
 				},
 				{
+					Name: "Style",
+					Key: "s",
+					Options: [
+						{}, // Print (Ananda Black) 0
+						{}, // Cursive (Satisfy) 1
+						{}, // Boilerplate (Saira Stencil One) 2
+					],
+					DrawData: {
+						elementData: [
+							{ position: ExtendedXYWithoutImages[3][0] },
+							{ position: ExtendedXYWithoutImages[3][1] },
+							{ position: ExtendedXYWithoutImages[3][2] },
+						],
+						itemsPerPage: 3,
+					},
+				},
+				{
 					Name: "Text",
 					Key: "t",
 					Options: [
@@ -1128,11 +1162,9 @@ var AssetFemale3DCGExtended = {
 							HasSubscreen: true,
 							ArchetypeConfig: {
 								Archetype: ExtendedArchetype.TEXT,
-								MaxLength: { Text: 6, Text2: 5},
-								Font: "Satisfy", // satisfy or pacifico (cursive) , saira stencil one (boilerplate) , ananda black (default)
+								MaxLength: { Text: 6, Text2: 5, Text3: 3},
 								ScriptHooks: {
 									AfterDraw: AssetsFaceMarkingsFaceWritingsAfterDrawHook,
-									//AfterDraw: AssetsBodyMarkingsBodyWritingsAfterDrawHook,
 								},
 							},
 						}, // 1-Y
@@ -1141,6 +1173,27 @@ var AssetFemale3DCGExtended = {
 			],
 			BaselineProperty: { Text: "", Text2: "", Text3: "" },
 		}, // FaceWritings
+		FaceScars: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: false,
+			CopyConfig: { GroupName: "BodyMarkings", AssetName: "FaceScars" },
+		}, // FaceScars
+		AnimalNoses: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "ButtonNose",
+				},
+				{
+					Name: "ElegantFelineNose",
+				},
+				{
+					Name: "LargeCanineNose",
+				},
+			],
+		}, // Animal Noses
 	},
 	HairFront: {
 		HairFront60: {
@@ -1405,6 +1458,12 @@ var AssetFemale3DCGExtended = {
 			DrawImages: false,
 			CopyConfig: { GroupName: "BodyMarkings", AssetName: "BodyWritings" },
 		}, //BodyWritings
+		FaceWritings: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: false,
+			CopyConfig: { GroupName: "FaceMarkings", AssetName: "FaceWritings" },
+		}, //FaceWritings
 	}, // ClothAccessory
 	ClothLower: {
 		PantBoots: {

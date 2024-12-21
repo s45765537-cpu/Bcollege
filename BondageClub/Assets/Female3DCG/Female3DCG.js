@@ -4243,6 +4243,15 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
+				Name: "FaceWritings",
+				DynamicGroupName: "FaceMarkings",
+				CopyConfig: {
+					GroupName: "FaceMarkings",
+					AssetName: "FaceWritings",
+					BuyGroup: "BodyWritings",
+				},
+			},
+			{
 				Name: "LeatherBeltCloth",
 				InventoryID: 1190,
 				Top: 366,
@@ -17217,7 +17226,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "11",
-						AllowTypes: { j: 1 },
+						AllowTypes: { k: 1 },
 						CopyLayerColor: "1",
 					},
 				],
@@ -17341,6 +17350,24 @@ var AssetFemale3DCG = [
 						AllowTypes: { t: 1 },
 					},
 				],
+			},
+			{
+				Name: "FaceScars",
+				DynamicGroupName: "BodyMarkings",
+				CopyConfig: {
+					GroupName: "BodyMarkings",
+					AssetName: "FaceScars",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "AnimalNoses",
+				DynamicGroupName: "Mask",
+				CopyConfig: {
+					GroupName: "Mask",
+					AssetName: "AnimalNoses",
+					BuyGroup: "AnimalNoses",
+				},
 			},
 		],
 		Color: [
