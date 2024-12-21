@@ -1096,6 +1096,52 @@ var AssetFemale3DCGExtended = {
 			],
 		},
 	},
+	FaceMarkings: {
+		FaceWritings: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Position",
+					Key: "p",
+					Options: [
+						{}, // Right Cheek 0
+						{}, // Forehead 1
+						{}, // Left Cheek 2
+					],
+					DrawData: {
+						elementData: [
+							{ position: ExtendedXYWithoutImages[3][0] },
+							{ position: ExtendedXYWithoutImages[3][1] },
+							{ position: ExtendedXYWithoutImages[3][2] },
+						],
+						itemsPerPage: 3,
+					},
+				},
+				{
+					Name: "Text",
+					Key: "t",
+					Options: [
+						{}, // 0-N
+						{
+							HasSubscreen: true,
+							ArchetypeConfig: {
+								Archetype: ExtendedArchetype.TEXT,
+								MaxLength: { Text: 6, Text2: 5},
+								Font: "Satisfy", // satisfy or pacifico (cursive) , saira stencil one (boilerplate) , ananda black (default)
+								ScriptHooks: {
+									AfterDraw: AssetsFaceMarkingsFaceWritingsAfterDrawHook,
+									//AfterDraw: AssetsBodyMarkingsBodyWritingsAfterDrawHook,
+								},
+							},
+						}, // 1-Y
+					],
+				},
+			],
+			BaselineProperty: { Text: "", Text2: "", Text3: "" },
+		}, // FaceWritings
+	},
 	HairFront: {
 		HairFront60: {
 			Archetype: ExtendedArchetype.TYPED,

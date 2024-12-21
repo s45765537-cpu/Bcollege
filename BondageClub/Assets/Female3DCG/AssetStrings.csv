@@ -939,6 +939,16 @@ EyebrowsEyebrows2SelectRightPiercing,Select Left Eyebrow Piercing
 EyebrowsEyebrows2SelectStyle,Select Eyebrow Style
 EyePatchTypeLeft,Left
 EyePatchTypeRight,Right
+FaceMarkingsFaceWritingsModulePosition,Position
+FaceMarkingsFaceWritingsModuleText,Text
+FaceMarkingsFaceWritingsOptionp0,Right Cheek
+FaceMarkingsFaceWritingsOptionp1,Forehead
+FaceMarkingsFaceWritingsOptionp2,Left Cheek
+FaceMarkingsFaceWritingsOptiont0,No
+FaceMarkingsFaceWritingsOptiont1,Yes
+FaceMarkingsFaceWritingsSelectBase,Select Writings
+FaceMarkingsFaceWritingsSelectPosition,Select Position
+FaceMarkingsFaceWritingsSelectText,Apply Text
 FeetRopeSetAnkles,SourceCharacter ties the rope around TargetCharacter's ankles.
 FeetRopeSetAnklesKnees,SourceCharacter ties the ropes around TargetCharacter's ankles and knees.
 FeetRopeSetBedSpreadEagle,SourceCharacter uses the ropes on TargetCharacter to tie TargetPronounPossessive legs to the bedposts.
