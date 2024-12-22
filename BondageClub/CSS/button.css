@@ -247,6 +247,12 @@
 	}
 }
 
+@media (hover: none) {
+	.button:focus[data-show-tooltip] > .button-tooltip {
+		visibility: visible;
+	}
+}
+
 /* Only show a focus outline when the element is explicitly focused (i.e. via tab-selection) */
 @supports selector(:focus-visible) {
 	.button:focus-visible {
