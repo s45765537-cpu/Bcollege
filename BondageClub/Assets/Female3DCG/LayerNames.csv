@@ -26,6 +26,8 @@ BraSexyBikini1Main,Main
 BraSexyBikini1Sides,Sides
 BraLeatherVestSuitLeather,Leather
 BraLeatherVestSuitSilk,Silk
+BraStuddedHarnessHarness,Harness
+BraStuddedHarnessMetal,Metal
 ClothAccessoryBibBase,Bib
 ClothAccessoryBibPacis,Pattern
 ClothAccessoryBibText,Text
@@ -2092,6 +2094,8 @@ ItemTorsoLeatherChestHarness1Straps,Straps
 ItemTorsoNavelBar1Chain,Chain
 ItemTorsoNavelBar1Jewel,Jewel
 ItemTorsoNavelBar1Main,Bar
+ItemTorsoStuddedHarnessHarness,Harness
+ItemTorsoStuddedHarnessMetal,Metal
 ItemTorsoThinLeatherStrapsBuckle,Buckle
 ItemTorsoThinLeatherStrapsLocks,Lock
 ItemTorsoThinLeatherStrapsStrap,Straps
