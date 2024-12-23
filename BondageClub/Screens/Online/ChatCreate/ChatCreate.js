@@ -42,7 +42,6 @@ function ChatCreateLoad() {
 	ChatCreateBackgroundSelect = ChatCreateBackgroundList[ChatCreateBackgroundIndex];
 
 	// Prepares the controls to create a room
-	ElementRemove("InputSearch");
 	if (document.getElementById("InputName") == null) {
 		// Prepares the controls to edit a room
 		const InputName = ElementCreateInput("InputName", "text", "", "20");
@@ -86,6 +85,12 @@ function ChatCreateLoad() {
 
 /** @type {ScreenFunctions["Unload"]} */
 function ChatCreateUnload() {
+	ElementRemove("InputName");
+	ElementRemove("InputDescription");
+	ElementRemove("InputAdminList");
+	ElementRemove("InputBanList");
+	ElementRemove("InputWhitelist");
+	ElementRemove("InputSize");
 	ChatRoomStimulationMessage("Walk");
 }
 
@@ -258,7 +263,6 @@ function ChatCreateExit() {
 	ChatCreatePrivate = null;
 	ChatCreateLocked = null;
 	ChatCreateMap = "Never";
-	ChatRoomCreateRemoveInput();
 	CommonSetScreen("Online", "ChatSearch");
 }
 
@@ -268,8 +272,9 @@ function ChatCreateExit() {
  * @returns {void} - Nothing
  */
 function ChatCreateResponse(data) {
-	if (typeof data === "string" && data)
-		ChatCreateMessage = "Response" + data;
+	if (typeof data !== "string") return;
+
+	ChatCreateMessage = "Response" + data;
 }
 
 /**
@@ -297,7 +302,6 @@ function ChatCreateRoom() {
 	if (ChatCreateMap != null) NewRoom.MapData = ChatRoomMapViewInitialize(ChatCreateMap);
 	ServerSend("ChatRoomCreate", NewRoom);
 	ChatCreateMessage = "CreatingRoom";
-	ChatRoomPingLeashedPlayers();
 }
 
 /**
@@ -307,16 +311,4 @@ function ChatCreateRoom() {
 function ChatCreateBlockItems() {
 	ChatBlockItemReturnData = { Screen: "ChatCreate" };
 	CommonSetScreen("Online", "ChatBlockItem");
-}
-
-/**
- * Removes all chatroom creation inputs
- */
-function ChatRoomCreateRemoveInput() {
-	ElementRemove("InputName");
-	ElementRemove("InputDescription");
-	ElementRemove("InputAdminList");
-	ElementRemove("InputWhitelist");
-	ElementRemove("InputBanList");
-	ElementRemove("InputSize");
 }

@@ -1239,8 +1239,6 @@ function ChatRoomAppendChat(div) {
  * @returns {void} - Nothing.
  */
 function ChatRoomLoad() {
-	ElementRemove("InputSearch");
-	ChatRoomCreateRemoveInput();
 	ChatRoomRefreshFontSize();
 	ChatRoomCreateElement();
 
@@ -1279,26 +1277,6 @@ function ChatRoomClearAllElements() {
 	// Dialog
 	DialogLeave();
 
-	// Friendlist
-	ElementRemove("FriendList");
-	FriendListBeepMenuClose();
-	FriendListModeIndex = 0;
-
-	// Admin
-	ElementRemove("InputName");
-	ElementRemove("InputDescription");
-	ElementRemove("InputSize");
-	ElementRemove("InputAdminList");
-	ElementRemove("InputWhitelist");
-	ElementRemove("InputBanList");
-	ElementRemove("InputBackground");
-	ElementRemove("TagDropDown");
-
-	// Admin Custom
-	ElementRemove("InputImageURL");
-	ElementRemove("InputImageFilter");
-	ElementRemove("InputMusicURL");
-
 	// Chatroom
 	if (Player.ChatSettings?.PreserveChat ?? true) {
 		ChatRoomHideElements();
@@ -1306,18 +1284,6 @@ function ChatRoomClearAllElements() {
 		ElementRemove("chat-room-div");
 		window.removeEventListener("resize", ChatRoomResizeManager.ChatRoomResizeEvent);
 	}
-
-	// Preferences
-	ElementRemove("InputEmailOld");
-	ElementRemove("InputEmailNew");
-	ElementRemove("InputCharacterLabelColor");
-
-	// Profile
-	ElementRemove("DescriptionInput");
-
-	// Wardrobe
-	ElementRemove("InputWardrobeName");
-	CharacterAppearanceMode = "";
 }
 
 /**
@@ -4380,8 +4346,11 @@ function ChatRoomValidateProperties(obj)
 }
 
 /**
- * Handles the reception of the new room data from the server.
- * @param {ServerChatRoomSyncMessage} data - Room object containing the updated chatroom data.
+ * Handles the reception of the data for a room we've just entered.
+ *
+ * This only happens once per ChatRoom "lifetime".
+ *
+ * @param {ServerChatRoomSyncMessage} data - Room object containing the new chatroom data.
  * @returns {void} - Nothing.
  */
 function ChatRoomSync(data) {
@@ -4412,7 +4381,7 @@ function ChatRoomSync(data) {
 	ChatRoomData = data;
 
 	// Loads the room
-	if ((CurrentScreen != "ChatRoom") && (CurrentScreen != "ChatAdmin") && (CurrentScreen != "Appearance") && (CurrentModule != "Character")) {
+	if (!ServerPlayerIsInChatRoom() || CurrentScreen === "ChatAdmin") {
 		CommonSetScreen("Online", "ChatRoom");
 	}
 
@@ -4437,6 +4406,8 @@ function ChatRoomSync(data) {
 		ChatRoomGame = ChatRoomData.Game;
 		OnlineGameReset();
 	}
+
+	ChatRoomPingLeashedPlayers();
 
 	// Check whether the player's last chatroom data needs updating
 	ChatRoomCheckForLastChatRoomUpdates();
