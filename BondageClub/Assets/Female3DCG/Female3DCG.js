@@ -4243,6 +4243,15 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
+				Name: "FaceWritings",
+				DynamicGroupName: "FaceMarkings",
+				CopyConfig: {
+					GroupName: "FaceMarkings",
+					AssetName: "FaceWritings",
+					BuyGroup: "BodyWritings",
+				},
+			},
+			{
 				Name: "LeatherBeltCloth",
 				InventoryID: 1190,
 				Top: 366,
@@ -17217,7 +17226,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "11",
-						AllowTypes: { j: 1 },
+						AllowTypes: { k: 1 },
 						CopyLayerColor: "1",
 					},
 				],
@@ -17300,7 +17309,89 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
+{
+		Group: "FaceMarkings",
+		Priority: 8,
+		Clothing: false,
+		EditOpacity: true,
+		MinOpacity: 0,
+		MaxOpacity: 1,
+		Default: false,
+		Random: false,
+		Asset: [
+			{
+				Name: "FaceWritings", // This asset is free to edit and upgrade by anyone under conditions: 1. Asset stays avaiable for all body types/genders unless it would make no sense otherwise; 2. No features will be removed from the asset without permission;
+				InventoryID: 1202,
+				Priority: 9,
+				Value: 20,
+				BuyGroup: "BodyWritings",
+				PoseMapping: {
+					BackBoxTie: PoseType.DEFAULT,
+					BackCuffs: PoseType.DEFAULT,
+					BackElbowTouch: PoseType.DEFAULT,
+					OverTheHead: PoseType.DEFAULT,
+					TapedHands: PoseType.DEFAULT,
+					Yoked: PoseType.DEFAULT,
+					AllFours: PoseType.DEFAULT,
+					Hogtied: PoseType.DEFAULT,
+				},
+				Extended: true,
+				DynamicAfterDraw: true,
+				BodyCosplay: true,
+				DefaultColor: [
+					"#000000", //Text
+				],
+				Layer: [
+					{
+						Name: "Text",
+						Left: 50,
+						Top: 305,
+						HasImage: false,
+						AllowTypes: { t: 1 },
+					},
+				],
+			},
+			{
+				Name: "FaceScars",
+				DynamicGroupName: "BodyMarkings",
+				CopyConfig: {
+					GroupName: "BodyMarkings",
+					AssetName: "FaceScars",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "AnimalNoses",
+				DynamicGroupName: "Mask",
+				CopyConfig: {
+					GroupName: "Mask",
+					AssetName: "AnimalNoses",
+					BuyGroup: "AnimalNoses",
+				},
+			},
+		],
+		Color: [
+			"Default",
+			"#cccccc",
+			"#aaaaaa",
+			"#888888",
+			"#666666",
+			"#444444",
+			"#222222",
+			"#aa8080",
+			"#80aa80",
+			"#8080aa",
+			"#aaaa80",
+			"#80aaaa",
+			"#aa80aa",
+			"#cc3333",
+			"#33cc33",
+			"#3333cc",
+			"#cccc33",
+			"#33cccc",
+			"#cc33cc",
+		],
+	},
 	{
 		Group: "Height",
 		AllowNone: false,
@@ -52846,7 +52937,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				RemoveTime: 10,
 				AllowLock: true,
-				Hide: ["ItemFeet", "Shoes"],
+				Hide: ["Shoes"],
 				PoseMapping: {
 					Hogtied: "Hogtied",
 					Kneel: "Kneel",
