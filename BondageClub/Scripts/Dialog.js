@@ -1030,8 +1030,8 @@ function DialogInventoryAdd(C, item, isWorn, sortOrder) {
 	const inventoryItem = DialogInventoryCreateItem(C, item, isWorn, sortOrder);
 	if (item.Craft != null) {
 		inventoryItem.Craft = item.Craft;
-		if (inventoryItem.SortOrder.charAt(0) == DialogSortOrder.Usable.toString()) inventoryItem.SortOrder = DialogSortOrder.PlayerFavoriteUsable.toString() + (item.Craft.Name || item.Asset.Description);
-		if (inventoryItem.SortOrder.charAt(0) == DialogSortOrder.Unusable.toString()) inventoryItem.SortOrder = DialogSortOrder.PlayerFavoriteUnusable.toString() + (item.Craft.Name || item.Asset.Description);
+		if (inventoryItem.SortOrder.charAt(0) == DialogSortOrder.Usable.toString()) inventoryItem.SortOrder = `${DialogSortOrder.PlayerFavoriteUsable}${item.Asset.Description}${item.Craft.Name ?? ""}`;
+		if (inventoryItem.SortOrder.charAt(0) == DialogSortOrder.Unusable.toString()) inventoryItem.SortOrder = `${DialogSortOrder.PlayerFavoriteUnusable}${item.Asset.Description}${item.Craft.Name ?? ""}`;
 	}
 	DialogInventory.push(inventoryItem);
 
@@ -1083,7 +1083,7 @@ function DialogInventoryCreateItem(C, item, isWorn, sortOrder) {
 		...item,
 		Worn: isWorn,
 		Icons: icons,
-		SortOrder: sortOrder.toString() + (item.Craft?.Name || asset.Description),
+		SortOrder: `${sortOrder}${asset.Description}${item.Craft?.Name ?? ""}`,
 		Vibrating: isWorn && InventoryItemHasEffect(item, "Vibrating", true),
 	};
 }
