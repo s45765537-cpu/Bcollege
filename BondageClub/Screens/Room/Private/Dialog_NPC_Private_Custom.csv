@@ -760,7 +760,7 @@ ClubCardVsSubDefeat,,,"What?  Did I win?  Hahaha, awesome!  Mistress, I'm allowe
 100,110,(Stop playing.),(You take a step back.),,ClubCardVictoryModeActive(),,
 100,,(Leave her.),,DialogLeave(),,,
 110,,,Don't be too harsh with me.  I only lost a card game.,,,,
-110,,It was a good game.,Absolutely.  Being your prisoner for a little while be good also.,,,GoodGameVictory,
+110,,It was a good game.,Absolutely.  Being your prisoner for a little while will be good also.,,,GoodGameVictory,
 110,,It was a good game.,Yeah!  And losing to you always makes me horny.  (She giggles.),,,GoodGameVictory,Horny|Playful
 110,,It was a good game.,"Shit, shit, shit!  I'll do better next time.  You can have your ways for now.",,,GoodGameVictory,Frigid|Rude
 110,,It was a good game.,"Indeed, it was.  (She nods politely.)  I surrender to you, body and soul, until our next match of course.",,,GoodGameVictory,Submissive|Polite
