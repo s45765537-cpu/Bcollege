@@ -345,7 +345,6 @@ var ClubCardList = [
 		BeforeTurnEnd: function(CCPlayer) {
 			if (ClubCardGroupIsOnBoard(CCPlayer, "Police")) ClubCardRemoveFromBoard(CCPlayer, this);
 			else {
-				if (ClubCardNameIsOnBoard(CCPlayer, "Junkie")) ClubCardPlayerAddMoney(CCPlayer, 3);
 				if (ClubCardNameIsOnBoard(CCPlayer, "Sidney")) ClubCardPlayerAddMoney(CCPlayer, 1);
 			}
 		}
@@ -358,6 +357,9 @@ var ClubCardList = [
 		FamePerTurn: -1,
 		BeforeTurnEnd: function(CCPlayer) {
 			if (ClubCardGroupIsOnBoard(CCPlayer, "Police")) ClubCardRemoveFromBoard(CCPlayer, this);
+			else {
+				if (ClubCardNameIsOnBoard(CCPlayer, "Pusher")) ClubCardPlayerAddMoney(CCPlayer, 2);
+			}
 		}
 	},
 	{
@@ -377,7 +379,10 @@ var ClubCardList = [
 		RequiredLevel: 3,
 		BeforeTurnEnd: function(CCPlayer) {
 			if (ClubCardGroupIsOnBoard(CCPlayer, "Police")) ClubCardRemoveFromBoard(CCPlayer, this);
-			else ClubCardPlayerAddMoney(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "Criminal") * 2);
+			else {
+				const effectMoney = Math.min((ClubCardGroupOnBoardCount(CCPlayer, "Criminal") * 2), 5);
+				ClubCardPlayerAddMoney(CCPlayer, effectMoney);
+			}
 		}
 	},
 	{
@@ -401,12 +406,20 @@ var ClubCardList = [
 		ID: 3007,
 		Name: "Stepmother",
 		Group: ["Criminal"],
-		MoneyPerTurn: 8,
+		MoneyPerTurn: 5,
 		FamePerTurn: -3,
 		RequiredLevel: 5,
 		OnPlay: function(CCPlayer) {
-			ClubCardRemoveGroupFromBoard(CCPlayer, "Police");
-			ClubCardRemoveGroupFromBoard(CCPlayer, "Liability");
+			let effectFame = 0;
+			for (const card of CCPlayer.Board) {
+				if (card.FamePerTurn < 0) effectFame = effectFame + 2;
+			}
+			ClubCardPlayerAddFame(CCPlayer, effectFame);
+		},
+		onPlayedCard: function(CCPlayer, cardPlayed) {
+			if (cardPlayed.FamePerTurn < 0) {
+				ClubCardPlayerStealFame(CCPlayer, (cardPlayed.MoneyPerTurn * 2));
+			}
 		}
 	},
 	{
@@ -426,6 +439,72 @@ var ClubCardList = [
 		Name: "Detective",
 		Group: ["Police"],
 		MoneyPerTurn: 1,
+		RequiredLevel: 2,
+	},
+	{
+		ID: 3010,
+		Name: "Earner",
+		Group: ["Criminal"],
+		FamePerTurn: 1,
+		RequiredLevel: 2,
+		BeforeTurnEnd: function(CCPlayer) {
+			const effectMoney = Math.min(ClubCardGroupInDiscardPileCount(CCPlayer, "Criminal"), 3);
+			ClubCardPlayerAddMoney(CCPlayer, effectMoney);
+		}
+	},
+	{
+		ID: 3011,
+		Name: "Consigliere",
+		Group: ["Criminal"],
+		MoneyPerTurn: 3,
+		FamePerTurn: -1,
+		RequiredLevel: 4,
+		BeforeTurnEnd: function(CCPlayer) {
+			if (CCPlayer.Money > 7) {
+				ClubCardPlayerAddMoney(CCPlayer, -7);
+				ClubCardPlayerAddFame(CCPlayer, 3);
+				ClubCardPlayerDrawCard(CCPlayer, 1);
+			}
+		}
+	},
+	{
+		ID: 3012,
+		Name: "Naughty Baby",
+		Group: ["Criminal", "ABDLBaby"],
+		MoneyPerTurn: 2,
+		FamePerTurn: -1,
+		RequiredLevel: 3,
+		OnPlay: function(CCPlayer) {
+			const opponent = ClubCardGetOpponent(CCPlayer);
+			if (!ClubCardGroupIsOnBoard(CCPlayer, "Police")) ClubCardPlayerStealMoney(CCPlayer, 4);
+			if (!ClubCardGroupIsOnBoard(opponent, "Police")) ClubCardPlayerStealFame(CCPlayer, 4);
+		}
+	},
+	{
+		ID: 3013,
+		Name: "Sticky Fingers",
+		Group: ["Criminal"],
+		MoneyPerTurn: 1,
+		FamePerTurn: -1,
+		OnPlay: function(CCPlayer) {
+			ClubCardPlayerStealMoney(CCPlayer, 1, true);
+			ClubCardPlayerStealFame(CCPlayer, 1, true);
+		}
+	},
+	{
+		ID: 3014,
+		Name: "Con Artist",
+		Group: ["Criminal"],
+		MoneyPerTurn: 2,
+		FamePerTurn: -1,
+		RequiredLevel: 2,
+	},
+	{
+		ID: 3015,
+		Name: "Inspector",
+		Group: ["Police"],
+		MoneyPerTurn: 1,
+		FamePerTurn: 1,
 		RequiredLevel: 2,
 	},
 
@@ -1584,22 +1663,22 @@ var ClubCardList = [
 		ID: 30004,
 		Name: "Cat Burglar",
 		Type: "Event",
+		RequiredLevel: 2,
 		OnPlay: function(CCPlayer) {
-			let Opponent = ClubCardGetOpponent(CCPlayer);
-			if (ClubCardGroupIsOnBoard(Opponent, "Police")) return;
-			let Money = Opponent.Money;
-			if (Money > 4) Money = 4;
-			if (Money > 0) {
-				ClubCardPlayerAddMoney(CCPlayer, Money);
-				ClubCardPlayerAddMoney(Opponent, Money * -1);
-				ClubCardLogGetDataPacket(ClubCardMessageType.CARDEFFECT, "StealMoney", CCPlayer, Money);
+			let moneyStolen = ClubCardPlayerStealMoney(CCPlayer, 2);
+			if (moneyStolen < 1) {
+				ClubCardPlayerStealFame(CCPlayer, 2);
+			} else {
+				ClubCardPlayerStealFame(CCPlayer, 2, true);
 			}
-		},
-		CanPlay: function(CCPlayer) {
-			let Opponent = ClubCardGetOpponent(CCPlayer);
-			if (ClubCardGroupIsOnBoard(Opponent, "Police")) return false;
-			if (Opponent.Money <= 0) return false;
-			return true;
+			if (!ClubCardGroupIsOnBoard(ClubCardGetOpponent(CCPlayer), "Police")) {
+				let extraMoneyStolen = ClubCardPlayerStealMoney(CCPlayer, 2);
+				if (extraMoneyStolen < 1) {
+					ClubCardPlayerStealFame(CCPlayer, 2);
+				} else {
+					ClubCardPlayerStealFame(CCPlayer, 2, true);
+				}
+			}
 		}
 	},
 	{
@@ -1608,21 +1687,9 @@ var ClubCardList = [
 		Type: "Event",
 		RequiredLevel: 3,
 		OnPlay: function(CCPlayer) {
-			let Opponent = ClubCardGetOpponent(CCPlayer);
-			if (ClubCardGroupIsOnBoard(Opponent, "Police")) return;
-			let Money = Opponent.Money;
-			if (Money > 12) Money = 12;
-			if (Money > 0) {
-				ClubCardPlayerAddMoney(CCPlayer, Money);
-				ClubCardPlayerAddMoney(Opponent, Money * -1);
-				ClubCardLogGetDataPacket(ClubCardMessageType.CARDEFFECT, "StealMoney", CCPlayer, Money);
-			}
-		},
-		CanPlay: function(CCPlayer) {
-			let Opponent = ClubCardGetOpponent(CCPlayer);
-			if (ClubCardGroupIsOnBoard(Opponent, "Police")) return false;
-			if (Opponent.Money <= 0) return false;
-			return true;
+			ClubCardPlayerStealMoney(CCPlayer, 6);
+			if (ClubCardGroupIsOnBoard(CCPlayer, "Criminal")) ClubCardPlayerStealMoney(CCPlayer, 2);
+			if (!ClubCardGroupIsOnBoard(ClubCardGetOpponent(CCPlayer), "Police"))  ClubCardPlayerStealMoney(CCPlayer, 4);
 		}
 	},
 	{
@@ -2575,6 +2642,66 @@ function ClubCardPlayerAddFame(CCPlayer, Amount) {
 }
 
 /**
+ * Add money from a player and remove from the ohter player 
+ * @param {ClubCardPlayer} CCPlayer - The club card player
+ * @param {Number} Amount - The amount to steal
+ * @returns {number} - the amount that was stolen
+ */
+function ClubCardPlayerStealMoney(CCPlayer, Amount, isStickyFingers = false) {
+	const opponent = ClubCardGetOpponent(CCPlayer);
+	if (opponent.Money < 1) return 0; 
+	const moneyToSteal = Math.min(Amount, opponent.Money);
+	ClubCardPlayerAddMoney(CCPlayer, moneyToSteal);
+	ClubCardPlayerAddMoney(opponent, -moneyToSteal);
+
+	let extraSteal = ClubCardNameCountOnBoard(CCPlayer, "Sticky Fingers");
+	while (extraSteal > 0) {
+		if (!isStickyFingers) {
+			if (opponent.Money > 0) {
+				ClubCardPlayerAddMoney(CCPlayer, 1);
+				ClubCardPlayerAddMoney(opponent, -1);
+			}
+			if (opponent.Fame > 0) {
+				ClubCardPlayerAddFame(CCPlayer, 1);
+				ClubCardPlayerAddFame(opponent, -1);
+			}
+		}
+		extraSteal--;
+	}
+	return moneyToSteal;
+}
+
+/**
+ * Add fame from a player and remove from the ohter player 
+ * @param {ClubCardPlayer} CCPlayer - The club card player
+ * @param {Number} Amount - The amount to steal
+ * @returns {Number} - the amount that was stolen
+ */
+function ClubCardPlayerStealFame(CCPlayer, Amount, isStickyFingers = false) {
+	const opponent = ClubCardGetOpponent(CCPlayer);
+	if (opponent.Fame < 1) return 0; 
+	const fameToSteal = Math.min(Amount, opponent.Fame);
+	ClubCardPlayerAddFame(CCPlayer, fameToSteal);
+	ClubCardPlayerAddFame(opponent, -fameToSteal);
+
+	let extraSteal = ClubCardNameCountOnBoard(CCPlayer, "Sticky Fingers");
+	while (extraSteal > 0) {
+		if (!isStickyFingers) {
+			if (opponent.Money > 0) {
+				ClubCardPlayerAddMoney(CCPlayer, 1);
+				ClubCardPlayerAddMoney(opponent, -1);
+			}
+			if (opponent.Fame > 0) {
+				ClubCardPlayerAddFame(CCPlayer, 1);
+				ClubCardPlayerAddFame(opponent, -1);
+			}
+		}
+		extraSteal--;
+	}
+	return fameToSteal;
+}
+
+/**
  * Raises the level of player
  * @param {ClubCardPlayer} CCPlayer - The club card player
  * @returns {void} - Nothing
@@ -2690,6 +2817,23 @@ function ClubCardGroupOnBoardCount(CCPlayer, GroupName) {
 }
 
 /**
+ * Returns the number of cards of a specific group found in the discard pile
+ * @param {ClubCardPlayer} CCPlayer - The club card player
+ * @param {string} GroupName - The name of the card group
+ * @returns {number} - The number of cards from that group in the discard pile
+ */
+function ClubCardGroupInDiscardPileCount(CCPlayer, GroupName) {
+	if ((CCPlayer == null) || (CCPlayer.Board == null) || (GroupName == null)) return 0;
+	let Count = 0;
+	for (let Card of CCPlayer.DiscardPile)
+		if (Card.Group != null)
+			for (let Group of Card.Group)
+				if (Group === GroupName)
+					Count++;
+	return Count;
+}
+
+/**
  * Removes a card from a player board
  * @param {ClubCardPlayer} CCPlayer - The club card player
  * @param {ClubCard} Card - The card object to remove
@@ -2726,7 +2870,8 @@ function ClubCardRemoveFromBoard(CCPlayer, Card, DontDiscard = false, MessageTyp
  * @returns {number} The cost to level up
  */
 function ClubCardCalculateLevelCost(CCPlayer) {
-	let cost = ClubCardLevelCost[CCPlayer.Level + 1] - (ClubCardNameCountOnBoard(CCPlayer, "Quality Maid") * 10);
+	const opponent = ClubCardGetOpponent(CCPlayer);
+	let cost = ClubCardLevelCost[CCPlayer.Level + 1] - (ClubCardNameCountOnBoard(CCPlayer, "Quality Maid") * 10) + (ClubCardNameCountOnBoard(CCPlayer, "Inspector") * 10) + (ClubCardNameCountOnBoard(opponent, "Inspector") * 10);
 	return cost;
 }
 
@@ -3050,8 +3195,17 @@ function ClubCardCheckDetectiveDraw(CCPlayer) {
  * @returns {void} - Nothing
  */
 function ClubCardOnDrawAction(CCPlayer) {
+	const opponent = ClubCardGetOpponent(CCPlayer);
+
 	ClubCardPlayerAddMoney(CCPlayer, ClubCardNameCountOnBoard(CCPlayer, "Part-Time Patient"));
 	ClubCardPlayerAddFame(CCPlayer, (ClubCardNameCountOnBoard(CCPlayer, "Part-Time Patient") * -1));
+
+	let conArtistsCount = ClubCardNameCountOnBoard(CCPlayer, "Con Artist");
+	while (conArtistsCount > 0) {
+		ClubCardPlayerStealFame(CCPlayer, 1);
+		if (!ClubCardGroupIsOnBoard(opponent, "Police")) ClubCardPlayerStealFame(CCPlayer, 1);
+		conArtistsCount--;
+	}
 }
 
 /**

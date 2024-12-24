@@ -132,19 +132,19 @@ Text Human Resource,Draw an extra card each time you end your turn by drawing a 
 Title Policewoman,Policewoman
 Text Policewoman,<F>I took the job for the free handcuffs.
 Title Pusher,Pusher
-Text Pusher,+3 Money per turn for Junkie and +1 Money per turn for Sidney.   Leave the club at end of turn if a Police is present.
+Text Pusher,"Gains +1 Money per turn if Sidney present. Remove from your club at the end of turn if Police is present."
 Title Junkie,Junkie
-Text Junkie,Leave club at end of turn if a Police is present.
+Text Junkie,"Gains +2 money per turn if Pusher present. Remove from your club at the end of turn if Police is present."
 Title Zealous Cop,Zealous Cop
 Text Zealous Cop,"<F>Rules are rules, and I'll make sure they will be followed."
 Title Gangster,Gangster
-Text Gangster,+2 Money per turn per Criminal present.  Leave the club at end of turn if a Police is present.
+Text Gangster,"+2 Money per Criminal present (Max +5). Remove from your club at the end of turn if Police is present."
 Title Paroled Thief,Paroled Thief
 Text Paroled Thief,Opponent gets +1 Money at end of turn.  Leave the club at end of turn if a Police is present.
 Title Police Cadet,Police Cadet
 Text Police Cadet,<F>Hey!  Give me back my keys!
 Title Stepmother,Stepmother
-Text Stepmother,Removes all Police and Liability members from your club when she enters.
+Text Stepmother,"When a member with - Fame enters, Steal Fame equal to twice their Money. Enters: Gain 2 Fame for each member present with - Fame."
 Title Sheriff,Sheriff
 Text Sheriff,Draw 2 cards when she enters your club.
 Title Maid Lover,Maid Lover
@@ -281,9 +281,9 @@ Text Second Mortgage,+20 Money.
 Title Foreign Investment,Foreign Investment
 Text Foreign Investment,+30 Money.
 Title Cat Burglar,Cat Burglar
-Text Cat Burglar,Steals up to 4 Money from opponent.  Money must be positive.  Won't work if opponent has Police.
+Text Cat Burglar,Steal 2 Fame and Money. Then steal 2 Fame and 2 Money unless your opponent has Police. 
 Title Money Heist,Money Heist
-Text Money Heist,Steals up to 12 Money from opponent.  Money must be positive.  Won't work if opponent has Police.
+Text Money Heist,"Steal 6 Money. Then steal 2 Money if a Criminal is present. Then steal 4 Money if your opponent doesn't have Police."
 Title BDSM Ball,BDSM Ball
 Text BDSM Ball,"+1 Fame for each member that's not Dominant, Liability, Maid or Staff."
 Title Vampire Ball,Vampire Ball
@@ -331,7 +331,7 @@ Title Bank Loan,Bank Loan
 Text Bank Loan,"For 3 turns, you gain double Money at the end of turn.  Cancels opponent Repay Loan."
 Effect Bank Loan,Money gained is doubled because of SOURCEPLAYER Bank Loan event.
 Title Teamwork,Teamwork
-Text Teamwork,"For 4 turns, you draw an extra card each time you draw a card."
+Text Teamwork,"For 4 turns, you draw an extra card each time you take draw a card action."
 Title Overtime,Overtime
 Text Overtime,"For 3 turns, you can play an extra card."
 Title Porn Convention,Porn Convention
@@ -477,6 +477,7 @@ Title Protective Owner,Protective Owner
 Text Protective Owner,"Pets treat your building level as 1 higher. If you would discard a pet from your hand, shuffle it into your deck instead."
 Title Feline Fatale,Feline Fatale
 Text Feline Fatale,"When she enters the club, lose 14 money and remove a member from the opponent's club and they lose fame equal to your building level."
+Prerequisite Feline Fatale,Select a member from your opponent club to remove.
 Title Wolf Girl,Wolf Girl
 Text Wolf Girl,"When she enters the club, lose 7 money and the opponent discards a card. Gains +1 Fame per 2 building levels. Gains 1 money if an owner is present in your club."
 Title Pet toys,Pet toys
@@ -502,3 +503,15 @@ Text Tour Guide,"When she enters your club, draw a card. Gains +3 money if touri
 Title Moon,"Moon"
 Text Moon,"Send a card from your opponent's club to your hand. Your opponent draws a card, draws 3 instead if the member was level 3 or higher." 
 Prerequisite Moon,Select a member from your opponent's club to remove and add to your hand.
+Title Sticky Fingers,Sticky Fingers
+Text Sticky Fingers,"When you steal with another effect, steal 1 Fame and Money. Enters: Steal 1 Fame and Money."
+Title Earner,Earner
+Text Earner,"Gain +1 Money for each Criminal in your streets. (Max +3)"
+Title Naughty Baby,Naughty Baby
+Text Naughty Baby,"Enters: Steal 4 money if no Police are present. Then steal 4 fame if no Police are present in opponent's club."
+Title Consigliere,Consigliere
+Text Consigliere,"At the end of your turn, spend 8 money to draw a card and gain 3 Fame."
+Title Con Artist,Con Artist
+Text Con Artist,"When you take the draw action, steal 1 Fame. If no Police are in your opponent's club, steal 2 Fame instead."
+Title Inspector,Inspector 
+Text Inspector,Increase the cost for players to upgrade to House or higher by 10. 
