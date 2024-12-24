@@ -2395,6 +2395,7 @@ function ClubCardCheckDisconnected(disconnectedMemberNumber) {
 function ClubCardCancelSlots() {
 	Player.Game.ClubCard.PlayerSlot = 0;
 	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+	ChatRoomCharacterUpdate(Player);
 }
 
 /**
