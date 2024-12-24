@@ -2320,6 +2320,25 @@ function ClubCardCheckDisconnected(disconnectedMemberNumber) {
 	}
 }
 
+//##### Cancel selected player slots #####
+
+/**
+ * A function that is called after the player has accepted a hidden message to cancel the selected slot.
+ */
+function ClubCardCancelSlots() {
+	Player.Game.ClubCard.PlayerSlot = 0;
+	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+}
+
+/**
+ * The function sends a hidden message requesting players to cancel the selected slot.
+ */
+function ClubCardSendRequestCancelSlot() {
+	ServerSend("ChatRoomChat", { Content: "ClubCardCancelSlots", Type: "Hidden"});
+}
+
+//########################################
+
 /**
  * Adds a text entry to the game log
  * @param {ClubCardMessage[]} LogEntry - Message Packet with message and messageType

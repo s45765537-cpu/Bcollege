@@ -3751,6 +3751,9 @@ function ChatRoomMessageProcessHidden(data, SenderCharacter) {
 	} else if (data.Content.startsWith("PortalLink")) {
 		PortalLinkProcessMessage(SenderCharacter, data);
 	}
+	else if (data.Content == "ClubCardCancelSlots") {
+		ClubCardCancelSlots();
+	}
 	return true;
 }
 

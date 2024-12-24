@@ -102,6 +102,7 @@ function GameClubCardRun() {
 	if (GameClubCardCanLaunchGame()) DrawButton(900, 600, 400, 64, TextGet("StartGame"), "White");
 	if (GameClubCardCanJoinGame()) DrawButton(900, 600, 400, 64, TextGet("JoinGame"), "White");
 	if ((GameClubCardGetStatus() == "Running") && !GameClubCardCanJoinGame()) DrawText(TextGet("CannotJoinDetails"), 1100, 600, "Red", "Gray");
+	if (GameClubCardCanUnselectSlots()) DrawButton(900, 700, 400, 64, TextGet("CancelSlots"), "White");
 }
 
 /**
@@ -162,6 +163,10 @@ function GameClubCardClick() {
 		GameClubCardExpectQuery = true;
 		return;
 	}
+	//If the admin clicked cancel all selected slots, sends a hidden message.
+	if (MouseIn(900, 700, 400, 64) && GameClubCardCanUnselectSlots()) {
+		ClubCardSendRequestCancelSlot();
+	}
 
 }
 
@@ -194,7 +199,15 @@ function GameClubCardExit() {
 }
 
 /**
- * Checks there's 1 player in slot 1 and slot 2 so we can start the game.
+ * If the player is an admin and if there is no active play, the player can cancel all slots selected by other players.
+ * @returns Returns True if it is possible to cancel all player slots.
+ */
+function GameClubCardCanUnselectSlots() {
+	return GameClubCardIsAdmin(Player) && !GameClubCardCanJoinGame();
+}
+
+/**
+ * If the player is an administrator and the game is not running.
  * @returns {boolean} - Returns TRUE if the game can be launched
  */
 function GameClubCardCanLaunchGame() {
