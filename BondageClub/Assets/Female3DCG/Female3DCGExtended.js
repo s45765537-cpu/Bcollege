@@ -1162,7 +1162,7 @@ var AssetFemale3DCGExtended = {
 							HasSubscreen: true,
 							ArchetypeConfig: {
 								Archetype: ExtendedArchetype.TEXT,
-								MaxLength: { Text: 6, Text2: 5, Text3: 3},
+								MaxLength: { Text: 6, Text2: 5, Text3: 3 },
 								ScriptHooks: {
 									AfterDraw: AssetsFaceMarkingsFaceWritingsAfterDrawHook,
 								},

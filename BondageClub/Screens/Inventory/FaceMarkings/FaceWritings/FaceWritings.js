@@ -41,18 +41,18 @@ function AssetsFaceMarkingsFaceWritingsAfterDrawHook(data, originalFunction, {
 			X-=24;
 			Y-=182;
 			drawOptions.textAlign = "center";
-			offset = 2
+			offset = 2;
 			break;
 		case 1: // Forehead
 			Y-=240;
 			drawOptions.textAlign = "center";
-			offset = 0
+			offset = 0;
 			break;
 		case 2: // Cheek R
 			X+=24;
 			Y-=182;
 			drawOptions.textAlign = "center";
-			offset = -2
+			offset = -2;
 			break;
 		default:
 			return;

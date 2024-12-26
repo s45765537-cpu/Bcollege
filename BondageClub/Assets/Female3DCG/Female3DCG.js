@@ -4247,7 +4247,7 @@ var AssetFemale3DCG = [
 				CopyConfig: {
 					GroupName: "FaceMarkings",
 					AssetName: "FaceWritings",
-					BuyGroup: "BodyWritings",
+					BuyGroup: true,
 				},
 			},
 			{
@@ -17308,7 +17308,7 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-{
+	{
 		Group: "FaceMarkings",
 		Priority: 8,
 		Clothing: false,
@@ -17365,7 +17365,7 @@ var AssetFemale3DCG = [
 				CopyConfig: {
 					GroupName: "Mask",
 					AssetName: "AnimalNoses",
-					BuyGroup: "AnimalNoses",
+					BuyGroup: true,
 				},
 			},
 		],

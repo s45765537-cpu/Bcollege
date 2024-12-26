@@ -394,7 +394,7 @@ type AssetGroupBodyName =
 	'HairFront' | 'HandAccessoryLeft' | 'HandAccessoryRight' |  'FacialHair' | 'Hat' | 'Head' | 'Height' | 'Jewelry' | 'Mask' |
 	'Necklace' | 'Nipples' | 'Panties' | 'Pronouns' |
 	'Shoes' | 'Socks' | 'SocksLeft' | 'SocksRight' | 'Suit' | 'SuitLower' | 'TailStraps' | 'Wings' |
-	'HandsLeft' | 'HandsRight'
+	'HandsLeft' | 'HandsRight' | 'FaceMarkings'
 	;
 
 type AssetGroupName = AssetGroupBodyName | AssetGroupItemName | AssetGroupScriptName;
