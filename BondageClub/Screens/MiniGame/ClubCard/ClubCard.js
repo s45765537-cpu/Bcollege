@@ -410,12 +410,12 @@ var ClubCardList = [
 		OnPlay: function(CCPlayer) {
 			let effectFame = 0;
 			for (const card of CCPlayer.Board) {
-				if (card.FamePerTurn < 0) effectFame = effectFame + 2;
+				if (card.FamePerTurn && card.FamePerTurn < 0) effectFame = effectFame + 2;
 			}
 			ClubCardPlayerAddFame(CCPlayer, effectFame);
 		},
 		onPlayedCard: function(CCPlayer, cardPlayed) {
-			if (cardPlayed.FamePerTurn < 0) {
+			if (cardPlayed.FamePerTurn && cardPlayed.FamePerTurn < 0) {
 				ClubCardPlayerStealFame(CCPlayer, (cardPlayed.MoneyPerTurn * 2));
 			}
 		}
@@ -2648,6 +2648,11 @@ function ClubCardPlayerAddFame(CCPlayer, Amount) {
  */
 function ClubCardPlayerStealMoney(CCPlayer, Amount, isStickyFingers = false) {
 	const opponent = ClubCardGetOpponent(CCPlayer);
+	if (CCPlayer.Money == null) CCPlayer.Money = 0;
+	if (CCPlayer.Fame == null) CCPlayer.Fame = 0;
+	if (opponent.Money == null) opponent.Money = 0;
+	if (opponent.Fame == null) opponent.Fame = 0;
+	
 	if (opponent.Money < 1) return 0; 
 	const moneyToSteal = Math.min(Amount, opponent.Money);
 	ClubCardPlayerAddMoney(CCPlayer, moneyToSteal);
@@ -2678,6 +2683,11 @@ function ClubCardPlayerStealMoney(CCPlayer, Amount, isStickyFingers = false) {
  */
 function ClubCardPlayerStealFame(CCPlayer, Amount, isStickyFingers = false) {
 	const opponent = ClubCardGetOpponent(CCPlayer);
+	if (CCPlayer.Money == null) CCPlayer.Money = 0;
+	if (CCPlayer.Fame == null) CCPlayer.Fame = 0;
+	if (opponent.Money == null) opponent.Money = 0;
+	if (opponent.Fame == null) opponent.Fame = 0;
+
 	if (opponent.Fame < 1) return 0; 
 	const fameToSteal = Math.min(Amount, opponent.Fame);
 	ClubCardPlayerAddFame(CCPlayer, fameToSteal);
