@@ -140,7 +140,7 @@ Text Zealous Cop,"<F>Rules are rules, and I'll make sure they will be followed."
 Title Gangster,Gangster
 Text Gangster,"+2 Money per Criminal present (Max +5). Remove from your club at the end of turn if Police is present."
 Title Paroled Thief,Paroled Thief
-Text Paroled Thief,Opponent gets +1 Money at end of turn.  Leave the club at end of turn if a Police is present.
+Text Paroled Thief,Opponent steals 1 Money at end of your turn. Leave the club at end of turn if a Police is present.
 Title Police Cadet,Police Cadet
 Text Police Cadet,<F>Hey!  Give me back my keys!
 Title Stepmother,Stepmother

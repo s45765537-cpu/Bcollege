@@ -390,10 +390,8 @@ var ClubCardList = [
 		Name: "Paroled Thief",
 		Group: ["Liability", "Criminal"],
 		RequiredLevel: 2,
-		MoneyPerTurn: -1,
 		BeforeTurnEnd: function(CCPlayer) {
-			ClubCardPlayerAddMoney(ClubCardGetOpponent(CCPlayer), 1);
-			if (ClubCardGroupIsOnBoard(CCPlayer, "Police")) ClubCardRemoveFromBoard(CCPlayer, this);
+			ClubCardPlayerStealMoney(ClubCardGetOpponent(CCPlayer), 1);
 		}
 	},
 	{
@@ -2872,7 +2870,10 @@ function ClubCardRemoveFromBoard(CCPlayer, Card, DontDiscard = false, MessageTyp
  */
 function ClubCardCalculateLevelCost(CCPlayer) {
 	const opponent = ClubCardGetOpponent(CCPlayer);
-	let cost = ClubCardLevelCost[CCPlayer.Level + 1] - (ClubCardNameCountOnBoard(CCPlayer, "Quality Maid") * 10) + (ClubCardNameCountOnBoard(CCPlayer, "Inspector") * 10) + (ClubCardNameCountOnBoard(opponent, "Inspector") * 10);
+	let cost = ClubCardLevelCost[CCPlayer.Level + 1] - (ClubCardNameCountOnBoard(CCPlayer, "Quality Maid") * 10);
+	if (CCPlayer.Level > 1) {
+		cost = cost + (ClubCardNameCountOnBoard(CCPlayer, "Inspector") * 10) + (ClubCardNameCountOnBoard(opponent, "Inspector") * 10);
+	}
 	return cost;
 }
 
