@@ -225,14 +225,13 @@
 }
 
 .dialog-crafted-info {
-	text-align: justify;
 	font: inherit;
 	overflow-wrap: break-word;
 	height: min-content;
 	width: 100%;
 	color: white;
 	user-select: none;
-	text-indent: 1em each-line;
+	text-indent: 1em hanging each-line;
 }
 
 #dialog-crafted-name {
