@@ -128,6 +128,13 @@ declare namespace ElementButton {
 		tooltip?: null | string | Node | HTMLOptions<any> | readonly (null | string | Node | HTMLOptions<any>)[]
 		/** The position of the tooltip w.r.t. the button */
 		tooltipPosition?: "left" | "right" | "top" | "bottom";
+		/**
+		 * The aria accessibility role of the the tooltip; defaults to `description` if a {@link ElementButton.Options.label} is present and `label` otherwise:
+		 * * `label` ([`aria-labelledby`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-labelledby)): A compact, 1-line summary of the button
+		 * * `description` ([`aria-describedby`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-describedby)): A longer, potentially multi-line, button description
+		 * * `none`: Nothing
+		 */
+		tooltipRole?: "label" | "description" | "none";
 		/** A button label */
 		label?: string;
 		/** The position of the button label */
