@@ -1090,6 +1090,7 @@ function ChatRoomCreateElement() {
 				{
 					tag: "div",
 					attributes: { id: "TextAreaChatLog" },
+					classList: ["scroll-box"],
 				},
 				{
 					tag: "div",

@@ -3345,7 +3345,7 @@ class _DialogItemMenu extends DialogMenu {
 				{
 					tag: "div",
 					attributes: { id: ids.grid, "aria-labelledby": ids.status },
-					classList: ["dialog-grid"],
+					classList: ["dialog-grid", "scroll-box"],
 					// FIXME: Figure out how the let the listeners distinguish between mouse wheels and touch pads,
 					// as the latter really needs smooth scrolling behavior while the former needs instant
 					//
@@ -3545,7 +3545,7 @@ class _DialogLockingMenu extends DialogMenu {
 				{
 					tag: "div",
 					attributes: { id: ids.grid, "aria-labelledby": ids.status },
-					classList: ["dialog-grid"],
+					classList: ["dialog-grid", "scroll-box"],
 					// FIXME: Figure out how the let the listeners distinguish between mouse wheels and touch pads,
 					// as the latter really needs smooth scrolling behavior while the former needs instant
 					//
@@ -3653,7 +3653,7 @@ class _DialogPermissionMenu extends DialogMenu {
 				{
 					tag: "div",
 					attributes: { id: ids.grid, "aria-labelledby": ids.status },
-					classList: ["dialog-grid"],
+					classList: ["dialog-grid", "scroll-box"],
 					// FIXME: Figure out how the let the listeners distinguish between mouse wheels and touch pads,
 					// as the latter really needs smooth scrolling behavior while the former needs instant
 					//
@@ -3767,7 +3767,7 @@ class _DialogActivitiesMenu extends DialogMenu {
 				{
 					tag: "div",
 					attributes: { id: ids.grid, "aria-labelledby": ids.status },
-					classList: ["dialog-grid"],
+					classList: ["dialog-grid", "scroll-box"],
 					// FIXME: Figure out how the let the listeners distinguish between mouse wheels and touch pads,
 					// as the latter really needs smooth scrolling behavior while the former needs instant
 					//
@@ -3883,7 +3883,7 @@ class _DialogCraftedMenu extends DialogMenu {
 						{
 							tag: "div",
 							attributes: { id: ids.footer },
-							classList: [ids.info],
+							classList: [ids.info, "scroll-box"],
 							children: [
 								{ tag: "span", attributes: { id: ids.description } },
 							],

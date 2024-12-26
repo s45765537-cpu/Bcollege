@@ -756,7 +756,7 @@ var ElementCheckboxDropdown = {
 			tag: "div",
 			attributes: { id, ["screen-generated"]: CurrentScreen },
 			parent: options?.parent ?? document.body,
-			classList: ["HideOnPopup", "dropdown"],
+			classList: ["HideOnPopup", "dropdown", "scroll-box"],
 			style: { display: "none" },
 			children: checkboxList.map((o) => this._CreateCheckboxPair(id, o, o, eventListener, options?.checked)),
 		});
@@ -777,7 +777,7 @@ var ElementCheckboxDropdown = {
 			tag: "div",
 			attributes: { id, ["screen-generated"]: CurrentScreen },
 			parent: options?.parent ?? document.body,
-			classList: ["HideOnPopup", "dropdown"],
+			classList: ["HideOnPopup", "dropdown", "scroll-box"],
 			style: { display: "none" },
 			children: Object.entries(checkboxRecord).flatMap(([header, checkboxList]) => {
 				return [
