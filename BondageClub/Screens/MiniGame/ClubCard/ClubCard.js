@@ -269,6 +269,11 @@ var ClubCardList = [
 			if (ClubCardNameIsOnBoard(CCPlayer, "Diplomat")) ClubCardPlayerAddFame(CCPlayer, 3);
 		}
 	},
+	{
+		ID: 1021,
+		Name: "Troublemaker",
+		MoneyPerTurn: 1
+	},
 
 	// 2000 - Staff Members (Club employees that can be targetted by events)
 	{
@@ -459,7 +464,7 @@ var ClubCardList = [
 		RequiredLevel: 4,
 		BeforeTurnEnd: function(CCPlayer) {
 			if (CCPlayer.Money > 7) {
-				ClubCardPlayerAddMoney(CCPlayer, -7);
+				ClubCardPlayerAddMoney(CCPlayer, -8);
 				ClubCardPlayerAddFame(CCPlayer, 3);
 				ClubCardPlayerDrawCard(CCPlayer, 1);
 			}
@@ -2652,7 +2657,7 @@ function ClubCardPlayerStealMoney(CCPlayer, Amount, isStickyFingers = false) {
 	if (CCPlayer.Fame == null) CCPlayer.Fame = 0;
 	if (opponent.Money == null) opponent.Money = 0;
 	if (opponent.Fame == null) opponent.Fame = 0;
-	
+
 	if (opponent.Money < 1) return 0; 
 	const moneyToSteal = Math.min(Amount, opponent.Money);
 	ClubCardPlayerAddMoney(CCPlayer, moneyToSteal);
@@ -2729,6 +2734,7 @@ function ClubCardUpgradeLevel(CCPlayer) {
 
 	ClubCardPlayerAddMoney(CCPlayer, updatedCost * -1);
 	CCPlayer.Level++;
+	if (!ClubCardNameIsOnBoard(CCPlayer, "Bouncer")) ClubCardPlayerAddFame(CCPlayer, (ClubCardNameCountOnBoard(opponent, "Troublemaker") * -3));
 	// On level up effects
 	for (const card of CCPlayer.Board.slice()) {
 		if (card.onLevelUp != null) card.onLevelUp(CCPlayer);
@@ -3760,13 +3766,6 @@ function ClubCardCanPlayCard(CCPlayer, Card) {
 	let Target = ClubCardFindTarget(Card);
 	let targetLevel = Target.Level;
 
-	//Moon's card effect
-	//const playedCards = CCPlayer.CardsPlayedThisTurn[CCPlayer.ClubCardTurnCounter];
-	//const isMoonEffect = playedCards && playedCards.length > 0 && playedCards[playedCards.length - 1].Name === "Moon";	
-	//const isMoonEffect = (ClubCardNameIsOnBoard(CCPlayer, "Moon"));
-	//if (isMoonEffect && !ClubCardIsLiability(Card) && Card.Type != "Event")
-	//	targetLevel++;
-	
 	// Jennifer removes a card on her board before entering so should therefor be playable on a full board.
 	const boardFull = Target.Board.length >= ClubCardLevelLimit[Target.Level] && Card.Name !== "Jennifer";
 	if ((Target.Board != null) && (Card.Type == "Member") && (Target.Level != null) && boardFull) return false;
