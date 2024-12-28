@@ -4161,6 +4161,127 @@ var AssetFemale3DCGExtended = {
 			],
 			DrawImages: false,
 		}, // BedMetalCuffs
+		InflatableDress: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChangeWhenLocked: false,
+			Modules: [
+				{
+					Name: "Hood",
+					Key: "h",
+					Options: [
+						{
+							// h0 - None
+							Property: {},
+						},
+						{
+							// h1 - Hood
+							Property: {
+								Difficulty: 4,
+								Effect: [
+									E.GagEasy,
+									E.BlockMouth,
+									E.BlindHeavy,
+									E.DeafLight,
+								],
+								Block: [
+									"ItemMouth",
+									"ItemMouth2",
+									"ItemMouth3",
+									"ItemNose",
+									"ItemEars",
+									"ItemHead",
+								],
+								Hide: [
+									"Hat",
+									"HairAccessory1",
+									"Jewelry",
+									"Glasses",
+									"Mask",
+									"HairFront",
+									"HairBack",
+									"ItemMouth",
+									"ItemMouth2",
+									"ItemMouth3",
+									"ItemHead",
+								],
+								HideItem: [
+									"ItemHoodAccentHood",
+									"ItemHoodBalloon",
+									"ItemHoodBigMouthHood",
+									"ItemHoodBlanketHood",
+									"ItemHoodCollarHood",
+									"ItemHoodCorsetHood",
+									"ItemHoodCustomLatexHood",
+									"ItemHoodDogHood",
+									"ItemHoodFestivalFoxMask",
+									"ItemHoodFoxHood",
+									"ItemHoodFoxyMask",
+									"ItemHoodFuturisticHelmet",
+									"ItemHoodGasMask",
+									"ItemHoodGGTSHelmet",
+									"ItemHoodGP9GasMask",
+									"ItemHoodGwenHood",
+									"ItemHoodHarnessCatMask",
+									"ItemHoodInflatableGagMask",
+									"ItemHoodKigu2Hood",
+									"ItemHoodKirugumiMask",
+									"ItemHoodKittyHood",
+									"ItemHoodLatexHabit",
+									"ItemHoodLatexBunny",
+									"ItemHoodLatexDogHood",
+									"ItemHoodLatexDogMask",
+									"ItemHoodLeatherHood",
+									"ItemHoodLeatherHoodOpenEyes",
+									"ItemHoodLeatherHoodOpenMouth",
+									"ItemHoodLeatherHoodSealed",
+									"ItemHoodLeatherHoodSensDep",
+									"ItemHoodOldGasMask",
+									"ItemHoodOpenFaceHood",
+									"ItemHoodOpenMouthPlugHood",
+									"ItemHoodPantyHood",
+									"ItemHoodPantyhose",
+									"ItemHoodPonyHood",
+									"ItemHoodRubberMask",
+									"ItemHoodSensoryDeprivationHood",
+									"ItemHoodSpaceMask",
+									"ItemHoodTechnoHelmet1",
+									"ItemHoodVacHood",
+									"ItemHoodZipperHood",
+								],
+							},
+						},
+					],
+				},
+				{
+					Name: "Bed",
+					Key: "b",
+					Options: [
+						{
+							// b0 - None
+							Property: {},
+						},
+						{
+							// b1 - Restraints
+							Prerequisite: [
+								"OnBed",
+								"NotSuspended",
+								"NotLifted",
+								"NoKneel",
+							],
+							SetPose: [
+								"LegsClosed",
+								"BackElbowTouch",
+							],
+							Property: {
+								Difficulty: 10,
+								Effect: [E.Freeze],
+								Block: ["ItemDevices"],
+							},
+						},
+					],
+				},
+			],
+		}, // InflatableDress
 	}, // ItemArms
 	ItemNeck: {
 		ShinySteelCollar: {
@@ -8356,6 +8477,36 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // Balloon
+		Kigu2Hood: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			ChangeWhenLocked: false,
+			Options: [
+				// Lenses type
+				{ Name: "None", Property: { Effect: [] } },
+				{
+					Name: "Thin",
+					Property: {
+						Effect: [E.BlindLight],
+						Tint: [{ Color: 0, Strength: 0.2 }],
+					},
+				},
+				{
+					Name: "Thick",
+					Property: {
+						Effect: [E.BlindNormal, E.BlockWardrobe],
+						Tint: [{ Color: 0, Strength: 0.3 }],
+					},
+				},
+				{
+					Name: "Opaque",
+					Property: {
+						Effect: [E.BlindHeavy, E.BlockWardrobe],
+						Tint: [{ Color: 0, Strength: 0.5 }],
+					},
+				},
+			],
+		}, // Kigu2Hood
 	}, // ItemHood
 	Jewelry: {
 		JewelrySet: {
@@ -17398,6 +17549,37 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // Stitches
+		Kigu2Hood: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemHood", AssetName: "Kigu2Hood" },
+			DrawImages: false,
+			ChangeWhenLocked: false,
+			Options: [
+				// Lenses type
+				{ Name: "None", Property: { Effect: [] } },
+				{
+					Name: "Thin",
+					Property: {
+						Effect: [E.BlindLight],
+						Tint: [{ Color: 0, Strength: 0.2 }],
+					},
+				},
+				{
+					Name: "Thick",
+					Property: {
+						Effect: [E.BlindNormal, E.BlockWardrobe],
+						Tint: [{ Color: 0, Strength: 0.3 }],
+					},
+				},
+				{
+					Name: "Opaque",
+					Property: {
+						Effect: [E.BlindHeavy, E.BlockWardrobe],
+						Tint: [{ Color: 0, Strength: 0.5 }],
+					},
+				},
+			],
+		}, // Kigu2Hood
 	}, // ItemHead
 	ItemHands: {
 		FuturisticMittens: {
