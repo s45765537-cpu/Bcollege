@@ -272,6 +272,7 @@ var CommandsChangelog = {
 			{
 				tooltip: "", // See _SetTranslationText()
 				tooltipPosition: "bottom",
+				tooltipRole: "label",
 				noStyling: true,
 				label: "🗑",
 				labelPosition: "center",
@@ -315,6 +316,7 @@ var CommandsChangelog = {
 			{
 				tooltip: "", // See _SetTranslationText()
 				tooltipPosition: "bottom",
+				tooltipRole: "label",
 				noStyling: true,
 				role: "checkbox",
 				label: "▼",

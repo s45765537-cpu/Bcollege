@@ -292,7 +292,6 @@ input[type="checkbox"]:checked::before {
 
 .dropdown {
 	color: white;
-	overflow-y: scroll;
 	word-wrap: break-word;
 	background-color: rgba(0, 0, 0, 0.55);
 	padding: min(1vh, 0.5vw);
@@ -334,4 +333,23 @@ input[type="checkbox"]:checked::before {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	-o-text-overflow: ellipsis;
+}
+
+/* A scrollable container with a standardized-ish scrollbar layout */
+.scroll-box {
+	overflow: hidden auto;
+	scroll-padding: 3px;
+	scrollbar-gutter: stable;
+	scrollbar-color: rgb(149, 149, 149) rgb(0, 0, 0, 0.7);
+}
+
+@media (hover: hover) {
+	.scroll-box {
+		scrollbar-color: rgb(149, 149, 149, 0.9) rgb(0, 0, 0, 0.4);
+		transition: scrollbar-color 0.3s ease;
+	}
+
+	.scroll-box:hover {
+		scrollbar-color: rgb(149, 149, 149) rgb(0, 0, 0, 0.7);
+	}
 }

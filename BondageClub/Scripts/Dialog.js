@@ -1030,8 +1030,8 @@ function DialogInventoryAdd(C, item, isWorn, sortOrder) {
 	const inventoryItem = DialogInventoryCreateItem(C, item, isWorn, sortOrder);
 	if (item.Craft != null) {
 		inventoryItem.Craft = item.Craft;
-		if (inventoryItem.SortOrder.charAt(0) == DialogSortOrder.Usable.toString()) inventoryItem.SortOrder = DialogSortOrder.PlayerFavoriteUsable.toString() + (item.Craft.Name || item.Asset.Description);
-		if (inventoryItem.SortOrder.charAt(0) == DialogSortOrder.Unusable.toString()) inventoryItem.SortOrder = DialogSortOrder.PlayerFavoriteUnusable.toString() + (item.Craft.Name || item.Asset.Description);
+		if (inventoryItem.SortOrder.charAt(0) == DialogSortOrder.Usable.toString()) inventoryItem.SortOrder = `${DialogSortOrder.PlayerFavoriteUsable}${item.Asset.Description}${item.Craft.Name ?? ""}`;
+		if (inventoryItem.SortOrder.charAt(0) == DialogSortOrder.Unusable.toString()) inventoryItem.SortOrder = `${DialogSortOrder.PlayerFavoriteUnusable}${item.Asset.Description}${item.Craft.Name ?? ""}`;
 	}
 	DialogInventory.push(inventoryItem);
 
@@ -1083,7 +1083,7 @@ function DialogInventoryCreateItem(C, item, isWorn, sortOrder) {
 		...item,
 		Worn: isWorn,
 		Icons: icons,
-		SortOrder: sortOrder.toString() + (item.Craft?.Name || asset.Description),
+		SortOrder: `${sortOrder}${asset.Description}${item.Craft?.Name ?? ""}`,
 		Vibrating: isWorn && InventoryItemHasEffect(item, "Vibrating", true),
 	};
 }
@@ -3059,30 +3059,13 @@ class DialogMenu {
 	/** @type {ScreenFunctions["KeyDown"]} */
 	KeyDown(event) {
 		const grid = this.ids.grid ? document.getElementById(this.ids.grid) : null;
-		if (!grid || CommonKey.GetModifiers(event)) {
+		if (grid) {
+			return CommonKey.NavigationKeyDown(
+				grid, event,
+				(el) => el.querySelector(".dialog-button")?.clientHeight ?? el.clientHeight / 3,
+			);
+		} else {
 			return false;
-		}
-
-		const sign = (event.key === "PageUp" || event.key === "ArrowUp") ? -1 : 1;
-		switch (event.key) {
-			case "Home":
-				grid.scrollTop = 0;
-				return true;
-			case "End":
-				grid.scrollTop = grid.scrollHeight;
-				return true;
-			case "PageUp":
-			case "PageDown":
-				grid.scrollTop = CommonClamp(grid.scrollTop + sign * grid.clientHeight, 0, grid.scrollHeight);
-				return true;
-			case "ArrowUp":
-			case "ArrowDown": {
-				const increment = grid.querySelector(".dialog-button")?.clientHeight ?? grid.clientHeight / 3;
-				grid.scrollTop = CommonClamp(grid.scrollTop + sign * increment, 0, grid.scrollHeight);
-				return true;
-			}
-			default:
-				return false;
 		}
 	}
 
@@ -3229,8 +3212,6 @@ class DialogMenu {
 						classList: ["dialog-paginate-button"],
 						attributes: {
 							"aria-keyshortcuts": "PageUp",
-							"aria-labelledby": `${id}-prev-tooltip`,
-							"aria-describedby": undefined,
 							"aria-controls": this.ids.root,
 						},
 					}},
@@ -3243,8 +3224,6 @@ class DialogMenu {
 						classList: ["dialog-paginate-button"],
 						attributes: {
 							"aria-keyshortcuts": "PageDown",
-							"aria-labelledby": `${id}-next-tooltip`,
-							"aria-describedby": undefined,
 							"aria-controls": this.ids.root,
 						},
 					}},
@@ -3345,7 +3324,7 @@ class _DialogItemMenu extends DialogMenu {
 				{
 					tag: "div",
 					attributes: { id: ids.grid, "aria-labelledby": ids.status },
-					classList: ["dialog-grid"],
+					classList: ["dialog-grid", "scroll-box"],
 					// FIXME: Figure out how the let the listeners distinguish between mouse wheels and touch pads,
 					// as the latter really needs smooth scrolling behavior while the former needs instant
 					//
@@ -3545,7 +3524,7 @@ class _DialogLockingMenu extends DialogMenu {
 				{
 					tag: "div",
 					attributes: { id: ids.grid, "aria-labelledby": ids.status },
-					classList: ["dialog-grid"],
+					classList: ["dialog-grid", "scroll-box"],
 					// FIXME: Figure out how the let the listeners distinguish between mouse wheels and touch pads,
 					// as the latter really needs smooth scrolling behavior while the former needs instant
 					//
@@ -3653,7 +3632,7 @@ class _DialogPermissionMenu extends DialogMenu {
 				{
 					tag: "div",
 					attributes: { id: ids.grid, "aria-labelledby": ids.status },
-					classList: ["dialog-grid"],
+					classList: ["dialog-grid", "scroll-box"],
 					// FIXME: Figure out how the let the listeners distinguish between mouse wheels and touch pads,
 					// as the latter really needs smooth scrolling behavior while the former needs instant
 					//
@@ -3767,7 +3746,7 @@ class _DialogActivitiesMenu extends DialogMenu {
 				{
 					tag: "div",
 					attributes: { id: ids.grid, "aria-labelledby": ids.status },
-					classList: ["dialog-grid"],
+					classList: ["dialog-grid", "scroll-box"],
 					// FIXME: Figure out how the let the listeners distinguish between mouse wheels and touch pads,
 					// as the latter really needs smooth scrolling behavior while the former needs instant
 					//
@@ -3883,7 +3862,7 @@ class _DialogCraftedMenu extends DialogMenu {
 						{
 							tag: "div",
 							attributes: { id: ids.footer },
-							classList: [ids.info],
+							classList: [ids.info, "scroll-box"],
 							children: [
 								{ tag: "span", attributes: { id: ids.description } },
 							],

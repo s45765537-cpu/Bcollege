@@ -74,7 +74,6 @@
 	grid-template-rows: repeat(auto-fill, var(--button-height));
 	grid-template-columns: repeat(4, 1fr);
 	padding: 3px;
-	overflow: hidden auto;
 	padding-right: max(20px, 1.25 * var(--gap));
 	grid-area: dialog-grid;
 	scroll-snap-type: y proximity;
@@ -225,14 +224,13 @@
 }
 
 .dialog-crafted-info {
-	text-align: justify;
 	font: inherit;
 	overflow-wrap: break-word;
 	height: min-content;
 	width: 100%;
 	color: white;
 	user-select: none;
-	text-indent: 1em each-line;
+	text-indent: 1em hanging each-line;
 }
 
 #dialog-crafted-name {

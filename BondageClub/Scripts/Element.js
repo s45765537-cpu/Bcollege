@@ -756,7 +756,7 @@ var ElementCheckboxDropdown = {
 			tag: "div",
 			attributes: { id, ["screen-generated"]: CurrentScreen },
 			parent: options?.parent ?? document.body,
-			classList: ["HideOnPopup", "dropdown"],
+			classList: ["HideOnPopup", "dropdown", "scroll-box"],
 			style: { display: "none" },
 			children: checkboxList.map((o) => this._CreateCheckboxPair(id, o, o, eventListener, options?.checked)),
 		});
@@ -777,7 +777,7 @@ var ElementCheckboxDropdown = {
 			tag: "div",
 			attributes: { id, ["screen-generated"]: CurrentScreen },
 			parent: options?.parent ?? document.body,
-			classList: ["HideOnPopup", "dropdown"],
+			classList: ["HideOnPopup", "dropdown", "scroll-box"],
 			style: { display: "none" },
 			children: Object.entries(checkboxRecord).flatMap(([header, checkboxList]) => {
 				return [
@@ -1279,13 +1279,27 @@ var ElementButton = {
 		protoTooltip.push(...(tooltipOptions.children ?? []));
 		const tooltip = this._ParseTooltip(id, options.tooltipPosition, protoTooltip, tooltipOptions);
 
+		/** @type {null | "aria-labelledby" | "aria-describedby"} */
+		let tooltipRoleAttribute = null;
+		switch (options.tooltipRole ?? null) {
+			case "label":
+				tooltipRoleAttribute = "aria-labelledby";
+				break;
+			case "description":
+				tooltipRoleAttribute = "aria-describedby";
+				break;
+			case null:
+				tooltipRoleAttribute = (label ? "aria-describedby" : "aria-labelledby");
+				break;
+		}
+
 		elem = ElementCreate({
 			...buttonOptions,
 			tag: "button",
 			attributes: {
 				id,
 				name: id,
-				"aria-describedby": `${id}-tooltip`,
+				[tooltipRoleAttribute]: tooltipRoleAttribute ? `${id}-tooltip` : undefined,
 				"screen-generated": CurrentScreen,
 				role: options.role,
 				...(buttonOptions.attributes ?? {}),
