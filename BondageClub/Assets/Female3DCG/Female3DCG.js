@@ -17320,7 +17320,7 @@ var AssetFemale3DCG = [
 		Asset: [
 			{
 				Name: "FaceWritings", // This asset is free to edit and upgrade by anyone under conditions: 1. Asset stays avaiable for all body types/genders unless it would make no sense otherwise; 2. No features will be removed from the asset without permission;
-				InventoryID: 1202,
+				InventoryID: 184,
 				Priority: 9,
 				Value: 20,
 				BuyGroup: "BodyWritings",
