@@ -11418,7 +11418,7 @@ var AssetFemale3DCG = [
 						},
 						AllowTypes: { m: 1 },
 						AllowColorize: true,
-						ColorGroup: "Straps"
+						ColorGroup: "Straps",
 					},
 					{
 						Name: "Strap2",
@@ -11430,7 +11430,7 @@ var AssetFemale3DCG = [
 						},
 						AllowTypes: { n: 1 },
 						AllowColorize: true,
-						ColorGroup: "Straps"
+						ColorGroup: "Straps",
 					},
 					{
 						Name: "Strap3",
@@ -11442,7 +11442,7 @@ var AssetFemale3DCG = [
 						},
 						AllowTypes: { o: 1 },
 						AllowColorize: true,
-						ColorGroup: "Straps"
+						ColorGroup: "Straps",
 					},
 					{
 						Name: "MainHog",
