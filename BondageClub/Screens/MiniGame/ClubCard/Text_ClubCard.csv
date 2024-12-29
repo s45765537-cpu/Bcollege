@@ -516,4 +516,4 @@ Text Con Artist,"When you take the draw action, steal 1 Fame. If no Police are i
 Title Inspector,Inspector 
 Text Inspector,Increase the cost for players to upgrade to House or higher by 10. 
 Title Troublemaker,Troublemaker
-text Troublemaker,Opponent loses 3 fame each time they upgrade unless they have a bouncer.
+Text Troublemaker,Opponent loses 3 fame each time they upgrade unless they have a bouncer.
