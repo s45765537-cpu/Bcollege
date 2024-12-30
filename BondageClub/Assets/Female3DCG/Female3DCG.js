@@ -47436,17 +47436,56 @@ var AssetFemale3DCG = [
 						Name: "PanelHead",
 						AllowTypes: { x: 0 },
 						ColorGroup: "Panels",
+						HideForAttribute: ["NoEars", "SmallEars"],
 					},
 					{
 						Name: "PanelHeadTransparent",
 						AllowTypes: { x: 1 },
 						CopyLayerColor: "PanelHead",
+						HideForAttribute: ["NoEars", "SmallEars"],
 					},
 					{
 						Name: "PanelHeadHighlight",
 						HideColoring: false,
+						HideForAttribute: ["NoEars", "SmallEars"],
 						ColorGroup: "Shine",
 					}, // master colour for highlighting
+					{
+						Name: "PanelHeadS",
+						AllowTypes: { x: 0 },
+						CopyLayerColor: "PanelHead",
+						ShowForAttribute: ["SmallEars"],
+					},
+					{
+						Name: "PanelHeadTransparentS",
+						AllowTypes: { x: 1 },
+						CopyLayerColor: "PanelHead",
+						ShowForAttribute: ["SmallEars"],
+					},
+					{
+						Name: "PanelHeadHighlightS",
+						HideColoring: false,
+						CopyLayerColor: "PanelHeadHighlight",
+						ShowForAttribute: ["SmallEars"],
+					},
+					{
+						Name: "PanelHeadN",
+						AllowTypes: { x: 0 },
+						CopyLayerColor: "PanelHead",
+						ShowForAttribute: ["NoEars"],
+					},
+					{
+						Name: "PanelHeadTransparentN",
+						AllowTypes: { x: 1 },
+						CopyLayerColor: "PanelHead",
+						ShowForAttribute: ["NoEars"],
+					},
+					{
+						Name: "PanelHeadHighlightN",
+						HideColoring: false,
+						CopyLayerColor: "PanelHeadHighlight",
+						ShowForAttribute: ["NoEars"],
+					},
 
 					// Eye Panel Parts
 					{
