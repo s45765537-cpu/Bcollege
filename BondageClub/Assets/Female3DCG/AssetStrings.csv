@@ -5908,3 +5908,34 @@ ItemHoodBalloonExtreme,Breathplay condition
 ItemHoodBalloonSetLoose,SourceCharacter fills the DestinationCharacterName balloon with air.
 ItemHoodBalloonSetTight,SourceCharacter empties the DestinationCharacterName balloon a little.
 ItemHoodBalloonSetExtreme,SourceCharacter empties completely the DestinationCharacterName balloon.
+ItemArmsInflatableDressSelectBase,Inflatable dress main menu:
+ItemArmsInflatableDressModuleHood,Hood addition
+ItemArmsInflatableDressSelectHood,Hood menu
+ItemArmsInflatableDressOptionh0,No hood
+ItemArmsInflatableDressOption1,Hood equipped
+ItemArmsInflatableDressModuleBed,Bed bondage
+ItemArmsInflatableDressSelectBed,Bed bondage menu
+ItemArmsInflatableDressOptionb0,Just lying in bed
+ItemArmsInflatableDressOptionb1,Tied in bed with ropes
+ItemArmsInflatableDressSeth0,SourceCharacter removes the Inflatable Dress hood from DestinationCharacterName head.
+ItemArmsInflatableDressSeth1,SourceCharacter puts the Inflatable Dress hood on DestinationCharacterName head.
+ItemArmsInflatableDressSetb0,SourceCharacter removes bondage stuff from DestinationCharacterName Inflatable Dress and bed.
+ItemArmsInflatableDressSetb1,SourceCharacter ties DestinationCharacterName Inflatable Dress in the bed.
+ItemHoodKigu2HoodSelect,Lenses type menu:
+ItemHoodKigu2HoodNone,Transparent
+ItemHoodKigu2HoodThin,Light tint
+ItemHoodKigu2HoodThick,Dark tint
+ItemHoodKigu2HoodOpaque,Opaque
+ItemHoodKigu2HoodSetNone,SourceCharacter changes the DestinationCharacter Rubber Kigurumi current lenses to a transparent pair.
+ItemHoodKigu2HoodSetThin,SourceCharacter changes the DestinationCharacter Rubber Kigurumi current lenses to a light tint pair.
+ItemHoodKigu2HoodSetThick,SourceCharacter changes the DestinationCharacter Rubber Kigurumi current lenses to a dark tint pair.
+ItemHoodKigu2HoodSetOpaque,SourceCharacter changes the DestinationCharacter Rubber Kigurumi current lenses to a pair of opaque panels.
+ItemHeadKigu2HoodSelect,Lenses type menu:
+ItemHeadKigu2HoodNone,Transparent
+ItemHeadKigu2HoodThin,Light tint
+ItemHeadKigu2HoodThick,Dark tint
+ItemHeadKigu2HoodOpaque,Opaque
+ItemHeadKigu2HoodSetNone,SourceCharacter changes the DestinationCharacter Rubber Kigurumi current lenses to a transparent pair.
+ItemHeadKigu2HoodSetThin,SourceCharacter changes the DestinationCharacter Rubber Kigurumi current lenses to a light tint pair.
+ItemHeadKigu2HoodSetThick,SourceCharacter changes the DestinationCharacter Rubber Kigurumi current lenses to a dark tint pair.
+ItemHeadKigu2HoodSetOpaque,SourceCharacter changes the DestinationCharacter Rubber Kigurumi current lenses to a pair of opaque panels.

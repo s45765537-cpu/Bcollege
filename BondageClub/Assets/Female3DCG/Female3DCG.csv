@@ -154,6 +154,7 @@ Cloth,MaleTankTop1,Male Cloth Tank-Top
 Cloth,MistressTop,Mistress Top
 Cloth,NurseUniform,Nurse Uniform
 Cloth,RetroGirdle,Retro Girdle Dress
+Cloth,RibbonCorset,Ribbon Corset
 Cloth,Robe1,Robe
 Cloth,SeethroughTop,See-through Top
 Cloth,ShoulderlessTop,Shoulderless Top
@@ -710,6 +711,7 @@ ItemArms,HeavyYoke,Heavy Yoke
 ItemArms,HempRope,Hemp Rope
 ItemArms,HighSecurityStraitJacket,High Security Straitjacket
 ItemArms,HighStyleSteelCuffs,HighStyle Steel Cuffs
+ItemArms,InflatableDress,Inflatable Dress
 ItemArms,InflatableStraightLeotard,Inflatable Strait Leotard
 ItemArms,LatexArmbinder,Latex Armbinder
 ItemArms,LatexBoxtieLeotard,Latex Boxtie Leotard
@@ -1084,6 +1086,7 @@ ItemHood,HarnessCatMask,Cat Mask Harness
 ItemHood,HeadboxSeethrough,One-Way Glass Head Box
 ItemHood,InflatableGagMask,Inflatable Gag Mask
 ItemHood,InflatedBallHood,Inflatable Hood
+ItemHood,Kigu2Hood,Rubber Kigurumi
 ItemHood,KirugumiMask,Kigurumi Mask
 ItemHood,KittyHood,Kitty Hood
 ItemHood,LampHeadHood,Lampshade Hood
@@ -1659,6 +1662,7 @@ Shoes,TallerBoots,Combo Boots
 Shoes,ThighBoots, Latex ThighBoots
 Shoes,ThighHighLatexHeels,Latex Heels
 Shoes,WesternBoots,Western Boots
+Shoes,WitchShoes,Witch Shoes
 Shoes,WoollyBootsTall,Woolly Boots
 Socks,,Socks
 Socks,CowPrintedSocks,Cow Printed Socks

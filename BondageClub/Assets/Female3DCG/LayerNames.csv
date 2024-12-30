@@ -115,6 +115,9 @@ ClothLatexHobbleDressBelt,Lower Belts
 ClothLatexHobbleDressBBuckles,Lower Belt Buckles
 ClothLatexHobbleDressCollar,Collar
 ClothLatexHobbleDressCBuckle,Colar Buckle
+ClothRibbonCorsetCorset,Corset
+ClothRibbonCorsetRivets,Rivets
+ClothRibbonCorsetRibbon,Ribbon
 ClothYuletideVelvetWarmthBow,Bow
 ClothYuletideVelvetWarmthShawl,Shawl
 ClothYuletideVelvetWarmthShawlFur,Shawl Fur
@@ -641,6 +644,11 @@ ItemArmsHighSecurityStraitJacketJacketLoose,Jacket
 ItemArmsHighSecurityStraitJacketStrapsLoose,Jacket
 ItemArmsHighStyleSteelCuffsCuffs,Cuffs
 ItemArmsHighStyleSteelCuffsPanel,Panel
+ItemArmsInflatableDressTop,Dress
+ItemArmsInflatableDressHood,Hood
+ItemArmsInflatableDressCollar,Collar
+ItemArmsInflatableDressBedTop,Eyelets
+ItemArmsInflatableDressBTopRope,Ropes
 ItemArmsLatexArmbinderBuckle1,Buckle
 ItemArmsLatexArmbinderBuckle2,Buckle
 ItemArmsLatexArmbinderHole1,Buckle Hole
@@ -1199,6 +1207,11 @@ ItemHoodHeadboxSeethroughGlassInside,Inside
 ItemHoodInflatableGagMaskBase,Hood
 ItemHoodInflatableGagMaskLens,Lenses
 ItemHoodInflatableGagMaskMetal,Metal
+ItemHoodKigu2HoodMain,Face
+ItemHoodKigu2HoodLenses,Lenses
+ItemHoodKigu2HoodHair,Hair
+ItemHoodKigu2HoodHairband,Hairband
+ItemHoodKigu2HoodLips,Lips
 ItemHoodKirugumiMaskBlush1,Blush
 ItemHoodKirugumiMaskEyes1,Eyes
 ItemHoodKirugumiMaskMask,Face
@@ -2387,6 +2400,10 @@ ShoesTallerBootsMetal,Chains Details
 ShoesThighBootsBand, Band
 ShoesThighBootsBase, Boot
 ShoesThighBootsThigh, Sock
+ShoesWitchShoesShoes,Main
+ShoesWitchShoesToes,Front detail
+ShoesWitchShoesBelt,Straps
+ShoesWitchShoesBuckle,Buckles
 SocksGradientPantyhoseLower,Lower
 SocksGradientPantyhoseUpper,Upper
 SocksHaremStockingsBands,Bands
