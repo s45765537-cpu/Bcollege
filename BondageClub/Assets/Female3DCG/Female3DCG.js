@@ -1375,7 +1375,7 @@ var AssetFemale3DCG = [
 				Prerequisite: ["HasBreasts"],
 				Fetish: ["Lingerie"],
 				Value: 20,
-				DefaultColor: ["#28252F"],
+				DefaultColor: ["#1C1A21"],
 				HideItem: [
 					"ItemNipplesPiercingsRoundPiercing",
 					"ItemNipplesPiercingsNecklacePiercingChain",
