@@ -802,8 +802,19 @@ function DialogLeave() {
 	// Reset the mode, selected group & character, exiting the dialog
 	DialogMenuMode = null;
 	Object.values(DialogMenuMapping).forEach(obj => obj.Exit());
-	if (CurrentCharacter) {
-		DialogChangeFocusToGroup(CurrentCharacter, null);
+
+	// Stop sounds & expressions from struggling/swapping items
+	AudioDialogStop();
+
+	// Stop any strugling minigame
+	if (StruggleMinigameIsRunning()) {
+		StruggleMinigameStop();
+	}
+
+	// If we're in the two-character dialog, clear their focused group
+	Player.FocusGroup = null;
+	if (CurrentCharacter && !CurrentCharacter.IsPlayer()) {
+		CurrentCharacter.FocusGroup = null;
 	}
 	CurrentCharacter = null;
 
