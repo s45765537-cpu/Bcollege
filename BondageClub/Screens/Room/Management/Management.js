@@ -912,13 +912,15 @@ function ManagementMainHall() {
  * Runs an activity with a random club slave. (Reputation is only added for the first 3 activities)
  * @param {string} ActivityType - The type of the club slave activity performed.
  * @param {number} RepChange - Amount of dominant reputation to gain or lose.
+ * @param {Character} C
+ * @param {HTMLButtonElement} button
  * @returns {void} - Nothing.
  */
-function ManagementClubSlaveActiviy(ActivityType, RepChange) {
+function ManagementClubSlaveActiviy(ActivityType, RepChange, C, button) {
 	if (ActivityType == "Talk") {
 		ManagementRandomTalkCount++;
 		ReputationProgress("Dominant", RepChange);
-		DialogRemove();
+		DialogRemove(C, button);
 	} else {
 		ManagementRandomActivityCount++;
 		if (ManagementRandomActivityCount <= 3) ReputationProgress("Dominant", RepChange);

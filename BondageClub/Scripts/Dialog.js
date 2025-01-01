@@ -575,26 +575,27 @@ function DialogGGTSInteraction(Interaction) {
 
 /**
  * Checks the prerequisite for a given dialog
- * @param {number} D - Index of the dialog to check
+ * @param {DialogLine} dialog - The dialog to check
+ * @param {Character} C - The target character in question
  * @returns {boolean} - Returns true, if the prerequisite is met, false otherwise
  */
-function DialogPrerequisite(D) {
-	if (CurrentCharacter.Dialog[D].Prerequisite == null)
+function DialogPrerequisite(dialog, C) {
+	if (dialog.Prerequisite == null)
 		return true;
-	else if (CurrentCharacter.Dialog[D].Prerequisite.indexOf("Player.") == 0)
-		return Player[CurrentCharacter.Dialog[D].Prerequisite.substring(7, 250).replace("()", "").trim()]();
-	else if (CurrentCharacter.Dialog[D].Prerequisite.indexOf("!Player.") == 0)
-		return !Player[CurrentCharacter.Dialog[D].Prerequisite.substring(8, 250).replace("()", "").trim()]();
-	else if (CurrentCharacter.Dialog[D].Prerequisite.indexOf("CurrentCharacter.") == 0)
-		return CurrentCharacter[CurrentCharacter.Dialog[D].Prerequisite.substring(17, 250).replace("()", "").trim()]();
-	else if (CurrentCharacter.Dialog[D].Prerequisite.indexOf("!CurrentCharacter.") == 0)
-		return !CurrentCharacter[CurrentCharacter.Dialog[D].Prerequisite.substring(18, 250).replace("()", "").trim()]();
-	else if (CurrentCharacter.Dialog[D].Prerequisite.indexOf("(") >= 0)
-		return CommonDynamicFunctionParams(CurrentCharacter.Dialog[D].Prerequisite);
-	else if (CurrentCharacter.Dialog[D].Prerequisite.substring(0, 1) != "!")
-		return !!window[CurrentScreen + CurrentCharacter.Dialog[D].Prerequisite.trim()];
+	else if (dialog.Prerequisite.indexOf("Player.") == 0)
+		return Player[dialog.Prerequisite.substring(7, 250).replace("()", "").trim()]();
+	else if (dialog.Prerequisite.indexOf("!Player.") == 0)
+		return !Player[dialog.Prerequisite.substring(8, 250).replace("()", "").trim()]();
+	else if (dialog.Prerequisite.indexOf("CurrentCharacter.") == 0)
+		return CurrentCharacter[dialog.Prerequisite.substring(17, 250).replace("()", "").trim()]();
+	else if (dialog.Prerequisite.indexOf("!CurrentCharacter.") == 0)
+		return !CurrentCharacter[dialog.Prerequisite.substring(18, 250).replace("()", "").trim()]();
+	else if (dialog.Prerequisite.indexOf("(") >= 0)
+		return CommonDynamicFunctionParams(dialog.Prerequisite, C);
+	else if (dialog.Prerequisite.substring(0, 1) != "!")
+		return !!window[CurrentScreen + dialog.Prerequisite.trim()];
 	else
-		return !window[CurrentScreen + CurrentCharacter.Dialog[D].Prerequisite.substr(1, 250).trim()];
+		return !window[CurrentScreen + dialog.Prerequisite.substr(1, 250).trim()];
 }
 
 
@@ -783,16 +784,14 @@ function DialogAllowItemScreenException() {
 }
 
 /**
- * Returns the current character dialog intro
+ * Returns the character's dialog intro
+ * @param {Character} C - The target character in question
  * @returns {string} - The name of the current dialog, if such a dialog exists, any empty string otherwise
  */
-function DialogIntro() {
-	for (let D = 0; D < CurrentCharacter.Dialog.length; D++)
-		if ((CurrentCharacter.Dialog[D].Stage == CurrentCharacter.Stage) && (CurrentCharacter.Dialog[D].Option == null) && (CurrentCharacter.Dialog[D].Result != null) && DialogPrerequisite(D))
-			return CurrentCharacter.Dialog[D].Result;
-	return "";
+function DialogIntro(C) {
+	const dialog = C.Dialog.find(d => d.Stage == C.Stage && d.Option == null && d.Result != null && DialogPrerequisite(d, C));
+	return dialog?.Result ?? "";
 }
-
 
 /**
  * Generic dialog function to leave conversation. De-inititalizes global variables and reverts the
@@ -840,18 +839,16 @@ function DialogLeave() {
 
 /**
  * Generic dialog function to remove a piece of the conversation that's already done
+ * @param {Character} C - The target character in question
+ * @param {HTMLButtonElement} button - The button associated with the to-be removed conversation piece
  * @returns {void} - Nothing
  */
-function DialogRemove() {
-	var pos = 0;
-	for (let D = 0; D < CurrentCharacter.Dialog.length; D++)
-		if ((CurrentCharacter.Dialog[D].Stage == CurrentCharacter.Stage) && (CurrentCharacter.Dialog[D].Option != null) && DialogPrerequisite(D)) {
-			if (MouseIn(1025, 160 + pos * 105, 950, 90)) {
-				CurrentCharacter.Dialog.splice(D, 1);
-				break;
-			}
-			pos++;
-		}
+function DialogRemove(C, button) {
+	button.remove();
+	const dialogIndex = C.Dialog.findIndex(dialog => dialog.Stage === C.Stage && dialog.Option != null && DialogPrerequisite(dialog, C));
+	if (dialogIndex !== -1) {
+		C.Dialog.splice(dialogIndex, 1);
+	}
 }
 
 /**
@@ -860,6 +857,7 @@ function DialogRemove() {
  * @returns {void} - Nothing
  */
 function DialogRemoveGroup(GroupName) {
+	document.querySelectorAll(`.dialog-dialog-button[data-group="${GroupName}" i]`).forEach(e => e.remove());
 	const GroupNameUpper = GroupName.trim().toUpperCase();
 	for (let D = CurrentCharacter.Dialog.length - 1; D >= 0; D--)
 		if ((CurrentCharacter.Dialog[D].Group != null) && (CurrentCharacter.Dialog[D].Group.trim().toUpperCase() == GroupNameUpper)) {
@@ -2357,7 +2355,7 @@ function DialogClick(event) {
 	if (DialogMenuButtonClick()) return;
 
 	// User clicked on the interacted character or herself, check if we need to update the menu
-	if (MouseIn(0, 0, 1000, 1000) && (CurrentCharacter.AllowItem || (MouseX < 500)) && (!CurrentCharacter.IsPlayer() || (MouseX > 500)) && (DialogIntro() != "") && DialogAllowItemScreenException()) {
+	if (MouseIn(0, 0, 1000, 1000) && (CurrentCharacter.AllowItem || (MouseX < 500)) && (!CurrentCharacter.IsPlayer() || (MouseX > 500)) && DialogIntro(Player) && DialogAllowItemScreenException()) {
 		C = (MouseX < 500) ? Player : CurrentCharacter;
 		let X = MouseX < 500 ? 0 : 500;
 		for (const Group of AssetGroup) {
@@ -2407,7 +2405,7 @@ function DialogClick(event) {
 	}
 
 	// Block out clicking on anything else if we're not supposed to interact with the selected character
-	if (C.FocusGroup === null || !C.AllowItem || DialogIntro() === "") return;
+	if (C.FocusGroup === null || !C.AllowItem || DialogIntro(C) === "") return;
 
 	/** The item currently sitting in the focused group */
 	const FocusItem = InventoryGet(C, C.FocusGroup.Name);
@@ -4116,7 +4114,7 @@ function DialogLoad() {
 	}
 	const C = CurrentCharacter;
 
-	const newDialog = !Player.CanTalk() ? DialogFind(C, "PlayerGagged", "") : DialogIntro();
+	const newDialog = !Player.CanTalk() ? DialogFind(C, "PlayerGagged", "") : DialogIntro(C);
 	if (newDialog) {
 		C.CurrentDialog = newDialog;
 	}
