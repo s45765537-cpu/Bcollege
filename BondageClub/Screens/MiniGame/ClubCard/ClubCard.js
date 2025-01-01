@@ -2393,16 +2393,31 @@ function ClubCardCheckDisconnected(disconnectedMemberNumber) {
  * A function that is called after the player has accepted a hidden message to cancel the selected slot.
  */
 function ClubCardCancelSlots() {
-	Player.Game.ClubCard.PlayerSlot = 0;
-	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
-	ChatRoomCharacterUpdate(Player);
+	if (Player.Game.ClubCard.PlayerSlot != 0) {		
+		Player.Game.ClubCard.PlayerSlot = 0;
+		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+		ChatRoomCharacterUpdate(Player);
+	}
 }
 
 /**
  * The function sends a hidden message requesting players to cancel the selected slot.
  */
 function ClubCardSendRequestCancelSlot() {
-	ServerSend("ChatRoomChat", { Content: "ClubCardCancelSlots", Type: "Hidden"});
+	const isSelectedSlots = ChatRoomCharacter.some(
+		(character) => character.Game?.ClubCard?.PlayerSlot !== 0
+	);
+
+	if (isSelectedSlots) {		
+		//Hiden Message
+		ServerSend("ChatRoomChat", { Content: "ClubCardCancelSlots", Type: "Hidden" });
+	
+		//send message from admin
+		const Dictionary = new DictionaryBuilder().sourceCharacter(Player).build();
+		Dictionary.push({Tag: "SourceCharacter", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber});
+		ServerSend("ChatRoomChat", { Content: "ClubCardAdminSetAllPlayersSlot0", Type: "Action" , Dictionary: Dictionary});	
+	}
+
 }
 
 //########################################
@@ -4687,7 +4702,7 @@ function ClubCardClick() {
 
 	//Play Card
 	if (MouseIn(1725, 300, 250, 60) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") && ClubCardCanPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) return ClubCardStartTurn(ClubCardStartTurnType.PLAYCARD);
-	// Hm ???
+	// Click on an empty space to reset the focus of the selected Card.
 	if (MouseIn(1700, 0, 300, 600) && (ClubCardFocus != null)) return ClubCardFocus = null;
 	// Draw card and end turn
 	if (MouseIn(1705, 905, 90, 90) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")) return ClubCardStartTurn(ClubCardStartTurnType.DRAWENDTURN);
