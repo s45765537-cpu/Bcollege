@@ -32,7 +32,7 @@ function GameClubCardSetStatus(NewStatus) {
 	if (ForceUpdate || (NewStatus !== Player.Game.ClubCard.Status)) {
 		Player.Game.ClubCard.Status = NewStatus;
 		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
-	}
+			}
 
 }
 
@@ -207,7 +207,7 @@ function GameClubCardCanUnselectSlots() {
 }
 
 /**
- * If the player is an administrator and the game is not running.
+ *  Checks there's 1 player in slot 1 and slot 2 so we can start the game.
  * @returns {boolean} - Returns TRUE if the game can be launched
  */
 function GameClubCardCanLaunchGame() {
