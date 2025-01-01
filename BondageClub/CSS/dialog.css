@@ -63,6 +63,7 @@
 	justify-self: center;
 	overflow: hidden;
 	grid-area: dialog-status;
+	line-height: 1.2em;
 }
 
 .dialog-grid {
@@ -259,6 +260,33 @@
 	display: block;
 	max-width: calc(100% - max(20px, 1.25 * var(--gap)));
 	padding-right: unset;
+}
+
+#dialog-dialog-grid {
+	display: block;
+	height: minmax(auto, min-content);
+}
+
+#dialog-dialog-status {
+	min-height: 2.4em;
+}
+
+.dialog-dialog-button {
+	width: 100%;
+	min-height: var(--menu-button-size);
+	height: min-content;
+	padding-top: 0.2em;
+	padding-bottom: 0.2em;
+	margin-block: calc(var(--gap) / 2);
+}
+
+.dialog-dialog-button[data-unload] {
+	display: none;
+}
+
+.dialog-dialog-button > .button-label {
+	position: unset;
+	padding-inline: 0.2em 0.2em;
 }
 
 @supports(height: 100dvh) {

@@ -844,7 +844,7 @@ function DialogLeave() {
  * @returns {void} - Nothing
  */
 function DialogRemove(C, button) {
-	button.remove();
+	button.toggleAttribute("data-unload", true);
 	const dialogIndex = C.Dialog.findIndex(dialog => dialog.Stage === C.Stage && dialog.Option != null && DialogPrerequisite(dialog, C));
 	if (dialogIndex !== -1) {
 		C.Dialog.splice(dialogIndex, 1);
@@ -857,7 +857,7 @@ function DialogRemove(C, button) {
  * @returns {void} - Nothing
  */
 function DialogRemoveGroup(GroupName) {
-	document.querySelectorAll(`.dialog-dialog-button[data-group="${GroupName}" i]`).forEach(e => e.remove());
+	document.querySelectorAll(`.dialog-dialog-button[data-group="${GroupName}" i]`).forEach(e => e.toggleAttribute("data-unload", true));
 	const GroupNameUpper = GroupName.trim().toUpperCase();
 	for (let D = CurrentCharacter.Dialog.length - 1; D >= 0; D--)
 		if ((CurrentCharacter.Dialog[D].Group != null) && (CurrentCharacter.Dialog[D].Group.trim().toUpperCase() == GroupNameUpper)) {
@@ -2238,17 +2238,18 @@ function DialogChangeMode(mode, reset=false) {
 			break;
 		}
 
+		case "dialog":
+			if (C) {
+				DialogMenuMapping[DialogMenuMode].Init(C, null);
+			}
+			break;
+
 		case "colorItem":
 		case "colorDefault":
 		case "colorExpression":
 			DialogInventoryBuild(C, modeChange);
 			DialogMenuButtonBuild(C);
 			DialogBuildActivities(C);
-			break;
-
-		case "dialog":
-			DialogInventory = [];
-			DialogMenuButton = [];
 			break;
 
 		case "extended":
@@ -2371,37 +2372,6 @@ function DialogClick(event) {
 	// If the user clicked in the facial expression menu
 	if (MouseXIn(0, 500) && CurrentCharacter != null) {
 		DialogSelfMenuClick(CurrentCharacter);
-	}
-
-	if (DialogMenuMode === "dialog") {
-		// If we need to leave the dialog (only allowed when there's an entry point to the dialog, not in the middle of a conversation)
-		if (MouseIn(1885, 25, 90, 90) && DialogIntro() != "" && DialogIntro() != "NOEXIT")
-			DialogMenuBack();
-
-		// If the user clicked on a text dialog option, we trigger it
-		if (MouseIn(1025, 100, 950, 890) && CurrentCharacter != null) {
-			let optionID = 0;
-			for (let D = 0; D < CurrentCharacter.Dialog.length; D++) {
-				if ((CurrentCharacter.Dialog[D].Stage == CurrentCharacter.Stage) && (CurrentCharacter.Dialog[D].Option != null) && DialogPrerequisite(D)) {
-					if (MouseIn(1025, 160 + optionID * 105, 950, 90)) {
-						// If the player is gagged, the answer will always be the same
-						if (!Player.CanTalk()) CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, "PlayerGagged");
-						else CurrentCharacter.CurrentDialog = CurrentCharacter.Dialog[D].Result;
-
-						// A dialog option can change the conversation stage, show text or launch a custom function
-						if ((Player.CanTalk() && CurrentCharacter.CanTalk()) || SpeechFullEmote(CurrentCharacter.Dialog[D].Option)) {
-							CurrentCharacter.CurrentDialog = CurrentCharacter.Dialog[D].Result;
-							if (CurrentCharacter.Dialog[D].NextStage != null) CurrentCharacter.Stage = CurrentCharacter.Dialog[D].NextStage;
-							if (CurrentCharacter.Dialog[D].Function != null) CommonDynamicFunctionParams(CurrentCharacter.Dialog[D].Function);
-						} else if ((CurrentCharacter.Dialog[D].Function != null) && (CurrentCharacter.Dialog[D].Function.trim() == "DialogLeave()"))
-							DialogLeave();
-						break;
-					}
-					optionID++;
-				}
-			}
-		}
-		return;
 	}
 
 	// Block out clicking on anything else if we're not supposed to interact with the selected character
@@ -2864,8 +2834,8 @@ class DialogMenu {
 	 *
 	 * Performs a hard {@link DialogMenu.Reload} if a new focus group is assigned.
 	 */
-	get focusGroup() { return null; };
-	set focusGroup(value) { return; };
+	get focusGroup() { return null; }
+	set focusGroup(value) { return; }
 
 	/**
 	 * Promise object for queuing reloads, ensuring that they are run consecutively rather than concurrently if multiple calls are invoked (near) simultenously.
@@ -3359,7 +3329,7 @@ class _DialogFocusMenu extends DialogMenu {
 					return null;
 				}
 			},
-		}
+		};
 	}
 
 	/** @type {DialogMenu["Init"]} */
@@ -4086,10 +4056,127 @@ class _DialogCraftedMenu extends _DialogFocusMenu {
 	_ClickButton(button, C, clickedObj, equippedItem) { /** noop */ }
 }
 
+/**
+ * @template {string} T
+ * @extends {DialogMenu<T, DialogLine, null>}
+ */
+class _DialogDialogMenu extends DialogMenu {
+	ids = Object.freeze({
+		root: "dialog-dialog",
+		status: "dialog-dialog-status",
+		grid: "dialog-dialog-grid",
+	});
+
+	/** @type {DialogMenu<string, DialogLine>["clickStatusCallbacks"]} */
+	clickStatusCallbacks = {};
+
+	/** @type {DialogMenu["Draw"]} */
+	Draw() {
+		switch (DialogIntro(this.C)) {
+			case "":
+			case "NOEXIT":
+				break;
+			default:
+				DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
+				break;
+		}
+
+		NPCInteraction();
+	}
+
+	Click() {
+		// TODO: switch to DOM element
+		// If we need to leave the dialog (only allowed when there's an entry point to the dialog, not in the middle of a conversation)
+		if (MouseIn(1885, 25, 90, 90) && DialogIntro(this.C) != "" && DialogIntro(this.C) != "NOEXIT"){
+			DialogMenuBack();
+		}
+	}
+
+	_Load() {
+		const ids = this.ids;
+		return document.getElementById(ids.root) ?? ElementCreate({
+			tag: "div",
+			children: [
+				{
+					tag: "span",
+					attributes: { id: ids.status, "aria-hidden": "true" },
+					classList: ["dialog-status"],
+				},
+				{
+					tag: "div",
+					attributes: { id: ids.grid, "aria-labelledby": ids.status },
+					classList: ["dialog-grid", "scroll-box"],
+				},
+			],
+		});
+	}
+
+	/** @type {DialogMenu["_ReloadStatus"]} */
+	_ReloadStatus(root, span, options) {
+		const textContent = options.status ?? SpeechTransformDialog(this.C, this.C.CurrentDialog);
+		DialogSetStatus(textContent, options.statusTimer ?? 0);
+	}
+
+	/** @type {DialogMenu["_ReloadButtonGrid"]} */
+	_ReloadButtonGrid(root, buttonGrid, options) {
+		if (options.reset) {
+			buttonGrid.replaceChildren();
+			buttonGrid.append(
+				...this.C.Dialog.map((dialog, i) => ElementButton.Create(
+					`dialog-dialog-${i}`,
+					this.eventListeners._ClickButton,
+					{ label: SpeechTransformDialog(Player, dialog.Option), labelPosition: "center" },
+					{ button: {
+						attributes: { "screen-generated": undefined },
+						dataAttributes: { index: i, group: dialog.Group },
+						classList: ["dialog-grid-button", "dialog-dialog-button"],
+					}},
+				)),
+			);
+		}
+
+		for (const [i, dialog] of this.C.Dialog.entries()) {
+			const unload = !(dialog.Stage === this.C.Stage && dialog.Option != null && DialogPrerequisite(dialog, this.C));
+			buttonGrid.children[i]?.toggleAttribute("data-unload", unload);
+		}
+	}
+
+	/** @type {DialogMenu["_ReloadIcon"]} */
+	_ReloadIcon(root, icon, options) { /** noop */ }
+
+	/** @type {DialogMenu<string, DialogLine>["_GetClickedObject"]} */
+	_GetClickedObject(button) {
+		const index = Number.parseInt(button.getAttribute("data-index"), 10);
+		return this.C.Dialog[index] ?? null;
+	}
+
+	/** @type {DialogMenu<string, DialogLine>["_ClickButton"]} */
+	_ClickButton(button, C, clickedDialog) {
+		// If the player is gagged, the answer will always be the same
+		C.CurrentDialog = Player.CanTalk() ? clickedDialog.Result : DialogFind(C, "PlayerGagged");
+
+		// A dialog option can change the conversation stage, show text or launch a custom function
+		if ((Player.CanTalk() && C.CanTalk()) || SpeechFullEmote(clickedDialog.Option)) {
+			C.CurrentDialog = clickedDialog.Result;
+			if (clickedDialog.NextStage != null) {
+				C.Stage = clickedDialog.NextStage;
+				console.log(clickedDialog);
+				this.Reload();
+			}
+			if (typeof clickedDialog.Function === "string") {
+				CommonDynamicFunctionParams(clickedDialog.Function, C, button);
+			}
+		} else if (clickedDialog.Function?.trim() === "DialogLeave()") {
+			DialogLeave();
+		}
+	}
+}
+
 /** @satisfies {Partial<Record<DialogMenuMode, DialogMenu<DialogMenuMode>>>} */
 var DialogMenuMapping = /** @type {const} */({
 	activities: new _DialogActivitiesMenu("activities"),
 	crafted: new _DialogCraftedMenu("crafted"),
+	dialog: new _DialogDialogMenu("dialog"),
 	items: new _DialogItemMenu("items"),
 	locked: new _DialogItemMenu("locked"),
 	locking: new _DialogLockingMenu("locking"),
@@ -4268,35 +4355,18 @@ function DialogDraw() {
 
 	DialogSelfMenuDraw(C);
 
-	if (DialogMenuMode === "dialog") {
-		// Draws the intro text or dialog result
-		if ((DialogIntro() != "") && (DialogIntro() != "NOEXIT")) {
-			DrawTextWrap(SpeechTransformDialog(CurrentCharacter, CurrentCharacter.CurrentDialog), 1025, -5, 840, 165, "white", null, 3);
-			DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
-		} else DrawTextWrap(SpeechTransformDialog(CurrentCharacter, CurrentCharacter.CurrentDialog), 1025, -5, 950, 165, "white", null, 3);
-
-		// Draws the possible answers
-		let pos = 0;
-		for (let D = 0; D < CurrentCharacter.Dialog.length; D++) {
-			if ((CurrentCharacter.Dialog[D].Stage == CurrentCharacter.Stage) && (CurrentCharacter.Dialog[D].Option != null) && DialogPrerequisite(D)) {
-				DrawTextWrap(SpeechTransformDialog(Player, CurrentCharacter.Dialog[D].Option), 1025, 160 + 105 * pos, 950, 90, "black", (MouseIn(1025, 160 + pos * 105, 950, 90) && !CommonIsMobile) ? "cyan" : "white", 2);
-				pos++;
-			}
-		}
-
-		// The more time you spend with an NPC, the more the love will rise
-		NPCInteraction();
-		return;
-	}
-
 	// Block out drawing anything else if we're not supposed to interact with the selected character
-	if (C.FocusGroup === null || !C.AllowItem || DialogIntro() === "") return;
+	if (
+		(C.FocusGroup === null && DialogMenuMode !== "dialog")
+		|| !C.AllowItem
+		|| DialogIntro(CurrentCharacter) === ""
+	) return;
 
 	/** The item currently sitting in the focused group */
-	const FocusItem = InventoryGet(C, C.FocusGroup.Name);
+	const FocusItem = InventoryGet(C, C.FocusGroup?.Name);
 
 	// Draws the top menu text & icons
-	if (!["extended", "tighten", "colorExpression", "colorItem", "layering"].includes(DialogMenuMode))
+	if (!["extended", "tighten", "colorExpression", "colorItem", "layering", "dialog"].includes(DialogMenuMode))
 		DialogDrawTopMenu(C);
 
 	// If the player is struggling or lockpicking
