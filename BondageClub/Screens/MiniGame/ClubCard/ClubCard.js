@@ -2412,18 +2412,33 @@ function ClubCardSendRequestCancelSlot() {
 	);
 
 	if (isSelectedSlots) {		
-		//Hiden Message
-		ServerSend("ChatRoomChat", { Content: "ClubCardCancelSlots", Type: "Hidden" });
+		ServerSend("ChatRoomChat", { Content: "ClubCardAdminResetGameSlotsHidden", Type: "Hidden" });
 	
 		//send message from admin
 		const Dictionary = new DictionaryBuilder().sourceCharacter(Player).build();
 		Dictionary.push({Tag: "SourceCharacter", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber});
-		ServerSend("ChatRoomChat", { Content: "ClubCardAdminSetAllPlayersSlot0", Type: "Action" , Dictionary: Dictionary});	
+		ServerSend("ChatRoomChat", { Content: "ClubCardAdminResetGameSlots", Type: "Action" , Dictionary: Dictionary});	
 	}
 
 }
-
 //########################################
+
+//##### Button for fix problem with a few admin #####
+function ClubCardResetGameStatus() {
+	Player.Game.ClubCard.Status = "";
+	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+	ChatRoomCharacterUpdate(Player);
+}
+
+function ClubCardSendRequestResetGameStatus() {
+	ServerSend("ChatRoomChat", { Content: "ClubCardAdminResetGameStatusHidden", Type: "Hidden" });
+
+	const Dictionary = new DictionaryBuilder().sourceCharacter(Player).build();
+	Dictionary.push({Tag: "SourceCharacter", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber});
+	ServerSend("ChatRoomChat", { Content: "ClubCardAdminResetGameStatus", Type: "Action" , Dictionary: Dictionary});	
+}
+
+//###################################################
 
 /**
  * Adds a text entry to the game log

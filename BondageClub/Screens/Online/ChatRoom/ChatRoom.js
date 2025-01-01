@@ -3751,8 +3751,11 @@ function ChatRoomMessageProcessHidden(data, SenderCharacter) {
 	} else if (data.Content.startsWith("PortalLink")) {
 		PortalLinkProcessMessage(SenderCharacter, data);
 	}
-	else if (data.Content == "ClubCardCancelSlots") {
+	else if (data.Content == "ClubCardAdminResetGameSlotsHidden") {
 		ClubCardCancelSlots();
+	}
+	else if (data.Content == "ClubCardAdminResetGameStatusHidden") {
+		ClubCardResetGameStatus();
 	}
 	return true;
 }
