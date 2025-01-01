@@ -2760,10 +2760,9 @@ function DialogDrawItemMenu(C) {
 
 // NOTE: The `Dialog` screen/subscreen lacks proper `Run()` support (see `DrawProcess`), hence its explicit omission here
 /**
- * Base class for managing various {@link DialogMenu} subscreens.
- * @template {string} [ModeType=string] - The name of the mode associated with this instance (_e.g._ {@link DialogMenuMode})
- * @template {DialogInventoryItem | ItemActivity | null} [ClickedObj=any] - The underlying item or activity object of the clicked grid buttons (if applicable)
  * @abstract
+ * @template {string} [ModeType=string] - The name of the mode associated with this instance (_e.g._ {@link DialogMenuMode})
+ * @template {DialogInventoryItem | ItemActivity | DialogLine | null} [ClickedObj=any] - The underlying item or activity object of the clicked grid buttons (if applicable)
  * @extends {Omit<ScreenFunctions, "Run">}
  */
 class DialogMenu {
@@ -2861,31 +2860,12 @@ class DialogMenu {
 	}
 
 	/**
-	 * See {@link DialogMenu.focusGroup}.
-	 * @private
-	 * @type {null | AssetItemGroup}
-	 */
-	_focusGroup = null;
-
-	/**
 	 * Get or set the currently selected group.
 	 *
 	 * Performs a hard {@link DialogMenu.Reload} if a new focus group is assigned.
 	 */
-	get focusGroup() {
-		return this._focusGroup;
-	}
-	set focusGroup(value) {
-		const elem = document.getElementById(this.ids.root);
-		if (value == null) {
-			this._focusGroup = null;
-			elem?.removeAttribute("data-group");
-		} else if (this.focusGroup.Name !== value.Name) {
-			this._focusGroup = value;
-			elem?.setAttribute("data-group", value.Name);
-			this.Reload(null, null, { reset: true });
-		}
-	}
+	get focusGroup() { return null; };
+	set focusGroup(value) { return; };
 
 	/**
 	 * Promise object for queuing reloads, ensuring that they are run consecutively rather than concurrently if multiple calls are invoked (near) simultenously.
@@ -2910,19 +2890,18 @@ class DialogMenu {
 			 */
 			_ClickButton: function(event) {
 				const clickedObj = dialogMenu._GetClickedObject(this);
-				if (!clickedObj || !dialogMenu.C || !dialogMenu.focusGroup) {
+				if (!clickedObj || !dialogMenu.C) {
 					event.stopImmediatePropagation();
 					return "Internal error";
 				}
 
-				const equippedItem = InventoryGet(dialogMenu.C, dialogMenu.focusGroup.Name);
-				const status = dialogMenu.GetClickStatus(dialogMenu.C, clickedObj, equippedItem);
+				const status = dialogMenu.GetClickStatus(dialogMenu.C, clickedObj, null);
 				if (status) {
 					event.stopImmediatePropagation();
 					dialogMenu.Reload(null, null, { status, statusTimer: DialogTextDefaultDuration });
 					return status;
 				} else {
-					dialogMenu._ClickButton(this, dialogMenu.C, clickedObj, equippedItem);
+					dialogMenu._ClickButton(this, dialogMenu.C, clickedObj, null);
 					return null;
 				}
 			},
@@ -2933,15 +2912,14 @@ class DialogMenu {
 			 */
 			_ClickDisabledButton: function(event) {
 				const clickedObj = dialogMenu._GetClickedObject(this);
-				if (!clickedObj || !dialogMenu.C || !dialogMenu.focusGroup) {
+				if (!clickedObj || !dialogMenu.C) {
 					event.stopImmediatePropagation();
 					return null;
 				}
 
-				const equippedItem = InventoryGet(dialogMenu.C, dialogMenu.focusGroup.Name);
-				const status = dialogMenu.GetClickStatus(dialogMenu.C, clickedObj, equippedItem);
+				const status = dialogMenu.GetClickStatus(dialogMenu.C, clickedObj, null);
 				if (status) {
-					DialogSetStatus(status, DialogTextDefaultDuration, { asset: equippedItem?.Asset, C: dialogMenu.C, group: dialogMenu.focusGroup });
+					DialogSetStatus(status, DialogTextDefaultDuration, { C: dialogMenu.C });
 					return status;
 				} else {
 					// Force a reload (and a new click event) if the click somehow _did not_ fail
@@ -2996,14 +2974,13 @@ class DialogMenu {
 	 *
 	 * Serves as a {@link ScreenFunctions["Load"]} wrapper with added parameters.
 	 * @param {Character} C The character in question
-	 * @param {AssetItemGroup} focusGroup The focused item group
+	 * @param {null | AssetItemGroup} focusGroup The focused item group
 	 * @param {null | { shape?: RectTuple }} style Misc styling for the subscreen
 	 * @returns {null | HTMLDivElement} The div containing the dialog subscreen root element or `null` if the screen failed to initialize
 	 */
-	Init(C, focusGroup, style=null) {
+	Init(C, focusGroup=null, style=null) {
 		style ??= {};
 		this._C = C;
-		this._focusGroup = focusGroup;
 		this._shape = style.shape ?? [...this.defaultShape];
 		this.Load();
 		return /** @type {null | HTMLDivElement} */(document.getElementById(this.ids.root));
@@ -3011,10 +2988,10 @@ class DialogMenu {
 
 	/** @type {ScreenFunctions["Load"]} */
 	Load() {
-		if (!this.C || !this.focusGroup || !this.shape) {
+		if (!this.C || !this.shape) {
 			console.error(
 				"Aborting, one or more uninitialized properties",
-				{ C: this.C, focusGroup: this.focusGroup, shape: this.shape },
+				{ C: this.C, shape: this.shape },
 			);
 			this.Exit();
 			return;
@@ -3023,7 +3000,6 @@ class DialogMenu {
 		const root = this._Load();
 		root.setAttribute("id", this.ids.root);
 		root.setAttribute("screen-generated", CurrentScreen);
-		root.setAttribute("data-group", this.focusGroup.Name);
 		root.setAttribute("data-character-id", this.C.ID);
 		root.setAttribute("data-mode", this.mode);
 		root.classList.add("HideOnPopup", "dialog-root");
@@ -3082,7 +3058,6 @@ class DialogMenu {
 	Exit() {
 		ElementRemove(this.ids.root);
 		this._C = null;
-		this._focusGroup = null;
 		this._shape = null;
 	}
 
@@ -3122,17 +3097,15 @@ class DialogMenu {
 	async _Reload(C, focusGroup, options) {
 		// NOTE: Lock in the current character and focus group in case a property change/exit is performed while Reload is still running
 		const currentC = this.C;
-		const currentFocusGroup = this.focusGroup;
 
 		options ??= {};
 		C ??= currentC;
-		focusGroup ??= currentFocusGroup;
 		const root = document.getElementById(this.ids.root);
 		const textCache = TextAllScreenCache.get(InterfaceStringsPath);
-		if (!root || !C || !focusGroup || !textCache) {
+		if (!root || !C || !textCache) {
 			console.error(
 				`Failed to reload ${this.mode} subscreen; one or more missing objects`,
-				{ root: !!root, C: !!C, focusGroup: !!focusGroup, textCache: !!textCache },
+				{ root: !!root, C: !!C, textCache: !!textCache },
 			);
 			return false;
 		}
@@ -3144,10 +3117,6 @@ class DialogMenu {
 		if (C !== currentC) {
 			options.reset ??= true;
 			this._C = C;
-		}
-		if (focusGroup !== currentFocusGroup) {
-			options.reset ??= true;
-			this._focusGroup = focusGroup;
 		}
 		options.resetScrollbar ??= options.reset;
 		options.resetDialogItems ??= options.reset;
@@ -3297,10 +3266,151 @@ class DialogMenu {
 }
 
 /**
- * @template {string} T
- * @extends {DialogMenu<T, DialogInventoryItem>}
+ * {@link DialogMenu} abstract subclass for dialog menus with a focus group.
+ * @abstract
+ * @template {string} [ModeType=string] - The name of the mode associated with this instance (_e.g._ {@link DialogMenuMode})
+ * @template {DialogInventoryItem | ItemActivity | DialogLine | null} [ClickedObj=any] - The underlying item or activity object of the clicked grid buttons (if applicable)
+ * @extends {DialogMenu<ModeType, ClickedObj>}
  */
-class _DialogItemMenu extends DialogMenu {
+class _DialogFocusMenu extends DialogMenu {
+	/**
+	 * See {@link DialogMenu.focusGroup}.
+	 * @private
+	 * @type {null | AssetItemGroup}
+	 */
+	_focusGroup = null;
+
+	/**
+	 * Get or set the currently selected group.
+	 *
+	 * Performs a hard {@link DialogMenu.Reload} if a new focus group is assigned.
+	 */
+	get focusGroup() {
+		return this._focusGroup;
+	}
+	set focusGroup(value) {
+		const elem = document.getElementById(this.ids.root);
+		if (value == null) {
+			this._focusGroup = null;
+			elem?.removeAttribute("data-group");
+		} else if (this.focusGroup.Name !== value.Name) {
+			this._focusGroup = value;
+			elem?.setAttribute("data-group", value.Name);
+			this.Reload(null, null, { reset: true });
+		}
+	}
+
+	/**
+	 * @param {ModeType} mode The name of the mode associated with this instance
+	 */
+	constructor(mode) {
+		super(mode);
+		const dialogMenu = this;
+		this.eventListeners = {
+			...this.eventListeners,
+
+			/**
+			 * @type {(this: HTMLButtonElement, ev: MouseEvent) => null | string}
+			 * @returns A status message if an _unexpected_ error is encountered and null otherwise
+			 */
+			_ClickButton: function(event) {
+				const clickedObj = dialogMenu._GetClickedObject(this);
+				if (!clickedObj || !dialogMenu.C || !dialogMenu.focusGroup) {
+					event.stopImmediatePropagation();
+					return "Internal error";
+				}
+
+				const equippedItem = InventoryGet(dialogMenu.C, dialogMenu.focusGroup.Name);
+				const status = dialogMenu.GetClickStatus(dialogMenu.C, clickedObj, equippedItem);
+				if (status) {
+					event.stopImmediatePropagation();
+					dialogMenu.Reload(null, null, { status, statusTimer: DialogTextDefaultDuration });
+					return status;
+				} else {
+					dialogMenu._ClickButton(this, dialogMenu.C, clickedObj, equippedItem);
+					return null;
+				}
+			},
+
+			/**
+			 * @type {(this: HTMLButtonElement, ev: MouseEvent) => null | string}
+			 * @returns A status message if an _expected_ error is encountered and null otherwise
+			 */
+			_ClickDisabledButton: function(event) {
+				const clickedObj = dialogMenu._GetClickedObject(this);
+				if (!clickedObj || !dialogMenu.C || !dialogMenu.focusGroup) {
+					event.stopImmediatePropagation();
+					return null;
+				}
+
+				const equippedItem = InventoryGet(dialogMenu.C, dialogMenu.focusGroup.Name);
+				const status = dialogMenu.GetClickStatus(dialogMenu.C, clickedObj, equippedItem);
+				if (status) {
+					DialogSetStatus(status, DialogTextDefaultDuration, { asset: equippedItem?.Asset, C: dialogMenu.C, group: dialogMenu.focusGroup });
+					return status;
+				} else {
+					// Force a reload (and a new click event) if the click somehow _did not_ fail
+					dialogMenu.Reload().then((reloadStatus) => {
+						if (reloadStatus && this.getAttribute("aria-disabled") !== "true") {
+							this.dispatchEvent(new MouseEvent("click", event));
+						}
+					});
+					event.stopImmediatePropagation();
+					return null;
+				}
+			},
+		}
+	}
+
+	/** @type {DialogMenu["Init"]} */
+	Init(C, focusGroup, style=null) {
+		this._focusGroup = focusGroup;
+		return super.Init(C, focusGroup, style);
+	}
+
+	/** @type {DialogMenu["Exit"]} */
+	Exit() {
+		super.Exit();
+		this._focusGroup = null;
+	}
+
+	/** @type {DialogMenu["Load"]} */
+	Load() {
+		if (!this.focusGroup) {
+			console.error(
+				"Aborting, one or more uninitialized properties",
+				{ focusGroup: this.focusGroup },
+			);
+			this.Exit();
+			return;
+		}
+
+		super.Load();
+		document.getElementById(this.ids.root)?.setAttribute("data-group", this.focusGroup.Name);
+	}
+
+	/** @type {DialogMenu["_Reload"]} */
+	async _Reload(C=null, focusGroup=null, options=null) {
+		const currentFocusGroup = this.focusGroup;
+		focusGroup ??= currentFocusGroup;
+		if (!focusGroup) {
+			return false;
+		}
+
+		options ??= {};
+		if (focusGroup !== currentFocusGroup) {
+			options.reset ??= true;
+			this._focusGroup = focusGroup;
+		}
+		return super.Reload(C, focusGroup, options);
+	}
+}
+
+/**
+ * @template {string} T
+ * @extends {_DialogFocusMenu<T, DialogInventoryItem>}
+ */
+class _DialogItemMenu extends _DialogFocusMenu {
 	ids = Object.freeze({
 		root: "dialog-inventory",
 		status: "dialog-inventory-status",
@@ -3544,9 +3654,9 @@ class _DialogItemMenu extends DialogMenu {
 
 /**
  * @template {string} T
- * @extends {DialogMenu<T, DialogInventoryItem>}
+ * @extends {_DialogFocusMenu<T, DialogInventoryItem>}
  */
-class _DialogLockingMenu extends DialogMenu {
+class _DialogLockingMenu extends _DialogFocusMenu {
 	ids = Object.freeze({
 		root: "dialog-locking",
 		status: "dialog-locking-status",
@@ -3658,9 +3768,9 @@ class _DialogLockingMenu extends DialogMenu {
 
 /**
  * @template {string} T
- * @extends {DialogMenu<T, DialogInventoryItem>}
+ * @extends {_DialogFocusMenu<T, DialogInventoryItem>}
  */
-class _DialogPermissionMenu extends DialogMenu {
+class _DialogPermissionMenu extends _DialogFocusMenu {
 	ids = Object.freeze({
 		root: "dialog-permission",
 		status: "dialog-permission-status",
@@ -3772,9 +3882,9 @@ class _DialogPermissionMenu extends DialogMenu {
 
 /**
  * @template {string} T
- * @extends {DialogMenu<T, ItemActivity>}
+ * @extends {_DialogFocusMenu<T, ItemActivity>}
  */
-class _DialogActivitiesMenu extends DialogMenu {
+class _DialogActivitiesMenu extends _DialogFocusMenu {
 	ids = Object.freeze({
 		root: "dialog-activity",
 		status: "dialog-activity-status",
@@ -3875,9 +3985,9 @@ class _DialogActivitiesMenu extends DialogMenu {
 
 /**
  * @template {string} T
- * @extends {DialogMenu<T, null>}
+ * @extends {_DialogFocusMenu<T, null>}
  */
-class _DialogCraftedMenu extends DialogMenu {
+class _DialogCraftedMenu extends _DialogFocusMenu {
 	ids = Object.freeze({
 		root: "dialog-crafted",
 		status: "dialog-crafted-status",
