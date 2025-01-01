@@ -805,8 +805,8 @@ ClubCardGameEnd,Congratulations! SourceCharacter has won the Club Card game.
 ClubCardNewPlayerSlot0,SourceCharacter will not play Club Card.
 ClubCardNewPlayerSlot1,SourceCharacter chose to be the first player.
 ClubCardNewPlayerSlot2,SourceCharacter chose to be the second player.
-ClubCardAdminResetGameSlots,SourceCharacter has reset the game selected slots.
-ClubCardAdminResetGameStatus,SourceCharacter has reset the game status.
+ClubCardAdminResetGameSlots,SourceCharacter has reset the club card game selected slots.
+ClubCardAdminResetGameStatus,SourceCharacter has reset the club card game status.
 CoffinSetClosed,SourceCharacter closes the lid on DestinationCharacter coffin.
 CoffinSetOpen,SourceCharacter opens the lid on DestinationCharacter coffin.
 CoffinTypeClosed,Closed

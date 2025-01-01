@@ -2424,12 +2424,19 @@ function ClubCardSendRequestCancelSlot() {
 //########################################
 
 //##### Button for fix problem with a few admin #####
+
+/**
+ * Resets club card game status and synchronizes
+ */
 function ClubCardResetGameStatus() {
 	Player.Game.ClubCard.Status = "";
 	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
 	ChatRoomCharacterUpdate(Player);
 }
 
+/**
+ * A hidden message to trigger all room members and a normal notification message to the chat room.
+ */
 function ClubCardSendRequestResetGameStatus() {
 	ServerSend("ChatRoomChat", { Content: "ClubCardAdminResetGameStatusHidden", Type: "Hidden" });
 

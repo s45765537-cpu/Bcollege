@@ -103,7 +103,7 @@ function GameClubCardRun() {
 	if (GameClubCardCanJoinGame()) DrawButton(900, 600, 400, 64, TextGet("JoinGame"), "White");
 	if ((GameClubCardGetStatus() == "Running") && !GameClubCardCanJoinGame()) DrawText(TextGet("CannotJoinDetails"), 1100, 600, "Red", "Gray");
 	if (GameClubCardIsAdmin(Player)) DrawButton(900, 700, 400, 64, TextGet("ResetSlots"), "White");
-	if (GameClubCardIsAdmin(Player)) DrawButton(900, 800, 400, 64, TextGet("ResetStatus"), "White");
+	if (GameClubCardIsAdmin(Player)) DrawButton(900, 800, 400, 64, TextGet("ResetStatus"), "Salmon");
 }
 
 /**
