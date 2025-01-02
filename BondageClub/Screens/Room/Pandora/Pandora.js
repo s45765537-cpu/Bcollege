@@ -1184,7 +1184,7 @@ function PandoraPenitentiaryCreate() {
 	/** @type {ServerChatRoomGame} */
 	let Game = "Prison";
 	const SearchData = { Query: "", Language: "", Space: ChatRoomSpaceType.MIXED, Game: Game, FullRooms: false };
-	ChatCreateBackgroundList = BackgroundsGenerateList([BackgroundsTagAsylum]);
+	ChatCreateBackgroundList = BackgroundsGenerateList([BackgroundsTagPandora]);
 	ChatSearchLastQuerySearchTime = CommonTime();
 	ChatSearchResult = [];
 	PandoraPenitentiaryCreateTimer = CommonTime() + 10000;
@@ -1227,7 +1227,7 @@ function PandoraPenitentiaryResult(Result) {
 		const NewRoom = {
 			Name: "Pandora " + Math.round(Math.random() * 1000000000).toString(),
 			Description: "Pandora Penitentiary Cell",
-			Background: "PrisonHall",
+			Background: CommonRandomItemFromList(null, ["PrisonHall", "PandoraCell0", "PandoraCell1", "PandoraCell2", "PandoraCell3", "PandoraCell4", "PandoraCell5", "PandoraCell6"]),
 			Private: false,
 			Locked: false,
 			Limit: 10,

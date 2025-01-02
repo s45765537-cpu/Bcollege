@@ -544,7 +544,7 @@ type FetishName =
 
 type BackgroundTag =
 	"Filter by tag" | "Indoor" | "Outdoor" | "Aquatic" | "Special Events" | "SciFi & Fantasy" |
-	"Club & College" | "Regular house" | "Dungeon" | "Asylum"
+	"Club & College" | "Regular house" | "Dungeon" | "Asylum" | "Pandora"
 	;
 
 // NOTE: `NPCArchetype` is for NPC's only
