@@ -4354,6 +4354,15 @@ var AssetFemale3DCG = [
 					{ Name: "Metal", ParentGroup: null, AllowColorize: true },
 				],
 			},
+			{
+				Name: "SatinScarf",
+				DynamicGroupName: "Necklace",
+				CopyConfig: {
+					GroupName: "Necklace",
+					AssetName: "SatinScarf",
+					BuyGroup: true,
+				},
+			},
 			// Flat Chest Compatible Clothing
 			{
 				Name: "SmallNeckFur",
@@ -4643,6 +4652,17 @@ var AssetFemale3DCG = [
 						AllowColorize: true,
 					},
 				],
+			},
+			{
+				Name: "SatinScarf",
+				InventoryID: 195,
+				Value: 15,
+				Left: 148,
+				Top: 97,
+				BuyGroup: "ScarfGag",
+				Extended: true,
+				ParentGroup: null,
+				CreateLayerTypes: ["typed"],
 			},
 			// Breast Compatible Clothing
 			{
