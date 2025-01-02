@@ -983,7 +983,8 @@ var ElementButton = {
 	_ClickRadio: function _ClickRadio(ev) {
 		// Take precaution against nested radio groups/menus, as one might accidentally query a sibbling that belongs to a different group
 		// Particularly important for menus embedded in other menus or menubars
-		const isRadio = this.role === "radio";
+		const role = this.getAttribute("role");
+		const isRadio = role === "radio";
 		const parent = this.parentElement?.closest(isRadio ? "[role='radiogroup']" : "[role='menu'], [role='menubar']");
 		if (!parent) {
 			return;
@@ -997,8 +998,8 @@ var ElementButton = {
 				this.setAttribute("aria-checked", "false");
 				if (isRadio) {
 					/** @type {(e: Element) => boolean} */
-					const filter = (e) => e.role === "radiogroup" || !ElementCheckVisibility(e);
-					const first = ElementButton._QueryDFS(parent, `[role='${this.role}']`, filter).next();
+					const filter = (e) => e.getAttribute("role") === "radiogroup" || !ElementCheckVisibility(e);
+					const first = ElementButton._QueryDFS(parent, `[role='${role}']`, filter).next();
 					if (first.value) {
 						this.tabIndex = -1;
 						first.value.setAttribute("tabindex", "0");
@@ -1011,11 +1012,11 @@ var ElementButton = {
 		} else {
 			/** @type {(e: Element) => boolean} */
 			const filter = isRadio
-				? (e) => e.role === "radiogroup"
-				: (e) => e.role === "menu" || e.role === "menuitem";
-			let prev = ElementButton._QueryDFS(parent, `[role='${this.role}'][aria-checked='true']`, filter).next();
+				? (e) => e.getAttribute("role") === "radiogroup"
+				: (e) => e.getAttribute("role") === "menu" || e.getAttribute("role") === "menuitem";
+			let prev = ElementButton._QueryDFS(parent, `[role='${role}'][aria-checked='true']`, filter).next();
 			if (!prev.value && isRadio) {
-				prev = ElementButton._QueryDFS(parent, `[role='${this.role}'][tabindex='0']`, filter).next();
+				prev = ElementButton._QueryDFS(parent, `[role='${role}'][tabindex='0']`, filter).next();
 			}
 
 			if (prev.value) {
@@ -1354,7 +1355,7 @@ var ElementButton = {
 
 		if (options.disabled) {
 			const menuItemRoles = ["menuitem", "menuitemradio", "menuitemcheckbox"];
-			if (menuItemRoles.some(i => elem.role === i)) {
+			if (menuItemRoles.some(i => elem.getAttribute("role") === i)) {
 				elem.setAttribute("aria-disabled", true);
 			} else {
 				elem.disabled = true;
@@ -1715,8 +1716,13 @@ var ElementMenu = {
 
 		let first = true;
 		elem.querySelectorAll("button, [role='menuitem'], [role='menuitemradio'], [role='menuitemcheckbox']").forEach((menuitem) => {
-			menuitem.role ||= "menuitem";
-			if (menuitem.role !== "menuitem" && menuitem.role !== "menuitemradio" && menuitem.role !== "menuitemcheckbox") {
+			let role = menuitem.getAttribute("role");
+			if (!role) {
+				role = "menuitem";
+				menuitem.setAttribute("role", "menuitem");
+			}
+
+			if (role !== "menuitem" && role !== "menuitemradio" && role !== "menuitemcheckbox") {
 				return;
 			}
 
@@ -1749,7 +1755,7 @@ var ElementMenu = {
 		}
 
 		menuitem.tabIndex = -1;
-		menuitem.role = "menuitem";
+		menuitem.setAttribute("role", "menuitem");
 		menuitem.addEventListener("keydown", this._KeyDown);
 		div.append(menuitem);
 	},
@@ -1775,7 +1781,7 @@ var ElementMenu = {
 			menuitem.tabIndex = -1;
 		}
 
-		menuitem.role = "menuitem";
+		menuitem.setAttribute("role", "menuitem");
 		menuitem.addEventListener("keydown", this._KeyDown);
 		div.prepend(menuitem);
 	},
