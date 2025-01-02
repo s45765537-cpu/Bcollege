@@ -576,10 +576,9 @@ function DialogGGTSInteraction(Interaction) {
 /**
  * Checks the prerequisite for a given dialog
  * @param {DialogLine} dialog - The dialog to check
- * @param {Character} C - The target character in question
  * @returns {boolean} - Returns true, if the prerequisite is met, false otherwise
  */
-function DialogPrerequisite(dialog, C) {
+function DialogPrerequisite(dialog) {
 	if (dialog.Prerequisite == null)
 		return true;
 	else if (dialog.Prerequisite.indexOf("Player.") == 0)
@@ -591,7 +590,7 @@ function DialogPrerequisite(dialog, C) {
 	else if (dialog.Prerequisite.indexOf("!CurrentCharacter.") == 0)
 		return !CurrentCharacter[dialog.Prerequisite.substring(18, 250).replace("()", "").trim()]();
 	else if (dialog.Prerequisite.indexOf("(") >= 0)
-		return CommonDynamicFunctionParams(dialog.Prerequisite, C);
+		return CommonDynamicFunctionParams(dialog.Prerequisite);
 	else if (dialog.Prerequisite.substring(0, 1) != "!")
 		return !!window[CurrentScreen + dialog.Prerequisite.trim()];
 	else
@@ -789,7 +788,7 @@ function DialogAllowItemScreenException() {
  * @returns {string} - The name of the current dialog, if such a dialog exists, any empty string otherwise
  */
 function DialogIntro(C) {
-	const dialog = C.Dialog.find(d => d.Stage == C.Stage && d.Option == null && d.Result != null && DialogPrerequisite(d, C));
+	const dialog = C.Dialog.find(d => d.Stage == C.Stage && d.Option == null && d.Result != null && DialogPrerequisite(d));
 	return dialog?.Result ?? "";
 }
 
@@ -839,15 +838,15 @@ function DialogLeave() {
 
 /**
  * Generic dialog function to remove a piece of the conversation that's already done
- * @param {Character} C - The target character in question
- * @param {HTMLButtonElement} button - The button associated with the to-be removed conversation piece
  * @returns {void} - Nothing
  */
-function DialogRemove(C, button) {
-	button.toggleAttribute("data-unload", true);
-	const dialogIndex = C.Dialog.findIndex(dialog => dialog.Stage === C.Stage && dialog.Option != null && DialogPrerequisite(dialog, C));
+function DialogRemove() {
+	const C = CurrentCharacter;
+	const dialogIndex = C.Dialog.findIndex(dialog => dialog.Stage === C.Stage && dialog.Option != null && DialogPrerequisite(dialog));
 	if (dialogIndex !== -1) {
 		C.Dialog.splice(dialogIndex, 1);
+		document.querySelector(`.dialog-dialog-button[data-index="${dialogIndex}"]`)?.remove();
+		document.querySelectorAll(".dialog-dialog-button").forEach((e, i) => e.setAttribute("data-index", i.toString()));
 	}
 }
 
@@ -857,8 +856,9 @@ function DialogRemove(C, button) {
  * @returns {void} - Nothing
  */
 function DialogRemoveGroup(GroupName) {
-	document.querySelectorAll(`.dialog-dialog-button[data-group="${GroupName}" i]`).forEach(e => e.toggleAttribute("data-unload", true));
 	const GroupNameUpper = GroupName.trim().toUpperCase();
+	document.querySelectorAll(`.dialog-dialog-button[data-group="${GroupNameUpper}" i]`).forEach(e => e.remove());
+	document.querySelectorAll(".dialog-dialog-button").forEach((e, i) => e.setAttribute("data-index", i.toString()));
 	for (let D = CurrentCharacter.Dialog.length - 1; D >= 0; D--)
 		if ((CurrentCharacter.Dialog[D].Group != null) && (CurrentCharacter.Dialog[D].Group.trim().toUpperCase() == GroupNameUpper)) {
 			CurrentCharacter.Dialog.splice(D, 1);
@@ -4136,7 +4136,7 @@ class _DialogDialogMenu extends DialogMenu {
 		}
 
 		for (const [i, dialog] of this.C.Dialog.entries()) {
-			const unload = !(dialog.Stage === this.C.Stage && dialog.Option != null && DialogPrerequisite(dialog, this.C));
+			const unload = !(dialog.Stage === this.C.Stage && dialog.Option != null && DialogPrerequisite(dialog));
 			buttonGrid.children[i]?.toggleAttribute("data-unload", unload);
 		}
 	}
@@ -4164,7 +4164,7 @@ class _DialogDialogMenu extends DialogMenu {
 				this.Reload();
 			}
 			if (typeof clickedDialog.Function === "string") {
-				CommonDynamicFunctionParams(clickedDialog.Function, C, button);
+				CommonDynamicFunctionParams(clickedDialog.Function);
 			}
 		} else if (clickedDialog.Function?.trim() === "DialogLeave()") {
 			DialogLeave();

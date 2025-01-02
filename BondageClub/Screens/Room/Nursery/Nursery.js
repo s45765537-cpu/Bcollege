@@ -435,12 +435,10 @@ function NurseryPlayerRemoveDress() {
 
 /**
  * Player gives an adorable ABDL reply
- * @param {Character} C
- * @param {HTMLButtonElement} button
  */
-function NurseryPlayerCuteRelpy(C, button) {
+function NurseryPlayerCuteRelpy() {
 	DialogChangeReputation("ABDL", 1);
-	DialogRemove(C, button);
+	DialogRemove();
 }
 
 // Player can try to escape the nursery as an ABDL

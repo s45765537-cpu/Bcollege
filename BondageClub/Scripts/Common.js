@@ -349,11 +349,9 @@ function CommonDynamicFunction(FunctionName) {
 /**
  * Calls a dynamic function with parameters (if it exists), also allow ! in front to reverse the result. The dynamic function is the provided function name in the dialog option object and it is prefixed by the current screen.
  * @param {string} FunctionName - Function name to call dynamically
- * @param {Character} C - The current character
- * @param {null | HTMLButtonElement} button - The dynamic functions underlying button (if any)
  * @returns {*} - Returns what the dynamic function returns or FALSE if the function does not exist
  */
-function CommonDynamicFunctionParams(FunctionName, C, button=null) {
+function CommonDynamicFunctionParams(FunctionName) {
 
 	// Gets the reverse (!) sign
 	var Reverse = false;
@@ -373,7 +371,7 @@ function CommonDynamicFunctionParams(FunctionName, C, button=null) {
 	if (typeof window[FunctionName] === "function") {
 
 		// Launches the function with the params and returns the result
-		var Result = window[FunctionName](...Params, C, button);
+		var Result = window[FunctionName](...Params);
 		return Reverse ? !Result : Result;
 	} else {
 
