@@ -1265,12 +1265,27 @@ function PandoraPenitentiaryRun() {
 	let Level = SkillGetLevel(Player, "Infiltration");
 
 	// Adds more possible activities to the random pool
-	ActivityList.push(Player.IsGagged() ? "Ungag" : "Gag");
+	if (Player.IsGagged()) {
+		const ItemMouth = InventoryGet(Player, "ItemMouth");
+		const ItemMouth2 = InventoryGet(Player, "ItemMouth2");
+		const ItemMouth3 = InventoryGet(Player, "ItemMouth3");
+		const ItemHead = InventoryGet(Player, "ItemHead");
+		const ItemHood = InventoryGet(Player, "ItemHood");
+		if (
+			!InventoryOwnerOnlyItem(ItemMouth) && !InventoryLoverOnlyItem(ItemMouth) && !InventoryFamilyOnlyItem(ItemMouth) &&
+			!InventoryOwnerOnlyItem(ItemMouth2) && !InventoryLoverOnlyItem(ItemMouth2) && !InventoryFamilyOnlyItem(ItemMouth2) &&
+			!InventoryOwnerOnlyItem(ItemMouth3) && !InventoryLoverOnlyItem(ItemMouth3) && !InventoryFamilyOnlyItem(ItemMouth3) &&
+			!InventoryOwnerOnlyItem(ItemHead) && !InventoryLoverOnlyItem(ItemHead) && !InventoryFamilyOnlyItem(ItemHead) &&
+			!InventoryOwnerOnlyItem(ItemHood) && !InventoryLoverOnlyItem(ItemHood) && !InventoryFamilyOnlyItem(ItemHood)
+		) ActivityList.push("Ungag");
+	} 
+	if (!Player.IsGagged()) ActivityList.push("Gag");
 	if ((Player.PoseMapping.BodyFull !== "Hogtied") && (Level >= 3) && !InventoryOwnerOnlyItem(InventoryGet(Player, "ItemArms")) && !InventoryLoverOnlyItem(InventoryGet(Player, "ItemArms")) && !InventoryFamilyOnlyItem(InventoryGet(Player, "ItemArms"))) ActivityList.push("Hogtie");
 	if (!InventoryIsWorn(Player, "HempRope", "ItemArms") && !InventoryOwnerOnlyItem(InventoryGet(Player, "ItemArms")) && !InventoryLoverOnlyItem(InventoryGet(Player, "ItemArms")) && !InventoryFamilyOnlyItem(InventoryGet(Player, "ItemArms"))) ActivityList.push("Shibari");
+	if (!InventoryIsWorn(Player, "PrisonLockdownSuit", "ItemArms") && !InventoryIsWorn(Player, "TransportJacket", "ItemArms") && !InventoryIsWorn(Player, "FullLatexSuit", "ItemArms") && !InventoryIsWorn(Player, "PrisonSJ", "ItemArms") && !Player.HasPenis() && !InventoryOwnerOnlyItem(InventoryGet(Player, "ItemArms")) && !InventoryLoverOnlyItem(InventoryGet(Player, "ItemArms")) && !InventoryFamilyOnlyItem(InventoryGet(Player, "ItemArms"))) ActivityList.push("PrisonRestraints");
 	if (!Player.IsNaked()) ActivityList.push("Naked");
-	if (!Player.IsVulvaChaste() && (InventoryGet(Player, "ItemPelvis") == null)) ActivityList.push("Chastity");
-	if (Player.IsVulvaChaste() && !InventoryOwnerOnlyItem(InventoryGet(Player, "ItemPelvis")) && !InventoryLoverOnlyItem(InventoryGet(Player, "ItemPelvis")) && !InventoryFamilyOnlyItem(InventoryGet(Player, "ItemPelvis"))) ActivityList.push("Unchaste");
+	if (!Player.IsVulvaChaste() && (InventoryGet(Player, "ItemPelvis") == null) && !InventoryGroupIsBlocked(Player, "ItemPelvis")) ActivityList.push("Chastity");
+	if (Player.IsVulvaChaste() && !InventoryGroupIsBlocked(Player, "ItemPelvis") && !InventoryOwnerOnlyItem(InventoryGet(Player, "ItemPelvis")) && !InventoryLoverOnlyItem(InventoryGet(Player, "ItemPelvis")) && !InventoryFamilyOnlyItem(InventoryGet(Player, "ItemPelvis"))) ActivityList.push("Unchaste");
 	if (InventoryHasLockableItems(Player)) ActivityList.push("Lock");
 	if (InventoryCharacterIsWearingLock(Player, "MetalPadlock") || InventoryCharacterIsWearingLock(Player, "IntricatePadlock") || InventoryCharacterIsWearingLock(Player, "ExclusivePadlock") || InventoryCharacterIsWearingLock(Player, "HighSecurityPadlock") || InventoryCharacterIsWearingLock(Player, "PandoraPadlock")) ActivityList.push("Unlock");
 	if (Player.IsRestrained()) ActivityList.push("Release");
@@ -1287,7 +1302,7 @@ function PandoraPenitentiaryRun() {
 	else if (Level >= 2) LockType = "IntricatePadlock";
 
 	// A few activities releases some locks first
-	if ((Activity == "Unlock") || (Activity == "Release") || (Activity == "Bondage") || (Activity == "Shibari") || (Activity == "Hogtie") || (Activity == "Naked")) {
+	if ((Activity == "Unlock") || (Activity == "Release") || (Activity == "Bondage") || (Activity == "Shibari") || (Activity == "PrisonRestraints") || (Activity == "Hogtie") || (Activity == "Naked")) {
 		CharacterReleaseFromLock(Player, "MetalPadlock");
 		CharacterReleaseFromLock(Player, "IntricatePadlock");
 		CharacterReleaseFromLock(Player, "ExclusivePadlock");
@@ -1323,6 +1338,26 @@ function PandoraPenitentiaryRun() {
 		ShibariRandomBondage(Player, Math.floor((Level / 3) + 1));
 	}
 
+	// PrisonRestraints - Dress the player in prison clothes / restraints
+	if (Activity == "PrisonRestraints") {
+		CharacterReleaseNoLock(Player);
+		CharacterNaked(Player);
+		InventoryWear(Player, CommonRandomItemFromList(null, ["PrisonLockdownSuit", "TransportJacket", "FullLatexSuit", "PrisonSJ"]), "ItemArms");
+		InventoryLock(Player, "ItemArms", LockType);
+		if ((Level >= 2) && (InventoryGet(Player, "ItemFeet") == null) && !InventoryGroupIsBlocked(Player, "ItemFeet")) {
+			InventoryWear(Player, CommonRandomItemFromList(null, ["BallChain", "AnkleShackles"]), "ItemFeet");
+			InventoryLock(Player, "ItemFeet", LockType);
+			}
+		if ((Level >= 5) && (InventoryGet(Player, "ItemMouth") == null) && !InventoryGroupIsBlocked(Player, "ItemMouth")) {
+			InventoryWear(Player, "PrisonLockdownGag", "ItemMouth");
+			InventoryLock(Player, "ItemMouth", LockType);
+		}
+		if ((Level >= 8) && (InventoryGet(Player, "ItemHead") == null) && !InventoryGroupIsBlocked(Player, "ItemHead")) {
+			InventoryWear(Player, "PrisonLockdownBlindfold", "ItemHead");
+			InventoryLock(Player, "ItemHead", LockType);
+		}
+	}
+
 	// Gag - Gags the player with a random mouth item
 	if (Activity == "Gag") {
 		InventoryWearRandom(Player, "ItemMouth");
@@ -1340,11 +1375,20 @@ function PandoraPenitentiaryRun() {
 	// Hogtie - Puts the player in chains and hogtie her, at higher levels she gets suspended
 	if (Activity == "Hogtie") {
 
-		// Adds chains to the player
+		// Adds chains to the player and locks them
 		CharacterReleaseNoLock(Player);
-		InventoryWear(Player, "Chains", "ItemArms");
-		InventoryWear(Player, "Chains", "ItemLegs");
-		InventoryWear(Player, "Chains", "ItemFeet");
+		if (InventoryGet(Player, "ItemArms") == null) {
+			InventoryWear(Player, "Chains", "ItemArms");
+			InventoryLock(Player, "ItemArms", LockType);
+		}
+		if (InventoryGet(Player, "ItemArms") == null) {
+			InventoryWear(Player, "Chains", "ItemLegs");
+			InventoryLock(Player, "ItemLegs", LockType);
+		}
+		if (InventoryGet(Player, "ItemFeet") == null) {
+			InventoryWear(Player, "Chains", "ItemFeet");
+			InventoryLock(Player, "ItemFeet", LockType);
+		}
 
 		// At level 7 or more the player gets suspended
 		if (Level < 7) {
@@ -1359,11 +1403,6 @@ function PandoraPenitentiaryRun() {
 				Priority: 0,
 			};
 		}
-
-		// Locks the chains
-		InventoryLock(Player, "ItemArms", LockType);
-		InventoryLock(Player, "ItemLegs", LockType);
-		InventoryLock(Player, "ItemFeet", LockType);
 
 	}
 

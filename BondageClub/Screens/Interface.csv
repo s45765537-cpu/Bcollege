@@ -187,6 +187,7 @@ PandoraActivityGag,A Pandora guard gags SourceCharacter.
 PandoraActivityUngag,A Pandora guard removes the gag from SourceCharacter.
 PandoraActivityHogtie,A Pandora guard chains and hogties SourceCharacter.
 PandoraActivityShibari,A Pandora guard puts SourceCharacter in shibari bondage.
+PandoraActivityPrisonRestraints,A Pandora guard uses prison restraints on SourceCharacter.
 PandoraActivityNaked,A Pandora guard strips SourceCharacter and confiscates the clothes for a while.
 PandoraActivityLock,A Pandora guard adds locks on SourceCharacter restraints.
 PandoraActivityChastity,A Pandora guard locks a chastity device on SourceCharacter.
