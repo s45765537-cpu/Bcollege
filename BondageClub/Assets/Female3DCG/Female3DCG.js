@@ -46388,6 +46388,10 @@ var AssetFemale3DCG = [
 					},
 				],
 				HideItem: ["HatFurHeadband"],
+				Layer: [
+					{ Name: "Original", AllowColorize: true, AllowTypes: {f:0}, },
+					{ Name: "Smooth", CopyLayerColor: "Original", AllowTypes: {f:1}, },
+				],
 			},
 			{
 				Name: "DobermanMask",

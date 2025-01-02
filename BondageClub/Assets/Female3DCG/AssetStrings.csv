@@ -1362,15 +1362,20 @@ GradientSunglassesTypeFlatDipped,Flat dipped
 GradientSunglassesTypeFlatUp,Flat up
 GradientSunglassesTypeGradDipped,Gradient dipped
 GradientSunglassesTypeGradUp,Gradient up
+GwenHoodSelectStyleBase, Select options
+GwenHoodSelectStyle,Select hood style
+GwenHoodSelectStyleHair,Select hair options
+GwenHoodSelectStyleFinish,Select material finish
 GwenHoodChangeStyleHairInAccIn,SourceCharacter changes the style of DestinationCharacter gwen hood.
 GwenHoodChangeStyleHairInAccOut,SourceCharacter changes the style of DestinationCharacter gwen hood.
 GwenHoodChangeStyleHairOutAccIn,SourceCharacter changes the style of DestinationCharacter gwen hood.
 GwenHoodChangeStyleHairOutAccOut,SourceCharacter changes the style of DestinationCharacter gwen hood.
-GwenHoodSelectStyle,Select hood style
-GwenHoodStyleHairInAccIn,Hair in & Accessories in
-GwenHoodStyleHairInAccOut,Hair in & Accessories out
-GwenHoodStyleHairOutAccIn,Hair out & Accessories in
-GwenHoodStyleHairOutAccOut,Hair out & Accessories out
+GwenHoodStyleh0,Hair out & Accessories out
+GwenHoodStyleh1,Hair in & Accessories out
+GwenHoodStyleh2,Hair out & Accessories in
+GwenHoodStyleh3,Hair in & Accessories in
+GwenHoodStylef0,Original
+GwenHoodStylef1,Smooth
 HairAccessory1ElfEarsBehind,Behind hair
 HairAccessory1ElfEarsInFront,In front of hair
 HairAccessory1ElfEarsSelect,Select elf ears position
@@ -2937,6 +2942,8 @@ ItemHoodGGTSHelmetSetPGirl,SourceCharacter sets DestinationCharacter helmet stat
 ItemHoodGGTSHelmetSetPSlaveGirl,SourceCharacter sets DestinationCharacter helmet status to Perfect Slave Girl.
 ItemHoodGGTSHelmetSetSlaveGirl,SourceCharacter sets DestinationCharacter helmet status to Slave Girl.
 ItemHoodGGTSHelmetSlaveGirl,Slave Girl
+ItemHoodGwenHoodModuleFinish,Finish
+ItemHoodGwenHoodModuleHair,Hair Options
 ItemHoodHarnessCatMaskEars,Ears
 ItemHoodHarnessCatMaskNoEars,No Ears
 ItemHoodHarnessCatMaskSelect,Select ears
