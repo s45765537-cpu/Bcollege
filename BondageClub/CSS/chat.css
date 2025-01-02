@@ -28,7 +28,6 @@
   height: 100%;
   color: gray;
   background-color: var(--base-color);
-  background-color: color-mix(in srgb, var(--base-color) 90%, var(--label-color) 10%);
 }
 
 .chat-room-sep-header {
@@ -42,7 +41,6 @@
 
 #chat-room-div {
   --button-size: min(8vh, 4vw);
-  --button-size: min(8dvh, 4dvw);
 
   /* Do NOT use min-/max-content for grid rows, as this will cause serious lag related to layour recomputing once the chat log starts to fill up */
   display: grid;
@@ -223,9 +221,7 @@
   --base-color: white;
   --label-color: rgb(128, 128, 128);
 
-  /* backup for old browsers that do not support color-mix */
   background-color: var(--base-color);
-  background-color: color-mix(in srgb, var(--base-color) 90%, var(--label-color) 10%);
 }
 
 .ChatMessageName {
@@ -485,7 +481,7 @@
 }
 
 .chat-room-changelog + .chat-room-changelog {
-  border-top: min(0.4dvh, 0.2dvw) solid black;
+  border-top: min(0.4vh, 0.2vw) solid black;
 }
 
 #TextAreaChatLog[data-colortheme="dark"] > .chat-room-changelog,
@@ -494,8 +490,8 @@
 }
 
 .chat-room-changelog ul {
-  margin-top: min(1dvh, 0.5dvw);
-  padding-left: min(4dvh, 2dvw);
+  margin-top: min(1vh, 0.5vw);
+  padding-left: min(4vh, 2vw);
 }
 
 .chat-room-changelog h1,
@@ -506,10 +502,10 @@
 .chat-room-changelog h6,
 .chat-room-changelog [role="heading"] {
   font-size: inherit;
-  margin-bottom: min(1dvh, 0.5dvw);
-  margin-top: min(1dvh, 0.5dvw);
-  padding-left: min(1dvh, 0.5dvw);
-  padding-right: min(1dvh, 0.5dvw);
+  margin-bottom: min(1vh, 0.5vw);
+  margin-top: min(1vh, 0.5vw);
+  padding-left: min(1vh, 0.5vw);
+  padding-right: min(1vh, 0.5vw);
   text-align: center;
 }
 
@@ -537,8 +533,8 @@
 }
 
 .chat-room-changelog-button {
-  height: min(4dvh, 2dvw);
-  width: min(4dvh, 2dvw);
+  height: min(4vh, 2vw);
+  width: min(4vh, 2vw);
 }
 
 .chat-room-changelog-button > .button-label {
@@ -564,7 +560,7 @@
 }
 
 .chat-room-changelog-button-collapse > .button-label {
-  font-size: min(2dvh, 1dvw);
+  font-size: min(2vh, 1vw);
 }
 
 .chat-room-changelog-header-div {
@@ -582,9 +578,64 @@
 }
 
 .chat-room-changelog-image {
-	border: min(0.3dvh, 0.15dvw) solid black;
+	border: min(0.3vh, 0.15vw) solid black;
 	display: block;
 	line-height: 0;
-	margin-right: min(2dvh, 1dvw);
-	margin-top: min(1dvh, 0.5dvw);
+	margin-right: min(2vh, 1vw);
+	margin-top: min(1vh, 0.5vw);
+}
+
+@supports (height: 100dvh) {
+  #chat-room-div {
+    --button-size: min(8dvh, 4dvw);
+  }
+
+  .chat-room-changelog-image {
+    border: min(0.3dvh, 0.15dvw) solid black;
+    margin-right: min(2dvh, 1dvw);
+    margin-top: min(1dvh, 0.5dvw);
+  }
+
+  .chat-room-changelog + .chat-room-changelog {
+    border-top: min(0.4dvh, 0.2dvw) solid black;
+  }
+
+  .chat-room-changelog ul {
+    margin-top: min(1dvh, 0.5dvw);
+    padding-left: min(4dvh, 2dvw);
+  }
+
+  .chat-room-changelog h1,
+  .chat-room-changelog h2,
+  .chat-room-changelog h3,
+  .chat-room-changelog h4,
+  .chat-room-changelog h5,
+  .chat-room-changelog h6,
+  .chat-room-changelog [role="heading"] {
+    margin-bottom: min(1dvh, 0.5dvw);
+    margin-top: min(1dvh, 0.5dvw);
+    padding-left: min(1dvh, 0.5dvw);
+    padding-right: min(1dvh, 0.5dvw);
+  }
+
+  .chat-room-changelog-button {
+    height: min(4dvh, 2dvw);
+    width: min(4dvh, 2dvw);
+  }
+
+  .chat-room-changelog-button-collapse > .button-label {
+    font-size: min(2dvh, 1dvw);
+  }
+}
+
+@supports (background-color: color-mix(in srgb, black 50%, transparent)) {
+  .chat-room-sep-div > button {
+    background-color: color-mix(in srgb, var(--base-color) 90%, var(--label-color) 10%);
+  }
+
+  .ChatMessageAction,
+  .ChatMessageEmote,
+  .ChatMessageActivity {
+    background-color: color-mix(in srgb, var(--base-color) 90%, var(--label-color) 10%);
+  }
 }
