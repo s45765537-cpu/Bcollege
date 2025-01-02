@@ -5057,37 +5057,47 @@ var AssetFemale3DCGExtended = {
 			ChangeWhenLocked: false,
 		}, // KirugumiMask
 		GwenHood: {
-			Archetype: ExtendedArchetype.TYPED,
+			Archetype: ExtendedArchetype.MODULAR,
 			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
-			Options: [
+			Modules: [
 				{
-					Name: "HairOutAccOut",
-					Property: {
-						Hide: [],
-					},
+					Name: "Finish",
+					Key: "f",
+					Options: [
+						{}, //Original
+						{}, //Smooth
+					],
 				},
 				{
-					Name: "HairInAccOut",
-					Property: {
-						Hide: ["HairBack"],
-					},
-				},
-				{
-					Name: "HairOutAccIn",
-					Property: {
-						Hide: ["HairAccessory1", "HairAccessory2", "HairAccessory3"],
-					},
-				},
-				{
-					Name: "HairInAccIn",
-					Property: {
-						Hide: [
-							"HairAccessory1",
-							"HairAccessory2",
-							"HairAccessory3",
-							"HairBack",
-						],
-					},
+					Name: "Hair",
+					Key: "h",
+					Options: [
+						{
+							Property: {
+								Hide: [],
+							},
+						}, //HairOutAccOut
+						{
+							Property: {
+								Hide: ["HairBack"],
+							},
+						}, //HairInAccOut
+						{
+							Property: {
+								Hide: ["HairAccessory1", "HairAccessory2", "HairAccessory3"],
+							},
+						}, //HairOutAccIn
+						{
+							Property: {
+								Hide: [
+									"HairAccessory1",
+									"HairAccessory2",
+									"HairAccessory3",
+									"HairBack",
+								],
+							},
+						}, //HairInAccIn
+					],
 				},
 			],
 			DialogPrefix: {
