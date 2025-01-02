@@ -1464,6 +1464,10 @@ var AssetFemale3DCGExtended = {
 			DrawImages: false,
 			CopyConfig: { GroupName: "FaceMarkings", AssetName: "FaceWritings" },
 		}, //FaceWritings
+		SatinScarf: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "Necklace", AssetName: "SatinScarf" },
+		}, // SatinScarf
 	}, // ClothAccessory
 	ClothLower: {
 		PantBoots: {
@@ -16947,6 +16951,23 @@ var AssetFemale3DCGExtended = {
 			],
 			DrawImages: false,
 		}, // PearlNecklace1
+		SatinScarf: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Style1",
+				},
+				{
+					Name: "Style2",
+				},
+				{
+					Name: "Style3",
+				},
+				{
+					Name: "Style4",
+				},
+			],
+		}, //SatinScarf
 	}, // Necklace
 	Suit: {
 		Catsuit: {

@@ -556,6 +556,11 @@ ClothAccessoryKissmarkSelectLneck,Neck Left?
 ClothAccessoryKissmarkSelectRcheek,Right Cheek?
 ClothAccessoryKissmarkSelectRfhead,Forehead?
 ClothAccessoryKissmarkSelectRneck,Neck Right?
+ClothAccessorySatinScarfSelect,Select the style
+ClothAccessorySatinScarfStyle1,Style 1
+ClothAccessorySatinScarfStyle2,Style 2
+ClothAccessorySatinScarfStyle3,Style 3
+ClothAccessorySatinScarfStyle4,Style 4
 ClothAccessoryScarfBundled,Bundled
 ClothAccessoryScarfHideMouth,Hide Mouth
 ClothAccessoryScarfSelect,Select a scarf style.
@@ -4780,6 +4785,11 @@ NecklaceChokerTattooSelect,Select the design
 NecklaceNecklaceRopeLong,Long
 NecklaceNecklaceRopeSelect,Select the rope length
 NecklaceNecklaceRopeShort,Short
+NecklaceSatinScarfSelect,Select the style
+NecklaceSatinScarfStyle1,Style 1
+NecklaceSatinScarfStyle2,Style 2
+NecklaceSatinScarfStyle3,Style 3
+NecklaceSatinScarfStyle4,Style 4
 NippleEggDecreaseTo-1,DestinationCharacterName vibrating eggs on TargetPronounPossessive nipples stop vibrating.
 NippleEggDecreaseTo0,DestinationCharacterName vibrating eggs on TargetPronounPossessive nipples slow down into a light tease.
 NippleEggDecreaseTo1,DestinationCharacterName vibrating eggs on TargetPronounPossessive nipples return to a moderate pace.
