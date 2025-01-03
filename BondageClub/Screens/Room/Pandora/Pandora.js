@@ -35,6 +35,7 @@ var PandoraReverseMaidTotal = 0;
 var PandoraPenitentiaryCreateTimer = 0;
 var PandoraPenitentiaryActivityTimer = 0;
 var PandoraPenitentiarySafewordRooms = [];
+var PandoraPenitentiaryCageList = ["WoodenBox", "SmallWoodenBox", "Cage", "LowCage", "PersonalCage", "TheDisplayFrame", "TheHangingFrame", "WoodenBoxOpenHead", "SmallWoodenBoxOpenHead", "Kennel", "TransportWoodenBox"];
 
 /**
  * NPC Dialog functions
@@ -1246,6 +1247,20 @@ function PandoraPenitentiaryResult(Result) {
 }
 
 /**
+ * Returns TRUE if the group is available for an Onlin Pandora Prison activity
+ * @param {Character} C - The character to evaluate
+ * @param {AssetGroupItemName} Group - The item group name
+ * @param {boolean} SkipBlock - If we should skip the GroupIsBlocked validation
+ * @returns {boolean} - TRUE if the group is available
+ */
+function PandoraGroupAvailable(C, Group, SkipBlock = false) {
+	let Item = InventoryGet(C, Group);
+	if (Item == null) return true;
+	if (!SkipBlock && InventoryGroupIsBlocked(C, Group)) return false;
+	return !InventoryOwnerOnlyItem(Item) && !InventoryLoverOnlyItem(Item) && !InventoryFamilyOnlyItem(Item);
+}
+
+/**
  * Runs the pandora prison events
  * @returns {void} - Nothing
  */
@@ -1257,38 +1272,26 @@ function PandoraPenitentiaryRun() {
 	// Sets the next activity time
 	PandoraPenitentiaryActivityTimer = CommonTime() + 60000 + Math.random() * 240000;
 
-	// No activity is feasible if the player is enclosed, we skip
-	if (Player.IsEnclose()) return;
-
 	// Picks a random activity to do on the player
 	let ActivityList = ["Bondage", "Spank", "Hose"];
 	let Level = SkillGetLevel(Player, "Infiltration");
+	let Device = InventoryGet(Player, "ItemDevices");
+	let InPandoraCase = ((Device != null) && (Device.Asset != null) && (Device.Asset.Name != null) && (PandoraPenitentiaryCageList.includes(Device.Asset.Name)));
 
 	// Adds more possible activities to the random pool
-	if (Player.IsGagged()) {
-		const ItemMouth = InventoryGet(Player, "ItemMouth");
-		const ItemMouth2 = InventoryGet(Player, "ItemMouth2");
-		const ItemMouth3 = InventoryGet(Player, "ItemMouth3");
-		const ItemHead = InventoryGet(Player, "ItemHead");
-		const ItemHood = InventoryGet(Player, "ItemHood");
-		if (
-			!InventoryOwnerOnlyItem(ItemMouth) && !InventoryLoverOnlyItem(ItemMouth) && !InventoryFamilyOnlyItem(ItemMouth) &&
-			!InventoryOwnerOnlyItem(ItemMouth2) && !InventoryLoverOnlyItem(ItemMouth2) && !InventoryFamilyOnlyItem(ItemMouth2) &&
-			!InventoryOwnerOnlyItem(ItemMouth3) && !InventoryLoverOnlyItem(ItemMouth3) && !InventoryFamilyOnlyItem(ItemMouth3) &&
-			!InventoryOwnerOnlyItem(ItemHead) && !InventoryLoverOnlyItem(ItemHead) && !InventoryFamilyOnlyItem(ItemHead) &&
-			!InventoryOwnerOnlyItem(ItemHood) && !InventoryLoverOnlyItem(ItemHood) && !InventoryFamilyOnlyItem(ItemHood)
-		) ActivityList.push("Ungag");
-	} 
 	if (!Player.IsGagged()) ActivityList.push("Gag");
-	if ((Player.PoseMapping.BodyFull !== "Hogtied") && (Level >= 3) && !InventoryOwnerOnlyItem(InventoryGet(Player, "ItemArms")) && !InventoryLoverOnlyItem(InventoryGet(Player, "ItemArms")) && !InventoryFamilyOnlyItem(InventoryGet(Player, "ItemArms"))) ActivityList.push("Hogtie");
-	if (!InventoryIsWorn(Player, "HempRope", "ItemArms") && !InventoryOwnerOnlyItem(InventoryGet(Player, "ItemArms")) && !InventoryLoverOnlyItem(InventoryGet(Player, "ItemArms")) && !InventoryFamilyOnlyItem(InventoryGet(Player, "ItemArms"))) ActivityList.push("Shibari");
-	if (!InventoryIsWorn(Player, "PrisonLockdownSuit", "ItemArms") && !InventoryIsWorn(Player, "TransportJacket", "ItemArms") && !InventoryIsWorn(Player, "FullLatexSuit", "ItemArms") && !InventoryIsWorn(Player, "PrisonSJ", "ItemArms") && !Player.HasPenis() && !InventoryOwnerOnlyItem(InventoryGet(Player, "ItemArms")) && !InventoryLoverOnlyItem(InventoryGet(Player, "ItemArms")) && !InventoryFamilyOnlyItem(InventoryGet(Player, "ItemArms"))) ActivityList.push("PrisonRestraints");
+	if (Player.IsGagged() && PandoraGroupAvailable(Player, "ItemMouth", true) && PandoraGroupAvailable(Player, "ItemMouth2", true) && PandoraGroupAvailable(Player, "ItemMouth3", true) && PandoraGroupAvailable(Player, "ItemHead", true) && PandoraGroupAvailable(Player, "ItemHood", true)) ActivityList.push("Ungag");
+	if (!Player.IsEnclose() && !InPandoraCase && (Player.PoseMapping.BodyFull !== "Hogtied") && (Level >= 3) && PandoraGroupAvailable(Player, "ItemArms")) ActivityList.push("Hogtie");
+	if (!Player.IsEnclose() && !InPandoraCase && !InventoryIsWorn(Player, "HempRope", "ItemArms") && PandoraGroupAvailable(Player, "ItemArms")) ActivityList.push("Shibari");
+	if (!InventoryIsWorn(Player, "PrisonLockdownSuit", "ItemArms") && !InventoryIsWorn(Player, "TransportJacket", "ItemArms") && !InventoryIsWorn(Player, "FullLatexSuit", "ItemArms") && !InventoryIsWorn(Player, "PrisonSJ", "ItemArms") && !Player.HasPenis() && PandoraGroupAvailable(Player, "ItemArms")) ActivityList.push("PrisonRestraints");
 	if (!Player.IsNaked()) ActivityList.push("Naked");
-	if (!Player.IsVulvaChaste() && (InventoryGet(Player, "ItemPelvis") == null) && !InventoryGroupIsBlocked(Player, "ItemPelvis")) ActivityList.push("Chastity");
-	if (Player.IsVulvaChaste() && !InventoryGroupIsBlocked(Player, "ItemPelvis") && !InventoryOwnerOnlyItem(InventoryGet(Player, "ItemPelvis")) && !InventoryLoverOnlyItem(InventoryGet(Player, "ItemPelvis")) && !InventoryFamilyOnlyItem(InventoryGet(Player, "ItemPelvis"))) ActivityList.push("Unchaste");
+	if (!Player.IsVulvaChaste() && !Player.HasPenis() && (InventoryGet(Player, "ItemPelvis") == null) && !InventoryGroupIsBlocked(Player, "ItemPelvis")) ActivityList.push("Chastity");
+	if (Player.IsVulvaChaste() && !Player.HasPenis() && PandoraGroupAvailable(Player, "ItemPelvis")) ActivityList.push("Unchaste");
 	if (InventoryHasLockableItems(Player)) ActivityList.push("Lock");
 	if (InventoryCharacterIsWearingLock(Player, "MetalPadlock") || InventoryCharacterIsWearingLock(Player, "IntricatePadlock") || InventoryCharacterIsWearingLock(Player, "ExclusivePadlock") || InventoryCharacterIsWearingLock(Player, "HighSecurityPadlock") || InventoryCharacterIsWearingLock(Player, "PandoraPadlock")) ActivityList.push("Unlock");
 	if (Player.IsRestrained()) ActivityList.push("Release");
+	if (Device == null) ActivityList.push("Cage");
+	if (InPandoraCase && PandoraGroupAvailable(Player, "ItemDevices")) ActivityList.push("Uncage");
 
 	// Picks a random activity to do on the player
 	let Activity = CommonRandomItemFromList(null, ActivityList);
@@ -1434,6 +1437,16 @@ function PandoraPenitentiaryRun() {
 	// Release - Releases the player from all non-locked restraints
 	if (Activity == "Release") {
 		CharacterReleaseNoLock(Player);
+	}
+
+	// Cage - Puts the player in a random cage from ItemDevices group
+	if (Activity == "Cage") {
+		InventoryWear(Player, CommonRandomItemFromList(null, PandoraPenitentiaryCageList), "ItemDevices");
+	}
+
+	// Uncage - Releases the player from the ItemDevices group
+	if (Activity == "Uncage") {
+		InventoryRemove(Player, "ItemDevices");
 	}
 
 	// Publishes the activity to everyone in chat

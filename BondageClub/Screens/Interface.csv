@@ -194,6 +194,8 @@ PandoraActivityChastity,A Pandora guard locks a chastity device on SourceCharact
 PandoraActivityUnchaste,A Pandora guard removes the chastity device from SourceCharacter.
 PandoraActivityUnlock,A Pandora guard unlocks some restraints on SourceCharacter.
 PandoraActivityRelease,A Pandora guard removes some restraints on SourceCharacter.
+PandoraActivityCage,A Pandora guard puts SourceCharacter in a case.
+PandoraActivityUncage,A Pandora guard releases SourceCharacter from the case.
 Picking,Picking the lock...
 PoseMenu,Pose
 PrerequisiteAddItemsToUse,Must have an arm/torso/pelvis item to use ceiling tethers.
