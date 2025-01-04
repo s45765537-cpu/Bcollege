@@ -1261,6 +1261,21 @@ function PandoraGroupAvailable(C, Group, SkipBlock = false) {
 }
 
 /**
+ * Sets a proper minimal difficulty for the new item set in Online Pandora Prison
+ * @param {Character} C - The character to evaluate
+ * @param {AssetGroupItemName} Group - The item group name
+ * @param {number} Level - The infiltration level, the higher it gets the harder the difficulty will be
+ * @returns {void} - Nothing
+ */
+function PandoraPenitentiaryItemDifficulty(C, Group, Level) {
+	let Item = InventoryGet(C, Group);
+	if (Item == null) return;
+	Level = Level + (((Group == "ItemArms") || (Group == "ItemDevices")) ? 6 : 3);
+	let Difficulty = Math.floor(Level + Math.random() * Level * 0.5);
+	if ((Item.Difficulty == null) || (Item.Difficulty < Difficulty)) Item.Difficulty = Difficulty;
+}
+
+/**
  * Runs the pandora prison events
  * @returns {void} - Nothing
  */
@@ -1320,6 +1335,12 @@ function PandoraPenitentiaryRun() {
 		else if (Level <= 4) CharacterFullRandomRestrain(Player);
 		else if (Level <= 7) CharacterFullRandomRestrain(Player, "LOT");
 		else CharacterFullRandomRestrain(Player, "ALL");
+		PandoraPenitentiaryItemDifficulty(Player, "ItemArms", Level);
+		PandoraPenitentiaryItemDifficulty(Player, "ItemHead", Level);
+		PandoraPenitentiaryItemDifficulty(Player, "ItemMouth", Level);
+		PandoraPenitentiaryItemDifficulty(Player, "ItemNeck", Level);
+		PandoraPenitentiaryItemDifficulty(Player, "ItemLegs", Level);
+		PandoraPenitentiaryItemDifficulty(Player, "ItemFeet", Level);
 	}
 
 	// Spank - Spanks the player - Only changes the facial expression
@@ -1339,6 +1360,7 @@ function PandoraPenitentiaryRun() {
 		CharacterReleaseNoLock(Player);
 		CharacterNaked(Player);
 		ShibariRandomBondage(Player, Math.floor((Level / 3) + 1));
+		PandoraPenitentiaryItemDifficulty(Player, "ItemArms", Level);
 	}
 
 	// PrisonRestraints - Dress the player in prison clothes / restraints
@@ -1347,23 +1369,29 @@ function PandoraPenitentiaryRun() {
 		CharacterNaked(Player);
 		InventoryWear(Player, CommonRandomItemFromList(null, ["PrisonLockdownSuit", "TransportJacket", "FullLatexSuit", "PrisonSJ"]), "ItemArms");
 		InventoryLock(Player, "ItemArms", LockType);
+		PandoraPenitentiaryItemDifficulty(Player, "ItemArms", Level);
 		if ((Level >= 2) && (InventoryGet(Player, "ItemFeet") == null) && !InventoryGroupIsBlocked(Player, "ItemFeet")) {
 			InventoryWear(Player, CommonRandomItemFromList(null, ["BallChain", "AnkleShackles"]), "ItemFeet");
 			InventoryLock(Player, "ItemFeet", LockType);
-			}
+			PandoraPenitentiaryItemDifficulty(Player, "ItemFeet", Level);
+		}
 		if ((Level >= 5) && (InventoryGet(Player, "ItemMouth") == null) && !InventoryGroupIsBlocked(Player, "ItemMouth")) {
 			InventoryWear(Player, "PrisonLockdownGag", "ItemMouth");
 			InventoryLock(Player, "ItemMouth", LockType);
+			PandoraPenitentiaryItemDifficulty(Player, "ItemMouth", Level);
 		}
 		if ((Level >= 8) && (InventoryGet(Player, "ItemHead") == null) && !InventoryGroupIsBlocked(Player, "ItemHead")) {
 			InventoryWear(Player, "PrisonLockdownBlindfold", "ItemHead");
 			InventoryLock(Player, "ItemHead", LockType);
+			PandoraPenitentiaryItemDifficulty(Player, "ItemHead", Level);
 		}
 	}
 
 	// Gag - Gags the player with a random mouth item
 	if (Activity == "Gag") {
 		InventoryWearRandom(Player, "ItemMouth");
+		InventoryLock(Player, "ItemMouth", LockType);
+		PandoraPenitentiaryItemDifficulty(Player, "ItemMouth", Level);
 	}
 
 	// Ungag - Remove hoods and mouth items from the player
@@ -1383,14 +1411,17 @@ function PandoraPenitentiaryRun() {
 		if (InventoryGet(Player, "ItemArms") == null) {
 			InventoryWear(Player, "Chains", "ItemArms");
 			InventoryLock(Player, "ItemArms", LockType);
+			PandoraPenitentiaryItemDifficulty(Player, "ItemArms", Level);
 		}
 		if (InventoryGet(Player, "ItemArms") == null) {
 			InventoryWear(Player, "Chains", "ItemLegs");
 			InventoryLock(Player, "ItemLegs", LockType);
+			PandoraPenitentiaryItemDifficulty(Player, "ItemLegs", Level);
 		}
 		if (InventoryGet(Player, "ItemFeet") == null) {
 			InventoryWear(Player, "Chains", "ItemFeet");
 			InventoryLock(Player, "ItemFeet", LockType);
+			PandoraPenitentiaryItemDifficulty(Player, "ItemFeet", Level);
 		}
 
 		// At level 7 or more the player gets suspended
@@ -1427,6 +1458,7 @@ function PandoraPenitentiaryRun() {
 	if (Activity == "Chastity") {
 		InventoryWearRandom(Player, "ItemPelvis", null, null, false, true, PrivateBeltList, true);
 		InventoryLock(Player, "ItemPelvis", LockType, null);
+		PandoraPenitentiaryItemDifficulty(Player, "ItemPelvis", Level);
 	}
 
 	// Unchaste - Removes the chastity belt from the player
@@ -1442,6 +1474,7 @@ function PandoraPenitentiaryRun() {
 	// Cage - Puts the player in a random cage from ItemDevices group
 	if (Activity == "Cage") {
 		InventoryWear(Player, CommonRandomItemFromList(null, PandoraPenitentiaryCageList), "ItemDevices");
+		PandoraPenitentiaryItemDifficulty(Player, "ItemDevices", Level);
 	}
 
 	// Uncage - Releases the player from the ItemDevices group
