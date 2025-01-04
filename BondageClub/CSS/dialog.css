@@ -1,10 +1,7 @@
 .dialog-root {
 	--menu-button-size: min(9vh, 4.5vw);
-	--menu-button-size: min(9dvh, 4.5dvw);
 	--button-height: calc(min(25vh, 12.5vw) - 2px);
-	--button-height: calc(min(25dvh, 12.5dvw) - 2px);
 	--gap: min(2vh, 1vw);
-	--gap: min(2dvh, 1dvw);
 
 	display: grid;
 	gap: var(--gap);
@@ -114,24 +111,17 @@
 .dialog-grid-button:disabled[aria-checked="true"],
 .dialog-grid-button[aria-disabled="true"][aria-checked="true"] {
 	background-color: var(--disabled-color) !important;
-	background-color: color-mix(in srgb, var(--disabled-color) 50%, var(--hover-color) 50%) !important;
 }
 
 .dialog-grid-button:disabled[aria-checked="true"] > .button-label,
 .dialog-grid-button[aria-disabled="true"][aria-checked="true"] > .button-label {
 	background-color: var(--disabled-color) !important;
-	background-color: color-mix(
-		in srgb,
-		color-mix(in srgb, var(--disabled-color) 50%, var(--hover-color) 50%) 50%,
-		transparent
-	) !important;
 }
 
 .dialog-grid-button > .button-tooltip {
 	--tooltip-gap: var(--gap);
 
 	width: calc(400% + 4 * min(0.2vh, 0.1vw) + 3 * var(--gap));
-	width: calc(400% + 4 * min(0.2dvh, 0.1dvw) + 3 * var(--gap));
 	font-size: min(2.6vh, 1.3vw);
 	font-size: min(2.6dvh, 1.3dvw);
 	max-height: calc(2 * var(--button-height) + var(--gap));
@@ -269,4 +259,32 @@
 	display: block;
 	max-width: calc(100% - max(20px, 1.25 * var(--gap)));
 	padding-right: unset;
+}
+
+@supports(height: 100dvh) {
+	.dialog-root {
+		--menu-button-size: min(9dvh, 4.5dvw);
+		--button-height: calc(min(25dvh, 12.5dvw) - 2px);
+		--gap: min(2dvh, 1dvw);
+	}
+
+	.dialog-grid-button > .button-tooltip {
+		width: calc(400% + 4 * min(0.2dvh, 0.1dvw) + 3 * var(--gap));
+	}
+}
+
+@supports (background-color: color-mix(in srgb, black 50%, transparent)) {
+	.dialog-grid-button:disabled[aria-checked="true"],
+	.dialog-grid-button[aria-disabled="true"][aria-checked="true"] {
+		background-color: color-mix(in srgb, var(--disabled-color) 50%, var(--hover-color) 50%) !important;
+	}
+
+	.dialog-grid-button:disabled[aria-checked="true"] > .button-label,
+	.dialog-grid-button[aria-disabled="true"][aria-checked="true"] > .button-label {
+		background-color: color-mix(
+			in srgb,
+			color-mix(in srgb, var(--disabled-color) 50%, var(--hover-color) 50%) 50%,
+			transparent
+		) !important;
+	}
 }
