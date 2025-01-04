@@ -183,6 +183,7 @@ ClothAccessory,BowBackAccessory,Bow Back Accessory
 ClothAccessory,Camera1,Camera
 ClothAccessory,Cape,Cape
 ClothAccessory,CatsuitCollar,Catsuit Collar
+ClothAccessory,ComboBelt,Combo Boots Belt
 ClothAccessory,FacePaint, Face Paint
 ClothAccessory,FrillyApron,Frilly Apron
 ClothAccessory,FurBolero,Fur Bolero
@@ -328,6 +329,7 @@ FacialHair,MoustacheBeard,Moustache Beard
 Fluids,,Fluids
 Fluids,Fluids,Fluids
 Garters,,Garters
+Garters,ComboBelt,Combo Boots Belt
 Garters,DropBag,Drop Bag
 Garters,GarterBelt,Leather Garter Belts
 Garters,GarterBelt2,Leather Garter Belt
@@ -768,6 +770,7 @@ ItemArms,BedMetalCuffs,Bed Metal Cuffs
 ItemBoots,,Feet
 ItemBoots,BalletHeels,Ballet Heels
 ItemBoots,BalletHeels1,Ballet Hi-Shoes
+ItemBoots,BalletMittens,Ballet Mittens
 ItemBoots,BalletWedges,Ballet Wedges
 ItemBoots,FuturisticHeels,Futuristic Shoes
 ItemBoots,FuturisticHeels2,Futuristic Heels
@@ -879,6 +882,7 @@ ItemDevices,OneBarGirl,Unsuspected Pose
 ItemDevices,PersonalCage,Personal Cage
 ItemDevices,PetBed,Pet Bed
 ItemDevices,PetBowl,Pet Bowl
+ItemDevices,PogoBall,Rubber Pogo Ball
 ItemDevices,Pole,Pole
 ItemDevices,SaddleStand,Saddle Stand
 ItemDevices,SmallDisplayCase,Small Display Case

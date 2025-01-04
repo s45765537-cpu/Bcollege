@@ -41,6 +41,9 @@ ClothAccessoryBunnyCollarCuffsCollar,Collar
 ClothAccessoryBunnyCollarCuffsCuffs,Cuffs
 ClothAccessoryCapeBack,Back
 ClothAccessoryCapeFront,Front
+ClothAccessoryComboBeltBelt,Belt
+ClothAccessoryComboBeltDetail,Metal details
+ClothAccessoryComboBeltChain,Chain details
 ClothAccessoryGlitterFreckles,Color One
 ClothAccessoryGlitterFreckles2,Color Two
 ClothAccessoryLargeBeltBelt,Belt
@@ -734,6 +737,13 @@ ItemArmsYokeBars,Bars
 ItemArmsYokeStraps,Straps
 ItemArmsBedMetalCuffsLeftundercuff,Left
 ItemArmsBedMetalCuffsRightundercuff,Right
+ItemBootsBalletMittensFeet,Mittens
+ItemBootsBalletMittensFShine,Mittens shine
+ItemBootsBalletMittensStraps,Mittens straps
+ItemBootsBalletMittensLock,Padlocks
+ItemBootsBalletMittensPogoMain,Pogo Ball
+ItemBootsBalletMittensPogoMainShine,Pogo Ball shine
+ItemBootsBalletMittensPogoMainAnkle,Pogo Ball rubber ankles
 ItemBootsFuturisticHeels2Cuffs,Cuffs
 ItemBootsFuturisticHeels2Display,Display
 ItemBootsFuturisticHeels2Lock,Lock
@@ -922,6 +932,9 @@ ItemDevicesPetBedInner,Blanket Lining
 ItemDevicesPetBedLining,Bed Lining
 ItemDevicesPetBowlBowl,Bowl
 ItemDevicesPetBowlText,Text
+ItemDevicesPogoBallPogoMain,Pogo Ball
+ItemDevicesPogoBallPogoMainShine,Shine
+ItemDevicesPogoBallPogoAnkle,Ankle rubber
 ItemDevicesSnowmanButtons,Buttons
 ItemDevicesSnowmanStickHands,Arms
 ItemDevicesTheHangingFrameBelts,Belts
