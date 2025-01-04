@@ -2740,7 +2740,7 @@ class DialogMenu {
 	 * An object containg all DOM element IDs referenced in the {@link DialogMenu} subclass.
 	 * @abstract
 	 * @readonly
-	 * @type {Readonly<Record<string, string> & { root: string, status?: string, grid?: string, paginate?: string, icon?: string }>}
+	 * @type {Readonly<Record<string, string> & { root: string, status?: string, grid?: string, paginate?: string, icon?: string, menubar?: string }>}
 	 */
 	ids;
 
@@ -2798,9 +2798,9 @@ class DialogMenu {
 	 *
 	 * See {@link DialogMenu.shape}.
 	 * @readonly
-	 * @satisfies {Readonly<RectTuple>}
+	 * @type {Readonly<RectTuple>}
 	 */
-	defaultShape = Object.freeze(/** @type {const} */([1005, 120, 995, 857]));
+	defaultShape = Object.freeze([1005, 120, 995, 857]);
 
 	/**
 	 * See {@link DialogMenu.C}
@@ -2833,6 +2833,7 @@ class DialogMenu {
 	 * Get or set the currently selected group.
 	 *
 	 * Performs a hard {@link DialogMenu.Reload} if a new focus group is assigned.
+	 * @type {null | AssetItemGroup}
 	 */
 	get focusGroup() { return null; }
 	set focusGroup(value) { return; }
@@ -3052,23 +3053,31 @@ class DialogMenu {
 	 * @returns {Promise<boolean>} - Whether an update was triggered or aborted
 	 */
 	Reload(C=null, focusGroup=null, options=null) {
-		this._reload = this._reload.then(() => this._Reload(C, focusGroup, options));
+		this._reload = this._reload.then(async () => {
+			const { status, param } = this._ReloadValidate(C, focusGroup);
+			if (status) {
+				param.root.setAttribute("aria-busy", "true");
+				await param.textCache.loadedPromise;
+				const finalStatus = this._Reload(param, options ?? {});
+				param.root.removeAttribute("aria-busy");
+				return finalStatus;
+			} else {
+				return false;
+			}
+		});
 		return this._reload;
 	}
 
 	/**
 	 * See {@link DialogMenu.Reload}
-	 * @private
 	 * @param {null | Character} C
 	 * @param {null | AssetItemGroup} focusGroup
-	 * @param {null | DialogMenu.ReloadOptions} options
-	 * @returns {Promise<boolean>}
+	 * @returns {{ status: false, param?: never } | { status: true, param: DialogMenu.ReloadParam }}
 	 */
-	async _Reload(C, focusGroup, options) {
+	_ReloadValidate(C, focusGroup) {
 		// NOTE: Lock in the current character and focus group in case a property change/exit is performed while Reload is still running
 		const currentC = this.C;
 
-		options ??= {};
 		C ??= currentC;
 		const root = document.getElementById(this.ids.root);
 		const textCache = TextAllScreenCache.get(InterfaceStringsPath);
@@ -3077,11 +3086,20 @@ class DialogMenu {
 				`Failed to reload ${this.mode} subscreen; one or more missing objects`,
 				{ root: !!root, C: !!C, textCache: !!textCache },
 			);
-			return false;
+			return { status: false };
+		} else {
+			return { status: true, param: { root, C, currentC, textCache } };
 		}
+	}
 
-		root.setAttribute("aria-busy", "true");
-		await textCache.loadedPromise;
+	/**
+	 * See {@link DialogMenu.Reload}
+	 * @param {DialogMenu.ReloadParam} param
+	 * @param {DialogMenu.ReloadOptions} options
+	 * @returns {boolean}
+	 */
+	_Reload(param, options) {
+		const { root, C, currentC, focusGroup } = param;
 
 		// Check if any class-level properties have to be updated
 		if (C !== currentC) {
@@ -3107,7 +3125,10 @@ class DialogMenu {
 			this._ReloadIcon(root, icon, C, focusGroup, options);
 		}
 
-		root.removeAttribute("aria-busy");
+		const menubar = this.ids.menubar ? document.getElementById(this.ids.menubar) : null;
+		if (menubar) {
+			this._ReloadMenubar(root, menubar, C, focusGroup, options);
+		}
 		return true;
 	}
 
@@ -3117,7 +3138,7 @@ class DialogMenu {
 	 * @param {HTMLElement} root
 	 * @param {HTMLElement} status
 	 * @param {Character} C
-	 * @param {AssetItemGroup} focusGroup
+	 * @param {null | AssetItemGroup} focusGroup
 	 * @param {Pick<DialogMenu.ReloadOptions, "status" | "statusTimer">} options
 	 */
 	_ReloadStatus(root, status, C, focusGroup, options) {
@@ -3130,7 +3151,7 @@ class DialogMenu {
 	 * @param {HTMLElement} root
 	 * @param {HTMLElement} buttonGrid
 	 * @param {Character} C
-	 * @param {AssetItemGroup} focusGroup
+	 * @param {null | AssetItemGroup} focusGroup
 	 * @param {Pick<DialogMenu.ReloadOptions, "reset" | "resetScrollbar" | "resetDialogItems">} options
 	 */
 	_ReloadButtonGrid(root, buttonGrid, C, focusGroup, options) {
@@ -3143,10 +3164,23 @@ class DialogMenu {
 	 * @param {HTMLElement} root
 	 * @param {HTMLElement} icon
 	 * @param {Character} C
-	 * @param {AssetItemGroup} focusGroup
+	 * @param {null | AssetItemGroup} focusGroup
 	 * @param {Pick<DialogMenu.ReloadOptions, never>} options
 	 */
 	_ReloadIcon(root, icon, C, focusGroup, options) {
+		throw new Error("Trying to call an abstract method");
+	}
+
+	/**
+	 * A {@link DialogMenu.Reload} helper function for reloading {@link DialogMenu.ids.menubar} elements.
+	 * @abstract
+	 * @param {HTMLElement} root
+	 * @param {HTMLElement} menubar
+	 * @param {Character} C
+	 * @param {null | AssetItemGroup} focusGroup
+	 * @param {Pick<DialogMenu.ReloadOptions, "reset">} options
+	 */
+	_ReloadMenubar(root, menubar, C, focusGroup, options) {
 		throw new Error("Trying to call an abstract method");
 	}
 
@@ -3359,20 +3393,94 @@ class _DialogFocusMenu extends DialogMenu {
 		document.getElementById(this.ids.root)?.setAttribute("data-group", this.focusGroup.Name);
 	}
 
-	/** @type {DialogMenu["_Reload"]} */
-	async _Reload(C=null, focusGroup=null, options=null) {
+	/**
+	 * See {@link DialogMenu.Reload}
+	 * @param {null | Character} C
+	 * @param {null | AssetItemGroup} focusGroup
+	 * @returns {{ status: false, param?: never } | { status: true, param: DialogMenu.ReloadFocusParam }}
+	 */
+	_ReloadValidate(C, focusGroup) {
 		const currentFocusGroup = this.focusGroup;
 		focusGroup ??= currentFocusGroup;
-		if (!focusGroup) {
-			return false;
-		}
 
-		options ??= {};
-		if (focusGroup !== currentFocusGroup) {
-			options.reset ??= true;
-			this._focusGroup = focusGroup;
+		const status = super._ReloadValidate(C, focusGroup);
+		if (focusGroup == null) {
+			console.error(
+				`Failed to reload ${this.mode} subscreen; one or more missing objects`,
+				{ focusGroup: false },
+			);
+			return { status: false };
+		} else if (!status.status) {
+			return { status: false };
+		} else {
+			return { status: true, param: { ...status.param, focusGroup, currentFocusGroup } };
 		}
-		return super.Reload(C, focusGroup, options);
+	}
+
+	/**
+	 * See {@link DialogMenu.Reload}
+	 * @param {DialogMenu.ReloadFocusParam} param
+	 * @param {DialogMenu.ReloadOptions} options
+	 * @returns {boolean}
+	 */
+	_Reload(param, options) {
+		if (param.focusGroup !== param.currentFocusGroup) {
+			options.reset ??= true;
+			this._focusGroup = param.focusGroup;
+		}
+		return super._Reload(param, options);
+	}
+
+	/**
+	 * A {@link DialogMenu.Reload} helper function for reloading {@link DialogMenu.ids.status} elements.
+	 * @abstract
+	 * @param {HTMLElement} root
+	 * @param {HTMLElement} status
+	 * @param {Character} C
+	 * @param {AssetItemGroup} focusGroup
+	 * @param {Pick<DialogMenu.ReloadOptions, "status" | "statusTimer">} options
+	 */
+	_ReloadStatus(root, status, C, focusGroup, options) {
+		throw new Error("Trying to call an abstract method");
+	}
+
+	/**
+	 * A {@link DialogMenu.Reload} helper function for reloading {@link DialogMenu.ids.grid} elements.
+	 * @abstract
+	 * @param {HTMLElement} root
+	 * @param {HTMLElement} buttonGrid
+	 * @param {Character} C
+	 * @param {AssetItemGroup} focusGroup
+	 * @param {Pick<DialogMenu.ReloadOptions, "reset" | "resetScrollbar" | "resetDialogItems">} options
+	 */
+	_ReloadButtonGrid(root, buttonGrid, C, focusGroup, options) {
+		throw new Error("Trying to call an abstract method");
+	}
+
+	/**
+	 * A {@link DialogMenu.Reload} helper function for reloading {@link DialogMenu.ids.icon} elements.
+	 * @abstract
+	 * @param {HTMLElement} root
+	 * @param {HTMLElement} icon
+	 * @param {Character} C
+	 * @param {AssetItemGroup} focusGroup
+	 * @param {Pick<DialogMenu.ReloadOptions, never>} options
+	 */
+	_ReloadIcon(root, icon, C, focusGroup, options) {
+		throw new Error("Trying to call an abstract method");
+	}
+
+	/**
+	 * A {@link DialogMenu.Reload} helper function for reloading {@link DialogMenu.ids.menubar} elements.
+	 * @abstract
+	 * @param {HTMLElement} root
+	 * @param {HTMLElement} menubar
+	 * @param {Character} C
+	 * @param {AssetItemGroup} focusGroup
+	 * @param {Pick<DialogMenu.ReloadOptions, "reset">} options
+	 */
+	_ReloadMenubar(root, menubar, C, focusGroup, options) {
+		throw new Error("Trying to call an abstract method");
 	}
 }
 
@@ -3602,6 +3710,9 @@ class _DialogItemMenu extends _DialogFocusMenu {
 		}
 	}
 
+	/** @type {DialogMenu["_ReloadMenubar"]} */
+	_ReloadMenubar(root, menubar, C, focusGroup, options) { /** noop */ }
+
 	/**
 	 * For a given grid button return the underlying item or activity.
 	 * @type {DialogMenu<string, DialogInventoryItem>["_GetClickedObject"]}
@@ -3723,7 +3834,10 @@ class _DialogLockingMenu extends _DialogFocusMenu {
 	}
 
 	/** @type {DialogMenu["_ReloadIcon"]} */
-	_ReloadIcon(root, icon, options) { /** noop */ }
+	_ReloadIcon(root, icon, C, focusGroup, options) { /** noop */ }
+
+	/** @type {DialogMenu["_ReloadMenubar"]} */
+	_ReloadMenubar(root, menubar, C, focusGroup, options) { /** noop */ }
 
 	/** @type {DialogMenu<string, DialogInventoryItem>["_GetClickedObject"]} */
 	_GetClickedObject(button) {
@@ -3837,6 +3951,9 @@ class _DialogPermissionMenu extends _DialogFocusMenu {
 	/** @type {DialogMenu["_ReloadIcon"]} */
 	_ReloadIcon(root, icon, C, focusGroup, options) { /** noop */ }
 
+	/** @type {DialogMenu["_ReloadMenubar"]} */
+	_ReloadMenubar(root, menubar, C, focusGroup, options) { /** noop */ }
+
 	/** @type {DialogMenu<string, DialogInventoryItem>["_GetClickedObject"]} */
 	_GetClickedObject(button) {
 		return DialogInventory[Number.parseInt(button.getAttribute("data-index"), 10)];
@@ -3941,6 +4058,9 @@ class _DialogActivitiesMenu extends _DialogFocusMenu {
 
 	/** @type {DialogMenu["_ReloadIcon"]} */
 	_ReloadIcon() { /** noop */ }
+
+	/** @type {DialogMenu["_ReloadMenubar"]} */
+	_ReloadMenubar(root, menubar, C, focusGroup, options) { /** noop */ }
 
 	/** @type {DialogMenu<string, ItemActivity>["_GetClickedObject"]} */
 	_GetClickedObject(button) {
@@ -4049,6 +4169,9 @@ class _DialogCraftedMenu extends _DialogFocusMenu {
 		);
 	}
 
+	/** @type {DialogMenu["_ReloadMenubar"]} */
+	_ReloadMenubar(root, menubar, C, focusGroup, options) { /** noop */ }
+
 	/** @type {DialogMenu<string, null>["_GetClickedObject"]} */
 	_GetClickedObject(button) { return null; /** noop */ }
 
@@ -4058,38 +4181,56 @@ class _DialogCraftedMenu extends _DialogFocusMenu {
 
 /**
  * @template {string} T
- * @extends {DialogMenu<T, DialogLine, null>}
+ * @extends {DialogMenu<T, DialogLine>}
  */
 class _DialogDialogMenu extends DialogMenu {
 	ids = Object.freeze({
 		root: "dialog-dialog",
 		status: "dialog-dialog-status",
 		grid: "dialog-dialog-grid",
+		menubar: "dialog-dialog-menubar",
 	});
+
+	defaultShape = Object.freeze(/** @type {const} */([1005, 15, 995, 962]));
 
 	/** @type {DialogMenu<string, DialogLine>["clickStatusCallbacks"]} */
 	clickStatusCallbacks = {};
 
-	/** @type {DialogMenu["Draw"]} */
-	Draw() {
-		switch (DialogIntro(this.C)) {
-			case "":
-			case "NOEXIT":
-				break;
-			default:
-				DrawButton(1885, 25, 90, 90, "", "White", "Icons/Exit.png");
-				break;
-		}
+	/**
+	 * @param {T} mode
+	 */
+	constructor(mode) {
+		super(mode);
+		const dialogMenu = this;
+		this.eventListeners = {
+			...this.eventListeners,
 
-		NPCInteraction();
+			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
+			_ClickMenubarExit: function(ev) {
+				const C = dialogMenu.C;
+				if (!C) {
+					ev.stopImmediatePropagation();
+					return;
+				}
+
+				switch (DialogIntro(C)) {
+					case "":
+					case "NOEXIT":
+						this.setAttribute("aria-disabled", "true");
+						this.dispatchEvent(new MouseEvent("bcClickDisabled", ev));
+						ev.stopImmediatePropagation();
+						break;
+					default:
+						DialogMenuBack();
+						break;
+				}
+			},
+		};
 	}
 
-	Click() {
-		// TODO: switch to DOM element
-		// If we need to leave the dialog (only allowed when there's an entry point to the dialog, not in the middle of a conversation)
-		if (MouseIn(1885, 25, 90, 90) && DialogIntro(this.C) != "" && DialogIntro(this.C) != "NOEXIT"){
-			DialogMenuBack();
-		}
+	/** @type {DialogMenu["Draw"]} */
+	Draw() {
+		NPCInteraction(this.C);
 	}
 
 	_Load() {
@@ -4097,6 +4238,12 @@ class _DialogDialogMenu extends DialogMenu {
 		return document.getElementById(ids.root) ?? ElementCreate({
 			tag: "div",
 			children: [
+				ElementMenu.Create(
+					ids.menubar,
+					[],
+					{ direction: "rtl" },
+					{ menu: { classList: ["dialog-menubar"] } },
+				),
 				{
 					tag: "span",
 					attributes: { id: ids.status, "aria-hidden": "true" },
@@ -4112,17 +4259,17 @@ class _DialogDialogMenu extends DialogMenu {
 	}
 
 	/** @type {DialogMenu["_ReloadStatus"]} */
-	_ReloadStatus(root, span, options) {
-		const textContent = options.status ?? SpeechTransformDialog(this.C, this.C.CurrentDialog);
+	_ReloadStatus(root, span, C, focusGroup, options) {
+		const textContent = options.status ?? SpeechTransformDialog(C, C.CurrentDialog);
 		DialogSetStatus(textContent, options.statusTimer ?? 0);
 	}
 
 	/** @type {DialogMenu["_ReloadButtonGrid"]} */
-	_ReloadButtonGrid(root, buttonGrid, options) {
+	_ReloadButtonGrid(root, buttonGrid, C, focusGroup, options) {
 		if (options.reset) {
 			buttonGrid.replaceChildren();
 			buttonGrid.append(
-				...this.C.Dialog.map((dialog, i) => ElementButton.Create(
+				...C.Dialog.map((dialog, i) => ElementButton.Create(
 					`dialog-dialog-${i}`,
 					this.eventListeners._ClickButton,
 					{ label: SpeechTransformDialog(Player, dialog.Option), labelPosition: "center" },
@@ -4135,19 +4282,46 @@ class _DialogDialogMenu extends DialogMenu {
 			);
 		}
 
-		for (const [i, dialog] of this.C.Dialog.entries()) {
-			const unload = !(dialog.Stage === this.C.Stage && dialog.Option != null && DialogPrerequisite(dialog));
+		for (const [i, dialog] of C.Dialog.entries()) {
+			const unload = !(dialog.Stage === C.Stage && dialog.Option != null && DialogPrerequisite(dialog));
 			buttonGrid.children[i]?.toggleAttribute("data-unload", unload);
 		}
 	}
 
 	/** @type {DialogMenu["_ReloadIcon"]} */
-	_ReloadIcon(root, icon, options) { /** noop */ }
+	_ReloadIcon(root, icon, C, focusGroup, options) { /** noop */ }
+
+	/** @type {DialogMenu["_ReloadMenubar"]} */
+	_ReloadMenubar(root, menubar, C, focusGroup, options) {
+		if (options.reset) {
+			menubar.replaceChildren();
+			ElementMenu.AppendButton(
+				menubar,
+				ElementButton.Create(
+					`${this.ids.menubar}-Exit`,
+					this.eventListeners._ClickMenubarExit,
+					{ image: "./Icons/Exit.png", tooltip: InterfaceTextGet("DialogMenuExit"), tooltipPosition: "left" },
+					{ button: { attributes: { "screen-generated": undefined, name: "Exit" }, classList: ["dialog-menubar-button"] } },
+				),
+			);
+		}
+
+		const exitButton = menubar.querySelector("[name='Exit']");
+		switch (DialogIntro(C)) {
+			case "":
+			case "NOEXIT":
+				exitButton?.setAttribute("aria-disabled", "true");
+				break;
+			default:
+				exitButton?.setAttribute("aria-disabled", "false");
+				break;
+		}
+	}
 
 	/** @type {DialogMenu<string, DialogLine>["_GetClickedObject"]} */
 	_GetClickedObject(button) {
 		const index = Number.parseInt(button.getAttribute("data-index"), 10);
-		return this.C.Dialog[index] ?? null;
+		return this.C?.Dialog[index] ?? null;
 	}
 
 	/** @type {DialogMenu<string, DialogLine>["_ClickButton"]} */
@@ -4160,7 +4334,6 @@ class _DialogDialogMenu extends DialogMenu {
 			C.CurrentDialog = clickedDialog.Result;
 			if (clickedDialog.NextStage != null) {
 				C.Stage = clickedDialog.NextStage;
-				console.log(clickedDialog);
 				this.Reload();
 			}
 			if (typeof clickedDialog.Function === "string") {

@@ -2,6 +2,7 @@
 	--menu-button-size: min(9vh, 4.5vw);
 	--button-height: calc(min(25vh, 12.5vw) - 2px);
 	--gap: min(2vh, 1vw);
+	--scrollbar-gutter: max(20px, 1.25 * var(--gap));
 
 	display: grid;
 	gap: var(--gap);
@@ -12,6 +13,32 @@
 
 .dialog-root[data-unload] {
 	display: none;
+}
+
+.dialog-menubar {
+	display: grid;
+	grid-area: dialog-menubar;
+	grid-template-columns: repeat(9, 1fr);
+	grid-template-rows: repeat(auto-fill, 1fr);
+	direction: rtl;
+	gap: var(--gap);
+	padding-right: var(--scrollbar-gutter);
+}
+
+.dialog-menubar-button {
+	width: var(--menu-button-size);
+	aspect-ratio: 1 / 1;
+}
+
+.dialog-menubar-button > .button-image {
+	width: min(90px, 94%);
+	height: min(90px, 94%);
+	top: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.dialog-menubar-button > .button-tooltip {
+	--tooltip-gap: var(--gap);
 }
 
 .dialog-paginate {
@@ -72,7 +99,7 @@
 	grid-template-rows: repeat(auto-fill, var(--button-height));
 	grid-template-columns: repeat(4, 1fr);
 	padding: 3px;
-	padding-right: max(20px, 1.25 * var(--gap));
+	padding-right: var(--scrollbar-gutter);
 	grid-area: dialog-grid;
 	scroll-snap-type: y proximity;
 	scroll-padding: 3px;
@@ -211,7 +238,7 @@
 		"dialog-crafted-crafter dialog-crafted-gap dialog-crafted-icon ." minmax(auto, min-content)
 		"dialog-crafted-property dialog-crafted-gap dialog-crafted-icon ." minmax(auto, min-content)
 		"dialog-crafted-private dialog-crafted-gap dialog-crafted-icon ." minmax(auto, min-content)
-		"dialog-crafted-footer dialog-crafted-footer dialog-crafted-footer dialog-crafted-footer" minmax(auto, min-content) / auto var(--gap) min(100%, calc(0.8 * var(--button-height))) max(20px, 1.25 * var(--gap))
+		"dialog-crafted-footer dialog-crafted-footer dialog-crafted-footer dialog-crafted-footer" minmax(auto, min-content) / auto var(--gap) min(100%, calc(0.8 * var(--button-height))) var(--scrollbar-gutter)
 }
 
 .dialog-crafted-info {
@@ -258,17 +285,25 @@
 
 #dialog-crafted-footer > * {
 	display: block;
-	max-width: calc(100% - max(20px, 1.25 * var(--gap)));
+	max-width: calc(100% - var(--scrollbar-gutter));
 	padding-right: unset;
+}
+
+#dialog-dialog {
+	grid-template:
+		". dialog-status dialog-menubar" 3.6em
+		"dialog-paginate dialog-grid dialog-grid" auto / var(--menu-button-size) auto calc(var(--menu-button-size) + 3px + var(--scrollbar-gutter));
+}
+
+#dialog-dialog-status {
+	min-height: var(--menu-button-size);
+	line-clamp: 3;
+	-webkit-line-clamp: 3;
 }
 
 #dialog-dialog-grid {
 	display: block;
 	height: minmax(auto, min-content);
-}
-
-#dialog-dialog-status {
-	min-height: 2.4em;
 }
 
 .dialog-dialog-button {

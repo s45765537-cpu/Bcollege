@@ -277,6 +277,22 @@ declare namespace DialogMenu {
 		 */
 		resetDialogItems?: boolean;
 	}
+
+	/** Internal {@link DialogMenu.Reload} parameters for dialog subscreens without a focus group */
+	interface ReloadParam {
+		root: HTMLElement;
+		C: Character;
+		currentC: Character;
+		textCache: TextCache;
+		focusGroup?: AssetItemGroup;
+		currentFocusGroup?: AssetItemGroup;
+	}
+
+	/** Internal {@link DialogMenu.Reload} parameters for dialog subscreens with a focus group */
+	interface ReloadFocusParam extends ReloadParam {
+		focusGroup: AssetItemGroup;
+		currentFocusGroup: AssetItemGroup;
+	}
 }
 
 type DialogSortOrder = | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;

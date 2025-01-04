@@ -327,12 +327,12 @@ function NPCLoveChange(C, LoveFactor) {
 
 /**
  * Raises the love factor progressively with interaction time
+ * @param {Character} C
  * @returns {void} - Nothing
  */
-function NPCInteraction() {
-	if (CurrentCharacter != null && !CurrentCharacter.IsPlayer())
-		if (CurrentTime >= NPCEventGet(CurrentCharacter, "LastInteraction")) {
-			NPCEventAdd(CurrentCharacter, "LastInteraction", CurrentTime + 15000);
-			NPCLoveChange(CurrentCharacter, 1);
-		}
+function NPCInteraction(C) {
+	if (C?.IsNpc() && CurrentTime >= NPCEventGet(C, "LastInteraction")) {
+		NPCEventAdd(C, "LastInteraction", CurrentTime + 15000);
+		NPCLoveChange(C, 1);
+	}
 }

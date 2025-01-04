@@ -1748,7 +1748,7 @@ var ElementMenu = {
 
 	/**
 	 * Append a menuitem to the passed menubar
-	 * @param {HTMLDivElement} div - The menubar
+	 * @param {HTMLElement} div - The menubar
 	 * @param {HTMLElement} menuitem - The to-be prepended menuitem
 	 */
 	AppendButton: function AppendButton(div, menuitem) {
@@ -1764,7 +1764,7 @@ var ElementMenu = {
 
 	/**
 	 * Prepend a menuitem to the passed menubar
-	 * @param {HTMLDivElement} div - The menubar
+	 * @param {HTMLElement} div - The menubar
 	 * @param {HTMLElement} menuitem - The to-be prepended menuitem
 	 */
 	PrependItem: function PrependButton(div, menuitem) {
