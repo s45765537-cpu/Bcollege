@@ -36,6 +36,7 @@ var PandoraPenitentiaryCreateTimer = 0;
 var PandoraPenitentiaryActivityTimer = 0;
 var PandoraPenitentiarySafewordRooms = [];
 var PandoraPenitentiaryCageList = ["WoodenBox", "SmallWoodenBox", "Cage", "LowCage", "PersonalCage", "TheDisplayFrame", "TheHangingFrame", "WoodenBoxOpenHead", "SmallWoodenBoxOpenHead", "Kennel", "TransportWoodenBox"];
+var PandoraPenitentiaryStartNewRoom = false;
 
 /**
  * NPC Dialog functions
@@ -1147,29 +1148,42 @@ function PandoraPunishmentStart() {
  * @returns {void} - Nothing
  */
 function PandoraPenitentiaryPrepare() {
-	PandoraPenitentiaryStart(Player.Infiltration.Punishment.Minutes);
+	PandoraPenitentiaryStart(Player.Infiltration.Punishment.Minutes, "I");
 }
 
 /**
  * Starts the multi-player punishment
  * @param {number} Minutes - The number of minutes for the sentence
+ * @param {string} Role - The role to take (I for Inmate, G for guard)
  * @returns {void} - Nothing
  */
-function PandoraPenitentiaryStart(Minutes) {
-	if (Player.Game.Prison == null) Player.Game.Prison = {};
-	Player.Game.Prison.Timer = Math.round(CurrentTime + (Minutes * 60 * 1000));
-	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+function PandoraPenitentiaryStart(Minutes, Role) {
+	if (!PandoraPenitentiaryIsGuard(Player) && !PandoraPenitentiaryIsInmate(Player)) {
+		if (Player.Game.Prison == null) Player.Game.Prison = {};
+		Player.Game.Prison.Timer = Math.round(CurrentTime + (Minutes * 60 * 1000));
+		Player.Game.Prison.Role = Role;
+		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+	}
 	DialogLeave();
 	CommonSetScreen("Room", "MainHall");
 }
 
 /**
- * Checks if the current character is currently under Pandora Penitentiary sentence
+ * Checks if the current character is currently a Pandora Penitentiary inmate (I)
  * @param {Character} C - The character to evaluate
- * @returns {boolean} - TRUE if sentence is active
+ * @returns {boolean} - TRUE if sentence is active and role is inmate
  */
-function PandoraPenitentiaryActive(C) {
-	return (C.Game != null) && (C.Game.Prison != null) && (C.Game.Prison.Timer != null) && (C.Game.Prison.Timer > CurrentTime);
+function PandoraPenitentiaryIsInmate(C) {
+	return (C.Game != null) && (C.Game.Prison != null) && (C.Game.Prison.Timer != null) && (C.Game.Prison.Timer > CurrentTime) && ((C.Game.Prison.Role == null) || (C.Game.Prison.Role === "I"));
+}
+
+/**
+ * Checks if the current character is currently a Pandora Penitentiary guard (G)
+ * @param {Character} C - The character to evaluate
+ * @returns {boolean} - TRUE if shift is active and role is guard
+ */
+function PandoraPenitentiaryIsGuard(C) {
+	return (C.Game != null) && (C.Game.Prison != null) && (C.Game.Prison.Timer != null) && (C.Game.Prison.Timer > CurrentTime) && (C.Game.Prison.Role === "G");
 }
 
 /**
@@ -1179,18 +1193,29 @@ function PandoraPenitentiaryActive(C) {
 function PandoraPenitentiaryCreate() {
 
 	// Exits right away if the prison should not be loaded, there's a 10 seconds delay between each retry
-	if ((PandoraPenitentiaryCreateTimer > CommonTime()) || !PandoraPenitentiaryActive(Player) || (CurrentCharacter != null) || (CurrentScreen == "ChatRoom")) return;
+	if ((PandoraPenitentiaryCreateTimer > CommonTime()) || (CurrentCharacter != null) || (CurrentScreen == "ChatRoom")) return;
+	if (!PandoraPenitentiaryIsInmate(Player) && !PandoraPenitentiaryIsGuard(Player)) return;
 
-	// First we search for a prison that already exists
-	/** @type {ServerChatRoomGame} */
-	let Game = "Prison";
-	const SearchData = { Query: "", Language: "", Space: ChatRoomSpaceType.MIXED, Game: Game, FullRooms: false };
-	ChatCreateBackgroundList = BackgroundsGenerateList([BackgroundsTagPandora]);
-	ChatSearchLastQuerySearchTime = CommonTime();
-	ChatSearchResult = [];
-	PandoraPenitentiaryCreateTimer = CommonTime() + 10000;
-	PandoraPenitentiaryActivityTimer = CommonTime() + 60000 + Math.random() * 240000;
-	ServerSend("ChatRoomSearch", SearchData);
+	// The guard can be assigned to create a new prison cell
+	if (PandoraPenitentiaryIsGuard(Player)) {
+		if (PandoraPenitentiaryStartNewRoom) {
+			PandoraPenitentiaryResult([]);
+			PandoraPenitentiaryStartNewRoom = false;
+		}
+	} else {
+
+		// The inmate first search for a prison that already exists
+		/** @type {ServerChatRoomGame} */
+		let Game = "Prison";
+		const SearchData = { Query: "", Language: "", Space: ChatRoomSpaceType.MIXED, Game: Game, FullRooms: false };
+		ChatCreateBackgroundList = BackgroundsGenerateList([BackgroundsTagPandora]);
+		ChatSearchLastQuerySearchTime = CommonTime();
+		ChatSearchResult = [];
+		PandoraPenitentiaryCreateTimer = CommonTime() + 10000;
+		PandoraPenitentiaryActivityTimer = CommonTime() + 60000 + Math.random() * 240000;
+		ServerSend("ChatRoomSearch", SearchData);
+
+	}
 
 }
 
@@ -1282,7 +1307,7 @@ function PandoraPenitentiaryItemDifficulty(C, Group, Level) {
 function PandoraPenitentiaryRun() {
 
 	// Exits right away if Pandora Penitentiary isn't active or not ready to run
-	if (!PandoraPenitentiaryActive(Player) || (CurrentScreen != "ChatRoom") || (PandoraPenitentiaryActivityTimer > CommonTime())) return;
+	if (!PandoraPenitentiaryIsInmate(Player) || (CurrentScreen != "ChatRoom") || (PandoraPenitentiaryActivityTimer > CommonTime())) return;
 
 	// Sets the next activity time
 	PandoraPenitentiaryActivityTimer = CommonTime() + 60000 + Math.random() * 240000;

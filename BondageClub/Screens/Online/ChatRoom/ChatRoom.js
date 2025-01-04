@@ -2633,7 +2633,7 @@ function ChatRoomCanLeave() {
 		} else ChatRoomLeashPlayer = null;
 	}
 	if (!Player.CanWalk()) return false; // Cannot leave if cannot walk
-	if ((ChatRoomData.Game == "Prison") && PandoraPenitentiaryActive(Player)) return false; // Cannot leave if locked down in Pandora Penitentiary
+	if ((ChatRoomData.Game == "Prison") && PandoraPenitentiaryIsInmate(Player)) return false; // Cannot leave if locked down in Pandora Penitentiary
 	if (ChatRoomData.Locked && (ChatRoomData.Game == "GGTS")) return false; // GGTS game can forbid anyone to leave
 	if (ChatRoomActiveView.CanLeave && !ChatRoomActiveView.CanLeave()) return false;
 	if (!ChatRoomData.Locked || ChatRoomPlayerIsAdmin() || ChatRoomPlayerIsWhitelisted()) return true; // Player can leave if the room isn't locked, they are an administrator, or are on the whitelist

@@ -3426,6 +3426,7 @@ interface GameClubCardParameters {
 
 interface GamePrisonParameters {
 	Timer?: number;
+	Role?: string;
 }
 
 //#endregion
