@@ -102,8 +102,7 @@ function GameClubCardRun() {
 	if (GameClubCardCanLaunchGame()) DrawButton(900, 600, 400, 64, TextGet("StartGame"), "White");
 	if (GameClubCardCanJoinGame()) DrawButton(900, 600, 400, 64, TextGet("JoinGame"), "White");
 	if ((GameClubCardGetStatus() == "Running") && !GameClubCardCanJoinGame()) DrawText(TextGet("CannotJoinDetails"), 1100, 600, "Red", "Gray");
-	if (GameClubCardIsAdmin(Player)) DrawButton(900, 700, 400, 64, TextGet("ResetSlots"), "White");
-	if (GameClubCardIsAdmin(Player)) DrawButton(900, 800, 400, 64, TextGet("ResetStatus"), "Salmon");
+	if (GameClubCardIsAdmin(Player)) DrawButton(900, 800, 400, 64, TextGet("ResetGame"), "Salmon");
 }
 
 /**
@@ -164,13 +163,9 @@ function GameClubCardClick() {
 		GameClubCardExpectQuery = true;
 		return;
 	}
-	//If the admin clicked reset selected slots and sends message.
-	if (MouseIn(900, 700, 400, 64) && GameClubCardIsAdmin(Player)) {
-		ClubCardSendRequestCancelSlot();
-	}
 	//If the admin clicked reset game status for all players and sends message.
 	if (MouseIn(900, 800, 400, 64) && GameClubCardIsAdmin(Player)) {
-		ClubCardSendRequestResetGameStatus();
+		ClubCardSendRequestResetGame();
 	}
 
 }

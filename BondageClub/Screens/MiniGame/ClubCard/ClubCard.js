@@ -2390,45 +2390,13 @@ function ClubCardCheckDisconnected(disconnectedMemberNumber) {
 	}
 }
 
-//##### Cancel selected player slots #####
-
-/**
- * A function that is called after the player has accepted a hidden message to cancel the selected slot.
- */
-function ClubCardCancelSlots() {
-	if (Player.Game.ClubCard.PlayerSlot != 0) {		
-		Player.Game.ClubCard.PlayerSlot = 0;
-		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
-		ChatRoomCharacterUpdate(Player);
-	}
-}
-
-/**
- * The function sends a hidden message requesting players to cancel the selected slot.
- */
-function ClubCardSendRequestCancelSlot() {
-	const isSelectedSlots = ChatRoomCharacter.some(
-		(character) => character.Game?.ClubCard?.PlayerSlot !== 0
-	);
-
-	if (isSelectedSlots) {		
-		ServerSend("ChatRoomChat", { Content: "ClubCardAdminResetGameSlotsHidden", Type: "Hidden" });
-	
-		//send message from admin
-		const Dictionary = new DictionaryBuilder().sourceCharacter(Player).build();
-		Dictionary.push({Tag: "SourceCharacter", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber});
-		ServerSend("ChatRoomChat", { Content: "ClubCardAdminResetGameSlots", Type: "Action" , Dictionary: Dictionary});	
-	}
-
-}
-//########################################
-
-//##### Button for fix problem with a few admin #####
+//##### Button for fix problem with a few admin and unselect all players slots #####
 
 /**
  * Resets club card game status and synchronizes
  */
 function ClubCardResetGameStatus() {
+	Player.Game.ClubCard.PlayerSlot = 0;
 	Player.Game.ClubCard.Status = "";
 	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
 	ChatRoomCharacterUpdate(Player);
@@ -2437,12 +2405,12 @@ function ClubCardResetGameStatus() {
 /**
  * A hidden message to trigger all room members and a normal notification message to the chat room.
  */
-function ClubCardSendRequestResetGameStatus() {
-	ServerSend("ChatRoomChat", { Content: "ClubCardAdminResetGameStatusHidden", Type: "Hidden" });
+function ClubCardSendRequestResetGame() {
+	ServerSend("ChatRoomChat", { Content: "ClubCardAdminResetGameHidden", Type: "Hidden" });
 
 	const Dictionary = new DictionaryBuilder().sourceCharacter(Player).build();
 	Dictionary.push({Tag: "SourceCharacter", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber});
-	ServerSend("ChatRoomChat", { Content: "ClubCardAdminResetGameStatus", Type: "Action" , Dictionary: Dictionary});	
+	ServerSend("ChatRoomChat", { Content: "ClubCardAdminResetGame", Type: "Action" , Dictionary: Dictionary});	
 }
 
 //###################################################
@@ -4080,7 +4048,8 @@ function ClubCardBankrupt() {
 	CCPlayer.Hand = [];
 	CCPlayer.Deck = ClubCardShuffle(CCPlayer.FullDeck.slice());
 	const jessiGift = ClubCardList.find(card => card.Name === "Jessi Gift");
-	CCPlayer.Hand.push({...jessiGift});
+	CCPlayer.Hand.push({ ...jessiGift });
+	ClubCardTurnCardPlayed = 0;
 	ClubCardPlayerDrawCard(CCPlayer, 5);
 
 	// The opponent loses all liability cards on her board

@@ -8,5 +8,4 @@ RunningGame,"The Club Card game is running, you cannot change settings."
 StartGame,Start the game
 JoinGame,Join the game
 CannotJoinDetails,"Cannot join the game, the room administrator isn't in it."
-ResetSlots, Reset Slots
-ResetStatus, Reset Status
+ResetGame,Reset Game
