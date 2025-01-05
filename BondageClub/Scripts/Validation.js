@@ -351,6 +351,28 @@ function ValidationResolveModifyDiff(previousItem, newItem, params) {
 }
 
 /**
+ * Checks if an item is not marked as locked while having a lock
+ * This prevents an exploit where the ownership system can be bypassed
+ * For full report see https://gist.github.com/huzpsb/d435bfde64a26b425bcfd5247a5a046a
+ * @author: awaqwq(huzpsb)
+ * @date: 2025/01/05
+ * @param {any} newProperty - The property of the item to check
+ */
+function ValidationIsOwnershipExploitDetected(newProperty) {
+    if (newProperty.Effect == null) {
+        return false;
+    }
+    for (let i = 0; i < newProperty.Effect.length; i++) {
+		// Shut up.
+		// noinspection EqualityComparisonWithCoercionJS
+        if (newProperty.Effect[i].clone() == "Lock") {
+            return false;
+        }
+    }
+    return true;
+}
+
+/**
  * Resolves modifications to an item's lock properties and returns a boolean to indicate whether or not the
  * modifications were valid.
  * @param {Item} previousItem - The previous item to remove
@@ -367,6 +389,16 @@ function ValidationResolveLockModification(previousItem, newItem, params, itemBl
 
 	const previousLock = InventoryGetLock(previousItem);
 	const newLock = InventoryGetLock(newItem);
+
+    // Checks for an exploit which breaks the ownership system
+    const exploitDetected = newLock && ValidationIsOwnershipExploitDetected(newProperty);
+    if (exploitDetected) {
+        console.warn(`Ownership lock removal exploit detected ${ValidationItemWarningMessage(newLock, params)}`);
+        InventoryLock(C, newItem, previousLock, previousProperty.LockMemberNumber, false);
+        ValidationCloneLock(previousProperty, newProperty);
+        return false;
+    }
+
 	const notLocked = !previousLock && !newLock;
 
 	if (notLocked || !ValidationLockWasModified(previousProperty, newProperty)) {
