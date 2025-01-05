@@ -315,7 +315,7 @@ Text Fancy Meeting,Draw 5 cards
 Title Prank,Prank
 Text Prank,Your opponent discards 2 random cards.
 Title Sabotage,Sabotage
-Text Sabotage,Your opponent discards 4 random cards.
+Text Sabotage,"At the end of your opponent's next 3 turns: If the play action was taken, they randomly discard a card. If the draw action was taken, they lose 8 fame."
 Title Nursery Night,Nursery Night
 Text Nursery Night,"+3 Money for each ABDL Baby, ABDL Mommy and Maid in your club."
 Title Bad Press,Bad Press
@@ -501,8 +501,8 @@ Text Rich Owner,"Pets treat your building level as 1 higher. When you play a Pet
 Title Tour Guide,Tour Guide
 Text Tour Guide,"When she enters your club, draw a card. Gains +3 money if tourist is present, gains +3 fame if diplomat is present."
 Title Moon,"Moon"
-Text Moon,"Send a card from your opponent's club to your hand. Your opponent draws a card, draws 3 instead if the member was level 3 or higher." 
-Prerequisite Moon,Select a member from your opponent's club to remove and add to your hand.
+Text Moon,"Enters: Select a member from either club other than Moon to have a copy of that member added to your hand." 
+Prerequisite Moon,Select a member to add to your hand.
 Title Sticky Fingers,Sticky Fingers
 Text Sticky Fingers,"When you steal with another effect, steal 1 Fame and Money. Enters: Steal 1 Fame and Money."
 Title Earner,Earner
@@ -517,3 +517,12 @@ Title Inspector,Inspector
 Text Inspector,Increase the cost for players to upgrade to House or higher by 10. 
 Title Troublemaker,Troublemaker
 Text Troublemaker,Opponent loses 3 fame each time they upgrade unless they have a bouncer.
+Title House keeper,House keeper
+Text House keeper,"When a non-maid member enters your club, gain 1 Fame per member present that shares a type with it (Max = club level)"
+Title Maid Manager,Maid Manager
+Text Maid Manager,"Gains +1 Money for every 2 maids present. At club level 4 or higher, gains +1 Fame instead. (Max +4)"
+Title Throne Room Servant,Throne Room Servant
+Text Throne Room Servant,"Gains +3 fame per tier 5 member in your club (Max +8)"
+Title Feather Duster,Feather Duster
+Text Feather Duster,"End any one event currently in play, if you control a maid, gain money equal to its tier and draw a card."
+Prerequisite Feather Duster,Select an ongoing event to end.
