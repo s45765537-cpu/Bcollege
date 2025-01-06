@@ -19307,6 +19307,135 @@ var AssetFemale3DCG = [
 				Left: 51,
 				Top: 0,
 			},
+			{
+				Name: "HairBack65",
+				Top: 0,
+				Extended: true,
+				Layer: [
+					{
+						Name: "Left",
+						AllowTypes: { typed: [0, 1] },
+					},
+					{
+						Name: "Right",
+						AllowTypes: { typed: [0, 2] },
+					},
+				],
+			},
+			{
+				Name: "HairBack65b",
+				Top: 0,
+				Extended: true,
+				Layer: [
+					{
+						Name: "Left",
+						AllowTypes: { typed: [0, 1] },
+					},
+					{
+						Name: "Right",
+						AllowTypes: { typed: [0, 2] },
+					},
+				],
+			},
+			{
+				Name: "HairBack66",
+				Top: 0,
+				Extended: true,
+				Layer: [
+					{
+						Name: "Left",
+						AllowTypes: { typed: [0, 1] },
+					},
+					{
+						Name: "Right",
+						AllowTypes: { typed: [0, 2] },
+					},
+				],
+			},
+			{
+				Name: "HairBack67",
+				Top: 0,
+				Extended: true,
+				Layer: [
+					{
+						Name: "Left",
+						AllowTypes: { typed: [0, 1] },
+					},
+					{
+						Name: "Right",
+						AllowTypes: { typed: [0, 2] },
+					},
+				],
+			},
+			{
+				Name: "HairBack68",
+				Top: 0,
+				Extended: true,
+				Layer: [
+					{
+						Name: "BaseLeft",
+						AllowTypes: { typed: [0, 1] },
+					},
+					{
+						Name: "TipLeft",
+						AllowTypes: { typed: [0, 1] },
+					},
+					{
+						Name: "BaseRight",
+						AllowTypes: { typed: [0, 2] },
+					},
+					{
+						Name: "TipRight",
+						AllowTypes: { typed: [0, 2] },
+					},
+				],
+			},
+			{
+				Name: "HairBack69",
+				Top: 0,
+				Extended: true,
+				Layer: [
+					{
+						Name: "BaseLeft",
+						AllowTypes: { typed: [0, 1] },
+					},
+					{
+						Name: "TipLeft",
+						AllowTypes: { typed: [0, 1] },
+					},
+					{
+						Name: "BaseRight",
+						AllowTypes: { typed: [0, 2] },
+					},
+					{
+						Name: "TipRight",
+						AllowTypes: { typed: [0, 2] },
+					},
+				],
+			},
+			{
+				Name: "HairBack69b",
+				Top: 0,
+				Extended: true,
+				Layer: [
+					{
+						Name: "BaseLeft",
+						AllowTypes: { typed: [0, 1] },
+					},
+					{
+						Name: "TipLeft",
+						AllowTypes: { typed: [0, 1] },
+					},
+					{
+						Name: "BaseRight",
+						AllowTypes: { typed: [0, 2] },
+					},
+					{
+						Name: "TipRight",
+						AllowTypes: { typed: [0, 2] },
+					},
+				],
+			},
 		],
 		Color: [
 			"Default",
