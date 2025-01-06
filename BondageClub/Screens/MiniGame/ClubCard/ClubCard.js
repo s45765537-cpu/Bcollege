@@ -507,7 +507,6 @@ var ClubCardList = [
 		Name: "Inspector",
 		Group: ["Police"],
 		MoneyPerTurn: 1,
-		FamePerTurn: 1,
 		RequiredLevel: 2,
 	},
 
