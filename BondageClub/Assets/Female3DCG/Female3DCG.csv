@@ -503,6 +503,7 @@ HairBack,HairBack60,Style 60
 HairBack,HairBack61,Style 61
 HairBack,HairBack62,Style 62
 HairBack,HairBack63,Style 63
+HairBack,HairBack64,Style 64
 HairBack,ScalyBackHair,Scaly Hair
 HairBack,HairNone,None
 HairFront,,Front Hair
@@ -604,6 +605,8 @@ HairFront,HairFront61,Style 61
 HairFront,ScalyHair,Scaly Hair
 HairFront,HairFront62a,Style 62a
 HairFront,HairFront62b,Style 62b
+HairFront,HairFront63,Style 63
+HairFront,HairFront64,Style 64
 HandAccessoryLeft,,Hand Accessory (Left)
 HandAccessoryLeft,CatsuitGloves,Catsuit Gloves
 HandAccessoryLeft,Claws,Claws

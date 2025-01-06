@@ -18654,6 +18654,32 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "HairFront63",
+				Top: 30,
+				Layer: [
+					{
+						Name: "Main",
+						Priority: 52,
+					},
+					{
+						Name: "Back",
+						Priority: 51,
+					},
+				],
+			},
+			{
+				Name: "HairFront64",
+				Top: 30,
+				Layer: [
+					{
+						Name: "Main",
+					},
+					{
+						Name: "Clip",
+					},
+				],
+			},
 		],
 		Color: [
 			"#6a3628",
@@ -19275,6 +19301,11 @@ var AssetFemale3DCG = [
 				Name: "ScalyBackHair",
 				Left: 83,
 				Top: 4,
+			},
+			{
+				Name: "HairBack64",
+				Left: 51,
+				Top: 0,
 			},
 		],
 		Color: [
