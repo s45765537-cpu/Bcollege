@@ -2950,10 +2950,10 @@ function ClubCardRemoveFromBoard(CCPlayer, Card, DontDiscard = false, MessageTyp
 function ClubCardCalculateLevelCost(CCPlayer) {
 	const opponent = ClubCardGetOpponent(CCPlayer);
 	let cost = ClubCardLevelCost[CCPlayer.Level + 1] - (ClubCardNameCountOnBoard(CCPlayer, "Quality Maid") * 10);
-	if (CCPlayer.Level > 1 && CCPlayer.Level <= opponent.Level) {
+	if (CCPlayer.Level <= opponent.Level) {
 		cost = cost + (ClubCardNameCountOnBoard(CCPlayer, "Inspector") * 10);
 	}
-	if (CCPlayer.Level > 1 && opponent.Level <= CCPlayer.Level) {
+	if (opponent.Level <= CCPlayer.Level) {
 		cost = cost + (ClubCardNameCountOnBoard(opponent, "Inspector") * 10);
 	}
 	return cost;
