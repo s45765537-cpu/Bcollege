@@ -5082,7 +5082,12 @@ var AssetFemale3DCGExtended = {
 		}, // KirugumiMask
 		GwenHood: {
 			Archetype: ExtendedArchetype.MODULAR,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.TARGET_CHAR,
+			],
 			Modules: [
 				{
 					Name: "Finish",
