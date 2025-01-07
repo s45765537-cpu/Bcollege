@@ -19623,6 +19623,147 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "HairBack77",
+				Top: 0,
+				Left: 49,
+				Extended: true,
+				Layer: [
+					{
+						Name: "Left",
+						AllowTypes: { L: [0, 1, 2, 3] },
+					},
+					{
+						Name: "Right",
+						AllowTypes: { R: [0, 1, 2, 3] },
+					},
+					{
+						Name: "LeftBraid",
+						AllowTypes: { L: [0, 1] },
+					},
+					{
+						Name: "RightBraid",
+						AllowTypes: { R: [0, 1] },
+					},
+					{
+						Name: "LeftStrand",
+						Priority: 4,
+						AllowTypes: { L: [0, 2] },
+					},
+					{
+						Name: "RightStrand",
+						Priority: 4,
+						AllowTypes: { R: [0, 2] },
+					},
+				],
+			},
+			{
+				Name: "HairBack77b",
+				Top: 0,
+				Left: 49,
+				Extended: true,
+				Layer: [
+					{
+						Name: "Left",
+						AllowTypes: { L: [0, 1] },
+					},
+					{
+						Name: "Right",
+						AllowTypes: { R: [0, 1] },
+					},
+					{
+						Name: "LeftBraid",
+						AllowTypes: { L: [0] },
+					},
+					{
+						Name: "RightBraid",
+						AllowTypes: { R: [0] },
+					},
+				],
+			},
+			{
+				Name: "HairBack77c",
+				Top: 0,
+				Layer: [
+					{
+						Name: "Main",
+					},
+					{
+						Name: "Braid",
+					},
+				],
+			},
+			{
+				Name: "HairBack78",
+				Top: 0,
+				Left: 49,
+				Extended: true,
+				Layer: [
+					{
+						Name: "Left",
+						AllowTypes: { L: [0, 1, 2, 3] },
+					},
+					{
+						Name: "Right",
+						AllowTypes: { R: [0, 1, 2, 3] },
+					},
+					{
+						Name: "LeftBraid",
+						AllowTypes: { L: [0, 1] },
+					},
+					{
+						Name: "RightBraid",
+						AllowTypes: { R: [0, 1] },
+					},
+					{
+						Name: "LeftStrand",
+						Priority: 4,
+						AllowTypes: { L: [0, 2] },
+					},
+					{
+						Name: "RightStrand",
+						Priority: 4,
+						AllowTypes: { R: [0, 2] },
+					},
+				],
+			},
+			{
+				Name: "HairBack78b",
+				Top: 0,
+				Left: 49,
+				Extended: true,
+				Layer: [
+					{
+						Name: "Left",
+						AllowTypes: { L: [0, 1] },
+					},
+					{
+						Name: "Right",
+						AllowTypes: { R: [0, 1] },
+					},
+					{
+						Name: "LeftBraid",
+						AllowTypes: { L: [0] },
+					},
+					{
+						Name: "RightBraid",
+						AllowTypes: { R: [0] },
+					},
+				],
+			},
+			{
+				Name: "HairBack78c",
+				Top: 0,
+				Layer: [
+					{
+						Name: "Main",
+					},
+					{
+						Name: "Braid",
+					},
+				],
+			},
+
 		],
 		Color: [
 			"Default",

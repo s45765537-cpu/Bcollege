@@ -1356,6 +1356,74 @@ var AssetFemale3DCGExtended = {
 			DrawImages: false,
 			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, { Name: "RightOnly" }],
 		},
+		HairBack77: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Left",
+					Key: "L",
+					Options: [{}, {}, {}, {}, {}], // Bun + Strand, Bun + Braid, Bun + Strand, Bun, None
+				},
+				{
+					Name: "Right",
+					Key: "R",
+					Options: [{}, {}, {}, {}, {}], // Bun + Strand, Bun + Braid, Bun + Strand, Bun, None
+				},
+			],
+		},
+		HairBack77b: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Left",
+					Key: "L",
+					Options: [{}, {}, {}], // Bun + Braid, Bun, None
+				},
+				{
+					Name: "Right",
+					Key: "R",
+					Options: [{}, {}, {}], // Bun + Braid, Bun, None
+				},
+			],
+		},
+		HairBack78: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Left",
+					Key: "L",
+					Options: [{}, {}, {}, {}, {}], // Bun + Strand, Bun + Braid, Bun + Strand, Bun, None
+				},
+				{
+					Name: "Right",
+					Key: "R",
+					Options: [{}, {}, {}, {}, {}], // Bun + Strand, Bun + Braid, Bun + Strand, Bun, None
+				},
+			],
+		},
+		HairBack78b: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Left",
+					Key: "L",
+					Options: [{}, {}, {}], // Bun + Braid, Bun, None
+				},
+				{
+					Name: "Right",
+					Key: "R",
+					Options: [{}, {}, {}], // Bun + Braid, Bun, None
+				},
+			],
+		},
 	},
 	ClothAccessory: {
 		LeatherStraps: {

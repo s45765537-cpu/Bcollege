@@ -1514,21 +1514,21 @@ HairBackHairBack75OptionR2,None
 HairBackHairBack75SelectBase,Select Option
 HairBackHairBack75SelectLeft,Select Style
 HairBackHairBack75SelectRight,Select Style
-HairBackHairBack75ModuleLeft,Left
-HairBackHairBack75ModuleRight,Right
-HairBackHairBack75OptionL0,Bun + Braid + Strand
-HairBackHairBack75OptionL1,Bun + Braid
-HairBackHairBack75OptionL2,Bun + Strand
-HairBackHairBack75OptionL3,Bun
-HairBackHairBack75OptionL4,None
-HairBackHairBack75OptionR0,Bun + Braid + Strand
-HairBackHairBack75OptionR1,Bun + Braid
-HairBackHairBack75OptionR2,Bun + Strand
-HairBackHairBack75OptionR3,Bun
-HairBackHairBack75OptionR4,None
-HairBackHairBack75SelectBase,Select Option
-HairBackHairBack75SelectLeft,Select Style
-HairBackHairBack75SelectRight,Select Style
+HairBackHairBack76ModuleLeft,Left
+HairBackHairBack76ModuleRight,Right
+HairBackHairBack76OptionL0,Bun + Braid + Strand
+HairBackHairBack76OptionL1,Bun + Braid
+HairBackHairBack76OptionL2,Bun + Strand
+HairBackHairBack76OptionL3,Bun
+HairBackHairBack76OptionL4,None
+HairBackHairBack76OptionR0,Bun + Braid + Strand
+HairBackHairBack76OptionR1,Bun + Braid
+HairBackHairBack76OptionR2,Bun + Strand
+HairBackHairBack76OptionR3,Bun
+HairBackHairBack76OptionR4,None
+HairBackHairBack76SelectBase,Select Option
+HairBackHairBack76SelectLeft,Select Style
+HairBackHairBack76SelectRight,Select Style
 HairBackHairBack76bSelect,Select Type.
 HairBackHairBack76bSetBoth,SourceCharacter changes DestinationCharacter hair.
 HairBackHairBack76bSetLeftOnly,SourceCharacter changes DestinationCharacter hair.
@@ -1536,6 +1536,58 @@ HairBackHairBack76bSetRightOnly,SourceCharacter changes DestinationCharacter hai
 HairBackHairBack76bBoth,Both
 HairBackHairBack76bLeftOnly,Left Only
 HairBackHairBack76bRightOnly,Right Only
+HairBackHairBack77ModuleLeft,Left
+HairBackHairBack77ModuleRight,Right
+HairBackHairBack77OptionL0,Bun + Braid + Strand
+HairBackHairBack77OptionL1,Bun + Braid
+HairBackHairBack77OptionL2,Bun + Strand
+HairBackHairBack77OptionL3,Bun
+HairBackHairBack77OptionL4,None
+HairBackHairBack77OptionR0,Bun + Braid + Strand
+HairBackHairBack77OptionR1,Bun + Braid
+HairBackHairBack77OptionR2,Bun + Strand
+HairBackHairBack77OptionR3,Bun
+HairBackHairBack77OptionR4,None
+HairBackHairBack77SelectBase,Select Option
+HairBackHairBack77SelectLeft,Select Style
+HairBackHairBack77SelectRight,Select Style
+HairBackHairBack77bModuleLeft,Left
+HairBackHairBack77bModuleRight,Right
+HairBackHairBack77bOptionL0,Bun + Braid
+HairBackHairBack77bOptionL1,Bun
+HairBackHairBack77bOptionL2,None
+HairBackHairBack77bOptionR0,Bun + Braid
+HairBackHairBack77bOptionR1,Bun
+HairBackHairBack77bOptionR2,None
+HairBackHairBack77bSelectBase,Select Option
+HairBackHairBack77bSelectLeft,Select Style
+HairBackHairBack77bSelectRight,Select Style
+HairBackHairBack78ModuleLeft,Left
+HairBackHairBack78ModuleRight,Right
+HairBackHairBack78OptionL0,Bun + Braid + Strand
+HairBackHairBack78OptionL1,Bun + Braid
+HairBackHairBack78OptionL2,Bun + Strand
+HairBackHairBack78OptionL3,Bun
+HairBackHairBack78OptionL4,None
+HairBackHairBack78OptionR0,Bun + Braid + Strand
+HairBackHairBack78OptionR1,Bun + Braid
+HairBackHairBack78OptionR2,Bun + Strand
+HairBackHairBack78OptionR3,Bun
+HairBackHairBack78OptionR4,None
+HairBackHairBack78SelectBase,Select Option
+HairBackHairBack78SelectLeft,Select Style
+HairBackHairBack78SelectRight,Select Style
+HairBackHairBack78bModuleLeft,Left
+HairBackHairBack78bModuleRight,Right
+HairBackHairBack78bOptionL0,Bun + Braid
+HairBackHairBack78bOptionL1,Bun
+HairBackHairBack78bOptionL2,None
+HairBackHairBack78bOptionR0,Bun + Braid
+HairBackHairBack78bOptionR1,Bun
+HairBackHairBack78bOptionR2,None
+HairBackHairBack78bSelectBase,Select Option
+HairBackHairBack78bSelectLeft,Select Style
+HairBackHairBack78bSelectRight,Select Style
 HandAccessoryLeftRingsModuleIndex,Index
 HandAccessoryLeftRingsModuleMiddle,Middle finger
 HandAccessoryLeftRingsModulePinkie,Pinkie
