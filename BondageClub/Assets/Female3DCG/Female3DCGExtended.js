@@ -1307,6 +1307,16 @@ var AssetFemale3DCGExtended = {
 			DrawImages: false,
 			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, { Name: "RightOnly" }],
 		},
+		HairBack73: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Long" }, { Name: "Medium" }, { Name: "Short" }],
+		},
+		HairBack74: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "A" }, { Name: "B" }, {Name: "C"}],
+		},
 	},
 	ClothAccessory: {
 		LeatherStraps: {

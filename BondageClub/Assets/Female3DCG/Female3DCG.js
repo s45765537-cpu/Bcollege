@@ -19447,6 +19447,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "HairBack71",
 				Top: 0,
+				Left: 53,
 				Layer: [
 					{
 						Name: "Base",
@@ -19466,6 +19467,86 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Tip",
+					},
+				],
+			},
+			{
+				Name: "HairBack73",
+				Top: 0,
+				Extended: true,
+				Layer: [
+					{
+						Name: "AFront",
+						AllowTypes: { typed: [0] },
+					},
+					{
+						Name: "ABack",
+						AllowTypes: { typed: [0] },
+						Priority: 4,
+					},
+					{
+						Name: "BFront",
+						CopyLayerColor: "AFront",
+						AllowTypes: { typed: [1] },
+					},
+					{
+						Name: "BBack",
+						CopyLayerColor: "ABack",
+						AllowTypes: { typed: [1] },
+						Priority: 4,
+					},
+					{
+						Name: "CFront",
+						CopyLayerColor: "AFront",
+						AllowTypes: { typed: [2] },
+					},
+					{
+						Name: "CBack",
+						CopyLayerColor: "ABack",
+						AllowTypes: { typed: [2] },
+						Priority: 4,
+					},
+				],
+			},
+			{
+				Name: "HairBack74",
+				Top: 0,
+				Left: 47,
+				Extended: true,
+				Layer: [
+					{
+						Name: "AFront",
+						AllowTypes: { typed: [0] },
+						Priority: 50,
+					},
+					{
+						Name: "ABack",
+						AllowTypes: { typed: [0] },
+						Priority: 4,
+					},
+					{
+						Name: "BFront",
+						CopyLayerColor: "AFront",
+						AllowTypes: { typed: [1] },
+						Priority: 50,
+					},
+					{
+						Name: "BBack",
+						CopyLayerColor: "ABack",
+						AllowTypes: { typed: [1] },
+						Priority: 4,
+					},
+					{
+						Name: "CFront",
+						CopyLayerColor: "AFront",
+						AllowTypes: { typed: [2] },
+						Priority: 50,
+					},
+					{
+						Name: "CBack",
+						CopyLayerColor: "ABack",
+						AllowTypes: { typed: [2] },
+						Priority: 4,
 					},
 				],
 			},

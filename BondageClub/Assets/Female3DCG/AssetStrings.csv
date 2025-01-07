@@ -1489,6 +1489,20 @@ HairBackHairBack69bSetRightOnly,SourceCharacter changes DestinationCharacter hai
 HairBackHairBack69bBoth,Both
 HairBackHairBack69nLeftOnly,Left Only
 HairBackHairBack69bRightOnly,Right Only
+HairBackHairBack73Select,Select Type.
+HairBackHairBack73SetLong,SourceCharacter changes DestinationCharacter hair.
+HairBackHairBack73SetMedium,SourceCharacter changes DestinationCharacter hair.
+HairBackHairBack73SetShort,SourceCharacter changes DestinationCharacter hair.
+HairBackHairBack73Long,Long
+HairBackHairBack73Medium,Medium
+HairBackHairBack73Short,Short
+HairBackHairBack74Select,Select Type.
+HairBackHairBack74SetA,SourceCharacter changes DestinationCharacter hair.
+HairBackHairBack74SetB,SourceCharacter changes DestinationCharacter hair.
+HairBackHairBack74SetC,SourceCharacter changes DestinationCharacter hair.
+HairBackHairBack74A,A
+HairBackHairBack74B,B
+HairBackHairBack74C,C
 HandAccessoryLeftRingsModuleIndex,Index
 HandAccessoryLeftRingsModuleMiddle,Middle finger
 HandAccessoryLeftRingsModulePinkie,Pinkie
