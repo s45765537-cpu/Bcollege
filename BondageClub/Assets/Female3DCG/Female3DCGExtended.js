@@ -8265,6 +8265,32 @@ var AssetFemale3DCGExtended = {
 								Effect: [],
 							},
 						},
+						{
+							Name: "Wig15",
+							Property: {
+								Hide: [
+									"Mask",
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+								],
+								Effect: [],
+							},
+						},
+						{
+							Name: "Wig16",
+							Property: {
+								Hide: [
+									"Mask",
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+								],
+								Effect: [],
+							},
+						},
 					],
 				},
 				{
@@ -10191,6 +10217,18 @@ var AssetFemale3DCGExtended = {
 						},
 						{
 							// m4 - Model 5
+							Property: {},
+						},
+						{
+							// m5 - Model 6
+							Property: {},
+						},
+						{
+							// m6 - Model 7
+							Property: {},
+						},
+						{
+							// m7 - Model 8
 							Property: {},
 						},
 					],
@@ -13979,6 +14017,30 @@ var AssetFemale3DCGExtended = {
 						},
 						{
 							// "Wig14"
+							Property: {
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+								],
+								Effect: [],
+							},
+						},
+						{
+							Name: "Wig15",
+							Property: {
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+								],
+								Effect: [],
+							},
+						},
+						{
+							Name: "Wig16",
 							Property: {
 								Hide: [
 									"HairFront",
