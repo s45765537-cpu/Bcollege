@@ -60,6 +60,7 @@ ClubCardDefeat,,,"You'll need to review your strategies comrade.  Losing is part
 90,,I could infiltrate their guard staff.,"You're already registered as a guard, get to work comrade.",,"PenitentiaryRoleIs(""G"")"
 90,0,I will create a new prison cell right now.,,"StartPenitentiary(""New"")","PenitentiaryRoleIs(""G"")"
 90,Guard3,I will infiltrate the current cells.,"Go now comrade!  (In mixed online chat rooms, search for rooms that begins with ""Pandora"" to enter an active cell.)",,"PenitentiaryRoleIs(""G"")"
+90,,Can I dress up as a guard?,You certainly can comrade.  (She helps you to dress up.),GuardDressUp(),"PenitentiaryRoleIs(""G"")"
 90,0,Let's talk about something else.,"Good, we have no time to waste.",,
 Inmate1,Inmate2,5 minutes.,Easy enough.  I will arrange a 5 minutes sentence for you.  Here's $5 for the trouble.  Bring lots of information.,"PreparePenitentiary(5, 5, ""I"")",
 Inmate1,Inmate2,15 minutes.,Alright.  I will arrange a 15 minutes sentence for you.  Here's $10 for the trouble.  Bring lots of information.,"PreparePenitentiary(15, 10, ""I"")",
@@ -81,6 +82,7 @@ Guard1,Guard2,24 hours.,Wow!  I will prepare a 24 hours guard shift for you.  He
 Guard1,0,Let me think about it first.,"Think quickly, the clock is ticking.",,
 Guard2,0,I will create a new prison cell right now.,,"StartPenitentiary(""New"")",
 Guard2,Guard3,I will infiltrate the current cells.,"Go now comrade!  (In mixed online chat rooms, search for rooms that begins with ""Pandora"" to enter an active cell.)",,
+Guard2,,Can I dress up as a guard?,You certainly can comrade.  (She helps you to dress up.),GuardDressUp(),
 Guard2,0,Wait!  I've changed my mind.,(She grumbles)  You're wasting my time comrade.,,
 Guard3,0,(Back to main hall.),,StartPenitentiary(),
 ObjectUSBKey,,,USB key,,

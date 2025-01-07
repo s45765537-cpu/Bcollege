@@ -606,3 +606,11 @@ function InfiltrationStartPenitentiary(Param) {
 	}
 	PandoraPenitentiaryStart(InfiltrationPenitentiaryMinutes, InfiltrationPenitentiaryRole);
 }
+
+/**
+ * When the player asks to be costumed as a guard
+ * @returns {void} - Nothing
+ */
+function InfiltrationGuardDressUp() {
+	PandoraDress(Player, "Guard");
+}

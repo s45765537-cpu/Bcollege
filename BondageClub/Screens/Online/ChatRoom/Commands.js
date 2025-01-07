@@ -828,6 +828,10 @@ const CommonCommands = [
 		Action: (_, msg) => ChatRoomSendEmote(msg),
 	},
 	{
+		Tag: 'pandora',
+		Action: args => PandoraPenitentiaryDoActivity(args),
+	},
+	{
 		Tag: 'help',
 		Action: args => CommandHelp(args),
 	},

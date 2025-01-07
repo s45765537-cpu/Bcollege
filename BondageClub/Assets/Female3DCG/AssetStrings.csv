@@ -1366,16 +1366,14 @@ GwenHoodSelectStyleBase, Select options
 GwenHoodSelectStyle,Select hood style
 GwenHoodSelectStyleHair,Select hair options
 GwenHoodSelectStyleFinish,Select material finish
-GwenHoodChangeStyleHairInAccIn,SourceCharacter changes the style of DestinationCharacter gwen hood.
-GwenHoodChangeStyleHairInAccOut,SourceCharacter changes the style of DestinationCharacter gwen hood.
-GwenHoodChangeStyleHairOutAccIn,SourceCharacter changes the style of DestinationCharacter gwen hood.
-GwenHoodChangeStyleHairOutAccOut,SourceCharacter changes the style of DestinationCharacter gwen hood.
 GwenHoodStyleh0,Hair out & Accessories out
 GwenHoodStyleh1,Hair in & Accessories out
 GwenHoodStyleh2,Hair out & Accessories in
 GwenHoodStyleh3,Hair in & Accessories in
 GwenHoodStylef0,Original
 GwenHoodStylef1,Smooth
+GwenHoodChangeStyleFinish,SourceCharacter changes the style of DestinationCharacter gwen hood.
+GwenHoodChangeStyleHair,SourceCharacter changes the style of DestinationCharacter gwen hood.
 HairAccessory1ElfEarsBehind,Behind hair
 HairAccessory1ElfEarsInFront,In front of hair
 HairAccessory1ElfEarsSelect,Select elf ears position
@@ -5487,10 +5485,10 @@ ShoesStrictPonyBootsSetBase,SourceCharacter changes DestinationCharacter boots.
 ShoesStrictPonyBootsSetBootsOnly,SourceCharacter changes DestinationCharacter boots.
 ShoesStrictPonyBootsBootsOnly,Boots Only
 ItemDevicesGlueFloorSelect,Legs position options:
-ItemDevicesGlueFloorStand,Stand pose
-ItemDevicesGlueFloorSetStand,SourceCharacter glued the DestinationCharacter feet on the ground with TargetPronounPossessive open legs.
-ItemDevicesGlueFloorLegsClosed,With legs closed
-ItemDevicesGlueFloorSetLegsClosed,SourceCharacter glued the DestinationCharacter feet on the ground with TargetPronounPossessive closed legs.
+ItemDevicesGlueFloorStand,Just gluing
+ItemDevicesGlueFloorSetStand,SourceCharacter just glues the DestinationCharacter feet on the ground.
+ItemDevicesGlueFloorLegsClosed,Legs closed
+ItemDevicesGlueFloorSetLegsClosed,SourceCharacter glues the DestinationCharacter feet on the ground forcing closing TargetPronounPossessive legs.
 ItemDevicesOneBarGirlSelectBase,Unsuspected pose bar main menu
 ItemDevicesOneBarGirlModuleModel,Fake legs model
 ItemDevicesOneBarGirlSelectModel,Choose a fake legs pair:
@@ -6104,3 +6102,27 @@ ItemHeadKigu2HoodSetNone,SourceCharacter changes the DestinationCharacter Rubber
 ItemHeadKigu2HoodSetThin,SourceCharacter changes the DestinationCharacter Rubber Kigurumi current lenses to a light tint pair.
 ItemHeadKigu2HoodSetThick,SourceCharacter changes the DestinationCharacter Rubber Kigurumi current lenses to a dark tint pair.
 ItemHeadKigu2HoodSetOpaque,SourceCharacter changes the DestinationCharacter Rubber Kigurumi current lenses to a pair of opaque panels.
+ItemBootsBalletMittensSelectBase,Pogo Ball extended restraint option:
+ItemBootsBalletMittensModulePogo,Current condition
+ItemBootsBalletMittensSelectPogo,Extended restraint menu:
+ItemBootsBalletMittensOptionp0,Just Ballet mittens
+ItemBootsBalletMittensOptionp1,Inside hollow Pogo Ball
+ItemBootsBalletMittensOptionp2,Inside solid Pogo Ball
+ItemBootsBalletMittensSetp0,SourceCharacter just leaves DestinationCharacterName feet locked into Ballet mittens.
+ItemBootsBalletMittensSetp1,SourceCharacter puts DestinationCharacter feet inside the hollow and light Pogo Ball device.
+ItemBootsBalletMittensSetp2,SourceCharacter puts DestinationCharacter feet inside the solid and heavy Pogo Ball device.
+ItemDevicesPogoBallSelect,Pogo Ball main menu:
+ItemDevicesPogoBallLight,Hollow Pogo Ball
+ItemDevicesPogoBallHeavy,Solid Pogo Ball
+ItemDevicesPogoBallSetLight,SourceCharacter puts DestinationCharacter feet inside the hollow and light Pogo Ball device.
+ItemDevicesPogoBallSetHeavy,SourceCharacter puts DestinationCharacter feet inside the solid and heavy Pogo Ball device.
+ClothAccessoryComboBeltSelectBase,Add or remove chains to your Combo Belt:
+ClothAccessoryComboBeltModuleChain,Add-Remove
+ClothAccessoryComboBeltSelectChain,Chains garters menu:
+ClothAccessoryComboBeltOptionc0,Added
+ClothAccessoryComboBeltOptionc1,Removed
+GartersComboBeltSelectBase,Add or remove chains to your Combo Belt:
+GartersComboBeltModuleChain,Add-Remove
+GartersComboBeltSelectChain,Chains garters menu:
+GartersComboBeltOptionc0,Add
+GartersComboBeltOptionc1,Remove
