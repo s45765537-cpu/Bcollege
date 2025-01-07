@@ -11649,7 +11649,6 @@ var AssetFemale3DCG = [
 				],
 				Alpha: [
 					{
-						Pose: PoseType.DEFAULT,
 						Group: [
 							"BodyLower",
 							"Socks",
@@ -11887,7 +11886,6 @@ var AssetFemale3DCG = [
 				],
 				Alpha: [
 					{
-						Pose: PoseType.DEFAULT,
 						Group: [
 							"BodyLower",
 							"Socks",
@@ -48958,8 +48956,7 @@ var AssetFemale3DCG = [
 				InventoryID: 1201,
 				Fetish: [
 					"Latex",
-					"Masochism",
-					"Extreme",
+					"Masochism"
 				],
 				Top: 28,
 				Left: 123,
@@ -49006,7 +49003,7 @@ var AssetFemale3DCG = [
 									"HairFront",
 									"Mask",
 									"Glasses",
-									"ItemMouth1",
+									"ItemMouth",
 									"ItemMouth2",
 									"ItemMouth3",
 									"ItemNose",
