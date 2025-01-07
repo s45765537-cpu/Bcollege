@@ -19436,6 +19436,39 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "HairBack70",
+				Top: 0,
+			},
+			{
+				Name: "HairBack70b",
+				Top: 0,
+			},
+			{
+				Name: "HairBack71",
+				Top: 0,
+				Layer: [
+					{
+						Name: "Base",
+					},
+					{
+						Name: "Streak",
+					},
+				],
+			},
+			{
+				Name: "HairBack72",
+				Top: 3,
+				Left: 53,
+				Layer: [
+					{
+						Name: "Base",
+					},
+					{
+						Name: "Tip",
+					},
+				],
+			},
 		],
 		Color: [
 			"Default",

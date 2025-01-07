@@ -407,11 +407,10 @@ HairBackHairBack65Right,Right
 HairBackHairBack65Left,Left
 HairBackHairBack65bRight,Right
 HairBackHairBack65bLeft,Left
-HairBackHairBack58Right,Right
 HairBackHairBack66Left,Left
 HairBackHairBack66Right,Right
 HairBackHairBack67Left,Left
-HairBackHairBack57Right,Right
+HairBackHairBack67Right,Right
 HairBackHairBack68BaseRight,Main Right
 HairBackHairBack68BaseLeft,Main Left
 HairBackHairBack68TipRight,Tip Right
@@ -424,6 +423,10 @@ HairBackHairBack69bBaseRight,Main Right
 HairBackHairBack69bBaseLeft,Main Left
 HairBackHairBack69bTipRight,Tip Right
 HairBackHairBack69bTipLeft,Tip Left
+HairBackHairBack71Base,Base
+HairBackHairBack71Streak,Streak
+HairBackHairBack72Base,Base
+HairBackHairBack72Tip,Tips
 HairFrontHairFront22Base, Base
 HairFrontHairFront22bBase, Base
 HairFrontHairFront22bFluff, Fluff
