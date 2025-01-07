@@ -1487,7 +1487,7 @@ HairBackHairBack69bSetBoth,SourceCharacter changes DestinationCharacter hair.
 HairBackHairBack69bSetLeftOnly,SourceCharacter changes DestinationCharacter hair.
 HairBackHairBack69bSetRightOnly,SourceCharacter changes DestinationCharacter hair.
 HairBackHairBack69bBoth,Both
-HairBackHairBack69nLeftOnly,Left Only
+HairBackHairBack69bLeftOnly,Left Only
 HairBackHairBack69bRightOnly,Right Only
 HairBackHairBack73Select,Select Type.
 HairBackHairBack73SetLong,SourceCharacter changes DestinationCharacter hair.
@@ -1503,6 +1503,39 @@ HairBackHairBack74SetC,SourceCharacter changes DestinationCharacter hair.
 HairBackHairBack74A,A
 HairBackHairBack74B,B
 HairBackHairBack74C,C
+HairBackHairBack75ModuleLeft,Left
+HairBackHairBack75ModuleRight,Right
+HairBackHairBack75OptionL0,Bun + Strand
+HairBackHairBack75OptionL1,Bun
+HairBackHairBack75OptionL2,None
+HairBackHairBack75OptionR0,Bun + Strand
+HairBackHairBack75OptionR1,Bun
+HairBackHairBack75OptionR2,None
+HairBackHairBack75SelectBase,Select Option
+HairBackHairBack75SelectLeft,Select Style
+HairBackHairBack75SelectRight,Select Style
+HairBackHairBack75ModuleLeft,Left
+HairBackHairBack75ModuleRight,Right
+HairBackHairBack75OptionL0,Bun + Braid + Strand
+HairBackHairBack75OptionL1,Bun + Braid
+HairBackHairBack75OptionL2,Bun + Strand
+HairBackHairBack75OptionL3,Bun
+HairBackHairBack75OptionL4,None
+HairBackHairBack75OptionR0,Bun + Braid + Strand
+HairBackHairBack75OptionR1,Bun + Braid
+HairBackHairBack75OptionR2,Bun + Strand
+HairBackHairBack75OptionR3,Bun
+HairBackHairBack75OptionR4,None
+HairBackHairBack75SelectBase,Select Option
+HairBackHairBack75SelectLeft,Select Style
+HairBackHairBack75SelectRight,Select Style
+HairBackHairBack76bSelect,Select Type.
+HairBackHairBack76bSetBoth,SourceCharacter changes DestinationCharacter hair.
+HairBackHairBack76bSetLeftOnly,SourceCharacter changes DestinationCharacter hair.
+HairBackHairBack76bSetRightOnly,SourceCharacter changes DestinationCharacter hair.
+HairBackHairBack76bBoth,Both
+HairBackHairBack76bLeftOnly,Left Only
+HairBackHairBack76bRightOnly,Right Only
 HandAccessoryLeftRingsModuleIndex,Index
 HandAccessoryLeftRingsModuleMiddle,Middle finger
 HandAccessoryLeftRingsModulePinkie,Pinkie
