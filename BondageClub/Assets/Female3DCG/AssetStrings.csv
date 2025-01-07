@@ -1366,16 +1366,14 @@ GwenHoodSelectStyleBase, Select options
 GwenHoodSelectStyle,Select hood style
 GwenHoodSelectStyleHair,Select hair options
 GwenHoodSelectStyleFinish,Select material finish
-GwenHoodChangeStyleHairInAccIn,SourceCharacter changes the style of DestinationCharacter gwen hood.
-GwenHoodChangeStyleHairInAccOut,SourceCharacter changes the style of DestinationCharacter gwen hood.
-GwenHoodChangeStyleHairOutAccIn,SourceCharacter changes the style of DestinationCharacter gwen hood.
-GwenHoodChangeStyleHairOutAccOut,SourceCharacter changes the style of DestinationCharacter gwen hood.
 GwenHoodStyleh0,Hair out & Accessories out
 GwenHoodStyleh1,Hair in & Accessories out
 GwenHoodStyleh2,Hair out & Accessories in
 GwenHoodStyleh3,Hair in & Accessories in
 GwenHoodStylef0,Original
 GwenHoodStylef1,Smooth
+GwenHoodChangeStyleFinish,SourceCharacter changes the style of DestinationCharacter gwen hood.
+GwenHoodChangeStyleHair,SourceCharacter changes the style of DestinationCharacter gwen hood.
 HairAccessory1ElfEarsBehind,Behind hair
 HairAccessory1ElfEarsInFront,In front of hair
 HairAccessory1ElfEarsSelect,Select elf ears position
