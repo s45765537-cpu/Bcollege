@@ -506,7 +506,30 @@ HairBack,HairBack60,Style 60
 HairBack,HairBack61,Style 61
 HairBack,HairBack62,Style 62
 HairBack,HairBack63,Style 63
+HairBack,HairBack64,Style 64
 HairBack,ScalyBackHair,Scaly Hair
+HairBack,HairBack65,Style 65
+HairBack,HairBack65b,Style 65b
+HairBack,HairBack66,Style 66
+HairBack,HairBack67,Style 67
+HairBack,HairBack68,Style 68
+HairBack,HairBack69,Style 69
+HairBack,HairBack69b,Style 69b
+HairBack,HairBack70,Style 70
+HairBack,HairBack70b,Style 70b
+HairBack,HairBack71,Style 71
+HairBack,HairBack72,Style 72
+HairBack,HairBack73,Style 73
+HairBack,HairBack74,Style 74
+HairBack,HairBack75,Style 75
+HairBack,HairBack76,Style 76
+HairBack,HairBack76b,Style 76b
+HairBack,HairBack77,Style 77
+HairBack,HairBack77b,Style 77b
+HairBack,HairBack77c,Style 77c
+HairBack,HairBack78,Style 78
+HairBack,HairBack78b,Style 78b
+HairBack,HairBack78c,Style 78c
 HairBack,HairNone,None
 HairFront,,Front Hair
 HairFront,HairFront1,Style 1
@@ -607,6 +630,8 @@ HairFront,HairFront61,Style 61
 HairFront,ScalyHair,Scaly Hair
 HairFront,HairFront62a,Style 62a
 HairFront,HairFront62b,Style 62b
+HairFront,HairFront63,Style 63
+HairFront,HairFront64,Style 64
 HandAccessoryLeft,,Hand Accessory (Left)
 HandAccessoryLeft,CatsuitGloves,Catsuit Gloves
 HandAccessoryLeft,Claws,Claws

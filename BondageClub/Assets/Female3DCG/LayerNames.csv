@@ -406,6 +406,70 @@ HairBackHairBack63Braid,Left
 HairBackHairBack63BraidRight,Right
 HairBackHairBack63Band,Scrunchies
 HairBackHairBack63Ribbon,Ribbons
+HairBackHairBack65Right,Right
+HairBackHairBack65Left,Left
+HairBackHairBack65bRight,Right
+HairBackHairBack65bLeft,Left
+HairBackHairBack66Left,Left
+HairBackHairBack66Right,Right
+HairBackHairBack67Left,Left
+HairBackHairBack67Right,Right
+HairBackHairBack68BaseRight,Main Right
+HairBackHairBack68BaseLeft,Main Left
+HairBackHairBack68TipRight,Tip Right
+HairBackHairBack68TipLeft,Tip Left
+HairBackHairBack69BaseRight,Main Right
+HairBackHairBack69BaseLeft,Main Left
+HairBackHairBack69TipRight,Tip Right
+HairBackHairBack69TipLeft,Tip Left
+HairBackHairBack69bBaseRight,Main Right
+HairBackHairBack69bBaseLeft,Main Left
+HairBackHairBack69bTipRight,Tip Right
+HairBackHairBack69bTipLeft,Tip Left
+HairBackHairBack71Base,Base
+HairBackHairBack71Streak,Streak
+HairBackHairBack72Base,Base
+HairBackHairBack72Tip,Tips
+HairBackHairBack73AFront,Front
+HairBackHairBack73ABack,Back
+HairBackHairBack74AFront,Front
+HairBackHairBack74ABack,Back
+HairBackHairBack75Right,Right Bun
+HairBackHairBack75Left,Left Bun
+HairBackHairBack75RightStrand,Right Strand
+HairBackHairBack75LeftStrand,Left Strand
+HairBackHairBack76Right,Right Bun
+HairBackHairBack76Left,Left Bun
+HairBackHairBack76RightStrand,Right Strand
+HairBackHairBack76LeftStrand,Left Strand
+HairBackHairBack76RightBraid,Right Braid
+HairBackHairBack76LeftBraid,Left Braid
+HairBackHairBack76bLeft,Left
+HairBackHairBack76bRight,Right
+HairBackHairBack77Right,Right Bun
+HairBackHairBack77Left,Left Bun
+HairBackHairBack77RightStrand,Right Strand
+HairBackHairBack77LeftStrand,Left Strand
+HairBackHairBack77RightBraid,Right Braid
+HairBackHairBack77LeftBraid,Left Braid
+HairBackHairBack77bRight,Right Bun
+HairBackHairBack77bLeft,Left Bun
+HairBackHairBack77bRightBraid,Right Braid
+HairBackHairBack77bLeftBraid,Left Braid
+HairBackHairBack77cMain,Main
+HairBackHairBack77cBraid,Braid
+HairBackHairBack78Right,Right Bun
+HairBackHairBack78Left,Left Bun
+HairBackHairBack78RightStrand,Right Strand
+HairBackHairBack78LeftStrand,Left Strand
+HairBackHairBack78RightBraid,Right Braid
+HairBackHairBack78LeftBraid,Left Braid
+HairBackHairBack78bRight,Right Bun
+HairBackHairBack78bLeft,Left Bun
+HairBackHairBack78bRightBraid,Right Braid
+HairBackHairBack78bLeftBraid,Left Braid
+HairBackHairBack78cMain,Main
+HairBackHairBack78cBraid,Braid
 HairFrontHairFront22Base, Base
 HairFrontHairFront22bBase, Base
 HairFrontHairFront22bFluff, Fluff
@@ -507,6 +571,10 @@ HairFrontHairFront62bGlossyBase,Base
 HairFrontHairFront62bTone,Ends
 HairFrontHairFront62bStrands,Strands
 HairFrontHairFront62bBraids,Extra
+HairFrontHairFront63Main,Main
+HairFrontHairFront63Back,Back
+HairFrontHairFront64Main,Main
+HairFrontHairFront64Clip,Clip
 HatAnimeGirlTiaraMain,Tiara
 HatAnimeGirlTiaraDetail,Detail
 HatAnimeGirlTiaraJewel,Jewel
