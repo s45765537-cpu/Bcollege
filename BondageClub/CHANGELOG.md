@@ -11,9 +11,62 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2024-12-16
-* Last recorded PR: [#5331](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5331)
-* Last recorded commit hash: `9ddee8b47033960173a5e353cefc594f2a31c5a9`
+* Changelog last updated: 2025-01-07
+* Last recorded PR: [#5363](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5363)
+* Last recorded commit hash: `239fbedf70559a9710d43d483ed13d60f979354c`
+
+## [R112]
+
+### [Changes]
+
+* Cleon - BalletMittens+PogoBall and ComboBelt(Combo Boots feature). Fix:... ([#5359](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5359))
+* Cleon - WitchShoes-InflatableDress-RubberKigu-RibbonCorset + CustomHeels fix ([#5351](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5351))
+* Cleon - MidLegSkirt, RubberMask new wigs, OneBarGirl new poses and Cement fix. ([#5362](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5362))
+* Haruhi - Added HairFront 63, 64 and HairBack 64 - HairBack 78c. Slight modification to HairBack 62 ([#5363](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5363))
+* KyraObscura - Update FaceWriting InventoryID ([#5350](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5350))
+* KyraObscura - Custom Latex Hood Updates ([#5352](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5352))
+* KyraObscura - Make Sleeveless Top More Colourable ([#5353](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5353))
+* KyraObscura - Add Satin Scarf Item ([#5354](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5354))
+* KyraObscura - Move Facialhair Group ([#5355](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5355))
+* KyraObscura - Gwen Hood Update ([#5356](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5356))
+* KyraObscura - Add the FaceMarking group and FaceWriting item ([#5346](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5346))
+* KyraObscura - Change: Colourable Studded Harness ([#5334](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5334))
+* Estsanatlehi - Quick fixes around searching, room admining, and joining ([#5285](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5285))
+* Rama - Change the crafting description text-alignment to `left` ([#5349](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5349))
+* Rama - Ensure that crafted items are first sorted by asset name and then custom craft name ([#5348](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5348))
+* Rama - Centralize the styling of scrollbar-containing elements ([#5343](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5343))
+* Rama - Add a helper function for handling the navigation scrolling of `KeyDown` screen functions ([#5342](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5342))
+* Rama - Allow to specify whether button tooltips should serve as label or description ([#5326](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5326))
+* Rama - Add styling for un-toggleable radio buttons ([#5309](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5309))
+* Ben987 - Pandora Online Prison - New Prison Restraints Activity + Extra Validations
+* Ben987 - Pandora Online Prison - 7 New Backgrounds
+* Ben987 - Pandora Online Prison - Cage & Uncage Activities
+* Ben987 - Pandora Online Prison - All Restraints Activities - Higher Base Struggle Difficulty
+* Ben987 - Pandora Online Prison - Guard Role
+* Ben987 - Pandora Online Prison - Player Guard Activities on Inmates
+* Ben987 - Pandora Online Prison - Player Guard Costume
+* Ben987 - Change Log + Credits
+
+### [Fixes]
+
+* Capy - Let GGTS control FuckMachine intensity regardless of whether player is restrained ([#5345](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5345))
+* lera - Correct typo in Dialog_NPC_Private_Custom ([#5332](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5332))
+* KyraObscura - Gwen Hood Update Fix ([#5361](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5361))
+* huzpsb - Fixed an exploit. ([#5360](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5360))
+* Estsanatlehi - Move the left hand under the right hand ([#5336](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5336))
+* Estsanatlehi - Copy over missing login status string from Login to Relog ([#5339](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5339))
+* Estsanatlehi - Remove the prerequisites locking phones to females ([#5340](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5340))
+* Rama - Provide better DOM element support for older browsers ([#5357](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5357))
+* Rama - Fix scroll wheel and scroll bar browser inconsistencies ([#5333](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5333))
+* Rama - Fix the button icons not properly updating when cycling through permission modes ([#5337](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5337))
+* Rama - Fix minigames not properly leaving the dialog subscreen ([#5341](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5341))
+* Ben987 - Few Fixes on the ComboBelt and PogoBall
+
+### [Technical]
+
+* Rama - Fix styling for ancient browsers ([#5344](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5344))
+* Rama - Ensure that extended item sanitization preserves locks when repairing properties ([#5338](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5338))
+* Ben987 - Fixes to Female3DCG Assets
 
 ## [R111]
 
