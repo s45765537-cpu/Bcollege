@@ -509,6 +509,17 @@ var ClubCardList = [
 		MoneyPerTurn: 1,
 		RequiredLevel: 2,
 	},
+	{
+		ID: 3016,
+		Name: "Tax Auditor",
+		Group: ["Police"],
+		MoneyPerTurn: 1,
+		Prerequisite: "SelectOpponentMember",
+		OnPlay: function(CCPlayer) {
+			if (ClubCardSelection == null) return;
+			ClubCardGetOpponent(CCPlayer).Board[ClubCardSelection.ArrayIndex].MoneyPerTurn = 1;
+		}
+	},
 
 	// 4000 - Fetishists (Synergies with other groups)
 	{
@@ -768,11 +779,8 @@ var ClubCardList = [
 		FamePerTurn: 1,
 		onPlayedCard: function(CCPlayer, cardPlayed) {
 			if (!ClubCardCardHasGroup(cardPlayed, "Maid") && cardPlayed.Type === "Member" && cardPlayed.Group != null) {
-				let sharedGroupCount = 0;
-				for (const group of cardPlayed.Group) {
-					sharedGroupCount = sharedGroupCount + ClubCardGroupOnBoardCount(CCPlayer, group);
-				}
-				ClubCardPlayerAddFame(CCPlayer, Math.min(CCPlayer.Level, sharedGroupCount));
+				let sharedGroupCards = CCPlayer.Board.filter(value => cardPlayed.Group.some(group => ClubCardCardHasGroup(value, group)));
+				ClubCardPlayerAddFame(CCPlayer, Math.min(CCPlayer.Level, sharedGroupCards.length - 1));
 			}
 		}
 	},
@@ -798,6 +806,20 @@ var ClubCardList = [
 			let t5cards = CCPlayer.Board.filter(card => card.RequiredLevel == 5);
 			let effectFame = Math.min(8, 3 * t5cards.length);
 			ClubCardPlayerAddFame(CCPlayer, effectFame);
+		}
+	},
+	{
+		ID: 6010,
+		Name: "Night Maid",
+		Group: ["Maid"],
+		RequiredLevel: 5,
+		MoneyPerTurn: 2,
+		FamePerTurn: 2,
+		BeforeTurnEnd: function(CCPlayer) {
+			if (CCPlayer.Event.length > 0) {
+				ClubCardPlayerAddFame(CCPlayer, 2);
+				ClubCardPlayerAddMoney(CCPlayer, 4);
+			}
 		}
 	},
 
@@ -2414,6 +2436,18 @@ var ClubCardList = [
 			}
 			ClubCardLogGetDataPacket(ClubCardMessageType.CARDEFFECT, "EventExpired", CCPlayer, null, ClubCardSelection);
 		}
+	},
+	{
+		ID: 31025,
+		Name: "Afterhours Service",
+		Type: "Event",
+		RequiredLevel: 5,
+		Time: 3,
+		BeforeTurnEnd: function(CCPlayer) {
+			let groupsCardsOnBoard = CCPlayer.Board.filter(value => ["Maid", "Staff"].some(group => ClubCardCardHasGroup(value, group)));
+			ClubCardPlayerAddFame(CCPlayer, groupsCardsOnBoard.length);
+			ClubCardPlayerAddMoney(CCPlayer, groupsCardsOnBoard.length * -2);
+		}
 	}
 ];
 
@@ -3643,8 +3677,6 @@ function ClubCardEndTurn(Draw = false) {
 		ClubCardMessagePacketSend(victoryEndTurnPacket);
 		GameClubCardSyncOnlineData();
 
-		ClubCardFocus = null;
-
 		// Notices everyone in the room that the game end
 		if (ClubCardIsOnline()) {
 			const Dictionary = new DictionaryBuilder().sourceCharacter(Player).build();
@@ -3858,12 +3890,12 @@ function ClubCardCanPlayCard(CCPlayer, Card) {
  */
 function ClubCardCanSelectCard(CCPlayer, Card) {
 	if ((CCPlayer == null) || (Card == null) || (ClubCardPending == null) || (ClubCardPending.Prerequisite == null)) return false;
-	if ((ClubCardPending.Prerequisite === "SelectOwnMember") && (CCPlayer.Index == 0) && (Card.Location == "PlayerBoard") && (Card.Type === "Member")) return true;
-	if ((ClubCardPending.Prerequisite === "SelectOwnMember") && (CCPlayer.Index == 1) && (Card.Location == "OpponentBoard") && (Card.Type === "Member")) return true;
-	if ((ClubCardPending.Prerequisite === "SelectOpponentMember") && (CCPlayer.Index == 0) && (Card.Location == "OpponentBoard") && (Card.Type === "Member")) return true;
-	if ((ClubCardPending.Prerequisite === "SelectOpponentMember") && (CCPlayer.Index == 1) && (Card.Location == "PlayerBoard") && (Card.Type === "Member")) return true;
+	if ((ClubCardPending.Prerequisite === "SelectOwnMember") && ClubCardCardsSelectConditions(Card) && (CCPlayer.Index == 0) && (Card.Location == "PlayerBoard") && (Card.Type === "Member")) return true;
+	if ((ClubCardPending.Prerequisite === "SelectOwnMember") && ClubCardCardsSelectConditions(Card) && (CCPlayer.Index == 1) && (Card.Location == "OpponentBoard") && (Card.Type === "Member")) return true;
+	if ((ClubCardPending.Prerequisite === "SelectOpponentMember") && ClubCardCardsSelectConditions(Card) && (CCPlayer.Index == 0) && (Card.Location == "OpponentBoard") && (Card.Type === "Member")) return true;
+	if ((ClubCardPending.Prerequisite === "SelectOpponentMember") && ClubCardCardsSelectConditions(Card) && (CCPlayer.Index == 1) && (Card.Location == "PlayerBoard") && (Card.Type === "Member")) return true;
 	if ((ClubCardPending.Prerequisite === "SelectAnyMember") && ClubCardCardsSelectConditions(Card) && ((Card.Location == "PlayerBoard") || (Card.Location == "OpponentBoard")) && (Card.Type === "Member")) return true;
-	if ((ClubCardPending.Prerequisite === "SelectAnyEvent") && ((Card.Location == "PlayerBoard") || (Card.Location == "OpponentBoard")) && (Card.Type === "Event")) return true;
+	if ((ClubCardPending.Prerequisite === "SelectAnyEvent") && ClubCardCardsSelectConditions(Card) && ((Card.Location == "PlayerBoard") || (Card.Location == "OpponentBoard")) && (Card.Type === "Event")) return true;
 	return false;
 }
 
@@ -3874,6 +3906,7 @@ function ClubCardCanSelectCard(CCPlayer, Card) {
  */
 function ClubCardCardsSelectConditions(Card) {
 	if (ClubCardPending.Name === "Moon" && Card.Name === "Moon") return false;
+	if (ClubCardPending.Name === "Tax Auditor" && Card.RequiredLevel > 3) return false;
 	return true;
 }
 

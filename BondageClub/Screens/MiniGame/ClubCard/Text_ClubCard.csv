@@ -148,7 +148,7 @@ Text Stepmother,"When a member with - Fame enters, Steal Fame equal to twice the
 Title Sheriff,Sheriff
 Text Sheriff,Draw 2 cards when she enters your club.
 Title Maid Lover,Maid Lover
-Text Maid Lover,+1 Money per turn for each Maid present.
+Text Maid Lover,+1 Money per turn for each Maid present. (max 3)
 Title Diaper Lover,Diaper Lover
 Text Diaper Lover,+1 Money per turn for each ABDL Baby present.
 Title Masochist,Masochist
@@ -182,7 +182,7 @@ Text Regular Maid,<F>Should I refresh your drink Miss?
 Title French Maid,French Maid
 Text French Maid,<F>Pour un service impeccable et coquin.
 Title Head Maid,Head Maid
-Text Head Maid,+1 Fame per turn for each other Maid present.
+Text Head Maid,+1 Fame per turn for each other Maid present. (max 6)
 Title Confused Maid,Confused Maid
 Text Confused Maid,<F>I've tried three dusters but this toilet is still clogged.
 Title Curious Patient,Curious Patient
@@ -479,7 +479,7 @@ Title Feline Fatale,Feline Fatale
 Text Feline Fatale,"When she enters the club, lose 14 money and remove a member from the opponent's club and they lose fame equal to your building level."
 Prerequisite Feline Fatale,Select a member from your opponent club to remove.
 Title Wolf Girl,Wolf Girl
-Text Wolf Girl,"When she enters the club, lose 7 money and the opponent discards a card. Gains +1 Fame per 2 building levels. Gains 1 money if an owner is present in your club."
+Text Wolf Girl,"Enters: Lose 7 Money & opponent randomly discards a card. +1 Fame per 2 of your building levels. +1 Money if an owner is present."
 Title Pet toys,Pet toys
 Text Pet toys,"Gain 2 money per pet in your club and gain 2 Fame per owner in your club, then play again. "
 Title Pet Sitter,Pet Sitter
@@ -497,7 +497,7 @@ Title Miss Mouse,Miss Mouse
 Text Miss Mouse,"Costs 1 Money. When you play a pet, gain 1 Fame per 2 building tiers. Gains +1 Money if owner present."
 Effect Miss Mouse,"SOURCEPLAYER gained AMOUNT fame from Miss Mouse"
 Title Rich Owner,Rich Owner
-Text Rich Owner,"Pets treat your building level as 1 higher. When you play a Pet, you gain 1 Money for each pet in your club (Max 5). Gains +1 Fame if a maid is present"
+Text Rich Owner,"Pets treat your building level as 1 higher. +1 Fame if a Maid is present. When a Pet enters, gain 1 Money per pet present (Max 5)"
 Title Tour Guide,Tour Guide
 Text Tour Guide,"When she enters your club, draw a card. Gains +3 money if tourist is present, gains +3 fame if diplomat is present."
 Title Moon,"Moon"
@@ -526,3 +526,10 @@ Text Throne Room Servant,"Gains +3 fame per tier 5 member in your club (Max +8)"
 Title Feather Duster,Feather Duster
 Text Feather Duster,"End any one event currently in play, if you control a maid, gain money equal to its tier and draw a card."
 Prerequisite Feather Duster,Select an ongoing event to end.
+Title Afterhours Service,Afterhours Service
+Text Afterhours Service,"For the next three turns, for each maid or staff in your club you lose 2 money and gain 1 fame."
+Title Night Maid,Night Maid
+Text Night Maid,Gains  +2 fame and +4 money as long as you have an active event.
+Title Tax Auditor,Tax Auditor
+Text Tax Auditor,"Enters: Select a level 3 or lower member in your opponent's club and set their Money to 1."
+Prerequisite Tax Auditor,Select a member from your opponent club to set its money to 1
