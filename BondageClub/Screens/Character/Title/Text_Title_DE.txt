@@ -14,6 +14,8 @@ None
 Nichts
 Mistress
 Herrin
+Master
+Master
 Club Slave
 Clubsklavin
 Head Maid
@@ -38,6 +40,8 @@ Doctor
 Doktor
 Lady Luck
 Lady Luck
+Lord Fortune
+Lord Fortune
 Patron
 Patron
 College Student
@@ -46,6 +50,10 @@ Nawashi
 Nawashi
 Houdini
 Houdini
+Superheroine
+Superheldin
+Superhero
+Superheld
 Foal
 Fohlen
 Farm Horse
@@ -100,8 +108,26 @@ Bondage Baby
 Bondage Baby
 Duchess
 Herzogin
+Duke
+Herzog
 Switch
 Wechsler
+Princess
+Prinzessin
+Prince
+Prinz
+Missy
+Missy
+Sissy
+Sissy
+Tomboy
+Tomboy
+Femboy
+Femboy
+Pet
+Haustier
+Brat
+Balg
 Kitten
 Kätzchen
 Puppy
@@ -116,13 +142,35 @@ Demon
 dämonin
 Angel
 Engel
+Alien
+Alien
 Succubus
 Succubus
+Incubus
+Incubus
 Good Girl
 Good Girl
 Good Slave Girl
 Good Slave Girl
+Good Boy
+Good Boy
+Good Slave Boy
+Good Slave Boy
 Good Slave
 Good Slave
 Drone
 Drohne
+Mistree
+Mistree
+Good One
+Good One
+Liege
+Liege
+Concubus
+Concubus
+Majesty
+Majestät
+Captain
+Kapitän
+Admiral
+Admiral
