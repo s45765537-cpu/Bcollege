@@ -46,6 +46,7 @@ BlockedByPermissions,Item is blocked by user.
 BlockedByRoom,Item is blocked in this room.
 Brightness,Brightness
 Cancel,Cancel
+CannotSelfSelect,Cannot change this option by yourself.
 CannotUseOnSelf,Cannot use on yourself.
 CantChangeWhileLocked,Cannot change while locked
 Challenge,Challenge:
