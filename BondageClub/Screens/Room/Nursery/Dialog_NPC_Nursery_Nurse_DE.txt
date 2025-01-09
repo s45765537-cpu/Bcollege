@@ -1,17 +1,17 @@
 ###_NPC
 Pacified big babies sound adorable when they try to talk.
 Große Babys mit Schnullern klingen so niedlich, wenn sie versuchen zu reden.
-What do you think you are doing?  Bad babies like you shouldn't be free to cause more trouble.
+What do you think you're doing?  Bad babies like you shouldn't be free to cause more trouble.
 Was machst du denn da bitte? Böse Babys wie du sollten nicht frei sein, um noch mehr anstellen zu können.
-What do you think you’re doing?  You should still be wear diapers.  You've been a very bad baby removing them.
+What do you think you’re doing?  You should be wearing diapers.  You've been a very bad baby removing them.
 Was machst du denn da bitte? Du solltest doch Windeln tragen. Du warst ein sehr böses Baby, als du sie ausgezogen hast.
-Those are not appropriate clothes for an adult baby to wearing in this nursery.  How am I supposed to check your diaper?
+Those are not appropriate clothes for an adult baby to wear in this nursery.  How am I supposed to check your diaper?
 Diese Kleidung ist für große Babys in dieser Kinderstube unangemessen. Wie soll ich denn so nach deiner Windel sehen?
 Where do you think you're trying to sneak off to?
 Wohin versuchst du dich denn davonzuschleichen?
-Looks like someone doesn't know when to stop miss behaving.
+Looks like someone doesn't know when to stop misbehaving.
 Hier weiß wohl jemand nicht, wann es an der Zeit ist, sich endlich zu benehmen.
-Baby DialogPlayerName again??  You are by far the worst behaved brat I have ever had to look after.
+Baby DialogPlayerName again??  You are by far the worst-behaved brat I have ever had to look after.
 Schon wieder Baby DialogPlayerName?? Du bist mit Abstand das unartigste Balg, um das ich mich je kümmern musste.
 (She first shakes her head to avoid the gag, but finally surrenders as you silence her.)
 (Sie schüttelt erst den Kopf, um dem Knebel zu entgehen, lässt sich aber schließlich von dir zum Schweigen bringen.)
@@ -23,7 +23,7 @@ Schon wieder Baby DialogPlayerName?? Du bist mit Abstand das unartigste Balg, um
 (Du befreist ihre Arme und sie nickt glücklich.) Vielen Dank, Miss.
 (She submits to you while you restrain her legs securely.)  I don't need to move anyway.
 (Sie lässt sich von dir ordentlich die Beine fesseln.) Ich muss sowieso nicht von hier weg.
-(You release her legs from the restraint.)  Let me know if I can help you Miss.
+(You release her legs from the restraints.)  Let me know if I can help you Miss.
 (Du befreist ihre Beine.) Sagen Sie Bescheid, wenn ich behilflich sein kann, Miss.
 (She looks puzzled as you restrain her feet.)  I'll stay on guard here Miss.
 (Sie guckt verwirrt, als du ihre Füße fesselst.) Ich halte hier die Stellung, Miss.
@@ -47,7 +47,7 @@ Schon wieder Baby DialogPlayerName?? Du bist mit Abstand das unartigste Balg, um
 (Du peitschst ihr mit der Ledergerte auf die Brust und sie lässt wimmernd den Kopf hängen.)
 (You whip her butt hard as she sighs.)  I promise I'll work harder Miss Head Maid.
 (Du peitschst ihr kräftig auf den Hintern und sie seufzt.) Ich verspreche, härter zu arbeiten, Frau Hausdame.
-(She grumbles as you strike her butt with the crop.)  A maid work isn't easy.
+(She grumbles as you strike her butt with the crop.)  A maid's work is never easy.
 (Sie grummelt, als du ihren Hintern mit der Gerte triffst.) Ein Hausmädchen hat es nicht leicht.
 Welcome to the Nursery.  How can I help you?
 Willkommen in der Kinderstube. Wie kann ich dir helfen?
@@ -61,13 +61,13 @@ Schön dich kennenzulernen. Ich bin DialogCharacterName, eine der Schwestern.
 What is this place?
 Was ist das für ein Ort?
 ###_NPC
-This is the nursery, setup as a safe environment for adult babies in need of some motherly compassion, fun and discipline.
+This is the nursery, set up as a safe environment for adult babies in need of some motherly compassion, fun and discipline.
 Dies ist die Kinderstube, eine sichere Umgebung für erwachsene Babys, die mütterliche Liebe, Spaß und Disziplin brauchen.
 ###_PLAYER
 May I join the nursery?
 Kann ich der Kinderstube beitreten?
 ###_NPC
-Of course, we are always welcoming to good little boys and girls.  You are aware of what the nursery's requirements of those in its care?
+Of course, we are always welcoming good little boys and girls.  You are aware of what the nursery's requirements are from those in its care?
 Natürlich, brave kleine Jungs und Mädchen sind hier immer willkommen. Sind dir die Bedingungen der Kinderstube an ihre Schützlinge bekannt?
 ###_PLAYER
 I'm ready to join the nursery again.
@@ -113,7 +113,7 @@ Dom rep -1
 Can I become a nurse?
 Kann ich eine Schwester werden?
 ###_NPC
-We are not hiring nurses at the moment.  When we do we only hire club members with good reputations in the nursery and the maid sorority.
+We are not hiring nurses at the moment.  When we do, we only hire club members with good reputations in the nursery and the maid sorority.
 Momentan stellen wir keine neuen Schwestern ein. Wenn doch, kommen nur Mitglieder mit hohen Rängen in der Kinderstube und bei den Hausmädchen in Frage.
 ###_PLAYER
 Can I become a matron?
@@ -125,7 +125,7 @@ Nur die besten Schwestern erhalten je dieses Privileg.
 Ooh Matron.
 Uuh, Hausmutter.
 ###_NPC
-Carry on like that and you will feel a painsy-wainsy in your botty-wotty!
+Carry on like that and you will feel a painsy-wainsy in your little botty-wotty!
 Mach weiter so, dann hast du bald ein Aua-aua an deinem Popo!
 ###_PLAYER
 Would I have to wear a uniform?
@@ -146,7 +146,7 @@ Wer sollte das wollen?
 You would be surprised and we don't judge our charges.  Even some of the most dominant kidnappers also like a cuddle and nap time.
 Du wärst überrascht, und wir beurteilen hier niemanden. Selbst ein paar der dominantesten Kidnapper wollen manchmal kuscheln oder Nickerchen halten.
 ###_PLAYER
-I though this place was a bondage club.
+I thought this place was a bondage club.
 Ich dachte, das hier wäre ein Bondage-Club.
 ###_NPC
 It is indeed.  We can use a variety of items and methods to ensure our adult babies are always on their best behaviour.
@@ -185,19 +185,19 @@ Das Wichtigste sind die Windeln. Saubere Windeln sind beim Eintritt Pflicht. Wir
 I don't want to join.
 Ich möchte nicht beitreten.
 ###_NPC
-Make up your mind or do you really need someone to care and help make those difficult decisions for you?
+Make up your mind. Or do you need someone to help make those difficult decisions for you?
 Entscheide dich mal, oder brauchst du etwa wirklich jemanden, der sich um dich kümmert und dir diese schwierigen Entscheidungen abnimmt?
 ###_PLAYER
 Okay, what else is there?
 Okay, was wäre da noch?
 ###_NPC
-We don't allow big girl clothes hiding diapers either.  You can wear just diapers, but we have a super selection lovely dresses you can wear.
+We don't allow big girl clothes to hide diapers either.  You can wear only diapers, but we also have a super selection of lovely dresses you can try on.
 Es ist auch keine Kleidung für große Mädchen erlaubt. Du kannst einfach Windeln tragen, aber wir bieten auch eine Auswahl von niedlichen Kleidern.
 ###_PLAYER
 Why the fee?
 Wozu die Gebühr?
 ###_NPC
-This place is not cheap to run.  The price for the diapers covers other running cost.
+This place is not cheap to run.  The price is both for the diapers as well as covering other running costs.
 Es ist nicht billig, das hier am Laufen zu halten. Der Preis für die Windeln deckt auch die anderen Betriebskosten.
 ###_PLAYER
 What do you mean by a fresh diaper each visit?
@@ -206,7 +206,7 @@ Was meinst du mit "frische Windel bei jedem Besuch"?
 It would be incredibly irresponsible of us to risk putting a big baby in soiled diapers just to save a few dollars.
 Es wäre äußerst unverantwortlich von uns, ein großes Baby in dreckige Windeln zu stecken, nur um etwas Geld zu sparen.
 ###_PLAYER
-Diapers? You are kidding me right?
+Diapers? You're kidding me right?
 Windeln? Das ist ein Witz, oder?
 ###_NPC
 Sorry but it is in the rules.  We wouldn't want an adult baby having a whoopsie and making a horrid mess.
@@ -227,13 +227,13 @@ Nein, das hier ist eine sichere Zuflucht. Große Babys dürfen reden, wobei viel
 What about clothes for boys?
 Was ist mit Kleidung für Jungs?
 ###_NPC
-They also wear dresses in here.  In pre-Victorian nurseries, young boys were unbreeched and wore dresses, just like the girls.
+Boys also wear dresses in here.  In pre-Victorian nurseries, young boys were unbreeched and wore dresses, just like the girls.
 Die tragen hier auch Kleider. In vorviktorianischen Kinderstuben trugen kleine Jungen Kleider statt Hosen, genau wie die Mädchen.
 ###_PLAYER
 Why dresses?
 Warum Kleider?
 ###_NPC
-To look gorgeous of course and these dresses have high hemlines so it's easier for us to check there aren't any dirty diapers.
+To look gorgeous of course. And these dresses have high hemlines, so it's easier for the nurses to check that there aren't any dirty diapers.
 Natürlich um bezaubernd auszusehen, außerdem haben diese Kleider hohe Taillen, sodass wir mühelos nach schmutzigen Windeln sehen können.
 ###_PLAYER
 What about long skirts?
@@ -251,7 +251,7 @@ Das ist schade. Du hättest sicher fabelhaft ausgesehen.
 I Understand.  Is there anything else?
 Ich verstehe. Sonst noch etwas?
 ###_NPC
-Adult babies can wonder around the club, but we don't advise it so we fitted a safety gate to the door to keep helpless babies safe inside.
+Adult babies can wander around the club, but we don't advise it. So we've fitted a safety gate to the door to keep those helpless babies safe inside.
 Große Babys dürfen durch den Club wandern, aber wir raten davon ab. Darum ist an der Tür ein Sicherheitszaun, um hilflose Babys drin zu halten.
 ###_PLAYER
 What if I want to play rough?
@@ -263,19 +263,19 @@ Wir sehen euch gerne beim Spielen zu, aber wer dabei nicht artig bleibt, bekommt
 I'll cry if I want to.
 Ich werde weinen, wenn mir danach ist.
 ###_NPC
-Of course and we will do our best to comfort those in distressed, but we don't allow riotous behaviour that upsets others.
+Of course, and we will do our best to comfort those in distress. But we don't allow riotous behaviour that upsets others.
 Natürlich, und wir geben unser Bestes, bekümmerte Babys zu trösten, aber wir dulden kein tobendes Verhalten, das andere stört.
 ###_PLAYER
 What about bondage?
 Was ist mit Bondage?
 ###_NPC
-That is fine as long you are all playing happy, although some items are hardly suitable for use in here.  The nursery has some more appropriate restraints.
+That is fine as long you are all playing happy, although some items are hardly suitable for use in here.  The nursery has some more... appropriate restraints.
 Das ist erlaubt, solange alle Spaß am Spiel haben, aber viele Sachen sind hier einfach fehl am Platz. Die Kinderstube bietet ein paar passendere Fesseln an.
 ###_PLAYER
 I would like to join now, pwease.
 Ich möchte jetzt büdde ein Baby sein.
 ###_NPC
-Wonderful.  That will be $10 and you need to sign this form, then I will help you into your first diaper.
+Wonderful.  That will be $10 and you will need to sign this form. Then I will help you into your first diaper.
 Wundervoll. Das macht dann 10$, und du musst dieses Formular unterschreiben, dann helfe ich dir in deine erste Windel.
 ###_PLAYER
 Thanks for reminding me.
@@ -299,8 +299,8 @@ Es tut mir leid, das zu hören. Sag mir Bescheid, falls du es dir anders überle
 Yes here it is. (Pay $10.)
 Ja, hier. (10$ bezahlen.)
 ###_NPC
-Thank you.  Now let’s get you changed.  (She takes you to one side and swiftly removes all your clothes.)
-Danke. Dann wollen wir dich mal umziehen. (Sie nimmt dich beiseite und zieht dir geschwind all deine Sachen aus.)
+Thank you.  Now let’s get you changed.  (She takes you to one side and swiftly removes all of your clothes.)
+Dankeschön.  Jetzt lass uns dich umziehen.  (Sie nimmt dich zur Seite und zieht dir schnell alle Kleidungsstücke aus.)
 ###_PLAYER
 I am already diapered and ready to enter.
 Ich habe schon Windeln an und möchte rein.
@@ -317,13 +317,13 @@ Das tut mir leid, aber wir können diesen Service nicht gratis anbieten. Komm bi
 Could I provide my own diapers and outfit?
 Könnte ich eigene Windeln und Kleider benutzen?
 ###_NPC
-Yes you can come in wearing your own Diapers. But they must be clean and you can't wear clothes that prevent us from easily checking them.
+Yes, you can come in wearing your own diapers. But they must be clean and you can't wear clothes that prevent us from easily checking them.
 Ja, du darfst in einer eigenen Windel herkommen. Sie muss aber sauber sein, und du darfst nichts anhaben, das uns am Kontrollieren der Windel hindert.
 ###_PLAYER
 I'm not paying for this.
 Dafür zahle ich nicht.
 ###_NPC
-That is a shame, but we can't run this place for free.  If you change your mind we are always very welcoming.
+That is a shame, but we can't run this place for free.  If you change your mind we are always very welcome.
 Das ist schade, aber wir können diesen Service nicht gratis anbieten. Wenn du es dir anders überlegst, bist du jederzeit willkommen.
 ###_PLAYER
 Sorry, maybe another time.
@@ -340,6 +340,10 @@ Das Wichtigste sind die Windeln. Saubere Windeln sind beim Eintritt Pflicht. Wir
 ###_PLAYER
 (Sign the form and pay $10.)
 (Das Formular unterschreiben und 10$ bezahlen.)
+###_NPC
+Thank you.  Now let’s get you changed.  (She takes you to one side and swiftly removes all your clothes.)
+Danke. Dann wollen wir dich mal umziehen. (Sie nimmt dich beiseite und zieht dir geschwind all deine Sachen aus.)
+###_PLAYER
 I can't afford this right now.
 Das kann ich mir im Moment nicht leisten.
 ###_NPC
@@ -349,13 +353,13 @@ Das ist schade. Im Club kann man sich auf viele Arten Geld verdienen. 10$ bekomm
 What is the $10 charge for?
 Wofür ist die 10$-Gebühr?
 ###_NPC
-This place is not cheap to run.  The price for a diaper also covers other running cost, such as outfit hire.
+This place is not cheap to run.  The price for a diaper also covers other running costs, such as outfit hire.
 Es ist nicht billig, das hier am Laufen zu halten. Der Preis für die Windeln deckt auch die anderen Betriebskosten.
 ###_PLAYER
 What is this form for?
 Wofür ist das Formular?
 ###_NPC
-It's just a formal agreement that during your stay we will care for you and in return you will abide by the rules of the nursery.
+It's just a formal agreement that during your stay we will care for you, and in return you will abide by the rules of the nursery.
 Es ist nur eine formelle Einverständniserklärung, dass wir bei deinem Aufenthalt für dich sorgen und du dafür die Regeln der Kinderstube befolgst.
 ###_PLAYER
 Do I have to sign this?
@@ -409,9 +413,9 @@ Ein Baby mit einem BH? Das wäre absurd. Nimm bitte die Arme hoch. (Sie zieht di
 Come on, this is taking too long.
 Komm schon, das dauert zu lange.
 ###_NPC
-Someone’s getting tetchy.  I bet you are bursting to fill that diaper.  (She helps you into a dress.)
+Someone’s getting tetchy.  I bet you are just bursting to fill that diaper.  (She helps you into a dress.)
 Da ist aber jemand gereizt. Diese Windel wird wohl nicht lange trocken bleiben. (Sie hilft dir, ein Kleid anzuziehen.)
-You are and well behaved, you'll get on well here.  Now lift up your arms.  (She pulls a dress over you head and helps you into it.)
+You are and well behaved, you'll get on fine here.  Now lift up your arms.  (She pulls a dress over you head and helps you into it.)
 Du bist so schön artig, du wirst dich hier gut machen. Nimm die Arme nach oben. (Sie zieht dir ein Kleid über den Kopf und hilft dir hinein.)
 ###_PLAYER
 Am I ready to play in the nursery now?
@@ -431,7 +435,7 @@ Halte noch etwas still, es fehlt nur noch etwas Zubehör. (Sie gibt dir daumenlo
 (Twirl around.)
 (Dich im Kreis drehen.)
 ###_NPC
-Such a sweet little girl, you really look precious.  You can waddle along now and enjoy the nursery.
+Such a sweet little girl, you really do look precious.  You can waddle along now and enjoy the nursery.
 So ein süßes kleines Mädchen, du siehst wirklich hinreißend aus. Du darfst jetzt in die Kinderstube tapsen und deinen Spaß haben.
 ###_PLAYER
 (Spit out the pacifier.)
@@ -439,7 +443,7 @@ So ein süßes kleines Mädchen, du siehst wirklich hinreißend aus. Du darfst j
 ###_NPC
 What ever is the matter darling?
 Was ist denn los, mein Schatz?
-(This pacifier is not going anywhere.  The harness holds it securely in place and your mouth firmly closed around the nipple.)
+(This pacifier is not going anywhere.  The harness holds it securely in place with your mouth firmly closed around the nipple.)
 (Dieser Schnuller bleibt, wo er ist. Der Harnisch hält ihn fest an seinem Platz und drückt deinen Mund eng um den Nippel herum.)
 ###_PLAYER
 (Test the mittens.)
@@ -475,13 +479,13 @@ Mit diesem Schnuller bleibt dir die stille Ecke erspart. (Sie gibt dir einen and
 I woshth my binky.
 Ich 'ab mein Luller vahlorn.
 ###_NPC
-Awww never mind, here have another one.  (She puts a pacifier in your mouth.)
+Awww never mind. Here, have another one.  (She puts a pacifier in your mouth.)
 Ooch, nicht so schlimm, hier hast du einen neuen. (Sie steckt dir einen Schnuller in den Mund.)
 ###_PLAYER
 I woshth my binky again.
 Mein Luller is wieda weg.
 ###_NPC
-I had better make sure you don't loose this one then.  (She straps a harness pacifier in your mouth.)
+I had better make sure you don't lose this one then.  (She straps a harness pacifier into your mouth.)
 Dann sorgen wir besser dafür, dass du den hier nicht auch verlierst. (Sie schnallt dir einen Schnuller-Harnisch um den Kopf.)
 ###_PLAYER
 (Cry and mumble into your pacifier.)
@@ -528,7 +532,7 @@ Es war schön hier mit dir. (Sie hilft dir beim Umziehen und entsorgt die Windel
 ###_PLAYER
 (Leave her.)
 (Dialog beenden.)
-I've been a good girl honest.  My hands are cold.
+I've been a good girl, honest!  My hands are cold.
 Ich war brav, ehrlich. Meine Hände sind kalt.
 ###_NPC
 Aww, you poor thing.  Slip you hands in these and they will soon warm up.  (She fastens mittens over your hands.)
@@ -537,7 +541,7 @@ Ohh, armes Ding. Schlüpf mit den Händen hier rein, dann werden sie ganz schnel
 Maybe.  (Bow your head and avoid her gaze.)
 Vielleicht. (Kopf senken und ihren Blick meiden.)
 ###_NPC
-Come here.  (She fastens mittens over your hands and a harness round you chest, connected them with short chains.)  Now what did you do?
+Come here.  (She fastens mittens over your hands and a harness round you chest, connecting them with short chains.)  Now what did you do?
 Komm her. (Sie schnallt dir Fäustlinge um die Hände und einen Harnisch um die Brust und verbindet beides mit einer kurzen Kette.) Was hast du denn angestellt?
 ###_PLAYER
 They are not for me.
@@ -549,13 +553,13 @@ Fesseln sehen nach Spaß aus, ich weiß, aber sie taugen nicht als Spielzeug fü
 Nothing wrong, I just like being bound.
 Nichts weiter, ich bin nur gern gefesselt.
 ###_NPC
-(She puts a pacifier in your mouth.)  I suppose you like to be gagged as well.  Run along now before change my mind and get the hair brush.
+(She puts a pacifier in your mouth.)  I suppose you like to be gagged as well.  Run along now before I change my mind and get the hair brush.
 (Sie steckt dir einen Schnuller in den Mund.) Dann bist du sicher auch gern geknebelt. Jetzt geh schon spielen, bevor ich doch noch die Haarbürste hole.
 ###_PLAYER
-We were all putting our hands in each others diapers and masturbating each other and it felt so good and....
+We were all putting our hands in each other's diapers and masturbating each other and it felt so good and...
 Wir haben uns alle gegenseitig die Hände in die Windeln gesteckt und uns gerubbelt und es war so gut und....
 ###_NPC
-YOU WHAT!?  That is highly inappropriate behaviour in a nursery.  (She securely restrains and gags all the adult babies.)
+YOU WHAT!?  That is highly inappropriate behaviour in a nursery.  (She securely restrains and gags all of the adult babies.)
 IHR HABT WAS?! Das ist in einer Kinderstube ein äußerst unangemessenes Verhalten. (Sie legt allen großen Babys starke Fesseln an.)
 ###_PLAYER
 I'm not telling you.
@@ -567,7 +571,7 @@ Dann sag es lieber auch niemandem sonst. (Sie schnallt dir einen Schnuller um de
 Help me to forget what?
 Was lässt sie mich vergessen?
 ###_NPC
-Nothing to serious, you might not be as skillful as you used to be after drinking it.
+Nothing too serious, you might not be as skillful as you used to be after drinking it.
 Nichts allzu ernstes, du wirst möglicherweise ein paar Fähigkeiten verlieren, nachdem du sie getrunken hast.
 ###_PLAYER
 What is in this milk?
@@ -579,7 +583,7 @@ Nur ein natürliches Mittel, das einen sehr leichten Gedächtnisschwund auslöst
 Is that safe?
 Ist das nicht gefährlich?
 ###_NPC
-Don't worry it is tested and the dose is far too small to risk wiping your mind blank. It does not affect your ability to learn afterwards either.
+Don't worry. It has been tested and the dose is far too small to risk wiping your mind blank. It does not affect your ability to learn afterwards either.
 Keine Angst, es ist klinisch geprüft, und eine so kleine Dosis kann unmöglich dein Gedächtnis ausradieren. Deine Lernfähigkeit wird auch nicht beeinträchtigt.
 ###_PLAYER
 Can I have some, please.
@@ -625,13 +629,13 @@ Das fühlt sich irgendwie komisch an.
 (Nod to stop drinking.)
 (Nicken, um aufzuhören.)
 ###_NPC
-DialogCharacterName puts the bottle down and hugs you.  One hand holding you head other her shoulder while she pats you firmly on the back with the other.)
+DialogCharacterName puts the bottle down and hugs you.  One hand holding your head over her shoulder, while her other hand pats you firmly on the back.)
 (DialogCharacterName legt die Flasche ab und umarmt dich. Mit einer Hand hält sie deinen Kopf über ihre Schulter, mit der anderen klopft sie dir auf den Rücken.)
 ###_PLAYER
 (Burp quietly.)
 (Ein Bäuerchen machen.)
 ###_NPC
-Good girl, you will feel better for that.  (She lets go of you and that warm cozy fuzzy feeling starts to diminish.)
+Good girl, you will feel better after that.  (She lets go of you and that warm cozy fuzzy feeling starts to diminish.)
 Braves Mädchen, jetzt wird es dir viel besser gehen. (Sie lässt dich los und das wohlig warme Gefühl beginnt zu verblassen.)
 ###_PLAYER
 (Belch loudly.)
@@ -643,7 +647,7 @@ Ach je, das war nicht gerade die feine Art. (Sie lässt dich los und das wohlig 
 Is this necessary?  I feel fine.
 Muss das sein? Mir geht's gut.
 ###_NPC
-Of course it is you are bound to have some trapped wind after swallowing that warm milk.
+Of course it is. You are bound to have some trapped bubbles after swallowing all that warm milk.
 Natürlich muss das sein, nach dieser warmen Milch hat sich bestimmt irgendwo etwas Luft verfangen.
 ###_PLAYER
 Can I try a different dress?
@@ -661,39 +665,39 @@ Ja. Die Kinderstube hat eine große Auswahl an Kleidern in vielen entzückenden 
 I just want to wear my birthday suit.
 Ich hätte am liebsten gar nichts an.
 ###_NPC
-I suppose you may.  Do you want me to put that dress for washing?
+I suppose you may.  Do you want me to put that dress on for washing?
 Das dürfte in Ordnung gehen. Soll ich dieses Kleid für dich in die Wäsche geben?
 ###_PLAYER
 Can I choose the dress style and color please?
 Darf ich den Kleidstil und die Farbe wählen?
 ###_NPC
-Sorry, that would be a very big decision for an ickle baby to make, but I'm sure I can pick out something delightful for you to wear.
+Sorry, that would be a very big decision for an ickle baby to make. I'm sure I can pick out something delightful for you to wear.
 Entschuldige, das wäre eine sehr große Entscheidung für ein so kleines Baby, aber ich kann sicher etwas Entzückendes für dich aussuchen.
 ###_PLAYER
-I will stay wearing this dress.
+I will continue wearing this dress.
 Ich behalte dieses Kleid an.
 ###_NPC
-That is all right and you do look very pretty in it.
+That is alright. You do look very pretty in it.
 Das ist in Ordnung, und du siehst auch wirklich hübsch darin aus.
 ###_PLAYER
 Okay. (Pay $5)
 Okay. (5$ zahlen.)
 ###_NPC
-Great, I think you will look absolutely smashing in this dress.  (She changes your dress, fussing over you, making it sits just right.)
+Great, I think you will look absolutely adorable in this dress.  (She changes your dress, fussing over you and making it sit just right.)
 Klasse, ich glaube, in diesem Kleid wirst du absolut umwerfend aussehen. (Sie zieht dich um und achtet pingelig darauf, dass das Kleid genau richtig sitzt.)
-Sorry honey, you will have to come back later when you have some pocket money to spend.
+Sorry honey. You will have to come back later when you have some pocket money to spend.
 Tut mir leid, Herzchen, da musst du wohl später wiederkommen, wenn du etwas mehr Taschengeld gespart hast.
 ###_PLAYER
 I will stay like this.
 Ich bleibe so.
 ###_NPC
-You all ready look adorable as you are.
+You already look adorable as you are.
 Du bist auch so schon zuckersüß.
 ###_PLAYER
 Eeeee, thish ish perfecth. Thanw you.
 Iiiii, dasch isch perfähkt. Dankeschön.
 ###_NPC
-You are simply adorable and welcome baby DialogPlayerName.
+You are simply adorable and are very welcome baby DialogPlayerName.
 Du bist einfach bezaubernd, und gern geschehen, Baby DialogPlayerName.
 ###_PLAYER
 Thank you.
@@ -711,7 +715,7 @@ Es steht dir genau richtig. Probiere es eine Weile aus, du wirst dich ganz siche
 I like this dress, but can I have it in another color?
 Ich mag das Kleid, aber geht auch eine andere Farbe?
 ###_NPC
-Of course you may, but that dress will have to be laundered now so you will have to pay an extra $5.
+Of course you may, but that dress will have to be laundered. You will have to pay an extra $5.
 Natürlich, aber dieses Kleid muss jetzt gewaschen werden, also musst du nochmal 5$ bezahlen.
 ###_PLAYER
 Hmmm, I want to try on another dress.
@@ -733,25 +737,23 @@ Come here then. (She unbuttons and removes your dress.)
 Dann komm mal her. (Sie knöpft dein Kleid auf und zieht es dir aus.)
 You are simply adorable baby DialogPlayerName, almost as naked and vulnerable as the day you were born.
 Du bist einfach bezaubernd, Baby DialogPlayerName, fast so nackt und schutzlos wie am Tag deiner Geburt.
-It will have to.  I have already sent that dress off for washing.  You're almost as naked and vulnerable as the day you were born now.
+It will have to.  I have already sent that dress off for washing.  You're now almost as naked and vulnerable as the day you were born.
 Besser wäre es. Ich habe das Kleid bereits in die Wäsche geschickt. Du bist jetzt fast so nackt und schutzlos wie am Tag deiner Geburt.
 ###_PLAYER
 Actually I want to wear my dress again.
 Ich will mein Kleid lieber doch wieder anziehen.
 ###_NPC
-Great, I think you will look absolutely smashing in this dress.  (She takes a fresh dress and puts it on you, making it sit just right.)
+Great, I think you will look absolutely adorable in this dress.  (She takes a fresh dress and puts it on you, making it sit just right.)
 Klasse, ich glaube, in diesem Kleid wirst du absolut umwerfend aussehen. (Sie zieht dir ein frisches Kleid an und zupft daran herum, bis es richtig sitzt.)
-You all look ready adorable as you are.
-Du siehst auch so schon bezaubernd aus.
-I've been very disappointed by your recent behaviour. You can stay like that until you are ready to apologize.
+I've been very disappointed by your recent behavior. You can stay like that until you are ready to apologize.
 Dein jüngstes Verhalten hat mich sehr enttäuscht. Du wirst so bleiben, bis du bereit bist, dich zu entschuldigen.
 Are you ready to apologize properly little DialogPlayerName?
 Bist du bereit, dich zu entschuldigen, kleine DialogPlayerName?
 ###_PLAYER
-Hey let me go right now.
+Hey, let me go right now.
 Hey, lass mich sofort frei.
 ###_NPC
-You clearly haven't learnt your lesson yet.  (She straps a pacifier in your mouth)  That will help you learn some manners. Now for another lesson.
+You clearly haven't learnt your lesson yet.  (She straps a pacifier into your mouth)  That will help you learn some manners. Now for another lesson.
 Du hast deine Lektion eindeutig noch nicht gelernt. (Sie schnallt dir einen Schnuller in den Mund.) Das sollte dir Manieren beibringen. Nächste Lektion.
 ###_PLAYER
 Will you let me go now?
@@ -775,7 +777,7 @@ Ohh, das höre ich gern. Wirst du jetzt ein braves kleines Mädchen sein?
 I am really sorry Nurse.
 Es tut mir wirklich leid, Schwester.
 ###_NPC
-I am glad to hear that.  Are you going to behave your self and play nicely now?
+I am glad to hear that.  Are you going to behave yourself and play nicely now?
 Das freut mich. Wirst du dich jetzt benehmen und artig spielen?
 ###_PLAYER
 (Nod your head.)
@@ -795,17 +797,17 @@ Nun, dann sei besser still und denk über dein Benehmen nach.
 Yes Nurse.
 Ja, Schwester.
 ###_NPC
-Good you’re getting the hang of this.  Now which punishment shall I give you this time?
+I'm glad to hear you’re getting the hang of this.  Now which punishment shall I give you this time?
 Gut, du hast langsam den Bogen raus. Also, welche Strafe soll ich dir diesmal geben?
 ###_PLAYER
 Please no, I'll be good.
 Bitte nicht, ich werde brav sein.
 ###_NPC
-Don't try fooling me.  You are in this situation because precisely because you have not been good.  Now which punishment will you get this time?
+Don't try to fool me.  You are in this situation precisely because you have not been good.  Now which punishment will you get this time?
 Mach mir nichts vor. Du wärst nicht in dieser Situation, wenn du brav gewesen wärst. Also, welche Strafe soll ich dir diesmal geben?
 Fine, but you still need to think long and hard about your behaviour.
 Na gut, aber du solltest trotzdem noch lange und gründlich über dein Benehmen nachdenken.
-Good your getting the hang of this, now which punishment shall I give you this time.
+I'm glad to hear that you're getting the hang of this, now which punishment shall I give you this time?
 Gut, du hast langsam den Bogen raus. Also, welche Strafe soll ich dir diesmal geben?
 It's far too late for that. You have been a very naughty girl.  Now which punishment shall I give you this time?
 Dafür ist es viel zu spät. Du warst ein sehr böses Mädchen. Also, welche Strafe soll ich dir diesmal geben?
@@ -813,45 +815,45 @@ Dafür ist es viel zu spät. Du warst ein sehr böses Mädchen. Also, welche Str
 What are you going to do?
 Was wirst du tun?
 ###_NPC
-(She produces a hair brush)  It is time you had your bottom spank.  (She sits on a chair.)  Now lie down over my knees.
+(She produces a hair brush)  It is time you had your bottom spanked.  (She sits on a chair.)  Now lie down over my knees.
 (Sie holt eine Haarbürste hervor.) Es wird Zeit, deinen Hintern zu verhauen. (Sie setzt sich auf einen Stuhl.) Lege dich über meinen Schoß.
 ###_PLAYER
 (Wait quietly.)
 (Still warten.)
 ###_NPC
-Where do you think your going?  (She grabs your arm and pulls you back close to her.)
+Where do you think you're going?  (She grabs your arm and pulls you back close to her.)
 Wo willst du denn bitte hin? (Sie packt dich am Arm und zieht dich wieder zu sich heran.)
 ###_PLAYER
 Yesh Nurshe.
 Jah, Schwesta.
 ###_NPC
-That is lovely to hear.  (She gives you a big hugs, then frees you.)  Would you like an ordinary pacifier?
+That is lovely to hear.  (She gives you a big hug, then frees you.)  Would you like an ordinary pacifier?
 Das höre ich liebend gern. (Sie drückt dich fest an sich, bevor sie dich befreit.) Möchtest du einen normalen Schnuller haben?
-That is good to hear.  (She gives you a hugs, then frees you.)  Would you like an ordinary pacifier?
+That is good to hear.  (She gives you a hug, then frees you.)  Would you like an ordinary pacifier?
 Das höre ich gern. (Sie drückt dich an sich, bevor sie dich befreit.) Möchtest du einen normalen Schnuller haben?
 ###_PLAYER
 Maybe.
 Vielleicht.
 ###_NPC
-I can always give you more punishments till you are sure.  Now are you going to be a good girl?
+I can always give you more punishments until you are sure.  Now, are you going to be a good girl?
 Ich kann dich gern noch weiter bestrafen, bis du dir sicher bist. Also, wirst du ein braves Mädchen sein?
 ###_PLAYER
 Nope.
 Nö.
 ###_NPC
-I though not.  (She gags you with a harness pacifier.)  It's time you had another punishment.
+I thought not.  (She gags you with a harness pacifier.)  It's time you had another punishment.
 Dachte ich mir. (Sie knebelt dich mit einem Schnuller-Harnisch.) Es wird Zeit für eine weitere Strafe.
 ###_PLAYER
 Yesh pweashe.
 Jah, büdde.
 ###_NPC
-I though you would.  (She helps your hands into mittens, slips a pacifier into your mouth and kisses you on the forehead.)  Run along now.
+I thought you would.  (She helps your hands into mittens, slips a pacifier into your mouth and kisses you on the forehead.)  Run along now.
 Das dachte ich mir. (Sie hilft dir beim Anlegen der Fäustlinge und gibt dir einen Schnuller in den Mund und einen Kuss auf die Stirn.) Viel Spaß beim Spielen.
 ###_PLAYER
 No thank you.
 Nein, danke.
 ###_NPC
-I do know when you are not being honest.  (She slips for hands into mittens and a pacifier into your mouth.)  Run along now like a good girl.
+I do know when you are not being honest.  (She slips your hands into mittens and a pacifier into your mouth.)  Run along now like a good girl.
 Ich weiß doch, wann du flunkerst. (Sie steckt dir Fäustlinge über die Hände und einen Schnuller in den Mund.) Jetzt geh spielen wie ein braves Mädchen.
 ###_PLAYER
 Whatever
@@ -861,7 +863,7 @@ Don't take that tone with me young lady.  (She forcibly restrains you again.)
 Rede nicht in diesem Ton mit mir, junges Fräulein. (Sie legt dich gewaltsam wieder in Fesseln.)
 You’re not going anywhere like that.  (She pulls you back and forcibly restrains you again.)
 So gehst du mir nirgendwo hin. (Sie zerrt dich zurück und legt dich gewaltsam wieder in Fesseln.)
-Don't take that tone with me.  I know you have been a very naughty girl.
+Don't take that tone with me.  I know you've been a very naughty girl.
 Rede nicht in diesem Ton mit mir. Ich weiß, dass du ein sehr böses Mädchen warst.
 ###_PLAYER
 I'm sorry Nurse.
@@ -881,15 +883,15 @@ Stehengeblieben. (Sie ergreift deinen Arm.) Du hast nie gefragt, ob du die Kinde
 So what now?
 Und nun?
 ###_NPC
-You can be quiet for a start.  (She makes sure you are completely strips and securely restrained. Then puts you in fresh diapers.)
+You can be quiet for a start.  (She makes sure you are completely stripped naked and securely restrained. Then puts you in fresh diapers.)
 Für den Anfang könntest du still sein. (Nachdem du vollständig ausgezogen und ordentlich gefesselt bist, legt sie dir frische Windeln an.)
-At least you still have some manners.  (She makes sure you are completely strips and securely restrained. Then puts you in fresh diapers.)
+At least you still have some manners.  (She makes sure you are completely stripped naked and securely restrained. Then puts you in fresh diapers.)
 Wenigstens ein paar Manieren hast du noch. (Nachdem du vollständig ausgezogen und ordentlich gefesselt bist, legt sie dir frische Windeln an.)
 ###_PLAYER
 (Ignore the nurse.)
 (Die Schwester ignorieren.)
 ###_NPC
-HEY look at me when I am talking to you.  (She makes sure you are completely strips and securely restrained. Then puts you in fresh diapers.)
+HEY look at me when I am talking to you.  (She makes sure you are completely stripped naked and securely restrained. Then puts you in fresh diapers.)
 HEY, sie mich an, wenn ich mit dir rede. (Nachdem du vollständig ausgezogen und ordentlich gefesselt bist, legt sie dir frische Windeln an.)
 ###_PLAYER
 This is so unfair.
@@ -897,7 +899,7 @@ Das ist so unfair.
 ###_NPC
 It's not fair that I have to deal with unruly brats like you.  Now you need a proper punishment.
 Es ist nicht fair, dass ich mich mit ungezogenen Bälgern wie dir herumschlagen muss. Du brauchst eine ordentliche Bestrafung.
-What you need now is a proper punishment to teach you how to behave in future.
+What you need now is a proper punishment to teach you how to behave in the future.
 Was du brauchst, ist eine ordentliche Strafe, die dir beibringt, wie du dich in Zukunft zu benehmen hast.
 ###_PLAYER
 (Pull away from her.)
@@ -919,7 +921,7 @@ In diesen Sachen gehst du mir nirgendwo hin. (Sie zerrt dich zurück und zieht d
 Can I go now?
 Darf ich jetzt gehen?
 ###_NPC
-Your diapers appear to be fine now, but I will make sure you hands can't cause any more mischief.  (She makes sure you are restrained.)
+Your diapers appear to be fine now, but I will make sure your hands can't cause any more mischief.  (She makes sure you are restrained.)
 Deine Windel ist jetzt in Ordnung, aber ich sorge dafür, dass deine Hände keinen Unfug mehr machen. (Sie stellt sicher, dass du gefesselt bist.)
 ###_PLAYER
 Can I have some clothes please?
@@ -935,13 +937,13 @@ Du trägst nicht einmal deine Windel! Du warst ein sehr böses Mädchen. Ich bin
 I was just making sure the gate was shut.
 Ich wollte nur prüfen, ob das Tor zu ist.
 ###_NPC
-It self closes perfectly well on its own.  Don't let me catch you messing with that gate again.
+It closes perfectly well on its own.  Don't let me catch you messing with that gate again.
 Es verschließt sich ganz wunderbar von allein. Lass dich nicht wieder dabei erwischen, wie du an diesem Tor herumfummelst.
 ###_PLAYER
 (Bow your head and fidget anxiously.)
 (Den Kopf senken und nervös herumhampeln.)
 ###_NPC
-Yes, you know should stay in here like a good baby.  Don't let me catch you messing with that gate again.
+Yes, you know you should stay in here like a good baby.  Don't let me catch you messing with that gate again.
 Ja, du weißt, dass du hierbleiben solltest wie ein braves Baby. Lass dich nicht wieder dabei erwischen, wie du an diesem Tor herumfummelst.
 I know what you were trying to do.  Don't let me catch you messing with that gate again.
 Ich weiß, was du vorhattest. Lass dich nicht wieder dabei erwischen, wie du an diesem Tor herumfummelst.
@@ -949,23 +951,25 @@ Ich weiß, was du vorhattest. Lass dich nicht wieder dabei erwischen, wie du an 
 Hey, you can't do this too me.
 Hey, das kannst du nicht tun.
 ###_NPC
-Oh yes I can.  I have your signed consent to treat you like this.  I think you need a nap and time out.  (She restrains and blinds you.)
+Oh yes I can.  I have your signed consent to treat you like this.  I think you need a nap and a time out.  (She restrains and blinds you.)
 Oh doch. Du hast unterschrieben, dass ich dich so behandeln darf. Ich glaube, du brauchst eine Auszeit. (Sie fesselt dich und verbindet deine Augen.)
 ###_PLAYER
 Please just let me go.
 Bitte lass mich einfach gehen.
 ###_NPC
-I will once you have learnt to behave properly.  I think you need a nap and time out.  (She makes sure you are restrained and blinds you.)
+I will once you have learned to behave properly.  I think you need a nap and a time out.  (She makes sure you are restrained and blinds you.)
 Das werde ich, sobald du dich vernünftig benehmen kannst. Ich glaube, du brauchst eine Auszeit. (Sie stellt sicher, dass du gefesselt bist und nichts siehst.)
-Don't try to worm your way out of this one.  I think you need a nap and time out.  (She makes sure you are restrained and blinds you.)
+Don't try to worm your way out of this one.  I think you need a nap and a time out.  (She makes sure you are restrained and blinds you.)
 Versuche nicht, dich hier herauszuwinden. Ich glaube, du brauchst eine Auszeit. (Sie stellt sicher, dass du gefesselt bist und nichts siehst.)
-(You don't get far before she pins you down.)  I think you need a nap and time out.  (She makes sure you are restrained and blinds you.)
+(You don't get far before she pins you down.)  I think you need a nap and a time out.  (She makes sure you are restrained and blinds you.)
 (Du kommst nicht weit, bevor sie dich festhält.) Ich glaube, du brauchst eine Auszeit. (Sie stellt sicher, dass du gefesselt bist und nichts siehst.)
 ###_PLAYER
 (The nurse leaves you.)
 (Die Schwester lässt dich allein.)
+Hey, you can't do this to me.
+Hey, du kannst das nicht mit mir machen.
 ###_NPC
-I have had enough of your bad behaviour.  (She forcibly makes sure you are kneeling and securely bound)  It is time to make you bottom glow.
+I have had enough of your bad behaviour.  (She forcibly makes sure you are kneeling and securely bound)  It is time to make your bottom glow.
 Ich habe die Nase voll von deinem Fehlverhalten. (Sie zwingt dich auf die Knie und fesselt dich.) Zeit, deinen Hintern glühen zu lassen.
 ###_PLAYER
 (Punishments to do)
