@@ -19139,6 +19139,20 @@ var AssetFemale3DCG = [
 							Suspension: "Suspension",
 						},
 					},
+					{
+						Name: "LeftTip",
+						AllowTypes: { typed: [0, 1] },
+						PoseMapping: {
+							Suspension: "Suspension",
+						},
+					},
+					{
+						Name: "RightTip",
+						AllowTypes: { typed: [0, 2] },
+						PoseMapping: {
+							Suspension: "Suspension",
+						},
+					},
 				],
 			},
 			{
@@ -19158,6 +19172,20 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Right",
+						AllowTypes: { typed: [0, 2] },
+						PoseMapping: {
+							Suspension: "Suspension",
+						},
+					},
+					{
+						Name: "LeftTip",
+						AllowTypes: { typed: [0, 1] },
+						PoseMapping: {
+							Suspension: "Suspension",
+						},
+					},
+					{
+						Name: "RightTip",
 						AllowTypes: { typed: [0, 2] },
 						PoseMapping: {
 							Suspension: "Suspension",
