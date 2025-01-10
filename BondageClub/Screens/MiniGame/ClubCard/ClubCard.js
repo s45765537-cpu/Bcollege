@@ -3319,8 +3319,7 @@ function ClubCardOnDrawAction(CCPlayer) {
 
 	let conArtistsCount = ClubCardNameCountOnBoard(CCPlayer, "Con Artist");
 	while (conArtistsCount > 0) {
-		ClubCardPlayerStealFame(CCPlayer, 1);
-		if (!ClubCardGroupIsOnBoard(opponent, "Police")) ClubCardPlayerStealFame(CCPlayer, 1);
+		ClubCardPlayerStealFame(CCPlayer, ClubCardGroupIsOnBoard(opponent, "Police") ? 1 : 2);
 		conArtistsCount--;
 	}
 
