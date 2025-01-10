@@ -161,7 +161,7 @@ Medina Markt
 Middletown School
 Kleinstadtschule
 Movie Studio
-Movie Studio
+Filmstudio
 Nightclub
 Nachtclub
 Nursery
@@ -184,6 +184,20 @@ Padded Cell
 Gummizelle
 Padded Cell 2
 Gummizelle 2
+Pandora Cell A
+Pandora Zelle A
+Pandora Cell B
+Pandora Zelle B
+Pandora Cell C
+Pandora Zelle C
+Pandora Cell D
+Pandora Zelle D
+Pandora Cell E
+Pandora Zelle E
+Pandora Cell F
+Pandora Zelle F
+Pandora Cell G
+Pandora Zelle G
 Park Day
 Park Tag
 Park Night

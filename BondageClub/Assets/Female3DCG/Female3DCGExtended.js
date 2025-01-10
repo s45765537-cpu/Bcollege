@@ -1620,6 +1620,26 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "Necklace", AssetName: "SatinScarf" },
 		}, // SatinScarf
+		ComboBelt: {
+			Archetype: ExtendedArchetype.MODULAR,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Chain",
+					Key: "c",
+					Options: [
+						{
+							// c0 - Added
+							Property: { Effect: [] },
+						},
+						{
+							// c1 - None
+							Property: { Effect: [] },
+						},
+					],
+				},
+			],
+		}, // ComboBelt
 	}, // ClothAccessory
 	ClothLower: {
 		PantBoots: {
@@ -5214,7 +5234,12 @@ var AssetFemale3DCGExtended = {
 		}, // KirugumiMask
 		GwenHood: {
 			Archetype: ExtendedArchetype.MODULAR,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.TARGET_CHAR,
+			],
 			Modules: [
 				{
 					Name: "Finish",
@@ -8392,6 +8417,32 @@ var AssetFemale3DCGExtended = {
 								Effect: [],
 							},
 						},
+						{
+							Name: "Wig15",
+							Property: {
+								Hide: [
+									"Mask",
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+								],
+								Effect: [],
+							},
+						},
+						{
+							Name: "Wig16",
+							Property: {
+								Hide: [
+									"Mask",
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+								],
+								Effect: [],
+							},
+						},
 					],
 				},
 				{
@@ -10281,15 +10332,13 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Stand",
-					Prerequisite: ["CanLegsOpen"],
-					Property: {
-						SetPose: ["LegsOpen"],
-					},
+					AllowSelfSelect: false,
+					Property: {Prerequisite: ["CanLegsOpen"]},
 				},
 				{
 					Name: "LegsClosed",
-					Prerequisite: ["CanLegsClosed"],
 					Property: {
+						Prerequisite: ["CanLegsClosed"],
 						SetPose: ["LegsClosed"],
 					},
 				},
@@ -10320,6 +10369,18 @@ var AssetFemale3DCGExtended = {
 						},
 						{
 							// m4 - Model 5
+							Property: {},
+						},
+						{
+							// m5 - Model 6
+							Property: {},
+						},
+						{
+							// m6 - Model 7
+							Property: {},
+						},
+						{
+							// m7 - Model 8
 							Property: {},
 						},
 					],
@@ -10615,6 +10676,26 @@ var AssetFemale3DCGExtended = {
 			],
 			ChangeWhenLocked: false,
 		}, // BrickWall
+		PogoBall: {
+			Archetype: ExtendedArchetype.TYPED,
+			ChangeWhenLocked: false,
+			Options: [
+				{
+					Name: "Light",
+					Property: {
+						Effect: [ E.Slow, E.BlockWardrobe ],
+						Difficulty: 0,
+					},
+				},
+				{
+					Name: "Heavy",
+					Property: {
+						Effect: [ E.Freeze, E.BlockWardrobe ],
+						Difficulty: 5,
+					},
+				},
+			],
+		}, // PogoBall
 	}, // ItemDevices
 	ItemBoots: {
 		ToeTape: {
@@ -10723,6 +10804,38 @@ var AssetFemale3DCGExtended = {
 			DrawImages: false,
 			Options: [{ Name: "Base" }, { Name: "BootsOnly" }],
 		}, // StrictPonyBoots
+		BalletMittens: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChangeWhenLocked: false,
+			Modules: [
+				{
+					Name: "Pogo",
+					Key: "p",
+					Options: [
+						{
+							// p0 - None
+							Property: {},
+						},
+						{
+							// p1 - LightPogo
+							Property: {
+								Effect: [ E.Slow, E.BlockWardrobe ],
+								SetPose: ["LegsClosed"],
+								Difficulty: 4,
+							},
+						},
+						{
+							// p2 - HeavyPogo
+							Property: {
+								Effect: [ E.Freeze, E.BlockWardrobe ],
+								SetPose: ["LegsClosed"],
+								Difficulty: 8,
+							},
+						},
+					],
+				},
+			],
+		}, // BalletMittens
 	}, // ItemBoots
 	ItemVulva: {
 		ClitSuctionCup: {
@@ -14066,6 +14179,30 @@ var AssetFemale3DCGExtended = {
 								Effect: [],
 							},
 						},
+						{
+							Name: "Wig15",
+							Property: {
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+								],
+								Effect: [],
+							},
+						},
+						{
+							Name: "Wig16",
+							Property: {
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+								],
+								Effect: [],
+							},
+						},
 					],
 				},
 				{
@@ -16932,6 +17069,27 @@ var AssetFemale3DCGExtended = {
 			],
 			DrawImages: false,
 		}, // GarterBelt
+		ComboBelt: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ClothAccessory", AssetName: "ComboBelt" },
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Chain",
+					Key: "c",
+					Options: [
+						{
+							// c0 - Added
+							Property: { Effect: [] },
+						},
+						{
+							// c1 - None
+							Property: { Effect: [] },
+						},
+					],
+				},
+			],
+		}, // ComboBelt
 	}, // Garters
 	AnkletRight: {
 		LegFur: {

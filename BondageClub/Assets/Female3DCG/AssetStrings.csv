@@ -1366,16 +1366,14 @@ GwenHoodSelectStyleBase, Select options
 GwenHoodSelectStyle,Select hood style
 GwenHoodSelectStyleHair,Select hair options
 GwenHoodSelectStyleFinish,Select material finish
-GwenHoodChangeStyleHairInAccIn,SourceCharacter changes the style of DestinationCharacter gwen hood.
-GwenHoodChangeStyleHairInAccOut,SourceCharacter changes the style of DestinationCharacter gwen hood.
-GwenHoodChangeStyleHairOutAccIn,SourceCharacter changes the style of DestinationCharacter gwen hood.
-GwenHoodChangeStyleHairOutAccOut,SourceCharacter changes the style of DestinationCharacter gwen hood.
 GwenHoodStyleh0,Hair out & Accessories out
 GwenHoodStyleh1,Hair in & Accessories out
 GwenHoodStyleh2,Hair out & Accessories in
 GwenHoodStyleh3,Hair in & Accessories in
 GwenHoodStylef0,Original
 GwenHoodStylef1,Smooth
+GwenHoodChangeStyleFinish,SourceCharacter changes the style of DestinationCharacter gwen hood.
+GwenHoodChangeStyleHair,SourceCharacter changes the style of DestinationCharacter gwen hood.
 HairAccessory1ElfEarsBehind,Behind hair
 HairAccessory1ElfEarsInFront,In front of hair
 HairAccessory1ElfEarsSelect,Select elf ears position
@@ -5487,10 +5485,10 @@ ShoesStrictPonyBootsSetBase,SourceCharacter changes DestinationCharacter boots.
 ShoesStrictPonyBootsSetBootsOnly,SourceCharacter changes DestinationCharacter boots.
 ShoesStrictPonyBootsBootsOnly,Boots Only
 ItemDevicesGlueFloorSelect,Legs position options:
-ItemDevicesGlueFloorStand,Stand pose
-ItemDevicesGlueFloorSetStand,SourceCharacter glued the DestinationCharacter feet on the ground with TargetPronounPossessive open legs.
-ItemDevicesGlueFloorLegsClosed,With legs closed
-ItemDevicesGlueFloorSetLegsClosed,SourceCharacter glued the DestinationCharacter feet on the ground with TargetPronounPossessive closed legs.
+ItemDevicesGlueFloorStand,Just gluing
+ItemDevicesGlueFloorSetStand,SourceCharacter just glues the DestinationCharacter feet on the ground.
+ItemDevicesGlueFloorLegsClosed,Legs closed
+ItemDevicesGlueFloorSetLegsClosed,SourceCharacter glues the DestinationCharacter feet on the ground forcing closing TargetPronounPossessive legs.
 ItemDevicesOneBarGirlSelectBase,Unsuspected pose bar main menu
 ItemDevicesOneBarGirlModuleModel,Fake legs model
 ItemDevicesOneBarGirlSelectModel,Choose a fake legs pair:
@@ -5499,11 +5497,17 @@ ItemDevicesOneBarGirlOptionm1,Laid-back legs
 ItemDevicesOneBarGirlOptionm2,Loose socks style
 ItemDevicesOneBarGirlOptionm3,Open legs
 ItemDevicesOneBarGirlOptionm4,Maid outfit
-ItemDevicesOneBarGirlSetm0,SourceCharacter traps DestinationCharacterName body on the bar with crossed legs pose.
-ItemDevicesOneBarGirlSetm1,SourceCharacter traps DestinationCharacterName body on the bar with laid-back legs pose.
-ItemDevicesOneBarGirlSetm2,SourceCharacter traps DestinationCharacterName body on the bar with loose socks style.
-ItemDevicesOneBarGirlSetm3,SourceCharacter traps DestinationCharacterName body on the bar with open legs pose.
-ItemDevicesOneBarGirlSetm4,SourceCharacter traps DestinationCharacterName body on the bar with maid outfit style.
+ItemDevicesOneBarGirlOptionm5,College outfit
+ItemDevicesOneBarGirlOptionm6,Foot on the box
+ItemDevicesOneBarGirlOptionm7,DiD in short boots
+ItemDevicesOneBarGirlSetm0,SourceCharacter traps DestinationCharacter body on the bar with crossed legs pose.
+ItemDevicesOneBarGirlSetm1,SourceCharacter traps DestinationCharacter body on the bar with laid-back legs pose.
+ItemDevicesOneBarGirlSetm2,SourceCharacter traps DestinationCharacter body on the bar with loose socks style.
+ItemDevicesOneBarGirlSetm3,SourceCharacter traps DestinationCharacter body on the bar with open legs pose.
+ItemDevicesOneBarGirlSetm4,SourceCharacter traps DestinationCharacter body on the bar with maid outfit style.
+ItemDevicesOneBarGirlSetm5,SourceCharacter traps DestinationCharacter body on the bar with college outfit style.
+ItemDevicesOneBarGirlSetm6,SourceCharacter traps DestinationCharacter body on the bar with a foot stepping on the box pose.
+ItemDevicesOneBarGirlSetm7,SourceCharacter traps DestinationCharacter body on the bar with a bondaged legs at the bar.
 ItemDevicesOneBarGirlModuleVibration,Device vibration
 ItemDevicesOneBarGirlSelectVibration,Device speed control:
 ItemDevicesOneBarGirlOptionv0,Off
@@ -5552,7 +5556,7 @@ ItemHandheldAnimeGirlWandStaff,A (spanker) staff
 ItemHandheldAnimeGirlWandSetStaff,SourceCharacter transform the Power Staff into Wand
 ItemHandheldAnimeGirlWandWand,A (kinky) wand
 ItemHandheldAnimeGirlWandSetWand,SourceCharacter transform the Power Staff into Staff
-ItemDevicesCementSelectBase,"Pole, material and bucket menu:"
+ItemDevicesCementSelectBase,Pole, material and bucket menu:
 ItemDevicesCementModulePole,Pole and ratchets
 ItemDevicesCementSelectPole,Choose restraint lenght:
 ItemDevicesCementOptionp0,None
@@ -5570,17 +5574,17 @@ ItemDevicesCementModuleBucket,Bucket option
 ItemDevicesCementSelectBucket,Remove or keep the bucket:
 ItemDevicesCementOptionb0,Keep bucket
 ItemDevicesCementOptionb1,Remove bucket
-ItemDevicesCementSetp0,SourceCharacter frees DestinationCharacterName legs from ratchets.
-ItemDevicesCementSetp1,SourceCharacter ties DestinationCharacterName ankles with ratchets.
-ItemDevicesCementSetp2,SourceCharacter ties DestinationCharacterName lower legs ankles with ratchets.
-ItemDevicesCementSetp3,SourceCharacter ties DestinationCharacterName legs completely ankles with ratchets.
-ItemDevicesCementSetb0,SourceCharacter puts DestinationCharacterName feet in the bucket.
-ItemDevicesCementSetb1,SourceCharacter removes the bucket from DestinationCharacterName feet.
-ItemDevicesCementSetc0,SourceCharacter frees DestinationCharacterName feet.
-ItemDevicesCementSetc1,SourceCharacter fills DestinationCharacterName feet with expanding foam.
-ItemDevicesCementSetc2,SourceCharacter fills DestinationCharacterName feet with hard slime.
-ItemDevicesCementSetc3,SourceCharacter fills DestinationCharacterName feet with atoxic glue.
-ItemDevicesCementSetc4,SourceCharacter fills DestinationCharacterName feet with quick drying cement.
+ItemDevicesCementSetp0,SourceCharacter frees DestinationCharacter legs from ratchets.
+ItemDevicesCementSetp1,SourceCharacter ties DestinationCharacter ankles with ratchets.
+ItemDevicesCementSetp2,SourceCharacter ties DestinationCharacter lower legs ankles with ratchets.
+ItemDevicesCementSetp3,SourceCharacter ties DestinationCharacter legs completely ankles with ratchets.
+ItemDevicesCementSetb0,SourceCharacter puts DestinationCharacter feet in the bucket.
+ItemDevicesCementSetb1,SourceCharacter removes the bucket from DestinationCharacter feet.
+ItemDevicesCementSetc0,SourceCharacter frees DestinationCharacter feet.
+ItemDevicesCementSetc1,SourceCharacter fills DestinationCharacter feet with expanding foam.
+ItemDevicesCementSetc2,SourceCharacter fills DestinationCharacter feet with hard slime.
+ItemDevicesCementSetc3,SourceCharacter fills DestinationCharacter feet with atoxic glue.
+ItemDevicesCementSetc4,SourceCharacter fills DestinationCharacter feet with quick drying cement.
 ClothLatexHobbleDressSelectBase,Customize your Strict Hobble Dress:
 ClothLatexHobbleDressModuleTop,Top dress
 ClothLatexHobbleDressSelectTop,Cleavage option:
@@ -5703,6 +5707,8 @@ ItemHoodRubberMaskOptiong11,Wig K
 ItemHoodRubberMaskOptiong12,Wig L
 ItemHoodRubberMaskOptiong13,Wig M
 ItemHoodRubberMaskOptiong14,Wig N
+ItemHoodRubberMaskOptiong15,Wig O
+ItemHoodRubberMaskOptiong16,Wig P
 ItemHoodRubberMaskModuleEyes,Eyes
 ItemHoodRubberMaskSelectEyes,Eye expression menu
 ItemHoodRubberMaskOptione0,Normal
@@ -5732,49 +5738,47 @@ ItemHoodRubberMaskSelectGag,Supplemental mask gag menu
 ItemHoodRubberMaskOptiona0,None
 ItemHoodRubberMaskOptiona1,Single duct tape piece
 ItemHoodRubberMaskOptiona2,Horror gag
-ItemHoodRubberMaskSetm0,SourceCharacter turns the rubber mask into mask mode on DestinationCharacterName head.
-ItemHoodRubberMaskSetm1,SourceCharacter turns the rubber mask into hood mode on DestinationCharacterName head.
-ItemHoodRubberMaskSets0,SourceCharacter installs a one way lenses pair in DestinationCharacterName rubber mask.
-ItemHoodRubberMaskSets1,SourceCharacter installs a darker lenses pair in DestinationCharacterName rubber mask.
-ItemHoodRubberMaskSets2,SourceCharacter almost completely obstructs DestinationCharacterName sight with opaque fake eyes.
-ItemHoodRubberMaskSetd0,SourceCharacter removes the rubber mask's earplugs from DestinationCharacterName ears.
-ItemHoodRubberMaskSetd1,SourceCharacter puts a pair of earplugs inside DestinationCharacterName ears.
-ItemHoodRubberMaskSetg0,SourceCharacter keeps the DestinationCharacterName default hair.
-ItemHoodRubberMaskSetg1,SourceCharacter puts the wig A on the DestinationCharacterName head.
-ItemHoodRubberMaskSetg2,SourceCharacter puts the wig B on the DestinationCharacterName head.
-ItemHoodRubberMaskSetg3,SourceCharacter puts the wig C on the DestinationCharacterName head.
-ItemHoodRubberMaskSetg4,SourceCharacter puts the wig D on the DestinationCharacterName head.
-ItemHoodRubberMaskSetg5,SourceCharacter puts the wig E on the DestinationCharacterName head.
-ItemHoodRubberMaskSetg6,SourceCharacter puts the wig F on the DestinationCharacterName head.
-ItemHoodRubberMaskSetg7,SourceCharacter puts the wig G on the DestinationCharacterName head.
-ItemHoodRubberMaskSetg8,SourceCharacter puts the wig H on the DestinationCharacterName head.
-ItemHoodRubberMaskSetg9,SourceCharacter puts the wig I on the DestinationCharacterName head.
-ItemHoodRubberMaskSetg10,SourceCharacter puts the wig J on the DestinationCharacterName head.
-ItemHoodRubberMaskSetg11,SourceCharacter puts the wig K on the DestinationCharacterName head.
-ItemHoodRubberMaskSetg12,SourceCharacter puts the wig L on the DestinationCharacterName head.
-ItemHoodRubberMaskSetg13,SourceCharacter puts the wig M on the DestinationCharacterName head.
-ItemHoodRubberMaskSetg14,SourceCharacter puts the wig N on the DestinationCharacterName head.
-ItemHoodRubberMaskSete0,SourceCharacter chooses a normal eye expression in DestinationCharacterName mask.
-ItemHoodRubberMaskSete1,SourceCharacter chooses a closed eye expression in DestinationCharacterName mask.
-ItemHoodRubberMaskSete2,SourceCharacter chooses a wide open eye expression in DestinationCharacterName mask.
-ItemHoodRubberMaskSete3,SourceCharacter chooses a scared eye expression in DestinationCharacterName mask.
-ItemHoodRubberMaskSete4,SourceCharacter chooses a feline eye expression in DestinationCharacterName mask.
-ItemHoodRubberMaskSete5,SourceCharacter chooses a feline wide open eye expression in DestinationCharacterName mask.
-ItemHoodRubberMaskSete6,SourceCharacter chooses a feline scared eye expression in DestinationCharacterName mask.
-ItemHoodRubberMaskSety0,SourceCharacter chooses a neutral eyebrow expression in DestinationCharacterName mask.
-ItemHoodRubberMaskSety1,SourceCharacter chooses a sad eyebrow expression in DestinationCharacterName mask.
-ItemHoodRubberMaskSety2,SourceCharacter chooses a angry eyebrow expression in DestinationCharacterName mask.
-ItemHoodRubberMaskSety3,SourceCharacter chooses a alterning eyebrow expression (L-r) in DestinationCharacterName mask.
-ItemHoodRubberMaskSety4,SourceCharacter chooses a alterning eyebrow expression (l-R) in DestinationCharacterName mask.
-ItemHoodRubberMaskSetl0,SourceCharacter chooses a normal lip expression in DestinationCharacterName mask.
-ItemHoodRubberMaskSetl1,SourceCharacter chooses a serious lip expression in DestinationCharacterName mask.
-ItemHoodRubberMaskSetl2,SourceCharacter chooses a open mouth expression in DestinationCharacterName mask.
-ItemHoodRubberMaskSetl3,SourceCharacter chooses a normal vampire lip expression in DestinationCharacterName mask.
-ItemHoodRubberMaskSetl4,SourceCharacter chooses a serious vampire lip expression in DestinationCharacterName mask.
-ItemHoodRubberMaskSetl5,SourceCharacter chooses a open mouth vampire expression in DestinationCharacterName mask.
-ItemHoodRubberMaskSeta0,SourceCharacter removes any rubber mask gag from DestinationCharacterName mouth.
-ItemHoodRubberMaskSeta1,SourceCharacter gags DestinationCharacterName with a single piece of duct tape.
-ItemHoodRubberMaskSeta2,SourceCharacter gags DestinationCharacterName totally locking TargetPronounObject mouth with the Horror Gag.
+ItemHoodRubberMaskSetm0,SourceCharacter turns the rubber mask into mask mode on DestinationCharacter head.
+ItemHoodRubberMaskSetm1,SourceCharacter turns the rubber mask into hood mode on DestinationCharacter head.
+ItemHoodRubberMaskSets0,SourceCharacter installs a one way lenses pair in DestinationCharacter rubber mask.
+ItemHoodRubberMaskSets1,SourceCharacter installs a darker lenses pair in DestinationCharacter rubber mask.
+ItemHoodRubberMaskSets2,SourceCharacter almost completely obstructs DestinationCharacter sight with opaque fake eyes.
+ItemHoodRubberMaskSetd0,SourceCharacter removes the rubber mask's earplugs from DestinationCharacter ears.
+ItemHoodRubberMaskSetd1,SourceCharacter puts a pair of earplugs inside DestinationCharacter ears.
+ItemHoodRubberMaskSetg0,SourceCharacter keeps the DestinationCharacter default hair.
+ItemHoodRubberMaskSetg1,SourceCharacter puts the wig A on the DestinationCharacter head.
+ItemHoodRubberMaskSetg2,SourceCharacter puts the wig B on the DestinationCharacter head.
+ItemHoodRubberMaskSetg3,SourceCharacter puts the wig C on the DestinationCharacter head.
+ItemHoodRubberMaskSetg4,SourceCharacter puts the wig D on the DestinationCharacter head.
+ItemHoodRubberMaskSetg5,SourceCharacter puts the wig E on the DestinationCharacter head.
+ItemHoodRubberMaskSetg6,SourceCharacter puts the wig F on the DestinationCharacter head.
+ItemHoodRubberMaskSetg7,SourceCharacter puts the wig G on the DestinationCharacter head.
+ItemHoodRubberMaskSetg8,SourceCharacter puts the wig H on the DestinationCharacter head.
+ItemHoodRubberMaskSetg9,SourceCharacter puts the wig I on the DestinationCharacter head.
+ItemHoodRubberMaskSetg10,SourceCharacter puts the wig J on the DestinationCharacter head.
+ItemHoodRubberMaskSetg11,SourceCharacter puts the wig K on the DestinationCharacter head.
+ItemHoodRubberMaskSetg12,SourceCharacter puts the wig L on the DestinationCharacter head.
+ItemHoodRubberMaskSetg13,SourceCharacter puts the wig M on the DestinationCharacter head.
+ItemHoodRubberMaskSetg14,SourceCharacter puts the wig N on the DestinationCharacter head.
+ItemHoodRubberMaskSetg15,SourceCharacter puts the wig O on the DestinationCharacter head.
+ItemHoodRubberMaskSetg16,SourceCharacter puts the wig P on the DestinationCharacter head.
+ItemHoodRubberMaskSete0,SourceCharacter chooses a normal eye expression in DestinationCharacter mask.
+ItemHoodRubberMaskSete1,SourceCharacter chooses a closed eye expression in DestinationCharacter mask.
+ItemHoodRubberMaskSete2,SourceCharacter chooses a wide open eye expression in DestinationCharacter mask.
+ItemHoodRubberMaskSety0,SourceCharacter chooses a neutral eyebrow expression in DestinationCharacter mask.
+ItemHoodRubberMaskSety1,SourceCharacter chooses a sad eyebrow expression in DestinationCharacter mask.
+ItemHoodRubberMaskSety2,SourceCharacter chooses a angry eyebrow expression in DestinationCharacter mask.
+ItemHoodRubberMaskSety3,SourceCharacter chooses a alterning eyebrow expression (L-r) in DestinationCharacter mask.
+ItemHoodRubberMaskSety4,SourceCharacter chooses a alterning eyebrow expression (l-R) in DestinationCharacter mask.
+ItemHoodRubberMaskSetl0,SourceCharacter chooses a normal lip expression in DestinationCharacter mask.
+ItemHoodRubberMaskSetl1,SourceCharacter chooses a serious lip expression in DestinationCharacter mask.
+ItemHoodRubberMaskSetl2,SourceCharacter chooses a open mouth expression in DestinationCharacter mask.
+ItemHoodRubberMaskSetl3,SourceCharacter chooses a normal vampire lip expression in DestinationCharacter mask.
+ItemHoodRubberMaskSetl4,SourceCharacter chooses a serious vampire lip expression in DestinationCharacter mask.
+ItemHoodRubberMaskSetl5,SourceCharacter chooses a open mouth vampire expression in DestinationCharacter mask.
+ItemHoodRubberMaskSeta0,SourceCharacter removes any rubber mask gag from DestinationCharacter mouth.
+ItemHoodRubberMaskSeta1,SourceCharacter gags DestinationCharacter with a single piece of duct tape.
+ItemHoodRubberMaskSeta2,SourceCharacter gags DestinationCharacter totally locking TargetPronounObject mouth with the Horror Gag.
 MaskRubberMaskSelectBase,Select Rubber Mask options
 MaskRubberMaskModuleWig,Hair and Wig
 MaskRubberMaskSelectWig,Hair and wig menu
@@ -5793,6 +5797,8 @@ MaskRubberMaskOptiong11,Wig K
 MaskRubberMaskOptiong12,Wig L
 MaskRubberMaskOptiong13,Wig M
 MaskRubberMaskOptiong14,Wig N
+MaskRubberMaskOptiong15,Wig O
+MaskRubberMaskOptiong16,Wig P
 MaskRubberMaskModuleEyes,Eyes
 MaskRubberMaskSelectEyes,Eye expression menu
 MaskRubberMaskOptione0,Normal
@@ -6104,3 +6110,27 @@ ItemHeadKigu2HoodSetNone,SourceCharacter changes the DestinationCharacter Rubber
 ItemHeadKigu2HoodSetThin,SourceCharacter changes the DestinationCharacter Rubber Kigurumi current lenses to a light tint pair.
 ItemHeadKigu2HoodSetThick,SourceCharacter changes the DestinationCharacter Rubber Kigurumi current lenses to a dark tint pair.
 ItemHeadKigu2HoodSetOpaque,SourceCharacter changes the DestinationCharacter Rubber Kigurumi current lenses to a pair of opaque panels.
+ItemBootsBalletMittensSelectBase,Pogo Ball extended restraint option:
+ItemBootsBalletMittensModulePogo,Current condition
+ItemBootsBalletMittensSelectPogo,Extended restraint menu:
+ItemBootsBalletMittensOptionp0,Just Ballet mittens
+ItemBootsBalletMittensOptionp1,Inside hollow Pogo Ball
+ItemBootsBalletMittensOptionp2,Inside solid Pogo Ball
+ItemBootsBalletMittensSetp0,SourceCharacter just leaves DestinationCharacterName feet locked into Ballet mittens.
+ItemBootsBalletMittensSetp1,SourceCharacter puts DestinationCharacter feet inside the hollow and light Pogo Ball device.
+ItemBootsBalletMittensSetp2,SourceCharacter puts DestinationCharacter feet inside the solid and heavy Pogo Ball device.
+ItemDevicesPogoBallSelect,Pogo Ball main menu:
+ItemDevicesPogoBallLight,Hollow Pogo Ball
+ItemDevicesPogoBallHeavy,Solid Pogo Ball
+ItemDevicesPogoBallSetLight,SourceCharacter puts DestinationCharacter feet inside the hollow and light Pogo Ball device.
+ItemDevicesPogoBallSetHeavy,SourceCharacter puts DestinationCharacter feet inside the solid and heavy Pogo Ball device.
+ClothAccessoryComboBeltSelectBase,Add or remove chains to your Combo Belt:
+ClothAccessoryComboBeltModuleChain,Add-Remove
+ClothAccessoryComboBeltSelectChain,Chains garters menu:
+ClothAccessoryComboBeltOptionc0,Added
+ClothAccessoryComboBeltOptionc1,Removed
+GartersComboBeltSelectBase,Add or remove chains to your Combo Belt:
+GartersComboBeltModuleChain,Add-Remove
+GartersComboBeltSelectChain,Chains garters menu:
+GartersComboBeltOptionc0,Add
+GartersComboBeltOptionc1,Remove

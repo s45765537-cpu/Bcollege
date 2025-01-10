@@ -383,7 +383,8 @@ function ValidationResolveLockModification(previousItem, newItem, params, itemBl
 
 	const lockChangeInvalid = (lockRemoved && !ValidationIsLockChangePermitted(previousLock, params, true)) ||
 		(lockAdded && !ValidationIsLockChangePermitted(newLock, params)) ||
-		((lockAdded || lockModified || lockSwapped) && (newLockBlocked || itemBlocked));
+		((lockAdded || lockModified || lockSwapped) && (newLockBlocked || itemBlocked))||
+		(lockModified && previousProperty.Effect?.includes("Lock") && !newProperty.Effect?.includes("Lock"));
 
 	if (lockChangeInvalid) {
 		if (previousLock) {
@@ -421,6 +422,7 @@ function ValidationResolveLockModification(previousItem, newItem, params, itemBl
  */
 function ValidationLockWasModified(previousProperty, newProperty) {
 	return previousProperty.LockedBy !== newProperty.LockedBy ||
+	    previousProperty.Effect?.includes("Lock") !== newProperty.Effect?.includes("Lock") ||
 		ValidationAllLockProperties.some((key) => !CommonDeepEqual(previousProperty[key], newProperty[key]));
 }
 
