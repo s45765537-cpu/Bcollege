@@ -420,8 +420,13 @@ var ClubCardList = [
 			ClubCardPlayerAddFame(CCPlayer, effectFame);
 		},
 		onPlayedCard: function(CCPlayer, cardPlayed) {
-			if (cardPlayed.FamePerTurn && cardPlayed.FamePerTurn < 0) {
-				ClubCardPlayerStealFame(CCPlayer, (cardPlayed.MoneyPerTurn * 2));
+			if (cardPlayed.FamePerTurn && cardPlayed.FamePerTurn < 0 && !ClubCardIsLiability(cardPlayed)) {
+				if (cardPlayed.MoneyPerTurn != null) ClubCardPlayerStealFame(CCPlayer, (cardPlayed.MoneyPerTurn * 2));
+			}
+		},
+		onOpponentPlayedCard: function(CCPlayer, cardPlayed) {
+			if (cardPlayed.FamePerTurn && cardPlayed.FamePerTurn < 0 && ClubCardIsLiability(cardPlayed)) {
+				if (cardPlayed.MoneyPerTurn != null) ClubCardPlayerStealFame(CCPlayer, (cardPlayed.MoneyPerTurn * 2));
 			}
 		}
 	},
@@ -778,7 +783,13 @@ var ClubCardList = [
 		RequiredLevel: 2,
 		FamePerTurn: 1,
 		onPlayedCard: function(CCPlayer, cardPlayed) {
-			if (!ClubCardCardHasGroup(cardPlayed, "Maid") && cardPlayed.Type === "Member" && cardPlayed.Group != null) {
+			if (!ClubCardCardHasGroup(cardPlayed, "Maid") && cardPlayed.Type === "Member" && cardPlayed.Group != null && !ClubCardIsLiability(cardPlayed)) {
+				let sharedGroupCards = CCPlayer.Board.filter(value => cardPlayed.Group.some(group => ClubCardCardHasGroup(value, group)));
+				ClubCardPlayerAddFame(CCPlayer, Math.min(CCPlayer.Level, sharedGroupCards.length - 1));
+			}
+		},
+		onOpponentPlayedCard: function (CCPlayer, cardPlayed) {
+			if (!ClubCardCardHasGroup(cardPlayed, "Maid") && cardPlayed.Type === "Member" && cardPlayed.Group != null && ClubCardIsLiability(cardPlayed)) {
 				let sharedGroupCards = CCPlayer.Board.filter(value => cardPlayed.Group.some(group => ClubCardCardHasGroup(value, group)));
 				ClubCardPlayerAddFame(CCPlayer, Math.min(CCPlayer.Level, sharedGroupCards.length - 1));
 			}
@@ -3604,7 +3615,6 @@ function ClubCardStartTurn(StartType = ClubCardStartTurnType.BANKRUPT) {
 			break;
 
 		case ClubCardStartTurnType.DRAWENDTURN:
-			ClubCardOnDrawAction(CCPlayer);	
 			ClubCardEndTurn((ClubCardTurnCardPlayed == 0));
 			break;
 
@@ -3693,6 +3703,7 @@ function ClubCardEndTurn(Draw = false) {
 		ClubCardMessagePacketAdd(`${CharacterNickname(CCPlayer.Character)} draws a card.`, ClubCardMessageType.ACTION);
 		ClubCardMessagePacketAdd(message, ClubCardMessageType.FAMEMONEYINFO);
 		ClubCardPlayerDrawCard(ClubCardPlayer[ClubCardTurnIndex]);
+		ClubCardOnDrawAction(CCPlayer);
 	} else {
 		const message = TextGet("EndTurnPlayer").replace("FAMEMONEY", FameMoneyText).replace("SOURCEPLAYER", CharacterNickname(CCPlayer.Character)).replace("OPPONENTPLAYER", CharacterNickname(Opponent.Character));
 		ClubCardMessagePacketAdd(message, ClubCardMessageType.FAMEMONEYINFO);
