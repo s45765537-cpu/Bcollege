@@ -731,25 +731,30 @@ declare namespace AssetDefinition {
 	/** An {@link AssetDefinition} subtype for assets whose group is of the `Appearance` category. */
 	interface Appearance extends AssetDefinitionBase {
 		AllowLock?: false;
-		IsLock?: false;
-		PickDifficulty?: never;
-		OwnerOnly?: false;
-		LoverOnly?: false;
-		FamilyOnly?: false;
-		AllowTighten?: false;
-		DrawLocks?: false;
-		CustomBlindBackground?: never;
-		CraftGroup?: never;
 		AllowLockType?: never;
-		CharacterRestricted?: false;
 		AllowRemoveExclusive?: false;
+		AllowTighten?: false;
+		AlwaysExtend?: false;
+		AlwaysInteract?: false;
 		ArousalZone?: never;
+		CharacterRestricted?: false;
+		CraftGroup?: never;
+		CustomBlindBackground?: never;
 		Difficulty?: never;
+		DrawLocks?: false;
+		ExclusiveUnlock?: false;
+		FamilyOnly?: false;
+		IsLock?: false;
+		IsRestraint?: false;
+		LoverOnly?: false;
+		MaxTimer?: never;
+		OwnerOnly?: false;
+		PickDifficulty?: never;
+		RemoveTime?: never;
+		RemoveTimer?: never;
 		SelfBondage?: never;
 		SelfUnlock?: false;
-		RemoveTime?: never;
-		AlwaysInteract?: false;
-		IsRestraint?: false;
+		Time?: never;
 	}
 	/** An {@link AssetDefinition} subtype for assets whose group is of the `Script` category. */
 	interface Script extends AssetDefinitionBase {
