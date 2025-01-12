@@ -58,6 +58,7 @@ ClubCardDefeat,,,"You'll need to review your strategies comrade.  Losing is part
 90,,I could get locked up to spy on it.,"You're already registered as a guard, you will not be admitted as a prisoner.",,"PenitentiaryRoleIs(""G"")"
 90,Guard1,I could infiltrate their guard staff.,We could register you as a guard so you can spy on their structure.  For how long could you do it?,,"PenitentiaryRoleIs(""I"")"
 90,,I could infiltrate their guard staff.,"You're already registered as a guard, get to work comrade.",,"PenitentiaryRoleIs(""G"")"
+90,,What can I do as a prison guard?,"Guards have lots of power, let me explain... (The /pandora command can be used to do activities with inmates, use /help to get the list.)",,"PenitentiaryRoleIs(""G"")"
 90,0,I will create a new prison cell right now.,,"StartPenitentiary(""New"")","PenitentiaryRoleIs(""G"")"
 90,Guard3,I will infiltrate the current cells.,"Go now comrade!  (In mixed online chat rooms, search for rooms that begins with ""Pandora"" to enter an active cell.)",,"PenitentiaryRoleIs(""G"")"
 90,,Can I dress up as a guard?,You certainly can comrade.  (She helps you to dress up.),GuardDressUp(),"PenitentiaryRoleIs(""G"")"
@@ -80,6 +81,7 @@ Guard1,Guard2,8 hours.,Impressive.  I will prepare a 8 hours guard shift for you
 Guard1,Guard2,12 hours.,Excellent!  I will prepare a 12 hours guard shift for you.  Here's $30 for the trouble.  Bring lots of information.,"PreparePenitentiary(720, 30, ""G"")","DialogSkillGreater(""Infiltration"", 5)"
 Guard1,Guard2,24 hours.,Wow!  I will prepare a 24 hours guard shift for you.  Here's $40 for the trouble.  Bring lots of information.,"PreparePenitentiary(1440, 40, ""G"")","DialogSkillGreater(""Infiltration"", 7)"
 Guard1,0,Let me think about it first.,"Think quickly, the clock is ticking.",,
+Guard2,,What can I do as a prison guard?,"Guards have lots of power, let me explain... (The /pandora command can be used to do activities with inmates, use /help to get the list.)",,
 Guard2,0,I will create a new prison cell right now.,,"StartPenitentiary(""New"")",
 Guard2,Guard3,I will infiltrate the current cells.,"Go now comrade!  (In mixed online chat rooms, search for rooms that begins with ""Pandora"" to enter an active cell.)",,
 Guard2,,Can I dress up as a guard?,You certainly can comrade.  (She helps you to dress up.),GuardDressUp(),

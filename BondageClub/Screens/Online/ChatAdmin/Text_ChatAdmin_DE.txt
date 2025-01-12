@@ -6,10 +6,10 @@ Description
 Beschreibung
 Ban List
 Bannliste
-Whitelist
-Whitelist
 Administrator List
 Administratorliste
+Whitelist
+Whitelist
 Private
 Privat
 Locked
@@ -20,16 +20,20 @@ Member numbers separated by commas (ex: 123, ...)
 Mitgliedsnummer, getrennt durch Kommas (Bsp: 123, ...)
 Use the above buttons to quickadd to the respective lists
 Benutzen Sie die obigen Schaltflächen, um schnell zu den jeweiligen Listen hinzuzufügen
-Blacklist
-Blackliste
-Ghostlist
-Geistliste
+Quick Add
+Quick Add
 Owner
 Eigentümer
 Lovers
 Liebhaber
 Friends
 Freunde
+Quick Ban
+Quick Bann
+Blacklist
+Blackliste
+Ghostlist
+Geistliste
 Room settings can only be updated by administrators
 Raum-Einstellungen können nur von Administratoren bearbeitet werden
 Background
@@ -68,6 +72,8 @@ Magic Battle
 Magischer Kampf
 GGTS
 GGTS
+Pandora
+Pandora
 English
 Englisch
 French

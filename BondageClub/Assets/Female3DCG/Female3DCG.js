@@ -18826,6 +18826,32 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "HairFront63",
+				Top: 30,
+				Layer: [
+					{
+						Name: "Main",
+						Priority: 52,
+					},
+					{
+						Name: "Back",
+						Priority: 51,
+					},
+				],
+			},
+			{
+				Name: "HairFront64",
+				Top: 30,
+				Layer: [
+					{
+						Name: "Main",
+					},
+					{
+						Name: "Clip",
+					},
+				],
+			},
 		],
 		Color: [
 			"#6a3628",
@@ -19285,6 +19311,20 @@ var AssetFemale3DCG = [
 							Suspension: "Suspension",
 						},
 					},
+					{
+						Name: "LeftTip",
+						AllowTypes: { typed: [0, 1] },
+						PoseMapping: {
+							Suspension: "Suspension",
+						},
+					},
+					{
+						Name: "RightTip",
+						AllowTypes: { typed: [0, 2] },
+						PoseMapping: {
+							Suspension: "Suspension",
+						},
+					},
 				],
 			},
 			{
@@ -19304,6 +19344,20 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Right",
+						AllowTypes: { typed: [0, 2] },
+						PoseMapping: {
+							Suspension: "Suspension",
+						},
+					},
+					{
+						Name: "LeftTip",
+						AllowTypes: { typed: [0, 1] },
+						PoseMapping: {
+							Suspension: "Suspension",
+						},
+					},
+					{
+						Name: "RightTip",
 						AllowTypes: { typed: [0, 2] },
 						PoseMapping: {
 							Suspension: "Suspension",
@@ -19448,6 +19502,468 @@ var AssetFemale3DCG = [
 				Left: 83,
 				Top: 4,
 			},
+			{
+				Name: "HairBack64",
+				Left: 51,
+				Top: 0,
+			},
+			{
+				Name: "HairBack65",
+				Top: 0,
+				Extended: true,
+				Layer: [
+					{
+						Name: "Left",
+						AllowTypes: { typed: [0, 1] },
+					},
+					{
+						Name: "Right",
+						AllowTypes: { typed: [0, 2] },
+					},
+				],
+			},
+			{
+				Name: "HairBack65b",
+				Top: 0,
+				Extended: true,
+				Layer: [
+					{
+						Name: "Left",
+						AllowTypes: { typed: [0, 1] },
+					},
+					{
+						Name: "Right",
+						AllowTypes: { typed: [0, 2] },
+					},
+				],
+			},
+			{
+				Name: "HairBack66",
+				Top: 0,
+				Extended: true,
+				Layer: [
+					{
+						Name: "Left",
+						AllowTypes: { typed: [0, 1] },
+					},
+					{
+						Name: "Right",
+						AllowTypes: { typed: [0, 2] },
+					},
+				],
+			},
+			{
+				Name: "HairBack67",
+				Top: 0,
+				Extended: true,
+				Layer: [
+					{
+						Name: "Left",
+						AllowTypes: { typed: [0, 1] },
+					},
+					{
+						Name: "Right",
+						AllowTypes: { typed: [0, 2] },
+					},
+				],
+			},
+			{
+				Name: "HairBack68",
+				Top: 0,
+				Extended: true,
+				Layer: [
+					{
+						Name: "BaseLeft",
+						AllowTypes: { typed: [0, 1] },
+					},
+					{
+						Name: "TipLeft",
+						AllowTypes: { typed: [0, 1] },
+					},
+					{
+						Name: "BaseRight",
+						AllowTypes: { typed: [0, 2] },
+					},
+					{
+						Name: "TipRight",
+						AllowTypes: { typed: [0, 2] },
+					},
+				],
+			},
+			{
+				Name: "HairBack69",
+				Top: 0,
+				Extended: true,
+				Layer: [
+					{
+						Name: "BaseLeft",
+						AllowTypes: { typed: [0, 1] },
+					},
+					{
+						Name: "TipLeft",
+						AllowTypes: { typed: [0, 1] },
+					},
+					{
+						Name: "BaseRight",
+						AllowTypes: { typed: [0, 2] },
+					},
+					{
+						Name: "TipRight",
+						AllowTypes: { typed: [0, 2] },
+					},
+				],
+			},
+			{
+				Name: "HairBack69b",
+				Top: 0,
+				Extended: true,
+				Layer: [
+					{
+						Name: "BaseLeft",
+						AllowTypes: { typed: [0, 1] },
+					},
+					{
+						Name: "TipLeft",
+						AllowTypes: { typed: [0, 1] },
+					},
+					{
+						Name: "BaseRight",
+						AllowTypes: { typed: [0, 2] },
+					},
+					{
+						Name: "TipRight",
+						AllowTypes: { typed: [0, 2] },
+					},
+				],
+			},
+			{
+				Name: "HairBack70",
+				Top: 0,
+			},
+			{
+				Name: "HairBack70b",
+				Top: 0,
+			},
+			{
+				Name: "HairBack71",
+				Top: 0,
+				Left: 53,
+				Layer: [
+					{
+						Name: "Base",
+					},
+					{
+						Name: "Streak",
+					},
+				],
+			},
+			{
+				Name: "HairBack72",
+				Top: 3,
+				Left: 53,
+				Layer: [
+					{
+						Name: "Base",
+					},
+					{
+						Name: "Tip",
+					},
+				],
+			},
+			{
+				Name: "HairBack73",
+				Top: 0,
+				Extended: true,
+				Layer: [
+					{
+						Name: "AFront",
+						AllowTypes: { typed: [0] },
+					},
+					{
+						Name: "ABack",
+						AllowTypes: { typed: [0] },
+						Priority: 4,
+					},
+					{
+						Name: "BFront",
+						CopyLayerColor: "AFront",
+						AllowTypes: { typed: [1] },
+					},
+					{
+						Name: "BBack",
+						CopyLayerColor: "ABack",
+						AllowTypes: { typed: [1] },
+						Priority: 4,
+					},
+					{
+						Name: "CFront",
+						CopyLayerColor: "AFront",
+						AllowTypes: { typed: [2] },
+					},
+					{
+						Name: "CBack",
+						CopyLayerColor: "ABack",
+						AllowTypes: { typed: [2] },
+						Priority: 4,
+					},
+				],
+			},
+			{
+				Name: "HairBack74",
+				Top: 0,
+				Left: 47,
+				Extended: true,
+				Layer: [
+					{
+						Name: "AFront",
+						AllowTypes: { typed: [0] },
+						Priority: 50,
+					},
+					{
+						Name: "ABack",
+						AllowTypes: { typed: [0] },
+						Priority: 4,
+					},
+					{
+						Name: "BFront",
+						CopyLayerColor: "AFront",
+						AllowTypes: { typed: [1] },
+						Priority: 50,
+					},
+					{
+						Name: "BBack",
+						CopyLayerColor: "ABack",
+						AllowTypes: { typed: [1] },
+						Priority: 4,
+					},
+					{
+						Name: "CFront",
+						CopyLayerColor: "AFront",
+						AllowTypes: { typed: [2] },
+						Priority: 50,
+					},
+					{
+						Name: "CBack",
+						CopyLayerColor: "ABack",
+						AllowTypes: { typed: [2] },
+						Priority: 4,
+					},
+				],
+			},
+			{
+				Name: "HairBack75",
+				Top: 0,
+				Extended: true,
+				Layer: [
+					{
+						Name: "Left",
+						AllowTypes: { L: [0, 1] },
+					},
+					{
+						Name: "Right",
+						AllowTypes: { R: [0, 1] },
+					},
+					{
+						Name: "LeftStrand",
+						Priority: 4,
+						AllowTypes: { L: [0] },
+					},
+					{
+						Name: "RightStrand",
+						Priority: 4,
+						AllowTypes: { R: [0] },
+					},
+				],
+			},
+			{
+				Name: "HairBack76",
+				Top: 3,
+				Extended: true,
+				Layer: [
+					{
+						Name: "Left",
+						AllowTypes: { L: [0, 1, 2, 3] },
+					},
+					{
+						Name: "Right",
+						AllowTypes: { R: [0, 1, 2, 3] },
+					},
+					{
+						Name: "LeftBraid",
+						AllowTypes: { L: [0, 1] },
+					},
+					{
+						Name: "RightBraid",
+						AllowTypes: { R: [0, 1] },
+					},
+					{
+						Name: "LeftStrand",
+						Priority: 4,
+						AllowTypes: { L: [0, 2] },
+					},
+					{
+						Name: "RightStrand",
+						Priority: 4,
+						AllowTypes: { R: [0, 2] },
+					},
+				],
+			},
+			{
+				Name: "HairBack76b",
+				Top: 0,
+				Extended: true,
+				Layer: [
+					{
+						Name: "Left",
+						AllowTypes: { typed: [0, 1] },
+					},
+					{
+						Name: "Right",
+						AllowTypes: { typed: [0, 2] },
+					},
+				],
+			},
+			{
+				Name: "HairBack77",
+				Top: 0,
+				Left: 49,
+				Extended: true,
+				Layer: [
+					{
+						Name: "Left",
+						AllowTypes: { L: [0, 1, 2, 3] },
+					},
+					{
+						Name: "Right",
+						AllowTypes: { R: [0, 1, 2, 3] },
+					},
+					{
+						Name: "LeftBraid",
+						AllowTypes: { L: [0, 1] },
+					},
+					{
+						Name: "RightBraid",
+						AllowTypes: { R: [0, 1] },
+					},
+					{
+						Name: "LeftStrand",
+						Priority: 4,
+						AllowTypes: { L: [0, 2] },
+					},
+					{
+						Name: "RightStrand",
+						Priority: 4,
+						AllowTypes: { R: [0, 2] },
+					},
+				],
+			},
+			{
+				Name: "HairBack77b",
+				Top: 0,
+				Left: 49,
+				Extended: true,
+				Layer: [
+					{
+						Name: "Left",
+						AllowTypes: { L: [0, 1] },
+					},
+					{
+						Name: "Right",
+						AllowTypes: { R: [0, 1] },
+					},
+					{
+						Name: "LeftBraid",
+						AllowTypes: { L: [0] },
+					},
+					{
+						Name: "RightBraid",
+						AllowTypes: { R: [0] },
+					},
+				],
+			},
+			{
+				Name: "HairBack77c",
+				Top: 0,
+				Layer: [
+					{
+						Name: "Main",
+					},
+					{
+						Name: "Braid",
+					},
+				],
+			},
+			{
+				Name: "HairBack78",
+				Top: 0,
+				Left: 49,
+				Extended: true,
+				Layer: [
+					{
+						Name: "Left",
+						AllowTypes: { L: [0, 1, 2, 3] },
+					},
+					{
+						Name: "Right",
+						AllowTypes: { R: [0, 1, 2, 3] },
+					},
+					{
+						Name: "LeftBraid",
+						AllowTypes: { L: [0, 1] },
+					},
+					{
+						Name: "RightBraid",
+						AllowTypes: { R: [0, 1] },
+					},
+					{
+						Name: "LeftStrand",
+						Priority: 4,
+						AllowTypes: { L: [0, 2] },
+					},
+					{
+						Name: "RightStrand",
+						Priority: 4,
+						AllowTypes: { R: [0, 2] },
+					},
+				],
+			},
+			{
+				Name: "HairBack78b",
+				Top: 0,
+				Left: 49,
+				Extended: true,
+				Layer: [
+					{
+						Name: "Left",
+						AllowTypes: { L: [0, 1] },
+					},
+					{
+						Name: "Right",
+						AllowTypes: { R: [0, 1] },
+					},
+					{
+						Name: "LeftBraid",
+						AllowTypes: { L: [0] },
+					},
+					{
+						Name: "RightBraid",
+						AllowTypes: { R: [0] },
+					},
+				],
+			},
+			{
+				Name: "HairBack78c",
+				Top: 0,
+				Layer: [
+					{
+						Name: "Main",
+					},
+					{
+						Name: "Braid",
+					},
+				],
+			},
+
 		],
 		Color: [
 			"Default",
