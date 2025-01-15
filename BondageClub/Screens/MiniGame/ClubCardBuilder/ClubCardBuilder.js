@@ -5,7 +5,8 @@ var ClubCardBuilderFocus = null;
 var ClubCardBuilderList = [];
 var ClubCardBuilderOffset = 0;
 var ClubCardBuilderDeckCurrent = [];
-var ClubCardBuilderDeckSize = 30;
+var ClubCardBuilderMinDeckSize = 30;
+var ClubCardBuilderMaxDeckSize = 40;
 var ClubCardBuilderFilterIndex = 0;
 var ClubCardBuilderFilterGroup = ["All", "Event", "NoGroup", "Liability", "Staff", "Police", "Criminal", "Fetishist", "PornActress", "Maid", "AsylumPatient", "AsylumNurse", "Dominant", "Mistress", "ABDLBaby", "ABDLMommy", "CollegeStudent", "CollegeTeacher", "Knot", "Shibari", "Pet", "Owner", "Reward"];
 var ClubCardBuilderRenameIndex = -1;
@@ -28,7 +29,7 @@ function ClubCardBuilderLoadDeck(Deck) {
 
 	// Loads the default deck if no deck exists or the deck is invalid
 	ClubCardBuilderDeckIndex = Deck;
-	if ((Player.Game.ClubCard.Deck.length <= Deck) || (Player.Game.ClubCard.Deck[Deck].length != ClubCardBuilderDeckSize)) {
+	if ((Player.Game.ClubCard.Deck.length <= Deck) || (Player.Game.ClubCard.Deck[Deck].length < ClubCardBuilderMinDeckSize) || (Player.Game.ClubCard.Deck[Deck].length > ClubCardBuilderMaxDeckSize)) {
 		ClubCardBuilderDeckCurrent = ClubCardBuilderDefaultDeck.slice();
 		ClubCardBuilderFilterLoad();
 		return;
@@ -36,7 +37,7 @@ function ClubCardBuilderLoadDeck(Deck) {
 
 	// Loads the deck from the saved string
 	ClubCardBuilderDeckCurrent = [];
-	for (let Index = 0; Index < ClubCardBuilderDeckSize; Index++)
+	for (let Index = 0; Index < Player.Game.ClubCard.Deck[Deck].length; Index++)
 		ClubCardBuilderDeckCurrent.push(Player.Game.ClubCard.Deck[Deck].charCodeAt(Index));
 
 	// Prepares the filtered list
@@ -181,7 +182,7 @@ function ClubCardBuilderRun() {
 	// Draw the text, the zoomed card and buttons
 	ClubCardRenderCard(ClubCardBuilderFocus, 1545, 105, 445);
 	if ((ClubCardBuilderFocus != null) && (ClubCardBuilderDeckCurrent.indexOf(ClubCardBuilderFocus.ID) >= 0)) DrawImageResize("Screens/MiniGame/ClubCardBuilder/Selected.png", 1870, 200, 120, 120);
-	DrawText(TextGet("SelectCards") + " " + ClubCardBuilderGetDeckName(ClubCardBuilderDeckIndex) + " (" + ClubCardBuilderDeckCurrent.length + " / " + ClubCardBuilderDeckSize.toString() + ")", 1100, 37, (ClubCardBuilderDeckCurrent.length == ClubCardBuilderDeckSize) ? "White" : "Pink", "Black");
+	DrawText(TextGet("SelectCards") + " " + ClubCardBuilderGetDeckName(ClubCardBuilderDeckIndex) + " (" + ClubCardBuilderDeckCurrent.length + " / " + ClubCardBuilderMinDeckSize.toString() + "-" + ClubCardBuilderMaxDeckSize.toString() + ")", 1100, 37, (ClubCardBuilderDeckCurrent.length >= ClubCardBuilderMinDeckSize && ClubCardBuilderDeckCurrent.length <= ClubCardBuilderMaxDeckSize) ? "White" : "Pink", "Black");
 	if (ClubCardBuilderFocus == null) DrawTextWrap(TextGet("ClickCard"), 1560, 400, 430, 300, "White");
 	DrawButton(1895, 5, 90, 90, null, "White", "Icons/Cancel.png", TextGet("UndoChanges"));
 	DrawButton(1780, 5, 90, 90, null, "White", "Icons/Accept.png", TextGet("SaveChanges"));
@@ -211,7 +212,7 @@ function ClubCardBuilderClick() {
 	// If the user wants to exit
 	if ((ClubCardBuilderDeckIndex == -1) && MouseIn(1885, 25, 90, 90)) return CommonSetScreen("Room", "ClubCardLounge");
 	if ((ClubCardBuilderDeckIndex != -1) && MouseIn(1895, 5, 90, 90)) { ClubCardBuilderDeckIndex = -1; return; }
-	if ((ClubCardBuilderDeckIndex != -1) && MouseIn(1780, 5, 90, 90) && (ClubCardBuilderDeckCurrent.length == ClubCardBuilderDeckSize)) return ClubCardBuilderSaveChanges();
+	if ((ClubCardBuilderDeckIndex != -1) && MouseIn(1780, 5, 90, 90) && (ClubCardBuilderDeckCurrent.length >= ClubCardBuilderMinDeckSize) && (ClubCardBuilderDeckCurrent.length <= ClubCardBuilderMaxDeckSize)) return ClubCardBuilderSaveChanges();
 
 	// When we navigate through the cards
 	if ((ClubCardBuilderDeckIndex != -1) && MouseIn(1665, 5, 90, 90)) {

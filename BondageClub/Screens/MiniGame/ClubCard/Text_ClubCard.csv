@@ -417,8 +417,8 @@ Effect Public Spanking,SOURCEPLAYER lost AMOUNT Fame because of public spanking.
 Title Nawashi,Nawashi
 Text Nawashi,"When she enters your club, your opponent doesn't gain fame at the end of their next turn."
 Effect Nawashi,No Fame is gained because of OPPONENTPLAYER Nawashi.
-DiscardPile,View discard pile
-OpponentDiscardPile,View opponent's discard pile
+DiscardPile,View the Streets (discard pile)
+OpponentDiscardPile,View the opponent's Streets (discard pile)
 Close,Close
 Title Burlington Bowtie,Burlington Bowtie
 Text Burlington Bowtie,"Gain 4 fame. Gain 2 fame per Sensei present."
@@ -433,7 +433,7 @@ Effect Closed Hitch,SOURCEPLAYER draws a card from Closed Hitch.
 Title Struggler's Knot,Struggler's Knot
 Text Struggler's Knot,Take another action. 
 Title Quick Release Knot,Quick Release Knot
-Text Quick Release Knot,Gain money equal to the number of knots in your discard pile plus 4. Shuffle this and all knots from your discard pile into your deck. 
+Text Quick Release Knot,Gain money equal to the number of knots in your streets plus 4. Shuffle this and all knots from your streets into your deck. 
 Effect Quick Release Knot,SOURCEPLAYER gained AMOUNT Money from Quick Release Knot.
 Title Master Class,Master Class
 Text Master Class,"For the next 3 turns, if a Sensei is present, play a random Knot from your deck at the start of your turn."
@@ -452,7 +452,7 @@ Text Goddess of Ropes,"When you play a Shibari card, play a random Knot from you
 Title Rope Slinger,Rope Slinger
 Text Rope Slinger,"When she enters your club, play all knots in your hand. When you upgrade your building, return this member to your hand."
 Title Fit To Be Tied,Fit To Be Tied
-Text Fit To Be Tied,"Play all Knots in your hand, deck, and discard pile and shuffle them into your deck."
+Text Fit To Be Tied,"Play all Knots in your hand, deck, and streets and shuffle them into your deck."
 Title Living Art,Living Art
 Text Living Art,Gain 1 Fame when you play a Knot or Shibari Event. 
 Effect Living Art,"SOURCEPLAYER gained 1 fame from Living Art."

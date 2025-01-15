@@ -1614,7 +1614,6 @@ var ClubCardList = [
 		Group: ["Pet"],
 		Prerequisite: "SelectOpponentMember",
 		RequiredLevel: 3,
-		MoneyPerTurn: 1,
 		FamePerTurn: 1,
 		OnPlay: function(CCPlayer) {
 			ClubCardPlayerAddMoney(CCPlayer, -14);
@@ -2760,10 +2759,6 @@ function ClubCardPlayerAddFame(CCPlayer, Amount) {
  */
 function ClubCardPlayerStealMoney(CCPlayer, Amount, isStickyFingers = false) {
 	const opponent = ClubCardGetOpponent(CCPlayer);
-	if (CCPlayer.Money == null) CCPlayer.Money = 0;
-	if (CCPlayer.Fame == null) CCPlayer.Fame = 0;
-	if (opponent.Money == null) opponent.Money = 0;
-	if (opponent.Fame == null) opponent.Fame = 0;
 
 	if (opponent.Money < 1) return 0; 
 	const moneyToSteal = Math.min(Amount, opponent.Money);
@@ -2795,10 +2790,6 @@ function ClubCardPlayerStealMoney(CCPlayer, Amount, isStickyFingers = false) {
  */
 function ClubCardPlayerStealFame(CCPlayer, Amount, isStickyFingers = false) {
 	const opponent = ClubCardGetOpponent(CCPlayer);
-	if (CCPlayer.Money == null) CCPlayer.Money = 0;
-	if (CCPlayer.Fame == null) CCPlayer.Fame = 0;
-	if (opponent.Money == null) opponent.Money = 0;
-	if (opponent.Fame == null) opponent.Fame = 0;
 
 	if (opponent.Fame < 1) return 0; 
 	const fameToSteal = Math.min(Amount, opponent.Fame);
@@ -3418,14 +3409,14 @@ function ClubCardLoadDeckNumber(DeckNum) {
 
 	// Invalid decks cannot be loaded, we get the default one if that's the case
 	let Deck = [];
-	if ((Player.Game.ClubCard.Deck.length <= DeckNum) || (Player.Game.ClubCard.Deck[DeckNum].length != ClubCardBuilderDeckSize)) {
+	if ((Player.Game.ClubCard.Deck.length <= DeckNum) || (Player.Game.ClubCard.Deck[DeckNum].length < ClubCardBuilderMinDeckSize) || (Player.Game.ClubCard.Deck[DeckNum].length > ClubCardBuilderMaxDeckSize)) {
 		const Msg = TextGet("NoValidDeckFound").replace("PLAYERNAME", CharacterNickname(Player));
 		ClubCardOneMessagePacketSend(Msg, ClubCardMessageType.SYSTEM);
 		Deck = ClubCardBuilderDefaultDeck.slice();
 	} else {
 		const Msg = TextGet("UsingDeck").replace("PLAYERNAME", CharacterNickname(Player));
 		ClubCardOneMessagePacketSend(Msg, ClubCardMessageType.SYSTEM);
-		for (let i = 0; i < ClubCardBuilderDeckSize; i++)
+		for (let i = 0; i < Player.Game.ClubCard.Deck[DeckNum].length; i++)
 			Deck.push(Player.Game.ClubCard.Deck[DeckNum].charCodeAt(i));
 	}
 
