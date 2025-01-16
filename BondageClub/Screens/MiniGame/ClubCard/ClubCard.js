@@ -4359,7 +4359,7 @@ function ClubCardRenderCard(Card, X, Y, W, Sleeve = null, Source = null) {
 	if (Card.Type == null) Card.Type = "Member";
 
 	// Draw the images and texts on the screen
-	DrawImageResize("Screens/MiniGame/ClubCard/Frame/" + Card.Type + ((Card.Reward != null || Card.RewardMemberNumber) ? "Reward" : "") + Level.toString() + ".png", X, Y, W, W * 2);
+	DrawImageResize("Screens/MiniGame/ClubCard/Frame/" + Card.Type + ((Card.Reward != null) ? "Reward" : "") + Level.toString() + ".png", X, Y, W, W * 2);
 	DrawImageResize("Screens/MiniGame/ClubCard/" + Card.Type + "/" + Card.Name + ".png", X + W * 0.05, Y + W * 0.16, W * 0.9, W * 1.8);
 	if ((Card.Time != null) && ((Card.Location === "PlayerBoard") || (Card.Location === "OpponentBoard"))) {
 		MainCanvas.font = "bold " + Math.round(W / 1.5) + "px arial";

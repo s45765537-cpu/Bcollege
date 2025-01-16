@@ -622,6 +622,10 @@ Nawashi
 Наваши
 When she enters your club, your opponent doesn't gain fame at the end of their next turn.
 Когда она вступает в ваш клуб, противник не получит Славу в конце своего следующего хода.
+View the Streets (discard pile)
+Посмотреть свою улицу (Сброс)
+View the opponent's Streets (discard pile)
+Посмотреть улицу противника (Сброс)
 Prodigious Patient
 Выдающийся пациент
 When she leaves your club, your opponent loses 15 fame and discards a random card. Leaves your club after 6 turns.
@@ -684,8 +688,8 @@ For 3 turns, you can play an extra card.
 В течение 3 ходов вы можете разыгрывать дополнительную карту.
 Quick Release Knot
 Quick Release Knot
-Gain money equal to the number of knots in your discard pile plus 4. Shuffle this and all knots from your discard pile into your deck.
-Дает (4 + кол-во Узлов в куче) Денег. Перемешивает все Узлы из вашей кучи и возвращает их в колоду.
+Gain money equal to the number of knots in your streets plus 4. Shuffle this and all knots from your streets into your deck. 
+Дает (4 + кол-во Узлов на улице) денег. Возвращает все узлы с вашей улицы в колоду и перемешивает ее.
 Ransomware
 Вирус-Вымогатель
 Opponent loses 5 Money per building level.  Cannot be played if your opponent has Amanda or Jennifer.
@@ -772,8 +776,8 @@ Gain 4 Fame and draw a card for each ABDL Mommy present.
 Получите 4 Славы и карту за каждую ABDL-Мамочку в вашем клубе.
 Fit To Be Tied
 Готова быть связанной
-Play all Knots in your hand, deck, and discard pile and shuffle them into your deck.
-Разыгрывает все узлы из вашей руки, колоды и кучи. После чего помещает их в колоду и перемешивает.
+Play all Knots in your hand, deck, and streets and shuffle them into your deck.
+Разыгрывает все узлы из вашей руки, колоды и улицы. После чего помещает их в колоду и перемешивает.
 Moving Out of Town
 Переезд из города
 Remove any member from your opponent club.
