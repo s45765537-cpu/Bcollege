@@ -775,7 +775,10 @@ interface AssetGroup {
 	readonly Name: AssetGroupName;
 	readonly Description: string;
 	readonly Asset: readonly Asset[];
-	readonly ParentGroupName: AssetGroupName | null;
+	/** @deprecated - superseded by {@link ParentGroup} */
+	readonly ParentGroupName?: never;
+	/** An object mapping pose names to group names from which to inherit body sizes. */
+	readonly ParentGroup: ParentGroup.Data;
 	readonly Category: 'Appearance' | 'Item' | 'Script';
 	readonly IsDefault: boolean;
 	readonly IsRestraint: boolean;
@@ -880,9 +883,10 @@ interface AssetLayer {
 	readonly AllowTypes: AllowTypes.Data | null;
 	/** @deprecated - superceded by {@link CreateLayerTypes} */
 	readonly HasType?: never;
-	/** The name of the parent group for this layer. If null, the layer has no parent group. If
-	undefined, the layer inherits its parent group from it's asset/group. */
-	readonly ParentGroupName: AssetGroupName | null;
+	/** @deprecated - superseded by {@link ParentGroup} */
+	readonly ParentGroupName?: never;
+	/** An object mapping pose names to group names from which to inherit body sizes. */
+	readonly ParentGroup: ParentGroup.Data;
 	/** @deprecated - Superceded by {@link PoseMapping} */
 	readonly AllowPose?: never;
 	/** @deprecated - Superceded by {@link PoseMapping} */
@@ -962,7 +966,10 @@ interface Asset {
 	readonly Description: string;
 	readonly Group: AssetGroup;
 	readonly ParentItem?: string;
-	readonly ParentGroupName: AssetGroupName | null;
+	/** @deprecated - superseded by {@link ParentGroup} */
+	readonly ParentGroupName?: never;
+	/** An object mapping pose names to group names from which to inherit body sizes. */
+	readonly ParentGroup: ParentGroup.Data;
 	readonly Enable: boolean;
 	readonly Visible: boolean;
 	readonly NotVisibleOnScreen?: readonly string[];

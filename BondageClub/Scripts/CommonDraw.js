@@ -42,15 +42,16 @@ function CommonDrawAppearanceBuild(C, {
 		let item = C.Appearance.find(i => i.Asset === asset);
 		let groupName = asset.DynamicGroupName;
 
-		// If the layer belongs to a specific parent group, grab the group's current asset name to use it as a suffix
-		let parentAssetName = "";
-		if (layer.ParentGroupName) {
-			const parentItem = C.Appearance.find(Item => Item.Asset.Group.Name === layer.ParentGroupName);
-			if (parentItem) parentAssetName = parentItem.Asset.Name;
-		}
-
 		// If there's a pose style we must add (items take priority over groups, layers may override completely)
 		let pose = CommonDrawResolveAssetPose(C, layer);
+
+		// If the layer belongs to a specific parent group, grab the group's current asset name to use it as a suffix
+		let parentAssetName = "";
+		const parentGroupName = layer.ParentGroup[pose] ?? layer.ParentGroup[PoseType.DEFAULT];
+		if (parentGroupName) {
+			const parentItem = C.Appearance.find(Item => Item.Asset.Group.Name === parentGroupName);
+			if (parentItem) parentAssetName = parentItem.Asset.Name;
+		}
 
 		// Check if we need to draw a different expression (for facial features)
 		const currentExpression = CommonDrawResolveLayerExpression(C, item, layer);
