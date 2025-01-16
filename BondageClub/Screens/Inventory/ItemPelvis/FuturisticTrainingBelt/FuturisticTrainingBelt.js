@@ -8,7 +8,8 @@ var FuturisticTrainingBeltStates = ["None", "LowPriorityEdge", "LowPriorityTease
 /** @type {ItemPropertiesCustom["PublicModeCurrent"]} */
 var FuturisticTrainingBeltSetMode = 0;
 
-var FuturisticTrainingBeltStandUpFlag = false;
+/** @deprecated */
+var FuturisticTrainingBeltStandUpFlag = /** @type {never} */(false);
 
 var FuturisticTrainingBeltSpeechCharacterLimit = 25;
 
@@ -442,7 +443,6 @@ function AssetsItemPelvisFuturisticTrainingBeltScriptUpdatePlayer(data, drawData
 	let PersistentData = drawData.PersistentData();
 
 	if (!Item.Property) {
-		FuturisticTrainingBeltStandUpFlag = false;
 		return;
 	}
 
@@ -463,10 +463,10 @@ function AssetsItemPelvisFuturisticTrainingBeltScriptUpdatePlayer(data, drawData
 			StruggleProgressStruggleCount = 0;
 			DialogLeaveDueToItem = true;
 		}
-	} else if (Item.Property.PunishStandup && FuturisticTrainingBeltStandUpFlag) {
+	} else if (Item.Property.PunishStandup && C.CanKneel() && C.IsStanding() && ServerPlayerIsInChatRoom()) {
 		AssetsItemPelvisFuturisticChastityBeltScriptTrigger(C, Item, "Standup");
-		PoseSetActive(Player, "Kneel");
-		ServerSend("ChatRoomCharacterPoseUpdate", { Pose: Player.ActivePose });
+		PoseSetActive(C, "Kneel");
+		ServerSend("ChatRoomCharacterPoseUpdate", { Pose: C.ActivePose });
 	} else {
 		const {name, word} = InventoryFuturisticTrainingBeltCheckPunishSpeech(Item, LastTime);
 		if (name  === "Speech") {
@@ -522,8 +522,6 @@ function AssetsItemPelvisFuturisticTrainingBeltScriptUpdatePlayer(data, drawData
 			AssetsItemPelvisFuturisticChastityBeltScriptTrigger(C, Item, "ProhibitedSpeech", word, NoShock);
 		}
 	}
-
-	FuturisticTrainingBeltStandUpFlag = false;
 }
 
 /**
