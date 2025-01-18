@@ -478,6 +478,7 @@
   background-color: #D696FF;
   white-space: normal;
   font: inherit;
+  overflow: visible;
 }
 
 .chat-room-changelog + .chat-room-changelog {
