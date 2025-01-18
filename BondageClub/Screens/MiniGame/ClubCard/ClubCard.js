@@ -418,6 +418,7 @@ var ClubCardList = [
 				if (card.FamePerTurn && card.FamePerTurn < 0) effectFame = effectFame + 2;
 			}
 			ClubCardPlayerAddFame(CCPlayer, effectFame);
+			ClubCardLogGetDataPacket(ClubCardMessageType.CARDEFFECT, "GainFame", CCPlayer, effectFame);
 		},
 		onPlayedCard: function(CCPlayer, cardPlayed) {
 			if (cardPlayed.FamePerTurn && cardPlayed.FamePerTurn < 0 && !ClubCardIsLiability(cardPlayed)) {
@@ -786,12 +787,14 @@ var ClubCardList = [
 			if (!ClubCardCardHasGroup(cardPlayed, "Maid") && cardPlayed.Type === "Member" && cardPlayed.Group != null && !ClubCardIsLiability(cardPlayed)) {
 				let sharedGroupCards = CCPlayer.Board.filter(value => cardPlayed.Group.some(group => ClubCardCardHasGroup(value, group)));
 				ClubCardPlayerAddFame(CCPlayer, Math.min(CCPlayer.Level, sharedGroupCards.length - 1));
+				ClubCardLogGetDataPacket(ClubCardMessageType.CARDEFFECT, "Effect House keeper", CCPlayer, Math.min(CCPlayer.Level, sharedGroupCards.length - 1));
 			}
 		},
 		onOpponentPlayedCard: function (CCPlayer, cardPlayed) {
 			if (!ClubCardCardHasGroup(cardPlayed, "Maid") && cardPlayed.Type === "Member" && cardPlayed.Group != null && ClubCardIsLiability(cardPlayed)) {
 				let sharedGroupCards = CCPlayer.Board.filter(value => cardPlayed.Group.some(group => ClubCardCardHasGroup(value, group)));
 				ClubCardPlayerAddFame(CCPlayer, Math.min(CCPlayer.Level, sharedGroupCards.length - 1));
+				ClubCardLogGetDataPacket(ClubCardMessageType.CARDEFFECT, "Effect House keeper", CCPlayer, Math.min(CCPlayer.Level, sharedGroupCards.length - 1));
 			}
 		}
 	},
@@ -1452,6 +1455,7 @@ var ClubCardList = [
 		Prerequisite: "SelectAnyMember",
 		RequiredLevel: 4,
 		FamePerTurn: 2,
+		MoneyPerTurn: -1,
 		OnPlay: function (CCPlayer) {
 			const cardToAdd =  ClubCardList.find(card => card.Name === ClubCardSelection.Name);
 			CCPlayer.Hand.push({...cardToAdd});
@@ -1617,8 +1621,10 @@ var ClubCardList = [
 		FamePerTurn: 1,
 		OnPlay: function(CCPlayer) {
 			ClubCardPlayerAddMoney(CCPlayer, -14);
-			ClubCardRemoveFromBoard(ClubCardGetOpponent(CCPlayer), ClubCardSelection);
-			ClubCardPlayerAddFame(ClubCardGetOpponent(CCPlayer), ClubCardCalculateLevelForPets(CCPlayer) * -1);
+			const opponent = ClubCardGetOpponent(CCPlayer)
+			ClubCardRemoveFromBoard(opponent, ClubCardSelection);
+			ClubCardPlayerAddFame(opponent, ClubCardCalculateLevelForPets(CCPlayer) * -1);
+			ClubCardLogGetDataPacket(ClubCardMessageType.CARDEFFECT, "LoseFame", opponent, ClubCardCalculateLevelForPets(CCPlayer) * -1);
 		}
 	},
 	{
@@ -1679,7 +1685,10 @@ var ClubCardList = [
 		MoneyPerTurn: 2,
 		FamePerTurn: -1,
 		onPlayedCard: function(CCPlayer, cardPlayed) {
-			if (ClubCardCardHasGroup(cardPlayed, "Pet")) ClubCardPlayerAddMoney(CCPlayer, Math.min(ClubCardGroupOnBoardCount(CCPlayer, "Pet"), 5));
+			if (ClubCardCardHasGroup(cardPlayed, "Pet")) {
+				ClubCardPlayerAddMoney(CCPlayer, Math.min(ClubCardGroupOnBoardCount(CCPlayer, "Pet"), 5));
+				ClubCardLogGetDataPacket(ClubCardMessageType.CARDEFFECT, "Effect Rich Owner", CCPlayer, Math.min(ClubCardGroupOnBoardCount(CCPlayer, "Pet"), 5));
+			}
 		},
 		BeforeTurnEnd: function(CCPlayer) {
 			if (ClubCardGroupIsOnBoard(CCPlayer, "Maid")) ClubCardPlayerAddFame(CCPlayer, 1);
@@ -4145,7 +4154,7 @@ function ClubCardBankrupt() {
 	// Resets that player game & board
 	let CCPlayer = ClubCardPlayer[ClubCardTurnIndex];
 
-
+	ClubCardRemoveGroupFromBoard(CCPlayer, "Liability");
 	CCPlayer.Level = 1;
 	CCPlayer.Money = 5;
 	CCPlayer.Fame = 0;

@@ -498,6 +498,7 @@ Text Miss Mouse,"Costs 1 Money. When you play a pet, gain 1 Fame per 2 building 
 Effect Miss Mouse,"SOURCEPLAYER gained AMOUNT fame from Miss Mouse"
 Title Rich Owner,Rich Owner
 Text Rich Owner,"Pets treat your building level as 1 higher. +1 Fame if a Maid is present. When a Pet enters, gain 1 Money per pet present (Max 5)"
+Effect Rich Owner,"SOURCEPLAYER gained AMOUNT money from Rich Owner"
 Title Tour Guide,Tour Guide
 Text Tour Guide,"When she enters your club, draw a card. Gains +3 money if tourist is present, gains +3 fame if diplomat is present."
 Title Moon,"Moon"
@@ -519,6 +520,7 @@ Title Troublemaker,Troublemaker
 Text Troublemaker,Opponent loses 3 fame each time they upgrade unless they have a bouncer.
 Title House keeper,House keeper
 Text House keeper,"When a non-maid member enters your club, gain 1 Fame per member present that shares a type with it (Max = club level)"
+Effect House keeper,"SOURCEPLAYER gained AMOUNT fame from House keeper"
 Title Maid Manager,Maid Manager
 Text Maid Manager,"Gains +1 Money for every 2 maids present. At club level 4 or higher, gains +1 Fame instead. (Max +4)"
 Title Throne Room Servant,Throne Room Servant
