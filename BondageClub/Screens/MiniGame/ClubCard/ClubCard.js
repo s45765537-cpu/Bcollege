@@ -1488,6 +1488,7 @@ var ClubCardList = [
 				CCPlayer.LastFamePerTurn = 0;
 				ClubCardLogGetDataPacket(ClubCardMessageType.CARDEFFECT, "Effect Nawashi", CCPlayer);
 			}
+			this.Negated = true;
 		}
 	},
 	{
@@ -2970,7 +2971,7 @@ function ClubCardRemoveFromBoard(CCPlayer, Card, DontDiscard = false, MessageTyp
 
 	const indexToRemove = Card.ArrayIndex;
 	if (indexToRemove !== -1) {
-		if (Card.onLeaveClub != null) {
+		if (Card.onLeaveClub != null && !Card.Negated) {
 			Card.onLeaveClub(CCPlayer);
 		}
 		CCPlayer.Board.splice(indexToRemove, 1);
@@ -3090,7 +3091,7 @@ function ClubCardRemoveGroupFromBoard(CCPlayer, GroupName) {
 		if (Card.Group != null)
 			for (let G of Card.Group)
 				if (G == GroupName) {
-					if (Card.onLeaveClub != null) {
+					if (Card.onLeaveClub != null && !Card.Negated) {
 						Card.onLeaveClub(CCPlayer);
 					}
 					CCPlayer.Board.splice(Pos, 1);
@@ -3542,10 +3543,12 @@ function ClubCardRunTurnEndHandlers(CCPlayer, Opponent, Before) {
 		// Iterate over a copy of the board so the BeforeTurnEnd handlers can remove cards from the
 		// board and the behaviour is always well-defined.
 		for (const Card of CCPlayer.Board.slice()) {
-			if (Before) {
-				if (Card.BeforeTurnEnd != null) Card.BeforeTurnEnd(CCPlayer);
-			} else {
-				if (Card.AfterTurnEnd != null) Card.AfterTurnEnd(CCPlayer);
+			if (!Card.Negated) {
+				if (Before) {
+					if (Card.BeforeTurnEnd != null) Card.BeforeTurnEnd(CCPlayer);
+				} else {
+					if (Card.AfterTurnEnd != null) Card.AfterTurnEnd(CCPlayer);
+				}
 			}
 		}
 	}
@@ -3556,10 +3559,12 @@ function ClubCardRunTurnEndHandlers(CCPlayer, Opponent, Before) {
 		// so the handlers can remove cards from the board and the behaviour is always well-defined.
 		for (const Card of Opponent.Board.slice()) {
 			// CCPlayer here is the "opponent" of the card
-			if (Before) {
-				if (Card.BeforeOpponentTurnEnd != null) Card.BeforeOpponentTurnEnd(CCPlayer);
-			} else {
-				if (Card.AfterOpponentTurnEnd != null) Card.AfterOpponentTurnEnd(CCPlayer);
+			if (!Card.Negated) {
+				if (Before) {
+					if (Card.BeforeOpponentTurnEnd != null) Card.BeforeOpponentTurnEnd(CCPlayer);
+				} else {
+					if (Card.AfterOpponentTurnEnd != null) Card.AfterOpponentTurnEnd(CCPlayer);
+				}
 			}
 		}
 	}
@@ -3567,20 +3572,24 @@ function ClubCardRunTurnEndHandlers(CCPlayer, Opponent, Before) {
 	// Runs the event of time cards on the player board and opponent board
 	if (CCPlayer.Event != null) {
 		for (const Card of CCPlayer.Event.slice()) {
-			if (Before) {
-				if (Card.BeforeTurnEnd != null) Card.BeforeTurnEnd(CCPlayer);
-			} else {
-				if (Card.AfterTurnEnd != null) Card.AfterTurnEnd(CCPlayer);
+			if (!Card.Negated) {
+				if (Before) {
+					if (Card.BeforeTurnEnd != null) Card.BeforeTurnEnd(CCPlayer);
+				} else {
+					if (Card.AfterTurnEnd != null) Card.AfterTurnEnd(CCPlayer);
+				}
 			}
 		}
 	}
 
 	if (Opponent.Event != null) {
 		for (const Card of Opponent.Event.slice()) {
-			if (Before) {
-				if (Card.BeforeOpponentTurnEnd != null) Card.BeforeOpponentTurnEnd(CCPlayer);
-			} else {
-				if (Card.AfterOpponentTurnEnd != null) Card.AfterOpponentTurnEnd(CCPlayer);
+			if (!Card.Negated) {
+				if (Before) {
+					if (Card.BeforeOpponentTurnEnd != null) Card.BeforeOpponentTurnEnd(CCPlayer);
+				} else {
+					if (Card.AfterOpponentTurnEnd != null) Card.AfterOpponentTurnEnd(CCPlayer);
+				}
 			}
 		}
 	}
@@ -3742,7 +3751,7 @@ function ClubCardCheckEventAndCardExpired() {
 				ClubCardRemoveFromBoard(CCPlayer, Card, false, ClubCardMessageType.STARTTURNEVENT);
 				Pos--;
 			}
-			if (Card.turnStart != null) {
+			if (Card.turnStart != null && !Card.Negated) {
 				turnStartCards.push(Card);
 			}
 		}
@@ -3758,7 +3767,7 @@ function ClubCardCheckEventAndCardExpired() {
 				CCPlayer.DiscardPile.push(Card);
 				Pos--;
 			}
-			if (Card.turnStart != null) {
+			if (Card.turnStart != null && !Card.Negated) {
 				turnStartCards.push(Card);
 			}
 		}
@@ -4048,14 +4057,14 @@ function ClubCardPlayCard(CCPlayer, Card) {
  */
 function ClubCardOnCardPlayedHandler(CCPlayer, Card) {
 	for (const C of CCPlayer.Board.slice()) {
-		if (C.onPlayedCard != null) {
+		if (C.onPlayedCard != null && !C.Negated) {
 			C.onPlayedCard(CCPlayer, Card);
 		}
 	}
 
 	const opponent = ClubCardGetOpponent(CCPlayer);
 	for (const C of opponent.Board.slice()) {
-		if (C.onOpponentPlayedCard != null) {
+		if (C.onOpponentPlayedCard != null && !C.Negated) {
 			C.onOpponentPlayedCard(opponent, Card);
 		}
 	}
