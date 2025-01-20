@@ -1049,6 +1049,7 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 
 	const oldPronouns = Char.GetPronouns();
 	const currentAppearance = Char.Appearance;
+	LoginPerformAppearanceFixups(data.Appearance);
 	ServerAppearanceLoadFromBundle(Char, "Female3DCG", data.Appearance, SourceMemberNumber);
 	CharacterAppearanceResolveSync(Char, currentAppearance);
 
@@ -1056,7 +1057,8 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 	//if ((!Char.IsPlayer()) && ((Char.MemberNumber == SourceMemberNumber) || (Char.Inventory == null) || (Char.Inventory.length == 0))) InventoryLoad(Char, data.Inventory);
 	if ((!Char.IsPlayer()) && (Char.MemberNumber == SourceMemberNumber) && (data.InventoryData != null) && (data.InventoryData != "") && (data.InventoryData != Char.InventoryData)) {
 		Char.InventoryData = data.InventoryData;
-		InventoryLoadCompressedData(Char, data.InventoryData);
+		const items = InventoryLoadCompressedData(data.InventoryData);
+		InventoryAddMany(Char, items, false);
 	}
 
 	const newPronouns = Char.GetPronouns();
@@ -1329,16 +1331,14 @@ function CharacterLoadCanvasAll() {
 }
 
 /**
- * Sets the current character to have a dialog with
+ * Sets the current character to have a dialog with.
+ *
  * @param {Character} C - Character to have a conversation with
  * @returns {void} - Nothing
  */
 function CharacterSetCurrent(C) {
 	CurrentCharacter = C;
-	DialogMenuMode = "dialog";
-	var NewDialog = DialogIntro();
-	if (!Player.CanTalk()) NewDialog = DialogFind(CurrentCharacter, "PlayerGagged", "");
-	if (NewDialog != "") C.CurrentDialog = NewDialog;
+	DialogLoad();
 }
 
 /**
@@ -1411,8 +1411,8 @@ function CharacterRefreshDialog(C) {
 	if (DialogIsInWardrobe()) return;
 
 	if (DialogMenuMode === "items" || DialogMenuMode === "activities" || DialogMenuMode === "permissions") {
-		// We were looking at some inventory, reload it to update the UI
-		DialogChangeMode(DialogMenuMode);
+		// We were looking at some inventory, perform a soft reload to update the UI
+		DialogMenuMapping[DialogMenuMode].Reload();
 	} else if (DialogMenuMode === "extended" || DialogMenuMode === "tighten") {
 		if (!focusItem) {
 			// Focused item was removed

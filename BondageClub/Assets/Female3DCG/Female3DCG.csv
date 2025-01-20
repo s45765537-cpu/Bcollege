@@ -1,3 +1,17 @@
+AnkletLeft,,Anklet (Left)
+AnkletLeft,BandAnklet,Band Anklet
+AnkletLeft,HeelBinders,Heel Binder
+AnkletLeft,LegFur,Fur Accessory
+AnkletLeft,Ribbon,Ribbon
+AnkletLeft,Ribbon1,Ribbon Bow
+AnkletRight,,Anklet (Right)
+AnkletRight,BandAnklet,Band Anklet
+AnkletRight,HeelBinders,Heel Binder
+AnkletRight,LegFur,Fur Accessory
+AnkletRight,Ribbon,Ribbon
+AnkletRight,Ribbon1,Ribbon Bow
+ArmsLeft,,Arm (Left)
+ArmsRight,,Arm (Right)
 Blush,,Blush
 Blush,Blush,Blush
 BodyLower,,Lower Body
@@ -140,6 +154,7 @@ Cloth,MaleTankTop1,Male Cloth Tank-Top
 Cloth,MistressTop,Mistress Top
 Cloth,NurseUniform,Nurse Uniform
 Cloth,RetroGirdle,Retro Girdle Dress
+Cloth,RibbonCorset,Ribbon Corset
 Cloth,Robe1,Robe
 Cloth,SeethroughTop,See-through Top
 Cloth,ShoulderlessTop,Shoulderless Top
@@ -168,6 +183,7 @@ ClothAccessory,BowBackAccessory,Bow Back Accessory
 ClothAccessory,Camera1,Camera
 ClothAccessory,Cape,Cape
 ClothAccessory,CatsuitCollar,Catsuit Collar
+ClothAccessory,ComboBelt,Combo Boots Belt
 ClothAccessory,FacePaint, Face Paint
 ClothAccessory,FrillyApron,Frilly Apron
 ClothAccessory,FurBolero,Fur Bolero
@@ -177,6 +193,7 @@ ClothAccessory,Kissmark,Lipstick Marks
 ClothAccessory,KissmarkDummy,Smoochy Lipstick
 ClothAccessory,LargeBelt,Large Belt
 ClothAccessory,LatexApron,Latex Apron
+ClothAccessory,LeatherBeltCloth,Leather Waist Belt
 ClothAccessory,LeatherStraps,Leather Straps
 ClothAccessory,Poncho,Poncho
 ClothAccessory,Scarf,Scarf
@@ -219,6 +236,7 @@ ClothLower,LongLeatherSkirt,Long Leather Skirt
 ClothLower,LongPleatedSkirt,Long Pleated Skirt
 ClothLower,LongSkirt1,Long Skirt
 ClothLower,MageSkirt,Witch's Skirt
+ClothLower,MidLegSkirt,Mid Leg Skirt
 ClothLower,MistressBottom,Mistress Bottom
 ClothLower,Pajama1,Pajama
 ClothLower,PantBoots,Long Latex Pants
@@ -300,6 +318,8 @@ EyeShadow,Tanuki,Tanuki
 EyeShadow,UndershadowedBlurred,Undershadowed (Blurred)
 EyeShadow,UndershadowedSolid,Undershadowed (Solid)
 EyeShadow,Wings,Wings
+FaceMarkings,,Face Markings
+FaceMarkings,FaceWritings,Face Writings
 FacialHair,,Facial Hair
 FacialHair,BigBeard,Big Beard
 FacialHair,ChinstrapBeard,Chinstrap Beard
@@ -310,6 +330,7 @@ FacialHair,MoustacheBeard,Moustache Beard
 Fluids,,Fluids
 Fluids,Fluids,Fluids
 Garters,,Garters
+Garters,ComboBelt,Combo Boots Belt
 Garters,DropBag,Drop Bag
 Garters,GarterBelt,Leather Garter Belts
 Garters,GarterBelt2,Leather Garter Belt
@@ -485,7 +506,30 @@ HairBack,HairBack60,Style 60
 HairBack,HairBack61,Style 61
 HairBack,HairBack62,Style 62
 HairBack,HairBack63,Style 63
+HairBack,HairBack64,Style 64
 HairBack,ScalyBackHair,Scaly Hair
+HairBack,HairBack65,Style 65
+HairBack,HairBack65b,Style 65b
+HairBack,HairBack66,Style 66
+HairBack,HairBack67,Style 67
+HairBack,HairBack68,Style 68
+HairBack,HairBack69,Style 69
+HairBack,HairBack69b,Style 69b
+HairBack,HairBack70,Style 70
+HairBack,HairBack70b,Style 70b
+HairBack,HairBack71,Style 71
+HairBack,HairBack72,Style 72
+HairBack,HairBack73,Style 73
+HairBack,HairBack74,Style 74
+HairBack,HairBack75,Style 75
+HairBack,HairBack76,Style 76
+HairBack,HairBack76b,Style 76b
+HairBack,HairBack77,Style 77
+HairBack,HairBack77b,Style 77b
+HairBack,HairBack77c,Style 77c
+HairBack,HairBack78,Style 78
+HairBack,HairBack78b,Style 78b
+HairBack,HairBack78c,Style 78c
 HairBack,HairNone,None
 HairFront,,Front Hair
 HairFront,HairFront1,Style 1
@@ -586,9 +630,21 @@ HairFront,HairFront61,Style 61
 HairFront,ScalyHair,Scaly Hair
 HairFront,HairFront62a,Style 62a
 HairFront,HairFront62b,Style 62b
-HairFront,HairFront65, Style 65
-Hands,,Hands
-Hands,Default,Default
+HairFront,HairFront63,Style 63
+HairFront,HairFront64,Style 64
+HairFront,HairFront65,Style 65
+HandAccessoryLeft,,Hand Accessory (Left)
+HandAccessoryLeft,CatsuitGloves,Catsuit Gloves
+HandAccessoryLeft,Claws,Claws
+HandAccessoryLeft,Fingernails,Fingernails
+HandAccessoryLeft,Rings,Rings
+HandAccessoryRight,,Hand Accessory (Right)
+HandAccessoryRight,CatsuitGloves,Catsuit Gloves
+HandAccessoryRight,Claws,Claws
+HandAccessoryRight,Fingernails,Fingernails
+HandAccessoryRight,Rings,Rings
+HandsLeft,,Hand (Left)
+HandsRight,,Hand (Right)
 Hat,,Hat
 Hat,AnimeGirlTiara,Cosplay Girl Tiara
 Hat,BakerBoyHat,Baker Boy Hat
@@ -684,6 +740,7 @@ ItemArms,HeavyYoke,Heavy Yoke
 ItemArms,HempRope,Hemp Rope
 ItemArms,HighSecurityStraitJacket,High Security Straitjacket
 ItemArms,HighStyleSteelCuffs,HighStyle Steel Cuffs
+ItemArms,InflatableDress,Inflatable Dress
 ItemArms,InflatableStraightLeotard,Inflatable Strait Leotard
 ItemArms,LatexArmbinder,Latex Armbinder
 ItemArms,LatexBoxtieLeotard,Latex Boxtie Leotard
@@ -740,6 +797,7 @@ ItemArms,BedMetalCuffs,Bed Metal Cuffs
 ItemBoots,,Feet
 ItemBoots,BalletHeels,Ballet Heels
 ItemBoots,BalletHeels1,Ballet Hi-Shoes
+ItemBoots,BalletMittens,Ballet Mittens
 ItemBoots,BalletWedges,Ballet Wedges
 ItemBoots,FuturisticHeels,Futuristic Shoes
 ItemBoots,FuturisticHeels2,Futuristic Heels
@@ -851,6 +909,7 @@ ItemDevices,OneBarGirl,Unsuspected Pose
 ItemDevices,PersonalCage,Personal Cage
 ItemDevices,PetBed,Pet Bed
 ItemDevices,PetBowl,Pet Bowl
+ItemDevices,PogoBall,Rubber Pogo Ball
 ItemDevices,Pole,Pole
 ItemDevices,SaddleStand,Saddle Stand
 ItemDevices,SmallDisplayCase,Small Display Case
@@ -990,6 +1049,7 @@ ItemHands,FullMittens,Full Mittens
 ItemHands,GlueMittens,Glue Mittens
 ItemHands,HempRopeCuffs,Hemp Rope Cuffs
 ItemHands,HoofMittens,Hoof Mittens
+ItemHands,LatexBondageMitts,Latex Bondage Mitts
 ItemHands,LeatherMittens,Leather Mittens
 ItemHands,PaddedLeatherMittens,Padded Leather Mittens
 ItemHands,PaddedMittens,Padded Mittens
@@ -1033,6 +1093,7 @@ ItemHead,Tentacles,Tentacles
 ItemHead,WebBlindfold,Web
 ItemHood,,Head
 ItemHood,AccentHood,Accent Hood
+ItemHood,Balloon,Balloon Hood
 ItemHood,BigMouthHood,Big Mouth Hood
 ItemHood,BlanketHood,Blanket Hood
 ItemHood,CanvasHood,Canvas Hood
@@ -1056,6 +1117,7 @@ ItemHood,HarnessCatMask,Cat Mask Harness
 ItemHood,HeadboxSeethrough,One-Way Glass Head Box
 ItemHood,InflatableGagMask,Inflatable Gag Mask
 ItemHood,InflatedBallHood,Inflatable Hood
+ItemHood,Kigu2Hood,Rubber Kigurumi
 ItemHood,KirugumiMask,Kigurumi Mask
 ItemHood,KittyHood,Kitty Hood
 ItemHood,LampHeadHood,Lampshade Hood
@@ -1244,6 +1306,7 @@ ItemMouth,WiffleGag,Wiffle Ball Gag
 ItemMouth,XLBoneGag,XL Bone Gag
 ItemMouth,PremiumMuzzle,Premium Muzzle Gag
 ItemMouth,OverfilledGag,Overfilling Gag
+ItemMouth,XmasStickerGag,XMas Sticker Gag
 ItemMouth2,,Mouth
 ItemMouth3,,Mouth
 ItemNeck,,Neck
@@ -1326,6 +1389,7 @@ ItemNeckRestraints,CollarRopeMedium,Medium Rope
 ItemNeckRestraints,CollarRopeShort,Short Rope
 ItemNeckRestraints,PetPost,Pet Sign
 ItemNeckRestraints,Post,Hitching Post
+ItemNeckRestraints,Bedchain,Chain to Bed
 ItemNipples,,Nipples
 ItemNipples,BellClamps,Nipple Bell Clamps
 ItemNipples,ChainClamp,Chain Clamps
@@ -1400,6 +1464,7 @@ ItemPelvis,SleekLeatherChastityBelt,Sleek Leather Chastity Belt
 ItemPelvis,SteelChastityPanties,Steel Chastity Panties
 ItemPelvis,StraponPanties,Strap-On Panties
 ItemPelvis,StuddedChastityBelt,Studded Chastity Belt
+ItemPelvis,WaistLegHarness,Waist-Leg Full Harness
 ItemScript,,Body
 ItemScript,Script,Script
 ItemTorso,,Torso
@@ -1476,17 +1541,6 @@ ItemVulvaPiercings,VibeHeartClitPiercing,Vibrating Heart Clitoris Piercing
 ItemVulvaPiercings,CockRingLeash,Cock Ring Leash
 Jewelry,,Jewelry
 Jewelry,JewelrySet,Piercing Set
-LeftAnklet,,Anklet (Left)
-LeftAnklet,BandAnklet,Band Anklet
-LeftAnklet,HeelBinders,Heel Binder
-LeftAnklet,LegFur,Fur Accessory
-LeftAnklet,Ribbon,Ribbon
-LeftAnklet,Ribbon1,Ribbon Bow
-LeftHand,,Left Hand
-LeftHand,CatsuitGloves,Catsuit Gloves
-LeftHand,Claws,Claws
-LeftHand,Fingernails,Fingernails
-LeftHand,Rings,Rings
 Mask,,Mask
 Mask,BunnyMask1,Bunny Mask Filigrane
 Mask,BunnyMask2,Bunny Mask Leather
@@ -1540,6 +1594,7 @@ Necklace,NecklaceKey,Key Necklace
 Necklace,NecklaceLock,Lock Necklace
 Necklace,NecklaceRope,Rope Necklace
 Necklace,PearlNecklace1,Custom Pearl Necklace
+Necklace,SatinScarf,Satin Scarf
 Nipples,,Nipples Style
 Nipples,Nipples1,Small
 Nipples,Nipples2,Large
@@ -1587,6 +1642,7 @@ Panties,StringPasty1,G-String Pasty
 Panties,StringThong,String Thong
 Panties,SunstripePanties1,Sunstripe Panties
 Panties,Thong,Thong 2
+Panties,WaistLegHarness,Waist-Leg Harness
 Panties,WrapPanties1,Wrap Panties
 Panties,ZipPanties1,Zip-String Panties
 Pronouns,,Pronouns
@@ -1597,17 +1653,6 @@ Pussy,Penis,Penis
 Pussy,Pussy1,Pussy 1
 Pussy,Pussy2,Pussy 2
 Pussy,Pussy3,Pussy 3
-RightAnklet,,Anklet (Right)
-RightAnklet,BandAnklet,Band Anklet
-RightAnklet,HeelBinders,Heel Binder
-RightAnklet,LegFur,Fur Accessory
-RightAnklet,Ribbon,Ribbon
-RightAnklet,Ribbon1,Ribbon Bow
-RightHand,,Right Hand
-RightHand,CatsuitGloves,Catsuit Gloves
-RightHand,Claws,Claws
-RightHand,Fingernails,Fingernails
-RightHand,Rings,Rings
 Shoes,,Shoes
 Shoes,AnimeGirlBoots,Cosplay Girl Boots
 Shoes,AnkleBoots1,Ankle Boots
@@ -1626,6 +1671,7 @@ Shoes,Geta,Geta Sandals
 Shoes,Heels1,Heels
 Shoes,Heels2,Heels Strap
 Shoes,Heels3,Multi-Strap Heels
+Shoes,IndoorSlippers,Indoor Slippers
 Shoes,LatexAnkleShoes, Latex Ankle Shoes
 Shoes,LatexHeels, Latex Heels
 Shoes,MaryShoes,Mary Special
@@ -1648,6 +1694,7 @@ Shoes,TallerBoots,Combo Boots
 Shoes,ThighBoots, Latex ThighBoots
 Shoes,ThighHighLatexHeels,Latex Heels
 Shoes,WesternBoots,Western Boots
+Shoes,WitchShoes,Witch Shoes
 Shoes,WoollyBootsTall,Woolly Boots
 Socks,,Socks
 Socks,CowPrintedSocks,Cow Printed Socks
@@ -1675,6 +1722,7 @@ Socks,Stockings4,Fishnet Stockings
 Socks,VSocks1,Vinyl Socks
 Socks,YuletideVelvetWarmth,Yuletide Velvet Warmth
 Socks,LongFishnets,Long Fishnet Stockings
+Socks,RippedPantyhose,Customizable Pantyhose
 SocksLeft,,Left Leg
 SocksLeft,CowPrintedSocks,Cow Printed Socks
 SocksLeft,FootlessSocks1,Footless Socks

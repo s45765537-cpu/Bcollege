@@ -383,7 +383,8 @@ function ValidationResolveLockModification(previousItem, newItem, params, itemBl
 
 	const lockChangeInvalid = (lockRemoved && !ValidationIsLockChangePermitted(previousLock, params, true)) ||
 		(lockAdded && !ValidationIsLockChangePermitted(newLock, params)) ||
-		((lockAdded || lockModified || lockSwapped) && (newLockBlocked || itemBlocked));
+		((lockAdded || lockModified || lockSwapped) && (newLockBlocked || itemBlocked))||
+		(lockModified && previousProperty.Effect?.includes("Lock") && !newProperty.Effect?.includes("Lock"));
 
 	if (lockChangeInvalid) {
 		if (previousLock) {
@@ -421,6 +422,7 @@ function ValidationResolveLockModification(previousItem, newItem, params, itemBl
  */
 function ValidationLockWasModified(previousProperty, newProperty) {
 	return previousProperty.LockedBy !== newProperty.LockedBy ||
+	    previousProperty.Effect?.includes("Lock") !== newProperty.Effect?.includes("Lock") ||
 		ValidationAllLockProperties.some((key) => !CommonDeepEqual(previousProperty[key], newProperty[key]));
 }
 
@@ -432,7 +434,10 @@ function ValidationLockWasModified(previousProperty, newProperty) {
  * @returns {string} - The warning message
  */
 function ValidationItemWarningMessage(item, { C, sourceMemberNumber }) {
-	return `${item.Asset.Name} on member number ${C.IsNpc() ? C.Name : C.MemberNumber} by member number ${sourceMemberNumber || Player.MemberNumber} blocked`;
+	const assetName = [item.Asset.Group.Name, item.Asset.Name || "<untitled>"].filter(Boolean).join("/");
+	const onChar = C.IsNpc() ? `NPC ${C.Name}` : `character ${C.Name} (${C.MemberNumber})`;
+	const byChar = sourceMemberNumber ? `member number ${sourceMemberNumber}` : `Player (${Player.MemberNumber})`;
+	return `"${assetName}" on ${onChar} by ${byChar} blocked`;
 }
 
 /**

@@ -57,7 +57,8 @@ function CollegeCafeteriaLoad() {
 			InventoryWear(CollegeCafeteriaSidney, "H0960", "Height", "Default");
 			InventoryWear(CollegeCafeteriaSidney, "XLarge", "BodyUpper", "White");
 			InventoryWear(CollegeCafeteriaSidney, "XLarge", "BodyLower", "White");
-			InventoryWear(CollegeCafeteriaSidney, "Default", "Hands", "Default");
+			InventoryWear(CollegeCafeteriaSidney, "XLarge", "HandsLeft", "Default");
+			InventoryWear(CollegeCafeteriaSidney, "XLarge", "HandsRight", "Default");
 			InventoryWear(CollegeCafeteriaSidney, "Default", "Head", "Default");
 			InventoryWear(CollegeCafeteriaSidney, "HairBack21", "HairBack", "#222222");
 			InventoryWear(CollegeCafeteriaSidney, "HairFront6", "HairFront", "#222222");

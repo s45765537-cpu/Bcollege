@@ -116,7 +116,6 @@
   grid-area: layer-grid;
   width: 100%;
   height: calc(100% - min(2vh, 1vw));
-  overflow-y: scroll;
   padding-left: min(2vh, 1vw);
   padding-right: min(2vh, 1vw);
   align-self: self-start;

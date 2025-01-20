@@ -256,6 +256,7 @@ function AsylumGGTSBuildPrivate() {
 		Space: /** @type {ServerChatRoomSpace} */ ("Asylum"),
 		Game: "GGTS",
 		Admin: [Player.MemberNumber],
+		Whitelist: [],
 		Ban: [],
 		Limit: 2,
 		BlockCategory: [],
@@ -473,7 +474,7 @@ function AsylumGGTSTaskCanBeDone(C, T) {
 	if ((T == "UnlockRoom") && (((ChatRoomData != null) && (ChatRoomData.Locked == false)) || !ChatRoomPlayerIsAdmin())) return false; // Can only lock/unlock if admin
 	if ((T == "RestrainLegs") && !C.CanInteract()) return false; // To restrain own legs, must be able to interact
 	if ((T == "RestrainLegs") && InventoryIsWorn(C, "FuckMachine", "ItemDevices")) return false; // Cannot restrain own legs if wearing the fuck machine
-	if ((T.substr(0, 4) == "Item") && (T.length >= 15) && !C.CanInteract()) return false; // To use an item, must be able to interact
+	if ((T.substr(0, 4) == "Item") && (T.length >= 15) && T != "ItemFuckMachineIntensity" && !C.CanInteract()) return false; // To use an item, must be able to interact
 	if ((T == "ItemHandsFuturisticMittens") && ((InventoryGet(C, "ItemHands") != null) || InventoryGroupIsBlocked(C, "ItemHands"))) return false;
 	if ((T == "ItemHeadFuturisticMask") && ((InventoryGet(C, "ItemHead") != null) || InventoryGroupIsBlocked(C, "ItemHead"))) return false;
 	if ((T == "ItemEarsFuturisticEarphones") && ((InventoryGet(C, "ItemEars") != null) || InventoryGroupIsBlocked(C, "ItemEars"))) return false;
@@ -1108,6 +1109,8 @@ function AsylumGGTSStartPunishment() {
 
 /**
  * Returns TRUE if the item is controlled by GGTS, so the player should not have control.  The rules changes on level 3 and GGTS takes control throughout the asylum.
+ * @param {Character} C
+ * @param {Item} Item
  * @returns {boolean} - TRUE if the item is controlled by GGTS
  */
 function AsylumGGTSControlItem(C, Item) {

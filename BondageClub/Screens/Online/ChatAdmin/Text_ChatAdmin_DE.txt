@@ -8,22 +8,32 @@ Ban List
 Bannliste
 Administrator List
 Administratorliste
+Whitelist
+Whitelist
 Private
 Privat
 Locked
 Abgeschlossen
 Size (2-20)
 Größe (2-20)
-Use member numbers, separated by commas (ex: 3571,541,7001)
-Mitgliedernummern, mit Kommas getrennt (Bsp: 3571,541,7001)
-Ban blacklist
-Bann Blacklist
-Ban ghostlist
-Bann Ghostlist
-Add Owner
-Besitzer hinzufügen
-Add Lovers
-Liebhaber hinzufügen
+Member numbers separated by commas (ex: 123, ...)
+Mitgliedsnummer, getrennt durch Kommas (Bsp: 123, ...)
+Use the above buttons to quickadd to the respective lists
+Benutzen Sie die obigen Schaltflächen, um schnell zu den jeweiligen Listen hinzuzufügen
+Quick Add
+Quick Add
+Owner
+Eigentümer
+Lovers
+Liebhaber
+Friends
+Freunde
+Quick Ban
+Quick Bann
+Blacklist
+Blackliste
+Ghostlist
+Geistliste
 Room settings can only be updated by administrators
 Raum-Einstellungen können nur von Administratoren bearbeitet werden
 Background
@@ -62,6 +72,8 @@ Magic Battle
 Magischer Kampf
 GGTS
 GGTS
+Pandora
+Pandora
 English
 Englisch
 French

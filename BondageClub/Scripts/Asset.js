@@ -281,7 +281,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		CustomBlindBackground: typeof AssetDef.CustomBlindBackground === 'string' ? AssetDef.CustomBlindBackground : undefined,
 		Attribute: AssetDef.Attribute || [],
 		PreviewIcons: AssetDef.PreviewIcons || [],
-		PoseMapping: AssetDef.PoseMapping || Group.PoseMapping,
+		PoseMapping: AssetParsePoseMapping(AssetDef.PoseMapping, Group.PoseMapping, AssetDef.InheritPoseMappingFields),
 		Tint: Array.isArray(AssetDef.Tint) ? AssetDef.Tint : [],
 		AllowTint: Array.isArray(AssetDef.Tint) && AssetDef.Tint.length > 0,
 		DefaultTint: typeof AssetDef.DefaultTint === "string" ? AssetDef.DefaultTint : undefined,
@@ -305,6 +305,23 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		layers.push({ Name: "Lock", LockLayer: true, AllowColorize: false, ParentGroup: null });
 	}
 	A.Layer = layers.map((Layer, I) => AssetMapLayer(Layer, A, I));
+	A.Layer.forEach((layer, i) => {
+		// Now that most layer pose mappings are initialized, handle all `Layer.CopyLayerPoseMapping` cases
+		if (layer.PoseMapping) {
+			return;
+		}
+
+		const layerDef = layers[i];
+		const copiedLayer = A.Layer.find(l => l.Name === layerDef.CopyLayerPoseMapping);
+		if (copiedLayer) {
+			if (!copiedLayer.PoseMapping) {
+				throw new Error(`${A.Group.Name}:${A.Name}:${layer.Name}: Trying to copy a null-valued pose mapping from layer "${copiedLayer.Name}"`);
+			}
+			/** @type {Mutable<AssetLayer>} */(layer).PoseMapping = AssetParsePoseMapping(
+				layerDef.PoseMapping, copiedLayer.PoseMapping, layerDef.InheritPoseMappingFields,
+			);
+		}
+	});
 
 	AssetAssignColorIndices(A);
 	A.DefaultColor = AssetParseDefaultColor(A.ColorableLayerCount, Group.DefaultColor, AssetDef.DefaultColor);
@@ -614,12 +631,28 @@ function AssetMapLayer(Layer, A, I) {
 		LockLayer: typeof Layer.LockLayer === "boolean" ? Layer.LockLayer : false,
 		MirrorExpression: Layer.MirrorExpression,
 		ColorIndex: 0,
-		PoseMapping: Layer.PoseMapping || A.PoseMapping,
+		// If `null`, initialized in the second asset layer loop in `AssetAdd()`
+		PoseMapping: Layer.CopyLayerPoseMapping != null ? /** @type {never} */(null) : AssetParsePoseMapping(Layer.PoseMapping, A.PoseMapping, Layer.InheritPoseMappingFields),
 		HideForAttribute: Array.isArray(Layer.HideForAttribute) ? Layer.HideForAttribute : null,
 		ShowForAttribute: Array.isArray(Layer.ShowForAttribute) ? Layer.ShowForAttribute : null,
 		ColorSuffix: Layer.ColorSuffix || A.ColorSuffix,
 	};
 	return L;
+}
+
+/**
+ *
+ * @param {null | undefined | AssetPoseMapping} poseMapping
+ * @param {AssetPoseMapping} superPoseMapping
+ * @param {boolean} inheritFields
+ * @returns {AssetPoseMapping}
+ */
+function AssetParsePoseMapping(poseMapping, superPoseMapping, inheritFields=false) {
+	if (inheritFields) {
+		return { ...superPoseMapping, ...(poseMapping ?? {}) };
+	} else {
+		return poseMapping ?? { ...superPoseMapping };
+	}
 }
 
 /**
@@ -1025,143 +1058,6 @@ function AssetTextGet(msg) {
 }
 
 /**
- * Shows a console warning for all missing Inventory IDs in the Female3DCG assets
- * @returns {void} - Nothing
- */
-function AssetInventoryIDMissing() {
-
-	// The first InventoryID starts at 100, we fetch the next available one by looking at all IDs
-	let NextID = 99;
-	for (let G of AssetFemale3DCG) {
-		for (let A of G.Asset) {
-			if (typeof A === "object") {
-				if ((A.InventoryID != null) && (A.InventoryID > NextID))
-					NextID = A.InventoryID;
-			}
-		}
-	}
-
-	// Finds all assets without InventoryID that should have one
-	for (let G of AssetFemale3DCG) {
-		for (let A of G.Asset) {
-			if (typeof A === "object") {
-				if ((A.InventoryID == null) && (A.Value != null) && (A.Value !== 0) && ((A.Enable == null) || (A.Enable === true))) {
-					if (!((A.InventoryID == null) && (A.BuyGroup == null) && (A.Value == -1) && (A.RemoveAtLogin === true))) {
-						NextID++;
-						console.warn("Missing InventoryID on group: " + G.Group + ", asset: " + A.Name + ", suggested InventoryID: " + NextID.toString());
-					}
-				}
-			}
-		}
-	}
-}
-
-/**
- * Shows a console warning for all Inventory IDs in the Female3DCG assets that are unnecessary assigned
- * @returns {void} - Nothing
- */
-function AssetInventoryIDUnnecessary() {
-	for (let G of AssetFemale3DCG) {
-		for (let A of G.Asset) {
-			if (typeof A === "object") {
-				if ((A.InventoryID != null) && ((A.Value == null) || (A.Value === 0) || (A.Enable === false))) {
-					console.warn("Unnecessary InventoryID on group: " + G.Group + ", asset: " + A.Name + ", suggested to remove it");
-				}
-			}
-		}
-	}
-}
-
-/**
- * Shows a console warning for all Inventory IDs where the BuyGroup is creating a conflict
- * @param {string} GroupName - The group name to compare
- * @param {string} AssetName - The asset name to compare
- * @param {string} BuyGroup - The buying group to compare
- * @param {number | undefined} InventoryID - The inventory ID to compare
- * @returns {void} - Nothing
- */
-function AssetInventoryIDBuyGroup(GroupName, AssetName, BuyGroup, InventoryID) {
-	for (let G of AssetFemale3DCG) {
-		for (let A of G.Asset) {
-			if (typeof A === "object") {
-				if ((A.BuyGroup != null) && (A.CopyConfig == null) && (A.BuyGroup === BuyGroup) && (A.Value != null) && (A.Value !== 0) && ((A.Enable == null) || (A.Enable === true))) {
-					if ((A.InventoryID !== InventoryID)) {
-						console.warn("InventoryID should be the same if BuyGroup " + BuyGroup + " is the same for group/asset: " + GroupName + "/" + AssetName + " and " + G.Group + "/" + A.Name);
-					}
-				}
-			}
-		}
-	}
-}
-
-/**
- * Shows a console warning for all Inventory IDs where the BuyGroup is creating a conflict
- * @returns {void} - Nothing
- */
-function AssetInventoryIDBuyGroupSearch() {
-	for (let G of AssetFemale3DCG) {
-		for (let A of G.Asset) {
-			if (typeof A === "object") {
-				if ((A.BuyGroup != null) && (A.CopyConfig == null) && (A.Value != null) && (A.Value !== 0) && ((A.Enable == null) || (A.Enable === true))) {
-					AssetInventoryIDBuyGroup(G.Group, A.Name, A.BuyGroup, A.InventoryID);
-				}
-			}
-		}
-	}
-}
-
-/**
- * Shows a console warning for all Inventory IDs where the BuyGroup is creating a conflict
- * @param {string} GroupName - The group name to compare
- * @param {string} AssetName - The asset name to compare
- * @param {number} InventoryID - The inventory ID to compare
- * @returns {void} - Nothing
- */
-function AssetInventoryIDDuplicated(GroupName, AssetName, InventoryID) {
-	for (let G of AssetFemale3DCG) {
-		for (let A of G.Asset) {
-			if (typeof A === "object") {
-				if ((A.BuyGroup == null) && (InventoryID == A.InventoryID) && ((GroupName != G.Group) || (AssetName != A.Name)) && (A.Value != null) && (A.Value !== 0) && ((A.Enable == null) || (A.Enable === true))) {
-					console.warn("InventoryID #" + InventoryID.toString() + " is duplicated for the same group/asset: " + GroupName + "/" + AssetName + " and " + G.Group + "/" + A.Name);
-				}
-			}
-		}
-	}
-}
-
-/**
- * Shows a console warning for all Inventory IDs that are duplicated out of a buy group
- * @returns {void} - Nothing
- */
-function AssetInventoryIDDuplicatedSearch() {
-	for (let G of AssetFemale3DCG) {
-		for (let A of G.Asset) {
-			if (typeof A === "object") {
-				if ((A.BuyGroup == null) && (A.InventoryID != null) && (A.Value != null) && (A.Value !== 0) && ((A.Enable == null) || (A.Enable === true))) {
-					AssetInventoryIDDuplicated(G.Group, A.Name, A.InventoryID);
-				}
-			}
-		}
-	}
-}
-
-/**
- * Shows a console warning for all Inventory IDs that are duplicated out of a buy group
- * @returns {void} - Nothing
- */
-function AssetInventoryIDScenarioItem() {
-	for (let G of AssetFemale3DCG) {
-		for (let A of G.Asset) {
-			if (typeof A === "object") {
-				if ((A.InventoryID != null) && (A.BuyGroup == null) && (A.Value == -1) && (A.RemoveAtLogin === true)) {
-					console.warn("Scenario item should not have InventoryID: " + G.Group + "/" + A.Name);
-				}
-			}
-		}
-	}
-}
-
-/**
  * Validates that the InventoryID is setup properly in the Female3DCG assets
  * Launched each time the game is started for assets maker to apply corrections
  * Outputs all possible errors in the console log, it runs aynscronious
@@ -1174,10 +1070,62 @@ async function AssetInventoryIDValidate() {
 	if (URL.includes("bondageprojects.com")) return;
 	if (URL.includes("bondage-europe.com")) return;
 
-	// Launch all individuals validations
-	AssetInventoryIDMissing();
-	AssetInventoryIDUnnecessary();
-	AssetInventoryIDBuyGroupSearch();
-	AssetInventoryIDDuplicatedSearch();
-	AssetInventoryIDScenarioItem();
+	const allAssets = AssetFemale3DCG.reduce((assets, group) => {
+		const objAssets = /** @type {AssetDefinition[]} */ (group.Asset.filter(a => CommonIsObject(a)));
+		return assets.concat(objAssets);
+	}, /** @type {(AssetDefinition)[]} */ ([]));
+
+	const realLastID = Math.max(...allAssets.map(a => a.InventoryID ?? 0 ));
+	let lastId = realLastID;
+
+	/** @type {Map<string, AssetDefinition[]>} */
+	const buyGroups = new Map();
+	/** @type {AssetDefinition[][]} */
+	// A bit cursed; this is a sparse array because we want to track the holes
+	const inventoryIDs = [];
+	for (const A of allAssets) {
+		const isFreeOrUnbuyableAsset = (A.Value == null || A.Value === 0 || A.Enable === false);
+
+		if (A.InventoryID && isFreeOrUnbuyableAsset) {
+			console.warn(`Unnecessary InventoryID on asset "${A.Name}", remove it`);
+		} else if (!A.InventoryID && !isFreeOrUnbuyableAsset && !A.BuyGroup && A.Value !== -1 && !A.RemoveAtLogin) {
+			// Additional checks are for scenario-only items
+			lastId++;
+			console.warn(`Missing InventoryID on asset "${A.Name}", suggesting ${lastId}`);
+		}
+
+		// Warn for all Inventory IDs that are duplicated out of a buy group
+		if (A.BuyGroup && !isFreeOrUnbuyableAsset) {
+			const buyAssets = buyGroups.get(A.BuyGroup) ?? [];
+			let match;
+			if (buyAssets.length && (match = buyAssets.find(asset => asset.InventoryID !== A.InventoryID))) {
+				lastId++;
+				console.warn(`InventoryID should be the same within BuyGroup ${A.BuyGroup}, ${A.Name} (${A.InventoryID}) is different: ${match.Name} (${match.InventoryID}), suggesting ${lastId}`);
+			}
+			buyAssets.push(A);
+			buyGroups.set(A.BuyGroup, buyAssets);
+		}
+
+		// Warn for all Inventory ID conflicts between buy groups
+		if (A.InventoryID && !isFreeOrUnbuyableAsset) {
+			const inventoryAssets = inventoryIDs[A.InventoryID] ?? [];
+			let match;
+			// Find matches with different names that either have no buygroup or aren't part of the same buygroup
+			if (inventoryAssets.length && (match = inventoryAssets.find(asset => (!asset.BuyGroup && !A.BuyGroup || asset.BuyGroup !== A.BuyGroup) && asset.Name !== A.Name))) {
+				lastId++;
+				console.warn(`InventoryID should be different between different BuyGroups: asset "${A.Name}", buyGroup: ${A.BuyGroup}, ID ${A.InventoryID}, doesn't match: "${match.Name}", buyGroup: ${match.BuyGroup}, ID: ${match.InventoryID}, suggesting ${lastId}`);
+			}
+			inventoryAssets.push(A);
+			inventoryIDs[A.InventoryID] = inventoryAssets;
+		}
+	}
+	const debugHoles = false;
+	if (debugHoles) {
+		/** @type {Set<number>} */
+		const holes = new Set();
+		for (let index = 100; index < inventoryIDs.length; index++) {
+			if (!inventoryIDs[index]) holes.add(index);
+		}
+		console.warn(`Known holes in InventoryIDs: ${[...holes.values()]}`);
+	}
 }

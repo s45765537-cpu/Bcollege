@@ -47,7 +47,8 @@ function CollegeTeacherMildredClothes(C) {
 	InventoryWear(C, "H0940", "Height", "Default");
 	InventoryWear(C, "Normal", "BodyUpper", "White");
 	InventoryWear(C, "Normal", "BodyLower", "White");
-	InventoryWear(C, "Default", "Hands", "Default");
+	InventoryWear(C, "Normal", "HandsLeft", "Default");
+	InventoryWear(C, "Normal", "HandsRight", "Default");
 	InventoryWear(C, "Default", "Head", "Default");
 	InventoryWear(C, "HairBack21", "HairBack", "#626060");
 	InventoryWear(C, "HairFront3", "HairFront", "#626060");

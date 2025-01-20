@@ -782,6 +782,10 @@ TargetCharacterName was moved to the right by SourceCharacter.
 TargetCharacterName wurde von SourceCharacter nach rechts verschoben.
 TargetCharacterName was promoted to administrator by SourceCharacter.
 TargetCharacterName wurde von SourceCharacter zum Administrator befördert.
+TargetCharacterName was added to the room whitelist by SourceCharacter.
+TargetCharacterName wurde von SourceCharacter zur Whitelist des Raums hinzugefügt.
+TargetCharacterName was removed from the room whitelist by SourceCharacter.
+TargetCharacterName wurde von SourceCharacter aus der Raum-Whitelist entfernt.
 SourceCharacter shuffles the position of everyone in the room randomly.
 SourceCharacter mischt die Position aller Personen im Raum nach dem Zufallsprinzip.
 SourceCharacter swapped TargetCharacterName and DestinationCharacterName1 places.

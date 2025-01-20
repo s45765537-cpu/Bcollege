@@ -78,6 +78,54 @@ Whitelist:
 白名单:
 Blacklist:
 黑名单:
+<img src='Icons/Small/FocusEnabledWarning.png' style='display: inline-block; height: 1em; vertical-align: middle; transform: translateY(-0.15em);' aria-hidden='true'>
+<img src='Icons/Small/FocusEnabledWarning.png' style='display: inline-block; height: 1em; vertical-align: middle; transform: translateY(-0.15em);' aria-hidden='true'>
+<strong>NOTICE</strong>: The FocusEnabledWarningIcon <strong>focus list</strong> FocusEnabledWarningIcon is now <strong>enabled</strong>. <i>Only characters on your focus list will be visible to you in the chatroom</i>. To disable this, use <code>/focus clear</code> or the button in the menu bar.
+<strong>注意</strong>: FocusEnabledWarningIcon <strong>focus list</strong> FocusEnabledWarningIcon 现在已经 <strong>启用</strong>. <i>只有在你的关注列表中的角色可以看到你在聊天室中</i>. 要关闭此选项，使用 <code>/focus clear</code> 或者菜单栏中的按钮.
+IGNORING 'Targeter': multiple matches found.
+忽略 'Targeter': 找到多个匹配。
+IGNORING 'Targeter': result was previously matched.
+忽略 'Targeter': 结果已经匹配过了。
+IGNORING 'Targeter': no match was found.
+忽略 'Targeter': 没有找到匹配.
+<strong>FAIL</strong>: no targets were found (targeters did not match or were not provided) -- no changes were made.
+<strong>失败</strong>: 没有找到目标（目标者没有匹配或者没有提供）-- 没有进行任何更改。
+<strong>SUCCESS</strong>: The following targets were added to your focus list: Changed.
+<strong>成功</strong>: 下列目标已经加入了你的关注列表： Changed.
+<strong>SUCCESS</strong>: The following targets were removed from your focus list: Changed.
+<strong>成功</strong>: 下列目标已经从你的关注列表中清除： Changed.
+<strong>SUCCESS</strong>: Your focus list was cleared.
+<strong>成功</strong>: 你的关注列表已经清空。
+Focus List:
+关注列表:
+/focus add/remove/list/clear/help [targeter(s)]
+/focus add/remove/list/clear/help [目标]
+Modifies your focus list. When you have users on your focus list, the characters you can visually see in the chatroom are filtered to only those on your focus list. When your focus list is enabled, you will see the FocusEnabledWarningIcon icon on all characters. To go back to viewing all characters, use <code>/focus clear</code> or the button in the menu bar.
+修改你的关注列表. 当你有用户在你的关注列表中时，你在聊天室中可以看到的角色将被过滤为只有在你的关注列表中的角色。 当你的关注列表启用时，你将在所有角色上看到FocusEnabledWarningIcon图标。 要返回查看所有角色，请使用<code>/focus clear</code>或菜单栏中的按钮。
+Notes:
+注意:
+<li>If you normally would not be able to see a character on your focus list (e.g. sensory deprivation), they still will not be visible to you.</li><li>Neither chat messages nor map rooms are affected by the focus list.</li><li>If a player on your focus list leaves the room, they are removed from the list.</li>
+<li>如果你通常不能看到关注列表中的角色（例如感官剥夺），他们对你仍然不可见。</li><li>聊天消息和地图房间都不受关注列表的影响。</li><li>如果关注列表中的玩家离开房间，他们将从列表中删除。</li>
+Subcommands:
+子命令:
+Add the members to your focus list
+将此成员加入你的关注列表
+Removes the members from your focus list
+将此成员从你的关注列表中移除
+Shows the members on your focus list
+显示你关注列表中的成员
+Clears your focus list (returns to viewing all members)
+清空你的关注列表（返回查看所有成员）
+Display this help message
+显示此帮助信息
+Targeters: A list of names or member numbers to target in a subcommand, separated by spaces. Names can be partial, but must be unique. Exact name matches will take precedence over partial matches.
+目标: 一个用空格分隔的在子命令中要定位的名字或成员编号列表。 名字可以是部分的，但必须是唯一的。 精确的名字匹配将优先于部分匹配。
+Clear changelog
+清空变更日志
+Collapse section
+折叠部分
+{shift} to collapse all
+{shift} 折叠所有
 Whisper target was not found:
 找不到悄悄话目标：
 No message provided.
@@ -128,3 +176,15 @@ Your pasted map data cannot be loaded.
 你粘贴的地图数据无法加载
 Only room administrators can paste the map.
 只有房间管理员能够粘贴地图。
+You are restrained
+你被束缚了
+You are a club slave
+你是俱乐部奴隶
+The game blocks it
+游戏阻止如此做
+GGTS blocks it
+GGTS阻止如此做
+A rule blocks it
+一个规则阻止如此做
+Your owner forbids it
+你的主人禁止如此做

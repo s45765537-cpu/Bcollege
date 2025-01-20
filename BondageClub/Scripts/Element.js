@@ -190,6 +190,43 @@ function ElementNumberInputBlur(event) {
 }
 
 /**
+ * Wheel event listener for `number`-based `<input>` elements. Allows one to increment/decrement the value
+ * @this {HTMLInputElement}
+ * @param {WheelEvent} event
+ */
+function ElementNumberInputWheel(event) {
+	if (this.disabled || this.readOnly) {
+		event.stopImmediatePropagation();
+		return;
+	}
+
+	let min = this.min ? Number(this.min) : -Infinity;
+	let max = this.max ? Number(this.max) : Infinity;
+	let step = this.step ? Number(this.step) : 1;
+	if (Number.isNaN(min)) { min = -Infinity; }
+	if (Number.isNaN(max)) { max = Infinity; }
+	if (Number.isNaN(step)) { step = 1; }
+
+	let value = this.valueAsNumber;
+	if (event.deltaY < 0) {
+		value = CommonClamp(value + step, min, max);
+	} else if (event.deltaY > 0) {
+		value = CommonClamp(value - step, min, max);
+	}
+
+	if (value !== this.valueAsNumber) {
+		this.valueAsNumber = value;
+		this.dispatchEvent(new Event("input"));
+		if (document.activeElement !== this) {
+			this.dispatchEvent(new Event("change"));
+		}
+	}
+
+	event.preventDefault();
+	event.stopPropagation();
+}
+
+/**
  * Creates a new text input element in the main document.Does not create a new element if there is already an existing one with the same ID
  * @param {string} ID - The id of the input tag to create.
  * @param {string} Type - Type of the input tag to create.
@@ -225,6 +262,7 @@ function ElementCreateInput(ID, Type, Value, MaxLength, form) {
 		case "number":
 			e.inputMode = "numeric";
 			e.addEventListener("blur", ElementNumberInputBlur);
+			e.addEventListener("wheel", ElementNumberInputWheel);
 			break;
 	}
 
@@ -718,7 +756,7 @@ var ElementCheckboxDropdown = {
 			tag: "div",
 			attributes: { id, ["screen-generated"]: CurrentScreen },
 			parent: options?.parent ?? document.body,
-			classList: ["HideOnPopup", "dropdown"],
+			classList: ["HideOnPopup", "dropdown", "scroll-box"],
 			style: { display: "none" },
 			children: checkboxList.map((o) => this._CreateCheckboxPair(id, o, o, eventListener, options?.checked)),
 		});
@@ -739,7 +777,7 @@ var ElementCheckboxDropdown = {
 			tag: "div",
 			attributes: { id, ["screen-generated"]: CurrentScreen },
 			parent: options?.parent ?? document.body,
-			classList: ["HideOnPopup", "dropdown"],
+			classList: ["HideOnPopup", "dropdown", "scroll-box"],
 			style: { display: "none" },
 			children: Object.entries(checkboxRecord).flatMap(([header, checkboxList]) => {
 				return [
@@ -879,9 +917,10 @@ var ElementButton = {
 	 * @type {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => void}
 	 */
 	_Click: function _Click(ev) {
-		if (this.getAttribute("aria-disabled") === "true") {
+		if (ev.target instanceof Element && ev.target.classList.contains("button-tooltip")) {
 			ev.stopImmediatePropagation();
-		} else if (ev.target instanceof Element && ev.target.classList.contains("button-tooltip")) {
+		} else if (this.getAttribute("aria-disabled") === "true") {
+			this.dispatchEvent(new MouseEvent("bcClickDisabled", ev));
 			ev.stopImmediatePropagation();
 		}
 	},
@@ -944,7 +983,8 @@ var ElementButton = {
 	_ClickRadio: function _ClickRadio(ev) {
 		// Take precaution against nested radio groups/menus, as one might accidentally query a sibbling that belongs to a different group
 		// Particularly important for menus embedded in other menus or menubars
-		const isRadio = this.role === "radio";
+		const role = this.getAttribute("role");
+		const isRadio = role === "radio";
 		const parent = this.parentElement?.closest(isRadio ? "[role='radiogroup']" : "[role='menu'], [role='menubar']");
 		if (!parent) {
 			return;
@@ -958,8 +998,8 @@ var ElementButton = {
 				this.setAttribute("aria-checked", "false");
 				if (isRadio) {
 					/** @type {(e: Element) => boolean} */
-					const filter = (e) => e.role === "radiogroup" || !ElementCheckVisibility(e);
-					const first = ElementButton._QueryDFS(parent, `[role='${this.role}']`, filter).next();
+					const filter = (e) => e.getAttribute("role") === "radiogroup" || !ElementCheckVisibility(e);
+					const first = ElementButton._QueryDFS(parent, `[role='${role}']`, filter).next();
 					if (first.value) {
 						this.tabIndex = -1;
 						first.value.setAttribute("tabindex", "0");
@@ -972,11 +1012,11 @@ var ElementButton = {
 		} else {
 			/** @type {(e: Element) => boolean} */
 			const filter = isRadio
-				? (e) => e.role === "radiogroup"
-				: (e) => e.role === "menu" || e.role === "menuitem";
-			let prev = ElementButton._QueryDFS(parent, `[role='${this.role}'][aria-checked='true']`, filter).next();
+				? (e) => e.getAttribute("role") === "radiogroup"
+				: (e) => e.getAttribute("role") === "menu" || e.getAttribute("role") === "menuitem";
+			let prev = ElementButton._QueryDFS(parent, `[role='${role}'][aria-checked='true']`, filter).next();
 			if (!prev.value && isRadio) {
-				prev = ElementButton._QueryDFS(parent, `[role='${this.role}'][tabindex='0']`, filter).next();
+				prev = ElementButton._QueryDFS(parent, `[role='${role}'][tabindex='0']`, filter).next();
 			}
 
 			if (prev.value) {
@@ -1075,7 +1115,7 @@ var ElementButton = {
 			...options,
 			tag: "img",
 			classList: ["button-image", ...(options.classList ?? [])],
-			attributes: { id: `${id}-image`, decoding: "async", loading: "lazy", src: img, ...(options.attributes ?? {}) },
+			attributes: { id: `${id}-image`, decoding: "async", loading: "lazy", "aria-hidden": "true", src: img, ...(options.attributes ?? {}) },
 		});
 	},
 
@@ -1106,52 +1146,76 @@ var ElementButton = {
 	/**
 	 * Parse the passed icon list, returning its corresponding `<img>` grid and tooltip if non-empty
 	 * @param {string} id - The ID of the parent element
-	 * @param {readonly InventoryIcon[]} [icons] - The (optional) list of icons
-	 * @returns {null | { iconGrid: HTMLDivElement, tooltip: HTMLUListElement }} - `null` if the provided icon list is empty and otherwise an object containing the icon grid and a icon-specific tooltip
+	 * @param {readonly (InventoryIcon | { name: string, iconSrc: string, tooltipText: string | Node })[]} [icons] - The (optional) list of icons
+	 * @returns {null | { iconGrid: HTMLDivElement, tooltip: [string, HTMLElement, HTMLElement] }} - `null` if the provided icon list is empty and otherwise an object containing the icon grid and a icon-specific tooltip
 	 */
 	_ParseIcons: function _ParseIcons(id, icons) {
+		icons = icons?.filter(i => i != null);
 		if (!icons || icons.length === 0) {
 			return null;
 		}
 
-		const tooltip = ElementCreate({
+		const tooltip = document.getElementById(`${id}-icon-ul`) ?? ElementCreate({
 			tag: "ul",
 			attributes: { id: `${id}-icon-ul` },
 			classList: ["button-icon-tooltip-ul"],
 			children: [],
 		});
-		const iconGrid = ElementCreate({
+
+		const iconGrid = /** @type {HTMLDivElement} */(document.getElementById(`${id}-icon-grid`)) ?? ElementCreate({
 			tag: "div",
 			classList: ["button-icon-grid"],
-			children: icons.map((icon) => {
-				let src, tooltipText;
-				if (icon.endsWith("Padlock")) {
-					src = `Assets/Female3DCG/ItemMisc/Preview/${icon}.png`;
-					tooltipText = InterfaceTextGet("PreviewIconPadlock").replace(
-						"AssetName",
-						AssetGet("Female3DCG", "ItemMisc", icon).Description,
-					);
-				} else {
-					src = `Icons/Previews/${icon}.png`;
-					tooltipText = InterfaceTextGet(`PreviewIcon${icon}`);
-				}
-
-				ElementCreate({
-					tag: "li",
-					attributes: { id: `${id}-icon-li-${icon}` },
-					classList: ["button-icon-tooltip-li"],
-					children: [tooltipText],
-					parent: tooltip,
-				});
-
-				return {
-					tag: "img",
-					classList: ["button-icon"],
-					attributes: { decoding: "async", loading: "lazy", src, "aria-labelledby": `${id}-icon-li-${icon}` },
-				};
-			}),
+			attributes: { id: `${id}-icon-grid`, "aria-hidden": "true" },
 		});
-		return { iconGrid, tooltip };
+		const iconNames = Array.from(iconGrid.querySelectorAll(".button-icon")).map(el => el.getAttribute("data-name"));
+
+		icons.forEach((icon) => {
+			let custom = false;
+			/** @type {string} */
+			let name;
+			/** @type {string} */
+			let src;
+			/** @type {string | Node} */
+			let tooltipText;
+			if (typeof icon === "object") {
+				custom = true;
+				name = icon.name;
+				src = icon.iconSrc;
+				tooltipText = icon.tooltipText;
+			} else if (icon.endsWith("Padlock")) {
+				name = icon;
+				src = `./Assets/Female3DCG/ItemMisc/Preview/${icon}.png`;
+				tooltipText = InterfaceTextGet("PreviewIconPadlock").replace(
+					"AssetName",
+					AssetGet("Female3DCG", "ItemMisc", icon).Description,
+				);
+			} else {
+				name = icon;
+				src = `./Icons/Previews/${icon}.png`;
+				tooltipText = InterfaceTextGet(`PreviewIcon${icon}`);
+			}
+			if (iconNames.includes(name)) {
+				return;
+			}
+
+			ElementCreate({
+				tag: "li",
+				attributes: { id: `${id}-icon-li-${name}` },
+				classList: ["button-icon-tooltip-li"],
+				children: [tooltipText],
+				parent: tooltip,
+				style: { "background-image": `url("./${src}")` },
+			});
+
+			ElementCreate({
+				tag: "img",
+				classList: ["button-icon"],
+				attributes: { decoding: "async", loading: "lazy", src, "aria-owns": `${id}-icon-li-${name}` },
+				dataAttributes: { name, custom: custom ? "" : undefined },
+				parent: iconGrid,
+			});
+		});
+		return { iconGrid, tooltip: [InterfaceTextGet("StatusAndEffects"), ElementCreate({ tag: "br" }), tooltip] };
 	},
 
 	/**
@@ -1183,25 +1247,11 @@ var ElementButton = {
 	},
 
 	/**
-	 * Create a button with a tooltip
-	 *
-	 * @example
-	 * <button id={id}>
-	 *     <div id={`${id}-tooltip`} />
-	 * </button>
+	 * Create a generic button.
 	 * @param {null | string} id - The ID of the to-be created search button
 	 * @param {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => any} onClick - The click event listener to-be attached to the tooltip
-	 * @param {Object} [options]
-	 * @param {null | string | Node | HTMLOptions<any> | readonly (null | string | Node | HTMLOptions<any>)[]} [options.tooltip] - Optional tooltip content. If not supplied then one should manually prepend it to the tooltip later
-	 * @param {"left" | "right" | "top" | "bottom"} [options.tooltipPosition] - The position of the tooltip w.r.t. the button
-	 * @param {string} [options.label]
-	 * @param {"top" | "center" | "bottom"} [options.labelPosition]
-	 * @param {string} [options.image]
-	 * @param {readonly InventoryIcon[]} [options.icons]
-	 * @param {"radio" | "checkbox" | "menuitemradio" | "menuitemcheckbox"} [options.role] - The role of the button. All accepted values are currently special-cased in order to set role-specific event listeners and/or attributes.
-	 * @param {boolean} [options.noStyling] - Whether to limit the default styling of the button's border and background
-	 * @param {boolean} [options.disabled] - Whether the button should be disabled or not
-	 * @param {null | Partial<Record<"button" | "tooltip" | "img" | "label", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the either the button or tooltip
+	 * @param {null | ElementButton.Options} [options] - High level options for the to-be created button
+	 * @param {null | Partial<Record<"button" | "tooltip" | "img" | "label", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional low-level {@link ElementCreate} options to-be applied to the either the button or tooltip
 	 * @returns {HTMLButtonElement} - The created button
 	 */
 	Create: function Create(id, onClick, options=null, htmlOptions=null) {
@@ -1225,10 +1275,24 @@ var ElementButton = {
 		/** @type {(null | string | Node | HTMLOptions<any>)[]} */
 		const protoTooltip = [...(CommonIsArray(options.tooltip) ? options.tooltip : [options.tooltip])];
 		if (!protoTooltip.every(i => i == null)) {
-			protoTooltip.push(icons?.tooltip);
+			protoTooltip.push(...(icons?.tooltip ?? []));
 		}
 		protoTooltip.push(...(tooltipOptions.children ?? []));
 		const tooltip = this._ParseTooltip(id, options.tooltipPosition, protoTooltip, tooltipOptions);
+
+		/** @type {null | "aria-labelledby" | "aria-describedby"} */
+		let tooltipRoleAttribute = null;
+		switch (options.tooltipRole ?? null) {
+			case "label":
+				tooltipRoleAttribute = "aria-labelledby";
+				break;
+			case "description":
+				tooltipRoleAttribute = "aria-describedby";
+				break;
+			case null:
+				tooltipRoleAttribute = (label ? "aria-describedby" : "aria-labelledby");
+				break;
+		}
 
 		elem = ElementCreate({
 			...buttonOptions,
@@ -1236,7 +1300,7 @@ var ElementButton = {
 			attributes: {
 				id,
 				name: id,
-				"aria-describedby": `${id}-tooltip`,
+				[tooltipRoleAttribute]: tooltip ? `${id}-tooltip` : undefined,
 				"screen-generated": CurrentScreen,
 				role: options.role,
 				...(buttonOptions.attributes ?? {}),
@@ -1250,6 +1314,7 @@ var ElementButton = {
 				mousedown: this._MouseDown,
 				touchend: this._MouseUp,
 				touchcancel: this._MouseUp,
+				bcClickDisabled: options.clickDisabled,
 				...(buttonOptions.eventListeners ?? {}),
 			},
 			children: [
@@ -1290,13 +1355,190 @@ var ElementButton = {
 
 		if (options.disabled) {
 			const menuItemRoles = ["menuitem", "menuitemradio", "menuitemcheckbox"];
-			if (menuItemRoles.some(i => elem.role === i)) {
+			if (menuItemRoles.some(i => elem.getAttribute("role") === i)) {
 				elem.setAttribute("aria-disabled", true);
 			} else {
 				elem.disabled = true;
 			}
 		}
 		return elem;
+	},
+
+	/**
+	 * Create a button for an asset or item, including image, label and icons.
+	 * @param {string} idPrefix - The ID of the to-be created search button
+	 * @param {Asset | Item} asset - The asset (or item) for which to create a button
+	 * @param {null | Character} C - The character wearing the asset/item (if any)
+	 * @param {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => any} onClick - The click event listener to-be attached to the tooltip
+	 * @param {null | ElementButton.Options} [options] - High level options for the to-be created button
+	 * @param {null | Partial<Record<"button" | "tooltip" | "img" | "label", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional low-level {@link ElementCreate} options to-be applied to the either the button or tooltip
+	 * @returns {HTMLButtonElement} - The created button
+	 */
+	CreateForAsset: function CreateForAsset(idPrefix, asset, C, onClick, options=null, htmlOptions=null) {
+		const item = "Asset" in asset ? asset : { Asset: asset };
+		asset = item.Asset;
+
+		const id = `${idPrefix}-${asset.Group.Name}-${asset.Name}`;
+		const elem = /** @type {HTMLButtonElement | null} */(document.getElementById(id));
+		if (elem) {
+			console.error(`Element "${id}" already exists`);
+			return elem;
+		}
+
+		htmlOptions ??= {};
+		htmlOptions.button ??= {};
+		htmlOptions.button.attributes ??= {};
+		htmlOptions.button.attributes.name ??= asset.Name;
+		htmlOptions.button.dataAttributes ??= {};
+		htmlOptions.button.dataAttributes.group ??= asset.Group.Name;
+		htmlOptions.button.dataAttributes.craft ??= item.Craft ? "" : undefined;
+		htmlOptions.button.dataAttributes.hidden ??= CharacterAppearanceItemIsHidden(asset.Name, asset.Group.Name) ? "" : undefined;
+		htmlOptions.button.dataAttributes.vibrating ??= item.Property?.Effect?.includes("Vibrating") ? "" : undefined;
+		htmlOptions.button.children = [
+			...(htmlOptions.button.children ?? []),
+			ElementButton._ParseImage(`${idPrefix}-hidden`, "./Icons/HiddenItem.png", { dataAttributes: { hidden: "" } }),
+		];
+		htmlOptions.tooltip ??= {};
+		htmlOptions.tooltip.classList ??= [];
+		htmlOptions.tooltip.classList = [
+			...htmlOptions.tooltip.classList,
+			"button-tooltip-justify",
+		];
+
+		options ??= {};
+		options.label ??= item.Craft?.Name || asset.Description;
+		options.image ??= `./Assets/Female3DCG/${asset.DynamicGroupName}/Preview/${asset.Name}.png`;
+		options.icons ??= [
+			...(options.icons ?? []),
+			DialogGetFavoriteStateDetails(C ?? Player, asset)?.Icon,
+			...DialogGetLockIcon(item, "Property" in item),
+			...DialogGetAssetIcons(asset),
+			...DialogEffectIcons.GetIcons(item),
+		];
+		options.tooltipPosition ??= "bottom";
+		options.tooltip ??= !item.Craft ? "" : /** @type {HTMLOptions<any>[]} */([
+			...(CommonIsArray(options.tooltip) ? options.tooltip : [options.tooltip]),
+			{
+				tag: "span",
+				children: [InterfaceTextGet("DialogMenuCrafting") + ":"],
+			},
+			{
+				tag: "div",
+				classList: ["button-tooltip-craft"],
+				children: [
+					...(item.Craft.Property ? [
+						InterfaceTextGet("CraftingProperty").replace("CraftProperty", ""),
+						{ tag: "q", children: [item.Craft.Property] },
+						{ tag: "br" },
+					] : []),
+					...((item.Craft.MemberName && item.Craft.MemberNumber) ? [
+						InterfaceTextGet("CraftingMember").replace("MemberName (MemberNumber)", ""),
+						{ tag: "q", children: [`${item.Craft.MemberName} (${item.Craft.MemberNumber})`] },
+						{ tag: "br" },
+					] : []),
+					...([
+						InterfaceTextGet("CraftingPrivate").replace("CraftPrivate", ""),
+						{ tag: "q", children: [CommonCapitalize(item.Craft.Private.toString())] },
+						{ tag: "br" },
+					]),
+					...(item.Craft.Description ? [
+						InterfaceTextGet("CraftingDescription").replace("CraftDescription", ""),
+						{ tag: "q", children: CraftingDescription.DecodeToHTML(item.Craft.Description) },
+						{ tag: "br" },
+					] : []),
+				],
+			},
+		]);
+
+		return ElementButton.Create(id, onClick, options, htmlOptions);
+	},
+
+	/**
+	 * Create a button for an activity, including image, label and icons.
+	 * @param {string} idPrefix - The ID of the to-be created search button
+	 * @param {ItemActivity} activity - The activity for which to create a button
+	 * @param {Character} C - The target character of the activity
+	 * @param {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => any} onClick - The click event listener to-be attached to the tooltip
+	 * @param {null | ElementButton.Options} [options] - High level options for the to-be created button
+	 * @param {null | Partial<Record<"button" | "tooltip" | "img" | "label", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional low-level {@link ElementCreate} options to-be applied to the either the button or tooltip
+	 * @returns {HTMLButtonElement} - The created button
+	 */
+	CreateForActivity: function CreateForActivity(idPrefix, activity, C, onClick, options=null, htmlOptions=null) {
+		const id = `${idPrefix}-${activity.Activity.Name}`;
+		const elem = /** @type {HTMLButtonElement | null} */(document.getElementById(id));
+		if (elem) {
+			console.error(`Element "${id}" already exists`);
+			return elem;
+		}
+
+		htmlOptions ??= {};
+		htmlOptions.button ??= {};
+		htmlOptions.button.attributes ??= {};
+		htmlOptions.button.attributes.name ??= activity.Activity.Name;
+		htmlOptions.button.dataAttributes ??= {};
+		htmlOptions.button.dataAttributes.group ??= activity.Group;
+		htmlOptions.tooltip ??= {};
+		htmlOptions.tooltip.classList ??= [];
+		htmlOptions.tooltip.classList = [
+			...htmlOptions.tooltip.classList,
+			"button-tooltip-justify",
+		];
+
+		options ??= {};
+		options.label ??= ActivityDictionaryText(ActivityBuildChatTag(C, AssetGroupGet(C.AssetFamily, activity.Group), activity.Activity, true));
+		options.image ??= (activity.Item ? `./${AssetGetPreviewPath(activity.Item.Asset)}/${activity.Item.Asset.Name}.png` : `./Assets/Female3DCG/Activity/${activity.Activity.Name}.png`);
+		options.icons ??= [
+			...(options.icons ?? []),
+			activity.Blocked === "limited" ? "AllowedLimited" : undefined,
+			activity.Item ? "Handheld" : undefined,
+		];
+		options.tooltipPosition ??= "bottom";
+		options.tooltip ??= options.icons.length ? [""] : undefined;
+		return ElementButton.Create(id, onClick, options, htmlOptions);
+	},
+
+	/**
+	 * Reload the icons of the passed {@link ElementButton.CreateForAsset} button based on the items & characters current state.
+	 * @param {HTMLButtonElement} button - The button in question
+	 * @param {Asset | Item} asset - The asset (or item) for linked to the button
+	 * @param {null | Character} C - The character wearing the asset/item (if any)
+	 * @returns {boolean} - Whether the icons were updated or not
+	 */
+	ReloadAssetIcons: function ReloadAssetIcons(button, asset, C) {
+		const item = "Asset" in asset ? asset : { Asset: asset };
+		asset = item.Asset;
+
+		const icons = Array.from(button.querySelectorAll(".button-icon"));
+		const iconNamesOld = icons.map(el => el.getAttribute("data-name"));
+		const iconNamesNew = [
+			DialogGetFavoriteStateDetails(C ?? Player, asset)?.Icon,
+			...DialogGetLockIcon(item, "Property" in item),
+			...DialogGetAssetIcons(asset),
+			...DialogEffectIcons.GetIcons(item),
+		];
+
+		const iconNamesAdded = iconNamesNew.filter(i => i != null && !iconNamesOld.includes(i));
+		const iconNamesRemoved = iconNamesOld.filter(i => !/** @type {string[]} */(iconNamesNew).includes(i));
+		if (iconNamesAdded.length === 0 && iconNamesRemoved.length === 0) {
+			return false;
+		}
+
+		for (const icon of icons) {
+			if (!icon.hasAttribute("data-custom")) {
+				const tooltipComponentID = icon.getAttribute("aria-owns");
+				if (tooltipComponentID) { document.getElementById(tooltipComponentID)?.remove(); }
+				icon.remove();
+			}
+		}
+
+		const { iconGrid, tooltip } = ElementButton._ParseIcons(button.id, iconNamesAdded) ?? { tooltip: [] };
+		if (iconGrid && !button.contains(iconGrid)) {
+			button.append(iconGrid);
+		}
+		if (tooltip[2] && !button.contains(tooltip[2])) {
+			button.querySelector(".button-tooltip")?.append(...tooltip);
+		}
+		return true;
 	},
 };
 
@@ -1474,8 +1716,13 @@ var ElementMenu = {
 
 		let first = true;
 		elem.querySelectorAll("button, [role='menuitem'], [role='menuitemradio'], [role='menuitemcheckbox']").forEach((menuitem) => {
-			menuitem.role ||= "menuitem";
-			if (menuitem.role !== "menuitem" && menuitem.role !== "menuitemradio" && menuitem.role !== "menuitemcheckbox") {
+			let role = menuitem.getAttribute("role");
+			if (!role) {
+				role = "menuitem";
+				menuitem.setAttribute("role", "menuitem");
+			}
+
+			if (role !== "menuitem" && role !== "menuitemradio" && role !== "menuitemcheckbox") {
 				return;
 			}
 
@@ -1508,7 +1755,7 @@ var ElementMenu = {
 		}
 
 		menuitem.tabIndex = -1;
-		menuitem.role = "menuitem";
+		menuitem.setAttribute("role", "menuitem");
 		menuitem.addEventListener("keydown", this._KeyDown);
 		div.append(menuitem);
 	},
@@ -1534,7 +1781,7 @@ var ElementMenu = {
 			menuitem.tabIndex = -1;
 		}
 
-		menuitem.role = "menuitem";
+		menuitem.setAttribute("role", "menuitem");
 		menuitem.addEventListener("keydown", this._KeyDown);
 		div.prepend(menuitem);
 	},

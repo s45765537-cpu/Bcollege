@@ -18,6 +18,9 @@ var InfiltrationKidnapper = null;
 var InfiltrationPandoraPrisoner = null;
 /** @type {NPCCharacter} */
 var InfiltrationPartyPrisoner = null;
+var InfiltrationPenitentiaryMinutes = 0;
+var InfiltrationPenitentiaryAmount = 0;
+var InfiltrationPenitentiaryRole = "I";
 
 /**
  * Returns TRUE if the mission can complete as a success
@@ -565,4 +568,49 @@ function InfiltrationClubCardEnd() {
 	CommonSetScreen("Room", "Infiltration");
 	CharacterSetCurrent(InfiltrationSupervisor);
 	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
+}
+
+/**
+ * Checks if the role in parameter is the current player role
+ * @param {string} Role - The role to evaluate (I for Inmate, G for Guard)
+ * @returns {boolean} - TRUE if the role matches the parameter
+ */
+function InfiltrationPenitentiaryRoleIs(Role) {
+	let CurrentRole = PandoraPenitentiaryIsGuard(Player) ? "G" : "I";
+	return (CurrentRole === Role);
+}
+
+/**
+ * Starts the Pandora's padlock special mission, cannot be given randomly
+ * @param {string} Minutes - The number of minutes to lock the player
+ * @param {string} Amount - The money amount and infiltration skill gained
+ * @param {string} Role - The role to take (I for Inmate or G for Guard)
+ * @returns {void} - Nothing
+ */
+function InfiltrationPreparePenitentiary(Minutes, Amount, Role) {
+	InfiltrationPenitentiaryMinutes = parseInt(Minutes);
+	InfiltrationPenitentiaryAmount = parseInt(Amount);
+	InfiltrationPenitentiaryRole = Role;
+}
+
+/**
+ * Starts the Pandora's padlock special mission, cannot be given randomly
+ * @param {string} Param - An optional NEW param to create a new room
+ * @returns {void} - Nothing
+ */
+function InfiltrationStartPenitentiary(Param) {
+	if (Param === "New") PandoraPenitentiaryStartNewRoom = true;
+	if (!PandoraPenitentiaryIsGuard(Player) && !PandoraPenitentiaryIsInmate(Player)) {
+		CharacterChangeMoney(Player, InfiltrationPenitentiaryAmount);
+		SkillProgress(Player, "Infiltration", InfiltrationPenitentiaryAmount * 10);
+	}
+	PandoraPenitentiaryStart(InfiltrationPenitentiaryMinutes, InfiltrationPenitentiaryRole);
+}
+
+/**
+ * When the player asks to be costumed as a guard
+ * @returns {void} - Nothing
+ */
+function InfiltrationGuardDressUp() {
+	PandoraDress(Player, "Guard");
 }

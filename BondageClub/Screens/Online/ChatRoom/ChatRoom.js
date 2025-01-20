@@ -86,6 +86,18 @@ var ChatRoomChatHidden = false;
  * @type {Character[]}
  */
 var ChatRoomCharacterDrawlist = [];
+/**
+ * If non-empty, ChatRoomCharacterDrawlist will be filtered (after immersion removals) to only include the player and these character(s).
+ * Used for the /focus command. List will be automatically removed if characters are removed from the room.
+ * @type {Character[]}
+ */
+var ChatRoomDrawFocusList = [];
+/**
+ * The list of characters currently impacted (not drawn) by sensory deprivation in the chat room
+ * Used as a check for whether to apply further sense dep effects to a given character (i.e. name removal, message, hiding, etc). Characters from {@link ChatRoomCharacter}
+ * @type {Character[]}
+ */
+var ChatRoomImpactedBySenseDep = [];
 var ChatRoomSenseDepBypass = false;
 var ChatRoomGetUpTimer = 0;
 /**
@@ -443,10 +455,30 @@ function ChatRoomCanGiveMoneyForOwner() { return (CurrentCharacter != null && Pl
  */
 function ChatRoomPlayerIsAdmin() { return ((ChatRoomData != null && ChatRoomData.Admin != null) && (ChatRoomData.Admin.indexOf(Player.MemberNumber) >= 0)); }
 /**
+ * Checks if the player is currently in focus mode (non-empty {@link ChatRoomDrawFocusList})
+ * @returns {boolean} - TRUE if the player is in focus mode
+ */
+function ChatRoomPlayerIsInDrawFocus() { return ChatRoomDrawFocusList.length > 0; }
+/**
  * Checks if the current character is an admin of the chatroom.
  * @returns {boolean} - TRUE if the current character is an admin.
  */
 function ChatRoomCurrentCharacterIsAdmin() { return ((CurrentCharacter != null) && (ChatRoomData.Admin != null) && (ChatRoomData.Admin.indexOf(CurrentCharacter.MemberNumber) >= 0)); }
+/**
+ * Checks if the player is in the chatroom whitelist.
+ * @returns {boolean} - TRUE if the player is in the chatroom whitelist.
+ */
+function ChatRoomPlayerIsWhitelisted() { return ((ChatRoomData != null && ChatRoomData.Whitelist != null) && (ChatRoomData.Whitelist.indexOf(Player.MemberNumber) >= 0)); }
+/**
+ * Checks if the current character is in the chatroom whitelist.
+ * @returns {boolean} - TRUE if the current character is in the chatroom whitelist.
+ */
+function ChatRoomCurrentCharacterIsWhitelisted() { return ((CurrentCharacter != null) && (ChatRoomData.Whitelist != null) && (ChatRoomData.Whitelist.indexOf(CurrentCharacter.MemberNumber) >= 0)); }
+/**
+ * Checks if the current character is in the player's focuslist (/focus).
+ * @returns {boolean} - TRUE if the current character is in the player's focuslist.
+ */
+function ChatRoomCurrentCharacterInDrawFocusList() { return ((CurrentCharacter != null) && (ChatRoomDrawFocusList.indexOf(CurrentCharacter) >= 0)); }
 /**
  * Checks if the room allows the photograph feature to be used.
  * @returns {boolean} - TRUE if the player can take a photo.
@@ -1058,6 +1090,7 @@ function ChatRoomCreateElement() {
 				{
 					tag: "div",
 					attributes: { id: "TextAreaChatLog" },
+					classList: ["scroll-box"],
 				},
 				{
 					tag: "div",
@@ -1207,8 +1240,6 @@ function ChatRoomAppendChat(div) {
  * @returns {void} - Nothing.
  */
 function ChatRoomLoad() {
-	ElementRemove("InputSearch");
-	ChatRoomCreateRemoveInput();
 	ChatRoomRefreshFontSize();
 	ChatRoomCreateElement();
 
@@ -1247,25 +1278,6 @@ function ChatRoomClearAllElements() {
 	// Dialog
 	DialogLeave();
 
-	// Friendlist
-	ElementRemove("FriendList");
-	FriendListBeepMenuClose();
-	FriendListModeIndex = 0;
-
-	// Admin
-	ElementRemove("InputName");
-	ElementRemove("InputDescription");
-	ElementRemove("InputSize");
-	ElementRemove("InputAdminList");
-	ElementRemove("InputBanList");
-	ElementRemove("InputBackground");
-	ElementRemove("TagDropDown");
-
-	// Admin Custom
-	ElementRemove("InputImageURL");
-	ElementRemove("InputImageFilter");
-	ElementRemove("InputMusicURL");
-
 	// Chatroom
 	if (Player.ChatSettings?.PreserveChat ?? true) {
 		ChatRoomHideElements();
@@ -1273,18 +1285,6 @@ function ChatRoomClearAllElements() {
 		ElementRemove("chat-room-div");
 		window.removeEventListener("resize", ChatRoomResizeManager.ChatRoomResizeEvent);
 	}
-
-	// Preferences
-	ElementRemove("InputEmailOld");
-	ElementRemove("InputEmailNew");
-	ElementRemove("InputCharacterLabelColor");
-
-	// Profile
-	ElementRemove("DescriptionInput");
-
-	// Wardrobe
-	ElementRemove("InputWardrobeName");
-	CharacterAppearanceMode = "";
 }
 
 /**
@@ -1329,6 +1329,7 @@ function ChatRoomMenuBuild() {
 	ChatRoomMenuButtons.push("Exit");
 	ChatRoomMenuButtons.push("Kneel");
 	ChatRoomMenuButtons.push("Icons");
+	if (ChatRoomPlayerIsInDrawFocus()) ChatRoomMenuButtons.push("ClearFocus");
 	if (DialogCanTakePhotos()) ChatRoomMenuButtons.push("Camera");
 	ChatRoomMenuButtons.push("Cut");
 	if (ChatRoomMapViewIsActive() && ((ChatRoomData == null) || (ChatRoomData.MapData == null) || (ChatRoomData.MapData.Type == null) || (ChatRoomData.MapData.Type != "Always"))) ChatRoomMenuButtons.push("CharacterView");
@@ -1339,7 +1340,7 @@ function ChatRoomMenuBuild() {
 	if (ChatRoomCustomizationButton() && ChatRoomCustomized) ChatRoomMenuButtons.push("CustomizationOff");
 	ChatRoomMenuButtons.push("Dress");
 	ChatRoomMenuButtons.push("Profile");
-	if ((ChatRoomGame !== "") && (ChatRoomGame !== "GGTS")) ChatRoomMenuButtons.push("GameOption");
+	if ((ChatRoomGame !== "") && (ChatRoomGame !== "GGTS") && (ChatRoomGame !== "Prison")) ChatRoomMenuButtons.push("GameOption");
 	ChatRoomMenuButtons.push("RoomAdmin");
 }
 
@@ -1362,14 +1363,17 @@ function ChatRoomUpdateDisplay() {
 	ChatRoomCharacterDrawlist = ChatRoomCharacter;
 	ChatRoomSenseDepBypass = false;
 	if (Player.Effect.includes("VRAvatars")) {
+		ChatRoomImpactedBySenseDep = ChatRoomCharacterDrawlist.slice();
 		ChatRoomCharacterDrawlist = [];
 		ChatRoomSenseDepBypass = true;
 		for (let CC = 0; CC < ChatRoomCharacter.length; CC++) {
 			if (ChatRoomCharacter[CC].Effect.includes("VRAvatars")) {
 				ChatRoomCharacterDrawlist.push(ChatRoomCharacter[CC]);
+				ChatRoomImpactedBySenseDep.splice(ChatRoomImpactedBySenseDep.indexOf(ChatRoomCharacter[CC]), 1);
 			}
 		}
 	} else if (Player.GetBlindLevel() > 0 && Player.GetBlindLevel() < 3 && Player.ImmersionSettings.BlindAdjacent) {
+		ChatRoomImpactedBySenseDep = ChatRoomCharacterDrawlist.slice();
 		// We hide all players except those who are adjacent
 		ChatRoomCharacterDrawlist = [];
 		ChatRoomSenseDepBypass = true;
@@ -1385,8 +1389,14 @@ function ChatRoomUpdateDisplay() {
 		for (let CC = 0; CC < ChatRoomCharacter.length; CC++) {
 			if (Math.abs(CC - PlayerIndex) <= 1) {
 				ChatRoomCharacterDrawlist.push(ChatRoomCharacter[CC]);
+				ChatRoomImpactedBySenseDep.splice(ChatRoomImpactedBySenseDep.indexOf(ChatRoomCharacter[CC]), 1);
 			}
 		}
+	}
+
+	// If we're in focus (focuslist exists), filter out any players not in it (/focus)
+	if (ChatRoomPlayerIsInDrawFocus()) {
+		ChatRoomCharacterDrawlist = ChatRoomCharacterDrawlist.filter(C => C.IsPlayer() || ChatRoomDrawFocusList.includes(C));
 	}
 
 	// Keeps the current character count and total
@@ -1449,6 +1459,12 @@ function ChatRoomDrawCharacterStatusIcons(C, CharX, CharY, Zoom)
 	} else if (Player.BlackList.includes(C.MemberNumber)) {
 		DrawImageResize("Icons/Small/BlackList.png", CharX + 70 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
 	}
+	// Unobtrusive but prominent warnings to alert user they are in focus mode -- drawn on player and all focused (visible) characters
+	if (ChatRoomPlayerIsInDrawFocus() && (C.IsPlayer() || ChatRoomDrawFocusList.includes(C)))
+	{
+		DrawImageResize("Icons/Small/FocusEnabledWarning.png", CharX + 30 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
+		DrawImageResize("Icons/Small/FocusEnabledWarning.png", CharX + 30 * Zoom, CharY + 950 * Zoom, 40 * Zoom, 40 * Zoom);
+	}
 	if (Player.GhostList.includes(C.MemberNumber)) {
 		DrawImageResize("Icons/Small/GhostList.png", CharX + 110 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
 	} else if (Player.FriendList.includes(C.MemberNumber)) {
@@ -1481,6 +1497,8 @@ function ChatRoomDrawCharacterStatusIcons(C, CharX, CharY, Zoom)
 	if (Array.isArray(ChatRoomData.Admin) && ChatRoomData.Admin.includes(C.MemberNumber))
 	{
 		DrawImageResize("Icons/Small/Admin.png", CharX + 390 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
+	} else if (Array.isArray(ChatRoomData.Whitelist) && ChatRoomData.Whitelist.includes(C.MemberNumber)) {
+		DrawImageResize("Icons/Small/RoomWhitelist.png", CharX + 390 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
 	}
 }
 
@@ -2060,6 +2078,7 @@ function ChatRoomRun(time) {
 
 	// Handles online GGTS, bounty & customizations
 	AsylumGGTSProcess();
+	PandoraPenitentiaryRun();
 	ChatRoomUpdateOnlineBounty();
 	ChatRoomCustomizationRun();
 	ChatRoomMenuBuild();
@@ -2529,6 +2548,10 @@ function ChatRoomMenuClick(event) {
 					ChatRoomHideIconState += 1;
 					if (ChatRoomHideIconState > 3) ChatRoomHideIconState = 0;
 					break;
+				case "ClearFocus":
+					// When the user wants to exit focus mode (clear their focus list)
+					ChatRoomDrawFocusListClear();
+					break;
 				case "Camera":
 					// When the user takes a photo of the room
 					ChatRoomPhotoFullRoom();
@@ -2604,15 +2627,16 @@ function ChatRoomAttemptStandMinigameEnd() {
  * @returns {boolean} - Returns TRUE if the player can leave the current chat room.
  */
 function ChatRoomCanLeave() {
-	if (ChatRoomLeashPlayer != null) {
+	if (ChatRoomLeashPlayer != null) { // Cannot leave if leashed
 		if (ChatRoomCanBeLeashedBy(0, Player)) {
 			return false;
 		} else ChatRoomLeashPlayer = null;
 	}
 	if (!Player.CanWalk()) return false; // Cannot leave if cannot walk
+	if ((ChatRoomData.Game == "Prison") && PandoraPenitentiaryIsInmate(Player)) return false; // Cannot leave if locked down in Pandora Penitentiary
 	if (ChatRoomData.Locked && (ChatRoomData.Game == "GGTS")) return false; // GGTS game can forbid anyone to leave
 	if (ChatRoomActiveView.CanLeave && !ChatRoomActiveView.CanLeave()) return false;
-	if (!ChatRoomData.Locked || ChatRoomPlayerIsAdmin()) return true; // Can leave if the room isn't locked or is an administrator
+	if (!ChatRoomData.Locked || ChatRoomPlayerIsAdmin() || ChatRoomPlayerIsWhitelisted()) return true; // Player can leave if the room isn't locked, they are an administrator, or are on the whitelist
 	for (let C = 0; C < ChatRoomCharacter.length; C++)
 		if (ChatRoomData.Admin.indexOf(ChatRoomCharacter[C].MemberNumber) >= 0)
 			return false; // Cannot leave if the room is locked and there's an administrator inside
@@ -2717,6 +2741,7 @@ function ChatRoomLeave(clearCharacters = false) {
 	Player.MapData = null;
 	ChatRoomGame = "";
 	ChatRoomCharacter = [];
+	ChatRoomDrawFocusList = [];
 	ChatRoomMapViewTileFog = "";
 	ChatRoomMapViewObjectFog = "";
 	ChatRoomSetTarget(-1);
@@ -2737,16 +2762,19 @@ function ChatRoomCommonKeyDown(event) {
 		ElementScrollToEnd("TextAreaChatLog");
 		ElementFocus("InputChat");
 		return true;
-	} else if (CommonKey.IsPressed(event, "k", CommonKey.Alt)) {
+	} else if (CommonKey.IsPressed(event, "k", CommonKey.ALT)) {
 		if (!event.repeat) ChatRoomToggleKneel();
 		return true;
-	} else if (CommonKey.IsPressed(event, "i", CommonKey.Alt)) {
+	} else if (CommonKey.IsPressed(event, "i", CommonKey.ALT)) {
+		if (CurrentCharacter) { DialogLeave(); }
 		ChatRoomOpenInformationScreen();
 		return true;
-	} else if (CommonKey.IsPressed(event, "b", CommonKey.Alt)) {
+	} else if (CommonKey.IsPressed(event, "b", CommonKey.ALT)) {
+		if (CurrentCharacter) { DialogLeave(); }
 		ChatRoomOpenWardrobeScreen();
 		return true;
-	} else if (CommonKey.IsPressed(event, "h", CommonKey.Alt)) {
+	} else if (CommonKey.IsPressed(event, "h", CommonKey.ALT)) {
+		if (CurrentCharacter) { DialogLeave(); }
 		ChatRoomOpenAdminScreen();
 		return true;
 	}
@@ -2809,36 +2837,9 @@ function ChatRoomKeyDown(event) {
 			return false;
 		}
 
-		if (!modifiers) {
-			switch (event.key) {
-				case "Home":
-					// Scroll to the top
-					chatLog.scrollTop = 0;
-					return true;
-				case "End":
-					// Scroll to the bottom
-					chatLog.scrollTop = chatLog.scrollHeight;
-					return true;
-				case "PageUp":
-					// Scroll up by the height of the chat area
-					chatLog.scrollTop = Math.max(0, chatLog.scrollTop - chatLog.clientHeight);
-					return true;
-				case "PageDown":
-					// Scroll down by the height of the chat area
-					chatLog.scrollTop = Math.min(chatLog.scrollHeight, chatLog.scrollTop + chatLog.clientHeight);
-					return true;
-				case "ArrowUp":
-					// Scroll up by 5% of the chat area height
-					chatLog.scrollTop = Math.max(0, chatLog.scrollTop - chatLog.clientHeight * 0.05);
-					return true;
-				case "ArrowDown":
-					// Scroll down by 5% of the chat area height
-					chatLog.scrollTop = Math.min(chatLog.scrollHeight, chatLog.scrollTop + chatLog.clientHeight * 0.05);
-					return true;
-			}
-		}
-
-		if (CommonKey.IsPressed(event, "v", CommonKey.CTRL)) {
+		if (CommonKey.NavigationKeyDown(chatLog, event, (el) => el.clientHeight * 0.05)) {
+			return true;
+		} else if (CommonKey.IsPressed(event, "v", CommonKey.CTRL)) {
 			return false;
 		} else if ((event.key.length === 1 || event.key === "Enter") && !modifiers) {
 			// Move focus to the chat
@@ -3296,7 +3297,7 @@ function ChatRoomMessageInvolvesPlayer(data) {
  * @returns true if the player is sensory-deprived from character, false otherwise.
  */
 function ChatRoomIsCharacterImpactedBySensoryDeprivation(character) {
-	return PreferenceIsPlayerInSensDep() && character.MemberNumber != Player.MemberNumber && (!ChatRoomSenseDepBypass || !ChatRoomCharacterDrawlist.includes(character));
+	return PreferenceIsPlayerInSensDep() && character.MemberNumber != Player.MemberNumber && (!ChatRoomSenseDepBypass || ChatRoomImpactedBySenseDep.includes(character));
 }
 
 /** @type {ChatRoomMessageExtractor[]} */
@@ -3519,7 +3520,7 @@ var ChatRoomMessageHandlers = [
 			const IsPlayerInSensoryDep = Player.ImmersionSettings.SenseDepMessages
 				&& PreferenceIsPlayerInSensDep()
 				&& Player.GetDeafLevel() >= 4
-				&& (!ChatRoomSenseDepBypass || !ChatRoomCharacterDrawlist.includes(sender));
+				&& (!ChatRoomSenseDepBypass || ChatRoomImpactedBySenseDep.includes(sender));
 
 			// When the player is in total sensory deprivation, hide non-whisper messages if the player is not involved
 			const IsPlayerMentioned = ChatRoomMessageMentionsCharacter(Player, msg);
@@ -3687,6 +3688,8 @@ function ChatRoomMessageProcessHidden(data, SenderCharacter) {
 		ChatRoomReceiveSuitcaseMoney();
 	} else if (data.Content.substr(0, 4) == "GGTS") {
 		AsylumGGTSHiddenMessage(SenderCharacter, data.Content, data);
+	} else if (data.Content.substr(0, 7) == "Pandora") {
+		PandoraPenitentiaryHiddenMessage(SenderCharacter, data.Content);
 	} else if (data.Content.startsWith("PortalLink")) {
 		PortalLinkProcessMessage(SenderCharacter, data);
 	}
@@ -4252,7 +4255,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 function ChatRoomHideIdentity(C) {
 	return PreferenceIsPlayerInSensDep()
 		&& C.MemberNumber != Player.MemberNumber
-		&& (!ChatRoomSenseDepBypass || !ChatRoomCharacterDrawlist.includes(C));
+		&& (!ChatRoomSenseDepBypass || ChatRoomImpactedBySenseDep.includes(C));
 }
 
 /**
@@ -4305,6 +4308,7 @@ function ChatRoomValidateProperties(obj)
 		&& typeof room.Name === "string"
 		&& typeof room.Description === "string"
 		&& Array.isArray(room.Admin) && room.Admin.every(n => typeof n === "number")
+		&& Array.isArray(room.Whitelist) && room.Whitelist.every(n => typeof n === "number")
 		&& Array.isArray(room.Ban) && room.Ban.every(n => typeof n === "number")
 		&& typeof room.Background === "string"
 		&& typeof room.Limit === "number"
@@ -4318,8 +4322,11 @@ function ChatRoomValidateProperties(obj)
 }
 
 /**
- * Handles the reception of the new room data from the server.
- * @param {ServerChatRoomSyncMessage} data - Room object containing the updated chatroom data.
+ * Handles the reception of the data for a room we've just entered.
+ *
+ * This only happens once per ChatRoom "lifetime".
+ *
+ * @param {ServerChatRoomSyncMessage} data - Room object containing the new chatroom data.
  * @returns {void} - Nothing.
  */
 function ChatRoomSync(data) {
@@ -4350,7 +4357,7 @@ function ChatRoomSync(data) {
 	ChatRoomData = data;
 
 	// Loads the room
-	if ((CurrentScreen != "ChatRoom") && (CurrentScreen != "ChatAdmin") && (CurrentScreen != "Appearance") && (CurrentModule != "Character")) {
+	if (!ServerPlayerIsInChatRoom() || CurrentScreen === "ChatAdmin") {
 		CommonSetScreen("Online", "ChatRoom");
 	}
 
@@ -4367,11 +4374,16 @@ function ChatRoomSync(data) {
 		ChatRoomCharacter.push(Char);
 	}
 
+	// Reset when creating/joining a room, in case it wasn't by ChatRoomLeave() for whatever reason
+	ChatRoomDrawFocusList = [];
+
 	// If there's a game running in that chatroom, save it and perform a reset
 	if (ChatRoomData.Game != null) {
 		ChatRoomGame = ChatRoomData.Game;
 		OnlineGameReset();
 	}
+
+	ChatRoomPingLeashedPlayers();
 
 	// Check whether the player's last chatroom data needs updating
 	ChatRoomCheckForLastChatRoomUpdates();
@@ -4465,6 +4477,7 @@ function ChatRoomSyncMemberLeave(data) {
 
 	// Remove the character
 	ChatRoomCharacter = ChatRoomCharacter.filter(x => x.MemberNumber != data.SourceMemberNumber);
+	ChatRoomDrawFocusList = ChatRoomDrawFocusList.filter(x => x.MemberNumber != data.SourceMemberNumber);
 	ChatRoomData.Character = ChatRoomData.Character.filter(x => x.MemberNumber != data.SourceMemberNumber);
 
 	// Check whether the player's last chatroom data needs updating
@@ -4989,7 +5002,7 @@ function ChatRoomAdminAction(ActionType, Publish) {
 
 /**
  * Sends an administrative command to the server from the chat text field.
- * @param {"Ban"|"Unban"|"Kick"|"Promote"|"Demote"} ActionType - Type of action performed.
+ * @param {"Ban"|"Unban"|"Kick"|"Promote"|"Demote"|"Whitelist"|"Unwhitelist"} ActionType - Type of action performed.
  * @param {string} Argument - Target number of the action.
  * @returns {void} - Nothing
  */
@@ -5013,12 +5026,18 @@ function ChatRoomCurrentTime() {
 /**
  * Adds or removes an online member to/from a specific list. (From the dialog menu)
  * @param {"Add" | "Remove"} Operation - Operation to perform.
- * @param {"WhiteList" | "FriendList" | "BlackList" | "GhostList"} ListType - Name of the list to alter. (Whitelist, friendlist, blacklist, ghostlist)
+ * @param {"WhiteList" | "FriendList" | "BlackList" | "GhostList" | "DrawFocusList"} ListType - Name of the list to alter. (Whitelist, friendlist, blacklist, ghostlist, drawfocuslist)
  * @returns {void} - Nothing
  */
 function ChatRoomListManage(Operation, ListType) {
-	if (CurrentCharacter && CurrentCharacter.MemberNumber && Array.isArray(Player[ListType])) {
-		ChatRoomListUpdate(Player[ListType], Operation == "Add", CurrentCharacter.MemberNumber);
+	if (CurrentCharacter) {
+		const isAdd = Operation === "Add";
+		if (ListType === "DrawFocusList"){
+			if (isAdd) ChatRoomDrawFocusListAdd([CurrentCharacter]);
+			else ChatRoomDrawFocusListRemove([CurrentCharacter]);
+		} else if (CurrentCharacter.MemberNumber && Array.isArray(Player[ListType])) {
+			ChatRoomListUpdate(Player[ListType], isAdd, CurrentCharacter.MemberNumber);
+		}
 	}
 }
 
@@ -5067,6 +5086,51 @@ function ChatRoomListUpdate(list, adding, memberNumber) {
 
 	ServerPlayerRelationsSync();
 	setTimeout(() => ChatRoomCharacterUpdate(Player), 5000);
+}
+
+/**
+ * Adds a list of character(s) into the Focus List
+ * @param {Character[]} characters - Characters to add
+ * @param {boolean} [enableMessage=true] - If enabled, will tell (warn) the user when the focus feature becomes enabled (empty -> non-empty)
+ * @returns {Character[]} - Characters that were actually added (not already in the list)
+ */
+function ChatRoomDrawFocusListAdd(characters, enableMessage=true) {
+	const added = [];
+	const wasInFocus = ChatRoomPlayerIsInDrawFocus();
+	characters.forEach(c => {
+		if (!ChatRoomDrawFocusList.includes(c)) {
+			ChatRoomDrawFocusList.push(c);
+			added.push(c);
+		}
+	});
+	if (enableMessage && !wasInFocus && ChatRoomPlayerIsInDrawFocus()) {
+		const enableMessageText = TextGet("FocusEnabled").replaceAll('FocusEnabledWarningIcon', TextGet("FocusEnabledWarningIcon"));
+		ChatRoomSendLocal(`<span style="color: deepskyblue">${enableMessageText}</span>`, 60_000);
+	}
+	return added;
+}
+
+/**
+ * Removes a list of character(s) from the Focus List
+ * @param {Character[]} characters - Characters to remove
+ * @returns {Character[]} - Characters that were actually removed (were in the list)
+ */
+function ChatRoomDrawFocusListRemove(characters) {
+	const removed = [];
+	characters.forEach(c => {
+		if (ChatRoomDrawFocusList.includes(c)) {
+			ChatRoomDrawFocusList.splice(ChatRoomDrawFocusList.indexOf(c), 1);
+			removed.push(c);
+		}
+	});
+	return removed;
+}
+
+/**
+ * Clears the Focus List
+ */
+function ChatRoomDrawFocusListClear() {
+	ChatRoomDrawFocusList = [];
 }
 
 /**
@@ -5542,42 +5606,61 @@ function ChatRoomSafewordRevert() {
  * @returns {void} - Nothing
  */
 function ChatRoomSafewordRelease() {
+	PandoraPenitentiarySafewordRooms.push(ChatRoomData.Name);
 	CharacterReleaseTotal(Player);
 	CharacterRefresh(Player);
 	const Dictionary = new DictionaryBuilder()
 		.sourceCharacter(Player)
 		.build();
 	ServerSend("ChatRoomChat", { Content: "ActionActivateSafewordRelease", Type: "Action", Dictionary });
-
 	ChatRoomLeave();
 	CommonSetScreen("Online", "ChatSearch");
 }
 
 /**
  * Concatenates the list of users to ban.
- * @param {boolean} IncludesBlackList - Adds the blacklist to the banlist
- * @param {boolean} IncludesGhostList - Adds the ghostlist to the banlist
+ * @param {("BlackList" | "GhostList")[]} [IncludesTypes] - The types of lists to concatenate to the banlist
  * @param {readonly number[]} [ExistingList] - The existing Banlist, if applicable
  * @returns {number[]} Complete array of members to ban
  */
-function ChatRoomConcatenateBanList(IncludesBlackList, IncludesGhostList, ExistingList) {
+function ChatRoomConcatenateBanList(IncludesTypes, ExistingList) {
 	var BanList = Array.isArray(ExistingList) ? ExistingList : [];
-	if (IncludesBlackList) BanList = BanList.concat(Player.BlackList);
-	if (IncludesGhostList) BanList = BanList.concat(Player.GhostList);
+	IncludesTypes.forEach(Type => {
+		if (Type == "BlackList") BanList = BanList.concat(Player.BlackList);
+		else if (Type == "GhostList") BanList = BanList.concat(Player.GhostList);
+	});
 	return BanList.filter((MemberNumber, Idx, Arr) => Arr.indexOf(MemberNumber) == Idx);
 }
 
 /**
+ * Concatenates the list of users for the whitelist.
+ * @param {("Owner" | "Lovers" | "Friends" | "Whitelist")[]} [IncludesTypes] - The types of lists to concatenate to the whitelist
+ * @param {readonly number[]} [ExistingList] - The existing Whitelist, if applicable
+ * @returns {number[]} Complete array of whitelisted members
+ */
+function ChatRoomConcatenateWhitelist(IncludesTypes, ExistingList) {
+	var Whitelist = Array.isArray(ExistingList) ? ExistingList : [];
+	IncludesTypes.forEach(Type => {
+		if (Type == "Owner" && Player.OwnerNumber() !== -1) Whitelist = Whitelist.concat(Player.OwnerNumber());
+		else if (Type == "Lovers") Whitelist = Whitelist.concat(Player.GetLoversNumbers(true));
+		else if (Type == "Friends") Whitelist = Whitelist.concat(Player.FriendList);
+		else if (Type == "Whitelist") Whitelist = Whitelist.concat(Player.WhiteList);
+	});
+	return Whitelist.filter((MemberNumber, Idx, Arr) => Arr.indexOf(MemberNumber) == Idx);
+}
+
+/**
  * Concatenates the list of users for Admin list.
- * @param {boolean} IncludesOwner - Adds the owner to the admin list
- * @param {boolean} IncludesLovers - Adds lovers to the admin list
+ * @param {("Owner" | "Lovers")[]} [IncludesTypes] - The types of lists to concatenate to the adminlist
  * @param {readonly number[]} [ExistingList] - The existing Admin list, if applicable
  * @returns {number[]} Complete array of admin members
  */
-function ChatRoomConcatenateAdminList(IncludesOwner, IncludesLovers, ExistingList) {
+function ChatRoomConcatenateAdminList(IncludesTypes, ExistingList) {
 	var AdminList = Array.isArray(ExistingList) ? ExistingList : [];
-	if (IncludesOwner && Player.OwnerNumber() !== -1) AdminList = AdminList.concat(Player.OwnerNumber());
-	if (IncludesLovers) CommonArrayConcatDedupe(AdminList, Player.GetLoversNumbers(true));
+	IncludesTypes.forEach(Type => {
+		if (Type == "Owner" && Player.OwnerNumber() !== -1) AdminList = AdminList.concat(Player.OwnerNumber());
+		else if (Type == "Lovers") AdminList = AdminList.concat(Player.GetLoversNumbers(true));
+	});
 	return AdminList.filter((MemberNumber, Idx, Arr) => Arr.indexOf(MemberNumber) == Idx);
 }
 
@@ -5795,6 +5878,7 @@ function ChatRoomDataChanged() {
 		prev.Private !== curr.Private ||
 		prev.Description !== curr.Description ||
 		!CommonArraysEqual(prev.Admin, curr.Admin) ||
+		!CommonArraysEqual(prev.Whitelist, curr.Whitelist) ||
 		!CommonArraysEqual(prev.Ban, curr.Ban) ||
 		!CommonArraysEqual(prev.BlockCategory, curr.BlockCategory) ||
 		prev.Space !== curr.Space ||
@@ -5953,6 +6037,6 @@ function ChatRoomPronounSubstitutions(C, key, hideIdentity) {
  */
 function ChatRoomGetSettings(room) {
 	/** @type {(keyof ChatRoomSettings)[]} */
-	const keys = ["Name", "Description", "Admin", "Ban", "Background", "Limit", "Game", "Locked", "Private", "BlockCategory", "Language", "Space", "MapData", "Custom"];
+	const keys = ["Name", "Description", "Admin", "Whitelist", "Ban", "Background", "Limit", "Game", "Locked", "Private", "BlockCategory", "Language", "Space", "MapData", "Custom"];
 	return /** @type {ChatRoomSettings} */(Object.fromEntries(keys.map(k => [k, room[k]])));
 }

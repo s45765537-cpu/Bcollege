@@ -762,8 +762,8 @@ function AppearanceGroupAllowed(C, GroupName) {
 		["J", "Socks"],
 		["(", "SocksRight"],
 		[")", "SocksLeft"],
-		["K", "RightAnklet"],
-		["L", "LeftAnklet"],
+		["K", "AnkletRight"],
+		["L", "AnkletLeft"],
 		["M", "Garters"],
 		["N", "Shoes"],
 		["O", "Hat"],
@@ -771,8 +771,8 @@ function AppearanceGroupAllowed(C, GroupName) {
 		["Q", "HairAccessory1"],
 		["R", "HairAccessory2"],
 		["S", "Gloves"],
-		["!", "LeftHand"],
-		["$", "RightHand"],
+		["!", "HandAccessoryLeft"],
+		["$", "HandAccessoryRight"],
 		["T", "Bracelet"],
 		["U", "Glasses"],
 		["[", "Jewelry"],
@@ -1491,9 +1491,6 @@ function AppearanceClick() {
 							AppearancePreviewBuild(C, true);
 							AppearanceMenuBuild(C);
 						}
-					} else {
-						CharacterAppearanceHeaderTextTime = DialogTextDefaultTimer;
-						CharacterAppearanceHeaderText = DialogText;
 					}
 				}
 				return;
@@ -1958,6 +1955,7 @@ function CharacterAppearanceCopyToClipboard(C) {
 	if ((C == null) || (C.Appearance == null) || !C.IsPlayer()) return;
 
 	// Preoares an array with a full copy of the character appearance, excluding items
+	/** @type {ClipboardAppearanceBundle} */
 	let App = [];
 	for (let A of C.Appearance)
 		if ((A.Asset != null) && (A.Asset.Group != null) && (A.Asset.Group.Category == "Appearance") && A.Asset.Group.AllowCustomize) {
@@ -2009,6 +2007,7 @@ function CharacterAppearancePaste(C, CompApp, ChatRoomRefresh) {
 		return CharacterAppearanceChatRoomMessage("AppPasteError");
 
 	// Tries to get the appearance bundle object
+	/** @type {ClipboardAppearanceBundle} */
 	let App = null;
 	try {
 		App = JSON.parse(DecompressedData);
@@ -2031,6 +2030,15 @@ function CharacterAppearancePaste(C, CompApp, ChatRoomRefresh) {
 					if ((C.Appearance[A].Asset.Group.Category == "Appearance") && C.Appearance[A].Asset.Group.AllowCustomize)
 						if (C.Appearance[A].Asset.Group.AllowNone && AppearanceGroupAllowed(C, C.Appearance[A].Asset.Group.Name))
 							C.Appearance.splice(A, 1);
+
+			// Apply potential fixups when pasting
+			const fixup = LoginInventoryFixups.find(f => f.Old.Group === AppRow.G && (f.Old.Name === AppRow.A || f.Old.Name === "*"));
+			if (fixup) {
+				AppRow.G = fixup.New.Group;
+				if (fixup.New.Name) {
+					AppRow.A = fixup.New.Name;
+				}
+			}
 
 			// Wear the appearance asset and flags for a refresh
 			InventoryWear(C, AppRow.A, AppRow.G, AppRow.C, null, null, null, false);

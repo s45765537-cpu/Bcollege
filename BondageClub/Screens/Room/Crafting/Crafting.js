@@ -102,7 +102,7 @@ const CraftingPropertyMap = new Map([
 	["Nimble", function(Item) { return Item.IsRestraint || (Item.Difficulty > 0); }],
 	["Arousing", function(Item) { return CraftingItemHasEffect(Item, ["Egged", "Vibrating"]); }],
 	["Dull", function(Item) { return CraftingItemHasEffect(Item, ["Egged", "Vibrating"]); } ],
-	["Edging", function(Item) { return CraftingItemHasEffect(Item, ["Egged", "Vibrating"]); }],
+	["Edging", function(Item) { return CraftingItemHasEffect(Item, ["Egged", "Vibrating", "Chaste", "CanEdge", "BreastChaste"]); }],
 	["Heavy", function(Item) { return CraftingItemHasEffect(Item, ["Slow"]); }],
 	["Light", function(Item) { return CraftingItemHasEffect(Item, ["Slow"]); }],
 ]);
@@ -205,17 +205,17 @@ var CraftingDescription = {
 
 	/**
 	 * Regex for representing legal UTF16 characters.
-	 * Note the exclusion of control characters, `§` (`\xA7`) and `¶` (`\xB6`).
+	 * Note the exclusion of control characters (except Newline aka `\n`), `§` (`\xA7`) and `¶` (`\xB6`).
 	 * @readonly
 	 */
-	Pattern: /^[\x20-\xA6\xA8-\xB5\xB7-\uFFFF]+$/g,
+	Pattern: /^([\n\x20-\xA6\xA8-\xB5\xB7-\uFFFF]+)?$/g,
 
 	/**
 	 * Regex for representing legal extended ASCII characters.
-	 * Note the exclusion of control characters, `§` (`\xA7`) and `¶` (`\xB6`).
+	 * Note the exclusion of control characters (except Newline aka `\n`), `§` (`\xA7`) and `¶` (`\xB6`).
 	 * @readonly
 	 */
-	PatternASCII: /^[\x20-\xA6\xA8-\xB5\xB7-\xFF]+$/g,
+	PatternASCII: /^([\n\x20-\xA6\xA8-\xB5\xB7-\xFF]+)?$/g,
 
 	/**
 	 * Decode and return the passed string if it consists of UTF16-encoded UTF8 characters.
@@ -239,6 +239,19 @@ var CraftingDescription = {
 		} else {
 			return description.slice(0, 200);
 		}
+	},
+
+	/**
+	 * Decode the passed string and return it as a list of valid {@link Element.append} nodes, converting `\n` characters into `<br>` elements.
+	 * @param {string} description - The to-be decoded string
+	 * @returns {(string | HTMLElement)[]} - The decoded string as a list of nodes
+	 */
+	DecodeToHTML: function DecodeToHTML(description) {
+		const descriptionParsed = CraftingDescription.Decode(description);
+		return descriptionParsed.split("\n").flatMap(_line => {
+			const line = _line.trim();
+			return line ? [line, document.createElement("br")] : [];
+		}).slice(0, -1);
 	},
 
 	/**
@@ -562,7 +575,7 @@ var CraftingEventListeners = {
 			case CraftingStatusType.OK:
 				CraftingExitResetElements();
 				CraftingSelectedItem = CraftingConvertItemToSelected(craft);
-				document.querySelector(`#${CraftingID.assetGrid} [data-asset='${CraftingSelectedItem.Asset.Name}'][data-group='${CraftingSelectedItem.Asset.DynamicGroupName}']`)?.dispatchEvent(new Event("click"));
+				document.querySelector(`#${CraftingID.assetGrid} [name='${CraftingSelectedItem.Asset.Name}'][data-group='${CraftingSelectedItem.Asset.DynamicGroupName}']`)?.dispatchEvent(new Event("click"));
 				alert(TextGet("UploadSucces"));
 				return;
 			case CraftingStatusType.CRITICAL_ERROR:
@@ -605,7 +618,7 @@ var CraftingEventListeners = {
 	 * @type {(this: HTMLButtonElement, ev: Event) => void}
 	 */
 	_ClickProperty: function _ClickProperty() {
-		CraftingSelectedItem.Property = /** @type {CraftingPropertyType} */(this.dataset.property);
+		CraftingSelectedItem.Property = /** @type {CraftingPropertyType} */(this.name);
 	},
 
 	/**
@@ -613,7 +626,7 @@ var CraftingEventListeners = {
 	 * @type {(this: HTMLButtonElement, ev: Event) => void}
 	 */
 	_ClickPadlock: function _ClickPadlock() {
-		const newLock = this.getAttribute("aria-checked") === "true" ? AssetGet("Female3DCG", "ItemMisc", this.dataset.asset) : null;
+		const newLock = this.getAttribute("aria-checked") === "true" ? AssetGet("Female3DCG", "ItemMisc", this.name) : null;
 		const needsRefresh = (!newLock && CraftingSelectedItem.Lock) || (newLock && !CraftingSelectedItem);
 		CraftingSelectedItem.Lock = newLock;
 		if (needsRefresh) {
@@ -626,7 +639,7 @@ var CraftingEventListeners = {
 	 * @type {(this: HTMLButtonElement, ev: Event) => void}
 	 */
 	_ClickAsset: function _ClickAsset() {
-		const assets = CraftingAssets[this.dataset.asset];
+		const assets = CraftingAssets[this.name];
 		if (!assets) {
 			return;
 		}
@@ -670,8 +683,8 @@ var CraftingEventListeners = {
 		document.getElementById(CraftingID.acceptButton)?.setAttribute("aria-disabled", "false");
 
 		// Disable the buttons for all invalid properties
-		document.querySelectorAll(`#${CraftingID.propertyGrid} [data-property]`).forEach(e => {
-			const propertyType = /** @type {CraftingPropertyType} */(e.getAttribute("data-property"));
+		document.querySelectorAll(`#${CraftingID.propertyGrid} [name]`).forEach(e => {
+			const propertyType = /** @type {CraftingPropertyType} */(e.getAttribute("name"));
 			const callback = CraftingPropertyMap.get(propertyType);
 			e.setAttribute("aria-disabled", propertyType === "Normal" || (callback && CraftingSelectedItem.Assets.some(a => callback(a))) ? "false" : "true");
 		});
@@ -679,9 +692,9 @@ var CraftingEventListeners = {
 		// Set the item property, falling back to `Normal` of an invalid property is selected
 		const propertyCallback = CraftingPropertyMap.get(CraftingSelectedItem.Property);
 		if (propertyCallback && CraftingSelectedItem.Assets.some(a => propertyCallback(a))) {
-			document.querySelector(`#${CraftingID.propertyGrid} [data-property='${CraftingSelectedItem.Property}'][aria-checked='false']`)?.dispatchEvent(new Event("click"));
+			document.querySelector(`#${CraftingID.propertyGrid} [name='${CraftingSelectedItem.Property}'][aria-checked='false']`)?.dispatchEvent(new Event("click"));
 		} else {
-			document.querySelector(`#${CraftingID.propertyGrid} [data-property='Normal'][aria-checked='false']`)?.dispatchEvent(new Event("click"));
+			document.querySelector(`#${CraftingID.propertyGrid} [name='Normal'][aria-checked='false']`)?.dispatchEvent(new Event("click"));
 		}
 
 		// Disable the extended item config button for non-extended items
@@ -693,28 +706,27 @@ var CraftingEventListeners = {
 		]);
 		extendedButton.disabled = !CraftingSelectedItem.Asset.Extended;
 		tightenButton.disabled = !CraftingSelectedItem.Asset.AllowTighten;
-		colorButton.disabled = false;
-		colorsInput.disabled = false;
+		colorButton.disabled = colorsInput.disabled = !DialogCanColor(Player, { Asset: CraftingSelectedItem.Asset });
 		layeringButton.disabled = false;
 		priorityInput.disabled = false;
 
 		// Set the lock, removing any locks it the item does not support them
 		const allowLock = CraftingSelectedItem.Assets.some(a => a.AllowLock);
 		if (CraftingSelectedItem.Lock && allowLock) {
-			const lockButton = document.querySelector(`#${CraftingID.padlockGrid} [data-asset='${CraftingSelectedItem.Lock.Name}'][aria-checked='false']`);
+			const lockButton = document.querySelector(`#${CraftingID.padlockGrid} [name='${CraftingSelectedItem.Lock.Name}'][aria-checked='false']`);
 			lockButton?.setAttribute("aria-disabled", "false");
 			lockButton?.dispatchEvent(new Event("click"));
 		} else {
-			const lockButton = document.querySelector(`#${CraftingID.padlockGrid} [data-asset][aria-checked='true']`);
+			const lockButton = document.querySelector(`#${CraftingID.padlockGrid} [name][aria-checked='true']`);
 			lockButton?.setAttribute("aria-disabled", "false");
 			lockButton?.dispatchEvent(new Event("click"));
 		}
 
 		// Disable the lock buttons if none of the items supports any lock
 		if (allowLock) {
-			document.querySelectorAll(`#${CraftingID.padlockGrid} [data-asset]`).forEach(e => e.setAttribute("aria-disabled", "false"));
+			document.querySelectorAll(`#${CraftingID.padlockGrid} [name]`).forEach(e => e.setAttribute("aria-disabled", "false"));
 		} else {
-			document.querySelectorAll(`#${CraftingID.padlockGrid} [data-asset]`).forEach(e => e.setAttribute("aria-disabled", "true"));
+			document.querySelectorAll(`#${CraftingID.padlockGrid} [name]`).forEach(e => e.setAttribute("aria-disabled", "true"));
 		}
 
 		CraftingUpdatePreview();
@@ -831,22 +843,31 @@ var CraftingElements = {
 	 * @private
 	 * @param {string} id
 	 * @param {(this: HTMLButtonElement, ev: Event) => any} onClick
-	 * @param {null | Asset} assetImage
-	 * @param {null | Partial<Record<string, string | number | boolean>>} dataAttributes
+	 * @param {null | Asset} asset
+	 * @param {null | Partial<Record<string, string | number | boolean>>} attributes
 	 * @param {null | string} label
 	 * @param {null | readonly (string | Node)[]} children
 	 * @param {null | Asset} asset
 	 * @param {boolean} first
 	 * @returns {HTMLButtonElement}
 	 */
-	_RadioButton: function _RadioButton(id, onClick, assetImage=null, dataAttributes=null, label=null, children=null, asset=null, first=false) {
-		const icons = asset == null ? null : [...DialogGetAssetIcons(asset), ...DialogEffectIcons.GetIcons({ Asset: asset })];
-		const ret = ElementButton.Create(
-			id,
-			CraftingEventListeners._ClickRadio,
-			{ image: assetImage ? `./Assets/Female3DCG/${assetImage.DynamicGroupName}/Preview/${assetImage.Name}.png` : null, label, icons, role: "radio" },
-			{ button: { dataAttributes, children, attributes: { tabindex: first ? 0 : -1 }, parent: ElementNoParent }},
-		);
+	_RadioButton: function _RadioButton(id, onClick, asset, attributes=null, label=null, children=null, first=false) {
+		/** @type {HTMLButtonElement} */
+		let ret;
+		if (asset) {
+			ret = ElementButton.CreateForAsset(
+				id, asset, null, CraftingEventListeners._ClickRadio,
+				{ role: "radio", tooltip: [] },
+				{ button: { attributes: { tabindex: first ? 0 : -1 }, parent: ElementNoParent }},
+			);
+		} else {
+			ret = ElementButton.Create(
+				id,
+				CraftingEventListeners._ClickRadio,
+				{ label, role: "radio" },
+				{ button: { children, attributes: { tabindex: first ? 0 : -1, ...(attributes ?? {}) }, parent: ElementNoParent }},
+			);
+		}
 		ret.addEventListener("click", onClick);
 		return ret;
 	},
@@ -967,17 +988,16 @@ function CraftingLoad() {
 						},
 						{
 							tag: "div",
-							classList: ["crafting-grid"],
+							classList: ["crafting-grid", "scroll-box"],
 							attributes: { id: CraftingID.propertyGrid, role: "radiogroup", "aria-required": true },
 							children: Array.from(CraftingPropertyMap.keys()).map((property, i) => {
 								return CraftingElements._RadioButton(
 									`${CraftingID.propertyButton}-${property}`,
 									CraftingEventListeners._ClickProperty,
 									null,
-									{ property },
+									{ name: property },
 									TextGet(`Property${property}`),
 									[TextGet(`Property${property}`) + ": " + TextGet(`Description${property}`)],
-									null,
 									i === 0,
 								);
 							}),
@@ -1003,16 +1023,16 @@ function CraftingLoad() {
 						},
 						{
 							tag: "div",
-							classList: ["crafting-grid"],
+							classList: ["crafting-grid", "scroll-box"],
 							attributes: { id: CraftingID.assetGrid, role: "radiogroup", "aria-required": true },
 							children: CraftingItemListBuild().map((a, i) => {
 								return CraftingElements._RadioButton(
-									`${CraftingID.assetButton}-${a.DynamicGroupName}-${a.Name}`,
-									CraftingEventListeners._ClickAsset, a,
-									{ asset: a.Name, group: a.DynamicGroupName },
-									a.Description,
-									null,
+									CraftingID.assetButton,
+									CraftingEventListeners._ClickAsset,
 									a,
+									null,
+									null,
+									null,
 									i === 0,
 								);
 							}),
@@ -1039,14 +1059,14 @@ function CraftingLoad() {
 						},
 						{
 							tag: "div",
-							classList: ["crafting-grid"],
+							classList: ["crafting-grid", "scroll-box"],
 							attributes: { id: CraftingID.padlockGrid, role: "radiogroup" },
 							children: CraftingLockList.filter(name => !!name && InventoryAvailable(Player, name, "ItemMisc")).map((name, i) => {
 								const a = AssetGet("Female3DCG", "ItemMisc", name);
 								return CraftingElements._RadioButton(
-									`${CraftingID.padlockButton}-${a.Name}`, CraftingEventListeners._ClickPadlock, a, { asset: a.Name }, a.Description, null, null, i === 0,
+									`${CraftingID.padlockButton}-${a.Name}`, CraftingEventListeners._ClickPadlock, a, null, null, null, i === 0,
 								);
-							}).sort((a1, a2) => a1.dataset.asset.localeCompare(a2.dataset.asset)),
+							}).sort((a1, a2) => a1.name.localeCompare(a2.name)),
 						},
 					],
 				},
@@ -1068,6 +1088,7 @@ function CraftingLoad() {
 			tag: "div",
 			parent,
 			attributes: { id: CraftingID.rightPanel },
+			classList: ["scroll-box"],
 			children: [
 				{
 					tag: "label",
@@ -1121,7 +1142,7 @@ function CraftingLoad() {
 						{
 							tag: "input",
 							attributes: { id: CraftingID.layeringInput, type: "number", min: -99, max: 99, inputmode: "numeric", size: 0, disabled: true },
-							eventListeners: { blur: ElementNumberInputBlur, input: CraftingEventListeners._InputLayering },
+							eventListeners: { blur: ElementNumberInputBlur, wheel: ElementNumberInputWheel, input: CraftingEventListeners._InputLayering },
 						},
 						ElementButton.Create(CraftingID.layeringButton, CraftingEventListeners._ClickLayering, { disabled: true }),
 						{ tag: "span", children: [TextGet("EnterPriority")] },
@@ -1426,7 +1447,7 @@ function CraftingModeSet(NewMode) {
 
 		if (CraftingSelectedItem.Asset) {
 			// Select the asset
-			document.querySelector(`#${CraftingID.assetGrid} [data-asset='${CraftingSelectedItem.Asset.Name}'][data-group='${CraftingSelectedItem.Asset.DynamicGroupName}']`)?.dispatchEvent(new Event("click"));
+			document.querySelector(`#${CraftingID.assetGrid} [name='${CraftingSelectedItem.Asset.Name}'][data-group='${CraftingSelectedItem.Asset.DynamicGroupName}']`)?.dispatchEvent(new Event("click"));
 		} else {
 			// Open the side pannel and manually updating the crafting preview to clear it of old items
 			document.querySelector(`#${CraftingID.assetButton}[aria-checked='false']`)?.dispatchEvent(new Event("click"));
@@ -1863,18 +1884,18 @@ function CraftingExitResetElements() {
 	document.querySelector(`#${CraftingID.asciiDescriptionCheckbox}[checked='true']`)?.dispatchEvent(new Event("click"));
 
 	// Select the `Normal` property and disable all others
-	document.querySelector(`#${CraftingID.propertyGrid} [data-property='Normal'][aria-checked='false']`)?.dispatchEvent(new Event("click"));
-	document.querySelectorAll(`#${CraftingID.propertyGrid} [data-property]:not([data-property='Normal'])`).forEach(e => e.setAttribute("aria-disabled", "true"));
+	document.querySelector(`#${CraftingID.propertyGrid} [name='Normal'][aria-checked='false']`)?.dispatchEvent(new Event("click"));
+	document.querySelectorAll(`#${CraftingID.propertyGrid} [name]:not([name='Normal'])`).forEach(e => e.setAttribute("aria-disabled", "true"));
 
 	// Deselect the active lock and disable them all
-	document.querySelector(`#${CraftingID.padlockGrid} [data-asset][aria-checked='true']`)?.dispatchEvent(new Event("click"));
-	document.querySelectorAll(`#${CraftingID.padlockGrid} [data-asset]`).forEach(e => e.setAttribute("aria-disabled", "true"));
+	document.querySelector(`#${CraftingID.padlockGrid} [name][aria-checked='true']`)?.dispatchEvent(new Event("click"));
+	document.querySelectorAll(`#${CraftingID.padlockGrid} [name]`).forEach(e => e.setAttribute("aria-disabled", "true"));
 
 	// Deselect the asset and disable the accept button
 	const assetSelected = document.querySelector(`#${CraftingID.assetGrid} [aria-checked='true']`);
 	assetSelected?.setAttribute("aria-checked", "false");
 	assetSelected?.setAttribute("tabindex", "-1");
-	document.querySelector(`#${CraftingID.assetGrid} [data-asset]`)?.setAttribute("tabindex", "0");
+	document.querySelector(`#${CraftingID.assetGrid} [name]`)?.setAttribute("tabindex", "0");
 	document.getElementById(CraftingID.acceptButton)?.setAttribute("aria-disabled", "true");
 
 	// Open the asset-based side panel and reset the styling of its control button
@@ -2046,7 +2067,13 @@ const CraftingValidationRecord = {
 				return Asset.some((i) => i.Name === c.Item);
 			}
 		},
-		GetDefault: (c, a) => null,
+		GetDefault: (c, a, checkPlayerInventory=false) => {
+			if (checkPlayerInventory) {
+				return Asset.find((i) => i.Name === c.Item)?.Name ?? a?.Name ?? null;
+			} else {
+				return a?.Name ?? null;
+			}
+		},
 		StatusCode: CraftingStatusType.CRITICAL_ERROR,
 	},
 	Lock: {
@@ -2280,10 +2307,9 @@ function CraftingValidate(Craft, asset=null, Warn=true, checkPlayerInventory=fal
 
 	// If the Asset has been explicetly passed then `Craft.Item` errors are fully recoverable,
 	// though the player should actually own the item
-	if (asset != null && StatusMap.get("Item") === CraftingStatusType.CRITICAL_ERROR) {
+	if (Craft.Item && StatusMap.get("Item") === CraftingStatusType.CRITICAL_ERROR) {
 		StatusMap.set("Item", CraftingStatusType.ERROR);
-		Craft.Item = asset.Name;
-		if (checkPlayerInventory && !Player.Inventory.some((i) => i.Name === asset.Name)) {
+		if (checkPlayerInventory && !Player.Inventory.some((i) => i.Name === Craft.Item)) {
 			Craft.Disabled = true;
 		}
 	}

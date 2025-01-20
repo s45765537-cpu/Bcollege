@@ -116,6 +116,48 @@ type HTMLOptions<T extends keyof HTMLElementTagNameMap> = {
 	innerHTML?: string;
 };
 
+interface HTMLElementEventMap {
+	/** Custom event fired by {@link ElementButton.Create} buttons whenever a click-event encounters `aria-disabled: "true"`. */
+	bcClickDisabled: MouseEvent;
+}
+
+declare namespace ElementButton {
+	/** Various options that can be passed along to {@link ElementButton.Create} */
+	interface Options {
+		/** Optional tooltip content. If not supplied then one should manually prepend it to the tooltip later */
+		tooltip?: null | string | Node | HTMLOptions<any> | readonly (null | string | Node | HTMLOptions<any>)[]
+		/** The position of the tooltip w.r.t. the button */
+		tooltipPosition?: "left" | "right" | "top" | "bottom";
+		/**
+		 * The aria accessibility role of the the tooltip; defaults to `description` if a {@link ElementButton.Options.label} is present and `label` otherwise:
+		 * * `label` ([`aria-labelledby`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-labelledby)): A compact, 1-line summary of the button
+		 * * `description` ([`aria-describedby`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-describedby)): A longer, potentially multi-line, button description
+		 * * `none`: Nothing
+		 */
+		tooltipRole?: "label" | "description" | "none";
+		/** A button label */
+		label?: string;
+		/** The position of the button label */
+		labelPosition?: "top" | "center" | "bottom";
+		/** A background image for the button */
+		image?: string;
+		/**
+		 * Button icons to-be displayed in the top-left corner of the button.
+		 *
+		 * Alternatively, one can directly pass the icon's {@link HTMLImageElement.src} and its tooltip component.
+		 */
+		icons?: readonly (null | InventoryIcon | { iconSrc: string, tooltipText: string | Node, name: string })[];
+		/** The role of the button. All accepted values are currently special-cased in order to set role-specific event listeners and/or attributes. */
+		role?: "radio" | "checkbox" | "menuitemradio" | "menuitemcheckbox";
+		/** Whether to limit the default styling of the button's border and background */
+		noStyling?: boolean;
+		/** Whether the button should be disabled or not */
+		disabled?: boolean;
+		/** A click event listener to-be fired when a button is disabled via `aria-disabled: "true"`. */
+		clickDisabled?: (this: HTMLButtonElement, event: MouseEvent) => any;
+	}
+}
+
 type Rect = { x: number, y: number, w: number, h: number };
 
 /** A 4-tuple with X & Y coordinates, width and height */
@@ -155,6 +197,8 @@ interface CommonGenerateGridParameters {
 	 * @default "horizontal"
 	 */
 	direction?: "horizontal" | "vertical";
+	minMarginX?: number;
+	minMarginY?: number;
 }
 
 type CommonGenerateGridCallback<T> = (item: T, x: number, y: number, width: number, height: number) => boolean;
@@ -208,6 +252,30 @@ type DialogMenuButton = "Activity" |
 	// Wardrobe buttons
 	"Wardrobe" | "WardrobeDisabled" | "Reset" | "WearRandom" | "Random" | "Copy" | "Paste" | "Naked" | "Accept" | "Cancel" | "Character"
 	;
+
+declare namespace DialogMenu {
+	/** Customization options for {@link DialogMenu.Reload} */
+	interface ReloadOptions {
+		/** Whether to hard reset and reconstruct the button grid, rather than just re-evaluating the existing button's states via a soft reset. */
+		reset?: boolean;
+		/** The to-be assigned custom status message */
+		status?: string;
+		/** Display the {@link ReloadOptions.status} message on a timer; units are in ms */
+		statusTimer?: number;
+		/**
+		 * Reset the position of the scroll bar to the checked button, or, if unavailable, the top of the button grid.
+		 *
+		 * Defaults to `true` if {@link ReloadOptions.reset} is specified.
+		 */
+		resetScrollbar?: boolean;
+		/**
+		 * Whether to regenerate the subscreen's underlying item or activity list (see {@link DialogBuildActivities} and {@link DialogInventoryBuild}).
+		 *
+		 * Defaults to `true` if {@link ReloadOptions.reset} is specified.
+		 */
+		resetDialogItems?: boolean;
+	}
+}
 
 type DialogSortOrder = | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 
@@ -280,7 +348,7 @@ type EffectName =
 	"UnlockLoversPadlock" | "UnlockLoversTimerPadlock" |
 	"UnlockFamilyPadlock" | "UnlockMistressPadlock" | "UnlockMistressTimerPadlock" |
 	"UnlockPandoraPadlock" | "UnlockMetalCuffs" | "UnlockEscortAnkleCuffs" | "UnlockPortalPanties" |
-	"ProtrudingMouth" | "Wiggling"
+	"ProtrudingMouth" | "Wiggling" | "CanEdge"
 	;
 
 interface ExpressionNameMap {
@@ -326,12 +394,14 @@ type AssetGroupItemName =
 type AssetGroupScriptName = 'ItemScript';
 
 type AssetGroupBodyName =
-	ExpressionGroupName | 'BodyLower' | 'BodyUpper' | 'BodyMarkings' | 'Bra' | 'Bracelet' | 'Cloth' |
+	ExpressionGroupName | 'AnkletLeft' | 'AnkletRight' | 'ArmsLeft' | 'ArmsRight' |
+	'BodyLower' | 'BodyUpper' | 'BodyMarkings' | 'Bra' | 'Bracelet' | 'Cloth' |
 	'ClothAccessory' | 'ClothLower' | 'Corset' | 'EyeShadow' | 'FacialHair' | 'Garters' | 'Glasses' | 'Gloves' |
 	'HairAccessory1' | 'HairAccessory2' | 'HairAccessory3' | 'HairBack' |
-	'HairFront' | 'FacialHair' | 'Hands' | 'Hat' | 'Head' | 'Height' | 'Jewelry' | 'LeftAnklet' | 'LeftHand' | 'Mask' |
-	'Necklace' | 'Nipples' | 'Panties' | 'Pronouns' | 'RightAnklet' | 'RightHand' |
-	'Shoes' | 'Socks' | 'SocksLeft' | 'SocksRight' | 'Suit' | 'SuitLower' | 'TailStraps' | 'Wings'
+	'HairFront' | 'HandAccessoryLeft' | 'HandAccessoryRight' |  'FacialHair' | 'Hat' | 'Head' | 'Height' | 'Jewelry' | 'Mask' |
+	'Necklace' | 'Nipples' | 'Panties' | 'Pronouns' |
+	'Shoes' | 'Socks' | 'SocksLeft' | 'SocksRight' | 'Suit' | 'SuitLower' | 'TailStraps' | 'Wings' |
+	'HandsLeft' | 'HandsRight' | 'FaceMarkings'
 	;
 
 type AssetGroupName = AssetGroupBodyName | AssetGroupItemName | AssetGroupScriptName;
@@ -474,7 +544,7 @@ type FetishName =
 
 type BackgroundTag =
 	"Filter by tag" | "Indoor" | "Outdoor" | "Aquatic" | "Special Events" | "SciFi & Fantasy" |
-	"Club & College" | "Regular house" | "Dungeon" | "Asylum"
+	"Club & College" | "Regular house" | "Dungeon" | "Asylum" | "Pandora"
 	;
 
 // NOTE: `NPCArchetype` is for NPC's only
@@ -513,6 +583,9 @@ type ChatRoomOwnershipOption = "" | "CanOfferEndTrial" | "CanOfferTrial" | "CanE
 
 type ChatRoom = ServerChatRoomData;
 type ChatRoomSettings = ServerChatRoomSettings;
+
+/** ChatRoom results once received by the client */
+type ChatRoomSearchResult = (ServerChatRoomSearchData & { DisplayName: string, Order: number });
 
 type StimulationAction = "Kneel" | "Walk" | "Struggle" | "StruggleFail" | "Talk";
 
@@ -1037,6 +1110,17 @@ type WardrobeItemBundle = [
 /** An AppearanceBundle is whole minified appearance of a character */
 type AppearanceBundle = ItemBundle[];
 
+interface ClipboardItemBundle {
+	/** The item's asset group name */
+	G: AssetGroupName;
+	/** The item's asset name */
+	A: string;
+	/** The item's color */
+	C?: string;
+}
+
+type ClipboardAppearanceBundle = ClipboardItemBundle[];
+
 interface Pose {
 	Name: AssetPoseName;
 	Category: AssetPoseCategory;
@@ -1094,6 +1178,8 @@ type ItemActivityRestriction = "blocked" | "limited" | "unavail";
 interface ItemActivity {
 	/** The activity performed */
 	Activity: Activity;
+	/** The target group of the activity */
+	Group: AssetGroupName;
 	/** An optional item used for the activity. Null if the player is used their hand, for example. */
 	Item?: Item;
 	/** Whether the item is blocked or limited on the target character, or unavailable because the player is blocked. Undefined means no restriction. */
@@ -1128,9 +1214,11 @@ type InventoryIcon = (
 	| ShopIcon
 );
 
-interface InventoryItem {
+interface InventoryBundle {
 	Group: AssetGroupName;
-	Name: string;
+	Name: string
+}
+interface InventoryItem extends InventoryBundle {
 	Asset: Asset;
 }
 
@@ -1576,6 +1664,7 @@ interface CharacterGameParameters {
 	GGTS?: GameGGTSParameters,
 	Poker?: GamePokerParameters,
 	ClubCard?: GameClubCardParameters,
+	Prison? : GamePrisonParameters;
 }
 
 /**
@@ -3050,6 +3139,12 @@ interface AppearanceUpdateParameters {
 }
 
 /**
+ * A map containing appearance item diffs, keyed according to the item group. Used to compare and validate before/after
+ * for appearance items.
+ */
+type AppearanceDiffMap = Partial<Record<AssetGroupName, [before: Item, after: Item]>>
+
+/**
  * A wrapper object containing the results of a diff resolution. This includes the final item that the diff resolved to
  * (or null if the diff resulted in no item, for example in the case of item removal), along with a valid flag which
  * indicates whether or not the diff was fully valid or not.
@@ -3327,6 +3422,11 @@ interface GameClubCardParameters {
 	Reward?: string;
 	Status?: OnlineGameStatus;
 	PlayerSlot?: number;
+}
+
+interface GamePrisonParameters {
+	Timer?: number;
+	Role?: string;
 }
 
 //#endregion

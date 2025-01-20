@@ -1,4 +1,12 @@
 "use strict";
+
+/**
+ * @file This file handles the chat lobby space pre-selection screen
+ */
+
+/**
+ * Background image
+ */
 var ChatSelectBackground = "BrickWall";
 /** @type {boolean} */
 var ChatSelectAllowedInFemaleOnly;

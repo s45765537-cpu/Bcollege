@@ -281,7 +281,7 @@ var AssetFemale3DCGExtended = {
 			],
 		}, // PirateHat
 	},
-	LeftHand: {
+	HandAccessoryLeft: {
 		Rings: {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
@@ -313,7 +313,7 @@ var AssetFemale3DCGExtended = {
 			],
 		},
 	},
-	RightHand: {
+	HandAccessoryRight: {
 		Rings: {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
@@ -443,6 +443,11 @@ var AssetFemale3DCGExtended = {
 						{}, // t12 - RadFrog
 						{}, // t13 - ZamStickII
 						{}, // t14 - Hornywood
+						{}, // t15 - BondageClubRules
+						{}, // t16 - BornToBeTied
+						{}, // t17 - Hogtied
+						{}, // t18 - BCollege2
+						{}, // t19 - ControlPad1
 					],
 				},
 			],
@@ -954,6 +959,23 @@ var AssetFemale3DCGExtended = {
 					},
 				},
 				{
+					Name: "Style",
+					Key: "s",
+					Options: [
+						{}, // Print (Ananda Black) 0
+						{}, // Cursive (Satisfy) 1
+						{}, // Boilerplate (Saira Stencil One) 2
+					],
+					DrawData: {
+						elementData: [
+							{ position: ExtendedXYWithoutImages[3][0] },
+							{ position: ExtendedXYWithoutImages[3][1] },
+							{ position: ExtendedXYWithoutImages[3][2] },
+						],
+						itemsPerPage: 3,
+					},
+				},
+				{
 					Name: "Text",
 					Key: "t",
 					Options: [
@@ -1091,6 +1113,88 @@ var AssetFemale3DCGExtended = {
 			],
 		},
 	},
+	FaceMarkings: {
+		FaceWritings: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Position",
+					Key: "p",
+					Options: [
+						{}, // Right Cheek 0
+						{}, // Forehead 1
+						{}, // Left Cheek 2
+					],
+					DrawData: {
+						elementData: [
+							{ position: ExtendedXYWithoutImages[3][0] },
+							{ position: ExtendedXYWithoutImages[3][1] },
+							{ position: ExtendedXYWithoutImages[3][2] },
+						],
+						itemsPerPage: 3,
+					},
+				},
+				{
+					Name: "Style",
+					Key: "s",
+					Options: [
+						{}, // Print (Ananda Black) 0
+						{}, // Cursive (Satisfy) 1
+						{}, // Boilerplate (Saira Stencil One) 2
+					],
+					DrawData: {
+						elementData: [
+							{ position: ExtendedXYWithoutImages[3][0] },
+							{ position: ExtendedXYWithoutImages[3][1] },
+							{ position: ExtendedXYWithoutImages[3][2] },
+						],
+						itemsPerPage: 3,
+					},
+				},
+				{
+					Name: "Text",
+					Key: "t",
+					Options: [
+						{}, // 0-N
+						{
+							HasSubscreen: true,
+							ArchetypeConfig: {
+								Archetype: ExtendedArchetype.TEXT,
+								MaxLength: { Text: 6, Text2: 5, Text3: 3 },
+								ScriptHooks: {
+									AfterDraw: AssetsFaceMarkingsFaceWritingsAfterDrawHook,
+								},
+							},
+						}, // 1-Y
+					],
+				},
+			],
+			BaselineProperty: { Text: "", Text2: "", Text3: "" },
+		}, // FaceWritings
+		FaceScars: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: false,
+			CopyConfig: { GroupName: "BodyMarkings", AssetName: "FaceScars" },
+		}, // FaceScars
+		AnimalNoses: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "ButtonNose",
+				},
+				{
+					Name: "ElegantFelineNose",
+				},
+				{
+					Name: "LargeCanineNose",
+				},
+			],
+		}, // Animal Noses
+	},
 	HairFront: {
 		HairFront60: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -1168,6 +1272,158 @@ var AssetFemale3DCGExtended = {
 			DrawImages: false,
 			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, { Name: "RightOnly" }],
 		}, // HairBack61
+		HairBack65: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, { Name: "RightOnly" }],
+		},
+		HairBack65b: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, { Name: "RightOnly" }],
+		},
+		HairBack66: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, { Name: "RightOnly" }],
+		},
+		HairBack67: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, { Name: "RightOnly" }],
+		},
+		HairBack68: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, { Name: "RightOnly" }],
+		},
+		HairBack69: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, { Name: "RightOnly" }],
+		},
+		HairBack69b: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, { Name: "RightOnly" }],
+		},
+		HairBack73: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Long" }, { Name: "Medium" }, { Name: "Short" }],
+		},
+		HairBack74: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "A" }, { Name: "B" }, {Name: "C"}],
+		},
+		HairBack75: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Left",
+					Key: "L",
+					Options: [{}, {}, {}], // Bun + Strand, Bun, None
+				},
+				{
+					Name: "Right",
+					Key: "R",
+					Options: [{}, {}, {}], // Bun + Strand, Bun, None
+				},
+			],
+		},
+		HairBack76: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Left",
+					Key: "L",
+					Options: [{}, {}, {}, {}, {}], // Bun + Strand, Bun + Braid, Bun + Strand, Bun, None
+				},
+				{
+					Name: "Right",
+					Key: "R",
+					Options: [{}, {}, {}, {}, {}], // Bun + Strand, Bun + Braid, Bun + Strand, Bun, None
+				},
+			],
+		},
+		HairBack76b: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, { Name: "RightOnly" }],
+		},
+		HairBack77: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Left",
+					Key: "L",
+					Options: [{}, {}, {}, {}, {}], // Bun + Strand, Bun + Braid, Bun + Strand, Bun, None
+				},
+				{
+					Name: "Right",
+					Key: "R",
+					Options: [{}, {}, {}, {}, {}], // Bun + Strand, Bun + Braid, Bun + Strand, Bun, None
+				},
+			],
+		},
+		HairBack77b: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Left",
+					Key: "L",
+					Options: [{}, {}, {}], // Bun + Braid, Bun, None
+				},
+				{
+					Name: "Right",
+					Key: "R",
+					Options: [{}, {}, {}], // Bun + Braid, Bun, None
+				},
+			],
+		},
+		HairBack78: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Left",
+					Key: "L",
+					Options: [{}, {}, {}, {}, {}], // Bun + Strand, Bun + Braid, Bun + Strand, Bun, None
+				},
+				{
+					Name: "Right",
+					Key: "R",
+					Options: [{}, {}, {}, {}, {}], // Bun + Strand, Bun + Braid, Bun + Strand, Bun, None
+				},
+			],
+		},
+		HairBack78b: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Left",
+					Key: "L",
+					Options: [{}, {}, {}], // Bun + Braid, Bun, None
+				},
+				{
+					Name: "Right",
+					Key: "R",
+					Options: [{}, {}, {}], // Bun + Braid, Bun, None
+				},
+			],
+		},
 	},
 	ClothAccessory: {
 		LeatherStraps: {
@@ -1354,6 +1610,36 @@ var AssetFemale3DCGExtended = {
 			DrawImages: false,
 			CopyConfig: { GroupName: "BodyMarkings", AssetName: "BodyWritings" },
 		}, //BodyWritings
+		FaceWritings: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: false,
+			CopyConfig: { GroupName: "FaceMarkings", AssetName: "FaceWritings" },
+		}, //FaceWritings
+		SatinScarf: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "Necklace", AssetName: "SatinScarf" },
+		}, // SatinScarf
+		ComboBelt: {
+			Archetype: ExtendedArchetype.MODULAR,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Chain",
+					Key: "c",
+					Options: [
+						{
+							// c0 - Added
+							Property: { Effect: [] },
+						},
+						{
+							// c1 - None
+							Property: { Effect: [] },
+						},
+					],
+				},
+			],
+		}, // ComboBelt
 	}, // ClothAccessory
 	ClothLower: {
 		PantBoots: {
@@ -1394,6 +1680,26 @@ var AssetFemale3DCGExtended = {
 			Options: [{ Name: "Long" }, { Name: "Mid" }],
 		}, //SatinSkirt
 	}, // ClothLower
+	Socks: {
+		RippedPantyhose: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "RippedA",
+				},
+				{
+					Name: "RippedB",
+				},
+				{
+					Name: "RippedC",
+				},
+				{
+					Name: "Normal",
+				},
+			],
+		},
+	},
 	SocksLeft: {
 		LooseSocks: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -4031,6 +4337,127 @@ var AssetFemale3DCGExtended = {
 			],
 			DrawImages: false,
 		}, // BedMetalCuffs
+		InflatableDress: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChangeWhenLocked: false,
+			Modules: [
+				{
+					Name: "Hood",
+					Key: "h",
+					Options: [
+						{
+							// h0 - None
+							Property: {},
+						},
+						{
+							// h1 - Hood
+							Property: {
+								Difficulty: 4,
+								Effect: [
+									E.GagEasy,
+									E.BlockMouth,
+									E.BlindHeavy,
+									E.DeafLight,
+								],
+								Block: [
+									"ItemMouth",
+									"ItemMouth2",
+									"ItemMouth3",
+									"ItemNose",
+									"ItemEars",
+									"ItemHead",
+								],
+								Hide: [
+									"Hat",
+									"HairAccessory1",
+									"Jewelry",
+									"Glasses",
+									"Mask",
+									"HairFront",
+									"HairBack",
+									"ItemMouth",
+									"ItemMouth2",
+									"ItemMouth3",
+									"ItemHead",
+								],
+								HideItem: [
+									"ItemHoodAccentHood",
+									"ItemHoodBalloon",
+									"ItemHoodBigMouthHood",
+									"ItemHoodBlanketHood",
+									"ItemHoodCollarHood",
+									"ItemHoodCorsetHood",
+									"ItemHoodCustomLatexHood",
+									"ItemHoodDogHood",
+									"ItemHoodFestivalFoxMask",
+									"ItemHoodFoxHood",
+									"ItemHoodFoxyMask",
+									"ItemHoodFuturisticHelmet",
+									"ItemHoodGasMask",
+									"ItemHoodGGTSHelmet",
+									"ItemHoodGP9GasMask",
+									"ItemHoodGwenHood",
+									"ItemHoodHarnessCatMask",
+									"ItemHoodInflatableGagMask",
+									"ItemHoodKigu2Hood",
+									"ItemHoodKirugumiMask",
+									"ItemHoodKittyHood",
+									"ItemHoodLatexHabit",
+									"ItemHoodLatexBunny",
+									"ItemHoodLatexDogHood",
+									"ItemHoodLatexDogMask",
+									"ItemHoodLeatherHood",
+									"ItemHoodLeatherHoodOpenEyes",
+									"ItemHoodLeatherHoodOpenMouth",
+									"ItemHoodLeatherHoodSealed",
+									"ItemHoodLeatherHoodSensDep",
+									"ItemHoodOldGasMask",
+									"ItemHoodOpenFaceHood",
+									"ItemHoodOpenMouthPlugHood",
+									"ItemHoodPantyHood",
+									"ItemHoodPantyhose",
+									"ItemHoodPonyHood",
+									"ItemHoodRubberMask",
+									"ItemHoodSensoryDeprivationHood",
+									"ItemHoodSpaceMask",
+									"ItemHoodTechnoHelmet1",
+									"ItemHoodVacHood",
+									"ItemHoodZipperHood",
+								],
+							},
+						},
+					],
+				},
+				{
+					Name: "Bed",
+					Key: "b",
+					Options: [
+						{
+							// b0 - None
+							Property: {},
+						},
+						{
+							// b1 - Restraints
+							Prerequisite: [
+								"OnBed",
+								"NotSuspended",
+								"NotLifted",
+								"NoKneel",
+							],
+							SetPose: [
+								"LegsClosed",
+								"BackElbowTouch",
+							],
+							Property: {
+								Difficulty: 10,
+								Effect: [E.Freeze],
+								Block: ["ItemDevices"],
+							},
+						},
+					],
+				},
+			],
+		}, // InflatableDress
 	}, // ItemArms
 	ItemNeck: {
 		ShinySteelCollar: {
@@ -4806,37 +5233,52 @@ var AssetFemale3DCGExtended = {
 			ChangeWhenLocked: false,
 		}, // KirugumiMask
 		GwenHood: {
-			Archetype: ExtendedArchetype.TYPED,
-			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
-			Options: [
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.TARGET_CHAR,
+			],
+			Modules: [
 				{
-					Name: "HairOutAccOut",
-					Property: {
-						Hide: [],
-					},
+					Name: "Finish",
+					Key: "f",
+					Options: [
+						{}, //Original
+						{}, //Smooth
+					],
 				},
 				{
-					Name: "HairInAccOut",
-					Property: {
-						Hide: ["HairBack"],
-					},
-				},
-				{
-					Name: "HairOutAccIn",
-					Property: {
-						Hide: ["HairAccessory1", "HairAccessory2", "HairAccessory3"],
-					},
-				},
-				{
-					Name: "HairInAccIn",
-					Property: {
-						Hide: [
-							"HairAccessory1",
-							"HairAccessory2",
-							"HairAccessory3",
-							"HairBack",
-						],
-					},
+					Name: "Hair",
+					Key: "h",
+					Options: [
+						{
+							Property: {
+								Hide: [],
+							},
+						}, //HairOutAccOut
+						{
+							Property: {
+								Hide: ["HairBack"],
+							},
+						}, //HairInAccOut
+						{
+							Property: {
+								Hide: ["HairAccessory1", "HairAccessory2", "HairAccessory3"],
+							},
+						}, //HairOutAccIn
+						{
+							Property: {
+								Hide: [
+									"HairAccessory1",
+									"HairAccessory2",
+									"HairAccessory3",
+									"HairBack",
+								],
+							},
+						}, //HairInAccIn
+					],
 				},
 			],
 			DialogPrefix: {
@@ -5319,6 +5761,12 @@ var AssetFemale3DCGExtended = {
 									PanelHead: 38,
 									PanelHeadTransparent: 38,
 									PanelHeadHighlight: 38,
+									PanelHeadS: 38,
+									PanelHeadTransparentS: 38,
+									PanelHeadHighlightS: 38,
+									PanelHeadN: 38,
+									PanelHeadTransparentN: 38,
+									PanelHeadHighlightN: 38,
 									PanelNoEye: 38,
 									PanelNoEyeTransparent: 38,
 									PanelHoleNoEye: 38,
@@ -5395,6 +5843,12 @@ var AssetFemale3DCGExtended = {
 									PanelHead: 38,
 									PanelHeadTransparent: 38,
 									PanelHeadHighlight: 38,
+									PanelHeadS: 38,
+									PanelHeadTransparentS: 38,
+									PanelHeadHighlightS: 38,
+									PanelHeadN: 38,
+									PanelHeadTransparentN: 38,
+									PanelHeadHighlightN: 38,
 									PanelNoEye: 38,
 									PanelNoEyeTransparent: 38,
 									PanelHoleNoEye: 38,
@@ -5479,6 +5933,12 @@ var AssetFemale3DCGExtended = {
 									PanelHead: 38,
 									PanelHeadTransparent: 38,
 									PanelHeadHighlight: 38,
+									PanelHeadS: 38,
+									PanelHeadTransparentS: 38,
+									PanelHeadHighlightS: 38,
+									PanelHeadN: 38,
+									PanelHeadTransparentN: 38,
+									PanelHeadHighlightN: 38,
 									PanelNoEye: 38,
 									PanelNoEyeTransparent: 38,
 									PanelHoleNoEye: 38,
@@ -5555,6 +6015,12 @@ var AssetFemale3DCGExtended = {
 									PanelHead: 38,
 									PanelHeadTransparent: 38,
 									PanelHeadHighlight: 38,
+									PanelHeadS: 38,
+									PanelHeadTransparentS: 38,
+									PanelHeadHighlightS: 38,
+									PanelHeadN: 38,
+									PanelHeadTransparentN: 38,
+									PanelHeadHighlightN: 38,
 									PanelNoEye: 38,
 									PanelNoEyeTransparent: 38,
 									PanelHoleNoEye: 38,
@@ -5639,6 +6105,12 @@ var AssetFemale3DCGExtended = {
 									PanelHead: 38,
 									PanelHeadTransparent: 38,
 									PanelHeadHighlight: 38,
+									PanelHeadS: 38,
+									PanelHeadTransparentS: 38,
+									PanelHeadHighlightS: 38,
+									PanelHeadN: 38,
+									PanelHeadTransparentN: 38,
+									PanelHeadHighlightN: 38,
 									PanelNoEye: 38,
 									PanelNoEyeTransparent: 38,
 									PanelHoleNoEye: 38,
@@ -5715,6 +6187,12 @@ var AssetFemale3DCGExtended = {
 									PanelHead: 38,
 									PanelHeadTransparent: 38,
 									PanelHeadHighlight: 38,
+									PanelHeadS: 38,
+									PanelHeadTransparentS: 38,
+									PanelHeadHighlightS: 38,
+									PanelHeadN: 38,
+									PanelHeadTransparentN: 38,
+									PanelHeadHighlightN: 38,
 									PanelNoEye: 38,
 									PanelNoEyeTransparent: 38,
 									PanelHoleNoEye: 38,
@@ -5791,6 +6269,12 @@ var AssetFemale3DCGExtended = {
 									PanelHead: 38,
 									PanelHeadTransparent: 38,
 									PanelHeadHighlight: 38,
+									PanelHeadS: 38,
+									PanelHeadTransparentS: 38,
+									PanelHeadHighlightS: 38,
+									PanelHeadN: 38,
+									PanelHeadTransparentN: 38,
+									PanelHeadHighlightN: 38,
 									PanelNoEye: 38,
 									PanelNoEyeTransparent: 38,
 									PanelHoleNoEye: 38,
@@ -5867,6 +6351,12 @@ var AssetFemale3DCGExtended = {
 									PanelHead: 38,
 									PanelHeadTransparent: 38,
 									PanelHeadHighlight: 38,
+									PanelHeadS: 38,
+									PanelHeadTransparentS: 38,
+									PanelHeadHighlightS: 38,
+									PanelHeadN: 38,
+									PanelHeadTransparentN: 38,
+									PanelHeadHighlightN: 38,
 									PanelNoEye: 38,
 									PanelNoEyeTransparent: 38,
 									PanelHoleNoEye: 38,
@@ -5943,6 +6433,12 @@ var AssetFemale3DCGExtended = {
 									PanelHead: 38,
 									PanelHeadTransparent: 38,
 									PanelHeadHighlight: 38,
+									PanelHeadS: 38,
+									PanelHeadTransparentS: 38,
+									PanelHeadHighlightS: 38,
+									PanelHeadN: 38,
+									PanelHeadTransparentN: 38,
+									PanelHeadHighlightN: 38,
 									PanelNoEye: 38,
 									PanelNoEyeTransparent: 38,
 									PanelHoleNoEye: 38,
@@ -6019,6 +6515,12 @@ var AssetFemale3DCGExtended = {
 									PanelHead: 38,
 									PanelHeadTransparent: 38,
 									PanelHeadHighlight: 38,
+									PanelHeadS: 38,
+									PanelHeadTransparentS: 38,
+									PanelHeadHighlightS: 38,
+									PanelHeadN: 38,
+									PanelHeadTransparentN: 38,
+									PanelHeadHighlightN: 38,
 									PanelNoEye: 38,
 									PanelNoEyeTransparent: 38,
 									PanelHoleNoEye: 38,
@@ -6095,6 +6597,12 @@ var AssetFemale3DCGExtended = {
 									PanelHead: 38,
 									PanelHeadTransparent: 38,
 									PanelHeadHighlight: 38,
+									PanelHeadS: 38,
+									PanelHeadTransparentS: 38,
+									PanelHeadHighlightS: 38,
+									PanelHeadN: 38,
+									PanelHeadTransparentN: 38,
+									PanelHeadHighlightN: 38,
 									PanelNoEye: 38,
 									PanelNoEyeTransparent: 38,
 									PanelHoleNoEye: 38,
@@ -6171,6 +6679,12 @@ var AssetFemale3DCGExtended = {
 									PanelHead: 38,
 									PanelHeadTransparent: 38,
 									PanelHeadHighlight: 38,
+									PanelHeadS: 38,
+									PanelHeadTransparentS: 38,
+									PanelHeadHighlightS: 38,
+									PanelHeadN: 38,
+									PanelHeadTransparentN: 38,
+									PanelHeadHighlightN: 38,
 									PanelNoEye: 38,
 									PanelNoEyeTransparent: 38,
 									PanelHoleNoEye: 38,
@@ -6247,6 +6761,12 @@ var AssetFemale3DCGExtended = {
 									PanelHead: 38,
 									PanelHeadTransparent: 38,
 									PanelHeadHighlight: 38,
+									PanelHeadS: 38,
+									PanelHeadTransparentS: 38,
+									PanelHeadHighlightS: 38,
+									PanelHeadN: 38,
+									PanelHeadTransparentN: 38,
+									PanelHeadHighlightN: 38,
 									PanelNoEye: 38,
 									PanelNoEyeTransparent: 38,
 									PanelHoleNoEye: 38,
@@ -6323,6 +6843,12 @@ var AssetFemale3DCGExtended = {
 									PanelHead: 38,
 									PanelHeadTransparent: 38,
 									PanelHeadHighlight: 38,
+									PanelHeadS: 38,
+									PanelHeadTransparentS: 38,
+									PanelHeadHighlightS: 38,
+									PanelHeadN: 38,
+									PanelHeadTransparentN: 38,
+									PanelHeadHighlightN: 38,
 									PanelNoEye: 38,
 									PanelNoEyeTransparent: 38,
 									PanelHoleNoEye: 38,
@@ -6399,6 +6925,12 @@ var AssetFemale3DCGExtended = {
 									PanelHead: 38,
 									PanelHeadTransparent: 38,
 									PanelHeadHighlight: 38,
+									PanelHeadS: 38,
+									PanelHeadTransparentS: 38,
+									PanelHeadHighlightS: 38,
+									PanelHeadN: 38,
+									PanelHeadTransparentN: 38,
+									PanelHeadHighlightN: 38,
 									PanelNoEye: 38,
 									PanelNoEyeTransparent: 38,
 									PanelHoleNoEye: 38,
@@ -6475,6 +7007,12 @@ var AssetFemale3DCGExtended = {
 									PanelHead: 38,
 									PanelHeadTransparent: 38,
 									PanelHeadHighlight: 38,
+									PanelHeadS: 38,
+									PanelHeadTransparentS: 38,
+									PanelHeadHighlightS: 38,
+									PanelHeadN: 38,
+									PanelHeadTransparentN: 38,
+									PanelHeadHighlightN: 38,
 									PanelNoEye: 38,
 									PanelNoEyeTransparent: 38,
 									PanelHoleNoEye: 38,
@@ -6551,6 +7089,12 @@ var AssetFemale3DCGExtended = {
 									PanelHead: 38,
 									PanelHeadTransparent: 38,
 									PanelHeadHighlight: 38,
+									PanelHeadS: 38,
+									PanelHeadTransparentS: 38,
+									PanelHeadHighlightS: 38,
+									PanelHeadN: 38,
+									PanelHeadTransparentN: 38,
+									PanelHeadHighlightN: 38,
 									PanelNoEye: 38,
 									PanelNoEyeTransparent: 38,
 									PanelHoleNoEye: 38,
@@ -6627,6 +7171,12 @@ var AssetFemale3DCGExtended = {
 									PanelHead: 38,
 									PanelHeadTransparent: 38,
 									PanelHeadHighlight: 38,
+									PanelHeadS: 38,
+									PanelHeadTransparentS: 38,
+									PanelHeadHighlightS: 38,
+									PanelHeadN: 38,
+									PanelHeadTransparentN: 38,
+									PanelHeadHighlightN: 38,
 									PanelNoEye: 38,
 									PanelNoEyeTransparent: 38,
 									PanelHoleNoEye: 38,
@@ -6703,6 +7253,12 @@ var AssetFemale3DCGExtended = {
 									PanelHead: 38,
 									PanelHeadTransparent: 38,
 									PanelHeadHighlight: 38,
+									PanelHeadS: 38,
+									PanelHeadTransparentS: 38,
+									PanelHeadHighlightS: 38,
+									PanelHeadN: 38,
+									PanelHeadTransparentN: 38,
+									PanelHeadHighlightN: 38,
 									PanelNoEye: 38,
 									PanelNoEyeTransparent: 38,
 									PanelHoleNoEye: 38,
@@ -6779,6 +7335,12 @@ var AssetFemale3DCGExtended = {
 									PanelHead: 38,
 									PanelHeadTransparent: 38,
 									PanelHeadHighlight: 38,
+									PanelHeadS: 38,
+									PanelHeadTransparentS: 38,
+									PanelHeadHighlightS: 38,
+									PanelHeadN: 38,
+									PanelHeadTransparentN: 38,
+									PanelHeadHighlightN: 38,
 									PanelNoEye: 38,
 									PanelNoEyeTransparent: 38,
 									PanelHoleNoEye: 38,
@@ -6859,6 +7421,12 @@ var AssetFemale3DCGExtended = {
 									PanelHead: 38,
 									PanelHeadTransparent: 38,
 									PanelHeadHighlight: 38,
+									PanelHeadS: 38,
+									PanelHeadTransparentS: 38,
+									PanelHeadHighlightS: 38,
+									PanelHeadN: 38,
+									PanelHeadTransparentN: 38,
+									PanelHeadHighlightN: 38,
 									PanelNoEye: 38,
 									PanelNoEyeTransparent: 38,
 									PanelHoleNoEye: 38,
@@ -6943,6 +7511,12 @@ var AssetFemale3DCGExtended = {
 									PanelHead: 38,
 									PanelHeadTransparent: 38,
 									PanelHeadHighlight: 38,
+									PanelHeadS: 38,
+									PanelHeadTransparentS: 38,
+									PanelHeadHighlightS: 38,
+									PanelHeadN: 38,
+									PanelHeadTransparentN: 38,
+									PanelHeadHighlightN: 38,
 									PanelNoEye: 38,
 									PanelNoEyeTransparent: 38,
 									PanelHoleNoEye: 38,
@@ -7019,6 +7593,12 @@ var AssetFemale3DCGExtended = {
 									PanelHead: 38,
 									PanelHeadTransparent: 38,
 									PanelHeadHighlight: 38,
+									PanelHeadS: 38,
+									PanelHeadTransparentS: 38,
+									PanelHeadHighlightS: 38,
+									PanelHeadN: 38,
+									PanelHeadTransparentN: 38,
+									PanelHeadHighlightN: 38,
 									PanelNoEye: 38,
 									PanelNoEyeTransparent: 38,
 									PanelHoleNoEye: 38,
@@ -7095,6 +7675,12 @@ var AssetFemale3DCGExtended = {
 									PanelHead: 38,
 									PanelHeadTransparent: 38,
 									PanelHeadHighlight: 38,
+									PanelHeadS: 38,
+									PanelHeadTransparentS: 38,
+									PanelHeadHighlightS: 38,
+									PanelHeadN: 38,
+									PanelHeadTransparentN: 38,
+									PanelHeadHighlightN: 38,
 									PanelNoEye: 38,
 									PanelNoEyeTransparent: 38,
 									PanelHoleNoEye: 38,
@@ -7171,6 +7757,12 @@ var AssetFemale3DCGExtended = {
 									PanelHead: 38,
 									PanelHeadTransparent: 38,
 									PanelHeadHighlight: 38,
+									PanelHeadS: 38,
+									PanelHeadTransparentS: 38,
+									PanelHeadHighlightS: 38,
+									PanelHeadN: 38,
+									PanelHeadTransparentN: 38,
+									PanelHeadHighlightN: 38,
 									PanelNoEye: 38,
 									PanelNoEyeTransparent: 38,
 									PanelHoleNoEye: 38,
@@ -7367,6 +7959,41 @@ var AssetFemale3DCGExtended = {
 							Property: { Effect: [E.BlindLight] },
 						},
 					],
+					DrawData: {
+						elementData: [
+							{ position: ExtendedXY[8][0] },
+							{ position: ExtendedXY[8][1] },
+							{ position: ExtendedXY[8][2] },
+							{ position: ExtendedXY[8][3] },
+							{ position: ExtendedXY[8][4] },
+							{ position: ExtendedXY[8][5] },
+							{ position: ExtendedXY[8][6] },
+							{ position: ExtendedXY[8][7] },
+							{ position: ExtendedXY[8][0] },
+							{ position: ExtendedXY[8][1] },
+							{ position: ExtendedXY[8][2] },
+							{ position: ExtendedXY[8][3] },
+							{ position: ExtendedXY[8][4] },
+							{ position: ExtendedXY[8][5] },
+							{ position: ExtendedXY[8][6] },
+							{ position: ExtendedXY[8][7] },
+							{ position: ExtendedXY[8][0] },
+							{ position: ExtendedXY[8][1] },
+							{ position: ExtendedXY[8][2] },
+							{ position: ExtendedXY[8][3] },
+							{ position: ExtendedXY[8][4] },
+							{ position: ExtendedXY[8][5] },
+							{ position: ExtendedXY[8][6] },
+							{ position: ExtendedXY[8][7] },
+							{ position: ExtendedXY[8][0] },
+							{ position: ExtendedXY[8][1] },
+							{ position: ExtendedXY[8][2] },
+							{ position: ExtendedXY[8][3] },
+							{ position: ExtendedXY[8][4] },
+							{ position: ExtendedXY[8][5] },
+						],
+						itemsPerPage: 8,
+					},
 				},
 				{
 					Name: "HeadT",
@@ -7790,6 +8417,32 @@ var AssetFemale3DCGExtended = {
 								Effect: [],
 							},
 						},
+						{
+							Name: "Wig15",
+							Property: {
+								Hide: [
+									"Mask",
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+								],
+								Effect: [],
+							},
+						},
+						{
+							Name: "Wig16",
+							Property: {
+								Hide: [
+									"Mask",
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+								],
+								Effect: [],
+							},
+						},
 					],
 				},
 				{
@@ -8145,7 +8798,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Pattern",
 					Key: "p",
-					Options: [{}, {}, {}, {}, {}], //None, Pumpkin, Smiley Lines, Smiley Fill, 8Ball
+					Options: [{}, {}, {}, {}, {}, {}, {}], //None, Pumpkin, Smiley Lines, Smiley Fill, 8Ball, Tree, Quarters
 				},
 				{
 					Name: "Cover",
@@ -8187,6 +8840,75 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, //CustomBallHood
+		Balloon: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Loose",
+					Property: {
+						Effect: ["BlindLight", "GagLight", "DeafLight", "BlockWardrobe"],
+					},
+					Expression: [
+						{ Group: "Blush", Name: "Low", Timer: 15 },
+						{ Group: "Eyebrows", Name: "Lowered", Timer: 15 },
+					],
+				},
+				{
+					Name: "Tight",
+					Property: {
+						Effect: ["BlindLight", "GagHeavy", "DeafLight", "BlockWardrobe"],
+					},
+					Expression: [
+						{ Group: "Blush", Name: "VeryHigh", Timer: 15 },
+						{ Group: "Eyes", Name: "Surprised", Timer: 15 },
+						{ Group: "Eyebrows", Name: "Soft", Timer: 15 },
+						{ Group: "Mouth", Name: "HalfOpen", Timer: 15 },
+					],
+				},
+				{
+					Name: "Extreme",
+					Property: {
+						Effect: ["BlindLight", "GagHeavy", "DeafLight", "BlockWardrobe"],
+					},
+					Expression: [
+						{ Group: "Blush", Name: "ShortBreath", Timer: 15 },
+						{ Group: "Eyes", Name: "Scared", Timer: 15 },
+						{ Group: "Eyebrows", Name: "Raised", Timer: 15 },
+						{ Group: "Mouth", Name: "Open", Timer: 15 },
+					],
+				},
+			],
+		}, // Balloon
+		Kigu2Hood: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			ChangeWhenLocked: false,
+			Options: [
+				// Lenses type
+				{ Name: "None", Property: { Effect: [] } },
+				{
+					Name: "Thin",
+					Property: {
+						Effect: [E.BlindLight],
+						Tint: [{ Color: 0, Strength: 0.2 }],
+					},
+				},
+				{
+					Name: "Thick",
+					Property: {
+						Effect: [E.BlindNormal, E.BlockWardrobe],
+						Tint: [{ Color: 0, Strength: 0.3 }],
+					},
+				},
+				{
+					Name: "Opaque",
+					Property: {
+						Effect: [E.BlindHeavy, E.BlockWardrobe],
+						Tint: [{ Color: 0, Strength: 0.5 }],
+					},
+				},
+			],
+		}, // Kigu2Hood
 	}, // ItemHood
 	Jewelry: {
 		JewelrySet: {
@@ -9418,7 +10140,10 @@ var AssetFemale3DCGExtended = {
 						Hide: [
 							"BodyLower",
 							"BodyUpper",
-							"Hands",
+							"ArmsLeft",
+							"ArmsRight",
+							"HandsLeft",
+							"HandsRight",
 							"HairFront",
 							"HairBack",
 							"Glasses",
@@ -9443,8 +10168,8 @@ var AssetFemale3DCGExtended = {
 							"Panties",
 							"Garters",
 							"Socks",
-							"RightAnklet",
-							"LeftAnklet",
+							"AnkletRight",
+							"AnkletLeft",
 							"Shoes",
 							"Gloves",
 							"TailStraps",
@@ -9467,8 +10192,8 @@ var AssetFemale3DCGExtended = {
 							"Pussy",
 							"Corset",
 							"Bracelet",
-							"LeftHand",
-							"RightHand",
+							"HandAccessoryLeft",
+							"HandAccessoryRight",
 						],
 					},
 				},
@@ -9607,15 +10332,13 @@ var AssetFemale3DCGExtended = {
 			Options: [
 				{
 					Name: "Stand",
-					Prerequisite: ["CanLegsOpen"],
-					Property: {
-						SetPose: ["LegsOpen"],
-					},
+					AllowSelfSelect: false,
+					Property: {Prerequisite: ["CanLegsOpen"]},
 				},
 				{
 					Name: "LegsClosed",
-					Prerequisite: ["CanLegsClosed"],
 					Property: {
+						Prerequisite: ["CanLegsClosed"],
 						SetPose: ["LegsClosed"],
 					},
 				},
@@ -9646,6 +10369,18 @@ var AssetFemale3DCGExtended = {
 						},
 						{
 							// m4 - Model 5
+							Property: {},
+						},
+						{
+							// m5 - Model 6
+							Property: {},
+						},
+						{
+							// m6 - Model 7
+							Property: {},
+						},
+						{
+							// m7 - Model 8
 							Property: {},
 						},
 					],
@@ -9941,6 +10676,26 @@ var AssetFemale3DCGExtended = {
 			],
 			ChangeWhenLocked: false,
 		}, // BrickWall
+		PogoBall: {
+			Archetype: ExtendedArchetype.TYPED,
+			ChangeWhenLocked: false,
+			Options: [
+				{
+					Name: "Light",
+					Property: {
+						Effect: [ E.Slow, E.BlockWardrobe ],
+						Difficulty: 0,
+					},
+				},
+				{
+					Name: "Heavy",
+					Property: {
+						Effect: [ E.Freeze, E.BlockWardrobe ],
+						Difficulty: 5,
+					},
+				},
+			],
+		}, // PogoBall
 	}, // ItemDevices
 	ItemBoots: {
 		ToeTape: {
@@ -10049,6 +10804,38 @@ var AssetFemale3DCGExtended = {
 			DrawImages: false,
 			Options: [{ Name: "Base" }, { Name: "BootsOnly" }],
 		}, // StrictPonyBoots
+		BalletMittens: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChangeWhenLocked: false,
+			Modules: [
+				{
+					Name: "Pogo",
+					Key: "p",
+					Options: [
+						{
+							// p0 - None
+							Property: {},
+						},
+						{
+							// p1 - LightPogo
+							Property: {
+								Effect: [ E.Slow, E.BlockWardrobe ],
+								SetPose: ["LegsClosed"],
+								Difficulty: 4,
+							},
+						},
+						{
+							// p2 - HeavyPogo
+							Property: {
+								Effect: [ E.Freeze, E.BlockWardrobe ],
+								SetPose: ["LegsClosed"],
+								Difficulty: 8,
+							},
+						},
+					],
+				},
+			],
+		}, // BalletMittens
 	}, // ItemBoots
 	ItemVulva: {
 		ClitSuctionCup: {
@@ -13392,6 +14179,30 @@ var AssetFemale3DCGExtended = {
 								Effect: [],
 							},
 						},
+						{
+							Name: "Wig15",
+							Property: {
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+								],
+								Effect: [],
+							},
+						},
+						{
+							Name: "Wig16",
+							Property: {
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+								],
+								Effect: [],
+							},
+						},
 					],
 				},
 				{
@@ -15661,6 +16472,190 @@ var AssetFemale3DCGExtended = {
 				),
 			},
 		}, // ModularChastityBelt
+		WaistLegHarness: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChangeWhenLocked: false,
+			Modules: [
+				{
+					Name: "LinkLegs",
+					Key: "l",
+					Options: [
+						{
+							// l0 - None
+							Property: {},
+						},
+						{
+							// l1 - Loose Strap
+							Property: { Difficulty: 2 },
+						},
+						{
+							// l2 - Locked
+							Property: {
+								SetPose: ["LegsClosed"],
+								AllowActivePose: ["Kneel"],
+								Effect: [E.Slow],
+								Difficulty: 3,
+							},
+						},
+					],
+				},
+				{
+					Name: "BeltAcc_A",
+					Key: "x",
+					Options: [
+						{
+							// x0 - None
+							Property: { Difficulty: 0 },
+						},
+						{
+							// x1 - Eqquiped
+							Property: { Difficulty: 1 },
+						},
+					],
+				},
+				{
+					Name: "BeltAcc_B",
+					Key: "y",
+					Options: [
+						{
+							// y0 - None
+							Property: { Difficulty: 0 },
+						},
+						{
+							// y1 - Eqquiped
+							Property: { Difficulty: 1 },
+						},
+					],
+				},
+				{
+					Name: "StrapOn",
+					Key: "c",
+					Options: [
+						{
+							// c0 - None
+							Property: { Difficulty: 0 },
+						},
+						{
+							// c1 - Eqquiped
+							Property: {
+								Difficulty: 1,
+								AllowActivity: ["PenetrateItem"],
+							},
+						},
+					],
+				},
+				{
+					Name: "Vibrator",
+					Key: "v",
+					Options: [
+						{
+							// v0 - None
+							Property: { Difficulty: 1 },
+						},
+						{
+							// v1 - With wand
+							Property: { Difficulty: 2 },
+						},
+						// v2 to v6 - Wand intensity
+						{ Property: { Intensity: 0, Effect: [E.Vibrating] } }, // v2 - Low
+						{ Property: { Intensity: 1, Effect: [E.Vibrating] } }, // v3 - Mid-Low
+						{ Property: { Intensity: 2, Effect: [E.Vibrating] } }, // v4 - Medium
+						{ Property: { Intensity: 2, Effect: [E.Egged, E.Vibrating] } }, // v5 - High
+						{ Property: { Intensity: 3, Effect: [E.Egged, E.Vibrating] } }, // v6 - Maximum
+					],
+				},
+				{
+					Name: "Chastity",
+					Key: "t",
+					Options: [
+						{
+							// t0 - None
+							Property: { Difficulty: 0 },
+						},
+						{
+							// t1 - Just Strap
+							Property: { Difficulty: 5 },
+						},
+						{
+							// t2 - Lock Vagina
+							Prerequisite: ["CanCoverVulva"],
+							Property: {
+								Difficulty: 10,
+								Block: ["ItemVulva", "ItemVulvaPiercings"],
+								Effect: [E.Chaste],
+								HideItem: [
+									"ItemButtAnalBeads2",
+									"ItemVulvaPenisDildo",
+									"ItemVulvaShockDildo",
+									"ItemVulvaVibratingDildo",
+									"ItemVulvaInflatableVibeDildo",
+									"ItemVulvaClitoralStimulator",
+									"ItemVulvaClitSuctionCup",
+									"ItemVulvaHeavyWeightClamp",
+									"ItemVulvaLoversVibrator",
+									"ItemVulvaDoubleEndDildo",
+									"ItemVulvaBasicCockring",
+									"ItemVulvaPlasticChastityCage1",
+									"ItemVulvaVibeEggPenisBase",
+									"ItemVulvaPlasticChastityCage2",
+									"ItemVulvaTechnoChastityCage",
+									"ItemVulvaFlatChastityCage",
+									"ItemVulvaChastityPouch",
+									"ItemVulvaFullCasingCage",
+									"ItemVulvaPiercingsVibeHeartClitPiercing",
+									"ItemVulvaPiercingsClitRing",
+									"ItemVulvaPiercingsChastityClitShield",
+									"ItemVulvaPiercingsHighSecurityVulvaShield",
+								],
+								Hide: ["Pussy"],
+							},
+						},
+						{
+							// t3 - Lock Ass
+							Property: {
+								Difficulty: 9,
+								Effect: ["ButtChaste"],
+								Block: ["ItemButt"],
+							},
+						},
+						{
+							// t4 - Lock Both
+							Prerequisite: ["CanCoverVulva"],
+							Property: {
+								Difficulty: 20,
+								Effect: ["Chaste", "ButtChaste"],
+								Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
+								HideItem: [
+									"ItemButtAnalBeads2",
+									"ItemVulvaPenisDildo",
+									"ItemVulvaShockDildo",
+									"ItemVulvaVibratingDildo",
+									"ItemVulvaInflatableVibeDildo",
+									"ItemVulvaClitoralStimulator",
+									"ItemVulvaClitSuctionCup",
+									"ItemVulvaHeavyWeightClamp",
+									"ItemVulvaLoversVibrator",
+									"ItemVulvaDoubleEndDildo",
+									"ItemVulvaBasicCockring",
+									"ItemVulvaPlasticChastityCage1",
+									"ItemVulvaVibeEggPenisBase",
+									"ItemVulvaPlasticChastityCage2",
+									"ItemVulvaTechnoChastityCage",
+									"ItemVulvaFlatChastityCage",
+									"ItemVulvaChastityPouch",
+									"ItemVulvaFullCasingCage",
+									"ItemVulvaPiercingsVibeHeartClitPiercing",
+									"ItemVulvaPiercingsClitRing",
+									"ItemVulvaPiercingsChastityClitShield",
+									"ItemVulvaPiercingsHighSecurityVulvaShield",
+								],
+								Hide: ["Pussy"],
+							},
+						},
+					],
+				},
+			],
+		}, // WaistLegHarness
 	}, // ItemPelvis
 	ItemEars: {
 		FuturisticEarphones: {
@@ -16074,8 +17069,29 @@ var AssetFemale3DCGExtended = {
 			],
 			DrawImages: false,
 		}, // GarterBelt
+		ComboBelt: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ClothAccessory", AssetName: "ComboBelt" },
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Chain",
+					Key: "c",
+					Options: [
+						{
+							// c0 - Added
+							Property: { Effect: [] },
+						},
+						{
+							// c1 - None
+							Property: { Effect: [] },
+						},
+					],
+				},
+			],
+		}, // ComboBelt
 	}, // Garters
-	RightAnklet: {
+	AnkletRight: {
 		LegFur: {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
@@ -16110,8 +17126,8 @@ var AssetFemale3DCGExtended = {
 			],
 			DrawImages: false,
 		}, // LegFur
-	}, // RightAnklet
-	LeftAnklet: {
+	}, // AnkletRight
+	AnkletLeft: {
 		LegFur: {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
@@ -16146,7 +17162,7 @@ var AssetFemale3DCGExtended = {
 			],
 			DrawImages: false,
 		}, // LegFur
-	}, // LeftAnklet
+	}, // AnkletLeft
 	Gloves: {
 		WarmGloves: {
 			Archetype: ExtendedArchetype.TYPED,
@@ -16255,6 +17271,23 @@ var AssetFemale3DCGExtended = {
 			],
 			DrawImages: false,
 		}, // PearlNecklace1
+		SatinScarf: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Style1",
+				},
+				{
+					Name: "Style2",
+				},
+				{
+					Name: "Style3",
+				},
+				{
+					Name: "Style4",
+				},
+			],
+		}, //SatinScarf
 	}, // Necklace
 	Suit: {
 		Catsuit: {
@@ -16266,7 +17299,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "OpaqueGloves",
 					Property: {
-						Hide: ["Hands"],
+						Hide: ["HandsLeft", "HandsRight"],
 					},
 				},
 				{
@@ -16331,7 +17364,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "OpaqueGloves",
 					Property: {
-						Hide: ["Hands"],
+						Hide: ["HandsLeft", "HandsRight"],
 					},
 				},
 			],
@@ -16408,6 +17441,10 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "SuitLower", AssetName: "MaleSeamlessCatsuit" },
 		}, // MaleCatsuitPanties - SuitLower
+		RippedPantyhose: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "Socks", AssetName: "RippedPantyhose" },
+		},
 	}, // SuitLower
 	ItemHead: {
 		DuctTape: {
@@ -17038,6 +18075,37 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // Stitches
+		Kigu2Hood: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemHood", AssetName: "Kigu2Hood" },
+			DrawImages: false,
+			ChangeWhenLocked: false,
+			Options: [
+				// Lenses type
+				{ Name: "None", Property: { Effect: [] } },
+				{
+					Name: "Thin",
+					Property: {
+						Effect: [E.BlindLight],
+						Tint: [{ Color: 0, Strength: 0.2 }],
+					},
+				},
+				{
+					Name: "Thick",
+					Property: {
+						Effect: [E.BlindNormal, E.BlockWardrobe],
+						Tint: [{ Color: 0, Strength: 0.3 }],
+					},
+				},
+				{
+					Name: "Opaque",
+					Property: {
+						Effect: [E.BlindHeavy, E.BlockWardrobe],
+						Tint: [{ Color: 0, Strength: 0.5 }],
+					},
+				},
+			],
+		}, // Kigu2Hood
 	}, // ItemHead
 	ItemHands: {
 		FuturisticMittens: {
@@ -17257,6 +18325,32 @@ var AssetFemale3DCGExtended = {
 			],
 			ChangeWhenLocked: false,
 		}, // FullMittens
+		LatexBondageMitts: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			Modules: [
+				{
+					Name: "GloveType",
+					Key: "t",
+					Options: [{}, {}, {}], // Padded, Balloon, Balloon w nozzle
+				},
+				{
+					Name: "Wrist",
+					Key: "w",
+					Options: [{}, {}, {}], // No wrist, Firm Wrist, Fitted Wrist
+				},
+				{
+					Name: "PatternRight",
+					Key: "r",
+					Options: [{}, {}, {}, {}, {}, {}, {}], // None, Pumpkin (underside only), Pumpkin, Smiley (underside only), Smiley, Split, Quarters
+				},
+				{
+					Name: "PatternLeft",
+					Key: "l",
+					Options: [{}, {}, {}, {}, {}, {}, {}], // None, Pumpkin (underside only), Pumpkin, Smiley (underside only), Smiley, Split, Quarters
+				},
+			],
+		}, //LatexBondageMitts
 	}, // ItemHands
 	ItemAddon: {
 		CeilingChain: {

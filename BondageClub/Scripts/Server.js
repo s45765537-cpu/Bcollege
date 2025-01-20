@@ -1,10 +1,3 @@
-/**
- * A map containing appearance item diffs, keyed according to the item group. Used to compare and validate before/after
- * for appearance items.
- * @typedef AppearanceDiffMap
- * @type {Partial<Record<AssetGroupName, Item[]>>}
- */
-
 "use strict";
 
 /** @type {SocketIO.Socket} */
@@ -342,23 +335,13 @@ function ServerPlayerSync() {
  * @returns {void} - Nothing
  */
 function ServerPlayerInventorySync() {
+	const Data = InventoryDataBuild(Player);
 
-	InventoryDataBuild(Player);
-
-	/*
-	** @type {Partial<Record<AssetGroupName, string[]>>} *
-	const Inv = {};
-	for (let I = 0; I < Player.Inventory.length; I++) {
-		if (Player.Inventory[I].Asset != null) {
-			let G = Inv[Player.Inventory[I].Asset.Group.Name];
-			if (G === undefined) {
-				G = Inv[Player.Inventory[I].Asset.Group.Name] = [];
-			}
-			G.push(Player.Inventory[I].Asset.Name);
-		}
+	// If the result is different, we assign it and update the server account
+	if (Data !== Player.InventoryData) {
+		Player.InventoryData = Data;
+		ServerAccountUpdate.QueueData({ InventoryData: Data }, true);
 	}
-	ServerAccountUpdate.QueueData({ Inventory: Inv });
-	*/
 }
 
 /**
@@ -451,15 +434,21 @@ function ServerUnPackItemPermissions(data, onExtreme) {
 				let { Group, Name, Type } = protoPermission ?? {};
 				let asset = AssetGet("Female3DCG", Group, Name);
 				if (!asset) {
-					const fixup = LoginInventoryFixups.find(({ Old }) => Old.Group === Group && Old.Name === Name);
+					const fixup = LoginInventoryFixups.find(({ Old }) => Old.Group === Group && (Old.Name === Name || Old.Name === "*"));
 					if (!fixup) {
 						ret.shouldSync = true;
 						continue;
 					}
 
-					asset = AssetGet("Female3DCG", fixup.New.Group, fixup.New.Name);
 					Group = fixup.New.Group;
-					Name = fixup.New.Name;
+					if (fixup.New.Name) {
+						Name = fixup.New.Name;
+					}
+					asset = AssetGet("Female3DCG", Group, Name);
+				}
+				if (!asset) {
+					ret.shouldSync = true;
+					continue;
 				}
 
 				const key = /** @type {const} */(`${Group}/${Name}`);
@@ -781,29 +770,27 @@ function ServerPlayerAppearanceSync() {
  * @returns {void} - Nothing
  */
 function ServerPrivateCharacterSync() {
-	if (PrivateVendor != null) {
-		/** @type {{ PrivateCharacter: ServerPrivateCharacterData[] }} */
-		const D = { PrivateCharacter: [] };
-		for (let ID = 1; ID < PrivateCharacter.length; ID++) {
-			var C = {
-				Name: PrivateCharacter[ID].Name,
-				Love: PrivateCharacter[ID].Love,
-				Title: PrivateCharacter[ID].Title,
-				Trait: PrivateCharacter[ID].Trait,
-				Cage: PrivateCharacter[ID].Cage,
-				Owner: PrivateCharacter[ID].Owner,
-				Lover: PrivateCharacter[ID].Lover,
-				AssetFamily: PrivateCharacter[ID].AssetFamily,
-				Appearance: ServerAppearanceBundle(PrivateCharacter[ID].Appearance),
-				AppearanceFull: ServerAppearanceBundle(PrivateCharacter[ID].AppearanceFull),
-				ArousalSettings: PrivateCharacter[ID].ArousalSettings,
-				Event: PrivateCharacter[ID].Event
-			};
-			if (PrivateCharacter[ID].FromPandora != null) C.FromPandora = PrivateCharacter[ID].FromPandora;
-			D.PrivateCharacter.push(C);
-		}
-		ServerAccountUpdate.QueueData(D);
+	/** @type {{ PrivateCharacter: ServerPrivateCharacterData[] }} */
+	const D = { PrivateCharacter: [] };
+	for (let ID = 1; ID < PrivateCharacter.length; ID++) {
+		var C = {
+			Name: PrivateCharacter[ID].Name,
+			Love: PrivateCharacter[ID].Love,
+			Title: PrivateCharacter[ID].Title,
+			Trait: PrivateCharacter[ID].Trait,
+			Cage: PrivateCharacter[ID].Cage,
+			Owner: PrivateCharacter[ID].Owner,
+			Lover: PrivateCharacter[ID].Lover,
+			AssetFamily: PrivateCharacter[ID].AssetFamily,
+			Appearance: ServerAppearanceBundle(PrivateCharacter[ID].Appearance),
+			AppearanceFull: ServerAppearanceBundle(PrivateCharacter[ID].AppearanceFull),
+			ArousalSettings: PrivateCharacter[ID].ArousalSettings,
+			Event: PrivateCharacter[ID].Event
+		};
+		if (PrivateCharacter[ID].FromPandora != null) C.FromPandora = PrivateCharacter[ID].FromPandora;
+		D.PrivateCharacter.push(C);
 	}
+	ServerAccountUpdate.QueueData(D);
 }
 
 /**
@@ -1076,6 +1063,7 @@ var ServerAccountDataSyncedValidate = {
 			GGTS: CommonIsObject(arg.GGTS) ? arg.GGTS : undefined,
 			Poker: CommonIsObject(arg.Poker) ? arg.Poker : undefined,
 			ClubCard: CommonIsObject(arg.ClubCard) ? arg.ClubCard : undefined,
+			Prison: CommonIsObject(arg.Prison) ? arg.Prison : undefined,
 		};
 	},
 	LabelColor: (arg, C) => {
