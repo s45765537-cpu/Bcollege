@@ -10843,7 +10843,6 @@ var AssetFemale3DCG = [
 				InventoryID: 370,
 				Value: 50,
 				NeverSell: true, // Futuristic items rewarded by GGTS
-				Time: 10,
 				Left: 75,
 				DefaultColor: [
 					"Default",
@@ -15244,7 +15243,6 @@ var AssetFemale3DCG = [
 					BackBoxTie: PoseType.HIDE,
 				},
 				Extended: true,
-				AlwaysExtend: true,
 				Layer: [
 					//Thumb
 					{ Name: "ThumbSteel", AllowTypes: { t: 1 } },
@@ -15364,7 +15362,6 @@ var AssetFemale3DCG = [
 					BackCuffs: PoseType.HIDE,
 				},
 				Extended: true,
-				AlwaysExtend: true,
 				Layer: [
 					//Thumb
 					{ Name: "ThumbSteel", AllowTypes: { t: 1 } },

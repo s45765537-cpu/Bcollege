@@ -342,6 +342,38 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 			AssetBuildExtended(A, assetBaseConfig, ExtendedConfig);
 		}
 	}
+
+	// Ensure that restraints do not have clothing-exclusive properties and vice versa
+	switch (Group.Category) {
+		case "Item":
+			A.BodyCosplay = false;
+			break;
+		case "Appearance":
+			A.AllowLock = false;
+			A.AllowLockType = null;
+			A.AllowRemoveExclusive = false;
+			A.AllowTighten = false;
+			A.AlwaysExtend = false;
+			A.AlwaysInteract = false;
+			A.CharacterRestricted = false;
+			A.CustomBlindBackground = undefined;
+			A.Difficulty = 0;
+			A.DrawLocks = false;
+			A.ExclusiveUnlock = false;
+			A.FamilyOnly = false;
+			A.IsLock = false;
+			A.IsRestraint = false;
+			A.LoverOnly = false;
+			A.MaxTimer = 0;
+			A.OwnerOnly = false;
+			A.PickDifficulty = 0;
+			A.RemoveTime = 0;
+			A.RemoveTimer = 0;
+			A.SelfBondage = 0;
+			A.SelfUnlock = true;
+			A.WearTime = 0;
+			break;
+	}
 }
 
 /**
