@@ -2425,7 +2425,6 @@ function ChatRoomToggleKneel() {
 				.sourceCharacter(Player)
 				.build();
 			ServerSend("ChatRoomChat", { Content: PlayerIsKneeling ? "StandUp" : "KneelDown", Type: "Action", Dictionary });
-			FuturisticTrainingBeltStandUpFlag = PlayerIsKneeling;
 			PoseSetActive(Player, PlayerIsKneeling ? "BaseLower" : "Kneel");
 			ChatRoomStimulationMessage("Kneel");
 			ServerSend("ChatRoomCharacterPoseUpdate", { Pose: Player.ActivePose });
@@ -2600,7 +2599,6 @@ function ChatRoomAttemptStandMinigameEnd() {
 				.sourceCharacter(Player)
 				.build();
 			ServerSend("ChatRoomChat", { Content: (!Player.IsKneeling()) ? "KneelDownPass" : "StandUpPass", Type: "Action", Dictionary });
-			FuturisticTrainingBeltStandUpFlag = Player.IsKneeling();
 			PoseSetActive(Player, (!Player.IsKneeling()) ? "Kneel" : null, true);
 			ServerSend("ChatRoomCharacterPoseUpdate", { Pose: Player.ActivePose });
 		}

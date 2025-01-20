@@ -417,7 +417,7 @@ function InventoryItemPelvisModularChastityBeltScriptDrawHook(data, originalFunc
 					break;
 				case "StandUp":
 					PropertyShockPublishAction(C, Item, true);
-					InventoryItemPelvisModularChastityBeltForceKneel();
+					InventoryItemPelvisModularChastityBeltForceKneel(C);
 					break;
 			}
 		}
@@ -635,7 +635,6 @@ function InventoryItemPelvisModularChastityBeltCheckPunish(Item, C, OrgasmDetect
 				return "Struggle";
 	} else if (InventoryItemPelvisModularChastityBeltCheckStanding(PunishStandup, C, isPlayerInChatRoom, ShockCooldown)) {
 		// Punish the player if they stand up
-		FuturisticTrainingBeltStandUpFlag = false;
 		return "StandUp";
 	}
 	return null;
@@ -649,10 +648,13 @@ function InventoryItemPelvisModularChastityBeltCheckPunish(Item, C, OrgasmDetect
  * @returns {boolean}
  */
 function InventoryItemPelvisModularChastityBeltCheckStanding(PunishStandup, C, isPlayerInChatRoom, ShockCooldown) {
-	return PunishStandup && C.CanKneel() && !C.IsKneeling() && isPlayerInChatRoom && ShockCooldown < CommonTime();
+	return PunishStandup && C.CanKneel() && C.IsStanding() && isPlayerInChatRoom && ShockCooldown < CommonTime();
 }
 
-function InventoryItemPelvisModularChastityBeltForceKneel() {
-	PoseSetActive(Player, "Kneel");
-	ServerSend("ChatRoomCharacterPoseUpdate", { Pose: Player.ActivePose });
+/**
+ * @param {Character} C
+ */
+function InventoryItemPelvisModularChastityBeltForceKneel(C) {
+	PoseSetActive(C, "Kneel");
+	ServerSend("ChatRoomCharacterPoseUpdate", { Pose: C.ActivePose });
 }
