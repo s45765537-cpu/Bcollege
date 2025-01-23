@@ -1209,7 +1209,7 @@ function PandoraPenitentiaryCreate() {
 		/** @type {ServerChatRoomGame} */
 		let Game = "Prison";
 		const SearchData = { Query: "", Language: "", Space: ChatRoomSpaceType.MIXED, Game: Game, FullRooms: false };
-		ChatCreateBackgroundList = BackgroundsGenerateList([BackgroundsTagPandora]);
+		ChatAdminBackgroundList = BackgroundsGenerateList([BackgroundsTagPandora]);
 		ChatSearchLastQuerySearchTime = CommonTime();
 		ChatSearchResult = [];
 		PandoraPenitentiaryCreateTimer = CommonTime() + 10000;
@@ -1264,7 +1264,7 @@ function PandoraPenitentiaryResult(Result) {
 			Whitelist: [],
 			Ban: [],
 			BlockCategory: ["Leashing"],
-			Language: ChatCreateLanguage,
+			Language: ChatAdminDefaultLanguage,
 		};
 		ServerSend("ChatRoomCreate", NewRoom);
 
