@@ -1110,9 +1110,6 @@ function testAssetHasPNG(assets, extendedDataRecords, poseRecord) {
 				colors = [null];
 			}
 
-			// Combinations involving parent group members
-			const parentNames = layer.ParentGroupName == null ? new Set([null]) : assetGroupMap[layer.ParentGroupName][asset.Gender ?? "FM"] ;
-
 			// Combinations involving expressions
 			/** @type {readonly (null | ExpressionName)[]} */
 			let expressions = [null, ...(layer.Asset.AllowExpression ?? layer.Asset.Group.AllowExpression ?? [])];
@@ -1123,21 +1120,30 @@ function testAssetHasPNG(assets, extendedDataRecords, poseRecord) {
 				expressions = [null];
 			}
 
-			for (const iter of [parentNames, colors, expressions, layerTypes]) {
+			for (const iter of [colors, expressions, layerTypes]) {
 				if (Array.from(/** @type {Iterable<any>} */(iter)).length === 0) {
 					error(`${asset.Group.Name}:${asset.Name}:${layer.Name}: Internal error; zero-length list encountered!`);
 				}
 			}
 
 			const root = `${BASE_PATH}Assets/${asset.Group.Family}/${asset.DynamicGroupName}/`;
-			for (const parent of parentNames) {
-				for (const color of colors) {
-					for (const expression of expressions) {
-						for (const [type, poseList] of layerTypes) {
-							for (const pose of poseList) {
-								const path = root
+			for (const color of colors) {
+				for (const expression of expressions) {
+					for (const [type, poseList] of layerTypes) {
+						for (const pose of poseList) {
+							/** @type {undefined | "" | AssetGroupName} */
+							const parentGroup = layer.ParentGroup[pose] ?? layer.ParentGroup[PoseType.DEFAULT];
+							const parentNames = !parentGroup ? new Set([null]) : assetGroupMap[parentGroup][asset.Gender ?? "FM"];
+							if (parentNames.size === 0) {
+								error(`${asset.Group.Name}:${asset.Name}:${layer.Name}: Internal error; zero-length list encountered!`);
+							}
+
+							for (const parent of parentNames) {
+								const path = (
+									root
 									+ (pose ? `${pose}/` : "")
-									+ (expression ? `${expression}/` : "");
+									+ (expression ? `${expression}/` : "")
+								);
 								const fileParts = [];
 								if (asset.Name) fileParts.push(asset.Name);
 								if (parent) fileParts.push(parent);
