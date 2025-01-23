@@ -9421,6 +9421,14 @@ var AssetFemale3DCGExtended = {
 						SetPose: ["Kneel"],
 					},
 				},
+				{
+					Name: "KneelingSpread",
+					Property: {
+						OverrideHeight: { Height: -200, Priority: 21 },
+						OverridePriority: 2,
+						SetPose: ["KneelingSpread"],
+					},
+				},
 			],
 			DialogPrefix: {
 				Header: "SelectCushionStyle",

@@ -866,6 +866,7 @@ CupholderGagSetNoCup,SourceCharacter removes the cup from DestinationCharacter c
 CupholderGagSetTip,SourceCharacter tips over the cup on DestinationCharacter cup holder gag.
 CushionTypeHold,Hold cushion
 CushionTypeKneel,Kneel on cushion
+CushionTypeKneelingSpread,Kneel spreads on cushion
 CustomTagText,Save text
 Decrease,Decrease
 DeflateIt,Deflate it

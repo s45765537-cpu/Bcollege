@@ -53713,6 +53713,22 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "Throne",
+				InventoryID: 1210,
+				Priority: 1,
+				Value: 126,
+				Difficulty: -10,
+				Time: 5,
+				IsRestraint: false,
+				Effect: [E.Freeze, E.MapImmobile],
+				RemoveAtLogin: true,
+				FixedPosition: true,
+				Layer: [
+					{ Name: "Throne", Top: 25, Left: 25
+					 },
+				],
+			},
 		],
 		Color: [
 			"Default",
