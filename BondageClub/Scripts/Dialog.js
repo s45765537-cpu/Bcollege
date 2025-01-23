@@ -2867,10 +2867,19 @@ class DialogMenu {
 	}
 
 	/**
+	 * Promise object for queuing reloads, ensuring that they are run consecutively rather than concurrently if multiple calls are invoked (near) simultenously.
+	 * See {@link DialogMenu.Reload}
+	 * @private
+	 * @type {Promise<boolean>}
+	 */
+	_reload;
+
+	/**
 	 * @param {ModeType} mode The name of the mode associated with this instance
 	 */
 	constructor(mode) {
 		this.mode = mode;
+		this._reload = Promise.resolve(true);
 
 		const dialogMenu = this;
 		this.eventListeners = {
@@ -2999,22 +3008,22 @@ class DialogMenu {
 		root.classList.add("HideOnPopup", "dialog-root");
 		if (!root.parentElement) { document.body.append(root); }
 		root.toggleAttribute("data-unload", false);
+		DialogMenuButtonBuild(this.C);
 
 		// Perform the element resizing here asynchronically in order to circumvent a race condition with the scroll bar reallignment
-		DialogMenuButtonBuild(this.C);
+		const shape = this.shape;
+		const buttonGrid = this.ids.grid ? document.getElementById(this.ids.grid) : null;
 		this.Reload(null, null, { reset: true, resetScrollbar: false }).then((status) => {
-			// Double check that `Exit` has not been called while `Reload` is still running asynchronously
-			const shape = this.shape;
-			if (status && shape) {
-				ElementPositionFixed(this.ids.root, ...shape);
-
-				const buttonGrid = this.ids.grid ? document.getElementById(this.ids.grid) : null;
+			if (status) {
+				ElementPositionFixed(root, ...shape);
 				const checkedButton = buttonGrid?.querySelector(`.dialog-grid-button[aria-checked='true']`);
 				if (checkedButton) {
-					checkedButton.scrollIntoView();
+					checkedButton.scrollIntoView({ behavior: "instant" });
 				} else {
-					buttonGrid?.scrollTo({ top: 0 });
+					buttonGrid?.scrollTo({ top: 0, behavior: "instant" });
 				}
+			} else {
+				this.Exit();
 			}
 		});
 	}
@@ -3076,13 +3085,34 @@ class DialogMenu {
 	 * @param {null | DialogMenu.ReloadOptions} [options] - Further customization options
 	 * @returns {Promise<boolean>} - Whether an update was triggered or aborted
 	 */
-	async Reload(C=null, focusGroup=null, options=null) {
+	Reload(C=null, focusGroup=null, options=null) {
+		this._reload = this._reload.then(() => this._Reload(C, focusGroup, options));
+		return this._reload;
+	}
+
+	/**
+	 * See {@link DialogMenu.Reload}
+	 * @private
+	 * @param {null | Character} C
+	 * @param {null | AssetItemGroup} focusGroup
+	 * @param {null | DialogMenu.ReloadOptions} options
+	 * @returns {Promise<boolean>}
+	 */
+	async _Reload(C, focusGroup, options) {
+		// NOTE: Lock in the current character and focus group in case a property change/exit is performed while Reload is still running
+		const currentC = this.C;
+		const currentFocusGroup = this.focusGroup;
+
 		options ??= {};
-		C ??= this.C;
-		focusGroup ??= this.focusGroup;
+		C ??= currentC;
+		focusGroup ??= currentFocusGroup;
 		const root = document.getElementById(this.ids.root);
 		const textCache = TextAllScreenCache.get(InterfaceStringsPath);
 		if (!root || !C || !focusGroup || !textCache) {
+			console.error(
+				`Failed to reload ${this.mode} subscreen; one or more missing objects`,
+				{ root: !!root, C: !!C, focusGroup: !!focusGroup, textCache: !!textCache },
+			);
 			return false;
 		}
 
@@ -3090,11 +3120,11 @@ class DialogMenu {
 		await textCache.loadedPromise;
 
 		// Check if any class-level properties have to be updated
-		if (C !== this.C) {
+		if (C !== currentC) {
 			options.reset ??= true;
 			this._C = C;
 		}
-		if (focusGroup !== this.focusGroup) {
+		if (focusGroup !== currentFocusGroup) {
 			options.reset ??= true;
 			this._focusGroup = focusGroup;
 		}
@@ -3104,17 +3134,17 @@ class DialogMenu {
 		// Update the label, icon and grid (if applicable)
 		const statusSpan = this.ids.status ? document.getElementById(this.ids.status) : null;
 		if (statusSpan) {
-			this._ReloadStatus(root, statusSpan, options);
+			this._ReloadStatus(root, statusSpan, C, focusGroup, options);
 		}
 
 		const buttonGrid = this.ids.grid ? document.getElementById(this.ids.grid) : null;
 		if (buttonGrid) {
-			this._ReloadButtonGrid(root, buttonGrid, options);
+			this._ReloadButtonGrid(root, buttonGrid, C, focusGroup, options);
 		}
 
 		const icon = this.ids.icon ? document.getElementById(this.ids.icon) : null;
 		if (icon) {
-			this._ReloadIcon(root, icon, options);
+			this._ReloadIcon(root, icon, C, focusGroup, options);
 		}
 
 		root.removeAttribute("aria-busy");
@@ -3126,9 +3156,11 @@ class DialogMenu {
 	 * @abstract
 	 * @param {HTMLElement} root
 	 * @param {HTMLElement} status
+	 * @param {Character} C
+	 * @param {AssetItemGroup} focusGroup
 	 * @param {Pick<DialogMenu.ReloadOptions, "status" | "statusTimer">} options
 	 */
-	_ReloadStatus(root, status, options) {
+	_ReloadStatus(root, status, C, focusGroup, options) {
 		throw new Error("Trying to call an abstract method");
 	}
 
@@ -3137,9 +3169,11 @@ class DialogMenu {
 	 * @abstract
 	 * @param {HTMLElement} root
 	 * @param {HTMLElement} buttonGrid
+	 * @param {Character} C
+	 * @param {AssetItemGroup} focusGroup
 	 * @param {Pick<DialogMenu.ReloadOptions, "reset" | "resetScrollbar" | "resetDialogItems">} options
 	 */
-	_ReloadButtonGrid(root, buttonGrid, options) {
+	_ReloadButtonGrid(root, buttonGrid, C, focusGroup, options) {
 		throw new Error("Trying to call an abstract method");
 	}
 
@@ -3148,9 +3182,11 @@ class DialogMenu {
 	 * @abstract
 	 * @param {HTMLElement} root
 	 * @param {HTMLElement} icon
+	 * @param {Character} C
+	 * @param {AssetItemGroup} focusGroup
 	 * @param {Pick<DialogMenu.ReloadOptions, never>} options
 	 */
-	_ReloadIcon(root, icon, options) {
+	_ReloadIcon(root, icon, C, focusGroup, options) {
 		throw new Error("Trying to call an abstract method");
 	}
 
@@ -3340,7 +3376,7 @@ class _DialogItemMenu extends DialogMenu {
 	}
 
 	/** @type {DialogMenu["_ReloadStatus"]} */
-	_ReloadStatus(root, span, options) {
+	_ReloadStatus(root, span, C, focusGroup, options) {
 		/** @type {null | Asset} */
 		let asset = null;
 		let showIcon = false;
@@ -3348,25 +3384,25 @@ class _DialogItemMenu extends DialogMenu {
 		if (textContent == null) {
 			switch (this.mode) {
 				case "locked": {
-					const item = InventoryGet(this.C, this.focusGroup.Name);
+					const item = InventoryGet(C, focusGroup.Name);
 					const lock = InventoryGetLock(item);
 					if (!lock || !DialogCanInspectLock(item)){
 						textContent = InterfaceTextGet("SelectLockedUnknown");
 					} else {
 						asset = lock.Asset;
-						textContent = InterfaceTextGet("SelectLocked").replace("AssetName", lock.Asset.DynamicDescription(this.C).toLowerCase());
+						textContent = InterfaceTextGet("SelectLocked").replace("AssetName", lock.Asset.DynamicDescription(C).toLowerCase());
 					}
 					showIcon = true;
 					break;
 				}
 				case "items":
-					if (InventoryGroupIsBlockedByOwnerRule(this.C)) {
+					if (InventoryGroupIsBlockedByOwnerRule(C)) {
 						textContent = InterfaceTextGet("ZoneBlockedOwner");
 						showIcon = true;
-					} else if (InventoryIsBlockedByDistance(this.C)) {
+					} else if (InventoryIsBlockedByDistance(C)) {
 						textContent = InterfaceTextGet("ZoneBlockedRange");
 						showIcon = true;
-					} else if (InventoryGroupIsBlocked(this.C)) {
+					} else if (InventoryGroupIsBlocked(C)) {
 						textContent = InterfaceTextGet("ZoneBlocked");
 						showIcon = true;
 					} else if (!Player.CanInteract()) {
@@ -3380,13 +3416,13 @@ class _DialogItemMenu extends DialogMenu {
 		}
 
 		root.toggleAttribute("data-show-icon", showIcon);
-		DialogSetStatus(textContent, options.statusTimer ?? 0, { asset, group: this.focusGroup, C: this.C });
+		DialogSetStatus(textContent, options.statusTimer ?? 0, { asset, group: focusGroup, C });
 	}
 
 	/** @type {DialogMenu["_ReloadButtonGrid"]} */
-	_ReloadButtonGrid(root, buttonGrid, options) {
+	_ReloadButtonGrid(root, buttonGrid, C, focusGroup, options) {
 		if (options.resetDialogItems) {
-			DialogInventoryBuild(this.C, false, false, false);
+			DialogInventoryBuild(C, false, false, false);
 		}
 
 		if (options.reset) {
@@ -3394,7 +3430,7 @@ class _DialogItemMenu extends DialogMenu {
 			DialogInventory.forEach((clickedItem, i) => ElementButton.CreateForAsset(
 				`dialog-inventory-${i}`,
 				clickedItem,
-				this.C,
+				C,
 				this.eventListeners._ClickButton,
 				{ clickDisabled: this.eventListeners._ClickDisabledButton },
 				{ button: {
@@ -3406,7 +3442,7 @@ class _DialogItemMenu extends DialogMenu {
 			));
 		}
 
-		const equippedItem = InventoryGet(this.C, this.focusGroup.Name);
+		const equippedItem = InventoryGet(C, focusGroup.Name);
 		for (const [i, button] of Array.from(buttonGrid.children).entries()) {
 			const clickedItem = DialogInventory[i];
 
@@ -3424,7 +3460,7 @@ class _DialogItemMenu extends DialogMenu {
 				}
 			}
 
-			const status = this.GetClickStatus(this.C, clickedItem, equippedItem);
+			const status = this.GetClickStatus(C, clickedItem, equippedItem);
 			if (status) {
 				button.setAttribute("aria-disabled", "true");
 			} else {
@@ -3438,21 +3474,21 @@ class _DialogItemMenu extends DialogMenu {
 			// Tasks already performed during a full `options.reset` operation
 			button.toggleAttribute("data-hidden", CharacterAppearanceItemIsHidden(clickedItem.Asset.Name, clickedItem.Asset.Group.Name));
 			button.toggleAttribute("data-vibrating", clickedItem.Property?.Effect?.includes("Vibrating") ?? false);
-			ElementButton.ReloadAssetIcons(/** @type {HTMLButtonElement} */(button), clickedItem, this.C);
+			ElementButton.ReloadAssetIcons(/** @type {HTMLButtonElement} */(button), clickedItem, C);
 		}
 
 		if (options.resetScrollbar) {
 			const checkedButton = buttonGrid.querySelector(`.dialog-grid-button[aria-checked='true']`);
 			if (checkedButton) {
-				checkedButton.scrollIntoView();
+				checkedButton.scrollIntoView({ behavior: "instant" });
 			} else {
-				buttonGrid.scrollTo({ top: 0 });
+				buttonGrid.scrollTo({ top: 0, behavior: "instant" });
 			}
 		}
 	}
 
 	/** @type {DialogMenu["_ReloadIcon"]} */
-	_ReloadIcon(root, icon, options) {
+	_ReloadIcon(root, icon, C, focusGroup, options) {
 		const grid = document.getElementById(this.ids.grid);
 		const dataAttr = ["data-craft", "data-hidden", "data-vibrating"];
 		const checkedButton = grid.querySelector(".dialog-grid-button[aria-checked='true']");
@@ -3535,15 +3571,15 @@ class _DialogLockingMenu extends DialogMenu {
 	}
 
 	/** @type {DialogMenu["_ReloadStatus"]} */
-	_ReloadStatus(root, status, options) {
+	_ReloadStatus(root, status, C, focusGroup, options) {
 		const textContent = options.status ?? InterfaceTextGet("SelectLock");
-		DialogSetStatus(textContent, options.statusTimer ?? 0, { group: this.focusGroup, C: this.C });
+		DialogSetStatus(textContent, options.statusTimer ?? 0, { group: focusGroup, C });
 	}
 
 	/** @type {DialogMenu["_ReloadButtonGrid"]} */
-	_ReloadButtonGrid(root, buttonGrid, options) {
+	_ReloadButtonGrid(root, buttonGrid, C, focusGroup, options) {
 		if (options.resetDialogItems) {
-			DialogInventoryBuild(this.C, false, true, false);
+			DialogInventoryBuild(C, false, true, false);
 		}
 
 		if (options.reset) {
@@ -3551,7 +3587,7 @@ class _DialogLockingMenu extends DialogMenu {
 			DialogInventory.forEach((clickedItem, i) => ElementButton.CreateForAsset(
 				`dialog-locking-${i}`,
 				clickedItem,
-				this.C,
+				C,
 				this.eventListeners._ClickButton,
 				{ clickDisabled: this.eventListeners._ClickDisabledButton },
 				{ button: {
@@ -3563,11 +3599,11 @@ class _DialogLockingMenu extends DialogMenu {
 			));
 		}
 
-		const equippedItem = InventoryGet(this.C, this.focusGroup.Name);
+		const equippedItem = InventoryGet(C, focusGroup.Name);
 		for (const [i, button] of Array.from(buttonGrid.children).entries()) {
 			const clickedLock = DialogInventory[i];
 
-			if (this.GetClickStatus(this.C, clickedLock, equippedItem)) {
+			if (this.GetClickStatus(C, clickedLock, equippedItem)) {
 				button.setAttribute("aria-disabled", "true");
 			} else {
 				button.removeAttribute("aria-disabled");
@@ -3576,12 +3612,12 @@ class _DialogLockingMenu extends DialogMenu {
 			if (!options.reset) {
 				// Tasks already performed during a full `options.reset`
 				button.toggleAttribute("data-hidden", CharacterAppearanceItemIsHidden(clickedLock.Asset.Name, clickedLock.Asset.Group.Name));
-				ElementButton.ReloadAssetIcons(/** @type {HTMLButtonElement} */(button), clickedLock, this.C);
+				ElementButton.ReloadAssetIcons(/** @type {HTMLButtonElement} */(button), clickedLock, C);
 			}
 		}
 
 		if (options.resetScrollbar) {
-			buttonGrid.scrollTo({ top: 0 });
+			buttonGrid.scrollTo({ top: 0, behavior: "instant" });
 		}
 	}
 
@@ -3643,15 +3679,15 @@ class _DialogPermissionMenu extends DialogMenu {
 	}
 
 	/** @type {DialogMenu["_ReloadStatus"]} */
-	_ReloadStatus(root, span, options) {
+	_ReloadStatus(root, span, C, focusGroup, options) {
 		const textContent = options.status ?? InterfaceTextGet("DialogMenuPermissionMode");
 		DialogSetStatus(textContent, options.statusTimer ?? 0);
 	}
 
 	/** @type {DialogMenu["_ReloadButtonGrid"]} */
-	_ReloadButtonGrid(root, buttonGrid, options) {
+	_ReloadButtonGrid(root, buttonGrid, C, focusGroup, options) {
 		if (options.resetDialogItems) {
-			DialogInventoryBuild(this.C, false, false, false);
+			DialogInventoryBuild(C, false, false, false);
 		}
 
 		if (options.reset) {
@@ -3659,7 +3695,7 @@ class _DialogPermissionMenu extends DialogMenu {
 			DialogInventory.forEach((clickedItem, i) => ElementButton.CreateForAsset(
 				`dialog-permission-${i}`,
 				clickedItem,
-				this.C,
+				C,
 				this.eventListeners._ClickButton,
 				{ clickDisabled: this.eventListeners._ClickDisabledButton },
 				{ button: {
@@ -3671,34 +3707,34 @@ class _DialogPermissionMenu extends DialogMenu {
 			));
 		}
 
-		const equippedItem = InventoryGet(this.C, this.focusGroup.Name);
+		const equippedItem = InventoryGet(C, focusGroup.Name);
 		for (const [i, button] of Array.from(buttonGrid.children).entries()) {
 			const clickedItem = DialogInventory[i];
 
-			const status = this.GetClickStatus(this.C, clickedItem, equippedItem);
+			const status = this.GetClickStatus(C, clickedItem, equippedItem);
 			if (status) {
 				button.setAttribute("aria-disabled", "true");
 			} else {
 				button.removeAttribute("aria-disabled");
 			}
 
-			const permissions = this.C.PermissionItems[`${clickedItem.Asset.Group.Name}/${clickedItem.Asset.Name}`];
+			const permissions = C.PermissionItems[`${clickedItem.Asset.Group.Name}/${clickedItem.Asset.Name}`];
 			button.setAttribute("data-permission", permissions?.Permission ?? "Default");
 
 			if (!options.reset) {
 				// Tasks already performed during a full `options.reset`
 				button.toggleAttribute("data-hidden", CharacterAppearanceItemIsHidden(clickedItem.Asset.Name, clickedItem.Asset.Group.Name));
-				ElementButton.ReloadAssetIcons(/** @type {HTMLButtonElement} */(button), clickedItem, this.C);
+				ElementButton.ReloadAssetIcons(/** @type {HTMLButtonElement} */(button), clickedItem, C);
 			}
 		}
 
 		if (options.resetScrollbar) {
-			buttonGrid.scrollTo({ top: 0 });
+			buttonGrid.scrollTo({ top: 0, behavior: "instant" });
 		}
 	}
 
 	/** @type {DialogMenu["_ReloadIcon"]} */
-	_ReloadIcon(root, icon, options) { /** noop */ }
+	_ReloadIcon(root, icon, C, focusGroup, options) { /** noop */ }
 
 	/** @type {DialogMenu<string, DialogInventoryItem>["_GetClickedObject"]} */
 	_GetClickedObject(button) {
@@ -3757,15 +3793,15 @@ class _DialogActivitiesMenu extends DialogMenu {
 	}
 
 	/** @type {DialogMenu["_ReloadStatus"]} */
-	_ReloadStatus(root, span, options) {
+	_ReloadStatus(root, span, C, focusGroup, options) {
 		const textContent = options.status ?? InterfaceTextGet("SelectActivityGroup");
-		DialogSetStatus(textContent, options.statusTimer ?? 0, { C: this.C, group: this.focusGroup });
+		DialogSetStatus(textContent, options.statusTimer ?? 0, { C, group: focusGroup });
 	}
 
 	/** @type {DialogMenu["_ReloadButtonGrid"]} */
-	_ReloadButtonGrid(root, buttonGrid, options) {
+	_ReloadButtonGrid(root, buttonGrid, C, focusGroup, options) {
 		if (options.resetDialogItems) {
-			DialogBuildActivities(this.C, false);
+			DialogBuildActivities(C, false);
 		}
 
 		if (options.reset) {
@@ -3773,23 +3809,23 @@ class _DialogActivitiesMenu extends DialogMenu {
 			DialogActivity.forEach((clickedActivity, index) => ElementButton.CreateForActivity(
 				`dialog-activities-${index}`,
 				clickedActivity,
-				this.C,
+				C,
 				this.eventListeners._ClickButton,
 				{ clickDisabled: this.eventListeners._ClickDisabledButton },
 				{ button: {
 					parent: buttonGrid,
 					classList: ["dialog-grid-button"],
 					attributes: { "screen-generated": undefined },
-					dataAttributes: { index, group: this.focusGroup.Name },
+					dataAttributes: { index, group: focusGroup.Name },
 				}},
 			));
 		}
 
-		const equippedItem = InventoryGet(this.C, this.focusGroup.Name);
+		const equippedItem = InventoryGet(C, focusGroup.Name);
 		for (const [i, button] of Array.from(buttonGrid.children).entries()) {
 			const clickedActivity = DialogActivity[i];
 
-			const status = this.GetClickStatus(this.C, clickedActivity, equippedItem);
+			const status = this.GetClickStatus(C, clickedActivity, equippedItem);
 			if (status) {
 				button.setAttribute("aria-disabled", "true");
 			} else {
@@ -3798,12 +3834,12 @@ class _DialogActivitiesMenu extends DialogMenu {
 		}
 
 		if (options.resetScrollbar) {
-			buttonGrid.scrollTo({ top: 0 });
+			buttonGrid.scrollTo({ top: 0, behavior: "instant" });
 		}
 	}
 
 	/** @type {DialogMenu["_ReloadIcon"]} */
-	_ReloadIcon(icon) { /** noop */ }
+	_ReloadIcon() { /** noop */ }
 
 	/** @type {DialogMenu<string, ItemActivity>["_GetClickedObject"]} */
 	_GetClickedObject(button) {
@@ -3874,25 +3910,25 @@ class _DialogCraftedMenu extends DialogMenu {
 	}
 
 	/** @type {DialogMenu["_ReloadStatus"]} */
-	_ReloadStatus(root, span, options) {
+	_ReloadStatus(root, span, C, focusGroup, options) {
 		const textContent = options.status ?? InterfaceTextGet("CraftedItemProperties");
 		DialogSetStatus(textContent, options.statusTimer ?? 0);
 	}
 
 	/** @type {DialogMenu["_ReloadButtonGrid"]} */
-	_ReloadButtonGrid(root, buttonGrid, options) { /** noop */ }
+	_ReloadButtonGrid(root, buttonGrid, C, focusGroup, options) { /** noop */ }
 
 	/** @type {DialogMenu["_ReloadIcon"]} */
-	_ReloadIcon(root, icon, options) {
+	_ReloadIcon(root, icon, C, focusGroup, options) {
 		const ids = this.ids;
-		const item = InventoryGet(this.C, this.focusGroup.Name);
+		const item = InventoryGet(C, focusGroup.Name);
 
 		icon.innerHTML = "";
 		[
 			ElementButton._ParseImage(icon.id, `./Assets/Female3DCG/${item.Asset.DynamicGroupName}/Preview/${item.Asset.Name}.png`),
 			ElementButton._ParseLabel(icon.id, item.Asset.Description),
 			ElementButton._ParseIcons(icon.id, [
-				DialogGetFavoriteStateDetails(this.C, item.Asset)?.Icon,
+				DialogGetFavoriteStateDetails(C, item.Asset)?.Icon,
 				...DialogGetLockIcon(item, true),
 				...DialogGetAssetIcons(item.Asset),
 				...DialogEffectIcons.GetIcons(item)
