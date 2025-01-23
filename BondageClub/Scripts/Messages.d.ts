@@ -234,16 +234,16 @@ type ServerChatRoomData = {
 	BlockCategory: ServerChatRoomBlockCategory[];
 	Language: ServerChatRoomLanguage;
 	Space: ServerChatRoomSpace;
-	MapData?: ServerChatRoomMapData;
+	MapData: ServerChatRoomMapData;
 	Custom: ServerChatRoomCustomData;
 	Character: ServerAccountDataSynced[];
 }
 
 interface ServerChatRoomMapData {
-	Type: string;
+	Type: ChatRoomMapType;
 	Fog?: boolean;
-	Tiles: string;
-	Objects: string;
+	Tiles?: string;
+	Objects?: string;
 }
 
 interface ServerChatRoomCustomData {

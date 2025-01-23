@@ -243,9 +243,7 @@ function AsylumGGTSBuildPrivate() {
 	AsylumGGTSTimer = 0;
 	AsylumGGTSTask = null;
 	AsylumGGTSPreviousPose = { ...Player.PoseMapping };
-	ChatCreateBackgroundList = BackgroundsGenerateList([BackgroundsTagAsylum]);
 	ChatSearchReturnToScreen = "AsylumGGTS";
-	ChatCreateLoad();
 	/** @type {ChatRoomSettings} */
 	const NewRoom = {
 		Name: "GGTS" + Math.round(CurrentTime).toString() + Math.round(Math.random() * 1000).toString(),
@@ -260,7 +258,7 @@ function AsylumGGTSBuildPrivate() {
 		Ban: [],
 		Limit: 2,
 		BlockCategory: [],
-		Language: ChatCreateLanguage,
+		Language: ChatAdminDefaultLanguage,
 	};
 	ServerSend("ChatRoomCreate", NewRoom);
 	DialogLeave();

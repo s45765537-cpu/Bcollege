@@ -102,7 +102,7 @@ function ChatSearchLoad() {
 	ChatRoomNotificationReset();
 	ChatSearchRejoinIncrement = 1;
 	TextPrefetch("Character", "FriendList");
-	TextPrefetch("Online", "ChatCreate");
+	TextPrefetch("Online", "ChatAdmin");
 	TextPrefetch("Online", "ChatRoom");
 }
 
@@ -233,12 +233,12 @@ function ChatSearchClick() {
 	}
 
 	if (MouseIn(25, 898, 350, 64)) {
-		let Pos = !ChatSearchLanguageTemp ? 0 : ChatCreateLanguageList.indexOf(ChatSearchLanguageTemp) + 1;
-		if (Pos >= ChatCreateLanguageList.length) {
+		let Pos = !ChatSearchLanguageTemp ? 0 : ChatAdminLanguageList.indexOf(ChatSearchLanguageTemp) + 1;
+		if (Pos >= ChatAdminLanguageList.length) {
 			ChatSearchLanguageTemp = "";
 		}
 		else {
-			ChatSearchLanguageTemp = ChatCreateLanguageList[Pos];
+			ChatSearchLanguageTemp = ChatAdminLanguageList[Pos];
 		}
 
 		ChatSearchSaveLanguageFiltering();
@@ -258,8 +258,7 @@ function ChatSearchClick() {
 		}
 
 		if (MouseIn(1665, 25, 90, 90)) {
-			ChatBlockItemCategory = [];
-			CommonSetScreen("Online", "ChatCreate");
+			ChatAdminShowCreate();
 		}
 
 		if (MouseIn(1775, 25, 90, 90)) {
@@ -980,12 +979,12 @@ function ChatSearchAutoJoinRoom() {
 				&& Player.LastChatRoom.Limit
 				&& Player.LastChatRoom.Description != null) {
 
-				if ((ChatCreateMessage === "ResponseRoomAlreadyExist" || roomIsFull) && ChatSearchRejoinIncrement < 50) {
+				if ((ChatAdminMessage === "ResponseRoomAlreadyExist" || roomIsFull) && ChatSearchRejoinIncrement < 50) {
 					// The ChatRoomCreate call below failed. Append prefix and try again
 					ChatSearchRejoinIncrement += 1;
 					const ChatRoomSuffix = " " + ChatSearchRejoinIncrement;
 					Player.LastChatRoom.Name = Player.LastChatRoom.Name.substring(0, Math.min(Player.LastChatRoom.Name.length, 19 - ChatRoomSuffix.length)) + ChatRoomSuffix; // Added
-					ChatCreateMessage = "";
+					ChatAdminMessage = "";
 					ChatSearchQuery();
 				} else {
 					/** @type {ChatRoomSettings} */
@@ -1007,7 +1006,7 @@ function ChatSearchAutoJoinRoom() {
 						MapData: Player.LastChatRoom.MapData,
 					};
 					ServerSend("ChatRoomCreate", NewRoom);
-					ChatCreateMessage = "CreatingRoom";
+					ChatAdminMessage = "CreatingRoom";
 
 					// Actually set the real Admin list. This will get restored by ChatRoomRecreate when it runs
 					if (Player.ImmersionSettings.ReturnToChatRoomAdmin && Player.LastChatRoom.Admin) {

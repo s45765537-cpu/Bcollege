@@ -14,6 +14,10 @@ Private
 私有
 Locked
 鎖定
+Need exact name, admin, or whitelist to find it
+需要確切的名稱、管理員或白名單才能找到它
+Only admins and whitelisted members can enter or leave
+只有管理員和白名單上的會員可以進入或離開
 Size (2-20)
 大小 (2-20)
 Member numbers separated by commas (ex: 123, ...)
@@ -34,6 +38,8 @@ Room settings can only be updated by administrators
 房間選項僅能被房管修改
 Background
 背景
+Create
+創建
 Save
 保存
 Exit
@@ -48,6 +54,8 @@ Account error, please try to relog
 帳號錯誤,請重新登入
 Invalid chat room data detected
 無效的聊天室數據
+Room created, joining it...
+房間已創建，正在加入...
 Block Categories
 屏蔽性癖
 No Game
@@ -58,6 +66,8 @@ Magic Battle
 魔法對戰
 GGTS
 GGTS
+(Click anywhere to return)
+(點擊任意位置返回)
 English
 英語
 French

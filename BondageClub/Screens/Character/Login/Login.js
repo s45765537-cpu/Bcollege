@@ -704,12 +704,12 @@ function LoginSetupPlayer(C) {
 	Player.WardrobeCharacterNames = C.WardrobeCharacterNames;
 
 	// Sets the default language when creating or searching for chat rooms
-	ChatCreateLanguage = C.RoomCreateLanguage;
-	if (ChatCreateLanguage == null) ChatCreateLanguage = ChatCreateLanguageList[0];
-	if (ChatCreateLanguageList.indexOf(ChatCreateLanguage) < 0) ChatCreateLanguage = ChatCreateLanguageList[0];
+	ChatAdminDefaultLanguage = C.RoomCreateLanguage;
+	if (ChatAdminDefaultLanguage == null) ChatAdminDefaultLanguage = ChatAdminLanguageList[0];
+	if (ChatAdminLanguageList.indexOf(ChatAdminDefaultLanguage) < 0) ChatAdminDefaultLanguage = ChatAdminLanguageList[0];
 	ChatSearchLanguage = C.RoomSearchLanguage;
 	if (ChatSearchLanguage == null) ChatSearchLanguage = "";
-	if (ChatSearchLanguage && ChatCreateLanguageList.indexOf(ChatSearchLanguage) < 0) ChatSearchLanguage = "";
+	if (ChatSearchLanguage && ChatAdminLanguageList.indexOf(ChatSearchLanguage) < 0) ChatSearchLanguage = "";
 
 	// Load the last chat room
 	Player.LastMapData = C.LastMapData;
