@@ -496,18 +496,20 @@ function ElementPosition(ElementID, X, Y, W, H) {
 /**
  * Draws an existing HTML element at a specific position within the document. The element will not be centered on its given coordinates unlike the ElementPosition function.
  * Not same as ElementPositionFix. Calculates Font size itself.
- * @param {string} ElementID - The id of the input tag to (re-)position.
+ * @param {string | HTMLElement} ElementOrID - The id of the input tag to (re-)position or the element itself.
  * @param {number} X - Starting point of the element on the X axis.
  * @param {number} Y - Starting point of the element on the Y axis.
  * @param {number} W - Width of the element.
  * @param {number} [H] - Height of the element.
  * @returns {void} - Nothing
  */
-function ElementPositionFixed(ElementID, X, Y, W, H) {
-	var E = document.getElementById(ElementID);
+function ElementPositionFixed(ElementOrID, X, Y, W, H) {
+	const E = typeof ElementOrID === "string" ? document.getElementById(ElementOrID) : ElementOrID;
+
 	// Verify the element exists
 	if (!E) {
-		console.warn("A call to ElementPositionFix was made on non-existent element with ID '" + ElementID + "'");
+		const id = typeof ElementOrID === "string" ? ElementOrID : ElementOrID?.id;
+		console.warn(`A call to ElementPositionFix was made on non-existent element with ID "${id}"`);
 		return;
 	}
 
