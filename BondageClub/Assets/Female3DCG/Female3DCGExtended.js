@@ -1315,7 +1315,7 @@ var AssetFemale3DCGExtended = {
 		HairBack74: {
 			Archetype: ExtendedArchetype.TYPED,
 			DrawImages: false,
-			Options: [{ Name: "A" }, { Name: "B" }, {Name: "C"}],
+			Options: [{ Name: "A" }, { Name: "B" }, { Name: "C" }],
 		},
 		HairBack75: {
 			Archetype: ExtendedArchetype.MODULAR,
@@ -4353,12 +4353,7 @@ var AssetFemale3DCGExtended = {
 							// h1 - Hood
 							Property: {
 								Difficulty: 4,
-								Effect: [
-									E.GagEasy,
-									E.BlockMouth,
-									E.BlindHeavy,
-									E.DeafLight,
-								],
+								Effect: [E.GagEasy, E.BlockMouth, E.BlindHeavy, E.DeafLight],
 								Block: [
 									"ItemMouth",
 									"ItemMouth2",
@@ -4438,17 +4433,9 @@ var AssetFemale3DCGExtended = {
 						},
 						{
 							// b1 - Restraints
-							Prerequisite: [
-								"OnBed",
-								"NotSuspended",
-								"NotLifted",
-								"NoKneel",
-							],
-							SetPose: [
-								"LegsClosed",
-								"BackElbowTouch",
-							],
+							Prerequisite: ["OnBed", "NotSuspended", "NotLifted"],
 							Property: {
+								SetPose: ["LegsClosed", "BackElbowTouch"],
 								Difficulty: 10,
 								Effect: [E.Freeze],
 								Block: ["ItemDevices"],
@@ -8418,7 +8405,7 @@ var AssetFemale3DCGExtended = {
 							},
 						},
 						{
-							Name: "Wig15",
+							// "Wig15"
 							Property: {
 								Hide: [
 									"Mask",
@@ -8431,7 +8418,7 @@ var AssetFemale3DCGExtended = {
 							},
 						},
 						{
-							Name: "Wig16",
+							// "Wig16"
 							Property: {
 								Hide: [
 									"Mask",
@@ -10341,12 +10328,12 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Stand",
 					AllowSelfSelect: false,
-					Property: {Prerequisite: ["CanLegsOpen"]},
+					Prerequisite: ["CanLegsOpen"],
 				},
 				{
 					Name: "LegsClosed",
+					Prerequisite: ["CanLegsClosed"],
 					Property: {
-						Prerequisite: ["CanLegsClosed"],
 						SetPose: ["LegsClosed"],
 					},
 				},
@@ -10691,14 +10678,14 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Light",
 					Property: {
-						Effect: [ E.Slow, E.BlockWardrobe ],
+						Effect: [E.Slow, E.BlockWardrobe],
 						Difficulty: 0,
 					},
 				},
 				{
 					Name: "Heavy",
 					Property: {
-						Effect: [ E.Freeze, E.BlockWardrobe ],
+						Effect: [E.Freeze, E.BlockWardrobe],
 						Difficulty: 5,
 					},
 				},
@@ -10827,7 +10814,7 @@ var AssetFemale3DCGExtended = {
 						{
 							// p1 - LightPogo
 							Property: {
-								Effect: [ E.Slow, E.BlockWardrobe ],
+								Effect: [E.BlockWardrobe],
 								SetPose: ["LegsClosed"],
 								Difficulty: 4,
 							},
@@ -10835,7 +10822,7 @@ var AssetFemale3DCGExtended = {
 						{
 							// p2 - HeavyPogo
 							Property: {
-								Effect: [ E.Freeze, E.BlockWardrobe ],
+								Effect: [E.Freeze, E.BlockWardrobe],
 								SetPose: ["LegsClosed"],
 								Difficulty: 8,
 							},
@@ -14188,7 +14175,7 @@ var AssetFemale3DCGExtended = {
 							},
 						},
 						{
-							Name: "Wig15",
+							// "Wig15"
 							Property: {
 								Hide: [
 									"HairFront",
@@ -14200,7 +14187,7 @@ var AssetFemale3DCGExtended = {
 							},
 						},
 						{
-							Name: "Wig16",
+							// "Wig16"
 							Property: {
 								Hide: [
 									"HairFront",

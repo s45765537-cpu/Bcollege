@@ -1209,7 +1209,7 @@ function PandoraPenitentiaryCreate() {
 		/** @type {ServerChatRoomGame} */
 		let Game = "Prison";
 		const SearchData = { Query: "", Language: "", Space: ChatRoomSpaceType.MIXED, Game: Game, FullRooms: false };
-		ChatCreateBackgroundList = BackgroundsGenerateList([BackgroundsTagPandora]);
+		ChatAdminBackgroundList = BackgroundsGenerateList([BackgroundsTagPandora]);
 		ChatSearchLastQuerySearchTime = CommonTime();
 		ChatSearchResult = [];
 		PandoraPenitentiaryCreateTimer = CommonTime() + 10000;
@@ -1264,7 +1264,7 @@ function PandoraPenitentiaryResult(Result) {
 			Whitelist: [],
 			Ban: [],
 			BlockCategory: ["Leashing"],
-			Language: ChatCreateLanguage,
+			Language: ChatAdminDefaultLanguage,
 		};
 		ServerSend("ChatRoomCreate", NewRoom);
 
@@ -1561,14 +1561,14 @@ function PandoraPenitentiaryDoActivity(Activity) {
 	if (Activity != null) {
 		Activity = Activity.trim();
 		Activity = Activity.charAt(0).toUpperCase() + Activity.substring(1).toLowerCase();
-	} 
+	}
 	if ((Activity == null) || !PandoraPenitentiaryActivityList.includes(Activity))
 		return ChatRoomSendLocal(TextGet("PandoraInvalidActivity"), 10_000);
 
 	// Make sure the activity can be run on that target
 	if (Target != null) {
 		let ActivityList = PandoraPenitentiaryBuildActivityList(Target);
-		if (!ActivityList.includes(Activity)) 
+		if (!ActivityList.includes(Activity))
 			return ChatRoomSendLocal(TextGet("PandoraInvalidActivityForTarget"), 10_000);
 	}
 
@@ -1582,7 +1582,7 @@ function PandoraPenitentiaryDoActivity(Activity) {
 		ServerSend("ChatRoomChat", { Content: "PandoraGuardActivity" + Activity, Type: "Action", Dictionary: Dict });
 		ServerSend("ChatRoomChat", { Content: "Pandora" + Activity + "|" + Target.MemberNumber, Type: "Hidden", Target: Target.MemberNumber});
 	}
-	
+
 }
 
 /**

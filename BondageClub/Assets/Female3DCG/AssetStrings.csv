@@ -5557,7 +5557,7 @@ ItemHandheldAnimeGirlWandStaff,A (spanker) staff
 ItemHandheldAnimeGirlWandSetStaff,SourceCharacter transform the Power Staff into Wand
 ItemHandheldAnimeGirlWandWand,A (kinky) wand
 ItemHandheldAnimeGirlWandSetWand,SourceCharacter transform the Power Staff into Staff
-ItemDevicesCementSelectBase,Pole, material and bucket menu:
+ItemDevicesCementSelectBase,"Pole, material and bucket menu:"
 ItemDevicesCementModulePole,Pole and ratchets
 ItemDevicesCementSelectPole,Choose restraint lenght:
 ItemDevicesCementOptionp0,None

@@ -363,6 +363,7 @@ function ValidationResolveLockModification(previousItem, newItem, params, itemBl
 	const { C, sourceMemberNumber } = params;
 
 	const previousProperty = previousItem.Property || {};
+	/** @type {ItemProperties} */
 	const newProperty = newItem.Property = newItem.Property || {};
 
 	const previousLock = InventoryGetLock(previousItem);

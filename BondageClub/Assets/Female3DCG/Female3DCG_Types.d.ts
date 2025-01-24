@@ -1214,8 +1214,6 @@ interface ModularItemOptionConfig extends Omit<ExtendedItemOptionConfig, "Name">
 	HeightModifier?: number;
 	/** Whether that option applies effects */
 	Effect?: EffectName[];
-	/** Whether the option forces a given pose */
-	SetPose?: AssetPoseName;
 	/** A list of activities enabled by that module */
 	AllowActivity?: ActivityName[];
 	Property?: Omit<ItemProperties, "TypeRecord">;
