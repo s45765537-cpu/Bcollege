@@ -1,11 +1,9 @@
-"use strict";
+import fs from "fs";
+import minimist from "minimist";
+import path from "path";
+import { createArrayCsvWriter } from 'csv-writer';
 
-const fs = require("fs");
-const minimist = require("minimist");
-const path = require("path");
-const { createArrayCsvWriter } = require('csv-writer');
-
-const { parseCSV, zip, validateArgv, BASE_PATH } = require("./Common.js");
+import { parseCSV, zip, validateArgv, BASE_PATH } from "./Common.js";
 
 const HELP = `\
 Sort the entries of the passed csv file.
@@ -64,10 +62,19 @@ function sortAllCSV(root, recursive=true) {
 
 (function () {
 	const kwargsTemplate = { file: "", f: "", help: false, h: false, all: false };
-	const kwargs = validateArgv(minimist(
+	const args = minimist(
 		process.argv.slice(2),
 		{ string: ["file"], alias: { "h": "help", "f": "file" } },
-	), kwargsTemplate);
+	);
+	/** @type {typeof kwargsTemplate} */
+	let kwargs;
+	try {
+		kwargs = validateArgv(args, kwargsTemplate);
+	} catch (e) {
+		console.error(/** @type {Error} */(e).message);
+		console.log(HELP);
+		process.exit(-1);
+	}
 
 	if (kwargs.help) {
 		console.log(HELP);

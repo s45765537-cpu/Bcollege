@@ -11,9 +11,32 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2025-01-20
-* Last recorded PR: [#5372](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5372)
-* Last recorded commit hash: `20d260bde2f23349a54449d8ced9f52a071bf73a`
+* Changelog last updated: 2025-01-25
+* Last recorded PR: [#5367](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5367)
+* Last recorded commit hash: `2c88cee819d32702e64d4a2be121f88cc6707b32`
+
+## [Generated]
+* git4nick - New Item Throne ([#5373](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5373))
+* Rama - ENH: Ensure that the asset's `ParentGroup` can be specified on a pose-by-pose basis ([#5370](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5370))
+* Estsanatlehi - Merge ChatCreate into ChatAdmin ([#5282](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5282))
+* Rama - HOTFIX: Add more async-related safety measures for dialog subscreen reloads ([#5374](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5374))
+* Estsanatlehi - Monthly post-merge CI cleanup ([#5367](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5367))
+
+## [Unmatched commits]
+* git4nick - New Item Throne (PR not found)
+* Ben987 - R112 + Credits + Patrons (PR not found)
+* Estsanatlehi - Merge the ChatCreate screen into ChatAdmin (PR not found)
+* l3ra - fix: background text using old ChatCreate variable (PR not found)
+* l3ra - fix: missing Whitelist properties (PR not found)
+* l3ra - style: ensure consistent ordering of admin/whitelist/ban (PR not found)
+* Estsanatlehi - fix: create rooms in the correct space (PR not found)
+* l3ra - fix: replace outdated strings (and translations) (PR not found)
+* Rama - ENH: Allow `ElementPositionFixed` to take both elements as well as element IDs (PR not found)
+* Rama - MAINT: Add more `DialogMenu.Reload` async-related precautions (PR not found)
+* Estsanatlehi - Monthly post-merge CI cleanup (PR not found)
+* Estsanatlehi - Update uses of removed ChatCreate variables in Pandora (PR not found)
+* Ben987 - FIX - Remove ChatCreate from Index (PR not found)
+
 
 ## [R112]
 

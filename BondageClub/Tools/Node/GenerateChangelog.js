@@ -1,17 +1,14 @@
-// @ts-check
-"use strict";
-const fs = require("fs");
-const path = require("path");
-const util = require("util");
-const cheerio = require("cheerio");
-const { marked } = require("marked");
-const simpleGit = require("simple-git");
-const nfetch = require("node-fetch");
+import fs from "fs";
+import path from "path";
+import util from "util";
+import * as cheerio from "cheerio";
+import { marked } from "marked";
+import { simpleGit } from "simple-git";
 
 const readFileAsync = util.promisify(fs.readFile);
 const writeFileAsync = util.promisify(fs.writeFile);
 
-const bcRoot = path.resolve(__dirname, "../..");
+const bcRoot = path.resolve(import.meta.dirname, "../..");
 const htmlPath = path.join(bcRoot, "changelog.html");
 const markdownPath = path.join(bcRoot, "CHANGELOG.md");
 
@@ -133,7 +130,7 @@ async function generateChangelogHtml() {
 
 	const startIndex = sourceMarkdown.search(/^## \[R[0-9a-zA-Z]+]/m);
 	const trimmedMarkdown = sourceMarkdown.substring(startIndex);
-	const renderedMarkdown = marked.parse(trimmedMarkdown);
+	const renderedMarkdown = await marked.parse(trimmedMarkdown);
 
 	const $ = cheerio.load(sourceHtml);
 	$("body").empty()
@@ -143,7 +140,13 @@ async function generateChangelogHtml() {
 		.append(generateContributorNote())
 		.append(renderedMarkdown);
 
-	await writeFileAsync(htmlPath, $.root().html());
+	const contents = $.root().html();
+	if (!contents) {
+		console.error(`no contents?`);
+		return;
+	}
+
+	await writeFileAsync(htmlPath, contents);
 }
 
 function generateContributorNote() {
@@ -175,8 +178,8 @@ async function fetchMergeRequests(page) {
 	for (let i = 0; i < MAX_ATTEMPTS; i++) {
 		console.log(`Fetching page ${page} of merge requests` + (i > 0 ? `(attempt ${i + 1})` : ''));
 		try {
-			const response = await nfetch(`https://gitgud.io/api/v4/projects/${GIT_GUD_PROJECT_ID}/merge_requests?page=${page}`);
-			return await response.json();
+			const response = await fetch(`https://gitgud.io/api/v4/projects/${GIT_GUD_PROJECT_ID}/merge_requests?page=${page}`);
+			return /** @type {any} */ (await response.json());
 		} catch (error) {
 			console.warn(`Fetch of merge request page ${page} failed. Retrying...`);
 			await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -187,8 +190,7 @@ async function fetchMergeRequests(page) {
 }
 
 async function getCommits() {
-	/** @type {simpleGit.SimpleGit} */
-	// @ts-expect-error
+	/** @type {import("simple-git").SimpleGit} */
 	const git = simpleGit(bcRoot);
 
 	const remoteName = await git.revparse(['--abbrev-ref', "--symbolic-full-name", "@{u}"]);
