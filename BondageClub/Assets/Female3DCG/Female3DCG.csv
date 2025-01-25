@@ -800,6 +800,7 @@ ItemBoots,BalletMittens,Ballet Mittens
 ItemBoots,BalletWedges,Ballet Wedges
 ItemBoots,FuturisticHeels,Futuristic Shoes
 ItemBoots,FuturisticHeels2,Futuristic Heels
+ItemBoots,HeellessHoof,Heelless Hi-Shoes
 ItemBoots,HighThighBoots,High Thigh Boots
 ItemBoots,LeatherFootMitts1,Short Leather Foot Mittens
 ItemBoots,LeatherToeCuffs,Leather Toe Cuffs
@@ -875,6 +876,7 @@ ItemDevices,,Body
 ItemDevices,BBQ,Grill
 ItemDevices,Bed,Bed
 ItemDevices,BondageBench,Bondage Bench
+ItemDevices,BoundBar,Exclusive Waitress
 ItemDevices,BrickWall,Brick Wall
 ItemDevices,BurlapSack,Burlap Sack
 ItemDevices,Cage,Stand up cage
@@ -1213,6 +1215,7 @@ ItemMisc,WoodenMaidTrayFull,Wooden Maid Tray Full
 ItemMisc,WoodenPaddle,Wooden Paddle
 ItemMisc,WoodenSign,Wooden Sign
 ItemMouth,,Mouth
+ItemMouth,AOMGag,Always Open Mouth Gag
 ItemMouth,Ball,Tennis Ball
 ItemMouth,BallGag,Ball Gag
 ItemMouth,BallGagMask,Ball Gag Mask
@@ -1668,6 +1671,7 @@ Shoes,Flippers,Flippers
 Shoes,FullLegBoots,Full Leg Leather Boots
 Shoes,FuzzyBoots,Fuzzy Boots
 Shoes,Geta,Geta Sandals
+Shoes,HeellessHoof,Heelless Hi-Shoes
 Shoes,Heels1,Heels
 Shoes,Heels2,Heels Strap
 Shoes,Heels3,Multi-Strap Heels
