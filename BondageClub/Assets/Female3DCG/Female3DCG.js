@@ -18854,11 +18854,11 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HairFront65",
-				Top: 54,
-				Left: 171,
+				Top: 52,
+				Left: 169,
 				Layer: [
 					{
-						Name: "Main",
+						Name: "Full",
 					},
 					{
 						Name: "Highlights",
