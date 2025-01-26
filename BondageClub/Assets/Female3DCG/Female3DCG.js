@@ -21507,7 +21507,7 @@ var AssetFemale3DCG = [
 				Name: "HeelBinders",
 				InventoryID: 1182,
 				BuyGroup: "HeelBinders",
-				FetishID: 10,
+				FetishID: ["Leather"],
 				Priority: 26,
 				Value: 26,
 				Difficulty: 5,
@@ -21516,9 +21516,9 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DrawLocks: false,
 				AllowTighten: true,
-				Audio: ["Buckle"],
+				Audio: "Buckle",
 				Effect: [E.CuffedFeet],
-				Block: ["Shoes", "ItemBoots"],
+				Block: ["ItemBoots"],
 				RemoveItemOnRemove: [{ Name: "X-Cross", Group: "ItemDevices" }],
 				DefaultColor: [
 					"#808080",
@@ -21552,7 +21552,7 @@ var AssetFemale3DCG = [
 					{ 
 						Name: "Chain",
 						Priority: 22,
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							...AssetPoseMapping.ItemFeet,
 							LegsClosed: "LegsClosed",
@@ -21579,7 +21579,7 @@ var AssetFemale3DCG = [
 					{ 
 						Name: "CuffLink",
 						Priority: 22,
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							...AssetPoseMapping.ItemFeet,
 							LegsClosed: "LegsClosed",
@@ -21600,13 +21600,13 @@ var AssetFemale3DCG = [
 							Kneel: PoseType.HIDE,
 						},
 						CreateLayerTypes: ["r"],
-						AllowTypes: { r: [ 4, 5, 6, 7 ] },
+						AllowTypes: { r: [4, 5, 6, 7] },
 						AllowColorize: true,
 					},
 					{ 
 						Name: "ChainSusp",
 						Priority: 22,
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							...AssetPoseMapping.ItemFeet,
 							LegsClosed: PoseType.HIDE,
@@ -21620,7 +21620,7 @@ var AssetFemale3DCG = [
 					{ 
 						Name: "ChainGround",
 						Priority: 22,
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							...AssetPoseMapping.ItemFeet,
 							LegsClosed: PoseType.HIDE,
@@ -21634,7 +21634,7 @@ var AssetFemale3DCG = [
 					{ 
 						Name: "Lock",
 						Priority: 26,
-						ParentGroup: null,
+						ParentGroup: {},
 						LockLayer: true,
 						PoseMapping: {
 							...AssetPoseMapping.ItemFeet,
