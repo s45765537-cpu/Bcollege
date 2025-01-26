@@ -3300,7 +3300,7 @@ class _DialogItemMenu extends DialogMenu {
 			return Player.CanInteract() ? null : InterfaceTextGet("AccessBlocked");
 		},
 		InventoryGroupIsAvailable: (C, clickedItem, equippedItem) => {
-			return equippedItem ? InventoryGroupIsAvailable(C, C.FocusGroup.Name, false) : null;
+			return equippedItem ? InventoryGroupIsAvailable(C, /** @type {AssetGroupItemName} */(clickedItem.Asset.Group.Name), false) : null;
 		},
 		AsylumGGTSControlItem: (C, clickedItem, equippedItem) => {
 			return equippedItem && AsylumGGTSControlItem(C, equippedItem) ? InterfaceTextGet("BlockedByGGTS") : null;
@@ -3396,13 +3396,13 @@ class _DialogItemMenu extends DialogMenu {
 					break;
 				}
 				case "items":
-					if (InventoryGroupIsBlockedByOwnerRule(C)) {
+					if (InventoryGroupIsBlockedByOwnerRule(C, focusGroup.Name)) {
 						textContent = InterfaceTextGet("ZoneBlockedOwner");
 						showIcon = true;
 					} else if (InventoryIsBlockedByDistance(C)) {
 						textContent = InterfaceTextGet("ZoneBlockedRange");
 						showIcon = true;
-					} else if (InventoryGroupIsBlocked(C)) {
+					} else if (InventoryGroupIsBlocked(C, focusGroup.Name)) {
 						textContent = InterfaceTextGet("ZoneBlocked");
 						showIcon = true;
 					} else if (!Player.CanInteract()) {
