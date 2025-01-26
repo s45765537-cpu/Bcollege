@@ -1,10 +1,7 @@
-"use strict";
+import vm from "vm";
+import fs from "fs";
 
-const vm = require("vm");
-const fs = require("fs");
-
-const { NEEDED_FILES, BASE_PATH, error, loadCSV, fromEntries, enumerate, keys, entries } = require("./Common.js");
-const common = require("./Common.js");
+import { NEEDED_FILES, BASE_PATH, error, loadCSV, fromEntries, enumerate, keys, entries, errorState } from "./Common.js";
 
 /**
  * Checks for {@link AssetDefinition.DynamicGroupName}
@@ -1396,20 +1393,20 @@ function sanitizeVMOutput(input) {
 	const dialogArray = loadCSV("Assets/Female3DCG/AssetStrings.csv", 2);
 
 	// No further checks if initial data load failed
-	if (common.localError) {
+	if (errorState.local) {
 		return;
 	}
 
 	// Check all groups
 	for (const Group of AssetFemale3DCG) {
-		common.localError = false;
+		errorState.local = false;
 
 		// Check all assets in groups
 		for (const Asset of Group.Asset) {
 			if (typeof Asset === "string") {
 				continue;
 			}
-			common.localError = false;
+			errorState.local = false;
 
 			// Check any extended item config
 			if (Asset.Extended) {
@@ -1446,7 +1443,7 @@ function sanitizeVMOutput(input) {
 		}
 	}
 
-	if (common.globalError) {
+	if (errorState.global) {
 		console.log("WARNING: Type errors detected, skipping other checks");
 		return;
 	}

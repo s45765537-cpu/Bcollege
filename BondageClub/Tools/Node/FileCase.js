@@ -1,7 +1,5 @@
-"use strict";
-
-const fs = require("fs");
-const { BASE_PATH, error } = require("./Common");
+import fs from "fs";
+import { BASE_PATH, error } from "./Common.js";
 
 /**
  * @param {string} root
