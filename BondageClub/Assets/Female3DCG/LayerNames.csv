@@ -830,6 +830,10 @@ ItemBootsFuturisticHeels2Trim,Trim
 ItemBootsFuturisticHeelsDisplay,Display
 ItemBootsFuturisticHeelsLock,Lock
 ItemBootsFuturisticHeelsShoes,Body
+ItemBootsHeellessHoofHoof,Shoes
+ItemBootsHeellessHoofLock,Padlocks
+ItemBootsHeellessHoofIronBallet,Iron Ballet
+ItemBootsHeellessHoofIBLock,Iron cuff locks
 ItemBootsLeatherFootMitts1Mitts,Mittens
 ItemBootsLeatherFootMitts1Straps,Straps
 ItemBootsLockingBoots1Boots,Boots
@@ -899,6 +903,14 @@ ItemDevicesBedMattress,Mattress
 ItemDevicesBedPillow,Pillow
 ItemDevicesBondageBenchBench,Bench
 ItemDevicesBondageBenchStraps,Straps
+ItemDevicesBoundBarFront,Structure
+ItemDevicesBoundBarWindow,Legs Window
+ItemDevicesBoundBarLight,LED details
+ItemDevicesBoundBarOmbA,Sunshade fabric
+ItemDevicesBoundBarOmbB,Sunshade structure
+ItemDevicesBoundBarObjectR,Right object
+ItemDevicesBoundBarObjectM,Center object
+ItemDevicesBoundBarObjectL,Left object
 ItemDevicesBrickWallBack,Background wall
 ItemDevicesBrickWallFront,Portal
 ItemDevicesBrickWallRestraints,Metal restraints
@@ -1449,6 +1461,10 @@ ItemMiscServingTrayTray,Tray
 ItemMiscWoodenSignRope,Rope
 ItemMiscWoodenSignSign,Sign
 ItemMiscWoodenSignText,Text
+ItemMouth2AOMGagLips,Lips
+ItemMouth2AOMGagStraps,Straps
+ItemMouth2AOMGagMetalStraps,Metal straps
+ItemMouth2AOMGagLock,Padlocks
 ItemMouth2BallGagBall,Ball
 ItemMouth2BallGagMaskBall,Ball
 ItemMouth2BallGagMaskStrap,Strap
@@ -1595,6 +1611,10 @@ ItemMouth2XLBoneGagStraps,Straps
 ItemMouth2XmasStickerGagMain,Main sticker
 ItemMouth2XmasStickerGagText,Sticker text
 ItemMouth2XmasStickerGagBorder,Sticker border
+ItemMouth3AOMGagLips,Lips
+ItemMouth3AOMGagStraps,Straps
+ItemMouth3AOMGagMetalStraps,Metal straps
+ItemMouth3AOMGagLock,Padlocks
 ItemMouth3BallGagBall,Ball
 ItemMouth3BallGagMaskBall,Ball
 ItemMouth3BallGagMaskStrap,Strap
@@ -1735,6 +1755,10 @@ ItemMouth3XLBoneGagStraps,Straps
 ItemMouth3XmasStickerGagMain,Main sticker
 ItemMouth3XmasStickerGagText,Sticker text
 ItemMouth3XmasStickerGagBorder,Sticker border
+ItemMouthAOMGagLips,Lips
+ItemMouthAOMGagStraps,Straps
+ItemMouthAOMGagMetalStraps,Metal straps
+ItemMouthAOMGagLock,Padlocks
 ItemMouthBallBase,Ball
 ItemMouthBallGagBall,Ball
 ItemMouthBallGagMaskBall,Ball
@@ -2460,6 +2484,8 @@ ShoesFuzzyBootsFur,Fur
 ShoesFuzzyBootsHeels,Heels
 ShoesGetaDai,Dai
 ShoesGetaHanao,Hanao
+ShoesHeellessHoofHoof,Shoes
+ShoesHeellessHoofPadlock,Cosmetic padlocks
 ShoesIndoorSlippersMain,Body
 ShoesIndoorSlippersDetail,Details
 ShoesLatexHeelsBase, Shoe

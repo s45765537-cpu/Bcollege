@@ -10691,6 +10691,475 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // PogoBall
+		BoundBar: {
+			Archetype: ExtendedArchetype.MODULAR,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Bar",
+					Key: "c",
+					Options: [
+						{
+							// c0 - Open
+							Property: {
+								Block: [
+									"ItemArms",
+									"ItemHands",
+									"ItemHandheld",
+									"ItemBoots",
+									"ItemAddon",
+								],
+							},
+							ChangeWhenLocked: false,
+						},
+						{
+							// c1 - Closed with window
+							Property: {
+								Block: [
+									"ItemTorso",
+									"ItemTorso2",
+									"ItemPelvis",
+									"ItemVulva",
+									"ItemVulvaPiercings",
+									"ItemButt",
+									"ItemArms",
+									"ItemHands",
+									"ItemHandheld",
+									"ItemLegs",
+									"ItemFeet",
+									"ItemBoots",
+									"ItemAddon",
+								],
+							},
+							ChangeWhenLocked: false,
+						},
+						{
+							// c2 - Closed with metal door
+							Property: {
+								Block: [
+									"ItemTorso",
+									"ItemTorso2",
+									"ItemPelvis",
+									"ItemVulva",
+									"ItemVulvaPiercings",
+									"ItemButt",
+									"ItemArms",
+									"ItemHands",
+									"ItemHandheld",
+									"ItemLegs",
+									"ItemFeet",
+									"ItemBoots",
+									"ItemAddon",
+								],
+							},
+							ChangeWhenLocked: false,
+						},
+					],
+				},
+				{
+					Name: "Omb",
+					Key: "b",
+					Options: [
+						{
+							// b0 - None
+							Property: {},
+							ChangeWhenLocked: true,
+						},
+						{
+							// b1 - Sunshade
+							Property: {},
+							ChangeWhenLocked: true,
+						},
+					],
+				},
+				{
+					Name: "Follow",
+					Key: "f",
+					Options: [
+						{
+							// f0 - Autonomous mode -LED ON-
+							Property: {
+								Effect: [E.Slow],
+								OverrideHeight: { Height: 55, Priority: 60 },
+							},
+							ChangeWhenLocked: false,
+						},
+						{
+							// f1 - Follow mode -LED ON-
+							AllowSelfSelect: false,
+							Property: {
+								Effect: [
+									E.Leash,
+									E.Mounted,
+									E.Wiggling,
+								],
+								OverrideHeight: { Height: 55, Priority: 60 },
+							},
+							ChangeWhenLocked: false,
+						},
+						{
+							// f2 - In the ground -LED ON-
+							Property: {
+								Effect: [
+									E.Block,
+									E.Freeze,
+									E.Tethered,
+									E.MapImmobile,
+								],
+							},
+							ChangeWhenLocked: false,
+						},
+						{
+							// f3 - Autonomous mode -LED OFF-
+							Property: {
+								Effect: [E.BlockWardrobe, E.Slow],
+								OverrideHeight: { Height: 55, Priority: 60 },
+							},
+							ChangeWhenLocked: false,
+						},
+						{
+							// f4 - Follow mode -LED OFF-
+							AllowSelfSelect: false,
+							Property: {
+								Effect: [
+									E.BlockWardrobe,
+									E.Block,
+									E.MergedFingers,
+									E.Leash,
+									E.Mounted,
+									E.Wiggling
+								],
+								OverrideHeight: { Height: 55, Priority: 60 },
+							},
+							ChangeWhenLocked: false,
+						},
+						{
+							// f5 - In the ground -LED OFF-
+							Property: {
+								Effect: [
+									E.BlockWardrobe,
+									E.Block,
+									E.MergedFingers,
+									E.Freeze,
+									E.Tethered,
+									E.MapImmobile,
+								],
+							},
+							ChangeWhenLocked: false,
+						},
+					],
+				},
+				{
+					Name: "ObjectL",
+					Key: "l",
+					Options: [
+						{
+							// l0 - None
+							Property: {},
+						},
+						{
+							// l1 - Menu
+							Property: {},
+						},
+						{
+							// l2 - Poker cards
+							Property: {},
+						},
+						{
+							// l3 - Club cards
+							Property: {},
+						},
+						{
+							// l4 - Coffee
+							Property: {},
+						},
+						{
+							// l5 - Iced tea
+							Property: {},
+						},
+						{
+							// l6 - Juice glass
+							Property: {},
+						},
+						{
+							// l7 - Soda can
+							Property: {},
+						},
+						{
+							// l8 - Whiskey
+							Property: {},
+						},
+						{
+							// l9 - Long Neck
+							Property: {},
+						},
+						{
+							// l10 - Small beer glass
+							Property: {},
+						},
+						{
+							// l11 - Marguerita glass
+							Property: {},
+						},
+						{
+							// l12 - Champagne glass
+							Property: {},
+						},
+						{
+							// l13 - Sake cup
+							Property: {},
+						},
+						{
+							// l14 - Penauts
+							Property: {},
+						},
+						{
+							// l15 - Banana split
+							Property: {},
+						},
+						{
+							// l16 - Sundae
+							Property: {},
+						},
+						{
+							// l17 - Fries
+							Property: {},
+						},
+						{
+							// l18 - Burguer
+							Property: {},
+						},
+						{
+							// l19 - Origiri
+							Property: {},
+						},
+						{
+							// l20 - Hot dog
+							Property: {},
+						},
+						{
+							// l21 - Taco
+							Property: {},
+						},
+						{
+							// l22 - Bill and changes
+							Property: {},
+						},
+						{
+							// l23 - Ashtray
+							Property: {},
+						},
+					],
+					ChangeWhenLocked: true,
+				},
+				{
+					Name: "ObjectM",
+					Key: "m",
+					Options: [
+						{
+							// m0 - None
+							Property: {},
+						},
+						{
+							// m1 - Welcome sign
+							Property: {},
+						},
+						{
+							// m2 - Cards and chips
+							Property: {},
+						},
+						{
+							// m3 - Club cards
+							Property: {},
+						},
+						{
+							// m4 - Old coffee pot
+							Property: {},
+						},
+						{
+							// m5 - 2 Iced tea glasses
+							Property: {},
+						},
+						{
+							// m6 - Juice glass
+							Property: {},
+						},
+						{
+							// m7 - Bunch of soda can
+							Property: {},
+						},
+						{
+							// m8 - Whiskey bottle
+							Property: {},
+						},
+						{
+							// m9 - Box of long neck beer
+							Property: {},
+						},
+						{
+							// m10 - Beer bottle
+							Property: {},
+						},
+						{
+							// m11 - Marguerita glass
+							Property: {},
+						},
+						{
+							// m12 - Champagne bucket
+							Property: {},
+						},
+						{
+							// m13 - Sake bottle
+							Property: {},
+						},
+						{
+							// m14 - Penauts
+							Property: {},
+						},
+						{
+							// m15 - Banana split
+							Property: {},
+						},
+						{
+							// m16 - Sundae
+							Property: {},
+						},
+						{
+							// m17 - Fries
+							Property: {},
+						},
+						{
+							// m18 - Burguer
+							Property: {},
+						},
+						{
+							// m19 - Pair of Origiri
+							Property: {},
+						},
+						{
+							// m20 - Two hot dogs
+							Property: {},
+						},
+						{
+							// m21 - Some tacos
+							Property: {},
+						},
+						{
+							// m22 - Tips pot
+							Property: {},
+						},
+						{
+							// m23 - No smoking sign
+							Property: {},
+						},
+					],
+					ChangeWhenLocked: true,
+				},
+				{
+					Name: "ObjectR",
+					Key: "r",
+					Options: [
+						{
+							// r0 - None
+							Property: {},
+						},
+						{
+							// r1 - Menu
+							Property: {},
+						},
+						{
+							// r2 - Poker cards
+							Property: {},
+						},
+						{
+							// r3 - Club cards
+							Property: {},
+						},
+						{
+							// r4 - Coffee
+							Property: {},
+						},
+						{
+							// r5 - Iced tea
+							Property: {},
+						},
+						{
+							// r6 - Juice glass
+							Property: {},
+						},
+						{
+							// r7 - Soda can
+							Property: {},
+						},
+						{
+							// r8 - Whiskey
+							Property: {},
+						},
+						{
+							// r9 - Long Neck
+							Property: {},
+						},
+						{
+							// r10 - Small beer glass
+							Property: {},
+						},
+						{
+							// r11 - Marguerita glass
+							Property: {},
+						},
+						{
+							// r12 - Champagne glass
+							Property: {},
+						},
+						{
+							// r13 - Sake cup
+							Property: {},
+						},
+						{
+							// r14 - Penauts
+							Property: {},
+						},
+						{
+							// r15 - Banana split
+							Property: {},
+						},
+						{
+							// r16 - Sundae
+							Property: {},
+						},
+						{
+							// r17 - Fries
+							Property: {},
+						},
+						{
+							// r18 - Burguer
+							Property: {},
+						},
+						{
+							// r19 - Origiri
+							Property: {},
+						},
+						{
+							// r20 - Hot dog
+							Property: {},
+						},
+						{
+							// r21 - Taco
+							Property: {},
+						},
+						{
+							// r22 - Bill and changes
+							Property: {},
+						},
+						{
+							// r23 - Ashtray
+							Property: {},
+						},
+					],
+					ChangeWhenLocked: true,
+				},
+			],
+		}, // BoundBar
 	}, // ItemDevices
 	ItemBoots: {
 		ToeTape: {
@@ -10831,6 +11300,28 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // BalletMittens
+		HeellessHoof: {
+			Archetype: ExtendedArchetype.TYPED,
+			ChangeWhenLocked: false,
+			Options: [
+				{
+					Name: "Hoofs",
+					Property: {},
+				},
+				{
+					Name: "IronBallet",
+					Property: { 
+						Difficulty: 5,
+						Effect: [E.Slow],
+						ExpressionTrigger: [
+							{ Name: "Low", Group: "Blush", Timer: 10 },
+							{ Name: "Soft", Group: "Eyebrows", Timer: 10 },
+							{ Name: "Sad", Group: "Eyes", Timer: 10 },
+						],
+					},
+				},
+			],
+		}, // HeellessHoof
 	}, // ItemBoots
 	ItemVulva: {
 		ClitSuctionCup: {
@@ -12006,6 +12497,21 @@ var AssetFemale3DCGExtended = {
 			],
 			DrawImages: false,
 		}, // CustomHeels
+		HeellessHoof: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "Normal",
+					Property: {},
+				},
+				{
+					Name: "Padlock",
+					// Just cosmetic addon
+					Property: {},
+				},
+			],
+		}, // HeellessHoof
 	}, // Shoes
 	HairAccessory1: {
 		ElfEars: {
@@ -13334,6 +13840,22 @@ var AssetFemale3DCGExtended = {
 				Chat: "OverfilledGagSet",
 			},
 		}, // Overfilled Gag
+		AOMGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "Lips",
+					AllowLock: false,
+					Property: {},
+				},
+				{
+					Name: "Straps",
+					AllowLock: true,
+					Property: {Difficulty: 4},
+				},
+			],
+		}, // AOMGag
 	}, // ItemMouth
 	ItemMouth2: {
 		ClothGag: {
@@ -13505,6 +14027,10 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "OverfilledGag" },
 		}, // OverfilledGag
+		AOMGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "AOMGag" },
+		}, // AOMGag
 	}, // ItemMouth2
 	ItemMouth3: {
 		ClothGag: {
@@ -13672,6 +14198,10 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "OverfilledGag" },
 		}, // OverfilledGag
+		AOMGag: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "AOMGag" },
+		}, // AOMGag
 	}, // ItemMouth3
 	Mask: {
 		BunnyMask1: {
@@ -15128,15 +15658,15 @@ var AssetFemale3DCGExtended = {
 					Key: "r",
 					Options: [
 						{
-							// r0 - None
-							Property: {},
-						},
-						{
-							// r1 - Chain
+							// r0 - Chain
 							Property: {
 								Effect: [E.Slow],
 								Difficulty: 5,
 							},
+						},
+						{
+							// r1 - None
+							Property: {},
 						},
 						{
 							// r2 - ShortChain
