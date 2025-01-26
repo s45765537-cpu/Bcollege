@@ -791,7 +791,7 @@ function DialogIntro() {
  */
 function DialogLeave() {
 
-	DialogLeaveFocusItem();
+	DialogLeaveFocusItem(false);
 
 	// Reset the character's height
 	if (CurrentCharacter && CharacterAppearanceForceUpCharacter == CurrentCharacter.MemberNumber) {
@@ -960,8 +960,10 @@ function DialogLeaveItemMenu() {
  * Leaves the item menu of the focused item (be it the extended item- or tighten/loosen menu) and
  * perform any screen-specific setup for {@link CurrentScreen}.
  * @see {@link DialogLeaveFocusItemHandlers} Namespace with helper functions for setting up new screens
+ * @param {boolean} allowModeChange - Whether to allow automatic changes to the `items` dialog mode.
+ * Should be set to `false` if any immediate subsequent mode changes or full exits are planned
  */
-function DialogLeaveFocusItem() {
+function DialogLeaveFocusItem(allowModeChange=true) {
 	if (DialogTightenLoosenItem != null) {
 		const item = DialogTightenLoosenItem;
 		TightenLoosenItemExit();
@@ -972,7 +974,7 @@ function DialogLeaveFocusItem() {
 			DialogChangeMode("extended");
 		} else if (screenCallback) {
 			screenCallback(item);
-		} else {
+		} else if (allowModeChange) {
 			DialogChangeMode("items");
 		}
 	} else if (DialogFocusItem != null) {
@@ -986,7 +988,7 @@ function DialogLeaveFocusItem() {
 		const screenCallback = DialogLeaveFocusItemHandlers.DialogFocusItem[CurrentScreen];
 		if (screenCallback) {
 			screenCallback(item);
-		} else {
+		} else if (allowModeChange) {
 			DialogChangeMode("items");
 		}
 	}
@@ -2288,7 +2290,7 @@ function DialogChangeFocusToGroup(C, Group) {
 	// Deselect any extended screen and color picking in progress
 	// It's done without calling DialogLeaveFocusItem() so it
 	// acts as cancelling out of a in-progress edit.
-	DialogLeaveFocusItem();
+	DialogLeaveFocusItem(false);
 	if (DialogMenuMode === "colorExpression" || DialogMenuMode === "colorItem")
 		ItemColorCancelAndExit();
 	else if (DialogMenuMode === "colorDefault") {
