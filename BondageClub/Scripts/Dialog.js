@@ -70,9 +70,9 @@ var DialogFocusItemColorizationRedrawTimer = null;
 var DialogMenuButton = [];
 /**
  * The dialog's current mode, what is currently shown.
- * @type {DialogMenuMode}
+ * @type {null | DialogMenuMode}
  */
-var DialogMenuMode = "dialog";
+var DialogMenuMode = null;
 
 /** @deprecated Use {@link DialogMenuMode}. */
 var DialogColor = /** @type {never} */(null);
