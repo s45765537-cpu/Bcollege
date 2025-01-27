@@ -1081,7 +1081,6 @@ function ChatRoomCreateElement() {
 			tag: "div",
 			attributes: {
 				id: "chat-room-div",
-				role: "log",
 				"screen-generated": CurrentScreen,
 			},
 			parent: document.body,
@@ -1089,7 +1088,7 @@ function ChatRoomCreateElement() {
 			children: [
 				{
 					tag: "div",
-					attributes: { id: "TextAreaChatLog" },
+					attributes: { id: "TextAreaChatLog", role: "log" },
 					classList: ["scroll-box"],
 				},
 				{
