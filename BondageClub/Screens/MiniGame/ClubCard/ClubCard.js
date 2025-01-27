@@ -1284,8 +1284,9 @@ var ClubCardList = [
 		ID: 11006,
 		Name: "College Hidden Genius",
 		Group: ["CollegeStudent"],
+		FamePerTurn: 1,
 		BeforeTurnEnd: function(CCPlayer) {
-			if (ClubCardNameIsOnBoard(CCPlayer, "Mildred")) ClubCardPlayerAddFame(CCPlayer, 5);
+			if (ClubCardNameIsOnBoard(CCPlayer, "Mildred")) ClubCardPlayerAddFame(CCPlayer, 4);
 		}
 	},
 	{
@@ -2426,7 +2427,7 @@ var ClubCardList = [
 	},
 	{
 		ID: 31023,
-		Name: "Jessi Gift",
+		Name: "Tips",
 		Type: "Event",
 		Time: 5,
 		turnStart: function(CCPlayer) {
@@ -3192,37 +3193,6 @@ function ClubCardPlayerDrawGroupCard(CCPlayer, groups, level) {
 }
 
 /**
- * Draw cards from the player deck into it's hand
- * @param {ClubCardPlayer} CCPlayer - The club card player that draws the cards
- * @param {number[]} levels - The levels
- * @param {string[] | undefined} types - check on type
- * @returns {boolean} - if cards were drawn or not
- */
-function ClubCardPlayerDrawLevelCard(CCPlayer, levels, types) {
-	if ((CCPlayer === null) || (CCPlayer.Deck === null) || (CCPlayer.Hand === null))
-		return false;
-
-
-	let levelsCardsInDeck = CCPlayer.Deck.filter(value => levels.some(level => value.RequiredLevel === level));
-
-	if (types) {
-		levelsCardsInDeck = levelsCardsInDeck.filter(card => types.some(type => card.Type === type));
-	}
-
-	if (levelsCardsInDeck.length === 0) return false;
-
-	const card = levelsCardsInDeck[Math.floor(Math.random() * levelsCardsInDeck.length)];
-	ClubCardSetGlow(card, "#00FFFF");
-
-	CCPlayer.Hand.push(card);
-	const cardIndex = CCPlayer.Deck.findIndex(value => value.ID === card.ID);
-	CCPlayer.Deck.splice(cardIndex, 1);
-
-	ClubCardCheckDetectiveDraw(CCPlayer);
-	return true;
-}
-
-/**
  * Summon cards from the player deck into it's board
  * @param {ClubCardPlayer} CCPlayer - The club card player that summons the cards
  * @param {string[]} groups - The group to summon from
@@ -3438,16 +3408,16 @@ function ClubCardLoadDeckNumber(DeckNum) {
 	}
 
 	// Starts the game with the loaded deck
-	const jessiGift = ClubCardList.find(card => card.Name === "Jessi Gift");
+	const Tips = ClubCardList.find(card => card.Name === "Tips");
 	if (!ClubCardIsOnline()) {
 		const message = ClubCardTextGet("Start" + ((ClubCardTurnIndex == 0) ? "Player" : "Opponent"));
 		ClubCardOneMessagePacketSend(message, ClubCardMessageType.SYSTEM);
-		ClubCardPlayer[0].Hand.push({...jessiGift});
-		ClubCardPlayer[1].Hand.push({...jessiGift});
+		ClubCardPlayer[0].Hand.push({...Tips});
+		ClubCardPlayer[1].Hand.push({...Tips});
 		ClubCardPlayerDrawCard(ClubCardPlayer[0], (ClubCardTurnIndex == 0) ? 5 : 6);
 		ClubCardPlayerDrawCard(ClubCardPlayer[1], (ClubCardTurnIndex == 1) ? 5 : 6);
 	} else {
-		ClubCardPlayer[Index].Hand.push({...jessiGift});
+		ClubCardPlayer[Index].Hand.push({...Tips});
 		ClubCardPlayerDrawCard(ClubCardPlayer[Index], (ClubCardTurnIndex == Index) ? 5 : 6);
 	}
 	// Syncs online data
@@ -4171,8 +4141,8 @@ function ClubCardBankrupt() {
 	CCPlayer.Event = [];
 	CCPlayer.Hand = [];
 	CCPlayer.Deck = ClubCardShuffle(CCPlayer.FullDeck.slice());
-	const jessiGift = ClubCardList.find(card => card.Name === "Jessi Gift");
-	CCPlayer.Hand.push({ ...jessiGift });
+	const Tips = ClubCardList.find(card => card.Name === "Tips");
+	CCPlayer.Hand.push({ ...Tips });
 	ClubCardTurnCardPlayed = 0;
 	ClubCardPlayerDrawCard(CCPlayer, 5);
 
