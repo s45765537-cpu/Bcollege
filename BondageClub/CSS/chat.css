@@ -53,6 +53,7 @@
   border: 1px solid black;
   word-wrap: break-word;
   padding: 0 !important;
+  overflow-y: scroll;
 }
 
 #chat-room-bot {
