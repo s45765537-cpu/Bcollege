@@ -223,7 +223,7 @@
 
 /* Keep hover-related styling on mobile disabled as it has a tendency to stick even after the click has ended */
 @media (hover: hover) {
-	@supports selector(:has) {
+	@supports selector(:has(*)) {
 		.button-styling:hover:not(:has(.button-tooltip:hover)) {
 			background-color: var(--hover-color);
 		}
@@ -233,7 +233,7 @@
 		}
 	}
 
-	@supports not selector(:has) {
+	@supports not selector(:has(*)) {
 		.button-styling:hover {
 			background-color: var(--hover-color);
 		}
