@@ -272,6 +272,7 @@ var CommandsChangelog = {
 			{
 				tooltip: "", // See _SetTranslationText()
 				tooltipPosition: "bottom",
+				tooltipRole: "label",
 				noStyling: true,
 				label: "🗑",
 				labelPosition: "center",
@@ -315,6 +316,7 @@ var CommandsChangelog = {
 			{
 				tooltip: "", // See _SetTranslationText()
 				tooltipPosition: "bottom",
+				tooltipRole: "label",
 				noStyling: true,
 				role: "checkbox",
 				label: "▼",
@@ -824,6 +826,10 @@ const CommonCommands = [
 	{
 		Tag: 'action',
 		Action: (_, msg) => ChatRoomSendEmote(msg),
+	},
+	{
+		Tag: 'pandora',
+		Action: args => PandoraPenitentiaryDoActivity(args),
 	},
 	{
 		Tag: 'help',

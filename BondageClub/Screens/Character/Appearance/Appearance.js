@@ -46,9 +46,9 @@ var CharacterAppearanceWardrobeName = "";
 var CharacterAppearanceForceUpCharacter = -1;
 /** @type {"" | ExpressionNameMap["Emoticon"]} */
 var CharacterAppearancePreviousEmoticon = "";
-/** @type {"" | "Wardrobe" | "Cloth" | "Color"} */
+/** @type {"" | "Wardrobe" | "Cloth" | "Color" | "Permissions"} */
 var CharacterAppearanceMode = "";
-/** @type {"" | "Wardrobe" | "Cloth" | "Color"} */
+/** @type {"" | "Wardrobe" | "Cloth" | "Color" | "Permissions"} */
 var CharacterAppearanceMenuMode = "";
 /** @type {null | Item} */
 var CharacterAppearanceCloth = null;
@@ -706,7 +706,7 @@ function AppearanceMenuBuild(C) {
 			if (C.IsPlayer()) {
 				AppearanceMenu.push(LogQuery("Wardrobe", "PrivateRoom") ? "Wardrobe" : "WardrobeDisabled");
 				if (!LogQuery("Wardrobe", "PrivateRoom") && AppearanceGroupAllowed(C, "ALL")) AppearanceMenu.push("Reset");
-				if (DialogMenuMode !== "permissions") AppearanceMenu.push("WearRandom");
+				AppearanceMenu.push("WearRandom");
 				AppearanceMenu.push("Random", "Copy", "Paste");
 			} else AppearanceMenu.push(LogQuery("Wardrobe", "PrivateRoom") ? "Wardrobe" : "WardrobeDisabled");
 			AppearanceMenu.push("Naked", "Character", "Prev", "Next");
@@ -714,19 +714,21 @@ function AppearanceMenuBuild(C) {
 		case "Wardrobe":
 			AppearanceMenu.push("Naked", "Prev", "Next", "Swap");
 			break;
-		case "Cloth":
-			if (DialogMenuMode !== "permissions") {
-				let Item = InventoryGet(C, C.FocusGroup.Name);
-				if (Item && Item.Asset.Extended) AppearanceMenu.push(InventoryBlockedOrLimited(C, Item) ? "UseDisabled" : "Use");
-				if (C.IsPlayer()) AppearanceMenu.push("WearRandom");
-				if (C.IsPlayer()) AppearanceMenu.push("PermissionMode");
-				if (C.FocusGroup.AllowNone) AppearanceMenu.push("Naked");
-				if (Item && DialogCanColor(C, Item)) {
-					let ButtonName = ItemColorIsSimple(Item) ? "ColorChange" : "ColorChangeMulti";
-					if (InventoryBlockedOrLimited(C, Item)) ButtonName += "Disabled";
-					AppearanceMenu.push(/** @type {DialogMenuButton} */(ButtonName));
-				}
+		case "Cloth": {
+			let Item = InventoryGet(C, C.FocusGroup.Name);
+			if (Item && Item.Asset.Extended) AppearanceMenu.push(InventoryBlockedOrLimited(C, Item) ? "UseDisabled" : "Use");
+			if (C.IsPlayer()) AppearanceMenu.push("WearRandom");
+			if (C.IsPlayer()) AppearanceMenu.push("PermissionMode");
+			if (C.FocusGroup.AllowNone) AppearanceMenu.push("Naked");
+			if (Item && DialogCanColor(C, Item)) {
+				let ButtonName = ItemColorIsSimple(Item) ? "ColorChange" : "ColorChangeMulti";
+				if (InventoryBlockedOrLimited(C, Item)) ButtonName += "Disabled";
+				AppearanceMenu.push(/** @type {DialogMenuButton} */(ButtonName));
 			}
+			if (DialogInventory.length > CharacterAppearanceNumClothPerPage) AppearanceMenu.push("Prev", "Next");
+			break;
+		}
+		case "Permissions":
 			if (DialogInventory.length > CharacterAppearanceNumClothPerPage) AppearanceMenu.push("Prev", "Next");
 			break;
 	}
@@ -962,7 +964,7 @@ function AppearanceRun() {
 	}
 
 	// In cloth selection mode
-	if (CharacterAppearanceMode == "Cloth") {
+	if (CharacterAppearanceMode == "Cloth" || CharacterAppearanceMode === "Permissions") {
 		// Prepares a 3x3 square of clothes to present all the possible options
 		let X = 1250;
 		let Y = 125;
@@ -1012,22 +1014,25 @@ function AppearanceKeyDown(event) {
  * @returns {string} - A CSS color string determining the color that the preview icon should be drawn in
  */
 function AppearanceGetPreviewImageColor(C, item, hover) {
-	if (DialogMenuMode === "permissions" && C.IsPlayer()) {
-		let permission = "green";
-		if (InventoryIsPermissionBlocked(C, item.Asset.Name, item.Asset.Group.Name)) permission = "red";
-		else if (InventoryIsPermissionLimited(C, item.Asset.Name, item.Asset.Group.Name)) permission = "amber";
-		return item.Worn ? "gray" : AppearancePermissionColors[permission][hover ? 1 : 0];
-	} else {
-		const Unusable = item.SortOrder.startsWith(DialogSortOrder.Unusable.toString())
-			|| item.SortOrder.startsWith(DialogSortOrder.TargetFavoriteUnusable.toString())
-			|| item.SortOrder.startsWith(DialogSortOrder.PlayerFavoriteUnusable.toString());
-		const Blocked = item.SortOrder.startsWith(DialogSortOrder.Blocked.toString());
-		if (hover && !Blocked) return "cyan";
-		else if (item.Worn) return "pink";
-		else if (Blocked) return "red";
-		else if (Unusable) return "gray";
-		else if ((item.Craft != null) && (item.Craft.Name != null)) return "#FFFFAF";
-		else return "white";
+	switch (CharacterAppearanceMode) {
+		case "Permissions": {
+			let permission = "green";
+			if (InventoryIsPermissionBlocked(C, item.Asset.Name, item.Asset.Group.Name)) permission = "red";
+			else if (InventoryIsPermissionLimited(C, item.Asset.Name, item.Asset.Group.Name)) permission = "amber";
+			return item.Worn ? "gray" : AppearancePermissionColors[permission][hover ? 1 : 0];
+		}
+		default: {
+			const Unusable = item.SortOrder.startsWith(DialogSortOrder.Unusable.toString())
+				|| item.SortOrder.startsWith(DialogSortOrder.TargetFavoriteUnusable.toString())
+				|| item.SortOrder.startsWith(DialogSortOrder.PlayerFavoriteUnusable.toString());
+			const Blocked = item.SortOrder.startsWith(DialogSortOrder.Blocked.toString());
+			if (hover && !Blocked) return "cyan";
+			else if (item.Worn) return "pink";
+			else if (Blocked) return "red";
+			else if (Unusable) return "gray";
+			else if ((item.Craft != null) && (item.Craft.Name != null)) return "#FFFFAF";
+			else return "white";
+		}
 	}
 }
 
@@ -1466,7 +1471,7 @@ function AppearanceClick() {
 	}
 
 	// In cloth selection mode
-	else if (CharacterAppearanceMode == "Cloth") {
+	else if (CharacterAppearanceMode == "Cloth" || CharacterAppearanceMode == "Permissions") {
 
 		// Prepares a 3x3 square of clothes to present all the possible options
 		var X = 1250;
@@ -1478,7 +1483,7 @@ function AppearanceClick() {
 				const worn = (CurrentItem && (CurrentItem.Asset.Name == Item.Asset.Name));
 
 				// In permission mode, we toggle the settings for an item
-				if (DialogMenuMode === "permissions") {
+				if (CharacterAppearanceMode === "Permissions") {
 					DialogInventoryTogglePermission(Item, worn);
 				} else {
 					if (InventoryBlockedOrLimited(C, Item)) return;
@@ -1582,7 +1587,11 @@ function AppearanceMenuClick(C) {
 
 					// Opens permission mode
 					if (Button === "PermissionMode") {
-						DialogChangeMode("permissions");
+						CharacterAppearanceMode = "Permissions";
+						// Need to temporary (manually) switch the dialog mode because we're, per usual, abusing the hell out of global variables 🥳
+						DialogMenuMode = "permissions";
+						DialogInventoryBuild(C, true, false, false);
+						DialogMenuMode = null;
 						AppearancePreviewBuild(C, true);
 					}
 
@@ -1618,19 +1627,32 @@ function AppearanceMenuClick(C) {
 
 					// Accepts the new selection
 					if (Button === "Accept") {
-						if (DialogMenuMode === "permissions") {
-							DialogChangeMode("items");
-							AppearanceMenuBuild(C);
-						}
-						else {
-							if (AppearancePreviewUseCharacter(C.FocusGroup)) AppearancePreviewCleanup();
-							AppearanceExit();
-						}
+						if (AppearancePreviewUseCharacter(C.FocusGroup)) AppearancePreviewCleanup();
+						AppearanceExit();
 					}
 
 					// Rebuild the menu buttons as selecting a button here can change what should appear
 					AppearanceMenuBuild(C);
+					break;
+				case "Permissions":
+					// Jumps to the cloth page
+					if (Button === "Next" || Button === "Prev") {
+						const offset = Button === "Next" ? CharacterAppearanceNumClothPerPage : -CharacterAppearanceNumClothPerPage;
+						DialogInventoryOffset = DialogInventoryOffset + offset;
+						if (DialogInventoryOffset >= DialogInventory.length) DialogInventoryOffset = 0;
+						if (DialogInventoryOffset < 0)
+							DialogInventoryOffset = Math.floor((DialogInventory.length - 1) / CharacterAppearanceNumClothPerPage) * CharacterAppearanceNumClothPerPage;
+						AppearancePreviewBuild(C, true);
+					}
 
+					// Accepts the new selection
+					if (Button === "Accept") {
+						DialogChangeMode("items");
+						AppearanceMenuBuild(C);
+					}
+
+					// Rebuild the menu buttons as selecting a button here can change what should appear
+					AppearanceMenuBuild(C);
 					break;
 			}
 		}

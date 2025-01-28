@@ -496,6 +496,7 @@ var Layering = {
 				{
 					tag: "div",
 					attributes: { id: this.ID.layerDIV },
+					classList: ["scroll-box"],
 					children: [
 						{
 							tag: "div",

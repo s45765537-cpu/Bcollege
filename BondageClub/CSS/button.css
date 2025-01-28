@@ -32,7 +32,7 @@
 }
 
 .button-tooltip {
-	--tooltip-gap: min(1dvh, 0.5dvw);
+	--tooltip-gap: min(1vh, 0.5vw);
 
 	cursor: auto;
 	user-select: none;
@@ -114,22 +114,21 @@
 }
 
 .button-image ~ .button-label {
-	font-size: min(2.6dvh, 1.3dvw);
+	font-size: min(2.6vh, 1.3vw);
 }
 
 .button-styling > .button-label {
 	background-color: inherit;
-	background-color: color-mix(in srgb, var(--button-color) 50%, transparent);
 }
 
 .button-icon-grid {
-	--icon-size: min(50px, 5dvh, 2.5dvw);
+	--icon-size: min(50px, 5vh, 2.5vw);
 
 	display: grid;
 	position: absolute;
 	pointer-events: none;
-	top: min(0.3dvh, 0.15dvw);
-	left: min(0.3dvh, 0.15dvw);
+	top: min(0.3vh, 0.15vw);
+	left: min(0.3vh, 0.15vw);
 	grid-template-rows: repeat(4, var(--icon-size));
 	gap: calc(var(--icon-size) / 8);
 }
@@ -194,15 +193,6 @@
 
 .button-styling[aria-checked="true"] {
 	background-color: var(--hover-color);
-	background-color: color-mix(in srgb, var(--button-color) 66%, var(--hover-color) 34%);
-}
-
-.button-styling[aria-checked="true"] > .button-label {
-	background-color: color-mix(
-		in srgb,
-		color-mix(in srgb, var(--button-color) 66%, var(--hover-color) 34%) 50%,
-		transparent
-	);
 }
 
 .button-styling[aria-checked="true"]::before,
@@ -214,7 +204,7 @@
 	left: 0;
 	right: 0;
 	bottom: 0;
-	border: min(0.4dvh, 0.2dvw) inset black;
+	border: min(0.4vh, 0.2vw) inset black;
 }
 
 .button-styling:disabled::before,
@@ -223,7 +213,7 @@
 }
 
 .button-styling[aria-checked="true"]::before {
-	border: min(0.4dvh, 0.2dvw) inset black;
+	border: min(0.4vh, 0.2vw) inset black;
 }
 
 .button-styling:active,
@@ -231,23 +221,26 @@
 	background-color: var(--hover-color);
 }
 
-.button-styling:active > .button-label,
-.button-styling[data-active] > .button-label {
-	background-color: color-mix(in srgb, var(--hover-color) 50%, transparent);
-}
-
 /* Keep hover-related styling on mobile disabled as it has a tendency to stick even after the click has ended */
 @media (hover: hover) {
-	.button-styling:hover:not(:has(.button-tooltip:hover)) {
-		background-color: var(--hover-color);
+	@supports selector(:has) {
+		.button-styling:hover:not(:has(.button-tooltip:hover)) {
+			background-color: var(--hover-color);
+		}
+
+		.button:hover:not(:has(.button-tooltip:hover)) > .button-tooltip {
+			visibility: visible;
+		}
 	}
 
-	.button-styling:hover:not(:has(.button-tooltip:hover)) > .button-label {
-		background-color: color-mix(in srgb, var(--hover-color) 50%, transparent);
-	}
+	@supports not selector(:has) {
+		.button-styling:hover {
+			background-color: var(--hover-color);
+		}
 
-	.button:hover:not(:has(.button-tooltip:hover)) > .button-tooltip {
-		visibility: visible;
+		.button:hover > .button-tooltip {
+			visibility: visible;
+		}
 	}
 }
 
@@ -273,7 +266,10 @@
 }
 
 .button:disabled,
-.button[aria-disabled="true"] {
+.button[aria-disabled="true"],
+*[role="radiogroup"][aria-required="true"] .button[role="radio"][aria-checked="true"],
+*[role="menubar"][aria-required="true"] .button[role="menuitemradio"][aria-checked="true"],
+*[role="menu"][aria-required="true"] .button[role="menuitemradio"][aria-checked="true"] {
 	cursor: auto;
 }
 
@@ -282,12 +278,102 @@
 	background-color: var(--disabled-color) !important;
 }
 
-.button-styling:disabled > .button-label,
-.button-styling[aria-disabled="true"] > .button-label {
-	background-color: color-mix(in srgb, var(--disabled-color) 50%, transparent) !important;
+*[role="menubar"][aria-required="true"] .button-styling[role="menuitemradio"][aria-checked="true"],
+*[role="menu"][aria-required="true"] .button-styling[role="menuitemradio"][aria-checked="true"],
+*[role="radiogroup"][aria-required="true"] .button-styling[role="radio"][aria-checked="true"] {
+	background-color: var(--disabled-color) !important;
+}
+
+*[role="menubar"][aria-required="true"] .button-styling[role="menuitemradio"][aria-checked="true"] > .button-label,
+*[role="menu"][aria-required="true"] .button-styling[role="menuitemradio"][aria-checked="true"] > .button-label,
+*[role="radiogroup"][aria-required="true"] .button-styling[role="radio"][aria-checked="true"] > .button-label {
+	background-color: var(--disabled-color) !important;
 }
 
 .button-tooltip:empty,
 .button-label:empty {
 	display: none !important;
+}
+
+@supports (height: 100dvh) {
+	.button-tooltip {
+		--tooltip-gap: min(1dvh, 0.5dvw);
+	}
+
+	.button-image ~ .button-label {
+		font-size: min(2.6dvh, 1.3dvw);
+	}
+
+	.button-icon-grid {
+		--icon-size: min(50px, 5dvh, 2.5dvw);
+
+		top: min(0.3dvh, 0.15dvw);
+		left: min(0.3dvh, 0.15dvw);
+	}
+
+	.button-styling[aria-checked="true"]::before,
+	.button-styling:active::before,
+	.button-styling[data-active]::before {
+		border: min(0.4dvh, 0.2dvw) inset black;
+	}
+
+	.button-styling:disabled::before,
+	.button-styling[aria-disabled="true"]::before {
+		border: unset;
+	}
+
+	.button-styling[aria-checked="true"]::before {
+		border: min(0.4dvh, 0.2dvw) inset black;
+	}
+}
+
+@supports (background-color: color-mix(in srgb, black 50%, transparent)) {
+	.button-styling > .button-label {
+		background-color: color-mix(in srgb, var(--button-color) 50%, transparent);
+	}
+
+	.button-styling[aria-checked="true"] {
+		background-color: color-mix(in srgb, var(--button-color) 66%, var(--hover-color) 34%);
+	}
+
+	.button-styling[aria-checked="true"] > .button-label {
+		background-color: color-mix(
+			in srgb,
+			color-mix(in srgb, var(--button-color) 66%, var(--hover-color) 34%) 50%,
+			transparent
+		);
+	}
+
+	.button-styling:active > .button-label,
+	.button-styling[data-active] > .button-label {
+		background-color: color-mix(in srgb, var(--hover-color) 50%, transparent);
+	}
+
+	@media (hover: hover) {
+		.button-styling:hover:not(:has(.button-tooltip:hover)) > .button-label {
+			background-color: color-mix(in srgb, var(--hover-color) 50%, transparent);
+		}
+	}
+
+	.button-styling:disabled > .button-label,
+	.button-styling[aria-disabled="true"] > .button-label {
+		background-color: color-mix(in srgb, var(--disabled-color) 50%, transparent) !important;
+	}
+
+	*[role="menubar"][aria-required="true"] .button-styling[role="menuitemradio"][aria-checked="true"],
+	*[role="menu"][aria-required="true"] .button-styling[role="menuitemradio"][aria-checked="true"],
+	*[role="radiogroup"][aria-required="true"] .button-styling[role="radio"][aria-checked="true"] {
+		background-color: color-mix(in srgb, var(--disabled-color) 50%, var(--hover-color) 50%) !important;
+	}
+
+	*[role="menubar"][aria-required="true"] .button-styling[role="menuitemradio"][aria-checked="true"] > .button-label,
+	*[role="menu"][aria-required="true"] .button-styling[role="menuitemradio"][aria-checked="true"] > .button-label,
+	*[role="radiogroup"][aria-required="true"] .button-styling[role="radio"][aria-checked="true"] > .button-label {
+		background-color: var(--disabled-color) !important;
+		background-color: color-mix(
+			in srgb,
+			color-mix(in srgb, var(--disabled-color) 50%, var(--hover-color) 50%),
+			transparent
+		) !important;
+	}
 }

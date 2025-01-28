@@ -1209,10 +1209,12 @@ function CommonFromEntries(iterable) {
  */
 function CommonGenerateGridCoords(nItems, grid) {
 	// Calculate horizontal & vertical margins
+	const minMarginX = grid.minMarginX ?? 0;
+	const minMarginY = grid.minMarginY ?? 0;
 	const itemCountX = Math.floor(grid.width / grid.itemWidth);
-	const marginX = grid.itemMarginX ?? (grid.width - (itemCountX * grid.itemWidth)) / (itemCountX - 1);
+	const marginX = Math.max(minMarginX, grid.itemMarginX ?? (grid.width - (itemCountX * grid.itemWidth)) / (itemCountX - 1));
 	const itemCountY = Math.floor(grid.height / grid.itemHeight);
-	const marginY = grid.itemMarginY ?? (grid.height - (itemCountY * grid.itemHeight)) / (itemCountY - 1);
+	const marginY = Math.max(minMarginY, grid.itemMarginY ?? (grid.height - (itemCountY * grid.itemHeight)) / (itemCountY - 1));
 	const direction = grid.direction ?? "horizontal";
 
 	/** @type {RectTuple[]} */
@@ -1607,5 +1609,45 @@ var CommonKey = /** @type {const} */({
 			event.metaKey ? CommonKey.META : undefined,
 			event.shiftKey ? CommonKey.SHIFT : undefined,
 		].filter(Boolean).reduce((sum, bit) => sum | bit, 0);
+	},
+
+	/**
+	 * A {@link ScreenFunctions.keydown} helper function for implementing the navigation key handling of scrollable elements.
+	 * @param {HTMLElement} scrollableElem - The scrollable element
+	 * @param {KeyboardEvent} event - The keydown event
+	 * @param {(scrollableElem: HTMLElement) => number} getArrowScrollDistance - A callback for computing the (absolute) scroll distance for up/down arrow key presses
+	 * @returns {boolean} - Whether a navigation key was (successfuly pressed)
+	 */
+	NavigationKeyDown: function NavigationKeyDown(scrollableElem, event, getArrowScrollDistance) {
+		// Abort if an element has been (explicitly)
+		const noFocus = (
+			document.activeElement === null
+			|| document.activeElement === document.body
+			|| document.activeElement.id === "MainCanvas"
+		);
+
+		if (!scrollableElem || !noFocus || !event || CommonKey.GetModifiers(event)) {
+			return false;
+		}
+
+		const sign = (event.key === "PageUp" || event.key === "ArrowUp") ? -1 : 1;
+		switch (event.key) {
+			case "Home":
+				scrollableElem.scrollTop = 0;
+				return true;
+			case "End":
+				scrollableElem.scrollTop = scrollableElem.scrollHeight;
+				return true;
+			case "PageUp":
+			case "PageDown":
+				scrollableElem.scrollBy({ top: sign * scrollableElem.clientHeight, behavior: "instant" });
+				return true;
+			case "ArrowUp":
+			case "ArrowDown":
+				scrollableElem.scrollBy({ top: sign * getArrowScrollDistance(scrollableElem), behavior: "instant" });
+				return true;
+			default:
+				return false;
+		}
 	},
 });

@@ -104,8 +104,9 @@ function AssetsItemNeckPetSuitShockCollarBeforeDraw(data) {
 
 /**
  * @param {Item} Item
+ * @param {Character} C
  */
-function InventoryPetSuitShockCollarCheckPunish(Item) {
+function InventoryPetSuitShockCollarCheckPunish(Item, C) {
 	const { PunishActivity, PunishStandup, PunishStruggle} = Item.Property;
 
 	if (PunishActivity && PropertyPunishActivityCheck("Bite")) {
@@ -114,9 +115,8 @@ function InventoryPetSuitShockCollarCheckPunish(Item) {
 	} else if (PunishActivity && PropertyPunishActivityCheck("Kick")) {
 		// Punish the player if they Activity
 		return "Activity";
-	} else if (PunishStandup && FuturisticTrainingBeltStandUpFlag) {
+	} else if (PunishStandup && C.CanKneel() && C.IsStanding() && ServerPlayerIsInChatRoom()) {
 		// Punish the player if they stand up
-		FuturisticTrainingBeltStandUpFlag = false;
 		return "StandUp";
 	} else if (PunishStruggle && Player.FocusGroup && StruggleProgressPrevItem != null && StruggleProgressStruggleCount > 0 && (StruggleProgress > 4 || StruggleLockPickProgressCurrentTries > 0)) {
 		// Punish the player if they Struggle
@@ -135,15 +135,15 @@ function AssetsItemNeckPetSuitShockCollarUpdate(data, LastTime) {
 
 	if (!Item.Property) return;
 
-	let punishment = InventoryPetSuitShockCollarCheckPunish(Item);
+	let punishment = InventoryPetSuitShockCollarCheckPunish(Item, C);
 	switch (punishment) {
 		case "Activity":
 			PropertyShockPublishAction(C, Item, true);
 			break;
 		case "StandUp":
 			PropertyShockPublishAction(C, Item, true);
-			PoseSetActive(Player, "Kneel");
-			ServerSend("ChatRoomCharacterPoseUpdate", { Pose: Player.ActivePose });
+			PoseSetActive(C, "Kneel");
+			ServerSend("ChatRoomCharacterPoseUpdate", { Pose: C.ActivePose });
 			break;
 		case "Struggle":
 			PropertyShockPublishAction(C, Item, true);

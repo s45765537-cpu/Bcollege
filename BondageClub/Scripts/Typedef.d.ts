@@ -128,6 +128,13 @@ declare namespace ElementButton {
 		tooltip?: null | string | Node | HTMLOptions<any> | readonly (null | string | Node | HTMLOptions<any>)[]
 		/** The position of the tooltip w.r.t. the button */
 		tooltipPosition?: "left" | "right" | "top" | "bottom";
+		/**
+		 * The aria accessibility role of the the tooltip; defaults to `description` if a {@link ElementButton.Options.label} is present and `label` otherwise:
+		 * * `label` ([`aria-labelledby`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-labelledby)): A compact, 1-line summary of the button
+		 * * `description` ([`aria-describedby`](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-describedby)): A longer, potentially multi-line, button description
+		 * * `none`: Nothing
+		 */
+		tooltipRole?: "label" | "description" | "none";
 		/** A button label */
 		label?: string;
 		/** The position of the button label */
@@ -190,6 +197,8 @@ interface CommonGenerateGridParameters {
 	 * @default "horizontal"
 	 */
 	direction?: "horizontal" | "vertical";
+	minMarginX?: number;
+	minMarginY?: number;
 }
 
 type CommonGenerateGridCallback<T> = (item: T, x: number, y: number, width: number, height: number) => boolean;
@@ -392,7 +401,7 @@ type AssetGroupBodyName =
 	'HairFront' | 'HandAccessoryLeft' | 'HandAccessoryRight' |  'FacialHair' | 'Hat' | 'Head' | 'Height' | 'Jewelry' | 'Mask' |
 	'Necklace' | 'Nipples' | 'Panties' | 'Pronouns' |
 	'Shoes' | 'Socks' | 'SocksLeft' | 'SocksRight' | 'Suit' | 'SuitLower' | 'TailStraps' | 'Wings' |
-	'HandsLeft' | 'HandsRight'
+	'HandsLeft' | 'HandsRight' | 'FaceMarkings'
 	;
 
 type AssetGroupName = AssetGroupBodyName | AssetGroupItemName | AssetGroupScriptName;
@@ -535,7 +544,7 @@ type FetishName =
 
 type BackgroundTag =
 	"Filter by tag" | "Indoor" | "Outdoor" | "Aquatic" | "Special Events" | "SciFi & Fantasy" |
-	"Club & College" | "Regular house" | "Dungeon" | "Asylum"
+	"Club & College" | "Regular house" | "Dungeon" | "Asylum" | "Pandora"
 	;
 
 // NOTE: `NPCArchetype` is for NPC's only
@@ -574,6 +583,9 @@ type ChatRoomOwnershipOption = "" | "CanOfferEndTrial" | "CanOfferTrial" | "CanE
 
 type ChatRoom = ServerChatRoomData;
 type ChatRoomSettings = ServerChatRoomSettings;
+
+/** ChatRoom results once received by the client */
+type ChatRoomSearchResult = (ServerChatRoomSearchData & { DisplayName: string, Order: number });
 
 type StimulationAction = "Kneel" | "Walk" | "Struggle" | "StruggleFail" | "Talk";
 
@@ -763,7 +775,10 @@ interface AssetGroup {
 	readonly Name: AssetGroupName;
 	readonly Description: string;
 	readonly Asset: readonly Asset[];
-	readonly ParentGroupName: AssetGroupName | null;
+	/** @deprecated - superseded by {@link ParentGroup} */
+	readonly ParentGroupName?: never;
+	/** An object mapping pose names to group names from which to inherit body sizes. */
+	readonly ParentGroup: ParentGroup.Data;
 	readonly Category: 'Appearance' | 'Item' | 'Script';
 	readonly IsDefault: boolean;
 	readonly IsRestraint: boolean;
@@ -868,9 +883,10 @@ interface AssetLayer {
 	readonly AllowTypes: AllowTypes.Data | null;
 	/** @deprecated - superceded by {@link CreateLayerTypes} */
 	readonly HasType?: never;
-	/** The name of the parent group for this layer. If null, the layer has no parent group. If
-	undefined, the layer inherits its parent group from it's asset/group. */
-	readonly ParentGroupName: AssetGroupName | null;
+	/** @deprecated - superseded by {@link ParentGroup} */
+	readonly ParentGroupName?: never;
+	/** An object mapping pose names to group names from which to inherit body sizes. */
+	readonly ParentGroup: ParentGroup.Data;
 	/** @deprecated - Superceded by {@link PoseMapping} */
 	readonly AllowPose?: never;
 	/** @deprecated - Superceded by {@link PoseMapping} */
@@ -950,7 +966,10 @@ interface Asset {
 	readonly Description: string;
 	readonly Group: AssetGroup;
 	readonly ParentItem?: string;
-	readonly ParentGroupName: AssetGroupName | null;
+	/** @deprecated - superseded by {@link ParentGroup} */
+	readonly ParentGroupName?: never;
+	/** An object mapping pose names to group names from which to inherit body sizes. */
+	readonly ParentGroup: ParentGroup.Data;
 	readonly Enable: boolean;
 	readonly Visible: boolean;
 	readonly NotVisibleOnScreen?: readonly string[];
@@ -3414,6 +3433,7 @@ interface GameClubCardParameters {
 
 interface GamePrisonParameters {
 	Timer?: number;
+	Role?: string;
 }
 
 //#endregion

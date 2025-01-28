@@ -1,10 +1,7 @@
-"use strict";
+import vm from "vm";
+import fs from "fs";
 
-const vm = require("vm");
-const fs = require("fs");
-
-const { NEEDED_FILES, BASE_PATH, error, loadCSV, fromEntries, enumerate, keys, entries } = require("./Common.js");
-const common = require("./Common.js");
+import { NEEDED_FILES, BASE_PATH, error, loadCSV, fromEntries, enumerate, keys, entries, errorState } from "./Common.js";
 
 /**
  * Checks for {@link AssetDefinition.DynamicGroupName}
@@ -1110,9 +1107,6 @@ function testAssetHasPNG(assets, extendedDataRecords, poseRecord) {
 				colors = [null];
 			}
 
-			// Combinations involving parent group members
-			const parentNames = layer.ParentGroupName == null ? new Set([null]) : assetGroupMap[layer.ParentGroupName][asset.Gender ?? "FM"] ;
-
 			// Combinations involving expressions
 			/** @type {readonly (null | ExpressionName)[]} */
 			let expressions = [null, ...(layer.Asset.AllowExpression ?? layer.Asset.Group.AllowExpression ?? [])];
@@ -1123,21 +1117,30 @@ function testAssetHasPNG(assets, extendedDataRecords, poseRecord) {
 				expressions = [null];
 			}
 
-			for (const iter of [parentNames, colors, expressions, layerTypes]) {
+			for (const iter of [colors, expressions, layerTypes]) {
 				if (Array.from(/** @type {Iterable<any>} */(iter)).length === 0) {
 					error(`${asset.Group.Name}:${asset.Name}:${layer.Name}: Internal error; zero-length list encountered!`);
 				}
 			}
 
 			const root = `${BASE_PATH}Assets/${asset.Group.Family}/${asset.DynamicGroupName}/`;
-			for (const parent of parentNames) {
-				for (const color of colors) {
-					for (const expression of expressions) {
-						for (const [type, poseList] of layerTypes) {
-							for (const pose of poseList) {
-								const path = root
+			for (const color of colors) {
+				for (const expression of expressions) {
+					for (const [type, poseList] of layerTypes) {
+						for (const pose of poseList) {
+							/** @type {undefined | "" | AssetGroupName} */
+							const parentGroup = layer.ParentGroup[pose] ?? layer.ParentGroup[PoseType.DEFAULT];
+							const parentNames = !parentGroup ? new Set([null]) : assetGroupMap[parentGroup][asset.Gender ?? "FM"];
+							if (parentNames.size === 0) {
+								error(`${asset.Group.Name}:${asset.Name}:${layer.Name}: Internal error; zero-length list encountered!`);
+							}
+
+							for (const parent of parentNames) {
+								const path = (
+									root
 									+ (pose ? `${pose}/` : "")
-									+ (expression ? `${expression}/` : "");
+									+ (expression ? `${expression}/` : "")
+								);
 								const fileParts = [];
 								if (asset.Name) fileParts.push(asset.Name);
 								if (parent) fileParts.push(parent);
@@ -1390,20 +1393,20 @@ function sanitizeVMOutput(input) {
 	const dialogArray = loadCSV("Assets/Female3DCG/AssetStrings.csv", 2);
 
 	// No further checks if initial data load failed
-	if (common.localError) {
+	if (errorState.local) {
 		return;
 	}
 
 	// Check all groups
 	for (const Group of AssetFemale3DCG) {
-		common.localError = false;
+		errorState.local = false;
 
 		// Check all assets in groups
 		for (const Asset of Group.Asset) {
 			if (typeof Asset === "string") {
 				continue;
 			}
-			common.localError = false;
+			errorState.local = false;
 
 			// Check any extended item config
 			if (Asset.Extended) {
@@ -1440,7 +1443,7 @@ function sanitizeVMOutput(input) {
 		}
 	}
 
-	if (common.globalError) {
+	if (errorState.global) {
 		console.log("WARNING: Type errors detected, skipping other checks");
 		return;
 	}

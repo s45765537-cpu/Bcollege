@@ -869,7 +869,7 @@ var Shop2 = {
 					style: { display: "none" },
 					attributes: { id: "Shop2PoseSelect", "screen-generated": CurrentScreen },
 					parent: document.body,
-					classList: ["HideOnPopup", "dropdown"],
+					classList: ["HideOnPopup", "dropdown", "scroll-box"],
 					children: [{
 						tag: "div",
 						classList: ["shop2-pose-outer-grid"],

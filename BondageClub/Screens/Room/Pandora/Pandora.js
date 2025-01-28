@@ -33,8 +33,11 @@ var PandoraPaint = false;
 var PandoraReverseMaidDone = 0;
 var PandoraReverseMaidTotal = 0;
 var PandoraPenitentiaryCreateTimer = 0;
+var PandoraPenitentiaryActivityList = ["Bondage", "Cage", "Chastity", "Detain", "Gag", "Hogtie", "Hose", "Lock", "Naked", "Spank", "Ungag", "Release", "Shibari", "Uncage", "Unchaste", "Unlock"];
 var PandoraPenitentiaryActivityTimer = 0;
 var PandoraPenitentiarySafewordRooms = [];
+var PandoraPenitentiaryCageList = ["WoodenBox", "SmallWoodenBox", "Cage", "LowCage", "PersonalCage", "TheDisplayFrame", "TheHangingFrame", "WoodenBoxOpenHead", "SmallWoodenBoxOpenHead", "Kennel", "TransportWoodenBox"];
+var PandoraPenitentiaryStartNewRoom = false;
 
 /**
  * NPC Dialog functions
@@ -1146,29 +1149,42 @@ function PandoraPunishmentStart() {
  * @returns {void} - Nothing
  */
 function PandoraPenitentiaryPrepare() {
-	PandoraPenitentiaryStart(Player.Infiltration.Punishment.Minutes);
+	PandoraPenitentiaryStart(Player.Infiltration.Punishment.Minutes, "I");
 }
 
 /**
  * Starts the multi-player punishment
  * @param {number} Minutes - The number of minutes for the sentence
+ * @param {string} Role - The role to take (I for Inmate, G for guard)
  * @returns {void} - Nothing
  */
-function PandoraPenitentiaryStart(Minutes) {
-	if (Player.Game.Prison == null) Player.Game.Prison = {};
-	Player.Game.Prison.Timer = Math.round(CurrentTime + (Minutes * 60 * 1000));
-	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+function PandoraPenitentiaryStart(Minutes, Role) {
+	if (!PandoraPenitentiaryIsGuard(Player) && !PandoraPenitentiaryIsInmate(Player)) {
+		if (Player.Game.Prison == null) Player.Game.Prison = {};
+		Player.Game.Prison.Timer = Math.round(CurrentTime + (Minutes * 60 * 1000));
+		Player.Game.Prison.Role = Role;
+		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+	}
 	DialogLeave();
 	CommonSetScreen("Room", "MainHall");
 }
 
 /**
- * Checks if the current character is currently under Pandora Penitentiary sentence
+ * Checks if the current character is currently a Pandora Penitentiary inmate (I)
  * @param {Character} C - The character to evaluate
- * @returns {boolean} - TRUE if sentence is active
+ * @returns {boolean} - TRUE if sentence is active and role is inmate
  */
-function PandoraPenitentiaryActive(C) {
-	return (C.Game != null) && (C.Game.Prison != null) && (C.Game.Prison.Timer != null) && (C.Game.Prison.Timer > CurrentTime);
+function PandoraPenitentiaryIsInmate(C) {
+	return (C.Game != null) && (C.Game.Prison != null) && (C.Game.Prison.Timer != null) && (C.Game.Prison.Timer > CurrentTime) && ((C.Game.Prison.Role == null) || (C.Game.Prison.Role === "I"));
+}
+
+/**
+ * Checks if the current character is currently a Pandora Penitentiary guard (G)
+ * @param {Character} C - The character to evaluate
+ * @returns {boolean} - TRUE if shift is active and role is guard
+ */
+function PandoraPenitentiaryIsGuard(C) {
+	return (C.Game != null) && (C.Game.Prison != null) && (C.Game.Prison.Timer != null) && (C.Game.Prison.Timer > CurrentTime) && (C.Game.Prison.Role === "G");
 }
 
 /**
@@ -1178,18 +1194,29 @@ function PandoraPenitentiaryActive(C) {
 function PandoraPenitentiaryCreate() {
 
 	// Exits right away if the prison should not be loaded, there's a 10 seconds delay between each retry
-	if ((PandoraPenitentiaryCreateTimer > CommonTime()) || !PandoraPenitentiaryActive(Player) || (CurrentCharacter != null) || (CurrentScreen == "ChatRoom")) return;
+	if ((PandoraPenitentiaryCreateTimer > CommonTime()) || (CurrentCharacter != null) || (CurrentScreen == "ChatRoom")) return;
+	if (!PandoraPenitentiaryIsInmate(Player) && !PandoraPenitentiaryIsGuard(Player)) return;
 
-	// First we search for a prison that already exists
-	/** @type {ServerChatRoomGame} */
-	let Game = "Prison";
-	const SearchData = { Query: "", Language: "", Space: ChatRoomSpaceType.MIXED, Game: Game, FullRooms: false };
-	ChatCreateBackgroundList = BackgroundsGenerateList([BackgroundsTagAsylum]);
-	ChatSearchLastQuerySearchTime = CommonTime();
-	ChatSearchResult = [];
-	PandoraPenitentiaryCreateTimer = CommonTime() + 10000;
-	PandoraPenitentiaryActivityTimer = CommonTime() + 60000 + Math.random() * 240000;
-	ServerSend("ChatRoomSearch", SearchData);
+	// The guard can be assigned to create a new prison cell
+	if (PandoraPenitentiaryIsGuard(Player)) {
+		if (PandoraPenitentiaryStartNewRoom) {
+			PandoraPenitentiaryResult([]);
+			PandoraPenitentiaryStartNewRoom = false;
+		}
+	} else {
+
+		// The inmate first search for a prison that already exists
+		/** @type {ServerChatRoomGame} */
+		let Game = "Prison";
+		const SearchData = { Query: "", Language: "", Space: ChatRoomSpaceType.MIXED, Game: Game, FullRooms: false };
+		ChatAdminBackgroundList = BackgroundsGenerateList([BackgroundsTagPandora]);
+		ChatSearchLastQuerySearchTime = CommonTime();
+		ChatSearchResult = [];
+		PandoraPenitentiaryCreateTimer = CommonTime() + 10000;
+		PandoraPenitentiaryActivityTimer = CommonTime() + 60000 + Math.random() * 240000;
+		ServerSend("ChatRoomSearch", SearchData);
+
+	}
 
 }
 
@@ -1227,7 +1254,7 @@ function PandoraPenitentiaryResult(Result) {
 		const NewRoom = {
 			Name: "Pandora " + Math.round(Math.random() * 1000000000).toString(),
 			Description: "Pandora Penitentiary Cell",
-			Background: "PrisonHall",
+			Background: CommonRandomItemFromList(null, ["PrisonHall", "PandoraCell0", "PandoraCell1", "PandoraCell2", "PandoraCell3", "PandoraCell4", "PandoraCell5", "PandoraCell6"]),
 			Private: false,
 			Locked: false,
 			Limit: 10,
@@ -1237,7 +1264,7 @@ function PandoraPenitentiaryResult(Result) {
 			Whitelist: [],
 			Ban: [],
 			BlockCategory: ["Leashing"],
-			Language: ChatCreateLanguage,
+			Language: ChatAdminDefaultLanguage,
 		};
 		ServerSend("ChatRoomCreate", NewRoom);
 
@@ -1246,39 +1273,79 @@ function PandoraPenitentiaryResult(Result) {
 }
 
 /**
- * Runs the pandora prison events
+ * Returns TRUE if the group is available for an Onlin Pandora Prison activity
+ * @param {Character} C - The character to evaluate
+ * @param {AssetGroupItemName} Group - The item group name
+ * @param {boolean} SkipBlock - If we should skip the GroupIsBlocked validation
+ * @returns {boolean} - TRUE if the group is available
+ */
+function PandoraGroupAvailable(C, Group, SkipBlock = false) {
+	let Item = InventoryGet(C, Group);
+	if (Item == null) return true;
+	if (!SkipBlock && InventoryGroupIsBlocked(C, Group)) return false;
+	return !InventoryOwnerOnlyItem(Item) && !InventoryLoverOnlyItem(Item) && !InventoryFamilyOnlyItem(Item);
+}
+
+/**
+ * Sets a proper minimal difficulty for the new item set in Online Pandora Prison
+ * @param {Character} C - The character to evaluate
+ * @param {AssetGroupItemName} Group - The item group name
+ * @param {number} Level - The infiltration level, the higher it gets the harder the difficulty will be
  * @returns {void} - Nothing
  */
-function PandoraPenitentiaryRun() {
+function PandoraPenitentiaryItemDifficulty(C, Group, Level) {
+	let Item = InventoryGet(C, Group);
+	if (Item == null) return;
+	Level = Level + (((Group == "ItemArms") || (Group == "ItemDevices")) ? 6 : 3);
+	let Difficulty = Math.floor(Level + Math.random() * Level * 0.5);
+	if ((Item.Difficulty == null) || (Item.Difficulty < Difficulty)) Item.Difficulty = Difficulty;
+}
 
-	// Exits right away if Pandora Penitentiary isn't active or not ready to run
-	if (!PandoraPenitentiaryActive(Player) || (CurrentScreen != "ChatRoom") || (PandoraPenitentiaryActivityTimer > CommonTime())) return;
-
-	// Sets the next activity time
-	PandoraPenitentiaryActivityTimer = CommonTime() + 60000 + Math.random() * 240000;
-
-	// No activity is feasible if the player is enclosed, we skip
-	if (Player.IsEnclose()) return;
+/**
+ * Builds a list of all valid Pandora activities for the player
+ * @param {Character} C - The character to build a list for
+ * @returns {Array} - An array of all valid activities for the player
+ */
+function PandoraPenitentiaryBuildActivityList(C) {
 
 	// Picks a random activity to do on the player
-	let ActivityList = ["Bondage", "Spank", "Hose"];
 	let Level = SkillGetLevel(Player, "Infiltration");
+	let ActivityList = ["Bondage", "Spank", "Hose"];
+	let Device = InventoryGet(C, "ItemDevices");
+	let InPandoraCase = ((Device != null) && (Device.Asset != null) && (Device.Asset.Name != null) && (PandoraPenitentiaryCageList.includes(Device.Asset.Name)));
 
 	// Adds more possible activities to the random pool
-	ActivityList.push(Player.IsGagged() ? "Ungag" : "Gag");
-	if ((Player.PoseMapping.BodyFull !== "Hogtied") && (Level >= 3) && !InventoryOwnerOnlyItem(InventoryGet(Player, "ItemArms")) && !InventoryLoverOnlyItem(InventoryGet(Player, "ItemArms")) && !InventoryFamilyOnlyItem(InventoryGet(Player, "ItemArms"))) ActivityList.push("Hogtie");
-	if (!InventoryIsWorn(Player, "HempRope", "ItemArms") && !InventoryOwnerOnlyItem(InventoryGet(Player, "ItemArms")) && !InventoryLoverOnlyItem(InventoryGet(Player, "ItemArms")) && !InventoryFamilyOnlyItem(InventoryGet(Player, "ItemArms"))) ActivityList.push("Shibari");
-	if (!Player.IsNaked()) ActivityList.push("Naked");
-	if (!Player.IsVulvaChaste() && (InventoryGet(Player, "ItemPelvis") == null)) ActivityList.push("Chastity");
-	if (Player.IsVulvaChaste() && !InventoryOwnerOnlyItem(InventoryGet(Player, "ItemPelvis")) && !InventoryLoverOnlyItem(InventoryGet(Player, "ItemPelvis")) && !InventoryFamilyOnlyItem(InventoryGet(Player, "ItemPelvis"))) ActivityList.push("Unchaste");
-	if (InventoryHasLockableItems(Player)) ActivityList.push("Lock");
-	if (InventoryCharacterIsWearingLock(Player, "MetalPadlock") || InventoryCharacterIsWearingLock(Player, "IntricatePadlock") || InventoryCharacterIsWearingLock(Player, "ExclusivePadlock") || InventoryCharacterIsWearingLock(Player, "HighSecurityPadlock") || InventoryCharacterIsWearingLock(Player, "PandoraPadlock")) ActivityList.push("Unlock");
-	if (Player.IsRestrained()) ActivityList.push("Release");
+	if (!C.IsGagged()) ActivityList.push("Gag");
+	if (C.IsGagged() && PandoraGroupAvailable(C, "ItemMouth", true) && PandoraGroupAvailable(C, "ItemMouth2", true) && PandoraGroupAvailable(C, "ItemMouth3", true) && PandoraGroupAvailable(C, "ItemHead", true) && PandoraGroupAvailable(C, "ItemHood", true)) ActivityList.push("Ungag");
+	if (!C.IsEnclose() && !InPandoraCase && (C.PoseMapping.BodyFull !== "Hogtied") && (Level >= 3) && PandoraGroupAvailable(C, "ItemArms")) ActivityList.push("Hogtie");
+	if (!C.IsEnclose() && !InPandoraCase && !InventoryIsWorn(C, "HempRope", "ItemArms") && PandoraGroupAvailable(C, "ItemArms")) ActivityList.push("Shibari");
+	if (!InventoryIsWorn(C, "PrisonLockdownSuit", "ItemArms") && !InventoryIsWorn(C, "TransportJacket", "ItemArms") && !InventoryIsWorn(C, "FullLatexSuit", "ItemArms") && !InventoryIsWorn(C, "PrisonSJ", "ItemArms") && !C.HasPenis() && PandoraGroupAvailable(C, "ItemArms")) ActivityList.push("Detain");
+	if (!C.IsNaked()) ActivityList.push("Naked");
+	if (!C.IsVulvaChaste() && !C.HasPenis() && (InventoryGet(C, "ItemPelvis") == null) && !InventoryGroupIsBlocked(C, "ItemPelvis")) ActivityList.push("Chastity");
+	if (C.IsVulvaChaste() && !C.HasPenis() && PandoraGroupAvailable(C, "ItemPelvis")) ActivityList.push("Unchaste");
+	if (InventoryHasLockableItems(C)) ActivityList.push("Lock");
+	if (InventoryCharacterIsWearingLock(C, "MetalPadlock") || InventoryCharacterIsWearingLock(C, "IntricatePadlock") || InventoryCharacterIsWearingLock(C, "ExclusivePadlock") || InventoryCharacterIsWearingLock(C, "HighSecurityPadlock") || InventoryCharacterIsWearingLock(C, "PandoraPadlock")) ActivityList.push("Unlock");
+	if (C.IsRestrained()) ActivityList.push("Release");
+	if (Device == null) ActivityList.push("Cage");
+	if (InPandoraCase && PandoraGroupAvailable(C, "ItemDevices")) ActivityList.push("Uncage");
 
-	// Picks a random activity to do on the player
-	let Activity = CommonRandomItemFromList(null, ActivityList);
+	// Returns the full list of all valid activities
+	return ActivityList;
+
+}
+
+/**
+ * Runs the selected activity inmate activity for the player
+ * @param {string} Activity - The activity to run
+ * @returns {void} - Nothing
+ */
+function PandoraPenitentiaryActivityRun(Activity) {
+
+	// Sets the next random guard activity time
+	PandoraPenitentiaryActivityTimer = CommonTime() + 60000 + Math.random() * 240000;
 
 	// The higher the level, the stronger the lock type to use
+	let Level = SkillGetLevel(Player, "Infiltration");
 	/** @type {AssetLockType} */
 	let LockType = "MetalPadlock";
 	if (Level >= 8) LockType = "PandoraPadlock";
@@ -1287,7 +1354,7 @@ function PandoraPenitentiaryRun() {
 	else if (Level >= 2) LockType = "IntricatePadlock";
 
 	// A few activities releases some locks first
-	if ((Activity == "Unlock") || (Activity == "Release") || (Activity == "Bondage") || (Activity == "Shibari") || (Activity == "Hogtie") || (Activity == "Naked")) {
+	if ((Activity == "Unlock") || (Activity == "Release") || (Activity == "Bondage") || (Activity == "Shibari") || (Activity == "Detain") || (Activity == "Hogtie") || (Activity == "Naked")) {
 		CharacterReleaseFromLock(Player, "MetalPadlock");
 		CharacterReleaseFromLock(Player, "IntricatePadlock");
 		CharacterReleaseFromLock(Player, "ExclusivePadlock");
@@ -1302,6 +1369,12 @@ function PandoraPenitentiaryRun() {
 		else if (Level <= 4) CharacterFullRandomRestrain(Player);
 		else if (Level <= 7) CharacterFullRandomRestrain(Player, "LOT");
 		else CharacterFullRandomRestrain(Player, "ALL");
+		PandoraPenitentiaryItemDifficulty(Player, "ItemArms", Level);
+		PandoraPenitentiaryItemDifficulty(Player, "ItemHead", Level);
+		PandoraPenitentiaryItemDifficulty(Player, "ItemMouth", Level);
+		PandoraPenitentiaryItemDifficulty(Player, "ItemNeck", Level);
+		PandoraPenitentiaryItemDifficulty(Player, "ItemLegs", Level);
+		PandoraPenitentiaryItemDifficulty(Player, "ItemFeet", Level);
 	}
 
 	// Spank - Spanks the player - Only changes the facial expression
@@ -1321,11 +1394,38 @@ function PandoraPenitentiaryRun() {
 		CharacterReleaseNoLock(Player);
 		CharacterNaked(Player);
 		ShibariRandomBondage(Player, Math.floor((Level / 3) + 1));
+		PandoraPenitentiaryItemDifficulty(Player, "ItemArms", Level);
+	}
+
+	// Detain - Dress the player in prison clothes / restraints
+	if (Activity == "Detain") {
+		CharacterReleaseNoLock(Player);
+		CharacterNaked(Player);
+		InventoryWear(Player, CommonRandomItemFromList(null, ["PrisonLockdownSuit", "TransportJacket", "FullLatexSuit", "PrisonSJ"]), "ItemArms");
+		InventoryLock(Player, "ItemArms", LockType);
+		PandoraPenitentiaryItemDifficulty(Player, "ItemArms", Level);
+		if ((Level >= 2) && (InventoryGet(Player, "ItemFeet") == null) && !InventoryGroupIsBlocked(Player, "ItemFeet")) {
+			InventoryWear(Player, CommonRandomItemFromList(null, ["BallChain", "AnkleShackles"]), "ItemFeet");
+			InventoryLock(Player, "ItemFeet", LockType);
+			PandoraPenitentiaryItemDifficulty(Player, "ItemFeet", Level);
+		}
+		if ((Level >= 5) && (InventoryGet(Player, "ItemMouth") == null) && !InventoryGroupIsBlocked(Player, "ItemMouth")) {
+			InventoryWear(Player, "PrisonLockdownGag", "ItemMouth");
+			InventoryLock(Player, "ItemMouth", LockType);
+			PandoraPenitentiaryItemDifficulty(Player, "ItemMouth", Level);
+		}
+		if ((Level >= 8) && (InventoryGet(Player, "ItemHead") == null) && !InventoryGroupIsBlocked(Player, "ItemHead")) {
+			InventoryWear(Player, "PrisonLockdownBlindfold", "ItemHead");
+			InventoryLock(Player, "ItemHead", LockType);
+			PandoraPenitentiaryItemDifficulty(Player, "ItemHead", Level);
+		}
 	}
 
 	// Gag - Gags the player with a random mouth item
 	if (Activity == "Gag") {
 		InventoryWearRandom(Player, "ItemMouth");
+		InventoryLock(Player, "ItemMouth", LockType);
+		PandoraPenitentiaryItemDifficulty(Player, "ItemMouth", Level);
 	}
 
 	// Ungag - Remove hoods and mouth items from the player
@@ -1340,11 +1440,23 @@ function PandoraPenitentiaryRun() {
 	// Hogtie - Puts the player in chains and hogtie her, at higher levels she gets suspended
 	if (Activity == "Hogtie") {
 
-		// Adds chains to the player
+		// Adds chains to the player and locks them
 		CharacterReleaseNoLock(Player);
-		InventoryWear(Player, "Chains", "ItemArms");
-		InventoryWear(Player, "Chains", "ItemLegs");
-		InventoryWear(Player, "Chains", "ItemFeet");
+		if (InventoryGet(Player, "ItemArms") == null) {
+			InventoryWear(Player, "Chains", "ItemArms");
+			InventoryLock(Player, "ItemArms", LockType);
+			PandoraPenitentiaryItemDifficulty(Player, "ItemArms", Level);
+		}
+		if (InventoryGet(Player, "ItemArms") == null) {
+			InventoryWear(Player, "Chains", "ItemLegs");
+			InventoryLock(Player, "ItemLegs", LockType);
+			PandoraPenitentiaryItemDifficulty(Player, "ItemLegs", Level);
+		}
+		if (InventoryGet(Player, "ItemFeet") == null) {
+			InventoryWear(Player, "Chains", "ItemFeet");
+			InventoryLock(Player, "ItemFeet", LockType);
+			PandoraPenitentiaryItemDifficulty(Player, "ItemFeet", Level);
+		}
 
 		// At level 7 or more the player gets suspended
 		if (Level < 7) {
@@ -1359,11 +1471,6 @@ function PandoraPenitentiaryRun() {
 				Priority: 0,
 			};
 		}
-
-		// Locks the chains
-		InventoryLock(Player, "ItemArms", LockType);
-		InventoryLock(Player, "ItemLegs", LockType);
-		InventoryLock(Player, "ItemFeet", LockType);
 
 	}
 
@@ -1385,6 +1492,7 @@ function PandoraPenitentiaryRun() {
 	if (Activity == "Chastity") {
 		InventoryWearRandom(Player, "ItemPelvis", null, null, false, true, PrivateBeltList, true);
 		InventoryLock(Player, "ItemPelvis", LockType, null);
+		PandoraPenitentiaryItemDifficulty(Player, "ItemPelvis", Level);
 	}
 
 	// Unchaste - Removes the chastity belt from the player
@@ -1397,10 +1505,109 @@ function PandoraPenitentiaryRun() {
 		CharacterReleaseNoLock(Player);
 	}
 
+	// Cage - Puts the player in a random cage from ItemDevices group
+	if (Activity == "Cage") {
+		InventoryWear(Player, CommonRandomItemFromList(null, PandoraPenitentiaryCageList), "ItemDevices");
+		PandoraPenitentiaryItemDifficulty(Player, "ItemDevices", Level);
+	}
+
+	// Uncage - Releases the player from the ItemDevices group
+	if (Activity == "Uncage") {
+		InventoryRemove(Player, "ItemDevices");
+	}
+
 	// Publishes the activity to everyone in chat
 	ChatRoomCharacterUpdate(Player);
-	const Dict = new DictionaryBuilder().sourceCharacter(Player).build();
+
+}
+
+/**
+ * Runs the pandora prison events
+ * @returns {void} - Nothing
+ */
+function PandoraPenitentiaryRun() {
+
+	// Exits right away if Pandora Penitentiary isn't active or not ready to run
+	if (!PandoraPenitentiaryIsInmate(Player) || (CurrentScreen != "ChatRoom") || (PandoraPenitentiaryActivityTimer > CommonTime())) return;
+
+	// Finds a proper activity based on the player current predicament and infiltration level
+	let ActivityList = PandoraPenitentiaryBuildActivityList(Player);
+	let Activity = CommonRandomItemFromList(null, ActivityList);
+
+	// Runs and publishes the activity to everyone in chat
+	PandoraPenitentiaryActivityRun(Activity);
+	const Dict = new DictionaryBuilder().targetCharacter(Player).build();
 	ServerSend("ChatRoomChat", { Content: "PandoraActivity" + Activity, Type: "Action", Dictionary: Dict });
+
+}
+
+/**
+ * Runs the pandora command from the online chat box
+ * @param {string} Activity - The activity to validate
+ * @returns {void} - Nothing
+ */
+function PandoraPenitentiaryDoActivity(Activity) {
+
+	// Make sur the source/player is a guard first
+	if (!PandoraPenitentiaryIsGuard(Player))
+		return ChatRoomSendLocal(TextGet("PandoraInvalidSource"), 10_000);
+
+	// Make sure the target is an inmate
+	let Target = ChatRoomCharacter.find(c => c.MemberNumber === ChatRoomTargetMemberNumber);
+	if ((Target != null) && !PandoraPenitentiaryIsInmate(Target))
+		return ChatRoomSendLocal(TextGet("PandoraInvalidTarget"), 10_000);
+
+	// Make sure the activity is valid
+	if (Activity != null) {
+		Activity = Activity.trim();
+		Activity = Activity.charAt(0).toUpperCase() + Activity.substring(1).toLowerCase();
+	}
+	if ((Activity == null) || !PandoraPenitentiaryActivityList.includes(Activity))
+		return ChatRoomSendLocal(TextGet("PandoraInvalidActivity"), 10_000);
+
+	// Make sure the activity can be run on that target
+	if (Target != null) {
+		let ActivityList = PandoraPenitentiaryBuildActivityList(Target);
+		if (!ActivityList.includes(Activity))
+			return ChatRoomSendLocal(TextGet("PandoraInvalidActivityForTarget"), 10_000);
+	}
+
+	// Tries to find a target and publishes the activity in the local chat
+	if (Target == null) {
+		let Dict = new DictionaryBuilder().sourceCharacter(Player).build();
+		ServerSend("ChatRoomChat", { Content: "PandoraGuardActivity" + Activity + "All", Type: "Action", Dictionary: Dict });
+		ServerSend("ChatRoomChat", { Content: "Pandora" + Activity + "|ALL", Type: "Hidden"});
+	} else {
+		let Dict = new DictionaryBuilder().sourceCharacter(Player).targetCharacter(Target).build();
+		ServerSend("ChatRoomChat", { Content: "PandoraGuardActivity" + Activity, Type: "Action", Dictionary: Dict });
+		ServerSend("ChatRoomChat", { Content: "Pandora" + Activity + "|" + Target.MemberNumber, Type: "Hidden", Target: Target.MemberNumber});
+	}
+
+}
+
+/**
+ * Called from chat room, processes hidden Pandora Prison messages
+ * @param {Character} SenderCharacter - The character sending the message
+ * @param {String} Interaction - The message sent
+ * @returns {Object} - Nothing to be used
+ */
+function PandoraPenitentiaryHiddenMessage(SenderCharacter, Interaction) {
+
+	// Make sure we can process the Pandora packet
+	if (!Interaction.startsWith("Pandora") || (Interaction.indexOf("|") <= 0) || !PandoraPenitentiaryIsInmate(Player) || !PandoraPenitentiaryIsGuard(SenderCharacter) || Player.BlackList.includes(SenderCharacter.MemberNumber)) return;
+
+	// Make sure we target the player (ALL targets everyone)
+	let Target = Interaction.split("|")[1];
+	if ((Target != "ALL") && (Target != Player.MemberNumber.toString())) return;
+
+	// Validates the activity before running it
+	let Activity = Interaction.split("|")[0].substring(7);
+	if (!PandoraPenitentiaryActivityList.includes(Activity)) return;
+	let ActivityList = PandoraPenitentiaryBuildActivityList(Player);
+	if (!ActivityList.includes(Activity)) return;
+
+	// Runs the activity on the player, without publishing it
+	PandoraPenitentiaryActivityRun(Activity);
 
 }
 

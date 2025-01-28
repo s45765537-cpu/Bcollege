@@ -13,6 +13,7 @@ const BackgroundsTagClub = "Club & College";
 const BackgroundsTagHouse = "Regular house";
 const BackgroundsTagDungeon = "Dungeon";
 const BackgroundsTagAsylum = "Asylum";
+const BackgroundsTagPandora = "Pandora";
 
 /**
  * List of all tags to create online chat rooms
@@ -28,7 +29,8 @@ const BackgroundsTagList = [
 	BackgroundsTagSciFiFantasy,
 	BackgroundsTagClub,
 	BackgroundsTagHouse,
-	BackgroundsTagDungeon
+	BackgroundsTagDungeon,
+	BackgroundsTagPandora
 ];
 
 /**
@@ -143,6 +145,13 @@ const BackgroundsList = [
 	{ Name: "OutsideCells", Tag: [BackgroundsTagAsylum] },
 	{ Name: "PaddedCell", Tag: [BackgroundsTagAsylum] },
 	{ Name: "PaddedCell2", Tag: [BackgroundsTagAsylum] },
+	{ Name: "PandoraCell0", Tag: [BackgroundsTagPandora] },
+	{ Name: "PandoraCell1", Tag: [BackgroundsTagPandora] },
+	{ Name: "PandoraCell2", Tag: [BackgroundsTagPandora] },
+	{ Name: "PandoraCell3", Tag: [BackgroundsTagPandora] },
+	{ Name: "PandoraCell4", Tag: [BackgroundsTagPandora] },
+	{ Name: "PandoraCell5", Tag: [BackgroundsTagPandora] },
+	{ Name: "PandoraCell6", Tag: [BackgroundsTagPandora] },
 	{ Name: "ParkDay", Tag: [BackgroundsTagOutdoor] },
 	{ Name: "ParkNight", Tag: [BackgroundsTagOutdoor] },
 	{ Name: "ParkWinter", Tag: [BackgroundsTagOutdoor, BackgroundsTagSpecial] },
@@ -150,7 +159,7 @@ const BackgroundsList = [
 	{ Name: "PirateIsland", Tag: [BackgroundsTagOutdoor, BackgroundsTagAquatic] },
 	{ Name: "PirateIslandNight", Tag: [BackgroundsTagOutdoor, BackgroundsTagAquatic] },
 	{ Name: "PoolBottom", Tag: [BackgroundsTagAquatic] },
-	{ Name: "PrisonHall", Tag: [BackgroundsTagIndoor] },
+	{ Name: "PrisonHall", Tag: [BackgroundsTagIndoor, BackgroundsTagPandora] },
 	{ Name: "Private", Tag: [BackgroundsTagIndoor, BackgroundsTagHouse] },
 	{ Name: "PublicBath", Tag: [BackgroundsTagIndoor, BackgroundsTagAquatic] },
 	{ Name: "RainyForestPathDay", Tag: [BackgroundsTagOutdoor] },
