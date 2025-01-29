@@ -243,9 +243,7 @@ function AsylumGGTSBuildPrivate() {
 	AsylumGGTSTimer = 0;
 	AsylumGGTSTask = null;
 	AsylumGGTSPreviousPose = { ...Player.PoseMapping };
-	ChatCreateBackgroundList = BackgroundsGenerateList([BackgroundsTagAsylum]);
 	ChatSearchReturnToScreen = "AsylumGGTS";
-	ChatCreateLoad();
 	/** @type {ChatRoomSettings} */
 	const NewRoom = {
 		Name: "GGTS" + Math.round(CurrentTime).toString() + Math.round(Math.random() * 1000).toString(),
@@ -260,7 +258,7 @@ function AsylumGGTSBuildPrivate() {
 		Ban: [],
 		Limit: 2,
 		BlockCategory: [],
-		Language: ChatCreateLanguage,
+		Language: ChatAdminDefaultLanguage,
 	};
 	ServerSend("ChatRoomCreate", NewRoom);
 	DialogLeave();
@@ -474,7 +472,7 @@ function AsylumGGTSTaskCanBeDone(C, T) {
 	if ((T == "UnlockRoom") && (((ChatRoomData != null) && (ChatRoomData.Locked == false)) || !ChatRoomPlayerIsAdmin())) return false; // Can only lock/unlock if admin
 	if ((T == "RestrainLegs") && !C.CanInteract()) return false; // To restrain own legs, must be able to interact
 	if ((T == "RestrainLegs") && InventoryIsWorn(C, "FuckMachine", "ItemDevices")) return false; // Cannot restrain own legs if wearing the fuck machine
-	if ((T.substr(0, 4) == "Item") && (T.length >= 15) && !C.CanInteract()) return false; // To use an item, must be able to interact
+	if ((T.substr(0, 4) == "Item") && (T.length >= 15) && T != "ItemFuckMachineIntensity" && !C.CanInteract()) return false; // To use an item, must be able to interact
 	if ((T == "ItemHandsFuturisticMittens") && ((InventoryGet(C, "ItemHands") != null) || InventoryGroupIsBlocked(C, "ItemHands"))) return false;
 	if ((T == "ItemHeadFuturisticMask") && ((InventoryGet(C, "ItemHead") != null) || InventoryGroupIsBlocked(C, "ItemHead"))) return false;
 	if ((T == "ItemEarsFuturisticEarphones") && ((InventoryGet(C, "ItemEars") != null) || InventoryGroupIsBlocked(C, "ItemEars"))) return false;

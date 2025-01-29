@@ -421,9 +421,8 @@ function ChatRoomCharacterViewDrawOverlay(C, CharX, CharY, Zoom) {
 		}
 	}
 
-	// Draws the prison timer for Pandora prisoners
-	if ((ChatRoomData.Game == "Prison") && PandoraPenitentiaryActive(C)) {
-		DrawText(TimerToString(C.Game.Prison.Timer - CurrentTime), CharX + 252 * Zoom, CharY + 922 * Zoom, "Red", "Black");
-	}
+	// Draws the red prison timer for Pandora prisoners and green timer for guards
+	if ((ChatRoomData.Game == "Prison") && PandoraPenitentiaryIsInmate(C)) DrawText(TimerToString(C.Game.Prison.Timer - CurrentTime), CharX + 252 * Zoom, CharY + 922 * Zoom, "#FF8080", "Black");
+	if ((ChatRoomData.Game == "Prison") && PandoraPenitentiaryIsGuard(C)) DrawText(TimerToString(C.Game.Prison.Timer - CurrentTime), CharX + 252 * Zoom, CharY + 922 * Zoom, "#80FF80", "Black");
 
 }

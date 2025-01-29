@@ -48,9 +48,8 @@ function InventoryObedienceBeltCheckPunish(Item, C) {
 		// Punish the player if they orgasm
 		Item.Property.NextShockTime = CurrentTime + FuturisticChastityBeltShockCooldownOrgasm; // Difficult to have two orgasms in 10 seconds
 		return "Orgasm";
-	} else if (PunishStandup && FuturisticTrainingBeltStandUpFlag) {
+	} else if (PunishStandup && C.CanKneel() && C.IsStanding() && ServerPlayerIsInChatRoom()) {
 		// Punish the player if they stand up
-		FuturisticTrainingBeltStandUpFlag = false;
 		return "StandUp";
 	} else if (PunishStruggle && C.FocusGroup && StruggleProgressPrevItem != null && StruggleProgressStruggleCount > 0 && (StruggleProgress > 3 || StruggleLockPickProgressCurrentTries > 0)) {
 		// Punish the player if they Struggle
@@ -76,8 +75,8 @@ function AssetsItemPelvisObedienceBeltUpdate(data, LastTime) {
 			break;
 		case "StandUp":
 			PropertyShockPublishAction(C, Item, true);
-			PoseSetActive(Player, "Kneel");
-			ServerSend("ChatRoomCharacterPoseUpdate", { Pose: Player.ActivePose });
+			PoseSetActive(C, "Kneel");
+			ServerSend("ChatRoomCharacterPoseUpdate", { Pose: C.ActivePose });
 			break;
 		case "Struggle":
 			// NOTE: The `Struggle` case is currently unused by the obedience belt,

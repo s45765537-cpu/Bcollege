@@ -13,7 +13,7 @@ Mitgliedsnummer
 Chat room
 Chatraum
 Relation type
-Relation type
+Beziehungstyp
 Send a Beep
 Sende ein Piep
 Read a Beep

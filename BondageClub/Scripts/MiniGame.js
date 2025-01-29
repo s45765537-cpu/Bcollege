@@ -28,7 +28,6 @@ function MiniGameLoad() {
  * @returns {void} - Nothing
  */
 function MiniGameStart(GameType, Difficulty, ReturnFunction) {
-	CurrentCharacter = null;
 	MiniGameType = GameType;
 	MiniGameDifficulty = 0;
 	MiniGameDifficultyMode = "";
@@ -46,6 +45,11 @@ function MiniGameStart(GameType, Difficulty, ReturnFunction) {
 	MiniGameStarted = false;
 	MiniGameEnded = false;
 	MiniGameCheatAvailable = (CheatFactor("MiniGameBonus", 0) == 0);
+
+	// FIXME: Consider integrating this check directly into `CommonSetScreen`
+	if (CurrentCharacter) {
+		DialogLeave();
+	}
 	CommonSetScreen("MiniGame", GameType);
 }
 

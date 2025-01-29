@@ -257,7 +257,7 @@ Text College Freshwoman,+1 Fame per turn if Julia is present.  +1 Fame per turn 
 Title College Nerd,College Nerd
 Text College Nerd,+1 Money per turn if Julia is present.  +1 Money per turn if Yuki is present.
 Title College Hidden Genius,Hidden Genius
-Text College Hidden Genius,+5 Fame per turn if Mildred is present.
+Text College Hidden Genius,+4 Fame per turn if Mildred is present.
 Title Substitute Teacher,Substitute Teacher
 Text Substitute Teacher,+1 Fame per turn for each College Student present. Max 4
 Title Julia,Julia
@@ -486,8 +486,8 @@ Title Pet Sitter,Pet Sitter
 Text Pet Sitter,"Gains +1 money for each pet in either club (Max 5). If your opponent has any Pets in their club, they gain 1 money each turn."
 Title Pet Rock,Pet Rock
 Text Pet Rock,<F>Just a rock...
-Title Jessi Gift,Jessi's Gift
-Text Jessi Gift,"At the start of your next 5 turns, gain 1 money."
+Title Tips,Tips
+Text Tips,"At the start of your next 5 turns, gain 1 money."
 Title Pet Trainer,Pet Trainer
 Text Pet Trainer,"When you play a pet you gain 2 fame. Gains +3 fame if show dog is present in your club."
 Effect Pet Trainer,"SOURCEPLAYER gained AMOUNT fame from Pet Trainer"

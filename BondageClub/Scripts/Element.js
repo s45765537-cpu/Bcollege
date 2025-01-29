@@ -496,18 +496,20 @@ function ElementPosition(ElementID, X, Y, W, H) {
 /**
  * Draws an existing HTML element at a specific position within the document. The element will not be centered on its given coordinates unlike the ElementPosition function.
  * Not same as ElementPositionFix. Calculates Font size itself.
- * @param {string} ElementID - The id of the input tag to (re-)position.
+ * @param {string | HTMLElement} ElementOrID - The id of the input tag to (re-)position or the element itself.
  * @param {number} X - Starting point of the element on the X axis.
  * @param {number} Y - Starting point of the element on the Y axis.
  * @param {number} W - Width of the element.
  * @param {number} [H] - Height of the element.
  * @returns {void} - Nothing
  */
-function ElementPositionFixed(ElementID, X, Y, W, H) {
-	var E = document.getElementById(ElementID);
+function ElementPositionFixed(ElementOrID, X, Y, W, H) {
+	const E = typeof ElementOrID === "string" ? document.getElementById(ElementOrID) : ElementOrID;
+
 	// Verify the element exists
 	if (!E) {
-		console.warn("A call to ElementPositionFix was made on non-existent element with ID '" + ElementID + "'");
+		const id = typeof ElementOrID === "string" ? ElementOrID : ElementOrID?.id;
+		console.warn(`A call to ElementPositionFix was made on non-existent element with ID "${id}"`);
 		return;
 	}
 
@@ -756,7 +758,7 @@ var ElementCheckboxDropdown = {
 			tag: "div",
 			attributes: { id, ["screen-generated"]: CurrentScreen },
 			parent: options?.parent ?? document.body,
-			classList: ["HideOnPopup", "dropdown"],
+			classList: ["HideOnPopup", "dropdown", "scroll-box"],
 			style: { display: "none" },
 			children: checkboxList.map((o) => this._CreateCheckboxPair(id, o, o, eventListener, options?.checked)),
 		});
@@ -777,7 +779,7 @@ var ElementCheckboxDropdown = {
 			tag: "div",
 			attributes: { id, ["screen-generated"]: CurrentScreen },
 			parent: options?.parent ?? document.body,
-			classList: ["HideOnPopup", "dropdown"],
+			classList: ["HideOnPopup", "dropdown", "scroll-box"],
 			style: { display: "none" },
 			children: Object.entries(checkboxRecord).flatMap(([header, checkboxList]) => {
 				return [
@@ -983,7 +985,8 @@ var ElementButton = {
 	_ClickRadio: function _ClickRadio(ev) {
 		// Take precaution against nested radio groups/menus, as one might accidentally query a sibbling that belongs to a different group
 		// Particularly important for menus embedded in other menus or menubars
-		const isRadio = this.role === "radio";
+		const role = this.getAttribute("role");
+		const isRadio = role === "radio";
 		const parent = this.parentElement?.closest(isRadio ? "[role='radiogroup']" : "[role='menu'], [role='menubar']");
 		if (!parent) {
 			return;
@@ -997,8 +1000,8 @@ var ElementButton = {
 				this.setAttribute("aria-checked", "false");
 				if (isRadio) {
 					/** @type {(e: Element) => boolean} */
-					const filter = (e) => e.role === "radiogroup" || !ElementCheckVisibility(e);
-					const first = ElementButton._QueryDFS(parent, `[role='${this.role}']`, filter).next();
+					const filter = (e) => e.getAttribute("role") === "radiogroup" || !ElementCheckVisibility(e);
+					const first = ElementButton._QueryDFS(parent, `[role='${role}']`, filter).next();
 					if (first.value) {
 						this.tabIndex = -1;
 						first.value.setAttribute("tabindex", "0");
@@ -1011,11 +1014,11 @@ var ElementButton = {
 		} else {
 			/** @type {(e: Element) => boolean} */
 			const filter = isRadio
-				? (e) => e.role === "radiogroup"
-				: (e) => e.role === "menu" || e.role === "menuitem";
-			let prev = ElementButton._QueryDFS(parent, `[role='${this.role}'][aria-checked='true']`, filter).next();
+				? (e) => e.getAttribute("role") === "radiogroup"
+				: (e) => e.getAttribute("role") === "menu" || e.getAttribute("role") === "menuitem";
+			let prev = ElementButton._QueryDFS(parent, `[role='${role}'][aria-checked='true']`, filter).next();
 			if (!prev.value && isRadio) {
-				prev = ElementButton._QueryDFS(parent, `[role='${this.role}'][tabindex='0']`, filter).next();
+				prev = ElementButton._QueryDFS(parent, `[role='${role}'][tabindex='0']`, filter).next();
 			}
 
 			if (prev.value) {
@@ -1279,13 +1282,27 @@ var ElementButton = {
 		protoTooltip.push(...(tooltipOptions.children ?? []));
 		const tooltip = this._ParseTooltip(id, options.tooltipPosition, protoTooltip, tooltipOptions);
 
+		/** @type {null | "aria-labelledby" | "aria-describedby"} */
+		let tooltipRoleAttribute = null;
+		switch (options.tooltipRole ?? null) {
+			case "label":
+				tooltipRoleAttribute = "aria-labelledby";
+				break;
+			case "description":
+				tooltipRoleAttribute = "aria-describedby";
+				break;
+			case null:
+				tooltipRoleAttribute = (label ? "aria-describedby" : "aria-labelledby");
+				break;
+		}
+
 		elem = ElementCreate({
 			...buttonOptions,
 			tag: "button",
 			attributes: {
 				id,
 				name: id,
-				"aria-describedby": `${id}-tooltip`,
+				[tooltipRoleAttribute]: tooltip ? `${id}-tooltip` : undefined,
 				"screen-generated": CurrentScreen,
 				role: options.role,
 				...(buttonOptions.attributes ?? {}),
@@ -1340,7 +1357,7 @@ var ElementButton = {
 
 		if (options.disabled) {
 			const menuItemRoles = ["menuitem", "menuitemradio", "menuitemcheckbox"];
-			if (menuItemRoles.some(i => elem.role === i)) {
+			if (menuItemRoles.some(i => elem.getAttribute("role") === i)) {
 				elem.setAttribute("aria-disabled", true);
 			} else {
 				elem.disabled = true;
@@ -1701,8 +1718,13 @@ var ElementMenu = {
 
 		let first = true;
 		elem.querySelectorAll("button, [role='menuitem'], [role='menuitemradio'], [role='menuitemcheckbox']").forEach((menuitem) => {
-			menuitem.role ||= "menuitem";
-			if (menuitem.role !== "menuitem" && menuitem.role !== "menuitemradio" && menuitem.role !== "menuitemcheckbox") {
+			let role = menuitem.getAttribute("role");
+			if (!role) {
+				role = "menuitem";
+				menuitem.setAttribute("role", "menuitem");
+			}
+
+			if (role !== "menuitem" && role !== "menuitemradio" && role !== "menuitemcheckbox") {
 				return;
 			}
 
@@ -1735,7 +1757,7 @@ var ElementMenu = {
 		}
 
 		menuitem.tabIndex = -1;
-		menuitem.role = "menuitem";
+		menuitem.setAttribute("role", "menuitem");
 		menuitem.addEventListener("keydown", this._KeyDown);
 		div.append(menuitem);
 	},
@@ -1761,7 +1783,7 @@ var ElementMenu = {
 			menuitem.tabIndex = -1;
 		}
 
-		menuitem.role = "menuitem";
+		menuitem.setAttribute("role", "menuitem");
 		menuitem.addEventListener("keydown", this._KeyDown);
 		div.prepend(menuitem);
 	},

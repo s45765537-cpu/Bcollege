@@ -1090,6 +1090,7 @@ function ChatRoomCreateElement() {
 				{
 					tag: "div",
 					attributes: { id: "TextAreaChatLog" },
+					classList: ["scroll-box"],
 				},
 				{
 					tag: "div",
@@ -1239,8 +1240,6 @@ function ChatRoomAppendChat(div) {
  * @returns {void} - Nothing.
  */
 function ChatRoomLoad() {
-	ElementRemove("InputSearch");
-	ChatRoomCreateRemoveInput();
 	ChatRoomRefreshFontSize();
 	ChatRoomCreateElement();
 
@@ -1279,26 +1278,6 @@ function ChatRoomClearAllElements() {
 	// Dialog
 	DialogLeave();
 
-	// Friendlist
-	ElementRemove("FriendList");
-	FriendListBeepMenuClose();
-	FriendListModeIndex = 0;
-
-	// Admin
-	ElementRemove("InputName");
-	ElementRemove("InputDescription");
-	ElementRemove("InputSize");
-	ElementRemove("InputAdminList");
-	ElementRemove("InputWhitelist");
-	ElementRemove("InputBanList");
-	ElementRemove("InputBackground");
-	ElementRemove("TagDropDown");
-
-	// Admin Custom
-	ElementRemove("InputImageURL");
-	ElementRemove("InputImageFilter");
-	ElementRemove("InputMusicURL");
-
 	// Chatroom
 	if (Player.ChatSettings?.PreserveChat ?? true) {
 		ChatRoomHideElements();
@@ -1306,18 +1285,6 @@ function ChatRoomClearAllElements() {
 		ElementRemove("chat-room-div");
 		window.removeEventListener("resize", ChatRoomResizeManager.ChatRoomResizeEvent);
 	}
-
-	// Preferences
-	ElementRemove("InputEmailOld");
-	ElementRemove("InputEmailNew");
-	ElementRemove("InputCharacterLabelColor");
-
-	// Profile
-	ElementRemove("DescriptionInput");
-
-	// Wardrobe
-	ElementRemove("InputWardrobeName");
-	CharacterAppearanceMode = "";
 }
 
 /**
@@ -1347,7 +1314,7 @@ function ChatRoomStart(Space, Game, LeaveRoom, LeaveSpace, Background, Backgroun
 	ChatRoomSpace = Space;
 	ChatRoomGame = Game;
 	ChatSearchBackground = Background;
-	ChatCreateBackgroundList = BackgroundsGenerateList(BackgroundTagList);
+	ChatAdminBackgroundList = BackgroundsGenerateList(BackgroundTagList);
 	BackgroundSelectionTagList = BackgroundTagList;
 	CommonSetScreen("Online", "ChatSearch");
 
@@ -2458,7 +2425,6 @@ function ChatRoomToggleKneel() {
 				.sourceCharacter(Player)
 				.build();
 			ServerSend("ChatRoomChat", { Content: PlayerIsKneeling ? "StandUp" : "KneelDown", Type: "Action", Dictionary });
-			FuturisticTrainingBeltStandUpFlag = PlayerIsKneeling;
 			PoseSetActive(Player, PlayerIsKneeling ? "BaseLower" : "Kneel");
 			ChatRoomStimulationMessage("Kneel");
 			ServerSend("ChatRoomCharacterPoseUpdate", { Pose: Player.ActivePose });
@@ -2524,7 +2490,7 @@ function ChatRoomOpenAdminScreen() {
 	}
 
 	ChatRoomStatusUpdate("Preference");
-	CommonSetScreen("Online", "ChatAdmin");
+	ChatAdminShowEdit(ChatRoomData);
 }
 
 /**
@@ -2633,7 +2599,6 @@ function ChatRoomAttemptStandMinigameEnd() {
 				.sourceCharacter(Player)
 				.build();
 			ServerSend("ChatRoomChat", { Content: (!Player.IsKneeling()) ? "KneelDownPass" : "StandUpPass", Type: "Action", Dictionary });
-			FuturisticTrainingBeltStandUpFlag = Player.IsKneeling();
 			PoseSetActive(Player, (!Player.IsKneeling()) ? "Kneel" : null, true);
 			ServerSend("ChatRoomCharacterPoseUpdate", { Pose: Player.ActivePose });
 		}
@@ -2666,7 +2631,7 @@ function ChatRoomCanLeave() {
 		} else ChatRoomLeashPlayer = null;
 	}
 	if (!Player.CanWalk()) return false; // Cannot leave if cannot walk
-	if ((ChatRoomData.Game == "Prison") && PandoraPenitentiaryActive(Player)) return false; // Cannot leave if locked down in Pandora Penitentiary
+	if ((ChatRoomData.Game == "Prison") && PandoraPenitentiaryIsInmate(Player)) return false; // Cannot leave if locked down in Pandora Penitentiary
 	if (ChatRoomData.Locked && (ChatRoomData.Game == "GGTS")) return false; // GGTS game can forbid anyone to leave
 	if (ChatRoomActiveView.CanLeave && !ChatRoomActiveView.CanLeave()) return false;
 	if (!ChatRoomData.Locked || ChatRoomPlayerIsAdmin() || ChatRoomPlayerIsWhitelisted()) return true; // Player can leave if the room isn't locked, they are an administrator, or are on the whitelist
@@ -2870,36 +2835,9 @@ function ChatRoomKeyDown(event) {
 			return false;
 		}
 
-		if (!modifiers) {
-			switch (event.key) {
-				case "Home":
-					// Scroll to the top
-					chatLog.scrollTop = 0;
-					return true;
-				case "End":
-					// Scroll to the bottom
-					chatLog.scrollTop = chatLog.scrollHeight;
-					return true;
-				case "PageUp":
-					// Scroll up by the height of the chat area
-					chatLog.scrollTop = Math.max(0, chatLog.scrollTop - chatLog.clientHeight);
-					return true;
-				case "PageDown":
-					// Scroll down by the height of the chat area
-					chatLog.scrollTop = Math.min(chatLog.scrollHeight, chatLog.scrollTop + chatLog.clientHeight);
-					return true;
-				case "ArrowUp":
-					// Scroll up by 5% of the chat area height
-					chatLog.scrollTop = Math.max(0, chatLog.scrollTop - chatLog.clientHeight * 0.05);
-					return true;
-				case "ArrowDown":
-					// Scroll down by 5% of the chat area height
-					chatLog.scrollTop = Math.min(chatLog.scrollHeight, chatLog.scrollTop + chatLog.clientHeight * 0.05);
-					return true;
-			}
-		}
-
-		if (CommonKey.IsPressed(event, "v", CommonKey.CTRL)) {
+		if (CommonKey.NavigationKeyDown(chatLog, event, (el) => el.clientHeight * 0.05)) {
+			return true;
+		} else if (CommonKey.IsPressed(event, "v", CommonKey.CTRL)) {
 			return false;
 		} else if ((event.key.length === 1 || event.key === "Enter") && !modifiers) {
 			// Move focus to the chat
@@ -3748,6 +3686,8 @@ function ChatRoomMessageProcessHidden(data, SenderCharacter) {
 		ChatRoomReceiveSuitcaseMoney();
 	} else if (data.Content.substr(0, 4) == "GGTS") {
 		AsylumGGTSHiddenMessage(SenderCharacter, data.Content, data);
+	} else if (data.Content.substr(0, 7) == "Pandora") {
+		PandoraPenitentiaryHiddenMessage(SenderCharacter, data.Content);
 	} else if (data.Content.startsWith("PortalLink")) {
 		PortalLinkProcessMessage(SenderCharacter, data);
 	}
@@ -4383,8 +4323,11 @@ function ChatRoomValidateProperties(obj)
 }
 
 /**
- * Handles the reception of the new room data from the server.
- * @param {ServerChatRoomSyncMessage} data - Room object containing the updated chatroom data.
+ * Handles the reception of the data for a room we've just entered.
+ *
+ * This only happens once per ChatRoom "lifetime".
+ *
+ * @param {ServerChatRoomSyncMessage} data - Room object containing the new chatroom data.
  * @returns {void} - Nothing.
  */
 function ChatRoomSync(data) {
@@ -4415,7 +4358,7 @@ function ChatRoomSync(data) {
 	ChatRoomData = data;
 
 	// Loads the room
-	if ((CurrentScreen != "ChatRoom") && (CurrentScreen != "ChatAdmin") && (CurrentScreen != "Appearance") && (CurrentModule != "Character")) {
+	if (!ServerPlayerIsInChatRoom() || CurrentScreen === "ChatAdmin") {
 		CommonSetScreen("Online", "ChatRoom");
 	}
 
@@ -4440,6 +4383,8 @@ function ChatRoomSync(data) {
 		ChatRoomGame = ChatRoomData.Game;
 		OnlineGameReset();
 	}
+
+	ChatRoomPingLeashedPlayers();
 
 	// Check whether the player's last chatroom data needs updating
 	ChatRoomCheckForLastChatRoomUpdates();

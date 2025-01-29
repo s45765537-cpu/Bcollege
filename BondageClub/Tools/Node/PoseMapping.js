@@ -1,12 +1,10 @@
-"use strict";
+import vm from "vm";
+import fs from "fs";
+import process from "process";
+import minimist from "minimist";
+import util from 'util';
 
-const vm = require("vm");
-const fs = require("fs");
-const process = require("process");
-const minimist = require("minimist");
-const util = require('util');
-
-const {
+import {
 	NEEDED_FILES,
 	BASE_PATH,
 	loadCSV,
@@ -15,7 +13,7 @@ const {
 	keys,
 	isObject,
 	validateArgv,
-} = require("./Common.js");
+} from "./Common.js";
 
 /** @type {<T>(obj: T) => T} */
 function noop(obj) {

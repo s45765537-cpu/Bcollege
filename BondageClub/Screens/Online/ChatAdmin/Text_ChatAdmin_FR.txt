@@ -11,7 +11,11 @@ Liste des administrateurs
 Private
 Privé
 Locked
-Barré
+Verrouillé
+Need exact name, admin, or whitelist to find it
+Il faut un nom exact, un administrateur ou une liste blanche pour le trouver.
+Only admins and whitelisted members can enter or leave
+Seuls les administrateurs et les membres figurant sur la liste blanche peuvent entrer ou sortir.
 Size (2-20)
 Taille (2-20)
 Member numbers separated by commas (ex: 123, ...)
@@ -32,6 +36,8 @@ Room settings can only be updated by administrators
 Les paramètres des salons peuvent être mis à jour que par les administrateurs
 Background
 Style
+Create
+Créer
 Save
 Sauvegarder
 Exit
@@ -45,6 +51,14 @@ Ce nom de salon est déjà pris
 Account error, please try to relog
 Erreur de compte, veuillez essayer de vous reconnecter
 Invalid chat room data detected
-Donnée(s) de salle de chat non valide(s) détectée(s)
+Données du salon invalides
+Room created, joining it...
+Salon créé, vous vous y rendez...
+Ban blacklist
+Barré la liste noire
+Ban ghostlist
+Barré la liste des fantômes
 Selection
 Sélection
+(Click anywhere to return)
+(Cliquer pour revenir)

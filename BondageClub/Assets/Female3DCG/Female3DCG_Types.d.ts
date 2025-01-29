@@ -94,6 +94,20 @@ declare namespace AllowTypes {
 	}
 }
 
+declare namespace ParentGroup {
+	/**
+	 * An object mapping pose names to group names from which to inherit body sizes.
+	 * The {@link PoseType.DEFAULT} singleton is used for defining the default inheritance behavior when used as key, and disables inheritance when used as value.
+	 */
+	type Data = Partial<Record<PoseTypeDefault | AssetPoseName, PoseTypeDefault | AssetGroupName>>;
+
+	/**
+	 * An object mapping pose names to group names from which to inherit body sizes or a singular group name to apply it to _all_ poses.
+	 * The {@link PoseType.DEFAULT} singleton is used for defining the default inheritance behavior when used as key, and disables inheritance when used as value.
+	 */
+	type Definition = AssetGroupName | Data;
+}
+
 /**
  * Properties common to groups, assets and layers
  *
@@ -129,8 +143,19 @@ interface AssetCommonPropertiesGroupAssetLayer {
 	/** The group the target should inherit its color from. */
 	InheritColor?: AssetGroupName;
 
-	/** A group identifier that will be used to inherit the body size */
-	ParentGroup?: AssetGroupName | null;
+	/**
+	 * A group identifier that will be used to inherit the body size.
+	 * Body sizes can be either be used for all poses (by passing a singular group) or on a pose-by-pose basis (via passing an object).
+	 * In the latter case {@link PoseType.DEFAULT} can be used to override the default for _all_ groups when used as key, or to disable inheritance when used as value.
+	 *
+	 * @example
+	 * // Inherit from the body sizes `BodyLower` by default, but do not inherit for the `AllFours` pose
+	 * ParentGroup: {
+	 *     [PoseType.DEFAULT]: "BodyLower",
+	 *     AllFours: PoseType.DEFAULT,
+	 * },
+	 */
+	ParentGroup?: ParentGroup.Definition;
 
 	/**
 	 * The poses that have pose-specific assets.
@@ -564,7 +589,7 @@ interface AssetDefinitionBase extends AssetCommonPropertiesGroupAsset, AssetComm
 	 * A value of -1 makes the asset unavailable, a value of 0 makes it always available.
 	 */
 	Value?: number;
-	
+
 	/**
 	 * Whether an item should never be able to be sold.
 	 *
@@ -572,40 +597,52 @@ interface AssetDefinitionBase extends AssetCommonPropertiesGroupAsset, AssetComm
 	 */
 	NeverSell?: boolean;
 
-	/** A measure of how hard it is to remove the asset. Defaults to 0. */
+	/** A measure of how hard it is to remove the restraint. Defaults to 0. */
 	Difficulty?: number;
 
+	/** The required self bondage skill level for equipping a restraint on oneself. */
 	SelfBondage?: number;
+	/** Whether the player can remove any applied locks to the item */
 	SelfUnlock?: boolean;
+	/** Whether only a specific set of characters can unlock the applied lock */
 	ExclusiveUnlock?: boolean;
 
 	/** Whether the asset gets removed automatically when the character log in. Defaults to false. */
 	RemoveAtLogin?: boolean;
 
+	/** The base time required for equipping an item. */
 	Time?: number;
 	/** Enables advanced layer visibility on the asset. See {@link AssetLayerDefinition.Visibility} for more information. */
 	LayerVisibility?: boolean;
+	/** The base time required for removing a restraint. */
 	RemoveTime?: number;
+	/** The default time for a timer lock */
 	RemoveTimer?: number;
+	/** The maximum allowed time for a timer lock */
 	MaxTimer?: number;
 
 	Height?: number;
 	Zoom?: number;
 	Prerequisite?: AssetPrerequisite | AssetPrerequisite[];
 	Extended?: boolean;
+	/** Whether the restraint's extended item menu can always be accessed, even if it would be otherwise blocked */
 	AlwaysExtend?: boolean;
+	/** Whether the restraint's extended item menu can always be accessed, even if the player's hands are otherwise restrained */
 	AlwaysInteract?: boolean;
+	/** Whether the restraint can be locked */
 	AllowLock?: boolean;
+	/** Whether the restraint is a lock (see {@link AssetLockType}) */
 	IsLock?: boolean;
+	/** The lock picking difficulty for those locks that can be picked */
 	PickDifficulty?: number | null;
 
-	/** Whether the asset is only available to owners. */
+	/** Whether the restraint is only available to owners. */
 	OwnerOnly?: boolean;
 
-	/** Whether the asset is only available to lovers. */
+	/** Whether the restraint is only available to lovers. */
 	LoverOnly?: boolean;
 
-	/** Whether the asset is only available to the family. */
+	/** Whether the restraint is only available to the family. */
 	FamilyOnly?: boolean;
 
 	/** A list of facial expression using the asset causes to the character */
@@ -731,25 +768,30 @@ declare namespace AssetDefinition {
 	/** An {@link AssetDefinition} subtype for assets whose group is of the `Appearance` category. */
 	interface Appearance extends AssetDefinitionBase {
 		AllowLock?: false;
-		IsLock?: false;
-		PickDifficulty?: never;
-		OwnerOnly?: false;
-		LoverOnly?: false;
-		FamilyOnly?: false;
-		AllowTighten?: false;
-		DrawLocks?: false;
-		CustomBlindBackground?: never;
-		CraftGroup?: never;
 		AllowLockType?: never;
-		CharacterRestricted?: false;
 		AllowRemoveExclusive?: false;
+		AllowTighten?: false;
+		AlwaysExtend?: false;
+		AlwaysInteract?: false;
 		ArousalZone?: never;
+		CharacterRestricted?: false;
+		CraftGroup?: never;
+		CustomBlindBackground?: never;
 		Difficulty?: never;
+		DrawLocks?: false;
+		ExclusiveUnlock?: false;
+		FamilyOnly?: false;
+		IsLock?: false;
+		IsRestraint?: false;
+		LoverOnly?: false;
+		MaxTimer?: never;
+		OwnerOnly?: false;
+		PickDifficulty?: never;
+		RemoveTime?: never;
+		RemoveTimer?: never;
 		SelfBondage?: never;
 		SelfUnlock?: false;
-		RemoveTime?: never;
-		AlwaysInteract?: false;
-		IsRestraint?: false;
+		Time?: never;
 	}
 	/** An {@link AssetDefinition} subtype for assets whose group is of the `Script` category. */
 	interface Script extends AssetDefinitionBase {
@@ -1172,8 +1214,6 @@ interface ModularItemOptionConfig extends Omit<ExtendedItemOptionConfig, "Name">
 	HeightModifier?: number;
 	/** Whether that option applies effects */
 	Effect?: EffectName[];
-	/** Whether the option forces a given pose */
-	SetPose?: AssetPoseName;
 	/** A list of activities enabled by that module */
 	AllowActivity?: ActivityName[];
 	Property?: Omit<ItemProperties, "TypeRecord">;

@@ -1,32 +1,30 @@
-"use strict";
+import path from "path";
+import log from "fancy-log";
+import c from "ansi-colors";
+import gulp from "gulp";
+import gulpCount from "gulp-count";
+import gulpIf from "gulp-if";
+import gulpSize from "gulp-size";
+import filter from "gulp-filter";
+import imagemin from "gulp-imagemin";
+import jpegtran from "imagemin-jpegtran";
+import cache from "gulp-cache";
+import through from "through2";
+import { rimraf } from "rimraf";
+import { table } from "table";
+import prettyBytes from "pretty-bytes";
+import StreamCounter from "stream-counter";
 
-const path = require("path");
-const log = require("fancy-log");
-const c = require("ansi-colors");
-const gulp = require("gulp");
-const gulpCount = require("gulp-count");
-const gulpIf = require("gulp-if");
-const gulpSize = require("gulp-size");
-const filter = require("gulp-filter");
-const imagemin = require("gulp-imagemin");
-const jpegtran = require("imagemin-jpegtran");
-const cache = require("gulp-cache");
-const through = require("through2");
-const rimraf = require("rimraf");
-const { table } = require("table");
-const prettyBytes = require("pretty-bytes");
-const StreamCounter = require("stream-counter");
-
-const BASE_DIR = path.resolve(__dirname, "..", "..");
-const CACHE_DIR = path.resolve(__dirname, ".imagemin-cache");
+const BASE_DIR = path.resolve(import.meta.dirname, "..", "..");
+const CACHE_DIR = path.resolve(import.meta.dirname, ".imagemin-cache");
 const BATCH_SIZE = 500;
 const SIZE_CONFIG = { showTotal: false };
 
-exports.assetMinify = gulp.series(logIntro, analyzeBefore, generateBatches, minifyBatches, analyzeAfter, report);
+export const assetMinify = gulp.series(logIntro, analyzeBefore, generateBatches, minifyBatches, analyzeAfter, report);
 
-exports.clean = function (cb) {
+export function clean(cb) {
 	rimraf(CACHE_DIR, cb);
-};
+}
 
 let files = [];
 let batches = [];
@@ -154,19 +152,19 @@ function colorizeSizePercentage(before, after) {
 }
 
 function generateBatches(cb) {
-	log(`Splitting ${c.magenta(files.length)} files into batches of size ${c.magenta(BATCH_SIZE)}...`);
+	log(`Splitting ${c.magenta(`${files.length}`)} files into batches of size ${c.magenta(`${BATCH_SIZE}`)}...`);
 	batches = [];
 	for (let i = 0; i < files.length; i += BATCH_SIZE) {
 		batches.push(files.slice(i, i + BATCH_SIZE));
 	}
-	log(`${c.magenta(batches.length)} batches generated.`);
+	log(`${c.magenta(`${batches.length}`)} batches generated.`);
 	cb();
 }
 
 function minifyBatches(cb) {
 	const tasks = batches.map((batch, i) => {
 		function minifyTask() {
-			log(`Minifying batch ${c.magenta(i + 1)} of ${c.magenta(batches.length)}`);
+			log(`Minifying batch ${c.magenta(`${i + 1}`)} of ${c.magenta(`${batches.length}`)}`);
 			return minifyBatch(batch);
 		}
 
@@ -176,8 +174,7 @@ function minifyBatches(cb) {
 
 	return gulp.series(...tasks, (seriesDone) => {
 		seriesDone();
-		cb();
-	})();
+	})(cb);
 }
 
 function minifyBatch(batch) {
@@ -190,6 +187,8 @@ function minifyBatch(batch) {
 			{
 				name: "imagemin",
 				fileCache: new cache.Cache({
+					// @ts-expect-error There's something wrong with the typings here…
+					// This is actually cache-swap's interface, which has this option.
 					tmpDir: CACHE_DIR,
 					cacheDirName: "imagemin-cache",
 				}),
@@ -197,7 +196,9 @@ function minifyBatch(batch) {
 		))
 		.pipe(sizesAfter)
 		.pipe(filter((file) => {
+			// @ts-expect-error Smuggling size through
 			const sizeBefore = sizesBefore.sizes.get(file.path);
+			// @ts-expect-error Smuggling size through
 			const sizeAfter = sizesAfter.sizes.get(file.path);
 			if (sizeAfter > sizeBefore) {
 				log(`Omitting file "${c.magenta(file.path)}": size after minification is greater than original size.`);
@@ -259,7 +260,9 @@ function fileSizes() {
 
 	return through.obj(
 		async function (file, enc, cb) {
+			// @ts-expect-error Smuggling size through
 			if (!this.sizes) {
+				// @ts-expect-error Smuggling size through
 				this.sizes = sizes;
 			}
 

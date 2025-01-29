@@ -1,5 +1,5 @@
 #crafting-screen {
-	--button-size: min(9dvh, 4.5dvw);
+	--button-size: min(9vh, 4.5vw);
 
 	display: grid;
 	grid-template:
@@ -18,7 +18,7 @@
 
 #crafting-header {
 	user-select: none;
-	font-size: min(5dvh, 2.5dvw);
+	font-size: min(5vh, 2.5vw);
 	line-height: 0;
 	color: white;
 	justify-self: center;
@@ -108,7 +108,6 @@
 .crafting-grid {
 	display: grid;
 	gap: calc(var(--button-size) / 6);
-	overflow: hidden auto;
 	margin: 3px;
 	padding: 3px;
 }
@@ -143,7 +142,7 @@
 }
 
 #crafting-property-button {
-	font-size: min(3dvh, 1.5dvw);
+	font-size: min(3vh, 1.5vw);
 	grid-area: crafting-property-button;
 }
 
@@ -174,7 +173,6 @@
 
 #crafting-right-panel {
 	grid-area: crafting-right-panel;
-	overflow-y: auto;
 	padding-right: calc(var(--button-size) / 12);
 }
 
@@ -267,4 +265,18 @@
 #crafting-tighten-label,
 #crafting-ascii-description-label {
 	grid-template-columns: min-content auto;
+}
+
+@supports (height: 100dvh) {
+	#crafting-screen {
+		--button-size: min(9dvh, 4.5dvw);
+	}
+
+	#crafting-header {
+		font-size: min(5dvh, 2.5dvw);
+	}
+
+	#crafting-property-button {
+		font-size: min(3dvh, 1.5dvw);
+	}
 }

@@ -71,7 +71,7 @@ function AssetGroupAdd(Family, GroupDef) {
 		Name: GroupDef.Group,
 		Description: GroupDef.Group,
 		Asset: [],
-		ParentGroupName: GroupDef.ParentGroup || null,
+		ParentGroup: AssetParseParentGroup(GroupDef.ParentGroup, {}),
 		Category: (GroupDef.Category == null) ? "Appearance" : GroupDef.Category,
 		IsDefault: (GroupDef.Default == null) ? true : GroupDef.Default,
 		IsRestraint: (GroupDef.IsRestraint == null) ? false : GroupDef.IsRestraint,
@@ -179,7 +179,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		Description: AssetDef.Name,
 		Group: Group,
 		ParentItem: AssetDef.ParentItem,
-		ParentGroupName: AssetDef.ParentGroup === undefined ? Group.ParentGroupName : AssetDef.ParentGroup,
+		ParentGroup: AssetParseParentGroup(AssetDef.ParentGroup, Group.ParentGroup),
 		Enable: (AssetDef.Enable == null) ? true : AssetDef.Enable,
 		Visible: (AssetDef.Visible == null) ? true : AssetDef.Visible,
 		NotVisibleOnScreen: Array.isArray(AssetDef.NotVisibleOnScreen) ? AssetDef.NotVisibleOnScreen : [],
@@ -302,7 +302,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 
 	const layers = AssetDef.Layer ? [...AssetDef.Layer] : [{}];
 	if (A.DrawLocks) {
-		layers.push({ Name: "Lock", LockLayer: true, AllowColorize: false, ParentGroup: null });
+		layers.push({ Name: "Lock", LockLayer: true, AllowColorize: false, ParentGroup: {} });
 	}
 	A.Layer = layers.map((Layer, I) => AssetMapLayer(Layer, A, I));
 	A.Layer.forEach((layer, i) => {
@@ -341,6 +341,38 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		if (assetBaseConfig != null) {
 			AssetBuildExtended(A, assetBaseConfig, ExtendedConfig);
 		}
+	}
+
+	// Ensure that restraints do not have clothing-exclusive properties and vice versa
+	switch (Group.Category) {
+		case "Item":
+			A.BodyCosplay = false;
+			break;
+		case "Appearance":
+			A.AllowLock = false;
+			A.AllowLockType = null;
+			A.AllowRemoveExclusive = false;
+			A.AllowTighten = false;
+			A.AlwaysExtend = false;
+			A.AlwaysInteract = false;
+			A.CharacterRestricted = false;
+			A.CustomBlindBackground = undefined;
+			A.Difficulty = 0;
+			A.DrawLocks = false;
+			A.ExclusiveUnlock = false;
+			A.FamilyOnly = false;
+			A.IsLock = false;
+			A.IsRestraint = false;
+			A.LoverOnly = false;
+			A.MaxTimer = 0;
+			A.OwnerOnly = false;
+			A.PickDifficulty = 0;
+			A.RemoveTime = 0;
+			A.RemoveTimer = 0;
+			A.SelfBondage = 0;
+			A.SelfUnlock = true;
+			A.WearTime = 0;
+			break;
 	}
 }
 
@@ -614,7 +646,7 @@ function AssetMapLayer(Layer, A, I) {
 		AllowTypes: Layer.AllowTypes != null ? AssetParseAllowTypes(Layer.AllowTypes) : null,
 		CreateLayerTypes: Array.isArray(Layer.CreateLayerTypes) ? Layer.CreateLayerTypes : A.CreateLayerTypes,
 		Visibility: typeof Layer.Visibility === "string" ? Layer.Visibility : null,
-		ParentGroupName: Layer.ParentGroup === undefined ? A.ParentGroupName : Layer.ParentGroup,
+		ParentGroup: AssetParseParentGroup(Layer.ParentGroup, A.ParentGroup),
 		Priority: Layer.Priority || A.DrawingPriority || A.Group.DrawingPriority,
 		InheritColor: typeof Layer.InheritColor === "string" ? Layer.InheritColor : A.InheritColor,
 		Alpha: AssetParseLayerAlpha(Layer, A, I),
@@ -704,6 +736,22 @@ function AssetParseAllowTypes(allowTypes) {
 		}
 	}
 	return ret;
+}
+
+/**
+ * Parse the passed {@link AssetDefinition.ParentGroup}.
+ * @param {null | undefined | ParentGroup.Definition} parentGroup - The to-be parsed parent group value
+ * @param {ParentGroup.Data} superParentGroup - The parsed parent group value of the layer's/asset's super-asset/group
+ * @returns {ParentGroup.Data} - The parsed parent group value
+ */
+function AssetParseParentGroup(parentGroup, superParentGroup) {
+	if (parentGroup == null) {
+		return superParentGroup;
+	} else if (typeof parentGroup === "string") {
+		return { [PoseType.DEFAULT]: parentGroup };
+	} else {
+		return parentGroup;
+	}
 }
 
 /**

@@ -1,8 +1,9 @@
 {
 	"compilerOptions": {
-		"module": "commonjs",
+		"module": "NodeNext",
 		"target": "ES2022",
 		"lib": ["es2022"],
+		"moduleResolution": "nodenext",
 		"checkJs": true,
 		"strict": true,
 		"noImplicitAny": false
@@ -10,7 +11,7 @@
 	"include": [
 		"../../Assets/Female3DCG/Female3DCG_Types.d.ts",
 		"../../Scripts/Typedef.d.ts",
-		"."
+		".",
 	],
 	"exclude": [
 		"Scripts/MessagesPatch.d.ts"

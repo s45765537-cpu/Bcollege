@@ -15,10 +15,25 @@ function AssetsBodyMarkingsBodyWritingsAfterDrawHook(data, originalFunction, {
 	/** @type {DynamicDrawOptions} */
 	const drawOptions = {
 		fontSize: 10,
-		fontFamily: data.font,
+		// disabled - fontFamily now gets set at 'style' switch
+		//fontFamily: data.font,
 		color: Color,
 		width: Width,
 	};
+
+	switch (CA.Property.TypeRecord.s) {
+		case 0: // Print
+			drawOptions.fontFamily = "Ananda Black";
+			break;
+		case 1: // Cursive
+			drawOptions.fontFamily = "Satisfy";
+			break;
+		case 2: // Boilerplate
+			drawOptions.fontFamily = "Saira Stencil One";
+			break;
+		default:
+			return;
+	}
 
 	switch (CA.Property.TypeRecord.p) {
 		case 0: // Collar L

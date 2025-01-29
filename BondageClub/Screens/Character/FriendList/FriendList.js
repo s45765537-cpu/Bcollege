@@ -273,6 +273,7 @@ function FriendListLoad() {
 					},
 					{
 						tag: 'div',
+						classList: ["scroll-box"],
 						attributes: {
 							id: FriendListIDs.friendList
 						},

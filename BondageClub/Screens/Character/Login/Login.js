@@ -6,11 +6,12 @@ var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
-	"Abysseia", "ArashiSama", "BlueWinter", "Bryce", "Canti", "Christian", "Cm382714", "Dahmia",
-	"DarbSup", "Desch", "Domenico", "Dragokahn", "Dynilath", "Edwin", "Glurak", "Greendragon",
-	"John", "Laurie", "Lyall", "Marashu", "Michel", "Mindtie", "Nightcore", "Robin", "Samonas",
-	"Setsu", "Sticks", "Sunny", "Tam", "Tarram", "Teli", "Thkdt", "TonyBoy", "Troubadix",
-	"Troy", "Umbrapop", "WhiteSniper", "XDWolfie", "Xepherio"
+	"Abysseia", "Aceffect14", "alarik", "ArashiSama", "BlueWinter", "bryce", "Canti",
+	"Christian", "Christoffer", "Cm382714", "Dahmia", "Desch", "domenico", "Dragokahn", 
+	"dynilath", "Edwin", "Glurak", "Greendragon", "john", "Laurie", "linkjpm", "Lyall", 
+	"Marashu", "Michel", "Mindtie", "Misa", "Nightcore", "René", "Robin", "Samonas", 
+	"Schrödingers", "Setsu95", "Sticks", "Sunny", "Tam", "Tarram1010", "Teli", "Thkdt", 
+	"TonyBoy", "Troubadix", "Troy", "Umbrapop28", "WhiteSniper", "XDWolfie", "Xepherio", "火芽"
 ];
 
 /* eslint-enable */
@@ -703,12 +704,12 @@ function LoginSetupPlayer(C) {
 	Player.WardrobeCharacterNames = C.WardrobeCharacterNames;
 
 	// Sets the default language when creating or searching for chat rooms
-	ChatCreateLanguage = C.RoomCreateLanguage;
-	if (ChatCreateLanguage == null) ChatCreateLanguage = ChatCreateLanguageList[0];
-	if (ChatCreateLanguageList.indexOf(ChatCreateLanguage) < 0) ChatCreateLanguage = ChatCreateLanguageList[0];
+	ChatAdminDefaultLanguage = C.RoomCreateLanguage;
+	if (ChatAdminDefaultLanguage == null) ChatAdminDefaultLanguage = ChatAdminLanguageList[0];
+	if (ChatAdminLanguageList.indexOf(ChatAdminDefaultLanguage) < 0) ChatAdminDefaultLanguage = ChatAdminLanguageList[0];
 	ChatSearchLanguage = C.RoomSearchLanguage;
 	if (ChatSearchLanguage == null) ChatSearchLanguage = "";
-	if (ChatSearchLanguage && ChatCreateLanguageList.indexOf(ChatSearchLanguage) < 0) ChatSearchLanguage = "";
+	if (ChatSearchLanguage && ChatAdminLanguageList.indexOf(ChatSearchLanguage) < 0) ChatSearchLanguage = "";
 
 	// Load the last chat room
 	Player.LastMapData = C.LastMapData;

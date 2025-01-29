@@ -1,11 +1,9 @@
-/** Common utility scripts for the test suit. */
+/** Common utility scripts for the test suite. */
 
-"use strict";
-
-const fs = require("fs");
+import fs from "fs";
 
 /** Files needed to check the Female3DCG assets. */
-const NEEDED_FILES = [
+export const NEEDED_FILES = [
 	"Scripts/Common.js",
 	"Scripts/Dialog.js",
 	"Scripts/Pose.js",
@@ -42,6 +40,7 @@ const NEEDED_FILES = [
 	"Screens/Inventory/Cloth/CheerleaderTop/CheerleaderTop.js",
 	"Screens/Inventory/ClothAccessory/Bib/Bib.js",
 	"Screens/Inventory/BodyMarkings/BodyWritings/BodyWritings.js",
+	"Screens/Inventory/FaceMarkings/FaceWritings/FaceWritings.js",
 	"Screens/Inventory/ItemDevices/DollBox/DollBox.js",
 	"Screens/Inventory/ItemDevices/PetBowl/PetBowl.js",
 	"Screens/Inventory/ItemHead/DroneMask/DroneMask.js",
@@ -97,36 +96,38 @@ const NEEDED_FILES = [
 ];
 
 /** The base path for any BC asset/script lookup. */
-const BASE_PATH = "../../";
+export const BASE_PATH = "../../";
 
-let localError = false;
-let globalError = false;
+export const errorState = {
+	local: false,
+	global: false,
+};
 
 /**
  * Logs the error to console and sets erroneous exit code
  * @param {string} text The error
  */
-function error(text) {
+export function error(text) {
 	console.log("ERROR:", text);
 	process.exitCode = 1;
-	localError = true;
-	globalError = true;
+	errorState.local = true;
+	errorState.global = true;
 }
 
 /** @see {@link Object.entries} */
-const entries = /** @type {<KT extends string, VT>(record: Partial<Record<KT, VT>>) => [key: KT, value: VT][]} */(Object.entries);
+export const entries = /** @type {<KT extends string, VT>(record: Partial<Record<KT, VT>>) => [key: KT, value: VT][]} */(Object.entries);
 
 /** @see {@link Object.keys} */
-const keys = /** @type {<KT extends string>(record: Partial<Record<KT, unknown>>) => KT[]} */(Object.keys);
+export const keys = /** @type {<KT extends string>(record: Partial<Record<KT, unknown>>) => KT[]} */(Object.keys);
 
 /** @see {@link Object.fromEntries} */
-const fromEntries = /** @type {<KT extends string, VT>(list: Iterable<readonly [key: KT, value: VT]>) => Record<KT, VT>} */(Object.fromEntries);
+export const fromEntries = /** @type {<KT extends string, VT>(list: Iterable<readonly [key: KT, value: VT]>) => Record<KT, VT>} */(Object.fromEntries);
 
 /**
  * Return whether the passed object is a record/interface.
  * @type {(obj: unknown) => obj is Record<string, unknown>}
  */
-function isObject(obj) {
+export function isObject(obj) {
 	return obj !== null && typeof obj === "object" && !Array.isArray(obj);
 }
 
@@ -135,7 +136,7 @@ function isObject(obj) {
  * @param {string} str - Content of the CSV
  * @returns {string[][]} Array representing each line of the parsed content, each line itself is split by commands and stored within an array.
  */
-function parseCSV(str) {
+export function parseCSV(str) {
 	/** @type {string[][]} */
 	let arr = [];
 	let quote = false; // true means we're inside a quoted field
@@ -191,7 +192,7 @@ function parseCSV(str) {
  * @param {string} path Path to file, relative to BondageClub directory
  * @param {number} expectedWidth Expected number of columns
  */
-function loadCSV(path, expectedWidth) {
+export function loadCSV(path, expectedWidth) {
 	const data = parseCSV(fs.readFileSync(BASE_PATH + path, { encoding: "utf-8" }));
 	for (let line = 0; line < data.length; line++) {
 		if (data[line].length !== expectedWidth) {
@@ -209,7 +210,7 @@ function loadCSV(path, expectedWidth) {
  * @param {readonly T2[]} lst2
  * @returns {[T1, T2][]}
  */
-function zip(lst1, lst2) {
+export function zip(lst1, lst2) {
 	const length = Math.min(lst1.length, lst2.length);
 	/** @type {[T1, T2][]} */
 	const ret = [];
@@ -226,7 +227,7 @@ function zip(lst1, lst2) {
  * @param {Readonly<T>} template A record containing *all* allowed keys and their default values
  * @returns {T}
  */
-function validateArgv(argv, template) {
+export function validateArgv(argv, template) {
 	const { _, ...kwargs } = argv;
 
 	/** @type {string[]} */
@@ -259,27 +260,10 @@ function validateArgv(argv, template) {
  * @param {number} step
  * @returns {Generator<[index: number, value: T], void>}
  */
-function *enumerate(iterable, start=0, step=1) {
+export function *enumerate(iterable, start=0, step=1) {
 	let i = start;
 	for (const j of iterable) {
 		yield [i, j];
 		i += step;
 	}
 }
-
-module.exports = {
-	NEEDED_FILES,
-	BASE_PATH,
-	localError,
-	globalError,
-	error,
-	entries,
-	keys,
-	fromEntries,
-	isObject,
-	loadCSV,
-	parseCSV,
-	zip,
-	validateArgv,
-	enumerate,
-};
