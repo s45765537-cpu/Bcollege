@@ -10,14 +10,6 @@ Whitelist
 Білий список
 Administrator List
 Список адмінів
-Private
-Приватна
-Locked
-Закрита
-Need exact name, admin, or whitelist to find it
-Щоб знайти його, потрібне точне ім'я, адміністратор або білий список
-Only admins and whitelisted members can enter or leave
-Тільки адміністратори та користувачі з білого списку можуть входити або виходити
 Never use the map exploration
 Ніколи не використовувати режим карти
 Hybrid map, can go on and off
@@ -44,6 +36,18 @@ Room settings can only be updated by administrators
 Налаштування кімнати можуть оновлювати лише адміністратори
 Background
 Задній фон
+Visibility
+Видимість
+Access
+Доступ
+Public
+Громадськість
+Admin + Whitelist
+Адміністратор + Білий список
+Admin
+Адміністратор
+Unlisted
+Не внесено до списку
 Create
 Створити
 Save

@@ -207,6 +207,7 @@ type ServerAppearanceBundle = ServerItemBundle[];
 
 type ServerChatRoomSpace = "X" | "" | "M" | "Asylum";
 type ServerChatRoomLanguage = "EN" | "DE" | "FR" | "ES" | "CN" | "RU" | "UA";
+type ServerChatRoomRole = "All" | "Admin" | "Whitelist";
 type ServerChatRoomGame = "" | "ClubCard" | "LARP" | "MagicBattle" | "GGTS" | "Prison";
 type ServerChatRoomBlockCategory =
 	/** Those are known as AssetCategory to the client */
@@ -229,8 +230,8 @@ type ServerChatRoomData = {
 	/* FIXME: server actually expects a string there, but we cheat to make the typing simpler */
 	Limit: number;
 	Game: ServerChatRoomGame;
-	Locked: boolean;
-	Private: boolean;
+	Visibility: ServerChatRoomRole[]; // replaces "Private"
+	Access: ServerChatRoomRole[]; // replaces "Locked"
 	BlockCategory: ServerChatRoomBlockCategory[];
 	Language: ServerChatRoomLanguage;
 	Space: ServerChatRoomSpace;

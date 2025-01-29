@@ -42,6 +42,18 @@ Room settings can only be updated by administrators
 Raum-Einstellungen können nur von Administratoren bearbeitet werden
 Background
 Hintergrund
+Visibility
+Sichtbarkeit
+Access
+Zugang
+Public
+Öffentlich
+Admin + Whitelist
+Verwaltung + Whitelist
+Admin
+Verwaltung
+Unlisted
+Ungelistet
 Create
 Erstellen
 Save

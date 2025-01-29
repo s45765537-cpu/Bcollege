@@ -42,6 +42,18 @@ Room settings can only be updated by administrators
 房间选项仅能被房管修改
 Background
 背景
+Visibility
+可见性
+Access
+访问
+Public
+公众
+Admin + Whitelist
+管理员 + 白名单
+Admin
+管理员
+Unlisted
+未列入名单
 Create
 创建
 Save

@@ -249,8 +249,8 @@ function AsylumGGTSBuildPrivate() {
 		Name: "GGTS" + Math.round(CurrentTime).toString() + Math.round(Math.random() * 1000).toString(),
 		Description: "Private GGTS Room",
 		Background: "AsylumGGTSRoom",
-		Private: true,
-		Locked: false,
+		Visibility: ChatRoomVisibilityMode.UNLISTED,
+		Access: ChatRoomAccessMode.PUBLIC,
 		Space: /** @type {ServerChatRoomSpace} */ ("Asylum"),
 		Game: "GGTS",
 		Admin: [Player.MemberNumber],
@@ -309,7 +309,7 @@ function AsylumGGTSMessage(Msg, Target) {
  */
 function AsylumGGTSSetTimer() {
 	let Factor = 1;
-	if (ChatRoomData.Private && (ChatSearchReturnToScreen == "AsylumGGTS")) Factor = Factor / 3;
+	if (ChatRoomIsPrivate() && (ChatSearchReturnToScreen == "AsylumGGTS")) Factor = Factor / 3;
 	if (AsylumGGTSTimer == 0) Factor = Factor / 3;
 	AsylumGGTSTimer = Math.round(CommonTime() + 24000 * AsylumGGTSSpeed * Factor + Math.random() * 36000 * AsylumGGTSSpeed * Factor);
 }
@@ -468,8 +468,8 @@ function AsylumGGTSTaskCanBeDone(C, T) {
 	if ((T == "PoseBehindBack") && (((C.PoseMapping != null) && ["BackBoxTie", "BackElbowTouch", "BackCuffs"].includes(C.PoseMapping.BodyUpper)) || !C.CanInteract())) return false; // Must be able to use hands for hands poses
 	if ((T == "PoseLegsClosed") && (((C.PoseMapping != null) && (C.PoseMapping.BodyLower === "LegsClosed")) || C.IsKneeling() || !C.CanChangeToPose("LegsClosed"))) return false; // Close legs only if standing and able to do so
 	if ((T == "PoseLegsOpen") && ((C.PoseMapping == null) || (C.PoseMapping.BodyLower == null) || (C.PoseMapping.BodyLower === "LegsOpen") || (C.PoseMapping.BodyLower === "BaseLower") || C.IsKneeling() || !C.CanChangeToPose("LegsOpen"))) return false; // Open legs only if standing and able to do so
-	if ((T == "LockRoom") && (((ChatRoomData != null) && (ChatRoomData.Locked == true)) || !ChatRoomPlayerIsAdmin())) return false; // Can only lock/unlock if admin
-	if ((T == "UnlockRoom") && (((ChatRoomData != null) && (ChatRoomData.Locked == false)) || !ChatRoomPlayerIsAdmin())) return false; // Can only lock/unlock if admin
+	if ((T == "LockRoom") && (ChatRoomIsLocked() || !ChatRoomPlayerIsAdmin())) return false; // Can only lock/unlock if admin
+	if ((T == "UnlockRoom") && (!ChatRoomIsLocked() || !ChatRoomPlayerIsAdmin())) return false; // Can only lock/unlock if admin
 	if ((T == "RestrainLegs") && !C.CanInteract()) return false; // To restrain own legs, must be able to interact
 	if ((T == "RestrainLegs") && InventoryIsWorn(C, "FuckMachine", "ItemDevices")) return false; // Cannot restrain own legs if wearing the fuck machine
 	if ((T.substr(0, 4) == "Item") && (T.length >= 15) && T != "ItemFuckMachineIntensity" && !C.CanInteract()) return false; // To use an item, must be able to interact
@@ -799,7 +799,7 @@ function AsylumGGTSAutomaticTask() {
 	// If we must lock or unlock the chat room, we send a server update room packet
 	if ((AsylumGGTSTask == "LockRoom") || (AsylumGGTSTask == "UnlockRoom")) {
 		const UpdatedRoom = ChatRoomGetSettings(ChatRoomData);
-		UpdatedRoom.Locked = AsylumGGTSTask == "LockRoom";
+		UpdatedRoom.Access = AsylumGGTSTask == "LockRoom" ? ChatRoomAccessMode.ADMIN : ChatRoomAccessMode.PUBLIC;
 		ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: UpdatedRoom, Action: "Update" });
 		return AsylumGGTSEndTaskSave();
 	}
@@ -903,7 +903,7 @@ function AsylumGGTSEndTaskSave(Fail) {
 	AsylumGGTSTask = null;
 	if ((Fail == null) || (Fail == false)) {
 		let Factor = 1;
-		if (ChatRoomData.Private && (ChatSearchReturnToScreen == "AsylumGGTS") && (ChatRoomCharacter.length <= 1)) Factor = 3;
+		if (ChatRoomIsPrivate() && (ChatSearchReturnToScreen == "AsylumGGTS") && (ChatRoomCharacter.length <= 1)) Factor = 3;
 		let AddedTime;
 		if (AsylumGGTSTaskEnd > 0) AddedTime = CommonTime() - AsylumGGTSTaskEnd;
 		else AddedTime = CommonTime() - AsylumGGTSTaskStart;
@@ -1029,7 +1029,7 @@ function AsylumGGTSProcess() {
 		if (ChatRoomSpace !== "Asylum") AsylumGGTSMessage("IntroOnlyInAsylum");
 		else if (AsylumGGTSGetLevel(Player) <= 0) AsylumGGTSMessage("IntroNotPlaying");
 		else if (AsylumGGTSGetStrikes(Player) >= 3) AsylumGGTSMessage("IntroPendingPunishment");
-		else if (ChatRoomData.Private && (ChatSearchReturnToScreen == "AsylumGGTS")) AsylumGGTSMessage("IntroPrivate" + ((AsylumGGTSGetLevel(Player) >= 6) ? "Slave" : ""));
+		else if (ChatRoomIsPrivate() && (ChatSearchReturnToScreen == "AsylumGGTS")) AsylumGGTSMessage("IntroPrivate" + ((AsylumGGTSGetLevel(Player) >= 6) ? "Slave" : ""));
 		else AsylumGGTSMessage("IntroPublic");
 		AsylumGGTSIntroDone = true;
 		return;

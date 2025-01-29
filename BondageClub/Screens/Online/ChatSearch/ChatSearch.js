@@ -975,7 +975,7 @@ function ChatSearchAutoJoinRoom() {
 			if (Player.ImmersionSettings.ReturnToChatRoomAdmin
 				&& Player.LastChatRoom.Admin
 				&& Player.LastChatRoom.Background
-				&& Player.LastChatRoom.Private != null
+				&& Player.LastChatRoom.Visibility != null
 				&& Player.LastChatRoom.Limit
 				&& Player.LastChatRoom.Description != null) {
 
@@ -997,8 +997,8 @@ function ChatSearchAutoJoinRoom() {
 						Background: Player.LastChatRoom.Background,
 						Limit: Math.min(Math.max(Player.LastChatRoom.Limit, 2), 10),
 						Game: "",
-						Locked: false,
-						Private: Player.LastChatRoom.Private,
+						Visibility: Player.LastChatRoom.Visibility,
+						Access: ChatRoomAccessMode.PUBLIC,
 						BlockCategory: Player.LastChatRoom.BlockCategory,
 						Language: Player.LastChatRoom.Language,
 						Space: Player.LastChatRoom.Space,
