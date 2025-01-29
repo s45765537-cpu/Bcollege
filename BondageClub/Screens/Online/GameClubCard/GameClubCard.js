@@ -425,12 +425,18 @@ function GameClubCardAssignPlayers(Packet, Char) {
 		ClubCardTurnIndex = Math.floor(Packet.RNG * 2);
 		ClubCardDestroyPopup();
 	}
+
 	if ((Char.MemberNumber == Player.MemberNumber) && (ClubCardTurnIndex == 0)) {
-		ClubCardOneMessagePacketSend(Msg.replace("PLAYERNAME", CharacterNickname(C1)), ClubCardMessageType.SYSTEM);
+		Msg = Msg.replace("PLAYERNAME", CharacterNickname(C1));
+		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, null, {}, null, Msg);
 	}
 	if ((Char.MemberNumber == Player.MemberNumber) && (ClubCardTurnIndex == 1)) {
-		ClubCardOneMessagePacketSend(Msg.replace("PLAYERNAME", CharacterNickname(C2)), ClubCardMessageType.SYSTEM);
+		Msg = Msg.replace("PLAYERNAME", CharacterNickname(C2));
+		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, null, {}, null, Msg);
 	}
+
+
+	//TODO ???? Fix SelectedPlayerToStart
 }
 
 /**
@@ -449,7 +455,7 @@ function GameClubCardLoadData(Packet) {
 			if (P.MemberNumber == ClubCardPlayer[1].Character.MemberNumber) GameClubCardLoadBundle(ClubCardPlayer[1], P);
 		}
 	}
-	if (Packet.Data.CCLog != null) ClubCardLogAdd(Packet.Data.CCLog, false);
+	if (Packet.Data.CCLog != null) ClubCardMessageSend(Packet.Data.CCLog, false);
 
 	// Check the focused card is still in the player's hand
 	ClubCardDefocusCardIfDiscarded();
@@ -482,10 +488,10 @@ function GameClubCardProcess(Packet) {
 
 	// If a player wants to query the game status to join it
 	if ((Packet.Data.GameProgress === "Query") && (Packet.Sender != Player.MemberNumber) && GameClubCardExpectQuery) {
-		let Msg = TextGet("JoinedClubCardGame");
+		let msg = TextGet("JoinedClubCardGame").replace("PLAYERNAME", CharacterNickname(Player));
 		GameClubCardAssignPlayers(Packet, Char);
 		GameClubCardLoadData(Packet);
-		ClubCardOneMessagePacketSend(Msg.replace("PLAYERNAME", CharacterNickname(Player)), ClubCardMessageType.SYSTEM);
+		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, "JoinedClubCardGame", {}, null, msg);
 		GameClubCardExpectQuery = false;
 		ClubCardDestroyPopup();
 	}

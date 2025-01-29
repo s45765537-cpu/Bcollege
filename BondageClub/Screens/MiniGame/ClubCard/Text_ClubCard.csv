@@ -14,8 +14,8 @@ CancelPending,Don't play this card
 Bankrupt,Go bankrupt
 Concede,Concede the game
 StopWatch,Stop watching
-OnlineConcede,SOURCEPLAYER conceded and left the game.
-OnlineStopWatch,SOURCEPLAYER stopped watching and left the game.
+OnlineConcede,PLAYERNAME conceded and left the game.
+OnlineStopWatch,PLAYERNAME stopped watching and left the game.
 OnlinePlayerDisconnected,SOURCEPLAYER has disconnected.
 Yes,Yes
 No,No
@@ -60,9 +60,9 @@ LoseFame,SOURCEPLAYER lost AMOUNT Fame.
 LoseMoney,SOURCEPLAYER lost AMOUNT Money.
 StealFame,SOURCEPLAYER stole AMOUNT Fame from OPPONENTPLAYER.
 StealMoney,SOURCEPLAYER stole AMOUNT Money from OPPONENTPLAYER.
-MemberLeaveClub,CARDTITLE leaves SOURCEPLAYER's club.
-EventRemoved,CARDTITLE event is removed.
-EventExpired,CARDTITLE event has expired.
+MemberLeaveClub,CARDNAME leaves SOURCEPLAYER's club.
+EventRemoved,CARDNAME event is removed.
+EventExpired,CARDNAME event has expired.
 ChatHere,Chat here...
 GroupLiability,Liability
 GroupStaff,Staff
@@ -388,13 +388,13 @@ Title Alvin,Alvin
 Text Alvin,"Summon a Ropeslave when playing Restrain, Shibari event or Kidnapping a Dominant or Mistress (max 3 in club)"
 Title Rope Slave,Rope Slave
 Text Rope Slave,Gain 1 Money when you play a Knot or Shibari event. 
-Effect Rope Slave,"SOURCEPLAYER gained 1 money from Rope Slave."
+Effect Rope Slave,"SOURCEPLAYER gained AMOUNT money from Rope Slave."
 Title Quack Doctor,Quack Doctor
 Text Quack Doctor,"Start of your turn, for each Asylum Patient present, players lose 1 fame. (Max 4)"
 Effect Quack Doctor,"SOURCEPLAYER and OPPONENTPLAYER lost AMOUNT fame."
 Title Sophie,Sophie
 Text Sophie,"Before she enters your club, select a member to double their Fame and Money."
-Effect Sophie,CARDTITLE got their fame and money boosted by the lovely Sophie~
+Effect Sophie,CARDNAME got their fame and money boosted by the lovely Sophie~
 Prerequisite Sophie,Select a member to enhance before Sophie enters.
 Title Hypnotherapist,Hypnotherapist
 Text Hypnotherapist,"When she enters your club, return all Tier 1 members to their owner's hands, then take another action."
@@ -455,11 +455,11 @@ Title Fit To Be Tied,Fit To Be Tied
 Text Fit To Be Tied,"Play all Knots in your hand, deck, and streets and shuffle them into your deck."
 Title Living Art,Living Art
 Text Living Art,Gain 1 Fame when you play a Knot or Shibari Event. 
-Effect Living Art,"SOURCEPLAYER gained 1 fame from Living Art."
+Effect Living Art,"SOURCEPLAYER gained AMOUNT fame from Living Art."
 Title Attention Whore,Attention Whore
 Text Attention Whore,Select and remove one ongoing event before she enters your club.
 Prerequisite Attention Whore,Select an ongoing event to remove before Attention Whore enters.
-MemberSummoned,CARDTITLE joins SOURCEPLAYER's club.
+MemberSummoned,CARDNAME joins SOURCEPLAYER's club.
 GroupPet,Pet
 GroupOwner,Owner
 Title Bun Bun,Bun Bun

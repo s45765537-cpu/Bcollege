@@ -51,23 +51,23 @@ End the game
 Your opponent is playing...
 Ваш оппонент играет...
 PLAYERNAME plays CARDNAME.
-PLAYERNAME играет с CARDNAME.
+PLAYERNAME играет CARDNAME.
 PLAYERNAME plays CARDNAME on the opponent's board.
-PLAYERNAME играет с CARDNAME на столе противника.
-PLAYER can play another card.  The turn continues.
-PLAYER может сыграть другую карту. Ход продолжается.
+PLAYERNAME играет CARDNAME на стол противника.
+PLAYERNAME can play another card.  The turn continues.
+PLAYERNAME может сыграть другую карту. Ход продолжается.
 You've been chosen to start the game.  Select a card to play or end your turn by drawing.
 Вы были выбраны, чтобы начать игру. Выберите карту для игры или закончите свой ход взятием карты.
 Your opponent has been chosen to start the game.  Please wait for her move.
 Ваш противник выбран для начала игры. Пожалуйста, дождитесь его хода.
-FAMEMONEY.  It's your opponent turn.
-FAMEMONEY.  Это ход вашего оппонента.
-FAMEMONEY.  It's your turn.
-FAMEMONEY.  Ваш ход.
-FAMEMONEY.  You draw a card.  It's your opponent turn.
-FAMEMONEY.  Вы берете карту. Это ход вашего оппонента.
-FAMEMONEY.  Your opponent draws a card.  It's your turn.
-FAMEMONEY.  Ваш оппонент берет карту. Ваш ход.
+It's your opponent turn.
+Это ход вашего оппонента.
+It's your turn.
+Ваш ход.
+You draw a card.  It's your opponent turn.
+Вы берете карту. Это ход вашего оппонента.
+Your opponent draws a card.  It's your turn.
+Ваш оппонент берет карту. Ваш ход.
 Get Cottage (MONEY)
 Получить Коттедж (MONEY)
 Get House (MONEY)
@@ -76,14 +76,14 @@ Get Mansion (MONEY)
 Получить Особняк (MONEY)
 Get Manor (MONEY)
 Получить Усадьбу (MONEY)
-PLAYERNAME upgraded to Cottage for MONEY.
-PLAYERNAME повышен до Коттеджа за MONEY.
-PLAYERNAME upgraded to House for MONEY.
-PLAYERNAME повышен до Дома за MONEY.
-PLAYERNAME upgraded to Mansion for MONEY.
-PLAYERNAME повышен до Особняк за MONEY.
-PLAYERNAME upgraded to Manor for MONEY.
-PLAYERNAME повешен до Усадьбы за MONEY.
+PLAYERNAME upgraded to Cottage for MONEYAMOUNT Money.
+PLAYERNAME повышен до Коттеджа за MONEYAMOUNT Денег.
+PLAYERNAME upgraded to House for MONEYAMOUNT Money.
+PLAYERNAME повышен до Дома за MONEYAMOUNT Денег.
+PLAYERNAME upgraded to Mansion for MONEYAMOUNT Money.
+PLAYERNAME повышен до Особняк за MONEYAMOUNT Денег.
+PLAYERNAME upgraded to Manor for MONEYAMOUNT Money.
+PLAYERNAME повешен до Усадьбы за MONEYAMOUNT Денег.
 SOURCEPLAYER gained AMOUNT Fame.
 SOURCEPLAYER получил AMOUNT Славы.
 SOURCEPLAYER gained AMOUNT Money.

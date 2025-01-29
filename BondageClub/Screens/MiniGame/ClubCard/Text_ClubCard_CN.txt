@@ -30,10 +30,10 @@ Concede the game
 认输
 Stop watching
 停止观战
-SOURCEPLAYER conceded and left the game.
-SOURCEPLAYER认输并离开了游戏。
-SOURCEPLAYER stopped watching and left the game.
-SOURCEPLAYER结束观战并离开了了游戏。
+PLAYERNAME conceded and left the game.
+PLAYERNAME认输并离开了游戏。
+PLAYERNAME stopped watching and left the game.
+PLAYERNAME结束观战并离开了了游戏。
 Yes
 是
 No
@@ -120,12 +120,12 @@ SOURCEPLAYER stole AMOUNT Fame from OPPONENTPLAYER.
 SOURCEPLAYER从OPPONENTPLAYER偷取了AMOUNT声望。
 SOURCEPLAYER stole AMOUNT Money from OPPONENTPLAYER.
 SOURCEPLAYER从OPPONENTPLAYER偷取了AMOUNT金钱。
-CARDTITLE leaves SOURCEPLAYER's club.
-CARDTITLE离开了SOURCEPLAYER俱乐部。
-CARDTITLE event is removed.
-CARDTITLE事件被移除。
-CARDTITLE event has expired.
-CARDTITLE事件已经失效。
+CARDNAME leaves SOURCEPLAYER's club.
+CARDNAME离开了SOURCEPLAYER俱乐部。
+CARDNAME event is removed.
+CARDNAME事件被移除。
+CARDNAME event has expired.
+CARDNAME事件已经失效。
 Chat here...
 在这里聊天……
 Liability
@@ -786,8 +786,8 @@ Sophie
 Sophie
 Before she enters your club, select a member to double their Fame and Money.
 在她进入你的俱乐部之前，选择一个会员，使TA的声望和金钱翻倍。
-CARDTITLE got their fame and money boosted by the lovely Sophie~
-CARDTITLE的声望和金钱被可爱的Sophie翻倍了~
+CARDNAME got their fame and money boosted by the lovely Sophie~
+CARDNAME的声望和金钱被可爱的Sophie翻倍了~
 Select a member to enhance before Sophie enters.
 在Sophie进入之前选择一个会员进行强化。
 Hypnotherapist
@@ -910,5 +910,5 @@ Select and remove one ongoing event before she enters your club.
 在她进入你的俱乐部前，选择并移除一个正在生效的事件。
 Select an ongoing event to remove before Attention Whore enters.
 在渴求关注进入时，选择一个正在生效的事件来移除。
-CARDTITLE joins SOURCEPLAYER's club.
-CARDTITLE进入了SOURCEPLAYER的俱乐部。
+CARDNAME joins SOURCEPLAYER's club.
+CARDNAME进入了SOURCEPLAYER的俱乐部。
