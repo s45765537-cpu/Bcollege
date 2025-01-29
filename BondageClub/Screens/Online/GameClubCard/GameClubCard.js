@@ -32,7 +32,7 @@ function GameClubCardSetStatus(NewStatus) {
 	if (ForceUpdate || (NewStatus !== Player.Game.ClubCard.Status)) {
 		Player.Game.ClubCard.Status = NewStatus;
 		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
-	}
+			}
 
 }
 
@@ -102,6 +102,7 @@ function GameClubCardRun() {
 	if (GameClubCardCanLaunchGame()) DrawButton(900, 600, 400, 64, TextGet("StartGame"), "White");
 	if (GameClubCardCanJoinGame()) DrawButton(900, 600, 400, 64, TextGet("JoinGame"), "White");
 	if ((GameClubCardGetStatus() == "Running") && !GameClubCardCanJoinGame()) DrawText(TextGet("CannotJoinDetails"), 1100, 600, "Red", "Gray");
+	if (GameClubCardIsAdmin(Player)) DrawButton(900, 800, 400, 64, TextGet("ResetGame"), "Salmon");
 }
 
 /**
@@ -162,6 +163,10 @@ function GameClubCardClick() {
 		GameClubCardExpectQuery = true;
 		return;
 	}
+	//If the admin clicked reset game status for all players and sends message.
+	if (MouseIn(900, 800, 400, 64) && GameClubCardIsAdmin(Player)) {
+		ClubCardSendRequestResetGame();
+	}
 
 }
 
@@ -194,7 +199,7 @@ function GameClubCardExit() {
 }
 
 /**
- * Checks there's 1 player in slot 1 and slot 2 so we can start the game.
+ *  Checks there's 1 player in slot 1 and slot 2 so we can start the game.
  * @returns {boolean} - Returns TRUE if the game can be launched
  */
 function GameClubCardCanLaunchGame() {
@@ -272,8 +277,9 @@ function GameClubCardBoardDoBundle(Cards) {
 		let MoneyPerTurn = `${card.MoneyPerTurn !== undefined ? card.MoneyPerTurn : ''}`;
 		let FamePerTurn = `${card.FamePerTurn !== undefined ? card.FamePerTurn : ''}`;
 		let Time = `${card.Time !== undefined ? card.Time : ''}`;
+		let Negated = `${card.Negated !== undefined ? card.Negated : ''}`;
 
-		Result += `${ID},${ArrayIndex},${MoneyPerTurn},${FamePerTurn},${Time};`;
+		Result += `${ID},${ArrayIndex},${MoneyPerTurn},${FamePerTurn},${Time},${Negated};`;
 	}
 
 	if (Result.endsWith(";")) {
@@ -327,7 +333,7 @@ function GameClubCardBoardUndoBundle(bundle, Location) {
 
 	for (let i = 0; i < cards.length; i++) {
 		const cardString = cards[i];
-		const [ID, ArrayIndex, MoneyPerTurn, FamePerTurn, Time] = cardString.split(',');
+		const [ID, ArrayIndex, MoneyPerTurn, FamePerTurn, Time, Negated] = cardString.split(',');
 
 		const existingCard = ClubCardList.find(card => card.ID === Number(ID));
 
@@ -341,6 +347,7 @@ function GameClubCardBoardUndoBundle(bundle, Location) {
 			if (MoneyPerTurn != undefined && MoneyPerTurn != '') card.MoneyPerTurn = Number(MoneyPerTurn);
 			if (FamePerTurn != undefined && FamePerTurn != '') card.FamePerTurn = Number(FamePerTurn);
 			if (Time != undefined && Time != '') card.Time = Number(Time);
+			if (Negated != undefined && Negated != '') card.Negated = Boolean(Negated);
 
 			result.push(card);
 		}

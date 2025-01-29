@@ -831,9 +831,11 @@ ClothTShirt2Select,Select your design
 ClothTShirt2Smile,Smiley
 ClothTShirt2Tick,Check
 ClubCardGameStart,SourceCharacter has started the Club Card game.
+ClubCardGameEnd,Congratulations! SourceCharacter has won the Club Card game.
 ClubCardNewPlayerSlot0,SourceCharacter will not play Club Card.
 ClubCardNewPlayerSlot1,SourceCharacter chose to be the first player.
 ClubCardNewPlayerSlot2,SourceCharacter chose to be the second player.
+ClubCardAdminResetGame,SourceCharacter has reset the club card game.
 CoffinSetClosed,SourceCharacter closes the lid on DestinationCharacter coffin.
 CoffinSetOpen,SourceCharacter opens the lid on DestinationCharacter coffin.
 CoffinTypeClosed,Closed

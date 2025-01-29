@@ -4246,6 +4246,7 @@ interface ClubCard {
 	ExtraPlay?: number;
 	Group?: string[];
 	Location?: string;
+	Negated?: boolean;
 	GlowTimer?: number;
 	GlowColor?: string;
 	OnPlay?: (C: ClubCardPlayer) => void;
@@ -4270,6 +4271,7 @@ interface ClubCard {
 	 */
 	onLeaveClub?: (C: ClubCardPlayer) => void;
 	turnStart?: (C: ClubCardPlayer) => void;
+	onLevelUp?: (C: ClubCardPlayer) => void;
 }
 
 interface ClubCardPlayer {
