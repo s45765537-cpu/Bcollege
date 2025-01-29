@@ -3261,7 +3261,7 @@ class DialogMenu {
 						classList: ["dialog-paginate-button"],
 						attributes: {
 							"aria-keyshortcuts": "PageUp",
-							"aria-controls": this.ids.root,
+							"aria-controls": this.ids.grid,
 						},
 					}},
 				),
@@ -3273,7 +3273,7 @@ class DialogMenu {
 						classList: ["dialog-paginate-button"],
 						attributes: {
 							"aria-keyshortcuts": "PageDown",
-							"aria-controls": this.ids.root,
+							"aria-controls": this.ids.grid,
 						},
 					}},
 				),
