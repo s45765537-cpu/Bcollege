@@ -813,7 +813,7 @@ var ClubCardList = [
 	},
 	{
 		ID: 6007,
-		Name: "House keeper",
+		Name: "Housekeeper",
 		Group: ["Maid"],
 		RequiredLevel: 2,
 		FamePerTurn: 1,
@@ -822,7 +822,7 @@ var ClubCardList = [
 				let sharedGroupCards = CCPlayer.Board.filter(value => cardPlayed.Group.some(group => ClubCardCardHasGroup(value, group)));
 				const Fame = Math.min(CCPlayer.Level, sharedGroupCards.length - 1);
 				ClubCardPlayerAddFame(CCPlayer, Fame);
-				ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect House keeper", { [ClubCardPlaceholderKeys.AMOUNT]: Fame}, CCPlayer);
+				ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Housekeeper", { [ClubCardPlaceholderKeys.AMOUNT]: Fame}, CCPlayer);
 			}
 		},
 		onOpponentPlayedCard: function (CCPlayer, cardPlayed) {
@@ -830,7 +830,7 @@ var ClubCardList = [
 				let sharedGroupCards = CCPlayer.Board.filter(value => cardPlayed.Group.some(group => ClubCardCardHasGroup(value, group)));
 				const Fame = Math.min(CCPlayer.Level, sharedGroupCards.length - 1);
 				ClubCardPlayerAddFame(CCPlayer, Fame);
-				ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect House keeper", { [ClubCardPlaceholderKeys.AMOUNT]: Fame}, CCPlayer);
+				ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Housekeeper", { [ClubCardPlaceholderKeys.AMOUNT]: Fame}, CCPlayer);
 			}
 		}
 	},
