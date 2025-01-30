@@ -434,9 +434,6 @@ function GameClubCardAssignPlayers(Packet, Char) {
 		Msg = Msg.replace("PLAYERNAME", CharacterNickname(C2));
 		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, null, {}, null, Msg);
 	}
-
-
-	//TODO ???? Fix SelectedPlayerToStart
 }
 
 /**

@@ -2288,22 +2288,15 @@ var ClubCardList = [
 		Type: "Event",
 		Time: 3,
 		RequiredLevel: 2,
-		BeforeTurnEnd: function(CCPlayer) {
+		BeforeTurnEnd: function (CCPlayer) {
 			let domsOnBoard = CCPlayer.Board.filter(card => ClubCardCardHasGroup(card, "Dominant"));
-			let fameReduction = 0;
-			for (const card of domsOnBoard) {
-				if (card.RequiredLevel > fameReduction || 1 > fameReduction) {
-					if (card.RequiredLevel == 1 || card.RequiredLevel == null) {
-						fameReduction = 1;
-					} else {
-						fameReduction = card.RequiredLevel;
-					}
-				}
-			}
-			//TODO rewrite code Public Spanking
+			//Maximum Dominant RequiredLevel on the board or 0 if there are none.
+			let fameReduction = domsOnBoard.reduce((max, card) => Math.max(max, card.RequiredLevel ?? 1), 0);
+			let penalty = 4 + fameReduction;
+
 			const opponent = ClubCardGetOpponent(CCPlayer);
-			ClubCardPlayerAddFame(opponent, -4 - fameReduction);
-			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Help Button No Draw", {[ClubCardPlaceholderKeys.AMOUNT]: (-4 - fameReduction) * -1}, CCPlayer);
+			ClubCardPlayerAddFame(opponent, -penalty);
+			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Public Spanking", {[ClubCardPlaceholderKeys.AMOUNT]: penalty }, opponent);
 		}
 	},
 	{
@@ -2538,7 +2531,6 @@ function ClubCardCheckDisconnected(disconnectedMemberNumber) {
 	if (isPlayer1 && isPlayer2) {
 		const CCPlayer = ClubCardPlayer[1];
 		ClubCardMessageAdd(ClubCardMessageType.PLAYERSDISCONNECTED, "OnlinePlayerDisconnected", {}, CCPlayer);
-		//TODO check how work ClubCardCheckDisconnected
 	}
 }
 
@@ -2626,10 +2618,8 @@ function ClubCardMessageSend(message, Push = true) {
         ClubCardLogScroll = true;
 
         // Synchronize message with other players if online
-        if (Push && ClubCardIsOnline() && message.MessageType != ClubCardMessageType.PREREQUISTITE) {
-			//ServerSend("ChatRoomGame", { GameProgress: "Action", CCLog: [message] });
+		if (Push && ClubCardIsOnline() && message.MessageType != ClubCardMessageType.PREREQUISTITE)
 			ServerSend("ChatRoomGame", { GameProgress: "Action", CCLog: message });
-        }
     }
 }
 
@@ -3146,8 +3136,6 @@ function ClubCardRemoveFromEventByName(CCPlayer, CardName) {
 		if (C.Name === CardName) {
 			CCPlayer.Event.splice(Pos, 1);
 			CCPlayer.DiscardPile.push(C);
-			//TODO Check ClubCardRemoveFromEventByName
-			//ClubCardLogGetDataPacket(ClubCardMessageType.CARDEFFECT, "EventRemoved", CCPlayer, null, C);
 			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "EventRemoved", {[ClubCardPlaceholderKeys.CARDNAME]: C.Name}, CCPlayer);
 		}
 		Pos++;
@@ -3644,23 +3632,12 @@ function ClubCardRunTurnEndHandlers(CCPlayer, Opponent, Before) {
  * StartType = ClubCardStartTurnType.BUNKRUPT because otherwise the bankruptcy function won't work.
  */
 function ClubCardStartTurn(StartType = ClubCardStartTurnType.BANKRUPT) {
-
-	const CCPlayer = ClubCardPlayer[ClubCardTurnIndex];
 	if (ClubCardIsStartTurn == false) {
 		ClubCardMessageAdd(ClubCardMessageType.STARTTURNINFO, "StartTurnLogChat");
 		ClubCardCheckEventAndCardExpired();
-
-		// const messageTypesHeadPacker = [ClubCardMessageType.STARTTURNINFO, ClubCardMessageType.STARTTURNEVENT];
-		// const startTurnPacket = ClubCardGetLogPacket(messageTypesHeadPacker);
-		// ClubCardMessageSend(startTurnPacket);
 		ClubCardIsStartTurn = true;
 	}
 
-	if (ClubCardMessageStorage.length > 0) {
-		// const actionPacket = ClubCardGetLogPacket([ClubCardMessageType.CARDEFFECT, ClubCardMessageType.KNOTEVENT]);
-		// ClubCardMessageSend(actionPacket);
-	}
-	//TODO Check this momment ClubCardStartTurn
 	ClubCardMessageSendAll();
 
 	switch (StartType) {
@@ -4062,15 +4039,13 @@ function ClubCardPlayCard(CCPlayer, Card) {
 	// Run on cards played handlers
 	ClubCardOnCardPlayedHandler(CCPlayer, Card);
 
-	//TODO Rewrite this part.
 	// End the turn if needed
 	ClubCardMessageSendAll();
-	if (ClubCardTurnCardPlayed >= ClubCardTurnPlayableCardCount(CCPlayer)) {
+	if (ClubCardTurnCardPlayed >= ClubCardTurnPlayableCardCount(CCPlayer))
 		return ClubCardEndTurn();
-	} else {
-		// If that player can play more than one card per turn, we announce it
-		ClubCardMessageAdd(ClubCardMessageType.ACTIONSEPARATOR, "PlayAnotherCard");
-	}
+
+	// If that player can play more than one card per turn, we announce it
+	ClubCardMessageAdd(ClubCardMessageType.ACTIONSEPARATOR, "PlayAnotherCard");
 
 	ClubCardAIStart();
 }
