@@ -1455,7 +1455,7 @@ var ClubCardList = [
 	{
 		ID: 12004,
 		Name: "Sophie",
-		Group: ["Player"],
+		Group: ["Player","Kemonomimi"],
 		RewardMemberNumber: 1236,
 		Reward: "NPC_ClubCardLounge_Tutor",
 		RequiredLevel: 3,
@@ -1486,7 +1486,7 @@ var ClubCardList = [
 	{
 		ID: 12005,
 		Name: "Moon",
-		Group: ["Pet","Player"],
+		Group: ["Player","Pet","Kemonomimi"],
 		RewardMemberNumber: 162726,
 		Prerequisite: "SelectAnyMember",
 		RequiredLevel: 4,
@@ -1591,7 +1591,7 @@ var ClubCardList = [
 	{
 		ID: 14001,
 		Name: "Naughty Kitty",
-		Group: ["Pet"],
+		Group: ["Pet","Kemonomimi"],
 		MoneyPerTurn: 1,
 		OnPlay: function(CCPlayer) {
 			ClubCardPlayerAddMoney(CCPlayer, -3);
@@ -4377,7 +4377,10 @@ function ClubCardRenderCard(Card, X, Y, W, Sleeve = null, Source = null) {
 		DrawRect(X + W * 0.05, Y + W * 1.41, W * 0.9, W * 0.58, Color + "A0");
 		let GroupText = ClubCardGetGroupText(Card.Group);
 		if (GroupText != "") {
-			if (Card.RewardMemberNumber != null) GroupText = GroupText + " #" + Card.RewardMemberNumber.toString();
+			if (Card.RewardMemberNumber && GroupText.includes(ClubCardTextGet("GroupPlayer"))) {
+				var playerText = ClubCardTextGet("GroupPlayer");
+				GroupText = GroupText.replace(playerText, `${playerText} #${Card.RewardMemberNumber}`);
+			}
 			MainCanvas.font = "bold " + Math.round(W / 16) + "px arial";
 			DrawTextWrap(GroupText, X + W * 0.05, Y + W * 1.44, W * 0.925, W * 0.1, "Black", null, null, Math.round(W / 22));
 			MainCanvas.font = ((Card.Text.startsWith("<F>")) ? "italic " : "bold ") + Math.round(W / 16) + "px arial";
