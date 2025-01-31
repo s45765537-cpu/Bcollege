@@ -230,12 +230,20 @@ type ServerChatRoomData = {
 	/* FIXME: server actually expects a string there, but we cheat to make the typing simpler */
 	Limit: number;
 	Game: ServerChatRoomGame;
-	Visibility: ServerChatRoomRole[]; // replaces "Private"
-	Access: ServerChatRoomRole[]; // replaces "Locked"
+	Visibility: ServerChatRoomRole[];
+	Access: ServerChatRoomRole[];
+	/**
+	 * @deprecated Use {@link ServerChatRoomData.Visibility} instead, this is temporarily maintained for backwards compatibility
+	 */
+	Private: boolean; // TODO: Remove following completion of migration
+	/**
+	 * @deprecated Use {@link ServerChatRoomData.Access} instead, this is temporarily maintained for backwards compatibility
+	 */
+	Locked: boolean; // TODO: Remove following completion of migration
 	BlockCategory: ServerChatRoomBlockCategory[];
 	Language: ServerChatRoomLanguage;
 	Space: ServerChatRoomSpace;
-	MapData: ServerChatRoomMapData;
+	MapData?: ServerChatRoomMapData;
 	Custom: ServerChatRoomCustomData;
 	Character: ServerAccountDataSynced[];
 }
@@ -290,7 +298,7 @@ interface ServerAccountCreateResponseSuccess {
     MemberNumber: number;
 }
 
-type ServerAccountCreateResponse = ServerAccountCreateResponseSuccess | "Account already exists" | "Invalid account information";
+type ServerAccountCreateResponse = ServerAccountCreateResponseSuccess | "Account already exists" | "Invalid account information" | "New accounts per day exceeded";
 
 type ServerPasswordResetRequest = string;
 
@@ -429,7 +437,10 @@ interface ServerChatRoomSearchRequest {
     Game?: ServerChatRoomGame;
     FullRooms?: boolean;
     Ignore?: string[];
-    Language: string;
+	Language: "" | ServerChatRoomLanguage | ServerChatRoomLanguage[];
+    SearchDescs?: boolean;
+	ShowLocked?: boolean;
+    MapTypes?: string[];
 }
 
 interface ServerChatRoomSearchData {
@@ -437,6 +448,7 @@ interface ServerChatRoomSearchData {
     Language: string;
     Creator: string;
     CreatorMemberNumber: number;
+	Creation: number;
     MemberCount: number;
     MemberLimit: number;
     Description: string;
@@ -444,7 +456,17 @@ interface ServerChatRoomSearchData {
     Game: ServerChatRoomGame;
     Friends: ServerFriendInfo[];
     Space: ServerChatRoomSpace;
-	MapType?: string;
+    Visibility: ServerChatRoomRole[];
+	Access: ServerChatRoomRole[];
+	/**
+	 * @deprecated Use {@link ServerChatRoomData.Visibility} instead, this is maintained for backwards compatibility
+	 */
+	Private?: boolean;
+	/**
+	 * @deprecated Use {@link ServerChatRoomData.Access} instead, this is maintained for backwards compatibility
+	 */
+	Locked?: boolean;
+    MapType: string;
 }
 
 type ServerChatRoomSearchResultResponse = ServerChatRoomSearchData[];
@@ -492,7 +514,7 @@ interface ServerChatRoomSyncMessage extends ServerChatRoomData {
 	SourceMemberNumber: number;
 }
 
-interface ServerChatRoomSyncPropertiesMessage extends ServerChatRoomData {
+interface ServerChatRoomSyncPropertiesMessage extends Omit<ServerChatRoomData, "Character"> {
 	SourceMemberNumber: number;
 }
 
@@ -848,8 +870,8 @@ interface ServerChatRoomGameResponse extends ServerChatRoomMessageBase {
 		/* Club Card */
 		Player1?: number;
 		Player2?: number;
-		CCData: [any];
-		CCLog: [any];
+		CCData: any[];
+		CCLog: any[];
 	};
     RNG: number;
 }

@@ -10,7 +10,7 @@ var ChatSearchBackground = "Introduction";
 var ChatSearchResult = [];
 /** @type {ChatRoomSearchResult[]} */
 var ChatSearchHiddenResult = [];
-/** @type {null | { Query: string, Language: "" | ServerChatRoomLanguage, Space: ServerChatRoomSpace, Game: ServerChatRoomGame, FullRooms: boolean }} */
+/** @type {ServerChatRoomSearchRequest | null} */
 var ChatSearchLastSearchDataJSON = null;
 var ChatSearchLastQuerySearchTime = 0;
 var ChatSearchLastQueryJoin = "";
@@ -1048,6 +1048,7 @@ function ChatSearchQuery() {
 		ChatSearchRejoinIncrement = 1; // Reset the join increment
 	}
 
+	/** @type {ServerChatRoomSearchRequest} */
 	const SearchData = { Query: Query, Language: ChatSearchLanguage, Space: ChatRoomSpace, Game: ChatRoomGame, FullRooms: FullRooms };
 
 	// Prevent spam searching the same thing.

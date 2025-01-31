@@ -4603,7 +4603,7 @@ function ChatRoomSyncMemberLeave(data) {
 
 /**
  * Handles the reception of the room properties from the server.
- * @param {ServerChatRoomSyncMessage} data - Room object containing the updated chatroom properties.
+ * @param {ServerChatRoomSyncPropertiesMessage} data - Room object containing the updated chatroom properties.
  * @returns {void} - Nothing.
  */
 function ChatRoomSyncRoomProperties(data) {
