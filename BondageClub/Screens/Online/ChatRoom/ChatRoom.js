@@ -1082,7 +1082,7 @@ var ChatRoomSep = {
 
 		button.dataset.room = data.Name;
 		button.dataset.space = data.Space;
-		button.dataset.private = ChatRoomDataIsPrivate(data.Visibility).toString();
+		button.dataset.private = ChatRoomDataIsPrivate(data).toString();
 		button.innerHTML = ChatRoomSep._GetDisplayName(button);
 	},
 
@@ -2646,11 +2646,11 @@ function ChatRoomAttemptStandMinigameEnd() {
 
 /**
  * Checks if the given chat room visibility property causes it to be "private" (has any form of visibility control)
- * @param {ServerChatRoomRole[]} visibility - The visibility property to check
+ * @param {ServerChatRoomData | ServerChatRoomSearchData | ServerChatRoomSettings} room - The visibility property to check
  * @returns {boolean} - Returns TRUE if the room is private. FALSE otherwise, or visibility is not set.
  */
-function ChatRoomDataIsPrivate(visibility) {
-	return visibility != null && visibility !== ChatRoomVisibilityMode.PUBLIC;
+function ChatRoomDataIsPrivate(room) {
+	return room.Visibility && !CommonArraysEqual(room?.Visibility, ChatRoomVisibilityMode.PUBLIC) || room.Private;
 }
 
 /**
@@ -2658,16 +2658,16 @@ function ChatRoomDataIsPrivate(visibility) {
  * @returns {boolean} - Returns TRUE if the room is private. FALSE otherwise, or if room doesn't exist.
  */
 function ChatRoomIsPrivate() {
-	return ChatRoomData != null && ChatRoomDataIsPrivate(ChatRoomData.Visibility);
+	return ChatRoomDataIsPrivate(ChatRoomData);
 }
 
 /**
  * Checks if the given chat room access property causes it to be "locked" (has any form of access control)
- * @param {ServerChatRoomRole[]} access - The access property to check
+ * @param {ServerChatRoomData | ServerChatRoomSearchData | ServerChatRoomSettings} room - The access property to check
  * @returns {boolean} - Returns TRUE if the room is locked. FALSE otherwise, or access is not set.
  */
-function ChatRoomDataIsLocked(access) {
-	return access != null && access !== ChatRoomAccessMode.PUBLIC;
+function ChatRoomDataIsLocked(room) {
+	return room.Access && !CommonArraysEqual(room?.Access, ChatRoomAccessMode.PUBLIC) || room.Locked;
 }
 
 /**
@@ -2675,20 +2675,32 @@ function ChatRoomDataIsLocked(access) {
  * @returns {boolean} - Returns TRUE if the room is locked. FALSE otherwise, or if room doesn't exist.
  */
 function ChatRoomIsLocked() {
-	return ChatRoomData != null && ChatRoomDataIsLocked(ChatRoomData.Access);
+	return ChatRoomDataIsLocked(ChatRoomData);
 }
 
 /**
- * Checks if a given character matches any role given an array of roles
+ * Checks if a given character has the needed permissions for a specific role
  * @param {Character} C - The character to check
- * @param {ServerChatRoomRole[]} roles - The roles to check
+ * @param {ServerChatRoomData} room - The roles to check
+ * @param {"visible"|"access"} role
  * @returns {boolean} - Returns TRUE if the character matches any role. FALSE otherwise.
  */
-function ChatRoomCharacterHasAnyRole(C, roles) {
-	if (C == null || roles == null) return false;
-	if (roles.includes("All")) return true;
-	if (roles.includes("Admin") && ChatRoomCharacterIsAdmin(C)) return true;
-	if (roles.includes("Whitelist") && ChatRoomCharacterIsWhitelisted(C)) return true;
+function ChatRoomCharacterHasAnyRole(C, room, role) {
+	if (C == null || room == null) return false;
+	let perms;
+	switch (role) {
+		case "visible":
+			perms = room.Visibility;
+			break;
+		case "access":
+			perms = room.Access;
+			break;
+		default:
+			return false;
+	}
+	if (perms.includes("All")) return true;
+	if (perms.includes("Admin") && ChatRoomCharacterIsAdmin(C)) return true;
+	if (perms.includes("Whitelist") && ChatRoomCharacterIsWhitelisted(C)) return true;
 	return false;
 }
 
@@ -2697,7 +2709,7 @@ function ChatRoomCharacterHasAnyRole(C, roles) {
  * @param {Character} C - The character to check
  * @returns {boolean} - Returns TRUE if the player can see the room.
  */
-function ChatRoomCharacterCanSeeRoom(C) { return ChatRoomCharacterHasAnyRole(C, ChatRoomData.Visibility); }
+function ChatRoomCharacterCanSeeRoom(C) { return ChatRoomCharacterHasAnyRole(C, ChatRoomData, "visible"); }
 
 /**
  * Checks if the player can see the room (meets the visibility list requirements)
@@ -2716,7 +2728,7 @@ function ChatRoomCurrentCharacterCanSeeRoom() { return ChatRoomCharacterCanSeeRo
  * @param {Character} C - The character to check
  * @returns {boolean} - Returns TRUE if the player has access to the room.
  */
-function ChatRoomCharacterCanAccessRoom(C) { return ChatRoomCharacterHasAnyRole(C, ChatRoomData.Access); }
+function ChatRoomCharacterCanAccessRoom(C) { return ChatRoomCharacterHasAnyRole(C, ChatRoomData, "access"); }
 
 /**
  * Checks if the player has access to the room (can enter/leave) (meets the access list requirements)
@@ -5937,7 +5949,7 @@ function ChatRoomRecreate() {
 	if (CurrentTime > ChatRoomNewRoomToUpdateTimer && ChatRoomNewRoomToUpdate && Player.ImmersionSettings && Player.ImmersionSettings.ReturnToChatRoomAdmin &&
 		Player.ImmersionSettings.ReturnToChatRoom && Player.LastChatRoom.Admin) {
 		// Add the player if they are not an admin
-		if (!Player.LastChatRoom.Admin.includes(Player.MemberNumber) && ChatRoomDataIsPrivate(Player.LastChatRoom.Visibility)) {
+		if (!Player.LastChatRoom.Admin.includes(Player.MemberNumber) && ChatRoomDataIsPrivate(Player.LastChatRoom)) {
 			Player.LastChatRoom.Admin.push(Player.MemberNumber);
 		}
 
