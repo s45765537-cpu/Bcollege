@@ -1049,7 +1049,7 @@ function ChatSearchQuery() {
 	}
 
 	/** @type {ServerChatRoomSearchRequest} */
-	const SearchData = { Query: Query, Language: ChatSearchLanguage, Space: ChatRoomSpace, Game: ChatRoomGame, FullRooms: FullRooms };
+	const SearchData = { Query: Query, Language: ChatSearchLanguage, Space: ChatRoomSpace, Game: ChatRoomGame, FullRooms: FullRooms, ShowLocked: true };
 
 	// Prevent spam searching the same thing.
 	if (!CommonObjectEqual(ChatSearchLastSearchDataJSON, SearchData) || (ChatSearchLastQuerySearchTime + 2000 < CommonTime())) {
