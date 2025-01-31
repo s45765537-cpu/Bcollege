@@ -311,7 +311,7 @@ var ClubCardList = [
 		RequiredLevel: 2,
 		OnPlay: function(CCPlayer) {
 			for (const card of CCPlayer.Event) {
-				card.Time++
+				card.Time++;
 			}
 		}
 	},
@@ -641,7 +641,7 @@ var ClubCardList = [
 		Group: ["Fetishist"],
 		BeforeTurnEnd: function(CCPlayer) {
 			const MaxMoney = 5;
-			let Money = Math.min((ClubCardGroupOnBoardCount(CCPlayer, "Pet") + ClubCardGroupOnBoardCount(ClubCardGetOpponent(CCPlayer), "Pet")), MaxMoney)
+			let Money = Math.min((ClubCardGroupOnBoardCount(CCPlayer, "Pet") + ClubCardGroupOnBoardCount(ClubCardGetOpponent(CCPlayer), "Pet")), MaxMoney);
 			ClubCardPlayerAddMoney(CCPlayer, Money);
 		},
 		BeforeOpponentTurnEnd: function(CCPlayer) {
@@ -1623,7 +1623,7 @@ var ClubCardList = [
 		FamePerTurn: 1,
 		OnPlay: function(CCPlayer) {
 			ClubCardPlayerAddMoney(CCPlayer, -14);
-			const opponent = ClubCardGetOpponent(CCPlayer)
+			const opponent = ClubCardGetOpponent(CCPlayer);
 			ClubCardRemoveFromBoard(opponent, ClubCardSelection);
 			ClubCardPlayerAddFame(opponent, ClubCardCalculateLevelForPets(CCPlayer) * -1);
 			ClubCardLogGetDataPacket(ClubCardMessageType.CARDEFFECT, "LoseFame", opponent, ClubCardCalculateLevelForPets(CCPlayer) * -1);
@@ -2490,12 +2490,12 @@ function ClubCardIsPlaying() {
 
 /**
  * In case one of the players disconnects from the server, the other player sends a message about it to the game chat.
- * @param {number} disconnectedMemberNumber 
+ * @param {number} disconnectedMemberNumber
  */
 function ClubCardCheckDisconnected(disconnectedMemberNumber) {
 	const isPlayer1 = Player.MemberNumber == ClubCardPlayer[0].Character.MemberNumber;
 	const isPlayer2 = disconnectedMemberNumber == ClubCardPlayer[1].Character.MemberNumber;
-	
+
 	if (isPlayer1 && isPlayer2) {
 		const Msg = TextGet("OnlinePlayerDisconnected").replace("SOURCEPLAYER", CharacterNickname(ClubCardPlayer[1].Character));
 		ClubCardOneMessagePacketSend(Msg, ClubCardMessageType.PLAYERSDISCONNECTED);
@@ -2522,7 +2522,7 @@ function ClubCardSendRequestResetGame() {
 
 	const Dictionary = new DictionaryBuilder().sourceCharacter(Player).build();
 	Dictionary.push({Tag: "SourceCharacter", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber});
-	ServerSend("ChatRoomChat", { Content: "ClubCardAdminResetGame", Type: "Action" , Dictionary: Dictionary});	
+	ServerSend("ChatRoomChat", { Content: "ClubCardAdminResetGame", Type: "Action" , Dictionary: Dictionary});
 }
 
 //###################################################
@@ -2763,7 +2763,7 @@ function ClubCardPlayerAddFame(CCPlayer, Amount) {
 }
 
 /**
- * Add money from a player and remove from the ohter player 
+ * Add money from a player and remove from the ohter player
  * @param {ClubCardPlayer} CCPlayer - The club card player
  * @param {Number} Amount - The amount to steal
  * @returns {number} - the amount that was stolen
@@ -2771,7 +2771,7 @@ function ClubCardPlayerAddFame(CCPlayer, Amount) {
 function ClubCardPlayerStealMoney(CCPlayer, Amount, isStickyFingers = false) {
 	const opponent = ClubCardGetOpponent(CCPlayer);
 
-	if (opponent.Money < 1) return 0; 
+	if (opponent.Money < 1) return 0;
 	const moneyToSteal = Math.min(Amount, opponent.Money);
 	ClubCardPlayerAddMoney(CCPlayer, moneyToSteal);
 	ClubCardPlayerAddMoney(opponent, -moneyToSteal);
@@ -2794,7 +2794,7 @@ function ClubCardPlayerStealMoney(CCPlayer, Amount, isStickyFingers = false) {
 }
 
 /**
- * Add fame from a player and remove from the ohter player 
+ * Add fame from a player and remove from the ohter player
  * @param {ClubCardPlayer} CCPlayer - The club card player
  * @param {Number} Amount - The amount to steal
  * @returns {Number} - the amount that was stolen
@@ -2802,7 +2802,7 @@ function ClubCardPlayerStealMoney(CCPlayer, Amount, isStickyFingers = false) {
 function ClubCardPlayerStealFame(CCPlayer, Amount, isStickyFingers = false) {
 	const opponent = ClubCardGetOpponent(CCPlayer);
 
-	if (opponent.Fame < 1) return 0; 
+	if (opponent.Fame < 1) return 0;
 	const fameToSteal = Math.min(Amount, opponent.Fame);
 	ClubCardPlayerAddFame(CCPlayer, fameToSteal);
 	ClubCardPlayerAddFame(opponent, -fameToSteal);
@@ -2894,7 +2894,7 @@ function ClubCardNameCountOnBoard(CCPlayer, CardName) {
 	let amount = 0;
 	for (let Card of CCPlayer.Board)
 		if (Card.Name === CardName)
-			amount++
+			amount++;
 	return amount;
 }
 
@@ -3669,7 +3669,7 @@ function ClubCardEndTurn(Draw = false) {
 		if (ClubCardIsOnline()) {
 			const Dictionary = new DictionaryBuilder().sourceCharacter(Player).build();
 			Dictionary.push({Tag: "SourceCharacter", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber});
-			ServerSend("ChatRoomChat", { Content: "ClubCardGameEnd", Type: "Action" , Dictionary: Dictionary});	
+			ServerSend("ChatRoomChat", { Content: "ClubCardGameEnd", Type: "Action" , Dictionary: Dictionary});
 		}
 
 		return;

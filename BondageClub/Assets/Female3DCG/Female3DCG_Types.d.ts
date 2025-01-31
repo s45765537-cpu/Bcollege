@@ -155,7 +155,7 @@ interface AssetCommonPropertiesGroupAssetLayer {
 	 *     AllFours: PoseType.DEFAULT,
 	 * },
 	 */
-	ParentGroup?: ParentGroup.Definition;
+	ParentGroup?: ParentGroup.Definition | null;
 
 	/**
 	 * The poses that have pose-specific assets.

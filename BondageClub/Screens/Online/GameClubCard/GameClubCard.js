@@ -32,7 +32,7 @@ function GameClubCardSetStatus(NewStatus) {
 	if (ForceUpdate || (NewStatus !== Player.Game.ClubCard.Status)) {
 		Player.Game.ClubCard.Status = NewStatus;
 		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
-			}
+	}
 
 }
 
