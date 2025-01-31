@@ -514,7 +514,6 @@ function ChatSearchNormalDraw() {
 		const hasFriends = room.Friends.length > 0;
 		const isFull = room.MemberCount >= room.MemberLimit;
 		const isBlocked = CharacterHasBlockedItem(Player, room.BlockCategory);
-		const hasMap = room.MapType === "Always" || room.MapType === "Hybrid";
 
 		let bgColor;
 		if (isBlocked) {
@@ -529,8 +528,36 @@ function ChatSearchNormalDraw() {
 
 		let descOffsetX = 315;
 		let descWidth = 620;
+		const hasMap = room.MapType === "Always" || room.MapType === "Hybrid";
+		const icons = [];
+		if (ChatRoomDataIsPrivate(room)) {
+			icons.push("Icons/Private.png");
+		}
+		if (ChatRoomDataIsLocked(room)) {
+			icons.push("Icons/CheckLocked.png");
+		}
 		if (hasMap) {
-			DrawImage("Icons/MapType" + room.MapType + ".png", x + 2, y + 2);
+			icons.push(`Icons/MapType${room.MapType}.png`);
+		}
+		if (icons.length) {
+			const iconPadding = 4;
+			const iconSize = 36;
+			/** @type {CommonGenerateGridParameters} */
+			const iconGrid = {
+				x: x + iconPadding,
+				y: y + iconPadding,
+				width: 2 * iconSize,
+				height: 2 * iconSize,
+				itemWidth: iconSize,
+				itemHeight: iconSize,
+				itemMarginX: iconPadding,
+				itemMarginY: iconPadding,
+				direction: "vertical",
+			};
+			CommonGenerateGrid(icons, 0, iconGrid, (icon, iconX, iconY, iconWidth, iconHeight) => {
+				DrawImageResize(icon, iconX, iconY, iconWidth, iconHeight);
+				return false;
+			});
 			descOffsetX += 40;
 			descWidth -= 2 * 40; // centered
 		}
