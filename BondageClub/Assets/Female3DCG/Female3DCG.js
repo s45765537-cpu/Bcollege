@@ -3229,15 +3229,9 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "MeshTop",
-				InventoryID: 1211,
+				InventoryID: 1214,
 				Value: 10,
 				DefaultColor: [
-					"#1C1C1C",
-					"#1C1C1C",
-					"#1C1C1C",
-					"#1C1C1C",
-					"#1C1C1C",
-					"#1C1C1C",
 					"#1C1C1C",
 					"#1C1C1C",
 				],
@@ -6268,12 +6262,12 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "UtilityKilt",
-				InventoryID: 1210,
+				InventoryID: 1215,
 				Value: 10,
 				HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"],
 				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				Attribute: ["Skirt"],
-				ParentGroup: null,
+				ParentGroup: {},
 				DefaultColor: [
 					"#202020",
 					"#202020",

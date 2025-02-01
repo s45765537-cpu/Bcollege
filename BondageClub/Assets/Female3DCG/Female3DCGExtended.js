@@ -17353,6 +17353,12 @@ var AssetFemale3DCGExtended = {
 				GroupName: "Cloth",
 				AssetName: "MeshTop",
 			},
+			DialogPrefix: {
+				Header: "ClothMeshTopSelect",
+				Module: "ClothMeshTopModule",
+				Option: "ClothMeshTopOption",
+				Chat: "ClothMeshTopSet",
+			},
 		}, //Mesh Top
 	}, // Bra
 	Panties: {
