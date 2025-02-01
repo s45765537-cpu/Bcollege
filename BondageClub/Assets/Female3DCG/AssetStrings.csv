@@ -808,7 +808,7 @@ ClothMeshTopOptiont3,Bolero
 ClothMeshTopOptiont4,Leotard
 ClothMeshTopOptiont5,Ripped
 ClothMeshTopOptiont6,None
-ClothMeshTopSelectBase,Select AssetName Options
+ClothMeshTopSelectBase,Select Mesh Top Options
 ClothMeshTopSelectSleeves,Select Sleeves
 ClothMeshTopSelectTop,Select Top
 ClothMeshTopSets0,SourceCharacter attaches sleeves to DestinationCharacterName AssetName.

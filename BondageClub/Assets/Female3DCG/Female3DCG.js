@@ -3239,6 +3239,16 @@ var AssetFemale3DCG = [
 				Priority: 15,
 				Top: 0,
 				Left: 0,
+				Expose: [
+                    "ItemVulva",
+                    "ItemVulvaPiercings",
+                    "ItemButt",
+                    "ItemNipples",
+                    "ItemNipplesPiercings",
+                    "ItemBreast",
+                    "ItemTorso",
+                    "ItemTorso2",
+                ],
 				PoseMapping: {
 					...AssetPoseMapping.Cloth,
 					AllFours: "AllFours",
