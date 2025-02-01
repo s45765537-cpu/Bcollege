@@ -409,7 +409,7 @@ function ChatAdminCommit() {
  * Handles the key presses while in the creation screen. When the user presses enter, we create the room.
  * @type {KeyboardEventListener}
  */
-function ChatAdminKeydown(event) {
+function ChatAdminKeyDown(event) {
 	if (event.repeat) return false;
 
 	if (CommonKey.IsPressed(event, "Enter")) {
