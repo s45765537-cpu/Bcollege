@@ -988,22 +988,24 @@ var ClubCardList = [
 			let cardsToReturn = CCPlayer.Board.filter(card => card.RequiredLevel == 1 || card.RequiredLevel == null);
 			let opponentCardsToReturn = opponent.Board.filter(card => card.RequiredLevel == 1 || card.RequiredLevel == null);
 
-			for (const card of cardsToReturn) {
-				if (ClubCardIsLiability(card)) {
-					opponent.Hand.push(card);
+			for (const C of cardsToReturn) {
+				const cardToAdd = ClubCardList.find(card => card.Name === C.Name);
+				if (ClubCardIsLiability(C)) {
+					opponent.Hand.push({ ...cardToAdd });
 				} else {
-					CCPlayer.Hand.push(card);
+					CCPlayer.Hand.push({ ...cardToAdd });
 				}
-				ClubCardRemoveFromBoard(CCPlayer, card, true);
+				ClubCardRemoveFromBoard(CCPlayer, C, true);
 			}
 
-			for (const card of opponentCardsToReturn) {
-				if (ClubCardIsLiability(card)) {
-					CCPlayer.Hand.push(card);
+			for (const C of opponentCardsToReturn) {
+				const cardToAdd = ClubCardList.find(card => card.Name === C.Name);
+				if (ClubCardIsLiability(C)) {
+					CCPlayer.Hand.push({ ...cardToAdd });
 				} else {
-					opponent.Hand.push(card);
+					opponent.Hand.push({ ...cardToAdd });
 				}
-				ClubCardRemoveFromBoard(opponent, card, true);
+				ClubCardRemoveFromBoard(opponent, C, true);
 			}
 
 			this.ExtraPlay = 1;
