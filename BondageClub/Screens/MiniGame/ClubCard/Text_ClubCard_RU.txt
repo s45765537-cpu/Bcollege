@@ -485,23 +485,23 @@ Scratch and Win
 Kinky Garage Sale
 Извращенная распродажа
 +12 Money.
-+12 Денег
++12 money.
 Second Mortgage
 Вторая ипотека
 +20 Money.
-+20 Денег.
++20 money.
 Foreign Investment
 Иностранные инвестиции
 +30 Money.
-+30 Денег.
++30 money.
 Cat Burglar
 Кошка-грабитель
-Steals up to 4 Money from opponent.  Money must be positive.  Won't work if opponent has Police.
-Крадет до 4 Денег у противника. Деньги должны быть положительными. Не сработает, если у соперника есть Полиция.
+Steal 2 Fame and Money. Then steal 2 Fame and 2 Money unless your opponent has Police.
+Украдите 2 Fame и Money. Затем украдите 2 Fame и 2 Money, если у соперника нет Полицейского.
 Money Heist
 Ограбление Денег
-Steals up to 12 Money from opponent.  Money must be positive.  Won't work if opponent has Police.
-Крадет до 12 Денег у противника. Деньги должны быть положительными. Не сработает, если у противника есть Полиция.
+Steal 6 Money. Then steal 2 Money if a Criminal is present. Then steal 4 Money if your opponent doesn't have Police.
+Украдите 6 Money. Затем украдите 2 Money, если есть Преступник. Затем украдите 4 Money, если у соперника нет Полицейского.
 BDSM Ball
 БДСМ Балл
 +1 Fame for each member that's not Dominant, Liability, Maid or Staff.
@@ -512,8 +512,8 @@ Vampire Ball
 +3 Славы за каждого члена, кроме Доминанта, Ответственности, Горничной или Персонала.
 Straitjacket Saturday
 Смирительная рубашка
-+4 Money for each Asylum Patient and Asylum Nurse.
-+4 Денег за каждого Пациента психушки и Медсестру
+Draw a random Ayslum Nurse. Gain 4 money for each Asylum Patient present.
+Получите случайную Медсестру. Получите 4 money за каждого Пациента.
 Local Influencer
 Местный авторитет
 You lose 4 Money and draw a card when she enters your club.
@@ -742,8 +742,8 @@ Take another action.
 Получите доп ход в этом раунде.
 Teamwork
 Командная работа
-For 4 turns, you draw an extra card each time you draw a card.
-В течение 4 ходов вы получаете дополнительную карту, когда пропускаете ход.
+For 4 turns, you draw an extra card each time you take draw a card action.
+В течение 4 ходов, каждый раз, когда вы выполняете действие "взять карту", вы берёте дополнительную карту.
 Toy Box
 Ящик с игрушками
 +3 Money and draw a card.
@@ -822,8 +822,8 @@ SOURCEPLAYER gains AMOUNT Fame from the Porn Convention.
 SOURCEPLAYER получает AMOUNT Fame от Конвенции Порно.
 Sabotage
 Саботаж
-Your opponent discards 4 random cards.
-Ваш оппонент сбрасывает 4 случайные карты c руки.
+At the end of your opponent's next 3 turns: If the play action was taken, they randomly discard a card. If the draw action was taken, they lose 8 fame.
+В течение 3 ходов протиник при действие "сыграть", сбрасывает случайную карту. И при действие "взять карту", теряет 8 fame.
 Clever Marketing
 Умный маркетинг
 For 3 turns, you gain double Fame at the end of turn.  Cancels opponent Bad Press.
@@ -832,7 +832,6 @@ Fancy Meeting
 Причудливая встреча
 Draw 5 cards
 Получите 5 карт.
-
 Bun Bun
 Зайка
 Costs 1 money and gain 1 fame. +1 money if owner Present. +1 fame at building level 5.
@@ -919,3 +918,65 @@ Select a member to receive an illusory copy in your hand.
 Выберите участника, чтобы получить его иллюзорную копию в руку.
 Moon waves her tails, casting an illusion spell, after which CARDNAME appears in your hand.
 Moon взмахивает хвостами, используя заклинание иллюзии, после чего CARDNAME появляется в вашей руке.
+Sticky Fingers
+Пальцы липучки
+When you steal with another effect, steal 1 Fame and Money. Enters: Steal 1 Fame and Money.
+Вход: украдите 1 Fame и Money. Когда вы крадёте с другим эффектом, украдите 1 Fame и Money.
+Con Artist
+Мошенник
+When you take the draw action, steal 1 Fame. If no Police are in your opponent's club, steal 2 Fame instead.
+Когда вы берёте карту, украдите 1 Fame или 2 Fame, если в клубе соперника нет Полицейского.
+Earner
+Криминалист
+Gain +1 Money for each Criminal in your streets. (Max +3)
+В конце хода получите +1 money за каждого Преступника на ваших улицах. (Макс. +3)
+Naughty Baby 
+Шаловливая Малышка
+Enters: Steal 4 money if no Police are present. Then steal 4 fame if no Police are present in opponent's club.
+Вход: украдите 4 money, если у вас нет Полицейского. Затем украдите 4 fame, если в клубе соперника нет Полицейского.
+Consigliere
+Консильери
+At the end of your turn, spend 8 money to draw a card and gain 3 Fame.
+В конце хода потратьте 8 money, чтобы взять карту и получить 3 Fame.
+Inspector
+Инспектор
+Unless your club level is higher than your opponent's, increase the cost for players to upgrade by 10.
+Если уровень вашего клуба не выше уровня клуба соперника, увеличьте стоимость улучшений для всех игроков на 10.
+Tax Auditor
+Налоговый инспектор
+Enters: Select a level 3 or lower member in your opponent's club and set their Money to 1.
+Вход: выберите участника 3-го уровня или ниже в клубе соперника и установите его Money на 1.
+Select a member from your opponent club to set its money to 1
+Выберите участника из клуба соперника, чтобы установить его money на 1.
+Housekeeper
+Домработница
+When a non-maid member enters your club, gain 1 Fame per member present that shares a type with it (Max = club level).
+Когда в клуб входит участник, не горничная, получите 1 Fame за каждого участника с таким же типом (Макс. = уровень клуба).
+SOURCEPLAYER gained AMOUNT fame from Housekeeper  
+SOURCEPLAYER получил AMOUNT fame от Домработницы 
+Troublemaker
+Хулиганка
+Opponent loses 3 fame each time they upgrade unless they have a bouncer.
+Соперник теряет 3 fame каждый раз, когда он улучшает клуб, если у него нет Вышибалы.
+Maid Manager
+Менеджер горничных
+Gains +1 Money for every 2 maids present. At club level 4 or higher, gains +1 Fame instead. (Max +4)
+Получите +1 money за каждых 2 горничных. При уровне клуба 4 или выше получите вместо этого +1 fame. (Макс. +4)
+Throne Room Servant
+Служительница тронного зала
+Gains +3 fame per tier 5 member in your club (Max +8)
+Получите +3 fame за каждого участника 5-го уровня в вашем клубе (Макс. +8)
+Night Maid
+Ночная горничная
+Gains +2 fame and +4 money as long as you have an active event.
+Получите +2 fame и +4 money, пока у вас есть активное событие.
+Feather Duster  
+Метёлка для пыли  
+End any one event currently in play, if you control a maid, gain money equal to its tier and draw a card.  
+Завершите любое активное событие. Если у вас есть горничная, получите money, равное её уровню, и возьмите карту.  
+Select an ongoing event to end.
+Выберите событие что бы удалить его.
+Afterhours Service
+Вечернее обслуживание
+For the next three turns, for each maid or staff in your club you lose 2 money and gain 1 fame.
+Следующие 3 хода, за каждую горничную или сотрудника в вашем клубе вы теряете 2 money и получаете 1 fame.

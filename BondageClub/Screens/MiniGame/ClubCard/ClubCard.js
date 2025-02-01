@@ -2475,15 +2475,11 @@ var ClubCardList = [
 		OnPlay: function(CCPlayer) {
 			if (ClubCardSelection == null) return;
 
-			if (ClubCardSelection.Location == "PlayerBoard") {
-				const indexToRemove = CCPlayer.Event.findIndex(c => c.ID === ClubCardSelection.ID);
-				CCPlayer.Event.splice(indexToRemove, 1);
-			}
-			if (ClubCardSelection.Location == "OpponentBoard") {
-				const opponent = ClubCardGetOpponent(CCPlayer);
-				const indexToRemove = opponent.Event.findIndex(c => c.ID === ClubCardSelection.ID);
-				opponent.Event.splice(indexToRemove, 1);
-			}
+			const isPlayerBoard = ClubCardSelection.Location === "PlayerBoard";
+			const targetPlayer = isPlayerBoard ? CCPlayer : ClubCardGetOpponent(CCPlayer);
+			const indexToRemove = targetPlayer.Event.findIndex(c => c.ID === ClubCardSelection.ID);
+			targetPlayer.Event.splice(indexToRemove, 1);
+
 			if (ClubCardGroupIsOnBoard(CCPlayer, "Maid")) {
 				ClubCardPlayerAddMoney(CCPlayer, ClubCardSelection.RequiredLevel ? ClubCardSelection.RequiredLevel : 1);
 				ClubCardPlayerDrawCard(CCPlayer, 1);
@@ -2907,8 +2903,13 @@ function ClubCardUpgradeLevel(CCPlayer) {
 
 	ClubCardPlayerAddMoney(CCPlayer, updatedCost * -1);
 	CCPlayer.Level++;
-	if (!ClubCardNameIsOnBoard(CCPlayer, "Bouncer"))
-		ClubCardPlayerAddFame(CCPlayer, (ClubCardNameCountOnBoard(opponent, "Troublemaker") * -3));
+	// Troublemaker check
+	if (!ClubCardNameIsOnBoard(CCPlayer, "Bouncer")) {
+		const famePenalty = ClubCardNameCountOnBoard(opponent, "Troublemaker") * -3;
+	
+		if (famePenalty < 0)
+			ClubCardPlayerAddFame(CCPlayer, famePenalty);
+	}
 	// On level up effects
 	for (const card of CCPlayer.Board.slice())
 		if (card.onLevelUp)
