@@ -218,6 +218,18 @@ ClothLowerTutuLayer1,Layer 1
 ClothLowerTutuLayer2,Layer 2
 ClothLowerTutuLayer3,Layer 3
 ClothLowerTutuLayer4,Layer 4
+ClothLowerUtilityKiltFrontButtons,Front Buttons
+ClothLowerUtilityKiltBeltloops,Belt Loops
+ClothLowerUtilityKiltDRings,D Rings
+ClothLowerUtilityKiltWaistbeltMetal,Waist Belt Details
+ClothLowerUtilityKiltWaistbelt,Waist Belt
+ClothLowerUtilityKiltSnaps,Snaps
+ClothLowerUtilityKiltWaist,Waist
+ClothLowerUtilityKiltSideBeltMetal,Side Belt Details
+ClothLowerUtilityKiltSidebelts,Side Belts
+ClothLowerUtilityKiltFront,Front Panel
+ClothLowerUtilityKiltLeftPanel,Left Panel
+ClothLowerUtilityKiltRightPanel,Right Panel
 ClothMaidLatexApron,Apron
 ClothMaidLatexDress,Dress
 ClothMaidLatexTie,Tie
@@ -227,6 +239,8 @@ ClothMaidOutfit1Frills,Frills
 ClothMaidOutfit2Apron,Apron
 ClothMaidOutfit2Dress,Dress
 ClothMaidOutfit2Frills,Frills
+ClothMeshTopTop,Top
+ClothMeshTopSleeves,Sleeves
 ClothNurseUniformBase,Main
 ClothNurseUniformButtons,Buttons
 ClothNurseUniformTrim,Detail Trim
