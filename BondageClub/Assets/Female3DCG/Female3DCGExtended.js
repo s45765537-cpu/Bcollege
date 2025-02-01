@@ -448,6 +448,7 @@ var AssetFemale3DCGExtended = {
 						{}, // t17 - Hogtied
 						{}, // t18 - BCollege2
 						{}, // t19 - ControlPad1
+						{}, // t20 - Gangriels
 					],
 				},
 			],
