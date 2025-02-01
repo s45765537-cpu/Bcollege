@@ -144,7 +144,7 @@ Text Paroled Thief,Opponent steals 1 Money at end of your turn. Leave the club a
 Title Police Cadet,Police Cadet
 Text Police Cadet,<F>Hey!  Give me back my keys!
 Title Stepmother,Stepmother
-Text Stepmother,"When a member with - Fame enters, Steal Fame equal to twice their Money. Enters: Gain 2 Fame for each member present with - Fame."
+Text Stepmother,"Enters: Gain 2 Fame for each member present with - Fame. When a member with - Fame enters, Steal Fame equal to twice their Money."
 Title Sheriff,Sheriff
 Text Sheriff,Draw 2 cards when she enters your club.
 Title Maid Lover,Maid Lover
@@ -446,7 +446,7 @@ Prerequisite Rope Auction,Select a member from your club to remove.
 GroupSensei,Sensei
 GroupKnot,Knot
 Title Shibari Lover,Shibari Lover
-Text Shibari Lover,"When this card or another Shibari member enters your club, play a random Knot from your deck. "
+Text Shibari Lover,"When this card or another Shibari member enters your club, play a random Knot from your deck."
 Title Goddess of Ropes,Goddess of Ropes
 Text Goddess of Ropes,"When you play a Shibari card, play a random Knot from your deck." 
 Title Rope Slinger,Rope Slinger
@@ -502,8 +502,9 @@ Effect Rich Owner,"SOURCEPLAYER gained AMOUNT money from Rich Owner"
 Title Tour Guide,Tour Guide
 Text Tour Guide,"When she enters your club, draw a card. Gains +3 money if tourist is present, gains +3 fame if diplomat is present."
 Title Moon,"Moon"
-Text Moon,"Enters: Select a member from either club other than Moon to have a copy of that member added to your hand." 
-Prerequisite Moon,Select a member to add to your hand.
+Text Moon,"Enters: Moon's magic creates an illusory copy of any chosen member (except herself) in your hand."
+Effect Moon,"Moon waves her tails, casting an illusion spell, after which CARDNAME appears in your hand."
+Prerequisite Moon,Select a member to receive an illusory copy in your hand. 
 Title Sticky Fingers,Sticky Fingers
 Text Sticky Fingers,"When you steal with another effect, steal 1 Fame and Money. Enters: Steal 1 Fame and Money."
 Title Earner,Earner

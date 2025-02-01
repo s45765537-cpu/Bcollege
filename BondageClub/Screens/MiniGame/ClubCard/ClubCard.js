@@ -285,7 +285,7 @@ var ClubCardList = [
 				const indexToRemove = opponent.Event.findIndex(c => c.ID === ClubCardSelection.ID);
 				opponent.Event.splice(indexToRemove, 1);
 			}
-			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "EventExpired", {[ClubCardPlaceholderKeys.CARDNAME]: ClubCardSelection.Name}, CCPlayer);
+			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "EventRemoved", {[ClubCardPlaceholderKeys.CARDNAME]: ClubCardSelection.Name}, CCPlayer);
 		},
 	},
 	{
@@ -1494,7 +1494,8 @@ var ClubCardList = [
 		MoneyPerTurn: -1,
 		OnPlay: function (CCPlayer) {
 			const cardToAdd =  ClubCardList.find(card => card.Name === ClubCardSelection.Name);
-			CCPlayer.Hand.push({...cardToAdd});
+			CCPlayer.Hand.push({ ...cardToAdd });
+			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Moon", {[ClubCardPlaceholderKeys.CARDNAME]: ClubCardSelection.Name});
 		}
 	},
 
@@ -2487,7 +2488,7 @@ var ClubCardList = [
 				ClubCardPlayerAddMoney(CCPlayer, ClubCardSelection.RequiredLevel ? ClubCardSelection.RequiredLevel : 1);
 				ClubCardPlayerDrawCard(CCPlayer, 1);
 			}
-			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "EventExpired", {[ClubCardPlaceholderKeys.CARDNAME]: ClubCardSelection.Name}, CCPlayer);
+			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "EventRemoved", {[ClubCardPlaceholderKeys.CARDNAME]: ClubCardSelection.Name}, CCPlayer);
 		}
 	},
 	{
@@ -3220,7 +3221,7 @@ function ClubCardPlayerDrawCard(CCPlayer, Amount = null) {
 			}
 			CCPlayer.Hand.push(CCPlayer.Deck[0]);
 			CCPlayer.Deck.splice(0, 1);
-			ClubCardCheckDetectiveDraw(CCPlayer);
+			ClubCardCheckDraw(CCPlayer);
 		}
 		Amount--;
 	}
@@ -3251,7 +3252,7 @@ function ClubCardPlayerDrawGroupCard(CCPlayer, groups, level) {
 	const cardIndex = CCPlayer.Deck.findIndex(value => value.ID === card.ID);
 	CCPlayer.Deck.splice(cardIndex, 1);
 
-	ClubCardCheckDetectiveDraw(CCPlayer);
+	ClubCardCheckDraw(CCPlayer);
 	return true;
 }
 
@@ -3337,12 +3338,12 @@ function ClubCardCanSummonCard(CCPlayer, Card) {
 }
 
 /**
- *
+ * When drawing card, checks for various conditions and triggers.
  * @param {ClubCardPlayer} CCPlayer - The club card player that draws the cards
  * @returns {void} - Nothing
  *
  */
-function ClubCardCheckDetectiveDraw(CCPlayer) {
+function ClubCardCheckDraw(CCPlayer) {
 	const opponent = ClubCardGetOpponent(CCPlayer);
 	//Detective check
 	ClubCardPlayerAddMoney(opponent, ClubCardNameCountOnBoard(opponent, "Detective"));
