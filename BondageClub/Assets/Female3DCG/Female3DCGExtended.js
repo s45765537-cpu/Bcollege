@@ -683,6 +683,37 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // FishnetTop
+		MeshTop: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
+			Modules: [
+				{
+					Name: "Sleeves",
+					Key: "s",
+					Options: [
+						{}, // Sleeves
+						{}, // No sleeves
+					],
+				},
+				{
+					Name: "Top",
+					Key: "t",
+					Options: [
+						{}, // Full
+						{}, // Crop
+						{}, // Crop2
+						{}, // Bolero
+						{}, // Leotard
+						{}, // Ripped
+						{}, // None
+					],
+				},
+			],
+		}, // MeshTop
 		CorsetDress: {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [{ Name: "Normal" }, { Name: "NoSkirt" }],
@@ -17317,6 +17348,19 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // ChineseDress2
+		MeshTop: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: {
+				GroupName: "Cloth",
+				AssetName: "MeshTop",
+			},
+			DialogPrefix: {
+				Header: "ClothMeshTopSelect",
+				Module: "ClothMeshTopModule",
+				Option: "ClothMeshTopOption",
+				Chat: "ClothMeshTopSet",
+			},
+		}, //Mesh Top
 	}, // Bra
 	Panties: {
 		Diapers4: {
