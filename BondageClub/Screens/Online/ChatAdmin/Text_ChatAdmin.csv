@@ -34,6 +34,7 @@ Create,Create
 Save,Save
 Exit,Exit
 Cancel,Cancel
+CreatingRoom,Creating the chat room…
 UpdatingRoom,Updating the chat room...
 ResponseRoomAlreadyExist,This room name is already taken
 ResponseAccountError,"Account error, please try to relog"
