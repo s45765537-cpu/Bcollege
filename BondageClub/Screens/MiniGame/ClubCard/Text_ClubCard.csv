@@ -60,6 +60,7 @@ LoseFame,SOURCEPLAYER lost AMOUNT Fame.
 LoseMoney,SOURCEPLAYER lost AMOUNT Money.
 StealFame,SOURCEPLAYER stole AMOUNT Fame from OPPONENTPLAYER.
 StealMoney,SOURCEPLAYER stole AMOUNT Money from OPPONENTPLAYER.
+StealFameMoney,SOURCEPLAYER stole FAMEAMOUNT Fame and MONEYAMOUNT Money from OPPONENTPLAYER.
 MemberLeaveClub,CARDNAME leaves SOURCEPLAYER's club.
 EventRemoved,CARDNAME event is removed.
 EventExpired,CARDNAME event has expired.
@@ -506,7 +507,7 @@ Text Moon,"Enters: Moon's magic creates an illusory copy of any chosen member (e
 Effect Moon,"Moon waves her tails, casting an illusion spell, after which CARDNAME appears in your hand."
 Prerequisite Moon,Select a member to receive an illusory copy in your hand. 
 Title Sticky Fingers,Sticky Fingers
-Text Sticky Fingers,"When you steal with another effect, steal 1 Fame and Money. Enters: Steal 1 Fame and Money."
+Text Sticky Fingers,"Enters: Steal 1 Fame and Money. When you steal with another effect, steal 1 Fame and Money."
 Title Earner,Earner
 Text Earner,"Gain +1 Money for each Criminal in your streets. (Max +3)"
 Title Naughty Baby,Naughty Baby

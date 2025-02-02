@@ -80,15 +80,19 @@ const ClubCardStartTurnType = Object.freeze({
 	ENDTURN: "EndTurn" // Technical is the start of a new turn.
 });
 
+/**
+ * Keys for filling in the function parameters ClubCardMessageAdd
+ */
 const ClubCardPlaceholderKeys = Object.freeze({
-	PLAYERNAME: "PLAYERNAME",
-    SOURCEPLAYER: "SOURCEPLAYER",
-    OPPONENTPLAYER: "OPPONENTPLAYER",
+	// PLAYERNAME: "PLAYERNAME",
+    // SOURCEPLAYER: "SOURCEPLAYER",
+    // OPPONENTPLAYER: "OPPONENTPLAYER",
+	// TURNNUMBER: "TURNNUMBER",
 	AMOUNT: "AMOUNT",
-	TURNNUMBER: "TURNNUMBER",
 	CARDNAME: "CARDNAME",
 	FAMEMONEY: "FAMEMONEY",
-	MONEYAMOUNT: "MONEYAMOUNT"
+	MONEYAMOUNT: "MONEYAMOUNT",
+	FAMEAMOUNT: "FAMEAMOUNT"
 });
 
 /** @type {boolean} Variable to check if the start function of the turn has already been called or not. */
@@ -429,7 +433,7 @@ var ClubCardList = [
 		Group: ["Liability", "Criminal"],
 		RequiredLevel: 2,
 		BeforeTurnEnd: function(CCPlayer) {
-			ClubCardPlayerStealMoney(ClubCardGetOpponent(CCPlayer), 1);
+			ClubCardPlayerSteal(ClubCardGetOpponent(CCPlayer), 1, 0);
 		}
 	},
 	{
@@ -456,12 +460,12 @@ var ClubCardList = [
 		},
 		onPlayedCard: function(CCPlayer, cardPlayed) {
 			if (cardPlayed.FamePerTurn && cardPlayed.FamePerTurn < 0 && !ClubCardIsLiability(cardPlayed)) {
-				if (cardPlayed.MoneyPerTurn != null) ClubCardPlayerStealFame(CCPlayer, (cardPlayed.MoneyPerTurn * 2));
+				if (cardPlayed.MoneyPerTurn != null) ClubCardPlayerSteal(CCPlayer, 0, (cardPlayed.MoneyPerTurn * 2));
 			}
 		},
 		onOpponentPlayedCard: function(CCPlayer, cardPlayed) {
 			if (cardPlayed.FamePerTurn && cardPlayed.FamePerTurn < 0 && ClubCardIsLiability(cardPlayed)) {
-				if (cardPlayed.MoneyPerTurn != null) ClubCardPlayerStealFame(CCPlayer, (cardPlayed.MoneyPerTurn * 2));
+				if (cardPlayed.MoneyPerTurn != null) ClubCardPlayerSteal(CCPlayer, 0, (cardPlayed.MoneyPerTurn * 2));
 			}
 		}
 	},
@@ -519,8 +523,8 @@ var ClubCardList = [
 		RequiredLevel: 3,
 		OnPlay: function(CCPlayer) {
 			const opponent = ClubCardGetOpponent(CCPlayer);
-			if (!ClubCardGroupIsOnBoard(CCPlayer, "Police")) ClubCardPlayerStealMoney(CCPlayer, 4);
-			if (!ClubCardGroupIsOnBoard(opponent, "Police")) ClubCardPlayerStealFame(CCPlayer, 4);
+			if (!ClubCardGroupIsOnBoard(CCPlayer, "Police")) ClubCardPlayerSteal(CCPlayer, 4, 0);
+			if (!ClubCardGroupIsOnBoard(opponent, "Police")) ClubCardPlayerSteal(CCPlayer, 0, 4);
 		}
 	},
 	{
@@ -530,8 +534,7 @@ var ClubCardList = [
 		MoneyPerTurn: 1,
 		FamePerTurn: -1,
 		OnPlay: function(CCPlayer) {
-			ClubCardPlayerStealMoney(CCPlayer, 1, true);
-			ClubCardPlayerStealFame(CCPlayer, 1, true);
+			ClubCardPlayerSteal(CCPlayer, 1, 1, true);
 		}
 	},
 	{
@@ -1783,19 +1786,18 @@ var ClubCardList = [
 		Type: "Event",
 		RequiredLevel: 2,
 		OnPlay: function(CCPlayer) {
-			let moneyStolen = ClubCardPlayerStealMoney(CCPlayer, 2);
-			if (moneyStolen < 1) {
-				ClubCardPlayerStealFame(CCPlayer, 2);
-			} else {
-				ClubCardPlayerStealFame(CCPlayer, 2, true);
-			}
+			let moneyStolen = ClubCardPlayerSteal(CCPlayer, 2, 0).stolenMoney;
+			if (moneyStolen < 1)
+				ClubCardPlayerSteal(CCPlayer, 0, 2);
+			else
+				ClubCardPlayerSteal(CCPlayer, 0, 2, true);
+
 			if (!ClubCardGroupIsOnBoard(ClubCardGetOpponent(CCPlayer), "Police")) {
-				let extraMoneyStolen = ClubCardPlayerStealMoney(CCPlayer, 2);
-				if (extraMoneyStolen < 1) {
-					ClubCardPlayerStealFame(CCPlayer, 2);
-				} else {
-					ClubCardPlayerStealFame(CCPlayer, 2, true);
-				}
+				let extraMoneyStolen = ClubCardPlayerSteal(CCPlayer, 2, 0).stolenMoney;
+				if (extraMoneyStolen < 1)
+					ClubCardPlayerSteal(CCPlayer, 0, 2);
+				else
+					ClubCardPlayerSteal(CCPlayer, 0, 2, true);
 			}
 		}
 	},
@@ -1805,9 +1807,9 @@ var ClubCardList = [
 		Type: "Event",
 		RequiredLevel: 3,
 		OnPlay: function(CCPlayer) {
-			ClubCardPlayerStealMoney(CCPlayer, 6);
-			if (ClubCardGroupIsOnBoard(CCPlayer, "Criminal")) ClubCardPlayerStealMoney(CCPlayer, 2);
-			if (!ClubCardGroupIsOnBoard(ClubCardGetOpponent(CCPlayer), "Police"))  ClubCardPlayerStealMoney(CCPlayer, 4);
+			ClubCardPlayerSteal(CCPlayer, 6, 0);
+			if (ClubCardGroupIsOnBoard(CCPlayer, "Criminal")) ClubCardPlayerSteal(CCPlayer, 2, 0);
+			if (!ClubCardGroupIsOnBoard(ClubCardGetOpponent(CCPlayer), "Police"))  ClubCardPlayerSteal(CCPlayer, 4, 0);
 		}
 	},
 	{
@@ -2649,12 +2651,14 @@ function ClubCardMessageSendAll() {
  * 
  */
 function ClubCardMessagePacketProcessing() {
-	const allowedKeys = ["Effect Rope Slave", "Effect Living Art"];
+	const allowedKeys = ["Effect Rope Slave", "Effect Living Art", "StealMoney", "StealFame"];
 	const hasRelevantMessages = ClubCardMessageStorage.some(msg => allowedKeys.includes(msg.TextGetKey));
 	if (!hasRelevantMessages) return;
 
     let ropeSlaveMessages = [];
-    let livingArtMessages = [];
+	let livingArtMessages = [];
+	let stealMoneyMessages = [];
+	let stealFameMessages = [];
 	
     for (let i = 0; i < ClubCardMessageStorage.length; i++) {
         const message = ClubCardMessageStorage[i];
@@ -2662,19 +2666,66 @@ function ClubCardMessagePacketProcessing() {
 			ropeSlaveMessages.push({ message, index: i });
 		else if (message.TextGetKey === "Effect Living Art")
 			livingArtMessages.push({ message, index: i });
+		else if (message.TextGetKey === "StealMoney")
+			stealMoneyMessages.push({ message, index: i });
+		else if (message.TextGetKey === "StealFame")
+			stealFameMessages.push({ message, index: i });
     }
 
 	if (ropeSlaveMessages.length > 1) {
+		const insertIndex = ropeSlaveMessages[0].index;
 		ClubCardMessageStorage = ClubCardMessageStorage.filter(msg => msg.TextGetKey !== "Effect Rope Slave");
-        const mergedRopeSlaveMessage = ClubCardMessagesMerge(ropeSlaveMessages);
-        ClubCardMessageStorage.splice(ropeSlaveMessages[ropeSlaveMessages.length - 1].index, 0, mergedRopeSlaveMessage);
+        const mergedMessage = ClubCardMessagesMerge(ropeSlaveMessages);
+        ClubCardMessageStorage.splice(insertIndex, 0, mergedMessage);
 	}
 	
 	if (livingArtMessages.length > 1) {
+		const insertIndex = livingArtMessages[0].index;
 		ClubCardMessageStorage = ClubCardMessageStorage.filter(msg => msg.TextGetKey !== "Effect Living Art");
-        const mergedLivingArtMessage = ClubCardMessagesMerge(livingArtMessages);
-        ClubCardMessageStorage.splice(livingArtMessages[livingArtMessages.length - 1].index, 0, mergedLivingArtMessage);
-    }
+        const mergedMessage = ClubCardMessagesMerge(livingArtMessages);
+        ClubCardMessageStorage.splice(insertIndex, 0, mergedMessage);
+	}
+
+	if (stealMoneyMessages.length > 0 && stealFameMessages.length > 0) {
+		const insertIndex = Math.min(stealMoneyMessages[0].index, stealFameMessages[0].index);
+
+		ClubCardMessageStorage = ClubCardMessageStorage.filter(msg => msg.TextGetKey !== "StealMoney");
+		const mergedMoneyMessage = ClubCardMessagesMerge(stealMoneyMessages);
+		ClubCardMessageStorage = ClubCardMessageStorage.filter(msg => msg.TextGetKey !== "StealFame");
+		const mergedFameMessage = ClubCardMessagesMerge(stealFameMessages);
+		const moneyAmount = mergedMoneyMessage.Placeholders[ClubCardPlaceholderKeys.AMOUNT];
+		const fameAmount = mergedFameMessage.Placeholders[ClubCardPlaceholderKeys.AMOUNT];
+		const newMessage = {
+			TextGetKey: "StealFameMoney",
+			MessageType: mergedMoneyMessage.MessageType,
+			PlayerId: mergedMoneyMessage.PlayerId,
+			TurnCounter: mergedMoneyMessage.TurnCounter,
+			Placeholders: {
+				[ClubCardPlaceholderKeys.MONEYAMOUNT]: moneyAmount,
+				[ClubCardPlaceholderKeys.FAMEAMOUNT]: fameAmount,
+			},
+			
+			PlayerName: mergedMoneyMessage.PlayerName,
+			SourcePlayer: mergedMoneyMessage.SourcePlayer,
+			OpponentPlayer: mergedMoneyMessage.OpponentPlayer
+		};
+
+		ClubCardMessageStorage.splice(insertIndex, 0, newMessage);
+	}
+	else {
+		if (stealMoneyMessages.length > 1) {
+			const insertIndex = stealMoneyMessages[0].index;
+			ClubCardMessageStorage = ClubCardMessageStorage.filter(msg => msg.TextGetKey !== "StealMoney");
+			const mergedMessage = ClubCardMessagesMerge(stealMoneyMessages);
+			ClubCardMessageStorage.splice(insertIndex, 0, mergedMessage);
+		}
+		if (stealFameMessages.length > 0) {
+			const insertIndex = stealFameMessages[0].index;
+			ClubCardMessageStorage = ClubCardMessageStorage.filter(msg => msg.TextGetKey !== "StealFame");
+			const mergedMessage = ClubCardMessagesMerge(stealFameMessages);
+			ClubCardMessageStorage.splice(insertIndex, 0, mergedMessage);
+		}
+	}
 }
 
 /**
@@ -2686,12 +2737,12 @@ function ClubCardMessagePacketProcessing() {
 function ClubCardMessagesMerge(messageArray) {
     const totalAmount = messageArray.reduce((sum, item) => 
         sum + Number(item.message.Placeholders[ClubCardPlaceholderKeys.AMOUNT] || 0), 0
-    );
+	);
+	
+    const processedMessage = { ...messageArray[0].message };
+    processedMessage.Placeholders[ClubCardPlaceholderKeys.AMOUNT] = totalAmount;
 
-    const lastMessage = { ...messageArray[messageArray.length - 1].message };
-    lastMessage.Placeholders[ClubCardPlaceholderKeys.AMOUNT] = totalAmount;
-
-    return lastMessage;
+    return processedMessage;
 }
 
 /**
@@ -2803,6 +2854,8 @@ function ClubCardGetCardsPlayedOnTurn(CCPlayer, turnCounter) {
 	return CCPlayer.CardsPlayedThisTurn[turnCounter] ?? [];
 }
 
+// #region Changing data
+
 /**
  * Adds money to the club card player stats
  * @param {ClubCardPlayer} CCPlayer - The club card player
@@ -2826,65 +2879,61 @@ function ClubCardPlayerAddFame(CCPlayer, Amount) {
 }
 
 /**
- * Add money from a player and remove from the ohter player 
+ * Add fame from a player and remove from the ohter player 
  * @param {ClubCardPlayer} CCPlayer - The club card player
- * @param {Number} Amount - The amount to steal
- * @returns {number} - the amount that was stolen
+ * @param {Number} moneyAmount - The money amount to steal
+ * @param {Number} fameAmount - The fame amount to steal
+ * @param {boolean} isStickyFingers - Whether Sticky Fingers effect should be ignored.
+ * @returns {{ stolenMoney: number, stolenFame: number }} - The amounts of money and fame stolen.
  */
-function ClubCardPlayerStealMoney(CCPlayer, Amount, isStickyFingers = false) {
+function ClubCardPlayerSteal(CCPlayer, moneyAmount, fameAmount, isStickyFingers = false) {
 	const opponent = ClubCardGetOpponent(CCPlayer);
+	let moneyToSteal = 0;
+	let fameToSteal = 0;
 
-	if (opponent.Money < 1) return 0; 
-	const moneyToSteal = Math.min(Amount, opponent.Money);
-	ClubCardPlayerAddMoney(CCPlayer, moneyToSteal);
-	ClubCardPlayerAddMoney(opponent, -moneyToSteal);
+	if (fameAmount > 0 && opponent.Fame > 0) {
+		fameToSteal = Math.min(fameAmount, opponent.Fame);
+		ClubCardPlayerAddFame(CCPlayer, fameToSteal);
+		ClubCardPlayerAddFame(opponent, -fameToSteal);
+		ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "StealFame", {[ClubCardPlaceholderKeys.AMOUNT]: fameToSteal}, CCPlayer);
 
-	let extraSteal = ClubCardNameCountOnBoard(CCPlayer, "Sticky Fingers");
-	while (extraSteal > 0) {
-		if (!isStickyFingers) {
-			if (opponent.Money > 0) {
-				ClubCardPlayerAddMoney(CCPlayer, 1);
-				ClubCardPlayerAddMoney(opponent, -1);
-			}
-			if (opponent.Fame > 0) {
-				ClubCardPlayerAddFame(CCPlayer, 1);
-				ClubCardPlayerAddFame(opponent, -1);
-			}
-		}
-		extraSteal--;
+		if(!isStickyFingers)
+			ClubCardApplyStickyFingers(CCPlayer, opponent);
 	}
-	return moneyToSteal;
+	
+	if (moneyAmount > 0 && opponent.Money > 0) {
+		moneyToSteal = Math.min(moneyAmount, opponent.Money);
+		ClubCardPlayerAddMoney(CCPlayer, moneyToSteal);
+		ClubCardPlayerAddMoney(opponent, -moneyToSteal);
+		ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "StealMoney", {[ClubCardPlaceholderKeys.AMOUNT]: moneyToSteal}, CCPlayer);
+	
+		if(!isStickyFingers)
+			ClubCardApplyStickyFingers(CCPlayer, opponent);
+	}
+
+	return { stolenMoney: moneyToSteal, stolenFame: fameToSteal };
 }
 
 /**
- * Add fame from a player and remove from the ohter player 
- * @param {ClubCardPlayer} CCPlayer - The club card player
- * @param {Number} Amount - The amount to steal
- * @returns {Number} - the amount that was stolen
+ * Applies the "Sticky Fingers" effect, stealing extra resources if possible.
+ * @param {ClubCardPlayer} CCPlayer - The club card player.
+ * @param {ClubCardPlayer} opponent - The opponent player.
  */
-function ClubCardPlayerStealFame(CCPlayer, Amount, isStickyFingers = false) {
-	const opponent = ClubCardGetOpponent(CCPlayer);
-
-	if (opponent.Fame < 1) return 0; 
-	const fameToSteal = Math.min(Amount, opponent.Fame);
-	ClubCardPlayerAddFame(CCPlayer, fameToSteal);
-	ClubCardPlayerAddFame(opponent, -fameToSteal);
-
-	let extraSteal = ClubCardNameCountOnBoard(CCPlayer, "Sticky Fingers");
-	while (extraSteal > 0) {
-		if (!isStickyFingers) {
-			if (opponent.Money > 0) {
-				ClubCardPlayerAddMoney(CCPlayer, 1);
-				ClubCardPlayerAddMoney(opponent, -1);
-			}
-			if (opponent.Fame > 0) {
-				ClubCardPlayerAddFame(CCPlayer, 1);
-				ClubCardPlayerAddFame(opponent, -1);
-			}
-		}
-		extraSteal--;
-	}
-	return fameToSteal;
+function ClubCardApplyStickyFingers(CCPlayer, opponent) {
+    let extraSteal = ClubCardNameCountOnBoard(CCPlayer, "Sticky Fingers");
+    while (extraSteal > 0) {
+        if (opponent.Money > 0) {
+            ClubCardPlayerAddMoney(CCPlayer, 1);
+			ClubCardPlayerAddMoney(opponent, -1);
+			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "StealMoney", {[ClubCardPlaceholderKeys.AMOUNT]: 1}, CCPlayer);
+        }
+        if (opponent.Fame > 0) {
+            ClubCardPlayerAddFame(CCPlayer, 1);
+			ClubCardPlayerAddFame(opponent, -1);
+			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "StealFame", {[ClubCardPlaceholderKeys.AMOUNT]: 1}, CCPlayer);
+        }
+        extraSteal--;
+    }
 }
 
 /**
@@ -2921,6 +2970,8 @@ function ClubCardUpgradeLevel(CCPlayer) {
 	ClubCardMessageAdd(ClubCardMessageType.ACTION, textGetKey, {[ClubCardPlaceholderKeys.MONEYAMOUNT]: updatedCost.toString()});
 	GameClubCardSyncOnlineData();
 }
+
+// #endregion Changing data
 
 /**
  * Returns TRUE if a card (by name) is currently present on a board
@@ -3368,7 +3419,7 @@ function ClubCardOnDrawAction(CCPlayer) {
 
 	let conArtistsCount = ClubCardNameCountOnBoard(CCPlayer, "Con Artist");
 	while (conArtistsCount > 0) {
-		ClubCardPlayerStealFame(CCPlayer, ClubCardGroupIsOnBoard(opponent, "Police") ? 1 : 2);
+		ClubCardPlayerSteal(CCPlayer, 0, ClubCardGroupIsOnBoard(opponent, "Police") ? 1 : 2);
 		conArtistsCount--;
 	}
 

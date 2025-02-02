@@ -85,21 +85,27 @@ Get Mansion (MONEY)
 Get Manor (MONEY)
 Получить Усадьбу (MONEY)
 PLAYERNAME upgraded to Cottage for MONEYAMOUNT Money.
-PLAYERNAME повышен до Коттеджа за MONEYAMOUNT Денег.
+PLAYERNAME повышен до Коттеджа за MONEYAMOUNT Money.
 PLAYERNAME upgraded to House for MONEYAMOUNT Money.
-PLAYERNAME повышен до Дома за MONEYAMOUNT Денег.
+PLAYERNAME повышен до Дома за MONEYAMOUNT Money.
 PLAYERNAME upgraded to Mansion for MONEYAMOUNT Money.
-PLAYERNAME повышен до Особняк за MONEYAMOUNT Денег.
+PLAYERNAME повышен до Особняк за MONEYAMOUNT Money.
 PLAYERNAME upgraded to Manor for MONEYAMOUNT Money.
-PLAYERNAME повешен до Усадьбы за MONEYAMOUNT Денег.
+PLAYERNAME повешен до Усадьбы за MONEYAMOUNT Money.
 SOURCEPLAYER gained AMOUNT Fame.
-SOURCEPLAYER получил AMOUNT Славы.
+SOURCEPLAYER получил AMOUNT Fame.
 SOURCEPLAYER gained AMOUNT Money.
-SOURCEPLAYER получил AMOUNT Денег.
+SOURCEPLAYER получил AMOUNT Money.
+SOURCEPLAYER lost AMOUNT Fame.
+SOURCEPLAYER потерял AMOUNT Fame.
+SOURCEPLAYER lost AMOUNT Money.
+SOURCEPLAYER потерял AMOUNT Money.
 SOURCEPLAYER stole AMOUNT Fame from OPPONENTPLAYER.
-SOURCEPLAYER украл AMOUNT Славы у OPPONENTPLAYER.
+SOURCEPLAYER украл AMOUNT Fame у OPPONENTPLAYER.
 SOURCEPLAYER stole AMOUNT Money from OPPONENTPLAYER.
-SOURCEPLAYER украл AMOUNT Денег у OPPONENTPLAYER.
+SOURCEPLAYER украл AMOUNT Money у OPPONENTPLAYER.
+SOURCEPLAYER stole FAMEAMOUNT Fame and MONEYAMOUNT Money from OPPONENTPLAYER.
+SOURCEPLAYER украл FAMEAMOUNT Fame и MONEYAMOUNT Money у OPPONENTPLAYER.
 CARDNAME leaves SOURCEPLAYER's club.
 CARDNAME покидает клуб SOURCEPLAYER.
 CARDNAME event is removed.
@@ -920,7 +926,7 @@ Moon waves her tails, casting an illusion spell, after which CARDNAME appears in
 Moon взмахивает хвостами, используя заклинание иллюзии, после чего CARDNAME появляется в вашей руке.
 Sticky Fingers
 Пальцы липучки
-When you steal with another effect, steal 1 Fame and Money. Enters: Steal 1 Fame and Money.
+Enters: Steal 1 Fame and Money. When you steal with another effect, steal 1 Fame and Money.
 Вход: украдите 1 Fame и Money. Когда вы крадёте с другим эффектом, украдите 1 Fame и Money.
 Con Artist
 Мошенник
