@@ -977,9 +977,6 @@ var ClubCardList = [
 		},
 	},
 	{
-		//TODO Need to handle spam messages for Hypnotherapist event.
-		//For example, combine in one line - “card 1, card 2, ......, card 10 - left player's club”.
-		//Instead of 10 notifications for each card.
 		ID: 7010,
 		Name: "Hypnotherapist",
 		Group: ["AsylumNurse"],
@@ -1012,6 +1009,8 @@ var ClubCardList = [
 			}
 
 			this.ExtraPlay = 1;
+
+			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Hypnotherapist");
 		},
 		BeforeOpponentTurnEnd: function() {
 			this.ExtraPlay = 0;
@@ -2646,103 +2645,123 @@ function ClubCardMessageSendAll() {
 // #### Text processing ####
 
 /**
- * Merges specific messages with the same TextGetKey and sums their AMOUNT placeholder values.
- * Handles "Effect Rope Slave" and "Effect Living Art" separately in one iteration.
- * 
+ * Processes and merges specific messages from the storage.
  */
 function ClubCardMessagePacketProcessing() {
-	const allowedKeys = ["Effect Rope Slave", "Effect Living Art", "StealMoney", "StealFame"];
-	const hasRelevantMessages = ClubCardMessageStorage.some(msg => allowedKeys.includes(msg.TextGetKey));
+	const specialCases = ["Effect Hypnotherapist", "StealMoney", "StealFame"];
+	const mergeableKeys = ["Effect Rope Slave", "Effect Living Art"];
+
+	const hasRelevantMessages = ClubCardMessageStorage.some(msg =>
+		[...specialCases, ...mergeableKeys].includes(msg.TextGetKey)
+	);
 	if (!hasRelevantMessages) return;
 
     let ropeSlaveMessages = [];
-	let livingArtMessages = [];
-	let stealMoneyMessages = [];
+    let livingArtMessages = [];
+    let stealMoneyMessages = [];
 	let stealFameMessages = [];
-	
+	let burlingtonBowtieMeesages = [];
+	let squareKnotMeesages = [];
+	let squareKnotSenseiMeesages = [];
+	let closedHitchMeesages = [];
+	let quickReleaseKnotMeesages = [];
+
+	let isHypnotherapist = false;
+
     for (let i = 0; i < ClubCardMessageStorage.length; i++) {
         const message = ClubCardMessageStorage[i];
-		if (message.TextGetKey === "Effect Rope Slave")
-			ropeSlaveMessages.push({ message, index: i });
-		else if (message.TextGetKey === "Effect Living Art")
-			livingArtMessages.push({ message, index: i });
-		else if (message.TextGetKey === "StealMoney")
-			stealMoneyMessages.push({ message, index: i });
-		else if (message.TextGetKey === "StealFame")
-			stealFameMessages.push({ message, index: i });
-    }
-
-	if (ropeSlaveMessages.length > 1) {
-		const insertIndex = ropeSlaveMessages[0].index;
-		ClubCardMessageStorage = ClubCardMessageStorage.filter(msg => msg.TextGetKey !== "Effect Rope Slave");
-        const mergedMessage = ClubCardMessagesMerge(ropeSlaveMessages);
-        ClubCardMessageStorage.splice(insertIndex, 0, mergedMessage);
+		if (message.TextGetKey === "Effect Rope Slave") ropeSlaveMessages.push({ message, index: i });
+		else if (message.TextGetKey === "Effect Living Art") livingArtMessages.push({ message, index: i });
+		else if (message.TextGetKey === "StealMoney") stealMoneyMessages.push({ message, index: i });
+		else if (message.TextGetKey === "StealFame") stealFameMessages.push({ message, index: i });
+			
+		else if (message.TextGetKey === "Effect Hypnotherapist") isHypnotherapist = true;
+			
+		else if (message.TextGetKey === "Effect Burlington Bowtie") burlingtonBowtieMeesages.push({ message, index: i });
+		else if (message.TextGetKey === "Effect Square Knot") squareKnotMeesages.push({ message, index: i });
+		else if (message.TextGetKey === "Effect Square Knot Sensei") squareKnotSenseiMeesages.push({ message, index: i });
+		else if (message.TextGetKey === "Effect Closed Hitch") closedHitchMeesages.push({ message, index: i });
+		else if (message.TextGetKey === "Effect Quick Release Knot") quickReleaseKnotMeesages.push({ message, index: i });
 	}
 	
-	if (livingArtMessages.length > 1) {
-		const insertIndex = livingArtMessages[0].index;
-		ClubCardMessageStorage = ClubCardMessageStorage.filter(msg => msg.TextGetKey !== "Effect Living Art");
-        const mergedMessage = ClubCardMessagesMerge(livingArtMessages);
-        ClubCardMessageStorage.splice(insertIndex, 0, mergedMessage);
-	}
+	// ### Normal merging of messages into one
+	if (ropeSlaveMessages.length > 1) ClubCardMessagesMerge(ropeSlaveMessages);
+	if (livingArtMessages.length > 1) ClubCardMessagesMerge(livingArtMessages);
+	if (burlingtonBowtieMeesages.length > 1) ClubCardMessagesMerge(burlingtonBowtieMeesages);
+	if (squareKnotMeesages.length > 1) ClubCardMessagesMerge(squareKnotMeesages);
+	if (squareKnotSenseiMeesages.length > 1) ClubCardMessagesMerge(squareKnotSenseiMeesages);
+	if (closedHitchMeesages.length > 1) ClubCardMessagesMerge(closedHitchMeesages);
+	if (quickReleaseKnotMeesages.length > 1) ClubCardMessagesMerge(quickReleaseKnotMeesages);
+	// ### 
 
+	// ### Unique processing
+	//Effect Hypnotherapist
+	if (isHypnotherapist)
+		ClubCardMessageStorage = ClubCardMessageStorage.filter(msg => msg.TextGetKey !== "MemberLeaveClub");
+	//StealMoney & StealFame
 	if (stealMoneyMessages.length > 0 && stealFameMessages.length > 0) {
-		const insertIndex = Math.min(stealMoneyMessages[0].index, stealFameMessages[0].index);
-
-		ClubCardMessageStorage = ClubCardMessageStorage.filter(msg => msg.TextGetKey !== "StealMoney");
-		const mergedMoneyMessage = ClubCardMessagesMerge(stealMoneyMessages);
-		ClubCardMessageStorage = ClubCardMessageStorage.filter(msg => msg.TextGetKey !== "StealFame");
-		const mergedFameMessage = ClubCardMessagesMerge(stealFameMessages);
-		const moneyAmount = mergedMoneyMessage.Placeholders[ClubCardPlaceholderKeys.AMOUNT];
-		const fameAmount = mergedFameMessage.Placeholders[ClubCardPlaceholderKeys.AMOUNT];
-		const newMessage = {
-			TextGetKey: "StealFameMoney",
-			MessageType: mergedMoneyMessage.MessageType,
-			PlayerId: mergedMoneyMessage.PlayerId,
-			TurnCounter: mergedMoneyMessage.TurnCounter,
-			Placeholders: {
-				[ClubCardPlaceholderKeys.MONEYAMOUNT]: moneyAmount,
-				[ClubCardPlaceholderKeys.FAMEAMOUNT]: fameAmount,
-			},
-			
-			PlayerName: mergedMoneyMessage.PlayerName,
-			SourcePlayer: mergedMoneyMessage.SourcePlayer,
-			OpponentPlayer: mergedMoneyMessage.OpponentPlayer
-		};
-
-		ClubCardMessageStorage.splice(insertIndex, 0, newMessage);
+		ClubCardMessagesMergeSteal(stealMoneyMessages, stealFameMessages);
+	} else {
+		if (stealMoneyMessages.length > 1) ClubCardMessagesMerge(stealMoneyMessages);
+		if (stealFameMessages.length > 1) ClubCardMessagesMerge(stealFameMessages);
 	}
-	else {
-		if (stealMoneyMessages.length > 1) {
-			const insertIndex = stealMoneyMessages[0].index;
-			ClubCardMessageStorage = ClubCardMessageStorage.filter(msg => msg.TextGetKey !== "StealMoney");
-			const mergedMessage = ClubCardMessagesMerge(stealMoneyMessages);
-			ClubCardMessageStorage.splice(insertIndex, 0, mergedMessage);
-		}
-		if (stealFameMessages.length > 0) {
-			const insertIndex = stealFameMessages[0].index;
-			ClubCardMessageStorage = ClubCardMessageStorage.filter(msg => msg.TextGetKey !== "StealFame");
-			const mergedMessage = ClubCardMessagesMerge(stealFameMessages);
-			ClubCardMessageStorage.splice(insertIndex, 0, mergedMessage);
-		}
-	}
+	// ###
 }
+
 
 /**
  * Merges multiple messages by summing their AMOUNT placeholder and keeping the last message.
  * 
  * @param {Array<{ message: ClubCardMessage, index: number }>} messageArray - The array of messages with their indexes.
- * @returns {ClubCardMessage} - The merged message.
  */
 function ClubCardMessagesMerge(messageArray) {
+    if (messageArray.length <= 1) return;
+
     const totalAmount = messageArray.reduce((sum, item) => 
         sum + Number(item.message.Placeholders[ClubCardPlaceholderKeys.AMOUNT] || 0), 0
-	);
-	
-    const processedMessage = { ...messageArray[0].message };
-    processedMessage.Placeholders[ClubCardPlaceholderKeys.AMOUNT] = totalAmount;
+    );
 
-    return processedMessage;
+    const lastMessage = { ...messageArray[messageArray.length - 1].message };
+    lastMessage.Placeholders[ClubCardPlaceholderKeys.AMOUNT] = totalAmount;
+
+    ClubCardMessageStorage = ClubCardMessageStorage.filter(msg => msg.TextGetKey !== lastMessage.TextGetKey);
+    ClubCardMessageStorage.splice(messageArray[messageArray.length - 1].index, 0, lastMessage);
+}
+
+/**
+ * Merges "StealMoney" and "StealFame" messages into one.
+ * 
+ * @param {Array<{ message: ClubCardMessage, index: number }>} stealMoneyMessages - Messages related to stealing money.
+ * @param {Array<{ message: ClubCardMessage, index: number }>} stealFameMessages - Messages related to stealing fame.
+ */
+function ClubCardMessagesMergeSteal(stealMoneyMessages, stealFameMessages) {
+	const minIndex = Math.min(stealMoneyMessages[0].index, stealFameMessages[0].index);
+
+	const newMessage = stealMoneyMessages[0].index === minIndex 
+        ? stealMoneyMessages[0].message 
+		: stealFameMessages[0].message;
+	
+	const mergedMessage = { ...newMessage };
+	
+	const totalMoney = stealMoneyMessages.reduce((sum, item) => 
+		sum + Number(item.message.Placeholders[ClubCardPlaceholderKeys.AMOUNT] || 0), 0
+	);
+	const totalFame = stealFameMessages.reduce((sum, item) => 
+		sum + Number(item.message.Placeholders[ClubCardPlaceholderKeys.AMOUNT] || 0), 0
+	);
+
+	mergedMessage.TextGetKey = "StealFameMoney";
+    mergedMessage.Placeholders = {
+        [ClubCardPlaceholderKeys.MONEYAMOUNT]: totalMoney,
+        [ClubCardPlaceholderKeys.FAMEAMOUNT]: totalFame
+    };
+	
+	//Clear ClubCardMessageStorage from StealMoney and StealFame
+	ClubCardMessageStorage = ClubCardMessageStorage.filter(msg => 
+		msg.TextGetKey !== "StealMoney" && msg.TextGetKey !== "StealFame"
+	);
+
+	ClubCardMessageStorage.splice(minIndex, 0, mergedMessage);
 }
 
 /**

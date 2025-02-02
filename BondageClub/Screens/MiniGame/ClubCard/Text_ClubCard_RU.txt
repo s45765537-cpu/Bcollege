@@ -544,6 +544,8 @@ Living Art
 Живое искусство
 Gain 1 Fame when you play a Knot or Shibari Event.
 Получите 1 Славу, когда вы разыгрываете событие Узел или Шибари.
+SOURCEPLAYER gained AMOUNT fame from Living Art.
+SOURCEPLAYER получил AMOUNT fame от Living Art.
 Quack Doctor
 Врач-шарлатан
 Start of your turn, for each Asylum Patient present, players lose 1 fame. (Max 4)
@@ -552,6 +554,8 @@ Rope Slave
 Раб Узлов
 Gain 1 Money when you play a Knot or Shibari event.
 Получите 1 Денег, когда разыгрываете событие с Узлом или Шибари.
+SOURCEPLAYER gained AMOUNT money from Rope Slave.
+SOURCEPLAYER получил AMOUNT money от Rope Slave.
 Suki
 Suki
 +1 Fame per turn if at least one maid is present.
@@ -674,6 +678,8 @@ Hypnotherapist
 Гипнолог
 When she enters your club, return all Tier 1 members to their owner's hands, then take another action.
 При вступлении в клуб, выгоняет все карты 1-ого тира в руки. Получите доп ход в этом раунде.
+All Tier 1 members have returned to their owners' hands.
+Все члены Tier 1 вернулись в руки своих владельцев.
 Stepmother
 Мачеха
 Enters: Gain 2 Fame for each member present with - Fame. When a member with - Fame enters, Steal Fame equal to twice their Money.
@@ -690,6 +696,8 @@ Burlington Bowtie
 Burlington Bowtie
 Gain 4 fame. Gain 2 fame per Sensei present.
 Получите 4 fame. Получите 2 fame за каждого Сенсея.
+SOURCEPLAYER gained AMOUNT Fame from Burlington Bowtie.
+SOURCEPLAYER получил AMOUNT Fame от Burlington Bowtie.
 Charity Auction
 Благотворительный аукцион
 Select and remove one member from your club, gain 1 Fame per building level.
@@ -698,6 +706,8 @@ Closed Hitch
 Closed Hitch
 Draw a card.
 Вытаскивает карту.
+SOURCEPLAYER draws a card from Closed Hitch.
+SOURCEPLAYER получает карту от Closed Hitch.
 First Bell
 Первый звонок
 Draw a random college student from your deck. If it's your first turn or you control a teacher, play again.
@@ -726,6 +736,8 @@ Quick Release Knot
 Quick Release Knot
 Gain money equal to the number of knots in your streets plus 4. Shuffle this and all knots from your streets into your deck. 
 Получите money, равное количеству Узлов на ваших улицах плюс 4. Замешайте эту и все Узлы с ваших улиц в вашу колоду.
+SOURCEPLAYER gained AMOUNT Money from Quick Release Knot.
+SOURCEPLAYER получил AMOUNT Money от Quick Release Knot.
 Ransomware
 Вирус-Вымогатель
 Opponent loses 5 Money per building level.  Cannot be played if your opponent has Amanda or Jennifer.
@@ -742,6 +754,10 @@ Square Knot
 Square Knot
 Your opponent loses 4 fame. If a Sensei is present, you gain 4 fame.
 Ваш соперник теряет 4 fame. Если у вас есть Сенсей, вы получаете 4 fame.
+OPPONENTPLAYER lost AMOUNT Fame from Square Knot.
+OPPONENTPLAYER потерял AMOUNT Fame от Square Knot.
+SOURCEPLAYER gained AMOUNT Fame from Square Knot
+SOURCEPLAYER получил AMOUNT Fame от Square Knot
 Struggler's Knot
 Struggler's Knot
 Take another action.

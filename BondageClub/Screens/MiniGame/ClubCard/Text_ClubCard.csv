@@ -399,6 +399,7 @@ Effect Sophie,CARDNAME got their fame and money boosted by the lovely Sophie~
 Prerequisite Sophie,Select a member to enhance before Sophie enters.
 Title Hypnotherapist,Hypnotherapist
 Text Hypnotherapist,"When she enters your club, return all Tier 1 members to their owner's hands, then take another action."
+Effect Hypnotherapist,"All Tier 1 members have returned to their owners' hands."
 Title Help Button,Help Button
 Text Help Button,"Return a member from your club to its owners deck, a random Maid or Nurse of equal level joins your club from your deck."
 Effect Help Button No Draw,SOURCEPLAYER could not summon any cards from Help Button.
