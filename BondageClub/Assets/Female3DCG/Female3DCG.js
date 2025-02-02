@@ -1033,6 +1033,13 @@ var AssetFemale3DCG = [
 						AllowTypes: { t: 19 },
 						CopyLayerColor: "None",
 					},
+					{
+						Name: "Gangriels",
+						PoseMapping: {},
+						ParentGroup: {},
+						AllowTypes: { t: 20 },
+						CopyLayerColor: "None",
+					},
 				],
 			},
 			{
