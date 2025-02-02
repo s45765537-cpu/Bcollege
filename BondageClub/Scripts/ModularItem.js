@@ -423,6 +423,7 @@ function ModularItemDrawModule(module, data) {
  */
 function ModularItemCreateClickBaseFunction(data) {
 	const DrawData = data.drawData;
+	const pageNumber = Math.min(DrawData.pageCount - 1, data.pages[ModularItemBase] ?? 0);
 	return () => {
 		ModularItemClickCommon(
 			data,
@@ -431,19 +432,19 @@ function ModularItemCreateClickBaseFunction(data) {
 				DialogLeaveFocusItem();
 			},
 			i => {
-				const pageNumber = Math.min(DrawData.pageCount - 1, data.pages[ModularItemBase] || 0);
 				const pageStart = pageNumber * DrawData.itemsPerPage;
 				const page = data.modules.slice(pageStart, pageStart + DrawData.itemsPerPage);
 				const module = page[i];
 				if (module) {
 					if (CharacterGetCurrent().IsPlayer() && module.AllowSelfSelect === false) {
 						DialogExtendedMessage = InterfaceTextGet("CannotSelfSelect");
-						return;
 					}
 					ModularItemModuleTransition(module.Name, data);
+					return true;
 				}
 			},
-			(delta) => ModularItemChangePage(ModularItemBase, delta, data, DrawData)
+			(delta) => ModularItemChangePage(ModularItemBase, delta, data, DrawData),
+			pageNumber,
 		);
 	};
 }
@@ -456,28 +457,29 @@ function ModularItemCreateClickBaseFunction(data) {
  */
 function ModularItemClickModule(module, data) {
 	const DrawData = module.drawData;
+	const pageNumber = Math.min(DrawData.pageCount - 1, data.pages[module.Name] ?? 0);
 	ModularItemClickCommon(
 		data,
 		DrawData,
 		() => ModularItemModuleTransition(ModularItemBase, data),
 		i => {
-			const pageNumber = Math.min(DrawData.pageCount - 1, data.pages[module.Name] || 0);
 			const pageStart = pageNumber * DrawData.itemsPerPage;
 			const page = module.Options.slice(pageStart, pageStart + DrawData.itemsPerPage);
-			const selected = page[i];
-			const optionIndex = i + (pageStart * DrawData.itemsPerPage);
+			const selected = page[i % DrawData.itemsPerPage];
 			if (selected) {
 				if (ExtendedItemPermissionMode) {
 					const C = CharacterGetCurrent();
-					const IsFirst = optionIndex === 0;
-					const Worn = C.IsPlayer() && DialogFocusItem.Property.TypeRecord[module.Key] === optionIndex;
+					const IsFirst = i === 0;
+					const Worn = C.IsPlayer() && DialogFocusItem.Property.TypeRecord[module.Key] === i;
 					InventoryTogglePermission(DialogFocusItem, selected.Name, IsFirst || Worn);
 				} else {
-					ModularItemSetType(module, pageStart + i, data);
+					ModularItemSetType(module, i, data);
 				}
+				return true;
 			}
 		},
 		(delta) => ModularItemChangePage(module.Name, delta, data, DrawData),
+		pageNumber,
 	);
 }
 
@@ -487,11 +489,12 @@ function ModularItemClickModule(module, data) {
  * @param {ModularItemData} data
  * @param {ExtendedItemDrawData<ElementMetaData.Modular>} drawData
  * @param {function(): void} exitCallback - A callback to be called when the exit button has been clicked
- * @param {function(number): void} itemCallback - A callback to be called when an item has been clicked
+ * @param {function(number): boolean} itemCallback - A callback to be called when an item has been clicked
  * @param {function(number): void} paginateCallback - A callback to be called when a pagination button has been clicked
+ * @param {number} pageNumber - The currently shown page
  * @returns {void} - Nothing
  */
-function ModularItemClickCommon(data, { paginate, elementData }, exitCallback, itemCallback, paginateCallback) {
+function ModularItemClickCommon(data, { paginate, elementData, itemsPerPage }, exitCallback, itemCallback, paginateCallback, pageNumber) {
 	if (ExtendedItemSubscreen) {
 		CommonCallFunctionByNameWarn(ExtendedItemFunctionPrefix() + ExtendedItemSubscreen + "Click");
 		return;
@@ -515,12 +518,14 @@ function ModularItemClickCommon(data, { paginate, elementData }, exitCallback, i
 		else if (MouseIn(1775, 240, 90, 90)) return paginateCallback(1);
 	}
 
-	elementData.some(({ position, hidden }, i) => {
-		if (!hidden && MouseIn(...position)) {
-			itemCallback(i);
-			return true;
+	let i = pageNumber * itemsPerPage;
+	const elementDataSlice = elementData.slice(pageNumber * itemsPerPage, (1 + pageNumber) * itemsPerPage);
+	for (const { position, hidden } of elementDataSlice) {
+		if (!hidden && MouseIn(...position) && itemCallback(i)) {
+			break;
 		}
-	});
+		i++;
+	}
 
 	// If the assets allows tightening / loosening
 	if (ExtendedItemTighten.Click(data, DialogFocusItem, [1050, 220, 300, 65])) {
