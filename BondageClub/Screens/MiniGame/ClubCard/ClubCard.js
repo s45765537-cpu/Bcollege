@@ -1198,7 +1198,11 @@ var ClubCardList = [
 		Group: ["ABDLMommy"],
 		RequiredLevel: 5,
 		OnPlay: function(CCPlayer) {
-			if (ClubCardGroupIsOnBoard(CCPlayer, "ABDLBaby")) ClubCardPlayerAddFame(CCPlayer, 25);
+			if (ClubCardGroupIsOnBoard(CCPlayer, "ABDLBaby")) {
+				const fame = 25;
+				ClubCardPlayerAddFame(CCPlayer, fame);
+				ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "GainFame", {[ClubCardPlaceholderKeys.AMOUNT]: fame}, CCPlayer);
+			}
 		}
 	},
 	{
