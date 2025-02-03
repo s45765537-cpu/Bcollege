@@ -125,6 +125,17 @@ const ChatRoomMapViewObjectList = [
 
 	{ ID: 600, Type: "FloorDecorationCamping", Style: "Blank" },
 	{ ID: 610, Type: "FloorDecorationCamping", Style: "LogFire", Top: -0.35 },
+	{ 
+		ID: 611,
+		Type: "FloorDecorationCamping",
+		Style: "LogFireAnim0",
+		Height: 1.5,
+		Top: -0.9,
+		BuildImageName: function(X, Y) {
+			let Frame = (Math.floor(CommonTime() / 150) + X + Y * 3) % 10;
+			return "LogFireAnim" + Frame.toString();
+		}
+	},
 	{ ID: 620, Type: "FloorDecorationCamping", Style: "LogSingle", Top: -0.2 },
 	{ ID: 630, Type: "FloorDecorationCamping", Style: "TentBlue", Top: -0.3 },
 	{ ID: 640, Type: "FloorDecorationCamping", Style: "SleepingBagBlue" },
