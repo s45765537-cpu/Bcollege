@@ -26,19 +26,19 @@ var ClubCardOnlinePlayerMemberNumber2 = -1;
 
 
 //#region Chat Log variable
-/** 
- * Storage for all processed and displayed log messages 
- * @type {ClubCardMessage[]} 
+/**
+ * Storage for all processed and displayed log messages
+ * @type {ClubCardMessage[]}
  */
 let ClubCardLog = [];
-/** 
- * Temporary buffer used for rendering messages before final log update 
- * @type {ClubCardMessage[]} 
+/**
+ * Temporary buffer used for rendering messages before final log update
+ * @type {ClubCardMessage[]}
  */
 let ClubCardRenderLog = [];
-/** 
+/**
  * Message storage to accumulate messages before processing and sending
- * @type {ClubCardMessage[]} 
+ * @type {ClubCardMessage[]}
  */
 let ClubCardMessageStorage = [];
 var ClubCardLogScroll = false;
@@ -52,7 +52,7 @@ const ClubCardMessageType = Object.freeze({
 	TURNENDEFFECT: "TurnEndEffect",
 	FAMEMONEYINFO: "FameMoneyInfo", //end turn income and general increase  money and fame.
 	VICTORYINFO: "VictoryInfo",
-	
+
 	//Solo Messages Type
 	ACTIONSEPARATOR: "ActionSeparator", //for key messages separating one player's turn into parts.
 	PREREQUISTITE : "Prerequisite",
@@ -348,7 +348,7 @@ var ClubCardList = [
 		RequiredLevel: 2,
 		OnPlay: function(CCPlayer) {
 			for (const card of CCPlayer.Event) {
-				card.Time++
+				card.Time++;
 			}
 		}
 	},
@@ -678,7 +678,7 @@ var ClubCardList = [
 		Group: ["Fetishist"],
 		BeforeTurnEnd: function(CCPlayer) {
 			const MaxMoney = 5;
-			let Money = Math.min((ClubCardGroupOnBoardCount(CCPlayer, "Pet") + ClubCardGroupOnBoardCount(ClubCardGetOpponent(CCPlayer), "Pet")), MaxMoney)
+			let Money = Math.min((ClubCardGroupOnBoardCount(CCPlayer, "Pet") + ClubCardGroupOnBoardCount(ClubCardGetOpponent(CCPlayer), "Pet")), MaxMoney);
 			ClubCardPlayerAddMoney(CCPlayer, Money);
 		},
 		BeforeOpponentTurnEnd: function(CCPlayer) {
@@ -1663,7 +1663,7 @@ var ClubCardList = [
 		FamePerTurn: 1,
 		OnPlay: function(CCPlayer) {
 			ClubCardPlayerAddMoney(CCPlayer, -14);
-			const opponent = ClubCardGetOpponent(CCPlayer)
+			const opponent = ClubCardGetOpponent(CCPlayer);
 			ClubCardRemoveFromBoard(opponent, ClubCardSelection);
 			const lostFame = ClubCardCalculateLevelForPets(CCPlayer) * -1;
 			ClubCardPlayerAddFame(opponent, lostFame);
@@ -2121,7 +2121,7 @@ var ClubCardList = [
 				ClubCardPlayerAddFame(CCPlayer, Fame);
 				CCPlayer.LastFamePerTurn = Fame * 2;
 				ClubCardMessageAdd(ClubCardMessageType.TURNENDEFFECT, "Effect Clever Marketing", {}, CCPlayer);
-				
+
 			}
 		}
 	},
@@ -2522,12 +2522,12 @@ function ClubCardIsPlaying() {
 
 /**
  * In case one of the players disconnects from the server, the other player sends a message about it to the game chat.
- * @param {number} disconnectedMemberNumber 
+ * @param {number} disconnectedMemberNumber
  */
 function ClubCardCheckDisconnected(disconnectedMemberNumber) {
 	const isPlayer1 = Player.MemberNumber == ClubCardPlayer[0].Character.MemberNumber;
 	const isPlayer2 = disconnectedMemberNumber == ClubCardPlayer[1].Character.MemberNumber;
-	
+
 	if (isPlayer1 && isPlayer2) {
 		const CCPlayer = ClubCardPlayer[1];
 		ClubCardMessageAdd(ClubCardMessageType.PLAYERSDISCONNECTED, "OnlinePlayerDisconnected", {}, CCPlayer);
@@ -2554,7 +2554,7 @@ function ClubCardSendRequestResetGame() {
 
 	const Dictionary = new DictionaryBuilder().sourceCharacter(Player).build();
 	Dictionary.push({Tag: "SourceCharacter", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber});
-	ServerSend("ChatRoomChat", { Content: "ClubCardAdminResetGame", Type: "Action" , Dictionary: Dictionary});	
+	ServerSend("ChatRoomChat", { Content: "ClubCardAdminResetGame", Type: "Action" , Dictionary: Dictionary});
 }
 
 // #endregion Reset Game Status
@@ -2564,7 +2564,7 @@ function ClubCardSendRequestResetGame() {
 /**
  * Adds a message to the storage for processing later.
  * Sends messages immediately if their type matches the ClubCardImmediateMessageTypes array.
- * 
+ *
  * @param {string} TextGetKey - Localization key
  * @param {string} MessageType - Message type (constant)
  * @param {Record<string, any>} placeholders - Dynamic data for text replacement
@@ -2580,7 +2580,7 @@ function ClubCardMessageAdd(MessageType, TextGetKey, placeholders = {}, TargetPl
 	const OpponentPlayer = TargetPlayer ? CharacterNickname(ClubCardGetOpponent(TargetPlayer).Character) : null;
 	let playerId = (CCPlayer.Control === "AI")
 			? "ControlAI"
-			: `${CCPlayer.Character.MemberNumber}`;	
+			: `${CCPlayer.Character.MemberNumber}`;
 
 
     const messageEntry = {
@@ -2590,7 +2590,7 @@ function ClubCardMessageAdd(MessageType, TextGetKey, placeholders = {}, TargetPl
         PlayerId: playerId,
         TurnCounter: CCPlayer.ClubCardTurnCounter,
 		Placeholders: placeholders,
-		
+
 		PlayerName: PlayerName,
 		SourcePlayer: SourcePlayer,
         OpponentPlayer: OpponentPlayer
@@ -2606,7 +2606,7 @@ function ClubCardMessageAdd(MessageType, TextGetKey, placeholders = {}, TargetPl
 /**
  * Sends a message to the render log and synchronizes it with other players.
  * This method is used for immediate messages and for sending processed messages from storage.
- * 
+ *
  * @param {ClubCardMessage} message - The message object to be sent
  * @param {boolean} Push - Whether to send the message to other players
  */
@@ -2624,15 +2624,15 @@ function ClubCardMessageSend(message, Push = true) {
 }
 
 /**
- * Processes stored messages, merges similar ones, clears the storage, 
+ * Processes stored messages, merges similar ones, clears the storage,
  * and sends all messages using the ClubCardSendMessage function.
  */
 function ClubCardMessageSendAll() {
 	if (ClubCardMessageStorage.length === 0) return;
-	
+
     //TODO Process stored messages to merge similar ones
     ClubCardMessagePacketProcessing();
-	
+
     // Send each processed message using the send function
 	for (const message of ClubCardMessageStorage)
 		ClubCardMessageSend(message);
@@ -2674,16 +2674,16 @@ function ClubCardMessagePacketProcessing() {
 		else if (message.TextGetKey === "Effect Living Art") livingArtMessages.push({ message, index: i });
 		else if (message.TextGetKey === "StealMoney") stealMoneyMessages.push({ message, index: i });
 		else if (message.TextGetKey === "StealFame") stealFameMessages.push({ message, index: i });
-			
+
 		else if (message.TextGetKey === "Effect Hypnotherapist") isHypnotherapist = true;
-			
+
 		else if (message.TextGetKey === "Effect Burlington Bowtie") burlingtonBowtieMeesages.push({ message, index: i });
 		else if (message.TextGetKey === "Effect Square Knot") squareKnotMeesages.push({ message, index: i });
 		else if (message.TextGetKey === "Effect Square Knot Sensei") squareKnotSenseiMeesages.push({ message, index: i });
 		else if (message.TextGetKey === "Effect Closed Hitch") closedHitchMeesages.push({ message, index: i });
 		else if (message.TextGetKey === "Effect Quick Release Knot") quickReleaseKnotMeesages.push({ message, index: i });
 	}
-	
+
 	// ### Normal merging of messages into one
 	if (ropeSlaveMessages.length > 1) ClubCardMessagesMerge(ropeSlaveMessages);
 	if (livingArtMessages.length > 1) ClubCardMessagesMerge(livingArtMessages);
@@ -2692,7 +2692,7 @@ function ClubCardMessagePacketProcessing() {
 	if (squareKnotSenseiMeesages.length > 1) ClubCardMessagesMerge(squareKnotSenseiMeesages);
 	if (closedHitchMeesages.length > 1) ClubCardMessagesMerge(closedHitchMeesages);
 	if (quickReleaseKnotMeesages.length > 1) ClubCardMessagesMerge(quickReleaseKnotMeesages);
-	// ### 
+	// ###
 
 	// ### Unique processing
 	//Effect Hypnotherapist
@@ -2711,13 +2711,13 @@ function ClubCardMessagePacketProcessing() {
 
 /**
  * Merges multiple messages by summing their AMOUNT placeholder and keeping the last message.
- * 
+ *
  * @param {Array<{ message: ClubCardMessage, index: number }>} messageArray - The array of messages with their indexes.
  */
 function ClubCardMessagesMerge(messageArray) {
     if (messageArray.length <= 1) return;
 
-    const totalAmount = messageArray.reduce((sum, item) => 
+    const totalAmount = messageArray.reduce((sum, item) =>
         sum + Number(item.message.Placeholders[ClubCardPlaceholderKeys.AMOUNT] || 0), 0
     );
 
@@ -2730,23 +2730,23 @@ function ClubCardMessagesMerge(messageArray) {
 
 /**
  * Merges "StealMoney" and "StealFame" messages into one.
- * 
+ *
  * @param {Array<{ message: ClubCardMessage, index: number }>} stealMoneyMessages - Messages related to stealing money.
  * @param {Array<{ message: ClubCardMessage, index: number }>} stealFameMessages - Messages related to stealing fame.
  */
 function ClubCardMessagesMergeSteal(stealMoneyMessages, stealFameMessages) {
 	const minIndex = Math.min(stealMoneyMessages[0].index, stealFameMessages[0].index);
 
-	const newMessage = stealMoneyMessages[0].index === minIndex 
-        ? stealMoneyMessages[0].message 
+	const newMessage = stealMoneyMessages[0].index === minIndex
+        ? stealMoneyMessages[0].message
 		: stealFameMessages[0].message;
-	
+
 	const mergedMessage = { ...newMessage };
-	
-	const totalMoney = stealMoneyMessages.reduce((sum, item) => 
+
+	const totalMoney = stealMoneyMessages.reduce((sum, item) =>
 		sum + Number(item.message.Placeholders[ClubCardPlaceholderKeys.AMOUNT] || 0), 0
 	);
-	const totalFame = stealFameMessages.reduce((sum, item) => 
+	const totalFame = stealFameMessages.reduce((sum, item) =>
 		sum + Number(item.message.Placeholders[ClubCardPlaceholderKeys.AMOUNT] || 0), 0
 	);
 
@@ -2755,9 +2755,9 @@ function ClubCardMessagesMergeSteal(stealMoneyMessages, stealFameMessages) {
         [ClubCardPlaceholderKeys.MONEYAMOUNT]: totalMoney,
         [ClubCardPlaceholderKeys.FAMEAMOUNT]: totalFame
     };
-	
+
 	//Clear ClubCardMessageStorage from StealMoney and StealFame
-	ClubCardMessageStorage = ClubCardMessageStorage.filter(msg => 
+	ClubCardMessageStorage = ClubCardMessageStorage.filter(msg =>
 		msg.TextGetKey !== "StealMoney" && msg.TextGetKey !== "StealFame"
 	);
 
@@ -2898,7 +2898,7 @@ function ClubCardPlayerAddFame(CCPlayer, Amount) {
 }
 
 /**
- * Add fame from a player and remove from the ohter player 
+ * Add fame from a player and remove from the ohter player
  * @param {ClubCardPlayer} CCPlayer - The club card player
  * @param {Number} moneyAmount - The money amount to steal
  * @param {Number} fameAmount - The fame amount to steal
@@ -2919,13 +2919,13 @@ function ClubCardPlayerSteal(CCPlayer, moneyAmount, fameAmount, isStickyFingers 
 		if(!isStickyFingers)
 			ClubCardApplyStickyFingers(CCPlayer, opponent);
 	}
-	
+
 	if (moneyAmount > 0 && opponent.Money > 0) {
 		moneyToSteal = Math.min(moneyAmount, opponent.Money);
 		ClubCardPlayerAddMoney(CCPlayer, moneyToSteal);
 		ClubCardPlayerAddMoney(opponent, -moneyToSteal);
 		ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "StealMoney", {[ClubCardPlaceholderKeys.AMOUNT]: moneyToSteal}, CCPlayer);
-	
+
 		if(!isStickyFingers)
 			ClubCardApplyStickyFingers(CCPlayer, opponent);
 	}
@@ -2976,7 +2976,7 @@ function ClubCardUpgradeLevel(CCPlayer) {
 	// Troublemaker check
 	if (!ClubCardNameIsOnBoard(CCPlayer, "Bouncer")) {
 		const famePenalty = ClubCardNameCountOnBoard(opponent, "Troublemaker") * -3;
-	
+
 		if (famePenalty < 0)
 			ClubCardPlayerAddFame(CCPlayer, famePenalty);
 	}
@@ -2984,7 +2984,7 @@ function ClubCardUpgradeLevel(CCPlayer) {
 	for (const card of CCPlayer.Board.slice())
 		if (card.onLevelUp)
 			card.onLevelUp(CCPlayer);
-	
+
 	const textGetKey = "UpgradedToLevel" + CCPlayer.Level.toString();
 	ClubCardMessageAdd(ClubCardMessageType.ACTION, textGetKey, {[ClubCardPlaceholderKeys.MONEYAMOUNT]: updatedCost.toString()});
 	GameClubCardSyncOnlineData();
@@ -3031,7 +3031,7 @@ function ClubCardNameCountOnBoard(CCPlayer, CardName) {
 	let amount = 0;
 	for (let Card of CCPlayer.Board)
 		if (Card.Name === CardName)
-			amount++
+			amount++;
 	return amount;
 }
 
@@ -3782,7 +3782,7 @@ function ClubCardEndTurn(Draw = false) {
 		ClubCardMessageAdd(ClubCardMessageType.FAMEMONEYINFO, "EndTurnPlayer", {[ClubCardPlaceholderKeys.FAMEMONEY]: FameMoneyText}, CCPlayer);
 		const textGetKey = ClubCardIsOnline()
 			? "VictoryFor" + CCPlayer.Control
-			: "VictoryOnline"; 
+			: "VictoryOnline";
 		ClubCardMessageAdd(ClubCardMessageType.VICTORYINFO, textGetKey);
 		ClubCardMessageSendAll();
 		GameClubCardSyncOnlineData();
@@ -3791,7 +3791,7 @@ function ClubCardEndTurn(Draw = false) {
 		if (ClubCardIsOnline()) {
 			const Dictionary = new DictionaryBuilder().sourceCharacter(Player).build();
 			Dictionary.push({Tag: "SourceCharacter", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber});
-			ServerSend("ChatRoomChat", { Content: "ClubCardGameEnd", Type: "Action" , Dictionary: Dictionary});	
+			ServerSend("ChatRoomChat", { Content: "ClubCardGameEnd", Type: "Action" , Dictionary: Dictionary});
 		}
 
 		return;
@@ -4609,12 +4609,12 @@ function ClubCardRenderPanel() {
 
 	if (ClubCardRenderLog.length > 0) {
 		for (let messageLogItem of ClubCardRenderLog) {
-			
+
 			messageLogItem.MessageText = messageLogItem.MessageText
 				? messageLogItem.MessageText
 				: ClubCardMessageGetText(messageLogItem);
-				
-				
+
+
 			if (messageLogItem == null || messageLogItem.MessageText == "") continue;
 
 			//fix bug double Turn Message in start game

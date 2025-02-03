@@ -218,6 +218,8 @@ type VariableContainer<T1, T2> = T1 & T2 & {
 //#region Enums
 
 type ChatRoomSpaceLabel = "MIXED" | "FEMALE_ONLY" | "MALE_ONLY" | "ASYLUM";
+type ChatRoomVisibilityModeLabel = "PUBLIC" | "ADMIN_WHITELIST" | "ADMIN" | "UNLISTED";
+type ChatRoomAccessModeLabel = "PUBLIC" | "ADMIN_WHITELIST" | "ADMIN";
 
 type DialogMenuMode = (
 	"activities"

@@ -713,8 +713,19 @@ function LoginSetupPlayer(C) {
 
 	// Load the last chat room
 	Player.LastMapData = C.LastMapData;
-	if (typeof C.LastChatRoom !== "string" && ChatRoomValidateProperties(C.LastChatRoom)) {
-		Player.LastChatRoom = C.LastChatRoom;
+	if (C.LastChatRoom != null && typeof C.LastChatRoom !== "string") {
+		// Backward compatability: Convert old-style "Private" to "Visibility" and "Locked" to "Access"
+		// @ts-ignore
+		if (typeof C.LastChatRoom.Private === "boolean")
+			// @ts-ignore
+			C.LastChatRoom.Visibility = C.LastChatRoom.Private ? ChatRoomVisibilityMode.UNLISTED : ChatRoomVisibilityMode.PUBLIC;
+		// @ts-ignore
+		if (typeof C.LastChatRoom.Locked === "boolean")
+			// @ts-ignore
+			C.LastChatRoom.Access = C.LastChatRoom.Locked ? ChatRoomAccessMode.ADMIN : ChatRoomAccessMode.PUBLIC;
+
+		if (ChatRoomValidateProperties(C.LastChatRoom))
+			Player.LastChatRoom = C.LastChatRoom;
 	} else if (typeof C.LastChatRoom === "string" && C.LastChatRoom) {
 		// Backward compatibility: Automatically convert old-style data to a real ChatRoom object
 		/** @type {ChatRoomSettings} */
@@ -727,8 +738,8 @@ function LoginSetupPlayer(C) {
 			Background: C.LastChatRoomBG,
 			Limit: C.LastChatRoomSize,
 			Game: "",
-			Locked: false,
-			Private: C.LastChatRoomPrivate,
+			Visibility: C.LastChatRoomPrivate ? ChatRoomVisibilityMode.UNLISTED : ChatRoomVisibilityMode.PUBLIC,
+			Access: ChatRoomVisibilityMode.PUBLIC,
 			BlockCategory: C.LastChatRoomBlockCategory,
 			Space: C.LastChatRoomSpace,
 			Language: C.LastChatRoomLanguage,

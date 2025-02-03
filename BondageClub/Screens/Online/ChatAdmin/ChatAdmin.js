@@ -12,6 +12,15 @@ var ChatAdminBackgroundList = null;
 /** @type {ServerChatRoomLanguage} */
 var ChatAdminDefaultLanguage = "EN";
 
+// For the Visibility & Access UI elements
+// TODO: Figure out a better way to handle this
+var ChatAdminVisibilityModeLabels = Object.keys(ChatRoomVisibilityMode);
+var ChatAdminVisibilityModeValues = ChatAdminVisibilityModeLabels.map((key) => ChatRoomVisibilityMode[key]);
+var ChatAdminVisibilityModeIndex = 0;
+var ChatAdminAccessModeLabels = Object.keys(ChatRoomAccessMode);
+var ChatAdminAccessModeValues = ChatAdminAccessModeLabels.map((key) => ChatRoomAccessMode[key]);
+var ChatAdminAccessModeIndex = 0;
+
 /** @type {ChatRoomSettings | null} */
 var ChatAdminData = null;
 /** @type {"create" | "update" | null} */
@@ -39,8 +48,8 @@ function ChatAdminShowEdit(roomData) {
 		Background: roomData.Background,
 		Limit: roomData.Limit,
 		Game: roomData.Game,
-		Locked: roomData.Locked,
-		Private: roomData.Private,
+		Visibility: roomData.Visibility,
+		Access: roomData.Access,
 		BlockCategory: roomData.BlockCategory,
 		Language: roomData.Language,
 		Space: roomData.Space,
@@ -79,8 +88,8 @@ function ChatAdminStart(mode, roomData = undefined) {
 			Background: "",
 			Limit: 10,
 			Game: "",
-			Locked: false,
-			Private: false,
+			Visibility: ChatRoomVisibilityMode.PUBLIC,
+			Access: ChatRoomAccessMode.PUBLIC,
 			BlockCategory: [],
 			Language: ChatAdminDefaultLanguage,
 			Space: ChatRoomSpace,
@@ -116,6 +125,13 @@ function ChatAdminLoad() {
 	ChatAdminBackgroundIndex = ChatAdminBackgroundList.indexOf(ChatAdminData.Background);
 	if (ChatAdminBackgroundIndex < 0) ChatAdminBackgroundIndex = 0;
 	ChatAdminData.Background = ChatAdminBackgroundList[ChatAdminBackgroundIndex];
+
+	// We have to reload the Visibility & Access mode indices to cover the case where it was changed by someone else or not through the UI
+	// Note that we are using .findIndex() and .sort().join(',') (hacky way to compare string arrays) because we're looking for an [] in an [][].
+	ChatAdminVisibilityModeIndex = ChatAdminVisibilityModeValues.findIndex((rolesAllowed) => rolesAllowed.sort().join(',') === ChatAdminData.Visibility.sort().join(','));
+	if (ChatAdminVisibilityModeIndex < 0) ChatAdminVisibilityModeIndex = 0;
+	ChatAdminAccessModeIndex = ChatAdminAccessModeValues.findIndex((rolesAllowed) => rolesAllowed.sort().join(',') === ChatAdminData.Access.sort().join(','));
+	if (ChatAdminAccessModeIndex < 0) ChatAdminAccessModeIndex = 0;
 
 	// Sets the chat room language
 	if (ChatAdminData.Language == null) ChatAdminData.Language = ChatAdminLanguageList[0];
@@ -245,11 +261,17 @@ function ChatAdminRun() {
 		});
 	}
 
-	// Private and Locked check boxes
-	DrawText(TextGet("RoomPrivate"), 1347, 760, "Black", "Gray");
-	DrawButton(1426, 728, 64, 64, "", ButtonBackground, ChatAdminData.Private ? "Icons/Checked.png" : "", TextGet("RoomPrivateTooltip"), !canEdit);
-	DrawText(TextGet("RoomLocked"), 1676, 760, "Black", "Gray");
-	DrawButton(1756, 728, 64, 64, "", ButtonBackground, ChatAdminData.Locked ? "Icons/Checked.png" : "", TextGet("RoomLockedTooltip"), !canEdit);
+	// Visibility and access mode text & selections
+	DrawText(TextGet("VisibilityModeHeader"), 1438, 733, "Black", "Gray");
+	DrawBackNextButton(1300, 755, 275, 60, TextGet(`VisibilityMode${ChatAdminVisibilityModeLabels[ChatAdminVisibilityModeIndex]}`), ButtonBackground, null,
+		() => TextGet(`VisibilityMode${ChatAdminVisibilityModeLabels[(ChatAdminVisibilityModeIndex == 0) ? ChatAdminVisibilityModeLabels.length - 1 : ChatAdminVisibilityModeIndex - 1]}`),
+		() => TextGet(`VisibilityMode${ChatAdminVisibilityModeLabels[(ChatAdminVisibilityModeIndex >= ChatAdminVisibilityModeLabels.length - 1) ? 0 : ChatAdminVisibilityModeIndex + 1]}`),
+		!canEdit);
+	DrawText(TextGet("AccessModeHeader"), 1763, 733, "Black", "Gray");
+	DrawBackNextButton(1625, 755, 275, 60, TextGet(`AccessMode${ChatAdminAccessModeLabels[ChatAdminAccessModeIndex]}`), ButtonBackground, null,
+		() => TextGet(`AccessMode${ChatAdminAccessModeLabels[(ChatAdminAccessModeIndex == 0) ? ChatAdminAccessModeLabels.length - 1 : ChatAdminAccessModeIndex - 1]}`),
+		() => TextGet(`AccessMode${ChatAdminAccessModeLabels[(ChatAdminAccessModeIndex >= ChatAdminAccessModeLabels.length - 1) ? 0 : ChatAdminAccessModeIndex + 1]}`),
+		!canEdit);
 
 	// Save & Cancel/Exit buttons + help text
 	const commitLabel = ChatAdminMode === "create" ? TextGet("Create") : TextGet("Save");
@@ -341,9 +363,25 @@ function ChatAdminClick() {
 			return;
 		}
 
-		// Private & Locked check boxes + save button + quickban buttons
-		if (MouseIn(1426, 728, 64, 64) && ChatAdminCanEdit()) ChatAdminData.Private = !ChatAdminData.Private;
-		if (MouseIn(1756, 728, 64, 64) && ChatAdminCanEdit()) ChatAdminData.Locked = !ChatAdminData.Locked;
+		// When we select a new visibility mode
+		if (MouseIn(1300, 755, 275, 60)) {
+			ChatAdminVisibilityModeIndex += ((MouseX < 1438) ? -1 : 1);
+			if (ChatAdminVisibilityModeIndex >= ChatAdminVisibilityModeValues.length) ChatAdminVisibilityModeIndex = 0;
+			if (ChatAdminVisibilityModeIndex < 0) ChatAdminVisibilityModeIndex = ChatAdminVisibilityModeValues.length - 1;
+			ChatAdminData.Visibility = ChatAdminVisibilityModeValues[ChatAdminVisibilityModeIndex];
+			return;
+		}
+
+		// When we select a new access mode
+		if (MouseIn(1625, 755, 275, 60)) {
+			ChatAdminAccessModeIndex += ((MouseX < 1763) ? -1 : 1);
+			if (ChatAdminAccessModeIndex >= ChatAdminAccessModeValues.length) ChatAdminAccessModeIndex = 0;
+			if (ChatAdminAccessModeIndex < 0) ChatAdminAccessModeIndex = ChatAdminAccessModeValues.length - 1;
+			ChatAdminData.Access = ChatAdminAccessModeValues[ChatAdminAccessModeIndex];
+			return;
+		}
+
+		// Save button + quickban buttons
 		if (MouseIn(1325, 840, 250, 65) && ChatAdminCanEdit()) ChatAdminCommit();
 		if (MouseIn(125, 770, 250, 65) && ChatAdminCanEdit()) ElementValue("InputAdminList", CommonConvertArrayToString(ChatRoomConcatenateWhitelist(["Owner"], CommonConvertStringToArray(ElementValue("InputAdminList").trim()))));
 		if (MouseIn(390, 770, 250, 65) && ChatAdminCanEdit()) ElementValue("InputAdminList", CommonConvertArrayToString(ChatRoomConcatenateWhitelist(["Lovers"], CommonConvertStringToArray(ElementValue("InputAdminList").trim()))));
@@ -371,7 +409,7 @@ function ChatAdminCommit() {
  * Handles the key presses while in the creation screen. When the user presses enter, we create the room.
  * @type {KeyboardEventListener}
  */
-function ChatAdminKeydown(event) {
+function ChatAdminKeyDown(event) {
 	if (event.repeat) return false;
 
 	if (CommonKey.IsPressed(event, "Enter")) {
@@ -413,8 +451,8 @@ function ChatEditorUpdateRoom() {
 		Ban: CommonConvertStringToArray(ElementValue("InputBanList").trim()),
 		BlockCategory: ChatAdminData.BlockCategory,
 		Game: ChatAdminData.Game,
-		Private: ChatAdminData.Private,
-		Locked: ChatAdminData.Locked,
+		Visibility: ChatAdminData.Visibility,
+		Access: ChatAdminData.Access,
 		MapData: ChatAdminData.MapData,
 		Custom: ChatAdminData.Custom
 	};
@@ -459,8 +497,8 @@ function ChatEditorCreateRoom() {
 		Language: ChatAdminData.Language,
 		Description: ElementValue("InputDescription").trim(),
 		Background: ChatAdminData.Background,
-		Private: ChatAdminData.Private,
-		Locked: ChatAdminData.Locked,
+		Visibility: ChatAdminData.Visibility,
+		Access: ChatAdminData.Access,
 		Space: ChatAdminData.Space,
 		Game: ChatAdminData.Game,
 		Admin: CommonConvertStringToArray(ElementValue("InputAdminList").trim()),

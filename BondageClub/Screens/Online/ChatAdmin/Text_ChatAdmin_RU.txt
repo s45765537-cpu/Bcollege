@@ -10,14 +10,6 @@ Whitelist
 Белый список
 Administrator List
 Список Администраторов
-Private
-Приватный
-Locked
-Заблокированный
-Need exact name, admin, or whitelist to find it
-Чтобы найти его, необходимо точное имя, администратор или белый список.
-Only admins and whitelisted members can enter or leave
-Входить и выходить могут только администраторы и пользователи, внесенные в белый список
 Size (2-20)
 Размер (2-20)
 Member numbers separated by commas (ex: 123, ...)
@@ -40,6 +32,18 @@ Room settings can only be updated by administrators
 (Нажмите в любом месте, чтобы вернуться)
 Background
 Фон
+Visibility
+Видимость
+Access
+Доступ
+Public
+Общественность
+Admin + Whitelist
+Администратор + белый список
+Admin
+Администратор
+Unlisted
+Без списка
 Create
 Создать
 Save

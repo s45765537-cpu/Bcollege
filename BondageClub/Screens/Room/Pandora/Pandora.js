@@ -1208,6 +1208,7 @@ function PandoraPenitentiaryCreate() {
 		// The inmate first search for a prison that already exists
 		/** @type {ServerChatRoomGame} */
 		let Game = "Prison";
+		/** @type {ServerChatRoomSearchRequest} */
 		const SearchData = { Query: "", Language: "", Space: ChatRoomSpaceType.MIXED, Game: Game, FullRooms: false };
 		ChatAdminBackgroundList = BackgroundsGenerateList([BackgroundsTagPandora]);
 		ChatSearchLastQuerySearchTime = CommonTime();
@@ -1255,8 +1256,8 @@ function PandoraPenitentiaryResult(Result) {
 			Name: "Pandora " + Math.round(Math.random() * 1000000000).toString(),
 			Description: "Pandora Penitentiary Cell",
 			Background: CommonRandomItemFromList(null, ["PrisonHall", "PandoraCell0", "PandoraCell1", "PandoraCell2", "PandoraCell3", "PandoraCell4", "PandoraCell5", "PandoraCell6"]),
-			Private: false,
-			Locked: false,
+			Visibility: ChatRoomVisibilityMode.PUBLIC,
+			Access: ChatRoomAccessMode.PUBLIC,
 			Limit: 10,
 			Space: ChatRoomSpaceType.MIXED,
 			Game: "Prison",

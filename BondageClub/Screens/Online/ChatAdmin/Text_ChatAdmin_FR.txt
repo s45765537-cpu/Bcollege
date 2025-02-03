@@ -8,14 +8,6 @@ Whitelist
 Liste blanche
 Administrator List
 Liste des administrateurs
-Private
-Privé
-Locked
-Verrouillé
-Need exact name, admin, or whitelist to find it
-Il faut un nom exact, un administrateur ou une liste blanche pour le trouver.
-Only admins and whitelisted members can enter or leave
-Seuls les administrateurs et les membres figurant sur la liste blanche peuvent entrer ou sortir.
 Size (2-20)
 Taille (2-20)
 Member numbers separated by commas (ex: 123, ...)
@@ -36,6 +28,18 @@ Room settings can only be updated by administrators
 Les paramètres des salons peuvent être mis à jour que par les administrateurs
 Background
 Style
+Visibility
+Visibilité
+Access
+Accès
+Public
+Public
+Admin + Whitelist
+Administrateur + Liste blanche
+Admin
+Administrateur
+Unlisted
+Non répertorié
 Create
 Créer
 Save

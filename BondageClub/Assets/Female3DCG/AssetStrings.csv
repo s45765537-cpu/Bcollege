@@ -708,6 +708,7 @@ ClothCustomTShirtOptiont17,Hogtied
 ClothCustomTShirtOptiont18,Bondage College 2
 ClothCustomTShirtOptiont19,S.Tiyana's White C-Pad
 ClothCustomTShirtOptiont2,BTG
+ClothCustomTShirtOptiont20,Gangriels
 ClothCustomTShirtOptiont3,Dominant
 ClothCustomTShirtOptiont4,Bonk!
 ClothCustomTShirtOptiont5,Old School XGame
@@ -797,6 +798,29 @@ ClothLowerPantBootsSetb0,SourceCharacter removes pants from DestinationCharacter
 ClothLowerPantBootsSetb1,SourceCharacter adds pants to DestinationCharacter boots.
 ClothLowerPantBootsSets0,SourceCharacter removes the stripes on DestinationCharacter boots.
 ClothLowerPantBootsSets1,SourceCharacter reveals the stripes on DestinationCharacter boots.
+ClothMeshTopModuleSleeves,Sleeves
+ClothMeshTopModuleTop,Top
+ClothMeshTopOptions0,Sleeves
+ClothMeshTopOptions1,No Sleeves
+ClothMeshTopOptiont0,Full
+ClothMeshTopOptiont1,Crop
+ClothMeshTopOptiont2,Short Crop
+ClothMeshTopOptiont3,Bolero
+ClothMeshTopOptiont4,Leotard
+ClothMeshTopOptiont5,Ripped
+ClothMeshTopOptiont6,None
+ClothMeshTopSelectBase,Select Mesh Top Options
+ClothMeshTopSelectSleeves,Select Sleeves
+ClothMeshTopSelectTop,Select Top
+ClothMeshTopSets0,SourceCharacter attaches sleeves to DestinationCharacterName AssetName.
+ClothMeshTopSets1,SourceCharacter detaches the sleeves of DestinationCharacterName AssetName.
+ClothMeshTopSett0,SourceCharacter switches to DestinationCharacterName AssetName to a full shirt.
+ClothMeshTopSett1,SourceCharacter switches to DestinationCharacterName AssetName to a crop top.
+ClothMeshTopSett2,SourceCharacter switches to DestinationCharacterName AssetName to a short crop top.
+ClothMeshTopSett3,SourceCharacter switches to DestinationCharacterName AssetName to a bolero top.
+ClothMeshTopSett4,SourceCharacter switches to DestinationCharacterName AssetName to a leotard top.
+ClothMeshTopSett5,SourceCharacter switches to DestinationCharacterName AssetName to a ripped top.
+ClothMeshTopSett6,SourceCharacter switches to DestinationCharacterName AssetName to a none top.
 ClothPriorityTypeNormal,Revealed
 ClothPriorityTypeTucked,Tucked in
 ClothRetroGirdleGarters,With Garters.

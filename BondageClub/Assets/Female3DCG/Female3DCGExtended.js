@@ -448,6 +448,7 @@ var AssetFemale3DCGExtended = {
 						{}, // t17 - Hogtied
 						{}, // t18 - BCollege2
 						{}, // t19 - ControlPad1
+						{}, // t20 - Gangriels
 					],
 				},
 			],
@@ -682,6 +683,37 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // FishnetTop
+		MeshTop: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
+			Modules: [
+				{
+					Name: "Sleeves",
+					Key: "s",
+					Options: [
+						{}, // Sleeves
+						{}, // No sleeves
+					],
+				},
+				{
+					Name: "Top",
+					Key: "t",
+					Options: [
+						{}, // Full
+						{}, // Crop
+						{}, // Crop2
+						{}, // Bolero
+						{}, // Leotard
+						{}, // Ripped
+						{}, // None
+					],
+				},
+			],
+		}, // MeshTop
 		CorsetDress: {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [{ Name: "Normal" }, { Name: "NoSkirt" }],
@@ -10788,11 +10820,7 @@ var AssetFemale3DCGExtended = {
 							// f1 - Follow mode -LED ON-
 							AllowSelfSelect: false,
 							Property: {
-								Effect: [
-									E.Leash,
-									E.Mounted,
-									E.Wiggling,
-								],
+								Effect: [E.Leash, E.Mounted, E.Wiggling],
 								OverrideHeight: { Height: 55, Priority: 60 },
 							},
 							ChangeWhenLocked: false,
@@ -10800,12 +10828,7 @@ var AssetFemale3DCGExtended = {
 						{
 							// f2 - In the ground -LED ON-
 							Property: {
-								Effect: [
-									E.Block,
-									E.Freeze,
-									E.Tethered,
-									E.MapImmobile,
-								],
+								Effect: [E.Block, E.Freeze, E.Tethered, E.MapImmobile],
 							},
 							ChangeWhenLocked: false,
 						},
@@ -10827,7 +10850,7 @@ var AssetFemale3DCGExtended = {
 									E.MergedFingers,
 									E.Leash,
 									E.Mounted,
-									E.Wiggling
+									E.Wiggling,
 								],
 								OverrideHeight: { Height: 55, Priority: 60 },
 							},
@@ -10950,7 +10973,6 @@ var AssetFemale3DCGExtended = {
 							Property: {},
 						},
 					],
-					ChangeWhenLocked: true,
 				},
 				{
 					Name: "ObjectM",
@@ -11053,7 +11075,6 @@ var AssetFemale3DCGExtended = {
 							Property: {},
 						},
 					],
-					ChangeWhenLocked: true,
 				},
 				{
 					Name: "ObjectR",
@@ -11156,7 +11177,6 @@ var AssetFemale3DCGExtended = {
 							Property: {},
 						},
 					],
-					ChangeWhenLocked: true,
 				},
 			],
 		}, // BoundBar
@@ -11310,14 +11330,14 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "IronBallet",
-					Property: { 
+					Expression: [
+						{ Name: "Low", Group: "Blush", Timer: 10 },
+						{ Name: "Soft", Group: "Eyebrows", Timer: 10 },
+						{ Name: "Sad", Group: "Eyes", Timer: 10 },
+					],
+					Property: {
 						Difficulty: 5,
 						Effect: [E.Slow],
-						ExpressionTrigger: [
-							{ Name: "Low", Group: "Blush", Timer: 10 },
-							{ Name: "Soft", Group: "Eyebrows", Timer: 10 },
-							{ Name: "Sad", Group: "Eyes", Timer: 10 },
-						],
 					},
 				},
 			],
@@ -13852,7 +13872,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Straps",
 					AllowLock: true,
-					Property: {Difficulty: 4},
+					Property: { Difficulty: 4 },
 				},
 			],
 		}, // AOMGag
@@ -17328,6 +17348,19 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // ChineseDress2
+		MeshTop: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: {
+				GroupName: "Cloth",
+				AssetName: "MeshTop",
+			},
+			DialogPrefix: {
+				Header: "ClothMeshTopSelect",
+				Module: "ClothMeshTopModule",
+				Option: "ClothMeshTopOption",
+				Chat: "ClothMeshTopSet",
+			},
+		}, //Mesh Top
 	}, // Bra
 	Panties: {
 		Diapers4: {

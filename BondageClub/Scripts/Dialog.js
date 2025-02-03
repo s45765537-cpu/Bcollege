@@ -248,7 +248,17 @@ var DialogLeaveFocusItemHandlers = {
 	 * @type {Record<string, (item: Item) => void>}
 	 */
 	DialogFocusItem: {
-		Appearance: () => DialogLeave(),
+		Appearance: () => {
+			// Manually restore the focus group (if it was set) as `DialogLeave` deinitializes it
+
+			// TODO: Review the logic here as it seems that either the appearance menu is abusing DialogLeave,
+			// or DialogLeave is too hyper focused on dialog and doing things that it really shouldn't.
+			// The fact that there's a `DialogFocusItem()` > `DialogLeave()` > `DialogFocusItem()` stack trace going on here is also highly suspicious,
+			// suggesting that it might be moreso the former
+			const focusGroup = Player.FocusGroup;
+			DialogLeave();
+			Player.FocusGroup = focusGroup;
+		},
 		Crafting: (item) => {
 			CraftingUpdateFromItem(item);
 			CraftingModeSet("Name");
@@ -535,7 +545,7 @@ function DialogGGTSAction(Action, Minute) {
  * @returns {boolean} - TRUE if GGTS can unlock
  */
 function DialogGGTSCanUnlock() {
-	return (ChatRoomPlayerIsAdmin() && (CurrentScreen == "ChatRoom") && AsylumGGTSHasMinutes(30) && (ChatRoomData != null) && ChatRoomData.Locked);
+	return (ChatRoomPlayerIsAdmin() && (CurrentScreen == "ChatRoom") && AsylumGGTSHasMinutes(30) && ChatRoomIsLocked());
 }
 
 /**
@@ -813,10 +823,10 @@ function DialogLeave() {
 
 	// If we're in the two-character dialog, clear their focused group
 	Player.FocusGroup = null;
-	if (CurrentCharacter && !CurrentCharacter.IsPlayer()) {
+	if (CurrentCharacter) {
 		CurrentCharacter.FocusGroup = null;
+		CurrentCharacter = null;
 	}
-	CurrentCharacter = null;
 
 	// Reset the state of the self menu
 	DialogSelfMenuSelected = null;
@@ -3261,7 +3271,7 @@ class DialogMenu {
 						classList: ["dialog-paginate-button"],
 						attributes: {
 							"aria-keyshortcuts": "PageUp",
-							"aria-controls": this.ids.root,
+							"aria-controls": this.ids.grid,
 						},
 					}},
 				),
@@ -3273,7 +3283,7 @@ class DialogMenu {
 						classList: ["dialog-paginate-button"],
 						attributes: {
 							"aria-keyshortcuts": "PageDown",
-							"aria-controls": this.ids.root,
+							"aria-controls": this.ids.grid,
 						},
 					}},
 				),
