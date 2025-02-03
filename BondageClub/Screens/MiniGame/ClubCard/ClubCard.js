@@ -2782,7 +2782,7 @@ function ClubCardMessageGetText(ClubCardMessage) {
 
 	for (const [key, value] of Object.entries(ClubCardMessage.Placeholders)) {
 		if (key == ClubCardPlaceholderKeys.CARDNAME) {
-			const card = ClubCardList.find(card => card.Name === value);
+			const card = ClubCardList.find(c => c.Name === value);
 			messageText = messageText.replace(key, `"${card.Title ? card.Title : card.Name}"`);
 		}
 		else
@@ -4025,8 +4025,8 @@ function ClubCardPlayCard(CCPlayer, Card) {
 	// If the player must select a card before playing the current card
 	if ((Card.Prerequisite != null) && (ClubCardSelection == null) && (CCPlayer.Control == "Player")) {
 		ClubCardPending = Card;
-		const textGetKey = "Prerequisite " + Card.Name;
-		ClubCardMessageAdd(ClubCardMessageType.PREREQUISTITE, textGetKey);
+		const textGetKeyPrereq = "Prerequisite " + Card.Name;
+		ClubCardMessageAdd(ClubCardMessageType.PREREQUISTITE, textGetKeyPrereq);
 		return;
 	}
 
