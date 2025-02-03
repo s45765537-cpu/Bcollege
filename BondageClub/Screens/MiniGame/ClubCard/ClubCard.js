@@ -65,11 +65,11 @@ const ClubCardMessageType = Object.freeze({
 // List of message types that should be sent immediately
 const ClubCardImmediateMessageTypes = [
 	ClubCardMessageType.ACTIONSEPARATOR,
-    ClubCardMessageType.ACTION,
+	ClubCardMessageType.ACTION,
 	ClubCardMessageType.PLAYERSMESSAGE,
 	ClubCardMessageType.PLAYERSDISCONNECTED,
 	ClubCardMessageType.PREREQUISTITE,
-    ClubCardMessageType.SYSTEM
+	ClubCardMessageType.SYSTEM
 ];
 
 const ClubCardStartTurnType = Object.freeze({
@@ -85,8 +85,8 @@ const ClubCardStartTurnType = Object.freeze({
  */
 const ClubCardPlaceholderKeys = Object.freeze({
 	// PLAYERNAME: "PLAYERNAME",
-    // SOURCEPLAYER: "SOURCEPLAYER",
-    // OPPONENTPLAYER: "OPPONENTPLAYER",
+	// SOURCEPLAYER: "SOURCEPLAYER",
+	// OPPONENTPLAYER: "OPPONENTPLAYER",
 	// TURNNUMBER: "TURNNUMBER",
 	AMOUNT: "AMOUNT",
 	CARDNAME: "CARDNAME",
@@ -2583,20 +2583,20 @@ function ClubCardMessageAdd(MessageType, TextGetKey, placeholders = {}, TargetPl
 			: `${CCPlayer.Character.MemberNumber}`;
 
 
-    const messageEntry = {
+	const messageEntry = {
 		TextGetKey: TextGetKey,
 		MessageText: MessageText,
-        MessageType: MessageType,
-        PlayerId: playerId,
-        TurnCounter: CCPlayer.ClubCardTurnCounter,
+		MessageType: MessageType,
+		PlayerId: playerId,
+		TurnCounter: CCPlayer.ClubCardTurnCounter,
 		Placeholders: placeholders,
 
 		PlayerName: PlayerName,
 		SourcePlayer: SourcePlayer,
-        OpponentPlayer: OpponentPlayer
-    };
+		OpponentPlayer: OpponentPlayer
+	};
 
-    // If the message type is immediate, send it directly and don't store it
+	// If the message type is immediate, send it directly and don't store it
 	if (ClubCardImmediateMessageTypes.some(type => type === MessageType))
 		ClubCardMessageSend(messageEntry);
 	else
@@ -2611,16 +2611,16 @@ function ClubCardMessageAdd(MessageType, TextGetKey, placeholders = {}, TargetPl
  * @param {boolean} Push - Whether to send the message to other players
  */
 function ClubCardMessageSend(message, Push = true) {
-    if (message) {
-        // Add message to render log for display in the UI
-        ClubCardRenderLog.push(message);
-        // Enable auto-scrolling for the chat log
-        ClubCardLogScroll = true;
+	if (message) {
+		// Add message to render log for display in the UI
+		ClubCardRenderLog.push(message);
+		// Enable auto-scrolling for the chat log
+		ClubCardLogScroll = true;
 
-        // Synchronize message with other players if online
+		// Synchronize message with other players if online
 		if (Push && ClubCardIsOnline() && message.MessageType != ClubCardMessageType.PREREQUISTITE)
 			ServerSend("ChatRoomGame", { GameProgress: "Action", CCLog: message });
-    }
+	}
 }
 
 /**
@@ -2630,10 +2630,10 @@ function ClubCardMessageSend(message, Push = true) {
 function ClubCardMessageSendAll() {
 	if (ClubCardMessageStorage.length === 0) return;
 
-    //TODO Process stored messages to merge similar ones
-    ClubCardMessagePacketProcessing();
+	//TODO Process stored messages to merge similar ones
+	ClubCardMessagePacketProcessing();
 
-    // Send each processed message using the send function
+	// Send each processed message using the send function
 	for (const message of ClubCardMessageStorage)
 		ClubCardMessageSend(message);
 
@@ -2656,9 +2656,9 @@ function ClubCardMessagePacketProcessing() {
 	);
 	if (!hasRelevantMessages) return;
 
-    let ropeSlaveMessages = [];
-    let livingArtMessages = [];
-    let stealMoneyMessages = [];
+	let ropeSlaveMessages = [];
+	let livingArtMessages = [];
+	let stealMoneyMessages = [];
 	let stealFameMessages = [];
 	let burlingtonBowtieMeesages = [];
 	let squareKnotMeesages = [];
@@ -2668,8 +2668,8 @@ function ClubCardMessagePacketProcessing() {
 
 	let isHypnotherapist = false;
 
-    for (let i = 0; i < ClubCardMessageStorage.length; i++) {
-        const message = ClubCardMessageStorage[i];
+	for (let i = 0; i < ClubCardMessageStorage.length; i++) {
+		const message = ClubCardMessageStorage[i];
 		if (message.TextGetKey === "Effect Rope Slave") ropeSlaveMessages.push({ message, index: i });
 		else if (message.TextGetKey === "Effect Living Art") livingArtMessages.push({ message, index: i });
 		else if (message.TextGetKey === "StealMoney") stealMoneyMessages.push({ message, index: i });
@@ -2715,17 +2715,17 @@ function ClubCardMessagePacketProcessing() {
  * @param {Array<{ message: ClubCardMessage, index: number }>} messageArray - The array of messages with their indexes.
  */
 function ClubCardMessagesMerge(messageArray) {
-    if (messageArray.length <= 1) return;
+	if (messageArray.length <= 1) return;
 
-    const totalAmount = messageArray.reduce((sum, item) =>
-        sum + Number(item.message.Placeholders[ClubCardPlaceholderKeys.AMOUNT] || 0), 0
-    );
+	const totalAmount = messageArray.reduce((sum, item) =>
+		sum + Number(item.message.Placeholders[ClubCardPlaceholderKeys.AMOUNT] || 0), 0
+	);
 
-    const lastMessage = { ...messageArray[messageArray.length - 1].message };
-    lastMessage.Placeholders[ClubCardPlaceholderKeys.AMOUNT] = totalAmount;
+	const lastMessage = { ...messageArray[messageArray.length - 1].message };
+	lastMessage.Placeholders[ClubCardPlaceholderKeys.AMOUNT] = totalAmount;
 
-    ClubCardMessageStorage = ClubCardMessageStorage.filter(msg => msg.TextGetKey !== lastMessage.TextGetKey);
-    ClubCardMessageStorage.splice(messageArray[messageArray.length - 1].index, 0, lastMessage);
+	ClubCardMessageStorage = ClubCardMessageStorage.filter(msg => msg.TextGetKey !== lastMessage.TextGetKey);
+	ClubCardMessageStorage.splice(messageArray[messageArray.length - 1].index, 0, lastMessage);
 }
 
 /**
@@ -2751,10 +2751,10 @@ function ClubCardMessagesMergeSteal(stealMoneyMessages, stealFameMessages) {
 	);
 
 	mergedMessage.TextGetKey = "StealFameMoney";
-    mergedMessage.Placeholders = {
-        [ClubCardPlaceholderKeys.MONEYAMOUNT]: totalMoney,
-        [ClubCardPlaceholderKeys.FAMEAMOUNT]: totalFame
-    };
+	mergedMessage.Placeholders = {
+		[ClubCardPlaceholderKeys.MONEYAMOUNT]: totalMoney,
+		[ClubCardPlaceholderKeys.FAMEAMOUNT]: totalFame
+	};
 
 	//Clear ClubCardMessageStorage from StealMoney and StealFame
 	ClubCardMessageStorage = ClubCardMessageStorage.filter(msg =>
@@ -2787,7 +2787,7 @@ function ClubCardMessageGetText(ClubCardMessage) {
 		}
 		else
 			messageText = messageText.replace(key, `${value}`);
-    }
+	}
 
 	return messageText;
 }
@@ -2939,20 +2939,20 @@ function ClubCardPlayerSteal(CCPlayer, moneyAmount, fameAmount, isStickyFingers 
  * @param {ClubCardPlayer} opponent - The opponent player.
  */
 function ClubCardApplyStickyFingers(CCPlayer, opponent) {
-    let extraSteal = ClubCardNameCountOnBoard(CCPlayer, "Sticky Fingers");
-    while (extraSteal > 0) {
-        if (opponent.Money > 0) {
-            ClubCardPlayerAddMoney(CCPlayer, 1);
+	let extraSteal = ClubCardNameCountOnBoard(CCPlayer, "Sticky Fingers");
+	while (extraSteal > 0) {
+		if (opponent.Money > 0) {
+			ClubCardPlayerAddMoney(CCPlayer, 1);
 			ClubCardPlayerAddMoney(opponent, -1);
 			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "StealMoney", {[ClubCardPlaceholderKeys.AMOUNT]: 1}, CCPlayer);
-        }
-        if (opponent.Fame > 0) {
-            ClubCardPlayerAddFame(CCPlayer, 1);
+		}
+		if (opponent.Fame > 0) {
+			ClubCardPlayerAddFame(CCPlayer, 1);
 			ClubCardPlayerAddFame(opponent, -1);
 			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "StealFame", {[ClubCardPlaceholderKeys.AMOUNT]: 1}, CCPlayer);
-        }
-        extraSteal--;
-    }
+		}
+		extraSteal--;
+	}
 }
 
 /**
