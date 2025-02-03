@@ -1256,9 +1256,9 @@ var ClubCardList = [
 		Group: ["ABDLMommy", "Dominant"],
 		OnPlay: function(CCPlayer) {
 			// get all members, exclude events from board count
-			const membersOnBoard = CCPlayer.Board.filter(card => card.Type !== "Event").length;
-
-			ClubCardPlayerAddFame(CCPlayer, membersOnBoard);
+			const fame = CCPlayer.Board.filter(card => card.Type !== "Event").length;
+			ClubCardPlayerAddFame(CCPlayer, fame);
+			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "GainFame", {[ClubCardPlaceholderKeys.AMOUNT]: fame}, CCPlayer);
 		},
 		BeforeTurnEnd: function(CCPlayer) {
 			ClubCardPlayerAddFame(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "ABDLBaby"));
