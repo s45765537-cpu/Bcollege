@@ -1503,7 +1503,6 @@ var ClubCardList = [
 		OnPlay: function (CCPlayer) {
 			const cardToAdd =  ClubCardList.find(card => card.Name === ClubCardSelection.Name);
 			CCPlayer.Hand.push({ ...cardToAdd });
-			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Moon", {[ClubCardPlaceholderKeys.CARDNAME]: ClubCardSelection.Name});
 		}
 	},
 
