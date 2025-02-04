@@ -14,8 +14,8 @@ CancelPending,Don't play this card
 Bankrupt,Go bankrupt
 Concede,Concede the game
 StopWatch,Stop watching
-OnlineConcede,SOURCEPLAYER conceded and left the game.
-OnlineStopWatch,SOURCEPLAYER stopped watching and left the game.
+OnlineConcede,PLAYERNAME conceded and left the game.
+OnlineStopWatch,PLAYERNAME stopped watching and left the game.
 OnlinePlayerDisconnected,SOURCEPLAYER has disconnected.
 Yes,Yes
 No,No
@@ -60,9 +60,10 @@ LoseFame,SOURCEPLAYER lost AMOUNT Fame.
 LoseMoney,SOURCEPLAYER lost AMOUNT Money.
 StealFame,SOURCEPLAYER stole AMOUNT Fame from OPPONENTPLAYER.
 StealMoney,SOURCEPLAYER stole AMOUNT Money from OPPONENTPLAYER.
-MemberLeaveClub,CARDTITLE leaves SOURCEPLAYER's club.
-EventRemoved,CARDTITLE event is removed.
-EventExpired,CARDTITLE event has expired.
+StealFameMoney,SOURCEPLAYER stole FAMEAMOUNT Fame and MONEYAMOUNT Money from OPPONENTPLAYER.
+MemberLeaveClub,CARDNAME leaves SOURCEPLAYER's club.
+EventRemoved,CARDNAME event is removed.
+EventExpired,CARDNAME event has expired.
 ChatHere,Chat here...
 GroupLiability,Liability
 GroupStaff,Staff
@@ -144,7 +145,7 @@ Text Paroled Thief,Opponent steals 1 Money at end of your turn. Leave the club a
 Title Police Cadet,Police Cadet
 Text Police Cadet,<F>Hey!  Give me back my keys!
 Title Stepmother,Stepmother
-Text Stepmother,"When a member with - Fame enters, Steal Fame equal to twice their Money. Enters: Gain 2 Fame for each member present with - Fame."
+Text Stepmother,"Enters: Gain 2 Fame for each member present with - Fame. When a member with - Fame enters, Steal Fame equal to twice their Money."
 Title Sheriff,Sheriff
 Text Sheriff,Draw 2 cards when she enters your club.
 Title Maid Lover,Maid Lover
@@ -281,7 +282,7 @@ Text Second Mortgage,+20 Money.
 Title Foreign Investment,Foreign Investment
 Text Foreign Investment,+30 Money.
 Title Cat Burglar,Cat Burglar
-Text Cat Burglar,Steal 2 Fame and Money. Then steal 2 Fame and 2 Money unless your opponent has Police. 
+Text Cat Burglar,Steal 2 Fame and Money. Then steal 2 Fame and 2 Money unless your opponent has Police.
 Title Money Heist,Money Heist
 Text Money Heist,"Steal 6 Money. Then steal 2 Money if a Criminal is present. Then steal 4 Money if your opponent doesn't have Police."
 Title BDSM Ball,BDSM Ball
@@ -388,16 +389,17 @@ Title Alvin,Alvin
 Text Alvin,"Summon a Ropeslave when playing Restrain, Shibari event or Kidnapping a Dominant or Mistress (max 3 in club)"
 Title Rope Slave,Rope Slave
 Text Rope Slave,Gain 1 Money when you play a Knot or Shibari event. 
-Effect Rope Slave,"SOURCEPLAYER gained 1 money from Rope Slave."
+Effect Rope Slave,"SOURCEPLAYER gained AMOUNT money from Rope Slave."
 Title Quack Doctor,Quack Doctor
 Text Quack Doctor,"Start of your turn, for each Asylum Patient present, players lose 1 fame. (Max 4)"
 Effect Quack Doctor,"SOURCEPLAYER and OPPONENTPLAYER lost AMOUNT fame."
 Title Sophie,Sophie
 Text Sophie,"Before she enters your club, select a member to double their Fame and Money."
-Effect Sophie,CARDTITLE got their fame and money boosted by the lovely Sophie~
+Effect Sophie,CARDNAME got their fame and money boosted by the lovely Sophie~
 Prerequisite Sophie,Select a member to enhance before Sophie enters.
 Title Hypnotherapist,Hypnotherapist
 Text Hypnotherapist,"When she enters your club, return all Tier 1 members to their owner's hands, then take another action."
+Effect Hypnotherapist,"All Tier 1 members have returned to their owners' hands."
 Title Help Button,Help Button
 Text Help Button,"Return a member from your club to its owners deck, a random Maid or Nurse of equal level joins your club from your deck."
 Effect Help Button No Draw,SOURCEPLAYER could not summon any cards from Help Button.
@@ -446,7 +448,7 @@ Prerequisite Rope Auction,Select a member from your club to remove.
 GroupSensei,Sensei
 GroupKnot,Knot
 Title Shibari Lover,Shibari Lover
-Text Shibari Lover,"When this card or another Shibari member enters your club, play a random Knot from your deck. "
+Text Shibari Lover,"When this card or another Shibari member enters your club, play a random Knot from your deck."
 Title Goddess of Ropes,Goddess of Ropes
 Text Goddess of Ropes,"When you play a Shibari card, play a random Knot from your deck." 
 Title Rope Slinger,Rope Slinger
@@ -455,11 +457,11 @@ Title Fit To Be Tied,Fit To Be Tied
 Text Fit To Be Tied,"Play all Knots in your hand, deck, and streets and shuffle them into your deck."
 Title Living Art,Living Art
 Text Living Art,Gain 1 Fame when you play a Knot or Shibari Event. 
-Effect Living Art,"SOURCEPLAYER gained 1 fame from Living Art."
+Effect Living Art,"SOURCEPLAYER gained AMOUNT fame from Living Art."
 Title Attention Whore,Attention Whore
 Text Attention Whore,Select and remove one ongoing event before she enters your club.
 Prerequisite Attention Whore,Select an ongoing event to remove before Attention Whore enters.
-MemberSummoned,CARDTITLE joins SOURCEPLAYER's club.
+MemberSummoned,CARDNAME joins SOURCEPLAYER's club.
 GroupPet,Pet
 GroupOwner,Owner
 Title Bun Bun,Bun Bun
@@ -502,10 +504,11 @@ Effect Rich Owner,"SOURCEPLAYER gained AMOUNT money from Rich Owner"
 Title Tour Guide,Tour Guide
 Text Tour Guide,"When she enters your club, draw a card. Gains +3 money if tourist is present, gains +3 fame if diplomat is present."
 Title Moon,"Moon"
-Text Moon,"Enters: Select a member from either club other than Moon to have a copy of that member added to your hand." 
-Prerequisite Moon,Select a member to add to your hand.
+Text Moon,"Enters: Moon's magic creates an illusory copy of any chosen member (except herself) in your hand."
+Effect Moon,"Moon waves her tails, casting an illusion spell, after which CARDNAME appears in your hand."
+Prerequisite Moon,Select a member to receive an illusory copy in your hand. 
 Title Sticky Fingers,Sticky Fingers
-Text Sticky Fingers,"When you steal with another effect, steal 1 Fame and Money. Enters: Steal 1 Fame and Money."
+Text Sticky Fingers,"Enters: Steal 1 Fame and Money. When you steal with another effect, steal 1 Fame and Money."
 Title Earner,Earner
 Text Earner,"Gain +1 Money for each Criminal in your streets. (Max +3)"
 Title Naughty Baby,Naughty Baby
@@ -518,9 +521,9 @@ Title Inspector,Inspector
 Text Inspector,"Unless your club level is higher than your opponent's, increase the cost for players to upgrade by 10." 
 Title Troublemaker,Troublemaker
 Text Troublemaker,Opponent loses 3 fame each time they upgrade unless they have a bouncer.
-Title House keeper,House keeper
-Text House keeper,"When a non-maid member enters your club, gain 1 Fame per member present that shares a type with it (Max = club level)"
-Effect House keeper,"SOURCEPLAYER gained AMOUNT fame from House keeper"
+Title Housekeeper,Housekeeper
+Text Housekeeper,"When a non-maid member enters your club, gain 1 Fame per member present that shares a type with it (Max = club level)."
+Effect Housekeeper,"SOURCEPLAYER gained AMOUNT fame from Housekeeper"
 Title Maid Manager,Maid Manager
 Text Maid Manager,"Gains +1 Money for every 2 maids present. At club level 4 or higher, gains +1 Fame instead. (Max +4)"
 Title Throne Room Servant,Throne Room Servant
@@ -531,7 +534,8 @@ Prerequisite Feather Duster,Select an ongoing event to end.
 Title Afterhours Service,Afterhours Service
 Text Afterhours Service,"For the next three turns, for each maid or staff in your club you lose 2 money and gain 1 fame."
 Title Night Maid,Night Maid
-Text Night Maid,Gains  +2 fame and +4 money as long as you have an active event.
+Text Night Maid,Gains +2 fame and +4 money as long as you have an active event.
 Title Tax Auditor,Tax Auditor
 Text Tax Auditor,"Enters: Select a level 3 or lower member in your opponent's club and set their Money to 1."
 Prerequisite Tax Auditor,Select a member from your opponent club to set its money to 1
+GroupKemonomimi,Kemonomimi

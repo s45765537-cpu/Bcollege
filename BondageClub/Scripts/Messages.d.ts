@@ -871,7 +871,7 @@ interface ServerChatRoomGameResponse extends ServerChatRoomMessageBase {
 		Player1?: number;
 		Player2?: number;
 		CCData: any[];
-		CCLog: any[];
+		CCLog: ClubCardMessage;
 	};
     RNG: number;
 }

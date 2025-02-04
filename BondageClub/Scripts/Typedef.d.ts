@@ -4297,11 +4297,19 @@ interface ClubCardPlayer {
 }
 
 interface ClubCardMessage {
-	Message: string,
-	MessageType: string,
-	PlayerId: string,
-	TurnCounter:  number
+	TextGetKey: string;         // Localization key
+	MessageText?: string;		// Message Text
+    MessageType: string;        // Type of message (e.g., ACTION, SYSTEM, IMMEDIATE)
+    PlayerId: string;           // ID of the player who triggered the message
+    TurnCounter: number;        // Turn number when the message was created
+    Placeholders: {             // Dynamic data for text replacement
+        [key: string]: string | number;
+	};
+	PlayerName?: string;
+    SourcePlayer?: string;
+    OpponentPlayer?: string;
 }
+
 
 // #region drawing
 
