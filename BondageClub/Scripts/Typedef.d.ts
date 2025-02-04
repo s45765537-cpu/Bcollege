@@ -4372,6 +4372,7 @@ type ChatRoomMapObjectType = (
 	| "FloorDecorationParty"
 	| "FloorDecorationCamping"
 	| "FloorDecorationExpanding"
+	| "FloorDecorationAnimal"
 	| "FloorItem"
 	| "FloorObstacle"
 	| "WallDecoration"
