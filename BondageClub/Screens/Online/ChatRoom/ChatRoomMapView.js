@@ -196,6 +196,7 @@ const ChatRoomMapViewObjectList = [
 		ID: 810,
 		Type: "FloorDecorationAnimal",
 		Style: "CatCaramelHappy",
+		Top: -0.2,
 		BuildImageName: function(X, Y) {
 			let Frame = (Math.floor((CurrentTime + X * 331 + Y * 197) / 2000) + X * 331 + Y * 197) % 100;
 			let Anim;
@@ -228,6 +229,51 @@ const ChatRoomMapViewObjectList = [
 			else if ((Frame >= 97) && (Frame <= 100)) Anim = "Stretch";
 			else Anim = "Sleep";
 			return "CatCaramel" + Anim;
+		}
+	},
+	{ 
+		ID: 820,
+		Type: "FloorDecorationAnimal",
+		Style: "DogBrownHappy",
+		Top: -0.4,
+		BuildImageName: function(X, Y) {
+			let Frame = (Math.floor((CurrentTime + X * 347 + Y * 179) / 2000) + X * 347 + Y * 179) % 100;
+			let Anim;
+			if ((Frame >= 20) && (Frame <= 22)) Anim = "Roll";
+			else if ((Frame >= 23) && (Frame <= 24)) Anim = "Search";
+			else if ((Frame >= 25) && (Frame <= 25)) Anim = "Howl";
+			else if ((Frame >= 26) && (Frame <= 27)) Anim = "Crazy";
+			else if ((Frame >= 28) && (Frame <= 30)) Anim = "Happy";
+			else if ((Frame >= 31) && (Frame <= 31)) Anim = "Play";
+			else if ((Frame >= 32) && (Frame <= 34)) Anim = "Scratch";
+			else if ((Frame >= 35) && (Frame <= 36)) Anim = "Play";
+			else if ((Frame >= 37) && (Frame <= 39)) Anim = "Ball";
+			else if ((Frame >= 40) && (Frame <= 41)) Anim = "Crazy";
+			else if ((Frame >= 42) && (Frame <= 44)) Anim = "Search";
+			else if ((Frame >= 45) && (Frame <= 46)) Anim = "Howl";
+			else if ((Frame >= 47) && (Frame <= 49)) Anim = "Roll";
+			else if ((Frame >= 50) && (Frame <= 50)) Anim = "Search";
+			else if ((Frame >= 51) && (Frame <= 52)) Anim = "Scratch";
+			else if ((Frame >= 53) && (Frame <= 64)) Anim = "Happy";
+			else if ((Frame >= 55) && (Frame <= 63)) Anim = "Sleep";
+			else if ((Frame >= 64) && (Frame <= 67)) Anim = "Search";
+			else if ((Frame >= 68) && (Frame <= 70)) Anim = "Ball";
+			else if ((Frame >= 71) && (Frame <= 72)) Anim = "Crazy";
+			else if ((Frame >= 73) && (Frame <= 73)) Anim = "Howl";
+			else if ((Frame >= 74) && (Frame <= 74)) Anim = "Play";
+			else if ((Frame >= 75) && (Frame <= 75)) Anim = "Howl";
+			else if ((Frame >= 76) && (Frame <= 78)) Anim = "Scratch";
+			else if ((Frame >= 79) && (Frame <= 82)) Anim = "Roll";
+			else if ((Frame >= 83) && (Frame <= 84)) Anim = "Search";
+			else if ((Frame >= 85) && (Frame <= 86)) Anim = "Ball";
+			else if ((Frame >= 87) && (Frame <= 89)) Anim = "Crazy";
+			else if ((Frame >= 90) && (Frame <= 91)) Anim = "Happy";
+			else if ((Frame >= 92) && (Frame <= 92)) Anim = "Howl";
+			else if ((Frame >= 93) && (Frame <= 94)) Anim = "Search";
+			else if ((Frame >= 95) && (Frame <= 97)) Anim = "Scratch";
+			else if ((Frame >= 98) && (Frame <= 100)) Anim = "Roll";
+			else Anim = "Sleep";
+			return "DogBrown" + Anim;
 		}
 	},
 
