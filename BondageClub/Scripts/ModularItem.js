@@ -423,8 +423,8 @@ function ModularItemDrawModule(module, data) {
  */
 function ModularItemCreateClickBaseFunction(data) {
 	const DrawData = data.drawData;
-	const pageNumber = Math.min(DrawData.pageCount - 1, data.pages[ModularItemBase] ?? 0);
 	return () => {
+		const pageNumber = Math.min(DrawData.pageCount - 1, data.pages[ModularItemBase] ?? 0);
 		ModularItemClickCommon(
 			data,
 			DrawData,
