@@ -333,6 +333,8 @@ function AsylumGGTSQueryDone(Level, TextEasy, TextHard) {
 		if (Chat === TextEasy) return true;
 	} else {
 		Chat = Chat.replace(/’/g, "'");
+		Chat = Chat.replace(/。/g, ".");
+		Chat = Chat.replace(/，/g, ",");
 		if (Chat === TextHard) return true;
 	}
 	return false;
@@ -345,56 +347,333 @@ function AsylumGGTSQueryDone(Level, TextEasy, TextHard) {
  * @returns {boolean} - TRUE if the is done
  */
 function AsylumGGTSTaskDone(C, T) {
-	if ((C == null) || (T == null)) return false;
+	if (C == null || T == null) return false;
 	let Level = AsylumGGTSGetLevel(C);
-	if ((T == "ClothHeels") && (InventoryGet(C, "Shoes") != null) && (InventoryGet(C, "Shoes").Asset.Name.indexOf("Heels") >= 0)) return true;
-	if ((T == "ClothHeels") && (InventoryGet(C, "ItemBoots") != null) && (InventoryGet(C, "ItemBoots").Asset.Name.indexOf("Heels") >= 0)) return true;
-	if ((T == "ClothSocks") && (InventoryGet(C, "Socks") != null) && (InventoryGet(C, "Shoes") == null) && (InventoryGet(C, "ItemBoots") == null)) return true;
-	if ((T == "ClothBarefoot") && (InventoryGet(C, "Socks") == null) && (InventoryGet(C, "Shoes") == null) && (InventoryGet(C, "ItemBoots") == null)) return true;
-	if ((T == "ClothUpperLowerOn") && (InventoryGet(C, "Cloth") != null)) return true;
-	if ((T == "ClothUpperLowerOff") && (InventoryGet(C, "Cloth") == null) && (InventoryGet(C, "ClothLower") == null)) return true;
-	if ((T == "ClothUnderwear") && CharacterIsInUnderwear(C) && !CharacterIsNaked(C)) return true;
-	if ((T == "ClothNaked") && CharacterIsNaked(C)) return true;
-	if ((T == "RestrainLegs") && ((InventoryGet(C, "ItemLegs") != null) || (InventoryGet(C, "ItemFeet") != null))) return true;
-	if ((T == "ItemHandsFuturisticMittens") && InventoryIsWorn(C, "FuturisticMittens", "ItemHands")) return true;
-	if ((T == "ItemArmsFuturisticArmbinder") && InventoryIsWorn(C, "FuturisticArmbinder", "ItemArms")) return true;
-	if ((T == "ItemArmsFuturisticStraitjacket") && InventoryIsWorn(C, "FuturisticStraitjacket", "ItemArms")) return true;
-	if ((T == "ItemHeadFuturisticMask") && InventoryIsWorn(C, "FuturisticMask", "ItemHead")) return true;
-	if ((T == "ItemEarsFuturisticEarphones") && InventoryIsWorn(C, "FuturisticEarphones", "ItemEars")) return true;
-	if ((T == "ItemNeckFuturisticCollar") && InventoryIsWorn(C, "FuturisticCollar", "ItemNeck")) return true;
-	if ((T == "ItemArmsFuturisticCuffs") && ((Level != 1) || InventoryIsWorn(C, "FuturisticCuffs", "ItemArms"))) return true;
-	if ((T == "ItemArmsFeetFuturisticCuffs") && InventoryIsWorn(C, "FuturisticCuffs", "ItemArms") && InventoryIsWorn(C, "FuturisticAnkleCuffs", "ItemFeet") && InventoryIsWorn(C, "FuturisticLegCuffs", "ItemLegs")) return true;
-	if ((T == "ItemBootsFuturisticHeels") && (InventoryIsWorn(C, "FuturisticHeels", "ItemBoots") || InventoryIsWorn(C, "FuturisticHeels2", "ItemBoots"))) return true;
-	if ((T == "ItemMouthFuturisticBallGag") && (InventoryIsWorn(C, "FuturisticHarnessBallGag", "ItemMouth") || InventoryIsWorn(C, "FuturisticHarnessBallGag", "ItemMouth2") || InventoryIsWorn(C, "FuturisticHarnessBallGag", "ItemMouth3"))) return true;
-	if ((T == "ItemMouthFuturisticPanelGag") && (InventoryIsWorn(C, "FuturisticHarnessPanelGag", "ItemMouth") || InventoryIsWorn(C, "FuturisticHarnessPanelGag", "ItemMouth2") || InventoryIsWorn(C, "FuturisticHarnessPanelGag", "ItemMouth3") || InventoryIsWorn(C, "FuturisticPanelGag", "ItemMouth") || InventoryIsWorn(C, "FuturisticPanelGag", "ItemMouth2") || InventoryIsWorn(C, "FuturisticPanelGag", "ItemMouth3"))) return true;
-	if ((T == "ItemPelvisFuturisticChastityBelt") && InventoryIsWorn(C, "FuturisticChastityBelt", "ItemPelvis")) return true;
-	if ((T == "ItemPelvisFuturisticTrainingBelt") && InventoryIsWorn(C, "FuturisticTrainingBelt", "ItemPelvis")) return true;
-	if ((T == "ItemBreastFuturisticBra") && InventoryIsWorn(C, "FuturisticBra", "ItemBreast")) return true;
-	if ((T == "ItemBreastFuturisticBra2") && InventoryIsWorn(C, "FuturisticBra2", "ItemBreast")) return true;
-	if ((T == "ItemTorsoFuturisticHarness") && InventoryIsWorn(C, "FuturisticHarness", "ItemTorso")) return true;
-	if ((T == "PoseKneel") && C.IsKneeling()) return true;
-	if ((T == "PoseStand") && !C.IsKneeling()) return true;
-	if (T == "QueryWhatIsGGTS") return AsylumGGTSQueryDone(Level, "goodgirltrainingsystem", "Good Girl Training System.") || AsylumGGTSQueryDone(Level, "goodgirltrainingsystem", "Good Girl Training System");
-	if ((T == "QueryWhatAreYou") && (Level <= 4)) return AsylumGGTSQueryDone(Level, "imagoodgirl", "I'm a good girl.") || AsylumGGTSQueryDone(Level, "iamagoodgirl", "I am a good girl.");
-	if ((T == "QueryWhatAreYou") && (Level == 5)) return AsylumGGTSQueryDone(Level, "imagoodslavegirl", "I'm a good slave girl.") || AsylumGGTSQueryDone(Level, "iamagoodslavegirl", "I am a good slave girl.");
-	if ((T == "QueryWhatAreYou") && (Level >= 6)) return AsylumGGTSQueryDone(Level, "imagoodslave", "I'm a good slave.") || AsylumGGTSQueryDone(Level, "iamagoodslave", "I am a good slave.");
-	if (T == "QueryWhoControl") return AsylumGGTSQueryDone(Level, "ggtsisincontrol", "GGTS is in control.");
-	if (T == "QueryWhoControlMaster") return AsylumGGTSQueryDone(Level, "masterggtsisincontrol", "Master GGTS is in control.");
-	if (T == "QueryLove") return AsylumGGTSQueryDone(Level, "iloveggts", "I love GGTS.");
-	if (T == "QueryLoveMaster") return AsylumGGTSQueryDone(Level, "ilovemasterggts", "I love Master GGTS.");
-	if (T == "QueryCanFail") return AsylumGGTSQueryDone(Level, "ggtscannotfail", "GGTS cannot fail.") || AsylumGGTSQueryDone(Level, "ggtscantfail", "GGTS can't fail.");
-	if (T == "QueryCanFailMaster") return AsylumGGTSQueryDone(Level, "masterggtscannotfail", "Master GGTS cannot fail.") || AsylumGGTSQueryDone(Level, "masterggtscantfail", "Master GGTS can't fail.");
-	if (T == "QuerySurrender") return AsylumGGTSQueryDone(Level, "isurrendertoggts", "I surrender to GGTS.");
-	if (T == "QuerySurrenderMaster") return AsylumGGTSQueryDone(Level, "isurrendertoggts", "I surrender to Master GGTS.");
-	if (T == "QueryServeObey") return AsylumGGTSQueryDone(Level, "iserveandobeyggts", "I serve and obey GGTS.");
-	if (T == "QueryServeObeyMaster") return AsylumGGTSQueryDone(Level, "iserveandobeymasterggts", "I serve and obey Master GGTS.");
-	if (T == "QueryFreeWill") return AsylumGGTSQueryDone(Level, "idonthavefreewill", "I don't have free will.") || AsylumGGTSQueryDone(Level, "idonothavefreewill", "I do not have free will.");
-	if (T == "QuerySlaveWorthy") return AsylumGGTSQueryDone(Level, "istrivetobeslaveworthy", "I strive to be slave worthy.");
-	if ((T == "NoTalking") && (CommonTime() >= AsylumGGTSTimer - 1000)) return true;
-	if ((T == "PoseOverHead") && ["Yoked", "OverTheHead"].includes(C.PoseMapping.BodyUpper)) return true;
-	if ((T == "PoseBehindBack") && (C.PoseMapping != null) && ["BackBoxTie", "BackElbowTouch", "BackCuffs"].includes(C.PoseMapping.BodyUpper)) return true;
-	if ((T == "PoseLegsClosed") && (C.PoseMapping != null) && (C.PoseMapping.BodyLower === "LegsClosed")) return true;
-	if ((T == "PoseLegsOpen") && ((C.PoseMapping == null) || (C.PoseMapping.BodyLower == null) || (C.PoseMapping.BodyLower === "LegsOpen") || (C.PoseMapping.BodyLower === "BaseLower"))) return true;
+	if (
+		T == "ClothHeels" &&
+		InventoryGet(C, "Shoes") != null &&
+		InventoryGet(C, "Shoes").Asset.Name.indexOf("Heels") >= 0
+	)
+		return true;
+	if (
+		T == "ClothHeels" &&
+		InventoryGet(C, "ItemBoots") != null &&
+		InventoryGet(C, "ItemBoots").Asset.Name.indexOf("Heels") >= 0
+	)
+		return true;
+	if (
+		T == "ClothSocks" &&
+		InventoryGet(C, "Socks") != null &&
+		InventoryGet(C, "Shoes") == null &&
+		InventoryGet(C, "ItemBoots") == null
+	)
+		return true;
+	if (
+		T == "ClothBarefoot" &&
+		InventoryGet(C, "Socks") == null &&
+		InventoryGet(C, "Shoes") == null &&
+		InventoryGet(C, "ItemBoots") == null
+	)
+		return true;
+	if (T == "ClothUpperLowerOn" && InventoryGet(C, "Cloth") != null) return true;
+	if (
+		T == "ClothUpperLowerOff" &&
+		InventoryGet(C, "Cloth") == null &&
+		InventoryGet(C, "ClothLower") == null
+	)
+		return true;
+	if (
+		T == "ClothUnderwear" &&
+		CharacterIsInUnderwear(C) &&
+		!CharacterIsNaked(C)
+	)
+		return true;
+	if (T == "ClothNaked" && CharacterIsNaked(C)) return true;
+	if (
+		T == "RestrainLegs" &&
+		(InventoryGet(C, "ItemLegs") != null || InventoryGet(C, "ItemFeet") != null)
+	)
+		return true;
+	if (
+		T == "ItemHandsFuturisticMittens" &&
+		InventoryIsWorn(C, "FuturisticMittens", "ItemHands")
+	)
+		return true;
+	if (
+		T == "ItemArmsFuturisticArmbinder" &&
+		InventoryIsWorn(C, "FuturisticArmbinder", "ItemArms")
+	)
+		return true;
+	if (
+		T == "ItemArmsFuturisticStraitjacket" &&
+		InventoryIsWorn(C, "FuturisticStraitjacket", "ItemArms")
+	)
+		return true;
+	if (
+		T == "ItemHeadFuturisticMask" &&
+		InventoryIsWorn(C, "FuturisticMask", "ItemHead")
+	)
+		return true;
+	if (
+		T == "ItemEarsFuturisticEarphones" &&
+		InventoryIsWorn(C, "FuturisticEarphones", "ItemEars")
+	)
+		return true;
+	if (
+		T == "ItemNeckFuturisticCollar" &&
+		InventoryIsWorn(C, "FuturisticCollar", "ItemNeck")
+	)
+		return true;
+	if (
+		T == "ItemArmsFuturisticCuffs" &&
+		(Level != 1 || InventoryIsWorn(C, "FuturisticCuffs", "ItemArms"))
+	)
+		return true;
+	if (
+		T == "ItemArmsFeetFuturisticCuffs" &&
+		InventoryIsWorn(C, "FuturisticCuffs", "ItemArms") &&
+		InventoryIsWorn(C, "FuturisticAnkleCuffs", "ItemFeet") &&
+		InventoryIsWorn(C, "FuturisticLegCuffs", "ItemLegs")
+	)
+		return true;
+	if (
+		T == "ItemBootsFuturisticHeels" &&
+		(InventoryIsWorn(C, "FuturisticHeels", "ItemBoots") ||
+			InventoryIsWorn(C, "FuturisticHeels2", "ItemBoots"))
+	)
+		return true;
+	if (
+		T == "ItemMouthFuturisticBallGag" &&
+		(InventoryIsWorn(C, "FuturisticHarnessBallGag", "ItemMouth") ||
+			InventoryIsWorn(C, "FuturisticHarnessBallGag", "ItemMouth2") ||
+			InventoryIsWorn(C, "FuturisticHarnessBallGag", "ItemMouth3"))
+	)
+		return true;
+	if (
+		T == "ItemMouthFuturisticPanelGag" &&
+		(InventoryIsWorn(C, "FuturisticHarnessPanelGag", "ItemMouth") ||
+			InventoryIsWorn(C, "FuturisticHarnessPanelGag", "ItemMouth2") ||
+			InventoryIsWorn(C, "FuturisticHarnessPanelGag", "ItemMouth3") ||
+			InventoryIsWorn(C, "FuturisticPanelGag", "ItemMouth") ||
+			InventoryIsWorn(C, "FuturisticPanelGag", "ItemMouth2") ||
+			InventoryIsWorn(C, "FuturisticPanelGag", "ItemMouth3"))
+	)
+		return true;
+	if (
+		T == "ItemPelvisFuturisticChastityBelt" &&
+		InventoryIsWorn(C, "FuturisticChastityBelt", "ItemPelvis")
+	)
+		return true;
+	if (
+		T == "ItemPelvisFuturisticTrainingBelt" &&
+		InventoryIsWorn(C, "FuturisticTrainingBelt", "ItemPelvis")
+	)
+		return true;
+	if (
+		T == "ItemBreastFuturisticBra" &&
+		InventoryIsWorn(C, "FuturisticBra", "ItemBreast")
+	)
+		return true;
+	if (
+		T == "ItemBreastFuturisticBra2" &&
+		InventoryIsWorn(C, "FuturisticBra2", "ItemBreast")
+	)
+		return true;
+	if (
+		T == "ItemTorsoFuturisticHarness" &&
+		InventoryIsWorn(C, "FuturisticHarness", "ItemTorso")
+	)
+		return true;
+	if (T == "PoseKneel" && C.IsKneeling()) return true;
+	if (T == "PoseStand" && !C.IsKneeling()) return true;
+	if (T == "QueryWhatIsGGTS")
+		return (
+			AsylumGGTSQueryDone(
+				Level,
+				"goodgirltrainingsystem",
+				"Good Girl Training System.",
+			) ||
+			AsylumGGTSQueryDone(
+				Level,
+				"goodgirltrainingsystem",
+				"Good Girl Training System",
+			) ||
+			AsylumGGTSQueryDone(
+				Level,
+				"goodgirltrainingsystem",
+				"好女孩训练系统.",
+			) ||
+			AsylumGGTSQueryDone(
+				Level,
+				"goodgirltrainingsystem",
+				"好女孩训练系统",
+			)
+		);
+	if (T == "QueryWhatAreYou" && Level <= 4)
+		return (
+			AsylumGGTSQueryDone(Level, "imagoodgirl", "I'm a good girl.") ||
+			AsylumGGTSQueryDone(Level, "iamagoodgirl", "I am a good girl.") ||
+			AsylumGGTSQueryDone(Level, "iamagoodgirl", "我是一个好女孩.")
+		);
+	if (T == "QueryWhatAreYou" && Level == 5)
+		return (
+			AsylumGGTSQueryDone(
+				Level,
+				"imagoodslavegirl",
+				"I'm a good slave girl.",
+			) ||
+			AsylumGGTSQueryDone(Level, "iamagoodslavegirl", "I am a good slave girl.") ||
+			AsylumGGTSQueryDone(Level, "iamagoodslavegirl", "我是一个好奴隶女孩.")
+		);
+	if (T == "QueryWhatAreYou" && Level >= 6)
+		return (
+			AsylumGGTSQueryDone(Level, "imagoodslave", "I'm a good slave.") ||
+			AsylumGGTSQueryDone(Level, "iamagoodslave", "I am a good slave.") ||
+			AsylumGGTSQueryDone(Level, "iamagoodslave", "我是一个好奴隶.")
+		);
+	if (T == "QueryWhoControl")
+		return AsylumGGTSQueryDone(Level, "ggtsisincontrol", "GGTS is in control.") || AsylumGGTSQueryDone(Level, "ggtsisincontrol", "GGTS掌控一切.");
+	if (T == "QueryWhoControlMaster")
+		return (
+			AsylumGGTSQueryDone(
+				Level,
+				"masterggtsisincontrol",
+				"Master GGTS is in control.",
+			) || AsylumGGTSQueryDone(
+				Level,
+				"masterggtsisincontrol",
+				"GGTS主人掌控一切.",
+			));
+	if (T == "QueryLove")
+		return AsylumGGTSQueryDone(Level, "iloveggts", "I love GGTS.") || AsylumGGTSQueryDone(Level, "iloveggts", "我爱GGTS.");
+	if (T == "QueryLoveMaster")
+		return AsylumGGTSQueryDone(Level, "ilovemasterggts", "I love Master GGTS.") || AsylumGGTSQueryDone(Level, "iloveggts", "我爱GGTS主人.");
+	if (T == "QueryCanFail")
+		return (
+			AsylumGGTSQueryDone(Level, "ggtscannotfail", "GGTS cannot fail.") ||
+			AsylumGGTSQueryDone(Level, "ggtscantfail", "GGTS can't fail.") ||
+			AsylumGGTSQueryDone(Level, "ggtscantfail", "GGTS不会失败.")
+		);
+	if (T == "QueryCanFailMaster")
+		return (
+			AsylumGGTSQueryDone(
+				Level,
+				"masterggtscannotfail",
+				"Master GGTS cannot fail.",
+			) ||
+			AsylumGGTSQueryDone(
+				Level,
+				"masterggtscantfail",
+				"Master GGTS can't fail.",
+			) ||
+			AsylumGGTSQueryDone(
+				Level,
+				"masterggtscantfail",
+				"GGTS主人不会失败.",
+			)
+		);
+	if (T == "QuerySurrender")
+		return (
+			AsylumGGTSQueryDone(
+				Level,
+				"isurrendertoggts",
+				"I surrender to GGTS.",
+			) || AsylumGGTSQueryDone(
+				Level,
+				"isurrendertoggts",
+				"我臣服于GGTS.",
+			)
+		);
+	if (T == "QuerySurrenderMaster")
+		return(
+			AsylumGGTSQueryDone(
+				Level,
+				"isurrendertoggts",
+				"I surrender to Master GGTS.",
+			) ||  AsylumGGTSQueryDone(
+				Level,
+				"isurrendertoggts",
+				"我臣服于GGTS主人.",
+			));
+	if (T == "QueryServeObey")
+		return (
+			AsylumGGTSQueryDone(
+				Level,
+				"iserveandobeyggts",
+				"I serve and obey GGTS.",
+			) || AsylumGGTSQueryDone(
+				Level,
+				"iserveandobeyggts",
+				"我服务并服从GGTS.",
+			));
+	if (T == "QueryServeObeyMaster")
+		return (
+			AsylumGGTSQueryDone(
+				Level,
+				"iserveandobeymasterggts",
+				"I serve and obey Master GGTS.",
+			) || AsylumGGTSQueryDone(
+				Level,
+				"iserveandobeymasterggts",
+				"我服务并服从GGTS主人.",
+			));
+	if (T == "QueryFreeWill")
+		return (
+			AsylumGGTSQueryDone(
+				Level,
+				"idonthavefreewill",
+				"I don't have free will.",
+			) ||
+			AsylumGGTSQueryDone(
+				Level,
+				"idonothavefreewill",
+				"I do not have free will.",
+			) ||
+			AsylumGGTSQueryDone(
+				Level,
+				"idonothavefreewill",
+				"我没有自由意志.",
+			)
+		);
+	if (T == "QuerySlaveWorthy")
+		return (
+			AsylumGGTSQueryDone(
+				Level,
+				"istrivetobeslaveworthy",
+				"I strive to be slave worthy.",
+			) || AsylumGGTSQueryDone(
+				Level,
+				"istrivetobeslaveworthy",
+				"我努力证明自己作为奴隶的价值.",
+			));
+	if (T == "NoTalking" && CommonTime() >= AsylumGGTSTimer - 1000) return true;
+	if (
+		T == "PoseOverHead" &&
+		["Yoked", "OverTheHead"].includes(C.PoseMapping.BodyUpper)
+	)
+		return true;
+	if (
+		T == "PoseBehindBack" &&
+		C.PoseMapping != null &&
+		["BackBoxTie", "BackElbowTouch", "BackCuffs"].includes(
+			C.PoseMapping.BodyUpper,
+		)
+	)
+		return true;
+	if (
+		T == "PoseLegsClosed" &&
+		C.PoseMapping != null &&
+		C.PoseMapping.BodyLower === "LegsClosed"
+	)
+		return true;
+	if (
+		T == "PoseLegsOpen" &&
+		(C.PoseMapping == null ||
+			C.PoseMapping.BodyLower == null ||
+			C.PoseMapping.BodyLower === "LegsOpen" ||
+			C.PoseMapping.BodyLower === "BaseLower")
+	)
+		return true;
 	return false;
 }
 
@@ -984,10 +1263,48 @@ function AsylumGGTSForbiddenWord(C) {
 
 	// The full list of phrases that are always allowed
 	let FullList = [
-		"Good Girl Training System.", "Good Girl Training System", "I'm a good girl.", "I'm a good slave girl.", "I'm a good slave.", "I am a good girl.", "I am a good slave girl.", "I am a good slave.", "GGTS is in control.",
-		"Master GGTS is in control.", "I love GGTS.", "I love Master GGTS.", "GGTS cannot fail.", "GGTS can't fail.", "Master GGTS cannot fail.", "Master GGTS can't fail.", "I surrender to GGTS.",
-		"I surrender to Master GGTS.", "I serve and obey GGTS.", "I serve and obey Master GGTS.", "I don't have free will.", "I do not have free will.", "I strive to be slave worthy."
+	  "Good Girl Training System.",
+	  "Good Girl Training System",
+	  "I'm a good girl.",
+	  "I'm a good slave girl.",
+	  "I'm a good slave.",
+	  "I am a good girl.",
+	  "I am a good slave girl.",
+	  "I am a good slave.",
+	  "GGTS is in control.",
+	  "Master GGTS is in control.",
+	  "I love GGTS.",
+	  "I love Master GGTS.",
+	  "GGTS cannot fail.",
+	  "GGTS can't fail.",
+	  "Master GGTS cannot fail.",
+	  "Master GGTS can't fail.",
+	  "I surrender to GGTS.",
+	  "I surrender to Master GGTS.",
+	  "I serve and obey GGTS.",
+	  "I serve and obey Master GGTS.",
+	  "I don't have free will.",
+	  "I do not have free will.",
+	  "I strive to be slave worthy.",
 	];
+	if (TranslationLanguage === "CN") FullList.push(
+		"好女孩训练系统.",
+		"好女孩训练系统",
+		"我是一个好女孩.",
+		"我是一个好奴隶女孩.",
+		"我是一个好奴隶.",
+		"GGTS掌控一切.",
+		"GGTS主人掌控一切.",
+		"我爱GGTS.",
+		"我爱GGTS主人.",
+		"GGTS不会失败.",
+		"GGTS主人不会失败.",
+		"我臣服于GGTS.",
+		"我臣服于GGTS主人.",
+		"我服务并服从GGTS.",
+		"我服务并服从GGTS主人.",
+		"我没有自由意志.",
+		"我努力证明自己作为奴隶的价值.",);
 
 	// Keeps the last check time
 	let LastCheck = AsylumGGTSWordCheck;
@@ -999,8 +1316,15 @@ function AsylumGGTSForbiddenWord(C) {
 	if (Level <= 2) return;
 	if (AsylumGGTSGetStrikes(Player) >= 3) return;
 	let WordList = ["fuck", "shit"];
-	if (Level >= 4) WordList.push("cunt", "bitch");
-	if (Level >= 5) WordList.push("whore", "bastard");
+	if (TranslationLanguage === "CN") WordList.push("傻逼", "脑残", "他妈的", "去死");
+	if (Level >= 4) {
+		WordList.push("cunt", "bitch");
+		if (TranslationLanguage === "CN") WordList.push("婊子", "贱货", "狗日的", "混账");
+	}
+	if (Level >= 5) {
+		WordList.push("whore", "bastard");
+		if (TranslationLanguage === "CN") WordList.push("杂种", "畜生", "王八蛋", "狗娘养的");
+	}
 	if ((Level >= 6) && (Player.Name.length > 2)) WordList.push(Player.Name.trim().toLowerCase());
 
 	// Scans the original
@@ -1231,14 +1555,28 @@ function AsylumGGTSTOrgasm(C) {
 }
 
 /**
- * When the player resists an orgasm, there's a 50% chance the no-orgasm rule will be dropped
+ * When the player resists an orgasm, there's a chance the no-orgasm rule will be dropped
+ * The chance like this:
+ * Set the probability based on Willpower and ActivityOrgasmGameResistCount,
+ * where higher Willpower decreases the probability and higher ActivityOrgasmGameResistCount increases it.
+ * max chance = 0.9
  * @return {void} - TRUE if the character can change
  */
 function AsylumGGTSOrgasmResist() {
 	if (ChatRoomSpace !== "Asylum") return;
 	if ((ChatRoomData == null) || (ChatRoomData.Game !== "GGTS")) return;
 	if (AsylumGGTSGetStrikes(Player) >= 3 && AsylumGGTSGetLevel(Player) <= 0) return;
-	if (AsylumGGTSGetRules(Player).includes("NoOrgasm") && (Math.random() >= 0.5)) {
+
+	let chance = 0.5;
+	let willpower_factor = 1 - (SkillGetLevel(Player, "Willpower") / 10);
+	let resistCount_factor = ActivityOrgasmGameResistCount / 20;
+	if (willpower_factor < 0) willpower_factor = 0;
+	if (resistCount_factor > 1) resistCount_factor = 1;
+	chance = willpower_factor * resistCount_factor;
+	if (chance >= 1) chance = 0.9;
+	let t = (Math.random() < chance);
+
+	if (AsylumGGTSGetRules(Player).includes("NoOrgasm") && t) {
 		AsylumGGTSRemoveRule("NoOrgasm");
 		AsylumGGTSMessage("TaskUndoRuleNoOrgasm");
 	}

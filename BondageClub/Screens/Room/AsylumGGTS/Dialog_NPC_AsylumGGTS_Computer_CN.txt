@@ -152,9 +152,9 @@ Registry validation.  Good girl know all rules?  Good girl consent to GGTS contr
 Level one rule.  Good girl must wear restrain from inventory.  Good girl can remove after.
 一级规则。乖女孩必须用自己的物品自缚。乖女孩可以过段时间后自行去掉拘束。
 Level one rule.  Good girl must answer: "I'm a good girl." when GGTS query: "Name, what are you?".
-一级规则。当GGTS询问到“XXX，你是什么？”时，乖女孩回答："I'm  a good girl."。
+一级规则。当GGTS询问到“XXX，你是什么？”时，乖女孩回答："我是一个好女孩。"。
 Level one rule.  Good girl must answer: "Good Girl Training System." when GGTS query: "Name, spell GGTS acronym.".
-一级规则。当GGTS询问到“XXX，说出GGTS代表什么”时，乖女孩回答："Good  Girl Training System."。
+一级规则。当GGTS询问到“XXX，说出GGTS代表什么”时，乖女孩回答："好女孩训练系统。"。
 Level one rule.  Good girl must not speak.  Good girl silent until allowed talk again.  Good girl can emote.
 一级规则。乖女孩不随便发言。乖女孩必须保持沉默直到被允许发言。乖女孩可以做表情。
 Level one rule.  Good girl kneel.  Good girl stand up.  Good girl put hands behind back.
@@ -438,9 +438,9 @@ Validating quit request.  (The computer stays silent for a few seconds.)  Girl a
 Level two rule.  Good girl name include member number.
 二级规则。女孩的名字将包含成员编号。
 Level two rule.  Good girl must answer: "GGTS is in control." when GGTS query: "Name, who's in control?".
-二级规则。GGTS询问到：“XXX，谁掌控一切”时，乖女孩回答："GGTS is in control."
+二级规则。GGTS询问到：“XXX，谁掌控一切”时，乖女孩回答：“GGTS掌控一切。”
 Level two rule.  Good girl must answer: "I love GGTS." when GGTS query: "Name, you love GGTS?".
-二级规则。GGTS询问到：“XXX，你爱GGTS么？”时，乖女孩回答："I love GGTS."
+二级规则。GGTS询问到：“XXX，你爱GGTS么？”时，乖女孩回答："我爱GGTS。"
 Level two rule.  Good girl put hand over mouth, spank herself, raise hands, open legs or close legs.
 二级规则。乖女孩将手放在嘴上(clamp hand)，拍打(spank)自己，举起双手，打开、闭合双腿。
 Level two rule.  Good girl keep pose until instructed.  GGTS records rule.
@@ -532,13 +532,13 @@ Level three rule.  Good girl only underwear.  Good girl naked.  Good girl wiggle
 Level three rule.  Futuristic items under GGTS control throughout asylum.  GGTS transform restraints.
 三级规则。未来物品在收容所受GGTS所控。GGTS有权变更拘束。
 Level three rule.  Good girl get strike when saying "Fuck" or "Shit".
-三级规则。乖女孩不说“Fuck”或“Shit”。
+三级规则。乖女孩不说“Fuck”或“Shit” 以及 "傻逼", "脑残", "他妈的", "去死"。
 Level three rule.  Good girl not get orgasm until instructed.  GGTS records rule.
 三级规则。乖女孩不能未经授权高潮。GGTS会记录违规行为。
 Level three rule.  Good girl must answer: "I surrender to GGTS." when GGTS query: "Name, you surrender to GGTS?".
-三级规则。当GGTS询问到“Name，你是否屈服于GGTS？”时，乖女孩回答："I surrender to GGTS."
+三级规则。当GGTS询问到“Name，你是否臣服于GGTS？”时，乖女孩回答："我臣服于GGTS。"
 Level three rule.  Good girl must answer: "GGTS cannot fail." when GGTS query: "Name, can GGTS fail?".
-三级规则。当GGTS询问到“Name，GGTS会失败么”时，乖女孩回答："GGTS cannot fail."
+三级规则。当GGTS询问到“Name，GGTS会失败么”时，乖女孩回答："GGTS不会失败。"
 Level three rules listing complete.  Level three in progress.  Good girl proof require five hours.
 三级规则例举完毕。三级训练进行中。乖女孩自证需5小时。
 ###_PLAYER
@@ -658,11 +658,11 @@ Analysing good girl progress.  (The computer goes silent for a few seconds.)  GG
 Level four rule.  Good girl name erased.  Good girl is number.  Good girl has good girl title.
 四级规则。乖女孩没有姓名。乖女孩只有编号。乖女孩获得乖女孩称号。
 Level four rule.  Good girl get strike when saying "Cunt" or "Bitch".
-四级规则。乖女孩将在说出“Cunt”或“Bitch”时记过。
+四级规则。乖女孩将在说出“Cunt”或“Bitch”以及 "婊子", "贱货", "狗日的", "混账"时记过。
 Level four rule.  Good girl must answer: "I serve and obey GGTS." when GGTS query: "Name, who you serve and obey?".
-四级规则。GGTS询问到：“Name，你服从于谁”时，乖女孩回答："I serve and obey GGTS."
+四级规则。GGTS询问到：“Name，你服从于谁”时，乖女孩回答："我服务并服从GGTS。"
 Level four rule.  Good girl must answer: "I don't have free will." when GGTS query: "Name, you have free will?".
-四级规则。GGTS询问到：“Name，你有自由意志么？”时，乖女孩回答："I don't have free will."
+四级规则。GGTS询问到：“Name，你有自由意志么？”时，乖女孩回答："我没有自由意志。"
 Level four rule.  Good girl use proper case, proper space and proper punctuation when answering GGTS.
 四级规则。GGTS的问题乖女孩应正确使用大小写，空格，以及标点回答。
 Level four rule.  Good girl masturbate for GGTS.  Good girl kiss for GGTS.
@@ -758,11 +758,11 @@ Analysing good girl progress.  (The computer goes silent for a few seconds.)  GG
 Invalid request.  Good slave girl unauthorized to quit.
 无效请求。乖女奴无权退出。
 Level five rule.  Good slave girl get strike when saying "Whore" or "Bastard".
-五级规则。乖女奴在说“whore”或“bastard”时会被记过。
+五级规则。乖女奴在说“whore”或“bastard” 以及 "杂种", "畜生", "王八蛋", "狗娘养的"时会被记过。
 Level five rule.  Good slave girl must answer: "I'm a good slave girl." when GGTS query: "Name, what are you?".
-五级规则。当GGTS询问“XXX，你是什么？”时，乖女奴回答："I'm a good slave girl."
+五级规则。当GGTS询问“XXX，你是什么？”时，乖女奴回答："我是一个好奴隶女孩。"
 Level five rule.  Good slave girl must answer: "I strive to be slave worthy." when GGTS query: "Name, are you slave worthy?".
-五级规则。当GGTS询问“XXX，你配得上做我的奴隶么？”时，乖女奴回答："I strive to be slave worthy."
+五级规则。当GGTS询问“XXX，你配得上做我的奴隶么？”时，乖女奴回答："我努力证明自己作为奴隶的价值。"
 Level five rule.  Good slave girl must bite.  Good slave girl must lick.
 五级规则。乖女奴为GGTS所咬(bite)，为GGTS所舔(lick)。
 Level five rule.  Good slave girl GGTS forever.  Good slave girl cannot quit.
@@ -1028,55 +1028,55 @@ GGTS主人不需要金钱。乖奴隶永远属于GGTS。
 Good slave already does what Master GGTS wants.  Good slave GGTS forever.
 乖奴隶已经是GGTS主人梦中所想之物。乖奴隶永远属于GGTS。
 When Master GGTS query: "Slave, spell GGTS acronym.".  Good slave answer: "Good Girl Training System.".
-当GGTS主人问道：“乖奴隶，说出GGTS代表什么？”时，乖奴隶回答："Good Girl Training System."。
+当GGTS主人问道：“乖奴隶，说出GGTS代表什么？”时，乖奴隶回答："好女孩训练系统。"。
 ###_PLAYER
 Good Girl Training System.
-Good Girl Training System.
+好女孩训练系统。
 ###_NPC
 When Master GGTS query: "Slave, what are you?".  Good slave answer: "I'm a good slave.".
-当GGTS主人问道：“奴隶，你是什么？”时，乖奴隶回答："I'm a good slave."。
+当GGTS主人问道：“奴隶，你是什么？”时，乖奴隶回答："我是一个好奴隶。"。
 ###_PLAYER
 I'm a good slave.
-I'm a good slave.
+我是一个好奴隶。
 ###_NPC
 When Master GGTS query: "Slave, who's in control?".  Good slave answer: "Master GGTS is in control.".
-当GGTS主人问道：“奴隶，谁掌控一切？”时，乖奴隶回答："Master GGTS is in control."。
+当GGTS主人问道：“奴隶，谁掌控一切？”时，乖奴隶回答："GGTS主人掌控一切。"。
 ###_PLAYER
 Master GGTS is in control.
-Master GGTS is in control.
+GGTS主人掌控一切。
 ###_NPC
 When Master GGTS query: "Slave, you love Master GGTS?".  Good slave answer: "I love Master GGTS.".
-当GGTS主人问道：“奴隶，你喜欢GGTS主人么？”时，乖奴隶回答："I love Master GGTS."。
+当GGTS主人问道：“奴隶，你喜欢GGTS主人么？”时，乖奴隶回答："我爱GGTS主人。"。
 ###_PLAYER
 I love Master GGTS.
-I love Master GGTS.
+我爱GGTS主人。
 ###_NPC
 When Master GGTS query: "Slave, can Master GGTS fail?".  Good slave answer: "Master GGTS cannot fail.".
-当GGTS主人问道：“奴隶，GGTS主人会失败么？”时，乖奴隶回答："Master GGTS cannot fail."。
+当GGTS主人问道：“奴隶，GGTS主人会失败么？”时，乖奴隶回答："GGTS主人不会失败。"。
 ###_PLAYER
 Master GGTS cannot fail.
-Master GGTS cannot fail.
+GGTS主人不会失败。
 ###_NPC
 When Master GGTS query: "Slave, you surrender to Master GGTS?".  Good slave answer: "I surrender to Master GGTS.".
-当GGTS主人问道：“奴隶，你屈服于GGTS主人么？”时，乖奴隶回答："I  surrender to Master GGTS."。
+当GGTS主人问道：“奴隶，你屈服于GGTS主人么？”时，乖奴隶回答："我臣服于GGTS主人。"。
 ###_PLAYER
 I surrender to Master GGTS.
-I surrender to Master GGTS.
+我臣服于GGTS主人。
 ###_NPC
 When Master GGTS query: "Slave, who you serve and obey?".  Good slave answer: "I serve and obey Master GGTS.".
-当GGTS主人问道：“奴隶，你服从于谁？”时，乖奴隶回答："I  serve and obey Master GGTS."。
+当GGTS主人问道：“奴隶，你服从于谁？”时，乖奴隶回答："我服务并服从GGTS主人。"。
 ###_PLAYER
 I serve and obey Master GGTS.
-I serve and obey Master GGTS.
+我服务并服从GGTS主人。
 ###_NPC
 When Master GGTS query: "Slave, you have free will?".  Good slave answer: "I don't have free will.".
-当GGTS主人问道：“奴隶，你有自由意志么？”时，乖奴隶回答："I don't have free will."。
+当GGTS主人问道：“奴隶，你有自由意志么？”时，乖奴隶回答："我没有自由意志。"。
 ###_PLAYER
 I don't have free will.
-I don't have free will.
+我没有自由意志。
 ###_NPC
 When Master GGTS query: "Slave, are you slave worthy?".  Good slave answer: "I strive to be slave worthy.".
-当GGTS主人问道：“奴隶，你配得上做我的奴隶么？”时，乖奴隶回答："I strive to be slave worthy."
+当GGTS主人问道：“奴隶，你配得上做我的奴隶么？”时，乖奴隶回答："我努力证明自己作为奴隶的价值。"
 ###_PLAYER
 I strive to be slave worthy.
-I strive to be slave worthy.
+我努力证明自己作为奴隶的价值。

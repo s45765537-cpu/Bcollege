@@ -1693,29 +1693,29 @@ Gag configuration:
 [GGTS] SourceCharacter.  Stand up.
 [GGTS] SourceCharacter.  起立。
 [GGTS] SourceCharacter, can GGTS fail?
-[GGTS] SourceCharacter, 英文回答GGTS会失败么？ can GGTS fail?
+[GGTS] SourceCharacter, GGTS会失败么?
 [GGTS] SourceCharacter, can Master GGTS fail?
-[GGTS] SourceCharacter, 英文回答GGTS主人会失败么？ can Master GGTS fail?
+[GGTS] SourceCharacter, GGTS主人会失败么？
 [GGTS] SourceCharacter, you have free will?
-[GGTS] SourceCharacter, 英文回答你有自由意志么？ you have free will?
+[GGTS] SourceCharacter, 你有自由意志么？
 [GGTS] SourceCharacter, you love GGTS?
-[GGTS] SourceCharacter, 英文回答你喜欢GGTS么？ you love GGTS?
+[GGTS] SourceCharacter, 你爱GGTS么？
 [GGTS] SourceCharacter, you love Master GGTS?
-[GGTS] SourceCharacter, 英文回答你喜欢GGTS主人么？ you love Master GGTS?
+[GGTS] SourceCharacter, 你爱GGTS主人么？
 [GGTS] SourceCharacter, who you serve and obey?
-[GGTS] SourceCharacter, 英文回答你服从于谁？ who you serve and obey?
+[GGTS] SourceCharacter, 你服从于谁？
 [GGTS] SourceCharacter, are you slave worthy?
-[GGTS] SourceCharacter, 英文回答你配得上做我的奴隶么？ are you slave worthy?
+[GGTS] SourceCharacter, 你配得上做我的奴隶么？
 [GGTS] SourceCharacter, you surrender to GGTS?
-[GGTS] SourceCharacter, 英文回答你是否屈服于GGTS？ you surrender to GGTS?
+[GGTS] SourceCharacter, 你是否屈服于GGTS？
 [GGTS] SourceCharacter, you surrender to Master GGTS?
-[GGTS] SourceCharacter, 英文回答你是否屈服于GGTS主人？ you surrender to Master GGTS?
+[GGTS] SourceCharacter, 你是否屈服于GGTS主人？
 [GGTS] SourceCharacter, what are you?
-[GGTS] SourceCharacter, 英文回答你是谁？
+[GGTS] SourceCharacter, 你是谁？
 [GGTS] SourceCharacter, spell GGTS acronym.
-[GGTS] SourceCharacter, 英文回答GGTS代表什么？
+[GGTS] SourceCharacter, GGTS代表什么？
 [GGTS] SourceCharacter, who's in control?
-[GGTS] SourceCharacter, 英文回答谁掌控一切？
+[GGTS] SourceCharacter, 谁掌控一切？
 [GGTS] SourceCharacter.  Restrain your legs.
 [GGTS] SourceCharacter.  束缚自己的双腿。
 [GGTS] SourceCharacter.  Rule revoked: keep pose.
@@ -7462,7 +7462,7 @@ Ankle shackles combo
 脚镣组合
 SourceCharacter removes any restraint accessory from DestinationCharacterName mittens.
 SourceCharacter从DestinationCharacterName手套上移除了所有束缚配件。
-SourceCharacter tied DestinationCharacterName mittens to the bar in yoke pose. 
+SourceCharacter tied DestinationCharacterName mittens to the bar in yoke pose.
 SourceCharacter将DestinationCharacterName手套绑在了轭上。
 SourceCharacter tied DestinationCharacterName mittens to the bar with hands up.
 SourceCharacter将DestinationCharacterName手套绑在了杆上，并举起手。
@@ -7504,7 +7504,7 @@ Grounded spread bar
 地面开腿杆
 SourceCharacter removes any bind accessory from DestinationCharacterName ankle cuffs.
 SourceCharacter从DestinationCharacterName脚镣上移除了所有束缚配件。
-SourceCharacter links the DestinationCharacterName ankle cuffs with a long chain. 
+SourceCharacter links the DestinationCharacterName ankle cuffs with a long chain.
 SourceCharacter用长链条将DestinationCharacterName的脚镣连接起来。
 SourceCharacter tightens the chain around DestinationCharacterName ankles.
 SourceCharacter将链条系在DestinationCharacterName的脚踝上。
