@@ -1646,9 +1646,8 @@ function AppearanceMenuClick(C) {
 					}
 
 					// Accepts the new selection
-					if (Button === "Accept") {
-						DialogChangeMode("items");
-						AppearanceMenuBuild(C);
+					if (Button === "Accept" || Button === "Cancel") {
+						CharacterAppearanceMode = "Cloth";
 					}
 
 					// Rebuild the menu buttons as selecting a button here can change what should appear
