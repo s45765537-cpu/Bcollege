@@ -198,7 +198,7 @@ const ChatRoomMapViewObjectList = [
 		Style: "CatCaramelHappy",
 		Top: -0.2,
 		BuildImageName: function(X, Y) {
-			let Frame = (Math.floor((CurrentTime + X * 331 + Y * 197) / 2000) + X * 331 + Y * 197) % 100;
+			let Frame = (Math.floor((CurrentTime + X * 331 + Y * 197) / 2500) + X * 331 + Y * 197) % 100;
 			let Anim;
 			if ((Frame >= 25) && (Frame <= 27)) Anim = "Stretch";
 			else if ((Frame >= 28) && (Frame <= 30)) Anim = "Idle";
@@ -274,6 +274,47 @@ const ChatRoomMapViewObjectList = [
 			else if ((Frame >= 98) && (Frame <= 100)) Anim = "Roll";
 			else Anim = "Sleep";
 			return "DogBrown" + Anim;
+		}
+	},
+
+	{
+		ID: 830,
+		Type: "FloorDecorationAnimal",
+		Style: "RabbitBrownStand",
+		Top: -0.3,
+		BuildImageName: function(X, Y) {
+			let Frame = (Math.floor((CurrentTime + X * 349 + Y * 193) / 1700) + X * 347 + Y * 193) % 200;
+			let Anim;
+			let F = Frame % 100;
+			if ((F >= 2) && (F <= 5)) Anim = "Idle";
+			else if ((F >= 6) && (F <= 7)) Anim = "Watch";
+			else if ((F >= 8) && (F <= 9)) Anim = "Idle";
+			else if ((F >= 10) && (F <= 13)) Anim = "Wait";
+			else if ((F >= 14) && (F <= 16)) Anim = "Cute";
+			else if ((F >= 17) && (F <= 21)) Anim = "Stand";
+			else if ((F >= 22) && (F <= 23)) Anim = "Cute";
+			else if ((F >= 24) && (F <= 27)) Anim = "Wait";
+			else if ((F >= 28) && (F <= 30)) Anim = "Watch";
+			else if ((F >= 31) && (F <= 34)) Anim = "Idle";
+			else if ((F >= 35) && (F <= 41)) Anim = "Relax";
+			else if ((F >= 42) && (F <= 44)) Anim = "Wait";
+			else if ((F >= 45) && (F <= 45)) Anim = "Idle";
+			else if ((F >= 46) && (F <= 49)) Anim = "Wait";
+			else if ((F >= 50) && (F <= 55)) Anim = "Cute";
+			else if ((F >= 56) && (F <= 59)) Anim = "Stand";
+			else if ((F >= 60) && (F <= 61)) Anim = "Cute";
+			else if ((F >= 62) && (F <= 64)) Anim = "Relax";
+			else if ((F >= 65) && (F <= 69)) Anim = "Watch";
+			else if ((F >= 70) && (F <= 74)) Anim = "Wait";
+			else if ((F >= 75) && (F <= 76)) Anim = "Idle";
+			else if ((F >= 77) && (F <= 82)) Anim = "Relax";
+			else if ((F >= 83) && (F <= 85)) Anim = "Wait";
+			else if ((F >= 86) && (F <= 89)) Anim = "Watch";
+			else if ((F >= 90) && (F <= 91)) Anim = "Idle";
+			else if ((F >= 92) && (F <= 94)) Anim = "Relax";
+			else if ((F >= 95) && (F <= 98)) Anim = "Cute";
+			else Anim = "Stand";
+			return "RabbitBrown" + Anim + ((Frame >= 100) ? "Right" : "");
 		}
 	},
 
