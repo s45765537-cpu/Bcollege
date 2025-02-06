@@ -125,7 +125,7 @@ const ChatRoomMapViewObjectList = [
 
 	{ ID: 600, Type: "FloorDecorationCamping", Style: "Blank" },
 	{ ID: 610, Type: "FloorDecorationCamping", Style: "LogFire", Top: -0.35 },
-	{ 
+	{
 		ID: 611,
 		Type: "FloorDecorationCamping",
 		Style: "LogFireAnim0",
@@ -192,7 +192,7 @@ const ChatRoomMapViewObjectList = [
 		TransparencyCutoutHeight: 0.96
 	},
 	{ ID: 800, Type: "FloorDecorationAnimal", Style: "Blank" },
-	{ 
+	{
 		ID: 810,
 		Type: "FloorDecorationAnimal",
 		Style: "CatCaramelHappy",
@@ -231,7 +231,7 @@ const ChatRoomMapViewObjectList = [
 			return "CatCaramel" + Anim;
 		}
 	},
-	{ 
+	{
 		ID: 820,
 		Type: "FloorDecorationAnimal",
 		Style: "DogBrownHappy",
