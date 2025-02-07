@@ -4586,7 +4586,7 @@ function ClubCardRenderPanel() {
 	// Draws the focused card, panel and log
 	DrawRect(1702, 0, 298, 1000, "#404040");
 	DrawRect(1700, 0, 2, 1000, "White");
-	if (ClubCardFocus != null) ClubCardRenderCard(ClubCardFocus, 1705, 5, 290);
+	if (ClubCardFocus != null) ClubCardRenderCard(ClubCardFocus, 705, 250, 250);
 	if (document.getElementById("CCLog") == null) {
 		ElementCreateDiv("CCLog");
 		let Elem = document.getElementById("CCLog");
@@ -4607,7 +4607,9 @@ function ClubCardRenderPanel() {
 		Elem.setAttribute("placeholder", TextGet("ChatHere"));
 	}
 
-	ElementPositionFix("CCLog", 20, 1705, (ClubCardFocus == null) ? 5 : 590, 285, (ClubCardFocus == null) ? 825 : 240);
+	ElementPositionFix("CCLog", 20, 1705, 5, 285, 825);
+	//old
+	//ElementPositionFix("CCLog", 20, 1705, (ClubCardFocus == null) ? 5 : 590, 285, (ClubCardFocus == null) ? 825 : 240);
 	ElementPosition("CCChat", 1857, 865, 306);
 
 	if (ClubCardRenderLog.length > 0) {
@@ -4656,7 +4658,7 @@ function ClubCardRenderPanel() {
 	// If there's a pending card with a prerequisite
 	if (ClubCardPending != null) {
 		DrawButton(1805, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/CancelPending.png", TextGet("CancelPending"));
-		if (ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) DrawButton(1725, 300, 250, 60, TextGet("SelectCard"), "White");
+		if (ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) DrawButton(725, 505, 215, 50, TextGet("SelectCard"), "White");
 		return;
 	}
 
@@ -4673,7 +4675,7 @@ function ClubCardRenderPanel() {
 	if ((ClubCardPopup == null) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")) {
 		DrawButton(1805, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/Bankrupt.png", TextGet("Bankrupt"));
 		DrawButton(1705, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/" + ((ClubCardTurnCardPlayed == 0) ? "Draw" : "CannotDraw") + ".png", TextGet((ClubCardTurnCardPlayed == 0) ? "Draw" : "CannotDraw"));
-		if (ClubCardCanPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) DrawButton(1725, 300, 250, 60, TextGet("PlayCard"), "White");
+		if (ClubCardCanPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) DrawButton(725, 505, 215, 50, TextGet("PlayCard"), "White");
 	} else ClubCardStatusText(ClubCardIsPlaying() ? "OpponentPlaying" : "WatchingGame");
 	DrawButton(5, 450, 45, 45, null, "White", "Screens/MiniGame/ClubCard/Button/DiscardPile.png", TextGet("OpponentDiscardPile"));
 	DrawButton(5, 505, 45, 45, null, "White", "Screens/MiniGame/ClubCard/Button/DiscardPile.png", TextGet("DiscardPile"));
@@ -4873,7 +4875,7 @@ function ClubCardClick() {
 	}
 
 	// If there's a pending card with a prerequisite, there are extra buttons
-	if ((ClubCardPending != null) && MouseIn(1725, 300, 250, 60) && ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) return ClubCardSelectCard(ClubCardFocus);
+	if ((ClubCardPending != null) && MouseIn(725, 505, 215, 50) && ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) return ClubCardSelectCard(ClubCardFocus);
 	if ((ClubCardPending != null) && MouseIn(1805, 905, 90, 90)) return ClubCardPending = null;
 
 	// Can always concede/exit
@@ -4885,9 +4887,9 @@ function ClubCardClick() {
 	// Runs the basic game buttons
 
 	//Play Card
-	if (MouseIn(1725, 300, 250, 60) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") && ClubCardCanPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) return ClubCardStartTurn(ClubCardStartTurnType.PLAYCARD);
+	if (MouseIn(725, 505, 215, 50) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") && ClubCardCanPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) return ClubCardStartTurn(ClubCardStartTurnType.PLAYCARD);
 	// Click on an empty space to reset the focus of the selected Card.
-	if (MouseIn(1700, 0, 300, 600) && (ClubCardFocus != null)) return ClubCardFocus = null;
+	if (MouseIn(700, 245, 260, 510) && (ClubCardFocus != null)) return ClubCardFocus = null;
 	// Draw card and end turn
 	if (MouseIn(1705, 905, 90, 90) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")) return ClubCardStartTurn(ClubCardStartTurnType.DRAWENDTURN);
 	// Open Bancrupt window and bind function close and bancrupt in yes and no
