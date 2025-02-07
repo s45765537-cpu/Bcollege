@@ -359,9 +359,6 @@ function CommonDynamicFunctionParams(FunctionName) {
 	FunctionName = FunctionName.replace("!", "");
 
 	// Gets the real function name and parameters
-	var ParamCount = 1;
-	if (FunctionName.indexOf("()") >= 0) ParamCount = 0;
-	else ParamCount = FunctionName.split(",").length;
 	var openParenthesisIndex = FunctionName.indexOf("(");
 	var closedParenthesisIndex = FunctionName.indexOf(")", openParenthesisIndex);
 	var Params = FunctionName.substring(openParenthesisIndex + 1, closedParenthesisIndex).split(",");
@@ -374,23 +371,14 @@ function CommonDynamicFunctionParams(FunctionName) {
 	if (typeof window[FunctionName] === "function") {
 
 		// Launches the function with the params and returns the result
-		var Result = true;
-		if (ParamCount == 0) Result = window[FunctionName]();
-		if (ParamCount == 1) Result = window[FunctionName](Params[0]);
-		if (ParamCount == 2) Result = window[FunctionName](Params[0], Params[1]);
-		if (ParamCount == 3) Result = window[FunctionName](Params[0], Params[1], Params[2]);
-		if (ParamCount == 4) Result = window[FunctionName](Params[0], Params[1], Params[2], Params[3]);
-		if (Reverse) return !Result;
-		else return Result;
-
+		var Result = window[FunctionName](...Params);
+		return Reverse ? !Result : Result;
 	} else {
 
 		// Log the error in the console
 		console.log("Trying to launch invalid function: " + FunctionName);
 		return false;
-
 	}
-
 }
 
 
