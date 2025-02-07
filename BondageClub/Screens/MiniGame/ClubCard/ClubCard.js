@@ -24,8 +24,11 @@ var ClubCardPlayer = [];
 var ClubCardOnlinePlayerMemberNumber1 = -1;
 var ClubCardOnlinePlayerMemberNumber2 = -1;
 
+let ClubCardIsResetFocus = false;
+
 
 //#region Chat Log variable
+var ClubCardLogScroll = false;
 /**
  * Storage for all processed and displayed log messages
  * @type {ClubCardMessage[]}
@@ -41,7 +44,6 @@ let ClubCardRenderLog = [];
  * @type {ClubCardMessage[]}
  */
 let ClubCardMessageStorage = [];
-var ClubCardLogScroll = false;
 
 const ClubCardMessageType = Object.freeze({
 	//Packet Messages Type
@@ -3294,6 +3296,7 @@ function ClubCardPlayerDrawCard(CCPlayer, Amount = null) {
 			if (FocusCard) {
 				ClubCardFocus = CCPlayer.Deck[0];
 				ClubCardSetGlow(ClubCardFocus, "#00FFFF");
+				ClubCardResetCardFocus();
 			}
 			CCPlayer.Hand.push(CCPlayer.Deck[0]);
 			CCPlayer.Deck.splice(0, 1);
@@ -3877,6 +3880,17 @@ function ClubCardDefocusCardIfDiscarded() {
 	if (!ClubCardPlayer[playerIndex].Hand.find(c => c.ID === ClubCardFocus.ID)) ClubCardFocus = null;
 }
 
+/**
+ * Function to reset ClubCardFocus after actions to play or draw a card.
+ * Can be canceled if the player has time to tap a card in the time delayed before triggering.
+ */
+function ClubCardResetCardFocus() {
+	ClubCardIsResetFocus = true;
+	setTimeout(() => {
+		if (ClubCardIsResetFocus) ClubCardFocus = null;
+	}, 700);
+}
+
 function ClubCardCheckVictory(CCPlayer) {
 	if (CCPlayer.Fame >= ClubCardFameGoal) {
 		ClubCardFocus = null;
@@ -4112,6 +4126,8 @@ function ClubCardPlayCard(CCPlayer, Card) {
 	if (Card.OnPlay != null) Card.OnPlay(CCPlayer);
 	ClubCardSelection = null;
 	ClubCardPending = null;
+
+	ClubCardResetCardFocus();
 
 	// Run on cards played handlers
 	ClubCardOnCardPlayedHandler(CCPlayer, Card);
@@ -4862,9 +4878,15 @@ function ClubCardClick() {
 		if (ClubCardPopup.Mode == "DISCARDPILE") {
 			if (MouseIn(760, 650, 180, 60)) return CommonDynamicFunction(ClubCardPopup.Function1);
 			if (ClubCardPopup.Text == "Opponent") {
-				if ((ClubCardHover != null) && ClubCardHover.Location == "OpponentDiscardPile") return ClubCardFocus = { ...ClubCardHover };
+				if ((ClubCardHover != null) && ClubCardHover.Location == "OpponentDiscardPile") {
+					ClubCardIsResetFocus = false;
+					return ClubCardFocus = { ...ClubCardHover };
+				}
 			} else {
-				if ((ClubCardHover != null) && ClubCardHover.Location == "PlayerDiscardPile") return ClubCardFocus = { ...ClubCardHover };
+				if ((ClubCardHover != null) && ClubCardHover.Location == "PlayerDiscardPile") {
+					ClubCardIsResetFocus = false;
+					return ClubCardFocus = { ...ClubCardHover };
+				}
 			}
 		}
 		if (ClubCardPopup.Mode == "DECK")
@@ -4902,7 +4924,11 @@ function ClubCardClick() {
 	if (MouseIn(5, 505, 45, 45)) return ClubCardCreatePopup("DISCARDPILE", null, TextGet("Close"), null, "ClubCardDestroyPopup()", null);
 
 	// Sets the focus card if nothing else was clicked
-	if (ClubCardHover != null) return ClubCardFocus = { ...ClubCardHover };
+	if (ClubCardHover != null) {
+		ClubCardIsResetFocus = false;
+		return ClubCardFocus = { ...ClubCardHover };
+	}
+
 
 }
 
