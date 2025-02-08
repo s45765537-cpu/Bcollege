@@ -6269,9 +6269,9 @@ ItemDevicesBoundBarOptionr20,Hot dog
 ItemDevicesBoundBarOptionr21,Taco
 ItemDevicesBoundBarOptionr22,Bill and changes
 ItemDevicesBoundBarOptionr23,Ashtray
-ItemDevicesBoundBarSetl0,SourceCharacter exposes the DestinationCharacter legs opening the EW's hatch.
-ItemDevicesBoundBarSetl1,SourceCharacter closes the EW's with window glass leaving the DestinationCharacter legs visible.
-ItemDevicesBoundBarSetl2,SourceCharacter closes the EW's with metal hatch. DestinationCharacter legs aren't visible anymore.
+ItemDevicesBoundBarSetc0,SourceCharacter exposes the DestinationCharacter legs opening the EW's hatch.
+ItemDevicesBoundBarSetc1,SourceCharacter closes the EW's with window glass leaving the DestinationCharacter legs visible.
+ItemDevicesBoundBarSetc2,SourceCharacter closes the EW's with metal hatch. DestinationCharacter legs aren't visible anymore.
 ItemDevicesBoundBarSetb0,SourceCharacter removes the EW's sunshade behind DestinationCharacter.
 ItemDevicesBoundBarSetb1,SourceCharacter installs the EW's sunshade behind DestinationCharacter.
 ItemDevicesBoundBarSetf0,SourceCharacter allows DestinationCharacter operate EW device in the autonomous mode (LED ON).
@@ -6355,9 +6355,15 @@ ItemDevicesBoundBarSetr23,DestinationCharacterName puts a ashtray on TargetProno
 ItemMouthAOMGagSelect,Always open mouth gag options: -straps can be padlocked-
 ItemMouthAOMGagLips,Just lips
 ItemMouthAOMGagStraps,With straps
+ItemMouthAOMGagSetLips,SourceCharacter removes the AOM straps on the DestinationCharacter face.
+ItemMouthAOMGagSetStraps,SourceCharacter installs the AOM straps on the DestinationCharacter face.
 ItemMouth2AOMGagSelect,Always open mouth gag options: -straps can be padlocked-
 ItemMouth2AOMGagLips,Just lips
 ItemMouth2AOMGagStraps,With straps
+ItemMouth2AOMGagSetLips,SourceCharacter removes the AOM straps on the DestinationCharacter face.
+ItemMouth2AOMGagSetStraps,SourceCharacter installs the AOM straps on the DestinationCharacter face.
 ItemMouth3AOMGagSelect,Always open mouth gag options: -straps can be padlocked-
 ItemMouth3AOMGagLips,Just lips
 ItemMouth3AOMGagStraps,With straps
+ItemMouth3AOMGagSetLips,SourceCharacter removes the AOM straps on the DestinationCharacter face.
+ItemMouth3AOMGagSetStraps,SourceCharacter installs the AOM straps on the DestinationCharacter face.
