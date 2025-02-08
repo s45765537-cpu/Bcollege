@@ -3294,9 +3294,9 @@ function ClubCardPlayerDrawCard(CCPlayer, Amount = null) {
 	while (Amount > 0) {
 		if (CCPlayer.Deck.length > 0) {
 			if (FocusCard) {
-				ClubCardFocus = CCPlayer.Deck[0];
-				ClubCardSetGlow(ClubCardFocus, "#00FFFF");
-				ClubCardResetCardFocus();
+				//TODO Dont forget delete after test
+				//ClubCardFocus = CCPlayer.Deck[0];
+				ClubCardSetGlow(CCPlayer.Deck[0], "#00FFFF");
 			}
 			CCPlayer.Hand.push(CCPlayer.Deck[0]);
 			CCPlayer.Deck.splice(0, 1);
@@ -3880,17 +3880,6 @@ function ClubCardDefocusCardIfDiscarded() {
 	if (!ClubCardPlayer[playerIndex].Hand.find(c => c.ID === ClubCardFocus.ID)) ClubCardFocus = null;
 }
 
-/**
- * Function to reset ClubCardFocus after actions to play or draw a card.
- * Can be canceled if the player has time to tap a card in the time delayed before triggering.
- */
-function ClubCardResetCardFocus() {
-	ClubCardIsResetFocus = true;
-	setTimeout(() => {
-		if (ClubCardIsResetFocus) ClubCardFocus = null;
-	}, 700);
-}
-
 function ClubCardCheckVictory(CCPlayer) {
 	if (CCPlayer.Fame >= ClubCardFameGoal) {
 		ClubCardFocus = null;
@@ -4042,6 +4031,7 @@ function ClubCardPlayCard(CCPlayer, Card) {
 	// If the player must select a card before playing the current card
 	if ((Card.Prerequisite != null) && (ClubCardSelection == null) && (CCPlayer.Control == "Player")) {
 		ClubCardPending = Card;
+		ClubCardFocus = null;
 		const textGetKeyPrereq = "Prerequisite " + Card.Name;
 		ClubCardMessageAdd(ClubCardMessageType.PREREQUISTITE, textGetKeyPrereq);
 		return;
@@ -4126,8 +4116,7 @@ function ClubCardPlayCard(CCPlayer, Card) {
 	if (Card.OnPlay != null) Card.OnPlay(CCPlayer);
 	ClubCardSelection = null;
 	ClubCardPending = null;
-
-	ClubCardResetCardFocus();
+	ClubCardFocus = null;
 
 	// Run on cards played handlers
 	ClubCardOnCardPlayedHandler(CCPlayer, Card);
