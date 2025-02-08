@@ -788,7 +788,7 @@ function DialogAllowItemScreenException() {
  * @returns {string} - The name of the current dialog, if such a dialog exists, any empty string otherwise
  */
 function DialogIntro(C) {
-	const dialog = C.Dialog.find(d => d.Stage == C.Stage && d.Option == null && d.Result != null && DialogPrerequisite(d));
+	const dialog = C?.Dialog.find(d => d.Stage == C.Stage && d.Option == null && d.Result != null && DialogPrerequisite(d));
 	return dialog?.Result ?? "";
 }
 

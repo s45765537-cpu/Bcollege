@@ -745,9 +745,10 @@ function CharacterDialogSubstitution(C){
  * @param {Character} C - Character for which to build the dialog
  * @param {readonly string[][]} CSV - Content of the CSV file
  * @param {string} functionPrefix - A prefix that will be added to functions that aren't part of the Dialog or ChatRoom "namespace"
+ * @param {boolean} reload - Perform a {@link DialogMenu.Reload} hard reset of the active `dialog` mode
  * @returns {void} - Nothing
  */
-function CharacterBuildDialog(C, CSV, functionPrefix) {
+function CharacterBuildDialog(C, CSV, functionPrefix, reload=true) {
 
 	C.Dialog = [];
 
@@ -782,7 +783,7 @@ function CharacterBuildDialog(C, CSV, functionPrefix) {
 		C.Dialog.push(D);
 	}
 
-	if (DialogMenuMode === "dialog") {
+	if (reload && DialogMenuMode === "dialog") {
 		DialogMenuMapping.dialog.Reload(null, null, { reset: true });
 	}
 }
