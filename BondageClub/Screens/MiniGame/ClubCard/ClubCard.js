@@ -3614,7 +3614,7 @@ function ClubCardAddPlayer(Char, Cont, Cards) {
 		Deck: ClubCardShuffle(ClubCardLoadDeck(Cards)),
 		FullDeck: ClubCardLoadDeck(Cards),
 		Index: ClubCardPlayer.length,
-		Sleeve: "Default",
+		Sleeve: (Player.Game.ClubCard.CardBack > -1 && Player.Game.ClubCard.CardBack <= ClubCardBuilderCardBackCount) ? Player.Game.ClubCard.CardBack : 0,
 		Hand: [],
 		Board: [],
 		Event: [],
@@ -4416,7 +4416,7 @@ function ClubCardGetGroupText(Group) {
  * @param {number} X - The X on screen position
  * @param {number} Y - The Y on screen position
  * @param {number} W - The width of the card
- * @param {string|null} Sleeve - The sleeve image to draw instead of the card
+ * @param {number|null} Sleeve - The sleeve image to draw instead of the card
  * @param {string|null} Source - The source from where it's called
  * @returns {void} - Nothing
  */
@@ -4844,6 +4844,7 @@ function ClubCardRun() {
 	ClubCardRenderHand(ClubCardPlayer[0], 0, 800, 1700, 300);
 	ClubCardRenderHand(ClubCardPlayer[1], 0, -200, 1700, 300);
 	ClubCardRenderPanel();
+	ClubCardBackground = Player.Game.ClubCard.Background ? Player.Game.ClubCard.Background : "ClubCardPlayBoard1";
 	if (
 		(ClubCardPopup == null) &&
 		(ClubCardPlayer[ClubCardTurnIndex].Control == "Player") &&

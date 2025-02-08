@@ -505,7 +505,6 @@ Title Tour Guide,Tour Guide
 Text Tour Guide,"When she enters your club, draw a card. Gains +3 money if tourist is present, gains +3 fame if diplomat is present."
 Title Moon,"Moon"
 Text Moon,"Enters: Moon's magic creates an illusory copy of any chosen member (except herself) in your hand."
-Effect Moon,"Moon waves her tails, casting an illusion spell, after which CARDNAME appears in your hand."
 Prerequisite Moon,Select a member to receive an illusory copy in your hand. 
 Title Sticky Fingers,Sticky Fingers
 Text Sticky Fingers,"Enters: Steal 1 Fame and Money. When you steal with another effect, steal 1 Fame and Money."

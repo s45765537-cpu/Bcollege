@@ -546,7 +546,7 @@ type FetishName =
 
 type BackgroundTag =
 	"Filter by tag" | "Indoor" | "Outdoor" | "Aquatic" | "Special Events" | "SciFi & Fantasy" |
-	"Club & College" | "Regular house" | "Dungeon" | "Asylum" | "Pandora"
+	"Club & College" | "Regular house" | "Dungeon" | "Asylum" | "Pandora" | "Club Cards"
 	;
 
 // NOTE: `NPCArchetype` is for NPC's only
@@ -3431,6 +3431,8 @@ interface GameClubCardParameters {
 	Reward?: string;
 	Status?: OnlineGameStatus;
 	PlayerSlot?: number;
+	Background?: string;
+	CardBack?: number;
 }
 
 interface GamePrisonParameters {
@@ -4280,7 +4282,7 @@ interface ClubCardPlayer {
 	Character: Character;
 	Control: string;
 	Index: number;
-	Sleeve: string;
+	Sleeve: number;
 	Deck: ClubCard[];
 	FullDeck: ClubCard[];
 	Hand: ClubCard[];
