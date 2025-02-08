@@ -343,7 +343,16 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 3000, Type: "WallDecoration", Style: "Blank" },
 	{ ID: 3010, Type: "WallDecoration", Style: "Painting" },
 	{ ID: 3020, Type: "WallDecoration", Style: "Mirror" },
-	{ ID: 3030, Type: "WallDecoration", Style: "Candelabra" },
+	{ 
+		ID: 3030,
+		Type: "WallDecoration",
+		Style: "Candelabra0",
+		BuildImageName: function(X, Y) {
+			let Frame = (Math.floor((CurrentTime + X * 349 + Y * 193) / 150) + X * 347 + Y * 193) % 17;
+			if (Frame > 8) Frame = 16 - Frame;
+			return "Candelabra" + Frame.toString();
+		}
+	},
 	{ ID: 3040, Type: "WallDecoration", Style: "Whip" },
 	{ ID: 3050, Type: "WallDecoration", Style: "Fireplace" },
 	{ ID: 3100, Type: "WallDecoration", Style: "SilverShield" },
