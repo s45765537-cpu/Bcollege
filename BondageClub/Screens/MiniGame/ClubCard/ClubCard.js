@@ -4230,15 +4230,9 @@ function ClubCardAIStart() {
  */
 function ClubCardConcede() {
 	if (ClubCardIsOnline()) {
-		if (ClubCardIsPlaying()) {
-			const textGetKey = "OnlineConcede";
-			ClubCardMessageAdd(ClubCardMessageType.SYSTEM, textGetKey);
-		}
-		else {
-			const textGetKey = "OnlineStopWatch";
-			const Msg = TextGet(textGetKey).replace("PLAYERNAME", CharacterNickname(Player));
-			ClubCardMessageAdd(ClubCardMessageType.SYSTEM, null, {}, null, Msg);
-		}
+		const textGetKey = ClubCardIsPlaying() ? "OnlineConcede" : "OnlineStopWatch";
+		const Msg = TextGet(textGetKey).replace("PLAYERNAME", CharacterNickname(Player));
+		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, null, {}, null, Msg);
 	}
 	ClubCardDestroyPopup();
 	ClubCardEndGame(false);
