@@ -3366,7 +3366,15 @@ class _DialogFocusMenu extends DialogMenu {
 		};
 	}
 
-	/** @type {DialogMenu["Init"]} */
+	/**
+	 * Initialize the {@link DialogMenu} subscreen.
+	 *
+	 * Serves as a {@link ScreenFunctions["Load"]} wrapper with added parameters.
+	 * @param {Character} C The character in question
+	 * @param {AssetItemGroup} focusGroup The focused item group
+	 * @param {null | { shape?: RectTuple }} style Misc styling for the subscreen
+	 * @returns {null | HTMLDivElement} The div containing the dialog subscreen root element or `null` if the screen failed to initialize
+	 */
 	Init(C, focusGroup, style=null) {
 		this._focusGroup = focusGroup;
 		return super.Init(C, focusGroup, style);
