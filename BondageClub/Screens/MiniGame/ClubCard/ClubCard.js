@@ -3,19 +3,27 @@ var ClubCardBackground = "ClubCardPlayBoard1";
 var ClubCardColor = ["#808080", "#FFFFFF", "#E0E0E0", "#D0FFD0", "#D0D0FF", "#FFD0D0", "#FFE080"];
 var ClubCardFameTextColor = "#5A73FF";
 var ClubCardMoneyTextColor = "#228B22";
+/** @type {null | Character } */
 var ClubCardOpponent = null;
+/** @type {number[]} */
 var ClubCardOpponentDeck = [];
+/** @type {null | ClubCard} */
 var ClubCardReward = null;
+/** @type {null | ClubCard} */
 var ClubCardHover = null;
+/** @type {null | ClubCard} */
 var ClubCardFocus = null;
+/** @type {null | TextCache} */
 var ClubCardTextCache = null;
 var ClubCardTurnIndex = 0;
 var ClubCardTurnCardPlayed = 0;
 var ClubCardTurnEndDraw = false;
 var ClubCardFameGoal = 100;
+/** @type {{ Mode: null | string, Text: null | string, Button1: null | string, Button2: null | string, Function1: null | string, Function2: null | string }} */
 var ClubCardPopup = null;
-/** @type {ClubCard} */
+/** @type {null | ClubCard} */
 var ClubCardSelection = null;
+/** @type {null | ClubCard} */
 var ClubCardPending = null;
 var ClubCardLevelLimit = [0, 5, 8, 13, 20, 40];
 var ClubCardLevelCost = [0, 0, 10, 20, 30, 40];
@@ -3194,7 +3202,7 @@ function ClubCardAddToHand(CCPlayer, Card) {
 /**
  * Removes several cards from player time events
  * @param {ClubCardPlayer} CCPlayer - The club card player
- * @param {String[]} ListOfCardNames - The names of the cards to remove
+ * @param {readonly String[]} ListOfCardNames - The names of the cards to remove
  */
 function ClubCardRemoveCardsFromEventByName(CCPlayer, ListOfCardNames) {
 	ListOfCardNames.forEach(cardName => ClubCardRemoveFromEventByName(CCPlayer, cardName));
@@ -3250,8 +3258,8 @@ function ClubCardRemoveGroupFromBoard(CCPlayer, GroupName) {
 
 /**
  * Shuffles an array of cards
- * @param {Array} array - The array of cards to shuffle
- * @returns {Array} - The shuffled cards
+ * @param {ClubCard[]} array - The array of cards to shuffle
+ * @returns {ClubCard[]} - The shuffled cards
  */
 function ClubCardShuffle(array) {
 	let currentIndex = array.length, randomIndex;
@@ -3307,7 +3315,7 @@ function ClubCardPlayerDrawCard(CCPlayer, Amount = null) {
 /**
  * Draw cards from the player deck into it's hand
  * @param {ClubCardPlayer} CCPlayer - The club card player that draws the cards
- * @param {string[]} groups - The group to draw from
+ * @param {readonly string[]} groups - The group to draw from
  * @param {number | undefined} level - The level
  * @returns {boolean} - if cards were drawn or not
  */
@@ -3335,7 +3343,7 @@ function ClubCardPlayerDrawGroupCard(CCPlayer, groups, level) {
 /**
  * Summon cards from the player deck into it's board
  * @param {ClubCardPlayer} CCPlayer - The club card player that summons the cards
- * @param {string[]} groups - The group to summon from
+ * @param {readonly string[]} groups - The group to summon from
  * @param {number} amount - The amount of cards to summon
  * @param {number | undefined} level - The level of the cards if needed
  * @returns {boolean} - if cards were summoned or not
@@ -3494,8 +3502,8 @@ function ClubCardPlayerDiscardCard(CCPlayer, Amount) {
 
 /**
  * Builds a deck array of object from a deck array of numbers
- * @param {Array} InDeck - The array of number deck
- * @returns {Array} - The resulting deck
+ * @param {readonly number[]} InDeck - The array of number deck
+ * @returns {ClubCard[]} - The resulting deck
  */
 function ClubCardLoadDeck(InDeck) {
 	let OutDeck = [];
@@ -3601,7 +3609,7 @@ function ClubCardLoadDeckNumber(DeckNum) {
  * Draw the club card player hand on screen, show only sleeves if not controlled by player
  * @param {Character} Char - The character to link to that club card player
  * @param {String} Cont - The control linked to that player
- * @param {Array} Cards - The cards to build the deck with
+ * @param {readonly number[]} Cards - The cards to build the deck with
  * @returns {void} - Nothing
  */
 function ClubCardAddPlayer(Char, Cont, Cards) {
@@ -4383,7 +4391,7 @@ function ClubCardRenderBubble(Value, X, Y, W, Image) {
 
 /**
  * Returns the text description of all groups, separated by commas
- * @param {Array} Group - The card to draw
+ * @param {readonly string[]} Group - The card to draw
  * @returns {string} - The
  */
 function ClubCardGetGroupText(Group) {
@@ -4479,7 +4487,7 @@ function ClubCardRenderCard(Card, X, Y, W, Sleeve = null, Source = null) {
 
 /**
  * Draw the club card player board on screen
- * @param {Object} CCPlayer - The club card player that draws the cards
+ * @param {ClubCardPlayer} CCPlayer - The club card player that draws the cards
  * @param {number} X - The X on screen position
  * @param {number} Y - The Y on screen position
  * @param {number} W - The width of the game board
@@ -4860,9 +4868,15 @@ function ClubCardClick() {
 		if (ClubCardPopup.Mode == "DISCARDPILE") {
 			if (MouseIn(760, 650, 180, 60)) return CommonDynamicFunction(ClubCardPopup.Function1);
 			if (ClubCardPopup.Text == "Opponent") {
-				if ((ClubCardHover != null) && ClubCardHover.Location == "OpponentDiscardPile") return ClubCardFocus = { ...ClubCardHover };
+				if ((ClubCardHover != null) && ClubCardHover.Location == "OpponentDiscardPile") {
+					ClubCardFocus = { ...ClubCardHover };
+					return;
+				}
 			} else {
-				if ((ClubCardHover != null) && ClubCardHover.Location == "PlayerDiscardPile") return ClubCardFocus = { ...ClubCardHover };
+				if ((ClubCardHover != null) && ClubCardHover.Location == "PlayerDiscardPile") {
+					ClubCardFocus = { ...ClubCardHover };
+					return;
+				}
 			}
 		}
 		if (ClubCardPopup.Mode == "DECK")
@@ -4900,7 +4914,10 @@ function ClubCardClick() {
 	if (MouseIn(5, 505, 45, 45)) return ClubCardCreatePopup("DISCARDPILE", null, TextGet("Close"), null, "ClubCardDestroyPopup()", null);
 
 	// Sets the focus card if nothing else was clicked
-	if (ClubCardHover != null) return ClubCardFocus = { ...ClubCardHover };
+	if (ClubCardHover != null) {
+		ClubCardFocus = { ...ClubCardHover };
+		return;
+	}
 
 }
 

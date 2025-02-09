@@ -1,9 +1,12 @@
 "use strict";
 var ClubCardBuilderBackground = "ClubCardPlayBoard1";
 var ClubCardBuilderDeckIndex = -1;
+/** @type {null | ClubCard} */
 var ClubCardBuilderFocus = null;
+/** @type {ClubCard[]} */
 var ClubCardBuilderList = [];
 var ClubCardBuilderOffset = 0;
+/** @type {number[]} */
 var ClubCardBuilderDeckCurrent = [];
 var ClubCardBuilderMinDeckSize = 30;
 var ClubCardBuilderMaxDeckSize = 40;
@@ -23,6 +26,7 @@ var ClubCardBuilderLiabilityDeck = [2000, 2001, 2002, 3001, 3002, 3003, 3004, 30
 
 /**
  * Loads the deck # in memory so it can be edited
+ * @param {number} Deck
  * @returns {void} - Nothing
  */
 function ClubCardBuilderLoadDeck(Deck) {

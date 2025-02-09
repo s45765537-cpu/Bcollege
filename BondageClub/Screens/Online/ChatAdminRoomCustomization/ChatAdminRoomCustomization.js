@@ -2,8 +2,9 @@
 var ChatAdminRoomCustomizationBackground = "Sheet";
 /** @type {ServerChatRoomCustomData} */
 var ChatAdminRoomCustomizationCurrent = null;
+/** @type {null | HTMLAudioElement} */
 var ChatAdminRoomCustomizationMusic = null
-/** @type {null | "MusicLibrary"} */;
+/** @type {null | "MusicLibrary"} */
 var ChatAdminRoomCustomizationMode = null;
 /** @type {number} */
 var ChatAdminRoomCustomizationSizeMode = 0;

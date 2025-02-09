@@ -61,7 +61,7 @@ String.prototype.replaceAt=function(index, character) {
  * second item is the generic fallback font family (e.g. sans-serif, serif,
  * etc.)
  * @constant
- * @type {Object.<String, [String[], String]>}
+ * @type {Record<String, [String[], String]>}
  */
 const CommonFontStacks = {
 	Arial: [["Arial"], "sans-serif"],
