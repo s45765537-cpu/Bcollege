@@ -2091,7 +2091,7 @@ function PrivateRandomBed() {
 			if (C.IsNpc() && (!C.Cage) && (Math.random() < 0.2) && (PrivateBedCount() <= 3) && (NPCTraitGet(C, "Horny") > 0) && (NPCEventGet(C, "NextBed") < CurrentTime)) {
 				CurrentCharacter = C;
 				PrivateEnterBed();
-				CurrentCharacter = null;
+				DialogLeave();
 			}
 		}
 }

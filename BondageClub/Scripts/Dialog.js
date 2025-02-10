@@ -933,8 +933,7 @@ function DialogMenuBack() {
 
 		default:
 			console.trace(`Unknown menu mode "${DialogMenuMode}, resetting`);
-			DialogChangeMode("dialog");
-			CurrentCharacter = null;
+			DialogLeave();
 			break;
 	}
 }

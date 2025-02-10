@@ -31,8 +31,7 @@ function ShopIsRescueScenario(ScenarioName) { return (ShopRescueScenario == Scen
  */
 function ShopEnter() {
 	ShopVendor.Stage = "0";
-	ShopVendor.FocusGroup = null;
-	CurrentCharacter = null;
+	DialogLeave();
 	Shop2.Init();
 }
 
