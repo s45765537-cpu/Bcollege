@@ -423,8 +423,8 @@ function ModularItemDrawModule(module, data) {
  */
 function ModularItemCreateClickBaseFunction(data) {
 	const DrawData = data.drawData;
-	const pageNumber = Math.min(DrawData.pageCount - 1, data.pages[ModularItemBase] ?? 0);
 	return () => {
+		const pageNumber = Math.min(DrawData.pageCount - 1, data.pages[ModularItemBase] ?? 0);
 		ModularItemClickCommon(
 			data,
 			DrawData,
@@ -434,7 +434,7 @@ function ModularItemCreateClickBaseFunction(data) {
 			i => {
 				const pageStart = pageNumber * DrawData.itemsPerPage;
 				const page = data.modules.slice(pageStart, pageStart + DrawData.itemsPerPage);
-				const module = page[i];
+				const module = page[i % DrawData.itemsPerPage];
 				if (module) {
 					if (CharacterGetCurrent().IsPlayer() && module.AllowSelfSelect === false) {
 						DialogExtendedMessage = InterfaceTextGet("CannotSelfSelect");

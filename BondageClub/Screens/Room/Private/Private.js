@@ -2098,7 +2098,8 @@ function PrivateRandomBed() {
 
 /**
  * Returns the Club Card Deck that will be used by the NPC
- * @returns {Array} - The Deck to useRule
+ * @param {Character} C
+ * @returns {number[]} - The Deck to useRule
  */
 function PrivateGetClubCardDeck(C) {
 

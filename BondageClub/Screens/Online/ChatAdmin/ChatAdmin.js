@@ -14,10 +14,10 @@ var ChatAdminDefaultLanguage = "EN";
 
 // For the Visibility & Access UI elements
 // TODO: Figure out a better way to handle this
-var ChatAdminVisibilityModeLabels = Object.keys(ChatRoomVisibilityMode);
+var ChatAdminVisibilityModeLabels = CommonKeys(ChatRoomVisibilityMode);
 var ChatAdminVisibilityModeValues = ChatAdminVisibilityModeLabels.map((key) => ChatRoomVisibilityMode[key]);
 var ChatAdminVisibilityModeIndex = 0;
-var ChatAdminAccessModeLabels = Object.keys(ChatRoomAccessMode);
+var ChatAdminAccessModeLabels = CommonKeys(ChatRoomAccessMode);
 var ChatAdminAccessModeValues = ChatAdminAccessModeLabels.map((key) => ChatRoomAccessMode[key]);
 var ChatAdminAccessModeIndex = 0;
 

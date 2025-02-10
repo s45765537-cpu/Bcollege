@@ -3,6 +3,7 @@
 
 type ArousalSettingsType = unknown;
 type AudioSettingsType = unknown;
+type ClubCard = unknown;
 type CharacterGameParameters = unknown;
 type CharacterOnlineSharedSettings = unknown;
 type ChatRoomMapData = unknown;
@@ -27,6 +28,7 @@ type Skill = unknown;
 type VisualSettingsType = unknown;
 
 type ActivityName = string;
+type AssetCategory = string;
 type AssetGroupName = string;
 type AssetPoseName = string;
 type ExpressionGroupName = string;

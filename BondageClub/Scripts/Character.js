@@ -745,9 +745,10 @@ function CharacterDialogSubstitution(C){
  * @param {Character} C - Character for which to build the dialog
  * @param {readonly string[][]} CSV - Content of the CSV file
  * @param {string} functionPrefix - A prefix that will be added to functions that aren't part of the Dialog or ChatRoom "namespace"
+ * @param {boolean} reload - Perform a {@link DialogMenu.Reload} hard reset of the active `dialog` mode
  * @returns {void} - Nothing
  */
-function CharacterBuildDialog(C, CSV, functionPrefix) {
+function CharacterBuildDialog(C, CSV, functionPrefix, reload=true) {
 
 	C.Dialog = [];
 
@@ -780,6 +781,10 @@ function CharacterBuildDialog(C, CSV, functionPrefix) {
 			D.Function = (D.Function.startsWith("Dialog") ? "" : C.IsOnline() ? "ChatRoom" : functionPrefix) + D.Function;
 
 		C.Dialog.push(D);
+	}
+
+	if (reload && DialogMenuMode === "dialog") {
+		DialogMenuMapping.dialog.Reload(null, null, { reset: true });
 	}
 }
 
@@ -1575,7 +1580,7 @@ function CharacterRandomUnderwear(C) {
 /**
  * Removes all appearance items from the character except underwear
  * @param {Character} C - Character to undress partially
- * @param {Array.<*>} Appearance - Appearance array to remove clothes from
+ * @param {readonly Item[]} Appearance - Appearance array to remove clothes from
  * @returns {void} - Nothing
  */
 function CharacterUnderwear(C, Appearance) {
@@ -1943,11 +1948,11 @@ function CharacterIsEdged(C) {
 /**
  * Checks if the character is wearing an item flagged as a category in a blocked list
  * @param {Character} C - The character to validate
- * @param {Array} BlockList - An array of strings to validate
+ * @param {readonly AssetCategory[]} BlockList - An array of strings to validate
  * @returns {boolean} - TRUE if the character is wearing a blocked item, FALSE otherwise
  */
 function CharacterHasBlockedItem(C, BlockList) {
-	if ((BlockList == null) || !Array.isArray(BlockList) || (BlockList.length == 0)) return false;
+	if ((BlockList == null) || !CommonIsArray(BlockList) || (BlockList.length == 0)) return false;
 	for (let B = 0; B < BlockList.length; B++)
 		for (let A = 0; A < C.Appearance.length; A++)
 			if ((C.Appearance[A].Asset != null) && (C.Appearance[A].Asset.Category != null) && (C.Appearance[A].Asset.Category.indexOf(BlockList[B]) >= 0))

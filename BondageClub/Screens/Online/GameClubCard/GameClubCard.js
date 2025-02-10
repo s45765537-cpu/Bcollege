@@ -249,7 +249,7 @@ function GameClubCardLoadStatus() {
 
 /**
  * Creates a bundle of cards in a string to push to the server.
- * @param {ClubCard[]} Cards - An array of c
+ * @param {readonly ClubCard[]} Cards - An array of c
  * @param {boolean} IncludeTime - If we must include the time property
  * @returns {string} - A string with all the cards
  */
@@ -263,7 +263,7 @@ function GameClubCardDoBundle(Cards, IncludeTime = false) {
 
 /**
  * Creates a bundle of cards in a string to push to the server.
- * @param {ClubCard[]} Cards - An array of ClubCard objects
+ * @param {readonly ClubCard[]} Cards - An array of ClubCard objects
  * @returns {string} - A string with all the cards
  */
 function GameClubCardBoardDoBundle(Cards) {
@@ -512,6 +512,7 @@ function GameClubCardProcess(Packet) {
  */
 function GameClubCardSyncOnlineData(Progress = "Action", LocalPlayerOnly = false) {
 	if (!ClubCardIsOnline()) return;
+	/** @type {ServerChatRoomGameCardGameData[]} */
 	let Packet = [];
 	for (let CCPlayer of ClubCardPlayer) {
 		if (LocalPlayerOnly && CCPlayer.Character.MemberNumber !== Player.MemberNumber) continue;

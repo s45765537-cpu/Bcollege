@@ -452,7 +452,7 @@ interface ServerChatRoomSearchData {
     MemberCount: number;
     MemberLimit: number;
     Description: string;
-    BlockCategory: string[];
+    BlockCategory: AssetCategory[];
     Game: ServerChatRoomGame;
     Friends: ServerFriendInfo[];
     Space: ServerChatRoomSpace;
@@ -828,9 +828,27 @@ interface ServerChatRoomGameKDUpdateRequest {
 	KinkyDungeon: any;
 }
 
+interface ServerChatRoomGameCardGameData {
+    MemberNumber: number;
+    Playing: boolean;
+    Level: number;
+    Fame: number;
+    Money: number;
+    LastFamePerTurn: number;
+    LastMoneyPerTurn: number;
+    FullDeck: string;
+    Deck: string;
+    Hand: string;
+    Board: string;
+    Event: string;
+    DiscardPile: string;
+    CardsPlayedThisTurn: Record<number, ClubCard[]>;
+    ClubCardTurnCounter: number;
+}
+
 interface ServerChatRoomGameCardGameQueryRequest {
 	GameProgress: "Query";
-	CCData?: any;
+	CCData?: ServerChatRoomGameCardGameData[];
 	Player1?: number;
 	Player2?: number;
 }
@@ -870,7 +888,7 @@ interface ServerChatRoomGameResponse extends ServerChatRoomMessageBase {
 		/* Club Card */
 		Player1?: number;
 		Player2?: number;
-		CCData: any[];
+		CCData: ServerChatRoomGameCardGameData[];
 		CCLog: ClubCardMessage;
 	};
     RNG: number;
