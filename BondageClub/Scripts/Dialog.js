@@ -4342,7 +4342,11 @@ class _DialogDialogMenu extends DialogMenu {
 			if (clickedDialog.NextStage != null) {
 				C.Stage = clickedDialog.NextStage;
 				this.Reload();
+			} else {
+				// manually reload the status
+				DialogSetStatus(C.CurrentDialog);
 			}
+
 			if (typeof clickedDialog.Function === "string") {
 				CommonDynamicFunctionParams(clickedDialog.Function);
 			}
