@@ -441,7 +441,8 @@ var ClubCardList = [
 		Group: ["Liability", "Criminal"],
 		RequiredLevel: 2,
 		BeforeTurnEnd: function(CCPlayer) {
-			ClubCardPlayerSteal(ClubCardGetOpponent(CCPlayer), 1, 0);
+			if (ClubCardGroupIsOnBoard(CCPlayer, "Police")) ClubCardRemoveFromBoard(CCPlayer, this);
+			else ClubCardPlayerSteal(ClubCardGetOpponent(CCPlayer), 1, 0);
 		}
 	},
 	{
