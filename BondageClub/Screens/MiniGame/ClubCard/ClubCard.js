@@ -441,7 +441,8 @@ var ClubCardList = [
 		Group: ["Liability", "Criminal"],
 		RequiredLevel: 2,
 		BeforeTurnEnd: function(CCPlayer) {
-			ClubCardPlayerSteal(ClubCardGetOpponent(CCPlayer), 1, 0);
+			if (ClubCardGroupIsOnBoard(CCPlayer, "Police")) ClubCardRemoveFromBoard(CCPlayer, this);
+			else ClubCardPlayerSteal(ClubCardGetOpponent(CCPlayer), 1, 0);
 		}
 	},
 	{
@@ -4234,7 +4235,8 @@ function ClubCardAIStart() {
 function ClubCardConcede() {
 	if (ClubCardIsOnline()) {
 		const textGetKey = ClubCardIsPlaying() ? "OnlineConcede" : "OnlineStopWatch";
-		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, textGetKey);
+		const Msg = TextGet(textGetKey).replace("PLAYERNAME", CharacterNickname(Player));
+		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, null, {}, null, Msg);
 	}
 	ClubCardDestroyPopup();
 	ClubCardEndGame(false);
