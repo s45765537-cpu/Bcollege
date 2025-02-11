@@ -933,8 +933,7 @@ function DialogMenuBack() {
 
 		default:
 			console.trace(`Unknown menu mode "${DialogMenuMode}, resetting`);
-			DialogChangeMode("dialog");
-			CurrentCharacter = null;
+			DialogLeave();
 			break;
 	}
 }
@@ -4343,7 +4342,11 @@ class _DialogDialogMenu extends DialogMenu {
 			if (clickedDialog.NextStage != null) {
 				C.Stage = clickedDialog.NextStage;
 				this.Reload();
+			} else {
+				// manually reload the status
+				DialogSetStatus(C.CurrentDialog);
 			}
+
 			if (typeof clickedDialog.Function === "string") {
 				CommonDynamicFunctionParams(clickedDialog.Function);
 			}

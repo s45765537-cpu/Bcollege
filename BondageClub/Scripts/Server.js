@@ -205,7 +205,7 @@ function ServerDisconnect(data, close = false) {
 			RelogData = { Screen: CurrentScreen, Module: CurrentModule, Character: CurrentCharacter, ChatRoomName: null };
 		}
 
-		CurrentCharacter = null;
+		DialogLeave();
 		CommonSetScreen("Character", "Relog");
 	}
 

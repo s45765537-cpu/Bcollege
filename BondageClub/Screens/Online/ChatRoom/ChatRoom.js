@@ -588,7 +588,7 @@ function ChatRoomTryToTakeSuitcase() {
 		KidnapLeagueOnlineBountyTargetStartedTime = CommonTime();
 	}
 	KidnapLeagueOnlineBountyTarget = CurrentCharacter.MemberNumber;
-	CurrentCharacter = null;
+	DialogLeave();
 }
 /**
  * Receives money from the suitcase
