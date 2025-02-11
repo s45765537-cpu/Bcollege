@@ -9,9 +9,15 @@ var ClubCardOpponent = null;
 var ClubCardOpponentDeck = [];
 /** @type {null | ClubCard} */
 var ClubCardReward = null;
-/** @type {null | ClubCard} */
+/**
+ *  The variable allows to capture the mouse hovering over the card from the handler inside the ClubCardRenderCard function.
+ * @type {null | ClubCard}
+ * */
 var ClubCardHover = null;
-/** @type {null | ClubCard} */
+/**
+ * Variable through which the current card selected by the player is rendered as a large card.
+ * @type {null | ClubCard}
+ * */
 var ClubCardFocus = null;
 /** @type {null | TextCache} */
 var ClubCardTextCache = null;
@@ -31,9 +37,6 @@ var ClubCardLevelCost = [0, 0, 10, 20, 30, 40];
 var ClubCardPlayer = [];
 var ClubCardOnlinePlayerMemberNumber1 = -1;
 var ClubCardOnlinePlayerMemberNumber2 = -1;
-
-let ClubCardIsResetFocus = false;
-
 
 //#region Chat Log variable
 var ClubCardLogScroll = false;
@@ -3302,11 +3305,7 @@ function ClubCardPlayerDrawCard(CCPlayer, Amount = null) {
 	let FocusCard = ((CCPlayer.Index == 0) && (Amount == 1));
 	while (Amount > 0) {
 		if (CCPlayer.Deck.length > 0) {
-			if (FocusCard) {
-				//TODO Dont forget delete after test
-				//ClubCardFocus = CCPlayer.Deck[0];
-				ClubCardSetGlow(CCPlayer.Deck[0], "#00FFFF");
-			}
+			if (FocusCard) ClubCardSetGlow(CCPlayer.Deck[0], "#00FFFF");
 			CCPlayer.Hand.push(CCPlayer.Deck[0]);
 			CCPlayer.Deck.splice(0, 1);
 			ClubCardCheckDraw(CCPlayer);
@@ -4673,6 +4672,7 @@ function ClubCardRenderPanel() {
 	// If there's a pending card with a prerequisite
 	if (ClubCardPending != null) {
 		DrawButton(1805, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/CancelPending.png", TextGet("CancelPending"));
+		ClubCardRenderCard(ClubCardPending, 975, 400, 100);
 		if (ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) DrawButton(725, 505, 215, 50, TextGet("SelectCard"), "White");
 		return;
 	}
@@ -4879,13 +4879,11 @@ function ClubCardClick() {
 			if (MouseIn(760, 650, 180, 60)) return CommonDynamicFunction(ClubCardPopup.Function1);
 			if (ClubCardPopup.Text == "Opponent") {
 				if ((ClubCardHover != null) && ClubCardHover.Location == "OpponentDiscardPile") {
-					ClubCardIsResetFocus = false;
 					ClubCardFocus = { ...ClubCardHover };
 					return;
 				}
 			} else {
 				if ((ClubCardHover != null) && ClubCardHover.Location == "PlayerDiscardPile") {
-					ClubCardIsResetFocus = false;
 					ClubCardFocus = { ...ClubCardHover };
 					return;
 				}
@@ -4927,7 +4925,6 @@ function ClubCardClick() {
 
 	// Sets the focus card if nothing else was clicked
 	if (ClubCardHover != null) {
-		ClubCardIsResetFocus = false;
 		ClubCardFocus = { ...ClubCardHover };
 		return;
 	}
