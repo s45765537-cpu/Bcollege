@@ -224,7 +224,8 @@ function ChatAdminRun() {
 	// FIXME: technically the `TextGet` is only needed for the "All language" cases,
 	// but we also support Spanish as a room language which isn't actually in the translation files
 	const languageLabel = TranslationGetLanguageName(ChatAdminData.Language, true) || TextGet("Language" + ChatAdminData.Language);
-	DrawButton(405, 157, 300, 60, languageLabel, ButtonBackground, null, null, !ChatRoomPlayerIsAdmin());
+	const languageBGColor = canEdit && MouseIn(405, 157, 300, 60) ? "Cyan" : ButtonBackground;
+	DrawButton(405, 157, 300, 60, languageLabel, languageBGColor, null, null, !ChatRoomPlayerIsAdmin());
 	DrawText(TextGet("RoomSize"), 850, 190, "Black", "Gray");
 	ElementPosition("InputSize", 1099, 185, 250);
 	DrawText(TextGet("RoomDescription"), 675, 250, "Black", "Gray");
@@ -356,7 +357,7 @@ function ChatAdminClick() {
 			return;
 		}
 
-		if (MouseIn(405, 172, 300, 60)) {
+		if (MouseIn(405, 157, 300, 60)) {
 			let Pos = ChatAdminLanguageList.indexOf(ChatAdminData.Language) + 1;
 			if (Pos >= ChatAdminLanguageList.length) Pos = 0;
 			ChatAdminData.Language = ChatAdminLanguageList[Pos];
