@@ -4249,6 +4249,7 @@ interface WheelFortuneOptionType {
 
 interface ClubCard {
 	ID: number;
+	UniqueID?: string;
 	Name: string;
 	ArrayIndex?: number;
 	Type?: string;
@@ -4269,6 +4270,14 @@ interface ClubCard {
 	Negated?: boolean;
 	GlowTimer?: number;
 	GlowColor?: string;
+	//### Animations
+	AnimationState?: string;
+	DelayedAnimationState?: string;
+	CurrentX?: number;
+	CurrentY?: number;
+	CurrentW?: number;
+	IsVisible?: boolean;
+	//### ### ### ###
 	OnPlay?: (C: ClubCardPlayer) => void;
 	BeforeTurnEnd?: (C: ClubCardPlayer) => void;
 	AfterTurnEnd?: (C: ClubCardPlayer) => void;

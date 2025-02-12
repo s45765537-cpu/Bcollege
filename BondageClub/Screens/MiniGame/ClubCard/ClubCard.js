@@ -3553,8 +3553,9 @@ function ClubCardLoadDeckNumber(DeckNum) {
 	// Loads the deck and shuffles it
 	let Index = ClubCardGetPlayerIndex();
 	if (Index >= 0) {
-		ClubCardPlayer[Index].Deck = ClubCardShuffle(ClubCardLoadDeck(Deck));
-		ClubCardPlayer[Index].FullDeck = ClubCardLoadDeck(Deck);
+		const loadedDeck = ClubCardLoadDeck(Deck);
+		ClubCardPlayer[Index].Deck = ClubCardShuffle(loadedDeck);
+		ClubCardPlayer[Index].FullDeck = loadedDeck;
 	}
 
 	// Starts the game with the loaded deck
@@ -4408,6 +4409,72 @@ function ClubCardGetGroupText(Group) {
 	return Text;
 }
 
+
+// #region Animation Card ### ### ### ###
+
+/**
+ * Animates the smooth movement of a card from one position to another.
+ * @param {Object} options - Animation parameters.
+ * @param {ClubCard} options.card - The card to be moved.
+ * @param {Object} options.startPosition - The starting position.
+ * @param {number} options.startPosition.x - The starting X coordinate.
+ * @param {number} options.startPosition.y - The starting Y coordinate.
+ * @param {number} options.startPosition.w - The starting width of the card.
+ * @param {Object} options.endPosition - The target position.
+ * @param {number} options.endPosition.x - The target X coordinate.
+ * @param {number} options.endPosition.y - The target Y coordinate.
+ * @param {number} options.endPosition.w - The target width of the card.
+ * @param {Function|null} [options.onStart] - A function called before the animation starts.
+ * @param {Function|null} [options.onComplete] - A function called after the animation completes.
+ * @param {number} [options.duration=150] - The animation duration in milliseconds.
+ */
+function ClubCardBaseCardAnimation({ card, startPosition, endPosition, onStart = null, onComplete = null, duration = 150 }) {
+	if (typeof onStart === "function") onStart();
+	let startTime = performance.now();
+
+	function step(currentTime) {
+		let elapsed = currentTime - startTime;
+		let progress = Math.min(elapsed / duration, 1);
+
+		let currentX = startPosition.x + (endPosition.x - startPosition.x) * progress;
+		let currentY = startPosition.y + (endPosition.y - startPosition.y) * progress;
+		let currentW = startPosition.w + (endPosition.w - startPosition.w) * progress;
+
+		ClubCardRenderCard(card, currentX, currentY, currentW, null, null, true);
+
+		if (progress < 1)
+			requestAnimationFrame(step);
+		else
+			if (typeof onComplete === "function") onComplete(card);
+	}
+
+	requestAnimationFrame(step);
+}
+
+function ClubCardMoveCardToPreview(card, onStart = null, onComplete = null, duration = 150 ) {
+	card.animationState = "idle";
+	if (card.animationState !== "idle") return;
+
+	card.animationState = "preselecting";
+
+	const startPosition = { x: card.CurrentX, y: card.CurrentY, w: card.CurrentW };
+	const endPosition = { x: 705, y: 250, w: 250 };
+
+	ClubCardBaseCardAnimation({
+		card: card,
+		startPosition: startPosition,
+		endPosition: endPosition,
+		duration: duration,
+		onComplete: () => {
+			card.IsVisible = true;
+			onComplete();
+		}
+	});
+}
+
+
+// #endregion ### ### ### ### ### ### ###
+
 /**
  * Draw the club card player hand on screen, show only sleeves if not controlled by player
  * @param {ClubCard|Number} Card - The card to draw
@@ -4418,7 +4485,7 @@ function ClubCardGetGroupText(Group) {
  * @param {string|null} Source - The source from where it's called
  * @returns {void} - Nothing
  */
-function ClubCardRenderCard(Card, X, Y, W, Sleeve = null, Source = null) {
+function ClubCardRenderCard(Card, X, Y, W, Sleeve = null, Source = null, isIgnoreIsVisibility = false) {
 
 	// Make sure the card object is valid, find it in the list if possible
 	if (Card == null) return;
@@ -4432,6 +4499,15 @@ function ClubCardRenderCard(Card, X, Y, W, Sleeve = null, Source = null) {
 	}
 	if (typeof Card !== "object") return;
 
+	//Check isVisibility
+	if (isIgnoreIsVisibility == false)
+		if (Card.IsVisible == false)
+			return;
+
+	//Save Current Card coordinates
+	Card.CurrentX = X;
+	Card.CurrentY = Y;
+	Card.CurrentW = W;
 	// Draw the sleeved version if required
 	if (Sleeve != null) {
 		DrawImageResize("Screens/MiniGame/ClubCard/Sleeve/" + Sleeve + ".png", X, Y, W, W * 2);
@@ -4925,8 +5001,16 @@ function ClubCardClick() {
 
 	// Sets the focus card if nothing else was clicked
 	if (ClubCardHover != null) {
-		ClubCardFocus = { ...ClubCardHover };
-		return;
+		const isChangeFocusCard = ClubCardFocus == null
+			|| ClubCardFocus.CurrentX != ClubCardHover.CurrentX
+			|| ClubCardFocus.CurrentY != ClubCardHover.CurrentY
+			|| ClubCardFocus.CurrentW != ClubCardHover.CurrentW;
+		if (isChangeFocusCard) {
+			ClubCardFocus = null;
+			const card = { ...ClubCardHover, IsVisible: false };
+			ClubCardMoveCardToPreview(card, null, () => { ClubCardFocus = card;}, 150);
+			return;
+		}
 	}
 
 }
