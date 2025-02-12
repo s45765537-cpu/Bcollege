@@ -37,6 +37,11 @@ var ClubCardLevelCost = [0, 0, 10, 20, 30, 40];
 var ClubCardPlayer = [];
 var ClubCardOnlinePlayerMemberNumber1 = -1;
 var ClubCardOnlinePlayerMemberNumber2 = -1;
+/**
+ * Counter to ensure unique ID incrementation.
+ * It is used globally to prevent ID duplication.
+ */
+let ClubCardUniqueIDCounter = 0;
 
 //#region Chat Log variable
 var ClubCardLogScroll = false;
@@ -1003,17 +1008,17 @@ var ClubCardList = [
 			let opponentCardsToReturn = opponent.Board.filter(card => card.RequiredLevel == 1 || card.RequiredLevel == null);
 
 			for (const C of cardsToReturn) {
-				const cardToAdd = ClubCardList.find(card => card.Name === C.Name);
+				const cardToAdd = ClubCardGetCopyCardByName(C.Name);//ClubCardList.find(card => card.Name === C.Name);
 				if (ClubCardIsLiability(C)) {
-					opponent.Hand.push({ ...cardToAdd });
+					opponent.Hand.push(cardToAdd);
 				} else {
-					CCPlayer.Hand.push({ ...cardToAdd });
+					CCPlayer.Hand.push(cardToAdd);
 				}
 				ClubCardRemoveFromBoard(CCPlayer, C, true);
 			}
 
 			for (const C of opponentCardsToReturn) {
-				const cardToAdd = ClubCardList.find(card => card.Name === C.Name);
+				const cardToAdd = ClubCardGetCopyCardByName(C.Name);//ClubCardList.find(card => card.Name === C.Name);
 				if (ClubCardIsLiability(C)) {
 					CCPlayer.Hand.push({ ...cardToAdd });
 				} else {
@@ -1515,8 +1520,8 @@ var ClubCardList = [
 		FamePerTurn: 2,
 		MoneyPerTurn: -1,
 		OnPlay: function (CCPlayer) {
-			const cardToAdd =  ClubCardList.find(card => card.Name === ClubCardSelection.Name);
-			CCPlayer.Hand.push({ ...cardToAdd });
+			const cardToAdd =  ClubCardGetCopyCardByName(ClubCardSelection.Name);//ClubCardList.find(card => card.Name === ClubCardSelection.Name);
+			CCPlayer.Hand.push(cardToAdd);
 		}
 	},
 
@@ -2833,6 +2838,51 @@ function ClubCardGetFormatTextForInnerHTML(text) {
 // #endregion ClubCard New Chat Stuff
 
 /**
+ * Creates a copy of a card from the ClubCardList based on its name.
+ * Assigns a new UniqueID and makes the card visible.
+ * @param {string} cardName - The name of the card to copy.
+ * @returns {ClubCard} - A new card object if found, otherwise null.
+ */
+function ClubCardGetCopyCardByName(cardName) {
+	const originalCard = ClubCardList.find(card => card.Name === cardName);
+	if (!originalCard) return null; // Return null if the card is not found
+
+	return {
+		...originalCard, // Copy all properties of the original card
+		UniqueID: generateUniqueID(originalCard.ID), // Generate a new unique identifier
+		IsVisible: true // Ensure the copied card is visible
+	};
+}
+
+/**
+ * Creates a copy of a card from the ClubCardList based on its id.
+ * Assigns a new UniqueID and makes the card visible.
+ * @param {number} cardId - The id of the card to copy.
+ * @returns {ClubCard} - A new card object if found, otherwise null.
+ */
+function ClubCardGetCopyCardByID(cardId) {
+	const originalCard = ClubCardList.find(card => card.ID === cardId);
+	if (!originalCard) return null; // Return null if the card is not found
+
+	return {
+		...originalCard, // Copy all properties of the original card
+		UniqueID: generateUniqueID(originalCard.ID), // Generate a new unique identifier
+		IsVisible: true // Ensure the copied card is visible
+	};
+}
+
+/**
+ * Generates a globally unique identifier (UniqueID) for a card.
+ * The UniqueID is composed of the card's base ID, a high-precision timestamp, 
+ * and an incrementing counter to ensure uniqueness.
+ * @param {number} cardID - The base ID of the card.
+ * @returns {string} - A unique string identifier for the card.
+ */
+function generateUniqueID(cardID) {
+	return `${cardID}${Math.floor(performance.now() * 1e6)}${ClubCardUniqueIDCounter++}`;
+}
+
+/**
  * Creates a popop in the middle of the board that pauses the game
  * @param {string} Mode - The popup mode "DECK", "TEXT" or "YESNO"
  * @param {string|null} Text - The text to display
@@ -3475,8 +3525,8 @@ function ClubCardAlvinCondition(CCPlayer) {
 	}
 	const hasBoardRoom = CCPlayer.Board.length < ClubCardLevelLimit[CCPlayer.Level];
 	if (hasAlvin && hasBoardRoom && count < 3) {
-		const ropeSlave = ClubCardList.find(card => card.Name === "Rope Slave");
-		ClubCardSummonCard(CCPlayer, {...ropeSlave});
+		const ropeSlave = ClubCardGetCopyCardByName("Rope Slave");//ClubCardList.find(card => card.Name === "Rope Slave");
+		ClubCardSummonCard(CCPlayer, ropeSlave);
 	}
 }
 
@@ -3510,14 +3560,14 @@ function ClubCardPlayerDiscardCard(CCPlayer, Amount) {
  */
 function ClubCardLoadDeck(InDeck) {
 	let OutDeck = [];
-	for (let D of InDeck)
-		for (let C of ClubCardList)
-			if (C.ID == D) {
-				let Card = { ...C };
-				if (Card.Type == null) Card.Type = "Member";
-				OutDeck.push(Card);
-				break;
-			}
+
+	for (let D of InDeck){
+		const card = ClubCardGetCopyCardByID(D);
+		if (card && card != null) {
+			if (card.Type == null) card.Type = "Member";
+			OutDeck.push(card);
+		}
+	}
 	return OutDeck;
 }
 
@@ -3559,16 +3609,16 @@ function ClubCardLoadDeckNumber(DeckNum) {
 	}
 
 	// Starts the game with the loaded deck
-	const Tips = ClubCardList.find(card => card.Name === "Tips");
+	const Tips = ClubCardGetCopyCardByName("Tips");//ClubCardList.find(card => card.Name === "Tips");
 	if (!ClubCardIsOnline()) {
 		const textGetKey = "Start" + ((ClubCardTurnIndex == 0) ? "Player" : "Opponent");
 		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, textGetKey);
-		ClubCardPlayer[0].Hand.push({...Tips});
-		ClubCardPlayer[1].Hand.push({...Tips});
+		ClubCardPlayer[0].Hand.push(Tips);
+		ClubCardPlayer[1].Hand.push(Tips);
 		ClubCardPlayerDrawCard(ClubCardPlayer[0], (ClubCardTurnIndex == 0) ? 5 : 6);
 		ClubCardPlayerDrawCard(ClubCardPlayer[1], (ClubCardTurnIndex == 1) ? 5 : 6);
 	} else {
-		ClubCardPlayer[Index].Hand.push({...Tips});
+		ClubCardPlayer[Index].Hand.push(Tips);
 		ClubCardPlayerDrawCard(ClubCardPlayer[Index], (ClubCardTurnIndex == Index) ? 5 : 6);
 	}
 	// Syncs online data
@@ -4264,8 +4314,8 @@ function ClubCardBankrupt() {
 	CCPlayer.Event = [];
 	CCPlayer.Hand = [];
 	CCPlayer.Deck = ClubCardShuffle(CCPlayer.FullDeck.slice());
-	const Tips = ClubCardList.find(card => card.Name === "Tips");
-	CCPlayer.Hand.push({ ...Tips });
+	const Tips = ClubCardGetCopyCardByName("Tips");//ClubCardList.find(card => card.Name === "Tips");
+	CCPlayer.Hand.push(Tips);
 	ClubCardTurnCardPlayed = 0;
 	ClubCardPlayerDrawCard(CCPlayer, 5);
 
@@ -4376,6 +4426,7 @@ function ClubCardLoad() {
 	ClubCardRenderLog = [];
 	ClubCardTurnIndex = Math.floor(Math.random() * 2);
 	ClubCardPlayer = [];
+	ClubCardUniqueIDCounter = 0;
 	ClubCardAddPlayer(Player, "Player", []);
 	ClubCardAddPlayer(ClubCardOpponent, "AI", ClubCardOpponentDeck);
 	ClubCardCreatePopup("DECK");
