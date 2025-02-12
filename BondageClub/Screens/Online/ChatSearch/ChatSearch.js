@@ -61,6 +61,7 @@ var ChatSearchLanguage = "";
 /** @type {"" | ServerChatRoomLanguage} */
 var ChatSearchLanguageTemp = "";
 var ChatSearchFilterTermsTemp = "";
+/** @type {ChatRoomSpaceLabel[]} */
 var ChatSearchRoomSpaces = ["MIXED", "FEMALE_ONLY", "MALE_ONLY"];
 var ChatSearchCurrentRoomSpaceIndex = 0;
 
@@ -326,7 +327,7 @@ function ChatSearchRoomSpaceSelectClick() {
 	if (Genders.includes("M")) TempRoomSpaces = TempRoomSpaces.filter(space => space != "FEMALE_ONLY");
 	if (Genders.includes("F")) TempRoomSpaces = TempRoomSpaces.filter(space => space != "MALE_ONLY");
 
-	let CurrentRoomSpace = Object.keys(ChatRoomSpaceType).find(key => ChatRoomSpaceType[key] == ChatRoomSpace);
+	let CurrentRoomSpace = CommonKeys(ChatRoomSpaceType).find(key => ChatRoomSpaceType[key] == ChatRoomSpace);
 
 	ChatSearchCurrentRoomSpaceIndex = TempRoomSpaces.indexOf(CurrentRoomSpace);
 
