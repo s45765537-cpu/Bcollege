@@ -260,6 +260,26 @@ type ChatRoomSpaceLabel = "MIXED" | "FEMALE_ONLY" | "MALE_ONLY" | "ASYLUM";
 type ChatRoomVisibilityModeLabel = "PUBLIC" | "ADMIN_WHITELIST" | "ADMIN" | "UNLISTED";
 type ChatRoomAccessModeLabel = "PUBLIC" | "ADMIN_WHITELIST" | "ADMIN";
 
+type ChatRoomMenuButton =
+	| "Camera"
+	| "Cancel"
+	| "CharacterView"
+	| "Cut"
+	| "CustomizationOn"
+	| "CustomizationOff"
+	| "Dress"
+	| "Exit"
+	| "GameOption"
+	| "Icons"
+	| "Kneel"
+	| "MapView"
+	| "NextCharacters"
+	| "PreviousCharacters"
+	| "Profile"
+	| "RoomAdmin"
+	| "ClearFocus"
+;
+
 type DialogMenuMode = (
 	"activities"
 	| "colorDefault"

@@ -255,7 +255,7 @@ const ChatRoomArousalMsg_ChanceGagMod = {
 var ChatRoomHideIconState = 0;
 /**
  * The list of buttons in the top-right
- * @type {string[]}
+ * @type {ChatRoomMenuButton[]}
  * */
 var ChatRoomMenuButtons = [];
 let ChatRoomFontSize = 30;
