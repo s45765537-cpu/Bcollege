@@ -144,7 +144,7 @@ const Shop2InitVars = CommonVariableContainer(
 
 		/**
 		 * The module- and screen-name of the previous screen (if any)
-		 * @type {null | [module: ModuleType, screen: string]}
+		 * @type {null | ScreenSpecifier}
 		 */
 		PreviousScreen: null,
 
@@ -1165,7 +1165,7 @@ var Shop2 = {
 	/**
 	 * Helper function for initializing the `Shop2` screen.
 	 * @param {null | string} background - The shops background image
-	 * @param {null | [module: ModuleType, screen: string]} screen - A 2-tuple containing the module and name of the previous screen
+	 * @param {null | ScreenSpecifier} screen - A 2-tuple containing the module and name of the previous screen
 	 * @param {null | readonly Asset[]} assets - A list of all assets that should appear in the shop
 	 */
 	Init(background=null, screen=null, assets=null) {

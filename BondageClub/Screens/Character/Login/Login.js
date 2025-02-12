@@ -7,10 +7,10 @@ var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
 	"Abysseia", "Aceffect14", "alarik", "ArashiSama", "BlueWinter", "bryce", "Canti",
-	"Christian", "Christoffer", "Cm382714", "Dahmia", "Desch", "domenico", "Dragokahn", 
-	"dynilath", "Edwin", "Glurak", "Greendragon", "john", "Laurie", "linkjpm", "Lyall", 
-	"Marashu", "Michel", "Mindtie", "Misa", "Nightcore", "René", "Robin", "Samonas", 
-	"Schrödingers", "Setsu95", "Sticks", "Sunny", "Tam", "Tarram1010", "Teli", "Thkdt", 
+	"Christian", "Christoffer", "Cm382714", "Dahmia", "Desch", "domenico", "Dragokahn",
+	"dynilath", "Edwin", "Glurak", "Greendragon", "john", "Laurie", "linkjpm", "Lyall",
+	"Marashu", "Michel", "Mindtie", "Misa", "Nightcore", "René", "Robin", "Samonas",
+	"Schrödingers", "Setsu95", "Sticks", "Sunny", "Tam", "Tarram1010", "Teli", "Thkdt",
 	"TonyBoy", "Troubadix", "Troy", "Umbrapop28", "WhiteSniper", "XDWolfie", "Xepherio", "火芽"
 ];
 
@@ -928,7 +928,8 @@ function LoginResponse(C) {
 			CommonSetScreen("Online", "ChatSearch");
 			ServerSend("ChatRoomJoin", { Name: RelogData.ChatRoomName });
 		} else {
-			CommonSetScreen(RelogData.Module, RelogData.Screen);
+			const screen = /** @type {ScreenSpecifier} */([RelogData.Module, RelogData.Screen]);
+			CommonSetScreen(...screen);
 		}
 		return;
 	}

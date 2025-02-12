@@ -316,7 +316,7 @@ function ChatAdminClick() {
 			return;
 		} else if (MouseIn(1300, 550, 275, 60)) {
 			ChatBlockItemEditable = ChatAdminCanEdit();
-			ChatBlockItemReturnData = { Screen: "ChatAdmin" };
+			ChatBlockItemReturnScreen = CommonGetScreen();
 			ChatBlockItemCategory = ChatAdminData.BlockCategory;
 			CommonSetScreen("Online", "ChatBlockItem");
 			return;

@@ -409,7 +409,7 @@ function MainHallCycleTips() {
 
 /**
  * Validates the player's move into a new room. Before entering the requested rooms, the player can be attacked by random kidnappers or intercepted by various NPC types
- * @param {string} RoomName - Name of the room the player is heading to
+ * @param {RoomName | "Trouble"} RoomName - Name of the room the player is heading to
  * @returns {void} - Nothing
  */
 function MainHallWalk(RoomName) {
@@ -444,7 +444,7 @@ function MainHallWalk(RoomName) {
 		MainHallRandomEventOdds = MainHallRandomEventOdds + 2;
 		if (ManagementIsClubSlave()) MainHallRandomEventOdds = MainHallRandomEventOdds + 4;
 		if ((KidnapLeagueBountyLocation == RoomName) && (KidnapLeagueBounty != null) && (KidnapLeagueBountyVictory == null) && Player.CanInteract() && (ReputationGet("Kidnap") > 0)) KidnapLeagueBountyStart();
-		else CommonSetScreen("Room", RoomName);
+		else CommonSetScreen(.../** @type {ScreenSpecifier} */(["Room", RoomName]));
 
 	}
 

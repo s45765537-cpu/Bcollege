@@ -3,7 +3,7 @@
 var FriendListBackground = "BrickWall";
 /** @type {number[]} */
 var FriendListConfirmDelete = [];
-/** @type {FriendListReturn | null} */
+/** @type {FriendListReturn<any> | null} */
 var FriendListReturn = null;
 /** @type {FriendListModes} */
 var FriendListMode = ["OnlineFriends", "Beeps", "AllFriends"];
