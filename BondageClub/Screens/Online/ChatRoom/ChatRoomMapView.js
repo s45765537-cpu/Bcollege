@@ -317,6 +317,58 @@ const ChatRoomMapViewObjectList = [
 			return "RabbitBrown" + Anim + ((Frame >= 100) ? "Right" : "");
 		}
 	},
+	{
+		ID: 840,
+		Type: "FloorDecorationAnimal",
+		Style: "ChickenBrownIdleLeft",
+		Left: 0.25,
+		Width: 0.5,
+		Height: 0.5,
+		BuildImageName: function(X, Y) {
+			let Frame = (Math.floor((CurrentTime + X * 367 + Y * 173) / 1500) + X * 367 + Y * 173) % 100;
+			let Anim;
+			if ((Frame >= 14) && (Frame <= 16)) Anim = "IdleLeft";
+			else if (Frame == 17) Anim = "EatLeft";
+			else if (Frame == 18) Anim = "IdleLeft";
+			else if (Frame == 19) Anim = "EatLeft";
+			else if (Frame == 20) Anim = "IdleLeft";
+			else if (Frame == 21) Anim = "EatLeft";
+			else if ((Frame >= 22) && (Frame <= 24)) Anim = "IdleLeft";
+			else if (Frame == 25) Anim = "WalkLeft";
+			else if (Frame == 26) Anim = "WalkRight";
+			else if (Frame == 27) Anim = "WalkLeft";
+			else if (Frame == 28) Anim = "WalkRight";
+			else if (Frame == 30) Anim = "WalkLeft";
+			else if (Frame == 31) Anim = "WalkRight";
+			else if ((Frame >= 32) && (Frame <= 34)) Anim = "IdleRight";
+			else if ((Frame >= 35) && (Frame <= 39)) Anim = "EatRight";
+			else if ((Frame >= 40) && (Frame <= 41)) Anim = "IdleRight";
+			else if (Frame == 42) Anim = "WalkLeft";
+			else if (Frame == 43) Anim = "WalkRight";
+			else if (Frame == 44) Anim = "WalkLeft";
+			else if (Frame == 45) Anim = "WalkRight";
+			else if ((Frame >= 46) && (Frame <= 50)) Anim = "IdleRight";
+			else if ((Frame >= 51) && (Frame <= 67)) Anim = "SleepRight";
+			else if ((Frame >= 67) && (Frame <= 69)) Anim = "IdleRight";
+			else if ((Frame >= 70) && (Frame <= 71)) Anim = "EatRight";
+			else if (Frame == 72) Anim = "IdleRight";
+			else if (Frame == 73) Anim = "EatRight";
+			else if (Frame == 74) Anim = "IdleRight";
+			else if (Frame == 75) Anim = "EatRight";
+			else if ((Frame >= 76) && (Frame <= 84)) Anim = "IdleRight";
+			else if (Frame == 85) Anim = "WalkRight";
+			else if (Frame == 86) Anim = "WalkLeft";
+			else if (Frame == 87) Anim = "WalkRight";
+			else if (Frame == 88) Anim = "WalkLeft";
+			else if (Frame == 89) Anim = "WalkRight";
+			else if (Frame == 90) Anim = "WalkLeft";
+			else if ((Frame >= 91) && (Frame <= 92)) Anim = "IdleLeft";
+			else if ((Frame >= 93) && (Frame <= 97)) Anim = "EatLeft";
+			else if ((Frame >= 98) && (Frame <= 100)) Anim = "IdleLeft";
+			else Anim = "SleepLeft";
+			return "ChickenBrown" + Anim;
+		}
+	},
 
 	{ ID: 1000, Type: "FloorItem", Style: "Blank" },
 	{ ID: 1010, Type: "FloorItem", Style: "Kennel", Top: -1, Height: 2, AssetName: "Kennel", AssetGroup: "ItemDevices" },
