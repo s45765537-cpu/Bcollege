@@ -120,6 +120,7 @@ const PreferenceSubscreens = [
 	},
 	{
 		name: "Controller",
+		load: () => PreferenceSubscreenControllerLoad(),
 		run: () => PreferenceSubscreenControllerRun(),
 		click: () => PreferenceSubscreenControllerClick(),
 		exit: () => PreferenceSubscreenControllerExit(),
