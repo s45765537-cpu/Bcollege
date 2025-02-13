@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 "use strict";
 var AppearanceBackground = "Dressing";
 /** Offset for the group view */
@@ -14,10 +13,18 @@ var CharacterAppearanceWardrobeNumPerPage = 6;
 
 var CharacterAppearanceHeaderText = "";
 var CharacterAppearanceHeaderTextTime = 0;
-/** @type {null | string} */
-var CharacterAppearanceBackup = null;
-/** @type {null | string} */
-var CharacterAppearanceInProgressBackup = null;
+/**
+ * The appearance the character we're editing had when entering the screen.
+ *
+ * Must stay valid for as long as the screen is up.
+ *
+ * @type {string} */
+var CharacterAppearanceBackup;
+/**
+ * Backup of the current appearance; used when canceling out of loading a wardrobe outfit.
+ *
+ * @type {undefined | string} */
+var CharacterAppearanceInProgressBackup = undefined;
 
 /**
  * The list of all customizable groups
@@ -31,13 +38,24 @@ var CharacterAppearanceGroups = [];
  */
 var CharacterAppearanceAssets = [];
 /** @type {AssetGroupName} */
-var CharacterAppearanceColorPickerGroupName = null;
+var CharacterAppearanceColorPickerGroupName;
 var CharacterAppearanceColorPickerBackup = "";
-var CharacterAppearanceColorPickerRefreshTimer = null;
-/** @type {Character | null} */
-var CharacterAppearanceSelection = null;
-/** @type {(accept: boolean) => void} */
-var CharacterAppearanceResultCallback = undefined;
+var CharacterAppearanceColorPickerRefreshTimer = undefined;
+/**
+ * The character we're editing the appearance of.
+ *
+ * Must stay valid for as long as the screen is up.
+ *
+ * @type {Character}
+ */
+var CharacterAppearanceSelection;
+/**
+ * The callback to perform when closing the appearance screen.
+ * Must stay valid for as long as the screen is up.
+ *
+ * @type {((accept: boolean) => void)}
+ */
+var CharacterAppearanceResultCallback;
 /** @type {ScreenSpecifier} */
 var CharacterAppearanceReturnScreen = ["Room", "MainHall"];
 var CharacterAppearanceWardrobeOffset = 0;
@@ -60,7 +78,7 @@ var AppearanceUseCharacterInPreviewsSetting = false;
 
 /**
  * List of item indices collected for swapping.
- * #type {number[]}
+ * @type {number[]}
  */
 let AppearanceWardrobeReorderList = [];
 
@@ -197,11 +215,7 @@ function CharacterAppearanceRequired(C, GroupName) {
  * @returns {boolean} - Returns TRUE if the item group must be hidden and not chosen
  */
 function CharacterAppearanceMustHide(C, GroupName) {
-	for (let A = 0; A < C.Appearance.length; A++) {
-		if ((C.Appearance[A].Asset.Hide != null) && (C.Appearance[A].Asset.Hide.indexOf(GroupName) >= 0)) return true;
-		if ((C.Appearance[A].Property != null) && (C.Appearance[A].Property.Hide != null) && (C.Appearance[A].Property.Hide.indexOf(GroupName) >= 0)) return true;
-	}
-	return false;
+	return C.Appearance.some(item => item.Asset.Hide?.includes(GroupName) || item.Property?.Hide?.includes(GroupName));
 }
 
 /**
@@ -252,8 +266,8 @@ function CharacterAppearanceFullRandom(C, ClothOnly=false) {
 				// If we found no asset, just move to next group
 				if (!SelectedAsset)
 					continue;
-				/** @type {string|string[]} */
-				var SelectedColor = SelectedAsset.Group.ColorSchema[Math.floor(Math.random() * SelectedAsset.Group.ColorSchema.length)];
+				/** @type {ItemColor} */
+				let SelectedColor = SelectedAsset.Group.ColorSchema[Math.floor(Math.random() * SelectedAsset.Group.ColorSchema.length)];
 				if ((SelectedAsset.Group.DefaultColor == "Default") && (Math.random() < 0.5)) SelectedColor = "Default";
 				if (SelectedAsset.Group.InheritColor != null) SelectedColor = "Default";
 				else if (SelectedAsset.Group.ParentColor != "")
@@ -262,7 +276,7 @@ function CharacterAppearanceFullRandom(C, ClothOnly=false) {
 				// Rare chance of keeping eyes of a different color
 				if (SelectedAsset.Group.Name == "Eyes2" && Math.random() < 0.995) {
 					const eye = C.Appearance.find(item => item.Asset.Group.Name === "Eyes");
-					if (eye) {
+					if (eye && eye.Color) {
 						SelectedColor = eye.Color;
 					}
 				}
@@ -278,8 +292,12 @@ function CharacterAppearanceFullRandom(C, ClothOnly=false) {
 	}
 
 	// Random December hats (25% odds)
-	if ((new Date().getMonth() == 11) && (Math.random() < 0.25) && (InventoryGet(C, "Hat") == null))
-		InventoryWear(C, CommonRandomItemFromList("", ["Santa1", "ReindeerBand"]), "Hat");
+	if ((new Date().getMonth() == 11) && (Math.random() < 0.25) && (InventoryGet(C, "Hat") == null)) {
+		const randomItem = CommonRandomItemFromList("", ["Santa1", "ReindeerBand"]);
+		if (randomItem) {
+			InventoryWear(C, randomItem, "Hat");
+		}
+	}
 
 	// Refreshes the character
 	CharacterRefresh(C, false);
@@ -291,12 +309,13 @@ function CharacterAppearanceFullRandom(C, ClothOnly=false) {
  * @returns {void} - Nothing
  */
 function CharacterAppearanceNaked(C) {
-
-	// For each item group (non default items only show at a 20% rate)
-	for (let A = C.Appearance.length - 1; A >= 0; A--)
-		if (C.Appearance[A].Asset.Group.AllowNone && (C.Appearance[A].Asset.Group.Category == "Appearance") && (!(C.IsOnline() && C.IsPlayer()) || !(C.OnlineSharedSettings.BlockBodyCosplay && (C.Appearance[A].Asset != null) && (C.Appearance[A].Asset.Group != null) && C.Appearance[A].Asset.Group.BodyCosplay)))
-			C.Appearance.splice(A, 1);
-
+	// @ts-expect-error C is never after the IsOnline check
+	const keepCosplay = !(C.IsOnline() || C.IsPlayer()) || C.OnlineSharedSettings?.BlockBodyCosplay;
+	C.Appearance = C.Appearance.filter(item =>
+		item.Asset.Group.AllowNone &&
+		item.Asset.Group.IsAppearance()
+		&& (!keepCosplay || item.Asset.Group.BodyCosplay)
+	);
 	// Loads the new character canvas
 	CharacterLoadCanvas(C);
 
@@ -357,7 +376,7 @@ function CharacterAppearanceStripLayer(C) {
 /**
  * Check whether a layer must be visible given a provided type record.
  * @param {AllowTypes.Data} allowTypes - The layer's allowed types
- * @param {TypeRecord} typeRecord - The type record in question.
+ * @param {TypeRecord|null|undefined} typeRecord - The type record in question.
  * @returns {boolean} - Whether the layer should be visible
  */
 function CharacterAppearanceAllowForTypes(allowTypes, typeRecord) {
@@ -409,7 +428,8 @@ function CharacterAppearanceIsLayerVisible(C, layer, asset, typeRecord=null) {
 		return false;
 
 	// Hide the layer if it should be hidden for the current pose
-	if (layer.PoseMapping[CommonDrawResolveAssetPose(C, layer)] === PoseType.HIDE)
+	const pose = CommonDrawResolveAssetPose(C, layer);
+	if (pose && layer.PoseMapping[pose] === PoseType.HIDE)
 		return false;
 
 	// Hide the layer if the character has any matching attribute
@@ -435,7 +455,7 @@ function CharacterAppearanceSortLayers(C) {
 	const layers = C.DrawAppearance.reduce((layersAcc, item) => {
 		const asset = item.Asset;
 		// Only include layers for visible assets
-		if (asset.Visible && CharacterAppearanceVisible(C, asset.Name, asset.Group.Name) && InventoryChatRoomAllow(asset.Category)) {
+		if (asset.Visible && CharacterAppearanceVisible(C, asset.Name, asset.Group.Name) && InventoryChatRoomAllow(asset.Category ?? [])) {
 			// Check if we need to draw a different variation (from type property)
 			const typeRecord = item.Property && item.Property.TypeRecord;
 			const layersToDraw = asset.Layer
@@ -453,11 +473,12 @@ function CharacterAppearanceSortLayers(C) {
 						}
 					});
 					// If the item has an OverridePriority property, it completely overrides the layer priority
+					const layerName = layer.Name ?? "";
 					if (item.Property) {
 						if (typeof item.Property.OverridePriority === "number")
 							drawLayer.Priority = item.Property.OverridePriority;
-						else if (CommonIsObject(item.Property.OverridePriority) && typeof item.Property.OverridePriority[layer.Name] === "number") {
-							drawLayer.Priority = item.Property.OverridePriority[layer.Name];
+						else if (CommonIsObject(item.Property.OverridePriority) && typeof item.Property.OverridePriority[layerName] === "number") {
+							drawLayer.Priority = item.Property.OverridePriority[layerName];
 						}
 					}
 					return drawLayer;
@@ -508,14 +529,14 @@ function CharacterAppearanceBuildMasks(C) {
 /**
  * Determines whether an item or a whole item group is visible or not
  * @param {Character} C - The character whose assets are checked
- * @param {string} AssetName - The name of the asset to check
+ * @param {string | undefined} AssetName - The name of the asset to check
  * @param {AssetGroupName} GroupName - The name of the item group to check
  * @param {boolean} Recursive - If TRUE, then other items which are themselves hidden will not hide this item. Parameterising this prevents
  *     infinite loops.
  * @returns {boolean} - Returns TRUE if we can show the item or the item group
  */
 function CharacterAppearanceVisible(C, AssetName, GroupName, Recursive = true) {
-	if (CharacterAppearanceItemIsHidden(AssetName, GroupName)) {
+	if (AssetName && CharacterAppearanceItemIsHidden(AssetName, GroupName)) {
 		C.HasHiddenItems = true;
 		return false;
 	}
@@ -524,7 +545,7 @@ function CharacterAppearanceVisible(C, AssetName, GroupName, Recursive = true) {
 
 	// TODO: `HideAs` is currently relying on this function returning `true` even when the `AssetGet()` fails.
 	// This is, to put it mildly, highly questionable behavior that should be fixed
-	const assetToCheck = AssetGet(C.AssetFamily, GroupName, AssetName);
+	const assetToCheck = AssetGet(C.AssetFamily, GroupName, AssetName ?? "");
 	if (assetToCheck) {
 		if (!CharacterAppearanceGenderAllowed(assetToCheck)) {
 			return false;
@@ -542,7 +563,7 @@ function CharacterAppearanceVisible(C, AssetName, GroupName, Recursive = true) {
 		if (CharacterAppearanceItemIsHidden(item.Asset.Name, item.Asset.Group.Name)) continue;
 		let HidingItem = false;
 		const HideItemExclude = InventoryGetItemProperty(item, "HideItemExclude");
-		const Excluded = HideItemExclude.includes(GroupName + AssetName);
+		const Excluded = HideItemExclude?.includes(GroupName + AssetName);
 		if ((item.Asset.Hide != null) && (item.Asset.Hide.indexOf(GroupName) >= 0) && !Excluded) HidingItem = true;
 		else if (!Excluded && item.Asset.HideItemAttribute.length && assetToCheck?.Attribute?.length) {
 			HidingItem = item.Asset.HideItemAttribute.some((val) => assetToCheck.Attribute.indexOf(val) !== -1);
@@ -583,11 +604,13 @@ function CharacterAppearanceSetHeightModifiers(C) {
 		let HeightRatioProportion = 1;
 
 		// Check if there is any setting to override the standard asset height modifiers
-		let HeightOverrides = [];
+		/** @type {(AssetOverrideHeight|undefined)[]} */
+		const TempOverrides = [];
 		let PoseOverrides = Pose.filter(P => P.OverrideHeight != null && C.PoseMapping[P.Category] === P.Name).map(P => P.OverrideHeight);
 		let AssetOverrides = C.DrawAppearance.filter(A => A.Asset.OverrideHeight != null).map(A => A.Asset.OverrideHeight);
-		let PropertyOverrides = C.DrawAppearance.filter(A => A.Property && A.Property.OverrideHeight != null).map(A => A.Property.OverrideHeight);
-		HeightOverrides = HeightOverrides.concat(PoseOverrides, AssetOverrides, PropertyOverrides);
+		let PropertyOverrides = C.DrawAppearance.filter(A => A.Property && A.Property.OverrideHeight != null).map(A => A.Property?.OverrideHeight);
+		/** @type {(AssetOverrideHeight)[]} */
+		const HeightOverrides = TempOverrides.concat(PoseOverrides, AssetOverrides, PropertyOverrides).filter(Boolean);
 
 		if (HeightOverrides.length > 0) {
 			// Use the override with highest priority
@@ -597,11 +620,10 @@ function CharacterAppearanceSetHeightModifiers(C) {
 		}
 		else {
 			// Adjust the height based on modifiers on the assets
-			for (let A = 0; A < C.DrawAppearance.length; A++)
-				if (CharacterAppearanceVisible(C, C.DrawAppearance[A].Asset.Name, C.DrawAppearance[A].Asset.Group.Name)) {
-					if (C.DrawAppearance[A].Property && C.DrawAppearance[A].Property.HeightModifier != null) Height += C.DrawAppearance[A].Property.HeightModifier;
-					else Height += C.DrawAppearance[A].Asset.HeightModifier;
-				}
+			for (const item of C.DrawAppearance) {
+				if (!CharacterAppearanceVisible(C, item.Asset.Name, item.Asset.Group.Name)) continue;
+				Height += item.Property?.HeightModifier ?? item.Asset.HeightModifier;
+			}
 		}
 
 		// Limit values affectable by Property settings in case invalid values were set via console
@@ -625,18 +647,28 @@ function CharacterAppearanceSetHeightModifiers(C) {
  * @returns {void} - Nothing
  */
 function CharacterAppearanceBuildCanvas(C) {
+	/**
+	 *
+	 * @param {HTMLCanvasElement | null} canvas
+	 */
+	function getCanvasContext(canvas) {
+		const ctx = canvas?.getContext("2d");
+		if (!ctx) throw Error("Failed to get context from canvas!");
+		return ctx;
+	}
+
 	// Revert to 2D canvas if webgl isn't active or its context has been lost
 	if (GLVersion === "No WebGL" || !GLDrawCanvas || !GLDrawCanvas.GL || GLDrawCanvas.GL.isContextLost()) {
 		CommonDrawCanvasPrepare(C);
 		CommonDrawAppearanceBuild(C, {
-			clearRect: (x, y, w, h) => DrawClearRect(C.Canvas.getContext("2d"), x, y, w, h),
-			clearRectBlink: (x, y, w, h) => DrawClearRect(C.CanvasBlink.getContext("2d"), x, y, w, h),
-			drawImage: (src, x, y, opts) => DrawImageCanvas(src, C.Canvas.getContext("2d"), x, y, opts),
-			drawImageBlink: (src, x, y, opts) => DrawImageCanvas(src, C.CanvasBlink.getContext("2d"), x, y, opts),
-			drawImageColorize: (src, x, y, opts) => DrawImageCanvas(src, C.Canvas.getContext("2d"), x, y, opts),
-			drawImageColorizeBlink: (src, x, y, opts) => DrawImageCanvas(src, C.CanvasBlink.getContext("2d"), x, y, opts),
-			drawCanvas: (Img, x, y, alphaMasks, maskLayers) => DrawCanvas(Img, C.Canvas.getContext("2d"), x, y, alphaMasks, maskLayers),
-			drawCanvasBlink: (Img, x, y, alphaMasks, maskLayers) => DrawCanvas(Img, C.CanvasBlink.getContext("2d"), x, y, alphaMasks, maskLayers),
+			clearRect: (x, y, w, h) => DrawClearRect(getCanvasContext(C.Canvas), x, y, w, h),
+			clearRectBlink: (x, y, w, h) => DrawClearRect(getCanvasContext(C.CanvasBlink), x, y, w, h),
+			drawImage: (src, x, y, opts) => DrawImageCanvas(src, getCanvasContext(C.Canvas), x, y, opts),
+			drawImageBlink: (src, x, y, opts) => DrawImageCanvas(src, getCanvasContext(C.CanvasBlink), x, y, opts),
+			drawImageColorize: (src, x, y, opts) => DrawImageCanvas(src, getCanvasContext(C.Canvas), x, y, opts),
+			drawImageColorizeBlink: (src, x, y, opts) => DrawImageCanvas(src, getCanvasContext(C.CanvasBlink), x, y, opts),
+			drawCanvas: (Img, x, y, alphaMasks, maskLayers) => DrawCanvas(Img, getCanvasContext(C.Canvas), x, y, alphaMasks ?? [], maskLayers ?? []),
+			drawCanvasBlink: (Img, x, y, alphaMasks, maskLayers) => DrawCanvas(Img, getCanvasContext(C.CanvasBlink), x, y, alphaMasks ?? [], maskLayers ?? []),
 		});
 	} else {
 		GLDrawAppearanceBuild(C);
@@ -657,7 +689,7 @@ function CharacterAppearanceGetCurrentValue(C, Group, Type) {
 		if ((item.Asset.Group.Family == C.AssetFamily) && (item.Asset.Group.Name == Group)) {
 			if (Type == "Name") return item.Asset.Name;
 			if (Type == "Description") return item.Asset.Description;
-			if (Type == "Color") return CommonColorsEqual(item.Color, item.Asset.DefaultColor) ? item.Asset.Group.DefaultColor : item.Color;
+			if (Type == "Color") return CommonColorsEqual(item.Color ?? "", item.Asset.DefaultColor) ? item.Asset.Group.DefaultColor : item.Color;
 			if (Type == "ID") return i;
 			if (Type == "Effect") return item.Asset.Effect;
 			if (Type == "Asset") return item.Asset;
@@ -693,7 +725,7 @@ function CharacterAppearanceYOffset(C, HeightRatio, IgnoreUpButton) {
 	if (!IgnoreUpButton && CharacterAppearanceForceUpCharacter == C.MemberNumber) {
 		HeightModifier = 0;
 	}
-	return 1000 * (1 - HeightRatio) * C.HeightRatioProportion - HeightModifier * HeightRatio;
+	return 1000 * (1 - HeightRatio) * (C.HeightRatioProportion ?? 1) - HeightModifier * HeightRatio;
 }
 
 /**
@@ -736,6 +768,7 @@ function AppearanceMenuBuild(C) {
 			AppearanceMenu.push("Naked", "Prev", "Next", "Swap");
 			break;
 		case "Cloth": {
+			if (!C.FocusGroup) return;
 			let Item = InventoryGet(C, C.FocusGroup.Name);
 			if (Item && Item.Asset.Extended) AppearanceMenu.push(InventoryBlockedOrLimited(C, Item) ? "UseDisabled" : "Use");
 			if (C.IsPlayer()) AppearanceMenu.push("WearRandom");
@@ -839,7 +872,8 @@ function AppearanceGroupAllowed(C, GroupName) {
 function AppearanceRun() {
 
 	// Draw the background and the character twice
-	var C = CharacterAppearanceSelection;
+	const C = CharacterAppearanceSelection;
+	if (!C) return;
 	if (CharacterAppearanceHeaderTextTime < CommonTime() && CharacterAppearanceMode == "Cloth")
 		CharacterAppearanceHeaderText = "";
 	if (CharacterAppearanceHeaderText == "") {
@@ -903,6 +937,7 @@ function AppearanceRun() {
 			}
 
 			// Draw Next/Previous widget
+			/** @type {(prev: boolean) => string} */
 			const prevNextButtonHandler = (prev) => {
 				if (canAccess) {
 					const asset = CharacterAppearanceNextItem(C, Group.Name, prev);
@@ -915,20 +950,20 @@ function AppearanceRun() {
 				() => prevNextButtonHandler(false),
 				() => prevNextButtonHandler(true),
 				!canAccess,
-				Group.AllowNone || AppearancePreviewUseCharacter(Group) ? 65 : null);
+				Group.AllowNone || AppearancePreviewUseCharacter(Group) ? 65 : undefined);
 
 			var Color = CharacterAppearanceGetCurrentValue(C, Group.Name, "Color");
 			const ColorButtonText = ItemColorGetColorButtonText(Color);
 			const ColorButtonColor = ColorButtonText.startsWith("#") ? ColorButtonText : "#fff";
 			const CanCycleColors = !!Item && canAccess && (Item.Asset.ColorableLayerCount > 0 || Item.Asset.Group.ColorSchema.length > 1) && !InventoryBlockedOrLimited(C, Item);
 			const CanPickColor = CanCycleColors && Group.AllowColorize;
-			const ColorIsSimple = ItemColorIsSimple(Item);
+			const ColorIsSimple = !Item || ItemColorIsSimple(Item);
 
 			// Draw color swatch and picker widgets
 			const layeringEnabled = Item && !C.IsNpc();
 			DrawButton(1635, 145 + (A - CharacterAppearanceOffset) * 95, 65, 65, "", layeringEnabled ? "#fff" : "#aaa", "Icons/Small/Layering.png", TextGet("Layering"), !layeringEnabled);
-			DrawButton(1725, 145 + (A - CharacterAppearanceOffset) * 95, 160, 65, ColorButtonText, CanCycleColors ? ColorButtonColor : "#aaa", null, null, !CanCycleColors);
-			DrawButton(1910, 145 + (A - CharacterAppearanceOffset) * 95, 65, 65, "", CanPickColor ? "#fff" : "#aaa", CanPickColor ? ColorIsSimple ? "Icons/Small/ColorChange.png" : "Icons/Small/ColorChangeMulti.png" : "Icons/Small/ColorBlocked.png", null, !CanPickColor);
+			DrawButton(1725, 145 + (A - CharacterAppearanceOffset) * 95, 160, 65, ColorButtonText, CanCycleColors ? ColorButtonColor : "#aaa", undefined, undefined, !CanCycleColors);
+			DrawButton(1910, 145 + (A - CharacterAppearanceOffset) * 95, 65, 65, "", CanPickColor ? "#fff" : "#aaa", CanPickColor ? ColorIsSimple ? "Icons/Small/ColorChange.png" : "Icons/Small/ColorChangeMulti.png" : "Icons/Small/ColorBlocked.png", undefined, !CanPickColor);
 		}
 	}
 
@@ -981,7 +1016,7 @@ function AppearanceRun() {
 	// In item coloring mode
 	if (CharacterAppearanceMode == "Color") {
 		// Leave the color picker if the item is gone.
-		if (!InventoryGet(CharacterAppearanceSelection, CharacterAppearanceColorPickerGroupName)) ItemColorCancelAndExit();
+		if (!InventoryGet(C, CharacterAppearanceColorPickerGroupName)) ItemColorCancelAndExit();
 		// Draw the color picker
 		ItemColorDraw(CharacterAppearanceSelection, CharacterAppearanceColorPickerGroupName, 1095, 25, 880, 950);
 	}
@@ -998,7 +1033,7 @@ function AppearanceRun() {
 
 			if (CharacterAppearanceItemIsHidden(Item.Asset.Name, Item.Asset.Group.Name)) {
 				DrawPreviewBox(X, Y, "Icons/HiddenItem.png", Item.Asset.Description, { Background });
-			} else if (AppearancePreviewUseCharacter(C.FocusGroup)) {
+			} else if (C.FocusGroup && AppearancePreviewUseCharacter(C.FocusGroup) && C.FocusGroup.PreviewZone) {
 				const Z = C.FocusGroup.PreviewZone;
 				const PreviewCanvas = DrawCharacterSegment(AppearancePreviews[I % CharacterAppearanceNumClothPerPage], Z[0], Z[1], Z[2], Z[3]);
 				DrawCanvasPreview(X, Y, PreviewCanvas, Item.Asset.Description, { Background, Vibrating: Item.Vibrating, Icons: Item.Icons });
@@ -1038,10 +1073,16 @@ function AppearanceKeyDown(event) {
 function AppearanceGetPreviewImageColor(C, item, hover) {
 	switch (CharacterAppearanceMode) {
 		case "Permissions": {
+			/** @type {keyof typeof AppearancePermissionColors} */
 			let permission = "green";
-			if (InventoryIsPermissionBlocked(C, item.Asset.Name, item.Asset.Group.Name)) permission = "red";
-			else if (InventoryIsPermissionLimited(C, item.Asset.Name, item.Asset.Group.Name)) permission = "amber";
-			return item.Worn ? "gray" : AppearancePermissionColors[permission][hover ? 1 : 0];
+			if (item.Worn) {
+				return "gray";
+			} else if (InventoryIsPermissionBlocked(C, item.Asset.Name, item.Asset.Group.Name)) {
+				permission = "red";
+			} else if (InventoryIsPermissionLimited(C, item.Asset.Name, item.Asset.Group.Name)) {
+				permission = "amber";
+			}
+			return AppearancePermissionColors[permission][hover ? 1 : 0];
 		}
 		default: {
 			const Unusable = item.SortOrder.startsWith(DialogSortOrder.Unusable.toString())
@@ -1080,6 +1121,8 @@ function AppearanceMenuDraw() {
  * @returns {void} - Nothing
  */
 function AppearancePreviewBuild(C, buildCanvases) {
+	if (!C.FocusGroup) return;
+
 	AppearancePreviews = [];
 	if (AppearancePreviewUseCharacter(C.FocusGroup) && DialogInventory) {
 		// Create a copy of the character appearance without items
@@ -1096,7 +1139,7 @@ function AppearancePreviewBuild(C, buildCanvases) {
 		// Add each preview character to the list, building their canvas if necessary
 		DialogInventory.slice(DialogInventoryOffset, DialogInventoryOffset + CharacterAppearanceNumClothPerPage).forEach(item => {
 			let PreviewChar = CharacterLoadSimple("AppearancePreview-" + item.Asset.Name);
-			if (buildCanvases) {
+			if (buildCanvases && baseAppearance) {
 				PreviewChar.Appearance = Array.from(baseAppearance);
 				CharacterAppearanceSetItem(PreviewChar, item.Asset.Group.Name, item.Asset);
 				CharacterRefresh(PreviewChar, false);
@@ -1120,18 +1163,18 @@ function AppearancePreviewCleanup() {
 
 /**
  * Returns whether the the 3x3 grid "Cloth" appearance mode should include the character in the preview images
- * @param {AssetGroup} assetGroup - The group to check
+ * @param {AssetGroup | null} assetGroup - The group to check
  * @returns {boolean} - If TRUE the previews will be drawn with the character
  */
 function AppearancePreviewUseCharacter(assetGroup) {
-	return AppearanceUseCharacterInPreviewsSetting && assetGroup && typeof assetGroup.PreviewZone !== "undefined";
+	return AppearanceUseCharacterInPreviewsSetting && !!assetGroup?.PreviewZone;
 }
 
 /**
  * Sets an item in the character appearance
  * @param {Character} C - The character whose appearance should be changed
  * @param {AssetGroupName} Group - The name of the corresponding groupr for the item
- * @param {Asset|undefined} ItemAsset - The asset collection of the item to be changed
+ * @param {Asset|null} ItemAsset - The asset collection of the item to be changed
  * @param {string|string[]} [NewColor] - The new color (as "#xxyyzz" hex value) for that item
  * @param {number} [DifficultyFactor=0] - The difficulty, on top of the base asset difficulty, that should be assigned
  * to the item
@@ -1270,10 +1313,9 @@ function CharacterAppearanceSetColorForGroup(C, Color, Group) {
  * value.  The reordering mode cycles through the values:
  * "None" -> "Select" -> "Place"
  *
- * @param {WardrobeReorderType} newmode - The mode to set.  If null, advance to next mode.
+ * @param {WardrobeReorderType|null} newmode - The mode to set.  If null, advance to next mode.
  */
-function AppearanceWardrobeReorderModeSet (newmode=null)
-{
+function AppearanceWardrobeReorderModeSet(newmode=null) {
 	let pushwardrobe = true;
 
 	if (newmode == null) {
@@ -1324,7 +1366,8 @@ function AppearanceWardrobeReorderModeSet (newmode=null)
  * @returns {void} - Nothing
  */
 function AppearanceClick() {
-	var C = CharacterAppearanceSelection;
+	const C = CharacterAppearanceSelection;
+	if (!C) return;
 
 	ControllerClearAreas();
 	// When there is an extended item
@@ -1455,22 +1498,27 @@ function AppearanceClick() {
 
 						case "Select":
 							{
-								const idx = AppearanceWardrobeReorderList.indexOf (W);
+								const idx = AppearanceWardrobeReorderList.indexOf(W);
 								if (idx >= 0) {
-									AppearanceWardrobeReorderList.splice (idx, 1);
+									AppearanceWardrobeReorderList.splice(idx, 1);
 								} else {
-									AppearanceWardrobeReorderList.push (W);
+									AppearanceWardrobeReorderList.push(W);
 								}
 							}
 							break;
 
 						case "Place":
-							// Swap the slot clicked with the first item in the list.
-							WardrobeSwapSlots (AppearanceWardrobeReorderList.shift(), W);
+							{
+								// Swap the slot clicked with the first item in the list.
+								const slot = AppearanceWardrobeReorderList.shift();
+								if (slot) {
+									WardrobeSwapSlots(slot, W);
+								}
 
-							if (AppearanceWardrobeReorderList.length <= 0) {
-								// List exhausted; commit changes and end reorder mode.
-								AppearanceWardrobeReorderModeSet ("None");
+								if (AppearanceWardrobeReorderList.length <= 0) {
+									// List exhausted; commit changes and end reorder mode.
+									AppearanceWardrobeReorderModeSet("None");
+								}
 							}
 							break;
 					}
@@ -1493,7 +1541,7 @@ function AppearanceClick() {
 	}
 
 	// In cloth selection mode
-	else if (CharacterAppearanceMode == "Cloth" || CharacterAppearanceMode == "Permissions") {
+	else if ((CharacterAppearanceMode == "Cloth" || CharacterAppearanceMode == "Permissions") && C.FocusGroup) {
 
 		// Prepares a 3x3 square of clothes to present all the possible options
 		var X = 1250;
@@ -1502,7 +1550,7 @@ function AppearanceClick() {
 			if ((MouseX >= X) && (MouseX < X + 225) && (MouseY >= Y) && (MouseY < Y + 275)) {
 				const Item = DialogInventory[I];
 				const CurrentItem = InventoryGet(C, C.FocusGroup.Name);
-				const worn = (CurrentItem && (CurrentItem.Asset.Name == Item.Asset.Name));
+				const worn = (!!CurrentItem && (CurrentItem.Asset.Name == Item.Asset.Name));
 
 				// In permission mode, we toggle the settings for an item
 				if (CharacterAppearanceMode === "Permissions") {
@@ -1584,21 +1632,25 @@ function AppearanceMenuClick(C) {
 							if (AppearanceWardrobeReorderMode != "None") {
 								AppearanceWardrobeReorderModeSet ("None");
 							} else {
-								CharacterAppearanceRestore(C, CharacterAppearanceInProgressBackup);
+								if (CharacterAppearanceInProgressBackup) {
+									CharacterAppearanceRestore(C, CharacterAppearanceInProgressBackup);
+								}
 								CharacterRefresh(C, false);
 								CharacterAppearanceWardrobeName = "";
-								CharacterAppearanceInProgressBackup = null;
+								CharacterAppearanceInProgressBackup = undefined;
 								AppearanceExit();
 							}
 							break;
 						case "Accept":
 							CharacterAppearanceWardrobeName = ElementValue("InputWardrobeName");
-							CharacterAppearanceInProgressBackup = null;
+							CharacterAppearanceInProgressBackup = undefined;
 							AppearanceExit();
 							break;
 					}
 					break;
 				case "Cloth":
+					if (!C.FocusGroup) return;
+
 					// Extends the current item
 					if (Button === "Use") {
 						const Item = InventoryGet(C, C.FocusGroup.Name);
@@ -1606,7 +1658,7 @@ function AppearanceMenuClick(C) {
 					}
 
 					// Picks and colors a random item from the group
-					if (Button === "WearRandom") InventoryWearRandom(C, C.FocusGroup.Name, null, true, true);
+					if (Button === "WearRandom") InventoryWearRandom(C, C.FocusGroup.Name, undefined, true, true);
 
 					// Opens permission mode
 					if (Button === "PermissionMode") {
@@ -1637,14 +1689,16 @@ function AppearanceMenuClick(C) {
 					// Opens the color picker
 					if (Button === "ColorChange" || Button === "ColorChangeMulti") {
 						const Item = InventoryGet(C, C.FocusGroup.Name);
-						AppearanceItemColor(C, Item, C.FocusGroup.Name, "Cloth");
+						if (Item) {
+							AppearanceItemColor(C, Item, C.FocusGroup.Name, "Cloth");
+						}
 					}
 
 					// Cancels the selected cloth and reverts it back
 					if (Button === "Cancel") {
-						CharacterAppearanceSetItem(C, C.FocusGroup.Name, CharacterAppearanceCloth?.Asset ?? null, CharacterAppearanceCloth?.Color ?? null);
-						if (CharacterAppearanceCloth?.Property) {
-							InventoryGet(C, C.FocusGroup.Name).Property = CharacterAppearanceCloth.Property;
+						const item = CharacterAppearanceSetItem(C, C.FocusGroup.Name, CharacterAppearanceCloth?.Asset ?? null, CharacterAppearanceCloth?.Color ?? undefined);
+						if (item && CharacterAppearanceCloth?.Property) {
+							item.Property = CharacterAppearanceCloth.Property;
 						}
 						CharacterRefresh(C, false);
 						if (AppearancePreviewUseCharacter(C.FocusGroup)) AppearancePreviewCleanup();
@@ -1706,7 +1760,9 @@ function AppearanceExit() {
 		CharacterAppearanceMode = "";
 		CharacterAppearanceHeaderText = "";
 		ElementRemove("InputWardrobeName");
-	} else CharacterAppearanceExit(CharacterAppearanceSelection);
+	} else {
+		CharacterAppearanceExit(CharacterAppearanceSelection);
+	}
 
 	CharacterAppearanceSelection.FocusGroup = null;
 }
@@ -1865,16 +1921,17 @@ function CharacterAppearanceRestore(C, backup) {
 
 /**
  * @param {string} stringified
- * @returns {any}
+ * @returns {Item[]}
  */
 function AppearanceItemParse(stringified) {
-	return JSON.parse(stringified, (key, value) => {
+	const data = JSON.parse(stringified, (key, value) => {
 		if (key === "Asset") {
 			const FGA = value.split("/");
 			return AssetGet(FGA[0], FGA[1], FGA[2]);
 		}
 		return value;
 	});
+	return /** @type {Item[]} */ (data);
 }
 
 /**
@@ -1929,24 +1986,24 @@ function CharacterAppearanceResolveAppearance(BaseAppearance, PrevAppearance, Ne
 
 /**
  * Select from two potential changes to an item, preferring the newer if different to the original item
- * @param {Item} BaseItem - The item before any changes were made
- * @param {Item} PrevItem - The first item change
- * @param {Item} NewItem - The second item change
- * @return {Item} - The item to keep
+ * @param {Item | undefined} BaseItem - The item before any changes were made
+ * @param {Item | undefined} PrevItem - The first item change
+ * @param {Item | undefined} NewItem - The second item change
+ * @return {Item | null} - The item to keep
  */
 function CharacterAppearanceResolveItem(BaseItem, PrevItem, NewItem) {
-	if (BaseItem == null) {
+	if (!BaseItem) {
 		// Add the new item if added, otherwise use the previous item whether one was added or still empty
-		return NewItem || PrevItem;
-	} else if (NewItem == null) {
+		return NewItem ?? PrevItem ?? null;
+	} else if (!NewItem) {
 		// Remove the item if the newest change removed it
-		return NewItem;
+		return NewItem ?? null;
 	} else if (AppearanceItemStringify(BaseItem) != AppearanceItemStringify(NewItem)) {
 		// Use the newest item if changed from the original at all. In future could possibly compare/merge settings instead
 		return NewItem;
 	} else {
 		// Otherwise keep the previous change
-		return PrevItem;
+		return PrevItem ?? null;
 	}
 }
 
@@ -1962,8 +2019,9 @@ function CharacterAppearanceResolveSync(C, currentAppearance) {
 
 		// Update the individual clothing item to revert to upon exiting the group's menu
 		if (CharacterAppearanceCloth != null) {
-			const baseCloth = baseAppearance.find(A => A.Asset.Group.Name == CharacterAppearanceCloth.Asset.Group.Name);
-			const incomingCloth = C.Appearance.find(A => A.Asset.Group.Name == CharacterAppearanceCloth.Asset.Group.Name);
+			const appearance = CharacterAppearanceCloth;
+			const baseCloth = baseAppearance.find(A => A.Asset.Group.Name == appearance.Asset.Group.Name);
+			const incomingCloth = C.Appearance.find(A => A.Asset.Group.Name == appearance.Asset.Group.Name);
 			CharacterAppearanceCloth = CharacterAppearanceResolveItem(baseCloth, incomingCloth, CharacterAppearanceCloth);
 		}
 
@@ -2005,7 +2063,8 @@ function CharacterAppearanceCopyToClipboard(C) {
 	let App = [];
 	for (let A of C.Appearance)
 		if ((A.Asset != null) && (A.Asset.Group != null) && (A.Asset.Group.Category == "Appearance") && A.Asset.Group.AllowCustomize) {
-			let Obj = { A: A.Asset.Name, G: A.Asset.Group.Name };
+			/** @type {{ A: string, G: AssetGroupName, C?: ItemColor }} */
+			let Obj = { A: A.Asset.Name, G: A.Asset.Group.Name, C: undefined };
 			if ((A.Color != null) && Array.isArray(A.Color)) Obj.C = CommonCloneDeep(A.Color);
 			if ((A.Color != null) && (typeof A.Color == "string") && (A.Color != "") && (A.Color.toLowerCase() != "default")) Obj.C = A.Color;
 			App.push(Obj);
@@ -2089,7 +2148,7 @@ function CharacterAppearancePaste(C, CompApp, ChatRoomRefresh) {
 			}
 
 			// Wear the appearance asset and flags for a refresh
-			InventoryWear(C, AppRow.A, AppRow.G, AppRow.C, null, null, null, false);
+			InventoryWear(C, AppRow.A, AppRow.G, AppRow.C, undefined, undefined, undefined, false);
 			MustRefresh = true;
 
 		}

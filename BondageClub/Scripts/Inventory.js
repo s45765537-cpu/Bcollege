@@ -1765,7 +1765,7 @@ function InventoryStringify(C) {
 
 /**
  * Returns TRUE if all of the asset categories are allowed in the current chat room
- * @param {readonly AssetCategory[]} Category - An array of string containing all the categories to validate
+ * @param {readonly AssetCategory[] | undefined} Category - An array of string containing all the categories to validate
  * @return {boolean} - TRUE if it's allowed
  */
 function InventoryChatRoomAllow(Category) {

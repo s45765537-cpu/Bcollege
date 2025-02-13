@@ -1431,7 +1431,7 @@ interface ClipboardItemBundle {
 	/** The item's asset name */
 	A: string;
 	/** The item's color */
-	C?: string;
+	C?: ItemColor;
 }
 
 type ClipboardAppearanceBundle = ClipboardItemBundle[];
@@ -2011,7 +2011,7 @@ interface Character {
 	HasTints: () => boolean;
 	GetTints: () => RGBAColor[];
 	HasAttribute: (attribute: AssetAttribute) => boolean;
-	DrawAppearance?: Item[];
+	DrawAppearance: Item[];
 	AppearanceLayers?: Mutable<AssetLayer>[];
 	AppearanceMasks?: AssetLayer[];
 	Hooks: Map<CharacterHook, Map<string, () => void>> | null;

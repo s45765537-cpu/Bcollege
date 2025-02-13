@@ -2030,8 +2030,8 @@ function ChatSearchCalculateIgnoredRoomsOffset(shownRooms) {
 /**
  * Return the space we're currently in.
  * Note that it will look at both the current room's, and if we're not in one, the current lobby
- * @returns {ServerChatRoomSpace | null}
+ * @returns {ServerChatRoomSpace}
  */
 function ChatSearchGetSpace() {
-	return ChatRoomData?.Space ?? ChatSearchSpace ?? null;
+	return ChatRoomData?.Space ?? ChatSearchSpace ?? ChatRoomSpaceType.MIXED;
 }
