@@ -1059,10 +1059,7 @@ var Shop2 = {
 						Shop2InitVars.Preview,
 						Shop2Vars.EquippedItem.Asset.Group.Name,
 						Shop2Vars.EquippedItem.Asset,
-						Shop2Vars.EquippedItem.Color,
-						undefined,
-						undefined,
-						false,
+						Shop2Vars.EquippedItem.Color
 					);
 					if (item) {
 						item.Property = Shop2Vars.EquippedItem.Property;

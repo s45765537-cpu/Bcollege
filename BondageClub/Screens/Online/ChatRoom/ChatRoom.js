@@ -5028,7 +5028,7 @@ function ChatRoomSyncItem(data) {
 			item: if (item) {
 
 				// Puts the item on the character and apply the craft & property
-				const wornItem = CharacterAppearanceSetItem(ChatRoomCharacter[C], item.Asset.Group.Name, item.Asset, item.Color, item.Difficulty, null, false);
+				const wornItem = CharacterAppearanceSetItem(ChatRoomCharacter[C], item.Asset.Group.Name, item.Asset, item.Color, item.Difficulty);
 				if (wornItem == null) {
 					valid = false;
 					break item;

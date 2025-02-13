@@ -338,7 +338,7 @@ function WardrobeFastLoad(C, W, Update) {
 					&& WardrobeGroupAccessible(C, A.Group, { ExcludeNonCloth: true })
 					&& InventoryAvailable(Player, A.Name, A.Group.Name)
 				) {
-					CharacterAppearanceSetItem(C, w.Group, A, w.Color, 0, null, false);
+					CharacterAppearanceSetItem(C, w.Group, A, w.Color, 0);
 					if (w.Property && InventoryGet(C, w.Group)) {
 						var item = InventoryGet(C, w.Group);
 						if (item.Property == null) item.Property = {};
@@ -359,13 +359,12 @@ function WardrobeFastLoad(C, W, Update) {
 						CharacterAppearanceSetItem(
 							C, g.Name,
 							AssetGet(C.AssetFamily, g.Name, mirrorItem.Asset.Name),
-							mirrorItem.Color, null, null, false,
+							mirrorItem.Color
 						);
 					} else {
 						CharacterAppearanceSetItem(
 							C, g.Name,
-							AssetGroupGet(C.AssetFamily, g.Name).Asset[0],
-							null, null, null, false,
+							AssetGroupGet(C.AssetFamily, g.Name)?.Asset[0],
 						);
 					}
 				}
