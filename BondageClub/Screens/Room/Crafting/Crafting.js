@@ -1220,7 +1220,6 @@ function CraftingUpdatePreview() {
 
 	for (const RelevantAsset of RelevantAssets) {
 		InventoryWear(CraftingPreview, RelevantAsset.Name, RelevantAsset.DynamicGroupName, null, null, Player.MemberNumber, Craft, false);
-		InventoryCraft(CraftingPreview, CraftingPreview, /** @type {AssetGroupItemName} */(RelevantAsset.DynamicGroupName), Craft, false, true, false);
 		// Hack for the stuff in ItemAddons, since there's no way to resolve their prerequisites
 		if (RelevantAsset.Prerequisite.includes("OnBed")) {
 			const bedType = RelevantAsset.Name.includes("Medical") ? "MedicalBed" : "Bed";

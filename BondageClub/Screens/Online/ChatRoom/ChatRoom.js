@@ -4836,15 +4836,18 @@ function ChatRoomSyncItem(data) {
 				InventoryRemove(ChatRoomCharacter[C], data.Item.Group, false);
 			}
 
-			if (item) {
+			item: if (item) {
 
 				// Puts the item on the character and apply the craft & property
-				CharacterAppearanceSetItem(ChatRoomCharacter[C], data.Item.Group, item.Asset, item.Color, item.Difficulty, null, false);
-				if (item.Craft != null)
-					for (let Char of ChatRoomCharacter)
-						if (Char.MemberNumber === data.Source)
-							InventoryCraft(Char, ChatRoomCharacter[C], data.Item.Group, item.Craft, false, false);
-				InventoryGet(ChatRoomCharacter[C], data.Item.Group).Property = item.Property;
+				const wornItem = CharacterAppearanceSetItem(ChatRoomCharacter[C], item.Asset.Group.Name, item.Asset, item.Color, item.Difficulty, null, false);
+				if (wornItem == null) {
+					valid = false;
+					break item;
+				}
+				if (item.Craft && CraftingValidate(item.Craft, item.Asset, false, false)) {
+					wornItem.Craft = item.Craft;
+				}
+				wornItem.Property = item.Property;
 
 				/** @type {AppearanceDiffMap} */
 				const diffMap = {};
