@@ -1206,7 +1206,7 @@ var ElementButton = {
 				classList: ["button-icon-tooltip-li"],
 				children: [tooltipText],
 				parent: tooltip,
-				style: { "background-image": `url("./${src}")` },
+				style: { "background-image": src.startsWith("data:image") ? `url("${src}")` : `url("./${src}")` },
 			});
 
 			ElementCreate({
