@@ -4494,8 +4494,8 @@ function ClubCardGetGroupText(Group) {
 
 
 // #region Animation Card ### ### ### ###
-const ClubCardPreviewPosiotion = { x: 705, y: 250, w: 250 };
-const ClubCardPendingPosiotion = { x: 975, y: 400, w: 100 };
+const ClubCardPreviewPosition = { x: 705, y: 250, w: 250 };
+const ClubCardPendingPosition = { x: 975, y: 400, w: 100 };
 
 /**
  * Calculates the position of a card in the player's or opponent's hand based on its UniqueID.
@@ -4628,7 +4628,7 @@ function ClubCardMoveCardToPreview(card, onStart = null, onComplete = null, dura
 	ClubCardBaseCardAnimation({
 		card: card,
 		startPosition: { x: card.CurrentX, y: card.CurrentY, w: card.CurrentW },
-		endPosition: ClubCardPreviewPosiotion,
+		endPosition: ClubCardPreviewPosition,
 		duration: duration,
 		onStart: () => {
 			if (typeof onStart === "function") onStart();
@@ -4671,7 +4671,7 @@ function ClubCardReturnCardFromPreview(card, onStart = null, onComplete = null, 
 	card.AnimationState = "returning";
 	ClubCardBaseCardAnimation({
 		card: card,
-		startPosition: ClubCardPreviewPosiotion,
+		startPosition: ClubCardPreviewPosition,
 		endPosition: {x: originalCard.CurrentX, y: originalCard.CurrentY, w: originalCard.CurrentW},
 		duration: duration,
 		onStart: () => {
@@ -4700,9 +4700,6 @@ function ClubCardReturnCardFromPending(card, onStart = null, onComplete = null, 
 	const targetArray = ClubCardGetCardArrayByLocation(card);
 	if (!targetArray) return;
 
-	// let targetPosition = (card.Location.includes("Hand"))
-	// 	? ClubCardCalculateHandPosition(card)
-	// 	: ClubCardCalculateBoardPosition(card);
 	const originalCard = targetArray ? targetArray.find(c => c.UniqueID === card.UniqueID) : null;
 
 	card.IsVisible = false;
@@ -4715,7 +4712,7 @@ function ClubCardReturnCardFromPending(card, onStart = null, onComplete = null, 
 
 	ClubCardBaseCardAnimation({
 		card: card,
-		startPosition: ClubCardPendingPosiotion,
+		startPosition: ClubCardPendingPosition,
 		endPosition: {x: originalCard.CurrentX, y: originalCard.CurrentY, w: originalCard.CurrentW},
 		duration: duration,
 		onStart: onStart,
@@ -4741,8 +4738,8 @@ function ClubCardMoveCardToPending(card, onStart = null, onComplete = null, dura
 
 	ClubCardBaseCardAnimation({
 		card: card,
-		startPosition: ClubCardPreviewPosiotion,
-		endPosition: ClubCardPendingPosiotion,
+		startPosition: ClubCardPreviewPosition,
+		endPosition: ClubCardPendingPosition,
 		duration: duration,
 		onStart: onStart,
 		onComplete: () => {
@@ -4752,11 +4749,6 @@ function ClubCardMoveCardToPending(card, onStart = null, onComplete = null, dura
 		}
 	});
 }
-
-
-
-
-
 
 // #endregion ### ### ### ### ### ### ###
 
@@ -5036,7 +5028,8 @@ function ClubCardRenderPanel() {
 	if (ClubCardPending != null) {
 		DrawButton(1805, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/CancelPending.png", TextGet("CancelPending"));
 		ClubCardRenderCard(ClubCardPending, 975, 400, 100);
-		if (ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) DrawButton(725, 505, 215, 50, TextGet("SelectCard"), "White");
+		if (ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus))
+			if(ClubCardFocus.IsVisible) DrawButton(725, 505, 215, 50, TextGet("SelectCard"), "White");
 		return;
 	}
 
