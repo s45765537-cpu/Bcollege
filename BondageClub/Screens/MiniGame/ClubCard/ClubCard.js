@@ -2874,7 +2874,7 @@ function ClubCardGetCopyCardByID(cardId) {
 
 /**
  * Generates a globally unique identifier (UniqueID) for a card.
- * The UniqueID is composed of the card's base ID, a high-precision timestamp, 
+ * The UniqueID is composed of the card's base ID, a high-precision timestamp,
  * and an incrementing counter to ensure uniqueness.
  * @param {number} cardID - The base ID of the card.
  * @returns {string} - A unique string identifier for the card.
@@ -4496,6 +4496,18 @@ function ClubCardGetGroupText(Group) {
 // #region Animation Card ### ### ### ###
 const ClubCardPreviewPosition = { x: 705, y: 250, w: 250 };
 const ClubCardPendingPosition = { x: 975, y: 400, w: 100 };
+const ClubCardDiscardPosition = { x: 0, y: 500, w: 0 };
+
+/**
+ * Returns a reference to the original card based on its UniqueID.
+ * @param {ClubCard} card - A copy of the card for which the original needs to be found.
+ * @returns {ClubCard|null} - The original card or null if not found.
+ */
+function ClubCardGetOriginalCard(card) {
+	if (!card || !card.Location) return null;
+	const targetArray = ClubCardGetCardArrayByLocation(card);
+	return targetArray ? targetArray.find(c => c.UniqueID === card.UniqueID) : null;
+}
 
 /**
  * Calculates the position of a card in the player's or opponent's hand based on its UniqueID.
@@ -4602,33 +4614,42 @@ function ClubCardBaseCardAnimation({ card, startPosition, endPosition, onStart =
 }
 
 /**
- * Moves the selected card to the preview position.
- * @param {ClubCard} card - The card to be moved.
- * @param {Function|null} [onStart] - A function called before the animation starts.
- * @param {Function|null} [onComplete] - A function called after the animation completes.
- * @param {number} [duration=150] - The animation duration in milliseconds.
+ * Moves a card between predefined positions (Preview, Hand, Pending).
+ * Handles both animation of a copy and visibility of the original card.
+ * @param {ClubCard} card - The card being moved.
+ * @param {Object} startPosition - The starting position {x, y, w}.
+ * @param {Object} endPosition - The target position {x, y, w}.
+ * @param {boolean} hideOriginal - Whether to hide the original card during animation.
+ * @param {boolean} keepOriginalHidden - If true, the original card stays hidden after animation.
+ * @param {Function|null} [onStart] - Function called before the animation starts.
+ * @param {Function|null} [onComplete] - Function called after the animation completes.
+ * @param {number} [duration=200] - Animation duration in milliseconds.
  */
-function ClubCardMoveCardToPreview(card, onStart = null, onComplete = null, duration = 150) {
+function ClubCardMoveCard(card, startPosition, endPosition, hideOriginal = false, keepOriginalHidden = false, onStart = null, onComplete = null, duration = 200) {
 	if (!card || card.AnimationState !== "idle") return;
-
-	const targetArray = ClubCardGetCardArrayByLocation(card);
-	const originalCard = targetArray ? targetArray.find(c => c.UniqueID === card.UniqueID) : null;
-
-	if (originalCard) originalCard.IsVisible = false;
-	card.IsVisible = false;
 	card.AnimationState = "moving";
+	card.IsVisible = false;
+
+	const originalCard = ClubCardGetOriginalCard(card);
+
+	if (hideOriginal && originalCard) {
+		originalCard.IsVisible = false;
+		originalCard.AnimationState = "moving";
+	}
+
 	const safetyTimeout = setTimeout(() => {
-		if (originalCard && !originalCard.IsVisible) {
-			console.warn(`⚠️ Fallback: Restore ${originalCard.Name} IsVisible manually!`);
+		console.warn(`⚠️ Fallback: Restore ${card.Name} state manually!`);
+		if (originalCard && !keepOriginalHidden) {
 			originalCard.IsVisible = true;
-			card.AnimationState = "idle";
+			originalCard.AnimationState = "idle";
 		}
+		card.AnimationState = "idle";
 	}, duration + 50);
 
 	ClubCardBaseCardAnimation({
 		card: card,
-		startPosition: { x: card.CurrentX, y: card.CurrentY, w: card.CurrentW },
-		endPosition: ClubCardPreviewPosition,
+		startPosition: startPosition,
+		endPosition: endPosition,
 		duration: duration,
 		onStart: () => {
 			if (typeof onStart === "function") onStart();
@@ -4637,92 +4658,59 @@ function ClubCardMoveCardToPreview(card, onStart = null, onComplete = null, dura
 			clearTimeout(safetyTimeout);
 			card.IsVisible = true;
 			card.AnimationState = "idle";
+			if (originalCard && !keepOriginalHidden) {
+				originalCard.IsVisible = true;
+				originalCard.AnimationState = "idle";
+			}
 			if (typeof onComplete === "function") onComplete(card);
 		}
 	});
 }
 
 /**
- * Returns a card from preselect back to its original position based on its Location.
- * @param {ClubCard} card - The card to be moved back.
- * @param {Function|null} [onStart] - A function called before the animation starts.
- * @param {Function|null} [onComplete] - A function called after the animation completes.
- * @param {number} [duration=150] - The animation duration in milliseconds.
+ * Moves a card to the preview position (original card stays hidden after).
  */
-function ClubCardReturnCardFromPreview(card, onStart = null, onComplete = null, duration = 150) {
-	if (!card || !card.Location) return;
-
-	const targetArray = ClubCardGetCardArrayByLocation(card);
-	if (!targetArray) return;
-
-	const originalCard = targetArray ? targetArray.find(c => c.UniqueID === card.UniqueID) : null;
-
-	if (originalCard) originalCard.IsVisible = false;
-	originalCard.AnimationState = "moving";
-
-	const safetyTimeout = setTimeout(() => {
-		if (originalCard && !originalCard.IsVisible) {
-			console.warn(`⚠️ Fallback: Restore ${originalCard.Name} IsVisible manually!`);
-			originalCard.IsVisible = true;
-			originalCard.AnimationState = "idle";
-		}
-	}, duration + 50);
-
-	card.AnimationState = "returning";
-	ClubCardBaseCardAnimation({
-		card: card,
-		startPosition: ClubCardPreviewPosition,
-		endPosition: {x: originalCard.CurrentX, y: originalCard.CurrentY, w: originalCard.CurrentW},
-		duration: duration,
-		onStart: () => {
-			if (typeof onStart === "function") onStart();
-		},
-		onComplete: () => {
-			clearTimeout(safetyTimeout);
-			if (originalCard) originalCard.IsVisible = true;
-			originalCard.AnimationState = "idle";
-			if (typeof onComplete === "function") onComplete(card);
-		}
-	});
+function ClubCardMoveCardToPreview(card, onStart = null, onComplete = null, duration = 200) {
+	ClubCardMoveCard(card,
+		{ x: card.CurrentX, y: card.CurrentY, w: card.CurrentW },
+		ClubCardPreviewPosition,
+		true,
+		true,
+		onStart,
+		onComplete,
+		duration);
 }
 
 /**
- * Returns a card from pending state back to the player's hand.
- * @param {ClubCard} card - The card to be moved back.
- * @param {Function|null} [onStart] - A function called before the animation starts.
- * @param {Function|null} [onComplete] - A function called after the animation completes.
- * @param {number} [duration=150] - The animation duration in milliseconds.
+ * Returns a card from preview back to its original position.
  */
-function ClubCardReturnCardFromPending(card, onStart = null, onComplete = null, duration = 150) {
-	if (!card || !card.Location || card.AnimationState !== "idle") return;
-	card.AnimationState = "moving";
+function ClubCardReturnCardFromPreview(card, onStart = null, onComplete = null, duration = 200) {
+	const originalCard = ClubCardGetOriginalCard(card);
 
-	const targetArray = ClubCardGetCardArrayByLocation(card);
-	if (!targetArray) return;
+	ClubCardMoveCard(card,
+		ClubCardPreviewPosition,
+		{ x: originalCard.CurrentX, y: originalCard.CurrentY, w: originalCard.CurrentW },
+		false,
+		false,
+		onStart,
+		onComplete,
+		duration);
+}
 
-	const originalCard = targetArray ? targetArray.find(c => c.UniqueID === card.UniqueID) : null;
+/**
+ * Returns a card from pending state back to its original position.
+ */
+function ClubCardReturnCardFromPending(card, onStart = null, onComplete = null, duration = 200) {
+	const originalCard = ClubCardGetOriginalCard(card);
 
-	card.IsVisible = false;
-
-	const safetyTimeout = setTimeout(() => {
-		console.warn(`⚠️ Fallback: Restore ${card.Name} IsVisible manually!`);
-		originalCard.IsVisible = true;
-		originalCard.AnimationState = "idle";
-	}, duration + 50);
-
-	ClubCardBaseCardAnimation({
-		card: card,
-		startPosition: ClubCardPendingPosition,
-		endPosition: {x: originalCard.CurrentX, y: originalCard.CurrentY, w: originalCard.CurrentW},
-		duration: duration,
-		onStart: onStart,
-		onComplete: () => {
-			clearTimeout(safetyTimeout);
-			originalCard.IsVisible = true;
-			originalCard.AnimationState = "idle";
-			if (typeof onComplete === "function") onComplete(card);
-		}
-	});
+	ClubCardMoveCard(card,
+		ClubCardPendingPosition,
+		{ x: originalCard.CurrentX, y: originalCard.CurrentY, w: originalCard.CurrentW },
+		false,
+		false,
+		onStart,
+		onComplete,
+		duration);
 }
 
 /**
@@ -4732,7 +4720,7 @@ function ClubCardReturnCardFromPending(card, onStart = null, onComplete = null, 
  * @param {Function|null} [onComplete] - A function called after the animation completes.
  * @param {number} [duration=150] - The animation duration in milliseconds.
  */
-function ClubCardMoveCardToPending(card, onStart = null, onComplete = null, duration = 150) {
+function ClubCardMoveCardToPending(card, onStart = null, onComplete = null, duration = 200) {
 	if (!card || card.AnimationState !== "idle") return;
 	card.AnimationState = "moving";
 
@@ -4792,9 +4780,11 @@ function ClubCardRenderCard(Card, X, Y, W, Sleeve = null, Source = null, isIgnor
 	}
 
 	// Keeps the hover card
-	if (MouseIn(X, Y, W, W * 2)) {
-		ClubCardHover = { ...Card };
-		ClubCardHover.Location = Source;
+	if (Card.AnimationState != "moving") {
+		if (MouseIn(X, Y, W, W * 2)) {
+			ClubCardHover = { ...Card };
+			ClubCardHover.Location = Source;
+		}
 	}
 
 	// Gets the text and frame color
