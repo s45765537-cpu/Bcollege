@@ -3698,6 +3698,7 @@ function ClubCardAddPlayer(Char, Cont, Cards) {
 		Hand: [],
 		Board: [],
 		Event: [],
+		RenderFullBoard: [],
 		DiscardPile: [],
 		Level: 1,
 		Money: 5,
@@ -4855,21 +4856,33 @@ function ClubCardRenderBoard(CCPlayer, X, Y, W, H, Mirror) {
 	if (CCPlayer.Level != null) DrawTextWrap(TextGet("Level" + CCPlayer.Level) + " (" + CCPlayer.Board.length + " / " + ClubCardLevelLimit[CCPlayer.Level] + ")", X + W * 0.81, TextY, W * 0.19, H * 0.1, ClubCardColor[CCPlayer.Level]);
 
 	// Draws the played cards
-	if ((CCPlayer == null) || (CCPlayer.Board == null)) return;
-	let FullBoard = [];
-	FullBoard = [...CCPlayer.Board];
-	if ((CCPlayer.Event != null) && (CCPlayer.Event.length > 0)) FullBoard = FullBoard.concat(CCPlayer.Event);
-	let PosX = Math.round(X + (W / 2) - (FullBoard.length * W / 20));
-	let IncX = Math.round(W / 10);
-	if (PosX < X) {
-		PosX = X;
-		IncX = Math.round(W / FullBoard.length);
+	if (!CCPlayer || !CCPlayer.Board) return;
+
+	let FullBoard = [...CCPlayer.Board, ...(CCPlayer.Event || [])];
+	const isEqualBoard = CCPlayer.RenderFullBoard.length === FullBoard.length
+		&& CCPlayer.RenderFullBoard.every((card, index) => card.UniqueID === FullBoard[index].UniqueID);
+
+	if (!isEqualBoard) {
+		CCPlayer.RenderFullBoard = [...FullBoard];
+
+		let PosX = Math.round(X + (W / 2) - (FullBoard.length * W / 20));
+		let IncX = Math.round(W / 10);
+		if (PosX < X) {
+			PosX = X;
+			IncX = Math.round(W / FullBoard.length);
+		}
+
+		for (let C of FullBoard) {
+			let PosY = Mirror ? Y + H - (H * 0.65) : Y + (H * 0.1);
+			C.CurrentX = PosX + 5;
+			C.CurrentY = PosY;
+			C.CurrentW = (W / 12) - 5;
+			PosX += IncX;
+		}
 	}
-	for (let C of FullBoard) {
-		let PosY = Mirror ? Y + H - (H * 0.65) : Y + (H * 0.1);
-		ClubCardRenderCard(C, PosX + 5, PosY, (W / 12) - 5, null, (CCPlayer.Control == "Player") ? "PlayerBoard" : "OpponentBoard");
-		PosX = PosX + IncX;
-	}
+
+	for (let C of CCPlayer.RenderFullBoard)
+		ClubCardRenderCard(C, C.CurrentX, C.CurrentY, C.CurrentW, null, (CCPlayer.Control === "Player") ? "PlayerBoard" : "OpponentBoard");
 
 	// Puts a shadow over the board if not playing
 	MainCanvas.font = CommonGetFont(36);

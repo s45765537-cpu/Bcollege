@@ -4313,6 +4313,7 @@ interface ClubCardPlayer {
 	Hand: ClubCard[];
 	Board: ClubCard[];
 	Event: ClubCard[];
+	RenderFullBoard: ClubCard[];
 	DiscardPile: ClubCard[];
 	Level: number;
 	Money: number;
