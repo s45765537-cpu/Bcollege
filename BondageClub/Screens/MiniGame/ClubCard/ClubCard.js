@@ -4652,9 +4652,7 @@ function ClubCardMoveCard(card, startPosition, endPosition, hideOriginal = false
 		startPosition: startPosition,
 		endPosition: endPosition,
 		duration: duration,
-		onStart: () => {
-			if (typeof onStart === "function") onStart();
-		},
+		onStart: onStart,
 		onComplete: () => {
 			clearTimeout(safetyTimeout);
 			card.IsVisible = true;
@@ -4863,8 +4861,6 @@ function ClubCardRenderBoard(CCPlayer, X, Y, W, H, Mirror) {
 		&& CCPlayer.RenderFullBoard.every((card, index) => card.UniqueID === FullBoard[index].UniqueID);
 
 	if (!isEqualBoard) {
-		CCPlayer.RenderFullBoard = [...FullBoard];
-
 		let PosX = Math.round(X + (W / 2) - (FullBoard.length * W / 20));
 		let IncX = Math.round(W / 10);
 		if (PosX < X) {
@@ -4879,6 +4875,26 @@ function ClubCardRenderBoard(CCPlayer, X, Y, W, H, Mirror) {
 			C.CurrentW = (W / 12) - 5;
 			PosX += IncX;
 		}
+
+		//########### Attempt Run Animation. Work but have many problem
+
+		// const remainingCards = CCPlayer.RenderFullBoard
+		// 	.filter(oldCard => FullBoard.some(newCard => newCard.UniqueID === oldCard.UniqueID))
+		// 	.map(oldCard => ({ ...oldCard }));
+
+		// remainingCards.forEach((copyCard, index) => {
+		// 	setTimeout(() => {
+		// 		const originalCard = ClubCardGetOriginalCard(copyCard);
+		// 		if (!originalCard) return;
+
+		// 		const startPosition = { x: copyCard.CurrentX, y: copyCard.CurrentY, w: copyCard.CurrentW };
+		// 		const endPosition = { x: originalCard.CurrentX, y: originalCard.CurrentY, w: originalCard.CurrentW };
+
+		// 		ClubCardMoveCard(copyCard, startPosition, endPosition, true, false, null, null, 50);
+		// 	}, index * 2);
+		// });
+
+		CCPlayer.RenderFullBoard = [...FullBoard];
 	}
 
 	for (let C of CCPlayer.RenderFullBoard)
@@ -5276,7 +5292,7 @@ function ClubCardClick() {
 	//Play Card
 	if (MouseIn(725, 505, 215, 50) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") && ClubCardCanPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) return ClubCardStartTurn(ClubCardStartTurnType.PLAYCARD);
 	// Click on an empty space to reset the focus of the selected Card.
-	if (MouseIn(700, 245, 260, 510) && (ClubCardFocus != null)) {
+	if (MouseIn(700, 245, 260, 510) && ClubCardFocus != null && ClubCardFocus.AnimationState != "moving") {
 		const card = { ...ClubCardFocus };
 		ClubCardFocus = null;
 		ClubCardReturnCardFromPreview(card);
