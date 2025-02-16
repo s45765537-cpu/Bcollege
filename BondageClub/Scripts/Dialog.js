@@ -4481,6 +4481,81 @@ function DialogDrawTopMenu(C) {
 	}
 }
 
+var DialogFocusGroup = {
+	/**
+	 *
+	 * @param {string} id - The ID for the to-be created focus group grid
+	 * @param {(this: HTMLButtonElement, ev: MouseEvent) => any} listener - The listener to-be executed upon selecting a group; the group name can be retrieved from `this.name`
+	 * @param {null | { required?: boolean, useDynamicGroupName?: boolean }} options - Further options for the to-be created focus group grid
+	 * @returns {HTMLElement} - The created element
+	 */
+	Create(id, listener, options=null) {
+		options ??= {};
+		const root = document.getElementById(id);
+		if (root) {
+			console.error(`Element "${id}" already exists`);
+			return root;
+		}
+
+		let top = Infinity;
+		let bottom = 0;
+		let left = Infinity;
+		let right = 0;
+
+		/** @type {{ group: AssetGroup, index: number, zone: RectTuple }[]} */
+		const grid = [];
+		for (const group of AssetGroup) {
+			for (const [index, zone] of (group.Zone ?? []).entries()) {
+				grid.push({ group, index, zone});
+				left = Math.min(left, zone[0]);
+				right = Math.max(right, zone[0] + zone[2]);
+				top = Math.min(top, zone[1]);
+				bottom = Math.max(bottom, zone[1] + zone[3]);
+			}
+		}
+		grid.sort((a, b) => (a.zone[1] - b.zone[1]) || (a.zone[0] - b.zone[0]));
+
+		const width = right - left;
+		const height = bottom - top;
+
+		const children = grid.map(({ group, index, zone }, i) => ElementButton.Create(
+			`${id}-${group.Name}-${index}`,
+			listener,
+			{ noStyling: true, role: "radio" },
+			{ button: {
+				attributes: {
+					name: options.useDynamicGroupName ? group.DynamicGroupName : group.Name,
+					tabindex: i === 0 ? 0 : -1,
+					"aria-hidden": index !== 0 ? "true" : undefined,
+					"aria-label": group.Description,
+				},
+				style: {
+					left: `${100 * (zone[0] - left) / width}%`,
+					top: `${100 * (zone[1] - top) / height}%`,
+					width: `${100 * (zone[2] / width)}%`,
+					height: `${100 * (zone[3] / height)}%`,
+				},
+			}},
+		));
+
+		return ElementCreate({
+			tag: "div",
+			attributes: { id },
+			classList: ["dialog-focus-grid"],
+			children: [{
+				tag: "div",
+				children,
+				attributes: {
+					id: `${id}-radiogroup`,
+					role: "radiogroup",
+					"aria-required": options.required ? "true" : "false",
+					"aria-label": "Select focus group",
+				},
+			}],
+		});
+	},
+};
+
 /**
  * Draws the left menu for the character
  * @param {Character} C - The currently focused character
