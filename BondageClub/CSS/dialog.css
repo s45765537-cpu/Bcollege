@@ -351,6 +351,53 @@
 	border-color: cyan;
 }
 
+#dialog-expression {
+	width: fit-content;
+	grid-template:
+		"dialog-menubar dialog-menubar" var(--menu-button-size)
+		"dialog-status dialog-status" min-content
+		"dialog-left-menu dialog-grid" auto / var(--menu-button-size) min-content;
+}
+
+#dialog-expression-menubar {
+	min-width: calc(5 * var(--menu-button-size) + 2 * var(--gap));
+	grid-area: dialog-menubar;
+	display: grid;
+	gap: calc(0.5 * var(--gap));
+	direction: rtl;
+	grid-auto-flow: column;
+	grid-template-columns: repeat(3, var(--menu-button-size)) calc(var(--menu-button-size) + 0.5 * var(--gap)) repeat(auto-fill, var(--menu-button-size));
+}
+
+#dialog-expression-menu-left {
+	grid-area: dialog-left-menu;
+	display: grid;
+	padding-top: 3px;
+	gap: calc(0.5 * var(--gap));
+	grid-template-rows: repeat(auto-fill, var(--menu-button-size));
+}
+
+.dialog-expression-grid {
+	display: grid;
+	gap: calc(0.5 * var(--gap));
+	grid-template-columns: repeat(3, var(--menu-button-size));
+	grid-template-rows: repeat(auto-fill, var(--menu-button-size));
+	width: min-content;
+	height: calc(7 * var(--menu-button-size) + 3 * var(--gap));
+}
+
+.dialog-expression-grid[data-unload] {
+	visibility: hidden;
+}
+
+#dialog-expression-button-grid {
+	display: none;
+}
+
+.dialog-expression-grid > .dialog-menubar-button {
+	scroll-snap-align: start;
+}
+
 @supports(height: 100dvh) {
 	.dialog-root {
 		--menu-button-size: min(9dvh, 4.5dvw);

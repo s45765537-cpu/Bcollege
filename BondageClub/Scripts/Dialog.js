@@ -95,14 +95,6 @@ var DialogExpressionPreviousMode = null;
 
 /** @type {ExpressionItem[]} */
 var DialogFacialExpressions = [];
-/** The maximum number of expressions per page for a given asset group. */
-const DialogFacialExpressionsPerPage = 18;
-/**
- * The currently selected expression page number for a given asset group.
- * Contains up to {@link DialogFacialExpressionsPerPage} expressions.
- */
-let DialogFacialExpressionsSelectedPage = 0;
-var DialogFacialExpressionsSelected = -1;
 var DialogFacialExpressionsSelectedBlindnessLevel = 2;
 /** @type {Character[]} */
 var DialogSavedExpressionPreviews = [];
@@ -192,12 +184,6 @@ var DialogFavoriteStateDetails = [
  * @type {readonly DialogSelfMenuOptionType[]}
  */
 var DialogSelfMenuOptions = [
-	{
-		Name: "Expression",
-		IsAvailable: () => true,
-		Draw: () => DialogDrawExpressionMenu(),
-		Click: () => DialogClickExpressionMenu(),
-	},
 	{
 		Name: "Pose",
 		IsAvailable: () => (CurrentScreen == "ChatRoom" || CurrentScreen == "Photographic"),
@@ -810,6 +796,7 @@ function DialogLeave() {
 
 	// Reset the mode, selected group & character, exiting the dialog
 	DialogMenuMode = null;
+	DialogSidePanelMapping.expression.Exit();
 	Object.values(DialogMenuMapping).forEach(obj => obj.Exit());
 
 	// Stop sounds & expressions from struggling/swapping items
@@ -834,8 +821,6 @@ function DialogLeave() {
 		CharacterDelete(preview, false);
 	}
 	DialogSavedExpressionPreviews = [];
-	DialogFacialExpressionsSelected = -1;
-	DialogFacialExpressions = [];
 
 	// Go controller, go!
 	ControllerClearAreas();
@@ -2435,6 +2420,7 @@ function DialogResize(load) {
 			return;
 	}
 
+	DialogSidePanelMapping.expression.Resize(load);
 	DialogMenuMapping[DialogMenuMode]?.Resize(load);
 }
 
@@ -2519,31 +2505,14 @@ function DialogFindSubMenu(MenuName, force=false) {
 }
 
 /**
- * Finds and sets a facial expression group. The expression sub menu has to be already opened.
- * @param {ExpressionGroupName} ExpressionGroup - The name of the expression group, see XXX.
- * @returns {boolean} True, when the expression group was found and opened. False otherwise and nothing happens.
- */
-function DialogFindFacialExpressionMenuGroup(ExpressionGroup) {
-	if (DialogSelfMenuSelected.Name != "Expression") return false;
-	if (!DialogFacialExpressions || !DialogFacialExpressions.length) DialogFacialExpressionsBuild();
-	let I = DialogFacialExpressions.findIndex(expr => expr.Group == ExpressionGroup);
-	if (I != -1) {
-		DialogFacialExpressionsSelected = I;
-		if (DialogMenuMode === "colorExpression") ItemColorSaveAndExit();
-		return true;
-	}
-	return false;
-}
-
-/**
  * Displays the given text for 5 seconds
  * @param {string} status - The text to be displayed
  * @param {number} timer - the number of milliseconds to display the message for
  * @param {null | { asset?: Asset, group?: AssetGroup, C?: Character }} replace - Attempt to perform replacements within the `status` text
  * @returns {void} - Nothing
  */
-function DialogSetStatus(status, timer=0, replace=null) {
-	const id = DialogMenuMapping[DialogMenuMode]?.ids.status;
+function DialogSetStatus(status, timer=0, replace=null, id=null) {
+	id ??= DialogMenuMapping[DialogMenuMode]?.ids.status;
 	const elem = id ? document.getElementById(id) : null;
 	if (!elem) {
 		return;
@@ -3340,7 +3309,7 @@ class DialogMenu {
  * {@link DialogMenu} abstract subclass for dialog menus with a focus group.
  * @abstract
  * @template {string} [ModeType=string] - The name of the mode associated with this instance (_e.g._ {@link DialogMenuMode})
- * @template {DialogInventoryItem | ItemActivity | DialogLine | null} [ClickedObj=any] - The underlying item or activity object of the clicked grid buttons (if applicable)
+ * @template [ClickedObj=any] - The underlying item or activity object of the clicked grid buttons (if applicable)
  * @template {{ C: Character, focusGroup: AssetItemGroup }} [PropType={ C: Character, focusGroup: AssetItemGroup }]
  * @extends {DialogMenu<ModeType, ClickedObj, PropType>}
  */
@@ -4401,6 +4370,376 @@ class _DialogDialogMenu extends DialogMenu {
 	}
 }
 
+/**
+ * @template {string} ModeType
+ * @extends {DialogMenu<ModeType, ExpressionItem2, { C: Character }>}
+ */
+class _DialogExpressionMenu extends DialogMenu {
+	ids = Object.freeze({
+		root: "dialog-expression",
+		status: "dialog-expression-status",
+		menubar: "dialog-expression-menubar",
+		menuLeft: "dialog-expression-menu-left",
+		grid: "dialog-expression-button-grid",
+	});
+
+	defaultShape = Object.freeze(/** @type {const} */([15, 15, 500, 940]));
+
+	_initPropertyNames = /** @type {const} */(["C"]);
+
+	/** @satisfies {DialogMenu<ModeType, ExpressionItem2>["clickStatusCallbacks"]} */
+	clickStatusCallbacks = {
+		CharacterIsExpressionAllowed: (C, clickedItem, equippedItem) => {
+			const status = CharacterIsExpressionDisallowed(C, equippedItem, clickedItem.Expression);
+			return status ? InterfaceTextGet(`Prerequisite${status}`) : null;
+		},
+	};
+
+	/**
+	 * See {@link _DialogExpressionMenu.facialExpressions}
+	 * @private
+	 * @type {null | Readonly<Partial<Record<ExpressionGroupName, readonly (null | ExpressionName)[]>>>}
+	 */
+	_facialExpressions = null;
+
+	/**
+	 * @readonly
+	 * @type {Readonly<Partial<Record<ExpressionGroupName, readonly (null | ExpressionName)[]>>>}
+	 */
+	get facialExpressions() {
+		if (!this._facialExpressions) {
+			/** @type {Partial<Record<ExpressionGroupName, readonly (null | ExpressionName)[]>>} */
+			const expressions = {};
+			for (const { Name, AllowExpression } of AssetGroup) {
+				if (!AllowExpression || Name === "Eyes2") {
+					continue;
+				}
+				expressions[Name] = AllowExpression.includes(null) ? AllowExpression : [null, ...AllowExpression];
+			}
+			return this._facialExpressions = expressions;
+		} else {
+			return this._facialExpressions;
+		}
+	}
+
+	get focusGroup() {
+		const elem = document.querySelector(`#${this.ids.menuLeft} [role="menuitemradio"][aria-checked="true"]`);
+		const groupName = /** @type {null | AssetGroupName} */(elem?.getAttribute("name"));
+		return (groupName && this.C) ? AssetGroupGet(this.C.AssetFamily, groupName) : null;
+	}
+
+	/**
+	 * @param {ModeType} mode The name of the mode associated with this instance
+	 */
+	constructor(mode) {
+		super(mode);
+		const dialogMenu = this;
+		this.eventListeners = {
+			...this.eventListeners,
+
+			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
+			clearExpressionClick: function() {
+				for (const buttonGrid of document.querySelectorAll(`#${dialogMenu.ids.root} .dialog-expression-grid`)) {
+					/** @type {null | HTMLButtonElement} */(buttonGrid.querySelector("button[role='radio']"))?.click();
+				}
+			},
+
+			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
+			expressionRadioGroupClick: function(ev) {
+				document.querySelector(`#${dialogMenu.ids.root} > .dialog-expression-grid:not([data-unload])`)?.toggleAttribute("data-unload", true);
+				if (this.getAttribute("aria-checked") === "true") {
+					document.getElementById(`${dialogMenu.ids.menubar}-color`)?.setAttribute("aria-disabled", this.name !== "Eyes" ? "false" : "true");
+					const buttonGrid = document.getElementById(this.getAttribute("aria-owns"));
+					if (buttonGrid) {
+						buttonGrid.toggleAttribute("data-unload", false);
+						buttonGrid.querySelector(`[role="radio"][aria-checked='true']`)?.scrollIntoView({ behavior: "instant" });
+					}
+				} else {
+					document.getElementById(`${dialogMenu.ids.menubar}-color`)?.setAttribute("aria-disabled", "true");
+				}
+			},
+
+			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
+			blindnessClick: function(ev) {
+				let level = Number.parseInt(this.getAttribute("aria-valuenow"), 10);
+				level = Number.isNaN(level) ? 1 : level + 1;
+				if (level > 3 || level < 1) {
+					level = 1;
+				}
+
+				DialogFacialExpressionsSelectedBlindnessLevel = level;
+				this.setAttribute("aria-valuenow", level);
+				this.querySelector(".button-image")?.setAttribute("src", `Icons/BlindToggle${level}.png`);
+			},
+
+			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
+			blinkClick: function(ev) {
+				let level = Number.parseInt(this.getAttribute("aria-valuenow"), 10);
+				level = Number.isNaN(level) ? 1 : level + 1;
+				if (level > 4 || level < 1) {
+					level = 1;
+				}
+
+				/** @type {string} */
+				let text;
+				switch (level) {
+					case 1:
+						text = "None";
+						CharacterSetFacialExpression(Player, "Eyes", null, null);
+						break;
+					case 2:
+						text = "Left";
+						CharacterSetFacialExpression(Player, "Eyes1", null, null);
+						CharacterSetFacialExpression(Player, "Eyes2", "Closed", null);
+						break;
+					case 3:
+						text = "Both";
+						CharacterSetFacialExpression(Player, "Eyes", "Closed", null);
+						break;
+					case 4:
+						text = "Right";
+						CharacterSetFacialExpression(Player, "Eyes1", "Closed", null);
+						CharacterSetFacialExpression(Player, "Eyes2", null, null);
+						break;
+				}
+
+				this.setAttribute("aria-valuenow", level);
+				this.setAttribute("aria-valuetext", text);
+				this.querySelector(".button-image")?.setAttribute("src", `Icons/Wink${text}.png`);
+			},
+
+			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
+			colorClick: function(ev) {
+				const GroupName = /** @type {AssetGroupItemName} */(document.querySelector(`#${dialogMenu.ids.menuLeft} [role='menuitemradio'][aria-checked='true']`)?.getAttribute("name"));
+				const Item = InventoryGet(Player, GroupName);
+				if (!Item) {
+					ev.stopImmediatePropagation();
+					return;
+				}
+
+				DialogChangeMode("colorExpression");
+				const originalColor = Item.Color;
+				Player.FocusGroup = /** @type {AssetItemGroup} */ (AssetGroupGet(Player.AssetFamily, GroupName));
+				ItemColorLoad(Player, Item, 1200, 25, 775, 950, true);
+				ItemColorOnExit((save) => {
+					DialogMenuBack();
+					if (save && !CommonColorsEqual(originalColor, Item.Color)) {
+						ServerPlayerAppearanceSync();
+						ChatRoomCharacterItemUpdate(Player, GroupName);
+					}
+				});
+			},
+
+			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
+			nextPageClick: function(ev) {
+			},
+		};
+	}
+
+	_Load() {
+		const ids = this.ids;
+		const expressionEntries = CommonEntries(this.facialExpressions);
+		return document.getElementById(ids.root) ?? ElementCreate({
+			tag: "div",
+			attributes: { id: ids.root, "aria-labelledby": ids.status },
+			parent: document.body,
+			classList: ["dialog-root"],
+			children: [
+				{
+					tag: "span",
+					attributes: { id: ids.status },
+					classList: ["dialog-status", "scroll-box"],
+				},
+				ElementMenu.Create(
+					ids.menubar,
+					[
+						ElementButton.Create(
+							`${ids.menubar}-next`,
+							this.eventListeners.nextPageClick,
+							{ tooltip: InterfaceTextGet("NextPage"), tooltipPosition: "right", image: "Icons/Next.png" },
+							{ button: { attributes: { name: "next" }, classList: ["dialog-menubar-button"] } },
+						),
+						ElementButton.Create(
+							`${ids.menubar}-color`,
+							this.eventListeners.colorClick,
+							{ tooltip: InterfaceTextGet("DialogMenuColorExpressionChange"), tooltipPosition: "right", image: "Icons/ColorChange.png", disabled: true },
+							{ button: { attributes: { name: "color" }, classList: ["dialog-menubar-button"] } },
+						),
+						ElementButton.Create(
+							`${ids.menubar}-blindness`,
+							this.eventListeners.blindnessClick,
+							{ tooltip: InterfaceTextGet("BlindToggleFacialExpressions"), tooltipPosition: "right", image: "Icons/BlindToggle1.png" },
+							{ button: {
+								attributes: { name: "blindness", "aria-valuenow": 1, "aria-valuemin": 1, "aria-valuemax": 3 },
+								classList: ["dialog-menubar-button"],
+							}},
+						),
+						ElementButton.Create(
+							`${ids.menubar}-blink`,
+							this.eventListeners.blinkClick,
+							{ tooltip: InterfaceTextGet("WinkFacialExpressions"), tooltipPosition: "right", image: "Icons/WinkNone.png" },
+							{ button: {
+								attributes: { name: "blink", "aria-valuenow": 1, "aria-valuetext": "None", "aria-valuemin": 1, "aria-valuemax": 4 },
+								classList: ["dialog-menubar-button"],
+							}},
+						),
+						ElementButton.Create(
+							`${ids.menubar}-clear`,
+							this.eventListeners.clearExpressionClick,
+							{ tooltip: InterfaceTextGet("ClearFacialExpressions"), tooltipPosition: "right", image: "Icons/Reset.png" },
+							{ button: { attributes: { name: "clear" }, classList: ["dialog-menubar-button"] } },
+						),
+					],
+				),
+				ElementMenu.Create(
+					ids.menuLeft,
+					CommonKeys(this.facialExpressions).sort().map(group => ElementButton.Create(
+						`${ids.menuLeft}-${group}`,
+						this.eventListeners.expressionRadioGroupClick,
+						{ role: "menuitemradio", image: `Assets/Female3DCG/${group}/Icon.png` },
+						{ button: {
+							classList: ["dialog-menubar-button"],
+							attributes: {
+								name: group,
+								"aria-expanded": "false",
+								"aria-owns": `${ids.grid}-${group}`,
+								"aria-label": AssetGroupGet("Female3DCG", group).Description,
+							},
+						}},
+					)),
+					{ direction: "rtl" },
+					{ menu: { attributes: { "aria-orientation": "vertical" } } },
+				),
+				...expressionEntries.sort(([group1], [group2]) => {
+					return group1.localeCompare(group2);
+				}).map(([group, expressions]) => {
+					return {
+						tag: /** @type {const} */("div"),
+						classList: ["dialog-grid", "dialog-expression-grid", "scroll-box"],
+						attributes: {
+							id: `${ids.grid}-${group}`,
+							role: "radiogroup",
+							"aria-required": "true",
+							"aria-label": AssetGroupGet("Female3DCG", group).Description,
+						},
+						dataAttributes: { name: group, unload: "" },
+					};
+				}),
+				{ tag: "div", attributes: { id: ids.grid } },
+			],
+		});
+	}
+
+	/** @type {DialogMenu["_ReloadStatus"]} */
+	_ReloadStatus(root, span, parameters, options) {
+		const textContent = options.status ?? InterfaceTextGet("FacialExpression");
+		DialogSetStatus(textContent, options.statusTimer ?? 0, null, span.id);
+	}
+
+	/** @type {DialogMenu["_ReloadButtonGrid"]} */
+	_ReloadButtonGrid(root, _buttonGrid, parameters, options) {
+		const { C } = parameters;
+		for (const buttonGrid of root.querySelectorAll(".dialog-grid")) {
+			const owningButton = root.querySelector(`[aria-owns="${buttonGrid.id}"]`);
+			const group = /** @type {ExpressionGroupName} */(buttonGrid.getAttribute("data-name"));
+			const expressions = this.facialExpressions[group];
+			const expressionItem = InventoryGet(C, group);
+			const currentExpression = expressionItem?.Property?.Expression ?? null;
+			if (!expressions || !owningButton || !expressionItem || !expressions.includes(currentExpression)) {
+				continue;
+			}
+
+			if (options.reset) {
+				buttonGrid.innerHTML = "";
+				buttonGrid.replaceChildren(...expressions.map((name, i) => ElementButton.Create(
+					`${this.ids.grid}-${group}-${name}`,
+					this.eventListeners._ClickButton,
+					{
+						clickDisabled: this.eventListeners._ClickDisabledButton,
+						role: "radio",
+						image: `Assets/Female3DCG/${group}/${name ? name + "/Icon" : "Icon"}.png`,
+					},
+					{ button: {
+						classList: ["dialog-menubar-button"],
+						attributes: {
+							name,
+							tabindex: i === 0 ? 0 : -1,
+							"aria-checked": i === 0,
+							"aria-label": name ?? "None",
+						},
+						dataAttributes: { group },
+					}},
+				)));
+			}
+
+			const buttons = /** @type {NodeListOf<HTMLButtonElement>} */(buttonGrid.querySelectorAll(".dialog-menubar-button"));
+			let enabledCount = 0;
+			for (const button of buttons) {
+				/** @type {ExpressionItem2} */
+				const expressionObj = {
+					Group: group,
+					Expression: /** @type {null | ExpressionName} */(button.name || null),
+				};
+
+				const status = this.GetClickStatus(C, expressionObj, expressionItem);
+				if (status) {
+					button.setAttribute("aria-disabled", "true");
+				} else {
+					enabledCount++;
+					button.removeAttribute("aria-disabled");
+				}
+
+				if (expressionObj.Expression === currentExpression) {
+					button.setAttribute("aria-checked", "true");
+					button.setAttribute("tabindex", "0");
+					const src = button.querySelector(".button-image")?.getAttribute("src");
+					if (src) {
+						owningButton.querySelector(".button-image")?.setAttribute("src", src);
+					}
+				} else {
+					button.setAttribute("aria-checked", "false");
+					button.setAttribute("tabindex", "-1");
+				}
+			}
+
+			if (enabledCount <= 1 && owningButton.getAttribute("aria-checked") !== "true") {
+				owningButton.toggleAttribute("data-unload", true);
+			} else {
+				owningButton.toggleAttribute("data-unload", false);
+			}
+
+			if (options.resetScrollbar && !buttonGrid.hasAttribute("data-unload")) {
+				buttonGrid.querySelector(`[role="radio"][aria-checked='true']`)?.scrollIntoView({ behavior: "instant" });
+			}
+		}
+	}
+
+	/** @type {DialogMenu["_ReloadIcon"]} */
+	_ReloadIcon(root, icon, parameters, options) { /** noop */ }
+
+	/** @type {DialogMenu["_ReloadMenubar"]} */
+	_ReloadMenubar(root, menubar, parameters, options) { /** noop */ }
+
+	/** @type {DialogMenu<string, ExpressionItem2>["_GetClickedObject"]} */
+	_GetClickedObject(button) {
+		const group = /** @type {undefined | ExpressionGroupName} */(button.dataset.group);
+		const name = /** @type {null | ExpressionName} */(button.name || null);
+		return group ? { Group: group, Expression: name } : null;
+	}
+
+	/** @type {DialogMenu<string, ExpressionItem2>["_ClickButton"]} */
+	_ClickButton(button, C, clickedObj, equippedItem) {
+		console.log(C, clickedObj);
+		CharacterSetFacialExpression(C, clickedObj.Group, clickedObj.Expression);
+
+		const thisImg = button.querySelector(".button-image");
+		const controllerImg = document.querySelector(`#${this.ids.menuLeft} [role="menuitemradio"][name="${clickedObj.Group}"] .button-image`);
+		if (thisImg && controllerImg) {
+			controllerImg.setAttribute("src", thisImg.getAttribute("src"));
+		}
+	}
+}
+
 /** @satisfies {Partial<Record<DialogMenuMode, DialogMenu<DialogMenuMode>>>} */
 var DialogMenuMapping = /** @type {const} */({
 	activities: new _DialogActivitiesMenu("activities"),
@@ -4410,6 +4749,11 @@ var DialogMenuMapping = /** @type {const} */({
 	locked: new _DialogItemMenu("locked"),
 	locking: new _DialogLockingMenu("locking"),
 	permissions: new _DialogPermissionMenu("permissions"),
+});
+
+/** @satisfies {Record<string, DialogMenu>} */
+var DialogSidePanelMapping = /** @type {const} */({
+	expression: new _DialogExpressionMenu("expression"),
 });
 
 /**
@@ -4578,13 +4922,7 @@ var DialogFocusGroup = {
 function DialogSelfMenuDraw(C) {
 	if (!C.IsPlayer()) return;
 
-	if (DialogSelfMenuOptions.filter(SMO => SMO.IsAvailable()).length > 1 && !CommonPhotoMode)
-		DrawButton(420, 50, 90, 90, "", "White", "Icons/Next.png", InterfaceTextGet("NextPage"));
-
-	if (!DialogSelfMenuSelected)
-		DialogDrawExpressionMenu();
-	else
-		DialogSelfMenuSelected.Draw();
+	DialogSelfMenuSelected?.Draw();
 }
 
 /**
@@ -4594,15 +4932,7 @@ function DialogSelfMenuDraw(C) {
 function DialogSelfMenuClick(C) {
 	if (!C.IsPlayer()) return;
 
-	if (MouseIn(420, 50, 90, 90) && DialogSelfMenuOptions.filter(SMO => SMO.IsAvailable()).length > 1) {
-		DialogFindNextSubMenu();
-		return;
-	}
-
-	if (!DialogSelfMenuSelected)
-		DialogClickExpressionMenu();
-	else
-		DialogSelfMenuSelected.Click();
+	DialogSelfMenuSelected?.Click();
 }
 
 /**
@@ -4620,6 +4950,7 @@ function DialogLoad() {
 		C._CurrentDialog = newDialog;
 	}
 
+	DialogSidePanelMapping.expression.Init({ C });
 	DialogChangeMode(DialogMenuMode ?? "dialog", true);
 }
 
@@ -4738,152 +5069,6 @@ function DialogDraw() {
 	DialogDrawRepositionButton();
 
 	DialogMenuMapping[DialogMenuMode]?.Draw();
-}
-
-/**
- * Draw the menu for changing facial expressions
- * @returns {void} - Nothing
- */
-function DialogDrawExpressionMenu() {
-
-	// Draw the expression groups
-	DrawText(InterfaceTextGet("FacialExpression"), 165, 25, "White", "Black");
-	if (typeof DialogFacialExpressionsSelected === 'number' && DialogFacialExpressionsSelected >= 0 && DialogFacialExpressionsSelected < DialogFacialExpressions.length && DialogFacialExpressions[DialogFacialExpressionsSelected].Appearance.Asset.Group.AllowColorize && DialogFacialExpressions[DialogFacialExpressionsSelected].Group !== "Eyes") {
-		DrawButton(320, 50, 90, 90, "", "White", "Icons/ColorChange.png", InterfaceTextGet("DialogMenuColorExpressionChange"));
-	}
-	DrawButton(220, 50, 90, 90, "", "White", "Icons/BlindToggle" + DialogFacialExpressionsSelectedBlindnessLevel + ".png", InterfaceTextGet("BlindToggleFacialExpressions"));
-	const Expression = WardrobeGetExpression(Player);
-	const Eye1Closed = Expression.Eyes === "Closed";
-	const Eye2Closed = Expression.Eyes2 === "Closed";
-	let WinkIcon = "WinkNone";
-	if (Eye1Closed && Eye2Closed) WinkIcon = "WinkBoth";
-	else if (Eye1Closed) WinkIcon = "WinkR";
-	else if (Eye2Closed) WinkIcon = "WinkL";
-	DrawButton(120, 50, 90, 90, "", "White", `Icons/${WinkIcon}.png`, InterfaceTextGet("WinkFacialExpressions"));
-	DrawButton(20, 50, 90, 90, "", "White", "Icons/Reset.png", InterfaceTextGet("ClearFacialExpressions"));
-	if (!DialogFacialExpressions || !DialogFacialExpressions.length) DialogFacialExpressionsBuild();
-
-	for (const [i, FE] of DialogFacialExpressions.entries()) {
-		const OffsetY = 185 + 100 * i;
-		DrawButton(20, OffsetY, 90, 90, "", i == DialogFacialExpressionsSelected ? "Cyan" : "White", "Assets/Female3DCG/" + FE.Group + (FE.CurrentExpression ? "/" + FE.CurrentExpression : "") + "/Icon.png");
-
-		// Draw the table with expressions
-		if (i == DialogFacialExpressionsSelected) {
-			const nPages = Math.ceil(FE.ExpressionList.length / DialogFacialExpressionsPerPage);
-			if (nPages > 1) {
-				DrawButton(155, 785, 90, 90, "", "White", `Icons/Prev.png`, InterfaceTextGet("PrevExpressions"));
-				DrawButton(255, 785, 90, 90, "", "White", `Icons/Next.png`, InterfaceTextGet("NextExpressions"));
-			}
-			const expressionSubset = FE.ExpressionList.slice(
-				DialogFacialExpressionsSelectedPage * DialogFacialExpressionsPerPage,
-				DialogFacialExpressionsSelectedPage * DialogFacialExpressionsPerPage + DialogFacialExpressionsPerPage,
-			);
-			for (const [j, expression] of expressionSubset.entries()) {
-				const EOffsetX = 155 + 100 * (j % 3);
-				const EOffsetY = 185 + 100 * Math.floor(j / 3);
-				const allowed = CharacterIsExpressionAllowed(Player, FE.Appearance, expression);
-				const color = (expression == FE.CurrentExpression ? "Pink" : (!allowed ? "#888" : "White"));
-				const icon = "Assets/Female3DCG/" + FE.Group + (expression ? "/" + expression : "") + "/Icon.png";
-				DrawButton(EOffsetX, EOffsetY, 90, 90, "", color, icon);
-			}
-		}
-	}
-}
-
-/**
- * Return the page number of the expression item's current expression.
- * @param {ExpressionItem} item - The expression item
- * @returns {number} The page number of the item's current expression
- */
-function DialogGetCurrentExpressionPage(item) {
-	const index = item.ExpressionList.findIndex(name => item.CurrentExpression === name);
-	return index === -1 ? 0 : Math.floor(index / DialogFacialExpressionsPerPage);
-}
-
-/**
- * Handles clicks in the dialog expression menu.
- * @returns {void} - Nothing
- */
-function DialogClickExpressionMenu() {
-	if (MouseIn(20, 50, 90, 90)) {
-		CharacterResetFacialExpression(Player);
-		DialogFacialExpressions.forEach(FE => {
-			// Reset the fluids' custom color
-			if (FE.Group === "Fluids") {
-				FE.Appearance.Color = "Default";
-			}
-			FE.CurrentExpression = null;
-		});
-		if (DialogMenuMode === "colorExpression") ItemColorSaveAndExit();
-	} else if (MouseIn(120, 50, 90, 90)) {
-		const CurrentExpression = DialogFacialExpressions.find(FE => FE.Group == "Eyes").CurrentExpression;
-		const EyesExpression = WardrobeGetExpression(Player);
-		const LeftEyeClosed = EyesExpression.Eyes2 === "Closed";
-		const RightEyeClosed = EyesExpression.Eyes === "Closed";
-		if (!LeftEyeClosed && !RightEyeClosed) CharacterSetFacialExpression(Player, "Eyes2", "Closed", null);
-		else if (LeftEyeClosed && !RightEyeClosed) CharacterSetFacialExpression(Player, "Eyes", "Closed", null);
-		else if (LeftEyeClosed && RightEyeClosed) CharacterSetFacialExpression(Player, "Eyes2", CurrentExpression !== "Closed" ? CurrentExpression : null, null);
-		else CharacterSetFacialExpression(Player, "Eyes", CurrentExpression !== "Closed" ? CurrentExpression : null, null);
-	} else if (MouseIn(220, 50, 90, 90)) {
-		DialogFacialExpressionsSelectedBlindnessLevel += 1;
-		if (DialogFacialExpressionsSelectedBlindnessLevel > 3)
-			DialogFacialExpressionsSelectedBlindnessLevel = 1;
-	} else if (MouseIn(320, 50, 90, 90)) {
-		if (typeof DialogFacialExpressionsSelected === 'number' && DialogFacialExpressionsSelected >= 0 && DialogFacialExpressionsSelected < DialogFacialExpressions.length && DialogFacialExpressions[DialogFacialExpressionsSelected].Appearance.Asset.Group.AllowColorize && DialogFacialExpressions[DialogFacialExpressionsSelected].Group !== "Eyes") {
-			DialogChangeMode("colorExpression");
-			const GroupName = DialogFacialExpressions[DialogFacialExpressionsSelected].Appearance.Asset.Group.Name;
-			const Item = InventoryGet(Player, GroupName);
-			const originalColor = Item.Color;
-			Player.FocusGroup = /** @type {AssetItemGroup} */ (AssetGroupGet(Player.AssetFamily, GroupName));
-			ItemColorLoad(Player, Item, 1200, 25, 775, 950, true);
-			ItemColorOnExit((save) => {
-				DialogMenuBack();
-				if (save && !CommonColorsEqual(originalColor, Item.Color)) {
-					ServerPlayerAppearanceSync();
-					ChatRoomCharacterItemUpdate(Player, GroupName);
-				}
-			});
-		}
-	} else {
-		// Expression category buttons
-		for (let I = 0; I < DialogFacialExpressions.length; I++) {
-			if (MouseIn(20, 185 + 100 * I, 90, 90)) {
-				if (DialogFacialExpressionsSelected !== I) {
-					DialogFacialExpressionsSelected = I;
-					DialogFacialExpressionsSelectedPage = DialogGetCurrentExpressionPage(DialogFacialExpressions[I]);
-				}
-				if (DialogMenuMode === "colorExpression") ItemColorSaveAndExit();
-			}
-		}
-
-		// Expression table
-		if (DialogFacialExpressionsSelected >= 0 && DialogFacialExpressionsSelected < DialogFacialExpressions.length) {
-			const FE = DialogFacialExpressions[DialogFacialExpressionsSelected];
-
-			// Switch pages
-			const nPages = Math.ceil(FE.ExpressionList.length / DialogFacialExpressionsPerPage);
-			if (MouseIn(155, 785, 90, 90) && nPages > 1) {
-				DialogFacialExpressionsSelectedPage = (DialogFacialExpressionsSelectedPage + nPages - 1) % nPages;
-				return;
-			} else if (MouseIn(255, 785, 90, 90) && nPages > 1) {
-				DialogFacialExpressionsSelectedPage = (DialogFacialExpressionsSelectedPage + 1) % nPages;
-				return;
-			}
-
-			const expressionSubset = FE.ExpressionList.slice(
-				DialogFacialExpressionsSelectedPage * DialogFacialExpressionsPerPage,
-				DialogFacialExpressionsSelectedPage * DialogFacialExpressionsPerPage + DialogFacialExpressionsPerPage,
-			);
-			for (const [j, expression] of expressionSubset.entries()) {
-				const EOffsetX = 155 + 100 * (j % 3);
-				const EOffsetY = 185 + 100 * Math.floor(j / 3);
-				if (MouseIn(EOffsetX, EOffsetY, 90, 90) && CharacterIsExpressionAllowed(Player, FE.Appearance, expression)) {
-					CharacterSetFacialExpression(Player, FE.Group, expression);
-					FE.CurrentExpression = expression;
-				}
-			}
-		}
-	}
 }
 
 /**

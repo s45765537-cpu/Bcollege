@@ -1121,6 +1121,11 @@ interface ExpressionItem {
 	ExpressionList: ExpressionName[],
 }
 
+interface ExpressionItem2 {
+	Group: ExpressionGroupName,
+	Expression: null | ExpressionName,
+}
+
 /**
  * The internal Asset definition of an asset.
  *
