@@ -340,30 +340,30 @@ var AudioActions = [
 	},
 	{
 		IsAction: (data) => [
-			"ItemDevicesBoundBarSetc0",
+			"ItemDevicesExclusiveWaitressSetc0",
 		].some(A => data.Content.includes(A)),
 		GetSoundEffect: () => "AirDoorOpening"
 	},
 	{
 		IsAction: (data) => [
-			"ItemDevicesBoundBarSetc1",
-			"ItemDevicesBoundBarSetc2",
+			"ItemDevicesExclusiveWaitressSetc1",
+			"ItemDevicesExclusiveWaitressSetc2",
 		].some(A => data.Content.includes(A)),
 		GetSoundEffect: () => "AirDoorClosing"
 	},
 	{
 		IsAction: (data) => [
-			"ItemDevicesBoundBarSetf0",
-			"ItemDevicesBoundBarSetf1",
-			"ItemDevicesBoundBarSetf3",
-			"ItemDevicesBoundBarSetf4",
+			"ItemDevicesExclusiveWaitressSetf0",
+			"ItemDevicesExclusiveWaitressSetf1",
+			"ItemDevicesExclusiveWaitressSetf3",
+			"ItemDevicesExclusiveWaitressSetf4",
 		].some(A => data.Content.includes(A)),
 		GetSoundEffect: () => "EMLevitate"
 	},
 	{
 		IsAction: (data) => [
-			"ItemDevicesBoundBarSetf2",
-			"ItemDevicesBoundBarSetf5",
+			"ItemDevicesExclusiveWaitressSetf2",
+			"ItemDevicesExclusiveWaitressSetf5",
 		].some(A => data.Content.includes(A)),
 		GetSoundEffect: () => "EMDisable"
 	},

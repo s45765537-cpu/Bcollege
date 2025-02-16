@@ -53923,7 +53923,7 @@ var AssetFemale3DCG = [
 				Layer: [{ Name: "Throne", Top: 25, Left: 25 }],
 			},
 			{
-				Name: "BoundBar",
+				Name: "ExclusiveWaitress",
 				InventoryID: 1212,
 				Fetish: ["Forniphilia", "Metal"],
 				Value: 245,
