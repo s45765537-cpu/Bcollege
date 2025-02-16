@@ -11,9 +11,11 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2025-02-09
-* Last recorded PR: [#5399](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5399)
-* Last recorded commit hash: `7e77b501735ba396b1f7a04eee2c6253e05f9c00`
+* Changelog last updated: 2025-02-16
+* Last recorded PR: [#5409](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5409)
+* Last recorded commit hash: `27a4ff5f727d4e7764639430df4a301c826f6078`
+
+## [Generated]
 
 ## [R113]
 
@@ -39,20 +41,27 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Ben987 - Chat Room Maps - Animated Brown Dog
 * Ben987 - Chat Room Maps - Animated Rabbit
 * Ben987 - Chat Room Maps - Animated Candelabra
+* Ben987 - Chat Room Maps - Animated Brown Chicken
 * Ben987 - Change Log
 
 ### [Fixes]
 
 * Cleon - Missing dialogs in Exclusive Maitress and AOM Gag, also some Heelless Hi-Shoes asset fixes. ([#5396](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5396))
+* Cleon - [HOTFIX] Just a typo error in Exclusive Maitress one asset. ([#5405](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5405))
+* EllieThePink - Fix incorrect player name on concede/stopped watching message in Club Card ([#5400](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5400))
 * Estsanatlehi - Fix bug with 2nd page modules not being clickable ([#5398](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5398))
 * Estsanatlehi - Fix an issue with multi-page modules not routing their clicks properly ([#5387](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5387))
 * Estsanatlehi - Update dependencies and fix tools errors ([#5380](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5380))
+* Estsanatlehi - Fix a small discrepancy in the language button ([#5404](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5404))
+* Estsanatlehi - Align the BoundBar internal name with its display name ([#5408](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5408))
 * Rama - Add a backwards compatibility `null`-safeguard to `DialogIntro()` ([#5397](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5397))
 * Rama - Add more async-related safety measures for dialog subscreen reloads ([#5374](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5374))
 * Rama - Fix `DialogLeave()` clearing the player's focus group if there's no current character ([#5389](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5389))
 * Rama - Fix the wardrobe permission menu having two weirdly stacked superimposed menus ([#5382](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5382))
 * Rama - Fix an issue wherein the focus group could be `null` ([#5377](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5377))
 * Rama - Fix more unintended dialog refreshes ([#5378](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5378))
+* Rama - Two dialog menu fixes ([#5401](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5401))
+* Rama - Fix the `<li>` icons associated with custom button icons breaking `data:image` image URLs ([#5407](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5407))
 
 ### [Technical]
 
@@ -61,6 +70,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Estsanatlehi - Monthly post-merge CI cleanup ([#5367](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5367))
 * Estsanatlehi - Fix whitespace issues ([#5395](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5395))
 * Estsanatlehi - Fix CI ([#5385](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5385))
+* Estsanatlehi - Remove stray console.log in the LuckyWheel code ([#5409](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5409))
 * Rama - ENH: Ensure that the asset's `ParentGroup` can be specified on a pose-by-pose basis ([#5370](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5370))
 * Rama - Misc type annotation improvements ([#5399](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5399))
 * Ben987 - Remove ChatCreate from Index
