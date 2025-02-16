@@ -10723,7 +10723,7 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // PogoBall
-		BoundBar: {
+		ExclusiveWaitress: {
 			Archetype: ExtendedArchetype.MODULAR,
 			DrawImages: false,
 			Modules: [
@@ -11179,7 +11179,7 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 			],
-		}, // BoundBar
+		}, // ExclusiveWaitress
 	}, // ItemDevices
 	ItemBoots: {
 		ToeTape: {

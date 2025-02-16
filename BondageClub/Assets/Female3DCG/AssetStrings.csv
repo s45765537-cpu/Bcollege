@@ -6173,185 +6173,185 @@ ItemBootsHeellessHoofSetIronBallet,SourceCharacter installs the Iron Ballet devi
 ShoesHeellessHoofSelect,Cosmetic padlock option menu:
 ShoesHeellessHoofNormal,Normal
 ShoesHeellessHoofPadlock,With padlocks
-ItemDevicesBoundBarSelectBase,Welcome to Exclusive Waitress customization main menu.
-ItemDevicesBoundBarModuleBar,Lower body
-ItemDevicesBoundBarSelectBar,Lower body display mode:
-ItemDevicesBoundBarOptionc0,Thighs exposed
-ItemDevicesBoundBarOptionc1,Window mode
-ItemDevicesBoundBarOptionc2,Closed
-ItemDevicesBoundBarModuleOmb,Sunshade
-ItemDevicesBoundBarSelectOmb,Sunshade option:
-ItemDevicesBoundBarOptionb0,No sunshade
-ItemDevicesBoundBarOptionb1,Sunshade enabled
-ItemDevicesBoundBarModuleFollow,Service mode
-ItemDevicesBoundBarSelectFollow,Service mode type:
-ItemDevicesBoundBarOptionf0,Autonomous mode
-ItemDevicesBoundBarOptionf1,Lock & leashed
-ItemDevicesBoundBarOptionf2,Lock & grounded
-ItemDevicesBoundBarOptionf3,Autonomous LED Off
-ItemDevicesBoundBarOptionf4,Lock & leashed LED Off
-ItemDevicesBoundBarOptionf5,Lock & grounded LED Off
-ItemDevicesBoundBarModuleObjectL,Left side table
-ItemDevicesBoundBarSelectObjectL,Choose an object or food on the left: -screen faced-
-ItemDevicesBoundBarOptionl0,Empty
-ItemDevicesBoundBarOptionl1,Menu
-ItemDevicesBoundBarOptionl2,Poker cards
-ItemDevicesBoundBarOptionl3,Club cards
-ItemDevicesBoundBarOptionl4,Coffee cup
-ItemDevicesBoundBarOptionl5,Iced tea
-ItemDevicesBoundBarOptionl6,Juice glass
-ItemDevicesBoundBarOptionl7,Soda can
-ItemDevicesBoundBarOptionl8,Whiskey glass
-ItemDevicesBoundBarOptionl9,Long neck beer
-ItemDevicesBoundBarOptionl10,Beer glass
-ItemDevicesBoundBarOptionl11,Marguerita glass
-ItemDevicesBoundBarOptionl12,Champagne glass
-ItemDevicesBoundBarOptionl13,Sake cup
-ItemDevicesBoundBarOptionl14,Penauts
-ItemDevicesBoundBarOptionl15,Banana Split
-ItemDevicesBoundBarOptionl16,Sundae
-ItemDevicesBoundBarOptionl17,Fries
-ItemDevicesBoundBarOptionl18,Burger
-ItemDevicesBoundBarOptionl19,Origiri
-ItemDevicesBoundBarOptionl20,Hot dog
-ItemDevicesBoundBarOptionl21,Taco
-ItemDevicesBoundBarOptionl22,Bill and changes
-ItemDevicesBoundBarOptionl23,Ashtray
-ItemDevicesBoundBarModuleObjectM,Front table
-ItemDevicesBoundBarSelectObjectM,Choose an object or food in front:
-ItemDevicesBoundBarOptionm0,Empty
-ItemDevicesBoundBarOptionm1,Welcome sign
-ItemDevicesBoundBarOptionm2,Cards and chips
-ItemDevicesBoundBarOptionm3,Club cards
-ItemDevicesBoundBarOptionm4,Old coffee pot
-ItemDevicesBoundBarOptionm5,Two iced tea
-ItemDevicesBoundBarOptionm6,Two juice glasses
-ItemDevicesBoundBarOptionm7,A bunch of soda can
-ItemDevicesBoundBarOptionm8,Whiskey bottle
-ItemDevicesBoundBarOptionm9,A bunch of long neck
-ItemDevicesBoundBarOptionm10,Beer bottles
-ItemDevicesBoundBarOptionm11,Two margueritas
-ItemDevicesBoundBarOptionm12,Champagne bucket
-ItemDevicesBoundBarOptionm13,Sake bottle
-ItemDevicesBoundBarOptionm14,Penauts
-ItemDevicesBoundBarOptionm15,Banana Split
-ItemDevicesBoundBarOptionm16,Two sundaes
-ItemDevicesBoundBarOptionm17,Fries
-ItemDevicesBoundBarOptionm18,Two burgers
-ItemDevicesBoundBarOptionm19,Two origiri
-ItemDevicesBoundBarOptionm20,Two hot dogs
-ItemDevicesBoundBarOptionm21,Some tacos
-ItemDevicesBoundBarOptionm22,Tips pot
-ItemDevicesBoundBarOptionm23,No smoking sign
-ItemDevicesBoundBarModuleObjectR,Right side table
-ItemDevicesBoundBarSelectObjectR,Choose an object or food on the right: -screen faced-
-ItemDevicesBoundBarOptionr0,Empty
-ItemDevicesBoundBarOptionr1,Menu
-ItemDevicesBoundBarOptionr2,Poker cards
-ItemDevicesBoundBarOptionr3,Club cards
-ItemDevicesBoundBarOptionr4,Coffee cup
-ItemDevicesBoundBarOptionr5,Iced tea
-ItemDevicesBoundBarOptionr6,Juice glass
-ItemDevicesBoundBarOptionr7,Soda can
-ItemDevicesBoundBarOptionr8,Whiskey glass
-ItemDevicesBoundBarOptionr9,Long neck beer
-ItemDevicesBoundBarOptionr10,Beer glass
-ItemDevicesBoundBarOptionr11,Marguerita glass
-ItemDevicesBoundBarOptionr12,Champagne glass
-ItemDevicesBoundBarOptionr13,Sake cup
-ItemDevicesBoundBarOptionr14,Penauts
-ItemDevicesBoundBarOptionr15,Banana Split
-ItemDevicesBoundBarOptionr16,Sundae
-ItemDevicesBoundBarOptionr17,Fries
-ItemDevicesBoundBarOptionr18,Burger
-ItemDevicesBoundBarOptionr19,Origiri
-ItemDevicesBoundBarOptionr20,Hot dog
-ItemDevicesBoundBarOptionr21,Taco
-ItemDevicesBoundBarOptionr22,Bill and changes
-ItemDevicesBoundBarOptionr23,Ashtray
-ItemDevicesBoundBarSetc0,SourceCharacter exposes the DestinationCharacter legs opening the EW's hatch.
-ItemDevicesBoundBarSetc1,SourceCharacter closes the EW's with window glass leaving the DestinationCharacter legs visible.
-ItemDevicesBoundBarSetc2,SourceCharacter closes the EW's with metal hatch. DestinationCharacter legs aren't visible anymore.
-ItemDevicesBoundBarSetb0,SourceCharacter removes the EW's sunshade behind DestinationCharacter.
-ItemDevicesBoundBarSetb1,SourceCharacter installs the EW's sunshade behind DestinationCharacter.
-ItemDevicesBoundBarSetf0,SourceCharacter allows DestinationCharacter operate EW device in the autonomous mode (LED ON).
-ItemDevicesBoundBarSetf1,SourceCharacter set EW device in follow mode. Now DestinationCharacter can be leashed and dragged anywhere (LED ON).
-ItemDevicesBoundBarSetf2,SourceCharacter disables the EW's levitate system. DestinationCharacter is grounded now (LED ON).
-ItemDevicesBoundBarSetf3,SourceCharacter allows DestinationCharacter operate EW device in the autonomous mode (LED OFF).
-ItemDevicesBoundBarSetf4,SourceCharacter set EW device in follow mode. Now DestinationCharacter can be leashed and dragged anywhere (LED OFF).
-ItemDevicesBoundBarSetf5,SourceCharacter disables the EW's levitate system. DestinationCharacter is grounded now (LED OFF).
-ItemDevicesBoundBarSetl0,DestinationCharacterName is clearing the table on TargetPronounPossessive right side.
-ItemDevicesBoundBarSetl1,DestinationCharacterName puts a menu on the table on TargetPronounPossessive right side.
-ItemDevicesBoundBarSetl2,DestinationCharacterName puts some poker cards and chips on the table on TargetPronounPossessive right side.
-ItemDevicesBoundBarSetl3,DestinationCharacterName puts a Club Card deck on the table on TargetPronounPossessive right side.
-ItemDevicesBoundBarSetl4,DestinationCharacterName serves a coffee cup on TargetPronounPossessive right side.
-ItemDevicesBoundBarSetl5,DestinationCharacterName serves a iced tea glass on TargetPronounPossessive right side.
-ItemDevicesBoundBarSetl6,DestinationCharacterName serves a juice glass on TargetPronounPossessive right side.
-ItemDevicesBoundBarSetl7,DestinationCharacterName serves a soda on on TargetPronounPossessive right side.
-ItemDevicesBoundBarSetl8,DestinationCharacterName serves a whiskey glass on TargetPronounPossessive right side.
-ItemDevicesBoundBarSetl9,DestinationCharacterName serves a long neck beer on TargetPronounPossessive right side.
-ItemDevicesBoundBarSetl10,DestinationCharacterName serves a beer glass on TargetPronounPossessive right side.
-ItemDevicesBoundBarSetl11,DestinationCharacterName serves a marguerita glass on TargetPronounPossessive right side.
-ItemDevicesBoundBarSetl12,DestinationCharacterName serves a champagne glass on TargetPronounPossessive right side.
-ItemDevicesBoundBarSetl13,DestinationCharacterName serves a sake cup on TargetPronounPossessive right side.
-ItemDevicesBoundBarSetl14,DestinationCharacterName serves a penauts pot on TargetPronounPossessive right side.
-ItemDevicesBoundBarSetl15,DestinationCharacterName serves a banana split on TargetPronounPossessive right side.
-ItemDevicesBoundBarSetl16,DestinationCharacterName serves a sundae on TargetPronounPossessive right side.
-ItemDevicesBoundBarSetl17,DestinationCharacterName serves a plate of fries on TargetPronounPossessive right side.
-ItemDevicesBoundBarSetl18,DestinationCharacterName serves a burguer on TargetPronounPossessive right side.
-ItemDevicesBoundBarSetl19,DestinationCharacterName serves a origiri on TargetPronounPossessive right side.
-ItemDevicesBoundBarSetl20,DestinationCharacterName serves a hot dog on TargetPronounPossessive right side.
-ItemDevicesBoundBarSetl21,DestinationCharacterName serves a taco on TargetPronounPossessive right side.
-ItemDevicesBoundBarSetl22,DestinationCharacterName puts the bill and some changes on TargetPronounPossessive right side.
-ItemDevicesBoundBarSetl23,DestinationCharacterName puts a ashtray on TargetPronounPossessive right side.
-ItemDevicesBoundBarSetm0,DestinationCharacterName is clearing the table on TargetPronounPossessive front.
-ItemDevicesBoundBarSetm1,DestinationCharacterName puts a menu on the table on TargetPronounPossessive front.
-ItemDevicesBoundBarSetm2,DestinationCharacterName puts some poker card decks and chips on the table on TargetPronounPossessive front.
-ItemDevicesBoundBarSetm3,DestinationCharacterName puts some Club Card decks on the table on TargetPronounPossessive front.
-ItemDevicesBoundBarSetm4,DestinationCharacterName puts a old coffee pot on TargetPronounPossessive front.
-ItemDevicesBoundBarSetm5,DestinationCharacterName serves two iced tea cups on TargetPronounPossessive front.
-ItemDevicesBoundBarSetm6,DestinationCharacterName serves two juice glasses on TargetPronounPossessive front.
-ItemDevicesBoundBarSetm7,DestinationCharacterName serves a bunch of sodas on on TargetPronounPossessive front.
-ItemDevicesBoundBarSetm8,DestinationCharacterName serves a whiskey bottle on TargetPronounPossessive front.
-ItemDevicesBoundBarSetm9,DestinationCharacterName serves a lot of long neck beer on TargetPronounPossessive front.
-ItemDevicesBoundBarSetm10,DestinationCharacterName serves two beer bottles on TargetPronounPossessive front.
-ItemDevicesBoundBarSetm11,DestinationCharacterName serves two marguerita glasses on TargetPronounPossessive front.
-ItemDevicesBoundBarSetm12,DestinationCharacterName serves a champagne bucket on TargetPronounPossessive front.
-ItemDevicesBoundBarSetm13,DestinationCharacterName serves a sake bottle on TargetPronounPossessive front.
-ItemDevicesBoundBarSetm14,DestinationCharacterName serves a bigger penauts pot on TargetPronounPossessive front.
-ItemDevicesBoundBarSetm15,DestinationCharacterName serves a banana split on TargetPronounPossessive front.
-ItemDevicesBoundBarSetm16,DestinationCharacterName serves two sundaes on TargetPronounPossessive front.
-ItemDevicesBoundBarSetm17,DestinationCharacterName serves a bigger plate of fries on TargetPronounPossessive front.
-ItemDevicesBoundBarSetm18,DestinationCharacterName serves two burguers on TargetPronounPossessive front.
-ItemDevicesBoundBarSetm19,DestinationCharacterName serves two origiri on TargetPronounPossessive front.
-ItemDevicesBoundBarSetm20,DestinationCharacterName serves two hot dogs on TargetPronounPossessive front.
-ItemDevicesBoundBarSetm21,DestinationCharacterName serves a bunch of tacos on TargetPronounPossessive front.
-ItemDevicesBoundBarSetm22,DestinationCharacterName puts a TargetPronounPossessive tips pot on TargetPronounPossessive front: "Tips for good service!"
-ItemDevicesBoundBarSetm23,DestinationCharacterName puts no smoking sign on TargetPronounPossessive front.
-ItemDevicesBoundBarSetr0,DestinationCharacterName is clearing the table on TargetPronounPossessive left side.
-ItemDevicesBoundBarSetr1,DestinationCharacterName puts a menu on the table on TargetPronounPossessive left side.
-ItemDevicesBoundBarSetr2,DestinationCharacterName puts some poker cards and chips on the table on TargetPronounPossessive left side.
-ItemDevicesBoundBarSetr3,DestinationCharacterName puts a Club Card deck on the table on TargetPronounPossessive left side.
-ItemDevicesBoundBarSetr4,DestinationCharacterName serves a coffee cup on TargetPronounPossessive left side.
-ItemDevicesBoundBarSetr5,DestinationCharacterName serves a iced tea glass on TargetPronounPossessive left side.
-ItemDevicesBoundBarSetr6,DestinationCharacterName serves a juice glass on TargetPronounPossessive left side.
-ItemDevicesBoundBarSetr7,DestinationCharacterName serves a soda on on TargetPronounPossessive left side.
-ItemDevicesBoundBarSetr8,DestinationCharacterName serves a whiskey glass on TargetPronounPossessive left side.
-ItemDevicesBoundBarSetr9,DestinationCharacterName serves a long neck beer on TargetPronounPossessive left side.
-ItemDevicesBoundBarSetr10,DestinationCharacterName serves a beer glass on TargetPronounPossessive left side.
-ItemDevicesBoundBarSetr11,DestinationCharacterName serves a marguerita glass on TargetPronounPossessive left side.
-ItemDevicesBoundBarSetr12,DestinationCharacterName serves a champagne glass on TargetPronounPossessive left side.
-ItemDevicesBoundBarSetr13,DestinationCharacterName serves a sake cup on TargetPronounPossessive left side.
-ItemDevicesBoundBarSetr14,DestinationCharacterName serves a penauts pot on TargetPronounPossessive left side.
-ItemDevicesBoundBarSetr15,DestinationCharacterName serves a banana split on TargetPronounPossessive left side.
-ItemDevicesBoundBarSetr16,DestinationCharacterName serves a sundae on TargetPronounPossessive left side.
-ItemDevicesBoundBarSetr17,DestinationCharacterName serves a plate of fries on TargetPronounPossessive left side.
-ItemDevicesBoundBarSetr18,DestinationCharacterName serves a burguer on TargetPronounPossessive left side.
-ItemDevicesBoundBarSetr19,DestinationCharacterName serves a origiri on TargetPronounPossessive left side.
-ItemDevicesBoundBarSetr20,DestinationCharacterName serves a hot dog on TargetPronounPossessive left side.
-ItemDevicesBoundBarSetr21,DestinationCharacterName serves a taco on TargetPronounPossessive left side.
-ItemDevicesBoundBarSetr22,DestinationCharacterName puts the bill and some changes on TargetPronounPossessive left side.
-ItemDevicesBoundBarSetr23,DestinationCharacterName puts a ashtray on TargetPronounPossessive left side.
+ItemDevicesExclusiveWaitressSelectBase,Welcome to Exclusive Waitress customization main menu.
+ItemDevicesExclusiveWaitressModuleBar,Lower body
+ItemDevicesExclusiveWaitressSelectBar,Lower body display mode:
+ItemDevicesExclusiveWaitressOptionc0,Thighs exposed
+ItemDevicesExclusiveWaitressOptionc1,Window mode
+ItemDevicesExclusiveWaitressOptionc2,Closed
+ItemDevicesExclusiveWaitressModuleOmb,Sunshade
+ItemDevicesExclusiveWaitressSelectOmb,Sunshade option:
+ItemDevicesExclusiveWaitressOptionb0,No sunshade
+ItemDevicesExclusiveWaitressOptionb1,Sunshade enabled
+ItemDevicesExclusiveWaitressModuleFollow,Service mode
+ItemDevicesExclusiveWaitressSelectFollow,Service mode type:
+ItemDevicesExclusiveWaitressOptionf0,Autonomous mode
+ItemDevicesExclusiveWaitressOptionf1,Lock & leashed
+ItemDevicesExclusiveWaitressOptionf2,Lock & grounded
+ItemDevicesExclusiveWaitressOptionf3,Autonomous LED Off
+ItemDevicesExclusiveWaitressOptionf4,Lock & leashed LED Off
+ItemDevicesExclusiveWaitressOptionf5,Lock & grounded LED Off
+ItemDevicesExclusiveWaitressModuleObjectL,Left side table
+ItemDevicesExclusiveWaitressSelectObjectL,Choose an object or food on the left: -screen faced-
+ItemDevicesExclusiveWaitressOptionl0,Empty
+ItemDevicesExclusiveWaitressOptionl1,Menu
+ItemDevicesExclusiveWaitressOptionl2,Poker cards
+ItemDevicesExclusiveWaitressOptionl3,Club cards
+ItemDevicesExclusiveWaitressOptionl4,Coffee cup
+ItemDevicesExclusiveWaitressOptionl5,Iced tea
+ItemDevicesExclusiveWaitressOptionl6,Juice glass
+ItemDevicesExclusiveWaitressOptionl7,Soda can
+ItemDevicesExclusiveWaitressOptionl8,Whiskey glass
+ItemDevicesExclusiveWaitressOptionl9,Long neck beer
+ItemDevicesExclusiveWaitressOptionl10,Beer glass
+ItemDevicesExclusiveWaitressOptionl11,Marguerita glass
+ItemDevicesExclusiveWaitressOptionl12,Champagne glass
+ItemDevicesExclusiveWaitressOptionl13,Sake cup
+ItemDevicesExclusiveWaitressOptionl14,Penauts
+ItemDevicesExclusiveWaitressOptionl15,Banana Split
+ItemDevicesExclusiveWaitressOptionl16,Sundae
+ItemDevicesExclusiveWaitressOptionl17,Fries
+ItemDevicesExclusiveWaitressOptionl18,Burger
+ItemDevicesExclusiveWaitressOptionl19,Origiri
+ItemDevicesExclusiveWaitressOptionl20,Hot dog
+ItemDevicesExclusiveWaitressOptionl21,Taco
+ItemDevicesExclusiveWaitressOptionl22,Bill and changes
+ItemDevicesExclusiveWaitressOptionl23,Ashtray
+ItemDevicesExclusiveWaitressModuleObjectM,Front table
+ItemDevicesExclusiveWaitressSelectObjectM,Choose an object or food in front:
+ItemDevicesExclusiveWaitressOptionm0,Empty
+ItemDevicesExclusiveWaitressOptionm1,Welcome sign
+ItemDevicesExclusiveWaitressOptionm2,Cards and chips
+ItemDevicesExclusiveWaitressOptionm3,Club cards
+ItemDevicesExclusiveWaitressOptionm4,Old coffee pot
+ItemDevicesExclusiveWaitressOptionm5,Two iced tea
+ItemDevicesExclusiveWaitressOptionm6,Two juice glasses
+ItemDevicesExclusiveWaitressOptionm7,A bunch of soda can
+ItemDevicesExclusiveWaitressOptionm8,Whiskey bottle
+ItemDevicesExclusiveWaitressOptionm9,A bunch of long neck
+ItemDevicesExclusiveWaitressOptionm10,Beer bottles
+ItemDevicesExclusiveWaitressOptionm11,Two margueritas
+ItemDevicesExclusiveWaitressOptionm12,Champagne bucket
+ItemDevicesExclusiveWaitressOptionm13,Sake bottle
+ItemDevicesExclusiveWaitressOptionm14,Penauts
+ItemDevicesExclusiveWaitressOptionm15,Banana Split
+ItemDevicesExclusiveWaitressOptionm16,Two sundaes
+ItemDevicesExclusiveWaitressOptionm17,Fries
+ItemDevicesExclusiveWaitressOptionm18,Two burgers
+ItemDevicesExclusiveWaitressOptionm19,Two origiri
+ItemDevicesExclusiveWaitressOptionm20,Two hot dogs
+ItemDevicesExclusiveWaitressOptionm21,Some tacos
+ItemDevicesExclusiveWaitressOptionm22,Tips pot
+ItemDevicesExclusiveWaitressOptionm23,No smoking sign
+ItemDevicesExclusiveWaitressModuleObjectR,Right side table
+ItemDevicesExclusiveWaitressSelectObjectR,Choose an object or food on the right: -screen faced-
+ItemDevicesExclusiveWaitressOptionr0,Empty
+ItemDevicesExclusiveWaitressOptionr1,Menu
+ItemDevicesExclusiveWaitressOptionr2,Poker cards
+ItemDevicesExclusiveWaitressOptionr3,Club cards
+ItemDevicesExclusiveWaitressOptionr4,Coffee cup
+ItemDevicesExclusiveWaitressOptionr5,Iced tea
+ItemDevicesExclusiveWaitressOptionr6,Juice glass
+ItemDevicesExclusiveWaitressOptionr7,Soda can
+ItemDevicesExclusiveWaitressOptionr8,Whiskey glass
+ItemDevicesExclusiveWaitressOptionr9,Long neck beer
+ItemDevicesExclusiveWaitressOptionr10,Beer glass
+ItemDevicesExclusiveWaitressOptionr11,Marguerita glass
+ItemDevicesExclusiveWaitressOptionr12,Champagne glass
+ItemDevicesExclusiveWaitressOptionr13,Sake cup
+ItemDevicesExclusiveWaitressOptionr14,Penauts
+ItemDevicesExclusiveWaitressOptionr15,Banana Split
+ItemDevicesExclusiveWaitressOptionr16,Sundae
+ItemDevicesExclusiveWaitressOptionr17,Fries
+ItemDevicesExclusiveWaitressOptionr18,Burger
+ItemDevicesExclusiveWaitressOptionr19,Origiri
+ItemDevicesExclusiveWaitressOptionr20,Hot dog
+ItemDevicesExclusiveWaitressOptionr21,Taco
+ItemDevicesExclusiveWaitressOptionr22,Bill and changes
+ItemDevicesExclusiveWaitressOptionr23,Ashtray
+ItemDevicesExclusiveWaitressSetc0,SourceCharacter exposes the DestinationCharacter legs opening the EW's hatch.
+ItemDevicesExclusiveWaitressSetc1,SourceCharacter closes the EW's with window glass leaving the DestinationCharacter legs visible.
+ItemDevicesExclusiveWaitressSetc2,SourceCharacter closes the EW's with metal hatch. DestinationCharacter legs aren't visible anymore.
+ItemDevicesExclusiveWaitressSetb0,SourceCharacter removes the EW's sunshade behind DestinationCharacter.
+ItemDevicesExclusiveWaitressSetb1,SourceCharacter installs the EW's sunshade behind DestinationCharacter.
+ItemDevicesExclusiveWaitressSetf0,SourceCharacter allows DestinationCharacter operate EW device in the autonomous mode (LED ON).
+ItemDevicesExclusiveWaitressSetf1,SourceCharacter set EW device in follow mode. Now DestinationCharacter can be leashed and dragged anywhere (LED ON).
+ItemDevicesExclusiveWaitressSetf2,SourceCharacter disables the EW's levitate system. DestinationCharacter is grounded now (LED ON).
+ItemDevicesExclusiveWaitressSetf3,SourceCharacter allows DestinationCharacter operate EW device in the autonomous mode (LED OFF).
+ItemDevicesExclusiveWaitressSetf4,SourceCharacter set EW device in follow mode. Now DestinationCharacter can be leashed and dragged anywhere (LED OFF).
+ItemDevicesExclusiveWaitressSetf5,SourceCharacter disables the EW's levitate system. DestinationCharacter is grounded now (LED OFF).
+ItemDevicesExclusiveWaitressSetl0,DestinationCharacterName is clearing the table on TargetPronounPossessive right side.
+ItemDevicesExclusiveWaitressSetl1,DestinationCharacterName puts a menu on the table on TargetPronounPossessive right side.
+ItemDevicesExclusiveWaitressSetl2,DestinationCharacterName puts some poker cards and chips on the table on TargetPronounPossessive right side.
+ItemDevicesExclusiveWaitressSetl3,DestinationCharacterName puts a Club Card deck on the table on TargetPronounPossessive right side.
+ItemDevicesExclusiveWaitressSetl4,DestinationCharacterName serves a coffee cup on TargetPronounPossessive right side.
+ItemDevicesExclusiveWaitressSetl5,DestinationCharacterName serves a iced tea glass on TargetPronounPossessive right side.
+ItemDevicesExclusiveWaitressSetl6,DestinationCharacterName serves a juice glass on TargetPronounPossessive right side.
+ItemDevicesExclusiveWaitressSetl7,DestinationCharacterName serves a soda on on TargetPronounPossessive right side.
+ItemDevicesExclusiveWaitressSetl8,DestinationCharacterName serves a whiskey glass on TargetPronounPossessive right side.
+ItemDevicesExclusiveWaitressSetl9,DestinationCharacterName serves a long neck beer on TargetPronounPossessive right side.
+ItemDevicesExclusiveWaitressSetl10,DestinationCharacterName serves a beer glass on TargetPronounPossessive right side.
+ItemDevicesExclusiveWaitressSetl11,DestinationCharacterName serves a marguerita glass on TargetPronounPossessive right side.
+ItemDevicesExclusiveWaitressSetl12,DestinationCharacterName serves a champagne glass on TargetPronounPossessive right side.
+ItemDevicesExclusiveWaitressSetl13,DestinationCharacterName serves a sake cup on TargetPronounPossessive right side.
+ItemDevicesExclusiveWaitressSetl14,DestinationCharacterName serves a penauts pot on TargetPronounPossessive right side.
+ItemDevicesExclusiveWaitressSetl15,DestinationCharacterName serves a banana split on TargetPronounPossessive right side.
+ItemDevicesExclusiveWaitressSetl16,DestinationCharacterName serves a sundae on TargetPronounPossessive right side.
+ItemDevicesExclusiveWaitressSetl17,DestinationCharacterName serves a plate of fries on TargetPronounPossessive right side.
+ItemDevicesExclusiveWaitressSetl18,DestinationCharacterName serves a burguer on TargetPronounPossessive right side.
+ItemDevicesExclusiveWaitressSetl19,DestinationCharacterName serves a origiri on TargetPronounPossessive right side.
+ItemDevicesExclusiveWaitressSetl20,DestinationCharacterName serves a hot dog on TargetPronounPossessive right side.
+ItemDevicesExclusiveWaitressSetl21,DestinationCharacterName serves a taco on TargetPronounPossessive right side.
+ItemDevicesExclusiveWaitressSetl22,DestinationCharacterName puts the bill and some changes on TargetPronounPossessive right side.
+ItemDevicesExclusiveWaitressSetl23,DestinationCharacterName puts a ashtray on TargetPronounPossessive right side.
+ItemDevicesExclusiveWaitressSetm0,DestinationCharacterName is clearing the table on TargetPronounPossessive front.
+ItemDevicesExclusiveWaitressSetm1,DestinationCharacterName puts a menu on the table on TargetPronounPossessive front.
+ItemDevicesExclusiveWaitressSetm2,DestinationCharacterName puts some poker card decks and chips on the table on TargetPronounPossessive front.
+ItemDevicesExclusiveWaitressSetm3,DestinationCharacterName puts some Club Card decks on the table on TargetPronounPossessive front.
+ItemDevicesExclusiveWaitressSetm4,DestinationCharacterName puts a old coffee pot on TargetPronounPossessive front.
+ItemDevicesExclusiveWaitressSetm5,DestinationCharacterName serves two iced tea cups on TargetPronounPossessive front.
+ItemDevicesExclusiveWaitressSetm6,DestinationCharacterName serves two juice glasses on TargetPronounPossessive front.
+ItemDevicesExclusiveWaitressSetm7,DestinationCharacterName serves a bunch of sodas on on TargetPronounPossessive front.
+ItemDevicesExclusiveWaitressSetm8,DestinationCharacterName serves a whiskey bottle on TargetPronounPossessive front.
+ItemDevicesExclusiveWaitressSetm9,DestinationCharacterName serves a lot of long neck beer on TargetPronounPossessive front.
+ItemDevicesExclusiveWaitressSetm10,DestinationCharacterName serves two beer bottles on TargetPronounPossessive front.
+ItemDevicesExclusiveWaitressSetm11,DestinationCharacterName serves two marguerita glasses on TargetPronounPossessive front.
+ItemDevicesExclusiveWaitressSetm12,DestinationCharacterName serves a champagne bucket on TargetPronounPossessive front.
+ItemDevicesExclusiveWaitressSetm13,DestinationCharacterName serves a sake bottle on TargetPronounPossessive front.
+ItemDevicesExclusiveWaitressSetm14,DestinationCharacterName serves a bigger penauts pot on TargetPronounPossessive front.
+ItemDevicesExclusiveWaitressSetm15,DestinationCharacterName serves a banana split on TargetPronounPossessive front.
+ItemDevicesExclusiveWaitressSetm16,DestinationCharacterName serves two sundaes on TargetPronounPossessive front.
+ItemDevicesExclusiveWaitressSetm17,DestinationCharacterName serves a bigger plate of fries on TargetPronounPossessive front.
+ItemDevicesExclusiveWaitressSetm18,DestinationCharacterName serves two burguers on TargetPronounPossessive front.
+ItemDevicesExclusiveWaitressSetm19,DestinationCharacterName serves two origiri on TargetPronounPossessive front.
+ItemDevicesExclusiveWaitressSetm20,DestinationCharacterName serves two hot dogs on TargetPronounPossessive front.
+ItemDevicesExclusiveWaitressSetm21,DestinationCharacterName serves a bunch of tacos on TargetPronounPossessive front.
+ItemDevicesExclusiveWaitressSetm22,DestinationCharacterName puts a TargetPronounPossessive tips pot on TargetPronounPossessive front: "Tips for good service!"
+ItemDevicesExclusiveWaitressSetm23,DestinationCharacterName puts no smoking sign on TargetPronounPossessive front.
+ItemDevicesExclusiveWaitressSetr0,DestinationCharacterName is clearing the table on TargetPronounPossessive left side.
+ItemDevicesExclusiveWaitressSetr1,DestinationCharacterName puts a menu on the table on TargetPronounPossessive left side.
+ItemDevicesExclusiveWaitressSetr2,DestinationCharacterName puts some poker cards and chips on the table on TargetPronounPossessive left side.
+ItemDevicesExclusiveWaitressSetr3,DestinationCharacterName puts a Club Card deck on the table on TargetPronounPossessive left side.
+ItemDevicesExclusiveWaitressSetr4,DestinationCharacterName serves a coffee cup on TargetPronounPossessive left side.
+ItemDevicesExclusiveWaitressSetr5,DestinationCharacterName serves a iced tea glass on TargetPronounPossessive left side.
+ItemDevicesExclusiveWaitressSetr6,DestinationCharacterName serves a juice glass on TargetPronounPossessive left side.
+ItemDevicesExclusiveWaitressSetr7,DestinationCharacterName serves a soda on on TargetPronounPossessive left side.
+ItemDevicesExclusiveWaitressSetr8,DestinationCharacterName serves a whiskey glass on TargetPronounPossessive left side.
+ItemDevicesExclusiveWaitressSetr9,DestinationCharacterName serves a long neck beer on TargetPronounPossessive left side.
+ItemDevicesExclusiveWaitressSetr10,DestinationCharacterName serves a beer glass on TargetPronounPossessive left side.
+ItemDevicesExclusiveWaitressSetr11,DestinationCharacterName serves a marguerita glass on TargetPronounPossessive left side.
+ItemDevicesExclusiveWaitressSetr12,DestinationCharacterName serves a champagne glass on TargetPronounPossessive left side.
+ItemDevicesExclusiveWaitressSetr13,DestinationCharacterName serves a sake cup on TargetPronounPossessive left side.
+ItemDevicesExclusiveWaitressSetr14,DestinationCharacterName serves a penauts pot on TargetPronounPossessive left side.
+ItemDevicesExclusiveWaitressSetr15,DestinationCharacterName serves a banana split on TargetPronounPossessive left side.
+ItemDevicesExclusiveWaitressSetr16,DestinationCharacterName serves a sundae on TargetPronounPossessive left side.
+ItemDevicesExclusiveWaitressSetr17,DestinationCharacterName serves a plate of fries on TargetPronounPossessive left side.
+ItemDevicesExclusiveWaitressSetr18,DestinationCharacterName serves a burguer on TargetPronounPossessive left side.
+ItemDevicesExclusiveWaitressSetr19,DestinationCharacterName serves a origiri on TargetPronounPossessive left side.
+ItemDevicesExclusiveWaitressSetr20,DestinationCharacterName serves a hot dog on TargetPronounPossessive left side.
+ItemDevicesExclusiveWaitressSetr21,DestinationCharacterName serves a taco on TargetPronounPossessive left side.
+ItemDevicesExclusiveWaitressSetr22,DestinationCharacterName puts the bill and some changes on TargetPronounPossessive left side.
+ItemDevicesExclusiveWaitressSetr23,DestinationCharacterName puts a ashtray on TargetPronounPossessive left side.
 ItemMouthAOMGagSelect,Always open mouth gag options: -straps can be padlocked-
 ItemMouthAOMGagLips,Just lips
 ItemMouthAOMGagStraps,With straps
