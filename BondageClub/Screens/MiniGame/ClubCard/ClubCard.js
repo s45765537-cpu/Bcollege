@@ -4822,9 +4822,15 @@ function ClubCardRenderCard(Card, X, Y, W, Sleeve = null, Source = null, isIgnor
 	if (typeof Card !== "object") return;
 
 	//Save Current Card coordinates
-	Card.CurrentX = X;
-	Card.CurrentY = Y;
-	Card.CurrentW = W;
+	if (Card.CurrentX !== X || Card.CurrentY !== Y || Card.CurrentW !== W) {
+		Card.CurrentX = X;
+		Card.CurrentY = Y;
+		Card.CurrentW = W;
+	}
+
+	if (Source && Card.Location !== Source) {
+		Card.Location = Source;
+	}
 
 	//Check isVisibility
 	if (isIgnoreIsVisibility == false)
@@ -4841,6 +4847,7 @@ function ClubCardRenderCard(Card, X, Y, W, Sleeve = null, Source = null, isIgnor
 		if (MouseIn(X, Y, W, W * 2)) {
 			ClubCardHover = { ...Card };
 			ClubCardHover.Location = Source;
+			console.log(`${Card.Location}`);
 		}
 	}
 
@@ -4949,7 +4956,7 @@ function ClubCardRenderBoard(CCPlayer, X, Y, W, H, Mirror) {
 			const startPosition = { x: copyCard.CurrentX, y: copyCard.CurrentY, w: copyCard.CurrentW };
 			const endPosition = { x: originalCard.CurrentX, y: originalCard.CurrentY, w: originalCard.CurrentW };
 
-			ClubCardMoveCard(copyCard, startPosition, endPosition, true, false, null, null, 150);
+			ClubCardMoveCard(copyCard, startPosition, endPosition, true, false, null, null, 300);
 		});
 	}
 
@@ -5336,9 +5343,18 @@ function ClubCardClick() {
 	// If there's a pending card with a prerequisite, there are extra buttons
 	if ((ClubCardPending != null) && MouseIn(725, 505, 215, 50) && ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) return ClubCardSelectCard(ClubCardFocus);
 	if ((ClubCardPending != null) && MouseIn(1805, 905, 90, 90)) {
+		if (ClubCardFocus) {
+			if (ClubCardFocus.AnimationState != "idle") return;
+			const focusCard = { ...ClubCardFocus};
+			ClubCardFocus = null;
+			ClubCardReturnCardFromPreview(focusCard);
+		}
+
 		const card = { ...ClubCardPending};
 		ClubCardPending = null;
 		ClubCardReturnCardFromPending(card);
+
+		// If there is a card currently in focus, return it to the hand
 		return;
 	}
 
