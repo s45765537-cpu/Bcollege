@@ -2683,8 +2683,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "Blouse1",
 				InventoryID: 145,
-				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Value: 20,
 				Top: 1,
 				BuyGroup: "Blouse1",
@@ -5172,8 +5170,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "Blouse1",
 				InventoryID: 145,
-				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Value: -1,
 				Top: 1,
 				Priority: 29,
@@ -5967,8 +5963,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "LongSkirt1",
 				InventoryID: 227,
-				Gender: "F",
-				Prerequisite: ["HasVagina"],
 				Value: 40,
 				Left: 69,
 				ParentGroup: {},
@@ -8584,8 +8578,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "FloralPanties2",
 				InventoryID: 332,
-				Gender: "F",
-				Prerequisite: ["HasVagina"],
 				Value: 20,
 				HideItem: [
 					"ItemButtAnalBeads2",
@@ -38328,8 +38320,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "KittyGag",
 				InventoryID: 920,
-				Gender: "F",
-				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"],
+				Prerequisite: ["GagFlat"],
 				Fetish: ["Pet"],
 				Value: 20,
 				Difficulty: -4,
@@ -38348,8 +38339,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "KittyHarnessPanelGag",
 				InventoryID: 921,
-				Gender: "F",
-				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"],
+				Prerequisite: ["GagFlat"],
 				Fetish: ["Leather", "Pet"],
 				Value: 80,
 				Difficulty: 6,
@@ -38371,8 +38361,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "KittyMuzzleGag",
 				InventoryID: 922,
-				Gender: "F",
-				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"],
+				Prerequisite: ["GagFlat"],
 				Fetish: ["Leather", "Pet"],
 				Value: 80,
 				Difficulty: 6,
@@ -39534,8 +39523,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "OTNPlugGag",
 				InventoryID: 961,
-				Gender: "F",
-				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat", "AccessMouth"],
+				Prerequisite: ["GagFlat", "AccessMouth"],
 				Value: 120,
 				Difficulty: 4,
 				Time: 20,
@@ -41198,8 +41186,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "KittyGag",
 				InventoryID: 920,
-				Gender: "F",
-				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"],
+				Prerequisite: ["GagFlat"],
 				Fetish: ["Pet"],
 				Value: 20,
 				Difficulty: -4,
@@ -41218,8 +41205,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "KittyHarnessPanelGag",
 				InventoryID: 921,
-				Gender: "F",
-				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"],
+				Prerequisite: ["GagFlat"],
 				Fetish: ["Leather", "Pet"],
 				Value: 80,
 				Difficulty: 6,
@@ -41241,8 +41227,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "KittyMuzzleGag",
 				InventoryID: 922,
-				Gender: "F",
-				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"],
+				Prerequisite: ["GagFlat"],
 				Fetish: ["Leather", "Pet"],
 				Value: 80,
 				Difficulty: 6,
@@ -43266,8 +43251,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "KittyGag",
 				InventoryID: 920,
-				Gender: "F",
-				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"],
+				Prerequisite: ["GagFlat"],
 				Fetish: ["Pet"],
 				Value: 20,
 				Difficulty: -4,
@@ -43286,8 +43270,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "KittyHarnessPanelGag",
 				InventoryID: 921,
-				Gender: "F",
-				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"],
+				Prerequisite: ["GagFlat"],
 				Fetish: ["Leather", "Pet"],
 				Value: 80,
 				Difficulty: 6,
@@ -43309,8 +43292,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "KittyMuzzleGag",
 				InventoryID: 922,
-				Gender: "F",
-				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"],
+				Prerequisite: ["GagFlat"],
 				Fetish: ["Leather", "Pet"],
 				Value: 80,
 				Difficulty: 6,
@@ -45321,8 +45303,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "KittyBlindfold",
 				InventoryID: 979,
-				Gender: "F",
-				Prerequisite: ["HasBreasts", "HasVagina"],
 				Fetish: ["Pet"],
 				Value: 40,
 				Time: 5,
