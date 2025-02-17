@@ -26,7 +26,7 @@ ItemPelvisCrop,,,(You lash the leather crop pretty hard on her butt.)  Damn it! 
 0,,,Greetings Mistress DialogPlayerName.  What are you looking for today?,,"DialogLogQuery(""ClubMistress"", ""Management"")"
 0,,,(She looks at you and giggles.)  Are you looking for some clothes?,,Player.IsNaked()
 0,,,Welcome to the Bondage Club store.  How can I help you today?,,
-0,90,I'd like to browse the shop.,Of course! What are you looking for?,Enter(),
+0,0,I'd like to browse the shop.,Of course! What are you looking for?,Enter(),
 0,,What are you selling?,"Look around, there are clothes of all kinds and lots of BDSM gear.",,
 0,,Who owns this store?,It belongs to the Bondage Club.  All profits go back to the organization.,,
 0,20,Can I tie you up?,"I'll make a deal with you.  If you buy everything from the store, I'll let you use the items on me.",CheckBoughtEverything(),!VendorAllowItem
