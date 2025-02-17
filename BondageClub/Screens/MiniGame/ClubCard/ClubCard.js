@@ -5031,6 +5031,7 @@ function ClubCardRenderPanel() {
 	// Draws the focused card, panel and log
 	DrawRect(1702, 0, 298, 1000, "#404040");
 	DrawRect(1700, 0, 2, 1000, "White");
+	if (ClubCardFocus != null) ClubCardRenderCard(ClubCardFocus, 705, 250, 250);
 	if (document.getElementById("CCLog") == null) {
 		ElementCreateDiv("CCLog");
 		let Elem = document.getElementById("CCLog");
@@ -5099,6 +5100,15 @@ function ClubCardRenderPanel() {
 		return;
 	}
 
+	// If there's a pending card with a prerequisite
+	if (ClubCardPending != null) {
+		DrawButton(1805, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/CancelPending.png", TextGet("CancelPending"));
+		ClubCardRenderCard(ClubCardPending, 975, 400, 100);
+		if (ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus))
+			if(ClubCardFocus.IsVisible) DrawButton(725, 505, 215, 50, TextGet("SelectCard"), "White");
+		return;
+	}
+
 	// Can concede/exit out of popup mode
 	if (ClubCardPopup == null) DrawButton(1905, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/Concede.png", TextGet(ClubCardIsPlaying() ? "Concede" : "StopWatch"));
 
@@ -5112,6 +5122,8 @@ function ClubCardRenderPanel() {
 	if ((ClubCardPopup == null) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")) {
 		DrawButton(1805, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/Bankrupt.png", TextGet("Bankrupt"));
 		DrawButton(1705, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/" + ((ClubCardTurnCardPlayed == 0) ? "Draw" : "CannotDraw") + ".png", TextGet((ClubCardTurnCardPlayed == 0) ? "Draw" : "CannotDraw"));
+		if (ClubCardCanPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus))
+			if(ClubCardFocus.IsVisible) DrawButton(725, 505, 215, 50, TextGet("PlayCard"), "White");
 	} else ClubCardStatusText(ClubCardIsPlaying() ? "OpponentPlaying" : "WatchingGame");
 	DrawButton(5, 450, 45, 45, null, "White", "Screens/MiniGame/ClubCard/Button/DiscardPile.png", TextGet("OpponentDiscardPile"));
 	DrawButton(5, 505, 45, 45, null, "White", "Screens/MiniGame/ClubCard/Button/DiscardPile.png", TextGet("DiscardPile"));
@@ -5265,22 +5277,6 @@ function ClubCardRun(Timestamp) {
 	ClubCardRenderHand(ClubCardPlayer[0], 0, 800, 1700, 300);
 	ClubCardRenderHand(ClubCardPlayer[1], 0, -200, 1700, 300);
 	ClubCardUpdateCardAnimations(Timestamp);
-
-	//Render ClubCardFocus
-	if (ClubCardFocus != null) {
-		ClubCardRenderCard(ClubCardFocus, ClubCardPreviewPosition.x, ClubCardPreviewPosition.y, ClubCardPreviewPosition.w);
-		if (!ClubCardPending && ClubCardCanPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus))
-			if(ClubCardFocus.IsVisible) DrawButton(725, 505, 215, 50, TextGet("PlayCard"), "White");
-	}
-
-	//Render ClubCardPending. If there's a pending card with a prerequisite
-	if (ClubCardPending != null) {
-		DrawButton(1805, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/CancelPending.png", TextGet("CancelPending"));
-		ClubCardRenderCard(ClubCardPending, ClubCardPendingPosition.x, ClubCardPendingPosition.y, ClubCardPendingPosition.w);
-		if (ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus))
-			if(ClubCardFocus.IsVisible) DrawButton(725, 505, 215, 50, TextGet("SelectCard"), "White");
-	}
-
 	ClubCardRenderPanel();
 
 	ClubCardBackground = Player.Game.ClubCard.Background ? Player.Game.ClubCard.Background : "ClubCardPlayBoard1";
@@ -5347,7 +5343,7 @@ function ClubCardClick() {
 	}
 
 	// Can always concede/exit
-	if (MouseIn(1905, 905, 90, 90)) return ClubCardCreatePopup("YESNO", TextGet(ClubCardIsPlaying() ? "ConfirmConcede" : "ConfirmExit"), TextGet("Yes"), TextGet("No"), "ClubCardConcede()", "ClubCardDestroyPopup()");
+	if (MouseIn(1905, 905, 90, 90) && !ClubCardPending) return ClubCardCreatePopup("YESNO", TextGet(ClubCardIsPlaying() ? "ConfirmConcede" : "ConfirmExit"), TextGet("Yes"), TextGet("No"), "ClubCardConcede()", "ClubCardDestroyPopup()");
 
 	// If we are waiting for deck selection
 	if ((ClubCardPlayer[0].FullDeck == null) || (ClubCardPlayer[0].FullDeck.length == 0) || (ClubCardPlayer[1].FullDeck == null) || (ClubCardPlayer[1].FullDeck.length == 0)) return;
@@ -5364,7 +5360,7 @@ function ClubCardClick() {
 		return;
 	}
 	// Draw card and end turn
-	if (MouseIn(1705, 905, 90, 90) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")) return ClubCardStartTurn(ClubCardStartTurnType.DRAWENDTURN);
+	if (MouseIn(1705, 905, 90, 90) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") && !ClubCardPending) return ClubCardStartTurn(ClubCardStartTurnType.DRAWENDTURN);
 	// Open Bancrupt window and bind function close and bancrupt in yes and no
 	if (MouseIn(1805, 905, 90, 90) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")) return ClubCardCreatePopup("YESNO", TextGet("ConfirmBankrupt"), TextGet("Yes"), TextGet("No"), "ClubCardStartTurn()", "ClubCardDestroyPopup()");
 	// Upgrade lvl Club
