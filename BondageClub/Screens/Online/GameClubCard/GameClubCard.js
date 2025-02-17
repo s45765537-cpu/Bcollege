@@ -255,9 +255,15 @@ function GameClubCardLoadStatus() {
  */
 function GameClubCardDoBundle(Cards, IncludeTime = false) {
 	let Result = "";
-	if (Cards != null)
-		for (let C of Cards)
-			Result = Result + String.fromCharCode(C.ID) + (IncludeTime ? ((C.Time == null) ? "N" : C.Time.toString()) : "");
+	if (Cards != null) {
+		for (let C of Cards) {
+			let encodedCard = String.fromCharCode(C.ID) + "|" + C.UniqueID;
+			if (IncludeTime) {
+				encodedCard += "|" + (C.Time == null ? "N" : C.Time.toString());
+			}
+			Result += encodedCard + ";";
+		}
+	}
 	return Result;
 }
 
@@ -278,8 +284,9 @@ function GameClubCardBoardDoBundle(Cards) {
 		let FamePerTurn = `${card.FamePerTurn !== undefined ? card.FamePerTurn : ''}`;
 		let Time = `${card.Time !== undefined ? card.Time : ''}`;
 		let Negated = `${card.Negated !== undefined ? card.Negated : ''}`;
+		let UniqueID = `${card.UniqueID !== undefined ? card.UniqueID : ''}`;
 
-		Result += `${ID},${ArrayIndex},${MoneyPerTurn},${FamePerTurn},${Time},${Negated};`;
+		Result += `${ID},${ArrayIndex},${MoneyPerTurn},${FamePerTurn},${Time},${Negated},${UniqueID};`;
 	}
 
 	if (Result.endsWith(";")) {
@@ -289,35 +296,28 @@ function GameClubCardBoardDoBundle(Cards) {
 	return Result;
 }
 
-/**
- * Processes the club card game data received from the server
- * @param {string} Bundle - An array of c
- * @param {boolean} IncludeTime - If we must include the time property
- * @param {string} Location - The location of the card
- * @returns {ClubCard[]} - A string with all the cards
- */
 function GameClubCardUndoBundle(Bundle, IncludeTime = false, Location = null) {
 	let Result = [];
-	let Card;
-	let CardMode = true;
-	if (Bundle != null)
-		for (let B of Bundle) {
-			if (CardMode) {
-				let D = B.charCodeAt(0);
-				for (let C of ClubCardList)
-					if (C.ID == D) {
-						Card = {...C};
-						if (Card.Type == null) Card.Type = "Member";
-						if (Location != null) Card.Location = Location;
-						Result.push(Card);
-						break;
-					}
-				if (IncludeTime) CardMode = false;
-			} else {
-				if (CommonIsNumeric(B)) Card.Time = parseInt(B);
-				CardMode = true;
+	if (!Bundle) return Result;
+
+	let Entries = Bundle.split(";");
+	for (let Entry of Entries) {
+		if (!Entry) continue;
+		let Parts = Entry.split("|");
+
+		let CardID = Parts[0].charCodeAt(0);
+		let UniqueID = Parts[1];
+
+		let Card = ClubCardList.find(C => C.ID === CardID);
+		if (Card) {
+			let NewCard = { ...Card, UniqueID };
+			if (Location) NewCard.Location = Location;
+			if (IncludeTime && Parts.length > 2 && CommonIsNumeric(Parts[2])) {
+				NewCard.Time = parseInt(Parts[2]);
 			}
+			Result.push(NewCard);
 		}
+	}
 	return Result;
 }
 
@@ -333,7 +333,7 @@ function GameClubCardBoardUndoBundle(bundle, Location) {
 
 	for (let i = 0; i < cards.length; i++) {
 		const cardString = cards[i];
-		const [ID, ArrayIndex, MoneyPerTurn, FamePerTurn, Time, Negated] = cardString.split(',');
+		const [ID, ArrayIndex, MoneyPerTurn, FamePerTurn, Time, Negated, UniqueID] = cardString.split(',');
 
 		const existingCard = ClubCardList.find(card => card.ID === Number(ID));
 
@@ -348,6 +348,7 @@ function GameClubCardBoardUndoBundle(bundle, Location) {
 			if (FamePerTurn != undefined && FamePerTurn != '') card.FamePerTurn = Number(FamePerTurn);
 			if (Time != undefined && Time != '') card.Time = Number(Time);
 			if (Negated != undefined && Negated != '') card.Negated = Boolean(Negated);
+			if (UniqueID != undefined && UniqueID != '') card.UniqueID = UniqueID;
 
 			result.push(card);
 		}

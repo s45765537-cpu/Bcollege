@@ -4695,8 +4695,7 @@ function ClubCardUpdateCardAnimations(Timestamp) {
  * @param {number} [duration=200] - Animation duration in milliseconds.
  */
 function ClubCardMoveCard(card, startPosition, endPosition, hideOriginal = false, keepOriginalHidden = false, onStart = null, onComplete = null, duration = 200) {
-	if (!card || card.AnimationState !== "idle") return;
-
+	if (!card || (card.AnimationState && card.AnimationState == "moving")) return;
 	card.AnimationState = "moving";
 	card.IsVisible = false;
 
@@ -4918,27 +4917,30 @@ function ClubCardRenderBoard(CCPlayer, X, Y, W, H, Mirror) {
 	let FullBoard = [...CCPlayer.Board, ...(CCPlayer.Event || [])];
 	const isEqualBoard = CCPlayer.RenderFullBoard.length === FullBoard.length
 		&& CCPlayer.RenderFullBoard.every((card, index) => card.UniqueID === FullBoard[index].UniqueID);
+	let remainingCards = [];
 
 	if (!isEqualBoard) {
-		const remainingCards = CCPlayer.RenderFullBoard
+		remainingCards = CCPlayer.RenderFullBoard
 			.filter(oldCard => FullBoard.some(newCard => newCard.UniqueID === oldCard.UniqueID))
 			.map(oldCard => ({ ...oldCard }));
+	}
 
-		let PosX = Math.round(X + (W / 2) - (FullBoard.length * W / 20));
-		let IncX = Math.round(W / 10);
-		if (PosX < X) {
-			PosX = X;
-			IncX = Math.round(W / FullBoard.length);
-		}
+	let PosX = Math.round(X + (W / 2) - (FullBoard.length * W / 20));
+	let IncX = Math.round(W / 10);
+	if (PosX < X) {
+		PosX = X;
+		IncX = Math.round(W / FullBoard.length);
+	}
 
-		for (let C of FullBoard) {
-			let PosY = Mirror ? Y + H - (H * 0.65) : Y + (H * 0.1);
-			C.CurrentX = PosX + 5;
-			C.CurrentY = PosY;
-			C.CurrentW = (W / 12) - 5;
-			PosX += IncX;
-		}
+	for (let C of FullBoard) {
+		let PosY = Mirror ? Y + H - (H * 0.65) : Y + (H * 0.1);
+		C.CurrentX = PosX + 5;
+		C.CurrentY = PosY;
+		C.CurrentW = (W / 12) - 5;
+		PosX += IncX;
+	}
 
+	if (!isEqualBoard) {
 		//########### Record animations for the new card positions
 		remainingCards.forEach(copyCard => {
 			const originalCard = ClubCardGetOriginalCard(copyCard);
@@ -4949,10 +4951,9 @@ function ClubCardRenderBoard(CCPlayer, X, Y, W, H, Mirror) {
 
 			ClubCardMoveCard(copyCard, startPosition, endPosition, true, false, null, null, 150);
 		});
-		//###########
-
-		CCPlayer.RenderFullBoard = [...FullBoard];
 	}
+
+	CCPlayer.RenderFullBoard = [...FullBoard];
 
 	for (let C of CCPlayer.RenderFullBoard)
 		ClubCardRenderCard(C, C.CurrentX, C.CurrentY, C.CurrentW, null, (CCPlayer.Control === "Player") ? "PlayerBoard" : "OpponentBoard");
@@ -4960,7 +4961,6 @@ function ClubCardRenderBoard(CCPlayer, X, Y, W, H, Mirror) {
 	// Puts a shadow over the board if not playing
 	MainCanvas.font = CommonGetFont(36);
 	if (CCPlayer.Index != ClubCardTurnIndex) DrawRect(X, Y, W, H, "#0000007F");
-
 }
 
 /**
