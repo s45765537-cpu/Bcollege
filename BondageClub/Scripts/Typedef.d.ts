@@ -4247,6 +4247,8 @@ interface WheelFortuneOptionType {
 
 // #end region
 
+// #region ClubCard
+
 interface ClubCard {
 	ID: number;
 	UniqueID?: string;
@@ -4338,6 +4340,37 @@ interface ClubCardMessage {
     OpponentPlayer?: string;
 }
 
+/**
+ * Represents an active card animation in progress.
+ */
+interface ClubCardActiveAnimation {
+    /** The card being animated. */
+    Card: ClubCard;
+    /** The original card (if a copy is animated). */
+    OriginalCard?: ClubCard | null;
+    /** Timestamp when the animation started (in milliseconds). */
+    StartTime: number;
+    /** Total animation duration in milliseconds. */
+    Duration: number;
+    /** Initial position of the card. */
+    StartPosition: { x: number, y: number, w: number };
+    /** Target position of the card. */
+    EndPosition: { x: number, y: number, w: number };
+    /** Whether to hide the original card during animation. */
+    HideOriginal: boolean;
+    /** Whether the original card should stay hidden after animation completes. */
+    KeepOriginalHidden: boolean;
+    /** Timeout ID for fallback handling (used to restore the card state in case of failure). */
+    SafetyTimeout: number;
+    /** Callback function called when the animation completes. */
+    OnComplete?: Function|null;
+    // Processed elsewhere
+    // /** Callback function called when the animation starts. */
+    // OnStart?: Function|null;
+}
+
+
+// #endregion
 
 // #region drawing
 
