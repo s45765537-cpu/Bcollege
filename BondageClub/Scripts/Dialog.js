@@ -2838,19 +2838,37 @@ class DialogMenu {
 	set focusGroup(value) { return; }
 
 	/**
+	 * A set with the numeric IDs of to-be run reloads.
+	 * See {@link DialogMenu.Reload}
+	 * @private
+	 * @readonly
+	 * @type {Set<number>}
+	 */
+	_reloadQueue;
+
+	/**
+	 * The highest reload ID currently in use.
+	 * See {@link DialogMenu.Reload}
+	 * @private
+	 * @type {number}
+	 */
+	_reloadHighestID = -1;
+
+	/**
 	 * Promise object for queuing reloads, ensuring that they are run consecutively rather than concurrently if multiple calls are invoked (near) simultenously.
 	 * See {@link DialogMenu.Reload}
 	 * @private
 	 * @type {Promise<boolean>}
 	 */
-	_reload;
+	_reloadPromise;
 
 	/**
 	 * @param {ModeType} mode The name of the mode associated with this instance
 	 */
 	constructor(mode) {
 		this.mode = mode;
-		this._reload = Promise.resolve(true);
+		this._reloadQueue = new Set;
+		this._reloadPromise = Promise.resolve(true);
 
 		const dialogMenu = this;
 		this.eventListeners = {
@@ -3008,6 +3026,7 @@ class DialogMenu {
 	Unload() {
 		DialogStatusClear();
 		document.getElementById(this.ids.root)?.toggleAttribute("data-unload", true);
+		this._reloadQueue.clear();
 	}
 
 	/** @type {ScreenFunctions["Click"]} */
@@ -3029,6 +3048,7 @@ class DialogMenu {
 		ElementRemove(this.ids.root);
 		this._C = null;
 		this._shape = null;
+		this._reloadQueue.clear();
 	}
 
 	/** @type {ScreenFunctions["KeyDown"]} */
@@ -3052,7 +3072,15 @@ class DialogMenu {
 	 * @returns {Promise<boolean>} - Whether an update was triggered or aborted
 	 */
 	Reload(C=null, focusGroup=null, options=null) {
-		this._reload = this._reload.then(async () => {
+		const id = this._reloadHighestID++;
+		this._reloadQueue.add(id);
+		this._reloadPromise = this._reloadPromise.then(async () => {
+			if (!this._reloadQueue.has(id)) {
+				return false;
+			} else {
+				this._reloadQueue.delete(id);
+			}
+
 			const { status, param } = this._ReloadValidate(C, focusGroup);
 			if (status) {
 				param.root.setAttribute("aria-busy", "true");
@@ -3064,7 +3092,7 @@ class DialogMenu {
 				return false;
 			}
 		});
-		return this._reload;
+		return this._reloadPromise;
 	}
 
 	/**
