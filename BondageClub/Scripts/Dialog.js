@@ -2374,7 +2374,7 @@ function DialogClick(event) {
 	}
 
 	// Block out clicking on anything else if we're not supposed to interact with the selected character
-	if (C.FocusGroup === null || !C.AllowItem || DialogIntro(C) === "") return;
+	if (C.FocusGroup === null || !C.AllowItem) return;
 
 	/** The item currently sitting in the focused group */
 	const FocusItem = InventoryGet(C, C.FocusGroup.Name);
@@ -4546,7 +4546,6 @@ function DialogDraw() {
 	if (
 		(C.FocusGroup === null && DialogMenuMode !== "dialog")
 		|| !C.AllowItem
-		|| DialogIntro(CurrentCharacter) === ""
 	) return;
 
 	/** The item currently sitting in the focused group */
