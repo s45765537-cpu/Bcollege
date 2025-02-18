@@ -12014,8 +12014,8 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "HeellessHoof",
-				InventoryID: 1213,
 				Fetish: ["Leather", "Metal"],
+				InventoryID: 1213,
 				Left: 0,
 				Top: 458,
 				Height: 19,
@@ -14961,6 +14961,7 @@ var AssetFemale3DCG = [
 				Name: "CyberneticEars1",
 				InventoryID: 1166,
 				Value: 10,
+				BuyGroup: "CyberEars",
 				DynamicGroupName: "HairAccessory1",
 				CopyConfig: {
 					GroupName: "HairAccessory1",
@@ -55499,6 +55500,7 @@ var AssetFemale3DCG = [
 				Name: "HeellessHoof",
 				InventoryID: 1213,
 				Fetish: ["Leather", "Metal"],
+				BuyGroup: "HeellessHoof",
 				Left: 0,
 				Top: 458,
 				Height: 19,
