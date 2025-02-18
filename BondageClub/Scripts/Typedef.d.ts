@@ -1453,8 +1453,22 @@ interface Character {
 	Inventory: InventoryItem[];
 	InventoryData?: string;
 	Appearance: Item[];
-	Stage: string;
-	CurrentDialog: string;
+	/**
+	 * @private
+	 * @see {@link Character.Stage}
+	 */
+	_Stage: string;
+	/** Set or get the current stage, performing a dialog {@link DialogMenu.Reload} if required */
+	get Stage(): string;
+	set Stage(value: string);
+	/**
+	 * @private
+	 * @see {@link Character.CurrentDialog}
+	 */
+	_CurrentDialog: string;
+	/** Set or get the current dialog, performing a dialog status update if required (see {@link DialogSetStatus}) */
+	get CurrentDialog(): string;
+	set CurrentDialog(value: string);
 	Dialog: DialogLine[];
 	Reputation: Reputation[];
 	Skill: Skill[];

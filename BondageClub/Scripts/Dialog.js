@@ -4333,14 +4333,17 @@ class _DialogDialogMenu extends DialogMenu {
 
 	/** @type {DialogMenu<string, DialogLine>["_ClickButton"]} */
 	_ClickButton(button, C, clickedDialog) {
+		// Use the private `_CurrentDialog`/`_Reload` variables in order to circumenvent the respective setters,
+		// manually performing any reloads/status updates
+
 		// If the player is gagged, the answer will always be the same
-		C.CurrentDialog = Player.CanTalk() ? clickedDialog.Result : DialogFind(C, "PlayerGagged");
+		C._CurrentDialog = Player.CanTalk() ? clickedDialog.Result : DialogFind(C, "PlayerGagged");
 
 		// A dialog option can change the conversation stage, show text or launch a custom function
 		if ((Player.CanTalk() && C.CanTalk()) || SpeechFullEmote(clickedDialog.Option)) {
-			C.CurrentDialog = clickedDialog.Result;
+			C._CurrentDialog = clickedDialog.Result;
 			if (clickedDialog.NextStage != null) {
-				C.Stage = clickedDialog.NextStage;
+				C._Stage = clickedDialog.NextStage;
 				this.Reload();
 			} else {
 				// manually reload the status
@@ -4497,7 +4500,7 @@ function DialogLoad() {
 
 	const newDialog = !Player.CanTalk() ? DialogFind(C, "PlayerGagged", "") : DialogIntro(C);
 	if (newDialog) {
-		C.CurrentDialog = newDialog;
+		C._CurrentDialog = newDialog;
 	}
 
 	DialogChangeMode(DialogMenuMode ?? "dialog", true);

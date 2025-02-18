@@ -76,8 +76,32 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		Money: 0,
 		Inventory: [],
 		Appearance: [],
-		Stage: "0",
-		CurrentDialog: "",
+		_Stage: "0",
+		get Stage() {
+			return this._Stage;
+		},
+		set Stage(value) {
+			if (this._Stage === value) {
+				return;
+			}
+			this._Stage = value;
+			if (DialogMenuMode === "dialog") {
+				DialogMenuMapping.dialog.Reload();
+			}
+		},
+		_CurrentDialog: "",
+		get CurrentDialog() {
+			return this._CurrentDialog;
+		},
+		set CurrentDialog(value) {
+			if (this._CurrentDialog === value) {
+				return;
+			}
+			this._CurrentDialog = value;
+			if (DialogMenuMode === "dialog") {
+				DialogSetStatus(value);
+			}
+		},
 		Dialog: [],
 		Reputation: [],
 		Skill: [],

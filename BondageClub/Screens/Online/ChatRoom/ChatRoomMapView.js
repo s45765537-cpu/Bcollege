@@ -395,7 +395,7 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 3000, Type: "WallDecoration", Style: "Blank" },
 	{ ID: 3010, Type: "WallDecoration", Style: "Painting" },
 	{ ID: 3020, Type: "WallDecoration", Style: "Mirror" },
-	{ 
+	{
 		ID: 3030,
 		Type: "WallDecoration",
 		Style: "Candelabra0",
