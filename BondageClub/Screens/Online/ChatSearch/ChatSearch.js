@@ -98,7 +98,6 @@ function ChatSearchLoad() {
 		return rooms.map(i => i.DisplayName).sort();
 	}, { maxLength: 200 });
 	ChatSearchQuery();
-	ChatSearchMessage = "";
 	ChatRoomNotificationReset();
 	ChatSearchRejoinIncrement = 1;
 	TextPrefetch("Character", "FriendList");
@@ -893,6 +892,7 @@ function ChatSearchResponse(data) {
 		CommonSetScreen("Online", "ChatSearch");
 	}
 	ChatSearchMessage = "Response" + data;
+	setTimeout(() => ChatSearchMessage = "", 3000);
 }
 
 /**
@@ -1055,6 +1055,7 @@ function ChatSearchAutoJoinRoom() {
  * @returns {void} - Nothing
  */
 function ChatSearchQuery() {
+	ChatSearchMessage = "";
 
 	// No regular chat result if locked in Pandora prison
 	if (PandoraPenitentiaryIsInmate(Player)) return;
