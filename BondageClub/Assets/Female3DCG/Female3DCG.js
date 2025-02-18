@@ -2682,6 +2682,8 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Blouse1",
+				Gender: "F",
+				Prerequisite: ["HasBreasts"],
 				InventoryID: 145,
 				Value: 20,
 				Top: 1,
@@ -5169,6 +5171,8 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Blouse1",
+				Gender: "F",
+				Prerequisite: ["HasBreasts"],
 				InventoryID: 145,
 				Value: -1,
 				Top: 1,
