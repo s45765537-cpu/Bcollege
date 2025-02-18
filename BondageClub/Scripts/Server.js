@@ -968,6 +968,9 @@ function ServerAccountOwnership(data) {
 		CharacterClearOwnership(Player, false);
 	}
 
+	if (DialogMenuMode === "dialog") {
+		DialogMenuMapping.dialog.Reload();
+	}
 }
 
 // TODO: `data: object` -> `data: ServerAccountLovershipResponse`
@@ -987,6 +990,10 @@ function ServerAccountLovership(data) {
 	if ((data != null) && (typeof data === "object") && !Array.isArray(data) && (data.Lovership != null) && (typeof data.Lovership === "object")) {
 		Player.Lovership = data.Lovership;
 		LoginLoversItems();
+	}
+
+	if (DialogMenuMode === "dialog") {
+		DialogMenuMapping.dialog.Reload();
 	}
 }
 
