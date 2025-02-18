@@ -271,7 +271,7 @@ function ServerPlayerIsInChatRoom() {
 }
 
 /** Ratelimit: Max number of messages per interval */
-var ServerSendRateLimit = 18;
+var ServerSendRateLimit = 14;
 /** Ratelimit: Length of the rate-limit window, in msec */
 var ServerSendRateLimitInterval = 1200;
 
