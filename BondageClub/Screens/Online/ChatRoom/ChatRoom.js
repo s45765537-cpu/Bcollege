@@ -1586,9 +1586,9 @@ function ChatRoomSetTarget(MemberNumber) {
 
 	let placeholder;
 	if (target) {
-		placeholder = `${TextGet("WhisperTo")} ${CharacterNickname(target)}`;
+		placeholder = `${TextGetInScope("Screens/Online/ChatRoom/Text_ChatRoom.csv", "WhisperTo")} ${CharacterNickname(target)}`;
 	} else {
-		placeholder = TextGet("PublicChat");
+		placeholder = TextGetInScope("Screens/Online/ChatRoom/Text_ChatRoom.csv", "PublicChat");
 	}
 	ElementSetAttribute("InputChat", "placeholder", placeholder);
 }
