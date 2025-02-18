@@ -3272,14 +3272,16 @@ function ChatRoomCharacterItemUpdate(C, Group) {
 		}
 
 		const Item = InventoryGet(C, Group);
-		const P = {};
-		P.Target = C.MemberNumber;
-		P.Group = Group;
-		P.Name = (Item != null) ? Item.Asset.Name : undefined;
-		P.Color = ((Item != null) && (Item.Color != null)) ? Item.Color : "Default";
-		P.Difficulty = (Item != null) ? Item.Difficulty - Item.Asset.Difficulty : SkillGetWithRatio(Player, "Bondage");
-		P.Property = ((Item != null) && (Item.Property != null)) ? Item.Property : undefined;
-		P.Craft = ((Item != null) && (Item.Craft != null)) ? Item.Craft : undefined;
+		/** @type {ServerCharacterItemUpdate} */
+		const P = {
+			Target: C.MemberNumber,
+			Group: Group,
+			Name: (Item != null) ? Item.Asset.Name : undefined,
+			Color: (Item != null && Item.Color != null) ? Item.Color : "Default",
+			Difficulty: (Item != null) ? Item.Difficulty - Item.Asset.Difficulty : SkillGetWithRatio(Player, "Bondage"),
+			Property: ((Item != null) && (Item.Property != null)) ? Item.Property : undefined,
+			Craft: ((Item != null) && (Item.Craft != null)) ? Item.Craft : undefined,
+		};
 		ServerSend("ChatRoomCharacterItemUpdate", P);
 	}
 }
@@ -4826,7 +4828,8 @@ function ChatRoomSyncItem(data) {
 
 			const updateParams = ValidationCreateDiffParams(ChatRoomCharacter[C], data.Source);
 			const previousItem = InventoryGet(ChatRoomCharacter[C], data.Item.Group);
-			const newItem = ServerBundledItemToAppearanceItem(ChatRoomCharacter[C].AssetFamily, data.Item);
+			// Go home TS, you're drunk: this explicit downcast should not be necessary, but here we are
+			const newItem = data.Item.Name == null ? null : ServerBundledItemToAppearanceItem(ChatRoomCharacter[C].AssetFamily, /** @type {ServerCharacterItemUpdate & { Name: string }} */(data.Item));
 
 			let { item, valid } = ValidationResolveAppearanceDiff(data.Item.Group, previousItem, newItem, updateParams);
 
