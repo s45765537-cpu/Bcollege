@@ -1146,9 +1146,11 @@ async function AssetInventoryIDValidate() {
 		if (A.BuyGroup && !isFreeOrUnbuyableAsset) {
 			const buyAssets = buyGroups.get(A.BuyGroup) ?? [];
 			let match;
-			if (buyAssets.length && (match = buyAssets.find(asset => asset.InventoryID !== A.InventoryID))) {
+			if ((match = buyAssets.find(asset => asset.InventoryID !== A.InventoryID))) {
 				lastId++;
 				console.warn(`InventoryID should be the same within BuyGroup ${A.BuyGroup}, ${A.Name} (${A.InventoryID}) is different: ${match.Name} (${match.InventoryID}), suggesting ${lastId}`);
+			} else if ((match = allAssets.find(asset => asset.InventoryID === A.InventoryID && asset.BuyGroup !== A.BuyGroup))) {
+				console.warn(`InventoryID matching without being in the same BuyGroup ${A.BuyGroup}, ${A.Name} (${A.InventoryID}) is different: ${match.Name} (${match.InventoryID})`);
 			}
 			buyAssets.push(A);
 			buyGroups.set(A.BuyGroup, buyAssets);
@@ -1159,7 +1161,7 @@ async function AssetInventoryIDValidate() {
 			const inventoryAssets = inventoryIDs[A.InventoryID] ?? [];
 			let match;
 			// Find matches with different names that either have no buygroup or aren't part of the same buygroup
-			if (inventoryAssets.length && (match = inventoryAssets.find(asset => (!asset.BuyGroup && !A.BuyGroup || asset.BuyGroup !== A.BuyGroup) && asset.Name !== A.Name))) {
+			if ((match = inventoryAssets.find(asset => (!asset.BuyGroup || !A.BuyGroup || asset.BuyGroup !== A.BuyGroup) && asset.Name !== A.Name))) {
 				lastId++;
 				console.warn(`InventoryID should be different between different BuyGroups: asset "${A.Name}", buyGroup: ${A.BuyGroup}, ID ${A.InventoryID}, doesn't match: "${match.Name}", buyGroup: ${match.BuyGroup}, ID: ${match.InventoryID}, suggesting ${lastId}`);
 			}
