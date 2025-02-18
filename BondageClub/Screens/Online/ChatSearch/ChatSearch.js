@@ -533,7 +533,7 @@ function ChatSearchNormalDraw() {
 			icons.push("Icons/Private.png");
 		}
 		if (ChatRoomDataIsLocked(room)) {
-			icons.push("Icons/CheckLocked.png");
+			icons.push(room?.CanJoin ? "Icons/CheckUnlocked.png" : "Icons/CheckLocked.png");
 		}
 		if (hasMap) {
 			icons.push(`Icons/MapType${room.MapType}.png`);
