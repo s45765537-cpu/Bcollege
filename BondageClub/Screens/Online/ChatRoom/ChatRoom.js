@@ -954,7 +954,7 @@ var ChatRoomSep = {
 	_GetDisplayName: function _GetDisplayName(button) {
 		const segments = [
 			InterfaceTextGet(`ChatRoomSpace${button.dataset.space || "F"}`),
-			button.dataset.private ? InterfaceTextGet("PrivateRoom") : undefined,
+			button.dataset.private === "true" ? InterfaceTextGet("PrivateRoom") : undefined,
 			ChatRoomHTMLEntities(ChatSearchMuffle(button.dataset.room)),
 			button.dataset.messages ? `✉<sup>${button.dataset.messages}</sup>` : undefined,
 		];
