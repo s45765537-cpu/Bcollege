@@ -4265,6 +4265,40 @@ class _DialogDialogMenu extends DialogMenu {
 		});
 	}
 
+	/**
+	 * A {@link clearTimeout}-returned ID for temporarily disabling the exit button on mobile button clicks
+	 * @private
+	 * @type {null | number}
+	 */
+	_mobileTimeoutID = null;
+
+	/**
+	 * @private
+	 * @satisfies {TimerHandler}
+	 */
+	_mobileTimeoutHandler() {
+		document.querySelector(`#${this.ids.menubar} [name='Exit']`)?.removeAttribute("disabled");
+		this._mobileTimeoutID = null;
+	}
+
+	/** @type {ScreenFunctions["Exit"]} */
+	Exit() {
+		super.Exit();
+		if (this._mobileTimeout) {
+			clearTimeout(this._mobileTimeout);
+			this._mobileTimeoutHandler();
+		}
+	}
+
+	/** @type {ScreenFunctions["Unload"]} */
+	Unload() {
+		super.Unload();
+		if (this._mobileTimeout) {
+			clearTimeout(this._mobileTimeout);
+			this._mobileTimeoutHandler();
+		}
+	}
+
 	/** @type {DialogMenu["_ReloadStatus"]} */
 	_ReloadStatus(root, span, C, focusGroup, options) {
 		const textContent = options.status ?? SpeechTransformDialog(C, C.CurrentDialog);
@@ -4316,9 +4350,21 @@ class _DialogDialogMenu extends DialogMenu {
 					`${this.ids.menubar}-Exit`,
 					this.eventListeners._ClickMenubarExit,
 					{ image: "./Icons/Exit.png", tooltip: InterfaceTextGet("DialogMenuExit"), tooltipPosition: "left" },
-					{ button: { attributes: { "screen-generated": undefined, name: "Exit" }, classList: ["dialog-menubar-button"] } },
+					{ button: {
+						attributes: { "screen-generated": undefined, name: "Exit", disabled: CommonIsMobile ? "" : undefined },
+						classList: ["dialog-menubar-button"],
+					}},
 				),
 			);
+
+			// TODO: Remove once the other dialog menubar have all been DOM'ified
+			// Prevent certain mobile phone types from instantly clicking DOM buttons placed behind a previously-clicked canvas button
+			if (CommonIsMobile) {
+				if (this._mobileTimeout != null) {
+					clearTimeout(this._mobileTimeout);
+				}
+				this._mobileTimeout = setTimeout(this._mobileTimeoutHandler.bind(this), 150);
+			}
 		}
 
 		const exitButton = menubar.querySelector("[name='Exit']");
