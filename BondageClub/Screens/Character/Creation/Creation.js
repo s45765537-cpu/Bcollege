@@ -172,7 +172,7 @@ function CreationClick() {
 // when the user exit this screen
 /**
  * Does the cleanup, if the user exits the screen
- * @type {ScreenFunctions["Exit"]}
+ * @type {ScreenExitHandler}
  */
 function CreationExit() {
 	ElementRemove("InputCharacter");

@@ -104,7 +104,7 @@ function RelogKeyDown(event) {
 
 /**
  * Sends the player back to the main login screen
- * @type {ScreenFunctions["Exit"]}
+ * @type {ScreenExitHandler}
  */
 function RelogExit() {
 	// eslint-disable-next-line no-self-assign

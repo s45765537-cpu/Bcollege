@@ -1422,7 +1422,7 @@ function CraftingRun() {
 	}
 }
 
-/** @type {ScreenFunctions["Resize"]} */
+/** @type {ScreenResizeHandler} */
 function CraftingResize(load) {
 	switch (CraftingMode) {
 		case "OverridePriority":
@@ -1434,7 +1434,7 @@ function CraftingResize(load) {
 	}
 }
 
-/** @type {ScreenFunctions["Unload"]} */
+/** @type {ScreenUnloadHandler} */
 function CraftingUnload() {
 	switch (CraftingMode) {
 		case "OverridePriority":
@@ -1750,7 +1750,7 @@ function CraftingReorderModeSet(newmode=null)
 
 /**
  * Handles clicks in the crafting room.
- * @type {ScreenFunctions["Click"]}
+ * @type {MouseEventListener}
  */
 function CraftingClick(event) {
 	// Can always exit or cancel
@@ -2019,7 +2019,7 @@ function CraftingExitResetElements() {
 
 /**
  * When the player exits the crafting room
- * @satisfies {ScreenFunctions["Exit"]}
+ * @satisfies {ScreenExitHandler}
  * @param {boolean} allowPanelClose - Whether an exit call in the `Name` mode is allowed to close the side panels before performing a proper exit of the subscreen
  */
 function CraftingExit(allowPanelClose=true) {

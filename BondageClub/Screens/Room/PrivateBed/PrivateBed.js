@@ -381,7 +381,7 @@ function PrivateBedClick() {
 
 /**
  * When the player exits the private bedroom.  The next sex scene will wait from 5 to 20 depending on luck and the frigid/honry trait.
- * @type {ScreenFunctions["Exit"]}
+ * @type {ScreenExitHandler}
  */
 function PrivateBedExit() {
 

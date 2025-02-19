@@ -224,7 +224,7 @@ function PreferenceClick() {
 /**
  * Is called when the player exits the preference screen. All settings of the preference screen are sent to the server.
  * If the player is in a subscreen, they exit to the main preferences menu instead.
- * @type {ScreenFunctions["Exit"]}
+ * @type {ScreenExitHandler}
  */
 function PreferenceExit() {
 	if (PreferenceSubscreen.name !== "Main") {

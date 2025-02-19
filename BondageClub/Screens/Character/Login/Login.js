@@ -1111,7 +1111,7 @@ function LoginGetStatus() {
 
 /**
  * Exit function - called when leaving the login page
- * @type {ScreenFunctions["Exit"]}
+ * @type {ScreenExitHandler}
  */
 function LoginExit() {
 

@@ -1768,7 +1768,7 @@ function ChatRoomStimulationMessage(Action) {
 }
 
 /**
- * @type {ScreenFunctions["Resize"]}
+ * @type {ScreenResizeHandler}
  */
 function ChatRoomResize(load) {
 	const chatInput = document.getElementById("InputChat");
@@ -1779,7 +1779,7 @@ function ChatRoomResize(load) {
 }
 
 /**
- * @type {ScreenFunctions["Unload"]}
+ * @type {ScreenUnloadHandler}
  */
 function ChatRoomUnload() {
 	ChatRoomHideElements();
@@ -2120,7 +2120,7 @@ function ChatRoomCustomizationRun() {
 
 /**
  * Runs the chatroom screen.
- * @type {ScreenFunctions["Run"]}
+ * @type {ScreenRunHandler}
  */
 function ChatRoomRun(time) {
 
@@ -2409,7 +2409,7 @@ function ChatRoomMouseMove(event) {
 
 /**
  * Redirects the Mouse Wheel event to the map if needed
- * @type {ScreenFunctions["MouseWheel"]}
+ * @type {MouseWheelEventListener}
  */
 function ChatRoomMouseWheel(event) {
 	if (ChatRoomActiveView.MouseWheel) return ChatRoomActiveView.MouseWheel(event);
@@ -2417,7 +2417,7 @@ function ChatRoomMouseWheel(event) {
 
 /**
  * Handles clicks the chatroom screen.
- * @type {ScreenFunctions["Click"]}
+ * @type {MouseEventListener}
  */
 function ChatRoomClick(event) {
 
@@ -2543,7 +2543,7 @@ function ChatRoomOpenAdminScreen() {
 
 /**
  * Process chat room menu button clicks
- * @type {ScreenFunctions["Click"]}
+ * @type {MouseEventListener}
  */
 function ChatRoomMenuClick(event) {
 	const Space = 992 / (ChatRoomMenuButtons.length);

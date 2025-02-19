@@ -2344,7 +2344,7 @@ function DialogChangeFocusToGroup(C, Group) {
 
 /**
  * Handles the click in the dialog screen
- * @type {ScreenFunctions["Click"]}
+ * @type {MouseEventListener}
  */
 function DialogClick(event) {
 	// Check that there's actually a character selected
@@ -2427,7 +2427,7 @@ function DialogClick(event) {
 	DialogMenuMapping[DialogMenuMode]?.Click(event);
 }
 
-/** @type {ScreenFunctions["Resize"]} */
+/** @type {ScreenResizeHandler} */
 function DialogResize(load) {
 	switch (DialogMenuMode) {
 		case "layering":
@@ -2994,7 +2994,7 @@ class DialogMenu {
 	/**
 	 * Initialize the {@link DialogMenu} subscreen.
 	 *
-	 * Serves as a {@link ScreenFunctions["Load"]} wrapper with added parameters.
+	 * Serves as a {@link ScreenLoadHandler} wrapper with added parameters.
 	 * @param {PropType} properties The to be initialized character and any other properties
 	 * @param {null | { shape?: RectTuple }} style Misc styling for the subscreen
 	 * @returns {null | HTMLDivElement} The div containing the dialog subscreen root element or `null` if the screen failed to initialize
@@ -3007,7 +3007,7 @@ class DialogMenu {
 		return /** @type {null | HTMLDivElement} */(document.getElementById(this.ids.root));
 	}
 
-	/** @type {ScreenFunctions["Load"]} */
+	/** @type {ScreenLoadHandler} */
 	Load() {
 		if (this._initPropertyNames.some(p => this._initProperties?.[p] == null)) {
 			console.error(
@@ -3055,23 +3055,23 @@ class DialogMenu {
 		throw new Error("Trying to call an abstract method");
 	}
 
-	/** @type {ScreenFunctions["Unload"]} */
+	/** @type {ScreenUnloadHandler} */
 	Unload() {
 		DialogStatusClear();
 		document.getElementById(this.ids.root)?.toggleAttribute("data-unload", true);
 		this._reloadQueue.clear();
 	}
 
-	/** @type {ScreenFunctions["Click"]} */
+	/** @type {MouseEventListener} */
 	Click(event) {}
 
-	/** @type {ScreenFunctions["Draw"]} */
+	/** @type {ScreenDrawHandler} */
 	Draw() {}
 
-	/** @type {ScreenFunctions["Run"]} */
+	/** @type {ScreenRunHandler} */
 	Run(time) {}
 
-	/** @type {ScreenFunctions["Resize"]} */
+	/** @type {ScreenResizeHandler} */
 	Resize(load) {
 		if (!load) {
 			// Tasks already handled asynchronically by `Load`
@@ -3079,7 +3079,7 @@ class DialogMenu {
 		}
 	}
 
-	/** @type {ScreenFunctions["Exit"]} */
+	/** @type {ScreenExitHandler} */
 	Exit() {
 		ElementRemove(this.ids.root);
 		this._initProperties = null;
@@ -3087,7 +3087,7 @@ class DialogMenu {
 		this._reloadQueue.clear();
 	}
 
-	/** @type {ScreenFunctions["KeyDown"]} */
+	/** @type {KeyboardEventListener} */
 	KeyDown(event) {
 		const grid = this.ids.grid ? document.getElementById(this.ids.grid) : null;
 		if (grid) {
@@ -4591,7 +4591,7 @@ function DialogSelfMenuClick(C) {
 
 /**
  * Load function for starting the Dialog subscreen.
- * @type {ScreenFunctions["Load"]}
+ * @type {ScreenLoadHandler}
  */
 function DialogLoad() {
 	if (CurrentCharacter == null) {
@@ -4613,7 +4613,7 @@ function DialogLoad() {
  * This is the main handler for drawing the Dialog UI, which activates
  * when the player clicks on herself or another player.
  *
- * @type {ScreenFunctions["Draw"]}
+ * @type {ScreenDrawHandler}
  */
 function DialogDraw() {
 

@@ -988,11 +988,10 @@ function AppearanceRun() {
 	}
 }
 
-/** @type {ScreenFunctions["Resize"]} */
+/** @type {ScreenResizeHandler} */
 function AppearanceResize(load) {
 	if (Layering.IsActive()) {
 		Layering.Resize(load);
-		return;
 	}
 }
 
@@ -1659,7 +1658,7 @@ function AppearanceMenuClick(C) {
 
 /**
  * Handle the exiting of the appearance screen. The function name is created dynamically.
- * @type {ScreenFunctions["Exit"]}
+ * @type {ScreenExitHandler}
  */
 function AppearanceExit() {
 	// We quit the extended item menu instead, if applicable.
