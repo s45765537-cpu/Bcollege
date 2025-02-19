@@ -1183,6 +1183,8 @@ function CharacterLoadNPC(CharacterID, NPCType=null, module=null, screen=null) {
 	C.Name = CharacterGenerateRandomName();
 	CharacterAppearanceBuildAssets(C);
 	CharacterAppearanceFullRandom(C);
+	C.Love = 0;
+	C.Trait = [];
 
 	// Sets archetype clothes
 	if (NPCType.indexOf("Maid") >= 0) CharacterArchetypeClothes(C, "Maid");

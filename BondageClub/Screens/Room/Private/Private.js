@@ -1110,11 +1110,11 @@ function PrivateLoadCharacter(data) {
 		const updateValid = ServerAppearanceLoadFromBundle(C, data.AssetFamily, data.AppearanceFull, null, true);
 		updateRequired = updateRequired || !updateValid;
 	}
-	if (data.Trait != null) C.Trait = data.Trait.slice();
-	if (data.Cage != null) C.Cage = data.Cage;
-	if (data.Event != null) C.Event = data.Event;
-	if (data.Lover != null) C.Lover = data.Lover;
-	if (data.Owner != null) C.Owner = data.Owner;
+	C.Trait = Array.isArray(data.Trait) ? data.Trait.slice() : [];
+	C.Cage = typeof data.Cage === "boolean" ? data.Cage : false;
+	C.Event = Array.isArray(data.Event) ? data.Event : [];
+	C.Lover = typeof data.Lover === "string" ? data.Lover : undefined;
+	C.Owner = typeof data.Owner === "string" ? data.Owner : undefined;
 	if (data.ArousalSettings != null) C.ArousalSettings = data.ArousalSettings;
 	if (data.FromPandora != null) C.FromPandora = data.FromPandora;
 	C.Love = (data.Love == null) ? 0 : parseInt(data.Love);
@@ -1152,7 +1152,6 @@ function PrivateAddCharacter(Template, Archetype, CustomData=false) {
 	C.Name = Template.Name;
 	C.Appearance = Template.Appearance.slice();
 	C.AppearanceFull = Template.Appearance.slice();
-	C.Love = 0;
 	if (Archetype && Archetype != "Submissive") C.Title = Archetype;
 	NPCTraitGenerate(C);
 	if (Archetype === "Mistress") NPCTraitSet(C, "Dominant", 60 + Math.floor(Math.random() * 41));
