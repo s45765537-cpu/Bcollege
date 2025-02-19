@@ -4279,7 +4279,7 @@ class _DialogDialogMenu extends DialogMenu {
 				...C.Dialog.map((dialog, i) => ElementButton.Create(
 					`dialog-dialog-${i}`,
 					this.eventListeners._ClickButton,
-					{ label: SpeechTransformDialog(Player, dialog.Option), labelPosition: "center" },
+					{ label: " ", labelPosition: "center" },
 					{ button: {
 						attributes: { "screen-generated": undefined },
 						dataAttributes: { index: i, group: dialog.Group },
@@ -4290,8 +4290,16 @@ class _DialogDialogMenu extends DialogMenu {
 		}
 
 		for (const [i, dialog] of C.Dialog.entries()) {
+			const button = buttonGrid.children[i];
+			if (!button) {
+				continue;
+			}
+
 			const unload = !(dialog.Stage === C.Stage && dialog.Option != null && DialogPrerequisite(dialog));
-			buttonGrid.children[i]?.toggleAttribute("data-unload", unload);
+			button.toggleAttribute("data-unload", unload);
+			if (!unload) {
+				button.querySelector(".button-label")?.replaceChildren(SpeechTransformDialog(Player, dialog.Option));
+			}
 		}
 	}
 

@@ -1417,8 +1417,13 @@ function CharacterRefresh(C, Push = true, RefreshDialog = true) {
 		ServerPlayerAppearanceSync();
 	}
 	// Also refresh the current dialog menu if the refreshed character is the current character.
+	// An exception is made for the `dialog` menu mode, as the relevant dialog is _always_ stored on the dialog partner (which may or may not be `C`)
 	const Current = CharacterGetCurrent();
-	if (Current && C.ID === Current.ID && RefreshDialog) {
+	if (
+		RefreshDialog
+		&& Current
+		&& (C.ID === Current.ID || DialogMenuMode === "dialog")
+	) {
 		CharacterRefreshDialog(C);
 	}
 }
@@ -1439,7 +1444,7 @@ function CharacterRefreshDialog(C) {
 	// Skip refreshing anything dialog-related when we're in the wardrobe
 	if (DialogIsInWardrobe()) return;
 
-	if (DialogMenuMode === "items" || DialogMenuMode === "activities" || DialogMenuMode === "permissions") {
+	if (DialogMenuMode === "items" || DialogMenuMode === "activities" || DialogMenuMode === "permissions" || DialogMenuMode === "dialog") {
 		// We were looking at some inventory, perform a soft reload to update the UI
 		DialogMenuMapping[DialogMenuMode].Reload();
 	} else if (DialogMenuMode === "extended" || DialogMenuMode === "tighten") {
