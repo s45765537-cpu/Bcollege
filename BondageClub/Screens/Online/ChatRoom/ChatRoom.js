@@ -477,7 +477,7 @@ function ChatRoomPlayerIsAdmin() { return ChatRoomCharacterIsAdmin(Player); }
  * Checks if the current character is an admin of the chatroom.
  * @returns {boolean} - TRUE if the current character is an admin.
  */
-function ChatRoomCurrentCharacterIsAdmin() { return ChatRoomCharacterIsAdmin(Player); }
+function ChatRoomCurrentCharacterIsAdmin() { return ChatRoomCharacterIsAdmin(CurrentCharacter); }
 /**
  * Checks if a given character is in the chatroom whitelist.
  * @param {Character} C - The character to check
