@@ -1853,19 +1853,37 @@ function CharacterResetFacialExpression(C) {
 }
 
 /**
+ * Checks if a given expression is disallowed on a character
+ * @param {Character} C
+ * @param {Item} Item
+ * @param {null | ExpressionName} Expression
+ * @returns {null | string} - An exit status or `null` if the expression is otherwise allowed
+ */
+function CharacterIsExpressionDisallowed(C, Item, Expression) {
+	if (!C || !Item) return "Internal error: missing character or item";
+
+	const allowedExpr = InventoryGetItemProperty(Item, "AllowExpression", true);
+	const exprPres = InventoryGetItemProperty(Item, "ExpressionPrerequisite", true);
+	const exprPre = exprPres[allowedExpr.indexOf(Expression)];
+	const prereqMessage = !exprPre ? null : InventoryPrerequisiteMessage(C, exprPre, Item.Asset);
+
+	if (Expression != null && !allowedExpr.includes(Expression)) {
+		return `Illegal expression "${Expression}"`;
+	} else if (prereqMessage) {
+		return prereqMessage;
+	} else {
+		return null;
+	}
+}
+
+/**
  * Checks if a given expression is allowed on a character
  * @param {Character} C
  * @param {Item} Item
  * @param {ExpressionName} Expression
  */
 function CharacterIsExpressionAllowed(C, Item, Expression) {
-	if (!C || !Item) return false;
-
-	const allowedExpr = InventoryGetItemProperty(Item, "AllowExpression", true);
-	const exprPres = InventoryGetItemProperty(Item, "ExpressionPrerequisite", true);
-	const exprPre = exprPres[allowedExpr.indexOf(Expression)];
-
-	return ((Expression == null || allowedExpr.includes(Expression)) && (!exprPre || InventoryPrerequisiteMessage(C, exprPre, Item.Asset) === ""));
+	return CharacterIsExpressionDisallowed(C, Item, Expression) == null;
 }
 
 /**
