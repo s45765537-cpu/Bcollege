@@ -683,7 +683,7 @@ interface RelogDataBase<T extends ModuleType> {
     Module: T,
     Character: Character,
     ChatRoomName: string | null,
-};
+}
 
 type _RelogDataMap<T> = T extends ModuleType ? RelogDataBase<T> : never;
 type RelogData = _RelogDataMap<ModuleType>;
