@@ -2,9 +2,8 @@
 var InformationSheetBackground = "Sheet";
 /** @type {null | Character | NPCCharacter} */
 var InformationSheetSelection = null;
-/** @type {"" | ModuleType} */
-var InformationSheetPreviousModule = "";
-var InformationSheetPreviousScreen = "";
+/** @type {ScreenSpecifier | null} */
+var InformationSheetReturnScreen = null;
 var InformationSheetSecondScreen = false;
 
 /**
@@ -266,8 +265,8 @@ function InformationSheetClick() {
  */
 function InformationSheetExit() {
 	InformationSheetSecondScreen = false;
-	if (InformationSheetPreviousModule) {
-		CommonSetScreen(InformationSheetPreviousModule, InformationSheetPreviousScreen);
+	if (InformationSheetReturnScreen) {
+		CommonSetScreen(...InformationSheetReturnScreen);
 	}
 }
 
@@ -278,7 +277,6 @@ function InformationSheetExit() {
  */
 function InformationSheetLoadCharacter(C) {
 	InformationSheetSelection = C;
-	InformationSheetPreviousModule = CurrentModule;
-	InformationSheetPreviousScreen = CurrentScreen;
+	InformationSheetReturnScreen = CommonGetScreen();
 	CommonSetScreen("Character", "InformationSheet");
 }

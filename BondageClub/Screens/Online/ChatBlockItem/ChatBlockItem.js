@@ -5,8 +5,8 @@ var ChatBlockItemList = ["ABDL", "SciFi", "Fantasy", "Leashing", "Photos", "Arou
 /** @type {ServerChatRoomBlockCategory[]} */
 var ChatBlockItemCategory = [];
 var ChatBlockItemEditable = true;
-/** @type { { Screen?: string; } } */
-var ChatBlockItemReturnData = {};
+/** @type {ScreenSpecifier | null} */
+var ChatBlockItemReturnScreen = null;
 
 /**
  * Loads the chat room item blocking screen
@@ -51,6 +51,6 @@ function ChatBlockItemClick() {
  * @type {ScreenFunctions["Exit"]}
  */
 function ChatBlockItemExit() {
-	CommonSetScreen("Online", ChatBlockItemReturnData.Screen);
+	CommonSetScreen(...ChatBlockItemReturnScreen);
 	ChatBlockItemEditable = true;
 }

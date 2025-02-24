@@ -131,9 +131,8 @@ var DialogSortOrder = /** @type {const} */({
 var DialogSelfMenuSelected = null;
 var DialogLeaveDueToItem = false; // This allows dynamic items to call DialogLeave() without crashing the game
 var DialogLentLockpicks = false;
-var DialogGamingPreviousRoom = "";
-/** @type {"" | ModuleType} */
-var DialogGamingPreviousModule = "";
+/** @type {ScreenSpecifier | null} */
+var DialogGamingReturnScreen = null;
 var DialogButtonDisabledTester = /Disabled(For\w+)?$/u;
 /**
  * The attempted action that's leading the player to struggle.
@@ -644,8 +643,7 @@ function DialogStartKinkyDungeon() {
 				ServerSend("ChatRoomChat", { Content: "RequestFullKinkyDungeonData", Type: "Hidden", Target: CurrentCharacter.MemberNumber });
 			}
 		}
-		DialogGamingPreviousRoom = CurrentScreen;
-		DialogGamingPreviousModule = CurrentModule;
+		DialogGamingReturnScreen = CommonGetScreen();
 		MiniGameStart("KinkyDungeon", 0, "DialogEndKinkyDungeon");
 	}
 }
@@ -656,8 +654,8 @@ function DialogStartKinkyDungeon() {
  * @returns {void}
  */
 function DialogEndKinkyDungeon() {
-	if (DialogGamingPreviousModule) {
-		CommonSetScreen(DialogGamingPreviousModule, DialogGamingPreviousRoom);
+	if (DialogGamingReturnScreen) {
+		CommonSetScreen(...DialogGamingReturnScreen);
 	}
 }
 

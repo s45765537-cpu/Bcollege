@@ -520,8 +520,7 @@ function ChatRoomCanStartWheelFortune() { return (CurrentCharacter != null) && I
  */
 function ChatRoomStartWheelFortune() {
 	if ((CurrentCharacter == null) || !InventoryIsWorn(CurrentCharacter, "WheelFortune", "ItemDevices")) return;
-	WheelFortuneEntryModule = CurrentModule;
-	WheelFortuneEntryScreen = CurrentScreen;
+	WheelFortuneReturnScreen = CommonGetScreen();
 	WheelFortuneBackground = ChatRoomData.Background;
 	WheelFortuneCharacter = CurrentCharacter;
 	DialogLeave();
@@ -1313,10 +1312,11 @@ function ChatRoomClearAllElements() {
 
 /**
  * Starts the chatroom selection screen.
+ * @template {ModuleType} T
  * @param {ServerChatRoomSpace} Space - Name of the chatroom space
  * @param {ServerChatRoomGame} Game - Name of the chatroom game to play
- * @param {string | null} LeaveRoom - Name of the room to go back to when exiting chatsearch.
- * @param {ModuleType | null} LeaveSpace - Name of the space to go back to when exiting chatsearch.
+ * @param {ModuleScreens[T] | null} LeaveRoom - Name of the room to go back to when exiting chatsearch.
+ * @param {T | null} LeaveSpace - Name of the space to go back to when exiting chatsearch.
  * @param {string} Background - Name of the background to use in chatsearch.
  * @param {BackgroundTag[]} BackgroundTagList - List of available backgrounds in the chatroom space.
  * @returns {void} - Nothing.
@@ -1324,15 +1324,12 @@ function ChatRoomClearAllElements() {
 function ChatRoomStart(Space, Game, LeaveRoom, LeaveSpace, Background, BackgroundTagList) {
 	if (!LeaveRoom || !LeaveSpace) {
 		if (Player.GenderSettings.AutoJoinSearch.Female || Player.GenderSettings.AutoJoinSearch.Male) {
-			ChatSearchLeaveRoom = "MainHall";
-			ChatSearchLeaveSpace = "Room";
+			ChatSearchReturnScreen = ["Room", "MainHall"];
 		} else {
-			ChatSearchLeaveRoom = "ChatSelect";
-			ChatSearchLeaveSpace = "Online";
+			ChatSearchReturnScreen = ["Online", "ChatSelect"];
 		}
 	} else {
-		ChatSearchLeaveRoom = LeaveRoom;
-		ChatSearchLeaveSpace = LeaveSpace;
+		ChatSearchReturnScreen = /** @type {ScreenSpecifier} */([LeaveSpace, LeaveRoom]);
 	}
 
 	ChatRoomSpace = Space;
@@ -2561,7 +2558,7 @@ function ChatRoomMenuClick(event) {
 				}
 				case "GameOption":
 					// The cut button can become the game option button if there's an online game going on
-					CommonSetScreen("Online", "Game" + ChatRoomGame);
+					CommonSetScreen("Online", /** @type {ModuleScreens["Online"]} */("Game" + ChatRoomGame));
 					break;
 				case "Kneel":
 					ChatRoomToggleKneel();
@@ -5277,14 +5274,13 @@ function ChatRoomAllowItem(data) {
  * @param {Character} C
  */
 function ChatRoomAppearanceLoadCharacter(C) {
-	const module = CurrentModule;
-	const screen = CurrentScreen;
+	const screen = CommonGetScreen();
 	const inChatRoom = ServerPlayerIsInChatRoom();
 	if (inChatRoom) {
 		ChatRoomStatusUpdate("Wardrobe");
 	}
 	CharacterAppearanceLoadCharacter(C, (ready) => {
-		CommonSetScreen(module, screen);
+		CommonSetScreen(...screen);
 		if (inChatRoom) {
 			ChatRoomShowElements();
 			ChatRoomStatusUpdate(null);
@@ -5586,8 +5582,7 @@ function ChatRoomSetRule(data) {
 				if (C.IsOwner())
 					CharacterSetCurrent(C);
 			if ((CurrentCharacter == null) || !CurrentCharacter.IsOwner() || !InventoryIsWorn(CurrentCharacter, "WheelFortune", "ItemDevices")) return;
-			WheelFortuneEntryModule = CurrentModule;
-			WheelFortuneEntryScreen = CurrentScreen;
+			WheelFortuneReturnScreen = CommonGetScreen();
 			WheelFortuneBackground = ChatRoomData.Background;
 			WheelFortuneCharacter = CurrentCharacter;
 			WheelFortuneForced = true;

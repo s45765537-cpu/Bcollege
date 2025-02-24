@@ -5,7 +5,7 @@
  * @returns {void}
  */
 function KinkyDungeonMultiplayerUpdate(Delay) {
-	if (KinkyDungeonIsPlayer() && ChatRoomCharacter && ChatRoomCharacter.length > 1 && DialogGamingPreviousRoom == "ChatRoom" && KinkyDungeonNextDataSendTime + Delay < CommonTime()) {
+	if (KinkyDungeonIsPlayer() && ChatRoomCharacter && ChatRoomCharacter.length > 1 && DialogGamingReturnScreen?.[1] === "ChatRoom" && KinkyDungeonNextDataSendTime + Delay < CommonTime()) {
 		let MN = [];
 
 		for (let C = 0; C < ChatRoomCharacter.length; C++) {

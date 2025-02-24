@@ -582,7 +582,101 @@ type TitleName =
 
 type MagicSchoolHouse = "Maiestas" | "Vincula" | "Amplector" | "Corporis";
 
-type ModuleType = "Character" | "Cutscene" | "MiniGame" | "Online" | "Room";
+type ModuleType = keyof ModuleScreens;
+
+interface ModuleScreens {
+	Character:
+		| "Appearance"
+		| "BackgroundSelection"
+		| "Cheat"
+		| "Creation"
+		| "Disclaimer"
+		| "FriendList"
+		| "InformationSheet"
+		| "ItemColor"
+		| "Login"
+		| "OnlineProfile"
+		| "PasswordReset"
+		| "Player"
+		| "Preference"
+		| "Relog"
+		| "Title"
+		| "Wardrobe"
+	;
+	Cutscene:
+		| "NPCCollaring"
+		| "NPCSlaveAuction"
+		| "NPCWedding"
+		| "PlayerCollaring"
+		| "PlayerMistress"
+		| "SarahIntro"
+	;
+	MiniGame:
+		| "Chess" | "ChestLockpick"
+		| "ClubCard" | "ClubCardBuilder"
+		| "DojoStruggle"
+		| "GetUp"
+		| "HorseWalk"
+		| "Kidnap"
+		| "KinkyDungeon"
+		| "Lockpick"
+		| "MagicBattle" | "MagicPuzzle"
+		| "MaidCleaning" | "MaidDrinks"
+		| "PlayerAuction"
+		| "PuppyWalker"
+		| "RhythmGame"
+		| "SlaveAuction"
+		| "Tennis"
+		| "Therapy"
+		| "WheelFortune"
+		;
+	Online:
+		| "AdvancedRule"
+		| "ChatAdmin" | "ChatAdminRoomCustomization" | "ChatBlockItem"
+		| "ChatRoom" | "ChatSearch" | "ChatSelect"
+		| "ForbiddenWords"
+		| "Game" | "GameClubCard" | "GameLARP" | "GameMagicBattle"
+		| "NicknameManagement"
+		| "WheelFortuneCustomize"
+		;
+	Room:
+		| "Arcade"
+		| "AsylumBedroom" | "AsylumEntrance" | "AsylumGGTS" | "AsylumMeeting" | "AsylumTherapy"
+		| "Cafe" | "Cell" | "ClubCardLounge"
+		| "CollegeCafeteria" | "CollegeChess" | "CollegeDetention" | "CollegeEntrance" | "CollegeTeacher" | "CollegeTennis" | "CollegeTheater"
+		| "Crafting" | "DailyJob" | "Empty" | "Gambling"
+		| "Infiltration" | "InfiltrationPerks"
+		| "Introduction"
+		| "KidnapLeague"
+		| "LARP"
+		| "Magic" | "MagicSchoolEscape" | "MagicSchoolLaboratory"
+		| "MaidQuarters" | "MainHall" | "Management" | "MovieStudio" | "Nursery"
+		| "Pandora" | "PandoraPrison"
+		| "Photographic"
+		| "Platform" | "PlatformIntro" | "PlatformDialog" | "PlatformProfile"
+		| "Poker" | "Prison"
+		| "Private" | "PrivateBed" | "PrivateRansom"
+		| "Sarah"
+		| "Shibari"
+		| "Shop" | "Shop2"
+		| "SlaveMarket" | "Stable"
+	;
+}
+
+type RoomName = ModuleScreens[ModuleType];
+
+interface RelogDataBase<T extends ModuleType> {
+    Screen: ModuleScreens[T],
+    Module: T,
+    Character: Character,
+    ChatRoomName: string | null,
+};
+
+type _RelogDataMap<T> = T extends ModuleType ? RelogDataBase<T> : never;
+type RelogData = _RelogDataMap<ModuleType>;
+
+type _ScreenSpecifier<T extends ModuleType> = [module: T, screen: ModuleScreens[T]];
+type ScreenSpecifier = _ScreenSpecifier<"Character"> | _ScreenSpecifier<"Cutscene"> | _ScreenSpecifier<"MiniGame"> | _ScreenSpecifier<"Online"> | _ScreenSpecifier<"Room">;
 
 type AssetCategory = "Medical" | "Extreme" | "Pony" | "SciFi" | "ABDL" | "Fantasy";
 

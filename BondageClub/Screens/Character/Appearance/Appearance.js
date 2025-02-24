@@ -37,9 +37,8 @@ var CharacterAppearanceColorPickerRefreshTimer = null;
 var CharacterAppearanceSelection = null;
 /** @type {(accept: boolean) => void} */
 var CharacterAppearanceResultCallback = undefined;
-var CharacterAppearanceReturnRoom = "MainHall";
-/** @type {ModuleType} */
-var CharacterAppearanceReturnModule = "Room";
+/** @type {ScreenSpecifier} */
+var CharacterAppearanceReturnScreen = ["Room", "MainHall"];
 var CharacterAppearanceWardrobeOffset = 0;
 var CharacterAppearanceWardrobeText = "";
 var CharacterAppearanceWardrobeName = "";
@@ -1772,11 +1771,11 @@ function CharacterAppearanceCopy(FromC, ToC) {
  */
 function CharacterAppearanceLoadCharacter(C, resultCallback) {
 	CharacterAppearanceSelection = C;
-	CharacterAppearanceReturnModule = CurrentModule;
-	CharacterAppearanceReturnRoom = CurrentScreen;
+
+	CharacterAppearanceReturnScreen = CommonGetScreen();
 	if (!resultCallback) {
 		CharacterAppearanceResultCallback = (_result) => {
-			CommonSetScreen(CharacterAppearanceReturnModule, CharacterAppearanceReturnRoom);
+			CommonSetScreen(...CharacterAppearanceReturnScreen);
 		};
 	} else {
 		CharacterAppearanceResultCallback = resultCallback;

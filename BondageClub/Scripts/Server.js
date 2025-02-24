@@ -202,7 +202,8 @@ function ServerDisconnect(data, close = false) {
 			RelogData = { Screen: "ChatSearch", Module: "Online", Character: null, ChatRoomName: ChatRoomData?.Name };
 			ChatRoomData = null;
 		} else {
-			RelogData = { Screen: CurrentScreen, Module: CurrentModule, Character: CurrentCharacter, ChatRoomName: null };
+			// Forcing cast here because CurrentModule & CurrentScreen can't meaningfully be type-linked
+			RelogData = { Screen: /** @type {any} */(CurrentScreen), Module: CurrentModule, Character: CurrentCharacter, ChatRoomName: null };
 		}
 
 		DialogLeave();
@@ -249,17 +250,17 @@ ServerPlayerChatRoom.register(
 	{ screen: "ChatRoom" },
 	{ screen: "ChatAdmin" },
 	{ screen: "GameLARP" },
-	{ screen: "Appearance", callback: () => CharacterAppearanceReturnRoom === "ChatRoom" },
-	{ screen: "InformationSheet", callback: () => InformationSheetPreviousScreen === "ChatRoom" },
-	{ screen: "Title", callback: () => InformationSheetPreviousScreen === "ChatRoom" },
-	{ screen: "OnlineProfile", callback: () => InformationSheetPreviousScreen === "ChatRoom" },
-	{ screen: "FriendList", callback: () => InformationSheetPreviousScreen === "ChatRoom" && (FriendListReturn == null || FriendListReturn.IsInChatRoom) },
-	{ screen: "Preference", callback: () => InformationSheetPreviousScreen === "ChatRoom" },
-	{ screen: "MiniGame", callback: () => DialogGamingPreviousRoom === "ChatRoom" },
+	{ screen: "Appearance", callback: () => CharacterAppearanceReturnScreen?.[1] === "ChatRoom" },
+	{ screen: "InformationSheet", callback: () => InformationSheetReturnScreen?.[1] === "ChatRoom" },
+	{ screen: "Title", callback: () => InformationSheetReturnScreen?.[1] === "ChatRoom" },
+	{ screen: "OnlineProfile", callback: () => InformationSheetReturnScreen?.[1] === "ChatRoom" },
+	{ screen: "FriendList", callback: () => InformationSheetReturnScreen?.[1] === "ChatRoom" && (FriendListReturn == null || FriendListReturn.IsInChatRoom) },
+	{ screen: "Preference", callback: () => InformationSheetReturnScreen?.[1] === "ChatRoom" },
+	{ screen: "MiniGame", callback: () => DialogGamingReturnScreen?.[1] === "ChatRoom" },
 	{ screen: "Crafting", callback: () => CraftingReturnToChatroom },
 	{ screen: "Shop2", callback: () => Shop2InitVars.PreviousScreen?.[1] === "ChatRoom" },
-	{ screen: "WheelFortune", callback: () => WheelFortuneEntryScreen === "ChatRoom" },
-	{ screen: "WheelFortuneCustomize", callback: () => WheelFortuneEntryScreen === "ChatRoom" },
+	{ screen: "WheelFortune", callback: () => WheelFortuneReturnScreen?.[1] === "ChatRoom" },
+	{ screen: "WheelFortuneCustomize", callback: () => WheelFortuneReturnScreen?.[1] === "ChatRoom" },
 );
 
 /**

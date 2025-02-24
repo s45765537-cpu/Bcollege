@@ -1,8 +1,7 @@
 "use strict";
 var WheelFortuneBackground = "Black";
-/** @type {"" | ModuleType} */
-var WheelFortuneEntryModule = "";
-var WheelFortuneEntryScreen = "";
+/** @type {ScreenSpecifier | null} */
+var WheelFortuneReturnScreen = null;
 /** @type {null | Character} */
 var WheelFortuneCharacter = null;
 var WheelFortuneRoleplay = false;
@@ -947,12 +946,12 @@ function WheelFortuneMouseUp() {
  * @returns {void} - Nothing
  */
 function WheelFortuneResult() {
-	if (WheelFortuneEntryScreen == "ChatRoom") {
+	if (WheelFortuneReturnScreen?.[1] === "ChatRoom") {
 		let Msg = TextGet("Result" + (WheelFortuneRoleplay ? "Roleplay" : "")) + " " + TextGet("Option" + WheelFortuneValue);
 		ServerSend("ChatRoomChat", { Content: Msg, Type: "Emote" });
 	}
-	if (WheelFortuneEntryModule) {
-		CommonSetScreen(WheelFortuneEntryModule, WheelFortuneEntryScreen);
+	if (WheelFortuneReturnScreen) {
+		CommonSetScreen(...WheelFortuneReturnScreen);
 	}
 	if (!WheelFortuneRoleplay)
 		for (let O of WheelFortuneOption)
@@ -966,7 +965,7 @@ function WheelFortuneResult() {
  * @returns {void} - Nothing
  */
 function WheelFortuneExit() {
-	if (WheelFortuneVelocity == 0 && !WheelFortuneForced && WheelFortuneEntryModule) {
-		CommonSetScreen(WheelFortuneEntryModule, WheelFortuneEntryScreen);
+	if (WheelFortuneVelocity == 0 && !WheelFortuneForced && WheelFortuneReturnScreen) {
+		CommonSetScreen(...WheelFortuneReturnScreen);
 	}
 }
