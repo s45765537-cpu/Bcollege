@@ -663,7 +663,7 @@ function ServerBuildAppearanceDiff(assetFamily, appearance, bundle) {
  * appearance item, as used by the game client
  * @param {IAssetFamily} assetFamily - The asset family of the appearance item
  * @param {ItemBundle} item - The bundled appearance item
- * @returns {Item} - A full appearance item representation of the provided bundled appearance item
+ * @returns {null | Item} - A full appearance item representation of the provided bundled appearance item
  */
 function ServerBundledItemToAppearanceItem(assetFamily, item) {
 	if (!item || typeof item !== "object" || typeof item.Name !== "string" || typeof item.Group !== "string") return null;

@@ -958,17 +958,17 @@ interface ServerCharacterArousalResponse {
 
 interface ServerCharacterItemUpdate {
 	Target: number;
-	Group: string;
+	Group: AssetGroupName;
 	Name?: string;
 	Color: string | string[];
 	Difficulty: number;
-	Property: any;
-	Craft: any;
+	Property?: ItemProperties;
+	Craft?: CraftingItem;
 }
 
 interface ServerChatRoomSyncItemResponse {
     Source: number;
-    Item: any;
+    Item: ServerCharacterItemUpdate;
 }
 
 type ServerChatRoomUpdateResponse = "RoomAlreadyExist" | "Updated" | "InvalidRoomData";
