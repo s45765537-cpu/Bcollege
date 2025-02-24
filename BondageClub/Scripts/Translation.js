@@ -1276,6 +1276,14 @@ function TranslationGetLanguageName(code, english=false) {
 }
 
 /**
+ * Changes the current language and save the new selected language to local storage
+ * @deprecated - Use {@link TranslationSwitchLanguage} instead
+ * @returns {void} - Nothing
+ */
+function TranslationNextLanguage() {
+}
+
+/**
  * Changes the language depending on the given language and save the new selected language to local storage
  * @param {ServerChatRoomLanguage | "TW"} languageCode
  */
