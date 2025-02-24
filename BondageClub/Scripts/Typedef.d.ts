@@ -98,10 +98,18 @@ type HTMLElementScalarTagNameMap = {
 type HTMLOptions<T extends keyof HTMLElementTagNameMap> = {
 	/** The elements HTML tag */
 	tag: T,
-	/** Scalar-valued attributes that will be set on the HTML element. */
+	/**
+	 * Scalar-valued attributes that will be set on the HTML element.
+	 *
+	 * Note that booleans are interpretted as [boolean attributes](https://developer.mozilla.org/en-US/docs/Glossary/Boolean/HTML).
+	 */
 	attributes?: Partial<Record<string, number | boolean | string>>;
-	/** Data attributes that will be set on the HTML element (see {@link HTMLElement.dataset}). */
-	dataAttributes?: Partial<Record<string, number | boolean | string>>;
+	/**
+	 * Data attributes that will be set on the HTML element (see {@link HTMLElement.dataset}).
+	 *
+	 * Note that booleans are interpretted as [boolean attributes](https://developer.mozilla.org/en-US/docs/Glossary/Boolean/HTML).
+	 */
+	dataAttributes?: Partial<Record<string, number | string | boolean>>;
 	/** CSS style declarations that will be set on the HTML element (see {@link HTMLElement.style}). */
 	style?: Record<string, string>;
 	/** Event listeners that will be attached to the HTML element (see {@link HTMLElement.addEventListener}). */

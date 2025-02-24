@@ -82,7 +82,11 @@ function ElementCreate(options) {
 	const elem = document.createElement(options.tag);
 
 	for (const [k, v] of Object.entries(options.attributes ?? {})) {
-		if (v != null) {
+		if (v == null || v === false) {
+			continue;
+		} else if (v === true) {
+			elem.toggleAttribute(k, true);
+		} else {
 			elem.setAttribute(k, v);
 		}
 	}
@@ -97,7 +101,11 @@ function ElementCreate(options) {
 		}
 	}
 	for (const [k, v] of Object.entries(options.dataAttributes ?? {})) {
-		if (v != null) {
+		if (v == null || v === false) {
+			continue;
+		} else if (v === true) {
+			elem.dataset[k] = "";
+		} else {
 			elem.dataset[k] = v.toString();
 		}
 	}
