@@ -1446,7 +1446,7 @@ interface Character {
 	/** The asset family used by the character */
 	AssetFamily: IAssetFamily;
 	Name: string;
-	Nickname?: string;
+	Nickname?: string; // technically never as it's Online-only
 	Owner: string;
 	Lover: string;
 	Money: number;
@@ -1544,9 +1544,9 @@ interface Character {
 	WhiteList: number[];
 	HeightModifier: number;
 	MemberNumber?: number;
-	ItemPermission?: 0 | 1 | 2 | 3 | 4 | 5;
-	Ownership?: Ownership;
-	Lovership?: Lovership[];
+	ItemPermission: 0 | 1 | 2 | 3 | 4 | 5;
+	Ownership: Ownership | null;
+	Lovership: Lovership[];
 	ExpressionQueue?: ExpressionQueueItem[];
 	CanTalk: () => boolean;
 	CanWalk: () => boolean;
@@ -1664,31 +1664,29 @@ interface Character {
 	HasVagina: () => boolean;
 	IsFlatChested: () => boolean;
 	WearingCollar: () => boolean;
+
 	// Properties created in other places
-	ArousalSettings?: ArousalSettingsType;
-	AppearanceFull?: Item[];
+	ArousalSettings: ArousalSettingsType;
+	AppearanceFull?: Item[]; // Private NPCs only
 	// Online character properties
 	Title?: TitleName;
 	LabelColor?: HexColor;
-	Creation?: number;
-	Description?: string;
-	OnlineSharedSettings?: CharacterOnlineSharedSettings;
-	Game?: CharacterGameParameters;
+	Creation?: number; // technically never as it is Online-only
+	Description?: string; // technically never as it is Online-only
+	OnlineSharedSettings?: CharacterOnlineSharedSettings;  // technically never as it is Online-only
+	Game?: CharacterGameParameters; // technically never as it is Online-only
 	MapData?: ChatRoomMapData;
 	BlackList: number[];
 	RunScripts?: boolean;
 	HasScriptedAssets?: boolean;
 	Cage?: boolean;
-	Difficulty?: {
-		Level: number;
-		LastChange?: number;
-	};
+	Difficulty?: { Level: number }; // technically never as it is Online-only
 	ArousalZoom?: boolean;
 	FixedImage?: string;
 	Rule?: LogRecord[];
 	Status?: string | null;
 	StatusTimer?: number;
-	Crafting?: (null | CraftingItem)[];
+	Crafting: (CraftingItem | null)[]; // technically never as it is Online-only
 	LastMapData?: ChatRoomMapData;
 	/**
 	 * The custom background to use for the current room
@@ -1854,35 +1852,57 @@ interface ControllerSettingsOld {
 	ControllerDPadRight: number;
 }
 
+type DifficultyLevel =
+ 	| 0 // Roleplay
+	| 1 // Regular
+	| 2 // Hardcore
+	| 3 // Extreme
+	;
+
 interface PlayerCharacter extends Character {
+	// All the following are guaranteed to be set on login
+	MemberNumber: number;
+	Nickname: string;
+	LabelColor: HexColor;
+	Game: CharacterGameParameters;
+	Description: string;
+	Creation: number;
+	Difficulty: {
+		Level: DifficultyLevel;
+		LastChange?: number;
+	};
+	Crafting: (null | CraftingItem)[];
+	ItemPermission: 0 | 1 | 2 | 3 | 4 | 5;
+
 	// PreferenceInitPlayer() must be updated with defaults, when adding a new setting
-	ChatSettings?: ChatSettingsType;
-	VisualSettings?: VisualSettingsType;
-	AudioSettings?: AudioSettingsType;
-	ControllerSettings?: ControllerSettingsType;
-	GameplaySettings?: GameplaySettingsType;
-	ImmersionSettings?: ImmersionSettingsType;
+	ChatSettings: ChatSettingsType;
+	VisualSettings: VisualSettingsType;
+	AudioSettings: AudioSettingsType;
+	ControllerSettings: ControllerSettingsType;
+	GameplaySettings: GameplaySettingsType;
+	ImmersionSettings: ImmersionSettingsType;
 	/** The chat room we were previous in. Used for relog room re-creation */
 	// TODO: the fact that this is set *might* be used to also fold the "relog" enabled checks
 	// If we have a chatroom, then we relog to it. If we don't, then the player didn't have the
 	// setting enabled in the first place
 	LastChatRoom?: ChatRoomSettings;
-	RestrictionSettings?: RestrictionSettingsType;
-	OnlineSettings?: PlayerOnlineSettings;
-	GraphicsSettings?: GraphicsSettingsType;
-	NotificationSettings?: NotificationSettingsType;
+	RestrictionSettings: RestrictionSettingsType;
+	OnlineSettings: PlayerOnlineSettings;
+	GraphicsSettings: GraphicsSettingsType;
+	NotificationSettings: NotificationSettingsType;
+	OnlineSharedSettings: CharacterOnlineSharedSettings;  // technically never as it is Online-only
 	GhostList?: number[];
-	Wardrobe?: ItemBundle[][];
-	WardrobeCharacterNames?: string[];
+	Wardrobe: ItemBundle[][];
+	WardrobeCharacterNames: string[];
 	SavedExpressions?: ({ Group: ExpressionGroupName, CurrentExpression?: ExpressionName }[] | null)[];
 	SavedColors: HSVColor[];
-	FriendList?: number[];
-	FriendNames?: Map<number, string>;
-	SubmissivesList?: Set<number>;
-	ChatSearchFilterTerms?: string;
+	FriendList: number[];
+	FriendNames: Map<number, string>;
+	SubmissivesList: Set<number>;
+	ChatSearchFilterTerms: string;
 	GenderSettings: GenderSettingsType;
 	/** The list of items we got confiscated in the Prison */
-	ConfiscatedItems?: { Group: AssetGroupName, Name: string }[];
+	ConfiscatedItems: { Group: AssetGroupName, Name: string }[];
 	ExtensionSettings: ExtensionSettings;
 }
 
@@ -1909,20 +1929,20 @@ interface NotificationSettingsType {
 	ChatMessage: NotificationSetting & {
 		/** @deprecated */
 		IncludeActions?: any;
-		Mention?: boolean;
-		Normal?: boolean;
-		Whisper?: boolean;
-		Activity?: boolean;
+		Mention: boolean;
+		Normal: boolean;
+		Whisper: boolean;
+		Activity: boolean;
 	};
 	/** @deprecated */
 	ChatActions?: any;
 	ChatJoin: NotificationSetting & {
 		/** @deprecated */
 		Enabled?: any;
-		Owner?: boolean;
-		Lovers?: boolean;
-		Friendlist?: boolean;
-		Subs?: boolean;
+		Owner: boolean;
+		Lovers: boolean;
+		Friendlist: boolean;
+		Subs: boolean;
 	};
 	Disconnect: NotificationSetting;
 	Larp: NotificationSetting;
@@ -1932,7 +1952,6 @@ interface NotificationSettingsType {
 interface GraphicsSettingsType {
 	Font: GraphicsFontName;
 	InvertRoom: boolean;
-	StimulationFlashes: boolean;
 	DoBlindFlash: boolean;
 	AnimationQuality: number;
 	StimulationFlash: boolean;
@@ -1997,16 +2016,6 @@ interface ChatSettingsType {
 	ShowChatHelp: boolean;
 	ShrinkNonDialogue: boolean;
 	WhiteSpace: "" | "Preserve";
-	/** @deprecated */
-	AutoBanBlackList?: any;
-	/** @deprecated */
-	AutoBanGhostList?: any;
-	/** @deprecated */
-	SearchFriendsFirst?: any;
-	/** @deprecated */
-	DisableAnimations?: any;
-	/** @deprecated */
-	SearchShowsFullRooms?: any;
 	CensoredWordsList: string;
 	CensoredWordsLevel: number;
 	/** Whether to preserve the chat log when switching rooms */
@@ -2036,10 +2045,10 @@ interface AudioSettingsType {
 }
 
 interface VisualSettingsType {
-	ForceFullHeight?: boolean;
-	UseCharacterInPreviews?: boolean;
-	MainHallBackground?: string;
-	PrivateRoomBackground?: string;
+	ForceFullHeight: boolean;
+	UseCharacterInPreviews: boolean;
+	MainHallBackground: string;
+	PrivateRoomBackground: string;
 }
 
 /**
@@ -2052,8 +2061,8 @@ interface PlayerOnlineSettings {
 	DisableAnimations: boolean;
 	SearchShowsFullRooms: boolean;
 	SearchFriendsFirst: boolean;
-	SendStatus?: boolean;
-	ShowStatus?: boolean;
+	SendStatus: boolean;
+	ShowStatus: boolean;
 	EnableAfkTimer: boolean;
 	ShowRoomCustomization: 0 | 1 | 2 | 3; // 0 - Never, 1 - No by default, 2 - Yes by default, 3 - Always
 	FriendListAutoRefresh: boolean;

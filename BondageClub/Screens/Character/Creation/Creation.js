@@ -80,41 +80,35 @@ function CreationResponse(data) {
 	} else if (CommonIsObject(data)) {
 		if (data.ServerAnswer == "AccountCreated") {
 
-			// Keep the character data and pushes it's appearance to the server
-			Player.Name = ElementValue("InputCharacter");
-			Player.AccountName = ElementValue("InputName");
-			Player.Creation = CurrentTime;
-			Player.Money = 100;
-			Player.CharacterID = data.OnlineID;
-			Player.OnlineID = data.OnlineID;
-			Player.MemberNumber = data.MemberNumber;
-			Player.ItemPermission = 2;
-			Player.WhiteList = [];
-			Player.BlackList = [];
-			Player.FriendList = [];
-			Player.GhostList = [];
-			Player.Lovership = [];
-			Player.FriendNames = new Map();
-			Player.SubmissivesList = new Set();
-			Player.ChatSearchFilterTerms = "";
-
-			// Imports logs, inventory and Sarah status from the Bondage College
 			CreationMessage = "";
-			PrivateCharacter = [];
-			PrivateCharacter.push(Player);
-			Log = [];
+
+			const appearance = ServerAppearanceBundle(Player.Appearance);
+
+			// Initialise player from the received data
+			const createData = /** @type {ServerAccountData} */ ({
+				ID: data.OnlineID,
+				MemberNumber: data.MemberNumber,
+				AccountName: ElementValue("InputName"),
+				Name: ElementValue("InputCharacter"),
+				Creation: CurrentTime,
+				Appearance: appearance,
+				Money: 100,
+			});
+
+			LoginSetupPlayer(createData);
+
 			ImportBondageCollege(Player);
 
-			// Load/initialise player settings and global variables
-			PreferenceInitPlayer();
+			// Lifted from LoginResponse
+			AfkTimerSetEnabled(Player.OnlineSettings.EnableAfkTimer);
 			ActivitySetArousal(Player, 0);
+			ActivityTimerProgress(Player, 0);
 			NotificationLoad();
 
 			// New accounts aren't updating from old version
 			CommonVersionUpdated = false;
 
 			// Flush the controls and enters the main hall
-			ServerPlayerAppearanceSync();
 			ElementRemove("InputCharacter");
 			ElementRemove("InputName");
 			ElementRemove("InputPassword1");

@@ -29,6 +29,13 @@ const CharacterBlurLevels = new Map([
 	["BlurLight", 3],
 ]);
 
+const Difficulty = {
+	ROLEPLAY: 0,
+	REGULAR: 1,
+	HARDCORE: 2,
+	EXTREME: 3,
+};
+
 /**
  * An enum representing the various character archetypes
  * ONLINE: The player, or a character representing another online player
@@ -68,6 +75,12 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		CharacterID: CharacterID,
 		AssetFamily: CharacterAssetFamily,
 		AccountName: "",
+		ItemPermission: 0,
+		Ownership: null,
+		Lovership: [],
+		// @ts-expect-error Initialized later
+		ArousalSettings: {},
+		Crafting: [],
 		Hooks: null,
 		Name: "",
 		Type,
@@ -314,7 +327,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			// Short-circuit to save on the following checks
 			if (slowness === 0) return 0;
 
-			const effects = CharacterGetEffects(this, null, true);
+			const effects = CharacterGetEffects(this, undefined, true);
 			// Count all slow effects applied. Minus one for the one we've seen above
 			slowness += effects.reduce((s, c) => s + (c === "Slow" ? 1 : 0), 0) - (hasSlowEffect ? 1 : 0);
 
@@ -698,30 +711,11 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 				if (hooks)
 					hooks.forEach((hook) => hook()); // If there's a hook, call it
 			}
-		}
+		},
 	};
 
 	// Add the character to the cache
 	Character.push(NewCharacter);
-
-	// Creates the inventory and default appearance
-	if (id === 0) {
-		Player = Object.assign(
-			NewCharacter,
-			{
-				GenderSettings: {
-					HideShopItems: PreferenceInitGenderSetting(),
-					AutoJoinSearch: PreferenceInitGenderSetting(),
-					HideTitles: PreferenceInitGenderSetting(),
-				},
-				ExtensionSettings: {},
-			},
-		);
-		CharacterAppearanceSetDefault(Player);
-	}
-
-	// Load the character image
-	CharacterLoadCanvas(NewCharacter);
 
 	return NewCharacter;
 }

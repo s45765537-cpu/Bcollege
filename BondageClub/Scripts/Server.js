@@ -101,6 +101,8 @@ var ServerAccountUpdate = new class AccountUpdater {
 	 * @param {boolean} [Force] - force immediate sync to server
 	 */
 	QueueData(Data, Force=false) {
+		if (!ServerIsLoggedIn()) return; // We're not logged in
+
 		for (const [key, value] of CommonEntries(Data)) {
 			this.Queue.set(key, value);
 		}
@@ -134,6 +136,10 @@ function ServerSetConnected(connected, errorMessage) {
 	} else {
 		LoginSetStatus(errorMessage, true);
 	}
+}
+
+function ServerIsLoggedIn() {
+	return Player.CharacterID !== "";
 }
 
 /**
@@ -294,6 +300,8 @@ let ServerSendRateLimitTimes = [];
  * ) => void}
  */
 function ServerSend(Message, ...args) {
+	if (!ServerIsLoggedIn() && !["AccountCreate", "AccountLogin", "PasswordReset", "PasswordResetProcess"].includes(Message)) return; // We're not logged in
+
 	ServerSendRateLimitQueue.push({ Message, args });
 
 	// Pump the queue manually to fight back against background tab throttling
@@ -1049,11 +1057,17 @@ var ServerAccountDataSyncedValidate = {
 	ItemPermission: (arg, C) => {
 		return CommonIsInteger(arg, 0, 5) ? /** @type {0 | 1 | 2 | 3 | 4 | 5} */(arg) : 2;
 	},
+	Difficulty: (arg, C) => {
+		return {
+			Level: CommonIsInteger(arg?.Level, 0, 5) ? arg.Level : 1,
+			LastChange: CommonIsNonNegativeInteger(arg?.LastChange) ? arg.LastChange : undefined,
+		};
+	},
 	ArousalSettings: (arg, C) => {
-		return ValdiationApplyRecord(arg, C, PreferenceArousalSettingsValidate);
+		return ValidationApplyRecord(arg, C, PreferenceArousalSettingsValidate);
 	},
 	OnlineSharedSettings: (arg, C) => {
-		return ValdiationApplyRecord(arg, C, PreferenceOnlineSharedSettingsValidate, true);
+		return ValidationApplyRecord(arg, C, PreferenceOnlineSharedSettingsValidate, true);
 	},
 	Crafting: (arg, C) => {
 		return CraftingDecompressServerData(arg);
@@ -1084,7 +1098,7 @@ var ServerAccountDataSyncedValidate = {
 	},
 	Ownership: (arg, C) => {
 		if (!CommonIsObject(arg)) {
-			return undefined;
+			return null;
 		}
 
 		const { Name, MemberNumber, Stage, Start } = arg;
@@ -1096,7 +1110,7 @@ var ServerAccountDataSyncedValidate = {
 		) {
 			return { Name, MemberNumber, Stage, Start };
 		} else {
-			return undefined;
+			return null;
 		}
 	},
 	Lovership: (arg, C) => {

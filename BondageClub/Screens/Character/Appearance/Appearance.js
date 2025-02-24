@@ -100,7 +100,7 @@ function CharacterAppearanceBuildAssets(C) {
 
 /**
  * Makes sure the character appearance is valid from inventory and asset requirement. This function is called during the login process.
- * @param {Character} C - The character whose appearance is checked
+ * @param {PlayerCharacter} C - The character whose appearance is checked
  * @returns {void} - Nothing
  */
 function CharacterAppearanceValidate(C) {
@@ -114,7 +114,7 @@ function CharacterAppearanceValidate(C) {
 		}
 
 	// Remove items flagged as "Remove At Login"
-	if (LogQuery("Committed", "Asylum") || !Player.GameplaySettings || !Player.GameplaySettings.DisableAutoRemoveLogin)
+	if (LogQuery("Committed", "Asylum") || !Player.GameplaySettings.DisableAutoRemoveLogin)
 		for (let A = C.Appearance.length - 1; A >= 0; A--)
 			if (C.Appearance[A] && C.Appearance[A].Asset.RemoveAtLogin) {
 				InventoryRemove(C, C.Appearance[A].Asset.Group.Name, false);
@@ -596,7 +596,7 @@ function CharacterAppearanceSetHeightModifiers(C) {
 	}
 
 	// Set the height ratio here to avoid lookin it up when drawing. The setting can make all characters full height
-	C.HeightRatio = Player.VisualSettings && Player.VisualSettings.ForceFullHeight ? 1 : CharacterAppearanceGetCurrentValue(C, "Height", "Zoom");
+	C.HeightRatio = Player.VisualSettings.ForceFullHeight ? 1 : CharacterAppearanceGetCurrentValue(C, "Height", "Zoom");
 }
 
 /**
@@ -690,7 +690,7 @@ function AppearanceLoad() {
 	CharacterAppearanceBuildAssets(Player);
 	CharacterAppearanceBackup = CharacterAppearanceStringify(C);
 	AppearanceMenuBuild(C);
-	AppearanceUseCharacterInPreviewsSetting = Player.VisualSettings ? Player.VisualSettings.UseCharacterInPreviews : AppearanceUseCharacterInPreviewsSetting;
+	AppearanceUseCharacterInPreviewsSetting = Player.VisualSettings.UseCharacterInPreviews;
 }
 
 /**
@@ -1790,7 +1790,7 @@ function CharacterAppearanceLoadCharacter(C, resultCallback) {
  * @returns {void} - Nothing
  */
 function CharacterAppearanceWardrobeLoad(C) {
-	if ((Player.Wardrobe == null) || (Player.Wardrobe.length < 12))
+	if (Player.Wardrobe.length < 12)
 		WardrobeLoadCharacters(true);
 	else
 		WardrobeLoadCharacterNames();

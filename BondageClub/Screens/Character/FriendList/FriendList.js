@@ -498,8 +498,8 @@ function FriendListBeepMenuSend() {
 			Message: msg || undefined
 		});
 
-		const chatRoomName = FriendListBeepShowRoom && Player.LastChatRoom ? Player.LastChatRoom.Name : null;
-		const chatRoomSpace = FriendListBeepShowRoom && Player.LastChatRoom ? Player.LastChatRoom.Space : null;
+		const chatRoomName = FriendListBeepShowRoom ? (Player.LastChatRoom.Name ?? null) : null;
+		const chatRoomSpace = FriendListBeepShowRoom ? (Player.LastChatRoom.Space ?? null) : null;
 		FriendListBeepLog.push({
 			MemberNumber: FriendListBeepTarget,
 			MemberName: Player.FriendNames.get(FriendListBeepTarget),
