@@ -99,7 +99,7 @@ type HTMLOptions<T extends keyof HTMLElementTagNameMap> = {
 	/** The elements HTML tag */
 	tag: T,
 	/** Scalar-valued attributes that will be set on the HTML element. */
-	attributes?: Partial<HTMLElementScalarTagNameMap[T]> & Partial<Record<string, number | boolean | string>>;
+	attributes?: Partial<Record<string, number | boolean | string>>;
 	/** Data attributes that will be set on the HTML element (see {@link HTMLElement.dataset}). */
 	dataAttributes?: Partial<Record<string, number | boolean | string>>;
 	/** CSS style declarations that will be set on the HTML element (see {@link HTMLElement.style}). */
