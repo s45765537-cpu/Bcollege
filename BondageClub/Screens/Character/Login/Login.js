@@ -153,18 +153,23 @@ function LoginLoad() {
 	pass.setAttribute("enterkeyhint", "go");
 	pass.addEventListener("keydown", LoginEventListeners._KeyDownInputPassword);
 
-	const languages = [];
-	TranslationDictionary.forEach(L => languages.push(TranslationGetLanguageName(L.LanguageCode)));
-	ElementCreateDropdown("LanguageDropdown", languages, (event) => {
-		const language = document.querySelector(".select-selected").textContent;
-		if (!language) return;
-		TranslationSwitchLanguage(language);
+	const languages = TranslationDictionary.map(l => {
+		const langName = TranslationGetLanguageName(l.LanguageCode);
+		return {
+			children: [l.Icon, " ", langName],
+			attributes: {
+				selected: l.LanguageCode === TranslationLanguage ? "" : undefined,
+				lang: l.LanguageCode,
+				value: l.EnglishName,
+			},
+		};
+	});
+	ElementCreateDropdown("LanguageDropdown", languages, function(event) {
+		TranslationSwitchLanguage(this.value || "English");
 		TextLoad();
 		ActivityDictionaryLoad();
 		AssetLoadDescription("Female3DCG");
 	});
-	// Setting saved language as displayed
-	document.querySelector(".select-selected").textContent = TranslationGetLanguageName(TranslationLanguage);
 	TextPrefetchFile(BackgroundsStringsPath);
 	TextPrefetchFile(AssetStringsPath);
 	TextPrefetchFile(InterfaceStringsPath);
