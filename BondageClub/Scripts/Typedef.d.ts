@@ -122,10 +122,23 @@ interface HTMLElementEventMap {
 }
 
 declare namespace ElementButton {
+	/** An input type for representing one or more text nodes and/or **non-interactive** DOM elements (_e.g._ `<i>` or `<code>`) */
+	type StaticNode = null | string | Node | HTMLOptions<any> | readonly (null | undefined | string | Node | HTMLOptions<any>)[];
+
+	/** Input options for creating custom button icons */
+	interface CustomIcon {
+		/** The {@link HTMLImageElement.src} of the icon */
+		iconSrc: string,
+		/** The internal ID of the icon */
+		name: string,
+		/** The tooltip component associated with the icon */
+		tooltipText?: StaticNode,
+	}
+
 	/** Various options that can be passed along to {@link ElementButton.Create} */
 	interface Options {
 		/** Optional tooltip content. If not supplied then one should manually prepend it to the tooltip later */
-		tooltip?: null | string | Node | HTMLOptions<any> | readonly (null | string | Node | HTMLOptions<any>)[]
+		tooltip?: StaticNode;
 		/** The position of the tooltip w.r.t. the button */
 		tooltipPosition?: "left" | "right" | "top" | "bottom";
 		/**
@@ -136,7 +149,7 @@ declare namespace ElementButton {
 		 */
 		tooltipRole?: "label" | "description" | "none";
 		/** A button label */
-		label?: string;
+		label?: StaticNode;
 		/** The position of the button label */
 		labelPosition?: "top" | "center" | "bottom";
 		/** A background image for the button */
@@ -146,7 +159,7 @@ declare namespace ElementButton {
 		 *
 		 * Alternatively, one can directly pass the icon's {@link HTMLImageElement.src} and its tooltip component.
 		 */
-		icons?: readonly (null | InventoryIcon | { iconSrc: string, tooltipText: string | Node, name: string })[];
+		icons?: readonly (null | undefined | InventoryIcon | CustomIcon)[];
 		/** The role of the button. All accepted values are currently special-cased in order to set role-specific event listeners and/or attributes. */
 		role?: "radio" | "checkbox" | "menuitemradio" | "menuitemcheckbox";
 		/** Whether to limit the default styling of the button's border and background */

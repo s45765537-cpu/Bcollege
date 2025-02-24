@@ -1124,13 +1124,14 @@ var ElementButton = {
 	/**
 	 * @private
 	 * @param {string} id
-	 * @param {string} [label]
+	 * @param {ElementButton.StaticNode} [label]
 	 * @param {"top" | "center" | "bottom"} [position]
 	 * @param {Omit<HTMLOptions<"span">, "tag">} [options]
 	 * @returns {HTMLSpanElement}
 	 */
 	_ParseLabel: function _ParseLabel(id, label, position, options) {
-		if (!label) {
+		label = (CommonIsArray(label) ? label : [label]).filter(i => i != null);
+		if (label.length === 0) {
 			return;
 		}
 
@@ -1141,14 +1142,14 @@ var ElementButton = {
 			tag: "span",
 			attributes: { id: `${id}-label`, for: id, ...(options.attributes ?? {}) },
 			classList: ["button-label", labelPosition, ...(options.classList ?? [])],
-			children: [label, ...(options.children ?? [])],
+			children: [...label, ...(options.children ?? [])],
 		});
 	},
 
 	/**
 	 * Parse the passed icon list, returning its corresponding `<img>` grid and tooltip if non-empty
 	 * @param {string} id - The ID of the parent element
-	 * @param {readonly (InventoryIcon | { name: string, iconSrc: string, tooltipText: string | Node })[]} [icons] - The (optional) list of icons
+	 * @param {readonly (InventoryIcon | ElementButton.CustomIcon)[]} [icons] - The (optional) list of icons
 	 * @returns {null | { iconGrid: HTMLDivElement, tooltip: [string, HTMLElement, HTMLElement] }} - `null` if the provided icon list is empty and otherwise an object containing the icon grid and a icon-specific tooltip
 	 */
 	_ParseIcons: function _ParseIcons(id, icons) {
@@ -1177,24 +1178,24 @@ var ElementButton = {
 			let name;
 			/** @type {string} */
 			let src;
-			/** @type {string | Node} */
-			let tooltipText;
+			/** @type {(string | Node | HTMLOptions<any>)[]} */
+			let tooltipChildren;
 			if (typeof icon === "object") {
 				custom = true;
 				name = icon.name;
 				src = icon.iconSrc;
-				tooltipText = icon.tooltipText;
+				tooltipChildren = (CommonIsArray(icon.tooltipText) ? icon.tooltipText : [icon.tooltipText]).filter(i => i != null);
 			} else if (icon.endsWith("Padlock")) {
 				name = icon;
 				src = `./Assets/Female3DCG/ItemMisc/Preview/${icon}.png`;
-				tooltipText = InterfaceTextGet("PreviewIconPadlock").replace(
+				tooltipChildren = [InterfaceTextGet("PreviewIconPadlock").replace(
 					"AssetName",
 					AssetGet("Female3DCG", "ItemMisc", icon).Description,
-				);
+				)];
 			} else {
 				name = icon;
 				src = `./Icons/Previews/${icon}.png`;
-				tooltipText = InterfaceTextGet(`PreviewIcon${icon}`);
+				tooltipChildren = [InterfaceTextGet(`PreviewIcon${icon}`)];
 			}
 			if (iconNames.includes(name)) {
 				return;
@@ -1204,7 +1205,7 @@ var ElementButton = {
 				tag: "li",
 				attributes: { id: `${id}-icon-li-${name}` },
 				classList: ["button-icon-tooltip-li"],
-				children: [tooltipText],
+				children: tooltipChildren,
 				parent: tooltip,
 				style: { "background-image": src.startsWith("data:image") ? `url("${src}")` : `url("./${src}")` },
 			});
