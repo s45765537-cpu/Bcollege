@@ -73,10 +73,9 @@ textarea {
 	cursor: auto;
 }
 
-textarea:invalid,
-input[type=text]:invalid,
-input[type=number]:invalid,
-select:invalid {
+textarea:invalid:not(:disabled):not(:read-only),
+input:invalid:not(:disabled):not(:read-only),
+select:invalid:not(:disabled):not(:read-only) {
 	background-color: #fbb;
 	box-shadow: 0 0 3px 2px #c22;
 }
