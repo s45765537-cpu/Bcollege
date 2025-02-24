@@ -297,7 +297,11 @@ function ElementCreateRangeInput(id, value, min, max, step, thumbIcon, vertical)
 		},
 		dataAttributes: thumbIcon ? { thumb: thumbIcon.toLowerCase() } : {},
 		parent: document.body,
-		classList: vertical ? ["HideOnPopup", "Vertical"] : ["HideOnPopup"],
+		classList: [
+			"HideOnPopup",
+			"range-input",
+			vertical ? "Vertical" : null,
+		],
 		eventListeners: {
 			focus() { this.removeAttribute("readonly"); },
 		},
