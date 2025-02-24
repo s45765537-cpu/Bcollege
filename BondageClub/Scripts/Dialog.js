@@ -4192,11 +4192,17 @@ class _DialogCraftedMenu extends _DialogFocusMenu {
 		const [name, crafter, property, description, private_] = [ids.name, ids.crafter, ids.property, ids.description, ids.private].map(i => document.getElementById(i));
 		name.textContent = InterfaceTextGet("CraftingName").replace("CraftName", item.Craft.Name);
 		crafter.textContent = InterfaceTextGet("CraftingMember").replace("MemberName", item.Craft.MemberName).replace("MemberNumber", item.Craft.MemberNumber.toString());
-		property.textContent = InterfaceTextGet("CraftingProperty").replace("CraftProperty", item.Craft.Property);
 		private_.textContent = InterfaceTextGet("CraftingPrivate").replace("CraftPrivate", CommonCapitalize(item.Craft.Private.toString()));
+		TextPrefetchFile("Screens/Room/Crafting/Text_Crafting.csv").loadedPromise.then(textCache => {
+			property.replaceChildren(
+				InterfaceTextGet("CraftingProperty").replace("CraftProperty", ""),
+				ElementCreate({ tag: "dfn", children: [item.Craft.Property] }),
+				" - ",
+				textCache.get(`Description${item.Craft.Property}`),
+			);
+		});
 
-		description.innerHTML = "";
-		description.append(
+		description.replaceChildren(
 			InterfaceTextGet("CraftingDescription").replace("CraftDescription", ""),
 			...CraftingDescription.DecodeToHTML(item.Craft.Description),
 		);

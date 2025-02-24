@@ -1388,6 +1388,12 @@ var ElementButton = {
 			return elem;
 		}
 
+		/** @type {null | TextCache} */
+		let craftCache = null;
+		if (item.Craft) {
+			craftCache = TextPrefetchFile("Screens/Room/Crafting/Text_Crafting.csv");
+		}
+
 		htmlOptions ??= {};
 		htmlOptions.button ??= {};
 		htmlOptions.button.attributes ??= {};
@@ -1431,7 +1437,10 @@ var ElementButton = {
 				children: [
 					...(item.Craft.Property ? [
 						InterfaceTextGet("CraftingProperty").replace("CraftProperty", ""),
-						{ tag: "q", children: [item.Craft.Property] },
+						{ tag: "q", children: [
+							{ tag: "dfn", children: [item.Craft.Property] },
+							" - ",
+						]},
 						{ tag: "br" },
 					] : []),
 					...((item.Craft.MemberName && item.Craft.MemberNumber) ? [
@@ -1453,7 +1462,14 @@ var ElementButton = {
 			},
 		]);
 
-		return ElementButton.Create(id, onClick, options, htmlOptions);
+		const button = ElementButton.Create(id, onClick, options, htmlOptions);
+		craftCache?.loadedPromise.then((textCache) => {
+			const dfn = button.querySelector(".button-tooltip-craft dfn");
+			if (dfn) {
+				dfn.parentElement?.append(textCache.get(`Description${dfn.textContent}`));
+			}
+		});
+		return button;
 	},
 
 	/**
