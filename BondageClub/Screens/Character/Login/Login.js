@@ -154,18 +154,17 @@ function LoginLoad() {
 	pass.addEventListener("keydown", LoginEventListeners._KeyDownInputPassword);
 
 	const languages = TranslationDictionary.map(l => {
-		const langName = TranslationGetLanguageName(l.LanguageCode);
 		return {
-			children: [l.Icon, " ", langName],
+			children: [l.Icon, " ", l.LanguageName],
 			attributes: {
 				selected: l.LanguageCode === TranslationLanguage ? "" : undefined,
 				lang: l.LanguageCode,
-				value: l.EnglishName,
+				value: l.LanguageCode,
 			},
 		};
 	});
 	ElementCreateDropdown("LanguageDropdown", languages, function(event) {
-		TranslationSwitchLanguage(this.value || "English");
+		TranslationSwitchLanguage(/** @type {"" | "TW" | ServerChatRoomLanguage} */(this.value) || "EN");
 		TextLoad();
 		ActivityDictionaryLoad();
 		AssetLoadDescription("Female3DCG");

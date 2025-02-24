@@ -15,6 +15,7 @@ var TranslationDictionary = /** @type {const} */([
 		LanguageCode: "EN",
 		LanguageName: "English",
 		EnglishName: "English",
+		Icon: "🇬🇧",
 		Files: [
 		]
 	},
@@ -22,6 +23,7 @@ var TranslationDictionary = /** @type {const} */([
 		LanguageCode: "DE",
 		LanguageName: "Deutsch",
 		EnglishName: "German",
+		Icon: "🇩🇪",
 		Files: [
 			"Assets/Female3DCG/Female3DCG_DE.txt",
 			"Backgrounds/Backgrounds_DE.txt",
@@ -122,6 +124,7 @@ var TranslationDictionary = /** @type {const} */([
 		LanguageCode: "FR",
 		LanguageName: "Français",
 		EnglishName: "French",
+		Icon: "🇫🇷",
 		Files: [
 			"Assets/Female3DCG/ColorGroups_FR.txt",
 			"Assets/Female3DCG/Female3DCG_FR.txt",
@@ -206,6 +209,7 @@ var TranslationDictionary = /** @type {const} */([
 		LanguageCode: "RU",
 		LanguageName: "Русский",
 		EnglishName: "Russian",
+		Icon: "🇷🇺",
 		Files: [
 			"Assets/Female3DCG/Female3DCG_RU.txt",
 			"Assets/Female3DCG/ColorGroups_RU.txt",
@@ -403,6 +407,7 @@ var TranslationDictionary = /** @type {const} */([
 		LanguageCode: "CN",
 		LanguageName: "中文",
 		EnglishName: "Chinese",
+		Icon: "🇨🇳",
 		Files: [
 			"Assets/Female3DCG/AssetStrings_CN.txt",
 			"Assets/Female3DCG/ColorGroups_CN.txt",
@@ -664,6 +669,7 @@ var TranslationDictionary = /** @type {const} */([
 		LanguageCode: "TW",
 		LanguageName: "繁體中文",
 		EnglishName: "TraditionalChinese",
+		Icon: "🇹🇼",
 		Files: [
 			"Assets/Female3DCG/ColorGroups_TW.txt",
 			"Assets/Female3DCG/Female3DCG_TW.txt",
@@ -850,6 +856,7 @@ var TranslationDictionary = /** @type {const} */([
 		LanguageCode: "UA",
 		LanguageName: "Українська",
 		EnglishName: "Ukrainian",
+		Icon: "🇺🇦",
 		Files: [
 			"Assets/Female3DCG/Female3DCG_UA.txt",
 			"Assets/Female3DCG/ColorGroups_UA.txt",
@@ -1269,28 +1276,11 @@ function TranslationGetLanguageName(code, english=false) {
 }
 
 /**
- * Changes the current language and save the new selected language to local storage
- * @returns {void} - Nothing
- */
-function TranslationNextLanguage() {
-	for (let L = 0; L < TranslationDictionary.length; L++)
-		if (TranslationDictionary[L].LanguageCode == TranslationLanguage) {
-			if (L != TranslationDictionary.length - 1)
-				TranslationLanguage = TranslationDictionary[L + 1].LanguageCode;
-			else
-				TranslationLanguage = TranslationDictionary[0].LanguageCode;
-			localStorage.setItem("BondageClubLanguage", TranslationLanguage);
-			return;
-		}
-}
-
-/**
  * Changes the language depending on the given language and save the new selected language to local storage
- * @param {string} language
+ * @param {ServerChatRoomLanguage | "TW"} languageCode
  */
-function TranslationSwitchLanguage(language) {
-	TranslationLanguage = TranslationDictionary.find(l => l.LanguageName === language || l.EnglishName === language).LanguageCode;
-	localStorage.setItem("BondageClubLanguage", TranslationLanguage);
+function TranslationSwitchLanguage(languageCode) {
+	localStorage.setItem("BondageClubLanguage", languageCode);
 }
 
 /**
