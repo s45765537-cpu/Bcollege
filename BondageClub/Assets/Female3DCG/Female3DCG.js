@@ -5267,6 +5267,30 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "ShinyLeotard",
+				InventoryID: 1216,
+				Gender: "F",
+				Prerequisite: ["HasBreasts"],
+				Value: 70,
+				Top: 0,
+				Left: 0,
+				Hide: ["ItemNipples", "ItemVulvaPiercings", "ItemVulva"],
+				HideItemExclude: ["ItemVulvaWiredEgg"],
+				PoseMapping: {
+					Yoked: PoseType.DEFAULT,
+					BackBoxTie: PoseType.DEFAULT,
+					BackCuffs: PoseType.DEFAULT,
+					BackElbowTouch: PoseType.DEFAULT,
+					OverTheHead: PoseType.DEFAULT,
+					TapedHands: PoseType.DEFAULT,
+					Hogtied: "Hogtied",
+				},
+				Layer: [
+					{ Name: "Latex" },
+					{ Name: "Shine" },
+				],
+			},
 			// Flat Chest Compatible Clothing
 			{
 				Name: "MaleSeamlessCatsuit",
@@ -7488,6 +7512,15 @@ var AssetFemale3DCG = [
 				CopyConfig: {
 					GroupName: "Cloth",
 					AssetName: "MeshTop",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "ShinyLeotard",
+				DynamicGroupName: "Suit",
+				CopyConfig: {
+					GroupName: "Suit",
+					AssetName: "ShinyLeotard",
 					BuyGroup: true,
 				},
 			},
@@ -27338,6 +27371,32 @@ var AssetFemale3DCG = [
 						AllowColorize: true,
 					},
 				],
+			},			
+			{
+				Name: "ShinyLeotardLock",
+				InventoryID: 1217,
+				Gender: "F",
+				Left: 0,
+				Top: 0,
+				Difficulty: 4,
+				BuyGroup: "ShinyLeotardLock",
+				Value: 80,
+				AllowLock: true,
+				DrawLocks: false,
+				Prerequisite: ["AccessTorso", "HasBreasts"],
+				PoseMapping: {
+					Yoked: PoseType.DEFAULT,
+					BackBoxTie: PoseType.DEFAULT,
+					BackCuffs: PoseType.DEFAULT,
+					BackElbowTouch: PoseType.DEFAULT,
+					OverTheHead: PoseType.DEFAULT,
+					TapedHands: PoseType.DEFAULT,
+					Hogtied: "Hogtied",
+				},
+				Layer: [
+					{ Name: "Latex" },
+					{ Name: "Shine" },
+				],
 			},
 		],
 		Color: [
@@ -28217,6 +28276,15 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "ShinyLeotardLock",
+				DynamicGroupName: "ItemTorso",
+				CopyConfig: {
+					GroupName: "ItemTorso",
+					AssetName: "ShinyLeotardLock",
+					BuyGroup: true,
+				},
+			}
 		],
 	},
 
