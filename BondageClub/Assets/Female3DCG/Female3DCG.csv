@@ -1494,6 +1494,7 @@ ItemTorso,NylonRopeHarness,Nylon Rope
 ItemTorso,Ribbons,Ribbons
 ItemTorso,StuddedHarness,Studded Harness
 ItemTorso,ThinLeatherStraps,Thin Leather Straps
+ItemTorso,ShinyLeotardLock,Locking Latex Leotard
 ItemTorso2,,Torso
 ItemVulva,,Vulva
 ItemVulva,BasicCockring,Basic Cock Ring
@@ -1783,6 +1784,7 @@ Suit,SeethroughSuit,See-through Suit
 Suit,SeethroughSuitZip,See-through Zipsuit
 Suit,SleevelessCatsuit, Sleeveless Catsuit
 Suit,SleevelessSlimLatexLeotard,Slim Latex Leotard (Sleeveless)
+Suit,ShinyLeotard,Shiny Latex Leotard
 SuitLower,,Suit Lower
 SuitLower,Catsuit,Catsuit
 SuitLower,CatsuitPanties, Catsuit Panties

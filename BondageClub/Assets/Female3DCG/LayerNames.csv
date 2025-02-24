@@ -2239,6 +2239,8 @@ ItemTorsoStuddedHarnessMetal,Metal
 ItemTorsoThinLeatherStrapsBuckle,Buckle
 ItemTorsoThinLeatherStrapsLocks,Lock
 ItemTorsoThinLeatherStrapsStrap,Straps
+ItemTorsoShinyLeotardLockLatex,Base
+ItemTorsoShinyLeotardLockShine,Shine
 ItemVulvaBasicCockringCockRing,Cock Ring
 ItemVulvaBasicCockringPenis,Penis
 ItemVulvaLockingCockringBase,Base Ring
@@ -2620,6 +2622,8 @@ SuitSeethroughSuitSuit,Suit
 SuitSeethroughSuitZipBase,Suit
 SuitSeethroughSuitZipOpaqueGloves,Gloves
 SuitSeethroughSuitZipZip,Zip
+SuitShinyLeotardLatex,Base
+SuitShinyLeotardShine,Shine
 TailStrapsDragonTailStrap1Primary,Primary
 TailStrapsDragonTailStrap1Secondary,Secondary
 TailStrapsDragonTailStrap2LeftPrimary,Primary
