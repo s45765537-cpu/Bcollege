@@ -309,120 +309,67 @@ function ElementCreateRangeInput(id, value, min, max, step, thumbIcon, vertical)
 }
 
 /**
- * Creates a dropdown element and adjusts it to the BC look and feel. In the HTML Code this will look like this:
- * <div> -- enclosing div used for css and postioning
- *     <select> -- the select statement with its options
- *         <option 1>
- *         <option n>
- *     </select>
- *     <div></div> -- the div representing the currently selected item
- *     <div> -- div for the various options
- *        <div>Option 1</div>
- *        <div>Option n</div>
- *     </div>
- * </div>
- * This construct is built automatically and ignores the original select statement. All the logic is handled by
- * event handlers that are connected to the various divs. See comments in the code.
- * What this function cannot handle at the moment:
- * - The size is always set to 1
- * - Multiple selects are impossible
- * @param {string} id - The name of the select item. The outer div will get this name, for positioning. The select
- * tag will get the name ID+"-select"
- * @param {readonly string[]} Options - The list of options for the current select statement
- * @param {null | ((this: HTMLSelectElement, event: Event) => any)} [ClickEventListener=null] - An event listener to be called, when the value of the drop down box changes
- * @returns {HTMLDivElement} - The created element
+ * Construct a `<select>`-based dropdown menu.
+ * @param {string} id - The name of the select item.
+ * @param {readonly (string | Omit<HTMLOptions<"option">, "tag">)[]} optionsList - The list of options for the current select statement. Can be supplied as a simple string or a more extensive `<option>` config.
+ * @param {(this: HTMLSelectElement, event: Event) => any} onChange - An event listener to be called, when the value of the drop down box changes
+ * @param {null | { required?: boolean, multiple?: boolean, disabled?: boolean, size?: number }} [options] - Additional `<select>`-specific properties
+ * @param {null | Partial<Record<"select", Omit<HTMLOptions<"select">, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the respective (child) element
+ * @returns {HTMLSelectElement} - The created element
  */
-function ElementCreateDropdown(id, Options, ClickEventListener) {
-	if (document.getElementById(id) != null) {
-		return /** @type {HTMLDivElement} */(document.getElementById(id));
+function ElementCreateDropdown(id, optionsList, onChange, options=null, htmlOptions=null) {
+	let select = /** @type {null | HTMLSelectElement} */(document.getElementById(id));
+	if (select != null) {
+		console.error(`Element "${id}" already exists`);
+		return select;
 	}
 
-	document.addEventListener("click", ElementCloseAllSelect);
-	return ElementCreate({
-		tag: "div",
-		classList: ["custom-select"],
-		attributes: { id },
-		parent: document.body,
-		children: [
-			{
-				tag: "select",
-				attributes: { id: `${id}-select`, name: `${id}-select` },
-				eventListeners: { change: ClickEventListener ?? undefined },
-				children: Options.map(option => {
-					return {
-						tag: "option",
-						attributes: { value: option },
-						children: [option],
-					};
-				}),
-			},
-			{
-				tag: "div",
-				classList: ["select-selected"],
-				children: [Options[0]],
-				eventListeners: {
-					click(e) {
-						//when the select box is clicked, close any other select boxes, and open/close the current select box:
-						e.stopPropagation();
-						ElementCloseAllSelect(this);
-						this.nextElementSibling.classList.toggle("select-hide");
-					},
-				},
-			},
-			{
-				tag: "div",
-				classList: ["select-items", "select-hide"],
-				children: Options.map(option => {
-					return {
-						tag: "div",
-						children: [option],
-						eventListeners: {
-							click() {
-								// when an item is clicked, update the original select box, and the selected item:
-								const selectedItem = /** @type {HTMLDivElement} */(this.parentElement.previousSibling);
-								const select = /** @type {HTMLSelectElement} */(selectedItem.previousSibling);
-								for (let j = 0; j < select.length; j++) {
-									if (select.options[j].innerHTML != this.innerHTML) {
-										continue;
-									}
+	options ??= {};
+	const booleanAttributes = Object.fromEntries(/** @type {const} */([
+		["required", options.required ? "" : undefined],
+		["multiple", options.multiple ? "" : undefined],
+		["disabled", options.disabled ? "" : undefined],
+		["size", options.size != null ? options.size.toString() : undefined],
+	]).filter(i => i[1] != null));
 
-									select.selectedIndex = j; // Fake the selection of an option
-									selectedItem.innerHTML = this.innerHTML; // Update the drop down box
-									var y = this.parentElement.getElementsByClassName("same-as-selected");
-									for (let k = 0; k < y.length; k++) {
-										y[k].classList.remove("same-as-selected");
-									}
-									this.classList.add("same-as-selected");
-									break;
-								}
-								selectedItem.click(); // Evove a click events
-								select.dispatchEvent(new Event("change")); // Evoke a onChange events
-							},
-						},
-					};
-				}),
+	const selectOptions = htmlOptions?.select ?? {};
+	select = ElementCreate({
+		...htmlOptions,
+		tag: "select",
+		classList: [
+			...(selectOptions.classList ?? []),
+			"HideOnPopup",
+			"custom-select",
+		],
+		attributes: {
+			...(selectOptions.attributes ?? {}),
+			id,
+			["screen-generated"]: CurrentScreen,
+			...booleanAttributes,
+		},
+		parent: selectOptions.parent ?? document.body,
+		eventListeners: {
+			...(selectOptions.eventListeners ?? {}),
+			change(ev) {
+				if (!this.validity) {
+					ev.stopImmediatePropagation();
+					return;
+				}
 			},
+		},
+		children: [
+			...(selectOptions.children ?? []),
+			...optionsList.map(content => {
+				if (typeof content === "string") {
+					return { tag: /** @type {const} */("option"), children: [content] };
+				} else {
+					return { tag: /** @type {const} */("option"), ...content };
+				}
+			}),
 		],
 	});
-}
-
-/**
- * Closes all select boxes in the current document, except the current select box
- * @param {object} elmnt - The select box to exclude from the closing
- * @returns {void} - Nothing
- */
-function ElementCloseAllSelect(elmnt) {
-	/*a function that will close all select boxes in the document,
-	except the current select box:*/
-	var arrNo = [];
-	var y = document.getElementsByClassName("select-selected");
-	for (let i = 0; i < y.length; i++) {
-		if (elmnt == y[i]) arrNo.push(i);
-	}
-	var x = document.getElementsByClassName("select-items");
-	for (let i = 0; i < x.length; i++) {
-		if (arrNo.indexOf(i)) x[i].classList.add("select-hide");
-	}
+	select.addEventListener("change", onChange);
+	return select;
 }
 
 /**

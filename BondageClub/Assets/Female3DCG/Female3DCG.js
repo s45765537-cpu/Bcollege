@@ -5286,10 +5286,7 @@ var AssetFemale3DCG = [
 					TapedHands: PoseType.DEFAULT,
 					Hogtied: "Hogtied",
 				},
-				Layer: [
-					{ Name: "Latex" },
-					{ Name: "Shine" },
-				],
+				Layer: [{ Name: "Latex" }, { Name: "Shine" }],
 			},
 			// Flat Chest Compatible Clothing
 			{
@@ -27371,7 +27368,7 @@ var AssetFemale3DCG = [
 						AllowColorize: true,
 					},
 				],
-			},			
+			},
 			{
 				Name: "ShinyLeotardLock",
 				InventoryID: 1217,
@@ -27393,10 +27390,7 @@ var AssetFemale3DCG = [
 					TapedHands: PoseType.DEFAULT,
 					Hogtied: "Hogtied",
 				},
-				Layer: [
-					{ Name: "Latex" },
-					{ Name: "Shine" },
-				],
+				Layer: [{ Name: "Latex" }, { Name: "Shine" }],
 			},
 		],
 		Color: [
@@ -28284,7 +28278,7 @@ var AssetFemale3DCG = [
 					AssetName: "ShinyLeotardLock",
 					BuyGroup: true,
 				},
-			}
+			},
 		],
 	},
 
