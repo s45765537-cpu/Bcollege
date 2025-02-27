@@ -821,6 +821,7 @@ function DialogLeave() {
 	Player.FocusGroup = null;
 	if (CurrentCharacter) {
 		CurrentCharacter.FocusGroup = null;
+		CurrentCharacter.ClickedOption = null;
 		CurrentCharacter = null;
 	}
 

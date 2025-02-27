@@ -1581,7 +1581,7 @@ interface Character {
 	 * @see {@link Character.CurrentDialog}
 	 */
 	_CurrentDialog: string;
-	ClickedOption: string;
+	ClickedOption: null | string;
 	/** Set or get the current dialog, performing a dialog status update if required (see {@link DialogSetStatus}) */
 	get CurrentDialog(): string;
 	set CurrentDialog(value: string);

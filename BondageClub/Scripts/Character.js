@@ -102,6 +102,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 				DialogSetStatus(value);
 			}
 		},
+		ClickedOption: null,
 		Dialog: [],
 		Reputation: [],
 		Skill: [],
