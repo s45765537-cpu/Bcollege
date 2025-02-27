@@ -840,7 +840,7 @@ function DialogLeave() {
  */
 function DialogRemove() {
 	const C = CurrentCharacter;
-	const dialogIndex = C.Dialog.findIndex(dialog => dialog.Stage === C.Stage && dialog.Option != null && DialogPrerequisite(dialog));
+	const dialogIndex = C.Dialog.findIndex(dialog => dialog.Stage === C.Stage && dialog.Option === C.ClickedOption && dialog.Option != null && DialogPrerequisite(dialog));
 	if (dialogIndex !== -1) {
 		C.Dialog.splice(dialogIndex, 1);
 		document.querySelector(`.dialog-dialog-button[data-index="${dialogIndex}"]`)?.remove();
@@ -4424,6 +4424,7 @@ class _DialogDialogMenu extends DialogMenu {
 
 		// If the player is gagged, the answer will always be the same
 		C._CurrentDialog = Player.CanTalk() ? clickedDialog.Result : DialogFind(C, "PlayerGagged");
+		C.ClickedOption = clickedDialog.Option;
 
 		// A dialog option can change the conversation stage, show text or launch a custom function
 		if ((Player.CanTalk() && C.CanTalk()) || SpeechFullEmote(clickedDialog.Option)) {
