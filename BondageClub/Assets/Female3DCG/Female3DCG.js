@@ -12061,19 +12061,17 @@ var AssetFemale3DCG = [
 				Extended: true,
 				Alpha: [
 					{
-						Pose: ["BaseLower"],
 						Group: [
 							"BodyLower",
 							"Socks",
 							"SocksRight",
 							"SocksLeft",
 							"SuitLower",
-							"ClothLower",
 						],
 						Masks: [
 							[40, 925, 380, 100],
 							[184, 914, 20, 50],
-							[305, 914, 20, 50],
+							[303, 914, 20, 50],
 						],
 					},
 					{
@@ -12086,9 +12084,9 @@ var AssetFemale3DCG = [
 							"SuitLower",
 						],
 						Masks: [
-							[40, 975, 380, 100],
-							[168, 975, 10, 50],
-							[332, 975, 10, 50],
+							[40, 982, 380, 100],
+							[168, 982, 10, 50],
+							[332, 982, 10, 50],
 						],
 					},
 					{
@@ -55582,19 +55580,17 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#454545", "#877C66", "#909090", "#707070"],
 				Alpha: [
 					{
-						Pose: ["BaseLower"],
 						Group: [
 							"BodyLower",
 							"Socks",
 							"SocksRight",
 							"SocksLeft",
 							"SuitLower",
-							"ClothLower",
 						],
 						Masks: [
 							[40, 925, 380, 100],
 							[184, 914, 20, 50],
-							[305, 914, 20, 50],
+							[303, 914, 20, 50],
 						],
 					},
 					{
@@ -55607,9 +55603,9 @@ var AssetFemale3DCG = [
 							"SuitLower",
 						],
 						Masks: [
-							[40, 975, 380, 100],
-							[168, 975, 10, 50],
-							[332, 975, 10, 50],
+							[40, 982, 380, 100],
+							[168, 982, 10, 50],
+							[332, 982, 10, 50],
 						],
 					},
 					{
