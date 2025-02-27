@@ -113,7 +113,7 @@ function FriendListLoad() {
 							{
 								button: {
 									classList: ['friend-list-button'],
-									attributes: { "aria-checked": Player.OnlineSettings.FriendListAutoRefresh },
+									attributes: { "aria-checked": Player.OnlineSettings.FriendListAutoRefresh.toString() },
 								}
 							}
 						),
@@ -399,8 +399,8 @@ function FriendListBeep(MemberNumber, data = null) {
 				tag: 'textarea',
 				attributes: {
 					id: FriendListIDs.beepTextArea,
-					maxLength: 1000,
-					readOnly: data !== null ? true : undefined,
+					maxlength: 1000,
+					readonly: data !== null,
 				},
 			},
 			{
@@ -423,7 +423,7 @@ function FriendListBeep(MemberNumber, data = null) {
 						tag: 'button',
 						classList: ['blank-button', 'friend-list-link', 'mode-specific-content', 'fl-beep-sent-content'],
 						attributes: {
-							disabled: !ServerPlayerIsInChatRoom() ? true : undefined
+							disabled: !ServerPlayerIsInChatRoom(),
 						},
 						children: [
 							FriendListBeepShowRoom && ServerPlayerIsInChatRoom() ? TextGet('ToggleRoomOn') : TextGet('ToggleRoomOff')
@@ -815,7 +815,7 @@ function FriendListLoadFriendList(data) {
 			{ button: {
 				classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-all-friends-content'],
 				children: [FriendListConfirmDelete.includes(friend.memberNumber) ? ConfirmDeleteCaption : DeleteCaption],
-				attributes: { disabled: !friend.canDelete ? true : undefined },
+				attributes: { disabled: !friend.canDelete },
 			}}
 		));
 

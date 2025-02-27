@@ -983,7 +983,7 @@ var ChatRoomSep = {
 								button: {
 									children: ["˅"],
 									classList: ["chat-room-sep-collapse"],
-									attributes: { "aria-expanded": true },
+									attributes: { "aria-expanded": "true" },
 								},
 							},
 						),
@@ -1154,7 +1154,7 @@ function ChatRoomCreateElement() {
 							{ noStyling: true },
 							{
 								button: {
-									attributes: { "aria-expanded": false, "aria-control": "chat-room-buttons" },
+									attributes: { "aria-expanded": "false", "aria-control": "chat-room-buttons" },
 									children: ["<"],
 								},
 							},

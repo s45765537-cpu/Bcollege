@@ -448,7 +448,7 @@ var Layering = {
 							this.ID.hideButton, this._ShowLayersClickListener,
 							{ role: "menuitemcheckbox" },
 							{
-								button: { attributes: { "aria-checked": true } },
+								button: { attributes: { "aria-checked": "true" } },
 								tooltip: { children: [
 									{ tag: "span", attributes: { id: `${this.ID.hideTooltip}-show` }, children: [InterfaceTextGet("LayeringShow")] },
 									{ tag: "span", attributes: { id: `${this.ID.hideTooltip}-hide` }, children: [InterfaceTextGet("LayeringHide")] },
@@ -457,7 +457,7 @@ var Layering = {
 						),
 						ElementButton.Create(
 							this.ID.lockButton, () => null, { tooltip: InterfaceTextGet("LayeringLock") },
-							{ button: { attributes: { "aria-disabled": true } } },
+							{ button: { attributes: { "aria-disabled": "true" } } },
 						),
 					],
 					{ direction: "rtl" },

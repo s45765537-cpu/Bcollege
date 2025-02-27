@@ -98,11 +98,11 @@
 	display: block;
 }
 
-#friend-list-beep-dialog[data-received=true] .fl-beep-received-content {
+#friend-list-beep-dialog[data-received] .fl-beep-received-content {
 	display: block;
 }
 
-#friend-list-beep-dialog[data-received=false] .fl-beep-sent-content {
+#friend-list-beep-dialog:not([data-received]) .fl-beep-sent-content {
 	display: block;
 }
 /* #endregion */

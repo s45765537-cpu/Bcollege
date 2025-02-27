@@ -3678,7 +3678,7 @@ class _DialogItemMenu extends _DialogFocusMenu {
 				{ button: {
 					parent: buttonGrid,
 					classList: ["dialog-grid-button"],
-					attributes: { "aria-checked": clickedItem.Worn, "screen-generated": undefined },
+					attributes: { "aria-checked": clickedItem.Worn.toString(), "screen-generated": undefined },
 					dataAttributes: { index: i },
 				}},
 			));
