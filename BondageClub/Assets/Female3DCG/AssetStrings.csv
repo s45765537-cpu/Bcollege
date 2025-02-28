@@ -3474,6 +3474,10 @@ ItemMiscTeddyBearSetKitty,SourceCharacter gives TargetCharacter a cute kitty ted
 ItemMiscTeddyBearSetPony,SourceCharacter gives TargetCharacter a cute Pony teddy.
 ItemMiscTeddyBearSetPup,SourceCharacter gives TargetCharacter a cute puppy teddy.
 ItemMiscTimerPadlockIntro,You can restart the timer but cannot unlock
+ItemMouth2BigMouthSetDefault,SourceCharacter puts a default lips in DestinationCharacterName mouth.
+ItemMouth2BigMouthSetGrin,SourceCharacter puts a grin lips in DestinationCharacterName mouth.
+ItemMouth2BigMouthSetOpen,SourceCharacter puts a wide open lips in DestinationCharacterName mouth.
+ItemMouth2BigMouthSetSerious,SourceCharacter puts a serious lips in DestinationCharacterName mouth.
 ItemMouth2FuturisticMuzzleModuleHarness,Straps
 ItemMouth2FuturisticMuzzleModuleNose,Mask
 ItemMouth2FuturisticMuzzleModuleSymbol,Icon
