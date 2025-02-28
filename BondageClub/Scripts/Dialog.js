@@ -821,6 +821,7 @@ function DialogLeave() {
 	Player.FocusGroup = null;
 	if (CurrentCharacter) {
 		CurrentCharacter.FocusGroup = null;
+		CurrentCharacter.ClickedOption = null;
 		CurrentCharacter = null;
 	}
 
@@ -3596,7 +3597,7 @@ class _DialogItemMenu extends _DialogFocusMenu {
 				{
 					tag: "span",
 					attributes: { id: ids.status, "aria-hidden": "true" },
-					classList: ["dialog-status"],
+					classList: ["dialog-status", "scroll-box"],
 				},
 				this._ConstructPaginateButtons(this.ids.paginate),
 				{
@@ -3799,7 +3800,7 @@ class _DialogLockingMenu extends _DialogFocusMenu {
 				{
 					tag: "span",
 					attributes: { id: ids.status, "aria-hidden": "true" },
-					classList: ["dialog-status"],
+					classList: ["dialog-status", "scroll-box"],
 				},
 				this._ConstructPaginateButtons(this.ids.paginate),
 				{
@@ -3910,7 +3911,7 @@ class _DialogPermissionMenu extends _DialogFocusMenu {
 				{
 					tag: "span",
 					attributes: { id: ids.status, "aria-hidden": "true" },
-					classList: ["dialog-status"],
+					classList: ["dialog-status", "scroll-box"],
 				},
 				this._ConstructPaginateButtons(this.ids.paginate),
 				{
@@ -4027,7 +4028,7 @@ class _DialogActivitiesMenu extends _DialogFocusMenu {
 				{
 					tag: "span",
 					attributes: { id: ids.status, "aria-hidden": "true" },
-					classList: ["dialog-status"],
+					classList: ["dialog-status", "scroll-box"],
 				},
 				this._ConstructPaginateButtons(this.ids.paginate),
 				{
@@ -4137,7 +4138,7 @@ class _DialogCraftedMenu extends _DialogFocusMenu {
 				{
 					tag: "span",
 					attributes: { id: ids.status, "aria-hidden": "true" },
-					classList: ["dialog-status"],
+					classList: ["dialog-status", "scroll-box"],
 				},
 				{
 					tag: "div",
@@ -4286,7 +4287,7 @@ class _DialogDialogMenu extends DialogMenu {
 				{
 					tag: "span",
 					attributes: { id: ids.status, "aria-hidden": "true" },
-					classList: ["dialog-status"],
+					classList: ["dialog-status", "scroll-box"],
 				},
 				{
 					tag: "div",
