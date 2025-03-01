@@ -53725,8 +53725,9 @@ var AssetFemale3DCG = [
 				RemoveAtLogin: true,
 				FixedPosition: true,
 				Layer: [
-					{ Name: "Throne", Top: 25, Left: 25
-					 },
+					{ Name: "Throne", Top: -300, Left: 0 },
+					{ Name: "Seat", Top: -300, Left: 0 },
+					{ Name: "Deco", Top: -300, Left: 0 },
 				],
 			},
 		],
