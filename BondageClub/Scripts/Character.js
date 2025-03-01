@@ -76,8 +76,33 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		Money: 0,
 		Inventory: [],
 		Appearance: [],
-		Stage: "0",
-		CurrentDialog: "",
+		_Stage: "0",
+		get Stage() {
+			return this._Stage;
+		},
+		set Stage(value) {
+			if (this._Stage === value) {
+				return;
+			}
+			this._Stage = value;
+			if (DialogMenuMode === "dialog") {
+				DialogMenuMapping.dialog.Reload();
+			}
+		},
+		_CurrentDialog: "",
+		get CurrentDialog() {
+			return this._CurrentDialog;
+		},
+		set CurrentDialog(value) {
+			if (this._CurrentDialog === value) {
+				return;
+			}
+			this._CurrentDialog = value;
+			if (DialogMenuMode === "dialog") {
+				DialogSetStatus(value);
+			}
+		},
+		ClickedOption: null,
 		Dialog: [],
 		Reputation: [],
 		Skill: [],
@@ -745,9 +770,10 @@ function CharacterDialogSubstitution(C){
  * @param {Character} C - Character for which to build the dialog
  * @param {readonly string[][]} CSV - Content of the CSV file
  * @param {string} functionPrefix - A prefix that will be added to functions that aren't part of the Dialog or ChatRoom "namespace"
+ * @param {boolean} reload - Perform a {@link DialogMenu.Reload} hard reset of the active `dialog` mode
  * @returns {void} - Nothing
  */
-function CharacterBuildDialog(C, CSV, functionPrefix) {
+function CharacterBuildDialog(C, CSV, functionPrefix, reload=true) {
 
 	C.Dialog = [];
 
@@ -780,6 +806,10 @@ function CharacterBuildDialog(C, CSV, functionPrefix) {
 			D.Function = (D.Function.startsWith("Dialog") ? "" : C.IsOnline() ? "ChatRoom" : functionPrefix) + D.Function;
 
 		C.Dialog.push(D);
+	}
+
+	if (reload && DialogMenuMode === "dialog") {
+		DialogMenuMapping.dialog.Reload(null, null, { reset: true });
 	}
 }
 
@@ -1388,8 +1418,13 @@ function CharacterRefresh(C, Push = true, RefreshDialog = true) {
 		ServerPlayerAppearanceSync();
 	}
 	// Also refresh the current dialog menu if the refreshed character is the current character.
+	// An exception is made for the `dialog` menu mode, as the relevant dialog is _always_ stored on the dialog partner (which may or may not be `C`)
 	const Current = CharacterGetCurrent();
-	if (Current && C.ID === Current.ID && RefreshDialog) {
+	if (
+		RefreshDialog
+		&& Current
+		&& (C.ID === Current.ID || DialogMenuMode === "dialog")
+	) {
 		CharacterRefreshDialog(C);
 	}
 }
@@ -1410,7 +1445,7 @@ function CharacterRefreshDialog(C) {
 	// Skip refreshing anything dialog-related when we're in the wardrobe
 	if (DialogIsInWardrobe()) return;
 
-	if (DialogMenuMode === "items" || DialogMenuMode === "activities" || DialogMenuMode === "permissions") {
+	if (DialogMenuMode === "items" || DialogMenuMode === "activities" || DialogMenuMode === "permissions" || DialogMenuMode === "dialog") {
 		// We were looking at some inventory, perform a soft reload to update the UI
 		DialogMenuMapping[DialogMenuMode].Reload();
 	} else if (DialogMenuMode === "extended" || DialogMenuMode === "tighten") {
@@ -1575,7 +1610,7 @@ function CharacterRandomUnderwear(C) {
 /**
  * Removes all appearance items from the character except underwear
  * @param {Character} C - Character to undress partially
- * @param {Array.<*>} Appearance - Appearance array to remove clothes from
+ * @param {readonly Item[]} Appearance - Appearance array to remove clothes from
  * @returns {void} - Nothing
  */
 function CharacterUnderwear(C, Appearance) {
@@ -1754,7 +1789,7 @@ function CharacterSetFacialExpression(C, AssetGroup, Expression, Timer, Color, f
 	const inChatRoom = ServerPlayerIsInChatRoom();
 	const isTransient = Timer != null || fromQueue;
 
-	CharacterRefresh(C, !inChatRoom && !isTransient);
+	CharacterRefresh(C, !inChatRoom && !isTransient, false);
 	if (inChatRoom && C.IsOnline()) {
 		if (isTransient || C.IsPlayer()) {
 			ChatRoomCharacterExpressionUpdate(C, AssetGroup);
@@ -1943,11 +1978,11 @@ function CharacterIsEdged(C) {
 /**
  * Checks if the character is wearing an item flagged as a category in a blocked list
  * @param {Character} C - The character to validate
- * @param {Array} BlockList - An array of strings to validate
+ * @param {readonly AssetCategory[]} BlockList - An array of strings to validate
  * @returns {boolean} - TRUE if the character is wearing a blocked item, FALSE otherwise
  */
 function CharacterHasBlockedItem(C, BlockList) {
-	if ((BlockList == null) || !Array.isArray(BlockList) || (BlockList.length == 0)) return false;
+	if ((BlockList == null) || !CommonIsArray(BlockList) || (BlockList.length == 0)) return false;
 	for (let B = 0; B < BlockList.length; B++)
 		for (let A = 0; A < C.Appearance.length; A++)
 			if ((C.Appearance[A].Asset != null) && (C.Appearance[A].Asset.Category != null) && (C.Appearance[A].Asset.Category.indexOf(BlockList[B]) >= 0))

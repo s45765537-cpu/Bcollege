@@ -53,6 +53,7 @@
   border: 1px solid black;
   word-wrap: break-word;
   padding: 0 !important;
+  overflow-y: scroll;
 }
 
 #chat-room-bot {
@@ -491,8 +492,11 @@
 }
 
 .chat-room-changelog ul {
-  margin-top: min(1vh, 0.5vw);
-  padding-left: min(4vh, 2vw);
+  margin: unset;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  padding-left: 1em;
+  padding-right: 1em;
 }
 
 .chat-room-changelog h1,
@@ -503,10 +507,8 @@
 .chat-room-changelog h6,
 .chat-room-changelog [role="heading"] {
   font-size: inherit;
-  margin-bottom: min(1vh, 0.5vw);
-  margin-top: min(1vh, 0.5vw);
-  padding-left: min(1vh, 0.5vw);
-  padding-right: min(1vh, 0.5vw);
+  margin: unset;
+  padding: 0.25em;
   text-align: center;
 }
 
@@ -534,8 +536,8 @@
 }
 
 .chat-room-changelog-button {
-  height: min(4vh, 2vw);
-  width: min(4vh, 2vw);
+  height: 1em;
+  width: 1em;
 }
 
 .chat-room-changelog-button > .button-label {
@@ -560,10 +562,6 @@
   color: #3d91ff;
 }
 
-.chat-room-changelog-button-collapse > .button-label {
-  font-size: min(2vh, 1vw);
-}
-
 .chat-room-changelog-header-div {
   align-items: center;
   display: flex;
@@ -571,6 +569,8 @@
 }
 
 .chat-room-changelog-header-div > span[aria-hidden="true"] {
+  width: 0.5em;
+  text-align: center;
   user-select: none;
 }
 
@@ -582,8 +582,8 @@
 	border: min(0.3vh, 0.15vw) solid black;
 	display: block;
 	line-height: 0;
-	margin-right: min(2vh, 1vw);
-	margin-top: min(1vh, 0.5vw);
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
 }
 
 @supports (height: 100dvh) {
@@ -593,39 +593,10 @@
 
   .chat-room-changelog-image {
     border: min(0.3dvh, 0.15dvw) solid black;
-    margin-right: min(2dvh, 1dvw);
-    margin-top: min(1dvh, 0.5dvw);
   }
 
   .chat-room-changelog + .chat-room-changelog {
     border-top: min(0.4dvh, 0.2dvw) solid black;
-  }
-
-  .chat-room-changelog ul {
-    margin-top: min(1dvh, 0.5dvw);
-    padding-left: min(4dvh, 2dvw);
-  }
-
-  .chat-room-changelog h1,
-  .chat-room-changelog h2,
-  .chat-room-changelog h3,
-  .chat-room-changelog h4,
-  .chat-room-changelog h5,
-  .chat-room-changelog h6,
-  .chat-room-changelog [role="heading"] {
-    margin-bottom: min(1dvh, 0.5dvw);
-    margin-top: min(1dvh, 0.5dvw);
-    padding-left: min(1dvh, 0.5dvw);
-    padding-right: min(1dvh, 0.5dvw);
-  }
-
-  .chat-room-changelog-button {
-    height: min(4dvh, 2dvw);
-    width: min(4dvh, 2dvw);
-  }
-
-  .chat-room-changelog-button-collapse > .button-label {
-    font-size: min(2dvh, 1dvw);
   }
 }
 

@@ -151,6 +151,7 @@ Cloth,MaidLatex,Maid Latex Uniform
 Cloth,MaidOutfit1,Maid
 Cloth,MaidOutfit2,Maid Exposed
 Cloth,MaleTankTop1,Male Cloth Tank-Top
+Cloth,MeshTop,Mesh Top
 Cloth,MistressTop,Mistress Top
 Cloth,NurseUniform,Nurse Uniform
 Cloth,RetroGirdle,Retro Girdle Dress
@@ -253,6 +254,7 @@ ClothLower,Skirt3,Student Skirt Short
 ClothLower,TennisSkirt1,Tennis
 ClothLower,TulleSkirt,Fitted Pleated Skirt
 ClothLower,Tutu,Tutu
+ClothLower,UtilityKilt,Utility Kilt
 ClothLower,Waspie1,Bondage Waspie
 ClothLower,Waspie2,Royal Waspie
 ClothLower,Waspie3,Straps Waspie
@@ -330,7 +332,6 @@ FacialHair,MoustacheBeard,Moustache Beard
 Fluids,,Fluids
 Fluids,Fluids,Fluids
 Garters,,Garters
-Garters,ComboBelt,Combo Boots Belt
 Garters,DropBag,Drop Bag
 Garters,GarterBelt,Leather Garter Belts
 Garters,GarterBelt2,Leather Garter Belt
@@ -632,6 +633,7 @@ HairFront,HairFront62a,Style 62a
 HairFront,HairFront62b,Style 62b
 HairFront,HairFront63,Style 63
 HairFront,HairFront64,Style 64
+HairFront,HairFront65,Style 65
 HandAccessoryLeft,,Hand Accessory (Left)
 HandAccessoryLeft,CatsuitGloves,Catsuit Gloves
 HandAccessoryLeft,Claws,Claws
@@ -800,6 +802,7 @@ ItemBoots,BalletMittens,Ballet Mittens
 ItemBoots,BalletWedges,Ballet Wedges
 ItemBoots,FuturisticHeels,Futuristic Shoes
 ItemBoots,FuturisticHeels2,Futuristic Heels
+ItemBoots,HeellessHoof,Heelless Hi-Shoes
 ItemBoots,HighThighBoots,High Thigh Boots
 ItemBoots,LeatherFootMitts1,Short Leather Foot Mittens
 ItemBoots,LeatherToeCuffs,Leather Toe Cuffs
@@ -875,6 +878,7 @@ ItemDevices,,Body
 ItemDevices,BBQ,Grill
 ItemDevices,Bed,Bed
 ItemDevices,BondageBench,Bondage Bench
+ItemDevices,ExclusiveWaitress,Exclusive Waitress
 ItemDevices,BrickWall,Brick Wall
 ItemDevices,BurlapSack,Burlap Sack
 ItemDevices,Cage,Stand up cage
@@ -1213,6 +1217,7 @@ ItemMisc,WoodenMaidTrayFull,Wooden Maid Tray Full
 ItemMisc,WoodenPaddle,Wooden Paddle
 ItemMisc,WoodenSign,Wooden Sign
 ItemMouth,,Mouth
+ItemMouth,AOMGag,Always Open Mouth Gag
 ItemMouth,Ball,Tennis Ball
 ItemMouth,BallGag,Ball Gag
 ItemMouth,BallGagMask,Ball Gag Mask
@@ -1489,6 +1494,7 @@ ItemTorso,NylonRopeHarness,Nylon Rope
 ItemTorso,Ribbons,Ribbons
 ItemTorso,StuddedHarness,Studded Harness
 ItemTorso,ThinLeatherStraps,Thin Leather Straps
+ItemTorso,ShinyLeotardLock,Locking Latex Leotard
 ItemTorso2,,Torso
 ItemVulva,,Vulva
 ItemVulva,BasicCockring,Basic Cock Ring
@@ -1778,6 +1784,7 @@ Suit,SeethroughSuit,See-through Suit
 Suit,SeethroughSuitZip,See-through Zipsuit
 Suit,SleevelessCatsuit, Sleeveless Catsuit
 Suit,SleevelessSlimLatexLeotard,Slim Latex Leotard (Sleeveless)
+Suit,ShinyLeotard,Shiny Latex Leotard
 SuitLower,,Suit Lower
 SuitLower,Catsuit,Catsuit
 SuitLower,CatsuitPanties, Catsuit Panties

@@ -11,14 +11,75 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2025-01-07
-* Last recorded PR: [#5363](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5363)
-* Last recorded commit hash: `239fbedf70559a9710d43d483ed13d60f979354c`
+* Changelog last updated: 2025-02-16
+* Last recorded PR: [#5409](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5409)
+* Last recorded commit hash: `27a4ff5f727d4e7764639430df4a301c826f6078`
+
+## [Generated]
+
+## [R113]
+
+### [Changes]
+
+* Misssuu - GGTS - Support Chinese responses and optimize game logic ([#5392](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5392))
+* RavenCreative - Mesh Top & Utility Kilt Assets Added. ([#5388](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5388))
+* RavenCreative - Added Gangriel's Rock Bar option to Custom Tshirt ([#5390](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5390))
+* Leila + Ahri - Hair Front 65 Added ([#5375](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5375))
+* Cleon - Exclusive Waitress, Heelless Hi-Shoes and AOM Gag - some few previous items reviewed. ([#5379](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5379))
+* git4nick - New Item Throne ([#5373](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5373))
+* EllieThePink - Improve messaging system in club card ([#5391](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5391))
+* EllieThePink - Club Card Pets & Owners, Criminals, Police & extras ([#5384](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5384))
+* Rama - Misc chat-related styling changes ([#5383](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5383))
+* Rama - Convert the `dialog` dialog subscreen to DOM ([#5358](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5358))
+* Rama - Fix the modular item module selection screen's click functions being stuck on page 1 ([#5394](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5394))
+* Rama - Fix the appearance permission menu UI not properly switching its mode upon exiting ([#5393](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5393))
+* Estsanatlehi - Merge ChatCreate into ChatAdmin ([#5282](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5282))
+* Estsanatlehi - Chat search improvements ([#5381](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5381))
+* lera - Add granular visibility & access control modes (replacing private & locked) ([#5327](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5327))
+* Ben987 - Chat Room Maps - Animated Camp Fire
+* Ben987 - Chat Room Maps - Animated Caramel Cat
+* Ben987 - Chat Room Maps - Animated Brown Dog
+* Ben987 - Chat Room Maps - Animated Rabbit
+* Ben987 - Chat Room Maps - Animated Candelabra
+* Ben987 - Chat Room Maps - Animated Brown Chicken
+* Ben987 - Change Log
+
+### [Fixes]
+
+* Cleon - Missing dialogs in Exclusive Maitress and AOM Gag, also some Heelless Hi-Shoes asset fixes. ([#5396](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5396))
+* Cleon - [HOTFIX] Just a typo error in Exclusive Maitress one asset. ([#5405](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5405))
+* EllieThePink - Fix incorrect player name on concede/stopped watching message in Club Card ([#5400](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5400))
+* Estsanatlehi - Fix bug with 2nd page modules not being clickable ([#5398](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5398))
+* Estsanatlehi - Fix an issue with multi-page modules not routing their clicks properly ([#5387](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5387))
+* Estsanatlehi - Update dependencies and fix tools errors ([#5380](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5380))
+* Estsanatlehi - Fix a small discrepancy in the language button ([#5404](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5404))
+* Estsanatlehi - Align the BoundBar internal name with its display name ([#5408](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5408))
+* Rama - Add a backwards compatibility `null`-safeguard to `DialogIntro()` ([#5397](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5397))
+* Rama - Add more async-related safety measures for dialog subscreen reloads ([#5374](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5374))
+* Rama - Fix `DialogLeave()` clearing the player's focus group if there's no current character ([#5389](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5389))
+* Rama - Fix the wardrobe permission menu having two weirdly stacked superimposed menus ([#5382](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5382))
+* Rama - Fix an issue wherein the focus group could be `null` ([#5377](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5377))
+* Rama - Fix more unintended dialog refreshes ([#5378](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5378))
+* Rama - Two dialog menu fixes ([#5401](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5401))
+* Rama - Fix the `<li>` icons associated with custom button icons breaking `data:image` image URLs ([#5407](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5407))
+
+### [Technical]
+
+* dDeepLb - Use lambdas in setting subscreens ([#5386](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5386))
+* lera - switch DialogSelfMenuOptions to use lambdas ([#5376](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5376))
+* Estsanatlehi - Monthly post-merge CI cleanup ([#5367](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5367))
+* Estsanatlehi - Fix whitespace issues ([#5395](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5395))
+* Estsanatlehi - Fix CI ([#5385](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5385))
+* Estsanatlehi - Remove stray console.log in the LuckyWheel code ([#5409](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5409))
+* Rama - ENH: Ensure that the asset's `ParentGroup` can be specified on a pose-by-pose basis ([#5370](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5370))
+* Rama - Misc type annotation improvements ([#5399](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5399))
+* Ben987 - Remove ChatCreate from Index
 
 ## [R112]
 
 ### [Changes]
 
+* git4nick - German translation ([#5365](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5365))
 * Cleon - BalletMittens+PogoBall and ComboBelt(Combo Boots feature). Fix:... ([#5359](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5359))
 * Cleon - WitchShoes-InflatableDress-RubberKigu-RibbonCorset + CustomHeels fix ([#5351](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5351))
 * Cleon - MidLegSkirt, RubberMask new wigs, OneBarGirl new poses and Cement fix. ([#5362](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5362))
@@ -45,6 +106,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Ben987 - Pandora Online Prison - Guard Role
 * Ben987 - Pandora Online Prison - Player Guard Activities on Inmates
 * Ben987 - Pandora Online Prison - Player Guard Costume
+* Ben987 - Pandora Online Prison - More Details by NPC
 * Ben987 - Change Log + Credits
 
 ### [Fixes]
@@ -56,16 +118,22 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Estsanatlehi - Move the left hand under the right hand ([#5336](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5336))
 * Estsanatlehi - Copy over missing login status string from Login to Relog ([#5339](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5339))
 * Estsanatlehi - Remove the prerequisites locking phones to females ([#5340](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5340))
+* Haruhi - Small correction to HairFront64 and adding dual tones to HairBack58,58b ([#5366](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5366))
+* Cleon - Some AssetString messages missing or typo and RibbonCorset fix ([#5368](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5368))
 * Rama - Provide better DOM element support for older browsers ([#5357](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5357))
 * Rama - Fix scroll wheel and scroll bar browser inconsistencies ([#5333](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5333))
 * Rama - Fix the button icons not properly updating when cycling through permission modes ([#5337](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5337))
 * Rama - Fix minigames not properly leaving the dialog subscreen ([#5341](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5341))
+* Rama - Enforce that restraints do not have clothing-exclusive properties and vice versa ([#5369](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5369))
+* Rama - Ensure that extended items with standing pose restrictions verify whether the character can actually kneel ([#5371](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5371))
+* Rama - Fix clipping of the `/changelog` tooltips ([#5372](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5372))
 * Ben987 - Few Fixes on the ComboBelt and PogoBall
 
 ### [Technical]
 
 * Rama - Fix styling for ancient browsers ([#5344](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5344))
 * Rama - Ensure that extended item sanitization preserves locks when repairing properties ([#5338](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5338))
+* Rama - Do not set the button aria-labelledby/describedby attribute if there's no tooltip ([#5364](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5364))
 * Ben987 - Fixes to Female3DCG Assets
 
 ## [R111]

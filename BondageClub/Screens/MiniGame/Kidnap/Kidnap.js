@@ -409,7 +409,7 @@ function KidnapStart(Opponent, Background, Difficulty, ReturnFunction) {
 	KidnapOpponent = Opponent;
 	KidnapBackground = Background;
 	MiniGameCheatAvailable = (CheatFactor("MiniGameBonus", 0) == 0);
-	CurrentCharacter = null;
+	DialogLeave();
 	if (KidnapReturnFunction.indexOf("Pandora") == 0) {
 		Player.KidnapMaxWillpower = PandoraMaxWillpower;
 		Player.KidnapWillpower = PandoraWillpower;

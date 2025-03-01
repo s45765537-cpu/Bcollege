@@ -82,7 +82,11 @@ function ElementCreate(options) {
 	const elem = document.createElement(options.tag);
 
 	for (const [k, v] of Object.entries(options.attributes ?? {})) {
-		if (v != null) {
+		if (v == null || v === false) {
+			continue;
+		} else if (v === true) {
+			elem.toggleAttribute(k, true);
+		} else {
 			elem.setAttribute(k, v);
 		}
 	}
@@ -97,7 +101,11 @@ function ElementCreate(options) {
 		}
 	}
 	for (const [k, v] of Object.entries(options.dataAttributes ?? {})) {
-		if (v != null) {
+		if (v == null || v === false) {
+			continue;
+		} else if (v === true) {
+			elem.dataset[k] = "";
+		} else {
 			elem.dataset[k] = v.toString();
 		}
 	}
@@ -297,7 +305,11 @@ function ElementCreateRangeInput(id, value, min, max, step, thumbIcon, vertical)
 		},
 		dataAttributes: thumbIcon ? { thumb: thumbIcon.toLowerCase() } : {},
 		parent: document.body,
-		classList: vertical ? ["HideOnPopup", "Vertical"] : ["HideOnPopup"],
+		classList: [
+			"HideOnPopup",
+			"range-input",
+			vertical ? "Vertical" : null,
+		],
 		eventListeners: {
 			focus() { this.removeAttribute("readonly"); },
 		},
@@ -305,120 +317,67 @@ function ElementCreateRangeInput(id, value, min, max, step, thumbIcon, vertical)
 }
 
 /**
- * Creates a dropdown element and adjusts it to the BC look and feel. In the HTML Code this will look like this:
- * <div> -- enclosing div used for css and postioning
- *     <select> -- the select statement with its options
- *         <option 1>
- *         <option n>
- *     </select>
- *     <div></div> -- the div representing the currently selected item
- *     <div> -- div for the various options
- *        <div>Option 1</div>
- *        <div>Option n</div>
- *     </div>
- * </div>
- * This construct is built automatically and ignores the original select statement. All the logic is handled by
- * event handlers that are connected to the various divs. See comments in the code.
- * What this function cannot handle at the moment:
- * - The size is always set to 1
- * - Multiple selects are impossible
- * @param {string} id - The name of the select item. The outer div will get this name, for positioning. The select
- * tag will get the name ID+"-select"
- * @param {readonly string[]} Options - The list of options for the current select statement
- * @param {null | ((this: HTMLSelectElement, event: Event) => any)} [ClickEventListener=null] - An event listener to be called, when the value of the drop down box changes
- * @returns {HTMLDivElement} - The created element
+ * Construct a `<select>`-based dropdown menu.
+ * @param {string} id - The name of the select item.
+ * @param {readonly (string | Omit<HTMLOptions<"option">, "tag">)[]} optionsList - The list of options for the current select statement. Can be supplied as a simple string or a more extensive `<option>` config.
+ * @param {(this: HTMLSelectElement, event: Event) => any} onChange - An event listener to be called, when the value of the drop down box changes
+ * @param {null | { required?: boolean, multiple?: boolean, disabled?: boolean, size?: number }} [options] - Additional `<select>`-specific properties
+ * @param {null | Partial<Record<"select", Omit<HTMLOptions<"select">, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the respective (child) element
+ * @returns {HTMLSelectElement} - The created element
  */
-function ElementCreateDropdown(id, Options, ClickEventListener) {
-	if (document.getElementById(id) != null) {
-		return /** @type {HTMLDivElement} */(document.getElementById(id));
+function ElementCreateDropdown(id, optionsList, onChange, options=null, htmlOptions=null) {
+	let select = /** @type {null | HTMLSelectElement} */(document.getElementById(id));
+	if (select != null) {
+		console.error(`Element "${id}" already exists`);
+		return select;
 	}
 
-	document.addEventListener("click", ElementCloseAllSelect);
-	return ElementCreate({
-		tag: "div",
-		classList: ["custom-select"],
-		attributes: { id },
-		parent: document.body,
-		children: [
-			{
-				tag: "select",
-				attributes: { id: `${id}-select`, name: `${id}-select` },
-				eventListeners: { change: ClickEventListener ?? undefined },
-				children: Options.map(option => {
-					return {
-						tag: "option",
-						attributes: { value: option },
-						children: [option],
-					};
-				}),
-			},
-			{
-				tag: "div",
-				classList: ["select-selected"],
-				children: [Options[0]],
-				eventListeners: {
-					click(e) {
-						//when the select box is clicked, close any other select boxes, and open/close the current select box:
-						e.stopPropagation();
-						ElementCloseAllSelect(this);
-						this.nextElementSibling.classList.toggle("select-hide");
-					},
-				},
-			},
-			{
-				tag: "div",
-				classList: ["select-items", "select-hide"],
-				children: Options.map(option => {
-					return {
-						tag: "div",
-						children: [option],
-						eventListeners: {
-							click() {
-								// when an item is clicked, update the original select box, and the selected item:
-								const selectedItem = /** @type {HTMLDivElement} */(this.parentElement.previousSibling);
-								const select = /** @type {HTMLSelectElement} */(selectedItem.previousSibling);
-								for (let j = 0; j < select.length; j++) {
-									if (select.options[j].innerHTML != this.innerHTML) {
-										continue;
-									}
+	options ??= {};
+	const booleanAttributes = Object.fromEntries(/** @type {const} */([
+		["required", options.required ? "" : undefined],
+		["multiple", options.multiple ? "" : undefined],
+		["disabled", options.disabled ? "" : undefined],
+		["size", options.size != null ? options.size.toString() : undefined],
+	]).filter(i => i[1] != null));
 
-									select.selectedIndex = j; // Fake the selection of an option
-									selectedItem.innerHTML = this.innerHTML; // Update the drop down box
-									var y = this.parentElement.getElementsByClassName("same-as-selected");
-									for (let k = 0; k < y.length; k++) {
-										y[k].classList.remove("same-as-selected");
-									}
-									this.classList.add("same-as-selected");
-									break;
-								}
-								selectedItem.click(); // Evove a click events
-								select.dispatchEvent(new Event("change")); // Evoke a onChange events
-							},
-						},
-					};
-				}),
+	const selectOptions = htmlOptions?.select ?? {};
+	select = ElementCreate({
+		...htmlOptions,
+		tag: "select",
+		classList: [
+			...(selectOptions.classList ?? []),
+			"HideOnPopup",
+			"custom-select",
+		],
+		attributes: {
+			...(selectOptions.attributes ?? {}),
+			id,
+			["screen-generated"]: CurrentScreen,
+			...booleanAttributes,
+		},
+		parent: selectOptions.parent ?? document.body,
+		eventListeners: {
+			...(selectOptions.eventListeners ?? {}),
+			change(ev) {
+				if (!this.validity) {
+					ev.stopImmediatePropagation();
+					return;
+				}
 			},
+		},
+		children: [
+			...(selectOptions.children ?? []),
+			...optionsList.map(content => {
+				if (typeof content === "string") {
+					return { tag: /** @type {const} */("option"), children: [content] };
+				} else {
+					return { tag: /** @type {const} */("option"), ...content };
+				}
+			}),
 		],
 	});
-}
-
-/**
- * Closes all select boxes in the current document, except the current select box
- * @param {object} elmnt - The select box to exclude from the closing
- * @returns {void} - Nothing
- */
-function ElementCloseAllSelect(elmnt) {
-	/*a function that will close all select boxes in the document,
-	except the current select box:*/
-	var arrNo = [];
-	var y = document.getElementsByClassName("select-selected");
-	for (let i = 0; i < y.length; i++) {
-		if (elmnt == y[i]) arrNo.push(i);
-	}
-	var x = document.getElementsByClassName("select-items");
-	for (let i = 0; i < x.length; i++) {
-		if (arrNo.indexOf(i)) x[i].classList.add("select-hide");
-	}
+	select.addEventListener("change", onChange);
+	return select;
 }
 
 /**
@@ -496,18 +455,20 @@ function ElementPosition(ElementID, X, Y, W, H) {
 /**
  * Draws an existing HTML element at a specific position within the document. The element will not be centered on its given coordinates unlike the ElementPosition function.
  * Not same as ElementPositionFix. Calculates Font size itself.
- * @param {string} ElementID - The id of the input tag to (re-)position.
+ * @param {string | HTMLElement} ElementOrID - The id of the input tag to (re-)position or the element itself.
  * @param {number} X - Starting point of the element on the X axis.
  * @param {number} Y - Starting point of the element on the Y axis.
  * @param {number} W - Width of the element.
  * @param {number} [H] - Height of the element.
  * @returns {void} - Nothing
  */
-function ElementPositionFixed(ElementID, X, Y, W, H) {
-	var E = document.getElementById(ElementID);
+function ElementPositionFixed(ElementOrID, X, Y, W, H) {
+	const E = typeof ElementOrID === "string" ? document.getElementById(ElementOrID) : ElementOrID;
+
 	// Verify the element exists
 	if (!E) {
-		console.warn("A call to ElementPositionFix was made on non-existent element with ID '" + ElementID + "'");
+		const id = typeof ElementOrID === "string" ? ElementOrID : ElementOrID?.id;
+		console.warn(`A call to ElementPositionFix was made on non-existent element with ID "${id}"`);
 		return;
 	}
 
@@ -1122,13 +1083,14 @@ var ElementButton = {
 	/**
 	 * @private
 	 * @param {string} id
-	 * @param {string} [label]
+	 * @param {ElementButton.StaticNode} [label]
 	 * @param {"top" | "center" | "bottom"} [position]
 	 * @param {Omit<HTMLOptions<"span">, "tag">} [options]
 	 * @returns {HTMLSpanElement}
 	 */
 	_ParseLabel: function _ParseLabel(id, label, position, options) {
-		if (!label) {
+		label = (CommonIsArray(label) ? label : [label]).filter(i => i != null);
+		if (label.length === 0) {
 			return;
 		}
 
@@ -1139,14 +1101,14 @@ var ElementButton = {
 			tag: "span",
 			attributes: { id: `${id}-label`, for: id, ...(options.attributes ?? {}) },
 			classList: ["button-label", labelPosition, ...(options.classList ?? [])],
-			children: [label, ...(options.children ?? [])],
+			children: [...label, ...(options.children ?? [])],
 		});
 	},
 
 	/**
 	 * Parse the passed icon list, returning its corresponding `<img>` grid and tooltip if non-empty
 	 * @param {string} id - The ID of the parent element
-	 * @param {readonly (InventoryIcon | { name: string, iconSrc: string, tooltipText: string | Node })[]} [icons] - The (optional) list of icons
+	 * @param {readonly (InventoryIcon | ElementButton.CustomIcon)[]} [icons] - The (optional) list of icons
 	 * @returns {null | { iconGrid: HTMLDivElement, tooltip: [string, HTMLElement, HTMLElement] }} - `null` if the provided icon list is empty and otherwise an object containing the icon grid and a icon-specific tooltip
 	 */
 	_ParseIcons: function _ParseIcons(id, icons) {
@@ -1175,24 +1137,24 @@ var ElementButton = {
 			let name;
 			/** @type {string} */
 			let src;
-			/** @type {string | Node} */
-			let tooltipText;
+			/** @type {(string | Node | HTMLOptions<any>)[]} */
+			let tooltipChildren;
 			if (typeof icon === "object") {
 				custom = true;
 				name = icon.name;
 				src = icon.iconSrc;
-				tooltipText = icon.tooltipText;
+				tooltipChildren = (CommonIsArray(icon.tooltipText) ? icon.tooltipText : [icon.tooltipText]).filter(i => i != null);
 			} else if (icon.endsWith("Padlock")) {
 				name = icon;
 				src = `./Assets/Female3DCG/ItemMisc/Preview/${icon}.png`;
-				tooltipText = InterfaceTextGet("PreviewIconPadlock").replace(
+				tooltipChildren = [InterfaceTextGet("PreviewIconPadlock").replace(
 					"AssetName",
 					AssetGet("Female3DCG", "ItemMisc", icon).Description,
-				);
+				)];
 			} else {
 				name = icon;
 				src = `./Icons/Previews/${icon}.png`;
-				tooltipText = InterfaceTextGet(`PreviewIcon${icon}`);
+				tooltipChildren = [InterfaceTextGet(`PreviewIcon${icon}`)];
 			}
 			if (iconNames.includes(name)) {
 				return;
@@ -1202,9 +1164,9 @@ var ElementButton = {
 				tag: "li",
 				attributes: { id: `${id}-icon-li-${name}` },
 				classList: ["button-icon-tooltip-li"],
-				children: [tooltipText],
+				children: tooltipChildren,
 				parent: tooltip,
-				style: { "background-image": `url("./${src}")` },
+				style: { "background-image": src.startsWith("data:image") ? `url("${src}")` : `url("./${src}")` },
 			});
 
 			ElementCreate({
@@ -1385,6 +1347,12 @@ var ElementButton = {
 			return elem;
 		}
 
+		/** @type {null | TextCache} */
+		let craftCache = null;
+		if (item.Craft) {
+			craftCache = TextPrefetchFile("Screens/Room/Crafting/Text_Crafting.csv");
+		}
+
 		htmlOptions ??= {};
 		htmlOptions.button ??= {};
 		htmlOptions.button.attributes ??= {};
@@ -1408,7 +1376,7 @@ var ElementButton = {
 		options ??= {};
 		options.label ??= item.Craft?.Name || asset.Description;
 		options.image ??= `./Assets/Female3DCG/${asset.DynamicGroupName}/Preview/${asset.Name}.png`;
-		options.icons ??= [
+		options.icons = [
 			...(options.icons ?? []),
 			DialogGetFavoriteStateDetails(C ?? Player, asset)?.Icon,
 			...DialogGetLockIcon(item, "Property" in item),
@@ -1428,7 +1396,10 @@ var ElementButton = {
 				children: [
 					...(item.Craft.Property ? [
 						InterfaceTextGet("CraftingProperty").replace("CraftProperty", ""),
-						{ tag: "q", children: [item.Craft.Property] },
+						{ tag: "q", children: [
+							{ tag: "dfn", children: [item.Craft.Property] },
+							" - ",
+						]},
 						{ tag: "br" },
 					] : []),
 					...((item.Craft.MemberName && item.Craft.MemberNumber) ? [
@@ -1450,7 +1421,14 @@ var ElementButton = {
 			},
 		]);
 
-		return ElementButton.Create(id, onClick, options, htmlOptions);
+		const button = ElementButton.Create(id, onClick, options, htmlOptions);
+		craftCache?.loadedPromise.then((textCache) => {
+			const dfn = button.querySelector(".button-tooltip-craft dfn");
+			if (dfn) {
+				dfn.parentElement?.append(textCache.get(`Description${dfn.textContent}`));
+			}
+		});
+		return button;
 	},
 
 	/**
@@ -1487,7 +1465,7 @@ var ElementButton = {
 		options ??= {};
 		options.label ??= ActivityDictionaryText(ActivityBuildChatTag(C, AssetGroupGet(C.AssetFamily, activity.Group), activity.Activity, true));
 		options.image ??= (activity.Item ? `./${AssetGetPreviewPath(activity.Item.Asset)}/${activity.Item.Asset.Name}.png` : `./Assets/Female3DCG/Activity/${activity.Activity.Name}.png`);
-		options.icons ??= [
+		options.icons = [
 			...(options.icons ?? []),
 			activity.Blocked === "limited" ? "AllowedLimited" : undefined,
 			activity.Item ? "Handheld" : undefined,
@@ -1746,44 +1724,71 @@ var ElementMenu = {
 
 	/**
 	 * Append a menuitem to the passed menubar
-	 * @param {HTMLDivElement} div - The menubar
-	 * @param {HTMLElement} menuitem - The to-be prepended menuitem
+	 * @param {HTMLElement} menu - The menubar
+	 * @param {readonly HTMLElement[]} menuitems - The to-be prepended menuitem
 	 */
-	AppendButton: function AppendButton(div, menuitem) {
-		if (!div || !menuitem) {
+	AppendButton: function AppendButton(menu, ...menuitems) {
+		if (!menu || !menuitems) {
 			return;
 		}
 
-		menuitem.tabIndex = -1;
-		menuitem.setAttribute("role", "menuitem");
-		menuitem.addEventListener("keydown", this._KeyDown);
-		div.append(menuitem);
+		let i = 0;
+		const firstMenuItem = menu.querySelector("[role='menuitem'][tab-index='0'], [role='menuitemradio'][tab-index='0'], [role='menuitemcheckbox'][tab-index='0']");
+		for (const elem of menuitems) {
+			let role = elem.getAttribute("role");
+			if (!role) {
+				role = "menuitem";
+				elem.setAttribute("role", "menuitem");
+			}
+
+			if (role !== "menuitem" && role !== "menuitemradio" && role !== "menuitemcheckbox") {
+				continue;
+			}
+
+			if (i === 0 && !firstMenuItem) {
+				elem.tabIndex = 0;
+			} else {
+				elem.tabIndex = -1;
+			}
+			elem.addEventListener("keydown", this._KeyDown);
+			i++;
+		}
+		menu.append(...menuitems);
 	},
 
 	/**
 	 * Prepend a menuitem to the passed menubar
-	 * @param {HTMLDivElement} div - The menubar
-	 * @param {HTMLElement} menuitem - The to-be prepended menuitem
+	 * @param {HTMLElement} menu - The menubar
+	 * @param {readonly HTMLElement[]} menuitems - The to-be prepended menuitem
 	 */
-	PrependItem: function PrependButton(div, menuitem) {
-		if (!div || !menuitem) {
+	PrependItem: function PrependButton(menu, ...menuitems) {
+		if (!menu || !menuitems) {
 			return;
 		}
 
-		// Only the first visible menuitem must be directly focusable via tab
-		if (ElementCheckVisibility(menuitem)) {
-			const menuitemOld = div.querySelector("[role='menuitem'][tab-index='0']");
-			if (menuitemOld) {
-				menuitemOld.setAttribute("tabindex", "-1");
+		let i = 0;
+		const firstMenuItem = menu.querySelector("[role='menuitem'][tab-index='0'], [role='menuitemradio'][tab-index='0'], [role='menuitemcheckbox'][tab-index='0']");
+		for (const elem of menuitems) {
+			let role = elem.getAttribute("role");
+			if (!role) {
+				role = "menuitem";
+				elem.setAttribute("role", "menuitem");
 			}
-			menuitem.tabIndex = 0;
-		} else {
-			menuitem.tabIndex = -1;
-		}
 
-		menuitem.setAttribute("role", "menuitem");
-		menuitem.addEventListener("keydown", this._KeyDown);
-		div.prepend(menuitem);
+			if (role !== "menuitem" && role !== "menuitemradio" && role !== "menuitemcheckbox") {
+				continue;
+			}
+
+			if (i === 0) {
+				firstMenuItem?.setAttribute("tabindex", "-1");
+				elem.tabIndex = 0;
+			} else {
+				elem.tabIndex = -1;
+			}
+			elem.addEventListener("keydown", this._KeyDown);
+			i++;
+		}
+		menu.prepend(...menuitems);
 	},
 };
 

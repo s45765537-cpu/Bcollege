@@ -1,4 +1,4 @@
-﻿Room Name
+Room Name
 Название Комнаты
 Language
 Язык
@@ -10,10 +10,6 @@ Whitelist
 Белый список
 Administrator List
 Список Администраторов
-Private
-Приватный
-Locked
-Заблокированный
 Size (2-20)
 Размер (2-20)
 Member numbers separated by commas (ex: 123, ...)
@@ -32,8 +28,24 @@ Friends
 Друзья
 Room settings can only be updated by administrators
 Параметры комнаты могут быть обновлены только администраторами
+(Click anywhere to return)
+(Нажмите в любом месте, чтобы вернуться)
 Background
 Фон
+Visibility
+Видимость
+Access
+Доступ
+Public
+Общественность
+Admin + Whitelist
+Администратор + белый список
+Admin
+Администратор
+Unlisted
+Без списка
+Create
+Создать
 Save
 Сохранить
 Exit
@@ -48,6 +60,8 @@ Account error, please try to relog
 Ошибка учетной записи, пожалуйста, попробуйте перерегистрироватся
 Invalid chat room data detected
 Обнаружены недопустимые данные чата комнаты
+Room created, joining it...
+Комната создана, присоединяюсь к ней...
 Block Categories
 Блокировать категории
 No Game

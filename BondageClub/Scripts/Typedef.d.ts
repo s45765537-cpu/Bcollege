@@ -98,10 +98,18 @@ type HTMLElementScalarTagNameMap = {
 type HTMLOptions<T extends keyof HTMLElementTagNameMap> = {
 	/** The elements HTML tag */
 	tag: T,
-	/** Scalar-valued attributes that will be set on the HTML element. */
-	attributes?: Partial<HTMLElementScalarTagNameMap[T]> & Partial<Record<string, number | boolean | string>>;
-	/** Data attributes that will be set on the HTML element (see {@link HTMLElement.dataset}). */
-	dataAttributes?: Partial<Record<string, number | boolean | string>>;
+	/**
+	 * Scalar-valued attributes that will be set on the HTML element.
+	 *
+	 * Note that booleans are interpretted as [boolean attributes](https://developer.mozilla.org/en-US/docs/Glossary/Boolean/HTML).
+	 */
+	attributes?: Partial<Record<string, number | boolean | string>>;
+	/**
+	 * Data attributes that will be set on the HTML element (see {@link HTMLElement.dataset}).
+	 *
+	 * Note that booleans are interpretted as [boolean attributes](https://developer.mozilla.org/en-US/docs/Glossary/Boolean/HTML).
+	 */
+	dataAttributes?: Partial<Record<string, number | string | boolean>>;
 	/** CSS style declarations that will be set on the HTML element (see {@link HTMLElement.style}). */
 	style?: Record<string, string>;
 	/** Event listeners that will be attached to the HTML element (see {@link HTMLElement.addEventListener}). */
@@ -122,10 +130,23 @@ interface HTMLElementEventMap {
 }
 
 declare namespace ElementButton {
+	/** An input type for representing one or more text nodes and/or **non-interactive** DOM elements (_e.g._ `<i>` or `<code>`) */
+	type StaticNode = null | string | Node | HTMLOptions<any> | readonly (null | undefined | string | Node | HTMLOptions<any>)[];
+
+	/** Input options for creating custom button icons */
+	interface CustomIcon {
+		/** The {@link HTMLImageElement.src} of the icon */
+		iconSrc: string,
+		/** The internal ID of the icon */
+		name: string,
+		/** The tooltip component associated with the icon */
+		tooltipText?: StaticNode,
+	}
+
 	/** Various options that can be passed along to {@link ElementButton.Create} */
 	interface Options {
 		/** Optional tooltip content. If not supplied then one should manually prepend it to the tooltip later */
-		tooltip?: null | string | Node | HTMLOptions<any> | readonly (null | string | Node | HTMLOptions<any>)[]
+		tooltip?: StaticNode;
 		/** The position of the tooltip w.r.t. the button */
 		tooltipPosition?: "left" | "right" | "top" | "bottom";
 		/**
@@ -136,7 +157,7 @@ declare namespace ElementButton {
 		 */
 		tooltipRole?: "label" | "description" | "none";
 		/** A button label */
-		label?: string;
+		label?: StaticNode;
 		/** The position of the button label */
 		labelPosition?: "top" | "center" | "bottom";
 		/** A background image for the button */
@@ -146,7 +167,7 @@ declare namespace ElementButton {
 		 *
 		 * Alternatively, one can directly pass the icon's {@link HTMLImageElement.src} and its tooltip component.
 		 */
-		icons?: readonly (null | InventoryIcon | { iconSrc: string, tooltipText: string | Node, name: string })[];
+		icons?: readonly (null | undefined | InventoryIcon | CustomIcon)[];
 		/** The role of the button. All accepted values are currently special-cased in order to set role-specific event listeners and/or attributes. */
 		role?: "radio" | "checkbox" | "menuitemradio" | "menuitemcheckbox";
 		/** Whether to limit the default styling of the button's border and background */
@@ -218,6 +239,8 @@ type VariableContainer<T1, T2> = T1 & T2 & {
 //#region Enums
 
 type ChatRoomSpaceLabel = "MIXED" | "FEMALE_ONLY" | "MALE_ONLY" | "ASYLUM";
+type ChatRoomVisibilityModeLabel = "PUBLIC" | "ADMIN_WHITELIST" | "ADMIN" | "UNLISTED";
+type ChatRoomAccessModeLabel = "PUBLIC" | "ADMIN_WHITELIST" | "ADMIN";
 
 type DialogMenuMode = (
 	"activities"
@@ -274,6 +297,22 @@ declare namespace DialogMenu {
 		 * Defaults to `true` if {@link ReloadOptions.reset} is specified.
 		 */
 		resetDialogItems?: boolean;
+	}
+
+	/** Internal {@link DialogMenu.Reload} parameters for dialog subscreens without a focus group */
+	interface ReloadParam {
+		root: HTMLElement;
+		C: Character;
+		currentC: Character;
+		textCache: TextCache;
+		focusGroup?: AssetItemGroup;
+		currentFocusGroup?: AssetItemGroup;
+	}
+
+	/** Internal {@link DialogMenu.Reload} parameters for dialog subscreens with a focus group */
+	interface ReloadFocusParam extends ReloadParam {
+		focusGroup: AssetItemGroup;
+		currentFocusGroup: AssetItemGroup;
 	}
 }
 
@@ -564,7 +603,101 @@ type TitleName =
 
 type MagicSchoolHouse = "Maiestas" | "Vincula" | "Amplector" | "Corporis";
 
-type ModuleType = "Character" | "Cutscene" | "MiniGame" | "Online" | "Room";
+type ModuleType = keyof ModuleScreens;
+
+interface ModuleScreens {
+	Character:
+		| "Appearance"
+		| "BackgroundSelection"
+		| "Cheat"
+		| "Creation"
+		| "Disclaimer"
+		| "FriendList"
+		| "InformationSheet"
+		| "ItemColor"
+		| "Login"
+		| "OnlineProfile"
+		| "PasswordReset"
+		| "Player"
+		| "Preference"
+		| "Relog"
+		| "Title"
+		| "Wardrobe"
+	;
+	Cutscene:
+		| "NPCCollaring"
+		| "NPCSlaveAuction"
+		| "NPCWedding"
+		| "PlayerCollaring"
+		| "PlayerMistress"
+		| "SarahIntro"
+	;
+	MiniGame:
+		| "Chess" | "ChestLockpick"
+		| "ClubCard" | "ClubCardBuilder"
+		| "DojoStruggle"
+		| "GetUp"
+		| "HorseWalk"
+		| "Kidnap"
+		| "KinkyDungeon"
+		| "Lockpick"
+		| "MagicBattle" | "MagicPuzzle"
+		| "MaidCleaning" | "MaidDrinks"
+		| "PlayerAuction"
+		| "PuppyWalker"
+		| "RhythmGame"
+		| "SlaveAuction"
+		| "Tennis"
+		| "Therapy"
+		| "WheelFortune"
+		;
+	Online:
+		| "AdvancedRule"
+		| "ChatAdmin" | "ChatAdminRoomCustomization" | "ChatBlockItem"
+		| "ChatRoom" | "ChatSearch" | "ChatSelect"
+		| "ForbiddenWords"
+		| "Game" | "GameClubCard" | "GameLARP" | "GameMagicBattle"
+		| "NicknameManagement"
+		| "WheelFortuneCustomize"
+		;
+	Room:
+		| "Arcade"
+		| "AsylumBedroom" | "AsylumEntrance" | "AsylumGGTS" | "AsylumMeeting" | "AsylumTherapy"
+		| "Cafe" | "Cell" | "ClubCardLounge"
+		| "CollegeCafeteria" | "CollegeChess" | "CollegeDetention" | "CollegeEntrance" | "CollegeTeacher" | "CollegeTennis" | "CollegeTheater"
+		| "Crafting" | "DailyJob" | "Empty" | "Gambling"
+		| "Infiltration" | "InfiltrationPerks"
+		| "Introduction"
+		| "KidnapLeague"
+		| "LARP"
+		| "Magic" | "MagicSchoolEscape" | "MagicSchoolLaboratory"
+		| "MaidQuarters" | "MainHall" | "Management" | "MovieStudio" | "Nursery"
+		| "Pandora" | "PandoraPrison"
+		| "Photographic"
+		| "Platform" | "PlatformIntro" | "PlatformDialog" | "PlatformProfile"
+		| "Poker" | "Prison"
+		| "Private" | "PrivateBed" | "PrivateRansom"
+		| "Sarah"
+		| "Shibari"
+		| "Shop" | "Shop2"
+		| "SlaveMarket" | "Stable"
+	;
+}
+
+type RoomName = ModuleScreens[ModuleType];
+
+interface RelogDataBase<T extends ModuleType> {
+    Screen: ModuleScreens[T],
+    Module: T,
+    Character: Character,
+    ChatRoomName: string | null,
+}
+
+type _RelogDataMap<T> = T extends ModuleType ? RelogDataBase<T> : never;
+type RelogData = _RelogDataMap<ModuleType>;
+
+type _ScreenSpecifier<T extends ModuleType> = [module: T, screen: ModuleScreens[T]];
+type ScreenSpecifier = _ScreenSpecifier<"Character"> | _ScreenSpecifier<"Cutscene"> | _ScreenSpecifier<"MiniGame"> | _ScreenSpecifier<"Online"> | _ScreenSpecifier<"Room">;
 
 type AssetCategory = "Medical" | "Extreme" | "Pony" | "SciFi" | "ABDL" | "Fantasy";
 
@@ -775,7 +908,10 @@ interface AssetGroup {
 	readonly Name: AssetGroupName;
 	readonly Description: string;
 	readonly Asset: readonly Asset[];
-	readonly ParentGroupName: AssetGroupName | null;
+	/** @deprecated - superseded by {@link ParentGroup} */
+	readonly ParentGroupName?: never;
+	/** An object mapping pose names to group names from which to inherit body sizes. */
+	readonly ParentGroup: ParentGroup.Data;
 	readonly Category: 'Appearance' | 'Item' | 'Script';
 	readonly IsDefault: boolean;
 	readonly IsRestraint: boolean;
@@ -880,9 +1016,10 @@ interface AssetLayer {
 	readonly AllowTypes: AllowTypes.Data | null;
 	/** @deprecated - superceded by {@link CreateLayerTypes} */
 	readonly HasType?: never;
-	/** The name of the parent group for this layer. If null, the layer has no parent group. If
-	undefined, the layer inherits its parent group from it's asset/group. */
-	readonly ParentGroupName: AssetGroupName | null;
+	/** @deprecated - superseded by {@link ParentGroup} */
+	readonly ParentGroupName?: never;
+	/** An object mapping pose names to group names from which to inherit body sizes. */
+	readonly ParentGroup: ParentGroup.Data;
 	/** @deprecated - Superceded by {@link PoseMapping} */
 	readonly AllowPose?: never;
 	/** @deprecated - Superceded by {@link PoseMapping} */
@@ -962,7 +1099,10 @@ interface Asset {
 	readonly Description: string;
 	readonly Group: AssetGroup;
 	readonly ParentItem?: string;
-	readonly ParentGroupName: AssetGroupName | null;
+	/** @deprecated - superseded by {@link ParentGroup} */
+	readonly ParentGroupName?: never;
+	/** An object mapping pose names to group names from which to inherit body sizes. */
+	readonly ParentGroup: ParentGroup.Data;
 	readonly Enable: boolean;
 	readonly Visible: boolean;
 	readonly NotVisibleOnScreen?: readonly string[];
@@ -1428,8 +1568,23 @@ interface Character {
 	Inventory: InventoryItem[];
 	InventoryData?: string;
 	Appearance: Item[];
-	Stage: string;
-	CurrentDialog: string;
+	/**
+	 * @private
+	 * @see {@link Character.Stage}
+	 */
+	_Stage: string;
+	/** Set or get the current stage, performing a dialog {@link DialogMenu.Reload} if required */
+	get Stage(): string;
+	set Stage(value: string);
+	/**
+	 * @private
+	 * @see {@link Character.CurrentDialog}
+	 */
+	_CurrentDialog: string;
+	ClickedOption: null | string;
+	/** Set or get the current dialog, performing a dialog status update if required (see {@link DialogSetStatus}) */
+	get CurrentDialog(): string;
+	set CurrentDialog(value: string);
 	Dialog: DialogLine[];
 	Reputation: Reputation[];
 	Skill: Skill[];
@@ -4239,6 +4394,7 @@ interface ClubCard {
 	ExtraPlay?: number;
 	Group?: string[];
 	Location?: string;
+	Negated?: boolean;
 	GlowTimer?: number;
 	GlowColor?: string;
 	OnPlay?: (C: ClubCardPlayer) => void;
@@ -4263,6 +4419,7 @@ interface ClubCard {
 	 */
 	onLeaveClub?: (C: ClubCardPlayer) => void;
 	turnStart?: (C: ClubCardPlayer) => void;
+	onLevelUp?: (C: ClubCardPlayer) => void;
 }
 
 interface ClubCardPlayer {
@@ -4286,11 +4443,19 @@ interface ClubCardPlayer {
 }
 
 interface ClubCardMessage {
-	Message: string,
-	MessageType: string,
-	PlayerId: string,
-	TurnCounter:  number
+	TextGetKey: string;         // Localization key
+	MessageText?: string;		// Message Text
+    MessageType: string;        // Type of message (e.g., ACTION, SYSTEM, IMMEDIATE)
+    PlayerId: string;           // ID of the player who triggered the message
+    TurnCounter: number;        // Turn number when the message was created
+    Placeholders: {             // Dynamic data for text replacement
+        [key: string]: string | number;
+	};
+	PlayerName?: string;
+    SourcePlayer?: string;
+    OpponentPlayer?: string;
 }
+
 
 // #region drawing
 
@@ -4361,6 +4526,7 @@ type ChatRoomMapObjectType = (
 	| "FloorDecorationParty"
 	| "FloorDecorationCamping"
 	| "FloorDecorationExpanding"
+	| "FloorDecorationAnimal"
 	| "FloorItem"
 	| "FloorObstacle"
 	| "WallDecoration"

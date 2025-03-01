@@ -3,6 +3,8 @@ var AudioDialog = new Audio();
 
 /** @type AudioEffect[] */
 var AudioList = [
+	{ Name: "AirDoorClosing", File: "AirDoorClosing" },
+	{ Name: "AirDoorOpening", File: "AirDoorOpening" },
 	{ Name: "Bag", File: "Bag" },
 	{ Name: "BalloonRubbing", File: "BalloonRubbing" },
 	{ Name: "BalloonStretch", File: "BalloonStretch" },
@@ -23,6 +25,8 @@ var AudioList = [
 	{ Name: "SciFiBeeps", File: ["SciFiBeeps1", "SciFiBeeps2", "SciFiBeeps3"] },
 	{ Name: "ChainShort", File: "ChainShort" },
 	{ Name: "CuffsMetal", File: "CuffsMetal" },
+	{ Name: "EMLevitate", File: "EMLevitate" },
+	{ Name: "EMDisable", File: "EMDisable" },
 	{ Name: "FuturisticApply", File: "FuturisticApply" },
 	{ Name: "HydraulicLock", File: "HydraulicLock" },
 	{ Name: "HydraulicUnlock", File: "HydraulicUnlock" },
@@ -333,6 +337,35 @@ var AudioActions = [
 			"ItemHoodBalloonSetLoose",
 		].some(A => data.Content.includes(A)),
 		GetSoundEffect: () => "Inflation"
+	},
+	{
+		IsAction: (data) => [
+			"ItemDevicesExclusiveWaitressSetc0",
+		].some(A => data.Content.includes(A)),
+		GetSoundEffect: () => "AirDoorOpening"
+	},
+	{
+		IsAction: (data) => [
+			"ItemDevicesExclusiveWaitressSetc1",
+			"ItemDevicesExclusiveWaitressSetc2",
+		].some(A => data.Content.includes(A)),
+		GetSoundEffect: () => "AirDoorClosing"
+	},
+	{
+		IsAction: (data) => [
+			"ItemDevicesExclusiveWaitressSetf0",
+			"ItemDevicesExclusiveWaitressSetf1",
+			"ItemDevicesExclusiveWaitressSetf3",
+			"ItemDevicesExclusiveWaitressSetf4",
+		].some(A => data.Content.includes(A)),
+		GetSoundEffect: () => "EMLevitate"
+	},
+	{
+		IsAction: (data) => [
+			"ItemDevicesExclusiveWaitressSetf2",
+			"ItemDevicesExclusiveWaitressSetf5",
+		].some(A => data.Content.includes(A)),
+		GetSoundEffect: () => "EMDisable"
 	},
 ];
 

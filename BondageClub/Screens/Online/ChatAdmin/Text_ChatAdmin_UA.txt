@@ -10,10 +10,12 @@ Whitelist
 Білий список
 Administrator List
 Список адмінів
-Private
-Приватна
-Locked
-Закрита
+Never use the map exploration
+Ніколи не використовувати режим карти
+Hybrid map, can go on and off
+Гібрид (карта та звичайний режим)
+Only use the map, no regular chat
+Використовувати лише режим карти
 Size (2-20)
 Розмір (2-20)
 Member numbers separated by commas (ex: 123, ...)
@@ -34,6 +36,20 @@ Room settings can only be updated by administrators
 Налаштування кімнати можуть оновлювати лише адміністратори
 Background
 Задній фон
+Visibility
+Видимість
+Access
+Доступ
+Public
+Громадськість
+Admin + Whitelist
+Адміністратор + Білий список
+Admin
+Адміністратор
+Unlisted
+Не внесено до списку
+Create
+Створити
 Save
 Зберегти
 Exit
@@ -68,6 +84,8 @@ Magic Battle
 Магічна битва
 GGTS
 GGTS‎
+(Click anywhere to return)
+(Натисніть будь-де, щоб повернутися)
 English
 Англійська
 French

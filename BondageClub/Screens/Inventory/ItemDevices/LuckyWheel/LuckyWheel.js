@@ -207,7 +207,6 @@ function AssetsItemDevicesLuckyWheelScriptDraw({ C, PersistentData, Item }) {
 	if (Data.Spinning && Data.ChangeTime < CommonTime()) {
 		Data.AnimationSpeed = Math.max(Data.AnimationSpeed - ItemDevicesLuckyWheelAnimationSpeedStep, ItemDevicesLuckyWheelAnimationMinSpeed);
 		Data.AnimationAngleState = (Data.AnimationAngleState + Data.AnimationSpeed) % 360;
-		console.log(`Updated speed to ${Data.AnimationSpeed} and angle to ${Data.AnimationAngleState} (target is ${TargetAngle})`);
 
 		// Stop detected
 		if (Data.AnimationSpeed == ItemDevicesLuckyWheelAnimationMinSpeed && Math.abs(Data.AnimationAngleState - TargetAngle) <= ItemDevicesLuckyWheelAnimationMinSpeed) {

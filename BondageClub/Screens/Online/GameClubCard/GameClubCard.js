@@ -102,6 +102,7 @@ function GameClubCardRun() {
 	if (GameClubCardCanLaunchGame()) DrawButton(900, 600, 400, 64, TextGet("StartGame"), "White");
 	if (GameClubCardCanJoinGame()) DrawButton(900, 600, 400, 64, TextGet("JoinGame"), "White");
 	if ((GameClubCardGetStatus() == "Running") && !GameClubCardCanJoinGame()) DrawText(TextGet("CannotJoinDetails"), 1100, 600, "Red", "Gray");
+	if (GameClubCardIsAdmin(Player)) DrawButton(900, 800, 400, 64, TextGet("ResetGame"), "Salmon");
 }
 
 /**
@@ -162,6 +163,10 @@ function GameClubCardClick() {
 		GameClubCardExpectQuery = true;
 		return;
 	}
+	//If the admin clicked reset game status for all players and sends message.
+	if (MouseIn(900, 800, 400, 64) && GameClubCardIsAdmin(Player)) {
+		ClubCardSendRequestResetGame();
+	}
 
 }
 
@@ -194,7 +199,7 @@ function GameClubCardExit() {
 }
 
 /**
- * Checks there's 1 player in slot 1 and slot 2 so we can start the game.
+ *  Checks there's 1 player in slot 1 and slot 2 so we can start the game.
  * @returns {boolean} - Returns TRUE if the game can be launched
  */
 function GameClubCardCanLaunchGame() {
@@ -244,7 +249,7 @@ function GameClubCardLoadStatus() {
 
 /**
  * Creates a bundle of cards in a string to push to the server.
- * @param {ClubCard[]} Cards - An array of c
+ * @param {readonly ClubCard[]} Cards - An array of c
  * @param {boolean} IncludeTime - If we must include the time property
  * @returns {string} - A string with all the cards
  */
@@ -258,7 +263,7 @@ function GameClubCardDoBundle(Cards, IncludeTime = false) {
 
 /**
  * Creates a bundle of cards in a string to push to the server.
- * @param {ClubCard[]} Cards - An array of ClubCard objects
+ * @param {readonly ClubCard[]} Cards - An array of ClubCard objects
  * @returns {string} - A string with all the cards
  */
 function GameClubCardBoardDoBundle(Cards) {
@@ -272,8 +277,9 @@ function GameClubCardBoardDoBundle(Cards) {
 		let MoneyPerTurn = `${card.MoneyPerTurn !== undefined ? card.MoneyPerTurn : ''}`;
 		let FamePerTurn = `${card.FamePerTurn !== undefined ? card.FamePerTurn : ''}`;
 		let Time = `${card.Time !== undefined ? card.Time : ''}`;
+		let Negated = `${card.Negated !== undefined ? card.Negated : ''}`;
 
-		Result += `${ID},${ArrayIndex},${MoneyPerTurn},${FamePerTurn},${Time};`;
+		Result += `${ID},${ArrayIndex},${MoneyPerTurn},${FamePerTurn},${Time},${Negated};`;
 	}
 
 	if (Result.endsWith(";")) {
@@ -327,7 +333,7 @@ function GameClubCardBoardUndoBundle(bundle, Location) {
 
 	for (let i = 0; i < cards.length; i++) {
 		const cardString = cards[i];
-		const [ID, ArrayIndex, MoneyPerTurn, FamePerTurn, Time] = cardString.split(',');
+		const [ID, ArrayIndex, MoneyPerTurn, FamePerTurn, Time, Negated] = cardString.split(',');
 
 		const existingCard = ClubCardList.find(card => card.ID === Number(ID));
 
@@ -341,6 +347,7 @@ function GameClubCardBoardUndoBundle(bundle, Location) {
 			if (MoneyPerTurn != undefined && MoneyPerTurn != '') card.MoneyPerTurn = Number(MoneyPerTurn);
 			if (FamePerTurn != undefined && FamePerTurn != '') card.FamePerTurn = Number(FamePerTurn);
 			if (Time != undefined && Time != '') card.Time = Number(Time);
+			if (Negated != undefined && Negated != '') card.Negated = Boolean(Negated);
 
 			result.push(card);
 		}
@@ -418,11 +425,14 @@ function GameClubCardAssignPlayers(Packet, Char) {
 		ClubCardTurnIndex = Math.floor(Packet.RNG * 2);
 		ClubCardDestroyPopup();
 	}
+
 	if ((Char.MemberNumber == Player.MemberNumber) && (ClubCardTurnIndex == 0)) {
-		ClubCardOneMessagePacketSend(Msg.replace("PLAYERNAME", CharacterNickname(C1)), ClubCardMessageType.SYSTEM);
+		Msg = Msg.replace("PLAYERNAME", CharacterNickname(C1));
+		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, null, {}, null, Msg);
 	}
 	if ((Char.MemberNumber == Player.MemberNumber) && (ClubCardTurnIndex == 1)) {
-		ClubCardOneMessagePacketSend(Msg.replace("PLAYERNAME", CharacterNickname(C2)), ClubCardMessageType.SYSTEM);
+		Msg = Msg.replace("PLAYERNAME", CharacterNickname(C2));
+		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, null, {}, null, Msg);
 	}
 }
 
@@ -442,7 +452,7 @@ function GameClubCardLoadData(Packet) {
 			if (P.MemberNumber == ClubCardPlayer[1].Character.MemberNumber) GameClubCardLoadBundle(ClubCardPlayer[1], P);
 		}
 	}
-	if (Packet.Data.CCLog != null) ClubCardLogAdd(Packet.Data.CCLog, false);
+	if (Packet.Data.CCLog != null) ClubCardMessageSend(Packet.Data.CCLog, false);
 
 	// Check the focused card is still in the player's hand
 	ClubCardDefocusCardIfDiscarded();
@@ -475,10 +485,10 @@ function GameClubCardProcess(Packet) {
 
 	// If a player wants to query the game status to join it
 	if ((Packet.Data.GameProgress === "Query") && (Packet.Sender != Player.MemberNumber) && GameClubCardExpectQuery) {
-		let Msg = TextGet("JoinedClubCardGame");
+		let msg = TextGet("JoinedClubCardGame").replace("PLAYERNAME", CharacterNickname(Player));
 		GameClubCardAssignPlayers(Packet, Char);
 		GameClubCardLoadData(Packet);
-		ClubCardOneMessagePacketSend(Msg.replace("PLAYERNAME", CharacterNickname(Player)), ClubCardMessageType.SYSTEM);
+		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, "JoinedClubCardGame", {}, null, msg);
 		GameClubCardExpectQuery = false;
 		ClubCardDestroyPopup();
 	}
@@ -501,6 +511,7 @@ function GameClubCardProcess(Packet) {
  */
 function GameClubCardSyncOnlineData(Progress = "Action", LocalPlayerOnly = false) {
 	if (!ClubCardIsOnline()) return;
+	/** @type {ServerChatRoomGameCardGameData[]} */
 	let Packet = [];
 	for (let CCPlayer of ClubCardPlayer) {
 		if (LocalPlayerOnly && CCPlayer.Character.MemberNumber !== Player.MemberNumber) continue;

@@ -2091,14 +2091,15 @@ function PrivateRandomBed() {
 			if (C.IsNpc() && (!C.Cage) && (Math.random() < 0.2) && (PrivateBedCount() <= 3) && (NPCTraitGet(C, "Horny") > 0) && (NPCEventGet(C, "NextBed") < CurrentTime)) {
 				CurrentCharacter = C;
 				PrivateEnterBed();
-				CurrentCharacter = null;
+				DialogLeave();
 			}
 		}
 }
 
 /**
  * Returns the Club Card Deck that will be used by the NPC
- * @returns {Array} - The Deck to useRule
+ * @param {Character} C
+ * @returns {number[]} - The Deck to useRule
  */
 function PrivateGetClubCardDeck(C) {
 

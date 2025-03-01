@@ -377,7 +377,7 @@ function MaidQuartersRemoveMaidUniform() {
 
 /**
  * Starts a mini game or maid chore
- * @param {string} GameType - Name of the mini-game to launch
+ * @param {ModuleScreens["MiniGame"]} GameType - Name of the mini-game to launch
  * @param {number} Difficulty - Difficulty Ration for the mini-game
  * @returns {void} - Nothing
  */

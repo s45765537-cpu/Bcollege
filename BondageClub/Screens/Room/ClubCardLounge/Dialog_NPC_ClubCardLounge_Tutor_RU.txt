@@ -80,8 +80,8 @@ You need to play cards that will increase your fame.  You'll also need money to 
 Which deck can I use?
 Какую колоду я могу использовать?
 ###_NPC
-You can use the default deck or build your own deck.  All decks must have 30 cards.
-Вы можете использовать колоду по умолчанию или создать свою собственную колоду. Во всех колодах должно быть 30 карт.
+You can use the default deck or build your own deck.  All decks must have between 30 to 40 cards.
+Вы можете использовать колоду по умолчанию или создавать свои собственные. Во всех колодах должно быть от 30 до 40 карт.
 ###_PLAYER
 I have questions on the rules.
 У меня есть вопросы по правилам.
@@ -121,6 +121,12 @@ Fame can go negative, taking you further away from winning.  If your Money is ne
 ###_PLAYER
 How many cards can be present on my board?
 Сколько карт может быть на моей доске?
+###_PLAYER
+What are the streets?
+Что такое улицы?
+###_NPC
+Cards that are no longer in the club, hand or deck, will go the the streets.
+Карты, покинувшие ваш клуб, руку или колоду, уходят на улицу.
 ###_NPC
 It depends on your club size.  Your club begins as an apartment that can accommodate 5 members.  You can upgrade it with Money to allow more members.
 Это зависит от размера вашего клуба. Ваш клуб начинается с квартиры, в которой могут разместиться 5 человек. Вы можете обновить его с помощью денег, чтобы добавить больше участников.

@@ -6,11 +6,12 @@ var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
-	"Abysseia", "ArashiSama", "BlueWinter", "Bryce", "Canti", "Christian", "Cm382714", "Dahmia",
-	"DarbSup", "Desch", "Domenico", "Dragokahn", "Dynilath", "Edwin", "Glurak", "Greendragon",
-	"John", "Laurie", "Lyall", "Marashu", "Michel", "Mindtie", "Nightcore", "Robin", "Samonas",
-	"Setsu", "Sticks", "Sunny", "Tam", "Tarram", "Teli", "Thkdt", "TonyBoy", "Troubadix",
-	"Troy", "Umbrapop", "WhiteSniper", "XDWolfie", "Xepherio"
+	"Abysseia", "Aceffect14", "alarik", "ArashiSama", "BlueWinter", "bryce", "Canti",
+	"Christian", "Christoffer", "Cm382714", "Dahmia", "Desch", "domenico", "Dragokahn",
+	"dynilath", "Edwin", "Glurak", "Greendragon", "john", "Laurie", "linkjpm", "Lyall",
+	"Marashu", "Michel", "Mindtie", "Misa", "Nightcore", "René", "Robin", "Samonas",
+	"Schrödingers", "Setsu95", "Sticks", "Sunny", "Tam", "Tarram1010", "Teli", "Thkdt",
+	"TonyBoy", "Troubadix", "Troy", "Umbrapop28", "WhiteSniper", "XDWolfie", "Xepherio", "火芽"
 ];
 
 /* eslint-enable */
@@ -152,18 +153,22 @@ function LoginLoad() {
 	pass.setAttribute("enterkeyhint", "go");
 	pass.addEventListener("keydown", LoginEventListeners._KeyDownInputPassword);
 
-	const languages = [];
-	TranslationDictionary.forEach(L => languages.push(TranslationGetLanguageName(L.LanguageCode)));
-	ElementCreateDropdown("LanguageDropdown", languages, (event) => {
-		const language = document.querySelector(".select-selected").textContent;
-		if (!language) return;
-		TranslationSwitchLanguage(language);
+	const languages = TranslationDictionary.map(l => {
+		return {
+			children: [l.Icon, " ", l.LanguageName],
+			attributes: {
+				selected: l.LanguageCode === TranslationLanguage ? "" : undefined,
+				lang: l.LanguageCode,
+				value: l.LanguageCode,
+			},
+		};
+	});
+	ElementCreateDropdown("LanguageDropdown", languages, function(event) {
+		TranslationSwitchLanguage(/** @type {"" | "TW" | ServerChatRoomLanguage} */(this.value) || "EN");
 		TextLoad();
 		ActivityDictionaryLoad();
 		AssetLoadDescription("Female3DCG");
 	});
-	// Setting saved language as displayed
-	document.querySelector(".select-selected").textContent = TranslationGetLanguageName(TranslationLanguage);
 	TextPrefetchFile(BackgroundsStringsPath);
 	TextPrefetchFile(AssetStringsPath);
 	TextPrefetchFile(InterfaceStringsPath);
@@ -703,17 +708,28 @@ function LoginSetupPlayer(C) {
 	Player.WardrobeCharacterNames = C.WardrobeCharacterNames;
 
 	// Sets the default language when creating or searching for chat rooms
-	ChatCreateLanguage = C.RoomCreateLanguage;
-	if (ChatCreateLanguage == null) ChatCreateLanguage = ChatCreateLanguageList[0];
-	if (ChatCreateLanguageList.indexOf(ChatCreateLanguage) < 0) ChatCreateLanguage = ChatCreateLanguageList[0];
+	ChatAdminDefaultLanguage = C.RoomCreateLanguage;
+	if (ChatAdminDefaultLanguage == null) ChatAdminDefaultLanguage = ChatAdminLanguageList[0];
+	if (ChatAdminLanguageList.indexOf(ChatAdminDefaultLanguage) < 0) ChatAdminDefaultLanguage = ChatAdminLanguageList[0];
 	ChatSearchLanguage = C.RoomSearchLanguage;
 	if (ChatSearchLanguage == null) ChatSearchLanguage = "";
-	if (ChatSearchLanguage && ChatCreateLanguageList.indexOf(ChatSearchLanguage) < 0) ChatSearchLanguage = "";
+	if (ChatSearchLanguage && ChatAdminLanguageList.indexOf(ChatSearchLanguage) < 0) ChatSearchLanguage = "";
 
 	// Load the last chat room
 	Player.LastMapData = C.LastMapData;
-	if (typeof C.LastChatRoom !== "string" && ChatRoomValidateProperties(C.LastChatRoom)) {
-		Player.LastChatRoom = C.LastChatRoom;
+	if (C.LastChatRoom != null && typeof C.LastChatRoom !== "string") {
+		// Backward compatability: Convert old-style "Private" to "Visibility" and "Locked" to "Access"
+		// @ts-ignore
+		if (typeof C.LastChatRoom.Private === "boolean")
+			// @ts-ignore
+			C.LastChatRoom.Visibility = C.LastChatRoom.Private ? ChatRoomVisibilityMode.UNLISTED : ChatRoomVisibilityMode.PUBLIC;
+		// @ts-ignore
+		if (typeof C.LastChatRoom.Locked === "boolean")
+			// @ts-ignore
+			C.LastChatRoom.Access = C.LastChatRoom.Locked ? ChatRoomAccessMode.ADMIN : ChatRoomAccessMode.PUBLIC;
+
+		if (ChatRoomValidateProperties(C.LastChatRoom))
+			Player.LastChatRoom = C.LastChatRoom;
 	} else if (typeof C.LastChatRoom === "string" && C.LastChatRoom) {
 		// Backward compatibility: Automatically convert old-style data to a real ChatRoom object
 		/** @type {ChatRoomSettings} */
@@ -726,8 +742,8 @@ function LoginSetupPlayer(C) {
 			Background: C.LastChatRoomBG,
 			Limit: C.LastChatRoomSize,
 			Game: "",
-			Locked: false,
-			Private: C.LastChatRoomPrivate,
+			Visibility: C.LastChatRoomPrivate ? ChatRoomVisibilityMode.UNLISTED : ChatRoomVisibilityMode.PUBLIC,
+			Access: ChatRoomVisibilityMode.PUBLIC,
 			BlockCategory: C.LastChatRoomBlockCategory,
 			Space: C.LastChatRoomSpace,
 			Language: C.LastChatRoomLanguage,
@@ -916,7 +932,8 @@ function LoginResponse(C) {
 			CommonSetScreen("Online", "ChatSearch");
 			ServerSend("ChatRoomJoin", { Name: RelogData.ChatRoomName });
 		} else {
-			CommonSetScreen(RelogData.Module, RelogData.Screen);
+			const screen = /** @type {ScreenSpecifier} */([RelogData.Module, RelogData.Screen]);
+			CommonSetScreen(...screen);
 		}
 		return;
 	}

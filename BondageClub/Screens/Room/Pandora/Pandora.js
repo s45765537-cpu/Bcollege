@@ -1208,8 +1208,9 @@ function PandoraPenitentiaryCreate() {
 		// The inmate first search for a prison that already exists
 		/** @type {ServerChatRoomGame} */
 		let Game = "Prison";
+		/** @type {ServerChatRoomSearchRequest} */
 		const SearchData = { Query: "", Language: "", Space: ChatRoomSpaceType.MIXED, Game: Game, FullRooms: false };
-		ChatCreateBackgroundList = BackgroundsGenerateList([BackgroundsTagPandora]);
+		ChatAdminBackgroundList = BackgroundsGenerateList([BackgroundsTagPandora]);
 		ChatSearchLastQuerySearchTime = CommonTime();
 		ChatSearchResult = [];
 		PandoraPenitentiaryCreateTimer = CommonTime() + 10000;
@@ -1255,8 +1256,8 @@ function PandoraPenitentiaryResult(Result) {
 			Name: "Pandora " + Math.round(Math.random() * 1000000000).toString(),
 			Description: "Pandora Penitentiary Cell",
 			Background: CommonRandomItemFromList(null, ["PrisonHall", "PandoraCell0", "PandoraCell1", "PandoraCell2", "PandoraCell3", "PandoraCell4", "PandoraCell5", "PandoraCell6"]),
-			Private: false,
-			Locked: false,
+			Visibility: ChatRoomVisibilityMode.PUBLIC,
+			Access: ChatRoomAccessMode.PUBLIC,
 			Limit: 10,
 			Space: ChatRoomSpaceType.MIXED,
 			Game: "Prison",
@@ -1264,7 +1265,7 @@ function PandoraPenitentiaryResult(Result) {
 			Whitelist: [],
 			Ban: [],
 			BlockCategory: ["Leashing"],
-			Language: ChatCreateLanguage,
+			Language: ChatAdminDefaultLanguage,
 		};
 		ServerSend("ChatRoomCreate", NewRoom);
 
@@ -1304,7 +1305,7 @@ function PandoraPenitentiaryItemDifficulty(C, Group, Level) {
 /**
  * Builds a list of all valid Pandora activities for the player
  * @param {Character} C - The character to build a list for
- * @returns {Array} - An array of all valid activities for the player
+ * @returns {readonly string[]} - An array of all valid activities for the player
  */
 function PandoraPenitentiaryBuildActivityList(C) {
 
@@ -1561,14 +1562,14 @@ function PandoraPenitentiaryDoActivity(Activity) {
 	if (Activity != null) {
 		Activity = Activity.trim();
 		Activity = Activity.charAt(0).toUpperCase() + Activity.substring(1).toLowerCase();
-	} 
+	}
 	if ((Activity == null) || !PandoraPenitentiaryActivityList.includes(Activity))
 		return ChatRoomSendLocal(TextGet("PandoraInvalidActivity"), 10_000);
 
 	// Make sure the activity can be run on that target
 	if (Target != null) {
 		let ActivityList = PandoraPenitentiaryBuildActivityList(Target);
-		if (!ActivityList.includes(Activity)) 
+		if (!ActivityList.includes(Activity))
 			return ChatRoomSendLocal(TextGet("PandoraInvalidActivityForTarget"), 10_000);
 	}
 
@@ -1582,14 +1583,14 @@ function PandoraPenitentiaryDoActivity(Activity) {
 		ServerSend("ChatRoomChat", { Content: "PandoraGuardActivity" + Activity, Type: "Action", Dictionary: Dict });
 		ServerSend("ChatRoomChat", { Content: "Pandora" + Activity + "|" + Target.MemberNumber, Type: "Hidden", Target: Target.MemberNumber});
 	}
-	
+
 }
 
 /**
  * Called from chat room, processes hidden Pandora Prison messages
  * @param {Character} SenderCharacter - The character sending the message
  * @param {String} Interaction - The message sent
- * @returns {Object} - Nothing to be used
+ * @returns {void} - Nothing to be used
  */
 function PandoraPenitentiaryHiddenMessage(SenderCharacter, Interaction) {
 

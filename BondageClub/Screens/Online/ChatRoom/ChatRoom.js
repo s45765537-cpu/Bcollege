@@ -10,6 +10,19 @@ const ChatRoomSpaceType = /** @type {const} */({
 	MALE_ONLY: "M",
 	ASYLUM: "Asylum",
 });
+/** @type {Record<ChatRoomVisibilityModeLabel, ServerChatRoomRole[]>} */
+const ChatRoomVisibilityMode = {
+	PUBLIC: ["All"],
+	ADMIN_WHITELIST: ["Admin", "Whitelist"],
+	ADMIN: ["Admin"],
+	UNLISTED: [],
+};
+/** @type {Record<ChatRoomAccessModeLabel, ServerChatRoomRole[]>} */
+const ChatRoomAccessMode = {
+	PUBLIC: ["All"],
+	ADMIN_WHITELIST: ["Admin", "Whitelist"],
+	ADMIN: ["Admin"],
+};
 
 var ChatRoomBackground = "";
 /**
@@ -450,30 +463,42 @@ function ChatRoomCanServeDrink() { return ((CurrentCharacter != null) && Current
  */
 function ChatRoomCanGiveMoneyForOwner() { return (CurrentCharacter != null && Player.IsOwnedByCharacter(CurrentCharacter) && Player.IsFullyOwned() && ChatRoomMoneyForOwner > 0); }
 /**
+ * Checks if a given character is a chatroom admin.
+ * @param {Character} C - The character to check
+ * @returns {boolean} - TRUE if the character is an admin of the current chatroom.
+ */
+function ChatRoomCharacterIsAdmin(C) { return ((ChatRoomData != null && ChatRoomData.Admin != null) && (C != null && C.MemberNumber != null) && (ChatRoomData.Admin.indexOf(C.MemberNumber) >= 0)); }
+/**
  * Checks if the player is a chatroom admin.
  * @returns {boolean} - TRUE if the player is an admin of the current chatroom.
  */
-function ChatRoomPlayerIsAdmin() { return ((ChatRoomData != null && ChatRoomData.Admin != null) && (ChatRoomData.Admin.indexOf(Player.MemberNumber) >= 0)); }
+function ChatRoomPlayerIsAdmin() { return ChatRoomCharacterIsAdmin(Player); }
+/**
+ * Checks if the current character is an admin of the chatroom.
+ * @returns {boolean} - TRUE if the current character is an admin.
+ */
+function ChatRoomCurrentCharacterIsAdmin() { return ChatRoomCharacterIsAdmin(CurrentCharacter); }
+/**
+ * Checks if a given character is in the chatroom whitelist.
+ * @param {Character} C - The character to check
+ * @returns {boolean} - TRUE if the character is in the chatroom whitelist.
+ */
+function ChatRoomCharacterIsWhitelisted(C) { return ((ChatRoomData != null && ChatRoomData.Whitelist != null) && (C != null && C.MemberNumber != null) && (ChatRoomData.Whitelist.indexOf(C.MemberNumber) >= 0)); }
+/**
+ * Checks if the player is in the chatroom whitelist.
+ * @returns {boolean} - TRUE if the player is in the chatroom whitelist.
+ */
+function ChatRoomPlayerIsWhitelisted() { return ChatRoomCharacterIsWhitelisted(Player); }
+/**
+ * Checks if the current character is in the chatroom whitelist.
+ * @returns {boolean} - TRUE if the current character is in the chatroom whitelist.
+ */
+function ChatRoomCurrentCharacterIsWhitelisted() { return ChatRoomCharacterIsWhitelisted(CurrentCharacter); }
 /**
  * Checks if the player is currently in focus mode (non-empty {@link ChatRoomDrawFocusList})
  * @returns {boolean} - TRUE if the player is in focus mode
  */
 function ChatRoomPlayerIsInDrawFocus() { return ChatRoomDrawFocusList.length > 0; }
-/**
- * Checks if the current character is an admin of the chatroom.
- * @returns {boolean} - TRUE if the current character is an admin.
- */
-function ChatRoomCurrentCharacterIsAdmin() { return ((CurrentCharacter != null) && (ChatRoomData.Admin != null) && (ChatRoomData.Admin.indexOf(CurrentCharacter.MemberNumber) >= 0)); }
-/**
- * Checks if the player is in the chatroom whitelist.
- * @returns {boolean} - TRUE if the player is in the chatroom whitelist.
- */
-function ChatRoomPlayerIsWhitelisted() { return ((ChatRoomData != null && ChatRoomData.Whitelist != null) && (ChatRoomData.Whitelist.indexOf(Player.MemberNumber) >= 0)); }
-/**
- * Checks if the current character is in the chatroom whitelist.
- * @returns {boolean} - TRUE if the current character is in the chatroom whitelist.
- */
-function ChatRoomCurrentCharacterIsWhitelisted() { return ((CurrentCharacter != null) && (ChatRoomData.Whitelist != null) && (ChatRoomData.Whitelist.indexOf(CurrentCharacter.MemberNumber) >= 0)); }
 /**
  * Checks if the current character is in the player's focuslist (/focus).
  * @returns {boolean} - TRUE if the current character is in the player's focuslist.
@@ -495,8 +520,7 @@ function ChatRoomCanStartWheelFortune() { return (CurrentCharacter != null) && I
  */
 function ChatRoomStartWheelFortune() {
 	if ((CurrentCharacter == null) || !InventoryIsWorn(CurrentCharacter, "WheelFortune", "ItemDevices")) return;
-	WheelFortuneEntryModule = CurrentModule;
-	WheelFortuneEntryScreen = CurrentScreen;
+	WheelFortuneReturnScreen = CommonGetScreen();
 	WheelFortuneBackground = ChatRoomData.Background;
 	WheelFortuneCharacter = CurrentCharacter;
 	DialogLeave();
@@ -563,7 +587,7 @@ function ChatRoomTryToTakeSuitcase() {
 		KidnapLeagueOnlineBountyTargetStartedTime = CommonTime();
 	}
 	KidnapLeagueOnlineBountyTarget = CurrentCharacter.MemberNumber;
-	CurrentCharacter = null;
+	DialogLeave();
 }
 /**
  * Receives money from the suitcase
@@ -928,8 +952,8 @@ var ChatRoomSep = {
 	 */
 	_GetDisplayName: function _GetDisplayName(button) {
 		const segments = [
-			button.dataset.space?.replace("Asylum", InterfaceTextGet("ChatRoomSpaceAsylum")),
-			button.dataset.private ? InterfaceTextGet("PrivateRoom") : undefined,
+			InterfaceTextGet(`ChatRoomSpace${button.dataset.space || "F"}`),
+			button.dataset.private === "true" ? InterfaceTextGet("PrivateRoom") : undefined,
 			ChatRoomHTMLEntities(ChatSearchMuffle(button.dataset.room)),
 			button.dataset.messages ? `✉<sup>${button.dataset.messages}</sup>` : undefined,
 		];
@@ -959,7 +983,7 @@ var ChatRoomSep = {
 								button: {
 									children: ["˅"],
 									classList: ["chat-room-sep-collapse"],
-									attributes: { "aria-expanded": true },
+									attributes: { "aria-expanded": "true" },
 								},
 							},
 						),
@@ -1047,7 +1071,7 @@ var ChatRoomSep = {
 	/**
 	 * Set the room-specific of the currently active chat room separator
 	 * @param {HTMLDivElement} roomSep - The chat room separator
-	 * @param {Pick<ServerChatRoomData, "Name" | "Private" | "Space">} data - The data of the room
+	 * @param {Pick<ServerChatRoomData, "Name" | "Visibility" | "Space">} data - The data of the room
 	 */
 	SetRoomData: async function SetRoomData(roomSep, data) {
 		const button = /** @type {HTMLButtonElement} */(roomSep?.querySelector(".chat-room-sep-header"));
@@ -1057,7 +1081,7 @@ var ChatRoomSep = {
 
 		button.dataset.room = data.Name;
 		button.dataset.space = data.Space;
-		button.dataset.private = (data.Private || "").toString();
+		button.dataset.private = ChatRoomDataIsPrivate(data).toString();
 		button.innerHTML = ChatRoomSep._GetDisplayName(button);
 	},
 
@@ -1081,7 +1105,6 @@ function ChatRoomCreateElement() {
 			tag: "div",
 			attributes: {
 				id: "chat-room-div",
-				role: "log",
 				"screen-generated": CurrentScreen,
 			},
 			parent: document.body,
@@ -1089,7 +1112,7 @@ function ChatRoomCreateElement() {
 			children: [
 				{
 					tag: "div",
-					attributes: { id: "TextAreaChatLog" },
+					attributes: { id: "TextAreaChatLog", role: "log" },
 					classList: ["scroll-box"],
 				},
 				{
@@ -1131,7 +1154,7 @@ function ChatRoomCreateElement() {
 							{ noStyling: true },
 							{
 								button: {
-									attributes: { "aria-expanded": false, "aria-control": "chat-room-buttons" },
+									attributes: { "aria-expanded": "false", "aria-control": "chat-room-buttons" },
 									children: ["<"],
 								},
 							},
@@ -1289,10 +1312,11 @@ function ChatRoomClearAllElements() {
 
 /**
  * Starts the chatroom selection screen.
+ * @template {ModuleType} T
  * @param {ServerChatRoomSpace} Space - Name of the chatroom space
  * @param {ServerChatRoomGame} Game - Name of the chatroom game to play
- * @param {string | null} LeaveRoom - Name of the room to go back to when exiting chatsearch.
- * @param {ModuleType | null} LeaveSpace - Name of the space to go back to when exiting chatsearch.
+ * @param {ModuleScreens[T] | null} LeaveRoom - Name of the room to go back to when exiting chatsearch.
+ * @param {T | null} LeaveSpace - Name of the space to go back to when exiting chatsearch.
  * @param {string} Background - Name of the background to use in chatsearch.
  * @param {BackgroundTag[]} BackgroundTagList - List of available backgrounds in the chatroom space.
  * @returns {void} - Nothing.
@@ -1300,21 +1324,18 @@ function ChatRoomClearAllElements() {
 function ChatRoomStart(Space, Game, LeaveRoom, LeaveSpace, Background, BackgroundTagList) {
 	if (!LeaveRoom || !LeaveSpace) {
 		if (Player.GenderSettings.AutoJoinSearch.Female || Player.GenderSettings.AutoJoinSearch.Male) {
-			ChatSearchLeaveRoom = "MainHall";
-			ChatSearchLeaveSpace = "Room";
+			ChatSearchReturnScreen = ["Room", "MainHall"];
 		} else {
-			ChatSearchLeaveRoom = "ChatSelect";
-			ChatSearchLeaveSpace = "Online";
+			ChatSearchReturnScreen = ["Online", "ChatSelect"];
 		}
 	} else {
-		ChatSearchLeaveRoom = LeaveRoom;
-		ChatSearchLeaveSpace = LeaveSpace;
+		ChatSearchReturnScreen = /** @type {ScreenSpecifier} */([LeaveSpace, LeaveRoom]);
 	}
 
 	ChatRoomSpace = Space;
 	ChatRoomGame = Game;
 	ChatSearchBackground = Background;
-	ChatCreateBackgroundList = BackgroundsGenerateList(BackgroundTagList);
+	ChatAdminBackgroundList = BackgroundsGenerateList(BackgroundTagList);
 	BackgroundSelectionTagList = BackgroundTagList;
 	CommonSetScreen("Online", "ChatSearch");
 
@@ -1562,9 +1583,9 @@ function ChatRoomSetTarget(MemberNumber) {
 
 	let placeholder;
 	if (target) {
-		placeholder = `${TextGet("WhisperTo")} ${CharacterNickname(target)}`;
+		placeholder = `${TextGetInScope("Screens/Online/ChatRoom/Text_ChatRoom.csv", "WhisperTo")} ${CharacterNickname(target)}`;
 	} else {
-		placeholder = TextGet("PublicChat");
+		placeholder = TextGetInScope("Screens/Online/ChatRoom/Text_ChatRoom.csv", "PublicChat");
 	}
 	ElementSetAttribute("InputChat", "placeholder", placeholder);
 }
@@ -2480,17 +2501,17 @@ function ChatRoomOpenInformationScreen() {
  * The handler for the "Admin" button
  */
 function ChatRoomOpenAdminScreen() {
-	if ((ChatRoomData != null) && ChatRoomData.Private && (ChatSearchReturnToScreen == "AsylumGGTS")) {
+	if ((ChatRoomData != null) && ChatRoomIsPrivate() && (ChatSearchReturnToScreen == "AsylumGGTS")) {
 		AsylumGGTSMessage("NoAdminPrivate");
 		return;
 	}
-	if ((ChatRoomData != null) && ChatRoomData.Locked && (ChatRoomData.Game == "GGTS")) {
+	if ((ChatRoomData != null) && ChatRoomIsLocked() && (ChatRoomData.Game == "GGTS")) {
 		AsylumGGTSMessage("NoAdminLocked");
 		return;
 	}
 
 	ChatRoomStatusUpdate("Preference");
-	CommonSetScreen("Online", "ChatAdmin");
+	ChatAdminShowEdit(ChatRoomData);
 }
 
 /**
@@ -2537,7 +2558,7 @@ function ChatRoomMenuClick(event) {
 				}
 				case "GameOption":
 					// The cut button can become the game option button if there's an online game going on
-					CommonSetScreen("Online", "Game" + ChatRoomGame);
+					CommonSetScreen("Online", /** @type {ModuleScreens["Online"]} */("Game" + ChatRoomGame));
 					break;
 				case "Kneel":
 					ChatRoomToggleKneel();
@@ -2621,6 +2642,104 @@ function ChatRoomAttemptStandMinigameEnd() {
 }
 
 /**
+ * Checks if the given chat room visibility property causes it to be "private" (has any form of visibility control)
+ * @param {ServerChatRoomData | ServerChatRoomSearchData | ServerChatRoomSettings} room - The visibility property to check
+ * @returns {boolean} - Returns TRUE if the room is private. FALSE otherwise, or visibility is not set.
+ */
+function ChatRoomDataIsPrivate(room) {
+	return room.Visibility && !CommonArraysEqual(room?.Visibility, ChatRoomVisibilityMode.PUBLIC) || room.Private;
+}
+
+/**
+ * Checks if the current chat room is "private" (has any form of visibility control)
+ * @returns {boolean} - Returns TRUE if the room is private. FALSE otherwise, or if room doesn't exist.
+ */
+function ChatRoomIsPrivate() {
+	return ChatRoomDataIsPrivate(ChatRoomData);
+}
+
+/**
+ * Checks if the given chat room access property causes it to be "locked" (has any form of access control)
+ * @param {ServerChatRoomData | ServerChatRoomSearchData | ServerChatRoomSettings} room - The access property to check
+ * @returns {boolean} - Returns TRUE if the room is locked. FALSE otherwise, or access is not set.
+ */
+function ChatRoomDataIsLocked(room) {
+	return room.Access && !CommonArraysEqual(room?.Access, ChatRoomAccessMode.PUBLIC) || room.Locked;
+}
+
+/**
+ * Checks if the current chat room is "locked" (has any form of access control)
+ * @returns {boolean} - Returns TRUE if the room is locked. FALSE otherwise, or if room doesn't exist.
+ */
+function ChatRoomIsLocked() {
+	return ChatRoomDataIsLocked(ChatRoomData);
+}
+
+/**
+ * Checks if a given character has the needed permissions for a specific role
+ * @param {Character} C - The character to check
+ * @param {ServerChatRoomData} room - The roles to check
+ * @param {"visible"|"access"} role
+ * @returns {boolean} - Returns TRUE if the character matches any role. FALSE otherwise.
+ */
+function ChatRoomCharacterHasAnyRole(C, room, role) {
+	if (C == null || room == null) return false;
+	let perms;
+	switch (role) {
+		case "visible":
+			perms = room.Visibility;
+			break;
+		case "access":
+			perms = room.Access;
+			break;
+		default:
+			return false;
+	}
+	if (perms.includes("All")) return true;
+	if (perms.includes("Admin") && ChatRoomCharacterIsAdmin(C)) return true;
+	if (perms.includes("Whitelist") && ChatRoomCharacterIsWhitelisted(C)) return true;
+	return false;
+}
+
+/**
+ * Checks if a given character can see the room (meets the visibility list requirements)
+ * @param {Character} C - The character to check
+ * @returns {boolean} - Returns TRUE if the player can see the room.
+ */
+function ChatRoomCharacterCanSeeRoom(C) { return ChatRoomCharacterHasAnyRole(C, ChatRoomData, "visible"); }
+
+/**
+ * Checks if the player can see the room (meets the visibility list requirements)
+ * @returns {boolean} - Returns TRUE if the player can see the room.
+ */
+function ChatRoomPlayerCanSeeRoom() { return ChatRoomCharacterCanSeeRoom(Player); }
+
+/**
+ * Checks if the current character can see the room (meets the visibility list requirements)
+ * @returns {boolean} - Returns TRUE if the current character can see the room.
+ */
+function ChatRoomCurrentCharacterCanSeeRoom() { return ChatRoomCharacterCanSeeRoom(CurrentCharacter); }
+
+/**
+ * Checks if a given character has access to the room (can enter/leave) (meets the access list requirements)
+ * @param {Character} C - The character to check
+ * @returns {boolean} - Returns TRUE if the player has access to the room.
+ */
+function ChatRoomCharacterCanAccessRoom(C) { return ChatRoomCharacterHasAnyRole(C, ChatRoomData, "access"); }
+
+/**
+ * Checks if the player has access to the room (can enter/leave) (meets the access list requirements)
+ * @returns {boolean} - Returns TRUE if the player has access to the room.
+ */
+function ChatRoomPlayerCanAccessRoom() { return ChatRoomCharacterCanAccessRoom(Player); }
+
+/**
+ * Checks if the current character has access to the room (can enter/leave) (meets the access list requirements)
+ * @returns {boolean} - Returns TRUE if the current character has access to the room.
+ */
+function ChatRoomCurrentCharacterCanAccessRoom() { return ChatRoomCharacterCanAccessRoom(CurrentCharacter); }
+
+/**
  * Checks if the player can leave the chatroom.
  * @returns {boolean} - Returns TRUE if the player can leave the current chat room.
  */
@@ -2632,9 +2751,9 @@ function ChatRoomCanLeave() {
 	}
 	if (!Player.CanWalk()) return false; // Cannot leave if cannot walk
 	if ((ChatRoomData.Game == "Prison") && PandoraPenitentiaryIsInmate(Player)) return false; // Cannot leave if locked down in Pandora Penitentiary
-	if (ChatRoomData.Locked && (ChatRoomData.Game == "GGTS")) return false; // GGTS game can forbid anyone to leave
+	if (ChatRoomIsLocked() && (ChatRoomData.Game == "GGTS")) return false; // GGTS game can forbid anyone to leave
 	if (ChatRoomActiveView.CanLeave && !ChatRoomActiveView.CanLeave()) return false;
-	if (!ChatRoomData.Locked || ChatRoomPlayerIsAdmin() || ChatRoomPlayerIsWhitelisted()) return true; // Player can leave if the room isn't locked, they are an administrator, or are on the whitelist
+	if (ChatRoomPlayerCanAccessRoom()) return true;
 	for (let C = 0; C < ChatRoomCharacter.length; C++)
 		if (ChatRoomData.Admin.indexOf(ChatRoomCharacter[C].MemberNumber) >= 0)
 			return false; // Cannot leave if the room is locked and there's an administrator inside
@@ -3150,14 +3269,16 @@ function ChatRoomCharacterItemUpdate(C, Group) {
 		}
 
 		const Item = InventoryGet(C, Group);
-		const P = {};
-		P.Target = C.MemberNumber;
-		P.Group = Group;
-		P.Name = (Item != null) ? Item.Asset.Name : undefined;
-		P.Color = ((Item != null) && (Item.Color != null)) ? Item.Color : "Default";
-		P.Difficulty = (Item != null) ? Item.Difficulty - Item.Asset.Difficulty : SkillGetWithRatio(Player, "Bondage");
-		P.Property = ((Item != null) && (Item.Property != null)) ? Item.Property : undefined;
-		P.Craft = ((Item != null) && (Item.Craft != null)) ? Item.Craft : undefined;
+		/** @type {ServerCharacterItemUpdate} */
+		const P = {
+			Target: C.MemberNumber,
+			Group: Group,
+			Name: (Item != null) ? Item.Asset.Name : undefined,
+			Color: (Item != null && Item.Color != null) ? Item.Color : "Default",
+			Difficulty: (Item != null) ? Item.Difficulty - Item.Asset.Difficulty : SkillGetWithRatio(Player, "Bondage"),
+			Property: ((Item != null) && (Item.Property != null)) ? Item.Property : undefined,
+			Craft: ((Item != null) && (Item.Craft != null)) ? Item.Craft : undefined,
+		};
 		ServerSend("ChatRoomCharacterItemUpdate", P);
 	}
 }
@@ -3690,6 +3811,9 @@ function ChatRoomMessageProcessHidden(data, SenderCharacter) {
 		PandoraPenitentiaryHiddenMessage(SenderCharacter, data.Content);
 	} else if (data.Content.startsWith("PortalLink")) {
 		PortalLinkProcessMessage(SenderCharacter, data);
+	}
+	else if (data.Content == "ClubCardAdminResetGameHidden") {
+		ClubCardResetGameStatus();
 	}
 	return true;
 }
@@ -4311,8 +4435,8 @@ function ChatRoomValidateProperties(obj)
 		&& typeof room.Background === "string"
 		&& typeof room.Limit === "number"
 		&& typeof room.Game === "string"
-		&& typeof room.Locked === "boolean"
-		&& typeof room.Private === "boolean"
+		&& Array.isArray(room.Visibility) && room.Visibility.every(v => typeof v === "string")
+		&& Array.isArray(room.Access) && room.Access.every(s => typeof s === "string")
 		&& Array.isArray(room.BlockCategory) && room.BlockCategory.every(c => typeof c === "string")
 		&& (!room.Character || Array.isArray(room.Character) && room.Character.every(c => typeof c === "object"))
 		&& typeof room.Language === "string"
@@ -4484,11 +4608,13 @@ function ChatRoomSyncMemberLeave(data) {
 	// The allowed menu actions may have changed
 	ChatRoomMenuBuild();
 
+	//For ClubCard, in case one of the players disconnects from the server, the other player sends a message about it to the game chat.
+	if (CurrentScreen === "ClubCard") ClubCardCheckDisconnected(data.SourceMemberNumber);
 }
 
 /**
  * Handles the reception of the room properties from the server.
- * @param {ServerChatRoomSyncMessage} data - Room object containing the updated chatroom properties.
+ * @param {ServerChatRoomSyncPropertiesMessage} data - Room object containing the updated chatroom properties.
  * @returns {void} - Nothing.
  */
 function ChatRoomSyncRoomProperties(data) {
@@ -4699,7 +4825,8 @@ function ChatRoomSyncItem(data) {
 
 			const updateParams = ValidationCreateDiffParams(ChatRoomCharacter[C], data.Source);
 			const previousItem = InventoryGet(ChatRoomCharacter[C], data.Item.Group);
-			const newItem = ServerBundledItemToAppearanceItem(ChatRoomCharacter[C].AssetFamily, data.Item);
+			// Go home TS, you're drunk: this explicit downcast should not be necessary, but here we are
+			const newItem = data.Item.Name == null ? null : ServerBundledItemToAppearanceItem(ChatRoomCharacter[C].AssetFamily, /** @type {ServerCharacterItemUpdate & { Name: string }} */(data.Item));
 
 			let { item, valid } = ValidationResolveAppearanceDiff(data.Item.Group, previousItem, newItem, updateParams);
 
@@ -4709,15 +4836,18 @@ function ChatRoomSyncItem(data) {
 				InventoryRemove(ChatRoomCharacter[C], data.Item.Group, false);
 			}
 
-			if (item) {
+			item: if (item) {
 
 				// Puts the item on the character and apply the craft & property
-				CharacterAppearanceSetItem(ChatRoomCharacter[C], data.Item.Group, item.Asset, item.Color, item.Difficulty, null, false);
-				if (item.Craft != null)
-					for (let Char of ChatRoomCharacter)
-						if (Char.MemberNumber === data.Source)
-							InventoryCraft(Char, ChatRoomCharacter[C], data.Item.Group, item.Craft, false, false);
-				InventoryGet(ChatRoomCharacter[C], data.Item.Group).Property = item.Property;
+				const wornItem = CharacterAppearanceSetItem(ChatRoomCharacter[C], item.Asset.Group.Name, item.Asset, item.Color, item.Difficulty, null, false);
+				if (wornItem == null) {
+					valid = false;
+					break item;
+				}
+				if (item.Craft && CraftingValidate(item.Craft, item.Asset, false, false)) {
+					wornItem.Craft = item.Craft;
+				}
+				wornItem.Property = item.Property;
 
 				/** @type {AppearanceDiffMap} */
 				const diffMap = {};
@@ -5150,14 +5280,13 @@ function ChatRoomAllowItem(data) {
  * @param {Character} C
  */
 function ChatRoomAppearanceLoadCharacter(C) {
-	const module = CurrentModule;
-	const screen = CurrentScreen;
+	const screen = CommonGetScreen();
 	const inChatRoom = ServerPlayerIsInChatRoom();
 	if (inChatRoom) {
 		ChatRoomStatusUpdate("Wardrobe");
 	}
 	CharacterAppearanceLoadCharacter(C, (ready) => {
-		CommonSetScreen(module, screen);
+		CommonSetScreen(...screen);
 		if (inChatRoom) {
 			ChatRoomShowElements();
 			ChatRoomStatusUpdate(null);
@@ -5459,8 +5588,7 @@ function ChatRoomSetRule(data) {
 				if (C.IsOwner())
 					CharacterSetCurrent(C);
 			if ((CurrentCharacter == null) || !CurrentCharacter.IsOwner() || !InventoryIsWorn(CurrentCharacter, "WheelFortune", "ItemDevices")) return;
-			WheelFortuneEntryModule = CurrentModule;
-			WheelFortuneEntryScreen = CurrentScreen;
+			WheelFortuneReturnScreen = CommonGetScreen();
 			WheelFortuneBackground = ChatRoomData.Background;
 			WheelFortuneCharacter = CurrentCharacter;
 			WheelFortuneForced = true;
@@ -5822,7 +5950,7 @@ function ChatRoomRecreate() {
 	if (CurrentTime > ChatRoomNewRoomToUpdateTimer && ChatRoomNewRoomToUpdate && Player.ImmersionSettings && Player.ImmersionSettings.ReturnToChatRoomAdmin &&
 		Player.ImmersionSettings.ReturnToChatRoom && Player.LastChatRoom.Admin) {
 		// Add the player if they are not an admin
-		if (!Player.LastChatRoom.Admin.includes(Player.MemberNumber) && Player.LastChatRoom.Private) {
+		if (!Player.LastChatRoom.Admin.includes(Player.MemberNumber) && ChatRoomDataIsPrivate(Player.LastChatRoom)) {
 			Player.LastChatRoom.Admin.push(Player.MemberNumber);
 		}
 
@@ -5873,7 +6001,8 @@ function ChatRoomDataChanged() {
 		prev.Background !== curr.Background ||
 		prev.Limit !== curr.Limit ||
 		prev.Language !== curr.Language ||
-		prev.Private !== curr.Private ||
+		prev.Visibility !== curr.Visibility ||
+		prev.Access !== curr.Access ||
 		prev.Description !== curr.Description ||
 		!CommonArraysEqual(prev.Admin, curr.Admin) ||
 		!CommonArraysEqual(prev.Whitelist, curr.Whitelist) ||
@@ -6035,6 +6164,6 @@ function ChatRoomPronounSubstitutions(C, key, hideIdentity) {
  */
 function ChatRoomGetSettings(room) {
 	/** @type {(keyof ChatRoomSettings)[]} */
-	const keys = ["Name", "Description", "Admin", "Whitelist", "Ban", "Background", "Limit", "Game", "Locked", "Private", "BlockCategory", "Language", "Space", "MapData", "Custom"];
+	const keys = ["Name", "Description", "Admin", "Whitelist", "Ban", "Background", "Limit", "Game", "Visibility", "Access", "BlockCategory", "Language", "Space", "MapData", "Custom"];
 	return /** @type {ChatRoomSettings} */(Object.fromEntries(keys.map(k => [k, room[k]])));
 }

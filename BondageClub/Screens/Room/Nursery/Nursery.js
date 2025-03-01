@@ -433,7 +433,9 @@ function NurseryPlayerRemoveDress() {
 	InventoryRemove(Player, "Cloth");
 }
 
-// Player gives an adorable ABDL reply
+/**
+ * Player gives an adorable ABDL reply
+ */
 function NurseryPlayerCuteRelpy() {
 	DialogChangeReputation("ABDL", 1);
 	DialogRemove();

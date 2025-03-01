@@ -955,19 +955,19 @@ function CraftingLoad() {
 					CraftingID.propertyButton, CraftingEventListeners._ClickExpand,
 					{ role: "menuitemradio" },
 					{ button: {
-						attributes: { "aria-expanded": false, "aria-controls": CraftingID.propertyPanel },
+						attributes: { "aria-expanded": "false", "aria-controls": CraftingID.propertyPanel },
 						children: [TextGet(`PropertyNormal`) + ": " + TextGet(`DescriptionNormal`)],
 					}},
 				),
 				ElementButton.Create(
 					CraftingID.assetButton, CraftingEventListeners._ClickExpand,
 					{ role: "menuitemradio", label: TextGet("SelectItem"), image: "./Icons/NoCraft.png" },
-					{ button: { attributes: { "aria-expanded": false, "aria-controls": CraftingID.assetPanel } } },
+					{ button: { attributes: { "aria-expanded": "false", "aria-controls": CraftingID.assetPanel } } },
 				),
 				ElementButton.Create(
 					CraftingID.padlockButton, CraftingEventListeners._ClickExpand,
 					{ role: "menuitemradio", label: TextGet("NoLock"), image: "./Icons/NoLock.png" },
-					{ button: { attributes: { "aria-expanded": false, "aria-controls": CraftingID.padlockPanel } } },
+					{ button: { attributes: { "aria-expanded": "false", "aria-controls": CraftingID.padlockPanel } } },
 				),
 				{
 					tag: "div",
@@ -989,7 +989,7 @@ function CraftingLoad() {
 						{
 							tag: "div",
 							classList: ["crafting-grid", "scroll-box"],
-							attributes: { id: CraftingID.propertyGrid, role: "radiogroup", "aria-required": true },
+							attributes: { id: CraftingID.propertyGrid, role: "radiogroup", "aria-required": "true" },
 							children: Array.from(CraftingPropertyMap.keys()).map((property, i) => {
 								return CraftingElements._RadioButton(
 									`${CraftingID.propertyButton}-${property}`,
@@ -1024,7 +1024,7 @@ function CraftingLoad() {
 						{
 							tag: "div",
 							classList: ["crafting-grid", "scroll-box"],
-							attributes: { id: CraftingID.assetGrid, role: "radiogroup", "aria-required": true },
+							attributes: { id: CraftingID.assetGrid, role: "radiogroup", "aria-required": "true" },
 							children: CraftingItemListBuild().map((a, i) => {
 								return CraftingElements._RadioButton(
 									CraftingID.assetButton,
@@ -1128,7 +1128,7 @@ function CraftingLoad() {
 						{ tag: "span", children: [TextGet("EnterColor")] },
 						{
 							tag: "input",
-							attributes: { id: CraftingID.colorsInput, type: "text", size: 0, disabled: true },
+							attributes: { id: CraftingID.colorsInput, type: "text", size: 0, disabled: "true" },
 							eventListeners: { change: CraftingEventListeners._ChangeColor },
 						},
 						ElementButton.Create(CraftingID.colorsButton, CraftingEventListeners._ClickColors, { disabled: true }),
@@ -1141,7 +1141,7 @@ function CraftingLoad() {
 					children: [
 						{
 							tag: "input",
-							attributes: { id: CraftingID.layeringInput, type: "number", min: -99, max: 99, inputmode: "numeric", size: 0, disabled: true },
+							attributes: { id: CraftingID.layeringInput, type: "number", min: -99, max: 99, inputmode: "numeric", size: 0, disabled: "true" },
 							eventListeners: { blur: ElementNumberInputBlur, wheel: ElementNumberInputWheel, input: CraftingEventListeners._InputLayering },
 						},
 						ElementButton.Create(CraftingID.layeringButton, CraftingEventListeners._ClickLayering, { disabled: true }),
@@ -1220,7 +1220,6 @@ function CraftingUpdatePreview() {
 
 	for (const RelevantAsset of RelevantAssets) {
 		InventoryWear(CraftingPreview, RelevantAsset.Name, RelevantAsset.DynamicGroupName, null, null, Player.MemberNumber, Craft, false);
-		InventoryCraft(CraftingPreview, CraftingPreview, /** @type {AssetGroupItemName} */(RelevantAsset.DynamicGroupName), Craft, false, true, false);
 		// Hack for the stuff in ItemAddons, since there's no way to resolve their prerequisites
 		if (RelevantAsset.Prerequisite.includes("OnBed")) {
 			const bedType = RelevantAsset.Name.includes("Medical") ? "MedicalBed" : "Bed";

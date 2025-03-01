@@ -867,7 +867,7 @@ var AssetFemale3DCG = [
 						AllowTypes: { typed: [1, 2, 3, 4, 5, 6, 7] },
 						CreateLayerTypes: ["typed"],
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 					},
 				],
 			},
@@ -896,141 +896,148 @@ var AssetFemale3DCG = [
 					{
 						Name: "None",
 						PoseMapping: {},
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { t: 0 },
 						AllowColorize: true,
 					},
 					{
 						Name: "BondageCollege",
 						PoseMapping: {},
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { t: 1 },
 						CopyLayerColor: "None",
 					},
 					{
 						Name: "BTG",
 						PoseMapping: {},
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { t: 2 },
 						CopyLayerColor: "None",
 					},
 					{
 						Name: "Dominant",
 						PoseMapping: {},
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { t: 3 },
 						CopyLayerColor: "None",
 					},
 					{
 						Name: "Bonk",
 						PoseMapping: {},
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { t: 4 },
 						CopyLayerColor: "None",
 					},
 					{
 						Name: "OldXGame",
 						PoseMapping: {},
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { t: 5 },
 						CopyLayerColor: "None",
 					},
 					{
 						Name: "Staff",
 						PoseMapping: {},
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { t: 6 },
 						CopyLayerColor: "None",
 					},
 					{
 						Name: "Elite",
 						PoseMapping: {},
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { t: 7 },
 						CopyLayerColor: "None",
 					},
 					{
 						Name: "Raiders",
 						PoseMapping: {},
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { t: 8 },
 						CopyLayerColor: "None",
 					},
 					{
 						Name: "WhiteMoon",
 						PoseMapping: {},
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { t: 9 },
 						CopyLayerColor: "None",
 					},
 					{
 						Name: "ZamStick",
 						PoseMapping: {},
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { t: 10 },
 						CopyLayerColor: "None",
 					},
 					{
 						Name: "Eclipse",
 						PoseMapping: {},
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { t: 11 },
 						CopyLayerColor: "None",
 					},
 					{
 						Name: "RadFrog",
 						PoseMapping: {},
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { t: 12 },
 						CopyLayerColor: "None",
 					},
 					{
 						Name: "ZamStickII",
 						PoseMapping: {},
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { t: 13 },
 						CopyLayerColor: "None",
 					},
 					{
 						Name: "Hwood",
 						PoseMapping: {},
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { t: 14 },
 						CopyLayerColor: "None",
 					},
 					{
 						Name: "BCRules",
 						PoseMapping: {},
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { t: 15 },
 						CopyLayerColor: "None",
 					},
 					{
 						Name: "Born",
 						PoseMapping: {},
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { t: 16 },
 						CopyLayerColor: "None",
 					},
 					{
 						Name: "Hogtied",
 						PoseMapping: {},
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { t: 17 },
 						CopyLayerColor: "None",
 					},
 					{
 						Name: "BCollege2",
 						PoseMapping: {},
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { t: 18 },
 						CopyLayerColor: "None",
 					},
 					{
 						Name: "ControlPad1",
 						PoseMapping: {},
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { t: 19 },
+						CopyLayerColor: "None",
+					},
+					{
+						Name: "Gangriels",
+						PoseMapping: {},
+						ParentGroup: {},
+						AllowTypes: { t: 20 },
 						CopyLayerColor: "None",
 					},
 				],
@@ -2149,7 +2156,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Buckles",
 						Priority: 25,
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							...AssetPoseMapping.Cloth,
 							BackBoxTie: "TapedHands",
@@ -2268,7 +2275,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "BBuckles",
 						Priority: 25,
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							...AssetPoseMapping.Cloth,
 							TapedHands: PoseType.DEFAULT,
@@ -2288,7 +2295,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Collar",
 						Priority: 25,
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							...AssetPoseMapping.Cloth,
 							TapedHands: PoseType.DEFAULT,
@@ -2308,7 +2315,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "CBuckle",
 						Priority: 25,
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							...AssetPoseMapping.Cloth,
 							TapedHands: PoseType.DEFAULT,
@@ -2646,7 +2653,7 @@ var AssetFemale3DCG = [
 					{ Name: "Base" },
 					{
 						Name: "BackSkirt",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 3,
 						PoseMapping: {
 							...AssetPoseMapping.Cloth,
@@ -2675,9 +2682,9 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Blouse1",
-				InventoryID: 145,
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
+				InventoryID: 145,
 				Value: 20,
 				Top: 1,
 				BuyGroup: "Blouse1",
@@ -2745,7 +2752,7 @@ var AssetFemale3DCG = [
 					"ClothAccessoryPoncho",
 					"ItemLegsSlime",
 				],
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 32,
 				Layer: [
 					{
@@ -2882,7 +2889,7 @@ var AssetFemale3DCG = [
 				Prerequisite: ["HasBreasts"],
 				Value: 40,
 				Priority: 30,
-				ParentGroup: null,
+				ParentGroup: {},
 				Extended: true,
 				HideItem: ["ClothAccessoryPoncho", "ClothAccessoryCape"],
 				Layer: [
@@ -3228,6 +3235,55 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
+				Name: "MeshTop",
+				InventoryID: 1214,
+				Value: 10,
+				DefaultColor: ["#1C1C1C", "#1C1C1C"],
+				BuyGroup: "MeshTop",
+				Priority: 15,
+				Top: 0,
+				Left: 0,
+				Expose: [
+					"ItemVulva",
+					"ItemVulvaPiercings",
+					"ItemButt",
+					"ItemNipples",
+					"ItemNipplesPiercings",
+					"ItemBreast",
+					"ItemTorso",
+					"ItemTorso2",
+				],
+				PoseMapping: {
+					...AssetPoseMapping.Cloth,
+					AllFours: "AllFours",
+					BackBoxTie: PoseType.DEFAULT,
+					BackCuffs: PoseType.DEFAULT,
+					BackElbowTouch: PoseType.DEFAULT,
+					Hogtied: "Hogtied",
+					OverTheHead: "OverTheHead",
+					TapedHands: PoseType.DEFAULT,
+					Yoked: "Yoked",
+				},
+				Layer: [
+					{
+						Name: "Top",
+						CreateLayerTypes: ["t"],
+						AllowTypes: { t: [0, 1, 2, 3, 4, 5] },
+					},
+					{
+						Name: "Sleeves",
+						CreateLayerTypes: ["s"],
+						AllowTypes: { s: 0 },
+						InheritPoseMappingFields: true,
+						PoseMapping: {
+							BackBoxTie: "BackBoxTie",
+							BackCuffs: "BackCuffs",
+							BackElbowTouch: "BackElbowTouch",
+						},
+					},
+				],
+			},
+			{
 				Name: "CorsetDress",
 				InventoryID: 161,
 				Gender: "F",
@@ -3349,7 +3405,7 @@ var AssetFemale3DCG = [
 							Hogtied: PoseType.HIDE,
 						},
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 					},
 					{
 						Name: "Brooch",
@@ -3411,7 +3467,7 @@ var AssetFemale3DCG = [
 							Suspension: "Suspension",
 						},
 						CopyLayerColor: "Detail2",
-						ParentGroup: null,
+						ParentGroup: {},
 					},
 					{
 						Name: "Detail2B",
@@ -3428,7 +3484,7 @@ var AssetFemale3DCG = [
 							Suspension: PoseType.HIDE,
 						},
 						CopyLayerColor: "Detail2",
-						ParentGroup: null,
+						ParentGroup: {},
 					},
 					{
 						Name: "Detail3",
@@ -3458,7 +3514,7 @@ var AssetFemale3DCG = [
 							Suspension: "Suspension",
 						},
 						CopyLayerColor: "Detail3",
-						ParentGroup: null,
+						ParentGroup: {},
 					},
 					{
 						Name: "Detail3B",
@@ -3474,7 +3530,7 @@ var AssetFemale3DCG = [
 							AllFours: PoseType.HIDE,
 						},
 						CopyLayerColor: "Detail3",
-						ParentGroup: null,
+						ParentGroup: {},
 					},
 					{
 						Name: "Ribbon",
@@ -3491,7 +3547,7 @@ var AssetFemale3DCG = [
 							Suspension: "Suspension",
 						},
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 					},
 					{
 						Name: "RibbonA",
@@ -3506,7 +3562,7 @@ var AssetFemale3DCG = [
 							OverTheHead: PoseType.HIDE,
 						},
 						CopyLayerColor: "Ribbon",
-						ParentGroup: null,
+						ParentGroup: {},
 					},
 				],
 			},
@@ -3518,11 +3574,7 @@ var AssetFemale3DCG = [
 				Fetish: ["Leather"],
 				Value: 37,
 				BuyGroup: "RibbonCorset",
-				DefaultColor: [
-					"#707070",
-					"#AE9974",
-					"#F56899",
-				],
+				DefaultColor: ["#707070", "#AE9974", "#F56899"],
 				Layer: [
 					{
 						Name: "Corset",
@@ -3571,7 +3623,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "HogCorset",
-						ParentGroup: null,
+						ParentGroup: {},
 						Top: 0,
 						Left: 0,
 						Priority: 30,
@@ -3586,7 +3638,6 @@ var AssetFemale3DCG = [
 							Hogtied: "Hogtied",
 							AllFours: PoseType.HIDE,
 						},
-						
 					},
 				],
 			},
@@ -4352,7 +4403,7 @@ var AssetFemale3DCG = [
 				},
 				Layer: [
 					{ Name: "Main", AllowColorize: true },
-					{ Name: "Metal", ParentGroup: null, AllowColorize: true },
+					{ Name: "Metal", ParentGroup: {}, AllowColorize: true },
 				],
 			},
 			{
@@ -4374,11 +4425,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "ComboBelt",
 				Priority: 30,
 				Extended: true,
-				DefaultColor: [
-					"#E59292",
-					"#A0A0A0",
-					"#808080",
-				],
+				DefaultColor: ["#E59292", "#A0A0A0", "#808080"],
 				Layer: [
 					{
 						Name: "Belt",
@@ -4397,7 +4444,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Detail",
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							BackBoxTie: "BackBoxTie",
 							BackCuffs: "BackBoxTie",
@@ -4531,17 +4578,17 @@ var AssetFemale3DCG = [
 				Value: 40,
 				Left: 148,
 				Top: 70,
-				ParentGroup: null,
+				ParentGroup: {},
 			},
-			{ Name: "Necklace2", Left: 147, Top: 90, ParentGroup: null },
-			{ Name: "Necklace3", Left: 147, Top: 110, ParentGroup: null },
+			{ Name: "Necklace2", Left: 147, Top: 90, ParentGroup: {} },
+			{ Name: "Necklace3", Left: 147, Top: 110, ParentGroup: {} },
 			{
 				Name: "Necklace4",
 				InventoryID: 187,
 				Value: 30,
 				Left: 147,
 				Top: 110,
-				ParentGroup: null,
+				ParentGroup: {},
 			},
 			{
 				Name: "NecklaceLock",
@@ -4550,7 +4597,7 @@ var AssetFemale3DCG = [
 				Value: 40,
 				Left: 155,
 				Top: 152,
-				ParentGroup: null,
+				ParentGroup: {},
 				Extended: true,
 				Layer: [{ Name: "Chain" }, { Name: "Lock" }],
 			},
@@ -4561,7 +4608,7 @@ var AssetFemale3DCG = [
 				Value: 40,
 				Left: 153,
 				Top: 152,
-				ParentGroup: null,
+				ParentGroup: {},
 				Extended: true,
 				Layer: [{ Name: "Chain" }, { Name: "Key" }],
 			},
@@ -4571,7 +4618,7 @@ var AssetFemale3DCG = [
 				Value: 10,
 				Left: 145,
 				Top: 180,
-				ParentGroup: null,
+				ParentGroup: {},
 				Layer: [{ Name: "String" }, { Name: "Card" }],
 			},
 			{
@@ -4580,7 +4627,7 @@ var AssetFemale3DCG = [
 				Value: 40,
 				Left: 148,
 				Top: 70,
-				ParentGroup: null,
+				ParentGroup: {},
 			},
 			{
 				Name: "NecklaceBallGag",
@@ -4591,7 +4638,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "BallGag",
 				Left: 150,
 				Top: 10,
-				ParentGroup: null,
+				ParentGroup: {},
 				Layer: [{ Name: "Strap" }, { Name: "Ball" }],
 			},
 			{
@@ -4602,7 +4649,7 @@ var AssetFemale3DCG = [
 				Value: 40,
 				Left: 0,
 				Top: 0,
-				ParentGroup: null,
+				ParentGroup: {},
 			},
 			{
 				Name: "ElegantHeartNecklace",
@@ -4610,7 +4657,7 @@ var AssetFemale3DCG = [
 				Value: 30,
 				Left: 155,
 				Top: 152,
-				ParentGroup: null,
+				ParentGroup: {},
 				Layer: [
 					{ Name: "Necklace", AllowColorize: true },
 					{ Name: "Jewels", AllowColorize: true },
@@ -4623,7 +4670,7 @@ var AssetFemale3DCG = [
 				Left: 148,
 				Top: 97,
 				BuyGroup: "ScarfGag",
-				ParentGroup: null,
+				ParentGroup: {},
 			},
 			{
 				Name: "FlowerGarland",
@@ -4632,7 +4679,7 @@ var AssetFemale3DCG = [
 				Left: 0,
 				Top: -18,
 				DefaultColor: ["#AC5B9D", "#E4E988"],
-				ParentGroup: null,
+				ParentGroup: {},
 				Layer: [{ Name: "Petals" }, { Name: "Center" }],
 			},
 			{
@@ -4644,7 +4691,7 @@ var AssetFemale3DCG = [
 				Top: 200,
 				DefaultColor: "#956B1C",
 				BuyGroup: "HempRope",
-				ParentGroup: null,
+				ParentGroup: {},
 				Extended: true,
 				CreateLayerTypes: ["typed"],
 			},
@@ -4656,7 +4703,7 @@ var AssetFemale3DCG = [
 				Left: 230,
 				Top: 200,
 				DefaultColor: "#444444",
-				ParentGroup: null,
+				ParentGroup: {},
 				Extended: true,
 				CreateLayerTypes: ["typed"],
 			},
@@ -4668,7 +4715,7 @@ var AssetFemale3DCG = [
 				Left: 148,
 				Top: 97,
 				BuyGroup: "Catsuit",
-				ParentGroup: null,
+				ParentGroup: {},
 			},
 			{
 				Name: "NecklaceButterfly",
@@ -4676,7 +4723,7 @@ var AssetFemale3DCG = [
 				Value: 50,
 				Left: 155,
 				Top: 152,
-				ParentGroup: null,
+				ParentGroup: {},
 				BuyGroup: "ButterflyPendant",
 				Layer: [{ Name: "Metal" }, { Name: "Stones" }],
 			},
@@ -4688,7 +4735,7 @@ var AssetFemale3DCG = [
 				Top: 90,
 				DefaultColor: "#C08E86",
 				Extended: true,
-				ParentGroup: null,
+				ParentGroup: {},
 				Layer: [
 					{
 						Name: "Option1",
@@ -4715,7 +4762,7 @@ var AssetFemale3DCG = [
 				Left: 147,
 				Top: 90,
 				DefaultColor: ["#E7D371", "#ABC4C8", "#B2A153"],
-				ParentGroup: null,
+				ParentGroup: {},
 				Layer: [
 					{
 						Name: "Necklace",
@@ -4739,7 +4786,7 @@ var AssetFemale3DCG = [
 				Top: 97,
 				BuyGroup: "ScarfGag",
 				Extended: true,
-				ParentGroup: null,
+				ParentGroup: {},
 				CreateLayerTypes: ["typed"],
 			},
 			// Breast Compatible Clothing
@@ -4769,7 +4816,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Choker",
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {},
 					},
 				],
@@ -5124,9 +5171,9 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Blouse1",
-				InventoryID: 145,
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
+				InventoryID: 145,
 				Value: -1,
 				Top: 1,
 				Priority: 29,
@@ -5219,6 +5266,27 @@ var AssetFemale3DCG = [
 						Priority: 27,
 					},
 				],
+			},
+			{
+				Name: "ShinyLeotard",
+				InventoryID: 1216,
+				Gender: "F",
+				Prerequisite: ["HasBreasts"],
+				Value: 70,
+				Top: 0,
+				Left: 0,
+				Hide: ["ItemNipples", "ItemVulvaPiercings", "ItemVulva"],
+				HideItemExclude: ["ItemVulvaWiredEgg"],
+				PoseMapping: {
+					Yoked: PoseType.DEFAULT,
+					BackBoxTie: PoseType.DEFAULT,
+					BackCuffs: PoseType.DEFAULT,
+					BackElbowTouch: PoseType.DEFAULT,
+					OverTheHead: PoseType.DEFAULT,
+					TapedHands: PoseType.DEFAULT,
+					Hogtied: "Hogtied",
+				},
+				Layer: [{ Name: "Latex" }, { Name: "Shine" }],
 			},
 			// Flat Chest Compatible Clothing
 			{
@@ -5569,7 +5637,7 @@ var AssetFemale3DCG = [
 					{ Name: "Layer4", ParentGroup: "BodyUpper", ColorGroup: "Tutu" },
 					{
 						Name: "Belt",
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							Hogtied: PoseType.HIDE,
 							AllFours: PoseType.HIDE,
@@ -5577,7 +5645,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Shine",
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowColorize: false,
 						PoseMapping: {
 							Hogtied: PoseType.HIDE,
@@ -5708,7 +5776,7 @@ var AssetFemale3DCG = [
 					AllFours: PoseType.HIDE,
 					KneelingSpread: "KneelingSpread",
 				},
-				ParentGroup: null,
+				ParentGroup: {},
 				Layer: [
 					{ Name: "BackLeaves", Priority: 3 },
 					{ Name: "FrontLeaves", CopyLayerColor: "BackLeaves" },
@@ -5903,8 +5971,8 @@ var AssetFemale3DCG = [
 				HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"],
 				Attribute: ["Skirt"],
 				Layer: [
-					{ Name: "Skirt", ParentGroup: null, AllowColorize: true },
-					{ Name: "Waist", ParentGroup: null, AllowColorize: true },
+					{ Name: "Skirt", ParentGroup: {}, AllowColorize: true },
+					{ Name: "Waist", ParentGroup: {}, AllowColorize: true },
 				],
 				Left: {
 					KneelingSpread: 195,
@@ -5920,11 +5988,9 @@ var AssetFemale3DCG = [
 			{
 				Name: "LongSkirt1",
 				InventoryID: 227,
-				Gender: "F",
-				Prerequisite: ["HasVagina"],
 				Value: 40,
 				Left: 69,
-				ParentGroup: null,
+				ParentGroup: {},
 				Attribute: ["Skirt"],
 				HideItem: [
 					"ItemDevicesStrapOnSmooth",
@@ -6108,7 +6174,7 @@ var AssetFemale3DCG = [
 					AllFours: PoseType.HIDE,
 				},
 				Layer: [
-					{ Name: "Back", ParentGroup: null, Priority: 6 },
+					{ Name: "Back", ParentGroup: {}, Priority: 6 },
 					{ Name: "Front", CopyLayerColor: "Back" },
 				],
 			},
@@ -6228,6 +6294,53 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
+				Name: "UtilityKilt",
+				InventoryID: 1215,
+				Value: 10,
+				HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"],
+				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
+				Attribute: ["Skirt"],
+				ParentGroup: {},
+				DefaultColor: [
+					"#202020",
+					"#202020",
+					"#202020",
+					"#6E693D",
+					"#690909",
+					"#6E693D",
+					"#202020",
+					"#6E693D",
+					"#690909",
+					"#6E693D",
+					"#6E693D",
+					"#202020",
+				],
+				PoseMapping: {
+					...AssetPoseMapping.ClothLower,
+					OverTheHead: PoseType.DEFAULT,
+					Kneel: PoseType.DEFAULT,
+					Spread: PoseType.DEFAULT,
+					LegsClosed: PoseType.DEFAULT,
+					Hogtied: PoseType.HIDE,
+					KneelingSpread: "KneelingSpread",
+					AllFours: PoseType.HIDE,
+				},
+				Layer: [
+					{ Name: "RightPanel" },
+					{ Name: "LeftPanel" },
+					{ Name: "Front" },
+					{ Name: "FrontButtons" },
+					{ Name: "Sidebelts" },
+					{ Name: "SideBeltMetal" },
+					{ Name: "Waist" },
+					{ Name: "Snaps" },
+					{ Name: "Waistbelt" },
+					{ Name: "WaistbeltMetal" },
+					{ Name: "DRings" },
+					{ Name: "Beltloops" },
+				],
+			},
+			{
 				Name: "CheerleaderSkirt",
 				InventoryID: 237,
 				Value: 30,
@@ -6235,7 +6348,7 @@ var AssetFemale3DCG = [
 				HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"],
 				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				Attribute: ["Skirt"],
-				ParentGroup: null,
+				ParentGroup: {},
 				DefaultColor: ["#c91616", "#e0b51d", "#c91616"],
 				PoseMapping: {
 					KneelingSpread: "KneelingSpread",
@@ -6336,7 +6449,7 @@ var AssetFemale3DCG = [
 				Top: { AllFours: 0 },
 				DefaultColor: "#A4907B",
 				Extended: true,
-				ParentGroup: null,
+				ParentGroup: {},
 				PoseMapping: {
 					Hogtied: PoseType.HIDE,
 					AllFours: "AllFours",
@@ -6365,7 +6478,7 @@ var AssetFemale3DCG = [
 				},
 				Priority: 26,
 				DefaultColor: "#C2B946",
-				ParentGroup: null,
+				ParentGroup: {},
 				PoseMapping: {
 					Kneel: PoseType.DEFAULT,
 					KneelingSpread: PoseType.DEFAULT,
@@ -6381,7 +6494,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "MidLegSkirt",
 				InventoryID: 1209,
-				Top: {AllFours: 0},
+				Top: { AllFours: 0 },
 				Left: 86,
 				Value: 15,
 				DefaultColor: "#7A446A",
@@ -6955,7 +7068,7 @@ var AssetFemale3DCG = [
 						Name: "Navel",
 						CopyLayerColor: "Bottom",
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							Hogtied: PoseType.HIDE,
 						},
@@ -7390,6 +7503,24 @@ var AssetFemale3DCG = [
 					{ Name: "Buckles" },
 				],
 			},
+			{
+				Name: "MeshTop",
+				DynamicGroupName: "Cloth",
+				CopyConfig: {
+					GroupName: "Cloth",
+					AssetName: "MeshTop",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "ShinyLeotard",
+				DynamicGroupName: "Suit",
+				CopyConfig: {
+					GroupName: "Suit",
+					AssetName: "ShinyLeotard",
+					BuyGroup: true,
+				},
+			},
 		],
 		Color: [
 			"Default",
@@ -7665,11 +7796,7 @@ var AssetFemale3DCG = [
 				DynamicGroupName: "Cloth",
 				BuyGroup: "RibbonCorset",
 				ParentItem: "ClothRibbonCorset",
-				DefaultColor: [
-					"#707070",
-					"#AE9974",
-					"#F56899",
-				],
+				DefaultColor: ["#707070", "#AE9974", "#F56899"],
 				Layer: [
 					{
 						Name: "Corset",
@@ -7718,7 +7845,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "HogCorset",
-						ParentGroup: null,
+						ParentGroup: {},
 						Top: 0,
 						Left: 0,
 						Priority: 22,
@@ -7733,7 +7860,6 @@ var AssetFemale3DCG = [
 							Hogtied: "Hogtied",
 							AllFours: PoseType.HIDE,
 						},
-						
 					},
 				],
 			},
@@ -7753,7 +7879,7 @@ var AssetFemale3DCG = [
 					{ Name: "Corset", AllowColorize: true },
 					{
 						Name: "Buttons",
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowColorize: true,
 					},
 				],
@@ -8048,11 +8174,11 @@ var AssetFemale3DCG = [
 					{ Name: "Base" },
 					{ Name: "CrotchPiece" },
 					{ Name: "WaistBand" },
-					{ Name: "Tape", ParentGroup: null },
+					{ Name: "Tape", ParentGroup: {} },
 					{
 						Name: "Back",
 						CopyLayerColor: "Base",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 6,
 					},
 				],
@@ -8103,11 +8229,11 @@ var AssetFemale3DCG = [
 					},
 					{ Name: "CrotchPatch" },
 					{ Name: "Frills" },
-					{ Name: "Tape", ParentGroup: null },
+					{ Name: "Tape", ParentGroup: {} },
 					{
 						Name: "Back",
 						CopyLayerColor: "Base",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 6,
 					},
 				],
@@ -8212,8 +8338,8 @@ var AssetFemale3DCG = [
 				Value: 30,
 				DefaultColor: ["Default", "#E70505"],
 				Layer: [
-					{ Name: "Panties", ParentGroup: null },
-					{ Name: "Bow", ParentGroup: null },
+					{ Name: "Panties", ParentGroup: {} },
+					{ Name: "Bow", ParentGroup: {} },
 				],
 			},
 			{
@@ -8486,8 +8612,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "FloralPanties2",
 				InventoryID: 332,
-				Gender: "F",
-				Prerequisite: ["HasVagina"],
 				Value: 20,
 				HideItem: [
 					"ItemButtAnalBeads2",
@@ -8561,7 +8685,7 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "Main",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 18,
 						PoseMapping: {
 							...AssetPoseMapping.Garters,
@@ -8574,7 +8698,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Metal",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 19,
 						PoseMapping: {
 							...AssetPoseMapping.Garters,
@@ -8587,7 +8711,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Belt1",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 18,
 						PoseMapping: {
 							...AssetPoseMapping.Garters,
@@ -8600,7 +8724,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Belt2",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 18,
 						PoseMapping: {
 							...AssetPoseMapping.Garters,
@@ -8674,7 +8798,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "BeltsA2",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 20,
 						PoseMapping: {
 							BackBoxTie: "BackBoxTie",
@@ -8888,7 +9012,7 @@ var AssetFemale3DCG = [
 				Attribute: ["GenitaliaCover"],
 				Value: 30,
 				Hide: ["Pussy", "ItemVulva", "ItemVulvaPiercings"],
-				ParentGroup: null,
+				ParentGroup: {},
 				Top: 450,
 				Left: 200,
 				DefaultColor: ["#363636", "#FF7386", "#FF7386"],
@@ -10058,7 +10182,7 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "Main",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 21,
 						PoseMapping: {
 							...AssetPoseMapping.Garters,
@@ -10071,7 +10195,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Metal",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 22,
 						PoseMapping: {
 							...AssetPoseMapping.Garters,
@@ -10084,7 +10208,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Belt1",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 21,
 						PoseMapping: {
 							...AssetPoseMapping.Garters,
@@ -10097,7 +10221,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Belt2",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 21,
 						PoseMapping: {
 							...AssetPoseMapping.Garters,
@@ -10173,7 +10297,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "BeltsA2",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 20,
 						PoseMapping: {
 							BackBoxTie: "BackBoxTie",
@@ -10260,11 +10384,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "ComboBelt",
 				Priority: 30,
 				Extended: true,
-				DefaultColor: [
-					"#E59292",
-					"#A0A0A0",
-					"#808080",
-				],
+				DefaultColor: ["#E59292", "#A0A0A0", "#808080"],
 				Layer: [
 					{
 						Name: "Belt",
@@ -10283,7 +10403,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Detail",
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							BackBoxTie: "BackBoxTie",
 							BackCuffs: "BackBoxTie",
@@ -10871,15 +10991,15 @@ var AssetFemale3DCG = [
 					KneelingSpread: PoseType.HIDE,
 				},
 				Layer: [
-					{ Name: "Mesh", ParentGroup: null },
+					{ Name: "Mesh", ParentGroup: {} },
 					{
 						Name: "Shine",
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { typed: 0 },
 					},
-					{ Name: "Cuffs", ParentGroup: null },
-					{ Name: "Trim", ParentGroup: null },
-					{ Name: "Soles", ParentGroup: null },
+					{ Name: "Cuffs", ParentGroup: {} },
+					{ Name: "Trim", ParentGroup: {} },
+					{ Name: "Soles", ParentGroup: {} },
 				],
 				Alpha: [
 					{
@@ -10921,7 +11041,7 @@ var AssetFemale3DCG = [
 				},
 				Hide: ["AnkletLeft", "AnkletRight"],
 				Layer: [
-					{ Name: "Heels", ParentGroup: null },
+					{ Name: "Heels", ParentGroup: {} },
 					{ Name: "Boots" },
 					{ Name: "Fur" },
 				],
@@ -11560,13 +11680,7 @@ var AssetFemale3DCG = [
 				Left: { Spread: 102 },
 				Random: true,
 				Extended: true,
-				DefaultColor: [
-					"#AC9F8A",
-					"#AC9F8A",
-					"#AC9F8A",
-					"#AC9F8A",
-					
-				],
+				DefaultColor: ["#AC9F8A", "#AC9F8A", "#AC9F8A", "#AC9F8A"],
 				Layer: [
 					{
 						Name: "Main",
@@ -11592,7 +11706,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Heels",
 						Priority: 21,
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							...AssetPoseMapping.Shoes,
 							LegsClosed: PoseType.HIDE,
@@ -11640,7 +11754,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "MainHog",
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							...AssetPoseMapping.Shoes,
 							LegsClosed: PoseType.HIDE,
@@ -11653,7 +11767,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "HeelsHog",
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							...AssetPoseMapping.Shoes,
 							LegsClosed: PoseType.HIDE,
@@ -11743,7 +11857,7 @@ var AssetFemale3DCG = [
 						Name: "Hog",
 						Left: 125,
 						Top: 490,
-						ParentGroup: null,
+						ParentGroup: {},
 						CopyLayerColor: "Main",
 						PoseMapping: {
 							...AssetPoseMapping.Shoes,
@@ -11787,7 +11901,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "HogMain",
-						ParentGroup: null,
+						ParentGroup: {},
 						CopyLayerColor: "Main",
 						PoseMapping: {
 							...AssetPoseMapping.Shoes,
@@ -11800,7 +11914,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "HogDetail",
-						ParentGroup: null,
+						ParentGroup: {},
 						CopyLayerColor: "Detail",
 						PoseMapping: {
 							...AssetPoseMapping.Shoes,
@@ -11841,12 +11955,7 @@ var AssetFemale3DCG = [
 				Left: 115,
 				Top: 498,
 				Height: 4,
-				DefaultColor: [
-					"#303030",
-					"#E0E0E0",
-					"E14055",
-					"#AAAAAA",
-				],
+				DefaultColor: ["#303030", "#E0E0E0", "#E14055", "#AAAAAA"],
 				Layer: [
 					{
 						Name: "Shoes",
@@ -11890,7 +11999,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "HogShoes",
-						ParentGroup: null,
+						ParentGroup: {},
 						CopyLayerColor: "Shoes",
 						PoseMapping: {
 							...AssetPoseMapping.Shoes,
@@ -11934,6 +12043,109 @@ var AssetFemale3DCG = [
 							"SuitLower",
 						],
 						Masks: [[40, 888, 380, 122]],
+					},
+				],
+			},
+			{
+				Name: "HeellessHoof",
+				Fetish: ["Leather", "Metal"],
+				InventoryID: 1213,
+				Left: 0,
+				Top: 458,
+				Height: 19,
+				Value: -1,
+				BuyGroup: "HeellessHoof",
+				DynamicGroupName: "ItemBoots",
+				DefaultColor: ["#454545", "#877C66"],
+				Random: true,
+				Extended: true,
+				Alpha: [
+					{
+						Group: [
+							"BodyLower",
+							"Socks",
+							"SocksRight",
+							"SocksLeft",
+							"SuitLower",
+						],
+						Masks: [
+							[40, 925, 380, 100],
+							[184, 914, 20, 50],
+							[303, 914, 20, 50],
+						],
+					},
+					{
+						Pose: ["LegsClosed"],
+						Group: [
+							"BodyLower",
+							"Socks",
+							"SocksRight",
+							"SocksLeft",
+							"SuitLower",
+						],
+						Masks: [
+							[40, 982, 380, 100],
+							[168, 982, 10, 50],
+							[332, 982, 10, 50],
+						],
+					},
+					{
+						Pose: ["Spread"],
+						Group: [
+							"BodyLower",
+							"Socks",
+							"SocksRight",
+							"SocksLeft",
+							"SuitLower",
+						],
+						Masks: [
+							[40, 925, 380, 100],
+							[168, 880, 10, 50],
+							[332, 880, 10, 50],
+						],
+					},
+				],
+				Layer: [
+					{
+						Name: "Hoof",
+						PoseMapping: {
+							...AssetPoseMapping.ItemBoots,
+							LegsClosed: "LegsClosed",
+							Spread: "Spread",
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+						AllowColorize: true,
+					},
+					{
+						Name: "HogHoof",
+						ParentGroup: {},
+						Top: 500,
+						Left: 120,
+						PoseMapping: {
+							...AssetPoseMapping.ItemBoots,
+							Hogtied: "Hogtied",
+							LegsClosed: PoseType.HIDE,
+							Spread: PoseType.HIDE,
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+						},
+						CopyLayerColor: "Hoof",
+					},
+					{
+						Name: "Lock",
+						PoseMapping: {
+							...AssetPoseMapping.ItemBoots,
+							LegsClosed: "LegsClosed",
+							Spread: "Spread",
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+						CreateLayerTypes: ["typed"],
+						AllowTypes: { typed: 1 },
+						AllowColorize: true,
 					},
 				],
 			},
@@ -12725,7 +12937,7 @@ var AssetFemale3DCG = [
 						AllowTypes: { typed: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] },
 						CreateLayerTypes: ["typed"],
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						HideForAttribute: ["ShortHair"],
 					},
 					{
@@ -12764,7 +12976,7 @@ var AssetFemale3DCG = [
 						AllowTypes: { typed: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] },
 						CreateLayerTypes: ["typed"],
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						ShowForAttribute: ["ShortHair"],
 						Top: 60,
 					},
@@ -14781,6 +14993,7 @@ var AssetFemale3DCG = [
 				Name: "CyberneticEars1",
 				InventoryID: 1166,
 				Value: 10,
+				BuyGroup: "CyberEars",
 				DynamicGroupName: "HairAccessory1",
 				CopyConfig: {
 					GroupName: "HairAccessory1",
@@ -14997,7 +15210,7 @@ var AssetFemale3DCG = [
 				InventoryID: 459,
 				Gender: "F",
 				Value: 15,
-				ParentGroup: null,
+				ParentGroup: {},
 				DefaultColor: ["#65696E", "#2A2A2A"],
 				PoseMapping: {
 					...AssetPoseMapping.Gloves,
@@ -15023,7 +15236,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "WarmGloves",
 				Fetish: ["Leather"],
-				ParentGroup: null,
+				ParentGroup: {},
 				DefaultColor: ["#606060", "#bf7d3b"],
 				Extended: true,
 				CreateLayerTypes: ["typed"],
@@ -15121,7 +15334,7 @@ var AssetFemale3DCG = [
 				Priority: 35,
 				BuyGroup: "CheerleaderPomPoms",
 				Value: -1,
-				ParentGroup: null,
+				ParentGroup: {},
 				DefaultColor: "#e0b51d",
 				DynamicGroupName: "ItemHands",
 				PoseMapping: {
@@ -16823,7 +17036,7 @@ var AssetFemale3DCG = [
 						Priority: 52,
 						CreateLayerTypes: ["g"],
 						AllowTypes: {
-							g: [ 1, 2, 3 ,4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ],
+							g: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
 						},
 						AllowColorize: true,
 						ColorGroup: "Wig",
@@ -16832,14 +17045,14 @@ var AssetFemale3DCG = [
 						Name: "WigComp",
 						Priority: 6,
 						CreateLayerTypes: ["g"],
-						AllowTypes: { g: [ 3, 6, 8, 9, 10, 11, 12, 13, 15, 16 ] },
+						AllowTypes: { g: [3, 6, 8, 9, 10, 11, 12, 13, 15, 16] },
 						CopyLayerColor: "Wig",
 					},
 					{
 						Name: "WigAcc",
 						Priority: 53,
 						CreateLayerTypes: ["g"],
-						AllowTypes: { g: [ 14, 15 ] },
+						AllowTypes: { g: [14, 15] },
 						AllowColorize: true,
 						ColorGroup: "Wig",
 					},
@@ -17000,18 +17213,9 @@ var AssetFemale3DCG = [
 				DynamicGroupName: "ItemHood",
 				Priority: 25,
 				Attribute: ["ShortHair"],
-				DefaultColor: [
-					"#707070",
-					"#404040",
-					"#404040",
-					"#E14055",
-					"#606060",
-				],
+				DefaultColor: ["#707070", "#404040", "#404040", "#E14055", "#606060"],
 				Block: [],
-				Hide: [
-					"HairFront",
-					"HairBack",
-				],
+				Hide: ["HairFront", "HairBack"],
 				Layer: [
 					{
 						Name: "Main",
@@ -17949,41 +18153,41 @@ var AssetFemale3DCG = [
 				Name: "Small",
 				Extended: true,
 				Gender: "F",
-				Layer: [{ Name: "", ParentGroup: null }],
+				Layer: [{ Name: "", ParentGroup: {} }],
 			},
 			{
 				Name: "Normal",
 				Extended: true,
 				Gender: "F",
-				Layer: [{ Name: "", ParentGroup: null }],
+				Layer: [{ Name: "", ParentGroup: {} }],
 			},
 			{
 				Name: "Large",
 				Extended: true,
 				Gender: "F",
 				Attribute: ["UpperLarge"],
-				Layer: [{ Name: "", ParentGroup: null }],
+				Layer: [{ Name: "", ParentGroup: {} }],
 			},
 			{
 				Name: "XLarge",
 				Extended: true,
 				Gender: "F",
 				Attribute: ["UpperLarge"],
-				Layer: [{ Name: "", ParentGroup: null }],
+				Layer: [{ Name: "", ParentGroup: {} }],
 			},
 			{
 				Name: "FlatSmall",
 				Extended: true,
 				Random: false,
 				Gender: "M",
-				Layer: [{ Name: "", ParentGroup: null }],
+				Layer: [{ Name: "", ParentGroup: {} }],
 			},
 			{
 				Name: "FlatMedium",
 				Extended: true,
 				Random: false,
 				Gender: "M",
-				Layer: [{ Name: "", ParentGroup: null }],
+				Layer: [{ Name: "", ParentGroup: {} }],
 			},
 		],
 	},
@@ -18846,6 +19050,25 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Clip",
+					},
+				],
+			},
+			{
+				Name: "HairFront65",
+				Top: 52,
+				Left: 169,
+				Layer: [
+					{
+						Name: "Full",
+					},
+					{
+						Name: "Highlights",
+					},
+					{
+						Name: "Shadows",
+					},
+					{
+						Name: "Outline",
 					},
 				],
 			},
@@ -19960,7 +20183,6 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
-
 		],
 		Color: [
 			"Default",
@@ -20822,7 +21044,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Lock",
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowColorize: false,
 						LockLayer: true,
 						CreateLayerTypes: ["typed"],
@@ -20893,7 +21115,7 @@ var AssetFemale3DCG = [
 				RemoveItemOnRemove: [{ Name: "X-Cross", Group: "ItemDevices" }],
 				DefaultColor: ["Default", "#2E2E2E", "Default"],
 				Layer: [
-					{ Name: "Chain", ParentGroup: null, AllowTypes: { typed: 2 } },
+					{ Name: "Chain", ParentGroup: {}, AllowTypes: { typed: 2 } },
 					{ Name: "Cuffs" },
 					{ Name: "Rings" },
 				],
@@ -20920,14 +21142,14 @@ var AssetFemale3DCG = [
 				RemoveItemOnRemove: [{ Name: "X-Cross", Group: "ItemDevices" }],
 				DefaultColor: ["Default", "Default", "#612C2C", "Default"],
 				Layer: [
-					{ Name: "Chain", ParentGroup: null, AllowTypes: { typed: 2 } },
+					{ Name: "Chain", ParentGroup: {}, AllowTypes: { typed: 2 } },
 					{ Name: "Cuffs" },
 					{ Name: "Rings" },
 					{ Name: "Buckets" },
 					{
 						Name: "Lock",
 						LockLayer: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowColorize: true,
 					},
 				],
@@ -20967,7 +21189,7 @@ var AssetFemale3DCG = [
 				Extended: true,
 				RemoveItemOnRemove: [{ Name: "X-Cross", Group: "ItemDevices" }],
 				Layer: [
-					{ Name: "Chain", ParentGroup: null, AllowTypes: { typed: 2 } },
+					{ Name: "Chain", ParentGroup: {}, AllowTypes: { typed: 2 } },
 					{ Name: "Cuffs" },
 				],
 			},
@@ -21018,14 +21240,14 @@ var AssetFemale3DCG = [
 				RemoveItemOnRemove: [{ Name: "X-Cross", Group: "ItemDevices" }],
 				Attribute: ["FuturisticRecolor"],
 				Layer: [
-					{ Name: "Chain", ParentGroup: null, AllowTypes: { typed: 2 } },
-					{ Name: "Display", ParentGroup: null },
+					{ Name: "Chain", ParentGroup: {}, AllowTypes: { typed: 2 } },
+					{ Name: "Display", ParentGroup: {} },
 					{ Name: "Cuffs" },
 					{
 						Name: "Lock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 					},
 				],
 			},
@@ -21049,7 +21271,7 @@ var AssetFemale3DCG = [
 				Extended: true,
 				RemoveItemOnRemove: [{ Name: "X-Cross", Group: "ItemDevices" }],
 				Layer: [
-					{ Name: "Chain", ParentGroup: null, AllowTypes: { typed: 2 } },
+					{ Name: "Chain", ParentGroup: {}, AllowTypes: { typed: 2 } },
 					{ Name: "Cuffs" },
 					{ Name: "Gems" },
 				],
@@ -21074,7 +21296,7 @@ var AssetFemale3DCG = [
 				Extended: true,
 				RemoveItemOnRemove: [{ Name: "X-Cross", Group: "ItemDevices" }],
 				Layer: [
-					{ Name: "Chain", ParentGroup: null, AllowTypes: { typed: 2 } },
+					{ Name: "Chain", ParentGroup: {}, AllowTypes: { typed: 2 } },
 					{ Name: "Cuffs" },
 					{ Name: "Panel" },
 				],
@@ -21273,7 +21495,7 @@ var AssetFemale3DCG = [
 				AvailableLocations: ["Asylum"],
 				HideItem: ["ClothLowerGown2Skirt", "ClothLowerPajama1"],
 				Layer: [
-					{ Name: "Base", Priority: 1, ParentGroup: null },
+					{ Name: "Base", Priority: 1, ParentGroup: {} },
 					{ Name: "Straps" },
 				],
 			},
@@ -21345,7 +21567,7 @@ var AssetFemale3DCG = [
 				Time: 25,
 				RemoveTime: 40,
 				Top: 650,
-				ParentGroup: null,
+				ParentGroup: {},
 				SetPose: ["LegsClosed"],
 				AllowActivePose: ["Kneel"],
 				Effect: [E.Freeze],
@@ -21407,7 +21629,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "LCChain",
 						Priority: 5,
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							...AssetPoseMapping.ItemFeet,
 							LegsClosed: "LegsClosed",
@@ -21435,7 +21657,7 @@ var AssetFemale3DCG = [
 				Effect: [E.CuffedFeet],
 				Block: ["ItemBoots"],
 				RemoveItemOnRemove: [{ Name: "X-Cross", Group: "ItemDevices" }],
-				DefaultColor: ["#808080", "#AAAAAA", "#606060", "#AAAAAA"],
+				DefaultColor: ["#808080", "#AAAAAA", "#606060", "#AAAAAA", "Default"],
 				Layer: [
 					{
 						Name: "Cuffs",
@@ -21461,7 +21683,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Chain",
 						Priority: 22,
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							...AssetPoseMapping.ItemFeet,
 							LegsClosed: "LegsClosed",
@@ -21469,7 +21691,7 @@ var AssetFemale3DCG = [
 							Kneel: PoseType.HIDE,
 						},
 						CreateLayerTypes: ["r"],
-						AllowTypes: { r: 1 },
+						AllowTypes: { r: 0 },
 						AllowColorize: true,
 					},
 					{
@@ -21488,7 +21710,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "CuffLink",
 						Priority: 22,
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							...AssetPoseMapping.ItemFeet,
 							LegsClosed: "LegsClosed",
@@ -21515,7 +21737,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "ChainSusp",
 						Priority: 22,
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							...AssetPoseMapping.ItemFeet,
 							LegsClosed: PoseType.HIDE,
@@ -21529,7 +21751,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "ChainGround",
 						Priority: 22,
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							...AssetPoseMapping.ItemFeet,
 							LegsClosed: PoseType.HIDE,
@@ -21543,7 +21765,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Lock",
 						Priority: 26,
-						ParentGroup: null,
+						ParentGroup: {},
 						LockLayer: true,
 						PoseMapping: {
 							...AssetPoseMapping.ItemFeet,
@@ -21604,7 +21826,7 @@ var AssetFemale3DCG = [
 				],
 				Layer: [
 					{ Name: "Straps", AllowColorize: true },
-					{ Name: "Details", ParentGroup: null, AllowColorize: true },
+					{ Name: "Details", ParentGroup: {}, AllowColorize: true },
 				],
 			},
 		],
@@ -21764,7 +21986,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Lock",
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowColorize: false,
 						LockLayer: true,
 						CreateLayerTypes: ["typed"],
@@ -21810,7 +22032,7 @@ var AssetFemale3DCG = [
 				Extended: true,
 				DefaultColor: ["Default", "#2E2E2E", "Default"],
 				Layer: [
-					{ Name: "Chain", ParentGroup: null, AllowTypes: { typed: 2 } },
+					{ Name: "Chain", ParentGroup: {}, AllowTypes: { typed: 2 } },
 					{ Name: "Cuffs" },
 					{ Name: "Rings" },
 				],
@@ -21836,7 +22058,7 @@ var AssetFemale3DCG = [
 				Extended: true,
 				DefaultColor: ["Default", "Default", "#612C2C", "Default"],
 				Layer: [
-					{ Name: "Chain", ParentGroup: null, AllowTypes: { typed: 2 } },
+					{ Name: "Chain", ParentGroup: {}, AllowTypes: { typed: 2 } },
 					{ Name: "Cuffs" },
 					{ Name: "Rings" },
 					{ Name: "Buckets" },
@@ -21867,14 +22089,14 @@ var AssetFemale3DCG = [
 				Extended: true,
 				Attribute: ["FuturisticRecolor"],
 				Layer: [
-					{ Name: "Chain", ParentGroup: null, AllowTypes: { typed: 2 } },
-					{ Name: "Display", ParentGroup: null },
+					{ Name: "Chain", ParentGroup: {}, AllowTypes: { typed: 2 } },
+					{ Name: "Display", ParentGroup: {} },
 					{ Name: "Cuffs" },
 					{
 						Name: "Lock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 					},
 				],
 			},
@@ -21897,7 +22119,7 @@ var AssetFemale3DCG = [
 				Effect: [E.CuffedLegs],
 				Extended: true,
 				Layer: [
-					{ Name: "Chain", ParentGroup: null, AllowTypes: { typed: 2 } },
+					{ Name: "Chain", ParentGroup: {}, AllowTypes: { typed: 2 } },
 					{ Name: "Cuffs" },
 					{ Name: "Gems" },
 				],
@@ -22347,7 +22569,7 @@ var AssetFemale3DCG = [
 					"ClothLowerWaspie3",
 				],
 				Layer: [
-					{ Name: "Base", Priority: 1, ParentGroup: null },
+					{ Name: "Base", Priority: 1, ParentGroup: {} },
 					{ Name: "Straps", Priority: 26 },
 				],
 			},
@@ -22402,7 +22624,7 @@ var AssetFemale3DCG = [
 				Difficulty: 5,
 				Time: 25,
 				RemoveTime: 40,
-				ParentGroup: null,
+				ParentGroup: {},
 				SetPose: ["LegsClosed"],
 				PoseMapping: {
 					Hogtied: PoseType.HIDE,
@@ -22629,7 +22851,7 @@ var AssetFemale3DCG = [
 						Name: "Lock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 					},
 				],
 			},
@@ -24192,7 +24414,7 @@ var AssetFemale3DCG = [
 				InventoryID: 657,
 				Gender: "F",
 				Fetish: ["Leather"],
-				ParentGroup: null,
+				ParentGroup: {},
 				Value: 30,
 				Difficulty: 8,
 				Time: 20,
@@ -24281,7 +24503,7 @@ var AssetFemale3DCG = [
 				InventoryID: 660,
 				Attribute: ["GenitaliaCover"],
 				Fetish: ["Metal"],
-				ParentGroup: null,
+				ParentGroup: {},
 				Value: 100,
 				Difficulty: 20,
 				Time: 20,
@@ -24351,7 +24573,7 @@ var AssetFemale3DCG = [
 					{ Name: "Metal" },
 					{ Name: "Detail" },
 					{ Name: "Shock", HideColoring: true },
-					{ Name: "Light", HideColoring: true, ParentGroup: null },
+					{ Name: "Light", HideColoring: true, ParentGroup: {} },
 				],
 				DynamicBeforeDraw: true,
 				DynamicScriptDraw: true,
@@ -24441,7 +24663,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Screen",
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { m: 0 },
 					},
 					{
@@ -24453,7 +24675,7 @@ var AssetFemale3DCG = [
 						Name: "Lock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { m: 0 },
 					},
 					{
@@ -24466,7 +24688,7 @@ var AssetFemale3DCG = [
 						Name: "Screen_2",
 						AllowColorize: true,
 						CopyLayerColor: "Screen",
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { m: 1 },
 					},
 					{
@@ -24485,14 +24707,14 @@ var AssetFemale3DCG = [
 						LockLayer: true,
 						AllowColorize: true,
 						CopyLayerColor: "Lock",
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { m: 1 },
 					},
 					{
 						Name: "Display_3",
 						AllowColorize: true,
 						CopyLayerColor: "Screen",
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { m: 2 },
 					},
 					{
@@ -24515,7 +24737,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Belt_3",
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						CopyLayerColor: "Belt",
 						AllowTypes: { m: 2 },
 					},
@@ -24524,14 +24746,14 @@ var AssetFemale3DCG = [
 						LockLayer: true,
 						AllowColorize: true,
 						CopyLayerColor: "Lock",
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { m: 2 },
 					},
 					{
 						Name: "Display_4",
 						AllowColorize: true,
 						CopyLayerColor: "Screen",
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { m: 3 },
 					},
 					{
@@ -24543,7 +24765,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Belt_4",
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						CopyLayerColor: "Belt",
 						AllowTypes: { m: 3 },
 					},
@@ -24556,7 +24778,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Plug_4",
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { m: 3 },
 					},
 					{
@@ -24568,7 +24790,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Strap_4",
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { m: 3 },
 					},
 					{
@@ -24582,14 +24804,14 @@ var AssetFemale3DCG = [
 						LockLayer: true,
 						AllowColorize: true,
 						CopyLayerColor: "Lock",
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { m: 3 },
 					},
 					{
 						Name: "TLock",
 						AllowColorize: true,
 						CopyLayerColor: "Lock",
-						ParentGroup: null,
+						ParentGroup: {},
 						CreateLayerTypes: ["m"],
 						AllowTypes: { t: [1, 2] },
 					},
@@ -24597,7 +24819,7 @@ var AssetFemale3DCG = [
 						Name: "OLock",
 						AllowColorize: true,
 						CopyLayerColor: "Lock",
-						ParentGroup: null,
+						ParentGroup: {},
 						CreateLayerTypes: ["m"],
 						AllowTypes: { o: 1 },
 					},
@@ -24656,16 +24878,16 @@ var AssetFemale3DCG = [
 				Extended: true,
 				DynamicScriptDraw: true,
 				Layer: [
-					{ Name: "Display", AllowColorize: true, ParentGroup: null },
+					{ Name: "Display", AllowColorize: true, ParentGroup: {} },
 					{ Name: "Mesh", AllowColorize: true },
 					{ Name: "Mesh2", AllowColorize: true },
 					{ Name: "Band", AllowColorize: true },
-					{ Name: "Belt", AllowColorize: true, ParentGroup: null },
+					{ Name: "Belt", AllowColorize: true, ParentGroup: {} },
 					{
 						Name: "Lock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 					},
 				],
 			},
@@ -24718,38 +24940,38 @@ var AssetFemale3DCG = [
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Extended: true,
 				Layer: [
-					{ Name: "Screen", AllowColorize: true, ParentGroup: null },
+					{ Name: "Screen", AllowColorize: true, ParentGroup: {} },
 					{ Name: "Mesh2", AllowColorize: true },
 					{ Name: "Mesh1", AllowColorize: true },
 					{
 						Name: "Band",
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						ShowForAttribute: ["PussyLayer"],
 					},
 					{
 						Name: "BandMale",
 						CopyLayerColor: "Band",
-						ParentGroup: null,
+						ParentGroup: {},
 						ShowForAttribute: ["PenisLayer"],
 					},
 					{
 						Name: "Plug2",
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						ShowForAttribute: ["PussyLayer"],
 					},
 					{
 						Name: "Plug1",
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						ShowForAttribute: ["PussyLayer"],
 					},
 					{
 						Name: "Lock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 					},
 				],
 			},
@@ -24914,34 +25136,34 @@ var AssetFemale3DCG = [
 					{
 						Name: "Open",
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { f: 0 },
 					},
 					{
 						Name: "Closed",
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { f: [1, 2, 3] },
 						CopyLayerColor: "Open",
 					},
 					{
 						Name: "Vibe",
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { f: 2 },
 					},
 					{
 						Name: "Shock",
 						AllowColorize: false,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { f: 3 },
 						CopyLayerColor: "Vibe",
 					},
-					{ Name: "Lock", AllowColorize: true, ParentGroup: null },
+					{ Name: "Lock", AllowColorize: true, ParentGroup: {} },
 					{
 						Name: "ShieldLock",
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { f: [1, 2, 3] },
 						CopyLayerColor: "Lock",
 					},
@@ -25063,11 +25285,11 @@ var AssetFemale3DCG = [
 					{ Name: "Base" },
 					{ Name: "CrotchPiece" },
 					{ Name: "WaistBand" },
-					{ Name: "Tape", ParentGroup: null },
+					{ Name: "Tape", ParentGroup: {} },
 					{
 						Name: "Back",
 						CopyLayerColor: "Base",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 6,
 					},
 				],
@@ -25122,11 +25344,11 @@ var AssetFemale3DCG = [
 					},
 					{ Name: "CrotchPatch" },
 					{ Name: "Frills" },
-					{ Name: "Tape", ParentGroup: null },
+					{ Name: "Tape", ParentGroup: {} },
 					{
 						Name: "Back",
 						CopyLayerColor: "Base",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 6,
 					},
 				],
@@ -25136,7 +25358,7 @@ var AssetFemale3DCG = [
 				InventoryID: 669,
 				Gender: "F",
 				Fetish: ["Leather", "Metal"],
-				ParentGroup: null,
+				ParentGroup: {},
 				Value: 120,
 				Difficulty: 8,
 				Time: 20,
@@ -25171,7 +25393,7 @@ var AssetFemale3DCG = [
 				InventoryID: 670,
 				Gender: "F",
 				Fetish: ["Metal", "Chastity"],
-				ParentGroup: null,
+				ParentGroup: {},
 				Value: 150,
 				Difficulty: 8,
 				Time: 15,
@@ -25254,7 +25476,7 @@ var AssetFemale3DCG = [
 				],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Extended: true,
-				ParentGroup: null,
+				ParentGroup: {},
 				Layer: [
 					{ Name: "Base", ParentGroup: "BodyLower" },
 					{ Name: "MetalHex", ParentGroup: "BodyLower" },
@@ -25307,7 +25529,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Backside",
 						CopyLayerColor: "MetalBelt",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 1,
 					},
 					//Spread pussy
@@ -25317,7 +25539,7 @@ var AssetFemale3DCG = [
 						Left: 126,
 						Priority: 10,
 						ShowForAttribute: ["Pussy1"],
-						ParentGroup: null,
+						ParentGroup: {},
 						InheritColor: "Pussy",
 						AllowTypes: { m: [1, 3] },
 						HideColoring: true,
@@ -25329,7 +25551,7 @@ var AssetFemale3DCG = [
 						Left: 126,
 						Priority: 10,
 						ShowForAttribute: ["Pussy2"],
-						ParentGroup: null,
+						ParentGroup: {},
 						InheritColor: "Pussy",
 						AllowTypes: { m: [1, 3] },
 						HideColoring: true,
@@ -25341,7 +25563,7 @@ var AssetFemale3DCG = [
 						Left: 126,
 						Priority: 10,
 						ShowForAttribute: ["Pussy3"],
-						ParentGroup: null,
+						ParentGroup: {},
 						InheritColor: "Pussy",
 						AllowTypes: { m: [1, 3] },
 						HideColoring: true,
@@ -25351,7 +25573,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Penis",
 						ShowForAttribute: ["PenisLayer"],
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 10,
 						InheritColor: "Pussy",
 						AllowTypes: [{ c: 1 }, { m: [1, 2, 3] }],
@@ -25363,7 +25585,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Cage",
 						ColorGroup: "Metal",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 10,
 						ShowForAttribute: ["PenisLayer"],
 						AllowTypes: { m: [1, 3] },
@@ -25373,7 +25595,7 @@ var AssetFemale3DCG = [
 						ColorGroup: "Rubber",
 						Top: 372,
 						Left: 126,
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 10,
 						ShowForAttribute: ["PussyLayer"],
 						AllowTypes: { m: [1, 3] },
@@ -25383,7 +25605,7 @@ var AssetFemale3DCG = [
 						ColorGroup: "Metal",
 						Top: 372,
 						Left: 126,
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 10,
 						ShowForAttribute: ["PussyLayer"],
 						AllowTypes: { m: [1, 3] },
@@ -25392,14 +25614,14 @@ var AssetFemale3DCG = [
 					{
 						Name: "RotorstickPenis",
 						ColorGroup: "Metal",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 10,
 						ShowForAttribute: ["PenisLayer"],
 						AllowTypes: { m: [2, 3] },
 					},
 					{
 						Name: "RotortipPenis",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 10,
 						ShowForAttribute: ["PenisLayer"],
 						AllowTypes: { m: [2, 3] },
@@ -25409,7 +25631,7 @@ var AssetFemale3DCG = [
 						Top: 372,
 						Left: 126,
 						CopyLayerColor: "RotorstickPenis",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 10,
 						ShowForAttribute: ["PussyLayer"],
 						AllowTypes: { m: [2, 3] },
@@ -25419,7 +25641,7 @@ var AssetFemale3DCG = [
 						Top: 372,
 						Left: 126,
 						CopyLayerColor: "RotortipPenis",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 10,
 						ShowForAttribute: ["PussyLayer"],
 						AllowTypes: { m: [2, 3] },
@@ -25427,40 +25649,40 @@ var AssetFemale3DCG = [
 					//Shields
 					{
 						Name: "TransparentShield",
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { c: 1 },
 						HideColoring: true,
 					},
 					{
 						Name: "MetalShield",
 						ColorGroup: "Metal",
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { c: 2 },
 					},
 					//Belt
 					{
 						Name: "RubberBelt",
 						ColorGroup: "Rubber",
-						ParentGroup: null,
+						ParentGroup: {},
 						HideForAttribute: ["UpperLarge"],
 					},
 					{
 						Name: "RubberBeltLarge",
 						CopyLayerColor: "RubberBelt",
-						ParentGroup: null,
+						ParentGroup: {},
 						ShowForAttribute: ["UpperLarge"],
 					}, //Shows for Large/XLarge upperbody
 					{
 						Name: "RubberBeltUnder1",
 						CopyLayerColor: "RubberBelt",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 10,
 						AllowTypes: { c: 0 },
 					},
 					{
 						Name: "RubberBeltUnder2",
 						CopyLayerColor: "RubberBelt",
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { c: [1, 2] },
 						Alpha: [
 							{
@@ -25478,7 +25700,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "RubberBeltUnder3",
 						CopyLayerColor: "RubberBelt",
-						ParentGroup: null,
+						ParentGroup: {},
 						ShowForAttribute: ["SuitLower"],
 						Alpha: [
 							{
@@ -25496,32 +25718,32 @@ var AssetFemale3DCG = [
 					{
 						Name: "MetalBelt",
 						ColorGroup: "Metal",
-						ParentGroup: null,
+						ParentGroup: {},
 						HideForAttribute: ["UpperLarge"],
 					},
 					{
 						Name: "MetalBeltLarge",
 						CopyLayerColor: "MetalBelt",
-						ParentGroup: null,
+						ParentGroup: {},
 						ShowForAttribute: ["UpperLarge"],
 					}, //Shows for Large/XLarge upperbody
 					{
 						Name: "MetalBeltUnder1",
 						CopyLayerColor: "MetalBelt",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 10,
 						AllowTypes: { c: 0 },
 					},
 					{
 						Name: "MetalBeltUnder2",
 						CopyLayerColor: "MetalBelt",
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { c: [1, 2] },
 					},
 					{
 						Name: "MetalBeltUnder3",
 						CopyLayerColor: "MetalBelt",
-						ParentGroup: null,
+						ParentGroup: {},
 						ShowForAttribute: ["SuitLower"],
 					}, //Shows only for Suitlower
 				],
@@ -25553,7 +25775,7 @@ var AssetFemale3DCG = [
 				Block: [],
 				Extended: true,
 				DynamicScriptDraw: true,
-				ParentGroup: null,
+				ParentGroup: {},
 				Layer: [
 					//Belt
 					{
@@ -25685,7 +25907,7 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "Main",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 22,
 						PoseMapping: {
 							...AssetPoseMapping.Garters,
@@ -25698,7 +25920,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Metal",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 23,
 						PoseMapping: {
 							...AssetPoseMapping.Garters,
@@ -25711,7 +25933,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Belt1",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 22,
 						PoseMapping: {
 							...AssetPoseMapping.Garters,
@@ -25724,7 +25946,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Belt2",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 22,
 						PoseMapping: {
 							...AssetPoseMapping.Garters,
@@ -25748,7 +25970,7 @@ var AssetFemale3DCG = [
 						Name: "Lock",
 						Priority: 22,
 						LockLayer: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowColorize: true,
 						PoseMapping: {
 							...AssetPoseMapping.ItemPelvis,
@@ -25848,7 +26070,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "BeltsA2",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 23,
 						PoseMapping: {
 							...AssetPoseMapping.BodyUpper,
@@ -25974,7 +26196,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "BeltAccA",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 20,
 						PoseMapping: {
 							...AssetPoseMapping.BodyUpper,
@@ -25994,7 +26216,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "AccMetalA",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 20,
 						PoseMapping: {
 							...AssetPoseMapping.BodyUpper,
@@ -26014,7 +26236,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "BeltAccB",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 20,
 						PoseMapping: {
 							...AssetPoseMapping.BodyUpper,
@@ -26034,7 +26256,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "AccMetalB",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 20,
 						PoseMapping: {
 							...AssetPoseMapping.BodyUpper,
@@ -26055,7 +26277,7 @@ var AssetFemale3DCG = [
 					// StrapOn Section
 					{
 						Name: "StrapBelt",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 23,
 						PoseMapping: {
 							...AssetPoseMapping.BodyUpper,
@@ -26075,7 +26297,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "StrapBMetal",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 23,
 						PoseMapping: {
 							...AssetPoseMapping.BodyUpper,
@@ -26095,7 +26317,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "StrapDildo",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 24,
 						PoseMapping: {
 							...AssetPoseMapping.BodyUpper,
@@ -26116,7 +26338,7 @@ var AssetFemale3DCG = [
 					// Chastity Section
 					{
 						Name: "Chastity",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 21,
 						PoseMapping: {
 							...AssetPoseMapping.BodyUpper,
@@ -26136,7 +26358,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "ChastityMetal",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 21,
 						PoseMapping: {
 							...AssetPoseMapping.BodyUpper,
@@ -26156,7 +26378,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "ChastityClosed",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 22,
 						PoseMapping: {
 							...AssetPoseMapping.BodyUpper,
@@ -26176,7 +26398,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "ChastityClMetal",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 22,
 						PoseMapping: {
 							...AssetPoseMapping.BodyUpper,
@@ -26197,7 +26419,7 @@ var AssetFemale3DCG = [
 					// Vibrator Section
 					{
 						Name: "BeltVib",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 23,
 						PoseMapping: {
 							...AssetPoseMapping.ItemPelvis,
@@ -26216,7 +26438,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "BeltVibMetal",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 23,
 						PoseMapping: {
 							...AssetPoseMapping.ItemPelvis,
@@ -26235,7 +26457,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "VibTop",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 23,
 						PoseMapping: {
 							...AssetPoseMapping.Panties,
@@ -26251,7 +26473,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "VibBelow",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 24,
 						PoseMapping: {
 							...AssetPoseMapping.Panties,
@@ -26474,7 +26696,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Display",
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 15,
 						AllowTypes: { typed: [0, 2] },
 					},
@@ -26487,7 +26709,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Mesh",
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 15,
 						AllowTypes: { typed: [0, 2] },
 					},
@@ -26495,14 +26717,14 @@ var AssetFemale3DCG = [
 						Name: "Lock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { typed: [0, 2] },
 					},
 					{
 						Name: "Display2",
 						AllowColorize: true,
 						CopyLayerColor: "Display",
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { typed: [0, 1] },
 					},
 					{
@@ -26515,7 +26737,7 @@ var AssetFemale3DCG = [
 						Name: "Lock2",
 						LockLayer: true,
 						CopyLayerColor: "Lock",
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { typed: [0, 1] },
 					},
 				],
@@ -26545,13 +26767,13 @@ var AssetFemale3DCG = [
 					{
 						Name: "StrapsHarness",
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 15,
 					},
 					{
 						Name: "ClampsHarness",
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 15,
 					},
 				],
@@ -26914,7 +27136,7 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "Main",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 24,
 						PoseMapping: {
 							...AssetPoseMapping.Garters,
@@ -26927,7 +27149,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Metal",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 25,
 						PoseMapping: {
 							...AssetPoseMapping.Garters,
@@ -26940,7 +27162,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Belt1",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 24,
 						PoseMapping: {
 							...AssetPoseMapping.Garters,
@@ -26953,7 +27175,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Belt2",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 24,
 						PoseMapping: {
 							...AssetPoseMapping.Garters,
@@ -26977,7 +27199,7 @@ var AssetFemale3DCG = [
 						Name: "Lock",
 						Priority: 24,
 						LockLayer: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowColorize: true,
 						PoseMapping: {
 							...AssetPoseMapping.ItemPelvis,
@@ -27003,11 +27225,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				DrawLocks: false,
-				DefaultColor: [
-					"#707070",
-					"#AE9974",
-					"#F56899",
-				],
+				DefaultColor: ["#707070", "#AE9974", "#F56899"],
 				Layer: [
 					{
 						Name: "Corset",
@@ -27056,7 +27274,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "HogCorset",
-						ParentGroup: null,
+						ParentGroup: {},
 						Top: 0,
 						Left: 0,
 						Priority: 22,
@@ -27071,7 +27289,6 @@ var AssetFemale3DCG = [
 							Hogtied: "Hogtied",
 							AllFours: PoseType.HIDE,
 						},
-						
 					},
 				],
 			},
@@ -27145,10 +27362,33 @@ var AssetFemale3DCG = [
 					{ Name: "Corset", AllowColorize: true },
 					{
 						Name: "Buttons",
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowColorize: true,
 					},
 				],
+			},
+			{
+				Name: "ShinyLeotardLock",
+				InventoryID: 1217,
+				Gender: "F",
+				Left: 0,
+				Top: 0,
+				Difficulty: 4,
+				BuyGroup: "ShinyLeotardLock",
+				Value: 80,
+				AllowLock: true,
+				DrawLocks: false,
+				Prerequisite: ["AccessTorso", "HasBreasts"],
+				PoseMapping: {
+					Yoked: PoseType.DEFAULT,
+					BackBoxTie: PoseType.DEFAULT,
+					BackCuffs: PoseType.DEFAULT,
+					BackElbowTouch: PoseType.DEFAULT,
+					OverTheHead: PoseType.DEFAULT,
+					TapedHands: PoseType.DEFAULT,
+					Hogtied: "Hogtied",
+				},
+				Layer: [{ Name: "Latex" }, { Name: "Shine" }],
 			},
 		],
 		Color: [
@@ -27377,7 +27617,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Display",
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 15,
 						AllowTypes: { typed: [0, 2] },
 					},
@@ -27390,7 +27630,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Mesh",
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 15,
 						AllowTypes: { typed: [0, 2] },
 					},
@@ -27398,14 +27638,14 @@ var AssetFemale3DCG = [
 						Name: "Lock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { typed: [0, 2] },
 					},
 					{
 						Name: "Display2",
 						AllowColorize: true,
 						CopyLayerColor: "Display",
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { typed: [0, 1] },
 					},
 					{
@@ -27418,7 +27658,7 @@ var AssetFemale3DCG = [
 						Name: "Lock2",
 						LockLayer: true,
 						CopyLayerColor: "Lock",
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { typed: [0, 1] },
 					},
 				],
@@ -27448,13 +27688,13 @@ var AssetFemale3DCG = [
 					{
 						Name: "StrapsHarness",
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 15,
 					},
 					{
 						Name: "ClampsHarness",
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 15,
 					},
 				],
@@ -27845,7 +28085,7 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "Main",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 24,
 						PoseMapping: {
 							...AssetPoseMapping.Garters,
@@ -27858,7 +28098,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Metal",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 25,
 						PoseMapping: {
 							...AssetPoseMapping.Garters,
@@ -27871,7 +28111,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Belt1",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 24,
 						PoseMapping: {
 							...AssetPoseMapping.Garters,
@@ -27884,7 +28124,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Belt2",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 24,
 						PoseMapping: {
 							...AssetPoseMapping.Garters,
@@ -27908,7 +28148,7 @@ var AssetFemale3DCG = [
 						Name: "Lock",
 						Priority: 24,
 						LockLayer: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowColorize: true,
 						PoseMapping: {
 							...AssetPoseMapping.ItemTorso2,
@@ -27940,7 +28180,7 @@ var AssetFemale3DCG = [
 					{ Name: "Corset", AllowColorize: true },
 					{
 						Name: "Buttons",
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowColorize: true,
 					},
 				],
@@ -27961,11 +28201,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				DrawLocks: false,
-				DefaultColor: [
-					"#707070",
-					"#AE9974",
-					"#F56899",
-				],
+				DefaultColor: ["#707070", "#AE9974", "#F56899"],
 				Layer: [
 					{
 						Name: "Corset",
@@ -28014,7 +28250,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "HogCorset",
-						ParentGroup: null,
+						ParentGroup: {},
 						Top: 0,
 						Left: 0,
 						Priority: 22,
@@ -28029,9 +28265,17 @@ var AssetFemale3DCG = [
 							Hogtied: "Hogtied",
 							AllFours: PoseType.HIDE,
 						},
-						
 					},
 				],
+			},
+			{
+				Name: "ShinyLeotardLock",
+				DynamicGroupName: "ItemTorso",
+				CopyConfig: {
+					GroupName: "ItemTorso",
+					AssetName: "ShinyLeotardLock",
+					BuyGroup: true,
+				},
 			},
 		],
 	},
@@ -28341,7 +28585,7 @@ var AssetFemale3DCG = [
 				Prerequisite: ["AccessBreast", "HasFlatChest"],
 				Fetish: ["Metal", "Masochism"],
 				Value: 20,
-				ParentGroup: null,
+				ParentGroup: {},
 				DefaultColor: ["#707070", "#000000"],
 				Layer: [{ Name: "Metal" }, { Name: "RubberTips" }],
 				PoseMapping: {
@@ -28662,7 +28906,7 @@ var AssetFemale3DCG = [
 						Name: "Lock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 					},
 					{
 						Name: "Text",
@@ -28713,7 +28957,7 @@ var AssetFemale3DCG = [
 						Name: "Display",
 						AllowColorize: true,
 						AllowTypes: { d: 0 },
-						ParentGroup: null,
+						ParentGroup: {},
 					},
 					{ Name: "Bra", AllowColorize: true },
 					{ Name: "Mesh", AllowColorize: true },
@@ -28727,7 +28971,7 @@ var AssetFemale3DCG = [
 						Name: "Lock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { d: 0 },
 					},
 				],
@@ -28958,14 +29202,14 @@ var AssetFemale3DCG = [
 						Name: "Suspension",
 						Top: -687,
 						Priority: 31,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { typed: [12, 13, 14] },
 					},
 					{
 						Name: "InvertedSuspension",
 						Top: 346,
 						Priority: 6,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { typed: [15, 16] },
 					},
 				],
@@ -29056,7 +29300,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Lock",
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowColorize: false,
 						LockLayer: true,
 						CreateLayerTypes: ["typed"],
@@ -29084,11 +29328,11 @@ var AssetFemale3DCG = [
 				SelfUnlock: false,
 				DrawLocks: false,
 				Layer: [
-					{ Name: "Binder", ParentGroup: null },
+					{ Name: "Binder", ParentGroup: {} },
 					{
 						Name: "Strap",
 						Priority: 31,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { typed: 1 },
 						HideAs: { Group: "ClothAccessory", Asset: "LeatherStraps" },
 					},
@@ -29096,7 +29340,7 @@ var AssetFemale3DCG = [
 						Name: "WrapStrap",
 						CopyLayerColor: "Strap",
 						Priority: 31,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { typed: 2 },
 						HideAs: { Group: "ClothAccessory", Asset: "LeatherStraps" },
 					},
@@ -29104,7 +29348,7 @@ var AssetFemale3DCG = [
 						Name: "Lock",
 						LockLayer: true,
 						Priority: 6,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowColorize: false,
 					},
 				],
@@ -29211,7 +29455,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Lock",
 						LockLayer: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowColorize: true,
 					},
 				],
@@ -29299,13 +29543,13 @@ var AssetFemale3DCG = [
 				Hide: ["Bracelet"],
 				RemoveItemOnRemove: [{ Name: "X-Cross", Group: "ItemDevices" }],
 				Layer: [
-					{ Name: "Display", ParentGroup: null },
+					{ Name: "Display", ParentGroup: {} },
 					{ Name: "Cuffs" },
 					{
 						Name: "Lock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 					},
 				],
 			},
@@ -29423,7 +29667,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				Audio: "CuffsMetal",
 				Extended: true,
-				ParentGroup: null,
+				ParentGroup: {},
 				Effect: [E.BlockWardrobe],
 				PoseMapping: {
 					BaseUpper: PoseType.DEFAULT,
@@ -29520,14 +29764,14 @@ var AssetFemale3DCG = [
 					{
 						Name: "Display",
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 					},
 					{ Name: "Band", AllowColorize: true },
 					{
 						Name: "Lock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 					},
 					{
 						Name: "GlovesBack",
@@ -29649,7 +29893,7 @@ var AssetFemale3DCG = [
 				],
 				DrawLocks: false,
 				SelfUnlock: false,
-				ParentGroup: null,
+				ParentGroup: {},
 			},
 			{
 				Name: "Bolero",
@@ -29810,7 +30054,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Lock",
 						AllowTypes: { st: 1 },
-						ParentGroup: null,
+						ParentGroup: {},
 						LockLayer: true,
 					},
 				],
@@ -30438,7 +30682,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				HideItem: ["BraceletSpikeBands"],
-				ParentGroup: null,
+				ParentGroup: {},
 				SetPose: ["Yoked"],
 				Effect: [E.Block, E.BlockWardrobe, E.NotSelfPickable],
 				Layer: [{ Name: "Straps" }, { Name: "Bars" }],
@@ -30455,7 +30699,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				HideItem: ["BraceletSpikeBands"],
-				ParentGroup: null,
+				ParentGroup: {},
 				SetPose: ["Yoked"],
 				Effect: [E.Block, E.BlockWardrobe, E.NotSelfPickable],
 				Layer: [{ Name: "Frame" }, { Name: "Cuffs" }],
@@ -30472,7 +30716,7 @@ var AssetFemale3DCG = [
 				Time: 20,
 				Random: false,
 				AllowLock: true,
-				ParentGroup: null,
+				ParentGroup: {},
 				Bonus: "KidnapDomination",
 				Prerequisite: ["NotMasked", "HasBreasts"],
 				SetPose: ["Yoked"],
@@ -30652,7 +30896,7 @@ var AssetFemale3DCG = [
 						Top: -687,
 						Left: 0,
 						Priority: 31,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { typed: 8 },
 						PoseMapping: {},
 					},
@@ -30866,14 +31110,14 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "Display",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 31,
 						Left: 0,
 						Top: 0,
 					},
 					{
 						Name: "Binder",
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { typed: 0 },
 						CreateLayerTypes: ["typed"],
 						Priority: 6,
@@ -30882,7 +31126,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Band",
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { typed: 0 },
 						CreateLayerTypes: ["typed"],
 						Priority: 6,
@@ -30895,7 +31139,7 @@ var AssetFemale3DCG = [
 						LockLayer: true,
 						AllowColorize: true,
 						Priority: 31,
-						ParentGroup: null,
+						ParentGroup: {},
 						CreateLayerTypes: ["typed"],
 					},
 				],
@@ -31610,14 +31854,14 @@ var AssetFemale3DCG = [
 					{
 						Name: "Crotch",
 						ColorGroup: "Canvas",
-						ParentGroup: null,
+						ParentGroup: {},
 						ShowForAttribute: ["PussyLayer", "GenitaliaCover"],
 						AllowTypes: { c: 1 },
 					},
 					{
 						Name: "CrotchMale",
 						CopyLayerColor: "Crotch",
-						ParentGroup: null,
+						ParentGroup: {},
 						ShowForAttribute: ["PenisLayer"],
 						HideForAttribute: ["CagePlastic2", "CageTechno", "CageFlat"],
 						AllowTypes: { c: 1 },
@@ -31625,7 +31869,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "CrotchMalePlastic2",
 						CopyLayerColor: "Crotch",
-						ParentGroup: null,
+						ParentGroup: {},
 						ShowForAttribute: ["CagePlastic2"],
 						HideForAttribute: ["GenitaliaCover"],
 						AllowTypes: { c: 1 },
@@ -31633,7 +31877,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "CrotchMaleTechno",
 						CopyLayerColor: "Crotch",
-						ParentGroup: null,
+						ParentGroup: {},
 						ShowForAttribute: ["CageTechno"],
 						HideForAttribute: ["GenitaliaCover"],
 						AllowTypes: { c: 1 },
@@ -31641,7 +31885,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "CrotchMaleFlat",
 						CopyLayerColor: "Crotch",
-						ParentGroup: null,
+						ParentGroup: {},
 						ShowForAttribute: ["CageFlat"],
 						HideForAttribute: ["GenitaliaCover"],
 						AllowTypes: { c: 1 },
@@ -31650,7 +31894,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "JacketLoose",
 						ColorGroup: "Canvas",
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { a: 0 },
 					},
 					{
@@ -31683,14 +31927,14 @@ var AssetFemale3DCG = [
 					{
 						Name: "CrotchStrapsSingle",
 						ColorGroup: "Straps",
-						ParentGroup: null,
+						ParentGroup: {},
 						ShowForAttribute: ["PussyLayer", "GenitaliaCover"],
 						AllowTypes: { s: 1 },
 					},
 					{
 						Name: "CrotchStrapsSingleMale",
 						CopyLayerColor: "CrotchStrapsSingle",
-						ParentGroup: null,
+						ParentGroup: {},
 						ShowForAttribute: ["PenisLayer"],
 						HideForAttribute: ["CagePlastic2", "CageTechno", "CageFlat"],
 						AllowTypes: { s: 1 },
@@ -31698,7 +31942,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "CrotchStrapsSingleMalePlastic2",
 						CopyLayerColor: "CrotchStrapsSingle",
-						ParentGroup: null,
+						ParentGroup: {},
 						ShowForAttribute: ["CagePlastic2"],
 						HideForAttribute: ["GenitaliaCover"],
 						AllowTypes: { s: 1 },
@@ -31706,7 +31950,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "CrotchStrapsSingleMaleTechno",
 						CopyLayerColor: "CrotchStrapsSingle",
-						ParentGroup: null,
+						ParentGroup: {},
 						ShowForAttribute: ["CageTechno"],
 						HideForAttribute: ["GenitaliaCover"],
 						AllowTypes: { s: 1 },
@@ -31714,7 +31958,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "CrotchStrapsSingleMaleFlat",
 						CopyLayerColor: "CrotchStrapsSingle",
-						ParentGroup: null,
+						ParentGroup: {},
 						ShowForAttribute: ["CageFlat"],
 						HideForAttribute: ["GenitaliaCover"],
 						AllowTypes: { s: 1 },
@@ -31723,14 +31967,14 @@ var AssetFemale3DCG = [
 					{
 						Name: "CrotchStrapsDouble",
 						CopyLayerColor: "CrotchStrapsSingle",
-						ParentGroup: null,
+						ParentGroup: {},
 						ShowForAttribute: ["PussyLayer", "GenitaliaCover"],
 						AllowTypes: { s: 2 },
 					},
 					{
 						Name: "CrotchStrapsDoubleMale",
 						CopyLayerColor: "CrotchStrapsSingle",
-						ParentGroup: null,
+						ParentGroup: {},
 						ShowForAttribute: ["PenisLayer"],
 						HideForAttribute: ["CagePlastic2", "CageTechno", "CageFlat"],
 						AllowTypes: { s: 2 },
@@ -31738,7 +31982,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "CrotchStrapsDoubleMalePlastic2",
 						CopyLayerColor: "CrotchStrapsSingle",
-						ParentGroup: null,
+						ParentGroup: {},
 						ShowForAttribute: ["CagePlastic2"],
 						HideForAttribute: ["GenitaliaCover"],
 						AllowTypes: { s: 2 },
@@ -31746,7 +31990,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "CrotchStrapsDoubleMaleTechno",
 						CopyLayerColor: "CrotchStrapsSingle",
-						ParentGroup: null,
+						ParentGroup: {},
 						ShowForAttribute: ["CageTechno"],
 						HideForAttribute: ["GenitaliaCover"],
 						AllowTypes: { s: 2 },
@@ -31754,7 +31998,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "CrotchStrapsDoubleMaleFlat",
 						CopyLayerColor: "CrotchStrapsSingle",
-						ParentGroup: null,
+						ParentGroup: {},
 						ShowForAttribute: ["CageFlat"],
 						HideForAttribute: ["GenitaliaCover"],
 						AllowTypes: { s: 2 },
@@ -31763,14 +32007,14 @@ var AssetFemale3DCG = [
 					{
 						Name: "CrotchStrapsTriple",
 						CopyLayerColor: "CrotchStrapsSingle",
-						ParentGroup: null,
+						ParentGroup: {},
 						ShowForAttribute: ["PussyLayer", "GenitaliaCover"],
 						AllowTypes: { s: 3 },
 					},
 					{
 						Name: "CrotchStrapsTripleMale",
 						CopyLayerColor: "CrotchStrapsSingle",
-						ParentGroup: null,
+						ParentGroup: {},
 						ShowForAttribute: ["PenisLayer"],
 						HideForAttribute: ["CagePlastic2", "CageTechno", "CageFlat"],
 						AllowTypes: { s: 3 },
@@ -31778,7 +32022,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "CrotchStrapsTripleMalePlastic2",
 						CopyLayerColor: "CrotchStrapsSingle",
-						ParentGroup: null,
+						ParentGroup: {},
 						ShowForAttribute: ["CagePlastic2"],
 						HideForAttribute: ["GenitaliaCover"],
 						AllowTypes: { s: 3 },
@@ -31786,7 +32030,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "CrotchStrapsTripleMaleTechno",
 						CopyLayerColor: "CrotchStrapsSingle",
-						ParentGroup: null,
+						ParentGroup: {},
 						ShowForAttribute: ["CageTechno"],
 						HideForAttribute: ["GenitaliaCover"],
 						AllowTypes: { s: 3 },
@@ -31794,7 +32038,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "CrotchStrapsTripleMaleFlat",
 						CopyLayerColor: "CrotchStrapsSingle",
-						ParentGroup: null,
+						ParentGroup: {},
 						ShowForAttribute: ["CageFlat"],
 						HideForAttribute: ["GenitaliaCover"],
 						AllowTypes: { s: 3 },
@@ -31809,7 +32053,7 @@ var AssetFemale3DCG = [
 							"CageTechno",
 							"CageFlat",
 						],
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: [{ c: 1 }, { s: [1, 2, 3] }],
 						InheritColor: "Pussy",
 						HideColoring: true,
@@ -31820,28 +32064,28 @@ var AssetFemale3DCG = [
 					{
 						Name: "ArmsLock",
 						AllowColorize: false,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { a: 2 },
 						LockLayer: true,
 					},
 					{
 						Name: "StrapsLockSingle",
 						AllowColorize: false,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { s: 1 },
 						LockLayer: true,
 					},
 					{
 						Name: "StrapsLockDouble",
 						AllowColorize: false,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { s: 2 },
 						LockLayer: true,
 					},
 					{
 						Name: "StrapsLockTriple",
 						AllowColorize: false,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { s: 3 },
 						LockLayer: true,
 					},
@@ -31932,7 +32176,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Lock",
 						AllowColorize: false,
-						ParentGroup: null,
+						ParentGroup: {},
 						LockLayer: true,
 						CreateLayerTypes: ["typed"],
 					},
@@ -31943,7 +32187,7 @@ var AssetFemale3DCG = [
 				Name: "InflatableStraightLeotard",
 				InventoryID: 769,
 				Gender: "F",
-				ParentGroup: null,
+				ParentGroup: {},
 				Fetish: ["Latex"],
 				Value: 150,
 				Top: 137,
@@ -31999,7 +32243,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "StrictLeatherPetCrawler",
 				InventoryID: 770,
-				ParentGroup: null,
+				ParentGroup: {},
 				Fetish: ["Leather", "Pet"],
 				Value: 150,
 				Difficulty: 15,
@@ -32076,7 +32320,7 @@ var AssetFemale3DCG = [
 						},
 						LockLayer: true,
 						AllowColorize: false,
-						ParentGroup: null,
+						ParentGroup: {},
 					},
 				],
 			},
@@ -32132,7 +32376,7 @@ var AssetFemale3DCG = [
 					"ItemVulvaVibratingLatexPanties",
 				],
 				Layer: [
-					{ Name: "Base", Priority: 2, ParentGroup: null },
+					{ Name: "Base", Priority: 2, ParentGroup: {} },
 					{ Name: "Straps" },
 				],
 			},
@@ -32202,7 +32446,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "StripesLegs",
 						ColorGroup: "Stripes",
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { typed: [1, 2] },
 						PoseMapping: {
 							Kneel: "Kneel",
@@ -32214,20 +32458,20 @@ var AssetFemale3DCG = [
 					{
 						Name: "Jacket",
 						ColorGroup: "Canvas",
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {},
 					},
 					{ Name: "Text", HasImage: false },
 					{
 						Name: "Stripes",
 						ColorGroup: "Stripes",
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {},
 					},
 					{
 						Name: "CrotchStraps",
 						CopyLayerColor: "Straps",
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							Kneel: PoseType.DEFAULT,
 							LegsClosed: PoseType.DEFAULT,
@@ -32237,7 +32481,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Straps",
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {},
 					},
 					{
@@ -32421,11 +32665,11 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#c43ba4", "#b832b6", "#9221ba"],
 				Layer: [
 					{ Name: "Inner" },
-					{ Name: "Sucker", ParentGroup: null },
+					{ Name: "Sucker", ParentGroup: {} },
 					{ Name: "Outer" },
 					{
 						Name: "Shine",
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowColorize: false,
 					},
 				],
@@ -32441,7 +32685,7 @@ var AssetFemale3DCG = [
 				Difficulty: 6,
 				Time: 30,
 				RemoveTime: 50,
-				ParentGroup: null,
+				ParentGroup: {},
 				Extended: true,
 				SetPose: ["BackElbowTouch"],
 				PoseMapping: {},
@@ -32678,28 +32922,14 @@ var AssetFemale3DCG = [
 				Extended: true,
 				Random: false,
 				AllowLock: true,
+				DrawLocks: false,
 				AllowTighten: true,
-				DefaultColor: [
-					"#C8ADCD",
-					"#C8ADCD",
-					"#C8ADCD",
-					"#909090",
-					"#7F7350",
-				],
+				DefaultColor: ["#C8ADCD", "#C8ADCD", "#C8ADCD", "#909090", "#7F7350"],
 				Audio: "Bag",
 				SetPose: ["BackElbowTouch", "LegsClosed"],
 				AllowActivePose: ["Kneel"],
-				Effect: [
-					E.Block,
-					E.BlockWardrobe,
-					E.Slow,
-				],
-				Hide: [
-					"Cloth",
-					"ClothLower",
-					"TailStraps",
-					"Wings",
-				],
+				Effect: [E.Block, E.BlockWardrobe, E.Slow],
+				Hide: ["Cloth", "ClothLower", "TailStraps", "Wings"],
 				Block: [
 					"ItemNeck",
 					"ItemNeckAccessories",
@@ -32738,7 +32968,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Hood",
 						Priority: 44,
-						ParentGroup: null,
+						ParentGroup: {},
 						CreateLayerTypes: ["h"],
 						AllowTypes: { h: 1 },
 						AllowColorize: true,
@@ -32746,7 +32976,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Collar",
 						Priority: 44,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowColorize: true,
 					},
 					{
@@ -32805,7 +33035,7 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				Extended: true,
 				AlwaysInteract: true,
-				ParentGroup: null,
+				ParentGroup: {},
 				DefaultColor: ["#323232", "#565656", "#323232", "#252525", "#252525"],
 				Layer: [
 					// Binder
@@ -32904,9 +33134,9 @@ var AssetFemale3DCG = [
 				Effect: [E.Block, E.BlockWardrobe],
 				Hide: ["Cloth", "ItemNipplesPiercings"],
 				Layer: [
-					{ Name: "Straps", Priority: 11, ParentGroup: null },
+					{ Name: "Straps", Priority: 11, ParentGroup: {} },
 					{ Name: "Jacket" },
-					{ Name: "ArmStraps", ParentGroup: null },
+					{ Name: "ArmStraps", ParentGroup: {} },
 				],
 			},
 			{
@@ -33017,7 +33247,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Arm",
 						Priority: 6,
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							LegsClosed: PoseType.DEFAULT,
 							Kneel: PoseType.DEFAULT,
@@ -33030,7 +33260,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Cuff",
 						Priority: 6,
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							LegsClosed: PoseType.DEFAULT,
 							Kneel: PoseType.DEFAULT,
@@ -33044,7 +33274,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "ExCuff",
 						Priority: 6,
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							LegsClosed: "LegsClosed",
 							Kneel: "Kneel",
@@ -33057,7 +33287,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "ArmShine",
 						Priority: 6,
-						ParentGroup: null,
+						ParentGroup: {},
 						CreateLayerTypes: ["b"],
 						AllowTypes: { b: [0, 1] },
 						CopyLayerColor: "Shine",
@@ -33153,7 +33383,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "LMetal",
 						Priority: 25,
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							LegsClosed: PoseType.DEFAULT,
 							Kneel: "Kneel",
@@ -33167,7 +33397,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Skirt",
 						Priority: 27,
-						ParentGroup: null,
+						ParentGroup: {},
 						CreateLayerTypes: ["k"],
 						AllowTypes: { k: 1 },
 						AllowColorize: true,
@@ -33176,7 +33406,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Collar",
 						Priority: 26,
-						ParentGroup: null,
+						ParentGroup: {},
 						CreateLayerTypes: ["c"],
 						AllowTypes: { c: 1 },
 						AllowColorize: true,
@@ -33185,7 +33415,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "CMetal",
 						Priority: 26,
-						ParentGroup: null,
+						ParentGroup: {},
 						CreateLayerTypes: ["c"],
 						AllowTypes: { c: 1 },
 						AllowColorize: true,
@@ -33203,7 +33433,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "BMetal",
 						Priority: 28,
-						ParentGroup: null,
+						ParentGroup: {},
 						CreateLayerTypes: ["b"],
 						AllowTypes: { b: [3, 4, 5] },
 						AllowColorize: true,
@@ -33213,7 +33443,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Zipper",
 						Priority: 24,
-						ParentGroup: null,
+						ParentGroup: {},
 						CreateLayerTypes: ["z"],
 						AllowTypes: { z: [0, 1] },
 						AllowColorize: true,
@@ -33230,7 +33460,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "SMetal",
 						Priority: 27,
-						ParentGroup: null,
+						ParentGroup: {},
 						CreateLayerTypes: ["p"],
 						AllowTypes: { p: 1 },
 						AllowColorize: true,
@@ -33324,7 +33554,7 @@ var AssetFemale3DCG = [
 				Difficulty: 6,
 				Random: false,
 				IsRestraint: true,
-				ParentGroup: null,
+				ParentGroup: {},
 				Audio: "MetalCuffs",
 				SetPose: ["Yoked"],
 				Prerequisite: ["OnBed"],
@@ -33410,7 +33640,7 @@ var AssetFemale3DCG = [
 				HideItem: ["BraceletSpikeBands"],
 				Extended: true,
 				AllowColorize: true,
-				ParentGroup: null,
+				ParentGroup: {},
 				Layer: [
 					{ Name: "Gloves" },
 					{ Name: "Straps" },
@@ -33444,7 +33674,7 @@ var AssetFemale3DCG = [
 				HideItem: ["BraceletSpikeBands"],
 				Extended: true,
 				AllowColorize: true,
-				ParentGroup: null,
+				ParentGroup: {},
 				Layer: [
 					{ Name: "Gloves" },
 					{ Name: "Straps" },
@@ -33511,7 +33741,7 @@ var AssetFemale3DCG = [
 				SelfUnlock: false,
 				Extended: true,
 				Block: [],
-				ParentGroup: null,
+				ParentGroup: {},
 				Layer: [
 					{ Name: "Mesh", CreateLayerTypes: ["typed"] },
 					{ Name: "Display", CreateLayerTypes: ["typed"] },
@@ -33655,7 +33885,7 @@ var AssetFemale3DCG = [
 				],
 				Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
 				DefaultColor: ["#323232", "#252525", "Default", "Default"],
-				ParentGroup: null,
+				ParentGroup: {},
 				Layer: [
 					{
 						Name: "Mittens",
@@ -33703,7 +33933,7 @@ var AssetFemale3DCG = [
 				RemoveTime: 5,
 				AllowLock: true,
 				DrawLocks: false,
-				ParentGroup: null,
+				ParentGroup: {},
 				DefaultColor: "#e0b51d",
 				Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
 				Hide: ["ItemHandheld"],
@@ -33749,7 +33979,7 @@ var AssetFemale3DCG = [
 				Extended: true,
 				AlwaysExtend: true,
 				AllowColorize: true,
-				ParentGroup: null,
+				ParentGroup: {},
 				SelfUnlock: false,
 				PoseMapping: {
 					BaseUpper: PoseType.DEFAULT,
@@ -34209,7 +34439,7 @@ var AssetFemale3DCG = [
 				RemoveTime: 15,
 				AllowLock: false,
 				AllowTighten: true,
-				ParentGroup: null,
+				ParentGroup: {},
 				SetPose: ["TapedHands"],
 				Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
@@ -34243,7 +34473,7 @@ var AssetFemale3DCG = [
 				RemoveTime: 10,
 				AllowLock: false,
 				AllowTighten: true,
-				ParentGroup: null,
+				ParentGroup: {},
 				Block: [],
 			},
 			{
@@ -34307,7 +34537,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Restraint",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 31,
 						PoseMapping: {
 							TapedHands: PoseType.HIDE,
@@ -34325,7 +34555,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Detail",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 32,
 						PoseMapping: {
 							TapedHands: PoseType.HIDE,
@@ -34397,7 +34627,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "BDetail",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 31,
 						PoseMapping: {
 							TapedHands: PoseType.HIDE,
@@ -34415,7 +34645,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Armbinder",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 5,
 						PoseMapping: {
 							TapedHands: PoseType.HIDE,
@@ -34433,7 +34663,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "ADetail",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 5,
 						PoseMapping: {
 							TapedHands: PoseType.HIDE,
@@ -34467,7 +34697,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "ComboLegsChain",
-						ParentGroup: null,
+						ParentGroup: {},
 						Priority: 5,
 						PoseMapping: {
 							TapedHands: PoseType.HIDE,
@@ -34523,7 +34753,7 @@ var AssetFemale3DCG = [
 				],
 				AllowLock: true,
 				Extended: true,
-				ParentGroup: null,
+				ParentGroup: {},
 				DrawLocks: false,
 				PoseMapping: {
 					BaseUpper: PoseType.DEFAULT,
@@ -35168,7 +35398,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "KeyProp",
 				InventoryID: 788,
-				ParentGroup: null,
+				ParentGroup: {},
 				Value: 10,
 				Priority: 46,
 				Difficulty: -10,
@@ -35184,7 +35414,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "MedicalInjector",
 				InventoryID: 789,
-				ParentGroup: null,
+				ParentGroup: {},
 				Category: ["SciFi"],
 				Value: 75,
 				Priority: 46,
@@ -35199,7 +35429,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Crop",
 				InventoryID: 790,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 20,
 				Random: false,
@@ -35211,7 +35441,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Flogger",
 				InventoryID: 791,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 40,
 				Random: false,
@@ -35222,7 +35452,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Cane",
 				InventoryID: 792,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 15,
 				Random: false,
@@ -35241,7 +35471,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "HeartCrop",
 				InventoryID: 793,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 30,
 				Random: false,
@@ -35252,7 +35482,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Paddle",
 				InventoryID: 794,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 35,
 				Random: false,
@@ -35270,7 +35500,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "WhipPaddle",
 				InventoryID: 795,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 25,
 				Random: false,
@@ -35288,7 +35518,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Whip",
 				InventoryID: 796,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 50,
 				Random: false,
@@ -35306,7 +35536,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "CattleProd",
 				InventoryID: 797,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 45,
 				Random: false,
@@ -35317,7 +35547,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "TennisRacket",
 				InventoryID: 798,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: -1,
 				Random: false,
@@ -35328,7 +35558,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "ForSaleSign",
 				InventoryID: 799,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: -1,
 				Random: false,
@@ -35338,7 +35568,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "RainbowWand",
 				InventoryID: 800,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: -1,
 				Random: false,
@@ -35351,7 +35581,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Gavel",
 				InventoryID: 801,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: -1,
 				Random: false,
@@ -35368,7 +35598,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Feather",
 				InventoryID: 802,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 2,
 				Random: false,
@@ -35385,7 +35615,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "FeatherDuster",
 				InventoryID: 803,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 4,
 				Random: false,
@@ -35394,7 +35624,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "LongDuster",
 				InventoryID: 804,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: -1,
 				Random: false,
@@ -35404,7 +35634,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "IceCube",
 				InventoryID: 805,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 3,
 				Random: false,
@@ -35421,7 +35651,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "WartenbergWheel",
 				InventoryID: 806,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 10,
 				Random: false,
@@ -35439,7 +35669,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "VibratingWand",
 				InventoryID: 807,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 40,
 				Random: false,
@@ -35457,7 +35687,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "SmallVibratingWand",
 				InventoryID: 808,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 20,
 				Random: false,
@@ -35467,7 +35697,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "CandleWax",
 				InventoryID: 809,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 10,
 				Random: false,
@@ -35485,7 +35715,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "LargeDildo",
 				InventoryID: 810,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 30,
 				Random: false,
@@ -35494,7 +35724,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "PetToy",
 				InventoryID: 811,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 5,
 				Random: false,
@@ -35503,7 +35733,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Vibrator",
 				InventoryID: 812,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 45,
 				Random: false,
@@ -35521,7 +35751,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Belt",
 				InventoryID: 813,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 10,
 				Random: false,
@@ -35538,7 +35768,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Hairbrush",
 				InventoryID: 814,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 5,
 				Random: false,
@@ -35555,7 +35785,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "SmallDildo",
 				InventoryID: 815,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 20,
 				Random: false,
@@ -35564,7 +35794,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "ElectricToothbrush",
 				InventoryID: 816,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 20,
 				Random: false,
@@ -35573,7 +35803,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Toothbrush",
 				InventoryID: 817,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 10,
 				Random: false,
@@ -35588,7 +35818,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "ShockWand",
 				InventoryID: 818,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 50,
 				Random: false,
@@ -35599,7 +35829,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Lotion",
 				InventoryID: 819,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 10,
 				Random: false,
@@ -35608,7 +35838,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Ruler",
 				InventoryID: 820,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 3,
 				Random: false,
@@ -35618,7 +35848,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Sword",
 				InventoryID: 821,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 5,
 				Random: false,
@@ -35634,7 +35864,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "VibeRemote",
 				InventoryID: 576,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 50,
 				Random: false,
@@ -35644,7 +35874,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "ShockRemote",
 				InventoryID: 822,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 50,
 				Random: false,
@@ -35655,7 +35885,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Towel",
 				InventoryID: 823,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 10,
 				Random: false,
@@ -35664,7 +35894,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "RopeCoilLong",
 				InventoryID: 200,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 60,
 				Random: false,
@@ -35676,7 +35906,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "RopeCoilShort",
 				InventoryID: 200,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 60,
 				Random: false,
@@ -35688,7 +35918,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Ballgag",
 				InventoryID: 824,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 40,
 				Random: false,
@@ -35698,7 +35928,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "LongSock",
 				InventoryID: 825,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 40,
 				Random: false,
@@ -35708,7 +35938,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Baguette",
 				InventoryID: 826,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: -1,
 				Random: false,
@@ -35718,7 +35948,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Panties",
 				InventoryID: 827,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 10,
 				Random: false,
@@ -35728,7 +35958,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "TapeRoll",
 				InventoryID: 828,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 50,
 				Random: false,
@@ -35738,7 +35968,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Spatula",
 				InventoryID: 829,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 5,
 				Random: false,
@@ -35748,7 +35978,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Broom",
 				InventoryID: 830,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 15,
 				Random: false,
@@ -35758,7 +35988,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Phone1",
 				InventoryID: 831,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 100,
 				Random: false,
@@ -35772,7 +36002,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Phone2",
 				InventoryID: 832,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 140,
 				Random: false,
@@ -35786,7 +36016,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Scissors",
 				InventoryID: 833,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 15,
 				Random: false,
@@ -35794,7 +36024,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "PlasticWrap",
 				InventoryID: 554,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 100,
 				BuyGroup: "PlasticWrap",
@@ -35803,7 +36033,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "GlassEmpty",
 				InventoryID: 834,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 10,
 				Random: false,
@@ -35812,7 +36042,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "GlassFilled",
 				InventoryID: 834,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 20,
 				Random: false,
@@ -35830,7 +36060,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "PotionBottle",
 				InventoryID: 835,
-				ParentGroup: null,
+				ParentGroup: {},
 				Value: 40,
 				Random: false,
 				AllowActivity: ["RubItem"],
@@ -35838,7 +36068,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Mug",
 				InventoryID: 836,
-				ParentGroup: null,
+				ParentGroup: {},
 				Value: 10,
 				Priority: 46,
 				IsRestraint: false,
@@ -35854,7 +36084,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Popcorn",
 				InventoryID: 837,
-				ParentGroup: null,
+				ParentGroup: {},
 				Value: 2,
 				Priority: 46,
 				IsRestraint: false,
@@ -35868,7 +36098,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "PortalTablet",
 				InventoryID: 838,
-				ParentGroup: null,
+				ParentGroup: {},
 				BuyGroup: "PortalTablet",
 				Priority: 46,
 				Value: 15,
@@ -35880,7 +36110,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Shark",
 				InventoryID: 839,
-				ParentGroup: null,
+				ParentGroup: {},
 				Value: 25,
 				Left: 0,
 				Top: -250,
@@ -35911,7 +36141,7 @@ var AssetFemale3DCG = [
 				},
 				Top: -30,
 				DynamicGroupName: "ItemMisc",
-				ParentGroup: null,
+				ParentGroup: {},
 				DefaultColor: ["#848484", "#C26969"],
 				Layer: [
 					{ Name: "Base1" },
@@ -35942,7 +36172,7 @@ var AssetFemale3DCG = [
 					AllFours: PoseType.HIDE,
 				},
 				DynamicGroupName: "ItemMisc",
-				ParentGroup: null,
+				ParentGroup: {},
 				Layer: [
 					{ Name: "Base1" },
 					{ Name: "Base2" },
@@ -35971,7 +36201,7 @@ var AssetFemale3DCG = [
 					AllFours: PoseType.HIDE,
 				},
 				DynamicGroupName: "ItemMisc",
-				ParentGroup: null,
+				ParentGroup: {},
 				Layer: [{ Name: "Base" }, { Name: "Face", AllowColorize: false }],
 			},
 			{
@@ -35996,13 +36226,13 @@ var AssetFemale3DCG = [
 					AllFours: PoseType.HIDE,
 				},
 				DynamicGroupName: "ItemMisc",
-				ParentGroup: null,
+				ParentGroup: {},
 				Layer: [{ Name: "Base" }, { Name: "Face", AllowColorize: false }],
 			},
 			{
 				Name: "Smartphone",
 				InventoryID: 843,
-				ParentGroup: null,
+				ParentGroup: {},
 				Value: 100,
 				DefaultColor: ["#333", "#133769", "#900000"],
 				Random: false,
@@ -36044,7 +36274,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "GlueTube",
 				InventoryID: 1151,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: 14,
 				BuyGroup: "GlueTube",
@@ -36064,7 +36294,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "AnimeGirlWand",
 				InventoryID: 1153,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 53,
 				Value: -1,
 				BuyGroup: "AnimeGirl",
@@ -36134,7 +36364,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Brick",
 				InventoryID: 1161,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: -1,
 				BuyGroup: "BrickWall",
@@ -36145,7 +36375,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Trowel",
 				InventoryID: 1161,
-				ParentGroup: null,
+				ParentGroup: {},
 				Priority: 46,
 				Value: -1,
 				BuyGroup: "BrickWall",
@@ -36402,7 +36632,7 @@ var AssetFemale3DCG = [
 						Name: "Lock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 					},
 				],
 			},
@@ -38155,8 +38385,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "KittyGag",
 				InventoryID: 920,
-				Gender: "F",
-				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"],
+				Prerequisite: ["GagFlat"],
 				Fetish: ["Pet"],
 				Value: 20,
 				Difficulty: -4,
@@ -38175,8 +38404,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "KittyHarnessPanelGag",
 				InventoryID: 921,
-				Gender: "F",
-				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"],
+				Prerequisite: ["GagFlat"],
 				Fetish: ["Leather", "Pet"],
 				Value: 80,
 				Difficulty: 6,
@@ -38198,8 +38426,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "KittyMuzzleGag",
 				InventoryID: 922,
-				Gender: "F",
-				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"],
+				Prerequisite: ["GagFlat"],
 				Fetish: ["Leather", "Pet"],
 				Value: 80,
 				Difficulty: 6,
@@ -38281,14 +38508,14 @@ var AssetFemale3DCG = [
 						Name: "Lock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { g: 0 },
 					},
 					{
 						Name: "LightBallLock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { g: 1 },
 						CopyLayerColor: "Lock",
 					},
@@ -38296,7 +38523,7 @@ var AssetFemale3DCG = [
 						Name: "BallLock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { g: 2 },
 						CopyLayerColor: "Lock",
 					},
@@ -38304,7 +38531,7 @@ var AssetFemale3DCG = [
 						Name: "PlugLock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { g: 3 },
 						CopyLayerColor: "Lock",
 					},
@@ -38342,14 +38569,14 @@ var AssetFemale3DCG = [
 						Name: "Lock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { g: 0 },
 					},
 					{
 						Name: "LightBallLock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { g: 1 },
 						CopyLayerColor: "Lock",
 					},
@@ -38357,7 +38584,7 @@ var AssetFemale3DCG = [
 						Name: "BallLock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { g: 2 },
 						CopyLayerColor: "Lock",
 					},
@@ -38365,7 +38592,7 @@ var AssetFemale3DCG = [
 						Name: "PlugLock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { g: 3 },
 						CopyLayerColor: "Lock",
 					},
@@ -38403,14 +38630,14 @@ var AssetFemale3DCG = [
 						Name: "Lock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { g: 0 },
 					},
 					{
 						Name: "BallLock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { g: 1 },
 						CopyLayerColor: "Lock",
 					},
@@ -38418,7 +38645,7 @@ var AssetFemale3DCG = [
 						Name: "PlugLock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { g: 2 },
 						CopyLayerColor: "Lock",
 					},
@@ -39083,7 +39310,7 @@ var AssetFemale3DCG = [
 					{ Name: "Low", Group: "Blush", Timer: 5 },
 					{ Name: "Closed", Group: "Eyes", Timer: 5 },
 				],
-				ParentGroup: null,
+				ParentGroup: {},
 				Extended: true,
 				CreateLayerTypes: ["typed"],
 			},
@@ -39361,8 +39588,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "OTNPlugGag",
 				InventoryID: 961,
-				Gender: "F",
-				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat", "AccessMouth"],
+				Prerequisite: ["GagFlat", "AccessMouth"],
 				Value: 120,
 				Difficulty: 4,
 				Time: 20,
@@ -40724,6 +40950,65 @@ var AssetFemale3DCG = [
 					{ Name: "Border", AllowColorize: true },
 				],
 			},
+			{
+				Name: "AOMGag",
+				InventoryID: 1211,
+				Fetish: ["Latex"],
+				Top: 18,
+				Value: 18,
+				Difficulty: 3,
+				Time: 12,
+				Extended: true,
+				AllowTighten: true,
+				DrawLocks: false,
+				Prerequisite: ["GagUnique", "AccessMouth"],
+				Effect: [E.OpenMouth, E.GagNormal],
+				ExpressionTrigger: [
+					{ Name: "DroolSides", Group: "Fluids", Timer: 20 },
+					{ Name: "Soft", Group: "Eyebrows", Timer: 20 },
+				],
+				Hide: ["Mouth"],
+				DefaultColor: ["#D27BEB", "#505050", "#C0C0C0", "#877C66"],
+				Layer: [
+					{
+						Name: "Lips",
+						Priority: 36,
+						AllowColorize: true,
+					},
+					{
+						Name: "InnerLips",
+						Priority: 28,
+						CopyLayerColor: "Lips",
+					},
+					{
+						Name: "Inside",
+						Priority: 27,
+						AllowColorize: false,
+					},
+					{
+						Name: "Straps",
+						Priority: 32,
+						CreateLayerTypes: ["typed"],
+						AllowTypes: { typed: 1 },
+						AllowColorize: true,
+					},
+					{
+						Name: "MetalStraps",
+						Priority: 33,
+						CreateLayerTypes: ["typed"],
+						AllowTypes: { typed: 1 },
+						AllowColorize: true,
+					},
+					{
+						Name: "Lock",
+						Priority: 33,
+						CreateLayerTypes: ["typed"],
+						AllowTypes: { typed: 1 },
+						LockLayer: true,
+						AllowColorize: true,
+					},
+				],
+			},
 		],
 		Color: [
 			"Default",
@@ -40966,8 +41251,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "KittyGag",
 				InventoryID: 920,
-				Gender: "F",
-				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"],
+				Prerequisite: ["GagFlat"],
 				Fetish: ["Pet"],
 				Value: 20,
 				Difficulty: -4,
@@ -40986,8 +41270,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "KittyHarnessPanelGag",
 				InventoryID: 921,
-				Gender: "F",
-				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"],
+				Prerequisite: ["GagFlat"],
 				Fetish: ["Leather", "Pet"],
 				Value: 80,
 				Difficulty: 6,
@@ -41009,8 +41292,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "KittyMuzzleGag",
 				InventoryID: 922,
-				Gender: "F",
-				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"],
+				Prerequisite: ["GagFlat"],
 				Fetish: ["Leather", "Pet"],
 				Value: 80,
 				Difficulty: 6,
@@ -41578,14 +41860,14 @@ var AssetFemale3DCG = [
 						Name: "Lock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { g: 0 },
 					},
 					{
 						Name: "LightBallLock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { g: 1 },
 						CopyLayerColor: "Lock",
 					},
@@ -41593,7 +41875,7 @@ var AssetFemale3DCG = [
 						Name: "BallLock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { g: 2 },
 						CopyLayerColor: "Lock",
 					},
@@ -41601,7 +41883,7 @@ var AssetFemale3DCG = [
 						Name: "PlugLock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { g: 3 },
 						CopyLayerColor: "Lock",
 					},
@@ -41638,14 +41920,14 @@ var AssetFemale3DCG = [
 						Name: "Lock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { g: 0 },
 					},
 					{
 						Name: "LightBallLock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { g: 1 },
 						CopyLayerColor: "Lock",
 					},
@@ -41653,7 +41935,7 @@ var AssetFemale3DCG = [
 						Name: "BallLock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { g: 2 },
 						CopyLayerColor: "Lock",
 					},
@@ -41661,7 +41943,7 @@ var AssetFemale3DCG = [
 						Name: "PlugLock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { g: 3 },
 						CopyLayerColor: "Lock",
 					},
@@ -41699,14 +41981,14 @@ var AssetFemale3DCG = [
 						Name: "Lock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { g: 0 },
 					},
 					{
 						Name: "BallLock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { g: 1 },
 						CopyLayerColor: "Lock",
 					},
@@ -41714,7 +41996,7 @@ var AssetFemale3DCG = [
 						Name: "PlugLock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { g: 2 },
 						CopyLayerColor: "Lock",
 					},
@@ -42788,6 +43070,14 @@ var AssetFemale3DCG = [
 					BuyGroup: true,
 				},
 			},
+			{
+				Name: "AOMGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "AOMGag",
+					BuyGroup: true,
+				},
+			},
 		],
 		Color: [
 			"Default",
@@ -43026,8 +43316,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "KittyGag",
 				InventoryID: 920,
-				Gender: "F",
-				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"],
+				Prerequisite: ["GagFlat"],
 				Fetish: ["Pet"],
 				Value: 20,
 				Difficulty: -4,
@@ -43046,8 +43335,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "KittyHarnessPanelGag",
 				InventoryID: 921,
-				Gender: "F",
-				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"],
+				Prerequisite: ["GagFlat"],
 				Fetish: ["Leather", "Pet"],
 				Value: 80,
 				Difficulty: 6,
@@ -43069,8 +43357,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "KittyMuzzleGag",
 				InventoryID: 922,
-				Gender: "F",
-				Prerequisite: ["HasBreasts", "HasVagina", "GagFlat"],
+				Prerequisite: ["GagFlat"],
 				Fetish: ["Leather", "Pet"],
 				Value: 80,
 				Difficulty: 6,
@@ -44429,14 +44716,14 @@ var AssetFemale3DCG = [
 						Name: "Lock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { g: 0 },
 					},
 					{
 						Name: "LightBallLock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { g: 1 },
 						CopyLayerColor: "Lock",
 					},
@@ -44444,7 +44731,7 @@ var AssetFemale3DCG = [
 						Name: "BallLock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { g: 2 },
 						CopyLayerColor: "Lock",
 					},
@@ -44452,7 +44739,7 @@ var AssetFemale3DCG = [
 						Name: "PlugLock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { g: 3 },
 						CopyLayerColor: "Lock",
 					},
@@ -44489,14 +44776,14 @@ var AssetFemale3DCG = [
 						Name: "Lock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { g: 0 },
 					},
 					{
 						Name: "LightBallLock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { g: 1 },
 						CopyLayerColor: "Lock",
 					},
@@ -44504,7 +44791,7 @@ var AssetFemale3DCG = [
 						Name: "BallLock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { g: 2 },
 						CopyLayerColor: "Lock",
 					},
@@ -44512,7 +44799,7 @@ var AssetFemale3DCG = [
 						Name: "PlugLock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { g: 3 },
 						CopyLayerColor: "Lock",
 					},
@@ -44550,14 +44837,14 @@ var AssetFemale3DCG = [
 						Name: "Lock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { g: 0 },
 					},
 					{
 						Name: "BallLock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { g: 1 },
 						CopyLayerColor: "Lock",
 					},
@@ -44565,7 +44852,7 @@ var AssetFemale3DCG = [
 						Name: "PlugLock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { g: 2 },
 						CopyLayerColor: "Lock",
 					},
@@ -44837,6 +45124,14 @@ var AssetFemale3DCG = [
 					BuyGroup: true,
 				},
 			},
+			{
+				Name: "AOMGag",
+				CopyConfig: {
+					GroupName: "ItemMouth",
+					AssetName: "AOMGag",
+					BuyGroup: true,
+				},
+			},
 		],
 		Color: [
 			"Default",
@@ -45073,8 +45368,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "KittyBlindfold",
 				InventoryID: 979,
-				Gender: "F",
-				Prerequisite: ["HasBreasts", "HasVagina"],
 				Fetish: ["Pet"],
 				Value: 40,
 				Time: 5,
@@ -45789,19 +46082,8 @@ var AssetFemale3DCG = [
 				Random: true,
 				AllowLock: true,
 				DrawLocks: false,
-				DefaultColor: [
-					"#707070",
-					"#404040",
-					"#404040",
-					"#E14055",
-					"#606060",
-				],
-				Block: [
-					"ItemMouth",
-					"ItemMouth2",
-					"ItemMouth3",
-					"ItemNose",
-				],
+				DefaultColor: ["#707070", "#404040", "#404040", "#E14055", "#606060"],
+				Block: ["ItemMouth", "ItemMouth2", "ItemMouth3", "ItemNose"],
 				Hide: [
 					"HairAccessory1",
 					"HairAccessory2",
@@ -47077,8 +47359,8 @@ var AssetFemale3DCG = [
 				],
 				HideItem: ["HatFurHeadband"],
 				Layer: [
-					{ Name: "Original", AllowColorize: true, AllowTypes: {f:0}, },
-					{ Name: "Smooth", CopyLayerColor: "Original", AllowTypes: {f:1}, },
+					{ Name: "Original", AllowColorize: true, AllowTypes: { f: 0 } },
+					{ Name: "Smooth", CopyLayerColor: "Original", AllowTypes: { f: 1 } },
 				],
 			},
 			{
@@ -49211,7 +49493,7 @@ var AssetFemale3DCG = [
 						Priority: 52,
 						CreateLayerTypes: ["g"],
 						AllowTypes: {
-							g: [ 1, 2, 3 ,4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ],
+							g: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
 						},
 						AllowColorize: true,
 						ColorGroup: "Wig",
@@ -49220,14 +49502,14 @@ var AssetFemale3DCG = [
 						Name: "WigComp",
 						Priority: 6,
 						CreateLayerTypes: ["g"],
-						AllowTypes: { g: [ 3, 6, 8, 9, 10, 11, 12, 13, 15, 16 ] },
+						AllowTypes: { g: [3, 6, 8, 9, 10, 11, 12, 13, 15, 16] },
 						CopyLayerColor: "Wig",
 					},
 					{
 						Name: "WigAcc",
 						Priority: 53,
 						CreateLayerTypes: ["g"],
-						AllowTypes: { g: [ 14, 15 ] },
+						AllowTypes: { g: [14, 15] },
 						AllowColorize: true,
 						ColorGroup: "Wig",
 					},
@@ -49489,10 +49771,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "Balloon",
 				InventoryID: 1201,
-				Fetish: [
-					"Latex",
-					"Masochism"
-				],
+				Fetish: ["Latex", "Masochism"],
 				Top: 28,
 				Left: 123,
 				Value: 10,
@@ -49501,12 +49780,8 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				Extended: true,
 				Audio: "BalloonStretch",
-				DefaultColor: [
-					"#C95A68",
-					"#CD6F7B",
-					"#E0E0E0",
-				],
-				Tint: [ {Color: 0x000, Strength: 0.2} ],
+				DefaultColor: ["#C95A68", "#CD6F7B", "#E0E0E0"],
+				Tint: [{ Color: 0x000, Strength: 0.2 }],
 				Block: [
 					"ItemMouth",
 					"ItemMouth2",
@@ -49551,14 +49826,8 @@ var AssetFemale3DCG = [
 								],
 							},
 							{
-								Group: [
-									"HairFront",
-									"Mask",
-									"Glasses",
-									"ItemNose",
-									"ItemHead",
-								],
-								Masks: [ [50, 205, 300, 700] ],
+								Group: ["HairFront", "Mask", "Glasses", "ItemNose", "ItemHead"],
+								Masks: [[50, 205, 300, 700]],
 							},
 						],
 					},
@@ -49569,12 +49838,12 @@ var AssetFemale3DCG = [
 						AllowColorize: true,
 						Priority: 56,
 					},
-					{ 
+					{
 						Name: "Neck",
 						CopyLayerColor: "Head",
 						Priority: 26,
 					},
-					{ 
+					{
 						Name: "NShine",
 						CopyLayerColor: "Shine",
 						Priority: 26,
@@ -49600,13 +49869,7 @@ var AssetFemale3DCG = [
 				Random: true,
 				AllowLock: true,
 				DrawLocks: false,
-				DefaultColor: [
-					"#707070",
-					"#404040",
-					"#404040",
-					"#E14055",
-					"#606060",
-				],
+				DefaultColor: ["#707070", "#404040", "#404040", "#E14055", "#606060"],
 				Block: [
 					"ItemMouth",
 					"ItemMouth2",
@@ -49742,7 +50005,7 @@ var AssetFemale3DCG = [
 						Name: "Lock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 					},
 				],
 			},
@@ -50809,7 +51072,7 @@ var AssetFemale3DCG = [
 					{ Name: "", CreateLayerTypes: ["typed"] },
 					{
 						Name: "Lock",
-						ParentGroup: null,
+						ParentGroup: {},
 						LockLayer: true,
 						AllowColorize: false,
 					},
@@ -50920,7 +51183,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Lock",
 						AllowColorize: false,
-						ParentGroup: null,
+						ParentGroup: {},
 						CreateLayerTypes: ["typed"],
 						AllowTypes: { typed: [1, 2, 3, 4] },
 					},
@@ -51986,14 +52249,14 @@ var AssetFemale3DCG = [
 						CopyLayerColor: "Frame",
 						AllowTypes: { g: 0 },
 					},
-					{ Name: "Frame", ParentGroup: null },
-					{ Name: "Mattress", ParentGroup: null },
-					{ Name: "Pillow", ParentGroup: null },
-					{ Name: "PillowTrim", ParentGroup: null },
+					{ Name: "Frame", ParentGroup: {} },
+					{ Name: "Mattress", ParentGroup: {} },
+					{ Name: "Pillow", ParentGroup: {} },
+					{ Name: "PillowTrim", ParentGroup: {} },
 					{
 						Name: "Plushies",
 						Priority: 54,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { p: 1 },
 					},
 				],
@@ -52470,7 +52733,7 @@ var AssetFemale3DCG = [
 				Alpha: [{ Group: ["BodyUpper"], Masks: [[0, 225, 500, 775]] }],
 				Layer: [
 					{ Name: "Latex", ParentGroup: "BodyUpper" },
-					{ Name: "Highlights", ParentGroup: null, AllowColorize: false },
+					{ Name: "Highlights", ParentGroup: {}, AllowColorize: false },
 				],
 			},
 			{
@@ -53330,7 +53593,7 @@ var AssetFemale3DCG = [
 						Name: "Lock",
 						LockLayer: true,
 						Priority: 21,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowColorize: true,
 					},
 					{
@@ -53338,21 +53601,21 @@ var AssetFemale3DCG = [
 						Priority: 6,
 						AllowColorize: true,
 						CreateLayerTypes: ["m"],
-						AllowTypes: { m: [ 0, 1, 2, 3, 4, 5, 6, 7 ] },
+						AllowTypes: { m: [0, 1, 2, 3, 4, 5, 6, 7] },
 					},
 					{
 						Name: "Shoes",
 						Priority: 8,
 						AllowColorize: true,
 						CreateLayerTypes: ["m"],
-						AllowTypes: { m: [ 0, 1, 2, 3, 4, 5, 6, 7 ] },
+						AllowTypes: { m: [0, 1, 2, 3, 4, 5, 6, 7] },
 					},
 					{
 						Name: "Option",
 						Priority: 7,
 						AllowColorize: true,
 						CreateLayerTypes: ["m"],
-						AllowTypes: { m: [ 2, 4, 5, 6, 7 ] },
+						AllowTypes: { m: [2, 4, 5, 6, 7] },
 					},
 				],
 			},
@@ -53370,7 +53633,7 @@ var AssetFemale3DCG = [
 				FixedPosition: true,
 				Extended: true,
 				AllowActivePose: ["LegsOpen", "LegsClosed"],
-				Effect: [E.BlockWardrobe, E.Freeze, E.MapImmobile ],
+				Effect: [E.BlockWardrobe, E.Freeze, E.MapImmobile],
 				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
 				Prerequisite: [
 					"NotSuspended",
@@ -53378,21 +53641,18 @@ var AssetFemale3DCG = [
 					"CanLegsOpen",
 					"CanLegsClosed",
 				],
-				Block: [
-					"ItemBoots",
-					"ItemAddon",
-				],
+				Block: ["ItemBoots", "ItemAddon"],
 				HideItem: ["ShoesFlippers"],
 				Height: 0,
-				ParentGroup: null,
-						PoseMapping: {
-							...AssetPoseMapping.BodyLower,
-							LegsClosed: "LegsClosed",
-							Spread: PoseType.DEFAULT,
-							Kneel: "LegsClosed",
-							KneelingSpread: PoseType.DEFAULT,
-							Hogtied: PoseType.HIDE,
-						},
+				ParentGroup: {},
+				PoseMapping: {
+					...AssetPoseMapping.BodyLower,
+					LegsClosed: "LegsClosed",
+					Spread: PoseType.DEFAULT,
+					Kneel: "LegsClosed",
+					KneelingSpread: PoseType.DEFAULT,
+					Hogtied: PoseType.HIDE,
+				},
 				Layer: [
 					{ Name: "Floor", Priority: 3, AllowColorize: true },
 					{ Name: "Over", Priority: 25, CopyLayerColor: "Floor" },
@@ -53422,17 +53682,13 @@ var AssetFemale3DCG = [
 						Left: 0,
 						Top: 445,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						CreateLayerTypes: ["c"],
-						AllowTypes: { c: [ 1, 2, 3, 4 ] },
+						AllowTypes: { c: [1, 2, 3, 4] },
 						Alpha: [
 							{
 								Pose: ["LegsClosed"],
-								Group: [
-									"ItemArms",
-									"ItemLegs",
-									"ItemBoots",
-								],
+								Group: ["ItemArms", "ItemLegs", "ItemBoots"],
 								Masks: [
 									[116, 850, 70, 230],
 									[310, 850, 70, 230],
@@ -53455,10 +53711,10 @@ var AssetFemale3DCG = [
 						Left: 0,
 						Top: 445,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						CopyLayerColor: "Main",
 						CreateLayerTypes: ["c"],
-						AllowTypes: { c: [ 1, 2, 3, 4 ] },
+						AllowTypes: { c: [1, 2, 3, 4] },
 					},
 					{
 						Name: "MainBucket",
@@ -53467,17 +53723,13 @@ var AssetFemale3DCG = [
 						Left: 0,
 						Top: 445,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						CreateLayerTypes: ["b"],
 						AllowTypes: { b: 0 },
 						Alpha: [
 							{
 								Pose: ["LegsClosed"],
-								Group: [
-									"ItemArms",
-									"ItemLegs",
-									"ItemBoots",
-								],
+								Group: ["ItemArms", "ItemLegs", "ItemBoots"],
 								Masks: [[116, 840, 264, 230]],
 							},
 							{
@@ -53494,20 +53746,19 @@ var AssetFemale3DCG = [
 						Left: 0,
 						Top: 445,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						CopyLayerColor: "MainBucket",
 						CreateLayerTypes: ["b"],
 						AllowTypes: { b: 0 },
 					},
-					{	
+					{
 						Name: "Pole",
 						Priority: 4,
 						Left: 0,
 						Top: 485,
-						AllowLock: true,
 						AllowColorize: true,
 						CreateLayerTypes: ["p"],
-						AllowTypes: { p: [ 1, 2, 3 ] },
+						AllowTypes: { p: [1, 2, 3] },
 					},
 					{
 						Name: "Straps",
@@ -53517,18 +53768,17 @@ var AssetFemale3DCG = [
 						ParentGroup: "BodyLower",
 						AllowColorize: true,
 						CreateLayerTypes: ["p"],
-						AllowTypes: { p: [ 1, 2, 3 ] },
+						AllowTypes: { p: [1, 2, 3] },
 					},
 					{
 						Name: "Ratchet",
 						Priority: 25,
 						Left: 0,
 						Top: 485,
-						AllowLock: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowColorize: true,
 						CreateLayerTypes: ["p"],
-						AllowTypes: { p: [ 1, 2, 3 ] },
+						AllowTypes: { p: [1, 2, 3] },
 					},
 				],
 				RemoveAtLogin: true,
@@ -53650,14 +53900,10 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DrawLocks: false,
 				Extended: true,
-				DefaultColor:[
-					"#303030",
-					"#404040",
-					"#202020",
-				],
+				DefaultColor: ["#303030", "#404040", "#202020"],
 				SetPose: ["LegsClosed"],
 				AllowActivePose: ["Kneel"],
-				ParentGroup: null,
+				ParentGroup: {},
 				Block: ["ItemBoots"],
 				HideItem: ["ShoesFlippers"],
 				PoseMapping: {
@@ -53671,12 +53917,7 @@ var AssetFemale3DCG = [
 				Alpha: [
 					{
 						Pose: ["LegsClosed"],
-						Group: [
-							"ItemArms",
-							"ItemLegs",
-							"ItemFeet",
-							"ItemBoots",
-						],
+						Group: ["ItemArms", "ItemLegs", "ItemFeet", "ItemBoots"],
 						Masks: [[45, 870, 350, 250]],
 					},
 				],
@@ -53724,11 +53965,180 @@ var AssetFemale3DCG = [
 				Effect: [E.Freeze, E.MapImmobile],
 				RemoveAtLogin: true,
 				FixedPosition: true,
-				Layer: [
-					{ Name: "Throne", Top: -300, Left: 0 },
+				Layer: [{ Name: "Throne", Top: -300, Left: 0 },
 					{ Name: "Seat", Top: -300, Left: 0 },
-					{ Name: "Deco", Top: -300, Left: 0 },
+					{ Name: "Deco", Top: -300, Left: 0 },}
+			},
+			{
+				Name: "ExclusiveWaitress",
+				InventoryID: 1212,
+				Fetish: ["Forniphilia", "Metal"],
+				Value: 245,
+				Top: 0,
+				OverrideHeight: { Height: 33, Priority: 59 },
+				Random: false,
+				Difficulty: 7,
+				Time: 25,
+				AllowLock: true,
+				AllowTighten: true,
+				DrawLocks: false,
+				Extended: true,
+				Audio: "FuturisticApply",
+				SetPose: ["BackElbowTouch", "LegsClosed"],
+				Effect: [E.UseRemote, E.OneWayEnclose],
+				ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
+				Prerequisite: ["NotSuspended", "NotLifted", "CanLegsClosed"],
+				Hide: ["TailStraps"],
+				HideItem: ["ShoesFlippers", "ItemMiscServingTray"],
+				DefaultColor: [
+					"#7A808F",
+					"#4CB652",
+					"#64E267",
+					"#9A8F79",
+					"#D6CBC1",
+					"Default",
 				],
+				Alpha: [
+					{
+						Group: [
+							"Cloth",
+							"ClothLower",
+							"ClothAccessory",
+							"Suit",
+							"SuitLower",
+							"Corset",
+							"AnkletLeft",
+							"AnkletRight",
+							"TailStraps",
+							"ItemArms",
+							"ItemTorso",
+							"ItemTorso2",
+							"ItemLegs",
+							"ItemFeet",
+							"ItemBoots",
+							"ItemButt",
+						],
+						Masks: [
+							[0, 400, 166, 600],
+							[0, 680, 189, 320],
+							[334, 400, 166, 600],
+							[312, 680, 188, 320],
+							[20, 825, 480, 275],
+						],
+					},
+				],
+				Layer: [
+					{
+						Name: "Front",
+						Priority: 56,
+						CreateLayerTypes: ["c"],
+						AllowTypes: { c: [0, 1, 2] },
+						AllowColorize: true,
+					},
+					{
+						Name: "Back",
+						Priority: 6,
+						CreateLayerTypes: ["c"],
+						AllowTypes: { c: [0, 1, 2] },
+						CopyLayerColor: "Front",
+					},
+					{
+						Name: "Window",
+						Priority: 56,
+						CreateLayerTypes: ["c"],
+						AllowTypes: { c: 1 },
+						AllowColorize: true,
+					},
+					{
+						Name: "Light",
+						Priority: 57,
+						AllowColorize: true,
+					},
+					{
+						Name: "TableLight",
+						Top: 356,
+						Priority: 57,
+						CreateLayerTypes: ["f"],
+						AllowTypes: { f: [0, 1, 2] },
+						AllowColorize: false,
+					},
+					{
+						Name: "FloorLight",
+						Top: 895,
+						Priority: 1,
+						FixedPosition: true,
+						CreateLayerTypes: ["f"],
+						AllowTypes: { f: [0, 1, 2, 3, 4] },
+						AllowColorize: false,
+					},
+					{
+						Name: "OmbA",
+						Top: -22,
+						Priority: 56,
+						CreateLayerTypes: ["b"],
+						AllowTypes: { b: 1 },
+						ColorGroup: "Sunshade",
+					},
+					{
+						Name: "OmbB",
+						Top: -22,
+						Priority: 2,
+						CreateLayerTypes: ["b"],
+						AllowTypes: { b: 1 },
+						ColorGroup: "Sunshade",
+					},
+					{
+						Name: "OmbC",
+						Top: -22,
+						Priority: 1,
+						CreateLayerTypes: ["b"],
+						AllowTypes: { b: 1 },
+						CopyLayerColor: "OmbA",
+					},
+					{
+						Name: "ObjectR",
+						Top: 260,
+						Left: 290,
+						Priority: 58,
+						CreateLayerTypes: ["r"],
+						AllowTypes: {
+							r: [
+								1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
+								19, 20, 21, 22, 23,
+							],
+						},
+						ColorGroup: "Object",
+					},
+					{
+						Name: "ObjectM",
+						Top: 285,
+						Left: 165,
+						Priority: 58,
+						CreateLayerTypes: ["m"],
+						AllowTypes: {
+							m: [
+								1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
+								19, 20, 21, 22, 23,
+							],
+						},
+						ColorGroup: "Object",
+					},
+					{
+						Name: "ObjectL",
+						Top: 255,
+						Left: 62,
+						Priority: 58,
+						CreateLayerTypes: ["l"],
+						AllowTypes: {
+							l: [
+								1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
+								19, 20, 21, 22, 23,
+							],
+						},
+						ColorGroup: "Object",
+					},
+				],
+				RemoveAtLogin: true,
 			},
 		],
 		Color: [
@@ -54183,7 +54593,7 @@ var AssetFemale3DCG = [
 					{
 						Name: "Lock",
 						LockLayer: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowColorize: true,
 					},
 				],
@@ -54230,7 +54640,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DrawLocks: false,
 				Audio: "LockSmall",
-				ParentGroup: null,
+				ParentGroup: {},
 				SetPose: ["LegsClosed"],
 				PoseMapping: {
 					AllFours: PoseType.HIDE,
@@ -54251,7 +54661,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DrawLocks: false,
 				AllowTighten: true,
-				ParentGroup: null,
+				ParentGroup: {},
 				SetPose: ["LegsClosed"],
 				Effect: [E.Freeze, E.BlockWardrobe],
 				AllowActivePose: ["Kneel"],
@@ -54273,7 +54683,7 @@ var AssetFemale3DCG = [
 				DefaultColor: "#956B1C",
 				CraftGroup: "HempRope",
 				Audio: "RopeShort",
-				ParentGroup: null,
+				ParentGroup: {},
 				SetPose: ["LegsClosed"],
 				Effect: [E.Freeze, E.BlockWardrobe],
 				AllowActivePose: ["Kneel"],
@@ -54408,7 +54818,7 @@ var AssetFemale3DCG = [
 						Name: "Lock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 						CreateLayerTypes: ["typed"],
 					},
 				],
@@ -54453,21 +54863,21 @@ var AssetFemale3DCG = [
 					Spread: "Spread",
 				},
 				Layer: [
-					{ Name: "Mesh", ParentGroup: null },
-					{ Name: "Display", ParentGroup: null },
+					{ Name: "Mesh", ParentGroup: {} },
+					{ Name: "Display", ParentGroup: {} },
 					{
 						Name: "Shine",
-						ParentGroup: null,
+						ParentGroup: {},
 						AllowTypes: { typed: 0 },
 					},
-					{ Name: "Cuffs", ParentGroup: null },
-					{ Name: "Trim", ParentGroup: null },
-					{ Name: "Soles", ParentGroup: null },
+					{ Name: "Cuffs", ParentGroup: {} },
+					{ Name: "Trim", ParentGroup: {} },
+					{ Name: "Soles", ParentGroup: {} },
 					{
 						Name: "Lock",
 						LockLayer: true,
 						AllowColorize: true,
-						ParentGroup: null,
+						ParentGroup: {},
 					},
 				],
 				Alpha: [
@@ -54541,7 +54951,7 @@ var AssetFemale3DCG = [
 				Difficulty: 2,
 				Time: 10,
 				RemoveTime: 5,
-				ParentGroup: null,
+				ParentGroup: {},
 				SetPose: ["LegsClosed"],
 				AllowActivePose: ["Kneel"],
 				CreateLayerTypes: ["typed"],
@@ -54559,7 +54969,7 @@ var AssetFemale3DCG = [
 				RemoveTime: 6,
 				BuyGroup: "Zipties",
 				Audio: "ZipTie",
-				ParentGroup: null,
+				ParentGroup: {},
 				SetPose: ["LegsClosed"],
 				Effect: [E.Freeze, E.BlockWardrobe],
 				AllowActivePose: ["Kneel"],
@@ -54622,7 +55032,7 @@ var AssetFemale3DCG = [
 				RemoveTime: 40,
 				Left: 100,
 				Top: 800,
-				ParentGroup: null,
+				ParentGroup: {},
 				SetPose: ["LegsClosed"],
 				AllowActivePose: ["Kneel"],
 				Effect: [E.Freeze],
@@ -54893,7 +55303,7 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				Extended: true,
 				Audio: "Buckle",
-				DefaultColor:[
+				DefaultColor: [
 					"#505050",
 					"#606060",
 					"#404040",
@@ -54945,7 +55355,7 @@ var AssetFemale3DCG = [
 									"SocksRight",
 									"SocksLeft",
 									"SuitLower",
-									],
+								],
 								Masks: [[45, 812, 350, 288]],
 							},
 						],
@@ -54989,7 +55399,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "HogFeet",
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							...AssetPoseMapping.ItemBoots,
 							Hogtied: "Hogtied",
@@ -55002,7 +55412,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "HogStraps",
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							...AssetPoseMapping.ItemBoots,
 							Hogtied: "Hogtied",
@@ -55015,7 +55425,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "HogShine",
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							...AssetPoseMapping.ItemBoots,
 							Hogtied: "Hogtied",
@@ -55032,7 +55442,7 @@ var AssetFemale3DCG = [
 						Priority: 25,
 						Left: 115,
 						Top: 515,
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							...AssetPoseMapping.ItemBoots,
 							Hogtied: PoseType.HIDE,
@@ -55042,16 +55452,12 @@ var AssetFemale3DCG = [
 							KneelingSpread: PoseType.HIDE,
 						},
 						CreateLayerTypes: ["p"],
-						AllowTypes: { p: [ 1, 2 ] },
+						AllowTypes: { p: [1, 2] },
 						AllowColorize: true,
 						Alpha: [
 							{
 								Pose: ["LegsClosed"],
-								Group: [
-									"ItemArms",
-									"ItemLegs",
-									"ItemFeet",
-								],
+								Group: ["ItemArms", "ItemLegs", "ItemFeet"],
 								Masks: [
 									[166, 850, 10, 230],
 									[310, 850, 10, 230],
@@ -55059,7 +55465,7 @@ var AssetFemale3DCG = [
 							},
 							{
 								Pose: ["LegsClosed"],
-								Group: ["ItemLegs","ItemFeet"],
+								Group: ["ItemLegs", "ItemFeet"],
 								Masks: [[166, 865, 154, 230]],
 							},
 						],
@@ -55069,7 +55475,7 @@ var AssetFemale3DCG = [
 						Priority: 25,
 						Left: 115,
 						Top: 515,
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							...AssetPoseMapping.ItemBoots,
 							Hogtied: PoseType.HIDE,
@@ -55079,7 +55485,7 @@ var AssetFemale3DCG = [
 							KneelingSpread: PoseType.HIDE,
 						},
 						CreateLayerTypes: ["p"],
-						AllowTypes: { p: [ 1, 2 ] },
+						AllowTypes: { p: [1, 2] },
 						AllowColorize: true,
 					},
 					{
@@ -55087,7 +55493,7 @@ var AssetFemale3DCG = [
 						Priority: 25,
 						Left: 115,
 						Top: 515,
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							...AssetPoseMapping.ItemBoots,
 							Hogtied: PoseType.HIDE,
@@ -55097,7 +55503,7 @@ var AssetFemale3DCG = [
 							KneelingSpread: PoseType.HIDE,
 						},
 						CreateLayerTypes: ["p"],
-						AllowTypes: { p: [ 1, 2 ] },
+						AllowTypes: { p: [1, 2] },
 						AllowColorize: true,
 					},
 					{
@@ -55105,7 +55511,7 @@ var AssetFemale3DCG = [
 						Priority: 7,
 						Left: 115,
 						Top: 515,
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							...AssetPoseMapping.ItemBoots,
 							Hogtied: PoseType.HIDE,
@@ -55115,7 +55521,7 @@ var AssetFemale3DCG = [
 							KneelingSpread: PoseType.HIDE,
 						},
 						CreateLayerTypes: ["p"],
-						AllowTypes: { p: [ 1, 2 ] },
+						AllowTypes: { p: [1, 2] },
 						CopyLayerColor: "PogoMain",
 					},
 					{
@@ -55123,7 +55529,7 @@ var AssetFemale3DCG = [
 						Priority: 7,
 						Left: 115,
 						Top: 515,
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							...AssetPoseMapping.ItemBoots,
 							Hogtied: PoseType.HIDE,
@@ -55133,7 +55539,7 @@ var AssetFemale3DCG = [
 							KneelingSpread: PoseType.HIDE,
 						},
 						CreateLayerTypes: ["p"],
-						AllowTypes: { p: [ 1, 2 ] },
+						AllowTypes: { p: [1, 2] },
 						CopyLayerColor: "PogoMainShine",
 					},
 					{
@@ -55141,7 +55547,7 @@ var AssetFemale3DCG = [
 						Priority: 7,
 						Left: 115,
 						Top: 515,
-						ParentGroup: null,
+						ParentGroup: {},
 						PoseMapping: {
 							...AssetPoseMapping.ItemBoots,
 							Hogtied: PoseType.HIDE,
@@ -55151,8 +55557,145 @@ var AssetFemale3DCG = [
 							KneelingSpread: PoseType.HIDE,
 						},
 						CreateLayerTypes: ["p"],
-						AllowTypes: { p: [ 1, 2 ] },
+						AllowTypes: { p: [1, 2] },
 						CopyLayerColor: "PogoMainAnkle",
+					},
+				],
+			},
+			{
+				Name: "HeellessHoof",
+				InventoryID: 1213,
+				Fetish: ["Leather", "Metal"],
+				BuyGroup: "HeellessHoof",
+				Left: 0,
+				Top: 458,
+				Height: 19,
+				Value: 52,
+				Difficulty: 5,
+				Time: 15,
+				RemoveTime: 20,
+				AllowLock: true,
+				AllowTighten: true,
+				DrawLocks: false,
+				Extended: true,
+				Audio: "Buckle",
+				DefaultColor: ["#454545", "#877C66", "#909090", "#707070"],
+				Alpha: [
+					{
+						Group: [
+							"BodyLower",
+							"Socks",
+							"SocksRight",
+							"SocksLeft",
+							"SuitLower",
+						],
+						Masks: [
+							[40, 925, 380, 100],
+							[184, 914, 20, 50],
+							[303, 914, 20, 50],
+						],
+					},
+					{
+						Pose: ["LegsClosed"],
+						Group: [
+							"BodyLower",
+							"Socks",
+							"SocksRight",
+							"SocksLeft",
+							"SuitLower",
+						],
+						Masks: [
+							[40, 982, 380, 100],
+							[168, 982, 10, 50],
+							[332, 982, 10, 50],
+						],
+					},
+					{
+						Pose: ["Spread"],
+						Group: [
+							"BodyLower",
+							"Socks",
+							"SocksRight",
+							"SocksLeft",
+							"SuitLower",
+						],
+						Masks: [
+							[40, 925, 380, 100],
+							[168, 880, 10, 50],
+							[332, 880, 10, 50],
+						],
+					},
+				],
+				Layer: [
+					{
+						Name: "Hoof",
+						PoseMapping: {
+							...AssetPoseMapping.ItemBoots,
+							LegsClosed: "LegsClosed",
+							Spread: "Spread",
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+						AllowColorize: true,
+					},
+					{
+						Name: "Lock",
+						Priority: 22,
+						LockLayer: true,
+						PoseMapping: {
+							...AssetPoseMapping.ItemBoots,
+							LegsClosed: "LegsClosed",
+							Spread: "Spread",
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+						AllowColorize: true,
+					},
+					{
+						Name: "HogHoof",
+						Top: 500,
+						Left: 120,
+						ParentGroup: {},
+						PoseMapping: {
+							...AssetPoseMapping.ItemBoots,
+							Hogtied: "Hogtied",
+							LegsClosed: PoseType.HIDE,
+							Spread: PoseType.HIDE,
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+						},
+						CopyLayerColor: "Hoof",
+					},
+					{
+						Name: "IronBallet",
+						PoseMapping: {
+							...AssetPoseMapping.ItemBoots,
+							LegsClosed: "LegsClosed",
+							Spread: "Spread",
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+						CreateLayerTypes: ["typed"],
+						AllowTypes: { typed: 1 },
+						AllowColorize: true,
+					},
+					{
+						Name: "IBLock",
+						LockLayer: true,
+						PoseMapping: {
+							...AssetPoseMapping.ItemBoots,
+							LegsClosed: "LegsClosed",
+							Spread: "Spread",
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+						CreateLayerTypes: ["typed"],
+						AllowTypes: { typed: 1 },
+						AllowColorize: true,
 					},
 				],
 			},

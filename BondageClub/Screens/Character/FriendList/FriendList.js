@@ -3,7 +3,7 @@
 var FriendListBackground = "BrickWall";
 /** @type {number[]} */
 var FriendListConfirmDelete = [];
-/** @type {FriendListReturn | null} */
+/** @type {FriendListReturn<any> | null} */
 var FriendListReturn = null;
 /** @type {FriendListModes} */
 var FriendListMode = ["OnlineFriends", "Beeps", "AllFriends"];
@@ -113,7 +113,7 @@ function FriendListLoad() {
 							{
 								button: {
 									classList: ['friend-list-button'],
-									attributes: { "aria-checked": Player.OnlineSettings.FriendListAutoRefresh },
+									attributes: { "aria-checked": Player.OnlineSettings.FriendListAutoRefresh.toString() },
 								}
 							}
 						),
@@ -399,8 +399,8 @@ function FriendListBeep(MemberNumber, data = null) {
 				tag: 'textarea',
 				attributes: {
 					id: FriendListIDs.beepTextArea,
-					maxLength: 1000,
-					readOnly: data !== null ? true : undefined,
+					maxlength: 1000,
+					readonly: data !== null,
 				},
 			},
 			{
@@ -423,7 +423,7 @@ function FriendListBeep(MemberNumber, data = null) {
 						tag: 'button',
 						classList: ['blank-button', 'friend-list-link', 'mode-specific-content', 'fl-beep-sent-content'],
 						attributes: {
-							disabled: !ServerPlayerIsInChatRoom() ? true : undefined
+							disabled: !ServerPlayerIsInChatRoom(),
 						},
 						children: [
 							FriendListBeepShowRoom && ServerPlayerIsInChatRoom() ? TextGet('ToggleRoomOn') : TextGet('ToggleRoomOff')
@@ -565,7 +565,6 @@ function FriendListLoadFriendList(data) {
 	const SentCaption = InterfaceTextGet("SentBeep");
 	const ReceivedCaption = InterfaceTextGet("ReceivedBeep");
 	const MailCaption = InterfaceTextGet("BeepWithMail");
-	const SpaceAsylumCaption = InterfaceTextGet("ChatRoomSpaceAsylum");
 	const FriendTypeCaption = {
 		Owner: TextGet("TypeOwner"),
 		Lover: TextGet("TypeLover"),
@@ -622,14 +621,14 @@ function FriendListLoadFriendList(data) {
 		// In Friend List mode, we show the friend list and allow doing beeps
 		for (const friend of data) {
 			const originalChatRoomName = friend.ChatRoomName || '';
-			const chatRoomSpaceCaption = friend.ChatRoomSpace?.replace('Asylum', SpaceAsylumCaption) || 'F';
+			const chatRoomSpaceCaption = InterfaceTextGet(`ChatRoomSpace${friend.ChatRoomSpace || "F"}`);
 			const chatRoomName = ChatSearchMuffle(friend.ChatRoomName?.replaceAll('<', '&lt;').replaceAll('>', '&gt;') || undefined);
 			let caption = '';
 			const canSearchRoom = FriendListReturn?.Screen === 'ChatSearch' && ChatRoomSpace === (friend.ChatRoomSpace || '');
 			const canBeep = true;
 
 			const rawCaption = [];
-			if (chatRoomSpaceCaption && chatRoomName) rawCaption.push(chatRoomSpaceCaption);
+			if (chatRoomSpaceCaption && chatRoomName) rawCaption.push(`<i>${chatRoomSpaceCaption}</i>`);
 			if (friend.Private) rawCaption.push(PrivateRoomCaption);
 			if (chatRoomName) rawCaption.push(chatRoomName);
 			if (rawCaption.length === 0) rawCaption.push('-');
@@ -654,14 +653,14 @@ function FriendListLoadFriendList(data) {
 		// In Beeps mode, we show all the beeps sent and received
 		for (let i = FriendListBeepLog.length - 1; i >= 0; i--) {
 			const beepData = FriendListBeepLog[i];
-			const chatRoomSpaceCaption = beepData.ChatRoomSpace?.replace('Asylum', SpaceAsylumCaption) || 'F';
+			const chatRoomSpaceCaption = InterfaceTextGet(`ChatRoomSpace${beepData.ChatRoomSpace || "F"}`);
 			const chatRoomName = ChatSearchMuffle(beepData.ChatRoomName?.replaceAll('<', '&lt;').replaceAll('>', '&gt;') || undefined);
 			let chatRoomCaption = '';
 			let beepCaption = '';
 			const canSearchRoom = FriendListReturn?.Screen === 'ChatSearch' && ChatRoomSpace === (beepData.ChatRoomSpace || '');
 
 			const rawRoomCaption = [];
-			if (chatRoomSpaceCaption && chatRoomName) rawRoomCaption.push(chatRoomSpaceCaption);
+			if (chatRoomSpaceCaption && chatRoomName) rawRoomCaption.push(`<i>${chatRoomSpaceCaption}</i>`);
 			if (beepData.Private) rawRoomCaption.push(PrivateRoomCaption);
 			if (chatRoomName) rawRoomCaption.push(chatRoomName);
 			if (rawRoomCaption.length === 0) rawRoomCaption.push('-');
@@ -816,7 +815,7 @@ function FriendListLoadFriendList(data) {
 			{ button: {
 				classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-all-friends-content'],
 				children: [FriendListConfirmDelete.includes(friend.memberNumber) ? ConfirmDeleteCaption : DeleteCaption],
-				attributes: { disabled: !friend.canDelete ? true : undefined },
+				attributes: { disabled: !friend.canDelete },
 			}}
 		));
 

@@ -9,7 +9,7 @@ var Player;
 var KeyPress = "";
 /** @type {ModuleType} */
 var CurrentModule;
-/** @type {string} */
+/** @type {ModuleScreens[CurrentModule]} */
 var CurrentScreen;
 /** @type {ScreenFunctions} */
 var CurrentScreenFunctions;
@@ -61,7 +61,7 @@ String.prototype.replaceAt=function(index, character) {
  * second item is the generic fallback font family (e.g. sans-serif, serif,
  * etc.)
  * @constant
- * @type {Object.<String, [String[], String]>}
+ * @type {Record<String, [String[], String]>}
  */
 const CommonFontStacks = {
 	Arial: [["Arial"], "sans-serif"],
@@ -359,9 +359,6 @@ function CommonDynamicFunctionParams(FunctionName) {
 	FunctionName = FunctionName.replace("!", "");
 
 	// Gets the real function name and parameters
-	var ParamCount = 1;
-	if (FunctionName.indexOf("()") >= 0) ParamCount = 0;
-	else ParamCount = FunctionName.split(",").length;
 	var openParenthesisIndex = FunctionName.indexOf("(");
 	var closedParenthesisIndex = FunctionName.indexOf(")", openParenthesisIndex);
 	var Params = FunctionName.substring(openParenthesisIndex + 1, closedParenthesisIndex).split(",");
@@ -374,23 +371,14 @@ function CommonDynamicFunctionParams(FunctionName) {
 	if (typeof window[FunctionName] === "function") {
 
 		// Launches the function with the params and returns the result
-		var Result = true;
-		if (ParamCount == 0) Result = window[FunctionName]();
-		if (ParamCount == 1) Result = window[FunctionName](Params[0]);
-		if (ParamCount == 2) Result = window[FunctionName](Params[0], Params[1]);
-		if (ParamCount == 3) Result = window[FunctionName](Params[0], Params[1], Params[2]);
-		if (ParamCount == 4) Result = window[FunctionName](Params[0], Params[1], Params[2], Params[3]);
-		if (Reverse) return !Result;
-		else return Result;
-
+		var Result = window[FunctionName](...Params);
+		return Reverse ? !Result : Result;
 	} else {
 
 		// Log the error in the console
 		console.log("Trying to launch invalid function: " + FunctionName);
 		return false;
-
 	}
-
 }
 
 
@@ -428,12 +416,19 @@ function CommonCallFunctionByNameWarn(FunctionName/*, ...args */) {
 }
 
 /**
+ * Get the current screen
+ * @returns {ScreenSpecifier}
+ */
+function CommonGetScreen() {
+	return /** @type {ScreenSpecifier} */([CurrentModule, CurrentScreen]);
+}
+
+/**
  * Sets the current screen and calls the loading script if needed
- * @param {ModuleType} NewModule - Module of the screen to display
- * @param {string} NewScreen - Screen to display
+ * @param {ScreenSpecifier} spec
  * @returns {void} - Nothing
  */
-function CommonSetScreen(NewModule, NewScreen) {
+function CommonSetScreen(...spec) {
 	if (CurrentScreenFunctions && CurrentScreenFunctions.Unload) {
 		CurrentScreenFunctions.Unload();
 	}
@@ -442,6 +437,7 @@ function CommonSetScreen(NewModule, NewScreen) {
 	}
 
 
+	const [NewModule, NewScreen] = spec;
 	// Check for required functions
 	if (typeof window[`${NewScreen}Run`] !== "function") {
 		throw Error(`Screen "${NewScreen}": Missing required Run function`);
@@ -1651,3 +1647,12 @@ var CommonKey = /** @type {const} */({
 		}
 	},
 });
+
+/**
+ *
+ * @param {RoomName} screen
+ */
+function CommonScreenName(screen) {
+	const cache = TextAllScreenCache.get(`Screens/Room/MainHall/Text_MainHall.csv`);
+	return cache.get(screen);
+}

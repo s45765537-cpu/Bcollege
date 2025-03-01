@@ -1045,8 +1045,7 @@ const CommonCommands = [
 		Tag: "wheel",
 		Action: () => {
 			if (!InventoryAvailable(Player, "WheelFortune", "ItemDevices")) return;
-			WheelFortuneEntryModule = CurrentModule;
-			WheelFortuneEntryScreen = CurrentScreen;
+			WheelFortuneReturnScreen = CommonGetScreen();
 			WheelFortuneBackground = ChatRoomData.Background;
 			WheelFortuneCharacter = Player;
 			CommonSetScreen("MiniGame", "WheelFortune");
@@ -1176,8 +1175,8 @@ const CommonCommands = [
 	{
 		Tag: "shop",
 		Action: () => {
-			/** @type {null | [module: ModuleType, screen: string]} */
-			const screen = CurrentModule && CurrentScreen ? [CurrentModule, CurrentScreen] : null;
+			/** @type {null | ScreenSpecifier} */
+			const screen = CurrentModule && CurrentScreen ? CommonGetScreen() : null;
 			/** @type {null | string} */
 			let background = null;
 			if (ServerPlayerIsInChatRoom()) {
