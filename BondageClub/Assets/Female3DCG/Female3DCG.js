@@ -53967,7 +53967,7 @@ var AssetFemale3DCG = [
 				FixedPosition: true,
 				Layer: [{ Name: "Throne", Top: -300, Left: 0 },
 					{ Name: "Seat", Top: -300, Left: 0 },
-					{ Name: "Deco", Top: -300, Left: 0 },}
+					{ Name: "Deco", Top: -300, Left: 0 },]
 			},
 			{
 				Name: "ExclusiveWaitress",
