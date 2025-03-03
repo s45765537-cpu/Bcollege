@@ -6371,3 +6371,45 @@ ItemMouth3AOMGagLips,Just lips
 ItemMouth3AOMGagStraps,With straps
 ItemMouth3AOMGagSetLips,SourceCharacter removes the AOM straps on the DestinationCharacter face.
 ItemMouth3AOMGagSetStraps,SourceCharacter installs the AOM straps on the DestinationCharacter face.
+ItemHoodCreepyIronMaskSelectBase,Creepy Iron Mask main menu:
+ItemHoodCreepyIronMaskModuleMode,Mask style
+ItemHoodCreepyIronMaskSelectMode,Mask menu:
+ItemHoodCreepyIronMaskOptionm0,Just mask
+ItemHoodCreepyIronMaskOptionm1,Full hood
+ItemHoodCreepyIronMaskModuleBlindfold,Blindfold
+ItemHoodCreepyIronMaskSelectMode,Metal blindfold option:
+ItemHoodCreepyIronMaskOptionb0,None
+ItemHoodCreepyIronMaskOptionb1,Perforated
+ItemHoodCreepyIronMaskOptionb2,Full
+ItemHoodCreepyIronMaskModuleSpike,Collar spikes
+ItemHoodCreepyIronMaskSelectSpike,Collar spikes option:
+ItemHoodCreepyIronMaskOptions0,None
+ItemHoodCreepyIronMaskOptions1,Equip spikes
+ItemHoodCreepyIronMaskModuleNose,Nose guard
+ItemHoodCreepyIronMaskSelectMode,Nose guard option:
+ItemHoodCreepyIronMaskOptionn0,None
+ItemHoodCreepyIronMaskOptionn1,Add nose guard
+ItemHoodCreepyIronMaskSetm0,SourceCharacter puts the Creepy Iron Mask on DestinationCharacterName head.
+ItemHoodCreepyIronMaskSetm1,SourceCharacter locks DestinationCharacterName head with the Creepy Iron Hood version.
+ItemHoodCreepyIronMaskSetb0,SourceCharacter removes a metal blindfold from DestinationCharacterName Creepy Iron Mask.
+ItemHoodCreepyIronMaskSetb1,SourceCharacter equips a perforated metal blindfold on DestinationCharacterName Creepy Iron Mask.
+ItemHoodCreepyIronMaskSetb2,SourceCharacter equips a full metal blindfold on DestinationCharacterName Creepy Iron Mask.
+ItemHoodCreepyIronMaskSets0,SourceCharacter removes a spiked collar from DestinationCharacterName neck.
+ItemHoodCreepyIronMaskSets1,SourceCharacter equips a spiked collar on DestinationCharacterName neck.
+ItemHoodCreepyIronMaskSetn0,SourceCharacter removes a nose guard from DestinationCharacterName Creepy Iron Mask.
+ItemHoodCreepyIronMaskSetn1,SourceCharacter equips a nose guard on DestinationCharacterName Creepy Iron Mask.
+ItemMouthHorrorMuzzleSelect,Horror Muzzle style option menu:
+ItemMouthHorrorMuzzleNone,Plain
+ItemMouthHorrorMuzzleRivets,With rivets
+ItemMouthHorrorMuzzleSetNone,SourceCharacter puts on DestinationCharacter mouth a plain Horror Muzzle.
+ItemMouthHorrorMuzzleSetRivets,SourceCharacter puts on DestinationCharacter mouth a Horror Muzzle with rivets.
+ItemMouth2HorrorMuzzleSelect,Horror Muzzle style option menu:
+ItemMouth2HorrorMuzzleNone,Plain
+ItemMouth2HorrorMuzzleRivets,With rivets
+ItemMouth2HorrorMuzzleSetNone,SourceCharacter puts on DestinationCharacter mouth a plain Horror Muzzle.
+ItemMouth2HorrorMuzzleSetRivets,SourceCharacter puts on DestinationCharacter mouth a Horror Muzzle with rivets.
+ItemMouth3HorrorMuzzleSelect,Horror Muzzle style option menu:
+ItemMouth3HorrorMuzzleNone,Plain
+ItemMouth3HorrorMuzzleRivets,With rivets
+ItemMouth3HorrorMuzzleSetNone,SourceCharacter puts on DestinationCharacter mouth a plain Horror Muzzle.
+ItemMouth3HorrorMuzzleSetRivets,SourceCharacter puts on DestinationCharacter mouth a Horror Muzzle with rivets.

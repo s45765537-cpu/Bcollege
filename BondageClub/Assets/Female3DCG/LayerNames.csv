@@ -1259,6 +1259,11 @@ ItemHoodCorsetHoodLatex, Latex
 ItemHoodCorsetHoodLines, Outline
 ItemHoodCowHoodBase,Hood
 ItemHoodCowHoodSpots,Spots
+ItemHoodCreepyIronMaskMain,Mask
+ItemHoodCreepyIronMaskSpike,Neck spikes
+ItemHoodCreepyIronMaskBlindfold,Iron blindfold
+ItemHoodCreepyIronMaskNose,Nose guard
+ItemHoodCreepyIronMaskLock,Padlocks
 ItemHoodCustomBallHoodBase,Base
 ItemHoodCustomBallHoodShine,Shine
 ItemHoodCustomBallHoodPumpkin,Pattern
@@ -1542,6 +1547,8 @@ ItemMouth2HarnessPanelGagStraps,Straps
 ItemMouth2HarnessPonyBitsBobble, Bobble
 ItemMouth2HarnessPonyBitsMetal, Metal
 ItemMouth2HarnessPonyBitsStraps, Straps
+ItemMouth2HorrorMuzzleMuzzle,Muzzle
+ItemMouth2HorrorMuzzleRivets,Rivets
 ItemMouth2KittyGagBase,Base
 ItemMouth2KittyGagLines,Lines
 ItemMouth2KittyGagMouth,Mouth
@@ -1686,6 +1693,8 @@ ItemMouth3HarnessPanelGagStraps,Straps
 ItemMouth3HarnessPonyBitsBobble, Bobble
 ItemMouth3HarnessPonyBitsMetal, Metal
 ItemMouth3HarnessPonyBitsStraps, Straps
+ItemMouth3HorrorMuzzleMuzzle,Muzzle
+ItemMouth3HorrorMuzzleRivets,Rivets
 ItemMouth3KittyGagBase,Base
 ItemMouth3KittyGagLines,Lines
 ItemMouth3KittyGagMouth,Mouth
@@ -1846,6 +1855,8 @@ ItemMouthHarnessPanelGagStraps,Straps
 ItemMouthHarnessPonyBitsBobble, Bobble
 ItemMouthHarnessPonyBitsMetal, Metal
 ItemMouthHarnessPonyBitsStraps, Straps
+ItemMouthHorrorMuzzleMuzzle,Muzzle
+ItemMouthHorrorMuzzleRivets,Rivets
 ItemMouthKittyGagBase,Base
 ItemMouthKittyGagLines,Lines
 ItemMouthKittyGagMouth,Mouth
@@ -2094,6 +2105,9 @@ ItemNipplesTapedVibeEggsEgg1,Left Vibe Egg
 ItemNipplesTapedVibeEggsEgg2,Right Vibe Egg
 ItemNipplesTapedVibeEggsTape1,Left Tape Strip
 ItemNipplesTapedVibeEggsTape2,Right Tape Strip
+ItemNoseNoseClipClip,Clip
+ItemNoseNoseClipRod,Rod
+ItemNoseNoseClipSkin,Nose
 ItemNoseNoseHookBand,Strap
 ItemNoseNoseHookHook,Hook
 ItemNosePigNoseHookBand,Band
@@ -2104,6 +2118,8 @@ ItemPelvisBulkyDiaperBase,Diaper
 ItemPelvisBulkyDiaperCrotchPiece,Crotch Padding
 ItemPelvisBulkyDiaperTape,Tape
 ItemPelvisBulkyDiaperWaistBand,Waist Band
+ItemPelvisFemPelvisHarnessMain,Main
+ItemPelvisFemPelvisHarnessMetal,Metal
 ItemPelvisForbiddenChastityBeltBelt,Belt
 ItemPelvisForbiddenChastityBeltDetail,Detail
 ItemPelvisForbiddenChastityBeltMetal,Metal
