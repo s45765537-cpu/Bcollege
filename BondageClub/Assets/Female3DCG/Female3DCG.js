@@ -56650,7 +56650,7 @@ var ActivityFemale3DCG = [
 		Name: "SipItem",
 		ActivityID: 53,
 		MaxProgress: 0,
-		Prerequisite: ["TargetCanUseTongue", "Needs-SipItem"],
+		Prerequisite: ["TargetCanUseTongue", "Needs-SipItem", "UseHands"],
 		Target: ["ItemMouth"],
 		TargetSelf: true,
 	},
