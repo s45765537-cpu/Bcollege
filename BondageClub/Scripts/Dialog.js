@@ -93,11 +93,7 @@ var DialogCraftingMenu = /** @type {never} */(false);
  */
 var DialogExpressionPreviousMode = null;
 
-/** @type {ExpressionItem[]} */
-var DialogFacialExpressions = [];
 var DialogFacialExpressionsSelectedBlindnessLevel = 2;
-/** @type {Character[]} */
-var DialogSavedExpressionPreviews = [];
 var DialogExtendedMessage = "";
 /**
  * The list of available activities for the selected group.
@@ -182,12 +178,6 @@ var DialogFavoriteStateDetails = [
  * @type {readonly DialogSelfMenuOptionType[]}
  */
 var DialogSelfMenuOptions = [
-	{
-		Name: "SavedExpressions",
-		IsAvailable: () => true,
-		Draw: () => DialogDrawSavedExpressionsMenu(),
-		Click: () => DialogClickSavedExpressionsMenu(),
-	},
 	{
 		Name: "OwnerRules",
 		IsAvailable: () => false,
@@ -788,6 +778,7 @@ function DialogLeave() {
 	// Reset the mode, selected group & character, exiting the dialog
 	DialogMenuMode = null;
 	DialogSidePanelMapping.expression.Exit();
+	DialogSidePanelMapping.expressionPreset.Exit();
 	DialogSidePanelMapping.pose.Exit();
 	Object.values(DialogMenuMapping).forEach(obj => obj.Exit());
 
@@ -809,10 +800,6 @@ function DialogLeave() {
 
 	// Reset the state of the self menu
 	DialogSelfMenuSelected = null;
-	for (const preview of DialogSavedExpressionPreviews) {
-		CharacterDelete(preview, false);
-	}
-	DialogSavedExpressionPreviews = [];
 
 	// Go controller, go!
 	ControllerClearAreas();
@@ -1702,50 +1689,6 @@ function DialogInventoryStringified(C) {
 }
 
 /**
- * Build the initial state of the selection available in the facial expressions menu
- * @returns {void} - Nothing
- */
-function DialogFacialExpressionsBuild() {
-	DialogFacialExpressions = [];
-	for (let I = 0; I < Player.Appearance.length; I++) {
-		const PA = Player.Appearance[I];
-		const ExpressionList = [...(PA.Asset.Group.AllowExpression || [])];
-		if (!ExpressionList.length || PA.Asset.Group.Name == "Eyes2") continue;
-		// Make sure the default expression always appear
-		if (!ExpressionList.includes(null)) ExpressionList.unshift(null);
-		// If there are no allowed expression, skip the group entirely
-		if (!ExpressionList.some(expr => CharacterIsExpressionAllowed(Player, PA, expr))) continue;
-		/** @type {ExpressionItem} */
-		const Item = {
-			Appearance: PA,
-			Group: /** @type {ExpressionGroupName} */(PA.Asset.Group.Name),
-			CurrentExpression: (PA.Property == null) ? null : PA.Property.Expression,
-			ExpressionList: ExpressionList,
-		};
-		DialogFacialExpressions.push(Item);
-	}
-	// Temporary (?) solution to make the facial elements appear in a more logical order, as their alphabetical order currently happens to match up
-	DialogFacialExpressions = DialogFacialExpressions.sort(function (a, b) {
-		return a.Appearance.Asset.Group.Name < b.Appearance.Asset.Group.Name ? -1 : a.Appearance.Asset.Group.Name > b.Appearance.Asset.Group.Name ? 1 : 0;
-	});
-}
-
-/**
- * Saves the expressions to a slot
- * @param {number} Slot - Index of saved expression (0 to 4)
- */
-function DialogFacialExpressionsSave(Slot) {
-	Player.SavedExpressions[Slot] = [];
-	for (let x = 0; x < DialogFacialExpressions.length; x++) {
-		Player.SavedExpressions[Slot].push({ Group: DialogFacialExpressions[x].Group, CurrentExpression: DialogFacialExpressions[x].CurrentExpression });
-	}
-	if (Player.SavedExpressions[Slot].every(expression => !expression.CurrentExpression))
-		Player.SavedExpressions[Slot] = null;
-	ServerAccountUpdate.QueueData({ SavedExpressions: Player.SavedExpressions });
-	DialogBuildSavedExpressionsMenu();
-}
-
-/**
  * Loads expressions from a slot
  * @param {number} Slot - Index of saved expression (0 to 4)
  */
@@ -1753,20 +1696,19 @@ function DialogFacialExpressionsLoad(Slot) {
 	const expressions = Player.SavedExpressions && Player.SavedExpressions[Slot];
 	if (expressions != null) {
 		expressions.forEach(e => CharacterSetFacialExpression(Player, e.Group, e.CurrentExpression));
-		DialogFacialExpressionsBuild();
 	}
 }
 
 /**
  * Builds the savedexpressions menu previews.
- * @returns {void} - Nothing
+ * @returns {(null | Character)[]} - Nothing
  */
 function DialogBuildSavedExpressionsMenu() {
 	const ExcludedGroups = ["Mask"];
 	const AppearanceItems = Player.Appearance.filter(A => A.Asset.Group.Category === "Appearance" && !ExcludedGroups.includes(A.Asset.Group.Name));
 	const BaseAppearance = AppearanceItems.filter(A => !A.Asset.Group.AllowExpression);
 	const ExpressionGroups = AppearanceItems.filter(A => A.Asset.Group.AllowExpression);
-	Player.SavedExpressions.forEach((expression, i) => {
+	return Player.SavedExpressions.map((expression, i) => {
 		if (expression) {
 			const PreviewCharacter = CharacterLoadSimple("SavedExpressionPreview-" + i);
 			PreviewCharacter.Appearance = BaseAppearance.slice();
@@ -1783,52 +1725,11 @@ function DialogBuildSavedExpressionsMenu() {
 			}
 			CharacterRefresh(PreviewCharacter);
 
-			DialogSavedExpressionPreviews[i] = PreviewCharacter;
+			return PreviewCharacter;
+		} else {
+			return null;
 		}
 	});
-}
-
-/**
- * Draws the savedexpressions menu
- * @returns {void} - Nothing
- */
-function DialogDrawSavedExpressionsMenu() {
-	DrawText(InterfaceTextGet("SavedExpressions"), 210, 90, "White", "Black");
-
-	if ((!DialogSavedExpressionPreviews || !DialogSavedExpressionPreviews.length) && Player.SavedExpressions.some(expression => expression != null))
-		DialogBuildSavedExpressionsMenu();
-
-	for (let x = 0; x < 5; x++) {
-		if (Player.SavedExpressions[x] == null) {
-			DrawText(InterfaceTextGet("SavedExpressionsEmpty"), 160, 216 + (x * 170), "White", "Black");
-		} else {
-			const PreviewCanvas = DrawCharacterSegment(DialogSavedExpressionPreviews[x], 100, 30, 300, 220);
-			MainCanvas.drawImage(PreviewCanvas, 20, 92 + (x * 175), 260, 190);
-		}
-
-		DrawButton(290, 160 + (x * 170), 120, 50, InterfaceTextGet("SavedExpressionsSave"), "White");
-		DrawButton(290, 220 + (x * 170), 120, 50, InterfaceTextGet("SavedExpressionsLoad"), "White");
-	}
-}
-
-/** Handles clicks in the savedexpressions menu
- * @returns {void} - Nothing
- */
-function DialogClickSavedExpressionsMenu() {
-	if (MouseXIn(290, 120)) {
-		for (let x = 0; x < 5; x++) {
-			if (MouseYIn(160 + (x * 170), 50)) {
-				DialogFacialExpressionsSave(x);
-			}
-		}
-	}
-	if (MouseXIn(290, 120)) {
-		for (let x = 0; x < 5; x++) {
-			if (MouseYIn(220 + (x * 170), 50)) {
-				DialogFacialExpressionsLoad(x);
-			}
-		}
-	}
 }
 
 /**
@@ -2392,6 +2293,7 @@ function DialogResize(load) {
 
 	DialogSidePanelMapping.expression.Resize(load);
 	DialogSidePanelMapping.pose.Resize(load);
+	DialogSidePanelMapping.expressionPreset.Resize(load);
 	DialogMenuMapping[DialogMenuMode]?.Resize(load);
 }
 
@@ -4784,7 +4686,7 @@ class _DialogPoseMenu extends DialogMenu {
 			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
 			nextPageClick: function(ev) {
 				const prev = document.getElementById(dialogMenu.ids.root);
-				const next = document.getElementById(DialogSidePanelMapping.expression.ids.root);
+				const next = document.getElementById(DialogSidePanelMapping.expressionPreset.ids.root);
 				prev?.toggleAttribute("data-unload", true);
 				next?.toggleAttribute("data-unload", false);
 			},
@@ -4975,6 +4877,198 @@ class _DialogPoseMenu extends DialogMenu {
 	}
 }
 
+/**
+ * @template {string} ModeType
+ * @extends {DialogMenu<ModeType, number, { C: Character }>}
+ */
+class _DialogExpressionSaveMenu extends DialogMenu {
+	ids = Object.freeze({
+		root: "dialog-expression-preset",
+		status: "dialog-expression-preset-status",
+		menubar: "dialog-expression-preset-menubar",
+		grid: "dialog-expression-preset-button-grid",
+	});
+
+	defaultShape = Object.freeze(/** @type {const} */([15, 15, 500, 940]));
+
+	_initPropertyNames = /** @type {const} */(["C"]);
+
+	/** @type {DialogMenu<ModeType, number>["clickStatusCallbacks"]} */
+	clickStatusCallbacks = {
+	};
+
+	/**
+	 * See {@link expressionPreviews}
+	 * @private
+	 * @type {null | (null | Character)[]}
+	 */
+	_expressionPreviews = null;
+
+	/**
+	 * @readonly
+	 * @type {readonly (null | Character)[]}
+	 */
+	get expressionPreviews() {
+		if (this._expressionPreviews == null) {
+			return this._expressionPreviews = DialogBuildSavedExpressionsMenu();
+		} else {
+			return this._expressionPreviews;
+		}
+	}
+
+	/**
+	 * @param {ModeType} mode The name of the mode associated with this instance
+	 */
+	constructor(mode) {
+		super(mode);
+		const dialogMenu = this;
+		this.eventListeners = {
+			...this.eventListeners,
+
+			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
+			nextPageClick: function(ev) {
+				const prev = document.getElementById(dialogMenu.ids.root);
+				const next = document.getElementById(DialogSidePanelMapping.expression.ids.root);
+				prev?.toggleAttribute("data-unload", true);
+				next?.toggleAttribute("data-unload", false);
+			},
+		};
+	}
+
+	Draw() {
+		const root = document.getElementById(this.ids.root);
+		if (!root || root.hasAttribute("data-unload")) {
+			return;
+		}
+
+		for (const [i, preview] of this.expressionPreviews.entries()) {
+			const canvas = /** @type {null | HTMLCanvasElement} */(root.querySelector(`li[data-index="${i}"] > canvas`))?.getContext("2d");
+			if (!canvas) {
+				continue;
+			}
+
+			if (preview != null) {
+				const canvasSegment = DrawCharacterSegment(preview, 150, 30, 200, 200);
+				canvas.drawImage(canvasSegment, 0, 0, 200, 200);
+			} else {
+				canvas.clearRect(0, 0, 200, 200);
+			}
+		}
+	}
+
+	Exit() {
+		super.Exit();
+		for (const C of this.expressionPreviews) {
+			CharacterDelete(C, false);
+		}
+	}
+
+	_Load() {
+		const ids = this.ids;
+		return document.getElementById(ids.root) ?? ElementCreate({
+			tag: "div",
+			attributes: { id: ids.root, "aria-labelledby": ids.status },
+			parent: document.body,
+			classList: ["dialog-root"],
+			children: [
+				{
+					tag: "span",
+					attributes: { id: ids.status },
+					classList: ["dialog-status", "scroll-box"],
+				},
+				ElementMenu.Create(
+					ids.menubar,
+					[
+						ElementButton.Create(
+							`${ids.menubar}-next`,
+							this.eventListeners.nextPageClick,
+							{ tooltip: InterfaceTextGet("NextPage"), tooltipPosition: "right", image: "Icons/Next.png" },
+							{ button: { attributes: { name: "next" }, classList: ["dialog-menubar-button"] } },
+						),
+					],
+					{ direction: "rtl" },
+				),
+				{
+					tag: "menu",
+					attributes: { id: ids.grid },
+					classList: ["dialog-grid", "scroll-box"],
+					children: [0, 1, 2, 3, 4].map(i => {
+						return {
+							tag: "li",
+							dataAttributes: { index: i },
+							classList: ["dialog-expression-preset-slot"],
+							children: [
+								{ tag: "canvas", attributes: { width: 200, height: 200 } },
+								ElementButton.Create(
+									`${ids.grid}-${i}-save`,
+									this.eventListeners._ClickButton,
+									{ clickDisabled: this.eventListeners._ClickDisabledButton, label: "Save", labelPosition: "center" },
+									{ button: {
+										attributes: { name: "save" },
+									}},
+								),
+								ElementButton.Create(
+									`${ids.grid}-${i}-load`,
+									this.eventListeners._ClickButton,
+									{ clickDisabled: this.eventListeners._ClickDisabledButton, label: "Load", labelPosition: "center" },
+									{ button: {
+										attributes: { name: "load" },
+									}}
+								),
+							],
+						};
+					}),
+				},
+			],
+		});
+	}
+
+	/** @type {DialogMenu["_ReloadStatus"]} */
+	_ReloadStatus(root, span, parameters, options) {
+		const textContent = options.status ?? InterfaceTextGet("SavedExpressions");
+		DialogSetStatus(textContent, options.statusTimer ?? 0, null, this.ids.status);
+	}
+
+	/** @type {DialogMenu["_ReloadButtonGrid"]} */
+	_ReloadButtonGrid(root, buttonGrid, parameters, options) {
+		this._expressionPreviews = DialogBuildSavedExpressionsMenu();
+	}
+
+	/** @type {DialogMenu["_ReloadIcon"]} */
+	_ReloadIcon(root, icon, parameters, options) { /** noop */ }
+
+	/** @type {DialogMenu["_ReloadMenubar"]} */
+	_ReloadMenubar(root, menubar, parameters, options) { /** noop */ }
+
+	/** @type {DialogMenu<string, number>["_GetClickedObject"]} */
+	_GetClickedObject(button) {
+		const slot = Number.parseInt(button.closest("li")?.getAttribute("data-index"), 10);
+		console.log(slot);
+		return Number.isNaN(slot) ? null : slot;
+	}
+
+	/** @type {DialogMenu<string, number>["_ClickButton"]} */
+	_ClickButton(button, C, expressionSlot) {
+		switch (button.name) {
+			case "save": {
+				const expressions = C.Appearance.filter(item => item.Asset.Group.AllowExpression).map(item => {
+					return {
+						Group: item.Asset.Group.Name,
+						CurrentExpression: item.Property?.Expression,
+					};
+				});
+				Player.SavedExpressions[expressionSlot] = expressions.every(i => i.CurrentExpression == null) ? null : expressions;
+				ServerAccountUpdate.QueueData({ SavedExpressions: Player.SavedExpressions });
+				this._expressionPreviews = DialogBuildSavedExpressionsMenu();
+				break;
+			}
+			case "load":
+				DialogFacialExpressionsLoad(expressionSlot);
+				break;
+		}
+	}
+}
+
 /** @satisfies {Partial<Record<DialogMenuMode, DialogMenu<DialogMenuMode>>>} */
 var DialogMenuMapping = /** @type {const} */({
 	activities: new _DialogActivitiesMenu("activities"),
@@ -4990,6 +5084,7 @@ var DialogMenuMapping = /** @type {const} */({
 var DialogSidePanelMapping = /** @type {const} */({
 	expression: new _DialogExpressionMenu("expression"),
 	pose: new _DialogPoseMenu("pose"),
+	expressionPreset: new _DialogExpressionSaveMenu("expressionPreset"),
 });
 
 /**
@@ -5188,6 +5283,7 @@ function DialogLoad() {
 
 	DialogSidePanelMapping.expression.Init({ C });
 	DialogSidePanelMapping.pose.Init({ C })?.toggleAttribute("data-unload", true);
+	DialogSidePanelMapping.expressionPreset.Init({ C })?.toggleAttribute("data-unload", true);
 	DialogChangeMode(DialogMenuMode ?? "dialog", true);
 }
 
@@ -5306,6 +5402,7 @@ function DialogDraw() {
 	DialogDrawRepositionButton();
 
 	DialogMenuMapping[DialogMenuMode]?.Draw();
+	DialogSidePanelMapping.expressionPreset.Draw();
 }
 
 /**

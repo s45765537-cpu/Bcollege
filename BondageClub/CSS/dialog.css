@@ -352,22 +352,40 @@
 }
 
 #dialog-expression {
-	width: fit-content;
 	grid-template:
 		"dialog-menubar dialog-menubar" var(--menu-button-size)
 		"dialog-status dialog-status" min-content
 		"dialog-left-menu dialog-grid" auto / var(--menu-button-size) min-content;
 }
 
+#dialog-expression,
+#dialog-pose,
+#dialog-expression-preset {
+	gap: 0 var(--gap);
+}
+
+#dialog-pose > .dialog-grid,
+#dialog-expression-preset > .dialog-grid {
+	width: min-content;
+	padding-right: var(--scrollbar-gutter);
+}
+
+#dialog-expression > .dialog-status,
+#dialog-pose > .dialog-status,
+#dialog-expression-preset > .dialog-status {
+	padding-bottom: var(--gap);
+}
+
 #dialog-expression-menubar,
-#dialog-pose-menubar {
+#dialog-pose-menubar,
+#dialog-expression-preset-menubar  {
 	min-width: calc(5 * var(--menu-button-size) + 2 * var(--gap));
 	grid-area: dialog-menubar;
 	display: grid;
 	gap: calc(0.5 * var(--gap));
 	direction: rtl;
 	grid-auto-flow: column;
-	grid-template-columns: repeat(3, var(--menu-button-size)) calc(var(--menu-button-size) + 0.5 * var(--gap)) repeat(auto-fill, var(--menu-button-size));
+	grid-template-columns: repeat(3, var(--menu-button-size)) calc(3px + var(--menu-button-size) + 0.5 * var(--gap)) repeat(auto-fill, var(--menu-button-size));
 }
 
 #dialog-expression-menu-left {
@@ -414,6 +432,64 @@
 .dialog-pose-grid {
 	display: grid;
 	gap: calc(0.5 * var(--gap));
+}
+
+#dialog-expression-preset {
+	width: fit-content;
+	grid-template:
+		"dialog-menubar dialog-menubar" var(--menu-button-size)
+		"dialog-status dialog-status" min-content
+		"dialog-grid dialog-grid" auto / var(--menu-button-size) min-content;
+}
+
+#dialog-expression-preset-button-grid {
+	display: block;
+	padding: 3px;
+	margin: unset;
+}
+
+.dialog-expression-preset-slot {
+	--bob: min(8dvh, 4dvw);
+	display: grid;
+	gap: calc(var(--gap) / 2);
+	grid-template:
+		"canvas save-button" 50%
+		"canvas load-button" 50% / calc(2 * var(--menu-button-size) + var(--gap)) min-content;
+}
+
+.dialog-expression-preset-slot button {
+	height: var(--bob);
+	width: calc(2 * var(--menu-button-size) + 0.5 * var(--gap));
+	justify-self: start;
+}
+
+.dialog-expression-preset-slot button[name="save"] {
+	grid-area: save-button;
+	margin-top: calc(var(--gap) / 4);
+	align-self: self-end;
+}
+
+.dialog-expression-preset-slot button[name="load"] {
+	grid-area: load-button;
+	margin-bottom: calc(var(--gap) / 4);
+	align-self: self-start;
+}
+
+.dialog-expression-preset-slot:first-child button {
+	margin-top: unset;
+}
+
+.dialog-expression-preset-slot:last-child button {
+	margin-bottom: unset;
+}
+
+.dialog-expression-preset-slot canvas {
+	grid-area: canvas;
+	max-height: calc(2 * var(--bob) + var(--gap) / 2);
+	max-width: calc(2 * var(--bob) + var(--gap) / 2);
+	min-height: min(20dvh, 10dvw, 200px) !important;
+	min-width: min(20dvh, 10dvw, 200px) !important;
+	position: static;
 }
 
 @supports(height: 100dvh) {
