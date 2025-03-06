@@ -4588,46 +4588,6 @@ function ClubCardCalculateBoardPosition(card) {
 }
 
 /**
- * Outdated approach
- * Animates the smooth movement of a card from one position to another.
- * @param {Object} options - Animation parameters.
- * @param {ClubCard} options.card - The card to be moved.
- * @param {Object} options.startPosition - The starting position.
- * @param {number} options.startPosition.x - The starting X coordinate.
- * @param {number} options.startPosition.y - The starting Y coordinate.
- * @param {number} options.startPosition.w - The starting width of the card.
- * @param {Object} options.endPosition - The target position.
- * @param {number} options.endPosition.x - The target X coordinate.
- * @param {number} options.endPosition.y - The target Y coordinate.
- * @param {number} options.endPosition.w - The target width of the card.
- * @param {Function|null} [options.onStart] - A function called before the animation starts.
- * @param {Function|null} [options.onComplete] - A function called after the animation completes.
- * @param {number} [options.duration=150] - The animation duration in milliseconds.
- */
-function ClubCardBaseCardAnimation({ card, startPosition, endPosition, onStart = null, onComplete = null, duration = 150 }) {
-	if (typeof onStart === "function") onStart();
-	let startTime = performance.now();
-
-	function step(currentTime) {
-		let elapsed = currentTime - startTime;
-		let progress = Math.min(elapsed / duration, 1);
-
-		let currentX = startPosition.x + (endPosition.x - startPosition.x) * progress;
-		let currentY = startPosition.y + (endPosition.y - startPosition.y) * progress;
-		let currentW = startPosition.w + (endPosition.w - startPosition.w) * progress;
-
-		ClubCardRenderCard(card, currentX, currentY, currentW, null, null, true);
-
-		if (progress < 1)
-			requestAnimationFrame(step);
-		else
-			if (typeof onComplete === "function") onComplete(card);
-	}
-
-	requestAnimationFrame(step);
-}
-
-/**
  * Updates the positions of all active card animations.
  *
  * This function is called every frame within `ClubCardRun()` to animate cards smoothly.
@@ -4686,6 +4646,7 @@ function ClubCardUpdateCardAnimations(Timestamp) {
  * Moves a card between predefined positions (Preview, Hand, Pending).
  * Handles both animation of a copy and visibility of the original card.
  * @param {ClubCard} card - The card being moved.
+ * @param {number} priority - Animation rendering level priority
  * @param {Object} startPosition - The starting position {x, y, w}.
  * @param {Object} endPosition - The target position {x, y, w}.
  * @param {boolean} hideOriginal - Whether to hide the original card during animation.
@@ -4694,7 +4655,7 @@ function ClubCardUpdateCardAnimations(Timestamp) {
  * @param {Function|null} [onComplete] - Function called after the animation completes.
  * @param {number} [duration=200] - Animation duration in milliseconds.
  */
-function ClubCardMoveCard(card, startPosition, endPosition, hideOriginal = false, keepOriginalHidden = false, onStart = null, onComplete = null, duration = 200) {
+function ClubCardMoveCard(card, priority,startPosition, endPosition, hideOriginal = false, keepOriginalHidden = false, onStart = null, onComplete = null, duration = 200) {
 	if (!card || (card.AnimationState && card.AnimationState == "moving")) return;
 	card.AnimationState = "moving";
 	card.IsVisible = false;
@@ -4719,6 +4680,7 @@ function ClubCardMoveCard(card, startPosition, endPosition, hideOriginal = false
 
 	ClubCardActiveAnimations.push({
 		Card: card,
+		Priority: priority,
 		OriginalCard: originalCard,
 		StartTime: performance.now(),
 		Duration: duration,
@@ -4736,6 +4698,7 @@ function ClubCardMoveCard(card, startPosition, endPosition, hideOriginal = false
  */
 function ClubCardMoveCardToPreview(card, onStart = null, onComplete = null, duration = 200) {
 	ClubCardMoveCard(card,
+		1,
 		{ x: card.CurrentX, y: card.CurrentY, w: card.CurrentW },
 		ClubCardPreviewPosition,
 		true,
@@ -4752,6 +4715,7 @@ function ClubCardReturnCardFromPreview(card, onStart = null, onComplete = null, 
 	const originalCard = ClubCardGetOriginalCard(card);
 
 	ClubCardMoveCard(card,
+		1,
 		ClubCardPreviewPosition,
 		{ x: originalCard.CurrentX, y: originalCard.CurrentY, w: originalCard.CurrentW },
 		false,
@@ -4768,6 +4732,7 @@ function ClubCardReturnCardFromPending(card, onStart = null, onComplete = null, 
 	const originalCard = ClubCardGetOriginalCard(card);
 
 	ClubCardMoveCard(card,
+		1,
 		ClubCardPendingPosition,
 		{ x: originalCard.CurrentX, y: originalCard.CurrentY, w: originalCard.CurrentW },
 		false,
@@ -4786,6 +4751,7 @@ function ClubCardReturnCardFromPending(card, onStart = null, onComplete = null, 
  */
 function ClubCardMoveCardToPending(card, onStart = null, onComplete = null, duration = 200) {
 	ClubCardMoveCard(card,
+		1,
 		ClubCardPreviewPosition,
 		ClubCardPendingPosition,
 		false,
@@ -4956,7 +4922,7 @@ function ClubCardRenderBoard(CCPlayer, X, Y, W, H, Mirror) {
 			const startPosition = { x: copyCard.CurrentX, y: copyCard.CurrentY, w: copyCard.CurrentW };
 			const endPosition = { x: originalCard.CurrentX, y: originalCard.CurrentY, w: originalCard.CurrentW };
 
-			ClubCardMoveCard(copyCard, startPosition, endPosition, true, false, null, null, 300);
+			ClubCardMoveCard(copyCard, 0, startPosition, endPosition, true, false, null, null, 300);
 		});
 	}
 

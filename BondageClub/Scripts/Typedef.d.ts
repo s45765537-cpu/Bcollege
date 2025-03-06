@@ -4366,7 +4366,9 @@ interface ClubCardActiveAnimation {
     OnComplete?: Function|null;
     // Processed elsewhere
     // /** Callback function called when the animation starts. */
-    // OnStart?: Function|null;
+	// OnStart?: Function|null;
+	/** Animation rendering level priority*/
+	Priority: number;
 }
 
 
