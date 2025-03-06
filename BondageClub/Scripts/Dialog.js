@@ -2865,7 +2865,7 @@ class DialogMenu {
 	 * Get or set the currently selected group.
 	 *
 	 * Performs a hard {@link DialogMenu.Reload} if a new focus group is assigned.
-	 * @type {null | AssetItemGroup}
+	 * @type {null | AssetGroup}
 	 */
 	get focusGroup() { return null; }
 
@@ -3563,7 +3563,7 @@ class _DialogItemMenu extends _DialogFocusMenu {
 					} else if (InventoryIsBlockedByDistance(C)) {
 						textContent = InterfaceTextGet("ZoneBlockedRange");
 						showIcon = true;
-					} else if (InventoryGroupIsBlocked(C, focusGroup.Name)) {
+					} else if (focusGroup.IsItem() && InventoryGroupIsBlocked(C, focusGroup.Name)) {
 						textContent = InterfaceTextGet("ZoneBlocked");
 						showIcon = true;
 					} else if (!Player.CanInteract()) {
