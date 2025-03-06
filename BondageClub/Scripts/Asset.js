@@ -261,7 +261,6 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		DynamicGroupName: (AssetDef.DynamicGroupName || Group.DynamicGroupName),
 		DynamicActivity: (typeof AssetDef.DynamicActivity === 'function') ? AssetDef.DynamicActivity : function () { return AssetDef.Activity; },
 		DynamicAudio: (typeof AssetDef.DynamicAudio === 'function') ? AssetDef.DynamicAudio : null,
-		CharacterRestricted: typeof AssetDef.CharacterRestricted === 'boolean' ? AssetDef.CharacterRestricted : false,
 		AllowRemoveExclusive: typeof AssetDef.AllowRemoveExclusive === 'boolean' ? AssetDef.AllowRemoveExclusive : false,
 		InheritColor: AssetDef.InheritColor || Group.InheritColor,
 		DynamicBeforeDraw: (typeof AssetDef.DynamicBeforeDraw === 'boolean') ? AssetDef.DynamicBeforeDraw : false,
@@ -355,7 +354,6 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 			A.AllowTighten = false;
 			A.AlwaysExtend = false;
 			A.AlwaysInteract = false;
-			A.CharacterRestricted = false;
 			A.CustomBlindBackground = undefined;
 			A.Difficulty = 0;
 			A.DrawLocks = false;

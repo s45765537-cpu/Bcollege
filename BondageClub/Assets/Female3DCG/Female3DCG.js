@@ -23047,7 +23047,6 @@ var AssetFemale3DCG = [
 				Effect: [E.UseRemote, E.FillVulva],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 				AllowRemoveExclusive: true,
-				CharacterRestricted: true,
 				DynamicScriptDraw: true,
 			},
 
