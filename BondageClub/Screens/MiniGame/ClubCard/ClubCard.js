@@ -4689,11 +4689,28 @@ function ClubCardRenderPanel() {
 	// Draw the discard and bottom butttons and texts
 	if ((ClubCardPopup == null) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")) {
 		DrawButton(1805, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/Bankrupt.png", TextGet("Bankrupt"));
-		DrawButton(1705, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/" + ((ClubCardTurnCardPlayed == 0) ? "Draw" : "CannotDraw") + ".png", TextGet((ClubCardTurnCardPlayed == 0) ? "Draw" : "CannotDraw"));
+		ClubCardDrawButton();
 		if (ClubCardCanPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) DrawButton(725, 505, 215, 50, TextGet("PlayCard"), "White");
 	} else ClubCardStatusText(ClubCardIsPlaying() ? "OpponentPlaying" : "WatchingGame");
 	DrawButton(5, 450, 45, 45, null, "White", "Screens/MiniGame/ClubCard/Button/DiscardPile.png", TextGet("OpponentDiscardPile"));
 	DrawButton(5, 505, 45, 45, null, "White", "Screens/MiniGame/ClubCard/Button/DiscardPile.png", TextGet("DiscardPile"));
+}
+
+/**
+ * Function to display the Card Draw button
+ * @returns {void} - Nothing
+ */
+function ClubCardDrawButton() {
+	if (ClubCardTurnCardPlayed == 0) {
+		DrawButton(1705, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/Draw.png", TextGet("Draw"));
+		if (ClubCardPlayer[0].Deck.length > 0) {
+			DrawTextFit(ClubCardPlayer[0].Deck.length.toString(), 1764, 953, 25, "White");
+		} else {
+			DrawTextFit("X", 1764, 953, 25, "White");
+		}
+	} else {
+		DrawButton(1705, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/CannotDraw.png", TextGet("CannotDraw"));
+	}
 }
 
 /**
