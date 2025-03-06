@@ -359,7 +359,8 @@
 		"dialog-left-menu dialog-grid" auto / var(--menu-button-size) min-content;
 }
 
-#dialog-expression-menubar {
+#dialog-expression-menubar,
+#dialog-pose-menubar {
 	min-width: calc(5 * var(--menu-button-size) + 2 * var(--gap));
 	grid-area: dialog-menubar;
 	display: grid;
@@ -396,6 +397,23 @@
 
 .dialog-expression-grid > .dialog-menubar-button {
 	scroll-snap-align: start;
+}
+
+#dialog-pose {
+	width: fit-content;
+	grid-template:
+		"dialog-menubar dialog-menubar" var(--menu-button-size)
+		"dialog-status dialog-status" min-content
+		". dialog-grid" auto / var(--menu-button-size) min-content;
+}
+
+#dialog-pose > .dialog-grid {
+	gap: calc(0.5 * var(--gap));
+}
+
+.dialog-pose-grid {
+	display: grid;
+	gap: calc(0.5 * var(--gap));
 }
 
 @supports(height: 100dvh) {

@@ -98,8 +98,6 @@ var DialogFacialExpressions = [];
 var DialogFacialExpressionsSelectedBlindnessLevel = 2;
 /** @type {Character[]} */
 var DialogSavedExpressionPreviews = [];
-/** @type {Pose[][]} */
-var DialogActivePoses = [];
 var DialogExtendedMessage = "";
 /**
  * The list of available activities for the selected group.
@@ -184,13 +182,6 @@ var DialogFavoriteStateDetails = [
  * @type {readonly DialogSelfMenuOptionType[]}
  */
 var DialogSelfMenuOptions = [
-	{
-		Name: "Pose",
-		IsAvailable: () => (CurrentScreen == "ChatRoom" || CurrentScreen == "Photographic"),
-		Load: () => DialogLoadPoseMenu(),
-		Draw: () => DialogDrawPoseMenu(),
-		Click: () => DialogClickPoseMenu(),
-	},
 	{
 		Name: "SavedExpressions",
 		IsAvailable: () => true,
@@ -797,6 +788,7 @@ function DialogLeave() {
 	// Reset the mode, selected group & character, exiting the dialog
 	DialogMenuMode = null;
 	DialogSidePanelMapping.expression.Exit();
+	DialogSidePanelMapping.pose.Exit();
 	Object.values(DialogMenuMapping).forEach(obj => obj.Exit());
 
 	// Stop sounds & expressions from struggling/swapping items
@@ -1840,28 +1832,6 @@ function DialogClickSavedExpressionsMenu() {
 }
 
 /**
- * Build the initial state of the pose menu
- * @param {Character} [C] The character for whom {@link DialogActivePoses} whill be constructed; defaults to {@link CurrentCharacter}
- * @returns {void} - Nothing
- */
-function DialogLoadPoseMenu(C=CurrentCharacter) {
-	DialogActivePoses = [];
-
-	// Gather all unique categories from poses
-	const PoseCategories = new Set(PoseFemale3DCG
-		.filter(P => (P.AllowMenu || P.AllowMenuTransient && PoseAvailable(C, P.Category, P.Name)))
-		.map(P => P.Category)
-	);
-
-	// Add their pose in order so they're grouped together
-	PoseCategories.forEach(Category => {
-		DialogActivePoses.push(PoseFemale3DCG.filter(P => (P.AllowMenu || P.AllowMenuTransient && PoseAvailable(C, P.Category, P.Name)) && P.Category == Category));
-	});
-}
-
-
-
-/**
  * Handles the Click events in the Dialog Screen
  * @returns {boolean} - Whether a button was clicked
  */
@@ -2421,6 +2391,7 @@ function DialogResize(load) {
 	}
 
 	DialogSidePanelMapping.expression.Resize(load);
+	DialogSidePanelMapping.pose.Resize(load);
 	DialogMenuMapping[DialogMenuMode]?.Resize(load);
 }
 
@@ -4532,6 +4503,10 @@ class _DialogExpressionMenu extends DialogMenu {
 
 			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
 			nextPageClick: function(ev) {
+				const prev = document.getElementById(dialogMenu.ids.root);
+				const next = document.getElementById(DialogSidePanelMapping.pose.ids.root);
+				prev?.toggleAttribute("data-unload", true);
+				next?.toggleAttribute("data-unload", false);
 			},
 		};
 	}
@@ -4740,6 +4715,266 @@ class _DialogExpressionMenu extends DialogMenu {
 	}
 }
 
+/**
+ * @template {string} ModeType
+ * @extends {DialogMenu<ModeType, Pose, { C: Character }>}
+ */
+class _DialogPoseMenu extends DialogMenu {
+	ids = Object.freeze({
+		root: "dialog-pose",
+		status: "dialog-pose-status",
+		menubar: "dialog-pose-menubar",
+		grid: "dialog-pose-button-grid",
+	});
+
+	defaultShape = Object.freeze(/** @type {const} */([15, 15, 500, 940]));
+
+	_initPropertyNames = /** @type {const} */(["C"]);
+
+	/** @satisfies {DialogMenu<ModeType, Pose>["clickStatusCallbacks"]} */
+	clickStatusCallbacks = {
+		PoseAvailable(C, pose) {
+			const available = PoseAvailable(C, pose.Category, pose.Name);
+			return available ? null : InterfaceTextGet(`PrerequisiteCannot${pose.Name}`);
+		},
+		ChatRoomOwnerPresenceRule(C, pose) {
+			return (C.IsPlayer() && ChatRoomOwnerPresenceRule("BlockChangePose", C)) ? "Blocked by owner rule" : null;
+		},
+		CurrentScreen(C, pose) {
+			return (CurrentScreen === "ChatRoom" || CurrentScreen === "Photographic") ? null : "Wrong screen";
+		},
+	};
+
+	/**
+	 * See {@link poses}
+	 * @private
+	 * @type {null | Readonly<Partial<Record<AssetPoseCategory, readonly Pose[]>>>}
+	 */
+	_poses = null;
+
+	/**
+	 * An object mapping all (potentially) button-valid pose categories to their respective poses.
+	 * @readonly
+	 * @type {Readonly<Partial<Record<AssetPoseCategory, readonly Pose[]>>>}
+	 */
+	get poses() {
+		if (this._poses == null) {
+			/** @type {Partial<Record<AssetPoseCategory, Pose[]>>} */
+			const poses = {};
+			for (const pose of PoseFemale3DCG) {
+				if (pose.AllowMenu || pose.AllowMenuTransient) {
+					(poses[pose.Category] ??= []).push(pose);
+				}
+			}
+			return this._poses = poses;
+		} else {
+			return this._poses;
+		}
+	}
+
+	/**
+	 * @param {ModeType} mode The name of the mode associated with this instance
+	 */
+	constructor(mode) {
+		super(mode);
+		const dialogMenu = this;
+		this.eventListeners = {
+			...this.eventListeners,
+
+			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
+			nextPageClick: function(ev) {
+				const prev = document.getElementById(dialogMenu.ids.root);
+				const next = document.getElementById(DialogSidePanelMapping.expression.ids.root);
+				prev?.toggleAttribute("data-unload", true);
+				next?.toggleAttribute("data-unload", false);
+			},
+
+			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
+			_clickPoseMutuallyExclusive: function(ev) {
+				const parent = this.closest(".dialog-grid");
+				if (!parent) {
+					ev.stopImmediatePropagation();
+					return;
+				}
+
+				// Disable the `BodyFull` poses if a `BodyUpper`/`BodyLower` pose is selected and vice versa
+				const category = this.getAttribute("data-group");
+				if (category === "BodyFull") {
+					parent.querySelectorAll(".dialog-pose-grid:not([data-name='BodyFull']) > [role='radio']").forEach((button) => {
+						button.setAttribute("aria-checked", "false");
+						button.setAttribute("tabindex", button.previousElementSibling ? "-1" : "0");
+					});
+				} else {
+					parent.querySelectorAll(".dialog-pose-grid[data-name='BodyFull'] > [role='radio']").forEach((button) => {
+						button.setAttribute("aria-checked", "false");
+						button.setAttribute("tabindex", button.previousElementSibling ? "-1" : "0");
+					});
+					parent.querySelectorAll(".dialog-pose-grid:not([data-name='BodyFull'])").forEach(radiogrid => {
+						if (!radiogrid.querySelector("[role='radio'][aria-checked='true']")) {
+							radiogrid.querySelectorAll("[role='radio']").forEach((button, i) => {
+								button.setAttribute("aria-checked", i === 0 ? "true" : "false");
+								button.setAttribute("tabindex", i === 0 ? "0" : "-1");
+							});
+						}
+					});
+				}
+			}
+		};
+	}
+
+	_Load() {
+		const ids = this.ids;
+		return document.getElementById(ids.root) ?? ElementCreate({
+			tag: "div",
+			attributes: { id: ids.root, "aria-labelledby": ids.status },
+			parent: document.body,
+			classList: ["dialog-root"],
+			children: [
+				{
+					tag: "span",
+					attributes: { id: ids.status },
+					classList: ["dialog-status", "scroll-box"],
+				},
+				ElementMenu.Create(
+					ids.menubar,
+					[
+						ElementButton.Create(
+							`${ids.menubar}-next`,
+							this.eventListeners.nextPageClick,
+							{ tooltip: InterfaceTextGet("NextPage"), tooltipPosition: "right", image: "Icons/Next.png" },
+							{ button: { attributes: { name: "next" }, classList: ["dialog-menubar-button"] } },
+						),
+					],
+					{ direction: "rtl" },
+				),
+				{
+					tag: "div",
+					attributes: { id: ids.grid },
+					classList: ["dialog-grid", "scroll-box"],
+					children: CommonKeys(this.poses).map((category) => {
+						return {
+							tag: /** @type {const} */("div"),
+							classList: ["dialog-pose-grid"],
+							attributes: {
+								id: `${ids.grid}-${category}`,
+								role: "radiogroup",
+								"aria-required": "true",
+							},
+							dataAttributes: { name: category },
+						};
+					}),
+				},
+			],
+		});
+	}
+
+	/** @type {DialogMenu["_ReloadStatus"]} */
+	_ReloadStatus(root, span, parameters, options) {
+		const textContent = options.status ?? InterfaceTextGet("PoseMenu");
+		DialogSetStatus(textContent, options.statusTimer ?? 0, null, this.ids.status);
+	}
+
+	/** @type {DialogMenu["_ReloadButtonGrid"]} */
+	_ReloadButtonGrid(root, buttonGrid, parameters, options) {
+		const { C } = parameters;
+		for (const poseGrid of buttonGrid.querySelectorAll(".dialog-pose-grid")) {
+			const poseCategory = /** @type {AssetPoseCategory} */(poseGrid.getAttribute("data-name"));
+			const poses = this.poses[poseCategory];
+			if (!poses) {
+				continue;
+			}
+
+			if (options.reset) {
+				poseGrid.innerHTML = "";
+				poseGrid.replaceChildren(...poses.map((pose, i) => {
+					const button = ElementButton.Create(
+						`${this.ids.grid}-${pose.Category}-${pose.Name}`,
+						this.eventListeners._ClickButton,
+						{
+							clickDisabled: this.eventListeners._ClickDisabledButton,
+							role: "radio",
+							image: `Icons/Poses/${pose.Name}.png`,
+						},
+						{ button: {
+							classList: ["dialog-menubar-button"],
+							attributes: {
+								name: pose.Name,
+								tabindex: -1,
+								"aria-checked": "false",
+							},
+							dataAttributes: { group: pose.Category },
+						}},
+					);
+					button.addEventListener("click", this.eventListeners._clickPoseMutuallyExclusive);
+					return button;
+				}));
+			}
+
+			let activePose = C.ActivePoseMapping[poseCategory];
+			if (!activePose && !C.ActivePoseMapping.BodyFull) {
+				switch (poseCategory) {
+					case "BodyUpper":
+						activePose = "BaseUpper";
+						break;
+					case "BodyLower":
+						activePose = "BaseLower";
+						break;
+				}
+			}
+
+			for (const [i, button] of poseGrid.querySelectorAll("[role='radio']").entries()) {
+				const pose = poses[i];
+				if (!pose) {
+					break;
+				}
+
+				const status = this.GetClickStatus(C, pose, null);
+				if (status) {
+					button.setAttribute("aria-disabled", "true");
+				} else {
+					button.removeAttribute("aria-disabled");
+				}
+
+				if (!activePose) {
+					button.setAttribute("tabindex", (i === 0).toString());
+					button.setAttribute("aria-checked", "false");
+				} else if (activePose === pose.Name) {
+					button.setAttribute("tabindex", "0");
+					button.setAttribute("aria-checked", "true");
+				} else {
+					button.setAttribute("tabindex", "-1");
+					button.setAttribute("aria-checked", "false");
+				}
+			}
+		}
+
+		if (options.resetScrollbar) {
+			buttonGrid.scrollTo({ top: 0, behavior: "instant" });
+		}
+	}
+
+	/** @type {DialogMenu["_ReloadIcon"]} */
+	_ReloadIcon(root, icon, parameters, options) { /** noop */ }
+
+	/** @type {DialogMenu["_ReloadMenubar"]} */
+	_ReloadMenubar(root, menubar, parameters, options) { /** noop */ }
+
+	/** @type {DialogMenu<string, Pose>["_GetClickedObject"]} */
+	_GetClickedObject(button) {
+		const category = /** @type {null | AssetPoseCategory} */(button.getAttribute("data-group"));
+		const name = /** @type {null | AssetPoseName} */(button.name || null);
+		return Pose.find(p => p.Name === name && p.Category === category) ?? null;
+	}
+
+	/** @type {DialogMenu<string, Pose>["_ClickButton"]} */
+	_ClickButton(button, C, pose) {
+		PoseSetActive(C, pose.Name);
+		if (CurrentScreen === "ChatRoom") {
+			ServerSend("ChatRoomCharacterPoseUpdate", { Pose: C.ActivePose });
+		}
+	}
+}
+
 /** @satisfies {Partial<Record<DialogMenuMode, DialogMenu<DialogMenuMode>>>} */
 var DialogMenuMapping = /** @type {const} */({
 	activities: new _DialogActivitiesMenu("activities"),
@@ -4754,6 +4989,7 @@ var DialogMenuMapping = /** @type {const} */({
 /** @satisfies {Record<string, DialogMenu>} */
 var DialogSidePanelMapping = /** @type {const} */({
 	expression: new _DialogExpressionMenu("expression"),
+	pose: new _DialogPoseMenu("pose"),
 });
 
 /**
@@ -4951,6 +5187,7 @@ function DialogLoad() {
 	}
 
 	DialogSidePanelMapping.expression.Init({ C });
+	DialogSidePanelMapping.pose.Init({ C })?.toggleAttribute("data-unload", true);
 	DialogChangeMode(DialogMenuMode ?? "dialog", true);
 }
 
@@ -5070,50 +5307,6 @@ function DialogDraw() {
 
 	DialogMenuMapping[DialogMenuMode]?.Draw();
 }
-
-/**
- * Draws the pose sub menu
- * @returns {void} - Nothing
- */
-function DialogDrawPoseMenu() {
-	// Draw the pose groups
-	DrawText(InterfaceTextGet("PoseMenu"), 250, 100, "White", "Black");
-
-	for (const [offsetX, poseGroup] of CommonEnumerate(DialogActivePoses, 140, 140)) {
-		for (const [offsetY, { Category, Name }] of CommonEnumerate(poseGroup, 180, 100)) {
-			let isActive = false;
-			if (Player.ActivePoseMapping[Category] === Name) {
-				isActive = true;
-			} else if (Name === "BaseUpper" && !(Player.ActivePoseMapping.BodyUpper || Player.ActivePoseMapping.BodyFull)) {
-				isActive = true;
-			} else if (Name === "BaseLower" && !(Player.ActivePoseMapping.BodyLower || Player.ActivePoseMapping.BodyFull)) {
-				isActive = true;
-			}
-			DrawButton(offsetX, offsetY, 90, 90, "", !Player.CanChangeToPose(Name) ? "#888" : isActive ? "Pink" : "White", `Icons/Poses/${Name}.png`);
-		}
-	}
-}
-
-/**
- * Handles clicks in the pose sub menu
- * @returns {void} - Nothing
- */
-function DialogClickPoseMenu() {
-	for (const [offsetX, poseGroup] of CommonEnumerate(DialogActivePoses, 140, 140)) {
-		for (const [offsetY, { Category, Name }] of CommonEnumerate(poseGroup, 180, 100)) {
-			const isActive = Player.ActivePoseMapping[Category] === Name;
-			if (MouseIn(offsetX, offsetY, 90, 90) && !isActive && Player.CanChangeToPose(Name)) {
-				if (ChatRoomOwnerPresenceRule("BlockChangePose", Player)) {
-					DialogLeave();
-					return;
-				}
-				PoseSetActive(Player, Name);
-				if (CurrentScreen == "ChatRoom") ServerSend("ChatRoomCharacterPoseUpdate", { Pose: Player.ActivePose });
-			}
-		}
-	}
-}
-
 
 /**
  * Sets the current character sub menu to the owner rules
