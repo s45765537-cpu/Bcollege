@@ -2941,7 +2941,7 @@ class DialogMenu {
 				const equippedItem = dialogMenu.focusGroup ? InventoryGet(dialogMenu.C, dialogMenu.focusGroup.Name) : null;
 				const status = dialogMenu.GetClickStatus(dialogMenu.C, clickedObj, equippedItem);
 				if (status) {
-					DialogSetStatus(status, DialogTextDefaultDuration, { C: dialogMenu.C });
+					DialogSetStatus(status, DialogTextDefaultDuration, { C: dialogMenu.C }, dialogMenu.ids.status);
 					return status;
 				} else {
 					// Force a reload (and a new click event) if the click somehow _did not_ fail
@@ -3410,7 +3410,7 @@ class _DialogFocusMenu extends DialogMenu {
 				const equippedItem = InventoryGet(dialogMenu.C, dialogMenu.focusGroup.Name);
 				const status = dialogMenu.GetClickStatus(dialogMenu.C, clickedObj, equippedItem);
 				if (status) {
-					DialogSetStatus(status, DialogTextDefaultDuration, { asset: equippedItem?.Asset, C: dialogMenu.C, group: dialogMenu.focusGroup });
+					DialogSetStatus(status, DialogTextDefaultDuration, { asset: equippedItem?.Asset, C: dialogMenu.C, group: dialogMenu.focusGroup }, dialogMenu.ids.status);
 					return status;
 				} else {
 					// Force a reload (and a new click event) if the click somehow _did not_ fail
@@ -3577,7 +3577,7 @@ class _DialogItemMenu extends _DialogFocusMenu {
 		}
 
 		root.toggleAttribute("data-show-icon", showIcon);
-		DialogSetStatus(textContent, options.statusTimer ?? 0, { asset, group: focusGroup, C });
+		DialogSetStatus(textContent, options.statusTimer ?? 0, { asset, group: focusGroup, C }, this.ids.status);
 	}
 
 	/** @type {_DialogFocusMenu["_ReloadButtonGrid"]} */
@@ -3741,7 +3741,7 @@ class _DialogLockingMenu extends _DialogFocusMenu {
 	_ReloadStatus(root, status, properties, options) {
 		const { C, focusGroup } = properties;
 		const textContent = options.status ?? InterfaceTextGet("SelectLock");
-		DialogSetStatus(textContent, options.statusTimer ?? 0, { group: focusGroup, C });
+		DialogSetStatus(textContent, options.statusTimer ?? 0, { group: focusGroup, C }, this.ids.status);
 	}
 
 	/** @type {_DialogFocusMenu["_ReloadButtonGrid"]} */
@@ -3855,7 +3855,7 @@ class _DialogPermissionMenu extends _DialogFocusMenu {
 	/** @type {_DialogFocusMenu["_ReloadStatus"]} */
 	_ReloadStatus(root, span, properties, options) {
 		const textContent = options.status ?? InterfaceTextGet("DialogMenuPermissionMode");
-		DialogSetStatus(textContent, options.statusTimer ?? 0);
+		DialogSetStatus(textContent, options.statusTimer ?? 0, null, this.ids.status);
 	}
 
 	/** @type {_DialogFocusMenu["_ReloadButtonGrid"]} */
@@ -3976,7 +3976,7 @@ class _DialogActivitiesMenu extends _DialogFocusMenu {
 	_ReloadStatus(root, span, properties, options) {
 		const { C, focusGroup } = properties;
 		const textContent = options.status ?? InterfaceTextGet("SelectActivityGroup");
-		DialogSetStatus(textContent, options.statusTimer ?? 0, { C, group: focusGroup });
+		DialogSetStatus(textContent, options.statusTimer ?? 0, { C, group: focusGroup }, this.ids.status);
 	}
 
 	/** @type {_DialogFocusMenu["_ReloadButtonGrid"]} */
@@ -4110,7 +4110,7 @@ class _DialogCraftedMenu extends _DialogFocusMenu {
 	/** @type {_DialogFocusMenu["_ReloadStatus"]} */
 	_ReloadStatus(root, span, properties, options) {
 		const textContent = options.status ?? InterfaceTextGet("CraftedItemProperties");
-		DialogSetStatus(textContent, options.statusTimer ?? 0);
+		DialogSetStatus(textContent, options.statusTimer ?? 0, null, this.ids.status);
 	}
 
 	/** @type {_DialogFocusMenu["_ReloadButtonGrid"]} */
@@ -4282,7 +4282,7 @@ class _DialogDialogMenu extends DialogMenu {
 	_ReloadStatus(root, span, properties, options) {
 		const { C } = properties;
 		const textContent = SpeechTransformDialog(C, options.status ?? C.CurrentDialog);
-		DialogSetStatus(textContent, options.statusTimer ?? 0);
+		DialogSetStatus(textContent, options.statusTimer ?? 0, null, this.ids.status);
 	}
 
 	/** @type {DialogMenu["_ReloadButtonGrid"]} */
