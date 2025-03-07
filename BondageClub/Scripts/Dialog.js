@@ -4317,8 +4317,8 @@ class _DialogDialogMenu extends DialogMenu {
 	/** @type {ScreenFunctions["Exit"]} */
 	Exit() {
 		super.Exit();
-		if (this._mobileTimeout) {
-			clearTimeout(this._mobileTimeout);
+		if (this._mobileTimeoutID != null) {
+			clearTimeout(this._mobileTimeoutID);
 			this._mobileTimeoutHandler();
 		}
 	}
@@ -4326,8 +4326,8 @@ class _DialogDialogMenu extends DialogMenu {
 	/** @type {ScreenFunctions["Unload"]} */
 	Unload() {
 		super.Unload();
-		if (this._mobileTimeout) {
-			clearTimeout(this._mobileTimeout);
+		if (this._mobileTimeoutID != null) {
+			clearTimeout(this._mobileTimeoutID);
 			this._mobileTimeoutHandler();
 		}
 	}
@@ -4393,10 +4393,10 @@ class _DialogDialogMenu extends DialogMenu {
 			// TODO: Remove once the other dialog menubar have all been DOM'ified
 			// Prevent certain mobile phone types from instantly clicking DOM buttons placed behind a previously-clicked canvas button
 			if (CommonIsMobile) {
-				if (this._mobileTimeout != null) {
-					clearTimeout(this._mobileTimeout);
+				if (this._mobileTimeoutID != null) {
+					clearTimeout(this._mobileTimeoutID);
 				}
-				this._mobileTimeout = setTimeout(this._mobileTimeoutHandler.bind(this), 150);
+				this._mobileTimeoutID = setTimeout(this._mobileTimeoutHandler.bind(this), 150);
 			}
 		}
 
