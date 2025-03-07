@@ -213,6 +213,7 @@ function LoginResize(load) {
 
 	const langSelect = document.getElementById("LanguageDropdown");
 	ElementPosition(langSelect, 1145, 530, 255, 60);
+	langSelect?.style.setProperty("font-family", `"Twemoji Country Flags", ${langSelect.style.fontFamily}`);
 }
 
 /**
