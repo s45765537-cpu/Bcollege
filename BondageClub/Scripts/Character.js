@@ -41,12 +41,13 @@ const Difficulty = {
  * ONLINE: The player, or a character representing another online player
  * NPC: Any NPC
  * SIMPLE: Any simple character, generally used internally and not to represent an actual in-game character
- * @type {Record<"ONLINE"|"NPC"|"SIMPLE", CharacterType>}
+ * @type {Record<"ONLINE"|"NPC"|"SIMPLE"|"PLAYER", CharacterType>}
  */
 var CharacterType = {
 	ONLINE: "online",
 	NPC: "npc",
 	SIMPLE: "simple",
+	PLAYER: "player",
 };
 
 /**
@@ -58,6 +59,15 @@ var CharacterGetCurrentHandlers = {
 	Crafting: () => CraftingPreview,
 	Shop2: () => Shop2InitVars.Preview,
 };
+
+function CharacterCreatePlayer() {
+	Player = /** @type {PlayerCharacter} */ (CharacterCreate("Female3DCG", CharacterType.PLAYER, ""));
+	// We reset that here because a lot of checks depends on this being true
+	// Our old 0-ID'ed character was the player dummy before login
+	Player.ID = 0;
+	Character[0] = Player;
+	CharacterLoadCSVDialog(Player, { module: "Character", screen: "Player", name: "Player" });
+}
 
 /**
  * Loads a character into the buffer, creates it if it does not exist
@@ -581,7 +591,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		},
 		/** @type {() => this is PlayerCharacter} */
 		IsPlayer: function () {
-			return this.ID === 0;
+			return this.Type === CharacterType.PLAYER;
 		},
 		IsBirthday: function () {
 			if ((this.Creation == null) || (CurrentTime == null)) return false;

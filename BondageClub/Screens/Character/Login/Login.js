@@ -131,9 +131,7 @@ function LoginLoad() {
 	Character = [];
 	CharacterNextId = 0;
 	// Create a blank character for our player. Its actual ID will be set when LoginResponse happens
-	Player = /** @type {PlayerCharacter} */ (CharacterCreate("Female3DCG", CharacterType.ONLINE, ""));
-	LoginSetupPlayer(/** @type {ServerAccountData} */ ({ ID: "" }));
-	CharacterLoadCSVDialog(Player, { module: "Character", screen: "Player", name: "Player" });
+	Player = /** @type {PlayerCharacter} */ (CharacterCreate("Female3DCG", CharacterType.SIMPLE, ""));
 	LoginCharacter = CharacterLoadNPC("NPC_Login");
 	LoginDoNextThankYou();
 	LoginStatusReset();
@@ -942,6 +940,8 @@ function LoginResponse(C) {
 		}
 		return;
 	}
+
+	CharacterCreatePlayer();
 
 	// In regular mode, we set the account properties for a new club session
 	LoginSetupPlayer(C);
