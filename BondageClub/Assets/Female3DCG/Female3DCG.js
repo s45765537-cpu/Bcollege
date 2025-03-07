@@ -5483,9 +5483,8 @@ var AssetFemale3DCG = [
 			{
 				Name: "Waspie1",
 				InventoryID: 206,
-				Gender: "F",
-				Prerequisite: ["HasVagina"],
 				Fetish: ["Leather"],
+				Hide: ["Pussy",],
 				Value: 60,
 				PoseMapping: {
 					...AssetPoseMapping.ClothLower,
@@ -5508,9 +5507,8 @@ var AssetFemale3DCG = [
 			{
 				Name: "Waspie2",
 				InventoryID: 207,
-				Gender: "F",
-				Prerequisite: ["HasVagina"],
 				Fetish: ["Leather"],
+				Hide: ["Pussy",],
 				Value: 80,
 				PoseMapping: {
 					...AssetPoseMapping.ClothLower,
@@ -5530,14 +5528,13 @@ var AssetFemale3DCG = [
 			{
 				Name: "Waspie3",
 				InventoryID: 208,
-				Gender: "F",
-				Prerequisite: ["HasVagina"],
 				Fetish: ["Leather"],
 				Value: 40,
 				PoseMapping: {
 					...AssetPoseMapping.ClothLower,
 					KneelingSpread: PoseType.HIDE,
 				},
+				Hide: ["Pussy",],
 				HideItem: [
 					"ItemDevicesStrapOnSmooth",
 					"ItemDevicesStrapOnStuds",
@@ -5552,12 +5549,10 @@ var AssetFemale3DCG = [
 			{
 				Name: "LatexPants1",
 				InventoryID: 209,
-				Gender: "F",
-				Prerequisite: ["HasVagina"],
 				Fetish: ["Latex"],
 				Priority: 21,
 				Value: 60,
-				Hide: ["ItemVulvaPiercings", "Garters"],
+				Hide: ["ItemVulvaPiercings", "Garters", "Pussy",],
 				HideItem: [
 					"ItemButtAnalBeads2",
 					"SocksSocksFur",
@@ -5583,13 +5578,12 @@ var AssetFemale3DCG = [
 			{
 				Name: "LatexSkirt1",
 				InventoryID: 210,
-				Gender: "F",
-				Prerequisite: ["HasVagina"],
 				Fetish: ["Latex"],
 				Value: 40,
 				Alpha: [
 					{ Group: ["Panties", "ItemPelvis"], Masks: [[0, 0, 500, 540]] },
 				],
+				Hide: ["Pussy",],
 				HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"],
 				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				Attribute: ["Skirt"],
@@ -5597,13 +5591,12 @@ var AssetFemale3DCG = [
 			{
 				Name: "LatexSkirt2",
 				InventoryID: 211,
-				Gender: "F",
-				Prerequisite: ["HasVagina"],
 				Fetish: ["Latex"],
 				Value: 60,
 				Alpha: [
 					{ Group: ["Panties", "ItemPelvis"], Masks: [[0, 0, 500, 580]] },
 				],
+				Hide: ["Pussy",],
 				HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"],
 				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				Attribute: ["Skirt"],
@@ -5657,12 +5650,11 @@ var AssetFemale3DCG = [
 			{
 				Name: "ClothSkirt1",
 				InventoryID: 213,
-				Gender: "F",
-				Prerequisite: ["HasVagina"],
 				Value: 40,
 				Alpha: [
 					{ Group: ["Panties", "ItemPelvis"], Masks: [[0, 0, 500, 580]] },
 				],
+				Hide: ["Pussy",],
 				HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"],
 				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				Attribute: ["Skirt"],
@@ -5693,7 +5685,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "ChineseSkirt1",
 				InventoryID: 215,
-				Gender: "F",
 				Prerequisite: ["HasVagina"],
 				Value: 40,
 				HideItem: [
@@ -5873,11 +5864,9 @@ var AssetFemale3DCG = [
 			{
 				Name: "JeansShorts",
 				InventoryID: 222,
-				Gender: "F",
-				Prerequisite: ["HasVagina"],
 				Value: 20,
 				Priority: 22,
-				Hide: ["ItemVulvaPiercings"],
+				Hide: ["ItemVulvaPiercings", "Pussy"],
 				HideItem: [
 					"ItemButtAnalBeads2",
 					"ItemVulvaHempRopeBelt",
@@ -6376,10 +6365,9 @@ var AssetFemale3DCG = [
 			{
 				Name: "BusinessSkirt",
 				InventoryID: 239,
-				Gender: "F",
-				Prerequisite: ["HasVagina"],
 				Fetish: ["Leather"],
 				Value: 32,
+				Hide: ["Pussy",],
 				HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"],
 				Attribute: ["Skirt"],
 			},
@@ -6413,8 +6401,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "BusinessTrousers",
 				InventoryID: 241,
-				Gender: "F",
-				Prerequisite: ["HasVagina"],
 				Value: 55,
 				Priority: 24,
 				Top: 5,
@@ -6422,7 +6408,7 @@ var AssetFemale3DCG = [
 					[PoseType.DEFAULT]: 0,
 					KneelingSpread: 90,
 				},
-				Hide: ["ItemVulvaPiercings", "Panties"],
+				Hide: ["ItemVulvaPiercings", "Panties", "Pussy",],
 				HideItem: [
 					"ItemButtAnalBeads2",
 					"SocksSocksFur",
@@ -6442,8 +6428,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "SatinSkirt",
 				InventoryID: 1149,
-				Gender: "F",
-				Prerequisite: ["HasVagina"],
 				Value: 37,
 				Left: 86,
 				Top: { AllFours: 0 },
@@ -6458,6 +6442,7 @@ var AssetFemale3DCG = [
 					LegsClosed: PoseType.DEFAULT,
 					Spread: PoseType.DEFAULT,
 				},
+				Hide: ["Pussy",],
 				HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"],
 				CreateLayerTypes: ["typed"],
 				Attribute: ["Skirt"],
@@ -8667,6 +8652,7 @@ var AssetFemale3DCG = [
 					"ItemVulvaPiercingsVibeHeartClitPiercing",
 					"ItemVulvaPiercingsClitRing",
 				],
+				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 			},
 			{
 				Name: "HipHarness",
@@ -8755,6 +8741,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "WaistLegHarness",
 				Top: 373,
 				Left: 0,
+				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				DefaultColor: [
 					"#606060",
 					"#E0E0E0",
@@ -10325,6 +10312,7 @@ var AssetFemale3DCG = [
 				ParentItem: "PantiesWaistLegHarness",
 				Top: 373,
 				Left: 0,
+				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				DefaultColor: [
 					"#606060",
 					"#E0E0E0",
@@ -26129,6 +26117,7 @@ var AssetFemale3DCG = [
 				Fetish: ["Leather", "Chastity"],
 				Value: 70,
 				BuyGroup: "WaistLegHarness",
+				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				Top: 373,
 				Left: 0,
 				Difficulty: 30,
@@ -35849,7 +35838,7 @@ var AssetFemale3DCG = [
 				Value: 40,
 				Random: false,
 				Fetish: ["Sadism"],
-				AllowActivity: ["SpankItem"],
+				AllowActivity: ["SpankItem", "RubItem"],
 				ActivityAudio: ["SmackCrop"],
 			},
 			{
@@ -35926,7 +35915,7 @@ var AssetFemale3DCG = [
 				Value: 50,
 				Random: false,
 				Fetish: ["Sadism"],
-				AllowActivity: ["SpankItem"],
+				AllowActivity: ["SpankItem", "RubItem"],
 				ActivityAudio: ["WhipCrack"],
 				ActivityExpression: {
 					SpankItem: [
@@ -35955,7 +35944,7 @@ var AssetFemale3DCG = [
 				Value: -1,
 				Random: false,
 				Fetish: ["Sadism"],
-				AllowActivity: ["SpankItem"],
+				AllowActivity: ["SpankItem", "RubItem"],
 				Bonus: "KidnapBruteForce",
 			},
 			{
@@ -35966,7 +35955,7 @@ var AssetFemale3DCG = [
 				Value: -1,
 				Random: false,
 				Fetish: ["Sadism"],
-				AllowActivity: ["SpankItem"],
+				AllowActivity: ["SpankItem", "RubItem"],
 			},
 			{
 				Name: "RainbowWand",
@@ -35976,7 +35965,7 @@ var AssetFemale3DCG = [
 				Value: -1,
 				Random: false,
 				Fetish: ["Sadism"],
-				AllowActivity: ["SpankItem"],
+				AllowActivity: ["SpankItem", "RubItem"],
 				ActivityExpression: {
 					SpankItem: [{ Group: "Eyebrows", Name: "Soft", Timer: 5 }],
 				},
@@ -35989,7 +35978,7 @@ var AssetFemale3DCG = [
 				Value: -1,
 				Random: false,
 				Fetish: ["Sadism"],
-				AllowActivity: ["SpankItem"],
+				AllowActivity: ["SpankItem", "RubItem"],
 				Bonus: "KidnapDomination",
 				ActivityExpression: {
 					SpankItem: [
@@ -36159,7 +36148,7 @@ var AssetFemale3DCG = [
 				Value: 10,
 				Random: false,
 				Fetish: ["Sadism"],
-				AllowActivity: ["SpankItem"],
+				AllowActivity: ["SpankItem", "RubItem"],
 				ActivityExpression: {
 					SpankItem: [
 						{ Group: "Blush", Name: "Low", Timer: 10 },
@@ -36176,7 +36165,7 @@ var AssetFemale3DCG = [
 				Value: 5,
 				Random: false,
 				Fetish: ["Sadism"],
-				AllowActivity: ["SpankItem"],
+				AllowActivity: ["SpankItem", "RubItem", "Scratch"],
 				ActivityExpression: {
 					SpankItem: [
 						{ Group: "Blush", Name: "Low", Timer: 10 },
@@ -36246,7 +36235,7 @@ var AssetFemale3DCG = [
 				Value: 3,
 				Random: false,
 				Fetish: ["Sadism"],
-				AllowActivity: ["SpankItem"],
+				AllowActivity: ["SpankItem", "RubItem"],
 			},
 			{
 				Name: "Sword",
@@ -36256,7 +36245,7 @@ var AssetFemale3DCG = [
 				Value: 5,
 				Random: false,
 				Fetish: ["Sadism"],
-				AllowActivity: ["SpankItem"],
+				AllowActivity: ["SpankItem", "RubItem"],
 				ActivityExpression: {
 					SpankItem: [
 						{ Group: "Blush", Name: "Low", Timer: 5 },
@@ -36292,7 +36281,7 @@ var AssetFemale3DCG = [
 				Priority: 46,
 				Value: 10,
 				Random: false,
-				AllowActivity: ["RubItem"],
+				AllowActivity: ["SpankItem", "RubItem"],
 			},
 			{
 				Name: "RopeCoilLong",
@@ -36423,6 +36412,7 @@ var AssetFemale3DCG = [
 				Priority: 46,
 				Value: 15,
 				Random: false,
+				AllowActivity: ["RubItem"],
 			},
 			{
 				Name: "PlasticWrap",
@@ -36440,6 +36430,7 @@ var AssetFemale3DCG = [
 				Priority: 46,
 				Value: 10,
 				Random: false,
+				AllowActivity: ["RubItem"],
 				BuyGroup: "DrinkingGlass",
 			},
 			{
@@ -36509,6 +36500,7 @@ var AssetFemale3DCG = [
 				Left: 128,
 				Top: 300,
 				Extended: true,
+				AllowActivity: ["RubItem"],
 			},
 			{
 				Name: "Shark",
@@ -36518,7 +36510,7 @@ var AssetFemale3DCG = [
 				Left: 0,
 				Top: -250,
 				DefaultColor: ["#F0F3F5", "#567890", "#BF5249", "#8E6565", "Default"],
-				AllowActivity: ["SpankItem"],
+				AllowActivity: ["SpankItem", "RubItem"],
 				Layer: [
 					{ Name: "Belly" },
 					{ Name: "Body" },
@@ -36544,6 +36536,7 @@ var AssetFemale3DCG = [
 				},
 				Top: -30,
 				DynamicGroupName: "ItemMisc",
+				AllowActivity: ["SpankItem", "RubItem"],
 				ParentGroup: {},
 				DefaultColor: ["#848484", "#C26969"],
 				Layer: [
@@ -36561,7 +36554,7 @@ var AssetFemale3DCG = [
 				Time: 5,
 				Top: -30,
 				DefaultColor: ["#B65D1F", "#979797"],
-				AllowActivity: ["SpankItem"],
+				AllowActivity: ["SpankItem", "RubItem"],
 				BuyGroup: "FoxPlush",
 				PoseMapping: {
 					BaseUpper: PoseType.DEFAULT,
@@ -36639,6 +36632,7 @@ var AssetFemale3DCG = [
 				Value: 100,
 				DefaultColor: ["#333", "#133769", "#900000"],
 				Random: false,
+				AllowActivity: ["RubItem"],
 				Extended: true,
 				PoseMapping: {
 					...AssetPoseMapping.ItemHandheld,
@@ -36783,7 +36777,7 @@ var AssetFemale3DCG = [
 				Value: -1,
 				BuyGroup: "BrickWall",
 				Random: false,
-				AllowActivity: ["SpankItem"],
+				AllowActivity: ["SpankItem", "RubItem"],
 				DefaultColor: "Default",
 				AllowColorize: true,
 			},
@@ -54564,7 +54558,9 @@ var AssetFemale3DCG = [
 				Effect: [E.Freeze, E.MapImmobile],
 				RemoveAtLogin: true,
 				FixedPosition: true,
-				Layer: [{ Name: "Throne", Top: 25, Left: 25 }],
+				Layer: [{ Name: "Throne", Top: -300, Left: 0 },
+					{ Name: "Seat", Top: -300, Left: 0 },
+					{ Name: "Deco", Top: -300, Left: 0 },]
 			},
 			{
 				Name: "ExclusiveWaitress",
