@@ -17648,6 +17648,20 @@ var AssetFemale3DCGExtended = {
 			},
 			DrawImages: false,
 		}, // Pincenez
+		RoundSunglasses: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Normal",
+					Property: { OverridePriority: 27 },
+				},
+				{
+					Name: "Over",
+					Property: { OverridePriority: 53 },
+				},
+			],
+			DrawImages: false,
+		}, // RoundSunglasses
 	}, // Glasses
 	Bracelet: {
 		Band1: {

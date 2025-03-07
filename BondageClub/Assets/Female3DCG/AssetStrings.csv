@@ -6413,3 +6413,6 @@ ItemMouth3HorrorMuzzleNone,Plain
 ItemMouth3HorrorMuzzleRivets,With rivets
 ItemMouth3HorrorMuzzleSetNone,SourceCharacter puts on DestinationCharacter mouth a plain Horror Muzzle.
 ItemMouth3HorrorMuzzleSetRivets,SourceCharacter puts on DestinationCharacter mouth a Horror Muzzle with rivets.
+GlassesRoundSunglassesSelect,Select a style:
+GlassesRoundSunglassesNormal,Behind hair
+GlassesRoundSunglassesOver,Over hair
