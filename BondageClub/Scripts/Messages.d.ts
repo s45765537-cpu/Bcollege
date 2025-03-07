@@ -843,7 +843,8 @@ interface ServerChatRoomGameCardGameData {
     Event: string;
     DiscardPile: string;
     CardsPlayedThisTurn: Record<number, ClubCard[]>;
-    ClubCardTurnCounter: number;
+	ClubCardTurnCounter: number;
+	Sleeve: number;
 }
 
 interface ServerChatRoomGameCardGameQueryRequest {

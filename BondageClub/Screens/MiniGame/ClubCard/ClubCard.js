@@ -19,6 +19,7 @@ var ClubCardHover = null;
  * @type {null | ClubCard}
  * */
 var ClubCardFocus = null;
+var ClubCardFocusAI = null;
 /** @type {null | TextCache} */
 var ClubCardTextCache = null;
 var ClubCardTurnIndex = 0;
@@ -37,8 +38,28 @@ var ClubCardLevelCost = [0, 0, 10, 20, 30, 40];
 var ClubCardPlayer = [];
 var ClubCardOnlinePlayerMemberNumber1 = -1;
 var ClubCardOnlinePlayerMemberNumber2 = -1;
+/**
+ * Counter to ensure unique ID incrementation.
+ * It is used globally to prevent ID duplication.
+ */
+let ClubCardUniqueIDCounter = 0;
+
+// #region Card Animations
+
+/**
+ * Stores active card animations, updated each frame in ClubCardUpdateCardAnimations().
+ * @type {ClubCardActiveAnimation[]}
+ */
+let ClubCardActiveAnimations = [];
+
+const ClubCardPreviewPosition = { x: 705, y: 250, w: 250 };
+const ClubCardPendingPosition = { x: 975, y: 400, w: 100 };
+const ClubCardDiscardPosition = { x: 0, y: 500, w: 0 };
+
+// #endregion
 
 //#region Chat Log variable
+
 var ClubCardLogScroll = false;
 /**
  * Storage for all processed and displayed log messages
@@ -1002,21 +1023,21 @@ var ClubCardList = [
 			let opponentCardsToReturn = opponent.Board.filter(card => card.RequiredLevel == 1 || card.RequiredLevel == null);
 
 			for (const C of cardsToReturn) {
-				const cardToAdd = ClubCardList.find(card => card.Name === C.Name);
+				const cardToAdd = ClubCardGetCopyCardByName(C.Name);
 				if (ClubCardIsLiability(C)) {
-					opponent.Hand.push({ ...cardToAdd });
+					opponent.Hand.push(cardToAdd);
 				} else {
-					CCPlayer.Hand.push({ ...cardToAdd });
+					CCPlayer.Hand.push(cardToAdd);
 				}
 				ClubCardRemoveFromBoard(CCPlayer, C, true);
 			}
 
 			for (const C of opponentCardsToReturn) {
-				const cardToAdd = ClubCardList.find(card => card.Name === C.Name);
+				const cardToAdd = ClubCardGetCopyCardByName(C.Name);
 				if (ClubCardIsLiability(C)) {
-					CCPlayer.Hand.push({ ...cardToAdd });
+					CCPlayer.Hand.push(cardToAdd);
 				} else {
-					opponent.Hand.push({ ...cardToAdd });
+					opponent.Hand.push(cardToAdd);
 				}
 				ClubCardRemoveFromBoard(opponent, C, true);
 			}
@@ -1514,8 +1535,8 @@ var ClubCardList = [
 		FamePerTurn: 2,
 		MoneyPerTurn: -1,
 		OnPlay: function (CCPlayer) {
-			const cardToAdd =  ClubCardList.find(card => card.Name === ClubCardSelection.Name);
-			CCPlayer.Hand.push({ ...cardToAdd });
+			const cardToAdd =  ClubCardGetCopyCardByName(ClubCardSelection.Name);
+			CCPlayer.Hand.push(cardToAdd);
 		}
 	},
 
@@ -2827,9 +2848,76 @@ function ClubCardGetFormatTextForInnerHTML(text) {
 	return formattedText;
 }
 
-
-
 // #endregion ClubCard New Chat Stuff
+
+/**
+ * Creates a copy of a card from the ClubCardList based on its name.
+ * Assigns a new UniqueID and makes the card visible.
+ * @param {string} cardName - The name of the card to copy.
+ * @returns {ClubCard} - A new card object if found, otherwise null.
+ */
+function ClubCardGetCopyCardByName(cardName) {
+	const originalCard = ClubCardList.find(card => card.Name === cardName);
+	if (!originalCard) return null; // Return null if the card is not found
+
+	return {
+		...originalCard, // Copy all properties of the original card
+		UniqueID: generateUniqueID(originalCard.ID), // Generate a new unique identifier
+		IsVisible: true, // Ensure the copied card is visible
+		AnimationState: "idle"
+	};
+}
+
+/**
+ * Creates a copy of a card from the ClubCardList based on its id.
+ * Assigns a new UniqueID and makes the card visible.
+ * @param {number} cardId - The id of the card to copy.
+ * @returns {ClubCard} - A new card object if found, otherwise null.
+ */
+function ClubCardGetCopyCardByID(cardId) {
+	const originalCard = ClubCardList.find(card => card.ID === cardId);
+	if (!originalCard) return null; // Return null if the card is not found
+
+	return {
+		...originalCard, // Copy all properties of the original card
+		UniqueID: generateUniqueID(originalCard.ID), // Generate a new unique identifier
+		IsVisible: true, // Ensure the copied card is visible
+		AnimationState: "idle"
+	};
+}
+
+/**
+ * Generates a globally unique identifier (UniqueID) for a card.
+ * The UniqueID is composed of the card's base ID, a high-precision timestamp,
+ * and an incrementing counter to ensure uniqueness.
+ * @param {number} cardID - The base ID of the card.
+ * @returns {string} - A unique string identifier for the card.
+ */
+function generateUniqueID(cardID) {
+	return `${cardID}${Math.floor(performance.now() * 1e6)}${ClubCardUniqueIDCounter++}`;
+}
+
+/**
+ * Returns a reference to the array where the card is stored based on its Location.
+ * @param {ClubCard} card - The card whose location needs to be found.
+ * @returns {ClubCard[] | null} - Reference to the corresponding card array or null if not found.
+ */
+function ClubCardGetCardArrayByLocation(card) {
+	if (!card || !card.Location) return null;
+
+	switch (card.Location) {
+		case "PlayerHand":
+			return ClubCardPlayer[0].Hand;
+		case "OpponentHand":
+			return ClubCardPlayer[1].Hand;
+		case "PlayerBoard":
+			return card.Type === "Event" ? ClubCardPlayer[0].Event : ClubCardPlayer[0].Board;
+		case "OpponentBoard":
+			return card.Type === "Event" ? ClubCardPlayer[1].Event : ClubCardPlayer[1].Board;
+		default:
+			return null;
+	}
+}
 
 /**
  * Creates a popop in the middle of the board that pauses the game
@@ -3474,8 +3562,8 @@ function ClubCardAlvinCondition(CCPlayer) {
 	}
 	const hasBoardRoom = CCPlayer.Board.length < ClubCardLevelLimit[CCPlayer.Level];
 	if (hasAlvin && hasBoardRoom && count < 3) {
-		const ropeSlave = ClubCardList.find(card => card.Name === "Rope Slave");
-		ClubCardSummonCard(CCPlayer, {...ropeSlave});
+		const ropeSlave = ClubCardGetCopyCardByName("Rope Slave");//ClubCardList.find(card => card.Name === "Rope Slave");
+		ClubCardSummonCard(CCPlayer, ropeSlave);
 	}
 }
 
@@ -3509,14 +3597,14 @@ function ClubCardPlayerDiscardCard(CCPlayer, Amount) {
  */
 function ClubCardLoadDeck(InDeck) {
 	let OutDeck = [];
-	for (let D of InDeck)
-		for (let C of ClubCardList)
-			if (C.ID == D) {
-				let Card = { ...C };
-				if (Card.Type == null) Card.Type = "Member";
-				OutDeck.push(Card);
-				break;
-			}
+
+	for (let D of InDeck){
+		const card = ClubCardGetCopyCardByID(D);
+		if (card && card != null) {
+			if (card.Type == null) card.Type = "Member";
+			OutDeck.push(card);
+		}
+	}
 	return OutDeck;
 }
 
@@ -3557,16 +3645,15 @@ function ClubCardLoadDeckNumber(DeckNum) {
 	}
 
 	// Starts the game with the loaded deck
-	const Tips = ClubCardList.find(card => card.Name === "Tips");
 	if (!ClubCardIsOnline()) {
 		const textGetKey = "Start" + ((ClubCardTurnIndex == 0) ? "Player" : "Opponent");
 		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, textGetKey);
-		ClubCardPlayer[0].Hand.push({...Tips});
-		ClubCardPlayer[1].Hand.push({...Tips});
+		ClubCardPlayer[0].Hand.push(ClubCardGetCopyCardByName("Tips"));
+		ClubCardPlayer[1].Hand.push(ClubCardGetCopyCardByName("Tips"));
 		ClubCardPlayerDrawCard(ClubCardPlayer[0], (ClubCardTurnIndex == 0) ? 5 : 6);
 		ClubCardPlayerDrawCard(ClubCardPlayer[1], (ClubCardTurnIndex == 1) ? 5 : 6);
 	} else {
-		ClubCardPlayer[Index].Hand.push({...Tips});
+		ClubCardPlayer[Index].Hand.push(ClubCardGetCopyCardByName("Tips"));
 		ClubCardPlayerDrawCard(ClubCardPlayer[Index], (ClubCardTurnIndex == Index) ? 5 : 6);
 	}
 	// Syncs online data
@@ -3625,6 +3712,7 @@ function ClubCardAddPlayer(Char, Cont, Cards) {
 		Hand: [],
 		Board: [],
 		Event: [],
+		RenderFullBoard: [],
 		DiscardPile: [],
 		Level: 1,
 		Money: 5,
@@ -3726,10 +3814,11 @@ function ClubCardStartTurn(StartType = ClubCardStartTurnType.BANKRUPT) {
 	}
 
 	ClubCardMessageSendAll();
+	const CCPlayer = ClubCardPlayer[ClubCardTurnIndex];
 
 	switch (StartType) {
 		case ClubCardStartTurnType.PLAYCARD:
-			ClubCardPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus);
+			ClubCardPlayCard(CCPlayer, CCPlayer.Control === "Player" ? ClubCardFocus : ClubCardFocusAI);
 			break;
 
 		case ClubCardStartTurnType.DRAWENDTURN:
@@ -4037,8 +4126,11 @@ function ClubCardPlayCard(CCPlayer, Card) {
 
 	// If the player must select a card before playing the current card
 	if ((Card.Prerequisite != null) && (ClubCardSelection == null) && (CCPlayer.Control == "Player")) {
-		ClubCardPending = Card;
 		ClubCardFocus = null;
+		Card.IsVisible = false;
+		ClubCardPending = Card;
+		ClubCardMoveCardToPending(Card);
+
 		const textGetKeyPrereq = "Prerequisite " + Card.Name;
 		ClubCardMessageAdd(ClubCardMessageType.PREREQUISTITE, textGetKeyPrereq);
 		return;
@@ -4113,7 +4205,9 @@ function ClubCardPlayCard(CCPlayer, Card) {
 	}
 
 	// Focuses on the card, runs it's scripts
-	ClubCardFocus = Card;
+	if(CCPlayer.Control == "Player") ClubCardFocus = Card;
+	else ClubCardFocusAI = Card;
+
 	if (CCPlayer.CardsPlayedThisTurn[CCPlayer.ClubCardTurnCounter]) {
 		CCPlayer.CardsPlayedThisTurn[CCPlayer.ClubCardTurnCounter] = [...CCPlayer.CardsPlayedThisTurn[CCPlayer.ClubCardTurnCounter], Card];
 	} else {
@@ -4122,8 +4216,12 @@ function ClubCardPlayCard(CCPlayer, Card) {
 
 	if (Card.OnPlay != null) Card.OnPlay(CCPlayer);
 	ClubCardSelection = null;
-	ClubCardPending = null;
-	ClubCardFocus = null;
+
+	if (CCPlayer.Control == "Player") {
+		ClubCardFocus = null;
+		ClubCardPending = null;
+	}
+	else ClubCardFocusAI = null;
 
 	// Run on cards played handlers
 	ClubCardOnCardPlayedHandler(CCPlayer, Card);
@@ -4209,7 +4307,8 @@ function ClubCardAIPlay() {
 
 	// If we have valid cards, we play one at random
 	if (ValidCards.length > 0) {
-		ClubCardFocus = CommonRandomItemFromList(null, ValidCards);
+		ClubCardFocusAI = CommonRandomItemFromList(null, ValidCards);
+		//ClubCardFocus = CommonRandomItemFromList(null, ValidCards);
 		return ClubCardStartTurn(ClubCardStartTurnType.PLAYCARD);
 	}
 
@@ -4262,8 +4361,7 @@ function ClubCardBankrupt() {
 	CCPlayer.Event = [];
 	CCPlayer.Hand = [];
 	CCPlayer.Deck = ClubCardShuffle(CCPlayer.FullDeck.slice());
-	const Tips = ClubCardList.find(card => card.Name === "Tips");
-	CCPlayer.Hand.push({ ...Tips });
+	CCPlayer.Hand.push(ClubCardGetCopyCardByName("Tips"));
 	ClubCardTurnCardPlayed = 0;
 	ClubCardPlayerDrawCard(CCPlayer, 5);
 
@@ -4276,7 +4374,8 @@ function ClubCardBankrupt() {
 	ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "WentBankrupt", {}, CCPlayer);
 	///
 	ClubCardDestroyPopup();
-	ClubCardFocus = null;
+	if (CCPlayer.Control == "Player") ClubCardFocus = null;
+	else ClubCardFocusAI = null;
 	ClubCardEndTurn(false);
 }
 
@@ -4374,6 +4473,7 @@ function ClubCardLoad() {
 	ClubCardRenderLog = [];
 	ClubCardTurnIndex = Math.floor(Math.random() * 2);
 	ClubCardPlayer = [];
+	ClubCardUniqueIDCounter = 0;
 	ClubCardAddPlayer(Player, "Player", []);
 	ClubCardAddPlayer(ClubCardOpponent, "AI", ClubCardOpponentDeck);
 	ClubCardCreatePopup("DECK");
@@ -4407,6 +4507,261 @@ function ClubCardGetGroupText(Group) {
 	return Text;
 }
 
+
+// #region Animation Card ### ### ### ###
+
+/**
+ * Returns a reference to the original card based on its UniqueID.
+ * @param {ClubCard} card - A copy of the card for which the original needs to be found.
+ * @returns {ClubCard|null} - The original card or null if not found.
+ */
+function ClubCardGetOriginalCard(card) {
+	if (!card || !card.Location) return null;
+	const targetArray = ClubCardGetCardArrayByLocation(card);
+	return targetArray ? targetArray.find(c => c.UniqueID === card.UniqueID) : null;
+}
+
+/**
+ * Calculates the position of a card in the player's or opponent's hand based on its UniqueID.
+ * @param {ClubCard} card - The card object containing UniqueID and Location.
+ * @returns {{x: number, y: number, w: number} | null} - The calculated position or null if not found.
+ */
+function ClubCardCalculateHandPosition(card) {
+	if (!card || !card.Location) return null;
+
+	let playerIndex = (card.Location === "PlayerHand") ? 0 : 1;
+	let cardArray = ClubCardPlayer[playerIndex].Hand;
+	let X = 0, Y = (playerIndex === 0) ? 800 : -200, W = 1700, H = 300;
+
+	if (!cardArray || cardArray.length === 0) return null;
+
+	const index = cardArray.findIndex(c => c.UniqueID === card.UniqueID);
+	if (index === -1) return null;
+
+	let PosX = Math.round(X + (W / 2) - (cardArray.length * W / 16));
+	let IncX = Math.round(W / 8);
+
+	if (PosX < X) {
+		PosX = X;
+		IncX = Math.round(W / cardArray.length);
+	}
+
+	const cardX = PosX + (index * IncX) + 5;
+	const cardY = Y + 5 + (H * 0.1);
+	const cardW = (W / 10) - 5;
+
+	return { x: cardX, y: cardY, w: cardW };
+}
+
+/**
+ * Calculates the position of a card on the player's or opponent's board based on its UniqueID.
+ * @param {ClubCard} card - The card object containing UniqueID and Location.
+ * @returns {{x: number, y: number, w: number} | null} - The calculated position or null if not found.
+ */
+function ClubCardCalculateBoardPosition(card) {
+	if (!card || !card.Location) return null;
+
+	let playerIndex = (card.Location === "PlayerBoard") ? 0 : 1;
+	let cardArray = [...ClubCardPlayer[playerIndex].Board, ...(ClubCardPlayer[playerIndex].Event || [])];
+	let X = 0, Y = (playerIndex === 0) ? 500 : 0, W = 1700, H = 500, Mirror = (playerIndex === 1);
+
+	if (!cardArray || cardArray.length === 0) return null;
+
+	const index = cardArray.findIndex(c => c.UniqueID === card.UniqueID);
+	if (index === -1) return null;
+
+	let PosX = Math.round(X + (W / 2) - (cardArray.length * W / 20));
+	let IncX = Math.round(W / 10);
+
+	if (PosX < X) {
+		PosX = X;
+		IncX = Math.round(W / cardArray.length);
+	}
+
+	let PosY = Mirror ? Y + H - (H * 0.65) : Y + (H * 0.1);
+
+	const cardX = PosX + (index * IncX) + 5;
+	const cardW = (W / 12) - 5;
+
+	return { x: cardX, y: PosY, w: cardW };
+}
+
+/**
+ * Updates the positions of all active card animations.
+ *
+ * This function is called every frame within `ClubCardRun()` to animate cards smoothly.
+ * It updates the position of each animated card based on the elapsed time and removes
+ * completed animations from the `activeAnimations` array.
+ *
+ * @param {number} Timestamp - The current timestamp provided by `GameRun()`, ensuring synchronization with the game loop.
+ *
+ * **How it works:**
+ * 1. Loops through all active animations in `activeAnimations`.
+ * 2. Calculates the progress (0 to 1) of the animation based on elapsed time.
+ * 3. Applies an ease-in-out effect for smoother movement.
+ * 4️. Updates the card's position (`CurrentX`, `CurrentY`, `CurrentW`).
+ * 5️. Once the animation is complete:
+ *     - Restores the card’s visibility and state.
+ *     - Restores the original card’s visibility if needed.
+ *     - Calls `onComplete()` if provided.
+ *     - Removes the animation from `activeAnimations`.
+ */
+function ClubCardUpdateCardAnimations(Timestamp) {
+	ClubCardActiveAnimations = ClubCardActiveAnimations.filter(animation => {
+		let elapsed = Timestamp - animation.StartTime;
+		let progress = Math.min(elapsed / animation.Duration, 1);
+
+		let easedProgress = progress < 0.5
+			? 2 * progress * progress
+			: 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+		let currentX = animation.StartPosition.x + (animation.EndPosition.x - animation.StartPosition.x) * easedProgress;
+		let currentY = animation.StartPosition.y + (animation.EndPosition.y - animation.StartPosition.y) * easedProgress;
+		let currentW = animation.StartPosition.w + (animation.EndPosition.w - animation.StartPosition.w) * easedProgress;
+
+		ClubCardRenderCard(animation.Card, currentX, currentY, currentW, null, null, true);
+
+		if (progress >= 1) {
+			clearTimeout(animation.SafetyTimeout);
+
+			animation.Card.IsVisible = true;
+			animation.Card.AnimationState = "idle";
+
+			if (animation.OriginalCard && !animation.KeepOriginalHidden) {
+				animation.OriginalCard.IsVisible = true;
+				animation.OriginalCard.AnimationState = "idle";
+			}
+
+			if (typeof animation.OnComplete === "function") animation.OnComplete(animation.Card);
+			return false;
+		}
+
+		return true;
+	});
+}
+
+
+/**
+ * Moves a card between predefined positions (Preview, Hand, Pending).
+ * Handles both animation of a copy and visibility of the original card.
+ * @param {ClubCard} card - The card being moved.
+ * @param {number} priority - Animation rendering level priority
+ * @param {Object} startPosition - The starting position {x, y, w}.
+ * @param {Object} endPosition - The target position {x, y, w}.
+ * @param {boolean} hideOriginal - Whether to hide the original card during animation.
+ * @param {boolean} keepOriginalHidden - If true, the original card stays hidden after animation.
+ * @param {Function|null} [onStart] - Function called before the animation starts.
+ * @param {Function|null} [onComplete] - Function called after the animation completes.
+ * @param {number} [duration=200] - Animation duration in milliseconds.
+ */
+function ClubCardMoveCard(card, priority,startPosition, endPosition, hideOriginal = false, keepOriginalHidden = false, onStart = null, onComplete = null, duration = 200) {
+	if (!card || (card.AnimationState && card.AnimationState == "moving")) return;
+	card.AnimationState = "moving";
+	card.IsVisible = false;
+
+	const originalCard = ClubCardGetOriginalCard(card);
+
+	if (hideOriginal && originalCard) {
+		originalCard.IsVisible = false;
+		originalCard.AnimationState = "moving";
+	}
+
+	if (typeof onStart === "function") onStart();
+
+	const safetyTimeout = setTimeout(() => {
+		console.warn(`⚠️ Fallback: Restore ${card.Name} state manually!`);
+		if (originalCard && !keepOriginalHidden) {
+			originalCard.IsVisible = true;
+			originalCard.AnimationState = "idle";
+		}
+		card.AnimationState = "idle";
+	}, duration + 50);
+
+	ClubCardActiveAnimations.push({
+		Card: card,
+		Priority: priority,
+		OriginalCard: originalCard,
+		StartTime: performance.now(),
+		Duration: duration,
+		StartPosition: startPosition,
+		EndPosition: endPosition,
+		HideOriginal: hideOriginal,
+		KeepOriginalHidden: keepOriginalHidden,
+		SafetyTimeout: safetyTimeout,
+		OnComplete: onComplete
+	});
+}
+
+/**
+ * Moves a card to the preview position (original card stays hidden after).
+ */
+function ClubCardMoveCardToPreview(card, onStart = null, onComplete = null, duration = 200) {
+	ClubCardMoveCard(card,
+		1,
+		{ x: card.CurrentX, y: card.CurrentY, w: card.CurrentW },
+		ClubCardPreviewPosition,
+		true,
+		true,
+		onStart,
+		onComplete,
+		duration);
+}
+
+/**
+ * Returns a card from preview back to its original position.
+ */
+function ClubCardReturnCardFromPreview(card, onStart = null, onComplete = null, duration = 200) {
+	const originalCard = ClubCardGetOriginalCard(card);
+
+	ClubCardMoveCard(card,
+		1,
+		ClubCardPreviewPosition,
+		{ x: originalCard.CurrentX, y: originalCard.CurrentY, w: originalCard.CurrentW },
+		false,
+		false,
+		onStart,
+		onComplete,
+		duration);
+}
+
+/**
+ * Returns a card from pending state back to its original position.
+ */
+function ClubCardReturnCardFromPending(card, onStart = null, onComplete = null, duration = 200) {
+	const originalCard = ClubCardGetOriginalCard(card);
+
+	ClubCardMoveCard(card,
+		1,
+		ClubCardPendingPosition,
+		{ x: originalCard.CurrentX, y: originalCard.CurrentY, w: originalCard.CurrentW },
+		false,
+		false,
+		onStart,
+		onComplete,
+		duration);
+}
+
+/**
+ * Moves a card from preview to pending state.
+ * @param {ClubCard} card - The card to be moved.
+ * @param {Function|null} [onStart] - A function called before the animation starts.
+ * @param {Function|null} [onComplete] - A function called after the animation completes.
+ * @param {number} [duration=150] - The animation duration in milliseconds.
+ */
+function ClubCardMoveCardToPending(card, onStart = null, onComplete = null, duration = 200) {
+	ClubCardMoveCard(card,
+		1,
+		ClubCardPreviewPosition,
+		ClubCardPendingPosition,
+		false,
+		true,
+		onStart,
+		onComplete,
+		duration);
+}
+
+// #endregion ### ### ### ### ### ### ###
+
 /**
  * Draw the club card player hand on screen, show only sleeves if not controlled by player
  * @param {ClubCard|Number} Card - The card to draw
@@ -4417,7 +4772,7 @@ function ClubCardGetGroupText(Group) {
  * @param {string|null} Source - The source from where it's called
  * @returns {void} - Nothing
  */
-function ClubCardRenderCard(Card, X, Y, W, Sleeve = null, Source = null) {
+function ClubCardRenderCard(Card, X, Y, W, Sleeve = null, Source = null, isIgnoreIsVisibility = false) {
 
 	// Make sure the card object is valid, find it in the list if possible
 	if (Card == null) return;
@@ -4431,6 +4786,21 @@ function ClubCardRenderCard(Card, X, Y, W, Sleeve = null, Source = null) {
 	}
 	if (typeof Card !== "object") return;
 
+	//Save Current Card coordinates
+	if (Card.CurrentX !== X || Card.CurrentY !== Y || Card.CurrentW !== W) {
+		Card.CurrentX = X;
+		Card.CurrentY = Y;
+		Card.CurrentW = W;
+	}
+
+	if (Source && Card.Location !== Source) {
+		Card.Location = Source;
+	}
+
+	//Check isVisibility
+	if (isIgnoreIsVisibility == false)
+		if (Card.IsVisible == false)
+			return;
 	// Draw the sleeved version if required
 	if (Sleeve != null) {
 		DrawImageResize("Screens/MiniGame/ClubCard/Sleeve/" + Sleeve + ".png", X, Y, W, W * 2);
@@ -4438,9 +4808,11 @@ function ClubCardRenderCard(Card, X, Y, W, Sleeve = null, Source = null) {
 	}
 
 	// Keeps the hover card
-	if (MouseIn(X, Y, W, W * 2)) {
-		ClubCardHover = { ...Card };
-		ClubCardHover.Location = Source;
+	if (Card.AnimationState != "moving") {
+		if (MouseIn(X, Y, W, W * 2)) {
+			ClubCardHover = { ...Card };
+			ClubCardHover.Location = Source;
+		}
 	}
 
 	// Gets the text and frame color
@@ -4511,26 +4883,55 @@ function ClubCardRenderBoard(CCPlayer, X, Y, W, H, Mirror) {
 	if (CCPlayer.Level != null) DrawTextWrap(TextGet("Level" + CCPlayer.Level) + " (" + CCPlayer.Board.length + " / " + ClubCardLevelLimit[CCPlayer.Level] + ")", X + W * 0.81, TextY, W * 0.19, H * 0.1, ClubCardColor[CCPlayer.Level]);
 
 	// Draws the played cards
-	if ((CCPlayer == null) || (CCPlayer.Board == null)) return;
-	let FullBoard = [];
-	FullBoard = [...CCPlayer.Board];
-	if ((CCPlayer.Event != null) && (CCPlayer.Event.length > 0)) FullBoard = FullBoard.concat(CCPlayer.Event);
+	if (!CCPlayer || !CCPlayer.Board) return;
+
+	let FullBoard = [...CCPlayer.Board, ...(CCPlayer.Event || [])];
+	const isEqualBoard = CCPlayer.RenderFullBoard.length === FullBoard.length
+		&& CCPlayer.RenderFullBoard.every((card, index) => card.UniqueID === FullBoard[index].UniqueID);
+	let remainingCards = [];
+
+	if (!isEqualBoard) {
+		remainingCards = CCPlayer.RenderFullBoard
+			.filter(oldCard => FullBoard.some(newCard => newCard.UniqueID === oldCard.UniqueID))
+			.map(oldCard => ({ ...oldCard }));
+	}
+
 	let PosX = Math.round(X + (W / 2) - (FullBoard.length * W / 20));
 	let IncX = Math.round(W / 10);
 	if (PosX < X) {
 		PosX = X;
 		IncX = Math.round(W / FullBoard.length);
 	}
+
 	for (let C of FullBoard) {
 		let PosY = Mirror ? Y + H - (H * 0.65) : Y + (H * 0.1);
-		ClubCardRenderCard(C, PosX + 5, PosY, (W / 12) - 5, null, (CCPlayer.Control == "Player") ? "PlayerBoard" : "OpponentBoard");
-		PosX = PosX + IncX;
+		C.CurrentX = PosX + 5;
+		C.CurrentY = PosY;
+		C.CurrentW = (W / 12) - 5;
+		PosX += IncX;
 	}
+
+	if (!isEqualBoard) {
+		//########### Record animations for the new card positions
+		remainingCards.forEach(copyCard => {
+			const originalCard = ClubCardGetOriginalCard(copyCard);
+			if (!originalCard) return;
+
+			const startPosition = { x: copyCard.CurrentX, y: copyCard.CurrentY, w: copyCard.CurrentW };
+			const endPosition = { x: originalCard.CurrentX, y: originalCard.CurrentY, w: originalCard.CurrentW };
+
+			ClubCardMoveCard(copyCard, 0, startPosition, endPosition, true, false, null, null, 300);
+		});
+	}
+
+	CCPlayer.RenderFullBoard = [...FullBoard];
+
+	for (let C of CCPlayer.RenderFullBoard)
+		ClubCardRenderCard(C, C.CurrentX, C.CurrentY, C.CurrentW, null, (CCPlayer.Control === "Player") ? "PlayerBoard" : "OpponentBoard");
 
 	// Puts a shadow over the board if not playing
 	MainCanvas.font = CommonGetFont(36);
 	if (CCPlayer.Index != ClubCardTurnIndex) DrawRect(X, Y, W, H, "#0000007F");
-
 }
 
 /**
@@ -4551,7 +4952,9 @@ function ClubCardRenderHand(CCPlayer, X, Y, W, H) {
 		IncX = Math.round(W / CCPlayer.Hand.length);
 	}
 	for (let C of CCPlayer.Hand) {
-		ClubCardRenderCard(C, PosX + 5, Y + 5 + (H * 0.1), (W / 10) - 5, (CCPlayer.Control == "Player") ? null : (ClubCardNameIsOnBoard(CCPlayer, "Show Dog") ? null : CCPlayer.Sleeve), (CCPlayer.Control == "Player") ? "PlayerHand" : "OpponentHand");
+		const isSleeve = (CCPlayer.Control == "Player") ? null : (ClubCardNameIsOnBoard(CCPlayer, "Show Dog") ? null : CCPlayer.Sleeve);
+		const source = (CCPlayer.Control == "Player") ? "PlayerHand" : "OpponentHand";
+		ClubCardRenderCard(C, PosX + 5, Y + 5 + (H * 0.1), (W / 10) - 5, isSleeve, source);
 		PosX = PosX + IncX;
 	}
 }
@@ -4672,7 +5075,8 @@ function ClubCardRenderPanel() {
 	if (ClubCardPending != null) {
 		DrawButton(1805, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/CancelPending.png", TextGet("CancelPending"));
 		ClubCardRenderCard(ClubCardPending, 975, 400, 100);
-		if (ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) DrawButton(725, 505, 215, 50, TextGet("SelectCard"), "White");
+		if (ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus))
+			if(ClubCardFocus.IsVisible) DrawButton(725, 505, 215, 50, TextGet("SelectCard"), "White");
 		return;
 	}
 
@@ -4689,7 +5093,8 @@ function ClubCardRenderPanel() {
 	if ((ClubCardPopup == null) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")) {
 		DrawButton(1805, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/Bankrupt.png", TextGet("Bankrupt"));
 		ClubCardDrawButton();
-		if (ClubCardCanPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) DrawButton(725, 505, 215, 50, TextGet("PlayCard"), "White");
+		if (ClubCardCanPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus))
+			if(ClubCardFocus.IsVisible != false) DrawButton(725, 505, 215, 50, TextGet("PlayCard"), "White");
 	} else ClubCardStatusText(ClubCardIsPlaying() ? "OpponentPlaying" : "WatchingGame");
 	DrawButton(5, 450, 45, 45, null, "White", "Screens/MiniGame/ClubCard/Button/DiscardPile.png", TextGet("OpponentDiscardPile"));
 	DrawButton(5, 505, 45, 45, null, "White", "Screens/MiniGame/ClubCard/Button/DiscardPile.png", TextGet("DiscardPile"));
@@ -4848,9 +5253,10 @@ function ClubCardRenderPopup() {
 
 /**
  * Runs the club card game, draws all the controls
+ * @param {number} Timestamp - The current timestamp from GameRun(), used for animation timing.
  * @returns {void} - Nothing
  */
-function ClubCardRun() {
+function ClubCardRun(Timestamp) {
 	ClubCardHover = null;
 	ClubCardLoadCaption();
 	ClubCardRenderBoard(ClubCardPlayer[0], 0, 500, 1700, 500, false);
@@ -4858,16 +5264,18 @@ function ClubCardRun() {
 	DrawRect(0, 499, 1700, 2, "White");
 	ClubCardRenderHand(ClubCardPlayer[0], 0, 800, 1700, 300);
 	ClubCardRenderHand(ClubCardPlayer[1], 0, -200, 1700, 300);
+	ClubCardUpdateCardAnimations(Timestamp);
 	ClubCardRenderPanel();
+
 	ClubCardBackground = Player.Game.ClubCard.Background ? Player.Game.ClubCard.Background : "ClubCardPlayBoard1";
-	if (
-		(ClubCardPopup == null) &&
+	const isLvlUpButtonRender = ClubCardPopup == null &&
 		(ClubCardPlayer[ClubCardTurnIndex].Control == "Player") &&
 		(ClubCardPlayer[ClubCardTurnIndex].Level < ClubCardLevelCost.length - 1) &&
 		(ClubCardPlayer[ClubCardTurnIndex].Money >= ClubCardCalculateLevelCost(ClubCardPlayer[ClubCardTurnIndex])) &&
 		// Homeroom stops players leveling up
-		!(ClubCardEventNameIsInEvents(ClubCardPlayer[0], "Homeroom") || ClubCardEventNameIsInEvents(ClubCardPlayer[1], "Homeroom"))
-	) {
+		!(ClubCardEventNameIsInEvents(ClubCardPlayer[0], "Homeroom") || ClubCardEventNameIsInEvents(ClubCardPlayer[1], "Homeroom"));
+
+	if (isLvlUpButtonRender) {
 		const buttonText = TextGet("UpgradeToLevel" + (ClubCardPlayer[ClubCardTurnIndex].Level + 1).toString());
 		DrawButton(
 			1390,
@@ -4878,6 +5286,7 @@ function ClubCardRun() {
 			"White"
 		);
 	}
+
 	ClubCardRenderPopup();
 }
 
@@ -4913,11 +5322,32 @@ function ClubCardClick() {
 	}
 
 	// If there's a pending card with a prerequisite, there are extra buttons
-	if ((ClubCardPending != null) && MouseIn(725, 505, 215, 50) && ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) return ClubCardSelectCard(ClubCardFocus);
-	if ((ClubCardPending != null) && MouseIn(1805, 905, 90, 90)) return ClubCardPending = null;
+	if ((ClubCardPending != null) && MouseIn(725, 505, 215, 50) && ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus))
+	{
+		//### Play Select card when Pendind Card is Active
+		const originalCard = ClubCardGetOriginalCard(ClubCardFocus);
+		originalCard.IsVisible = true;
+		//###
+		return ClubCardSelectCard(ClubCardFocus);
+	}
+	if ((ClubCardPending != null) && MouseIn(1805, 905, 90, 90)) {
+		if (ClubCardFocus) {
+			if (ClubCardFocus.AnimationState != "idle") return;
+			const focusCard = { ...ClubCardFocus};
+			ClubCardFocus = null;
+			ClubCardReturnCardFromPreview(focusCard);
+		}
+
+		const card = { ...ClubCardPending};
+		ClubCardPending = null;
+		ClubCardReturnCardFromPending(card);
+
+		// If there is a card currently in focus, return it to the hand
+		return;
+	}
 
 	// Can always concede/exit
-	if (MouseIn(1905, 905, 90, 90)) return ClubCardCreatePopup("YESNO", TextGet(ClubCardIsPlaying() ? "ConfirmConcede" : "ConfirmExit"), TextGet("Yes"), TextGet("No"), "ClubCardConcede()", "ClubCardDestroyPopup()");
+	if (MouseIn(1905, 905, 90, 90) && !ClubCardPending) return ClubCardCreatePopup("YESNO", TextGet(ClubCardIsPlaying() ? "ConfirmConcede" : "ConfirmExit"), TextGet("Yes"), TextGet("No"), "ClubCardConcede()", "ClubCardDestroyPopup()");
 
 	// If we are waiting for deck selection
 	if ((ClubCardPlayer[0].FullDeck == null) || (ClubCardPlayer[0].FullDeck.length == 0) || (ClubCardPlayer[1].FullDeck == null) || (ClubCardPlayer[1].FullDeck.length == 0)) return;
@@ -4925,11 +5355,21 @@ function ClubCardClick() {
 	// Runs the basic game buttons
 
 	//Play Card
-	if (MouseIn(725, 505, 215, 50) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") && ClubCardCanPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) return ClubCardStartTurn(ClubCardStartTurnType.PLAYCARD);
+	if (MouseIn(725, 505, 215, 50) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") && ClubCardCanPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) {
+		//###Play Card Animation
+
+		//###
+		return ClubCardStartTurn(ClubCardStartTurnType.PLAYCARD);
+	}
 	// Click on an empty space to reset the focus of the selected Card.
-	if (MouseIn(700, 245, 260, 510) && (ClubCardFocus != null)) return ClubCardFocus = null;
+	if (MouseIn(700, 245, 260, 510) && ClubCardFocus != null && ClubCardFocus.AnimationState != "moving") {
+		const card = { ...ClubCardFocus };
+		ClubCardFocus = null;
+		ClubCardReturnCardFromPreview(card);
+		return;
+	}
 	// Draw card and end turn
-	if (MouseIn(1705, 905, 90, 90) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")) return ClubCardStartTurn(ClubCardStartTurnType.DRAWENDTURN);
+	if (MouseIn(1705, 905, 90, 90) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") && !ClubCardPending) return ClubCardStartTurn(ClubCardStartTurnType.DRAWENDTURN);
 	// Open Bancrupt window and bind function close and bancrupt in yes and no
 	if (MouseIn(1805, 905, 90, 90) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")) return ClubCardCreatePopup("YESNO", TextGet("ConfirmBankrupt"), TextGet("Yes"), TextGet("No"), "ClubCardStartTurn()", "ClubCardDestroyPopup()");
 	// Upgrade lvl Club
@@ -4940,11 +5380,24 @@ function ClubCardClick() {
 	if (MouseIn(5, 505, 45, 45)) return ClubCardCreatePopup("DISCARDPILE", null, TextGet("Close"), null, "ClubCardDestroyPopup()", null);
 
 	// Sets the focus card if nothing else was clicked
-	if (ClubCardHover != null) {
-		ClubCardFocus = { ...ClubCardHover };
-		return;
-	}
+	if (ClubCardHover && ClubCardHover.AnimationState !== "moving") {
+		// If the hovered card is already pending, do nothing
+		if (ClubCardPending && ClubCardPending.UniqueID === ClubCardHover.UniqueID) return;
+		// Check if the focus card needs to change
+		if (!ClubCardFocus || ClubCardFocus.UniqueID !== ClubCardHover.UniqueID) {
 
+			// If there is a card currently in focus, return it to the hand
+			if (ClubCardFocus) {
+				if (ClubCardFocus.AnimationState != "idle") return;
+				ClubCardReturnCardFromPreview(ClubCardFocus);
+			}
+
+			const card = { ...ClubCardHover};
+			ClubCardFocus = card;
+			ClubCardMoveCardToPreview(card);
+			return;
+		}
+	}
 }
 
 /**
