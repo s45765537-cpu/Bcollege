@@ -409,18 +409,18 @@ function ElementRemove(ID) {
 
 /**
  * Draws an existing HTML element at a specific position within the document. The element is "centered" on the given coordinates by dividing its height and width by two.
- * @param {string} ElementID - The id of the input tag to (re-)position.
+ * @param {string | HTMLElement} ElementOrID - The id of the input tag to (re-)position.
  * @param {number} X - Center point of the element on the X axis.
  * @param {number} Y - Center point of the element on the Y axis.
  * @param {number} W - Width of the element.
  * @param {number} [H] - Height of the element.
  * @returns {void} - Nothing
  */
-function ElementPosition(ElementID, X, Y, W, H) {
-	var E = document.getElementById(ElementID);
+function ElementPosition(ElementOrID, X, Y, W, H) {
+	const E = typeof ElementOrID === "string" ? document.getElementById(ElementOrID) : ElementOrID;
 
 	if (!E) {
-		console.warn("A call to ElementPosition was made on non-existent element with ID '" + ElementID + "'");
+		console.warn("A call to ElementPosition was made on non-existent element with ID '" + ElementOrID + "'");
 		return;
 	}
 
