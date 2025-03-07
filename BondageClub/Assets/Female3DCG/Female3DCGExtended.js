@@ -4414,6 +4414,7 @@ var AssetFemale3DCGExtended = {
 									"ItemHoodBlanketHood",
 									"ItemHoodCollarHood",
 									"ItemHoodCorsetHood",
+									"ItemHoodCreepyIronMask",
 									"ItemHoodCustomLatexHood",
 									"ItemHoodDogHood",
 									"ItemHoodFestivalFoxMask",
@@ -8928,6 +8929,87 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // Kigu2Hood
+		CreepyIronMask: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChangeWhenLocked: false,
+			Modules: [
+				{
+					Name: "Mode",
+					Key: "m",
+					Options: [
+						{
+							// Mask
+							Property: {},
+						},
+						{
+							// Hood
+							Property: {
+								Effect: [E.BlockMouth],
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+								],
+							},
+						},
+					],
+				},
+				{
+					Name: "Blindfold",
+					Key: "b",
+					Options: [
+						{
+							// None
+							Property: { Effect: [] },
+						},
+						{
+							// Partial blindfold
+							Property: {
+								Effect: [E.BlindLight],
+							},
+						},
+						{
+							// Blindfold
+							Property: {
+								Effect: [E.BlindHeavy],
+							},
+						},
+					],
+				},
+				{
+					Name: "Spike",
+					Key: "s",
+					Options: [
+						{
+							// None
+							Property: { Effect: [] },
+						},
+						{
+							// NeckSpikes
+							Property: { Effect: [] },
+						},
+					],
+				},
+				{
+					Name: "Nose",
+					Key: "n",
+					Options: [
+						{
+							// None
+							Property: { Effect: [] },
+						},
+						{
+							// NoseGuard
+							Property: {
+								Effect: [],
+								Block:["ItemNose"],
+								Hide: ["ItemNose"],
+							},
+						},
+					],
+				},
+			],
+		}, // CreepyIronMask
 	}, // ItemHood
 	Jewelry: {
 		JewelrySet: {
@@ -13876,6 +13958,19 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // AOMGag
+		HorrorMuzzle: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "None",
+					Property: {},
+				},
+				{
+					Name: "Rivets",
+					Property: { Difficulty: 3 },
+				},
+			],
+		}, // HorrorMuzzle
 	}, // ItemMouth
 	ItemMouth2: {
 		ClothGag: {
@@ -14051,6 +14146,10 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "AOMGag" },
 		}, // AOMGag
+		HorrorMuzzle: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "HorrorMuzzle" },
+		}, // HorrorMuzzle
 	}, // ItemMouth2
 	ItemMouth3: {
 		ClothGag: {
@@ -14222,6 +14321,10 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "AOMGag" },
 		}, // AOMGag
+		HorrorMuzzle: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "HorrorMuzzle" },
+		}, // HorrorMuzzle
 	}, // ItemMouth3
 	Mask: {
 		BunnyMask1: {

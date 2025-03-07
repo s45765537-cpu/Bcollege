@@ -36,6 +36,7 @@ var AudioList = [
 	{ Name: "DuctTapeRollShort", File: "DuctTapeRollShort" },
 	{ Name: "Inflation", File: "Inflation" },
 	{ Name: "MetalCuffs", File: "MetalCuffs" },
+	{ Name: "LeatherStretching1", File: "LeatherStretching1" },
 	{ Name: "LockLarge", File: "LockLarge" },
 	{ Name: "LockSmall", File: "LockSmall" },
 	{ Name: "RopeLong", File: ["RopeLong1", "RopeLong2", "RopeLong3"] },
