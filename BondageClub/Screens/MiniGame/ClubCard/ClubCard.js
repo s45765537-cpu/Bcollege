@@ -4813,7 +4813,6 @@ function ClubCardRenderCard(Card, X, Y, W, Sleeve = null, Source = null, isIgnor
 		if (MouseIn(X, Y, W, W * 2)) {
 			ClubCardHover = { ...Card };
 			ClubCardHover.Location = Source;
-			console.log(`${Card.Location}`);
 		}
 	}
 
@@ -5307,7 +5306,14 @@ function ClubCardClick() {
 	}
 
 	// If there's a pending card with a prerequisite, there are extra buttons
-	if ((ClubCardPending != null) && MouseIn(725, 505, 215, 50) && ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) return ClubCardSelectCard(ClubCardFocus);
+	if ((ClubCardPending != null) && MouseIn(725, 505, 215, 50) && ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus))
+	{
+		//### Play Select card when Pendind Card is Active
+		const originalCard = ClubCardGetOriginalCard(ClubCardFocus);
+		originalCard.IsVisible = true;
+		//###
+		return ClubCardSelectCard(ClubCardFocus);
+	}
 	if ((ClubCardPending != null) && MouseIn(1805, 905, 90, 90)) {
 		if (ClubCardFocus) {
 			if (ClubCardFocus.AnimationState != "idle") return;
@@ -5333,7 +5339,12 @@ function ClubCardClick() {
 	// Runs the basic game buttons
 
 	//Play Card
-	if (MouseIn(725, 505, 215, 50) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") && ClubCardCanPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) return ClubCardStartTurn(ClubCardStartTurnType.PLAYCARD);
+	if (MouseIn(725, 505, 215, 50) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") && ClubCardCanPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) {
+		//###Play Card Animation
+
+		//###
+		return ClubCardStartTurn(ClubCardStartTurnType.PLAYCARD);
+	}
 	// Click on an empty space to reset the focus of the selected Card.
 	if (MouseIn(700, 245, 260, 510) && ClubCardFocus != null && ClubCardFocus.AnimationState != "moving") {
 		const card = { ...ClubCardFocus };
