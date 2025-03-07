@@ -311,106 +311,63 @@ function PreferenceArousalIsActive() {
  * @returns {void} - Nothing
  */
 function PreferenceInit(C) {
-	C.ArousalSettings = ValdiationApplyRecord(C.ArousalSettings, C, PreferenceArousalSettingsValidate);
-}
-
-/**
- * Initialise a Gender setting
- * @returns {GenderSetting} - The setting to use
- */
-function PreferenceInitGenderSetting() {
-	return {
-		Female: false,
-		Male: false
-	};
+	C.ArousalSettings = ValidationApplyRecord(C.ArousalSettings, C, PreferenceArousalSettingsValidate);
 }
 
 /**
  * Initialize and validates Player settings
+ * @param {PlayerCharacter} C
+ * @param {Partial<ServerAccountData>} data
  * @returns {void} - Nothing
  */
-function PreferenceInitPlayer() {
-	const C = Player;
+function PreferenceInitPlayer(C, data) {
 
 	/**
 	 * Save settings for comparison
 	 * @satisfies {Partial<Record<keyof ServerAccountData, string>>}
 	 */
 	const PrefBefore = {
-		ArousalSettings: JSON.stringify(C.ArousalSettings) || "",
-		ChatSettings: JSON.stringify(C.ChatSettings) || "",
-		VisualSettings: JSON.stringify(C.VisualSettings) || "",
-		AudioSettings: JSON.stringify(C.AudioSettings) || "",
-		ControllerSettings: JSON.stringify(C.ControllerSettings) || "",
-		GameplaySettings: JSON.stringify(C.GameplaySettings) || "",
-		ImmersionSettings: JSON.stringify(C.ImmersionSettings) || "",
-		RestrictionSettings: JSON.stringify(C.RestrictionSettings) || "",
-		OnlineSettings: JSON.stringify(C.OnlineSettings) || "",
-		OnlineSharedSettings: JSON.stringify(C.OnlineSharedSettings) || "",
-		GraphicsSettings: JSON.stringify(C.GraphicsSettings) || "",
-		NotificationSettings: JSON.stringify(C.NotificationSettings) || "",
-		GenderSettings: JSON.stringify(C.GenderSettings) || "",
-		LabelColor: JSON.stringify(C.LabelColor) || "",
+		ArousalSettings: JSON.stringify(data.ArousalSettings) ?? "",
+		ChatSettings: JSON.stringify(data.ChatSettings) ?? "",
+		VisualSettings: JSON.stringify(data.VisualSettings) ?? "",
+		AudioSettings: JSON.stringify(data.AudioSettings) ?? "",
+		ControllerSettings: JSON.stringify(data.ControllerSettings) ?? "",
+		GameplaySettings: JSON.stringify(data.GameplaySettings) ?? "",
+		ImmersionSettings: JSON.stringify(data.ImmersionSettings) ?? "",
+		RestrictionSettings: JSON.stringify(data.RestrictionSettings) ?? "",
+		OnlineSettings: JSON.stringify(data.OnlineSettings) ?? "",
+		OnlineSharedSettings: JSON.stringify(data.OnlineSharedSettings) ?? "",
+		GraphicsSettings: JSON.stringify(data.GraphicsSettings) ?? "",
+		NotificationSettings: JSON.stringify(data.NotificationSettings) ?? "",
+		GenderSettings: JSON.stringify(data.GenderSettings) ?? "",
+		LabelColor: JSON.stringify(data.LabelColor) ?? "",
 	};
 
-	// Non-player specific settings
-	PreferenceInit(C);
+	C.LabelColor = CommonIsColor(data.LabelColor) ? data.LabelColor ?? "" : "#ffffff";
+	C.ItemPermission = data.ItemPermission ?? 2;
 
-	// If the settings aren't set before, construct them to replicate the default behavior
 
-	if (!CommonIsColor(C.LabelColor)) C.LabelColor = "#ffffff";
+	C.ArousalSettings = ValidationApplyRecord(data.ArousalSettings, C, PreferenceArousalSettingsValidate);
+	C.AudioSettings = ValidationApplyRecord(data.AudioSettings, C, PreferenceAudioSettingsValidate);
 
-	// Chat settings
-	// @ts-ignore: Individual properties validated separately
-	if (!C.ChatSettings) C.ChatSettings = {};
-	if (typeof C.ChatSettings.ColorActions !== "boolean") C.ChatSettings.ColorActions = true;
-	if (typeof C.ChatSettings.ColorActivities !== "boolean") C.ChatSettings.ColorActivities = true;
-	if (typeof C.ChatSettings.ColorEmotes !== "boolean") C.ChatSettings.ColorEmotes = true;
-	if (typeof C.ChatSettings.ColorNames !== "boolean") C.ChatSettings.ColorNames = true;
-	if (typeof C.ChatSettings.ColorTheme !== "string") C.ChatSettings.ColorTheme = "Light";
-	if (typeof C.ChatSettings.DisplayTimestamps !== "boolean") C.ChatSettings.DisplayTimestamps = true;
-	if (typeof C.ChatSettings.EnterLeave !== "string") C.ChatSettings.EnterLeave = "Normal";
-	if (typeof C.ChatSettings.FontSize !== "string") C.ChatSettings.FontSize = "Medium";
-	if (typeof C.ChatSettings.MemberNumbers !== "string") C.ChatSettings.MemberNumbers = "Always";
-	if (typeof C.ChatSettings.MuStylePoses !== "boolean") C.ChatSettings.MuStylePoses = false;
-	if (typeof C.ChatSettings.ShowActivities !== "boolean") C.ChatSettings.ShowActivities = true;
-	if (typeof C.ChatSettings.ShowAutomaticMessages !== "boolean") C.ChatSettings.ShowAutomaticMessages = false;
-	if (typeof C.ChatSettings.ShowBeepChat !== "boolean") C.ChatSettings.ShowBeepChat = true;
-	if (typeof C.ChatSettings.ShowChatHelp !== "boolean") C.ChatSettings.ShowChatHelp = true;
-	if (typeof C.ChatSettings.ShrinkNonDialogue !== "boolean") C.ChatSettings.ShrinkNonDialogue = false;
-	if (typeof C.ChatSettings.WhiteSpace !== "string") C.ChatSettings.WhiteSpace = "Preserve";
-	if (typeof C.ChatSettings.CensoredWordsList !== "string") C.ChatSettings.CensoredWordsList = "";
-	if (typeof C.ChatSettings.CensoredWordsLevel !== "number") C.ChatSettings.CensoredWordsLevel = 0;
-	if (typeof C.ChatSettings.PreserveChat !== "boolean") C.ChatSettings.PreserveChat = true;
-	if (typeof C.ChatSettings.OOCAutoClose !== "boolean") C.ChatSettings.OOCAutoClose = true;
-
-	// Visual settings
-	// @ts-ignore: Individual properties validated separately
-	if (!C.VisualSettings) C.VisualSettings = {};
-	if (typeof C.VisualSettings.ForceFullHeight !== "boolean") C.VisualSettings.ForceFullHeight = false;
-	if (typeof C.VisualSettings.UseCharacterInPreviews !== "boolean") C.VisualSettings.UseCharacterInPreviews = false;
-
-	// Audio settings
-	// @ts-ignore: Individual properties validated separately
-	if (!C.AudioSettings) C.AudioSettings = {};
-	if (typeof C.AudioSettings.Volume !== "number") C.AudioSettings.Volume = 1;
-	if (typeof C.AudioSettings.MusicVolume !== "number") C.AudioSettings.MusicVolume = 1;
-	if (typeof C.AudioSettings.PlayBeeps !== "boolean") C.AudioSettings.PlayBeeps = false;
-	if (typeof C.AudioSettings.PlayItem !== "boolean") C.AudioSettings.PlayItem = false;
-	if (typeof C.AudioSettings.PlayItemPlayerOnly !== "boolean") C.AudioSettings.PlayItemPlayerOnly = false;
-	if (typeof C.AudioSettings.Notifications !== "boolean") C.AudioSettings.Notifications = false;
-
-	// Controller settings
-	// @ts-ignore: Individual properties validated separately
-	if (!C.ControllerSettings) C.ControllerSettings = {};
-	if (typeof C.ControllerSettings.ControllerActive !== "boolean") C.ControllerSettings.ControllerActive = false;
-	if (typeof C.ControllerSettings.ControllerSensitivity !== "number") C.ControllerSettings.ControllerSensitivity = 5;
-	if (typeof C.ControllerSettings.ControllerDeadZone !== "number") C.ControllerSettings.ControllerDeadZone = 0.01;
+	// @ts-ignore: Just backward-compat cleanup
+	delete data.ChatSettings?.AutoBanBlackList;
+	// @ts-ignore: Just backward-compat cleanup
+	delete data.ChatSettings?.AutoBanGhostList;
+	// @ts-ignore: Just backward-compat cleanup
+	delete data.ChatSettings?.SearchFriendsFirst;
+	// @ts-ignore: Just backward-compat cleanup
+	delete data.ChatSettings?.DisableAnimations;
+	// @ts-ignore: Just backward-compat cleanup
+	delete data.ChatSettings?.SearchShowsFullRooms;
+	// @ts-ignore: Just backward-compat cleanup
+	delete data.OnlineSettings?.EnableWardrobeIcon;
+	C.ChatSettings = ValidationApplyRecord(data.ChatSettings, C, PreferenceChatSettingsValidate);
 
 	// @ts-expect-error: checking for old-style mapping
-	if (typeof C.ControllerSettings.ControllerA === "number") {
+	if (data.ControllerSettings && typeof data.ControllerSettings?.ControllerA === "number") {
 		// Port over to new mapping
-		const s = /** @type {ControllerSettingsOld} */(/** @type {unknown} */(C.ControllerSettings));
+		const s = /** @type {ControllerSettingsOld} */(/** @type {unknown} */(data.ControllerSettings));
 		const buttonsMapping = {
 			[ControllerButton.A]: s.ControllerA,
 			[ControllerButton.B]: s.ControllerB,
@@ -442,145 +399,73 @@ function PreferenceInitPlayer() {
 			"ControllerDPadRight",
 		];
 		for (const old of oldKeys) {
-			delete C.ControllerSettings[old];
+			delete data.ControllerSettings[old];
 		}
-	} else if (typeof C.ControllerSettings.Buttons === "object") {
-		ControllerLoadMapping(C.ControllerSettings.Buttons, C.ControllerSettings.Axis);
+		// @ts-expect-error we don't have all the buttons
+		data.ControllerSettings.Buttons = buttonsMapping;
+		// @ts-expect-error we don't have all the axis
+		data.ControllerSettings.Axis = axisMapping;
 	}
 
-	ControllerSensitivity = C.ControllerSettings.ControllerSensitivity;
-	ControllerDeadZone = C.ControllerSettings.ControllerDeadZone;
-	PreferenceSettingsSensitivityIndex = PreferenceSettingsSensitivityList.indexOf(Player.ControllerSettings.ControllerSensitivity);
-	PreferenceSettingsDeadZoneIndex = PreferenceSettingsDeadZoneList.indexOf(Player.ControllerSettings.ControllerDeadZone);
+	C.ControllerSettings = ValidationApplyRecord(data.ControllerSettings, C, PreferenceControllerSettingsValidate);
+	ControllerLoadMapping(C.ControllerSettings.Buttons, C.ControllerSettings.Axis);
 
 	ControllerStart();
 
-	// Gameplay settings
-	// @ts-ignore: Individual properties validated separately
-	if (!C.GameplaySettings) C.GameplaySettings = {};
-	if (typeof C.GameplaySettings.SensDepChatLog !== "string") C.GameplaySettings.SensDepChatLog = "Normal";
-	if (typeof C.GameplaySettings.BlindDisableExamine !== "boolean") C.GameplaySettings.BlindDisableExamine = false;
-	if (typeof C.GameplaySettings.DisableAutoRemoveLogin !== "boolean") C.GameplaySettings.DisableAutoRemoveLogin = false;
-	if (typeof C.GameplaySettings.ImmersionLockSetting !== "boolean") C.GameplaySettings.ImmersionLockSetting = false;
-	if (typeof C.GameplaySettings.EnableSafeword !== "boolean") C.GameplaySettings.EnableSafeword = true;
-	if (typeof C.GameplaySettings.DisableAutoMaid !== "boolean") C.GameplaySettings.DisableAutoMaid = false;
-	if (typeof C.GameplaySettings.OfflineLockedRestrained !== "boolean") C.GameplaySettings.OfflineLockedRestrained = false;
+	C.GameplaySettings = ValidationApplyRecord(data.GameplaySettings, C, PreferenceGameplaySettingsValidate);
+	C.GraphicsSettings = ValidationApplyRecord(data.GraphicsSettings, C, PreferenceGraphicsSettingsValidate);
+	C.GenderSettings = ValidationApplyRecord(data.GenderSettings, C, PreferenceGenderSettingsValidate);
+	C.ImmersionSettings = ValidationApplyRecord(data.ImmersionSettings, C, PreferenceImmersionSettingsValidate);
+	C.OnlineSettings = ValidationApplyRecord(data.OnlineSettings, C, PreferenceOnlineSettingsValidate);
+	C.OnlineSharedSettings = ValidationApplyRecord(data.OnlineSharedSettings, C, PreferenceOnlineSharedSettingsValidate, true);
+	C.RestrictionSettings = ValidationApplyRecord(data.RestrictionSettings, C, PreferenceRestrictionSettingsValidate);
+	C.VisualSettings = ValidationApplyRecord(data.VisualSettings, C, PreferenceVisualSettingsValidate);
 
-	// Immersion settings
-	// @ts-ignore: Individual properties validated separately
-	if (!C.ImmersionSettings) C.ImmersionSettings = {};
-	if (typeof C.ImmersionSettings.BlockGaggedOOC !== "undefined") delete C.ImmersionSettings.BlockGaggedOOC;
-	if (typeof C.ImmersionSettings.StimulationEvents !== "boolean") C.ImmersionSettings.StimulationEvents = true;
-	if (typeof C.ImmersionSettings.ReturnToChatRoom !== "boolean") C.ImmersionSettings.ReturnToChatRoom = false;
-	if (typeof C.ImmersionSettings.ReturnToChatRoomAdmin !== "boolean") C.ImmersionSettings.ReturnToChatRoomAdmin = false;
-	if (typeof C.ImmersionSettings.ChatRoomMapLeaveOnExit !== "boolean") C.ImmersionSettings.ChatRoomMapLeaveOnExit = false;
-	if (typeof C.ImmersionSettings.SenseDepMessages !== "boolean") C.ImmersionSettings.SenseDepMessages = false;
-	if (typeof C.ImmersionSettings.ChatRoomMuffle !== "boolean") C.ImmersionSettings.ChatRoomMuffle = false;
-	if (typeof C.ImmersionSettings.BlindAdjacent !== "boolean") C.ImmersionSettings.BlindAdjacent = false;
-	if (typeof C.ImmersionSettings.AllowTints !== "boolean") C.ImmersionSettings.AllowTints = true;
-	if (typeof C.ImmersionSettings.ShowUngarbledMessages !== "boolean") C.ImmersionSettings.ShowUngarbledMessages = true;
-
-	// Misc
-	if (!ChatRoomValidateProperties(C.LastChatRoom)) C.LastChatRoom = null;
-
-	// Restriction settings
-	// @ts-ignore: Individual properties validated separately
-	if (!C.RestrictionSettings) C.RestrictionSettings = {};
-	if (typeof C.RestrictionSettings.BypassStruggle !== "boolean") C.RestrictionSettings.BypassStruggle = false;
-	if (typeof C.RestrictionSettings.SlowImmunity !== "boolean") C.RestrictionSettings.SlowImmunity = false;
-	if (typeof C.RestrictionSettings.BypassNPCPunishments !== "boolean") C.RestrictionSettings.BypassNPCPunishments = false;
-	if (typeof C.RestrictionSettings.NoSpeechGarble !== "boolean") C.RestrictionSettings.NoSpeechGarble = false;
-
-	// Online settings
-	// @ts-ignore: Individual properties validated separately
-	if (!C.OnlineSettings) C.OnlineSettings = {};
-	if (typeof C.OnlineSettings.AutoBanBlackList !== "boolean") C.OnlineSettings.AutoBanBlackList = false;
-	if (typeof C.OnlineSettings.AutoBanGhostList !== "boolean") C.OnlineSettings.AutoBanGhostList = true;
-	if (typeof C.OnlineSettings.DisableAnimations !== "boolean") C.OnlineSettings.DisableAnimations = false;
-	if (typeof C.OnlineSettings.SearchShowsFullRooms !== "boolean") C.OnlineSettings.SearchShowsFullRooms = true;
-	if (typeof C.OnlineSettings.SearchFriendsFirst !== "boolean") C.OnlineSettings.SearchFriendsFirst = false;
-	if (typeof C.OnlineSettings.EnableAfkTimer !== "boolean") C.OnlineSettings.EnableAfkTimer = true;
-	if (typeof C.OnlineSettings.ShowStatus !== "boolean") C.OnlineSettings.ShowStatus = true;
-	if (typeof C.OnlineSettings.SendStatus !== "boolean") C.OnlineSettings.SendStatus = true;
-	if (typeof C.OnlineSettings.FriendListAutoRefresh !== "boolean") C.OnlineSettings.FriendListAutoRefresh = true;
-
-	// Delete old improper settings.
-	delete C.ChatSettings.AutoBanBlackList;
-	delete C.ChatSettings.AutoBanGhostList;
-	delete C.ChatSettings.SearchFriendsFirst;
-	delete C.ChatSettings.DisableAnimations;
-	delete C.ChatSettings.SearchShowsFullRooms;
-	// @ts-ignore: Just backward-compat cleanup
-	delete C.OnlineSettings.EnableWardrobeIcon;
-
-	// Onilne shared settings
-	C.OnlineSharedSettings = ValdiationApplyRecord(C.OnlineSharedSettings, C, PreferenceOnlineSharedSettingsValidate, true);
-
-	if (typeof C.OnlineSettings.ShowRoomCustomization !== "number") C.OnlineSettings.ShowRoomCustomization = 1;
-
-	// Graphical settings
-	// @ts-ignore: Individual properties validated separately
-	if (!C.GraphicsSettings) C.GraphicsSettings = {};
-	if (typeof C.GraphicsSettings.Font !== "string") C.GraphicsSettings.Font = "Arial";
-	if (typeof C.GraphicsSettings.InvertRoom !== "boolean") C.GraphicsSettings.InvertRoom = true;
-	if (typeof C.GraphicsSettings.StimulationFlash !== "boolean") C.GraphicsSettings.StimulationFlash = false;
-	if (typeof C.GraphicsSettings.DoBlindFlash !== "boolean") C.GraphicsSettings.DoBlindFlash = false;
-	if (typeof C.GraphicsSettings.AnimationQuality !== "number") C.GraphicsSettings.AnimationQuality = 100;
-	if (typeof C.GraphicsSettings.SmoothZoom !== "boolean") C.GraphicsSettings.SmoothZoom = true;
-	if (typeof C.GraphicsSettings.CenterChatrooms !== "boolean") C.GraphicsSettings.CenterChatrooms = true;
-	if (typeof C.GraphicsSettings.AllowBlur !== "boolean") C.GraphicsSettings.AllowBlur = true;
-	if (!PreferenceGraphicsFrameLimit.includes(C.GraphicsSettings.MaxFPS)) C.GraphicsSettings.MaxFPS = DEFAULT_FRAMERATE;
-	if (!PreferenceGraphicsFrameLimit.includes(C.GraphicsSettings.MaxUnfocusedFPS)) C.GraphicsSettings.MaxUnfocusedFPS = 0;
-	if (typeof C.GraphicsSettings.ShowFPS !== "boolean") C.GraphicsSettings.ShowFPS = false;
-
-	// Notification settings
-	let NS = C.NotificationSettings;
-	// @ts-ignore: Individual properties validated separately
-	if (!NS) NS = {};
-	const defaultAudio = typeof NS.Audio === "boolean" && NS.Audio ? NotificationAudioType.FIRST : NotificationAudioType.NONE;
-	if (typeof NS.Beeps !== "object") NS.Beeps = PreferenceInitNotificationSetting(NS.Beeps, defaultAudio, NotificationAlertType.POPUP);
-	if (typeof NS.Chat !== "undefined") { NS.ChatMessage = NS.Chat; delete NS.Chat; }
-	if (typeof NS.ChatMessage !== "object") NS.ChatMessage = PreferenceInitNotificationSetting(NS.ChatMessage, defaultAudio);
-	if (typeof NS.ChatMessage.IncludeActions === "boolean") {
-		// Convert old version of settings
+	// Convert old version of notification settings
+	let NS = /** @type {Partial<NotificationSettingsType>} */ (data.NotificationSettings ?? {});
+	if (typeof NS.ChatMessage?.IncludeActions === "boolean") {
 		const chatMessagesEnabled = NS.ChatMessage.AlertType !== NotificationAudioType.NONE;
 		NS.ChatMessage.Normal = chatMessagesEnabled;
 		NS.ChatMessage.Whisper = chatMessagesEnabled;
 		NS.ChatMessage.Activity = chatMessagesEnabled && NS.ChatMessage.IncludeActions;
 		delete NS.ChatMessage.IncludeActions;
 	}
-	if (typeof NS.ChatMessage.Normal !== "boolean") NS.ChatMessage.Normal = true;
-	if (typeof NS.ChatMessage.Whisper !== "boolean") NS.ChatMessage.Whisper = true;
-	if (typeof NS.ChatMessage.Activity !== "boolean") NS.ChatMessage.Activity = false;
 	if (typeof NS.ChatActions !== "undefined") delete NS.ChatActions;
-	if (typeof NS.ChatJoin !== "object") NS.ChatJoin = PreferenceInitNotificationSetting(NS.ChatJoin, defaultAudio);
-	if (typeof NS.ChatJoin.Enabled !== "undefined") {
+
+	const defaultAudio = typeof NS.Audio === "boolean" && NS.Audio ? NotificationAudioType.FIRST : NotificationAudioType.NONE;
+	if (typeof NS.Audio !== "undefined") delete NS.Audio;
+
+	if (typeof NS.ChatJoin?.Enabled !== "undefined") {
 		// Convert old version of settings
 		NS.ChatJoin.AlertType = NS.ChatJoin.Enabled ? NotificationAlertType.TITLEPREFIX : NotificationAlertType.NONE;
 		NS.ChatJoin.Audio = NotificationAudioType.NONE;
 		delete NS.ChatJoin.Enabled;
 	}
+	if (typeof NS.Chat !== "undefined") { NS.ChatMessage = NS.Chat; delete NS.Chat; }
+
+	if (typeof NS.Beeps !== "object") NS.Beeps = PreferenceInitNotificationSetting(NS.Beeps, defaultAudio, NotificationAlertType.POPUP);
+	// @ts-expect-error object gets its missing properties afterwards
+	if (typeof NS.ChatMessage !== "object") NS.ChatMessage = PreferenceInitNotificationSetting(NS.ChatMessage, defaultAudio);
+	if (typeof NS.ChatMessage.Normal !== "boolean") NS.ChatMessage.Normal = true;
+	if (typeof NS.ChatMessage.Whisper !== "boolean") NS.ChatMessage.Whisper = true;
+	if (typeof NS.ChatMessage.Activity !== "boolean") NS.ChatMessage.Activity = false;
+	// @ts-expect-error object gets its missing properties afterwards
+	if (typeof NS.ChatJoin !== "object") NS.ChatJoin = PreferenceInitNotificationSetting(NS.ChatJoin, defaultAudio);
 	if (typeof NS.ChatJoin.Owner !== "boolean") NS.ChatJoin.Owner = false;
 	if (typeof NS.ChatJoin.Lovers !== "boolean") NS.ChatJoin.Lovers = false;
 	if (typeof NS.ChatJoin.Friendlist !== "boolean") NS.ChatJoin.Friendlist = false;
 	if (typeof NS.ChatJoin.Subs !== "boolean") NS.ChatJoin.Subs = false;
-	if (typeof NS.Audio !== "undefined") delete NS.Audio;
 	if (typeof NS.Disconnect !== "object") NS.Disconnect = PreferenceInitNotificationSetting(NS.Disconnect, defaultAudio);
 	if (typeof NS.Larp !== "object") NS.Larp = PreferenceInitNotificationSetting(NS.Larp, defaultAudio, NotificationAlertType.NONE);
 	if (typeof NS.Test !== "object") NS.Test = PreferenceInitNotificationSetting(NS.Test, defaultAudio, NotificationAlertType.TITLEPREFIX);
-	C.NotificationSettings = NS;
+	data.NotificationSettings = /** @type {NotificationSettingsType} */ (NS);
 
-	// Graphical settings
-	// @ts-ignore: Individual properties validated separately
-	if (!C.GenderSettings) C.GenderSettings = {};
-	if (typeof C.GenderSettings.AutoJoinSearch !== "object") C.GenderSettings.AutoJoinSearch = PreferenceInitGenderSetting();
-	if (typeof C.GenderSettings.HideShopItems !== "object") C.GenderSettings.HideShopItems = PreferenceInitGenderSetting();
-	if (typeof C.GenderSettings.HideTitles !== "object") C.GenderSettings.HideTitles = PreferenceInitGenderSetting();
+	C.NotificationSettings = ValidationApplyRecord(data.NotificationSettings, C, PreferenceNotificationSettingsValidate);
 
 	// Forces some preferences depending on difficulty
 
 	// Difficulty: non-Roleplay settings
-	if (C.GetDifficulty() >= 1) {
+	if (C.GetDifficulty() >= Difficulty.REGULAR) {
 		C.RestrictionSettings.BypassStruggle = false;
 		C.RestrictionSettings.SlowImmunity = false;
 		C.RestrictionSettings.BypassNPCPunishments = false;
@@ -588,14 +473,14 @@ function PreferenceInitPlayer() {
 	}
 
 	// Difficulty: Hardcore settings
-	if (C.GetDifficulty() >= 2) {
+	if (C.GetDifficulty() >= Difficulty.HARDCORE) {
 		C.GameplaySettings.EnableSafeword = false;
 		C.GameplaySettings.DisableAutoMaid = true;
 		C.GameplaySettings.OfflineLockedRestrained = true;
 	}
 
 	// Difficulty: Extreme settings
-	if (C.GetDifficulty() >= 3) {
+	if (C.GetDifficulty() >= Difficulty.EXTREME) {
 		PreferenceSettingsSensDepIndex = PreferenceSettingsSensDepList.length - 1;
 		C.GameplaySettings.SensDepChatLog = PreferenceSettingsSensDepList[PreferenceSettingsSensDepIndex];
 		C.GameplaySettings.BlindDisableExamine = true;
@@ -615,37 +500,34 @@ function PreferenceInitPlayer() {
 		C.OnlineSharedSettings.AllowRename = true;
 	}
 
-	// Enables the AFK timer for the current player only
-	AfkTimerSetEnabled(C.OnlineSettings.EnableAfkTimer);
-
 	// Sync settings if anything changed
 	/** @type {{ [k in keyof typeof PrefBefore]?: PlayerCharacter[k] }} */
 	const toUpdate = {};
 
 	for (const prop of Object.keys(PrefBefore))
-		if (PrefBefore[prop] !== JSON.stringify(C[prop]))
-			toUpdate[prop] = C[prop];
+		if (PrefBefore[prop] !== JSON.stringify(data[prop]))
+			toUpdate[prop] = data[prop];
 
 	if (Object.keys(toUpdate).length > 0)
 		ServerAccountUpdate.QueueData(toUpdate);
 
-	PreferenceValidateArousalData(Player);
+	PreferenceValidateArousalData(C);
 
 }
 
 /**
  * Initialise the Notifications settings, converting the old boolean types to objects
- * @param {object} setting - The old version of the setting
+ * @param {boolean} setting - The old version of the setting
  * @param {NotificationAudioType} audio - The audio setting
  * @param {NotificationAlertType} [defaultAlertType] - The default AlertType to use
  * @returns {NotificationSetting} - The setting to use
  */
 function PreferenceInitNotificationSetting(setting, audio, defaultAlertType) {
-	const alertType = typeof setting === "boolean" && setting === true ? NotificationAlertType.TITLEPREFIX : defaultAlertType || NotificationAlertType.NONE;
-	setting = {};
-	setting.AlertType = alertType;
-	setting.Audio = audio;
-	return setting;
+	const alertType = typeof setting === "boolean" && setting === true ? NotificationAlertType.TITLEPREFIX : defaultAlertType ?? NotificationAlertType.NONE;
+	return {
+		AlertType: alertType,
+		Audio: audio,
+	};
 }
 
 /**

@@ -198,6 +198,7 @@ function ControllerIsActive() {
  * @param {Partial<Record<ControllerAxis, number>>} axisMapping
  */
 function ControllerLoadMapping(buttonsMapping, axisMapping) {
+	if (!buttonsMapping || !axisMapping) return;
 	if (ControllerIsActive()) {
 		for (const gamepad of navigator.getGamepads()) {
 			if (!gamepad) continue;

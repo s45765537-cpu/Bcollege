@@ -1736,7 +1736,7 @@ function InventoryIsKey(Item) {
 /**
  * Serialises the provided character's inventory into a string for easy comparisons, inventory items are uniquely
  * identified by their name and group
- * @param {Character} C - The character whose inventory we should serialise
+ * @param {PlayerCharacter} C - The character whose inventory we should serialise
  * @return {string} - A simple string representation of the character's inventory
  */
 function InventoryStringify(C) {

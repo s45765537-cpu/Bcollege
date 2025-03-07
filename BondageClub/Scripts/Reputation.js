@@ -48,7 +48,7 @@ function ReputationChange(RepType, RepValue, Push) {
 
 /**
  * Loads the reputation data from the server
- * @param {readonly Reputation[]} NewRep - The array of reputation-value pairs to load for the current player
+ * @param {readonly Reputation[]|undefined} NewRep - The array of reputation-value pairs to load for the current player
  * @returns {void} - Nothing
  */
 function ReputationLoad(NewRep) {

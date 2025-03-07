@@ -70,7 +70,7 @@ function SkillChange(C, SkillType, SkillLevel, Progress, Push) {
 
 /**
  * Loads the skill data from the server on login
- * @param {readonly Skill[]} NewSkill - The player skills array sent by the server
+ * @param {readonly Skill[] | undefined} NewSkill - The player skills array sent by the server
  * @returns {void} - Nothing
  */
 function SkillLoad(NewSkill) {

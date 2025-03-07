@@ -489,7 +489,7 @@ function CommonTime() {
 
 /**
  * Checks if a given value is a valid HEX color code
- * @param {string} Value - Potential HEX color code
+ * @param {string | undefined} Value - Potential HEX color code
  * @returns {boolean} - Returns TRUE if the string is a valid HEX color
  */
 function CommonIsColor(Value) {
