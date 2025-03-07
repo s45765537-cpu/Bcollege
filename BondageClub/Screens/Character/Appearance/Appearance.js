@@ -1135,11 +1135,11 @@ function CharacterAppearanceSetItem(C, Group, ItemAsset, NewColor, DifficultyFac
 	/** @type {null | Item} */
 	let NA = null;
 	if (ItemAsset != null) {
+		/** @type {Item} */
 		NA = {
 			Asset: ItemAsset,
 			Difficulty: parseInt((ItemAsset.Difficulty == null) ? 0 : ItemAsset.Difficulty) + parseInt(DifficultyFactor),
 			Color: ((NewColor == null) ? ItemColor : NewColor),
-			Property: ItemAsset.CharacterRestricted ? {ItemMemberNumber: ItemMemberNumber == null ? -1 : ItemMemberNumber} : undefined
 		};
 		ExtendedItemInit(C, NA, false, false);
 		C.Appearance.push(NA);

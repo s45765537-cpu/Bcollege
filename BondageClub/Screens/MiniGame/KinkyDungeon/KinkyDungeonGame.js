@@ -3979,7 +3979,6 @@ function KDAddAppearance(C, Group, ItemAsset, NewColor, DifficultyFactor, ItemMe
 			Asset: ItemAsset,
 			Difficulty: parseInt((ItemAsset.Difficulty == null) ? 0 : ItemAsset.Difficulty) + parseInt(DifficultyFactor),
 			Color: data.color,
-			Property: ItemAsset.CharacterRestricted ? {ItemMemberNumber: ItemMemberNumber == null ? -1 : ItemMemberNumber} : undefined
 		};
 		C.Appearance.push(NA);
 		return NA;

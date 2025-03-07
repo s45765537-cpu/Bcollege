@@ -1194,7 +1194,16 @@ interface Asset {
 	readonly DynamicGroupName: AssetGroupName;
 	readonly DynamicActivity: (C: Character) => ActivityName | null | undefined;
 	readonly DynamicAudio: ((C: Character) => string) | null;
-	readonly CharacterRestricted: boolean;
+	/**
+	 * Whether the asset is restricted to a given character.
+	 *
+	 * When the asset is added to a character, the member number of the character using the
+	 * asset will be stored along in its properties, and all subsequent modifications will
+	 * only be possible for that character.
+	 *
+	 * @deprecated Discontinued in favor of the {@link FamilyOnly}/{@link LoverOnly}/{@link OwnerOnly} trio
+	 */
+	readonly CharacterRestricted?: never;
 	readonly AllowRemoveExclusive: boolean;
 	readonly InheritColor: null | AssetGroupName;
 	readonly DynamicBeforeDraw: boolean;
@@ -2953,8 +2962,10 @@ interface ItemPropertiesCustom {
 	/**
 	 * The member number of the player adding the item.
 	 * Only set if the asset is marked as {@link AssetDefinition.CharacterRestricted}.
+	 *
+	 * @deprecated Discontinued in favor of the {@link Asset.FamilyOnly}/{@link Asset.LoverOnly}/{@link Asset.OwnerOnly} trio
 	 */
-	ItemMemberNumber?: number;
+	ItemMemberNumber?: never;
 
 	//#region Lock properties
 
