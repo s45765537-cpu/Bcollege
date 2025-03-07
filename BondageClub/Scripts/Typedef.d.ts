@@ -320,7 +320,7 @@ type DialogSortOrder = | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 
 type DialogStruggleActionType = "ActionUse" | "ActionSwap" | "ActionRemove" | "ActionUnlock" | "ActionUnlockAndRemove" | "ActionStruggle" | "ActionEscape" | "ActionDismount";
 
-type CharacterType = "online" | "npc" | "simple";
+type CharacterType = "player" | "online" | "npc" | "simple";
 
 type CharacterPronouns = "SheHer" | "HeHim";
 

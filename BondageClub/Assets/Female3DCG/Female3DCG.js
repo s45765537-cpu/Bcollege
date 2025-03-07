@@ -8876,7 +8876,6 @@ var AssetFemale3DCG = [
 				Block: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				Audio: "Buckle",
 				DefaultColor: ["#454545","#909090"],
-				Audio: "Buckle",
 				Layer: [
 					{
 						Name: "Main",

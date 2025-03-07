@@ -595,7 +595,7 @@ function CharacterAppearanceSetHeightModifiers(C) {
 	}
 
 	// Set the height ratio here to avoid lookin it up when drawing. The setting can make all characters full height
-	C.HeightRatio = Player.VisualSettings.ForceFullHeight ? 1 : CharacterAppearanceGetCurrentValue(C, "Height", "Zoom");
+	C.HeightRatio = Player.CharacterID === "" || Player.VisualSettings.ForceFullHeight ? 1 : CharacterAppearanceGetCurrentValue(C, "Height", "Zoom");
 }
 
 /**
@@ -689,7 +689,7 @@ function AppearanceLoad() {
 	CharacterAppearanceBuildAssets(Player);
 	CharacterAppearanceBackup = CharacterAppearanceStringify(C);
 	AppearanceMenuBuild(C);
-	AppearanceUseCharacterInPreviewsSetting = Player.VisualSettings.UseCharacterInPreviews;
+	AppearanceUseCharacterInPreviewsSetting = Player.CharacterID !== "" ? Player.VisualSettings.UseCharacterInPreviews : false;
 }
 
 /**
@@ -1693,7 +1693,7 @@ function CharacterAppearanceClose() {
 	CharacterAppearanceHeaderText = "";
 	AppearancePreviewCleanup();
 	CharacterAppearanceWardrobeName = "";
-	if (Player.VisualSettings && AppearanceUseCharacterInPreviewsSetting !== Player.VisualSettings.UseCharacterInPreviews) {
+	if (Player.IsPlayer() && Player.CharacterID !== "" && AppearanceUseCharacterInPreviewsSetting !== Player.VisualSettings.UseCharacterInPreviews) {
 		Player.VisualSettings.UseCharacterInPreviews = AppearanceUseCharacterInPreviewsSetting;
 		ServerAccountUpdate.QueueData({ VisualSettings: Player.VisualSettings });
 	}
