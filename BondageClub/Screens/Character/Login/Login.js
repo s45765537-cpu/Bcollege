@@ -191,10 +191,7 @@ function LoginRun() {
 	DrawText(TextGet("Welcome"), 1000, 50, "White", "Black");
 	DrawText(LoginGetStatus() ?? TextGet("EnterNamePassword"), 1000, 100, "White", "Black");
 	DrawText(TextGet("AccountName"), 1000, 200, "White", "Black");
-	ElementPosition("InputName", 1000, 260, 500);
 	DrawText(TextGet("Password"), 1000, 350, "White", "Black");
-	ElementPosition("InputPassword", 1000, 410, 500);
-	ElementPosition("LanguageDropdown", 1145, 530, 255, 60);
 	DrawButton(725, 500, 255, 60, TextGet("Login"), CanLogin ? "White" : "Grey", "");
 	DrawText(TextGet("CreateNewCharacter"), 1000, 670, "White", "Black");
 	DrawButton(825, 710, 350, 60, TextGet("NewCharacter"), CanLogin ? "White" : "Grey", "");
@@ -207,6 +204,16 @@ function LoginRun() {
 	DrawImage("Screens/" + CurrentModule + "/" + CurrentScreen + "/Bubble.png", 1400, 16);
 	DrawText(TextGet("ThankYou") + " " + LoginThankYou, 1625, 53, "Black", "Gray");
 
+}
+
+/** @type {ScreenFunctions["Resize"]} */
+function LoginResize(load) {
+	ElementPosition("InputPassword", 1000, 410, 500);
+	ElementPosition("InputName", 1000, 260, 500);
+
+	const langSelect = document.getElementById("LanguageDropdown");
+	ElementPosition(langSelect, 1145, 530, 255, 60);
+	langSelect?.style.setProperty("font-family", `"Twemoji Country Flags", ${langSelect.style.fontFamily}`);
 }
 
 /**
