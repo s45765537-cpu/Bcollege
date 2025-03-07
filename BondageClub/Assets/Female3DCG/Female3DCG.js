@@ -43444,6 +43444,7 @@ var AssetFemale3DCG = [
 					AssetName: "TonguePiercingGag",
 					BuyGroup: true,
 				},
+				Block: ["ItemMouth", "ItemMouth3"],
 			},
 			{
 				Name: "TongueStrapGag",
@@ -45568,6 +45569,7 @@ var AssetFemale3DCG = [
 					AssetName: "TonguePiercingGag",
 					BuyGroup: true,
 				},
+				Block: ["ItemMouth", "ItemMouth2"],
 			},
 			{
 				Name: "TongueStrapGag",
