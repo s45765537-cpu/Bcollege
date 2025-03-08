@@ -16117,6 +16117,14 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#DDB792", "#BC9768", "#A99777"],
 				Layer: [{ Name: "Main" }, { Name: "Lenses" }, { Name: "Acc" }],
 			},
+			{
+				Name: "RoundSunglasses",
+				Left: 182,
+				Extended: true,
+				CreateLayerTypes: ["typed"],
+				DefaultColor: ["#928D7C", "#A89A6C", "#BBAC83"],
+				Layer: [{ Name: "Frame" }, { Name: "Lenses" }, { Name: "Nose" }],
+			},
 		],
 		Color: [
 			"Default",
