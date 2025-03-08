@@ -97,21 +97,6 @@
 	padding: 3px;
 	padding-right: var(--scrollbar-gutter);
 	grid-area: dialog-grid;
-	scroll-snap-type: y proximity;
-	scroll-padding: 3px;
-	scrollbar-gutter: stable;
-	scrollbar-color: rgb(149, 149, 149) rgb(0, 0, 0, 0.7);
-}
-
-@media (hover: hover) {
-	.dialog-grid {
-		scrollbar-color: rgb(149, 149, 149, 0.9) rgb(0, 0, 0, 0.4);
-		transition: scrollbar-color 0.3s ease;
-	}
-
-	.dialog-grid:hover {
-		scrollbar-color: rgb(149, 149, 149) rgb(0, 0, 0, 0.7);
-	}
 }
 
 .dialog-root[data-show-icon] {
