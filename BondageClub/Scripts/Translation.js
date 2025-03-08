@@ -1288,6 +1288,7 @@ function TranslationNextLanguage() {
  * @param {ServerChatRoomLanguage | "TW"} languageCode
  */
 function TranslationSwitchLanguage(languageCode) {
+	TranslationLanguage = languageCode;
 	localStorage.setItem("BondageClubLanguage", languageCode);
 }
 
