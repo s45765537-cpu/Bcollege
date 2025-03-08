@@ -131,8 +131,7 @@
 	--tooltip-gap: var(--gap);
 
 	width: calc(400% + 4 * min(0.2vh, 0.1vw) + 3 * var(--gap));
-	font-size: min(2.6vh, 1.3vw);
-	font-size: min(2.6dvh, 1.3dvw);
+	font-size: 0.65em;
 	max-height: calc(2 * var(--button-height) + var(--gap));
 	display: -webkit-box;
 	line-clamp: 15;
