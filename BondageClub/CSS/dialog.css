@@ -82,12 +82,11 @@
 	color: white;
 	user-select: none;
 
-	min-height: 1.2em; /* 1 line */
-	max-height: 4.8em; /* 4 lines */
+	min-height: 1.15em; /* 1 line */
+	max-height: 4.6em; /* 4 lines */
 	align-self: center;
 	justify-self: center;
 	grid-area: dialog-status;
-	line-height: 1.2em;
 }
 
 .dialog-grid {
@@ -293,8 +292,8 @@
 }
 
 #dialog-dialog-status {
-	min-height: 3.6em; /* 3 lines */
-	max-height: 7.2em; /* 6 lines */
+	min-height: 3.45em; /* 3 lines */
+	max-height: 7.9em; /* 6 lines */
 }
 
 #dialog-dialog-grid {
@@ -306,8 +305,8 @@
 	width: 100%;
 	min-height: var(--menu-button-size);
 	height: min-content;
-	padding-top: 0.2em;
-	padding-bottom: 0.2em;
+	padding-top: 0.15em;
+	padding-bottom: 0.15em;
 	margin-block: calc(var(--gap) / 2);
 }
 
@@ -317,7 +316,7 @@
 
 .dialog-dialog-button > .button-label {
 	position: unset;
-	padding-inline: 0.2em 0.2em;
+	padding-inline: 0.15em 0.15em;
 }
 
 @supports(height: 100dvh) {
