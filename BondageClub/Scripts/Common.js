@@ -361,7 +361,8 @@ function CommonDynamicFunctionParams(FunctionName) {
 	// Gets the real function name and parameters
 	var openParenthesisIndex = FunctionName.indexOf("(");
 	var closedParenthesisIndex = FunctionName.indexOf(")", openParenthesisIndex);
-	var Params = FunctionName.substring(openParenthesisIndex + 1, closedParenthesisIndex).split(",");
+	var ParamsString = FunctionName.substring(openParenthesisIndex + 1, closedParenthesisIndex);
+	var Params = ParamsString.length === 0 ? [] : ParamsString.split(",");
 	for (let P = 0; P < Params.length; P++)
 		Params[P] = Params[P].trim().replace('"', '').replace('"', '');
 	FunctionName = FunctionName.substring(0, openParenthesisIndex);
