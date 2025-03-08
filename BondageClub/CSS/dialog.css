@@ -322,7 +322,7 @@
 
 @supports(height: 100dvh) {
 	.dialog-root {
-		--menu-button-size: min(9dvh, 4.5dvw);
+		--menu-button-size: min(9dvh, 3.9dvw);
 		--button-height: calc(min(25dvh, 12.5dvw) - 2px);
 		--gap: min(2dvh, 1dvw);
 	}
