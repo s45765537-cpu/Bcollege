@@ -273,7 +273,7 @@
 #dialog-dialog {
 	grid-template:
 		". dialog-status dialog-menubar" min-content
-		"dialog-paginate dialog-grid dialog-grid" auto / var(--menu-button-size) auto calc(var(--menu-button-size) + 3px + var(--scrollbar-gutter));
+		"dialog-paginate dialog-grid dialog-grid" calc(6px + 7 * var(--menu-button-size) + 6 * var(--gap)) / var(--menu-button-size) auto calc(var(--menu-button-size) + 3px + var(--scrollbar-gutter));
 }
 
 #dialog-dialog-status {
@@ -293,6 +293,17 @@
 	padding-top: 0.15em;
 	padding-bottom: 0.15em;
 	margin-block: calc(var(--gap) / 2);
+}
+
+/* For browsers that support https://caniuse.com/css-nth-child-of */
+@supports selector(:nth-child(1 of :not([data-unload]))) {
+	.dialog-dialog-button:nth-child(1 of :not([data-unload])) {
+		margin-top: unset;
+	}
+
+	.dialog-dialog-button:nth-last-child(1 of :not([data-unload])) {
+		margin-bottom: unset;
+	}
 }
 
 .dialog-dialog-button[data-unload] {

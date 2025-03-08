@@ -2798,7 +2798,7 @@ class DialogMenu {
 	 * @readonly
 	 * @type {Readonly<RectTuple>}
 	 */
-	defaultShape = Object.freeze([1005, 120, 995, 857]);
+	defaultShape = Object.freeze([1005, 107, 995, 857]);
 
 	/**
 	 * See {@link DialogMenu.C}
