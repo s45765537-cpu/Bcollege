@@ -270,9 +270,10 @@
 }
 
 #dialog-dialog {
+	--dialog-button-size: min(8vh, 4vw);
 	grid-template:
 		". dialog-status dialog-menubar" min-content
-		"dialog-paginate dialog-grid dialog-grid" calc(6px + 7 * var(--menu-button-size) + 6 * var(--gap)) / var(--menu-button-size) auto calc(var(--menu-button-size) + 3px + var(--scrollbar-gutter));
+		"dialog-paginate dialog-grid dialog-grid" calc(6px + 8 * var(--dialog-button-size) + 7 * var(--gap)) / var(--menu-button-size) auto calc(var(--menu-button-size) + 3px + var(--scrollbar-gutter));
 }
 
 #dialog-dialog-status {
@@ -287,7 +288,7 @@
 
 .dialog-dialog-button {
 	width: 100%;
-	min-height: var(--menu-button-size);
+	min-height: var(--dialog-button-size);
 	height: min-content;
 	padding-top: 0.15em;
 	padding-bottom: 0.15em;
@@ -316,9 +317,13 @@
 
 @supports(height: 100dvh) {
 	.dialog-root {
-		--menu-button-size: min(9dvh, 3.9dvw);
+		--menu-button-size: min(9dvh, 4.5dvw);
 		--button-height: calc(min(25dvh, 12.5dvw) - 2px);
 		--gap: min(2dvh, 1dvw);
+	}
+
+	#dialog-dialog {
+		--dialog-button-size: min(8dvh, 4dvw);
 	}
 
 	.dialog-grid-button > .button-tooltip {
