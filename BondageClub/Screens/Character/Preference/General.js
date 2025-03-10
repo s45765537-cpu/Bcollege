@@ -103,17 +103,10 @@ function PreferenceSubscreenGeneralClick() {
 }
 
 /**
- * Exits the preference screen.
+ * Exits the preference screen. Block exit when the color picker is active.
+ * @returns {boolean} - Returns false if the color picker is active and input is not valid
  */
 function PreferenceSubscreenGeneralExit() {
-	return true;
-}
-
-/**
- * Cleans up elements that are not needed anymore
- * If the selected color is invalid, the player cannot leave the screen.
- */
-function PreferenceSubscreenGeneralUnload() {
 	if (PreferenceSubscreenGeneralColorPicker) return false;
 
 	const color = ElementValue("InputCharacterLabelColor");
@@ -122,12 +115,22 @@ function PreferenceSubscreenGeneralUnload() {
 		return false;
 	}
 
-	if (color !== Player.LabelColor) {
-		Player.LabelColor = color;
-		const elems = /** @type {HTMLElement[]} */(Array.from(document.querySelectorAll(`[style*="--label-color"][data-sender="${Player.MemberNumber}"]`)));
-		elems.forEach(e => e.style.setProperty("--label-color", color));
-	}
+	return true;
+}
 
+/**
+ * Cleans up elements that are not needed anymore
+ * If the selected color is invalid, the player cannot leave the screen.
+ */
+function PreferenceSubscreenGeneralUnload() {
+	const color = ElementValue("InputCharacterLabelColor");
+	if (CommonIsColor(color)) {
+		if (color !== Player.LabelColor) {
+			Player.LabelColor = color;
+			const elems = /** @type {HTMLElement[]} */(Array.from(document.querySelectorAll(`[style*="--label-color"][data-sender="${Player.MemberNumber}"]`)));
+			elems.forEach(e => e.style.setProperty("--label-color", color));
+		}
+	}
 	PreferenceMessage = "";
 	ElementRemove("InputCharacterLabelColor");
 }
