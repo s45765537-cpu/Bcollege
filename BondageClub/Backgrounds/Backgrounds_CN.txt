@@ -184,6 +184,20 @@ Padded Cell
 软墙病房
 Padded Cell 2
 软墙病房2
+Pandora Cell A
+Pandora牢房A
+Pandora Cell B
+Pandora牢房B
+Pandora Cell C
+Pandora牢房C
+Pandora Cell D
+Pandora牢房D
+Pandora Cell E
+Pandora牢房E
+Pandora Cell F
+Pandora牢房F
+Pandora Cell G
+Pandora牢房G
 Park Day
 公园日间
 Park Night

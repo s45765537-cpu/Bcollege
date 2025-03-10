@@ -100,6 +100,8 @@ Nimble
 灵敏
 Arousing
 煽情
+Edging
+边缘
 Dull
 倦怠
 Heavy
@@ -144,6 +146,8 @@ Harder to resist an orgasm.
 更难抵抗高潮。
 Easier to resist an orgasm.
 更易抵抗高潮。
+Prevents the wearer from orgasming
+阻止穿戴者高潮
 Slows down walking.
 减慢行走速度。
 Speeds up walking.

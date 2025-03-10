@@ -79,8 +79,8 @@ You need to play cards that will increase your fame.  You'll also need money to 
 Which deck can I use?
 我可以使用哪个套牌？
 ###_NPC
-You can use the default deck or build your own deck.  All decks must have 30 cards.
-你可以使用基本套牌或构建自己的套牌。所有套牌必须有30张牌。
+You can use the default deck or build your own deck.  All decks must have between 30 to 40 cards.
+你可以使用基本套牌或构建自己的套牌。所有套牌必须有30到40张牌。
 ###_PLAYER
 Thanks for your time.
 谢谢你的耐心。
@@ -117,6 +117,12 @@ How many cards can be present on my board?
 ###_NPC
 It depends on your club size.  Your club begins as an apartment that can accommodate 5 members.  You can upgrade it with Money to allow more members.
 根据你的俱乐部规模决定。你的俱乐部开始时是公寓，并且能容纳5个会员。你可以花费金钱升级它，从而容纳更多会员。
+###_PLAYER
+What are the streets?
+街道是什么？
+###_NPC
+Cards that are no longer in the club, hand or deck, will go to the streets.
+不再在俱乐部、手牌或者套牌中的卡牌会进入街道。
 ###_PLAYER
 What kinds of cards are available?
 有哪些卡牌可用？

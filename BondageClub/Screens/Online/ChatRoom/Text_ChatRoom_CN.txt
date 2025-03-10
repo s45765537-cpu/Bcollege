@@ -42,6 +42,14 @@ Stop leaving
 放弃离开
 Game options
 游戏选项
+You must be a Pandora's guard to use this command.
+你必须是潘多拉的守卫才能使用此命令。
+Your target is not a Pandora's inmate.
+你的目标不是潘多拉的囚犯。
+Invalid Pandora activity, type /help to get the list.
+无效的潘多拉活动，输入/help获取列表。
+This activity cannot be performed on this target.
+这个活动不能对这个目标执行。
 An orgasm is coming!
 高潮即将来临!
 Resist!
