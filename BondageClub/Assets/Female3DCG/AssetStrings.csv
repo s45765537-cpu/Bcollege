@@ -6377,7 +6377,7 @@ ItemHoodCreepyIronMaskSelectMode,Mask menu:
 ItemHoodCreepyIronMaskOptionm0,Just mask
 ItemHoodCreepyIronMaskOptionm1,Full hood
 ItemHoodCreepyIronMaskModuleBlindfold,Blindfold
-ItemHoodCreepyIronMaskSelectMode,Metal blindfold option:
+ItemHoodCreepyIronMaskSelectBlindfold,Metal blindfold option:
 ItemHoodCreepyIronMaskOptionb0,None
 ItemHoodCreepyIronMaskOptionb1,Perforated
 ItemHoodCreepyIronMaskOptionb2,Full
@@ -6386,7 +6386,7 @@ ItemHoodCreepyIronMaskSelectSpike,Collar spikes option:
 ItemHoodCreepyIronMaskOptions0,None
 ItemHoodCreepyIronMaskOptions1,Equip spikes
 ItemHoodCreepyIronMaskModuleNose,Nose guard
-ItemHoodCreepyIronMaskSelectMode,Nose guard option:
+ItemHoodCreepyIronMaskSelectNose,Nose guard option:
 ItemHoodCreepyIronMaskOptionn0,None
 ItemHoodCreepyIronMaskOptionn1,Add nose guard
 ItemHoodCreepyIronMaskSetm0,SourceCharacter puts the Creepy Iron Mask on DestinationCharacterName head.
