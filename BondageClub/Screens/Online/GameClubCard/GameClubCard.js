@@ -372,14 +372,25 @@ function GameClubCardLoadBundle(CCPlayer, Bundle) {
 	if (Bundle.LastMoneyPerTurn != null) CCPlayer.LastMoneyPerTurn = Bundle.LastMoneyPerTurn;
 	if (Bundle.FullDeck != null) CCPlayer.FullDeck = GameClubCardUndoBundle(Bundle.FullDeck);
 	if (Bundle.Deck != null) CCPlayer.Deck = GameClubCardUndoBundle(Bundle.Deck);
-	if (Bundle.Hand != null) CCPlayer.Hand = GameClubCardUndoBundle(Bundle.Hand);
-	if (Bundle.Board != null) CCPlayer.Board = GameClubCardBoardUndoBundle(Bundle.Board, Location);
-	if (Bundle.Event != null) CCPlayer.Event = GameClubCardUndoBundle(Bundle.Event, true, Location);
 	if (Bundle.DiscardPile != null) CCPlayer.DiscardPile = GameClubCardUndoBundle(Bundle.DiscardPile, false, Location);
 	if (Bundle.Playing) ClubCardTurnIndex = CCPlayer.Index;
 	if (Bundle.CardsPlayedThisTurn != null) CCPlayer.CardsPlayedThisTurn = Bundle.CardsPlayedThisTurn;
 	if (Bundle.CardsPlayedThisTurn !== null) CCPlayer.ClubCardTurnCounter = Bundle.ClubCardTurnCounter;
 	if (Bundle.Sleeve !== null) CCPlayer.Sleeve = Bundle.Sleeve;
+
+	//###
+	if (Bundle.Hand != null) CCPlayer.Hand = GameClubCardUndoBundle(Bundle.Hand);
+	if (Bundle.Board != null) CCPlayer.Board = GameClubCardBoardUndoBundle(Bundle.Board, Location);
+	if (Bundle.Event != null) CCPlayer.Event = GameClubCardUndoBundle(Bundle.Event, true, Location);
+	//Check that if the user has the selected ClubCardFocus card, we hide its original.
+	if (ClubCardIsAnimationOn && ClubCardFocus) {
+		let targetCard = [CCPlayer.Hand, CCPlayer.Board, CCPlayer.Event].
+			flatMap(collection => collection || []).
+			find(card => card.UniqueID === ClubCardFocus.UniqueID);
+
+		if (targetCard) targetCard.IsVisible = false;
+	}
+	//###
 }
 
 /**

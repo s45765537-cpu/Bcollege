@@ -45,6 +45,11 @@ var ClubCardOnlinePlayerMemberNumber2 = -1;
 let ClubCardUniqueIDCounter = 0;
 
 // #region Card Animations
+/**
+ * Variable to check if the code associated with animations will work or if it will be disabled.
+ * @type {boolean}
+ */
+let ClubCardIsAnimationOn = true;
 
 /**
  * Stores active card animations, updated each frame in ClubCardUpdateCardAnimations().
@@ -4127,9 +4132,11 @@ function ClubCardPlayCard(CCPlayer, Card) {
 	// If the player must select a card before playing the current card
 	if ((Card.Prerequisite != null) && (ClubCardSelection == null) && (CCPlayer.Control == "Player")) {
 		ClubCardFocus = null;
-		Card.IsVisible = false;
 		ClubCardPending = Card;
-		ClubCardMoveCardToPending(Card);
+		if (ClubCardIsAnimationOn) {
+			Card.IsVisible = false;
+			ClubCardMoveCardToPending(Card);
+		}
 
 		const textGetKeyPrereq = "Prerequisite " + Card.Name;
 		ClubCardMessageAdd(ClubCardMessageType.PREREQUISTITE, textGetKeyPrereq);
@@ -4522,71 +4529,6 @@ function ClubCardGetOriginalCard(card) {
 }
 
 /**
- * Calculates the position of a card in the player's or opponent's hand based on its UniqueID.
- * @param {ClubCard} card - The card object containing UniqueID and Location.
- * @returns {{x: number, y: number, w: number} | null} - The calculated position or null if not found.
- */
-function ClubCardCalculateHandPosition(card) {
-	if (!card || !card.Location) return null;
-
-	let playerIndex = (card.Location === "PlayerHand") ? 0 : 1;
-	let cardArray = ClubCardPlayer[playerIndex].Hand;
-	let X = 0, Y = (playerIndex === 0) ? 800 : -200, W = 1700, H = 300;
-
-	if (!cardArray || cardArray.length === 0) return null;
-
-	const index = cardArray.findIndex(c => c.UniqueID === card.UniqueID);
-	if (index === -1) return null;
-
-	let PosX = Math.round(X + (W / 2) - (cardArray.length * W / 16));
-	let IncX = Math.round(W / 8);
-
-	if (PosX < X) {
-		PosX = X;
-		IncX = Math.round(W / cardArray.length);
-	}
-
-	const cardX = PosX + (index * IncX) + 5;
-	const cardY = Y + 5 + (H * 0.1);
-	const cardW = (W / 10) - 5;
-
-	return { x: cardX, y: cardY, w: cardW };
-}
-
-/**
- * Calculates the position of a card on the player's or opponent's board based on its UniqueID.
- * @param {ClubCard} card - The card object containing UniqueID and Location.
- * @returns {{x: number, y: number, w: number} | null} - The calculated position or null if not found.
- */
-function ClubCardCalculateBoardPosition(card) {
-	if (!card || !card.Location) return null;
-
-	let playerIndex = (card.Location === "PlayerBoard") ? 0 : 1;
-	let cardArray = [...ClubCardPlayer[playerIndex].Board, ...(ClubCardPlayer[playerIndex].Event || [])];
-	let X = 0, Y = (playerIndex === 0) ? 500 : 0, W = 1700, H = 500, Mirror = (playerIndex === 1);
-
-	if (!cardArray || cardArray.length === 0) return null;
-
-	const index = cardArray.findIndex(c => c.UniqueID === card.UniqueID);
-	if (index === -1) return null;
-
-	let PosX = Math.round(X + (W / 2) - (cardArray.length * W / 20));
-	let IncX = Math.round(W / 10);
-
-	if (PosX < X) {
-		PosX = X;
-		IncX = Math.round(W / cardArray.length);
-	}
-
-	let PosY = Mirror ? Y + H - (H * 0.65) : Y + (H * 0.1);
-
-	const cardX = PosX + (index * IncX) + 5;
-	const cardW = (W / 12) - 5;
-
-	return { x: cardX, y: PosY, w: cardW };
-}
-
-/**
  * Updates the positions of all active card animations.
  *
  * This function is called every frame within `ClubCardRun()` to animate cards smoothly.
@@ -4655,6 +4597,7 @@ function ClubCardUpdateCardAnimations(Timestamp) {
  * @param {number} [duration=200] - Animation duration in milliseconds.
  */
 function ClubCardMoveCard(card, priority,startPosition, endPosition, hideOriginal = false, keepOriginalHidden = false, onStart = null, onComplete = null, duration = 200) {
+	if (ClubCardIsAnimationOn == false) return;
 	if (!card || (card.AnimationState && card.AnimationState == "moving")) return;
 	card.AnimationState = "moving";
 	card.IsVisible = false;
