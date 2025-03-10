@@ -97,6 +97,7 @@
 	padding: 3px;
 	padding-right: var(--scrollbar-gutter);
 	grid-area: dialog-grid;
+	scroll-snap-type: y proximity;
 }
 
 .dialog-root[data-show-icon] {
