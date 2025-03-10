@@ -70,8 +70,8 @@ function PreferenceSubscreenExtensionsClick() {
 }
 function PreferenceSubscreenExtensionsExit() {
 	if (PreferenceExtensionsCurrent) {
-		const exit_result = PreferenceExtensionsCurrent.exit();
-		if (exit_result === false) return false;
+		const validExit = PreferenceExtensionsCurrent.exit();
+		if (validExit === false) return false;
 		PreferenceSubscreenExtensionsClear();
 		return false;
 	}

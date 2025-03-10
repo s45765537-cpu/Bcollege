@@ -273,11 +273,11 @@ function PreferenceUnload() {
  * Exit from a specific subscreen by running its handler and checking its validity
  */
 function PreferenceSubscreenExit() {
-	const valid_exit = PreferenceSubscreen.exit?.();
+	const validExit = PreferenceSubscreen.exit?.();
 	
 	// Only when the results is false (not undefined)
 	// The exit is just a exit of the subscreen's substate, return to block more exit. 
-	if(valid_exit === false) return;
+	if(validExit === false) return;
 
 	// The exit is a full exit of the subscreen, unload resources
 	PreferenceSubscreen.unload?.();
