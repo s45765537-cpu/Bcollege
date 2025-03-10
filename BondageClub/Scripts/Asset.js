@@ -173,6 +173,11 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 	const allowLock = typeof AssetDef.AllowLock === "boolean" ? AssetDef.AllowLock : false;
 	const difficulty = AssetDef.Difficulty ?? 0;
 
+	const editOpacity = (typeof AssetDef.EditOpacity === "boolean") ? AssetDef.EditOpacity : (typeof Group.EditOpacity === "boolean") ? Group.EditOpacity : false;
+	let minOpacity = editOpacity ? AssetParseOpacity(typeof AssetDef.MinOpacity === "number" ? AssetDef.MinOpacity : Group.MinOpacity) : 1;
+	let maxOpacity = editOpacity ? AssetParseOpacity(typeof AssetDef.MaxOpacity === "number" ? AssetDef.MaxOpacity : Group.MaxOpacity) : 1;
+	const opacity = editOpacity ? AssetParseOpacity(AssetDef.Opacity, minOpacity, maxOpacity) : 1;
+
 	/** @type {Mutable<Asset>} */
 	var A = {
 		Name: AssetDef.Name,
@@ -240,10 +245,10 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		AllowHide: AssetDef.AllowHide,
 		AllowHideItem: AssetDef.AllowHideItem,
 		DefaultColor: [],
-		Opacity: AssetParseOpacity(AssetDef.Opacity),
-		EditOpacity: (typeof AssetDef.EditOpacity === "boolean") ? AssetDef.EditOpacity : (typeof Group.EditOpacity === "boolean") ? Group.EditOpacity : false,
-		MinOpacity: (typeof AssetDef.MinOpacity === "number") ? AssetParseOpacity(AssetDef.MinOpacity) : (typeof Group.MinOpacity === "number") ? Group.MinOpacity : 1,
-		MaxOpacity: (typeof AssetDef.MaxOpacity === "number") ? AssetParseOpacity(AssetDef.MaxOpacity) : (typeof Group.MaxOpacity === "number") ? Group.MaxOpacity : 1,
+		EditOpacity: editOpacity,
+		Opacity: opacity,
+		MinOpacity: minOpacity,
+		MaxOpacity: maxOpacity,
 		Audio: AssetDef.Audio,
 		Category: AssetDef.Category,
 		Fetish: AssetDef.Fetish,
@@ -294,10 +299,6 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 	if (A.SetPose) {
 		Object.assign(A, AssetParsePosePrerequisite(A));
 	}
-
-	// Ensure opacity value is valid
-	if (A.MinOpacity > A.Opacity) A.MinOpacity = A.Opacity;
-	if (A.MaxOpacity < A.Opacity) A.MaxOpacity = A.Opacity;
 
 	const layers = AssetDef.Layer ? [...AssetDef.Layer] : [{}];
 	if (A.DrawLocks) {
@@ -630,9 +631,10 @@ function AssetFindExtendedConfig(ExtendedConfig, GroupName, AssetName) {
  * @return {AssetLayer} - A Layer object representing the drawable properties of the given layer
  */
 function AssetMapLayer(Layer, A, I) {
-	const minOpacity = AssetParseOpacity(typeof Layer.MinOpacity === "number" ? Layer.MinOpacity : A.MinOpacity, 0, 1);
-	const maxOpacity = AssetParseOpacity(typeof Layer.MaxOpacity === "number" ? Layer.MaxOpacity : A.MaxOpacity, 0, 1);
-	const opacity = typeof Layer.Opacity === "number" ? AssetParseOpacity(Layer.Opacity, minOpacity, maxOpacity) : 1;
+	const editOpacity = A.EditOpacity;
+	const minOpacity = editOpacity ? AssetParseOpacity(Layer.MinOpacity ?? A.MinOpacity, 0, 1) : 1;
+	const maxOpacity = editOpacity ? AssetParseOpacity(Layer.MaxOpacity ?? A.MaxOpacity, 0, 1) : 1;
+	const opacity = AssetParseOpacity(Layer.Opacity ?? A.Opacity, minOpacity, maxOpacity);
 
 	/** @type {AssetLayer} */
 	const L = {
@@ -760,7 +762,7 @@ function AssetParseParentGroup(parentGroup, superParentGroup) {
  * @returns {number}
  */
 function AssetParseOpacity(opacity, min=0, max=1) {
-	if (typeof opacity === "number" && !isNaN(opacity)) {
+	if (CommonIsNumeric(opacity)) {
 		return CommonClamp(opacity, min, max);
 	}
 	return max;
