@@ -86,15 +86,14 @@ const AppearancePermissionColors = {
  */
 function CharacterAppearanceBuildAssets(C) {
 
-	// Adds all items with 0 value and from the appearance category
 	CharacterAppearanceAssets = [];
-	for (let A = 0; A < Asset.length; A++)
-		if ((Asset[A].Value == 0) && (Asset[A].Group.Family == C.AssetFamily) && (Asset[A].Group.Category == "Appearance") && CharacterAppearanceGenderAllowed(Asset[A]))
-			CharacterAppearanceAssets.push(Asset[A]);
-	for (let A = 0; A < C.Inventory.length; A++)
-		if ((C.Inventory[A].Asset != null) && (C.Inventory[A].Asset.Group.Family == C.AssetFamily) && (C.Inventory[A].Asset.Group.Category == "Appearance") && CharacterAppearanceGenderAllowed(Asset[A]))
-			CharacterAppearanceAssets.push(C.Inventory[A].Asset);
-
+	// Adds all items with 0 value and from the appearance category
+	const availableAssets = Asset.filter(a =>
+		a.Group.Family === C.AssetFamily &&
+		a.Group.IsAppearance() &&
+		CharacterAppearanceGenderAllowed(a) &&
+		InventoryAvailable(C, a.Name, a.Group.Name));
+	CharacterAppearanceAssets.push(...availableAssets);
 }
 
 /**
@@ -104,21 +103,22 @@ function CharacterAppearanceBuildAssets(C) {
  */
 function CharacterAppearanceValidate(C) {
 
-	// Remove any appearance item that's not in inventory
 	var Refresh = false;
-	for (let A = C.Appearance.length - 1; A >= 0; A--)
-		if ((C.Appearance[A].Asset.Value != 0) && (C.Appearance[A].Asset.Group.Category == "Appearance") && !InventoryAvailable(C, C.Appearance[A].Asset.Name, C.Appearance[A].Asset.Group.Name)) {
-			C.Appearance.splice(A, 1);
+	// We iterate over a copy because we're gonna remove, possibly layered things, and the index cannot be stable
+	const appCopy = [...C.Appearance];
+	for (let idx = appCopy.length - 1; idx >= 0; idx--) {
+		const A = appCopy[idx];
+		if (A.Asset.Group.IsAppearance() && !InventoryAvailable(C, A.Asset.Name, A.Asset.Group.Name)) {
+			// Remove any appearance item that's not in inventory
+			InventoryRemove(C, A.Asset.Group.Name, false);
+			Refresh = true;
+		} else if ((LogQuery("Committed", "Asylum") || !Player.GameplaySettings.DisableAutoRemoveLogin) && A.Asset.RemoveAtLogin) {
+			// Remove items flagged as "Remove At Login"
+			InventoryRemove(C, A.Asset.Group.Name, false);
 			Refresh = true;
 		}
+	}
 
-	// Remove items flagged as "Remove At Login"
-	if (LogQuery("Committed", "Asylum") || !Player.GameplaySettings.DisableAutoRemoveLogin)
-		for (let A = C.Appearance.length - 1; A >= 0; A--)
-			if (C.Appearance[A] && C.Appearance[A].Asset.RemoveAtLogin) {
-				InventoryRemove(C, C.Appearance[A].Asset.Group.Name, false);
-				Refresh = true;
-			}
 
 	// Dress back if there are missing appearance items
 	for (let A = 0; A < AssetGroup.length; A++)

@@ -1654,7 +1654,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 		// Fourth, we add all free items (especially useful for clothes), or location-specific always available items
 		for (const A of Asset)
 			if (A.Group.Name === C.FocusGroup.Name && A.DynamicAllowInventoryAdd(C))
-				if (A.Value === 0 || (A.AvailableLocations.includes("Asylum") && (CurrentScreen.startsWith("Asylum") || ChatRoomSpace === "Asylum")))
+				if (InventoryAvailable(C, A.Name, A.Group.Name))
 					DialogInventoryAdd(C, { Asset: A }, false);
 
 		// Fifth, we add all crafted items for the player that matches that slot
