@@ -40,6 +40,7 @@ const PreferenceSubscreens = [
 		run: () => PreferenceSubscreenGeneralRun(),
 		click: () => PreferenceSubscreenGeneralClick(),
 		exit: () => PreferenceSubscreenGeneralExit(),
+		unload: () => PreferenceSubscreenGeneralUnload(),
 	},
 	{
 		name: "Difficulty",
@@ -64,6 +65,7 @@ const PreferenceSubscreens = [
 		run: () => PreferenceSubscreenCensoredWordsRun(),
 		click: () => PreferenceSubscreenCensoredWordsClick(),
 		exit: () => PreferenceSubscreenCensoredWordsExit(),
+		unload: () => PreferenceSubscreenCensoredWordsUnload(),
 	},
 	{
 		name: "Audio",
@@ -71,6 +73,7 @@ const PreferenceSubscreens = [
 		run: () => PreferenceSubscreenAudioRun(),
 		click: () => PreferenceSubscreenAudioClick(),
 		exit: () => PreferenceSubscreenAudioExit(),
+		unload: () => PreferenceSubscreenAudioUnload(),
 	},
 	{
 		name: "Arousal",
@@ -78,6 +81,7 @@ const PreferenceSubscreens = [
 		run: () => PreferenceSubscreenArousalRun(),
 		click: () => PreferenceSubscreenArousalClick(),
 		exit: () => PreferenceSubscreenArousalExit(),
+		unload: () => PreferenceSubscreenArousalUnload(),
 	},
 	{
 		name: "Security",
@@ -85,6 +89,7 @@ const PreferenceSubscreens = [
 		run: () => PreferenceSubscreenSecurityRun(),
 		click: () => PreferenceSubscreenSecurityClick(),
 		exit: () => PreferenceSubscreenSecurityExit(),
+		unload: () => PreferenceSubscreenSecurityUnload(),
 	},
 	{
 		name: "Online",
@@ -97,6 +102,7 @@ const PreferenceSubscreens = [
 		run: () => PreferenceSubscreenVisibilityRun(),
 		click: () => PreferenceSubscreenVisibilityClick(),
 		exit: () => PreferenceSubscreenVisibilityExit(),
+		unload: () => PreferenceSubscreenVisibilityUnload(),
 	},
 	{
 		name: "Immersion",
@@ -110,12 +116,14 @@ const PreferenceSubscreens = [
 		run: () => PreferenceSubscreenGraphicsRun(),
 		click: () => PreferenceSubscreenGraphicsClick(),
 		exit: () => PreferenceSubscreenGraphicsExit(),
+		unload: () => PreferenceSubscreenGraphicsUnload(),
 	},
 	{
 		name: "Controller",
 		run: () => PreferenceSubscreenControllerRun(),
 		click: () => PreferenceSubscreenControllerClick(),
 		exit: () => PreferenceSubscreenControllerExit(),
+		unload: () => PreferenceSubscreenControllerUnload(),
 	},
 	{
 		name: "Notifications",
@@ -123,6 +131,7 @@ const PreferenceSubscreens = [
 		run: () => PreferenceSubscreenNotificationsRun(),
 		click: () => PreferenceSubscreenNotificationsClick(),
 		exit: () => PreferenceSubscreenNotificationsExit(),
+		unload: () => PreferenceSubscreenNotificationsUnload(),
 	},
 	{
 		name: "Gender",
@@ -135,6 +144,7 @@ const PreferenceSubscreens = [
 		run: () => PreferenceSubscreenScriptsRun(),
 		click: () => PreferenceSubscreenScriptsClick(),
 		exit: () => PreferenceSubscreenScriptsExit(),
+		unload: () => PreferenceSubscreenScriptsUnload(),
 	},
 	{
 		name: "Extensions",
@@ -142,6 +152,7 @@ const PreferenceSubscreens = [
 		run: () => PreferenceSubscreenExtensionsRun(),
 		click: () => PreferenceSubscreenExtensionsClick(),
 		exit: () => PreferenceSubscreenExtensionsExit(),
+		unload: () => PreferenceSubscreenExtensionsUnload(),
 	},
 ];
 
@@ -217,11 +228,14 @@ function PreferenceClick() {
  */
 function PreferenceExit() {
 	if (PreferenceSubscreen.name !== "Main") {
-		if (PreferenceSubscreenExit())
-			return;
+		// If we are in a subscreen, the only exit is to the main preference screen
+		PreferenceSubscreenExit();
+		return;
 	}
 
 	// Exit the preference menus
+	// Only a normal exit triggers an update to server. so we don't send data in unload function,
+	// which could be called from disconnects
 	const P = {
 		ArousalSettings: Player.ArousalSettings,
 		ChatSettings: Player.ChatSettings,
@@ -246,18 +260,30 @@ function PreferenceExit() {
 }
 
 /**
+ * Clear all GUI data and DOM elements creates by the preference screen load function
+ * We don't do this in exit function for disconnects do not trigger the exit function 
+ */
+function PreferenceUnload() {
+	if (PreferenceSubscreen.name !== "Main") {
+		PreferenceSubscreen.unload?.();
+	}
+}
+
+/**
  * Exit from a specific subscreen by running its handler and checking its validity
  */
 function PreferenceSubscreenExit() {
-	let valid = true;
-	if (PreferenceSubscreen.exit)
-		valid = PreferenceSubscreen.exit();
+	const valid_exit = PreferenceSubscreen.exit?.();
+	
+	// Only when the results is false (not undefined)
+	// The exit is just a exit of the subscreen's substate, return to block more exit. 
+	if(valid_exit === false) return;
 
-	if (!valid) return valid;
+	// The exit is a full exit of the subscreen, unload resources
+	PreferenceSubscreen.unload?.();
 
 	PreferenceMessage = "";
 	PreferenceSubscreen = PreferenceSubscreens.find(s => s.name === "Main");
-	return valid;
 }
 
 /**

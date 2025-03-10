@@ -54,7 +54,10 @@ function PreferenceSubscreenSecurityClick() {
  * Exits the preference screen
  */
 function PreferenceSubscreenSecurityExit() {
+	return true;
+}
+
+function PreferenceSubscreenSecurityUnload() {
 	ElementRemove("InputEmailOld");
 	ElementRemove("InputEmailNew");
-	return true;
 }

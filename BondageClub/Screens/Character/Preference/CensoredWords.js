@@ -88,7 +88,10 @@ function PreferenceSubscreenCensoredWordsClick() {
  * Exits the preference screen
  */
 function PreferenceSubscreenCensoredWordsExit() {
+	return true;
+}
+
+function PreferenceSubscreenCensoredWordsUnload() {
 	ElementRemove("InputWord");
 	Player.ChatSettings.CensoredWordsList = PreferenceCensoredWordsList.join("|");
-	return true;
 }

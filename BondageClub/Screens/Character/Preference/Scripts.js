@@ -190,6 +190,10 @@ function PreferenceSubscreenScriptsClick() {
 }
 
 function PreferenceSubscreenScriptsExit() {
+	return true;
+}
+
+function PreferenceSubscreenScriptsUnload() {
 	if (PreferenceScriptTimeoutHandle != null) {
 		clearTimeout(PreferenceScriptTimeoutHandle);
 		PreferenceScriptTimeoutHandle = null;
@@ -215,7 +219,6 @@ function PreferenceSubscreenScriptsExit() {
 			}
 		}
 	}
-	return true;
 }
 
 function PreferenceSubscreenScriptsWarningClick() {

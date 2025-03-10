@@ -276,8 +276,11 @@ function PreferenceDecrementArousalFactor(factor) {
  * Exits the preference screen
  */
 function PreferenceSubscreenArousalExit() {
+	return true;
+}
+
+function PreferenceSubscreenArousalUnload() {
 	Player.FocusGroup = null;
 	CharacterAppearanceForceUpCharacter = -1;
 	CharacterLoadCanvas(Player);
-	return true;
 }

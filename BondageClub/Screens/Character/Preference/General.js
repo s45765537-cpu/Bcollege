@@ -103,10 +103,17 @@ function PreferenceSubscreenGeneralClick() {
 }
 
 /**
- * Exits the preference screen. Cleans up elements that are not needed anymore
- * If the selected color is invalid, the player cannot leave the screen.
+ * Exits the preference screen.
  */
 function PreferenceSubscreenGeneralExit() {
+	return true;
+}
+
+/**
+ * Cleans up elements that are not needed anymore
+ * If the selected color is invalid, the player cannot leave the screen.
+ */
+function PreferenceSubscreenGeneralUnload() {
 	if (PreferenceSubscreenGeneralColorPicker) return false;
 
 	const color = ElementValue("InputCharacterLabelColor");
@@ -123,5 +130,5 @@ function PreferenceSubscreenGeneralExit() {
 
 	PreferenceMessage = "";
 	ElementRemove("InputCharacterLabelColor");
-	return true;
 }
+
