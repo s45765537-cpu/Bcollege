@@ -4315,7 +4315,6 @@ function ClubCardAIPlay() {
 	// If we have valid cards, we play one at random
 	if (ValidCards.length > 0) {
 		ClubCardFocusAI = CommonRandomItemFromList(null, ValidCards);
-		//ClubCardFocus = CommonRandomItemFromList(null, ValidCards);
 		return ClubCardStartTurn(ClubCardStartTurnType.PLAYCARD);
 	}
 
@@ -4367,7 +4366,7 @@ function ClubCardBankrupt() {
 	CCPlayer.Board = [];
 	CCPlayer.Event = [];
 	CCPlayer.Hand = [];
-	CCPlayer.Deck = ClubCardShuffle(CCPlayer.FullDeck.slice());
+	CCPlayer.Deck = ClubCardShuffle(CCPlayer.FullDeck.map(card => ({ ...card})));
 	CCPlayer.Hand.push(ClubCardGetCopyCardByName("Tips"));
 	ClubCardTurnCardPlayed = 0;
 	ClubCardPlayerDrawCard(CCPlayer, 5);
