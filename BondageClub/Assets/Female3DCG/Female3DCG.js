@@ -17204,6 +17204,15 @@ var AssetFemale3DCG = [
 				},
 			},
 			{
+				Name: "Splatters",
+				DynamicGroupName: "BodyMarkings",
+				CopyConfig: {
+					GroupName: "BodyMarkings",
+					AssetName: "Splatters",
+					BuyGroup: true,
+				},
+			},
+			{
 				Name: "AnimalNoses",
 				InventoryID: 1169,
 				Value: 10,
@@ -18097,6 +18106,186 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
+				Name: "Splatters",
+				Priority: 60,
+				Value: 0,
+				Top: 0,
+				Left: 0,
+				DefaultColor: "#888888",
+				BuyGroup: "Splatters",
+				InheritPoseMappingFields: true,
+				PoseMapping: {
+					...AssetPoseMapping.Cloth,
+					BackBoxTie: PoseType.DEFAULT,
+					BackCuffs: PoseType.DEFAULT,
+					BackElbowTouch: PoseType.DEFAULT,
+					OverTheHead: PoseType.DEFAULT,
+					TapedHands: PoseType.DEFAULT,
+					Yoked: PoseType.DEFAULT,
+					AllFours: PoseType.DEFAULT,
+					Hogtied: PoseType.DEFAULT,
+				},
+				Opacity: 0.7,
+				MinOpacity: 0,
+				Extended: true,
+				Layer: [
+					{
+						Name: "Forehead1",
+						Top: 5,
+						AllowTypes: { a: 1 },
+					},
+					{
+						Name: "Forehead2",
+						AllowTypes: { b: 1 },
+					},
+					{
+						Name: "Forehead3",
+						AllowTypes: { c: 1 },
+					},
+					{
+						Name: "Face1",
+						AllowTypes: { d: 1 },
+					},
+					{
+						Name: "Face2",
+						AllowTypes: { e: 1 },
+					},
+					{
+						Name: "Face3",
+						AllowTypes: { f: 1 },
+					},
+					{
+						Name: "Chest1",
+						ParentGroup: {
+							[PoseType.DEFAULT]: PoseType.DEFAULT,
+							AllFours: "BodyUpper",
+							Hogtied: "BodyUpper",
+						},
+						PoseMapping: {
+							AllFours: "AllFours",
+							Hogtied: "Hogtied",
+							OverTheHead: "OverTheHead",
+						},
+						AllowTypes: { g: 1 },
+					},
+					{
+						Name: "Chest2",
+						ParentGroup: {
+							[PoseType.DEFAULT]: PoseType.DEFAULT,
+							AllFours: "BodyUpper",
+							Hogtied: "BodyUpper",
+						},
+						PoseMapping: {
+							AllFours: "AllFours",
+							Hogtied: "Hogtied",
+							OverTheHead: "OverTheHead",
+						},
+						AllowTypes: { h: 1 },
+					},
+					{
+						Name: "Chest3",
+						ParentGroup: {
+							[PoseType.DEFAULT]: PoseType.DEFAULT,
+							AllFours: "BodyUpper",
+							Hogtied: "BodyUpper",
+						},
+						PoseMapping: {
+							AllFours: "AllFours",
+							Hogtied: "Hogtied",
+							OverTheHead: "OverTheHead",
+						},
+						AllowTypes: { i: 1 },
+					},
+					{
+						Name: "Chest4",
+						ParentGroup: {
+							[PoseType.DEFAULT]: PoseType.DEFAULT,
+							AllFours: "BodyUpper",
+							Hogtied: "BodyUpper",
+						},
+						PoseMapping: {
+							AllFours: "AllFours",
+							Hogtied: "Hogtied",
+							OverTheHead: "OverTheHead",
+						},
+						AllowTypes: { j: 1 },
+					},
+					{
+						Name: "Tummy1",
+						PoseMapping: {
+							AllFours: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+						Priority: 10,
+						AllowTypes: { k: 1 },
+					},
+					{
+						Name: "Tummy2",
+						PoseMapping: {
+							AllFours: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+						Priority: 10,
+						AllowTypes: { l: 1 },
+					},
+					{
+						Name: "Tummy3",
+						PoseMapping: {
+							AllFours: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+						Priority: 10,
+						AllowTypes: { m: 1 },
+					},
+					{
+						Name: "Tummy4",
+						PoseMapping: {
+							AllFours: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+						Priority: 10,
+						AllowTypes: { n: 1 },
+					},
+					{
+						Name: "Internal1",
+						Priority: 30,
+						AllowTypes: { o: 1 },
+					},
+					{
+						Name: "Internal2",
+						PoseMapping: {
+							AllFours: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+						Priority: 30,
+						AllowTypes: { p: 1 },
+					},
+					{
+						Name: "Internal3",
+						PoseMapping: {
+							AllFours: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+						},
+						Priority: 9,
+						AllowTypes: { q: 1 },
+					},
+					{
+						Name: "NippleDrip",
+						Priority: 30,
+						ParentGroup: {
+							[PoseType.DEFAULT]: "BodyUpper",
+							AllFours: "BodyUpper",
+							OverTheHead: "BodyUpper",
+						},
+						PoseMapping: {
+							OverTheHead: "OverTheHead",
+							AllFours: "AllFours",
+						},
+						AllowTypes: { r: 1 },
+					},
+				],
+			},
+			{
 				Name: "FacePaints",
 				Value: 10,
 				InventoryID: 1189,
@@ -18222,6 +18411,15 @@ var AssetFemale3DCG = [
 				CopyConfig: {
 					GroupName: "BodyMarkings",
 					AssetName: "FaceScars",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "Splatters",
+				DynamicGroupName: "BodyMarkings",
+				CopyConfig: {
+					GroupName: "BodyMarkings",
+					AssetName: "Splatters",
 					BuyGroup: true,
 				},
 			},
