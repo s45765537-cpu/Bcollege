@@ -2812,7 +2812,7 @@ interface AssetDefinitionProperties {
 	 * A list of allowed activities
 	 * @see {@link Asset.AllowActivity}
 	 */
-	AllowActivity?: string[];
+	AllowActivity?: ActivityName[];
 	/**
 	 * A list of groups allowed activities
 	 * @see {@link Asset.AllowActivityOn}

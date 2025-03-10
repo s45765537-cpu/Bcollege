@@ -1930,7 +1930,7 @@ function CharacterHasItemWithAttribute(C, Attribute) {
 /**
  * Checks if the character is wearing an item that allows for a specific activity
  * @param {Character} C - The character to test for
- * @param {string} Activity - The name of the activity that must be allowed
+ * @param {ActivityName} Activity - The name of the activity that must be allowed
  * @returns {Item[]} - A list of items allowing that activity
  */
 function CharacterItemsForActivity(C, Activity) {
@@ -1942,7 +1942,7 @@ function CharacterItemsForActivity(C, Activity) {
 /**
  * Checks if the character is wearing an item that allows for a specific activity
  * @param {Character} C - The character to test for
- * @param {String} Activity - The name of the activity that must be allowed
+ * @param {ActivityName} Activity - The name of the activity that must be allowed
  * @returns {boolean} - TRUE if at least one item allows that activity
  */
 function CharacterHasItemForActivity(C, Activity) {
