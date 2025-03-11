@@ -244,14 +244,19 @@ function InventoryDataBuild(C) {
 /**
 * Checks if the character has the inventory available
 * @param {Character} C - The character on which we should remove the item
-* @param {string|'*'} InventoryName - The name of the item to validate, * means any
-* @param {AssetGroupName} InventoryGroup - The group name of the item to validate
+* @param {string} Name - The name of the item to validate
+* @param {AssetGroupName} Group - The group name of the item to validate
 */
-function InventoryAvailable(C, InventoryName, InventoryGroup) {
-	for (let I = 0; I < C.Inventory.length; I++)
-		if ((C.Inventory[I].Name == InventoryName || InventoryName === "*") && (C.Inventory[I].Group == InventoryGroup))
-			return true;
-	return false;
+function InventoryAvailable(C, Name, Group) {
+	if (C.Inventory.find(i => i.Group === Group && i.Name === Name)) {
+		return true;
+	}
+	let asset = AssetGet(C.AssetFamily, Group, Name);
+	if (!asset) {
+		return false;
+	}
+	const isFree = Asset.filter(a => a.BuyGroup === asset.BuyGroup).some(a => a.Value === 0);
+	return isFree || asset.AvailableLocations.some(loc => CurrentScreen.startsWith(loc) || ChatRoomSpace === loc);
 }
 
 /**

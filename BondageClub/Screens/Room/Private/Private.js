@@ -485,16 +485,17 @@ function PrivateIsSuccubus() {
 /**
  * Returns a random item that could be bought from the store as a gift that the player could receive by a NPC
  * @param {boolean} Restraint - TRUE if we must return an item that's a restraint
- * @returns {Asset} - The item asset that can be given
+ * @returns {Asset|null} - The item asset that can be given
  */
 function PrivateGetPossibleGift(Restraint) {
 
 	// Builds the item list
 	let InvList = [];
-	for (let A of Asset)
-		if ((A.Value != null) && (A.Value > 0) && A.Random && ((A.Gender == null) || (A.Gender == "F")) && !InventoryAvailable(Player, A.Name, A.Group.Name) && !InventoryIsPermissionBlocked(Player, A.Name, A.Group.Name) && !InventoryIsPermissionLimited(Player, A.Name, A.Group.Name))
+	for (let A of Asset) {
+		if ((A.Value > 0) && A.Random && ((A.Gender == null) || (A.Gender == "F")) && !InventoryAvailable(Player, A.Name, A.Group.Name) && !InventoryIsPermissionBlocked(Player, A.Name, A.Group.Name) && !InventoryIsPermissionLimited(Player, A.Name, A.Group.Name))
 			if ((Restraint && A.Group.Name.startsWith("Item")) || (!Restraint && !A.Group.Name.startsWith("Item")))
 				InvList.push({...A});
+	}
 
 	// Returns an item at random or NULL if nothing is possible
 	if (InvList.length <= 0)

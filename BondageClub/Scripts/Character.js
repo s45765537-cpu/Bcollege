@@ -1601,7 +1601,7 @@ function CharacterRandomUnderwear(C) {
 		if ((G.Category == "Appearance") && G.Underwear && (G.IsDefault || (Math.random() < 0.2))) {
 			if (Color == "") Color = CommonRandomItemFromList("", G.ColorSchema);
 			const Group = G.Asset
-				.filter(A => A.Value == 0 || InventoryAvailable(C, A.Name, G.Name));
+				.filter(A => InventoryAvailable(C, A.Name, G.Name));
 			if (Group.length > 0)
 				CharacterAppearanceSetItem(C, G.Name, Group[Math.floor(Group.length * Math.random())], Color);
 		}
