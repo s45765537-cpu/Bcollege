@@ -35,6 +35,9 @@ function GameStart() {
 	CommonSetScreen("Character", "Login");
 	ServerInit();
 
+	// Create a blank character for our player. Its actual ID will be set when LoginResponse happens
+	Player = /** @type {PlayerCharacter} */ (CharacterCreate("Female3DCG", CharacterType.SIMPLE, ""));
+
 	// Those event listeners are all going through a lambda so that mods can
 	// correctly hook into them. Using the functions directly causes a copy of
 	// them to be made (well, their code, actually), breaking that ability.
