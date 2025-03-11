@@ -9,6 +9,12 @@ var ClubCardOpponent = null;
 var ClubCardOpponentDeck = [];
 /** @type {null | ClubCard} */
 var ClubCardReward = null;
+/** @type {boolean} */
+var ClubCardInspection = false;
+/** @type {boolean} */
+var ClubCardOptionSelection = false;
+/** @type {boolean} */
+var ClubCardGameEnded = false;
 /**
  *  The variable allows to capture the mouse hovering over the card from the handler inside the ClubCardRenderCard function.
  * @type {null | ClubCard}
@@ -2935,6 +2941,8 @@ function ClubCardGetCardArrayByLocation(card) {
  * @returns {void} - Nothing
  */
 function ClubCardCreatePopup(Mode, Text = null, Button1 = null, Button2 = null, Function1 = null, Function2 = null) {
+	if (Mode == "DISCARDPILE") { ClubCardInspection = true; }
+	if (Mode == "YESNO") { ClubCardOptionSelection = true; }
 	ClubCardPopup = {
 		Mode: Mode,
 		Text: Text,
@@ -2951,6 +2959,9 @@ function ClubCardCreatePopup(Mode, Text = null, Button1 = null, Button2 = null, 
  */
 function ClubCardDestroyPopup() {
 	ClubCardPopup = null;
+	ClubCardOptionSelection = false;
+	ClubCardInspection = false
+	ClubCardGameEnded = false
 }
 
 /**
@@ -3695,6 +3706,7 @@ function ClubCardLoadDeckNumber(DeckNum) {
 		ClubCardFocus = ClubCardReward;
 		if (ClubCardPlayer[1].Control === "AI") ClubCardPlayer[1].Hand.push({ ...ClubCardReward });
 		ClubCardCreatePopup("TEXT", TextGet("CanWinNewCard") + " " + ClubCardReward.Title, TextGet("Play"), null, "ClubCardAIStart()", null);
+		ClubCardOptionSelection = true;
 	} else ClubCardAIStart();
 
 }
@@ -3989,6 +4001,7 @@ function ClubCardCheckVictory(CCPlayer) {
 		let Msg = TextGet("VictoryFor" + CCPlayer.Control);
 		if (ClubCardIsOnline()) Msg = TextGet("VictoryOnline").replace("PLAYERNAME", CharacterNickname(CCPlayer.Character));
 		ClubCardCreatePopup("TEXT", Msg, TextGet("Return"), null, "ClubCardEndGame()", null);
+		ClubCardGameEnded = true;
 		if (MiniGameVictory && (ClubCardReward != null)) ClubCardGetReward();
 		GameClubCardReset();
 		return true;
@@ -5037,6 +5050,12 @@ function ClubCardRenderPanel() {
 		ClubCardDrawButton();
 		if (ClubCardCanPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus))
 			if(ClubCardFocus.IsVisible != false) DrawButton(725, 505, 215, 50, TextGet("PlayCard"), "White");
+	} else if(ClubCardOptionSelection) {
+		ClubCardStatusText("SelectOption");
+	} else if(ClubCardInspection) {
+		ClubCardStatusText("InspectPile");
+	} else if(ClubCardGameEnded) {
+		ClubCardStatusText("GameEnded");
 	} else ClubCardStatusText(ClubCardIsPlaying() ? "OpponentPlaying" : "WatchingGame");
 	DrawButton(5, 450, 45, 45, null, "White", "Screens/MiniGame/ClubCard/Button/DiscardPile.png", TextGet("OpponentDiscardPile"));
 	DrawButton(5, 505, 45, 45, null, "White", "Screens/MiniGame/ClubCard/Button/DiscardPile.png", TextGet("DiscardPile"));

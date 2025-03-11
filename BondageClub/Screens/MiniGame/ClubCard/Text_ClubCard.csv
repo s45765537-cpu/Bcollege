@@ -7,6 +7,9 @@ Level5,Manor
 Fame,Fame:
 Money,Money:
 PlayCard,Play this card
+GameEnded,Game has ended.
+SelectOption,Select an option.
+InspectPile,Inspect the Streets.
 Draw,Draw and end your turn
 CannotDraw,End your turn
 SelectCard,Select this card
