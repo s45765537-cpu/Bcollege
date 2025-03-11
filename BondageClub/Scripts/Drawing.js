@@ -338,7 +338,7 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 		// If we must dark the Canvas characters
 		if (!C.IsPlayer() && !OverrideDark && (Player.IsBlind() || Player.HasTints())) {
 			TempCanvas.canvas.width = CanvasDrawWidth;
-		    TempCanvas.canvas.height = CanvasDrawHeight;
+			TempCanvas.canvas.height = CanvasDrawHeight;
 
 			TempCanvas.globalCompositeOperation = "copy";
 			TempCanvas.drawImage(Canvas, 0, 0);
@@ -352,7 +352,7 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 			}
 
 			const Tints = Player.GetTints();
-			for (const {r, g, b, a} of Tints) {
+			for (const { r, g, b, a } of Tints) {
 				TempCanvas.fillStyle = `rgba(${r},${g},${b},${a})`;
 				TempCanvas.fillRect(0, 0, Canvas.width, Canvas.height);
 			}
@@ -376,7 +376,8 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 
 		// Apply blur filter if needed
 		const BlurLevel = Player.GetBlurLevel();
-		if (!C.IsPlayer() && !OverrideDark && BlurLevel > 0) {
+		const needsBlur = !C.IsPlayer() && !OverrideDark && BlurLevel > 0;
+		if (needsBlur) {
 			MainCanvas.filter = `blur(${BlurLevel}px)`;
 		}
 		// Draw the character
@@ -387,7 +388,10 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 			Invert: IsInverted,
 			Mirror: IsInverted
 		});
-		MainCanvas.filter = 'none';
+		// Resetting the filter is expensive, even if there's no change. Only change the filter if we need to.
+		if (needsBlur) {
+			MainCanvas.filter = 'none';
+		}
 
 		// Draw the arousal meter & game images on certain conditions
 		if (CurrentScreen != "ChatRoom" || ChatRoomHideIconState <= 1) {
@@ -683,24 +687,21 @@ function DrawImageEx(
 	}
 
 	// Blit the transformed image to the main canvas, applying opacity and zoom
-	Canvas.save();
+
+	// Instead of expensive save/restore, we store the relevant state info and restore it manually
+	let savedCompositeOperation = Canvas.globalCompositeOperation;
+	let savedAlpha = Canvas.globalAlpha;
 
 	Canvas.globalCompositeOperation = BlendingMode;
 	Canvas.globalAlpha = Alpha;
 
-	Canvas.translate(X, Y);
+	// Performance benefits from combining transforms is usually minimal to none but in cases with multiple transforms it adds up
+	const a = Zoom * (Mirror ? -1 : 1);   // Scaling and horizontal mirroring
+	const d = Zoom * (Invert ? -1 : 1);    // Scaling and vertical inversion
+	const e = X + (Mirror ? Width : 0);    // Translation in x
+	const f = Y + (Invert ? Height : 0);   // Translation in y
 
-	if (Zoom != 1) {
-		Canvas.scale(Zoom, Zoom);
-	}
-
-	if (Invert) {
-		Canvas.transform(1, 0, 0, -1, 0, Height);
-	}
-
-	if (Mirror) {
-		Canvas.transform(-1, 0, 0, 1, Width, 0);
-	}
+	Canvas.transform(a, 0, 0, d, e, f);
 
 	if (SourcePos) {
 		Canvas.drawImage(destCanvas, SourcePos[0], SourcePos[1], SourcePos[2], SourcePos[3], 0, 0, Width, Height);
@@ -710,7 +711,9 @@ function DrawImageEx(
 		Canvas.drawImage(destCanvas, 0, 0);
 	}
 
-	Canvas.restore();
+	Canvas.globalCompositeOperation = savedCompositeOperation;
+	Canvas.globalAlpha = savedAlpha;
+	Canvas.resetTransform();
 	return true;
 }
 
@@ -799,7 +802,7 @@ function GetWrapTextSize(Text, Width, MaxLine) {
  * @param {"Center" | "Top"} Alignment - How the text should be alligned w.r.t. the Y position when wrapped over multiple lines
  * @returns {void} - Nothing
  */
-function DrawTextWrap(Text, X, Y, Width, Height, ForeColor, BackColor, MaxLine, LineSpacing=23, Alignment="Center") {
+function DrawTextWrap(Text, X, Y, Width, Height, ForeColor, BackColor, MaxLine, LineSpacing = 23, Alignment = "Center") {
 	ControllerAddActiveArea(X, Y);
 
 	// Draw the rectangle if we need too
@@ -912,7 +915,7 @@ function DrawTextFit(Text, X, Y, Width, Color, BackColor) {
 const DrawingGetTextSize = CommonMemoize(
 	/** @type {(Text: string, width: number) => [text: string, size: number]} */
 	(Text, Width) => {
-	// If it doesn't fit, test with smaller and smaller fonts until it fits
+		// If it doesn't fit, test with smaller and smaller fonts until it fits
 		let S;
 		for (S = 36; S >= 10; S = S - 2) {
 			MainCanvas.font = CommonGetFont(S.toString());
@@ -1277,7 +1280,10 @@ function DrawRoomBackground(URL, bounds, opts) {
 			DrawRect(...destRect, ChatRoomCustomFilter);
 		}
 
-		MainCanvas.filter = 'none';
+		// Resetting the filter is expensive, even if there's no change. Only change the filter if we need to.
+		if (blur > 0) {
+			MainCanvas.filter = 'none';
+		}
 
 		// Draw an overlay if the character is partially blinded
 		if (darken < 1) {
@@ -1288,7 +1294,7 @@ function DrawRoomBackground(URL, bounds, opts) {
 		DrawRect(...RectGetFrame(bounds), "#000");
 	}
 
-	for (const {r, g, b, a} of tints) {
+	for (const { r, g, b, a } of tints) {
 		DrawRect(bounds.x, bounds.y, bounds.w, bounds.h, `rgba(${r},${g},${b},${a})`);
 	}
 }
@@ -1325,7 +1331,7 @@ function DrawFlashScreen(Color, Duration, Intensity) {
  * @returns {string} - alpha of screen flash
  */
 function DrawGetScreenFlashAlpha(FlashTime) {
-	let alpha = Math.max(0, Math.min(255, Math.floor(DrawScreenFlashStrength * (1 - Math.exp(-FlashTime/2500))))).toString(16);
+	let alpha = Math.max(0, Math.min(255, Math.floor(DrawScreenFlashStrength * (1 - Math.exp(-FlashTime / 2500))))).toString(16);
 	if (alpha.length < 2) alpha = "0" + alpha;
 	return alpha;
 }
@@ -1457,7 +1463,7 @@ function DrawProcessScreenFlash() {
 	if (BlindFlash == true && CurrentTime < DrawingBlindFlashTimer) {
 		if (Player.GetBlindLevel() == 0) {
 			let FlashTime = DrawingBlindFlashTimer - CurrentTime;
-			DrawRect(0, 0, 2000, 1000, "#ffffff" + DrawGetScreenFlashAlpha(FlashTime/Math.max(1, 4 - DrawLastDarkFactor)));
+			DrawRect(0, 0, 2000, 1000, "#ffffff" + DrawGetScreenFlashAlpha(FlashTime / Math.max(1, 4 - DrawLastDarkFactor)));
 		}
 	}
 
@@ -1527,7 +1533,7 @@ function DrawAssetPreview(X, Y, A, Options) {
 
 	if (Description == null) Description = C ? A.DynamicDescription(C) : A.Description;
 
-	DrawPreviewBox(X, Y, Path, Description, { Background, Foreground, Vibrating, Border, Hover, HoverBackground, Disabled, Icons, Width, Height});
+	DrawPreviewBox(X, Y, Path, Description, { Background, Foreground, Vibrating, Border, Hover, HoverBackground, Disabled, Icons, Width, Height });
 }
 
 /** The default width of item previews */
@@ -1679,7 +1685,7 @@ function DrawCharacterSegment(C, Left, Top, Width, Height) {
  * @param {number} [y] - The y-position on the target canvas that the final image should be drawn at
  */
 function DrawImageTrapezify(image, targetCanvas, topToBottomRatio, x = 0, y = 0) {
-	const {width, height} = image;
+	const { width, height } = image;
 	let xStartTop = 0;
 	let xStartBottom = 0;
 
