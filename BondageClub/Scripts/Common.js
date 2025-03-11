@@ -494,6 +494,8 @@ function CommonGetScreen() {
 	return /** @type {ScreenSpecifier} */([CurrentModule, CurrentScreen]);
 }
 
+var ScreenIsLoading = false;
+
 /**
  * Sets the current screen and calls the loading script if needed
  * @param {ScreenSpecifier} spec
@@ -517,6 +519,7 @@ async function CommonSetScreen(...spec) {
 		throw Error(`Screen "${NewScreen}": Missing required Click function`);
 	}
 
+	ScreenIsLoading = true;
 	CurrentModule = NewModule;
 	CurrentScreen = NewScreen;
 	CurrentScreenFunctions = {
@@ -549,6 +552,7 @@ async function CommonSetScreen(...spec) {
 	if (CurrentScreenFunctions.Resize) {
 		CurrentScreenFunctions.Resize(true);
 	}
+	ScreenIsLoading = false;
 }
 
 /**

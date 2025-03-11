@@ -1420,6 +1420,7 @@ function DrawGetDarkFactor() {
  * @returns {void} - Nothing
  */
 function DrawProcess(time) {
+	if (ScreenIsLoading) return;
 	// Clear the list of characters that were drawn last frame
 	DrawLastCharacters = [];
 
