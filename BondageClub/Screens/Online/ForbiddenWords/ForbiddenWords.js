@@ -12,7 +12,7 @@ var ForbiddenWordsConsequenceList = ["Block", "Mute5", "Mute15", "Mute30"];
  * Loads the forbidden words screen, fetches the word list from the current character rules
  * @type {ScreenLoadHandler}
  */
-function ForbiddenWordsLoad() {
+async function ForbiddenWordsLoad() {
 	ElementCreateInput("InputWord", "text", "", "50");
 	ForbiddenWordsOffset = 0;
 	ForbiddenWordsList = [];

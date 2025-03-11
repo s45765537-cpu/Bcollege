@@ -6,7 +6,7 @@ var PasswordResetMessage = "";
  * Loads the password reset screen
  * @type {ScreenLoadHandler}
  */
-function PasswordResetLoad() {
+async function PasswordResetLoad() {
 
 	// Creates the controls
 	const form = ElementCreateForm("Reset");

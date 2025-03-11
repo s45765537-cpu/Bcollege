@@ -36,7 +36,7 @@ function PrivateBedCount() {
  * Loads the private bedroom screen.
  * @type {ScreenLoadHandler}
  */
-function PrivateBedLoad() {
+async function PrivateBedLoad() {
 
 	// Clears the previous data and adds the player in bed
 	PrivateBedActivityMustRefresh = true;

@@ -175,7 +175,7 @@ let PreferenceDidAddOldStyleScreens = false;
  * for the first time
  * @type {ScreenLoadHandler}
  */
-function PreferenceLoad() {
+async function PreferenceLoad() {
 	PreferenceSubscreen = PreferenceSubscreens.find(s => s.name === "Main") ?? null;
 
 	// Backward-compatibility: just throw the old-style screens into the mix

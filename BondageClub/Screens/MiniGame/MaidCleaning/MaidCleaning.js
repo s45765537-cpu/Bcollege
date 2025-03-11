@@ -42,7 +42,7 @@ function MaidCleaningDrawSpots() {
  * Loads the maid cleaning mini game. It will select a random background and generate spots based on the difficulty
  * @type {ScreenLoadHandler}
  */
-function MaidCleaningLoad() {
+async function MaidCleaningLoad() {
 
 	// Picks a random place to clean
 	var Room = Math.floor(Math.random() * 6);

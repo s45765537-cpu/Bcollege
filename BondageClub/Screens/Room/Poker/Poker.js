@@ -45,7 +45,7 @@ var PokerOpponentList = ["None"];
  * Loads the Bondage Poker room
  * @type {ScreenLoadHandler}
  */
-function PokerLoad() {
+async function PokerLoad() {
 	PokerPlayer[0].Character = Player;
 	PokerPlayer[0].Name = Player.Name;
 	if (Player.Game == null) Player.Game = {};

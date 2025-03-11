@@ -118,7 +118,7 @@ function HorseWalkDrawItem() {
  * Loads the Horse Walk mini game and generate the items, there are more carrots on harder difficulties and there are less of them overall on mobile because it is hard (no mouse swiping)
  * @type {ScreenLoadHandler}
  */
-function HorseWalkLoad() {
+async function HorseWalkLoad() {
 
 	HorseWalkBackground = "HorseStable";
 

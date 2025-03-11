@@ -102,7 +102,7 @@ function ChatAdminRoomCustomizationCommand(Property, Value) {
  * Loads the chat Admin Custom screen properties and creates the inputs
  * @type {ScreenLoadHandler}
  */
-function ChatAdminRoomCustomizationLoad() {
+async function ChatAdminRoomCustomizationLoad() {
 	ChatAdminRoomCustomizationMode = null;
 	ChatAdminRoomCustomizationCurrent = null;
 	const data = ChatAdminData.Custom ? CommonCloneDeep(ChatAdminData.Custom) : { ImageURL: "", ImageFilter: "", MusicURL: ""};

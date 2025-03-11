@@ -1295,7 +1295,7 @@ function DrawLineCorner(x0, y0, x1, y1, x2, y2, lineWidth = 2, color = "black") 
  * @returns {string | undefined} - Path to the custom background, or undefined if none
  */
 function DrawGetCustomBackground(C) {
-	return C.CustomBackground;
+	return C?.CustomBackground;
 }
 
 /**

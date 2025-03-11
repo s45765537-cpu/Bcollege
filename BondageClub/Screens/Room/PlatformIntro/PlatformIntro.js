@@ -5,7 +5,7 @@ var PlatformIntroDrawAsset = -1;
  * Loads the screen
  * @type {ScreenLoadHandler}
  */
-function PlatformIntroLoad() {
+async function PlatformIntroLoad() {
 	PlatformIntroDrawAsset = -1;
 }
 

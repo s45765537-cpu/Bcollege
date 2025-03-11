@@ -8,7 +8,7 @@ var NicknameManagementLock = false;
  * Loads the Nickname Management screen
  * @type {ScreenLoadHandler}
  */
-function NicknameManagementLoad() {
+async function NicknameManagementLoad() {
 	if (NicknameManagementTarget.Nickname == null) NicknameManagementTarget.Nickname = "";
 	ElementCreateInput("InputNickname", "text", NicknameManagementTarget.Nickname, "20");
 	NicknameManagementLock = LogQueryRemote(NicknameManagementTarget, "BlockNickname", "OwnerRule");

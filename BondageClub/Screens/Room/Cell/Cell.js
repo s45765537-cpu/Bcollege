@@ -9,7 +9,7 @@ var CellKeyDepositStaff = null;
  * Loads the cell screen and its NPC, then checks if it should be locked or not
  * @type {ScreenLoadHandler}
  */
-function CellLoad() {
+async function CellLoad() {
 	CellKeyDepositStaff = CharacterLoadNPC("NPC_Cell_KeyDepositStaff");
 	CellKeyDepositStaff.AllowItem = false;
 	PoseSetActive(Player, null);

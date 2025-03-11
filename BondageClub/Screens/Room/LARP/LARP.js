@@ -13,7 +13,7 @@ function LARPCanPlayClubCard() { return (!Player.IsRestrained() && !CurrentChara
  * Loads the LARP introduction room NPC
  * @type {ScreenLoadHandler}
  */
-function LARPLoad() {
+async function LARPLoad() {
 	if (LARPOrganiser == null) {
 		LARPOrganiser = CharacterLoadNPC("NPC_LARP_Organiser");
 		CharacterNaked(LARPOrganiser);

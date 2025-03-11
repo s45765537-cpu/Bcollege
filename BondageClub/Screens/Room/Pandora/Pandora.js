@@ -60,7 +60,7 @@ function PandoraCanAskForPaint() { return (!PandoraPaint && (PandoraClothes == "
  * Loads the Pandora's Box screen
  * @type {ScreenLoadHandler}
  */
-function PandoraLoad() {
+async function PandoraLoad() {
 }
 
 /**
@@ -300,8 +300,10 @@ function PandoraClick() {
 		for (let P = 0; P < PandoraCurrentRoom.Path.length; P++)
 			if (MouseIn(1900, 25 + P * 115, 90, 90)) {
 				const Floor = PandoraCurrentRoom.Path[P].Floor;
-				if (Floor == "Exit")
-					return CommonSetScreen("Room", "Infiltration");
+				if (Floor == "Exit") {
+					CommonSetScreen("Room", "Infiltration");
+					return;
+				}
 				if ((Floor == "Search") || (Floor == "Paint") || (Floor == "Rest"))
 					return PandoraSetMode(Floor);
 				return PandoraEnterRoom(/** @type {PandoraBaseRoom} */(PandoraCurrentRoom.Path[P]));

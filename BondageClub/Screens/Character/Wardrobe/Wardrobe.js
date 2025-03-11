@@ -89,7 +89,7 @@ function WardrobeLoadCharacters(Fast) {
  * @type {ScreenLoadHandler}
  *
  */
-function WardrobeLoad() {
+async function WardrobeLoad() {
 	WardrobeSelection = -1;
 	CurrentDarkFactor = 0.5;
 	// Always open the wardrobe on the first page

@@ -7,7 +7,7 @@ var CreationMessage = "";
  * and creates the input fields. This function is called dynamically.
  * @type {ScreenLoadHandler}
  */
-function CreationLoad() {
+async function CreationLoad() {
 
 	// Gets the info to import Bondage College data
 	let DefaultName = "";

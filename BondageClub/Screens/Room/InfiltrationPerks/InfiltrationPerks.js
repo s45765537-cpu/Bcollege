@@ -46,7 +46,7 @@ function InfiltrationPerksAvail() {
  * Loads the infiltration perks screen, checks if there's an invalid perk and clears the list if it's the case
  * @type {ScreenLoadHandler}
  */
-function InfiltrationPerksLoad() {
+async function InfiltrationPerksLoad() {
 	if ((Player.Infiltration != null) && (Player.Infiltration.Perks != null) && (Player.Infiltration.Perks.length > InfiltrationPerksList.length))
 		Player.Infiltration.Perks = "";
 }

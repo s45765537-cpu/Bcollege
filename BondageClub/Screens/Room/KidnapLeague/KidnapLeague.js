@@ -160,7 +160,7 @@ function KidnapLeagueResetOnlineBountyProgress() {
  * Loads the kidnap league NPC
  * @type {ScreenLoadHandler}
  */
-function KidnapLeagueLoad() {
+async function KidnapLeagueLoad() {
 	KidnapLeagueBackground = "KidnapLeague";
 	KidnapLeagueTrainer = CharacterLoadNPC("NPC_KidnapLeague_Trainer");
 	KidnapLeagueTrainer.AllowItem = ((KidnapLeagueTrainer.Stage == "100") || (KidnapLeagueTrainer.Stage == "110"));

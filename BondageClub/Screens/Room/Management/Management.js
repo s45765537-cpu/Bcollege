@@ -389,7 +389,7 @@ function ManagementFriendIsChaste() {
  * Loads the club management room, creates the Mistress and sub character
  * @type {ScreenLoadHandler}
  */
-function ManagementLoad() {
+async function ManagementLoad() {
 	ManagementBackground = "Management";
 	if ((ManagementMistress == null) && (TextGet("Mistress") != "")) {
 		ManagementMistress = CharacterLoadNPC("NPC_Management_Mistress", null, "Room", "Management");

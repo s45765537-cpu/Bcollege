@@ -63,7 +63,7 @@ function CollegeTeacherMildredClothes(C) {
  * Loads the teacher's lounge and generates Mildred
  * @type {ScreenLoadHandler}
  */
-function CollegeTeacherLoad() {
+async function CollegeTeacherLoad() {
 
 	// Generates a full Mildred model based on the Bondage College template
 	if (CollegeTeacherMildred == null) {

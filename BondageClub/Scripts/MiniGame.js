@@ -19,7 +19,7 @@ let KDPatched = false;
 /**
  * @type {ScreenLoadHandler}
  */
-function MiniGameLoad() {
+async function MiniGameLoad() {
 	if (CurrentScreen == "Kidnap" || CurrentScreen == "HorseWalk") CurrentDarkFactor = 0.5;
 }
 

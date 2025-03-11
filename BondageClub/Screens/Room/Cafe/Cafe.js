@@ -90,7 +90,7 @@ function CafeCanPlayClubCard() { return (!Player.IsRestrained() && !CurrentChara
  * Loads the Cafe room and initializes the NPCs. This function is called dynamically
  * @type {ScreenLoadHandler}
  */
-function CafeLoad() {
+async function CafeLoad() {
 	CafeMaid = CharacterLoadNPC("NPC_Cafe_Maid");
 	CafeIsMaid = LogQuery("JoinedSorority", "Maid");
 	CafeIsHeadMaid = LogQuery("LeadSorority", "Maid");

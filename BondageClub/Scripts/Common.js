@@ -497,9 +497,9 @@ function CommonGetScreen() {
 /**
  * Sets the current screen and calls the loading script if needed
  * @param {ScreenSpecifier} spec
- * @returns {void} - Nothing
+ * @returns {Promise<void>} - Nothing
  */
-function CommonSetScreen(...spec) {
+async function CommonSetScreen(...spec) {
 	if (CurrentScreenFunctions && CurrentScreenFunctions.Unload) {
 		CurrentScreenFunctions.Unload();
 	}
@@ -539,11 +539,12 @@ function CommonSetScreen(...spec) {
 	CommonGetFont.clearCache();
 	CommonGetFontName.clearCache();
 	TextLoad();
+	await TextScreenCache.loadedPromise;
 
 	ElementToggleGeneratedElements(CurrentScreen, true);
 
 	if (CurrentScreenFunctions.Load) {
-		CurrentScreenFunctions.Load();
+		await CurrentScreenFunctions.Load();
 	}
 	if (CurrentScreenFunctions.Resize) {
 		CurrentScreenFunctions.Resize(true);

@@ -3308,6 +3308,7 @@ class _DialogFocusMenu extends DialogMenu {
 	Load() {
 		super.Load();
 		document.getElementById(this.ids.root)?.setAttribute("data-group", this.focusGroup.Name);
+		return;
 	}
 }
 

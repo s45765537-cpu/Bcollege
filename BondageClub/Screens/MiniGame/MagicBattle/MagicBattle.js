@@ -40,7 +40,7 @@ function MagicBattleStart(Opponent, Difficulty, Background, FunctionName) {
  * Loads the magic battle
  * @type {ScreenLoadHandler}
  */
-function MagicBattleLoad() {
+async function MagicBattleLoad() {
 }
 
 /**

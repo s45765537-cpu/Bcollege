@@ -28,7 +28,7 @@ function CollegeEntranceCanGoTeacher() { return (Player.CanWalk() && Player.CanT
  * Loads the college entrance room and its student NPC
  * @type {ScreenLoadHandler}
  */
-function CollegeEntranceLoad() {
+async function CollegeEntranceLoad() {
 	if (CollegeEntranceStudent == null) {
 		CollegeEntranceStudent = CharacterLoadNPC("NPC_CollegeEntrance_Student");
 		CollegeEntranceWearStudentClothes(CollegeEntranceStudent);

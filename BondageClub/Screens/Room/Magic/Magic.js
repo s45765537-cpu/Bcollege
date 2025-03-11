@@ -98,7 +98,7 @@ function MagicRestrainMinItem(C, MinItem) {
  * Loads the room characters, saves their inventories and starts the show
  * @type {ScreenLoadHandler}
  */
-function MagicLoad() {
+async function MagicLoad() {
 	// Default load
 	if (MagicPerformer == null) {
 		MagicPerformer = CharacterLoadNPC("NPC_Magic_Performer");

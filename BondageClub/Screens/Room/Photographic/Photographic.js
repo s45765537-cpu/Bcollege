@@ -48,7 +48,7 @@ function PhotographicIsMaidsDisabledAndRestrained() { return (Player.IsRestraine
 /**
  * @type {ScreenLoadHandler}
  */
-function PhotographicLoad() {
+async function PhotographicLoad() {
 	if (PhotographicSub == null) {
 		PhotographicSub = CharacterLoadNPC("NPC_Photographic_Sub");
 		PhotographicSubAppearance = PhotographicSub.Appearance.slice();

@@ -102,7 +102,7 @@ function SarahSetStatus() {
  * Loads the Sarah room
  * @type {ScreenLoadHandler}
  */
-function SarahLoad() {
+async function SarahLoad() {
 
 	// Add the player if we need too
 	if (SarahCharacter.length == 0)

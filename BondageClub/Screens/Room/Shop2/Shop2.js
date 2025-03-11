@@ -657,7 +657,7 @@ var Shop2 = {
 		Character: {
 			Coords: [650, 0, 0, 0],
 			Mode: new Set(["Preview", "Buy", "Sell", "Extended", "Color", "Layering"]),
-			Load: () => {
+			Load: async () => {
 				if (Shop2InitVars.Preview) {
 					return;
 				}
@@ -683,7 +683,7 @@ var Shop2 = {
 		InputSearch: {
 			Coords: [25, 38, 660, 60],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Load: () => {
+			Load: async () => {
 				let elem = /** @type {null | HTMLInputElement} */(document.getElementById("Shop2InputSearch"));
 				if (elem) {
 					elem.toggleAttribute("hidden", false);
@@ -769,7 +769,7 @@ var Shop2 = {
 		GroupSelect: {
 			Coords: [25, Shop2Consts.Grid.y + 100, 660, Shop2Consts.Grid.height - 120],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Load: () => {
+			Load: async () => {
 				let elem = document.getElementById("Shop2GroupSelect");
 				if (elem) {
 					elem.toggleAttribute("hidden", true);
@@ -849,7 +849,7 @@ var Shop2 = {
 		PoseSelect: {
 			Coords: [25, Shop2Consts.Grid.y + 260, 660, Shop2Consts.Grid.height - 280],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
-			Load: () => {
+			Load: async () => {
 				const elem = document.getElementById("Shop2PoseSelect");
 				if (elem) {
 					elem.toggleAttribute("hidden", false);
@@ -1176,7 +1176,7 @@ var Shop2 = {
 };
 
 /** @type {ScreenLoadHandler} */
-function Shop2Load() {
+async function Shop2Load() {
 	if (Shop2InitVars.Items.length === 0) {
 		Shop2InitVars.Items = Shop2.ParseAssets(
 			Asset.filter(a => {

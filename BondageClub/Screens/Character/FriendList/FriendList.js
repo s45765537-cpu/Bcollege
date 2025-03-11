@@ -50,7 +50,7 @@ const FriendListIDs = Object.freeze({
 
 //#region SCREEN FUNCTIONS
 /** @type {ScreenLoadHandler} */
-function FriendListLoad() {
+async function FriendListLoad() {
 	const mode = FriendListMode[FriendListModeIndex];
 
 	FriendListConfirmDelete = [];

@@ -15,7 +15,7 @@ function AsylumTherapyPatientReadyForTherapy() { return (!Player.IsRestrained() 
  * Loads the room and initializes the nurse and the patient
  * @type {ScreenLoadHandler}
  */
-function AsylumTherapyLoad() {
+async function AsylumTherapyLoad() {
 	if (AsylumTherapyNurse == null) {
 		AsylumTherapyNurse = CharacterLoadNPC("NPC_AsylumTherapy_Nurse");
 		AsylumEntranceWearNurseClothes(AsylumTherapyNurse);

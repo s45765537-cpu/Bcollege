@@ -699,7 +699,7 @@ function CharacterAppearanceYOffset(C, HeightRatio, IgnoreUpButton) {
  * Loads the character appearance screen and keeps a backup of the previous appearance. The function name is created dynamically.
  * @type {ScreenLoadHandler}
  */
-function AppearanceLoad() {
+async function AppearanceLoad() {
 	DialogFocusItem = null;
 	CharacterAppearanceMode = "";
 	CharacterAppearanceOffset = 0;

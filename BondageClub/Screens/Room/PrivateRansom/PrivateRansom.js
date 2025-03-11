@@ -39,7 +39,7 @@ function PrivateRansomStart() {
  * Loads the private ransom note screen
  * @type {ScreenLoadHandler}
  */
-function PrivateRansomLoad() {
+async function PrivateRansomLoad() {
 }
 
 /**

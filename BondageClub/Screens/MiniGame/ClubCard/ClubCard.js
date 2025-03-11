@@ -5140,7 +5140,7 @@ function ClubCardCommonLoad() {
  * Loads the club card mini-game: Assigns the opponents and draws the cards
  * @type {ScreenLoadHandler}
  */
-function ClubCardLoad() {
+async function ClubCardLoad() {
 	ClubCardCommonLoad();
 	ClubCardOnlinePlayerMemberNumber1 = -1;
 	ClubCardOnlinePlayerMemberNumber2 = -1;

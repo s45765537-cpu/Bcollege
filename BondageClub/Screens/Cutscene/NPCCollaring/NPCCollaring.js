@@ -15,7 +15,7 @@ var NPCCollaringGirlRight = null;
  * Loads the NPC collaring cutscene by creating the random NPCs and setting the stage
  * @type {ScreenLoadHandler}
  */
-function NPCCollaringLoad() {
+async function NPCCollaringLoad() {
 	CutsceneStage = 0;
 	NPCCollaringMistressLeft = CharacterLoadNPC("NPC_MistressLeft");
 	NPCCollaringMistressRight = CharacterLoadNPC("NPC_MistressRight");

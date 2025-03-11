@@ -5,7 +5,7 @@ var AsylumBedroomBackground = "AsylumBedroom";
  * Loads the room and initializes the UI elements. Called dynamically
  * @type {ScreenLoadHandler}
  */
-function AsylumBedroomLoad() {
+async function AsylumBedroomLoad() {
 	if (Player.ImmersionSettings && Player.LastChatRoom && (AsylumGGTSGetLevel(Player) <= 0)) {
 		// We return to the chat room that the player was last in
 		if (Player.ImmersionSettings.ReturnToChatRoom) {

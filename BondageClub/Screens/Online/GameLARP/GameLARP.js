@@ -119,7 +119,7 @@ function GameLARPDrawIcon(C, X, Y, Zoom) {
  * Loads the LARP game.
  * @type {ScreenLoadHandler}
  */
-function GameLARPLoad() {
+async function GameLARPLoad() {
 	if (Player.Game == null) Player.Game = {};
 	let game = Player.Game.LARP;
 	Player.Game.LARP = {

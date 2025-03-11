@@ -5239,7 +5239,7 @@ function PlatformDialogStart(DialogName) {
  * Loads the screen
  * @type {ScreenLoadHandler}
  */
-function PlatformDialogLoad() {
+async function PlatformDialogLoad() {
 }
 
 /**

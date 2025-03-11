@@ -62,7 +62,7 @@ function PrisonSubCanClothBack()    {return  (PrisonSubIsStripSearch && PrisonSu
  * Loads the Prison screen
  * @type {ScreenLoadHandler}
  */
-function PrisonLoad() {
+async function PrisonLoad() {
 	if (PrisonMaid == null) {
 		PrisonMaid = CharacterLoadNPC("NPC_Prison_Maid");
 		PrisonMaidCharacter = CommonRandomItemFromList(PrisonMaidCharacter, PrisonMaidCharacterList);

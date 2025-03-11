@@ -10,7 +10,7 @@ var InformationSheetSecondScreen = false;
  * Loads the Information Sheet, cache the sub screens
  * @type {ScreenLoadHandler}
  */
-function InformationSheetLoad() {
+async function InformationSheetLoad() {
 	TextPrefetch("Character", "FriendList");
 	TextPrefetch("Character", "Preference");
 	TextPrefetch("Character", "Title");

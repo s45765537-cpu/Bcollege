@@ -73,7 +73,7 @@ function GameMagicBattleDrawIcon(C, X, Y, Zoom) {
  * Loads the Magic Battle game.
  * @type {ScreenLoadHandler}
  */
-function GameMagicBattleLoad() {
+async function GameMagicBattleLoad() {
 	if (Player.Game == null) Player.Game = {};
 	let game = Player.Game.MagicBattle;
 	Player.Game.MagicBattle = {

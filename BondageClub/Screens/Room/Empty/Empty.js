@@ -29,7 +29,7 @@ function EmptySlaveMarketReadyForBondageTraining() { return (Player.CanInteract(
  * Loads the empty room screen. Does nothing, required for future use and because it is called dynamically when loading the screen.
  * @type {ScreenLoadHandler}
  */
-function EmptyLoad() {
+async function EmptyLoad() {
 }
 
 /**

@@ -154,7 +154,7 @@ function GamblingCanStealDice() {return (LogQuery("Joined", "BadGirl") && !(LogQ
  * This function is called dynamically.
  * @type {ScreenLoadHandler}
  */
-function GamblingLoad() {
+async function GamblingLoad() {
 
 	// Default load
 	if (GamblingFirstSub == null) {

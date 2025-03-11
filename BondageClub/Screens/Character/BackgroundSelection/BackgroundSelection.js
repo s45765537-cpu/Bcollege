@@ -62,7 +62,7 @@ function BackgroundSelectionSort(a, b) {
  * Function coiuld be called dynamically, so the body has to be there, even if it does nothing.
  * @type {ScreenLoadHandler}
  */
-function BackgroundSelectionLoad() {
+async function BackgroundSelectionLoad() {
 	BackgroundSelectionSelect = BackgroundSelectionList[BackgroundSelectionIndex];
 	BackgroundSelectionOffset = Math.floor(BackgroundSelectionIndex / BackgroundSelectionSize) * BackgroundSelectionSize;
 	BackgroundSelectionBackground = BackgroundSelectionList[BackgroundSelectionIndex] ?? "Introduction";

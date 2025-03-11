@@ -11,7 +11,7 @@ var SophieIntroDone = false;
  * Loads the Sarah/Amanda/Sophie intro cutscene by creating the NPCs and setting the stage based on the current state the player is at in the story
  * @type {ScreenLoadHandler}
  */
-function SarahIntroLoad() {
+async function SarahIntroLoad() {
 	CutsceneStage = 0;
 	if ((SarahIntroType == "SarahExplore") && (SarahStatus != "") && (LogQuery("SarahWillBePunished", "NPC-SarahIntro") || LogQuery("SarahWillBePunished", "NPC-SarahIntro"))) SarahIntroType = "SarahSearch";
 	if ((SarahIntroType == "SarahExplore") && (SarahStatus != "") && !LogQuery("SarahWillBePunished", "NPC-SarahIntro") && !LogQuery("SarahWillBePunished", "NPC-SarahIntro")) SarahIntroType = "SarahSurprise";

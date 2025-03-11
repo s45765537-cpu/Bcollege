@@ -586,7 +586,7 @@ function KDSaveToggles() {
  * Loads the kinky dungeon game
  * @type {ScreenLoadHandler}
  */
-function KinkyDungeonLoad() {
+async function KinkyDungeonLoad() {
 	KinkyDungeonSetupCrashHandler();
 	KDStartTime = CommonTime();
 

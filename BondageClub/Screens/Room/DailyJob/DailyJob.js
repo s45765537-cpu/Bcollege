@@ -43,7 +43,7 @@ function DailyJobPuppyLoad(GirlNum) {
  * Loads the daily job room screen characters. This changes based on the current job being performed.
  * @type {ScreenLoadHandler}
  */
-function DailyJobLoad() {
+async function DailyJobLoad() {
 	DailyJobBackground = "MainHall";
 	if ((DailyJobOpponent == null) && (IntroductionJobCurrent == "DomKidnap")) {
 		DailyJobOpponent = CharacterLoadNPC("NPC_DailyJob_Opponent");

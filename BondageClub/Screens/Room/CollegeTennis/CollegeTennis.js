@@ -21,7 +21,7 @@ function CollegeTennisCanInviteToPrivateRoom() { return PrivateHasEmptySlot(); }
  * Loads the tennis screen by generating Jennifer. The player's relationship with her from the bondage college is taken into consideration.
  * @type {ScreenLoadHandler}
  */
-function CollegeTennisLoad() {
+async function CollegeTennisLoad() {
 
 	// Sets Jennifer current relationship with the player
 	if (LogQuery("BondageCollege", "Import")) CollegeTennisJenniferStatus = "SchoolMate";

@@ -5,7 +5,7 @@ var DisclaimerBackground = "Sheet";
  * Loads the disclaimer screen
  * @type {ScreenLoadHandler}
  */
-function DisclaimerLoad() {
+async function DisclaimerLoad() {
 }
 
 /**

@@ -16,7 +16,7 @@ var NPCSlaveAuctionAmount = 0;
  * Loads the slave auction cutscene by creating the NPCs and setting the stage.
  * @type {ScreenLoadHandler}
  */
-function NPCSlaveAuctionLoad() {
+async function NPCSlaveAuctionLoad() {
 	CutsceneStage = 0;
 	NPCSlaveAuctionMistress = CharacterLoadNPC("NPC_Mistress");
 	NPCSlaveAuctionGirlLeft = CharacterLoadNPC("NPC_GirlLeft");

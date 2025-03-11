@@ -65,7 +65,7 @@ function NurseryPlayerCanRegress() { return !InventoryGet(Player, "ItemMouth3") 
  * Loads the nursery room
  * @type {ScreenLoadHandler}
  */
-function NurseryLoad() {
+async function NurseryLoad() {
 	if (NurseryPlayerAppearance == null) NurseryPlayerAppearance = Player.Appearance.slice();
 	NurseryNurse = CharacterLoadNPC("NPC_Nursery_Nurse");
 	NurseryNurseOutfitForNPC(NurseryNurse);

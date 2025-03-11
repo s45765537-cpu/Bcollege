@@ -713,7 +713,7 @@ function WheelFortuneInventoryWear(Group, Minutes) {
  * Loads the lucky wheel mini game and builds the wheel
  * @type {ScreenLoadHandler}
  */
-function WheelFortuneLoad() {
+async function WheelFortuneLoad() {
 
 	// Resets to the default wheel if the character wheel is incorrect
 	WheelFortuneList = "";

@@ -79,7 +79,7 @@ function StableCanPlayClubCard() { return (!Player.IsRestrained() && !CurrentCha
  * Loads the stable characters with many restraints
  * @type {ScreenLoadHandler}
  */
-function StableLoad() {
+async function StableLoad() {
 	// Give items to the player in case they completed the exam before they were added
 	if (StablePlayerIsExamTrainer() || StablePlayerIsExamPony()) {
 		/** @type {ItemBundle[]} */

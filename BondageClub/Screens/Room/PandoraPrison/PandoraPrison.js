@@ -17,7 +17,7 @@ var PandoraQuickiePleasure = 0;
  * Loads the Pandora's Box prison screen
  * @type {ScreenLoadHandler}
  */
-function PandoraPrisonLoad() {
+async function PandoraPrisonLoad() {
 	PandoraParty = [];
 	if (!PandoraPrisonEscaped) PandoraPrisonCharacter = null;
 	if (PandoraPrisonMaid == null) {

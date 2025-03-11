@@ -40,7 +40,7 @@ function SlaveMarketSlaveTitleIs(Title) { return ((SlaveMarketSlave.Title != nul
  * Loads the Slave Market room, generates the Mistress and slave
  * @type {ScreenLoadHandler}
  */
-function SlaveMarketLoad() {
+async function SlaveMarketLoad() {
 	if (SlaveMarketMistress == null) {
 		SlaveMarketMistress = CharacterLoadNPC("NPC_SlaveMarket_Mistress");
 		SlaveMarketMistress.AllowItem = false;

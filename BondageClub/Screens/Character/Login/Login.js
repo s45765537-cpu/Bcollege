@@ -133,7 +133,7 @@ var LoginEventListeners = {
  * Loads the character login screen
  * @type {ScreenLoadHandler}
  */
-function LoginLoad() {
+async function LoginLoad() {
 
 	// Resets the player and other characters
 	Character = [];
