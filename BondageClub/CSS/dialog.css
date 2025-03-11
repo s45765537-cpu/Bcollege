@@ -273,7 +273,11 @@
 	--dialog-button-size: min(8vh, 4vw);
 	grid-template:
 		". dialog-status dialog-menubar" min-content
-		"dialog-paginate dialog-grid dialog-grid" calc(6px + 8 * var(--dialog-button-size) + 7 * var(--gap)) / var(--menu-button-size) auto calc(var(--menu-button-size) + 3px + var(--scrollbar-gutter));
+		"dialog-paginate dialog-grid dialog-grid" auto / var(--menu-button-size) auto calc(var(--menu-button-size) + 3px + var(--scrollbar-gutter));
+}
+
+#dialog-dialog-grid {
+	max-height: calc(6px + 8 * var(--dialog-button-size) + 7 * var(--gap));
 }
 
 #dialog-dialog-status {
