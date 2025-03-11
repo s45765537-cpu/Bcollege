@@ -250,8 +250,10 @@ Will you bring me water and food?
 Yes, guards will come from time to time to check on you.  Don't try anything funny.
 是的，警卫会不时来检查你。别试图做不理智的事情。
 ###_PLAYER
-Fine, I'm ready.  (Start your sentence.)
-好吧，我准备好了。（开始你的刑期。）
+Fine, I'm ready.  (Start a single-player sentence.)
+好吧，我准备好了。（开始一段单人玩家的刑期。）
+Fine, I'm ready.  (Start a multi-player sentence.)
+好吧，我准备好了。（开始一段多人玩家的刑期。）
 (Try to shake the gag off.)
 （试着晃掉口塞。）
 ###_NPC
@@ -290,5 +292,7 @@ You will pay for this.
 (She laughs at you.)  Aren't you cute?  I'll make sure the guards whip you a little harder.
 （她朝你笑起来。）你真可爱！我保证会让警卫鞭打你时更用些力的。
 ###_PLAYER
-(Start your sentence.)
-（开始刑期。）
+(Start a single-player sentence.)
+（开始一段单人玩家的刑期。）
+(Start a multi-player sentence.)
+（开始一段多人玩家的刑期。）
