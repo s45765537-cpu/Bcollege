@@ -64,8 +64,11 @@ function CharacterCreatePlayer() {
 	Player = /** @type {PlayerCharacter} */ (CharacterCreate("Female3DCG", CharacterType.PLAYER, ""));
 	// We reset that here because a lot of checks depends on this being true
 	// Our old 0-ID'ed character was the player dummy before login
+	const oldId = Player.ID;
 	Player.ID = 0;
 	Character[0] = Player;
+	Character.splice(oldId, 1);
+	CharacterNextId--;
 	CharacterLoadCSVDialog(Player, { module: "Character", screen: "Player", name: "Player" });
 }
 
