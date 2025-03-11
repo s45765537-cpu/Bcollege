@@ -324,15 +324,10 @@ var ClubCardList = [
 		OnPlay: function(CCPlayer) {
 			if (ClubCardSelection == null) return;
 
-			if (ClubCardSelection.Location == "PlayerBoard") {
-				const indexToRemove = CCPlayer.Event.findIndex(c => c.ID === ClubCardSelection.ID);
-				CCPlayer.Event.splice(indexToRemove, 1);
-			}
-			if (ClubCardSelection.Location == "OpponentBoard") {
-				const opponent = ClubCardGetOpponent(CCPlayer);
-				const indexToRemove = opponent.Event.findIndex(c => c.ID === ClubCardSelection.ID);
-				opponent.Event.splice(indexToRemove, 1);
-			}
+			const target = (ClubCardSelection.Location === "PlayerBoard") ? CCPlayer : ClubCardGetOpponent(CCPlayer);
+			const indexToRemove = target.Event.findIndex(c => c.ID === ClubCardSelection.ID);
+			target.Event.splice(indexToRemove, 1);
+			target.DiscardPile.push(ClubCardSelection);
 			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "EventRemoved", {[ClubCardPlaceholderKeys.CARDNAME]: ClubCardSelection.Name}, CCPlayer);
 		},
 	},
@@ -1930,7 +1925,6 @@ var ClubCardList = [
 				Money = Money * 2;
 				auctioneersPresent--;
 			}
-			ClubCardRemoveFromBoard(CCPlayer, ClubCardSelection);
 			ClubCardPlayerAddMoney(CCPlayer, Money);
 			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "GainMoney", {[ClubCardPlaceholderKeys.AMOUNT]: Money}, CCPlayer);
 		}
@@ -2530,6 +2524,7 @@ var ClubCardList = [
 			const targetPlayer = isPlayerBoard ? CCPlayer : ClubCardGetOpponent(CCPlayer);
 			const indexToRemove = targetPlayer.Event.findIndex(c => c.ID === ClubCardSelection.ID);
 			targetPlayer.Event.splice(indexToRemove, 1);
+			targetPlayer.DiscardPile.push(ClubCardSelection);
 
 			if (ClubCardGroupIsOnBoard(CCPlayer, "Maid")) {
 				ClubCardPlayerAddMoney(CCPlayer, ClubCardSelection.RequiredLevel ? ClubCardSelection.RequiredLevel : 1);
