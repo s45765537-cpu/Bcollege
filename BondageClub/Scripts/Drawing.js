@@ -696,12 +696,12 @@ function DrawImageEx(
 	Canvas.globalAlpha = Alpha;
 
 	// Performance benefits from combining transforms is usually minimal to none but in cases with multiple transforms it adds up
-	const a = Zoom * (Mirror ? -1 : 1);   // Scaling and horizontal mirroring
-	const d = Zoom * (Invert ? -1 : 1);    // Scaling and vertical inversion
-	const e = X + (Mirror ? Width : 0);    // Translation in x
-	const f = Y + (Invert ? Height : 0);   // Translation in y
+	const scaleHoriz = Zoom * (Mirror ? -1 : 1);   // Scaling and horizontal mirroring
+	const scaleVert = Zoom * (Invert ? -1 : 1);    // Scaling and vertical inversion
+	const translateX = X + (Mirror ? Width : 0);    // Translation in x
+	const translateY = Y + (Invert ? Height : 0);   // Translation in y
 
-	Canvas.transform(a, 0, 0, d, e, f);
+	Canvas.transform(scaleHoriz, 0, 0, scaleVert, translateX, translateY);
 
 	if (SourcePos) {
 		Canvas.drawImage(destCanvas, SourcePos[0], SourcePos[1], SourcePos[2], SourcePos[3], 0, 0, Width, Height);
