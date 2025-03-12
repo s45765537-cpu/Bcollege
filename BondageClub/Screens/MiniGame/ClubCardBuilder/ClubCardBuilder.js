@@ -178,7 +178,8 @@ function ClubCardBuilderRun() {
 			if ((Index >= 0) && (Index <= 29)) {
 				let PosX = (Index % 10) * 154 + 5;
 				let PosY = Math.floor(Index / 10) * 305 + 80;
-				DrawImageResize("Screens/MiniGame/ClubCard/Sleeve/" + i + ".png", PosX, PosY, 150, 300);
+				DrawImageResize("Screens/MiniGame/ClubCard/Sleeve/" + i + ".png", PosX+2, PosY+2, 146, 296);
+				DrawImageResize("Screens/MiniGame/ClubCard/Frame/SleeveBorder.png", PosX, PosY, 150, 300);
 				if (MouseIn(PosX, PosY, 150, 300)) ClubCardBuilderCardBackFocus = i;
 				if (ClubCardBuilderSelectedCardBack == i) DrawImageResize("Screens/MiniGame/ClubCardBuilder/Selected.png", PosX + 110, PosY + 40, 40, 40);
 			}
@@ -189,7 +190,8 @@ function ClubCardBuilderRun() {
 		DrawButton(1665, 5, 90, 90, null, "White", "Icons/Next.png", TextGet("NextCardBacks"));
 		DrawButton(1550, 5, 90, 90, null, "White", "Icons/Prev.png", TextGet("PreviousCardBacks"));
 
-		DrawImageResize("Screens/MiniGame/ClubCard/Sleeve/" + ClubCardBuilderCardBackFocus + ".png", 1545, 105, 445, 890);
+		DrawImageResize("Screens/MiniGame/ClubCard/Sleeve/" + ClubCardBuilderCardBackFocus + ".png", 1549, 109, 437, 882);
+		DrawImageResize("Screens/MiniGame/ClubCard/Frame/SleeveBorder.png", 1545, 105, 445, 890);
 		if (ClubCardBuilderCardBackFocus == ClubCardBuilderSelectedCardBack) DrawImageResize("Screens/MiniGame/ClubCardBuilder/Selected.png", 1870, 200, 120, 120);
 
 		return;

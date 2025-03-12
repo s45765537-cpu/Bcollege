@@ -422,8 +422,7 @@ Effect Public Spanking,SOURCEPLAYER lost AMOUNT Fame because of public spanking.
 Title Nawashi,Nawashi
 Text Nawashi,"When she enters your club, your opponent doesn't gain fame at the end of their next turn."
 Effect Nawashi,No Fame is gained because of OPPONENTPLAYER Nawashi.
-DiscardPile,View the Streets (discard pile)
-OpponentDiscardPile,View the opponent's Streets (discard pile)
+DiscardPile,Streets (discard pile)
 Close,Close
 Title Burlington Bowtie,Burlington Bowtie
 Text Burlington Bowtie,"Gain 4 fame. Gain 2 fame per Sensei present."
