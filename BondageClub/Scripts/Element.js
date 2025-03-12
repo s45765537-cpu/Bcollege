@@ -808,6 +808,12 @@ function ElementCreateSearchInput(id, dataCallback, options=null) {
  */
 var ElementButton = {
 	/**
+	 * A unique element ID-suffix to-be assigned to buttons without an explicit ID.
+	 * @private
+	 */
+	_idCounter: 0,
+
+	/**
 	 * @private
 	 * @readonly
 	 */
@@ -1217,6 +1223,7 @@ var ElementButton = {
 	 * @returns {HTMLButtonElement} - The created button
 	 */
 	Create: function Create(id, onClick, options=null, htmlOptions=null) {
+		id ??= `button-${ElementButton._idCounter++}`;
 		let elem = /** @type {HTMLButtonElement | null} */(document.getElementById(id));
 		if (elem) {
 			console.error(`Element "${id}" already exists`);
@@ -1227,7 +1234,6 @@ var ElementButton = {
 		const buttonOptions = htmlOptions.button ?? {};
 		const tooltipOptions = htmlOptions.tooltip ?? {};
 
-		id ??= `button-${Date.now()}`;
 		options ??= {};
 		const image = this._ParseImage(id, options.image, htmlOptions.img);
 		const label = this._ParseLabel(id, options.label, options.labelPosition, htmlOptions.label);
