@@ -686,12 +686,7 @@ var ElementCheckboxDropdown = {
 			classList: ["dropdown-checkbox-grid"],
 			attributes: { id: `${idPrefix}-pair-${idSuffix}` },
 			children: [
-				{
-					tag: "input",
-					classList: ["dropdown-checkbox"],
-					attributes: { id: `${idPrefix}-checkbox-${idSuffix}`, type: "checkbox", checked },
-					eventListeners: { click: listener },
-				},
+				ElementCheckbox.Create(`${idPrefix}-checkbox-${idSuffix}`, listener, { checked }),
 				{
 					tag: "span",
 					classList: ["dropdown-checkbox-label"],
