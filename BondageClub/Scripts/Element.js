@@ -1793,6 +1793,53 @@ var ElementMenu = {
 };
 
 /**
+ * Namespace for creating DOM checkboxes.
+ */
+var ElementCheckbox = {
+	/**
+	 * A unique element ID-suffix to-be assigned to checkboxes without an explicit ID.
+	 * @private
+	 */
+	_idCounter: 0,
+
+	/**
+	 * Construct an return a DOM checkbox element (`<input type="checkbox">`)
+	 * @param {null | string} id - The ID of the element, or `null` if one must be assigned automatically
+	 * @param {(this: HTMLInputElement, ev: Event) => any} onChange - The change event listener to-be fired upon checkbox clicks
+	 * @param {null | ElementCheckbox.Options} options - High level options for the to-be created checkbox
+	 * @param {null | Partial<Record<"checkbox", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the respective (child) element
+	 */
+	Create: function Create(id, onChange, options=null, htmlOptions=null) {
+		id ??= `checkbox-${ElementCheckbox._idCounter++}`;
+		const checkbox = document.getElementById(id);
+		if (checkbox) {
+			console.error(`Element "${id}" already exists`);
+			return checkbox;
+		}
+
+		options ??= {};
+		const checkboxOptions = htmlOptions?.checkbox ?? {};
+		return ElementCreate({
+			...checkboxOptions,
+			tag: "input",
+			attributes: {
+				id,
+				type: "checkbox",
+				disabled: options.disabled,
+				checked: options.checked,
+				value: options.value,
+				...(checkboxOptions.attributes ?? {}),
+			},
+			classList: ["checkbox", ...(checkboxOptions.classList ?? [])],
+			eventListeners: {
+				change: onChange,
+				...(checkboxOptions.eventListeners ?? {}),
+			},
+		});
+	},
+};
+
+/**
  * Return whether an element is visible or not.
  *
  * Approximate polyfill of [`Element.checkVisibility()`](https://developer.mozilla.org/en-US/docs/Web/API/Element/checkVisibility),
