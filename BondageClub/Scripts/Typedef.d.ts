@@ -1056,6 +1056,11 @@ interface AssetLayer {
 	readonly GroupAlpha?: readonly Alpha.Data[];
 	/** @deprecated - Superceded by {@link CreateLayerTypes} */
 	readonly ModuleType?: never;
+	/**
+	 * A list of {@link TypeRecord} keys for which a single layer expects multiple type-specific .png files.
+	 *
+	 * By default files are expected for _all_ option indices associated with the key(s), unless the valid option set has been narrowed down according to {@link AssetLayer.AllowTypes}.
+	 */
 	readonly CreateLayerTypes: readonly string[];
 	/* Specifies that this layer should not be drawn if the character is wearing any item with the given attributes */
 	readonly HideForAttribute: readonly AssetAttribute[] | null;
@@ -1213,10 +1218,7 @@ interface Asset {
 	readonly DynamicScriptDraw: boolean;
 	/** @deprecated - superceded by {@link CreateLayerTypes} */
 	readonly HasType?: never;
-	/**
-	 * A module for which the layer can have types.
-	 * Allows one to define different module-specific assets for a single layer.
-	 */
+	/** A list of {@link TypeRecord} keys for which a single layer expects multiple type-specific .png files. */
 	readonly CreateLayerTypes: readonly string[];
 	/** A record that maps {@link ExtendedItemData.name} to a set with all option indices that support locks */
 	readonly AllowLockType: null | Record<string, Set<number>>;
