@@ -2,6 +2,24 @@ BodyUpperLarge,Body
 BodyUpperNormal,Body
 BodyUpperSmall,Body
 BodyUpperXLarge,Body
+BodyMarkingsSplattersForehead1,Forehead 1
+BodyMarkingsSplattersForehead2,Forehead 2
+BodyMarkingsSplattersForehead3,Forehead 3
+BodyMarkingsSplattersFace1,Face 1
+BodyMarkingsSplattersFace2,Face 2
+BodyMarkingsSplattersFace3,Face 3
+BodyMarkingsSplattersChest1,Chest 1
+BodyMarkingsSplattersChest2,Chest 2
+BodyMarkingsSplattersChest3,Chest 3
+BodyMarkingsSplattersChest4,Chest 4
+BodyMarkingsSplattersTummy1,Tummy 1
+BodyMarkingsSplattersTummy2,Tummy 2
+BodyMarkingsSplattersTummy3,Tummy 3
+BodyMarkingsSplattersTummy4,Tummy 4
+BodyMarkingsSplattersInternal1,Internal Mouth
+BodyMarkingsSplattersInternal2,Internal Front
+BodyMarkingsSplattersInternal3,Internal Back
+BodyMarkingsSplattersNippleDrip,Nipple Drip
 BraceletLaceBandsBands,Bands
 BraceletLaceBandsLace,Lace
 BraceletSpikeBandsBands,Bands
@@ -308,6 +326,9 @@ GlassesJokeGlassesNose,Nose
 GlassesPincenezMain,Frame
 GlassesPincenezLenses,Lenses
 GlassesPincenezAcc,Accessory
+GlassesRoundSunglassesFrame,Frame
+GlassesRoundSunglassesLenses,Lenses
+GlassesRoundSunglassesNose,Nose
 GlassesStreetEyewearFrame,Frame
 GlassesStreetEyewearLenses,Lenses
 GlassesVGlassesFrame,Frame
@@ -917,14 +938,14 @@ ItemDevicesBedMattress,Mattress
 ItemDevicesBedPillow,Pillow
 ItemDevicesBondageBenchBench,Bench
 ItemDevicesBondageBenchStraps,Straps
-ItemDevicesBoundBarFront,Structure
-ItemDevicesBoundBarWindow,Legs Window
-ItemDevicesBoundBarLight,LED details
-ItemDevicesBoundBarOmbA,Sunshade fabric
-ItemDevicesBoundBarOmbB,Sunshade structure
-ItemDevicesBoundBarObjectR,Right object
-ItemDevicesBoundBarObjectM,Center object
-ItemDevicesBoundBarObjectL,Left object
+ItemDevicesExclusiveWaitressFront,Structure
+ItemDevicesExclusiveWaitressWindow,Legs Window
+ItemDevicesExclusiveWaitressLight,LED details
+ItemDevicesExclusiveWaitressOmbA,Sunshade fabric
+ItemDevicesExclusiveWaitressOmbB,Sunshade structure
+ItemDevicesExclusiveWaitressObjectR,Right object
+ItemDevicesExclusiveWaitressObjectM,Center object
+ItemDevicesExclusiveWaitressObjectL,Left object
 ItemDevicesBrickWallBack,Background wall
 ItemDevicesBrickWallFront,Portal
 ItemDevicesBrickWallRestraints,Metal restraints
@@ -1047,6 +1068,9 @@ ItemDevicesTransportWoodenBoxBack,Wood
 ItemDevicesTransportWoodenBoxText,Text
 ItemDevicesTransportWoodenBoxWheelholders,Wheel Holders
 ItemDevicesTransportWoodenBoxWheels,Wheels
+ItemDevicesThroneDeco,Deco Item
+ItemDevicesThroneSeat,Seat
+ItemDevicesThroneThrone,Throne
 ItemDevicesVacBedDeluxeArmsDown,Upper
 ItemDevicesVacBedDeluxeArmsYoked,Upper
 ItemDevicesVacBedDeluxeBody,Body
@@ -1259,6 +1283,11 @@ ItemHoodCorsetHoodLatex, Latex
 ItemHoodCorsetHoodLines, Outline
 ItemHoodCowHoodBase,Hood
 ItemHoodCowHoodSpots,Spots
+ItemHoodCreepyIronMaskMain,Mask
+ItemHoodCreepyIronMaskSpike,Neck spikes
+ItemHoodCreepyIronMaskBlindfold,Iron blindfold
+ItemHoodCreepyIronMaskNose,Nose guard
+ItemHoodCreepyIronMaskLock,Padlocks
 ItemHoodCustomBallHoodBase,Base
 ItemHoodCustomBallHoodShine,Shine
 ItemHoodCustomBallHoodPumpkin,Pattern
@@ -1542,6 +1571,8 @@ ItemMouth2HarnessPanelGagStraps,Straps
 ItemMouth2HarnessPonyBitsBobble, Bobble
 ItemMouth2HarnessPonyBitsMetal, Metal
 ItemMouth2HarnessPonyBitsStraps, Straps
+ItemMouth2HorrorMuzzleMuzzle,Muzzle
+ItemMouth2HorrorMuzzleRivets,Rivets
 ItemMouth2KittyGagBase,Base
 ItemMouth2KittyGagLines,Lines
 ItemMouth2KittyGagMouth,Mouth
@@ -1686,6 +1717,8 @@ ItemMouth3HarnessPanelGagStraps,Straps
 ItemMouth3HarnessPonyBitsBobble, Bobble
 ItemMouth3HarnessPonyBitsMetal, Metal
 ItemMouth3HarnessPonyBitsStraps, Straps
+ItemMouth3HorrorMuzzleMuzzle,Muzzle
+ItemMouth3HorrorMuzzleRivets,Rivets
 ItemMouth3KittyGagBase,Base
 ItemMouth3KittyGagLines,Lines
 ItemMouth3KittyGagMouth,Mouth
@@ -1846,6 +1879,8 @@ ItemMouthHarnessPanelGagStraps,Straps
 ItemMouthHarnessPonyBitsBobble, Bobble
 ItemMouthHarnessPonyBitsMetal, Metal
 ItemMouthHarnessPonyBitsStraps, Straps
+ItemMouthHorrorMuzzleMuzzle,Muzzle
+ItemMouthHorrorMuzzleRivets,Rivets
 ItemMouthKittyGagBase,Base
 ItemMouthKittyGagLines,Lines
 ItemMouthKittyGagMouth,Mouth
@@ -2094,6 +2129,9 @@ ItemNipplesTapedVibeEggsEgg1,Left Vibe Egg
 ItemNipplesTapedVibeEggsEgg2,Right Vibe Egg
 ItemNipplesTapedVibeEggsTape1,Left Tape Strip
 ItemNipplesTapedVibeEggsTape2,Right Tape Strip
+ItemNoseNoseClipClip,Clip
+ItemNoseNoseClipRod,Rod
+ItemNoseNoseClipSkin,Nose
 ItemNoseNoseHookBand,Strap
 ItemNoseNoseHookHook,Hook
 ItemNosePigNoseHookBand,Band
@@ -2104,6 +2142,9 @@ ItemPelvisBulkyDiaperBase,Diaper
 ItemPelvisBulkyDiaperCrotchPiece,Crotch Padding
 ItemPelvisBulkyDiaperTape,Tape
 ItemPelvisBulkyDiaperWaistBand,Waist Band
+ItemPelvisFemPelvisHarnessMain,Main
+ItemPelvisFemPelvisHarnessMetal,Metal
+ItemPelvisFemPelvisHarnessLock,Lock
 ItemPelvisForbiddenChastityBeltBelt,Belt
 ItemPelvisForbiddenChastityBeltDetail,Detail
 ItemPelvisForbiddenChastityBeltMetal,Metal
@@ -2239,6 +2280,8 @@ ItemTorsoStuddedHarnessMetal,Metal
 ItemTorsoThinLeatherStrapsBuckle,Buckle
 ItemTorsoThinLeatherStrapsLocks,Lock
 ItemTorsoThinLeatherStrapsStrap,Straps
+ItemTorsoShinyLeotardLockLatex,Base
+ItemTorsoShinyLeotardLockShine,Shine
 ItemVulvaBasicCockringCockRing,Cock Ring
 ItemVulvaBasicCockringPenis,Penis
 ItemVulvaLockingCockringBase,Base Ring
@@ -2620,6 +2663,8 @@ SuitSeethroughSuitSuit,Suit
 SuitSeethroughSuitZipBase,Suit
 SuitSeethroughSuitZipOpaqueGloves,Gloves
 SuitSeethroughSuitZipZip,Zip
+SuitShinyLeotardLatex,Base
+SuitShinyLeotardShine,Shine
 TailStrapsDragonTailStrap1Primary,Primary
 TailStrapsDragonTailStrap1Secondary,Secondary
 TailStrapsDragonTailStrap2LeftPrimary,Primary

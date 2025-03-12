@@ -2,11 +2,10 @@
 
 /** @type {ExtendedItemScriptHookCallbacks.Load<NoArchItemData>} */
 function InventoryItemDevicesWheelFortuneLoadHook() {
-	WheelFortuneEntryModule = CurrentModule;
-	WheelFortuneEntryScreen = CurrentScreen;
+	WheelFortuneReturnScreen = CommonGetScreen();
 	WheelFortuneBackground = "MainHall";
 	if (CurrentScreen == "ChatRoom") WheelFortuneBackground = ChatRoomBackground;
-	WheelFortuneCharacter = CurrentCharacter;
+	WheelFortuneCharacter = CharacterGetCurrent();
 	DialogLeave();
 	CommonSetScreen("MiniGame", "WheelFortune");
 }

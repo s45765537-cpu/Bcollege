@@ -142,7 +142,7 @@ function DailyJobKidnapEnd() {
  */
 function DailyJobKidnapSuccess() {
 	CommonSetScreen("Room", "MainHall");
-	CurrentCharacter = null;
+	DialogLeave();
 	IntroductionMaid.Stage = "432";
 	IntroductionJobCount = 0;
 }
@@ -154,7 +154,7 @@ function DailyJobKidnapSuccess() {
 function DailyJobKidnapFail() {
 	CommonSetScreen("Room", "MainHall");
 	DailyJobOpponent.Stage = "10";
-	CurrentCharacter = null;
+	DialogLeave();
 	DialogChangeReputation("Dominant", -1);
 }
 
@@ -185,7 +185,7 @@ function DailyJobPuppyGameEnd() {
  */
 function DailyJobEnd() {
 	CommonSetScreen("Room", "MainHall");
-	CurrentCharacter = null;
+	DialogLeave();
 }
 
 /**

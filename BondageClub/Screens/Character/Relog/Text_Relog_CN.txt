@@ -1,5 +1,7 @@
 You've disconnected from the server.
 你已经与服务器断开连接
+Connecting to server...
+正在连接服务器...
 Enter your password to log back in.
 重新输入密码以登录
 Account name:

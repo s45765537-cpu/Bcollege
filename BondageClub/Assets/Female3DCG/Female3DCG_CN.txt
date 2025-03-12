@@ -284,12 +284,16 @@ Maid Exposed
 暴露女仆装
 Male Cloth Tank-Top
 男士背心
+Mesh Top
+网眼上衣
 Mistress Top
 女王上衣
 Nurse Uniform
 护士服
 Retro Girdle Dress
 复古修身衣
+Ribbon Corset
+缎带束腰
 Robe
 睡袍
 See-through Top
@@ -346,6 +350,8 @@ Cape
 披肩
 Catsuit Collar
 紧身衣项圈
+Combo Boots Belt
+连靴腰带
  Face Paint
 面部彩绘
 Frilly Apron
@@ -450,6 +456,8 @@ Long Skirt
 长裙
 Witch's Skirt
 女巫裙
+Mid Leg Skirt
+中长裙
 Mistress Bottom
 女王装下装
 Pajama
@@ -480,6 +488,8 @@ Fitted Pleated Skirt
 合身百褶裙
 Tutu
 芭蕾舞短裙
+Utility Kilt
+实用短裙
 Bondage Waspie
 捆绑式紧身带
 Royal Waspie
@@ -570,6 +580,10 @@ Undershadowed (Solid)
 下眼影 (纯色)
 Wings
 翅膀
+Face Markings
+脸部涂画
+Face Writings
+脸部书写
 Facial Hair
 胡子
 Big Beard
@@ -612,6 +626,8 @@ Inconspicious Glasses
 吹胡子瞪眼
 Pince-nez
 鼻夹眼镜
+Round Sunglasses
+圆形太阳镜
 Street Eyewear
 街头眼镜
 Sunglasses 1
@@ -900,8 +916,54 @@ Style 62
 样式 62
 Style 63
 样式 63
+Style 64
+样式 64
 Scaly Hair
 鳞片发
+Style 65
+样式 65
+Style 65b
+样式 65b
+Style 66
+样式 66
+Style 67
+样式 67
+Style 68
+样式 68
+Style 69
+样式 69
+Style 69b
+样式 69b
+Style 70
+样式 70
+Style 70b
+样式 70b
+Style 71
+样式 71
+Style 72
+样式 72
+Style 73
+样式 73
+Style 74
+样式 74
+Style 75
+样式 75
+Style 76
+样式 76
+Style 76b
+样式 76b
+Style 77
+样式 77
+Style 77b
+样式 77b
+Style 77c
+样式 77c
+Style 78
+样式 78
+Style 78b
+样式 78b
+Style 78c
+样式 78c
 None
 无
 Front Hair
@@ -1156,6 +1218,8 @@ High Security Straitjacket
 高安全拘束衣
 HighStyle Steel Cuffs
 高品位钢质手铐
+Inflatable Dress
+可充气式连衣裙
 Inflatable Strait Leotard
 可充气式拘束紧身衣
 Latex Armbinder
@@ -1263,17 +1327,21 @@ Feet
 Ballet Heels
 芭蕾高跟鞋
 Ballet Hi-Shoes
-芭蕾高鞋
+芭蕾高跟鞋
+Ballet Mittens
+芭蕾连指手套
 Ballet Wedges
 芭蕾坡跟鞋
 Futuristic Shoes
 未来鞋
 Futuristic Heels
 未来高跟鞋
+Heelless Hi-Shoes
+无跟高跟鞋
 High Thigh Boots
 高筒靴
 Short Leather Foot Mittens
-短型无指皮革鞋套
+短型连指皮革鞋套
 Leather Toe Cuffs
 皮革脚趾铐
 Locking Boots
@@ -1410,6 +1478,8 @@ Bed
 床
 Bondage Bench
 捆绑躺椅
+Exclusive Waitress
+专属女仆
 Brick Wall
 砖墙
 Burlap Sack
@@ -1476,6 +1546,8 @@ Pet Bed
 宠物窝
 Pet Bowl
 宠物碗
+Rubber Pogo Ball
+橡胶健身球
 Pole
 柱子
 Saddle Stand
@@ -1504,6 +1576,8 @@ Transport Box
 运输箱
 Trolley
 手推车
+Throne
+王座
 Vacbed
 真空床
 Clear Vacbed
@@ -1814,6 +1888,8 @@ Corset Hood
 束腰式头套
 Cow Hood
 奶牛头套
+Creepy Iron Mask
+恐怖铁面具
 Custom Ball Hood
 定制球头套
 Custom Latex Hood
@@ -1848,6 +1924,8 @@ Inflatable Gag Mask
 充气口塞面具
 Inflatable Hood
 充气式头罩
+Rubber Kigurumi
+橡胶Kigurumi
 Kigurumi Mask
 Kigurumi面具
 Kitty Hood
@@ -2006,6 +2084,8 @@ Wooden Sign
 木制挂牌
 Mouth
 嘴巴
+Always Open Mouth Gag
+保持开嘴口塞
 Tennis Ball
 网球
 Ball Gag
@@ -2076,6 +2156,8 @@ Bit Gag
 衔铁
 Hook Gag Mask
 钩式口塞面罩
+Horror Muzzle
+恐怖口套
 Kitty Mask
 猫猫口罩
 Kitty Harness Gag
@@ -2402,6 +2484,8 @@ Barbel Piercing
 杠铃穿孔
 Clown Nose
 小丑鼻
+Nose Clip
+鼻夹
 Nose Hook
 鼻钩
 Nose Plugs
@@ -2418,6 +2502,8 @@ Bulky Chastity Diaper
 大块贞操尿布
 Diaper Harness
 纸尿裤缚带
+Female Pelvis Harness
+女性小腹束带
 Forbidden Chastity Belt
 禁制贞操带
 Futuristic Chastity Belt
@@ -2496,6 +2582,8 @@ Locking Swimsuit 2
 上锁泳衣2
 Navel Bar
 脐钉
+Locking Latex Leotard
+上锁乳胶紧身衣
 Vulva
 外阴
 Basic Cock Ring
@@ -2674,6 +2762,8 @@ Rope Necklace
 绳子项圈
 Custom Pearl Necklace
 自定义珍珠项链
+Satin Scarf
+缎面围巾
 Nipples Style
 乳头式样
 Light
@@ -2840,6 +2930,8 @@ Combo Boots
 乳胶大腿靴
 Western Boots
 西式靴
+Witch Shoes
+女巫鞋
 Woolly Boots
 羊毛靴
 Socks
@@ -2916,6 +3008,8 @@ See-through Zipsuit
 透视拉链紧身衣
  Sleeveless Catsuit
 无袖紧身衣
+Shiny Latex Leotard
+闪亮乳胶紧身衣
 Suit Lower
 套装(下身)
  Catsuit Panties

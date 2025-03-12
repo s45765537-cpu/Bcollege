@@ -30,9 +30,7 @@ function ShopIsRescueScenario(ScenarioName) { return (ShopRescueScenario == Scen
  * Entry point for accessing the actual shop from the NPC dialog menu
  */
 function ShopEnter() {
-	ShopVendor.Stage = "0";
-	ShopVendor.FocusGroup = null;
-	CurrentCharacter = null;
+	DialogLeave();
 	Shop2.Init();
 }
 

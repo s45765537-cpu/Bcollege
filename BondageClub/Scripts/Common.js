@@ -9,7 +9,7 @@ var Player;
 var KeyPress = "";
 /** @type {ModuleType} */
 var CurrentModule;
-/** @type {string} */
+/** @type {ModuleScreens[CurrentModule]} */
 var CurrentScreen;
 /** @type {ScreenFunctions} */
 var CurrentScreenFunctions;
@@ -361,7 +361,8 @@ function CommonDynamicFunctionParams(FunctionName) {
 	// Gets the real function name and parameters
 	var openParenthesisIndex = FunctionName.indexOf("(");
 	var closedParenthesisIndex = FunctionName.indexOf(")", openParenthesisIndex);
-	var Params = FunctionName.substring(openParenthesisIndex + 1, closedParenthesisIndex).split(",");
+	var ParamsString = FunctionName.substring(openParenthesisIndex + 1, closedParenthesisIndex);
+	var Params = ParamsString.length === 0 ? [] : ParamsString.split(",");
 	for (let P = 0; P < Params.length; P++)
 		Params[P] = Params[P].trim().replace('"', '').replace('"', '');
 	FunctionName = FunctionName.substring(0, openParenthesisIndex);
@@ -416,12 +417,19 @@ function CommonCallFunctionByNameWarn(FunctionName/*, ...args */) {
 }
 
 /**
+ * Get the current screen
+ * @returns {ScreenSpecifier}
+ */
+function CommonGetScreen() {
+	return /** @type {ScreenSpecifier} */([CurrentModule, CurrentScreen]);
+}
+
+/**
  * Sets the current screen and calls the loading script if needed
- * @param {ModuleType} NewModule - Module of the screen to display
- * @param {string} NewScreen - Screen to display
+ * @param {ScreenSpecifier} spec
  * @returns {void} - Nothing
  */
-function CommonSetScreen(NewModule, NewScreen) {
+function CommonSetScreen(...spec) {
 	if (CurrentScreenFunctions && CurrentScreenFunctions.Unload) {
 		CurrentScreenFunctions.Unload();
 	}
@@ -430,6 +438,7 @@ function CommonSetScreen(NewModule, NewScreen) {
 	}
 
 
+	const [NewModule, NewScreen] = spec;
 	// Check for required functions
 	if (typeof window[`${NewScreen}Run`] !== "function") {
 		throw Error(`Screen "${NewScreen}": Missing required Run function`);
@@ -481,7 +490,7 @@ function CommonTime() {
 
 /**
  * Checks if a given value is a valid HEX color code
- * @param {string} Value - Potential HEX color code
+ * @param {string | undefined} Value - Potential HEX color code
  * @returns {boolean} - Returns TRUE if the string is a valid HEX color
  */
 function CommonIsColor(Value) {
@@ -1639,3 +1648,12 @@ var CommonKey = /** @type {const} */({
 		}
 	},
 });
+
+/**
+ *
+ * @param {RoomName} screen
+ */
+function CommonScreenName(screen) {
+	const cache = TextAllScreenCache.get(`Screens/Room/MainHall/Text_MainHall.csv`);
+	return cache.get(screen);
+}

@@ -748,7 +748,7 @@ function KinkyDungeonLoad() {
  * @returns {boolean} - If the player is in the arcade
  */
 function KinkyDungeonDeviousDungeonAvailable() {
-	return KinkyDungeonIsPlayer() && (DialogGamingPreviousRoom == "Arcade" || MiniGameReturnFunction == "ArcadeKinkyDungeonEnd") && !KDPatched;
+	return KinkyDungeonIsPlayer() && (DialogGamingReturnScreen?.[1] == "Arcade" || MiniGameReturnFunction == "ArcadeKinkyDungeonEnd") && !KDPatched;
 }
 
 /**

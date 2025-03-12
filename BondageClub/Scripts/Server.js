@@ -101,6 +101,8 @@ var ServerAccountUpdate = new class AccountUpdater {
 	 * @param {boolean} [Force] - force immediate sync to server
 	 */
 	QueueData(Data, Force=false) {
+		if (!ServerIsLoggedIn()) return; // We're not logged in
+
 		for (const [key, value] of CommonEntries(Data)) {
 			this.Queue.set(key, value);
 		}
@@ -134,6 +136,10 @@ function ServerSetConnected(connected, errorMessage) {
 	} else {
 		LoginSetStatus(errorMessage, true);
 	}
+}
+
+function ServerIsLoggedIn() {
+	return Player.CharacterID !== "";
 }
 
 /**
@@ -202,10 +208,11 @@ function ServerDisconnect(data, close = false) {
 			RelogData = { Screen: "ChatSearch", Module: "Online", Character: null, ChatRoomName: ChatRoomData?.Name };
 			ChatRoomData = null;
 		} else {
-			RelogData = { Screen: CurrentScreen, Module: CurrentModule, Character: CurrentCharacter, ChatRoomName: null };
+			// Forcing cast here because CurrentModule & CurrentScreen can't meaningfully be type-linked
+			RelogData = { Screen: /** @type {any} */(CurrentScreen), Module: CurrentModule, Character: CurrentCharacter, ChatRoomName: null };
 		}
 
-		CurrentCharacter = null;
+		DialogLeave();
 		CommonSetScreen("Character", "Relog");
 	}
 
@@ -249,17 +256,17 @@ ServerPlayerChatRoom.register(
 	{ screen: "ChatRoom" },
 	{ screen: "ChatAdmin" },
 	{ screen: "GameLARP" },
-	{ screen: "Appearance", callback: () => CharacterAppearanceReturnRoom === "ChatRoom" },
-	{ screen: "InformationSheet", callback: () => InformationSheetPreviousScreen === "ChatRoom" },
-	{ screen: "Title", callback: () => InformationSheetPreviousScreen === "ChatRoom" },
-	{ screen: "OnlineProfile", callback: () => InformationSheetPreviousScreen === "ChatRoom" },
-	{ screen: "FriendList", callback: () => InformationSheetPreviousScreen === "ChatRoom" && (FriendListReturn == null || FriendListReturn.IsInChatRoom) },
-	{ screen: "Preference", callback: () => InformationSheetPreviousScreen === "ChatRoom" },
-	{ screen: "MiniGame", callback: () => DialogGamingPreviousRoom === "ChatRoom" },
+	{ screen: "Appearance", callback: () => CharacterAppearanceReturnScreen?.[1] === "ChatRoom" },
+	{ screen: "InformationSheet", callback: () => InformationSheetReturnScreen?.[1] === "ChatRoom" },
+	{ screen: "Title", callback: () => InformationSheetReturnScreen?.[1] === "ChatRoom" },
+	{ screen: "OnlineProfile", callback: () => InformationSheetReturnScreen?.[1] === "ChatRoom" },
+	{ screen: "FriendList", callback: () => InformationSheetReturnScreen?.[1] === "ChatRoom" && (FriendListReturn == null || FriendListReturn.IsInChatRoom) },
+	{ screen: "Preference", callback: () => InformationSheetReturnScreen?.[1] === "ChatRoom" },
+	{ screen: "MiniGame", callback: () => DialogGamingReturnScreen?.[1] === "ChatRoom" },
 	{ screen: "Crafting", callback: () => CraftingReturnToChatroom },
 	{ screen: "Shop2", callback: () => Shop2InitVars.PreviousScreen?.[1] === "ChatRoom" },
-	{ screen: "WheelFortune", callback: () => WheelFortuneEntryScreen === "ChatRoom" },
-	{ screen: "WheelFortuneCustomize", callback: () => WheelFortuneEntryScreen === "ChatRoom" },
+	{ screen: "WheelFortune", callback: () => WheelFortuneReturnScreen?.[1] === "ChatRoom" },
+	{ screen: "WheelFortuneCustomize", callback: () => WheelFortuneReturnScreen?.[1] === "ChatRoom" },
 );
 
 /**
@@ -271,7 +278,7 @@ function ServerPlayerIsInChatRoom() {
 }
 
 /** Ratelimit: Max number of messages per interval */
-var ServerSendRateLimit = 18;
+var ServerSendRateLimit = 14;
 /** Ratelimit: Length of the rate-limit window, in msec */
 var ServerSendRateLimitInterval = 1200;
 
@@ -294,6 +301,8 @@ let ServerSendRateLimitTimes = [];
  * ) => void}
  */
 function ServerSend(Message, ...args) {
+	if (!ServerIsLoggedIn() && !["AccountCreate", "AccountLogin", "PasswordReset", "PasswordResetProcess"].includes(Message)) return; // We're not logged in
+
 	ServerSendRateLimitQueue.push({ Message, args });
 
 	// Pump the queue manually to fight back against background tab throttling
@@ -662,7 +671,7 @@ function ServerBuildAppearanceDiff(assetFamily, appearance, bundle) {
  * appearance item, as used by the game client
  * @param {IAssetFamily} assetFamily - The asset family of the appearance item
  * @param {ItemBundle} item - The bundled appearance item
- * @returns {Item} - A full appearance item representation of the provided bundled appearance item
+ * @returns {null | Item} - A full appearance item representation of the provided bundled appearance item
  */
 function ServerBundledItemToAppearanceItem(assetFamily, item) {
 	if (!item || typeof item !== "object" || typeof item.Name !== "string" || typeof item.Group !== "string") return null;
@@ -968,6 +977,9 @@ function ServerAccountOwnership(data) {
 		CharacterClearOwnership(Player, false);
 	}
 
+	if (DialogMenuMode === "dialog") {
+		DialogMenuMapping.dialog.Reload();
+	}
 }
 
 // TODO: `data: object` -> `data: ServerAccountLovershipResponse`
@@ -987,6 +999,10 @@ function ServerAccountLovership(data) {
 	if ((data != null) && (typeof data === "object") && !Array.isArray(data) && (data.Lovership != null) && (typeof data.Lovership === "object")) {
 		Player.Lovership = data.Lovership;
 		LoginLoversItems();
+	}
+
+	if (DialogMenuMode === "dialog") {
+		DialogMenuMapping.dialog.Reload();
 	}
 }
 
@@ -1042,11 +1058,17 @@ var ServerAccountDataSyncedValidate = {
 	ItemPermission: (arg, C) => {
 		return CommonIsInteger(arg, 0, 5) ? /** @type {0 | 1 | 2 | 3 | 4 | 5} */(arg) : 2;
 	},
+	Difficulty: (arg, C) => {
+		return {
+			Level: CommonIsInteger(arg?.Level, 0, 5) ? arg.Level : 1,
+			LastChange: CommonIsNonNegativeInteger(arg?.LastChange) ? arg.LastChange : undefined,
+		};
+	},
 	ArousalSettings: (arg, C) => {
-		return ValdiationApplyRecord(arg, C, PreferenceArousalSettingsValidate);
+		return ValidationApplyRecord(arg, C, PreferenceArousalSettingsValidate);
 	},
 	OnlineSharedSettings: (arg, C) => {
-		return ValdiationApplyRecord(arg, C, PreferenceOnlineSharedSettingsValidate, true);
+		return ValidationApplyRecord(arg, C, PreferenceOnlineSharedSettingsValidate, true);
 	},
 	Crafting: (arg, C) => {
 		return CraftingDecompressServerData(arg);
@@ -1077,7 +1099,7 @@ var ServerAccountDataSyncedValidate = {
 	},
 	Ownership: (arg, C) => {
 		if (!CommonIsObject(arg)) {
-			return undefined;
+			return null;
 		}
 
 		const { Name, MemberNumber, Stage, Start } = arg;
@@ -1089,7 +1111,7 @@ var ServerAccountDataSyncedValidate = {
 		) {
 			return { Name, MemberNumber, Stage, Start };
 		} else {
-			return undefined;
+			return null;
 		}
 	},
 	Lovership: (arg, C) => {

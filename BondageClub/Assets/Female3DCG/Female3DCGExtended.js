@@ -1091,6 +1091,110 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		},
+		Splatters: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatSetting: ModularItemChatSetting.PER_MODULE,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Forehead1",
+					Key: "a",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "Forehead2",
+					Key: "b",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "Forehead3",
+					Key: "c",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "Face1",
+					Key: "d",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "Face2",
+					Key: "e",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "Face3",
+					Key: "f",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "Chest1",
+					Key: "g",
+					Options: [{}, {}], // n,y
+				},
+
+				{
+					Name: "Chest2",
+					Key: "h",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "Chest3",
+					Key: "i",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "Chest4",
+					Key: "j",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "Tummy1",
+					Key: "k",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "Tummy2",
+					Key: "l",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "Tummy3",
+					Key: "m",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "Tummy4",
+					Key: "n",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "Internal1",
+					Key: "o",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "Internal2",
+					Key: "p",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "Internal3",
+					Key: "q",
+					Options: [{}, {}], // n,y
+				},
+				{
+					Name: "NippleDrip",
+					Key: "r",
+					Options: [{}, {}], // n,y
+				},
+			],
+			DialogPrefix: {
+				Header: "BodyMarkingsSplattersSelect",
+				Module: "BodyMarkingsSplattersModule",
+				Option: "BodyMarkingsSplattersOption",
+				Chat: "BodyMarkingsSplattersSet",
+			},
+		},
 		FacePaints: {
 			Archetype: ExtendedArchetype.MODULAR,
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
@@ -1211,6 +1315,10 @@ var AssetFemale3DCGExtended = {
 			DrawImages: false,
 			CopyConfig: { GroupName: "BodyMarkings", AssetName: "FaceScars" },
 		}, // FaceScars
+		Splatters: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "BodyMarkings", AssetName: "Splatters" },
+		}, // Splatters
 		AnimalNoses: {
 			Archetype: ExtendedArchetype.TYPED,
 			DrawImages: false,
@@ -4414,6 +4522,7 @@ var AssetFemale3DCGExtended = {
 									"ItemHoodBlanketHood",
 									"ItemHoodCollarHood",
 									"ItemHoodCorsetHood",
+									"ItemHoodCreepyIronMask",
 									"ItemHoodCustomLatexHood",
 									"ItemHoodDogHood",
 									"ItemHoodFestivalFoxMask",
@@ -8928,6 +9037,83 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // Kigu2Hood
+		CreepyIronMask: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChangeWhenLocked: false,
+			Modules: [
+				{
+					Name: "Mode",
+					Key: "m",
+					Options: [
+						{
+							// Mask
+							Property: {},
+						},
+						{
+							// Hood
+							Property: {
+								Effect: [E.BlockMouth],
+								Hide: ["HairFront", "HairBack", "HairAccessory1"],
+							},
+						},
+					],
+				},
+				{
+					Name: "Blindfold",
+					Key: "b",
+					Options: [
+						{
+							// None
+							Property: { Effect: [] },
+						},
+						{
+							// Partial blindfold
+							Property: {
+								Effect: [E.BlindLight],
+							},
+						},
+						{
+							// Blindfold
+							Property: {
+								Effect: [E.BlindHeavy],
+							},
+						},
+					],
+				},
+				{
+					Name: "Spike",
+					Key: "s",
+					Options: [
+						{
+							// None
+							Property: { Effect: [] },
+						},
+						{
+							// NeckSpikes
+							Property: { Effect: [] },
+						},
+					],
+				},
+				{
+					Name: "Nose",
+					Key: "n",
+					Options: [
+						{
+							// None
+							Property: { Effect: [] },
+						},
+						{
+							// NoseGuard
+							Property: {
+								Effect: [],
+								Block: ["ItemNose"],
+								Hide: ["ItemNose"],
+							},
+						},
+					],
+				},
+			],
+		}, // CreepyIronMask
 	}, // ItemHood
 	Jewelry: {
 		JewelrySet: {
@@ -10723,7 +10909,7 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // PogoBall
-		BoundBar: {
+		ExclusiveWaitress: {
 			Archetype: ExtendedArchetype.MODULAR,
 			DrawImages: false,
 			Modules: [
@@ -11179,7 +11365,7 @@ var AssetFemale3DCGExtended = {
 					],
 				},
 			],
-		}, // BoundBar
+		}, // ExclusiveWaitress
 	}, // ItemDevices
 	ItemBoots: {
 		ToeTape: {
@@ -13876,6 +14062,19 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // AOMGag
+		HorrorMuzzle: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "None",
+					Property: {},
+				},
+				{
+					Name: "Rivets",
+					Property: { Difficulty: 3 },
+				},
+			],
+		}, // HorrorMuzzle
 	}, // ItemMouth
 	ItemMouth2: {
 		ClothGag: {
@@ -14051,6 +14250,10 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "AOMGag" },
 		}, // AOMGag
+		HorrorMuzzle: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "HorrorMuzzle" },
+		}, // HorrorMuzzle
 	}, // ItemMouth2
 	ItemMouth3: {
 		ClothGag: {
@@ -14222,6 +14425,10 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "AOMGag" },
 		}, // AOMGag
+		HorrorMuzzle: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "HorrorMuzzle" },
+		}, // HorrorMuzzle
 	}, // ItemMouth3
 	Mask: {
 		BunnyMask1: {
@@ -14875,6 +15082,10 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // Eldritch Mask
+		Splatters: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "BodyMarkings", AssetName: "Splatters" },
+		}, // Splatters
 	}, // Mask
 	ItemLegs: {
 		DuctTape: {
@@ -17545,6 +17756,20 @@ var AssetFemale3DCGExtended = {
 			},
 			DrawImages: false,
 		}, // Pincenez
+		RoundSunglasses: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Normal",
+					Property: { OverridePriority: 27 },
+				},
+				{
+					Name: "Over",
+					Property: { OverridePriority: 53 },
+				},
+			],
+			DrawImages: false,
+		}, // RoundSunglasses
 	}, // Glasses
 	Bracelet: {
 		Band1: {

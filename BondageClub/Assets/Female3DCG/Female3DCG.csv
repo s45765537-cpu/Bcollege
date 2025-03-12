@@ -24,6 +24,7 @@ BodyMarkings,WombTattoos,Womb Tattoos
 BodyMarkings,BodyWritings,Body Writings
 BodyMarkings,FaceScars,Face Scars
 BodyMarkings,FacePaints,Face paints
+BodyMarkings,Splatters,Splatters
 BodyUpper,,Upper Body
 BodyUpper,FlatMedium,Bulky Flat Chest
 BodyUpper,FlatSmall,Flat Chest
@@ -350,6 +351,7 @@ Glasses,Goggles,Goggles
 Glasses,GradientSunglasses,Gradient Sunglasses
 Glasses,JokeGlasses,Inconspicious Glasses
 Glasses,Pincenez,Pince-nez
+Glasses,RoundSunglasses,Round Sunglasses
 Glasses,StreetEyewear,Street Eyewear
 Glasses,SunGlasses1,Sunglasses 1
 Glasses,SunGlasses2,Sunglasses 2
@@ -878,7 +880,7 @@ ItemDevices,,Body
 ItemDevices,BBQ,Grill
 ItemDevices,Bed,Bed
 ItemDevices,BondageBench,Bondage Bench
-ItemDevices,BoundBar,Exclusive Waitress
+ItemDevices,ExclusiveWaitress,Exclusive Waitress
 ItemDevices,BrickWall,Brick Wall
 ItemDevices,BurlapSack,Burlap Sack
 ItemDevices,Cage,Stand up cage
@@ -1104,6 +1106,7 @@ ItemHood,CanvasHood,Canvas Hood
 ItemHood,CollarHood,Collar Hood
 ItemHood,CorsetHood,Corset Hood
 ItemHood,CowHood,Cow Hood
+ItemHood,CreepyIronMask,Creepy Iron Mask
 ItemHood,CustomBallHood,Custom Ball Hood
 ItemHood,CustomLatexHood,Custom Latex Hood
 ItemHood,DobermanMask,Doberman Mask
@@ -1257,6 +1260,7 @@ ItemMouth,HarnessPacifierGag,Harness Pacifier
 ItemMouth,HarnessPanelGag,Harness Panel Gag
 ItemMouth,HarnessPonyBits,Bit Gag
 ItemMouth,HookGagMask,Hook Gag Mask
+ItemMouth,HorrorMuzzle,Horror Muzzle
 ItemMouth,Kissmark,Lipstick Marks
 ItemMouth,KittyGag,Kitty Mask
 ItemMouth,KittyHarnessPanelGag,Kitty Harness Gag
@@ -1435,6 +1439,7 @@ ItemNose,BarbelPiercing,Barbel Piercing
 ItemNose,ClownNose,Clown Nose
 ItemNose,DuctTape,Duct Tape
 ItemNose,GlueNose,Glue
+ItemNose,NoseClip,Nose Clip
 ItemNose,NoseHook,Nose Hook
 ItemNose,NosePlugs,Nose Plugs
 ItemNose,NoseRing,Nose Ring
@@ -1443,6 +1448,7 @@ ItemNose,PigNoseHook,Pig Nose Hook
 ItemPelvis,,Pelvis
 ItemPelvis,BulkyDiaper,Bulky Chastity Diaper
 ItemPelvis,DiaperHarness,Diaper Harness
+ItemPelvis,FemPelvisHarness,Female Pelvis Harness
 ItemPelvis,ForbiddenChastityBelt,Forbidden Chastity Belt
 ItemPelvis,FuturisticChastityBelt,Futuristic Chastity Belt
 ItemPelvis,FuturisticTrainingBelt,Futuristic Training Belt
@@ -1494,6 +1500,7 @@ ItemTorso,NylonRopeHarness,Nylon Rope
 ItemTorso,Ribbons,Ribbons
 ItemTorso,StuddedHarness,Studded Harness
 ItemTorso,ThinLeatherStraps,Thin Leather Straps
+ItemTorso,ShinyLeotardLock,Locking Latex Leotard
 ItemTorso2,,Torso
 ItemVulva,,Vulva
 ItemVulva,BasicCockring,Basic Cock Ring
@@ -1783,6 +1790,7 @@ Suit,SeethroughSuit,See-through Suit
 Suit,SeethroughSuitZip,See-through Zipsuit
 Suit,SleevelessCatsuit, Sleeveless Catsuit
 Suit,SleevelessSlimLatexLeotard,Slim Latex Leotard (Sleeveless)
+Suit,ShinyLeotard,Shiny Latex Leotard
 SuitLower,,Suit Lower
 SuitLower,Catsuit,Catsuit
 SuitLower,CatsuitPanties, Catsuit Panties

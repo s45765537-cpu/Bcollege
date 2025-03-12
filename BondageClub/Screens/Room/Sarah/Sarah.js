@@ -119,7 +119,7 @@ function SarahLoad() {
 			Sarah.Name = "Sarah";
 			Sarah.AllowItem = false;
 			CharacterNaked(Sarah);
-			InventoryRemove(Sarah, "Nipples");
+			InventoryWear(Sarah, "Nipples1", "Nipples", "Default");
 			InventoryWear(Sarah, "Pussy1", "Pussy", "#edd6b0");
 			InventoryWear(Sarah, "Eyes1", "Eyes", "#b98364");
 			InventoryWear(Sarah, "Eyes1", "Eyes2", "#b98364");
@@ -156,7 +156,7 @@ function SarahLoad() {
 		Amanda.Name = "Amanda";
 		Amanda.AllowItem = true;
 		CharacterNaked(Amanda);
-		InventoryRemove(Amanda, "Nipples");
+		InventoryWear(Amanda, "Nipples3", "Nipples", "Default");
 		InventoryWear(Amanda, "PussyLight3", "Pussy", "#623123");
 		InventoryWear(Amanda, "Eyes7", "Eyes", "#3f289f");
 		InventoryWear(Amanda, "Eyes7", "Eyes2", "#3f289f");
@@ -190,7 +190,7 @@ function SarahLoad() {
 		Sophie.Name = "Mistress Sophie";
 		Sophie.AllowItem = false;
 		CharacterNaked(Sophie);
-		InventoryRemove(Sophie, "Nipples");
+		InventoryWear(Sophie, "Nipples2", "Nipples", "Default");
 		InventoryWear(Sophie, "Stockings4", "Socks", "#222222");
 		InventoryWear(Sophie, "Corset3", "Bra", "#222222");
 		InventoryWear(Sophie, "Panties13", "Panties", "#222222");
@@ -295,7 +295,7 @@ function SarahActivityRun() {
 // Checks Sarah shackles
 function SarahCheckShackles() {
 	SarahActivityRun();
-	IntroductionSetZone("ItemArms");
+	if (CurrentCharacter != null) IntroductionSetZone("ItemArms");
 	Player.FocusGroup = null;
 	DialogInventoryBuild(Sarah, true);
 	Sarah.CurrentDialog = DialogFind(Sarah, "FoundWayToUnlock");

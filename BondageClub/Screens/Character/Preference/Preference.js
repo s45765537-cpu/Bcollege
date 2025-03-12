@@ -163,7 +163,6 @@ let PreferenceDidAddOldStyleScreens = false;
  * @returns {void} - Nothing
  */
 function PreferenceLoad() {
-	PreferenceInitPlayer();
 	PreferenceSubscreen = PreferenceSubscreens.find(s => s.name === "Main");
 
 	// Backward-compatibility: just throw the old-style screens into the mix
@@ -326,6 +325,44 @@ function PreferenceGetPreviousIndex(List, Index) {
 function PreferenceGetNextIndex(List, Index) {
 	return (Index + 1) % List.length;
 }
+
+/**
+ * Private helper to quickly check boolean settings
+ * @param {boolean} defaultValue
+ * @returns {(arg: boolean) => boolean}
+ */
+const isBool = (defaultValue) => {
+	return (arg) => {
+		return typeof arg === "boolean" ? arg : defaultValue;
+	};
+};
+
+/**
+ * Private helper to quickly check items in lists
+ * @template T
+ * @param {T[]} list
+ * @param {T} defaultValue
+ * @returns {(arg: unknown) => T}
+ */
+const isItem = (list, defaultValue) => {
+	return (arg) => {
+		return CommonIncludes(list, arg) ? arg : defaultValue;
+	};
+};
+
+/**
+ * Private helper to quickly check numbers
+ * @template {number} T
+ * @param {number} min
+ * @param {number} max
+ * @param {T} defaultValue
+ * @returns {(arg: T) => T}
+ */
+const isInt = (min, max, defaultValue) => {
+	return (arg) => {
+		return CommonIsInteger(arg, min, max) ? /** @type {typeof defaultValue} */(arg) : defaultValue;
+	};
+};
 
 /**
  * Namespace with default values for {@link ActivityEnjoyment} properties.
@@ -601,6 +638,419 @@ var PreferenceOnlineSharedSettingsValidate = {
 			},
 		};
 	},
+};
+
+
+/**
+ * Namespace with default values for {@link ChatSettingsType} properties.
+ * @type {Required<ChatSettingsType>}
+ * @namespace
+ */
+var PreferenceChatSettingsDefault = {
+	ColorActions: true,
+	ColorActivities: true,
+	ColorEmotes: true,
+	ColorNames: true,
+	ColorTheme: "Light",
+	DisplayTimestamps: true,
+	EnterLeave: "Normal",
+	FontSize: "Medium",
+	MemberNumbers: "Always",
+	MuStylePoses: false,
+	ShowActivities: true,
+	ShowAutomaticMessages: false,
+	ShowBeepChat: true,
+	ShowChatHelp: true,
+	ShrinkNonDialogue: false,
+	WhiteSpace: "Preserve",
+	CensoredWordsList: "",
+	CensoredWordsLevel: 0,
+	PreserveChat: true,
+	OOCAutoClose: true,
+};
+
+/**
+ * Namespace with functions for validating {@link ChatSettingsType} properties
+ * @type {{ [k in keyof Required<ChatSettingsType>]: (arg: ChatSettingsType[k], C: Character) => ChatSettingsType[k] }}
+ * @namespace
+ */
+var PreferenceChatSettingsValidate = {
+	ColorActions: isBool(PreferenceChatSettingsDefault.ColorActions),
+	ColorActivities: isBool(PreferenceChatSettingsDefault.ColorActivities),
+	ColorEmotes: isBool(PreferenceChatSettingsDefault.ColorEmotes),
+	ColorNames: isBool(PreferenceChatSettingsDefault.ColorNames),
+	ColorTheme: isItem(PreferenceChatColorThemeList, PreferenceChatSettingsDefault.ColorTheme),
+	DisplayTimestamps: isBool(PreferenceChatSettingsDefault.DisplayTimestamps),
+	EnterLeave: isItem(PreferenceChatEnterLeaveList, PreferenceChatSettingsDefault.EnterLeave),
+	FontSize: isItem(PreferenceChatFontSizeList, PreferenceChatSettingsDefault.FontSize),
+	MemberNumbers: isItem(PreferenceChatMemberNumbersList, PreferenceChatSettingsDefault.MemberNumbers),
+	MuStylePoses: isBool(PreferenceChatSettingsDefault.MuStylePoses),
+	ShowActivities: isBool(PreferenceChatSettingsDefault.ShowActivities),
+	ShowAutomaticMessages: isBool(PreferenceChatSettingsDefault.ShowAutomaticMessages),
+	ShowBeepChat: isBool(PreferenceChatSettingsDefault.ShowBeepChat),
+	ShowChatHelp: isBool(PreferenceChatSettingsDefault.ShowChatHelp),
+	ShrinkNonDialogue: isBool(PreferenceChatSettingsDefault.ShrinkNonDialogue),
+	WhiteSpace: isItem(["", "Preserve"], PreferenceChatSettingsDefault.WhiteSpace),
+	CensoredWordsList: (arg, C) => {
+		return typeof arg === "string" ? arg : PreferenceChatSettingsDefault.CensoredWordsList;
+	},
+	CensoredWordsLevel: (arg, C) => {
+		return CommonIsInteger(arg, 0, 2) ? arg : PreferenceChatSettingsDefault.CensoredWordsLevel;
+	},
+	PreserveChat: isBool(PreferenceChatSettingsDefault.PreserveChat),
+	OOCAutoClose: isBool(PreferenceChatSettingsDefault.OOCAutoClose),
+};
+
+/**
+ * Namespace with default values for {@link VisualSettingsType} properties.
+ * @type {Required<VisualSettingsType>}
+ * @namespace
+ */
+var PreferenceVisualSettingsDefault = {
+	ForceFullHeight: false,
+	UseCharacterInPreviews: false,
+	MainHallBackground: "",
+	PrivateRoomBackground: "",
+};
+
+/**
+ * Namespace with functions for validating {@link VisualSettingsType} properties
+ * @type {{ [k in keyof Required<VisualSettingsType>]: (arg: VisualSettingsType[k], C: Character) => VisualSettingsType[k] }}
+ * @namespace
+ */
+var PreferenceVisualSettingsValidate = {
+	ForceFullHeight: isBool(PreferenceVisualSettingsDefault.ForceFullHeight),
+	UseCharacterInPreviews: isBool(PreferenceVisualSettingsDefault.UseCharacterInPreviews),
+	MainHallBackground: (arg, C) => {
+		return typeof arg === "string" ? arg : PreferenceVisualSettingsDefault.MainHallBackground;
+	},
+	PrivateRoomBackground: (arg, C) => {
+		return typeof arg === "string" ? arg : PreferenceVisualSettingsDefault.PrivateRoomBackground;
+	}
+};
+
+/**
+ * Namespace with default values for {@link AudioSettingsType} properties.
+ * @type {Required<AudioSettingsType>}
+ * @namespace
+ */
+var PreferenceAudioSettingsDefault = {
+	Volume: 1,
+	MusicVolume: 1,
+	PlayBeeps: false,
+	PlayItem: false,
+	PlayItemPlayerOnly: false,
+	Notifications: false,
+};
+
+/**
+ * Namespace with functions for validating {@link AudioSettingsType} properties
+ * @type {{ [k in keyof Required<AudioSettingsType>]: (arg: AudioSettingsType[k], C: Character) => AudioSettingsType[k] }}
+ * @namespace
+ */
+var PreferenceAudioSettingsValidate = {
+	Volume: (arg) => {
+		return CommonIsInteger(arg, 0, 10) ? arg : PreferenceAudioSettingsDefault.Volume;
+	},
+	MusicVolume: (arg) => {
+		return CommonIsInteger(arg, 0, 10) ? arg : PreferenceAudioSettingsDefault.MusicVolume;
+	},
+	PlayBeeps: isBool(PreferenceAudioSettingsDefault.PlayBeeps),
+	PlayItem: isBool(PreferenceAudioSettingsDefault.PlayItem),
+	PlayItemPlayerOnly: isBool(PreferenceAudioSettingsDefault.PlayItemPlayerOnly),
+	Notifications: isBool(PreferenceAudioSettingsDefault.Notifications),
+};
+
+/**
+ * Namespace with default values for {@link ControllerSettingsType} properties.
+ * @type {Required<ControllerSettingsType>}
+ * @namespace
+ */
+var PreferenceControllerSettingsDefault = {
+	ControllerActive: false,
+	ControllerSensitivity: 5,
+	ControllerDeadZone: 0.01,
+	Buttons: { 0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 11: 11, 12: 12, 13: 13, 14: 14, 15: 15, 16: 16 },
+	Axis: {0: 0, 1: 1, 2: 2, 3: 3},
+};
+
+/**
+ * Namespace with functions for validating {@link ControllerSettingsType} properties
+ * @type {{ [k in keyof Required<ControllerSettingsType>]: (arg: ControllerSettingsType[k], C: Character) => ControllerSettingsType[k] }}
+ * @namespace
+ */
+var PreferenceControllerSettingsValidate = {
+	ControllerActive: isBool(PreferenceControllerSettingsDefault.ControllerActive),
+	ControllerSensitivity: isItem(PreferenceSettingsSensitivityList, PreferenceControllerSettingsDefault.ControllerSensitivity),
+	ControllerDeadZone: isItem(PreferenceSettingsDeadZoneList, PreferenceControllerSettingsDefault.ControllerDeadZone),
+	Buttons: (arg) => { return arg; },
+	Axis: (arg) => { return arg; },
+};
+
+/**
+ * Namespace with default values for {@link GameplaySettingsType} properties.
+ * @type {Required<GameplaySettingsType>}
+ * @namespace
+ */
+var PreferenceGameplaySettingsDefault = {
+	SensDepChatLog: "Normal",
+	BlindDisableExamine: false,
+	DisableAutoRemoveLogin: false,
+	ImmersionLockSetting: false,
+	EnableSafeword: true,
+	DisableAutoMaid: false,
+	OfflineLockedRestrained: false,
+};
+
+/**
+ * Namespace with functions for validating {@link GameplaySettingsType} properties
+ * @type {{ [k in keyof Required<GameplaySettingsType>]: (arg: GameplaySettingsType[k], C: Character) => GameplaySettingsType[k] }}
+ * @namespace
+ */
+var PreferenceGameplaySettingsValidate = {
+	SensDepChatLog: isItem(PreferenceSettingsSensDepList, PreferenceGameplaySettingsDefault.SensDepChatLog),
+	BlindDisableExamine: isBool(PreferenceGameplaySettingsDefault.BlindDisableExamine),
+	DisableAutoRemoveLogin: isBool(PreferenceGameplaySettingsDefault.DisableAutoRemoveLogin),
+	ImmersionLockSetting: isBool(PreferenceGameplaySettingsDefault.ImmersionLockSetting),
+	EnableSafeword: isBool(PreferenceGameplaySettingsDefault.EnableSafeword),
+	DisableAutoMaid: isBool(PreferenceGameplaySettingsDefault.DisableAutoMaid),
+	OfflineLockedRestrained: isBool(PreferenceGameplaySettingsDefault.OfflineLockedRestrained),
+};
+
+/**
+ * Namespace with default values for {@link ImmersionSettingsType} properties.
+ * @type {Required<ImmersionSettingsType>}
+ * @namespace
+ */
+var PreferenceImmersionSettingsDefault = {
+	StimulationEvents: true,
+	ReturnToChatRoom: false,
+	ReturnToChatRoomAdmin: false,
+	ChatRoomMapLeaveOnExit: false,
+	SenseDepMessages: false,
+	ChatRoomMuffle: false,
+	BlindAdjacent: false,
+	AllowTints: true,
+	ShowUngarbledMessages: true,
+	// @ts-expect-error deprecated
+	BlockGaggedOOC: undefined,
+};
+
+/**
+ * Namespace with functions for validating {@link ImmersionSettingsType} properties
+ * @type {{ [k in keyof Required<ImmersionSettingsType>]: (arg: ImmersionSettingsType[k], C: Character) => ImmersionSettingsType[k] }}
+ * @namespace
+ */
+var PreferenceImmersionSettingsValidate = {
+	StimulationEvents: isBool(PreferenceImmersionSettingsDefault.StimulationEvents),
+	ReturnToChatRoom: isBool(PreferenceImmersionSettingsDefault.ReturnToChatRoom),
+	ReturnToChatRoomAdmin: isBool(PreferenceImmersionSettingsDefault.ReturnToChatRoomAdmin),
+	ChatRoomMapLeaveOnExit: isBool(PreferenceImmersionSettingsDefault.ChatRoomMapLeaveOnExit),
+	SenseDepMessages: isBool(PreferenceImmersionSettingsDefault.SenseDepMessages),
+	ChatRoomMuffle: isBool(PreferenceImmersionSettingsDefault.ChatRoomMuffle),
+	BlindAdjacent: isBool(PreferenceImmersionSettingsDefault.BlindAdjacent),
+	AllowTints: isBool(PreferenceImmersionSettingsDefault.AllowTints),
+	ShowUngarbledMessages: isBool(PreferenceImmersionSettingsDefault.ShowUngarbledMessages),
+	// @ts-expect-error deprecated
+	BlockGaggedOOC: (arg) => undefined,
+};
+
+/**
+ * Namespace with default values for {@link RestrictionSettingsType} properties.
+ * @type {Required<RestrictionSettingsType>}
+ * @namespace
+ */
+var PreferenceRestrictionSettingsDefault = {
+	BypassStruggle: false,
+	SlowImmunity: false,
+	BypassNPCPunishments: false,
+	NoSpeechGarble: false,
+};
+
+/**
+ * Namespace with functions for validating {@link RestrictionSettingsType} properties
+ * @type {{ [k in keyof Required<RestrictionSettingsType>]: (arg: RestrictionSettingsType[k], C: Character) => RestrictionSettingsType[k] }}
+ * @namespace
+ */
+var PreferenceRestrictionSettingsValidate = {
+	BypassStruggle: isBool(PreferenceRestrictionSettingsDefault.BypassStruggle),
+	SlowImmunity: isBool(PreferenceRestrictionSettingsDefault.SlowImmunity),
+	BypassNPCPunishments: isBool(PreferenceRestrictionSettingsDefault.BypassNPCPunishments),
+	NoSpeechGarble: isBool(PreferenceRestrictionSettingsDefault.NoSpeechGarble),
+};
+
+/**
+ * Namespace with default values for {@link PlayerOnlineSettings} properties.
+ * @type {Required<PlayerOnlineSettings>}
+ * @namespace
+ */
+var PreferenceOnlineSettingsDefault = {
+	AutoBanBlackList: false,
+	AutoBanGhostList: true,
+	DisableAnimations: false,
+	SearchShowsFullRooms: true,
+	SearchFriendsFirst: false,
+	EnableAfkTimer: true,
+	ShowStatus: true,
+	SendStatus: true,
+	FriendListAutoRefresh: true,
+	ShowRoomCustomization: 1,
+};
+
+/**
+ * Namespace with functions for validating {@link PlayerOnlineSettings} properties
+ * @type {{ [k in keyof Required<PlayerOnlineSettings>]: (arg: PlayerOnlineSettings[k], C: Character) => PlayerOnlineSettings[k] }}
+ * @namespace
+ */
+var PreferenceOnlineSettingsValidate = {
+	AutoBanBlackList: isBool(PreferenceOnlineSettingsDefault.AutoBanBlackList),
+	AutoBanGhostList: isBool(PreferenceOnlineSettingsDefault.AutoBanGhostList),
+	DisableAnimations: isBool(PreferenceOnlineSettingsDefault.DisableAnimations),
+	SearchShowsFullRooms: isBool(PreferenceOnlineSettingsDefault.SearchShowsFullRooms),
+	SearchFriendsFirst: isBool(PreferenceOnlineSettingsDefault.SearchFriendsFirst),
+	EnableAfkTimer: isBool(PreferenceOnlineSettingsDefault.EnableAfkTimer),
+	ShowStatus: isBool(PreferenceOnlineSettingsDefault.ShowStatus),
+	SendStatus: isBool(PreferenceOnlineSettingsDefault.SendStatus),
+	FriendListAutoRefresh: isBool(PreferenceOnlineSettingsDefault.FriendListAutoRefresh),
+	ShowRoomCustomization: isInt(0, 4, PreferenceOnlineSettingsDefault.ShowRoomCustomization),
+};
+
+/**
+ * Namespace with default values for {@link GraphicsSettingsType} properties.
+ * @type {Required<GraphicsSettingsType>}
+ * @namespace
+ */
+var PreferenceGraphicsSettingsDefault = {
+	Font: "Arial",
+	InvertRoom: true,
+	StimulationFlash: false,
+	DoBlindFlash: false,
+	AnimationQuality: 100,
+	SmoothZoom: true,
+	CenterChatrooms: true,
+	AllowBlur: true,
+	MaxFPS: DEFAULT_FRAMERATE,
+	MaxUnfocusedFPS: 0,
+	ShowFPS: false,
+};
+
+/**
+ * Namespace with functions for validating {@link GraphicsSettingsType} properties
+ * @type {{ [k in keyof Required<GraphicsSettingsType>]: (arg: GraphicsSettingsType[k], C: Character) => GraphicsSettingsType[k] }}
+ * @namespace
+ */
+var PreferenceGraphicsSettingsValidate = {
+	Font: isItem(PreferenceGraphicsFontList, PreferenceGraphicsSettingsDefault.Font),
+	InvertRoom: isBool(PreferenceGraphicsSettingsDefault.InvertRoom),
+	StimulationFlash: isBool(PreferenceGraphicsSettingsDefault.StimulationFlash),
+	DoBlindFlash: isBool(PreferenceGraphicsSettingsDefault.DoBlindFlash),
+	AnimationQuality: isItem(PreferenceGraphicsAnimationQualityList, PreferenceGraphicsSettingsDefault.AnimationQuality),
+	SmoothZoom: isBool(PreferenceGraphicsSettingsDefault.SmoothZoom),
+	CenterChatrooms: isBool(PreferenceGraphicsSettingsDefault.CenterChatrooms),
+	AllowBlur: isBool(PreferenceGraphicsSettingsDefault.AllowBlur),
+	MaxFPS: isItem(PreferenceGraphicsFrameLimit, PreferenceGraphicsSettingsDefault.MaxFPS),
+	MaxUnfocusedFPS: isItem(PreferenceGraphicsFrameLimit, PreferenceGraphicsSettingsDefault.MaxUnfocusedFPS),
+	ShowFPS: isBool(PreferenceGraphicsSettingsDefault.ShowFPS),
+};
+
+/**
+ * Namespace with default values for {@link GenderSettingsType} properties.
+ * @type {Required<GenderSettingsType>}
+ * @namespace
+ */
+var PreferenceGenderSettingsDefault = {
+	AutoJoinSearch: { Female: false, Male: false },
+	HideShopItems: { Female: false, Male: false },
+	HideTitles: { Female: false, Male: false },
+};
+
+/**
+ * @template {object} T
+ * @param {T} shape
+ * @returns {(arg: T) => T}
+ */
+const hasSameShape = (shape) => {
+	return (arg) => {
+		return CommonIsObject(arg) && CommonArraysEqual(CommonKeys(arg), CommonKeys(shape)) ? arg : shape;
+	};
+};
+
+/**
+ * Namespace with functions for validating {@link GenderSettingsType} properties
+ * @type {{ [k in keyof Required<GenderSettingsType>]: (arg: GenderSettingsType[k], C: Character) => GenderSettingsType[k] }}
+ * @namespace
+ */
+var PreferenceGenderSettingsValidate = {
+	AutoJoinSearch: hasSameShape(PreferenceGenderSettingsDefault.AutoJoinSearch),
+	HideShopItems: hasSameShape(PreferenceGenderSettingsDefault.HideShopItems),
+	HideTitles: hasSameShape(PreferenceGenderSettingsDefault.HideTitles),
+};
+
+
+/**
+ * Private helper to quick check notification settings
+ * @param {NotificationSetting} defaultNotif
+ * @returns {(arg: NotificationSetting) => NotificationSetting}
+ */
+const isValidNotification = (defaultNotif) => {
+	return (arg) => {
+		return {
+			Audio: /** @type {NotificationAudioType} */ (isInt(0, 2, defaultNotif.Audio)(arg.Audio)),
+			AlertType: /** @type {NotificationAlertType} */  (isInt(0, 3, defaultNotif.AlertType)(arg.AlertType)),
+		};
+	};
+};
+
+/**
+ * Namespace with default values for {@link NotificationSettingsType} properties.
+ * @type {Required<NotificationSettingsType>}
+ * @namespace
+ */
+var PreferenceNotificationSettingsDefault = {
+	Beeps: { Audio: NotificationAudioType.FIRST, AlertType: NotificationAlertType.POPUP },
+	ChatMessage: { Audio: NotificationAudioType.FIRST, AlertType: NotificationAlertType.NONE, Normal: true, Whisper: true, Activity: false, Mention: false },
+	ChatJoin: { Audio: NotificationAudioType.FIRST, AlertType: NotificationAlertType.NONE, Owner: false, Lovers: false, Friendlist: false, Subs: false },
+	Disconnect: { Audio: NotificationAudioType.FIRST, AlertType: NotificationAlertType.NONE },
+	Larp: { Audio: NotificationAudioType.NONE, AlertType: NotificationAlertType.NONE },
+	Test: { Audio: NotificationAudioType.NONE, AlertType: NotificationAlertType.TITLEPREFIX },
+
+	// Those are deprecated
+	Audio: false,
+	Chat: undefined,
+	ChatActions: undefined,
+};
+
+/**
+ * Namespace with functions for validating {@link NotificationSettingsType} properties
+ * @type {{ [k in keyof Required<NotificationSettingsType>]: (arg: NotificationSettingsType[k], C: Character) => NotificationSettingsType[k] }}
+ * @namespace
+ */
+var PreferenceNotificationSettingsValidate = {
+	Beeps: isValidNotification(PreferenceNotificationSettingsDefault.Beeps),
+	ChatMessage: (arg) => {
+		return {
+			...isValidNotification(PreferenceNotificationSettingsDefault.ChatMessage)(arg),
+			Normal: isBool(PreferenceNotificationSettingsDefault.ChatMessage.Normal)(arg.Normal),
+			Whisper: isBool(PreferenceNotificationSettingsDefault.ChatMessage.Whisper)(arg.Whisper),
+			Activity: isBool(PreferenceNotificationSettingsDefault.ChatMessage.Activity)(arg.Activity),
+			Mention: isBool(PreferenceNotificationSettingsDefault.ChatMessage.Mention)(arg.Mention),
+		};
+	},
+	ChatJoin: (arg) => {
+		return {
+			...isValidNotification(PreferenceNotificationSettingsDefault.ChatJoin)(arg),
+			Owner: isBool(PreferenceNotificationSettingsDefault.ChatJoin.Owner)(arg.Owner),
+			Lovers: isBool(PreferenceNotificationSettingsDefault.ChatJoin.Lovers)(arg.Lovers),
+			Friendlist: isBool(PreferenceNotificationSettingsDefault.ChatJoin.Friendlist)(arg.Friendlist),
+			Subs: isBool(PreferenceNotificationSettingsDefault.ChatJoin.Subs)(arg.Subs),
+		};
+	},
+	Disconnect: isValidNotification(PreferenceNotificationSettingsDefault.Disconnect),
+	Larp: isValidNotification(PreferenceNotificationSettingsDefault.Larp),
+	Test: isValidNotification(PreferenceNotificationSettingsDefault.Test),
+	Audio: () => undefined,
+	Chat: () => undefined,
+	ChatActions: () => undefined,
 };
 
 /**

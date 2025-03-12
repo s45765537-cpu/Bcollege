@@ -124,3 +124,7 @@ Chastity Belt Device
 贞操带装置
 Vibrator Wand Device
 振动器装置
+Objects
+物品
+Sunshade
+遮阳伞

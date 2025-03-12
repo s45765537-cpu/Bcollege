@@ -36,9 +36,8 @@ var ChatSearchListParams = {
 /** Pre-calculated. Must be updated if you change the grid parameters */
 var ChatSearchRoomsPerPage = 21;
 var ChatSearchMessage = "";
-var ChatSearchLeaveRoom = "MainHall";
-/** @type {ModuleType} */
-var ChatSearchLeaveSpace = "Room";
+/** @type {ScreenSpecifier} */
+var ChatSearchReturnScreen = ["Room", "MainHall"];
 /** @type {null | Item[]} */
 var ChatSearchSafewordAppearance = null;
 /** @type {null | Partial<Record<AssetPoseCategory, AssetPoseName>>} */
@@ -55,7 +54,7 @@ var ChatSearchFilterHelpActive = false;
 /** @type {null | { Index: number, RoomLabel: string, MemberLabel: string, WordsLabel: string }} */
 var ChatSearchFilterUnhideConfirm = null;
 var ChatSearchRejoinIncrement = 1;
-/** @type {null | string} */
+/** @type {null | RoomName} */
 var ChatSearchReturnToScreen = null;
 /** @type {"" | ServerChatRoomLanguage} */
 var ChatSearchLanguage = "";
@@ -76,12 +75,12 @@ function ChatSearchLoad() {
 	ChatRoomMapViewEditBackup = [];
 	delete Player.MapData;
 	if (ChatSearchReturnToScreen != null) {
-		CommonSetScreen("Room", ChatSearchReturnToScreen);
+		CommonSetScreen(.../** @type {ScreenSpecifier} */(["Room", ChatSearchReturnToScreen]));
 		ChatSearchReturnToScreen = null;
 		return;
 	}
 	CurrentDarkFactor = 0.5;
-	if (ChatSearchLeaveRoom == "MainHall") {
+	if (ChatSearchReturnScreen?.[1] === "MainHall") {
 		ChatRoomGame = "";
 		OnlineGameReset();
 	}
@@ -98,7 +97,6 @@ function ChatSearchLoad() {
 		return rooms.map(i => i.DisplayName).sort();
 	}, { maxLength: 200 });
 	ChatSearchQuery();
-	ChatSearchMessage = "";
 	ChatRoomNotificationReset();
 	ChatSearchRejoinIncrement = 1;
 	TextPrefetch("Character", "FriendList");
@@ -457,7 +455,7 @@ function ChatSearchExit() {
 	ChatSearchPreviousActivePose = { ...Player.ActivePoseMapping };
 	ChatSearchLastSearchDataJSON = null;
 	ElementRemove("InputSearch");
-	CommonSetScreen(ChatSearchLeaveSpace, ChatSearchLeaveRoom);
+	CommonSetScreen(...ChatSearchReturnScreen);
 	DrawingGetTextSize.clearCache();
 }
 
@@ -893,6 +891,7 @@ function ChatSearchResponse(data) {
 		CommonSetScreen("Online", "ChatSearch");
 	}
 	ChatSearchMessage = "Response" + data;
+	setTimeout(() => ChatSearchMessage = "", 3000);
 }
 
 /**
@@ -974,7 +973,7 @@ function ChatSearchAutoJoinRoom() {
 	}
 
 	// This is a search triggered from a relog
-	if (Player.ImmersionSettings && Player.ImmersionSettings.ReturnToChatRoom && Player.LastChatRoom && !PandoraPenitentiaryIsInmate(Player) && ((ChatSearchLeaveRoom !== "AsylumEntrance") || (AsylumGGTSGetLevel(Player) <= 0))) {
+	if (Player.ImmersionSettings && Player.ImmersionSettings.ReturnToChatRoom && Player.LastChatRoom && !PandoraPenitentiaryIsInmate(Player) && ((ChatSearchReturnScreen?.[1] !== "AsylumEntrance") || (AsylumGGTSGetLevel(Player) <= 0))) {
 		let roomFound = false;
 		let roomIsFull = false;
 		// Try joining our previous room
@@ -1055,6 +1054,7 @@ function ChatSearchAutoJoinRoom() {
  * @returns {void} - Nothing
  */
 function ChatSearchQuery() {
+	ChatSearchMessage = "";
 
 	// No regular chat result if locked in Pandora prison
 	if (PandoraPenitentiaryIsInmate(Player)) return;

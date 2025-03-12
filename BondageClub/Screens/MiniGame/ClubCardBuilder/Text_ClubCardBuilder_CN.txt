@@ -68,6 +68,10 @@ Shibari
 绳艺
 Knot
 绳结
+Pet
+宠物
+Owner
+主人
 Online Player
 在线玩家
 Reward Cards

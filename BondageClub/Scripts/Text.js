@@ -69,11 +69,15 @@ function TextPrefetch(Module, TextGroup) {
 /**
  * Trigger the caching of a specific file into the text cache
  * @param {string} file
+ * @returns {TextCache}
  */
 function TextPrefetchFile(file) {
-	if (!TextAllScreenCache.has(file)) {
-		TextAllScreenCache.set(file, new TextCache(file));
+	let cache = TextAllScreenCache.get(file);
+	if (!cache) {
+		cache = new TextCache(file);
+		TextAllScreenCache.set(file, cache);
 	}
+	return cache;
 }
 
 const InterfaceStringsPath = "Screens/Interface.csv";

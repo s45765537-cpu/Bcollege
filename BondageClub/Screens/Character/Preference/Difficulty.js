@@ -1,6 +1,6 @@
 "use strict";
 
-/** @type {null | number} */
+/** @type {null | DifficultyLevel} */
 var PreferenceDifficultyLevel = null;
 var PreferenceDifficultyAccept = false;
 
@@ -68,19 +68,18 @@ function PreferenceSubscreenDifficultyClick() {
 		if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenExit();
 		for (let D = 0; D <= 3; D++)
 			if (MouseIn(500, 320 + 150 * D, 300, 64))
-				PreferenceDifficultyLevel = D;
+				PreferenceDifficultyLevel = /** @type {DifficultyLevel} */ (D);
 	} else {
 
 		// If a level is selected, the user must check to confirm
 		if (MouseIn(1815, 75, 90, 90)) PreferenceDifficultyLevel = null;
-		if (PreferenceDifficultyLevel != Player.GetDifficulty()) {
+		else if (PreferenceDifficultyLevel !== Player.GetDifficulty()) {
 			var LastChange = ((Player.Difficulty == null) || (Player.Difficulty.LastChange == null) || (typeof Player.Difficulty.LastChange !== "number")) ? Player.Creation : Player.Difficulty.LastChange;
 			if ((PreferenceDifficultyLevel <= 1) || (LastChange + 604800000 < CurrentTime)) {
 				if (MouseIn(500, 700, 64, 64)) PreferenceDifficultyAccept = !PreferenceDifficultyAccept;
 				if (MouseIn(500, 825, 300, 64) && PreferenceDifficultyAccept) {
 					Player.Difficulty = { LastChange: CurrentTime, Level: PreferenceDifficultyLevel };
 					ServerSend("AccountDifficulty", PreferenceDifficultyLevel);
-					PreferenceInitPlayer();
 					LoginDifficulty(true);
 					PreferenceDifficultyLevel = null;
 					PreferenceSubscreenExit();

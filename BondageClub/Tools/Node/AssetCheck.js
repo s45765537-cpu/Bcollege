@@ -1280,6 +1280,30 @@ function testDrawCallbacks(assets, window) {
 }
 
 /**
+ * @param {readonly Asset[]} assets
+ * @param {Record<ExtendedArchetype, Record<string, AssetArchetypeData>>} extendedDataRecords
+ */
+function testSelfBlock(assets, extendedDataRecords) {
+	for (const asset of assets) {
+		/** @type {readonly AssetGroupName[]} */
+		const blocks = asset.Block ?? [];
+		if (blocks.includes(asset.Group.Name)) {
+			error(`${asset.Group.Name}:${asset.Name}: item must not block its own group`);
+		}
+
+		/** @type {Record<string, ExtendedItemOption[]>} */
+		const extendedOptions = getExtendedOptions(asset, extendedDataRecords);
+		for (const [extendedName, options] of Object.entries(extendedOptions)) {
+			/** @type {readonly AssetGroupName[]} */
+			const extendedBlocks = options.flatMap(o => o.Property?.Block ?? []);
+			if (extendedBlocks.includes(asset.Group.Name)) {
+				error(`${asset.Group.Name}:${asset.Name}:${extendedName} extended item must not block its own group`);
+			}
+		}
+	}
+}
+
+/**
  * Strigify and parse the passed object to get the correct Array and Object prototypes, because VM uses different ones.
  * This unfortunately results in Functions being lost and replaced with a dummy function
  * @param {any} input The to-be sanitized input
@@ -1512,4 +1536,5 @@ function sanitizeVMOutput(input) {
 	testHasPreview(assetList);
 	testAssetHasPNG(assetList, extendedItemSuperRecord, poseRecord);
 	testSetPose(assetList, pose);
+	testSelfBlock(assetList, extendedItemSuperRecord);
 })();

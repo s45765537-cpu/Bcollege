@@ -114,7 +114,7 @@
 }
 
 .button-image ~ .button-label {
-	font-size: min(2.6vh, 1.3vw);
+	font-size: 0.65em;
 }
 
 .button-styling > .button-label {
@@ -298,10 +298,6 @@
 @supports (height: 100dvh) {
 	.button-tooltip {
 		--tooltip-gap: min(1dvh, 0.5dvw);
-	}
-
-	.button-image ~ .button-label {
-		font-size: min(2.6dvh, 1.3dvw);
 	}
 
 	.button-icon-grid {

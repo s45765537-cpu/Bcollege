@@ -1279,7 +1279,7 @@ function ValidationHasSomeScriptPermission(character, property, permissionLevels
  * @param {boolean} allowExtraKeys whether to allow extra key/value pairs in `arg` (absent from the `validators` record) to-be returned
  * @returns {{ [k in keyof T]: ReturnType<T[k]> }} The validated `arg`
  */
-function ValdiationApplyRecord(arg, C, validators, allowExtraKeys=false) {
+function ValidationApplyRecord(arg, C, validators, allowExtraKeys=false) {
 	if (!CommonIsObject(arg)) {
 		arg = {};
 	}

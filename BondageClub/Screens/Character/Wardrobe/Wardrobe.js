@@ -336,7 +336,7 @@ function WardrobeFastLoad(C, W, Update) {
 					A
 					&& A.Group.Category == "Appearance"
 					&& WardrobeGroupAccessible(C, A.Group, { ExcludeNonCloth: true })
-					&& (A.Value == 0 || InventoryAvailable(Player, A.Name, A.Group.Name))
+					&& InventoryAvailable(Player, A.Name, A.Group.Name)
 				) {
 					CharacterAppearanceSetItem(C, w.Group, A, w.Color, 0, null, false);
 					if (w.Property && InventoryGet(C, w.Group)) {

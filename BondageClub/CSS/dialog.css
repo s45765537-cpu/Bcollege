@@ -82,15 +82,11 @@
 	color: white;
 	user-select: none;
 
-	display: -webkit-box;
-	line-clamp: 2;
-	-webkit-line-clamp: 2;
-	-webkit-box-orient: vertical;
+	min-height: 1.15em; /* 1 line */
+	max-height: 4.6em; /* 4 lines */
 	align-self: center;
 	justify-self: center;
-	overflow: hidden;
 	grid-area: dialog-status;
-	line-height: 1.2em;
 }
 
 .dialog-grid {
@@ -102,20 +98,6 @@
 	padding-right: var(--scrollbar-gutter);
 	grid-area: dialog-grid;
 	scroll-snap-type: y proximity;
-	scroll-padding: 3px;
-	scrollbar-gutter: stable;
-	scrollbar-color: rgb(149, 149, 149) rgb(0, 0, 0, 0.7);
-}
-
-@media (hover: hover) {
-	.dialog-grid {
-		scrollbar-color: rgb(149, 149, 149, 0.9) rgb(0, 0, 0, 0.4);
-		transition: scrollbar-color 0.3s ease;
-	}
-
-	.dialog-grid:hover {
-		scrollbar-color: rgb(149, 149, 149) rgb(0, 0, 0, 0.7);
-	}
 }
 
 .dialog-root[data-show-icon] {
@@ -150,8 +132,7 @@
 	--tooltip-gap: var(--gap);
 
 	width: calc(400% + 4 * min(0.2vh, 0.1vw) + 3 * var(--gap));
-	font-size: min(2.6vh, 1.3vw);
-	font-size: min(2.6dvh, 1.3dvw);
+	font-size: 0.65em;
 	max-height: calc(2 * var(--button-height) + var(--gap));
 	display: -webkit-box;
 	line-clamp: 15;
@@ -290,15 +271,19 @@
 }
 
 #dialog-dialog {
+	--dialog-button-size: min(8vh, 4vw);
 	grid-template:
-		". dialog-status dialog-menubar" 3.6em
+		". dialog-status dialog-menubar" min-content
 		"dialog-paginate dialog-grid dialog-grid" auto / var(--menu-button-size) auto calc(var(--menu-button-size) + 3px + var(--scrollbar-gutter));
 }
 
+#dialog-dialog-grid {
+	max-height: calc(6px + 8 * var(--dialog-button-size) + 7 * var(--gap));
+}
+
 #dialog-dialog-status {
-	min-height: var(--menu-button-size);
-	line-clamp: 3;
-	-webkit-line-clamp: 3;
+	min-height: 3.45em; /* 3 lines */
+	max-height: 7.9em; /* 6 lines */
 }
 
 #dialog-dialog-grid {
@@ -308,11 +293,22 @@
 
 .dialog-dialog-button {
 	width: 100%;
-	min-height: var(--menu-button-size);
+	min-height: var(--dialog-button-size);
 	height: min-content;
-	padding-top: 0.2em;
-	padding-bottom: 0.2em;
+	padding-top: 0.15em;
+	padding-bottom: 0.15em;
 	margin-block: calc(var(--gap) / 2);
+}
+
+/* For browsers that support https://caniuse.com/css-nth-child-of */
+@supports selector(:nth-child(1 of :not([data-unload]))) {
+	.dialog-dialog-button:nth-child(1 of :not([data-unload])) {
+		margin-top: unset;
+	}
+
+	.dialog-dialog-button:nth-last-child(1 of :not([data-unload])) {
+		margin-bottom: unset;
+	}
 }
 
 .dialog-dialog-button[data-unload] {
@@ -321,7 +317,7 @@
 
 .dialog-dialog-button > .button-label {
 	position: unset;
-	padding-inline: 0.2em 0.2em;
+	padding-inline: 0.15em 0.15em;
 }
 
 @supports(height: 100dvh) {
@@ -329,6 +325,10 @@
 		--menu-button-size: min(9dvh, 4.5dvw);
 		--button-height: calc(min(25dvh, 12.5dvw) - 2px);
 		--gap: min(2dvh, 1dvw);
+	}
+
+	#dialog-dialog {
+		--dialog-button-size: min(8dvh, 4dvw);
 	}
 
 	.dialog-grid-button > .button-tooltip {

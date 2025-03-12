@@ -244,14 +244,19 @@ function InventoryDataBuild(C) {
 /**
 * Checks if the character has the inventory available
 * @param {Character} C - The character on which we should remove the item
-* @param {string|'*'} InventoryName - The name of the item to validate, * means any
-* @param {AssetGroupName} InventoryGroup - The group name of the item to validate
+* @param {string} Name - The name of the item to validate
+* @param {AssetGroupName} Group - The group name of the item to validate
 */
-function InventoryAvailable(C, InventoryName, InventoryGroup) {
-	for (let I = 0; I < C.Inventory.length; I++)
-		if ((C.Inventory[I].Name == InventoryName || InventoryName === "*") && (C.Inventory[I].Group == InventoryGroup))
-			return true;
-	return false;
+function InventoryAvailable(C, Name, Group) {
+	if (C.Inventory.find(i => i.Group === Group && i.Name === Name)) {
+		return true;
+	}
+	let asset = AssetGet(C.AssetFamily, Group, Name);
+	if (!asset) {
+		return false;
+	}
+	const isFree = Asset.filter(a => a.BuyGroup === asset.BuyGroup).some(a => a.Value === 0);
+	return isFree || asset.AvailableLocations.some(loc => CurrentScreen.startsWith(loc) || ChatRoomSpace === loc);
 }
 
 /**
@@ -671,7 +676,7 @@ function InventoryGet(C, AssetGroup) {
 
 /**
 * Applies crafted properties to the item used
-* @param {Character} Source - The character that used the item
+* @param {null | Character} Source - The character that used the item (if any)
 * @param {Character} Target - The character on which the item is used
 * @param {AssetGroupItemName} GroupName - The name of the asset group to scan
 * @param {CraftingItem} Craft - The crafted properties to apply
@@ -682,7 +687,7 @@ function InventoryGet(C, AssetGroup) {
 */
 function InventoryCraft(Source, Target, GroupName, Craft, Refresh, PreConfigureItem=true, CraftWarn=true) {
 	// Gets the item first
-	if ((Source == null) || (Target == null) || (GroupName == null)) return;
+	if ((Target == null) || (GroupName == null)) return;
 	let Item = InventoryGet(Target, GroupName);
 	if ((Item == null) || !CraftingValidate(Craft, Item.Asset, CraftWarn, Source.IsPlayer())) return;
 
@@ -691,8 +696,10 @@ function InventoryCraft(Source, Target, GroupName, Craft, Refresh, PreConfigureI
 	Item.Difficulty ??= Item.Asset.Difficulty;
 
 	// Sets the crafter name and ID
-	Item.Craft.MemberNumber ??= Source.MemberNumber;
-	Item.Craft.MemberName ??= CharacterNickname(Source);
+	if (Source) {
+		Item.Craft.MemberNumber = Source.MemberNumber;
+		Item.Craft.MemberName = CharacterNickname(Source);
+	}
 
 	// Abort; the properties below are pre-configured by crafted items the first time they're applied,
 	// but should otherwise not be touched by this function lest they undo any further item customization applied after the fact
@@ -703,14 +710,17 @@ function InventoryCraft(Source, Target, GroupName, Craft, Refresh, PreConfigureI
 	// Applies the color schema, separated by commas
 	Item.Color = Craft.Color.replace(" ", "").split(",");
 
-	// Applies a lock to the item
-	if (Craft.Lock != "") {
-		InventoryLock(Target, Item, Craft.Lock, Source.MemberNumber, false);
+	// Set extended item properties
+	if (Item.Asset.Extended) {
+		ExtendedItemSetOptionByRecord(
+			Target, Item, Craft.TypeRecord,
+			{ push: false, refresh: false, C_Source: Source, properties: Craft.ItemProperty },
+		);
 	}
 
-	// Set the item priority
-	if (Craft.ItemProperty) {
-		Object.assign(Item.Property, CommonCloneDeep(Craft.ItemProperty));
+	// Applies a lock to the item
+	if (Craft.Lock != "") {
+		InventoryLock(Target, Item, Craft.Lock, Source?.MemberNumber, false);
 	}
 
 	// Update the item's difficulty
@@ -728,21 +738,21 @@ function InventoryCraft(Source, Target, GroupName, Craft, Refresh, PreConfigureI
 			Item.Difficulty = -50;
 			break;
 		case "Painful":
-			if (Target.OnlineSharedSettings?.ItemsAffectExpressions ?? true) {
-				CharacterSetFacialExpression(Target, "Blush", "ShortBreath", 10);
-				CharacterSetFacialExpression(Target, "Eyes", "Angry", 10);
-				CharacterSetFacialExpression(Target, "Eyes2", "Angry", 10);
-				CharacterSetFacialExpression(Target, "Eyebrows", "Angry", 10);
-			}
+			InventoryExpressionTriggerApply(Target, [
+				{ Group: "Blush", Name: "ShortBreath", Timer: 10 },
+				{ Group: "Eyes", Name: "Angry", Timer: 10 },
+				{ Group: "Eyes2", Name: "Angry", Timer: 10 },
+				{ Group: "Eyebrows", Name: "Angry", Timer: 10 },
+			]);
 			Item.Property.Fetish = CommonArrayConcatDedupe(Item.Property.Fetish || [], ["Masochism"]);
 			break;
 		case "Comfy":
-			if (Target.OnlineSharedSettings?.ItemsAffectExpressions ?? true) {
-				CharacterSetFacialExpression(Target, "Blush", "Low", 10);
-				CharacterSetFacialExpression(Target, "Eyes", "Horny", 10);
-				CharacterSetFacialExpression(Target, "Eyes2", "Horny", 10);
-				CharacterSetFacialExpression(Target, "Eyebrows", "Raised", 10);
-			}
+			InventoryExpressionTriggerApply(Target, [
+				{ Group: "Blush", Name: "Low", Timer: 10 },
+				{ Group: "Eyes", Name: "Horny", Timer: 10 },
+				{ Group: "Eyes2", Name: "Horny", Timer: 10 },
+				{ Group: "Eyebrows", Name: "Raised", Timer: 10 },
+			]);
 			break;
 	}
 
@@ -781,21 +791,9 @@ function InventoryCraftPropertyIs(Item, Property) {
 /**
 * Sets the craft and type on the item, uses the achetype properties if possible.
 * Note that appearance changes are _not_ pushed to the server.
-* @param {Item} Item - The item being applied
-* @param {Character} C - The character that must wear the item
-* @param {CraftingItem} [Craft] - The crafting properties of the item
+* @deprecated Use {@link InventoryCraft} instead (or use {@link InventoryWear} directly if appropriate)
 */
-function InventoryWearCraft(Item, C, Craft) {
-	if ((Item == null) || (Item.Asset == null) || (Craft == null)) return;
-	Item.Craft = Craft;
-
-	if (Item.Asset.Archetype != null) {
-		ExtendedItemSetOptionByRecord(
-			C, Item, Craft.TypeRecord,
-			{ push: false, C_Source: Player, properties: Craft.ItemProperty },
-		);
-	}
-}
+var InventoryWearCraft = /** @type {never} */(function() { return; });
 
 /**
  * Makes the character wear an item on a body area
@@ -817,13 +815,15 @@ function InventoryWear(C, AssetName, AssetGroup, ItemColor, Difficulty, MemberNu
 	/**
 	 * TODO: grant tighter control over setting expressions.
 	 * As expressions handle a "first come, first served" principle this can currently override extended
-	 * item option-specific expressions (see {@link InventoryWearCraft}) and crafting property-specific
-	 * expressions (see {@link InventoryCraft})
+	 * item option-specific expressions and crafting property-specific expressions (see {@link InventoryCraft})
 	 */
 	if (A.ExpressionTrigger != null) {
 		InventoryExpressionTriggerApply(C, A.ExpressionTrigger);
 	}
-	InventoryWearCraft(item, C, Craft);
+	if (Craft) {
+		const C_Source = Character.find(c => c.MemberNumber === MemberNumber) ?? null;
+		InventoryCraft(C_Source, C, /** @type {AssetGroupItemName} */(AssetGroup), Craft, false);
+	}
 	if (Refresh) {
 		CharacterRefresh(C, true);
 	}
@@ -1741,7 +1741,7 @@ function InventoryIsKey(Item) {
 /**
  * Serialises the provided character's inventory into a string for easy comparisons, inventory items are uniquely
  * identified by their name and group
- * @param {Character} C - The character whose inventory we should serialise
+ * @param {PlayerCharacter} C - The character whose inventory we should serialise
  * @return {string} - A simple string representation of the character's inventory
  */
 function InventoryStringify(C) {

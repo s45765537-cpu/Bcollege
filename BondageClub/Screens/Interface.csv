@@ -52,7 +52,10 @@ CantChangeWhileLocked,Cannot change while locked
 Challenge,Challenge:
 ChatRoomHelp,Type /help for a list of commands
 ChatRoomLeashNotFriend,You are not on that member's friendlist; ask TargetPronounObject to friend you before leashing TargetPronounObject.
-ChatRoomSpaceAsylum,<i>Asylum</i>
+ChatRoomSpaceX,Mixed
+ChatRoomSpaceM,Male-only
+ChatRoomSpaceF,Female-only
+ChatRoomSpaceAsylum,Asylum
 ChooseStruggleMethod,Choose struggling method...
 ChatRoomStruggleButton,Struggle in chat room
 ChatRoomStruggleStart,SourceCharacter struggles to remove PronounPossessive PrevAsset

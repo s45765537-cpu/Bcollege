@@ -36,6 +36,10 @@ Frills
 花边
 Silk
 丝绸
+Harness
+束带
+Metal
+金属
 Bib
 围嘴
 Pattern
@@ -58,12 +62,16 @@ Back
 后部
 Front
 前部
+Belt
+皮带
+Metal details
+金属细节
+Chain details
+链环细节
 Color One
 颜色1
 Color Two
 颜色2
-Belt
-皮带
 Shoulders
 肩膀
 Buckle
@@ -126,6 +134,10 @@ Lower Belt Buckles
 下部皮带搭扣
 Colar Buckle
 领子搭扣
+Rivets
+铆钉
+Ribbon
+丝带
 Shawl
 披肩
 Shawl Fur
@@ -176,8 +188,6 @@ Frill
 褶边
 Crosses
 十字架
-Metal
-金属
 Panty
 内裤
 Panty Line
@@ -208,8 +218,34 @@ Layer 3
 第2层
 Layer 4
 第4层
+Front Buttons
+前部扣子
+Belt Loops
+皮带环
+D Rings
+环圈
+Waist Belt Details
+腰带细节
+Waist Belt
+腰带
+Snaps
+皮带扣
+Waist
+腰部
+Side Belt Details
+侧带细节
+Side Belts
+侧带
+Front Panel
+前部嵌板
+Left Panel
+左面板
+Right Panel
+右面板
 Apron
 围裙
+Sleeves
+袖子
 Detail Trim
 细节装饰
 Edge Trim
@@ -330,12 +366,32 @@ Tips
 顶端
 Braid
 织物
-Ribbon
-丝带
 Scrunchies
 束发带
 Ribbons
 丝带
+Main Right
+主体右侧
+Main Left
+主体左侧
+Tip Right
+顶端右侧
+Tip Left
+顶端左侧
+Streak
+条纹
+Right Bun
+右侧团子
+Left Bun
+左侧团子
+Right Strand
+右侧发缕
+Left Strand
+左侧发缕
+Right Braid
+右侧辫子
+Left Braid
+左侧辫子
  Base
 基础
  Fluff
@@ -366,6 +422,16 @@ Strands
 发缕
 Extra
 额外
+Clip
+扣环
+Full
+整体
+Highlights
+高光
+Shadows
+阴影
+Outline
+边缘
 Tiara
 头冠
 Detail
@@ -376,10 +442,6 @@ Panel
 嵌板
 Side
 侧边
-Left Panel
-左面板
-Right Panel
-右面板
 Visor
 面罩
 Bandana
@@ -496,6 +558,10 @@ Crotch Panel
 胯部遮挡
 Crotch
 胯部
+Hood
+头套
+Eyelets
+眼圈
 Buckle Hole
 搭扣孔
 Rings
@@ -530,18 +596,34 @@ Below Breast Belt
 胸下皮带
 Above Breast Belt
 胸上皮带
-Waist Belt
-腰带
 Suckers
 吸盘
 Shorts
 短裤
 Bars
 杆子
-Heels
-鞋跟
 Mittens
 手套
+Mittens shine
+手套高光
+Mittens straps
+手套束带
+Padlocks
+挂锁
+Pogo Ball
+健身球
+Pogo Ball shine
+健身球高光
+Pogo Ball rubber ankles
+健身球橡胶脚踝
+Heels
+鞋跟
+Shoes
+鞋
+Iron Ballet
+铁芭蕾
+Iron cuff locks
+铁手铐锁
 Boots
 靴子
 Vamp
@@ -554,14 +636,10 @@ Toes
 指头
 Horseshoes
 马蹄铁
-Padlocks
-挂锁
 Hooves
 蹄子
 Straps Base
 系带基础
-Outline
-边缘
 Bra Cup
 罩杯
 Lining
@@ -592,6 +670,22 @@ Pillow
 枕头
 Bench
 长椅
+Structure
+结构
+Legs Window
+腿部窗户
+LED details
+LED细节
+Sunshade fabric
+遮阳伞布料
+Sunshade structure
+遮阳伞结构
+Right object
+右侧物体
+Center object
+中央物体
+Left object
+左侧物体
 Background wall
 背景墙
 Portal
@@ -640,12 +734,8 @@ Padding
 垫子
 Harness Clamps
 束带扣环
-Harness
-束带
 Actuator
 作动器
-Structure
-结构
 Screen
 屏幕
 Window
@@ -708,8 +798,6 @@ Bar
 穿刺棒
 Tiny Cushion
 小垫子
-Shoes
-鞋
 Option
 可选
 Closed
@@ -722,6 +810,8 @@ Bed Lining
 床内衬
 Bowl
 碗
+Ankle rubber
+脚踝橡胶
 Arms
 手臂
 Float bag
@@ -730,6 +820,12 @@ Wheel Holders
 轮子挡板
 Wheels
 轮子
+Deco Item
+装饰物
+Seat
+座位
+Throne
+王座
 Upper
 上半
 Lower
@@ -888,14 +984,18 @@ Neck rope
 颈部绳索
 Canvas
 画布
-Hood
-头套
  Lacing
 束带
  Outline
 边缘
 Spots
 斑点
+Neck spikes
+脖子尖刺
+Iron blindfold
+铁制眼罩
+Nose guard
+鼻子保护
 Pattern Shine
 图案高光
 Pattern 2
@@ -918,14 +1018,10 @@ Eye Panel
 眼睛遮罩
 Mouth Panel
 嘴部遮罩
-Highlights
-高光
 Cover Hood
 覆盖头套
 Edges
 边缘
-Rivets
-铆钉
 Markings
 标记
  Fuzz
@@ -948,6 +1044,10 @@ Lens
 镜片
 Mouthpiece
 滤嘴
+Hairband
+发带
+Lips
+嘴唇
 Blush
 腮红
 Drawings
@@ -982,8 +1082,6 @@ Collar Link
 洞
  Muzzle
 口套
-Snaps
-皮带扣
 Blinding Lenses
 遮眼镜片
 Breathing Attachment
@@ -1006,8 +1104,6 @@ Iris
 虹膜
 Cheeks
 面颊
-Lips
-嘴唇
 Wig
 假发
 Wig Accessory
@@ -1037,8 +1133,6 @@ Pump
  Lens
 镜片
  Clip
-扣环
-Clip
 夹子
  Rebreather Bag
 循环呼吸袋
@@ -1064,6 +1158,8 @@ Refreshments
 物件
 Tray
 托盘
+Metal straps
+金属束带
 Ball
 球
 Bit
@@ -1508,6 +1604,8 @@ Dai
 鞋底
 Hanao
 鞋带
+Cosmetic padlocks
+装饰锁
  Shoe
 鞋
 Soles
@@ -1530,6 +1628,8 @@ Chains Details
 靴子
  Sock
 袜子
+Front detail
+前部细节
 Guards
 护板
 Sock

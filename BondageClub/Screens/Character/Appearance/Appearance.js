@@ -37,9 +37,8 @@ var CharacterAppearanceColorPickerRefreshTimer = null;
 var CharacterAppearanceSelection = null;
 /** @type {(accept: boolean) => void} */
 var CharacterAppearanceResultCallback = undefined;
-var CharacterAppearanceReturnRoom = "MainHall";
-/** @type {ModuleType} */
-var CharacterAppearanceReturnModule = "Room";
+/** @type {ScreenSpecifier} */
+var CharacterAppearanceReturnScreen = ["Room", "MainHall"];
 var CharacterAppearanceWardrobeOffset = 0;
 var CharacterAppearanceWardrobeText = "";
 var CharacterAppearanceWardrobeName = "";
@@ -87,39 +86,39 @@ const AppearancePermissionColors = {
  */
 function CharacterAppearanceBuildAssets(C) {
 
-	// Adds all items with 0 value and from the appearance category
 	CharacterAppearanceAssets = [];
-	for (let A = 0; A < Asset.length; A++)
-		if ((Asset[A].Value == 0) && (Asset[A].Group.Family == C.AssetFamily) && (Asset[A].Group.Category == "Appearance") && CharacterAppearanceGenderAllowed(Asset[A]))
-			CharacterAppearanceAssets.push(Asset[A]);
-	for (let A = 0; A < C.Inventory.length; A++)
-		if ((C.Inventory[A].Asset != null) && (C.Inventory[A].Asset.Group.Family == C.AssetFamily) && (C.Inventory[A].Asset.Group.Category == "Appearance") && CharacterAppearanceGenderAllowed(Asset[A]))
-			CharacterAppearanceAssets.push(C.Inventory[A].Asset);
-
+	// Adds all items with 0 value and from the appearance category
+	const availableAssets = Asset.filter(a =>
+		a.Group.Family === C.AssetFamily &&
+		a.Group.IsAppearance() &&
+		CharacterAppearanceGenderAllowed(a) &&
+		InventoryAvailable(C, a.Name, a.Group.Name));
+	CharacterAppearanceAssets.push(...availableAssets);
 }
 
 /**
  * Makes sure the character appearance is valid from inventory and asset requirement. This function is called during the login process.
- * @param {Character} C - The character whose appearance is checked
+ * @param {PlayerCharacter} C - The character whose appearance is checked
  * @returns {void} - Nothing
  */
 function CharacterAppearanceValidate(C) {
 
-	// Remove any appearance item that's not in inventory
 	var Refresh = false;
-	for (let A = C.Appearance.length - 1; A >= 0; A--)
-		if ((C.Appearance[A].Asset.Value != 0) && (C.Appearance[A].Asset.Group.Category == "Appearance") && !InventoryAvailable(C, C.Appearance[A].Asset.Name, C.Appearance[A].Asset.Group.Name)) {
-			C.Appearance.splice(A, 1);
+	// We iterate over a copy because we're gonna remove, possibly layered things, and the index cannot be stable
+	const appCopy = [...C.Appearance];
+	for (let idx = appCopy.length - 1; idx >= 0; idx--) {
+		const A = appCopy[idx];
+		if (A.Asset.Group.IsAppearance() && !InventoryAvailable(C, A.Asset.Name, A.Asset.Group.Name)) {
+			// Remove any appearance item that's not in inventory
+			InventoryRemove(C, A.Asset.Group.Name, false);
+			Refresh = true;
+		} else if ((LogQuery("Committed", "Asylum") || !Player.GameplaySettings.DisableAutoRemoveLogin) && A.Asset.RemoveAtLogin) {
+			// Remove items flagged as "Remove At Login"
+			InventoryRemove(C, A.Asset.Group.Name, false);
 			Refresh = true;
 		}
+	}
 
-	// Remove items flagged as "Remove At Login"
-	if (LogQuery("Committed", "Asylum") || !Player.GameplaySettings || !Player.GameplaySettings.DisableAutoRemoveLogin)
-		for (let A = C.Appearance.length - 1; A >= 0; A--)
-			if (C.Appearance[A] && C.Appearance[A].Asset.RemoveAtLogin) {
-				InventoryRemove(C, C.Appearance[A].Asset.Group.Name, false);
-				Refresh = true;
-			}
 
 	// Dress back if there are missing appearance items
 	for (let A = 0; A < AssetGroup.length; A++)
@@ -596,7 +595,7 @@ function CharacterAppearanceSetHeightModifiers(C) {
 	}
 
 	// Set the height ratio here to avoid lookin it up when drawing. The setting can make all characters full height
-	C.HeightRatio = Player.VisualSettings && Player.VisualSettings.ForceFullHeight ? 1 : CharacterAppearanceGetCurrentValue(C, "Height", "Zoom");
+	C.HeightRatio = Player.CharacterID === "" || Player.VisualSettings.ForceFullHeight ? 1 : CharacterAppearanceGetCurrentValue(C, "Height", "Zoom");
 }
 
 /**
@@ -690,7 +689,7 @@ function AppearanceLoad() {
 	CharacterAppearanceBuildAssets(Player);
 	CharacterAppearanceBackup = CharacterAppearanceStringify(C);
 	AppearanceMenuBuild(C);
-	AppearanceUseCharacterInPreviewsSetting = Player.VisualSettings ? Player.VisualSettings.UseCharacterInPreviews : AppearanceUseCharacterInPreviewsSetting;
+	AppearanceUseCharacterInPreviewsSetting = Player.CharacterID !== "" ? Player.VisualSettings.UseCharacterInPreviews : false;
 }
 
 /**
@@ -1136,11 +1135,11 @@ function CharacterAppearanceSetItem(C, Group, ItemAsset, NewColor, DifficultyFac
 	/** @type {null | Item} */
 	let NA = null;
 	if (ItemAsset != null) {
+		/** @type {Item} */
 		NA = {
 			Asset: ItemAsset,
 			Difficulty: parseInt((ItemAsset.Difficulty == null) ? 0 : ItemAsset.Difficulty) + parseInt(DifficultyFactor),
 			Color: ((NewColor == null) ? ItemColor : NewColor),
-			Property: ItemAsset.CharacterRestricted ? {ItemMemberNumber: ItemMemberNumber == null ? -1 : ItemMemberNumber} : undefined
 		};
 		ExtendedItemInit(C, NA, false, false);
 		C.Appearance.push(NA);
@@ -1694,7 +1693,7 @@ function CharacterAppearanceClose() {
 	CharacterAppearanceHeaderText = "";
 	AppearancePreviewCleanup();
 	CharacterAppearanceWardrobeName = "";
-	if (Player.VisualSettings && AppearanceUseCharacterInPreviewsSetting !== Player.VisualSettings.UseCharacterInPreviews) {
+	if (Player.IsPlayer() && Player.CharacterID !== "" && AppearanceUseCharacterInPreviewsSetting !== Player.VisualSettings.UseCharacterInPreviews) {
 		Player.VisualSettings.UseCharacterInPreviews = AppearanceUseCharacterInPreviewsSetting;
 		ServerAccountUpdate.QueueData({ VisualSettings: Player.VisualSettings });
 	}
@@ -1772,11 +1771,11 @@ function CharacterAppearanceCopy(FromC, ToC) {
  */
 function CharacterAppearanceLoadCharacter(C, resultCallback) {
 	CharacterAppearanceSelection = C;
-	CharacterAppearanceReturnModule = CurrentModule;
-	CharacterAppearanceReturnRoom = CurrentScreen;
+
+	CharacterAppearanceReturnScreen = CommonGetScreen();
 	if (!resultCallback) {
 		CharacterAppearanceResultCallback = (_result) => {
-			CommonSetScreen(CharacterAppearanceReturnModule, CharacterAppearanceReturnRoom);
+			CommonSetScreen(...CharacterAppearanceReturnScreen);
 		};
 	} else {
 		CharacterAppearanceResultCallback = resultCallback;
@@ -1790,7 +1789,7 @@ function CharacterAppearanceLoadCharacter(C, resultCallback) {
  * @returns {void} - Nothing
  */
 function CharacterAppearanceWardrobeLoad(C) {
-	if ((Player.Wardrobe == null) || (Player.Wardrobe.length < 12))
+	if (Player.Wardrobe.length < 12)
 		WardrobeLoadCharacters(true);
 	else
 		WardrobeLoadCharacterNames();

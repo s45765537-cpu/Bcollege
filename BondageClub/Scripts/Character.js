@@ -29,17 +29,25 @@ const CharacterBlurLevels = new Map([
 	["BlurLight", 3],
 ]);
 
+const Difficulty = {
+	ROLEPLAY: 0,
+	REGULAR: 1,
+	HARDCORE: 2,
+	EXTREME: 3,
+};
+
 /**
  * An enum representing the various character archetypes
  * ONLINE: The player, or a character representing another online player
  * NPC: Any NPC
  * SIMPLE: Any simple character, generally used internally and not to represent an actual in-game character
- * @type {Record<"ONLINE"|"NPC"|"SIMPLE", CharacterType>}
+ * @type {Record<"ONLINE"|"NPC"|"SIMPLE"|"PLAYER", CharacterType>}
  */
 var CharacterType = {
 	ONLINE: "online",
 	NPC: "npc",
 	SIMPLE: "simple",
+	PLAYER: "player",
 };
 
 /**
@@ -51,6 +59,18 @@ var CharacterGetCurrentHandlers = {
 	Crafting: () => CraftingPreview,
 	Shop2: () => Shop2InitVars.Preview,
 };
+
+function CharacterCreatePlayer() {
+	Player = /** @type {PlayerCharacter} */ (CharacterCreate("Female3DCG", CharacterType.PLAYER, ""));
+	// We reset that here because a lot of checks depends on this being true
+	// Our old 0-ID'ed character was the player dummy before login
+	const oldId = Player.ID;
+	Player.ID = 0;
+	Character[0] = Player;
+	Character.splice(oldId, 1);
+	CharacterNextId--;
+	CharacterLoadCSVDialog(Player, { module: "Character", screen: "Player", name: "Player" });
+}
 
 /**
  * Loads a character into the buffer, creates it if it does not exist
@@ -68,6 +88,12 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		CharacterID: CharacterID,
 		AssetFamily: CharacterAssetFamily,
 		AccountName: "",
+		ItemPermission: 0,
+		Ownership: null,
+		Lovership: [],
+		// @ts-expect-error Initialized later
+		ArousalSettings: {},
+		Crafting: [],
 		Hooks: null,
 		Name: "",
 		Type,
@@ -76,8 +102,33 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		Money: 0,
 		Inventory: [],
 		Appearance: [],
-		Stage: "0",
-		CurrentDialog: "",
+		_Stage: "0",
+		get Stage() {
+			return this._Stage;
+		},
+		set Stage(value) {
+			if (this._Stage === value) {
+				return;
+			}
+			this._Stage = value;
+			if (DialogMenuMode === "dialog") {
+				DialogMenuMapping.dialog.Reload();
+			}
+		},
+		_CurrentDialog: "",
+		get CurrentDialog() {
+			return this._CurrentDialog;
+		},
+		set CurrentDialog(value) {
+			if (this._CurrentDialog === value) {
+				return;
+			}
+			this._CurrentDialog = value;
+			if (DialogMenuMode === "dialog") {
+				DialogSetStatus(value);
+			}
+		},
+		ClickedOption: null,
 		Dialog: [],
 		Reputation: [],
 		Skill: [],
@@ -290,7 +341,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			// Short-circuit to save on the following checks
 			if (slowness === 0) return 0;
 
-			const effects = CharacterGetEffects(this, null, true);
+			const effects = CharacterGetEffects(this, undefined, true);
 			// Count all slow effects applied. Minus one for the one we've seen above
 			slowness += effects.reduce((s, c) => s + (c === "Slow" ? 1 : 0), 0) - (hasSlowEffect ? 1 : 0);
 
@@ -543,7 +594,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		},
 		/** @type {() => this is PlayerCharacter} */
 		IsPlayer: function () {
-			return this.ID === 0;
+			return this.Type === CharacterType.PLAYER;
 		},
 		IsBirthday: function () {
 			if ((this.Creation == null) || (CurrentTime == null)) return false;
@@ -674,30 +725,11 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 				if (hooks)
 					hooks.forEach((hook) => hook()); // If there's a hook, call it
 			}
-		}
+		},
 	};
 
 	// Add the character to the cache
 	Character.push(NewCharacter);
-
-	// Creates the inventory and default appearance
-	if (id === 0) {
-		Player = Object.assign(
-			NewCharacter,
-			{
-				GenderSettings: {
-					HideShopItems: PreferenceInitGenderSetting(),
-					AutoJoinSearch: PreferenceInitGenderSetting(),
-					HideTitles: PreferenceInitGenderSetting(),
-				},
-				ExtensionSettings: {},
-			},
-		);
-		CharacterAppearanceSetDefault(Player);
-	}
-
-	// Load the character image
-	CharacterLoadCanvas(NewCharacter);
 
 	return NewCharacter;
 }
@@ -1393,8 +1425,13 @@ function CharacterRefresh(C, Push = true, RefreshDialog = true) {
 		ServerPlayerAppearanceSync();
 	}
 	// Also refresh the current dialog menu if the refreshed character is the current character.
+	// An exception is made for the `dialog` menu mode, as the relevant dialog is _always_ stored on the dialog partner (which may or may not be `C`)
 	const Current = CharacterGetCurrent();
-	if (Current && C.ID === Current.ID && RefreshDialog) {
+	if (
+		RefreshDialog
+		&& Current
+		&& (C.ID === Current.ID || DialogMenuMode === "dialog")
+	) {
 		CharacterRefreshDialog(C);
 	}
 }
@@ -1415,7 +1452,7 @@ function CharacterRefreshDialog(C) {
 	// Skip refreshing anything dialog-related when we're in the wardrobe
 	if (DialogIsInWardrobe()) return;
 
-	if (DialogMenuMode === "items" || DialogMenuMode === "activities" || DialogMenuMode === "permissions") {
+	if (DialogMenuMode === "items" || DialogMenuMode === "activities" || DialogMenuMode === "permissions" || DialogMenuMode === "dialog") {
 		// We were looking at some inventory, perform a soft reload to update the UI
 		DialogMenuMapping[DialogMenuMode].Reload();
 	} else if (DialogMenuMode === "extended" || DialogMenuMode === "tighten") {
@@ -1567,7 +1604,7 @@ function CharacterRandomUnderwear(C) {
 		if ((G.Category == "Appearance") && G.Underwear && (G.IsDefault || (Math.random() < 0.2))) {
 			if (Color == "") Color = CommonRandomItemFromList("", G.ColorSchema);
 			const Group = G.Asset
-				.filter(A => A.Value == 0 || InventoryAvailable(C, A.Name, G.Name));
+				.filter(A => InventoryAvailable(C, A.Name, G.Name));
 			if (Group.length > 0)
 				CharacterAppearanceSetItem(C, G.Name, Group[Math.floor(Group.length * Math.random())], Color);
 		}

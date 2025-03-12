@@ -53,7 +53,7 @@ function InventoryItemMiscPasswordPadlockDrawControls() {
 	if (InventoryItemMiscPasswordPadlockIsSet()) {
 		// Normal lock interface
 		if (Property && Property.Hint) {
-			DrawTextWrap("\"" + Property.Hint + "\"", 1000, 640, 1000, 120, null, null, 2);
+			DrawTextWrap("\"" + Property.Hint + "\"", 1000, 640, 1000, 120, "white", null, 2);
 		}
 		MainCanvas.textAlign = "right";
 		DrawText(AssetTextGet("PasswordPadlockOld"), 1350, 810, "white", "gray");

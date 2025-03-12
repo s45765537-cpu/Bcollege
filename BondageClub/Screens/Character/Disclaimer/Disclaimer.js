@@ -26,6 +26,8 @@ function DisclaimerRun() {
 function DisclaimerClick() {
 	if (MouseIn(700, 840, 250, 60)) DisclaimerExit();
 	if (MouseIn(1050, 840, 250, 60)) {
+
+		CharacterCreatePlayer();
 		InventoryRemove(Player, "ItemFeet");
 		InventoryRemove(Player, "ItemLegs");
 		InventoryRemove(Player, "ItemArms");

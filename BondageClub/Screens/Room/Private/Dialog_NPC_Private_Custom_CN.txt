@@ -2300,7 +2300,7 @@ Don't be too harsh with me.  I only lost a card game.
 It was a good game.
 是一场不错的游戏。
 ###_NPC
-Absolutely.  Being your prisoner for a little while be good also.
+Absolutely.  Being your prisoner for a little while will be good also.
 当然。做你一小会儿的囚徒也是件好事。
 ###_NPC [Horny|Playful]
 Yeah!  And losing to you always makes me horny.  (She giggles.)

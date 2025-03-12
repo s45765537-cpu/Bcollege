@@ -477,7 +477,7 @@ function ChatRoomPlayerIsAdmin() { return ChatRoomCharacterIsAdmin(Player); }
  * Checks if the current character is an admin of the chatroom.
  * @returns {boolean} - TRUE if the current character is an admin.
  */
-function ChatRoomCurrentCharacterIsAdmin() { return ChatRoomCharacterIsAdmin(Player); }
+function ChatRoomCurrentCharacterIsAdmin() { return ChatRoomCharacterIsAdmin(CurrentCharacter); }
 /**
  * Checks if a given character is in the chatroom whitelist.
  * @param {Character} C - The character to check
@@ -520,8 +520,7 @@ function ChatRoomCanStartWheelFortune() { return (CurrentCharacter != null) && I
  */
 function ChatRoomStartWheelFortune() {
 	if ((CurrentCharacter == null) || !InventoryIsWorn(CurrentCharacter, "WheelFortune", "ItemDevices")) return;
-	WheelFortuneEntryModule = CurrentModule;
-	WheelFortuneEntryScreen = CurrentScreen;
+	WheelFortuneReturnScreen = CommonGetScreen();
 	WheelFortuneBackground = ChatRoomData.Background;
 	WheelFortuneCharacter = CurrentCharacter;
 	DialogLeave();
@@ -588,7 +587,7 @@ function ChatRoomTryToTakeSuitcase() {
 		KidnapLeagueOnlineBountyTargetStartedTime = CommonTime();
 	}
 	KidnapLeagueOnlineBountyTarget = CurrentCharacter.MemberNumber;
-	CurrentCharacter = null;
+	DialogLeave();
 }
 /**
  * Receives money from the suitcase
@@ -953,8 +952,8 @@ var ChatRoomSep = {
 	 */
 	_GetDisplayName: function _GetDisplayName(button) {
 		const segments = [
-			button.dataset.space?.replace("Asylum", InterfaceTextGet("ChatRoomSpaceAsylum")),
-			button.dataset.private ? InterfaceTextGet("PrivateRoom") : undefined,
+			InterfaceTextGet(`ChatRoomSpace${button.dataset.space || "F"}`),
+			button.dataset.private === "true" ? InterfaceTextGet("PrivateRoom") : undefined,
 			ChatRoomHTMLEntities(ChatSearchMuffle(button.dataset.room)),
 			button.dataset.messages ? `✉<sup>${button.dataset.messages}</sup>` : undefined,
 		];
@@ -984,7 +983,7 @@ var ChatRoomSep = {
 								button: {
 									children: ["˅"],
 									classList: ["chat-room-sep-collapse"],
-									attributes: { "aria-expanded": true },
+									attributes: { "aria-expanded": "true" },
 								},
 							},
 						),
@@ -1155,7 +1154,7 @@ function ChatRoomCreateElement() {
 							{ noStyling: true },
 							{
 								button: {
-									attributes: { "aria-expanded": false, "aria-control": "chat-room-buttons" },
+									attributes: { "aria-expanded": "false", "aria-control": "chat-room-buttons" },
 									children: ["<"],
 								},
 							},
@@ -1313,10 +1312,11 @@ function ChatRoomClearAllElements() {
 
 /**
  * Starts the chatroom selection screen.
+ * @template {ModuleType} T
  * @param {ServerChatRoomSpace} Space - Name of the chatroom space
  * @param {ServerChatRoomGame} Game - Name of the chatroom game to play
- * @param {string | null} LeaveRoom - Name of the room to go back to when exiting chatsearch.
- * @param {ModuleType | null} LeaveSpace - Name of the space to go back to when exiting chatsearch.
+ * @param {ModuleScreens[T] | null} LeaveRoom - Name of the room to go back to when exiting chatsearch.
+ * @param {T | null} LeaveSpace - Name of the space to go back to when exiting chatsearch.
  * @param {string} Background - Name of the background to use in chatsearch.
  * @param {BackgroundTag[]} BackgroundTagList - List of available backgrounds in the chatroom space.
  * @returns {void} - Nothing.
@@ -1324,15 +1324,12 @@ function ChatRoomClearAllElements() {
 function ChatRoomStart(Space, Game, LeaveRoom, LeaveSpace, Background, BackgroundTagList) {
 	if (!LeaveRoom || !LeaveSpace) {
 		if (Player.GenderSettings.AutoJoinSearch.Female || Player.GenderSettings.AutoJoinSearch.Male) {
-			ChatSearchLeaveRoom = "MainHall";
-			ChatSearchLeaveSpace = "Room";
+			ChatSearchReturnScreen = ["Room", "MainHall"];
 		} else {
-			ChatSearchLeaveRoom = "ChatSelect";
-			ChatSearchLeaveSpace = "Online";
+			ChatSearchReturnScreen = ["Online", "ChatSelect"];
 		}
 	} else {
-		ChatSearchLeaveRoom = LeaveRoom;
-		ChatSearchLeaveSpace = LeaveSpace;
+		ChatSearchReturnScreen = /** @type {ScreenSpecifier} */([LeaveSpace, LeaveRoom]);
 	}
 
 	ChatRoomSpace = Space;
@@ -1586,9 +1583,9 @@ function ChatRoomSetTarget(MemberNumber) {
 
 	let placeholder;
 	if (target) {
-		placeholder = `${TextGet("WhisperTo")} ${CharacterNickname(target)}`;
+		placeholder = `${TextGetInScope("Screens/Online/ChatRoom/Text_ChatRoom.csv", "WhisperTo")} ${CharacterNickname(target)}`;
 	} else {
-		placeholder = TextGet("PublicChat");
+		placeholder = TextGetInScope("Screens/Online/ChatRoom/Text_ChatRoom.csv", "PublicChat");
 	}
 	ElementSetAttribute("InputChat", "placeholder", placeholder);
 }
@@ -2561,7 +2558,7 @@ function ChatRoomMenuClick(event) {
 				}
 				case "GameOption":
 					// The cut button can become the game option button if there's an online game going on
-					CommonSetScreen("Online", "Game" + ChatRoomGame);
+					CommonSetScreen("Online", /** @type {ModuleScreens["Online"]} */("Game" + ChatRoomGame));
 					break;
 				case "Kneel":
 					ChatRoomToggleKneel();
@@ -3272,14 +3269,16 @@ function ChatRoomCharacterItemUpdate(C, Group) {
 		}
 
 		const Item = InventoryGet(C, Group);
-		const P = {};
-		P.Target = C.MemberNumber;
-		P.Group = Group;
-		P.Name = (Item != null) ? Item.Asset.Name : undefined;
-		P.Color = ((Item != null) && (Item.Color != null)) ? Item.Color : "Default";
-		P.Difficulty = (Item != null) ? Item.Difficulty - Item.Asset.Difficulty : SkillGetWithRatio(Player, "Bondage");
-		P.Property = ((Item != null) && (Item.Property != null)) ? Item.Property : undefined;
-		P.Craft = ((Item != null) && (Item.Craft != null)) ? Item.Craft : undefined;
+		/** @type {ServerCharacterItemUpdate} */
+		const P = {
+			Target: C.MemberNumber,
+			Group: Group,
+			Name: (Item != null) ? Item.Asset.Name : undefined,
+			Color: (Item != null && Item.Color != null) ? Item.Color : "Default",
+			Difficulty: (Item != null) ? Item.Difficulty - Item.Asset.Difficulty : SkillGetWithRatio(Player, "Bondage"),
+			Property: ((Item != null) && (Item.Property != null)) ? Item.Property : undefined,
+			Craft: ((Item != null) && (Item.Craft != null)) ? Item.Craft : undefined,
+		};
 		ServerSend("ChatRoomCharacterItemUpdate", P);
 	}
 }
@@ -3644,7 +3643,14 @@ var ChatRoomMessageHandlers = [
 
 			// When the player is in total sensory deprivation, hide non-whisper messages if the player is not involved
 			const IsPlayerMentioned = ChatRoomMessageMentionsCharacter(Player, msg);
-			return (IsPlayerInSensoryDep && !IsPlayerInvolved && !IsPlayerMentioned && data.Type !== "Whisper" && !SpeechGetOOCRanges(msg).length);
+			switch (data.Type) {
+				case "Whisper":
+					return false;
+				case "Chat":
+					return IsPlayerInSensoryDep && !IsPlayerInvolved && !IsPlayerMentioned && !SpeechGetOOCRanges(msg).length;
+				default:
+					return IsPlayerInSensoryDep && !IsPlayerInvolved && !IsPlayerMentioned;
+			}
 		}
 	},
 	{
@@ -4826,7 +4832,8 @@ function ChatRoomSyncItem(data) {
 
 			const updateParams = ValidationCreateDiffParams(ChatRoomCharacter[C], data.Source);
 			const previousItem = InventoryGet(ChatRoomCharacter[C], data.Item.Group);
-			const newItem = ServerBundledItemToAppearanceItem(ChatRoomCharacter[C].AssetFamily, data.Item);
+			// Go home TS, you're drunk: this explicit downcast should not be necessary, but here we are
+			const newItem = data.Item.Name == null ? null : ServerBundledItemToAppearanceItem(ChatRoomCharacter[C].AssetFamily, /** @type {ServerCharacterItemUpdate & { Name: string }} */(data.Item));
 
 			let { item, valid } = ValidationResolveAppearanceDiff(data.Item.Group, previousItem, newItem, updateParams);
 
@@ -4836,15 +4843,18 @@ function ChatRoomSyncItem(data) {
 				InventoryRemove(ChatRoomCharacter[C], data.Item.Group, false);
 			}
 
-			if (item) {
+			item: if (item) {
 
 				// Puts the item on the character and apply the craft & property
-				CharacterAppearanceSetItem(ChatRoomCharacter[C], data.Item.Group, item.Asset, item.Color, item.Difficulty, null, false);
-				if (item.Craft != null)
-					for (let Char of ChatRoomCharacter)
-						if (Char.MemberNumber === data.Source)
-							InventoryCraft(Char, ChatRoomCharacter[C], data.Item.Group, item.Craft, false, false);
-				InventoryGet(ChatRoomCharacter[C], data.Item.Group).Property = item.Property;
+				const wornItem = CharacterAppearanceSetItem(ChatRoomCharacter[C], item.Asset.Group.Name, item.Asset, item.Color, item.Difficulty, null, false);
+				if (wornItem == null) {
+					valid = false;
+					break item;
+				}
+				if (item.Craft && CraftingValidate(item.Craft, item.Asset, false, false)) {
+					wornItem.Craft = item.Craft;
+				}
+				wornItem.Property = item.Property;
 
 				/** @type {AppearanceDiffMap} */
 				const diffMap = {};
@@ -5277,14 +5287,13 @@ function ChatRoomAllowItem(data) {
  * @param {Character} C
  */
 function ChatRoomAppearanceLoadCharacter(C) {
-	const module = CurrentModule;
-	const screen = CurrentScreen;
+	const screen = CommonGetScreen();
 	const inChatRoom = ServerPlayerIsInChatRoom();
 	if (inChatRoom) {
 		ChatRoomStatusUpdate("Wardrobe");
 	}
 	CharacterAppearanceLoadCharacter(C, (ready) => {
-		CommonSetScreen(module, screen);
+		CommonSetScreen(...screen);
 		if (inChatRoom) {
 			ChatRoomShowElements();
 			ChatRoomStatusUpdate(null);
@@ -5586,8 +5595,7 @@ function ChatRoomSetRule(data) {
 				if (C.IsOwner())
 					CharacterSetCurrent(C);
 			if ((CurrentCharacter == null) || !CurrentCharacter.IsOwner() || !InventoryIsWorn(CurrentCharacter, "WheelFortune", "ItemDevices")) return;
-			WheelFortuneEntryModule = CurrentModule;
-			WheelFortuneEntryScreen = CurrentScreen;
+			WheelFortuneReturnScreen = CommonGetScreen();
 			WheelFortuneBackground = ChatRoomData.Background;
 			WheelFortuneCharacter = CurrentCharacter;
 			WheelFortuneForced = true;
