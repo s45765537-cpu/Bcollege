@@ -627,7 +627,11 @@ const CommonCommands = [
 	},
 	{
 		Tag: 'showwhitelist',
-		Action: () => ChatRoomSendLocal(TextGet('CommandWhitelist') + JSON.stringify(Player.WhiteList)),
+		Action: () => {
+			let msg = TextGet('CommandWhitelist') + '\n';
+			msg += Player.WhiteList.sort((i, j) => i - j).map(num => `• ${Player.FriendNames.get(num) ?? "?"} (${num})`).join('\n');
+			ChatRoomSendLocal(msg);
+		}
 	},
 	{
 		Tag: 'showghostlist',
@@ -635,7 +639,11 @@ const CommonCommands = [
 	},
 	{
 		Tag: 'showfriendlist',
-		Action: () => ChatRoomSendLocal(TextGet('CommandFriendlist') + JSON.stringify(Player.FriendList)),
+		Action: () => {
+			let msg = TextGet('CommandFriendlist') + '\n';
+			msg += Player.FriendList.sort((i, j) => i - j).map(num => `• ${Player.FriendNames.get(num) ?? "?"} (${num})`).join('\n');
+			ChatRoomSendLocal(msg);
+		},
 	},
 	{
 		Tag: 'openfriendlist',
