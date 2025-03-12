@@ -209,8 +209,8 @@ function LoginResize(load) {
 	ElementPosition("InputPassword", 1000, 410, 500);
 	ElementPosition("InputName", 1000, 260, 500);
 
+	ElementPosition("LanguageDropdown", 1145, 530, 255, 60);
 	const langSelect = document.getElementById("LanguageDropdown");
-	ElementPosition(langSelect, 1145, 530, 255, 60);
 	langSelect?.style.setProperty("font-family", `"Twemoji Country Flags", ${langSelect.style.fontFamily}`);
 }
 
