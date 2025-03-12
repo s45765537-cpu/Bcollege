@@ -4334,7 +4334,7 @@ class _DialogDialogMenu extends DialogMenu {
 
 	/** @type {DialogMenu["_ReloadStatus"]} */
 	_ReloadStatus(root, span, C, focusGroup, options) {
-		const textContent = options.status ?? SpeechTransformDialog(C, C.CurrentDialog);
+		const textContent = SpeechTransformDialog(C, options.status ?? C.CurrentDialog);
 		DialogSetStatus(textContent, options.statusTimer ?? 0);
 	}
 
