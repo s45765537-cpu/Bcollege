@@ -63,8 +63,8 @@ let ClubCardIsAnimationOn = true;
  */
 let ClubCardActiveAnimations = [];
 
-const ClubCardPreviewPosition = { x: 705, y: 250, w: 250 };
-const ClubCardPendingPosition = { x: 975, y: 400, w: 100 };
+const ClubCardPreviewPosition = { x: 725, y: 250, w: 250 };
+const ClubCardPendingPosition = { x: 995, y: 400, w: 100 };
 const ClubCardDiscardPosition = { x: 0, y: 500, w: 0 };
 
 // #endregion
@@ -2888,7 +2888,7 @@ function ClubCardGetCardArrayByLocation(card) {
 		case "PlayerBoard":
 			return card.Type === "Event" ? ClubCardPlayer[0].Event : ClubCardPlayer[0].Board;
 		case "OpponentBoard":
-			return card.Type === "Event" ? ClubCardPlayer[1].Event : ClubCardPlayer[1].Board;		
+			return card.Type === "Event" ? ClubCardPlayer[1].Event : ClubCardPlayer[1].Board;
 		case "PlayerDiscardPile":
 			return ClubCardPlayer[0].DiscardPile;
 		case "OpponentDiscardPile":
@@ -2928,8 +2928,8 @@ function ClubCardCreatePopup(Mode, Text = null, Button1 = null, Button2 = null, 
 function ClubCardDestroyPopup() {
 	ClubCardPopup = null;
 	ClubCardOptionSelection = false;
-	ClubCardInspection = false
-	ClubCardGameEnded = false
+	ClubCardInspection = false;
+	ClubCardGameEnded = false;
 }
 
 /**
@@ -3675,7 +3675,7 @@ function ClubCardLoadDeckNumber(DeckNum) {
 	// Show the winnable card or start the game right away
 	if (ClubCardReward != null) {
 		if (ClubCardReward.Type == null) ClubCardReward.Type = "Member";
-		ClubCardFocus = ClubCardReward;
+		ClubCardFocus = { ...ClubCardReward, Location: 'Reward' , AnimationState: 'idle'};
 		if (ClubCardPlayer[1].Control === "AI") ClubCardPlayer[1].Hand.push({ ...ClubCardReward });
 		ClubCardCreatePopup("TEXT", TextGet("CanWinNewCard") + " " + ClubCardReward.Title, TextGet("Play"), null, "ClubCardAIStart()", null);
 		ClubCardOptionSelection = true;
@@ -4640,10 +4640,14 @@ function ClubCardMoveCardToPreview(card, onStart = null, onComplete = null, dura
 function ClubCardReturnCardFromPreview(card, onStart = null, onComplete = null, duration = 150) {
 	const originalCard = ClubCardGetOriginalCard(card);
 
+	let endPosition = originalCard
+    ? { x: originalCard.CurrentX, y: originalCard.CurrentY, w: originalCard.CurrentW }
+    : ClubCardDiscardPosition;
+
 	ClubCardMoveCard(card,
 		1,
 		ClubCardPreviewPosition,
-		{ x: originalCard.CurrentX, y: originalCard.CurrentY, w: originalCard.CurrentW },
+		endPosition,
 		false,
 		false,
 		onStart,
@@ -4930,7 +4934,7 @@ function ClubCardRenderPanel() {
 	// Draws the focused card, panel and log
 	DrawRect(1702, 0, 298, 1000, "#404040");
 	DrawRect(1700, 0, 2, 1000, "White");
-	if (ClubCardFocus != null) ClubCardRenderCard(ClubCardFocus, 705, 250, 250);
+	if (ClubCardFocus != null) ClubCardRenderCard(ClubCardFocus, 725, 250, 250);
 	if (document.getElementById("CCLog") == null) {
 		ElementCreateDiv("CCLog");
 		let Elem = document.getElementById("CCLog");
@@ -5002,9 +5006,9 @@ function ClubCardRenderPanel() {
 	// If there's a pending card with a prerequisite
 	if (ClubCardPending != null) {
 		DrawButton(1805, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/CancelPending.png", TextGet("CancelPending"));
-		ClubCardRenderCard(ClubCardPending, 975, 400, 100);
+		ClubCardRenderCard(ClubCardPending, 995, 400, 100);
 		if (ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus))
-			if(ClubCardFocus.IsVisible) DrawButton(725, 505, 215, 50, TextGet("SelectCard"), "White");
+			if(ClubCardFocus.IsVisible) DrawButton(745, 505, 215, 50, TextGet("SelectCard"), "White");
 		return;
 	}
 
@@ -5022,7 +5026,7 @@ function ClubCardRenderPanel() {
 		DrawButton(1805, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/Bankrupt.png", TextGet("Bankrupt"));
 		ClubCardDrawButton();
 		if (ClubCardCanPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus))
-			if(ClubCardFocus.IsVisible != false) DrawButton(725, 505, 215, 50, TextGet("PlayCard"), "White");
+			if(ClubCardFocus.IsVisible != false) DrawButton(745, 505, 215, 50, TextGet("PlayCard"), "White");
 	} else if(ClubCardOptionSelection) {
 		ClubCardStatusText("SelectOption");
 	} else if(ClubCardInspection) {
@@ -5258,7 +5262,7 @@ function ClubCardClick() {
 					ClubCardMoveCardToPreview(card);
 					return;
 				}
-			}		
+			}
 		}
 		if (ClubCardPopup.Mode == "DECK")
 			for (let Deck = 0; Deck < 10; Deck++)
@@ -5268,25 +5272,30 @@ function ClubCardClick() {
 	}
 
 	// If there's a pending card with a prerequisite, there are extra buttons
-	if ((ClubCardPending != null) && MouseIn(725, 505, 215, 50) && ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus))
+	if ((ClubCardPending != null) && MouseIn(745, 505, 215, 50) && ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus))
 	{
-		//### Play Select card when Pendind Card is Active
-		const originalCard = ClubCardGetOriginalCard(ClubCardFocus);
-		originalCard.IsVisible = true;
-		//###
+		if (ClubCardIsAnimationOn) {
+			//### Play Select card when Pendind Card is Active
+			const originalCard = ClubCardGetOriginalCard(ClubCardFocus);
+			originalCard.IsVisible = true;
+			originalCard.AnimationState = "idle";
+			//###
+		}
 		return ClubCardSelectCard(ClubCardFocus);
 	}
 	if ((ClubCardPending != null) && MouseIn(1805, 905, 90, 90)) {
-		if (ClubCardFocus) {
-			if (ClubCardFocus.AnimationState != "idle") return;
-			const focusCard = { ...ClubCardFocus};
-			ClubCardFocus = null;
-			ClubCardReturnCardFromPreview(focusCard);
-		}
+		if (ClubCardIsAnimationOn) {
+			if (ClubCardFocus) {
+				if (ClubCardFocus.AnimationState != "idle") return;
+				const focusCard = { ...ClubCardFocus };
+				ClubCardReturnCardFromPreview(focusCard);
+			}
 
-		const card = { ...ClubCardPending};
+			const pendingCard = { ...ClubCardPending };
+			ClubCardReturnCardFromPending(pendingCard);
+		}
+		ClubCardFocus = null;
 		ClubCardPending = null;
-		ClubCardReturnCardFromPending(card);
 
 		// If there is a card currently in focus, return it to the hand
 		return;
@@ -5301,17 +5310,19 @@ function ClubCardClick() {
 	// Runs the basic game buttons
 
 	//Play Card
-	if (MouseIn(725, 505, 215, 50) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") && ClubCardCanPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) {
+	if (MouseIn(745, 505, 215, 50) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") && ClubCardCanPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) {
 		//###Play Card Animation
 
 		//###
 		return ClubCardStartTurn(ClubCardStartTurnType.PLAYCARD);
 	}
 	// Click on an empty space to reset the focus of the selected Card.
-	if (MouseIn(700, 245, 260, 510) && ClubCardFocus != null && ClubCardFocus.AnimationState != "moving") {
-		const card = { ...ClubCardFocus };
+	if (MouseIn(720, 245, 260, 510) && ClubCardFocus != null && ClubCardFocus.AnimationState != "moving") {
+		if (ClubCardIsAnimationOn) {
+			const rerurnCard = { ...ClubCardFocus };
+			ClubCardReturnCardFromPreview(rerurnCard);
+		}
 		ClubCardFocus = null;
-		ClubCardReturnCardFromPreview(card);
 		return;
 	}
 	// Draw card and end turn
@@ -5338,13 +5349,11 @@ function ClubCardClick() {
 		if (ClubCardPending && ClubCardPending.UniqueID === ClubCardHover.UniqueID) return;
 		// Check if the focus card needs to change
 		if (!ClubCardFocus || ClubCardFocus.UniqueID !== ClubCardHover.UniqueID) {
-
 			// If there is a card currently in focus, return it to the hand
 			if (ClubCardFocus) {
 				if (ClubCardFocus.AnimationState != "idle") return;
 				ClubCardReturnCardFromPreview(ClubCardFocus);
 			}
-
 			const card = { ...ClubCardHover};
 			ClubCardFocus = card;
 			ClubCardMoveCardToPreview(card);
