@@ -2919,7 +2919,7 @@ interface AssetDefinitionProperties {
 type PartialType = `${string}${number}`;
 
 /**
- * A record mapping screen names to option indices.
+ * A record mapping extended item data/module names (see {@link ExtendedItemData.Name} and {@link ModularItemModule.Key}) to option indices.
  * @see {@link PartialType} A concatenation of a single `TypeRecord` key/value pair.
  */
 type TypeRecord = Record<string, number>;
