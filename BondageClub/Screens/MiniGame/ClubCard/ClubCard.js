@@ -495,8 +495,7 @@ var ClubCardList = [
 				if (card.FamePerTurn && card.FamePerTurn < 0)
 					Fame = Fame + 2;
 			}
-			ClubCardPlayerAddFame(CCPlayer, Fame);
-			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "GainFame", {[ClubCardPlaceholderKeys.AMOUNT]: Fame}, CCPlayer);
+			ClubCardPlayerAddFame(CCPlayer, Fame, this.Name);
 		},
 		onPlayedCard: function(CCPlayer, cardPlayed) {
 			if (cardPlayed.FamePerTurn && cardPlayed.FamePerTurn < 0 && !ClubCardIsLiability(cardPlayed)) {
@@ -691,10 +690,10 @@ var ClubCardList = [
 		Group: ["Fetishist"],
 		onPlayedCard: function(CCPlayer, cardPlayed) {
 			if (ClubCardCardHasGroup(cardPlayed, "ABDLMommy")) {
-				ClubCardPlayerAddFame(CCPlayer, 3);
+				ClubCardPlayerAddFame(CCPlayer, 3, this.Name);
 			}
 			if (ClubCardCardHasGroup(cardPlayed, "ABDLBaby")) {
-				ClubCardPlayerAddMoney(CCPlayer, 3);
+				ClubCardPlayerAddMoney(CCPlayer, 3, this.Name);
 			}
 		}
 	},
@@ -735,10 +734,8 @@ var ClubCardList = [
 			if (ClubCardNameIsOnBoard(CCPlayer, "Show Dog")) ClubCardPlayerAddFame(CCPlayer, 3);
 		},
 		onPlayedCard: function (CCPlayer, cardPlayed) {
-			const famePerPet = 2;
 			if (ClubCardCardHasGroup(cardPlayed, "Pet")) {
-				ClubCardPlayerAddFame(CCPlayer, famePerPet);
-				ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Pet Trainer", { [ClubCardPlaceholderKeys.AMOUNT]: famePerPet }, CCPlayer);
+				ClubCardPlayerAddFame(CCPlayer, 2, this.Name);
 			}
 		}
 	},
@@ -864,16 +861,14 @@ var ClubCardList = [
 			if (!ClubCardCardHasGroup(cardPlayed, "Maid") && cardPlayed.Type === "Member" && cardPlayed.Group != null && !ClubCardIsLiability(cardPlayed)) {
 				let sharedGroupCards = CCPlayer.Board.filter(value => cardPlayed.Group.some(group => ClubCardCardHasGroup(value, group)));
 				const Fame = Math.min(CCPlayer.Level, sharedGroupCards.length - 1);
-				ClubCardPlayerAddFame(CCPlayer, Fame);
-				ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Housekeeper", { [ClubCardPlaceholderKeys.AMOUNT]: Fame}, CCPlayer);
+				ClubCardPlayerAddFame(CCPlayer, Fame, this.Name);
 			}
 		},
 		onOpponentPlayedCard: function (CCPlayer, cardPlayed) {
 			if (!ClubCardCardHasGroup(cardPlayed, "Maid") && cardPlayed.Type === "Member" && cardPlayed.Group != null && ClubCardIsLiability(cardPlayed)) {
 				let sharedGroupCards = CCPlayer.Board.filter(value => cardPlayed.Group.some(group => ClubCardCardHasGroup(value, group)));
 				const Fame = Math.min(CCPlayer.Level, sharedGroupCards.length - 1);
-				ClubCardPlayerAddFame(CCPlayer, Fame);
-				ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Housekeeper", { [ClubCardPlaceholderKeys.AMOUNT]: Fame}, CCPlayer);
+				ClubCardPlayerAddFame(CCPlayer, Fame, this.Name);
 			}
 		}
 	},
@@ -1240,8 +1235,7 @@ var ClubCardList = [
 		OnPlay: function(CCPlayer) {
 			if (ClubCardGroupIsOnBoard(CCPlayer, "ABDLBaby")) {
 				const fame = 25;
-				ClubCardPlayerAddFame(CCPlayer, fame);
-				ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "GainFame", {[ClubCardPlaceholderKeys.AMOUNT]: fame}, CCPlayer);
+				ClubCardPlayerAddFame(CCPlayer, fame, this.Name);
 			}
 		}
 	},
@@ -1282,8 +1276,7 @@ var ClubCardList = [
 		Group: ["ABDLMommy"],
 		onPlayedCard: function(CCPlayer, cardPlayed) {
 			if (ClubCardCardHasGroup(cardPlayed, "ABDLBaby")) {
-				ClubCardPlayerAddFame(CCPlayer, CCPlayer.Level);
-				ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Nanny", {[ClubCardPlaceholderKeys.AMOUNT]: CCPlayer.Level}, CCPlayer);
+				ClubCardPlayerAddFame(CCPlayer, CCPlayer.Level, this.Name);
 			}
 		}
 	},
@@ -1297,8 +1290,7 @@ var ClubCardList = [
 		OnPlay: function(CCPlayer) {
 			// get all members, exclude events from board count
 			const fame = CCPlayer.Board.filter(card => card.Type !== "Event").length;
-			ClubCardPlayerAddFame(CCPlayer, fame);
-			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "GainFame", {[ClubCardPlaceholderKeys.AMOUNT]: fame}, CCPlayer);
+			ClubCardPlayerAddFame(CCPlayer, fame, this.Name);
 		},
 		BeforeTurnEnd: function(CCPlayer) {
 			ClubCardPlayerAddFame(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "ABDLBaby"));
@@ -1654,10 +1646,8 @@ var ClubCardList = [
 		MoneyPerTurn: 6,
 		onPlayedCard: function(CCPlayer, cardPlayed) {
 			if (ClubCardCardHasGroup(cardPlayed, "Pet")) {
-				const famePerPet = 1;
-				ClubCardPlayerAddFame(CCPlayer, famePerPet);
+				ClubCardPlayerAddFame(CCPlayer, 1, this.Name);
 				ClubCardPlayerDrawCard(CCPlayer, 1);
-				ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Jessica", {[ClubCardPlaceholderKeys.AMOUNT]: famePerPet}, CCPlayer);
 			}
 		}
 	},
@@ -1755,8 +1745,7 @@ var ClubCardList = [
 		onPlayedCard: function(CCPlayer, cardPlayed) {
 			if (ClubCardCardHasGroup(cardPlayed, "Pet")) {
 				const famePerPet = Math.floor(ClubCardCalculateLevelForPets(CCPlayer) / 2);
-				ClubCardPlayerAddFame(CCPlayer, famePerPet);
-				ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Miss Mouse", {[ClubCardPlaceholderKeys.AMOUNT]: famePerPet}, CCPlayer);
+				ClubCardPlayerAddFame(CCPlayer, famePerPet, this.Name);
 			}
 		},
 		BeforeTurnEnd: function(CCPlayer) {
@@ -1773,8 +1762,7 @@ var ClubCardList = [
 		onPlayedCard: function(CCPlayer, cardPlayed) {
 			if (ClubCardCardHasGroup(cardPlayed, "Pet")) {
 				const Money = Math.min(ClubCardGroupOnBoardCount(CCPlayer, "Pet"), 5);
-				ClubCardPlayerAddMoney(CCPlayer, Money);
-				ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Rich Owner", {[ClubCardPlaceholderKeys.AMOUNT]: Money}, CCPlayer);
+				ClubCardPlayerAddMoney(CCPlayer, Money, this.Name);
 			}
 		},
 		BeforeTurnEnd: function(CCPlayer) {
@@ -1788,8 +1776,7 @@ var ClubCardList = [
 		Name: "Scratch and Win",
 		Type: "Event",
 		OnPlay: function(CCPlayer) {
-			ClubCardPlayerAddMoney(CCPlayer, 7);
-			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "GainMoney", {[ClubCardPlaceholderKeys.AMOUNT]: 7}, CCPlayer);
+			ClubCardPlayerAddMoney(CCPlayer, 7, this.Name);
 		}
 	},
 	{
@@ -1798,8 +1785,7 @@ var ClubCardList = [
 		Type: "Event",
 		RequiredLevel: 2,
 		OnPlay: function(CCPlayer) {
-			ClubCardPlayerAddMoney(CCPlayer, 12);
-			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "GainMoney", {[ClubCardPlaceholderKeys.AMOUNT]: 12}, CCPlayer);
+			ClubCardPlayerAddMoney(CCPlayer, 12, this.Name);
 		}
 	},
 	{
@@ -1808,8 +1794,7 @@ var ClubCardList = [
 		Type: "Event",
 		RequiredLevel: 3,
 		OnPlay: function(CCPlayer) {
-			ClubCardPlayerAddMoney(CCPlayer, 20);
-			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "GainMoney", {[ClubCardPlaceholderKeys.AMOUNT]: 20}, CCPlayer);
+			ClubCardPlayerAddMoney(CCPlayer, 20, this.Name);
 		}
 	},
 	{
@@ -1818,8 +1803,7 @@ var ClubCardList = [
 		Type: "Event",
 		RequiredLevel: 4,
 		OnPlay: function(CCPlayer) {
-			ClubCardPlayerAddMoney(CCPlayer, 30);
-			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "GainMoney", {[ClubCardPlaceholderKeys.AMOUNT]: 30}, CCPlayer);
+			ClubCardPlayerAddMoney(CCPlayer, 30, this.Name);
 		}
 	},
 	{
@@ -1864,8 +1848,7 @@ var ClubCardList = [
 			for (let Card of CCPlayer.Board)
 				if ((Card.Group == null) || (!Card.Group.includes("Staff") && !Card.Group.includes("Maid") && !Card.Group.includes("Dominant") && !Card.Group.includes("Liability")))
 					Fame++;
-			ClubCardPlayerAddFame(CCPlayer, Fame);
-			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "GainFame", {[ClubCardPlaceholderKeys.AMOUNT]: Fame}, CCPlayer);
+			ClubCardPlayerAddFame(CCPlayer, Fame, this.Name);
 		}
 	},
 	{
@@ -1878,8 +1861,7 @@ var ClubCardList = [
 			for (let Card of CCPlayer.Board)
 				if ((Card.Group == null) || (!Card.Group.includes("Staff") && !Card.Group.includes("Maid") && !Card.Group.includes("Dominant") && !Card.Group.includes("Liability")))
 					Fame = Fame + 3;
-			ClubCardPlayerAddFame(CCPlayer, Fame);
-			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "GainFame", {[ClubCardPlaceholderKeys.AMOUNT]: Fame}, CCPlayer);
+			ClubCardPlayerAddFame(CCPlayer, Fame, this.Name);
 		}
 	},
 	{
@@ -1888,9 +1870,8 @@ var ClubCardList = [
 		Type: "Event",
 		OnPlay: function(CCPlayer) {
 			let Money = ClubCardGroupOnBoardCount(CCPlayer, "AsylumPatient") * 4;
-			ClubCardPlayerAddMoney(CCPlayer, Money);
+			ClubCardPlayerAddMoney(CCPlayer, Money, this.Name);
 			ClubCardPlayerDrawGroupCard(CCPlayer, ["AsylumNurse"], undefined);
-			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "GainMoney", {[ClubCardPlaceholderKeys.AMOUNT]: Money}, CCPlayer);
 		}
 	},
 	{
@@ -1907,8 +1888,7 @@ var ClubCardList = [
 				Fame = Fame * 2;
 				auctioneersPresent--;
 			}
-			ClubCardPlayerAddFame(CCPlayer, Fame);
-			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "GainFame", {[ClubCardPlaceholderKeys.AMOUNT]: Fame}, CCPlayer);
+			ClubCardPlayerAddFame(CCPlayer, Fame, this.Name);
 		}
 	},
 	{
@@ -1925,8 +1905,7 @@ var ClubCardList = [
 				Money = Money * 2;
 				auctioneersPresent--;
 			}
-			ClubCardPlayerAddMoney(CCPlayer, Money);
-			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "GainMoney", {[ClubCardPlaceholderKeys.AMOUNT]: Money}, CCPlayer);
+			ClubCardPlayerAddMoney(CCPlayer, Money, this.Name);
 		}
 	},
 	{
@@ -1938,8 +1917,7 @@ var ClubCardList = [
 			let Fame = ClubCardGroupOnBoardCount(CCPlayer, "CollegeStudent") * 2;
 			if (Fame > 0) {
 				if (ClubCardNameIsOnBoard(CCPlayer, "Sidney")) Fame = Fame * 2;
-				ClubCardPlayerAddFame(CCPlayer, Fame);
-				ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "GainFame", {[ClubCardPlaceholderKeys.AMOUNT]: Fame}, CCPlayer);
+				ClubCardPlayerAddFame(CCPlayer, Fame, this.Name);
 			}
 		}
 	},
@@ -1974,8 +1952,7 @@ var ClubCardList = [
 
 			const shibariCardsOnBoard = ClubCardGroupOnBoardCount(CCPlayer, "Shibari");
 			Fame = Fame + shibariCardsOnBoard;
-			ClubCardPlayerAddFame(CCPlayer, Fame);
-			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "GainFame", {[ClubCardPlaceholderKeys.AMOUNT]: Fame}, CCPlayer);
+			ClubCardPlayerAddFame(CCPlayer, Fame, this.Name);
 		}
 	},
 	{
@@ -2040,8 +2017,7 @@ var ClubCardList = [
 		OnPlay: function(CCPlayer) {
 			let Money = ClubCardGroupOnBoardCount(CCPlayer, "ABDLBaby") + ClubCardGroupOnBoardCount(CCPlayer, "ABDLMommy") + ClubCardGroupOnBoardCount(CCPlayer, "Maid");
 			Money = Money * 3;
-			ClubCardPlayerAddMoney(CCPlayer, Money);
-			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "GainMoney", {[ClubCardPlaceholderKeys.AMOUNT]: Money}, CCPlayer);
+			ClubCardPlayerAddMoney(CCPlayer, Money, this.Name);
 		}
 	},
 	{
@@ -2094,9 +2070,8 @@ var ClubCardList = [
 		Name: "Toy Box",
 		Type: "Event",
 		OnPlay: function(CCPlayer) {
-			ClubCardPlayerAddMoney(CCPlayer, 3);
+			ClubCardPlayerAddMoney(CCPlayer, 3, this.Name);
 			ClubCardPlayerDrawCard(CCPlayer, 1);
-			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "GainMoney", {[ClubCardPlaceholderKeys.AMOUNT]: 3}, CCPlayer);
 		}
 	},
 	{
@@ -2122,8 +2097,7 @@ var ClubCardList = [
 			let Money = CCPlayer.Money;
 			ClubCardPlayerAddMoney(CCPlayer, Money * -1);
 			let Fame = Math.floor(Money / 3);
-			ClubCardPlayerAddFame(CCPlayer, Fame);
-			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "GainFame", {[ClubCardPlaceholderKeys.AMOUNT]: Fame}, CCPlayer);
+			ClubCardPlayerAddFame(CCPlayer, Fame, this.Name);
 		},
 		CanPlay: function(CCPlayer) {
 			if (ClubCardGroupIsOnBoard(CCPlayer, "Criminal") && CCPlayer.Money >= 3) return true;
@@ -2225,16 +2199,14 @@ var ClubCardList = [
 			let Fame = ClubCardGroupOnBoardCount(CCPlayer, "PornActress");
 			if (Fame > 0) {
 				Fame = Fame * 3;
-				ClubCardPlayerAddFame(CCPlayer, Fame);
-				ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Porn Convention", {[ClubCardPlaceholderKeys.AMOUNT]: Fame}, CCPlayer);
+				ClubCardPlayerAddFame(CCPlayer, Fame, this.Name);
 			}
 		},
 		BeforeOpponentTurnEnd: function(CCPlayer) {
 			let Fame = ClubCardGroupOnBoardCount(CCPlayer, "PornActress");
 			if (Fame > 0) {
 				Fame = Fame * 3;
-				ClubCardPlayerAddFame(CCPlayer, Fame);
-				ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Porn Convention", {[ClubCardPlaceholderKeys.AMOUNT]: Fame}, CCPlayer);
+				ClubCardPlayerAddFame(CCPlayer, Fame, this.Name);
 			}
 		}
 	},
@@ -2246,10 +2218,8 @@ var ClubCardList = [
 		OnPlay: function(CCPlayer) {
 			const mommyCount = ClubCardGroupOnBoardCount(CCPlayer, "ABDLMommy");
 			const fame = mommyCount * 4;
-			ClubCardPlayerAddFame(CCPlayer, fame);
+			ClubCardPlayerAddFame(CCPlayer, fame, this.Name);
 			ClubCardPlayerDrawCard(CCPlayer, mommyCount);
-			if (mommyCount > 0)
-				ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Daycare Party", {[ClubCardPlaceholderKeys.AMOUNT]: fame}, CCPlayer);
 		}
 	},
 	{
@@ -2276,8 +2246,7 @@ var ClubCardList = [
 			const abdlAndCollegeBonus = (abdlBabies + collegeStudents) * 2;
 
 			ClubCardPlayerDrawCard(CCPlayer, 2);
-			ClubCardPlayerAddMoney(CCPlayer, abdlAndCollegeBonus);
-			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Recess", {[ClubCardPlaceholderKeys.AMOUNT]: abdlAndCollegeBonus}, CCPlayer);
+			ClubCardPlayerAddMoney(CCPlayer, abdlAndCollegeBonus, this.Name);
 		}
 	},
 	{
@@ -2998,22 +2967,26 @@ function ClubCardGetCardsPlayedOnTurn(CCPlayer, turnCounter) {
  * Adds money to the club card player stats
  * @param {ClubCardPlayer} CCPlayer - The club card player
  * @param {Number} Amount - The amount to add
+ * @param {null | string} CardName - The card name used for the chat message if needed
  * @returns {void} - Nothing
  */
-function ClubCardPlayerAddMoney(CCPlayer, Amount) {
+function ClubCardPlayerAddMoney(CCPlayer, Amount, CardName = null) {
 	if (CCPlayer.Money == null) CCPlayer.Money = 0;
 	CCPlayer.Money = CCPlayer.Money + Amount;
+	if (CardName && Amount > 0) ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "GainMoney", {[ClubCardPlaceholderKeys.AMOUNT]: Amount, [ClubCardPlaceholderKeys.CARDNAME]: CardName}, CCPlayer);
 }
 
 /**
  * Adds fame to the club card player stats, can trigger a victory
  * @param {ClubCardPlayer} CCPlayer - The club card player
  * @param {Number} Amount - The amount to add
+ * @param {null | string} CardName - The card name used for the chat message if needed
  * @returns {void} - Nothing
  */
-function ClubCardPlayerAddFame(CCPlayer, Amount) {
+function ClubCardPlayerAddFame(CCPlayer, Amount, CardName = null) {
 	if (CCPlayer.Fame == null) CCPlayer.Fame = 0;
 	CCPlayer.Fame = CCPlayer.Fame + Amount;
+	if (CardName && Amount > 0) ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "GainFame", {[ClubCardPlaceholderKeys.AMOUNT]: Amount, [ClubCardPlaceholderKeys.CARDNAME]: CardName}, CCPlayer);
 }
 
 /**
