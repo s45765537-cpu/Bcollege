@@ -4212,8 +4212,7 @@ function ClubCardPlayCard(CCPlayer, Card) {
 	if (CCPlayer.Control == "Player") {
 		ClubCardFocus = null;
 		ClubCardPending = null;
-	}
-	else ClubCardFocusAI = null;
+	} else ClubCardFocusAI = null;
 
 	// Run on cards played handlers
 	ClubCardOnCardPlayedHandler(CCPlayer, Card);
@@ -4779,8 +4778,7 @@ function ClubCardRenderCard(Card, X, Y, W, Sleeve = null, Source = null, isIgnor
 			DrawTextWrap(GroupText, X + W * 0.05, Y + W * 1.44, W * 0.925, W * 0.1, "Black", null, null, Math.round(W / 22));
 			MainCanvas.font = ((Card.Text.startsWith("<F>")) ? "italic " : "bold ") + Math.round(W / 16) + "px arial";
 			DrawTextWrap(Card.Text.replace("<F>", ""), X + W * 0.05, Y + W * 1.6, W * 0.925, W * 0.38, "Black", null, null, Math.round(W / 22));
-		}
-		else {
+		} else {
 			MainCanvas.font = ((Card.Text.startsWith("<F>")) ? "italic " : "bold ") + Math.round(W / 16) + "px arial";
 			DrawTextWrap(Card.Text.replace("<F>", ""), X + W * 0.05, Y + W * 1.5, W * 0.925, W * 0.48, "Black", null, null, Math.round(W / 22));
 		}
@@ -5069,8 +5067,7 @@ function ClubCardCreateOneDivContainer(MessageItem) {
 		divName = "OneMessagePrerequisite";
 		const existingElement = document.getElementById(divName);
 		if (existingElement) existingElement.remove();
-	}
-	else {
+	} else {
 		while (true) {
 			divName = `OneMessageDiv_Turn${MessageItem.TurnCounter}_${counter}`;
 			if (document.getElementById(divName) == null) break;
@@ -5137,8 +5134,7 @@ function ClubCardCreateTurnDivContainer(MessageItem) {
 		messageElement.style.backgroundColor = ActionSeparatorBackgound;
 		messageElement.style.borderTop = "1px solid white";
 		messageElement.style.borderBottom = "1px solid white";
-	}
-	else {
+	} else {
 		messageElement.textContent = null;
 		messageElement.innerHTML = ClubCardGetFormatTextForInnerHTML(MessageItem.MessageText);
 	}
@@ -5253,7 +5249,7 @@ function ClubCardClick() {
 					: ClubCardDestroyPopup();
 			}
 			//Set Focus card in ClubCardPopup.Mode == “DISCARDPILE”
-			if(ClubCardHover && ClubCardHover.Location == "OpponentDiscardPile" || ClubCardHover.Location == "PlayerDiscardPile")
+			if(ClubCardHover && (ClubCardHover.Location == "OpponentDiscardPile" || ClubCardHover.Location == "PlayerDiscardPile"))
 				return ClubCardClickSetFocusCard();
 		}
 		if (ClubCardPopup.Mode == "DECK")
@@ -5325,8 +5321,7 @@ function ClubCardClickPlayCard(isPending) {
 			//###
 		}
 		ClubCardSelectCard(ClubCardFocus);
-	}
-	else {
+	} else {
 		//Just PlayCard
 		ClubCardStartTurn(ClubCardStartTurnType.PLAYCARD);
 	}
@@ -5338,22 +5333,24 @@ function ClubCardClickPlayCard(isPending) {
  * @returns
  */
 function ClubCardClickSetFocusCard() {
-	if (ClubCardHover && ClubCardHover.AnimationState !== "moving") {
-		// If the hovered card is already pending, do nothing
-		if (ClubCardPending && ClubCardPending.UniqueID === ClubCardHover.UniqueID) return;
-		// Check if the focus card needs to change
-		if (!ClubCardFocus || ClubCardFocus.UniqueID !== ClubCardHover.UniqueID) {
-			// If there is a card currently in focus, return it to the hand
-			if (ClubCardFocus) {
-				if (ClubCardFocus.AnimationState != "idle") return;
-				ClubCardReturnCardFromPreview(ClubCardFocus);
-			}
-			const card = { ...ClubCardHover};
-			ClubCardFocus = card;
-			ClubCardMoveCardToPreview(card);
-			return;
-		}
-	}
+	if (!ClubCardHover) return;
+
+	if (ClubCardPending?.UniqueID === ClubCardHover.UniqueID ||
+		ClubCardFocus?.UniqueID === ClubCardHover.UniqueID) return;
+
+
+	if (ClubCardIsAnimationOn) {
+		const oldFocusCard = ClubCardFocus ? { ...ClubCardFocus } : null;
+		const newFocusCard = { ...ClubCardHover };
+		if (ClubCardHover.AnimationState === "moving") return;
+		if (oldFocusCard && oldFocusCard.AnimationState !== "idle") return;
+
+		if (oldFocusCard)
+			ClubCardReturnCardFromPreview(oldFocusCard);
+
+		ClubCardMoveCardToPreview(newFocusCard);
+		ClubCardFocus = newFocusCard;
+	} else ClubCardFocus = { ...ClubCardHover };
 }
 /**
  * Click on an empty space to reset the focus of the selected Card.
