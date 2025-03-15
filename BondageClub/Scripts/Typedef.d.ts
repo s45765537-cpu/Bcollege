@@ -170,7 +170,7 @@ declare namespace ElementButton {
 		 */
 		icons?: readonly (null | undefined | InventoryIcon | CustomIcon)[];
 		/** The role of the button. All accepted values are currently special-cased in order to set role-specific event listeners and/or attributes. */
-		role?: "radio" | "checkbox" | "menuitemradio" | "menuitemcheckbox";
+		role?: "radio" | "checkbox" | "menuitemradio" | "menuitemcheckbox" | "spinbutton";
 		/** Whether to limit the default styling of the button's border and background */
 		noStyling?: boolean;
 		/** Whether the button should be disabled or not */

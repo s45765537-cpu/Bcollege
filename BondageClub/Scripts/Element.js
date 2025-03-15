@@ -1002,6 +1002,68 @@ var ElementButton = {
 	},
 
 	/**
+	 * Click event listener for spin buttons.
+	 * @see https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/spinbutton_role
+	 * @private
+	 * @type {(this: HTMLButtonElement, ev: MouseEvent) => void}
+	 */
+	_ClickSpin: function _ClickSpin(ev) {
+		const min = Number.parseInt(this.getAttribute("aria-valuemin"), 10);
+		const max = Number.parseInt(this.getAttribute("aria-valuemax"), 10);
+		const now = Number.parseInt(this.getAttribute("aria-valuenow"), 10);
+		if (Number.isNaN(min) || Number.isNaN(max)) {
+			ev.stopImmediatePropagation();
+			return;
+		}
+
+		if (Number.isNaN(now) || now < min || now === max) {
+			this.setAttribute("aria-valuenow", min);
+		} else if (now > max) {
+			this.setAttribute("aria-valuenow", max);
+		} else {
+			this.setAttribute("aria-valuenow", now + 1);
+		}
+	},
+
+	/**
+	 * Keydown event listener for spin buttons.
+	 * @see https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/spinbutton_role
+	 * @private
+	 * @type {(this: HTMLButtonElement, ev: KeyboardEvent) => void}
+	 */
+	_KeyDownSpin: function _KeyDownSpin(ev) {
+		if (CommonKey.GetModifiers(ev)) {
+			return;
+		}
+
+		// Decrement the current value such that the next click action will bring it to the correct, expected value
+		let valuenow = null;
+		switch (ev.key) {
+			case "ArrowRight":
+			case "ArrowUp":
+				valuenow = this.getAttribute("aria-valuenow");
+				break;
+			case "ArrowLeft":
+			case "ArrowDown":
+				valuenow = Number.parseInt(this.getAttribute("aria-valuenow"), 10) - 2;
+				break;
+			case "Home":
+				valuenow = Number.parseInt(this.getAttribute("aria-valuemax"), 10) - 1;
+				break;
+			case "End":
+				valuenow = this.getAttribute("aria-valuemax");
+				break;
+		}
+
+		if (valuenow != null) {
+			this.setAttribute("aria-valuenow", valuenow);
+			this.click();
+			ev.stopPropagation();
+			ev.preventDefault();
+		}
+	},
+
+	/**
 	 * @this {HTMLElement}
 	 * @param {KeyboardEvent} ev
 	 */
@@ -1312,6 +1374,19 @@ var ElementButton = {
 					elem.setAttribute("aria-checked", "false");
 				}
 				break;
+			case "spinbutton": {
+				if (!elem.hasAttribute("aria-valuemin")) {
+					elem.setAttribute("aria-valuemin", "0");
+				}
+				if (!elem.hasAttribute("aria-valuemax")) {
+					elem.setAttribute("aria-valuemax", "100");
+				}
+				if (!elem.hasAttribute("aria-valuenow")) {
+					elem.setAttribute("aria-valuenow", elem.getAttribute("aria-valuemin"));
+				}
+				elem.addEventListener("click", this._ClickSpin);
+				elem.addEventListener("keydown", this._KeyDownSpin);
+			}
 		}
 
 		elem.addEventListener("click", onClick);
