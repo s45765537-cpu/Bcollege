@@ -869,8 +869,6 @@ function LoginSetupPlayer(C) {
 	if (Player.VisualSettings.PrivateRoomBackground) PrivateBackground = Player.VisualSettings.PrivateRoomBackground;
 	if (Player.VisualSettings.MainHallBackground) MainHallBackground = Player.VisualSettings.MainHallBackground;
 
-	// Loads the dialog and removes the login controls
-	CharacterLoadCSVDialog(Player, { module: "Character", screen: "Player", name: "Player" });
 	PrivateCharacterMax = 4 + (LogQuery("Expansion", "PrivateRoom") ? 4 : 0) + (LogQuery("SecondExpansion", "PrivateRoom") ? 4 : 0);
 	CharacterRefresh(Player, false);
 	if (ManagementIsClubSlave()) CharacterNaked(Player);
