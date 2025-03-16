@@ -11,9 +11,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2025-03-09
-* Last recorded PR: [#5449](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5449)
-* Last recorded commit hash: `495a65068fe35cfd601e7dce661aaee50cfd2938`
+* Changelog last updated: 2025-03-16
+* Last recorded PR: [#5468](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5468)
+* Last recorded commit hash: `07ef1c6ec327c8d93214443bd3251bccf7af9426`
 
 ## [Generated]
 
@@ -21,6 +21,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 ### [Changes]
 
+* Raven - New Splatters asset ([#5450](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5450))
 * LeByrneAuChocolat - Added the Shiny Leotard as well as a locking variant (edit of Constantan's assets) ([#5426](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5426))
 * Cleon - Shoes Heelless Hi-Shoes now is available. ([#5415](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5415))
 * Cleon - Big Mouth missing strings and Heelless Hi-Shoes revision. ([#5434](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5434))
@@ -28,6 +29,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Cleon - New RoundSunglasses. ([#5445](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5445))
 * git4nick - Throne Updates ([#5436](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5436))
 * dDeepLb - Fix password padlock drawing hint text with last assigned color ([#5429](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5429))
+* Da'Inihlus - CN translation updates ([#5453](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5453))
 * Estsanatlehi - Allow using all of Verity's assets on males characters ([#5411](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5411))
 * Rama - Two more `dialog` fixes ([#5422](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5422))
 * Rama - Fix `ChatRoomCurrentCharacterIsAdmin` exclusively checking the player character ([#5424](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5424))
@@ -51,6 +53,11 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Estsanatlehi - Assets fixes ([#5418](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5418))
 * Estsanatlehi - Make sure we always load those strings from the ChatRoom strings ([#5420](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5420))
 * Estsanatlehi - Fix a bug where the pre-login player dummy would confuse things ([#5443](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5443))
+* Estsanatlehi - Fix a bug with free assets not being filtered properly ([#5456](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5456))
+* Estsanatlehi - Resync the add/ban owners/lovers/etc. click handlers buttons with their actual position ([#5457](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5457))
+* Estsanatlehi - Allow keeping unknown keys in `OnlineSettings` ([#5459](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5459))
+* Estsanatlehi - Fix a crash when sending beeps from outside the chatroom ([#5463](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5463))
+* Estsanatlehi - Fix the "Extra keys" message being fired even with no extra keys ([#5466](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5466))
 * Rama - Ensures that updating `C.Stage` and `C.CurrentDialog` triggers an appropriate dialog menu reload ([#5410](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5410))
 * Rama - Fix `ElementButton` creator function failing to properly expand `options.icons` array ([#5412](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5412))
 * Rama - Fix two `dialog` issues ([#5419](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5419))
@@ -61,6 +68,10 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Rama - Fix the language drop down not properly setting the translation language ([#5446](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5446))
 * Rama - Fix `CommonDynamicFunctionParams()` incorrectly parsing parameters of length 0 ([#5447](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5447))
 * Rama - Fix the chat room message handlers checking for OOC in non-chat messages ([#5449](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5449))
+* Rama - Fix the dialog button grid escaping the confines of its parent element ([#5454](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5454))
+* Rama - Reintroduce the accidentally removed scroll snapping ([#5458](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5458))
+* Rama - Fix speech effects being improperly applied to custom dialog `dialog` statuses ([#5461](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5461))
+* Rama - Fix translations of the player dialog being mangled due to two  `CharacterLoadCSVDialog()` calls ([#5468](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5468))
 * Ben987 - DialogLeave() would remove the first option in the list instead of the clicked one
 * Ben987 - Correct nipples for Sarah/Amanda/Sophie
 * Ben987 - Sarah check shackles crash
