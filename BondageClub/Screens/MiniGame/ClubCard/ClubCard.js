@@ -3614,14 +3614,14 @@ function ClubCardGetPlayerIndex() {
 function ClubCardLoadDeckNumber(DeckNum) {
 	// Invalid decks cannot be loaded, we get the default one if that's the case
 	let Deck = [];
-	if ((Player.Game.ClubCard.Deck.length <= DeckNum) || (Player.Game.ClubCard.Deck[DeckNum].length < ClubCardBuilderMinDeckSize) || (Player.Game.ClubCard.Deck[DeckNum].length > ClubCardBuilderMaxDeckSize)) {
+	if ((Player.Game.ClubCard.Deck?.length <= DeckNum) || (Player.Game.ClubCard.Deck[DeckNum]?.length < ClubCardBuilderMinDeckSize) || (Player.Game.ClubCard.Deck[DeckNum]?.length > ClubCardBuilderMaxDeckSize)) {
 		let msg = TextGet("NoValidDeckFound").replace("PLAYERNAME", CharacterNickname(Player));
 		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, null, {}, null, msg);
 		Deck = ClubCardBuilderDefaultDeck.slice();
 	} else {
 		let msg = TextGet("UsingDeck").replace("PLAYERNAME", CharacterNickname(Player));
 		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, null, {}, null, msg);
-		for (let i = 0; i < Player.Game.ClubCard.Deck[DeckNum].length; i++)
+		for (let i = 0; i < Player.Game.ClubCard?.Deck[DeckNum]?.length; i++)
 			Deck.push(Player.Game.ClubCard.Deck[DeckNum].charCodeAt(i));
 	}
 
@@ -4919,7 +4919,11 @@ function ClubCardRenderDiscardPile(CCPlayer, X, Y, W, H) {
  */
 function ClubCardStatusText(Text) {
 	MainCanvas.font = CommonGetFont((ClubCardPopup == null) ? 26 : 32);
-	DrawTextWrap(TextGet(Text), 1715, 900, (ClubCardPopup == null) ? 190 : 280, 100, "White");
+	if (ClubCardPopup?.Mode == "DISCARDPILE" || ClubCardPending != null) {
+		DrawTextWrap(TextGet(Text), 1715, 900, (ClubCardPopup == null) ? 190 : 280, 100, "White");
+	} else {
+		DrawTextWrap(TextGet(Text), 1715, 850, (ClubCardPopup == null) ? 190 : 280, 100, "White");
+	}
 	MainCanvas.font = CommonGetFont(36);
 }
 
@@ -4953,10 +4957,10 @@ function ClubCardRenderPanel() {
 		Elem.setAttribute("placeholder", TextGet("ChatHere"));
 	}
 
-	ElementPositionFix("CCLog", 20, 1705, 5, 285, 825);
+	ElementPositionFix("CCLog", 20, 1705, 5, 285, 725);
 	//old
 	//ElementPositionFix("CCLog", 20, 1705, (ClubCardFocus == null) ? 5 : 590, 285, (ClubCardFocus == null) ? 825 : 240);
-	ElementPosition("CCChat", 1857, 865, 306);
+	ElementPosition("CCChat", 1849, 765, 286);
 
 	if (ClubCardRenderLog.length > 0) {
 		for (let messageLogItem of ClubCardRenderLog) {
@@ -5003,15 +5007,19 @@ function ClubCardRenderPanel() {
 
 	// If there's a pending card with a prerequisite
 	if (ClubCardPending != null) {
-		DrawButton(1805, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/CancelPending.png", TextGet("CancelPending"));
 		ClubCardRenderCard(ClubCardPending, 995, 400, 100);
+		ClubCardStatusText("SelectPrerequisite");
+		DrawButton(1805, 805, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/CancelPending.png", TextGet("CancelPending"));
+		
 		if (ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus))
 			if(ClubCardFocus.IsVisible) DrawButton(745, 505, 215, 50, TextGet("SelectCard"), "White");
 		return;
 	}
 
 	// Can concede/exit out of popup mode
-	if (ClubCardPopup == null) DrawButton(1905, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/Concede.png", TextGet(ClubCardIsPlaying() ? "Concede" : "StopWatch"));
+	if (ClubCardPopup == null && ClubCardPending == null) DrawButton(1905, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/Concede.png", TextGet(ClubCardIsPlaying() ? "Concede" : "StopWatch"));
+	if (ClubCardPopup == null && ClubCardPending == null) DrawButton(1905, 805, 90, 90, null, "White", "Icons/Introduction.png", TextGet("Info"));
+
 
 	// If we are waiting for deck selection
 	if ((ClubCardPlayer[0].FullDeck == null) || (ClubCardPlayer[0].FullDeck.length == 0) || (ClubCardPlayer[1].FullDeck == null) || (ClubCardPlayer[1].FullDeck.length == 0)) {
@@ -5021,6 +5029,7 @@ function ClubCardRenderPanel() {
 
 	// Draw the discard and bottom butttons and texts
 	if ((ClubCardPopup == null) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")) {
+		DrawButton(1805, 805, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/DiscardPile.png", TextGet("DiscardPile"));
 		DrawButton(1805, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/Bankrupt.png", TextGet("Bankrupt"));
 		ClubCardDrawButton();
 		if (ClubCardCanPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus))
@@ -5029,10 +5038,10 @@ function ClubCardRenderPanel() {
 		ClubCardStatusText("SelectOption");
 	} else if(ClubCardInspection) {
 		ClubCardStatusText("InspectPile");
+		DrawButton(1805, 805, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/CancelPending.png", TextGet("CancelPending"));
 	} else if(ClubCardGameEnded) {
 		ClubCardStatusText("GameEnded");
 	} else ClubCardStatusText(ClubCardIsPlaying() ? "OpponentPlaying" : "WatchingGame");
-	DrawButton(5, 505, 45, 45, null, "White", "Screens/MiniGame/ClubCard/Button/DiscardPile.png", TextGet("DiscardPile"));
 }
 
 /**
@@ -5040,15 +5049,13 @@ function ClubCardRenderPanel() {
  * @returns {void} - Nothing
  */
 function ClubCardDrawButton() {
-	if (ClubCardTurnCardPlayed == 0) {
-		DrawButton(1705, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/Draw.png", TextGet("Draw"));
-		if (ClubCardPlayer[0].Deck.length > 0) {
-			DrawTextFit(ClubCardPlayer[0].Deck.length.toString(), 1764, 953, 25, "White");
-		} else {
-			DrawTextFit("X", 1764, 953, 25, "White");
-		}
+	if (ClubCardTurnCardPlayed == 0 && ClubCardPlayer[0].Deck.length > 0) {
+		DrawButton(1705, 805, 90, 190, null, "Grey", "", TextGet("Draw"));
+		DrawImageResize("Screens/MiniGame/ClubCard/Sleeve/" + ClubCardPlayer[0].Sleeve + ".png", 1708, 808, 84, 184);
+		DrawTextFit(ClubCardPlayer[0].Deck.length.toString(), 1764, 953, 25, "White");
 	} else {
-		DrawButton(1705, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/CannotDraw.png", TextGet("CannotDraw"));
+		DrawButton(1705, 805, 90, 190, null, "White", "", TextGet("CannotDraw"));
+		DrawImageResize("Screens/MiniGame/ClubCard/Button/CancelPending.png", 1685, 800, 130, 200);
 	}
 }
 
@@ -5169,13 +5176,12 @@ function ClubCardRenderPopup(Timestamp) {
 
 		DrawRect(48, 578, 1604, 404, "White");
 		DrawRect(50, 580, 1600, 400, "Black");
-		DrawTextWrap("Streets", 670, 600, 370, 26, "White");
+		DrawTextWrap("Your Streets", 670, 600, 370, 26, "White");
 		ClubCardRenderDiscardPile(ClubCardPlayer[0], 52, 612, 1516, 428);
 		if (ClubCardFocus != null) ClubCardRenderCard(ClubCardFocus, ClubCardFocusPosition.x, ClubCardFocusPosition.y, ClubCardFocusPosition.w);
 		ClubCardUpdateCardAnimations(Timestamp);
 		return;
 	}
-
 	// Draw the yes/no/text popups
 	DrawRect(648, 348, 404, 304, "White");
 	DrawRect(650, 350, 400, 300, "Black");
@@ -5239,11 +5245,11 @@ function ClubCardClick() {
 		if ((ClubCardPopup.Mode == "TEXT") && MouseIn(700, 570, 300, 60)) return CommonDynamicFunction(ClubCardPopup.Function1);
 		if ((ClubCardPopup.Mode == "YESNO") && MouseIn(660, 570, 180, 60)) return CommonDynamicFunction(ClubCardPopup.Function1);
 		if ((ClubCardPopup.Mode == "YESNO") && MouseIn(860, 570, 180, 60)) return CommonDynamicFunction(ClubCardPopup.Function2);
-		if (ClubCardPopup.Mode == "DISCARDPILE") {
+		if (ClubCardPopup.Mode == "DISCARDPILE" && ClubCardPending == null) {
 			//Focus Card reset handler in ClubCardPopup.Mode == “DISCARDPILE”
 			if (MouseIn(720, 245, 260, 510) && ClubCardFocus != null) return ClubCardClickResetFocusCard();
-			//Close “DISCARDPILE” popup
-			if (MouseIn(5, 505, 45, 45)) {
+			//Close “DISCARDPILE” popup - here
+			if (MouseIn(1805, 805, 90, 90)) {
 				return ClubCardFocus != null
 					? ClubCardClickResetFocusCard(ClubCardDestroyPopup)
 					: ClubCardDestroyPopup();
@@ -5262,7 +5268,7 @@ function ClubCardClick() {
 	// If there's a pending card with a prerequisite, there are extra buttons
 	if ((ClubCardPending != null) && MouseIn(745, 505, 215, 50) && ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus))
 		return ClubCardClickPlayCard(true);
-	if ((ClubCardPending != null) && MouseIn(1805, 905, 90, 90))
+	if ((ClubCardPending != null) && MouseIn(1805, 805, 90, 90))
 		return ClubCardClickResetPendingCard();
 
 	// Can always concede/exit
@@ -5283,9 +5289,9 @@ function ClubCardClick() {
 		if (ClubCardIsAnimationOn === false || ClubCardFocus.AnimationState != "moving")
 			return ClubCardClickResetFocusCard();
 	// Draw card and end turn
-	if (MouseIn(1705, 905, 90, 90) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") && !ClubCardPending)
+	if (MouseIn(1705, 805, 90, 190) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") && !ClubCardPending)
 		return ClubCardStartTurn(ClubCardStartTurnType.DRAWENDTURN);
-	// Open Bancrupt window and bind function close and bancrupt in yes and no
+	// Open Bankrupt window and bind function close and bancrupt in yes and no
 	if (MouseIn(1805, 905, 90, 90) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player"))
 		return ClubCardCreatePopup("YESNO", TextGet("ConfirmBankrupt"), TextGet("Yes"), TextGet("No"), "ClubCardStartTurn()", "ClubCardDestroyPopup()");
 	// Upgrade lvl Club
@@ -5295,7 +5301,7 @@ function ClubCardClick() {
 		return ClubCardStartTurn(ClubCardStartTurnType.UPGRADELEVEL);
 
 	//Open DISCARDPILE Popup
-	if (MouseIn(5, 505, 45, 45)) {
+	if (MouseIn(1805, 805, 90, 90)) {
 		const openDiscardPilePopup = () => ClubCardCreatePopup("DISCARDPILE", null, TextGet("Close"), null, "ClubCardDestroyPopup()", null);
 		if (ClubCardIsAnimationOn && ClubCardFocus && ClubCardFocus.AnimationState !== "moving")
 			return ClubCardClickResetFocusCard(openDiscardPilePopup);
