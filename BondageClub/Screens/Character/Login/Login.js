@@ -10,7 +10,7 @@ var LoginThankYouList = [
 	"Cm382714", "Desch", "Dragokahn", "dynilath", "Edwin", "Glurak", "Greendragon", "john", "Laurie", "luke", 
 	"Lyall", "Marashu", "Michel", "Mindtie", "Misa", "Nightcore", "Patrick", "René", "Robin", "Schrödingers", 
 	"Setsu95", "Sticks", "Sunny", "Tam", "Tarram1010", "Teli", "Thkdt", "Troubadix", "Troy", "Varo", 
-	"WhiteSniper", "XDWolfie", "Xepherio", 
+	"WhiteSniper", "XDWolfie", "Xepherio", "Nikachi"
 ];
 
 /* eslint-enable */
