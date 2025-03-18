@@ -90,7 +90,7 @@ function FriendListLoad() {
 						tag: 'input',
 						attributes: {
 							id: FriendListIDs.searchInput,
-							type: 'text',
+							type: 'search',
 							maxLength: 100,
 						},
 						eventListeners: {
@@ -198,71 +198,78 @@ function FriendListLoad() {
 				}
 			),
 			ElementCreate({
-				tag: 'div',
+				tag: 'table',
 				attributes: {
-					id: FriendListIDs.friendListTable
+					id: FriendListIDs.friendListTable,
+					"aria-labelledby": FriendListIDs.modeTitle,
 				},
 				children: [
 					{
-						tag: 'div',
+						tag: 'thead',
 						attributes: {
 							id: FriendListIDs.header
 						},
-						classList: ['friend-list-row'],
 						children: [
-							ElementButton.Create(
-								"friend-list-member-name",
-								() => FriendListChangeSortingMode("MemberName"),
-								{ noStyling: true },
-								{ button: {
-									classList: ['friend-list-column', 'friend-list-link'],
-								}},
-							),
-							ElementButton.Create(
-								"friend-list-member-number",
-								() => FriendListChangeSortingMode("MemberNumber"),
-								{ noStyling: true },
-								{ button: {
-									classList: ['friend-list-column', 'friend-list-link'],
-								}},
-							),
-							ElementButton.Create(
-								"friend-list-chat-room-name",
-								() => FriendListChangeSortingMode("ChatRoomName"),
-								{ noStyling: true },
-								{ button: {
-									classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-online-friends-content', 'fl-beeps-content'],
-								}},
-							),
-							ElementButton.Create(
-								"friend-list-relation-type",
-								() => FriendListChangeSortingMode("RelationType"),
-								{ noStyling: true },
-								{ button: {
-									classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-all-friends-content'],
-								}},
-							),
 							{
-								tag: "span",
-								classList: ['friend-list-column', 'mode-specific-content', 'fl-online-friends-content'],
+								tag: "tr",
+								classList: ["friend-list-row"],
 								children: [
-									TextGet("ActionFriends")
+									ElementButton.Create(
+										"friend-list-member-name",
+										() => FriendListChangeSortingMode("MemberName"),
+										{ noStyling: true },
+										{ button: {
+											classList: ['friend-list-column', 'friend-list-link'],
+											attributes: { role: "columnheader" },
+										}},
+									),
+									ElementButton.Create(
+										"friend-list-member-number",
+										() => FriendListChangeSortingMode("MemberNumber"),
+										{ noStyling: true },
+										{ button: {
+											classList: ['friend-list-column', 'friend-list-link'],
+											attributes: { role: "columnheader" },
+										}},
+									),
+									ElementButton.Create(
+										"friend-list-chat-room-name",
+										() => FriendListChangeSortingMode("ChatRoomName"),
+										{ noStyling: true },
+										{ button: {
+											classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-online-friends-content', 'fl-beeps-content'],
+											attributes: { role: "columnheader" },
+										}},
+									),
+									ElementButton.Create(
+										"friend-list-relation-type",
+										() => FriendListChangeSortingMode("RelationType"),
+										{ noStyling: true },
+										{ button: {
+											classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-all-friends-content'],
+											attributes: { role: "columnheader" },
+										}},
+									),
+									{
+										tag: "th",
+										classList: ['friend-list-column', 'mode-specific-content', 'fl-online-friends-content'],
+										attributes: { scope: "col" },
+										children: [TextGet("ActionFriends")],
+									},
+									{
+										tag: "th",
+										classList: ['friend-list-column', 'mode-specific-content', 'fl-beeps-content'],
+										attributes: { scope: "col" },
+										children: [TextGet("ActionRead")],
+									},
+									{
+										tag: "th",
+										classList: ['friend-list-column', 'mode-specific-content', 'fl-all-friends-content'],
+										attributes: { scope: "col" },
+										children: [TextGet("ActionDelete")],
+									},
 								],
 							},
-							{
-								tag: "span",
-								classList: ['friend-list-column', 'mode-specific-content', 'fl-beeps-content'],
-								children: [
-									TextGet("ActionRead")
-								],
-							},
-							{
-								tag: "span",
-								classList: ['friend-list-column', 'mode-specific-content', 'fl-all-friends-content'],
-								children: [
-									TextGet("ActionDelete")
-								],
-							}
 						]
 					},
 					{
@@ -272,7 +279,7 @@ function FriendListLoad() {
 						}
 					},
 					{
-						tag: 'div',
+						tag: 'tbody',
 						classList: ["scroll-box"],
 						attributes: {
 							id: FriendListIDs.friendList
@@ -718,18 +725,18 @@ function FriendListLoadFriendList(data) {
 
 	friendRawData.forEach(friend => {
 		const row = ElementCreate({
-			tag: "div",
+			tag: "tr",
 			classList: ['friend-list-row'],
 			children: [
 				{
-					tag: "span",
+					tag: "td",
 					classList: ['friend-list-column', 'MemberName'],
 					children: [
 						friend.memberName
 					],
 				},
 				{
-					tag: "span",
+					tag: "td",
 					classList: ['friend-list-column', 'MemberNumber'],
 					children: [
 						friend.memberNumber.toString()
@@ -741,7 +748,7 @@ function FriendListLoadFriendList(data) {
 		if (friend.chatRoom) {
 			if (!friend.chatRoom.name || !friend.chatRoom.canSearchRoom) {
 				row.appendChild(ElementCreate({
-					tag: "span",
+					tag: "td",
 					classList: ['friend-list-column', 'ChatRoomName'],
 					innerHTML: friend.chatRoom.caption,
 				}));
@@ -753,6 +760,7 @@ function FriendListLoadFriendList(data) {
 					eventListeners: {
 						click: () => FriendListChatSearch(friend.chatRoom.name),
 					},
+					attributes: { role: "cell" },
 				}));
 			}
 		}
@@ -767,6 +775,7 @@ function FriendListLoadFriendList(data) {
 						{ button: {
 							classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-online-friends-content'],
 							children: [friend.beep.caption],
+							attributes: { role: "cell" },
 						}},
 					),
 					ElementButton.Create(
@@ -776,12 +785,13 @@ function FriendListLoadFriendList(data) {
 						{ button: {
 							classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-beeps-content'],
 							children: [friend.beep.caption],
+							attributes: { role: "cell" },
 						}},
 					),
 				);
 			} else {
 				row.appendChild(ElementCreate({
-					tag: "span",
+					tag: "td",
 					classList: ['friend-list-column'],
 					children: [
 						friend.beep.caption
@@ -792,7 +802,7 @@ function FriendListLoadFriendList(data) {
 
 		if (friend.relationType) {
 			row.appendChild(ElementCreate({
-				tag: "span",
+				tag: "td",
 				classList: ['friend-list-column', 'RelationType', 'mode-specific-content', 'fl-all-friends-content'],
 				children: [
 					{
@@ -813,7 +823,7 @@ function FriendListLoadFriendList(data) {
 			{ button: {
 				classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-all-friends-content'],
 				children: [FriendListConfirmDelete.includes(friend.memberNumber) ? ConfirmDeleteCaption : DeleteCaption],
-				attributes: { disabled: !friend.canDelete },
+				attributes: { disabled: !friend.canDelete, role: "cell" },
 			}}
 		));
 

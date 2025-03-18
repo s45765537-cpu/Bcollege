@@ -61,15 +61,12 @@
 /* #endregion */
 
 /* #region HEADER */
-#friend-list-header {
-	min-height: var(--row-height);
-	display: flex;
-	align-items: center;
-	color: var(--text-color);
-}
-
 #friend-list-header .friend-list-link {
 	text-decoration: none;
+}
+
+#friend-list-header .friend-list-row:hover {
+	color: var(--text-color);
 }
 
 #friend-list-header-hr {
@@ -124,9 +121,15 @@
 	width: calc(100% - var(--button-size));
 }
 
+#friend-list-table td {
+	margin: unset;
+	font-weight: normal;
+}
+
 .friend-list-row {
 	color: var(--text-color);
 	display: flex;
+	align-items: center;
 	flex-direction: row;
 	justify-content: space-evenly;
 }
