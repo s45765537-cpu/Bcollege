@@ -827,6 +827,9 @@ function DialogLeave() {
 
 	// Reset the state of the self menu
 	DialogSelfMenuSelected = null;
+	for (const preview of DialogSavedExpressionPreviews) {
+		CharacterDelete(preview, false);
+	}
 	DialogSavedExpressionPreviews = [];
 	DialogFacialExpressionsSelected = -1;
 	DialogFacialExpressions = [];
@@ -1802,6 +1805,7 @@ function DialogBuildSavedExpressionsMenu() {
 			for (let x = 0; x < expression.length; x++) {
 				CharacterSetFacialExpression(PreviewCharacter, expression[x].Group, expression[x].CurrentExpression);
 			}
+			CharacterRefresh(PreviewCharacter);
 
 			DialogSavedExpressionPreviews[i] = PreviewCharacter;
 		}
