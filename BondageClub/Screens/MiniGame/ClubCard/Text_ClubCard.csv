@@ -16,10 +16,12 @@ SelectCard,Select this card
 CancelPending,Don't play this card
 Bankrupt,Go bankrupt
 Concede,Concede the game
+Info,Info
 StopWatch,Stop watching
 OnlineConcede,PLAYERNAME conceded and left the game.
 OnlineStopWatch,PLAYERNAME stopped watching and left the game.
 OnlinePlayerDisconnected,SOURCEPLAYER has disconnected.
+SelectPrerequisite,Select target card.
 Yes,Yes
 No,No
 DeckNumber,Deck #
