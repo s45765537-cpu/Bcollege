@@ -608,15 +608,28 @@ function FriendListLoadFriendList(data) {
 	});
 	if (infoChanged) ServerPlayerRelationsSync();
 
+	/** @satisfies {Record<string, FriendListSortingMode>} */
 	const columnHeaders = {
-		"friend-list-member-name": `${TextGet("MemberName")} ${FriendListSortingMode === "MemberName" ? sortingSymbol : "↕"}`,
-		"friend-list-member-number": `${TextGet("MemberNumber")} ${FriendListSortingMode === "MemberNumber" ? sortingSymbol : "↕"}`,
-		"friend-list-chat-room-name": `${TextGet("ChatRoomName")} ${FriendListSortingMode === "ChatRoomName" ? sortingSymbol : "↕"}`,
-		"friend-list-relation-type": `${TextGet("FriendType")} ${FriendListSortingMode === "RelationType" ? sortingSymbol : "↕"}`,
+		"friend-list-member-name": "MemberName",
+		"friend-list-member-number": "MemberNumber",
+		"friend-list-chat-room-name": "ChatRoomName",
+		"friend-list-chat-room-type": "ChatRoomType",
+		"friend-list-relation-type": "RelationType",
 	};
-	CommonEntries(columnHeaders).forEach(([id, textContent]) => {
+	CommonEntries(columnHeaders).forEach(([id, modeName]) => {
 		const elem = document.getElementById(id);
-		elem.textContent = textContent;
+		const elemSortingSymbol = FriendListSortingMode === modeName ? sortingSymbol : "↕";
+		elem.textContent = `${TextGet(modeName)} ${elemSortingSymbol}`;
+		switch (elemSortingSymbol) {
+			case "↑":
+				elem.setAttribute("aria-sort", "ascending");
+				break;
+			case "↓":
+				elem.setAttribute("aria-sort", "descending");
+				break;
+			default:
+				elem.setAttribute("aria-sort", "none");
+		}
 	});
 
 	/** @type {FriendRawData[]} */
