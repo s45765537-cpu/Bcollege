@@ -102,6 +102,17 @@
 #friend-list-beep-dialog:not([data-received]) .fl-beep-sent-content {
 	display: block;
 }
+
+.friend-list-icon-small {
+	pointer-events: none;
+	height: var(--row-height);
+	width: var(--row-height);
+	max-width: 50px;
+	max-height: 50px;
+	margin-inline: 0.15em;
+	aspect-ratio: 1 / 1;
+}
+
 /* #endregion */
 
 /* #region FRIENDLIST */
@@ -169,10 +180,6 @@
 	justify-content: center;
 	align-items: center;
 	gap: var(--small-gap);
-}
-
-.RelationType img {
-	height: min(5dvh, 2.5dvw);
 }
 
 .friend-list-link {

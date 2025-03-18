@@ -819,10 +819,14 @@ function FriendListLoadFriendList(data) {
 				classList: ['friend-list-column', 'RelationType', 'mode-specific-content', 'fl-all-friends-content'],
 				children: [
 					{
-						tag: 'img',
+						tag: "img",
 						attributes: {
 							src: relationTypeIcons[friend.relationType],
-						}
+							decoding: "async",
+							loading: "lazy",
+							"aria-hidden": "true",
+						},
+						classList: ["friend-list-icon-small"],
 					},
 					FriendTypeCaption[friend.relationType]
 				],
