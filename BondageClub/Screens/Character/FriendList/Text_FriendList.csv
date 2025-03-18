@@ -5,7 +5,8 @@ MemberName,Name
 MemberNickname,Nickname
 MemberNumber,Member number
 ChatRoomName,Chat room
-FriendType,Relation type
+ChatRoomType,Room type
+RelationType,Relation type
 ActionFriends,Send a Beep
 ActionRead,Read a Beep
 ActionDelete,Delete a Friend
@@ -21,3 +22,8 @@ TypeOwner,Owner
 TypeLover,Lover
 TypeSubmissive,Submissive
 TypeFriend,Friend
+TypeFemale,Femaly-only room
+TypeMale,Male-only room
+TypeMixed,Mixed male/female room
+TypeAsylum,Asylum room
+TypePrivate,Private room

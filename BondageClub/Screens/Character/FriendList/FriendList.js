@@ -233,6 +233,15 @@ function FriendListLoad() {
 										}},
 									),
 									ElementButton.Create(
+										"friend-list-chat-room-type",
+										() => FriendListChangeSortingMode("ChatRoomType"),
+										{ noStyling: true },
+										{ button: {
+											classList: ['friend-list-column', 'friend-list-link', 'mode-specific-content', 'fl-online-friends-content', 'fl-beeps-content'],
+											attributes: { role: "columnheader" },
+										}},
+									),
+									ElementButton.Create(
 										"friend-list-chat-room-name",
 										() => FriendListChangeSortingMode("ChatRoomName"),
 										{ noStyling: true },
@@ -544,6 +553,15 @@ function FriendListChatSearch(room) {
 	ElementValue("InputSearch", ChatSearchMuffle(room));
 }
 
+/** @satisfies {{ [key in (ServerChatRoomSpace | "Private")]: FriendListIcon }} */
+const FriendListIconMapping = {
+	"": { src: "./Icons/FemaleInvert.png", tooltipKey: "TypeFemale", sortKey: "F " },
+	M: { src: "./Icons/MaleInvert.png", tooltipKey: "TypeMale", sortKey: "M " },
+	X: { src: "./Icons/GenderInvert.png", tooltipKey: "TypeMixed", sortKey: "FM" },
+	Asylum: { src: "./Icons/Asylum.png", tooltipKey: "TypeAsylum", sortKey: "A " },
+	Private: { src: "./Icons/PrivateInvert.png", tooltipKey: "TypePrivate", sortKey: "P" },
+};
+
 /**
  * Loads the friend list data into the HTML div element.
  * @param {ServerFriendInfo[]} data - An array of data, we receive from the server
@@ -566,7 +584,6 @@ function FriendListLoadFriendList(data) {
 	const BeepCaption = InterfaceTextGet("Beep");
 	const DeleteCaption = InterfaceTextGet("Delete");
 	const ConfirmDeleteCaption = InterfaceTextGet("ConfirmDelete");
-	const PrivateRoomCaption = InterfaceTextGet("PrivateRoom");
 	const SentCaption = InterfaceTextGet("SentBeep");
 	const ReceivedCaption = InterfaceTextGet("ReceivedBeep");
 	const MailCaption = InterfaceTextGet("BeepWithMail");
@@ -641,25 +658,20 @@ function FriendListLoadFriendList(data) {
 			const originalChatRoomName = friend.ChatRoomName || '';
 			const chatRoomSpaceCaption = InterfaceTextGet(`ChatRoomSpace${friend.ChatRoomSpace || "F"}`);
 			const chatRoomName = ChatSearchMuffle(friend.ChatRoomName?.replaceAll('<', '&lt;').replaceAll('>', '&gt;') || undefined);
-			let caption = '';
 			const canSearchRoom = FriendListReturn?.Screen === 'ChatSearch' && ChatRoomSpace === (friend.ChatRoomSpace || '');
 			const canBeep = true;
-
-			const rawCaption = [];
-			if (chatRoomSpaceCaption && chatRoomName) rawCaption.push(`<i>${chatRoomSpaceCaption}</i>`);
-			if (friend.Private) rawCaption.push(PrivateRoomCaption);
-			if (chatRoomName) rawCaption.push(chatRoomName);
-			if (rawCaption.length === 0) rawCaption.push('-');
-
-			caption = rawCaption.join(' - ');
 
 			friendRawData.push({
 				memberName: friend.MemberName,
 				memberNumber: friend.MemberNumber,
 				chatRoom: {
 					name: originalChatRoomName,
-					caption: caption,
+					caption: chatRoomName || "-",
 					canSearchRoom: canSearchRoom,
+					types: [
+						chatRoomSpaceCaption && chatRoomName ? FriendListIconMapping[friend.ChatRoomSpace ?? ""] : null,
+						friend.Private ? FriendListIconMapping.Private : null,
+					].filter(Boolean),
 				},
 				beep: {
 					canBeep: canBeep,
@@ -673,17 +685,8 @@ function FriendListLoadFriendList(data) {
 			const beepData = FriendListBeepLog[i];
 			const chatRoomSpaceCaption = InterfaceTextGet(`ChatRoomSpace${beepData.ChatRoomSpace || "F"}`);
 			const chatRoomName = ChatSearchMuffle(beepData.ChatRoomName?.replaceAll('<', '&lt;').replaceAll('>', '&gt;') || undefined);
-			let chatRoomCaption = '';
 			let beepCaption = '';
 			const canSearchRoom = FriendListReturn?.Screen === 'ChatSearch' && ChatRoomSpace === (beepData.ChatRoomSpace || '');
-
-			const rawRoomCaption = [];
-			if (chatRoomSpaceCaption && chatRoomName) rawRoomCaption.push(`<i>${chatRoomSpaceCaption}</i>`);
-			if (beepData.Private) rawRoomCaption.push(PrivateRoomCaption);
-			if (chatRoomName) rawRoomCaption.push(chatRoomName);
-			if (rawRoomCaption.length === 0) rawRoomCaption.push('-');
-
-			chatRoomCaption = rawRoomCaption.join(' - ');
 
 			const rawBeepCaption = [];
 			if (beepData.Sent) {
@@ -703,8 +706,12 @@ function FriendListLoadFriendList(data) {
 				memberNumber: beepData.MemberNumber,
 				chatRoom: {
 					name: beepData.ChatRoomName,
-					caption: chatRoomCaption,
+					caption: chatRoomName || "-",
 					canSearchRoom: canSearchRoom,
+					types: [
+						chatRoomSpaceCaption && chatRoomName ? FriendListIconMapping[beepData.ChatRoomSpace ?? ""] : null,
+						beepData.Private ? FriendListIconMapping.Private : null,
+					].filter(Boolean),
 				},
 				beep: {
 					beepIndex: i,
@@ -760,21 +767,94 @@ function FriendListLoadFriendList(data) {
 
 		if (friend.chatRoom) {
 			if (!friend.chatRoom.name || !friend.chatRoom.canSearchRoom) {
-				row.appendChild(ElementCreate({
+				// Sorting is performed via each cell's `textContent`,
+				// so explicitly prepend an invisible node with some sorting key
+				let totalSortKey = "";
+				const imgContainer = ElementCreate({
 					tag: "td",
-					classList: ['friend-list-column', 'ChatRoomName'],
-					innerHTML: friend.chatRoom.caption,
-				}));
+					classList: ['friend-list-column', 'ChatRoomType'],
+					children: [
+						{ tag: "span", style: { display: "none" }, classList: ["friend-list-sorting-node"] },
+						...friend.chatRoom.types.map(({ src, tooltipKey, sortKey }) => {
+							totalSortKey += sortKey;
+							return {
+								tag: /** @type {const} */("div"),
+								classList: ["friend-list-icon-container"],
+								children: [
+									{
+										tag: /** @type {const} */("img"),
+										attributes: { src, decoding: "async", loading: "lazy", alt: TextGet(tooltipKey) },
+										classList: ["friend-list-icon"],
+									},
+									{
+										tag: /** @type {const} */("div"),
+										attributes: { role: "tooltip", "aria-hidden": "true" },
+										children: [TextGet(tooltipKey)],
+										classList: ["button-tooltip", "button-tooltip-right"],
+									},
+								],
+							};
+						}),
+					],
+				});
+				imgContainer.children[0].textContent = totalSortKey + " ";
+				if (imgContainer.children.length === 1) {
+					imgContainer.append("-");
+				}
+				row.append(
+					imgContainer,
+					ElementCreate({
+						tag: "td",
+						classList: ['friend-list-column', 'ChatRoomName'],
+						children: [friend.chatRoom.caption],
+					}),
+				);
 			} else if (friend.chatRoom.canSearchRoom) {
-				row.appendChild(ElementCreate({
-					tag: "button",
-					classList: ['friend-list-column', 'friend-list-link', 'blank-button', 'ChatRoomName'],
-					innerHTML: friend.chatRoom.caption,
-					eventListeners: {
-						click: () => FriendListChatSearch(friend.chatRoom.name),
-					},
-					attributes: { role: "cell" },
-				}));
+				// Sorting is performed via each cell's `textContent`,
+				// so explicitly prepend an invisible node with some sorting key
+				let totalSortKey = "";
+				const imgContainer = ElementCreate({
+					tag: "td",
+					classList: ['friend-list-column', 'ChatRoomType'],
+					children: [
+						{ tag: "span", style: { display: "none" }, classList: ["friend-list-sorting-node"] },
+						...friend.chatRoom.types.map(({ src, tooltipKey, sortKey }) => {
+							totalSortKey += sortKey;
+							return {
+								tag: /** @type {const} */("div"),
+								classList: ["friend-list-icon-container"],
+								children: [
+									{
+										tag: /** @type {const} */("img"),
+										attributes: { src, decoding: "async", loading: "lazy", alt: TextGet(tooltipKey) },
+										classList: ["friend-list-icon"],
+									},
+									{
+										tag: /** @type {const} */("div"),
+										attributes: { role: "tooltip", "aria-hidden": "true" },
+										children: [TextGet(tooltipKey)],
+										classList: ["button-tooltip", "button-tooltip-right"],
+									},
+								],
+							};
+						}),
+					],
+				});
+				imgContainer.children[0].textContent = totalSortKey + " ";
+				if (imgContainer.children.length === 1) {
+					imgContainer.append("-");
+				}
+				row.append(
+					imgContainer,
+					ElementCreate({
+						tag: "td",
+						classList: ['friend-list-column', 'friend-list-link', 'blank-button', 'ChatRoomName'],
+						innerHTML: friend.chatRoom.caption,
+						eventListeners: {
+							click: () => FriendListChatSearch(friend.chatRoom.name),
+						},
+					}),
+				);
 			}
 		}
 

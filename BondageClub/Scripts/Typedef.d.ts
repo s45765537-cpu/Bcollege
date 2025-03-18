@@ -881,7 +881,7 @@ interface IFriendListBeepLogMessage {
 	MemberName: string;
 	ChatRoomName?: string;
 	Private: boolean;
-	ChatRoomSpace?: string;
+	ChatRoomSpace?: ServerChatRoomSpace;
 	Sent: boolean;
 	Time: Date;
 	Message?: string;

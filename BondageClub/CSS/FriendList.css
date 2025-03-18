@@ -103,6 +103,49 @@
 	display: block;
 }
 
+.ChatRoomType {
+	display: flex;
+	justify-content: center;
+	gap: 0.15em;
+	user-select: none;
+}
+
+.friend-list-icon-container {
+	position: relative;
+	height: var(--row-height);
+	width: var(--row-height);
+	max-width: 86px;
+	max-height: 86px;
+	aspect-ratio: 1 / 1;
+}
+
+.friend-list-icon-container > .button-tooltip {
+	--tooltip-gap: 0.15em;
+}
+
+.friend-list-icon {
+	pointer-events: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+@media (hover: hover) {
+	@supports selector(:has(*)) {
+		.friend-list-icon-container:hover:not(:has(.button-tooltip:hover)) > .button-tooltip {
+			visibility: visible;
+		}
+	}
+
+	@supports not selector(:has(*)) {
+		.friend-list-icon-container:hover > .button-tooltip {
+			visibility: visible;
+		}
+	}
+}
+
 .friend-list-icon-small {
 	pointer-events: none;
 	height: var(--row-height);
@@ -132,21 +175,25 @@
 	width: calc(100% - var(--button-size));
 }
 
-#friend-list-table td {
-	margin: unset;
+#friend-list-table th {
 	font-weight: normal;
 }
 
 .friend-list-row {
 	color: var(--text-color);
+	min-height: var(--row-height);
 	display: flex;
 	align-items: center;
 	flex-direction: row;
 	justify-content: space-evenly;
+	padding: unset;
+	margin: var(--small-gap) 0;
 }
 
-.friend-list-row * {
-	margin: var(--small-gap) 0;
+.friend-list-row > * {
+	vertical-align: middle;
+	text-justify: center;
+	padding: unset;
 }
 
 .friend-list-row:hover {
@@ -159,10 +206,6 @@
 	text-align: center;
 	text-wrap: nowrap;
 	white-space: preserve;
-}
-
-#friend-list .friend-list-column {
-	height: 100%;
 }
 
 #friend-list-member-number,
