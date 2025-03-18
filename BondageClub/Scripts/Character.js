@@ -809,8 +809,10 @@ function CharacterBuildDialog(C, CSV, functionPrefix, reload=true) {
 		};
 
 		// Prefix with the current screen unless this is a Dialog function or an online character
-		if (D.Function && D.Function !== "")
-			D.Function = (D.Function.startsWith("Dialog") ? "" : C.IsOnline() ? "ChatRoom" : functionPrefix) + D.Function;
+		if (D.Function && D.Function !== "") {
+			// @ts-expect-error Not sure why the online || player check errors here
+			D.Function = (D.Function.startsWith("Dialog") ? "" : (C.IsOnline() || C.IsPlayer()) ? "ChatRoom" : functionPrefix) + D.Function;
+		}
 
 		C.Dialog.push(D);
 	}
@@ -1797,7 +1799,8 @@ function CharacterSetFacialExpression(C, AssetGroup, Expression, Timer, Color, f
 	const isTransient = Timer != null || fromQueue;
 
 	CharacterRefresh(C, !inChatRoom && !isTransient, false);
-	if (inChatRoom && C.IsOnline()) {
+	// @ts-expect-error Not sure why the online || player check errors here
+	if (inChatRoom && (C.IsOnline() || C.IsPlayer())) {
 		if (isTransient || C.IsPlayer()) {
 			ChatRoomCharacterExpressionUpdate(C, AssetGroup);
 		} else {
