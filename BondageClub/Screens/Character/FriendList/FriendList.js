@@ -807,6 +807,7 @@ function FriendListLoadFriendList(data) {
 						tag: "td",
 						classList: ['friend-list-column', 'ChatRoomName'],
 						children: [friend.chatRoom.caption],
+						style: { "user-select": friend.chatRoom.caption === "-" ? "none" : undefined },
 					}),
 				);
 			} else if (friend.chatRoom.canSearchRoom) {
@@ -850,6 +851,7 @@ function FriendListLoadFriendList(data) {
 						tag: "td",
 						classList: ['friend-list-column', 'friend-list-link', 'blank-button', 'ChatRoomName'],
 						innerHTML: friend.chatRoom.caption,
+						style: { "user-select": friend.chatRoom.caption === "-" ? "none" : undefined },
 						eventListeners: {
 							click: () => FriendListChatSearch(friend.chatRoom.name),
 						},
