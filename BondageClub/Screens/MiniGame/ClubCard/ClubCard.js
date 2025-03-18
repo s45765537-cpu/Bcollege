@@ -4920,6 +4920,8 @@ function ClubCardRenderDiscardPile(CCPlayer, X, Y, W, H) {
 function ClubCardStatusText(Text) {
 	MainCanvas.font = CommonGetFont((ClubCardPopup == null) ? 26 : 32);
 	if (ClubCardPopup?.Mode == "DISCARDPILE" || ClubCardPending != null) {
+		DrawTextWrap(TextGet(Text), 1715, 900, 280, 100, "White");
+	} else if (Text == "OpponentPlaying" || Text == "WatchingGame") {
 		DrawTextWrap(TextGet(Text), 1715, 900, (ClubCardPopup == null) ? 190 : 280, 100, "White");
 	} else {
 		DrawTextWrap(TextGet(Text), 1715, 850, (ClubCardPopup == null) ? 190 : 280, 100, "White");
@@ -5028,8 +5030,8 @@ function ClubCardRenderPanel() {
 	}
 
 	// Draw the discard and bottom butttons and texts
+	if  (ClubCardPopup?.Mode == "DISCARDPILE" || !ClubCardPopup) DrawButton(1805, 805, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/DiscardPile.png", TextGet("DiscardPile"));
 	if ((ClubCardPopup == null) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")) {
-		DrawButton(1805, 805, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/DiscardPile.png", TextGet("DiscardPile"));
 		DrawButton(1805, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/Bankrupt.png", TextGet("Bankrupt"));
 		ClubCardDrawButton();
 		if (ClubCardCanPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus))
@@ -5051,7 +5053,8 @@ function ClubCardRenderPanel() {
 function ClubCardDrawButton() {
 	if (ClubCardTurnCardPlayed == 0 && ClubCardPlayer[0].Deck.length > 0) {
 		DrawButton(1705, 805, 90, 190, null, "Grey", "", TextGet("Draw"));
-		DrawImageResize("Screens/MiniGame/ClubCard/Sleeve/" + ClubCardPlayer[0].Sleeve + ".png", 1708, 808, 84, 184);
+		DrawImageResize("Screens/MiniGame/ClubCard/Frame/SleeveBorder.png", 1708, 808, 84, 184);
+		DrawImageResize("Screens/MiniGame/ClubCard/Sleeve/" + ClubCardPlayer[0].Sleeve + ".png", 1710, 810, 80, 180);
 		DrawTextFit(ClubCardPlayer[0].Deck.length.toString(), 1764, 953, 25, "White");
 	} else {
 		DrawButton(1705, 805, 90, 190, null, "White", "", TextGet("CannotDraw"));
@@ -5292,7 +5295,7 @@ function ClubCardClick() {
 	if (MouseIn(1705, 805, 90, 190) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") && !ClubCardPending)
 		return ClubCardStartTurn(ClubCardStartTurnType.DRAWENDTURN);
 	// Open Bankrupt window and bind function close and bancrupt in yes and no
-	if (MouseIn(1805, 905, 90, 90) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player"))
+	if (MouseIn(1805, 905, 90, 90) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") && !ClubCardPending)
 		return ClubCardCreatePopup("YESNO", TextGet("ConfirmBankrupt"), TextGet("Yes"), TextGet("No"), "ClubCardStartTurn()", "ClubCardDestroyPopup()");
 	// Upgrade lvl Club
 	if (MouseIn(1390, 435, 300, 60) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")
