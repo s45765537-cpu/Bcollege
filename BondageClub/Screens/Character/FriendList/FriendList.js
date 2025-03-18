@@ -520,7 +520,7 @@ function FriendListBeepMenuSend() {
 			ChatRoomName: FriendListBeepShowRoom ? ChatRoomData?.Name : undefined,
 			ChatRoomSpace: FriendListBeepShowRoom ? ChatRoomData?.Space : undefined,
 			Sent: true,
-			Private: false,
+			Private: FriendListBeepShowRoom ? !ChatRoomData?.Visibility.includes("All") : undefined,
 			Time: new Date(),
 			Message: msg || undefined
 		});
