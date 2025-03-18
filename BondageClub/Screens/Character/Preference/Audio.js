@@ -81,7 +81,7 @@ function PreferenceSubscreenAudioExit() {
 	// If audio has been disabled for notifications, disable each individual notification audio setting
 	if (!Player.AudioSettings.Notifications) {
 		for (const setting in Player.NotificationSettings) {
-			let audio = Player.NotificationSettings[setting].Audio;
+			let audio = Player.NotificationSettings[setting]?.Audio;
 			if (typeof audio === 'number' && audio > 0) Player.NotificationSettings[setting].Audio = NotificationAudioType.NONE;
 		}
 	}

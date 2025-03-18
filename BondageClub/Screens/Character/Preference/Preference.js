@@ -1015,7 +1015,7 @@ var PreferenceNotificationSettingsDefault = {
 	Test: { Audio: NotificationAudioType.NONE, AlertType: NotificationAlertType.TITLEPREFIX },
 
 	// Those are deprecated
-	Audio: false,
+	Audio: undefined,
 	Chat: undefined,
 	ChatActions: undefined,
 };
