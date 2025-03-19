@@ -1380,6 +1380,7 @@ var ElementButton = {
 			...(options.icons ?? []),
 			DialogGetFavoriteStateDetails(C ?? Player, asset)?.Icon,
 			InventoryBlockedOrLimited(C ?? Player, item) ? "Blocked" : null,
+			InventoryIsAllowedLimited(C ?? Player, item) ? "AllowedLimited" : null,
 			...DialogGetLockIcon(item, "Property" in item),
 			...DialogGetAssetIcons(asset),
 			...DialogEffectIcons.GetIcons(item),
@@ -1494,6 +1495,7 @@ var ElementButton = {
 		const iconNamesNew = [
 			DialogGetFavoriteStateDetails(C ?? Player, asset)?.Icon,
 			InventoryBlockedOrLimited(C ?? Player, item) ? "Blocked" : null,
+			InventoryIsAllowedLimited(C ?? Player, item) ? "AllowedLimited" : null,
 			...DialogGetLockIcon(item, "Property" in item),
 			...DialogGetAssetIcons(asset),
 			...DialogEffectIcons.GetIcons(item),
