@@ -508,9 +508,9 @@ function PreferenceInitPlayer(C, data) {
 	/** @type {{ [k in keyof typeof PrefBefore]?: PlayerCharacter[k] }} */
 	const toUpdate = {};
 
-	for (const prop of Object.keys(PrefBefore))
-		if (PrefBefore[prop] !== JSON.stringify(data[prop]))
-			toUpdate[prop] = data[prop];
+	for (const [prop, stringPrefBefore] of CommonEntries(PrefBefore))
+		if (JSON.stringify(C[prop]) !== stringPrefBefore)
+			toUpdate[/** @type {string} */(prop)] = data[prop];
 
 	if (Object.keys(toUpdate).length > 0)
 		ServerAccountUpdate.QueueData(toUpdate);
