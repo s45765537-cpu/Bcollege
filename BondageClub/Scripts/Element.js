@@ -1379,6 +1379,7 @@ var ElementButton = {
 		options.icons = [
 			...(options.icons ?? []),
 			DialogGetFavoriteStateDetails(C ?? Player, asset)?.Icon,
+			InventoryBlockedOrLimited(C ?? Player, item) ? "Blocked" : null,
 			...DialogGetLockIcon(item, "Property" in item),
 			...DialogGetAssetIcons(asset),
 			...DialogEffectIcons.GetIcons(item),
@@ -1467,6 +1468,7 @@ var ElementButton = {
 		options.image ??= (activity.Item ? `./${AssetGetPreviewPath(activity.Item.Asset)}/${activity.Item.Asset.Name}.png` : `./Assets/Female3DCG/Activity/${activity.Activity.Name}.png`);
 		options.icons = [
 			...(options.icons ?? []),
+			activity.Blocked === "blocked" ? "Blocked" : undefined,
 			activity.Blocked === "limited" ? "AllowedLimited" : undefined,
 			activity.Item ? "Handheld" : undefined,
 		];
@@ -1488,8 +1490,10 @@ var ElementButton = {
 
 		const icons = Array.from(button.querySelectorAll(".button-icon"));
 		const iconNamesOld = icons.map(el => el.getAttribute("data-name"));
+		/** @type {InventoryIcon[]} */
 		const iconNamesNew = [
 			DialogGetFavoriteStateDetails(C ?? Player, asset)?.Icon,
+			InventoryBlockedOrLimited(C ?? Player, item) ? "Blocked" : null,
 			...DialogGetLockIcon(item, "Property" in item),
 			...DialogGetAssetIcons(asset),
 			...DialogEffectIcons.GetIcons(item),
