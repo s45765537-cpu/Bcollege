@@ -421,7 +421,7 @@ var CraftingEventListeners = {
 
 	/**
 	 * @private
-	 * @type {(this: HTMLTextAreaElement, ev: Event) => void}
+	 * @type {(this: HTMLTextAreaElement | HTMLInputElement, ev: Event) => void}
 	 */
 	_InputDescription: function _InputDescription() {
 		this.setCustomValidity(this.value.match(this.dataset.pattern) ? "" : "patternMismatch");
@@ -1097,9 +1097,15 @@ function CraftingLoad() {
 					children: [
 						{ tag: "span", children: [TextGet("EnterName")] },
 						{
+							// NOTE: Perform the pattern checking via JS as there are differences in how plain JS `RegExp` and `HTMLInputElement.pattern`
+							// handle their pattern matching with characters larger than /u+FFFF
 							tag: "input",
-							attributes: { id: CraftingID.nameInput, type: "input", maxLength: "30", size: 0, pattern: CraftingDescription.Pattern.source },
-							eventListeners: { change: CraftingEventListeners._ChangeName },
+							attributes: { id: CraftingID.nameInput, type: "input", maxLength: "30", size: 0 },
+							dataAttributes: { pattern: CraftingDescription.Pattern.source },
+							eventListeners: {
+								change: CraftingEventListeners._ChangeName,
+								input: CraftingEventListeners._InputDescription,
+							},
 						},
 					],
 				},
