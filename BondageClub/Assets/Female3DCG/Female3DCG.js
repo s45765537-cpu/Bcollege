@@ -50850,17 +50850,8 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DrawLocks: false,
 				Extended: true,
-				DefaultColor: [
-					"#808D90",
-					"#819F9F",
-					"#8E8D89",
-					"#808D90",
-					"#877C66",
-				],
-				Hide: [
-					"Glasses",
-					"Jewelry",
-				],
+				DefaultColor: ["#808D90", "#819F9F", "#8E8D89", "#808D90", "#877C66"],
+				Hide: ["Glasses", "Jewelry"],
 				Block: [
 					"ItemMouth",
 					"ItemMouth2",
@@ -50907,7 +50898,7 @@ var AssetFemale3DCG = [
 						Name: "Blindfold",
 						Priority: 51,
 						CreateLayerTypes: ["b"],
-						AllowTypes: { b: [ 1, 2 ] },
+						AllowTypes: { b: [1, 2] },
 						AllowColorize: true,
 					},
 					{
@@ -50928,7 +50919,7 @@ var AssetFemale3DCG = [
 						Priority: 51,
 						LockLayer: true,
 						CreateLayerTypes: ["b"],
-						AllowTypes: { b: [ 1, 2 ] },
+						AllowTypes: { b: [1, 2] },
 						CopyLayerColor: "Lock",
 					},
 				],
