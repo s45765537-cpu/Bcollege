@@ -27,6 +27,7 @@ var AudioList = [
 	{ Name: "CuffsMetal", File: "CuffsMetal" },
 	{ Name: "EMLevitate", File: "EMLevitate" },
 	{ Name: "EMDisable", File: "EMDisable" },
+	{ Name: "FanOpen", File: "Fan1" },
 	{ Name: "FuturisticApply", File: "FuturisticApply" },
 	{ Name: "HydraulicLock", File: "HydraulicLock" },
 	{ Name: "HydraulicUnlock", File: "HydraulicUnlock" },
