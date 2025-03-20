@@ -261,7 +261,7 @@ function PreferenceExit() {
 
 /**
  * Clear all GUI data and DOM elements creates by the preference screen load function
- * We don't do this in exit function for disconnects do not trigger the exit function 
+ * We don't do this in exit function for disconnects do not trigger the exit function
  */
 function PreferenceUnload() {
 	if (PreferenceSubscreen.name !== "Main") {
@@ -274,9 +274,9 @@ function PreferenceUnload() {
  */
 function PreferenceSubscreenExit() {
 	const validExit = PreferenceSubscreen.exit?.();
-	
+
 	// Only when the results is false (not undefined)
-	// The exit is just a exit of the subscreen's substate, return to block more exit. 
+	// The exit is just a exit of the subscreen's substate, return to block more exit.
 	if(validExit === false) return;
 
 	// The exit is a full exit of the subscreen, unload resources
