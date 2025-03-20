@@ -9067,21 +9067,14 @@ var AssetFemale3DCGExtended = {
 							// Semi-Hood
 							Property: {
 								Effect: [E.BlockMouth],
-								Hide: [
-									"HairFront",
-									"HairAccessory1",
-								],
+								Hide: ["HairFront","HairAccessory1"],
 							},
 						},
 						{
 							// Hood
 							Property: {
 								Effect: [E.BlockMouth],
-								Hide: [
-									"HairFront",
-									"HairBack",
-									"HairAccessory1",
-								],
+								Hide: ["HairFront", "HairBack", "HairAccessory1"],
 							},
 						},
 					],
@@ -9150,7 +9143,7 @@ var AssetFemale3DCGExtended = {
 							// NoseGuard
 							Property: {
 								Effect: [],
-								Block:["ItemNose"],
+								Block: ["ItemNose"],
 								Hide: ["ItemNose"],
 							},
 						},
