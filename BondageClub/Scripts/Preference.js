@@ -512,6 +512,9 @@ function PreferenceInitPlayer(C, data) {
 		if (JSON.stringify(C[prop]) !== stringPrefBefore)
 			toUpdate[/** @type {string} */(prop)] = data[prop];
 
+	if (CommonVersionUpdated && (toUpdate != null) && (toUpdate.OnlineSharedSettings != null))
+		toUpdate.OnlineSharedSettings.GameVersion = GameVersion;
+
 	if (Object.keys(toUpdate).length > 0)
 		ServerAccountUpdate.QueueData(toUpdate);
 
