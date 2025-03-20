@@ -3809,15 +3809,12 @@ function ClubCardStartTurn(StartType = ClubCardStartTurnType.BANKRUPT) {
 		case ClubCardStartTurnType.PLAYCARD:
 			ClubCardPlayCard(CCPlayer, CCPlayer.Control === "Player" ? ClubCardFocus : ClubCardFocusAI);
 			break;
-
 		case ClubCardStartTurnType.DRAWENDTURN:
 			ClubCardEndTurn((ClubCardTurnCardPlayed == 0));
 			break;
-
 		case ClubCardStartTurnType.BANKRUPT:
 			ClubCardBankrupt();
 			break;
-
 		case ClubCardStartTurnType.UPGRADELEVEL:
 			ClubCardUpgradeLevel(ClubCardPlayer[ClubCardTurnIndex]);
 			break;
@@ -4128,6 +4125,8 @@ function ClubCardPlayCard(CCPlayer, Card) {
 		return;
 	}
 
+	//#region CCPlayer.Control == "AI"
+
 	// If the AI must select one of her own liability card to remove before playing the current card
 	if ((Card.Prerequisite === "SelectOwnMember") && (ClubCardSelection == null) && (CCPlayer.Control == "AI")) {
 		let Cards = [];
@@ -4163,6 +4162,8 @@ function ClubCardPlayCard(CCPlayer, Card) {
 		ClubCardSelection = cards[selectedCardNumber];
 		ClubCardSelection.Location = cards[selectedCardNumber].Location;
 	}
+
+	//#endregion
 
 	// Sets the log text, different for a liability card
 	let Target = ClubCardFindTarget(Card);
@@ -5012,7 +5013,7 @@ function ClubCardRenderPanel() {
 		ClubCardRenderCard(ClubCardPending, 995, 400, 100);
 		ClubCardStatusText("SelectPrerequisite");
 		DrawButton(1805, 805, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/CancelPending.png", TextGet("CancelPending"));
-		
+
 		if (ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus))
 			if(ClubCardFocus.IsVisible) DrawButton(745, 505, 215, 50, TextGet("SelectCard"), "White");
 		return;
@@ -5334,8 +5335,6 @@ function ClubCardClickPlayCard(isPending) {
 		//Just PlayCard
 		ClubCardStartTurn(ClubCardStartTurnType.PLAYCARD);
 	}
-	// Должно разделяться на логику клика и на логику обработки анимации
-	// Так же здесь будет обработано просто Игра карты и Игра карты при активном Pending
 }
 /**
  * Sets the focus card if nothing else was clicked
