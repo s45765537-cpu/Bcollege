@@ -6489,3 +6489,54 @@ ItemMouth3HorrorMuzzleSetRivets,SourceCharacter puts on DestinationCharacter mou
 GlassesRoundSunglassesSelect,Select a style:
 GlassesRoundSunglassesNormal,Behind hair
 GlassesRoundSunglassesOver,Over hair
+ItemMouthAsylumMuzzleSelect,Asylum Muzzle options:
+ItemMouthAsylumMuzzleNormal,Single layer
+ItemMouthAsylumMuzzlePadded,Plus padded layer
+ItemMouthAsylumMuzzleSetNormal,SourceCharacter removes padded layer under the DestinationCharacter Asylum Muzzle.
+ItemMouthAsylumMuzzleSetPadded,SourceCharacter adds a padded layer under the DestinationCharacter Asylum Muzzle.
+ItemMouth2AsylumMuzzleSelect,Asylum Muzzle options:
+ItemMouth2AsylumMuzzleNormal,Single layer
+ItemMouth2AsylumMuzzlePadded,Plus padded layer
+ItemMouth2AsylumMuzzleSetNormal,SourceCharacter removes padded layer under the DestinationCharacter Asylum Muzzle.
+ItemMouth2AsylumMuzzleSetPadded,SourceCharacter adds a padded layer under the DestinationCharacter Asylum Muzzle.
+ItemMouth3AsylumMuzzleSelect,Asylum Muzzle options:
+ItemMouth3AsylumMuzzleNormal,Single layer
+ItemMouth3AsylumMuzzlePadded,Plus padded layer
+ItemMouth3AsylumMuzzleSetNormal,SourceCharacter removes padded layer under the DestinationCharacter Asylum Muzzle.
+ItemMouth3AsylumMuzzleSetPadded,SourceCharacter adds a padded layer under the DestinationCharacter Asylum Muzzle.
+ItemHeadAsylumBlindfoldSelect,Asylum Blindfold options:
+ItemHeadAsylumBlindfoldNormal,Single layer
+ItemHeadAsylumBlindfoldPadded,Plus padded layer
+ItemHeadAsylumBlindfoldSetNormal,SourceCharacter removes padded layer under the DestinationCharacter Asylum Blindfold.
+ItemHeadAsylumBlindfoldSetPadded,SourceCharacter adds a padded layer under the DestinationCharacter Asylum Blindfold.
+ItemNeckAsylumCollarSelect,Asylum Blindfold options:
+ItemNeckAsylumCollarNormal,Single layer
+ItemNeckAsylumCollarPadded,Plus padded layer
+ItemNeckAsylumCollarSetNormal,SourceCharacter removes padded layer under the DestinationCharacter Asylum Collar.
+ItemNeckAsylumCollarSetPadded,SourceCharacter adds a padded layer under the DestinationCharacter Asylum Collar.
+ItemHandheldKyosensuSelect,Choose your Kyo-sensu paper art:
+ItemHandheldKyosensuType1,Cherry blossoms
+ItemHandheldKyosensuType2,Lightning bolt
+ItemHandheldKyosensuType3,Sun
+ItemHandheldKyosensuType4,Wave art
+ItemHandheldKyosensuType5,Moon
+ItemHandheldKyosensuType6,Flowers
+ItemItemHandheldKyosensuSetType1,SourceCharacter chooses a cherry blossooms art for DestinationCharacter Kyo-sensu fan.
+ItemItemHandheldKyosensuSetType2,SourceCharacter chooses a lightning bolt art for DestinationCharacter Kyo-sensu fan.
+ItemItemHandheldKyosensuSetType3,SourceCharacter chooses a sun art for DestinationCharacter Kyo-sensu fan.
+ItemItemHandheldKyosensuSetType4,SourceCharacter chooses a wave art for DestinationCharacter Kyo-sensu fan.
+ItemItemHandheldKyosensuSetType5,SourceCharacter chooses a moon art for DestinationCharacter Kyo-sensu fan.
+ItemItemHandheldKyosensuSetType6,SourceCharacter chooses a flowers art for DestinationCharacter Kyo-sensu fan.
+ItemHandheldUchiwaSelect,Choose your Uchiwa paper art:
+ItemHandheldUchiwaType1,Cherry blossoms
+ItemHandheldUchiwaType2,Lightning bolt
+ItemHandheldUchiwaType3,Sun
+ItemHandheldUchiwaType4,Wave art
+ItemHandheldUchiwaType5,Moon
+ItemHandheldUchiwaType6,Flowers
+ItemItemHandheldUchiwaSetType1,SourceCharacter chooses a cherry blossooms art for DestinationCharacter Uchiwa fan.
+ItemItemHandheldUchiwaSetType2,SourceCharacter chooses a lightning bolt art for DestinationCharacter Uchiwa fan.
+ItemItemHandheldUchiwaSetType3,SourceCharacter chooses a sun art for DestinationCharacter Uchiwa fan.
+ItemItemHandheldUchiwaSetType4,SourceCharacter chooses a wave art for DestinationCharacter Uchiwa fan.
+ItemItemHandheldUchiwaSetType5,SourceCharacter chooses a moon art for DestinationCharacter Uchiwa fan.
+ItemItemHandheldUchiwaSetType6,SourceCharacter chooses a flowers art for DestinationCharacter Uchiwa fan.

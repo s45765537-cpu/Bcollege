@@ -1163,6 +1163,12 @@ ItemHandheldBunPlushBase1,Base
 ItemHandheldBunPlushBase2,Accent
 ItemHandheldFoxPlushBase1,Base
 ItemHandheldFoxPlushBase2,Accent
+ItemHandheldKyosensuFan,Fan paper
+ItemHandheldKyosensuFan1,Fan paper 2nd color
+ItemHandheldKyosensuFan2,Fan paper 3rd color
+ItemHandheldKyosensuBase,Fan base
+ItemHandheldKyosensuDetail,Fan detail
+ItemHandheldKyosensuFanSurface,Fan folding
 ItemHandheldMugFluids,Fluids
 ItemHandheldMugMug,Mug
 ItemHandheldPopcornBag,Bag
@@ -1178,6 +1184,12 @@ ItemHandheldSmartphoneDots,Pattern
 ItemHandheldSmartphoneHearts,Pattern
 ItemHandheldSmartphonePhone,Phone
 ItemHandheldSmartphoneStripes,Pattern
+ItemHandheldUchiwaFan,Fan paper
+ItemHandheldUchiwaFan1,Fan paper 2nd color
+ItemHandheldUchiwaFan2,Fan paper 3rd color
+ItemHandheldUchiwaBase,Fan base
+ItemHandheldUchiwaEdge,Fan edge
+ItemHandheldUchiwaFanSurface,Fan inner rods
 ItemHandsElbowLengthMittensMain,Main
 ItemHandsElbowLengthMittensStraps,Straps
 ItemHandsElbowLengthMittensMetal,Metal
@@ -1236,6 +1248,10 @@ ItemHeadAnimeLensesLeftEyelids,Left Eyelids
 ItemHeadAnimeLensesLeftIris,Left Lens
 ItemHeadAnimeLensesRightEyelids,Right Eyelids
 ItemHeadAnimeLensesRightIris,Right Lens
+ItemHeadAsylumBlindfoldMain,Blindfold
+ItemHeadAsylumBlindfoldPad,Padded layer
+ItemHeadAsylumBlindfoldMetal,Metal
+ItemHeadAsylumBlindfoldLock,Padlocks
 ItemHeadBigMouthHoodCollar,Collar
 ItemHeadBigMouthHoodDetail,Detail
 ItemHeadBigMouthHoodEyes,Eyes
@@ -1508,6 +1524,10 @@ ItemMouth2AOMGagLips,Lips
 ItemMouth2AOMGagStraps,Straps
 ItemMouth2AOMGagMetalStraps,Metal straps
 ItemMouth2AOMGagLock,Padlocks
+ItemMouth2AsylumMuzzleMain,Muzzle
+ItemMouth2AsylumMuzzlePad,Padded layer
+ItemMouth2AsylumMuzzleMetal,Metal
+ItemMouth2AsylumMuzzleLock,Padlocks
 ItemMouth2BallGagBall,Ball
 ItemMouth2BallGagMaskBall,Ball
 ItemMouth2BallGagMaskStrap,Strap
@@ -1660,6 +1680,10 @@ ItemMouth3AOMGagLips,Lips
 ItemMouth3AOMGagStraps,Straps
 ItemMouth3AOMGagMetalStraps,Metal straps
 ItemMouth3AOMGagLock,Padlocks
+ItemMouth3AsylumMuzzleMain,Muzzle
+ItemMouth3AsylumMuzzlePad,Padded layer
+ItemMouth3AsylumMuzzleMetal,Metal
+ItemMouth3AsylumMuzzleLock,Padlocks
 ItemMouth3BallGagBall,Ball
 ItemMouth3BallGagMaskBall,Ball
 ItemMouth3BallGagMaskStrap,Strap
@@ -1806,6 +1830,10 @@ ItemMouthAOMGagLips,Lips
 ItemMouthAOMGagStraps,Straps
 ItemMouthAOMGagMetalStraps,Metal straps
 ItemMouthAOMGagLock,Padlocks
+ItemMouthAsylumMuzzleMain,Muzzle
+ItemMouthAsylumMuzzlePad,Padded layer
+ItemMouthAsylumMuzzleMetal,Metal
+ItemMouthAsylumMuzzleLock,Padlocks
 ItemMouthBallBase,Ball
 ItemMouthBallGagBall,Ball
 ItemMouthBallGagMaskBall,Ball
@@ -2009,6 +2037,10 @@ ItemNeckAccessoriesCustomCollarTagText,Text
 ItemNeckAccessoriesElectronicTagDisplay,Display
 ItemNeckAccessoriesElectronicTagTag,Tag
 ItemNeckAccessoriesElectronicTagText,Text
+ItemNeckAsylumCollarMain,Collar
+ItemNeckAsylumCollarPad,Padded layer
+ItemNeckAsylumCollarMetal,Metal
+ItemNeckAsylumCollarLock,Padlock
 ItemNeckBonedNeckCorsetBase,Base
 ItemNeckBonedNeckCorsetRing,Ring
 ItemNeckBonedNeckCorsetShine,Shine

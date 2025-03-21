@@ -4873,6 +4873,20 @@ var AssetFemale3DCGExtended = {
 			},
 			AllowEffect: [E.GagNormal, E.FixedHead],
 		}, // SlaveCollar
+		AsylumCollar: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "Normal",
+					Property: { Effect: [] },
+				},
+				{
+					Name: "Padded",
+					Property: { Effect: [E.FixedHead], Difficulty: 10 },
+				},
+			],
+		}, // AsylumCollar
 	}, // ItemNeck
 	ItemNeckAccessories: {
 		CustomCollarTag: {
@@ -9050,10 +9064,33 @@ var AssetFemale3DCGExtended = {
 							Property: {},
 						},
 						{
+							// Semi-Hood
+							Property: {
+								Effect: [E.BlockMouth],
+								Hide: ["HairFront","HairAccessory1"],
+							},
+						},
+						{
 							// Hood
 							Property: {
 								Effect: [E.BlockMouth],
 								Hide: ["HairFront", "HairBack", "HairAccessory1"],
+							},
+						},
+					],
+				},
+				{
+					Name: "Speech",
+					Key: "p",
+					Options: [
+						{
+							// Loose on mouth
+							Property: { Effect: [] },
+						},
+						{
+							// Tight on mouth
+							Property: {
+								Effect: [E.GagMedium],
 							},
 						},
 					],
@@ -14075,6 +14112,20 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // HorrorMuzzle
+		AsylumMuzzle: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "Normal",
+					Property: { Effect: [E.GagEasy] },
+				},
+				{
+					Name: "Padded",
+					Property: { Effect: [E.GagNormal], Difficulty: 3 },
+				},
+			],
+		}, // AsylumMuzzle
 	}, // ItemMouth
 	ItemMouth2: {
 		ClothGag: {
@@ -14254,6 +14305,10 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "HorrorMuzzle" },
 		}, // HorrorMuzzle
+		AsylumMuzzle: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "AsylumMuzzle" },
+		}, // AsylumMuzzle
 	}, // ItemMouth2
 	ItemMouth3: {
 		ClothGag: {
@@ -14429,6 +14484,10 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "HorrorMuzzle" },
 		}, // HorrorMuzzle
+		AsylumMuzzle: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "AsylumMuzzle" },
+		}, // AsylumMuzzle
 	}, // ItemMouth3
 	Mask: {
 		BunnyMask1: {
@@ -18889,6 +18948,20 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // Kigu2Hood
+		AsylumBlindfold: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "Normal",
+					Property: { Effect: [E.BlindLight] },
+				},
+				{
+					Name: "Padded",
+					Property: { Effect: [E.BlindNormal], Difficulty: 3 },
+				},
+			],
+		}, // AsylumBlindfold
 	}, // ItemHead
 	ItemHands: {
 		FuturisticMittens: {
@@ -19299,5 +19372,75 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // AnimeGirlWand
+		Kyosensu: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					// Cherry blossoms
+					Name: "Type1",
+					Property: {},
+				},
+				{
+					// Lightning bolt
+					Name: "Type2",
+					Property: {},
+				},
+				{
+					// Sun
+					Name: "Type3",
+					Property: {},
+				},
+				{
+					// Sea art
+					Name: "Type4",
+					Property: {},
+				},
+				{
+					// Moon
+					Name: "Type5",
+					Property: {},
+				},
+				{
+					// Flowers
+					Name: "Type6",
+					Property: {},
+				},
+			],
+		}, // Kyosensu
+		Uchiwa: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					// Cherry blossoms
+					Name: "Type1",
+					Property: {},
+				},
+				{
+					// Lightning bolt
+					Name: "Type2",
+					Property: {},
+				},
+				{
+					// Sun
+					Name: "Type3",
+					Property: {},
+				},
+				{
+					// Wave art
+					Name: "Type4",
+					Property: {},
+				},
+				{
+					// Moon
+					Name: "Type5",
+					Property: {},
+				},
+				{
+					// Flowers
+					Name: "Type6",
+					Property: {},
+				},
+			],
+		}, // Uchiwa
 	}, // ItemHandheld
 };

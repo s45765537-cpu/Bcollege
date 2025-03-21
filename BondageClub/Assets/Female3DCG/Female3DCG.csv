@@ -1007,6 +1007,7 @@ ItemHandheld,Hairbrush,Hairbrush
 ItemHandheld,HeartCrop,Heart Crop
 ItemHandheld,IceCube,Ice Cube
 ItemHandheld,KeyProp,Key
+ItemHandheld,Kyosensu,Kyo-sensu Fan
 ItemHandheld,LargeDildo,Large Dildo
 ItemHandheld,LongDuster,Long Duster
 ItemHandheld,LongSock,Long Sock
@@ -1040,6 +1041,7 @@ ItemHandheld,TennisRacket,Tennis Racket
 ItemHandheld,Toothbrush,Toothbrush
 ItemHandheld,Towel,Towel
 ItemHandheld,Trowel,Trowel
+ItemHandheld,Uchiwa,Uchiwa Fan
 ItemHandheld,VibeRemote,Vibrator Remote
 ItemHandheld,VibratingWand,Vibrating Wand
 ItemHandheld,Vibrator,Vibrator
@@ -1065,6 +1067,7 @@ ItemHands,PonyMittensBinder,Pony Mittens Binder
 ItemHands,SmoothLeatherMittens1,Short Smooth Leather Mittens
 ItemHead,,Eyes
 ItemHead,AnimeLenses,Anime Lenses
+ItemHead,AsylumBlindfold,Asylum Blindfold
 ItemHead,BlackoutLenses,Blackout Lenses
 ItemHead,ClothBlindfold,Cloth Blindfold
 ItemHead,DroneMask,Smooth Latex Mask
@@ -1221,6 +1224,7 @@ ItemMisc,WoodenPaddle,Wooden Paddle
 ItemMisc,WoodenSign,Wooden Sign
 ItemMouth,,Mouth
 ItemMouth,AOMGag,Always Open Mouth Gag
+ItemMouth,AsylumMuzzle,Asylum Muzzle
 ItemMouth,Ball,Tennis Ball
 ItemMouth,BallGag,Ball Gag
 ItemMouth,BallGagMask,Ball Gag Mask
@@ -1319,6 +1323,7 @@ ItemMouth,XmasStickerGag,XMas Sticker Gag
 ItemMouth2,,Mouth
 ItemMouth3,,Mouth
 ItemNeck,,Neck
+ItemNeck,AsylumCollar,Asylum Collar
 ItemNeck,AutoShockCollar,Automatic Shock Collar
 ItemNeck,BatCollar,Bat Collar
 ItemNeck,BonedNeckCorset,Boned Neck Corset
