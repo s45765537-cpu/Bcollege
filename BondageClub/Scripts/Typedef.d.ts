@@ -300,19 +300,21 @@ declare namespace DialogMenu {
 	}
 
 	/** Internal {@link DialogMenu.Reload} parameters for dialog subscreens without a focus group */
-	interface ReloadParam {
+	interface ReloadParam<T extends InitProperties> {
 		root: HTMLElement;
-		C: Character;
-		currentC: Character;
+		newProperties: T;
+		oldProperties: T;
 		textCache: TextCache;
-		focusGroup?: AssetItemGroup;
-		currentFocusGroup?: AssetItemGroup;
 	}
 
-	/** Internal {@link DialogMenu.Reload} parameters for dialog subscreens with a focus group */
-	interface ReloadFocusParam extends ReloadParam {
-		focusGroup: AssetItemGroup;
-		currentFocusGroup: AssetItemGroup;
+	/**
+	 * All valid init properties that a {@link DialogMenu} subclass may choose to implement.
+	 *
+	 * Init properties represent a set of {@link DialogMenu.Init}-initialized properties which are exclusively active during the matching screen's lifetime.
+	 */
+	interface InitProperties {
+		C: Character;
+		focusGroup?: AssetGroup;
 	}
 }
 

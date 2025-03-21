@@ -818,7 +818,7 @@ function CharacterBuildDialog(C, CSV, functionPrefix, reload=true) {
 	}
 
 	if (reload && DialogMenuMode === "dialog") {
-		DialogMenuMapping.dialog.Reload(null, null, { reset: true });
+		DialogMenuMapping.dialog.Reload(null, { reset: true });
 	}
 }
 
