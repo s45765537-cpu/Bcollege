@@ -189,7 +189,7 @@ function PreferenceSubscreenNotificationsExit() {
 	// If any of the settings now have audio enabled, enable the AudioSettings setting as well
 	let enableAudio = false;
 	for (const setting in Player.NotificationSettings) {
-		let audio = Player.NotificationSettings[setting].Audio;
+		let audio = Player.NotificationSettings[setting]?.Audio;
 		if (typeof audio === 'number' && audio > 0) enableAudio = true;
 	}
 	if (enableAudio) Player.AudioSettings.Notifications = true;
