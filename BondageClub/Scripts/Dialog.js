@@ -113,7 +113,10 @@ var DialogSortOrder = /** @type {const} */({
 	Unusable: 9,
 	Blocked: 10
 });
-/** @type {null | DialogSelfMenuOptionType} */
+/**
+ * The currently active self-menu.
+ * @type {null | DialogSelfMenuName}
+ */
 var DialogSelfMenuSelected = null;
 var DialogLeaveDueToItem = false; // This allows dynamic items to call DialogLeave() without crashing the game
 var DialogLentLockpicks = false;
@@ -174,16 +177,16 @@ var DialogFavoriteStateDetails = [
 ];
 
 /**
- * The list of menu types available when clicking on yourself
- * @type {readonly DialogSelfMenuOptionType[]}
+ * The list of self-menu types available when clicking on yourself.
+ *
+ * The order of items in this list represents the menu iteration order as honored by the "view next page" spin button.
+ * @type {readonly DialogSelfMenuName[]}
  */
 var DialogSelfMenuOptions = [
-	{
-		Name: "OwnerRules",
-		IsAvailable: () => false,
-		Draw: () => DialogDrawOwnerRulesMenu(),
-		Click: () => { },
-	},
+	"Expression",
+	"Pose",
+	"SavedExpressions",
+	"OwnerRules",
 ];
 
 /**
@@ -777,9 +780,6 @@ function DialogLeave() {
 
 	// Reset the mode, selected group & character, exiting the dialog
 	DialogMenuMode = null;
-	DialogSidePanelMapping.expression.Exit();
-	DialogSidePanelMapping.expressionPreset.Exit();
-	DialogSidePanelMapping.pose.Exit();
 	Object.values(DialogMenuMapping).forEach(obj => obj.Exit());
 
 	// Stop sounds & expressions from struggling/swapping items
@@ -800,6 +800,7 @@ function DialogLeave() {
 
 	// Reset the state of the self menu
 	DialogSelfMenuSelected = null;
+	Object.values(DialogSelfMenuMapping).forEach(obj => obj.Exit());
 
 	// Go controller, go!
 	ControllerClearAreas();
@@ -2226,11 +2227,6 @@ function DialogClick(event) {
 		}
 	}
 
-	// If the user clicked in the facial expression menu
-	if (MouseXIn(0, 500) && CurrentCharacter != null) {
-		DialogSelfMenuClick(CurrentCharacter);
-	}
-
 	// Block out clicking on anything else if we're not supposed to interact with the selected character
 	if (C.FocusGroup === null || !C.AllowItem) return;
 
@@ -2291,9 +2287,7 @@ function DialogResize(load) {
 			return;
 	}
 
-	DialogSidePanelMapping.expression.Resize(load);
-	DialogSidePanelMapping.pose.Resize(load);
-	DialogSidePanelMapping.expressionPreset.Resize(load);
+	DialogSelfMenuMapping[DialogSelfMenuSelected].Resize(load);
 	DialogMenuMapping[DialogMenuMode]?.Resize(load);
 }
 
@@ -2339,42 +2333,34 @@ function DialogGetCharacterZone(C, Zone, X, Y, Zoom, HeightRatio) {
  * @returns {void} - Nothing
  */
 function DialogFindNextSubMenu() {
-	var CurrentIndex = DialogSelfMenuOptions.indexOf(DialogSelfMenuSelected);
-	if (CurrentIndex == -1) CurrentIndex = 0;
+	const options = DialogSelfMenuOptions.filter(i => DialogSelfMenuMapping[i].IsAvailable(Player));
+	const currentIndex = options.indexOf(DialogSelfMenuSelected);
+	const newMenuName = currentIndex === -1 ? options[0] : options[(1 + currentIndex) % options.length];
 
-	var NextIndex = CurrentIndex + 1 == DialogSelfMenuOptions.length ? 0 : CurrentIndex + 1;
-
-	for (let SM = NextIndex; SM < DialogSelfMenuOptions.length; SM++) {
-		if (DialogSelfMenuOptions[SM].IsAvailable()) {
-			if (DialogSelfMenuOptions[SM].Load)
-				DialogSelfMenuOptions[SM].Load();
-			DialogSelfMenuSelected = DialogSelfMenuOptions[SM];
-			return;
-		}
-		if (SM + 1 == DialogSelfMenuOptions.length) SM = -1;
-	}
+	/** @type {undefined | _DialogSelfMenu} */
+	const dialogMenu = DialogSelfMenuMapping[newMenuName];
+	dialogMenu?.Init({ C: Player });
 }
 
 /**
  * Finds and set an available character sub menu.
- * @param {string} MenuName - The name of the sub menu, see DialogSelfMenuOptions.
+ * @param {DialogSelfMenuName} MenuName - The name of the sub menu, see DialogSelfMenuOptions.
  * @param {boolean} force - Whether to check availability of the menu first.
  * @returns {boolean} - True, when the sub menu is found and available and was switched to. False otherwise and nothing happened.
  */
 function DialogFindSubMenu(MenuName, force=false) {
-	for (let MenuIndex = 0; MenuIndex < DialogSelfMenuOptions.length; MenuIndex++) {
-		let MenuOption = DialogSelfMenuOptions[MenuIndex];
-		if (MenuOption.Name == MenuName) {
-			if (force || MenuOption.IsAvailable()) {
-				if (MenuOption.Load)
-					MenuOption.Load();
-				DialogSelfMenuSelected = MenuOption;
-				return true;
-			}
-			return false;
-		}
+	/** @type {undefined | _DialogSelfMenu} */
+	const dialogMenu = DialogSelfMenuMapping[MenuName];
+	if (!dialogMenu) {
+		return false;
 	}
-	return false;
+
+	if (force || dialogMenu.IsAvailable(Player)) {
+		dialogMenu.Init({ C: Player });
+		return true;
+	} else {
+		return false;
+	}
 }
 
 /**
@@ -4244,10 +4230,34 @@ class _DialogDialogMenu extends DialogMenu {
 }
 
 /**
- * @template {string} ModeType
- * @extends {DialogMenu<ModeType, ExpressionItem2, { C: Character }>}
+ * @template {DialogSelfMenuName} ModeType
+ * @template T
+ * @extends {DialogMenu<ModeType, T, { C: Character }>}
  */
-class _DialogExpressionMenu extends DialogMenu {
+class _DialogSelfMenu extends DialogMenu {
+	/** @type {DialogMenu<ModeType, T, { C: Character }>["Init"]} */
+	Init(parameters, style) {
+		DialogSelfMenuMapping[DialogSelfMenuSelected]?.Unload();
+		DialogSelfMenuSelected = this.mode;
+		const ret = super.Init(parameters, style);
+		this.Resize(true);
+		return ret;
+	}
+
+	/**
+	 * Whether this self-menu is accessible via the "view next page" button.
+	 * @param {Character} C
+	 */
+	IsAvailable(C) {
+		return true;
+	}
+}
+
+/**
+ * @template {DialogSelfMenuName} ModeType
+ * @extends {_DialogSelfMenu<ModeType, ExpressionItem2>}
+ */
+class _DialogExpressionMenu extends _DialogSelfMenu {
 	ids = Object.freeze({
 		root: "dialog-expression",
 		status: "dialog-expression-status",
@@ -4334,24 +4344,14 @@ class _DialogExpressionMenu extends DialogMenu {
 
 			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
 			blindnessClick: function(ev) {
-				let level = Number.parseInt(this.getAttribute("aria-valuenow"), 10);
-				level = Number.isNaN(level) ? 1 : level + 1;
-				if (level > 3 || level < 1) {
-					level = 1;
-				}
-
+				const level = Number.parseInt(this.getAttribute("aria-valuenow"), 10);
 				DialogFacialExpressionsSelectedBlindnessLevel = level;
-				this.setAttribute("aria-valuenow", level);
 				this.querySelector(".button-image")?.setAttribute("src", `Icons/BlindToggle${level}.png`);
 			},
 
 			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
 			blinkClick: function(ev) {
-				let level = Number.parseInt(this.getAttribute("aria-valuenow"), 10);
-				level = Number.isNaN(level) ? 1 : level + 1;
-				if (level > 4 || level < 1) {
-					level = 1;
-				}
+				const level = Number.parseInt(this.getAttribute("aria-valuenow"), 10);
 
 				/** @type {string} */
 				let text;
@@ -4375,8 +4375,6 @@ class _DialogExpressionMenu extends DialogMenu {
 						CharacterSetFacialExpression(Player, "Eyes2", null, null);
 						break;
 				}
-
-				this.setAttribute("aria-valuenow", level);
 				this.setAttribute("aria-valuetext", text);
 				this.querySelector(".button-image")?.setAttribute("src", `Icons/Wink${text}.png`);
 			},
@@ -4402,14 +4400,6 @@ class _DialogExpressionMenu extends DialogMenu {
 					}
 				});
 			},
-
-			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
-			nextPageClick: function(ev) {
-				const prev = document.getElementById(dialogMenu.ids.root);
-				const next = document.getElementById(DialogSidePanelMapping.pose.ids.root);
-				prev?.toggleAttribute("data-unload", true);
-				next?.toggleAttribute("data-unload", false);
-			},
 		};
 	}
 
@@ -4432,7 +4422,7 @@ class _DialogExpressionMenu extends DialogMenu {
 					[
 						ElementButton.Create(
 							`${ids.menubar}-next`,
-							this.eventListeners.nextPageClick,
+							DialogFindNextSubMenu,
 							{ tooltip: InterfaceTextGet("NextPage"), tooltipPosition: "right", image: "Icons/Next.png" },
 							{ button: { attributes: { name: "next" }, classList: ["dialog-menubar-button"] } },
 						),
@@ -4445,7 +4435,7 @@ class _DialogExpressionMenu extends DialogMenu {
 						ElementButton.Create(
 							`${ids.menubar}-blindness`,
 							this.eventListeners.blindnessClick,
-							{ tooltip: InterfaceTextGet("BlindToggleFacialExpressions"), tooltipPosition: "right", image: "Icons/BlindToggle1.png" },
+							{ tooltip: InterfaceTextGet("BlindToggleFacialExpressions"), tooltipPosition: "right", image: "Icons/BlindToggle1.png", role: "spinbutton" },
 							{ button: {
 								attributes: { name: "blindness", "aria-valuenow": 1, "aria-valuemin": 1, "aria-valuemax": 3 },
 								classList: ["dialog-menubar-button"],
@@ -4454,7 +4444,7 @@ class _DialogExpressionMenu extends DialogMenu {
 						ElementButton.Create(
 							`${ids.menubar}-blink`,
 							this.eventListeners.blinkClick,
-							{ tooltip: InterfaceTextGet("WinkFacialExpressions"), tooltipPosition: "right", image: "Icons/WinkNone.png" },
+							{ tooltip: InterfaceTextGet("WinkFacialExpressions"), tooltipPosition: "right", image: "Icons/WinkNone.png", role: "spinbutton" },
 							{ button: {
 								attributes: { name: "blink", "aria-valuenow": 1, "aria-valuetext": "None", "aria-valuemin": 1, "aria-valuemax": 4 },
 								classList: ["dialog-menubar-button"],
@@ -4618,10 +4608,10 @@ class _DialogExpressionMenu extends DialogMenu {
 }
 
 /**
- * @template {string} ModeType
- * @extends {DialogMenu<ModeType, Pose, { C: Character }>}
+ * @template {DialogSelfMenuName} ModeType
+ * @extends {_DialogSelfMenu<ModeType, Pose>}
  */
-class _DialogPoseMenu extends DialogMenu {
+class _DialogPoseMenu extends _DialogSelfMenu {
 	ids = Object.freeze({
 		root: "dialog-pose",
 		status: "dialog-pose-status",
@@ -4679,17 +4669,8 @@ class _DialogPoseMenu extends DialogMenu {
 	 */
 	constructor(mode) {
 		super(mode);
-		const dialogMenu = this;
 		this.eventListeners = {
 			...this.eventListeners,
-
-			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
-			nextPageClick: function(ev) {
-				const prev = document.getElementById(dialogMenu.ids.root);
-				const next = document.getElementById(DialogSidePanelMapping.expressionPreset.ids.root);
-				prev?.toggleAttribute("data-unload", true);
-				next?.toggleAttribute("data-unload", false);
-			},
 
 			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
 			_clickPoseMutuallyExclusive: function(ev) {
@@ -4742,7 +4723,7 @@ class _DialogPoseMenu extends DialogMenu {
 					[
 						ElementButton.Create(
 							`${ids.menubar}-next`,
-							this.eventListeners.nextPageClick,
+							DialogFindNextSubMenu,
 							{ tooltip: InterfaceTextGet("NextPage"), tooltipPosition: "right", image: "Icons/Next.png" },
 							{ button: { attributes: { name: "next" }, classList: ["dialog-menubar-button"] } },
 						),
@@ -4878,10 +4859,10 @@ class _DialogPoseMenu extends DialogMenu {
 }
 
 /**
- * @template {string} ModeType
- * @extends {DialogMenu<ModeType, number, { C: Character }>}
+ * @template {DialogSelfMenuName} ModeType
+ * @extends {_DialogSelfMenu<ModeType, number>}
  */
-class _DialogExpressionSaveMenu extends DialogMenu {
+class _DialogSavedExpressionsMenu extends _DialogSelfMenu {
 	ids = Object.freeze({
 		root: "dialog-expression-preset",
 		status: "dialog-expression-preset-status",
@@ -4914,25 +4895,6 @@ class _DialogExpressionSaveMenu extends DialogMenu {
 		} else {
 			return this._expressionPreviews;
 		}
-	}
-
-	/**
-	 * @param {ModeType} mode The name of the mode associated with this instance
-	 */
-	constructor(mode) {
-		super(mode);
-		const dialogMenu = this;
-		this.eventListeners = {
-			...this.eventListeners,
-
-			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
-			nextPageClick: function(ev) {
-				const prev = document.getElementById(dialogMenu.ids.root);
-				const next = document.getElementById(DialogSidePanelMapping.expression.ids.root);
-				prev?.toggleAttribute("data-unload", true);
-				next?.toggleAttribute("data-unload", false);
-			},
-		};
 	}
 
 	Draw() {
@@ -4981,7 +4943,7 @@ class _DialogExpressionSaveMenu extends DialogMenu {
 					[
 						ElementButton.Create(
 							`${ids.menubar}-next`,
-							this.eventListeners.nextPageClick,
+							DialogFindNextSubMenu,
 							{ tooltip: InterfaceTextGet("NextPage"), tooltipPosition: "right", image: "Icons/Next.png" },
 							{ button: { attributes: { name: "next" }, classList: ["dialog-menubar-button"] } },
 						),
@@ -5069,6 +5031,126 @@ class _DialogExpressionSaveMenu extends DialogMenu {
 	}
 }
 
+/**
+ * @template {DialogSelfMenuName} ModeType
+ * @extends {_DialogSelfMenu<ModeType, null>}
+ */
+class _DialogOwnerRulesMenu extends _DialogSelfMenu {
+	ids = Object.freeze({
+		root: "dialog-owner-rules",
+		status: "dialog-owner-rules-status",
+		menubar: "dialog-owner-rules-menubar",
+		grid: "dialog-owner-rules-grid",
+		empty: "dialog-owner-rules-empty",
+	});
+
+	defaultShape = Object.freeze(/** @type {const} */([15, 15, 500, 940]));
+
+	_initPropertyNames = /** @type {const} */(["C"]);
+
+	/** @type {DialogMenu<ModeType, number>["clickStatusCallbacks"]} */
+	clickStatusCallbacks = {};
+
+	/** @type {_DialogSelfMenu["IsAvailable"]} */
+	IsAvailable(C) {
+		return !!C.IsOwned() || C.Lovership.length !== 0;
+	}
+
+	_Load() {
+		const ids = this.ids;
+		return document.getElementById(ids.root) ?? ElementCreate({
+			tag: "div",
+			attributes: { id: ids.root, "aria-labelledby": ids.status },
+			parent: document.body,
+			classList: ["dialog-root"],
+			children: [
+				{
+					tag: "span",
+					attributes: { id: ids.status },
+					classList: ["dialog-status", "scroll-box"],
+				},
+				ElementMenu.Create(
+					ids.menubar,
+					[
+						ElementButton.Create(
+							`${ids.menubar}-next`,
+							DialogFindNextSubMenu,
+							{ tooltip: InterfaceTextGet("NextPage"), tooltipPosition: "right", image: "Icons/Next.png" },
+							{ button: { attributes: { name: "next" }, classList: ["dialog-menubar-button"] } },
+						),
+					],
+					{ direction: "rtl" },
+				),
+				{
+					tag: "ul",
+					attributes: { id: ids.grid },
+					classList: ["dialog-grid", "scroll-box"],
+				},
+			],
+		});
+	}
+
+	/** @type {DialogMenu["_ReloadStatus"]} */
+	_ReloadStatus(root, span, parameters, options) {
+		const textContent = options.status ?? InterfaceTextGet("RulesMenu");
+		DialogSetStatus(textContent, options.statusTimer ?? 0, null, this.ids.status);
+	}
+
+	/** @type {DialogMenu["_ReloadButtonGrid"]} */
+	_ReloadButtonGrid(root, buttonGrid, parameters, options) {
+		/** @type {[name: LogNameType[LogGroupType], group: LogGroupType, logValue?: boolean][]} */
+		const rules = [
+			["BlockOwnerLockSelf", "OwnerRule"],
+			["BlockChange", "OwnerRule", true],
+			["BlockWhisper", "OwnerRule"],
+			["BlockKey", "OwnerRule"],
+			["BlockFamilyKey", "OwnerRule"],
+			["BlockRemote", "OwnerRule"],
+			["BlockRemoteSelf", "OwnerRule"],
+			["ReleasedCollar", "OwnerRule"],
+			["BlockNickname", "OwnerRule"],
+			["BlockLoverLockSelf", "LoverRule"],
+			["BlockLoverLockOwner", "LoverRule"],
+		];
+
+		const children = rules.map(([name, group, logValue]) => {
+			if (false) {
+				return null;
+			} else {
+				return ElementCreate({
+					tag: "li",
+					dataAttributes: { name, group },
+					children: [
+						InterfaceTextGet(`RulesMenu${name}`),
+						(logValue ? ` ${TimerToString(LogValue(name, group) - CurrentTime)}` : null),
+					],
+				});
+			}
+		}).filter(Boolean);
+		if (!children.length) {
+			children.push(ElementCreate({
+				tag: "li",
+				children: [InterfaceTextGet("RulesMenuEmpty")],
+			}));
+		}
+
+		buttonGrid.replaceChildren(...children);
+	}
+
+	/** @type {DialogMenu["_ReloadIcon"]} */
+	_ReloadIcon(root, icon, parameters, options) { /** noop */ }
+
+	/** @type {DialogMenu["_ReloadMenubar"]} */
+	_ReloadMenubar(root, menubar, parameters, options) { /** noop */ }
+
+	/** @type {DialogMenu<string, null>["_GetClickedObject"]} */
+	_GetClickedObject(button) { return null; /** noop */ }
+
+	/** @type {DialogMenu<string, null>["_ClickButton"]} */
+	_ClickButton(button, C, expressionSlot) { /** noop */ }
+}
+
+
 /** @satisfies {Partial<Record<DialogMenuMode, DialogMenu<DialogMenuMode>>>} */
 var DialogMenuMapping = /** @type {const} */({
 	activities: new _DialogActivitiesMenu("activities"),
@@ -5080,11 +5162,12 @@ var DialogMenuMapping = /** @type {const} */({
 	permissions: new _DialogPermissionMenu("permissions"),
 });
 
-/** @satisfies {Record<string, DialogMenu>} */
-var DialogSidePanelMapping = /** @type {const} */({
-	expression: new _DialogExpressionMenu("expression"),
-	pose: new _DialogPoseMenu("pose"),
-	expressionPreset: new _DialogExpressionSaveMenu("expressionPreset"),
+/** @satisfies {Record<DialogSelfMenuName, _DialogSelfMenu>} */
+var DialogSelfMenuMapping = /** @type {const} */({
+	Expression: new _DialogExpressionMenu("Expression"),
+	Pose: new _DialogPoseMenu("Pose"),
+	SavedExpressions: new _DialogSavedExpressionsMenu("SavedExpressions"),
+	OwnerRules: new _DialogOwnerRulesMenu("OwnerRules"),
 });
 
 /**
@@ -5247,26 +5330,6 @@ var DialogFocusGroup = {
 };
 
 /**
- * Draws the left menu for the character
- * @param {Character} C - The currently focused character
- */
-function DialogSelfMenuDraw(C) {
-	if (!C.IsPlayer()) return;
-
-	DialogSelfMenuSelected?.Draw();
-}
-
-/**
- * Handles clicks on the left menu
- * @param {Character} C - The currently focused character
- */
-function DialogSelfMenuClick(C) {
-	if (!C.IsPlayer()) return;
-
-	DialogSelfMenuSelected?.Click();
-}
-
-/**
  * Load function for starting the Dialog subscreen.
  * @type {ScreenFunctions["Load"]}
  */
@@ -5281,9 +5344,7 @@ function DialogLoad() {
 		C._CurrentDialog = newDialog;
 	}
 
-	DialogSidePanelMapping.expression.Init({ C });
-	DialogSidePanelMapping.pose.Init({ C })?.toggleAttribute("data-unload", true);
-	DialogSidePanelMapping.expressionPreset.Init({ C })?.toggleAttribute("data-unload", true);
+	DialogSelfMenuMapping.Expression.Init({ C });
 	DialogChangeMode(DialogMenuMode ?? "dialog", true);
 }
 
@@ -5320,8 +5381,6 @@ function DialogDraw() {
 	// can cause the dialog to close (like the Futuristic Training Belt)
 	if (!C) return;
 	CharacterCheckHooks(C, true);
-
-	DialogSelfMenuDraw(C);
 
 	// Block out drawing anything else if we're not supposed to interact with the selected character
 	if (
@@ -5402,7 +5461,7 @@ function DialogDraw() {
 	DialogDrawRepositionButton();
 
 	DialogMenuMapping[DialogMenuMode]?.Draw();
-	DialogSidePanelMapping.expressionPreset.Draw();
+	DialogSelfMenuMapping[DialogSelfMenuSelected]?.Draw();
 }
 
 /**
@@ -5411,37 +5470,6 @@ function DialogDraw() {
  */
 function DialogViewOwnerRules() {
 	DialogFindSubMenu("OwnerRules", true);
-}
-
-/**
- * Draws the rules sub menu
- * @returns {void} - Nothing
- */
-function DialogDrawOwnerRulesMenu() {
-	// Draw the pose groups
-	DrawText(InterfaceTextGet("RulesMenu"), 230, 100, "White", "Black");
-
-	/** @type {{Tag: string, Value?: number}[]} */
-	const ToDisplay = [];
-
-	if (LogQuery("BlockOwnerLockSelf", "OwnerRule")) ToDisplay.push({ Tag: "BlockOwnerLockSelf" });
-	if (LogQuery("BlockChange", "OwnerRule")) ToDisplay.push({ Tag: "BlockChange", Value: LogValue("BlockChange", "OwnerRule") });
-	if (LogQuery("BlockWhisper", "OwnerRule")) ToDisplay.push({ Tag: "BlockWhisper" });
-	if (LogQuery("BlockKey", "OwnerRule")) ToDisplay.push({ Tag: "BlockKey" });
-	if (LogQuery("BlockFamilyKey", "OwnerRule")) ToDisplay.push({ Tag: "BlockFamilyKey" });
-	if (LogQuery("BlockRemote", "OwnerRule")) ToDisplay.push({ Tag: "BlockRemote" });
-	if (LogQuery("BlockRemoteSelf", "OwnerRule")) ToDisplay.push({ Tag: "BlockRemoteSelf" });
-	if (LogQuery("ReleasedCollar", "OwnerRule")) ToDisplay.push({ Tag: "ReleasedCollar" });
-	if (LogQuery("BlockNickname", "OwnerRule")) ToDisplay.push({ Tag: "BlockNickname" });
-	if (LogQuery("BlockLoverLockSelf", "LoverRule")) ToDisplay.push({ Tag: "BlockLoverLockSelf" });
-	if (LogQuery("BlockLoverLockOwner", "LoverRule")) ToDisplay.push({ Tag: "BlockLoverLockOwner" });
-	if (ToDisplay.length == 0) ToDisplay.push({ Tag: "Empty" });
-
-	for (const [i, { Tag, Value }] of ToDisplay.entries()) {
-		const Y = 180 + 110 * i;
-		const TextToDraw = InterfaceTextGet(`RulesMenu${Tag}`) + (Value ? ` ${TimerToString(Value - CurrentTime)}` : "");
-		DrawTextWrap(TextToDraw, 25, Y, 485, 95, "#fff", undefined, 2);
-	}
 }
 
 /**

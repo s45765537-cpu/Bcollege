@@ -4291,13 +4291,7 @@ interface DialogInventoryItem extends Item {
 	Vibrating: boolean;
 }
 
-interface DialogSelfMenuOptionType {
-	Name: string;
-	IsAvailable: () => boolean;
-	Load?: () => void;
-	Draw: () => void;
-	Click: () => void;
-}
+type DialogSelfMenuName = "Expression" | "Pose" | "SavedExpressions" | "OwnerRules";
 
 // #end region
 

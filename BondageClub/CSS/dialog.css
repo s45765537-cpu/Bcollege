@@ -360,25 +360,29 @@
 
 #dialog-expression,
 #dialog-pose,
-#dialog-expression-preset {
+#dialog-expression-preset,
+#dialog-owner-rules {
 	gap: 0 var(--gap);
 }
 
 #dialog-pose > .dialog-grid,
-#dialog-expression-preset > .dialog-grid {
+#dialog-expression-preset > .dialog-grid,
+#dialog-owner-rules > .dialog-grid {
 	width: min-content;
 	padding-right: var(--scrollbar-gutter);
 }
 
 #dialog-expression > .dialog-status,
 #dialog-pose > .dialog-status,
-#dialog-expression-preset > .dialog-status {
+#dialog-expression-preset > .dialog-status,
+#dialog-owner-rules > .dialog-status {
 	padding-bottom: var(--gap);
 }
 
 #dialog-expression-menubar,
 #dialog-pose-menubar,
-#dialog-expression-preset-menubar  {
+#dialog-expression-preset-menubar,
+#dialog-owner-rules-menubar {
 	min-width: calc(5 * var(--menu-button-size) + 2 * var(--gap));
 	grid-area: dialog-menubar;
 	display: grid;
@@ -490,6 +494,25 @@
 	min-height: min(20dvh, 10dvw, 200px) !important;
 	min-width: min(20dvh, 10dvw, 200px) !important;
 	position: static;
+}
+
+#dialog-owner-rules {
+	grid-template:
+		"dialog-menubar dialog-menubar" var(--menu-button-size)
+		"dialog-status dialog-status" min-content
+		"dialog-grid dialog-grid" auto / var(--menu-button-size) min-content;
+}
+
+#dialog-owner-rules-grid {
+	width: 100% !important;
+	display: block;
+	color: white;
+	margin-block: unset;
+	user-select: none;
+}
+
+#dialog-owner-rules-grid > li {
+	text-indent: 1em hanging each-line;
 }
 
 @supports(height: 100dvh) {
