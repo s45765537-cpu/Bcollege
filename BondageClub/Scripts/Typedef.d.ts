@@ -1359,6 +1359,7 @@ type InventoryIcon = (
 	| "FamilyOnly"
 	| "OwnerOnly"
 	| "Unlocked"
+	| "Blocked"
 	| AssetLockType
 	| ShopIcon
 );

@@ -302,11 +302,12 @@ PrerequisiteUnZipSuitForItem,Unzip the suit first.
 PrettyArrayJoin,", "
 PrettyArrayJoinFinal,", and "
 PrevExpressions,View previous expressions
-PreviewIconAllowedLimited,Allowed Limited Item
+PreviewIconAllowedLimited,Allowed limited item
 PreviewIconBlindHeavy,Heavily blinds
 PreviewIconBlindLight,Lightly blinds
 PreviewIconBlindNormal,Blinds
 PreviewIconBlock,Restrains hands
+PreviewIconBlocked,Blocked item
 PreviewIconBuyGroup,Buygroup member
 PreviewIconDeafHeavy,Heavily deafens
 PreviewIconDeafLight,Lightly deafens
