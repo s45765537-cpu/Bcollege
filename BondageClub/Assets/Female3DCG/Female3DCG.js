@@ -17386,36 +17386,6 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
-			{
-				Name: "AsylumBlindfold",
-				InventoryID: 1223,
-				BuyGroup: "AsylumMuzzle",
-				Top: 25,
-				Value: -1,
-				Difficulty: 3,
-				Time: 10,
-				DefaultColor: ["#BFBFB1", "#95866D", "#A0A0A0", "#877C66"],
-				Extended: true,
-				Random: true,
-				AllowLock: true,
-				AllowTighten: true,
-				DrawLocks: false,
-				Audio: "Buckle",
-				Hide: ["Glasses"],
-				ExpressionTrigger: [ { Name: "Soft", Group: "Eyebrows", Timer: 15 },{ Name: "Shy", Group: "Eyes", Timer: 15 } ],
-				Layer: [
-					{ Name: "Main", Priority: 35, AllowColorize: true },
-					{
-						Name: "Pad",
-						Priority: 34,
-						CreateLayerTypes: ["typed"],
-						AllowTypes: { typed: 1 },
-						AllowColorize: true,
-					},
-					{ Name: "Metal", Priority: 35, AllowColorize: true },
-					{ Name: "Lock", Priority: 35, LockLayer: true, AllowColorize: true },
-				],
-			},
 		],
 		Color: [
 			"Default",
@@ -38081,7 +38051,10 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DrawLocks: false,
 				Audio: "Buckle",
-				ExpressionTrigger: [ { Name: "Soft", Group: "Eyebrows", Timer: 15 },{ Name: "Shy", Group: "Eyes", Timer: 15 } ],
+				ExpressionTrigger: [
+					{ Name: "Soft", Group: "Eyebrows", Timer: 15 },
+					{ Name: "Shy", Group: "Eyes", Timer: 15 },
+				],
 				Layer: [
 					{ Name: "Main", Priority: 35, AllowColorize: true },
 					{
@@ -41813,7 +41786,10 @@ var AssetFemale3DCG = [
 				Effect: [E.BlockMouth],
 				Prerequisite: ["GagFlat"],
 				Hide: ["ItemNose"],
-				ExpressionTrigger: [ { Name: "Soft", Group: "Eyebrows", Timer: 15 },{ Name: "Shy", Group: "Eyes", Timer: 15 } ],
+				ExpressionTrigger: [
+					{ Name: "Soft", Group: "Eyebrows", Timer: 15 },
+					{ Name: "Shy", Group: "Eyes", Timer: 15 },
+				],
 				Layer: [
 					{ Name: "Main", Priority: 38, AllowColorize: true },
 					{
@@ -45775,7 +45751,10 @@ var AssetFemale3DCG = [
 				Effect: [E.BlockMouth],
 				Prerequisite: ["GagFlat"],
 				Hide: ["ItemNose"],
-				ExpressionTrigger: [ { Name: "Soft", Group: "Eyebrows", Timer: 15 },{ Name: "Shy", Group: "Eyes", Timer: 15 } ],
+				ExpressionTrigger: [
+					{ Name: "Soft", Group: "Eyebrows", Timer: 15 },
+					{ Name: "Shy", Group: "Eyes", Timer: 15 },
+				],
 				Layer: [
 					{ Name: "Main", Priority: 39, AllowColorize: true },
 					{
@@ -47020,6 +46999,39 @@ var AssetFemale3DCG = [
 						Name: "Lips",
 						AllowColorize: true,
 					},
+				],
+			},
+			{
+				Name: "AsylumBlindfold",
+				InventoryID: 1223,
+				BuyGroup: "AsylumMuzzle",
+				Top: 25,
+				Value: -1,
+				Difficulty: 3,
+				Time: 10,
+				DefaultColor: ["#BFBFB1", "#95866D", "#A0A0A0", "#877C66"],
+				Extended: true,
+				Random: true,
+				AllowLock: true,
+				AllowTighten: true,
+				DrawLocks: false,
+				Audio: "Buckle",
+				Hide: ["Glasses"],
+				ExpressionTrigger: [
+					{ Name: "Soft", Group: "Eyebrows", Timer: 15 },
+					{ Name: "Shy", Group: "Eyes", Timer: 15 },
+				],
+				Layer: [
+					{ Name: "Main", Priority: 35, AllowColorize: true },
+					{
+						Name: "Pad",
+						Priority: 34,
+						CreateLayerTypes: ["typed"],
+						AllowTypes: { typed: 1 },
+						AllowColorize: true,
+					},
+					{ Name: "Metal", Priority: 35, AllowColorize: true },
+					{ Name: "Lock", Priority: 35, LockLayer: true, AllowColorize: true },
 				],
 			},
 		],
