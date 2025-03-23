@@ -258,7 +258,7 @@ function ActivityCheckPrerequisites(activity, acting, acted, group) {
  * @param {ItemActivity[]} allowed
  * @param {Character} acting
  * @param {Character} acted
- * @param {string} needsItem
+ * @param {ActivityNameItem} needsItem
  * @param {Activity} activity
  * @param {AssetGroup} targetGroup
  */
@@ -342,7 +342,8 @@ function ActivityAllowedForGroup(character, groupname) {
 		let needsItem = activity.Prerequisite.find(p => p.startsWith("Needs-"));
 
 		if (needsItem) {
-			handled = ActivityGenerateItemActivitiesFromNeed(allowed, Player, character, needsItem.substring(6), activity, group);
+			const needsItemActivity = /** @type {ActivityNameItem} */(needsItem.substring(6));
+			handled = ActivityGenerateItemActivitiesFromNeed(allowed, Player, character, needsItemActivity, activity, group);
 		}
 
 		if (activity.Name === "ShockItem" && InventoryItemHasEffect(targetedItem, "ReceiveShock")) {
