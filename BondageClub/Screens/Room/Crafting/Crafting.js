@@ -1159,11 +1159,7 @@ function CraftingLoad() {
 					attributes: { id: CraftingID.privateLabel },
 					classList: ["crafting-label"],
 					children: [
-						{
-							tag: "input",
-							attributes: { id: CraftingID.privateCheckbox, type: "checkbox" },
-							eventListeners: { click: CraftingEventListeners._ClickPrivate },
-						},
+						ElementCheckbox.Create(CraftingID.privateCheckbox, CraftingEventListeners._ClickPrivate),
 						{ tag: "span", children: [TextGet("EnterPrivate")] },
 					],
 				},
@@ -1190,11 +1186,7 @@ function CraftingLoad() {
 					attributes: { id: CraftingID.asciidescriptionLabel },
 					classList: ["crafting-label"],
 					children: [
-						{
-							tag: "input",
-							attributes: { id: CraftingID.asciiDescriptionCheckbox, type: "checkbox" },
-							eventListeners: { click: CraftingEventListeners._ClickAsciiDescription },
-						},
+						ElementCheckbox.Create(CraftingID.asciiDescriptionCheckbox, CraftingEventListeners._ClickAsciiDescription),
 						{ tag: "span", children: [TextGet("EnterExtendedDescription")] },
 					],
 				},

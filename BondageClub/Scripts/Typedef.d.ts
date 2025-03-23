@@ -179,6 +179,23 @@ declare namespace ElementButton {
 	}
 }
 
+declare namespace ElementCheckbox {
+
+	/** Various options that can be passed along to {@link ElementCheckbox.Create} */
+	interface Options {
+		/** Whether the checkbox is checked by default or not */
+		checked?: boolean;
+		/** Whether the checkbox should be disabled or not */
+		disabled?: boolean;
+		/**
+		 * The {@link HTMLInputElement.value}/{@link HTMLInputElement.valueAsNumber} associated with the checkbox when checked.
+		 *
+		 * Defaults to `"on"` if not specified.
+		 */
+		value?: string | number;
+	}
+}
+
 type Rect = { x: number, y: number, w: number, h: number };
 
 /** A 4-tuple with X & Y coordinates, width and height */
