@@ -9067,7 +9067,7 @@ var AssetFemale3DCGExtended = {
 							// Semi-Hood
 							Property: {
 								Effect: [E.BlockMouth],
-								Hide: ["HairFront","HairAccessory1"],
+								Hide: ["HairFront", "HairAccessory1"],
 							},
 						},
 						{

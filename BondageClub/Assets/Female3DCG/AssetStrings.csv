@@ -6448,7 +6448,8 @@ ItemHoodCreepyIronMaskSelectBase,Creepy Iron Mask main menu:
 ItemHoodCreepyIronMaskModuleMode,Mask style
 ItemHoodCreepyIronMaskSelectMode,Mask menu:
 ItemHoodCreepyIronMaskOptionm0,Just mask
-ItemHoodCreepyIronMaskOptionm1,Full hood
+ItemHoodCreepyIronMaskOptionm1,Semi-hood
+ItemHoodCreepyIronMaskOptionm2,Full hood
 ItemHoodCreepyIronMaskModuleBlindfold,Blindfold
 ItemHoodCreepyIronMaskSelectBlindfold,Metal blindfold option:
 ItemHoodCreepyIronMaskOptionb0,None
@@ -6462,8 +6463,13 @@ ItemHoodCreepyIronMaskModuleNose,Nose guard
 ItemHoodCreepyIronMaskSelectNose,Nose guard option:
 ItemHoodCreepyIronMaskOptionn0,None
 ItemHoodCreepyIronMaskOptionn1,Add nose guard
+ItemHoodCreepyIronMaskModuleSpeech,Speech
+ItemHoodCreepyIronMaskSelectSpeech,Speech option:
+ItemHoodCreepyIronMaskOptionp0,Loose
+ItemHoodCreepyIronMaskOptionp1,Tight
 ItemHoodCreepyIronMaskSetm0,SourceCharacter puts the Creepy Iron Mask on DestinationCharacterName head.
 ItemHoodCreepyIronMaskSetm1,SourceCharacter locks DestinationCharacterName head with the Creepy Iron Hood version.
+ItemHoodCreepyIronMaskSetm2,SourceCharacter locks DestinationCharacterName head with the Creepy Iron Hood version.
 ItemHoodCreepyIronMaskSetb0,SourceCharacter removes a metal blindfold from DestinationCharacterName Creepy Iron Mask.
 ItemHoodCreepyIronMaskSetb1,SourceCharacter equips a perforated metal blindfold on DestinationCharacterName Creepy Iron Mask.
 ItemHoodCreepyIronMaskSetb2,SourceCharacter equips a full metal blindfold on DestinationCharacterName Creepy Iron Mask.
@@ -6471,6 +6477,8 @@ ItemHoodCreepyIronMaskSets0,SourceCharacter removes a spiked collar from Destina
 ItemHoodCreepyIronMaskSets1,SourceCharacter equips a spiked collar on DestinationCharacterName neck.
 ItemHoodCreepyIronMaskSetn0,SourceCharacter removes a nose guard from DestinationCharacterName Creepy Iron Mask.
 ItemHoodCreepyIronMaskSetn1,SourceCharacter equips a nose guard on DestinationCharacterName Creepy Iron Mask.
+ItemHoodCreepyIronMaskSetp0,SourceCharacter loosens DestinationCharacterName Creepy Iron Mask.
+ItemHoodCreepyIronMaskSetp1,SourceCharacter tightens DestinationCharacterName Creepy Iron Mask.
 ItemMouthHorrorMuzzleSelect,Horror Muzzle style option menu:
 ItemMouthHorrorMuzzleNone,Plain
 ItemMouthHorrorMuzzleRivets,With rivets
@@ -6521,12 +6529,12 @@ ItemHandheldKyosensuType3,Sun
 ItemHandheldKyosensuType4,Wave art
 ItemHandheldKyosensuType5,Moon
 ItemHandheldKyosensuType6,Flowers
-ItemItemHandheldKyosensuSetType1,SourceCharacter chooses a cherry blossooms art for DestinationCharacter Kyo-sensu fan.
-ItemItemHandheldKyosensuSetType2,SourceCharacter chooses a lightning bolt art for DestinationCharacter Kyo-sensu fan.
-ItemItemHandheldKyosensuSetType3,SourceCharacter chooses a sun art for DestinationCharacter Kyo-sensu fan.
-ItemItemHandheldKyosensuSetType4,SourceCharacter chooses a wave art for DestinationCharacter Kyo-sensu fan.
-ItemItemHandheldKyosensuSetType5,SourceCharacter chooses a moon art for DestinationCharacter Kyo-sensu fan.
-ItemItemHandheldKyosensuSetType6,SourceCharacter chooses a flowers art for DestinationCharacter Kyo-sensu fan.
+ItemHandheldKyosensuSetType1,SourceCharacter chooses a cherry blossooms art for DestinationCharacter Kyo-sensu fan.
+ItemHandheldKyosensuSetType2,SourceCharacter chooses a lightning bolt art for DestinationCharacter Kyo-sensu fan.
+ItemHandheldKyosensuSetType3,SourceCharacter chooses a sun art for DestinationCharacter Kyo-sensu fan.
+ItemHandheldKyosensuSetType4,SourceCharacter chooses a wave art for DestinationCharacter Kyo-sensu fan.
+ItemHandheldKyosensuSetType5,SourceCharacter chooses a moon art for DestinationCharacter Kyo-sensu fan.
+ItemHandheldKyosensuSetType6,SourceCharacter chooses a flowers art for DestinationCharacter Kyo-sensu fan.
 ItemHandheldUchiwaSelect,Choose your Uchiwa paper art:
 ItemHandheldUchiwaType1,Cherry blossoms
 ItemHandheldUchiwaType2,Lightning bolt
@@ -6534,9 +6542,9 @@ ItemHandheldUchiwaType3,Sun
 ItemHandheldUchiwaType4,Wave art
 ItemHandheldUchiwaType5,Moon
 ItemHandheldUchiwaType6,Flowers
-ItemItemHandheldUchiwaSetType1,SourceCharacter chooses a cherry blossooms art for DestinationCharacter Uchiwa fan.
-ItemItemHandheldUchiwaSetType2,SourceCharacter chooses a lightning bolt art for DestinationCharacter Uchiwa fan.
-ItemItemHandheldUchiwaSetType3,SourceCharacter chooses a sun art for DestinationCharacter Uchiwa fan.
-ItemItemHandheldUchiwaSetType4,SourceCharacter chooses a wave art for DestinationCharacter Uchiwa fan.
-ItemItemHandheldUchiwaSetType5,SourceCharacter chooses a moon art for DestinationCharacter Uchiwa fan.
-ItemItemHandheldUchiwaSetType6,SourceCharacter chooses a flowers art for DestinationCharacter Uchiwa fan.
+ItemHandheldUchiwaSetType1,SourceCharacter chooses a cherry blossooms art for DestinationCharacter Uchiwa fan.
+ItemHandheldUchiwaSetType2,SourceCharacter chooses a lightning bolt art for DestinationCharacter Uchiwa fan.
+ItemHandheldUchiwaSetType3,SourceCharacter chooses a sun art for DestinationCharacter Uchiwa fan.
+ItemHandheldUchiwaSetType4,SourceCharacter chooses a wave art for DestinationCharacter Uchiwa fan.
+ItemHandheldUchiwaSetType5,SourceCharacter chooses a moon art for DestinationCharacter Uchiwa fan.
+ItemHandheldUchiwaSetType6,SourceCharacter chooses a flowers art for DestinationCharacter Uchiwa fan.
