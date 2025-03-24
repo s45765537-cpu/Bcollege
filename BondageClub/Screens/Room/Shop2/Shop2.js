@@ -863,7 +863,14 @@ var Shop2 = {
 					return;
 				}
 
-				DialogLoadPoseMenu(Shop2InitVars.Preview);
+				/** @type {Partial<Record<AssetPoseCategory, Pose[]>>} */
+				const poses = {};
+				for (const pose of PoseFemale3DCG) {
+					if (pose.AllowMenu || pose.AllowMenuTransient) {
+						(poses[pose.Category] ??= []).push(pose);
+					}
+				}
+
 				ElementCreate({
 					tag: "div",
 					style: { display: "none" },
@@ -873,7 +880,7 @@ var Shop2 = {
 					children: [{
 						tag: "div",
 						classList: ["shop2-pose-outer-grid"],
-						children: DialogActivePoses.map(poseList => {
+						children: Object.values(poses).map(poseList => {
 							return {
 								tag: "div",
 								classList: ["shop2-pose-inner-grid"],

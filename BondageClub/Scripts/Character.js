@@ -153,6 +153,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		HeightRatio: 1,
 		HasHiddenItems: false,
 		SavedColors: GetDefaultSavedColors(),
+		ActiveExpression: null,
 
 		PoseMapping: {},
 		get Pose() {
@@ -751,6 +752,36 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			return Player.HasOnFriendlist(this);
 		}
 	};
+
+	// Keep these two methods non-enumerable such that they do not interfere with the likes of `Object.keys`
+	const activeExpression = Object.defineProperties(/** @type {Character["ActiveExpression"]} */({}), {
+		setWithoutReload: {
+			value: function (key, value) { this[key] = value; },
+			enumerable: false,
+		},
+		deleteWithoutReload: {
+			value: function (key) { delete this[key]; },
+			enumerable: false,
+		},
+	});
+
+	/** @type {Mutable<Character>} */(NewCharacter).ActiveExpression = new Proxy(
+		activeExpression,
+		{
+			set(...args) {
+				if (DialogSelfMenuSelected === "Expression" && DialogSelfMenuMapping.Expression.C.ID === NewCharacter.ID) {
+					DialogSelfMenuMapping.Expression.Reload();
+				}
+				return Reflect.set(...args);
+			},
+			deleteProperty(...args) {
+				if (DialogSelfMenuSelected === "Expression" && DialogSelfMenuMapping.Expression.C.ID === NewCharacter.ID) {
+					DialogSelfMenuMapping.Expression.Reload();
+				}
+				return Reflect.deleteProperty(...args);
+			},
+		},
+	);
 
 	// Add the character to the cache
 	Character.push(NewCharacter);

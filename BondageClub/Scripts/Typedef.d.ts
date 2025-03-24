@@ -1121,8 +1121,8 @@ interface ExpressionItem {
 	ExpressionList: ExpressionName[],
 }
 
-interface ExpressionItem2 {
-	Group: ExpressionGroupName,
+interface ExpressionPair {
+	Group: Exclude<ExpressionGroupName, "Eyes2">,
 	Expression: null | ExpressionName,
 }
 
@@ -1632,6 +1632,18 @@ interface Character {
 	Dialog: DialogLine[];
 	Reputation: Reputation[];
 	Skill: Skill[];
+	/**
+	 * An object mapping expression group names to their respective currently explicitly, manually selected expression (which may thus diverge from the actual currently active expression).
+	 *
+	 * Setting or deleting an entry will potentially trigger a {@link DialogSelfMenuMapping.Expression} reload unless done so via `setWithoutReload()`/`deleteWithoutReload()` calls.
+	 */
+	readonly ActiveExpression: (
+		Partial<Record<ExpressionGroupName, ExpressionName>>
+		& {
+			setWithoutReload(key: ExpressionGroupName, value: ExpressionName): void,
+			deleteWithoutReload(key: ExpressionGroupName): void,
+		}
+	);
 	/**
 	 * Get a copy or set the array of currently enabled poses.
 	 * @see {@link PoseMapping} - The underlying record of this property, usage of which is recommended

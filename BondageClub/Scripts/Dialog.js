@@ -93,6 +93,8 @@ var DialogCraftingMenu = /** @type {never} */(false);
  */
 var DialogExpressionPreviousMode = null;
 
+/** @deprecated */
+var DialogFacialExpressions = /** @type {never} */([]);
 var DialogFacialExpressionsSelectedBlindnessLevel = 2;
 var DialogExtendedMessage = "";
 /**
@@ -1696,13 +1698,19 @@ function DialogInventoryStringified(C) {
 function DialogFacialExpressionsLoad(Slot) {
 	const expressions = Player.SavedExpressions && Player.SavedExpressions[Slot];
 	if (expressions != null) {
-		expressions.forEach(e => CharacterSetFacialExpression(Player, e.Group, e.CurrentExpression));
+		expressions.forEach(e => {
+			CharacterSetFacialExpression(Player, e.Group, e.CurrentExpression);
+			Player.ActiveExpression.setWithoutReload(e.Group, e.CurrentExpression);
+		});
+		if (DialogSelfMenuSelected === "Expression" && DialogSelfMenuMapping.Expression.C.IsPlayer()) {
+			DialogSelfMenuMapping.Expression.Reload();
+		}
 	}
 }
 
 /**
  * Builds the savedexpressions menu previews.
- * @returns {(null | Character)[]} - Nothing
+ * @returns {(null | Character)[]} - the created preview characters
  */
 function DialogBuildSavedExpressionsMenu() {
 	const ExcludedGroups = ["Mask"];
@@ -2287,7 +2295,7 @@ function DialogResize(load) {
 			return;
 	}
 
-	DialogSelfMenuMapping[DialogSelfMenuSelected].Resize(load);
+	DialogSelfMenuMapping[DialogSelfMenuSelected]?.Resize(load);
 	DialogMenuMapping[DialogMenuMode]?.Resize(load);
 }
 
@@ -2333,13 +2341,10 @@ function DialogGetCharacterZone(C, Zone, X, Y, Zoom, HeightRatio) {
  * @returns {void} - Nothing
  */
 function DialogFindNextSubMenu() {
-	const options = DialogSelfMenuOptions.filter(i => DialogSelfMenuMapping[i].IsAvailable(Player));
+	const options = DialogSelfMenuOptions.filter(i => DialogSelfMenuMapping[i]?.IsAvailable(Player));
 	const currentIndex = options.indexOf(DialogSelfMenuSelected);
 	const newMenuName = currentIndex === -1 ? options[0] : options[(1 + currentIndex) % options.length];
-
-	/** @type {undefined | _DialogSelfMenu} */
-	const dialogMenu = DialogSelfMenuMapping[newMenuName];
-	dialogMenu?.Init({ C: Player });
+	DialogSelfMenuMapping[newMenuName]?.Init({ C: Player });
 }
 
 /**
@@ -2361,6 +2366,26 @@ function DialogFindSubMenu(MenuName, force=false) {
 	} else {
 		return false;
 	}
+}
+
+/**
+ * Finds and sets a facial expression group. The expression sub menu has to be already opened.
+ * @param {ExpressionGroupName} ExpressionGroup - The name of the expression group, see XXX.
+ * @returns {boolean} True, when the expression group was found and opened. False otherwise and nothing happens.
+ */
+function DialogFindFacialExpressionMenuGroup(ExpressionGroup) {
+	if (DialogSelfMenuSelected !== "Expression" && !DialogSelfMenuMapping.Expression.Init({ C: Player })) {
+		return false;
+	}
+
+	const ids = DialogSelfMenuMapping.Expression.ids;
+	const button = /** @type {null | HTMLButtonElement} */(document.querySelector(`${ids.menuLeft} > [name="${ExpressionGroup}"]`));
+	if (!button) {
+		return false;
+	} else if (button.getAttribute("aria-checked") === "false") {
+		button.click();
+	}
+	return true;
 }
 
 /**
@@ -2669,6 +2694,7 @@ class DialogMenu {
 	 * Get or set the currently selected character.
 	 *
 	 * Performs a hard {@link DialogMenu.Reload} if a new character is assigned.
+	 * @type {PropType["C"]}
 	 */
 	get C() {
 		return this._initProperties?.C ?? null;
@@ -2862,7 +2888,7 @@ class DialogMenu {
 		this.Reload(null, { reset: true, resetScrollbar: false }).then((status) => {
 			if (status) {
 				ElementPositionFixed(root, ...shape);
-				const checkedButton = buttonGrid?.querySelector(`.dialog-grid-button[aria-checked='true']`);
+				const checkedButton = buttonGrid?.querySelector(`[aria-checked='true']`);
 				if (checkedButton) {
 					checkedButton.scrollIntoView({ behavior: "instant" });
 				} else {
@@ -4230,12 +4256,16 @@ class _DialogDialogMenu extends DialogMenu {
 }
 
 /**
- * @template {DialogSelfMenuName} ModeType
- * @template T
- * @extends {DialogMenu<ModeType, T, { C: Character }>}
+ * @template {DialogSelfMenuName} [ModeType=DialogSelfMenuName]
+ * @template [T=any]
+ * @extends {DialogMenu<ModeType, T, { C: PlayerCharacter }>}
  */
 class _DialogSelfMenu extends DialogMenu {
-	/** @type {DialogMenu<ModeType, T, { C: Character }>["Init"]} */
+	_initPropertyNames = /** @type {const} */(["C"]);
+
+	defaultShape = Object.freeze(/** @type {const} */([15, 15, 500, 940]));
+
+	/** @type {DialogMenu<ModeType, T, { C: PlayerCharacter }>["Init"]} */
 	Init(parameters, style) {
 		DialogSelfMenuMapping[DialogSelfMenuSelected]?.Unload();
 		DialogSelfMenuSelected = this.mode;
@@ -4246,7 +4276,7 @@ class _DialogSelfMenu extends DialogMenu {
 
 	/**
 	 * Whether this self-menu is accessible via the "view next page" button.
-	 * @param {Character} C
+	 * @param {PlayerCharacter} C
 	 */
 	IsAvailable(C) {
 		return true;
@@ -4255,7 +4285,7 @@ class _DialogSelfMenu extends DialogMenu {
 
 /**
  * @template {DialogSelfMenuName} ModeType
- * @extends {_DialogSelfMenu<ModeType, ExpressionItem2>}
+ * @extends {_DialogSelfMenu<ModeType, ExpressionPair>}
  */
 class _DialogExpressionMenu extends _DialogSelfMenu {
 	ids = Object.freeze({
@@ -4266,11 +4296,7 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 		grid: "dialog-expression-button-grid",
 	});
 
-	defaultShape = Object.freeze(/** @type {const} */([15, 15, 500, 940]));
-
-	_initPropertyNames = /** @type {const} */(["C"]);
-
-	/** @satisfies {DialogMenu<ModeType, ExpressionItem2>["clickStatusCallbacks"]} */
+	/** @satisfies {DialogMenu<ModeType, ExpressionPair>["clickStatusCallbacks"]} */
 	clickStatusCallbacks = {
 		CharacterIsExpressionAllowed: (C, clickedItem, equippedItem) => {
 			const status = CharacterIsExpressionDisallowed(C, equippedItem, clickedItem.Expression);
@@ -4286,10 +4312,12 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 	_facialExpressions = null;
 
 	/**
+	 * Get an object with all UI-configurable expression group names mapped to their respective expressions.
 	 * @readonly
 	 * @type {Readonly<Partial<Record<ExpressionGroupName, readonly (null | ExpressionName)[]>>>}
 	 */
 	get facialExpressions() {
+		// Go lazy loading, go!
 		if (!this._facialExpressions) {
 			/** @type {Partial<Record<ExpressionGroupName, readonly (null | ExpressionName)[]>>} */
 			const expressions = {};
@@ -4307,7 +4335,7 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 
 	get focusGroup() {
 		const elem = document.querySelector(`#${this.ids.menuLeft} [role="menuitemradio"][aria-checked="true"]`);
-		const groupName = /** @type {null | AssetGroupName} */(elem?.getAttribute("name"));
+		const groupName = /** @type {null | ExpressionGroupName} */(elem?.getAttribute("name"));
 		return (groupName && this.C) ? AssetGroupGet(this.C.AssetFamily, groupName) : null;
 	}
 
@@ -4321,14 +4349,21 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 			...this.eventListeners,
 
 			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
-			clearExpressionClick: function() {
-				for (const buttonGrid of document.querySelectorAll(`#${dialogMenu.ids.root} .dialog-expression-grid`)) {
-					/** @type {null | HTMLButtonElement} */(buttonGrid.querySelector("button[role='radio']"))?.click();
+			_clearExpressionClick: function(ev) {
+				const C = dialogMenu.C;
+				if (!C) {
+					ev.stopImmediatePropagation();
+					return;
+				}
+
+				CharacterResetFacialExpression(C);
+				for (const expressionGroup of CommonKeys(dialogMenu.facialExpressions)) {
+					delete C.ActiveExpression[expressionGroup];
 				}
 			},
 
 			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
-			expressionRadioGroupClick: function(ev) {
+			_expressionRadioGroupClick: function(ev) {
 				document.querySelector(`#${dialogMenu.ids.root} > .dialog-expression-grid:not([data-unload])`)?.toggleAttribute("data-unload", true);
 				if (this.getAttribute("aria-checked") === "true") {
 					document.getElementById(`${dialogMenu.ids.menubar}-color`)?.setAttribute("aria-disabled", this.name !== "Eyes" ? "false" : "true");
@@ -4343,44 +4378,50 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 			},
 
 			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
-			blindnessClick: function(ev) {
+			_blindnessClick: function(ev) {
 				const level = Number.parseInt(this.getAttribute("aria-valuenow"), 10);
 				DialogFacialExpressionsSelectedBlindnessLevel = level;
 				this.querySelector(".button-image")?.setAttribute("src", `Icons/BlindToggle${level}.png`);
 			},
 
 			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
-			blinkClick: function(ev) {
+			_blinkClick: function(ev) {
+				const C = dialogMenu.C;
+				if (!C) {
+					ev.stopImmediatePropagation();
+					return;
+				}
+
 				const level = Number.parseInt(this.getAttribute("aria-valuenow"), 10);
 
 				/** @type {string} */
-				let text;
+				let state;
 				switch (level) {
 					case 1:
-						text = "None";
-						CharacterSetFacialExpression(Player, "Eyes", null, null);
+						state = "None";
+						CharacterSetFacialExpression(C, "Eyes", C.ActiveExpression.Eyes, null);
 						break;
 					case 2:
-						text = "Left";
-						CharacterSetFacialExpression(Player, "Eyes1", null, null);
-						CharacterSetFacialExpression(Player, "Eyes2", "Closed", null);
+						state = "Left";
+						CharacterSetFacialExpression(C, "Eyes1", C.ActiveExpression.Eyes, null);
+						CharacterSetFacialExpression(C, "Eyes2", "Closed", null);
 						break;
 					case 3:
-						text = "Both";
-						CharacterSetFacialExpression(Player, "Eyes", "Closed", null);
+						state = "Both";
+						CharacterSetFacialExpression(C, "Eyes", "Closed", null);
 						break;
 					case 4:
-						text = "Right";
-						CharacterSetFacialExpression(Player, "Eyes1", "Closed", null);
-						CharacterSetFacialExpression(Player, "Eyes2", null, null);
+						state = "Right";
+						CharacterSetFacialExpression(C, "Eyes1", "Closed", null);
+						CharacterSetFacialExpression(C, "Eyes2", C.ActiveExpression.Eyes, null);
 						break;
 				}
-				this.setAttribute("aria-valuetext", text);
-				this.querySelector(".button-image")?.setAttribute("src", `Icons/Wink${text}.png`);
+				this.setAttribute("aria-valuetext", state);
+				this.querySelector(".button-image")?.setAttribute("src", `Icons/Wink${state}.png`);
 			},
 
 			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
-			colorClick: function(ev) {
+			_colorClick: function(ev) {
 				const GroupName = /** @type {AssetGroupItemName} */(document.querySelector(`#${dialogMenu.ids.menuLeft} [role='menuitemradio'][aria-checked='true']`)?.getAttribute("name"));
 				const Item = InventoryGet(Player, GroupName);
 				if (!Item) {
@@ -4410,7 +4451,7 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 			tag: "div",
 			attributes: { id: ids.root, "aria-labelledby": ids.status },
 			parent: document.body,
-			classList: ["dialog-root"],
+			classList: ["dialog-root", "dialog-self-menu-root"],
 			children: [
 				{
 					tag: "span",
@@ -4428,13 +4469,13 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 						),
 						ElementButton.Create(
 							`${ids.menubar}-color`,
-							this.eventListeners.colorClick,
+							this.eventListeners._colorClick,
 							{ tooltip: InterfaceTextGet("DialogMenuColorExpressionChange"), tooltipPosition: "right", image: "Icons/ColorChange.png", disabled: true },
 							{ button: { attributes: { name: "color" }, classList: ["dialog-menubar-button"] } },
 						),
 						ElementButton.Create(
 							`${ids.menubar}-blindness`,
-							this.eventListeners.blindnessClick,
+							this.eventListeners._blindnessClick,
 							{ tooltip: InterfaceTextGet("BlindToggleFacialExpressions"), tooltipPosition: "right", image: "Icons/BlindToggle1.png", role: "spinbutton" },
 							{ button: {
 								attributes: { name: "blindness", "aria-valuenow": 1, "aria-valuemin": 1, "aria-valuemax": 3 },
@@ -4443,7 +4484,7 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 						),
 						ElementButton.Create(
 							`${ids.menubar}-blink`,
-							this.eventListeners.blinkClick,
+							this.eventListeners._blinkClick,
 							{ tooltip: InterfaceTextGet("WinkFacialExpressions"), tooltipPosition: "right", image: "Icons/WinkNone.png", role: "spinbutton" },
 							{ button: {
 								attributes: { name: "blink", "aria-valuenow": 1, "aria-valuetext": "None", "aria-valuemin": 1, "aria-valuemax": 4 },
@@ -4452,17 +4493,19 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 						),
 						ElementButton.Create(
 							`${ids.menubar}-clear`,
-							this.eventListeners.clearExpressionClick,
+							this.eventListeners._clearExpressionClick,
 							{ tooltip: InterfaceTextGet("ClearFacialExpressions"), tooltipPosition: "right", image: "Icons/Reset.png" },
 							{ button: { attributes: { name: "clear" }, classList: ["dialog-menubar-button"] } },
 						),
 					],
+					{ direction: "rtl" },
+					{ menu: { classList: ["dialog-self-menu-menubar"] } },
 				),
 				ElementMenu.Create(
 					ids.menuLeft,
 					CommonKeys(this.facialExpressions).sort().map(group => ElementButton.Create(
 						`${ids.menuLeft}-${group}`,
-						this.eventListeners.expressionRadioGroupClick,
+						this.eventListeners._expressionRadioGroupClick,
 						{ role: "menuitemradio", image: `Assets/Female3DCG/${group}/Icon.png` },
 						{ button: {
 							classList: ["dialog-menubar-button"],
@@ -4489,7 +4532,7 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 							"aria-required": "true",
 							"aria-label": AssetGroupGet("Female3DCG", group).Description,
 						},
-						dataAttributes: { name: group, unload: "" },
+						dataAttributes: { name: group, unload: true },
 					};
 				}),
 				{ tag: "div", attributes: { id: ids.grid } },
@@ -4508,10 +4551,10 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 		const { C } = parameters;
 		for (const buttonGrid of root.querySelectorAll(".dialog-grid")) {
 			const owningButton = root.querySelector(`[aria-owns="${buttonGrid.id}"]`);
-			const group = /** @type {ExpressionGroupName} */(buttonGrid.getAttribute("data-name"));
+			const group = /** @type {Exclude<ExpressionGroupName, "Eyes2">} */(buttonGrid.getAttribute("data-name"));
 			const expressions = this.facialExpressions[group];
 			const expressionItem = InventoryGet(C, group);
-			const currentExpression = expressionItem?.Property?.Expression ?? null;
+			const currentExpression = C.ActiveExpression[group] ?? null;
 			if (!expressions || !owningButton || !expressionItem || !expressions.includes(currentExpression)) {
 				continue;
 			}
@@ -4539,10 +4582,9 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 				)));
 			}
 
-			const buttons = /** @type {NodeListOf<HTMLButtonElement>} */(buttonGrid.querySelectorAll(".dialog-menubar-button"));
-			let enabledCount = 0;
+			const buttons = /** @type {NodeListOf<HTMLButtonElement>} */(buttonGrid.querySelectorAll("button[role='radio']"));
 			for (const button of buttons) {
-				/** @type {ExpressionItem2} */
+				/** @type {ExpressionPair} */
 				const expressionObj = {
 					Group: group,
 					Expression: /** @type {null | ExpressionName} */(button.name || null),
@@ -4552,7 +4594,6 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 				if (status) {
 					button.setAttribute("aria-disabled", "true");
 				} else {
-					enabledCount++;
 					button.removeAttribute("aria-disabled");
 				}
 
@@ -4569,10 +4610,8 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 				}
 			}
 
-			if (enabledCount <= 1 && owningButton.getAttribute("aria-checked") !== "true") {
-				owningButton.toggleAttribute("data-unload", true);
-			} else {
-				owningButton.toggleAttribute("data-unload", false);
+			if (group === "Pussy") {
+				owningButton.toggleAttribute("data-unload", !C.HasPenis());
 			}
 
 			if (options.resetScrollbar && !buttonGrid.hasAttribute("data-unload")) {
@@ -4587,17 +4626,17 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 	/** @type {DialogMenu["_ReloadMenubar"]} */
 	_ReloadMenubar(root, menubar, parameters, options) { /** noop */ }
 
-	/** @type {DialogMenu<string, ExpressionItem2>["_GetClickedObject"]} */
+	/** @type {DialogMenu<string, ExpressionPair>["_GetClickedObject"]} */
 	_GetClickedObject(button) {
-		const group = /** @type {undefined | ExpressionGroupName} */(button.dataset.group);
+		const group = /** @type {undefined | Exclude<ExpressionGroupName, "Eyes2">} */(button.dataset.group);
 		const name = /** @type {null | ExpressionName} */(button.name || null);
 		return group ? { Group: group, Expression: name } : null;
 	}
 
-	/** @type {DialogMenu<string, ExpressionItem2>["_ClickButton"]} */
+	/** @type {DialogMenu<string, ExpressionPair>["_ClickButton"]} */
 	_ClickButton(button, C, clickedObj, equippedItem) {
-		console.log(C, clickedObj);
 		CharacterSetFacialExpression(C, clickedObj.Group, clickedObj.Expression);
+		C.ActiveExpression.setWithoutReload(clickedObj.Group, clickedObj.Expression ?? undefined);
 
 		const thisImg = button.querySelector(".button-image");
 		const controllerImg = document.querySelector(`#${this.ids.menuLeft} [role="menuitemradio"][name="${clickedObj.Group}"] .button-image`);
@@ -4618,10 +4657,6 @@ class _DialogPoseMenu extends _DialogSelfMenu {
 		menubar: "dialog-pose-menubar",
 		grid: "dialog-pose-button-grid",
 	});
-
-	defaultShape = Object.freeze(/** @type {const} */([15, 15, 500, 940]));
-
-	_initPropertyNames = /** @type {const} */(["C"]);
 
 	/** @satisfies {DialogMenu<ModeType, Pose>["clickStatusCallbacks"]} */
 	clickStatusCallbacks = {
@@ -4711,7 +4746,7 @@ class _DialogPoseMenu extends _DialogSelfMenu {
 			tag: "div",
 			attributes: { id: ids.root, "aria-labelledby": ids.status },
 			parent: document.body,
-			classList: ["dialog-root"],
+			classList: ["dialog-root", "dialog-self-menu-root"],
 			children: [
 				{
 					tag: "span",
@@ -4729,6 +4764,7 @@ class _DialogPoseMenu extends _DialogSelfMenu {
 						),
 					],
 					{ direction: "rtl" },
+					{ menu: { classList: ["dialog-self-menu-menubar"] } },
 				),
 				{
 					tag: "div",
@@ -4870,13 +4906,8 @@ class _DialogSavedExpressionsMenu extends _DialogSelfMenu {
 		grid: "dialog-expression-preset-button-grid",
 	});
 
-	defaultShape = Object.freeze(/** @type {const} */([15, 15, 500, 940]));
-
-	_initPropertyNames = /** @type {const} */(["C"]);
-
 	/** @type {DialogMenu<ModeType, number>["clickStatusCallbacks"]} */
-	clickStatusCallbacks = {
-	};
+	clickStatusCallbacks = {};
 
 	/**
 	 * See {@link expressionPreviews}
@@ -4909,11 +4940,10 @@ class _DialogSavedExpressionsMenu extends _DialogSelfMenu {
 				continue;
 			}
 
+			canvas.clearRect(0, 0, 200, 200);
 			if (preview != null) {
 				const canvasSegment = DrawCharacterSegment(preview, 150, 30, 200, 200);
 				canvas.drawImage(canvasSegment, 0, 0, 200, 200);
-			} else {
-				canvas.clearRect(0, 0, 200, 200);
 			}
 		}
 	}
@@ -4931,7 +4961,7 @@ class _DialogSavedExpressionsMenu extends _DialogSelfMenu {
 			tag: "div",
 			attributes: { id: ids.root, "aria-labelledby": ids.status },
 			parent: document.body,
-			classList: ["dialog-root"],
+			classList: ["dialog-root", "dialog-self-menu-root"],
 			children: [
 				{
 					tag: "span",
@@ -4949,6 +4979,7 @@ class _DialogSavedExpressionsMenu extends _DialogSelfMenu {
 						),
 					],
 					{ direction: "rtl" },
+					{ menu: { classList: ["dialog-self-menu-menubar"] } },
 				),
 				{
 					tag: "menu",
@@ -5005,7 +5036,6 @@ class _DialogSavedExpressionsMenu extends _DialogSelfMenu {
 	/** @type {DialogMenu<string, number>["_GetClickedObject"]} */
 	_GetClickedObject(button) {
 		const slot = Number.parseInt(button.closest("li")?.getAttribute("data-index"), 10);
-		console.log(slot);
 		return Number.isNaN(slot) ? null : slot;
 	}
 
@@ -5015,7 +5045,7 @@ class _DialogSavedExpressionsMenu extends _DialogSelfMenu {
 			case "save": {
 				const expressions = C.Appearance.filter(item => item.Asset.Group.AllowExpression).map(item => {
 					return {
-						Group: item.Asset.Group.Name,
+						Group: /** @type {ExpressionGroupName} */(item.Asset.Group.Name),
 						CurrentExpression: item.Property?.Expression,
 					};
 				});
@@ -5044,10 +5074,6 @@ class _DialogOwnerRulesMenu extends _DialogSelfMenu {
 		empty: "dialog-owner-rules-empty",
 	});
 
-	defaultShape = Object.freeze(/** @type {const} */([15, 15, 500, 940]));
-
-	_initPropertyNames = /** @type {const} */(["C"]);
-
 	/** @type {DialogMenu<ModeType, number>["clickStatusCallbacks"]} */
 	clickStatusCallbacks = {};
 
@@ -5062,7 +5088,7 @@ class _DialogOwnerRulesMenu extends _DialogSelfMenu {
 			tag: "div",
 			attributes: { id: ids.root, "aria-labelledby": ids.status },
 			parent: document.body,
-			classList: ["dialog-root"],
+			classList: ["dialog-root", "dialog-self-menu-root"],
 			children: [
 				{
 					tag: "span",
@@ -5080,6 +5106,7 @@ class _DialogOwnerRulesMenu extends _DialogSelfMenu {
 						),
 					],
 					{ direction: "rtl" },
+					{ menu: { classList: ["dialog-self-menu-menubar"] } },
 				),
 				{
 					tag: "ul",
@@ -5114,7 +5141,7 @@ class _DialogOwnerRulesMenu extends _DialogSelfMenu {
 		];
 
 		const children = rules.map(([name, group, logValue]) => {
-			if (false) {
+			if (!LogQuery(name, group)) {
 				return null;
 			} else {
 				return ElementCreate({
@@ -5344,7 +5371,7 @@ function DialogLoad() {
 		C._CurrentDialog = newDialog;
 	}
 
-	DialogSelfMenuMapping.Expression.Init({ C });
+	DialogSelfMenuMapping.Expression.Init({ C: Player });
 	DialogChangeMode(DialogMenuMode ?? "dialog", true);
 }
 
@@ -5463,6 +5490,13 @@ function DialogDraw() {
 	DialogMenuMapping[DialogMenuMode]?.Draw();
 	DialogSelfMenuMapping[DialogSelfMenuSelected]?.Draw();
 }
+
+/**
+ * Handles clicks in the dialog expression menu.
+ * @deprecated - Superseded by {@link DialogSelfMenuMapping["Expression"]}
+ * @returns {void} - Nothing
+ */
+function DialogClickExpressionMenu() {}
 
 /**
  * Sets the current character sub menu to the owner rules
