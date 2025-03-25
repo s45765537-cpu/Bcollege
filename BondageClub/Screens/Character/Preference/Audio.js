@@ -78,6 +78,10 @@ function PreferenceSubscreenAudioClick() {
  * Exits the preference screen.
  */
 function PreferenceSubscreenAudioExit() {
+	return true;
+}
+
+function PreferenceSubscreenAudioUnload() {
 	// If audio has been disabled for notifications, disable each individual notification audio setting
 	if (!Player.AudioSettings.Notifications) {
 		for (const setting in Player.NotificationSettings) {
@@ -85,5 +89,4 @@ function PreferenceSubscreenAudioExit() {
 			if (typeof audio === 'number' && audio > 0) Player.NotificationSettings[setting].Audio = NotificationAudioType.NONE;
 		}
 	}
-	return true;
 }

@@ -68,17 +68,12 @@ function PreferenceSubscreenExtensionsClick() {
 	});
 
 }
-
-function PreferenceSubscreenExtensionsUnload() {
-	PreferenceExtensionsCurrent?.unload?.();
-}
-
 function PreferenceSubscreenExtensionsExit() {
 	if (PreferenceExtensionsCurrent) {
-		if (PreferenceExtensionsCurrent.exit() ?? true) {
-			PreferenceSubscreenExtensionsClear();
-			return false;
-		}
+		const validExit = PreferenceExtensionsCurrent.exit();
+		if (validExit === false) return false;
+		PreferenceSubscreenExtensionsClear();
+		return false;
 	}
 	return true;
 }
@@ -95,3 +90,13 @@ function PreferenceSubscreenExtensionsClear() {
 	// Reload the extension settings
 	PreferenceSubscreenExtensionsLoad();
 }
+
+/**
+ * Unloads the preference subscreen for extensions
+ * Cleans up the current extension, and reset the current extension to null
+ */
+function PreferenceSubscreenExtensionsUnload() {
+	PreferenceExtensionsCurrent?.unload?.();
+	PreferenceExtensionsCurrent = null;
+}
+

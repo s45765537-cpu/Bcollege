@@ -585,6 +585,7 @@ interface PreferenceSubscreen {
 	run: () => void;
 	click: () => void;
 	exit?: () => boolean;
+	unload?: () => void;
 }
 
 interface PreferenceGenderSetting {
@@ -4378,6 +4379,8 @@ interface PreferenceExtensionsSettingItem {
 	 * Called when the extension screen is about to exit.
 	 *
 	 * Happens either through a click of the exit button, or the ESC key.
+	 * This will **not** be called if a disconnect happens, so clean up should be 
+	 * done in {@link PreferenceExtensionsSettingItem.unload}.
 	 *
 	 * @returns {boolean | void} If you have some validation that needs to happen
 	 * (for example, ensuring that a textfield contains a valid color code), return false;
@@ -4386,7 +4389,7 @@ interface PreferenceExtensionsSettingItem {
 	 * either through your own means or by setting `PreferenceMessage` to a string.
 	 *
 	 * If you return true or nothing, your screen's {@link PreferenceExtensionsSettingItem.unload} handler
-	 * will be called afterward.
+	 * will be called afterward. And the setting screen for the extension will be closed.
 	 */
 	exit: () => boolean | void;
 }
