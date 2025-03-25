@@ -254,9 +254,15 @@ function InventoryAvailable(C, Name, Group) {
 	let asset = AssetGet(C.AssetFamily, Group, Name);
 	if (!asset) {
 		return false;
+	} else if (asset.AvailableLocations.some(loc => CurrentScreen.startsWith(loc) || ChatRoomSpace === loc)) {
+		return true;
+	} else if (asset.Value === 0) {
+		return true;
+	} else if (asset.BuyGroup != null) {
+		return Asset.filter(a => a.BuyGroup === asset.BuyGroup).some(a => a.Value === 0);
+	} else {
+		return false;
 	}
-	const isFree = Asset.filter(a => a.BuyGroup === asset.BuyGroup).some(a => a.Value === 0);
-	return isFree || asset.AvailableLocations.some(loc => CurrentScreen.startsWith(loc) || ChatRoomSpace === loc);
 }
 
 /**
