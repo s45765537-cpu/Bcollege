@@ -570,8 +570,8 @@ function ValidationIsItemBlockedOrLimited(C, sourceMemberNumber, groupName, asse
 	if (InventoryIsPermissionBlocked(C, assetName, groupName, type)) return true;
 	if (!InventoryIsPermissionLimited(C, assetName, groupName, type)) return false;
 	if (C.IsLoverOfMemberNumber(sourceMemberNumber) || C.IsOwnedByMemberNumber(sourceMemberNumber)) return false;
-	// If item permission is "Owner, Lover, whitelist & Dominants" or below, the source must be on their whitelist
-	if (C.ItemPermission < 3 && C.WhiteList.includes(sourceMemberNumber)) return false;
+	// The item is limited so if the source is on their whitelist, it's permitted
+	if (C.WhiteList.includes(sourceMemberNumber)) return false;
 	// Otherwise, the item is limited, and the source doesn't have permission
 	return true;
 }
