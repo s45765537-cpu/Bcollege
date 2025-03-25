@@ -193,49 +193,34 @@ function InventoryItemNeckFuturisticCollarClickHook(data, originalFunction) {
  * @returns
  */
 function InventoryItemNeckFuturisticCollarCanLock(C, LockType) {
-	//InventoryAvailable(Player, LockType, "ItemMisc");
-	var LockItem = null;
 	// First, we check if the inventory already exists, exit if it's the case
-	for (let I = 0; I < Player.Inventory.length; I++)
-		if ((Player.Inventory[I].Name == LockType) && (Player.Inventory[I].Group == "ItemMisc")) {
-			LockItem = Player.Inventory[I];
-			break;
-		}
+	var LockAsset = InventoryAvailable(Player, LockType, "ItemMisc") ? AssetGet(Player.AssetFamily, "ItemMisc", LockType) : null;
+
 	// Next we check if the target player has it, but not for the mistress, owner, or lover locks
-	if (LockItem == null && LockType != "MistressPadlock" && LockType != "FamilyPadlock" && LockType != "LoversPadlock" && LockType != "OwnerPadlock") {
-		for (let I = 0; I < C.Inventory.length; I++) {
-			if ((C.Inventory[I].Name == LockType) && (C.Inventory[I].Group == "ItemMisc")) {
-				LockItem = C.Inventory[I];
-				break;
-			}
-		}
+	if (LockAsset == null && LockType != "MistressPadlock" && LockType != "FamilyPadlock" && LockType != "LoversPadlock" && LockType != "OwnerPadlock") {
+		LockAsset = InventoryAvailable(C, LockType, "ItemMisc") ? AssetGet(C.AssetFamily, "ItemMisc", LockType) : null;
 	}
 
-
-
-	if (LockItem && !(InventoryBlockedOrLimited(C, LockItem))) {
-
-
-
+	if (LockAsset && !(InventoryBlockedOrLimited(C, { Asset: LockAsset }))) {
 		// Make sure we do not add owner/lover only items for invalid characters, owner/lover locks can be applied on the player by the player for self-bondage
-		if (LockItem.Asset.OwnerOnly && !C.IsOwnedByPlayer())
+		if (LockAsset.OwnerOnly && !C.IsOwnedByPlayer())
 			if (!C.IsPlayer() || !C.IsOwned() || (C.IsPlayer() && LogQuery("BlockOwnerLockSelf", "OwnerRule")))
 				return false;
-		if (LockItem.Asset.LoverOnly && !C.IsLoverOfPlayer())
+		if (LockAsset.LoverOnly && !C.IsLoverOfPlayer())
 			if ((!C.IsPlayer()) || (C.Lovership.length == 0) || ((C.IsPlayer()) && C.GetLoversNumbers(true).length == 0))
 				return false;
-		if (LockItem.Asset.FamilyOnly && !C.IsFamilyOfPlayer())
+		if (LockAsset.FamilyOnly && !C.IsFamilyOfPlayer())
 			if (!C.IsPlayer() || !C.IsOwned() || (C.IsPlayer() && LogQuery("BlockOwnerLockSelf", "OwnerRule")))
 				return false;
 
-		if (LockItem.Asset.Name == "TimerPasswordPadlock" || LockItem.Asset.Name == "MistressTimerPadlock" || LockItem.Asset.Name == "LoversTimerPadlock" || LockItem.Asset.Name == "OwnerTimerPadlock") {
+		if (LockAsset.Name == "TimerPasswordPadlock" || LockAsset.Name == "MistressTimerPadlock" || LockAsset.Name == "LoversTimerPadlock" || LockAsset.Name == "OwnerTimerPadlock") {
 			if (!(parseInt(ElementValue("FutureCollarTimeField")) > 0)) return false;
 		}
 
-		if (LockItem.Asset.Name == "CombinationPadlock" && !ValidationCombinationNumberRegex.test(ElementValue("FutureCollarPasswordField"))) return false;
-		if (LockItem.Asset.Name == "TimerPasswordPadlock" && !ValidationPasswordRegex.test(ElementValue("FutureCollarPasswordField").toUpperCase())) return false;
-		if (LockItem.Asset.Name == "PasswordPadlock" && !ValidationPasswordRegex.test(ElementValue("FutureCollarPasswordField").toUpperCase())) return false;
-		if (LockItem.Asset.Name == "SafewordPadlock" && !ValidationPasswordRegex.test(ElementValue("FutureCollarPasswordField").toUpperCase())) return false;
+		if (LockAsset.Name == "CombinationPadlock" && !ValidationCombinationNumberRegex.test(ElementValue("FutureCollarPasswordField"))) return false;
+		if (LockAsset.Name == "TimerPasswordPadlock" && !ValidationPasswordRegex.test(ElementValue("FutureCollarPasswordField").toUpperCase())) return false;
+		if (LockAsset.Name == "PasswordPadlock" && !ValidationPasswordRegex.test(ElementValue("FutureCollarPasswordField").toUpperCase())) return false;
+		if (LockAsset.Name == "SafewordPadlock" && !ValidationPasswordRegex.test(ElementValue("FutureCollarPasswordField").toUpperCase())) return false;
 		return true;
 	}
 	return false;

@@ -10,9 +10,9 @@
 function InventoryAdd(C, NewItemName, NewItemGroup, Push) {
 
 	// First, we check if the inventory already exists, exit if it's the case
-	for (let I = 0; I < C.Inventory.length; I++)
-		if ((C.Inventory[I].Name == NewItemName) && (C.Inventory[I].Group == NewItemGroup))
-			return;
+	if (InventoryAvailable(C, NewItemName, NewItemGroup)) {
+		return;
+	}
 
 	// Create the new item for current character's asset family, group name and item name
 	var NewItem = InventoryItemCreate(C, NewItemGroup, NewItemName);
@@ -44,14 +44,7 @@ function InventoryAddMany(C, NewItems, Push) {
 	// Add each items
 	for (let NI = 0; NI < NewItems.length; NI++) {
 		// First, we check if the item already exists in the inventory, continue if it's the case
-		var ItemExists = false;
-		for (let I = 0; I < C.Inventory.length; I++)
-			if ((C.Inventory[I].Name == NewItems[NI].Name) && (C.Inventory[I].Group == NewItems[NI].Group)) {
-				ItemExists = true;
-				break;
-			}
-
-		if (!ItemExists) {
+		if (!InventoryAvailable(C, NewItems[NI].Name, NewItems[NI].Group)) {
 			// Create the new item for current character's asset family, group name and item name
 			var NewItem = InventoryItemCreate(C, NewItems[NI].Group, NewItems[NI].Name);
 
