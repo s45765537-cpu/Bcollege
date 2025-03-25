@@ -948,16 +948,26 @@ var ChatRoomSep = {
 	 * Return a {@link HTMLElement.InnerHTML} representation of the passed button's room name
 	 * @private
 	 * @param {HTMLButtonElement} button
-	 * @returns {string}
+	 * @returns {(string | HTMLElement)[]}
 	 */
 	_GetDisplayName: function _GetDisplayName(button) {
-		const segments = [
-			InterfaceTextGet(`ChatRoomSpace${button.dataset.space || "F"}`),
-			button.dataset.private === "true" ? InterfaceTextGet("PrivateRoom") : undefined,
+		const namespace = FriendListIconMapping[button.dataset.space];
+		return [
+			namespace ? [ElementCreate({
+				tag: "div",
+				attributes: { role: "img", "aria-label": InterfaceTextGet(`ChatRoomSpace${button.dataset.space || "F"}`) },
+				classList: ["chat-room-sep-image"],
+				style: { mask: `url(${namespace.src}) center/contain` },
+			}), " - "] : undefined,
+			button.dataset.private === "true" ? [ElementCreate({
+				tag: "div",
+				attributes: { role: "img", "aria-label": InterfaceTextGet("Private") },
+				classList: ["chat-room-sep-image"],
+				style: { mask: `url(${FriendListIconMapping.Private.src}) center/contain` },
+			}), " - "] : undefined,
 			ChatRoomHTMLEntities(ChatSearchMuffle(button.dataset.room)),
-			button.dataset.messages ? `✉<sup>${button.dataset.messages}</sup>` : undefined,
-		];
-		return segments.filter(Boolean).join(" - ");
+			button.dataset.messages ? ["✉", ElementCreate({ tag: "sup", children: [button.dataset.messages] })] : undefined,
+		].flat().filter(Boolean);
 	},
 
 	/**
@@ -1007,11 +1017,11 @@ var ChatRoomSep = {
 	/**
 	 * Return a {@link HTMLElement.innerHTML} representation of the separators room name
 	 * @param {HTMLDivElement} roomSep - The chat room separator
-	 * @returns {string}
+	 * @returns {(string | HTMLElement)[]}
 	 */
 	GetDisplayName: function GetDisplayName(roomSep) {
 		const button = /** @type {HTMLButtonElement} */(roomSep?.querySelector(".chat-room-sep-header"));
-		return button ? ChatRoomSep._GetDisplayName(button) : "";
+		return button ? ChatRoomSep._GetDisplayName(button) : [];
 	},
 
 	/**
@@ -1045,7 +1055,7 @@ var ChatRoomSep = {
 		const headerButton = /** @type {HTMLButtonElement} */(button.nextSibling);
 		if (headerButton) {
 			headerButton.dataset.messages = "";
-			headerButton.innerHTML = ChatRoomSep.GetDisplayName(roomSep);
+			headerButton.replaceChildren(...ChatRoomSep.GetDisplayName(roomSep));
 		}
 	},
 
@@ -1082,13 +1092,13 @@ var ChatRoomSep = {
 		button.dataset.room = data.Name;
 		button.dataset.space = data.Space;
 		button.dataset.private = ChatRoomDataIsPrivate(data).toString();
-		button.innerHTML = ChatRoomSep._GetDisplayName(button);
+		button.replaceChildren(...ChatRoomSep.GetDisplayName(roomSep));
 	},
 
 	/** Update all the displayed room names based on the player's degree of sensory deprivation. */
 	UpdateDisplayNames: async function UpdateDisplayNames() {
 		const roomLabels = /** @type {HTMLButtonElement[]} */(Array.from(document.querySelectorAll("#TextAreaChatLog .chat-room-sep-header")));
-		roomLabels.forEach(e => e.innerHTML = ChatRoomSep._GetDisplayName(e));
+		roomLabels.forEach(e => e.replaceChildren(...ChatRoomSep._GetDisplayName(e)));
 	},
 };
 
@@ -1247,7 +1257,7 @@ function ChatRoomAppendChat(div) {
 			const button = /** @type {HTMLButtonElement} */(ChatRoomSep.ActiveElem.querySelector(".chat-room-sep-header"));
 			if (button) {
 				button.dataset.messages = ((Number.parseInt(button.dataset.messages, 10) || 0) + 1).toString();
-				button.innerHTML = ChatRoomSep.GetDisplayName(ChatRoomSep.ActiveElem);
+				button.replaceChildren(...ChatRoomSep.GetDisplayName(ChatRoomSep.ActiveElem));
 			}
 		}
 	}
