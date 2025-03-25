@@ -185,7 +185,13 @@ function PreferenceNotificationsClickSetting(Left, Top, Setting, EventType) {
  * Exits the preference screen. Resets the test notifications.
  */
 function PreferenceSubscreenNotificationsExit() {
+	return true;
+}
 
+/**
+ * Finalize notification setting when the screen is unloaded
+ */
+function PreferenceSubscreenNotificationsUnload() {
 	// If any of the settings now have audio enabled, enable the AudioSettings setting as well
 	let enableAudio = false;
 	for (const setting in Player.NotificationSettings) {
@@ -195,5 +201,4 @@ function PreferenceSubscreenNotificationsExit() {
 	if (enableAudio) Player.AudioSettings.Notifications = true;
 
 	NotificationReset(NotificationEventType.TEST);
-	return true;
 }

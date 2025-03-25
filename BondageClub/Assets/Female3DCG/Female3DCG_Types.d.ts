@@ -657,6 +657,7 @@ interface AssetDefinitionBase extends AssetCommonPropertiesGroupAsset, AssetComm
 	AllowHideItem?: string[];
 	/** @deprecated */
 	AllowTypes?: never;
+	/** A list of {@link TypeRecord} keys for which a single layer expects multiple type-specific .png files. */
 	CreateLayerTypes?: string[];
 	/**
 	 * Whether an item can be tightened or not.
@@ -819,7 +820,7 @@ interface AssetLayerDefinition extends AssetCommonPropertiesGroupAssetLayer, Ass
 	/** Whether the layer is hidden in the Color Picker UI. Defaults to false. */
 	HideColoring?: boolean;
 
-	/** A record (or a list thereof) with all screen names + option indices that should make the layer visible */
+	/** A record (or a list thereof) with all screen names + option indices, _i.e._ {@link TypeRecord} keys + values, that should make the layer visible */
 	AllowTypes?: AllowTypes.Definition;
 
 	/**
@@ -867,6 +868,11 @@ interface AssetLayerDefinition extends AssetCommonPropertiesGroupAssetLayer, Ass
 	 */
 	CopyLayerPoseMapping?: string;
 
+	/**
+	 * A list of {@link TypeRecord} keys for which a single layer expects multiple type-specific .png files.
+	 *
+	 * By default files are expected for _all_ option indices associated with the key(s), unless the valid option set has been narrowed down according to {@link AssetLayerDefinition.AllowTypes}.
+	 */
 	CreateLayerTypes?: string[];
 	/* Specifies that this layer should not be drawn if the character is wearing any item with the given attributes */
 	HideForAttribute?: AssetAttribute[];

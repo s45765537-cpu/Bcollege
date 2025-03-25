@@ -179,6 +179,23 @@ declare namespace ElementButton {
 	}
 }
 
+declare namespace ElementCheckbox {
+
+	/** Various options that can be passed along to {@link ElementCheckbox.Create} */
+	interface Options {
+		/** Whether the checkbox is checked by default or not */
+		checked?: boolean;
+		/** Whether the checkbox should be disabled or not */
+		disabled?: boolean;
+		/**
+		 * The {@link HTMLInputElement.value}/{@link HTMLInputElement.valueAsNumber} associated with the checkbox when checked.
+		 *
+		 * Defaults to `"on"` if not specified.
+		 */
+		value?: string | number;
+	}
+}
+
 type Rect = { x: number, y: number, w: number, h: number };
 
 /** A 4-tuple with X & Y coordinates, width and height */
@@ -568,6 +585,7 @@ interface PreferenceSubscreen {
 	run: () => void;
 	click: () => void;
 	exit?: () => boolean;
+	unload?: () => void;
 }
 
 interface PreferenceGenderSetting {
@@ -883,7 +901,7 @@ interface IFriendListBeepLogMessage {
 	MemberName: string;
 	ChatRoomName?: string;
 	Private: boolean;
-	ChatRoomSpace?: string;
+	ChatRoomSpace?: ServerChatRoomSpace;
 	Sent: boolean;
 	Time: Date;
 	Message?: string;
@@ -1056,6 +1074,11 @@ interface AssetLayer {
 	readonly GroupAlpha?: readonly Alpha.Data[];
 	/** @deprecated - Superceded by {@link CreateLayerTypes} */
 	readonly ModuleType?: never;
+	/**
+	 * A list of {@link TypeRecord} keys for which a single layer expects multiple type-specific .png files.
+	 *
+	 * By default files are expected for _all_ option indices associated with the key(s), unless the valid option set has been narrowed down according to {@link AssetLayer.AllowTypes}.
+	 */
 	readonly CreateLayerTypes: readonly string[];
 	/* Specifies that this layer should not be drawn if the character is wearing any item with the given attributes */
 	readonly HideForAttribute: readonly AssetAttribute[] | null;
@@ -1213,10 +1236,7 @@ interface Asset {
 	readonly DynamicScriptDraw: boolean;
 	/** @deprecated - superceded by {@link CreateLayerTypes} */
 	readonly HasType?: never;
-	/**
-	 * A module for which the layer can have types.
-	 * Allows one to define different module-specific assets for a single layer.
-	 */
+	/** A list of {@link TypeRecord} keys for which a single layer expects multiple type-specific .png files. */
 	readonly CreateLayerTypes: readonly string[];
 	/** A record that maps {@link ExtendedItemData.name} to a set with all option indices that support locks */
 	readonly AllowLockType: null | Record<string, Set<number>>;
@@ -2810,7 +2830,7 @@ interface AssetDefinitionProperties {
 	 * A list of allowed activities
 	 * @see {@link Asset.AllowActivity}
 	 */
-	AllowActivity?: string[];
+	AllowActivity?: ActivityName[];
 	/**
 	 * A list of groups allowed activities
 	 * @see {@link Asset.AllowActivityOn}
@@ -2917,7 +2937,7 @@ interface AssetDefinitionProperties {
 type PartialType = `${string}${number}`;
 
 /**
- * A record mapping screen names to option indices.
+ * A record mapping extended item data/module names (see {@link ExtendedItemData.Name} and {@link ModularItemModule.Key}) to option indices.
  * @see {@link PartialType} A concatenation of a single `TypeRecord` key/value pair.
  */
 type TypeRecord = Record<string, number>;
@@ -4359,6 +4379,8 @@ interface PreferenceExtensionsSettingItem {
 	 * Called when the extension screen is about to exit.
 	 *
 	 * Happens either through a click of the exit button, or the ESC key.
+	 * This will **not** be called if a disconnect happens, so clean up should be 
+	 * done in {@link PreferenceExtensionsSettingItem.unload}.
 	 *
 	 * @returns {boolean | void} If you have some validation that needs to happen
 	 * (for example, ensuring that a textfield contains a valid color code), return false;
@@ -4367,7 +4389,7 @@ interface PreferenceExtensionsSettingItem {
 	 * either through your own means or by setting `PreferenceMessage` to a string.
 	 *
 	 * If you return true or nothing, your screen's {@link PreferenceExtensionsSettingItem.unload} handler
-	 * will be called afterward.
+	 * will be called afterward. And the setting screen for the extension will be closed.
 	 */
 	exit: () => boolean | void;
 }

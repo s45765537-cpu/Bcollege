@@ -33,6 +33,7 @@
 	padding: var(--small-gap);
 	width: 20%;
 	text-align: center;
+	user-select: none;
 }
 
 #friend-list-search-input {
@@ -61,15 +62,17 @@
 /* #endregion */
 
 /* #region HEADER */
+
 #friend-list-header {
-	min-height: var(--row-height);
-	display: flex;
-	align-items: center;
-	color: var(--text-color);
+	user-select: none;
 }
 
 #friend-list-header .friend-list-link {
 	text-decoration: none;
+}
+
+#friend-list-header .friend-list-row:hover {
+	color: var(--text-color);
 }
 
 #friend-list-header-hr {
@@ -105,6 +108,60 @@
 #friend-list-beep-dialog:not([data-received]) .fl-beep-sent-content {
 	display: block;
 }
+
+.ChatRoomType {
+	display: flex;
+	justify-content: center;
+	gap: 0.15em;
+	user-select: none;
+}
+
+.friend-list-icon-container {
+	position: relative;
+	height: var(--row-height);
+	width: var(--row-height);
+	max-width: 86px;
+	max-height: 86px;
+	aspect-ratio: 1 / 1;
+}
+
+.friend-list-icon-container > .button-tooltip {
+	--tooltip-gap: 0.15em;
+}
+
+.friend-list-icon {
+	pointer-events: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+@media (hover: hover) {
+	@supports selector(:has(*)) {
+		.friend-list-icon-container:hover:not(:has(.button-tooltip:hover)) > .button-tooltip {
+			visibility: visible;
+		}
+	}
+
+	@supports not selector(:has(*)) {
+		.friend-list-icon-container:hover > .button-tooltip {
+			visibility: visible;
+		}
+	}
+}
+
+.friend-list-icon-small {
+	pointer-events: none;
+	height: var(--row-height);
+	width: var(--row-height);
+	max-width: 50px;
+	max-height: 50px;
+	margin-inline: 0.15em;
+	aspect-ratio: 1 / 1;
+}
+
 /* #endregion */
 
 /* #region FRIENDLIST */
@@ -124,15 +181,25 @@
 	width: calc(100% - var(--button-size));
 }
 
-.friend-list-row {
-	color: var(--text-color);
-	display: flex;
-	flex-direction: row;
-	justify-content: space-evenly;
+#friend-list-table th {
+	font-weight: normal;
 }
 
-.friend-list-row * {
+.friend-list-row {
+	color: var(--text-color);
+	min-height: var(--row-height);
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+	justify-content: space-evenly;
+	padding: unset;
 	margin: var(--small-gap) 0;
+}
+
+.friend-list-row > * {
+	vertical-align: middle;
+	text-justify: center;
+	padding: unset;
 }
 
 .friend-list-row:hover {
@@ -145,10 +212,6 @@
 	text-align: center;
 	text-wrap: nowrap;
 	white-space: preserve;
-}
-
-#friend-list .friend-list-column {
-	height: 100%;
 }
 
 #friend-list-member-number,
@@ -168,8 +231,8 @@
 	gap: var(--small-gap);
 }
 
-.RelationType img {
-	height: min(5dvh, 2.5dvw);
+.RelationType {
+	user-select: none;
 }
 
 .friend-list-link {

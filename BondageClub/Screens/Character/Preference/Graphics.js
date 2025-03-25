@@ -211,6 +211,13 @@ function PreferenceSubscreenGraphicsClick() {
 }
 
 function PreferenceSubscreenGraphicsExit() {
+	return true;
+}
+
+/**
+ * Finalize graphics setting when the screen is unloaded
+ */
+function PreferenceSubscreenGraphicsUnload() {
 	// Reload WebGL if graphic settings have changed.
 	const currentOptions = GLDrawGetOptions();
 	if (
@@ -223,5 +230,4 @@ function PreferenceSubscreenGraphicsExit() {
 		GLDrawSetOptions(PreferenceGraphicsWebGLOptions);
 		GLDrawResetCanvas();
 	}
-	return true;
 }
