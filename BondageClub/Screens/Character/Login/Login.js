@@ -6,10 +6,10 @@ var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
-	"Abysseia", "AlexG", "ArashiSama", "BlueWinter", "bryce", "Canti", "Christian", "Christoffer", "Claudia33", 
-	"Cm382714", "Desch", "Dragokahn", "dynilath", "Edwin", "Glurak", "Greendragon", "john", "Laurie", "luke", 
-	"Lyall", "Marashu", "Michel", "Mindtie", "Misa", "Nightcore", "Patrick", "René", "Robin", "Schrödingers", 
-	"Setsu95", "Sticks", "Sunny", "Tam", "Tarram1010", "Teli", "Thkdt", "Troubadix", "Troy", "Varo", 
+	"Abysseia", "AlexG", "ArashiSama", "BlueWinter", "bryce", "Canti", "Christian", "Christoffer", "Claudia33",
+	"Cm382714", "Desch", "Dragokahn", "dynilath", "Edwin", "Glurak", "Greendragon", "john", "Laurie", "luke",
+	"Lyall", "Marashu", "Michel", "Mindtie", "Misa", "Nightcore", "Patrick", "René", "Robin", "Schrödingers",
+	"Setsu95", "Sticks", "Sunny", "Tam", "Tarram1010", "Teli", "Thkdt", "Troubadix", "Troy", "Varo",
 	"WhiteSniper", "XDWolfie", "Xepherio", "Nikachi"
 ];
 
@@ -897,11 +897,11 @@ function LoginSetupPlayer(C) {
 	LoginCheatItems();
 	LoginValideBuyGroups();
 	PrisonRestoreConfiscatedItems();
+	AsylumGGTSSAddItems();
 	CraftingLoadServer(CraftingDecompressed); // Only run this _after_ `Player.Inventory` is fully ready
 
 	if (InventoryBeforeFixes != InventoryStringify(Player)) ServerPlayerInventorySync();
 	CharacterAppearanceValidate(Player);
-	AsylumGGTSSAddItems();
 	ChatRoomCustomized = ((Player.OnlineSettings != null) && (Player.OnlineSettings.ShowRoomCustomization != null) && (Player.OnlineSettings.ShowRoomCustomization >= 2));
 	if (Player.Crafting.length > 80) Player.Crafting = Player.Crafting.slice(0, 80);
 }
