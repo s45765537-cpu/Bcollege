@@ -680,12 +680,7 @@ function ChatRoomGiveHighSecurityKeysAll() {
  * @returns {boolean} - TRUE if the player can interact and is allowed to interact with the current character.
  */
 function ChatRoomCanGiveLockpicks() {
-	if (Player.CanInteract())
-		for (let I = 0; I < Player.Inventory.length; I++)
-			if (Player.Inventory[I].Name == "Lockpicks") {
-				return true;
-			}
-	return false;
+	return Player.CanInteract() ? InventoryAvailable(Player, "Lockpicks", "ItemMisc") : false;
 }
 
 /**

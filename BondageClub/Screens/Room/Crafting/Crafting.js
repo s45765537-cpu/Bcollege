@@ -882,7 +882,8 @@ function CraftingLoad() {
 
 	// Re-enable previously disabled items if the player now owns them
 	for (const item of Player.Crafting) {
-		if (item?.Disabled && Player.Inventory.some(i => i.Asset.Name === item.Name)) {
+		const asset = CraftingAssets[item.Item]?.[0];
+		if (item?.Disabled && asset && InventoryAvailable(Player, item.Name, asset.DynamicGroupName)) {
 			delete item.Disabled;
 		}
 	}
@@ -1292,15 +1293,14 @@ function CraftingRun() {
 			} else {
 				DrawButton(X, Y, 470, 140, "", BGColor);
 				DrawTextFit(Craft.Name, X + 295, Y + 25, 315, "Black", "Silver");
-				for (let Item of Player.Inventory) {
-					if (Item.Asset.Name == Craft.Item) {
-						DrawImageResize("Assets/" + Player.AssetFamily + "/" + Item.Asset.DynamicGroupName + "/Preview/" + Item.Asset.Name + ".png", X + 3, Y + 3, 135, 135);
-						DrawTextFit(Item.Asset.Description, X + 295, Y + 70, 315,  "Black", "Silver");
-						DrawTextFit(TextGet("Property" + Craft.Property), X + 295, Y + 115, 315, "Black", "Silver");
-						if ((Craft.Lock != null) && (Craft.Lock != ""))
-							DrawImageResize("Assets/" + Player.AssetFamily + "/ItemMisc/Preview/" + Craft.Lock + ".png", X + 70, Y + 70, 70, 70);
-						break;
-					}
+				const asset = CraftingAssets[Craft.Item]?.[0];
+				const groupName = asset?.DynamicGroupName;
+				if (groupName && InventoryAvailable(Player, Craft.Item, groupName)) {
+					DrawImageResize("Assets/" + Player.AssetFamily + "/" + groupName + "/Preview/" + asset.Name + ".png", X + 3, Y + 3, 135, 135);
+					DrawTextFit(asset.Description, X + 295, Y + 70, 315,  "Black", "Silver");
+					DrawTextFit(TextGet("Property" + Craft.Property), X + 295, Y + 115, 315, "Black", "Silver");
+					if ((Craft.Lock != null) && (Craft.Lock != ""))
+						DrawImageResize("Assets/" + Player.AssetFamily + "/ItemMisc/Preview/" + Craft.Lock + ".png", X + 70, Y + 70, 70, 70);
 				}
 			}
 		}
@@ -1847,7 +1847,7 @@ function CraftingConvertItemToSelected(Craft) {
 		get Asset() {
 			return this.Assets[0];
 		},
-		Lock: Craft.Lock ? Player.Inventory.find(a => a.Asset.IsLock && a.Asset.Name == Craft.Lock).Asset : null,
+		Lock: Craft.Lock && InventoryAvailable(Player, Craft.Lock, "ItemMisc") ? AssetGet(Player.AssetFamily, "ItemMisc", Craft.Lock) : null,
 		ItemProperty: Craft.ItemProperty ? Craft.ItemProperty : {},
 		get OverridePriority() {
 			return this.ItemProperty.OverridePriority;
@@ -2059,7 +2059,8 @@ const CraftingValidationRecord = {
 	Item: {
 		Validate: (c, a, checkPlayerInventory=false) => {
 			if (checkPlayerInventory) {
-				return Player.Inventory.some((i) => i.Name === c.Item);
+				const groupName = CraftingAssets[c.Item]?.[0]?.DynamicGroupName;
+				return groupName ? InventoryAvailable(Player, c.Item, groupName) : false;
 			} else {
 				return Asset.some((i) => i.Name === c.Item);
 			}
@@ -2083,7 +2084,7 @@ const CraftingValidationRecord = {
 
 			const isValidLock = CraftingLockList.includes(c.Lock);
 			if (checkPlayerInventory) {
-				return isValidLock && Player.Inventory.some((i) => i.Name === c.Lock);
+				return isValidLock && InventoryAvailable(Player, c.Lock, "ItemMisc");
 			} else {
 				return isValidLock;
 			}
@@ -2304,9 +2305,9 @@ function CraftingValidate(Craft, asset=null, Warn=true, checkPlayerInventory=fal
 
 	// If the Asset has been explicetly passed then `Craft.Item` errors are fully recoverable,
 	// though the player should actually own the item
-	if (Craft.Item && StatusMap.get("Item") === CraftingStatusType.CRITICAL_ERROR) {
+	if (assets.length > 0 && StatusMap.get("Item") === CraftingStatusType.CRITICAL_ERROR) {
 		StatusMap.set("Item", CraftingStatusType.ERROR);
-		if (checkPlayerInventory && !Player.Inventory.some((i) => i.Name === Craft.Item)) {
+		if (checkPlayerInventory && !InventoryAvailable(Player, assets[0].Name, assets[0].DynamicGroupName)) {
 			Craft.Disabled = true;
 		}
 	}
