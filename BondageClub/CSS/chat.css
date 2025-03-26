@@ -32,6 +32,19 @@
 
 .chat-room-sep-header {
   user-select: text !important;
+  align-content: center;
+  justify-content: center;
+  display: flex;
+}
+
+.chat-room-sep-image {
+  max-width: 50px;
+  max-height: 50px;
+  width: 1em;
+  height: 1em;
+  aspect-ratio: 1 / 1;
+  background: gray;
+  margin-block: 0.1em;
 }
 
 .chat-room-sep-collapse {
@@ -275,7 +288,6 @@
 }
 
 @media (hover: hover) {
-
   #TextAreaChatLog[data-colortheme="dark"] .chat-room-sep-header:hover,
   #TextAreaChatLog[data-colortheme="dark2"] .chat-room-sep-header:hover,
   #TextAreaChatLog[data-colortheme="dark"] .chat-room-sep-collapse:hover,
@@ -283,11 +295,21 @@
     color: #eee;
   }
 
+  #TextAreaChatLog[data-colortheme="dark"] .chat-room-sep-header:hover > .chat-room-sep-image,
+  #TextAreaChatLog[data-colortheme="dark2"] .chat-room-sep-header:hover > .chat-room-sep-image {
+    background-color: #eee;
+  }
+
   #TextAreaChatLog[data-colortheme="light"] .chat-room-sep-header:hover,
   #TextAreaChatLog[data-colortheme="light2"] .chat-room-sep-header:hover,
   #TextAreaChatLog[data-colortheme="light"] .chat-room-sep-collapse:hover,
   #TextAreaChatLog[data-colortheme="light2"] .chat-room-sep-collapse:hover {
     color: black;
+  }
+
+  #TextAreaChatLog[data-colortheme="light"] .chat-room-sep-header:hover > .chat-room-sep-image,
+  #TextAreaChatLog[data-colortheme="light2"] .chat-room-sep-header:hover > .chat-room-sep-image {
+    background-color: black;
   }
 }
 
