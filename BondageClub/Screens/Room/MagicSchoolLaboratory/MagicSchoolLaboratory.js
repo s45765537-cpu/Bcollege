@@ -21,7 +21,9 @@ function MagicSchoolLaboratoryPrepareNPC(C, House) {
 		C.AllowItem = false;
 		C.House = House;
 	}
+	/** @type {BCColor} */
 	let DarkColor = "#555555";
+	/** @type {BCColor} */
 	let LightColor = "#777777";
 	if (House == "Maiestas") { DarkColor = "#DFAC13"; LightColor = "#FFCC33"; }
 	if (House == "Vincula") { DarkColor = "#447744"; LightColor = "#559955"; }

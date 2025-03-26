@@ -119,7 +119,7 @@ function SlaveMarketNewSlave() {
 	CharacterAppearanceFullRandom(SlaveMarketSlave);
 	CharacterNaked(SlaveMarketSlave);
 	if (Math.random() >= 0.85) {
-		let Color = CommonRandomItemFromList(null, ["Default", "#222222", "#BBBBBB", "#882222"]);
+		let Color = CommonRandomItemFromList(null, /** @type {const} */(["Default", "#222222", "#BBBBBB", "#882222"]));
 		InventoryWear(SlaveMarketSlave, CommonRandomItemFromList(null, ["CatEye", "CatEye2", "LargeSolid", "SuperstarBlurred", "UndershadowedSolid"]), "EyeShadow", Color);
 		InventoryWear(SlaveMarketSlave, "SuccubusHorns", "HairAccessory1", Color);
 		InventoryWear(SlaveMarketSlave, CommonRandomItemFromList(null, ["SuccubusTailStrap", "SuccubusHeartTailStrap"]), "TailStraps", Color);

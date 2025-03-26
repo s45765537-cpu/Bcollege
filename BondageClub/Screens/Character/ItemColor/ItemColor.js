@@ -56,14 +56,14 @@ let ItemColorLayerNames = null;
 let ItemColorGroupNames = null;
 /**
  * All (hex code) colors used within the current lifetime of the ItemColor subscreen.
- * @type {Set<HexColor>}
+ * @type {Set<BCColor>}
  */
 const ItemColorHistory = new Set();
 
 /**
  * Sanitize the color of the passed item, returning an array of valid color strings and of length {@link Asset.ColorableLayerCount}.
  * @param {Item} item - The item whose colors are to be validated
- * @returns {string[]} - The validated colors returned as array
+ * @returns {BCColor[]} - The validated colors returned as array
  */
 function ItemColorSanitizeColor(item) {
 	const color = [...item.Asset.DefaultColor];
@@ -243,7 +243,7 @@ function ItemColorDrawDefault(x, y) {
  * A debounced callback for when the item color picker changes its value. This sets the color for the currently selected set of color
  * indices
  * @deprecated - Superseded by {@link ColorPicker.eventListeners.inputItemColor}
- * @type {(color: string) => void}
+ * @type {(color: BCColor) => void}
  */
 const ItemColorOnPickerChange = () => undefined;
 
@@ -703,8 +703,8 @@ function ItemColorIsSimple(item) {
 /**
  * Fetches the color button text key for the provided item color. If the item's color is already a string, the color string is returned.
  * Otherwise, returns "Many" or "Default" as appropriate.
- * @param {string | readonly string[]} color - The item color
- * @returns {string} - The appropriate color button key for the provided item color(s)
+ * @param {"None" | BCColor | readonly BCColor[]} color - The item color
+ * @returns {"Many" | BCColor} - The appropriate color button key for the provided item color(s)
  */
 function ItemColorGetColorButtonTextKey(color) {
 	if (CommonIsArray(color)) {
@@ -719,7 +719,7 @@ function ItemColorGetColorButtonTextKey(color) {
 /**
  * Fetches the color button text for the provided item color. If the item's color is already a string, the color string is returned.
  * Otherwise, returns "Many" or "Default" as appropriate.
- * @param {string | readonly string[]} color - The item color
+ * @param {BCColor | readonly BCColor[]} color - The item color
  * @returns {string} - The appropriate color button text for the provided item color(s), translated to the current game language
  */
 function ItemColorGetColorButtonText(color) {

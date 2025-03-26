@@ -20,7 +20,7 @@ var NurseryPlayerAppearance = null;
 //var NurseryNurseAppearance = null;
 //var NurseryAdultBabyAppearance = null;
 var RandomNumber = 0;
-/** @type {null | string} */
+/** @type {null | BCColor} */
 var RandomResult = null;
 /** @type {null | string} */
 var RandomResultB = null;

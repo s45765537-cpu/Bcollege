@@ -244,7 +244,7 @@ function PreferenceSubscreenGeneralColorPickerToggle() {
 		]);
 		ColorPickerInit({
 			colorState: {
-				colors: [Player.LabelColor],
+				colors: [Player.LabelColor || "#ffffff"],
 				defaultColors: ["#ffffff"],
 				opacity: [1],
 				editOpacity: false,
@@ -282,15 +282,16 @@ function PreferenceSubscreenGeneralColorPickerToggle() {
 
 /** @param {HTMLInputElement} input */
 function PreferenceSubscreenGeneralColorInput(input) {
+	/** @type {"" | HexColor} */
 	let textColor = "";
 
 	if (CommonIsColor(input.value))
-		textColor = ElementValue("InputCharacterLabelColor");
+		textColor = input.value;
 	else
 		textColor = Player.LabelColor;
 
 	input.style.color = textColor;
-	let TextColorHSV = ColorPickerCSSToHSV(textColor);
+	let TextColorHSV = ColorPickerCSSToHSV(textColor || "#FFFFFF");
 
 	if (TextColorHSV.V > 0.4) {
 		input.style.backgroundColor = "#111111";

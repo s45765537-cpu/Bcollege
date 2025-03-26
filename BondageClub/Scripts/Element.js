@@ -2805,7 +2805,9 @@ class HTMLColorTintElement extends HTMLElement {
 		);
 
 		this.tabIndex = this.disabled ? -1 : 0;
-		this.defaultValue = this.value = this.getAttribute("value") ?? "#FFFFFF";
+		// incoming strings will be sanitized by the `value` setter
+		this.value = /** @type {HexColor} */(this.getAttribute("value")) ?? "#FFFFFF";
+		this.defaultValue = this.value;
 
 		const tintPicker = this;
 
@@ -2962,7 +2964,9 @@ class HTMLColorTintElement extends HTMLElement {
 		switch (name) {
 			case "value": {
 				if (newValue !== oldValue) {
-					this.defaultValue = this.value = newValue ?? "#FFFFFF";
+					// incoming strings will be sanitized by the `value` setter
+					this.value = /** @type {HexColor} */(newValue) ?? "#FFFFFF";
+					this.defaultValue = this.value;
 				}
 				break;
 			}
@@ -3117,7 +3121,7 @@ class HTMLColorTintElement extends HTMLElement {
 	 * Sets or retrieves the initial contents of the object.
 	 *
 	 * See {@link HTMLInputElement.value}
-	 * @type {string}
+	 * @type {HexColor}
 	 */
 	get value() {
 		return ColorPickerHSVToCSS(this._value);

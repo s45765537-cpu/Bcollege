@@ -623,7 +623,7 @@ function KinkyDungeonWearForcedClothes(restraints) {
 					if (!canReplace) {return;}
 					if (KDProtectedCosplay.includes(dress.Group)){return;}
 					let filters = dress.Filters;
-					/** @type string|string[] */
+					/** @type {BCColor|BCColor[]} */
 					let color = (typeof dress.Color === "string") ? [dress.Color] : dress.Color;
 					let faction = inv.faction;
 					if (inv.faction)

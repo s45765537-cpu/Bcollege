@@ -609,7 +609,7 @@ function CommonTime() {
  * Checks if a given value is a valid HEX color code (optionally with alpha channel)
  * @param {string | undefined} Value - Potential HEX color code
  * @param {null | { allowAlpha?: boolean }} [options]
- * @returns {boolean} - Returns TRUE if the string is a valid HEX color
+ * @returns {Value is HexColor} - Returns TRUE if the string is a valid HEX color
  */
 function CommonIsColor(Value, options=null) {
 	options ??= {};
@@ -630,6 +630,15 @@ function CommonColorIsValid(Color) {
 	if (Color == null || typeof Color === "string") return true;
 	if (Array.isArray(Color)) return Color.every(C => C == null || typeof C === "string");
 	return false;
+}
+
+/**
+ * Remove the (potential present) alpha component of the passed color hex code, turning the likes of `RRGGBB(AA)` into `RRGGBB`.
+ * @param {HexColor} color The color hex code
+ * @returns {HexColor} The color hex code with its (potentially present) alpha component removed
+ */
+function CommonColorTrimAlpha(color) {
+	return /** @type {HexColor} */(color.slice(0, 7));
 }
 
 /**

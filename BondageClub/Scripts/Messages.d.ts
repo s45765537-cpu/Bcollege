@@ -53,7 +53,7 @@ interface ServerAccountData extends ServerAccountImmutableData {
 	ArousalSettings?: ArousalSettingsType;
 	OnlineSharedSettings?: CharacterOnlineSharedSettings;
 	Game?: CharacterGameParameters;
-	LabelColor?: string;
+	LabelColor?: "" | HexColor;
 	Appearance?: ServerAppearanceBundle;
 	Description?: string;
 	BlockItems?: ServerItemPermissionsPacked | ServerItemPermissions[];

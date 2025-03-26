@@ -173,8 +173,8 @@ function MagicTrickChangeDressesBack() {
  */
 function MagicAssistantDress() {
 	CharacterNaked(MagicAssistant);
-	var ColorList = ["Default", "#aa8080", "#8080aa", "#aaaa80", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"];
-	var Color = CommonRandomItemFromList("", ColorList);
+	var ColorList = /** @type {const} */(["Default", "#aa8080", "#8080aa", "#aaaa80", "#aa80aa", "#cc3333", "#33cc33", "#3333cc", "#cccc33", "#33cccc", "#cc33cc"]);
+	var Color = CommonRandomItemFromList(null, ColorList);
 	InventoryWear(MagicAssistant, "BunnyEars1", "HairAccessory1");
 	InventoryWear(MagicAssistant, "BunnyCollarCuffs", "Cloth");
 	InventoryWear(MagicAssistant, "BunnySuit", "Bra", Color);

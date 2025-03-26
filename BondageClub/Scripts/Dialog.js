@@ -7,7 +7,7 @@
 var DialogTextDefaultDuration = 5000;
 /**
  * The default color to use when applying items.
- * @type {null | string}
+ * @type {null | HexColor}
  */
 var DialogColorSelect = null;
 /**
@@ -2094,14 +2094,15 @@ function DialogChangeMode(mode, reset=false) {
 				onInput: () => null,
 				onExit: ({ colors, initialColors }, save) => {
 					if (save && !CommonArraysEqual(colors, initialColors)) {
-						DialogColorSelect = colors[0] || null;
+						const color = colors[0];
+						DialogColorSelect = CommonIsColor(color) ? color : null;
 					}
 					DialogChangeMode("items");
 				},
 				colorState: {
 					opacity: [1],
-					colors: [DialogColorSelect ?? ""],
-					defaultColors: [""],
+					colors: [DialogColorSelect ?? "Default"],
+					defaultColors: ["Default"],
 					editOpacity: false,
 				},
 				shape: [1090, 15, 910, 970],
@@ -2492,7 +2493,7 @@ function DialogSetTightenLoosenItem(Item) {
 /**
  * Validates that the player is allowed to change the item color and swaps it on the fly
  * @param {Character} C - The player who wants to change the color
- * @param {string} Color - The new color in the format "#rrggbb"
+ * @param {BCColor} Color - The new color in the format "#rrggbb"
  * @returns {void} - Nothing
  */
 function DialogChangeItemColor(C, Color) {
@@ -5807,6 +5808,7 @@ function DialogStruggleStop(C, Game, { Progress, PrevItem, NextItem, Skill, Atte
 		// Removes the item & associated items if needed, then wears the new one
 		InventoryRemove(C, C.FocusGroup.Name, false);
 		if (NextItem != null) {
+			/** @type {BCColor} */
 			let Color = (DialogColorSelect == null) ? "Default" : DialogColorSelect;
 			if ((NextItem.Craft != null) && CommonIsColor(NextItem.Craft.Color))
 				Color = NextItem.Craft.Color;

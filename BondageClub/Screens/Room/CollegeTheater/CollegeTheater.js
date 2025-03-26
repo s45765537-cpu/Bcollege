@@ -4,6 +4,7 @@ var CollegeTheaterBackground = "CollegeTheater";
 /** @type {null | NPCCharacter} */
 var CollegeTheaterJulia = null;
 var CollegeTheaterJuliaLove = 0;
+/** @type {BCColor[]} */
 var CollegeTheaterRandomColors = ["#AA4444", "#44AA44", "#4444AA", "#AAAA44", "#AA44AA", "#44AAAA"];
 
 
@@ -124,7 +125,7 @@ function CollegeTheaterPlayClothes(C1, C2) {
  * @returns {void} - Nothing
  */
 function CollegeTheaterRandomRope(C) {
-	var Color = CommonRandomItemFromList("", CollegeTheaterRandomColors);
+	var Color = CommonRandomItemFromList(null, CollegeTheaterRandomColors);
 	InventoryWear(C, "HempRope", "ItemArms", Color);
 	InventoryWear(C, "HempRope", "ItemLegs", Color);
 	InventoryWear(C, "HempRope", "ItemFeet", Color);
@@ -136,7 +137,7 @@ function CollegeTheaterRandomRope(C) {
  * @returns {void} - Nothing
  */
 function CollegeTheaterRandomBelt(C) {
-	var Color = CommonRandomItemFromList("", CollegeTheaterRandomColors);
+	var Color = CommonRandomItemFromList(null, CollegeTheaterRandomColors);
 	InventoryWear(C, "SturdyLeatherBelts", "ItemArms", Color);
 	InventoryWear(C, "SturdyLeatherBelts", "ItemLegs", Color);
 	InventoryWear(C, "SturdyLeatherBelts", "ItemFeet", Color);
@@ -170,14 +171,14 @@ function CollegeTheaterJuliaLoveChange(LoveChange, Event) {
 	if (Event == "JuliaUnderwear") CollegeTheaterUnderwear(CollegeTheaterJulia);
 	if (Event == "PlayerNaked") CharacterNaked(Player);
 	if (Event == "JuliaNaked") CharacterNaked(CollegeTheaterJulia);
-	if (Event == "PlayerHandCuffs") InventoryWear(Player, "MetalCuffs", "ItemArms", CommonRandomItemFromList("", CollegeTheaterRandomColors));
-	if (Event == "PlayerFeetCuffs") InventoryWear(Player, "Irish8Cuffs", "ItemFeet", CommonRandomItemFromList("", CollegeTheaterRandomColors));
-	if (Event == "PlayerFeetIron") InventoryWear(Player, "BallChain", "ItemFeet", CommonRandomItemFromList("", CollegeTheaterRandomColors));
-	if (Event == "PlayerFairy") InventoryWear(Player, "BatWings", "Wings", CommonRandomItemFromList("", CollegeTheaterRandomColors));
+	if (Event == "PlayerHandCuffs") InventoryWear(Player, "MetalCuffs", "ItemArms", CommonRandomItemFromList(null, CollegeTheaterRandomColors));
+	if (Event == "PlayerFeetCuffs") InventoryWear(Player, "Irish8Cuffs", "ItemFeet", CommonRandomItemFromList(null, CollegeTheaterRandomColors));
+	if (Event == "PlayerFeetIron") InventoryWear(Player, "BallChain", "ItemFeet", CommonRandomItemFromList(null, CollegeTheaterRandomColors));
+	if (Event == "PlayerFairy") InventoryWear(Player, "BatWings", "Wings", CommonRandomItemFromList(null, CollegeTheaterRandomColors));
 	if (Event == "JuliaRope") CollegeTheaterRandomRope(CollegeTheaterJulia);
 	if (Event == "JuliaBelt") CollegeTheaterRandomBelt(CollegeTheaterJulia);
-	if (Event == "JuliaClothBlindfold") InventoryWear(CollegeTheaterJulia, "ClothBlindfold", "ItemHead", CommonRandomItemFromList("", CollegeTheaterRandomColors));
-	if (Event == "JuliaLeatherBlindfold") InventoryWear(CollegeTheaterJulia, "LeatherBlindfold", "ItemHead", CommonRandomItemFromList("", CollegeTheaterRandomColors));
+	if (Event == "JuliaClothBlindfold") InventoryWear(CollegeTheaterJulia, "ClothBlindfold", "ItemHead", CommonRandomItemFromList(null, CollegeTheaterRandomColors));
+	if (Event == "JuliaLeatherBlindfold") InventoryWear(CollegeTheaterJulia, "LeatherBlindfold", "ItemHead", CommonRandomItemFromList(null, CollegeTheaterRandomColors));
 }
 
 /**

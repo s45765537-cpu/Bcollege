@@ -764,9 +764,9 @@ function ServerBundledItemToAppearanceItem(assetFamily, item) {
 /**
  * Parses an item color, based on the allowed colorable layers on an asset, and the asset's color schema
  * @param {Asset} asset - The asset on which the color is set
- * @param {string | readonly string[]} color - The color value to parse
- * @param {readonly string[]} schema - The color schema to validate against
- * @returns {string|string[]} - A parsed valid item color
+ * @param {BCColor | readonly BCColor[]} color - The color value to parse
+ * @param {readonly BCColor[]} schema - The color schema to validate against
+ * @returns {BCColor | BCColor[]} - A parsed valid item color
  */
 function ServerParseColor(asset, color, schema) {
 	if (typeof color === "string") {
@@ -815,9 +815,9 @@ function ServerAddRequiredAppearance(assetFamily, diffMap) {
 
 /**
  * Validates and returns a color against a color schema
- * @param {string} Color - The color to validate
- * @param {readonly string[]} Schema - The color schema to validate against (a list of accepted Color values)
- * @returns {string} - The color if it is a valid hex color string or part of the color schema, or the default color
+ * @param {BCColor} Color - The color to validate
+ * @param {readonly BCColor[]} Schema - The color schema to validate against (a list of accepted Color values)
+ * @returns {BCColor} - The color if it is a valid hex color string or part of the color schema, or the default color
  *     from the color schema otherwise
  */
 function ServerValidateColorAgainstSchema(Color, Schema) {

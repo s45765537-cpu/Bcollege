@@ -206,6 +206,7 @@ function CafeUngagPlayer() {
  */
 function CafeServiceBound(Style) {
 	var RandomNumber = 0;
+	/** @type {null | BCColor} */
 	var RandomColor = null;
 	var Bondage = null;
 
@@ -239,7 +240,7 @@ function CafeServiceBound(Style) {
 	if (Style == "Tape") {
 
 		// Base items
-		RandomColor = '#'+Math.floor(Math.random()*16777215).toString(16);
+		RandomColor = `#${Math.floor(Math.random()*16777215).toString(16)}`;
 		InventoryWear(Player, "DuctTape", "ItemArms", RandomColor, 15);
 		InventoryWear(Player, "DuctTape", "ItemHands", RandomColor, 15);
 		InventoryWear(Player, "DuctTape", "ItemLegs", RandomColor, 10);
@@ -296,7 +297,7 @@ function CafeServiceBound(Style) {
 
 	if (Style == "Latex") {
 
-		RandomColor = '#'+Math.floor(Math.random()*16777215).toString(16);
+		RandomColor = `#${Math.floor(Math.random()*16777215).toString(16)}`;
 
 		// Arms
 		RandomNumber = Math.floor(Math.random() * 4);
@@ -337,7 +338,7 @@ function CafeServiceBound(Style) {
 		if (RandomNumber >= 1) Bondage = "StraitJacket";
 		if (RandomNumber >= 2) Bondage = "BitchSuit";
 		if (RandomNumber >= 3) Bondage = "StraitDressOpen";
-		if (RandomNumber >= 2) RandomColor = '#'+Math.floor(Math.random()*16777215).toString(16);
+		if (RandomNumber >= 2) RandomColor = `#${Math.floor(Math.random()*16777215).toString(16)}`;
 		InventoryWear(Player, Bondage, "ItemArms", RandomColor, 20);
 
 		if (Bondage == "StraitJacket") {
@@ -351,7 +352,7 @@ function CafeServiceBound(Style) {
 			if (RandomNumber >= 1) Bondage = "LeatherBelt";
 			if (RandomNumber >= 2) Bondage = "LegBinder";
 			if (RandomNumber >= 3) Bondage = "HobbleSkirt";
-			if (RandomNumber >= 2) RandomColor = '#'+Math.floor(Math.random()*16777215).toString(16);
+			if (RandomNumber >= 2) RandomColor = `#${Math.floor(Math.random()*16777215).toString(16)}`;
 			else RandomColor = null;
 			InventoryWear(Player, Bondage, "ItemLegs", RandomColor);
 
