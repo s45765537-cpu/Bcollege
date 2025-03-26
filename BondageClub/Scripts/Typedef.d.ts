@@ -8,7 +8,8 @@ declare function io(serv: string): SocketIO.Socket;
 
 type ClientEvent = import("@socket.io/component-emitter").EventNames<ClientToServerEvents>;
 type ClientEventParams<Ev extends ClientEvent> = import("@socket.io/component-emitter").EventParams<ClientToServerEvents, Ev>;
-
+type _SendRateLimitQueueItem<T extends ClientEvent> = T extends ClientEvent ? { Message: T, args: ClientEventParams<T>} : never;
+type SendRateLimitQueueItem = _SendRateLimitQueueItem<ClientEvent>;
 interface String {
 	replaceAt(index: number, character: string): string;
 }
@@ -809,6 +810,12 @@ interface IChatRoomMessageMetadata {
 	ChatRoomName?: string;
 	/** The original, ungarbled message, if provided by the sender */
 	OriginalMsg?: string;
+	/** The ID of the message being replied to */
+	ReplyId?: string;
+	/** The ID of the message */
+	MsgId?: string;
+
+
 }
 
 /**

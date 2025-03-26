@@ -285,8 +285,6 @@ var ServerSendRateLimitInterval = 1200;
 /**
  * Queued messages waiting to be sent
  *
- * @typedef {{ Message: ClientEvent, args: ClientEventParams<ClientEvent>}} SendRateLimitQueueItem
- *
  * @type {SendRateLimitQueueItem[]}
  */
 const ServerSendRateLimitQueue = [];
@@ -302,8 +300,8 @@ let ServerSendRateLimitTimes = [];
  */
 function ServerSend(Message, ...args) {
 	if (!ServerIsLoggedIn() && !["AccountCreate", "AccountLogin", "PasswordReset", "PasswordResetProcess"].includes(Message)) return; // We're not logged in
-
-	ServerSendRateLimitQueue.push({ Message, args });
+	const queueItem = /** @type {SendRateLimitQueueItem} */({ Message, args });
+	ServerSendRateLimitQueue.push(queueItem);
 
 	// Pump the queue manually to fight back against background tab throttling
 	ServerSendQueueProcess();
@@ -323,6 +321,11 @@ function ServerSendQueueProcess() {
 	) {
 		const item = ServerSendRateLimitQueue.shift();
 		if (item) {
+			if (item.Message === "ChatRoomChat") {
+				const [data] = item.args;
+				data[0].Dictionary = data[0].Dictionary ?? [];
+				data[0].Dictionary.push({ Tag: "MsgId", MsgId: CommonGenerateUniqueID() });
+			}
 			ServerSocket.emit(item.Message, ...item.args);
 			ServerSendRateLimitTimes.push(Date.now());
 		}
