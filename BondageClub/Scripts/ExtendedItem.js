@@ -1379,8 +1379,8 @@ function ExtendedItemSetOptionByRecord(C, itemOrGroupName, typeRecord=null, opti
 			}
 
 			const baseline = newOption.ParentData.baselineProperty;
-			if (baseline != null) {
-				propertyKeys.add.apply(propertyKeys, CommonKeys(baseline));
+			for (const prop of CommonKeys(baseline ?? {})) {
+				propertyKeys.add(prop);
 			}
 
 			const requirementMessage = validationCallback(newOption.ParentData, C, item, newOption, previousOption);
@@ -1393,8 +1393,8 @@ function ExtendedItemSetOptionByRecord(C, itemOrGroupName, typeRecord=null, opti
 	} else if (properties != null) {
 		previousOptions.forEach(option => {
 			const baseline = option.ParentData.baselineProperty;
-			if (baseline != null) {
-				propertyKeys.add.apply(propertyKeys, CommonKeys(baseline));
+			for (const prop of CommonKeys(baseline ?? {})) {
+				propertyKeys.add(prop);
 			}
 		});
 	} else {
