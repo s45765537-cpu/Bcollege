@@ -56,16 +56,19 @@ function InventoryItemMiscHighSecurityPadlockPlayerHasKeys(C, Item) {
 	if (LogQuery("KeyDeposit", "Cell")) return false;
 	let UnlockName = "Unlock" + Item.Asset.Name;
 	if ((Item != null) && (Item.Property != null) && (Item.Property.LockedBy != null)) UnlockName = "Unlock" + Item.Property.LockedBy;
-	for (let I = 0; I < Player.Inventory.length; I++)
-		if (InventoryItemHasEffect(Player.Inventory[I], /** @type {EffectName} */ (UnlockName))) {
-			var Lock = InventoryGetLock(Item);
-			if (Lock != null) {
-				if (Lock.Asset.LoverOnly && !C.IsLoverOfPlayer()) return false;
-				if (Lock.Asset.OwnerOnly && !C.IsOwnedByPlayer()) return false;
-				if (Lock.Asset.FamilyOnly && !C.IsFamilyOfPlayer()) return false;
-				return true;
-			} else return true;
+
+	const key = Asset.find(a => InventoryItemHasEffect({ Asset: a }, /** @type {EffectName} */ (UnlockName)));
+	if (key && InventoryAvailable(Player, key.Name, key.Group.Name)) {
+		var Lock = InventoryGetLock(Item);
+		if (Lock != null) {
+			if (Lock.Asset.LoverOnly && !C.IsLoverOfPlayer()) return false;
+			if (Lock.Asset.OwnerOnly && !C.IsOwnedByPlayer()) return false;
+			if (Lock.Asset.FamilyOnly && !C.IsFamilyOfPlayer()) return false;
+			return true;
+		} else {
+			return true;
 		}
+	}
 	return true;
 }
 
