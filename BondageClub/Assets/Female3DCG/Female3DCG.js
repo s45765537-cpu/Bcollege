@@ -3327,8 +3327,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "BusinessSuit",
 				InventoryID: 163,
-				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Value: 30,
 				HideItem: [
 					"ItemArmsLeatherCuffs",
@@ -6403,26 +6401,40 @@ var AssetFemale3DCG = [
 				InventoryID: 241,
 				Value: 55,
 				Priority: 24,
-				Top: 5,
+				Top: {
+					[PoseType.DEFAULT]: 5,
+					AllFours: 0,
+				},
 				Left: {
 					[PoseType.DEFAULT]: 0,
 					KneelingSpread: 90,
 				},
-				Hide: ["ItemVulvaPiercings", "Panties", "Pussy"],
-				HideItem: [
-					"ItemButtAnalBeads2",
-					"SocksSocksFur",
-					"SocksSocks4",
-					"SocksSocks5",
-					"SocksSocks6",
-					"ItemVulvaVibratingLatexPanties",
-					"ItemVulvaVibratingDildo",
-					"ItemVulvaInflatableVibeDildo",
-					"ItemVulvaClitSuctionCup",
-					"ItemVulvaTapeStrips",
-					"ItemVulvaBenWaBalls",
-					"ItemVulvaHeavyWeightClamp",
-					"ItemVulvaShockDildo",
+				InheritPoseMappingFields: true,
+				PoseMapping: { AllFours: "AllFours" },
+				ParentGroup: {
+					[PoseType.DEFAULT]: "BodyLower",
+					AllFours: "BodyUpper",
+				},
+				Extended: true,
+				Expose: ["ItemVulva", "ItemVulvaPiercings"],
+				Layer: [
+					{ Name: "Zipped", AllowTypes: { typed: 0 } },
+					{
+						Name: "Unzipped",
+						AllowTypes: { typed: 1 },
+						CopyLayerColor: "Zipped",
+					},
+					{
+						Name: "Down",
+						AllowTypes: { typed: 2 },
+						CopyLayerColor: "Zipped",
+						PoseMapping: {
+							...AssetPoseMapping.ClothLower,
+							Kneel: PoseType.HIDE,
+							KneelingSpread: PoseType.HIDE,
+							AllFours: "AllFours",
+						},
+					},
 				],
 			},
 			{

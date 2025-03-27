@@ -858,6 +858,13 @@ ClothLatexTankTopSelectReverseHood,Set front hood style
 ClothLatexTankTopSetl1,SourceCharacter adds a front hood to DestinationCharacter latex tank top.
 ClothLatexTankTopSetl2,SourceCharacter pulls up the front hood on DestinationCharacter latex tank top.
 ClothLatexTankTopSetm1,SourceCharacter adds a hood to DestinationCharacter latex tank top.
+ClothLowerBusinessTrousersZipped,Pants Zipped
+ClothLowerBusinessTrousersUnzipped,Pants Unzipped
+ClothLowerBusinessTrousersDown,Pants Down
+ClothLowerBusinessTrousersSelect,Customize the state of the pants
+ClothLowerBusinessTrousersSetZipped,SourceCharacter puts zipped up pants on DestinationCharacter.
+ClothLowerBusinessTrousersSetUnzipped,SourceCharacter unzips DestinationCharacter pants.
+ClothLowerBusinessTrousersSetDown,SourceCharacter opens DestinationCharacter pants and pulls them down.
 ClothLowerPantBootsModuleBoot,Boot
 ClothLowerPantBootsModuleStripe,Stripe
 ClothLowerPantBootsOptionb0,No Boot
