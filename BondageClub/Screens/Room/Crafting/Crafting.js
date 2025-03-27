@@ -748,10 +748,6 @@ var CraftingEventListeners = {
 			return;
 		}
 
-		// Trigger a search query in order to filter the results by whatever input the user has specified
-		const searchInput = sidePannel.querySelector("input[type='search']");
-		searchInput?.dispatchEvent(new Event("input"));
-
 		if (this.getAttribute("aria-checked") === "true") {
 			controlButton.innerHTML = this.innerHTML;
 			return;
@@ -780,8 +776,8 @@ var CraftingEventListeners = {
 		searchResultCandidates?.querySelectorAll("button.button").forEach(button => {
 			const label = button.querySelector(".button-label");
 			if (label) {
-				const displayStyle = (button.getAttribute("aria-checked") === "true" || label.textContent.toUpperCase().includes(query)) ? "" : "none";
-				/** @type {HTMLButtonElement} */(button).style.display = displayStyle;
+				const displayStyle = (button.getAttribute("aria-checked") === "true" || label.textContent.toUpperCase().includes(query)) ? false : true;
+				button.toggleAttribute("data-unload", displayStyle);
 			}
 		});
 	},
@@ -808,21 +804,92 @@ var CraftingEventListeners = {
 		}
 		descriptionInput.dispatchEvent(new InputEvent("input"));
 	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLButtonElement, ev: MouseEvent) => void}
+	 */
+	_ClickGroup: function _ClickGroup(ev) {
+		const groupName = /** @type {AssetGroupItemName} */(this.name);
+		const assetList = document.getElementById(CraftingID.assetGrid);
+		if (!assetList) {
+			ev.stopImmediatePropagation();
+			return;
+		}
+
+		if (this.getAttribute("aria-checked") === "true") {
+			// Apply the filtering
+			for (const button of assetList.children) {
+				button.toggleAttribute("data-unload-group", button.getAttribute("data-group") !== groupName);
+			}
+
+			// Update the label of the asset panel
+			document.querySelector(`#${CraftingID.assetHeader} > span`)?.replaceChildren(
+				`${TextGet("SelectItem")} ${TextGet("SelectItemSuffix")} ${this.getAttribute("aria-label").toLocaleLowerCase()}`,
+			);
+
+			// Make sure that the asset panel is open and scroll to the top
+			document.querySelector(`#${CraftingID.assetButton}[aria-checked="false"]`)?.dispatchEvent(new MouseEvent("click"));
+			assetList.scrollTo({ top: 0 });
+		} else {
+			document.querySelector(`#${CraftingID.assetHeader} > span`)?.replaceChildren(TextGet("SelectItem"));
+			for (const button of assetList.children) {
+				button.toggleAttribute("data-unload-group", false);
+			}
+
+			const checked = assetList.querySelector("[aria-checked='true']");
+			if (checked) {
+				checked.scrollIntoView({ behavior: "instant" });
+			} else {
+				assetList.scrollTo({ top: 0 });
+			}
+		}
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLInputElement, ev: FocusEvent) => Promise<void>}
+	 */
+	_FocusSearchAsset: async function _FocusSearchAsset(ev) {
+		const focusGrid = document.getElementById(CraftingID.centerPanel);
+		if (!focusGrid) {
+			ev.stopImmediatePropagation();
+			return;
+		}
+
+		const group = /** @type {"ALL" | AssetGroupItemName} */(focusGrid.querySelector("[role='radio'][aria-checked='true']")?.getAttribute("name") ?? "ALL");
+		const cachedGroup = this.getAttribute("data-group");
+		if (cachedGroup === group) {
+			return;
+		}
+
+		let options = CraftingElements._SearchCache.get(group);
+		if (!options) {
+			const searchResults = document.getElementById(this.getAttribute("aria-controls"));
+			const query = group === "ALL" ? ".button-label" : `[data-group='${group}'] .button-label`;
+			options = Array.from(searchResults?.querySelectorAll(query) ?? []).map(e => ElementCreate({ tag: "option", attributes: { value: e.textContent }}));
+			CraftingElements._SearchCache.set(group, options);
+		}
+		this.list?.replaceChildren(...options);
+		this.setAttribute("data-group", group);
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLInputElement, ev: FocusEvent) => Promise<void>}
+	 */
+	_FocusSearch: async function _FocusSearch(ev) {
+		if (this.list?.options.length) {
+			return;
+		}
+
+		const searchResults = document.getElementById(this.getAttribute("aria-controls"));
+		const options = Array.from(searchResults?.querySelectorAll(".button-label") ?? []).map(e => ElementCreate({ tag: "option", attributes: { value: e.textContent }}));
+		this.list?.replaceChildren(...options);
+	},
 };
 
 var CraftingElements = {
-	/**
-	 * @private
-	 * @param {string} controls
-	 * @returns {() => string[]}
-	 */
-	_SearchInputGetDataList: function _SearchInputGetDataList(controls) {
-		return () => {
-			const searchResults = document.getElementById(controls);
-			return Array.from(searchResults?.querySelectorAll("button > label") ?? []).map(e => e.textContent);
-		};
-	},
-
 	/**
 	 * @private
 	 * @param {string} id
@@ -830,14 +897,34 @@ var CraftingElements = {
 	 * @param {string} placeholder
 	 * @returns {HTMLInputElement}
 	 */
-	_SearchInput: function _SearchInput(id, controls, placeholder) {
-		const ret = ElementCreateSearchInput(id, CraftingElements._SearchInputGetDataList(controls));
-		ret.setAttribute("aria-controls", controls);
-		ret.setAttribute("size", 0);
-		ret.addEventListener("input", CraftingEventListeners._InputSearch);
-		ret.placeholder = placeholder;
-		return ret;
+	_SearchInput: function _SearchInput(id, controls, placeholder, assetSearch=false) {
+		return ElementCreate({
+			tag: "input",
+			attributes: {
+				type: "search",
+				id,
+				placeholder,
+				list: `${id}-datalist`,
+				size: 0,
+				"aria-controls": controls,
+			},
+			dataAttributes: {
+				group: undefined, // Initialized and managed by the `focus` event listener for asset searches
+			},
+			eventListeners: {
+				input: CraftingEventListeners._InputSearch,
+				focus: assetSearch ? CraftingEventListeners._FocusSearchAsset : CraftingEventListeners._FocusSearch,
+			},
+			children: [
+				{ tag: "datalist", attributes: { id: `${id}-datalist` } },
+			],
+		});
 	},
+
+	/**
+	 * @type {Map<"ALL" | AssetGroupItemName, readonly HTMLOptionElement[]>}
+	 */
+	_SearchCache: new Map(),
 
 	/**
 	 * @private
@@ -941,6 +1028,11 @@ function CraftingLoad() {
 						),
 						ElementButton.Create(CraftingID.uploadButton, CraftingEventListeners._ClickUpload, { tooltip: TextGet("Upload") }),
 						ElementButton.Create(CraftingID.downloadButton, CraftingEventListeners._ClickDownload, { tooltip: TextGet("Download") }),
+						ElementButton.Create(
+							CraftingID.undressButton, CraftingEventListeners._ClickUndress,
+							{ tooltip: TextGet("Undress"), role: "menuitemcheckbox" },
+							{ button: { attributes: { "aria-checked": CraftingNakedPreview ? "true" : "false" } } },
+						),
 					],
 					{ direction: "rtl" },
 				),
@@ -1019,7 +1111,7 @@ function CraftingLoad() {
 							attributes: { id: CraftingID.assetHeader },
 							children: [
 								{ tag: "span", children: [TextGet("SelectItem")] },
-								CraftingElements._SearchInput(CraftingID.assetSearch, CraftingID.assetGrid, TextGet("FilterAsset")),
+								CraftingElements._SearchInput(CraftingID.assetSearch, CraftingID.assetGrid, TextGet("FilterAsset"), true),
 							],
 						},
 						{
@@ -1076,14 +1168,7 @@ function CraftingLoad() {
 			{ menu: { attributes: { "aria-orientation": "vertical" }, parent } },
 		),
 
-		ElementCreate({
-			tag: "div",
-			attributes: { id: CraftingID.centerPanel },
-			parent,
-			children: [
-				ElementButton.Create(CraftingID.undressButton, CraftingEventListeners._ClickUndress),
-			],
-		});
+		parent.append(DialogFocusGroup.Create(CraftingID.centerPanel, CraftingEventListeners._ClickGroup, { useDynamicGroupName: true }));
 
 		ElementCreate({
 			tag: "div",
@@ -1920,12 +2005,13 @@ function CraftingExitResetElements() {
 
 	// Clear all search inputs and undo their filtering
 	const searchInputs = /** @type {NodeListOf<HTMLInputElement>} */(document.querySelectorAll(`#${CraftingID.leftPanel} input[type='search']`));
-	searchInputs.forEach((searchInp) => {
-		if (searchInp.value) {
-			searchInp.value = "";
-			searchInp.dispatchEvent(new Event("input"));
-		}
-	});
+	searchInputs.forEach((searchInp) => searchInp.value ||= "");
+
+	const focusGroup = document.querySelector(`#${CraftingID.centerPanel} [role='radio'][aria-checked='true']`);
+	if (focusGroup) {
+		focusGroup.dispatchEvent(new MouseEvent("click"));
+		document.querySelectorAll(`#${CraftingID.assetGrid} [data-unload-group]`).forEach(e => e.toggleAttribute("data-unload-group", false));
+	}
 
 	// Close the side pannel
 	document.querySelector(`#${CraftingID.leftPanel} > [aria-checked='true']`)?.dispatchEvent(new Event("click"));
@@ -1951,8 +2037,10 @@ function CraftingExit(allowPanelClose=true) {
 			return;
 		case "Name": {
 			const activePanel = document.querySelector(`#${CraftingID.leftPanel} > [aria-checked='true']`);
-			if (activePanel && allowPanelClose) {
-				activePanel.dispatchEvent(new Event("click"));
+			const activeGroup = document.querySelector(`#${CraftingID.centerPanel} [aria-checked='true']`);
+			if ((activePanel || activeGroup) && allowPanelClose) {
+				activePanel?.dispatchEvent(new MouseEvent("click"));
+				activeGroup?.dispatchEvent(new MouseEvent("click"));
 			} else {
 				CraftingExitResetElements();
 				CraftingUnload();
@@ -1964,6 +2052,7 @@ function CraftingExit(allowPanelClose=true) {
 		case "Slot": {
 			ElementRemove(CraftingID.root);
 			CharacterDelete(CraftingPreview);
+			CraftingElements._SearchCache.clear();
 			CraftingPreview = null;
 			CraftingOffset = 0;
 			CraftingDestroy = false;
