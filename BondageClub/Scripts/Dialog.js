@@ -682,15 +682,18 @@ function DialogHasKey(C, Item) {
 	let UnlockName = /** @type {EffectName} */("Unlock" + Item.Asset.Name);
 	if ((Item.Property != null) && (Item.Property.LockedBy != null))
 		UnlockName = /** @type {EffectName} */("Unlock" + Item.Property.LockedBy);
-	for (let I = 0; I < Player.Inventory.length; I++)
-		if (InventoryItemHasEffect(Player.Inventory[I], UnlockName)) {
-			if (lock != null) {
-				if (lock.Asset.LoverOnly && !C.IsLoverOfPlayer()) return false;
-				if (lock.Asset.OwnerOnly && !C.IsOwnedByPlayer()) return false;
-				if (lock.Asset.FamilyOnly && !C.IsFamilyOfPlayer()) return false;
-				return true;
-			} else return true;
+
+	const key = Asset.find(a => InventoryItemHasEffect({ Asset: a }, UnlockName));
+	if (key && InventoryAvailable(Player, key.Name, key.Group.Name)) {
+		if (lock != null) {
+			if (lock.Asset.LoverOnly && !C.IsLoverOfPlayer()) return false;
+			if (lock.Asset.OwnerOnly && !C.IsOwnedByPlayer()) return false;
+			if (lock.Asset.FamilyOnly && !C.IsFamilyOfPlayer()) return false;
+			return true;
+		} else {
+			return true;
 		}
+	}
 	return false;
 }
 
@@ -1612,11 +1615,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 	if (C.FocusGroup == null) return;
 
 	if (locks) {
-		for (const item of Player.Inventory) {
-			if (item.Asset != null && item.Asset.IsLock) {
-				DialogInventoryAdd(C, item, false);
-			}
-		}
+		Asset.filter(a => a.IsLock && InventoryAvailable(Player, a.Name, a.Group.Name)).forEach(a => DialogInventoryAdd(C, { Asset: a }, false));
 		DialogInventoryOffset = Math.max(0, Math.min(DialogInventory.length, DialogInventoryOffset));
 		DialogInventorySort();
 		return;
