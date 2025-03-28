@@ -39,7 +39,6 @@ function DojoStruggleRun() {
 
 		// The game ends after 71 seconds with a victory
 		if (MiniGameTimer >= 71000) {
-			CharacterRelease(Player);
 			MiniGameVictory = true;
 			MiniGameEnded = true;
 		} else {

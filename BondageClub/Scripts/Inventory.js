@@ -809,7 +809,8 @@ var InventoryWearCraft = /** @type {never} */(function() { return; });
 function InventoryWear(C, AssetName, AssetGroup, ItemColor, Difficulty, MemberNumber, Craft, Refresh=true) {
 	const A = AssetGet(C.AssetFamily, AssetGroup, AssetName);
 	if (!A) return null;
-	const item = CharacterAppearanceSetItem(C, AssetGroup, A, (ItemColor == null || ItemColor == "Default") ? [...A.DefaultColor] : ItemColor, Difficulty, MemberNumber, false);
+	const color = (ItemColor == null || ItemColor == "Default") ? [...A.DefaultColor] : ItemColor;
+	const item = CharacterAppearanceSetItem(C, AssetGroup, A, color, Difficulty, MemberNumber, false);
 
 	/**
 	 * TODO: grant tighter control over setting expressions.
