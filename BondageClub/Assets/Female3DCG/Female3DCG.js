@@ -10745,12 +10745,12 @@ var AssetFemale3DCG = [
 				Left: 75,
 				Random: true,
 				Extended: true,
-				DefaultColor: ["#F2AADC","#F2AADC"],
+				DefaultColor: ["#F2AADC", "#F2AADC"],
 				PoseMapping: {
-							...AssetPoseMapping.Garters,
-							Hogtied: PoseType.HIDE,
-							AllFours: PoseType.HIDE,
-						},
+					...AssetPoseMapping.Garters,
+					Hogtied: PoseType.HIDE,
+					AllFours: PoseType.HIDE,
+				},
 				Layer: [
 					{
 						Name: "GarterR",
@@ -28234,13 +28234,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DrawLocks: false,
 				Audio: "MetalClose",
-				DefaultColor: [
-					"#AAB7B9",
-					"#707070",
-					"#AAB7B9",
-					"#AAB7B9",
-					"#A89B80",
-				],
+				DefaultColor: ["#AAB7B9", "#707070", "#AAB7B9", "#AAB7B9", "#A89B80"],
 				Layer: [
 					{
 						Name: "Belt",
@@ -29317,13 +29311,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DrawLocks: false,
 				Audio: "MetalClose",
-				DefaultColor: [
-					"#AAB7B9",
-					"#707070",
-					"#AAB7B9",
-					"#AAB7B9",
-					"#A89B80",
-				],
+				DefaultColor: ["#AAB7B9", "#707070", "#AAB7B9", "#AAB7B9", "#A89B80"],
 				Layer: [
 					{
 						Name: "Belt",
@@ -34739,13 +34727,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DrawLocks: false,
 				Audio: "MetalClose",
-				DefaultColor: [
-					"#AAB7B9",
-					"#707070",
-					"#AAB7B9",
-					"#AAB7B9",
-					"#A89B80",
-				],
+				DefaultColor: ["#AAB7B9", "#707070", "#AAB7B9", "#AAB7B9", "#A89B80"],
 				Layer: [
 					{
 						Name: "Belt",
@@ -51513,7 +51495,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				DrawLocks: false,
 				Extended: true,
-				Audio: "MetalClose", 
+				Audio: "MetalClose",
 				DefaultColor: ["#808D90", "#819F9F", "#8E8D89", "#808D90", "#877C66"],
 				Hide: ["Glasses", "Jewelry"],
 				Block: [

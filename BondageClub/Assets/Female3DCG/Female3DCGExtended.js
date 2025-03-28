@@ -4663,9 +4663,9 @@ var AssetFemale3DCGExtended = {
 					Name: "Handcuffs",
 					Key: "h",
 					Options: [
-						{ 
+						{
 							// None
-							Property: {}
+							Property: {},
 						},
 						{
 							// Front
@@ -9737,7 +9737,7 @@ var AssetFemale3DCGExtended = {
 						},
 						{
 							// Neck cuff
-							Property: {Difficulty: 30},
+							Property: { Difficulty: 30 },
 						},
 					],
 				},
@@ -12777,9 +12777,9 @@ var AssetFemale3DCGExtended = {
 					Name: "Handcuffs",
 					Key: "h",
 					Options: [
-						{ 
+						{
 							// None
-							Property: {}
+							Property: {},
 						},
 						{
 							// Front

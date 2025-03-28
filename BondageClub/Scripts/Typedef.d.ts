@@ -4386,7 +4386,7 @@ interface PreferenceExtensionsSettingItem {
 	 * Called when the extension screen is about to exit.
 	 *
 	 * Happens either through a click of the exit button, or the ESC key.
-	 * This will **not** be called if a disconnect happens, so clean up should be 
+	 * This will **not** be called if a disconnect happens, so clean up should be
 	 * done in {@link PreferenceExtensionsSettingItem.unload}.
 	 *
 	 * @returns {boolean | void} If you have some validation that needs to happen
