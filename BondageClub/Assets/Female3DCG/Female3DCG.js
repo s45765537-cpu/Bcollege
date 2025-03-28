@@ -17172,7 +17172,7 @@ var AssetFemale3DCG = [
 						Priority: 52,
 						CreateLayerTypes: ["g"],
 						AllowTypes: {
-							g: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+							g: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
 						},
 						AllowColorize: true,
 						ColorGroup: "Wig",
@@ -17181,7 +17181,7 @@ var AssetFemale3DCG = [
 						Name: "WigComp",
 						Priority: 6,
 						CreateLayerTypes: ["g"],
-						AllowTypes: { g: [3, 6, 8, 9, 10, 11, 12, 13, 15, 16] },
+						AllowTypes: { g: [3, 6, 8, 9, 10, 11, 12, 13, 15, 16, 17] },
 						CopyLayerColor: "Wig",
 					},
 					{
@@ -50431,7 +50431,7 @@ var AssetFemale3DCG = [
 						Priority: 52,
 						CreateLayerTypes: ["g"],
 						AllowTypes: {
-							g: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+							g: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
 						},
 						AllowColorize: true,
 						ColorGroup: "Wig",
@@ -50440,7 +50440,7 @@ var AssetFemale3DCG = [
 						Name: "WigComp",
 						Priority: 6,
 						CreateLayerTypes: ["g"],
-						AllowTypes: { g: [3, 6, 8, 9, 10, 11, 12, 13, 15, 16] },
+						AllowTypes: { g: [3, 6, 8, 9, 10, 11, 12, 13, 15, 16, 17] },
 						CopyLayerColor: "Wig",
 					},
 					{
