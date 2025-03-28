@@ -8696,6 +8696,19 @@ var AssetFemale3DCGExtended = {
 								Effect: [],
 							},
 						},
+						{
+							// "Wig17"
+							Property: {
+								Hide: [
+									"Mask",
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+								],
+								Effect: [],
+							},
+						},
 					],
 				},
 				{
@@ -15270,6 +15283,18 @@ var AssetFemale3DCGExtended = {
 						},
 						{
 							// "Wig16"
+							Property: {
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+								],
+								Effect: [],
+							},
+						},
+						{
+							// "Wig17"
 							Property: {
 								Hide: [
 									"HairFront",

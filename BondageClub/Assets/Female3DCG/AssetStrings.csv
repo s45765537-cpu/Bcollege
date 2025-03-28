@@ -5823,6 +5823,7 @@ ItemHoodRubberMaskOptiong13,Wig M
 ItemHoodRubberMaskOptiong14,Wig N
 ItemHoodRubberMaskOptiong15,Wig O
 ItemHoodRubberMaskOptiong16,Wig P
+ItemHoodRubberMaskOptiong17,Wig Q
 ItemHoodRubberMaskModuleEyes,Eyes
 ItemHoodRubberMaskSelectEyes,Eye expression menu
 ItemHoodRubberMaskOptione0,Normal
@@ -5876,6 +5877,7 @@ ItemHoodRubberMaskSetg13,SourceCharacter puts the wig M on the DestinationCharac
 ItemHoodRubberMaskSetg14,SourceCharacter puts the wig N on the DestinationCharacter head.
 ItemHoodRubberMaskSetg15,SourceCharacter puts the wig O on the DestinationCharacter head.
 ItemHoodRubberMaskSetg16,SourceCharacter puts the wig P on the DestinationCharacter head.
+ItemHoodRubberMaskSetg17,SourceCharacter puts the wig Q on the DestinationCharacter head.
 ItemHoodRubberMaskSete0,SourceCharacter chooses a normal eyes in DestinationCharacter mask.
 ItemHoodRubberMaskSete1,SourceCharacter chooses a closed eyes in DestinationCharacter mask.
 ItemHoodRubberMaskSete2,SourceCharacter chooses a wide open eyes in DestinationCharacter mask.
@@ -5917,6 +5919,7 @@ MaskRubberMaskOptiong13,Wig M
 MaskRubberMaskOptiong14,Wig N
 MaskRubberMaskOptiong15,Wig O
 MaskRubberMaskOptiong16,Wig P
+MaskRubberMaskOptiong17,Wig Q
 MaskRubberMaskModuleEyes,Eyes
 MaskRubberMaskSelectEyes,Eye expression menu
 MaskRubberMaskOptione0,Normal
