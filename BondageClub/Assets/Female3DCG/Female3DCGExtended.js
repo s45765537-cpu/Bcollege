@@ -1819,6 +1819,52 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [{ Name: "Long" }, { Name: "Mid" }],
 		}, //SatinSkirt
+		BusinessTrousers: {
+			Archetype: ExtendedArchetype.TYPED,
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+			Options: [
+				{
+					Name: "Zipped",
+					Property: {
+						Block: [
+							"ItemLegs",
+							"ItemPelvis",
+							"ItemButt",
+							"ItemVulva",
+							"ItemVulvaPiercings",
+							"ItemButt",
+						],
+						Hide: ["ItemVulvaPiercings", "Panties", "Pussy"],
+						HideItem: [
+							"ItemButtAnalBeads2",
+							"SocksSocksFur",
+							"SocksSocks4",
+							"SocksSocks5",
+							"SocksSocks6",
+							"ItemVulvaVibratingLatexPanties",
+							"ItemVulvaVibratingDildo",
+							"ItemVulvaInflatableVibeDildo",
+							"ItemVulvaClitSuctionCup",
+							"ItemVulvaTapeStrips",
+							"ItemVulvaBenWaBalls",
+							"ItemVulvaHeavyWeightClamp",
+							"ItemVulvaShockDildo",
+						],
+					},
+				},
+				{
+					Name: "Unzipped",
+					Property: {
+						Block: ["ItemButt"],
+						HideItem: ["ItemButtAnalBeads2"],
+					},
+				},
+				{
+					Name: "Down",
+					Property: {},
+				},
+			],
+		}, // BusinessTrousers
 	}, // ClothLower
 	Socks: {
 		RippedPantyhose: {
