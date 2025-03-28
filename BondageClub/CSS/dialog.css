@@ -320,6 +320,31 @@
 	padding-inline: 0.15em 0.15em;
 }
 
+.dialog-focus-grid [role="radiogroup"] {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	border: min(0.3vh, 0.15vw) solid #80808040;
+}
+
+.dialog-focus-grid [role="radio"] {
+	position: absolute;
+	border: min(0.3vh, 0.15vw) solid #80808040;
+}
+
+.dialog-focus-grid [role="radio"][data-blocked] {
+	border-color: #88000580;
+}
+
+.dialog-focus-grid [role="radio"][data-equipped] {
+	border-color: #D5A30080;
+}
+
+.dialog-focus-grid [role="radio"][aria-checked="true"] {
+	border-width: min(0.5vh, 0.25vw);
+	border-color: cyan;
+}
+
 @supports(height: 100dvh) {
 	.dialog-root {
 		--menu-button-size: min(9dvh, 4.5dvw);
@@ -333,6 +358,18 @@
 
 	.dialog-grid-button > .button-tooltip {
 		width: calc(400% + 4 * min(0.2dvh, 0.1dvw) + 3 * var(--gap));
+	}
+
+	.dialog-focus-grid [role="radiogroup"] {
+		border-width: min(0.3dvh, 0.15dvw);
+	}
+
+	.dialog-focus-grid [role="radio"] {
+		border-width: min(0.3dvh, 0.15dvw);
+	}
+
+	.dialog-focus-grid [role="radio"][aria-checked="true"] {
+		border-width: min(0.5dvh, 0.25dvw);
 	}
 }
 
