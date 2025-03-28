@@ -449,9 +449,9 @@ var AssetFemale3DCGExtended = {
 						{}, // t18 - BCollege2
 						{}, // t19 - ControlPad1
 						{}, // t20 - Gangriels
-						{}, // t21 - Shibari
-						{}, // t22 - BullsEye
-						{}, // t22 - Keys?
+						{}, // t25 - Shibari
+						{}, // t26 - BullsEye
+						{}, // t27 - Keys?
 					],
 				},
 			],
@@ -4663,9 +4663,12 @@ var AssetFemale3DCGExtended = {
 					Name: "Handcuffs",
 					Key: "h",
 					Options: [
-						{ Name: "None", Property: {} },
+						{ 
+							// None
+							Property: {}
+						},
 						{
-							Name: "Front",
+							// Front
 							Property: {
 								Difficulty: 3,
 								SetPose: ["BaseUpper"],
@@ -4673,7 +4676,7 @@ var AssetFemale3DCGExtended = {
 							},
 						},
 						{
-							Name: "BackBoxTie",
+							// BackBoxTie
 							Property: {
 								Difficulty: 5,
 								SetPose: ["BackBoxTie"],
@@ -4682,7 +4685,7 @@ var AssetFemale3DCGExtended = {
 							},
 						},
 						{
-							Name: "Strict",
+							// Strict
 							Property: {
 								Difficulty: 7,
 								SetPose: ["BackElbowTouch"],
@@ -12761,9 +12764,12 @@ var AssetFemale3DCGExtended = {
 					Name: "Handcuffs",
 					Key: "h",
 					Options: [
-						{ Name: "None", Property: {} },
+						{ 
+							// None
+							Property: {}
+						},
 						{
-							Name: "Front",
+							// Front
 							Property: {
 								Difficulty: 3,
 								SetPose: ["BaseUpper"],
@@ -12771,7 +12777,7 @@ var AssetFemale3DCGExtended = {
 							},
 						},
 						{
-							Name: "BackBoxTie",
+							// BackBoxTie
 							Property: {
 								Difficulty: 5,
 								SetPose: ["BackBoxTie"],
@@ -12780,7 +12786,7 @@ var AssetFemale3DCGExtended = {
 							},
 						},
 						{
-							Name: "Strict",
+							// Strict
 							Prerequisite: ["NoItemArms"],
 							Property: {
 								Difficulty: 7,

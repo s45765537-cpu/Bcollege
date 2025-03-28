@@ -1044,21 +1044,21 @@ var AssetFemale3DCG = [
 						Name: "Shibari",
 						PoseMapping: {},
 						ParentGroup: {},
-						AllowTypes: { t: 21 },
+						AllowTypes: { t: 25 },
 						CopyLayerColor: "None",
 					},
 					{
 						Name: "Bullseye",
 						PoseMapping: {},
 						ParentGroup: {},
-						AllowTypes: { t: 22 },
+						AllowTypes: { t: 26 },
 						CopyLayerColor: "None",
 					},
 					{
 						Name: "Keys",
 						PoseMapping: {},
 						ParentGroup: {},
-						AllowTypes: { t: 23 },
+						AllowTypes: { t: 27 },
 						CopyLayerColor: "None",
 					},
 				],
@@ -3807,6 +3807,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "BHog",
+						ParentGroup: {},
 						PoseMapping: {
 							BackBoxTie: PoseType.HIDE,
 							BackCuffs: PoseType.HIDE,
@@ -5569,6 +5570,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "BHog",
+						ParentGroup: {},
 						PoseMapping: {
 							BackBoxTie: PoseType.HIDE,
 							BackCuffs: PoseType.HIDE,
