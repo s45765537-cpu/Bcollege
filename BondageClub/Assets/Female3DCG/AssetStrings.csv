@@ -782,6 +782,9 @@ ClothCustomTShirtOptiont18,Bondage College 2
 ClothCustomTShirtOptiont19,S.Tiyana's White C-Pad
 ClothCustomTShirtOptiont2,BTG
 ClothCustomTShirtOptiont20,Gangriels
+ClothCustomTShirtOptiont21,Shibari Crew
+ClothCustomTShirtOptiont22,Bull's Eye Spankmeter
+ClothCustomTShirtOptiont23,Keys?!
 ClothCustomTShirtOptiont3,Dominant
 ClothCustomTShirtOptiont4,Bonk!
 ClothCustomTShirtOptiont5,Old School XGame
@@ -6555,3 +6558,90 @@ ItemHandheldUchiwaSetType3,SourceCharacter chooses a sun art for DestinationChar
 ItemHandheldUchiwaSetType4,SourceCharacter chooses a wave art for DestinationCharacter Uchiwa fan.
 ItemHandheldUchiwaSetType5,SourceCharacter chooses a moon art for DestinationCharacter Uchiwa fan.
 ItemHandheldUchiwaSetType6,SourceCharacter chooses a flowers art for DestinationCharacter Uchiwa fan.
+ItemDevicesLeatherCageSelectBase,Leather cage main menu:
+ItemDevicesLeatherCageModuleFace,Belts
+ItemDevicesLeatherCageSelectFace,Belts options:
+ItemDevicesLeatherCageOptionf0,Normal
+ItemDevicesLeatherCageOptionf1,Face exposed
+ItemDevicesLeatherCageModuleSuspension,Supension cage
+ItemDevicesLeatherCageSelectSuspension,Suspension options:
+ItemDevicesLeatherCageOptions0,Cage on the ground
+ItemDevicesLeatherCageOptions1,Cage suspended
+ItemDevicesLeatherCageModuleCuff,Security increase
+ItemDevicesLeatherCageSelectCuff,Security options:
+ItemDevicesLeatherCageOptionc0,Normal
+ItemDevicesLeatherCageOptionc1,Collar cuff added
+ItemDevicesLeatherCageSetf0,SourceCharacter places some leather belts in front from DestinationCharacterName face.
+ItemDevicesLeatherCageSetf1,SourceCharacter removes leather belts in front from DestinationCharacterName face.
+ItemDevicesLeatherCageSets0,SourceCharacter lowers the DestinationCharacterName cage to the ground.
+ItemDevicesLeatherCageSets1,SourceCharacter suspends the DestinationCharacterName cage.
+ItemDevicesLeatherCageSetc0,SourceCharacter removes the cage's collar from DestinationCharacterName neck.
+ItemDevicesLeatherCageSetc1,SourceCharacter locks DestinationCharacterName neck with cage's cuff collar.
+ItemTorsoSteelBeltSelectBase,Steel belt main menu:
+ItemTorsoSteelBeltModuleBelt,Layer position
+ItemTorsoSteelBeltSelectBelt,Belt layer options:
+ItemTorsoSteelBeltOptionb0,Under clothes
+ItemTorsoSteelBeltOptionb1,Over clothes
+ItemTorsoSteelBeltModuleHandcuffs,Cuffs attachment
+ItemTorsoSteelBeltSelectHandcuffs,Double cuffs attachment options:
+ItemTorsoSteelBeltOptionh0,Just steel belt
+ItemTorsoSteelBeltOptionh1,Hands cuffed in front
+ItemTorsoSteelBeltOptionh2,Hands cuffed on back
+ItemTorsoSteelBeltOptionh3,Strict mode
+ItemTorsoSteelBeltSetb0,SourceCharacter put the Steel belt under DestinationCharacter clothes.
+ItemTorsoSteelBeltSetb1,SourceCharacter put the Steel belt over DestinationCharacter clothes.
+ItemTorsoSteelBeltSeth0,SourceCharacter unlocks DestinationCharacter from the Steel Belt handcuffs.
+ItemTorsoSteelBeltSeth1,SourceCharacter puts a pair of handcuffs on DestinationCharacter fists and arms.
+ItemTorsoSteelBeltSeth2,SourceCharacter puts a pair of handcuffs on DestinationCharacter fists and arms on TargetPronounPossessive back.
+ItemTorsoSteelBeltSeth3,SourceCharacter puts a pair of strict handcuffs on DestinationCharacter fists and arms on TargetPronounPossessive back.
+ItemTorso2SteelBeltSelectBase,Steel belt main menu:
+ItemTorso2SteelBeltModuleBelt,Layer position
+ItemTorso2SteelBeltSelectBelt,Belt layer options:
+ItemTorso2SteelBeltOptionb0,Under clothes
+ItemTorso2SteelBeltOptionb1,Over clothes
+ItemTorso2SteelBeltModuleHandcuffs,Cuffs attachment
+ItemTorso2SteelBeltSelectHandcuffs,Double cuffs attachment options:
+ItemTorso2SteelBeltOptionh0,Just steel belt
+ItemTorso2SteelBeltOptionh1,Hands cuffed in front
+ItemTorso2SteelBeltOptionh2,Hands cuffed on back
+ItemTorso2SteelBeltOptionh3,Strict mode
+ItemTorso2SteelBeltSetb0,SourceCharacter put the Steel belt under DestinationCharacter clothes.
+ItemTorso2SteelBeltSetb1,SourceCharacter put the Steel belt over DestinationCharacter clothes.
+ItemTorso2SteelBeltSeth0,SourceCharacter unlocks DestinationCharacter from the Steel Belt handcuffs.
+ItemTorso2SteelBeltSeth1,SourceCharacter puts a pair of handcuffs on DestinationCharacter fists and arms.
+ItemTorso2SteelBeltSeth2,SourceCharacter puts a pair of handcuffs on DestinationCharacter fists and arms on TargetPronounPossessive back.
+ItemTorso2SteelBeltSeth3,SourceCharacter puts a pair of strict handcuffs on DestinationCharacter fists and arms on TargetPronounPossessive back.
+ItemArmsSteelBeltSelectBase,Steel belt main menu:
+ItemArmsSteelBeltModuleBelt,Layer position
+ItemArmsSteelBeltSelectBelt,Belt layer options:
+ItemArmsSteelBeltOptionb0,Under clothes
+ItemArmsSteelBeltOptionb1,Over clothes
+ItemArmsSteelBeltModuleHandcuffs,Cuffs attachment
+ItemArmsSteelBeltSelectHandcuffs,Double cuffs attachment options:
+ItemArmsSteelBeltOptionh0,Just steel belt
+ItemArmsSteelBeltOptionh1,Hands cuffed in front
+ItemArmsSteelBeltOptionh2,Hands cuffed on back
+ItemArmsSteelBeltOptionh3,Strict mode
+ItemArmsSteelBeltSetb0,SourceCharacter put the Steel belt under DestinationCharacter clothes.
+ItemArmsSteelBeltSetb1,SourceCharacter put the Steel belt over DestinationCharacter clothes.
+ItemArmsSteelBeltSeth0,SourceCharacter unlocks DestinationCharacter from the Steel Belt handcuffs.
+ItemArmsSteelBeltSeth1,SourceCharacter puts a pair of handcuffs on DestinationCharacter fists and arms.
+ItemArmsSteelBeltSeth2,SourceCharacter puts a pair of handcuffs on DestinationCharacter fists and arms on TargetPronounPossessive back.
+ItemArmsSteelBeltSeth3,SourceCharacter puts a pair of strict handcuffs on DestinationCharacter fists and arms on TargetPronounPossessive back.
+ShoesHoofBootsSelect,Ankle straps option menu:
+ShoesHoofBootsNormal,No straps
+ShoesHoofBootsLocked,Ankle straps
+ItemBootsHoofBootsSelect,Ankle straps option menu:
+ItemBootsHoofBootsNormal,No straps
+ItemBootsHoofBootsStraps,Ankle straps
+ItemBootsHoofBootsSetNormal,SourceCharacter removes the Hoof's ankle straps from DestinationCharacter feet.
+ItemBootsHoofBootsSetStraps,SourceCharacter secures the Hoof Boots on the DestinationCharacter ankles with straps.
+GartersButterflyGarterSelectBase,Butterfly Garters main menu:
+GartersButterflyGarterModuleRightLeg,Right Leg
+GartersButterflyGarterSelectRightLeg,Garter option:
+GartersButterflyGarterOptionr0,Wear garter
+GartersButterflyGarterOptionr1,Remove garter
+GartersButterflyGarterModuleLeftLeg,Left Leg
+GartersButterflyGarterSelectLeftLeg,Garter option:
+GartersButterflyGarterOptionl0,Wear garter
+GartersButterflyGarterOptionl1,Remove garter

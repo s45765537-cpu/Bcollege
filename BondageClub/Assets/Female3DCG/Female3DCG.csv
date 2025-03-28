@@ -333,6 +333,7 @@ FacialHair,MoustacheBeard,Moustache Beard
 Fluids,,Fluids
 Fluids,Fluids,Fluids
 Garters,,Garters
+Garters,ButterflyGarter,Butterfly Garters
 Garters,DropBag,Drop Bag
 Garters,GarterBelt,Leather Garter Belts
 Garters,GarterBelt2,Leather Garter Belt
@@ -806,6 +807,7 @@ ItemBoots,FuturisticHeels,Futuristic Shoes
 ItemBoots,FuturisticHeels2,Futuristic Heels
 ItemBoots,HeellessHoof,Heelless Hi-Shoes
 ItemBoots,HighThighBoots,High Thigh Boots
+ItemBoots,HoofBoots,Hoof Boots
 ItemBoots,LeatherFootMitts1,Short Leather Foot Mittens
 ItemBoots,LeatherToeCuffs,Leather Toe Cuffs
 ItemBoots,LockingBoots1,Locking Boots
@@ -902,6 +904,7 @@ ItemDevices,GlueFloor,Glue's Puddle
 ItemDevices,InflatableBodyBag,Inflatable Body Bag
 ItemDevices,KabeshiriWall,Kabeshiri Wall
 ItemDevices,Kennel,Heavy Kennel
+ItemDevices,LeatherCage,Leather Cage
 ItemDevices,LittleMonster,Halloween Monster Set
 ItemDevices,Locker,Locker
 ItemDevices,LowCage,Kennel
@@ -1506,6 +1509,7 @@ ItemTorso,Ribbons,Ribbons
 ItemTorso,StuddedHarness,Studded Harness
 ItemTorso,ThinLeatherStraps,Thin Leather Straps
 ItemTorso,ShinyLeotardLock,Locking Latex Leotard
+ItemTorso,SteelBelt,Steel Belt
 ItemTorso2,,Torso
 ItemVulva,,Vulva
 ItemVulva,BasicCockring,Basic Cock Ring
@@ -1785,6 +1789,8 @@ SocksRight,Stockings3,Silky Stockings
 SocksRight,Stockings4,Fishnet Stockings
 SocksRight,VSocks1,Vinyl Socks
 Suit,,Upper Suit
+Suit,BartenderVest,Female Bartender Vest
+Suit,BartenderVestM,Male Bartender Vest
 Suit,Catsuit,Catsuit
 Suit,LatexCatsuit,Latex Catsuit
 Suit,MaleSeamlessCatsuit,Male Seamless Catsuit
