@@ -715,6 +715,8 @@ function InventoryCraft(Source, Target, GroupName, Craft, Refresh, PreConfigureI
 			Target, Item, Craft.TypeRecord,
 			{ push: false, refresh: false, C_Source: Source, properties: Craft.ItemProperty },
 		);
+	} else {
+		Object.assign(Item.Property, Craft.ItemProperty ?? {});
 	}
 
 	// Applies a lock to the item
