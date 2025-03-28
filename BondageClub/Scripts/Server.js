@@ -323,9 +323,9 @@ function ServerSendQueueProcess() {
 		if (item) {
 			if (item.Message === "ChatRoomChat") {
 				const [data] = item.args;
-				data[0].Dictionary = data[0].Dictionary ?? [];
-				data[0].Dictionary.push({ Tag: "MsgId", MsgId: CommonGenerateUniqueID() });
-			}
+				data.Dictionary = data?.Dictionary ?? [];
+				data.Dictionary.push({ Tag: "MsgId", MsgId: CommonGenerateUniqueID() });
+			 }
 			ServerSocket.emit(item.Message, ...item.args);
 			ServerSendRateLimitTimes.push(Date.now());
 		}
