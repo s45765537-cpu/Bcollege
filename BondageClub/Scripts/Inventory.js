@@ -820,10 +820,16 @@ function InventoryWear(C, AssetName, AssetGroup, ItemColor, Difficulty, MemberNu
 	if (A.ExpressionTrigger != null) {
 		InventoryExpressionTriggerApply(C, A.ExpressionTrigger);
 	}
+
 	if (Craft) {
+		// Restore the item color if it has been explicitly passed; keep using the `Craft.Color`-assigned color otherwise
 		const C_Source = Character.find(c => c.MemberNumber === MemberNumber) ?? null;
 		InventoryCraft(C_Source, C, /** @type {AssetGroupItemName} */(AssetGroup), Craft, false);
+		if (ItemColor != null) {
+			item.Color = color;
+		}
 	}
+
 	if (Refresh) {
 		CharacterRefresh(C, true);
 	}
