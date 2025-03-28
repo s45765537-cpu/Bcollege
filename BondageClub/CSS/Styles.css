@@ -342,3 +342,7 @@ select:invalid:not(:disabled):not(:read-only) {
 		scrollbar-color: rgb(149, 149, 149) rgb(0, 0, 0, 0.7);
 	}
 }
+
+.hidden {
+	display: none;
+}

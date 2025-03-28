@@ -605,6 +605,13 @@ function CommonStringShuffle(string) {
 }
 
 /**
+ * Generate a unique ID
+ * @returns {string}
+ */
+function CommonGenerateUniqueID() {
+	return Math.random().toString(36).substring(2);
+}
+/**
  * Converts an array to a string separated by commas (equivalent of .join(","))
  * @param {readonly any[]} Arr - Array to convert to a joined string
  * @returns {string} - String of all the array items joined together
