@@ -316,6 +316,10 @@ EyesEyes145,Shine
 EyesEyes146,Eyelids
 EyeShadowWingsLine, Eyeliner
 EyeShadowWingsShad, Eyeshadow
+GartersButterflyGarterGarterR,Right leg garter
+GartersButterflyGarterGarterL,Left leg garter
+GartersGarterBeltLeft,Left
+GartersGarterBeltRight,Right
 GartersGarterBeltLeft,Left
 GartersGarterBeltRight,Right
 GlassesGogglesBase,Goggles
@@ -872,6 +876,10 @@ ItemBootsHeellessHoofHoof,Shoes
 ItemBootsHeellessHoofLock,Padlocks
 ItemBootsHeellessHoofIronBallet,Iron Ballet
 ItemBootsHeellessHoofIBLock,Iron cuff locks
+ItemBootsHoofBootsBoots,Boots
+ItemBootsHoofBootsStraps,Straps
+ItemBootsHoofBootsSBuckles,Straps buckles
+ItemBootsHoofBootsLock,Padlocks
 ItemBootsLeatherFootMitts1Mitts,Mittens
 ItemBootsLeatherFootMitts1Straps,Straps
 ItemBootsLockingBoots1Boots,Boots
@@ -1022,6 +1030,12 @@ ItemDevicesKennelDoor,Door
 ItemDevicesKennelFrame,Front Frame
 ItemDevicesKennelKennel,Kennel
 ItemDevicesKennelPadding,Padding
+ItemDevicesLeatherCageFront,Cage
+ItemDevicesLeatherCageRivets,Rivets
+ItemDevicesLeatherCageMetal,Metal
+ItemDevicesLeatherCageCuff,Collar cuff
+ItemDevicesLeatherCageFloor,Floor
+ItemDevicesLeatherCageLock,Padlocks
 ItemDevicesLuckyWheelArrow,Arrow
 ItemDevicesLuckyWheelBack,Wheel Border
 ItemDevicesLuckyWheelBase,Wooden Stand
@@ -2310,6 +2324,11 @@ ItemTorsoLeatherChestHarness1Straps,Straps
 ItemTorsoNavelBar1Chain,Chain
 ItemTorsoNavelBar1Jewel,Jewel
 ItemTorsoNavelBar1Main,Bar
+ItemTorsoSteelBeltBelt,Belt
+ItemTorsoSteelBeltBDetail,Belt locks
+ItemTorsoSteelBeltLock,Padlocks
+ItemTorsoSteelBeltHandcuffs,Fist Handcuffs
+ItemTorsoSteelBeltHandcuffs2,Arm Handcuffs
 ItemTorsoStuddedHarnessHarness,Harness
 ItemTorsoStuddedHarnessMetal,Metal
 ItemTorsoThinLeatherStrapsBuckle,Buckle
@@ -2578,6 +2597,10 @@ ShoesGetaDai,Dai
 ShoesGetaHanao,Hanao
 ShoesHeellessHoofHoof,Shoes
 ShoesHeellessHoofPadlock,Cosmetic padlocks
+ShoesHoofBootsBoots,Boots
+ShoesHoofBootsStraps,Straps
+ShoesHoofBootsSBuckles,Straps buckles
+ShoesHoofBootsLock,Padlocks
 ShoesIndoorSlippersMain,Body
 ShoesIndoorSlippersDetail,Details
 ShoesLatexHeelsBase, Shoe
@@ -2654,7 +2677,10 @@ SocksSocksFurFur,Fur
 SocksSocksStriped1Dark,Dark Stripes
 SocksSocksStriped1Light,Light Stripes
 SocksYuletideVelvetWarmthFuzz,Fuzz
-StreetBoots,Shoes
+SuitBartenderVestVest,Vest
+SuitBartenderVestButtons,Buttons
+SuitBartenderVestMVest,Vest
+SuitBartenderVestMButtons,Buttons
 SuitCatsuitBase,Suit
 SuitCatsuitOpaqueGloves,Gloves
 SuitCatsuitZip,Zip

@@ -449,6 +449,9 @@ var AssetFemale3DCGExtended = {
 						{}, // t18 - BCollege2
 						{}, // t19 - ControlPad1
 						{}, // t20 - Gangriels
+						{}, // t25 - Shibari
+						{}, // t26 - BullsEye
+						{}, // t27 - Keys?
 					],
 				},
 			],
@@ -4632,6 +4635,68 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // InflatableDress
+		SteelBelt: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Belt",
+					Key: "b",
+					Options: [
+						{
+							// Under clothes
+							Property: {},
+						},
+						{
+							// Over clothes
+							Property: {
+								HideItem: ["ClothAccessoryLeatherBeltCloth"],
+								OverridePriority: {
+									Belt: 31,
+									BDetail: 31,
+									Lock: 31,
+								},
+							},
+						},
+					],
+				},
+				{
+					Name: "Handcuffs",
+					Key: "h",
+					Options: [
+						{ 
+							// None
+							Property: {}
+						},
+						{
+							// Front
+							Property: {
+								Difficulty: 3,
+								SetPose: ["BaseUpper"],
+								Effect: [E.Block, E.BlockWardrobe],
+							},
+						},
+						{
+							// BackBoxTie
+							Property: {
+								Difficulty: 5,
+								SetPose: ["BackBoxTie"],
+								Effect: [E.Block, E.BlockWardrobe],
+								HideItem: ["ItemArmsWristShackles"],
+							},
+						},
+						{
+							// Strict
+							Property: {
+								Difficulty: 7,
+								SetPose: ["BackElbowTouch"],
+								Effect: [E.Block, E.BlockWardrobe],
+							},
+						},
+					],
+				},
+			],
+			ChangeWhenLocked: false,
+		}, // SteelBelt
 	}, // ItemArms
 	ItemNeck: {
 		ShinySteelCollar: {
@@ -9608,6 +9673,64 @@ var AssetFemale3DCGExtended = {
 			},
 			ChangeWhenLocked: false,
 		}, // PersonalCage
+		LeatherCage: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Face",
+					Key: "f",
+					Options: [
+						{
+							// Normal
+							Property: {},
+						},
+						{
+							// Face free
+							Property: {},
+						},
+					],
+				},
+				{
+					Name: "Suspension",
+					Key: "s",
+					Options: [
+						{
+							// Ground
+							Property: {
+								Difficulty: 20,
+							},
+						},
+						{
+							// Lifted
+							Property: {
+								Difficulty: 25,
+								OverrideHeight: {
+									Height: 45,
+									Priority: 60,
+									HeightRatioProportion: 0,
+								},
+								Effect: [E.Lifted],
+							},
+						},
+					],
+				},
+				{
+					Name: "Cuff",
+					Key: "c",
+					Options: [
+						{
+							// No neck cuff
+							Property: {},
+						},
+						{
+							// Neck cuff
+							Property: {Difficulty: 30},
+						},
+					],
+				},
+			],
+			ChangeWhenLocked: false,
+		}, // LeatherCage
 		BondageBench: {
 			Archetype: ExtendedArchetype.TYPED,
 			ChatTags: [
@@ -11611,6 +11734,20 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // HeellessHoof
+		HoofBoots: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "Normal",
+					Property: {},
+				},
+				{
+					Name: "Straps",
+					Property: { Difficulty: 5 },
+				},
+			],
+		}, // HoofBoots
 	}, // ItemBoots
 	ItemVulva: {
 		ClitSuctionCup: {
@@ -12599,6 +12736,70 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // NavelBar1
+		SteelBelt: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Belt",
+					Key: "b",
+					Options: [
+						{
+							// Under clothes
+							Property: {},
+						},
+						{
+							// Over clothes
+							Property: {
+								HideItem: ["ClothAccessoryLeatherBeltCloth"],
+								OverridePriority: {
+									Belt: 31,
+									BDetail: 31,
+									Lock: 31,
+								},
+							},
+						},
+					],
+				},
+				{
+					Name: "Handcuffs",
+					Key: "h",
+					Options: [
+						{ 
+							// None
+							Property: {}
+						},
+						{
+							// Front
+							Property: {
+								Difficulty: 3,
+								SetPose: ["BaseUpper"],
+								Effect: [E.Block, E.BlockWardrobe],
+							},
+						},
+						{
+							// BackBoxTie
+							Property: {
+								Difficulty: 5,
+								SetPose: ["BackBoxTie"],
+								Effect: [E.Block, E.BlockWardrobe],
+								HideItem: ["ItemArmsWristShackles"],
+							},
+						},
+						{
+							// Strict
+							Prerequisite: ["NoItemArms"],
+							Property: {
+								Difficulty: 7,
+								SetPose: ["BackElbowTouch"],
+								Effect: [E.Block, E.BlockWardrobe],
+								Block: ["ItemArms"],
+							},
+						},
+					],
+				},
+			],
+			ChangeWhenLocked: false,
+		}, // SteelBelt
 	}, // ItemTorso
 	ItemTorso2: {
 		LockingSwimsuit: {
@@ -12646,6 +12847,10 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			CopyConfig: { GroupName: "ItemTorso", AssetName: "NavelBar1" },
 		}, // NavelBar1
+		SteelBelt: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ItemTorso", AssetName: "SteelBelt" },
+		}, // SteelBelt
 	}, //ItemTorso2
 	Shoes: {
 		FuturisticHeels2: {
@@ -12801,6 +13006,21 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // HeellessHoof
+		HoofBoots: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "Normal",
+					Property: {},
+				},
+				{
+					Name: "Locked",
+					// Just cosmetic addon
+					Property: {},
+				},
+			],
+		}, // HoofBoots
 	}, // Shoes
 	HairAccessory1: {
 		ElfEars: {
@@ -17978,6 +18198,40 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // ComboBelt
+		ButterflyGarter: {
+			Archetype: ExtendedArchetype.MODULAR,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "RightLeg",
+					Key: "r",
+					Options: [
+						{
+							// r0 - Added
+							Property: { Effect: [] },
+						},
+						{
+							// r1 - None
+							Property: { Effect: [] },
+						},
+					],
+				},
+				{
+					Name: "LeftLeg",
+					Key: "l",
+					Options: [
+						{
+							// l0 - Added
+							Property: { Effect: [] },
+						},
+						{
+							// l1 - None
+							Property: { Effect: [] },
+						},
+					],
+				},
+			],
+		}, // ButterflyGarter
 	}, // Garters
 	AnkletRight: {
 		LegFur: {
