@@ -984,10 +984,10 @@ function AssetAllActivities(family) {
  * Gets an activity asset by family and name
  * @param {IAssetFamily} family - The family to search in
  * @param {string} name - Name of activity to search for
- * @returns {Activity|undefined}
+ * @returns {Activity|null}
  */
 function AssetGetActivity(family, name) {
-	return AssetAllActivities(family).find(a => (a.Name === name));
+	return AssetAllActivities(family).find(a => (a.Name === name)) ?? null;
 }
 
 /**
@@ -1031,7 +1031,7 @@ function AssetActivitiesForGroup(family, groupname, onSelf = "other") {
  * @returns {AssetGroup|null} - The asset group matching the provided family and group name
  */
 function AssetGroupGet(Family, Group) {
-	return AssetGroupMap.get(Group) || null;
+	return AssetGroupMap.get(Group) ?? null;
 }
 
 /**
