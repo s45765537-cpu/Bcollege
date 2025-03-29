@@ -58154,6 +58154,7 @@ var ActivityFemale3DCG = [
 		Target: [
 			"ItemArms",
 			"ItemBoots",
+			"ItemButt",
 			"ItemFeet",
 			"ItemLegs",
 			"ItemNeck",
