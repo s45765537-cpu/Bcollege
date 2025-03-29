@@ -9,10 +9,12 @@ var PlatformDialogReply = null;
 var PlatformDialogGoto = null;
 var PlatformDialogCharacterDisplay = null;
 var PlatformDialogPosition = 0;
+/** @type {Platform.DialogCharacter[]} */
 var PlatformDialogCharacter = null;
 var PlatformDialogAudio = null;
 var PlatformDialogControllerHandle = false;
 var PlatformDialogAudioStyle = ["", "angry", "calm", "chat", "cheerful", "friendly", "sad", "serious", "shouting", "terrified", "unfriendly", "whispering"];
+/** @type {Platform.DialogCharacter[]} */
 var PlatformDialogCharacterTemplate = [
 	{
 		Name: "Melody",
@@ -5187,7 +5189,7 @@ function PlatformDialogVoice(Source) {
 
 /**
  * Loads the dialog at a specific position
- * @param {Number} Position - The position # to load
+ * @param {number} Position - The position # to load
  * @returns {void} - Nothing
  */
 function PlatformDialogLoadPosition(Position) {
@@ -5220,7 +5222,7 @@ function PlatformDialogLoadPosition(Position) {
 
 /**
  * Starts a specific dialog
- * @param {String} DialogName - The name of the dialog to start
+ * @param {string} DialogName - The name of the dialog to start
  * @returns {void} - Nothing
  */
 function PlatformDialogStart(DialogName) {
@@ -5331,9 +5333,9 @@ function PlatformDialogRun() {
 
 /**
  * Change the love/domination value based on the option picked, influenced also by perks
- * @param {Number} CurrentValue - The current value
- * @param {Number} Change - The modifier to apply
- * @param {Boolean} Bonus - If there's a bonus to apply or not
+ * @param {number} CurrentValue - The current value
+ * @param {number} Change - The modifier to apply
+ * @param {boolean} Bonus - If there's a bonus to apply or not
  * @returns {Number} - The new stat after changes
  */
 function PlatformDialogChangeValue(CurrentValue, Change, Bonus, Level) {
@@ -5352,9 +5354,9 @@ function PlatformDialogChangeValue(CurrentValue, Change, Bonus, Level) {
 
 /**
  * Pick a specific idle pose if the character allows it
- * @param {Object} Character - The character to evaluate
- * @param {Number} Love - The love value that changed
- * @param {Number} Domination - The domination value that changed
+ * @param {Platform.DialogCharacter} Character - The character to evaluate
+ * @param {number} Love - The love value that changed
+ * @param {number} Domination - The domination value that changed
  * @returns {Object} - A unused object
  */
 function PlatformDialogSetIdlePose(Character, Love, Domination) {
@@ -5380,7 +5382,7 @@ function PlatformDialogSetIdlePose(Character, Love, Domination) {
 
 /**
  * Pick an answer in a specific dialog
- * @param {Number} Position - The position of the answer picked
+ * @param {number} Position - The position of the answer picked
  * @returns {void} - Nothing
  */
 function PlatformDialogPickAnswer(Position) {
@@ -5408,8 +5410,8 @@ function PlatformDialogPickAnswer(Position) {
 
 /**
  * Alters a property (love or domination) for a specific character
- * @param {String} CharacterName - The name of the character to alter
- * @param {String} Property - The name of the property to alter
+ * @param {string} CharacterName - The name of the character to alter
+ * @param {"Love" | "Domination"} Property - The name of the property to alter
  * @param {Number} Value - The value to change
  * @returns {void} - Nothing
  */
@@ -5485,8 +5487,8 @@ function PlatformDialogClick() {
 
 /**
  * Returns a dialog character
- * @param {String} Name - The name of a character
- * @returns {Object} - The character object
+ * @param {string} Name - The name of a character
+ * @returns {Platform.DialogCharacter} - The character object
  */
 function PlatformDialogGetCharacter(Name) {
 	if (PlatformDialogCharacter != null)
@@ -5519,7 +5521,7 @@ function PlatformDialogController(buttons) {
 
 /**
  * Returns TRUE if the party leader (Melody) has a specific social perk
- * @param {String} PerkName - The name of the perk
+ * @param {Platform.PerkName} PerkName - The name of the perk
  * @returns {boolean} - TRUE if the perk is active
  */
 function PlatformDialogLeaderHasPerk(PerkName) {
@@ -5571,7 +5573,7 @@ function PlatformDialogEvent() {
 
 /**
  * Returns TRUE if the character is Melody's lover, make sure that character or Melody is currently active
- * @param {String} Name - The name of a character
+ * @param {string} Name - The name of a character
  * @returns {boolean} - TRUE if lover
  */
 function PlatformDialogIsLover(Name) {
@@ -5581,8 +5583,8 @@ function PlatformDialogIsLover(Name) {
 
 /**
  * Returns TRUE if two characters are lovers
- * @param {String} Char1 - The name of the first character
- * @param {String} Char2 - The name of the second character
+ * @param {string} Char1 - The name of the first character
+ * @param {string} Char2 - The name of the second character
  * @returns {boolean} - TRUE if lover
  */
 function PlatformDialogCharactersAreLovers(Char1, Char2) {
@@ -5594,7 +5596,7 @@ function PlatformDialogCharactersAreLovers(Char1, Char2) {
 
 /**
  * Returns TRUE if the character is Melody's slave, make sure that character or Melody is currently active
- * @param {String} Name - The name of a character
+ * @param {string} Name - The name of a character
  * @returns {boolean} - TRUE if lover
  */
 function PlatformDialogIsSlave(Name) {
@@ -5604,8 +5606,8 @@ function PlatformDialogIsSlave(Name) {
 
 /**
  * Returns TRUE if the first character is the slave of the second character
- * @param {String} Char1 - The name of the first character
- * @param {String} Char2 - The name of the second character
+ * @param {string} Char1 - The name of the first character
+ * @param {string} Char2 - The name of the second character
  * @returns {boolean} - TRUE if slave
  */
 function PlatformDialogIsSlaveOfCharacter(Char1, Char2) {
@@ -5617,7 +5619,7 @@ function PlatformDialogIsSlaveOfCharacter(Char1, Char2) {
 
 /**
  * Returns TRUE if the character is Melody's owner, make sure that character or Melody is currently active
- * @param {String} Name - The name of a character
+ * @param {string} Name - The name of a character
  * @returns {boolean} - TRUE if lover
  */
 function PlatformDialogIsOwner(Name) {
@@ -5627,7 +5629,7 @@ function PlatformDialogIsOwner(Name) {
 
 /**
  * Returns TRUE if the character doesn't have any lover
- * @param {String} Name - The name of a character
+ * @param {string} Name - The name of a character
  * @returns {boolean} - TRUE if no lover
  */
 function PlatformDialogCharacterIsSingle(Name) {
@@ -5638,8 +5640,8 @@ function PlatformDialogCharacterIsSingle(Name) {
 
 /**
  * Returns 0 if the source character and target character are not in a relationship, 1 if lover or slave, 2 if lover and slave
- * @param {String} SourceName - The source character name to evaluate
- * @param {String} TargetName - The target character name to evaluate
+ * @param {string} SourceName - The source character name to evaluate
+ * @param {string} TargetName - The target character name to evaluate
  * @returns {number} - TRUE if lover
  */
 function PlatformDialogLoverAndSlaveFactor(SourceName, TargetName) {
