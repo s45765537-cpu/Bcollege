@@ -175,7 +175,7 @@ let PreferenceDidAddOldStyleScreens = false;
  * @returns {void} - Nothing
  */
 function PreferenceLoad() {
-	PreferenceSubscreen = PreferenceSubscreens.find(s => s.name === "Main");
+	PreferenceSubscreen = PreferenceSubscreens.find(s => s.name === "Main") ?? null;
 
 	// Backward-compatibility: just throw the old-style screens into the mix
 	if (!PreferenceDidAddOldStyleScreens) {

@@ -192,7 +192,7 @@ function NPCArousal(C) {
 
 		// Go through all zones
 		for (let Group of AssetGroup)
-			if (Group.ArousalZoneID != null) {
+			if (Group.IsItem() && Group.ArousalZoneID != null) {
 
 				// Gets the current factors for that charact
 				let Zone = PreferenceGetArousalZone(C, Group.Name);

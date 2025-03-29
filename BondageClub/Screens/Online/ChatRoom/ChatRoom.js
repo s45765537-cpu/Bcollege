@@ -1752,7 +1752,7 @@ function ChatRoomStimulationMessage(Action) {
 
 	// Increase player arousal to the zone
 	if (!Player.IsEdged() && arousal < 70 - event.arousal && event.event != "Talk")
-		ActivityEffectFlat(Player, Player, event.arousal, group.Name, 1);
+		ActivityEffectFlat(Player, Player, event.arousal, /** @type {AssetGroupItemName} */ (group.Name), 1);
 	const duration = (Math.random() + event.arousal / 2.4) * 500;
 	DrawFlashScreen("#FFB0B0", duration, 140);
 	if (Player.ArousalSettings?.AffectExpression) {
