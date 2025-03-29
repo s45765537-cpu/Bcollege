@@ -1027,12 +1027,13 @@ function AssetActivitiesForGroup(family, groupname, onSelf = "other") {
 
 /**
  * Gets an asset group by the asset family name and group name
+ * @template {AssetGroupName} T
  * @param {IAssetFamily} Family - The asset family that the group belongs to (Ignored until other family is added)
- * @param {AssetGroupName} Group - The name of the asset group to find
- * @returns {AssetGroup|null} - The asset group matching the provided family and group name
+ * @param {T} Group - The name of the asset group to find
+ * @returns {AssetGroupMapping[T] | null} - The asset group matching the provided family and group name
  */
 function AssetGroupGet(Family, Group) {
-	return AssetGroupMap.get(Group) ?? null;
+	return /** @type {AssetGroupMapping[T]} */(AssetGroupMap.get(Group)) ?? null;
 }
 
 /**
