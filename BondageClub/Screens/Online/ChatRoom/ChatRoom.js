@@ -5512,9 +5512,15 @@ function ChatRoomSendOwnershipRequest(RequestType) {
 		CharacterChangeMoney(Player, -100);
 		DialogChangeReputation("Dominant", 10);
 	}
-	if ((ChatRoomOwnershipOption == "CanEndTrial") && (RequestType == "Accept")) DialogChangeReputation("Dominant", -20);
+	if ((ChatRoomOwnershipOption == "CanEndTrial") && (RequestType == "Accept")) {
+		DialogChangeReputation("Dominant", -20);
+	}
 	ChatRoomOwnershipOption = "";
 	ServerSend("AccountOwnership", { MemberNumber: CurrentCharacter.MemberNumber, Action: RequestType });
+	if (RequestType === "Propose") {
+		const msg = InterfaceTextGet("OwnerProposeSub").replace("TargetCharacterName", CharacterNickname(CurrentCharacter));
+		ChatRoomSendLocal(msg);
+	}
 	if (RequestType == "Accept") DialogLeave();
 }
 
