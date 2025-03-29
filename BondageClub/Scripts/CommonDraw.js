@@ -101,7 +101,7 @@ function CommonDrawAppearanceBuild(C, {
 		// Before drawing hook, receives all processed data. Any of them can be overriden if returned inside an object.
 		// CAREFUL! The dynamic function should not contain heavy computations, and should not have any side effects.
 		// Watch out for object references.
-		if (asset.DynamicBeforeDraw && (!Player.GhostList || Player.GhostList.indexOf(C.MemberNumber) == -1)) {
+		if (asset.DynamicBeforeDraw && !C.IsGhosted()) {
 			/** @type {DynamicDrawingData} */
 			const DrawingData = {
 				C, X, Y, CA: item, GroupName: groupName, Color: layerColor, Opacity: opacity, Property: item.Property, A: asset, G: parentAssetName, AG: group, L: layerSegment, Pose: pose, LayerType: layerType, BlinkExpression: blinkExpressionSegment,
@@ -257,7 +257,7 @@ function CommonDrawAppearanceBuild(C, {
 		// After drawing hook, receives all processed data.
 		// CAREFUL! The dynamic function should not contain heavy computations, and should not have any side effects.
 		// Watch out for object references.
-		if (asset.DynamicAfterDraw && (!Player.GhostList || Player.GhostList.indexOf(C.MemberNumber) == -1)) {
+		if (asset.DynamicAfterDraw && !C.IsGhosted()) {
 			/** @type {DynamicDrawingData} */
 			const DrawingData = {
 				C, X, Y, CA: item, GroupName: groupName, Property: item.Property, Color: layerColor, Opacity: opacity, A: asset, G: parentAssetName, AG: group, L: layerSegment, Pose: pose, LayerType: layerType, BlinkExpression: blinkExpressionSegment, drawCanvas, drawCanvasBlink, AlphaMasks: masks,

@@ -1132,7 +1132,7 @@ function ChatSearchGetFilterReasons(Room) {
 		Reasons.push("TempHidden");
 
 	// is creator on ghostlist?
-	if (Player.GhostList.indexOf(Room.CreatorMemberNumber) != -1)
+	if (Player.HasOnGhostlist(Room.CreatorMemberNumber))
 		Reasons.push("GhostList");
 
 	return Reasons;

@@ -726,6 +726,30 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 					hooks.forEach((hook) => hook()); // If there's a hook, call it
 			}
 		},
+		HasOnGhostlist: function(target) {
+			return CharacterIsOnList(this, target, "ghost");
+		},
+		HasOnBlacklist: function(target) {
+			return CharacterIsOnList(this, target, "black");
+		},
+		HasOnWhitelist: function(target) {
+			return CharacterIsOnList(this, target, "white");
+		},
+		HasOnFriendlist: function(target) {
+			return CharacterIsOnList(this, target, "friend");
+		},
+		IsGhosted: function() {
+			return Player.HasOnGhostlist(this);
+		},
+		IsBlacklisted: function() {
+			return Player.HasOnBlacklist(this);
+		},
+		IsWhitelisted: function() {
+			return Player.HasOnWhitelist(this);
+		},
+		IsFriend: function() {
+			return Player.HasOnFriendlist(this);
+		}
 	};
 
 	// Add the character to the cache
@@ -1411,8 +1435,7 @@ function CharacterRefresh(C, Push = true, RefreshDialog = true) {
 		|| C.IsPlayer()
 		|| !(Player.OnlineSettings && Player.OnlineSettings.DisableAnimations)
 	) && (
-		!Player.GhostList
-		|| Player.GhostList.indexOf(C.MemberNumber) == -1
+		!C.IsGhosted()
 	);
 	C.HasScriptedAssets = !!C.Appearance.find(CA => CA.Asset.DynamicScriptDraw);
 
@@ -2415,4 +2438,24 @@ function CharacterSetActivePose(C, poseName, forceChange=false) {
  */
 function CharacterCanChangeToPose(C, poseName) {
 	return PoseCanChangeUnaided(C, poseName);
+}
+
+/**
+ * Check a character against another one's access lists
+ * @param {Character} listOwner - The character to check against
+ * @param {Character | number} listTarget - The character or member number to check for
+ * @param {"black" | "white" | "ghost" | "friend"} list
+ */
+function CharacterIsOnList(listOwner, listTarget, list) {
+	const num = typeof listTarget === "number" ? listTarget : listTarget.MemberNumber;
+	switch (list) {
+		case "black":
+			return listOwner.BlackList.includes(num);
+		case "white":
+			return listOwner.WhiteList.includes(num);
+		case "ghost":
+			return listOwner.IsPlayer() && listOwner.GhostList.includes(num);
+		case "friend":
+			return listOwner.IsPlayer() && listOwner.FriendList.includes(num);
+	}
 }

@@ -1696,7 +1696,6 @@ interface Character {
 	LimitedItems?: never;
 	/** A record with all asset- and type-specific permission settings */
 	PermissionItems: Partial<Record<`${AssetGroupName}/${string}`, ItemPermissions>>;
-	WhiteList: number[];
 	HeightModifier: number;
 	MemberNumber?: number;
 	ItemPermission: 0 | 1 | 2 | 3 | 4 | 5;
@@ -1819,6 +1818,50 @@ interface Character {
 	HasVagina: () => boolean;
 	IsFlatChested: () => boolean;
 	WearingCollar: () => boolean;
+	/**
+	 * Check if the player is ghosting the given target character (or member number)
+	 */
+	HasOnGhostlist: (this: PlayerCharacter, target?: Character | number) => boolean;
+	/**
+	 * Check if the player is blacklisting the given target character (or member number)
+	 */
+	HasOnBlacklist: (target?: Character | number) => boolean;
+	/**
+	 * Check if the player is whitelisting the given target character (or member number)
+	 */
+	HasOnWhitelist: (target?: Character | number) => boolean;
+	/**
+	 * Check if the player is friend with the given target character (or member number)
+	 */
+	HasOnFriendlist: (this: PlayerCharacter, target?: Character | number) => boolean;
+	/**
+	 * Check if this character is ghosted by the player
+	 */
+	IsGhosted: () => boolean;
+	/**
+	 * Check if this character is blacklisted by the player
+	 */
+	IsBlacklisted: () => boolean;
+	/**
+	 * Check if this character is whitelisted by the player
+	 */
+	IsWhitelisted: () => boolean;
+	/**
+	 * Check if this character is friended by the player
+	 */
+	IsFriend: () => boolean;
+	/**
+	 * List of whitelisted member numbers for the character
+	 *
+	 * Do not manipulate directly. Use {@link ChatRoomListUpdate}
+	 */
+	WhiteList: number[];
+	/**
+	 * List of blacklisted member numbers for the character
+	 *
+	 * Do not manipulate directly. Use {@link ChatRoomListUpdate}
+	 */
+	BlackList: number[];
 
 	// Properties created in other places
 	ArousalSettings: ArousalSettingsType;
@@ -1831,7 +1874,6 @@ interface Character {
 	OnlineSharedSettings?: CharacterOnlineSharedSettings;  // technically never as it is Online-only
 	Game?: CharacterGameParameters; // technically never as it is Online-only
 	MapData?: ChatRoomMapData;
-	BlackList: number[];
 	RunScripts?: boolean;
 	HasScriptedAssets?: boolean;
 	Cage?: boolean;
@@ -2046,7 +2088,12 @@ interface PlayerCharacter extends Character {
 	GraphicsSettings: GraphicsSettingsType;
 	NotificationSettings: NotificationSettingsType;
 	OnlineSharedSettings: CharacterOnlineSharedSettings;  // technically never as it is Online-only
-	GhostList?: number[];
+	/**
+	 * List of ghosted member numbers for the player
+	 *
+	 * Do not manipulate directly. Use {@link ChatRoomListUpdate}
+	 */
+	GhostList: number[];
 	Wardrobe: ItemBundle[][];
 	WardrobeCharacterNames: string[];
 	SavedExpressions?: ({ Group: ExpressionGroupName, CurrentExpression?: ExpressionName }[] | null)[];
@@ -4386,7 +4433,7 @@ interface PreferenceExtensionsSettingItem {
 	 * Called when the extension screen is about to exit.
 	 *
 	 * Happens either through a click of the exit button, or the ESC key.
-	 * This will **not** be called if a disconnect happens, so clean up should be 
+	 * This will **not** be called if a disconnect happens, so clean up should be
 	 * done in {@link PreferenceExtensionsSettingItem.unload}.
 	 *
 	 * @returns {boolean | void} If you have some validation that needs to happen

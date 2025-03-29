@@ -362,42 +362,42 @@ function ChatRoomIsViewActive(viewName)
  * Checks if the player can add the current character to her whitelist.
  * @returns {boolean} - TRUE if the current character is not in the player's whitelist nor blacklist.
  */
-function ChatRoomCanAddWhiteList() { return ((CurrentCharacter != null) && (CurrentCharacter.MemberNumber != null) && (Player.WhiteList.indexOf(CurrentCharacter.MemberNumber) < 0) && (Player.BlackList.indexOf(CurrentCharacter.MemberNumber) < 0)); }
+function ChatRoomCanAddWhiteList() { return CurrentCharacter && !CurrentCharacter.IsWhitelisted() && !CurrentCharacter.IsBlacklisted(); }
 /**
  * Checks if the player can add the current character to her blacklist.
  * @returns {boolean} - TRUE if the current character is not in the player's whitelist nor blacklist.
  */
-function ChatRoomCanAddBlackList() { return ((CurrentCharacter != null) && (CurrentCharacter.MemberNumber != null) && (Player.WhiteList.indexOf(CurrentCharacter.MemberNumber) < 0) && (Player.BlackList.indexOf(CurrentCharacter.MemberNumber) < 0)); }
+function ChatRoomCanAddBlackList() { return CurrentCharacter && !CurrentCharacter.IsWhitelisted() && !CurrentCharacter.IsBlacklisted(); }
 /**
  * Checks if the player can remove the current character from her whitelist.
  * @returns {boolean} - TRUE if the current character is in the player's whitelist, but not her blacklist.
  */
-function ChatRoomCanRemoveWhiteList() { return ((CurrentCharacter != null) && (CurrentCharacter.MemberNumber != null) && (Player.WhiteList.indexOf(CurrentCharacter.MemberNumber) >= 0)); }
+function ChatRoomCanRemoveWhiteList() { return CurrentCharacter && CurrentCharacter.IsWhitelisted(); }
 /**
  * Checks if the player can remove the current character from her blacklist.
  * @returns {boolean} - TRUE if the current character is in the player's blacklist, but not her whitelist.
  */
-function ChatRoomCanRemoveBlackList() { return ((CurrentCharacter != null) && (CurrentCharacter.MemberNumber != null) && (Player.BlackList.indexOf(CurrentCharacter.MemberNumber) >= 0)); }
+function ChatRoomCanRemoveBlackList() { return CurrentCharacter && CurrentCharacter.IsBlacklisted(); }
 /**
  * Checks if the player can add the current character to her friendlist
  * @returns {boolean} - TRUE if the current character is not in the player's friendlist yet.
  */
-function ChatRoomCanAddFriend() { return ((CurrentCharacter != null) && (CurrentCharacter.MemberNumber != null) && (Player.FriendList.indexOf(CurrentCharacter.MemberNumber) < 0)); }
+function ChatRoomCanAddFriend() { return CurrentCharacter && !CurrentCharacter.IsFriend(); }
 /**
  * Checks if the player can remove the current character from her friendlist.
  * @returns {boolean} - TRUE if the current character is in the player's friendlist.
  */
-function ChatRoomCanRemoveFriend() { return ((CurrentCharacter != null) && (CurrentCharacter.MemberNumber != null) && (Player.FriendList.indexOf(CurrentCharacter.MemberNumber) >= 0)); }
+function ChatRoomCanRemoveFriend() { return CurrentCharacter && CurrentCharacter.IsFriend(); }
 /**
  * Checks if the player can add the current character to her ghostlist
  * @returns {boolean} - TRUE if the current character is not in the player's ghostlist yet.
  */
-function ChatRoomCanAddGhost() { return ((CurrentCharacter != null) && (CurrentCharacter.MemberNumber != null) && (Player.GhostList.indexOf(CurrentCharacter.MemberNumber) < 0)); }
+function ChatRoomCanAddGhost() { return CurrentCharacter && !CurrentCharacter?.IsGhosted(); }
 /**
  * Checks if the player can remove the current character from her ghostlist.
  * @returns {boolean} - TRUE if the current character is in the player's ghostlist.
  */
-function ChatRoomCanRemoveGhost() { return ((CurrentCharacter != null) && (CurrentCharacter.MemberNumber != null) && (Player.GhostList.indexOf(CurrentCharacter.MemberNumber) >= 0)); }
+function ChatRoomCanRemoveGhost() { return CurrentCharacter && CurrentCharacter.IsGhosted(); }
 /**
  * Checks if the player can change the current character's clothes
  * @returns {boolean} - TRUE if the player can change the character's clothes and is allowed to.
@@ -1493,9 +1493,9 @@ function DrawStatus(C, X, Y, Zoom) {
  */
 function ChatRoomDrawCharacterStatusIcons(C, CharX, CharY, Zoom)
 {
-	if (Player.WhiteList.includes(C.MemberNumber)) {
+	if (C.IsWhitelisted()) {
 		DrawImageResize("Icons/Small/WhiteList.png", CharX + 70 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
-	} else if (Player.BlackList.includes(C.MemberNumber)) {
+	} else if (C.IsBlacklisted()) {
 		DrawImageResize("Icons/Small/BlackList.png", CharX + 70 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
 	}
 	// Unobtrusive but prominent warnings to alert user they are in focus mode -- drawn on player and all focused (visible) characters
@@ -1504,9 +1504,9 @@ function ChatRoomDrawCharacterStatusIcons(C, CharX, CharY, Zoom)
 		DrawImageResize("Icons/Small/FocusEnabledWarning.png", CharX + 30 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
 		DrawImageResize("Icons/Small/FocusEnabledWarning.png", CharX + 30 * Zoom, CharY + 950 * Zoom, 40 * Zoom, 40 * Zoom);
 	}
-	if (Player.GhostList.includes(C.MemberNumber)) {
+	if (C.IsGhosted()) {
 		DrawImageResize("Icons/Small/GhostList.png", CharX + 110 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
-	} else if (Player.FriendList.includes(C.MemberNumber)) {
+	} else if (C.IsFriend()) {
 		DrawImageResize("Icons/Small/FriendList.png", CharX + 110 * Zoom, CharY, 40 * Zoom, 40 * Zoom);
 	}
 	if (C.IsBirthday())
@@ -3483,7 +3483,7 @@ var ChatRoomMessageHandlers = [
 			if (data.Type === "Action" && data.Content === "ServerUpdateRoom")
 				return false;
 
-			if (Player.GhostList.indexOf(data.Sender) >= 0)
+			if (Player.HasOnGhostlist(data.Sender))
 				return true;
 		}
 	},
@@ -6124,7 +6124,7 @@ function ChatRoomNotificationRaiseChatJoin(C) {
 		else if (!settings.Owner && !settings.Lovers && !settings.Friendlist && !settings.Subs) raise = true;
 		else if (settings.Owner && Player.IsOwnedByMemberNumber(C.MemberNumber)) raise = true;
 		else if (settings.Lovers && C.IsLoverOfPlayer()) raise = true;
-		else if (settings.Friendlist && Player.FriendList.includes(C.MemberNumber)) raise = true;
+		else if (settings.Friendlist && C.IsFriend()) raise = true;
 		else if (settings.Subs && C.IsOwnedByPlayer()) raise = true;
 	}
 	return raise;
@@ -6157,7 +6157,7 @@ function ChatRoomCheckForLastChatRoomUpdates() {
 	// Check whether the chatroom contains at least one "safe" character (a friend, owner, or non-blacklisted player)
 	const ContainsSafeCharacters = ChatRoomCharacter.length === 1 || ChatRoomCharacter.some((Char) => {
 		return !Char.IsPlayer() && (
-			Player.FriendList.includes(Char.MemberNumber) ||
+			Char.IsFriend() ||
 			Player.IsOwnedByMemberNumber(Char.MemberNumber) ||
 			!Blacklist.includes(Char.MemberNumber)
 		);
