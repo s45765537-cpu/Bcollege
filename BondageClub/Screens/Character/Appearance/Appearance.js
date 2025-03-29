@@ -595,7 +595,7 @@ function CharacterAppearanceSetHeightModifiers(C) {
 	}
 
 	// Set the height ratio here to avoid lookin it up when drawing. The setting can make all characters full height
-	C.HeightRatio = Player.CharacterID === "" || Player.VisualSettings.ForceFullHeight ? 1 : CharacterAppearanceGetCurrentValue(C, "Height", "Zoom");
+	C.HeightRatio = Player.VisualSettings?.ForceFullHeight ? 1 : CharacterAppearanceGetCurrentValue(C, "Height", "Zoom");
 }
 
 /**
