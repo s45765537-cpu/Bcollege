@@ -31,7 +31,7 @@
 }
 
 .chat-room-sep-header {
-  user-select: text !important;
+  user-select: all !important;
   align-content: center;
   justify-content: center;
   display: flex;
@@ -45,6 +45,10 @@
   aspect-ratio: 1 / 1;
   background: gray;
   margin-block: 0.1em;
+}
+
+.chat-room-no-copy {
+  user-select: none;
 }
 
 .chat-room-sep-collapse {
