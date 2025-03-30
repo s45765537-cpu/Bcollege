@@ -2731,6 +2731,23 @@ function DialogDrawItemMenu(C) {
 }
 
 /**
+ * Abstract base class for a simplistic DOM subscreen with three-ish components:
+ * - A menubar with a set of buttons which are generally heterogeneous in function (_e.g._ perform arbitrary, unrelated task #1, #2 or #3)
+ * - A status message of some sort
+ * - A grid with some type of misc element, generally a set of buttons homogeneous in function (e.g. equip item #1, #2 or #3). See below for more details.
+ *
+ * Grid button clicks
+ * ------------------
+ * Grid button clicks in the {@link ids|ids.grid}-referenced element generally involve the following four steps:
+ * 1) The click listener (see {@link eventListeners|eventListeners._ClickButton}) performs some basic generic validation, like checking whether the character has been initialized.
+ *    A validation failure is considered an internal error, and will lead to a premature termination of the click event.
+ * 2) The click listener retrieves some type of underlying object associated with the grid button, like an item or activity (see {@link _GetClickedObject}).
+ * 3) The click listener performs more extensive, subscreen-/class-specific validation (see {@link GetClickStatus}), like checking whether an item has not been blacklisted.
+ *    A validation failure here will trigger a soft reload, updating the status message and re-evaluating the enabled/disabled state of _all_ pre-existing grid buttons.
+ * 4) The click listener finally performs a subscreen-/class-specific action based on the grid button click, like equipping an item (see {@link _ClickButton}).
+ *
+ * Parameters
+ * ----------
  * @abstract
  * @template {string} [ModeType=string] - The name of the mode associated with this instance (_e.g._ {@link DialogMenuMode})
  * @template [ClickedObj=any] - The underlying item or activity object of the clicked grid buttons (if applicable)

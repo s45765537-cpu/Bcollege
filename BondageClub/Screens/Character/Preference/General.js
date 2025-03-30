@@ -103,8 +103,8 @@ function PreferenceSubscreenGeneralClick() {
 }
 
 /**
- * Exits the preference screen. Cleans up elements that are not needed anymore
- * If the selected color is invalid, the player cannot leave the screen.
+ * Exits the preference screen. Block exit when the color picker is active.
+ * @returns {boolean} - Returns false if the color picker is active and input is not valid
  */
 function PreferenceSubscreenGeneralExit() {
 	if (PreferenceSubscreenGeneralColorPicker) return false;
@@ -115,13 +115,23 @@ function PreferenceSubscreenGeneralExit() {
 		return false;
 	}
 
-	if (color !== Player.LabelColor) {
-		Player.LabelColor = color;
-		const elems = /** @type {HTMLElement[]} */(Array.from(document.querySelectorAll(`[style*="--label-color"][data-sender="${Player.MemberNumber}"]`)));
-		elems.forEach(e => e.style.setProperty("--label-color", color));
-	}
-
-	PreferenceMessage = "";
-	ElementRemove("InputCharacterLabelColor");
 	return true;
 }
+
+/**
+ * Cleans up elements that are not needed anymore
+ * If the selected color is invalid, the player cannot leave the screen.
+ */
+function PreferenceSubscreenGeneralUnload() {
+	const color = ElementValue("InputCharacterLabelColor");
+	if (CommonIsColor(color)) {
+		if (color !== Player.LabelColor) {
+			Player.LabelColor = color;
+			const elems = /** @type {HTMLElement[]} */(Array.from(document.querySelectorAll(`[style*="--label-color"][data-sender="${Player.MemberNumber}"]`)));
+			elems.forEach(e => e.style.setProperty("--label-color", color));
+		}
+	}
+	PreferenceMessage = "";
+	ElementRemove("InputCharacterLabelColor");
+}
+

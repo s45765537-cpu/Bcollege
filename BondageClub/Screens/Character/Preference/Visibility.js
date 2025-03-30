@@ -233,9 +233,13 @@ function PreferenceVisibilityCheckboxChanged(permissionRecord, CheckSetting, Typ
  * Exits the preference screen
  */
 function PreferenceSubscreenVisibilityExit() {
+	return true;
+}
+
+
+function PreferenceSubscreenVisibilityUnload() {
 	PreferenceVisibilityGroupList = [];
 	PreferenceVisibilityRecord = {};
-	return true;
 }
 
 /**

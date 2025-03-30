@@ -82,6 +82,9 @@ function PreferenceSubscreenControllerClick() {
  * Exits the preference screen
  */
 function PreferenceSubscreenControllerExit() {
-	ControllerStopCalibration(true);
 	return true;
+}
+
+function PreferenceSubscreenControllerUnload() {
+	ControllerStopCalibration(true);
 }
