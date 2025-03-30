@@ -4066,6 +4066,7 @@ class _DialogCraftedMenu extends _DialogFocusMenu {
 		const ids = this.ids;
 		return document.getElementById(ids.root) ?? ElementCreate({
 			tag: "div",
+			attributes: { "aria-owns": ids.icon },
 			children: [
 				{
 					tag: "span",
@@ -4073,23 +4074,33 @@ class _DialogCraftedMenu extends _DialogFocusMenu {
 					classList: ["dialog-status", "scroll-box"],
 				},
 				{
-					tag: "div",
+					tag: "ul",
 					attributes: { id: ids.info, "aria-labelledby": ids.status },
 					children: [
-						{ tag: "span", attributes: { id: ids.name }, classList: [ids.info] },
-						{ tag: "span", attributes: { id: ids.crafter }, classList: [ids.info] },
-						{ tag: "span", attributes: { id: ids.property }, classList: [ids.info] },
-						{ tag: "span", attributes: { id: ids.private }, classList: [ids.info] },
-						{ tag: "div", attributes: { id: ids.gap } },
-						{ tag: "div", classList: ["button", "blank-button", "button-styling", "dialog-grid-button", "dialog-icon"], attributes: { id: ids.icon } },
+						{ tag: "li", attributes: { id: ids.name }, classList: [ids.info] },
+						{ tag: "li", attributes: { id: ids.crafter }, classList: [ids.info] },
+						{ tag: "li", attributes: { id: ids.property }, classList: [ids.info] },
+						{ tag: "li", attributes: { id: ids.private }, classList: [ids.info] },
+						{ tag: "div", attributes: { id: ids.gap, "aria-hidden": "true" } },
 						{
 							tag: "div",
+							classList: ["button", "blank-button", "button-styling", "dialog-grid-button", "dialog-icon"],
+							attributes: { id: ids.icon, role: "img", "aria-labelledby": `${ids.icon}-label` },
+						},
+						{
+							tag: "li",
 							attributes: { id: ids.footer },
 							classList: [ids.info, "scroll-box"],
 							children: [
-								{ tag: "span", attributes: { id: ids.description } },
-							],
-						},
+								{
+									tag: "ul",
+									children: [
+										{ tag: "li", attributes: { id: ids.description } },
+									],
+								},
+							]
+						}
+
 					],
 				},
 			],
