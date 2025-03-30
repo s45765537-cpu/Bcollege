@@ -1448,7 +1448,7 @@ function PandoraPenitentiaryActivityRun(Activity) {
 			InventoryLock(Player, "ItemArms", LockType);
 			PandoraPenitentiaryItemDifficulty(Player, "ItemArms", Level);
 		}
-		if (InventoryGet(Player, "ItemArms") == null) {
+		if (InventoryGet(Player, "ItemLegs") == null) {
 			InventoryWear(Player, "Chains", "ItemLegs");
 			InventoryLock(Player, "ItemLegs", LockType);
 			PandoraPenitentiaryItemDifficulty(Player, "ItemLegs", Level);
