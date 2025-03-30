@@ -92,6 +92,12 @@ var ChatRoomChatLengthLabelRect = /** @type {never} */([1764, 970, 120, 82]);
  */
 var ChatRoomDivRect = [1005, 60, 988, 940];
 
+/**
+ * The last approximate height (_i.e._ {@link HTMLElement.clientHeight} as opposed to {@link DOMRect.height}) of the `InputChat` element.
+ * @type {number}
+ */
+let ChatRoomDivInputPrevHeight = NaN;
+
 var ChatRoomChatHidden = false;
 /**
  * The chatroom characters that were drawn in the last frame.
@@ -1358,6 +1364,7 @@ function ChatRoomClearAllElements() {
 	} else {
 		ElementRemove("chat-room-div");
 		window.removeEventListener("resize", ChatRoomResizeManager.ChatRoomResizeEvent);
+		ChatRoomDivInputPrevHeight = NaN;
 	}
 }
 
@@ -1807,7 +1814,7 @@ function ChatRoomResize(load) {
 	const chatInput = document.getElementById("InputChat");
 	if (chatInput) {
 		ElementPositionFix("chat-room-div", ChatRoomFontSize, ...ChatRoomDivRect);
-		chatInput.dispatchEvent(new Event("input"));
+		chatInput.dispatchEvent(new InputEvent("input"));
 	}
 }
 
@@ -2069,9 +2076,7 @@ function ChatRoomStatusUpdateTalk(Key) {
  */
 function ChatRoomChatInputChangeHandler(event) {
 	const label = document.getElementById("InputChatLength");
-	const chatLog = document.getElementById("TextAreaChatLog");
-	const parent = document.getElementById("chat-room-div");
-	if (!label || !chatLog || !parent) return;
+	if (!label) return;
 
 	const length = this.value.length;
 	if (length <= ServerChatMessageMaxLength - 100) {
@@ -2088,24 +2093,45 @@ function ChatRoomChatInputChangeHandler(event) {
 	this.style.height = "100%";
 	this.style.height = `${this.scrollHeight}px`;
 
-	// Check if the text log + input completely fill the parent element (within a gap-accounting error marigin)
-	// and then resize the text log + input accordingly
-	const chatLogHeight = chatLog.getBoundingClientRect().height;
-	const parentHeight = parent.getBoundingClientRect().height;
-	const inputHeight = this.getBoundingClientRect().height;
-	const ratio = (inputHeight + chatLogHeight) / parentHeight;
-	const needsUpdate = ratio > 1.005 || ratio < 0.995;
-	if (needsUpdate) {
-		const percentage = 100 * (inputHeight / parentHeight);
-		if (percentage >= 9 && percentage <= 35) {
-			const isScrolledToEnd = ElementIsScrolledToEnd("TextAreaChatLog");
+	const inputHeight = this.clientHeight;
+	if (inputHeight === ChatRoomDivInputPrevHeight) {
+		return;
+	}
+	ChatRoomInputResize(this);
+}
 
-			// At ~34% the maximum resize height has been reached and there is no point in trying to expand it any further
-			parent.style.gridTemplateRows = `${100 - 0.4 - percentage}% ${percentage}%`;
-			if (isScrolledToEnd) {
-				ElementScrollToEnd("TextAreaChatLog");
-			}
+/**
+ * Manually adjust the size of `TextAreaChatLog` based on the (auto-expanded) `chatInput` height.
+ *
+ * Why manually? Because doing it automatically can get veeeery slow as the chat log grows in size.
+ * @param {HTMLElement} chatInput
+ */
+function ChatRoomInputResize(chatInput) {
+	const chatLog = document.getElementById("TextAreaChatLog");
+	const parent = document.getElementById("chat-room-div");
+	if (!chatLog || !parent) {
+		return;
+	}
+	ChatRoomDivInputPrevHeight = chatInput.clientHeight;
+
+	const isScrolledToEnd = ElementIsScrolledToEnd("TextAreaChatLog");
+	let height = parent.getBoundingClientRect().height;
+	let nGaps = 0;
+	for (const i of parent.children) {
+		if (!ElementCheckVisibility(i, { checkVisibilityCSS: false })) {
+			continue;
 		}
+
+		nGaps++;
+		if (i !== chatLog) {
+			height -= i.getBoundingClientRect().height;
+		}
+	}
+	const gap = globalThis.getComputedStyle(chatLog).marginBottom;
+	chatLog.style.height = `calc(${Math.max(0, height)}px - (${nGaps} * ${gap}))`;
+
+	if (isScrolledToEnd) {
+		ElementScrollToEnd("TextAreaChatLog");
 	}
 }
 
@@ -3083,7 +3109,7 @@ function ChatRoomSendChat() {
 			ChatRoomSendEmote(msg);
 		}
 		inputChat.value = "";
-		inputChat.dispatchEvent(new Event("input"));
+		inputChat.dispatchEvent(new InputEvent("input"));
 		return;
 	}
 
@@ -3111,7 +3137,7 @@ function ChatRoomSendChat() {
 
 	if (clearChat) {
 		inputChat.value = "";
-		inputChat.dispatchEvent(new Event("input"));
+		inputChat.dispatchEvent(new InputEvent("input"));
 	}
 }
 

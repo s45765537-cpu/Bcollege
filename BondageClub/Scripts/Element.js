@@ -17,6 +17,7 @@ function ElementValue(ID, Value) {
 		return e.value.trim();
 
 	e.value = Value;
+	e.dispatchEvent(new InputEvent("input"));
 	return "";
 }
 

@@ -58,19 +58,18 @@
 
 #chat-room-div {
   --button-size: min(8vh, 4vw);
+}
 
-  /* Do NOT use min-/max-content for grid rows, as this will cause serious lag related to layour recomputing once the chat log starts to fill up */
-  display: grid;
-  grid-template-rows: 89.6% 10%;
-  gap: 0.4%;
+#chat-room-div > * {
+  margin-bottom: max(3px, min(0.4vh, 0.2vw));
 }
 
 #TextAreaChatLog {
   background-color: white;
-  border: 1px solid black;
   word-wrap: break-word;
   padding: 0 !important;
   overflow-y: scroll;
+  height: max-content;
 }
 
 #chat-room-bot {
@@ -329,7 +328,7 @@
 
 #TextAreaChatLog[data-colortheme="dark"]~#chat-room-buttons-div,
 #TextAreaChatLog[data-colortheme="dark2"]~#chat-room-buttons-div {
-  
+
   border-left: min(0.2vh, 0.1vw) inset rgba(0, 0, 0, 0.25);
 }
 
