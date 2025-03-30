@@ -694,10 +694,10 @@ function InventoryCraft(Source, Target, GroupName, Craft, Refresh, PreConfigureI
 	Item.Property ??= {};
 	Item.Difficulty ??= Item.Asset.Difficulty;
 
-	// Sets the crafter name and ID
+	// Sets the crafter name and ID (if not already set)
 	if (Source) {
-		Item.Craft.MemberNumber = Source.MemberNumber;
-		Item.Craft.MemberName = CharacterNickname(Source);
+		Item.Craft.MemberNumber ??= Source.MemberNumber;
+		Item.Craft.MemberName ??= CharacterNickname(Source);
 	}
 
 	// Abort; the properties below are pre-configured by crafted items the first time they're applied,
