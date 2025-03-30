@@ -449,6 +449,10 @@ var AssetFemale3DCGExtended = {
 						{}, // t18 - BCollege2
 						{}, // t19 - ControlPad1
 						{}, // t20 - Gangriels
+						{}, // t21 - DenOfSin
+						{}, // t22 - SlaveHelpline
+						{}, // t23 - DemonsBar
+						{}, // t24 - AzureCorp
 						{}, // t25 - Shibari
 						{}, // t26 - BullsEye
 						{}, // t27 - Keys?
