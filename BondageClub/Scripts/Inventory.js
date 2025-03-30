@@ -1703,7 +1703,7 @@ function InventoryIsPermissionLimited(C, AssetName, AssetGroup, AssetType) {
 function InventoryCheckLimitedPermission(C, Item, ItemType) {
 	if (!InventoryIsPermissionLimited(C, Item.Asset.DynamicName(Player), Item.Asset.Group.Name, ItemType)) return true;
 	if ((C.IsPlayer()) || C.IsLoverOfPlayer() || C.IsOwnedByPlayer()) return true;
-	if ((C.ItemPermission < 3) && !(C.WhiteList.indexOf(Player.MemberNumber) < 0)) return true;
+	if ((C.ItemPermission < 3) && C.HasOnWhitelist(Player)) return true;
 	return false;
 }
 

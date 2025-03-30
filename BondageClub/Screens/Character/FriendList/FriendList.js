@@ -732,7 +732,7 @@ function FriendListLoadFriendList(data) {
 			} else if (Player.SubmissivesList.has(memberNumber)) {
 				Type = "Submissive";
 			}
-			const canDelete = Type === "Friend" && Player.FriendList.includes(memberNumber) || Type === "Submissive" && Player.SubmissivesList.has(memberNumber);
+			const canDelete = Type === "Friend" && Player.HasOnFriendlist(memberNumber) || Type === "Submissive" && Player.SubmissivesList.has(memberNumber);
 
 			friendRawData.push({
 				memberName: memberName,
@@ -946,7 +946,7 @@ function FriendListLoadFriendList(data) {
 function FriendListDelete(MemberNumber) {
 	if (FriendListConfirmDelete.includes(MemberNumber)) {
 		FriendListConfirmDelete.splice(FriendListConfirmDelete.indexOf(MemberNumber), 1);
-		if (Player.FriendList.includes(MemberNumber)) {
+		if (Player.HasOnFriendlist(MemberNumber)) {
 			Player.FriendList.splice(Player.FriendList.indexOf(MemberNumber), 1);
 		}
 		Player.SubmissivesList.delete(MemberNumber);
