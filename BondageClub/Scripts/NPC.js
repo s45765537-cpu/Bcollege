@@ -199,13 +199,11 @@ function NPCArousal(C) {
 
 				// Orgasm zone is always maxed, if not it's randomized
 				if (Zone.Name == Orgasm) {
-					PreferenceSetZoneFactor(C, Zone.Name, 4);
-					PreferenceSetZoneOrgasm(C, Zone.Name, true);
+					PreferenceSetArousalZone(C, Zone.Name, 4, true);
 				} else {
 					let Factor = /** @type {ArousalFactor} */(Math.round((Math.random() * 4) + 0.5));
-					PreferenceSetZoneFactor(C, Zone.Name, Factor);
 					let CanOrgasm = ((Factor > 0) && (OrgasmZones.indexOf(Zone.Name) >= 0) && (Math.random() > 0.5));
-					PreferenceSetZoneOrgasm(C, Zone.Name, CanOrgasm);
+					PreferenceSetArousalZone(C, Zone.Name, Factor, CanOrgasm);
 				}
 
 			}
