@@ -463,8 +463,7 @@ function MainHallClick() {
 	if ((MouseX >= 1885) && (MouseX < 1975) && (MouseY >= 25) && (MouseY < 115)) {
 		if (window.confirm(TextGet("ExitConfirm"))) {
 			ServerAccountUpdate.SyncToServer();
-			// eslint-disable-next-line no-self-assign
-			window.location = window.location;
+			window.location.reload();
 		}
 	}
 

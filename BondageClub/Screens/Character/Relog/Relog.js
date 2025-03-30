@@ -107,6 +107,5 @@ function RelogKeyDown(event) {
  * @type {ScreenFunctions["Exit"]}
  */
 function RelogExit() {
-	// eslint-disable-next-line no-self-assign
-	window.location = window.location;
+	window.location.reload();
 }
