@@ -57,6 +57,9 @@
 }
 
 .button-tooltip-craft {
+	list-style-type: none;
+	padding: unset;
+	margin: unset;
 	padding-left: 1em;
 }
 

@@ -1110,7 +1110,7 @@ var ElementButton = {
 	 * Parse the passed icon list, returning its corresponding `<img>` grid and tooltip if non-empty
 	 * @param {string} id - The ID of the parent element
 	 * @param {readonly (InventoryIcon | ElementButton.CustomIcon)[]} [icons] - The (optional) list of icons
-	 * @returns {null | { iconGrid: HTMLDivElement, tooltip: [string, HTMLElement, HTMLElement] }} - `null` if the provided icon list is empty and otherwise an object containing the icon grid and a icon-specific tooltip
+	 * @returns {null | { iconGrid: HTMLDivElement, tooltip: [string, HTMLElement] }} - `null` if the provided icon list is empty and otherwise an object containing the icon grid and a icon-specific tooltip
 	 */
 	_ParseIcons: function _ParseIcons(id, icons) {
 		icons = icons?.filter(i => i != null);
@@ -1178,7 +1178,7 @@ var ElementButton = {
 				parent: iconGrid,
 			});
 		});
-		return { iconGrid, tooltip: [InterfaceTextGet("StatusAndEffects"), ElementCreate({ tag: "br" }), tooltip] };
+		return { iconGrid, tooltip: [InterfaceTextGet("StatusAndEffects"), tooltip] };
 	},
 
 	/**
@@ -1394,32 +1394,40 @@ var ElementButton = {
 				children: [InterfaceTextGet("DialogMenuCrafting") + ":"],
 			},
 			{
-				tag: "div",
+				tag: "ul",
 				classList: ["button-tooltip-craft"],
 				children: [
-					...(item.Craft.Property ? [
-						InterfaceTextGet("CraftingProperty").replace("CraftProperty", ""),
-						{ tag: "q", children: [
-							{ tag: "dfn", children: [item.Craft.Property] },
-							" - ",
-						]},
-						{ tag: "br" },
-					] : []),
-					...((item.Craft.MemberName && item.Craft.MemberNumber) ? [
-						InterfaceTextGet("CraftingMember").replace("MemberName (MemberNumber)", ""),
-						{ tag: "q", children: [`${item.Craft.MemberName} (${item.Craft.MemberNumber})`] },
-						{ tag: "br" },
-					] : []),
-					...([
-						InterfaceTextGet("CraftingPrivate").replace("CraftPrivate", ""),
-						{ tag: "q", children: [CommonCapitalize(item.Craft.Private.toString())] },
-						{ tag: "br" },
-					]),
-					...(item.Craft.Description ? [
-						InterfaceTextGet("CraftingDescription").replace("CraftDescription", ""),
-						{ tag: "q", children: CraftingDescription.DecodeToHTML(item.Craft.Description) },
-						{ tag: "br" },
-					] : []),
+					item.Craft.Property ? {
+						tag: "li",
+						children: [
+							InterfaceTextGet("CraftingProperty").replace("CraftProperty", ""),
+							{
+								tag: "q",
+								children: [{ tag: "dfn", children: [item.Craft.Property] }, " - "],
+							},
+						],
+					} : undefined,
+					(item.Craft.MemberName && item.Craft.MemberNumber) ? {
+						tag: "li",
+						children: [
+							InterfaceTextGet("CraftingMember").replace("MemberName (MemberNumber)", ""),
+							{ tag: "q", children: [`${item.Craft.MemberName} (${item.Craft.MemberNumber})`] },
+						],
+					} : undefined,
+					{
+						tag: "li",
+						children: [
+							InterfaceTextGet("CraftingPrivate").replace("CraftPrivate", ""),
+							{ tag: "q", children: [CommonCapitalize(item.Craft.Private.toString())] },
+						],
+					},
+					item.Craft.Description ? {
+						tag: "li",
+						children: [
+							InterfaceTextGet("CraftingDescription").replace("CraftDescription", ""),
+							{ tag: "q", children: CraftingDescription.DecodeToHTML(item.Craft.Description) },
+						],
+					} : undefined,
 				],
 			},
 		]);
@@ -1520,7 +1528,7 @@ var ElementButton = {
 		if (iconGrid && !button.contains(iconGrid)) {
 			button.append(iconGrid);
 		}
-		if (tooltip[2] && !button.contains(tooltip[2])) {
+		if (tooltip[1] && !button.contains(tooltip[1])) {
 			button.querySelector(".button-tooltip")?.append(...tooltip);
 		}
 		return true;
