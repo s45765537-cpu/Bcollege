@@ -1161,21 +1161,21 @@ function ChatRoomCreateElement() {
 				},
 				{
 					tag: "div",
+					attributes: {id: "chat-room-reply-indicator"},
+					classList: ["hidden"],
+					children: [
+						{ tag: "span", attributes: { id: "chat-room-reply-indicator-text" }, children: [TextGet("ChatRoomReply")] },
+						ElementButton.Create(
+							"chat-room-reply-indicator-close",
+							ChatRoomMessageReplyStop,
+							{ noStyling: true },
+						),
+					],
+				},
+				{
+					tag: "div",
 					attributes: { id: "chat-room-bot" },
 					children: [
-						{
-							tag: "div",
-							attributes: {id: "chat-room-reply-indicator"},
-							classList: ["hidden"],
-							children: [
-								{ tag: "span", attributes: { id: "chat-room-reply-indicator-text" }, children: [TextGet("ChatRoomReply")] },
-								ElementButton.Create(
-									"chat-room-reply-indicator-close",
-									ChatRoomMessageReplyStop,
-									{ noStyling: true },
-								),
-							],
-						},
 						{
 							tag: "textarea",
 							attributes: {
@@ -4419,10 +4419,12 @@ function ChatRoomMessageGetType(msgId) {
  * Closes the reply.
  */
 function ChatRoomMessageReplyStop() {
-	const chatInput = /** @type {null | HTMLTextAreaElement} */(document.getElementById("InputChat"));
-	const replyIndicator = document.getElementById("chat-room-reply-indicator");
-	chatInput.removeAttribute("reply-id");
-	replyIndicator.classList.add("hidden");
+	const chatInput = document.getElementById("InputChat");
+	document.getElementById("chat-room-reply-indicator")?.classList.add("hidden");
+	if (chatInput) {
+		chatInput.removeAttribute("reply-id");
+		ChatRoomInputResize(chatInput);
+	}
 }
 
 /**
@@ -4431,8 +4433,12 @@ function ChatRoomMessageReplyStop() {
  */
 function ChatRoomMessageSetReply(msgId) {
 	const chatInput = /** @type {null | HTMLTextAreaElement} */(document.getElementById("InputChat"));
-	chatInput.setAttribute("reply-id", msgId);
 	const replyMessage = ChatRoomMessageGetById(msgId);
+	if (!chatInput || !replyMessage) {
+		return;
+	}
+
+	chatInput.setAttribute("reply-id", msgId);
 	const type = ChatRoomMessageGetType(msgId);
 	const isWhisper = type === "Whisper";
 	if (isWhisper) {
@@ -4444,6 +4450,7 @@ function ChatRoomMessageSetReply(msgId) {
 	const replyName = ChatRoomMessageGetReplyName(msgId, isWhisper);
 	replyIndicatorText.textContent = `${TextGet("ChatRoomReply")}: ${replyName && `${replyName}` || "a message"}`;
 	replyIndicator.classList.remove("hidden");
+	ChatRoomInputResize(chatInput);
 	chatInput.focus();
 }
 

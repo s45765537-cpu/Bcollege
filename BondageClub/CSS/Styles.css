@@ -344,5 +344,5 @@ select:invalid:not(:disabled):not(:read-only) {
 }
 
 .hidden {
-	display: none;
+	display: none !important;
 }
