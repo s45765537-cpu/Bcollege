@@ -969,8 +969,12 @@ function CraftingLoad() {
 
 	// Re-enable previously disabled items if the player now owns them
 	for (const item of Player.Crafting) {
+		if (item == null) {
+			continue;
+		}
+
 		const asset = CraftingAssets[item.Item]?.[0];
-		if (item?.Disabled && asset && InventoryAvailable(Player, item.Name, asset.DynamicGroupName)) {
+		if (item.Disabled && asset && InventoryAvailable(Player, item.Name, asset.DynamicGroupName)) {
 			delete item.Disabled;
 		}
 	}
