@@ -694,6 +694,8 @@ HatVintageHatRibbon,Ribbon
 HatVintageHatInside,Inside
 HatWitchHat1Band,Band
 HatWitchHat1Hat,Hat
+ItemAddonCeilingNeckCuffCuff,Metal cuff
+ItemAddonCeilingNeckCuffLock,Padlock
 ItemAddonCoversInner,Inner
 ItemAddonCoversOuter,Outer
 ItemArmsArmbinderJacketJacket,Jacket
@@ -1376,6 +1378,15 @@ ItemHoodGP9GasMaskEdges,Edges
 ItemHoodGP9GasMaskLens,Lens
 ItemHoodGP9GasMaskMask,Mask
 ItemHoodGP9GasMaskMouth,Mouthpiece
+ItemHoodHalloIIIMask,Mask
+ItemHoodHalloIIIDetail1,Mask 1st detail
+ItemHoodHalloIIIDetail2,Mask 2nd detail
+ItemHoodHalloIIIDetail3,Mask 3rd detail
+ItemHoodHalloIIIHood,Hood
+ItemHoodHalloIIICollar,Collar
+ItemHoodHalloIIICDetail,Collar metal
+ItemHoodHalloIIIInside,Inside mask
+ItemHoodHalloIIILock,Padlocks
 ItemHoodHarnessCatMaskBase,Harness
 ItemHoodHarnessCatMaskEarsUnder,Ears
 ItemHoodHarnessCatMaskMetal,Metal
@@ -2105,6 +2116,11 @@ ItemNeckLeatherDeluxeCollarRings,Edging
 ItemNeckMaidCollarBrooch,Brooch
 ItemNeckMaidCollarCollar,Collar
 ItemNeckMaidCollarFrills,Frills
+ItemNeckMCuffCollarCollar,Cuff collar
+ItemNeckMCuffCollarHandcuffs,Handcuffs
+ItemNeckMCuffCollarHChains,Handcuffs chains
+ItemNeckMCuffCollarLeash,Leash
+ItemNeckMCuffCollarHandle,Leash handle
 ItemNeckOrnateCollarCollar,Collar
 ItemNeckOrnateCollarGem,Gems
 ItemNeckPaddedBeltCollarBase,Base

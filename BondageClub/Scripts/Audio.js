@@ -28,6 +28,7 @@ var AudioList = [
 	{ Name: "EMLevitate", File: "EMLevitate" },
 	{ Name: "EMDisable", File: "EMDisable" },
 	{ Name: "FanOpen", File: "Fan1" },
+	{ Name: "Hallo", File: "Hallo" },
 	{ Name: "FuturisticApply", File: "FuturisticApply" },
 	{ Name: "HydraulicLock", File: "HydraulicLock" },
 	{ Name: "HydraulicUnlock", File: "HydraulicUnlock" },
@@ -417,6 +418,12 @@ var AudioActions = [
 			"ItemArmsSteelBeltSeth0",
 		].some(A => data.Content.includes(A)),
 		GetSoundEffect: () => "CuffsMetal"
+	},
+	{
+		IsAction: (data) => [
+			"ItemHoodHalloIIISeth2",
+		].some(A => data.Content.includes(A)),
+		GetSoundEffect: () => "Hallo"
 	},
 ];
 

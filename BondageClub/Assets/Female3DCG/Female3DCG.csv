@@ -716,6 +716,7 @@ ItemAddon,BedRopes,Bed Ropes
 ItemAddon,BedStraps,Bed Straps
 ItemAddon,BedTape,Bed Tape
 ItemAddon,CeilingChain,Ceiling Chain
+ItemAddon,CeilingNeckCuff,Ceiling Neck Cuff
 ItemAddon,CeilingRope,Ceiling Rope
 ItemAddon,Covers,Blanket
 ItemArms,,Arms
@@ -1126,6 +1127,7 @@ ItemHood,GasMask,Gas Mask
 ItemHood,GGTSHelmet,GGTS Slave Helmet
 ItemHood,GP9GasMask,GP-9 Gas Mask
 ItemHood,GwenHood,Gwen Hood
+ItemHood,HalloIII,Suspicious Mask
 ItemHood,HarnessCatMask,Cat Mask Harness
 ItemHood,HeadboxSeethrough,One-Way Glass Head Box
 ItemHood,InflatableGagMask,Inflatable Gag Mask
@@ -1354,6 +1356,7 @@ ItemNeck,LeatherCorsetCollar,Leather Corset Collar Gag
 ItemNeck,LeatherDeluxeCollar, Leather Deluxe Collar
 ItemNeck,LoveLeatherCollar,Lover Leather Collar
 ItemNeck,MaidCollar,Maid Collar
+ItemNeck,MCuffCollar,Metal Cuff Collar
 ItemNeck,NeckRope,Neck Rope
 ItemNeck,NobleCorsetCollar,Noble Corset Collar
 ItemNeck,NylonCollar,Nylon Collar
