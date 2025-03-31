@@ -222,6 +222,12 @@
 		"dialog-crafted-footer dialog-crafted-footer dialog-crafted-footer dialog-crafted-footer" minmax(auto, min-content) / auto var(--gap) min(100%, calc(0.8 * var(--button-height))) var(--scrollbar-gutter)
 }
 
+#dialog-crafted ul {
+	padding: unset;
+	margin: unset;
+	list-style-type: none;
+}
+
 .dialog-crafted-info {
 	font: inherit;
 	overflow-wrap: break-word;
