@@ -1187,7 +1187,8 @@ function ChatRoomCreateElement() {
 							},
 							eventListeners: {
 								input: ChatRoomChatInputChangeHandler,
-								keyup: (key) => {ChatRoomStatusUpdateTalk(key); ChatRoomStopReplyOnEscape(key);},
+								keyup: ChatRoomStatusUpdateTalk,
+								keydown: ChatRoomStopReplyOnEscape,
 							},
 						},
 						{
