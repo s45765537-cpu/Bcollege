@@ -4328,27 +4328,23 @@ function ClubCardPlayCard(CCPlayer, Card) {
 
 	// Plays the card
 	if (CCPlayer.Hand != null) {
-		let Index = 0;
-		for (let C of CCPlayer.Hand) {
-			if (C.ID == Card.ID) {
-				if (Card.Type === "Member") {
-					Target.Board.push(Card);
-				}
-				if (Card.Type === "Event") {
-					if ((Card.Time != null) && (Card.Time >= 0)) {
-						Target.Event.push(Card);
-						Card.Time = Card.Time + ClubCardExtraTime(CCPlayer);
-					} else {
-						Target.DiscardPile.push(Card);
-					}
-				}
-				CCPlayer.Hand.splice(Index, 1);
-				Card.Location = (CCPlayer.Index == 0) ? "PlayerBoard" : "OpponentBoard";
-				ClubCardSetGlow(Card, (ClubCardTurnIndex == 0) ? "#FFFF00" : "#FF0000");
-				break;
-			}
-			Index++;
+		const index = CCPlayer.Hand.findIndex(c => c.UniqueID === Card.UniqueID);
+		if (index === -1) throw new Error(`ClubCardPlayCard(): Card with UID ${Card.UniqueID} not found`);
+		CCPlayer.Hand.splice(index, 1);
+
+		if (Card.Type === "Member") Target.Board.push(Card);
+
+		if (Card.Type === "Event") {
+			if ((Card.Time) && (Card.Time >= 0)) {
+				Target.Event.push(Card);
+				Card.Time = Card.Time + ClubCardExtraTime(CCPlayer);
+			} else
+				Target.DiscardPile.push(Card);
 		}
+
+		Card.Location = (CCPlayer.Index == 0) ? "PlayerBoard" : "OpponentBoard";
+		ClubCardSetGlow(Card, (ClubCardTurnIndex == 0) ? "#FFFF00" : "#FF0000");
+
 		ClubCardUpdateBoardCardsIndex(Target);
 	}
 
@@ -4998,7 +4994,7 @@ function ClubCardRenderBoard(CCPlayer, X, Y, W, H, Mirror) {
 		PosX += IncX;
 	}
 
-	if (!isEqualBoard) {
+	if (!isEqualBoard && ClubCardIsAnimationOn) {
 		//########### Record animations for the new card positions
 		remainingCards.forEach(copyCard => {
 			const originalCard = ClubCardGetOriginalCard(copyCard);
