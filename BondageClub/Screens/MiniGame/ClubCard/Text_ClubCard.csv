@@ -13,6 +13,7 @@ InspectPile,Inspect the Streets.
 Draw,Draw and end your turn
 CannotDraw,End your turn
 SelectCard,Select this card
+SelectTier,Select tier NUMBER
 CancelPending,Don't play this card
 Bankrupt,Go bankrupt
 Concede,Concede the game
@@ -166,17 +167,17 @@ Text Fin-Dom Simp,"+1 Money per turn for each Dominant present, maximum of +3."
 Title Fin-Dom Whale,Fin-Dom Whale
 Text Fin-Dom Whale,+2 Money per turn for each Mistress present.  Draw a card when she enters your club.
 Title Porn Addict,Porn Addict
-Text Porn Addict,+1 Money per turn for each Porn member present.
+Text Porn Addict,+1 Money per turn for each Porn member present. (Max +2)
 Title Porn Amateur,Porn Amateur
 Text Porn Amateur,<F>I'll be the next Marylin Cumroe.
 Title Porn Movie Director,Porn Movie Director
-Text Porn Movie Director,+1 Fame per turn and +1 Money per turn for each Porn Actress present.
+Text Porn Movie Director,"+1 Fame and +1 Money for each Porn Actress present. (Max 4)"
 Title Porn Lesbian,Porn Lesbian
 Text Porn Lesbian,+1 Fame per turn if at least one other Porn Actress is present.
 Title Porn Veteran,Porn Veteran
-Text Porn Veteran,<F>My body count?  You don't want to know.
+Text Porn Veteran,Enters: Gain 3 Fame and Money.
 Title Porn Star,Porn Star
-Text Porn Star,"<F>My father would not approve, until I got him a new house."
+Text Porn Star,Enters: Gain 5 Fame and Money.
 Title Cam Girl,Cam Girl
 Text Cam Girl,Draw a card when she enters your club.
 Title Rookie Maid,Rookie Maid
@@ -341,7 +342,7 @@ Text Teamwork,"For 4 turns, you draw an extra card each time you take draw a car
 Title Overtime,Overtime
 Text Overtime,"For 3 turns, you can play an extra card."
 Title Porn Convention,Porn Convention
-Text Porn Convention,"For 3 turns, all players gain 3 Fame for each Porn Actress in their club at end of turn."
+Text Porn Convention,"For 3 turns, all players gain 3 fame for each Porn Actress in their club at the end of turn (Max 12)."
 Title Kidnapping,Kidnapping
 Text Kidnapping,Remove any member from your opponent club.  You lose opponent building level^2 Money.
 Title Pandora Box,Pandora's Box
@@ -471,13 +472,13 @@ Text Naughty Kitty,"When she enters the club, discard your hand and lose 3 money
 Title Jessica,Jessica
 Text Jessica,"Pets treat your building level as 2 higher. When you play a pet, draw a card and gain 1 fame."
 Title MerMaid,MerMaid
-Text MerMaid,"When she enters the club, lose 25 money. When she enters your club, draw a card and take another action."
+Text MerMaid,"Enters: Lose 25 Money. Draw a card. If an Owner is present, take another action."
 Title Puppy,Puppy
 Text Puppy,"When she enters the club, lose 8 money. Gains +1 money per 2 building tiers. Gains +1 Fame if an owner is present."
 Title Protective Owner,Protective Owner
 Text Protective Owner,"Pets treat your building level as 1 higher. If you would discard a pet from your hand, shuffle it into your deck instead."
 Title Feline Fatale,Feline Fatale
-Text Feline Fatale,"When she enters the club, lose 14 money and remove a member from the opponent's club and they lose fame equal to your building level."
+Text Feline Fatale,"Enters: Lose 13 money. Remove a member from your opponent's club that has a level equal to an Owner present in your club."
 Prerequisite Feline Fatale,Select a member from your opponent club to remove.
 Title Wolf Girl,Wolf Girl
 Text Wolf Girl,"Enters: Lose 7 Money & opponent randomly discards a card. +1 Fame per 2 of your building levels. +1 Money if an owner is present."
@@ -533,3 +534,21 @@ Title Tax Auditor,Tax Auditor
 Text Tax Auditor,"Enters: Select a level 3 or lower member in your opponent's club and set their Money to 1."
 Prerequisite Tax Auditor,Select a member from your opponent club to set its money to 1
 GroupKemonomimi,Kemonomimi
+Title Beat Cop,Beat Cop
+Text Beat Cop,"Enters: Shuffle each player's streets into their deck."
+Title Knot Tester,Knot Tester
+Text Knot Tester,"Enters: Play a random Knot event from your deck."
+Title Insurance Agent,Insurance Agent
+Text Insurance Agent,"Gain 1 money for each card you draw. If you start your turn with no cards in hand, remove this member and draw 3 cards."
+GroupPorn,Porn
+GroupVideo,Video
+Title Talent Agent,Talent Agent
+Text Talent Agent,"Enters: Add two Porn Amateurs to your hand. Gains +1 Fame if you have 3 or more videos in your streets."
+Title Eden,Eden
+Text Eden,"Enters: Play again. Select a tier. Your opponent cant play cards of that tier next turn. Return to hand after 4 turns."
+Title Adoption,Adoption
+Text Adoption,"Add a random pet from your deck or streets to your hand, if it's tier is equal to or lower than your building level, play again."
+Title Loving Owner,Loving Owner
+Text Loving Owner,"Pets treat your building level as 1 higher. Gains +1 Money if you control a Maid. Gains +2 fame if you control 6 or more pets."
+Title Cheaky Hamster,Cheaky Hamster
+Text Cheaky Hamster,"Enters: Lose 12 money. Gains +fame equal to your building level."

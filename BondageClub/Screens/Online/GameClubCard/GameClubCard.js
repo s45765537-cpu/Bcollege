@@ -284,9 +284,10 @@ function GameClubCardBoardDoBundle(Cards) {
 		let FamePerTurn = `${card.FamePerTurn !== undefined ? card.FamePerTurn : ''}`;
 		let Time = `${card.Time !== undefined ? card.Time : ''}`;
 		let Negated = `${card.Negated !== undefined ? card.Negated : ''}`;
+		let EffectKey = `${card.EffectKey !== undefined ? card.EffectKey : ''}`;
 		let UniqueID = `${card.UniqueID !== undefined ? card.UniqueID : ''}`;
 
-		Result += `${ID},${ArrayIndex},${MoneyPerTurn},${FamePerTurn},${Time},${Negated},${UniqueID};`;
+		Result += `${ID},${ArrayIndex},${MoneyPerTurn},${FamePerTurn},${Time},${Negated},${EffectKey},${UniqueID};`;
 	}
 
 	if (Result.endsWith(";")) {
@@ -333,7 +334,7 @@ function GameClubCardBoardUndoBundle(bundle, Location) {
 
 	for (let i = 0; i < cards.length; i++) {
 		const cardString = cards[i];
-		const [ID, ArrayIndex, MoneyPerTurn, FamePerTurn, Time, Negated, UniqueID] = cardString.split(',');
+		const [ID, ArrayIndex, MoneyPerTurn, FamePerTurn, Time, Negated, EffectKey, UniqueID] = cardString.split(',');
 
 		const existingCard = ClubCardList.find(card => card.ID === Number(ID));
 
@@ -348,6 +349,7 @@ function GameClubCardBoardUndoBundle(bundle, Location) {
 			if (FamePerTurn != undefined && FamePerTurn != '') card.FamePerTurn = Number(FamePerTurn);
 			if (Time != undefined && Time != '') card.Time = Number(Time);
 			if (Negated != undefined && Negated != '') card.Negated = Boolean(Negated);
+			if (EffectKey != undefined && EffectKey != '') card.EffectKey = Number(EffectKey);
 			if (UniqueID != undefined && UniqueID != '') card.UniqueID = UniqueID;
 
 			result.push(card);

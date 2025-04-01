@@ -4422,6 +4422,7 @@ interface ClubCard {
 	Negated?: boolean;
 	GlowTimer?: number;
 	GlowColor?: string;
+	EffectKey?: number;
 	//### Animations
 	AnimationState?: string;
 	DelayedAnimationState?: string;
