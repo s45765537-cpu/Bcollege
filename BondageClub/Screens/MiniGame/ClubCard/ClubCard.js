@@ -4207,11 +4207,9 @@ function ClubCardCanPlayCard(CCPlayer, Card) {
  */
 function ClubCardCanPlayEffectsLimitation(CCPlayer, Card) {
 	const opponent = ClubCardGetOpponent(CCPlayer);
-	if (Card.Name === "Eden") {
-		const edens = opponent.Board.filter(card => card.Name === "Eden");
-		for (const eden of edens) {
-			if ((Card.RequiredLevel ?? 1) == eden.EffectKey) return false;
-		}
+	const edens = opponent.Board.filter(card => card.Name === "Eden");
+	for (const eden of edens) {
+		if ((Card.RequiredLevel ?? 1) == eden.EffectKey) return false;
 	}
 	if (Card.Name === "Feline Fatale") {
 		const ownersPresent = CCPlayer.Board.filter(value => ClubCardCardHasGroup(value, "Owner"));
