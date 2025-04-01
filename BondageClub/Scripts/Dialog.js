@@ -3073,9 +3073,14 @@ class DialogMenu {
 
 	/** @type {ScreenFunctions["Resize"]} */
 	Resize(load) {
+		const shape = this.shape;
+		if (!shape) {
+			return;
+		}
+
 		if (!load) {
 			// Tasks already handled asynchronically by `Load`
-			ElementPositionFixed(this.ids.root, ...this.shape);
+			ElementPositionFixed(this.ids.root, ...shape);
 		}
 	}
 
