@@ -4333,7 +4333,7 @@ function ClubCardPlayCard(CCPlayer, Card) {
 		if (Card.Type === "Member") Target.Board.push(Card);
 
 		if (Card.Type === "Event") {
-			if ((Card.Time) && (Card.Time >= 0)) {
+			if (((Card.Time != null)) && (Card.Time >= 0)) {
 				Target.Event.push(Card);
 				Card.Time = Card.Time + ClubCardExtraTime(CCPlayer);
 			} else
