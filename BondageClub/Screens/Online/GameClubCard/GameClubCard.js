@@ -136,7 +136,6 @@ function GameClubCardClick() {
 		const Dictionary = new DictionaryBuilder()
 			.sourceCharacter(Player)
 			.build();
-		Dictionary.push({Tag: "SourceCharacter", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber});
 		ServerSend("ChatRoomChat", { Content: "ClubCardGameStart", Type: "Action" , Dictionary: Dictionary});
 
 		// Sends the 1st and 2nd players in the packet

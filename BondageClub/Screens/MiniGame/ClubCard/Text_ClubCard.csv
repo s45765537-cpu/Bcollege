@@ -39,6 +39,8 @@ WentBankrupt,SOURCEPLAYER went bankrupt and started a new club.
 VictoryForPlayer,Congratulations!  You've reached 100 Fame and won the game.
 VictoryForAI,Your opponent reached 100 Fame and won the game.
 VictoryOnline,PLAYERNAME reached 100 Fame and won the game.
+VictoryForConcedePlayer,OPPONENTPLAYER conceded the game. You win.
+VictoryForConcede,OPPONENTPLAYER conceded the game. PLAYERNAME wins the game.
 Return,End the game
 OpponentPlaying,Your opponent is playing...
 WatchingGame,Watching the game...
