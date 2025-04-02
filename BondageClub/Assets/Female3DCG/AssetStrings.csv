@@ -929,7 +929,7 @@ ClothTShirt2Smile,Smiley
 ClothTShirt2Tick,Check
 ClubCardGameStart,SourceCharacter has started the Club Card game.
 ClubCardGameEnd,Congratulations! SourceCharacter has won the Club Card game.
-ClubCardGameConcede,SourceCharacter has conceded the Club Card game. Giving DestinationCharacter the win.
+ClubCardGameConcede,Congratulations! SourceCharacter has won the Club Card game after TargetCharacterName conceded.
 ClubCardNewPlayerSlot0,SourceCharacter will not play Club Card.
 ClubCardNewPlayerSlot1,SourceCharacter chose to be the first player.
 ClubCardNewPlayerSlot2,SourceCharacter chose to be the second player.

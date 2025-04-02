@@ -4571,9 +4571,6 @@ function ClubCardConcede() {
 		if (ClubCardIsPlaying() && MiniGameEnded === false) {
 			MiniGameEnded = true;
 			if (ClubCardIsOnline()) {
-				const CCP = ChatRoomCharacter.find(C => C.MemberNumber == ClubCardPlayer[1].Character.MemberNumber);
-				const Dictionary = new DictionaryBuilder().sourceCharacter(Player).destinationCharacter(CCP).build();
-				ServerSend("ChatRoomChat", { Content: "ClubCardGameConcede", Type: "Action" , Dictionary: Dictionary});
 				ServerSend("ChatRoomChat", { Content: "ClubCardGameConceded", Type: "Hidden" });
 			}
 		}
@@ -4582,17 +4579,23 @@ function ClubCardConcede() {
 	ClubCardEndGame(false);
 }
 /**
- * 
- * @param {MemberNumber} ID - The player who conceded 
+ * When the opponent concedes the game and sends us a hidden message about it
+ * @param {MemberNumber} ID - The player who conceded
+ * @returns {void} - Nothing
  */
 function ClubCardPlayerConceded(ID) {
+	if (ID == Player.MemberNumber) return;
 	const CCP = ClubCardPlayer.find(C => C.Character.MemberNumber == ID);
 	const CCO = ClubCardGetOpponent(CCP);
 	ClubCardFocus = null;
 	MiniGameVictory = ID != CCO.Character.MemberNumber;
 	MiniGameEnded = true;
 	let Msg = TextGet("VictoryForConcede").replace("OPPONENTPLAYER", CharacterNickname(CCP.Character)).replace("PLAYERNAME", CharacterNickname(CCO.Character));
-	if (ClubCardIsPlaying()) Msg = TextGet("VictoryForConcedePlayer").replace("OPPONENTPLAYER", CharacterNickname(CCP.Character));
+	if (ClubCardIsPlaying()) {
+		Msg = TextGet("VictoryForConcedePlayer").replace("OPPONENTPLAYER", CharacterNickname(CCP.Character));
+		const Dictionary = new DictionaryBuilder().sourceCharacter(Player).targetCharacter(CCP.Character).build();
+		ServerSend("ChatRoomChat", { Content: "ClubCardGameConcede", Type: "Action" , Dictionary: Dictionary});
+	}
 	ClubCardCreatePopup("TEXT", Msg, TextGet("Return"), null, "ClubCardEndGame()", null);
 	ClubCardGameEnded = true;
 	if (MiniGameVictory && (ClubCardReward != null)) ClubCardGetReward();
@@ -5579,7 +5582,7 @@ function ClubCardClick() {
 	//  Runs the basic game buttons
 	// ==============================
 	//Play Card
-	if (MouseIn(745, 505, 215, 50) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") && ClubCardCanPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus))
+	if (MouseIn(745, 505, 215, 50) && !ClubCardPending && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") && ClubCardCanPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus))
 		return ClubCardClickPlayCard(false);
 	// Click on an empty space to reset the focus of the selected Card.
 	if (MouseIn(720, 245, 260, 510) && ClubCardFocus != null)
