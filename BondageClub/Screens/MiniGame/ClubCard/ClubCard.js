@@ -846,6 +846,21 @@ var ClubCardList = [
 			if (ClubCardGroupInDiscardPileCount(CCPlayer, "Video") > 2) ClubCardPlayerAddFame(CCPlayer, 1);
 		}
 	},
+	{
+		ID: 5007,
+		Name: "Guest Star",
+		Group: ["Porn"],
+		RequiredLevel: 3,
+		FamePerTurn: 1,
+		MoneyPerTurn: 1,
+		onPlayedCard: function(CCPlayer, cardPlayed) {
+			if (ClubCardCardHasGroup(cardPlayed, "Video")) {
+				const statGain = Math.min((ClubCardGroupOnBoardCount(CCPlayer, "PornActress") + (cardPlayed.RequiredLevel ?? 1)), 6);
+				ClubCardPlayerAddMoney(CCPlayer, statGain);
+				ClubCardPlayerAddFame(CCPlayer, statGain);
+			}
+		}
+	},
 
 	// 6000 - Maid Members (Raise Fame, cost Money)
 	{
@@ -1605,6 +1620,7 @@ var ClubCardList = [
 			this.ExtraPlay = 0;
 			if (this.Time < 1) {
 				CCPlayer.Hand.push(ClubCardGetCopyCardByName(this.Name));
+				CCPlayer.DiscardPile.splice(CCPlayer.DiscardPile.findIndex(value => value.ID === this.ID), 1);
 			}
 		}
 	},
@@ -1689,7 +1705,7 @@ var ClubCardList = [
 		Group: ["Shibari"],
 		MoneyPerTurn: 1,
 		OnPlay: function(CCPlayer) {
-			ClubCardPlayerSummonGroupCardFromDeck(CCPlayer, ["Knot"], 1, undefined);
+			ClubCardPlayerSummonGroupCardFromDeck(CCPlayer, ["Knot"], 1, undefined, "Event");
 		}
 	},
 
@@ -2626,15 +2642,80 @@ var ClubCardList = [
 			const availablePets =  CCPlayer.Deck.filter(value => ClubCardCardHasGroup(value, "Pet")).concat(CCPlayer.DiscardPile.filter(value => ClubCardCardHasGroup(value, "Pet")));
 			const petToAdd = availablePets[Math.floor(Math.random() * availablePets.length)];
 			if (petToAdd.Location == "PlayerDiscardPile") {
-				CCPlayer.DiscardPile.splice(CCPlayer.DiscardPile.findIndex(value => value.ID === petToAdd.ID));
+				CCPlayer.DiscardPile.splice(CCPlayer.DiscardPile.findIndex(value => value.ID === petToAdd.ID), 1);
 			} else {
 				CCPlayer.Deck.splice(CCPlayer.Deck.findIndex(value => value.ID === petToAdd.ID), 1);
 			}
 			CCPlayer.Hand.push(petToAdd);
-			if (petToAdd.RequiredLevel ? petToAdd.RequiredLevel : 0 <= CCPlayer.Level) this.ExtraPlay = 1;
+			if ((petToAdd.RequiredLevel ? petToAdd.RequiredLevel : 0) <= CCPlayer.Level) this.ExtraPlay = 1;
 		},
 		BeforeOpponentTurnEnd: function() {
 			this.ExtraPlay = 0;
+		}
+	},
+	{
+		ID: 31027,
+		Name: "Vanilla Classic",
+		Type: "Event",
+		Group: ["Video"],
+		Prerequisite: "SelectOwnMember",
+		Time: 0,
+		OnPlay: function(CCPlayer) {
+			if (ClubCardSelection == null) return;
+			ClubCardRemoveFromBoard(CCPlayer, ClubCardSelection, true);
+			CCPlayer.Hand.push(ClubCardGetCopyCardByName(ClubCardSelection.Name));
+			ClubCardPlayerDrawCard(CCPlayer, 1);
+			this.ExtraPlay = 1;
+		},
+		BeforeOpponentTurnEnd: function() {
+			this.ExtraPlay = 0;
+		},
+		CanPlay: function(CCPlayer) {
+			if (ClubCardGroupIsOnBoard(CCPlayer, "PornActress")) return true;
+			else return false;
+		}
+	},
+	{
+		ID: 31028,
+		Name: "Ball Buster",
+		Type: "Event",
+		Group: ["Video"],
+		Time: 3,
+		RequiredLevel: 2,
+		OnPlay: function(CCPlayer) {
+			for (let i = 2; i > 0; i--) {
+				let pornOnBoard = CCPlayer.Board.filter(card => ClubCardCardHasGroup(card, "PornActress"));
+				let cardToReturn = pornOnBoard[Math.floor(Math.random() * pornOnBoard.length)];
+				pornOnBoard.splice(pornOnBoard.findIndex(value => value.ID === cardToReturn.ID), 1);
+				ClubCardRemoveFromBoard(CCPlayer, cardToReturn, true);
+				CCPlayer.Hand.push(ClubCardGetCopyCardByName(cardToReturn.Name));
+			}
+		},
+		CanPlay: function(CCPlayer) {
+			if (ClubCardGroupOnBoardCount(CCPlayer, "PornActress") >= 2) return true;
+			else return false;
+		}
+	},
+	{
+		ID: 31029,
+		Name: "Fetish Flick",
+		Type: "Event",
+		Group: ["Video"],
+		Time: 0,
+		RequiredLevel: 3,
+		ExtraPlay: 5,
+		OnPlay: function(CCPlayer) {
+			for (let i = 3; i > 0; i--) {
+				let pornOnBoard = CCPlayer.Board.filter(card => ClubCardCardHasGroup(card, "PornActress"));
+				let cardToReturn = pornOnBoard[Math.floor(Math.random() * pornOnBoard.length)];
+				pornOnBoard.splice(pornOnBoard.findIndex(value => value.ID === cardToReturn.ID), 1);
+				ClubCardRemoveFromBoard(CCPlayer, cardToReturn, true);
+				CCPlayer.Hand.push(ClubCardGetCopyCardByName(cardToReturn.Name));
+			}
+		},
+		CanPlay: function(CCPlayer) {
+			if (ClubCardGroupOnBoardCount(CCPlayer, "PornActress") >= 3) return true;
+			else return false;
 		}
 	}
 ];
@@ -3546,9 +3627,10 @@ function ClubCardPlayerDrawGroupCard(CCPlayer, groups, level) {
  * @param {readonly string[]} groups - The group to summon from
  * @param {number} amount - The amount of cards to summon
  * @param {number | undefined} level - The level of the cards if needed
+ * @param {string | undefined} type - Event or Member if needed to specify 
  * @returns {boolean} - if cards were summoned or not
  */
-function ClubCardPlayerSummonGroupCardFromDeck(CCPlayer, groups, amount, level) {
+function ClubCardPlayerSummonGroupCardFromDeck(CCPlayer, groups, amount, level, type = null) {
 	if ((CCPlayer === null) || (CCPlayer.Deck === null) || (CCPlayer.Board === null)) {
 		return false;
 	}
@@ -3557,6 +3639,12 @@ function ClubCardPlayerSummonGroupCardFromDeck(CCPlayer, groups, amount, level) 
 	groupCardsInDeck = CCPlayer.Deck.filter(value => groups.some(group => ClubCardCardHasGroup(value, group) && value.RequiredLevel == level && ClubCardCanSummonCard(CCPlayer, value)));
 	if (groupCardsInDeck.length === 0) {
 		return false;
+	}
+
+	if (type === "Event") {
+		groupCardsInDeck = groupCardsInDeck.filter(value => value.Type === "Event");
+	} else if (type === "Member") {
+		groupCardsInDeck = groupCardsInDeck.filter(value => value.Type === "Member");
 	}
 
 	while (amount > 0) {
@@ -4215,6 +4303,7 @@ function ClubCardCanPlayEffectsLimitation(CCPlayer, Card) {
 		const lowestTierMember = opponent.Board.reduce((min, card) => Math.min(min, card.RequiredLevel ?? 1), 5);
 		if (highestTierOwner < lowestTierMember) return false;
 	}
+	if (ClubCardEventNameIsInEvents(opponent, "Ball Buster") && (Card.Type === "Event" || ClubCardIsLiability(Card))) return false;
 	return true;
 }
 
@@ -4249,6 +4338,7 @@ function ClubCardCardsSelectConditions(Card, CCPlayer) {
 		const highestTierOwner = ownersPresent.reduce((max, card) => Math.max(max, card.RequiredLevel ?? 1), 0);
 		if ((Card.RequiredLevel ?? 1) > highestTierOwner) return false;
 	}
+	if (ClubCardPending.Name === "Vanilla Classic" && !ClubCardCardHasGroup(Card, "PornActress")) return false;
 	return true;
 }
 
