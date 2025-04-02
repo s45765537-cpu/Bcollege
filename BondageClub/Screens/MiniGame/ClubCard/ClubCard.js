@@ -38,6 +38,8 @@ var ClubCardPopup = null;
 var ClubCardSelection = null;
 /** @type {null | ClubCard} */
 var ClubCardPending = null;
+/** @type {null | number} */
+var ClubCardTierSelection = null;
 var ClubCardLevelLimit = [0, 5, 8, 13, 20, 40];
 var ClubCardLevelCost = [0, 0, 10, 20, 30, 40];
 /** @type {ClubCardPlayer[]} */
@@ -350,6 +352,16 @@ var ClubCardList = [
 		Name: "Troublemaker",
 		MoneyPerTurn: 1
 	},
+	{
+		ID: 1022,
+		Name: "Insurance Agent",
+		turnStart: function(CCPlayer) {
+			if (CCPlayer.Hand.length < 1) {
+				ClubCardRemoveFromBoard(CCPlayer, this);
+				ClubCardPlayerDrawCard(CCPlayer, 3);
+			}
+		}
+	},
 
 	// 2000 - Staff Members (Club employees that can be targetted by events)
 	{
@@ -573,7 +585,7 @@ var ClubCardList = [
 		MoneyPerTurn: 1,
 		FamePerTurn: -1,
 		OnPlay: function(CCPlayer) {
-			ClubCardPlayerSteal(CCPlayer, 1, 1, true);
+			ClubCardPlayerSteal(CCPlayer, 0, 2, true);
 		}
 	},
 	{
@@ -600,6 +612,23 @@ var ClubCardList = [
 		OnPlay: function(CCPlayer) {
 			if (ClubCardSelection == null) return;
 			ClubCardGetOpponent(CCPlayer).Board[ClubCardSelection.ArrayIndex].MoneyPerTurn = 1;
+		}
+	},
+	{
+		ID: 3017,
+		Name: "Beat Cop",
+		Group: ["Police"],
+		RequiredLevel: 2,
+		MoneyPerTurn: 1,
+		FamePerTurn: 1,
+		OnPlay: function(CCPlayer) {
+			const opponent = ClubCardGetOpponent(CCPlayer);
+			for (const card of CCPlayer.DiscardPile) CCPlayer.Deck.push(ClubCardGetCopyCardByName(card.Name));
+			CCPlayer.Deck = ClubCardShuffle(CCPlayer.Deck);
+			CCPlayer.DiscardPile = [];
+			for (const card of opponent.DiscardPile) opponent.Deck.push(ClubCardGetCopyCardByName(card.Name));
+			opponent.Deck = ClubCardShuffle(opponent.Deck);
+			opponent.DiscardPile = [];
 		}
 	},
 
@@ -669,7 +698,7 @@ var ClubCardList = [
 		MoneyPerTurn: 1,
 		FamePerTurn: -1,
 		BeforeTurnEnd: function(CCPlayer) {
-			ClubCardPlayerAddMoney(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "PornActress"));
+			ClubCardPlayerAddMoney(CCPlayer, Math.min(2, ClubCardGroupOnBoardCount(CCPlayer, "PornActress") + ClubCardGroupOnBoardCount(CCPlayer, "Porn")));
 		}
 	},
 	{
@@ -750,17 +779,19 @@ var ClubCardList = [
 	{
 		ID: 5001,
 		Name: "Porn Movie Director",
+		Group: ["Porn"],
 		RequiredLevel: 2,
+		MoneyPerTurn: -1,
 		BeforeTurnEnd: function(CCPlayer) {
-			ClubCardPlayerAddFame(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "PornActress"));
-			ClubCardPlayerAddMoney(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "PornActress"));
+			ClubCardPlayerAddFame(CCPlayer,  Math.min(4, ClubCardGroupOnBoardCount(CCPlayer, "PornActress")));
+			ClubCardPlayerAddMoney(CCPlayer, Math.min(4, ClubCardGroupOnBoardCount(CCPlayer, "PornActress")));
 		}
 	},
 	{
 		ID: 5002,
 		Name: "Porn Lesbian",
 		Group: ["PornActress"],
-		MoneyPerTurn: 1,
+		MoneyPerTurn: 2,
 		FamePerTurn: 1,
 		RequiredLevel: 3,
 		BeforeTurnEnd: function(CCPlayer) {
@@ -774,7 +805,11 @@ var ClubCardList = [
 		Group: ["PornActress"],
 		MoneyPerTurn: 1,
 		FamePerTurn: 2,
-		RequiredLevel: 4
+		RequiredLevel: 4,
+		OnPlay: function(CCPlayer) {
+			ClubCardPlayerAddFame(CCPlayer, 3);
+			ClubCardPlayerAddMoney(CCPlayer, 3);
+		}
 	},
 	{
 		ID: 5004,
@@ -782,7 +817,11 @@ var ClubCardList = [
 		Group: ["PornActress"],
 		MoneyPerTurn: 1,
 		FamePerTurn: 4,
-		RequiredLevel: 5
+		RequiredLevel: 5,
+		OnPlay: function(CCPlayer) {
+			ClubCardPlayerAddFame(CCPlayer, 5);
+			ClubCardPlayerAddMoney(CCPlayer, 5);
+		}
 	},
 	{
 		ID: 5005,
@@ -793,6 +832,18 @@ var ClubCardList = [
 		RequiredLevel: 2,
 		OnPlay: function(CCPlayer) {
 			ClubCardPlayerDrawCard(CCPlayer, 1);
+		}
+	},
+	{
+		ID: 5006,
+		Name: "Talent Agent",
+		Group: ["Porn"],
+		OnPlay: function(CCPlayer) {
+			CCPlayer.Hand.push(ClubCardGetCopyCardByName("Porn Amateur"));
+			CCPlayer.Hand.push(ClubCardGetCopyCardByName("Porn Amateur"));
+		},
+		BeforeTurnEnd: function(CCPlayer) {
+			if (ClubCardGroupInDiscardPileCount(CCPlayer, "Video") > 2) ClubCardPlayerAddFame(CCPlayer, 1);
 		}
 	},
 
@@ -1533,8 +1584,28 @@ var ClubCardList = [
 		FamePerTurn: 2,
 		MoneyPerTurn: -1,
 		OnPlay: function (CCPlayer) {
+			ClubCardPlayerAddMoney(CCPlayer, -16);
 			const cardToAdd =  ClubCardGetCopyCardByName(ClubCardSelection.Name);
 			CCPlayer.Hand.push(cardToAdd);
+		}
+	},
+	{
+		ID: 12006,
+		Name: "Eden",
+		Group: ["Player"],
+		RewardMemberNumber: 177508,
+		Prerequisite: "SelectATier",
+		Time: 4,
+		OnPlay: function () {
+			this.EffectKey = ClubCardTierSelection;
+			this.ExtraPlay = 1;
+		},
+		turnStart: function (CCPlayer) {
+			this.EffectKey = null;
+			this.ExtraPlay = 0;
+			if (this.Time < 1) {
+				CCPlayer.Hand.push(ClubCardGetCopyCardByName(this.Name));
+			}
 		}
 	},
 
@@ -1612,6 +1683,15 @@ var ClubCardList = [
 			}
 		}
 	},
+	{
+		ID: 13005,
+		Name: "Knot Tester",
+		Group: ["Shibari"],
+		MoneyPerTurn: 1,
+		OnPlay: function(CCPlayer) {
+			ClubCardPlayerSummonGroupCardFromDeck(CCPlayer, ["Knot"], 1, undefined);
+		}
+	},
 
 	// 14000 - Pets and Owners
 	{
@@ -1660,7 +1740,7 @@ var ClubCardList = [
 		OnPlay: function(CCPlayer) {
 			ClubCardPlayerAddMoney(CCPlayer, -25);
 			ClubCardPlayerDrawCard(CCPlayer, 1);
-			this.ExtraPlay = 1;
+			if (ClubCardGroupIsOnBoard(CCPlayer, "Owner")) this.ExtraPlay = 1;
 		},
 		BeforeOpponentTurnEnd: function(CCPlayer) {
 			this.ExtraPlay = 0;
@@ -1695,12 +1775,9 @@ var ClubCardList = [
 		RequiredLevel: 3,
 		FamePerTurn: 1,
 		OnPlay: function(CCPlayer) {
-			ClubCardPlayerAddMoney(CCPlayer, -14);
+			ClubCardPlayerAddMoney(CCPlayer, -13);
 			const opponent = ClubCardGetOpponent(CCPlayer);
 			ClubCardRemoveFromBoard(opponent, ClubCardSelection);
-			const lostFame = ClubCardCalculateLevelForPets(CCPlayer) * -1;
-			ClubCardPlayerAddFame(opponent, lostFame);
-			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "LoseFame", { [ClubCardPlaceholderKeys.AMOUNT]: lostFame }, opponent);
 		}
 	},
 	{
@@ -1767,6 +1844,32 @@ var ClubCardList = [
 		},
 		BeforeTurnEnd: function(CCPlayer) {
 			if (ClubCardGroupIsOnBoard(CCPlayer, "Maid")) ClubCardPlayerAddFame(CCPlayer, 1);
+		}
+	},
+	{
+		ID: 14012,
+		Name: "Loving Owner",
+		Group: ["Owner"],
+		RequiredLevel: 4,
+		MoneyPerTurn: 1,
+		FamePerTurn: 2,
+		BeforeTurnEnd: function(CCPlayer) {
+			if (ClubCardGroupIsOnBoard(CCPlayer, "Maid")) ClubCardPlayerAddMoney(CCPlayer, 1);
+			if (ClubCardGroupOnBoardCount(CCPlayer, "Pet") > 5) ClubCardPlayerAddFame(CCPlayer, 2);
+		}
+	},
+	{
+		ID: 14013,
+		Name: "Cheaky Hamster",
+		Group: ["Pet"],
+		RequiredLevel: 3,
+		MoneyPerTurn: -1,
+		FamePerTurn: -2,
+		OnPlay: function(CCPlayer) {
+			ClubCardPlayerAddMoney(CCPlayer, -12);
+		},
+		BeforeTurnEnd: function(CCPlayer) {
+			ClubCardPlayerAddFame(CCPlayer, ClubCardCalculateLevelForPets(CCPlayer));
 		}
 	},
 
@@ -2196,14 +2299,14 @@ var ClubCardList = [
 		Time: 3,
 		RequiredLevel: 4,
 		BeforeTurnEnd: function(CCPlayer) {
-			let Fame = ClubCardGroupOnBoardCount(CCPlayer, "PornActress");
+			let Fame =  Math.min(12, ClubCardGroupOnBoardCount(CCPlayer, "PornActress"));
 			if (Fame > 0) {
 				Fame = Fame * 3;
 				ClubCardPlayerAddFame(CCPlayer, Fame, this.Name);
 			}
 		},
 		BeforeOpponentTurnEnd: function(CCPlayer) {
-			let Fame = ClubCardGroupOnBoardCount(CCPlayer, "PornActress");
+			let Fame = Math.min(12, ClubCardGroupOnBoardCount(CCPlayer, "PornActress"));
 			if (Fame > 0) {
 				Fame = Fame * 3;
 				ClubCardPlayerAddFame(CCPlayer, Fame, this.Name);
@@ -2284,10 +2387,10 @@ var ClubCardList = [
 			// Return the card to its owner's deck
 			if (ClubCardIsLiability(ClubCardSelection)) {
 				let Opponent = ClubCardGetOpponent(CCPlayer);
-				Opponent.Deck.push(ClubCardSelection);
+				Opponent.Deck.push(ClubCardGetCopyCardByName(ClubCardSelection.Name));
 				Opponent.Deck = ClubCardShuffle(Opponent.Deck);
 			} else {
-				CCPlayer.Deck.push(ClubCardSelection);
+				CCPlayer.Deck.push(ClubCardGetCopyCardByName(ClubCardSelection.Name));
 				CCPlayer.Deck = ClubCardShuffle(CCPlayer.Deck);
 			}
 
@@ -2408,7 +2511,7 @@ var ClubCardList = [
 
 			const opponent = ClubCardGetOpponent(CCPlayer);
 			ClubCardRemoveFromBoard(opponent, ClubCardSelection, true);
-			opponent.Deck.push(ClubCardSelection);
+			opponent.Deck.push(ClubCardGetCopyCardByName(ClubCardSelection.Name));
 			opponent.Deck = ClubCardShuffle(opponent.Deck);
 
 			ClubCardPlayerDrawCard(opponent, 1);
@@ -2512,6 +2615,26 @@ var ClubCardList = [
 			let groupsCardsOnBoard = CCPlayer.Board.filter(value => ["Maid", "Staff"].some(group => ClubCardCardHasGroup(value, group)));
 			ClubCardPlayerAddFame(CCPlayer, groupsCardsOnBoard.length);
 			ClubCardPlayerAddMoney(CCPlayer, groupsCardsOnBoard.length * -2);
+		}
+	},
+	{
+		ID: 31026,
+		Name: "Adoption",
+		Type: "Event",
+		Time : 0,
+		OnPlay: function(CCPlayer) {
+			const availablePets =  CCPlayer.Deck.filter(value => ClubCardCardHasGroup(value, "Pet")).concat(CCPlayer.DiscardPile.filter(value => ClubCardCardHasGroup(value, "Pet")));
+			const petToAdd = availablePets[Math.floor(Math.random() * availablePets.length)];
+			if (petToAdd.Location == "PlayerDiscardPile") {
+				CCPlayer.DiscardPile.splice(CCPlayer.DiscardPile.findIndex(value => value.ID === petToAdd.ID));
+			} else {
+				CCPlayer.Deck.splice(CCPlayer.Deck.findIndex(value => value.ID === petToAdd.ID), 1);
+			}
+			CCPlayer.Hand.push(petToAdd);
+			if (petToAdd.RequiredLevel ? petToAdd.RequiredLevel : 0 <= CCPlayer.Level) this.ExtraPlay = 1;
+		},
+		BeforeOpponentTurnEnd: function() {
+			this.ExtraPlay = 0;
 		}
 	}
 ];
@@ -3175,7 +3298,7 @@ function ClubCardGroupOnBoardCount(CCPlayer, GroupName) {
  * @returns {number} - The number of cards from that group in the discard pile
  */
 function ClubCardGroupInDiscardPileCount(CCPlayer, GroupName) {
-	if ((CCPlayer == null) || (CCPlayer.Board == null) || (GroupName == null)) return 0;
+	if ((CCPlayer == null) || (CCPlayer.DiscardPile == null) || (GroupName == null)) return 0;
 	let Count = 0;
 	for (let Card of CCPlayer.DiscardPile)
 		if (Card.Group != null)
@@ -3511,6 +3634,7 @@ function ClubCardCheckDraw(CCPlayer) {
 	ClubCardPlayerAddFame(opponent, ClubCardNameCountOnBoard(opponent, "Detective"));
 	//Naughty Kitty check
 	ClubCardPlayerAddMoney(CCPlayer, (ClubCardCalculateLevelForPets(CCPlayer) * ClubCardNameCountOnBoard(CCPlayer, "Naughty Kitty")));
+	ClubCardPlayerAddMoney(CCPlayer, ClubCardNameCountOnBoard(CCPlayer, "Insurance Agent"));
 }
 
 /**
@@ -3526,7 +3650,7 @@ function ClubCardOnDrawAction(CCPlayer) {
 
 	let conArtistsCount = ClubCardNameCountOnBoard(CCPlayer, "Con Artist");
 	while (conArtistsCount > 0) {
-		ClubCardPlayerSteal(CCPlayer, 0, ClubCardGroupIsOnBoard(opponent, "Police") ? 1 : 2);
+		ClubCardPlayerSteal(CCPlayer, 0, ClubCardGroupIsOnBoard(opponent, "Police") ? 0 : 1);
 		conArtistsCount--;
 	}
 
@@ -4056,6 +4180,7 @@ function ClubCardCanPlayCard(CCPlayer, Card) {
 	let Target = ClubCardFindTarget(Card);
 	let targetLevel = Target.Level;
 
+	if (!ClubCardCanPlayEffectsLimitation(CCPlayer, Card)) return false;
 	// Jennifer removes a card on her board before entering so should therefor be playable on a full board.
 	const boardFull = Target.Board.length >= ClubCardLevelLimit[Target.Level] && Card.Name !== "Jennifer";
 	if ((Target.Board != null) && (Card.Type == "Member") && (Target.Level != null) && boardFull) return false;
@@ -4074,6 +4199,26 @@ function ClubCardCanPlayCard(CCPlayer, Card) {
 }
 
 /**
+ * Returns TRUE if a specific card can be played by the player
+ * @param {ClubCardPlayer} CCPlayer - The club card player
+ * @param {ClubCard} Card - The card to play
+ */
+function ClubCardCanPlayEffectsLimitation(CCPlayer, Card) {
+	const opponent = ClubCardGetOpponent(CCPlayer);
+	const edens = opponent.Board.filter(card => card.Name === "Eden");
+	for (const eden of edens) {
+		if ((Card.RequiredLevel ?? 1) == eden.EffectKey) return false;
+	}
+	if (Card.Name === "Feline Fatale") {
+		const ownersPresent = CCPlayer.Board.filter(value => ClubCardCardHasGroup(value, "Owner"));
+		const highestTierOwner = ownersPresent.reduce((max, card) => Math.max(max, card.RequiredLevel ?? 1), 0);
+		const lowestTierMember = opponent.Board.reduce((min, card) => Math.min(min, card.RequiredLevel ?? 1), 5);
+		if (highestTierOwner < lowestTierMember) return false;
+	}
+	return true;
+}
+
+/**
  * Returns TRUE if a specific card can be selected as a prerequisite for another card by the player
  * @param {ClubCardPlayer} CCPlayer - The club card player
  * @param {ClubCard} Card - The card to select
@@ -4081,23 +4226,29 @@ function ClubCardCanPlayCard(CCPlayer, Card) {
  */
 function ClubCardCanSelectCard(CCPlayer, Card) {
 	if ((CCPlayer == null) || (Card == null) || (ClubCardPending == null) || (ClubCardPending.Prerequisite == null)) return false;
-	if ((ClubCardPending.Prerequisite === "SelectOwnMember") && ClubCardCardsSelectConditions(Card) && (CCPlayer.Index == 0) && (Card.Location == "PlayerBoard") && (Card.Type === "Member")) return true;
-	if ((ClubCardPending.Prerequisite === "SelectOwnMember") && ClubCardCardsSelectConditions(Card) && (CCPlayer.Index == 1) && (Card.Location == "OpponentBoard") && (Card.Type === "Member")) return true;
-	if ((ClubCardPending.Prerequisite === "SelectOpponentMember") && ClubCardCardsSelectConditions(Card) && (CCPlayer.Index == 0) && (Card.Location == "OpponentBoard") && (Card.Type === "Member")) return true;
-	if ((ClubCardPending.Prerequisite === "SelectOpponentMember") && ClubCardCardsSelectConditions(Card) && (CCPlayer.Index == 1) && (Card.Location == "PlayerBoard") && (Card.Type === "Member")) return true;
-	if ((ClubCardPending.Prerequisite === "SelectAnyMember") && ClubCardCardsSelectConditions(Card) && ((Card.Location == "PlayerBoard") || (Card.Location == "OpponentBoard")) && (Card.Type === "Member")) return true;
-	if ((ClubCardPending.Prerequisite === "SelectAnyEvent") && ClubCardCardsSelectConditions(Card) && ((Card.Location == "PlayerBoard") || (Card.Location == "OpponentBoard")) && (Card.Type === "Event")) return true;
+	if ((ClubCardPending.Prerequisite === "SelectOwnMember") && ClubCardCardsSelectConditions(Card, CCPlayer) && (CCPlayer.Index == 0) && (Card.Location == "PlayerBoard") && (Card.Type === "Member")) return true;
+	if ((ClubCardPending.Prerequisite === "SelectOwnMember") && ClubCardCardsSelectConditions(Card, CCPlayer) && (CCPlayer.Index == 1) && (Card.Location == "OpponentBoard") && (Card.Type === "Member")) return true;
+	if ((ClubCardPending.Prerequisite === "SelectOpponentMember") && ClubCardCardsSelectConditions(Card, CCPlayer) && (CCPlayer.Index == 0) && (Card.Location == "OpponentBoard") && (Card.Type === "Member")) return true;
+	if ((ClubCardPending.Prerequisite === "SelectOpponentMember") && ClubCardCardsSelectConditions(Card, CCPlayer) && (CCPlayer.Index == 1) && (Card.Location == "PlayerBoard") && (Card.Type === "Member")) return true;
+	if ((ClubCardPending.Prerequisite === "SelectAnyMember") && ClubCardCardsSelectConditions(Card, CCPlayer) && ((Card.Location == "PlayerBoard") || (Card.Location == "OpponentBoard")) && (Card.Type === "Member")) return true;
+	if ((ClubCardPending.Prerequisite === "SelectAnyEvent") && ClubCardCardsSelectConditions(Card, CCPlayer) && ((Card.Location == "PlayerBoard") || (Card.Location == "OpponentBoard")) && (Card.Type === "Event")) return true;
 	return false;
 }
 
 /**
  * Returns TRUE if a specific card can be selected as a prerequisite for another card by the player
  * @param {ClubCard} Card - The card to select
+ * @param {ClubCardPlayer} CCPlayer - The club card player
  * @returns {boolean} - TRUE if the card can be selected
  */
-function ClubCardCardsSelectConditions(Card) {
+function ClubCardCardsSelectConditions(Card, CCPlayer) {
 	if (ClubCardPending.Name === "Moon" && Card.Name === "Moon") return false;
 	if (ClubCardPending.Name === "Tax Auditor" && Card.RequiredLevel > 3) return false;
+	if (ClubCardPending.Name === "Feline Fatale") {
+		const ownersPresent = CCPlayer.Board.filter(value => ClubCardCardHasGroup(value, "Owner"));
+		const highestTierOwner = ownersPresent.reduce((max, card) => Math.max(max, card.RequiredLevel ?? 1), 0);
+		if ((Card.RequiredLevel ?? 1) > highestTierOwner) return false;
+	}
 	return true;
 }
 
@@ -4109,8 +4260,10 @@ function ClubCardCardsSelectConditions(Card) {
  */
 function ClubCardPlayCard(CCPlayer, Card) {
 
+	if (Card.Prerequisite === "SelectATier" && ClubCardTierSelection == null && (CCPlayer.Control == "Player")) { ClubCardCreatePopup("TIERSELECTION"); return; }
+
 	// If the player must select a card before playing the current card
-	if ((Card.Prerequisite != null) && (ClubCardSelection == null) && (CCPlayer.Control == "Player")) {
+	if ((Card.Prerequisite != null) && Card.Prerequisite != "SelectATier" && (ClubCardSelection == null) && (CCPlayer.Control == "Player")) {
 		ClubCardFocus = null;
 		ClubCardPending = Card;
 		if (ClubCardIsAnimationOn) {
@@ -4171,27 +4324,23 @@ function ClubCardPlayCard(CCPlayer, Card) {
 
 	// Plays the card
 	if (CCPlayer.Hand != null) {
-		let Index = 0;
-		for (let C of CCPlayer.Hand) {
-			if (C.ID == Card.ID) {
-				if (Card.Type === "Member") {
-					Target.Board.push(Card);
-				}
-				if (Card.Type === "Event") {
-					if ((Card.Time != null) && (Card.Time >= 0)) {
-						Target.Event.push(Card);
-						Card.Time = Card.Time + ClubCardExtraTime(CCPlayer);
-					} else {
-						Target.DiscardPile.push(Card);
-					}
-				}
-				CCPlayer.Hand.splice(Index, 1);
-				Card.Location = (CCPlayer.Index == 0) ? "PlayerBoard" : "OpponentBoard";
-				ClubCardSetGlow(Card, (ClubCardTurnIndex == 0) ? "#FFFF00" : "#FF0000");
-				break;
-			}
-			Index++;
+		const index = CCPlayer.Hand.findIndex(c => c.UniqueID === Card.UniqueID);
+		if (index === -1) throw new Error(`ClubCardPlayCard(): Card with UID ${Card.UniqueID} not found`);
+		CCPlayer.Hand.splice(index, 1);
+
+		if (Card.Type === "Member") Target.Board.push(Card);
+
+		if (Card.Type === "Event") {
+			if (((Card.Time != null)) && (Card.Time >= 0)) {
+				Target.Event.push(Card);
+				Card.Time = Card.Time + ClubCardExtraTime(CCPlayer);
+			} else
+				Target.DiscardPile.push(Card);
 		}
+
+		Card.Location = (CCPlayer.Index == 0) ? "PlayerBoard" : "OpponentBoard";
+		ClubCardSetGlow(Card, (ClubCardTurnIndex == 0) ? "#FFFF00" : "#FF0000");
+
 		ClubCardUpdateBoardCardsIndex(Target);
 	}
 
@@ -4207,6 +4356,7 @@ function ClubCardPlayCard(CCPlayer, Card) {
 
 	if (Card.OnPlay != null) Card.OnPlay(CCPlayer);
 	ClubCardSelection = null;
+	ClubCardTierSelection = null;
 
 	if (CCPlayer.Control == "Player") {
 		ClubCardFocus = null;
@@ -4866,7 +5016,7 @@ function ClubCardRenderBoard(CCPlayer, X, Y, W, H, Mirror) {
 		PosX += IncX;
 	}
 
-	if (!isEqualBoard) {
+	if (!isEqualBoard && ClubCardIsAnimationOn) {
 		//########### Record animations for the new card positions
 		remainingCards.forEach(copyCard => {
 			const originalCard = ClubCardGetOriginalCard(copyCard);
@@ -4944,7 +5094,7 @@ function ClubCardRenderDiscardPile(CCPlayer, X, Y, W, H) {
  */
 function ClubCardStatusText(Text) {
 	MainCanvas.font = CommonGetFont((ClubCardPopup == null) ? 26 : 32);
-	if (ClubCardPopup?.Mode == "DISCARDPILE" || ClubCardPending != null) {
+	if (ClubCardPopup?.Mode == "DISCARDPILE" || ClubCardPending != null || ClubCardPopup?.Mode == "TIERSELECTION") {
 		DrawTextWrap(TextGet(Text), 1715, 900, 280, 100, "White");
 	} else if (Text == "OpponentPlaying" || Text == "WatchingGame") {
 		DrawTextWrap(TextGet(Text), 1715, 900, (ClubCardPopup == null) ? 190 : 280, 100, "White");
@@ -5057,7 +5207,7 @@ function ClubCardRenderPanel() {
 	}
 
 	// Draw the discard and bottom butttons and texts
-	if  (ClubCardPopup?.Mode == "DISCARDPILE" || !ClubCardPopup) DrawButton(1805, 805, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/DiscardPile.png", TextGet("DiscardPile"));
+	if  (!ClubCardPopup) DrawButton(1805, 805, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/DiscardPile.png", TextGet("DiscardPile"));
 	if ((ClubCardPopup == null) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player")) {
 		DrawButton(1805, 905, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/Bankrupt.png", TextGet("Bankrupt"));
 		ClubCardDrawButton();
@@ -5067,6 +5217,11 @@ function ClubCardRenderPanel() {
 		ClubCardStatusText("SelectOption");
 	} else if(ClubCardInspection) {
 		ClubCardStatusText("InspectPile");
+		DrawButton(1805, 805, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/CancelPending.png", TextGet("CancelPending"));
+	} else if(ClubCardGameEnded) {
+		ClubCardStatusText("GameEnded");
+	} else if (ClubCardPopup?.Mode == "TIERSELECTION") {
+		ClubCardStatusText("SelectOption");
 		DrawButton(1805, 805, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/CancelPending.png", TextGet("CancelPending"));
 	} else if (!MiniGameEnded) {
 		ClubCardStatusText(ClubCardIsPlaying() ? "OpponentPlaying" : "WatchingGame");
@@ -5216,6 +5371,18 @@ function ClubCardRenderPopup(Timestamp) {
 		ClubCardUpdateCardAnimations(Timestamp);
 		return;
 	}
+
+	// Draw the tier selection popup
+	if (ClubCardPopup.Mode == "TIERSELECTION"){
+		DrawRect(213, 248, 1274, 504, "White");
+		DrawRect(215, 250, 1270, 500, "Black");
+		for (let i = 1; i <= 5; i++) {
+			DrawImageResize("Screens/MiniGame/ClubCard/Frame/Member" + i + ".png", 235 + (i * 250) - 250, 270, 230, 460);
+			DrawButton(255 + (i * 250) - 250, 475, 190, 50, TextGet("SelectTier").replace("NUMBER", i.toString()), "White");
+		}
+		return;
+	}
+
 	// Draw the yes/no/text popups
 	DrawRect(648, 348, 404, 304, "White");
 	DrawRect(650, 350, 400, 300, "Black");
@@ -5291,6 +5458,12 @@ function ClubCardClick() {
 			//Set Focus card in ClubCardPopup.Mode == “DISCARDPILE”
 			if(ClubCardHover && (ClubCardHover.Location == "OpponentDiscardPile" || ClubCardHover.Location == "PlayerDiscardPile"))
 				return ClubCardClickSetFocusCard();
+		}
+		if (ClubCardPopup.Mode == "TIERSELECTION") {
+			if (MouseIn(1805, 805, 90, 90)) {return(ClubCardClickResetFocusCard(), ClubCardDestroyPopup())}
+			for (let i = 1; i <= 5; i++) {
+				if (MouseIn(255 + (i * 250) - 250, 475, 190, 50)) return(ClubCardTierSelection = i, ClubCardDestroyPopup(), ClubCardClickPlayCard(false));
+			}
 		}
 		if (ClubCardPopup.Mode == "DECK")
 			for (let Deck = 0; Deck < 10; Deck++)
