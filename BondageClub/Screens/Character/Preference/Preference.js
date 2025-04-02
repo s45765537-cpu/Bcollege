@@ -776,10 +776,10 @@ var PreferenceAudioSettingsDefault = {
  */
 var PreferenceAudioSettingsValidate = {
 	Volume: (arg) => {
-		return CommonIsInteger(arg, 0, 10) ? arg : PreferenceAudioSettingsDefault.Volume;
+		return CommonIsFinite(arg, 0, 1) ? arg : PreferenceAudioSettingsDefault.Volume;
 	},
 	MusicVolume: (arg) => {
-		return CommonIsInteger(arg, 0, 10) ? arg : PreferenceAudioSettingsDefault.MusicVolume;
+		return CommonIsFinite(arg, 0, 1) ? arg : PreferenceAudioSettingsDefault.MusicVolume;
 	},
 	PlayBeeps: isBool(PreferenceAudioSettingsDefault.PlayBeeps),
 	PlayItem: isBool(PreferenceAudioSettingsDefault.PlayItem),
