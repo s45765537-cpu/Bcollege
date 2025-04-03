@@ -3818,8 +3818,9 @@ function ChatRoomMessageProcessHidden(data, SenderCharacter) {
 		PandoraPenitentiaryHiddenMessage(SenderCharacter, data.Content);
 	} else if (data.Content.startsWith("PortalLink")) {
 		PortalLinkProcessMessage(SenderCharacter, data);
-	}
-	else if (data.Content == "ClubCardAdminResetGameHidden") {
+	} else if (data.Content == "ClubCardGameConceded") {
+		ClubCardPlayerConceded(data.Sender);
+	} else if (data.Content == "ClubCardAdminResetGameHidden") {
 		ClubCardResetGameStatus();
 	}
 	return true;

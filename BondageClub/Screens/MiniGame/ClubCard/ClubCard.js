@@ -2769,7 +2769,6 @@ function ClubCardSendRequestResetGame() {
 	ServerSend("ChatRoomChat", { Content: "ClubCardAdminResetGameHidden", Type: "Hidden" });
 
 	const Dictionary = new DictionaryBuilder().sourceCharacter(Player).build();
-	Dictionary.push({Tag: "SourceCharacter", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber});
 	ServerSend("ChatRoomChat", { Content: "ClubCardAdminResetGame", Type: "Action" , Dictionary: Dictionary});
 }
 
@@ -4090,7 +4089,6 @@ function ClubCardEndTurn(Draw = false) {
 		// Notices everyone in the room that the game end
 		if (ClubCardIsOnline()) {
 			const Dictionary = new DictionaryBuilder().sourceCharacter(Player).build();
-			Dictionary.push({Tag: "SourceCharacter", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber});
 			ServerSend("ChatRoomChat", { Content: "ClubCardGameEnd", Type: "Action" , Dictionary: Dictionary});
 		}
 
@@ -4186,7 +4184,7 @@ function ClubCardCheckVictory(CCPlayer) {
 		if (MiniGameVictory && (ClubCardReward != null)) ClubCardGetReward();
 		GameClubCardReset();
 		return true;
-	}
+	} else if (MiniGameEnded) { return true; } 
 	return false;
 }
 
@@ -4570,9 +4568,38 @@ function ClubCardConcede() {
 		const textGetKey = ClubCardIsPlaying() ? "OnlineConcede" : "OnlineStopWatch";
 		const Msg = TextGet(textGetKey).replace("PLAYERNAME", CharacterNickname(Player));
 		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, null, {}, null, Msg);
+		if (ClubCardIsPlaying() && MiniGameEnded === false) {
+			MiniGameEnded = true;
+			if (ClubCardIsOnline()) {
+				ServerSend("ChatRoomChat", { Content: "ClubCardGameConceded", Type: "Hidden" });
+			}
+		}
 	}
 	ClubCardDestroyPopup();
 	ClubCardEndGame(false);
+}
+/**
+ * When the opponent concedes the game and sends us a hidden message about it
+ * @param {MemberNumber} ID - The player who conceded
+ * @returns {void} - Nothing
+ */
+function ClubCardPlayerConceded(ID) {
+	if (ID == Player.MemberNumber) return;
+	const CCP = ClubCardPlayer.find(C => C.Character.MemberNumber == ID);
+	const CCO = ClubCardGetOpponent(CCP);
+	ClubCardFocus = null;
+	MiniGameVictory = ID != CCO.Character.MemberNumber;
+	MiniGameEnded = true;
+	let Msg = TextGet("VictoryForConcede").replace("OPPONENTPLAYER", CharacterNickname(CCP.Character)).replace("PLAYERNAME", CharacterNickname(CCO.Character));
+	if (ClubCardIsPlaying()) {
+		Msg = TextGet("VictoryForConcedePlayer").replace("OPPONENTPLAYER", CharacterNickname(CCP.Character));
+		const Dictionary = new DictionaryBuilder().sourceCharacter(Player).targetCharacter(CCP.Character).build();
+		ServerSend("ChatRoomChat", { Content: "ClubCardGameConcede", Type: "Action" , Dictionary: Dictionary});
+	}
+	ClubCardCreatePopup("TEXT", Msg, TextGet("Return"), null, "ClubCardEndGame()", null);
+	ClubCardGameEnded = true;
+	if (MiniGameVictory && (ClubCardReward != null)) ClubCardGetReward();
+	GameClubCardReset();
 }
 
 /**
@@ -5265,7 +5292,9 @@ function ClubCardRenderPanel() {
 
 
 	// If we are waiting for deck selection
-	if ((ClubCardPlayer[0].FullDeck == null) || (ClubCardPlayer[0].FullDeck.length == 0) || (ClubCardPlayer[1].FullDeck == null) || (ClubCardPlayer[1].FullDeck.length == 0)) {
+	if(ClubCardGameEnded) {
+		ClubCardStatusText("GameEnded");
+	} else if ((ClubCardPlayer[0].FullDeck == null) || (ClubCardPlayer[0].FullDeck.length == 0) || (ClubCardPlayer[1].FullDeck == null) || (ClubCardPlayer[1].FullDeck.length == 0)) {
 		ClubCardStatusText("WaitingSelectDeck");
 		return;
 	}
@@ -5284,10 +5313,12 @@ function ClubCardRenderPanel() {
 		DrawButton(1805, 805, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/CancelPending.png", TextGet("CancelPending"));
 	} else if(ClubCardGameEnded) {
 		ClubCardStatusText("GameEnded");
-	} else if (ClubCardPopup?.Mode == "TIERSELECTION")  {
+	} else if (ClubCardPopup?.Mode == "TIERSELECTION") {
 		ClubCardStatusText("SelectOption");
 		DrawButton(1805, 805, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/CancelPending.png", TextGet("CancelPending"));
-	} else ClubCardStatusText(ClubCardIsPlaying() ? "OpponentPlaying" : "WatchingGame");
+	} else if (!MiniGameEnded) {
+		ClubCardStatusText(ClubCardIsPlaying() ? "OpponentPlaying" : "WatchingGame");
+	}
 }
 
 /**
@@ -5302,7 +5333,11 @@ function ClubCardDrawButton() {
 		DrawTextFit(ClubCardPlayer[0].Deck.length.toString(), 1764, 953, 25, "White");
 	} else {
 		DrawButton(1705, 805, 90, 190, null, "White", "", TextGet("CannotDraw"));
-		DrawImageResize("Screens/MiniGame/ClubCard/Button/CancelPending.png", 1685, 800, 130, 200);
+		if (ClubCardPlayer[0].Deck.length > 0) {
+			DrawImageResize("Screens/MiniGame/ClubCard/Button/CancelPending.png", 1690, 836, 120, 136);
+		} else {
+			DrawImageResize("Icons/ClubCard/PlayerSlot0.png", 1675, 808, 148, 185);
+		}
 	}
 }
 
@@ -5547,7 +5582,7 @@ function ClubCardClick() {
 	//  Runs the basic game buttons
 	// ==============================
 	//Play Card
-	if (MouseIn(745, 505, 215, 50) && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") && ClubCardCanPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus))
+	if (MouseIn(745, 505, 215, 50) && !ClubCardPending && (ClubCardPlayer[ClubCardTurnIndex].Control == "Player") && ClubCardCanPlayCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus))
 		return ClubCardClickPlayCard(false);
 	// Click on an empty space to reset the focus of the selected Card.
 	if (MouseIn(720, 245, 260, 510) && ClubCardFocus != null)
