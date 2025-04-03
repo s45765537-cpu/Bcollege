@@ -3627,7 +3627,7 @@ function ClubCardPlayerDrawGroupCard(CCPlayer, groups, level) {
  * @param {readonly string[]} groups - The group to summon from
  * @param {number} amount - The amount of cards to summon
  * @param {number | undefined} level - The level of the cards if needed
- * @param {string | undefined} type - Event or Member if needed to specify 
+ * @param {string | undefined} type - Event or Member if needed to specify
  * @returns {boolean} - if cards were summoned or not
  */
 function ClubCardPlayerSummonGroupCardFromDeck(CCPlayer, groups, amount, level, type = null) {
@@ -4184,7 +4184,10 @@ function ClubCardCheckVictory(CCPlayer) {
 		if (MiniGameVictory && (ClubCardReward != null)) ClubCardGetReward();
 		GameClubCardReset();
 		return true;
-	} else if (MiniGameEnded) { return true; } 
+	} else if (MiniGameEnded) {
+		return true;
+	}
+
 	return false;
 }
 
@@ -5553,7 +5556,9 @@ function ClubCardClick() {
 				return ClubCardClickSetFocusCard();
 		}
 		if (ClubCardPopup.Mode == "TIERSELECTION") {
-			if (MouseIn(1805, 805, 90, 90)) {return(ClubCardClickResetFocusCard(), ClubCardDestroyPopup())}
+			if (MouseIn(1805, 805, 90, 90)) {
+				return (ClubCardClickResetFocusCard(), ClubCardDestroyPopup());
+			}
 			for (let i = 1; i <= 5; i++) {
 				if (MouseIn(255 + (i * 250) - 250, 475, 190, 50)) return(ClubCardTierSelection = i, ClubCardDestroyPopup(), ClubCardClickPlayCard(false));
 			}
