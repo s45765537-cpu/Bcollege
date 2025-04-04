@@ -251,15 +251,18 @@ var GLDrawFragmentShaderSource = `
 
   uniform sampler2D u_texture;
   uniform sampler2D u_alpha_texture;
+  uniform sampler2D u_mask_texture;
   uniform float u_alpha;
 
   void main() {
     vec4 texColor = texture2D(u_texture, v_texcoord);
     vec4 alphaColor = texture2D(u_alpha_texture, v_texcoord);
+	vec4 maskColor = texture2D(u_mask_texture, v_texcoord);
     if (texColor.w < ` + GLDrawAlphaThreshold + `) discard;
     if (alphaColor.w < ` + GLDrawAlphaThreshold + `) discard;
     gl_FragColor = texColor;
     gl_FragColor.a *= u_alpha;
+	gl_FragColor.a *= maskColor.w;
   }
 `;
 
@@ -274,10 +277,18 @@ var GLDrawFragmentShaderSourceTexMask = `
   varying vec2 v_texcoord;
 
   uniform sampler2D u_texture;
+  uniform sampler2D u_alpha_texture;
+  uniform sampler2D u_mask_texture;
+
 
   void main() {
     vec4 texColor = texture2D(u_texture, v_texcoord);
-    gl_FragColor = texColor;
+    vec4 alphaColor = texture2D(u_alpha_texture, v_texcoord);
+	vec4 maskColor = texture2D(u_mask_texture, v_texcoord);
+    if (texColor.w < ` + GLDrawAlphaThreshold + `) discard;
+    if (alphaColor.w < ` + GLDrawAlphaThreshold + `) discard;
+    if (maskColor.w < ` + GLDrawAlphaThreshold + `) discard;
+	gl_FragColor = vec4(texColor.rgb, texColor.a * maskColor.w);
   }
 `;
 
@@ -293,15 +304,19 @@ var GLDrawFragmentShaderSourceFullAlpha = `
 
   uniform sampler2D u_texture;
   uniform sampler2D u_alpha_texture;
+  uniform sampler2D u_mask_texture;
   uniform vec4 u_color;
 
   void main() {
     vec4 texColor = texture2D(u_texture, v_texcoord);
     vec4 alphaColor = texture2D(u_alpha_texture, v_texcoord);
+	vec4 maskColor = texture2D(u_mask_texture, v_texcoord);
     if (texColor.w < ` + GLDrawAlphaThreshold + `) discard;
     if (alphaColor.w < ` + GLDrawAlphaThreshold + `) discard;
+    if (maskColor.w < ` + GLDrawAlphaThreshold + `) discard;
     float t = (texColor.x + texColor.y + texColor.z) / 383.0;
     gl_FragColor = u_color * vec4(t, t, t, texColor.w);
+	gl_FragColor.a *= maskColor.w;
   }
 `;
 
@@ -317,19 +332,23 @@ var GLDrawFragmentShaderSourceHalfAlpha = `
 
   uniform sampler2D u_texture;
   uniform sampler2D u_alpha_texture;
+  uniform sampler2D u_mask_texture;
   uniform vec4 u_color;
 
   void main() {
     vec4 texColor = texture2D(u_texture, v_texcoord);
     vec4 alphaColor = texture2D(u_alpha_texture, v_texcoord);
+	vec4 maskColor = texture2D(u_mask_texture, v_texcoord);
     if (texColor.w < ` + GLDrawAlphaThreshold + `) discard;
     if (alphaColor.w < ` + GLDrawAlphaThreshold + `) discard;
+    if (maskColor.w < ` + GLDrawAlphaThreshold + `) discard;
     float t = (texColor.x + texColor.y + texColor.z) / 383.0;
     if (t < ` + GLDrawHalfAlphaLow + ` || t > ` + GLDrawHalfAlphaHigh + `) {
       gl_FragColor = texColor;
     } else {
       gl_FragColor = u_color * vec4(t, t, t, texColor.w);
     }
+	gl_FragColor.a *= maskColor.w;
   }
 `;
 
@@ -372,6 +391,7 @@ function GLDrawCreateProgram(gl, vertexShader, fragmentShader) {
 	program.u_matrix = gl.getUniformLocation(program, "u_matrix");
 	program.u_texture = gl.getUniformLocation(program, "u_texture");
 	program.u_alpha_texture = gl.getUniformLocation(program, "u_alpha_texture");
+	program.u_mask_texture = gl.getUniformLocation(program, "u_mask_texture");
 
 	program.position_buffer = gl.createBuffer();
 	gl.bindBuffer(gl.ARRAY_BUFFER, program.position_buffer);
@@ -395,10 +415,11 @@ function GLDrawCreateProgram(gl, vertexShader, fragmentShader) {
  * @returns {void} - Nothing
  */
 function GLDrawImage(url, gl, dstX, dstY, options, offsetX = 0) {
-	let { HexColor: color, FullAlpha: fullAlpha, AlphaMasks: alphaMasks, Alpha: opacity, Invert, Mirror, BlendingMode: blendingMode } = options;
+	let { HexColor: color, FullAlpha: fullAlpha, AlphaMasks: alphaMasks, Alpha: opacity, Invert, Mirror, BlendingMode: blendingMode, TextureAlphaMask: texMasks } = options;
 	opacity = typeof opacity === "number" ? opacity : 1;
 	const tex = GLDrawLoadImage(gl, url);
 	const mask = GLDrawLoadMask(gl, tex.width, tex.height, dstX, dstY, alphaMasks);
+	const textureMask = GLDrawLoadTextureAlphaMask(gl, tex.width, tex.height, dstX, dstY, texMasks);
 
 	const program = GLChooseProgram(gl, color, fullAlpha, blendingMode);
 
@@ -434,15 +455,26 @@ function GLDrawImage(url, gl, dstX, dstY, options, offsetX = 0) {
 	matrix = m4.scale(matrix, (Mirror ? -1 : 1) * tex.width, (Invert ? -1 : 1) * tex.height, 1);
 
 	gl.uniformMatrix4fv(program.u_matrix, false, matrix);
-	gl.uniform1i(program.u_texture, 0);
-	gl.uniform1i(program.u_alpha_texture, 1);
-	if (program.u_alpha != null) gl.uniform1f(program.u_alpha, opacity);
+
+	// A proper webgl texture use is active - bind - uniform
 
 	gl.activeTexture(gl.TEXTURE0);
 	gl.bindTexture(gl.TEXTURE_2D, tex.texture);
-	gl.activeTexture(gl.TEXTURE1);
-	gl.bindTexture(gl.TEXTURE_2D, mask);
+	gl.uniform1i(program.u_texture, 0);
 
+	if(program.u_mask_texture !== null) {
+		gl.activeTexture(gl.TEXTURE1);
+		gl.bindTexture(gl.TEXTURE_2D, mask);
+		gl.uniform1i(program.u_alpha_texture, 1);
+	}
+
+	if(program.u_mask_texture !== null) {
+		gl.activeTexture(gl.TEXTURE2);
+		gl.bindTexture(gl.TEXTURE_2D, textureMask);
+		gl.uniform1i(program.u_mask_texture, 2);
+	}
+
+	if (program.u_alpha != null) gl.uniform1f(program.u_alpha, opacity);
 	if (program.u_color != null) gl.uniform4fv(program.u_color, GLDrawHexToRGBA(color, opacity));
 
 	gl.drawArrays(gl.TRIANGLES, 0, 6);
@@ -479,12 +511,13 @@ function GLChooseProgram(gl, color, fullAlpha, blendingMode) {
  * @param {number} Y - Position of the image on the Y axis
  * @param {number} blinkOffset - Offset for the blink canvas
  * @param {readonly RectTuple[]} alphaMasks - A list of alpha masks to apply to the asset
+ * @param {readonly TextureAlphaMask[]} texMasks - A list of mask layers to apply to the asset
  */
-function GLDraw2DCanvas(gl, Img, X, Y, blinkOffset, alphaMasks) {
+function GLDraw2DCanvas(gl, Img, X, Y, blinkOffset, alphaMasks, texMasks) {
 	const TempCanvasName = Img.getAttribute("name");
 	gl.textureCache.delete(TempCanvasName);
 	GLDrawImageCache.set(TempCanvasName, /** @type {HTMLImageElement} */(Img));
-	GLDrawImage(TempCanvasName, gl, X, Y, { AlphaMasks: alphaMasks }, blinkOffset);
+	GLDrawImage(TempCanvasName, gl, X, Y, { AlphaMasks: alphaMasks, TextureAlphaMask: texMasks }, blinkOffset);
 }
 
 /**
@@ -592,6 +625,105 @@ function GLDrawLoadMask(gl, texWidth, texHeight, offsetX, offsetY, alphaMasks) {
 }
 
 /**
+ * Creates an empty mask (fully opaque) for use when no mask layers are provided
+ * @param {WebGL2RenderingContext} gl - The WebGL context
+ * @returns {WebGLTexture} - A default mask texture
+ */
+function GLDrawCreateEmptyTextureAlphaMask(gl, texWidth, texHeight) {
+    const key = "EmptyTexMask:" + texWidth + "x" + texHeight;
+    let mask = gl.maskCache.get(key);
+    
+    if (!mask) {
+        // Create a white 1x1 texture (fully visible)
+        const data = new Uint8Array([255, 255, 255, 255]);
+        mask = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, mask);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, data);
+        
+        gl.maskCache.set(key, mask);
+    }
+    
+    return mask;
+}
+
+function canvasToNewWin(canvas) {
+	const PhotoImg = canvas.toDataURL("image/png");
+	// Open the image in a new window
+	let newWindow = window.open('about:blank', '_blank');
+	if (newWindow) {
+		newWindow.document.write("<img src='" + PhotoImg + "' alt='from canvas'/>");
+		newWindow.document.close();
+	} else {
+		console.warn("Popups blocked: Cannot open photo in new tab.");
+	}
+}
+
+/**
+ * Loads mask layers and combines them into a single texture mask
+ * @param {WebGL2RenderingContext} gl 
+ * @param {number} texWidth - The width of the texture
+ * @param {number} texHeight - The height of the texture
+ * @param {number} offsetX - The X offset for the texture
+ * @param {number} offsetY - The Y offset for the texture
+ * @param {readonly TextureAlphaMask[]} maskLayers - The mask layers to combine
+ * @returns { WebGLTexture }
+ */
+function GLDrawLoadTextureAlphaMask(gl, texWidth, texHeight, offsetX, offsetY, maskLayers) {
+	// If no mask layers, return empty texture or null
+	if (!maskLayers || maskLayers.length === 0 
+		// placeholder texures
+		|| (texWidth === 1 && texHeight === 1)) {
+		return GLDrawCreateEmptyTextureAlphaMask(gl, texWidth, texHeight);
+	}
+
+	const key = "TexMask:" + JSON.stringify({
+		coord: [texWidth, texHeight, offsetX, offsetY],
+		sources: maskLayers.map(x=>x).sort(((a,b) => a.Url.localeCompare(b.Url))),
+	});
+
+	let mask = gl.maskCache.get(key);
+
+	if(!mask) {
+		const tmpCanvas = document.createElement("canvas");
+		tmpCanvas.width = texWidth;
+		tmpCanvas.height = texHeight;
+		const ctx = tmpCanvas.getContext("2d");
+		ctx.fillStyle = "rgb(0,0,0)";
+		ctx.fillRect(0, 0, texWidth, texHeight);
+		
+        // Process and draw each mask layer
+		// Combining textures is just too heavy for this scenario
+		// so a canvas ctx is used to combine them
+        for (const layer of maskLayers) {
+			GLDrawLoadImage(gl, layer.Url);
+			const img = GLDrawImageCache.get(layer.Url);
+			if(img.width === 0 || img.height === 0) {
+				return GLDrawCreateEmptyTextureAlphaMask(gl, texWidth, texHeight);
+			}
+
+			ctx.globalCompositeOperation = layer.Mode || "destination-in";
+			ctx.drawImage(img, layer.X - offsetX, layer.Y - offsetY, img.width, img.height);
+        }
+
+		mask = gl.createTexture();
+
+		gl.bindTexture(gl.TEXTURE_2D, mask);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+		gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, tmpCanvas);
+
+        // Cache the generated mask
+        gl.maskCache.set(key, mask);
+	}
+
+	return mask;
+}
+
+/**
  * Clears a rectangle on WebGLRenderingContext
  * @param {WebGLRenderingContext} gl - WebGL context
  * @param {number} x - Position of the image on the X axis
@@ -638,8 +770,8 @@ function GLDrawAppearanceBuild(C) {
 		drawImageBlink: (src, x, y, opts) => GLDrawImage(src, GLDrawCanvas.GL, x, y, opts, blinkOffset),
 		drawImageColorize: (src, x, y, opts) => GLDrawImage(src, GLDrawCanvas.GL, x, y, opts, 0),
 		drawImageColorizeBlink: (src, x, y, opts) => GLDrawImage(src, GLDrawCanvas.GL, x, y, opts, blinkOffset),
-		drawCanvas: (Img, x, y, alphaMasks) => GLDraw2DCanvas(GLDrawCanvas.GL, Img, x, y, 0, alphaMasks),
-		drawCanvasBlink: (Img, x, y, alphaMasks) => GLDraw2DCanvas(GLDrawCanvas.GL, Img, x, y, blinkOffset, alphaMasks),
+		drawCanvas: (Img, x, y, alphaMasks, maskLayers) => GLDraw2DCanvas(GLDrawCanvas.GL, Img, x, y, 0, alphaMasks, maskLayers),
+		drawCanvasBlink: (Img, x, y, alphaMasks, maskLayers) => GLDraw2DCanvas(GLDrawCanvas.GL, Img, x, y, blinkOffset, alphaMasks, maskLayers),
 	});
 	C.Canvas.getContext("2d").drawImage(GLDrawCanvas, 0, 0);
 	C.CanvasBlink.getContext("2d").drawImage(GLDrawCanvas, -blinkOffset, 0);

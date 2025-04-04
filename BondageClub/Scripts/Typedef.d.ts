@@ -45,6 +45,7 @@ interface WebGLProgram {
 	u_matrix?: WebGLUniformLocation;
 	u_texture?: WebGLUniformLocation;
 	u_alpha_texture?: WebGLUniformLocation;
+	u_mask_texture?: WebGLUniformLocation;
 	position_buffer?: WebGLBuffer;
 	texcoord_buffer?: WebGLBuffer;
 }
