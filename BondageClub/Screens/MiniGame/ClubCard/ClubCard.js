@@ -992,9 +992,7 @@ var ClubCardList = [
 				CCPlayer.DiscardPile.splice(CCPlayer.Deck.findIndex(value => value.ID === ClubCardSelection.ID), 1);
 				CCPlayer.Hand.push(ClubCardGetCopyCardByName(ClubCardSelection.Name));
 			} else {
-				ClubCardSummonCard(CCPlayer, ClubCardPending, false);
-				ClubCardPending = null;
-				CCPlayer.Hand.splice(CCPlayer.Hand.findIndex(value => value.ID === this.ID), 1);
+				ClubCardPlayCard(CCPlayer, this, false);
 			}
 		}
 	},
@@ -1660,16 +1658,14 @@ var ClubCardList = [
 				ClubCardCreatePopup("SEARCH", null, null, null, null, null, ClubCardShuffle(CCPlayer.Deck.slice()));
 				return;
 			}
+			ClubCardPlayerAddMoney(CCPlayer, -7);
+			this.ExtraPlay = 1;
 			if (ClubCardSelection) {
 				CCPlayer.Deck.splice(CCPlayer.Deck.findIndex(value => value.ID === ClubCardSelection.ID), 1);
 				CCPlayer.Hand.push(ClubCardSelection);
 			} else {
-				ClubCardSummonCard(CCPlayer, ClubCardPending, false);
-				ClubCardPending = null;
-				CCPlayer.Hand.splice(CCPlayer.Hand.findIndex(value => value.ID === this.ID), 1);
+				ClubCardPlayCard(CCPlayer, this, false);
 			}
-			ClubCardPlayerAddMoney(CCPlayer, -7);
-			this.ExtraPlay = 1;
 		},
 		turnStart: function () {
 			this.ExtraPlay = 0;
@@ -3725,7 +3721,7 @@ function ClubCardPlayerSummonGroupCardFromDeck(CCPlayer, groups, amount, level, 
  * @param {ClubCard} card - The card to play
  * @returns {void} - Nothing
  */
-function ClubCardSummonCard(CCPlayer, card, triggerOnPlay = true) {
+function ClubCardSummonCard(CCPlayer, card) {
 	if (card.Type === "Member" || card.Type == null) {
 		card.Type = "Member";
 		CCPlayer.Board.push(card);
@@ -3740,7 +3736,7 @@ function ClubCardSummonCard(CCPlayer, card, triggerOnPlay = true) {
 		}
 	}
 
-	if (card.OnPlay != null && triggerOnPlay) {
+	if (card.OnPlay != null) {
 		card.OnPlay(CCPlayer);
 	}
 	ClubCardOnCardPlayedHandler(CCPlayer, card);
@@ -4404,9 +4400,10 @@ function ClubCardCardsSelectConditions(Card, CCPlayer) {
  * When a player plays a card
  * @param {ClubCardPlayer} CCPlayer - The club card player
  * @param {ClubCard} Card - The card to play
+ * @param {boolean} triggerOnPlay - false for search cards
  * @returns {void} - Nothing
  */
-function ClubCardPlayCard(CCPlayer, Card) {
+function ClubCardPlayCard(CCPlayer, Card, triggerOnPlay = true) {
 
 	if (Card.Prerequisite === "SelectATier" && ClubCardTierSelection == null && (CCPlayer.Control == "Player")) { ClubCardCreatePopup("TIERSELECTION"); return; }
 
@@ -4419,7 +4416,6 @@ function ClubCardPlayCard(CCPlayer, Card) {
 		}
 		Card.OnPlay(CCPlayer);
 		return;
-
 	}
 
 	// If the player must select a card before playing the current card
@@ -4514,7 +4510,7 @@ function ClubCardPlayCard(CCPlayer, Card) {
 		CCPlayer.CardsPlayedThisTurn[CCPlayer.ClubCardTurnCounter] = [Card];
 	}
 
-	if (Card.OnPlay != null) Card.OnPlay(CCPlayer);
+	if (Card.OnPlay != null && triggerOnPlay) Card.OnPlay(CCPlayer);
 	ClubCardSelection = null;
 	ClubCardTierSelection = null;
 
