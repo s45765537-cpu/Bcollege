@@ -62,6 +62,12 @@ var DrawingResizeMode = {
 };
 
 /**
+ * A cache of the texture masks used to draw the character
+ * @type {Map<string, HTMLCanvasElement>}
+ */
+let DrawCacheTextureAlphaMasks = new Map();
+
+/**
  * Converts a hex color string to a RGB color
  * @param {string} color - Hex color to conver
  * @returns {RGBColor} - RGB color
@@ -558,11 +564,11 @@ function DrawImageCanvas(Source, Canvas, X, Y, Options) {
  * @param {number} X - Position of the image on the X axis
  * @param {number} Y - Position of the image on the Y axis
  * @param {readonly RectTuple[]} AlphaMasks - A list of alpha masks to apply to the asset
- * @param {readonly MaskTexture[]} TexureMasks - A list of mask layers to apply to the asset
+ * @param {readonly TextureAlphaMask[]} TextureAlphaMasks - A list of mask layers to apply to the asset
  * @returns {boolean} - whether the image was complete or not
  */
-function DrawCanvas(Img, Canvas, X, Y, AlphaMasks, TexureMasks) {
-	return DrawImageEx(Img, Canvas, X, Y, { AlphaMasks, TexureMasks: TexureMasks });
+function DrawCanvas(Img, Canvas, X, Y, AlphaMasks, TextureAlphaMasks) {
+	return DrawImageEx(Img, Canvas, X, Y, { AlphaMasks, TextureAlphaMask: TextureAlphaMasks });
 }
 
 /**
@@ -575,6 +581,49 @@ function DrawCanvas(Img, Canvas, X, Y, AlphaMasks, TexureMasks) {
  */
 function DrawImage(Source, X, Y, Invert) {
 	return DrawImageEx(Source, MainCanvas, X, Y, { Invert });
+}
+
+/**
+ * Applies texture masks to a canvas about to be drawn
+ * @param {CanvasRenderingContext2D} destCanvas 
+ * @param {number} X - Position of the image on the X axis
+ * @param {number} Y - Position of the image on the Y axis
+ * @param {readonly TextureAlphaMask[]} TextureAlphaMasks 
+ */
+function DrawTextureAlphaMask(destCanvas, X, Y, TextureAlphaMasks) {
+	const key = "TexMask:" + JSON.stringify({
+		coord: [X, Y],
+		sources: TextureAlphaMasks.map(x=>x).sort(((a,b) => a.Url.localeCompare(b.Url))),
+	});
+
+	let mask = DrawCacheTextureAlphaMasks.get(key);
+	if(!mask) {
+		const tempCanvas = document.createElement("canvas");
+		const ctx = tempCanvas.getContext("2d", { willReadFrequently: true });
+		tempCanvas.width = destCanvas.canvas.width;
+		tempCanvas.height = destCanvas.canvas.height;
+		ctx.fillStyle = "rgb(0,0,0)";
+		ctx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+
+		for(const tmask of TextureAlphaMasks) {
+			const img = DrawGetImage(tmask.Url);
+			if (img.complete) {
+				ctx.globalCompositeOperation = tmask.Mode || "destination-in";
+				ctx.drawImage(img, tmask.X - X, tmask.Y - Y);
+			} else {
+				// If the image is not loaded, we can't apply the mask yet
+				return;
+			}
+		}
+
+		mask = tempCanvas;
+		DrawCacheTextureAlphaMasks.set(key, mask);
+	}
+
+	const oldCompositeOperation = destCanvas.globalCompositeOperation;
+	destCanvas.globalCompositeOperation = "destination-in";
+	destCanvas.drawImage(mask, 0, 0);
+	destCanvas.globalCompositeOperation = oldCompositeOperation;
 }
 
 /**
@@ -593,7 +642,7 @@ function DrawImageEx(
 	Y,
 	Options
 ) {
-	let { Zoom, HexColor, FullAlpha, AlphaMasks, Alpha, Invert, Mirror, BlendingMode, Width, Height, SourcePos } = Options || {};
+	let { Zoom, HexColor, FullAlpha, AlphaMasks, Alpha, Invert, Mirror, BlendingMode, Width, Height, SourcePos, TextureAlphaMask: TexureMasks } = Options || {};
 
 	let Img;
 
@@ -636,7 +685,7 @@ function DrawImageEx(
 	// a temporary canvas. On top of that, colorizing uses .getImageData
 	// so we have to fallback to the CPU canvas
 	let destCanvas;
-	if (HexColor || AlphaMasks) {
+	if (HexColor || AlphaMasks || TexureMasks) {
 		destCanvas = HexColor ? ColorCanvas : TempCanvas;
 
 		destCanvas.canvas.width = Img.width;
