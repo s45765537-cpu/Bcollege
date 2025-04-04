@@ -32,7 +32,7 @@ var ClubCardTurnIndex = 0;
 var ClubCardTurnCardPlayed = 0;
 var ClubCardTurnEndDraw = false;
 var ClubCardFameGoal = 100;
-/** @type {{ Mode: null | string, Text: null | string, Button1: null | string, Button2: null | string, Function1: null | string, Function2: null | string }} */
+/** @type {{ Mode: null | string, Text: null | string, Button1: null | string, Button2: null | string, Function1: null | string, Function2: null | string, CardsPool: null | ClubCard[] }} */
 var ClubCardPopup = null;
 /** @type {null | ClubCard} */
 var ClubCardSelection = null;
@@ -498,8 +498,8 @@ var ClubCardList = [
 		ID: 3007,
 		Name: "Stepmother",
 		Group: ["Criminal"],
-		MoneyPerTurn: 5,
-		FamePerTurn: -3,
+		MoneyPerTurn: 4,
+		FamePerTurn: -2,
 		RequiredLevel: 5,
 		OnPlay: function(CCPlayer) {
 			let Fame = 0;
@@ -987,6 +987,26 @@ var ClubCardList = [
 			if (CCPlayer.Event.length > 0) {
 				ClubCardPlayerAddFame(CCPlayer, 2);
 				ClubCardPlayerAddMoney(CCPlayer, 4);
+			}
+		}
+	},
+	{
+		ID: 6011,
+		Name: "Vintage Maid",
+		Group: ["Maid"],
+		RequiredLevel: 3,
+		FamePerTurn: 1,
+		Prerequisite: "SearchACard",
+		OnPlay: function(CCPlayer) {
+			if (ClubCardSelection == null && CCPlayer.DiscardPile.filter(card => card.Type !== "Event").length > 0) {
+				ClubCardCreatePopup("SEARCH", null, null, null, null, null, CCPlayer.DiscardPile.filter(card => card.Type !== "Event"));
+				return;
+			}
+			if (ClubCardSelection) {
+				CCPlayer.DiscardPile.splice(CCPlayer.DiscardPile.findIndex(value => value.ID === ClubCardSelection.ID), 1);
+				CCPlayer.Hand.push(ClubCardGetCopyCardByName(ClubCardSelection.Name));
+			} else {
+				ClubCardPlayCard(CCPlayer, this, false);
 			}
 		}
 	},
@@ -1636,6 +1656,33 @@ var ClubCardList = [
 				CCPlayer.Hand.push(ClubCardGetCopyCardByName(this.Name));
 				CCPlayer.DiscardPile.splice(CCPlayer.DiscardPile.findIndex(value => value.ID === this.ID), 1);
 			}
+		}
+	},
+	{
+		ID: 12007,
+		Name: "Mei",
+		Group: ["Player", "CollegeStudent"],
+		RewardMemberNumber: 105930,
+		Prerequisite: "SearchACard",
+		RequiredLevel: 4,
+		FamePerTurn: 1,
+		MoneyPerTurn: -1,
+		OnPlay: function (CCPlayer) {
+			if (ClubCardSelection == null && CCPlayer.Deck.length > 0) {
+				ClubCardCreatePopup("SEARCH", null, null, null, null, null, ClubCardShuffle(CCPlayer.Deck.slice()));
+				return;
+			}
+			ClubCardPlayerAddMoney(CCPlayer, -7);
+			this.ExtraPlay = 1;
+			if (ClubCardSelection) {
+				CCPlayer.Deck.splice(CCPlayer.Deck.findIndex(value => value.ID === ClubCardSelection.ID), 1);
+				CCPlayer.Hand.push(ClubCardSelection);
+			} else {
+				ClubCardPlayCard(CCPlayer, this, false);
+			}
+		},
+		turnStart: function () {
+			this.ExtraPlay = 0;
 		}
 	},
 
@@ -3202,6 +3249,8 @@ function ClubCardGetCardArrayByLocation(card) {
 			return ClubCardPlayer[0].DiscardPile;
 		case "OpponentDiscardPile":
 			return ClubCardPlayer[1].DiscardPile;
+		case "Popup":
+			return ClubCardPopup.CardsPool;
 		default:
 			return null;
 	}
@@ -3217,7 +3266,7 @@ function ClubCardGetCardArrayByLocation(card) {
  * @param {string|null} Function2 - The function of the second button
  * @returns {void} - Nothing
  */
-function ClubCardCreatePopup(Mode, Text = null, Button1 = null, Button2 = null, Function1 = null, Function2 = null) {
+function ClubCardCreatePopup(Mode, Text = null, Button1 = null, Button2 = null, Function1 = null, Function2 = null, CardsPool = null) {
 	if (Mode == "DISCARDPILE") { ClubCardInspection = true; }
 	if (Mode == "YESNO") { ClubCardOptionSelection = true; }
 	ClubCardPopup = {
@@ -3226,7 +3275,8 @@ function ClubCardCreatePopup(Mode, Text = null, Button1 = null, Button2 = null, 
 		Button1: Button1,
 		Button2: Button2,
 		Function1: Function1,
-		Function2: Function2
+		Function2: Function2,
+		CardsPool: CardsPool
 	};
 }
 
@@ -3890,7 +3940,7 @@ function ClubCardCanSummonCard(CCPlayer, Card) {
 	if ((Card.CanPlay != null) && !Card.CanPlay(CCPlayer)) return false;
 	if ((CCPlayer.Board != null) && ((Card.Type == "Member") || (Card.Type == null)) && (CCPlayer.Level != null) && CCPlayer.Board.length >= ClubCardLevelLimit[CCPlayer.Level]) return false;
 	if (Card.Prerequisite != null) return false;
-	if ((Card.Type == "Event") && (ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain"))) return false;
+	if ((Card.Type == "Event") && (ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain") || ClubCardEventNameIsInEvents(ClubCardGetOpponent(CCPlayer), "Restrain"))) return false;
 	if ((Card.Type == "Event") && (ClubCardEventNameIsInEvents(CCPlayer, "Restrain"))) return false;
 
 	return true;
@@ -4511,6 +4561,7 @@ function ClubCardCanSelectCard(CCPlayer, Card) {
 	if ((ClubCardPending.Prerequisite === "SelectOpponentMember") && ClubCardCardsSelectConditions(Card, CCPlayer) && (CCPlayer.Index == 1) && (Card.Location == "PlayerBoard") && (Card.Type === "Member")) return true;
 	if ((ClubCardPending.Prerequisite === "SelectAnyMember") && ClubCardCardsSelectConditions(Card, CCPlayer) && ((Card.Location == "PlayerBoard") || (Card.Location == "OpponentBoard")) && (Card.Type === "Member")) return true;
 	if ((ClubCardPending.Prerequisite === "SelectAnyEvent") && ClubCardCardsSelectConditions(Card, CCPlayer) && ((Card.Location == "PlayerBoard") || (Card.Location == "OpponentBoard")) && (Card.Type === "Event")) return true;
+	if ((ClubCardPending.Prerequisite === "SearchACard") && ClubCardCardsSelectConditions(Card, CCPlayer) && (Card.Location == "Popup")) return true;
 	return false;
 }
 
@@ -4536,14 +4587,26 @@ function ClubCardCardsSelectConditions(Card, CCPlayer) {
  * When a player plays a card
  * @param {ClubCardPlayer} CCPlayer - The club card player
  * @param {ClubCard} Card - The card to play
+ * @param {boolean} triggerOnPlay - false for search cards
  * @returns {void} - Nothing
  */
-function ClubCardPlayCard(CCPlayer, Card) {
+function ClubCardPlayCard(CCPlayer, Card, triggerOnPlay = true) {
 
 	if (Card.Prerequisite === "SelectATier" && ClubCardTierSelection == null && (CCPlayer.Control == "Player")) { ClubCardCreatePopup("TIERSELECTION"); return; }
 
+	if (Card.Prerequisite === "SearchACard" && ClubCardSelection == null && (CCPlayer.Control == "Player") && ClubCardPending == null) {
+		ClubCardFocus = null;
+		ClubCardPending = Card;
+		if (ClubCardIsAnimationOn) {
+			Card.IsVisible = false;
+			ClubCardMoveCardToPending(Card);
+		}
+		Card.OnPlay(CCPlayer);
+		return;
+	}
+
 	// If the player must select a card before playing the current card
-	if ((Card.Prerequisite != null) && Card.Prerequisite != "SelectATier" && (ClubCardSelection == null) && (CCPlayer.Control == "Player")) {
+	if ((Card.Prerequisite != null) && Card.Prerequisite != "SelectATier" && Card.Prerequisite != "SearchACard" && (ClubCardSelection == null) && (CCPlayer.Control == "Player")) {
 		ClubCardFocus = null;
 		ClubCardPending = Card;
 		if (ClubCardIsAnimationOn) {
@@ -4634,7 +4697,7 @@ function ClubCardPlayCard(CCPlayer, Card) {
 		CCPlayer.CardsPlayedThisTurn[CCPlayer.ClubCardTurnCounter] = [Card];
 	}
 
-	if (Card.OnPlay != null) Card.OnPlay(CCPlayer);
+	if (Card.OnPlay != null && triggerOnPlay) Card.OnPlay(CCPlayer);
 	ClubCardSelection = null;
 	ClubCardTierSelection = null;
 
@@ -5655,6 +5718,27 @@ function ClubCardRenderPopup(Timestamp) {
 		return;
 	}
 
+	// Draw the search popup
+	if (ClubCardPopup.Mode == "SEARCH") {
+		DrawRect(18, 648, 1664, 334, "White");
+		DrawRect(20, 650, 1660, 330, "Black");
+		let PosX = Math.round(52 + (1516 / 2) - (ClubCardPopup.CardsPool.length * 1516 / 16));
+		let IncX = Math.round(1516 / 8);
+		if (PosX < 52) {
+			PosX = 52;
+			IncX = Math.round(1516 / ClubCardPopup.CardsPool.length);
+		}
+		for (let C of ClubCardPopup.CardsPool) {
+			ClubCardRenderCard(C, PosX + 5, 620 + 5 + (428 * 0.1), (1516 / 10) - 5, null, "Popup");
+			PosX = PosX + IncX;
+		}
+		if (ClubCardFocus != null) ClubCardRenderCard(ClubCardFocus, ClubCardFocusPosition.x, ClubCardFocusPosition.y, ClubCardFocusPosition.w);
+		if (ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus))
+			if(ClubCardFocus.IsVisible) DrawButton(745, 505, 215, 50, TextGet("SelectCard"), "White");
+		ClubCardUpdateCardAnimations(Timestamp);
+		return;
+	}
+
 	// Draw the tier selection popup
 	if (ClubCardPopup.Mode == "TIERSELECTION"){
 		DrawRect(213, 248, 1274, 504, "White");
@@ -5741,6 +5825,17 @@ function ClubCardClick() {
 			//Set Focus card in ClubCardPopup.Mode == “DISCARDPILE”
 			if(ClubCardHover && (ClubCardHover.Location == "OpponentDiscardPile" || ClubCardHover.Location == "PlayerDiscardPile"))
 				return ClubCardClickSetFocusCard();
+		}
+		if (ClubCardPopup.Mode == "SEARCH") {
+			if (MouseIn(1805, 805, 90, 90)) {
+				if(ClubCardFocus != null) ClubCardClickResetFocusCard(ClubCardDestroyPopup);
+				else ClubCardDestroyPopup();
+				ClubCardClickResetPendingCard();
+				return;
+			}
+			if (ClubCardHover && ClubCardHover.Location == "Popup") return ClubCardClickSetFocusCard();
+			if ((ClubCardPending != null) && MouseIn(745, 505, 215, 50) && ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) return(ClubCardClickPlayCard(true), ClubCardDestroyPopup());
+			if (MouseIn(720, 245, 260, 510) && ClubCardFocus != null) return ClubCardClickResetFocusCard();
 		}
 		if (ClubCardPopup.Mode == "TIERSELECTION") {
 			if (MouseIn(1805, 805, 90, 90)) {
