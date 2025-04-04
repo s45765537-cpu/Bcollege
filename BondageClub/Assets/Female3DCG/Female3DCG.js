@@ -8043,6 +8043,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ExtremeCorset",
+				InventoryID: 1228,
 				Gender: "F",
 				Fetish: ["Lingerie", "Latex"],
 				Priority: 22,
@@ -28382,6 +28383,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ExtremeCorset",
+				InventoryID: 1228,
 				Gender: "F",
 				Fetish: ["Lingerie", "Latex"],
 				Priority: 22,
@@ -29492,6 +29494,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ExtremeCorset",
+				InventoryID: 1228,
 				Gender: "F",
 				Fetish: ["Lingerie", "Latex"],
 				Priority: 22,
