@@ -984,8 +984,8 @@ var ClubCardList = [
 		FamePerTurn: 1,
 		Prerequisite: "SearchACard",
 		OnPlay: function(CCPlayer) {
-			if (ClubCardSelection == null && CCPlayer.DiscardPile.filter(card => card.Type === "Member").length > 0) {
-				ClubCardCreatePopup("SEARCH", null, null, null, null, null, CCPlayer.DiscardPile.filter(card => card.Type === "Member"));
+			if (ClubCardSelection == null && CCPlayer.DiscardPile.filter(card => card.Type !== "Event").length > 0) {
+				ClubCardCreatePopup("SEARCH", null, null, null, null, null, CCPlayer.DiscardPile.filter(card => card.Type !== "Event"));
 				return;
 			}
 			if (ClubCardSelection) {
