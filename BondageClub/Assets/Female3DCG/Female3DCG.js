@@ -8041,6 +8041,36 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "ExtremeCorset",
+				Gender: "F",
+				Fetish: ["Lingerie", "Latex"],
+				Priority: 22,
+				Value: -1,
+				Left: 125,
+				Top: 200,
+				BuyGroup: "ExtremeCorset",
+				DynamicGroupName: "ItemTorso",
+				Prerequisite: ["AccessTorso", "HasBreasts"],
+				PoseMapping: {
+					Hogtied: PoseType.HIDE,
+					AllFours: PoseType.HIDE,
+				},
+				DefaultColor: ["#545454", "#BC8B84"],
+				Layer: [
+					{ Name: "Main" }, 
+					{ Name: "Buckles" }, 
+					{
+						Name: "BodyMask",
+						BlendingMode: "destination-out",
+						TextureMask: {
+							Groups: [
+								"BodyUpper", "BodyLower", "Suit", "SuitLower"
+							]
+						}
+					}
+				],
+			},
 			// Flat Chest Compatible Clothing
 			{
 				Name: "TightCorset",
@@ -28350,6 +28380,39 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "ExtremeCorset",
+				Gender: "F",
+				Fetish: ["Lingerie", "Latex"],
+				Priority: 22,
+				Value: 50,
+				Difficulty: 5,
+				BuyGroup: "ExtremeCorset",
+				Time: 20,
+				RemoveTime: 10,
+				AllowLock: true,
+				AllowTighten: true,
+				DrawLocks: false,
+				Prerequisite: ["AccessTorso", "HasBreasts"],
+				PoseMapping: {
+					Hogtied: PoseType.HIDE,
+					AllFours: PoseType.HIDE,
+				},
+				DefaultColor: ["#545454", "#BC8B84"],
+				Layer: [
+					{ Name: "Main" }, 
+					{ Name: "Buckles" }, 
+					{
+						Name: "BodyMask",
+						BlendingMode: "destination-out",
+						TextureMask: {
+							Groups: [
+								"BodyUpper", "BodyLower", "Suit", "SuitLower"
+							]
+						}
+					}
+				],
+			},
 		],
 		Color: [
 			"Default",
@@ -29425,6 +29488,40 @@ var AssetFemale3DCG = [
 						LockLayer: true,
 						AllowColorize: true,
 					},
+				],
+			},
+			{
+				Name: "ExtremeCorset",
+				Gender: "F",
+				Fetish: ["Lingerie", "Latex"],
+				Priority: 22,
+				Value: -1,
+				Difficulty: 5,
+				BuyGroup: "ExtremeCorset",
+				Time: 20,
+				RemoveTime: 10,
+				AllowLock: true,
+				AllowTighten: true,
+				DrawLocks: false,
+				DynamicGroupName: "ItemTorso",
+				Prerequisite: ["AccessTorso", "HasBreasts"],
+				PoseMapping: {
+					Hogtied: PoseType.HIDE,
+					AllFours: PoseType.HIDE,
+				},
+				DefaultColor: ["#545454", "#BC8B84"],
+				Layer: [
+					{ Name: "Main" }, 
+					{ Name: "Buckles" }, 
+					{
+						Name: "BodyMask",
+						BlendingMode: "destination-out",
+						TextureMask: {
+							Groups: [
+								"BodyUpper", "BodyLower", "Suit", "SuitLower"
+							]
+						}
+					}
 				],
 			},
 		],
