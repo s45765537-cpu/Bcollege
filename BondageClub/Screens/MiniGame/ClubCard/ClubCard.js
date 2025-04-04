@@ -989,7 +989,7 @@ var ClubCardList = [
 				return;
 			}
 			if (ClubCardSelection) {
-				CCPlayer.DiscardPile.splice(CCPlayer.Deck.findIndex(value => value.ID === ClubCardSelection.ID), 1);
+				CCPlayer.DiscardPile.splice(CCPlayer.DiscardPile.findIndex(value => value.ID === ClubCardSelection.ID), 1);
 				CCPlayer.Hand.push(ClubCardGetCopyCardByName(ClubCardSelection.Name));
 			} else {
 				ClubCardPlayCard(CCPlayer, this, false);
