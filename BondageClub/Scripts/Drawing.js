@@ -590,9 +590,9 @@ function DrawImage(Source, X, Y, Invert) {
  * @param {number} Y - Position of the image on the Y axis
  * @param {readonly TextureAlphaMask[]} TextureAlphaMasks 
  */
-function DrawTextureAlphaMask(destCanvas, X, Y, TextureAlphaMasks) {
+function DrawApplyTextureAlphaMask(destCanvas, X, Y, TextureAlphaMasks) {
 	const key = "TexMask:" + JSON.stringify({
-		coord: [X, Y],
+		coord: [X, Y, destCanvas.canvas.width, destCanvas.canvas.height],
 		sources: TextureAlphaMasks.map(x=>x).sort(((a,b) => a.Url.localeCompare(b.Url))),
 	});
 
@@ -696,6 +696,10 @@ function DrawImageEx(
 		if (AlphaMasks) {
 			// Apply masks
 			DrawClearAlphaMasks(destCanvas, X, Y, AlphaMasks);
+		}
+
+		if (TexureMasks) {
+			DrawApplyTextureAlphaMask(destCanvas, X, Y, TexureMasks);
 		}
 
 		if (HexColor) {
