@@ -206,11 +206,13 @@ function GLDrawMakeGLProgram(gl) {
 	const fragmentShaderFullAlpha = GLDrawCreateShader(gl, GLDrawFragmentShaderSourceFullAlpha, gl.FRAGMENT_SHADER);
 	const fragmentShaderHalfAlpha = GLDrawCreateShader(gl, GLDrawFragmentShaderSourceHalfAlpha, gl.FRAGMENT_SHADER);
 	const fragmentShaderTexMask = GLDrawCreateShader(gl, GLDrawFragmentShaderSourceTexMask, gl.FRAGMENT_SHADER);
+	const fragmentShaderPreMultiplyAlpha = GLDrawCreateShader(gl, GLDrawFragmentShaderSourcePreMultiplyAlpha, gl.FRAGMENT_SHADER);
 
 	gl.program = GLDrawCreateProgram(gl, vertexShader, fragmentShader);
 	gl.programFull = GLDrawCreateProgram(gl, vertexShader, fragmentShaderFullAlpha);
 	gl.programHalf = GLDrawCreateProgram(gl, vertexShader, fragmentShaderHalfAlpha);
 	gl.programTexMask = GLDrawCreateProgram(gl, vertexShader, fragmentShaderTexMask);
+	gl.programPreMultiplyAlpha = GLDrawCreateProgram(gl, vertexShader, fragmentShaderPreMultiplyAlpha);
 
 	gl.program.u_alpha = gl.getUniformLocation(gl.program, "u_alpha");
 	gl.programFull.u_color = gl.getUniformLocation(gl.programFull, "u_color");
@@ -289,6 +291,31 @@ var GLDrawFragmentShaderSourceTexMask = `
     if (alphaColor.w < ` + GLDrawAlphaThreshold + `) discard;
     if (maskColor.w < ` + GLDrawAlphaThreshold + `) discard;
 	gl_FragColor = vec4(texColor.rgb, texColor.a * maskColor.w);
+  }
+`;
+
+/**
+ * Source used for the Pre-Multiply Alpha Shader
+ * @constant
+ * @type {string}
+ */
+var GLDrawFragmentShaderSourcePreMultiplyAlpha = `
+  precision mediump float;
+
+  varying vec2 v_texcoord;
+
+  uniform sampler2D u_texture;
+  uniform sampler2D u_alpha_texture;
+  uniform sampler2D u_mask_texture;
+
+  void main() {
+    vec4 texColor = texture2D(u_texture, v_texcoord);
+    vec4 alphaColor = texture2D(u_alpha_texture, v_texcoord);
+	vec4 maskColor = texture2D(u_mask_texture, v_texcoord);
+    if (texColor.w < ` + GLDrawAlphaThreshold + `) discard;
+    if (alphaColor.w < ` + GLDrawAlphaThreshold + `) discard;
+    if (maskColor.w < ` + GLDrawAlphaThreshold + `) discard;
+    gl_FragColor = vec4(texColor.rgb * texColor.a, texColor.a * maskColor.w);
   }
 `;
 
@@ -433,8 +460,22 @@ function GLDrawImage(url, gl, dstX, dstY, options, offsetX = 0) {
 		case "destination-over":
 			gl.blendFuncSeparate(gl.ONE_MINUS_DST_ALPHA, gl.ONE, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 			break;
+		case "destination-atop":
+			gl.blendFuncSeparate(gl.ONE_MINUS_DST_ALPHA, gl.SRC_ALPHA, gl.DST_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+			break;
 		case "destination-in":
-			gl.blendFuncSeparate(gl.ZERO, gl.SRC_ALPHA, gl.DST_ALPHA, gl.SRC_ALPHA);
+			gl.blendFuncSeparate(gl.ZERO, gl.SRC_ALPHA, gl.ZERO, gl.SRC_ALPHA);
+			break;
+		case "destination-out":
+			gl.blendFuncSeparate(gl.ZERO, gl.ONE_MINUS_SRC_ALPHA, gl.ZERO, gl.ONE_MINUS_SRC_ALPHA);
+			break;
+		case "multiply":
+			// source color premultiplied by alpha
+			gl.blendFuncSeparate(gl.DST_COLOR, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+			break;
+		case "screen":
+			// source color premultiplied by alpha
+			gl.blendFuncSeparate(gl.ONE_MINUS_DST_COLOR, gl.ONE, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 			break;
 		default:
 			gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
@@ -492,6 +533,10 @@ function GLChooseProgram(gl, color, fullAlpha, blendingMode) {
 	if (blendingMode == 'destination-in') {
 		return gl.programTexMask;
 	}
+	if (blendingMode == 'multiply' || blendingMode == 'screen') {
+		return gl.programPreMultiplyAlpha;
+	}
+
 	if (color == null) {
 		return gl.program;
 	}

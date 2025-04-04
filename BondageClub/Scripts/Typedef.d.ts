@@ -33,6 +33,7 @@ interface WebGL2RenderingContext {
 	programFull?: WebGLProgram;
 	programHalf?: WebGLProgram;
 	programTexMask?: WebGLProgram;
+	programPreMultiplyAlpha?: WebGLProgram;
 	textureCache?: Map<string, WebGLTextureData>;
 	maskCache?: Map<string, WebGLTexture>;
 }
