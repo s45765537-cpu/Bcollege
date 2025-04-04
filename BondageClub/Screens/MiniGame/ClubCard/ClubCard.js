@@ -861,6 +861,20 @@ var ClubCardList = [
 			}
 		}
 	},
+	{
+		ID: 5008,
+		Name: "Debuter",
+		Group: ["PornActress"],
+		RequiredLevel: 2,
+		FamePerTurn: 1,
+		OnPlay: function(CCPlayer) {
+			const drawn = ClubCardPlayerDrawTypeCard(CCPlayer, ["Event"], undefined);
+			const textGetKey = drawn
+				? "Effect Debuter Draw"
+				: "Effect Debuter No Draw";
+			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, textGetKey, {}, CCPlayer);
+		},
+	},
 
 	// 6000 - Maid Members (Raise Fame, cost Money)
 	{
@@ -1706,6 +1720,44 @@ var ClubCardList = [
 		MoneyPerTurn: 1,
 		OnPlay: function(CCPlayer) {
 			ClubCardPlayerSummonGroupCardFromDeck(CCPlayer, ["Knot"], 1, undefined, "Event");
+		}
+	},
+	{
+		ID: 13006,
+		Name: "Naughty Knotter",
+		Group: ["Shibari"],
+		FamePerTurn: 4,
+		MoneyPerTurn: -3,
+		RequiredLevel: 4,
+		OnPlay: function(CCPlayer) {
+			let knotsInDiscard = CCPlayer.DiscardPile.filter(card => ClubCardCardHasGroup(card, "Knot"));
+			let cardsToAdd = [];
+			let Quicks = [];
+
+			if (knotsInDiscard.length > 0) {
+				const random1 = Math.floor(Math.random() * knotsInDiscard.length);
+				cardsToAdd.push(knotsInDiscard.splice(random1, 1)[0]);
+			}
+
+			if (knotsInDiscard.length > 0) {
+				const random2 = Math.floor(Math.random() * knotsInDiscard.length);
+				cardsToAdd.push(knotsInDiscard.splice(random2, 1)[0]);
+			}
+
+			for (const card of cardsToAdd) {
+				if (card.Name == "Quick Release Knot") {
+					Quicks.push(card);
+					continue;
+				}
+				ClubCardSummonCard(CCPlayer, card);
+			}
+
+			if (Quicks.length > 0) {
+				ClubCardSummonCard(CCPlayer, Quicks[0]);
+				if (Quicks.length > 1) {
+				ClubCardSummonCard(CCPlayer, Quicks[1]);
+				}
+			}
 		}
 	},
 
@@ -2717,6 +2769,56 @@ var ClubCardList = [
 			if (ClubCardGroupOnBoardCount(CCPlayer, "PornActress") >= 3) return true;
 			else return false;
 		}
+	},
+	{
+		ID: 31030,
+		Name: "Re-Run",
+		Type: "Event",
+		Time: 0,
+		OnPlay: function(CCPlayer) {
+			const VideosFromStreets = CCPlayer.DiscardPile.filter(value => ClubCardCardHasGroup(value, "Video"));
+			const randomVideo = VideosFromStreets[Math.floor(Math.random() * VideosFromStreets.length)];
+			ClubCardPlayerAddFame(CCPlayer, randomVideo.RequiredLevel ? randomVideo.RequiredLevel : 1);
+			CCPlayer.Hand.push(randomVideo);
+			const indexToRemove = CCPlayer.DiscardPile.findIndex(c => c.ID === randomVideo.ID);
+			CCPlayer.DiscardPile.splice(indexToRemove, 1);
+			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Re-Run", {[ClubCardPlaceholderKeys.CARDNAME]: randomVideo.Name, [ClubCardPlaceholderKeys.AMOUNT]: randomVideo.RequiredLevel ? randomVideo.RequiredLevel : 1}, CCPlayer);
+			this.ExtraPlay = 1;
+		},
+		BeforeOpponentTurnEnd: function() {
+			this.ExtraPlay = 0;
+		},
+		CanPlay: function(CCPlayer) {
+			return CCPlayer.DiscardPile.filter(value => ClubCardCardHasGroup(value, "Video")).length > 0;
+		}
+	},
+	{
+		ID: 31031,
+		Name: "Gangbang Banger",
+		Type: "Event",
+		Group: ["Video"],
+		RequiredLevel: 5,
+		OnPlay: function(CCPlayer) {
+			const actressCount = CCPlayer.Board.filter(card => card.Group?.includes("PornActress")).length;
+			for (let i = 0; i < actressCount; i++) {
+				const actressIndex = CCPlayer.Board.findIndex(card => card.Group?.includes("PornActress"));
+				if (actressIndex !== -1) {
+					const actressCard = CCPlayer.Board.splice(actressIndex, 1)[0];
+					CCPlayer.Hand.push(actressCard);
+				}
+			}
+			const pornRelatedCount = CCPlayer.Hand.filter(card=> (card.Group?.includes("PornActress") || card.Group?.includes("Porn")) && (card.Type === "Member" || card.Type == undefined)).length;
+			for (let i = 0; i < pornRelatedCount; i++) {
+				const pornCardIndex = CCPlayer.Hand.findIndex(card=> (card.Group?.includes("PornActress") || card.Group?.includes("Porn")) && (card.Type === "Member" || card.Type == undefined));
+				const pornCard = CCPlayer.Hand.splice(pornCardIndex, 1)[0];
+				ClubCardSummonCard(CCPlayer, pornCard);
+			}
+			ClubCardPlayerAddFame(CCPlayer, pornRelatedCount);
+			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Gangbang Banger", { [ClubCardPlaceholderKeys.AMOUNT]: pornRelatedCount}, CCPlayer);
+		},
+		CanPlay: function(CCPlayer) {
+			return CCPlayer.Board.filter(card => card.Group?.includes("PornActress")).length != 0 || CCPlayer.Hand.filter(card=> (card.Group?.includes("PornActress") || card.Group?.includes("Porn")) && (card.Type === "Member" || card.Type == undefined)).length != 0;
+		}
 	}
 ];
 
@@ -2880,6 +2982,8 @@ function ClubCardMessagePacketProcessing() {
 	let squareKnotSenseiMeesages = [];
 	let closedHitchMeesages = [];
 	let quickReleaseKnotMeesages = [];
+	let rerunMeesages = [];
+	let gangbangBangerMeesages = [];
 
 	let isHypnotherapist = false;
 
@@ -2897,6 +3001,8 @@ function ClubCardMessagePacketProcessing() {
 		else if (message.TextGetKey === "Effect Square Knot Sensei") squareKnotSenseiMeesages.push({ message, index: i });
 		else if (message.TextGetKey === "Effect Closed Hitch") closedHitchMeesages.push({ message, index: i });
 		else if (message.TextGetKey === "Effect Quick Release Knot") quickReleaseKnotMeesages.push({ message, index: i });
+		else if (message.TextGetKey === "Effect Re-Run") rerunMeesages.push({ message, index: i });
+		else if (message.TextGetKey === "Effect Gangbang Banger") gangbangBangerMeesages.push({ message, index: i });
 	}
 
 	// ### Normal merging of messages into one
@@ -3356,6 +3462,15 @@ function ClubCardCardHasGroup(card, GroupName) {
 }
 
 /**
+ * @param {ClubCard} card to evaluate type
+ * @param {string} TypeName type name to find
+ * @returns {boolean} - True if the card has the type
+ */
+function ClubCardCardHasType(card, TypeName) {
+	return card.Type && card.Type.includes(TypeName);
+}
+
+/**
  * Returns the number of cards of a specific group found on a board
  * @param {ClubCardPlayer} CCPlayer - The club card player
  * @param {string} GroupName - The name of the card group
@@ -3622,6 +3737,34 @@ function ClubCardPlayerDrawGroupCard(CCPlayer, groups, level) {
 }
 
 /**
+ * Draw cards from the player deck into it's hand
+ * @param {ClubCardPlayer} CCPlayer - The club card player that draws the cards
+ * @param {readonly string[]} types - The type to draw from
+ * @param {number | undefined} level - The level
+ * @returns {boolean} - if cards were drawn or not
+ */
+function ClubCardPlayerDrawTypeCard(CCPlayer, types, level) {
+	if ((CCPlayer === null) || (CCPlayer.Deck === null) || (CCPlayer.Hand === null)) {
+		return false;
+	}
+
+	const typeCardsInDeck = CCPlayer.Deck.filter(value => types.some(type => ClubCardCardHasType(value, type) && (!level || value.RequiredLevel === level)));
+	if (typeCardsInDeck.length === 0) {
+		return false;
+	}
+
+	const card = typeCardsInDeck[Math.floor(Math.random() * typeCardsInDeck.length)];
+	ClubCardSetGlow(card, "#00FFFF");
+
+	CCPlayer.Hand.push(card);
+	const cardIndex = CCPlayer.Deck.findIndex(value => value.ID === card.ID);
+	CCPlayer.Deck.splice(cardIndex, 1);
+
+	ClubCardCheckDraw(CCPlayer);
+	return true;
+}
+
+/**
  * Summon cards from the player deck into it's board
  * @param {ClubCardPlayer} CCPlayer - The club card player that summons the cards
  * @param {readonly string[]} groups - The group to summon from
@@ -3658,6 +3801,50 @@ function ClubCardPlayerSummonGroupCardFromDeck(CCPlayer, groups, amount, level, 
 
 			ClubCardSummonCard(CCPlayer, card);
 			groupCardsInDeck = groupCardsInDeck.filter(value => ClubCardCanSummonCard(CCPlayer, value));
+		}
+		amount--;
+	}
+
+	return true;
+}
+
+/**
+ * Summon cards from the player discard pile into it's board
+ * @param {ClubCardPlayer} CCPlayer - The club card player that summons the cards
+ * @param {readonly string[]} groups - The group to summon from
+ * @param {number} amount - The amount of cards to summon
+ * @param {number | undefined} level - The level of the cards if needed
+ * @param {string | undefined} type - Event or Member if needed to specify
+ * @returns {boolean} - if cards were summoned or not
+ */
+function ClubCardPlayerSummonGroupCardFromDiscard(CCPlayer, groups, amount, level, type = null) {
+	if ((CCPlayer === null) || (CCPlayer.Deck === null) || (CCPlayer.Board === null) || (CCPlayer.DiscardPile === null)) {
+		return false;
+	}
+
+	let groupCardsInDiscard;
+	groupCardsInDiscard = CCPlayer.DiscardPile.filter(value => groups.some(group => ClubCardCardHasGroup(value, group) && value.RequiredLevel == level && ClubCardCanSummonCard(CCPlayer, value)));
+	if (groupCardsInDiscard.length === 0) {
+		return false;
+	}
+
+	if (type === "Event") {
+		groupCardsInDiscard = groupCardsInDiscard.filter(value => value.Type === "Event");
+	} else if (type === "Member") {
+		groupCardsInDiscard = groupCardsInDiscard.filter(value => value.Type === "Member");
+	}
+
+	while (amount > 0) {
+		if (groupCardsInDiscard.length > 0) {
+			const card = groupCardsInDiscard[Math.floor(Math.random() * groupCardsInDiscard.length)];
+			const cardIndex = groupCardsInDiscard.findIndex(value => value.ID === card.ID);
+			groupCardsInDiscard.splice(cardIndex, 1);
+
+			const cardIndexInDiscard = CCPlayer.DiscardPile.findIndex(value => value.ID === card.ID);
+			CCPlayer.DiscardPile.splice(cardIndexInDiscard, 1);
+
+			ClubCardSummonCard(CCPlayer, card);
+			groupCardsInDiscard = groupCardsInDiscard.filter(value => ClubCardCanSummonCard(CCPlayer, value));
 		}
 		amount--;
 	}

@@ -389,6 +389,18 @@ Title First Bell,First Bell
 Text First Bell,"Draw a random college student from your deck. If it's your first turn or you control a teacher, play again."
 Effect First Bell Draw,SOURCEPLAYER draws 1 card from First Bell
 Effect First Bell No Draw,SOURCEPLAYER could not draw any cards from First Bell
+Title Debuter,Debuter
+Text Debuter,"Draw a random Event from your deck."
+Effect Debuter Draw,SOURCEPLAYER draws 1 random Event from Debuter
+Effect Debuter No Draw,SOURCEPLAYER could not draw any Events from Debuter
+Title Re-Run,Re-Run
+Text Re-Run,"Return a Random Video from your Streets to your hand, gain fame equal to it's tier, and take another action."
+Effect Re-Run,SOURCEPLAYER returned CARDNAME from their Streets to their hand and gained AMOUNT fame.
+Title Naughty Knotter,Naughty Knotter
+Text Naughty Knotter,"When she enters your club, play 2 random Knots from your streets."
+Title Gangbang Banger,Gangbang Banger
+Text Gangbang Banger,"Return all porn actresses from your club to your hand, then play all porn members in your hand. Gain 1 fame per member played."
+Effect Gangbang Banger,"SOURCEPLAYER returned all porn actresses and played AMOUNT porn members, gaining equal fame."
 Title Alvin,Alvin
 Text Alvin,"Summon a Ropeslave when playing Restrain, Shibari event or Kidnapping a Dominant or Mistress (max 3 in club)"
 Title Rope Slave,Rope Slave
@@ -408,7 +420,6 @@ Title Help Button,Help Button
 Text Help Button,"Return a member from your club to its owners deck, a random Maid or Nurse of equal level joins your club from your deck."
 Effect Help Button No Draw,SOURCEPLAYER could not summon any cards from Help Button.
 Prerequisite Help Button,Select a member from your club to return to deck.
-Effect First Bell Draw,SOURCEPLAYER draws 1 card from First Bell
 Title Prodigious Patient,Prodigious Patient
 Text Prodigious Patient,"When she leaves your club, your opponent loses 15 fame and discards a random card. Leaves your club after 6 turns."
 Title Theatre Nurse,Theatre Nurse
