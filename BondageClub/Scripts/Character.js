@@ -1371,6 +1371,9 @@ function CharacterLoadCanvas(C) {
 	// Generates a layer array from the character's appearance array, sorted by drawing order
 	C.AppearanceLayers = CharacterAppearanceSortLayers(C);
 
+	// Build the masks for the character
+	C.AppearanceMasks = CharacterAppearanceBuildMasks(C);
+
 	// Run AfterLoadCanvas hooks
 	C.RunHooks("AfterLoadCanvas");
 

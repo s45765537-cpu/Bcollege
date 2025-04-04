@@ -21,6 +21,112 @@ function CommonDrawCanvasPrepare(C) {
 }
 
 /**
+ * @typedef { Map<AssetGroupName, TextureAlphaMask[]> } MaskLayersMap
+ * @param {Character} C - The character to prepare
+ * @returns { { maskLayers: MaskLayersMap, maskLayersBlink: MaskLayersMap} } - The grouped mask layers for the character's appearance
+ */
+function CommonDrawAppearancePrepareMaskLayers(C) {
+	/** @type {{ maskLayers: MaskLayersMap, maskLayersBlink: MaskLayersMap}} */
+	const maskLayers = (C.AppearanceMasks ?? []).reduce((acc, layer) => {
+		// Same as url logic in CommonDrawAppearanceBuild, but masks should use its own properties
+		// Also masks don't have colorization, so we don't need to check for it
+
+		const asset = layer.Asset;
+		const group = asset.Group;
+		let item = C.Appearance.find(i => i.Asset === asset);
+		let groupName = asset.DynamicGroupName;
+
+		// If there's a pose style we must add (items take priority over groups, layers may override completely)
+		let pose = CommonDrawResolveAssetPose(C, layer);
+
+		// If the layer belongs to a specific parent group, grab the group's current asset name to use it as a suffix
+		let parentAssetName = "";
+		const parentGroupName = layer.ParentGroup[pose] ?? layer.ParentGroup[PoseType.DEFAULT];
+		if (parentGroupName) {
+			const parentItem = C.Appearance.find(Item => Item.Asset.Group.Name === parentGroupName);
+			if (parentItem) parentAssetName = parentItem.Asset.Name;
+		}
+
+		// Check if we need to draw a different expression (for facial features)
+		const currentExpression = CommonDrawResolveLayerExpression(C, item, layer);
+		const expressionSegment = currentExpression ? currentExpression + "/" : "";
+		const blinkExpressionSegment = (asset.OverrideBlinking ? !group.DrawingBlink : group.DrawingBlink) ? "Closed/" : expressionSegment;
+
+		// Find the X and Y position to draw on
+		let { X, Y } = CommonDrawComputeDrawingCoordinates(C, asset, layer, groupName);
+
+		// Check if we need to draw a different variation (from type property)
+		const typeRecord = (item.Property && item.Property.TypeRecord) || {};
+		let layerSegment = "";
+		let layerType = "";
+		if (layer.CreateLayerTypes.length > 0) {
+			layerType = layer.CreateLayerTypes.map(k => `${k}${typeRecord[k] || 0}`).join("");
+		}
+		if (layer.Name) layerSegment = layer.Name;
+
+		// If blending mode is not set correctly, skip the layer
+		/** @type {"destination-in" | "destination-out"} */
+		let blendingMode = "destination-in";
+		if(layer.BlendingMode === "destination-in" || layer.BlendingMode === "destination-out") {
+			blendingMode = layer.BlendingMode;
+		} 
+		else if(!!layer.BlendingMode) return acc;
+
+		// Safeguard against a null pose
+		if (typeof pose !== "string") pose = /** @type {AssetPoseName} */("");
+
+		// Check the current pose against the assets' supported pose mapping
+		/** @type {string} */
+		let poseSegment = layer.PoseMapping[pose];
+		switch (poseSegment) {
+			case PoseType.HIDE:
+			case PoseType.DEFAULT:
+			case undefined:
+				poseSegment = "";
+				break;
+			default:
+				poseSegment += "/";
+				break;
+		}
+
+		const baseURL = `Assets/${group.Family}/${groupName}/${poseSegment}${expressionSegment}`;
+		const baseURLBlink = `Assets/${group.Family}/${groupName}/${poseSegment}${blinkExpressionSegment}`;
+
+		const urlParts = [asset.Name, parentAssetName, layerType, layerSegment].filter(c => c);
+		const layerURL = urlParts.join("_") + ".png";
+
+		/** @type {TextureAlphaMask} */
+		const maskLayer = {
+			Url: baseURL + layerURL,
+			X, Y,
+			Mode: blendingMode,
+		};
+
+		/** @type {TextureAlphaMask} */
+		const maskLayerBlink = {
+			Url: baseURLBlink + layerURL,
+			X, Y,
+			Mode: blendingMode,
+		};
+
+		for(const maskedGroup of layer.TextureMask.Groups) {
+			// if(!acc.has(groupName)) acc.set(groupName, [maskLayer]);
+			// else acc.get(groupName).push(maskLayer);
+			if(!acc.maskLayers.has(maskedGroup)) acc.maskLayers.set(maskedGroup, [maskLayer]);
+			else acc.maskLayers.get(maskedGroup).push(maskLayer);
+			if(!acc.maskLayersBlink.has(maskedGroup)) acc.maskLayersBlink.set(maskedGroup, [maskLayerBlink]);
+			else acc.maskLayersBlink.get(maskedGroup).push(maskLayerBlink);
+		}
+
+		return acc;
+	}, /** @type {{ maskLayers: MaskLayersMap, maskLayersBlink: MaskLayersMap}} */( {
+		maskLayers: new Map(),
+		maskLayersBlink: new Map(),
+	}));
+	return maskLayers;
+}
+
+/**
  * Draws the given character's appearance using the provided drawing callbacks
  * @param {Character} C - The character whose appearance to draw
  * @param {CommonDrawCallbacks} callbacks - The drawing callbacks to be used
@@ -35,6 +141,9 @@ function CommonDrawAppearanceBuild(C, {
 	drawImageColorize,
 	drawImageColorizeBlink,
 }) {
+	// Prepare masks for the character's appearance
+	const {maskLayers: maskTexLayers, maskLayersBlink: maskTexLayersBlink} = CommonDrawAppearancePrepareMaskLayers(C);
+
 	// Loop through all layers in the character appearance
 	for (const layer of C.AppearanceLayers) {
 		const asset = layer.Asset;
@@ -229,27 +338,33 @@ function CommonDrawAppearanceBuild(C, {
 
 			const urlParts = [asset.Name, parentAssetName, layerType, colorSegment, layerSegment].filter(c => c);
 			const layerURL = urlParts.join("_") + ".png";
+
+
+			// prepare mask layers for the current group
+			const maskLayer = maskTexLayers.get(groupName) ?? [];
+			const maskLayerBlink = maskTexLayersBlink.get(groupName) ?? [];
+
 			if (shouldColorize) {
 				drawImageColorize(
 					baseURL + layerURL,
 					X, Y,
-					{ HexColor: layerColor, FullAlpha: asset.FullAlpha, AlphaMasks: masks, Alpha: opacity, Invert: inverted, Mirror: mirrored, BlendingMode: blendingMode }
+					{ HexColor: layerColor, FullAlpha: asset.FullAlpha, AlphaMasks: masks, Alpha: opacity, Invert: inverted, Mirror: mirrored, BlendingMode: blendingMode, TextureAlphaMask: maskLayer }
 				);
 				drawImageColorizeBlink(
 					baseURLBlink + layerURL,
 					X, Y,
-					{ HexColor: layerColor, FullAlpha: asset.FullAlpha, AlphaMasks: masks, Alpha: opacity, Invert: inverted, Mirror: mirrored, BlendingMode: blendingMode }
+					{ HexColor: layerColor, FullAlpha: asset.FullAlpha, AlphaMasks: masks, Alpha: opacity, Invert: inverted, Mirror: mirrored, BlendingMode: blendingMode, TextureAlphaMask: maskLayerBlink }
 				);
 			} else {
 				drawImage(
 					baseURL + layerURL,
 					X, Y,
-					{ AlphaMasks: masks, Alpha: opacity, Invert: inverted, Mirror: mirrored, BlendingMode: blendingMode }
+					{ AlphaMasks: masks, Alpha: opacity, Invert: inverted, Mirror: mirrored, BlendingMode: blendingMode, TextureAlphaMask: maskLayer }
 				);
 				drawImageBlink(
 					baseURLBlink + layerURL,
 					X, Y,
-					{ AlphaMasks: masks, Alpha: opacity, Invert: inverted, Mirror: mirrored, BlendingMode: blendingMode }
+					{ AlphaMasks: masks, Alpha: opacity, Invert: inverted, Mirror: mirrored, BlendingMode: blendingMode, TextureAlphaMask: maskLayerBlink }
 				);
 			}
 		}

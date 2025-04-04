@@ -558,10 +558,11 @@ function DrawImageCanvas(Source, Canvas, X, Y, Options) {
  * @param {number} X - Position of the image on the X axis
  * @param {number} Y - Position of the image on the Y axis
  * @param {readonly RectTuple[]} AlphaMasks - A list of alpha masks to apply to the asset
+ * @param {readonly MaskTexture[]} TexureMasks - A list of mask layers to apply to the asset
  * @returns {boolean} - whether the image was complete or not
  */
-function DrawCanvas(Img, Canvas, X, Y, AlphaMasks) {
-	return DrawImageEx(Img, Canvas, X, Y, { AlphaMasks });
+function DrawCanvas(Img, Canvas, X, Y, AlphaMasks, TexureMasks) {
+	return DrawImageEx(Img, Canvas, X, Y, { AlphaMasks, TexureMasks: TexureMasks });
 }
 
 /**
