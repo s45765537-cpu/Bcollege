@@ -6652,3 +6652,38 @@ GartersButterflyGarterModuleLeftLeg,Left Leg
 GartersButterflyGarterSelectLeftLeg,Garter option:
 GartersButterflyGarterOptionl0,Wear garter
 GartersButterflyGarterOptionl1,Remove garter
+ItemAddonCeilingNeckCuffSelect,Select chain length:
+ItemAddonCeilingNeckCuffLoose,Loose chain
+ItemAddonCeilingNeckCuffStrict,Shortened chain
+ItemAddonCeilingNeckCuffSetLoose,SourceCharacter puts a longer chain on the DestinationCharacter neck cuff.
+ItemAddonCeilingNeckCuffSetStrict,SourceCharacter shortens the DestinationCharacter chain's neck cuff.
+ItemNeckMCuffCollarSelectBase,Metal cuff collar attachments main menu:
+ItemNeckMCuffCollarModuleHandcuffs,Handcuffs
+ItemNeckMCuffCollarSelectHandcuffs,Handcuffs option:
+ItemNeckMCuffCollarOptionh0,No Handcuffs
+ItemNeckMCuffCollarOptionh1,Attach handcuffs
+ItemNeckMCuffCollarModuleLeash,Leash
+ItemNeckMCuffCollarSelectLeash,Leash option:
+ItemNeckMCuffCollarOptionl0,No leash
+ItemNeckMCuffCollarOptionl1,Attach Leash
+ItemNeckMCuffCollarSeth0,SourceCharacter removes a wrist handcuffs and linked chain from the DestinationCharacter neck cuff device.
+ItemNeckMCuffCollarSeth1,SourceCharacter installs a chain link to the DestinationCharacter neck and lock TargetPronounPossessive wrists with handcuffs.
+ItemNeckMCuffCollarSetl0,SourceCharacter removes leash from the DestinationCharacter neck cuff device.
+ItemNeckMCuffCollarSetl1,SourceCharacter attaches a chain leash to the DestinationCharacter neck cuff device.
+ItemHoodHalloIIISelectBase,Glow in the dark: Clover Masks!
+ItemHoodHalloIIIModuleMask,Mask type
+ItemHoodHalloIIISelectMask,Choose your favorite mask to watch TV:
+ItemHoodHalloIIIOptionm0,Pumpkin
+ItemHoodHalloIIIOptionm1,Skull
+ItemHoodHalloIIIOptionm2,Witch
+ItemHoodHalloIIIModuleHood,Accessory hood
+ItemHoodHalloIIISelectHood,Hood add-on options:
+ItemHoodHalloIIIOptionh0,No hood
+ItemHoodHalloIIIOptionh1,Normal hood
+ItemHoodHalloIIIOptionh2,Sealed hood
+ItemHoodHalloIIISetm0,SourceCharacter chooses the pumpkin mask for DestinationCharacter.
+ItemHoodHalloIIISetm1,SourceCharacter chooses the skull mask for DestinationCharacter.
+ItemHoodHalloIIISetm2,SourceCharacter chooses the witch mask for DestinationCharacter.
+ItemHoodHalloIIISeth0,SourceCharacter removes the hood from DestinationCharacter head.
+ItemHoodHalloIIISeth1,SourceCharacter adds a normal hood on the DestinationCharacter head.
+ItemHoodHalloIIISeth2,SourceCharacter adds a sealed hood on the DestinationCharacter head: There will be no more TV for TargetPronounPossessive.

@@ -5002,6 +5002,47 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // AsylumCollar
+		MCuffCollar: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Handcuffs",
+					Key: "h",
+					Options: [
+						{ 
+							// None
+							Property: {}
+						},
+						{
+							// Cuffed
+							Property: {
+								Difficulty: 4,
+								SetPose: ["BaseUpper"],
+								Effect: [E.BlockWardrobe],
+							},
+						},
+					],
+				},
+				{
+					Name: "Leash",
+					Key: "l",
+					Options: [
+						{ 
+							// None
+							Property: {}
+						},
+						{
+							// Leashed
+							Property: {
+								Difficulty: 4,
+								Effect: [E.Leash,E.IsLeashed],
+							},
+						},
+					],
+				},
+			],
+			ChangeWhenLocked: false,
+		}, // MCuffCollar
 	}, // ItemNeck
 	ItemNeckAccessories: {
 		CustomCollarTag: {
@@ -9280,6 +9321,67 @@ var AssetFemale3DCGExtended = {
 			],
 		}, // CreepyIronMask
 	}, // ItemHood
+	HalloIII: {
+		Archetype: ExtendedArchetype.MODULAR,
+		ChangeWhenLocked: false,
+		Modules: [
+			{
+				Name: "Mask",
+				Key: "m",
+				Options: [
+					{
+						// Pumpkin
+						Property: {},
+					},
+					{
+						// Skull
+						Property: {},
+					},
+					{
+						// Witch
+						Property: {},
+					},
+				],
+			},
+			{
+				Name: "Hood",
+				Key: "h",
+				Options: [
+					{
+						// None
+						Property: { Effect: [] },
+					},
+					{
+						// Normal hood
+						Property: {
+							Effect: [],
+							Difficulty: 3,
+							Block: ["ItemNose"],
+						},
+					},
+					{
+						// Total hood
+						Property: {
+							Effect: [
+								E.BlockWardrobe,
+								E.BlindNormal,
+								E.BlockMouth,
+								E.GagLight,
+							],
+							Difficulty: 5,
+							Block: [
+								"ItemMouth",
+								"ItemMouth2",
+								"ItemMouth3",
+								"ItemNose",
+								"ItemHead",
+							],
+						},
+					},
+				],
+			},
+		],
+	}, // HalloIII
 	Jewelry: {
 		JewelrySet: {
 			Archetype: ExtendedArchetype.MODULAR,
@@ -19583,6 +19685,25 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemAddon", AssetName: "CeilingChain" },
 		}, // CeilingRope
+		CeilingNeckCuff: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Loose",
+					Property: {},
+				},
+				{
+					Name: "Strict",
+					Property: {
+						Difficulty: 6,
+						SetPose: ["BaseLower"],
+						AllowActivePose: [...PoseAllStanding],
+					},
+				},
+			],
+			DrawImages: false,
+			ChangeWhenLocked: false,
+		}, // CeilingNeckCuff
 	}, // ItemAddon
 	ItemNose: {
 		NoseRing: {
