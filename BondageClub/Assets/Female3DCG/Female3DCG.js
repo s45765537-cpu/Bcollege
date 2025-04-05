@@ -38818,6 +38818,28 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "ChokeChain",
+				InventoryID: 1225,
+				Fetish: ["Metal"],
+				Value: 5,
+				Difficulty: 6,
+				Time: 5,
+				Random: false,
+				Priority: 10,
+				AllowLock: true,
+				AllowTighten: true,
+				Audio: "LockSmall",
+				DrawLocks: false,
+				PoseMapping: {
+					AllFours: "AllFours",
+				},
+				ExpressionTrigger: [{ Name: "Medium", Group: "Blush", Timer: 15 }],
+				DynamicBeforeDraw: true,
+				Effect: [E.Leash],
+				AllowEffect: [E.Leash, E.Block, E.IsLeashed],
+				Layer: [{ Name: "Chain" }, { Name: "Padlock" }],
+			},
 		],
 		Color: [
 			"Default",
@@ -38838,7 +38860,6 @@ var AssetFemale3DCG = [
 			"#cc33cc",
 		],
 	},
-
 	{
 		Group: "ItemMouth",
 		Category: "Item",
