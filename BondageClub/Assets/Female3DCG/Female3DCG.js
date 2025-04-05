@@ -18045,6 +18045,19 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+            {
+				Name: "LargeBushyTail",
+				InventoryID: 1179,
+				Fetish: ["Pet"],
+                BuyGroup: "largeBushyTail",
+                DefaultColor: ["#8F5F2D"],
+				Value: 1,
+                Top: 60,
+                Left: 10,
+                Layer: [
+                    { Name: "Tail", AllowColorize: true },
+                ],
+			},
 		],
 		Color: [
 			"Default",
