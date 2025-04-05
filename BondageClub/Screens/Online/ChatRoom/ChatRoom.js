@@ -92,6 +92,12 @@ var ChatRoomChatLengthLabelRect = /** @type {never} */([1764, 970, 120, 82]);
  */
 var ChatRoomDivRect = [1005, 60, 988, 940];
 
+/**
+ * The last approximate height (_i.e._ {@link HTMLElement.clientHeight} as opposed to {@link DOMRect.height}) of the `InputChat` element.
+ * @type {number}
+ */
+let ChatRoomDivInputPrevHeight = NaN;
+
 var ChatRoomChatHidden = false;
 /**
  * The chatroom characters that were drawn in the last frame.
@@ -1155,21 +1161,21 @@ function ChatRoomCreateElement() {
 				},
 				{
 					tag: "div",
+					attributes: {id: "chat-room-reply-indicator"},
+					classList: ["hidden"],
+					children: [
+						{ tag: "span", attributes: { id: "chat-room-reply-indicator-text" }, children: [TextGet("ChatRoomReply")] },
+						ElementButton.Create(
+							"chat-room-reply-indicator-close",
+							ChatRoomMessageReplyStop,
+							{ noStyling: true },
+						),
+					],
+				},
+				{
+					tag: "div",
 					attributes: { id: "chat-room-bot" },
 					children: [
-						{
-							tag: "div",
-							attributes: {id: "chat-room-reply-indicator"},
-							classList: ["hidden"],
-							children: [
-								{ tag: "span", attributes: { id: "chat-room-reply-indicator-text" }, children: [TextGet("ChatRoomReply")] },
-								ElementButton.Create(
-									"chat-room-reply-indicator-close",
-									ChatRoomMessageReplyStop,
-									{ noStyling: true },
-								),
-							],
-						},
 						{
 							tag: "textarea",
 							attributes: {
@@ -1181,7 +1187,8 @@ function ChatRoomCreateElement() {
 							},
 							eventListeners: {
 								input: ChatRoomChatInputChangeHandler,
-								keyup: (key) => {ChatRoomStatusUpdateTalk(key); ChatRoomStopReplyOnEscape(key);},
+								keyup: ChatRoomStatusUpdateTalk,
+								keydown: ChatRoomStopReplyOnEscape,
 							},
 						},
 						{
@@ -1358,6 +1365,7 @@ function ChatRoomClearAllElements() {
 	} else {
 		ElementRemove("chat-room-div");
 		window.removeEventListener("resize", ChatRoomResizeManager.ChatRoomResizeEvent);
+		ChatRoomDivInputPrevHeight = NaN;
 	}
 }
 
@@ -1807,7 +1815,7 @@ function ChatRoomResize(load) {
 	const chatInput = document.getElementById("InputChat");
 	if (chatInput) {
 		ElementPositionFix("chat-room-div", ChatRoomFontSize, ...ChatRoomDivRect);
-		chatInput.dispatchEvent(new Event("input"));
+		chatInput.dispatchEvent(new InputEvent("input"));
 	}
 }
 
@@ -2069,9 +2077,7 @@ function ChatRoomStatusUpdateTalk(Key) {
  */
 function ChatRoomChatInputChangeHandler(event) {
 	const label = document.getElementById("InputChatLength");
-	const chatLog = document.getElementById("TextAreaChatLog");
-	const parent = document.getElementById("chat-room-div");
-	if (!label || !chatLog || !parent) return;
+	if (!label) return;
 
 	const length = this.value.length;
 	if (length <= ServerChatMessageMaxLength - 100) {
@@ -2088,24 +2094,45 @@ function ChatRoomChatInputChangeHandler(event) {
 	this.style.height = "100%";
 	this.style.height = `${this.scrollHeight}px`;
 
-	// Check if the text log + input completely fill the parent element (within a gap-accounting error marigin)
-	// and then resize the text log + input accordingly
-	const chatLogHeight = chatLog.getBoundingClientRect().height;
-	const parentHeight = parent.getBoundingClientRect().height;
-	const inputHeight = this.getBoundingClientRect().height;
-	const ratio = (inputHeight + chatLogHeight) / parentHeight;
-	const needsUpdate = ratio > 1.005 || ratio < 0.995;
-	if (needsUpdate) {
-		const percentage = 100 * (inputHeight / parentHeight);
-		if (percentage >= 9 && percentage <= 35) {
-			const isScrolledToEnd = ElementIsScrolledToEnd("TextAreaChatLog");
+	const inputHeight = this.clientHeight;
+	if (inputHeight === ChatRoomDivInputPrevHeight) {
+		return;
+	}
+	ChatRoomInputResize(this);
+}
 
-			// At ~34% the maximum resize height has been reached and there is no point in trying to expand it any further
-			parent.style.gridTemplateRows = `${100 - 0.4 - percentage}% ${percentage}%`;
-			if (isScrolledToEnd) {
-				ElementScrollToEnd("TextAreaChatLog");
-			}
+/**
+ * Manually adjust the size of `TextAreaChatLog` based on the (auto-expanded) `chatInput` height.
+ *
+ * Why manually? Because doing it automatically can get veeeery slow as the chat log grows in size.
+ * @param {HTMLElement} chatInput
+ */
+function ChatRoomInputResize(chatInput) {
+	const chatLog = document.getElementById("TextAreaChatLog");
+	const parent = document.getElementById("chat-room-div");
+	if (!chatLog || !parent) {
+		return;
+	}
+	ChatRoomDivInputPrevHeight = chatInput.clientHeight;
+
+	const isScrolledToEnd = ElementIsScrolledToEnd("TextAreaChatLog");
+	let height = parent.getBoundingClientRect().height;
+	let nGaps = 0;
+	for (const i of parent.children) {
+		if (!ElementCheckVisibility(i, { checkVisibilityCSS: false })) {
+			continue;
 		}
+
+		nGaps++;
+		if (i !== chatLog) {
+			height -= i.getBoundingClientRect().height;
+		}
+	}
+	const gap = globalThis.getComputedStyle(chatLog).marginBottom;
+	chatLog.style.height = `calc(${Math.max(0, height)}px - (${nGaps} * ${gap}))`;
+
+	if (isScrolledToEnd) {
+		ElementScrollToEnd("TextAreaChatLog");
 	}
 }
 
@@ -3083,7 +3110,7 @@ function ChatRoomSendChat() {
 			ChatRoomSendEmote(msg);
 		}
 		inputChat.value = "";
-		inputChat.dispatchEvent(new Event("input"));
+		inputChat.dispatchEvent(new InputEvent("input"));
 		return;
 	}
 
@@ -3111,7 +3138,7 @@ function ChatRoomSendChat() {
 
 	if (clearChat) {
 		inputChat.value = "";
-		inputChat.dispatchEvent(new Event("input"));
+		inputChat.dispatchEvent(new InputEvent("input"));
 	}
 }
 
@@ -4393,10 +4420,12 @@ function ChatRoomMessageGetType(msgId) {
  * Closes the reply.
  */
 function ChatRoomMessageReplyStop() {
-	const chatInput = /** @type {null | HTMLTextAreaElement} */(document.getElementById("InputChat"));
-	const replyIndicator = document.getElementById("chat-room-reply-indicator");
-	chatInput.removeAttribute("reply-id");
-	replyIndicator.classList.add("hidden");
+	const chatInput = document.getElementById("InputChat");
+	document.getElementById("chat-room-reply-indicator")?.classList.add("hidden");
+	if (chatInput) {
+		chatInput.removeAttribute("reply-id");
+		ChatRoomInputResize(chatInput);
+	}
 }
 
 /**
@@ -4405,8 +4434,12 @@ function ChatRoomMessageReplyStop() {
  */
 function ChatRoomMessageSetReply(msgId) {
 	const chatInput = /** @type {null | HTMLTextAreaElement} */(document.getElementById("InputChat"));
-	chatInput.setAttribute("reply-id", msgId);
 	const replyMessage = ChatRoomMessageGetById(msgId);
+	if (!chatInput || !replyMessage) {
+		return;
+	}
+
+	chatInput.setAttribute("reply-id", msgId);
 	const type = ChatRoomMessageGetType(msgId);
 	const isWhisper = type === "Whisper";
 	if (isWhisper) {
@@ -4418,6 +4451,7 @@ function ChatRoomMessageSetReply(msgId) {
 	const replyName = ChatRoomMessageGetReplyName(msgId, isWhisper);
 	replyIndicatorText.textContent = `${TextGet("ChatRoomReply")}: ${replyName && `${replyName}` || "a message"}`;
 	replyIndicator.classList.remove("hidden");
+	ChatRoomInputResize(chatInput);
 	chatInput.focus();
 }
 
