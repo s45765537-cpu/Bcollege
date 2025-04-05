@@ -4994,7 +4994,7 @@ class _DialogPoseMenu extends _DialogSelfMenu {
 
 	/** @type {DialogMenu<string, Pose>["_ClickButton"]} */
 	_ClickButton(button, C, pose) {
-		PoseSetActive(C, pose.Name);
+		PoseSetActive(C, pose.Name, undefined, false);
 		if (CurrentScreen === "ChatRoom") {
 			ServerSend("ChatRoomCharacterPoseUpdate", { Pose: C.ActivePose });
 		}
