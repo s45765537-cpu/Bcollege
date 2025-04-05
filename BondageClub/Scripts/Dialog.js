@@ -4265,6 +4265,12 @@ class _DialogSelfMenu extends DialogMenu {
 
 	defaultShape = Object.freeze(/** @type {const} */([15, 15, 500, 940]));
 
+	/**
+	 * An object mapping button {@link HTMLButtonElement.name}s to their respective click + validation functions
+	 * @satisfies {Record<string, DialogMenu.MenuButtonData<{ C: PlayerCharacter }>>}
+	 */
+	menubarEventListeners;
+
 	/** @type {DialogMenu<ModeType, T, { C: PlayerCharacter }>["Init"]} */
 	Init(parameters, style) {
 		DialogSelfMenuMapping[DialogSelfMenuSelected]?.Unload();
@@ -4280,6 +4286,115 @@ class _DialogSelfMenu extends DialogMenu {
 	 */
 	IsAvailable(C) {
 		return true;
+	}
+
+	/**
+	 * @param {ModeType} mode The name of the mode associated with this instance
+	 */
+	constructor(mode) {
+		super(mode);
+		const dialogMenu = this;
+
+		this.eventListeners = {
+			...this.eventListeners,
+
+			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
+			_ClickMenuButton(ev) {
+				const param = CommonPick(dialogMenu._initProperties, dialogMenu._initPropertyNames);
+				if (Object.values(param).some(i => i == null)) {
+					ev.stopImmediatePropagation();
+					return;
+				}
+
+				/** @type {DialogMenu.MenuButtonData<{ C: PlayerCharacter }>} */
+				const listener = dialogMenu.menubarEventListeners[this.name];
+				if (!listener) {
+					ev.stopImmediatePropagation();
+					return;
+				}
+
+				const equippedItem = dialogMenu.focusGroup ? InventoryGet(param.C, dialogMenu.focusGroup.Name) : null;
+				for (const validator of Object.values(listener.validate ?? {})) {
+					const status = validator(this, param, equippedItem);
+					if (status?.state) {
+						ev.stopImmediatePropagation();
+						dialogMenu.Reload(null, { status: status.status, statusTimer: DialogTextDefaultDuration });
+						return;
+					}
+				}
+
+				listener.click(this, ev, param, equippedItem);
+			},
+
+			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
+			_ClickDisabledMenuButton(ev) {
+				const param = CommonPick(dialogMenu._initProperties, dialogMenu._initPropertyNames);
+				if (Object.values(param).some(i => i == null)) {
+					ev.stopImmediatePropagation();
+					return;
+				}
+
+				/** @type {DialogMenu.MenuButtonData<{ C: PlayerCharacter }>} */
+				const listener = dialogMenu.menubarEventListeners[this.name];
+				if (!listener) {
+					ev.stopImmediatePropagation();
+					return;
+				}
+
+				const equippedItem = dialogMenu.focusGroup ? InventoryGet(param.C, dialogMenu.focusGroup.Name) : null;
+				for (const validator of Object.values(listener.validate ?? {})) {
+					const status = validator(this, param, equippedItem);
+					if (status?.state) {
+						if (status.status) {
+							DialogSetStatus(status.status, DialogTextDefaultDuration, { C: param.C }, dialogMenu.ids.status);
+						}
+						return;
+					}
+				}
+				dialogMenu.Reload(null);
+			},
+		};
+
+		this.menubarEventListeners = {
+			/** @type {DialogMenu.MenuButtonData<{ C: PlayerCharacter }>} */
+			next: {
+				click() {
+					DialogFindNextSubMenu();
+				},
+			},
+		};
+	}
+
+	/** @type {DialogMenu<ModeType, T, { C: PlayerCharacter }>["_ReloadMenubar"]} */
+	_ReloadMenubar(root, menubar, properties, options) {
+		/** @type {NodeListOf<HTMLButtonElement>} */
+		const buttons = menubar.querySelectorAll("button.dialog-menubar-button");
+		const equippedItem = this.focusGroup ? InventoryGet(properties.C, this.focusGroup.Name) : null;
+		for (const button of buttons) {
+			const listener = this.menubarEventListeners[button.name];
+			if (!listener) {
+				continue;
+			}
+
+			let validationFailure = false;
+			validators: for (const validator of Object.values(listener.validate ?? {})) {
+				const status = validator(button, properties, equippedItem);
+				switch (status?.state) {
+					case "disabled":
+						validationFailure = true;
+						button.setAttribute("aria-disabled", "true");
+						break validators;
+					case "hidden":
+						validationFailure = true;
+						button.toggleAttribute("data-unload", true);
+						break validators;
+				}
+			}
+			if (!validationFailure) {
+				button.removeAttribute("aria-disabled");
+				button.removeAttribute("data-unload");
+			}
+		}
 	}
 }
 
@@ -4345,25 +4460,12 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 	constructor(mode) {
 		super(mode);
 		const dialogMenu = this;
+
 		this.eventListeners = {
 			...this.eventListeners,
 
 			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
-			_clearExpressionClick: function(ev) {
-				const C = dialogMenu.C;
-				if (!C) {
-					ev.stopImmediatePropagation();
-					return;
-				}
-
-				CharacterResetFacialExpression(C);
-				for (const expressionGroup of CommonKeys(dialogMenu.facialExpressions)) {
-					delete C.ActiveExpression[expressionGroup];
-				}
-			},
-
-			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
-			_expressionRadioGroupClick: function(ev) {
+			_expressionRadioGroupClick(ev) {
 				document.querySelector(`#${dialogMenu.ids.root} > .dialog-expression-grid:not([data-unload])`)?.toggleAttribute("data-unload", true);
 				if (this.getAttribute("aria-checked") === "true") {
 					document.getElementById(`${dialogMenu.ids.menubar}-color`)?.setAttribute("aria-disabled", this.name !== "Eyes" ? "false" : "true");
@@ -4376,70 +4478,81 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 					document.getElementById(`${dialogMenu.ids.menubar}-color`)?.setAttribute("aria-disabled", "true");
 				}
 			},
+		};
 
-			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
-			_blindnessClick: function(ev) {
-				const level = Number.parseInt(this.getAttribute("aria-valuenow"), 10);
-				DialogFacialExpressionsSelectedBlindnessLevel = level;
-				this.querySelector(".button-image")?.setAttribute("src", `Icons/BlindToggle${level}.png`);
-			},
+		/** @type {Record<string, DialogMenu.MenuButtonData<{ C: PlayerCharacter }>>} */
+		this.menubarEventListeners = {
+			...this.menubarEventListeners,
 
-			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
-			_blinkClick: function(ev) {
-				const C = dialogMenu.C;
-				if (!C) {
-					ev.stopImmediatePropagation();
-					return;
-				}
-
-				const level = Number.parseInt(this.getAttribute("aria-valuenow"), 10);
-
-				/** @type {string} */
-				let state;
-				switch (level) {
-					case 1:
-						state = "None";
-						CharacterSetFacialExpression(C, "Eyes", C.ActiveExpression.Eyes, null);
-						break;
-					case 2:
-						state = "Left";
-						CharacterSetFacialExpression(C, "Eyes1", C.ActiveExpression.Eyes, null);
-						CharacterSetFacialExpression(C, "Eyes2", "Closed", null);
-						break;
-					case 3:
-						state = "Both";
-						CharacterSetFacialExpression(C, "Eyes", "Closed", null);
-						break;
-					case 4:
-						state = "Right";
-						CharacterSetFacialExpression(C, "Eyes1", "Closed", null);
-						CharacterSetFacialExpression(C, "Eyes2", C.ActiveExpression.Eyes, null);
-						break;
-				}
-				this.setAttribute("aria-valuetext", state);
-				this.querySelector(".button-image")?.setAttribute("src", `Icons/Wink${state}.png`);
-			},
-
-			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
-			_colorClick: function(ev) {
-				const GroupName = /** @type {AssetGroupItemName} */(document.querySelector(`#${dialogMenu.ids.menuLeft} [role='menuitemradio'][aria-checked='true']`)?.getAttribute("name"));
-				const Item = InventoryGet(Player, GroupName);
-				if (!Item) {
-					ev.stopImmediatePropagation();
-					return;
-				}
-
-				DialogChangeMode("colorExpression");
-				const originalColor = Item.Color;
-				Player.FocusGroup = /** @type {AssetItemGroup} */ (AssetGroupGet(Player.AssetFamily, GroupName));
-				ItemColorLoad(Player, Item, 1200, 25, 775, 950, true);
-				ItemColorOnExit((save) => {
-					DialogMenuBack();
-					if (save && !CommonColorsEqual(originalColor, Item.Color)) {
-						ServerPlayerAppearanceSync();
-						ChatRoomCharacterItemUpdate(Player, GroupName);
+			/** @type {DialogMenu.MenuButtonData<{ C: PlayerCharacter }>} */
+			color: {
+				click(button, ev, { C }, equippedItem) {
+					if (!equippedItem) {
+						ev.stopImmediatePropagation();
+						return;
 					}
-				});
+
+					const groupName = equippedItem.Asset.Group.Name;
+					DialogChangeMode("colorExpression");
+					const originalColor = equippedItem.Color;
+					Player.FocusGroup = /** @type {AssetItemGroup} */ (AssetGroupGet(Player.AssetFamily, groupName));
+					ItemColorLoad(Player, equippedItem, 1200, 25, 775, 950, true);
+					ItemColorOnExit((save) => {
+						DialogMenuBack();
+						if (save && !CommonColorsEqual(originalColor, equippedItem.Color)) {
+							ServerPlayerAppearanceSync();
+							ChatRoomCharacterItemUpdate(Player, groupName);
+						}
+					});
+				},
+			},
+			/** @type {DialogMenu.MenuButtonData<{ C: PlayerCharacter }>} */
+			blindness: {
+				click(button) {
+					const level = Number.parseInt(button.getAttribute("aria-valuenow"), 10);
+					DialogFacialExpressionsSelectedBlindnessLevel = level;
+					button.querySelector(".button-image")?.setAttribute("src", `Icons/BlindToggle${level}.png`);
+				},
+			},
+			/** @type {DialogMenu.MenuButtonData<{ C: PlayerCharacter }>} */
+			blink: {
+				click(button, ev, { C }) {
+					const level = Number.parseInt(button.getAttribute("aria-valuenow"), 10);
+
+					/** @type {string} */
+					let state;
+					switch (level) {
+						case 1:
+							state = "None";
+							CharacterSetFacialExpression(C, "Eyes", C.ActiveExpression.Eyes, null);
+							break;
+						case 2:
+							state = "Left";
+							CharacterSetFacialExpression(C, "Eyes1", C.ActiveExpression.Eyes, null);
+							CharacterSetFacialExpression(C, "Eyes2", "Closed", null);
+							break;
+						case 3:
+							state = "Both";
+							CharacterSetFacialExpression(C, "Eyes", "Closed", null);
+							break;
+						case 4:
+							state = "Right";
+							CharacterSetFacialExpression(C, "Eyes1", "Closed", null);
+							CharacterSetFacialExpression(C, "Eyes2", C.ActiveExpression.Eyes, null);
+							break;
+					}
+					button.setAttribute("aria-valuetext", state);
+					button.querySelector(".button-image")?.setAttribute("src", `Icons/Wink${state}.png`);
+				},
+			},
+			/** @type {DialogMenu.MenuButtonData<{ C: PlayerCharacter }>} */
+			clear: {
+				click(button, ev, { C }) {
+					CharacterResetFacialExpression(C);
+					for (const expressionGroup of CommonKeys(dialogMenu.facialExpressions)) {
+						delete C.ActiveExpression[expressionGroup];
+					}
+				},
 			},
 		};
 	}
@@ -4463,19 +4576,19 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 					[
 						ElementButton.Create(
 							`${ids.menubar}-next`,
-							DialogFindNextSubMenu,
-							{ tooltip: InterfaceTextGet("NextPage"), tooltipPosition: "right", image: "Icons/Next.png" },
+							this.eventListeners._ClickMenuButton,
+							{ tooltip: InterfaceTextGet("NextPage"), tooltipPosition: "right", image: "Icons/Next.png", clickDisabled: this.eventListeners._ClickDisabledMenuButton },
 							{ button: { attributes: { name: "next" }, classList: ["dialog-menubar-button"] } },
 						),
 						ElementButton.Create(
 							`${ids.menubar}-color`,
-							this.eventListeners._colorClick,
-							{ tooltip: InterfaceTextGet("DialogMenuColorExpressionChange"), tooltipPosition: "right", image: "Icons/ColorChange.png", disabled: true },
+							this.eventListeners._ClickMenuButton,
+							{ tooltip: InterfaceTextGet("DialogMenuColorExpressionChange"), tooltipPosition: "right", image: "Icons/ColorChange.png", disabled: true, clickDisabled: this.eventListeners._ClickDisabledMenuButton },
 							{ button: { attributes: { name: "color" }, classList: ["dialog-menubar-button"] } },
 						),
 						ElementButton.Create(
 							`${ids.menubar}-blindness`,
-							this.eventListeners._blindnessClick,
+							this.eventListeners._ClickMenuButton,
 							{ tooltip: InterfaceTextGet("BlindToggleFacialExpressions"), tooltipPosition: "right", image: "Icons/BlindToggle1.png", role: "spinbutton" },
 							{ button: {
 								attributes: { name: "blindness", "aria-valuenow": 1, "aria-valuemin": 1, "aria-valuemax": 3 },
@@ -4484,8 +4597,8 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 						),
 						ElementButton.Create(
 							`${ids.menubar}-blink`,
-							this.eventListeners._blinkClick,
-							{ tooltip: InterfaceTextGet("WinkFacialExpressions"), tooltipPosition: "right", image: "Icons/WinkNone.png", role: "spinbutton" },
+							this.eventListeners._ClickMenuButton,
+							{ tooltip: InterfaceTextGet("WinkFacialExpressions"), tooltipPosition: "right", image: "Icons/WinkNone.png", role: "spinbutton", clickDisabled: this.eventListeners._ClickDisabledMenuButton },
 							{ button: {
 								attributes: { name: "blink", "aria-valuenow": 1, "aria-valuetext": "None", "aria-valuemin": 1, "aria-valuemax": 4 },
 								classList: ["dialog-menubar-button"],
@@ -4493,8 +4606,8 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 						),
 						ElementButton.Create(
 							`${ids.menubar}-clear`,
-							this.eventListeners._clearExpressionClick,
-							{ tooltip: InterfaceTextGet("ClearFacialExpressions"), tooltipPosition: "right", image: "Icons/Reset.png" },
+							this.eventListeners._ClickMenuButton,
+							{ tooltip: InterfaceTextGet("ClearFacialExpressions"), tooltipPosition: "right", image: "Icons/Reset.png", clickDisabled: this.eventListeners._ClickDisabledMenuButton },
 							{ button: { attributes: { name: "clear" }, classList: ["dialog-menubar-button"] } },
 						),
 					],
@@ -4622,9 +4735,6 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 
 	/** @type {DialogMenu["_ReloadIcon"]} */
 	_ReloadIcon(root, icon, parameters, options) { /** noop */ }
-
-	/** @type {DialogMenu["_ReloadMenubar"]} */
-	_ReloadMenubar(root, menubar, parameters, options) { /** noop */ }
 
 	/** @type {DialogMenu<string, ExpressionPair>["_GetClickedObject"]} */
 	_GetClickedObject(button) {
@@ -4758,8 +4868,8 @@ class _DialogPoseMenu extends _DialogSelfMenu {
 					[
 						ElementButton.Create(
 							`${ids.menubar}-next`,
-							DialogFindNextSubMenu,
-							{ tooltip: InterfaceTextGet("NextPage"), tooltipPosition: "right", image: "Icons/Next.png" },
+							this.eventListeners._ClickMenuButton,
+							{ tooltip: InterfaceTextGet("NextPage"), tooltipPosition: "right", image: "Icons/Next.png", clickDisabled: this.eventListeners._ClickDisabledMenuButton },
 							{ button: { attributes: { name: "next" }, classList: ["dialog-menubar-button"] } },
 						),
 					],
@@ -4875,9 +4985,6 @@ class _DialogPoseMenu extends _DialogSelfMenu {
 	/** @type {DialogMenu["_ReloadIcon"]} */
 	_ReloadIcon(root, icon, parameters, options) { /** noop */ }
 
-	/** @type {DialogMenu["_ReloadMenubar"]} */
-	_ReloadMenubar(root, menubar, parameters, options) { /** noop */ }
-
 	/** @type {DialogMenu<string, Pose>["_GetClickedObject"]} */
 	_GetClickedObject(button) {
 		const category = /** @type {null | AssetPoseCategory} */(button.getAttribute("data-group"));
@@ -4973,8 +5080,8 @@ class _DialogSavedExpressionsMenu extends _DialogSelfMenu {
 					[
 						ElementButton.Create(
 							`${ids.menubar}-next`,
-							DialogFindNextSubMenu,
-							{ tooltip: InterfaceTextGet("NextPage"), tooltipPosition: "right", image: "Icons/Next.png" },
+							this.eventListeners._ClickMenuButton,
+							{ tooltip: InterfaceTextGet("NextPage"), tooltipPosition: "right", image: "Icons/Next.png", clickDisabled: this.eventListeners._ClickDisabledMenuButton },
 							{ button: { attributes: { name: "next" }, classList: ["dialog-menubar-button"] } },
 						),
 					],
@@ -5029,9 +5136,6 @@ class _DialogSavedExpressionsMenu extends _DialogSelfMenu {
 
 	/** @type {DialogMenu["_ReloadIcon"]} */
 	_ReloadIcon(root, icon, parameters, options) { /** noop */ }
-
-	/** @type {DialogMenu["_ReloadMenubar"]} */
-	_ReloadMenubar(root, menubar, parameters, options) { /** noop */ }
 
 	/** @type {DialogMenu<string, number>["_GetClickedObject"]} */
 	_GetClickedObject(button) {
@@ -5100,8 +5204,8 @@ class _DialogOwnerRulesMenu extends _DialogSelfMenu {
 					[
 						ElementButton.Create(
 							`${ids.menubar}-next`,
-							DialogFindNextSubMenu,
-							{ tooltip: InterfaceTextGet("NextPage"), tooltipPosition: "right", image: "Icons/Next.png" },
+							this.eventListeners._ClickMenuButton,
+							{ tooltip: InterfaceTextGet("NextPage"), tooltipPosition: "right", image: "Icons/Next.png", clickDisabled: this.eventListeners._ClickDisabledMenuButton },
 							{ button: { attributes: { name: "next" }, classList: ["dialog-menubar-button"] } },
 						),
 					],
@@ -5166,9 +5270,6 @@ class _DialogOwnerRulesMenu extends _DialogSelfMenu {
 
 	/** @type {DialogMenu["_ReloadIcon"]} */
 	_ReloadIcon(root, icon, parameters, options) { /** noop */ }
-
-	/** @type {DialogMenu["_ReloadMenubar"]} */
-	_ReloadMenubar(root, menubar, parameters, options) { /** noop */ }
 
 	/** @type {DialogMenu<string, null>["_GetClickedObject"]} */
 	_GetClickedObject(button) { return null; /** noop */ }

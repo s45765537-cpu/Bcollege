@@ -334,6 +334,46 @@ declare namespace DialogMenu {
 		C: Character;
 		focusGroup?: AssetGroup;
 	}
+
+	/** An object representing the validation output of a menubar button, determining whether it should be clickable or not */
+	interface MenuButtonValidateData {
+		/**
+		 * The button's validation state:
+		 * * `null`: Validation successful
+		 * * `"hide"`: Validation failure; hide the button
+		 * * `"disabled"`: Validation failure; disable the button but do not hide it
+		 */
+		state: null | "hidden" | "disabled";
+		/**
+		 * An optional status message to-be returned if the validation fails.
+		 */
+		status?: null | string;
+	}
+
+	/**
+	 * A custom validation function for determining whether the button should be enabled, disabled or hidden.
+	 * @param button The button in question
+	 * @param properties The {@link InitProperties} associated with the specific dialog menu
+	 * @param equippedItem The equipped item in question (if any)
+	 * @returns A nullish object if the validation passes or an object representing the validation state
+	 */
+	type MenuButtonValidator<T extends InitProperties> = (
+		button: HTMLButtonElement,
+		properties: T,
+		equippedItem?: Item | null
+	) => MenuButtonValidateData | null;
+
+	interface MenuButtonData<T extends InitProperties> {
+		/**
+		 * @param button The button in question
+		 * @param ev The mouse event associated with the button click
+		 * @param properties The {@link InitProperties} associated with the specific dialog menu
+		 * @param equippedItem The equipped item in question (if any)
+		 */
+		click: (button: HTMLButtonElement, ev: MouseEvent, properties: T, equippedItem?: Item | null) => any;
+		/** An object mapping labels to custom validation functions for button clicks. */
+		validate?: Record<string, MenuButtonValidator<T>>;
+	}
 }
 
 type DialogSortOrder = | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
