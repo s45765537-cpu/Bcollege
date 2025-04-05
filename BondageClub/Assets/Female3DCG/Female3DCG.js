@@ -2653,6 +2653,7 @@ var AssetFemale3DCG = [
 					"ItemNeckHeartLinkChoker",
 					"ItemNeckNeckRope",
 					"ItemNipplesStretchClovers",
+					"ItemNeckChainCollar",
 				],
 			},
 			{
@@ -38875,6 +38876,19 @@ var AssetFemale3DCG = [
 						CopyLayerColor: "Handle",
 					},
 				],
+			},
+			{
+				Name: "ChainCollar",
+				InventoryID: 1224,
+				Fetish: ["Metal"],
+				Value: 10,
+				Difficulty: 50,
+				Time: 5,
+				AllowLock: true,
+				Audio: "CuffsMetal",
+				DefaultColor: ["#908463", "#975757","#908463"],
+				Extended: true,
+				Layer: [{ Name: "Chain" }, { Name: "LockBodyHeart", AllowTypes: { typed: 0 }}, { Name: "LockBodyPlain", AllowTypes: { typed: 1 }}],
 			},
 		],
 		Color: [

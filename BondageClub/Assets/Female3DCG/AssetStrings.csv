@@ -4149,6 +4149,11 @@ ItemNeckBonedNeckCorsetRing,Ring
 ItemNeckBonedNeckCorsetSelect,Select ring configuration
 ItemNeckBonedNeckCorsetSetNoRing,SourceCharacter removes the ring from DestinationCharacter collar.
 ItemNeckBonedNeckCorsetSetRing,SourceCharacter attaches a ring to DestinationCharacter collar.
+ItemNeckChainCollarLockBodyHeart,Heart Padlock
+ItemNeckChainCollarLockBodyPlain,Plain Padlock
+ItemNeckChainCollarSelect,Select Lock Body configuration
+ItemNeckChainCollarSetLockBodyHeart,SourceCharacter sets the Heart Lock Body on DestinationCharacter collar.
+ItemNeckChainCollarSetLockBodyPlain,SourceCharacter sets the Plain Lock Body on DestinationCharacter collar.
 ItemNeckExtendablePostureCollarModuleCover,Eye cover
 ItemNeckExtendablePostureCollarModuleGag,Gag
 ItemNeckExtendablePostureCollarModuleHood,Hood
