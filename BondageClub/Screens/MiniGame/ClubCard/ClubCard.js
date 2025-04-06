@@ -2997,10 +2997,9 @@ function ClubCardMessagePacketProcessing() {
 	let squareKnotSenseiMeesages = [];
 	let closedHitchMeesages = [];
 	let quickReleaseKnotMeesages = [];
-	let rerunMeesages = [];
-	let gangbangBangerMeesages = [];
 
 	let isHypnotherapist = false;
+	let isGangbangBanger = false;
 
 	for (let i = 0; i < ClubCardMessageStorage.length; i++) {
 		const message = ClubCardMessageStorage[i];
@@ -3010,14 +3009,13 @@ function ClubCardMessagePacketProcessing() {
 		else if (message.TextGetKey === "StealFame") stealFameMessages.push({ message, index: i });
 
 		else if (message.TextGetKey === "Effect Hypnotherapist") isHypnotherapist = true;
+		else if (message.TextGetKey === "Effect Gangbang Banger") isGangbangBanger = true;
 
 		else if (message.TextGetKey === "Effect Burlington Bowtie") burlingtonBowtieMeesages.push({ message, index: i });
 		else if (message.TextGetKey === "Effect Square Knot") squareKnotMeesages.push({ message, index: i });
 		else if (message.TextGetKey === "Effect Square Knot Sensei") squareKnotSenseiMeesages.push({ message, index: i });
 		else if (message.TextGetKey === "Effect Closed Hitch") closedHitchMeesages.push({ message, index: i });
 		else if (message.TextGetKey === "Effect Quick Release Knot") quickReleaseKnotMeesages.push({ message, index: i });
-		else if (message.TextGetKey === "Effect Re-Run") rerunMeesages.push({ message, index: i });
-		else if (message.TextGetKey === "Effect Gangbang Banger") gangbangBangerMeesages.push({ message, index: i });
 	}
 
 	// ### Normal merging of messages into one
@@ -3034,6 +3032,9 @@ function ClubCardMessagePacketProcessing() {
 	//Effect Hypnotherapist
 	if (isHypnotherapist)
 		ClubCardMessageStorage = ClubCardMessageStorage.filter(msg => msg.TextGetKey !== "MemberLeaveClub");
+	//Effect Gangbang Banger
+	if (isGangbangBanger)
+		ClubCardMessageStorage = ClubCardMessageStorage.filter(msg => msg.TextGetKey !== "MemberLeaveClub" && msg.TextGetKey !== "PlayACard");
 	//StealMoney & StealFame
 	if (stealMoneyMessages.length > 0 && stealFameMessages.length > 0) {
 		ClubCardMessagesMergeSteal(stealMoneyMessages, stealFameMessages);
@@ -3800,7 +3801,7 @@ function ClubCardPlayerSummonGroupCardFromDeck(CCPlayer, groups, amount, level, 
 	}
 
 	let groupCardsInDeck;
-	if (source = "Streets") groupCardsInDeck = CCPlayer.DiscardPile.filter(value => groups.some(group => ClubCardCardHasGroup(value, group) && value.RequiredLevel == level && ClubCardCanSummonCard(CCPlayer, value)));
+	if (source == "Streets") groupCardsInDeck = CCPlayer.DiscardPile.filter(value => groups.some(group => ClubCardCardHasGroup(value, group) && value.RequiredLevel == level && ClubCardCanSummonCard(CCPlayer, value)));
 	else groupCardsInDeck = CCPlayer.Deck.filter(value => groups.some(group => ClubCardCardHasGroup(value, group) && value.RequiredLevel == level && ClubCardCanSummonCard(CCPlayer, value)));
 	if (groupCardsInDeck.length === 0) {
 		return false;
@@ -3818,7 +3819,7 @@ function ClubCardPlayerSummonGroupCardFromDeck(CCPlayer, groups, amount, level, 
 			const cardIndex = groupCardsInDeck.findIndex(value => value.ID === card.ID);
 			groupCardsInDeck.splice(cardIndex, 1);
 
-			if (source = "Streets") {
+			if (source == "Streets") {
 				const cardIndexInDeck = CCPlayer.DiscardPile.findIndex(value => value.ID === card.ID);
 				CCPlayer.DiscardPile.splice(cardIndexInDeck, 1);
 
