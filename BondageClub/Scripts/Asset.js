@@ -639,7 +639,7 @@ function AssetMapLayer(Layer, A, I) {
 	/** @type {AssetLayer} */
 	const L = {
 		Name: Layer.Name || null,
-		AllowColorize: typeof Layer.AllowColorize === "boolean" ? Layer.AllowColorize : A.AllowColorize,
+		AllowColorize: !Layer.TextureMask && (typeof Layer.AllowColorize === "boolean" ? Layer.AllowColorize : A.AllowColorize),
 		CopyLayerColor: typeof Layer.CopyLayerColor === "string" ? Layer.CopyLayerColor : null,
 		ColorGroup: typeof Layer.ColorGroup === "string" ? Layer.ColorGroup : null,
 		HideColoring: typeof Layer.HideColoring === "boolean" ? Layer.HideColoring : false,
@@ -660,6 +660,7 @@ function AssetMapLayer(Layer, A, I) {
 		MinOpacity: minOpacity,
 		MaxOpacity: maxOpacity,
 		BlendingMode: Layer.BlendingMode || "source-over",
+		TextureMask: Layer.TextureMask,
 		LockLayer: typeof Layer.LockLayer === "boolean" ? Layer.LockLayer : false,
 		MirrorExpression: Layer.MirrorExpression,
 		ColorIndex: 0,

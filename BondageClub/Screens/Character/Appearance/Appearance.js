@@ -442,7 +442,7 @@ function CharacterAppearanceSortLayers(C) {
 			// Check if we need to draw a different variation (from type property)
 			const typeRecord = item.Property && item.Property.TypeRecord;
 			const layersToDraw = asset.Layer
-				.filter(layer => CharacterAppearanceIsLayerVisible(C, layer, asset, typeRecord))
+				.filter(layer => CharacterAppearanceIsLayerVisible(C, layer, asset, typeRecord) && !layer.TextureMask)
 				.map(layer => {
 					/** @type {Mutable<AssetLayer>} */
 					const drawLayer = { ...layer };
@@ -482,6 +482,30 @@ function CharacterAppearanceSortLayers(C) {
 	});
 
 	return AssetLayerSort(layers);
+}
+
+/**
+ * Builds a map of all mask layers in a character's appearance, grouped by the asset groups they affect.
+ * Only includes mask layers from visible assets that aren't blocked and are allowed in the current chat room.
+ * 
+ * @param {Character} C - The character whose masks should be built
+ * @returns {AssetLayer[]} A map of group names to arrays of mask layers that affect them
+ */
+function CharacterAppearanceBuildMasks(C) {
+	/** @type {AssetLayer[]} */
+	const masks = C.DrawAppearance.reduce((acc, item) => {
+		const asset = item.Asset;
+		// The filter logic here is much the same as in `CharacterAppearanceSortLayers`, but we're only interested in mask layers
+		if (asset.Visible && CharacterAppearanceVisible(C, asset.Name, asset.Group.Name) && InventoryChatRoomAllow(asset.Category)) {
+			const typeRecord = item.Property && item.Property.TypeRecord;
+			asset.Layer.filter(layer => CharacterAppearanceIsLayerVisible(C, layer, asset, typeRecord) && layer.TextureMask).reduce((acc_, layer) => {
+				acc_.push(layer);
+				return acc_;
+			}, acc);
+		}
+		return acc;
+	}, /** @type {AssetLayer[]} */([]));
+	return masks;
 }
 
 /**
@@ -614,8 +638,8 @@ function CharacterAppearanceBuildCanvas(C) {
 			drawImageBlink: (src, x, y, opts) => DrawImageCanvas(src, C.CanvasBlink.getContext("2d"), x, y, opts),
 			drawImageColorize: (src, x, y, opts) => DrawImageCanvas(src, C.Canvas.getContext("2d"), x, y, opts),
 			drawImageColorizeBlink: (src, x, y, opts) => DrawImageCanvas(src, C.CanvasBlink.getContext("2d"), x, y, opts),
-			drawCanvas: (Img, x, y, alphaMasks) => DrawCanvas(Img, C.Canvas.getContext("2d"), x, y, alphaMasks),
-			drawCanvasBlink: (Img, x, y, alphaMasks) => DrawCanvas(Img, C.CanvasBlink.getContext("2d"), x, y, alphaMasks),
+			drawCanvas: (Img, x, y, alphaMasks, maskLayers) => DrawCanvas(Img, C.Canvas.getContext("2d"), x, y, alphaMasks, maskLayers),
+			drawCanvasBlink: (Img, x, y, alphaMasks, maskLayers) => DrawCanvas(Img, C.CanvasBlink.getContext("2d"), x, y, alphaMasks, maskLayers),
 		});
 	} else {
 		GLDrawAppearanceBuild(C);

@@ -806,6 +806,10 @@ type AssetDefinition = (
 	| AssetDefinition.Script
 );
 
+interface AssetLayerMaskTexureDefinition {
+	/** The groups that will be affected */
+	Groups: AssetGroupName[];
+}
 
 interface AssetLayerDefinition extends AssetCommonPropertiesGroupAssetLayer, AssetCommonPropertiesAssetLayer {
 	/** The layer's name */
@@ -848,6 +852,15 @@ interface AssetLayerDefinition extends AssetCommonPropertiesGroupAssetLayer, Ass
 	 *  similar blending mode if it's not done already (currently in GLDrawImage() in GLDraw.js).
 	 */
 	BlendingMode?: GlobalCompositeOperation;
+
+
+	/**
+	 * Mark the layer as a mask layer, which will be used to apply alpha masks to other layers.
+	 * Only the alpha channel of the image, and positioning are concerned for a mask layer.
+	 * The color, priority and alpha are ignored for mask layers.
+	 * The blending mode of the mask layer must be set to "destination-in" or "destination-out".
+	 */
+	TextureMask?: AssetLayerMaskTexureDefinition;
 
 	/**
 	 * Specify that this is (one of) the asset's lock layer.

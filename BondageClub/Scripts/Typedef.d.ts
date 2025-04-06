@@ -33,6 +33,7 @@ interface WebGL2RenderingContext {
 	programFull?: WebGLProgram;
 	programHalf?: WebGLProgram;
 	programTexMask?: WebGLProgram;
+	programPreMultiplyAlpha?: WebGLProgram;
 	textureCache?: Map<string, WebGLTextureData>;
 	maskCache?: Map<string, WebGLTexture>;
 }
@@ -45,6 +46,7 @@ interface WebGLProgram {
 	u_matrix?: WebGLUniformLocation;
 	u_texture?: WebGLUniformLocation;
 	u_alpha_texture?: WebGLUniformLocation;
+	u_mask_texture?: WebGLUniformLocation;
 	position_buffer?: WebGLBuffer;
 	texcoord_buffer?: WebGLBuffer;
 }
@@ -1070,6 +1072,7 @@ interface AssetLayer {
 	readonly MinOpacity: number;
 	readonly MaxOpacity: number;
 	readonly BlendingMode: GlobalCompositeOperation;
+	readonly TextureMask?: AssetLayerMaskTexureDefinition;
 	readonly LockLayer: boolean;
 	readonly MirrorExpression?: AssetGroupName;
 	/** @deprecated */
@@ -1807,6 +1810,7 @@ interface Character {
 	HasAttribute: (attribute: AssetAttribute) => boolean;
 	DrawAppearance?: Item[];
 	AppearanceLayers?: Mutable<AssetLayer>[];
+	AppearanceMasks?: AssetLayer[];
 	Hooks: Map<CharacterHook, Map<string, () => void>> | null;
 	RegisterHook: (hookName: CharacterHook, hookInstance: string, callback: () => void) => boolean;
 	UnregisterHook: (hookName: CharacterHook, hookInstance: string) => boolean;
@@ -3758,6 +3762,13 @@ interface AudioChatAction {
 
 // #region Character drawing
 
+interface TextureAlphaMask {
+	X: number;
+	Y: number;
+	Url: string;
+	Mode: "destination-in" | "destination-out";
+}
+
 /** Options available to most draw calls */
 type DrawOptions = {
 	/** Transparency between 0-1 */
@@ -3782,6 +3793,8 @@ type DrawOptions = {
 	readonly AlphaMasks?: readonly RectTuple[];
 	/** Blending mode for drawing the image */
 	BlendingMode?: GlobalCompositeOperation;
+	/** A list of mask layers to apply to the call */
+	readonly TextureAlphaMask?: readonly TextureAlphaMask[];
 }
 
 /**
@@ -3804,6 +3817,7 @@ type DrawCanvasCallback = (
 	x: number,
 	y: number,
 	alphaMasks?: RectTuple[],
+	maskLayers?: TextureAlphaMask[],
 ) => void;
 
 /**
