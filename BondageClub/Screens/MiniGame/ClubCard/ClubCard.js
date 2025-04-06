@@ -1776,34 +1776,7 @@ var ClubCardList = [
 		MoneyPerTurn: -3,
 		RequiredLevel: 4,
 		OnPlay: function(CCPlayer) {
-			let knotsInDiscard = CCPlayer.DiscardPile.filter(card => ClubCardCardHasGroup(card, "Knot"));
-			let cardsToAdd = [];
-			let Quicks = [];
-
-			if (knotsInDiscard.length > 0) {
-				const random1 = Math.floor(Math.random() * knotsInDiscard.length);
-				cardsToAdd.push(knotsInDiscard.splice(random1, 1)[0]);
-			}
-
-			if (knotsInDiscard.length > 0) {
-				const random2 = Math.floor(Math.random() * knotsInDiscard.length);
-				cardsToAdd.push(knotsInDiscard.splice(random2, 1)[0]);
-			}
-
-			for (const card of cardsToAdd) {
-				if (card.Name == "Quick Release Knot") {
-					Quicks.push(card);
-					continue;
-				}
-				ClubCardSummonCard(CCPlayer, card);
-			}
-
-			if (Quicks.length > 0) {
-				ClubCardSummonCard(CCPlayer, Quicks[0]);
-				if (Quicks.length > 1) {
-					ClubCardSummonCard(CCPlayer, Quicks[1]);
-				}
-			}
+			ClubCardPlayerSummonGroupCardFromDeck(CCPlayer, ["Knot"], 2, undefined, null, "Streets");
 		}
 	},
 
@@ -3818,15 +3791,17 @@ function ClubCardPlayerDrawTypeCard(CCPlayer, types, level) {
  * @param {number} amount - The amount of cards to summon
  * @param {number | undefined} level - The level of the cards if needed
  * @param {string | undefined} type - Event or Member if needed to specify
+ * @param {string | undefined} source - null for deck, 'Streets' for streets
  * @returns {boolean} - if cards were summoned or not
  */
-function ClubCardPlayerSummonGroupCardFromDeck(CCPlayer, groups, amount, level, type = null) {
+function ClubCardPlayerSummonGroupCardFromDeck(CCPlayer, groups, amount, level, type = null, source = null) {
 	if ((CCPlayer === null) || (CCPlayer.Deck === null) || (CCPlayer.Board === null)) {
 		return false;
 	}
 
 	let groupCardsInDeck;
-	groupCardsInDeck = CCPlayer.Deck.filter(value => groups.some(group => ClubCardCardHasGroup(value, group) && value.RequiredLevel == level && ClubCardCanSummonCard(CCPlayer, value)));
+	if (source = "Streets") groupCardsInDeck = CCPlayer.DiscardPile.filter(value => groups.some(group => ClubCardCardHasGroup(value, group) && value.RequiredLevel == level && ClubCardCanSummonCard(CCPlayer, value)));
+	else groupCardsInDeck = CCPlayer.Deck.filter(value => groups.some(group => ClubCardCardHasGroup(value, group) && value.RequiredLevel == level && ClubCardCanSummonCard(CCPlayer, value)));
 	if (groupCardsInDeck.length === 0) {
 		return false;
 	}
@@ -3843,8 +3818,14 @@ function ClubCardPlayerSummonGroupCardFromDeck(CCPlayer, groups, amount, level, 
 			const cardIndex = groupCardsInDeck.findIndex(value => value.ID === card.ID);
 			groupCardsInDeck.splice(cardIndex, 1);
 
-			const cardIndexInDeck = CCPlayer.Deck.findIndex(value => value.ID === card.ID);
-			CCPlayer.Deck.splice(cardIndexInDeck, 1);
+			if (source = "Streets") {
+				const cardIndexInDeck = CCPlayer.DiscardPile.findIndex(value => value.ID === card.ID);
+				CCPlayer.DiscardPile.splice(cardIndexInDeck, 1);
+
+			} else {
+				const cardIndexInDeck = CCPlayer.Deck.findIndex(value => value.ID === card.ID);
+				CCPlayer.Deck.splice(cardIndexInDeck, 1);
+			}
 
 			ClubCardSummonCard(CCPlayer, card);
 			groupCardsInDeck = groupCardsInDeck.filter(value => ClubCardCanSummonCard(CCPlayer, value));
