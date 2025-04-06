@@ -5043,6 +5043,10 @@ var AssetFemale3DCGExtended = {
 			],
 			ChangeWhenLocked: false,
 		}, // MCuffCollar
+		ChainCollar: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [{ Name: "LockBodyHeart" }, { Name: "LockBodyPlain" }],
+		}, // ChainCollar
 	}, // ItemNeck
 	ItemNeckAccessories: {
 		CustomCollarTag: {
