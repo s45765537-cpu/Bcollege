@@ -5214,6 +5214,41 @@ function ClubCardMoveCardToPending(card, onStart = null, onComplete = null, dura
 // #endregion ### ### ### ### ### ### ###
 
 /**
+ * Draws a trapezoid with the top edge flat and bottom corners cut inward,
+ * creating a sharp bottom trapezoidal shape.
+ *
+ * @param {number} x - The X position of the top-left corner of the trapezoid.
+ * @param {number} y - The Y position of the top-left corner of the trapezoid.
+ * @param {number} width - The total width of the trapezoid.
+ * @param {number} height - The total height of the trapezoid.
+ * @param {number} cutSize - The size of the diagonal cuts at the bottom corners.
+ * @param {string} color - The fill color of the trapezoid.
+ * @returns {void} - Nothing.
+ */
+function ClubCardDrawTrapezoidBottomCut(x, y, width, height, cutSize, color) {
+	MainCanvas.save();
+	MainCanvas.beginPath();
+
+	// Top edge - flat
+	MainCanvas.moveTo(x, y);
+	MainCanvas.lineTo(x + width, y);
+
+	// Right side - straight down, then inward diagonal cut
+	MainCanvas.lineTo(x + width, y + height - cutSize);
+	MainCanvas.lineTo(x + width - cutSize, y + height);
+
+	// Left bottom corner cut
+	MainCanvas.lineTo(x + cutSize, y + height);
+	MainCanvas.lineTo(x, y + height - cutSize);
+
+	// Close the shape
+	MainCanvas.closePath();
+	MainCanvas.fillStyle = color;
+	MainCanvas.fill();
+	MainCanvas.restore();
+}
+
+/**
  * Draw the club card player hand on screen, show only sleeves if not controlled by player
  * @param {ClubCard|Number} Card - The card to draw
  * @param {number} X - The X on screen position
@@ -5288,7 +5323,7 @@ function ClubCardRenderCard(Card, X, Y, W, Sleeve = null, Source = null, isIgnor
 	if (Card.FamePerTurn != null) BubblePos = ClubCardRenderBubble(Card.FamePerTurn, X + W * 0.05, BubblePos, W * WModifier, "Fame");
 	if (Card.MoneyPerTurn != null) ClubCardRenderBubble(Card.MoneyPerTurn, X + W * 0.05, BubblePos, W * WModifier, "Money");
 	if (Card.Text != null) {
-		DrawRect(X + W * 0.05, Y + W * 1.41, W * 0.9, W * 0.58, Color + "A0");
+		ClubCardDrawTrapezoidBottomCut(X + W * 0.025, Y + W * 1.405, W * 0.95, W * 0.58, W * 0.096, Color + "A0");
 		let GroupText = ClubCardGetGroupText(Card.Group);
 		if (GroupText != "") {
 			if (Card.RewardMemberNumber && GroupText.includes(ClubCardTextGet("GroupPlayer"))) {
@@ -5298,7 +5333,7 @@ function ClubCardRenderCard(Card, X, Y, W, Sleeve = null, Source = null, isIgnor
 			MainCanvas.font = "bold " + Math.round(W / 16) + "px arial";
 			DrawTextWrap(GroupText, X + W * 0.05, Y + W * 1.44, W * 0.925, W * 0.1, "Black", null, null, Math.round(W / 22));
 			MainCanvas.font = ((Card.Text.startsWith("<F>")) ? "italic " : "bold ") + Math.round(W / 16) + "px arial";
-			DrawTextWrap(Card.Text.replace("<F>", ""), X + W * 0.05, Y + W * 1.6, W * 0.925, W * 0.38, "Black", null, null, Math.round(W / 22));
+			DrawTextWrap(Card.Text.replace("<F>", ""), X + W * 0.05, Y + W * 1.575, W * 0.925, W * 0.38, "Black", null, null, Math.round(W / 22));
 		} else {
 			MainCanvas.font = ((Card.Text.startsWith("<F>")) ? "italic " : "bold ") + Math.round(W / 16) + "px arial";
 			DrawTextWrap(Card.Text.replace("<F>", ""), X + W * 0.05, Y + W * 1.5, W * 0.925, W * 0.48, "Black", null, null, Math.round(W / 22));
