@@ -1161,9 +1161,8 @@ var ClubCardList = [
 		Time: 6,
 		onLeaveClub: function(CCPlayer) {
 			const opponent = ClubCardGetOpponent(CCPlayer);
-			ClubCardPlayerAddFame(opponent, -15);
+			ClubCardPlayerAddFame(opponent, -15, this.Name);
 			ClubCardPlayerDiscardCard(opponent, 1);
-			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "LoseFame", { [ClubCardPlaceholderKeys.AMOUNT]: 15 }, opponent);
 		}
 	},
 
@@ -1644,7 +1643,7 @@ var ClubCardList = [
 		Group: ["Player"],
 		RewardMemberNumber: 177508,
 		Prerequisite: "SelectATier",
-		Time: 4,
+		Time: 3,
 		OnPlay: function () {
 			this.EffectKey = ClubCardTierSelection;
 			this.ExtraPlay = 1;
@@ -2149,8 +2148,7 @@ var ClubCardList = [
 			let Opponent = ClubCardGetOpponent(CCPlayer);
 			if (!ClubCardNameIsOnBoard(Opponent, "Amanda") && !ClubCardNameIsOnBoard(Opponent, "Jennifer")) {
 				const amount = Opponent.Level * -5;
-				ClubCardPlayerAddMoney(Opponent, amount);
-				ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "LoseMoney", { [ClubCardPlaceholderKeys.AMOUNT]: amount }, Opponent);
+				ClubCardPlayerAddMoney(Opponent, amount, this.Name);
 			}
 		},
 		CanPlay: function(CCPlayer) {
@@ -2259,8 +2257,7 @@ var ClubCardList = [
 			let Opponent = ClubCardGetOpponent(CCPlayer);
 			ClubCardRemoveFromBoard(Opponent, ClubCardSelection);
 			let Money = Math.pow(Opponent.Level, 2);
-			ClubCardPlayerAddMoney(CCPlayer, Money * -1);
-			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "LoseMoney", { [ClubCardPlaceholderKeys.AMOUNT]: Money }, CCPlayer);
+			ClubCardPlayerAddMoney(CCPlayer, Money * -1, this.Name);
 		}
 	},
 	{
@@ -2414,16 +2411,14 @@ var ClubCardList = [
 		Time: 3,
 		RequiredLevel: 4,
 		BeforeTurnEnd: function(CCPlayer) {
-			let Fame =  Math.min(12, ClubCardGroupOnBoardCount(CCPlayer, "PornActress"));
+			let Fame =  Math.min(4, ClubCardGroupOnBoardCount(CCPlayer, "PornActress")) * 3;
 			if (Fame > 0) {
-				Fame = Fame * 3;
 				ClubCardPlayerAddFame(CCPlayer, Fame, this.Name);
 			}
 		},
 		BeforeOpponentTurnEnd: function(CCPlayer) {
-			let Fame = Math.min(12, ClubCardGroupOnBoardCount(CCPlayer, "PornActress"));
+			let Fame = Math.min(4, ClubCardGroupOnBoardCount(CCPlayer, "PornActress")) * 3;
 			if (Fame > 0) {
-				Fame = Fame * 3;
 				ClubCardPlayerAddFame(CCPlayer, Fame, this.Name);
 			}
 		}
@@ -3333,6 +3328,7 @@ function ClubCardPlayerAddMoney(CCPlayer, Amount, CardName = null) {
 	if (CCPlayer.Money == null) CCPlayer.Money = 0;
 	CCPlayer.Money = CCPlayer.Money + Amount;
 	if (CardName && Amount > 0) ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "GainMoney", {[ClubCardPlaceholderKeys.AMOUNT]: Amount, [ClubCardPlaceholderKeys.CARDNAME]: CardName}, CCPlayer);
+	else if (CardName && Amount < 0) ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "LoseMoney", {[ClubCardPlaceholderKeys.AMOUNT]: Amount, [ClubCardPlaceholderKeys.CARDNAME]: CardName}, CCPlayer);
 }
 
 /**
@@ -3346,6 +3342,7 @@ function ClubCardPlayerAddFame(CCPlayer, Amount, CardName = null) {
 	if (CCPlayer.Fame == null) CCPlayer.Fame = 0;
 	CCPlayer.Fame = CCPlayer.Fame + Amount;
 	if (CardName && Amount > 0) ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "GainFame", {[ClubCardPlaceholderKeys.AMOUNT]: Amount, [ClubCardPlaceholderKeys.CARDNAME]: CardName}, CCPlayer);
+	else if (CardName && Amount < 0) ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "LoseFame", {[ClubCardPlaceholderKeys.AMOUNT]: Amount, [ClubCardPlaceholderKeys.CARDNAME]: CardName}, CCPlayer);
 }
 
 /**
@@ -3859,50 +3856,6 @@ function ClubCardPlayerSummonGroupCardFromDeck(CCPlayer, groups, amount, level, 
 }
 
 /**
- * Summon cards from the player discard pile into it's board
- * @param {ClubCardPlayer} CCPlayer - The club card player that summons the cards
- * @param {readonly string[]} groups - The group to summon from
- * @param {number} amount - The amount of cards to summon
- * @param {number | undefined} level - The level of the cards if needed
- * @param {string | undefined} type - Event or Member if needed to specify
- * @returns {boolean} - if cards were summoned or not
- */
-function ClubCardPlayerSummonGroupCardFromDiscard(CCPlayer, groups, amount, level, type = null) {
-	if ((CCPlayer === null) || (CCPlayer.Deck === null) || (CCPlayer.Board === null) || (CCPlayer.DiscardPile === null)) {
-		return false;
-	}
-
-	let groupCardsInDiscard;
-	groupCardsInDiscard = CCPlayer.DiscardPile.filter(value => groups.some(group => ClubCardCardHasGroup(value, group) && value.RequiredLevel == level && ClubCardCanSummonCard(CCPlayer, value)));
-	if (groupCardsInDiscard.length === 0) {
-		return false;
-	}
-
-	if (type === "Event") {
-		groupCardsInDiscard = groupCardsInDiscard.filter(value => value.Type === "Event");
-	} else if (type === "Member") {
-		groupCardsInDiscard = groupCardsInDiscard.filter(value => value.Type === "Member");
-	}
-
-	while (amount > 0) {
-		if (groupCardsInDiscard.length > 0) {
-			const card = groupCardsInDiscard[Math.floor(Math.random() * groupCardsInDiscard.length)];
-			const cardIndex = groupCardsInDiscard.findIndex(value => value.ID === card.ID);
-			groupCardsInDiscard.splice(cardIndex, 1);
-
-			const cardIndexInDiscard = CCPlayer.DiscardPile.findIndex(value => value.ID === card.ID);
-			CCPlayer.DiscardPile.splice(cardIndexInDiscard, 1);
-
-			ClubCardSummonCard(CCPlayer, card);
-			groupCardsInDiscard = groupCardsInDiscard.filter(value => ClubCardCanSummonCard(CCPlayer, value));
-		}
-		amount--;
-	}
-
-	return true;
-}
-
-/**
  * Play a card from an effect
  * @param {ClubCardPlayer} CCPlayer - The club card player
  * @param {ClubCard} card - The card to play
@@ -3979,7 +3932,7 @@ function ClubCardOnDrawAction(CCPlayer) {
 		conArtistsCount--;
 	}
 
-	if (ClubCardEventNameIsInEvents(opponent, "Sabotage")) ClubCardPlayerAddFame(CCPlayer, -8);
+	if (ClubCardEventNameIsInEvents(opponent, "Sabotage")) ClubCardPlayerAddFame(CCPlayer, -8, "Sabotage");
 }
 
 /**
