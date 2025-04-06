@@ -3034,7 +3034,7 @@ function ClubCardMessagePacketProcessing() {
 		ClubCardMessageStorage = ClubCardMessageStorage.filter(msg => msg.TextGetKey !== "MemberLeaveClub");
 	//Effect Gangbang Banger
 	if (isGangbangBanger)
-		ClubCardMessageStorage = ClubCardMessageStorage.filter(msg => msg.TextGetKey !== "MemberLeaveClub" && msg.TextGetKey !== "PlayACard");
+		ClubCardMessageStorage = ClubCardMessageStorage.filter(msg => msg.TextGetKey !== "MemberSummoned");
 	//StealMoney & StealFame
 	if (stealMoneyMessages.length > 0 && stealFameMessages.length > 0) {
 		ClubCardMessagesMergeSteal(stealMoneyMessages, stealFameMessages);
