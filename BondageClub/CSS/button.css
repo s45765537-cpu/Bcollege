@@ -23,6 +23,8 @@
 	background-size: contain;
 	mask-size: contain;
 	box-sizing: border-box;
+	user-select: none;
+	-webkit-user-select: none;
 }
 
 /* Delegate the background/border styling to a separate class in order to ease their removal when a greater degree of element styling is desired */
@@ -35,7 +37,6 @@
 	--tooltip-gap: min(1vh, 0.5vw);
 
 	cursor: auto;
-	user-select: none;
 	background-color: #FFFF88;
 	color: black;
 	border: min(0.2vh, 0.1vw) solid black;

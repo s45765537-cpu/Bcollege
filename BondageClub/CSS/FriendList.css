@@ -34,6 +34,7 @@
 	width: 20%;
 	text-align: center;
 	user-select: none;
+	-webkit-user-select: none;
 }
 
 #friend-list-search-input {
@@ -65,6 +66,7 @@
 
 #friend-list-header {
 	user-select: none;
+	-webkit-user-select: none;
 }
 
 #friend-list-header .friend-list-link {
@@ -114,6 +116,7 @@
 	justify-content: center;
 	gap: 0.15em;
 	user-select: none;
+	-webkit-user-select: none;
 }
 
 .friend-list-icon-container {
@@ -233,6 +236,7 @@
 
 .RelationType {
 	user-select: none;
+	-webkit-user-select: none;
 }
 
 .friend-list-link {
