@@ -64,6 +64,7 @@ UpgradedToLevel4,PLAYERNAME upgraded to Mansion for MONEYAMOUNT Money.
 UpgradedToLevel5,PLAYERNAME upgraded to Manor for MONEYAMOUNT Money.
 GainFame,SOURCEPLAYER gained AMOUNT Fame from CARDNAME.
 GainMoney,SOURCEPLAYER gained AMOUNT Money from CARDNAME.
+GainFameMoney,SOURCEPLAYER gained FAMEAMOUNT Fame and MONEYAMOUNT Money from CARDNAME.
 LoseFame,SOURCEPLAYER lost AMOUNT Fame.
 LoseMoney,SOURCEPLAYER lost AMOUNT Money.
 StealFame,SOURCEPLAYER stole AMOUNT Fame from OPPONENTPLAYER.
@@ -356,6 +357,8 @@ Title Restrain,Restrain
 Text Restrain,"For 3 turns, you nor your opponent can play Events. Cancels all Events."
 Title Detective,Detective
 Text Detective,For each card your opponent draws gain 1 Money. If no Liability are present gain 1 Fame and 1 Money instead.
+Effect Detective Money,SOURCEPLAYER gained AMOUNT Money from CARDNAME.
+Effect Detective MoneyFame,SOURCEPLAYER gained FAMEAMOUNT Fame and MONEYAMOUNT Money from CARDNAME.
 Title Launder,Launder
 Text Launder,A Criminal must be present. Lose all your Money. +1 Fame for every 3 Money lost.
 Title Big Baby,Big Baby
@@ -399,8 +402,8 @@ Effect Re-Run,SOURCEPLAYER returned CARDNAME from their Streets to their hand an
 Title Naughty Knotter,Naughty Knotter
 Text Naughty Knotter,"When she enters your club, play 2 random Knots from your streets."
 Title Gangbang Banger,Gangbang Banger
-Text Gangbang Banger,"Return all porn actresses from your club to your hand, then play all porn members in your hand. Gain 1 fame per member played."
-Effect Gangbang Banger,"SOURCEPLAYER returned all porn actresses and played AMOUNT porn members, gaining equal fame."
+Text Gangbang Banger,"Return all porn actresses from your club to your hand, then play all porn members in your hand."
+Effect Gangbang Banger,The porn actresses from SOURCEPLAYER’s club leave… and instantly strut right back in!
 Title Alvin,Alvin
 Text Alvin,"Summon a Ropeslave when playing Restrain, Shibari event or Kidnapping a Dominant or Mistress (max 3 in club)"
 Title Rope Slave,Rope Slave

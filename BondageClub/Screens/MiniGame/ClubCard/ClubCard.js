@@ -818,9 +818,12 @@ var ClubCardList = [
 		MoneyPerTurn: 1,
 		FamePerTurn: 4,
 		RequiredLevel: 5,
-		OnPlay: function(CCPlayer) {
-			ClubCardPlayerAddFame(CCPlayer, 5);
-			ClubCardPlayerAddMoney(CCPlayer, 5);
+		OnPlay: function (CCPlayer) {
+			const amount = 5;
+			ClubCardPlayerAddFame(CCPlayer, amount);
+			ClubCardPlayerAddMoney(CCPlayer, amount);
+			const placeHolder = { [ClubCardPlaceholderKeys.MONEYAMOUNT]: amount, [ClubCardPlaceholderKeys.FAMEAMOUNT]: amount, [ClubCardPlaceholderKeys.CARDNAME]: "Porn Star"};
+			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "GainFameMoney", placeHolder, CCPlayer);
 		}
 	},
 	{
@@ -858,6 +861,8 @@ var ClubCardList = [
 				const statGain = Math.min((ClubCardGroupOnBoardCount(CCPlayer, "PornActress") + (cardPlayed.RequiredLevel ?? 1)), 6);
 				ClubCardPlayerAddMoney(CCPlayer, statGain);
 				ClubCardPlayerAddFame(CCPlayer, statGain);
+				const placeHolder = { [ClubCardPlaceholderKeys.MONEYAMOUNT]: statGain, [ClubCardPlaceholderKeys.FAMEAMOUNT]: statGain, [ClubCardPlaceholderKeys.CARDNAME]: "Guest Star"};
+				ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "GainFameMoney", placeHolder, CCPlayer);
 			}
 		}
 	},
@@ -2815,18 +2820,21 @@ var ClubCardList = [
 		RequiredLevel: 5,
 		OnPlay: function(CCPlayer) {
 			const removedActresses = CCPlayer.Board.filter(card => card.Group?.includes("PornActress"));
-			CCPlayer.Board = CCPlayer.Board.filter(card => !card.Group?.includes("PornActress"));
+			removedActresses.forEach(card => ClubCardRemoveFromBoard(CCPlayer, card));
 			const copiedActresses = removedActresses.map(card => ClubCardGetCopyCardByID(card.ID));
 			CCPlayer.Hand.push(...copiedActresses);
 
 			const pornRelatedCount = CCPlayer.Hand.filter(card=> (card.Group?.includes("PornActress") || card.Group?.includes("Porn")) && card.Type !== "Event").length;
 			for (let i = 0; i < pornRelatedCount; i++) {
-				const pornCardIndex = CCPlayer.Hand.findIndex(card=> (card.Group?.includes("PornActress") || card.Group?.includes("Porn")) && (card.Type === "Member" || card.Type == undefined));
-				const pornCard = CCPlayer.Hand.splice(pornCardIndex, 1)[0];
-				ClubCardSummonCard(CCPlayer, pornCard);
+				const pornCardIndex = CCPlayer.Hand.findIndex(card =>
+					(card.Group?.includes("PornActress") || card.Group?.includes("Porn"))
+					&& (card.Type === "Member" || card.Type == undefined)
+				);
+				const pornCard = CCPlayer.Hand[pornCardIndex];
+				if (ClubCardCanSummonCard(CCPlayer, pornCard))
+					ClubCardSummonCard(CCPlayer, CCPlayer.Hand.splice(pornCardIndex, 1)[0]);
 			}
-			ClubCardPlayerAddFame(CCPlayer, pornRelatedCount);
-			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Gangbang Banger", { [ClubCardPlaceholderKeys.AMOUNT]: pornRelatedCount}, CCPlayer);
+			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Gangbang Banger", {}, CCPlayer);
 		},
 		CanPlay: function(CCPlayer) {
 			return CCPlayer.Board.filter(card => card.Group?.includes("PornActress")).length != 0 || CCPlayer.Hand.filter(card=> (card.Group?.includes("PornActress") || card.Group?.includes("Porn")) && (card.Type === "Member" || card.Type == undefined)).length != 0;
@@ -2977,7 +2985,7 @@ function ClubCardMessageSendAll() {
  * Processes and merges specific messages from the storage.
  */
 function ClubCardMessagePacketProcessing() {
-	const specialCases = ["Effect Hypnotherapist", "StealMoney", "StealFame", "Effect Gangbang Banger"];
+	const specialCases = ["Effect Hypnotherapist", "StealMoney", "StealFame", "Effect Gangbang Banger", "Effect Detective MoneyFame", "Effect Detective Money"];
 	const mergeableKeys = ["Effect Rope Slave", "Effect Living Art"];
 
 	const hasRelevantMessages = ClubCardMessageStorage.some(msg =>
@@ -2994,6 +3002,8 @@ function ClubCardMessagePacketProcessing() {
 	let squareKnotSenseiMeesages = [];
 	let closedHitchMeesages = [];
 	let quickReleaseKnotMeesages = [];
+	let detectiveMoney = [];
+	let detectiveMoneyFame = [];
 
 	let isHypnotherapist = false;
 	let isGangbangBanger = false;
@@ -3013,16 +3023,21 @@ function ClubCardMessagePacketProcessing() {
 		else if (message.TextGetKey === "Effect Square Knot Sensei") squareKnotSenseiMeesages.push({ message, index: i });
 		else if (message.TextGetKey === "Effect Closed Hitch") closedHitchMeesages.push({ message, index: i });
 		else if (message.TextGetKey === "Effect Quick Release Knot") quickReleaseKnotMeesages.push({ message, index: i });
+		else if (message.TextGetKey === "Effect Detective Money") detectiveMoney.push({ message, index: i });
+		else if (message.TextGetKey === "Effect Detective MoneyFame") detectiveMoneyFame.push({ message, index: i });
 	}
 
 	// ### Normal merging of messages into one
-	if (ropeSlaveMessages.length > 1) ClubCardMessagesMerge(ropeSlaveMessages);
-	if (livingArtMessages.length > 1) ClubCardMessagesMerge(livingArtMessages);
-	if (burlingtonBowtieMeesages.length > 1) ClubCardMessagesMerge(burlingtonBowtieMeesages);
-	if (squareKnotMeesages.length > 1) ClubCardMessagesMerge(squareKnotMeesages);
-	if (squareKnotSenseiMeesages.length > 1) ClubCardMessagesMerge(squareKnotSenseiMeesages);
-	if (closedHitchMeesages.length > 1) ClubCardMessagesMerge(closedHitchMeesages);
-	if (quickReleaseKnotMeesages.length > 1) ClubCardMessagesMerge(quickReleaseKnotMeesages);
+	if (ropeSlaveMessages.length > 1) ClubCardMessagesMergeByKeys(ropeSlaveMessages, [ClubCardPlaceholderKeys.AMOUNT]);
+	if (livingArtMessages.length > 1) ClubCardMessagesMergeByKeys(livingArtMessages, [ClubCardPlaceholderKeys.AMOUNT]);
+	if (burlingtonBowtieMeesages.length > 1) ClubCardMessagesMergeByKeys(burlingtonBowtieMeesages, [ClubCardPlaceholderKeys.AMOUNT]);
+	if (squareKnotMeesages.length > 1) ClubCardMessagesMergeByKeys(squareKnotMeesages, [ClubCardPlaceholderKeys.AMOUNT]);
+	if (squareKnotSenseiMeesages.length > 1) ClubCardMessagesMergeByKeys(squareKnotSenseiMeesages, [ClubCardPlaceholderKeys.AMOUNT]);
+	if (closedHitchMeesages.length > 1) ClubCardMessagesMergeByKeys(closedHitchMeesages, [ClubCardPlaceholderKeys.AMOUNT]);
+	if (quickReleaseKnotMeesages.length > 1) ClubCardMessagesMergeByKeys(quickReleaseKnotMeesages, [ClubCardPlaceholderKeys.AMOUNT]);
+	if (detectiveMoney.length > 1) ClubCardMessagesMergeByKeys(detectiveMoney, [ClubCardPlaceholderKeys.AMOUNT]);
+	if (detectiveMoneyFame.length > 1) ClubCardMessagesMergeByKeys(detectiveMoneyFame, [ClubCardPlaceholderKeys.MONEYAMOUNT, ClubCardPlaceholderKeys.FAMEAMOUNT]);
+
 	// ###
 
 	// ### Unique processing
@@ -3031,36 +3046,42 @@ function ClubCardMessagePacketProcessing() {
 		ClubCardMessageStorage = ClubCardMessageStorage.filter(msg => msg.TextGetKey !== "MemberLeaveClub");
 	//Effect Gangbang Banger
 	if (isGangbangBanger)
-		ClubCardMessageStorage = ClubCardMessageStorage.filter(msg => msg.TextGetKey !== "MemberSummoned");
+		ClubCardMessageStorage = ClubCardMessageStorage.filter(msg => msg.TextGetKey !== "MemberSummoned" && msg.TextGetKey !== "MemberLeaveClub");
 	//StealMoney & StealFame
 	if (stealMoneyMessages.length > 0 && stealFameMessages.length > 0) {
 		ClubCardMessagesMergeSteal(stealMoneyMessages, stealFameMessages);
 	} else {
-		if (stealMoneyMessages.length > 1) ClubCardMessagesMerge(stealMoneyMessages);
-		if (stealFameMessages.length > 1) ClubCardMessagesMerge(stealFameMessages);
+		if (stealMoneyMessages.length > 1) ClubCardMessagesMergeByKeys(stealMoneyMessages, [ClubCardPlaceholderKeys.AMOUNT]);
+		if (stealFameMessages.length > 1) ClubCardMessagesMergeByKeys(stealFameMessages, [ClubCardPlaceholderKeys.AMOUNT]);
 	}
 	// ###
 }
 
-
 /**
- * Merges multiple messages by summing their AMOUNT placeholder and keeping the last message.
+ * Merges multiple messages by summing selected placeholders and keeping the last message.
  *
- * @param {Array<{ message: ClubCardMessage, index: number }>} messageArray - The array of messages with their indexes.
+ * @param {Array<{ message: ClubCardMessage, index: number }>} messageArray
+ * @param {Array<string>} keysToSum - Placeholder keys to sum (e.g. ["AMOUNT"], ["MONEYAMOUNT", "FAMEAMOUNT"])
  */
-function ClubCardMessagesMerge(messageArray) {
+function ClubCardMessagesMergeByKeys(messageArray, keysToSum) {
 	if (messageArray.length <= 1) return;
 
-	const totalAmount = messageArray.reduce((sum, item) =>
-		sum + Number(item.message.Placeholders[ClubCardPlaceholderKeys.AMOUNT] || 0), 0
-	);
+	const totals = {};
+	for (const key of keysToSum) {
+		totals[key] = messageArray.reduce((sum, item) =>
+			sum + Number(item.message.Placeholders[key] || 0), 0);
+	}
 
 	const lastMessage = { ...messageArray[messageArray.length - 1].message };
-	lastMessage.Placeholders[ClubCardPlaceholderKeys.AMOUNT] = totalAmount;
+
+	for (const key of keysToSum)
+		lastMessage.Placeholders[key] = totals[key];
 
 	ClubCardMessageStorage = ClubCardMessageStorage.filter(msg => msg.TextGetKey !== lastMessage.TextGetKey);
 	ClubCardMessageStorage.splice(messageArray[messageArray.length - 1].index, 0, lastMessage);
 }
+
+
 
 /**
  * Merges "StealMoney" and "StealFame" messages into one.
@@ -3886,9 +3907,31 @@ function ClubCardCanSummonCard(CCPlayer, Card) {
  */
 function ClubCardCheckDraw(CCPlayer) {
 	const opponent = ClubCardGetOpponent(CCPlayer);
-	//Detective check
-	ClubCardPlayerAddMoney(opponent, ClubCardNameCountOnBoard(opponent, "Detective"));
-	ClubCardPlayerAddFame(opponent, ClubCardNameCountOnBoard(opponent, "Detective"));
+	//#####Detective check
+	const detectiveCount = ClubCardNameCountOnBoard(opponent, "Detective");
+	if (detectiveCount > 0) {
+		const hasLiability = ClubCardGroupIsOnBoard(opponent, "Liability");
+
+		ClubCardPlayerAddMoney(opponent, detectiveCount);
+
+		const placeHolder = hasLiability
+			? {
+				[ClubCardPlaceholderKeys.AMOUNT]: detectiveCount,
+				[ClubCardPlaceholderKeys.CARDNAME]: "Detective"
+			}
+			: {
+				[ClubCardPlaceholderKeys.MONEYAMOUNT]: detectiveCount,
+				[ClubCardPlaceholderKeys.FAMEAMOUNT]: detectiveCount,
+				[ClubCardPlaceholderKeys.CARDNAME]: "Detective"
+			};
+
+		if (!hasLiability)
+			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Detective MoneyFame", placeHolder, opponent);
+		else
+			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Detective Money", placeHolder, opponent);
+	}
+	//#####
+
 	//Naughty Kitty check
 	ClubCardPlayerAddMoney(CCPlayer, (ClubCardCalculateLevelForPets(CCPlayer) * ClubCardNameCountOnBoard(CCPlayer, "Naughty Kitty")));
 	ClubCardPlayerAddMoney(CCPlayer, ClubCardNameCountOnBoard(CCPlayer, "Insurance Agent"));
