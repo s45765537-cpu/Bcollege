@@ -1402,11 +1402,6 @@ var AssetFemale3DCGExtended = {
 			DrawImages: false,
 			Options: [{ Name: "Braid" }, { Name: "NoBraid" }],
 		},
-		HairFront68: {
-			Archetype: ExtendedArchetype.TYPED,
-			DrawImages: false,
-			Options: [{ Name: "Basic" }, { Name: "Translucent" }],
-		},
 		HairFront71: {
 			Archetype: ExtendedArchetype.TYPED,
 			DrawImages: false,
@@ -1586,6 +1581,26 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		},
+		HairBack80: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, { Name: "RightOnly" }],
+		}, // HairBack80
+		HairBack82: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Long" }, { Name: "Medium" }],
+		},// HairBack82
+		HairBack83: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, { Name: "RightOnly" }],
+		}, // HairBack83
+		HairBack84: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, { Name: "RightOnly" }],
+		}, // HairBack84
 	},
 	ClothAccessory: {
 		LeatherStraps: {
