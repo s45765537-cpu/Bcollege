@@ -535,6 +535,7 @@ Title Troublemaker,Troublemaker
 Text Troublemaker,Opponent loses 3 fame each time they upgrade unless they have a bouncer.
 Title Housekeeper,Housekeeper
 Text Housekeeper,"When a non-maid member enters your club, gain 1 Fame per member present that shares a type with it (Max = club level)."
+Effect Housekeeper,SOURCEPLAYER gained AMOUNT Fame from CARDNAME.
 Title Maid Manager,Maid Manager
 Text Maid Manager,"Gains +1 Money for every 2 maids present. At club level 4 or higher, gains +1 Fame instead. (Max +4)"
 Title Throne Room Servant,Throne Room Servant
