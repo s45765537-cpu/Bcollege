@@ -2814,15 +2814,12 @@ var ClubCardList = [
 		Group: ["Video"],
 		RequiredLevel: 5,
 		OnPlay: function(CCPlayer) {
-			const actressCount = CCPlayer.Board.filter(card => card.Group?.includes("PornActress")).length;
-			for (let i = 0; i < actressCount; i++) {
-				const actressIndex = CCPlayer.Board.findIndex(card => card.Group?.includes("PornActress"));
-				if (actressIndex !== -1) {
-					const actressCard = CCPlayer.Board.splice(actressIndex, 1)[0];
-					CCPlayer.Hand.push(actressCard);
-				}
-			}
-			const pornRelatedCount = CCPlayer.Hand.filter(card=> (card.Group?.includes("PornActress") || card.Group?.includes("Porn")) && (card.Type === "Member" || card.Type == undefined)).length;
+			const removedActresses = CCPlayer.Board.filter(card => card.Group?.includes("PornActress"));
+			CCPlayer.Board = CCPlayer.Board.filter(card => !card.Group?.includes("PornActress"));
+			const copiedActresses = removedActresses.map(card => ClubCardGetCopyCardByID(card.ID));
+			CCPlayer.Hand.push(...copiedActresses);
+
+			const pornRelatedCount = CCPlayer.Hand.filter(card=> (card.Group?.includes("PornActress") || card.Group?.includes("Porn")) && card.Type !== "Event").length;
 			for (let i = 0; i < pornRelatedCount; i++) {
 				const pornCardIndex = CCPlayer.Hand.findIndex(card=> (card.Group?.includes("PornActress") || card.Group?.includes("Porn")) && (card.Type === "Member" || card.Type == undefined));
 				const pornCard = CCPlayer.Hand.splice(pornCardIndex, 1)[0];
@@ -2980,7 +2977,7 @@ function ClubCardMessageSendAll() {
  * Processes and merges specific messages from the storage.
  */
 function ClubCardMessagePacketProcessing() {
-	const specialCases = ["Effect Hypnotherapist", "StealMoney", "StealFame"];
+	const specialCases = ["Effect Hypnotherapist", "StealMoney", "StealFame", "Effect Gangbang Banger"];
 	const mergeableKeys = ["Effect Rope Slave", "Effect Living Art"];
 
 	const hasRelevantMessages = ClubCardMessageStorage.some(msg =>
