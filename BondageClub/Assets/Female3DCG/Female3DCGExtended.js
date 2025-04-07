@@ -1397,6 +1397,21 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		},
+		HairFront67: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Braid" }, { Name: "NoBraid" }],
+		},
+		HairFront68: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Basic" }, { Name: "Translucent" }],
+		},
+		HairFront71: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Basic" }, { Name: "Translucent" }],
+		},
 	},
 	HairBack: {
 		HairBack58: {

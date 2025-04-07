@@ -19801,6 +19801,121 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "HairFront66",
+				Top: 30,
+				Left: 140
+			},
+			{
+				Name: "HairFront67",
+				Top: 30,
+				Left: 147,
+				Layer: [
+					{
+						Name: "main",
+						AllowTypes: { typed: 0 },
+					},
+					{
+						Name: "main2",
+						CopyLayerColor: "main",
+						AllowTypes: { typed: 1 },
+					},
+					{
+						Name: "streak",
+					}
+				]
+			},
+			{
+				Name: "HairFront68",
+				Top: 30,
+				Layer: [
+					{
+						Name: "Main",
+						AllowTypes: { typed: 0 },
+					},
+					{
+						Name: "BMain",
+						CopyLayerColor: "Main",
+						AllowTypes: { typed: 1 },
+					},
+					{
+						Name: "Streak",
+						AllowTypes: { typed: 0 },
+					},
+					{
+						Name: "BStreak",
+						CopyLayerColor: "Streak",
+						AllowTypes: { typed: 1 },
+					},
+				]
+			},
+			{
+				Name: "HairFront69",
+				Top: 30,
+				Layer: [
+					{
+						Name: "Main",
+					},
+					{
+						Name: "Streak",
+					},
+				]
+			},
+			{
+				Name: "HairFront70",
+				Top: 30,
+				Layer: [
+					{
+						Name: "Main",
+					},
+					{
+						Name: "Tone",
+					},
+				]
+			},
+			{
+				Name: "HairFront71",
+				Top: 30,
+				Layer: [
+					{
+						Name: "Main",
+						AllowTypes: { typed: 0 },
+					},
+					{
+						Name: "BMain",
+						CopyLayerColor: "Main",
+						AllowTypes: { typed: 1 },
+					},
+				]
+			},
+			{
+				Name: "HairFront72",
+				Top: 30,
+			},
+			{
+				Name: "HairFront73",
+				Top: 30,
+				Layer: [
+					{
+						Name: "Main",
+					},
+					{
+						Name: "Tone",
+					},
+				]
+			},
+			{
+				Name: "HairFront74",
+				Top: 30,
+				Layer: [
+					{
+						Name: "Main",
+					},
+					{
+						Name: "Streak",
+					},
+				]
+			},
 		],
 		Color: [
 			"#6a3628",
@@ -20909,6 +21024,19 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Braid",
+					},
+				],
+			},
+			{
+				Name: "HairBack79",
+				Top: 170,
+				Left: 67,
+				Layer: [
+					{
+						Name: "Braid",
+					},
+					{
+						Name: "Band",
 					},
 				],
 			},
