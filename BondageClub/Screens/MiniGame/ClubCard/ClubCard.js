@@ -948,25 +948,29 @@ var ClubCardList = [
 		onPlayedCard: function(CCPlayer, cardPlayed) {
 			if (!ClubCardCardHasGroup(cardPlayed, "Maid") && cardPlayed.Type === "Member" && cardPlayed.Group != null && !ClubCardIsLiability(cardPlayed)) {
 				let sharedGroupCards = CCPlayer.Board.filter(value => cardPlayed.Group.some(group => ClubCardCardHasGroup(value, group)));
-				const Fame = Math.min(CCPlayer.Level, sharedGroupCards.length - 1);
-				ClubCardPlayerAddFame(CCPlayer, Fame);
-				const placeHolder ={
-					[ClubCardPlaceholderKeys.AMOUNT]: Fame,
-					[ClubCardPlaceholderKeys.CARDNAME]: "Housekeeper"
-				};
-				ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Housekeeper", placeHolder, CCPlayer);
+				const Fame = Math.min(3, sharedGroupCards.length - 1);
+				if (Fame > 0) {
+					ClubCardPlayerAddFame(CCPlayer, Fame);
+					const placeHolder ={
+						[ClubCardPlaceholderKeys.AMOUNT]: Fame,
+						[ClubCardPlaceholderKeys.CARDNAME]: "Housekeeper"
+					};
+					ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Housekeeper", placeHolder, CCPlayer);
+				}
 			}
 		},
 		onOpponentPlayedCard: function (CCPlayer, cardPlayed) {
 			if (!ClubCardCardHasGroup(cardPlayed, "Maid") && cardPlayed.Type === "Member" && cardPlayed.Group != null && ClubCardIsLiability(cardPlayed)) {
 				let sharedGroupCards = CCPlayer.Board.filter(value => cardPlayed.Group.some(group => ClubCardCardHasGroup(value, group)));
-				const Fame = Math.min(CCPlayer.Level, sharedGroupCards.length - 1);
-				ClubCardPlayerAddFame(CCPlayer, Fame);
-				const placeHolder ={
-					[ClubCardPlaceholderKeys.AMOUNT]: Fame,
-					[ClubCardPlaceholderKeys.CARDNAME]: "Housekeeper"
-				};
-				ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Housekeeper", placeHolder, CCPlayer);
+				const Fame = Math.min(3, sharedGroupCards.length - 1);
+				if (Fame > 0) {
+					ClubCardPlayerAddFame(CCPlayer, Fame);
+					const placeHolder ={
+						[ClubCardPlaceholderKeys.AMOUNT]: Fame,
+						[ClubCardPlaceholderKeys.CARDNAME]: "Housekeeper"
+					};
+					ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Housekeeper", placeHolder, CCPlayer);
+				}
 			}
 		}
 	},
@@ -2067,8 +2071,8 @@ var ClubCardList = [
 		OnPlay: function(CCPlayer) {
 			let Fame = 0;
 			for (let Card of CCPlayer.Board)
-				if ((Card.Group == null) || (!Card.Group.includes("Staff") && !Card.Group.includes("Maid") && !Card.Group.includes("Dominant") && !Card.Group.includes("Liability")))
-					Fame = Fame + 3;
+				if ((Card.Group == null) || (!Card.Group.includes("Staff") && !Card.Group.includes("Maid") && !Card.Group.includes("Dominant") && !Card.Group.includes("Liability") && !Card.Group.includes("Kemonomimi") && !Card.Group.includes("Player")))
+					Fame = Fame + 2;
 			ClubCardPlayerAddFame(CCPlayer, Fame, this.Name);
 		}
 	},
