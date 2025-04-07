@@ -5359,7 +5359,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BartenderVest",
-				InventoryID: 1225,
+				InventoryID: 1230,
 				Value: 12,
 				BuyGroup: "BartenderVest",
 				Gender: "F",
@@ -5444,7 +5444,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "BartenderVestM",
-				InventoryID: 1225,
+				InventoryID: 1230,
 				Value: -1,
 				BuyGroup: "BartenderVest",
 				Gender: "M",
@@ -8044,7 +8044,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ExtremeCorset",
-				InventoryID: 1228,
+				InventoryID: 1231,
 				Gender: "F",
 				Fetish: ["Lingerie", "Latex"],
 				Priority: 22,
@@ -18079,7 +18079,7 @@ var AssetFemale3DCG = [
 			},
             {
 				Name: "LargeBushyTail",
-				InventoryID: 1179,
+				InventoryID: 1232,
 				Fetish: ["Pet"],
                 BuyGroup: "largeBushyTail",
                 DefaultColor: ["#8F5F2D"],
@@ -28412,7 +28412,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ExtremeCorset",
-				InventoryID: 1228,
+				InventoryID: 1231,
 				Gender: "F",
 				Fetish: ["Lingerie", "Latex"],
 				Priority: 22,
@@ -29526,7 +29526,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ExtremeCorset",
-				InventoryID: 1228,
+				InventoryID: 1231,
 				Gender: "F",
 				Fetish: ["Lingerie", "Latex"],
 				Priority: 22,
@@ -38979,7 +38979,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "ChainCollar",
-				InventoryID: 1224,
+				InventoryID: 1233,
 				Fetish: ["Metal"],
 				Value: 10,
 				Difficulty: 50,
