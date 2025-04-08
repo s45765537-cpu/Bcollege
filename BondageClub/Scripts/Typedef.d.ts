@@ -172,7 +172,7 @@ declare namespace ElementButton {
 		 */
 		icons?: readonly (null | undefined | InventoryIcon | CustomIcon)[];
 		/** The role of the button. All accepted values are currently special-cased in order to set role-specific event listeners and/or attributes. */
-		role?: "radio" | "checkbox" | "menuitemradio" | "menuitemcheckbox";
+		role?: "radio" | "checkbox" | "menuitemradio" | "menuitemcheckbox" | "spinbutton";
 		/** Whether to limit the default styling of the button's border and background */
 		noStyling?: boolean;
 		/** Whether the button should be disabled or not */
@@ -335,6 +335,46 @@ declare namespace DialogMenu {
 	interface InitProperties {
 		C: Character;
 		focusGroup?: AssetGroup;
+	}
+
+	/** An object representing the validation output of a menubar button, determining whether it should be clickable or not */
+	interface MenuButtonValidateData {
+		/**
+		 * The button's validation state:
+		 * * `null`: Validation successful
+		 * * `"hide"`: Validation failure; hide the button
+		 * * `"disabled"`: Validation failure; disable the button but do not hide it
+		 */
+		state: null | "hidden" | "disabled";
+		/**
+		 * An optional status message to-be returned if the validation fails.
+		 */
+		status?: null | string;
+	}
+
+	/**
+	 * A custom validation function for determining whether the button should be enabled, disabled or hidden.
+	 * @param button The button in question
+	 * @param properties The {@link InitProperties} associated with the specific dialog menu
+	 * @param equippedItem The equipped item in question (if any)
+	 * @returns A nullish object if the validation passes or an object representing the validation state
+	 */
+	type MenuButtonValidator<T extends InitProperties> = (
+		button: HTMLButtonElement,
+		properties: T,
+		equippedItem?: Item | null
+	) => MenuButtonValidateData | null;
+
+	interface MenuButtonData<T extends InitProperties> {
+		/**
+		 * @param button The button in question
+		 * @param ev The mouse event associated with the button click
+		 * @param properties The {@link InitProperties} associated with the specific dialog menu
+		 * @param equippedItem The equipped item in question (if any)
+		 */
+		click: (button: HTMLButtonElement, ev: MouseEvent, properties: T, equippedItem?: Item | null) => any;
+		/** An object mapping labels to custom validation functions for button clicks. */
+		validate?: Record<string, MenuButtonValidator<T>>;
 	}
 }
 
@@ -1124,6 +1164,11 @@ interface ExpressionItem {
 	ExpressionList: ExpressionName[],
 }
 
+interface ExpressionPair {
+	Group: Exclude<ExpressionGroupName, "Eyes2">,
+	Expression: null | ExpressionName,
+}
+
 /**
  * The internal Asset definition of an asset.
  *
@@ -1630,6 +1675,18 @@ interface Character {
 	Dialog: DialogLine[];
 	Reputation: Reputation[];
 	Skill: Skill[];
+	/**
+	 * An object mapping expression group names to their respective currently explicitly, manually selected expression (which may thus diverge from the actual currently active expression).
+	 *
+	 * Setting or deleting an entry will potentially trigger a {@link DialogSelfMenuMapping.Expression} reload unless done so via `setWithoutReload()`/`deleteWithoutReload()` calls.
+	 */
+	readonly ActiveExpression: (
+		Partial<Record<ExpressionGroupName, ExpressionName>>
+		& {
+			setWithoutReload(key: ExpressionGroupName, value: ExpressionName): void,
+			deleteWithoutReload(key: ExpressionGroupName): void,
+		}
+	);
 	/**
 	 * Get a copy or set the array of currently enabled poses.
 	 * @see {@link PoseMapping} - The underlying record of this property, usage of which is recommended
@@ -4300,13 +4357,7 @@ interface DialogInventoryItem extends Item {
 	Vibrating: boolean;
 }
 
-interface DialogSelfMenuOptionType {
-	Name: string;
-	IsAvailable: () => boolean;
-	Load?: () => void;
-	Draw: () => void;
-	Click: () => void;
-}
+type DialogSelfMenuName = "Expression" | "Pose" | "SavedExpressions" | "OwnerRules";
 
 // #end region
 
