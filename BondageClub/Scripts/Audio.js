@@ -68,6 +68,7 @@ var AudioList = [
 	{ Name: "SpankSkin", File: ["SpankSkin1", "SpankSkin2", "SpankSkin3"] },
 	{ Name: "WhipCrack", File: ["WhipCrack"] },
 	{ Name: "LeverShort", File: "Lever1" },
+	{ Name: "Zipper1", File: "Zipper1" },
 ];
 
 
@@ -424,6 +425,40 @@ var AudioActions = [
 			"ItemHoodHalloIIISeth2",
 		].some(A => data.Content.includes(A)),
 		GetSoundEffect: () => "Hallo"
+	},
+	{
+		IsAction: (data) => [
+			"ItemTorsoBarrelCorsetSetw0",
+			"ItemTorsoBarrelCorsetSetw1",
+			"ItemTorsoBarrelCorsetSetx0",
+			"ItemTorsoBarrelCorsetSetx1",
+			"ItemTorsoBarrelCorsetSety0",
+			"ItemTorsoBarrelCorsetSety1",
+			"ItemTorso2BarrelCorsetSetw0",
+			"ItemTorso2BarrelCorsetSetw1",
+			"ItemTorso2BarrelCorsetSetx0",
+			"ItemTorso2BarrelCorsetSetx1",
+			"ItemTorso2BarrelCorsetSety0",
+			"ItemTorso2BarrelCorsetSety1",
+			"ItemLegsBarrelCorsetSetw0",
+			"ItemLegsBarrelCorsetSetw1",
+			"ItemLegsBarrelCorsetSetx0",
+			"ItemLegsBarrelCorsetSetx1",
+			"ItemLegsBarrelCorsetSety0",
+			"ItemLegsBarrelCorsetSety1",
+			"ItemTorsoBarrelCorsetSets0",
+			"ItemTorso2BarrelCorsetSets0",
+			"ItemLegsBarrelCorsetSets0",
+		].some(A => data.Content.includes(A)),
+		GetSoundEffect: () => "Buckle"
+	},
+	{
+		IsAction: (data) => [
+			"ItemTorsoBarrelCorsetSets1",
+			"ItemTorso2BarrelCorsetSets1",
+			"ItemLegsBarrelCorsetSets1",
+		].some(A => data.Content.includes(A)),
+		GetSoundEffect: () => "LeatherStretching1"
 	},
 ];
 

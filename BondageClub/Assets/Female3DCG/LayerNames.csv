@@ -2331,6 +2331,16 @@ ItemTorso2NavelBar1Main,Bar
 ItemTorso2ThinLeatherStrapsBuckle,Buckle
 ItemTorso2ThinLeatherStrapsLocks,Lock
 ItemTorso2ThinLeatherStrapsStrap,Straps
+ItemTorsoBarrelCorsetUpper,Corset
+ItemTorsoBarrelCorsetBellyB,Belly belt
+ItemTorsoBarrelCorsetBellyM,Belly belt metal
+ItemTorsoBarrelCorsetBellyLock,Belly belt padlock
+ItemTorsoBarrelCorsetLegB,Legs belts
+ItemTorsoBarrelCorsetLegM,Legs belts metal
+ItemTorsoBarrelCorsetLegLock,Legs belts padlocks
+ItemTorsoBarrelCorsetNeck,Corset collar
+ItemTorsoBarrelCorsetNeckB,Collar link belts
+ItemTorsoBarrelCorsetNeckM,Collar link metal
 ItemTorsoClassicLatexCorsetBelt,Belt
 ItemTorsoClassicLatexCorsetBuckles,Buckles
 ItemTorsoClassicLatexCorsetCorset,Corset
