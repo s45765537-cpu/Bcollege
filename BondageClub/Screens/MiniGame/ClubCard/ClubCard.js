@@ -1,6 +1,6 @@
 "use strict";
 var ClubCardBackground = "ClubCardPlayBoard1";
-var ClubCardColor = ["#808080", "#FFFFFF", "#E0E0E0", "#D0FFD0", "#D0D0FF", "#FFD0D0", "#FFE080"];
+var ClubCardColor = ["#808080", "#FFFFFF", "#C6C6C6", "#D0FFD0", "#D0D0FF", "#FFD0D0", "#FFE080"];
 var ClubCardFameTextColor = "#5A73FF";
 var ClubCardMoneyTextColor = "#228B22";
 /** @type {null | Character } */
@@ -5628,7 +5628,7 @@ function ClubCardRenderPanel() {
  */
 function ClubCardDrawButton() {
 	if (ClubCardTurnCardPlayed == 0 && ClubCardPlayer[0].Deck.length > 0) {
-		DrawButton(1705, 805, 90, 190, null, "Grey", "", TextGet("Draw"));
+		DrawButton(1705, 805, 90, 190, null, "White", "", TextGet("Draw"));
 		DrawImageResize("Screens/MiniGame/ClubCard/Frame/SleeveBorder.png", 1708, 808, 84, 184);
 		DrawImageResize("Screens/MiniGame/ClubCard/Sleeve/" + ClubCardPlayer[0].Sleeve + ".png", 1710, 810, 80, 180);
 		DrawTextFit(ClubCardPlayer[0].Deck.length.toString(), 1764, 953, 25, "White");
