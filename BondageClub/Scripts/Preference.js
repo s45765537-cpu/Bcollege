@@ -192,7 +192,7 @@ function PreferenceGetArousalZone(C, ZoneName) {
 
 	// Finds the asset group and make sure the string contains it
 	let Group = AssetGroupGet(C.AssetFamily, ZoneName);
-	if (!Group?.ArousalZoneID || (C.ArousalSettings.Zone.length <= Group.ArousalZoneID)) return null;
+	if (!Group || !CommonIsNonNegativeInteger(Group.ArousalZoneID) || (C.ArousalSettings.Zone.length <= Group.ArousalZoneID)) return null;
 
 	const Value = C.ArousalSettings.Zone.charCodeAt(Group.ArousalZoneID) - 100;
 	let Factor = /** @type {ArousalFactor} */ (CommonClamp(Value, 0, 4));
