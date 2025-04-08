@@ -1176,6 +1176,7 @@ ItemHood,TechnoHelmet1,Techno Helmet
 ItemHood,VacHood, Vac Hood
 ItemHood,ZipperHood,Zipper Hood
 ItemLegs,,Legs
+ItemLegs,BarrelCorset,Barrel Corset
 ItemLegs,Chains,Chains
 ItemLegs,DuctTape,Duct Tape
 ItemLegs,FrogtieStraps,Frog-tie Straps
@@ -1505,6 +1506,7 @@ ItemScript,,Body
 ItemScript,Script,Script
 ItemTorso,,Torso
 ItemTorso,AdultBabyHarness,Adult Baby Harness
+ItemTorso,BarrelCorset,Barrel Corset
 ItemTorso,ClassicLatexCorset,Classic Latex Corset
 ItemTorso,CrotchChain, Crotch Chain
 ItemTorso,FuturisticHarness,Futuristic Harness
