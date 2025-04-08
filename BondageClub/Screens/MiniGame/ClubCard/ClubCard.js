@@ -1,6 +1,6 @@
 "use strict";
 var ClubCardBackground = "ClubCardPlayBoard1";
-var ClubCardColor = ["#808080", "#FFFFFF", "#E0E0E0", "#D0FFD0", "#D0D0FF", "#FFD0D0", "#FFE080"];
+var ClubCardColor = ["#808080", "#FFFFFF", "#C6C6C6", "#D0FFD0", "#D0D0FF", "#FFD0D0", "#FFE080"];
 var ClubCardFameTextColor = "#5A73FF";
 var ClubCardMoneyTextColor = "#228B22";
 /** @type {null | Character } */
@@ -5331,7 +5331,7 @@ function ClubCardRenderCard(Card, X, Y, W, Sleeve = null, Source = null, isIgnor
 	let BubblePos = Y + W * 0.2;
 	let WModifier = 0.125; // Modifier for adjusting fame, money, level, liability icons
 	if (ClubCardIsLiability(Card)) BubblePos = ClubCardRenderBubble(null, X + W * 0.05, BubblePos, W * WModifier, "Liability");
-	if (Level > 1) BubblePos = ClubCardRenderBubble(Level, X + W * 0.05, BubblePos, W * WModifier, "Level");
+	if (Level >= 1) BubblePos = ClubCardRenderBubble(Level, X + W * 0.05, BubblePos, W * WModifier, "Level");
 	if (Card.FamePerTurn != null) BubblePos = ClubCardRenderBubble(Card.FamePerTurn, X + W * 0.05, BubblePos, W * WModifier, "Fame");
 	if (Card.MoneyPerTurn != null) ClubCardRenderBubble(Card.MoneyPerTurn, X + W * 0.05, BubblePos, W * WModifier, "Money");
 	if (Card.Text != null) {
@@ -5628,7 +5628,7 @@ function ClubCardRenderPanel() {
  */
 function ClubCardDrawButton() {
 	if (ClubCardTurnCardPlayed == 0 && ClubCardPlayer[0].Deck.length > 0) {
-		DrawButton(1705, 805, 90, 190, null, "Grey", "", TextGet("Draw"));
+		DrawButton(1705, 805, 90, 190, null, "White", "", TextGet("Draw"));
 		DrawImageResize("Screens/MiniGame/ClubCard/Frame/SleeveBorder.png", 1708, 808, 84, 184);
 		DrawImageResize("Screens/MiniGame/ClubCard/Sleeve/" + ClubCardPlayer[0].Sleeve + ".png", 1710, 810, 80, 180);
 		DrawTextFit(ClubCardPlayer[0].Deck.length.toString(), 1764, 953, 25, "White");
