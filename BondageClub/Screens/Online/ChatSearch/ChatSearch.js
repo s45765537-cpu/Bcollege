@@ -61,12 +61,13 @@ var ChatSearchLanguage = "";
 /** @type {"" | ServerChatRoomLanguage} */
 var ChatSearchLanguageTemp = "";
 var ChatSearchFilterTermsTemp = "";
+/** @type {ChatRoomSpaceLabel[]} */
 var ChatSearchRoomSpaces = ["MIXED", "FEMALE_ONLY", "MALE_ONLY"];
 var ChatSearchCurrentRoomSpaceIndex = 0;
 
 /**
  * Loads the chat search screen properties, creates the inputs and loads up the first 24 rooms.
- * @type {ScreenFunctions["Load"]}
+ * @type {ScreenLoadHandler}
  */
 function ChatSearchLoad() {
 	ChatRoomCustomizationClear();
@@ -104,7 +105,7 @@ function ChatSearchLoad() {
 	TextPrefetch("Online", "ChatRoom");
 }
 
-/** @type {ScreenFunctions["Unload"]} */
+/** @type {ScreenUnloadHandler} */
 function ChatSearchUnload() {
 	ElementRemove("InputSearch");
 	ChatRoomStimulationMessage("Walk");
@@ -112,7 +113,7 @@ function ChatSearchUnload() {
 
 /**
  * When the chat Search screen runs, draws the screen
- * @type {ScreenFunctions["Run"]}
+ * @type {ScreenRunHandler}
  */
 function ChatSearchRun() {
 
@@ -181,7 +182,7 @@ function ChatSearchRun() {
 
 /**
  * Handles the click events on the chat search screen. Is called from CommonClick()
- * @type {ScreenFunctions["Click"]}
+ * @type {MouseEventListener}
  */
 function ChatSearchClick() {
 	if (ChatSearchFilterUnhideConfirm) {
@@ -326,7 +327,7 @@ function ChatSearchRoomSpaceSelectClick() {
 	if (Genders.includes("M")) TempRoomSpaces = TempRoomSpaces.filter(space => space != "FEMALE_ONLY");
 	if (Genders.includes("F")) TempRoomSpaces = TempRoomSpaces.filter(space => space != "MALE_ONLY");
 
-	let CurrentRoomSpace = Object.keys(ChatRoomSpaceType).find(key => ChatRoomSpaceType[key] == ChatRoomSpace);
+	let CurrentRoomSpace = CommonKeys(ChatRoomSpaceType).find(key => ChatRoomSpaceType[key] == ChatRoomSpace);
 
 	ChatSearchCurrentRoomSpaceIndex = TempRoomSpaces.indexOf(CurrentRoomSpace);
 
@@ -445,7 +446,7 @@ function ChatSearchKeyDown(event) {
 
 /**
  * Handles exiting from the chat search screen, removes the input.
- * @type {ScreenFunctions["Exit"]}
+ * @type {ScreenExitHandler}
  */
 function ChatSearchExit() {
 	ChatSearchMode = "";

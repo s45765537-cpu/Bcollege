@@ -72,8 +72,8 @@ function PreferenceSetActivityFactor(C, Type, Self, Factor) {
 
 	// Make sure the Activity data is valid
 	if ((typeof Factor !== "number") || (Factor < 0) || (Factor > 4)) return;
-	if ((C == null) || (C.ArousalSettings == null)) return;
-	if ((C.ArousalSettings.Activity == null) || (typeof C.ArousalSettings.Activity !== "string")) C.ArousalSettings.Activity = PreferenceArousalActivityDefaultCompressedString;
+	if (!CommonIsObject(C.ArousalSettings)) return;
+	if (!C.ArousalSettings || typeof C.ArousalSettings?.Activity !== "string") C.ArousalSettings.Activity = PreferenceArousalActivityDefaultCompressedString;
 	while ((C.ArousalSettings.Activity.length < PreferenceArousalActivityDefaultCompressedString.length))
 		C.ArousalSettings.Activity = C.ArousalSettings.Activity + PreferenceArousalTwoFactorToChar();
 
@@ -106,7 +106,7 @@ function PreferenceSetActivityFactor(C, Type, Self, Factor) {
 function PreferenceGetFetishFactor(C, Type) {
 
 	// No valid data means no fetish
-	if ((C == null) || (C.ArousalSettings == null) || (C.ArousalSettings.Fetish == null) || (typeof C.ArousalSettings.Fetish !== "string")) return 2;
+	if (typeof C.ArousalSettings?.Fetish !== "string") return 2;
 
 	// Finds the ID of the fetish specified
 	let ID = -1;
@@ -128,7 +128,7 @@ function PreferenceGetFetishFactor(C, Type) {
  * Sets the arousal factor of a fetish for a character
  * @param {Character} C - The character to set
  * @param {FetishName} Type - The name of the fetish
- * @param {ArousalFactor} Type - New arousal factor for that fetish (0 is horrible, 2 is normal, 4 is great)
+ * @param {ArousalFactor} Factor - New arousal factor for that fetish (0 is horrible, 2 is normal, 4 is great)
  * @returns {void} - Nothing
  */
 function PreferenceSetFetishFactor(C, Type, Factor) {
@@ -181,82 +181,94 @@ function PreferenceArousalTwoFactorToChar(Factor1 = 2, Factor2 = 2) {
  * Gets the corresponding arousal zone definition from a player's preferences (if the group's activities are mirrored,
  * returns the arousal zone definition for the mirrored group).
  * @param {Character} C - The character for whom to get the arousal zone
- * @param {AssetGroupName} ZoneName - The name of the zone to get
+ * @param {AssetGroupItemName} ZoneName - The name of the zone to get
  * @returns {null | ArousalZone} - Returns the arousal zone preference object,
  * or null if a corresponding zone definition could not be found.
  */
 function PreferenceGetArousalZone(C, ZoneName) {
 
 	// Make sure the data is valid
-	if ((C == null) || (C.ArousalSettings == null) || (C.ArousalSettings.Zone == null) || (typeof C.ArousalSettings.Zone !== "string")) return null;
+	if (typeof C.ArousalSettings?.Zone !== "string") return null;
 
 	// Finds the asset group and make sure the string contains it
 	let Group = AssetGroupGet(C.AssetFamily, ZoneName);
-	if ((Group.ArousalZoneID == null) || (C.ArousalSettings.Zone.length <= Group.ArousalZoneID)) return null;
+	if (!Group?.ArousalZoneID || (C.ArousalSettings.Zone.length <= Group.ArousalZoneID)) return null;
 
-	let Value = C.ArousalSettings.Zone.charCodeAt(Group.ArousalZoneID) - 100;
+	const Value = C.ArousalSettings.Zone.charCodeAt(Group.ArousalZoneID) - 100;
+	let Factor = /** @type {ArousalFactor} */ (CommonClamp(Value, 0, 4));
+	// If the value was clamped, default it
+	if (Factor !== Value) Factor = 2;
 	return {
-		// @ts-ignore
 		Name: ZoneName,
-		// @ts-ignore
-		Factor: Value % 10,
+		Factor: Factor,
 		Orgasm: (Value >= 10)
 	};
-
 }
 
 /**
  * Gets the love factor of a zone for the character
  * @param {Character} C - The character for whom the love factor of a particular zone should be gotten
- * @param {AssetGroupName} ZoneName - The name of the zone to get the love factor for
+ * @param {AssetGroupItemName} ZoneName - The name of the zone to get the love factor for
  * @returns {ArousalFactor} - Returns the love factor of a zone for the character (0 is horrible, 2 is normal, 4 is great)
  */
 function PreferenceGetZoneFactor(C, ZoneName) {
+	const Zone = PreferenceGetArousalZone(C, ZoneName);
 	/** @type {ArousalFactor} */
-	let Factor = 2;
+	if (!Zone) return 2;
+	return Zone.Factor;
+}
+
+/**
+ * Sets the arousal zone data for a specific body zone on the player
+ * @param {Character} C - The character, for whom the love factor of a particular zone should be set
+ * @param {AssetGroupItemName} ZoneName - The name of the zone, the factor should be set for
+ * @param {ArousalFactor} Factor - The factor of the zone (0 is horrible, 2 is normal, 4 is great)
+ * @param {boolean} CanOrgasm - Sets, if the character can cum from the given zone (true) or not (false)
+ * @returns {void} - Nothing
+ */
+function PreferenceSetArousalZone(C, ZoneName, Factor = null, CanOrgasm = null) {
+	// Nothing to do if data is invalid
+	if (typeof C.ArousalSettings?.Zone !== "string") return;
+
+	// Finds the asset group and make sure the string contains it
+	let Group = AssetGroupGet(C.AssetFamily, ZoneName);
+	if (!Group || !CommonIsNonNegativeInteger(Group.ArousalZoneID) || (C.ArousalSettings.Zone.length <= Group.ArousalZoneID)) return;
+
+	// Gets the zone object
 	let Zone = PreferenceGetArousalZone(C, ZoneName);
-	if (Zone) Factor = Zone.Factor;
-	if ((Factor == null) || (typeof Factor !== "number") || (Factor < 0) || (Factor > 4)) Factor = 2;
-	return Factor;
+	Zone ??= {
+		Name: ZoneName,
+		Factor: 2,
+		Orgasm: false
+	};
+
+	if (typeof Factor === "number") {
+		Zone.Factor = Factor;
+	}
+	if (typeof CanOrgasm === "boolean") {
+		Zone.Orgasm = CanOrgasm;
+	}
+
+	// Creates the new char and slides it in the compressed string
+	C.ArousalSettings.Zone = C.ArousalSettings.Zone.substring(0, Group.ArousalZoneID) + PreferenceArousalFactorToChar(Zone.Factor, Zone.Orgasm) + C.ArousalSettings.Zone.substring(Group.ArousalZoneID + 1);
 }
 
 /**
  * Sets the love factor for a specific body zone on the player
  * @param {Character} C - The character, for whom the love factor of a particular zone should be set
- * @param {AssetGroupName} ZoneName - The name of the zone, the factor should be set for
+ * @param {AssetGroupItemName} ZoneName - The name of the zone, the factor should be set for
  * @param {ArousalFactor} Factor - The factor of the zone (0 is horrible, 2 is normal, 4 is great)
+ * @deprecated Use {@link PreferenceSetArousalZone}
  * @returns {void} - Nothing
  */
 function PreferenceSetZoneFactor(C, ZoneName, Factor) {
-
-	// Nothing to do if data is invalid
-	if ((C == null) || (C.ArousalSettings == null) || (C.ArousalSettings.Zone == null) || (typeof C.ArousalSettings.Zone !== "string")) return;
-
-	// Finds the asset group and make sure the string contains it
-	let Group = AssetGroupGet(C.AssetFamily, ZoneName);
-	if ((Group.ArousalZoneID == null) || (C.ArousalSettings.Zone.length <= Group.ArousalZoneID)) return;
-
-	// Gets the zone object
-	let Zone = PreferenceGetArousalZone(C, ZoneName);
-	if (Zone == null) {
-		Zone = {
-			// @ts-ignore
-			Name: ZoneName,
-			Factor: 2,
-			Orgasm: false
-		};
-	}
-	Zone.Factor = Factor;
-
-	// Creates the new char and slides it in the compressed string
-	C.ArousalSettings.Zone = C.ArousalSettings.Zone.substring(0, Group.ArousalZoneID) + PreferenceArousalFactorToChar(Zone.Factor, Zone.Orgasm) + C.ArousalSettings.Zone.substring(Group.ArousalZoneID + 1);
-
+	PreferenceSetArousalZone(C, ZoneName, Factor);
 }
 
 /**
  * Determines, if a player can reach on orgasm from a particular zone
  * @param {Character} C - The character whose ability to orgasm we check
- * @param {AssetGroupName} ZoneName - The name of the zone to check
+ * @param {AssetGroupItemName} ZoneName - The name of the zone to check
  * @returns {boolean} - Returns true if the zone allows orgasms for a character, false otherwise
  */
 function PreferenceGetZoneOrgasm(C, ZoneName) {
@@ -269,32 +281,11 @@ function PreferenceGetZoneOrgasm(C, ZoneName) {
  * @param {Character} C - The characterfor whom we set the ability to órgasm from a given zone
  * @param {AssetGroupItemName} ZoneName - The name of the zone to set the ability to orgasm for
  * @param {boolean} CanOrgasm - Sets, if the character can cum from the given zone (true) or not (false)
+ * @deprecated Use {@link PreferenceSetArousalZone}
  * @returns {void} - Nothing
  */
 function PreferenceSetZoneOrgasm(C, ZoneName, CanOrgasm) {
-
-	// Nothing to do if data is invalid
-	if ((C == null) || (C.ArousalSettings == null) || (C.ArousalSettings.Zone == null) || (typeof C.ArousalSettings.Zone !== "string")) return;
-
-	// Finds the asset group and make sure the string contains it
-	let Group = AssetGroupGet(C.AssetFamily, ZoneName);
-	if ((Group.ArousalZoneID == null) || (C.ArousalSettings.Zone.length <= Group.ArousalZoneID)) return;
-
-	// Gets the zone object
-	let Zone = PreferenceGetArousalZone(C, ZoneName);
-	if (Zone == null) {
-		Zone = {
-			// @ts-ignore
-			Name: ZoneName,
-			Factor: 2,
-			Orgasm: false
-		};
-	}
-	Zone.Orgasm = CanOrgasm;
-
-	// Creates the new char and slides it in the compressed string
-	C.ArousalSettings.Zone = C.ArousalSettings.Zone.substring(0, Group.ArousalZoneID) + PreferenceArousalFactorToChar(Zone.Factor, Zone.Orgasm) + C.ArousalSettings.Zone.substring(Group.ArousalZoneID + 1);
-
+	PreferenceSetArousalZone(C, ZoneName, null, CanOrgasm);
 }
 
 /**

@@ -2650,7 +2650,7 @@ function KinkyDungeonClick() {
 
 /**
  * Handles exit during the kinky dungeon game
- * @type {ScreenFunctions["Exit"]}
+ * @type {ScreenExitHandler}
  */
 function KinkyDungeonExit() {
 	KinkyDungeonGameKey.removeKeyListener();

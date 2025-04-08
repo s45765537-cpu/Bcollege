@@ -2037,12 +2037,14 @@ function CharacterIsEdged(C) {
 	// Get all zones that allow an orgasm
 	/** @type {AssetGroupItemName[]} */
 	let OrgasmZones = [];
-	for (let Group of AssetGroup)
+	for (let Group of AssetGroup) {
+		if (!Group.IsItem()) continue;
 		if (Group.ArousalZoneID != null) {
 			let Zone = PreferenceGetArousalZone(C, Group.Name);
 			if (Zone.Orgasm && (Zone.Factor > 0))
 				OrgasmZones.push(Zone.Name);
 		}
+	}
 
 	// Get every vibrating item acting on an orgasm zone
 	const VibratingItems = C.Appearance

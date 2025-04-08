@@ -114,7 +114,7 @@ function ChatAdminCanEdit() {
 
 /**
  * Loads the given room data and sets up the UI for it
- * @type {ScreenFunctions["Load"]}
+ * @type {ScreenLoadHandler}
  */
 function ChatAdminLoad() {
 	if (!ChatAdminData.Background) {
@@ -191,7 +191,7 @@ function ChatAdminLoad() {
 
 /**
  * Handles unloading the editor screen
- * @type {ScreenFunctions["Unload"]}
+ * @type {ScreenUnloadHandler}
  */
 function ChatAdminUnload() {
 	ElementRemove("InputName");
@@ -422,7 +422,7 @@ function ChatAdminKeyDown(event) {
 
 /**
  * Handles exiting from the editor screen, removes the inputs and resets the state of the variables
- * @type {ScreenFunctions["Exit"]}
+ * @type {ScreenExitHandler}
  */
 function ChatAdminExit() {
 	AsylumGGTSReset();

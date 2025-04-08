@@ -262,6 +262,26 @@ type ChatRoomSpaceLabel = "MIXED" | "FEMALE_ONLY" | "MALE_ONLY" | "ASYLUM";
 type ChatRoomVisibilityModeLabel = "PUBLIC" | "ADMIN_WHITELIST" | "ADMIN" | "UNLISTED";
 type ChatRoomAccessModeLabel = "PUBLIC" | "ADMIN_WHITELIST" | "ADMIN";
 
+type ChatRoomMenuButton =
+	| "Camera"
+	| "Cancel"
+	| "CharacterView"
+	| "Cut"
+	| "CustomizationOn"
+	| "CustomizationOff"
+	| "Dress"
+	| "Exit"
+	| "GameOption"
+	| "Icons"
+	| "Kneel"
+	| "MapView"
+	| "NextCharacters"
+	| "PreviousCharacters"
+	| "Profile"
+	| "RoomAdmin"
+	| "ClearFocus"
+;
+
 type DialogMenuMode = (
 	"activities"
 	| "colorDefault"
@@ -584,24 +604,6 @@ type ChatFontSizeType = "Small" | "Medium" | "Large";
 type ArousalActiveName = "Inactive" | "NoMeter" | "Manual" | "Hybrid" | "Automatic";
 type ArousalVisibleName = "All" | "Access" | "Self";
 type ArousalAffectStutterName = "None" | "Arousal" | "Vibration" | "All";
-
-/**
- * A listener for KeyboardEvents
- *
- * Cheat-sheet about how to do key checks with it:
- * - {@link KeyboardEvent.code} is the layout-insensitive code
- * for the key (so KeyA, Space, etc.) Use this if you want to
- * keep the QWERTY location, like movement keys.
- *
- * {@link KeyboardEvent.key} is the layout-dependent string
- * for the key (so "a" (or "q" on AZERTY), "A" (or "Q"), " ", etc.)
- * Use this if you want the key to correspond to what's actually on
- * the user's keyboard.
- *
- * @see {@link CommonKeyMove}
- */
-type KeyboardEventListener = ScreenFunctions["KeyDown"];
-type MouseEventListener = ScreenFunctions["MouseDown"];
 
 type SettingsSensDepName = "SensDepLight" | "Normal" | "SensDepNames" | "SensDepTotal" | "SensDepExtreme";
 type SettingsVFXName = "VFXInactive" | "VFXSolid" | "VFXAnimatedTemp" | "VFXAnimated";
@@ -1491,63 +1493,92 @@ interface Lovership {
 	BeginWeddingOfferedByMemberNumber?: never;
 }
 
+
+/**
+ * A listener for KeyboardEvents
+ *
+ * Cheat-sheet about how to do key checks with it:
+ * - {@link KeyboardEvent.code} is the layout-insensitive code
+ * for the key (so KeyA, Space, etc.) Use this if you want to
+ * keep the QWERTY location, like movement keys.
+ *
+ * {@link KeyboardEvent.key} is the layout-dependent string
+ * for the key (so "a" (or "q" on AZERTY), "A" (or "Q"), " ", etc.)
+ * Use this if you want the key to correspond to what's actually on
+ * the user's keyboard.
+ *
+ * @see {@link CommonKeyMove}
+ */
+type KeyboardEventListener = (event: KeyboardEvent) => boolean;
+type MouseEventListener = (event: MouseEvent | TouchEvent) => void;
+type MouseWheelEventListener = (event: WheelEvent) => void;
+
+type VoidHandler = () => void;
+
+type ScreenLoadHandler = VoidHandler;
+type ScreenUnloadHandler = VoidHandler;
+type ScreenDrawHandler = VoidHandler;
+type ScreenRunHandler = (time: number) => void;
+type ScreenResizeHandler = (load: boolean) => void;
+type ScreenExitHandler = VoidHandler;
+
 interface ScreenFunctions {
 	// Required
 	/**
 	 * Called each frame
 	 * @param {number} time - The current time for frame
 	 */
-	Run(time: number): void;
+	Run: ScreenRunHandler;
 	/**
 	 * Called if the user presses the mouse button or touches the touchscreen on the canvas
 	 * @param {MouseEvent | TouchEvent} event - The event that triggered this
 	 */
-	MouseDown?(event: MouseEvent | TouchEvent): void;
+	MouseDown?: MouseEventListener;
 		/**
 	 * Called if the user releases the mouse button or the touchscreen on the canvas
 	 * @param {MouseEvent | TouchEvent} event - The event that triggered this
 	 */
-	MouseUp?(event: MouseEvent | TouchEvent): void;
+	MouseUp?: MouseEventListener;
 	/**
 	 * Called if the user moves the mouse cursor or the touch on the touchscreen over the canvas
 	 * @param {MouseEvent | TouchEvent} event - The event that triggered this
 	 */
-	MouseMove?(event: MouseEvent | TouchEvent): void;
+	MouseMove?: MouseEventListener;
 	/**
 	 * Called if the user moves the mouse wheel on the canvas
 	 * @param {MouseEvent | TouchEvent} event - The event that triggered this
 	 */
-	MouseWheel?(event: WheelEvent): void;
+	MouseWheel?: MouseWheelEventListener;
 	/**
 	 * Called if the user clicks on the canvas
 	 * @param {MouseEvent | TouchEvent} event - The event that triggered this
 	 */
-	Click(event: MouseEvent | TouchEvent): void;
+	Click: MouseEventListener;
 
 	// Optional
 	/** Called when screen is loaded using `CommonSetScreen` */
-	Load?(): void;
+	Load?: ScreenLoadHandler
 	/** Called when this screen is being replaced */
-	Unload?(): void;
+	Unload?: ScreenUnloadHandler;
 	/** Called each frame when the screen needs to be drawn. */
-	Draw?() : void;
+	Draw?: ScreenDrawHandler;
 	/**
 	 * Called when screen size or position changes or after screen load
 	 * @param {boolean} load - If the reason for call was load (`true`) or window resize (`false`)
 	 */
-	Resize?(load: boolean): void;
+	Resize?: ScreenResizeHandler;
 	/**
 	 * Called if the the user presses any key
 	 * @param {KeyboardEvent} event - The event that triggered this
 	 */
-	KeyDown?(event: KeyboardEvent): boolean;
+	KeyDown?: KeyboardEventListener;
 	/**
 	 * Called if the user releases a pressed key
 	 * @param {KeyboardEvent} event - The event that triggered this
 	 */
-	KeyUp?(event: KeyboardEvent): void;
+	KeyUp?: KeyboardEventListener;
 	/** Called when user presses Esc */
-	Exit?(): void;
+	Exit?: ScreenExitHandler;
 }
 
 //#region Characters

@@ -243,7 +243,7 @@ function TitleClick() {
 // when the user exit this screen
 /**
  * Exits the title selection screen and brings the player back to the InformationSheet
- * @type {ScreenFunctions["Exit"]}
+ * @type {ScreenExitHandler}
  */
 function TitleExit() {
 	let Nick = ElementValue("InputNickname");

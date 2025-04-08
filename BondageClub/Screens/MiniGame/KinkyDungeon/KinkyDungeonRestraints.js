@@ -3046,7 +3046,7 @@ function KinkyDungeonAddRestraint(restraint, Tightness, Bypass, Lock, Keep, Link
 					if (asset) {
 						placedOnPlayer = true;
 						const newColor = [...(color || asset.DefaultColor)];
-						CharacterAppearanceSetItem(Player, AssetGroup, asset, newColor, 0, null, false);
+						CharacterAppearanceSetItem(Player, AssetGroup, asset, newColor, 0);
 						KinkyDungeonPlayerNeedsRefresh = true;
 					}
 				}

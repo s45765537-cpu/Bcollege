@@ -335,7 +335,7 @@ var Shop2 = {
 	 * @param {number} w
 	 * @param {number} h
 	 * @param {number} assetIndex - The assets index within {@link Shop2Vars.CurrentAssets}
-	 * @satisfies {ShopScreenFunctions["Draw"]}
+	 * @satisfies {ScreenDrawHandler}
 	 * @private
 	 */
 	_AssetElementDraw: function _AssetElementDraw(x, y, w, h, assetIndex) {
@@ -408,7 +408,7 @@ var Shop2 = {
 	 * Click function for a single item in the shop
 	 * @param {MouseEvent | TouchEvent} event
 	 * @param {number} assetIndex - The assets index within {@link Shop2Vars.CurrentAssets}
-	 * @satisfies {ShopScreenFunctions["Click"]}
+	 * @satisfies {MouseEventListener}
 	 * @private
 	 */
 	_AssetElementClick: function _AssetElementClick(event, assetIndex) {
@@ -1066,10 +1066,7 @@ var Shop2 = {
 						Shop2InitVars.Preview,
 						Shop2Vars.EquippedItem.Asset.Group.Name,
 						Shop2Vars.EquippedItem.Asset,
-						Shop2Vars.EquippedItem.Color,
-						undefined,
-						undefined,
-						false,
+						Shop2Vars.EquippedItem.Color
 					);
 					if (item) {
 						item.Property = Shop2Vars.EquippedItem.Property;
@@ -1189,7 +1186,7 @@ var Shop2 = {
 	}
 };
 
-/** @type {ScreenFunctions["Load"]} */
+/** @type {ScreenLoadHandler} */
 function Shop2Load() {
 	if (Shop2InitVars.Items.length === 0) {
 		Shop2InitVars.Items = Shop2.ParseAssets(
@@ -1221,7 +1218,7 @@ function Shop2Load() {
 	});
 }
 
-/** @type {ScreenFunctions["Click"]} */
+/** @type {MouseEventListener} */
 function Shop2Click(event) {
 	Object.values(Shop2.Elements).some((e) => {
 		if (e.Click && e.Mode.has(Shop2Vars.Mode) && MouseIn(...e.Coords)) {
@@ -1233,7 +1230,7 @@ function Shop2Click(event) {
 	});
 }
 
-/** @type {ScreenFunctions["Draw"]} */
+/** @type {ScreenDrawHandler} */
 function Shop2Draw() {
 	Object.values(Shop2.Elements).forEach((e) => {
 		if (e.Mode.has(Shop2Vars.Mode)) {
@@ -1242,10 +1239,10 @@ function Shop2Draw() {
 	});
 }
 
-/** @type {ScreenFunctions["Run"]} */
+/** @type {ScreenRunHandler} */
 function Shop2Run() {}
 
-/** @type {ScreenFunctions["Resize"]} */
+/** @type {ScreenResizeHandler} */
 function Shop2Resize(load) {
 	Object.values(Shop2.Elements).forEach((e) => {
 		if (e.Mode.has(Shop2Vars.Mode)) {
@@ -1254,7 +1251,7 @@ function Shop2Resize(load) {
 	});
 }
 
-/** @type {ScreenFunctions["Unload"]} */
+/** @type {ScreenUnloadHandler} */
 function Shop2Unload() {
 	Object.values(Shop2.Elements).forEach((e) => {
 		if (e.Mode.has(Shop2Vars.Mode)) {
@@ -1263,7 +1260,7 @@ function Shop2Unload() {
 	});
 }
 
-/** @type {ScreenFunctions["MouseWheel"]} */
+/** @type {MouseWheelEventListener} */
 function Shop2MouseWheel(event) {
 	Object.values(Shop2.Elements).forEach((e) => {
 		if (e.Mode.has(Shop2Vars.Mode) && MouseIn(...e.Coords)) {
@@ -1272,7 +1269,7 @@ function Shop2MouseWheel(event) {
 	});
 }
 
-/** @type {ScreenFunctions["Exit"]} */
+/** @type {ScreenExitHandler} */
 function Shop2Exit() {
 	const oldMode = Shop2Vars.Mode;
 	Object.values(Shop2.Elements).forEach((e) => {

@@ -812,7 +812,7 @@ function InventoryWear(C, AssetName, AssetGroup, ItemColor, Difficulty, MemberNu
 	const A = AssetGet(C.AssetFamily, AssetGroup, AssetName);
 	if (!A) return null;
 	const color = (ItemColor == null || ItemColor == "Default") ? [...A.DefaultColor] : ItemColor;
-	const item = CharacterAppearanceSetItem(C, AssetGroup, A, color, Difficulty, MemberNumber, false);
+	const item = CharacterAppearanceSetItem(C, AssetGroup, A, color, Difficulty, MemberNumber);
 
 	/**
 	 * TODO: grant tighter control over setting expressions.
@@ -911,7 +911,7 @@ function InventoryWearRandom(C, GroupName, Difficulty, Refresh = true, MustOwn =
 	// Pick a random color for clothes from their schema
 	const SelectedColor = IsClothes ? SelectedAsset.Group.ColorSchema[Math.floor(Math.random() * SelectedAsset.Group.ColorSchema.length)] : null;
 
-	let item = CharacterAppearanceSetItem(C, GroupName, SelectedAsset, SelectedColor, Difficulty, null, false);
+	let item = CharacterAppearanceSetItem(C, GroupName, SelectedAsset, SelectedColor, Difficulty);
 	if (Extend) {
 		item = InventoryRandomExtend(C, GroupName);
 	}

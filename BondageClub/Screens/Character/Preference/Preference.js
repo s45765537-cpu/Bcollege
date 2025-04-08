@@ -120,6 +120,7 @@ const PreferenceSubscreens = [
 	},
 	{
 		name: "Controller",
+		load: () => PreferenceSubscreenControllerLoad(),
 		run: () => PreferenceSubscreenControllerRun(),
 		click: () => PreferenceSubscreenControllerClick(),
 		exit: () => PreferenceSubscreenControllerExit(),
@@ -174,7 +175,7 @@ let PreferenceDidAddOldStyleScreens = false;
  * @returns {void} - Nothing
  */
 function PreferenceLoad() {
-	PreferenceSubscreen = PreferenceSubscreens.find(s => s.name === "Main");
+	PreferenceSubscreen = PreferenceSubscreens.find(s => s.name === "Main") ?? null;
 
 	// Backward-compatibility: just throw the old-style screens into the mix
 	if (!PreferenceDidAddOldStyleScreens) {
@@ -224,7 +225,7 @@ function PreferenceClick() {
 /**
  * Is called when the player exits the preference screen. All settings of the preference screen are sent to the server.
  * If the player is in a subscreen, they exit to the main preferences menu instead.
- * @type {ScreenFunctions["Exit"]}
+ * @type {ScreenExitHandler}
  */
 function PreferenceExit() {
 	if (PreferenceSubscreen.name !== "Main") {

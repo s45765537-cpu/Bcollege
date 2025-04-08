@@ -1,7 +1,11 @@
 "use strict";
 var LoginBackground = "Dressing";
-/** @type {null | string[][]} */
-var LoginCredits = null;
+/**
+ * Contents of the GameCredits.csv file
+ * Initialized once on screen load
+ * @type {string[][]}
+ */
+var LoginCredits;
 var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
@@ -19,8 +23,12 @@ var LoginSubmitted = false;
 var LoginQueuePosition = -1;
 /** The server login status */
 var LoginErrorMessage = "";
-/** @type {NPCCharacter} */
-var LoginCharacter = null;
+/**
+ * The dummy on the login screen.
+ *
+ * Lifetime bound to the screen.
+ * @type {NPCCharacter} */
+var LoginCharacter;
 
 /* DEBUG: To measure FPS - uncomment this and change the + 4000 to + 40
 var LoginLastCT = 0;
@@ -134,7 +142,7 @@ function LoginLoad() {
 	LoginCharacter = CharacterLoadNPC("NPC_Login");
 	LoginDoNextThankYou();
 	LoginStatusReset();
-	if (LoginCredits == null) CommonReadCSV("LoginCredits", CurrentModule, CurrentScreen, "GameCredits");
+	if (!LoginCredits) CommonReadCSV("LoginCredits", CurrentModule, CurrentScreen, "GameCredits");
 	ActivityDictionaryLoad();
 	OnlneGameDictionaryLoad();
 	const form = ElementCreateForm("Login");
@@ -180,7 +188,7 @@ function LoginLoad() {
 function LoginRun() {
 
 	// Draw the credits
-	if (LoginCredits != null) LoginDrawCredits();
+	if (LoginCredits) LoginDrawCredits();
 
 	const CanLogin = ServerIsConnected && !LoginSubmitted;
 
@@ -325,7 +333,7 @@ function LoginPerformInventoryFixups(Inventory) {
  * @return {boolean}
  */
 function LoginPerformAppearanceFixups(Appearance) {
-	if (!Appearance) return;
+	if (!Appearance) return true;
 
 	let fixedUp = false;
 	for (const fixup of LoginInventoryFixups) {
@@ -348,15 +356,15 @@ function LoginPerformAppearanceFixups(Appearance) {
 
 			const asset = AssetGet("Female3DCG", worn.Group, worn.Name);
 			let opt = null;
-			if (asset.Archetype) {
+			if (asset?.Archetype) {
 				switch (asset.Archetype) {
 					case ExtendedArchetype.TYPED:
 						{
 							const opts = TypedItemGetOptions(worn.Group, worn.Name);
 							if (typeof fixup.New.Option === "undefined")
-								opt = opts[0];
+								opt = opts?.[0];
 							else
-								opt = opts.find(o => o.Name === fixup.New.Option);
+								opt = opts?.find(o => o.Name === fixup.New.Option);
 
 							if (!opt) {
 								console.error(`Unknown option ${fixup.New.Option}`);
@@ -369,7 +377,7 @@ function LoginPerformAppearanceFixups(Appearance) {
 				// Replace old previous properties with the wanted ones
 				if (opt && opt.Property)
 					worn.Property = Object.assign(opt.Property);
-			} else if (asset.Extended) {
+			} else if (asset?.Extended) {
 				// Old-style extended item
 
 			} else {
@@ -395,7 +403,7 @@ function LoginPerformCraftingFixups(Crafting) {
 		// Move crafts over to the new name
 		for (const craft of Crafting) {
 			if (!craft || craft.Item !== fixup.Old.Name) continue;
-			craft.Item = fixup.New.Name;
+			craft.Item = /** @type {string} */(fixup.New.Name);
 		}
 	}
 }
@@ -902,7 +910,7 @@ function LoginSetupPlayer(C) {
 
 	if (InventoryBeforeFixes != InventoryStringify(Player)) ServerPlayerInventorySync();
 	CharacterAppearanceValidate(Player);
-	ChatRoomCustomized = ((Player.OnlineSettings != null) && (Player.OnlineSettings.ShowRoomCustomization != null) && (Player.OnlineSettings.ShowRoomCustomization >= 2));
+	ChatRoomCustomized = Player.OnlineSettings.ShowRoomCustomization >= 2;
 	if (Player.Crafting.length > 80) Player.Crafting = Player.Crafting.slice(0, 80);
 }
 
@@ -962,7 +970,7 @@ function LoginResponse(C) {
 	if (LogQuery("Locked", "Cell")) {
 		// The player has been locked up, they must log back in the cell
 		CommonSetScreen("Room", "Cell");
-	} else if ((Player.Infiltration?.Punishment?.Timer ?? 0) > CurrentTime) {
+	} else if (Player.Infiltration?.Punishment && (Player.Infiltration.Punishment.Timer ?? 0) > CurrentTime) {
 		// The player must log back in Pandora's Box prison
 		PandoraWillpower = 0;
 		InfiltrationDifficulty = Player.Infiltration.Punishment.Difficulty;
@@ -975,7 +983,7 @@ function LoginResponse(C) {
 			AsylumGGTSDroneDress(Player);
 		}
 		CommonSetScreen("Room", "AsylumBedroom");
-	} else if (LogValue("ForceGGTS", "Asylum") > 0) {
+	} else if (LogValue("ForceGGTS", "Asylum") ?? 0 > 0) {
 		// The owner is forcing the player to do GGTS
 		CommonSetScreen("Room", "AsylumEntrance");
 	} else if (LogQuery("SleepCage", "Rule") && Player.IsOwned() === "npc" && PrivateOwnerInRoom()) {
@@ -1111,7 +1119,7 @@ function LoginGetStatus() {
 
 /**
  * Exit function - called when leaving the login page
- * @type {ScreenFunctions["Exit"]}
+ * @type {ScreenExitHandler}
  */
 function LoginExit() {
 

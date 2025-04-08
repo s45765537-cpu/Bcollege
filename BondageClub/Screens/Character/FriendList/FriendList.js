@@ -49,7 +49,7 @@ const FriendListIDs = Object.freeze({
 //#endregion
 
 //#region SCREEN FUNCTIONS
-/** @type {ScreenFunctions['Load']} */
+/** @type {ScreenLoadHandler} */
 function FriendListLoad() {
 	const mode = FriendListMode[FriendListModeIndex];
 
@@ -306,7 +306,7 @@ function FriendListLoad() {
 	FriendListSortingDirection = 'Asc';
 }
 
-/** @type {ScreenFunctions['Resize']} */
+/** @type {ScreenResizeHandler} */
 function FriendListResize() {
 	ElementPositionFix(FriendListIDs.root, 36, 0, 0, 2000, 1000);
 	if (FriendListBeepTarget !== -1) {
@@ -314,11 +314,11 @@ function FriendListResize() {
 	}
 }
 
-/** @type {ScreenFunctions['Run']} */
+/** @type {ScreenRunHandler} */
 function FriendListRun() {
 }
 
-/** @type {ScreenFunctions['Draw']} */
+/** @type {ScreenDrawHandler} */
 function FriendListDraw() {
 	if (Player.OnlineSettings.FriendListAutoRefresh && CommonTime() >= FriendListAutoRefresh.nextRefresh && ServerIsConnected) {
 		FriendListAutoRefresh.nextRefresh = CommonTime() + FriendListAutoRefresh.interval;
@@ -326,11 +326,11 @@ function FriendListDraw() {
 	}
 }
 
-/** @type {ScreenFunctions['Click']} */
+/** @type {MouseEventListener} */
 function FriendListClick() {
 }
 
-/** @type {ScreenFunctions['KeyDown']} */
+/** @type {KeyboardEventListener} */
 function FriendListKeyDown(event) {
 	const beepTextArea = /** @type {HTMLTextAreaElement} */(document.getElementById(FriendListIDs.beepTextArea));
 	const beepTextAreaHasFocus = beepTextArea && document.activeElement === beepTextArea;
@@ -351,11 +351,11 @@ function FriendListKeyDown(event) {
 	return false;
 }
 
-/** @type {ScreenFunctions['Unload']} */
+/** @type {ScreenUnloadHandler} */
 function FriendListUnload() {
 }
 
-/** @type {ScreenFunctions['Exit']} */
+/** @type {ScreenExitHandler} */
 function FriendListExit() {
 	const beepMenu = document.getElementById(FriendListIDs.beepList);
 	if (beepMenu) {
