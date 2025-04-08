@@ -520,7 +520,7 @@ Title Moon,"Moon"
 Text Moon,"Costs 16 Money. Enters: Moon's magic creates an illusory copy of any chosen member (except herself) from either player's club."
 Prerequisite Moon,Choose a member to create an illusory copy of that card in your hand. 
 Title Sticky Fingers,Sticky Fingers
-Text Sticky Fingers,"Enters: Steal 2 Money. When you steal with another effect, steal 1 Fame and Money."
+Text Sticky Fingers,"Enters: Steal 2 Fame. When you steal with another effect, steal 1 Fame and Money."
 Title Earner,Earner
 Text Earner,"Gain +1 Money for each Criminal in your streets. (Max +3)"
 Title Naughty Baby,Naughty Baby

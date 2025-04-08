@@ -2837,20 +2837,18 @@ var ClubCardList = [
 		RequiredLevel: 5,
 		OnPlay: function(CCPlayer) {
 			const removedActresses = CCPlayer.Board.filter(card => card.Group?.includes("PornActress"));
-			removedActresses.forEach(card => ClubCardRemoveFromBoard(CCPlayer, card));
+			removedActresses.forEach(card => ClubCardRemoveFromBoard(CCPlayer, card, true));
 			const copiedActresses = removedActresses.map(card => ClubCardGetCopyCardByID(card.ID));
 			CCPlayer.Hand.push(...copiedActresses);
 
-			const pornRelatedCount = CCPlayer.Hand.filter(card=> (card.Group?.includes("PornActress") || card.Group?.includes("Porn")) && card.Type !== "Event").length;
-			for (let i = 0; i < pornRelatedCount; i++) {
-				const pornCardIndex = CCPlayer.Hand.findIndex(card =>
-					(card.Group?.includes("PornActress") || card.Group?.includes("Porn"))
-					&& (card.Type === "Member" || card.Type == undefined)
-				);
-				const pornCard = CCPlayer.Hand[pornCardIndex];
+			const pornRelatedCount = CCPlayer.Hand.filter(card=> (card.Group?.includes("PornActress") || card.Group?.includes("Porn")) && card.Type !== "Event");
+			pornRelatedCount.forEach(card => {
+				const index = CCPlayer.Hand.findIndex(c => c.UniqueID === card.UniqueID);
+				const pornCard = CCPlayer.Hand[index];
 				if (ClubCardCanSummonCard(CCPlayer, pornCard))
-					ClubCardSummonCard(CCPlayer, CCPlayer.Hand.splice(pornCardIndex, 1)[0]);
-			}
+					ClubCardSummonCard(CCPlayer, CCPlayer.Hand.splice(index, 1)[0]);
+			});
+
 			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Gangbang Banger", {}, CCPlayer);
 		},
 		CanPlay: function(CCPlayer) {
