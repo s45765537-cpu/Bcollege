@@ -743,8 +743,9 @@ function DrawImageEx(
 	// Blit the transformed image to the main canvas, applying opacity and zoom
 
 	// Instead of expensive save/restore, we store the relevant state info and restore it manually
-	let savedCompositeOperation = Canvas.globalCompositeOperation;
-	let savedAlpha = Canvas.globalAlpha;
+	const savedCompositeOperation = Canvas.globalCompositeOperation;
+	const savedAlpha = Canvas.globalAlpha;
+	const savedTransform = Canvas.getTransform();
 
 	Canvas.globalCompositeOperation = BlendingMode;
 	Canvas.globalAlpha = Alpha;
@@ -767,7 +768,7 @@ function DrawImageEx(
 
 	Canvas.globalCompositeOperation = savedCompositeOperation;
 	Canvas.globalAlpha = savedAlpha;
-	Canvas.resetTransform();
+	Canvas.setTransform(savedTransform);
 	return true;
 }
 
