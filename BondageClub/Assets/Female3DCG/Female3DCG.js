@@ -55070,6 +55070,7 @@ var AssetFemale3DCG = [
 				MinOpacity: 0.25,
 				MaxOpacity: 1,
 				Opacity: 1,
+				EditOpacity: true,
 				Hide: [
 					"HandsLeft",
 					"HandsRight",
@@ -55407,6 +55408,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				Extended: true,
 				RemoveAtLogin: true,
+				EditOpacity: true,
 				MinOpacity: 0,
 				Opacity: 0,
 				FixedPosition: true,
@@ -55456,6 +55458,7 @@ var AssetFemale3DCG = [
 				RemoveAtLogin: true,
 				MinOpacity: 0,
 				Opacity: 0,
+				EditOpacity: true,
 				SetPose: ["Kneel"],
 				Block: ["ItemAddon"],
 				Effect: [E.BlockWardrobe, E.Enclose, E.Freeze],
