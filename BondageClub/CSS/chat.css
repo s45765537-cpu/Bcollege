@@ -64,11 +64,16 @@
   margin-bottom: max(3px, min(0.4vh, 0.2vw));
 }
 
+/*
+ * NOTE: Explicitly set the scrollbar gutter to auto, as the combination of `overflow-y: scroll` and
+ * `scrollbar-gutter: stable` (see `.scroll-box`) can get laggy on Chrome due to optimization issues
+ */
 #TextAreaChatLog {
   background-color: white;
   word-wrap: break-word;
   padding: 0 !important;
   overflow-y: scroll;
+  scrollbar-gutter: auto;
   height: max-content;
 }
 
