@@ -825,7 +825,7 @@ var CraftingEventListeners = {
 
 			// Update the label of the asset panel
 			document.querySelector(`#${CraftingID.assetHeader} > span`)?.replaceChildren(
-				`${TextGet("SelectItem")} ${TextGet("SelectItemSuffix")} ${this.getAttribute("aria-label").toLocaleLowerCase()}`,
+				TextGet("SelectItemSuffix").replace('GroupName', this.getAttribute("aria-label").toLocaleLowerCase())
 			);
 
 			// Make sure that the asset panel is open and scroll to the top

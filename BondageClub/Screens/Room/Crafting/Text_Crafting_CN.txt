@@ -28,8 +28,8 @@ Select a crafted item slot to destroy.  Page
 选择摧毁一个已经制作的物品栏。 页面
 Select an item
 选择一件物品
-for the
-for the
+Select an item for the GroupName
+选择一件物品用于GroupName
 Select an item property
 选择一条物品特性
 Select a lock
