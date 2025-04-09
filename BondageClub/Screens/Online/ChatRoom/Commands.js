@@ -149,22 +149,34 @@ function CommandExecute(msg) {
  */
 function CommandAutoComplete(msg) {
 	const low = msg.toLowerCase();
-	if (!low || !low.startsWith(CommandsKey) || low.length <= CommandsKey.length) return;
+	if (!low || !low.startsWith(CommandsKey)) return;
 	if (low.substring(CommandsKey.length).startsWith(CommandsKey)) return;
 
 	const [key, ...forward] = low.replace(/\s{2,}/g, ' ').split(' ');
-	const CS = GetCommands().filter(C => (CommandsKey + C.Tag).indexOf(key) == 0);
+	const tag = key.substring(CommandsKey.length);
+
+	// If we have a forward it means the command tag was already typed, only try to call the command's AutoComplete.
+	// This is needed if a command's tag is a prefix of a different command.
+	if (forward.length > 0) {
+		const CS = GetCommands().filter(C => C.Tag == tag);
+		if (CS.length == 1 && CS[0].AutoComplete) {
+			CS[0].AutoComplete.call(CS[0], forward, low, msg);
+		}
+		return;
+	}
+
+	const CS = GetCommands().filter(C => C.Tag.startsWith(tag));
 	if (CS.length == 0) return;
 
 	if (CS.length == 1) {
-		if (key != (CommandsKey + CS[0].Tag)) {
+		if (tag != CS[0].Tag) {
 			ElementValue("InputChat", CommandsKey + CS[0].Tag + " ");
 			ElementFocus("InputChat");
 		} else if (CS[0].AutoComplete) {
 			CS[0].AutoComplete.call(CS[0], forward, low, msg);
 		}
 		return;
-	} if (forward.length > 0) return;
+	}
 
 	let complete = low;
 	for (let I = low.length - CommandsKey.length; ; ++I) {
