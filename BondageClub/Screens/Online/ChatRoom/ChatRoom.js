@@ -3997,7 +3997,7 @@ function ChatRoomMessageDefaultMetadataExtractor(data, SenderCharacter) {
 				meta.Groups[entry.Tag].push(group);
 			}
 		} else if (IsFocusGroupDictionaryEntry(entry)) {
-			const group = /** @type {AssetItemGroup} */ (AssetGroupGet("Female3DCG", entry.FocusGroupName));
+			const group = /** @type {AssetItemGroup} */(AssetGroupGet("Female3DCG", entry.FocusGroupName));
 			if (group) {
 				meta.FocusGroup = group;
 				meta.GroupName = group.Name;

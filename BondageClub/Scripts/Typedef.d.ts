@@ -1071,6 +1071,13 @@ interface AssetScriptGroup extends AssetGroup {
 	readonly IsDefault: false;
 }
 
+/** A type mapping all asset group names to their respective, {@link AssetGroup.Category}-specific group type */
+type AssetGroupMapping = (
+	{ [key in AssetGroupBodyName]: AssetAppearanceGroup }
+	& { [key in AssetGroupItemName]: AssetItemGroup }
+	& { [key in AssetGroupScriptName]: AssetScriptGroup }
+);
+
 /** An object defining a drawable layer of an asset */
 interface AssetLayer {
 	/** The name of the layer - may be null if the asset only contains a single default layer */

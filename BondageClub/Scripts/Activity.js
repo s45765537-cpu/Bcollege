@@ -86,9 +86,9 @@ function ActivityDictionaryText(KeyWord) {
  * @returns {AssetItemGroup | null} - The resolved group
  */
 function ActivityGetGroupOrMirror(family, groupname) {
-	const group = /** @type {AssetItemGroup} */ (AssetGroupGet(family, groupname));
+	const group = AssetGroupGet(family, groupname);
 	if (group && group.MirrorActivitiesFrom != null) {
-		const mirror = /** @type {AssetItemGroup} */ (AssetGroupGet(family, group.MirrorActivitiesFrom));
+		const mirror = AssetGroupGet(family, group.MirrorActivitiesFrom);
 		if (mirror) {
 			return mirror;
 		}
