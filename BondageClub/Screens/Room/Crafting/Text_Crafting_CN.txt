@@ -28,6 +28,8 @@ Select a crafted item slot to destroy.  Page
 选择摧毁一个已经制作的物品栏。 页面
 Select an item
 选择一件物品
+Select an item for the GroupName
+选择一件物品用于GroupName
 Select an item property
 选择一条物品特性
 Select a lock
@@ -168,3 +170,5 @@ Crafting code successfully parsed
 成功解析制作代码
 Failed to parse the passed crafting code
 无法解析传入的制作代码
+Undress character preview
+角色预览脱衣

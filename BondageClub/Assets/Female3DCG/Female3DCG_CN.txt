@@ -38,6 +38,8 @@ Face Scars
 脸部疤痕
 Face paints
 脸部彩绘
+Splatters
+溅污
 Upper Body
 上身
 Bulky Flat Chest
@@ -595,13 +597,39 @@ Goatee
 Medium Beard
 中等胡子
 Moustache
-小胡子
+上唇胡子
 Moustache Beard
-络腮小胡子
+络腮上唇胡子
+XL Beard
+加大胡子
+XXL Beard
+加加大胡子
+Mutton Chops
+羊角胡
+XL Moustache
+加大上唇胡子
+XL Goatie
+加大山羊胡
+Handlebar
+把手胡子
+XXL Beard / Handlebar
+加加大络腮胡 / 把手胡子
+XXL Beard / XL Stache
+加加大络腮胡 / 加大上唇胡子
+Van Dyke
+范·戴克络腮胡
+Van Dyke / Handlebar
+范·戴克络腮胡 / 把手胡子
+Large Beard
+大胡子
+Large Goatee
+大山羊胡
 Fluids
 液体
 Garters
 袜带
+Butterfly Garters
+蝴蝶袜带
 Drop Bag
 水桶包
 Leather Garter Belts
@@ -1164,6 +1192,8 @@ Bed Tape
 床上用胶带
 Ceiling Chain
 吊顶链
+Ceiling Neck Cuff
+房顶颈铐
 Ceiling Rope
 吊顶绳
 Blanket
@@ -1340,6 +1370,8 @@ Heelless Hi-Shoes
 无跟高跟鞋
 High Thigh Boots
 高筒靴
+Hoof Boots
+蹄靴
 Short Leather Foot Mittens
 短型连指皮革鞋套
 Leather Toe Cuffs
@@ -1522,6 +1554,8 @@ Kabeshiri Wall
 壁尻
 Heavy Kennel
 重型狗窝
+Leather Cage
+皮革笼
 Halloween Monster Set
 万圣节怪物套装
 Locker
@@ -1708,6 +1742,8 @@ Ice Cube
 冰块
 Key
 钥匙
+Kyo-sensu Fan
+京扇子（きょせんす）
 Large Dildo
 大假阳具
 Long Duster
@@ -1772,6 +1808,8 @@ Toothbrush
 牙刷
 Trowel
 抹子
+Uchiwa Fan
+団扇（うちわ）
 Vibrator Remote
 振动玩具遥控器
 Vibrating Wand
@@ -1818,6 +1856,8 @@ Eyes
 眼睛
 Anime Lenses
 动漫美瞳
+Asylum Blindfold
+收容所眼罩
 Blackout Lenses
 不透光美瞳
 Cloth Blindfold
@@ -1916,6 +1956,8 @@ GP-9 Gas Mask
 GP-9防毒面具
 Gwen Hood
 情趣头套
+Suspicious Mask
+可疑的面具
 Cat Mask Harness
 猫猫面具束带
 One-Way Glass Head Box
@@ -1982,6 +2024,8 @@ Zipper Hood
 拉链头套
 Legs
 腿
+Barrel Corset
+桶束腰
 Frog-tie Straps
 蟹缚绑带
 Frog-tie Metal Cuffs
@@ -2086,6 +2130,8 @@ Mouth
 嘴巴
 Always Open Mouth Gag
 保持开嘴口塞
+Asylum Muzzle
+收容所口套
 Tennis Ball
 网球
 Ball Gag
@@ -2258,6 +2304,8 @@ XMas Sticker Gag
 圣诞贴纸口塞
 Neck
 颈部
+Asylum Collar
+收容所项圈
 Automatic Shock Collar
 自动电击项圈
 Bat Collar
@@ -2266,6 +2314,8 @@ Boned Neck Corset
 支撑束颈
 Bordelle Collar
 波戴尔项圈
+Chain Collar
+锁链项圈
 Club Slave Collar
 俱乐部奴隶项圈
 Combo Harness
@@ -2308,6 +2358,8 @@ Lover Leather Collar
 恋人皮革项圈
 Maid Collar
 女仆围脖
+Metal Cuff Collar
+金属铐项圈
 Neck Rope
 脖绳
 Noble Corset Collar
@@ -2390,6 +2442,8 @@ Electronic Tag
 电子名牌
 Chain Leash
 牵引链
+Choke Chain
+窒息锁链
 Long Chain
 长锁链
 Medium Chain
@@ -2584,6 +2638,10 @@ Navel Bar
 脐钉
 Locking Latex Leotard
 上锁乳胶紧身衣
+Steel Belt
+不锈钢腰带
+Extreme Corset
+极限束腰
 Vulva
 外阴
 Basic Cock Ring
@@ -2990,6 +3048,10 @@ Right Leg
 右腿
 Upper Suit
 套装(上身)
+Female Bartender Vest
+女性酒保马甲
+Male Bartender Vest
+女性酒保马甲
 Catsuit
 紧身衣
 Latex Catsuit
@@ -3046,6 +3108,8 @@ Small Fluffy Kitten Tail Strap
 小型穿戴式软猫尾
 Plumed Tail Strap
 穿戴式蓬顶尾巴
+Large Bushy Tail
+大蓬松尾巴
 Mouse Tail Strap 1
 穿戴式鼠尾 1
 Mouse Tail Strap 2

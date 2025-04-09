@@ -70,6 +70,10 @@ Loosen
 解松
 Give up
 放弃
+Replying to
+回复给
+Message could not be found.
+消息无法找到。
 <strong>Help: KeyWord</strong>
 <strong>帮助: 关键词</strong>
 command: no such command
