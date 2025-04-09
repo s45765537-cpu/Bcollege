@@ -29,7 +29,7 @@ function AssetsItemNipplesLactationPumpScriptDraw(data) {
 	const persist = data.PersistentData();
 
 	// We do nothing if suction is disabled or if we're rendering someone else
-	if (!Item.Property.SuctionLevel || !C.IsPlayer()) return;
+	if (!Item.Property.SuctionLevel || !C.IsPlayer() || !Item.Asset.Group.IsItem()) return;
 
 	if (persist.LastSuction === undefined) {
 		persist.LastSuction = CurrentTime;

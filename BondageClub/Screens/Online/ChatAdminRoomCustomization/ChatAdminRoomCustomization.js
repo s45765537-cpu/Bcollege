@@ -366,7 +366,7 @@ function ChatAdminRoomCustomizationClick() {
 
 /**
  * Handles exiting from the admin custom screen, removes the inputs
- * @type {ScreenFunctions["Exit"]}
+ * @type {ScreenExitHandler}
  */
 function ChatAdminRoomCustomizationExit() {
 	ChatAdminRoomCustomizationPlayMusic("");

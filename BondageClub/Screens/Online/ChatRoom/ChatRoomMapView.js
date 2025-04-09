@@ -530,7 +530,7 @@ function ChatRoomMapViewIsActive() {
 	return ChatRoomIsViewActive(ChatRoomMapViewName);
 }
 
-/** @type {ScreenFunctions["Run"]} */
+/** @type {ScreenRunHandler} */
 function ChatRoomMapViewRun(time) {
 
 	// Syncs the room map data with the server if needed
@@ -2046,7 +2046,7 @@ function ChatRoomMapViewMouseMove() {
 
 /**
  * Mouse up event is used to stop drawing
- * @returns {void} - Nothing
+ * @type {MouseEventListener}
  */
 function ChatRoomMapViewMouseUp() {
 	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapViewIsActive()) return;
@@ -2055,7 +2055,7 @@ function ChatRoomMapViewMouseUp() {
 
 /**
  * Mouse wheel event is used to zoom the map
- * @type {ScreenFunctions["MouseWheel"]}
+ * @type {MouseWheelEventListener}
  */
 function ChatRoomMapViewMouseWheel(Event) {
 	if ((CurrentScreen != "ChatRoom") || !ChatRoomMapViewIsActive()) return;

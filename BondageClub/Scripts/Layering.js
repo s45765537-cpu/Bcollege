@@ -407,7 +407,7 @@ var Layering = {
 		return /** @type {HTMLDivElement} */(document.getElementById(this.ID.root));
 	},
 
-	/** @type {ScreenFunctions["Load"]} */
+	/** @type {ScreenLoadHandler} */
 	Load() {
 		let elem = document.getElementById(this.ID.root);
 		if (elem != null) {
@@ -569,7 +569,7 @@ var Layering = {
 
 	/**
 	 * Can be also be used, alternatively, as a {@link ScreenFunctions.Draw} function
-	 * @type {ScreenFunctions["Resize"]}
+	 * @type {ScreenResizeHandler}
 	 */
 	Resize(load) {
 		ElementPositionFix(this.ID.root, 0, this.Display.x, this.Display.y, this.Display.w, this.Display.h);
@@ -577,7 +577,7 @@ var Layering = {
 		elem.style.display = "";
 	},
 
-	/** @type {ScreenFunctions["Unload"]} */
+	/** @type {ScreenUnloadHandler} */
 	Unload() {
 		// Need the null check here due to `CommonSetScreen` calling `Unload` after `Exit`
 		const elem = document.getElementById(this.ID.root);
@@ -587,7 +587,7 @@ var Layering = {
 	},
 
 	/**
-	 * @satisfies {ScreenFunctions["Exit"]}
+	 * @satisfies {ScreenExitHandler}
 	 * @param {boolean} reload - Whether the exit call is part of a reload (see {@link Layering.Init})
 	 */
 	Exit(reload=false) {

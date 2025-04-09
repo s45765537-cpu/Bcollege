@@ -261,7 +261,7 @@ const ChatRoomArousalMsg_ChanceGagMod = {
 var ChatRoomHideIconState = 0;
 /**
  * The list of buttons in the top-right
- * @type {string[]}
+ * @type {ChatRoomMenuButton[]}
  * */
 var ChatRoomMenuButtons = [];
 let ChatRoomFontSize = 30;
@@ -1793,7 +1793,7 @@ function ChatRoomStimulationMessage(Action) {
 
 	// Increase player arousal to the zone
 	if (!Player.IsEdged() && arousal < 70 - event.arousal && event.event != "Talk")
-		ActivityEffectFlat(Player, Player, event.arousal, group.Name, 1);
+		ActivityEffectFlat(Player, Player, event.arousal, /** @type {AssetGroupItemName} */ (group.Name), 1);
 	const duration = (Math.random() + event.arousal / 2.4) * 500;
 	DrawFlashScreen("#FFB0B0", duration, 140);
 	if (Player.ArousalSettings?.AffectExpression) {
@@ -1809,7 +1809,7 @@ function ChatRoomStimulationMessage(Action) {
 }
 
 /**
- * @type {ScreenFunctions["Resize"]}
+ * @type {ScreenResizeHandler}
  */
 function ChatRoomResize(load) {
 	const chatInput = document.getElementById("InputChat");
@@ -1820,7 +1820,7 @@ function ChatRoomResize(load) {
 }
 
 /**
- * @type {ScreenFunctions["Unload"]}
+ * @type {ScreenUnloadHandler}
  */
 function ChatRoomUnload() {
 	ChatRoomHideElements();
@@ -2180,7 +2180,7 @@ function ChatRoomCustomizationRun() {
 
 /**
  * Runs the chatroom screen.
- * @type {ScreenFunctions["Run"]}
+ * @type {ScreenRunHandler}
  */
 function ChatRoomRun(time) {
 
@@ -2469,7 +2469,7 @@ function ChatRoomMouseMove(event) {
 
 /**
  * Redirects the Mouse Wheel event to the map if needed
- * @type {ScreenFunctions["MouseWheel"]}
+ * @type {MouseWheelEventListener}
  */
 function ChatRoomMouseWheel(event) {
 	if (ChatRoomActiveView.MouseWheel) return ChatRoomActiveView.MouseWheel(event);
@@ -2477,7 +2477,7 @@ function ChatRoomMouseWheel(event) {
 
 /**
  * Handles clicks the chatroom screen.
- * @type {ScreenFunctions["Click"]}
+ * @type {MouseEventListener}
  */
 function ChatRoomClick(event) {
 
@@ -2603,7 +2603,7 @@ function ChatRoomOpenAdminScreen() {
 
 /**
  * Process chat room menu button clicks
- * @type {ScreenFunctions["Click"]}
+ * @type {MouseEventListener}
  */
 function ChatRoomMenuClick(event) {
 	const Space = 992 / (ChatRoomMenuButtons.length);
@@ -5095,7 +5095,7 @@ function ChatRoomSyncItem(data) {
 			item: if (item) {
 
 				// Puts the item on the character and apply the craft & property
-				const wornItem = CharacterAppearanceSetItem(ChatRoomCharacter[C], item.Asset.Group.Name, item.Asset, item.Color, item.Difficulty, null, false);
+				const wornItem = CharacterAppearanceSetItem(ChatRoomCharacter[C], item.Asset.Group.Name, item.Asset, item.Color, item.Difficulty);
 				if (wornItem == null) {
 					valid = false;
 					break item;

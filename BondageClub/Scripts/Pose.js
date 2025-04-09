@@ -195,9 +195,10 @@ function PoseSetByItems(C, category, poseName) {
  * @param {Character} C - Character for which to set the pose
  * @param {null | AssetPoseName} poseName - Name of the pose to set as active or `null` to return to the default pose
  * @param {boolean} [ForceChange=false] - TRUE if the set pose(s) should overwrite current active pose(s)
+ * @param {boolean} [RefreshDialog] - Refresh {@link DialogSelfMenuMapping.Pose} if so required
  * @returns {void} - Nothing
  */
-function PoseSetActive(C, poseName, ForceChange = false) {
+function PoseSetActive(C, poseName, ForceChange=false, RefreshDialog=true) {
 	const newPose = PoseRecord[poseName];
 	if (
 		poseName == null
@@ -206,6 +207,9 @@ function PoseSetActive(C, poseName, ForceChange = false) {
 	) {
 		C.ActivePoseMapping = (newPose == null) ? {} : { [newPose.Category]: newPose.Name };
 		CharacterRefresh(C, false);
+		if (RefreshDialog && DialogSelfMenuSelected === "Pose" && DialogSelfMenuMapping.Pose.C.ID === C.ID) {
+			DialogSelfMenuMapping.Pose.Reload();
+		}
 		return;
 	}
 
@@ -229,7 +233,11 @@ function PoseSetActive(C, poseName, ForceChange = false) {
 	    C.PoseMapping.BodyUpper = C.PoseMapping.BodyUpper ?? "BaseUpper";
 	    C.PoseMapping.BodyLower = C.PoseMapping.BodyLower ?? "BaseLower";
 	}
+
 	CharacterRefresh(C, false);
+	if (RefreshDialog && DialogSelfMenuSelected === "Pose" && DialogSelfMenuMapping.Pose.C.ID === C.ID) {
+		DialogSelfMenuMapping.Pose.Reload();
+	}
 }
 
 /**

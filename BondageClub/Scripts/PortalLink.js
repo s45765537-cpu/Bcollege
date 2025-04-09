@@ -584,7 +584,7 @@ function PortalLinkProcessMessage(sender, data) {
 			return;
 		}
 		const group = AssetGroupGet("Female3DCG", /** @type {AssetGroupName} */ (attrTarget.substring("PortalLinkTarget".length)));
-		if (!group) return;
+		if (!group || !group.IsItem()) return;
 		ActivityRun(sender, Player, group, { Activity: act, Item: tablet, Group: tablet.Asset.Group.Name }, false);
 
 		builder.focusGroup(group.Name);

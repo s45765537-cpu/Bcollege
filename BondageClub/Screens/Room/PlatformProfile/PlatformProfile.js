@@ -36,8 +36,8 @@ function PlatformProfileLoad() {
  * @param {number} X - The X position on screen
  * @param {number} Y - The Y position on screen
  * @param {number} PerkNum - The perk number for the current character
- * @param {Object} Prerequisite1 - If there's a first prerequisite to validate
- * @param {Object} Prerequisite2 - If there's a second prerequisite to validate
+ * @param {Platform.PerkName} [Prerequisite1] - If there's a first prerequisite to validate
+ * @param {Platform.PerkName} [Prerequisite2] - If there's a second prerequisite to validate
  * @returns {void} - Nothing
  */
 function PlatformProfileDrawPerkButton(X, Y, PerkNum, Prerequisite1, Prerequisite2) {
@@ -50,7 +50,7 @@ function PlatformProfileDrawPerkButton(X, Y, PerkNum, Prerequisite1, Prerequisit
 
 /**
  * Returns the text associated to the bonus given by the owner of the current player
- * @param {Object} PlatformChar - The platform character to evaluate
+ * @param {Platform.Character} PlatformChar - The platform character to evaluate
  * @returns {string} - The text string linked to the bonus
  */
 function PlatformGetOwnerBonus(PlatformChar) {
@@ -61,7 +61,7 @@ function PlatformGetOwnerBonus(PlatformChar) {
 
 /**
  * Returns the text associated to the bonus given by the lover of the current player
- * @param {Object} PlatformChar - The platform character to evaluate
+ * @param {Platform.Character} PlatformChar - The platform character to evaluate
  * @returns {string} - The text string linked to the bonus
  */
 function PlatformGetLoverBonus(PlatformChar) {
@@ -245,7 +245,7 @@ function PlatformProfileClick() {
 
 /**
  * When the screens exits, we unload the listeners
- * @type {ScreenFunctions["Exit"]}
+ * @type {ScreenExitHandler}
  */
 function PlatformProfileExit() {
 	PlatformPartySave();

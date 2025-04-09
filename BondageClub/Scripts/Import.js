@@ -61,14 +61,19 @@ function ImportBondageCollege(C) {
 			if ((localStorage.getItem("BondageCollegeExportLockedVibratingEgg") != null) && (localStorage.getItem("BondageCollegeExportLockedVibratingEgg") == "true")) DialogWearItem("VibratingEgg", "ItemVulva");
 
 			// Imports skills
-			if (localStorage.getItem("BondageCollegeExportArts") != null) SkillChange(C, "LockPicking", +(localStorage.getItem("BondageCollegeExportArts")), 0, true);
-			if (localStorage.getItem("BondageCollegeExportFighting") != null) SkillChange(C, "Willpower", +(localStorage.getItem("BondageCollegeExportFighting")), 0, true);
-			if (localStorage.getItem("BondageCollegeExportRopeMastery") != null) {
-				SkillChange(C, "Bondage", +(localStorage.getItem("BondageCollegeExportRopeMastery")), 0, true);
-				SkillChange(C, "SelfBondage", +(localStorage.getItem("BondageCollegeExportRopeMastery")), 0, true);
+			const arts = +(localStorage.getItem("BondageCollegeExportArts") ?? 0);
+			const fight = +(localStorage.getItem("BondageCollegeExportFighting") ?? 0);
+			const rope = +(localStorage.getItem("BondageCollegeExportRopeMastery") ?? 0);
+			const seduction = +(localStorage.getItem("BondageCollegeExportSeduction") ?? 0);
+			const sports = +(localStorage.getItem("BondageCollegeExportSports") ?? 0);
+			if (arts) SkillChange(C, "LockPicking", arts, 0, true);
+			if (fight) SkillChange(C, "Willpower", fight, 0, true);
+			if (rope) {
+				SkillChange(C, "Bondage", rope, 0, true);
+				SkillChange(C, "SelfBondage", rope, 0, true);
 			}
-			if (localStorage.getItem("BondageCollegeExportSeduction") != null) SkillChange(C, "Infiltration", +(localStorage.getItem("BondageCollegeExportSeduction")), 0, true);
-			if (localStorage.getItem("BondageCollegeExportSports") != null) SkillChange(C, "Evasion", +(localStorage.getItem("BondageCollegeExportSports")), 0, true);
+			if (seduction) SkillChange(C, "Infiltration", seduction, 0, true);
+			if (sports) SkillChange(C, "Evasion", sports, 0, true);
 
 			// Sync with the server
 			ServerPlayerSync();

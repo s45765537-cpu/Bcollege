@@ -153,6 +153,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		HeightRatio: 1,
 		HasHiddenItems: false,
 		SavedColors: GetDefaultSavedColors(),
+		ActiveExpression: null,
 
 		PoseMapping: {},
 		get Pose() {
@@ -751,6 +752,36 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			return Player.HasOnFriendlist(this);
 		}
 	};
+
+	// Keep these two methods non-enumerable such that they do not interfere with the likes of `Object.keys`
+	const activeExpression = Object.defineProperties(/** @type {Character["ActiveExpression"]} */({}), {
+		setWithoutReload: {
+			value: function (key, value) { this[key] = value; },
+			enumerable: false,
+		},
+		deleteWithoutReload: {
+			value: function (key) { delete this[key]; },
+			enumerable: false,
+		},
+	});
+
+	/** @type {Mutable<Character>} */(NewCharacter).ActiveExpression = new Proxy(
+		activeExpression,
+		{
+			set(...args) {
+				if (DialogSelfMenuSelected === "Expression" && DialogSelfMenuMapping.Expression.C.ID === NewCharacter.ID) {
+					DialogSelfMenuMapping.Expression.Reload();
+				}
+				return Reflect.set(...args);
+			},
+			deleteProperty(...args) {
+				if (DialogSelfMenuSelected === "Expression" && DialogSelfMenuMapping.Expression.C.ID === NewCharacter.ID) {
+					DialogSelfMenuMapping.Expression.Reload();
+				}
+				return Reflect.deleteProperty(...args);
+			},
+		},
+	);
 
 	// Add the character to the cache
 	Character.push(NewCharacter);
@@ -1856,19 +1887,37 @@ function CharacterResetFacialExpression(C) {
 }
 
 /**
+ * Checks if a given expression is disallowed on a character
+ * @param {Character} C
+ * @param {Item} Item
+ * @param {null | ExpressionName} Expression
+ * @returns {null | string} - An exit status or `null` if the expression is otherwise allowed
+ */
+function CharacterIsExpressionDisallowed(C, Item, Expression) {
+	if (!C || !Item) return "Internal error: missing character or item";
+
+	const allowedExpr = InventoryGetItemProperty(Item, "AllowExpression", true);
+	const exprPres = InventoryGetItemProperty(Item, "ExpressionPrerequisite", true);
+	const exprPre = exprPres[allowedExpr.indexOf(Expression)];
+	const prereqMessage = !exprPre ? null : InventoryPrerequisiteMessage(C, exprPre, Item.Asset);
+
+	if (Expression != null && !allowedExpr.includes(Expression)) {
+		return `Illegal expression "${Expression}"`;
+	} else if (prereqMessage) {
+		return prereqMessage;
+	} else {
+		return null;
+	}
+}
+
+/**
  * Checks if a given expression is allowed on a character
  * @param {Character} C
  * @param {Item} Item
  * @param {ExpressionName} Expression
  */
 function CharacterIsExpressionAllowed(C, Item, Expression) {
-	if (!C || !Item) return false;
-
-	const allowedExpr = InventoryGetItemProperty(Item, "AllowExpression", true);
-	const exprPres = InventoryGetItemProperty(Item, "ExpressionPrerequisite", true);
-	const exprPre = exprPres[allowedExpr.indexOf(Expression)];
-
-	return ((Expression == null || allowedExpr.includes(Expression)) && (!exprPre || InventoryPrerequisiteMessage(C, exprPre, Item.Asset) === ""));
+	return CharacterIsExpressionDisallowed(C, Item, Expression) == null;
 }
 
 /**
@@ -1988,12 +2037,14 @@ function CharacterIsEdged(C) {
 	// Get all zones that allow an orgasm
 	/** @type {AssetGroupItemName[]} */
 	let OrgasmZones = [];
-	for (let Group of AssetGroup)
+	for (let Group of AssetGroup) {
+		if (!Group.IsItem()) continue;
 		if (Group.ArousalZoneID != null) {
 			let Zone = PreferenceGetArousalZone(C, Group.Name);
 			if (Zone.Orgasm && (Zone.Factor > 0))
 				OrgasmZones.push(Zone.Name);
 		}
+	}
 
 	// Get every vibrating item acting on an orgasm zone
 	const VibratingItems = C.Appearance

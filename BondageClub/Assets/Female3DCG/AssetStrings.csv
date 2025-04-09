@@ -6732,3 +6732,102 @@ ItemHoodHalloIIISetm2,SourceCharacter chooses the witch mask for DestinationChar
 ItemHoodHalloIIISeth0,SourceCharacter removes the hood from DestinationCharacter head.
 ItemHoodHalloIIISeth1,SourceCharacter adds a normal hood on the DestinationCharacter head.
 ItemHoodHalloIIISeth2,SourceCharacter adds a sealed hood on the DestinationCharacter head: There will be no more TV for TargetPronounPossessive.
+ItemTorsoBarrelCorsetSelectBase,Choose your Barrel Corset preferences:
+ItemTorsoBarrelCorsetModulePriority,Position
+ItemTorsoBarrelCorsetSelectPriority,About corset positioning:
+ItemTorsoBarrelCorsetOptionv0,Under clothes
+ItemTorsoBarrelCorsetOptionv1,Corset full exposed
+ItemTorsoBarrelCorsetModuleTightness,Restriction
+ItemTorsoBarrelCorsetSelectTightness,Restraint options:
+ItemTorsoBarrelCorsetOptions0,Default-Slow effect
+ItemTorsoBarrelCorsetOptions1,Tight thighs-Freeze
+ItemTorsoBarrelCorsetModuleNeckCollar,Neck collar addon
+ItemTorsoBarrelCorsetSelectNeckCollar,Neck collar options:
+ItemTorsoBarrelCorsetOptiony0,None
+ItemTorsoBarrelCorsetOptiony1,Just neck collar
+ItemTorsoBarrelCorsetOptiony2,Neck collar plus straps
+ItemTorsoBarrelCorsetModuleBellyBelt,Belly Belt
+ItemTorsoBarrelCorsetSelectBellyBelt,Belly belt add options:
+ItemTorsoBarrelCorsetOptionw0,None
+ItemTorsoBarrelCorsetOptionw1,Equipped
+ItemTorsoBarrelCorsetModuleLegBelts,Leg Belts
+ItemTorsoBarrelCorsetSelectLegBelts,Leg belts add options:
+ItemTorsoBarrelCorsetOptionx0,None
+ItemTorsoBarrelCorsetOptionx1,Equipped
+ItemTorsoBarrelCorsetSetz0,SourceCharacter puts the Barrel corset under the DestinationCharacter clothes.
+ItemTorsoBarrelCorsetSetz1,SourceCharacter exposes the Barrel corset over the DestinationCharacter body.
+ItemTorsoBarrelCorsetSets0,SourceCharacter loosens the Barrel corset from the DestinationCharacter body.
+ItemTorsoBarrelCorsetSets1,SourceCharacter thighens the Barrel corset on the DestinationCharacter body.
+ItemTorsoBarrelCorsetSety0,SourceCharacter removes any neck corset addon from the DestinationCharacter neck.
+ItemTorsoBarrelCorsetSety1,SourceCharacter adds a Barrel corset collar on the DestinationCharacter neck.
+ItemTorsoBarrelCorsetSety2,SourceCharacter adds a Barrel corset collar and secure straps on the DestinationCharacter body.
+ItemTorsoBarrelCorsetSetw0,SourceCharacter removes a belt from the DestinationCharacter belly.
+ItemTorsoBarrelCorsetSetw1,SourceCharacter equips a belt on the DestinationCharacter belly.
+ItemTorsoBarrelCorsetSetx0,SourceCharacter removes a pair of belts from the DestinationCharacter thigh.
+ItemTorsoBarrelCorsetSetx1,SourceCharacter equips a pair of belts on the DestinationCharacter thigh.
+ItemTorso2BarrelCorsetSelectBase,Choose your Barrel Corset preferences:
+ItemTorso2BarrelCorsetModulePriority,Position
+ItemTorso2BarrelCorsetSelectPriority,About corset positioning:
+ItemTorso2BarrelCorsetOptionz0,Under clothes
+ItemTorso2BarrelCorsetOptionz1,Corset full exposed
+ItemTorso2BarrelCorsetModuleTightness,Restriction
+ItemTorso2BarrelCorsetSelectTightness,Restraint options:
+ItemTorso2BarrelCorsetOptions0,Default-Slow effect
+ItemTorso2BarrelCorsetOptions1,Tight thighs-Freeze
+ItemTorso2BarrelCorsetModuleNeckCollar,Neck collar addon
+ItemTorso2BarrelCorsetSelectNeckCollar,Neck collar options:
+ItemTorso2BarrelCorsetOptiony0,None
+ItemTorso2BarrelCorsetOptiony1,Just neck collar
+ItemTorso2BarrelCorsetOptiony2,Neck collar plus straps
+ItemTorso2BarrelCorsetModuleBellyBelt,Belly Belt
+ItemTorso2BarrelCorsetSelectBellyBelt,Belly belt add options:
+ItemTorso2BarrelCorsetOptionw0,None
+ItemTorso2BarrelCorsetOptionw1,Equipped
+ItemTorso2BarrelCorsetModuleLegBelts,Leg Belts
+ItemTorso2BarrelCorsetSelectLegBelts,Leg belts add options:
+ItemTorso2BarrelCorsetOptionx0,None
+ItemTorso2BarrelCorsetOptionx1,Equipped
+ItemTorso2BarrelCorsetSetz0,SourceCharacter puts the Barrel corset under the DestinationCharacter clothes.
+ItemTorso2BarrelCorsetSetz1,SourceCharacter exposes the Barrel corset over the DestinationCharacter body.
+ItemTorso2BarrelCorsetSets0,SourceCharacter loosens the Barrel corset from the DestinationCharacter body.
+ItemTorso2BarrelCorsetSets1,SourceCharacter thighens the Barrel corset on the DestinationCharacter body.
+ItemTorso2BarrelCorsetSety0,SourceCharacter removes any neck corset addon from the DestinationCharacter neck.
+ItemTorso2BarrelCorsetSety1,SourceCharacter adds a Barrel corset collar on the DestinationCharacter neck.
+ItemTorso2BarrelCorsetSety2,SourceCharacter adds a Barrel corset collar and secure straps on the DestinationCharacter body.
+ItemTorso2BarrelCorsetSetw0,SourceCharacter removes a belt from the DestinationCharacter belly.
+ItemTorso2BarrelCorsetSetw1,SourceCharacter equips a belt on the DestinationCharacter belly.
+ItemTorso2BarrelCorsetSetx0,SourceCharacter removes a pair of belts from the DestinationCharacter thigh.
+ItemTorso2BarrelCorsetSetx1,SourceCharacter equips a pair of belts on the DestinationCharacter thigh.
+ItemLegsBarrelCorsetSelectBase,Choose your Barrel Corset preferences:
+ItemLegsBarrelCorsetModulePriority,Position
+ItemLegsBarrelCorsetSelectPriority,About corset positioning:
+ItemLegsBarrelCorsetOptionz0,Under clothes
+ItemLegsBarrelCorsetOptionz1,Corset full exposed
+ItemLegsBarrelCorsetModuleTightness,Restriction
+ItemLegsBarrelCorsetSelectTightness,Restraint options:
+ItemLegsBarrelCorsetOptions0,Default-Slow effect
+ItemLegsBarrelCorsetOptions1,Tight thighs-Freeze
+ItemLegsBarrelCorsetModuleNeckCollar,Neck collar addon
+ItemLegsBarrelCorsetSelectNeckCollar,Neck collar options:
+ItemLegsBarrelCorsetOptiony0,None
+ItemLegsBarrelCorsetOptiony1,Just neck collar
+ItemLegsBarrelCorsetOptiony2,Neck collar plus straps
+ItemLegsBarrelCorsetModuleBellyBelt,Belly Belt
+ItemLegsBarrelCorsetSelectBellyBelt,Belly belt add options:
+ItemLegsBarrelCorsetOptionw0,None
+ItemLegsBarrelCorsetOptionw1,Equipped
+ItemLegsBarrelCorsetModuleLegBelts,Leg Belts
+ItemLegsBarrelCorsetSelectLegBelts,Leg belts add options:
+ItemLegsBarrelCorsetOptionx0,None
+ItemLegsBarrelCorsetOptionx1,Equipped
+ItemLegsBarrelCorsetSetz0,SourceCharacter puts the Barrel corset under the DestinationCharacter clothes.
+ItemLegsBarrelCorsetSetz1,SourceCharacter exposes the Barrel corset over the DestinationCharacter body.
+ItemLegsBarrelCorsetSets0,SourceCharacter loosens the Barrel corset from the DestinationCharacter body.
+ItemLegsBarrelCorsetSets1,SourceCharacter thighens the Barrel corset on the DestinationCharacter body.
+ItemLegsBarrelCorsetSety0,SourceCharacter removes any neck corset addon from the DestinationCharacter neck.
+ItemLegsBarrelCorsetSety1,SourceCharacter adds a Barrel corset collar on the DestinationCharacter neck.
+ItemLegsBarrelCorsetSety2,SourceCharacter adds a Barrel corset collar and secure straps on the DestinationCharacter body.
+ItemLegsBarrelCorsetSetw0,SourceCharacter removes a belt from the DestinationCharacter belly.
+ItemLegsBarrelCorsetSetw1,SourceCharacter equips a belt on the DestinationCharacter belly.
+ItemLegsBarrelCorsetSetx0,SourceCharacter removes a pair of belts from the DestinationCharacter thigh.
+ItemLegsBarrelCorsetSetx1,SourceCharacter equips a pair of belts on the DestinationCharacter thigh.

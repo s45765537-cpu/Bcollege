@@ -12953,6 +12953,131 @@ var AssetFemale3DCGExtended = {
 			],
 			ChangeWhenLocked: false,
 		}, // SteelBelt
+		BarrelCorset: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Priority",
+					Key: "z",
+					Options: [
+						{
+							// Under Clothes
+							Property: {
+								OverridePriority: {
+									Upper: 25,
+									Lower: 25,
+									Upper4: 25,
+									BellyB: 25,
+									BellyM: 25,
+									BellyLock: 25,
+									LegB: 25,
+									LegM: 25,
+									LegLock: 25,
+									Neck: 25,
+									NeckB: 25,
+									NeckM: 25,
+								},
+							},
+						},
+						{
+							// Over Clothes
+							Property: {
+								OverridePriority: {
+									Upper: 30,
+									Lower: 30,
+									Upper4: 30,
+									BellyB: 30,
+									BellyM: 30,
+									BellyLock: 30,
+									LegB: 30,
+									LegM: 30,
+									LegLock: 30,
+									Neck: 30,
+									NeckB: 30,
+									NeckM: 30,
+								},
+								Hide: ["ClothLower","Panties","Garters"],
+								HideItem: [
+									"ClothAccessoryLeatherBeltCloth",
+									"ClothFurCoat",
+									"CorsetCorsetDress",
+								],
+							},
+						},
+					],
+				},
+				{
+					Name: "Tightness",
+					Key: "s",
+					Options: [
+						{ 
+							// Loose
+							Property: {}
+						},
+						{
+							// Thigh
+							Property: {
+								Difficulty: 3,
+								Effect: [E.BlockWardrobe, E.Freeze],
+								Expression: [
+									{ Name: "Low", Group: "Blush", Timer: 10 },
+									{ Name: "OneRaised", Group: "Eyebrows", Timer: 10 },
+									{ Name: "Surprised", Group: "Eyes", Timer: 10 },
+									{ Name: "HalfOpen", Group: "Mouth", Timer: 10 },
+								],
+							},
+						},
+					],
+				},
+				{
+					Name: "NeckCollar",
+					Key: "y",
+					Options: [
+						{
+							// None
+							Property: {},
+						},
+						{
+							// Equipped
+							Property: { Difficulty: 1 },
+						},
+						{
+							// Equipped with straps
+							Property: { Difficulty: 2 },
+						},
+					],
+				},
+				{
+					Name: "BellyBelt",
+					Key: "w",
+					Options: [
+						{
+							// None
+							Property: {},
+						},
+						{
+							// Equipped
+							Property: { Difficulty: 2 },
+						},
+					],
+				},
+				{
+					Name: "LegBelts",
+					Key: "x",
+					Options: [
+						{ 
+							// None
+							Property: {}
+						},
+						{
+							// Equipped
+							Property: { Difficulty: 2 },
+						},
+					],
+				},
+			],
+			ChangeWhenLocked: false,
+		}, // BarrelCorset
 	}, // ItemTorso
 	ItemTorso2: {
 		LockingSwimsuit: {
@@ -13004,6 +13129,10 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			CopyConfig: { GroupName: "ItemTorso", AssetName: "SteelBelt" },
 		}, // SteelBelt
+		BarrelCorset: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ItemTorso", AssetName: "BarrelCorset" },
+		}, // BarrelCorset
 	}, //ItemTorso2
 	Shoes: {
 		FuturisticHeels2: {
@@ -15953,6 +16082,10 @@ var AssetFemale3DCGExtended = {
 		MermaidTail: {
 			Archetype: ExtendedArchetype.VIBRATING,
 		}, // MermaidTail
+		BarrelCorset: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ItemTorso", AssetName: "BarrelCorset" },
+		}, // BarrelCorset
 	}, // ItemLegs
 	ItemFeet: {
 		SpreaderMetal: {

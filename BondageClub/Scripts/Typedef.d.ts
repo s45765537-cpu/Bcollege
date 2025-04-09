@@ -172,7 +172,7 @@ declare namespace ElementButton {
 		 */
 		icons?: readonly (null | undefined | InventoryIcon | CustomIcon)[];
 		/** The role of the button. All accepted values are currently special-cased in order to set role-specific event listeners and/or attributes. */
-		role?: "radio" | "checkbox" | "menuitemradio" | "menuitemcheckbox";
+		role?: "radio" | "checkbox" | "menuitemradio" | "menuitemcheckbox" | "spinbutton";
 		/** Whether to limit the default styling of the button's border and background */
 		noStyling?: boolean;
 		/** Whether the button should be disabled or not */
@@ -262,6 +262,26 @@ type ChatRoomSpaceLabel = "MIXED" | "FEMALE_ONLY" | "MALE_ONLY" | "ASYLUM";
 type ChatRoomVisibilityModeLabel = "PUBLIC" | "ADMIN_WHITELIST" | "ADMIN" | "UNLISTED";
 type ChatRoomAccessModeLabel = "PUBLIC" | "ADMIN_WHITELIST" | "ADMIN";
 
+type ChatRoomMenuButton =
+	| "Camera"
+	| "Cancel"
+	| "CharacterView"
+	| "Cut"
+	| "CustomizationOn"
+	| "CustomizationOff"
+	| "Dress"
+	| "Exit"
+	| "GameOption"
+	| "Icons"
+	| "Kneel"
+	| "MapView"
+	| "NextCharacters"
+	| "PreviousCharacters"
+	| "Profile"
+	| "RoomAdmin"
+	| "ClearFocus"
+;
+
 type DialogMenuMode = (
 	"activities"
 	| "colorDefault"
@@ -335,6 +355,46 @@ declare namespace DialogMenu {
 	interface InitProperties {
 		C: Character;
 		focusGroup?: AssetGroup;
+	}
+
+	/** An object representing the validation output of a menubar button, determining whether it should be clickable or not */
+	interface MenuButtonValidateData {
+		/**
+		 * The button's validation state:
+		 * * `null`: Validation successful
+		 * * `"hide"`: Validation failure; hide the button
+		 * * `"disabled"`: Validation failure; disable the button but do not hide it
+		 */
+		state: null | "hidden" | "disabled";
+		/**
+		 * An optional status message to-be returned if the validation fails.
+		 */
+		status?: null | string;
+	}
+
+	/**
+	 * A custom validation function for determining whether the button should be enabled, disabled or hidden.
+	 * @param button The button in question
+	 * @param properties The {@link InitProperties} associated with the specific dialog menu
+	 * @param equippedItem The equipped item in question (if any)
+	 * @returns A nullish object if the validation passes or an object representing the validation state
+	 */
+	type MenuButtonValidator<T extends InitProperties> = (
+		button: HTMLButtonElement,
+		properties: T,
+		equippedItem?: Item | null
+	) => MenuButtonValidateData | null;
+
+	interface MenuButtonData<T extends InitProperties> {
+		/**
+		 * @param button The button in question
+		 * @param ev The mouse event associated with the button click
+		 * @param properties The {@link InitProperties} associated with the specific dialog menu
+		 * @param equippedItem The equipped item in question (if any)
+		 */
+		click: (button: HTMLButtonElement, ev: MouseEvent, properties: T, equippedItem?: Item | null) => any;
+		/** An object mapping labels to custom validation functions for button clicks. */
+		validate?: Record<string, MenuButtonValidator<T>>;
 	}
 }
 
@@ -544,24 +604,6 @@ type ChatFontSizeType = "Small" | "Medium" | "Large";
 type ArousalActiveName = "Inactive" | "NoMeter" | "Manual" | "Hybrid" | "Automatic";
 type ArousalVisibleName = "All" | "Access" | "Self";
 type ArousalAffectStutterName = "None" | "Arousal" | "Vibration" | "All";
-
-/**
- * A listener for KeyboardEvents
- *
- * Cheat-sheet about how to do key checks with it:
- * - {@link KeyboardEvent.code} is the layout-insensitive code
- * for the key (so KeyA, Space, etc.) Use this if you want to
- * keep the QWERTY location, like movement keys.
- *
- * {@link KeyboardEvent.key} is the layout-dependent string
- * for the key (so "a" (or "q" on AZERTY), "A" (or "Q"), " ", etc.)
- * Use this if you want the key to correspond to what's actually on
- * the user's keyboard.
- *
- * @see {@link CommonKeyMove}
- */
-type KeyboardEventListener = ScreenFunctions["KeyDown"];
-type MouseEventListener = ScreenFunctions["MouseDown"];
 
 type SettingsSensDepName = "SensDepLight" | "Normal" | "SensDepNames" | "SensDepTotal" | "SensDepExtreme";
 type SettingsVFXName = "VFXInactive" | "VFXSolid" | "VFXAnimatedTemp" | "VFXAnimated";
@@ -1124,6 +1166,11 @@ interface ExpressionItem {
 	ExpressionList: ExpressionName[],
 }
 
+interface ExpressionPair {
+	Group: Exclude<ExpressionGroupName, "Eyes2">,
+	Expression: null | ExpressionName,
+}
+
 /**
  * The internal Asset definition of an asset.
  *
@@ -1446,63 +1493,92 @@ interface Lovership {
 	BeginWeddingOfferedByMemberNumber?: never;
 }
 
+
+/**
+ * A listener for KeyboardEvents
+ *
+ * Cheat-sheet about how to do key checks with it:
+ * - {@link KeyboardEvent.code} is the layout-insensitive code
+ * for the key (so KeyA, Space, etc.) Use this if you want to
+ * keep the QWERTY location, like movement keys.
+ *
+ * {@link KeyboardEvent.key} is the layout-dependent string
+ * for the key (so "a" (or "q" on AZERTY), "A" (or "Q"), " ", etc.)
+ * Use this if you want the key to correspond to what's actually on
+ * the user's keyboard.
+ *
+ * @see {@link CommonKeyMove}
+ */
+type KeyboardEventListener = (event: KeyboardEvent) => boolean;
+type MouseEventListener = (event: MouseEvent | TouchEvent) => void;
+type MouseWheelEventListener = (event: WheelEvent) => void;
+
+type VoidHandler = () => void;
+
+type ScreenLoadHandler = VoidHandler;
+type ScreenUnloadHandler = VoidHandler;
+type ScreenDrawHandler = VoidHandler;
+type ScreenRunHandler = (time: number) => void;
+type ScreenResizeHandler = (load: boolean) => void;
+type ScreenExitHandler = VoidHandler;
+
 interface ScreenFunctions {
 	// Required
 	/**
 	 * Called each frame
 	 * @param {number} time - The current time for frame
 	 */
-	Run(time: number): void;
+	Run: ScreenRunHandler;
 	/**
 	 * Called if the user presses the mouse button or touches the touchscreen on the canvas
 	 * @param {MouseEvent | TouchEvent} event - The event that triggered this
 	 */
-	MouseDown?(event: MouseEvent | TouchEvent): void;
+	MouseDown?: MouseEventListener;
 		/**
 	 * Called if the user releases the mouse button or the touchscreen on the canvas
 	 * @param {MouseEvent | TouchEvent} event - The event that triggered this
 	 */
-	MouseUp?(event: MouseEvent | TouchEvent): void;
+	MouseUp?: MouseEventListener;
 	/**
 	 * Called if the user moves the mouse cursor or the touch on the touchscreen over the canvas
 	 * @param {MouseEvent | TouchEvent} event - The event that triggered this
 	 */
-	MouseMove?(event: MouseEvent | TouchEvent): void;
+	MouseMove?: MouseEventListener;
 	/**
 	 * Called if the user moves the mouse wheel on the canvas
 	 * @param {MouseEvent | TouchEvent} event - The event that triggered this
 	 */
-	MouseWheel?(event: WheelEvent): void;
+	MouseWheel?: MouseWheelEventListener;
 	/**
 	 * Called if the user clicks on the canvas
 	 * @param {MouseEvent | TouchEvent} event - The event that triggered this
 	 */
-	Click(event: MouseEvent | TouchEvent): void;
+	Click: MouseEventListener;
 
 	// Optional
 	/** Called when screen is loaded using `CommonSetScreen` */
-	Load?(): void;
+	Load?: ScreenLoadHandler
 	/** Called when this screen is being replaced */
-	Unload?(): void;
+	Unload?: ScreenUnloadHandler;
 	/** Called each frame when the screen needs to be drawn. */
-	Draw?() : void;
+	Draw?: ScreenDrawHandler;
 	/**
 	 * Called when screen size or position changes or after screen load
 	 * @param {boolean} load - If the reason for call was load (`true`) or window resize (`false`)
 	 */
-	Resize?(load: boolean): void;
+	Resize?: ScreenResizeHandler;
 	/**
 	 * Called if the the user presses any key
 	 * @param {KeyboardEvent} event - The event that triggered this
 	 */
-	KeyDown?(event: KeyboardEvent): boolean;
+	KeyDown?: KeyboardEventListener;
 	/**
 	 * Called if the user releases a pressed key
 	 * @param {KeyboardEvent} event - The event that triggered this
 	 */
-	KeyUp?(event: KeyboardEvent): void;
+	KeyUp?: KeyboardEventListener;
 	/** Called when user presses Esc */
-	Exit?(): void;
+	Exit?: ScreenExitHandler;
 }
 
 //#region Characters
@@ -1630,6 +1706,18 @@ interface Character {
 	Dialog: DialogLine[];
 	Reputation: Reputation[];
 	Skill: Skill[];
+	/**
+	 * An object mapping expression group names to their respective currently explicitly, manually selected expression (which may thus diverge from the actual currently active expression).
+	 *
+	 * Setting or deleting an entry will potentially trigger a {@link DialogSelfMenuMapping.Expression} reload unless done so via `setWithoutReload()`/`deleteWithoutReload()` calls.
+	 */
+	readonly ActiveExpression: (
+		Partial<Record<ExpressionGroupName, ExpressionName>>
+		& {
+			setWithoutReload(key: ExpressionGroupName, value: ExpressionName): void,
+			deleteWithoutReload(key: ExpressionGroupName): void,
+		}
+	);
 	/**
 	 * Get a copy or set the array of currently enabled poses.
 	 * @see {@link PoseMapping} - The underlying record of this property, usage of which is recommended
@@ -4300,13 +4388,7 @@ interface DialogInventoryItem extends Item {
 	Vibrating: boolean;
 }
 
-interface DialogSelfMenuOptionType {
-	Name: string;
-	IsAvailable: () => boolean;
-	Load?: () => void;
-	Draw: () => void;
-	Click: () => void;
-}
+type DialogSelfMenuName = "Expression" | "Pose" | "SavedExpressions" | "OwnerRules";
 
 // #end region
 

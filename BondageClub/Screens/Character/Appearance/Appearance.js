@@ -125,7 +125,7 @@ function CharacterAppearanceValidate(C) {
 		if (!AssetGroup[A].AllowNone && (CharacterAppearanceGetCurrentValue(C, AssetGroup[A].Name, "Name") == "None"))
 			for (let B = 0; B < Asset.length; B++)
 				if (Asset[B].Group.Name == AssetGroup[A].Name) {
-					CharacterAppearanceSetItem(C, Asset[B].Group.Name, Asset[B], Asset[B].Group.DefaultColor, null, null, false);
+					CharacterAppearanceSetItem(C, Asset[B].Group.Name, Asset[B], Asset[B].Group.DefaultColor);
 					Refresh = true;
 					break;
 				}
@@ -166,11 +166,7 @@ function CharacterAppearanceSetDefault(C) {
 				CharacterAppearanceSetItem(
 					C,
 					CharacterAppearanceAssets[I].Group.Name,
-					CharacterAppearanceAssets[I],
-					undefined,
-					undefined,
-					undefined,
-					false,
+					CharacterAppearanceAssets[I]
 				);
 			}
 		}
@@ -1016,11 +1012,10 @@ function AppearanceRun() {
 	}
 }
 
-/** @type {ScreenFunctions["Resize"]} */
+/** @type {ScreenResizeHandler} */
 function AppearanceResize(load) {
 	if (Layering.IsActive()) {
 		Layering.Resize(load);
-		return;
 	}
 }
 
@@ -1099,7 +1094,7 @@ function AppearancePreviewBuild(C, buildCanvases) {
 			let PreviewChar = CharacterLoadSimple("AppearancePreview-" + item.Asset.Name);
 			if (buildCanvases) {
 				PreviewChar.Appearance = Array.from(baseAppearance);
-				CharacterAppearanceSetItem(PreviewChar, item.Asset.Group.Name, item.Asset, null, null, null, false);
+				CharacterAppearanceSetItem(PreviewChar, item.Asset.Group.Name, item.Asset);
 				CharacterRefresh(PreviewChar, false);
 			}
 			AppearancePreviews.push(PreviewChar);
@@ -1132,15 +1127,14 @@ function AppearancePreviewUseCharacter(assetGroup) {
  * Sets an item in the character appearance
  * @param {Character} C - The character whose appearance should be changed
  * @param {AssetGroupName} Group - The name of the corresponding groupr for the item
- * @param {Asset|null} ItemAsset - The asset collection of the item to be changed
+ * @param {Asset|undefined} ItemAsset - The asset collection of the item to be changed
  * @param {string|string[]} [NewColor] - The new color (as "#xxyyzz" hex value) for that item
  * @param {number} [DifficultyFactor=0] - The difficulty, on top of the base asset difficulty, that should be assigned
  * to the item
  * @param {number} [ItemMemberNumber=-1] - The member number of the player adding the item - defaults to -1
- * @param {boolean} [Refresh=true] - Determines, wether the character should be redrawn after the item change
- * @returns {null | Item} - Thew newly created item or `null` if the asset does not exist
+ * @returns {Item | null} - Thew newly created item or `undefined` if the asset does not exist
  */
-function CharacterAppearanceSetItem(C, Group, ItemAsset, NewColor, DifficultyFactor, ItemMemberNumber, Refresh) {
+function CharacterAppearanceSetItem(C, Group, ItemAsset, NewColor, DifficultyFactor, ItemMemberNumber) {
 	// Sets the difficulty factor
 	if (DifficultyFactor == null) DifficultyFactor = 0;
 
@@ -1156,7 +1150,7 @@ function CharacterAppearanceSetItem(C, Group, ItemAsset, NewColor, DifficultyFac
 	} else if (ItemAsset != null) ItemColor = ItemAsset.DefaultColor ? ItemAsset.DefaultColor : ItemAsset.Group.DefaultColor;
 
 	// Add the new item to the character appearance
-	/** @type {null | Item} */
+	/** @type {Item | null} */
 	let NA = null;
 	if (ItemAsset != null) {
 		/** @type {Item} */
@@ -1169,8 +1163,6 @@ function CharacterAppearanceSetItem(C, Group, ItemAsset, NewColor, DifficultyFac
 		C.Appearance.push(NA);
 	}
 
-	// Draw the character canvas and calculate the effects on the character
-	if (Refresh == null || Refresh) CharacterRefresh(C, false);
 	return NA;
 }
 
@@ -1386,16 +1378,19 @@ function AppearanceClick() {
 				if (!Group.AllowNone && !AppearancePreviewUseCharacter(Group)) {
 					const asset = CharacterAppearanceNextItem(C, Group.Name, MouseX > 1410);
 					CharacterAppearanceSetItem(C, Group.Name, asset);
+					CharacterRefresh(C);
 					return;
 				}
 				else if (MouseXIn(1210, 65)) {
 					const asset = CharacterAppearanceNextItem(C, Group.Name, false);
 					CharacterAppearanceSetItem(C, Group.Name, asset);
+					CharacterRefresh(C);
 					return;
 				}
 				else if (MouseXIn(1545, 65)) {
 					const asset = CharacterAppearanceNextItem(C, Group.Name, true);
 					CharacterAppearanceSetItem(C, Group.Name, asset);
+					CharacterRefresh(C);
 					return;
 				}
 				else {
@@ -1515,6 +1510,7 @@ function AppearanceClick() {
 							DialogExtendItem(CurrentItem);
 						} else {
 							CharacterAppearanceSetItem(C, C.FocusGroup.Name, DialogInventory[I].Asset);
+							CharacterRefresh(C);
 							DialogInventoryBuild(C);
 							AppearancePreviewBuild(C, true);
 							AppearanceMenuBuild(C);
@@ -1619,7 +1615,10 @@ function AppearanceMenuClick(C) {
 					}
 
 					// Strips the current item
-					if (Button === "Naked") CharacterAppearanceSetItem(C, C.FocusGroup.Name, null);
+					if (Button === "Naked") {
+						CharacterAppearanceSetItem(C, C.FocusGroup.Name, null);
+						CharacterRefresh(C);
+					}
 
 					// Jumps to the cloth page
 					if (Button === "Next" || Button === "Prev") {
@@ -1683,7 +1682,7 @@ function AppearanceMenuClick(C) {
 
 /**
  * Handle the exiting of the appearance screen. The function name is created dynamically.
- * @type {ScreenFunctions["Exit"]}
+ * @type {ScreenExitHandler}
  */
 function AppearanceExit() {
 	// We quit the extended item menu instead, if applicable.

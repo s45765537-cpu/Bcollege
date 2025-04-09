@@ -10,11 +10,15 @@ var CreationMessage = "";
 function CreationLoad() {
 
 	// Gets the info to import Bondage College data
-	var DefaultName = "";
+	let DefaultName = "";
 	if ((localStorage.getItem("BondageClubImportSource") != null) && (localStorage.getItem("BondageClubImportSource") == "BondageCollege")) {
 		ImportBondageCollegeData = true;
-		if (localStorage.getItem("BondageCollegeExportName") != null) DefaultName = localStorage.getItem("BondageCollegeExportName");
-	} else ImportBondageCollegeData = null;
+		if (localStorage.getItem("BondageCollegeExportName") != null) {
+			DefaultName = localStorage.getItem("BondageCollegeExportName") ?? "";
+		}
+	} else {
+		ImportBondageCollegeData = false;
+	}
 
 	// Creates the text fields element
 	const form = ElementCreateForm("Creation");
@@ -172,7 +176,7 @@ function CreationClick() {
 // when the user exit this screen
 /**
  * Does the cleanup, if the user exits the screen
- * @type {ScreenFunctions["Exit"]}
+ * @type {ScreenExitHandler}
  */
 function CreationExit() {
 	ElementRemove("InputCharacter");
