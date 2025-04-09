@@ -128,3 +128,27 @@ Objects
 物品
 Sunshade
 遮阳伞
+Fan paper
+扇子纸面
+Fan paper 2nd color
+扇子纸面颜色2
+Fan paper 3rd color
+扇子纸面颜色3
+Mask
+面具
+Mask 1st detail
+面具细节1
+Mask 2nd detail
+面具细节2
+Mask 3rd detail
+面具细节3
+Inside mask
+面具内部
+Collar
+项圈
+Belly belt
+腹部皮带
+Legs belts
+腿部皮带
+Corset collar
+束腰项圈
