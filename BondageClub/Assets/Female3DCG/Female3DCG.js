@@ -19802,6 +19802,109 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "HairFront66",
+				Top: 30,
+				Left: 140
+			},
+			{
+				Name: "HairFront67",
+				Top: 30,
+				Left: 147,
+				Layer: [
+					{
+						Name: "main",
+						AllowTypes: { typed: 0 },
+					},
+					{
+						Name: "main2",
+						CopyLayerColor: "main",
+						AllowTypes: { typed: 1 },
+					},
+					{
+						Name: "streak",
+					}
+				]
+			},
+			{
+				Name: "HairFront68",
+				Top: 30,
+				Layer: [
+					{
+						Name: "Main",
+					},
+					{
+						Name: "Streak",
+					},
+				]
+			},
+			{
+				Name: "HairFront69",
+				Top: 30,
+				Layer: [
+					{
+						Name: "Main",
+					},
+					{
+						Name: "Streak",
+					},
+				]
+			},
+			{
+				Name: "HairFront70",
+				Top: 30,
+				Layer: [
+					{
+						Name: "Main",
+					},
+					{
+						Name: "Tone",
+					},
+				]
+			},
+			{
+				Name: "HairFront71",
+				Top: 30,
+				Layer: [
+					{
+						Name: "Main",
+						AllowTypes: { typed: 0 },
+					},
+					{
+						Name: "BMain",
+						CopyLayerColor: "Main",
+						AllowTypes: { typed: 1 },
+					},
+				]
+			},
+			{
+				Name: "HairFront72",
+				Top: 30,
+			},
+			{
+				Name: "HairFront73",
+				Top: 30,
+				Layer: [
+					{
+						Name: "Main",
+					},
+					{
+						Name: "Tone",
+					},
+				]
+			},
+			{
+				Name: "HairFront74",
+				Top: 30,
+				Layer: [
+					{
+						Name: "Main",
+					},
+					{
+						Name: "Streak",
+					},
+				]
+			},
 		],
 		Color: [
 			"#6a3628",
@@ -20910,6 +21013,184 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Braid",
+					},
+				],
+			},
+			{
+				Name: "HairBack79",
+				Top: 170,
+				Left: 67,
+				Layer: [
+					{
+						Name: "Braid",
+					},
+					{
+						Name: "Band",
+					},
+				],
+			},
+			{
+				Name: "HairBack80",
+				Extended: true,
+				Layer: [
+					{
+						Name: "LeftBraid",
+						AllowTypes: { typed: [0, 1] },
+						Priority: 48,
+					},
+					{
+						Name: "LeftBack",
+						AllowTypes: { typed: [0, 1] },
+						CopyLayerColor: "LeftBraid",
+					},
+					{
+						Name: "LeftString",
+						AllowTypes: { typed: [0, 1] },
+						Priority: 48,
+					},
+					{
+						Name: "LeftRing",
+						AllowTypes: { typed: [0, 1] },
+						CopyLayerColor: "LeftString",
+						Priority: 48,
+					},
+					{
+						Name: "RightBraid",
+						AllowTypes: { typed: [0, 2] },
+						Priority: 48,
+					},
+					{
+						Name: "RightBack",
+						AllowTypes: { typed: [0, 2] },
+						CopyLayerColor: "RightBraid",
+					},
+					{
+						Name: "RightString",
+						AllowTypes: { typed: [0, 2] },
+						Priority: 48,
+					},
+					{
+						Name: "RightRing",
+						AllowTypes: { typed: [0, 2] },
+						CopyLayerColor: "RightString",
+						Priority: 48,
+					},
+				],
+			},
+			{
+				Name: "HairBack81",
+				Top: 0,
+				Layer: [
+					{
+						Name: "Main",
+					},
+					{
+						Name: "Tone",
+					},
+				],
+			},
+			{
+				Name: "HairBack82",
+				Top: 0,
+				Extended: true,
+				Layer: [
+					{
+						Name: "AFront",
+						AllowTypes: { typed: [0] },
+					},
+					{
+						Name: "ABack",
+						AllowTypes: { typed: [0] },
+						Priority: 4,
+					},
+					{
+						Name: "BFront",
+						CopyLayerColor: "AFront",
+						AllowTypes: { typed: [1] },
+					},
+					{
+						Name: "BBack",
+						CopyLayerColor: "ABack",
+						AllowTypes: { typed: [1] },
+						Priority: 4,
+					},
+				],
+			},
+			{
+				Name: "HairBack83",
+				Extended: true,
+				Layer: [
+					{
+						Name: "LeftFront",
+						AllowTypes: { typed: [0, 1] },
+						Priority: 48,
+					},
+					{
+						Name: "LeftBack",
+						AllowTypes: { typed: [0, 1] },
+						CopyLayerColor: "LeftFront",
+					},
+					{
+						Name: "LeftFrontStreak",
+						AllowTypes: { typed: [0, 1] },
+						Priority: 48,
+					},
+					{
+						Name: "LeftBackStreak",
+						AllowTypes: { typed: [0, 1] },
+						CopyLayerColor: "LeftFrontStreak",
+					},
+					{
+						Name: "LeftClip",
+						AllowTypes: { typed: [0, 1] },
+						Priority: 48,
+					},
+					{
+						Name: "RightFront",
+						AllowTypes: { typed: [0, 2] },
+						Priority: 48,
+					},
+					{
+						Name: "RightBack",
+						AllowTypes: { typed: [0, 2] },
+						CopyLayerColor: "RightFront",
+					},
+					{
+						Name: "RightFrontStreak",
+						AllowTypes: { typed: [0, 2] },
+						Priority: 48,
+					},
+					{
+						Name: "RightBackStreak",
+						AllowTypes: { typed: [0, 2] },
+						CopyLayerColor: "RightFrontStreak",
+					},
+					{
+						Name: "RightClip",
+						AllowTypes: { typed: [0, 2] },
+						Priority: 48,
+					},
+				],
+			},
+			{
+				Name: "HairBack84",
+				Extended: true,
+				Layer: [
+					{
+						Name: "Left",
+						AllowTypes: { typed: [0, 1] },
+					},
+					{
+						Name: "LeftStreak",
+						AllowTypes: { typed: [0, 1] },
+					},
+					{
+						Name: "Right",
+						AllowTypes: { typed: [0, 2] },
+					},
+					{
+						Name: "RightStreak",
+						AllowTypes: { typed: [0, 2] },
 					},
 				],
 			},

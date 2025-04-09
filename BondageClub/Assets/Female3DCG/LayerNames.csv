@@ -516,6 +516,26 @@ HairBackHairBack78bRightBraid,Right Braid
 HairBackHairBack78bLeftBraid,Left Braid
 HairBackHairBack78cMain,Main
 HairBackHairBack78cBraid,Braid
+HairBackHairBack79Band,Band
+HairBackHairBack79Braid,Braid
+HairBackHairBack80LeftBraid,Left Braid
+HairBackHairBack80LeftString,Left Tie
+HairBackHairBack80RightBraid,Right Braid
+HairBackHairBack80RightString,Right Tie
+HairBackHairBack81Main,Main
+HairBackHairBack81Tone,Tone
+HairBackHairBack82AFront,Front
+HairBackHairBack82ABack,Back
+HairBackHairBack83LeftFront,Left Main
+HairBackHairBack83LeftClip,Left Clip
+HairBackHairBack83RightFront,Right Main
+HairBackHairBack83RightClip,Right Clip
+HairBackHairBack83LeftFrontStreak,Left Streak
+HairBackHairBack83RightFrontStreak,Right Streak
+HairBackHairBack84Left,Left
+HairBackHairBack84Right,Right
+HairBackHairBack84LeftStreak,Left Streak
+HairBackHairBack84RightStreak,Right Streak
 HairFrontHairFront22Base, Base
 HairFrontHairFront22bBase, Base
 HairFrontHairFront22bFluff, Fluff
@@ -625,6 +645,19 @@ HairFrontHairFront65Full,Full
 HairFrontHairFront65Highlights,Highlights
 HairFrontHairFront65Shadows,Shadows
 HairFrontHairFront65Outline,Outline
+HairFrontHairFront67main,Main
+HairFrontHairFront67streak,Streak
+HairFrontHairFront68Main,Main
+HairFrontHairFront68Streak,Streak
+HairFrontHairFront69Main,Main
+HairFrontHairFront69Streak,Streak
+HairFrontHairFront70Main,Main
+HairFrontHairFront70Tone,Tone
+HairFrontHairFront71Main,Main
+HairFrontHairFront73Main,Main
+HairFrontHairFront73Tone,Tone
+HairFrontHairFront74Main,Main
+HairFrontHairFront74Streak,Streak
 HatAnimeGirlTiaraMain,Tiara
 HatAnimeGirlTiaraDetail,Detail
 HatAnimeGirlTiaraJewel,Jewel
