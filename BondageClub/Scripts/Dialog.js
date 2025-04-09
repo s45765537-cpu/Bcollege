@@ -1732,7 +1732,7 @@ function DialogBuildSavedExpressionsMenu() {
 			for (let x = 0; x < expression.length; x++) {
 				CharacterSetFacialExpression(PreviewCharacter, expression[x].Group, expression[x].CurrentExpression);
 			}
-			CharacterRefresh(PreviewCharacter);
+			CharacterRefresh(PreviewCharacter, false, false);
 
 			return PreviewCharacter;
 		} else {
