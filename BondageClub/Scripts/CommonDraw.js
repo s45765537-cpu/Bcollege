@@ -345,8 +345,8 @@ function CommonDrawAppearanceBuild(C, {
 
 
 			// prepare mask layers for the current group
-			const maskLayer = (maskTexLayers.get(groupName) ?? []).filter(m => m.Priority < 0 || m.Priority >= layer.Priority);
-			const maskLayerBlink = (maskTexLayersBlink.get(groupName) ?? []).filter(m => m.Priority < 0 || m.Priority >= layer.Priority);
+			const maskLayer = (maskTexLayers.get(group.Name) ?? []).filter(m => m.Priority < 0 || m.Priority >= layer.Priority);
+			const maskLayerBlink = (maskTexLayersBlink.get(group.Name) ?? []).filter(m => m.Priority < 0 || m.Priority >= layer.Priority);
 
 			if (shouldColorize) {
 				drawImageColorize(
