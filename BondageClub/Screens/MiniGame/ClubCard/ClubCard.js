@@ -3954,9 +3954,13 @@ function ClubCardCheckDraw(CCPlayer) {
 			};
 
 		if (!hasLiability)
+		{
+			ClubCardPlayerAddFame(opponent, detectiveCount);
 			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Detective MoneyFame", placeHolder, opponent);
-		else
+		}
+		else {
 			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Detective Money", placeHolder, opponent);
+		}
 	}
 	//#####
 
