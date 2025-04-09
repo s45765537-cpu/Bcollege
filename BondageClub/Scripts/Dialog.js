@@ -5472,7 +5472,9 @@ function DialogLoad() {
 		C._CurrentDialog = newDialog;
 	}
 
-	DialogSelfMenuMapping.Expression.Init({ C: Player });
+	if (C.IsPlayer()) {
+		DialogSelfMenuMapping.Expression.Init({ C });
+	}
 	DialogChangeMode(DialogMenuMode ?? "dialog", true);
 }
 
