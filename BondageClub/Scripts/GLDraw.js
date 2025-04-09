@@ -363,18 +363,18 @@ var GLDrawFragmentShaderSourceHalfAlpha = `
   uniform vec4 u_color;
 
   void main() {
-    vec4 texColor = texture2D(u_texture, v_texcoord);
-    vec4 alphaColor = texture2D(u_alpha_texture, v_texcoord);
+	vec4 texColor = texture2D(u_texture, v_texcoord);
+	vec4 alphaColor = texture2D(u_alpha_texture, v_texcoord);
 	vec4 maskColor = texture2D(u_mask_texture, v_texcoord);
-    if (texColor.w < ` + GLDrawAlphaThreshold + `) discard;
-    if (alphaColor.w < ` + GLDrawAlphaThreshold + `) discard;
-    if (maskColor.w < ` + GLDrawAlphaThreshold + `) discard;
-    float t = (texColor.x + texColor.y + texColor.z) / 383.0;
-    if (t < ` + GLDrawHalfAlphaLow + ` || t > ` + GLDrawHalfAlphaHigh + `) {
-      gl_FragColor = texColor;
-    } else {
-      gl_FragColor = u_color * vec4(t, t, t, texColor.w);
-    }
+	if (texColor.w < ` + GLDrawAlphaThreshold + `) discard;
+	if (alphaColor.w < ` + GLDrawAlphaThreshold + `) discard;
+	if (maskColor.w < ` + GLDrawAlphaThreshold + `) discard;
+	float t = (texColor.x + texColor.y + texColor.z) / 383.0;
+	if (t < ` + GLDrawHalfAlphaLow + ` || t > ` + GLDrawHalfAlphaHigh + `) {
+	  gl_FragColor = texColor;
+	} else {
+	  gl_FragColor = u_color * vec4(t, t, t, texColor.w);
+	}
 	gl_FragColor.a *= maskColor.w;
   }
 `;
@@ -675,23 +675,23 @@ function GLDrawLoadMask(gl, texWidth, texHeight, offsetX, offsetY, alphaMasks) {
  * @returns {WebGLTexture} - A default mask texture
  */
 function GLDrawCreateEmptyTextureAlphaMask(gl, texWidth, texHeight) {
-    const key = "EmptyTexMask:" + texWidth + "x" + texHeight;
-    let mask = gl.maskCache.get(key);
-    
-    if (!mask) {
-        // Create a white 1x1 texture (fully visible)
-        const data = new Uint8Array([255, 255, 255, 255]);
-        mask = gl.createTexture();
-        gl.bindTexture(gl.TEXTURE_2D, mask);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, data);
-        
-        gl.maskCache.set(key, mask);
-    }
-    
-    return mask;
+	const key = "EmptyTexMask:" + texWidth + "x" + texHeight;
+	let mask = gl.maskCache.get(key);
+
+	if (!mask) {
+		// Create a white 1x1 texture (fully visible)
+		const data = new Uint8Array([255, 255, 255, 255]);
+		mask = gl.createTexture();
+		gl.bindTexture(gl.TEXTURE_2D, mask);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+		gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, data);
+
+		gl.maskCache.set(key, mask);
+	}
+
+	return mask;
 }
 
 function canvasToNewWin(canvas) {
@@ -708,7 +708,7 @@ function canvasToNewWin(canvas) {
 
 /**
  * Loads mask layers and combines them into a single texture mask
- * @param {WebGL2RenderingContext} gl 
+ * @param {WebGL2RenderingContext} gl
  * @param {number} texWidth - The width of the texture
  * @param {number} texHeight - The height of the texture
  * @param {number} offsetX - The X offset for the texture
@@ -718,7 +718,7 @@ function canvasToNewWin(canvas) {
  */
 function GLDrawLoadTextureAlphaMask(gl, texWidth, texHeight, offsetX, offsetY, maskLayers) {
 	// If no mask layers, return empty texture or null
-	if (!maskLayers || maskLayers.length === 0 
+	if (!maskLayers || maskLayers.length === 0
 		// placeholder texures
 		|| (texWidth === 1 && texHeight === 1)) {
 		return GLDrawCreateEmptyTextureAlphaMask(gl, texWidth, texHeight);
@@ -738,11 +738,11 @@ function GLDrawLoadTextureAlphaMask(gl, texWidth, texHeight, offsetX, offsetY, m
 		const ctx = tmpCanvas.getContext("2d");
 		ctx.fillStyle = "rgb(0,0,0)";
 		ctx.fillRect(0, 0, texWidth, texHeight);
-		
-        // Process and draw each mask layer
+
+		// Process and draw each mask layer
 		// Combining textures is just too heavy for this scenario
 		// so a canvas ctx is used to combine them
-        for (const layer of maskLayers) {
+		for (const layer of maskLayers) {
 			GLDrawLoadImage(gl, layer.Url);
 			const img = GLDrawImageCache.get(layer.Url);
 			if(img.width === 0 || img.height === 0) {
@@ -751,7 +751,7 @@ function GLDrawLoadTextureAlphaMask(gl, texWidth, texHeight, offsetX, offsetY, m
 
 			ctx.globalCompositeOperation = layer.Mode || "destination-in";
 			ctx.drawImage(img, layer.X - offsetX, layer.Y - offsetY, img.width, img.height);
-        }
+		}
 
 		mask = gl.createTexture();
 
@@ -761,8 +761,8 @@ function GLDrawLoadTextureAlphaMask(gl, texWidth, texHeight, offsetX, offsetY, m
 		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
 		gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, tmpCanvas);
 
-        // Cache the generated mask
-        gl.maskCache.set(key, mask);
+		// Cache the generated mask
+		gl.maskCache.set(key, mask);
 	}
 
 	return mask;

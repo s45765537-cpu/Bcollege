@@ -69,8 +69,8 @@ function CommonDrawAppearancePrepareMaskLayers(C) {
 		let blendingMode = "destination-in";
 		if(layer.BlendingMode === "destination-in" || layer.BlendingMode === "destination-out") {
 			blendingMode = layer.BlendingMode;
-		} 
-		else if(!!layer.BlendingMode) return acc;
+		}
+		else if(layer.BlendingMode) return acc;
 
 		// Safeguard against a null pose
 		if (typeof pose !== "string") pose = /** @type {AssetPoseName} */("");
