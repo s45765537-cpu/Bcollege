@@ -3855,6 +3855,8 @@ interface TextureAlphaMask {
 	Y: number;
 	Url: string;
 	Mode: "destination-in" | "destination-out";
+	/** The priority of the mask, -1 means it will ignores priority and applied to the layers on top of it */
+	Priority: number;
 }
 
 /** Options available to most draw calls */

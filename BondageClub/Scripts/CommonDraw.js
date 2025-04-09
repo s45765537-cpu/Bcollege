@@ -95,11 +95,14 @@ function CommonDrawAppearancePrepareMaskLayers(C) {
 		const urlParts = [asset.Name, parentAssetName, layerType, layerSegment].filter(c => c);
 		const layerURL = urlParts.join("_") + ".png";
 
+		const maskPriority = layer.TextureMask.ApplyToAbove ? -1 : (item.Property?.OverridePriority?.[layer.Name] ?? layer.Priority);
+
 		/** @type {TextureAlphaMask} */
 		const maskLayer = {
 			Url: baseURL + layerURL,
 			X, Y,
 			Mode: blendingMode,
+			Priority: maskPriority,
 		};
 
 		/** @type {TextureAlphaMask} */
@@ -107,6 +110,7 @@ function CommonDrawAppearancePrepareMaskLayers(C) {
 			Url: baseURLBlink + layerURL,
 			X, Y,
 			Mode: blendingMode,
+			Priority: maskPriority,
 		};
 
 		for(const maskedGroup of layer.TextureMask.Groups) {
@@ -341,8 +345,8 @@ function CommonDrawAppearanceBuild(C, {
 
 
 			// prepare mask layers for the current group
-			const maskLayer = maskTexLayers.get(groupName) ?? [];
-			const maskLayerBlink = maskTexLayersBlink.get(groupName) ?? [];
+			const maskLayer = (maskTexLayers.get(groupName) ?? []).filter(m => m.Priority < 0 || m.Priority >= layer.Priority);
+			const maskLayerBlink = (maskTexLayersBlink.get(groupName) ?? []).filter(m => m.Priority < 0 || m.Priority >= layer.Priority);
 
 			if (shouldColorize) {
 				drawImageColorize(
