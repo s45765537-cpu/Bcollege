@@ -8058,9 +8058,10 @@ var AssetFemale3DCG = [
 					Hogtied: PoseType.HIDE,
 					AllFours: PoseType.HIDE,
 				},
-				DefaultColor: ["#545454", "#BC8B84"],
+				DefaultColor: ["#545454", "#EEEEEE", "#BC8B84"],
 				Layer: [
 					{ Name: "Main" }, 
+					{ Name: "Highlights" },
 					{ Name: "Buckles" }, 
 					{
 						Name: "BodyMask",
@@ -28729,9 +28730,10 @@ var AssetFemale3DCG = [
 					Hogtied: PoseType.HIDE,
 					AllFours: PoseType.HIDE,
 				},
-				DefaultColor: ["#545454", "#BC8B84"],
+				DefaultColor: ["#545454", "#EEEEEE", "#BC8B84"],
 				Layer: [
 					{ Name: "Main" }, 
+					{ Name: "Highlights" },
 					{ Name: "Buckles" }, 
 					{
 						Name: "BodyMask",
@@ -30143,9 +30145,10 @@ var AssetFemale3DCG = [
 					Hogtied: PoseType.HIDE,
 					AllFours: PoseType.HIDE,
 				},
-				DefaultColor: ["#545454", "#BC8B84"],
+				DefaultColor: ["#545454", "#EEEEEE", "#BC8B84"],
 				Layer: [
 					{ Name: "Main" }, 
+					{ Name: "Highlights" },
 					{ Name: "Buckles" }, 
 					{
 						Name: "BodyMask",
