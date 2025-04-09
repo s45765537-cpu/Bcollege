@@ -82,7 +82,6 @@
 	font: inherit;
 	color: white;
 	user-select: none;
-	-webkit-user-select: none;
 
 	min-height: 1.15em; /* 1 line */
 	max-height: 4.6em; /* 4 lines */
@@ -233,7 +232,6 @@
 	width: 100%;
 	color: white;
 	user-select: none;
-	-webkit-user-select: none;
 	text-indent: 1em hanging each-line;
 }
 

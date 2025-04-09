@@ -53,7 +53,6 @@
 
 .chat-room-no-copy {
   user-select: none;
-  -webkit-user-select: none;
 }
 
 .chat-room-sep-collapse {
@@ -118,7 +117,6 @@
   overflow: hidden;
   flex: 1;
   user-select: none;
-  -webkit-user-select: none;
   border-right: black solid max(3px, min(0.4vh, 0.2vw));
   padding-left: 4px;
 }
@@ -157,7 +155,6 @@
   justify-self: end;
   align-self: flex-end;
   user-select: none;
-  -webkit-user-select: none;
   padding-right: min(0.5vh, 0.25vw);
 }
 
@@ -660,7 +657,6 @@
   width: 0.5em;
   text-align: center;
   user-select: none;
-  -webkit-user-select: none;
 }
 
 .chat-room-changelog-header-div:has([aria-expanded="false"]) ~ * {

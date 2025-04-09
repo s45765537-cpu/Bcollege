@@ -285,7 +285,6 @@ select:invalid:not(:disabled):not(:read-only) {
 	background-color: rgba(0, 0, 0, 0.55);
 	padding: min(1vh, 0.5vw);
 	user-select: none;
-	-webkit-user-select: none;
 }
 
 .dropdown-header {

@@ -24,7 +24,6 @@
 	mask-size: contain;
 	box-sizing: border-box;
 	user-select: none;
-	-webkit-user-select: none;
 }
 
 /* Delegate the background/border styling to a separate class in order to ease their removal when a greater degree of element styling is desired */
