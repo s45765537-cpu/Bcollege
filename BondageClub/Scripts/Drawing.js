@@ -585,10 +585,10 @@ function DrawImage(Source, X, Y, Invert) {
 
 /**
  * Applies texture masks to a canvas about to be drawn
- * @param {CanvasRenderingContext2D} destCanvas 
+ * @param {CanvasRenderingContext2D} destCanvas
  * @param {number} X - Position of the image on the X axis
  * @param {number} Y - Position of the image on the Y axis
- * @param {readonly TextureAlphaMask[]} TextureAlphaMasks 
+ * @param {readonly TextureAlphaMask[]} TextureAlphaMasks
  */
 function DrawApplyTextureAlphaMask(destCanvas, X, Y, TextureAlphaMasks) {
 	const key = "TexMask:" + JSON.stringify({

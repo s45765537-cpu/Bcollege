@@ -483,7 +483,7 @@ function CharacterAppearanceSortLayers(C) {
 /**
  * Builds a map of all mask layers in a character's appearance, grouped by the asset groups they affect.
  * Only includes mask layers from visible assets that aren't blocked and are allowed in the current chat room.
- * 
+ *
  * @param {Character} C - The character whose masks should be built
  * @returns {AssetLayer[]} A map of group names to arrays of mask layers that affect them
  */
