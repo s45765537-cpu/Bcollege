@@ -575,7 +575,7 @@ Prerequisite Vanilla Classic,"Select a Porn Actress from your club."
 Title Guest Star,Guest Star
 Text Guest Star,"When you play a video, gain Fame and Money equal to its tier + number of Porn Actresses present (max 6)."
 Title Skye,Skye
-Text Skye,"Draw a card when another member joins your club is the only member of that type currently present."
+Text Skye,"When a member enters your club, if it has a type not already present in your club you draw a card and lose 2 fame and money."
 Title Vintage Maid,Vintage Maid
 Text Vintage Maid,"Enters: Return a member of your choice from your streets to your hand."
 Title Fetish Flick,Fetish Flick

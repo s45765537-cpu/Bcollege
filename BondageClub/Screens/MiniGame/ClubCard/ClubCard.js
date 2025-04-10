@@ -1691,6 +1691,8 @@ var ClubCardList = [
 				for (const group of cardPlayed.Group) {
 					if (ClubCardGroupOnBoardCount(CCPlayer, group) < 2) {
 						ClubCardPlayerDrawCard(CCPlayer, 1);
+						ClubCardPlayerAddMoney(CCPlayer, -2);
+						ClubCardPlayerAddFame(CCPlayer, -2);
 						return;
 					}
 				}
@@ -1701,6 +1703,8 @@ var ClubCardList = [
 				for (const group of cardPlayed.Group) {
 					if (ClubCardGroupOnBoardCount(CCPlayer, group) < 2) {
 						ClubCardPlayerDrawCard(CCPlayer, 1);
+						ClubCardPlayerAddMoney(CCPlayer, -2);
+						ClubCardPlayerAddFame(CCPlayer, -2);
 						return;
 					}
 				}
