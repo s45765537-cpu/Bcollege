@@ -1681,29 +1681,30 @@ var ClubCardList = [
 	},
 	{
 		ID: 12007,
-		Name: "Mei",
-		Group: ["Player", "CollegeStudent"],
-		RewardMemberNumber: 105930,
-		Prerequisite: "SearchACard",
-		RequiredLevel: 4,
-		FamePerTurn: 1,
-		MoneyPerTurn: -1,
-		OnPlay: function (CCPlayer) {
-			if (ClubCardSelection == null && CCPlayer.Deck.length > 0) {
-				ClubCardCreatePopup("SEARCH", null, null, null, null, null, ClubCardShuffle(CCPlayer.Deck.slice()));
-				return;
-			}
-			ClubCardPlayerAddMoney(CCPlayer, -7);
-			this.ExtraPlay = 1;
-			if (ClubCardSelection) {
-				CCPlayer.Deck.splice(CCPlayer.Deck.findIndex(value => value.ID === ClubCardSelection.ID), 1);
-				CCPlayer.Hand.push(ClubCardSelection);
-			} else {
-				ClubCardPlayCard(CCPlayer, this, false);
+		Name: "Skye",
+		Group: ["Player"],
+		RewardMemberNumber: 133105,
+		RequiredLevel: 3,
+		FamePerTurn: 2,
+		onPlayedCard: function(CCPlayer, cardPlayed) {
+			if (!ClubCardIsLiability(cardPlayed) && cardPlayed.Name != "Skye") {
+				for (const group of cardPlayed.Group) {
+					if (ClubCardGroupOnBoardCount(CCPlayer, group) < 2) {
+						ClubCardPlayerDrawCard(CCPlayer, 1);
+						return;
+					}
+				}
 			}
 		},
-		turnStart: function () {
-			this.ExtraPlay = 0;
+		onOpponentPlayedCard: function(CCPlayer, cardPlayed) {
+			if (ClubCardIsLiability(cardPlayed)) {
+				for (const group of cardPlayed.Group) {
+					if (ClubCardGroupOnBoardCount(CCPlayer, group) < 2) {
+						ClubCardPlayerDrawCard(CCPlayer, 1);
+						return;
+					}
+				}
+			}
 		}
 	},
 
