@@ -31,7 +31,7 @@
 }
 
 .chat-room-sep-header {
-  user-select: all !important;
+  user-select: text !important;
   align-content: center;
   justify-content: center;
   display: flex;
