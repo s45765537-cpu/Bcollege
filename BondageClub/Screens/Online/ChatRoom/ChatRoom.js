@@ -914,25 +914,6 @@ var ChatRoomSep = {
 	ActiveElem: null,
 
 	/**
-	 * @private
-	 * @type {(this: HTMLDivElement, event: ClipboardEvent) => void}
-	 */
-	_CopyHeader: function _CopyHeader(ev) {
-		let txt = "";
-		for (const el of this.childNodes) {
-			if (!(el instanceof Element)) {
-				txt += el.textContent;
-				continue;
-			} else if (el.classList.contains("chat-room-no-copy")) {
-				continue;
-			}
-			txt += el.textContent || (el.getAttribute("aria-label") ?? "");
-		}
-		ev.clipboardData.setData("text/plain", txt);
-		ev.preventDefault();
-	},
-
-	/**
 	 * Click event listener for collapsing one or more chat room separators
 	 * @private
 	 * @type {(this: HTMLButtonElement, event: MouseEvent | TouchEvent) => Promise<void>}
@@ -979,7 +960,7 @@ var ChatRoomSep = {
 					attributes: { role: "img", "aria-label": InterfaceTextGet(`ChatRoomSpace${button.dataset.space || "F"}`) },
 					classList: ["chat-room-sep-image"],
 					style: { mask: `url(${namespace.src}) center/contain` },
-					eventListeners: { copy: ChatRoomSep._CopyImage },
+					children: [{ tag: "span", children: [InterfaceTextGet(`ChatRoomSpace${button.dataset.space || "F"}`)] }],
 				}),
 				" - ",
 			] : undefined,
@@ -989,7 +970,7 @@ var ChatRoomSep = {
 					attributes: { role: "img", "aria-label": InterfaceTextGet("Private") },
 					classList: ["chat-room-sep-image"],
 					style: { mask: `url(${FriendListIconMapping.Private.src}) center/contain` },
-					eventListeners: { copy: ChatRoomSep._CopyImage },
+					children: [{ tag: "span", children: [InterfaceTextGet("Private")] }],
 				}),
 				" - ",
 			] : undefined,

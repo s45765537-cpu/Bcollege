@@ -47,6 +47,10 @@
   margin-block: 0.1em;
 }
 
+.chat-room-sep-image > span {
+  opacity: 0;
+}
+
 .chat-room-no-copy {
   user-select: none;
 }
