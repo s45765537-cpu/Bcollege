@@ -811,7 +811,8 @@ var InventoryWearCraft = /** @type {never} */(function() { return; });
 function InventoryWear(C, AssetName, AssetGroup, ItemColor, Difficulty, MemberNumber, Craft, Refresh=true) {
 	const A = AssetGet(C.AssetFamily, AssetGroup, AssetName);
 	if (!A) return null;
-	const color = (ItemColor == null || ItemColor == "Default") ? [...A.DefaultColor] : ItemColor;
+	ItemColor ??= "Default";
+	const color = ItemColor === "Default" ? [...A.DefaultColor] : ItemColor;
 	const item = CharacterAppearanceSetItem(C, AssetGroup, A, color, Difficulty, MemberNumber);
 
 	/**
@@ -827,7 +828,7 @@ function InventoryWear(C, AssetName, AssetGroup, ItemColor, Difficulty, MemberNu
 		// Restore the item color if it has been explicitly passed; keep using the `Craft.Color`-assigned color otherwise
 		const C_Source = Character.find(c => c.MemberNumber === MemberNumber) ?? null;
 		InventoryCraft(C_Source, C, /** @type {AssetGroupItemName} */(AssetGroup), Craft, false);
-		if (ItemColor != null) {
+		if (ItemColor !== "Default") {
 			item.Color = color;
 		}
 	}
