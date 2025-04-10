@@ -362,6 +362,16 @@
   }
 }
 
+#TextAreaChatLog[data-colortheme="dark"] .chat-room-sep-header[data-active] > .chat-room-sep-image,
+#TextAreaChatLog[data-colortheme="dark2"] .chat-room-sep-header[data-active] > .chat-room-sep-image {
+  background-color: #eee;
+}
+
+#TextAreaChatLog[data-colortheme="light"] .chat-room-sep-header[data-active] > .chat-room-sep-image,
+#TextAreaChatLog[data-colortheme="light2"] .chat-room-sep-header[data-active] > .chat-room-sep-image {
+  background-color: black;
+}
+
 #TextAreaChatLog[data-colortheme="dark"] .chat-room-sep-div>.button:active,
 #TextAreaChatLog[data-colortheme="dark2"] .chat-room-sep-div>.button:active,
 #TextAreaChatLog[data-colortheme="dark"] .chat-room-sep-div>.button[data-active],
