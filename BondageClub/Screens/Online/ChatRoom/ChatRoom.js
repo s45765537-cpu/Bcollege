@@ -90,7 +90,7 @@ var ChatRoomChatLengthLabelRect = /** @type {never} */([1764, 970, 120, 82]);
  * Default position of the entire chat panel
  * @type {RectTuple}
  */
-var ChatRoomDivRect = [1005, 60, 988, 940];
+var ChatRoomDivRect = [1005, 62, 988, 938];
 
 /**
  * The last approximate height (_i.e._ {@link HTMLElement.clientHeight} as opposed to {@link DOMRect.height}) of the `InputChat` element.
@@ -1814,7 +1814,14 @@ function ChatRoomStimulationMessage(Action) {
 function ChatRoomResize(load) {
 	const chatInput = document.getElementById("InputChat");
 	if (chatInput) {
-		ElementPositionFix("chat-room-div", ChatRoomFontSize, ...ChatRoomDivRect);
+		/** @type {RectTuple} */
+		const shape = Player.ChatSettings.PreserveChat ? ChatRoomDivRect : [
+			ChatRoomDivRect[0],
+			ChatRoomDivRect[1] + 3,
+			ChatRoomDivRect[2],
+			ChatRoomDivRect[3] - 3,
+		];
+		ElementPositionFix("chat-room-div", ChatRoomFontSize, ...shape);
 		chatInput.dispatchEvent(new InputEvent("input"));
 	}
 }
