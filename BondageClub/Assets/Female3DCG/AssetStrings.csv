@@ -6702,19 +6702,19 @@ ItemAddonCeilingNeckCuffLoose,Loose chain
 ItemAddonCeilingNeckCuffStrict,Shortened chain
 ItemAddonCeilingNeckCuffSetLoose,SourceCharacter puts a longer chain on the DestinationCharacter neck cuff.
 ItemAddonCeilingNeckCuffSetStrict,SourceCharacter shortens the DestinationCharacter chain's neck cuff.
-ItemNeckMCuffCollarSelectBase,Metal cuff collar attachments main menu:
-ItemNeckMCuffCollarModuleHandcuffs,Handcuffs
-ItemNeckMCuffCollarSelectHandcuffs,Handcuffs option:
-ItemNeckMCuffCollarOptionh0,No Handcuffs
-ItemNeckMCuffCollarOptionh1,Attach handcuffs
-ItemNeckMCuffCollarModuleLeash,Leash
-ItemNeckMCuffCollarSelectLeash,Leash option:
-ItemNeckMCuffCollarOptionl0,No leash
-ItemNeckMCuffCollarOptionl1,Attach Leash
-ItemNeckMCuffCollarSeth0,SourceCharacter removes a wrist handcuffs and linked chain from the DestinationCharacter neck cuff device.
-ItemNeckMCuffCollarSeth1,SourceCharacter installs a chain link to the DestinationCharacter neck and lock TargetPronounPossessive wrists with handcuffs.
-ItemNeckMCuffCollarSetl0,SourceCharacter removes leash from the DestinationCharacter neck cuff device.
-ItemNeckMCuffCollarSetl1,SourceCharacter attaches a chain leash to the DestinationCharacter neck cuff device.
+ItemNeckRestraintsMCuffCollarSelectBase,Metal cuff collar attachments main menu:
+ItemNeckRestraintsMCuffCollarModuleHandcuffs,Handcuffs
+ItemNeckRestraintsMCuffCollarSelectHandcuffs,Handcuffs option:
+ItemNeckRestraintsMCuffCollarOptionh0,No Handcuffs
+ItemNeckRestraintsMCuffCollarOptionh1,Attach handcuffs
+ItemNeckRestraintsMCuffCollarModuleLeash,Leash
+ItemNeckRestraintsMCuffCollarSelectLeash,Leash option:
+ItemNeckRestraintsMCuffCollarOptionl0,No leash
+ItemNeckRestraintsMCuffCollarOptionl1,Attach Leash
+ItemNeckRestraintsMCuffCollarSeth0,SourceCharacter removes a wrist handcuffs and linked chain from the DestinationCharacter neck cuff device.
+ItemNeckRestraintsMCuffCollarSeth1,SourceCharacter installs a chain link to the DestinationCharacter neck and lock TargetPronounPossessive wrists with handcuffs.
+ItemNeckRestraintsMCuffCollarSetl0,SourceCharacter removes leash from the DestinationCharacter neck cuff device.
+ItemNeckRestraintsMCuffCollarSetl1,SourceCharacter attaches a chain leash to the DestinationCharacter neck cuff device.
 ItemHoodHalloIIISelectBase,Glow in the dark: Clover Masks!
 ItemHoodHalloIIIModuleMask,Mask type
 ItemHoodHalloIIISelectMask,Choose your favorite mask to watch TV:

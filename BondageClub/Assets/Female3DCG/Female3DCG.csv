@@ -1385,7 +1385,6 @@ ItemNeck,LeatherCorsetCollar,Leather Corset Collar Gag
 ItemNeck,LeatherDeluxeCollar, Leather Deluxe Collar
 ItemNeck,LoveLeatherCollar,Lover Leather Collar
 ItemNeck,MaidCollar,Maid Collar
-ItemNeck,MCuffCollar,Metal Cuff Collar
 ItemNeck,NeckRope,Neck Rope
 ItemNeck,NobleCorsetCollar,Noble Corset Collar
 ItemNeck,NylonCollar,Nylon Collar
@@ -1437,6 +1436,7 @@ ItemNeckRestraints,CollarLeash,Leash
 ItemNeckRestraints,CollarRopeLong,Long Rope
 ItemNeckRestraints,CollarRopeMedium,Medium Rope
 ItemNeckRestraints,CollarRopeShort,Short Rope
+ItemNeckRestraints,MCuffCollar,Metal Cuff Collar
 ItemNeckRestraints,PetPost,Pet Sign
 ItemNeckRestraints,Post,Hitching Post
 ItemNeckRestraints,Bedchain,Chain to Bed
