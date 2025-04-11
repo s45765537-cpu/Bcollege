@@ -810,7 +810,7 @@ var ClubCardList = [
 			const amount = 3;
 			ClubCardPlayerAddFame(CCPlayer, amount);
 			ClubCardPlayerAddMoney(CCPlayer, amount);
-			const placeHolder = { [ClubCardPlaceholderKeys.MONEYAMOUNT]: amount, [ClubCardPlaceholderKeys.FAMEAMOUNT]: amount, [ClubCardPlaceholderKeys.CARDNAME]: "Porn Star"};
+			const placeHolder = { [ClubCardPlaceholderKeys.MONEYAMOUNT]: amount, [ClubCardPlaceholderKeys.FAMEAMOUNT]: amount, [ClubCardPlaceholderKeys.CARDNAME]: "Porn Veteran"};
 			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "GainFameMoney", placeHolder, CCPlayer);
 		}
 	},
@@ -1687,7 +1687,7 @@ var ClubCardList = [
 		RequiredLevel: 3,
 		FamePerTurn: 2,
 		onPlayedCard: function(CCPlayer, cardPlayed) {
-			if (!ClubCardIsLiability(cardPlayed) && cardPlayed.Name != "Skye") {
+			if (!ClubCardIsLiability(cardPlayed) && cardPlayed.Name != "Skye" && cardPlayed.Type === "Member" && cardPlayed.Group != null) {
 				for (const group of cardPlayed.Group) {
 					if (ClubCardGroupOnBoardCount(CCPlayer, group) < 2) {
 						ClubCardPlayerDrawCard(CCPlayer, 1);
@@ -2647,13 +2647,13 @@ var ClubCardList = [
 		Group: ["Shibari"],
 		RequiredLevel: 4,
 		OnPlay: function(CCPlayer) {
-			let knotsInHand = CCPlayer.Hand.filter(card => ClubCardCardHasGroup(card, "Knot"));
-			let knotsInDeck = CCPlayer.Deck.filter(card => ClubCardCardHasGroup(card, "Knot"));
-			let knotsInDiscard = CCPlayer.DiscardPile.filter(card => ClubCardCardHasGroup(card, "Knot"));
+			let knotsInHand = CCPlayer.Hand.filter(card => ClubCardCardHasGroup(card, "Knot") && ClubCardCanSummonCard(CCPlayer, card));
+			let knotsInDeck = CCPlayer.Deck.filter(card => ClubCardCardHasGroup(card, "Knot") && ClubCardCanSummonCard(CCPlayer, card));
+			let knotsInDiscard = CCPlayer.DiscardPile.filter(card => ClubCardCardHasGroup(card, "Knot") && ClubCardCanSummonCard(CCPlayer, card));
 
-			CCPlayer.Hand = CCPlayer.Hand.filter(card => !ClubCardCardHasGroup(card, "Knot"));
-			CCPlayer.Deck = CCPlayer.Deck.filter(card => !ClubCardCardHasGroup(card, "Knot"));
-			CCPlayer.DiscardPile = CCPlayer.DiscardPile.filter(card => !ClubCardCardHasGroup(card, "Knot"));
+			CCPlayer.Hand = CCPlayer.Hand.filter(card => !(ClubCardCardHasGroup(card, "Knot") && ClubCardCanSummonCard(CCPlayer, card)));
+			CCPlayer.Deck = CCPlayer.Deck.filter(card => !(ClubCardCardHasGroup(card, "Knot") && ClubCardCanSummonCard(CCPlayer, card)));
+			CCPlayer.DiscardPile = CCPlayer.DiscardPile.filter(card => !(ClubCardCardHasGroup(card, "Knot") && ClubCardCanSummonCard(CCPlayer, card)));
 
 			for (const card of knotsInHand) {
 				ClubCardSummonCard(CCPlayer, card);
