@@ -2,6 +2,9 @@
 /** @type {null | string[][]} */
 let OnlineGameDictionary = null;
 
+/** @type { ()=>void | undefined } */
+let OnlineGameTranslateResolve = undefined;
+
 /**
  * Loads the online game dictionary that will be used throughout the game to output messages
  * @returns {void} - Nothing
@@ -21,6 +24,7 @@ function OnlneGameDictionaryLoad() {
 			if (this.status == 200) {
 				CommonCSVCache[FullPath] = CommonParseCSV(this.responseText);
 				OnlineGameDictionary = CommonCSVCache[FullPath];
+				OnlineGameTranslateResolve?.();
 			}
 		});
 
@@ -39,15 +43,18 @@ function OnlneGameDictionaryLoad() {
 }
 function OnlineGameTranslate(CachePath) {
 	if (!Array.isArray(TranslationCache[CachePath])) return;
-
-	for (let T = 0; T < OnlineGameDictionary.length; T++) {
-		if (OnlineGameDictionary[T][1]) {
-			let indexText = TranslationCache[CachePath].indexOf(OnlineGameDictionary[T][1].trim());
-			if (indexText >= 0) {
-				OnlineGameDictionary[T][1] = TranslationCache[CachePath][indexText + 1];
+	const DoTranslate = () => {
+		for (let T = 0; T < OnlineGameDictionary.length; T++) {
+			if (OnlineGameDictionary[T][1]) {
+				let indexText = TranslationCache[CachePath].indexOf(OnlineGameDictionary[T][1].trim());
+				if (indexText >= 0) {
+					OnlineGameDictionary[T][1] = TranslationCache[CachePath][indexText + 1];
+				}
 			}
 		}
-	}
+	};
+	if(OnlineGameDictionary) DoTranslate();
+	else OnlineGameTranslateResolve = DoTranslate;
 }
 /**
  * Searches in the dictionary for a specific keyword and returns the message linked to it
