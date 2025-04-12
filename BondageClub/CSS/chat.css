@@ -31,7 +31,7 @@
 }
 
 .chat-room-sep-header {
-  user-select: all !important;
+  user-select: text !important;
   align-content: center;
   justify-content: center;
   display: flex;
@@ -45,6 +45,10 @@
   aspect-ratio: 1 / 1;
   background: gray;
   margin-block: 0.1em;
+}
+
+.chat-room-sep-image > span {
+  opacity: 0;
 }
 
 .chat-room-no-copy {
@@ -360,6 +364,16 @@
   #TextAreaChatLog[data-colortheme="light2"] .chat-room-sep-header:hover > .chat-room-sep-image {
     background-color: black;
   }
+}
+
+#TextAreaChatLog[data-colortheme="dark"] .chat-room-sep-header[data-active] > .chat-room-sep-image,
+#TextAreaChatLog[data-colortheme="dark2"] .chat-room-sep-header[data-active] > .chat-room-sep-image {
+  background-color: #eee;
+}
+
+#TextAreaChatLog[data-colortheme="light"] .chat-room-sep-header[data-active] > .chat-room-sep-image,
+#TextAreaChatLog[data-colortheme="light2"] .chat-room-sep-header[data-active] > .chat-room-sep-image {
+  background-color: black;
 }
 
 #TextAreaChatLog[data-colortheme="dark"] .chat-room-sep-div>.button:active,
