@@ -409,6 +409,7 @@ var AudioActions = [
 			"ItemArmsSteelBeltSeth1",
 			"ItemArmsSteelBeltSeth2",
 			"ItemArmsSteelBeltSeth3",
+			"ItemNeckRestraintsMCuffCollarSeth1",
 		].some(A => data.Content.includes(A)),
 		GetSoundEffect: () => "MetalCuffs"
 	},
@@ -417,6 +418,7 @@ var AudioActions = [
 			"ItemTorsoSteelBeltSeth0",
 			"ItemTorso2SteelBeltSeth0",
 			"ItemArmsSteelBeltSeth0",
+			"ItemNeckRestraintsMCuffCollarSeth0",
 		].some(A => data.Content.includes(A)),
 		GetSoundEffect: () => "CuffsMetal"
 	},

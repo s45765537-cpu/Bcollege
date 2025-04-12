@@ -5032,47 +5032,6 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // AsylumCollar
-		MCuffCollar: {
-			Archetype: ExtendedArchetype.MODULAR,
-			Modules: [
-				{
-					Name: "Handcuffs",
-					Key: "h",
-					Options: [
-						{ 
-							// None
-							Property: {}
-						},
-						{
-							// Cuffed
-							Property: {
-								Difficulty: 4,
-								SetPose: ["BaseUpper"],
-								Effect: [E.BlockWardrobe],
-							},
-						},
-					],
-				},
-				{
-					Name: "Leash",
-					Key: "l",
-					Options: [
-						{ 
-							// None
-							Property: {}
-						},
-						{
-							// Leashed
-							Property: {
-								Difficulty: 4,
-								Effect: [E.Leash,E.IsLeashed],
-							},
-						},
-					],
-				},
-			],
-			ChangeWhenLocked: false,
-		}, // MCuffCollar
 		ChainCollar: {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [{ Name: "LockBodyHeart" }, { Name: "LockBodyPlain" }],
@@ -5406,6 +5365,47 @@ var AssetFemale3DCGExtended = {
 			ChangeWhenLocked: false,
 			BaselineProperty: { Text: "Pet", Text2: "Leashing", Text3: "Post" },
 		}, //PetPost
+		MCuffCollar: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Handcuffs",
+					Key: "h",
+					Options: [
+						{ 
+							// None
+							Property: {}
+						},
+						{
+							// Cuffed
+							Property: {
+								Difficulty: 4,
+								SetPose: ["BaseUpper"],
+								Effect: [E.BlockWardrobe],
+							},
+						},
+					],
+				},
+				{
+					Name: "Leash",
+					Key: "l",
+					Options: [
+						{ 
+							// None
+							Property: {}
+						},
+						{
+							// Leashed
+							Property: {
+								Difficulty: 4,
+								Effect: [E.Leash,E.IsLeashed],
+							},
+						},
+					],
+				},
+			],
+			ChangeWhenLocked: false,
+		}, // MCuffCollar
 	}, //ItemNeckRestraints
 	ItemHood: {
 		OldGasMask: {
