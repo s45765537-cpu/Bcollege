@@ -10,6 +10,9 @@ var ActivityOrgasmGameTimer = 0;
 var ActivityOrgasmResistLabel = "";
 var ActivityOrgasmRuined = false; // If set to true, the orgasm will be ruined right before it happens
 
+/** @type { ()=>void | undefined } */
+let ActivityTranslateResolve = undefined;
+
 /**
  * Checks if the current room allows for activities. (They can only be done in certain rooms)
  * @returns {boolean} - Whether or not activities can be done
@@ -36,6 +39,7 @@ function ActivityDictionaryLoad() {
 			if (this.status == 200) {
 				CommonCSVCache[FullPath] = CommonParseCSV(this.responseText);
 				ActivityDictionary = CommonCloneDeep(CommonCSVCache[FullPath]);
+				ActivityTranslateResolve?.();
 			}
 		});
 	}
@@ -56,15 +60,18 @@ function ActivityDictionaryLoad() {
  */
 function ActivityTranslate(CachePath) {
 	if (!Array.isArray(TranslationCache[CachePath])) return;
-
-	for (let T = 0; T < ActivityDictionary.length; T++) {
-		if (ActivityDictionary[T][1]) {
-			let indexText = TranslationCache[CachePath].indexOf(ActivityDictionary[T][1].trim());
-			if (indexText >= 0) {
-				ActivityDictionary[T][1] = TranslationCache[CachePath][indexText + 1];
+	const DoTranslate = () => {
+		for (let T = 0; T < ActivityDictionary.length; T++) {
+			if (ActivityDictionary[T][1]) {
+				let indexText = TranslationCache[CachePath].indexOf(ActivityDictionary[T][1].trim());
+				if (indexText >= 0) {
+					ActivityDictionary[T][1] = TranslationCache[CachePath][indexText + 1];
+				}
 			}
 		}
-	}
+	};
+	if(ActivityDictionary) DoTranslate();
+	else ActivityTranslateResolve = DoTranslate;
 }
 
 /**
