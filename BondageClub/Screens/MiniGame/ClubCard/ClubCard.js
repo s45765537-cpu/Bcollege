@@ -1685,14 +1685,13 @@ var ClubCardList = [
 		Group: ["Player"],
 		RewardMemberNumber: 133105,
 		RequiredLevel: 3,
-		FamePerTurn: 2,
+		FamePerTurn: 1,
 		onPlayedCard: function(CCPlayer, cardPlayed) {
 			if (!ClubCardIsLiability(cardPlayed) && cardPlayed.Name != "Skye" && cardPlayed.Type === "Member" && cardPlayed.Group != null) {
 				for (const group of cardPlayed.Group) {
 					if (ClubCardGroupOnBoardCount(CCPlayer, group) < 2) {
 						ClubCardPlayerDrawCard(CCPlayer, 1);
 						ClubCardPlayerAddMoney(CCPlayer, -2);
-						ClubCardPlayerAddFame(CCPlayer, -2);
 						return;
 					}
 				}
