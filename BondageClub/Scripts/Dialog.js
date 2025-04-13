@@ -2379,7 +2379,7 @@ function DialogFindFacialExpressionMenuGroup(ExpressionGroup) {
 	}
 
 	const ids = DialogSelfMenuMapping.Expression.ids;
-	const button = /** @type {null | HTMLButtonElement} */(document.querySelector(`${ids.menuLeft} > [name="${ExpressionGroup}"]`));
+	const button = /** @type {null | HTMLButtonElement} */(document.querySelector(`#${ids.menuLeft} > [name="${ExpressionGroup}"]`));
 	if (!button) {
 		return false;
 	} else if (button.getAttribute("aria-checked") === "false") {
