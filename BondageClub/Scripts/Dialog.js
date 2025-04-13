@@ -2082,9 +2082,11 @@ function DialogChangeMode(mode, reset=false) {
 		DialogExpressionPreviousMode = { mode: DialogMenuMode, group: C.FocusGroup };
 	}
 
-	DialogMenuMapping[DialogMenuMode]?.Unload();
 	const modeChange = DialogMenuMode !== mode || reset;
-	DialogMenuMode = mode;
+	if (DialogMenuMode !== mode) {
+		DialogMenuMapping[DialogMenuMode]?.Unload();
+		DialogMenuMode = mode;
+	}
 
 	switch (DialogMenuMode) {
 		case "activities":
@@ -4273,8 +4275,10 @@ class _DialogSelfMenu extends DialogMenu {
 
 	/** @type {DialogMenu<ModeType, T, { C: PlayerCharacter }>["Init"]} */
 	Init(parameters, style) {
-		DialogSelfMenuMapping[DialogSelfMenuSelected]?.Unload();
-		DialogSelfMenuSelected = this.mode;
+		if (DialogSelfMenuSelected !== this.mode) {
+			DialogSelfMenuMapping[DialogSelfMenuSelected]?.Unload();
+			DialogSelfMenuSelected = this.mode;
+		}
 		const ret = super.Init(parameters, style);
 		this.Resize(true);
 		return ret;
