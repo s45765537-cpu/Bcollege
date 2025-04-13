@@ -2374,7 +2374,7 @@ function DialogFindSubMenu(MenuName, force=false) {
  * @returns {boolean} True, when the expression group was found and opened. False otherwise and nothing happens.
  */
 function DialogFindFacialExpressionMenuGroup(ExpressionGroup) {
-	if (DialogSelfMenuSelected !== "Expression" && !DialogSelfMenuMapping.Expression.Init({ C: Player })) {
+	if (DialogSelfMenuSelected !== "Expression") {
 		return false;
 	}
 
@@ -5473,7 +5473,7 @@ function DialogLoad() {
 	}
 
 	if (C.IsPlayer()) {
-		DialogSelfMenuMapping.Expression.Init({ C });
+		DialogSelfMenuMapping[DialogSelfMenuSelected ?? "Expression"]?.Init({ C });
 	}
 	DialogChangeMode(DialogMenuMode ?? "dialog", true);
 }

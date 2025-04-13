@@ -855,8 +855,7 @@ const CommonCommands = [
 		Tag: 'expr',
 		Action: args => {
 			if (args.trim() == "") {
-				ChatRoomFocusCharacter(Player);
-				DialogFindSubMenu("SavedExpressions");
+				ChatRoomFocusCharacter(Player, { selfMode: "SavedExpressions" });
 			} else if (/^[0-5]$/.test(args)) {
 				let ExprNum = parseInt(args);
 				if (ExprNum == 0) {
@@ -871,8 +870,7 @@ const CommonCommands = [
 		Tag: 'blush',
 		Action: args => {
 			if (args.trim() == "") {
-				ChatRoomFocusCharacter(Player);
-				DialogFindSubMenu("Expression");
+				ChatRoomFocusCharacter(Player, { selfMode: "Expression" });
 				DialogFindFacialExpressionMenuGroup("Blush");
 				return;
 			}
@@ -921,8 +919,7 @@ const CommonCommands = [
 		Tag: 'eyes',
 		Action: args => {
 			if (args.trim() == "") {
-				ChatRoomFocusCharacter(Player);
-				DialogFindSubMenu("Expression");
+				ChatRoomFocusCharacter(Player, { selfMode: "Expression" });
 				DialogFindFacialExpressionMenuGroup("Eyes");
 				return;
 			}
