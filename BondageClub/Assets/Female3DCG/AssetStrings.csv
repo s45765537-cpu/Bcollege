@@ -6735,8 +6735,8 @@ ItemHoodHalloIIISeth2,SourceCharacter adds a sealed hood on the DestinationChara
 ItemTorsoBarrelCorsetSelectBase,Choose your Barrel Corset preferences:
 ItemTorsoBarrelCorsetModulePriority,Position
 ItemTorsoBarrelCorsetSelectPriority,About corset positioning:
-ItemTorsoBarrelCorsetOptionv0,Under clothes
-ItemTorsoBarrelCorsetOptionv1,Corset full exposed
+ItemTorsoBarrelCorsetOptionz0,Under clothes
+ItemTorsoBarrelCorsetOptionz1,Corset full exposed
 ItemTorsoBarrelCorsetModuleTightness,Restriction
 ItemTorsoBarrelCorsetSelectTightness,Restraint options:
 ItemTorsoBarrelCorsetOptions0,Default-Slow effect
