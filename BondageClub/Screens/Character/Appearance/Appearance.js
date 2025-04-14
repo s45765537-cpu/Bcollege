@@ -701,6 +701,7 @@ function CharacterAppearanceYOffset(C, HeightRatio, IgnoreUpButton) {
  */
 function AppearanceLoad() {
 	DialogFocusItem = null;
+	CharacterAppearanceMode = "";
 	CharacterAppearanceOffset = 0;
 	if (!CharacterAppearanceSelection) CharacterAppearanceSelection = Player;
 	var C = CharacterAppearanceSelection;
