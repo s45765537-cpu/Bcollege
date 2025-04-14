@@ -2082,9 +2082,11 @@ function DialogChangeMode(mode, reset=false) {
 		DialogExpressionPreviousMode = { mode: DialogMenuMode, group: C.FocusGroup };
 	}
 
-	DialogMenuMapping[DialogMenuMode]?.Unload();
 	const modeChange = DialogMenuMode !== mode || reset;
-	DialogMenuMode = mode;
+	if (DialogMenuMode !== mode) {
+		DialogMenuMapping[DialogMenuMode]?.Unload();
+		DialogMenuMode = mode;
+	}
 
 	switch (DialogMenuMode) {
 		case "activities":
@@ -2374,12 +2376,12 @@ function DialogFindSubMenu(MenuName, force=false) {
  * @returns {boolean} True, when the expression group was found and opened. False otherwise and nothing happens.
  */
 function DialogFindFacialExpressionMenuGroup(ExpressionGroup) {
-	if (DialogSelfMenuSelected !== "Expression" && !DialogSelfMenuMapping.Expression.Init({ C: Player })) {
+	if (DialogSelfMenuSelected !== "Expression") {
 		return false;
 	}
 
 	const ids = DialogSelfMenuMapping.Expression.ids;
-	const button = /** @type {null | HTMLButtonElement} */(document.querySelector(`${ids.menuLeft} > [name="${ExpressionGroup}"]`));
+	const button = /** @type {null | HTMLButtonElement} */(document.querySelector(`#${ids.menuLeft} > [name="${ExpressionGroup}"]`));
 	if (!button) {
 		return false;
 	} else if (button.getAttribute("aria-checked") === "false") {
@@ -4273,8 +4275,10 @@ class _DialogSelfMenu extends DialogMenu {
 
 	/** @type {DialogMenu<ModeType, T, { C: PlayerCharacter }>["Init"]} */
 	Init(parameters, style) {
-		DialogSelfMenuMapping[DialogSelfMenuSelected]?.Unload();
-		DialogSelfMenuSelected = this.mode;
+		if (DialogSelfMenuSelected !== this.mode) {
+			DialogSelfMenuMapping[DialogSelfMenuSelected]?.Unload();
+			DialogSelfMenuSelected = this.mode;
+		}
 		const ret = super.Init(parameters, style);
 		this.Resize(true);
 		return ret;
@@ -5473,7 +5477,7 @@ function DialogLoad() {
 	}
 
 	if (C.IsPlayer()) {
-		DialogSelfMenuMapping.Expression.Init({ C });
+		DialogSelfMenuMapping[DialogSelfMenuSelected ?? "Expression"]?.Init({ C });
 	}
 	DialogChangeMode(DialogMenuMode ?? "dialog", true);
 }

@@ -1566,9 +1566,10 @@ function ChatRoomDrawCharacterStatusIcons(C, CharX, CharY, Zoom)
 /**
  * Select the character (open dialog) and clear other chatroom displays.
  * @param {Character} C - The character to focus on. Does nothing if null.
+ * @param {null | { mode?: DialogMenuMode, selfMode?: DialogSelfMenuName }} options - The type of dialog- and dialog-self subscreen te open
  * @returns {void} - Nothing
  */
-function ChatRoomFocusCharacter(C) {
+function ChatRoomFocusCharacter(C, options=null) {
 	if (ChatRoomOwnerPresenceRule("BlockAccessSelf", C)) return;
 	if (ChatRoomOwnerPresenceRule("BlockAccessOther", C)) return;
 	if (C == null) return;
@@ -1579,7 +1580,7 @@ function ChatRoomFocusCharacter(C) {
 	ChatRoomLovershipOption = "";
 	if (!C.IsPlayer()) ServerSend("ChatRoomAllowItem", { MemberNumber: C.MemberNumber });
 	if (C.IsOwnedByPlayer() || C.IsLoverOfPlayer()) ServerSend("ChatRoomChat", { Content: "RuleInfoGet", Type: "Hidden", Target: C.MemberNumber });
-	CharacterSetCurrent(C);
+	CharacterSetCurrent(C, options);
 }
 
 /**

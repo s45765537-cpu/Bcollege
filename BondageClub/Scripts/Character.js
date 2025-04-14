@@ -1431,10 +1431,18 @@ function CharacterLoadCanvasAll() {
  * Sets the current character to have a dialog with.
  *
  * @param {Character} C - Character to have a conversation with
+ * @param {null | { mode?: DialogMenuMode, selfMode?: DialogSelfMenuName }} options - The type of dialog- and dialog-self subscreen te open
  * @returns {void} - Nothing
  */
-function CharacterSetCurrent(C) {
+function CharacterSetCurrent(C, options=null) {
+	options ??= {};
 	CurrentCharacter = C;
+	if (options.mode) {
+		DialogMenuMode = options.mode;
+	}
+	if (options.selfMode) {
+		DialogSelfMenuSelected = options.selfMode;
+	}
 	DialogLoad();
 }
 
