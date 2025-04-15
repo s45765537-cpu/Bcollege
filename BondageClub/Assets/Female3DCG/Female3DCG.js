@@ -3710,6 +3710,83 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "MaidBikini",
+				InventoryID: 1235,
+				Top: 0,
+				Left: 0,
+				Priority:23,
+				Value: 50,
+				Gender: "F",
+				Prerequisite: ["HasBreasts"],
+				ParentGroup: "BodyUpper",
+				PoseMapping: {
+					...AssetPoseMapping.Cloth
+				},
+				HideItem: [
+					"ItemNipplesPiercingsRoundPiercing",
+					"ItemNipplesPiercingsNecklacePiercingChain",
+					"ItemNipplesLactationPump",
+				],
+				Extended: true,
+				DynamicAfterDraw: true,
+				DefaultColor: ["#000000"],
+				Layer: [
+					{
+						Name: "Buttons",
+						ParentGroup: {},
+					},
+					{
+						Name: "Straps",
+					},
+					{
+						Name: "Frills",
+					}
+				]
+			},
+			{
+				Name: "CocktailDress",
+				InventoryID: 1236,
+				Top: 0,
+				Left: 0,
+				Value: 75,
+				Priority: 26,
+				Gender: "F",
+				Prerequisite: ["HasBreasts"],
+				PoseMapping: {
+					...AssetPoseMapping.Cloth,
+					Hogtied: "Hogtied",
+					AllFours: "Hogtied",
+					Kneel: "Kneel",
+				},
+				ParentGroup: "BodyUpper",
+
+				DefaultColor: [
+					"#951B16",
+					"#90662B",
+				],
+				HideItem: [
+					"ItemNipplesPiercingsRoundPiercing",
+					"ItemNipplesPiercingsNecklacePiercingChain",
+					"ItemNipplesLactationPump",
+				],
+				Layer: [
+					{
+						Name: "Front",
+					},
+					{
+						Name: "Back",
+						CopyLayerColor: "Front",
+						Priority: 5,
+					},
+					{
+						Name: "Ring",
+						Priority: 25,
+						ParentGroup: {},
+						PoseMapping: {},
+					},
+				]
+			},
 			// Flat Chest Compatible Clothing
 			{
 				Name: "MaleTankTop1",
@@ -3783,6 +3860,107 @@ var AssetFemale3DCG = [
 			{ Name: "StudentOutfit3Bow1", Priority: 34, Left: 200, Top: 250 },
 			{ Name: "StudentOutfit3Bow2", Priority: 34, Left: 200, Top: 250 },
 			{ Name: "StudentOutfit3Bow3", Priority: 34, Left: 200, Top: 250 },
+			{
+				Name: "SideRuffles",
+				InventoryID: 1237,
+				Value: 40,
+				Priority: 34,
+				Left: 0,
+				Top: 0,
+				DefaultColor: [
+					"#A91B3F",
+				],
+				Layer: [
+					{
+						Name:"frontlayer",
+					},
+					{
+						Name:"backlayer",
+						CopyLayerColor: "frontlayer",
+						Priority: 4,
+					},
+				]
+			},
+			{
+				Name: "HoodedCloak",
+				InventoryID: 1238,
+				Audio:  "HoodedCloak",
+				Value: 80,
+				Priority: 35,
+				Left: 0,
+				Top: 0,
+				PoseMapping: {
+					BackCuffs: "BackCuffs",
+					BackElbowTouch: "BackElbowTouch",
+					OverTheHead: "OverTheHead",
+					Yoked: "Yoked",
+				},
+				DefaultColor: [
+					"#7C0F0B",
+					"#911713",
+					"#7E120F",
+					"#A0140F",
+				],
+				Layer: [
+					{
+						Name: "Cape",
+						Priority: 2,
+					},
+					{Name: "Shoulder"},
+					{Name: "Lace"},
+					{Name: "Collar"},
+					{
+						Name: "BackHood",
+						Priority: 3,
+						AllowTypes: { h: [1,2] },
+						CopyLayerColor: "Collar",
+						Alpha: [
+							{
+								Group: [
+									"HairAccessory1",
+									"HairAccessory2",
+									"HairAccessory3",
+									"HairBack",
+									"HairFront",
+									"FacialHair",
+									"ItemHood",
+									"ItemHead",
+									"ItemMouth",
+									"ItemMouth2",
+									"ItemMouth3",
+									"Hat",
+									"Mask",
+								],
+								Masks: [
+									[0,0,500,66],
+									[0,226,500,120],
+									[0,63,160,165],
+									[336,34,164,194],
+									[158,62,22,70],
+									[311,64,26,45],
+									[158,194,27,33],
+									[193,214,11,14],
+									[303,208,34,20],
+									[321,194,17,16]
+								],
+							},
+						],
+					},
+					{
+						Name: "Hood",
+						AllowTypes: { h: 1 },
+						CopyLayerColor: "Collar",
+						Priority: 53,
+					},
+					{
+						Name: "HoodCoverEyes",
+						AllowTypes: { h: 2 },
+						CopyLayerColor: "Collar",
+						Priority: 53,
+					},
+
+				],
+			},
 			{
 				Name: "Bouquet",
 				InventoryID: 166,
@@ -7700,6 +7878,35 @@ var AssetFemale3DCG = [
 					BuyGroup: true,
 				},
 			},
+{
+				Name: "OrnateMetalBra",
+				InventoryID: 1239,
+				Priority: 20,
+				Value: 50,
+				Random: false,
+				Left: 0,
+				Top: 0,
+				Prerequisite: ["HasBreasts"],
+				DefaultColor: ["#818181","#009848", "#76EC82"],
+				PoseMapping: {
+					...AssetPoseMapping.Bra,
+				},
+				Hide: ["ItemNipples"],
+				Gender: "F",
+				Fetish: ["Metal"],
+				ParentGroup: "BodyUpper",
+				Layer: [
+					{
+						Name: "Bra",
+					},
+					{
+						Name: "Metal",
+					},
+					{
+						Name: "Shine",
+					},
+				],
+			}
 		],
 		Color: [
 			"Default",
@@ -8441,6 +8648,34 @@ var AssetFemale3DCG = [
 					{ Name: "CrotchPatch" },
 					{ Name: "Frills" },
 					{ Name: "Tape", ParentGroup: {} },
+					{
+						Name: "Back",
+						CopyLayerColor: "Base",
+						ParentGroup: {},
+						Priority: 6,
+					},
+				],
+			},
+			{
+				Name: "LatexDiaper",
+				InventoryID: 1240,
+				Left: 49,
+				Value: 40,
+				BuyGroup: "LatexDiapers",
+				Priority: 25,
+				Random: false,
+				Category: ["ABDL"],
+				Fetish: ["ABDL", "Latex"],
+				Attribute: ["GenitaliaCover"],
+				DefaultColor: ["#9763A6", "#658AA6"],
+				PoseMapping: {
+					...AssetPoseMapping.Panties,
+					LegsClosed: "LegsClosed",
+				},
+				Top: 360,
+				Layer: [
+					{ Name: "Base"},
+					{ Name: "Shine" },
 					{
 						Name: "Back",
 						CopyLayerColor: "Base",
@@ -26674,6 +26909,21 @@ var AssetFemale3DCG = [
 						Priority: 6,
 					},
 				],
+			},
+			{
+				Name: "LatexDiaper",
+				CopyConfig: {
+					AssetName: "LatexDiaper",
+					GroupName: "Panties",
+					BuyGroup: true,
+				},
+				Difficulty: 50,
+				Time: 5,
+				RemoveTime: 5,
+				AllowLock: true,
+				DrawLocks: false,
+				Effect: [E.Chaste],
+				Block: ["ItemVulva", "ItemButt", "ItemVulvaPiercings"],
 			},
 			{
 				Name: "HybridChastityBelt",

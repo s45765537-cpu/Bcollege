@@ -46,6 +46,9 @@ BraLeatherVestSuitLeather,Leather
 BraLeatherVestSuitSilk,Silk
 BraStuddedHarnessHarness,Harness
 BraStuddedHarnessMetal,Metal
+BraOrnateMetalBraBra,Bra
+BraOrnateMetalBraMetal,Metal
+BraOrnateMetalBraShine,Shine
 ClothAccessoryBibBase,Bib
 ClothAccessoryBibPacis,Pattern
 ClothAccessoryBibText,Text
@@ -74,6 +77,11 @@ ClothAccessoryLeatherBeltClothMetal,Buckle
 ClothAccessorySpikyNeckFurBack,Back
 ClothAccessorySpikyNeckFurFront,Front
 ClothAccessorySpikyNeckFurShoulders,Shoulders
+ClothAccessoryHoodedCloakCape,Cape
+ClothAccessoryHoodedCloakLace,Lace
+ClothAccessoryHoodedCloakCollar,Collar
+ClothAccessoryHoodedCloakShoulder,Shoulder
+ClothAccessorySideRufflesfrontlayer,Ruffles
 ClothAdmiralTopJacket,Jacket
 ClothAdmiralTopShirt,Shirt
 ClothAdmiralTopTrim,Trim
@@ -290,6 +298,11 @@ ClothSummerDressLayer3,Arm Puffs
 ClothSummerDressLayer4,Trim
 ClothTShirt2Print,Print
 ClothTShirt2Shirt,Shirt
+ClothCocktailDressFront,Dress
+ClothCocktailDressRing,Ring
+ClothMaidBikiniFrills,Frills
+ClothMaidBikiniButtons,Buttons
+ClothMaidBikiniStraps,Straps
 CorsetClassicLatexCorsetBelt,Belt
 CorsetClassicLatexCorsetBuckles,Buckles
 CorsetClassicLatexCorsetCorset,Corset
@@ -2347,6 +2360,8 @@ ItemPelvisWaistLegHarnessBeltVib,Vibrator strap support
 ItemPelvisWaistLegHarnessBeltVibMetal,Vibrator metal part support
 ItemPelvisWaistLegHarnessVibTop,Vibrator head
 ItemPelvisWaistLegHarnessVibBelow,Vibrator body
+ItemPelvisLatexDiaperBase,Latex
+ItemPelvisLatexDiaperShine,Shine
 ItemTorso2ClassicLatexCorsetBelt,Belt
 ItemTorso2ClassicLatexCorsetBuckles,Buckles
 ItemTorso2ClassicLatexCorsetCorset,Corset
@@ -2613,6 +2628,8 @@ PantiesWaistLegHarnessBeltsB,Leg belts
 PantiesWaistLegHarnessMetalB,Leg metal parts
 PantiesWaistLegHarnessBeltsC,Link belts
 PantiesWaistLegHarnessMetalC,Link metal parts
+PantiesLatexDiaperBase,Latex
+PantiesLatexDiaperShine,Shine
 AnkletRightLegFurAnkle,Fur Ankle
 AnkletRightLegFurKnee,Fur Knee
 HandAccessoryRightClawsColor,Color
