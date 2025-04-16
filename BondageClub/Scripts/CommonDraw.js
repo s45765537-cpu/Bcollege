@@ -113,7 +113,9 @@ function CommonDrawAppearancePrepareMaskLayers(C) {
 			Priority: maskPriority,
 		};
 
-		for(const maskedGroup of layer.TextureMask.Groups) {
+		const groups = layer.TextureMask.Groups ?? [group.Name];
+
+		for(const maskedGroup of groups) {
 			// if(!acc.has(groupName)) acc.set(groupName, [maskLayer]);
 			// else acc.get(groupName).push(maskLayer);
 			if(!acc.maskLayers.has(maskedGroup)) acc.maskLayers.set(maskedGroup, [maskLayer]);
