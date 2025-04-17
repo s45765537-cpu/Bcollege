@@ -2510,14 +2510,17 @@ function CharacterCanChangeToPose(C, poseName) {
  */
 function CharacterIsOnList(listOwner, listTarget, list) {
 	const num = typeof listTarget === "number" ? listTarget : listTarget.MemberNumber;
+	// Characterts that don't have member numbers (eg. NPCs, Player before registering)
+	// cannot be on lists.
+	if (num === undefined) return false;
 	switch (list) {
 		case "black":
 			return listOwner.BlackList.includes(num);
 		case "white":
 			return listOwner.WhiteList.includes(num);
 		case "ghost":
-			return listOwner.IsPlayer() && listOwner.GhostList.includes(num);
+			return listOwner.IsPlayer() && !!listOwner.GhostList?.includes(num);
 		case "friend":
-			return listOwner.IsPlayer() && listOwner.FriendList.includes(num);
+			return listOwner.IsPlayer() && !!listOwner.FriendList?.includes(num);
 	}
 }
