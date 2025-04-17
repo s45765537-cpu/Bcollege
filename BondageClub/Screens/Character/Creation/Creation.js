@@ -101,6 +101,9 @@ function CreationResponse(data) {
 
 			LoginSetupPlayer(createData);
 
+			// Force an appearance sync here since we've provided the new one manually
+			ServerPlayerAppearanceSync();
+
 			ImportBondageCollege(Player);
 
 			// Lifted from LoginResponse
