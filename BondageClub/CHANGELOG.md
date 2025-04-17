@@ -11,9 +11,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2025-04-09
-* Last recorded PR: [#5511](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5511)
-* Last recorded commit hash: `392bea10c0fa1f28203ac939611047fe3febee48`
+* Changelog last updated: 2025-04-17
+* Last recorded PR: [#5547](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5547)
+* Last recorded commit hash: `06326c712bd0a07dfb477cb13c1cdf300fefceb5`
 
 ## [Generated]
 
@@ -55,10 +55,17 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 ### [Fixes]
 
+* Feldob66 - Found missing translation for bra port ([#5539](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5539))
 * EllieThePink - Fix limited items being rejected ([#5490](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5490))
 * EllieThePink - Fix broken lucky wheel drawing ([#5523](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5523))
+* EllieThePink - Fix new character creation ([#5547](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5547))
+* Cleon - SteelBelt and HeelBinders - New Slot for Neck Cuff Collar (Item N.Restraints) ([#5533](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5533))
+* Cleon - BarrelCorset A.String typos ([#5542](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5542))
 * smolkat64 - Fix "Name Mentioned" notification not working for players with "fancy" (italic, bold etc.) nicknames ([#5467](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5467))
 * Da'Inihlus - Fix unload is not handled correctely ([#5455](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5455))
+* Da'Inihlus - Extreme corset visual fix ([#5546](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5546))
+* Da'Inihlus - Extreme corset visual fixes ([#5536](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5536))
+* Da'Inihlus - Fix an edge case where translation txt file is loaded before csv file ([#5540](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5540))
 * Estsanatlehi - Fix a couple issues caused by IsOnline not working on players anymore ([#5469](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5469))
 * Estsanatlehi - Change the way the hideable groups are filtered ([#5472](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5472))
 * Estsanatlehi - Check the post-validation settings against the actually character data ([#5478](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5478))
@@ -83,6 +90,13 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Rama - Ensure that restraints with opacity sliders have `EditOpacity` set to `true` ([#5522](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5522))
 * Rama - Explicitly use `scrollbar-gutter: auto` for the chat log ([#5524](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5524))
 * Rama - Fix `DialogBuildSavedExpressionsMenu()` requesting a dialog refresh ([#5529](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5529))
+* Rama - Only show the dialog self menu when the current character is the player ([#5530](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5530))
+* Rama - Fix the chat logs black border being absent when "preserve chat logs between rooms" is disabled ([#5534](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5534))
+* Rama - Fix `InventoryWear()` ignoring crafted item colors when `Default` is passed ([#5535](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5535))
+* Rama - Fix the client failing to send garbling chat messages ([#5537](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5537))
+* Rama - Fix male & female icon filenames for the friendlist ([#5538](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5538))
+* Rama - Fix the likes of the `/eyes` chat command failing to properly open the expression self menu ([#5543](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5543))
+* Rama - Fix the appearance menu failing to reset its mode after a disconnect ([#5544](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5544))
 * Ben987 - Make sure OnlineSharedSettings.GameVersion is updated
 * Ben987 - Fix ServerSendQueueProcess -> data.Dictionary
 * Ben987 - Fix Duplicated InventoryID
