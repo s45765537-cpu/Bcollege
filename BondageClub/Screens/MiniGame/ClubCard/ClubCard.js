@@ -473,7 +473,7 @@ var ClubCardList = [
 		BeforeTurnEnd: function(CCPlayer) {
 			if (ClubCardGroupIsOnBoard(CCPlayer, "Police")) ClubCardRemoveFromBoard(CCPlayer, this);
 			else {
-				const effectMoney = Math.min((ClubCardGroupOnBoardCount(CCPlayer, "Criminal") * 2), 5);
+				const effectMoney = Math.min((ClubCardGroupOnBoardCount(CCPlayer, "Criminal") * 2) - 2, 5);
 				ClubCardPlayerAddMoney(CCPlayer, effectMoney);
 			}
 		}
@@ -1973,7 +1973,7 @@ var ClubCardList = [
 	},
 	{
 		ID: 14013,
-		Name: "Cheaky Hamster",
+		Name: "Cheeky Hamster",
 		Group: ["Pet"],
 		RequiredLevel: 3,
 		MoneyPerTurn: -1,

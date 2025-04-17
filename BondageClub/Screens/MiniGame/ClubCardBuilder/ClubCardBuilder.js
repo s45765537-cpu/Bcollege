@@ -187,8 +187,6 @@ function ClubCardBuilderRun() {
 		}
 		DrawButton(1895, 5, 90, 90, null, "White", "Icons/Cancel.png", TextGet("UndoChanges"));
 		DrawButton(1780, 5, 90, 90, null, "White", "Icons/Accept.png", TextGet("SaveCardBack"));
-		DrawButton(1665, 5, 90, 90, null, "White", "Icons/Next.png", TextGet("NextCardBacks"));
-		DrawButton(1550, 5, 90, 90, null, "White", "Icons/Prev.png", TextGet("PreviousCardBacks"));
 
 		DrawImageResize("Screens/MiniGame/ClubCard/Sleeve/" + ClubCardBuilderCardBackFocus + ".png", 1549, 109, 437, 882);
 		DrawImageResize("Screens/MiniGame/ClubCard/Frame/SleeveBorder.png", 1545, 105, 445, 890);
