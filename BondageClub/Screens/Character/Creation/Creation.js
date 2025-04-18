@@ -11,11 +11,9 @@ function CreationLoad() {
 
 	// Gets the info to import Bondage College data
 	let DefaultName = "";
-	if ((localStorage.getItem("BondageClubImportSource") != null) && (localStorage.getItem("BondageClubImportSource") == "BondageCollege")) {
+	if (localStorage.getItem("BondageClubImportSource") === "BondageCollege") {
 		ImportBondageCollegeData = true;
-		if (localStorage.getItem("BondageCollegeExportName") != null) {
-			DefaultName = localStorage.getItem("BondageCollegeExportName") ?? "";
-		}
+		DefaultName = localStorage.getItem("BondageCollegeExportName") ?? "";
 	} else {
 		ImportBondageCollegeData = false;
 	}
@@ -65,7 +63,7 @@ function CreationRun() {
 	DrawButton(1440, 920, 120, 60, TextGet("Login"), "White", "");
 
 	// Draw the importation check box
-	if (ImportBondageCollegeData != null) {
+	if (ImportBondageCollegeData) {
 		DrawText(TextGet("ImportBondageCollege"), 1217, 783, "White", "Black");
 		DrawButton(1480, 750, 64, 64, "", "White", ImportBondageCollegeData ? "Icons/Checked.png" : "");
 	}
@@ -100,6 +98,9 @@ function CreationResponse(data) {
 			});
 
 			LoginSetupPlayer(createData);
+
+			// Force an appearance sync here since we've provided the new one manually
+			ServerPlayerAppearanceSync();
 
 			ImportBondageCollege(Player);
 
@@ -136,7 +137,7 @@ function CreationResponse(data) {
 function CreationClick() {
 
 	// If we must check or uncheck the importation checkbox
-	if ((MouseX >= 1480) && (MouseX <= 1544) && (MouseY >= 750) && (MouseY <= 814) && (ImportBondageCollegeData != null))
+	if ((MouseX >= 1480) && (MouseX <= 1544) && (MouseY >= 750) && (MouseY <= 814) && ImportBondageCollegeData)
 		ImportBondageCollegeData = !ImportBondageCollegeData;
 
 	// If we must go back to the login screen
