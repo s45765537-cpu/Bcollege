@@ -4781,9 +4781,6 @@ class _DialogPoseMenu extends _DialogSelfMenu {
 		ChatRoomOwnerPresenceRule(C, pose) {
 			return (C.IsPlayer() && ChatRoomOwnerPresenceRule("BlockChangePose", C)) ? "Blocked by owner rule" : null;
 		},
-		CurrentScreen(C, pose) {
-			return (CurrentScreen === "ChatRoom" || CurrentScreen === "Photographic") ? null : "Wrong screen";
-		},
 	};
 
 	/**
