@@ -183,6 +183,7 @@ NotificationTitleLarp,LARP - Your turn
 NotificationTitleTest,Test Notification
 OpacityLabel,Change Opacity
 OptionNeedsToBeBought,Option needs to be bought
+OwnerBlockChangePose,Blocked by owner rule
 OwnerProposeSub,<b>You've asked TargetCharacterName to become your submissive. Don't forget to friend them if they accept!</b>
 Page,Page
 PandoraActivityBondage,A Pandora guard puts TargetCharacterName in new restraints.

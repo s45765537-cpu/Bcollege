@@ -4779,7 +4779,7 @@ class _DialogPoseMenu extends _DialogSelfMenu {
 			return available ? null : InterfaceTextGet(`PrerequisiteCannot${pose.Name}`);
 		},
 		ChatRoomOwnerPresenceRule(C, pose) {
-			return (C.IsPlayer() && ChatRoomOwnerPresenceRule("BlockChangePose", C)) ? "Blocked by owner rule" : null;
+			return (C.IsPlayer() && ChatRoomOwnerPresenceRule("BlockChangePose", C)) ? InterfaceTextGet("OwnerBlockChangePose") : null;
 		},
 	};
 
