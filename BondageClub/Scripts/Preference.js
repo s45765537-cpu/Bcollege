@@ -195,9 +195,7 @@ function PreferenceGetArousalZone(C, ZoneName) {
 	if (!Group || !CommonIsNonNegativeInteger(Group.ArousalZoneID) || (C.ArousalSettings.Zone.length <= Group.ArousalZoneID)) return null;
 
 	const Value = C.ArousalSettings.Zone.charCodeAt(Group.ArousalZoneID) - 100;
-	let Factor = /** @type {ArousalFactor} */ (CommonClamp(Value, 0, 4));
-	// If the value was clamped, default it
-	if (Factor !== Value) Factor = 2;
+	let Factor = /** @type {ArousalFactor} */ (CommonClamp(Value % 10, 0, 4));
 	return {
 		Name: ZoneName,
 		Factor: Factor,
