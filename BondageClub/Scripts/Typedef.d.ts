@@ -2322,6 +2322,7 @@ interface ChatSettingsType {
 	/** Whether to preserve the chat log when switching rooms */
 	PreserveChat: boolean;
 	OOCAutoClose: boolean;
+	DisableReplies: boolean;
 }
 
 interface GameplaySettingsType {

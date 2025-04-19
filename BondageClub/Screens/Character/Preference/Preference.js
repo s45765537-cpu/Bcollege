@@ -694,6 +694,7 @@ var PreferenceChatSettingsDefault = {
 	CensoredWordsLevel: 0,
 	PreserveChat: true,
 	OOCAutoClose: true,
+	DisableReplies: false,
 };
 
 /**
@@ -726,6 +727,7 @@ var PreferenceChatSettingsValidate = {
 	},
 	PreserveChat: isBool(PreferenceChatSettingsDefault.PreserveChat),
 	OOCAutoClose: isBool(PreferenceChatSettingsDefault.OOCAutoClose),
+	DisableReplies: isBool(PreferenceChatSettingsDefault.DisableReplies),
 };
 
 /**
