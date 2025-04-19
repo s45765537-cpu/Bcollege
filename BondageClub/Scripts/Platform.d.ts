@@ -1,4 +1,4 @@
-export namespace Platform {
+declare namespace Platform {
 
 	type Perk = string;
 
