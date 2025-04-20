@@ -9354,68 +9354,68 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // CreepyIronMask
+		HalloIII: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChangeWhenLocked: false,
+			Modules: [
+				{
+					Name: "Mask",
+					Key: "m",
+					Options: [
+						{
+							// Pumpkin
+							Property: {},
+						},
+						{
+							// Skull
+							Property: {},
+						},
+						{
+							// Witch
+							Property: {},
+						},
+					],
+				},
+				{
+					Name: "Hood",
+					Key: "h",
+					Options: [
+						{
+							// None
+							Property: { Effect: [] },
+						},
+						{
+							// Normal hood
+							Property: {
+								Effect: [],
+								Difficulty: 3,
+								Block: ["ItemNose"],
+							},
+						},
+						{
+							// Total hood
+							Property: {
+								Effect: [
+									E.BlockWardrobe,
+									E.BlindNormal,
+									E.BlockMouth,
+									E.GagLight,
+								],
+								Difficulty: 5,
+								Block: [
+									"ItemMouth",
+									"ItemMouth2",
+									"ItemMouth3",
+									"ItemNose",
+									"ItemHead",
+								],
+							},
+						},
+					],
+				},
+			],
+		}, // HalloIII
 	}, // ItemHood
-	HalloIII: {
-		Archetype: ExtendedArchetype.MODULAR,
-		ChangeWhenLocked: false,
-		Modules: [
-			{
-				Name: "Mask",
-				Key: "m",
-				Options: [
-					{
-						// Pumpkin
-						Property: {},
-					},
-					{
-						// Skull
-						Property: {},
-					},
-					{
-						// Witch
-						Property: {},
-					},
-				],
-			},
-			{
-				Name: "Hood",
-				Key: "h",
-				Options: [
-					{
-						// None
-						Property: { Effect: [] },
-					},
-					{
-						// Normal hood
-						Property: {
-							Effect: [],
-							Difficulty: 3,
-							Block: ["ItemNose"],
-						},
-					},
-					{
-						// Total hood
-						Property: {
-							Effect: [
-								E.BlockWardrobe,
-								E.BlindNormal,
-								E.BlockMouth,
-								E.GagLight,
-							],
-							Difficulty: 5,
-							Block: [
-								"ItemMouth",
-								"ItemMouth2",
-								"ItemMouth3",
-								"ItemNose",
-								"ItemHead",
-							],
-						},
-					},
-				],
-			},
-		],
-	}, // HalloIII
 	Jewelry: {
 		JewelrySet: {
 			Archetype: ExtendedArchetype.MODULAR,
