@@ -4685,6 +4685,7 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 						clickDisabled: this.eventListeners._ClickDisabledButton,
 						role: "radio",
 						image: `Assets/Female3DCG/${group}/${name ? name + "/Icon" : "Icon"}.png`,
+						allowRequiredClick: true,
 					},
 					{ button: {
 						classList: ["dialog-menubar-button"],
@@ -4749,6 +4750,10 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 
 	/** @type {DialogMenu<string, ExpressionPair>["_ClickButton"]} */
 	_ClickButton(button, C, clickedObj, equippedItem) {
+		if (equippedItem?.Property?.Expression === clickedObj.Expression) {
+			return;
+		}
+
 		CharacterSetFacialExpression(C, clickedObj.Group, clickedObj.Expression);
 		C.ActiveExpression.setWithoutReload(clickedObj.Group, clickedObj.Expression ?? undefined);
 
@@ -4756,6 +4761,14 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 		const controllerImg = document.querySelector(`#${this.ids.menuLeft} [role="menuitemradio"][name="${clickedObj.Group}"] .button-image`);
 		if (thisImg && controllerImg) {
 			controllerImg.setAttribute("src", thisImg.getAttribute("src"));
+		}
+
+		// Reset the blinking button if the eyes aren't open
+		const blinkButton = document.querySelector(`#${this.ids.menubar} [name="blink"]`);
+		if (blinkButton && blinkButton.getAttribute("aria-valuenow") !== "1") {
+			blinkButton.setAttribute("aria-valuenow", "1");
+			blinkButton.setAttribute("aria-valuetext", "None");
+			blinkButton.querySelector(".button-image")?.setAttribute("src", "Icons/WinkNone.png");
 		}
 	}
 }
@@ -4927,6 +4940,7 @@ class _DialogPoseMenu extends _DialogSelfMenu {
 							clickDisabled: this.eventListeners._ClickDisabledButton,
 							role: "radio",
 							image: `Icons/Poses/${pose.Name}.png`,
+							allowRequiredClick: true,
 						},
 						{ button: {
 							classList: ["dialog-menubar-button"],
@@ -4998,6 +5012,10 @@ class _DialogPoseMenu extends _DialogSelfMenu {
 
 	/** @type {DialogMenu<string, Pose>["_ClickButton"]} */
 	_ClickButton(button, C, pose) {
+		if (C.PoseMapping[pose.Category] === pose.Name) {
+			return;
+		}
+
 		PoseSetActive(C, pose.Name, undefined, false);
 		if (CurrentScreen === "ChatRoom") {
 			ServerSend("ChatRoomCharacterPoseUpdate", { Pose: C.ActivePose });
