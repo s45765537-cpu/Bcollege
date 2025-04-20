@@ -179,6 +179,11 @@ declare namespace ElementButton {
 		disabled?: boolean;
 		/** A click event listener to-be fired when a button is disabled via `aria-disabled: "true"`. */
 		clickDisabled?: (this: HTMLButtonElement, event: MouseEvent) => any;
+		/**
+		 * Enabled buttons with a `checkbox` or `radio` role can normally not be clicked if the `aria-required: "true"` is set.
+		 * Setting this option to `true` disables that behavior, clicking an already enabled button thus firing its click events once again rather than aborting.
+		 */
+		allowRequiredClick?: boolean;
 	}
 }
 
