@@ -1261,6 +1261,23 @@ function ChatRoomHideElements() {
 }
 
 /**
+ * Construct and return a metadata-containing element with the time and member number
+ * @param {string} time
+ * @param {null | number | string} [sender]
+ * @returns {HTMLDivElement}
+ */
+function ChatRoomGetMetadataElem(time, sender=null) {
+	return ElementCreate({
+		tag: "div",
+		classList: ["chat-room-metadata"],
+		children: [
+			{ tag: "i", children: [time], classList: ["chat-room-time"] },
+			{ tag: "span", children: [sender == null ? null : sender.toString()], classList: ["chat-room-sender"] },
+		],
+	});
+}
+
+/**
  * Append an element to the chatroom's chat log, scroll it down and restore focus
  * @param {HTMLElement} div
  */
@@ -1268,6 +1285,13 @@ function ChatRoomAppendChat(div) {
 	const chatLog = document.getElementById("TextAreaChatLog");
 	if (!chatLog) {
 		return;
+	}
+
+	if (
+		!Array.from(div.children).some(i => i.classList.contains("chat-room-metadata"))
+		&& div.classList.contains("ChatMessage")
+	) {
+		div.prepend(ChatRoomGetMetadataElem(div.dataset.time, div.dataset.sender));
 	}
 
 	// Is the message from the player and was it explicitly sent? (e.g. a non-automatic message)
@@ -4419,7 +4443,7 @@ function ChatRoomMessageReplyStop() {
 function ChatRoomMessageSetReply(msgId) {
 	const chatInput = /** @type {null | HTMLTextAreaElement} */(document.getElementById("InputChat"));
 	const replyMessage = ChatRoomMessageGetById(msgId);
-	if (!chatInput || !replyMessage || chatInput.getAttribute("reply-id") === msgId) {
+	if (!chatInput || !replyMessage) {
 		return;
 	}
 
@@ -4443,30 +4467,35 @@ function ChatRoomMessageSetReply(msgId) {
  * Creates the HTML element for a reply message
  * @param {string} msgId
  * @param {string} displayMessage
- * @returns {HTMLSpanElement | string}
+ * @param {{ time: string, sender?: number }} data
+ * @returns {(HTMLSpanElement | string)[]}
  */
-function ChatRoomMessageCreateReplyMessageElement(msgId, displayMessage) {
+function ChatRoomMessageCreateReplyMessageElement(msgId, displayMessage, data) {
 	if (!msgId) {
-		return displayMessage;
+		return [displayMessage];
 	}
-	return ElementCreate({
-		tag: "span",
-		classList: ["chat-room-message-content"],
-		attributes:  { "tabindex": -1, "msgid": msgId },
-		children: [displayMessage],
-		eventListeners: {
-			click(e) {
-				if (Player.ChatSettings.DisableReplies) return;
-				const selection = window.getSelection();
-				if (this.contains(selection?.anchorNode) && selection.type === "Range") {
-					e.stopImmediatePropagation();
-					return;
-				}
-				ChatRoomMessageSetReply(msgId);
-				e.stopPropagation();
-			},
-		}
-	});
+	return [
+		ElementCreate({
+			tag: "span",
+			classList: ["chat-room-message-content"],
+			attributes:  { "msgid": msgId },
+			children: [displayMessage],
+		}),
+		ElementCreate({
+			tag: "div",
+			classList: ["chat-room-message-popup"],
+			attributes: { role: "group" },
+			children: [
+				ChatRoomGetMetadataElem(data.time, data.sender),
+				ElementButton.Create(
+					null,
+					() => ChatRoomMessageSetReply(msgId),
+					{ noStyling: true, tooltip: "Reply" },
+					{ button: { attributes: { name: "reply" } } },
+				),
+			],
+		}),
+	];
 }
 
 /**
@@ -4489,17 +4518,22 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 	/** @type {undefined | string} */
 	let innerHTML = undefined;
 	let reply = undefined;
+	const time = ChatRoomCurrentTime();
 	if (metadata.ReplyId) {
 		const replyMessage = ChatRoomMessageGetById(metadata.ReplyId);
 		const type = ChatRoomMessageGetType(metadata.ReplyId);
 		const isWhisper = type === "Whisper";
 		reply = ElementButton.Create(
-			null, () => {if (replyMessage) replyMessage.scrollIntoView();}, { noStyling: true },
+			null,
+			(ev) => {
+				replyMessage?.scrollIntoView();
+				replyMessage?.dispatchEvent(new PointerEvent("click", ev));
+			},
+			{ noStyling: true },
 			{
 				button: {
 					classList: ["chat-room-message-reply", "truncated-text"],
 					attributes: { "tabindex": -1 },
-					style: { "--label-color": SenderCharacter.LabelColor },
 					children: replyMessage ? [ChatRoomMessageGetReplyName(metadata.ReplyId, isWhisper), ": ", ChatRoomMessageGetReplyContent(metadata.ReplyId)] : [TextGet("ChatRoomNoMessageFound")],
 				},
 			},
@@ -4521,7 +4555,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 					},
 				),
 				": ",
-				ChatRoomMessageCreateReplyMessageElement(metadata.MsgId,displayMessage)
+				...ChatRoomMessageCreateReplyMessageElement(metadata.MsgId, displayMessage, { time, sender: data.Sender })
 			);
 			break;
 		case "Whisper": {
@@ -4546,7 +4580,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 					},
 				),
 				": ",
-				ChatRoomMessageCreateReplyMessageElement(metadata.MsgId,displayMessage)
+				...ChatRoomMessageCreateReplyMessageElement(metadata.MsgId,displayMessage, { time, sender: data.Sender })
 			);
 
 			if (!whisperTarget.IsPlayer()) {
@@ -4560,7 +4594,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 
 		case "Action":
 		case "Activity":
-			divChildren.push(reply,ChatRoomMessageCreateReplyMessageElement(metadata.MsgId,`(${displayMessage})`));
+			divChildren.push(reply, ...ChatRoomMessageCreateReplyMessageElement(metadata.MsgId,`(${displayMessage})`, { time, sender: data.Sender }));
 			break;
 
 		case "ServerMessage":
@@ -4573,7 +4607,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 			break;
 
 		case "Emote":
-			divChildren.push(reply,ChatRoomMessageCreateReplyMessageElement(metadata.MsgId,`*${displayMessage}*`));
+			divChildren.push(reply, ...ChatRoomMessageCreateReplyMessageElement(metadata.MsgId,`*${displayMessage}*`, { time, sender: data.Sender }));
 			break;
 
 		default:
@@ -4582,7 +4616,10 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 	}
 
 	if (metadata.OriginalMsg) {
-		divChildren.push(ElementCreate({ tag: "br"}), `[${metadata.OriginalMsg}]`);
+		divChildren.push(
+			ElementCreate({ tag: "br"}),
+			ElementCreate({ tag: "span", children: [`[${metadata.OriginalMsg}]`], classList: ["chat-room-message-original"] }),
+		);
 	}
 
 	// Checks if the message is a notification about the user entering or leaving the room
@@ -4597,7 +4634,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 		tag: "div",
 		classList,
 		dataAttributes: {
-			time: ChatRoomCurrentTime(),
+			time,
 			sender: data.Sender,
 			target: data.Target,
 		},
@@ -4605,6 +4642,34 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 		children: divChildren,
 		style: {
 			"--label-color": ["Emote", "Action", "Activity"].includes(data.Type) ? SenderCharacter.LabelColor : undefined,
+		},
+		eventListeners: {
+			click(ev) {
+				if (Player.ChatSettings.DisableReplies) {
+					return;
+				}
+
+				const selection = window.getSelection();
+				if (this.contains(selection?.anchorNode) && selection.type === "Range") {
+					return;
+				}
+
+				if (
+					ev.target === this
+					|| (
+						ev.target instanceof Element
+						&& (ev.target.classList.contains("chat-room-message-content") || ev.target.classList.contains("chat-room-message-original"))
+					)
+				) {
+					this.setAttribute("tabindex", 0);
+					this.focus();
+				}
+			},
+			blur() {
+				if (!Player.ChatSettings.DisableReplies) {
+					this.removeAttribute("tabindex");
+				}
+			},
 		},
 	});
 
