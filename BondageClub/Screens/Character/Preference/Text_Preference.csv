@@ -103,6 +103,7 @@ PreserveWhitespace,Preserve whitespace in messages
 ShowChatRoomHelp,Show help on first enter
 ShowBeepChat,Show beep notifications in chat
 PreserveChat,Preserve chat logs between rooms
+DisableReplies,Disable reply feature
 ChatSettingsPage0,Page 1/2
 ChatSettingsPage1,Page 2/2
 AudioVolume,Audio volume

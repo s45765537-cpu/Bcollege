@@ -4420,7 +4420,7 @@ function ChatRoomMessageReplyStop() {
 function ChatRoomMessageSetReply(msgId) {
 	const chatInput = /** @type {null | HTMLTextAreaElement} */(document.getElementById("InputChat"));
 	const replyMessage = ChatRoomMessageGetById(msgId);
-	if (!chatInput || !replyMessage) {
+	if (!chatInput || !replyMessage || chatInput.getAttribute("reply-id") === msgId) {
 		return;
 	}
 
@@ -4456,7 +4456,13 @@ function ChatRoomMessageCreateReplyMessageElement(msgId, displayMessage) {
 		attributes:  { "tabindex": -1, "msgid": msgId },
 		children: [displayMessage],
 		eventListeners: {
-			click: (e) => {
+			click(e) {
+				if (Player.ChatSettings.DisableReplies) return;
+				const selection = window.getSelection();
+				if (this.contains(selection?.anchorNode) && selection.type === "Range") {
+					e.stopImmediatePropagation();
+					return;
+				}
 				ChatRoomMessageSetReply(msgId);
 				e.stopPropagation();
 			},
