@@ -956,7 +956,9 @@ var ElementButton = {
 		// Ensure that `radio` buttons to switch the tabindex of the active radio to 0, while `menuitemradio` buttons do not
 		if (this.getAttribute("aria-checked") === "true") {
 			if (parent.getAttribute("aria-required") === "true") {
-				ev.stopImmediatePropagation();
+				if (!this.hasAttribute("data-allow-required-clicks")) {
+					ev.stopImmediatePropagation();
+				}
 			} else {
 				this.setAttribute("aria-checked", "false");
 				if (isRadio) {
@@ -1350,6 +1352,10 @@ var ElementButton = {
 				label,
 				...(buttonOptions.children ?? []),
 			],
+			dataAttributes: {
+				"allowRequiredClicks": options.allowRequiredClick,
+				...(buttonOptions.dataAttributes ?? {}),
+			},
 		});
 
 		const role = buttonOptions.attributes?.role ?? options.role;
