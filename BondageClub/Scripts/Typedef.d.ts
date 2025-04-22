@@ -4423,6 +4423,7 @@ interface ClubCard {
 	GlowTimer?: number;
 	GlowColor?: string;
 	EffectKey?: number;
+	EffectType?: string;
 	//### Animations
 	AnimationState?: string;
 	DelayedAnimationState?: string;

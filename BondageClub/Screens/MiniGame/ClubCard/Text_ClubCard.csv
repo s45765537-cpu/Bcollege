@@ -148,9 +148,9 @@ Text Junkie,"Gains +2 money per turn if Pusher present. Remove from your club at
 Title Zealous Cop,Zealous Cop
 Text Zealous Cop,"<F>Rules are rules, and I'll make sure they will be followed."
 Title Gangster,Gangster
-Text Gangster,"+2 Money per Criminal present (Max +5). Remove from your club at the end of turn if Police is present."
+Text Gangster,"+1 Money per other Criminal present (Max +5). Remove from your club at the end of turn if Police is present."
 Title Paroled Thief,Paroled Thief
-Text Paroled Thief,Opponent steals 1 Money at end of your turn. Leave the club at end of turn if a Police is present.
+Text Paroled Thief,"Unless a police is present in your club, your opponent steals 1 money at the end of each of your turns."
 Title Police Cadet,Police Cadet
 Text Police Cadet,<F>Hey!  Give me back my keys!
 Title Stepmother,Stepmother
@@ -158,15 +158,15 @@ Text Stepmother,"Enters: Gain 2 Fame for each member present with - Fame. When a
 Title Sheriff,Sheriff
 Text Sheriff,Draw 2 cards when she enters your club.
 Title Maid Lover,Maid Lover
-Text Maid Lover,+1 Money per turn for each Maid present. (max 3)
+Text Maid Lover,"Gain +1 Money per maid (Max 3). Gain +2 Fame and -2 Money if you have a tier 4 or higher maid in your club."
 Title Diaper Lover,Diaper Lover
-Text Diaper Lover,+1 Money per turn for each ABDL Baby present.
+Text Diaper Lover,"Gain +1 money per ABDL baby in your club (Max 3). When an ABDL Baby enters while there are 3+ ABDL Babies already present, draw a card."
 Title Masochist,Masochist
 Text Masochist,+1 Fame per turn and +1 Money per turn if at least one Dominant is present.
 Title Feet Worshiper,Feet Worshiper
 Text Feet Worshiper,+2 Money per turn if at least one Porn Actress or ABDL Mommy is present.
 Title Fin-Dom Simp,Fin-Dom Simp
-Text Fin-Dom Simp,"+1 Money per turn for each Dominant present, maximum of +3."
+Text Fin-Dom Simp,"Gain +Money equal to the highest tier Dominant present. Enters: Gain 3 money."
 Title Fin-Dom Whale,Fin-Dom Whale
 Text Fin-Dom Whale,+2 Money per turn for each Mistress present.  Draw a card when she enters your club.
 Title Porn Addict,Porn Addict
@@ -224,23 +224,24 @@ Text Dominatrix,<F>Bring your credit card slave.
 Title Mistress Sophie,Mistress Sophie
 Text Mistress Sophie,<F>Votre douleur est mon plaisir.
 Title Scammer,Scammer
-Text Scammer,<F>This new crypto will change everything.
+Text Scammer,Your Timed events last 1 fewer turn.
 Title Pyramid Schemer,Pyramid Schemer
-Text Pyramid Schemer,"<F>You recruit five friends, who recruit five friends, who..."
+Text Pyramid Schemer,"When a member enters your club, lose 1 Money per two lower tier members present."
 Title Ponzi Schemer,Ponzi Schemer
 Text Ponzi Schemer,"<F>Trust me, this police ankle bracelet is only a kink of mine."
 Title Party Pooper,Party Pooper
 Text Party Pooper,<F>Why is everyone so boring nowadays?
 Title College Dropout,College Dropout
-Text College Dropout,-1 Fame per turn for each College Student present.
+Text College Dropout,Gets -3 fame if you have more fame than the opponent.
 Title Union Leader,Union Leader
-Text Union Leader,-1 Money per turn for each Maid and Staff present.
+Text Union Leader,"Gets +1 Fame for each non-Liability present. Gets -1 Fame for each non-Liability member in your opponent's club. (Max +/- 5)"
 Title No-Fap Advocate,No-Fap Advocate
-Text No-Fap Advocate,-2 Fame per turn for each Porn Actress present.
+Text No-Fap Advocate,"When you play a non-timed event, shuffle a random card from your hand into your deck to draw a card."
 Title Pandora Infiltrator,Pandora Infiltrator
-Text Pandora Infiltrator,"<F>Pssssst, you want to try a real BDSM club?"
+Text Pandora Infiltrator,"Randomly gets -1 Fame or Money when a member that shares a type enters (Max -3/-2). Enters: Gets the type(s) of a selected member."
+Prerequisite Pandora Infiltrator,"Select a member to copy their type(s)"
 Title Uncontrollable Sub,Uncontrollable Sub
-Text Uncontrollable Sub,-1 Fame per turn for each Dominant present.  -1 Fame per turn for each Mistress present.
+Text Uncontrollable Sub,"When you upgrade your club, set her Fame to -X. X equals the highest fame among members present."
 Title Baby Girl,Baby Girl
 Text Baby Girl,+1 Money per turn if at least one ABDL Mommy is present.
 Title Caring Mother,Caring Mother
@@ -375,8 +376,7 @@ Text Nanny,"When an ABDL Baby enters your club, gain fame equal to your club lev
 Title Dommy Mommy,Dommy Mommy
 Text Dommy Mommy,+1 Fame per turn for each ABDL Baby present. Gain 1 Fame for each member present when she enters your club.
 Title Contract Caretaker,Contract Caretaker
-Text Contract Caretaker,"When a ABDL Baby enters your club, if opponent has more fame they don't gain fame at the end of their next turn"
-Effect Contract Caretaker,No Fame is gained because of OPPONENTPLAYER Contract Caretaker.
+Text Contract Caretaker,"When an ABDL Baby enters your club, your opponent loses 4 Fame."
 Title Teacher's Aide,Teacher's Aide
 Text Teacher's Aide,<F>Aiding her teacher day and night
 Title Homeroom,Homeroom
@@ -413,7 +413,7 @@ Title Quack Doctor,Quack Doctor
 Text Quack Doctor,"Start of your turn, for each Asylum Patient present, players lose 1 fame. (Max 4)"
 Effect Quack Doctor,"SOURCEPLAYER and OPPONENTPLAYER lost AMOUNT fame."
 Title Sophie,Sophie
-Text Sophie,"Before she enters your club, select a member to double their Fame and Money."
+Text Sophie,"Enters: Select a non-Liability member from either club to double their fame and money."
 Effect Sophie,CARDNAME got their fame and money boosted by the lovely Sophie~
 Prerequisite Sophie,Select a member to enhance before Sophie enters.
 Title Hypnotherapist,Hypnotherapist
@@ -494,7 +494,7 @@ Text Puppy,"When she enters the club, lose 8 money. Gains +1 money per 2 buildin
 Title Protective Owner,Protective Owner
 Text Protective Owner,"Pets treat your building level as 1 higher. If you would discard a pet from your hand, shuffle it into your deck instead."
 Title Feline Fatale,Feline Fatale
-Text Feline Fatale,"Enters: Lose 13 money. Remove a member from your opponent's club that has a level equal to an Owner present in your club."
+Text Feline Fatale,"Enters: Lose 13 money. Remove a member from your opponent's club that has a level equal or lower to an Owner present in your club."
 Prerequisite Feline Fatale,Select a member from your opponent club to remove.
 Title Wolf Girl,Wolf Girl
 Text Wolf Girl,"Enters: Lose 7 Money & opponent randomly discards a card. +1 Fame per 2 of your building levels. +1 Money if an owner is present."
@@ -517,18 +517,18 @@ Text Rich Owner,"Pets treat your building level as 1 higher. +1 Fame if a Maid i
 Title Tour Guide,Tour Guide
 Text Tour Guide,"When she enters your club, draw a card. Gains +3 money if tourist is present, gains +3 fame if diplomat is present."
 Title Moon,"Moon"
-Text Moon,"Costs 16 Money. Enters: Moon's magic creates an illusory copy of any chosen member (except herself) from either player's club."
+Text Moon,"Enters: Lose 16 money, select a member on board (except moon) to add a copy to your hand."
 Prerequisite Moon,Choose a member to create an illusory copy of that card in your hand. 
 Title Sticky Fingers,Sticky Fingers
 Text Sticky Fingers,"Enters: Steal 2 Fame. When you steal with another effect, steal 1 Fame and Money."
 Title Earner,Earner
-Text Earner,"Gain +1 Money for each Criminal in your streets. (Max +3)"
+Text Earner,"Gain +1 Money for each member in your streets. (Max +3)"
 Title Naughty Baby,Naughty Baby
 Text Naughty Baby,"Enters: Steal 4 money if no Police are present. Then steal 4 fame if no Police are present in opponent's club."
 Title Consigliere,Consigliere
 Text Consigliere,"At the end of your turn, spend 8 money to draw a card and gain 3 Fame."
 Title Con Artist,Con Artist
-Text Con Artist,"When you take the draw action, steal 1 Fame. If no Police are in your opponent's club, steal 2 Fame instead."
+Text Con Artist,"When you take the draw action, if no Police are in your opponent's club, steal 1 Fame."
 Title Inspector,Inspector 
 Text Inspector,"Unless your club level is higher than your opponent's, increase the cost for players to upgrade by 10." 
 Title Troublemaker,Troublemaker
@@ -582,3 +582,8 @@ Title Fetish Flick,Fetish Flick
 Text Fetish Flick,"Return 2 random Porn actresses from your club to your hand, then take 4 actions."
 Title Ball Buster,Ball Buster
 Text Ball Buster,"Return two random porn actresses from your club to your hand. Your opponent cannot play events or liabilities for 3 turns."
+GroupTimedEvent,Timed Event
+GroupAuction,Auction
+Title Kira,Kira
+Text Kira,Can't leave. Gets +1 Fame per 2 members present (Max 8). Joins: Set the Fame & Money of a member in your club and those adjacent to 0/-2.
+Prerequisite Kira,"Select a member"
