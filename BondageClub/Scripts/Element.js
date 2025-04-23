@@ -877,20 +877,7 @@ var ElementButton = {
 
 	/**
 	 * @private
-	 * @type {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => void}
-	 */
-	_Click: function _Click(ev) {
-		if (ev.target instanceof Element && ev.target.classList.contains("button-tooltip")) {
-			ev.stopImmediatePropagation();
-		} else if (this.getAttribute("aria-disabled") === "true") {
-			this.dispatchEvent(new MouseEvent("bcClickDisabled", ev));
-			ev.stopImmediatePropagation();
-		}
-	},
-
-	/**
-	 * @private
-	 * @type {(this: HTMLButtonElement, ev: Event) => void}
+	 * @type {(this: HTMLButtonElement, ev: MouseEvent) => void}
 	 */
 	_MouseDown: function _MouseDown(ev) {
 		// Prevent tooltips from handling any click-related actions intended for the button
@@ -902,7 +889,7 @@ var ElementButton = {
 
 	/**
 	 * @private
-	 * @type {(this: HTMLButtonElement, ev: Event) => void}
+	 * @type {(this: HTMLButtonElement, ev: MouseEvent) => void}
 	 */
 	_MouseUp: function _MouseUp(ev) {
 		if (ev.target instanceof Element && ev.target.classList.contains("button-tooltip")) {
@@ -912,6 +899,89 @@ var ElementButton = {
 
 		// Fix buttons not automatically losing focus after a click event
 		this.blur();
+	},
+
+	_GetClickTouchListeners: function _GetClickTouchListeners() {
+		/** @type {null | number} */
+		let holdAndClickTimeoutID = null;
+		/** Whether a touch-based hold-and-click action was detected */
+		let holdAndClick = false;
+
+		/**
+		 * @satisfies {TimerHandler}
+		 * @type {(elem: HTMLButtonElement, ev: TouchEvent) => void}
+		 */
+		function touchstartTimeout(elem, ev) {
+			holdAndClickTimeoutID = null;
+			holdAndClick = true;
+			elem.dispatchEvent(new PointerEvent("bcTouchHold", ev));
+		}
+
+		/** @type {(this: HTMLButtonElement, ev: TouchEvent) => void} */
+		function touchstart(ev) {
+			if (ev.target instanceof Element && ev.target.classList.contains("button-tooltip")) {
+				ev.stopImmediatePropagation();
+				return;
+			}
+
+			holdAndClick = false;
+			if (!this.disabled) {
+				holdAndClickTimeoutID ??= setTimeout(touchstartTimeout, 300, this, ev);
+			}
+		}
+
+		/** @type {(this: HTMLButtonElement, ev: TouchEvent) => void} */
+		function touchmove(ev) {
+			if (holdAndClickTimeoutID != null) {
+				clearTimeout(holdAndClickTimeoutID);
+				holdAndClickTimeoutID = null;
+			}
+		}
+
+		/** @type {(this: HTMLButtonElement, ev: TouchEvent) => void} */
+		function touchend(ev) {
+			if (ev.target instanceof Element && ev.target.classList.contains("button-tooltip")) {
+				ev.stopImmediatePropagation();
+				return;
+			}
+
+			if (!holdAndClick) {
+				this.blur();
+			} else {
+				ev.preventDefault();
+			}
+		}
+
+		/** @type {(this: HTMLButtonElement, ev: MouseEvent | PointerEvent) => void} */
+		function click(ev) {
+			if (ev.target instanceof Element && ev.target.classList.contains("button-tooltip")) {
+				ev.stopImmediatePropagation();
+			} else if (holdAndClick) {
+				ev.stopImmediatePropagation();
+				holdAndClick = false;
+			} else if (this.getAttribute("aria-disabled") === "true") {
+				this.dispatchEvent(new PointerEvent("bcClickDisabled", ev));
+				ev.stopImmediatePropagation();
+			}
+		}
+
+		/** @type {(this: HTMLButtonElement, ev: FocusEvent) => void} */
+		function blur(ev) {
+			this.removeAttribute("data-show-tooltip");
+			if (holdAndClickTimeoutID != null) {
+				clearTimeout(holdAndClickTimeoutID);
+				holdAndClickTimeoutID = null;
+			}
+			holdAndClick = false;
+		}
+
+		/** @type {(this: HTMLButtonElement, ev: MouseEvent | PointerEvent) => void} */
+		function bcTouchHold(ev) {
+			this.focus({ preventScroll: true });
+			this.toggleAttribute("data-show-tooltip", true);
+		}
+
+		return { click, touchend, touchmove, touchstart, blur, bcTouchHold, touchcancel: touchend };
 	},
 
 	/**
@@ -1335,14 +1405,12 @@ var ElementButton = {
 			},
 			classList: ["blank-button", "button", options.noStyling ? null : "button-styling", "HideOnPopup", ...(buttonOptions.classList ?? [])],
 			eventListeners: {
-				click: this._Click,
 				keydown: this._KeyDown,
 				keyup: this._KeyUp,
 				mouseup: this._MouseUp,
 				mousedown: this._MouseDown,
-				touchend: this._MouseUp,
-				touchcancel: this._MouseUp,
 				bcClickDisabled: options.clickDisabled,
+				...this._GetClickTouchListeners(),
 				...(buttonOptions.eventListeners ?? {}),
 			},
 			children: [

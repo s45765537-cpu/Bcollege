@@ -130,6 +130,8 @@ type HTMLOptions<T extends keyof HTMLElementTagNameMap> = {
 interface HTMLElementEventMap {
 	/** Custom event fired by {@link ElementButton.Create} buttons whenever a click-event encounters `aria-disabled: "true"`. */
 	bcClickDisabled: MouseEvent;
+	/** Custom event fired by {@link ElementButton.Create} buttons whenever a touch is hold for 300 ms. */
+	bcTouchHold: MouseEvent;
 }
 
 declare namespace ElementButton {
