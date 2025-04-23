@@ -4359,6 +4359,7 @@ class _DialogSelfMenu extends DialogMenu {
 			},
 		};
 
+		/** @satisfies {Record<string, DialogMenu.MenuButtonData<{ C: PlayerCharacter }>>} */
 		this.menubarEventListeners = {
 			/** @type {DialogMenu.MenuButtonData<{ C: PlayerCharacter }>} */
 			next: {
@@ -4465,6 +4466,7 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 		super(mode);
 		const dialogMenu = this;
 
+		/** @satisfies {Record<string, (this: HTMLElement, ev: Event) => any>} */
 		this.eventListeners = {
 			...this.eventListeners,
 
@@ -4484,7 +4486,7 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 			},
 		};
 
-		/** @type {Record<string, DialogMenu.MenuButtonData<{ C: PlayerCharacter }>>} */
+		/** @satisfies {Record<string, DialogMenu.MenuButtonData<{ C: PlayerCharacter }>>} */
 		this.menubarEventListeners = {
 			...this.menubarEventListeners,
 
