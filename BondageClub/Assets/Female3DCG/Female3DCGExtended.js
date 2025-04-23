@@ -1817,6 +1817,29 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // ComboBelt
+		HoodedCloak: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Hood",
+					Key: "h",
+					Options: [
+						{
+							// h0 - Off
+							Property: { Effect: [] },
+						},
+						{
+							// h1 - Over head
+							Property: { Effect: [] },
+						},
+						{
+							// h2 - Over eyes
+							Property: { Effect: [] },
+						}
+					],
+				}
+			],
+		},
 	}, // ClothAccessory
 	ClothLower: {
 		PantBoots: {
