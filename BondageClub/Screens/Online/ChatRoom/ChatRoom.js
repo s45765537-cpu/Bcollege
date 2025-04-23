@@ -991,7 +991,6 @@ var ChatRoomSep = {
 	 * @returns {HTMLDivElement} - The created `<div>` element
 	 */
 	Create: function Create(appendChat=true) {
-		const now = Date.now();
 		const elem = ElementCreate({
 			tag: "div",
 			classList: ["ChatMessage", "ChatMessageAction", "chat-room-sep"],
@@ -1003,7 +1002,7 @@ var ChatRoomSep = {
 					classList: ["chat-room-sep-div"],
 					children: [
 						ElementButton.Create(
-							`chat-room-sep-collapse-${now}`, this._ClickCollapse, { noStyling: true },
+							null, this._ClickCollapse, { noStyling: true },
 							{
 								button: {
 									children: ["˅"],
@@ -1013,7 +1012,7 @@ var ChatRoomSep = {
 							},
 						),
 						ElementButton.Create(
-							`chat-room-sep-header-${now}`, this._ClickScrollUp, { noStyling: true },
+							null, this._ClickScrollUp, { noStyling: true },
 							{ button: { classList: ["chat-room-sep-header"], eventListeners: { copy: ChatRoomSep._CopyHeader } } },
 						),
 					],
