@@ -8685,6 +8685,51 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
+				Name: "UntrainersThin",
+				Random: false,
+				InventoryID: 1241,
+				Top: 325,
+				Left: 127,
+				Value: 28,
+				BuyGroup: "UntrainersThins",
+				Priority: 20,
+				Fetish: ["ABDL"],
+				EditOpacity: true,
+				Category: ["ABDL"],
+				ParentGroup: "BodyLower",
+				Hide: ["Pussy", "ItemVulva"],
+				Attribute: ["GenitaliaCover"],
+				DefaultColor: ["#d6efff", "#7B7B7B", "#8197A7", "#4880B9", "#B5A95B", "#AAA44E"],
+				HideItemExclude: ["ItemVulvaWandBelt", "ItemVulvaHempRopeBelt", "ItemVulvaFullLatexSuitWand","ItemVulvaWiredEgg"],
+				Layer: [
+					{
+					  Name: "Back",
+					  Priority: 3,
+					},
+					{
+					  Name: "Base",
+					},
+					{
+					  Name: "Middle",
+					},
+					{
+					  Name: "Tabs",
+					},
+					{
+					  Opacity: 0,
+					  MinOpacity: 0,
+					  MaxOpacity: 1,
+					  Name: "Wet",
+					},
+					{
+					  Opacity: 1,
+					  Name: "Indicator",
+					  MinOpacity: 0,
+					  MaxOpacity: 1,
+					},
+				  ],
+			},
+			{
 				Name: "Panties16",
 				InventoryID: 312,
 				Gender: "F",
@@ -26948,6 +26993,20 @@ var AssetFemale3DCG = [
 				DrawLocks: false,
 				Effect: [E.Chaste],
 				Block: ["ItemVulva", "ItemButt", "ItemVulvaPiercings"],
+			},
+			{
+				Name: "UntrainersThin",
+				DynamicGroupName: "Panties",
+				CopyConfig: {
+					AssetName: "UntrainersThin",
+					GroupName: "Panties",
+					BuyGroup: true
+				},
+				Difficulty: 50,
+				Time: 5,
+				RemoveTime: 5,
+				AllowLock: true,
+				DrawLocks: false,
 			},
 			{
 				Name: "HybridChastityBelt",
