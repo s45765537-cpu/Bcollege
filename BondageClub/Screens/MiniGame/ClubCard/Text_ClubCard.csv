@@ -238,7 +238,7 @@ Text Union Leader,"Gets +1 Fame for each non-Liability present. Gets -1 Fame for
 Title No-Fap Advocate,No-Fap Advocate
 Text No-Fap Advocate,"When you play a non-timed event, shuffle a random card from your hand into your deck to draw a card."
 Title Pandora Infiltrator,Pandora Infiltrator
-Text Pandora Infiltrator,"Randomly gets -1 Fame or Money when a member that shares a type enters (Max -3/-2). Enters: Gets the type(s) of a selected member."
+Text Pandora Infiltrator,"Randomly gets -1 Fame/Money when a non-liability member that shares a type enters (Max -3/-2). Enters: Gets the type(s) of a selected member."
 Prerequisite Pandora Infiltrator,"Select a member to copy their type(s)"
 Title Uncontrollable Sub,Uncontrollable Sub
 Text Uncontrollable Sub,"When you upgrade your club, set her Fame to -X. X equals the highest fame among members present."
