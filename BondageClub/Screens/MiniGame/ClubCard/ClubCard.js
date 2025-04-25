@@ -1345,7 +1345,7 @@ var ClubCardList = [
 		RequiredLevel: 2,
 		FamePerTurn: -1,
 		onPlayedCard: function(CCPlayer, cardPlayed) {
-			if(cardPlayed.Type === "Event" && !ClubCardCardHasGroup(cardPlayed, "Timed") && CCPlayer.Hand.length > 0) {
+			if(cardPlayed.Type === "Event" && !ClubCardCardHasGroup(cardPlayed, "TimedEvent") && CCPlayer.Hand.length > 0) {
 				const cardToReturn = Math.floor(Math.random() * CCPlayer.Hand.length);
 				CCPlayer.Deck.push(CCPlayer.Hand[cardToReturn]);
 				CCPlayer.Hand.splice(cardToReturn, 1);
@@ -1811,11 +1811,11 @@ var ClubCardList = [
 		Prerequisite: "SelectOwnMember",
 		OnPlay: function(CCPlayer) {
 			const indexToChange = ClubCardSelection.ArrayIndex;
-			CCPlayer.Board[indexToChange].FamePerTurn = undefined;
+			CCPlayer.Board[indexToChange].FamePerTurn = 0;
 			CCPlayer.Board[indexToChange].MoneyPerTurn = -2;
-			CCPlayer.Board[indexToChange - 1].FamePerTurn = undefined;
+			CCPlayer.Board[indexToChange - 1].FamePerTurn = 0;
 			CCPlayer.Board[indexToChange - 1].MoneyPerTurn = -2;
-			CCPlayer.Board[indexToChange + 1].FamePerTurn = undefined;
+			CCPlayer.Board[indexToChange + 1].FamePerTurn = 0;
 			CCPlayer.Board[indexToChange + 1].MoneyPerTurn = -2;
 		},
 		BeforeTurnEnd: function(CCPlayer) {
