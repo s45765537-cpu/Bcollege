@@ -2362,6 +2362,12 @@ ItemPelvisWaistLegHarnessVibTop,Vibrator head
 ItemPelvisWaistLegHarnessVibBelow,Vibrator body
 ItemPelvisLatexDiaperBase,Latex
 ItemPelvisLatexDiaperShine,Shine
+ItemPelvisUntrainersThinBase,Base
+ItemPelvisUntrainersThinBack,Back
+ItemPelvisUntrainersThinMiddle,Middle
+ItemPelvisUntrainersThinTabs,Tabs
+ItemPelvisUntrainersThinWet,Wet
+ItemPelvisUntrainersThinIndicator,Indicator
 ItemTorso2ClassicLatexCorsetBelt,Belt
 ItemTorso2ClassicLatexCorsetBuckles,Buckles
 ItemTorso2ClassicLatexCorsetCorset,Corset
@@ -2630,6 +2636,12 @@ PantiesWaistLegHarnessBeltsC,Link belts
 PantiesWaistLegHarnessMetalC,Link metal parts
 PantiesLatexDiaperBase,Latex
 PantiesLatexDiaperShine,Shine
+PantiesUntrainersThinBase,Base
+PantiesUntrainersThinBack,Back
+PantiesUntrainersThinMiddle,Middle
+PantiesUntrainersThinTabs,Tabs
+PantiesUntrainersThinWet,Wet
+PantiesUntrainersThinIndicator,Indicator
 AnkletRightLegFurAnkle,Fur Ankle
 AnkletRightLegFurKnee,Fur Knee
 HandAccessoryRightClawsColor,Color
