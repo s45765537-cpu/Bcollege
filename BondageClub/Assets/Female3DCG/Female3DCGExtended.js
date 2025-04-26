@@ -13336,7 +13336,7 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "Behind",
-					Property: { OverridePriority: 51 },
+					Property: { OverridePriority: 10 },
 				},
 			],
 			DialogPrefix: {
