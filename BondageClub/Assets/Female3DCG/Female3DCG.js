@@ -22169,6 +22169,8 @@ var AssetFemale3DCG = [
 		AllowCustomize: false,
 		AllowExpression: [
 			"Afk",
+			"Brb",
+			"SOS",
 			"Whisper",
 			"Sleep",
 			"Hearts",
@@ -22187,6 +22189,8 @@ var AssetFemale3DCG = [
 			"LoveLock",
 			"Wardrobe",
 			"Gaming",
+			"Work",
+			"Shopping",
 			"Coffee",
 			"Fork",
 			"Music",
