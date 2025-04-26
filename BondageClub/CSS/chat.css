@@ -111,19 +111,25 @@
   justify-self: center;
 }
 
-#chat-room-reply-indicator-text {
-  text-overflow: ellipsis;
-  text-wrap: nowrap;
-  overflow: hidden;
-  flex: 1;
-  user-select: none;
-  border-right: black solid max(3px, min(0.4vh, 0.2vw));
-  padding-left: 4px;
+#chat-room-reply-indicator {
+  display: grid;
+  gap: max(3px, min(0.4vh, 0.2vw));
+  grid-template-columns: auto min-content;
 }
 
-#chat-room-reply-indicator {
+#chat-room-reply-indicator > * {
   background-color: white;
-  display: flex;
+}
+
+#chat-room-reply-indicator-text {
+  overflow: hidden;
+  user-select: none;
+}
+
+#chat-room-reply-indicator-text .button-label {
+  left: 0%;
+  padding-left: 4px;
+  text-align: start;
 }
 
 #chat-room-reply-indicator-close {
@@ -306,8 +312,8 @@
 
 #TextAreaChatLog[data-colortheme="dark"] ~ #chat-room-bot,
 #TextAreaChatLog[data-colortheme="dark2"] ~ #chat-room-bot,
-#TextAreaChatLog[data-colortheme="dark"] ~ #chat-room-reply-indicator,
-#TextAreaChatLog[data-colortheme="dark2"] ~ #chat-room-reply-indicator {
+#TextAreaChatLog[data-colortheme="dark"] ~ #chat-room-reply-indicator > *,
+#TextAreaChatLog[data-colortheme="dark2"] ~ #chat-room-reply-indicator > * {
   --button-color: #eee;
   --base-color: #111;
   --base-font-color: #eee;

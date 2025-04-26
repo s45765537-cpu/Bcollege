@@ -1141,10 +1141,18 @@ function ChatRoomCreateElement() {
 				},
 				{
 					tag: "div",
-					attributes: {id: "chat-room-reply-indicator"},
+					attributes: { id: "chat-room-reply-indicator" },
 					classList: ["hidden"],
 					children: [
-						{ tag: "span", attributes: { id: "chat-room-reply-indicator-text" }, children: [TextGet("ChatRoomReply")] },
+						ElementButton.Create(
+							"chat-room-reply-indicator-text",
+							(ev) => {
+								const msg = document.querySelector(`#TextAreaChatLog [msgid="${ChatRoomMessageGetReplyId()}"]`)?.parentElement;
+								ChatRoomScrollToReplyID(msg);
+								msg?.dispatchEvent(new PointerEvent("click", ev));
+							},
+							{ label: TextGet("ChatRoomReply"), noStyling: true },
+						),
 						ElementButton.Create(
 							"chat-room-reply-indicator-close",
 							ChatRoomMessageReplyStop,
@@ -4455,7 +4463,7 @@ function ChatRoomMessageSetReply(msgId) {
 		chatInput.value =  `/whisper ${receiver} ${chatInput.value.replace(/\/whisper\s*\d+ ?/u, "")}`;
 	}
 	const replyIndicator = document.getElementById("chat-room-reply-indicator");
-	const replyIndicatorText = document.getElementById("chat-room-reply-indicator-text");
+	const replyIndicatorText = document.getElementById("chat-room-reply-indicator-text").querySelector(".button-label");
 	const replyName = ChatRoomMessageGetReplyName(msgId, isWhisper);
 	replyIndicatorText.textContent = `${TextGet("ChatRoomReply")}: ${replyName && `${replyName}` || "a message"}`;
 	replyIndicator.classList.remove("hidden");
@@ -4499,6 +4507,23 @@ function ChatRoomMessageCreateReplyMessageElement(msgId, displayMessage, data) {
 }
 
 /**
+ * Scroll to the passed message (be it either via the element or its message ID), accounting for the offset of the sticky chat room separators
+ * @param {HTMLElement} msg
+ */
+function ChatRoomScrollToReplyID(msg) {
+	if (!msg) {
+		return;
+	}
+
+	msg.scrollIntoView({ behavior: "instant" });
+	const chatArea = document.getElementById("TextAreaChatLog");
+	if (chatArea) {
+		const sep = chatArea.querySelector(".chat-room-sep-div");
+		chatArea.scrollTop -= (sep?.clientHeight ?? 0);
+	}
+}
+
+/**
  * Update the Chat log with the recieved message
  *
  * @param {ServerChatRoomMessage} data
@@ -4526,7 +4551,7 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 		reply = ElementButton.Create(
 			null,
 			(ev) => {
-				replyMessage?.scrollIntoView();
+				ChatRoomScrollToReplyID(replyMessage);
 				replyMessage?.dispatchEvent(new PointerEvent("click", ev));
 			},
 			{ noStyling: true },
