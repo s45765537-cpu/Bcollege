@@ -1378,10 +1378,11 @@ var ElementButton = {
 		htmlOptions ??= {};
 		const buttonOptions = htmlOptions.button ?? {};
 		const tooltipOptions = htmlOptions.tooltip ?? {};
+		const labelPosition = options.labelPosition ?? (options.image == null ? "center" : "bottom");
 
 		options ??= {};
 		const image = this._ParseImage(id, options.image, htmlOptions.img);
-		const label = this._ParseLabel(id, options.label, options.labelPosition, htmlOptions.label);
+		const label = this._ParseLabel(id, options.label, labelPosition, htmlOptions.label);
 		const icons = this._ParseIcons(id, options.icons);
 
 		// Only add the icon-based component of the tooltip if there is an actual tooltip
