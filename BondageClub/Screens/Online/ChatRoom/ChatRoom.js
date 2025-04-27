@@ -1279,7 +1279,7 @@ function ChatRoomGetMetadataElem(time, sender=null) {
 		tag: "div",
 		classList: ["chat-room-metadata"],
 		children: [
-			{ tag: "i", children: [time], classList: ["chat-room-time"] },
+			{ tag: "time", children: [time], attributes: { datetime: time }, classList: ["chat-room-time"] },
 			{ tag: "span", children: [sender == null ? null : sender.toString()], classList: ["chat-room-sender"] },
 		],
 	});
