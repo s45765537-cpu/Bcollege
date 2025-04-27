@@ -2987,7 +2987,7 @@ var ClubCardList = [
 			const VideosFromStreets = CCPlayer.DiscardPile.filter(value => ClubCardCardHasGroup(value, "Video"));
 			const randomVideo = VideosFromStreets[Math.floor(Math.random() * VideosFromStreets.length)];
 			ClubCardPlayerAddFame(CCPlayer, randomVideo.RequiredLevel ? randomVideo.RequiredLevel : 1);
-			CCPlayer.Hand.push(randomVideo);
+			CCPlayer.Hand.push(ClubCardGetCopyCardByName(randomVideo.Name));
 			const indexToRemove = CCPlayer.DiscardPile.findIndex(c => c.ID === randomVideo.ID);
 			CCPlayer.DiscardPile.splice(indexToRemove, 1);
 			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Re-Run", {[ClubCardPlaceholderKeys.CARDNAME]: randomVideo.Name, [ClubCardPlaceholderKeys.AMOUNT]: randomVideo.RequiredLevel ? randomVideo.RequiredLevel : 1}, CCPlayer);
@@ -4820,7 +4820,7 @@ function ClubCardPlayCard(CCPlayer, Card, triggerOnPlay = true) {
 	if ((Card.Prerequisite === "SelectOpponentMember") && (ClubCardSelection == null) && (CCPlayer.Control == "AI")) {
 		let Cards = [];
 		for (let C of ClubCardGetOpponent(CCPlayer).Board)
-			if ((C.Group == null) || (C.Group.indexOf("Liability") < 0))
+			if (((C.Group == null) || (C.Group.indexOf("Liability") < 0)) && ClubCardCardsSelectConditions(C, CCPlayer))
 				Cards.push(C);
 		ClubCardSelection = CommonRandomItemFromList(null, Cards);
 	}
