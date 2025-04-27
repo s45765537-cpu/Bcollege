@@ -15755,6 +15755,10 @@ var AssetFemale3DCG = [
 					BuyGroup: true,
 				},
 			},
+			{
+				Name: "BigLynxEars",
+				CopyConfig: { GroupName: "HairAccessory1", AssetName: "BigLynxEars", BuyGroup: true },
+			},
 		],
 		Color: [
 			"Default",
