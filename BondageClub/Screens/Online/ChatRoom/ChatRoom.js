@@ -4482,6 +4482,9 @@ function ChatRoomMessageCreateReplyMessageElement(msgId, displayMessage, data) {
 	if (!msgId) {
 		return [displayMessage];
 	}
+
+	const metadata = ChatRoomGetMetadataElem(data.time, data.sender);
+	metadata.setAttribute("aria-hidden", "true");
 	return [
 		ElementCreate({
 			tag: "span",
@@ -4494,7 +4497,7 @@ function ChatRoomMessageCreateReplyMessageElement(msgId, displayMessage, data) {
 			classList: ["chat-room-message-popup"],
 			attributes: { role: "group" },
 			children: [
-				ChatRoomGetMetadataElem(data.time, data.sender),
+				metadata,
 				ElementButton.Create(
 					null,
 					() => ChatRoomMessageSetReply(msgId),
