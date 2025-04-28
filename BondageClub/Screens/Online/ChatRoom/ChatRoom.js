@@ -4492,11 +4492,9 @@ function ChatRoomMessageCreateReplyMessageElement(msgId, displayMessage, data) {
 			attributes:  { "msgid": msgId },
 			children: [displayMessage],
 		}),
-		ElementCreate({
-			tag: "div",
-			classList: ["chat-room-message-popup"],
-			attributes: { role: "group" },
-			children: [
+		ElementMenu.Create(
+			ElementGenerateID(),
+			[
 				metadata,
 				ElementButton.Create(
 					null,
@@ -4505,7 +4503,9 @@ function ChatRoomMessageCreateReplyMessageElement(msgId, displayMessage, data) {
 					{ button: { attributes: { name: "reply" } } },
 				),
 			],
-		}),
+			{ direction: "rtl", role: "menu" },
+			{ menu: { classList:  ["chat-room-message-popup"], attributes: { "aria-direction": "horizontal" } } },
+		),
 	];
 }
 
@@ -4702,6 +4702,9 @@ function ChatRoomMessageDisplay(data, msg, SenderCharacter, metadata) {
 	});
 
 	if (typeof data.Timeout === 'number' && data.Timeout > 0) setTimeout(() => div.remove(), data.Timeout);
+	if (div.querySelector(".chat-room-message-popup")) {
+		div.setAttribute("aria-haspopup", "menu");
+	}
 
 	// Returns the focus on the chat box
 	ChatRoomAppendChat(div);

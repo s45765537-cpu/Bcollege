@@ -1843,6 +1843,7 @@ var ElementMenu = {
 	 * Buttons that open a sub-menu _must_ have the `aria-haspopup: "menu"` attribute set and must be able to do so via a click action.
 	 * @param {Object} [options]
 	 * @param {"ltr" | "rtl"} [options.direction] - The direction of the menu. Should match the value of the CSS `direction` property if provided
+	 * @param {"menubar" | "menu"} [options.role] - The role of the menu/menubar
 	 * @param {null | Partial<Record<"menu", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the respective (child) element
 	 * @returns {HTMLDivElement} - The menu
 	 */
@@ -1864,7 +1865,7 @@ var ElementMenu = {
 			tag: "div",
 			attributes: {
 				id,
-				role: "menubar",
+				role: options.role ?? "menubar",
 				"screen-generated": CurrentScreen,
 				...(menuOptions.attributes ?? {}),
 			},
