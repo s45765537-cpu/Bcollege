@@ -1378,10 +1378,11 @@ var ElementButton = {
 		htmlOptions ??= {};
 		const buttonOptions = htmlOptions.button ?? {};
 		const tooltipOptions = htmlOptions.tooltip ?? {};
+		const labelPosition = options.labelPosition ?? (options.image == null ? "center" : "bottom");
 
 		options ??= {};
 		const image = this._ParseImage(id, options.image, htmlOptions.img);
-		const label = this._ParseLabel(id, options.label, options.labelPosition, htmlOptions.label);
+		const label = this._ParseLabel(id, options.label, labelPosition, htmlOptions.label);
 		const icons = this._ParseIcons(id, options.icons);
 
 		// Only add the icon-based component of the tooltip if there is an actual tooltip
@@ -1842,6 +1843,7 @@ var ElementMenu = {
 	 * Buttons that open a sub-menu _must_ have the `aria-haspopup: "menu"` attribute set and must be able to do so via a click action.
 	 * @param {Object} [options]
 	 * @param {"ltr" | "rtl"} [options.direction] - The direction of the menu. Should match the value of the CSS `direction` property if provided
+	 * @param {"menubar" | "menu"} [options.role] - The role of the menu/menubar
 	 * @param {null | Partial<Record<"menu", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the respective (child) element
 	 * @returns {HTMLDivElement} - The menu
 	 */
@@ -1863,7 +1865,7 @@ var ElementMenu = {
 			tag: "div",
 			attributes: {
 				id,
-				role: "menubar",
+				role: options.role ?? "menubar",
 				"screen-generated": CurrentScreen,
 				...(menuOptions.attributes ?? {}),
 			},
