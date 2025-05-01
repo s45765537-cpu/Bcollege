@@ -896,15 +896,20 @@ function ServerAccountBeep(data) {
 
 /** Draws the last beep sent by the server if the timer is still valid, used during the drawing process */
 function ServerDrawBeep() {
-	const beep = document.getElementById('beep');
+	let beep = document.getElementById('beep');
 
 	if (ServerBeep.Timer > CommonTime()) {
+		if (beep && beep.getAttribute('data-msg') !== ServerBeep.Message) {
+			beep.remove();
+			beep = null;
+		}
 		if (!beep) {
 			ElementCreate({
 				tag: 'div',
 				attributes: {
 					id: 'beep',
 				},
+				dataAttributes: { msg: ServerBeep.Message },
 				classList: ['HideOnPopup'],
 				eventListeners: {
 					click: () => {
