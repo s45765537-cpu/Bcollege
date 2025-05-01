@@ -226,13 +226,13 @@ Text Mistress Sophie,<F>Votre douleur est mon plaisir.
 Title Scammer,Scammer
 Text Scammer,Your Timed events last 1 fewer turn.
 Title Pyramid Schemer,Pyramid Schemer
-Text Pyramid Schemer,"When a member enters your club, lose 1 Money per two lower tier members present."
+Text Pyramid Schemer,"When a non-liability member enters your club, lose 1 Money per two lower tier members present."
 Title Ponzi Schemer,Ponzi Schemer
 Text Ponzi Schemer,"<F>Trust me, this police ankle bracelet is only a kink of mine."
 Title Party Pooper,Party Pooper
 Text Party Pooper,<F>Why is everyone so boring nowadays?
 Title College Dropout,College Dropout
-Text College Dropout,Gets -3 fame if you have more fame than the opponent.
+Text College Dropout,"Gets -2 fame if you have more fame than the opponent, and -1 fame if your club is tier 4 or higher."
 Title Union Leader,Union Leader
 Text Union Leader,"Gets +1 Fame for each non-Liability present. Gets -1 Fame for each non-Liability member in your opponent's club. (Max +/- 5)"
 Title No-Fap Advocate,No-Fap Advocate
@@ -400,7 +400,7 @@ Title Re-Run,Re-Run
 Text Re-Run,"Return a Random Video from your Streets to your hand, gain fame equal to it's tier, and take another action."
 Effect Re-Run,SOURCEPLAYER returned CARDNAME from their Streets to their hand and gained AMOUNT fame.
 Title Naughty Knotter,Naughty Knotter
-Text Naughty Knotter,"When she enters your club, play 2 random Knots from your streets."
+Text Naughty Knotter,"Enters: Play 2 random Knots from your streets."
 Title Gangbang Banger,Gangbang Banger
 Text Gangbang Banger,"Return all porn actresses from your club to your hand, then play all porn members in your hand."
 Effect Gangbang Banger,The porn actresses from SOURCEPLAYER’s club leave… and instantly strut right back in!

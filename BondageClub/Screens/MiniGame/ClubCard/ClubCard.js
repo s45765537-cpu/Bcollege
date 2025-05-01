@@ -1294,13 +1294,6 @@ var ClubCardList = [
 				let moneyLoss = Math.floor(lowerLevelMembers.length / 2) * -1;
 				ClubCardPlayerAddMoney(CCPlayer, moneyLoss, this.Name);
 			}
-		},
-		onOpponentPlayedCard: function(CCPlayer, cardPlayed) {
-			if (cardPlayed.Type != "Event" && ClubCardIsLiability(cardPlayed) && cardPlayed.RequiredLevel) {
-				let lowerLevelMembers = CCPlayer.Board.filter(card => card.RequiredLevel < cardPlayed.RequiredLevel || card.RequiredLevel == null);
-				let moneyLoss = Math.floor(lowerLevelMembers.length / 2) * -1;
-				ClubCardPlayerAddMoney(CCPlayer, moneyLoss, this.Name);
-			}
 		}
 	},
 	{
@@ -1322,7 +1315,8 @@ var ClubCardList = [
 		Group: ["Liability", "CollegeStudent"],
 		RequiredLevel: 2,
 		BeforeTurnEnd: function(CCPlayer) {
-			if (CCPlayer.Fame > ClubCardGetOpponent(CCPlayer).Fame) ClubCardPlayerAddFame(CCPlayer, -3);
+			if (CCPlayer.Fame > ClubCardGetOpponent(CCPlayer).Fame) ClubCardPlayerAddFame(CCPlayer, -2);
+			if (CCPlayer.Level >= 4) ClubCardPlayerAddFame(CCPlayer, -1);
 		}
 	},
 	{
@@ -1363,7 +1357,7 @@ var ClubCardList = [
 		OnPlay: function(CCPlayer) {
 			const opponent = ClubCardGetOpponent(CCPlayer);
 			if (ClubCardIsLiability(ClubCardSelection)) opponent.Board[opponent.Board.length -1].Group = ClubCardSelection.Group;
-			else opponent.Board[opponent.Board.length -1].Group = this.Group.concat(ClubCardSelection.Group);
+			else if (ClubCardSelection.Group) opponent.Board[opponent.Board.length -1].Group = this.Group.concat(ClubCardSelection.Group);
 		},
 		onPlayedCard: function(CCPlayer, cardPlayed) {
 			if (cardPlayed.Type != "Event" && !ClubCardIsLiability(cardPlayed) && cardPlayed.Group) {
@@ -4069,11 +4063,11 @@ function ClubCardSummonCard(CCPlayer, card) {
 	if (card.OnPlay != null) {
 		card.OnPlay(CCPlayer);
 	}
-	if (ClubCardCheckVictory(CCPlayer)) { ClubCardEndGameSyncAndMessage(CCPlayer); return; }
-	if (ClubCardCheckVictory(opponent)) { ClubCardEndGameSyncAndMessage(opponent); return; }
+	if (!MiniGameEnded) if (ClubCardCheckVictory(CCPlayer)) { ClubCardEndGameSyncAndMessage(CCPlayer); return; }
+	if (!MiniGameEnded) if (ClubCardCheckVictory(opponent)) { ClubCardEndGameSyncAndMessage(opponent); return; }
 	ClubCardOnCardPlayedHandler(CCPlayer, card);
-	if (ClubCardCheckVictory(CCPlayer)) { ClubCardEndGameSyncAndMessage(CCPlayer); return; }
-	if (ClubCardCheckVictory(opponent)) { ClubCardEndGameSyncAndMessage(opponent); return; }
+	if (!MiniGameEnded) if (ClubCardCheckVictory(CCPlayer)) { ClubCardEndGameSyncAndMessage(CCPlayer); return; }
+	if (!MiniGameEnded) if (ClubCardCheckVictory(opponent)) { ClubCardEndGameSyncAndMessage(opponent); return; }
 	ClubCardUpdateBoardCardsIndex(CCPlayer);
 }
 
@@ -4504,8 +4498,8 @@ function ClubCardEndTurn(Draw = false) {
 	ClubCardMessageSendAll();
 
 	// If that player wins the game from Fame gain
-	if (ClubCardCheckVictory(CCPlayer)) { ClubCardEndGameSyncAndMessage(CCPlayer); return; }
-	if (ClubCardCheckVictory(Opponent)) { ClubCardEndGameSyncAndMessage(Opponent); return; }
+	if (!MiniGameEnded) if (ClubCardCheckVictory(CCPlayer)) { ClubCardEndGameSyncAndMessage(CCPlayer); return; }
+	if (!MiniGameEnded) if (ClubCardCheckVictory(Opponent)) { ClubCardEndGameSyncAndMessage(Opponent); return; }
 
 	// Move to the next player
 	ClubCardTurnIndex++;
@@ -4516,8 +4510,8 @@ function ClubCardEndTurn(Draw = false) {
 
 	ClubCardIsStartTurn = false;
 	ClubCardStartTurn(ClubCardStartTurnType.ENDTURN);
-	if (ClubCardCheckVictory(CCPlayer)) { ClubCardEndGameSyncAndMessage(CCPlayer); return; }
-	if (ClubCardCheckVictory(Opponent)) { ClubCardEndGameSyncAndMessage(Opponent); return; }
+	if (!MiniGameEnded) if (ClubCardCheckVictory(CCPlayer)) { ClubCardEndGameSyncAndMessage(CCPlayer); return; }
+	if (!MiniGameEnded) if (ClubCardCheckVictory(Opponent)) { ClubCardEndGameSyncAndMessage(Opponent); return; }
 
 	// Syncs online data
 	GameClubCardSyncOnlineData();
@@ -4884,8 +4878,8 @@ function ClubCardPlayCard(CCPlayer, Card, triggerOnPlay = true) {
 	if (Card.OnPlay != null && triggerOnPlay) Card.OnPlay(CCPlayer);
 	ClubCardSelection = null;
 	ClubCardTierSelection = null;
-	if (ClubCardCheckVictory(CCPlayer)) { ClubCardEndGameSyncAndMessage(CCPlayer); return; }
-	if (ClubCardCheckVictory(opponent)) { ClubCardEndGameSyncAndMessage(opponent); return; }
+	if (!MiniGameEnded) if (ClubCardCheckVictory(CCPlayer)) { ClubCardEndGameSyncAndMessage(CCPlayer); return; }
+	if (!MiniGameEnded) if (ClubCardCheckVictory(opponent)) { ClubCardEndGameSyncAndMessage(opponent); return; }
 
 	if (CCPlayer.Control == "Player") {
 		ClubCardFocus = null;
@@ -4894,8 +4888,8 @@ function ClubCardPlayCard(CCPlayer, Card, triggerOnPlay = true) {
 
 	// Run on cards played handlers
 	ClubCardOnCardPlayedHandler(CCPlayer, Card);
-	if (ClubCardCheckVictory(CCPlayer)) { ClubCardEndGameSyncAndMessage(CCPlayer); return; }
-	if (ClubCardCheckVictory(opponent)) { ClubCardEndGameSyncAndMessage(opponent); return; }
+	if (!MiniGameEnded) if (ClubCardCheckVictory(CCPlayer)) { ClubCardEndGameSyncAndMessage(CCPlayer); return; }
+	if (!MiniGameEnded) if (ClubCardCheckVictory(opponent)) { ClubCardEndGameSyncAndMessage(opponent); return; }
 
 	// End the turn if needed
 	ClubCardMessageSendAll();
