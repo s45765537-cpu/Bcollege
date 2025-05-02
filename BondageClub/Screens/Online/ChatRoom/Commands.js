@@ -158,9 +158,9 @@ function CommandAutoComplete(msg) {
 	// If we have a forward it means the command tag was already typed, only try to call the command's AutoComplete.
 	// This is needed if a command's tag is a prefix of a different command.
 	if (forward.length > 0) {
-		const CS = GetCommands().filter(C => C.Tag == tag);
-		if (CS.length == 1 && CS[0].AutoComplete) {
-			CS[0].AutoComplete.call(CS[0], forward, low, msg);
+		const cmds = GetCommands().filter(C => C.Tag == tag);
+		if (cmds.length == 1 && cmds[0].AutoComplete) {
+			cmds[0].AutoComplete.call(cmds[0], forward, low, msg);
 		}
 		return;
 	}

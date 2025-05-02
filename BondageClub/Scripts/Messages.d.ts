@@ -467,6 +467,7 @@ interface ServerChatRoomSearchData {
 	 * @deprecated Use {@link ServerChatRoomData.Access} instead, this is maintained for backwards compatibility
 	 */
 	Locked?: boolean;
+	CanJoin: boolean;
     MapType: string;
 }
 

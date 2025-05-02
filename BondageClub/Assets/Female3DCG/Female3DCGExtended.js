@@ -1590,7 +1590,7 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			DrawImages: false,
 			Options: [{ Name: "Long" }, { Name: "Medium" }],
-		},// HairBack82
+		}, // HairBack82
 		HairBack83: {
 			Archetype: ExtendedArchetype.TYPED,
 			DrawImages: false,
@@ -1835,9 +1835,9 @@ var AssetFemale3DCGExtended = {
 						{
 							// h2 - Over eyes
 							Property: { Effect: [] },
-						}
+						},
 					],
-				}
+				},
 			],
 		},
 	}, // ClothAccessory
@@ -5395,9 +5395,9 @@ var AssetFemale3DCGExtended = {
 					Name: "Handcuffs",
 					Key: "h",
 					Options: [
-						{ 
+						{
 							// None
-							Property: {}
+							Property: {},
 						},
 						{
 							// Cuffed
@@ -5413,15 +5413,15 @@ var AssetFemale3DCGExtended = {
 					Name: "Leash",
 					Key: "l",
 					Options: [
-						{ 
+						{
 							// None
-							Property: {}
+							Property: {},
 						},
 						{
 							// Leashed
 							Property: {
 								Difficulty: 4,
-								Effect: [E.Leash,E.IsLeashed],
+								Effect: [E.Leash, E.IsLeashed],
 							},
 						},
 					],
@@ -13019,7 +13019,7 @@ var AssetFemale3DCGExtended = {
 									NeckB: 30,
 									NeckM: 30,
 								},
-								Hide: ["ClothLower","Panties","Garters"],
+								Hide: ["ClothLower", "Panties", "Garters"],
 								HideItem: [
 									"ClothAccessoryLeatherBeltCloth",
 									"ClothFurCoat",
@@ -13033,22 +13033,22 @@ var AssetFemale3DCGExtended = {
 					Name: "Tightness",
 					Key: "s",
 					Options: [
-						{ 
+						{
 							// Loose
-							Property: {}
+							Property: {},
 						},
 						{
 							// Thigh
 							Property: {
 								Difficulty: 3,
 								Effect: [E.BlockWardrobe, E.Freeze],
-								Expression: [
-									{ Name: "Low", Group: "Blush", Timer: 10 },
-									{ Name: "OneRaised", Group: "Eyebrows", Timer: 10 },
-									{ Name: "Surprised", Group: "Eyes", Timer: 10 },
-									{ Name: "HalfOpen", Group: "Mouth", Timer: 10 },
-								],
 							},
+							Expression: [
+								{ Name: "Low", Group: "Blush", Timer: 10 },
+								{ Name: "OneRaised", Group: "Eyebrows", Timer: 10 },
+								{ Name: "Surprised", Group: "Eyes", Timer: 10 },
+								{ Name: "HalfOpen", Group: "Mouth", Timer: 10 },
+							],
 						},
 					],
 				},
@@ -13088,9 +13088,9 @@ var AssetFemale3DCGExtended = {
 					Name: "LegBelts",
 					Key: "x",
 					Options: [
-						{ 
+						{
 							// None
-							Property: {}
+							Property: {},
 						},
 						{
 							// Equipped
