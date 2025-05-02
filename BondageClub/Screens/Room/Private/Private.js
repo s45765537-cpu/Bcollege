@@ -987,19 +987,25 @@ function PrivateClick() {
 		let backgrounds = BackgroundsGenerateList(BackgroundsPrivateRoomTagList);
 		let index = backgrounds.indexOf(MainHallBackground);
 		if (index < 0) index = 0;
-		BackgroundSelectionMake(backgrounds, index, Name => {
-			Player.VisualSettings.MainHallBackground = Name;
-			ServerAccountUpdate.QueueData({ VisualSettings: Player.VisualSettings });
+		BackgroundSelectionMake(backgrounds, index, (Name, setBackground) => {
+			if (setBackground) {
+				Player.VisualSettings.MainHallBackground = Name;
+				ServerAccountUpdate.QueueData({ VisualSettings: Player.VisualSettings });
+			}
+			CommonSetScreen("Room", "Private");
 		});
 	}
 	if (MouseIn(1885, PrivateButtonTop(8), 90, 90) && LogQuery("RentRoom", "PrivateRoom")) {
 		let backgrounds = BackgroundsGenerateList(BackgroundsPrivateRoomTagList);
 		let index = backgrounds.indexOf(PrivateBackground);
 		if (index < 0) index = 0;
-		BackgroundSelectionMake(backgrounds, index, Name => {
-			Player.VisualSettings.PrivateRoomBackground = Name;
-			PrivateBackground = Name;
-			ServerAccountUpdate.QueueData({ VisualSettings: Player.VisualSettings });
+		BackgroundSelectionMake(backgrounds, index, (Name, setBackground) => {
+			if (setBackground) {
+				Player.VisualSettings.PrivateRoomBackground = Name;
+				PrivateBackground = Name;
+				ServerAccountUpdate.QueueData({ VisualSettings: Player.VisualSettings });
+			}
+			CommonSetScreen("Room", "Private");
 		});
 
 	}
