@@ -16,7 +16,7 @@ var ClubCardBuilderRenameIndex = -1;
 var ClubCardBuilderCustomizationIndex = "";
 var ClubCardBuilderSelectedCardBack = 0;
 var ClubCardBuilderCardBackFocus = null;
-var ClubCardBuilderCardBackCount = 7;
+var ClubCardBuilderCardBackCount = 9;
 
 // All the default decks that NPCs can use
 var ClubCardBuilderDefaultDeck = [1000, 1001, 1004, 1006, 1007, 1010, 1011, 1012, 1014, 1020, 2000, 2002, 4000, 6000, 6001, 6002, 6003, 6004, 6006, 6008, 8000, 8002, 8003, 8004, 13001, 30000, 30014, 30016, 31000, 31004];

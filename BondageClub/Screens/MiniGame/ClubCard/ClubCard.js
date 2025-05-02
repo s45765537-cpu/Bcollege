@@ -394,7 +394,7 @@ var ClubCardList = [
 			}
 		},
 		onLeaveClub: function(CCPlayer) {
-			for (const card of ClubCardGetOpponent(CCPlayer).Event) {
+			for (const card of CCPlayer.Event) {
 				card.Time--;
 			}
 		}
@@ -1277,7 +1277,7 @@ var ClubCardList = [
 			}
 		},
 		onLeaveClub: function(CCPlayer) {
-			for (const card of ClubCardGetOpponent(CCPlayer).Event) {
+			for (const card of CCPlayer.Event) {
 				card.Time++;
 			}
 		}
@@ -4565,7 +4565,8 @@ function ClubCardDefocusCardIfDiscarded() {
 	if (ClubCardFocus === null) return;
 	const playerIndex = ClubCardGetPlayerIndex();
 	if (playerIndex === -1) return;
-	if (!ClubCardPlayer[playerIndex].Hand.find(c => c.ID === ClubCardFocus.ID)) ClubCardFocus = null;
+	if (!ClubCardFocus.Location || ClubCardFocus.Location !== "PlayerHand") return;
+	if (!ClubCardPlayer[playerIndex].Hand.find(c => c.UniqueID === ClubCardFocus.UniqueID)) ClubCardFocus = null;
 }
 
 function ClubCardCheckVictory(CCPlayer) {
@@ -5621,7 +5622,7 @@ function ClubCardRenderHand(CCPlayer, X, Y, W, H) {
 		IncX = Math.round(W / CCPlayer.Hand.length);
 	}
 	for (let C of CCPlayer.Hand) {
-		const isSleeve = (CCPlayer.Control == "Player") ? null : (ClubCardNameIsOnBoard(CCPlayer, "Show Dog") ? null : CCPlayer.Sleeve);
+		const isSleeve = (CCPlayer.Control == "Player") ? null : (ClubCardNameIsOnBoard(CCPlayer, "Show Dog") ? null : (CCPlayer.Control == "AI") ? 0 : CCPlayer.Sleeve);
 		const source = (CCPlayer.Control == "Player") ? "PlayerHand" : "OpponentHand";
 		ClubCardRenderCard(C, PosX + 5, Y + 5 + (H * 0.1), (W / 10) - 5, isSleeve, source);
 		PosX = PosX + IncX;
