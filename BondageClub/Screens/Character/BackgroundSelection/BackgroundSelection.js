@@ -9,10 +9,10 @@ var BackgroundSelectionIndex = 0;
 var BackgroundSelectionSelect = "";
 var BackgroundSelectionSize = 12;
 var BackgroundSelectionOffset = 0;
-/** @type {null | ((selection: string) => void)} */
+/** @type {null | ((selection: string, setBackground: boolean) => void)} */
 var BackgroundSelectionCallback = null;
-/** @type {ScreenSpecifier | null} */
-var BackgroundSelectionReturnScreen = null;
+/** @type {never} */
+var BackgroundSelectionReturnScreen;
 /** @type {{ Name: string, Description: string, Low: string }[]} */
 var BackgroundSelectionAll = [];
 /** @type {{ Name: string, Description: string, Low: string }[]} */
@@ -22,14 +22,13 @@ var BackgroundSelectionView = [];
  * Change the current screen to the background selection screen
  * @param {string[]} List - The list of possible Background names
  * @param {number} Idx - The index of the current background
- * @param {(selection: string) => void} Callback - The function to call when a new background has been selected
+ * @param {(selection: string, setBackground: boolean) => void} Callback - The function to call when a new background has been selected
  * @returns {void} - Nothing
  */
 function BackgroundSelectionMake(List, Idx, Callback) {
 	BackgroundSelectionList = List;
 	BackgroundSelectionIndex = Idx < List.length ? Idx : 0;
 	BackgroundSelectionCallback = Callback;
-	BackgroundSelectionReturnScreen = CommonGetScreen();
 	CommonSetScreen("Character", "BackgroundSelection");
 }
 
@@ -116,9 +115,8 @@ function BackgroundSelectionRun() {
 	DrawButton(1685, 25, 90, 90, "", "White", "Icons/Next.png", TextGet("Next"));
 	DrawButton(1785, 25, 90, 90, "", "White", "Icons/Cancel.png", TextGet("Cancel"));
 	DrawButton(1885, 25, 90, 90, "", "White", "Icons/Accept.png", TextGet("Accept"));
-
 	if (!CommonIsMobile && (MouseIn(1585, 25, 90, 90) || MouseIn(1685, 25, 90, 90) || MouseIn(1785, 25, 90, 90) || MouseIn(1885, 25, 90, 90)))
-		document.getElementById("InputBackground").style.display = "none";
+		document.getElementById("InputBackground")?.style?.setProperty("display", "none");
 	else
 		ElementPosition("InputBackground", 1350, 60, 400);
 
@@ -211,9 +209,6 @@ function BackgroundSelectionKeyDown(event) {
 function BackgroundSelectionExit(SetBackground=false) {
 	ElementRemove("InputBackground");
 	ElementRemove("TagDropDown");
-	if (SetBackground && BackgroundSelectionCallback) BackgroundSelectionCallback(BackgroundSelectionSelect);
+	if (BackgroundSelectionCallback) BackgroundSelectionCallback(BackgroundSelectionSelect, SetBackground);
 	BackgroundSelectionCallback = null;
-	if (BackgroundSelectionReturnScreen) {
-		CommonSetScreen(...BackgroundSelectionReturnScreen);
-	}
 }

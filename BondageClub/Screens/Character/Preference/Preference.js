@@ -93,6 +93,7 @@ const PreferenceSubscreens = [
 	},
 	{
 		name: "Online",
+		load: () => PreferenceSubscreenOnlineLoad(),
 		run: () => PreferenceSubscreenOnlineRun(),
 		click: () => PreferenceSubscreenOnlineClick(),
 	},
@@ -924,6 +925,7 @@ var PreferenceOnlineSettingsDefault = {
 	SendStatus: true,
 	FriendListAutoRefresh: true,
 	ShowRoomCustomization: 1,
+	DefaultChatRoomBackground: "CosyChalet"
 };
 
 /**
@@ -942,6 +944,9 @@ var PreferenceOnlineSettingsValidate = {
 	SendStatus: isBool(PreferenceOnlineSettingsDefault.SendStatus),
 	FriendListAutoRefresh: isBool(PreferenceOnlineSettingsDefault.FriendListAutoRefresh),
 	ShowRoomCustomization: isInt(0, 4, PreferenceOnlineSettingsDefault.ShowRoomCustomization),
+	DefaultChatRoomBackground: (arg, C) => {
+		return typeof arg === "string" ? arg : PreferenceOnlineSettingsDefault.DefaultChatRoomBackground;
+	},
 };
 
 /**

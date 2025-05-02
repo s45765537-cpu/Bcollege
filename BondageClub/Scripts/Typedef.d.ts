@@ -2376,6 +2376,7 @@ interface PlayerOnlineSettings {
 	EnableAfkTimer: boolean;
 	ShowRoomCustomization: 0 | 1 | 2 | 3; // 0 - Never, 1 - No by default, 2 - Yes by default, 3 - Always
 	FriendListAutoRefresh: boolean;
+	DefaultChatRoomBackground: string;
 }
 
 /** Pandora Player extension */
