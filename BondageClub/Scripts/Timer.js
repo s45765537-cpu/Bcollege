@@ -163,10 +163,7 @@ function TimerExpressionQueuePush(C, ExpressionGroup, Timer, Expression = null) 
 function TimerPrivateOwnerBeep() {
 	if (Player.IsOwned() === "npc" && (CurrentScreen != "Private") && (CurrentScreen != "PrivateBed") && (CurrentScreen != "ChatRoom") && (CurrentScreen != "InformationSheet") && (CurrentScreen != "FriendList") && (CurrentScreen != "Cell") && PrivateOwnerInRoom())
 		if ((Math.floor(Math.random() * 500) == 1) && !LogQuery("OwnerBeepActive", "PrivateRoom") && !LogQuery("OwnerBeepTimer", "PrivateRoom") && !LogQuery("LockOutOfPrivateRoom", "Rule") && !LogQuery("Committed", "Asylum")) {
-			ServerBeep = {
-				Timer: CommonTime() + 15000,
-				Message: InterfaceTextGet("BeepFromOwner"),
-			};
+			ServerShowBeep(InterfaceTextGet("BeepFromOwner"), 15000);
 			LogAdd("OwnerBeepActive", "PrivateRoom");
 			LogAdd("OwnerBeepTimer", "PrivateRoom", CurrentTime + 120000);
 			FriendListBeepLog.push({ MemberName: Player.OwnerName(), ChatRoomName: InterfaceTextGet("YourRoom"), Sent: false, Time: new Date(), Private: false });
