@@ -5828,7 +5828,8 @@ function ClubCardRenderPanel() {
 function ClubCardDrawButton() {
 	if (ClubCardTurnCardPlayed == 0 && ClubCardPlayer[0].Deck.length > 0) {
 		DrawButton(1705, 805, 90, 190, null, "White", "", TextGet("Draw"));
-		DrawImageResize("Screens/MiniGame/ClubCard/Sleeve/" + ClubCardPlayer[0].Sleeve + ".png", 1712, 813, 76, 175);
+		DrawImageResize("Screens/MiniGame/ClubCard/Sleeve/" + ClubCardPlayer[0].Sleeve + ".png", 1710, 810, 80, 180);
+        DrawImageResize("Screens/MiniGame/ClubCard/Frame/SleeveBorder.png", 1708, 808, 84, 184);
 		DrawImageResize("Screens/MiniGame/ClubCard/Frame/CountDisplay.png", 1708, 808, 84, 184);
 		if (ClubCardPlayer[0].Deck.length < 10) {
 			DrawTextFit("0"+ClubCardPlayer[0].Deck.length.toString(), 1750, 850, 25, "#c3facf");
@@ -6052,7 +6053,7 @@ function ClubCardRenderPopup(Timestamp) {
 		
 		// Create columns for more compact layout
 		const col1X = leftMargin;        // Title column X position
-		const col2X = leftMargin + 236;  // Description column X position
+		const col2X = leftMargin + 180;  // Description column X position
 		const col3X = 750;               // Main title X position
 		
 		// Base Y positions
@@ -6069,40 +6070,41 @@ function ClubCardRenderPopup(Timestamp) {
 		
 		// Column widths
 		const col1Width = 300;
-		const col2Width = 750;
+		const col2Width = 800;
 		const col3Width = 200;
 		
 		// Main title - Column 3
-		InfoDrawText("Info drop", col3X, startY - 10, 32, buttonColor, "Black", col3Width);
-		
+		ClubCardInfoDrawText(TextGet("InfoPopupTitle"), col3X, startY - 10, 32, buttonColor, "Black", col3Width);
+
 		// Row 1: Fame
-		InfoDrawText("Fame:", col1X, rowY[0], 32, buttonColor, "Black", col1Width);
-		let textY = rowY[0] - 20; // Adjust to vertically center with icon/title
-		textY = InfoDrawText("Reach 100 Fame the earliest to win!", col2X, textY, 22, buttonColor, null, col2Width);
-		textY = InfoDrawText("Earn Fame every turn from cards present on your board.", col2X, textY, 22, buttonColor, null, col2Width);
-		InfoDrawText("Be aware, if your Money is below 0, you don't gain Fame that turn!", col2X, textY, 22, buttonColor, null, col2Width);
-		
+		ClubCardInfoDrawText(TextGet("InfoFameTitle")+":", col1X, rowY[0], 32, buttonColor, "Black", col1Width);
+		let textY = rowY[0] - 25; // Adjust to vertically center with icon/title
+		textY = ClubCardInfoDrawText(TextGet("InfoFameDescription1"), col2X, textY, 22, buttonColor, null, col2Width);
+		textY = ClubCardInfoDrawText(TextGet("InfoFameDescription2"), col2X, textY, 22, buttonColor, null, col2Width);
+		ClubCardInfoDrawText(TextGet("InfoFameDescription3"), col2X, textY, 22, buttonColor, null, col2Width);
+
 		// Row 2: Money
-		InfoDrawText("Money:", col1X, rowY[1], 32, buttonColor, "Black", col1Width);
+		ClubCardInfoDrawText(TextGet("InfoMoneyTitle")+":", col1X, rowY[1], 32, buttonColor, "Black", col1Width);
 		textY = rowY[1] - 10; // Adjust for vertical centering
-		textY = InfoDrawText("Earn Money every turn from cards present on your board.", col2X, textY, 22, buttonColor, null, col2Width);
-		InfoDrawText("Money can be used to buy new Buildings.", col2X, textY, 22, buttonColor, null, col2Width);
-		
+		textY = ClubCardInfoDrawText(TextGet("InfoMoneyDescription1"), col2X, textY, 22, buttonColor, null, col2Width);
+		ClubCardInfoDrawText(TextGet("InfoMoneyDescription2"), col2X, textY, 22, buttonColor, null, col2Width);
+
 		// Row 3: Building tiers
-		InfoDrawText("Building tiers:", col1X, rowY[2], 32, buttonColor, "Black", col1Width);
-		textY = rowY[2] - 10; // Adjust for vertical centering
-		textY = InfoDrawText("Their levels can be upgraded to grow the space on your board.", col2X, textY, 22, buttonColor, null, col2Width);
-		InfoDrawText("The better your tier, the more cards can join the game.", col2X, textY, 22, buttonColor, null, col2Width);
-		
+		ClubCardInfoDrawText(TextGet("InfoBuildingTiersTitle")+":", col1X, rowY[2], 32, buttonColor, "Black", col1Width);
+		textY = rowY[2] - 25; // Adjust for vertical centering
+		textY = ClubCardInfoDrawText(TextGet("InfoBuildingTiersDescription1"), col2X, textY, 22, buttonColor, null, col2Width);
+		textY =ClubCardInfoDrawText(TextGet("InfoBuildingTiersDescription2"), col2X, textY, 22, buttonColor, null, col2Width);
+		ClubCardInfoDrawText(TextGet("InfoBuildingTiersDescription3"), col2X, textY, 22, buttonColor, null, col2Width);
+
 		// Row 4: Liabilities
-		InfoDrawText("Liabilities:", col1X, rowY[3], 32, buttonColor, "Black", col1Width);
+		ClubCardInfoDrawText(TextGet("InfoLiabilitiesTitle")+":", col1X, rowY[3], 32, buttonColor, "Black", col1Width);
 		textY = rowY[3]; // Adjust for vertical centering
-		InfoDrawText("Played into opponent's club, take up space and cause negative effects!", col2X, textY, 22, buttonColor, null, col2Width);
-		
+		ClubCardInfoDrawText(TextGet("InfoLiabilitiesDescription1"), col2X, textY, 22, buttonColor, null, col2Width);
+
 		// Row 5: Streets
-		InfoDrawText("Streets:", col1X, rowY[4], 32, buttonColor, "Black", col1Width);
+		ClubCardInfoDrawText(TextGet("InfoStreetsTitle")+":", col1X, rowY[4], 32, buttonColor, "Black", col1Width);
 		textY = rowY[4]; // Adjust for vertical centering
-		InfoDrawText("In other words your DiscardPile, check old cards and their effects there.", col2X, textY, 22, buttonColor, null, col2Width);
+		ClubCardInfoDrawText(TextGet("InfoStreetsDescription1"), col2X, textY, 22, buttonColor, null, col2Width);
 		
 		return;
 	}
@@ -6132,7 +6134,7 @@ function ClubCardRenderPopup(Timestamp) {
  * @param {number} [MaxWidth] - Optional maximum width before wrapping
  * @returns {number} - Returns new Y position after drawing
  */
-function InfoDrawText(Text, X, Y, Size, Color, BackColor, MaxWidth = 1200) {
+function ClubCardInfoDrawText(Text, X, Y, Size, Color, BackColor, MaxWidth = 1200) {
     if (!Text) return Y;
     const oldFont = MainCanvas.font;
 
