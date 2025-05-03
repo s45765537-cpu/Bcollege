@@ -588,3 +588,19 @@ GroupAuction,Auction
 Title Kira,Kira
 Text Kira,Can't leave. Gets +1 Fame per 2 members present (Max 8). Joins: Set the Fame & Money of a member in your club and those adjacent to 0/-2.
 Prerequisite Kira,"Select a member from your club."
+InfoPopupTitle, Info drop
+InfoFameTitle,"Fame"
+InfoFameDescription1,"Be the first to reach 100 Fame!"
+InfoFameDescription2,"Cards generate Fame each turn (shown in square icon)"
+InfoFameDescription3,"Fame generation stops if Money falls below 0"
+InfoMoneyTitle,"Money"
+InfoMoneyDescription1,"Cards generate Money each turn (shown in circle icon)"
+InfoMoneyDescription2,"Used to purchase Buildings and upgrade tiers"
+InfoBuildingTiersTitle,"Buildings"
+InfoBuildingTiersDescription1,"Higher tiers unlock more board space and better cards: ⤵️"
+InfoBuildingTiersDescription2,"T1: Apartment (💲Free, 5🀆) → T2: Cottage (💲10, 8🀆) → "
+InfoBuildingTiersDescription3,"T3: House (💲20, 13🀆) → T4: Mansion (💲30, 20🀆) → T5: Manor (💲40, 40🀆)"
+InfoLiabilitiesTitle,"Liabilities"
+InfoLiabilitiesDescription1,"Played into opponent's club, take up space and cause negative effects"
+InfoStreetsTitle,"Streets"
+InfoStreetsDescription1,"View your Discard Pile to check played cards and their effects"
