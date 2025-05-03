@@ -5832,7 +5832,7 @@ function ClubCardDrawButton() {
 	if (ClubCardTurnCardPlayed == 0 && ClubCardPlayer[0].Deck.length > 0) {
 		DrawButton(1705, 805, 90, 190, null, "White", "", TextGet("Draw"));
 		DrawImageResize("Screens/MiniGame/ClubCard/Sleeve/" + ClubCardPlayer[0].Sleeve + ".png", 1710, 810, 80, 180);
-        DrawImageResize("Screens/MiniGame/ClubCard/Frame/SleeveBorder.png", 1708, 808, 84, 184);
+		DrawImageResize("Screens/MiniGame/ClubCard/Frame/SleeveBorder.png", 1708, 808, 84, 184);
 		DrawImageResize("Screens/MiniGame/ClubCard/Frame/CountDisplay.png", 1708, 808, 84, 184);
 		if (ClubCardPlayer[0].Deck.length < 10) {
 			DrawTextFit("0"+ClubCardPlayer[0].Deck.length.toString(), 1750, 850, 25, "#c3facf");
@@ -6015,7 +6015,7 @@ function ClubCardRenderPopup(Timestamp) {
 			})();
 		}
 		let DrawnRandomCard = ClubCardGetCopyCardByName(ClubCardRandomCardName);
-		
+
 		// Get the demo card object using its name
 		let demoCard = ClubCardGetCopyCardByName(ClubCardRandomCardName);
 
@@ -6049,19 +6049,19 @@ function ClubCardRenderPopup(Timestamp) {
 		DrawButton(225, 608, 44, 44, null, buttonColor, "Screens/MiniGame/ClubCard/Info/Liability.png", "");
 		// - Discard Icon
 		DrawButton(225, 696, 44, 44, null, buttonColor, "Screens/MiniGame/ClubCard/Info/DiscardPile.png", "");
-		
+
 		// Tutorial text
 		const leftMargin = 280; // Keep text moved to the right
-		let startY = 300; 
-		
+		let startY = 300;
+
 		// Create columns for more compact layout
 		const col1X = leftMargin;        // Title column X position
 		const col2X = leftMargin + 180;  // Description column X position
 		const col3X = 750;               // Main title X position
-		
+
 		// Base Y positions
 		const baseY = 346;  // Base Y aligned with first icon
-		
+
 		// Y positioning for each row - align with the button icons
 		const rowY = [
 			baseY + 25,         // Fame row
@@ -6070,12 +6070,12 @@ function ClubCardRenderPopup(Timestamp) {
 			baseY + 287,   // Liabilities row
 			baseY + 375    // Streets row
 		];
-		
+
 		// Column widths
 		const col1Width = 300;
 		const col2Width = 800;
 		const col3Width = 200;
-		
+
 		// Main title - Column 3
 		ClubCardInfoDrawText(TextGet("InfoPopupTitle"), col3X, startY - 10, 32, buttonColor, "Black", col3Width);
 
@@ -6108,7 +6108,7 @@ function ClubCardRenderPopup(Timestamp) {
 		ClubCardInfoDrawText(TextGet("InfoStreetsTitle")+":", col1X, rowY[4], 32, buttonColor, "Black", col1Width);
 		textY = rowY[4]; // Adjust for vertical centering
 		ClubCardInfoDrawText(TextGet("InfoStreetsDescription1"), col2X, textY, 22, buttonColor, null, col2Width);
-		
+
 		return;
 	}
 
@@ -6138,80 +6138,80 @@ function ClubCardRenderPopup(Timestamp) {
  * @returns {number} - Returns new Y position after drawing
  */
 function ClubCardInfoDrawText(Text, X, Y, Size, Color, BackColor, MaxWidth = 1200) {
-    if (!Text) return Y;
-    const oldFont = MainCanvas.font;
+	if (!Text) return Y;
+	const oldFont = MainCanvas.font;
 
-    // Check if this is a heading (typically larger font size)
-    const isHeading = Size >= 26;
+	// Check if this is a heading (typically larger font size)
+	const isHeading = Size >= 26;
 
-    // Set canvas text alignment to left (this ensures text always starts at X position)
-    const oldAlign = MainCanvas.textAlign;
-    MainCanvas.textAlign = "left";
+	// Set canvas text alignment to left (this ensures text always starts at X position)
+	const oldAlign = MainCanvas.textAlign;
+	MainCanvas.textAlign = "left";
 
-    // Apply font styling
-    if (isHeading) {
-        MainCanvas.font = "bold " + Size + "px Arial";
-    } else {
-        MainCanvas.font = Size + "px Arial";
-    }
+	// Apply font styling
+	if (isHeading) {
+		MainCanvas.font = "bold " + Size + "px Arial";
+	} else {
+		MainCanvas.font = Size + "px Arial";
+	}
 
-    // For very short text, no need for word wrapping
-    if (MainCanvas.measureText(Text).width <= MaxWidth) {
-        // Add a subtle shadow effect for headings
-        if (isHeading && BackColor) {
-            MainCanvas.fillStyle = BackColor;
-            MainCanvas.fillText(Text, X + 2, Y + 2);
-        } else if (BackColor != null && BackColor !== "") {
-            MainCanvas.fillStyle = BackColor;
-            MainCanvas.fillText(Text, X + 1, Y + 1);
-        }
+	// For very short text, no need for word wrapping
+	if (MainCanvas.measureText(Text).width <= MaxWidth) {
+		// Add a subtle shadow effect for headings
+		if (isHeading && BackColor) {
+			MainCanvas.fillStyle = BackColor;
+			MainCanvas.fillText(Text, X + 2, Y + 2);
+		} else if (BackColor != null && BackColor !== "") {
+			MainCanvas.fillStyle = BackColor;
+			MainCanvas.fillText(Text, X + 1, Y + 1);
+		}
 
-        MainCanvas.fillStyle = Color;
-        MainCanvas.fillText(Text, X, Y);
-        MainCanvas.font = oldFont;
-        MainCanvas.textAlign = oldAlign;
-        return Y + Size * 1.2;
-    }
+		MainCanvas.fillStyle = Color;
+		MainCanvas.fillText(Text, X, Y);
+		MainCanvas.font = oldFont;
+		MainCanvas.textAlign = oldAlign;
+		return Y + Size * 1.2;
+	}
 
-    // Standard word wrapping for longer text
-    const words = Text.split(' ');
-    let line = "";
-    let lineHeight = Size * 1.2;
+	// Standard word wrapping for longer text
+	const words = Text.split(' ');
+	let line = "";
+	let lineHeight = Size * 1.2;
 
-    for (let n = 0; n < words.length; n++) {
-        let testLine = line + words[n] + " ";
-        let metrics = MainCanvas.measureText(testLine);
-        let testWidth = metrics.width;
-        if (testWidth > MaxWidth && n > 0) {
-            // Draw current line
-            if (BackColor != null && BackColor !== "") {
-                MainCanvas.fillStyle = BackColor;
-                MainCanvas.fillText(line, X + 1, Y + 1);
-            }
-            MainCanvas.fillStyle = Color;
-            MainCanvas.fillText(line, X, Y);
-            line = words[n] + " ";
-            Y += lineHeight;
-        } else {
-            line = testLine;
-        }
-    }
+	for (let n = 0; n < words.length; n++) {
+		let testLine = line + words[n] + " ";
+		let metrics = MainCanvas.measureText(testLine);
+		let testWidth = metrics.width;
+		if (testWidth > MaxWidth && n > 0) {
+			// Draw current line
+			if (BackColor != null && BackColor !== "") {
+				MainCanvas.fillStyle = BackColor;
+				MainCanvas.fillText(line, X + 1, Y + 1);
+			}
+			MainCanvas.fillStyle = Color;
+			MainCanvas.fillText(line, X, Y);
+			line = words[n] + " ";
+			Y += lineHeight;
+		} else {
+			line = testLine;
+		}
+	}
 
-    // Draw last line
-    if (line !== "") {
-        if (BackColor != null && BackColor !== "") {
-            MainCanvas.fillStyle = BackColor;
-            MainCanvas.fillText(line, X + 1, Y + 1);
-        }
-        MainCanvas.fillStyle = Color;
-        MainCanvas.fillText(line, X, Y);
-        Y += lineHeight;
-    }
+	// Draw last line
+	if (line !== "") {
+		if (BackColor != null && BackColor !== "") {
+			MainCanvas.fillStyle = BackColor;
+			MainCanvas.fillText(line, X + 1, Y + 1);
+		}
+		MainCanvas.fillStyle = Color;
+		MainCanvas.fillText(line, X, Y);
+		Y += lineHeight;
+	}
 
-    // Restore original settings
-    MainCanvas.font = oldFont;
-    MainCanvas.textAlign = oldAlign;
-    return Y;
+	// Restore original settings
+	MainCanvas.font = oldFont;
+	MainCanvas.textAlign = oldAlign;
+	return Y;
 }
 
 /**
@@ -6300,37 +6300,37 @@ function ClubCardClick() {
 		if (ClubCardPopup.Mode == "INFO") {
 			if (MouseIn(1705, 805, 90, 90)) {
 				ClubCardRandomCardName = (() => {
-				let tier1 = ClubCardList.filter(card => card.RequiredLevel === undefined || card.RequiredLevel <= 1);
-				return tier1[~~(Math.random() * tier1.length)].Name;
+					let tier1 = ClubCardList.filter(card => card.RequiredLevel === undefined || card.RequiredLevel <= 1);
+					return tier1[~~(Math.random() * tier1.length)].Name;
 				})();
 				return;
 			}
 			if (MouseIn(1805, 805, 90, 90)) {
 				ClubCardRandomCardName = (() => {
-				let tier1 = ClubCardList.filter(card => card.RequiredLevel == 2);
-				return tier1[~~(Math.random() * tier1.length)].Name;
+					let tier1 = ClubCardList.filter(card => card.RequiredLevel == 2);
+					return tier1[~~(Math.random() * tier1.length)].Name;
 				})();
 				return;
 			}
 			if (MouseIn(1905, 805, 90, 90)) return ClubCardDestroyPopup();
 			if (MouseIn(1705, 905, 90, 90)) {
 				ClubCardRandomCardName = (() => {
-				let tier1 = ClubCardList.filter(card => card.RequiredLevel == 3);
-				return tier1[~~(Math.random() * tier1.length)].Name;
+					let tier1 = ClubCardList.filter(card => card.RequiredLevel == 3);
+					return tier1[~~(Math.random() * tier1.length)].Name;
 				})();
 				return;
 			}
 			if (MouseIn(1805, 905, 90, 90)) {
 				ClubCardRandomCardName = (() => {
-				let tier1 = ClubCardList.filter(card => card.RequiredLevel == 4);
-				return tier1[~~(Math.random() * tier1.length)].Name;
+					let tier1 = ClubCardList.filter(card => card.RequiredLevel == 4);
+					return tier1[~~(Math.random() * tier1.length)].Name;
 				})();
 				return;
 			}
 			if (MouseIn(1905, 905, 90, 90)) {
 				ClubCardRandomCardName = (() => {
-				let tier1 = ClubCardList.filter(card => card.RequiredLevel == 5);
-				return tier1[~~(Math.random() * tier1.length)].Name;
+					let tier1 = ClubCardList.filter(card => card.RequiredLevel == 5);
+					return tier1[~~(Math.random() * tier1.length)].Name;
 				})();
 				return;
 			}
