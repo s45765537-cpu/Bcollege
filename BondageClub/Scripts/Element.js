@@ -337,7 +337,7 @@ function ElementCreateRangeInput(id, value, min, max, step, thumbIcon, vertical)
 /**
  * Construct a `<select>`-based dropdown menu.
  * @param {string | null} id - The name of the select item.
- * @param {readonly (string | Omit<HTMLOptions<"option">, "tag">)[]} optionsList - The list of options for the current select statement. Can be supplied as a simple string or a more extensive `<option>` config.
+ * @param {readonly (string | Omit<HTMLOptions<"option">, "tag"> | HTMLOptions<"hr">)[]} optionsList - The list of options for the current select statement. Can be supplied as a simple string or a more extensive `<option>` config.
  * @param {(this: HTMLSelectElement, event: Event) => any} onChange - An event listener to be called, when the value of the drop down box changes
  * @param {null | { required?: boolean, multiple?: boolean, disabled?: boolean, size?: number }} [options] - Additional `<select>`-specific properties
  * @param {null | Partial<Record<"select", Omit<HTMLOptions<"select">, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the respective (child) element
@@ -389,6 +389,8 @@ function ElementCreateDropdown(id, optionsList, onChange, options=null, htmlOpti
 			...optionsList.map(content => {
 				if (typeof content === "string") {
 					return { tag: /** @type {const} */("option"), children: [content] };
+				} else if ("tag" in content && content.tag === "hr") {
+					return /** @type {HTMLOptions<"hr">} */(content);
 				} else {
 					return { tag: /** @type {const} */("option"), ...content };
 				}
