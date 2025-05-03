@@ -5146,8 +5146,8 @@ function ClubCardLoad() {
 	ClubCardAddPlayer(Player, "Player", []);
 	ClubCardAddPlayer(ClubCardOpponent, "AI", ClubCardOpponentDeck);
 
-	if (Player.Game.ClubCard.IsAnimation) ClubCardIsAnimationOn = Player.Game.ClubCard.IsAnimation;
-	else Player.Game.ClubCard.IsAnimation = true;
+	Player.Game.ClubCard.IsAnimation ??= true;
+	ClubCardIsAnimationOn = Player.Game.ClubCard.IsAnimation;
 
 	ClubCardCreatePopup("DECK");
 }
@@ -5762,7 +5762,7 @@ function ClubCardRenderPanel() {
 		DrawButton(1805, 805, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/CancelPending.png", TextGet("CancelPending"));
 
 		if (ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus))
-			if(ClubCardFocus.IsVisible) DrawButton(745, 505, 215, 50, TextGet("SelectCard"), "White");
+			if(!ClubCardIsAnimationOn || ClubCardFocus.IsVisible) DrawButton(745, 505, 215, 50, TextGet("SelectCard"), "White");
 		return;
 	}
 
