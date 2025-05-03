@@ -51,6 +51,12 @@ var ClubCardOnlinePlayerMemberNumber2 = -1;
  * It is used globally to prevent ID duplication.
  */
 let ClubCardUniqueIDCounter = 0;
+/**
+ * String for a random tier 1 card name. Tier 1 cards have no RequiredLevel or RequiredLevel <= 1
+ * @type {string}
+ */
+let ClubCardRandomCardName = "";
+
 
 // #region Card Animations
 /**
@@ -5794,7 +5800,22 @@ function ClubCardRenderPanel() {
 	} else if(ClubCardGameEnded) {
 		ClubCardStatusText("GameEnded");
 	} else if(ClubCardPopup?.Mode == "INFO") {
-		DrawButton(1805, 805, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/CancelPending.png", TextGet("Close"));
+		DrawButton(1705, 805, 90, 90, null, ClubCardColor[1], "", "Random Appartment Card");
+		DrawTextFit("t1", 1750, 850, 90, "Black", "Black");
+		DrawButton(1805, 805, 90, 90, null, ClubCardColor[2], "", "Random Cottage Card");
+		DrawTextFit("t2", 1850, 850, 90, "Black", "Black");
+
+		DrawButton(1905, 805, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/CancelPending.png", TextGet("Close"));
+
+		DrawButton(1705, 905, 90, 90, null, ClubCardColor[3], "", "Random House Card");
+		DrawTextFit("t3", 1750, 950, 90, "Black", "Black");
+		DrawButton(1805, 905, 90, 90, null, ClubCardColor[4], "", "Random Mansion Card");
+		DrawTextFit("t4", 1850, 950, 90, "Black", "Black");
+
+		DrawButton(1905, 905, 90, 90, null, ClubCardColor[5], "", "Random Manor Card");
+		DrawTextFit("t5", 1950, 950, 90, "Black", "Black");
+
+
 	} else if (ClubCardPopup?.Mode == "TIERSELECTION") {
 		ClubCardStatusText("SelectOption");
 		DrawButton(1805, 805, 90, 90, null, "White", "Screens/MiniGame/ClubCard/Button/CancelPending.png", TextGet("CancelPending"));
@@ -5810,7 +5831,8 @@ function ClubCardRenderPanel() {
 function ClubCardDrawButton() {
 	if (ClubCardTurnCardPlayed == 0 && ClubCardPlayer[0].Deck.length > 0) {
 		DrawButton(1705, 805, 90, 190, null, "White", "", TextGet("Draw"));
-		DrawImageResize("Screens/MiniGame/ClubCard/Sleeve/" + ClubCardPlayer[0].Sleeve + ".png", 1712, 813, 76, 175);
+		DrawImageResize("Screens/MiniGame/ClubCard/Sleeve/" + ClubCardPlayer[0].Sleeve + ".png", 1710, 810, 80, 180);
+        DrawImageResize("Screens/MiniGame/ClubCard/Frame/SleeveBorder.png", 1708, 808, 84, 184);
 		DrawImageResize("Screens/MiniGame/ClubCard/Frame/CountDisplay.png", 1708, 808, 84, 184);
 		if (ClubCardPlayer[0].Deck.length < 10) {
 			DrawTextFit("0"+ClubCardPlayer[0].Deck.length.toString(), 1750, 850, 25, "#c3facf");
@@ -5984,12 +6006,112 @@ function ClubCardRenderPopup(Timestamp) {
 	}
 
 	// Draw the info popup
-	if (ClubCardPopup.Mode == "INFO"){
-		DrawRect(213, 248, 1274, 504, "White");
+	if (ClubCardPopup.Mode == "INFO") {
+		// Pick a random low-tier card
+		if (ClubCardRandomCardName == null || ClubCardRandomCardName == "") {
+			ClubCardRandomCardName = (() => {
+				let tier1 = ClubCardList.filter(card => card.RequiredLevel === undefined || card.RequiredLevel <= 1);
+				return tier1[~~(Math.random() * tier1.length)].Name;
+			})();
+		}
+		let DrawnRandomCard = ClubCardGetCopyCardByName(ClubCardRandomCardName);
+		
+		// Get the demo card object using its name
+		let demoCard = ClubCardGetCopyCardByName(ClubCardRandomCardName);
+
+		// Determine the color based on the tier of the demo card
+		let demoCardTier = demoCard.RequiredLevel ?? 1;
+		let buttonColor = ClubCardColor[demoCardTier];
+
+		DrawRect(213, 248, 1274, 504, buttonColor);
 		DrawRect(215, 250, 1270, 500, "Black");
-		// For Felix
+
+		// Render the card at the right side
+		ClubCardRenderCard(DrawnRandomCard, 1235, 250, 250, null, "Popup");
+
+		// Draw in the buttons on the left side
+		// - Fame Icon
+		DrawButton(225, 346, 44, 44, null, buttonColor, "Screens/MiniGame/ClubCard/Info/Fame.png", "");
+		if (DrawnRandomCard.FamePerTurn && DrawnRandomCard.FamePerTurn !== 0) {
+			DrawTextFit(DrawnRandomCard.FamePerTurn.toString(), 247, 370, 22, "Black", "Black");
+		}
+		// - Money Icon
+		DrawButton(225, 432, 44, 44, null, buttonColor, "Screens/MiniGame/ClubCard/Info/Money.png", "");
+		if (DrawnRandomCard.MoneyPerTurn && DrawnRandomCard.MoneyPerTurn !== 0) {
+			DrawTextFit(DrawnRandomCard.MoneyPerTurn.toString(), 247, 456, 22, "Black", "Black");
+		}
+		// - House/Tier Icon
+		DrawButton(225, 520, 44, 44, null, buttonColor, "Screens/MiniGame/ClubCard/Info/Level.png", "");
+		if ((DrawnRandomCard.RequiredLevel ?? 1) !== 0) {
+			DrawTextFit((DrawnRandomCard.RequiredLevel ?? 1).toString(), 247, 544, 22, "Black", "Black");
+		}
+		// - Liab Icon
+		DrawButton(225, 608, 44, 44, null, buttonColor, "Screens/MiniGame/ClubCard/Info/Liability.png", "");
+		// - Discard Icon
+		DrawButton(225, 696, 44, 44, null, buttonColor, "Screens/MiniGame/ClubCard/Info/DiscardPile.png", "");
+		
+		// Tutorial text
+		const leftMargin = 280; // Keep text moved to the right
+		let startY = 300; 
+		
+		// Create columns for more compact layout
+		const col1X = leftMargin;        // Title column X position
+		const col2X = leftMargin + 180;  // Description column X position
+		const col3X = 750;               // Main title X position
+		
+		// Base Y positions
+		const baseY = 346;  // Base Y aligned with first icon
+		
+		// Y positioning for each row - align with the button icons
+		const rowY = [
+			baseY + 25,         // Fame row
+			baseY + 110,    // Money row
+			baseY + 199,   // Building tiers row
+			baseY + 287,   // Liabilities row
+			baseY + 375    // Streets row
+		];
+		
+		// Column widths
+		const col1Width = 300;
+		const col2Width = 800;
+		const col3Width = 200;
+		
+		// Main title - Column 3
+		ClubCardInfoDrawText(TextGet("InfoPopupTitle"), col3X, startY - 10, 32, buttonColor, "Black", col3Width);
+
+		// Row 1: Fame
+		ClubCardInfoDrawText(TextGet("InfoFameTitle")+":", col1X, rowY[0], 32, buttonColor, "Black", col1Width);
+		let textY = rowY[0] - 25; // Adjust to vertically center with icon/title
+		textY = ClubCardInfoDrawText(TextGet("InfoFameDescription1"), col2X, textY, 22, buttonColor, null, col2Width);
+		textY = ClubCardInfoDrawText(TextGet("InfoFameDescription2"), col2X, textY, 22, buttonColor, null, col2Width);
+		ClubCardInfoDrawText(TextGet("InfoFameDescription3"), col2X, textY, 22, buttonColor, null, col2Width);
+
+		// Row 2: Money
+		ClubCardInfoDrawText(TextGet("InfoMoneyTitle")+":", col1X, rowY[1], 32, buttonColor, "Black", col1Width);
+		textY = rowY[1] - 10; // Adjust for vertical centering
+		textY = ClubCardInfoDrawText(TextGet("InfoMoneyDescription1"), col2X, textY, 22, buttonColor, null, col2Width);
+		ClubCardInfoDrawText(TextGet("InfoMoneyDescription2"), col2X, textY, 22, buttonColor, null, col2Width);
+
+		// Row 3: Building tiers
+		ClubCardInfoDrawText(TextGet("InfoBuildingTiersTitle")+":", col1X, rowY[2], 32, buttonColor, "Black", col1Width);
+		textY = rowY[2] - 25; // Adjust for vertical centering
+		textY = ClubCardInfoDrawText(TextGet("InfoBuildingTiersDescription1"), col2X, textY, 22, buttonColor, null, col2Width);
+		textY =ClubCardInfoDrawText(TextGet("InfoBuildingTiersDescription2"), col2X, textY, 22, buttonColor, null, col2Width);
+		ClubCardInfoDrawText(TextGet("InfoBuildingTiersDescription3"), col2X, textY, 22, buttonColor, null, col2Width);
+
+		// Row 4: Liabilities
+		ClubCardInfoDrawText(TextGet("InfoLiabilitiesTitle")+":", col1X, rowY[3], 32, buttonColor, "Black", col1Width);
+		textY = rowY[3]; // Adjust for vertical centering
+		ClubCardInfoDrawText(TextGet("InfoLiabilitiesDescription1"), col2X, textY, 22, buttonColor, null, col2Width);
+
+		// Row 5: Streets
+		ClubCardInfoDrawText(TextGet("InfoStreetsTitle")+":", col1X, rowY[4], 32, buttonColor, "Black", col1Width);
+		textY = rowY[4]; // Adjust for vertical centering
+		ClubCardInfoDrawText(TextGet("InfoStreetsDescription1"), col2X, textY, 22, buttonColor, null, col2Width);
+		
 		return;
 	}
+
 
 	// Draw the yes/no/text popups
 	DrawRect(648, 348, 404, 304, "White");
@@ -6001,6 +6123,95 @@ function ClubCardRenderPopup(Timestamp) {
 		DrawButton(860, 570, 180, 60, ClubCardPopup.Button2, "White");
 	}
 
+}
+
+/**
+ * Draws a text element with a specified font size on the canvas, wrapping within a max width
+ * Always aligns text to the left starting from the X coordinate
+ * @param {string} Text - Text to draw
+ * @param {number} X - X position (left edge of text)
+ * @param {number} Y - Y position
+ * @param {number} Size - Font size (e.g., 24 for normal, 36 for titles)
+ * @param {string} Color - Text color
+ * @param {string} [BackColor] - Optional background color for shadow effect
+ * @param {number} [MaxWidth] - Optional maximum width before wrapping
+ * @returns {number} - Returns new Y position after drawing
+ */
+function ClubCardInfoDrawText(Text, X, Y, Size, Color, BackColor, MaxWidth = 1200) {
+    if (!Text) return Y;
+    const oldFont = MainCanvas.font;
+
+    // Check if this is a heading (typically larger font size)
+    const isHeading = Size >= 26;
+
+    // Set canvas text alignment to left (this ensures text always starts at X position)
+    const oldAlign = MainCanvas.textAlign;
+    MainCanvas.textAlign = "left";
+
+    // Apply font styling
+    if (isHeading) {
+        MainCanvas.font = "bold " + Size + "px Arial";
+    } else {
+        MainCanvas.font = Size + "px Arial";
+    }
+
+    // For very short text, no need for word wrapping
+    if (MainCanvas.measureText(Text).width <= MaxWidth) {
+        // Add a subtle shadow effect for headings
+        if (isHeading && BackColor) {
+            MainCanvas.fillStyle = BackColor;
+            MainCanvas.fillText(Text, X + 2, Y + 2);
+        } else if (BackColor != null && BackColor !== "") {
+            MainCanvas.fillStyle = BackColor;
+            MainCanvas.fillText(Text, X + 1, Y + 1);
+        }
+
+        MainCanvas.fillStyle = Color;
+        MainCanvas.fillText(Text, X, Y);
+        MainCanvas.font = oldFont;
+        MainCanvas.textAlign = oldAlign;
+        return Y + Size * 1.2;
+    }
+
+    // Standard word wrapping for longer text
+    const words = Text.split(' ');
+    let line = "";
+    let lineHeight = Size * 1.2;
+
+    for (let n = 0; n < words.length; n++) {
+        let testLine = line + words[n] + " ";
+        let metrics = MainCanvas.measureText(testLine);
+        let testWidth = metrics.width;
+        if (testWidth > MaxWidth && n > 0) {
+            // Draw current line
+            if (BackColor != null && BackColor !== "") {
+                MainCanvas.fillStyle = BackColor;
+                MainCanvas.fillText(line, X + 1, Y + 1);
+            }
+            MainCanvas.fillStyle = Color;
+            MainCanvas.fillText(line, X, Y);
+            line = words[n] + " ";
+            Y += lineHeight;
+        } else {
+            line = testLine;
+        }
+    }
+
+    // Draw last line
+    if (line !== "") {
+        if (BackColor != null && BackColor !== "") {
+            MainCanvas.fillStyle = BackColor;
+            MainCanvas.fillText(line, X + 1, Y + 1);
+        }
+        MainCanvas.fillStyle = Color;
+        MainCanvas.fillText(line, X, Y);
+        Y += lineHeight;
+    }
+
+    // Restore original settings
+    MainCanvas.font = oldFont;
+    MainCanvas.textAlign = oldAlign;
+    return Y;
 }
 
 /**
@@ -6087,7 +6298,42 @@ function ClubCardClick() {
 			}
 		}
 		if (ClubCardPopup.Mode == "INFO") {
-			if (MouseIn(1805, 805, 90, 90)) return ClubCardDestroyPopup();
+			if (MouseIn(1705, 805, 90, 90)) {
+				ClubCardRandomCardName = (() => {
+				let tier1 = ClubCardList.filter(card => card.RequiredLevel === undefined || card.RequiredLevel <= 1);
+				return tier1[~~(Math.random() * tier1.length)].Name;
+				})();
+				return;
+			}
+			if (MouseIn(1805, 805, 90, 90)) {
+				ClubCardRandomCardName = (() => {
+				let tier1 = ClubCardList.filter(card => card.RequiredLevel == 2);
+				return tier1[~~(Math.random() * tier1.length)].Name;
+				})();
+				return;
+			}
+			if (MouseIn(1905, 805, 90, 90)) return ClubCardDestroyPopup();
+			if (MouseIn(1705, 905, 90, 90)) {
+				ClubCardRandomCardName = (() => {
+				let tier1 = ClubCardList.filter(card => card.RequiredLevel == 3);
+				return tier1[~~(Math.random() * tier1.length)].Name;
+				})();
+				return;
+			}
+			if (MouseIn(1805, 905, 90, 90)) {
+				ClubCardRandomCardName = (() => {
+				let tier1 = ClubCardList.filter(card => card.RequiredLevel == 4);
+				return tier1[~~(Math.random() * tier1.length)].Name;
+				})();
+				return;
+			}
+			if (MouseIn(1905, 905, 90, 90)) {
+				ClubCardRandomCardName = (() => {
+				let tier1 = ClubCardList.filter(card => card.RequiredLevel == 5);
+				return tier1[~~(Math.random() * tier1.length)].Name;
+				})();
+				return;
+			}
 		}
 		if (ClubCardPopup.Mode == "DECK")
 			for (let Deck = 0; Deck < 10; Deck++)
