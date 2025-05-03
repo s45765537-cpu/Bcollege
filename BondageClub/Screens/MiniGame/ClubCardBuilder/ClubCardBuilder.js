@@ -91,9 +91,9 @@ function ClubCardBuilderSaveName(Save) {
  * @returns {void} - Nothing
  */
 function ClubCardBuilderSaveCardBack(CardBack) {
-    Player.Game.ClubCard.CardBack = CardBack;
-    ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
-    ClubCardBuilderCustomizationIndex = ""
+	Player.Game.ClubCard.CardBack = CardBack;
+	ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+	ClubCardBuilderCustomizationIndex = "";
 }
 
 /**
@@ -157,7 +157,7 @@ function ClubCardBuilderRenameMode(Deck) {
  * @returns {void} - Nothing
  */
 function ClubCardBuilderRun() {
-
+	let Index = null;
 	// Makes sure the captions are loaded
 	ClubCardLoadCaption();
 
@@ -173,7 +173,7 @@ function ClubCardBuilderRun() {
 
 	// In CardBack mode
 	if (ClubCardBuilderCustomizationIndex == "CardBack") {
-		let Index = (ClubCardBuilderOffset * -1);
+		Index = (ClubCardBuilderOffset * -1);
 		for (let i = 0; i <= ClubCardBuilderCardBackCount; i++) {
 			if ((Index >= 0) && (Index <= 29)) {
 				let PosX = (Index % 10) * 154 + 5;
@@ -183,7 +183,7 @@ function ClubCardBuilderRun() {
 				if (MouseIn(PosX, PosY, 150, 300)) ClubCardBuilderCardBackFocus = i;
 				if (ClubCardBuilderSelectedCardBack == i) DrawImageResize("Screens/MiniGame/ClubCardBuilder/Selected.png", PosX + 110, PosY + 40, 40, 40);
 			}
-			Index++
+			Index++;
 		}
 		DrawButton(1895, 5, 90, 90, null, "White", "Icons/Cancel.png", TextGet("UndoChanges"));
 		DrawButton(1780, 5, 90, 90, null, "White", "Icons/Accept.png", TextGet("SaveCardBack"));
@@ -206,13 +206,13 @@ function ClubCardBuilderRun() {
 		}
 		DrawButton(1885, 25, 90, 90, null, "White", "Icons/Exit.png", TextGet("Exit"));
 		DrawButton(1770, 25, 90, 90, null, "White", "Icons/ClubCard.png", TextGet("ChangeCardBack"));
-        DrawButton(1655, 25, 90, 90, null, "White", "Icons/Preference.png", TextGet("ChangeCardBackGround"));
+		DrawButton(1655, 25, 90, 90, null, "White", "Icons/Preference.png", TextGet("ChangeCardBackGround"));
 		return;
 
 	}
 
 	// In card selection mode, we draw the cards in a 3x10 grid
-	let Index = (ClubCardBuilderOffset * -1);
+	Index = (ClubCardBuilderOffset * -1);
 	for (let Card of ClubCardBuilderList) {
 		if ((Index >= 0) && (Index <= 29)) {
 			let PosX = (Index % 10) * 154 + 5;
@@ -251,7 +251,7 @@ function ClubCardBuilderClick() {
 	if (ClubCardBuilderCustomizationIndex == "CardBack") {
 		if (MouseIn(1895, 5, 90, 90)) { ClubCardBuilderCustomizationIndex = ""; return; }
 		if (MouseIn(1780, 5, 90, 90)) return ClubCardBuilderSaveCardBack(ClubCardBuilderSelectedCardBack);
-		
+
 		if (MouseIn(1665, 5, 90, 90)) {
 			ClubCardBuilderOffset = ClubCardBuilderOffset + 30;
 			if (ClubCardBuilderOffset > ClubCardBuilderCardBackCount) ClubCardBuilderOffset = 0;
@@ -262,11 +262,11 @@ function ClubCardBuilderClick() {
 			if (ClubCardBuilderOffset < 0) ClubCardBuilderOffset = Math.floor(ClubCardBuilderCardBackCount / 30) * 30;
 			return;
 		}
-	
+
 		// If the user clicks on the focused card back
 		if (MouseIn(1545, 105, 445, 890) && (ClubCardBuilderCardBackFocus != null)) { ClubCardBuilderSelectedCardBack = ClubCardBuilderCardBackFocus; return; }
-	
-		// If the user clicks on the focused card back from the grid    
+
+		// If the user clicks on the focused card back from the grid
 		for (let i = 0; i <= ClubCardBuilderCardBackCount; i++) {
 			let PosX = (i % 10) * 150 + 20;
 			let PosY = Math.floor(i / 10) * 300 + 95;
@@ -292,14 +292,14 @@ function ClubCardBuilderClick() {
 	if ((ClubCardBuilderDeckIndex != -1) && MouseIn(1780, 5, 90, 90) && (ClubCardBuilderDeckCurrent.length >= ClubCardBuilderMinDeckSize) && (ClubCardBuilderDeckCurrent.length <= ClubCardBuilderMaxDeckSize)) return ClubCardBuilderSaveChanges();
 
 	// if the click on change card back
-	if ((ClubCardBuilderDeckIndex == -1) && MouseIn(1770, 25, 90, 90)) { 
-		ClubCardBuilderOffset = 0; 
-		ClubCardBuilderCardBackFocus = (Player.Game.ClubCard.CardBack ? Player.Game.ClubCard.CardBack : 0); 
-		ClubCardBuilderCustomizationIndex = "CardBack"; 
-		ClubCardBuilderSelectedCardBack = Player.Game.ClubCard.CardBack; 
+	if ((ClubCardBuilderDeckIndex == -1) && MouseIn(1770, 25, 90, 90)) {
+		ClubCardBuilderOffset = 0;
+		ClubCardBuilderCardBackFocus = (Player.Game.ClubCard.CardBack ? Player.Game.ClubCard.CardBack : 0);
+		ClubCardBuilderCustomizationIndex = "CardBack";
+		ClubCardBuilderSelectedCardBack = Player.Game.ClubCard.CardBack;
 	}
-	// if the user click on change background 
-	if ((ClubCardBuilderDeckIndex == -1) && MouseIn(1655, 25, 90, 90)) { 
+	// if the user click on change background
+	if ((ClubCardBuilderDeckIndex == -1) && MouseIn(1655, 25, 90, 90)) {
 		let backgrounds = BackgroundsGenerateList(BackgroundsClubCardsTagList);
 		let index = backgrounds.indexOf(Player.Game.ClubCard.Background ? Player.Game.ClubCard.Background : "ClubCardPlayBoard1");
 		if (index < 0) index = 0;

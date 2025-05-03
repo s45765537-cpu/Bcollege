@@ -5206,14 +5206,40 @@ function ClubCardGetGroupText(Group) {
 
 /**
  * Returns a reference to the original card based on its UniqueID.
- * @param {ClubCard} card - A copy of the card for which the original needs to be found.
+ * @param {string} uniqueID - A copy of the card for which the original needs to be found.
+ * @param {Map} allMap - an attempt to reduce the waste of resources on calculations
  * @returns {ClubCard|null} - The original card or null if not found.
  */
-function ClubCardGetOriginalCard(card) {
-	if (!card || !card.Location) return null;
-	const targetArray = ClubCardGetCardArrayByLocation(card);
-	return targetArray ? targetArray.find(c => c.UniqueID === card.UniqueID) : null;
+function ClubCardGetOriginalCardByUniqueID(uniqueID, allMap = null) {
+	if(allMap) return allMap.get(uniqueID);
+	const map = ClubCardCreateMapCurrentGameState();
+
+	return map.get(uniqueID);
 }
+
+/**
+ * Creates a map of all cards in the current game by their UniqueID.
+ * Useful for quick lookup by ID.
+ * @returns {Map<string, ClubCard>} Map of UniqueID to card
+ */
+function ClubCardCreateMapCurrentGameState() {
+	const all = [];
+
+	for (const player of ClubCardPlayer) {
+		all.push(...player.Hand);
+		all.push(...player.Board);
+		all.push(...player.Event);
+		all.push(...player.DiscardPile);
+		all.push(...player.Deck);
+	}
+
+	const map = new Map();
+	for (const card of all)
+		if (card.UniqueID)
+			map.set(card.UniqueID, card);
+	return map;
+}
+
 
 /**
  * Updates the positions of all active card animations.
@@ -5289,7 +5315,7 @@ function ClubCardMoveCard(card, priority,startPosition, endPosition, hideOrigina
 	card.AnimationState = "moving";
 	card.IsVisible = false;
 
-	const originalCard = ClubCardGetOriginalCard(card);
+	const originalCard = ClubCardGetOriginalCardByUniqueID(card.UniqueID);
 
 	if (hideOriginal && originalCard) {
 		originalCard.IsVisible = false;
@@ -5305,7 +5331,7 @@ function ClubCardMoveCard(card, priority,startPosition, endPosition, hideOrigina
 			originalCard.AnimationState = "idle";
 		}
 		card.AnimationState = "idle";
-	}, duration + 50);
+	}, duration + 100);
 
 	ClubCardActiveAnimations.push({
 		Card: card,
@@ -5341,11 +5367,14 @@ function ClubCardMoveCardToPreview(card, onStart = null, onComplete = null, dura
  * Returns a card from preview back to its original position.
  */
 function ClubCardReturnCardFromPreview(card, onStart = null, onComplete = null, duration = 150) {
-	const originalCard = ClubCardGetOriginalCard(card);
+	const originalCard = ClubCardGetOriginalCardByUniqueID(card.UniqueID);
 
-	let endPosition = originalCard
-    ? { x: originalCard.CurrentX, y: originalCard.CurrentY, w: originalCard.CurrentW }
-    : ClubCardDiscardPosition;
+	if (!originalCard) {
+		ClubCardFocus = null;
+		return;
+	}
+
+	let endPosition = { x: originalCard.CurrentX, y: originalCard.CurrentY, w: originalCard.CurrentW };
 
 	ClubCardMoveCard(card,
 		1,
@@ -5362,7 +5391,7 @@ function ClubCardReturnCardFromPreview(card, onStart = null, onComplete = null, 
  * Returns a card from pending state back to its original position.
  */
 function ClubCardReturnCardFromPending(card, onStart = null, onComplete = null, duration = 150) {
-	const originalCard = ClubCardGetOriginalCard(card);
+	const originalCard = ClubCardGetOriginalCardByUniqueID(card.UniqueID);
 
 	ClubCardMoveCard(card,
 		1,
@@ -5584,7 +5613,7 @@ function ClubCardRenderBoard(CCPlayer, X, Y, W, H, Mirror) {
 	if (!isEqualBoard && ClubCardIsAnimationOn) {
 		//########### Record animations for the new card positions
 		remainingCards.forEach(copyCard => {
-			const originalCard = ClubCardGetOriginalCard(copyCard);
+			const originalCard = ClubCardGetOriginalCardByUniqueID(copyCard.UniqueID);
 			if (!originalCard) return;
 
 			const startPosition = { x: copyCard.CurrentX, y: copyCard.CurrentY, w: copyCard.CurrentW };
@@ -6146,7 +6175,7 @@ function ClubCardClickPlayCard(isPending) {
 		//PlayCard with Pending Card
 		if (ClubCardIsAnimationOn) {
 			//### Play Select card when Pendind Card is Active
-			const originalCard = ClubCardGetOriginalCard(ClubCardFocus);
+			const originalCard = ClubCardGetOriginalCardByUniqueID(ClubCardFocus.UniqueID);
 			originalCard.IsVisible = true;
 			originalCard.AnimationState = "idle";
 			//###
