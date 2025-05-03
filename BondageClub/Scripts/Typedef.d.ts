@@ -134,6 +134,10 @@ interface HTMLElementEventMap {
 	bcTouchHold: MouseEvent;
 }
 
+interface HTMLElementTagNameMap {
+	"bc-tint-input": HTMLTintInputElement,
+}
+
 declare namespace ElementButton {
 	/** An input type for representing one or more text nodes and/or **non-interactive** DOM elements (_e.g._ `<i>` or `<code>`) */
 	type StaticNode = null | string | Node | HTMLOptions<any> | readonly (null | undefined | string | Node | HTMLOptions<any>)[];
