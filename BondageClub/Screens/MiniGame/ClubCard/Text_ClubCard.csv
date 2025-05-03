@@ -563,6 +563,7 @@ Title Talent Agent,Talent Agent
 Text Talent Agent,"Enters: Add two Porn Amateurs to your hand. Gains +1 Fame if you have 3 or more videos in your streets."
 Title Eden,Eden
 Text Eden,"Enters: Play again. Select a tier. Your opponent can't play cards of that tier next turn. Return to hand after 3 turns."
+Effect Eden,Eden prevents the opponent from playing tier AMOUNT.
 Title Adoption,Adoption
 Text Adoption,"Add a random pet from your deck or streets to your hand, if it's tier is equal to or lower than your building level, play again."
 Title Loving Owner,Loving Owner
@@ -586,4 +587,4 @@ GroupTimedEvent,Timed Event
 GroupAuction,Auction
 Title Kira,Kira
 Text Kira,Can't leave. Gets +1 Fame per 2 members present (Max 8). Joins: Set the Fame & Money of a member in your club and those adjacent to 0/-2.
-Prerequisite Kira,"Select a member"
+Prerequisite Kira,"Select a member from your club."

@@ -386,8 +386,6 @@ var ClubCardList = [
 		Name: "Secretary",
 		Group: ["Staff"],
 		ExtraTime: 1,
-		FamePerTurn:1,
-		RequiredLevel: 2,
 		OnPlay: function(CCPlayer) {
 			for (const card of CCPlayer.Event) {
 				card.Time++;
@@ -1268,7 +1266,8 @@ var ClubCardList = [
 		ID: 9000,
 		Name: "Scammer",
 		Group: ["Liability"],
-		RequiredLevel: 2,
+		RequiredLevel: 3,
+		FamePerTurn: -1,
 		MoneyPerTurn: -1,
 		ExtraTime: -1,
 		OnPlay: function(CCPlayer) {
@@ -1756,6 +1755,7 @@ var ClubCardList = [
 		OnPlay: function () {
 			this.EffectKey = ClubCardTierSelection;
 			this.ExtraPlay = 1;
+			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Eden", {[ClubCardPlaceholderKeys.AMOUNT]: ClubCardTierSelection });
 		},
 		turnStart: function (CCPlayer) {
 			this.EffectKey = null;
@@ -4744,20 +4744,21 @@ function ClubCardCanSelectCard(CCPlayer, Card) {
  * Returns TRUE if a specific card can be selected as a prerequisite for another card by the player
  * @param {ClubCard} Card - The card to select
  * @param {ClubCardPlayer} CCPlayer - The club card player
+ * @param {null | ClubCard} AICard - if the function is called by AI playing a card
  * @returns {boolean} - TRUE if the card can be selected
  */
-function ClubCardCardsSelectConditions(Card, CCPlayer) {
-	if (ClubCardPending.Name === "Moon" && Card.Name === "Moon") return false;
-	if (ClubCardPending.Name === "Tax Auditor" && Card.RequiredLevel > 3) return false;
-	if (ClubCardPending.Name === "Feline Fatale") {
+function ClubCardCardsSelectConditions(Card, CCPlayer, AICard = null) {
+	if ((AICard ?? ClubCardPending).Name === "Moon" && Card.Name === "Moon") return false;
+	if ((AICard ?? ClubCardPending).Name === "Tax Auditor" && Card.RequiredLevel > 3) return false;
+	if ((AICard ?? ClubCardPending).Name === "Feline Fatale") {
 		const ownersPresent = CCPlayer.Board.filter(value => ClubCardCardHasGroup(value, "Owner"));
 		const highestTierOwner = ownersPresent.reduce((max, card) => Math.max(max, card.RequiredLevel ?? 1), 0);
 		if ((Card.RequiredLevel ?? 1) > highestTierOwner) return false;
 	}
-	if (ClubCardPending.Name === "Vanilla Classic" && !ClubCardCardHasGroup(Card, "PornActress")) return false;
-	if (ClubCardPending.Name === "Sophie" && ClubCardIsLiability(Card)) return false;
-	if (ClubCardPending.EffectType === "Removal" && Card.Name === "Kira") return false;
-	if (ClubCardPending.Name === "Kira" && (Card.ArrayIndex == 0 || Card.ArrayIndex == CCPlayer.Board.length - 1)) return false;
+	if ((AICard ?? ClubCardPending).Name === "Vanilla Classic" && !ClubCardCardHasGroup(Card, "PornActress")) return false;
+	if ((AICard ?? ClubCardPending).Name === "Sophie" && ClubCardIsLiability(Card)) return false;
+	if ((AICard ?? ClubCardPending).EffectType === "Removal" && Card.Name === "Kira") return false;
+	if ((AICard ?? ClubCardPending).Name === "Kira" && (Card.ArrayIndex == 0 || Card.ArrayIndex == CCPlayer.Board.length - 1)) return false;
 	return true;
 }
 
@@ -4815,7 +4816,7 @@ function ClubCardPlayCard(CCPlayer, Card, triggerOnPlay = true) {
 	if ((Card.Prerequisite === "SelectOpponentMember") && (ClubCardSelection == null) && (CCPlayer.Control == "AI")) {
 		let Cards = [];
 		for (let C of ClubCardGetOpponent(CCPlayer).Board)
-			if (((C.Group == null) || (C.Group.indexOf("Liability") < 0)) && ClubCardCardsSelectConditions(C, CCPlayer))
+			if (((C.Group == null) || (C.Group.indexOf("Liability") < 0)) && ClubCardCardsSelectConditions(C, CCPlayer, Card))
 				Cards.push(C);
 		ClubCardSelection = CommonRandomItemFromList(null, Cards);
 	}
@@ -4824,12 +4825,16 @@ function ClubCardPlayCard(CCPlayer, Card, triggerOnPlay = true) {
 	if ((Card.Prerequisite === "SelectAnyMember") && (ClubCardSelection == null) && (CCPlayer.Control == "AI")) {
 		let cards = [];
 		for (const card of CCPlayer.Board) {
-			cards.push(card);
-			cards[cards.length - 1].Location = "PlayerBoard";
+			if (ClubCardCardsSelectConditions(card, CCPlayer, Card)) {
+				cards.push(card);
+				cards[cards.length - 1].Location = "PlayerBoard";
+			}
 		}
 		for (const card of ClubCardGetOpponent(CCPlayer).Board) {
-			cards.push(card);
-			cards[cards.length - 1].Location = "OpponentBoard";
+			if (ClubCardCardsSelectConditions(card, CCPlayer, Card)) {
+				cards.push(card);
+				cards[cards.length - 1].Location = "OpponentBoard";
+			}
 		}
 		const selectedCardNumber = Math.floor(Math.random() * cards.length);
 		ClubCardSelection = cards[selectedCardNumber];
