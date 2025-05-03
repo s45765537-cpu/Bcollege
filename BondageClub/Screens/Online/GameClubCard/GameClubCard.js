@@ -103,6 +103,10 @@ function GameClubCardRun() {
 	if (GameClubCardCanJoinGame()) DrawButton(900, 600, 400, 64, TextGet("JoinGame"), "White");
 	if ((GameClubCardGetStatus() == "Running") && !GameClubCardCanJoinGame()) DrawText(TextGet("CannotJoinDetails"), 1100, 600, "Red", "Gray");
 	if (GameClubCardIsAdmin(Player)) DrawButton(900, 800, 400, 64, TextGet("ResetGame"), "Salmon");
+
+	//Animation Settings
+	DrawCheckbox(900, 880, 60, 60, null, Player.Game.ClubCard.IsAnimation);
+	DrawTextWrap(TextGet("IsAnimation"), 970, 880, 350, 60, "Black");
 }
 
 /**
@@ -167,6 +171,12 @@ function GameClubCardClick() {
 		ClubCardSendRequestResetGame();
 	}
 
+	if (MouseIn(900, 880, 60, 60)) {
+		if (Player.Game.ClubCard.IsAnimation)
+			Player.Game.ClubCard.IsAnimation = !Player.Game.ClubCard.IsAnimation;
+		else
+			Player.Game.ClubCard.IsAnimation = true;
+	}
 }
 
 /**

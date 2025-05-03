@@ -3264,8 +3264,6 @@ function ClubCardMessagesMergeByKeys(messageArray, keysToSum) {
 	ClubCardMessageStorage.splice(messageArray[messageArray.length - 1].index, 0, lastMessage);
 }
 
-
-
 /**
  * Merges "StealMoney" and "StealFame" messages into one.
  *
@@ -3396,34 +3394,6 @@ function ClubCardGetCopyCardByID(cardId) {
  */
 function ClubCardGenerateUniqueID(cardID) {
 	return `${cardID}${Math.floor(performance.now() * 1e6)}${ClubCardUniqueIDCounter++}`;
-}
-
-/**
- * Returns a reference to the array where the card is stored based on its Location.
- * @param {ClubCard} card - The card whose location needs to be found.
- * @returns {ClubCard[] | null} - Reference to the corresponding card array or null if not found.
- */
-function ClubCardGetCardArrayByLocation(card) {
-	if (!card || !card.Location) return null;
-
-	switch (card.Location) {
-		case "PlayerHand":
-			return ClubCardPlayer[0].Hand;
-		case "OpponentHand":
-			return ClubCardPlayer[1].Hand;
-		case "PlayerBoard":
-			return card.Type === "Event" ? ClubCardPlayer[0].Event : ClubCardPlayer[0].Board;
-		case "OpponentBoard":
-			return card.Type === "Event" ? ClubCardPlayer[1].Event : ClubCardPlayer[1].Board;
-		case "PlayerDiscardPile":
-			return ClubCardPlayer[0].DiscardPile;
-		case "OpponentDiscardPile":
-			return ClubCardPlayer[1].DiscardPile;
-		case "Popup":
-			return ClubCardPopup.CardsPool;
-		default:
-			return null;
-	}
 }
 
 /**
@@ -5175,6 +5145,10 @@ function ClubCardLoad() {
 	ClubCardUniqueIDCounter = 0;
 	ClubCardAddPlayer(Player, "Player", []);
 	ClubCardAddPlayer(ClubCardOpponent, "AI", ClubCardOpponentDeck);
+
+	if (Player.Game.ClubCard.IsAnimation) ClubCardIsAnimationOn = Player.Game.ClubCard.IsAnimation;
+	else Player.Game.ClubCard.IsAnimation = true;
+
 	ClubCardCreatePopup("DECK");
 }
 

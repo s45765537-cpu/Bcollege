@@ -3599,6 +3599,7 @@ interface GameClubCardParameters {
 	PlayerSlot?: number;
 	Background?: string;
 	CardBack?: number;
+	IsAnimation?: boolean;
 }
 
 interface GamePrisonParameters {

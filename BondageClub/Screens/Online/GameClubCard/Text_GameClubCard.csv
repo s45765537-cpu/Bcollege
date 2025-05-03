@@ -9,3 +9,4 @@ StartGame,Start the game
 JoinGame,Join the game
 CannotJoinDetails,"Cannot join the game, the room administrator isn't in it."
 ResetGame,Reset Game
+IsAnimation,Club Card Animation
