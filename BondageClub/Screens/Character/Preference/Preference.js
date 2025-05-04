@@ -1109,6 +1109,15 @@ function PreferenceRegisterExtensionSetting(Setting) {
 		return;
 	}
 	PreferenceExtensionsSettings[Setting.Identifier] = Setting;
+
+	PreferenceExtensionsSettings = Object.fromEntries(
+		Object.entries(PreferenceExtensionsSettings)
+			.sort(([, a], [, b]) => {
+				const textA = typeof a.ButtonText === "function" ? a.ButtonText() : a.ButtonText;
+				const textB = typeof b.ButtonText === "function" ? b.ButtonText() : b.ButtonText;
+				return textA.localeCompare(textB);
+			})
+	);
 }
 
 /**
