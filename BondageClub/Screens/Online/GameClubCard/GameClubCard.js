@@ -172,10 +172,10 @@ function GameClubCardClick() {
 	}
 
 	if (MouseIn(900, 880, 60, 60)) {
-		if (Player.Game.ClubCard.IsAnimation)
-			Player.Game.ClubCard.IsAnimation = !Player.Game.ClubCard.IsAnimation;
-		else
-			Player.Game.ClubCard.IsAnimation = true;
+		if (Player.Game.ClubCard.IsAnimation) Player.Game.ClubCard.IsAnimation = !Player.Game.ClubCard.IsAnimation;
+		else Player.Game.ClubCard.IsAnimation = true;
+
+		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
 	}
 }
 
