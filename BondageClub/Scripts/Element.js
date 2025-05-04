@@ -1,12 +1,23 @@
 "use strict";
 
 /**
+ * Generate and return a unique {@link HTMLElement.id}.
+ *
+ * IDs consist of base36-encoded integers whose value is incremented each time this function is called.
+ */
+var ElementGenerateID = (() => {
+	let id = 0;
+	return function() { return (id++).toString(36); };
+})();
+
+/**
  * Handles the value of a HTML element. It sets the value of the element when the Value parameter is provided or it returns the value when the parameter is omitted
- * @param {string} ID - The id of the element for which we want to get/set the value.
+ * @param {string | null} ID - The id of the element for which we want to get/set the value.
  * @param {string} [Value] - The value to give to the element (if applicable)
  * @returns {string} - The value of the element (When no value parameter was passed to the function)
  */
 function ElementValue(ID, Value) {
+	ID ??= ElementGenerateID();
 	const e = /** @type {HTMLInputElement} */(document.getElementById(ID));
 	if (!e) {
 		console.error("ElementValue called on a missing element: " + ID.toString());
@@ -17,6 +28,7 @@ function ElementValue(ID, Value) {
 		return e.value.trim();
 
 	e.value = Value;
+	e.dispatchEvent(new InputEvent("input"));
 	return "";
 }
 
@@ -52,11 +64,12 @@ function ElementClickTimeout(root, query=null, timeout=250) {
 
 /**
  * Handles the content of a HTML element. It sets the content of the element when the Content parameter is provided or it returns the value when the parameter is omitted
- * @param {string} ID - The id of the element for which we want to get/set the value.
+ * @param {string | null} ID - The id of the element for which we want to get/set the value.
  * @param {string} [Content] - The content/inner HTML to give to the element (if applicable)
  * @returns {string} - The content of the element (When no Content parameter was passed to the function)
  */
 function ElementContent(ID, Content) {
+	ID ??= ElementGenerateID();
 	const e = document.getElementById(ID);
 	if (!e) {
 		console.error("ElementContent called on a missing element: " + ID.toString());
@@ -135,10 +148,11 @@ function ElementCreate(options) {
 /**
  * Creates a new from element in the main document.
  *
- * @param {string} ID - The id of the form to create
+ * @param {string | null} ID - The id of the form to create
  * @returns {HTMLFormElement}
  */
 function ElementCreateForm(ID) {
+	ID ??= ElementGenerateID();
 	return /** @type {HTMLFormElement} */ (document.getElementById(ID)) ?? ElementCreate({
 		tag: "form",
 		attributes: {
@@ -153,11 +167,12 @@ function ElementCreateForm(ID) {
 
 /**
  * Creates a new text area element in the main document. Does not create a new element if there is already an existing one with the same ID
- * @param {string} ID - The id of the text area to create.
+ * @param {string | null} ID - The id of the text area to create.
  * @param {HTMLElement} [form] - The form the element belongs to
  * @returns {HTMLTextAreaElement}
  */
 function ElementCreateTextArea(ID, form) {
+	ID ??= ElementGenerateID();
 	return /** @type {HTMLTextAreaElement} */ (document.getElementById(ID)) ?? ElementCreate({
 		tag: "textarea",
 		attributes: {
@@ -236,7 +251,7 @@ function ElementNumberInputWheel(event) {
 
 /**
  * Creates a new text input element in the main document.Does not create a new element if there is already an existing one with the same ID
- * @param {string} ID - The id of the input tag to create.
+ * @param {string | null} ID - The id of the input tag to create.
  * @param {string} Type - Type of the input tag to create.
  * @param {string} Value - Value of the input tag to create.
  * @param {string | number} [MaxLength] - Maximum input tag of the input to create.
@@ -244,6 +259,7 @@ function ElementNumberInputWheel(event) {
  * @returns {HTMLInputElement} - The created HTML input element
  */
 function ElementCreateInput(ID, Type, Value, MaxLength, form) {
+	ID ??= ElementGenerateID();
 	let e = /** @type {HTMLInputElement} */ (document.getElementById(ID));
 	if (e) {
 		return e;
@@ -280,7 +296,7 @@ function ElementCreateInput(ID, Type, Value, MaxLength, form) {
 /**
  * Creates a new range input element in the main document. Does not create a new element if there is already an
  * existing one with the same id
- * @param {string} id - The id of the input tag to create
+ * @param {string | null} id - The id of the input tag to create
  * @param {number} value - The initial value of the input
  * @param {number} min - The minimum value of the input
  * @param {number} max - The maximum value of the input
@@ -291,6 +307,7 @@ function ElementCreateInput(ID, Type, Value, MaxLength, form) {
  * @returns {HTMLInputElement} - The created HTML input element
  */
 function ElementCreateRangeInput(id, value, min, max, step, thumbIcon, vertical) {
+	id ??= ElementGenerateID();
 	return /** @type {HTMLInputElement} */ (document.getElementById(id)) ?? ElementCreate({
 		tag: "input",
 		attributes: {
@@ -318,7 +335,7 @@ function ElementCreateRangeInput(id, value, min, max, step, thumbIcon, vertical)
 
 /**
  * Construct a `<select>`-based dropdown menu.
- * @param {string} id - The name of the select item.
+ * @param {string | null} id - The name of the select item.
  * @param {readonly (string | Omit<HTMLOptions<"option">, "tag">)[]} optionsList - The list of options for the current select statement. Can be supplied as a simple string or a more extensive `<option>` config.
  * @param {(this: HTMLSelectElement, event: Event) => any} onChange - An event listener to be called, when the value of the drop down box changes
  * @param {null | { required?: boolean, multiple?: boolean, disabled?: boolean, size?: number }} [options] - Additional `<select>`-specific properties
@@ -326,6 +343,7 @@ function ElementCreateRangeInput(id, value, min, max, step, thumbIcon, vertical)
  * @returns {HTMLSelectElement} - The created element
  */
 function ElementCreateDropdown(id, optionsList, onChange, options=null, htmlOptions=null) {
+	id ??= ElementGenerateID();
 	let select = /** @type {null | HTMLSelectElement} */(document.getElementById(id));
 	if (select != null) {
 		console.error(`Element "${id}" already exists`);
@@ -382,10 +400,11 @@ function ElementCreateDropdown(id, optionsList, onChange, options=null, htmlOpti
 
 /**
  * Creates a new div element in the main document. Does not create a new element if there is already an existing one with the same ID
- * @param {string} ID - The id of the div tag to create.
+ * @param {string | null} ID - The id of the div tag to create.
  * @returns {HTMLDivElement} - The created (or pre-existing) div element
  */
 function ElementCreateDiv(ID) {
+	ID ??= ElementGenerateID();
 	return /** @type {HTMLDivElement} */(document.getElementById(ID)) ?? ElementCreate({
 		tag: "div",
 		attributes: {
@@ -409,18 +428,18 @@ function ElementRemove(ID) {
 
 /**
  * Draws an existing HTML element at a specific position within the document. The element is "centered" on the given coordinates by dividing its height and width by two.
- * @param {string} ElementID - The id of the input tag to (re-)position.
+ * @param {string | HTMLElement} ElementOrID - The id of the input tag to (re-)position.
  * @param {number} X - Center point of the element on the X axis.
  * @param {number} Y - Center point of the element on the Y axis.
  * @param {number} W - Width of the element.
  * @param {number} [H] - Height of the element.
  * @returns {void} - Nothing
  */
-function ElementPosition(ElementID, X, Y, W, H) {
-	var E = document.getElementById(ElementID);
+function ElementPosition(ElementOrID, X, Y, W, H) {
+	const E = typeof ElementOrID === "string" ? document.getElementById(ElementOrID) : ElementOrID;
 
 	if (!E) {
-		console.warn("A call to ElementPosition was made on non-existent element with ID '" + ElementID + "'");
+		console.warn("A call to ElementPosition was made on non-existent element with ID '" + ElementOrID + "'");
 		return;
 	}
 
@@ -686,12 +705,7 @@ var ElementCheckboxDropdown = {
 			classList: ["dropdown-checkbox-grid"],
 			attributes: { id: `${idPrefix}-pair-${idSuffix}` },
 			children: [
-				{
-					tag: "input",
-					classList: ["dropdown-checkbox"],
-					attributes: { id: `${idPrefix}-checkbox-${idSuffix}`, type: "checkbox", checked },
-					eventListeners: { click: listener },
-				},
+				ElementCheckbox.Create(`${idPrefix}-checkbox-${idSuffix}`, listener, { checked }),
 				{
 					tag: "span",
 					classList: ["dropdown-checkbox-label"],
@@ -704,7 +718,7 @@ var ElementCheckboxDropdown = {
 
 	/**
 	 * Construct a dropdown menu with labeled checkboxes
-	 * @param {string} id - The ID of the element
+	 * @param {string | null} id - The ID of the element
 	 * @param {readonly string[]} checkboxList - The checkbox labels
 	 * @param {(this: HTMLInputElement, event: Event) => void} eventListener - The event listener to-be attached to all checkboxes
 	 * @param {Object} [options]
@@ -713,6 +727,7 @@ var ElementCheckboxDropdown = {
 	 * @returns {HTMLDivElement} - The created dropdown menu
 	 */
 	FromList(id, checkboxList, eventListener, options=null) {
+		id ??= ElementGenerateID();
 		return /** @type {null | HTMLDivElement} */(document.getElementById(id)) ?? ElementCreate({
 			tag: "div",
 			attributes: { id, ["screen-generated"]: CurrentScreen },
@@ -725,7 +740,7 @@ var ElementCheckboxDropdown = {
 
 	/**
 	 * Construct a dropdown menu with labeled checkboxes, each group of checkboxes having a header associated with them
-	 * @param {string} id - The ID of the element
+	 * @param {string | null} id - The ID of the element
 	 * @param {Record<string, readonly string[]>} checkboxRecord - The checkbox labels
 	 * @param {(this: HTMLInputElement, event: Event) => void} eventListener - The event listener to-be attached to all checkboxes
 	 * @param {Object} [options]
@@ -734,6 +749,7 @@ var ElementCheckboxDropdown = {
 	 * @returns {HTMLDivElement} - The created dropdown menu
 	 */
 	FromRecord(id, checkboxRecord, eventListener, options=null) {
+		id ??= ElementGenerateID();
 		return /** @type {null | HTMLDivElement} */(document.getElementById(id)) ?? ElementCreate({
 			tag: "div",
 			attributes: { id, ["screen-generated"]: CurrentScreen },
@@ -771,7 +787,7 @@ var ElementCheckboxDropdown = {
  *         ...
  *     </datalist>
  * </input>
- * @param {string} id - The ID of the to-be created search input; `${id}-datalist` will be assigned the search input's datalist
+ * @param {string | null} id - The ID of the to-be created search input; `${id}-datalist` will be assigned the search input's datalist
  * @param {() => Iterable<string>} dataCallback - A callback returning all values that will be converted into a datalist `<option>`
  * @param {Object} [options]
  * @param {null | string} [options.value] - Value of the search input
@@ -780,6 +796,7 @@ var ElementCheckboxDropdown = {
  * @returns {HTMLInputElement} - The newly created search input
  */
 function ElementCreateSearchInput(id, dataCallback, options=null) {
+	id ??= ElementGenerateID();
 	let elem = /** @type {HTMLInputElement | null} */(document.getElementById(id));
 	if (elem) {
 		console.error(`Element "${id}" already exists`);
@@ -875,20 +892,7 @@ var ElementButton = {
 
 	/**
 	 * @private
-	 * @type {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => void}
-	 */
-	_Click: function _Click(ev) {
-		if (ev.target instanceof Element && ev.target.classList.contains("button-tooltip")) {
-			ev.stopImmediatePropagation();
-		} else if (this.getAttribute("aria-disabled") === "true") {
-			this.dispatchEvent(new MouseEvent("bcClickDisabled", ev));
-			ev.stopImmediatePropagation();
-		}
-	},
-
-	/**
-	 * @private
-	 * @type {(this: HTMLButtonElement, ev: Event) => void}
+	 * @type {(this: HTMLButtonElement, ev: MouseEvent) => void}
 	 */
 	_MouseDown: function _MouseDown(ev) {
 		// Prevent tooltips from handling any click-related actions intended for the button
@@ -900,7 +904,7 @@ var ElementButton = {
 
 	/**
 	 * @private
-	 * @type {(this: HTMLButtonElement, ev: Event) => void}
+	 * @type {(this: HTMLButtonElement, ev: MouseEvent) => void}
 	 */
 	_MouseUp: function _MouseUp(ev) {
 		if (ev.target instanceof Element && ev.target.classList.contains("button-tooltip")) {
@@ -910,6 +914,89 @@ var ElementButton = {
 
 		// Fix buttons not automatically losing focus after a click event
 		this.blur();
+	},
+
+	_GetClickTouchListeners: function _GetClickTouchListeners() {
+		/** @type {null | number} */
+		let holdAndClickTimeoutID = null;
+		/** Whether a touch-based hold-and-click action was detected */
+		let holdAndClick = false;
+
+		/**
+		 * @satisfies {TimerHandler}
+		 * @type {(elem: HTMLButtonElement, ev: TouchEvent) => void}
+		 */
+		function touchstartTimeout(elem, ev) {
+			holdAndClickTimeoutID = null;
+			holdAndClick = true;
+			elem.dispatchEvent(new PointerEvent("bcTouchHold", ev));
+		}
+
+		/** @type {(this: HTMLButtonElement, ev: TouchEvent) => void} */
+		function touchstart(ev) {
+			if (ev.target instanceof Element && ev.target.classList.contains("button-tooltip")) {
+				ev.stopImmediatePropagation();
+				return;
+			}
+
+			holdAndClick = false;
+			if (!this.disabled) {
+				holdAndClickTimeoutID ??= setTimeout(touchstartTimeout, 300, this, ev);
+			}
+		}
+
+		/** @type {(this: HTMLButtonElement, ev: TouchEvent) => void} */
+		function touchmove(ev) {
+			if (holdAndClickTimeoutID != null) {
+				clearTimeout(holdAndClickTimeoutID);
+				holdAndClickTimeoutID = null;
+			}
+		}
+
+		/** @type {(this: HTMLButtonElement, ev: TouchEvent) => void} */
+		function touchend(ev) {
+			if (ev.target instanceof Element && ev.target.classList.contains("button-tooltip")) {
+				ev.stopImmediatePropagation();
+				return;
+			}
+
+			if (!holdAndClick) {
+				this.blur();
+			} else {
+				ev.preventDefault();
+			}
+		}
+
+		/** @type {(this: HTMLButtonElement, ev: MouseEvent | PointerEvent) => void} */
+		function click(ev) {
+			if (ev.target instanceof Element && ev.target.classList.contains("button-tooltip")) {
+				ev.stopImmediatePropagation();
+			} else if (holdAndClick) {
+				ev.stopImmediatePropagation();
+				holdAndClick = false;
+			} else if (this.getAttribute("aria-disabled") === "true") {
+				this.dispatchEvent(new PointerEvent("bcClickDisabled", ev));
+				ev.stopImmediatePropagation();
+			}
+		}
+
+		/** @type {(this: HTMLButtonElement, ev: FocusEvent) => void} */
+		function blur(ev) {
+			this.removeAttribute("data-show-tooltip");
+			if (holdAndClickTimeoutID != null) {
+				clearTimeout(holdAndClickTimeoutID);
+				holdAndClickTimeoutID = null;
+			}
+			holdAndClick = false;
+		}
+
+		/** @type {(this: HTMLButtonElement, ev: MouseEvent | PointerEvent) => void} */
+		function bcTouchHold(ev) {
+			this.focus({ preventScroll: true });
+			this.toggleAttribute("data-show-tooltip", true);
+		}
+
+		return { click, touchend, touchmove, touchstart, blur, bcTouchHold, touchcancel: touchend };
 	},
 
 	/**
@@ -954,7 +1041,9 @@ var ElementButton = {
 		// Ensure that `radio` buttons to switch the tabindex of the active radio to 0, while `menuitemradio` buttons do not
 		if (this.getAttribute("aria-checked") === "true") {
 			if (parent.getAttribute("aria-required") === "true") {
-				ev.stopImmediatePropagation();
+				if (!this.hasAttribute("data-allow-required-clicks")) {
+					ev.stopImmediatePropagation();
+				}
 			} else {
 				this.setAttribute("aria-checked", "false");
 				if (isRadio) {
@@ -997,6 +1086,68 @@ var ElementButton = {
 				this.tabIndex = 0;
 			}
 			this.setAttribute("aria-checked", "true");
+		}
+	},
+
+	/**
+	 * Click event listener for spin buttons.
+	 * @see https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/spinbutton_role
+	 * @private
+	 * @type {(this: HTMLButtonElement, ev: MouseEvent) => void}
+	 */
+	_ClickSpin: function _ClickSpin(ev) {
+		const min = Number.parseInt(this.getAttribute("aria-valuemin"), 10);
+		const max = Number.parseInt(this.getAttribute("aria-valuemax"), 10);
+		const now = Number.parseInt(this.getAttribute("aria-valuenow"), 10);
+		if (Number.isNaN(min) || Number.isNaN(max)) {
+			ev.stopImmediatePropagation();
+			return;
+		}
+
+		if (Number.isNaN(now) || now < min || now === max) {
+			this.setAttribute("aria-valuenow", min);
+		} else if (now > max) {
+			this.setAttribute("aria-valuenow", max);
+		} else {
+			this.setAttribute("aria-valuenow", now + 1);
+		}
+	},
+
+	/**
+	 * Keydown event listener for spin buttons.
+	 * @see https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/spinbutton_role
+	 * @private
+	 * @type {(this: HTMLButtonElement, ev: KeyboardEvent) => void}
+	 */
+	_KeyDownSpin: function _KeyDownSpin(ev) {
+		if (CommonKey.GetModifiers(ev)) {
+			return;
+		}
+
+		// Decrement the current value such that the next click action will bring it to the correct, expected value
+		let valuenow = null;
+		switch (ev.key) {
+			case "ArrowRight":
+			case "ArrowUp":
+				valuenow = this.getAttribute("aria-valuenow");
+				break;
+			case "ArrowLeft":
+			case "ArrowDown":
+				valuenow = Number.parseInt(this.getAttribute("aria-valuenow"), 10) - 2;
+				break;
+			case "Home":
+				valuenow = Number.parseInt(this.getAttribute("aria-valuemax"), 10) - 1;
+				break;
+			case "End":
+				valuenow = this.getAttribute("aria-valuemax");
+				break;
+		}
+
+		if (valuenow != null) {
+			this.setAttribute("aria-valuenow", valuenow);
+			this.click();
+			ev.stopPropagation();
+			ev.preventDefault();
 		}
 	},
 
@@ -1109,7 +1260,7 @@ var ElementButton = {
 	 * Parse the passed icon list, returning its corresponding `<img>` grid and tooltip if non-empty
 	 * @param {string} id - The ID of the parent element
 	 * @param {readonly (InventoryIcon | ElementButton.CustomIcon)[]} [icons] - The (optional) list of icons
-	 * @returns {null | { iconGrid: HTMLDivElement, tooltip: [string, HTMLElement, HTMLElement] }} - `null` if the provided icon list is empty and otherwise an object containing the icon grid and a icon-specific tooltip
+	 * @returns {null | { iconGrid: HTMLDivElement, tooltip: [string, HTMLElement] }} - `null` if the provided icon list is empty and otherwise an object containing the icon grid and a icon-specific tooltip
 	 */
 	_ParseIcons: function _ParseIcons(id, icons) {
 		icons = icons?.filter(i => i != null);
@@ -1177,7 +1328,7 @@ var ElementButton = {
 				parent: iconGrid,
 			});
 		});
-		return { iconGrid, tooltip: [InterfaceTextGet("StatusAndEffects"), ElementCreate({ tag: "br" }), tooltip] };
+		return { iconGrid, tooltip: [InterfaceTextGet("StatusAndEffects"), tooltip] };
 	},
 
 	/**
@@ -1217,6 +1368,7 @@ var ElementButton = {
 	 * @returns {HTMLButtonElement} - The created button
 	 */
 	Create: function Create(id, onClick, options=null, htmlOptions=null) {
+		id ??= ElementGenerateID();
 		let elem = /** @type {HTMLButtonElement | null} */(document.getElementById(id));
 		if (elem) {
 			console.error(`Element "${id}" already exists`);
@@ -1226,11 +1378,11 @@ var ElementButton = {
 		htmlOptions ??= {};
 		const buttonOptions = htmlOptions.button ?? {};
 		const tooltipOptions = htmlOptions.tooltip ?? {};
+		const labelPosition = options.labelPosition ?? (options.image == null ? "center" : "bottom");
 
-		id ??= `button-${Date.now()}`;
 		options ??= {};
 		const image = this._ParseImage(id, options.image, htmlOptions.img);
-		const label = this._ParseLabel(id, options.label, options.labelPosition, htmlOptions.label);
+		const label = this._ParseLabel(id, options.label, labelPosition, htmlOptions.label);
 		const icons = this._ParseIcons(id, options.icons);
 
 		// Only add the icon-based component of the tooltip if there is an actual tooltip
@@ -1269,14 +1421,12 @@ var ElementButton = {
 			},
 			classList: ["blank-button", "button", options.noStyling ? null : "button-styling", "HideOnPopup", ...(buttonOptions.classList ?? [])],
 			eventListeners: {
-				click: this._Click,
 				keydown: this._KeyDown,
 				keyup: this._KeyUp,
 				mouseup: this._MouseUp,
 				mousedown: this._MouseDown,
-				touchend: this._MouseUp,
-				touchcancel: this._MouseUp,
 				bcClickDisabled: options.clickDisabled,
+				...this._GetClickTouchListeners(),
 				...(buttonOptions.eventListeners ?? {}),
 			},
 			children: [
@@ -1286,6 +1436,10 @@ var ElementButton = {
 				label,
 				...(buttonOptions.children ?? []),
 			],
+			dataAttributes: {
+				"allowRequiredClicks": options.allowRequiredClick,
+				...(buttonOptions.dataAttributes ?? {}),
+			},
 		});
 
 		const role = buttonOptions.attributes?.role ?? options.role;
@@ -1311,6 +1465,19 @@ var ElementButton = {
 					elem.setAttribute("aria-checked", "false");
 				}
 				break;
+			case "spinbutton": {
+				if (!elem.hasAttribute("aria-valuemin")) {
+					elem.setAttribute("aria-valuemin", "0");
+				}
+				if (!elem.hasAttribute("aria-valuemax")) {
+					elem.setAttribute("aria-valuemax", "100");
+				}
+				if (!elem.hasAttribute("aria-valuenow")) {
+					elem.setAttribute("aria-valuenow", elem.getAttribute("aria-valuemin"));
+				}
+				elem.addEventListener("click", this._ClickSpin);
+				elem.addEventListener("keydown", this._KeyDownSpin);
+			}
 		}
 
 		elem.addEventListener("click", onClick);
@@ -1328,7 +1495,7 @@ var ElementButton = {
 
 	/**
 	 * Create a button for an asset or item, including image, label and icons.
-	 * @param {string} idPrefix - The ID of the to-be created search button
+	 * @param {string | null} idPrefix - The ID of the to-be created search button
 	 * @param {Asset | Item} asset - The asset (or item) for which to create a button
 	 * @param {null | Character} C - The character wearing the asset/item (if any)
 	 * @param {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => any} onClick - The click event listener to-be attached to the tooltip
@@ -1340,7 +1507,7 @@ var ElementButton = {
 		const item = "Asset" in asset ? asset : { Asset: asset };
 		asset = item.Asset;
 
-		const id = `${idPrefix}-${asset.Group.Name}-${asset.Name}`;
+		const id = idPrefix == null ? ElementGenerateID() : `${idPrefix}-${asset.Group.Name}-${asset.Name}`;
 		const elem = /** @type {HTMLButtonElement | null} */(document.getElementById(id));
 		if (elem) {
 			console.error(`Element "${id}" already exists`);
@@ -1379,6 +1546,8 @@ var ElementButton = {
 		options.icons = [
 			...(options.icons ?? []),
 			DialogGetFavoriteStateDetails(C ?? Player, asset)?.Icon,
+			InventoryBlockedOrLimited(C ?? Player, item) ? "Blocked" : null,
+			InventoryIsAllowedLimited(C ?? Player, item) ? "AllowedLimited" : null,
 			...DialogGetLockIcon(item, "Property" in item),
 			...DialogGetAssetIcons(asset),
 			...DialogEffectIcons.GetIcons(item),
@@ -1391,32 +1560,40 @@ var ElementButton = {
 				children: [InterfaceTextGet("DialogMenuCrafting") + ":"],
 			},
 			{
-				tag: "div",
+				tag: "ul",
 				classList: ["button-tooltip-craft"],
 				children: [
-					...(item.Craft.Property ? [
-						InterfaceTextGet("CraftingProperty").replace("CraftProperty", ""),
-						{ tag: "q", children: [
-							{ tag: "dfn", children: [item.Craft.Property] },
-							" - ",
-						]},
-						{ tag: "br" },
-					] : []),
-					...((item.Craft.MemberName && item.Craft.MemberNumber) ? [
-						InterfaceTextGet("CraftingMember").replace("MemberName (MemberNumber)", ""),
-						{ tag: "q", children: [`${item.Craft.MemberName} (${item.Craft.MemberNumber})`] },
-						{ tag: "br" },
-					] : []),
-					...([
-						InterfaceTextGet("CraftingPrivate").replace("CraftPrivate", ""),
-						{ tag: "q", children: [CommonCapitalize(item.Craft.Private.toString())] },
-						{ tag: "br" },
-					]),
-					...(item.Craft.Description ? [
-						InterfaceTextGet("CraftingDescription").replace("CraftDescription", ""),
-						{ tag: "q", children: CraftingDescription.DecodeToHTML(item.Craft.Description) },
-						{ tag: "br" },
-					] : []),
+					item.Craft.Property ? {
+						tag: "li",
+						children: [
+							InterfaceTextGet("CraftingProperty").replace("CraftProperty", ""),
+							{
+								tag: "q",
+								children: [{ tag: "dfn", children: [item.Craft.Property] }, " - "],
+							},
+						],
+					} : undefined,
+					(item.Craft.MemberName && item.Craft.MemberNumber) ? {
+						tag: "li",
+						children: [
+							InterfaceTextGet("CraftingMember").replace("MemberName (MemberNumber)", ""),
+							{ tag: "q", children: [`${item.Craft.MemberName} (${item.Craft.MemberNumber})`] },
+						],
+					} : undefined,
+					{
+						tag: "li",
+						children: [
+							InterfaceTextGet("CraftingPrivate").replace("CraftPrivate", ""),
+							{ tag: "q", children: [CommonCapitalize(item.Craft.Private.toString())] },
+						],
+					},
+					item.Craft.Description ? {
+						tag: "li",
+						children: [
+							InterfaceTextGet("CraftingDescription").replace("CraftDescription", ""),
+							{ tag: "q", children: CraftingDescription.DecodeToHTML(item.Craft.Description) },
+						],
+					} : undefined,
 				],
 			},
 		]);
@@ -1433,7 +1610,7 @@ var ElementButton = {
 
 	/**
 	 * Create a button for an activity, including image, label and icons.
-	 * @param {string} idPrefix - The ID of the to-be created search button
+	 * @param {string | null} idPrefix - The ID of the to-be created search button
 	 * @param {ItemActivity} activity - The activity for which to create a button
 	 * @param {Character} C - The target character of the activity
 	 * @param {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => any} onClick - The click event listener to-be attached to the tooltip
@@ -1442,7 +1619,7 @@ var ElementButton = {
 	 * @returns {HTMLButtonElement} - The created button
 	 */
 	CreateForActivity: function CreateForActivity(idPrefix, activity, C, onClick, options=null, htmlOptions=null) {
-		const id = `${idPrefix}-${activity.Activity.Name}`;
+		const id = idPrefix == null ? ElementGenerateID() : `${idPrefix}-${activity.Activity.Name}`;
 		const elem = /** @type {HTMLButtonElement | null} */(document.getElementById(id));
 		if (elem) {
 			console.error(`Element "${id}" already exists`);
@@ -1467,6 +1644,7 @@ var ElementButton = {
 		options.image ??= (activity.Item ? `./${AssetGetPreviewPath(activity.Item.Asset)}/${activity.Item.Asset.Name}.png` : `./Assets/Female3DCG/Activity/${activity.Activity.Name}.png`);
 		options.icons = [
 			...(options.icons ?? []),
+			activity.Blocked === "blocked" ? "Blocked" : undefined,
 			activity.Blocked === "limited" ? "AllowedLimited" : undefined,
 			activity.Item ? "Handheld" : undefined,
 		];
@@ -1488,8 +1666,11 @@ var ElementButton = {
 
 		const icons = Array.from(button.querySelectorAll(".button-icon"));
 		const iconNamesOld = icons.map(el => el.getAttribute("data-name"));
+		/** @type {InventoryIcon[]} */
 		const iconNamesNew = [
 			DialogGetFavoriteStateDetails(C ?? Player, asset)?.Icon,
+			InventoryBlockedOrLimited(C ?? Player, item) ? "Blocked" : null,
+			InventoryIsAllowedLimited(C ?? Player, item) ? "AllowedLimited" : null,
 			...DialogGetLockIcon(item, "Property" in item),
 			...DialogGetAssetIcons(asset),
 			...DialogEffectIcons.GetIcons(item),
@@ -1513,7 +1694,7 @@ var ElementButton = {
 		if (iconGrid && !button.contains(iconGrid)) {
 			button.append(iconGrid);
 		}
-		if (tooltip[2] && !button.contains(tooltip[2])) {
+		if (tooltip[1] && !button.contains(tooltip[1])) {
 			button.querySelector(".button-tooltip")?.append(...tooltip);
 		}
 		return true;
@@ -1656,16 +1837,18 @@ var ElementMenu = {
 	 *     </button>
 	 *     ...
 	 * </div>
-	 * @param {string} id - The menu's ID
+	 * @param {string | null} id - The menu's ID
 	 * @param {readonly (string | Node | HTMLOptions<keyof HTMLElementTagNameMap>)[]} menuItems - The menu's content.
 	 * Any `<button>` element without a role (regardless of nesting) will be assigned the `menuitem` role and thus be elligble for menu-style navigation.
 	 * Buttons that open a sub-menu _must_ have the `aria-haspopup: "menu"` attribute set and must be able to do so via a click action.
 	 * @param {Object} [options]
 	 * @param {"ltr" | "rtl"} [options.direction] - The direction of the menu. Should match the value of the CSS `direction` property if provided
+	 * @param {"menubar" | "menu"} [options.role] - The role of the menu/menubar
 	 * @param {null | Partial<Record<"menu", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the respective (child) element
 	 * @returns {HTMLDivElement} - The menu
 	 */
 	Create: function Create(id, menuItems, options=null, htmlOptions=null) {
+		id ??= ElementGenerateID();
 		let elem = /** @type {HTMLDivElement | null} */(document.getElementById(id));
 		if (elem) {
 			console.error(`Element "${id}" already exists`);
@@ -1682,7 +1865,7 @@ var ElementMenu = {
 			tag: "div",
 			attributes: {
 				id,
-				role: "menubar",
+				role: options.role ?? "menubar",
 				"screen-generated": CurrentScreen,
 				...(menuOptions.attributes ?? {}),
 			},
@@ -1789,6 +1972,47 @@ var ElementMenu = {
 			i++;
 		}
 		menu.prepend(...menuitems);
+	},
+};
+
+/**
+ * Namespace for creating DOM checkboxes.
+ */
+var ElementCheckbox = {
+	/**
+	 * Construct an return a DOM checkbox element (`<input type="checkbox">`)
+	 * @param {null | string} id - The ID of the element, or `null` if one must be assigned automatically
+	 * @param {(this: HTMLInputElement, ev: Event) => any} onChange - The change event listener to-be fired upon checkbox clicks
+	 * @param {null | ElementCheckbox.Options} options - High level options for the to-be created checkbox
+	 * @param {null | Partial<Record<"checkbox", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the respective (child) element
+	 */
+	Create: function Create(id, onChange, options=null, htmlOptions=null) {
+		id ??= ElementGenerateID();
+		const checkbox = document.getElementById(id);
+		if (checkbox) {
+			console.error(`Element "${id}" already exists`);
+			return checkbox;
+		}
+
+		options ??= {};
+		const checkboxOptions = htmlOptions?.checkbox ?? {};
+		return ElementCreate({
+			...checkboxOptions,
+			tag: "input",
+			attributes: {
+				id,
+				type: "checkbox",
+				disabled: options.disabled,
+				checked: options.checked,
+				value: options.value,
+				...(checkboxOptions.attributes ?? {}),
+			},
+			classList: ["checkbox", ...(checkboxOptions.classList ?? [])],
+			eventListeners: {
+				change: onChange,
+				...(checkboxOptions.eventListeners ?? {}),
+			},
+		});
 	},
 };
 

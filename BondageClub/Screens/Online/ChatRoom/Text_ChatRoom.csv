@@ -34,6 +34,8 @@ ChatRoomStruggleLoosening,Loosening...
 ChatRoomStruggleImpossible,Impossible!
 ChatRoomStruggleLoosen,Loosen
 ChatRoomStruggleGiveUp,Give up
+ChatRoomReply,Replying to
+ChatRoomNoMessageFound,Message could not be found.
 CommandHelp,<strong>Help: KeyWord</strong>
 CommandNoSuchCommand,command: no such command
 CommandPrerequisiteFailed,command: prerequisite check failed

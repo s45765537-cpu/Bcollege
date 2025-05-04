@@ -173,6 +173,11 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 	const allowLock = typeof AssetDef.AllowLock === "boolean" ? AssetDef.AllowLock : false;
 	const difficulty = AssetDef.Difficulty ?? 0;
 
+	const editOpacity = (typeof AssetDef.EditOpacity === "boolean") ? AssetDef.EditOpacity : (typeof Group.EditOpacity === "boolean") ? Group.EditOpacity : false;
+	let minOpacity = editOpacity ? AssetParseOpacity(typeof AssetDef.MinOpacity === "number" ? AssetDef.MinOpacity : Group.MinOpacity) : 1;
+	let maxOpacity = editOpacity ? AssetParseOpacity(typeof AssetDef.MaxOpacity === "number" ? AssetDef.MaxOpacity : Group.MaxOpacity) : 1;
+	const opacity = editOpacity ? AssetParseOpacity(AssetDef.Opacity, minOpacity, maxOpacity) : 1;
+
 	/** @type {Mutable<Asset>} */
 	var A = {
 		Name: AssetDef.Name,
@@ -240,10 +245,10 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		AllowHide: AssetDef.AllowHide,
 		AllowHideItem: AssetDef.AllowHideItem,
 		DefaultColor: [],
-		Opacity: AssetParseOpacity(AssetDef.Opacity),
-		EditOpacity: (typeof AssetDef.EditOpacity === "boolean") ? AssetDef.EditOpacity : (typeof Group.EditOpacity === "boolean") ? Group.EditOpacity : false,
-		MinOpacity: (typeof AssetDef.MinOpacity === "number") ? AssetParseOpacity(AssetDef.MinOpacity) : (typeof Group.MinOpacity === "number") ? Group.MinOpacity : 1,
-		MaxOpacity: (typeof AssetDef.MaxOpacity === "number") ? AssetParseOpacity(AssetDef.MaxOpacity) : (typeof Group.MaxOpacity === "number") ? Group.MaxOpacity : 1,
+		EditOpacity: editOpacity,
+		Opacity: opacity,
+		MinOpacity: minOpacity,
+		MaxOpacity: maxOpacity,
 		Audio: AssetDef.Audio,
 		Category: AssetDef.Category,
 		Fetish: AssetDef.Fetish,
@@ -261,7 +266,6 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		DynamicGroupName: (AssetDef.DynamicGroupName || Group.DynamicGroupName),
 		DynamicActivity: (typeof AssetDef.DynamicActivity === 'function') ? AssetDef.DynamicActivity : function () { return AssetDef.Activity; },
 		DynamicAudio: (typeof AssetDef.DynamicAudio === 'function') ? AssetDef.DynamicAudio : null,
-		CharacterRestricted: typeof AssetDef.CharacterRestricted === 'boolean' ? AssetDef.CharacterRestricted : false,
 		AllowRemoveExclusive: typeof AssetDef.AllowRemoveExclusive === 'boolean' ? AssetDef.AllowRemoveExclusive : false,
 		InheritColor: AssetDef.InheritColor || Group.InheritColor,
 		DynamicBeforeDraw: (typeof AssetDef.DynamicBeforeDraw === 'boolean') ? AssetDef.DynamicBeforeDraw : false,
@@ -295,10 +299,6 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 	if (A.SetPose) {
 		Object.assign(A, AssetParsePosePrerequisite(A));
 	}
-
-	// Ensure opacity value is valid
-	if (A.MinOpacity > A.Opacity) A.MinOpacity = A.Opacity;
-	if (A.MaxOpacity < A.Opacity) A.MaxOpacity = A.Opacity;
 
 	const layers = AssetDef.Layer ? [...AssetDef.Layer] : [{}];
 	if (A.DrawLocks) {
@@ -355,7 +355,6 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 			A.AllowTighten = false;
 			A.AlwaysExtend = false;
 			A.AlwaysInteract = false;
-			A.CharacterRestricted = false;
 			A.CustomBlindBackground = undefined;
 			A.Difficulty = 0;
 			A.DrawLocks = false;
@@ -632,14 +631,15 @@ function AssetFindExtendedConfig(ExtendedConfig, GroupName, AssetName) {
  * @return {AssetLayer} - A Layer object representing the drawable properties of the given layer
  */
 function AssetMapLayer(Layer, A, I) {
-	const minOpacity = AssetParseOpacity(typeof Layer.MinOpacity === "number" ? Layer.MinOpacity : A.MinOpacity, 0, 1);
-	const maxOpacity = AssetParseOpacity(typeof Layer.MaxOpacity === "number" ? Layer.MaxOpacity : A.MaxOpacity, 0, 1);
-	const opacity = typeof Layer.Opacity === "number" ? AssetParseOpacity(Layer.Opacity, minOpacity, maxOpacity) : 1;
+	const editOpacity = A.EditOpacity;
+	const minOpacity = editOpacity ? AssetParseOpacity(Layer.MinOpacity ?? A.MinOpacity, 0, 1) : 1;
+	const maxOpacity = editOpacity ? AssetParseOpacity(Layer.MaxOpacity ?? A.MaxOpacity, 0, 1) : 1;
+	const opacity = AssetParseOpacity(Layer.Opacity ?? A.Opacity, minOpacity, maxOpacity);
 
 	/** @type {AssetLayer} */
 	const L = {
 		Name: Layer.Name || null,
-		AllowColorize: typeof Layer.AllowColorize === "boolean" ? Layer.AllowColorize : A.AllowColorize,
+		AllowColorize: !Layer.TextureMask && (typeof Layer.AllowColorize === "boolean" ? Layer.AllowColorize : A.AllowColorize),
 		CopyLayerColor: typeof Layer.CopyLayerColor === "string" ? Layer.CopyLayerColor : null,
 		ColorGroup: typeof Layer.ColorGroup === "string" ? Layer.ColorGroup : null,
 		HideColoring: typeof Layer.HideColoring === "boolean" ? Layer.HideColoring : false,
@@ -660,6 +660,7 @@ function AssetMapLayer(Layer, A, I) {
 		MinOpacity: minOpacity,
 		MaxOpacity: maxOpacity,
 		BlendingMode: Layer.BlendingMode || "source-over",
+		TextureMask: Layer.TextureMask,
 		LockLayer: typeof Layer.LockLayer === "boolean" ? Layer.LockLayer : false,
 		MirrorExpression: Layer.MirrorExpression,
 		ColorIndex: 0,
@@ -762,7 +763,7 @@ function AssetParseParentGroup(parentGroup, superParentGroup) {
  * @returns {number}
  */
 function AssetParseOpacity(opacity, min=0, max=1) {
-	if (typeof opacity === "number" && !isNaN(opacity)) {
+	if (CommonIsNumeric(opacity)) {
 		return CommonClamp(opacity, min, max);
 	}
 	return max;
@@ -984,10 +985,10 @@ function AssetAllActivities(family) {
  * Gets an activity asset by family and name
  * @param {IAssetFamily} family - The family to search in
  * @param {string} name - Name of activity to search for
- * @returns {Activity|undefined}
+ * @returns {Activity|null}
  */
 function AssetGetActivity(family, name) {
-	return AssetAllActivities(family).find(a => (a.Name === name));
+	return AssetAllActivities(family).find(a => (a.Name === name)) ?? null;
 }
 
 /**
@@ -1026,12 +1027,13 @@ function AssetActivitiesForGroup(family, groupname, onSelf = "other") {
 
 /**
  * Gets an asset group by the asset family name and group name
+ * @template {AssetGroupName} T
  * @param {IAssetFamily} Family - The asset family that the group belongs to (Ignored until other family is added)
- * @param {AssetGroupName} Group - The name of the asset group to find
- * @returns {AssetGroup|null} - The asset group matching the provided family and group name
+ * @param {T} Group - The name of the asset group to find
+ * @returns {AssetGroupMapping[T] | null} - The asset group matching the provided family and group name
  */
 function AssetGroupGet(Family, Group) {
-	return AssetGroupMap.get(Group) || null;
+	return /** @type {AssetGroupMapping[T]} */(AssetGroupMap.get(Group)) ?? null;
 }
 
 /**

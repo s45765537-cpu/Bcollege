@@ -114,11 +114,11 @@ function ChatAdminCanEdit() {
 
 /**
  * Loads the given room data and sets up the UI for it
- * @type {ScreenFunctions["Load"]}
+ * @type {ScreenLoadHandler}
  */
 function ChatAdminLoad() {
 	if (!ChatAdminData.Background) {
-		ChatAdminData.Background = ChatAdminBackgroundList[0];
+		ChatAdminData.Background = Player.OnlineSettings.DefaultChatRoomBackground;
 	}
 
 	// We have to reload the index here because we might be coming back from the background selection screen
@@ -191,7 +191,7 @@ function ChatAdminLoad() {
 
 /**
  * Handles unloading the editor screen
- * @type {ScreenFunctions["Unload"]}
+ * @type {ScreenUnloadHandler}
  */
 function ChatAdminUnload() {
 	ElementRemove("InputName");
@@ -321,7 +321,10 @@ function ChatAdminClick() {
 			CommonSetScreen("Online", "ChatBlockItem");
 			return;
 		} else {
-			BackgroundSelectionMake(ChatAdminBackgroundList, ChatAdminBackgroundIndex, (Name) => ChatAdminData.Background = Name);
+			BackgroundSelectionMake(ChatAdminBackgroundList, ChatAdminBackgroundIndex, (Name, setBackground) => {
+				if (setBackground) ChatAdminData.Background = Name;
+				CommonSetScreen("Online", "ChatAdmin");
+			});
 			return;
 		}
 	}
@@ -383,15 +386,15 @@ function ChatAdminClick() {
 		}
 
 		// Save button + quickban buttons
-		if (MouseIn(1325, 840, 250, 65) && ChatAdminCanEdit()) ChatAdminCommit();
-		if (MouseIn(125, 770, 250, 65) && ChatAdminCanEdit()) ElementValue("InputAdminList", CommonConvertArrayToString(ChatRoomConcatenateWhitelist(["Owner"], CommonConvertStringToArray(ElementValue("InputAdminList").trim()))));
-		if (MouseIn(390, 770, 250, 65) && ChatAdminCanEdit()) ElementValue("InputAdminList", CommonConvertArrayToString(ChatRoomConcatenateWhitelist(["Lovers"], CommonConvertStringToArray(ElementValue("InputAdminList").trim()))));
-		if (MouseIn(680, 746, 165, 60) && ChatAdminCanEdit()) ElementValue("InputWhitelist", CommonConvertArrayToString(ChatRoomConcatenateWhitelist(["Owner"], CommonConvertStringToArray(ElementValue("InputWhitelist").trim()))));
-		if (MouseIn(680, 746, 165, 60) && ChatAdminCanEdit()) ElementValue("InputWhitelist", CommonConvertArrayToString(ChatRoomConcatenateWhitelist(["Lovers"], CommonConvertStringToArray(ElementValue("InputWhitelist").trim()))));
-		if (MouseIn(505, 816, 165, 60) && ChatAdminCanEdit()) ElementValue("InputWhitelist", CommonConvertArrayToString(ChatRoomConcatenateWhitelist(["Friends"], CommonConvertStringToArray(ElementValue("InputWhitelist").trim()))));
-		if (MouseIn(680, 816, 165, 60) && ChatAdminCanEdit()) ElementValue("InputWhitelist", CommonConvertArrayToString(ChatRoomConcatenateWhitelist(["Whitelist"], CommonConvertStringToArray(ElementValue("InputWhitelist").trim()))));
-		if (MouseIn(695, 770, 250, 65) && ChatAdminCanEdit()) ElementValue("InputBanList", CommonConvertArrayToString(ChatRoomConcatenateBanList(["BlackList"], CommonConvertStringToArray(ElementValue("InputBanList").trim()))));
-		if (MouseIn(960, 770, 250, 65) && ChatAdminCanEdit()) ElementValue("InputBanList", CommonConvertArrayToString(ChatRoomConcatenateBanList(["GhostList"], CommonConvertStringToArray(ElementValue("InputBanList").trim()))));
+		if (MouseIn(1325, 840, 250, 65)) ChatAdminCommit();
+		if (MouseIn(125, 746, 340, 60)) ElementValue("InputAdminList", CommonConvertArrayToString(ChatRoomConcatenateWhitelist(["Owner"], CommonConvertStringToArray(ElementValue("InputAdminList").trim()))));
+		if (MouseIn(125, 816, 340, 60)) ElementValue("InputAdminList", CommonConvertArrayToString(ChatRoomConcatenateWhitelist(["Lovers"], CommonConvertStringToArray(ElementValue("InputAdminList").trim()))));
+		if (MouseIn(505, 746, 165, 60)) ElementValue("InputWhitelist", CommonConvertArrayToString(ChatRoomConcatenateWhitelist(["Owner"], CommonConvertStringToArray(ElementValue("InputWhitelist").trim()))));
+		if (MouseIn(680, 746, 165, 60)) ElementValue("InputWhitelist", CommonConvertArrayToString(ChatRoomConcatenateWhitelist(["Lovers"], CommonConvertStringToArray(ElementValue("InputWhitelist").trim()))));
+		if (MouseIn(505, 816, 165, 60)) ElementValue("InputWhitelist", CommonConvertArrayToString(ChatRoomConcatenateWhitelist(["Friends"], CommonConvertStringToArray(ElementValue("InputWhitelist").trim()))));
+		if (MouseIn(680, 816, 165, 60)) ElementValue("InputWhitelist", CommonConvertArrayToString(ChatRoomConcatenateWhitelist(["Whitelist"], CommonConvertStringToArray(ElementValue("InputWhitelist").trim()))));
+		if (MouseIn(885, 746, 340, 60)) ElementValue("InputBanList", CommonConvertArrayToString(ChatRoomConcatenateBanList(["BlackList"], CommonConvertStringToArray(ElementValue("InputBanList").trim()))));
+		if (MouseIn(885, 816, 340, 60)) ElementValue("InputBanList", CommonConvertArrayToString(ChatRoomConcatenateBanList(["GhostList"], CommonConvertStringToArray(ElementValue("InputBanList").trim()))));
 	}
 }
 
@@ -422,7 +425,7 @@ function ChatAdminKeyDown(event) {
 
 /**
  * Handles exiting from the editor screen, removes the inputs and resets the state of the variables
- * @type {ScreenFunctions["Exit"]}
+ * @type {ScreenExitHandler}
  */
 function ChatAdminExit() {
 	AsylumGGTSReset();

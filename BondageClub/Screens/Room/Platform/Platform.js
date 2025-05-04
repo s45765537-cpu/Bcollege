@@ -1,13 +1,18 @@
 "use strict";
 var PlatformRunStandaloneMode = false;
+/** @type {Platform.Character[]} */
 var PlatformChar = [];
+/** @type {Platform.DialogCharacter | null} */
 var PlatformFocusCharacter = null;
 var PlatformPlayer = null;
+/** @type {number | null} */
 var PlatformLastTime = null;
+/** @type {Platform.KeyCode[]} */
 var PlatformKeys = [];
 var PlatformFloor = 1180;
 var PlatformViewX = 0;
 var PlatformViewY = 200;
+/** @type {Platform.Room | null} */
 var PlatformRoom = null;
 var PlatformMusic = null;
 var PlatformAllowAudio = true;
@@ -18,6 +23,7 @@ var PlatformExperienceForLevel = [0, 10, 15, 25, 40, 60, 90, 135, 200, 300];
 var PlatformShowHitBox = false;
 var PlatformMessage = null;
 var PlatformHeal = null;
+/** @type {Platform.Event[]} */
 var PlatformEvent = [];
 var PlatformTempEvent = [];
 var PlatformPlayerIdleTimer = null;
@@ -33,13 +39,16 @@ var PlatformImmunityTime = 500;
 var PlatformSaveMode = false;
 var PlatformGiftMode = false;
 var PlatformJumpPhase = "";
+/** @type {Platform.PartyMember[]} */
 var PlatformParty = [];
 var PlatformRegen = 0;
+/** @type {Platform.Cooldown[]} */
 var PlatformCooldown = [];
 var PlatformHeartEffect = false;
 var PlatformTimedScreenFilter = { End: 0, Filter: "" };
 var PlatformRightButtons = [];
 var PlatformInventory = [];
+/** @type {Platform.Item[]} */
 var PlatformInventoryList = [
 	{
 		Name: "RedRose",
@@ -80,6 +89,7 @@ var PlatformInventoryList = [
 ];
 
 // Template for characters with their animations
+/** @type {(Platform.CharacterTemplate | Platform.DummyTemplate)[]} */
 var PlatformTemplate = [
 	{
 		Name: "Melody", // MMD Z: 41.50
@@ -769,7 +779,10 @@ var PlatformTemplate = [
 
 ];
 
-// All available rooms
+/**
+ * All available rooms
+ * @type {Platform.Room[]}
+ */
 var PlatformRoomList = [
 	/*{
 		Name: "CollegeClass1",
@@ -1962,26 +1975,25 @@ var PlatformRoomList = [
 ];
 
 /**
- * Creates a character in the current room and returns it
- * @param {String} CharacterName - The character name to load
- * @param {String} StatusName - The status of that character
- * @param {Number} X - The X position of the character
- * @param {Boolean} Fix - TRUE if the character won't move
- * @param {Boolean} Combat - TRUE if the character will deal and receive combat damage
- * @param {String} Dialog - The dialog name to open when talking to that character
- * @param {Boolean} FaceLeft  - TRUE if the character should be facing left
- * @param {Number} ReplaceAtPos  - The position in the index to replace the char, if NULL we add it
- * @returns {Object} - Returns the platform character
+ * Loads a room and it's parameters
+ * @param {string} CharacterName - The character name to load
+ * @param {string} StatusName - The status of that character
+ * @param {number} X - The X position of the character
+ * @param {boolean} [Fix] - TRUE if the character won't move
+ * @param {boolean} [Combat] - TRUE if the character will deal and receive combat damage
+ * @param {string} [Dialog] - The dialog name to open when talking to that character
+ * @param {boolean} [FaceLeft]  - TRUE if the character should be facing left
+ * @param {number} [ReplaceAtPos]  - The position in the index to replace the char, if NULL we add it
+ * @returns {Platform.Character | undefined} - Returns the platform character
  */
-function PlatformCreateCharacter(CharacterName, StatusName, X, Fix  = null, Combat = null, Dialog = null, FaceLeft = null, ReplaceAtPos = null) {
-	let NewChar = null;
-	for (let CharTemplate of PlatformTemplate)
-		if ((CharTemplate.Name == CharacterName) && (CharTemplate.Status == StatusName)) {
-			NewChar = CommonCloneDeep(CharTemplate);
-			if (CharTemplate.OnBind != null) NewChar.OnBind = CharTemplate.OnBind;
-			break;
-		}
-	if (NewChar == null) return;
+function PlatformCreateCharacter(CharacterName, StatusName, X, Fix = undefined, Combat = undefined, Dialog = undefined, FaceLeft = undefined, ReplaceAtPos = undefined) {
+	const template = PlatformTemplate.find(t => t.Name === CharacterName && t.Status === StatusName);
+	if (!template) return undefined;
+
+	const NewChar = /** @type {Platform.Character} */(Object.assign({}, template));
+
+	if (template.OnBind != null) NewChar.OnBind = template.OnBind;
+
 	NewChar.Camera = (PlatformChar.length == 0);
 	NewChar.ID = (ReplaceAtPos == null) ? PlatformChar.length : ReplaceAtPos;
 	NewChar.X = X;
@@ -2026,8 +2038,8 @@ function PlatformCreateCharacter(CharacterName, StatusName, X, Fix  = null, Comb
 
 /**
  * Returns TRUE if a specific event is already done
- * @param {String} Event - The name of the event
- * @returns {Boolean} - TRUE if done
+ * @param {string} Event - The name of the event
+ * @returns {boolean} - TRUE if done
  */
 function PlatformEventDone(Event) {
 	return (PlatformEvent.indexOf(Event) >= 0);
@@ -2035,7 +2047,7 @@ function PlatformEventDone(Event) {
 
 /**
  * Adds an event to the list of events done
- * @param {String} Event - The name of the event
+ * @param {Platform.EventType} Event - The name of the event
  * @returns {void} - Nothing
  */
 function PlatformEventSet(Event) {
@@ -2044,7 +2056,7 @@ function PlatformEventSet(Event) {
 
 /**
  * Sets the on screen message for 4 seconds
- * @param {String} Text - The text to show
+ * @param {string} Text - The text to show
  * @returns {void} - Nothing
  */
 function PlatformMessageSet(Text) {
@@ -2054,7 +2066,7 @@ function PlatformMessageSet(Text) {
 
 /**
  * Loads a room and it's parameters
- * @param {Object} RoomName - The name of the room to load, can be null to reload the current room
+ * @param {string} [RoomName] - The name of the room to load, can be null to reload the current room
  * @returns {void} - Nothing
  */
 function PlatformLoadRoom(RoomName) {
@@ -2081,7 +2093,7 @@ function PlatformLoadRoom(RoomName) {
 
 /**
  * Adds a character to the party
- * @param {Object} C - The character to add to the roster
+ * @param {Platform.PartyMember} C - The character to add to the roster
  * @returns {void} - Nothing
  */
 function PlatformPartyAdd(C) {
@@ -2154,7 +2166,7 @@ function PlatformPartyNext() {
 
 /**
  * Activates a specific character by name
- * @param {String} CharacterName - The character name to activate
+ * @param {string} CharacterName - The character name to activate
  * @returns {void} - Nothing
  */
 function PlatformPartyActivate(CharacterName) {
@@ -2228,10 +2240,10 @@ function PlatformLoad() {
 
 /**
  * Get the proper animation from the cycle to draw
- * @param {Object} C - The character to evaluate
- * @param {String} Pose - The pose we want
- * @param {Boolean} Cycle - TRUE if we must use the animation cycle
- * @returns {Object} - An object with the image, width & height to draw
+ * @param {Platform.Character} C - The character to evaluate
+ * @param {Platform.AnimationName} Pose - The pose we want
+ * @param {boolean} Cycle - TRUE if we must use the animation cycle
+ * @returns {Platform.AnimationSpec} - An object with the image, width & height to draw
  */
 function PlatformGetAnim(C, Pose, Cycle = null) {
 	for (let A = 0; A < C.Animation.length; A++)
@@ -2260,8 +2272,8 @@ function PlatformGetAnim(C, Pose, Cycle = null) {
 
 /**
  * Returns TRUE if the current action for a character is ActionName
- * @param {Object} C - The character to validate
- * @param {String} ActionName - The action to validate (all actions are valid if "Any"
+ * @param {Platform.Character} C - The character to validate
+ * @param {Platform.AnimationName | "Any"} ActionName - The action to validate (all actions are valid if "Any"
  * @returns {boolean} - TRUE if the character action is that string
  */
 function PlatformActionIs(C, ActionName) {
@@ -2348,8 +2360,8 @@ function PlatformDrawBackground() {
 
 /**
  * Draw a specific character on the screen if needed
- * @param {Object} C - The character to draw
- * @param {Number} Time - The current time when the action is done
+ * @param {Platform.Character} C - The character to draw
+ * @param {number} Time - The current time when the action is done
  * @returns {void} - Nothing
  */
 function PlatformDrawCharacter(C, Time) {
@@ -2377,7 +2389,7 @@ function PlatformDrawCharacter(C, Time) {
 
 /**
  * Sets the max health and current health for the character based on the level and skill
- * @param {Object} C - The character to evaluate
+ * @param {Platform.Character} C - The character to evaluate
  * @returns {void} - Nothing
  */
 function PlatformSetHealth(C) {
@@ -2406,8 +2418,8 @@ function PlatformSetHealth(C) {
 
 /**
  * Adds experience points to the player, can also gain a level which heals fully
- * @param {Object} C - The character that will gain experience
- * @param {Number} Value - The exp value to add
+ * @param {Platform.Character} C - The character that will gain experience
+ * @param {number} Value - The exp value to add
  * @returns {void} - Nothing
  */
 function PlatformAddExperience(C, Value) {
@@ -2427,8 +2439,8 @@ function PlatformAddExperience(C, Value) {
 
 /**
  * Some perks allow the player to steal items from bound enemies
- * @param {Object} C - The character that will gain experience
- * @param {Number} Value - The experience value to factor the quantity
+ * @param {Platform.Character} C - The character that will gain experience
+ * @param {number} Value - The experience value to factor the quantity
  * @returns {void} - Nothing
  */
 function PlatformSteal(C, Value) {
@@ -2446,7 +2458,7 @@ function PlatformSteal(C, Value) {
 
 /**
  * Gives a random inventory to the player
- * @param {Object} Target - The target that gives the inventory
+ * @param {Platform.Character | Platform.DummyTemplate} Target - The target that gives the inventory
  * @returns {void} - Nothing
  */
 function PlatformAddRandomInventory(Target) {
@@ -2458,8 +2470,8 @@ function PlatformAddRandomInventory(Target) {
 
 /**
  * Random odds of finding inventory on a defeated enemy
- * @param {Object} Source - The victorious character
- * @param {Object} Target - The defeated character
+ * @param {Platform.Character} Source - The victorious character
+ * @param {Platform.Character} Target - The defeated character
  * @returns {void} - Nothing
  */
 function PlatformFindInventory(Source, Target) {
@@ -2482,12 +2494,12 @@ function PlatformCreateTreasure() {
 
 /**
  * Applies damage on a target, can become wounded at 0 health
- * @param {Object} Source - The character doing the damage
- * @param {Object} Target - The character getting the damage
- * @param {Number} Damage - The number of damage to apply
- * @param {Number} Time - The current time when the action is done
- * @param {String} Type - The damage type (Collsion or Action)
- * @param {String} AttackName - The name of the attack that was done
+ * @param {Platform.Character} Source - The character doing the damage
+ * @param {Platform.Character} Target - The character getting the damage
+ * @param {number} Damage - The number of damage to apply
+ * @param {number} Time - The current time when the action is done
+ * @param {string} Type - The damage type (Collsion or Action)
+ * @param {string} AttackName - The name of the attack that was done
  * @returns {void} - Nothing
  */
 function PlatformDamage(Source, Target, Damage, Time, Type, AttackName = "") {
@@ -2537,9 +2549,9 @@ function PlatformDamage(Source, Target, Damage, Time, Type, AttackName = "") {
 
 /**
  * Checks if the hitbox of an attack clashes with a hitbox of the target
- * @param {Object} Source - The character doing the damage
- * @param {Object} Target - The character getting the damage
- * @param {Array} HitBox - The hitbox of the attack
+ * @param {Platform.Character} Source - The character doing the damage
+ * @param {Platform.Character} Target - The character getting the damage
+ * @param {RectTuple} HitBox - The hitbox of the attack
  * @returns {boolean} - TRUE if there's a clash
  */
 function PlatformHitBoxClash(Source, Target, HitBox) {
@@ -2589,9 +2601,9 @@ function PlatformHitBoxClash(Source, Target, HitBox) {
 
 /**
  * Plays a sound effect if needed
- * @param {String} Category - The sound effect category
- * @param {Object} Sound - The sound or array of sound to play
- * @param {Number} Factor - The volume factor to apply
+ * @param {Platform.SoundCategory} Category - The sound effect category
+ * @param {Platform.SoundEffect | Platform.SoundEffect[]} Sound - The sound or array of sound to play
+ * @param {number} Factor - The volume factor to apply
  * @returns {void} - Nothing
  */
 function PlatformSoundEffect(Category, Sound, Factor = 0.3333) {
@@ -2617,8 +2629,8 @@ function PlatformSoundEffect(Category, Sound, Factor = 0.3333) {
 
 /**
  * Checks if the character action can attack someone else
- * @param {Object} Source - The character doing the action
- * @param {Number} Time - The current time when the action is done
+ * @param {Platform.Character} Source - The character doing the action
+ * @param {number} Time - The current time when the action is done
  * @returns {void} - Nothing
  */
 function PlatformProcessAction(Source, Time) {
@@ -2648,9 +2660,9 @@ function PlatformProcessAction(Source, Time) {
 
 /**
  * Calculates the X force to apply based on the time it took until the last frame and the speed of the object
- * @param {Number} Speed - The speed of the object
- * @param {Number} Frame - The number of milliseconds since the last frame
- * @returns {Number} - The force to apply
+ * @param {number} Speed - The speed of the object
+ * @param {number} Frame - The number of milliseconds since the last frame
+ * @returns {number} - The force to apply
  */
 function PlatformWalkFrame(Speed, Frame) {
 	return Frame * Speed / 50;
@@ -2658,8 +2670,8 @@ function PlatformWalkFrame(Speed, Frame) {
 
 /**
  * Does collision damage for a character
- * @param {Object} Target - The character that will be damaged
- * @param {Number} Time - The current time when the action is done
+ * @param {Platform.Character} Target - The character that will be damaged
+ * @param {number} Time - The current time when the action is done
  * @returns {void} - Nothing
  */
 function PlatformCollisionDamage(Target, Time) {
@@ -2672,8 +2684,8 @@ function PlatformCollisionDamage(Target, Time) {
 
 /**
  * Checks if an opponent can bind the player
- * @param {Object} Source - The opponent that can bind
- * @param {Number} Time - The current time when the action is done
+ * @param {Platform.Character} Source - The opponent that can bind
+ * @param {number} Time - The current time when the action is done
  * @returns {void} - Nothing
  */
 function PlatformBindPlayer(Source, Time) {
@@ -2689,7 +2701,7 @@ function PlatformBindPlayer(Source, Time) {
 
 /**
  * Returns TRUE if the player input is valid for a move
- * @param {Object} Move - The movement type (Crouch, jump, left, right, etc.)
+ * @param {Platform.AnimationName} Move - The movement type (Crouch, jump, left, right, etc.)
  * @returns {boolean}
  */
 function PlatformMoveActive(Move) {
@@ -2735,8 +2747,8 @@ function PlatformMoveActive(Move) {
 
 /**
  * Returns TRUE if an animation is available for the character
- * @param {Object} C - The character to evaluate
- * @param {String} AnimationName - The animation name to search
+ * @param {Platform.Character} C - The character to evaluate
+ * @param {Platform.AnimationName} AnimationName - The animation name to search
  * @returns {boolean} - TRUE if it's available
  */
 function PlatformAnimAvailable(C, AnimationName) {
@@ -2748,15 +2760,15 @@ function PlatformAnimAvailable(C, AnimationName) {
 
 /**
  * Creates a projectile that will disappear when it hits the floor or a wall
- * @param {String} Name - The name of the projectile (Arrow, Bullet, etc.)
- * @param {String} Type - The type of the projectile (Wood, Iron, etc.)
- * @param {Boolean} FaceLeft - IF the projectile is facing the left direction
- * @param {Number} X - The X position
- * @param {Number} Y - The Y position
- * @param {Number} Force - The speed of the projectile
- * @param {Number} Gravity - The Y axis gravity pulling that projectile down (default to 0.25)
- * @param {Number} Damage - The damage done by the projectile
- * @param {any} HitAudio - The damage done by the projectile
+ * @param {Platform.ProjectileName} Name - The name of the projectile (Arrow, Bullet, etc.)
+ * @param {Platform.ProjectileType} Type - The type of the projectile (Wood, Iron, etc.)
+ * @param {boolean} FaceLeft - IF the projectile is facing the left direction
+ * @param {number} X - The X position
+ * @param {number} Y - The Y position
+ * @param {number} Force - The speed of the projectile
+ * @param {number} Gravity - The Y axis gravity pulling that projectile down (default to 0.25)
+ * @param {number} Damage - The damage done by the projectile
+ * @param {Platform.SoundEffect[]} [HitAudio] - The damage done by the projectile
  * @returns {void} - Nothing
  */
 function PlatformCreateProjectile(Name, Type, FaceLeft, X, Y, Force, Gravity = 0.25, Damage, HitAudio) {
@@ -2771,7 +2783,7 @@ function PlatformCreateProjectile(Name, Type, FaceLeft, X, Y, Force, Gravity = 0
 
 /**
  * Calculates the projectiles
- * @param {Number} Time - The current time stamp of the frame
+ * @param {number} Time - The current time stamp of the frame
  * @returns {void} - Nothing
  */
 function PlatformProcessProjectile(Time) {
@@ -2813,8 +2825,8 @@ function PlatformProcessProjectile(Time) {
 
 /**
  * Consume a projectile from the character and creates it on screen
- * @param {Object} C - The character that generates the projectile
- * @param {Boolean} LongShot - TRUE if it's a long shot
+ * @param {Platform.Character} C - The character that generates the projectile
+ * @param {boolean} LongShot - TRUE if it's a long shot
  * @returns {void} - Nothing
  */
 function PlatformProjectile(C, LongShot) {
@@ -2829,8 +2841,8 @@ function PlatformProjectile(C, LongShot) {
 
 /**
  * Binds a target character by the source character
- * @param {Object} Source - The source character that's doing the bondage
- * @param {Object} Target - The target character that's getting bound
+ * @param {Platform.Character} Source - The source character that's doing the bondage
+ * @param {Platform.Character} Target - The target character that's getting bound
  * @returns {void} - Nothing
  */
 function PlatformBindTarget(Source, Target) {
@@ -2906,7 +2918,7 @@ function PlatformDrawGame() {
 	// If we must regenarate magic for the player
 	if (!MustHeal && (PlatformPlayer.MaxMagic != null) && (PlatformPlayer.Magic != null) && (PlatformRegen < PlatformTime)) {
 		if (PlatformPlayer.Magic < PlatformPlayer.MaxMagic) PlatformPlayer.Magic++;
-		PlatformRegen = PlatformTime + (PlatformHasPerk("Meditation") ? 6000 : 8000);
+		PlatformRegen = PlatformTime + (PlatformHasPerk(PlatformPlayer, "Meditation") ? 6000 : 8000);
 	}
 
 	// Draw each characters
@@ -3246,8 +3258,8 @@ function PlatformRun() {
 
 /**
  * Starts an attack by the source
- * @param {Object} Source - The character doing the action
- * @param {String} Type - The action type (Punch, Kick, Sweep, etc.)
+ * @param {Platform.Character} Source - The character doing the action
+ * @param {Platform.AnimationName} Type - The action type (Punch, Kick, Sweep, etc.)
  * @returns {void} - Nothing
  */
 function PlatformAttack(Source, Type) {
@@ -3286,7 +3298,7 @@ function PlatformAudioToggle() {
 
 /**
  * Gives an item to the currrent NPC
- * @param {string} ItemName -
+ * @param {Platform.ItemName} ItemName -
  * @returns {void} - Nothing
  */
 function PlatformGiveItem(ItemName) {
@@ -3357,7 +3369,7 @@ function PlatformLeave() {
 
 /**
  * Enters a new room if the entry conditions are met
- * @param {String} FromType - The type of room enter (Up, Left, Right)
+ * @param {Platform.RoomType} FromType - The type of room enter (Up, Left, Right)
  * @returns {void} - Nothing
  */
 function PlatformEnterRoom(FromType) {
@@ -3385,7 +3397,7 @@ function PlatformEnterRoom(FromType) {
 
 /**
  * Checks if there's a target character to bind and starts the binding process
- * @param {Object} Source - The source character that does the binding
+ * @param {Platform.Character} Source - The source character that does the binding
  * @returns {void} - Nothing
  */
 function PlatformBindStart(Source) {
@@ -3403,7 +3415,7 @@ function PlatformBindStart(Source) {
 
 /**
  * Saves the game on a specific slot
- * @param {Number} Slot - The slot to use (from 0 to 9)
+ * @param {number} Slot - The slot to use (from 0 to 9)
  * @returns {void} - Nothing
  */
 function PlatformSaveGame(Slot) {
@@ -3429,7 +3441,7 @@ function PlatformSaveGame(Slot) {
 
 /**
  * Adds an item to the player inventory
- * @param {string} InventoryName - The item name to add
+ * @param {Platform.ItemName} InventoryName - The item name to add
  * @param {number} QuantityToAdd - The quantity to add (1 if null)
  * @returns {void} - Nothing
  */
@@ -3445,7 +3457,7 @@ function PlatformInventoryAdd(InventoryName, QuantityToAdd = 1) {
 
 /**
  * Removes an item from the player inventory
- * @param {string} InventoryName - The item name to add
+ * @param {Platform.ItemName} InventoryName - The item name to add
  * @param {number} QuantityToRemove - The quantity to add (1 if null)
  * @returns {void} - Nothing
  */
@@ -3461,7 +3473,7 @@ function PlatformInventoryRemove(InventoryName, QuantityToRemove = 1) {
 
 /**
  * Loads the game on a specific slot
- * @param {Number} Slot - The slot to use (from 0 to 9)
+ * @param {number} Slot - The slot to use (from 0 to 9)
  * @returns {void} - Nothing
  */
 function PlatformLoadGame(Slot) {
@@ -3520,7 +3532,7 @@ function PlatformLoadGame(Slot) {
 
 /**
  * Teleports a character forward
- * @param {Object} C - The character to teleport
+ * @param {Platform.Character} C - The character to teleport
  * @returns {void} - Nothing
  */
 function PlatformCastTeleport(C) {
@@ -3537,7 +3549,7 @@ function PlatformCastTeleport(C) {
 
 /**
  * Heals the character for 20% of it's max HP
- * @param {Object} C - The character to teleport
+ * @param {Platform.Character} C - The character to teleport
  * @returns {void} - Nothing
  */
 function PlatformCastHeal(C) {
@@ -3557,7 +3569,7 @@ function PlatformCastHeal(C) {
 
 /**
  * Handles the keys pressed to move, attack or jump
- * @param {string} Code - The key code pressed
+ * @param {Platform.KeyCode} Code - The key code pressed
  * @returns {void} - Nothing
  */
 function PlatformEventKeyDown(Code) {
@@ -3587,7 +3599,7 @@ function PlatformEventKeyDown(Code) {
 
 /**
  * Handles keys pressed
- * @param {Object} e - The key pressed
+ * @param {KeyboardEvent} e - The key pressed
  * @returns {boolean} - TRUE if we handled the key pressed
  */
 function PlatformKeyDown(e) {
@@ -3600,7 +3612,7 @@ function PlatformKeyDown(e) {
 
 /**
  * Handles keys released
- * @param {Object} e - The key released
+ * @param {KeyboardEvent} e - The key released
  * @returns {void} - Nothing
  */
 function PlatformKeyUp(e) {
@@ -3684,8 +3696,8 @@ function PlatformTouch() {
 
 /**
  * Returns TRUE if a specific perk is allocated for that character
- * @param {Object} C - The platform character to evaluate
- * @param {Object} Perk - The perk name to validate
+ * @param {Platform.Character} C - The platform character to evaluate
+ * @param {Platform.PerkName} Perk - The perk name to validate
  * @returns {boolean} - TRUE if the perk is paid
  */
 function PlatformHasPerk(C, Perk) {
@@ -3696,7 +3708,7 @@ function PlatformHasPerk(C, Perk) {
 
 /**
  * Returns TRUE if a specific cooldown is currently active
- * @param {String} Name - The name of the cooldown to validate
+ * @param {Platform.EffectType | Platform.AnimationName} Name - The name of the cooldown to validate
  * @returns {boolean} - TRUE if active
  */
 function PlatformCooldownActive(Name) {

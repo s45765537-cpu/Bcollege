@@ -52,11 +52,12 @@ interface ServerAccountData extends ServerAccountImmutableData {
 	/** String-based values have been deprecated as of BondageProjects/Bondage-College#2138 */
 	Inventory?: string | Partial<Record<AssetGroupName, string[]>>;
 	InventoryData?: string;
-	AssetFamily?: "Female3DCG";
+	/** Initialized by {@link CharacterCreate} */
+	AssetFamily: "Female3DCG";
 	Infiltration?: InfiltrationType;
 	SavedColors?: HSVColor[];
 	ChatSearchFilterTerms?: string;
-	Difficulty?: { Level: number; LastChange: number };
+	Difficulty?: { Level: DifficultyLevel; LastChange: number };
 	MapData?: ChatRoomMapData;
 	PrivateCharacter?: ServerPrivateCharacterData[];
 	SavedExpressions?: ({ Group: ExpressionGroupName, CurrentExpression?: ExpressionName }[] | null)[];
@@ -276,7 +277,7 @@ type ServerChatRoomSettings = Partial<ServerChatRoomData> & {
 
 //#region Requests & Responses
 
-type ServerLoginResponse = "InvalidNamePassword" | Partial<ServerAccountData>;
+type ServerLoginResponse = "InvalidNamePassword" | ServerAccountData;
 
 type ServerLoginQueueResponse = number;
 
@@ -750,6 +751,20 @@ interface ActivityNameDictionaryEntry {
 }
 
 /**
+ * A dictionary entry indicating the ID of a message being replied to.
+ */
+interface ReplyIdDictionaryEntry {
+	ReplyId: string;
+	Tag: "ReplyId";
+}
+/**
+ * A dictionary entry indicating the ID of a message.
+ */
+interface MsgIdDictionaryEntry {
+	MsgId: string;
+	Tag: "MsgId";
+}
+/**
  * A dictionary entry with metadata about the chat message transmitted.
  *
  * Send with Chat and Whisper-type messages to inform the other side about the
@@ -776,7 +791,10 @@ type ChatMessageDictionaryEntry =
 	| ActivityCounterDictionaryEntry
 	| AssetGroupNameDictionaryEntry
 	| ActivityNameDictionaryEntry
-	| MessageEffectEntry;
+	| MessageEffectEntry
+	| MsgIdDictionaryEntry
+	| ReplyIdDictionaryEntry ;
+
 
 type ChatMessageDictionary = ChatMessageDictionaryEntry[];
 

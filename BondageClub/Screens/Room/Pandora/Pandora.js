@@ -1448,7 +1448,7 @@ function PandoraPenitentiaryActivityRun(Activity) {
 			InventoryLock(Player, "ItemArms", LockType);
 			PandoraPenitentiaryItemDifficulty(Player, "ItemArms", Level);
 		}
-		if (InventoryGet(Player, "ItemArms") == null) {
+		if (InventoryGet(Player, "ItemLegs") == null) {
 			InventoryWear(Player, "Chains", "ItemLegs");
 			InventoryLock(Player, "ItemLegs", LockType);
 			PandoraPenitentiaryItemDifficulty(Player, "ItemLegs", Level);
@@ -1595,7 +1595,7 @@ function PandoraPenitentiaryDoActivity(Activity) {
 function PandoraPenitentiaryHiddenMessage(SenderCharacter, Interaction) {
 
 	// Make sure we can process the Pandora packet
-	if (!Interaction.startsWith("Pandora") || (Interaction.indexOf("|") <= 0) || !PandoraPenitentiaryIsInmate(Player) || !PandoraPenitentiaryIsGuard(SenderCharacter) || Player.BlackList.includes(SenderCharacter.MemberNumber)) return;
+	if (!Interaction.startsWith("Pandora") || (Interaction.indexOf("|") <= 0) || !PandoraPenitentiaryIsInmate(Player) || !PandoraPenitentiaryIsGuard(SenderCharacter) || SenderCharacter.IsBlacklisted()) return;
 
 	// Make sure we target the player (ALL targets everyone)
 	let Target = Interaction.split("|")[1];

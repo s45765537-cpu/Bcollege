@@ -145,12 +145,12 @@ function IntroductionChangeMaidOpinion(Bonus) {
 
 /**
  * Gives focus on certain body parts with its zone
- * @param {AssetGroupName} NewZone - Zone to set as the new focus group
+ * @param {AssetGroupItemName} NewZone - Zone to set as the new focus group
  * @returns {void} - Nothing
  */
 function IntroductionSetZone(NewZone) {
 	// Force a focus group change to not break out of dialog mode while still showing the group outlines
-	CurrentCharacter.FocusGroup = Player.FocusGroup =  /** @type {AssetItemGroup} */ (AssetGroupGet("Female3DCG", NewZone));
+	CurrentCharacter.FocusGroup = Player.FocusGroup = AssetGroupGet("Female3DCG", NewZone);
 }
 
 /**

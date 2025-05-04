@@ -2,6 +2,8 @@
 [Message]: 将消息显示为动作，不包含你的名字。**[Message]效果相同
 : Toggle AFK emote
 :切换AFK表情
+[Percentage 0-100]% [Message]: Display “[PlayerName] Message: ✔ or ❌ (Percentage %) as an attempt action. Percentage is a success chance. *[Percentage]% [Message] does the same. If percentage is omitted, success chance is 50%.
+[Percentage 0-100]% [Message]:以尝试动作来显示“[PlayerName] Message: ✔或者❌ (Percentage %)”。Percentage是成功率。*[Percentage]% [Message]是同样的效果。如果没有提供Percentage参数，成功率是50%。
 [MemberNumber]: Ban the player from the room
 [MemberNumber]:将玩家从本房间封禁
 [MemberNumber]: Send a beep to the player
@@ -39,7 +41,7 @@ add/remove/list/clear/help [目标]: 修改你的关注列表（允许你选择�
 : Alias for /focus clear
 : /focus clear 的别名
 : Alias for /focus help
-: /focus help 的别名    
+: /focus help 的别名
 [MemberNumber]: Add the player to your friendlist
 [MemberNumber]:将玩家添加到好友列表
 [MemberNumber]: Remove the player from your friendlist
@@ -54,8 +56,8 @@ add/remove/list/clear/help [目标]: 修改你的关注列表（允许你选择�
 [MemberNumber]:将玩家踢出房间
 [Message]: Display “[PlayerName] Message” as an action. *[Message] does the same.
 [Message]:以动作形式显示“[PlayerName] Message”。*[Message]是同样的效果。
-[Percentage 0-100]% [Message]: Display “[PlayerName] Message: ✔ or ❌ (Percentage %) as an attempt action. Percentage is a success chance. *[Percentage]% [Message] does the same. If percentage is omitted, success chance is 50%.
-[Percentage 0-100]% [Message]:以尝试动作来显示“[PlayerName] Message: ✔或者❌ (Percentage %)”。Percentage是成功率。*[Percentage]% [Message]是同样的效果。如果没有提供Percentage参数，成功率是50%。
+[Activity]: Do a Pandora Guard activity on your whisper selection or all inmates if there's no selection. (Activities: Bondage, Cage, Chastity, Detain, Gag, Hogtie, Hose, Lock, Naked, Spank, Ungag, Release, Shibari, Uncage, Unchaste, Unlock)
+[Activity]: 在你的悄悄话选择的目标，或者如果没有选择时，对所有囚犯上执行一个潘多拉守卫动作。（可选动作：Bondage, Cage, Chastity, Detain, Gag, Hogtie, Hose, Lock, Naked, Spank, Ungag, Release, Shibari, Uncage, Unchaste, Unlock）
 [MemberNumber]: Promote the user to room administrator
 [MemberNumber]:使玩家成为房管
 [MemberNumber]: Removes the user from the room whitelist

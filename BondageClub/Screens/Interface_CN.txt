@@ -94,6 +94,8 @@ Brightness
 亮度
 Cancel
 取消
+Cannot change this option by yourself.
+不能自己更改这个选项。
 Cannot use on yourself.
 不能对自己使用
 Cannot change while locked
@@ -104,8 +106,14 @@ Type /help for a list of commands
 输入 /help 查看命令列表
 You are not on that member's friendlist; ask TargetPronounObject to friend you before leashing TargetPronounObject.
 你不在该玩家的好友列表中。在使用链子之前，请先让该玩家添加你为好友。
-<i>Asylum</i>
-<i>收容所</i>
+Mixed
+混合区
+Male-only
+仅男性
+Female-only
+仅女性
+Asylum
+收容所
 Choose struggling method...
 选择挣扎方式...
 Struggle in chat room
@@ -350,34 +358,106 @@ Change Opacity
 改变遮光度
 Option needs to be bought
 需要购买的选项
+<b>You've asked TargetCharacterName to become your submissive. Don't forget to friend them if they accept!</b>
+<b>你已经请求TargetCharacterName成为你的顺从者。如果她同意了，别忘了添加她为好友！</b>
 Page
 页
-A Pandora guard puts SourceCharacter in new restraints.
-一位潘多拉守卫将SourceCharacter用新的束缚固定。
-A Pandora guard spanks SourceCharacter butt many times.
-一位潘多拉守卫拍打了SourceCharacter的屁股很多次。
-A Pandora guard hoses SourceCharacter with cold water.
-一位潘多拉守卫用冷水冲洗了SourceCharacter。
-A Pandora guard gags SourceCharacter.
-一位潘多拉守卫给SourceCharacter塞上口塞。
-A Pandora guard removes the gag from SourceCharacter.
-一位潘多拉守卫从SourceCharacter的嘴里拿掉了口塞。
-A Pandora guard chains and hogties SourceCharacter.
-一位潘多拉守卫用锁链将SourceCharacter绑成了驷马束缚。
-A Pandora guard puts SourceCharacter in shibari bondage.
-一位潘多拉守卫将SourceCharacter绑成了绳艺束缚。
-A Pandora guard strips SourceCharacter and confiscates the clothes for a while.
-一位潘多拉守卫脱掉了SourceCharacter的衣服，并没收了一段时间。
-A Pandora guard adds locks on SourceCharacter restraints.
-一位潘多拉守卫在SourceCharacter的束缚上加了锁。
-A Pandora guard locks a chastity device on SourceCharacter.
-一位潘多拉守卫在SourceCharacter身上锁上了贞操带。
-A Pandora guard removes the chastity device from SourceCharacter.
-一位潘多拉守卫从SourceCharacter身上移除了贞操带。
-A Pandora guard unlocks some restraints on SourceCharacter.
-一位潘多拉守卫解锁了SourceCharacter的一些束缚。
-A Pandora guard removes some restraints on SourceCharacter.
-一位潘多拉守卫移除了SourceCharacter的一些束缚。
+A Pandora guard puts TargetCharacterName in new restraints.
+一位潘多拉守卫将TargetCharacterName用新的束缚固定。
+A Pandora guard spanks TargetCharacterName butt many times.
+一位潘多拉守卫多次打击TargetCharacterName的屁股。
+A Pandora guard hoses TargetCharacterName with cold water.
+一位潘多拉守卫用冷水冲洗TargetCharacterName。
+A Pandora guard gags TargetCharacterName.
+一位潘多拉守卫给TargetCharacterName塞上口塞。
+A Pandora guard removes the gag from TargetCharacterName.
+一位潘多拉守卫从TargetCharacterName的嘴里取出口塞。
+A Pandora guard chains and hogties TargetCharacterName.
+一位潘多拉守卫用锁链将TargetCharacterName绑成驷马束缚。
+A Pandora guard puts TargetCharacterName in shibari bondage.
+一位潘多拉守卫将TargetCharacterName用绳子束缚。
+A Pandora guard uses prison restraints on TargetCharacterName.
+一位潘多拉守卫用监狱式束缚固定TargetCharacterName。
+A Pandora guard strips TargetCharacterName and confiscates the clothes for a while.
+一位潘多拉守卫脱掉TargetCharacterName的衣服并没收了一段时间。
+A Pandora guard adds locks on TargetCharacterName restraints.
+一位潘多拉守卫在TargetCharacterName的束缚上加锁。
+A Pandora guard locks a chastity device on TargetCharacterName.
+一位潘多拉守卫在TargetCharacterName身上锁上贞操带。
+A Pandora guard removes the chastity device from TargetCharacterName.
+一位潘多拉守卫从TargetCharacterName身上取下贞操带。
+A Pandora guard unlocks some restraints on TargetCharacterName.
+一位潘多拉守卫解开TargetCharacterName的一些束缚。
+A Pandora guard removes some restraints on TargetCharacterName.
+一位潘多拉守卫移除TargetCharacterName的一些束缚。
+A Pandora guard puts TargetCharacterName in a case.
+一位潘多拉守卫将TargetCharacterName关进一个箱子。
+A Pandora guard releases TargetCharacterName from the case.
+一位潘多拉守卫将TargetCharacterName从箱子里释放出来。
+Pandora guard SourceCharacter puts TargetCharacterName in new restraints.
+潘多拉守卫SourceCharacter将TargetCharacterName固定在新的束缚中。
+Pandora guard SourceCharacter spanks TargetCharacterName butt many times.
+潘多拉守卫SourceCharacter多次打击TargetCharacterName的屁股。
+Pandora guard SourceCharacter hoses TargetCharacterName with cold water.
+潘多拉守卫SourceCharacter用冷水冲洗TargetCharacterName。
+Pandora guard SourceCharacter gags TargetCharacterName.
+潘多拉守卫SourceCharacter给TargetCharacterName塞上口塞。
+Pandora guard SourceCharacter removes the gag from TargetCharacterName.
+潘多拉守卫SourceCharacter从TargetCharacterName的嘴里取出口塞。
+Pandora guard SourceCharacter chains and hogties TargetCharacterName.
+潘多拉守卫SourceCharacter用锁链将TargetCharacterName绑成驷马束缚。
+Pandora guard SourceCharacter puts TargetCharacterName in shibari bondage.
+潘多拉守卫SourceCharacter将TargetCharacterName用绳子束缚。
+Pandora guard SourceCharacter uses prison restraints on TargetCharacterName.
+潘多拉守卫SourceCharacter用监狱式束缚固定TargetCharacterName。
+Pandora guard SourceCharacter strips TargetCharacterName and confiscates the clothes for a while.
+潘多拉守卫SourceCharacter脱掉TargetCharacterName的衣服并没收了一段时间。
+Pandora guard SourceCharacter adds locks on TargetCharacterName restraints.
+潘多拉守卫SourceCharacter在TargetCharacterName的束缚上加锁。
+Pandora guard SourceCharacter locks a chastity device on TargetCharacterName.
+潘多拉守卫SourceCharacter在TargetCharacterName身上锁上贞操带。
+Pandora guard SourceCharacter removes the chastity device from TargetCharacterName.
+潘多拉守卫SourceCharacter从TargetCharacterName身上取下贞操带。
+Pandora guard SourceCharacter unlocks some restraints on TargetCharacterName.
+潘多拉守卫SourceCharacter解锁了TargetCharacterName的一些束缚。
+Pandora guard SourceCharacter removes some restraints on TargetCharacterName.
+潘多拉守卫SourceCharacter移除了TargetCharacterName的一些束缚。
+Pandora guard SourceCharacter puts TargetCharacterName in a case.
+潘多拉守卫SourceCharacter将TargetCharacterName关进一个箱子。
+Pandora guard SourceCharacter releases TargetCharacterName from the case.
+潘多拉守卫SourceCharacter将TargetCharacterName从箱子里释放出来。
+Pandora guard SourceCharacter puts all inmates in new restraints.
+潘多拉守卫SourceCharacter将所有囚犯固定在新的束缚中。
+Pandora guard SourceCharacter spanks all inmates one by one.
+潘多拉守卫SourceCharacter一个一个地打击所有囚犯的屁股。
+Pandora guard SourceCharacter hoses all inmates with cold water.
+潘多拉守卫SourceCharacter用冷水冲洗所有囚犯。
+Pandora guard SourceCharacter gags all inmates.
+潘多拉守卫SourceCharacter给所有囚犯塞上口塞。
+Pandora guard SourceCharacter removes the gag from all inmates.
+潘多拉守卫SourceCharacter从所有囚犯的嘴里取出口塞。
+Pandora guard SourceCharacter chains and hogties all inmates.
+潘多拉守卫SourceCharacter用锁链将所有囚犯绑成驷马束缚。
+Pandora guard SourceCharacter puts all inmates in shibari bondage.
+潘多拉守卫SourceCharacter将所有囚犯用绳子束缚。
+Pandora guard SourceCharacter uses prison restraints on all inmates.
+潘多拉守卫SourceCharacter用监狱式束缚固定所有囚犯。
+Pandora guard SourceCharacter strips all inmates and confiscates the clothes for a while.
+潘多拉守卫SourceCharacter脱掉所有囚犯的衣服并没收了一段时间。
+Pandora guard SourceCharacter adds locks on all inmates restraints.
+潘多拉守卫SourceCharacter在所有囚犯的束缚上加锁。
+Pandora guard SourceCharacter locks a chastity device on all inmates.
+潘多拉守卫SourceCharacter在所有囚犯身上锁上贞操带。
+Pandora guard SourceCharacter removes the chastity device from all inmates.
+潘多拉守卫SourceCharacter从所有囚犯身上取下贞操带。
+Pandora guard SourceCharacter unlocks some restraints on all inmates.
+潘多拉守卫SourceCharacter解锁了所有囚犯的一些束缚。
+Pandora guard SourceCharacter removes some restraints on all inmates.
+潘多拉守卫SourceCharacter移除了所有囚犯的一些束缚。
+Pandora guard SourceCharacter puts all inmates in cases.
+潘多拉守卫SourceCharacter将所有囚犯关进箱子。
+Pandora guard SourceCharacter releases all inmates from their cases.
+潘多拉守卫SourceCharacter将所有囚犯从箱子里释放出来。
 Picking the lock...
 正在开锁…
 Pose
@@ -518,7 +598,7 @@ Unzip the suit first.
 ，和
 View previous expressions
 查看之前表情
-Allowed Limited Item
+Allowed limited item
 允许限制物品
 Heavily blinds
 重度遮眼
@@ -528,6 +608,8 @@ Blinds
 遮眼
 Restrains hands
 束缚手
+Blocked item
+被屏蔽的物品
 Buygroup member
 购买物品组成员
 Heavily deafens
@@ -636,8 +718,8 @@ Requires self-bondage 8.
 需要自缚技能等级8
 Requires self-bondage 9.
 需要自缚技能等级9
-Active Rules
-生效规则
+Active owner/lover rules
+启用的主人/恋人规则
 Cannot change:
 无法更改:
 Blocked: Family keys

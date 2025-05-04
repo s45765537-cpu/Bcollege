@@ -257,7 +257,7 @@ function CommonGetRetry(Path, Callback, RetriesLeft) {
 	}
 }
 
-/** @type {ScreenFunctions["MouseDown"]} */
+/** @type {MouseEventListener} */
 function CommonMouseDown(event) {
 	if (CurrentCharacter == null) {
 		if (CurrentScreenFunctions.MouseDown) {
@@ -268,7 +268,7 @@ function CommonMouseDown(event) {
 	}
 }
 
-/** @type {ScreenFunctions["MouseUp"]} */
+/** @type {MouseEventListener} */
 function CommonMouseUp(event) {
 	if (CurrentScreenFunctions.MouseUp)
 	{
@@ -276,7 +276,7 @@ function CommonMouseUp(event) {
 	}
 }
 
-/** @type {ScreenFunctions["MouseMove"]} */
+/** @type {MouseEventListener} */
 function CommonMouseMove(event) {
 	if (CurrentScreenFunctions.MouseMove)
 	{
@@ -284,7 +284,7 @@ function CommonMouseMove(event) {
 	}
 }
 
-/** @type {ScreenFunctions["MouseWheel"]} */
+/** @type {MouseWheelEventListener} */
 function CommonMouseWheel(event) {
 	if (CurrentScreenFunctions.MouseWheel) {
 		CurrentScreenFunctions.MouseWheel(event);
@@ -293,7 +293,7 @@ function CommonMouseWheel(event) {
 
 /**
  * Catches the clicks on the main screen and forwards it to the current screen click function if it exists, otherwise it sends it to the dialog click function
- * @type {ScreenFunctions["Click"]}
+ * @type {MouseEventListener}
  */
 function CommonClick(event) {
 	ServerClickBeep();
@@ -329,7 +329,7 @@ function CommonTouchActive(X, Y, W, H, TL) {
 /**
  * Catches key presses on the main screen and forwards it to the current screen key down function if it exists, otherwise it sends it to the dialog key down function
  * @deprecated Use GameKeyDown instead
- * @type {ScreenFunctions["KeyDown"]}
+ * @type {KeyboardEventListener}
  */
 function CommonKeyDown(event) { return false; }
 
@@ -361,7 +361,8 @@ function CommonDynamicFunctionParams(FunctionName) {
 	// Gets the real function name and parameters
 	var openParenthesisIndex = FunctionName.indexOf("(");
 	var closedParenthesisIndex = FunctionName.indexOf(")", openParenthesisIndex);
-	var Params = FunctionName.substring(openParenthesisIndex + 1, closedParenthesisIndex).split(",");
+	var ParamsString = FunctionName.substring(openParenthesisIndex + 1, closedParenthesisIndex);
+	var Params = ParamsString.length === 0 ? [] : ParamsString.split(",");
 	for (let P = 0; P < Params.length; P++)
 		Params[P] = Params[P].trim().replace('"', '').replace('"', '');
 	FunctionName = FunctionName.substring(0, openParenthesisIndex);
@@ -489,7 +490,7 @@ function CommonTime() {
 
 /**
  * Checks if a given value is a valid HEX color code
- * @param {string} Value - Potential HEX color code
+ * @param {string | undefined} Value - Potential HEX color code
  * @returns {boolean} - Returns TRUE if the string is a valid HEX color
  */
 function CommonIsColor(Value) {
@@ -603,6 +604,13 @@ function CommonStringShuffle(string) {
 	return parts.join('');
 }
 
+/**
+ * Generate a unique ID
+ * @returns {string}
+ */
+function CommonGenerateUniqueID() {
+	return Math.random().toString(36).substring(2);
+}
 /**
  * Converts an array to a string separated by commas (equivalent of .join(","))
  * @param {readonly any[]} Arr - Array to convert to a joined string

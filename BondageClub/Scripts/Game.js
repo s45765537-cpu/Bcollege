@@ -1,7 +1,7 @@
 "use strict";
 
 /** BC's version */
-var GameVersion = "R113";
+var GameVersion = "R115";
 
 const GameVersionFormat = /^R([0-9]+)(?:(Alpha|Beta)([0-9]+)?)?$/;
 
@@ -257,7 +257,7 @@ function GameMouseUp(event) {
 
 /**
  * If the user rolls the mouse wheel, we fire the mousewheel event for other screens
- * @type {ScreenFunctions["MouseWheel"]}
+ * @type {MouseWheelEventListener}
  */
 function GameMouseWheel(event) {
 	if (CommonIsMobile) { return; }

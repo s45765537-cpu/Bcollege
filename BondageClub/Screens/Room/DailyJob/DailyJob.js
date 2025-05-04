@@ -201,10 +201,10 @@ function DailyJobPuppyPlayer() {
  * @returns {void} - Nothing
  */
 function DailyJobDojoRestrainPlayer() {
-	InventoryWear(Player, "HempRope", "ItemArms", "Default", 7);
-	if (InventoryGet(Player, "ItemTorso") == null) {
-		const item = InventoryWear(Player, "HempRopeHarness", "ItemTorso", "Default", 7);
-		TypedItemSetOptionByName(Player, item, "Harness");
+	InventoryWear(Player, "HempRope", "ItemArms", "Default", undefined, undefined, undefined, false);
+	if (!InventoryGet(Player, "ItemTorso")) {
+		const item = InventoryWear(Player, "HempRopeHarness", "ItemTorso", "Default", undefined, undefined, undefined, false);
+		TypedItemSetOptionByName(Player, item, "Harness", false);
 	}
 	CharacterRefresh(Player);
 }
@@ -223,9 +223,24 @@ function DailyJobDojoGameStart() {
  */
 function DailyJobDojoGameEnd() {
 	CommonSetScreen("Room", "DailyJob");
+
 	DailyJobDojoTeacher.Stage = (MiniGameVictory) ? "100" : "200";
 	CharacterSetCurrent(DailyJobDojoTeacher);
-	if (MiniGameVictory) IntroductionJobDone();
+	if (MiniGameVictory) {
+		IntroductionJobDone();
+		let refresh = false;
+		if (InventoryGet(Player, "ItemArms")?.Asset.Name === "HempRope") {
+			InventoryRemove(Player, "ItemArms", false);
+			refresh = true;
+		}
+		if (InventoryGet(Player, "ItemTorso")?.Asset.Name === "HempRopeHarness") {
+			InventoryRemove(Player, "ItemTorso", false);
+			refresh = true;
+		}
+		if (refresh) {
+			CharacterRefresh(Player);
+		}
+	}
 	IntroductionMaid.Stage = "0";
 	DailyJobDojoTeacher.CurrentDialog = DialogFind(DailyJobDojoTeacher, (MiniGameVictory) ? "DojoStruggleVictory" : "DojoStruggleDefeat");
 }

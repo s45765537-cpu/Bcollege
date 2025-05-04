@@ -485,16 +485,17 @@ function PrivateIsSuccubus() {
 /**
  * Returns a random item that could be bought from the store as a gift that the player could receive by a NPC
  * @param {boolean} Restraint - TRUE if we must return an item that's a restraint
- * @returns {Asset} - The item asset that can be given
+ * @returns {Asset|null} - The item asset that can be given
  */
 function PrivateGetPossibleGift(Restraint) {
 
 	// Builds the item list
 	let InvList = [];
-	for (let A of Asset)
-		if ((A.Value != null) && (A.Value > 0) && A.Random && ((A.Gender == null) || (A.Gender == "F")) && !InventoryAvailable(Player, A.Name, A.Group.Name) && !InventoryIsPermissionBlocked(Player, A.Name, A.Group.Name) && !InventoryIsPermissionLimited(Player, A.Name, A.Group.Name))
+	for (let A of Asset) {
+		if ((A.Value > 0) && A.Random && ((A.Gender == null) || (A.Gender == "F")) && !InventoryAvailable(Player, A.Name, A.Group.Name) && !InventoryIsPermissionBlocked(Player, A.Name, A.Group.Name) && !InventoryIsPermissionLimited(Player, A.Name, A.Group.Name))
 			if ((Restraint && A.Group.Name.startsWith("Item")) || (!Restraint && !A.Group.Name.startsWith("Item")))
 				InvList.push({...A});
+	}
 
 	// Returns an item at random or NULL if nothing is possible
 	if (InvList.length <= 0)
@@ -983,24 +984,28 @@ function PrivateClick() {
 	if (MouseIn(1885, PrivateButtonTop(5), 90, 90) && LogQuery("RentRoom", "PrivateRoom") && (!Player.Cage) && PrivateBedActive()) CommonSetScreen("Room", "PrivateBed");
 	if (MouseIn(1885, PrivateButtonTop(6), 90, 90) && LogQuery("RentRoom", "PrivateRoom") && LogQuery("Expansion", "PrivateRoom")) PrivateCharacterOffset = (PrivateCharacterOffset + 4 == PrivateCharacterMax) ? 0 : PrivateCharacterOffset + 4;
 	if (MouseIn(1885, PrivateButtonTop(7), 90, 90) && LogQuery("RentRoom", "PrivateRoom")) {
-		if (Player.VisualSettings == null) Player.VisualSettings = {};
 		let backgrounds = BackgroundsGenerateList(BackgroundsPrivateRoomTagList);
 		let index = backgrounds.indexOf(MainHallBackground);
 		if (index < 0) index = 0;
-		BackgroundSelectionMake(backgrounds, index, Name => {
-			Player.VisualSettings.MainHallBackground = Name;
-			ServerAccountUpdate.QueueData({ VisualSettings: Player.VisualSettings });
+		BackgroundSelectionMake(backgrounds, index, (Name, setBackground) => {
+			if (setBackground) {
+				Player.VisualSettings.MainHallBackground = Name;
+				ServerAccountUpdate.QueueData({ VisualSettings: Player.VisualSettings });
+			}
+			CommonSetScreen("Room", "Private");
 		});
 	}
 	if (MouseIn(1885, PrivateButtonTop(8), 90, 90) && LogQuery("RentRoom", "PrivateRoom")) {
-		if (Player.VisualSettings == null) Player.VisualSettings = {};
 		let backgrounds = BackgroundsGenerateList(BackgroundsPrivateRoomTagList);
 		let index = backgrounds.indexOf(PrivateBackground);
 		if (index < 0) index = 0;
-		BackgroundSelectionMake(backgrounds, index, Name => {
-			Player.VisualSettings.PrivateRoomBackground = Name;
-			PrivateBackground = Name;
-			ServerAccountUpdate.QueueData({ VisualSettings: Player.VisualSettings });
+		BackgroundSelectionMake(backgrounds, index, (Name, setBackground) => {
+			if (setBackground) {
+				Player.VisualSettings.PrivateRoomBackground = Name;
+				PrivateBackground = Name;
+				ServerAccountUpdate.QueueData({ VisualSettings: Player.VisualSettings });
+			}
+			CommonSetScreen("Room", "Private");
 		});
 
 	}
@@ -2051,7 +2056,7 @@ function PrivateGetBed(Type) {
 
 /**
  * When the player exits the private room
- * @type {ScreenFunctions["Exit"]}
+ * @type {ScreenExitHandler}
  */
 function PrivateExit() {
 	if (!CurrentCharacter) {

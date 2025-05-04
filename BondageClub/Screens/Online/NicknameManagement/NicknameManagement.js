@@ -45,7 +45,7 @@ function NicknameManagementClick() {
 
 /**
  * Handles exiting from the screen, updates the sub rules
- * @satisfies {ScreenFunctions["Exit"]}
+ * @satisfies {ScreenExitHandler}
  * @param {boolean} Save - Received rule data object.
  */
 function NicknameManagementExit(Save = false) {

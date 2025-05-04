@@ -1,17 +1,20 @@
 "use strict";
 var LoginBackground = "Dressing";
-/** @type {null | string[][]} */
-var LoginCredits = null;
+/**
+ * Contents of the GameCredits.csv file
+ * Initialized once on screen load
+ * @type {string[][]}
+ */
+var LoginCredits;
 var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
-	"Abysseia", "Aceffect14", "alarik", "ArashiSama", "BlueWinter", "bryce", "Canti",
-	"Christian", "Christoffer", "Cm382714", "Dahmia", "Desch", "domenico", "Dragokahn",
-	"dynilath", "Edwin", "Glurak", "Greendragon", "john", "Laurie", "linkjpm", "Lyall",
-	"Marashu", "Michel", "Mindtie", "Misa", "Nightcore", "René", "Robin", "Samonas",
-	"Schrödingers", "Setsu95", "Sticks", "Sunny", "Tam", "Tarram1010", "Teli", "Thkdt",
-	"TonyBoy", "Troubadix", "Troy", "Umbrapop28", "WhiteSniper", "XDWolfie", "Xepherio", "火芽"
+	"Abysseia", "AlexG", "ArashiSama", "BlueWinter", "bryce", "Canti", "Christian", "Christoffer", "Claudia33", 
+	"Cm382714", "Desch", "Dragokahn", "dynilath", "Edwin", "Glurak", "Greendragon", "john", "Laurie", "Letty", 
+	"Marashu", "Michel", "Mindtie", "Misa", "Nightcore", "Patrick", "René", "Robin", "Schrödingers", "serenat2023", 
+	"Setsu95", "Sticks", "Sunny", "Tam", "Tarram1010", "Teli", "Thkdt", "Troubadix", "Troy", "Varo", 
+	"WhiteSniper", "XDWolfie", "Xepherio"
 ];
 
 /* eslint-enable */
@@ -20,8 +23,12 @@ var LoginSubmitted = false;
 var LoginQueuePosition = -1;
 /** The server login status */
 var LoginErrorMessage = "";
-/** @type {NPCCharacter} */
-var LoginCharacter = null;
+/**
+ * The dummy on the login screen.
+ *
+ * Lifetime bound to the screen.
+ * @type {NPCCharacter} */
+var LoginCharacter;
 
 /* DEBUG: To measure FPS - uncomment this and change the + 4000 to + 40
 var LoginLastCT = 0;
@@ -131,13 +138,11 @@ function LoginLoad() {
 	Character = [];
 	CharacterNextId = 0;
 	// Create a blank character for our player. Its actual ID will be set when LoginResponse happens
-	Player = /** @type {PlayerCharacter} */ (CharacterCreate("Female3DCG", CharacterType.ONLINE, ""));
-	CharacterAppearanceSetDefault(Player);
-	CharacterLoadCSVDialog(Player, { module: "Character", screen: "Player", name: "Player" });
+	Player = /** @type {PlayerCharacter} */ (CharacterCreate("Female3DCG", CharacterType.SIMPLE, ""));
 	LoginCharacter = CharacterLoadNPC("NPC_Login");
 	LoginDoNextThankYou();
 	LoginStatusReset();
-	if (LoginCredits == null) CommonReadCSV("LoginCredits", CurrentModule, CurrentScreen, "GameCredits");
+	if (!LoginCredits) CommonReadCSV("LoginCredits", CurrentModule, CurrentScreen, "GameCredits");
 	ActivityDictionaryLoad();
 	OnlneGameDictionaryLoad();
 	const form = ElementCreateForm("Login");
@@ -183,7 +188,7 @@ function LoginLoad() {
 function LoginRun() {
 
 	// Draw the credits
-	if (LoginCredits != null) LoginDrawCredits();
+	if (LoginCredits) LoginDrawCredits();
 
 	const CanLogin = ServerIsConnected && !LoginSubmitted;
 
@@ -191,10 +196,7 @@ function LoginRun() {
 	DrawText(TextGet("Welcome"), 1000, 50, "White", "Black");
 	DrawText(LoginGetStatus() ?? TextGet("EnterNamePassword"), 1000, 100, "White", "Black");
 	DrawText(TextGet("AccountName"), 1000, 200, "White", "Black");
-	ElementPosition("InputName", 1000, 260, 500);
 	DrawText(TextGet("Password"), 1000, 350, "White", "Black");
-	ElementPosition("InputPassword", 1000, 410, 500);
-	ElementPosition("LanguageDropdown", 1145, 530, 255, 60);
 	DrawButton(725, 500, 255, 60, TextGet("Login"), CanLogin ? "White" : "Grey", "");
 	DrawText(TextGet("CreateNewCharacter"), 1000, 670, "White", "Black");
 	DrawButton(825, 710, 350, 60, TextGet("NewCharacter"), CanLogin ? "White" : "Grey", "");
@@ -207,6 +209,16 @@ function LoginRun() {
 	DrawImage("Screens/" + CurrentModule + "/" + CurrentScreen + "/Bubble.png", 1400, 16);
 	DrawText(TextGet("ThankYou") + " " + LoginThankYou, 1625, 53, "Black", "Gray");
 
+}
+
+/** @type {ScreenFunctions["Resize"]} */
+function LoginResize(load) {
+	ElementPosition("InputPassword", 1000, 410, 500);
+	ElementPosition("InputName", 1000, 260, 500);
+
+	ElementPosition("LanguageDropdown", 1145, 530, 255, 60);
+	const langSelect = document.getElementById("LanguageDropdown");
+	langSelect?.style.setProperty("font-family", `"Twemoji Country Flags", ${langSelect.style.fontFamily}`);
 }
 
 /**
@@ -321,7 +333,7 @@ function LoginPerformInventoryFixups(Inventory) {
  * @return {boolean}
  */
 function LoginPerformAppearanceFixups(Appearance) {
-	if (!Appearance) return;
+	if (!Appearance) return true;
 
 	let fixedUp = false;
 	for (const fixup of LoginInventoryFixups) {
@@ -344,15 +356,15 @@ function LoginPerformAppearanceFixups(Appearance) {
 
 			const asset = AssetGet("Female3DCG", worn.Group, worn.Name);
 			let opt = null;
-			if (asset.Archetype) {
+			if (asset?.Archetype) {
 				switch (asset.Archetype) {
 					case ExtendedArchetype.TYPED:
 						{
 							const opts = TypedItemGetOptions(worn.Group, worn.Name);
 							if (typeof fixup.New.Option === "undefined")
-								opt = opts[0];
+								opt = opts?.[0];
 							else
-								opt = opts.find(o => o.Name === fixup.New.Option);
+								opt = opts?.find(o => o.Name === fixup.New.Option);
 
 							if (!opt) {
 								console.error(`Unknown option ${fixup.New.Option}`);
@@ -365,7 +377,7 @@ function LoginPerformAppearanceFixups(Appearance) {
 				// Replace old previous properties with the wanted ones
 				if (opt && opt.Property)
 					worn.Property = Object.assign(opt.Property);
-			} else if (asset.Extended) {
+			} else if (asset?.Extended) {
 				// Old-style extended item
 
 			} else {
@@ -391,7 +403,7 @@ function LoginPerformCraftingFixups(Crafting) {
 		// Move crafts over to the new name
 		for (const craft of Crafting) {
 			if (!craft || craft.Item !== fixup.Old.Name) continue;
-			craft.Item = fixup.New.Name;
+			craft.Item = /** @type {string} */(fixup.New.Name);
 		}
 	}
 }
@@ -474,9 +486,9 @@ function LoginClubCard() {
 		if (Player.MemberNumber === Card.RewardMemberNumber) {
 
 			// Make sure the proper objects are created
-			if (Player.Game == null) Player.Game = {};
-			if (Player.Game.ClubCard == null) Player.Game.ClubCard = { Deck: [] };
-			if (Player.Game.ClubCard.Reward == null) Player.Game.ClubCard.Reward = "";
+			Player.Game.ClubCard ??= { Deck: [], Reward: "" };
+			if (!CommonIsArray(Player.Game.ClubCard.Deck)) Player.Game.ClubCard.Deck = [];
+			if (typeof Player.Game.ClubCard.Reward !== "string") Player.Game.ClubCard.Reward = "";
 
 			// If the player doesn't have that card, we add it
 			let Char = String.fromCharCode(Card.ID);
@@ -668,55 +680,57 @@ function LoginQueue(Pos) {
  * @returns {void} Nothing
  */
 function LoginFixOwner() {
-	if ((Player.IsOwned() === false) && (Player.Owner != null) && (Player.Owner != "") && !Player.Owner.trim().startsWith("NPC-")) {
+	if ((Player.IsOwned() === false) && (Player.Owner !== "") && !Player.Owner.trim().startsWith("NPC-")) {
 		Player.Owner = "";
-		ServerAccountUpdate.QueueData({ Owner: Player.Owner }, true);
+		ServerAccountUpdate.QueueData({ Owner: Player.Owner });
 	}
 }
 
 /**
  * Sets the player character info from the server data
- * @param {Partial<ServerAccountData>} C
+ * @param {ServerAccountData} C
  */
 function LoginSetupPlayer(C) {
 	Player.Name = C.Name;
 	Player.AccountName = C.AccountName;
-	Player.AssetFamily = C.AssetFamily;
+	Player.AssetFamily = C.AssetFamily ?? "Female3DCG";
 	Player.Title = C.Title;
-	Player.Nickname = (C.Nickname == null) ? "" : C.Nickname;
-	if (CommonIsNumeric(C.Money)) Player.Money = C.Money;
-	Player.Owner = ((C.Owner == null) || (C.Owner == "undefined")) ? "" : C.Owner;
-	Player.Game = C.Game;
+	Player.Nickname = typeof C.Nickname === "string" ? C.Nickname : "";
+	Player.Money = CommonIsNumeric(C.Money) ? C.Money : 0;
+	Player.Owner = typeof C.Owner === "string" ? C.Owner : "";
+	Player.Game = CommonIsObject(C.Game) ? C.Game : {};
 	if (typeof C.Description === "string" && C.Description.startsWith(ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC)) {
-		C.Description = LZString.decompressFromUTF16(C.Description.substring(1));
+		const desc = LZString.decompressFromUTF16(C.Description.substring(1)) ?? "";
+		Player.Description = desc.substring(0, 10000);
+	} else {
+		Player.Description = "";
 	}
-	Player.Description = (C.Description == null) ? "" : C.Description.substring(0, 10000);
 	Player.Creation = C.Creation;
-	Player.Wardrobe = CharacterDecompressWardrobe(C.Wardrobe);
+	Player.Wardrobe = C.Wardrobe ? CharacterDecompressWardrobe(C.Wardrobe) : [];
 	WardrobeFixLength();
+	Player.WardrobeCharacterNames = C.WardrobeCharacterNames ?? [];
 	Player.CharacterID = C.ID.toString();
 	Player.OnlineID = C.ID.toString();
 	Player.MemberNumber = C.MemberNumber;
-	const { permissions, shouldSync } = ServerUnPackItemPermissions(C, C.Difficulty?.Level >= 3);
+	Player.Difficulty = ServerAccountDataSyncedValidate.Difficulty(C.Difficulty, Player);
+	const { permissions, shouldSync } = ServerUnPackItemPermissions(C, Player.Difficulty.Level >= 3);
 	Player.PermissionItems = permissions;
 	if (shouldSync) {
 		ServerPlayerBlockItemsSync();
 	}
-	Player.ChatSearchFilterTerms = C.ChatSearchFilterTerms || "";
+	Player.ChatSearchFilterTerms = C.ChatSearchFilterTerms ?? "";
 
-	Player.Difficulty = C.Difficulty;
-	Player.WardrobeCharacterNames = C.WardrobeCharacterNames;
 
 	// Sets the default language when creating or searching for chat rooms
-	ChatAdminDefaultLanguage = C.RoomCreateLanguage;
+	ChatAdminDefaultLanguage = C.RoomCreateLanguage ?? "EN";
 	if (ChatAdminDefaultLanguage == null) ChatAdminDefaultLanguage = ChatAdminLanguageList[0];
 	if (ChatAdminLanguageList.indexOf(ChatAdminDefaultLanguage) < 0) ChatAdminDefaultLanguage = ChatAdminLanguageList[0];
-	ChatSearchLanguage = C.RoomSearchLanguage;
+	ChatSearchLanguage = C.RoomSearchLanguage ?? "";
 	if (ChatSearchLanguage == null) ChatSearchLanguage = "";
 	if (ChatSearchLanguage && ChatAdminLanguageList.indexOf(ChatSearchLanguage) < 0) ChatSearchLanguage = "";
 
 	// Load the last chat room
-	Player.LastMapData = C.LastMapData;
+	Player.LastMapData = C.LastMapData ?? undefined;
 	if (C.LastChatRoom != null && typeof C.LastChatRoom !== "string") {
 		// Backward compatability: Convert old-style "Private" to "Visibility" and "Locked" to "Access"
 		// @ts-ignore
@@ -770,24 +784,11 @@ function LoginSetupPlayer(C) {
 		ServerPlayerSync();
 	}
 
-	// Gets the online preferences
-	Player.LabelColor = C.LabelColor;
-	Player.ItemPermission = C.ItemPermission;
+	// Calls the preference init to make sure the preferences are loaded correctly
+	PreferenceInitPlayer(Player, C);
+	Player.ItemPermission = C.ItemPermission ?? 2;
 	Player.KinkyDungeonExploredLore = C.KinkyDungeonExploredLore;
-	Player.ArousalSettings = C.ArousalSettings;
-	Player.ChatSettings = C.ChatSettings;
-	Player.VisualSettings = C.VisualSettings;
-	Player.AudioSettings = C.AudioSettings;
-	Player.ControllerSettings = C.ControllerSettings;
-	Player.GameplaySettings = C.GameplaySettings;
-	Player.ImmersionSettings = C.ImmersionSettings;
-	Player.RestrictionSettings = C.RestrictionSettings;
-	Player.OnlineSettings = C.OnlineSettings;
-	Player.OnlineSharedSettings = C.OnlineSharedSettings;
-	Player.GraphicsSettings = C.GraphicsSettings;
-	Player.NotificationSettings = C.NotificationSettings;
-	Player.GenderSettings = C.GenderSettings;
-	Player.SavedExpressions = C.SavedExpressions;
+	Player.SavedExpressions = C.SavedExpressions ?? [];
 	PreferenceValidateArousalData(Player);
 	if (!Array.isArray(Player.SavedExpressions))
 		Player.SavedExpressions = [];
@@ -796,32 +797,52 @@ function LoginSetupPlayer(C) {
 			Player.SavedExpressions.push(null);
 
 	// Load Favorited Colors
-	Player.SavedColors = C.SavedColors;
-	if (!Array.isArray(Player.SavedColors))
+	if (!CommonIsArray(C.SavedColors)) {
 		Player.SavedColors = [];
-	for (let i = 0; i < ColorPickerNumSaved; i++)
-		if (typeof Player.SavedColors[i] != "object" || isNaN(Player.SavedColors[i].H) || isNaN(Player.SavedColors[i].S) || isNaN(Player.SavedColors[i].V))
-			Player.SavedColors[i] = GetDefaultSavedColors()[i];
-	Player.SavedColors.length = ColorPickerNumSaved;
+		for (let i = 0; i < ColorPickerNumSaved; i++) {
+
+			if (typeof Player.SavedColors[i] != "object" || isNaN(Player.SavedColors[i].H) || isNaN(Player.SavedColors[i].S) || isNaN(Player.SavedColors[i].V))
+				Player.SavedColors[i] = GetDefaultSavedColors()[i];
+		}
+		Player.SavedColors.length = ColorPickerNumSaved;
+	} else {
+		Player.SavedColors = C.SavedColors ?? [];
+	}
 
 	// Loads the online lists
-	Player.WhiteList = ((C.WhiteList == null) || !Array.isArray(C.WhiteList)) ? [] : C.WhiteList;
-	Player.BlackList = ((C.BlackList == null) || !Array.isArray(C.BlackList)) ? [] : C.BlackList;
-	Player.FriendList = ((C.FriendList == null) || !Array.isArray(C.FriendList)) ? [] : C.FriendList;
+	Player.WhiteList = Array.isArray(C.WhiteList) ? C.WhiteList : [];
+	Player.BlackList = Array.isArray(C.BlackList) ? C.BlackList : [];
+	Player.FriendList = Array.isArray(C.FriendList) ? C.FriendList : [];
+	Player.GhostList = Array.isArray(C.GhostList) ? C.GhostList : [];
 
-	// Attempt to parse friend names
+	// Attempt to parse friend namespace
+	let friendNames = undefined;
 	if (typeof C.FriendNames === "string") {
 		try {
-			Player.FriendNames = new Map(JSON.parse(LZString.decompressFromUTF16(C.FriendNames)));
-		} catch(err) {
+			const data = LZString.decompressFromUTF16(C.FriendNames);
+			if (data === null) throw new Error();
+			const json = /** @type {[number, string][]} */(JSON.parse(data));
+			friendNames = new Map(json);
+		} catch (err) {
 			console.warn("An error occured while parsing friendnames, entries have been reset.");
 		}
 	}
-	if (Player.FriendNames == null) {
-		Player.FriendNames = new Map();
+	Player.FriendNames = friendNames ?? new Map();
+
+	let submissivesList = undefined;
+	if (typeof C.SubmissivesList === "string") {
+		try {
+			const data = LZString.decompressFromUTF16(C.SubmissivesList);
+			if (data === null) throw new Error();
+			const json = JSON.parse(data);
+			if (!CommonIsArray(json)) throw new Error();
+			const numbers = /** @type {number[]} */(json.filter(Number));
+			submissivesList = new Set(numbers);
+		} catch (err) {
+			console.warn("An error occured while parsing submissives, entries have been reset.");
+		}
 	}
-	Player.SubmissivesList = typeof C.SubmissivesList === "string" ? new Set(JSON.parse(LZString.decompressFromUTF16(C.SubmissivesList))) : new Set();
-	Player.GhostList = ((C.GhostList == null) || !Array.isArray(C.GhostList)) ? [] : C.GhostList;
+	Player.SubmissivesList = submissivesList ?? new Set();
 	Player.Infiltration = C.Infiltration;
 	LoginDifficulty(false);
 
@@ -833,34 +854,28 @@ function LoginSetupPlayer(C) {
 		// We keep track of that to be able to tell if there's been changes in the inventory
 		Player.InventoryData = C.InventoryData;
 	}
-	const loadedInventory = InventoryLoad(C.Inventory, C.InventoryData);
+	const loadedInventory = InventoryLoad(C.Inventory ?? "", C.InventoryData ?? "");
 	LoginPerformInventoryFixups(loadedInventory);
-	const fixedUp = LoginPerformAppearanceFixups(C.Appearance);
+	const fixedUp = LoginPerformAppearanceFixups(C.Appearance ?? []);
 	LoginPerformCraftingFixups(CraftingDecompressed);
 	InventoryAddMany(Player, loadedInventory, false);
 	ServerPlayerInventorySync();
-	const updated = ServerAppearanceLoadFromBundle(Player, C.AssetFamily, C.Appearance, C.MemberNumber);
+	const updated = ServerAppearanceLoadFromBundle(Player, C.AssetFamily, C.Appearance ?? [], C.MemberNumber);
 	if (fixedUp || updated) {
 		// Refresh the character server-side if we had to tweak the appearance
 		ServerPlayerAppearanceSync();
 	}
 
 	// Loads the current appearance, log, reputation and skills
-	LogLoad(C.Log);
+	LogLoad(C.Log ?? []);
 	ReputationLoad(C.Reputation);
 	SkillLoad(C.Skill);
-	Player.ConfiscatedItems = C.ConfiscatedItems;
-	Player.ExtensionSettings = (C.ExtensionSettings || {});
+	Player.ConfiscatedItems = C.ConfiscatedItems ?? [];
+	Player.ExtensionSettings = C.ExtensionSettings ?? {};
 
-	// Calls the preference init to make sure the preferences are loaded correctly
-	PreferenceInitPlayer();
-	if (Player.VisualSettings) {
-		if (Player.VisualSettings.PrivateRoomBackground) PrivateBackground = Player.VisualSettings.PrivateRoomBackground;
-		if (Player.VisualSettings.MainHallBackground) MainHallBackground = Player.VisualSettings.MainHallBackground;
-	}
+	if (Player.VisualSettings.PrivateRoomBackground) PrivateBackground = Player.VisualSettings.PrivateRoomBackground;
+	if (Player.VisualSettings.MainHallBackground) MainHallBackground = Player.VisualSettings.MainHallBackground;
 
-	// Loads the dialog and removes the login controls
-	CharacterLoadCSVDialog(Player, { module: "Character", screen: "Player", name: "Player" });
 	PrivateCharacterMax = 4 + (LogQuery("Expansion", "PrivateRoom") ? 4 : 0) + (LogQuery("SecondExpansion", "PrivateRoom") ? 4 : 0);
 	CharacterRefresh(Player, false);
 	if (ManagementIsClubSlave()) CharacterNaked(Player);
@@ -890,12 +905,12 @@ function LoginSetupPlayer(C) {
 	LoginCheatItems();
 	LoginValideBuyGroups();
 	PrisonRestoreConfiscatedItems();
+	AsylumGGTSSAddItems();
 	CraftingLoadServer(CraftingDecompressed); // Only run this _after_ `Player.Inventory` is fully ready
 
 	if (InventoryBeforeFixes != InventoryStringify(Player)) ServerPlayerInventorySync();
 	CharacterAppearanceValidate(Player);
-	AsylumGGTSSAddItems();
-	ChatRoomCustomized = ((Player.OnlineSettings != null) && (Player.OnlineSettings.ShowRoomCustomization != null) && (Player.OnlineSettings.ShowRoomCustomization >= 2));
+	ChatRoomCustomized = Player.OnlineSettings.ShowRoomCustomization >= 2;
 	if (Player.Crafting.length > 80) Player.Crafting = Player.Crafting.slice(0, 80);
 }
 
@@ -938,16 +953,16 @@ function LoginResponse(C) {
 		return;
 	}
 
-	// In regular mode, we set the account properties for a new club session
-	if (C.Appearance == null) C.Appearance = [];
-	if (C.AssetFamily == null) C.AssetFamily = "Female3DCG";
+	CharacterCreatePlayer();
 
+	// In regular mode, we set the account properties for a new club session
 	LoginSetupPlayer(C);
 
+	// Enables the AFK timer for the current player only
+	AfkTimerSetEnabled(Player.OnlineSettings.EnableAfkTimer);
 	ActivitySetArousal(Player, 0);
 	ActivityTimerProgress(Player, 0);
 	NotificationLoad();
-	WardrobeCharacter = []; // Hmm…
 
 	if (ManagementIsClubSlave()) CharacterNaked(Player);
 
@@ -955,7 +970,7 @@ function LoginResponse(C) {
 	if (LogQuery("Locked", "Cell")) {
 		// The player has been locked up, they must log back in the cell
 		CommonSetScreen("Room", "Cell");
-	} else if ((Player.Infiltration?.Punishment?.Timer ?? 0) > CurrentTime) {
+	} else if (Player.Infiltration?.Punishment && (Player.Infiltration.Punishment.Timer ?? 0) > CurrentTime) {
 		// The player must log back in Pandora's Box prison
 		PandoraWillpower = 0;
 		InfiltrationDifficulty = Player.Infiltration.Punishment.Difficulty;
@@ -968,7 +983,7 @@ function LoginResponse(C) {
 			AsylumGGTSDroneDress(Player);
 		}
 		CommonSetScreen("Room", "AsylumBedroom");
-	} else if (LogValue("ForceGGTS", "Asylum") > 0) {
+	} else if (LogValue("ForceGGTS", "Asylum") ?? 0 > 0) {
 		// The owner is forcing the player to do GGTS
 		CommonSetScreen("Room", "AsylumEntrance");
 	} else if (LogQuery("SleepCage", "Rule") && Player.IsOwned() === "npc" && PrivateOwnerInRoom()) {
@@ -1104,7 +1119,7 @@ function LoginGetStatus() {
 
 /**
  * Exit function - called when leaving the login page
- * @type {ScreenFunctions["Exit"]}
+ * @type {ScreenExitHandler}
  */
 function LoginExit() {
 

@@ -223,41 +223,58 @@ select:invalid:not(:disabled):not(:read-only) {
 	height: 1.2em;
 }
 
-input[type="checkbox"] {
+.checkbox {
+	/* Default background color */
+	--checkbox-color: white;
+	/* Background color for disabled buttons */
+	--disabled-color: grey;
+	/* Background color for hovered and/or active buttons */
+	--hover-color: cyan;
+
 	-webkit-appearance: none;
 	appearance: none;
-	background-color: #fff;
-	margin: 0;
+	background-color: var(--checkbox-color);
+	position: relative;
 	font: inherit;
 	color: black;
 	width: min(6vh, 3vw);
 	height: min(6vh, 3vw);
-	border: min(0.3vh, 0.15vw) solid black;
-	display: grid;
-	place-content: center;
+	border: min(0.2vh, 0.1vw) solid black;
 	cursor: pointer;
 }
 
-input[type="checkbox"]:hover {
-	background-color: cyan;
+.checkbox:hover {
+	background-color: var(--hover-color);
 }
 
-input[type="checkbox"]:disabled {
-	background-color: lightgray;
+.checkbox:disabled {
+	background-color: var(--disabled-color);
 	cursor: auto;
 }
 
-input[type="checkbox"]::before {
+.checkbox::before {
 	content: "";
-	width: min(4.6vh, 2.3vw);
-	height: min(4.6vh, 2.3vw);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 	clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
-	transform: scale(0);
 	background-color: black;
+	width: 90%;
+	height: 90%;
+	visibility: hidden;
 }
 
-input[type="checkbox"]:checked::before {
-	transform: scale(1);
+.checkbox:checked::before {
+	visibility: visible;
+}
+
+@supports (height: 100dvh) {
+	.checkbox {
+		width: min(6dvh, 3dvw);
+		height: min(6dvh, 3dvw);
+		border-width: min(0.2dvh, 0.1dvw);
+	}
 }
 
 /* Dropdown */
@@ -324,4 +341,8 @@ input[type="checkbox"]:checked::before {
 	.scroll-box:hover {
 		scrollbar-color: rgb(149, 149, 149) rgb(0, 0, 0, 0.7);
 	}
+}
+
+.hidden {
+	display: none !important;
 }

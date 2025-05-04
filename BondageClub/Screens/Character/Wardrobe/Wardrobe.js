@@ -276,7 +276,7 @@ function WardrobeReorderModeSet (newmode=null)
 
 /**
  * Exits the wardorbe screen and sends the player back to her private room
- * @type {ScreenFunctions["Exit"]}
+ * @type {ScreenExitHandler}
  */
 function WardrobeExit() {
 	WardrobeReorderModeSet ("None");
@@ -336,9 +336,9 @@ function WardrobeFastLoad(C, W, Update) {
 					A
 					&& A.Group.Category == "Appearance"
 					&& WardrobeGroupAccessible(C, A.Group, { ExcludeNonCloth: true })
-					&& (A.Value == 0 || InventoryAvailable(Player, A.Name, A.Group.Name))
+					&& InventoryAvailable(Player, A.Name, A.Group.Name)
 				) {
-					CharacterAppearanceSetItem(C, w.Group, A, w.Color, 0, null, false);
+					CharacterAppearanceSetItem(C, w.Group, A, w.Color, 0);
 					if (w.Property && InventoryGet(C, w.Group)) {
 						var item = InventoryGet(C, w.Group);
 						if (item.Property == null) item.Property = {};
@@ -359,13 +359,12 @@ function WardrobeFastLoad(C, W, Update) {
 						CharacterAppearanceSetItem(
 							C, g.Name,
 							AssetGet(C.AssetFamily, g.Name, mirrorItem.Asset.Name),
-							mirrorItem.Color, null, null, false,
+							mirrorItem.Color
 						);
 					} else {
 						CharacterAppearanceSetItem(
 							C, g.Name,
-							AssetGroupGet(C.AssetFamily, g.Name).Asset[0],
-							null, null, null, false,
+							AssetGroupGet(C.AssetFamily, g.Name)?.Asset[0],
 						);
 					}
 				}

@@ -127,7 +127,7 @@ function KidnapSetMode(NewMode) {
 	// If we must end the mini game in victory, one last item can be equipped
 	if ((NewMode == "SelectMove") && (KidnapOpponent.KidnapWillpower <= 0)) {
 		if (!KidnapVictory) {
-			KidnapOpponent.FocusGroup = /** @type {AssetItemGroup} */ (AssetGroupGet("Female3DCG", "ItemArms"));
+			KidnapOpponent.FocusGroup = AssetGroupGet("Female3DCG", "ItemArms");
 			KidnapInventoryBuild();
 			NewMode = (KidnapOpponent.FocusGroup != null) ? "SelectItem" : "End";
 			// Dress player and remove restraints
@@ -370,7 +370,7 @@ function KidnapSelectMoveUpperHand(PlayerMove) {
 	// Apply an item enters another mode with a focused group
 	if ((MoveName === "ItemFeet") || (MoveName === "ItemMouth"))
 		if (KidnapUpperHandMoveAvailable(PlayerMove, false)) {
-			KidnapOpponent.FocusGroup = /** @type {AssetItemGroup} */ (AssetGroupGet("Female3DCG", MoveName));
+			KidnapOpponent.FocusGroup = AssetGroupGet("Female3DCG", MoveName);
 			KidnapInventoryBuild();
 			KidnapSetMode("SelectItem");
 		}

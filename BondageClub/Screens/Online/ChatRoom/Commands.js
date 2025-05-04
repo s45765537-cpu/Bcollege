@@ -149,22 +149,34 @@ function CommandExecute(msg) {
  */
 function CommandAutoComplete(msg) {
 	const low = msg.toLowerCase();
-	if (!low || !low.startsWith(CommandsKey) || low.length <= CommandsKey.length) return;
+	if (!low || !low.startsWith(CommandsKey)) return;
 	if (low.substring(CommandsKey.length).startsWith(CommandsKey)) return;
 
 	const [key, ...forward] = low.replace(/\s{2,}/g, ' ').split(' ');
-	const CS = GetCommands().filter(C => (CommandsKey + C.Tag).indexOf(key) == 0);
+	const tag = key.substring(CommandsKey.length);
+
+	// If we have a forward it means the command tag was already typed, only try to call the command's AutoComplete.
+	// This is needed if a command's tag is a prefix of a different command.
+	if (forward.length > 0) {
+		const CS = GetCommands().filter(C => C.Tag == tag);
+		if (CS.length == 1 && CS[0].AutoComplete) {
+			CS[0].AutoComplete.call(CS[0], forward, low, msg);
+		}
+		return;
+	}
+
+	const CS = GetCommands().filter(C => C.Tag.startsWith(tag));
 	if (CS.length == 0) return;
 
 	if (CS.length == 1) {
-		if (key != (CommandsKey + CS[0].Tag)) {
+		if (tag != CS[0].Tag) {
 			ElementValue("InputChat", CommandsKey + CS[0].Tag + " ");
 			ElementFocus("InputChat");
 		} else if (CS[0].AutoComplete) {
 			CS[0].AutoComplete.call(CS[0], forward, low, msg);
 		}
 		return;
-	} if (forward.length > 0) return;
+	}
 
 	let complete = low;
 	for (let I = low.length - CommandsKey.length; ; ++I) {
@@ -627,7 +639,11 @@ const CommonCommands = [
 	},
 	{
 		Tag: 'showwhitelist',
-		Action: () => ChatRoomSendLocal(TextGet('CommandWhitelist') + JSON.stringify(Player.WhiteList)),
+		Action: () => {
+			let msg = TextGet('CommandWhitelist') + '\n';
+			msg += Player.WhiteList.sort((i, j) => i - j).map(num => `• ${Player.FriendNames.get(num) ?? "?"} (${num})`).join('\n');
+			ChatRoomSendLocal(msg);
+		}
 	},
 	{
 		Tag: 'showghostlist',
@@ -635,7 +651,11 @@ const CommonCommands = [
 	},
 	{
 		Tag: 'showfriendlist',
-		Action: () => ChatRoomSendLocal(TextGet('CommandFriendlist') + JSON.stringify(Player.FriendList)),
+		Action: () => {
+			let msg = TextGet('CommandFriendlist') + '\n';
+			msg += Player.FriendList.sort((i, j) => i - j).map(num => `• ${Player.FriendNames.get(num) ?? "?"} (${num})`).join('\n');
+			ChatRoomSendLocal(msg);
+		},
 	},
 	{
 		Tag: 'openfriendlist',
@@ -840,14 +860,14 @@ const CommonCommands = [
 		Action: () => {
 			const expression = WardrobeGetExpression(Player).Emoticon != "Afk" ? "Afk" : null;
 			CharacterSetFacialExpression(Player, "Emoticon", expression);
+			Player.ActiveExpression.Emoticon = expression;
 		}
 	},
 	{
 		Tag: 'expr',
 		Action: args => {
 			if (args.trim() == "") {
-				ChatRoomFocusCharacter(Player);
-				DialogFindSubMenu("SavedExpressions");
+				ChatRoomFocusCharacter(Player, { selfMode: "SavedExpressions" });
 			} else if (/^[0-5]$/.test(args)) {
 				let ExprNum = parseInt(args);
 				if (ExprNum == 0) {
@@ -862,14 +882,13 @@ const CommonCommands = [
 		Tag: 'blush',
 		Action: args => {
 			if (args.trim() == "") {
-				ChatRoomFocusCharacter(Player);
-				DialogFindSubMenu("Expression");
+				ChatRoomFocusCharacter(Player, { selfMode: "Expression" });
 				DialogFindFacialExpressionMenuGroup("Blush");
 				return;
 			}
 			/** @type {(null | ExpressionNameMap["Blush"])[]} */
 			let BlushLevels = [null, "Low", "Medium", "High", "VeryHigh", "Extreme"];
-			/** @type {null | ExpressionName} */
+			/** @type {null | ExpressionNameMap["Blush"]} */
 			let NewExpression = null;
 			let AcceptCmd = false;
 			if (/^[0-5]$/.test(args)) {
@@ -904,11 +923,7 @@ const CommonCommands = [
 			}
 			if (AcceptCmd) {
 				CharacterSetFacialExpression(Player, "Blush", NewExpression);
-				// Also save in GUI
-				if (DialogFacialExpressions.length == 0) {
-					DialogFacialExpressionsBuild();
-				}
-				DialogFacialExpressions.find(FE => FE.Group == "Blush").CurrentExpression = NewExpression;
+				Player.ActiveExpression.Blush = NewExpression;
 			}
 		}
 	},
@@ -916,13 +931,12 @@ const CommonCommands = [
 		Tag: 'eyes',
 		Action: args => {
 			if (args.trim() == "") {
-				ChatRoomFocusCharacter(Player);
-				DialogFindSubMenu("Expression");
+				ChatRoomFocusCharacter(Player, { selfMode: "Expression" });
 				DialogFindFacialExpressionMenuGroup("Eyes");
 				return;
 			}
 			let AcceptCmd = false;
-			/** @type {ExpressionName} */
+			/** @type {ExpressionNameMap["Eyes"] | "Open"} */
 			let NewExpression;
 			let TargetLeft = false;
 			let TargetRight = false;
@@ -971,15 +985,6 @@ const CommonCommands = [
 				return;
 			}
 			if (NewExpression == "Open" || NewExpression == "Closed") {
-				if (NewExpression == "Open") {
-					// Restore opened eye expression set from GUI
-					let DialogCurrentExpr = DialogFacialExpressions.find(FE => FE.Group == "Eyes");
-					if (DialogCurrentExpr) {
-						NewExpression = DialogCurrentExpr.CurrentExpression;
-					} else {
-						NewExpression = null;
-					}
-				}
 				if (TargetLeft && TargetRight) {
 					CharacterSetFacialExpression(Player, "Eyes", NewExpression);
 				} else if (TargetLeft) {
@@ -988,20 +993,17 @@ const CommonCommands = [
 					CharacterSetFacialExpression(Player, "Eyes2", NewExpression);
 				}
 			} else {
-				// Change eye expression
-				// Save new expression in GUI because close will erase it
-				let DialogCurrentExpr = DialogFacialExpressions.find(FE => FE.Group == "Eyes");
-				if (!DialogCurrentExpr) {
-					DialogFacialExpressionsBuild();
-					DialogCurrentExpr = DialogFacialExpressions.find(FE => FE.Group == "Eyes");
-				}
-				DialogCurrentExpr.CurrentExpression = NewExpression;
-
 				// Apply new expression only to eyes that are opened
 				let LeftClosed = InventoryGetItemProperty(InventoryGet(Player, "Eyes"), "Expression") === "Closed";
 				let RightClosed = InventoryGetItemProperty(InventoryGet(Player, "Eyes2"), "Expression") === "Closed";
-				if (!LeftClosed) CharacterSetFacialExpression(Player, "Eyes1", NewExpression);
-				if (!RightClosed) CharacterSetFacialExpression(Player, "Eyes2", NewExpression);
+				if (!LeftClosed) {
+					CharacterSetFacialExpression(Player, "Eyes1", NewExpression);
+					Player.ActiveExpression.Eyes = NewExpression;
+				}
+				if (!RightClosed) {
+					CharacterSetFacialExpression(Player, "Eyes2", NewExpression);
+					Player.ActiveExpression.Eyes = NewExpression;
+				}
 			}
 		}
 	},

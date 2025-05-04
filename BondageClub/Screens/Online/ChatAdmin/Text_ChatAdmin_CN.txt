@@ -4,20 +4,14 @@ Language
 语言
 Description
 描述
+Description of the room
+房间描述
 Ban List
 封禁列表
 Administrator List
 房管列表
 Whitelist
 白名单
-Private
-私有
-Locked
-锁定
-Need exact name, admin, or whitelist to find it
-需要准确的名称、管理员或白名单才能找到它
-Only admins and whitelisted members can enter or leave
-只有管理员和白名单成员可以进出
 Size (2-20)
 大小 (2-20)
 Member numbers separated by commas (ex: 123, ...)
@@ -44,8 +38,6 @@ Background
 背景
 Visibility
 可见性
-Access
-访问
 Public
 公众
 Admin + Whitelist
@@ -54,6 +46,8 @@ Admin
 管理员
 Unlisted
 未列入名单
+Access
+访问
 Create
 创建
 Save
@@ -62,6 +56,8 @@ Exit
 退出
 Cancel
 取消
+Creating the chat room…
+创建聊天室中...
 Updating the chat room...
 更新聊天室...
 This room name is already taken
@@ -76,16 +72,18 @@ Block Categories
 屏蔽性癖
 Customization
 房间自定义
+(Click anywhere to return)
+(点击任意位置返回)
 Don't use maps
 不使用地图
-Allow on and off
-允许开关
-Only use maps
-只使用地图
 Never use the map exploration
 永不使用地图探索
+Allow on and off
+允许开关
 Hybrid map, can go on and off
 混合地图，能够开关
+Only use maps
+只使用地图
 Only use the map, no regular chat
 只使用地图，没有常规聊天
 No Game
@@ -100,19 +98,5 @@ GGTS
 GGTS
 Pandora
 潘多拉
-(Click anywhere to return)
-(点击任意位置返回)
-English
-英语
-French
-法语
 Spanish
 西语
-German
-德语
-Ukrainian
-乌克兰语
-Chinese
-中文
-Russian
-俄语

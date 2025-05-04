@@ -29,17 +29,25 @@ const CharacterBlurLevels = new Map([
 	["BlurLight", 3],
 ]);
 
+const Difficulty = {
+	ROLEPLAY: 0,
+	REGULAR: 1,
+	HARDCORE: 2,
+	EXTREME: 3,
+};
+
 /**
  * An enum representing the various character archetypes
  * ONLINE: The player, or a character representing another online player
  * NPC: Any NPC
  * SIMPLE: Any simple character, generally used internally and not to represent an actual in-game character
- * @type {Record<"ONLINE"|"NPC"|"SIMPLE", CharacterType>}
+ * @type {Record<"ONLINE"|"NPC"|"SIMPLE"|"PLAYER", CharacterType>}
  */
 var CharacterType = {
 	ONLINE: "online",
 	NPC: "npc",
 	SIMPLE: "simple",
+	PLAYER: "player",
 };
 
 /**
@@ -51,6 +59,18 @@ var CharacterGetCurrentHandlers = {
 	Crafting: () => CraftingPreview,
 	Shop2: () => Shop2InitVars.Preview,
 };
+
+function CharacterCreatePlayer() {
+	Player = /** @type {PlayerCharacter} */ (CharacterCreate("Female3DCG", CharacterType.PLAYER, ""));
+	// We reset that here because a lot of checks depends on this being true
+	// Our old 0-ID'ed character was the player dummy before login
+	const oldId = Player.ID;
+	Player.ID = 0;
+	Character[0] = Player;
+	Character.splice(oldId, 1);
+	CharacterNextId--;
+	CharacterLoadCSVDialog(Player, { module: "Character", screen: "Player", name: "Player" });
+}
 
 /**
  * Loads a character into the buffer, creates it if it does not exist
@@ -68,6 +88,12 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		CharacterID: CharacterID,
 		AssetFamily: CharacterAssetFamily,
 		AccountName: "",
+		ItemPermission: 0,
+		Ownership: null,
+		Lovership: [],
+		// @ts-expect-error Initialized later
+		ArousalSettings: {},
+		Crafting: [],
 		Hooks: null,
 		Name: "",
 		Type,
@@ -127,6 +153,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		HeightRatio: 1,
 		HasHiddenItems: false,
 		SavedColors: GetDefaultSavedColors(),
+		ActiveExpression: null,
 
 		PoseMapping: {},
 		get Pose() {
@@ -315,7 +342,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			// Short-circuit to save on the following checks
 			if (slowness === 0) return 0;
 
-			const effects = CharacterGetEffects(this, null, true);
+			const effects = CharacterGetEffects(this, undefined, true);
 			// Count all slow effects applied. Minus one for the one we've seen above
 			slowness += effects.reduce((s, c) => s + (c === "Slow" ? 1 : 0), 0) - (hasSlowEffect ? 1 : 0);
 
@@ -568,7 +595,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		},
 		/** @type {() => this is PlayerCharacter} */
 		IsPlayer: function () {
-			return this.ID === 0;
+			return this.Type === CharacterType.PLAYER;
 		},
 		IsBirthday: function () {
 			if ((this.Creation == null) || (CurrentTime == null)) return false;
@@ -699,30 +726,65 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 				if (hooks)
 					hooks.forEach((hook) => hook()); // If there's a hook, call it
 			}
+		},
+		HasOnGhostlist: function(target) {
+			return CharacterIsOnList(this, target, "ghost");
+		},
+		HasOnBlacklist: function(target) {
+			return CharacterIsOnList(this, target, "black");
+		},
+		HasOnWhitelist: function(target) {
+			return CharacterIsOnList(this, target, "white");
+		},
+		HasOnFriendlist: function(target) {
+			return CharacterIsOnList(this, target, "friend");
+		},
+		IsGhosted: function() {
+			return Player.HasOnGhostlist(this);
+		},
+		IsBlacklisted: function() {
+			return Player.HasOnBlacklist(this);
+		},
+		IsWhitelisted: function() {
+			return Player.HasOnWhitelist(this);
+		},
+		IsFriend: function() {
+			return Player.HasOnFriendlist(this);
 		}
 	};
 
+	// Keep these two methods non-enumerable such that they do not interfere with the likes of `Object.keys`
+	const activeExpression = Object.defineProperties(/** @type {Character["ActiveExpression"]} */({}), {
+		setWithoutReload: {
+			value: function (key, value) { this[key] = value; },
+			enumerable: false,
+		},
+		deleteWithoutReload: {
+			value: function (key) { delete this[key]; },
+			enumerable: false,
+		},
+	});
+
+	/** @type {Mutable<Character>} */(NewCharacter).ActiveExpression = new Proxy(
+		activeExpression,
+		{
+			set(...args) {
+				if (DialogSelfMenuSelected === "Expression" && DialogSelfMenuMapping.Expression.C.ID === NewCharacter.ID) {
+					DialogSelfMenuMapping.Expression.Reload();
+				}
+				return Reflect.set(...args);
+			},
+			deleteProperty(...args) {
+				if (DialogSelfMenuSelected === "Expression" && DialogSelfMenuMapping.Expression.C.ID === NewCharacter.ID) {
+					DialogSelfMenuMapping.Expression.Reload();
+				}
+				return Reflect.deleteProperty(...args);
+			},
+		},
+	);
+
 	// Add the character to the cache
 	Character.push(NewCharacter);
-
-	// Creates the inventory and default appearance
-	if (id === 0) {
-		Player = Object.assign(
-			NewCharacter,
-			{
-				GenderSettings: {
-					HideShopItems: PreferenceInitGenderSetting(),
-					AutoJoinSearch: PreferenceInitGenderSetting(),
-					HideTitles: PreferenceInitGenderSetting(),
-				},
-				ExtensionSettings: {},
-			},
-		);
-		CharacterAppearanceSetDefault(Player);
-	}
-
-	// Load the character image
-	CharacterLoadCanvas(NewCharacter);
 
 	return NewCharacter;
 }
@@ -802,14 +864,16 @@ function CharacterBuildDialog(C, CSV, functionPrefix, reload=true) {
 		};
 
 		// Prefix with the current screen unless this is a Dialog function or an online character
-		if (D.Function && D.Function !== "")
-			D.Function = (D.Function.startsWith("Dialog") ? "" : C.IsOnline() ? "ChatRoom" : functionPrefix) + D.Function;
+		if (D.Function && D.Function !== "") {
+			// @ts-expect-error Not sure why the online || player check errors here
+			D.Function = (D.Function.startsWith("Dialog") ? "" : (C.IsOnline() || C.IsPlayer()) ? "ChatRoom" : functionPrefix) + D.Function;
+		}
 
 		C.Dialog.push(D);
 	}
 
 	if (reload && DialogMenuMode === "dialog") {
-		DialogMenuMapping.dialog.Reload(null, null, { reset: true });
+		DialogMenuMapping.dialog.Reload(null, { reset: true });
 	}
 }
 
@@ -1338,6 +1402,9 @@ function CharacterLoadCanvas(C) {
 	// Generates a layer array from the character's appearance array, sorted by drawing order
 	C.AppearanceLayers = CharacterAppearanceSortLayers(C);
 
+	// Build the masks for the character
+	C.AppearanceMasks = CharacterAppearanceBuildMasks(C);
+
 	// Run AfterLoadCanvas hooks
 	C.RunHooks("AfterLoadCanvas");
 
@@ -1364,10 +1431,18 @@ function CharacterLoadCanvasAll() {
  * Sets the current character to have a dialog with.
  *
  * @param {Character} C - Character to have a conversation with
+ * @param {null | { mode?: DialogMenuMode, selfMode?: DialogSelfMenuName }} options - The type of dialog- and dialog-self subscreen te open
  * @returns {void} - Nothing
  */
-function CharacterSetCurrent(C) {
+function CharacterSetCurrent(C, options=null) {
+	options ??= {};
 	CurrentCharacter = C;
+	if (options.mode) {
+		DialogMenuMode = options.mode;
+	}
+	if (options.selfMode) {
+		DialogSelfMenuSelected = options.selfMode;
+	}
 	DialogLoad();
 }
 
@@ -1402,8 +1477,7 @@ function CharacterRefresh(C, Push = true, RefreshDialog = true) {
 		|| C.IsPlayer()
 		|| !(Player.OnlineSettings && Player.OnlineSettings.DisableAnimations)
 	) && (
-		!Player.GhostList
-		|| Player.GhostList.indexOf(C.MemberNumber) == -1
+		!C.IsGhosted()
 	);
 	C.HasScriptedAssets = !!C.Appearance.find(CA => CA.Asset.DynamicScriptDraw);
 
@@ -1597,7 +1671,7 @@ function CharacterRandomUnderwear(C) {
 		if ((G.Category == "Appearance") && G.Underwear && (G.IsDefault || (Math.random() < 0.2))) {
 			if (Color == "") Color = CommonRandomItemFromList("", G.ColorSchema);
 			const Group = G.Asset
-				.filter(A => A.Value == 0 || InventoryAvailable(C, A.Name, G.Name));
+				.filter(A => InventoryAvailable(C, A.Name, G.Name));
 			if (Group.length > 0)
 				CharacterAppearanceSetItem(C, G.Name, Group[Math.floor(Group.length * Math.random())], Color);
 		}
@@ -1790,7 +1864,8 @@ function CharacterSetFacialExpression(C, AssetGroup, Expression, Timer, Color, f
 	const isTransient = Timer != null || fromQueue;
 
 	CharacterRefresh(C, !inChatRoom && !isTransient, false);
-	if (inChatRoom && C.IsOnline()) {
+	// @ts-expect-error Not sure why the online || player check errors here
+	if (inChatRoom && (C.IsOnline() || C.IsPlayer())) {
 		if (isTransient || C.IsPlayer()) {
 			ChatRoomCharacterExpressionUpdate(C, AssetGroup);
 		} else {
@@ -1820,19 +1895,37 @@ function CharacterResetFacialExpression(C) {
 }
 
 /**
+ * Checks if a given expression is disallowed on a character
+ * @param {Character} C
+ * @param {Item} Item
+ * @param {null | ExpressionName} Expression
+ * @returns {null | string} - An exit status or `null` if the expression is otherwise allowed
+ */
+function CharacterIsExpressionDisallowed(C, Item, Expression) {
+	if (!C || !Item) return "Internal error: missing character or item";
+
+	const allowedExpr = InventoryGetItemProperty(Item, "AllowExpression", true);
+	const exprPres = InventoryGetItemProperty(Item, "ExpressionPrerequisite", true);
+	const exprPre = exprPres[allowedExpr.indexOf(Expression)];
+	const prereqMessage = !exprPre ? null : InventoryPrerequisiteMessage(C, exprPre, Item.Asset);
+
+	if (Expression != null && !allowedExpr.includes(Expression)) {
+		return `Illegal expression "${Expression}"`;
+	} else if (prereqMessage) {
+		return prereqMessage;
+	} else {
+		return null;
+	}
+}
+
+/**
  * Checks if a given expression is allowed on a character
  * @param {Character} C
  * @param {Item} Item
  * @param {ExpressionName} Expression
  */
 function CharacterIsExpressionAllowed(C, Item, Expression) {
-	if (!C || !Item) return false;
-
-	const allowedExpr = InventoryGetItemProperty(Item, "AllowExpression", true);
-	const exprPres = InventoryGetItemProperty(Item, "ExpressionPrerequisite", true);
-	const exprPre = exprPres[allowedExpr.indexOf(Expression)];
-
-	return ((Expression == null || allowedExpr.includes(Expression)) && (!exprPre || InventoryPrerequisiteMessage(C, exprPre, Item.Asset) === ""));
+	return CharacterIsExpressionDisallowed(C, Item, Expression) == null;
 }
 
 /**
@@ -1920,7 +2013,7 @@ function CharacterHasItemWithAttribute(C, Attribute) {
 /**
  * Checks if the character is wearing an item that allows for a specific activity
  * @param {Character} C - The character to test for
- * @param {string} Activity - The name of the activity that must be allowed
+ * @param {ActivityName} Activity - The name of the activity that must be allowed
  * @returns {Item[]} - A list of items allowing that activity
  */
 function CharacterItemsForActivity(C, Activity) {
@@ -1932,7 +2025,7 @@ function CharacterItemsForActivity(C, Activity) {
 /**
  * Checks if the character is wearing an item that allows for a specific activity
  * @param {Character} C - The character to test for
- * @param {String} Activity - The name of the activity that must be allowed
+ * @param {ActivityName} Activity - The name of the activity that must be allowed
  * @returns {boolean} - TRUE if at least one item allows that activity
  */
 function CharacterHasItemForActivity(C, Activity) {
@@ -1952,12 +2045,14 @@ function CharacterIsEdged(C) {
 	// Get all zones that allow an orgasm
 	/** @type {AssetGroupItemName[]} */
 	let OrgasmZones = [];
-	for (let Group of AssetGroup)
+	for (let Group of AssetGroup) {
+		if (!Group.IsItem()) continue;
 		if (Group.ArousalZoneID != null) {
 			let Zone = PreferenceGetArousalZone(C, Group.Name);
 			if (Zone.Orgasm && (Zone.Factor > 0))
 				OrgasmZones.push(Zone.Name);
 		}
+	}
 
 	// Get every vibrating item acting on an orgasm zone
 	const VibratingItems = C.Appearance
@@ -2405,4 +2500,27 @@ function CharacterSetActivePose(C, poseName, forceChange=false) {
  */
 function CharacterCanChangeToPose(C, poseName) {
 	return PoseCanChangeUnaided(C, poseName);
+}
+
+/**
+ * Check a character against another one's access lists
+ * @param {Character} listOwner - The character to check against
+ * @param {Character | number} listTarget - The character or member number to check for
+ * @param {"black" | "white" | "ghost" | "friend"} list
+ */
+function CharacterIsOnList(listOwner, listTarget, list) {
+	const num = typeof listTarget === "number" ? listTarget : listTarget.MemberNumber;
+	// Characterts that don't have member numbers (eg. NPCs, Player before registering)
+	// cannot be on lists.
+	if (num === undefined) return false;
+	switch (list) {
+		case "black":
+			return listOwner.BlackList.includes(num);
+		case "white":
+			return listOwner.WhiteList.includes(num);
+		case "ghost":
+			return listOwner.IsPlayer() && !!listOwner.GhostList?.includes(num);
+		case "friend":
+			return listOwner.IsPlayer() && !!listOwner.FriendList?.includes(num);
+	}
 }

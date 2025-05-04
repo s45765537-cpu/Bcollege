@@ -45,10 +45,16 @@ You can train some perks to help you, before going into a mission.  Do you need 
 I'd like to take a mission.
 我想接个任务。
 ###_NPC
-Very good comrade DialogPlayerName!  (She salutes you.)  What kind of challenge are you up to?
-非常好，DialogPlayerName同志！（她向你敬礼。）你准备迎接什么样的挑战？
 Very good!  What kind of challenge are you up to?
 很好！你准备迎接什么样的挑战？
+You're already registered as a guard, you cannot take a new mission.
+你已经被注册为警卫，你不能接受新任务。
+###_PLAYER
+Let's talk about Pandora Penitentiary.
+我们来谈谈潘多拉监狱。
+###_NPC
+(She nods.)  What would you like to know comrade?
+（她点点头。）同志，你想知道什么？
 ###_PLAYER
 Comrade, I've got a prisoner from Pandora in my private room.
 同志，我的私人房间里面有一个来自潘多拉的囚犯。
@@ -245,6 +251,126 @@ Let's talk about something else.
 ###_NPC
 Good, we have no time to waste.
 很好，我们没有时间可以浪费。
+###_PLAYER
+What is that jail?
+那个监狱是什么？
+###_NPC
+Pandora's Box created a huge penitentiary facility, to jail many of our members at once.  We need to investigate the place so we can rescue our infiltrators.
+潘多拉魔盒建立了一个巨大的监狱设施，可以一次关押许多我们的成员。我们需要调查这个地方，以便我们能够营救我们的潜入者。
+###_PLAYER
+I could get locked up to spy on it.
+我可以被关起来，以便潜入监狱。
+###_NPC
+If you're willing to get locked up, we will pay you comrade.  I can arrange your captivity, how long do you need?
+如果你愿意被关起来，我们会支付你报酬。我可以安排你的囚禁，你需要多长时间？
+You're already registered as a guard, you will not be admitted as a prisoner.
+你已经被注册为警卫，你不会被接受为囚犯。
+###_PLAYER
+I could infiltrate their guard staff.
+我可以潜入他们的警卫队伍。
+###_NPC
+We could register you as a guard so you can spy on their structure.  For how long could you do it?
+我们可以注册你为警卫，这样你就可以窥探他们的结构。你能做多久？
+You're already registered as a guard, get to work comrade.
+你已经被注册为警卫，去工作吧，同志。
+###_PLAYER
+What can I do as a prison guard?
+作为监狱警卫，我能做什么？
+###_NPC
+Guards have lots of power, let me explain... (The /pandora command can be used to do activities with inmates, use /help to get the list.)
+警卫有很多权力，让我来解释一下...（/pandora命令可以用来与囚犯进行活动，输入/help获取列表。）
+###_PLAYER
+I will create a new prison cell right now.
+我现在就创建一个新的监狱牢房。
+I will infiltrate the current cells.
+我会潜入现有的牢房。
+###_NPC
+Go now comrade!  (In mixed online chat rooms, search for rooms that begins with "Pandora" to enter an active cell.)
+现在去吧，同志！（在混合在线聊天室中，搜索以“潘多拉”开头的房间，进入一个活跃的牢房。）
+###_PLAYER
+Can I dress up as a guard?
+我可以打扮成警卫吗？
+###_NPC
+You certainly can comrade.  (She helps you to dress up.)
+当然可以，同志。（她帮你打扮。）
+###_PLAYER
+5 minutes.
+5分钟。
+###_NPC
+Easy enough.  I will arrange a 5 minutes sentence for you.  Here's $5 for the trouble.  Bring lots of information.
+够简单。我会为你安排一个5分钟的刑期。这是5美元的报酬。记得带回来大量的信息。
+###_PLAYER
+15 minutes.
+15分钟。
+###_NPC
+Alright.  I will arrange a 15 minutes sentence for you.  Here's $10 for the trouble.  Bring lots of information.
+好的。我会为你安排一个15分钟的刑期。这是$10的报酬。记得带回来大量的信息。
+###_PLAYER
+30 minutes.
+30分钟。
+###_NPC
+Very well.  I will arrange a 30 minutes sentence for you.  Here's $15 for the trouble.  Bring lots of information.
+很好。我会为你安排一个30分钟的刑期。这是$15的报酬。记得带回来大量的信息。
+###_PLAYER
+1 hour.
+1小时。
+###_NPC
+Good.  I will arrange a 1 hour sentence for you.  Here's $25 for the trouble.  Bring lots of information.
+好的。我会为你安排一个1小时的刑期。这是$25的报酬。记得带回来大量的信息。
+###_PLAYER
+4 hours.
+4小时。
+###_NPC
+Impressive.  I will arrange a 4 hours sentence for you.  Here's $40 for the trouble.  Bring lots of information.
+令人印象深刻。我会为你安排一个4小时的刑期。这是$40的报酬。记得带回来大量的信息。
+###_PLAYER
+12 hours.
+12小时。
+###_NPC
+Excellent!  I will arrange a 12 hours sentence for you.  Here's $60 for the trouble.  Bring lots of information.
+太棒了！我会为你安排一个12小时的刑期。这是$60的报酬。记得带回来大量的信息。
+###_PLAYER
+24 hours.
+24小时。
+###_NPC
+Wow!  I will arrange a 24 hours sentence for you.  Here's $80 for the trouble.  Bring lots of information.
+哇！我会为你安排一个24小时的刑期。这是$80的报酬。记得带回来大量的信息。
+###_PLAYER
+Let me think about it first.
+我先考虑一下。
+###_NPC
+Think quickly, the clock is ticking.
+快点想，时间在流逝。
+###_PLAYER
+Let's go!  (Get locked up.)
+走吧！（被关起来。）
+Wait!  I've changed my mind.
+等等！我改变主意了。
+###_NPC
+(She grumbles)  You're wasting my time comrade.
+（她嘟囔着）你在浪费我的时间，同志。
+Easy enough.  I will prepare a 15 minutes guard shift for you.  Here's $5 for the trouble.  Bring lots of information.
+足够简单。我会为你准备一个15分钟的警卫轮班。这是$5的报酬。记得带回来大量的信息。
+Alright.  I will prepare a 30 minutes guard shift for you.  Here's $8 for the trouble.  Bring lots of information.
+好的。我会为你准备一个30分钟的警卫轮班。这是$8的报酬。记得带回来大量的信息。
+Very well.  I will prepare a 1 hour guard shift for you.  Here's $12 for the trouble.  Bring lots of information.
+很好。我会为你准备一个1小时的警卫轮班。这是$12的报酬。记得带回来大量的信息。
+Good.  I will prepare a 4 hours guard shift for you.  Here's $20 for the trouble.  Bring lots of information.
+好的。我会为你准备一个4小时的警卫轮班。这是$20的报酬。记得带回来大量的信息。
+###_PLAYER
+8 hours.
+8小时。
+###_NPC
+Impressive.  I will prepare a 8 hours guard shift for you.  Here's $30 for the trouble.  Bring lots of information.
+令人印象深刻。我会为你准备一个8小时的警卫轮班。这是$30的报酬。记得带回来大量的信息。
+Excellent!  I will prepare a 12 hours guard shift for you.  Here's $30 for the trouble.  Bring lots of information.
+太棒了！我会为你准备一个12小时的警卫轮班。这是$30的报酬。记得带回来大量的信息。
+Wow!  I will prepare a 24 hours guard shift for you.  Here's $40 for the trouble.  Bring lots of information.
+哇！我会为你准备一个24小时的警卫轮班。这是$40的报酬。记得带回来大量的信息。
+###_PLAYER
+(Back to main hall.)
+（回到大厅。）
+###_NPC
 USB key
 USB密钥
 BDSM painting

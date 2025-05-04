@@ -10,11 +10,13 @@ var CreationMessage = "";
 function CreationLoad() {
 
 	// Gets the info to import Bondage College data
-	var DefaultName = "";
-	if ((localStorage.getItem("BondageClubImportSource") != null) && (localStorage.getItem("BondageClubImportSource") == "BondageCollege")) {
+	let DefaultName = "";
+	if (localStorage.getItem("BondageClubImportSource") === "BondageCollege") {
 		ImportBondageCollegeData = true;
-		if (localStorage.getItem("BondageCollegeExportName") != null) DefaultName = localStorage.getItem("BondageCollegeExportName");
-	} else ImportBondageCollegeData = null;
+		DefaultName = localStorage.getItem("BondageCollegeExportName") ?? "";
+	} else {
+		ImportBondageCollegeData = false;
+	}
 
 	// Creates the text fields element
 	const form = ElementCreateForm("Creation");
@@ -61,7 +63,7 @@ function CreationRun() {
 	DrawButton(1440, 920, 120, 60, TextGet("Login"), "White", "");
 
 	// Draw the importation check box
-	if (ImportBondageCollegeData != null) {
+	if (ImportBondageCollegeData) {
 		DrawText(TextGet("ImportBondageCollege"), 1217, 783, "White", "Black");
 		DrawButton(1480, 750, 64, 64, "", "White", ImportBondageCollegeData ? "Icons/Checked.png" : "");
 	}
@@ -80,41 +82,38 @@ function CreationResponse(data) {
 	} else if (CommonIsObject(data)) {
 		if (data.ServerAnswer == "AccountCreated") {
 
-			// Keep the character data and pushes it's appearance to the server
-			Player.Name = ElementValue("InputCharacter");
-			Player.AccountName = ElementValue("InputName");
-			Player.Creation = CurrentTime;
-			Player.Money = 100;
-			Player.CharacterID = data.OnlineID;
-			Player.OnlineID = data.OnlineID;
-			Player.MemberNumber = data.MemberNumber;
-			Player.ItemPermission = 2;
-			Player.WhiteList = [];
-			Player.BlackList = [];
-			Player.FriendList = [];
-			Player.GhostList = [];
-			Player.Lovership = [];
-			Player.FriendNames = new Map();
-			Player.SubmissivesList = new Set();
-			Player.ChatSearchFilterTerms = "";
-
-			// Imports logs, inventory and Sarah status from the Bondage College
 			CreationMessage = "";
-			PrivateCharacter = [];
-			PrivateCharacter.push(Player);
-			Log = [];
+
+			const appearance = ServerAppearanceBundle(Player.Appearance);
+
+			// Initialise player from the received data
+			const createData = /** @type {ServerAccountData} */ ({
+				ID: data.OnlineID,
+				MemberNumber: data.MemberNumber,
+				AccountName: ElementValue("InputName"),
+				Name: ElementValue("InputCharacter"),
+				Creation: CurrentTime,
+				Appearance: appearance,
+				Money: 100,
+			});
+
+			LoginSetupPlayer(createData);
+
+			// Force an appearance sync here since we've provided the new one manually
+			ServerPlayerAppearanceSync();
+
 			ImportBondageCollege(Player);
 
-			// Load/initialise player settings and global variables
-			PreferenceInitPlayer();
+			// Lifted from LoginResponse
+			AfkTimerSetEnabled(Player.OnlineSettings.EnableAfkTimer);
 			ActivitySetArousal(Player, 0);
+			ActivityTimerProgress(Player, 0);
 			NotificationLoad();
 
 			// New accounts aren't updating from old version
 			CommonVersionUpdated = false;
 
 			// Flush the controls and enters the main hall
-			ServerPlayerAppearanceSync();
 			ElementRemove("InputCharacter");
 			ElementRemove("InputName");
 			ElementRemove("InputPassword1");
@@ -138,7 +137,7 @@ function CreationResponse(data) {
 function CreationClick() {
 
 	// If we must check or uncheck the importation checkbox
-	if ((MouseX >= 1480) && (MouseX <= 1544) && (MouseY >= 750) && (MouseY <= 814) && (ImportBondageCollegeData != null))
+	if ((MouseX >= 1480) && (MouseX <= 1544) && (MouseY >= 750) && (MouseY <= 814) && ImportBondageCollegeData)
 		ImportBondageCollegeData = !ImportBondageCollegeData;
 
 	// If we must go back to the login screen
@@ -178,7 +177,7 @@ function CreationClick() {
 // when the user exit this screen
 /**
  * Does the cleanup, if the user exits the screen
- * @type {ScreenFunctions["Exit"]}
+ * @type {ScreenExitHandler}
  */
 function CreationExit() {
 	ElementRemove("InputCharacter");

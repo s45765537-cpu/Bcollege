@@ -208,14 +208,14 @@ var CraftingDescription = {
 	 * Note the exclusion of control characters (except Newline aka `\n`), `§` (`\xA7`) and `¶` (`\xB6`).
 	 * @readonly
 	 */
-	Pattern: /^([\n\x20-\xA6\xA8-\xB5\xB7-\uFFFF]+)?$/g,
+	Pattern: /^([\n\x20-\xA6\xA8-\xB5\xB7-\uFFFF]+)?$/,
 
 	/**
 	 * Regex for representing legal extended ASCII characters.
 	 * Note the exclusion of control characters (except Newline aka `\n`), `§` (`\xA7`) and `¶` (`\xB6`).
 	 * @readonly
 	 */
-	PatternASCII: /^([\n\x20-\xA6\xA8-\xB5\xB7-\xFF]+)?$/g,
+	PatternASCII: /^([\n\x20-\xA6\xA8-\xB5\xB7-\xFF]+)?$/,
 
 	/**
 	 * Decode and return the passed string if it consists of UTF16-encoded UTF8 characters.
@@ -421,7 +421,7 @@ var CraftingEventListeners = {
 
 	/**
 	 * @private
-	 * @type {(this: HTMLTextAreaElement, ev: Event) => void}
+	 * @type {(this: HTMLTextAreaElement | HTMLInputElement, ev: Event) => void}
 	 */
 	_InputDescription: function _InputDescription() {
 		this.setCustomValidity(this.value.match(this.dataset.pattern) ? "" : "patternMismatch");
@@ -748,10 +748,6 @@ var CraftingEventListeners = {
 			return;
 		}
 
-		// Trigger a search query in order to filter the results by whatever input the user has specified
-		const searchInput = sidePannel.querySelector("input[type='search']");
-		searchInput?.dispatchEvent(new Event("input"));
-
 		if (this.getAttribute("aria-checked") === "true") {
 			controlButton.innerHTML = this.innerHTML;
 			return;
@@ -780,8 +776,8 @@ var CraftingEventListeners = {
 		searchResultCandidates?.querySelectorAll("button.button").forEach(button => {
 			const label = button.querySelector(".button-label");
 			if (label) {
-				const displayStyle = (button.getAttribute("aria-checked") === "true" || label.textContent.toUpperCase().includes(query)) ? "" : "none";
-				/** @type {HTMLButtonElement} */(button).style.display = displayStyle;
+				const displayStyle = (button.getAttribute("aria-checked") === "true" || label.textContent.toUpperCase().includes(query)) ? false : true;
+				button.toggleAttribute("data-unload", displayStyle);
 			}
 		});
 	},
@@ -808,21 +804,92 @@ var CraftingEventListeners = {
 		}
 		descriptionInput.dispatchEvent(new InputEvent("input"));
 	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLButtonElement, ev: MouseEvent) => void}
+	 */
+	_ClickGroup: function _ClickGroup(ev) {
+		const groupName = /** @type {AssetGroupItemName} */(this.name);
+		const assetList = document.getElementById(CraftingID.assetGrid);
+		if (!assetList) {
+			ev.stopImmediatePropagation();
+			return;
+		}
+
+		if (this.getAttribute("aria-checked") === "true") {
+			// Apply the filtering
+			for (const button of assetList.children) {
+				button.toggleAttribute("data-unload-group", button.getAttribute("data-group") !== groupName);
+			}
+
+			// Update the label of the asset panel
+			document.querySelector(`#${CraftingID.assetHeader} > span`)?.replaceChildren(
+				TextGet("SelectItemSuffix").replace('GroupName', this.getAttribute("aria-label").toLocaleLowerCase())
+			);
+
+			// Make sure that the asset panel is open and scroll to the top
+			document.querySelector(`#${CraftingID.assetButton}[aria-checked="false"]`)?.dispatchEvent(new MouseEvent("click"));
+			assetList.scrollTo({ top: 0 });
+		} else {
+			document.querySelector(`#${CraftingID.assetHeader} > span`)?.replaceChildren(TextGet("SelectItem"));
+			for (const button of assetList.children) {
+				button.toggleAttribute("data-unload-group", false);
+			}
+
+			const checked = assetList.querySelector("[aria-checked='true']");
+			if (checked) {
+				checked.scrollIntoView({ behavior: "instant" });
+			} else {
+				assetList.scrollTo({ top: 0 });
+			}
+		}
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLInputElement, ev: FocusEvent) => Promise<void>}
+	 */
+	_FocusSearchAsset: async function _FocusSearchAsset(ev) {
+		const focusGrid = document.getElementById(CraftingID.centerPanel);
+		if (!focusGrid) {
+			ev.stopImmediatePropagation();
+			return;
+		}
+
+		const group = /** @type {"ALL" | AssetGroupItemName} */(focusGrid.querySelector("[role='radio'][aria-checked='true']")?.getAttribute("name") ?? "ALL");
+		const cachedGroup = this.getAttribute("data-group");
+		if (cachedGroup === group) {
+			return;
+		}
+
+		let options = CraftingElements._SearchCache.get(group);
+		if (!options) {
+			const searchResults = document.getElementById(this.getAttribute("aria-controls"));
+			const query = group === "ALL" ? ".button-label" : `[data-group='${group}'] .button-label`;
+			options = Array.from(searchResults?.querySelectorAll(query) ?? []).map(e => ElementCreate({ tag: "option", attributes: { value: e.textContent }}));
+			CraftingElements._SearchCache.set(group, options);
+		}
+		this.list?.replaceChildren(...options);
+		this.setAttribute("data-group", group);
+	},
+
+	/**
+	 * @private
+	 * @type {(this: HTMLInputElement, ev: FocusEvent) => Promise<void>}
+	 */
+	_FocusSearch: async function _FocusSearch(ev) {
+		if (this.list?.options.length) {
+			return;
+		}
+
+		const searchResults = document.getElementById(this.getAttribute("aria-controls"));
+		const options = Array.from(searchResults?.querySelectorAll(".button-label") ?? []).map(e => ElementCreate({ tag: "option", attributes: { value: e.textContent }}));
+		this.list?.replaceChildren(...options);
+	},
 };
 
 var CraftingElements = {
-	/**
-	 * @private
-	 * @param {string} controls
-	 * @returns {() => string[]}
-	 */
-	_SearchInputGetDataList: function _SearchInputGetDataList(controls) {
-		return () => {
-			const searchResults = document.getElementById(controls);
-			return Array.from(searchResults?.querySelectorAll("button > label") ?? []).map(e => e.textContent);
-		};
-	},
-
 	/**
 	 * @private
 	 * @param {string} id
@@ -830,14 +897,34 @@ var CraftingElements = {
 	 * @param {string} placeholder
 	 * @returns {HTMLInputElement}
 	 */
-	_SearchInput: function _SearchInput(id, controls, placeholder) {
-		const ret = ElementCreateSearchInput(id, CraftingElements._SearchInputGetDataList(controls));
-		ret.setAttribute("aria-controls", controls);
-		ret.setAttribute("size", 0);
-		ret.addEventListener("input", CraftingEventListeners._InputSearch);
-		ret.placeholder = placeholder;
-		return ret;
+	_SearchInput: function _SearchInput(id, controls, placeholder, assetSearch=false) {
+		return ElementCreate({
+			tag: "input",
+			attributes: {
+				type: "search",
+				id,
+				placeholder,
+				list: `${id}-datalist`,
+				size: 0,
+				"aria-controls": controls,
+			},
+			dataAttributes: {
+				group: undefined, // Initialized and managed by the `focus` event listener for asset searches
+			},
+			eventListeners: {
+				input: CraftingEventListeners._InputSearch,
+				focus: assetSearch ? CraftingEventListeners._FocusSearchAsset : CraftingEventListeners._FocusSearch,
+			},
+			children: [
+				{ tag: "datalist", attributes: { id: `${id}-datalist` } },
+			],
+		});
 	},
+
+	/**
+	 * @type {Map<"ALL" | AssetGroupItemName, readonly HTMLOptionElement[]>}
+	 */
+	_SearchCache: new Map(),
 
 	/**
 	 * @private
@@ -882,7 +969,12 @@ function CraftingLoad() {
 
 	// Re-enable previously disabled items if the player now owns them
 	for (const item of Player.Crafting) {
-		if (item?.Disabled && Player.Inventory.some(i => i.Asset.Name === item.Name)) {
+		if (item == null) {
+			continue;
+		}
+
+		const asset = CraftingAssets[item.Item]?.[0];
+		if (item.Disabled && asset && InventoryAvailable(Player, item.Name, asset.DynamicGroupName)) {
 			delete item.Disabled;
 		}
 	}
@@ -940,6 +1032,11 @@ function CraftingLoad() {
 						),
 						ElementButton.Create(CraftingID.uploadButton, CraftingEventListeners._ClickUpload, { tooltip: TextGet("Upload") }),
 						ElementButton.Create(CraftingID.downloadButton, CraftingEventListeners._ClickDownload, { tooltip: TextGet("Download") }),
+						ElementButton.Create(
+							CraftingID.undressButton, CraftingEventListeners._ClickUndress,
+							{ tooltip: TextGet("Undress"), role: "menuitemcheckbox" },
+							{ button: { attributes: { "aria-checked": CraftingNakedPreview ? "true" : "false" } } },
+						),
 					],
 					{ direction: "rtl" },
 				),
@@ -1018,7 +1115,7 @@ function CraftingLoad() {
 							attributes: { id: CraftingID.assetHeader },
 							children: [
 								{ tag: "span", children: [TextGet("SelectItem")] },
-								CraftingElements._SearchInput(CraftingID.assetSearch, CraftingID.assetGrid, TextGet("FilterAsset")),
+								CraftingElements._SearchInput(CraftingID.assetSearch, CraftingID.assetGrid, TextGet("FilterAsset"), true),
 							],
 						},
 						{
@@ -1075,14 +1172,7 @@ function CraftingLoad() {
 			{ menu: { attributes: { "aria-orientation": "vertical" }, parent } },
 		),
 
-		ElementCreate({
-			tag: "div",
-			attributes: { id: CraftingID.centerPanel },
-			parent,
-			children: [
-				ElementButton.Create(CraftingID.undressButton, CraftingEventListeners._ClickUndress),
-			],
-		});
+		parent.append(DialogFocusGroup.Create(CraftingID.centerPanel, CraftingEventListeners._ClickGroup, { useDynamicGroupName: true }));
 
 		ElementCreate({
 			tag: "div",
@@ -1097,9 +1187,15 @@ function CraftingLoad() {
 					children: [
 						{ tag: "span", children: [TextGet("EnterName")] },
 						{
+							// NOTE: Perform the pattern checking via JS as there are differences in how plain JS `RegExp` and `HTMLInputElement.pattern`
+							// handle their pattern matching with characters larger than /u+FFFF
 							tag: "input",
-							attributes: { id: CraftingID.nameInput, type: "input", maxLength: "30", size: 0, pattern: CraftingDescription.Pattern.source },
-							eventListeners: { change: CraftingEventListeners._ChangeName },
+							attributes: { id: CraftingID.nameInput, type: "input", maxLength: "30", size: 0 },
+							dataAttributes: { pattern: CraftingDescription.Pattern.source },
+							eventListeners: {
+								change: CraftingEventListeners._ChangeName,
+								input: CraftingEventListeners._InputDescription,
+							},
 						},
 					],
 				},
@@ -1153,11 +1249,7 @@ function CraftingLoad() {
 					attributes: { id: CraftingID.privateLabel },
 					classList: ["crafting-label"],
 					children: [
-						{
-							tag: "input",
-							attributes: { id: CraftingID.privateCheckbox, type: "checkbox" },
-							eventListeners: { click: CraftingEventListeners._ClickPrivate },
-						},
+						ElementCheckbox.Create(CraftingID.privateCheckbox, CraftingEventListeners._ClickPrivate),
 						{ tag: "span", children: [TextGet("EnterPrivate")] },
 					],
 				},
@@ -1184,11 +1276,7 @@ function CraftingLoad() {
 					attributes: { id: CraftingID.asciidescriptionLabel },
 					classList: ["crafting-label"],
 					children: [
-						{
-							tag: "input",
-							attributes: { id: CraftingID.asciiDescriptionCheckbox, type: "checkbox" },
-							eventListeners: { click: CraftingEventListeners._ClickAsciiDescription },
-						},
+						ElementCheckbox.Create(CraftingID.asciiDescriptionCheckbox, CraftingEventListeners._ClickAsciiDescription),
 						{ tag: "span", children: [TextGet("EnterExtendedDescription")] },
 					],
 				},
@@ -1294,15 +1382,14 @@ function CraftingRun() {
 			} else {
 				DrawButton(X, Y, 470, 140, "", BGColor);
 				DrawTextFit(Craft.Name, X + 295, Y + 25, 315, "Black", "Silver");
-				for (let Item of Player.Inventory) {
-					if (Item.Asset.Name == Craft.Item) {
-						DrawImageResize("Assets/" + Player.AssetFamily + "/" + Item.Asset.DynamicGroupName + "/Preview/" + Item.Asset.Name + ".png", X + 3, Y + 3, 135, 135);
-						DrawTextFit(Item.Asset.Description, X + 295, Y + 70, 315,  "Black", "Silver");
-						DrawTextFit(TextGet("Property" + Craft.Property), X + 295, Y + 115, 315, "Black", "Silver");
-						if ((Craft.Lock != null) && (Craft.Lock != ""))
-							DrawImageResize("Assets/" + Player.AssetFamily + "/ItemMisc/Preview/" + Craft.Lock + ".png", X + 70, Y + 70, 70, 70);
-						break;
-					}
+				const asset = CraftingAssets[Craft.Item]?.[0];
+				const groupName = asset?.DynamicGroupName;
+				if (groupName && InventoryAvailable(Player, Craft.Item, groupName)) {
+					DrawImageResize("Assets/" + Player.AssetFamily + "/" + groupName + "/Preview/" + asset.Name + ".png", X + 3, Y + 3, 135, 135);
+					DrawTextFit(asset.Description, X + 295, Y + 70, 315,  "Black", "Silver");
+					DrawTextFit(TextGet("Property" + Craft.Property), X + 295, Y + 115, 315, "Black", "Silver");
+					if ((Craft.Lock != null) && (Craft.Lock != ""))
+						DrawImageResize("Assets/" + Player.AssetFamily + "/ItemMisc/Preview/" + Craft.Lock + ".png", X + 70, Y + 70, 70, 70);
 				}
 			}
 		}
@@ -1339,7 +1426,7 @@ function CraftingRun() {
 	}
 }
 
-/** @type {ScreenFunctions["Resize"]} */
+/** @type {ScreenResizeHandler} */
 function CraftingResize(load) {
 	switch (CraftingMode) {
 		case "OverridePriority":
@@ -1351,7 +1438,7 @@ function CraftingResize(load) {
 	}
 }
 
-/** @type {ScreenFunctions["Unload"]} */
+/** @type {ScreenUnloadHandler} */
 function CraftingUnload() {
 	switch (CraftingMode) {
 		case "OverridePriority":
@@ -1548,7 +1635,7 @@ function CraftingDeserialize(craftString) {
 
 /**
  * Deserialize and unpack the crafting data from the server.
- * @param {string | (null | CraftingItem)[]} Data The serialized crafting data or already-decompressed crafting item list
+ * @param {string | undefined | (null | CraftingItem)[]} Data The serialized crafting data or already-decompressed crafting item list
  * @returns {(null | CraftingItem)[]}
  */
 function CraftingDecompressServerData(Data) {
@@ -1667,7 +1754,7 @@ function CraftingReorderModeSet(newmode=null)
 
 /**
  * Handles clicks in the crafting room.
- * @type {ScreenFunctions["Click"]}
+ * @type {MouseEventListener}
  */
 function CraftingClick(event) {
 	// Can always exit or cancel
@@ -1849,7 +1936,7 @@ function CraftingConvertItemToSelected(Craft) {
 		get Asset() {
 			return this.Assets[0];
 		},
-		Lock: Craft.Lock ? Player.Inventory.find(a => a.Asset.IsLock && a.Asset.Name == Craft.Lock).Asset : null,
+		Lock: Craft.Lock && InventoryAvailable(Player, Craft.Lock, "ItemMisc") ? AssetGet(Player.AssetFamily, "ItemMisc", Craft.Lock) : null,
 		ItemProperty: Craft.ItemProperty ? Craft.ItemProperty : {},
 		get OverridePriority() {
 			return this.ItemProperty.OverridePriority;
@@ -1922,12 +2009,13 @@ function CraftingExitResetElements() {
 
 	// Clear all search inputs and undo their filtering
 	const searchInputs = /** @type {NodeListOf<HTMLInputElement>} */(document.querySelectorAll(`#${CraftingID.leftPanel} input[type='search']`));
-	searchInputs.forEach((searchInp) => {
-		if (searchInp.value) {
-			searchInp.value = "";
-			searchInp.dispatchEvent(new Event("input"));
-		}
-	});
+	searchInputs.forEach((searchInp) => searchInp.value ||= "");
+
+	const focusGroup = document.querySelector(`#${CraftingID.centerPanel} [role='radio'][aria-checked='true']`);
+	if (focusGroup) {
+		focusGroup.dispatchEvent(new MouseEvent("click"));
+		document.querySelectorAll(`#${CraftingID.assetGrid} [data-unload-group]`).forEach(e => e.toggleAttribute("data-unload-group", false));
+	}
 
 	// Close the side pannel
 	document.querySelector(`#${CraftingID.leftPanel} > [aria-checked='true']`)?.dispatchEvent(new Event("click"));
@@ -1935,7 +2023,7 @@ function CraftingExitResetElements() {
 
 /**
  * When the player exits the crafting room
- * @satisfies {ScreenFunctions["Exit"]}
+ * @satisfies {ScreenExitHandler}
  * @param {boolean} allowPanelClose - Whether an exit call in the `Name` mode is allowed to close the side panels before performing a proper exit of the subscreen
  */
 function CraftingExit(allowPanelClose=true) {
@@ -1953,8 +2041,10 @@ function CraftingExit(allowPanelClose=true) {
 			return;
 		case "Name": {
 			const activePanel = document.querySelector(`#${CraftingID.leftPanel} > [aria-checked='true']`);
-			if (activePanel && allowPanelClose) {
-				activePanel.dispatchEvent(new Event("click"));
+			const activeGroup = document.querySelector(`#${CraftingID.centerPanel} [aria-checked='true']`);
+			if ((activePanel || activeGroup) && allowPanelClose) {
+				activePanel?.dispatchEvent(new MouseEvent("click"));
+				activeGroup?.dispatchEvent(new MouseEvent("click"));
 			} else {
 				CraftingExitResetElements();
 				CraftingUnload();
@@ -1966,6 +2056,7 @@ function CraftingExit(allowPanelClose=true) {
 		case "Slot": {
 			ElementRemove(CraftingID.root);
 			CharacterDelete(CraftingPreview);
+			CraftingElements._SearchCache.clear();
 			CraftingPreview = null;
 			CraftingOffset = 0;
 			CraftingDestroy = false;
@@ -2061,7 +2152,8 @@ const CraftingValidationRecord = {
 	Item: {
 		Validate: (c, a, checkPlayerInventory=false) => {
 			if (checkPlayerInventory) {
-				return Player.Inventory.some((i) => i.Name === c.Item);
+				const groupName = CraftingAssets[c.Item]?.[0]?.DynamicGroupName;
+				return groupName ? InventoryAvailable(Player, c.Item, groupName) : false;
 			} else {
 				return Asset.some((i) => i.Name === c.Item);
 			}
@@ -2085,7 +2177,7 @@ const CraftingValidationRecord = {
 
 			const isValidLock = CraftingLockList.includes(c.Lock);
 			if (checkPlayerInventory) {
-				return isValidLock && Player.Inventory.some((i) => i.Name === c.Lock);
+				return isValidLock && InventoryAvailable(Player, c.Lock, "ItemMisc");
 			} else {
 				return isValidLock;
 			}
@@ -2306,9 +2398,9 @@ function CraftingValidate(Craft, asset=null, Warn=true, checkPlayerInventory=fal
 
 	// If the Asset has been explicetly passed then `Craft.Item` errors are fully recoverable,
 	// though the player should actually own the item
-	if (Craft.Item && StatusMap.get("Item") === CraftingStatusType.CRITICAL_ERROR) {
+	if (assets.length > 0 && StatusMap.get("Item") === CraftingStatusType.CRITICAL_ERROR) {
 		StatusMap.set("Item", CraftingStatusType.ERROR);
-		if (checkPlayerInventory && !Player.Inventory.some((i) => i.Name === Craft.Item)) {
+		if (checkPlayerInventory && !InventoryAvailable(Player, assets[0].Name, assets[0].DynamicGroupName)) {
 			Craft.Disabled = true;
 		}
 	}
