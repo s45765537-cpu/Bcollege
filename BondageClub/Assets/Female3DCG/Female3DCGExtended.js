@@ -11748,6 +11748,38 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // ExclusiveWaitress
+		Highchair: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Drink",
+					Key: "b",
+					Options: [
+						{}, // None
+						{}, // Bottle
+						{}, // Sippy
+					],
+				},
+				{
+					Name: "Stains",
+					Key: "c",
+					Options: [
+						{}, // None
+						{}, // Stains
+					],
+				},
+				{
+					Name: "Food",
+					Key: "a",
+					Options: [
+						{}, // None
+						{}, // Baby Food
+						{}, // Plate of Food
+						{}, // Cookies
+					],
+				},
+			],
+		}
 	}, // ItemDevices
 	ItemBoots: {
 		ToeTape: {
