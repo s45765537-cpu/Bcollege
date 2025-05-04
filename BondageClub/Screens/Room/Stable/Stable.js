@@ -1182,7 +1182,6 @@ function StableDoActivity(Activity) {
 
 	SkillProgress(Player, "Dressage", StablePerformance * 5);
 	
-	StablePerformance = 10;
 	let Dict = new DictionaryBuilder()
 					.sourceCharacter(Player)
 					.text("StablePerformance", StablePerformance.toString())
