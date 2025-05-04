@@ -5831,9 +5831,9 @@ function ClubCardRenderPanel() {
 function ClubCardDrawButton() {
 	if (ClubCardTurnCardPlayed == 0 && ClubCardPlayer[0].Deck.length > 0) {
 		DrawButton(1705, 805, 90, 190, null, "White", "", TextGet("Draw"));
-		DrawImageResize("Screens/MiniGame/ClubCard/Sleeve/" + ClubCardPlayer[0].Sleeve + ".png", 1710, 810, 80, 180);
-		DrawImageResize("Screens/MiniGame/ClubCard/Frame/SleeveBorder.png", 1708, 808, 84, 184);
-		DrawImageResize("Screens/MiniGame/ClubCard/Frame/CountDisplay.png", 1708, 808, 84, 184);
+		DrawImageResize("Screens/MiniGame/ClubCard/Sleeve/" + ClubCardPlayer[0].Sleeve + ".png", 1708, 808, 84, 184);
+		DrawImageResize("Screens/MiniGame/ClubCard/Frame/SleeveBorder.png", 1707, 807, 86, 186);
+		DrawImageResize("Screens/MiniGame/ClubCard/Frame/CountDisplay.png", 1706, 806, 88, 188);
 		if (ClubCardPlayer[0].Deck.length < 10) {
 			DrawTextFit("0"+ClubCardPlayer[0].Deck.length.toString(), 1750, 850, 25, "#c3facf");
 		} else {
