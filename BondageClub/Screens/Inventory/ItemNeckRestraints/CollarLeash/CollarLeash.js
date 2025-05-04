@@ -14,7 +14,7 @@ function AssetsItemNeckRestraintsChainLeashBeforeDraw(data) {
 
 /** @type {ExtendedItemCallbacks.BeforeDraw} */
 function AssetsItemNeckRestraintsChokeChainBeforeDraw(data) {
-    if (data.L === "Padlock" || data.L === "Chain") {
-        return { LayerType: data.C.HasEffect("IsLeashed") ? "Held" : ""};
-    }
+	if (data.L === "Padlock" || data.L === "Chain") {
+		return { LayerType: data.C.HasEffect("IsLeashed") ? "Held" : ""};
+	}
 }
