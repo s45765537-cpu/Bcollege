@@ -97,3 +97,5 @@ MenuDressGameBlocked,The game blocks it
 MenuDressGGTSBlocked,GGTS blocks it
 MenuDressRuleBlocked,A rule blocks it
 MenuDressOwnerBlocked,Your owner forbids it
+PonyNotJoin,You have not joined the Ponies
+PonyInvalidActivity,"Invalid Pony activity, type /help to get the list."

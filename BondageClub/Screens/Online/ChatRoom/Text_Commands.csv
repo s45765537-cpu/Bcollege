@@ -28,6 +28,7 @@ help,[Keyword]: Display help for the command with prefix Keyword. Exclude [Keywo
 kick,[MemberNumber]: Kick the player out of the room
 me,[Message]: Display “[PlayerName] Message” as an action. *[Message] does the same.
 pandora,"[Activity]: Do a Pandora Guard activity on your whisper selection or all inmates if there's no selection. (Activities: Bondage, Cage, Chastity, Detain, Gag, Hogtie, Hose, Lock, Naked, Spank, Ungag, Release, Shibari, Uncage, Unchaste, Unlock)"
+pony,"[Activity]: Do a Pony activity (Activities: Stand, Trot, Gallop, Passage, Pirouette)"
 promote,[MemberNumber]: Promote the user to room administrator
 roomunwhitelist,[MemberNumber]: Removes the user from the room whitelist
 roomwhitelist,[MemberNumber]: Adds the user to the room whitelist

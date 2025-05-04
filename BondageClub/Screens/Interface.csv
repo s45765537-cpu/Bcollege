@@ -233,6 +233,22 @@ PandoraGuardActivityReleaseAll,Pandora guard SourceCharacter removes some restra
 PandoraGuardActivityCageAll,Pandora guard SourceCharacter puts all inmates in cases.
 PandoraGuardActivityUncageAll,Pandora guard SourceCharacter releases all inmates from their cases.
 Picking,Picking the lock...
+StableActivityStand,SourceCharacter tries to stand properly. The exercise receives: StablePerformance points. StableResult
+StableActivityTrot,SourceCharacter tries to walks in a trot. The exercise receives: StablePerformance points. StableResult
+StableActivityGallop,SourceCharacter tries to runs at a gallop. The exercise receives: StablePerformance points. StableResult
+StableActivityPassage,SourceCharacter tries to steps a passage. The exercise receives: StablePerformance points. StableResult
+StableActivityPirouette,SourceCharacter tries to dance a pirouette. The exercise receives: StablePerformance points. StableResult
+StableResult10,Excellent
+StableResult9,Very good
+StableResult8,Good
+StableResult7,Fairly good
+StableResult6,Satisfactory
+StableResult5,Marginal
+StableResult4,Insufficient
+StableResult3,Fairly Bad
+StableResult2,Bad
+StableResult1,Very bad
+StableResult0,Not executed
 PoseMenu,Pose
 PrerequisiteAddItemsToUse,Must have an arm/torso/pelvis item to use ceiling tethers.
 PrerequisiteCannotAllFours,Cannot change to the AllFours pose.
