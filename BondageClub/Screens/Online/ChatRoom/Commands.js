@@ -1228,4 +1228,8 @@ const CommonCommands = [
 			});
 		},
 	},
+	{
+		Tag: 'pony',
+		Action: args => StableDoActivity(args),
+	},
 ];

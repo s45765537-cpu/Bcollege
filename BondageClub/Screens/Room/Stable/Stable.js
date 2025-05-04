@@ -1127,3 +1127,66 @@ function StableClubCardEnd() {
 	CharacterSetCurrent(StableTrainer);
 	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////
+//Multiplayer
+////////////////////////////////////////////////////////////////////////////////////////////
+var StableActivityList = ["Stand", "Trot", "Gallop", "Passage", "Pirouette"];
+
+/**
+ * Runs the pony command from the online chat box
+ * @param {string} Activity - The activity to validate
+ * @returns {void} - Nothing
+ */
+function StableDoActivity(Activity) {
+
+	// Make sur the source/player is a pony
+	if (!LogQuery("JoinedStable", "Pony"))
+		return ChatRoomSendLocal(TextGet("PonyNotJoin"), 10_000);
+
+	// Make sure the activity is valid
+	if (Activity != null) {
+		Activity = Activity.trim();
+		Activity = Activity.charAt(0).toUpperCase() + Activity.substring(1).toLowerCase();
+	}
+	if ((Activity == null) || !StableActivityList.includes(Activity))
+		return ChatRoomSendLocal(TextGet("PonyInvalidActivity"), 10_000);
+
+	// Difficulty of the exercise
+	var StableDifficulty;
+	switch (Activity) {
+		case "Stand":
+			StableDifficulty = 0;
+			break;
+		case "Trot":
+			StableDifficulty = 2;
+			break;
+		case "Gallop":
+			StableDifficulty = 4;
+			break;
+		case "Passage":
+			StableDifficulty = 6;
+			break;
+		case "Pirouette":
+			StableDifficulty = 8;
+			break;
+	}
+
+	//result 2d6 + Skill - Difficulty, min 0 max 10 
+	var StablePerformance = Math.floor(Math.random() * 6) + 1;
+	StablePerformance += (Math.floor(Math.random() * 6)) + 1;
+	StablePerformance += SkillGetLevel(Player, "Dressage");
+	StablePerformance -= StableDifficulty;
+	if (StablePerformance < 0) StablePerformance = 0;
+	if (StablePerformance > 9) StablePerformance = 10;
+
+	SkillProgress(Player, "Dressage", StablePerformance * 5);
+	
+	let Dict = new DictionaryBuilder()
+					.sourceCharacter(Player)
+					.text("StablePerformance", StablePerformance.toString())
+					.textLookup("StableResult", "StableResult" + StablePerformance)
+					.build();
+	ServerSend("ChatRoomChat", { Content: ( "StableActivity" + Activity), Type: "Action", Dictionary: Dict });
+
+}
