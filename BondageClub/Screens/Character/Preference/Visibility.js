@@ -1,5 +1,6 @@
 "use strict";
 
+/** @type {{ Group: AssetGroup, Assets: { Asset: Asset, Hidden: boolean, Blocked: boolean, Limited: boolean}[]}[]} */
 var PreferenceVisibilityGroupList = [];
 var PreferenceVisibilityGroupIndex = 0;
 var PreferenceVisibilityAssetIndex = 0;
@@ -18,18 +19,30 @@ var PreferenceVisibilityRecord = {};
  */
 function PreferenceSubscreenVisibilityLoad() {
 	PreferenceVisibilityRecord = { ...Player.PermissionItems };
-	for (let G = 0; G < AssetGroup.length; G++)
-		if (AssetGroup[G].Clothing || AssetGroup[G].Category != "Appearance") {
-			const AssetList = AssetGroup[G].Asset
-				.filter(A => A.Visible)
-				.map(A => ({
-					Asset: A,
-					Hidden: CharacterAppearanceItemIsHidden(A.Name, AssetGroup[G].Name),
-					Blocked: InventoryIsPermissionBlocked(Player, A.Name, AssetGroup[G].Name),
-					Limited: InventoryIsPermissionLimited(Player, A.Name, AssetGroup[G].Name),
-				}));
-			if (AssetList.length > 0) PreferenceVisibilityGroupList.push({ Group: AssetGroup[G], Assets: AssetList });
+	PreferenceVisibilityGroupList = [];
+	const hideableGroups = AssetGroup.filter(g => g.IsItem() || g.IsAppearance() && g.AllowNone);
+	for (const group of hideableGroups) {
+		const hideableAssets = [];
+		for (const asset of group.Asset) {
+			if (!asset.Visible) continue;
+			hideableAssets.push({
+				Asset: asset,
+				Hidden: CharacterAppearanceItemIsHidden(asset.Name, group.Name),
+				Blocked: InventoryIsPermissionBlocked(Player, asset.Name, group.Name),
+				Limited: InventoryIsPermissionLimited(Player, asset.Name, group.Name),
+			});
 		}
+		if (hideableAssets.length > 0) {
+			PreferenceVisibilityGroupList.push({
+				Group: group,
+				Assets: hideableAssets.sort((a, b) =>
+					a.Asset.Description.localeCompare(b.Asset.Description))
+			});
+		}
+	}
+	PreferenceVisibilityGroupList.sort((a, b) =>
+		a.Group.Category.localeCompare(b.Group.Category) || a.Group.Description.localeCompare(b.Group.Description)
+	);
 	PreferenceVisibilityAssetChanged(true);
 }
 
@@ -220,9 +233,13 @@ function PreferenceVisibilityCheckboxChanged(permissionRecord, CheckSetting, Typ
  * Exits the preference screen
  */
 function PreferenceSubscreenVisibilityExit() {
+	return true;
+}
+
+
+function PreferenceSubscreenVisibilityUnload() {
 	PreferenceVisibilityGroupList = [];
 	PreferenceVisibilityRecord = {};
-	return true;
 }
 
 /**

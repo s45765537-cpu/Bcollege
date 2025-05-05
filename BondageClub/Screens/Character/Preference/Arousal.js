@@ -217,12 +217,12 @@ function PreferenceSubscreenArousalClick() {
 		if ((Player.FocusGroup != null) && MouseIn(550, 853, 600, 64)) {
 			if (MouseX <= 850) PreferenceArousalZoneFactor = PreferenceDecrementArousalFactor(PreferenceArousalZoneFactor);
 			else PreferenceArousalZoneFactor = PreferenceIncrementArousalFactor(PreferenceArousalZoneFactor);
-			PreferenceSetZoneFactor(Player, Player.FocusGroup.Name, PreferenceArousalZoneFactor);
+			PreferenceSetArousalZone(Player, Player.FocusGroup.Name, PreferenceArousalZoneFactor);
 		}
 
 		// Arousal zone orgasm check box
 		if ((Player.FocusGroup != null) && MouseIn(1230, 853, 64, 64))
-			PreferenceSetZoneOrgasm(Player, Player.FocusGroup.Name, !PreferenceGetZoneOrgasm(Player, Player.FocusGroup.Name));
+			PreferenceSetArousalZone(Player, Player.FocusGroup.Name, null, !PreferenceGetZoneOrgasm(Player, Player.FocusGroup.Name));
 
 		// In arousal mode, the player can click on her zones
 		for (const Group of AssetGroup) {
@@ -276,8 +276,11 @@ function PreferenceDecrementArousalFactor(factor) {
  * Exits the preference screen
  */
 function PreferenceSubscreenArousalExit() {
+	return true;
+}
+
+function PreferenceSubscreenArousalUnload() {
 	Player.FocusGroup = null;
 	CharacterAppearanceForceUpCharacter = -1;
 	CharacterLoadCanvas(Player);
-	return true;
 }

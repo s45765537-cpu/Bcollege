@@ -449,6 +449,13 @@ var AssetFemale3DCGExtended = {
 						{}, // t18 - BCollege2
 						{}, // t19 - ControlPad1
 						{}, // t20 - Gangriels
+						{}, // t21 - DenOfSin
+						{}, // t22 - SlaveHelpline
+						{}, // t23 - DemonsBar
+						{}, // t24 - AzureCorp
+						{}, // t25 - Shibari
+						{}, // t26 - BullsEye
+						{}, // t27 - Keys?
 					],
 				},
 			],
@@ -1390,6 +1397,16 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		},
+		HairFront67: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Braid" }, { Name: "NoBraid" }],
+		},
+		HairFront71: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Basic" }, { Name: "Translucent" }],
+		},
 	},
 	HairBack: {
 		HairBack58: {
@@ -1564,6 +1581,26 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		},
+		HairBack80: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, { Name: "RightOnly" }],
+		}, // HairBack80
+		HairBack82: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Long" }, { Name: "Medium" }],
+		}, // HairBack82
+		HairBack83: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, { Name: "RightOnly" }],
+		}, // HairBack83
+		HairBack84: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, { Name: "RightOnly" }],
+		}, // HairBack84
 	},
 	ClothAccessory: {
 		LeatherStraps: {
@@ -1780,6 +1817,29 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // ComboBelt
+		HoodedCloak: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Hood",
+					Key: "h",
+					Options: [
+						{
+							// h0 - Off
+							Property: { Effect: [] },
+						},
+						{
+							// h1 - Over head
+							Property: { Effect: [] },
+						},
+						{
+							// h2 - Over eyes
+							Property: { Effect: [] },
+						},
+					],
+				},
+			],
+		},
 	}, // ClothAccessory
 	ClothLower: {
 		PantBoots: {
@@ -1819,6 +1879,52 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [{ Name: "Long" }, { Name: "Mid" }],
 		}, //SatinSkirt
+		BusinessTrousers: {
+			Archetype: ExtendedArchetype.TYPED,
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+			Options: [
+				{
+					Name: "Zipped",
+					Property: {
+						Block: [
+							"ItemLegs",
+							"ItemPelvis",
+							"ItemButt",
+							"ItemVulva",
+							"ItemVulvaPiercings",
+							"ItemButt",
+						],
+						Hide: ["ItemVulvaPiercings", "Panties", "Pussy"],
+						HideItem: [
+							"ItemButtAnalBeads2",
+							"SocksSocksFur",
+							"SocksSocks4",
+							"SocksSocks5",
+							"SocksSocks6",
+							"ItemVulvaVibratingLatexPanties",
+							"ItemVulvaVibratingDildo",
+							"ItemVulvaInflatableVibeDildo",
+							"ItemVulvaClitSuctionCup",
+							"ItemVulvaTapeStrips",
+							"ItemVulvaBenWaBalls",
+							"ItemVulvaHeavyWeightClamp",
+							"ItemVulvaShockDildo",
+						],
+					},
+				},
+				{
+					Name: "Unzipped",
+					Property: {
+						Block: ["ItemButt"],
+						HideItem: ["ItemButtAnalBeads2"],
+					},
+				},
+				{
+					Name: "Down",
+					Property: {},
+				},
+			],
+		}, // BusinessTrousers
 	}, // ClothLower
 	Socks: {
 		RippedPantyhose: {
@@ -4586,6 +4692,68 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // InflatableDress
+		SteelBelt: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Belt",
+					Key: "b",
+					Options: [
+						{
+							// Under clothes
+							Property: {},
+						},
+						{
+							// Over clothes
+							Property: {
+								HideItem: ["ClothAccessoryLeatherBeltCloth"],
+								OverridePriority: {
+									Belt: 31,
+									BDetail: 31,
+									Lock: 31,
+								},
+							},
+						},
+					],
+				},
+				{
+					Name: "Handcuffs",
+					Key: "h",
+					Options: [
+						{
+							// None
+							Property: {},
+						},
+						{
+							// Front
+							Property: {
+								Difficulty: 3,
+								SetPose: ["BaseUpper"],
+								Effect: [E.Block, E.BlockWardrobe],
+							},
+						},
+						{
+							// BackBoxTie
+							Property: {
+								Difficulty: 5,
+								SetPose: ["BackBoxTie"],
+								Effect: [E.Block, E.BlockWardrobe],
+								HideItem: ["ItemArmsWristShackles"],
+							},
+						},
+						{
+							// Strict
+							Property: {
+								Difficulty: 7,
+								SetPose: ["BackElbowTouch"],
+								Effect: [E.Block, E.BlockWardrobe],
+							},
+						},
+					],
+				},
+			],
+			ChangeWhenLocked: false,
+		}, // SteelBelt
 	}, // ItemArms
 	ItemNeck: {
 		ShinySteelCollar: {
@@ -4873,6 +5041,24 @@ var AssetFemale3DCGExtended = {
 			},
 			AllowEffect: [E.GagNormal, E.FixedHead],
 		}, // SlaveCollar
+		AsylumCollar: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "Normal",
+					Property: { Effect: [] },
+				},
+				{
+					Name: "Padded",
+					Property: { Effect: [E.FixedHead], Difficulty: 10 },
+				},
+			],
+		}, // AsylumCollar
+		ChainCollar: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [{ Name: "LockBodyHeart" }, { Name: "LockBodyPlain" }],
+		}, // ChainCollar
 	}, // ItemNeck
 	ItemNeckAccessories: {
 		CustomCollarTag: {
@@ -5202,6 +5388,47 @@ var AssetFemale3DCGExtended = {
 			ChangeWhenLocked: false,
 			BaselineProperty: { Text: "Pet", Text2: "Leashing", Text3: "Post" },
 		}, //PetPost
+		MCuffCollar: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Handcuffs",
+					Key: "h",
+					Options: [
+						{
+							// None
+							Property: {},
+						},
+						{
+							// Cuffed
+							Property: {
+								Difficulty: 4,
+								SetPose: ["BaseUpper"],
+								Effect: [E.BlockWardrobe],
+							},
+						},
+					],
+				},
+				{
+					Name: "Leash",
+					Key: "l",
+					Options: [
+						{
+							// None
+							Property: {},
+						},
+						{
+							// Leashed
+							Property: {
+								Difficulty: 4,
+								Effect: [E.Leash, E.IsLeashed],
+							},
+						},
+					],
+				},
+			],
+			ChangeWhenLocked: false,
+		}, // MCuffCollar
 	}, //ItemNeckRestraints
 	ItemHood: {
 		OldGasMask: {
@@ -8571,6 +8798,19 @@ var AssetFemale3DCGExtended = {
 								Effect: [],
 							},
 						},
+						{
+							// "Wig17"
+							Property: {
+								Hide: [
+									"Mask",
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+								],
+								Effect: [],
+							},
+						},
 					],
 				},
 				{
@@ -9050,10 +9290,33 @@ var AssetFemale3DCGExtended = {
 							Property: {},
 						},
 						{
+							// Semi-Hood
+							Property: {
+								Effect: [E.BlockMouth],
+								Hide: ["HairFront", "HairAccessory1"],
+							},
+						},
+						{
 							// Hood
 							Property: {
 								Effect: [E.BlockMouth],
 								Hide: ["HairFront", "HairBack", "HairAccessory1"],
+							},
+						},
+					],
+				},
+				{
+					Name: "Speech",
+					Key: "p",
+					Options: [
+						{
+							// Loose on mouth
+							Property: { Effect: [] },
+						},
+						{
+							// Tight on mouth
+							Property: {
+								Effect: [E.GagMedium],
 							},
 						},
 					],
@@ -9114,6 +9377,67 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // CreepyIronMask
+		HalloIII: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChangeWhenLocked: false,
+			Modules: [
+				{
+					Name: "Mask",
+					Key: "m",
+					Options: [
+						{
+							// Pumpkin
+							Property: {},
+						},
+						{
+							// Skull
+							Property: {},
+						},
+						{
+							// Witch
+							Property: {},
+						},
+					],
+				},
+				{
+					Name: "Hood",
+					Key: "h",
+					Options: [
+						{
+							// None
+							Property: { Effect: [] },
+						},
+						{
+							// Normal hood
+							Property: {
+								Effect: [],
+								Difficulty: 3,
+								Block: ["ItemNose"],
+							},
+						},
+						{
+							// Total hood
+							Property: {
+								Effect: [
+									E.BlockWardrobe,
+									E.BlindNormal,
+									E.BlockMouth,
+									E.GagLight,
+								],
+								Difficulty: 5,
+								Block: [
+									"ItemMouth",
+									"ItemMouth2",
+									"ItemMouth3",
+									"ItemNose",
+									"ItemHead",
+								],
+							},
+						},
+					],
+				},
+			],
+		}, // HalloIII
 	}, // ItemHood
 	Jewelry: {
 		JewelrySet: {
@@ -9525,6 +9849,64 @@ var AssetFemale3DCGExtended = {
 			},
 			ChangeWhenLocked: false,
 		}, // PersonalCage
+		LeatherCage: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Face",
+					Key: "f",
+					Options: [
+						{
+							// Normal
+							Property: {},
+						},
+						{
+							// Face free
+							Property: {},
+						},
+					],
+				},
+				{
+					Name: "Suspension",
+					Key: "s",
+					Options: [
+						{
+							// Ground
+							Property: {
+								Difficulty: 20,
+							},
+						},
+						{
+							// Lifted
+							Property: {
+								Difficulty: 25,
+								OverrideHeight: {
+									Height: 45,
+									Priority: 60,
+									HeightRatioProportion: 0,
+								},
+								Effect: [E.Lifted],
+							},
+						},
+					],
+				},
+				{
+					Name: "Cuff",
+					Key: "c",
+					Options: [
+						{
+							// No neck cuff
+							Property: {},
+						},
+						{
+							// Neck cuff
+							Property: { Difficulty: 30 },
+						},
+					],
+				},
+			],
+			ChangeWhenLocked: false,
+		}, // LeatherCage
 		BondageBench: {
 			Archetype: ExtendedArchetype.TYPED,
 			ChatTags: [
@@ -11366,6 +11748,38 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // ExclusiveWaitress
+		Highchair: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Drink",
+					Key: "b",
+					Options: [
+						{}, // None
+						{}, // Bottle
+						{}, // Sippy
+					],
+				},
+				{
+					Name: "Stains",
+					Key: "c",
+					Options: [
+						{}, // None
+						{}, // Stains
+					],
+				},
+				{
+					Name: "Food",
+					Key: "a",
+					Options: [
+						{}, // None
+						{}, // Baby Food
+						{}, // Plate of Food
+						{}, // Cookies
+					],
+				},
+			],
+		}
 	}, // ItemDevices
 	ItemBoots: {
 		ToeTape: {
@@ -11528,6 +11942,20 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // HeellessHoof
+		HoofBoots: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "Normal",
+					Property: {},
+				},
+				{
+					Name: "Straps",
+					Property: { Difficulty: 5 },
+				},
+			],
+		}, // HoofBoots
 	}, // ItemBoots
 	ItemVulva: {
 		ClitSuctionCup: {
@@ -12516,6 +12944,195 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // NavelBar1
+		SteelBelt: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Belt",
+					Key: "b",
+					Options: [
+						{
+							// Under clothes
+							Property: {},
+						},
+						{
+							// Over clothes
+							Property: {
+								HideItem: ["ClothAccessoryLeatherBeltCloth"],
+								OverridePriority: {
+									Belt: 31,
+									BDetail: 31,
+									Lock: 31,
+								},
+							},
+						},
+					],
+				},
+				{
+					Name: "Handcuffs",
+					Key: "h",
+					Options: [
+						{
+							// None
+							Property: {},
+						},
+						{
+							// Front
+							Property: {
+								Difficulty: 3,
+								SetPose: ["BaseUpper"],
+								Effect: [E.Block, E.BlockWardrobe],
+							},
+						},
+						{
+							// BackBoxTie
+							Property: {
+								Difficulty: 5,
+								SetPose: ["BackBoxTie"],
+								Effect: [E.Block, E.BlockWardrobe],
+								HideItem: ["ItemArmsWristShackles"],
+							},
+						},
+						{
+							// Strict
+							Prerequisite: ["NoItemArms"],
+							Property: {
+								Difficulty: 7,
+								SetPose: ["BackElbowTouch"],
+								Effect: [E.Block, E.BlockWardrobe],
+								Block: ["ItemArms"],
+							},
+						},
+					],
+				},
+			],
+			ChangeWhenLocked: false,
+		}, // SteelBelt
+		BarrelCorset: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Priority",
+					Key: "z",
+					Options: [
+						{
+							// Under Clothes
+							Property: {
+								OverridePriority: {
+									Upper: 25,
+									Lower: 25,
+									Upper4: 25,
+									BellyB: 25,
+									BellyM: 25,
+									BellyLock: 25,
+									LegB: 25,
+									LegM: 25,
+									LegLock: 25,
+									Neck: 25,
+									NeckB: 25,
+									NeckM: 25,
+								},
+							},
+						},
+						{
+							// Over Clothes
+							Property: {
+								OverridePriority: {
+									Upper: 30,
+									Lower: 30,
+									Upper4: 30,
+									BellyB: 30,
+									BellyM: 30,
+									BellyLock: 30,
+									LegB: 30,
+									LegM: 30,
+									LegLock: 30,
+									Neck: 30,
+									NeckB: 30,
+									NeckM: 30,
+								},
+								Hide: ["ClothLower", "Panties", "Garters"],
+								HideItem: [
+									"ClothAccessoryLeatherBeltCloth",
+									"ClothFurCoat",
+									"CorsetCorsetDress",
+								],
+							},
+						},
+					],
+				},
+				{
+					Name: "Tightness",
+					Key: "s",
+					Options: [
+						{
+							// Loose
+							Property: {},
+						},
+						{
+							// Thigh
+							Property: {
+								Difficulty: 3,
+								Effect: [E.BlockWardrobe, E.Freeze],
+							},
+							Expression: [
+								{ Name: "Low", Group: "Blush", Timer: 10 },
+								{ Name: "OneRaised", Group: "Eyebrows", Timer: 10 },
+								{ Name: "Surprised", Group: "Eyes", Timer: 10 },
+								{ Name: "HalfOpen", Group: "Mouth", Timer: 10 },
+							],
+						},
+					],
+				},
+				{
+					Name: "NeckCollar",
+					Key: "y",
+					Options: [
+						{
+							// None
+							Property: {},
+						},
+						{
+							// Equipped
+							Property: { Difficulty: 1 },
+						},
+						{
+							// Equipped with straps
+							Property: { Difficulty: 2 },
+						},
+					],
+				},
+				{
+					Name: "BellyBelt",
+					Key: "w",
+					Options: [
+						{
+							// None
+							Property: {},
+						},
+						{
+							// Equipped
+							Property: { Difficulty: 2 },
+						},
+					],
+				},
+				{
+					Name: "LegBelts",
+					Key: "x",
+					Options: [
+						{
+							// None
+							Property: {},
+						},
+						{
+							// Equipped
+							Property: { Difficulty: 2 },
+						},
+					],
+				},
+			],
+			ChangeWhenLocked: false,
+		}, // BarrelCorset
 	}, // ItemTorso
 	ItemTorso2: {
 		LockingSwimsuit: {
@@ -12563,6 +13180,14 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			CopyConfig: { GroupName: "ItemTorso", AssetName: "NavelBar1" },
 		}, // NavelBar1
+		SteelBelt: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ItemTorso", AssetName: "SteelBelt" },
+		}, // SteelBelt
+		BarrelCorset: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ItemTorso", AssetName: "BarrelCorset" },
+		}, // BarrelCorset
 	}, //ItemTorso2
 	Shoes: {
 		FuturisticHeels2: {
@@ -12718,6 +13343,21 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // HeellessHoof
+		HoofBoots: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "Normal",
+					Property: {},
+				},
+				{
+					Name: "Locked",
+					// Just cosmetic addon
+					Property: {},
+				},
+			],
+		}, // HoofBoots
 	}, // Shoes
 	HairAccessory1: {
 		ElfEars: {
@@ -12728,7 +13368,7 @@ var AssetFemale3DCGExtended = {
 				},
 				{
 					Name: "Behind",
-					Property: { OverridePriority: 51 },
+					Property: { OverridePriority: 10 },
 				},
 			],
 			DialogPrefix: {
@@ -14075,6 +14715,20 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // HorrorMuzzle
+		AsylumMuzzle: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "Normal",
+					Property: { Effect: [E.GagEasy] },
+				},
+				{
+					Name: "Padded",
+					Property: { Effect: [E.GagNormal], Difficulty: 3 },
+				},
+			],
+		}, // AsylumMuzzle
 	}, // ItemMouth
 	ItemMouth2: {
 		ClothGag: {
@@ -14254,6 +14908,10 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "HorrorMuzzle" },
 		}, // HorrorMuzzle
+		AsylumMuzzle: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "AsylumMuzzle" },
+		}, // AsylumMuzzle
 	}, // ItemMouth2
 	ItemMouth3: {
 		ClothGag: {
@@ -14429,6 +15087,10 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "HorrorMuzzle" },
 		}, // HorrorMuzzle
+		AsylumMuzzle: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "AsylumMuzzle" },
+		}, // AsylumMuzzle
 	}, // ItemMouth3
 	Mask: {
 		BunnyMask1: {
@@ -14955,6 +15617,18 @@ var AssetFemale3DCGExtended = {
 								Effect: [],
 							},
 						},
+						{
+							// "Wig17"
+							Property: {
+								Hide: [
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+								],
+								Effect: [],
+							},
+						},
 					],
 				},
 				{
@@ -15463,6 +16137,10 @@ var AssetFemale3DCGExtended = {
 		MermaidTail: {
 			Archetype: ExtendedArchetype.VIBRATING,
 		}, // MermaidTail
+		BarrelCorset: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ItemTorso", AssetName: "BarrelCorset" },
+		}, // BarrelCorset
 	}, // ItemLegs
 	ItemFeet: {
 		SpreaderMetal: {
@@ -17873,6 +18551,40 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // ComboBelt
+		ButterflyGarter: {
+			Archetype: ExtendedArchetype.MODULAR,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "RightLeg",
+					Key: "r",
+					Options: [
+						{
+							// r0 - Added
+							Property: { Effect: [] },
+						},
+						{
+							// r1 - None
+							Property: { Effect: [] },
+						},
+					],
+				},
+				{
+					Name: "LeftLeg",
+					Key: "l",
+					Options: [
+						{
+							// l0 - Added
+							Property: { Effect: [] },
+						},
+						{
+							// l1 - None
+							Property: { Effect: [] },
+						},
+					],
+				},
+			],
+		}, // ButterflyGarter
 	}, // Garters
 	AnkletRight: {
 		LegFur: {
@@ -18889,6 +19601,20 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // Kigu2Hood
+		AsylumBlindfold: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "Normal",
+					Property: { Effect: [E.BlindLight] },
+				},
+				{
+					Name: "Padded",
+					Property: { Effect: [E.BlindNormal], Difficulty: 3 },
+				},
+			],
+		}, // AsylumBlindfold
 	}, // ItemHead
 	ItemHands: {
 		FuturisticMittens: {
@@ -19181,6 +19907,25 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemAddon", AssetName: "CeilingChain" },
 		}, // CeilingRope
+		CeilingNeckCuff: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Loose",
+					Property: {},
+				},
+				{
+					Name: "Strict",
+					Property: {
+						Difficulty: 6,
+						SetPose: ["BaseLower"],
+						AllowActivePose: [...PoseAllStanding],
+					},
+				},
+			],
+			DrawImages: false,
+			ChangeWhenLocked: false,
+		}, // CeilingNeckCuff
 	}, // ItemAddon
 	ItemNose: {
 		NoseRing: {
@@ -19299,5 +20044,75 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // AnimeGirlWand
+		Kyosensu: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					// Cherry blossoms
+					Name: "Type1",
+					Property: {},
+				},
+				{
+					// Lightning bolt
+					Name: "Type2",
+					Property: {},
+				},
+				{
+					// Sun
+					Name: "Type3",
+					Property: {},
+				},
+				{
+					// Sea art
+					Name: "Type4",
+					Property: {},
+				},
+				{
+					// Moon
+					Name: "Type5",
+					Property: {},
+				},
+				{
+					// Flowers
+					Name: "Type6",
+					Property: {},
+				},
+			],
+		}, // Kyosensu
+		Uchiwa: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					// Cherry blossoms
+					Name: "Type1",
+					Property: {},
+				},
+				{
+					// Lightning bolt
+					Name: "Type2",
+					Property: {},
+				},
+				{
+					// Sun
+					Name: "Type3",
+					Property: {},
+				},
+				{
+					// Wave art
+					Name: "Type4",
+					Property: {},
+				},
+				{
+					// Moon
+					Name: "Type5",
+					Property: {},
+				},
+				{
+					// Flowers
+					Name: "Type6",
+					Property: {},
+				},
+			],
+		}, // Uchiwa
 	}, // ItemHandheld
 };

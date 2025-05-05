@@ -10,6 +10,9 @@ var ActivityOrgasmGameTimer = 0;
 var ActivityOrgasmResistLabel = "";
 var ActivityOrgasmRuined = false; // If set to true, the orgasm will be ruined right before it happens
 
+/** @type { ()=>void | undefined } */
+let ActivityTranslateResolve = undefined;
+
 /**
  * Checks if the current room allows for activities. (They can only be done in certain rooms)
  * @returns {boolean} - Whether or not activities can be done
@@ -36,6 +39,7 @@ function ActivityDictionaryLoad() {
 			if (this.status == 200) {
 				CommonCSVCache[FullPath] = CommonParseCSV(this.responseText);
 				ActivityDictionary = CommonCloneDeep(CommonCSVCache[FullPath]);
+				ActivityTranslateResolve?.();
 			}
 		});
 	}
@@ -56,15 +60,18 @@ function ActivityDictionaryLoad() {
  */
 function ActivityTranslate(CachePath) {
 	if (!Array.isArray(TranslationCache[CachePath])) return;
-
-	for (let T = 0; T < ActivityDictionary.length; T++) {
-		if (ActivityDictionary[T][1]) {
-			let indexText = TranslationCache[CachePath].indexOf(ActivityDictionary[T][1].trim());
-			if (indexText >= 0) {
-				ActivityDictionary[T][1] = TranslationCache[CachePath][indexText + 1];
+	const DoTranslate = () => {
+		for (let T = 0; T < ActivityDictionary.length; T++) {
+			if (ActivityDictionary[T][1]) {
+				let indexText = TranslationCache[CachePath].indexOf(ActivityDictionary[T][1].trim());
+				if (indexText >= 0) {
+					ActivityDictionary[T][1] = TranslationCache[CachePath][indexText + 1];
+				}
 			}
 		}
-	}
+	};
+	if(ActivityDictionary) DoTranslate();
+	else ActivityTranslateResolve = DoTranslate;
 }
 
 /**
@@ -82,8 +89,8 @@ function ActivityDictionaryText(KeyWord) {
 /**
  * Resolve a group name to the correct group for activities
  * @param {IAssetFamily} family - The asset family for the named group
- * @param {AssetGroupName} groupname - The name of the group to resolve
- * @returns {AssetGroup | null} - The resolved group
+ * @param {AssetGroupItemName} groupname - The name of the group to resolve
+ * @returns {AssetItemGroup | null} - The resolved group
  */
 function ActivityGetGroupOrMirror(family, groupname) {
 	const group = AssetGroupGet(family, groupname);
@@ -110,7 +117,7 @@ function ActivityGetAllMirrorGroups(family, groupName) {
 /**
  * Check if any activities are possible for a character's given group.
  * @param {Character} C - The character on which the check is done
- * @param {AssetGroupName} GroupName - The group to check access on
+ * @param {AssetGroupItemName} GroupName - The group to check access on
  * @returns {boolean} Whether any activity is possible
  */
 function ActivityPossibleOnGroup(C, GroupName) {
@@ -258,7 +265,7 @@ function ActivityCheckPrerequisites(activity, acting, acted, group) {
  * @param {ItemActivity[]} allowed
  * @param {Character} acting
  * @param {Character} acted
- * @param {string} needsItem
+ * @param {ActivityNameItem} needsItem
  * @param {Activity} activity
  * @param {AssetGroup} targetGroup
  */
@@ -301,7 +308,7 @@ function ActivityGenerateItemActivitiesFromNeed(allowed, acting, acted, needsIte
 /**
  * Builds the allowed activities on a group given the character's settings.
  * @param {Character} character - The character for which to build the activity dialog options
- * @param {AssetGroupName} groupname - The group to check
+ * @param {AssetGroupItemName} groupname - The group to check
  * @return {ItemActivity[]} - The list of allowed activities
  */
 function ActivityAllowedForGroup(character, groupname) {
@@ -342,7 +349,8 @@ function ActivityAllowedForGroup(character, groupname) {
 		let needsItem = activity.Prerequisite.find(p => p.startsWith("Needs-"));
 
 		if (needsItem) {
-			handled = ActivityGenerateItemActivitiesFromNeed(allowed, Player, character, needsItem.substring(6), activity, group);
+			const needsItemActivity = /** @type {ActivityNameItem} */(needsItem.substring(6));
+			handled = ActivityGenerateItemActivitiesFromNeed(allowed, Player, character, needsItemActivity, activity, group);
 		}
 
 		if (activity.Name === "ShockItem" && InventoryItemHasEffect(targetedItem, "ReceiveShock")) {
@@ -366,7 +374,7 @@ function ActivityAllowedForGroup(character, groupname) {
  * Returns TRUE if an activity can be done
  * @param {Character} C - The character to evaluate
  * @param {ActivityName} Activity - The name of the activity
- * @param {AssetGroupName} Group - The name of the group
+ * @param {AssetGroupItemName} Group - The name of the group
  * @return {boolean} - TRUE if the activity can be done
  */
 function ActivityCanBeDone(C, Activity, Group) {
@@ -382,7 +390,7 @@ function ActivityCanBeDone(C, Activity, Group) {
  * @param {Character} S - The character performing the activity
  * @param {Character} C - The character on which the activity is performed
  * @param {ActivityName | Activity} A - The activity performed
- * @param {AssetGroupName} Z - The group/zone name where the activity was performed
+ * @param {AssetGroupItemName} Z - The group/zone name where the activity was performed
  * @param {number} [Count=1] - If the activity is done repeatedly, this defines the number of times, the activity is done.
  * If you don't want an activity to modify arousal, set this parameter to '0'
  * @param {Asset} [Asset] - The asset used to perform the activity
@@ -417,7 +425,7 @@ function ActivityEffect(S, C, A, Z, Count, Asset) {
  * @param {Character} S - The character performing the activity
  * @param {Character} C - The character on which the activity is performed
  * @param {number} Amount - The base amount of arousal to add
- * @param {AssetGroupName} Z - The group/zone name where the activity was performed
+ * @param {AssetGroupItemName} Z - The group/zone name where the activity was performed
  * @param {number} [Count=1] - If the activity is done repeatedly, this defines the number of times, the activity is done.
  * If you don't want an activity to modify arousal, set this parameter to '0'
  * @param {Asset} [Asset] - The asset used to perform the activity
@@ -470,7 +478,7 @@ function ActivitySetArousal(C, Progress) {
  * Sets an activity progress on a timer, activities are capped at MaxProgress
  * @param {Character} C - The character for which to set the timer for
  * @param {null | Activity} Activity - The activity for which the timer is for
- * @param {AssetGroupName | "ActivityOnOther"} Zone - The target zone of the activity
+ * @param {AssetGroupItemName | "ActivityOnOther"} Zone - The target zone of the activity
  * @param {number} Progress - Progress to set
  * @param {Asset} [Asset] - The asset used to perform the activity
  * @return {void} - Nothing
@@ -858,7 +866,7 @@ function ActivityBuildChatTag(character, group, activity, is_label = false) {
  * Launches a sexual activity for a character and sends the chatroom message if applicable.
  * @param {Character} actor - Character which is performing the activity
  * @param {Character} acted - Character on which the activity was triggered
- * @param {AssetGroup} targetGroup - The group targetted by the activity
+ * @param {AssetItemGroup} targetGroup - The group targetted by the activity
  * @param {ItemActivity} ItemActivity - The activity performed, with its optional item used
  * @param {boolean} sendMessage - Whether to send a message to the chat or not
  */
@@ -920,7 +928,7 @@ function ActivityArousalItem(Source, Target, Asset) {
 		var Activity = AssetGetActivity(Target.AssetFamily, AssetActivity);
 		if (Source.IsPlayer() && !Target.IsPlayer()) ActivityRunSelf(Source, Target, Activity, Asset.Group);
 		if (PreferenceArousalAtLeast(Target, "Hybrid") && (Target.IsPlayer() || Target.IsNpc()))
-			ActivityEffect(Source, Target, AssetActivity, Asset.Group.Name);
+			ActivityEffect(Source, Target, AssetActivity, /** @type {AssetGroupItemName} */ (Asset.Group.Name));
 	}
 }
 

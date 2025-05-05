@@ -1336,6 +1336,11 @@ function ExtendedItemSetOptionByRecord(C, itemOrGroupName, typeRecord=null, opti
 	const propertyKeys = new Set();
 	/** @type {Set<keyof ItemProperties>} */
 	const whiteListKeys = new Set(["OverridePriority"]);
+	for (const key of whiteListKeys) {
+		if (properties?.[key]) {
+			propertyKeys.add(key);
+		}
+	}
 	const previousOptions = ExtendedItemGatherOptions(item);
 
 	if (typeRecord != null) {
@@ -1374,8 +1379,8 @@ function ExtendedItemSetOptionByRecord(C, itemOrGroupName, typeRecord=null, opti
 			}
 
 			const baseline = newOption.ParentData.baselineProperty;
-			if (baseline != null) {
-				propertyKeys.add.apply(propertyKeys, CommonKeys(baseline));
+			for (const prop of CommonKeys(baseline ?? {})) {
+				propertyKeys.add(prop);
 			}
 
 			const requirementMessage = validationCallback(newOption.ParentData, C, item, newOption, previousOption);
@@ -1388,8 +1393,8 @@ function ExtendedItemSetOptionByRecord(C, itemOrGroupName, typeRecord=null, opti
 	} else if (properties != null) {
 		previousOptions.forEach(option => {
 			const baseline = option.ParentData.baselineProperty;
-			if (baseline != null) {
-				propertyKeys.add.apply(propertyKeys, CommonKeys(baseline));
+			for (const prop of CommonKeys(baseline ?? {})) {
+				propertyKeys.add(prop);
 			}
 		});
 	} else {
@@ -1397,11 +1402,11 @@ function ExtendedItemSetOptionByRecord(C, itemOrGroupName, typeRecord=null, opti
 	}
 
 	if (properties != null) {
-		const invalidProperties = CommonKeys(properties).filter(i => !propertyKeys.has(i) && !whiteListKeys.has(i));
+		const invalidProperties = CommonKeys(properties).filter(i => !propertyKeys.has(i));
 		if (invalidProperties.length > 0) {
 			console.warn("Ignoring unsanctioned/invalid item properties", invalidProperties.sort());
 		}
-		Object.assign(item, CommonPick(properties, propertyKeys));
+		Object.assign((item.Property ??= {}), CommonPick(properties, propertyKeys));
 	}
 
 	if (refresh || refresh == null) {

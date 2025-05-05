@@ -639,7 +639,7 @@ function AssetMapLayer(Layer, A, I) {
 	/** @type {AssetLayer} */
 	const L = {
 		Name: Layer.Name || null,
-		AllowColorize: typeof Layer.AllowColorize === "boolean" ? Layer.AllowColorize : A.AllowColorize,
+		AllowColorize: !Layer.TextureMask && (typeof Layer.AllowColorize === "boolean" ? Layer.AllowColorize : A.AllowColorize),
 		CopyLayerColor: typeof Layer.CopyLayerColor === "string" ? Layer.CopyLayerColor : null,
 		ColorGroup: typeof Layer.ColorGroup === "string" ? Layer.ColorGroup : null,
 		HideColoring: typeof Layer.HideColoring === "boolean" ? Layer.HideColoring : false,
@@ -660,6 +660,7 @@ function AssetMapLayer(Layer, A, I) {
 		MinOpacity: minOpacity,
 		MaxOpacity: maxOpacity,
 		BlendingMode: Layer.BlendingMode || "source-over",
+		TextureMask: Layer.TextureMask,
 		LockLayer: typeof Layer.LockLayer === "boolean" ? Layer.LockLayer : false,
 		MirrorExpression: Layer.MirrorExpression,
 		ColorIndex: 0,
@@ -984,10 +985,10 @@ function AssetAllActivities(family) {
  * Gets an activity asset by family and name
  * @param {IAssetFamily} family - The family to search in
  * @param {string} name - Name of activity to search for
- * @returns {Activity|undefined}
+ * @returns {Activity|null}
  */
 function AssetGetActivity(family, name) {
-	return AssetAllActivities(family).find(a => (a.Name === name));
+	return AssetAllActivities(family).find(a => (a.Name === name)) ?? null;
 }
 
 /**
@@ -1026,12 +1027,13 @@ function AssetActivitiesForGroup(family, groupname, onSelf = "other") {
 
 /**
  * Gets an asset group by the asset family name and group name
+ * @template {AssetGroupName} T
  * @param {IAssetFamily} Family - The asset family that the group belongs to (Ignored until other family is added)
- * @param {AssetGroupName} Group - The name of the asset group to find
- * @returns {AssetGroup|null} - The asset group matching the provided family and group name
+ * @param {T} Group - The name of the asset group to find
+ * @returns {AssetGroupMapping[T] | null} - The asset group matching the provided family and group name
  */
 function AssetGroupGet(Family, Group) {
-	return AssetGroupMap.get(Group) || null;
+	return /** @type {AssetGroupMapping[T]} */(AssetGroupMap.get(Group)) ?? null;
 }
 
 /**

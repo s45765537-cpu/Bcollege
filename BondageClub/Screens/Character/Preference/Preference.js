@@ -40,6 +40,7 @@ const PreferenceSubscreens = [
 		run: () => PreferenceSubscreenGeneralRun(),
 		click: () => PreferenceSubscreenGeneralClick(),
 		exit: () => PreferenceSubscreenGeneralExit(),
+		unload: () => PreferenceSubscreenGeneralUnload(),
 	},
 	{
 		name: "Difficulty",
@@ -64,6 +65,7 @@ const PreferenceSubscreens = [
 		run: () => PreferenceSubscreenCensoredWordsRun(),
 		click: () => PreferenceSubscreenCensoredWordsClick(),
 		exit: () => PreferenceSubscreenCensoredWordsExit(),
+		unload: () => PreferenceSubscreenCensoredWordsUnload(),
 	},
 	{
 		name: "Audio",
@@ -71,6 +73,7 @@ const PreferenceSubscreens = [
 		run: () => PreferenceSubscreenAudioRun(),
 		click: () => PreferenceSubscreenAudioClick(),
 		exit: () => PreferenceSubscreenAudioExit(),
+		unload: () => PreferenceSubscreenAudioUnload(),
 	},
 	{
 		name: "Arousal",
@@ -78,6 +81,7 @@ const PreferenceSubscreens = [
 		run: () => PreferenceSubscreenArousalRun(),
 		click: () => PreferenceSubscreenArousalClick(),
 		exit: () => PreferenceSubscreenArousalExit(),
+		unload: () => PreferenceSubscreenArousalUnload(),
 	},
 	{
 		name: "Security",
@@ -85,9 +89,11 @@ const PreferenceSubscreens = [
 		run: () => PreferenceSubscreenSecurityRun(),
 		click: () => PreferenceSubscreenSecurityClick(),
 		exit: () => PreferenceSubscreenSecurityExit(),
+		unload: () => PreferenceSubscreenSecurityUnload(),
 	},
 	{
 		name: "Online",
+		load: () => PreferenceSubscreenOnlineLoad(),
 		run: () => PreferenceSubscreenOnlineRun(),
 		click: () => PreferenceSubscreenOnlineClick(),
 	},
@@ -97,6 +103,7 @@ const PreferenceSubscreens = [
 		run: () => PreferenceSubscreenVisibilityRun(),
 		click: () => PreferenceSubscreenVisibilityClick(),
 		exit: () => PreferenceSubscreenVisibilityExit(),
+		unload: () => PreferenceSubscreenVisibilityUnload(),
 	},
 	{
 		name: "Immersion",
@@ -110,12 +117,15 @@ const PreferenceSubscreens = [
 		run: () => PreferenceSubscreenGraphicsRun(),
 		click: () => PreferenceSubscreenGraphicsClick(),
 		exit: () => PreferenceSubscreenGraphicsExit(),
+		unload: () => PreferenceSubscreenGraphicsUnload(),
 	},
 	{
 		name: "Controller",
+		load: () => PreferenceSubscreenControllerLoad(),
 		run: () => PreferenceSubscreenControllerRun(),
 		click: () => PreferenceSubscreenControllerClick(),
 		exit: () => PreferenceSubscreenControllerExit(),
+		unload: () => PreferenceSubscreenControllerUnload(),
 	},
 	{
 		name: "Notifications",
@@ -123,6 +133,7 @@ const PreferenceSubscreens = [
 		run: () => PreferenceSubscreenNotificationsRun(),
 		click: () => PreferenceSubscreenNotificationsClick(),
 		exit: () => PreferenceSubscreenNotificationsExit(),
+		unload: () => PreferenceSubscreenNotificationsUnload(),
 	},
 	{
 		name: "Gender",
@@ -135,6 +146,7 @@ const PreferenceSubscreens = [
 		run: () => PreferenceSubscreenScriptsRun(),
 		click: () => PreferenceSubscreenScriptsClick(),
 		exit: () => PreferenceSubscreenScriptsExit(),
+		unload: () => PreferenceSubscreenScriptsUnload(),
 	},
 	{
 		name: "Extensions",
@@ -142,6 +154,7 @@ const PreferenceSubscreens = [
 		run: () => PreferenceSubscreenExtensionsRun(),
 		click: () => PreferenceSubscreenExtensionsClick(),
 		exit: () => PreferenceSubscreenExtensionsExit(),
+		unload: () => PreferenceSubscreenExtensionsUnload(),
 	},
 ];
 
@@ -163,7 +176,7 @@ let PreferenceDidAddOldStyleScreens = false;
  * @returns {void} - Nothing
  */
 function PreferenceLoad() {
-	PreferenceSubscreen = PreferenceSubscreens.find(s => s.name === "Main");
+	PreferenceSubscreen = PreferenceSubscreens.find(s => s.name === "Main") ?? null;
 
 	// Backward-compatibility: just throw the old-style screens into the mix
 	if (!PreferenceDidAddOldStyleScreens) {
@@ -213,15 +226,18 @@ function PreferenceClick() {
 /**
  * Is called when the player exits the preference screen. All settings of the preference screen are sent to the server.
  * If the player is in a subscreen, they exit to the main preferences menu instead.
- * @type {ScreenFunctions["Exit"]}
+ * @type {ScreenExitHandler}
  */
 function PreferenceExit() {
 	if (PreferenceSubscreen.name !== "Main") {
-		if (PreferenceSubscreenExit())
-			return;
+		// If we are in a subscreen, the only exit is to the main preference screen
+		PreferenceSubscreenExit();
+		return;
 	}
 
 	// Exit the preference menus
+	// Only a normal exit triggers an update to server. so we don't send data in unload function,
+	// which could be called from disconnects
 	const P = {
 		ArousalSettings: Player.ArousalSettings,
 		ChatSettings: Player.ChatSettings,
@@ -246,18 +262,30 @@ function PreferenceExit() {
 }
 
 /**
+ * Clear all GUI data and DOM elements creates by the preference screen load function
+ * We don't do this in exit function for disconnects do not trigger the exit function
+ */
+function PreferenceUnload() {
+	if (PreferenceSubscreen.name !== "Main") {
+		PreferenceSubscreen.unload?.();
+	}
+}
+
+/**
  * Exit from a specific subscreen by running its handler and checking its validity
  */
 function PreferenceSubscreenExit() {
-	let valid = true;
-	if (PreferenceSubscreen.exit)
-		valid = PreferenceSubscreen.exit();
+	const validExit = PreferenceSubscreen.exit?.();
 
-	if (!valid) return valid;
+	// Only when the results is false (not undefined)
+	// The exit is just a exit of the subscreen's substate, return to block more exit.
+	if(validExit === false) return;
+
+	// The exit is a full exit of the subscreen, unload resources
+	PreferenceSubscreen.unload?.();
 
 	PreferenceMessage = "";
 	PreferenceSubscreen = PreferenceSubscreens.find(s => s.name === "Main");
-	return valid;
 }
 
 /**
@@ -667,6 +695,7 @@ var PreferenceChatSettingsDefault = {
 	CensoredWordsLevel: 0,
 	PreserveChat: true,
 	OOCAutoClose: true,
+	DisableReplies: false,
 };
 
 /**
@@ -699,6 +728,7 @@ var PreferenceChatSettingsValidate = {
 	},
 	PreserveChat: isBool(PreferenceChatSettingsDefault.PreserveChat),
 	OOCAutoClose: isBool(PreferenceChatSettingsDefault.OOCAutoClose),
+	DisableReplies: isBool(PreferenceChatSettingsDefault.DisableReplies),
 };
 
 /**
@@ -750,10 +780,10 @@ var PreferenceAudioSettingsDefault = {
  */
 var PreferenceAudioSettingsValidate = {
 	Volume: (arg) => {
-		return CommonIsInteger(arg, 0, 10) ? arg : PreferenceAudioSettingsDefault.Volume;
+		return CommonIsFinite(arg, 0, 1) ? arg : PreferenceAudioSettingsDefault.Volume;
 	},
 	MusicVolume: (arg) => {
-		return CommonIsInteger(arg, 0, 10) ? arg : PreferenceAudioSettingsDefault.MusicVolume;
+		return CommonIsFinite(arg, 0, 1) ? arg : PreferenceAudioSettingsDefault.MusicVolume;
 	},
 	PlayBeeps: isBool(PreferenceAudioSettingsDefault.PlayBeeps),
 	PlayItem: isBool(PreferenceAudioSettingsDefault.PlayItem),
@@ -895,6 +925,7 @@ var PreferenceOnlineSettingsDefault = {
 	SendStatus: true,
 	FriendListAutoRefresh: true,
 	ShowRoomCustomization: 1,
+	DefaultChatRoomBackground: "CosyChalet"
 };
 
 /**
@@ -913,6 +944,9 @@ var PreferenceOnlineSettingsValidate = {
 	SendStatus: isBool(PreferenceOnlineSettingsDefault.SendStatus),
 	FriendListAutoRefresh: isBool(PreferenceOnlineSettingsDefault.FriendListAutoRefresh),
 	ShowRoomCustomization: isInt(0, 4, PreferenceOnlineSettingsDefault.ShowRoomCustomization),
+	DefaultChatRoomBackground: (arg, C) => {
+		return typeof arg === "string" ? arg : PreferenceOnlineSettingsDefault.DefaultChatRoomBackground;
+	},
 };
 
 /**
@@ -1015,7 +1049,7 @@ var PreferenceNotificationSettingsDefault = {
 	Test: { Audio: NotificationAudioType.NONE, AlertType: NotificationAlertType.TITLEPREFIX },
 
 	// Those are deprecated
-	Audio: false,
+	Audio: undefined,
 	Chat: undefined,
 	ChatActions: undefined,
 };
@@ -1075,6 +1109,15 @@ function PreferenceRegisterExtensionSetting(Setting) {
 		return;
 	}
 	PreferenceExtensionsSettings[Setting.Identifier] = Setting;
+
+	PreferenceExtensionsSettings = Object.fromEntries(
+		Object.entries(PreferenceExtensionsSettings)
+			.sort(([, a], [, b]) => {
+				const textA = typeof a.ButtonText === "function" ? a.ButtonText() : a.ButtonText;
+				const textB = typeof b.ButtonText === "function" ? b.ButtonText() : b.ButtonText;
+				return textA.localeCompare(textB);
+			})
+	);
 }
 
 /**

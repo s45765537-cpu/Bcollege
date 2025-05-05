@@ -93,21 +93,9 @@ var DialogCraftingMenu = /** @type {never} */(false);
  */
 var DialogExpressionPreviousMode = null;
 
-/** @type {ExpressionItem[]} */
-var DialogFacialExpressions = [];
-/** The maximum number of expressions per page for a given asset group. */
-const DialogFacialExpressionsPerPage = 18;
-/**
- * The currently selected expression page number for a given asset group.
- * Contains up to {@link DialogFacialExpressionsPerPage} expressions.
- */
-let DialogFacialExpressionsSelectedPage = 0;
-var DialogFacialExpressionsSelected = -1;
+/** @deprecated */
+var DialogFacialExpressions = /** @type {never} */([]);
 var DialogFacialExpressionsSelectedBlindnessLevel = 2;
-/** @type {Character[]} */
-var DialogSavedExpressionPreviews = [];
-/** @type {Pose[][]} */
-var DialogActivePoses = [];
 var DialogExtendedMessage = "";
 /**
  * The list of available activities for the selected group.
@@ -127,7 +115,10 @@ var DialogSortOrder = /** @type {const} */({
 	Unusable: 9,
 	Blocked: 10
 });
-/** @type {null | DialogSelfMenuOptionType} */
+/**
+ * The currently active self-menu.
+ * @type {null | DialogSelfMenuName}
+ */
 var DialogSelfMenuSelected = null;
 var DialogLeaveDueToItem = false; // This allows dynamic items to call DialogLeave() without crashing the game
 var DialogLentLockpicks = false;
@@ -188,35 +179,16 @@ var DialogFavoriteStateDetails = [
 ];
 
 /**
- * The list of menu types available when clicking on yourself
- * @type {readonly DialogSelfMenuOptionType[]}
+ * The list of self-menu types available when clicking on yourself.
+ *
+ * The order of items in this list represents the menu iteration order as honored by the "view next page" spin button.
+ * @type {readonly DialogSelfMenuName[]}
  */
 var DialogSelfMenuOptions = [
-	{
-		Name: "Expression",
-		IsAvailable: () => true,
-		Draw: () => DialogDrawExpressionMenu(),
-		Click: () => DialogClickExpressionMenu(),
-	},
-	{
-		Name: "Pose",
-		IsAvailable: () => (CurrentScreen == "ChatRoom" || CurrentScreen == "Photographic"),
-		Load: () => DialogLoadPoseMenu(),
-		Draw: () => DialogDrawPoseMenu(),
-		Click: () => DialogClickPoseMenu(),
-	},
-	{
-		Name: "SavedExpressions",
-		IsAvailable: () => true,
-		Draw: () => DialogDrawSavedExpressionsMenu(),
-		Click: () => DialogClickSavedExpressionsMenu(),
-	},
-	{
-		Name: "OwnerRules",
-		IsAvailable: () => false,
-		Draw: () => DialogDrawOwnerRulesMenu(),
-		Click: () => { },
-	},
+	"Expression",
+	"Pose",
+	"SavedExpressions",
+	"OwnerRules",
 ];
 
 /**
@@ -682,15 +654,18 @@ function DialogHasKey(C, Item) {
 	let UnlockName = /** @type {EffectName} */("Unlock" + Item.Asset.Name);
 	if ((Item.Property != null) && (Item.Property.LockedBy != null))
 		UnlockName = /** @type {EffectName} */("Unlock" + Item.Property.LockedBy);
-	for (let I = 0; I < Player.Inventory.length; I++)
-		if (InventoryItemHasEffect(Player.Inventory[I], UnlockName)) {
-			if (lock != null) {
-				if (lock.Asset.LoverOnly && !C.IsLoverOfPlayer()) return false;
-				if (lock.Asset.OwnerOnly && !C.IsOwnedByPlayer()) return false;
-				if (lock.Asset.FamilyOnly && !C.IsFamilyOfPlayer()) return false;
-				return true;
-			} else return true;
+
+	const key = Asset.find(a => InventoryItemHasEffect({ Asset: a }, UnlockName));
+	if (key && InventoryAvailable(Player, key.Name, key.Group.Name)) {
+		if (lock != null) {
+			if (lock.Asset.LoverOnly && !C.IsLoverOfPlayer()) return false;
+			if (lock.Asset.OwnerOnly && !C.IsOwnedByPlayer()) return false;
+			if (lock.Asset.FamilyOnly && !C.IsFamilyOfPlayer()) return false;
+			return true;
+		} else {
+			return true;
 		}
+	}
 	return false;
 }
 
@@ -827,9 +802,7 @@ function DialogLeave() {
 
 	// Reset the state of the self menu
 	DialogSelfMenuSelected = null;
-	DialogSavedExpressionPreviews = [];
-	DialogFacialExpressionsSelected = -1;
-	DialogFacialExpressions = [];
+	Object.values(DialogSelfMenuMapping).forEach(obj => obj.Exit());
 
 	// Go controller, go!
 	ControllerClearAreas();
@@ -1352,7 +1325,7 @@ function DialogBuildActivities(C, reload=true) {
 	if (reload) {
 		switch (DialogMenuMode) {
 			case "activities":
-				DialogMenuMapping.activities.Reload(null, null, { reset: true, resetDialogItems: false });
+				DialogMenuMapping.activities.Reload(null, { reset: true, resetDialogItems: false });
 				break;
 		}
 	}
@@ -1609,11 +1582,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 	if (C.FocusGroup == null) return;
 
 	if (locks) {
-		for (const item of Player.Inventory) {
-			if (item.Asset != null && item.Asset.IsLock) {
-				DialogInventoryAdd(C, item, false);
-			}
-		}
+		Asset.filter(a => a.IsLock && InventoryAvailable(Player, a.Name, a.Group.Name)).forEach(a => DialogInventoryAdd(C, { Asset: a }, false));
 		DialogInventoryOffset = Math.max(0, Math.min(DialogInventory.length, DialogInventoryOffset));
 		DialogInventorySort();
 		return;
@@ -1707,7 +1676,7 @@ function DialogInventoryBuild(C, resetOffset=false, locks=false, reload=true) {
 			case "items":
 			case "locking":
 			case "permissions":
-				DialogMenuMapping[DialogMenuMode]?.Reload(null, null, { reset: true, resetDialogItems: false });
+				DialogMenuMapping[DialogMenuMode]?.Reload(null, { reset: true, resetDialogItems: false });
 				break;
 		}
 	}
@@ -1723,71 +1692,32 @@ function DialogInventoryStringified(C) {
 }
 
 /**
- * Build the initial state of the selection available in the facial expressions menu
- * @returns {void} - Nothing
- */
-function DialogFacialExpressionsBuild() {
-	DialogFacialExpressions = [];
-	for (let I = 0; I < Player.Appearance.length; I++) {
-		const PA = Player.Appearance[I];
-		const ExpressionList = [...(PA.Asset.Group.AllowExpression || [])];
-		if (!ExpressionList.length || PA.Asset.Group.Name == "Eyes2") continue;
-		// Make sure the default expression always appear
-		if (!ExpressionList.includes(null)) ExpressionList.unshift(null);
-		// If there are no allowed expression, skip the group entirely
-		if (!ExpressionList.some(expr => CharacterIsExpressionAllowed(Player, PA, expr))) continue;
-		/** @type {ExpressionItem} */
-		const Item = {
-			Appearance: PA,
-			Group: /** @type {ExpressionGroupName} */(PA.Asset.Group.Name),
-			CurrentExpression: (PA.Property == null) ? null : PA.Property.Expression,
-			ExpressionList: ExpressionList,
-		};
-		DialogFacialExpressions.push(Item);
-	}
-	// Temporary (?) solution to make the facial elements appear in a more logical order, as their alphabetical order currently happens to match up
-	DialogFacialExpressions = DialogFacialExpressions.sort(function (a, b) {
-		return a.Appearance.Asset.Group.Name < b.Appearance.Asset.Group.Name ? -1 : a.Appearance.Asset.Group.Name > b.Appearance.Asset.Group.Name ? 1 : 0;
-	});
-}
-
-/**
- * Saves the expressions to a slot
- * @param {number} Slot - Index of saved expression (0 to 4)
- */
-function DialogFacialExpressionsSave(Slot) {
-	Player.SavedExpressions[Slot] = [];
-	for (let x = 0; x < DialogFacialExpressions.length; x++) {
-		Player.SavedExpressions[Slot].push({ Group: DialogFacialExpressions[x].Group, CurrentExpression: DialogFacialExpressions[x].CurrentExpression });
-	}
-	if (Player.SavedExpressions[Slot].every(expression => !expression.CurrentExpression))
-		Player.SavedExpressions[Slot] = null;
-	ServerAccountUpdate.QueueData({ SavedExpressions: Player.SavedExpressions });
-	DialogBuildSavedExpressionsMenu();
-}
-
-/**
  * Loads expressions from a slot
  * @param {number} Slot - Index of saved expression (0 to 4)
  */
 function DialogFacialExpressionsLoad(Slot) {
 	const expressions = Player.SavedExpressions && Player.SavedExpressions[Slot];
 	if (expressions != null) {
-		expressions.forEach(e => CharacterSetFacialExpression(Player, e.Group, e.CurrentExpression));
-		DialogFacialExpressionsBuild();
+		expressions.forEach(e => {
+			CharacterSetFacialExpression(Player, e.Group, e.CurrentExpression);
+			Player.ActiveExpression.setWithoutReload(e.Group, e.CurrentExpression);
+		});
+		if (DialogSelfMenuSelected === "Expression" && DialogSelfMenuMapping.Expression.C.IsPlayer()) {
+			DialogSelfMenuMapping.Expression.Reload();
+		}
 	}
 }
 
 /**
  * Builds the savedexpressions menu previews.
- * @returns {void} - Nothing
+ * @returns {(null | Character)[]} - the created preview characters
  */
 function DialogBuildSavedExpressionsMenu() {
 	const ExcludedGroups = ["Mask"];
 	const AppearanceItems = Player.Appearance.filter(A => A.Asset.Group.Category === "Appearance" && !ExcludedGroups.includes(A.Asset.Group.Name));
 	const BaseAppearance = AppearanceItems.filter(A => !A.Asset.Group.AllowExpression);
 	const ExpressionGroups = AppearanceItems.filter(A => A.Asset.Group.AllowExpression);
-	Player.SavedExpressions.forEach((expression, i) => {
+	return Player.SavedExpressions.map((expression, i) => {
 		if (expression) {
 			const PreviewCharacter = CharacterLoadSimple("SavedExpressionPreview-" + i);
 			PreviewCharacter.Appearance = BaseAppearance.slice();
@@ -1802,76 +1732,14 @@ function DialogBuildSavedExpressionsMenu() {
 			for (let x = 0; x < expression.length; x++) {
 				CharacterSetFacialExpression(PreviewCharacter, expression[x].Group, expression[x].CurrentExpression);
 			}
+			CharacterRefresh(PreviewCharacter, false, false);
 
-			DialogSavedExpressionPreviews[i] = PreviewCharacter;
-		}
-	});
-}
-
-/**
- * Draws the savedexpressions menu
- * @returns {void} - Nothing
- */
-function DialogDrawSavedExpressionsMenu() {
-	DrawText(InterfaceTextGet("SavedExpressions"), 210, 90, "White", "Black");
-
-	if ((!DialogSavedExpressionPreviews || !DialogSavedExpressionPreviews.length) && Player.SavedExpressions.some(expression => expression != null))
-		DialogBuildSavedExpressionsMenu();
-
-	for (let x = 0; x < 5; x++) {
-		if (Player.SavedExpressions[x] == null) {
-			DrawText(InterfaceTextGet("SavedExpressionsEmpty"), 160, 216 + (x * 170), "White", "Black");
+			return PreviewCharacter;
 		} else {
-			const PreviewCanvas = DrawCharacterSegment(DialogSavedExpressionPreviews[x], 100, 30, 300, 220);
-			MainCanvas.drawImage(PreviewCanvas, 20, 92 + (x * 175), 260, 190);
+			return null;
 		}
-
-		DrawButton(290, 160 + (x * 170), 120, 50, InterfaceTextGet("SavedExpressionsSave"), "White");
-		DrawButton(290, 220 + (x * 170), 120, 50, InterfaceTextGet("SavedExpressionsLoad"), "White");
-	}
-}
-
-/** Handles clicks in the savedexpressions menu
- * @returns {void} - Nothing
- */
-function DialogClickSavedExpressionsMenu() {
-	if (MouseXIn(290, 120)) {
-		for (let x = 0; x < 5; x++) {
-			if (MouseYIn(160 + (x * 170), 50)) {
-				DialogFacialExpressionsSave(x);
-			}
-		}
-	}
-	if (MouseXIn(290, 120)) {
-		for (let x = 0; x < 5; x++) {
-			if (MouseYIn(220 + (x * 170), 50)) {
-				DialogFacialExpressionsLoad(x);
-			}
-		}
-	}
-}
-
-/**
- * Build the initial state of the pose menu
- * @param {Character} [C] The character for whom {@link DialogActivePoses} whill be constructed; defaults to {@link CurrentCharacter}
- * @returns {void} - Nothing
- */
-function DialogLoadPoseMenu(C=CurrentCharacter) {
-	DialogActivePoses = [];
-
-	// Gather all unique categories from poses
-	const PoseCategories = new Set(PoseFemale3DCG
-		.filter(P => (P.AllowMenu || P.AllowMenuTransient && PoseAvailable(C, P.Category, P.Name)))
-		.map(P => P.Category)
-	);
-
-	// Add their pose in order so they're grouped together
-	PoseCategories.forEach(Category => {
-		DialogActivePoses.push(PoseFemale3DCG.filter(P => (P.AllowMenu || P.AllowMenuTransient && PoseAvailable(C, P.Category, P.Name)) && P.Category == Category));
 	});
 }
-
-
 
 /**
  * Handles the Click events in the Dialog Screen
@@ -2214,9 +2082,11 @@ function DialogChangeMode(mode, reset=false) {
 		DialogExpressionPreviousMode = { mode: DialogMenuMode, group: C.FocusGroup };
 	}
 
-	DialogMenuMapping[DialogMenuMode]?.Unload();
 	const modeChange = DialogMenuMode !== mode || reset;
-	DialogMenuMode = mode;
+	if (DialogMenuMode !== mode) {
+		DialogMenuMapping[DialogMenuMode]?.Unload();
+		DialogMenuMode = mode;
+	}
 
 	switch (DialogMenuMode) {
 		case "activities":
@@ -2231,14 +2101,14 @@ function DialogChangeMode(mode, reset=false) {
 			}
 
 			if (C && C.FocusGroup) {
-				DialogMenuMapping[DialogMenuMode].Init(C, C.FocusGroup);
+				DialogMenuMapping[DialogMenuMode].Init({ C, focusGroup: C.FocusGroup });
 			}
 			break;
 		}
 
 		case "dialog":
 			if (C) {
-				DialogMenuMapping[DialogMenuMode].Init(C, null);
+				DialogMenuMapping[DialogMenuMode].Init({ C }, null);
 			}
 			break;
 
@@ -2341,7 +2211,7 @@ function DialogChangeFocusToGroup(C, Group) {
 
 /**
  * Handles the click in the dialog screen
- * @type {ScreenFunctions["Click"]}
+ * @type {MouseEventListener}
  */
 function DialogClick(event) {
 	// Check that there's actually a character selected
@@ -2365,11 +2235,6 @@ function DialogClick(event) {
 				break;
 			}
 		}
-	}
-
-	// If the user clicked in the facial expression menu
-	if (MouseXIn(0, 500) && CurrentCharacter != null) {
-		DialogSelfMenuClick(CurrentCharacter);
 	}
 
 	// Block out clicking on anything else if we're not supposed to interact with the selected character
@@ -2424,7 +2289,7 @@ function DialogClick(event) {
 	DialogMenuMapping[DialogMenuMode]?.Click(event);
 }
 
-/** @type {ScreenFunctions["Resize"]} */
+/** @type {ScreenResizeHandler} */
 function DialogResize(load) {
 	switch (DialogMenuMode) {
 		case "layering":
@@ -2432,6 +2297,7 @@ function DialogResize(load) {
 			return;
 	}
 
+	DialogSelfMenuMapping[DialogSelfMenuSelected]?.Resize(load);
 	DialogMenuMapping[DialogMenuMode]?.Resize(load);
 }
 
@@ -2477,42 +2343,31 @@ function DialogGetCharacterZone(C, Zone, X, Y, Zoom, HeightRatio) {
  * @returns {void} - Nothing
  */
 function DialogFindNextSubMenu() {
-	var CurrentIndex = DialogSelfMenuOptions.indexOf(DialogSelfMenuSelected);
-	if (CurrentIndex == -1) CurrentIndex = 0;
-
-	var NextIndex = CurrentIndex + 1 == DialogSelfMenuOptions.length ? 0 : CurrentIndex + 1;
-
-	for (let SM = NextIndex; SM < DialogSelfMenuOptions.length; SM++) {
-		if (DialogSelfMenuOptions[SM].IsAvailable()) {
-			if (DialogSelfMenuOptions[SM].Load)
-				DialogSelfMenuOptions[SM].Load();
-			DialogSelfMenuSelected = DialogSelfMenuOptions[SM];
-			return;
-		}
-		if (SM + 1 == DialogSelfMenuOptions.length) SM = -1;
-	}
+	const options = DialogSelfMenuOptions.filter(i => DialogSelfMenuMapping[i]?.IsAvailable(Player));
+	const currentIndex = options.indexOf(DialogSelfMenuSelected);
+	const newMenuName = currentIndex === -1 ? options[0] : options[(1 + currentIndex) % options.length];
+	DialogSelfMenuMapping[newMenuName]?.Init({ C: Player });
 }
 
 /**
  * Finds and set an available character sub menu.
- * @param {string} MenuName - The name of the sub menu, see DialogSelfMenuOptions.
+ * @param {DialogSelfMenuName} MenuName - The name of the sub menu, see DialogSelfMenuOptions.
  * @param {boolean} force - Whether to check availability of the menu first.
  * @returns {boolean} - True, when the sub menu is found and available and was switched to. False otherwise and nothing happened.
  */
 function DialogFindSubMenu(MenuName, force=false) {
-	for (let MenuIndex = 0; MenuIndex < DialogSelfMenuOptions.length; MenuIndex++) {
-		let MenuOption = DialogSelfMenuOptions[MenuIndex];
-		if (MenuOption.Name == MenuName) {
-			if (force || MenuOption.IsAvailable()) {
-				if (MenuOption.Load)
-					MenuOption.Load();
-				DialogSelfMenuSelected = MenuOption;
-				return true;
-			}
-			return false;
-		}
+	/** @type {undefined | _DialogSelfMenu} */
+	const dialogMenu = DialogSelfMenuMapping[MenuName];
+	if (!dialogMenu) {
+		return false;
 	}
-	return false;
+
+	if (force || dialogMenu.IsAvailable(Player)) {
+		dialogMenu.Init({ C: Player });
+		return true;
+	} else {
+		return false;
+	}
 }
 
 /**
@@ -2521,15 +2376,18 @@ function DialogFindSubMenu(MenuName, force=false) {
  * @returns {boolean} True, when the expression group was found and opened. False otherwise and nothing happens.
  */
 function DialogFindFacialExpressionMenuGroup(ExpressionGroup) {
-	if (DialogSelfMenuSelected.Name != "Expression") return false;
-	if (!DialogFacialExpressions || !DialogFacialExpressions.length) DialogFacialExpressionsBuild();
-	let I = DialogFacialExpressions.findIndex(expr => expr.Group == ExpressionGroup);
-	if (I != -1) {
-		DialogFacialExpressionsSelected = I;
-		if (DialogMenuMode === "colorExpression") ItemColorSaveAndExit();
-		return true;
+	if (DialogSelfMenuSelected !== "Expression") {
+		return false;
 	}
-	return false;
+
+	const ids = DialogSelfMenuMapping.Expression.ids;
+	const button = /** @type {null | HTMLButtonElement} */(document.querySelector(`#${ids.menuLeft} > [name="${ExpressionGroup}"]`));
+	if (!button) {
+		return false;
+	} else if (button.getAttribute("aria-checked") === "false") {
+		button.click();
+	}
+	return true;
 }
 
 /**
@@ -2539,8 +2397,8 @@ function DialogFindFacialExpressionMenuGroup(ExpressionGroup) {
  * @param {null | { asset?: Asset, group?: AssetGroup, C?: Character }} replace - Attempt to perform replacements within the `status` text
  * @returns {void} - Nothing
  */
-function DialogSetStatus(status, timer=0, replace=null) {
-	const id = DialogMenuMapping[DialogMenuMode]?.ids.status;
+function DialogSetStatus(status, timer=0, replace=null, id=null) {
+	id ??= DialogMenuMapping[DialogMenuMode]?.ids.status;
 	const elem = id ? document.getElementById(id) : null;
 	if (!elem) {
 		return;
@@ -2726,12 +2584,29 @@ function DialogDrawItemMenu(C) {
 	// Keep around as deprecated no-op
 }
 
-// NOTE: The `Dialog` screen/subscreen lacks proper `Run()` support (see `DrawProcess`), hence its explicit omission here
 /**
+ * Abstract base class for a simplistic DOM subscreen with three-ish components:
+ * - A menubar with a set of buttons which are generally heterogeneous in function (_e.g._ perform arbitrary, unrelated task #1, #2 or #3)
+ * - A status message of some sort
+ * - A grid with some type of misc element, generally a set of buttons homogeneous in function (e.g. equip item #1, #2 or #3). See below for more details.
+ *
+ * Grid button clicks
+ * ------------------
+ * Grid button clicks in the {@link ids|ids.grid}-referenced element generally involve the following four steps:
+ * 1) The click listener (see {@link eventListeners|eventListeners._ClickButton}) performs some basic generic validation, like checking whether the character has been initialized.
+ *    A validation failure is considered an internal error, and will lead to a premature termination of the click event.
+ * 2) The click listener retrieves some type of underlying object associated with the grid button, like an item or activity (see {@link _GetClickedObject}).
+ * 3) The click listener performs more extensive, subscreen-/class-specific validation (see {@link GetClickStatus}), like checking whether an item has not been blacklisted.
+ *    A validation failure here will trigger a soft reload, updating the status message and re-evaluating the enabled/disabled state of _all_ pre-existing grid buttons.
+ * 4) The click listener finally performs a subscreen-/class-specific action based on the grid button click, like equipping an item (see {@link _ClickButton}).
+ *
+ * Parameters
+ * ----------
  * @abstract
  * @template {string} [ModeType=string] - The name of the mode associated with this instance (_e.g._ {@link DialogMenuMode})
- * @template {DialogInventoryItem | ItemActivity | DialogLine | null} [ClickedObj=any] - The underlying item or activity object of the clicked grid buttons (if applicable)
- * @extends {Omit<ScreenFunctions, "Run">}
+ * @template [ClickedObj=any] - The underlying item or activity object of the clicked grid buttons (if applicable)
+ * @template {DialogMenu.InitProperties} [PropType=DialogMenu.InitProperties] - Properties as initialized by {@link Init}
+ * @extends {ScreenFunctions}
  */
 class DialogMenu {
 	/**
@@ -2741,6 +2616,23 @@ class DialogMenu {
 	 * @type {Readonly<Record<string, string> & { root: string, status?: string, grid?: string, paginate?: string, icon?: string, menubar?: string }>}
 	 */
 	ids;
+
+	/**
+	 * A list of all init property names as supported by this class.
+	 * Represents the set of keys that will be stored in {@link _initProperties}
+	 * @readonly
+	 * @abstract
+	 * @type {readonly (keyof PropType)[]}
+	 */
+	_initPropertyNames;
+
+	/**
+	 * An object for storing all of this classes init properties.
+	 *
+	 * Subclasses _should_ generally implement a public getter/setter interface for safely manipulating each property stored herein.
+	 * @type {null | PropType}
+	 */
+	_initProperties = null;
 
 	/**
 	 * An object containg all event listeners referenced in the {@link DialogMenu} subclass.
@@ -2801,29 +2693,27 @@ class DialogMenu {
 	defaultShape = Object.freeze([1005, 107, 995, 857]);
 
 	/**
-	 * See {@link DialogMenu.C}
-	 * @private
-	 * @type {null | Character}
-	 */
-	_C = null;
-
-	/**
 	 * Get or set the currently selected character.
 	 *
 	 * Performs a hard {@link DialogMenu.Reload} if a new character is assigned.
+	 * @type {PropType["C"]}
 	 */
 	get C() {
-		return this._C;
+		return this._initProperties?.C ?? null;
 	}
 	set C(value) {
+		if (this._initProperties == null) {
+			return;
+		}
+
 		const elem = document.getElementById(this.ids.root);
 		if (value == null) {
-			this._C = null;
+			this._initProperties.C = null;
 			elem?.removeAttribute("data-character-id");
 		} else if (this.C.ID !== value.ID) {
-			this._C = value;
+			this._initProperties.C = value;
 			elem?.setAttribute("data-character-id", value.ID);
-			this.Reload(null, null, { reset: true });
+			this.Reload(null, { reset: true });
 		}
 	}
 
@@ -2831,10 +2721,9 @@ class DialogMenu {
 	 * Get or set the currently selected group.
 	 *
 	 * Performs a hard {@link DialogMenu.Reload} if a new focus group is assigned.
-	 * @type {null | AssetItemGroup}
+	 * @type {null | AssetGroup}
 	 */
 	get focusGroup() { return null; }
-	set focusGroup(value) { return; }
 
 	/**
 	 * A set with the numeric IDs of to-be run reloads.
@@ -2882,13 +2771,14 @@ class DialogMenu {
 					return "Internal error";
 				}
 
-				const status = dialogMenu.GetClickStatus(dialogMenu.C, clickedObj, null);
+				const equippedItem = dialogMenu.focusGroup ? InventoryGet(dialogMenu.C, dialogMenu.focusGroup.Name) : null;
+				const status = dialogMenu.GetClickStatus(dialogMenu.C, clickedObj, equippedItem);
 				if (status) {
 					event.stopImmediatePropagation();
-					dialogMenu.Reload(null, null, { status, statusTimer: DialogTextDefaultDuration });
+					dialogMenu.Reload(null, { status, statusTimer: DialogTextDefaultDuration });
 					return status;
 				} else {
-					dialogMenu._ClickButton(this, dialogMenu.C, clickedObj, null);
+					dialogMenu._ClickButton(this, dialogMenu.C, clickedObj, equippedItem);
 					return null;
 				}
 			},
@@ -2904,9 +2794,10 @@ class DialogMenu {
 					return null;
 				}
 
-				const status = dialogMenu.GetClickStatus(dialogMenu.C, clickedObj, null);
+				const equippedItem = dialogMenu.focusGroup ? InventoryGet(dialogMenu.C, dialogMenu.focusGroup.Name) : null;
+				const status = dialogMenu.GetClickStatus(dialogMenu.C, clickedObj, equippedItem);
 				if (status) {
-					DialogSetStatus(status, DialogTextDefaultDuration, { C: dialogMenu.C });
+					DialogSetStatus(status, DialogTextDefaultDuration, { C: dialogMenu.C }, dialogMenu.ids.status);
 					return status;
 				} else {
 					// Force a reload (and a new click event) if the click somehow _did not_ fail
@@ -2959,26 +2850,25 @@ class DialogMenu {
 	/**
 	 * Initialize the {@link DialogMenu} subscreen.
 	 *
-	 * Serves as a {@link ScreenFunctions["Load"]} wrapper with added parameters.
-	 * @param {Character} C The character in question
-	 * @param {null | AssetItemGroup} focusGroup The focused item group
+	 * Serves as a {@link ScreenLoadHandler} wrapper with added parameters.
+	 * @param {PropType} properties The to be initialized character and any other properties
 	 * @param {null | { shape?: RectTuple }} style Misc styling for the subscreen
 	 * @returns {null | HTMLDivElement} The div containing the dialog subscreen root element or `null` if the screen failed to initialize
 	 */
-	Init(C, focusGroup=null, style=null) {
+	Init(properties, style=null) {
 		style ??= {};
-		this._C = C;
+		this._initProperties = CommonPick(properties, this._initPropertyNames);
 		this._shape = style.shape ?? [...this.defaultShape];
 		this.Load();
 		return /** @type {null | HTMLDivElement} */(document.getElementById(this.ids.root));
 	}
 
-	/** @type {ScreenFunctions["Load"]} */
+	/** @type {ScreenLoadHandler} */
 	Load() {
-		if (!this.C || !this.shape) {
+		if (this._initPropertyNames.some(p => this._initProperties?.[p] == null)) {
 			console.error(
 				"Aborting, one or more uninitialized properties",
-				{ C: this.C, shape: this.shape },
+				CommonPick(/** @type {Partial<PropType>} */(this._initProperties ?? {}), this._initPropertyNames),
 			);
 			this.Exit();
 			return;
@@ -2997,10 +2887,10 @@ class DialogMenu {
 		// Perform the element resizing here asynchronically in order to circumvent a race condition with the scroll bar reallignment
 		const shape = this.shape;
 		const buttonGrid = this.ids.grid ? document.getElementById(this.ids.grid) : null;
-		this.Reload(null, null, { reset: true, resetScrollbar: false }).then((status) => {
+		this.Reload(null, { reset: true, resetScrollbar: false }).then((status) => {
 			if (status) {
 				ElementPositionFixed(root, ...shape);
-				const checkedButton = buttonGrid?.querySelector(`.dialog-grid-button[aria-checked='true']`);
+				const checkedButton = buttonGrid?.querySelector(`[aria-checked='true']`);
 				if (checkedButton) {
 					checkedButton.scrollIntoView({ behavior: "instant" });
 				} else {
@@ -3021,36 +2911,44 @@ class DialogMenu {
 		throw new Error("Trying to call an abstract method");
 	}
 
-	/** @type {ScreenFunctions["Unload"]} */
+	/** @type {ScreenUnloadHandler} */
 	Unload() {
 		DialogStatusClear();
 		document.getElementById(this.ids.root)?.toggleAttribute("data-unload", true);
 		this._reloadQueue.clear();
 	}
 
-	/** @type {ScreenFunctions["Click"]} */
+	/** @type {MouseEventListener} */
 	Click(event) {}
 
-	/** @type {ScreenFunctions["Draw"]} */
+	/** @type {ScreenDrawHandler} */
 	Draw() {}
 
-	/** @type {ScreenFunctions["Resize"]} */
+	/** @type {ScreenRunHandler} */
+	Run(time) {}
+
+	/** @type {ScreenResizeHandler} */
 	Resize(load) {
+		const shape = this.shape;
+		if (!shape) {
+			return;
+		}
+
 		if (!load) {
 			// Tasks already handled asynchronically by `Load`
-			ElementPositionFixed(this.ids.root, ...this.shape);
+			ElementPositionFixed(this.ids.root, ...shape);
 		}
 	}
 
-	/** @type {ScreenFunctions["Exit"]} */
+	/** @type {ScreenExitHandler} */
 	Exit() {
 		ElementRemove(this.ids.root);
-		this._C = null;
+		this._initProperties = null;
 		this._shape = null;
 		this._reloadQueue.clear();
 	}
 
-	/** @type {ScreenFunctions["KeyDown"]} */
+	/** @type {KeyboardEventListener} */
 	KeyDown(event) {
 		const grid = this.ids.grid ? document.getElementById(this.ids.grid) : null;
 		if (grid) {
@@ -3065,12 +2963,11 @@ class DialogMenu {
 
 	/**
 	 * Reload the subscreen, updating the DOM elements and, if required, re-assigning the character and focus group.
-	 * @param {null | Character} C - The selected character; defaults to {@link DialogMenu.C} and will update the property inplace otherwise
-	 * @param {null | AssetItemGroup} focusGroup - The selected group; defaults to {@link DialogMenu.focusGroup} and will update the property inplace otherwise
+	 * @param {null | Partial<PropType>} properties
 	 * @param {null | DialogMenu.ReloadOptions} [options] - Further customization options
 	 * @returns {Promise<boolean>} - Whether an update was triggered or aborted
 	 */
-	Reload(C=null, focusGroup=null, options=null) {
+	Reload(properties=null, options=null) {
 		const id = this._reloadHighestID++;
 		this._reloadQueue.add(id);
 		this._reloadPromise = this._reloadPromise.then(async () => {
@@ -3080,7 +2977,7 @@ class DialogMenu {
 				this._reloadQueue.delete(id);
 			}
 
-			const { status, param } = this._ReloadValidate(C, focusGroup);
+			const { status, param } = this._ReloadValidate(properties ?? {});
 			if (status) {
 				param.root.setAttribute("aria-busy", "true");
 				await param.textCache.loadedPromise;
@@ -3096,25 +2993,27 @@ class DialogMenu {
 
 	/**
 	 * See {@link DialogMenu.Reload}
-	 * @param {null | Character} C
-	 * @param {null | AssetItemGroup} focusGroup
-	 * @returns {{ status: false, param?: never } | { status: true, param: DialogMenu.ReloadParam }}
+	 * @param {Partial<PropType>} properties
+	 * @returns {{ status: false, param?: never } | { status: true, param: DialogMenu.ReloadParam<PropType> }}
 	 */
-	_ReloadValidate(C, focusGroup) {
-		// NOTE: Lock in the current character and focus group in case a property change/exit is performed while Reload is still running
-		const currentC = this.C;
+	_ReloadValidate(properties) {
+		const currentProp = CommonPick(/** @type {Partial<PropType>} */(this._initProperties ?? {}), this._initPropertyNames);
+		const newProp = CommonPick(properties, this._initPropertyNames);
+		for (const k of Object.keys(newProp)) {
+			newProp[k] ??= currentProp[k];
+		}
 
-		C ??= currentC;
 		const root = document.getElementById(this.ids.root);
 		const textCache = TextAllScreenCache.get(InterfaceStringsPath);
-		if (!root || !C || !textCache) {
+		if (!root || Object.values(newProp).some(i => i == null) || !textCache) {
+			const err = Object.fromEntries(Object.entries(newProp).filter(([_, i]) => i == null));
 			console.error(
 				`Failed to reload ${this.mode} subscreen; one or more missing objects`,
-				{ root: !!root, C: !!C, textCache: !!textCache },
+				{ root: !!root, ...err, textCache: !!textCache },
 			);
 			return { status: false };
 		} else {
-			return { status: true, param: { root, C, currentC, textCache } };
+			return { status: true, param: { root, textCache, newProperties: newProp, oldProperties: currentProp } };
 		}
 	}
 
@@ -3125,12 +3024,14 @@ class DialogMenu {
 	 * @returns {boolean}
 	 */
 	_Reload(param, options) {
-		const { root, C, currentC, focusGroup } = param;
+		const { root, newProperties, oldProperties } = param;
 
 		// Check if any class-level properties have to be updated
-		if (C !== currentC) {
-			options.reset ??= true;
-			this._C = C;
+		for (const key of this._initPropertyNames) {
+			if (newProperties[key] !== oldProperties[key]) {
+				options.reset ??= true;
+				this._initProperties[key] = newProperties[key];
+			}
 		}
 		options.resetScrollbar ??= options.reset;
 		options.resetDialogItems ??= options.reset;
@@ -3138,22 +3039,22 @@ class DialogMenu {
 		// Update the label, icon and grid (if applicable)
 		const statusSpan = this.ids.status ? document.getElementById(this.ids.status) : null;
 		if (statusSpan) {
-			this._ReloadStatus(root, statusSpan, C, focusGroup, options);
+			this._ReloadStatus(root, statusSpan, newProperties, options);
 		}
 
 		const buttonGrid = this.ids.grid ? document.getElementById(this.ids.grid) : null;
 		if (buttonGrid) {
-			this._ReloadButtonGrid(root, buttonGrid, C, focusGroup, options);
+			this._ReloadButtonGrid(root, buttonGrid, newProperties, options);
 		}
 
 		const icon = this.ids.icon ? document.getElementById(this.ids.icon) : null;
 		if (icon) {
-			this._ReloadIcon(root, icon, C, focusGroup, options);
+			this._ReloadIcon(root, icon, newProperties, options);
 		}
 
 		const menubar = this.ids.menubar ? document.getElementById(this.ids.menubar) : null;
 		if (menubar) {
-			this._ReloadMenubar(root, menubar, C, focusGroup, options);
+			this._ReloadMenubar(root, menubar, newProperties, options);
 		}
 		return true;
 	}
@@ -3163,11 +3064,10 @@ class DialogMenu {
 	 * @abstract
 	 * @param {HTMLElement} root
 	 * @param {HTMLElement} status
-	 * @param {Character} C
-	 * @param {null | AssetItemGroup} focusGroup
+	 * @param {PropType} properties
 	 * @param {Pick<DialogMenu.ReloadOptions, "status" | "statusTimer">} options
 	 */
-	_ReloadStatus(root, status, C, focusGroup, options) {
+	_ReloadStatus(root, status, properties, options) {
 		throw new Error("Trying to call an abstract method");
 	}
 
@@ -3176,11 +3076,10 @@ class DialogMenu {
 	 * @abstract
 	 * @param {HTMLElement} root
 	 * @param {HTMLElement} buttonGrid
-	 * @param {Character} C
-	 * @param {null | AssetItemGroup} focusGroup
+	 * @param {PropType} properties
 	 * @param {Pick<DialogMenu.ReloadOptions, "reset" | "resetScrollbar" | "resetDialogItems">} options
 	 */
-	_ReloadButtonGrid(root, buttonGrid, C, focusGroup, options) {
+	_ReloadButtonGrid(root, buttonGrid, properties, options) {
 		throw new Error("Trying to call an abstract method");
 	}
 
@@ -3189,11 +3088,10 @@ class DialogMenu {
 	 * @abstract
 	 * @param {HTMLElement} root
 	 * @param {HTMLElement} icon
-	 * @param {Character} C
-	 * @param {null | AssetItemGroup} focusGroup
+	 * @param {PropType} properties
 	 * @param {Pick<DialogMenu.ReloadOptions, never>} options
 	 */
-	_ReloadIcon(root, icon, C, focusGroup, options) {
+	_ReloadIcon(root, icon, properties, options) {
 		throw new Error("Trying to call an abstract method");
 	}
 
@@ -3202,11 +3100,10 @@ class DialogMenu {
 	 * @abstract
 	 * @param {HTMLElement} root
 	 * @param {HTMLElement} menubar
-	 * @param {Character} C
-	 * @param {null | AssetItemGroup} focusGroup
+	 * @param {PropType} properties
 	 * @param {Pick<DialogMenu.ReloadOptions, "reset">} options
 	 */
-	_ReloadMenubar(root, menubar, C, focusGroup, options) {
+	_ReloadMenubar(root, menubar, properties, options) {
 		throw new Error("Trying to call an abstract method");
 	}
 
@@ -3299,34 +3196,32 @@ class DialogMenu {
  * {@link DialogMenu} abstract subclass for dialog menus with a focus group.
  * @abstract
  * @template {string} [ModeType=string] - The name of the mode associated with this instance (_e.g._ {@link DialogMenuMode})
- * @template {DialogInventoryItem | ItemActivity | DialogLine | null} [ClickedObj=any] - The underlying item or activity object of the clicked grid buttons (if applicable)
- * @extends {DialogMenu<ModeType, ClickedObj>}
+ * @template [ClickedObj=any] - The underlying item or activity object of the clicked grid buttons (if applicable)
+ * @template {{ C: Character, focusGroup: AssetItemGroup }} [PropType={ C: Character, focusGroup: AssetItemGroup }]
+ * @extends {DialogMenu<ModeType, ClickedObj, PropType>}
  */
 class _DialogFocusMenu extends DialogMenu {
-	/**
-	 * See {@link DialogMenu.focusGroup}.
-	 * @private
-	 * @type {null | AssetItemGroup}
-	 */
-	_focusGroup = null;
-
 	/**
 	 * Get or set the currently selected group.
 	 *
 	 * Performs a hard {@link DialogMenu.Reload} if a new focus group is assigned.
 	 */
 	get focusGroup() {
-		return this._focusGroup;
+		return this._initProperties?.focusGroup ?? null;
 	}
 	set focusGroup(value) {
+		if (this._initProperties == null) {
+			return;
+		}
+
 		const elem = document.getElementById(this.ids.root);
 		if (value == null) {
-			this._focusGroup = null;
+			this._initProperties.focusGroup = null;
 			elem?.removeAttribute("data-group");
 		} else if (this.focusGroup.Name !== value.Name) {
-			this._focusGroup = value;
+			this._initProperties.focusGroup = value;
 			elem?.setAttribute("data-group", value.Name);
-			this.Reload(null, null, { reset: true });
+			this.Reload(null, { reset: true });
 		}
 	}
 
@@ -3354,7 +3249,7 @@ class _DialogFocusMenu extends DialogMenu {
 				const status = dialogMenu.GetClickStatus(dialogMenu.C, clickedObj, equippedItem);
 				if (status) {
 					event.stopImmediatePropagation();
-					dialogMenu.Reload(null, null, { status, statusTimer: DialogTextDefaultDuration });
+					dialogMenu.Reload(null, { status, statusTimer: DialogTextDefaultDuration });
 					return status;
 				} else {
 					dialogMenu._ClickButton(this, dialogMenu.C, clickedObj, equippedItem);
@@ -3376,7 +3271,7 @@ class _DialogFocusMenu extends DialogMenu {
 				const equippedItem = InventoryGet(dialogMenu.C, dialogMenu.focusGroup.Name);
 				const status = dialogMenu.GetClickStatus(dialogMenu.C, clickedObj, equippedItem);
 				if (status) {
-					DialogSetStatus(status, DialogTextDefaultDuration, { asset: equippedItem?.Asset, C: dialogMenu.C, group: dialogMenu.focusGroup });
+					DialogSetStatus(status, DialogTextDefaultDuration, { asset: equippedItem?.Asset, C: dialogMenu.C, group: dialogMenu.focusGroup }, dialogMenu.ids.status);
 					return status;
 				} else {
 					// Force a reload (and a new click event) if the click somehow _did not_ fail
@@ -3392,129 +3287,10 @@ class _DialogFocusMenu extends DialogMenu {
 		};
 	}
 
-	/**
-	 * Initialize the {@link DialogMenu} subscreen.
-	 *
-	 * Serves as a {@link ScreenFunctions["Load"]} wrapper with added parameters.
-	 * @param {Character} C The character in question
-	 * @param {AssetItemGroup} focusGroup The focused item group
-	 * @param {null | { shape?: RectTuple }} style Misc styling for the subscreen
-	 * @returns {null | HTMLDivElement} The div containing the dialog subscreen root element or `null` if the screen failed to initialize
-	 */
-	Init(C, focusGroup, style=null) {
-		this._focusGroup = focusGroup;
-		return super.Init(C, focusGroup, style);
-	}
-
-	/** @type {DialogMenu["Exit"]} */
-	Exit() {
-		super.Exit();
-		this._focusGroup = null;
-	}
-
 	/** @type {DialogMenu["Load"]} */
 	Load() {
-		if (!this.focusGroup) {
-			console.error(
-				"Aborting, one or more uninitialized properties",
-				{ focusGroup: this.focusGroup },
-			);
-			this.Exit();
-			return;
-		}
-
 		super.Load();
 		document.getElementById(this.ids.root)?.setAttribute("data-group", this.focusGroup.Name);
-	}
-
-	/**
-	 * See {@link DialogMenu.Reload}
-	 * @param {null | Character} C
-	 * @param {null | AssetItemGroup} focusGroup
-	 * @returns {{ status: false, param?: never } | { status: true, param: DialogMenu.ReloadFocusParam }}
-	 */
-	_ReloadValidate(C, focusGroup) {
-		const currentFocusGroup = this.focusGroup;
-		focusGroup ??= currentFocusGroup;
-
-		const status = super._ReloadValidate(C, focusGroup);
-		if (focusGroup == null) {
-			console.error(
-				`Failed to reload ${this.mode} subscreen; one or more missing objects`,
-				{ focusGroup: false },
-			);
-			return { status: false };
-		} else if (!status.status) {
-			return { status: false };
-		} else {
-			return { status: true, param: { ...status.param, focusGroup, currentFocusGroup } };
-		}
-	}
-
-	/**
-	 * See {@link DialogMenu.Reload}
-	 * @param {DialogMenu.ReloadFocusParam} param
-	 * @param {DialogMenu.ReloadOptions} options
-	 * @returns {boolean}
-	 */
-	_Reload(param, options) {
-		if (param.focusGroup !== param.currentFocusGroup) {
-			options.reset ??= true;
-			this._focusGroup = param.focusGroup;
-		}
-		return super._Reload(param, options);
-	}
-
-	/**
-	 * A {@link DialogMenu.Reload} helper function for reloading {@link DialogMenu.ids.status} elements.
-	 * @abstract
-	 * @param {HTMLElement} root
-	 * @param {HTMLElement} status
-	 * @param {Character} C
-	 * @param {AssetItemGroup} focusGroup
-	 * @param {Pick<DialogMenu.ReloadOptions, "status" | "statusTimer">} options
-	 */
-	_ReloadStatus(root, status, C, focusGroup, options) {
-		throw new Error("Trying to call an abstract method");
-	}
-
-	/**
-	 * A {@link DialogMenu.Reload} helper function for reloading {@link DialogMenu.ids.grid} elements.
-	 * @abstract
-	 * @param {HTMLElement} root
-	 * @param {HTMLElement} buttonGrid
-	 * @param {Character} C
-	 * @param {AssetItemGroup} focusGroup
-	 * @param {Pick<DialogMenu.ReloadOptions, "reset" | "resetScrollbar" | "resetDialogItems">} options
-	 */
-	_ReloadButtonGrid(root, buttonGrid, C, focusGroup, options) {
-		throw new Error("Trying to call an abstract method");
-	}
-
-	/**
-	 * A {@link DialogMenu.Reload} helper function for reloading {@link DialogMenu.ids.icon} elements.
-	 * @abstract
-	 * @param {HTMLElement} root
-	 * @param {HTMLElement} icon
-	 * @param {Character} C
-	 * @param {AssetItemGroup} focusGroup
-	 * @param {Pick<DialogMenu.ReloadOptions, never>} options
-	 */
-	_ReloadIcon(root, icon, C, focusGroup, options) {
-		throw new Error("Trying to call an abstract method");
-	}
-
-	/**
-	 * A {@link DialogMenu.Reload} helper function for reloading {@link DialogMenu.ids.menubar} elements.
-	 * @abstract
-	 * @param {HTMLElement} root
-	 * @param {HTMLElement} menubar
-	 * @param {Character} C
-	 * @param {AssetItemGroup} focusGroup
-	 * @param {Pick<DialogMenu.ReloadOptions, "reset">} options
-	 */
-	_ReloadMenubar(root, menubar, C, focusGroup, options) {
-		throw new Error("Trying to call an abstract method");
 	}
 }
 
@@ -3530,6 +3306,8 @@ class _DialogItemMenu extends _DialogFocusMenu {
 		icon: "dialog-inventory-icon",
 		paginate: "dialog-inventory-paginate",
 	});
+
+	_initPropertyNames = /** @type {const} */(["C", "focusGroup"]);
 
 	/** @satisfies {DialogMenu<T, DialogInventoryItem>["clickStatusCallbacks"]} */
 	clickStatusCallbacks = {
@@ -3618,8 +3396,9 @@ class _DialogItemMenu extends _DialogFocusMenu {
 		});
 	}
 
-	/** @type {DialogMenu["_ReloadStatus"]} */
-	_ReloadStatus(root, span, C, focusGroup, options) {
+	/** @type {_DialogFocusMenu["_ReloadStatus"]} */
+	_ReloadStatus(root, span, properties, options) {
+		const { C, focusGroup } = properties;
 		/** @type {null | Asset} */
 		let asset = null;
 		let showIcon = false;
@@ -3645,7 +3424,7 @@ class _DialogItemMenu extends _DialogFocusMenu {
 					} else if (InventoryIsBlockedByDistance(C)) {
 						textContent = InterfaceTextGet("ZoneBlockedRange");
 						showIcon = true;
-					} else if (InventoryGroupIsBlocked(C, focusGroup.Name)) {
+					} else if (focusGroup.IsItem() && InventoryGroupIsBlocked(C, focusGroup.Name)) {
 						textContent = InterfaceTextGet("ZoneBlocked");
 						showIcon = true;
 					} else if (!Player.CanInteract()) {
@@ -3659,11 +3438,12 @@ class _DialogItemMenu extends _DialogFocusMenu {
 		}
 
 		root.toggleAttribute("data-show-icon", showIcon);
-		DialogSetStatus(textContent, options.statusTimer ?? 0, { asset, group: focusGroup, C });
+		DialogSetStatus(textContent, options.statusTimer ?? 0, { asset, group: focusGroup, C }, this.ids.status);
 	}
 
-	/** @type {DialogMenu["_ReloadButtonGrid"]} */
-	_ReloadButtonGrid(root, buttonGrid, C, focusGroup, options) {
+	/** @type {_DialogFocusMenu["_ReloadButtonGrid"]} */
+	_ReloadButtonGrid(root, buttonGrid, properties, options) {
+		const { C, focusGroup } = properties;
 		if (options.resetDialogItems) {
 			DialogInventoryBuild(C, false, false, false);
 		}
@@ -3730,8 +3510,8 @@ class _DialogItemMenu extends _DialogFocusMenu {
 		}
 	}
 
-	/** @type {DialogMenu["_ReloadIcon"]} */
-	_ReloadIcon(root, icon, C, focusGroup, options) {
+	/** @type {_DialogFocusMenu["_ReloadIcon"]} */
+	_ReloadIcon(root, icon, properties, options) {
 		const grid = document.getElementById(this.ids.grid);
 		const dataAttr = ["data-craft", "data-hidden", "data-vibrating"];
 		const checkedButton = grid.querySelector(".dialog-grid-button[aria-checked='true']");
@@ -3744,8 +3524,8 @@ class _DialogItemMenu extends _DialogFocusMenu {
 		}
 	}
 
-	/** @type {DialogMenu["_ReloadMenubar"]} */
-	_ReloadMenubar(root, menubar, C, focusGroup, options) { /** noop */ }
+	/** @type {_DialogFocusMenu["_ReloadMenubar"]} */
+	_ReloadMenubar(root, menubar, properties, options) { /** noop */ }
 
 	/**
 	 * For a given grid button return the underlying item or activity.
@@ -3778,6 +3558,8 @@ class _DialogLockingMenu extends _DialogFocusMenu {
 		grid: "dialog-locking-grid",
 		paginate: "dialog-locking-paginate",
 	});
+
+	_initPropertyNames = /** @type {const} */(["C", "focusGroup"]);
 
 	/** @satisfies {DialogMenu<T, DialogInventoryItem>["clickStatusCallbacks"]} */
 	clickStatusCallbacks = {
@@ -3816,14 +3598,16 @@ class _DialogLockingMenu extends _DialogFocusMenu {
 		});
 	}
 
-	/** @type {DialogMenu["_ReloadStatus"]} */
-	_ReloadStatus(root, status, C, focusGroup, options) {
+	/** @type {_DialogFocusMenu["_ReloadStatus"]} */
+	_ReloadStatus(root, status, properties, options) {
+		const { C, focusGroup } = properties;
 		const textContent = options.status ?? InterfaceTextGet("SelectLock");
-		DialogSetStatus(textContent, options.statusTimer ?? 0, { group: focusGroup, C });
+		DialogSetStatus(textContent, options.statusTimer ?? 0, { group: focusGroup, C }, this.ids.status);
 	}
 
-	/** @type {DialogMenu["_ReloadButtonGrid"]} */
-	_ReloadButtonGrid(root, buttonGrid, C, focusGroup, options) {
+	/** @type {_DialogFocusMenu["_ReloadButtonGrid"]} */
+	_ReloadButtonGrid(root, buttonGrid, properties, options) {
+		const { C, focusGroup } = properties;
 		if (options.resetDialogItems) {
 			DialogInventoryBuild(C, false, true, false);
 		}
@@ -3867,11 +3651,11 @@ class _DialogLockingMenu extends _DialogFocusMenu {
 		}
 	}
 
-	/** @type {DialogMenu["_ReloadIcon"]} */
-	_ReloadIcon(root, icon, C, focusGroup, options) { /** noop */ }
+	/** @type {_DialogFocusMenu["_ReloadIcon"]} */
+	_ReloadIcon(root, icon, properties, options) { /** noop */ }
 
-	/** @type {DialogMenu["_ReloadMenubar"]} */
-	_ReloadMenubar(root, menubar, C, focusGroup, options) { /** noop */ }
+	/** @type {_DialogFocusMenu["_ReloadMenubar"]} */
+	_ReloadMenubar(root, menubar, properties, options) { /** noop */ }
 
 	/** @type {DialogMenu<string, DialogInventoryItem>["_GetClickedObject"]} */
 	_GetClickedObject(button) {
@@ -3895,6 +3679,8 @@ class _DialogPermissionMenu extends _DialogFocusMenu {
 		grid: "dialog-permission-grid",
 		paginate: "dialog-permission-paginate",
 	});
+
+	_initPropertyNames = /** @type {const} */(["C", "focusGroup"]);
 
 	/** @type {DialogMenu<T, DialogInventoryItem>["clickStatusCallbacks"]} */
 	clickStatusCallbacks = {
@@ -3927,14 +3713,15 @@ class _DialogPermissionMenu extends _DialogFocusMenu {
 		});
 	}
 
-	/** @type {DialogMenu["_ReloadStatus"]} */
-	_ReloadStatus(root, span, C, focusGroup, options) {
+	/** @type {_DialogFocusMenu["_ReloadStatus"]} */
+	_ReloadStatus(root, span, properties, options) {
 		const textContent = options.status ?? InterfaceTextGet("DialogMenuPermissionMode");
-		DialogSetStatus(textContent, options.statusTimer ?? 0);
+		DialogSetStatus(textContent, options.statusTimer ?? 0, null, this.ids.status);
 	}
 
-	/** @type {DialogMenu["_ReloadButtonGrid"]} */
-	_ReloadButtonGrid(root, buttonGrid, C, focusGroup, options) {
+	/** @type {_DialogFocusMenu["_ReloadButtonGrid"]} */
+	_ReloadButtonGrid(root, buttonGrid, properties, options) {
+		const { C, focusGroup } = properties;
 		if (options.resetDialogItems) {
 			DialogInventoryBuild(C, false, false, false);
 		}
@@ -3982,11 +3769,11 @@ class _DialogPermissionMenu extends _DialogFocusMenu {
 		}
 	}
 
-	/** @type {DialogMenu["_ReloadIcon"]} */
-	_ReloadIcon(root, icon, C, focusGroup, options) { /** noop */ }
+	/** @type {_DialogFocusMenu["_ReloadIcon"]} */
+	_ReloadIcon(root, icon, properties, options) { /** noop */ }
 
-	/** @type {DialogMenu["_ReloadMenubar"]} */
-	_ReloadMenubar(root, menubar, C, focusGroup, options) { /** noop */ }
+	/** @type {_DialogFocusMenu["_ReloadMenubar"]} */
+	_ReloadMenubar(root, menubar, properties, options) { /** noop */ }
 
 	/** @type {DialogMenu<string, DialogInventoryItem>["_GetClickedObject"]} */
 	_GetClickedObject(button) {
@@ -4012,6 +3799,8 @@ class _DialogActivitiesMenu extends _DialogFocusMenu {
 		grid: "dialog-activity-grid",
 		paginate: "dialog-activity-paginate",
 	});
+
+	_initPropertyNames = /** @type {const} */(["C", "focusGroup"]);
 
 	/** @type {DialogMenu<T, ItemActivity>["clickStatusCallbacks"]} */
 	clickStatusCallbacks = {
@@ -4044,14 +3833,16 @@ class _DialogActivitiesMenu extends _DialogFocusMenu {
 		});
 	}
 
-	/** @type {DialogMenu["_ReloadStatus"]} */
-	_ReloadStatus(root, span, C, focusGroup, options) {
+	/** @type {_DialogFocusMenu["_ReloadStatus"]} */
+	_ReloadStatus(root, span, properties, options) {
+		const { C, focusGroup } = properties;
 		const textContent = options.status ?? InterfaceTextGet("SelectActivityGroup");
-		DialogSetStatus(textContent, options.statusTimer ?? 0, { C, group: focusGroup });
+		DialogSetStatus(textContent, options.statusTimer ?? 0, { C, group: focusGroup }, this.ids.status);
 	}
 
-	/** @type {DialogMenu["_ReloadButtonGrid"]} */
-	_ReloadButtonGrid(root, buttonGrid, C, focusGroup, options) {
+	/** @type {_DialogFocusMenu["_ReloadButtonGrid"]} */
+	_ReloadButtonGrid(root, buttonGrid, properties, options) {
+		const { C, focusGroup } = properties;
 		if (options.resetDialogItems) {
 			DialogBuildActivities(C, false);
 		}
@@ -4090,11 +3881,11 @@ class _DialogActivitiesMenu extends _DialogFocusMenu {
 		}
 	}
 
-	/** @type {DialogMenu["_ReloadIcon"]} */
+	/** @type {_DialogFocusMenu["_ReloadIcon"]} */
 	_ReloadIcon() { /** noop */ }
 
-	/** @type {DialogMenu["_ReloadMenubar"]} */
-	_ReloadMenubar(root, menubar, C, focusGroup, options) { /** noop */ }
+	/** @type {_DialogFocusMenu["_ReloadMenubar"]} */
+	_ReloadMenubar(root, menubar, properties, options) { /** noop */ }
 
 	/** @type {DialogMenu<string, ItemActivity>["_GetClickedObject"]} */
 	_GetClickedObject(button) {
@@ -4127,6 +3918,8 @@ class _DialogCraftedMenu extends _DialogFocusMenu {
 		gap: "dialog-crafted-gap",
 	});
 
+	_initPropertyNames = /** @type {const} */(["C", "focusGroup"]);
+
 	/** @type {DialogMenu["clickStatusCallbacks"]} */
 	clickStatusCallbacks = {};
 
@@ -4134,6 +3927,7 @@ class _DialogCraftedMenu extends _DialogFocusMenu {
 		const ids = this.ids;
 		return document.getElementById(ids.root) ?? ElementCreate({
 			tag: "div",
+			attributes: { "aria-owns": ids.icon },
 			children: [
 				{
 					tag: "span",
@@ -4141,40 +3935,51 @@ class _DialogCraftedMenu extends _DialogFocusMenu {
 					classList: ["dialog-status", "scroll-box"],
 				},
 				{
-					tag: "div",
+					tag: "ul",
 					attributes: { id: ids.info, "aria-labelledby": ids.status },
 					children: [
-						{ tag: "span", attributes: { id: ids.name }, classList: [ids.info] },
-						{ tag: "span", attributes: { id: ids.crafter }, classList: [ids.info] },
-						{ tag: "span", attributes: { id: ids.property }, classList: [ids.info] },
-						{ tag: "span", attributes: { id: ids.private }, classList: [ids.info] },
-						{ tag: "div", attributes: { id: ids.gap } },
-						{ tag: "div", classList: ["button", "blank-button", "button-styling", "dialog-grid-button", "dialog-icon"], attributes: { id: ids.icon } },
+						{ tag: "li", attributes: { id: ids.name }, classList: [ids.info] },
+						{ tag: "li", attributes: { id: ids.crafter }, classList: [ids.info] },
+						{ tag: "li", attributes: { id: ids.property }, classList: [ids.info] },
+						{ tag: "li", attributes: { id: ids.private }, classList: [ids.info] },
+						{ tag: "div", attributes: { id: ids.gap, "aria-hidden": "true" } },
 						{
 							tag: "div",
+							classList: ["button", "blank-button", "button-styling", "dialog-grid-button", "dialog-icon"],
+							attributes: { id: ids.icon, role: "img", "aria-labelledby": `${ids.icon}-label` },
+						},
+						{
+							tag: "li",
 							attributes: { id: ids.footer },
 							classList: [ids.info, "scroll-box"],
 							children: [
-								{ tag: "span", attributes: { id: ids.description } },
-							],
-						},
+								{
+									tag: "ul",
+									children: [
+										{ tag: "li", attributes: { id: ids.description } },
+									],
+								},
+							]
+						}
+
 					],
 				},
 			],
 		});
 	}
 
-	/** @type {DialogMenu["_ReloadStatus"]} */
-	_ReloadStatus(root, span, C, focusGroup, options) {
+	/** @type {_DialogFocusMenu["_ReloadStatus"]} */
+	_ReloadStatus(root, span, properties, options) {
 		const textContent = options.status ?? InterfaceTextGet("CraftedItemProperties");
-		DialogSetStatus(textContent, options.statusTimer ?? 0);
+		DialogSetStatus(textContent, options.statusTimer ?? 0, null, this.ids.status);
 	}
 
-	/** @type {DialogMenu["_ReloadButtonGrid"]} */
-	_ReloadButtonGrid(root, buttonGrid, C, focusGroup, options) { /** noop */ }
+	/** @type {_DialogFocusMenu["_ReloadButtonGrid"]} */
+	_ReloadButtonGrid(root, buttonGrid, properties, options) { /** noop */ }
 
-	/** @type {DialogMenu["_ReloadIcon"]} */
-	_ReloadIcon(root, icon, C, focusGroup, options) {
+	/** @type {_DialogFocusMenu["_ReloadIcon"]} */
+	_ReloadIcon(root, icon, properties, options) {
+		const { C, focusGroup } = properties;
 		const ids = this.ids;
 		const item = InventoryGet(C, focusGroup.Name);
 
@@ -4209,8 +4014,8 @@ class _DialogCraftedMenu extends _DialogFocusMenu {
 		);
 	}
 
-	/** @type {DialogMenu["_ReloadMenubar"]} */
-	_ReloadMenubar(root, menubar, C, focusGroup, options) { /** noop */ }
+	/** @type {_DialogFocusMenu["_ReloadMenubar"]} */
+	_ReloadMenubar(root, menubar, properties, options) { /** noop */ }
 
 	/** @type {DialogMenu<string, null>["_GetClickedObject"]} */
 	_GetClickedObject(button) { return null; /** noop */ }
@@ -4221,7 +4026,7 @@ class _DialogCraftedMenu extends _DialogFocusMenu {
 
 /**
  * @template {string} T
- * @extends {DialogMenu<T, DialogLine>}
+ * @extends {DialogMenu<T, DialogLine, { C: Character }>}
  */
 class _DialogDialogMenu extends DialogMenu {
 	ids = Object.freeze({
@@ -4230,6 +4035,8 @@ class _DialogDialogMenu extends DialogMenu {
 		grid: "dialog-dialog-grid",
 		menubar: "dialog-dialog-menubar",
 	});
+
+	_initPropertyNames = /** @type {const} */(["C"]);
 
 	defaultShape = Object.freeze(/** @type {const} */([1005, 15, 995, 962]));
 
@@ -4333,13 +4140,15 @@ class _DialogDialogMenu extends DialogMenu {
 	}
 
 	/** @type {DialogMenu["_ReloadStatus"]} */
-	_ReloadStatus(root, span, C, focusGroup, options) {
-		const textContent = options.status ?? SpeechTransformDialog(C, C.CurrentDialog);
-		DialogSetStatus(textContent, options.statusTimer ?? 0);
+	_ReloadStatus(root, span, properties, options) {
+		const { C } = properties;
+		const textContent = SpeechTransformDialog(C, options.status ?? C.CurrentDialog);
+		DialogSetStatus(textContent, options.statusTimer ?? 0, null, this.ids.status);
 	}
 
 	/** @type {DialogMenu["_ReloadButtonGrid"]} */
-	_ReloadButtonGrid(root, buttonGrid, C, focusGroup, options) {
+	_ReloadButtonGrid(root, buttonGrid, properties, options) {
+		const { C } = properties;
 		if (options.reset) {
 			buttonGrid.replaceChildren();
 			buttonGrid.append(
@@ -4371,10 +4180,11 @@ class _DialogDialogMenu extends DialogMenu {
 	}
 
 	/** @type {DialogMenu["_ReloadIcon"]} */
-	_ReloadIcon(root, icon, C, focusGroup, options) { /** noop */ }
+	_ReloadIcon(root, icon, propertes, options) { /** noop */ }
 
 	/** @type {DialogMenu["_ReloadMenubar"]} */
-	_ReloadMenubar(root, menubar, C, focusGroup, options) {
+	_ReloadMenubar(root, menubar, properties, options) {
+		const { C } = properties;
 		if (options.reset) {
 			menubar.replaceChildren();
 			ElementMenu.AppendButton(
@@ -4447,6 +4257,1049 @@ class _DialogDialogMenu extends DialogMenu {
 	}
 }
 
+/**
+ * @template {DialogSelfMenuName} [ModeType=DialogSelfMenuName]
+ * @template [T=any]
+ * @extends {DialogMenu<ModeType, T, { C: PlayerCharacter }>}
+ */
+class _DialogSelfMenu extends DialogMenu {
+	_initPropertyNames = /** @type {const} */(["C"]);
+
+	defaultShape = Object.freeze(/** @type {const} */([15, 15, 500, 940]));
+
+	/**
+	 * An object mapping button {@link HTMLButtonElement.name}s to their respective click + validation functions
+	 * @satisfies {Record<string, DialogMenu.MenuButtonData<{ C: PlayerCharacter }>>}
+	 */
+	menubarEventListeners;
+
+	/** @type {DialogMenu<ModeType, T, { C: PlayerCharacter }>["Init"]} */
+	Init(parameters, style) {
+		if (DialogSelfMenuSelected !== this.mode) {
+			DialogSelfMenuMapping[DialogSelfMenuSelected]?.Unload();
+			DialogSelfMenuSelected = this.mode;
+		}
+		const ret = super.Init(parameters, style);
+		this.Resize(true);
+		return ret;
+	}
+
+	/**
+	 * Whether this self-menu is accessible via the "view next page" button.
+	 * @param {PlayerCharacter} C
+	 */
+	IsAvailable(C) {
+		return true;
+	}
+
+	/**
+	 * @param {ModeType} mode The name of the mode associated with this instance
+	 */
+	constructor(mode) {
+		super(mode);
+		const dialogMenu = this;
+
+		this.eventListeners = {
+			...this.eventListeners,
+
+			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
+			_ClickMenuButton(ev) {
+				const param = CommonPick(dialogMenu._initProperties, dialogMenu._initPropertyNames);
+				if (Object.values(param).some(i => i == null)) {
+					ev.stopImmediatePropagation();
+					return;
+				}
+
+				/** @type {DialogMenu.MenuButtonData<{ C: PlayerCharacter }>} */
+				const listener = dialogMenu.menubarEventListeners[this.name];
+				if (!listener) {
+					ev.stopImmediatePropagation();
+					return;
+				}
+
+				const equippedItem = dialogMenu.focusGroup ? InventoryGet(param.C, dialogMenu.focusGroup.Name) : null;
+				for (const validator of Object.values(listener.validate ?? {})) {
+					const status = validator(this, param, equippedItem);
+					if (status?.state) {
+						ev.stopImmediatePropagation();
+						dialogMenu.Reload(null, { status: status.status, statusTimer: DialogTextDefaultDuration });
+						return;
+					}
+				}
+
+				listener.click(this, ev, param, equippedItem);
+			},
+
+			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
+			_ClickDisabledMenuButton(ev) {
+				const param = CommonPick(dialogMenu._initProperties, dialogMenu._initPropertyNames);
+				if (Object.values(param).some(i => i == null)) {
+					ev.stopImmediatePropagation();
+					return;
+				}
+
+				/** @type {DialogMenu.MenuButtonData<{ C: PlayerCharacter }>} */
+				const listener = dialogMenu.menubarEventListeners[this.name];
+				if (!listener) {
+					ev.stopImmediatePropagation();
+					return;
+				}
+
+				const equippedItem = dialogMenu.focusGroup ? InventoryGet(param.C, dialogMenu.focusGroup.Name) : null;
+				for (const validator of Object.values(listener.validate ?? {})) {
+					const status = validator(this, param, equippedItem);
+					if (status?.state) {
+						if (status.status) {
+							DialogSetStatus(status.status, DialogTextDefaultDuration, { C: param.C }, dialogMenu.ids.status);
+						}
+						return;
+					}
+				}
+				dialogMenu.Reload(null);
+			},
+		};
+
+		/** @satisfies {Record<string, DialogMenu.MenuButtonData<{ C: PlayerCharacter }>>} */
+		this.menubarEventListeners = {
+			/** @type {DialogMenu.MenuButtonData<{ C: PlayerCharacter }>} */
+			next: {
+				click() {
+					DialogFindNextSubMenu();
+				},
+			},
+		};
+	}
+
+	/** @type {DialogMenu<ModeType, T, { C: PlayerCharacter }>["_ReloadMenubar"]} */
+	_ReloadMenubar(root, menubar, properties, options) {
+		/** @type {NodeListOf<HTMLButtonElement>} */
+		const buttons = menubar.querySelectorAll("button.dialog-menubar-button");
+		const equippedItem = this.focusGroup ? InventoryGet(properties.C, this.focusGroup.Name) : null;
+		for (const button of buttons) {
+			const listener = this.menubarEventListeners[button.name];
+			if (!listener) {
+				continue;
+			}
+
+			let validationFailure = false;
+			validators: for (const validator of Object.values(listener.validate ?? {})) {
+				const status = validator(button, properties, equippedItem);
+				switch (status?.state) {
+					case "disabled":
+						validationFailure = true;
+						button.setAttribute("aria-disabled", "true");
+						break validators;
+					case "hidden":
+						validationFailure = true;
+						button.toggleAttribute("data-unload", true);
+						break validators;
+				}
+			}
+			if (!validationFailure) {
+				button.removeAttribute("aria-disabled");
+				button.removeAttribute("data-unload");
+			}
+		}
+	}
+}
+
+/**
+ * @template {DialogSelfMenuName} ModeType
+ * @extends {_DialogSelfMenu<ModeType, ExpressionPair>}
+ */
+class _DialogExpressionMenu extends _DialogSelfMenu {
+	ids = Object.freeze({
+		root: "dialog-expression",
+		status: "dialog-expression-status",
+		menubar: "dialog-expression-menubar",
+		menuLeft: "dialog-expression-menu-left",
+		grid: "dialog-expression-button-grid",
+	});
+
+	/** @satisfies {DialogMenu<ModeType, ExpressionPair>["clickStatusCallbacks"]} */
+	clickStatusCallbacks = {
+		CharacterIsExpressionAllowed: (C, clickedItem, equippedItem) => {
+			const status = CharacterIsExpressionDisallowed(C, equippedItem, clickedItem.Expression);
+			return status ? InterfaceTextGet(`Prerequisite${status}`) : null;
+		},
+	};
+
+	/**
+	 * See {@link _DialogExpressionMenu.facialExpressions}
+	 * @private
+	 * @type {null | Readonly<Partial<Record<ExpressionGroupName, readonly (null | ExpressionName)[]>>>}
+	 */
+	_facialExpressions = null;
+
+	/**
+	 * Get an object with all UI-configurable expression group names mapped to their respective expressions.
+	 * @readonly
+	 * @type {Readonly<Partial<Record<ExpressionGroupName, readonly (null | ExpressionName)[]>>>}
+	 */
+	get facialExpressions() {
+		// Go lazy loading, go!
+		if (!this._facialExpressions) {
+			/** @type {Partial<Record<ExpressionGroupName, readonly (null | ExpressionName)[]>>} */
+			const expressions = {};
+			for (const { Name, AllowExpression } of AssetGroup) {
+				if (!AllowExpression || Name === "Eyes2") {
+					continue;
+				}
+				expressions[Name] = AllowExpression.includes(null) ? AllowExpression : [null, ...AllowExpression];
+			}
+			return this._facialExpressions = expressions;
+		} else {
+			return this._facialExpressions;
+		}
+	}
+
+	get focusGroup() {
+		const elem = document.querySelector(`#${this.ids.menuLeft} [role="menuitemradio"][aria-checked="true"]`);
+		const groupName = /** @type {null | ExpressionGroupName} */(elem?.getAttribute("name"));
+		return (groupName && this.C) ? AssetGroupGet(this.C.AssetFamily, groupName) : null;
+	}
+
+	/**
+	 * @param {ModeType} mode The name of the mode associated with this instance
+	 */
+	constructor(mode) {
+		super(mode);
+		const dialogMenu = this;
+
+		/** @satisfies {Record<string, (this: HTMLElement, ev: Event) => any>} */
+		this.eventListeners = {
+			...this.eventListeners,
+
+			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
+			_expressionRadioGroupClick(ev) {
+				document.querySelector(`#${dialogMenu.ids.root} > .dialog-expression-grid:not([data-unload])`)?.toggleAttribute("data-unload", true);
+				if (this.getAttribute("aria-checked") === "true") {
+					document.getElementById(`${dialogMenu.ids.menubar}-color`)?.setAttribute("aria-disabled", this.name !== "Eyes" ? "false" : "true");
+					const buttonGrid = document.getElementById(this.getAttribute("aria-owns"));
+					if (buttonGrid) {
+						buttonGrid.toggleAttribute("data-unload", false);
+						buttonGrid.querySelector(`[role="radio"][aria-checked='true']`)?.scrollIntoView({ behavior: "instant" });
+					}
+				} else {
+					document.getElementById(`${dialogMenu.ids.menubar}-color`)?.setAttribute("aria-disabled", "true");
+				}
+			},
+		};
+
+		/** @satisfies {Record<string, DialogMenu.MenuButtonData<{ C: PlayerCharacter }>>} */
+		this.menubarEventListeners = {
+			...this.menubarEventListeners,
+
+			/** @type {DialogMenu.MenuButtonData<{ C: PlayerCharacter }>} */
+			color: {
+				click(button, ev, { C }, equippedItem) {
+					if (!equippedItem) {
+						ev.stopImmediatePropagation();
+						return;
+					}
+
+					const groupName = equippedItem.Asset.Group.Name;
+					DialogChangeMode("colorExpression");
+					const originalColor = equippedItem.Color;
+					Player.FocusGroup = /** @type {AssetItemGroup} */ (AssetGroupGet(Player.AssetFamily, groupName));
+					ItemColorLoad(Player, equippedItem, 1200, 25, 775, 950, true);
+					ItemColorOnExit((save) => {
+						DialogMenuBack();
+						if (save && !CommonColorsEqual(originalColor, equippedItem.Color)) {
+							ServerPlayerAppearanceSync();
+							ChatRoomCharacterItemUpdate(Player, groupName);
+						}
+					});
+				},
+			},
+			/** @type {DialogMenu.MenuButtonData<{ C: PlayerCharacter }>} */
+			blindness: {
+				click(button) {
+					const level = Number.parseInt(button.getAttribute("aria-valuenow"), 10);
+					DialogFacialExpressionsSelectedBlindnessLevel = level;
+					button.querySelector(".button-image")?.setAttribute("src", `Icons/BlindToggle${level}.png`);
+				},
+			},
+			/** @type {DialogMenu.MenuButtonData<{ C: PlayerCharacter }>} */
+			blink: {
+				click(button, ev, { C }) {
+					const level = Number.parseInt(button.getAttribute("aria-valuenow"), 10);
+
+					/** @type {string} */
+					let state;
+					switch (level) {
+						case 1:
+							state = "None";
+							CharacterSetFacialExpression(C, "Eyes", C.ActiveExpression.Eyes, null);
+							break;
+						case 2:
+							state = "Left";
+							CharacterSetFacialExpression(C, "Eyes1", C.ActiveExpression.Eyes, null);
+							CharacterSetFacialExpression(C, "Eyes2", "Closed", null);
+							break;
+						case 3:
+							state = "Both";
+							CharacterSetFacialExpression(C, "Eyes", "Closed", null);
+							break;
+						case 4:
+							state = "Right";
+							CharacterSetFacialExpression(C, "Eyes1", "Closed", null);
+							CharacterSetFacialExpression(C, "Eyes2", C.ActiveExpression.Eyes, null);
+							break;
+					}
+					button.setAttribute("aria-valuetext", state);
+					button.querySelector(".button-image")?.setAttribute("src", `Icons/Wink${state}.png`);
+				},
+			},
+			/** @type {DialogMenu.MenuButtonData<{ C: PlayerCharacter }>} */
+			clear: {
+				click(button, ev, { C }) {
+					CharacterResetFacialExpression(C);
+					for (const expressionGroup of CommonKeys(dialogMenu.facialExpressions)) {
+						delete C.ActiveExpression[expressionGroup];
+					}
+				},
+			},
+		};
+	}
+
+	_Load() {
+		const ids = this.ids;
+		const expressionEntries = CommonEntries(this.facialExpressions);
+		return document.getElementById(ids.root) ?? ElementCreate({
+			tag: "div",
+			attributes: { id: ids.root, "aria-labelledby": ids.status },
+			parent: document.body,
+			classList: ["dialog-root", "dialog-self-menu-root"],
+			children: [
+				{
+					tag: "span",
+					attributes: { id: ids.status },
+					classList: ["dialog-status", "scroll-box"],
+				},
+				ElementMenu.Create(
+					ids.menubar,
+					[
+						ElementButton.Create(
+							`${ids.menubar}-next`,
+							this.eventListeners._ClickMenuButton,
+							{ tooltip: InterfaceTextGet("NextPage"), tooltipPosition: "right", image: "Icons/Next.png", clickDisabled: this.eventListeners._ClickDisabledMenuButton },
+							{ button: { attributes: { name: "next" }, classList: ["dialog-menubar-button"] } },
+						),
+						ElementButton.Create(
+							`${ids.menubar}-color`,
+							this.eventListeners._ClickMenuButton,
+							{ tooltip: InterfaceTextGet("DialogMenuColorExpressionChange"), tooltipPosition: "right", image: "Icons/ColorChange.png", disabled: true, clickDisabled: this.eventListeners._ClickDisabledMenuButton },
+							{ button: { attributes: { name: "color" }, classList: ["dialog-menubar-button"] } },
+						),
+						ElementButton.Create(
+							`${ids.menubar}-blindness`,
+							this.eventListeners._ClickMenuButton,
+							{ tooltip: InterfaceTextGet("BlindToggleFacialExpressions"), tooltipPosition: "right", image: "Icons/BlindToggle1.png", role: "spinbutton" },
+							{ button: {
+								attributes: { name: "blindness", "aria-valuenow": 1, "aria-valuemin": 1, "aria-valuemax": 3 },
+								classList: ["dialog-menubar-button"],
+							}},
+						),
+						ElementButton.Create(
+							`${ids.menubar}-blink`,
+							this.eventListeners._ClickMenuButton,
+							{ tooltip: InterfaceTextGet("WinkFacialExpressions"), tooltipPosition: "right", image: "Icons/WinkNone.png", role: "spinbutton", clickDisabled: this.eventListeners._ClickDisabledMenuButton },
+							{ button: {
+								attributes: { name: "blink", "aria-valuenow": 1, "aria-valuetext": "None", "aria-valuemin": 1, "aria-valuemax": 4 },
+								classList: ["dialog-menubar-button"],
+							}},
+						),
+						ElementButton.Create(
+							`${ids.menubar}-clear`,
+							this.eventListeners._ClickMenuButton,
+							{ tooltip: InterfaceTextGet("ClearFacialExpressions"), tooltipPosition: "right", image: "Icons/Reset.png", clickDisabled: this.eventListeners._ClickDisabledMenuButton },
+							{ button: { attributes: { name: "clear" }, classList: ["dialog-menubar-button"] } },
+						),
+					],
+					{ direction: "rtl" },
+					{ menu: { classList: ["dialog-self-menu-menubar"] } },
+				),
+				ElementMenu.Create(
+					ids.menuLeft,
+					CommonKeys(this.facialExpressions).sort().map(group => ElementButton.Create(
+						`${ids.menuLeft}-${group}`,
+						this.eventListeners._expressionRadioGroupClick,
+						{ role: "menuitemradio", image: `Assets/Female3DCG/${group}/Icon.png` },
+						{ button: {
+							classList: ["dialog-menubar-button"],
+							attributes: {
+								name: group,
+								"aria-expanded": "false",
+								"aria-owns": `${ids.grid}-${group}`,
+								"aria-label": AssetGroupGet("Female3DCG", group).Description,
+							},
+						}},
+					)),
+					{ direction: "rtl" },
+					{ menu: { attributes: { "aria-orientation": "vertical" } } },
+				),
+				...expressionEntries.sort(([group1], [group2]) => {
+					return group1.localeCompare(group2);
+				}).map(([group, expressions]) => {
+					return {
+						tag: /** @type {const} */("div"),
+						classList: ["dialog-grid", "dialog-expression-grid", "scroll-box"],
+						attributes: {
+							id: `${ids.grid}-${group}`,
+							role: "radiogroup",
+							"aria-required": "true",
+							"aria-label": AssetGroupGet("Female3DCG", group).Description,
+						},
+						dataAttributes: { name: group, unload: true },
+					};
+				}),
+				{ tag: "div", attributes: { id: ids.grid } },
+			],
+		});
+	}
+
+	/** @type {DialogMenu["_ReloadStatus"]} */
+	_ReloadStatus(root, span, parameters, options) {
+		const textContent = options.status ?? InterfaceTextGet("FacialExpression");
+		DialogSetStatus(textContent, options.statusTimer ?? 0, null, span.id);
+	}
+
+	/** @type {DialogMenu["_ReloadButtonGrid"]} */
+	_ReloadButtonGrid(root, _buttonGrid, parameters, options) {
+		const { C } = parameters;
+		for (const buttonGrid of root.querySelectorAll(".dialog-grid")) {
+			const owningButton = root.querySelector(`[aria-owns="${buttonGrid.id}"]`);
+			const group = /** @type {Exclude<ExpressionGroupName, "Eyes2">} */(buttonGrid.getAttribute("data-name"));
+			const expressions = this.facialExpressions[group];
+			const expressionItem = InventoryGet(C, group);
+			const currentExpression = C.ActiveExpression[group] ?? null;
+			if (!expressions || !owningButton || !expressionItem || !expressions.includes(currentExpression)) {
+				continue;
+			}
+
+			if (options.reset) {
+				buttonGrid.innerHTML = "";
+				buttonGrid.replaceChildren(...expressions.map((name, i) => ElementButton.Create(
+					`${this.ids.grid}-${group}-${name}`,
+					this.eventListeners._ClickButton,
+					{
+						clickDisabled: this.eventListeners._ClickDisabledButton,
+						role: "radio",
+						image: `Assets/Female3DCG/${group}/${name ? name + "/Icon" : "Icon"}.png`,
+						allowRequiredClick: true,
+					},
+					{ button: {
+						classList: ["dialog-menubar-button"],
+						attributes: {
+							name,
+							tabindex: i === 0 ? 0 : -1,
+							"aria-checked": i === 0,
+							"aria-label": name ?? "None",
+						},
+						dataAttributes: { group },
+					}},
+				)));
+			}
+
+			const buttons = /** @type {NodeListOf<HTMLButtonElement>} */(buttonGrid.querySelectorAll("button[role='radio']"));
+			for (const button of buttons) {
+				/** @type {ExpressionPair} */
+				const expressionObj = {
+					Group: group,
+					Expression: /** @type {null | ExpressionName} */(button.name || null),
+				};
+
+				const status = this.GetClickStatus(C, expressionObj, expressionItem);
+				if (status) {
+					button.setAttribute("aria-disabled", "true");
+				} else {
+					button.removeAttribute("aria-disabled");
+				}
+
+				if (expressionObj.Expression === currentExpression) {
+					button.setAttribute("aria-checked", "true");
+					button.setAttribute("tabindex", "0");
+					const src = button.querySelector(".button-image")?.getAttribute("src");
+					if (src) {
+						owningButton.querySelector(".button-image")?.setAttribute("src", src);
+					}
+				} else {
+					button.setAttribute("aria-checked", "false");
+					button.setAttribute("tabindex", "-1");
+				}
+			}
+
+			if (group === "Pussy") {
+				owningButton.toggleAttribute("data-unload", !C.HasPenis());
+			}
+
+			if (options.resetScrollbar && !buttonGrid.hasAttribute("data-unload")) {
+				buttonGrid.querySelector(`[role="radio"][aria-checked='true']`)?.scrollIntoView({ behavior: "instant" });
+			}
+		}
+	}
+
+	/** @type {DialogMenu["_ReloadIcon"]} */
+	_ReloadIcon(root, icon, parameters, options) { /** noop */ }
+
+	/** @type {DialogMenu<string, ExpressionPair>["_GetClickedObject"]} */
+	_GetClickedObject(button) {
+		const group = /** @type {undefined | Exclude<ExpressionGroupName, "Eyes2">} */(button.dataset.group);
+		const name = /** @type {null | ExpressionName} */(button.name || null);
+		return group ? { Group: group, Expression: name } : null;
+	}
+
+	/** @type {DialogMenu<string, ExpressionPair>["_ClickButton"]} */
+	_ClickButton(button, C, clickedObj, equippedItem) {
+		if (equippedItem?.Property?.Expression === clickedObj.Expression) {
+			return;
+		}
+
+		CharacterSetFacialExpression(C, clickedObj.Group, clickedObj.Expression);
+		C.ActiveExpression.setWithoutReload(clickedObj.Group, clickedObj.Expression ?? undefined);
+
+		const thisImg = button.querySelector(".button-image");
+		const controllerImg = document.querySelector(`#${this.ids.menuLeft} [role="menuitemradio"][name="${clickedObj.Group}"] .button-image`);
+		if (thisImg && controllerImg) {
+			controllerImg.setAttribute("src", thisImg.getAttribute("src"));
+		}
+
+		// Reset the blinking button if the eyes aren't open
+		const blinkButton = document.querySelector(`#${this.ids.menubar} [name="blink"]`);
+		if (blinkButton && blinkButton.getAttribute("aria-valuenow") !== "1") {
+			blinkButton.setAttribute("aria-valuenow", "1");
+			blinkButton.setAttribute("aria-valuetext", "None");
+			blinkButton.querySelector(".button-image")?.setAttribute("src", "Icons/WinkNone.png");
+		}
+	}
+}
+
+/**
+ * @template {DialogSelfMenuName} ModeType
+ * @extends {_DialogSelfMenu<ModeType, Pose>}
+ */
+class _DialogPoseMenu extends _DialogSelfMenu {
+	ids = Object.freeze({
+		root: "dialog-pose",
+		status: "dialog-pose-status",
+		menubar: "dialog-pose-menubar",
+		grid: "dialog-pose-button-grid",
+	});
+
+	/** @satisfies {DialogMenu<ModeType, Pose>["clickStatusCallbacks"]} */
+	clickStatusCallbacks = {
+		PoseAvailable(C, pose) {
+			const available = PoseAvailable(C, pose.Category, pose.Name);
+			return available ? null : InterfaceTextGet(`PrerequisiteCannot${pose.Name}`);
+		},
+		ChatRoomOwnerPresenceRule(C, pose) {
+			return (C.IsPlayer() && ChatRoomOwnerPresenceRule("BlockChangePose", C)) ? InterfaceTextGet("OwnerBlockChangePose") : null;
+		},
+	};
+
+	/**
+	 * See {@link poses}
+	 * @private
+	 * @type {null | Readonly<Partial<Record<AssetPoseCategory, readonly Pose[]>>>}
+	 */
+	_poses = null;
+
+	/**
+	 * An object mapping all (potentially) button-valid pose categories to their respective poses.
+	 * @readonly
+	 * @type {Readonly<Partial<Record<AssetPoseCategory, readonly Pose[]>>>}
+	 */
+	get poses() {
+		if (this._poses == null) {
+			/** @type {Partial<Record<AssetPoseCategory, Pose[]>>} */
+			const poses = {};
+			for (const pose of PoseFemale3DCG) {
+				if (pose.AllowMenu || pose.AllowMenuTransient) {
+					(poses[pose.Category] ??= []).push(pose);
+				}
+			}
+			return this._poses = poses;
+		} else {
+			return this._poses;
+		}
+	}
+
+	/**
+	 * @param {ModeType} mode The name of the mode associated with this instance
+	 */
+	constructor(mode) {
+		super(mode);
+		this.eventListeners = {
+			...this.eventListeners,
+
+			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
+			_clickPoseMutuallyExclusive: function(ev) {
+				const parent = this.closest(".dialog-grid");
+				if (!parent) {
+					ev.stopImmediatePropagation();
+					return;
+				}
+
+				// Disable the `BodyFull` poses if a `BodyUpper`/`BodyLower` pose is selected and vice versa
+				const category = this.getAttribute("data-group");
+				if (category === "BodyFull") {
+					parent.querySelectorAll(".dialog-pose-grid:not([data-name='BodyFull']) > [role='radio']").forEach((button) => {
+						button.setAttribute("aria-checked", "false");
+						button.setAttribute("tabindex", button.previousElementSibling ? "-1" : "0");
+					});
+				} else {
+					parent.querySelectorAll(".dialog-pose-grid[data-name='BodyFull'] > [role='radio']").forEach((button) => {
+						button.setAttribute("aria-checked", "false");
+						button.setAttribute("tabindex", button.previousElementSibling ? "-1" : "0");
+					});
+					parent.querySelectorAll(".dialog-pose-grid:not([data-name='BodyFull'])").forEach(radiogrid => {
+						if (!radiogrid.querySelector("[role='radio'][aria-checked='true']")) {
+							radiogrid.querySelectorAll("[role='radio']").forEach((button, i) => {
+								button.setAttribute("aria-checked", i === 0 ? "true" : "false");
+								button.setAttribute("tabindex", i === 0 ? "0" : "-1");
+							});
+						}
+					});
+				}
+			}
+		};
+	}
+
+	_Load() {
+		const ids = this.ids;
+		return document.getElementById(ids.root) ?? ElementCreate({
+			tag: "div",
+			attributes: { id: ids.root, "aria-labelledby": ids.status },
+			parent: document.body,
+			classList: ["dialog-root", "dialog-self-menu-root"],
+			children: [
+				{
+					tag: "span",
+					attributes: { id: ids.status },
+					classList: ["dialog-status", "scroll-box"],
+				},
+				ElementMenu.Create(
+					ids.menubar,
+					[
+						ElementButton.Create(
+							`${ids.menubar}-next`,
+							this.eventListeners._ClickMenuButton,
+							{ tooltip: InterfaceTextGet("NextPage"), tooltipPosition: "right", image: "Icons/Next.png", clickDisabled: this.eventListeners._ClickDisabledMenuButton },
+							{ button: { attributes: { name: "next" }, classList: ["dialog-menubar-button"] } },
+						),
+					],
+					{ direction: "rtl" },
+					{ menu: { classList: ["dialog-self-menu-menubar"] } },
+				),
+				{
+					tag: "div",
+					attributes: { id: ids.grid },
+					classList: ["dialog-grid", "scroll-box"],
+					children: CommonKeys(this.poses).map((category) => {
+						return {
+							tag: /** @type {const} */("div"),
+							classList: ["dialog-pose-grid"],
+							attributes: {
+								id: `${ids.grid}-${category}`,
+								role: "radiogroup",
+								"aria-required": "true",
+							},
+							dataAttributes: { name: category },
+						};
+					}),
+				},
+			],
+		});
+	}
+
+	/** @type {DialogMenu["_ReloadStatus"]} */
+	_ReloadStatus(root, span, parameters, options) {
+		const textContent = options.status ?? InterfaceTextGet("PoseMenu");
+		DialogSetStatus(textContent, options.statusTimer ?? 0, null, this.ids.status);
+	}
+
+	/** @type {DialogMenu["_ReloadButtonGrid"]} */
+	_ReloadButtonGrid(root, buttonGrid, parameters, options) {
+		const { C } = parameters;
+		for (const poseGrid of buttonGrid.querySelectorAll(".dialog-pose-grid")) {
+			const poseCategory = /** @type {AssetPoseCategory} */(poseGrid.getAttribute("data-name"));
+			const poses = this.poses[poseCategory];
+			if (!poses) {
+				continue;
+			}
+
+			if (options.reset) {
+				poseGrid.innerHTML = "";
+				poseGrid.replaceChildren(...poses.map((pose, i) => {
+					const button = ElementButton.Create(
+						`${this.ids.grid}-${pose.Category}-${pose.Name}`,
+						this.eventListeners._ClickButton,
+						{
+							clickDisabled: this.eventListeners._ClickDisabledButton,
+							role: "radio",
+							image: `Icons/Poses/${pose.Name}.png`,
+							allowRequiredClick: true,
+						},
+						{ button: {
+							classList: ["dialog-menubar-button"],
+							attributes: {
+								name: pose.Name,
+								tabindex: -1,
+								"aria-checked": "false",
+							},
+							dataAttributes: { group: pose.Category },
+						}},
+					);
+					button.addEventListener("click", this.eventListeners._clickPoseMutuallyExclusive);
+					return button;
+				}));
+			}
+
+			let activePose = C.ActivePoseMapping[poseCategory];
+			if (!activePose && !C.ActivePoseMapping.BodyFull) {
+				switch (poseCategory) {
+					case "BodyUpper":
+						activePose = "BaseUpper";
+						break;
+					case "BodyLower":
+						activePose = "BaseLower";
+						break;
+				}
+			}
+
+			for (const [i, button] of poseGrid.querySelectorAll("[role='radio']").entries()) {
+				const pose = poses[i];
+				if (!pose) {
+					break;
+				}
+
+				const status = this.GetClickStatus(C, pose, null);
+				if (status) {
+					button.setAttribute("aria-disabled", "true");
+				} else {
+					button.removeAttribute("aria-disabled");
+				}
+
+				if (!activePose) {
+					button.setAttribute("tabindex", (i === 0).toString());
+					button.setAttribute("aria-checked", "false");
+				} else if (activePose === pose.Name) {
+					button.setAttribute("tabindex", "0");
+					button.setAttribute("aria-checked", "true");
+				} else {
+					button.setAttribute("tabindex", "-1");
+					button.setAttribute("aria-checked", "false");
+				}
+			}
+		}
+
+		if (options.resetScrollbar) {
+			buttonGrid.scrollTo({ top: 0, behavior: "instant" });
+		}
+	}
+
+	/** @type {DialogMenu["_ReloadIcon"]} */
+	_ReloadIcon(root, icon, parameters, options) { /** noop */ }
+
+	/** @type {DialogMenu<string, Pose>["_GetClickedObject"]} */
+	_GetClickedObject(button) {
+		const category = /** @type {null | AssetPoseCategory} */(button.getAttribute("data-group"));
+		const name = /** @type {null | AssetPoseName} */(button.name || null);
+		return Pose.find(p => p.Name === name && p.Category === category) ?? null;
+	}
+
+	/** @type {DialogMenu<string, Pose>["_ClickButton"]} */
+	_ClickButton(button, C, pose) {
+		if (C.PoseMapping[pose.Category] === pose.Name) {
+			return;
+		}
+
+		PoseSetActive(C, pose.Name, undefined, false);
+		if (CurrentScreen === "ChatRoom") {
+			ServerSend("ChatRoomCharacterPoseUpdate", { Pose: C.ActivePose });
+		}
+	}
+}
+
+/**
+ * @template {DialogSelfMenuName} ModeType
+ * @extends {_DialogSelfMenu<ModeType, number>}
+ */
+class _DialogSavedExpressionsMenu extends _DialogSelfMenu {
+	ids = Object.freeze({
+		root: "dialog-expression-preset",
+		status: "dialog-expression-preset-status",
+		menubar: "dialog-expression-preset-menubar",
+		grid: "dialog-expression-preset-button-grid",
+	});
+
+	/** @type {DialogMenu<ModeType, number>["clickStatusCallbacks"]} */
+	clickStatusCallbacks = {};
+
+	/**
+	 * See {@link expressionPreviews}
+	 * @private
+	 * @type {null | (null | Character)[]}
+	 */
+	_expressionPreviews = null;
+
+	/**
+	 * @readonly
+	 * @type {readonly (null | Character)[]}
+	 */
+	get expressionPreviews() {
+		if (this._expressionPreviews == null) {
+			return this._expressionPreviews = DialogBuildSavedExpressionsMenu();
+		} else {
+			return this._expressionPreviews;
+		}
+	}
+
+	Draw() {
+		const root = document.getElementById(this.ids.root);
+		if (!root || root.hasAttribute("data-unload")) {
+			return;
+		}
+
+		for (const [i, preview] of this.expressionPreviews.entries()) {
+			const canvas = /** @type {null | HTMLCanvasElement} */(root.querySelector(`li[data-index="${i}"] > canvas`))?.getContext("2d");
+			if (!canvas) {
+				continue;
+			}
+
+			canvas.clearRect(0, 0, 200, 200);
+			if (preview != null) {
+				const canvasSegment = DrawCharacterSegment(preview, 150, 30, 200, 200);
+				canvas.drawImage(canvasSegment, 0, 0, 200, 200);
+			}
+		}
+	}
+
+	Exit() {
+		super.Exit();
+		for (const C of this.expressionPreviews) {
+			CharacterDelete(C, false);
+		}
+	}
+
+	_Load() {
+		const ids = this.ids;
+		return document.getElementById(ids.root) ?? ElementCreate({
+			tag: "div",
+			attributes: { id: ids.root, "aria-labelledby": ids.status },
+			parent: document.body,
+			classList: ["dialog-root", "dialog-self-menu-root"],
+			children: [
+				{
+					tag: "span",
+					attributes: { id: ids.status },
+					classList: ["dialog-status", "scroll-box"],
+				},
+				ElementMenu.Create(
+					ids.menubar,
+					[
+						ElementButton.Create(
+							`${ids.menubar}-next`,
+							this.eventListeners._ClickMenuButton,
+							{ tooltip: InterfaceTextGet("NextPage"), tooltipPosition: "right", image: "Icons/Next.png", clickDisabled: this.eventListeners._ClickDisabledMenuButton },
+							{ button: { attributes: { name: "next" }, classList: ["dialog-menubar-button"] } },
+						),
+					],
+					{ direction: "rtl" },
+					{ menu: { classList: ["dialog-self-menu-menubar"] } },
+				),
+				{
+					tag: "menu",
+					attributes: { id: ids.grid },
+					classList: ["dialog-grid", "scroll-box"],
+					children: [0, 1, 2, 3, 4].map(i => {
+						return {
+							tag: "li",
+							dataAttributes: { index: i },
+							classList: ["dialog-expression-preset-slot"],
+							children: [
+								{ tag: "canvas", attributes: { width: 200, height: 200 } },
+								ElementButton.Create(
+									`${ids.grid}-${i}-save`,
+									this.eventListeners._ClickButton,
+									{ clickDisabled: this.eventListeners._ClickDisabledButton, label: "Save", labelPosition: "center" },
+									{ button: {
+										attributes: { name: "save" },
+									}},
+								),
+								ElementButton.Create(
+									`${ids.grid}-${i}-load`,
+									this.eventListeners._ClickButton,
+									{ clickDisabled: this.eventListeners._ClickDisabledButton, label: "Load", labelPosition: "center" },
+									{ button: {
+										attributes: { name: "load" },
+									}}
+								),
+							],
+						};
+					}),
+				},
+			],
+		});
+	}
+
+	/** @type {DialogMenu["_ReloadStatus"]} */
+	_ReloadStatus(root, span, parameters, options) {
+		const textContent = options.status ?? InterfaceTextGet("SavedExpressions");
+		DialogSetStatus(textContent, options.statusTimer ?? 0, null, this.ids.status);
+	}
+
+	/** @type {DialogMenu["_ReloadButtonGrid"]} */
+	_ReloadButtonGrid(root, buttonGrid, parameters, options) {
+		this._expressionPreviews = DialogBuildSavedExpressionsMenu();
+	}
+
+	/** @type {DialogMenu["_ReloadIcon"]} */
+	_ReloadIcon(root, icon, parameters, options) { /** noop */ }
+
+	/** @type {DialogMenu<string, number>["_GetClickedObject"]} */
+	_GetClickedObject(button) {
+		const slot = Number.parseInt(button.closest("li")?.getAttribute("data-index"), 10);
+		return Number.isNaN(slot) ? null : slot;
+	}
+
+	/** @type {DialogMenu<string, number>["_ClickButton"]} */
+	_ClickButton(button, C, expressionSlot) {
+		switch (button.name) {
+			case "save": {
+				const expressions = C.Appearance.filter(item => item.Asset.Group.AllowExpression).map(item => {
+					return {
+						Group: /** @type {ExpressionGroupName} */(item.Asset.Group.Name),
+						CurrentExpression: item.Property?.Expression,
+					};
+				});
+				Player.SavedExpressions[expressionSlot] = expressions.every(i => i.CurrentExpression == null) ? null : expressions;
+				ServerAccountUpdate.QueueData({ SavedExpressions: Player.SavedExpressions });
+				this._expressionPreviews = DialogBuildSavedExpressionsMenu();
+				break;
+			}
+			case "load":
+				DialogFacialExpressionsLoad(expressionSlot);
+				break;
+		}
+	}
+}
+
+/**
+ * @template {DialogSelfMenuName} ModeType
+ * @extends {_DialogSelfMenu<ModeType, null>}
+ */
+class _DialogOwnerRulesMenu extends _DialogSelfMenu {
+	ids = Object.freeze({
+		root: "dialog-owner-rules",
+		status: "dialog-owner-rules-status",
+		menubar: "dialog-owner-rules-menubar",
+		grid: "dialog-owner-rules-grid",
+		empty: "dialog-owner-rules-empty",
+	});
+
+	/** @type {DialogMenu<ModeType, number>["clickStatusCallbacks"]} */
+	clickStatusCallbacks = {};
+
+	/** @type {_DialogSelfMenu["IsAvailable"]} */
+	IsAvailable(C) {
+		return !!C.IsOwned() || C.Lovership.length !== 0;
+	}
+
+	_Load() {
+		const ids = this.ids;
+		return document.getElementById(ids.root) ?? ElementCreate({
+			tag: "div",
+			attributes: { id: ids.root, "aria-labelledby": ids.status },
+			parent: document.body,
+			classList: ["dialog-root", "dialog-self-menu-root"],
+			children: [
+				{
+					tag: "span",
+					attributes: { id: ids.status },
+					classList: ["dialog-status", "scroll-box"],
+				},
+				ElementMenu.Create(
+					ids.menubar,
+					[
+						ElementButton.Create(
+							`${ids.menubar}-next`,
+							this.eventListeners._ClickMenuButton,
+							{ tooltip: InterfaceTextGet("NextPage"), tooltipPosition: "right", image: "Icons/Next.png", clickDisabled: this.eventListeners._ClickDisabledMenuButton },
+							{ button: { attributes: { name: "next" }, classList: ["dialog-menubar-button"] } },
+						),
+					],
+					{ direction: "rtl" },
+					{ menu: { classList: ["dialog-self-menu-menubar"] } },
+				),
+				{
+					tag: "ul",
+					attributes: { id: ids.grid },
+					classList: ["dialog-grid", "scroll-box"],
+				},
+			],
+		});
+	}
+
+	/** @type {DialogMenu["_ReloadStatus"]} */
+	_ReloadStatus(root, span, parameters, options) {
+		const textContent = options.status ?? InterfaceTextGet("RulesMenu");
+		DialogSetStatus(textContent, options.statusTimer ?? 0, null, this.ids.status);
+	}
+
+	/** @type {DialogMenu["_ReloadButtonGrid"]} */
+	_ReloadButtonGrid(root, buttonGrid, parameters, options) {
+		/** @type {[name: LogNameType[LogGroupType], group: LogGroupType, logValue?: boolean][]} */
+		const rules = [
+			["BlockOwnerLockSelf", "OwnerRule"],
+			["BlockChange", "OwnerRule", true],
+			["BlockWhisper", "OwnerRule"],
+			["BlockKey", "OwnerRule"],
+			["BlockFamilyKey", "OwnerRule"],
+			["BlockRemote", "OwnerRule"],
+			["BlockRemoteSelf", "OwnerRule"],
+			["ReleasedCollar", "OwnerRule"],
+			["BlockNickname", "OwnerRule"],
+			["BlockLoverLockSelf", "LoverRule"],
+			["BlockLoverLockOwner", "LoverRule"],
+		];
+
+		const children = rules.map(([name, group, logValue]) => {
+			if (!LogQuery(name, group)) {
+				return null;
+			} else {
+				return ElementCreate({
+					tag: "li",
+					dataAttributes: { name, group },
+					children: [
+						InterfaceTextGet(`RulesMenu${name}`),
+						(logValue ? ` ${TimerToString(LogValue(name, group) - CurrentTime)}` : null),
+					],
+				});
+			}
+		}).filter(Boolean);
+		if (!children.length) {
+			children.push(ElementCreate({
+				tag: "li",
+				children: [InterfaceTextGet("RulesMenuEmpty")],
+			}));
+		}
+
+		buttonGrid.replaceChildren(...children);
+	}
+
+	/** @type {DialogMenu["_ReloadIcon"]} */
+	_ReloadIcon(root, icon, parameters, options) { /** noop */ }
+
+	/** @type {DialogMenu<string, null>["_GetClickedObject"]} */
+	_GetClickedObject(button) { return null; /** noop */ }
+
+	/** @type {DialogMenu<string, null>["_ClickButton"]} */
+	_ClickButton(button, C, expressionSlot) { /** noop */ }
+}
+
+
 /** @satisfies {Partial<Record<DialogMenuMode, DialogMenu<DialogMenuMode>>>} */
 var DialogMenuMapping = /** @type {const} */({
 	activities: new _DialogActivitiesMenu("activities"),
@@ -4456,6 +5309,14 @@ var DialogMenuMapping = /** @type {const} */({
 	locked: new _DialogItemMenu("locked"),
 	locking: new _DialogLockingMenu("locking"),
 	permissions: new _DialogPermissionMenu("permissions"),
+});
+
+/** @satisfies {Record<DialogSelfMenuName, _DialogSelfMenu>} */
+var DialogSelfMenuMapping = /** @type {const} */({
+	Expression: new _DialogExpressionMenu("Expression"),
+	Pose: new _DialogPoseMenu("Pose"),
+	SavedExpressions: new _DialogSavedExpressionsMenu("SavedExpressions"),
+	OwnerRules: new _DialogOwnerRulesMenu("OwnerRules"),
 });
 
 /**
@@ -4542,43 +5403,84 @@ function DialogDrawTopMenu(C) {
 	}
 }
 
-/**
- * Draws the left menu for the character
- * @param {Character} C - The currently focused character
- */
-function DialogSelfMenuDraw(C) {
-	if (!C.IsPlayer()) return;
+var DialogFocusGroup = {
+	/**
+	 *
+	 * @param {string} id - The ID for the to-be created focus group grid
+	 * @param {(this: HTMLButtonElement, ev: MouseEvent) => any} listener - The listener to-be executed upon selecting a group; the group name can be retrieved from `this.name`
+	 * @param {null | { required?: boolean, useDynamicGroupName?: boolean }} options - Further options for the to-be created focus group grid
+	 * @returns {HTMLElement} - The created element
+	 */
+	Create(id, listener, options=null) {
+		options ??= {};
+		const root = document.getElementById(id);
+		if (root) {
+			console.error(`Element "${id}" already exists`);
+			return root;
+		}
 
-	if (DialogSelfMenuOptions.filter(SMO => SMO.IsAvailable()).length > 1 && !CommonPhotoMode)
-		DrawButton(420, 50, 90, 90, "", "White", "Icons/Next.png", InterfaceTextGet("NextPage"));
+		let top = Infinity;
+		let bottom = 0;
+		let left = Infinity;
+		let right = 0;
 
-	if (!DialogSelfMenuSelected)
-		DialogDrawExpressionMenu();
-	else
-		DialogSelfMenuSelected.Draw();
-}
+		/** @type {{ group: AssetGroup, index: number, zone: RectTuple }[]} */
+		const grid = [];
+		for (const group of AssetGroup) {
+			for (const [index, zone] of (group.Zone ?? []).entries()) {
+				grid.push({ group, index, zone});
+				left = Math.min(left, zone[0]);
+				right = Math.max(right, zone[0] + zone[2]);
+				top = Math.min(top, zone[1]);
+				bottom = Math.max(bottom, zone[1] + zone[3]);
+			}
+		}
+		grid.sort((a, b) => (a.zone[1] - b.zone[1]) || (a.zone[0] - b.zone[0]));
 
-/**
- * Handles clicks on the left menu
- * @param {Character} C - The currently focused character
- */
-function DialogSelfMenuClick(C) {
-	if (!C.IsPlayer()) return;
+		const width = right - left;
+		const height = bottom - top;
 
-	if (MouseIn(420, 50, 90, 90) && DialogSelfMenuOptions.filter(SMO => SMO.IsAvailable()).length > 1) {
-		DialogFindNextSubMenu();
-		return;
-	}
+		const children = grid.map(({ group, index, zone }, i) => ElementButton.Create(
+			`${id}-${group.Name}-${index}`,
+			listener,
+			{ noStyling: true, role: "radio" },
+			{ button: {
+				attributes: {
+					name: options.useDynamicGroupName ? group.DynamicGroupName : group.Name,
+					tabindex: i === 0 ? 0 : -1,
+					"aria-hidden": index !== 0 ? "true" : undefined,
+					"aria-label": group.Description,
+				},
+				style: {
+					left: `${100 * (zone[0] - left) / width}%`,
+					top: `${100 * (zone[1] - top) / height}%`,
+					width: `${100 * (zone[2] / width)}%`,
+					height: `${100 * (zone[3] / height)}%`,
+				},
+			}},
+		));
 
-	if (!DialogSelfMenuSelected)
-		DialogClickExpressionMenu();
-	else
-		DialogSelfMenuSelected.Click();
-}
+		return ElementCreate({
+			tag: "div",
+			attributes: { id },
+			classList: ["dialog-focus-grid"],
+			children: [{
+				tag: "div",
+				children,
+				attributes: {
+					id: `${id}-radiogroup`,
+					role: "radiogroup",
+					"aria-required": options.required ? "true" : "false",
+					"aria-label": "Select focus group",
+				},
+			}],
+		});
+	},
+};
 
 /**
  * Load function for starting the Dialog subscreen.
- * @type {ScreenFunctions["Load"]}
+ * @type {ScreenLoadHandler}
  */
 function DialogLoad() {
 	if (CurrentCharacter == null) {
@@ -4591,6 +5493,9 @@ function DialogLoad() {
 		C._CurrentDialog = newDialog;
 	}
 
+	if (C.IsPlayer()) {
+		DialogSelfMenuMapping[DialogSelfMenuSelected ?? "Expression"]?.Init({ C });
+	}
 	DialogChangeMode(DialogMenuMode ?? "dialog", true);
 }
 
@@ -4600,7 +5505,7 @@ function DialogLoad() {
  * This is the main handler for drawing the Dialog UI, which activates
  * when the player clicks on herself or another player.
  *
- * @type {ScreenFunctions["Draw"]}
+ * @type {ScreenDrawHandler}
  */
 function DialogDraw() {
 
@@ -4627,8 +5532,6 @@ function DialogDraw() {
 	// can cause the dialog to close (like the Futuristic Training Belt)
 	if (!C) return;
 	CharacterCheckHooks(C, true);
-
-	DialogSelfMenuDraw(C);
 
 	// Block out drawing anything else if we're not supposed to interact with the selected character
 	if (
@@ -4709,197 +5612,15 @@ function DialogDraw() {
 	DialogDrawRepositionButton();
 
 	DialogMenuMapping[DialogMenuMode]?.Draw();
-}
-
-/**
- * Draw the menu for changing facial expressions
- * @returns {void} - Nothing
- */
-function DialogDrawExpressionMenu() {
-
-	// Draw the expression groups
-	DrawText(InterfaceTextGet("FacialExpression"), 165, 25, "White", "Black");
-	if (typeof DialogFacialExpressionsSelected === 'number' && DialogFacialExpressionsSelected >= 0 && DialogFacialExpressionsSelected < DialogFacialExpressions.length && DialogFacialExpressions[DialogFacialExpressionsSelected].Appearance.Asset.Group.AllowColorize && DialogFacialExpressions[DialogFacialExpressionsSelected].Group !== "Eyes") {
-		DrawButton(320, 50, 90, 90, "", "White", "Icons/ColorChange.png", InterfaceTextGet("DialogMenuColorExpressionChange"));
-	}
-	DrawButton(220, 50, 90, 90, "", "White", "Icons/BlindToggle" + DialogFacialExpressionsSelectedBlindnessLevel + ".png", InterfaceTextGet("BlindToggleFacialExpressions"));
-	const Expression = WardrobeGetExpression(Player);
-	const Eye1Closed = Expression.Eyes === "Closed";
-	const Eye2Closed = Expression.Eyes2 === "Closed";
-	let WinkIcon = "WinkNone";
-	if (Eye1Closed && Eye2Closed) WinkIcon = "WinkBoth";
-	else if (Eye1Closed) WinkIcon = "WinkR";
-	else if (Eye2Closed) WinkIcon = "WinkL";
-	DrawButton(120, 50, 90, 90, "", "White", `Icons/${WinkIcon}.png`, InterfaceTextGet("WinkFacialExpressions"));
-	DrawButton(20, 50, 90, 90, "", "White", "Icons/Reset.png", InterfaceTextGet("ClearFacialExpressions"));
-	if (!DialogFacialExpressions || !DialogFacialExpressions.length) DialogFacialExpressionsBuild();
-
-	for (const [i, FE] of DialogFacialExpressions.entries()) {
-		const OffsetY = 185 + 100 * i;
-		DrawButton(20, OffsetY, 90, 90, "", i == DialogFacialExpressionsSelected ? "Cyan" : "White", "Assets/Female3DCG/" + FE.Group + (FE.CurrentExpression ? "/" + FE.CurrentExpression : "") + "/Icon.png");
-
-		// Draw the table with expressions
-		if (i == DialogFacialExpressionsSelected) {
-			const nPages = Math.ceil(FE.ExpressionList.length / DialogFacialExpressionsPerPage);
-			if (nPages > 1) {
-				DrawButton(155, 785, 90, 90, "", "White", `Icons/Prev.png`, InterfaceTextGet("PrevExpressions"));
-				DrawButton(255, 785, 90, 90, "", "White", `Icons/Next.png`, InterfaceTextGet("NextExpressions"));
-			}
-			const expressionSubset = FE.ExpressionList.slice(
-				DialogFacialExpressionsSelectedPage * DialogFacialExpressionsPerPage,
-				DialogFacialExpressionsSelectedPage * DialogFacialExpressionsPerPage + DialogFacialExpressionsPerPage,
-			);
-			for (const [j, expression] of expressionSubset.entries()) {
-				const EOffsetX = 155 + 100 * (j % 3);
-				const EOffsetY = 185 + 100 * Math.floor(j / 3);
-				const allowed = CharacterIsExpressionAllowed(Player, FE.Appearance, expression);
-				const color = (expression == FE.CurrentExpression ? "Pink" : (!allowed ? "#888" : "White"));
-				const icon = "Assets/Female3DCG/" + FE.Group + (expression ? "/" + expression : "") + "/Icon.png";
-				DrawButton(EOffsetX, EOffsetY, 90, 90, "", color, icon);
-			}
-		}
-	}
-}
-
-/**
- * Return the page number of the expression item's current expression.
- * @param {ExpressionItem} item - The expression item
- * @returns {number} The page number of the item's current expression
- */
-function DialogGetCurrentExpressionPage(item) {
-	const index = item.ExpressionList.findIndex(name => item.CurrentExpression === name);
-	return index === -1 ? 0 : Math.floor(index / DialogFacialExpressionsPerPage);
+	DialogSelfMenuMapping[DialogSelfMenuSelected]?.Draw();
 }
 
 /**
  * Handles clicks in the dialog expression menu.
+ * @deprecated - Superseded by {@link DialogSelfMenuMapping["Expression"]}
  * @returns {void} - Nothing
  */
-function DialogClickExpressionMenu() {
-	if (MouseIn(20, 50, 90, 90)) {
-		CharacterResetFacialExpression(Player);
-		DialogFacialExpressions.forEach(FE => {
-			// Reset the fluids' custom color
-			if (FE.Group === "Fluids") {
-				FE.Appearance.Color = "Default";
-			}
-			FE.CurrentExpression = null;
-		});
-		if (DialogMenuMode === "colorExpression") ItemColorSaveAndExit();
-	} else if (MouseIn(120, 50, 90, 90)) {
-		const CurrentExpression = DialogFacialExpressions.find(FE => FE.Group == "Eyes").CurrentExpression;
-		const EyesExpression = WardrobeGetExpression(Player);
-		const LeftEyeClosed = EyesExpression.Eyes2 === "Closed";
-		const RightEyeClosed = EyesExpression.Eyes === "Closed";
-		if (!LeftEyeClosed && !RightEyeClosed) CharacterSetFacialExpression(Player, "Eyes2", "Closed", null);
-		else if (LeftEyeClosed && !RightEyeClosed) CharacterSetFacialExpression(Player, "Eyes", "Closed", null);
-		else if (LeftEyeClosed && RightEyeClosed) CharacterSetFacialExpression(Player, "Eyes2", CurrentExpression !== "Closed" ? CurrentExpression : null, null);
-		else CharacterSetFacialExpression(Player, "Eyes", CurrentExpression !== "Closed" ? CurrentExpression : null, null);
-	} else if (MouseIn(220, 50, 90, 90)) {
-		DialogFacialExpressionsSelectedBlindnessLevel += 1;
-		if (DialogFacialExpressionsSelectedBlindnessLevel > 3)
-			DialogFacialExpressionsSelectedBlindnessLevel = 1;
-	} else if (MouseIn(320, 50, 90, 90)) {
-		if (typeof DialogFacialExpressionsSelected === 'number' && DialogFacialExpressionsSelected >= 0 && DialogFacialExpressionsSelected < DialogFacialExpressions.length && DialogFacialExpressions[DialogFacialExpressionsSelected].Appearance.Asset.Group.AllowColorize && DialogFacialExpressions[DialogFacialExpressionsSelected].Group !== "Eyes") {
-			DialogChangeMode("colorExpression");
-			const GroupName = DialogFacialExpressions[DialogFacialExpressionsSelected].Appearance.Asset.Group.Name;
-			const Item = InventoryGet(Player, GroupName);
-			const originalColor = Item.Color;
-			Player.FocusGroup = /** @type {AssetItemGroup} */ (AssetGroupGet(Player.AssetFamily, GroupName));
-			ItemColorLoad(Player, Item, 1200, 25, 775, 950, true);
-			ItemColorOnExit((save) => {
-				DialogMenuBack();
-				if (save && !CommonColorsEqual(originalColor, Item.Color)) {
-					ServerPlayerAppearanceSync();
-					ChatRoomCharacterItemUpdate(Player, GroupName);
-				}
-			});
-		}
-	} else {
-		// Expression category buttons
-		for (let I = 0; I < DialogFacialExpressions.length; I++) {
-			if (MouseIn(20, 185 + 100 * I, 90, 90)) {
-				if (DialogFacialExpressionsSelected !== I) {
-					DialogFacialExpressionsSelected = I;
-					DialogFacialExpressionsSelectedPage = DialogGetCurrentExpressionPage(DialogFacialExpressions[I]);
-				}
-				if (DialogMenuMode === "colorExpression") ItemColorSaveAndExit();
-			}
-		}
-
-		// Expression table
-		if (DialogFacialExpressionsSelected >= 0 && DialogFacialExpressionsSelected < DialogFacialExpressions.length) {
-			const FE = DialogFacialExpressions[DialogFacialExpressionsSelected];
-
-			// Switch pages
-			const nPages = Math.ceil(FE.ExpressionList.length / DialogFacialExpressionsPerPage);
-			if (MouseIn(155, 785, 90, 90) && nPages > 1) {
-				DialogFacialExpressionsSelectedPage = (DialogFacialExpressionsSelectedPage + nPages - 1) % nPages;
-				return;
-			} else if (MouseIn(255, 785, 90, 90) && nPages > 1) {
-				DialogFacialExpressionsSelectedPage = (DialogFacialExpressionsSelectedPage + 1) % nPages;
-				return;
-			}
-
-			const expressionSubset = FE.ExpressionList.slice(
-				DialogFacialExpressionsSelectedPage * DialogFacialExpressionsPerPage,
-				DialogFacialExpressionsSelectedPage * DialogFacialExpressionsPerPage + DialogFacialExpressionsPerPage,
-			);
-			for (const [j, expression] of expressionSubset.entries()) {
-				const EOffsetX = 155 + 100 * (j % 3);
-				const EOffsetY = 185 + 100 * Math.floor(j / 3);
-				if (MouseIn(EOffsetX, EOffsetY, 90, 90) && CharacterIsExpressionAllowed(Player, FE.Appearance, expression)) {
-					CharacterSetFacialExpression(Player, FE.Group, expression);
-					FE.CurrentExpression = expression;
-				}
-			}
-		}
-	}
-}
-
-/**
- * Draws the pose sub menu
- * @returns {void} - Nothing
- */
-function DialogDrawPoseMenu() {
-	// Draw the pose groups
-	DrawText(InterfaceTextGet("PoseMenu"), 250, 100, "White", "Black");
-
-	for (const [offsetX, poseGroup] of CommonEnumerate(DialogActivePoses, 140, 140)) {
-		for (const [offsetY, { Category, Name }] of CommonEnumerate(poseGroup, 180, 100)) {
-			let isActive = false;
-			if (Player.ActivePoseMapping[Category] === Name) {
-				isActive = true;
-			} else if (Name === "BaseUpper" && !(Player.ActivePoseMapping.BodyUpper || Player.ActivePoseMapping.BodyFull)) {
-				isActive = true;
-			} else if (Name === "BaseLower" && !(Player.ActivePoseMapping.BodyLower || Player.ActivePoseMapping.BodyFull)) {
-				isActive = true;
-			}
-			DrawButton(offsetX, offsetY, 90, 90, "", !Player.CanChangeToPose(Name) ? "#888" : isActive ? "Pink" : "White", `Icons/Poses/${Name}.png`);
-		}
-	}
-}
-
-/**
- * Handles clicks in the pose sub menu
- * @returns {void} - Nothing
- */
-function DialogClickPoseMenu() {
-	for (const [offsetX, poseGroup] of CommonEnumerate(DialogActivePoses, 140, 140)) {
-		for (const [offsetY, { Category, Name }] of CommonEnumerate(poseGroup, 180, 100)) {
-			const isActive = Player.ActivePoseMapping[Category] === Name;
-			if (MouseIn(offsetX, offsetY, 90, 90) && !isActive && Player.CanChangeToPose(Name)) {
-				if (ChatRoomOwnerPresenceRule("BlockChangePose", Player)) {
-					DialogLeave();
-					return;
-				}
-				PoseSetActive(Player, Name);
-				if (CurrentScreen == "ChatRoom") ServerSend("ChatRoomCharacterPoseUpdate", { Pose: Player.ActivePose });
-			}
-		}
-	}
-}
-
+function DialogClickExpressionMenu() {}
 
 /**
  * Sets the current character sub menu to the owner rules
@@ -4907,37 +5628,6 @@ function DialogClickPoseMenu() {
  */
 function DialogViewOwnerRules() {
 	DialogFindSubMenu("OwnerRules", true);
-}
-
-/**
- * Draws the rules sub menu
- * @returns {void} - Nothing
- */
-function DialogDrawOwnerRulesMenu() {
-	// Draw the pose groups
-	DrawText(InterfaceTextGet("RulesMenu"), 230, 100, "White", "Black");
-
-	/** @type {{Tag: string, Value?: number}[]} */
-	const ToDisplay = [];
-
-	if (LogQuery("BlockOwnerLockSelf", "OwnerRule")) ToDisplay.push({ Tag: "BlockOwnerLockSelf" });
-	if (LogQuery("BlockChange", "OwnerRule")) ToDisplay.push({ Tag: "BlockChange", Value: LogValue("BlockChange", "OwnerRule") });
-	if (LogQuery("BlockWhisper", "OwnerRule")) ToDisplay.push({ Tag: "BlockWhisper" });
-	if (LogQuery("BlockKey", "OwnerRule")) ToDisplay.push({ Tag: "BlockKey" });
-	if (LogQuery("BlockFamilyKey", "OwnerRule")) ToDisplay.push({ Tag: "BlockFamilyKey" });
-	if (LogQuery("BlockRemote", "OwnerRule")) ToDisplay.push({ Tag: "BlockRemote" });
-	if (LogQuery("BlockRemoteSelf", "OwnerRule")) ToDisplay.push({ Tag: "BlockRemoteSelf" });
-	if (LogQuery("ReleasedCollar", "OwnerRule")) ToDisplay.push({ Tag: "ReleasedCollar" });
-	if (LogQuery("BlockNickname", "OwnerRule")) ToDisplay.push({ Tag: "BlockNickname" });
-	if (LogQuery("BlockLoverLockSelf", "LoverRule")) ToDisplay.push({ Tag: "BlockLoverLockSelf" });
-	if (LogQuery("BlockLoverLockOwner", "LoverRule")) ToDisplay.push({ Tag: "BlockLoverLockOwner" });
-	if (ToDisplay.length == 0) ToDisplay.push({ Tag: "Empty" });
-
-	for (const [i, { Tag, Value }] of ToDisplay.entries()) {
-		const Y = 180 + 110 * i;
-		const TextToDraw = InterfaceTextGet(`RulesMenu${Tag}`) + (Value ? ` ${TimerToString(Value - CurrentTime)}` : "");
-		DrawTextWrap(TextToDraw, 25, Y, 485, 95, "#fff", undefined, 2);
-	}
 }
 
 /**

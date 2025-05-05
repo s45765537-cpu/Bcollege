@@ -358,6 +358,8 @@ Change Opacity
 改变遮光度
 Option needs to be bought
 需要购买的选项
+<b>You've asked TargetCharacterName to become your submissive. Don't forget to friend them if they accept!</b>
+<b>你已经请求TargetCharacterName成为你的顺从者。如果她同意了，别忘了添加她为好友！</b>
 Page
 页
 A Pandora guard puts TargetCharacterName in new restraints.
@@ -596,7 +598,7 @@ Unzip the suit first.
 ，和
 View previous expressions
 查看之前表情
-Allowed Limited Item
+Allowed limited item
 允许限制物品
 Heavily blinds
 重度遮眼
@@ -606,6 +608,8 @@ Blinds
 遮眼
 Restrains hands
 束缚手
+Blocked item
+被屏蔽的物品
 Buygroup member
 购买物品组成员
 Heavily deafens
@@ -714,8 +718,8 @@ Requires self-bondage 8.
 需要自缚技能等级8
 Requires self-bondage 9.
 需要自缚技能等级9
-Active Rules
-生效规则
+Active owner/lover rules
+启用的主人/恋人规则
 Cannot change:
 无法更改:
 Blocked: Family keys

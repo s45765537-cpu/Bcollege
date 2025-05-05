@@ -132,6 +132,11 @@
 	height: calc(2.5 * var(--button-size));
 }
 
+#crafting-asset-grid button[data-unload]:not([aria-checked="true"]),
+#crafting-asset-grid button[data-unload-group]:not([aria-checked="true"]) {
+	display: none;
+}
+
 #crafting-property-grid button {
 	width: calc(5.7 * var(--button-size));
 	height: calc(1.5 * var(--button-size));

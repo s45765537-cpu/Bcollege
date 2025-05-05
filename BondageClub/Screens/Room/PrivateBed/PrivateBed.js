@@ -195,7 +195,7 @@ function PrivateBedRun() {
  * Starts an arousal action on a character.
  * @param {Character} Source - The source character.
  * @param {Character} Target - The target character.
- * @param {AssetGroup} Group - The zone / group to target.
+ * @param {AssetItemGroup} Group - The zone / group to target.
  * @param {ActivityName} Activity - The activity to do.
  * @returns {boolean} - TRUE if the activity could start.
  */
@@ -305,6 +305,7 @@ function PrivateBedNPCActivity(Source) {
 	let ActivityPenis = AssetGetActivity(Target.AssetFamily, Activity.Name + "Penis");
 
 	// Selects a random location on the body from available locations
+	/** @type {AssetGroup[]} */
 	let GroupList = [];
 	for (let G of AssetGroup) {
 		if (PrivateBedGroupActivityIsValid(Source, Target, G, Activity))
@@ -316,6 +317,7 @@ function PrivateBedNPCActivity(Source) {
 	}
 	if (GroupList.length == 0) return;
 	let Group = CommonRandomItemFromList(null, GroupList);
+	if (!Group.IsItem()) return;
 
 	// Launches the activity
 	if (!PrivateBedActivityStart(Source, Target, Group, Activity.Name)) {
@@ -381,7 +383,7 @@ function PrivateBedClick() {
 
 /**
  * When the player exits the private bedroom.  The next sex scene will wait from 5 to 20 depending on luck and the frigid/honry trait.
- * @type {ScreenFunctions["Exit"]}
+ * @type {ScreenExitHandler}
  */
 function PrivateBedExit() {
 

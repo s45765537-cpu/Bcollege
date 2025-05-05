@@ -49,6 +49,7 @@ const PreferenceSubscreenChatCheckboxes = [
 	{ label: "ShowAutomaticMessages", check: () => Player.ChatSettings.ShowAutomaticMessages, click: () => Player.ChatSettings.ShowAutomaticMessages = !Player.ChatSettings.ShowAutomaticMessages },
 	{ label: "ShowBeepChat", check: () => Player.ChatSettings.ShowBeepChat, click: () => Player.ChatSettings.ShowBeepChat = !Player.ChatSettings.ShowBeepChat },
 	{ label: "OOCAutoClose", check: () => Player.ChatSettings.OOCAutoClose, click: () => Player.ChatSettings.OOCAutoClose = !Player.ChatSettings.OOCAutoClose },
+	{ label: "DisableReplies", check: () => Player.ChatSettings.DisableReplies, click: () => Player.ChatSettings.DisableReplies = !Player.ChatSettings.DisableReplies },
 ];
 
 /** @type {CommonGenerateGridParameters} */
@@ -72,7 +73,7 @@ function PreferenceSubscreenChatRun() {
 	DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
 
 	MainCanvas.textAlign = "center";
-	// PreferencePageChangeDraw(1595, 75, 2);
+	PreferencePageChangeDraw(1595, 75, 2);
 
 	MainCanvas.textAlign = "left";
 	DrawText(TextGet("ChatPreferences"), 500, 125, "Black", "Gray");
@@ -86,13 +87,19 @@ function PreferenceSubscreenChatRun() {
 	PreferenceDrawBackNextButton(1550, 180, 350, 60, PreferenceChatEnterLeaveList, PreferenceChatEnterLeaveIndex);
 	DrawText(TextGet("DisplayMemberNumbers"), 1090, 300, "Black", "Gray");
 	PreferenceDrawBackNextButton(1550, 270, 350, 60, PreferenceChatMemberNumbersList, PreferenceChatMemberNumbersIndex);
-
-	CommonGenerateGrid(PreferenceSubscreenChatCheckboxes, 0, PreferenceSubscreenChatCheckboxGrid, (item, x, y) => {
-		const { label, check } = item;
-		DrawCheckbox(x, y, 64, 64, TextGet(label), check());
-		return false;
-	});
-
+	if (PreferencePageCurrent === 1) {
+		CommonGenerateGrid(PreferenceSubscreenChatCheckboxes.slice(0, 14), 0, PreferenceSubscreenChatCheckboxGrid, (item, x, y) => {
+			const { label, check } = item;
+			DrawCheckbox(x, y, 64, 64, TextGet(label), check());
+			return false;
+		});
+	} else if (PreferencePageCurrent === 2) {
+		CommonGenerateGrid(PreferenceSubscreenChatCheckboxes.slice(14), 0, PreferenceSubscreenChatCheckboxGrid, (item, x, y) => {
+			const { label, check } = item;
+			DrawCheckbox(x, y, 64, 64, TextGet(label), check());
+			return false;
+		});
+	}
 	DrawCharacter(Player, 50, 50, 0.9);
 }
 
@@ -104,7 +111,7 @@ function PreferenceSubscreenChatClick() {
 	// If the user clicked the exit icon to return to the main screen
 	if (MouseIn(1815, 75, 90, 90)) PreferenceSubscreenExit();
 
-	// PreferencePageChangeClick(1595, 75, 2);
+	PreferencePageChangeClick(1595, 75, 2);
 
 	if (MouseIn(680, 180, 350, 60)) {
 		if (MouseX <= 680 + 350 / 2) PreferenceChatColorThemeIndex = PreferenceGetPreviousIndex(PreferenceChatColorThemeList, PreferenceChatColorThemeIndex);
@@ -127,15 +134,25 @@ function PreferenceSubscreenChatClick() {
 		else PreferenceChatMemberNumbersIndex = PreferenceGetNextIndex(PreferenceChatMemberNumbersList, PreferenceChatMemberNumbersIndex);
 		Player.ChatSettings.MemberNumbers = PreferenceChatMemberNumbersList[PreferenceChatMemberNumbersIndex];
 	}
-
-	CommonGenerateGrid(PreferenceSubscreenChatCheckboxes, 0, PreferenceSubscreenChatCheckboxGrid, (item, x, y, w, h) => {
-		const { click } = item;
-		if (MouseIn(x, y, w, h)) {
-			click();
-			return true;
-		}
-		return false;
-	});
+	if (PreferencePageCurrent === 1) {
+		CommonGenerateGrid(PreferenceSubscreenChatCheckboxes.slice(0, 14), 0, PreferenceSubscreenChatCheckboxGrid, (item, x, y, w, h) => {
+			const { click } = item;
+			if (MouseIn(x, y, w, h)) {
+				click();
+				return true;
+			}
+			return false;
+		});
+	} else if (PreferencePageCurrent === 2) {
+		CommonGenerateGrid(PreferenceSubscreenChatCheckboxes.slice(14), 0, PreferenceSubscreenChatCheckboxGrid, (item, x, y, w, h) => {
+			const { click } = item;
+			if (MouseIn(x, y, w, h)) {
+				click();
+				return true;
+			}
+			return false;
+		});
+	}
 }
 
 /**

@@ -27,6 +27,8 @@ var AudioList = [
 	{ Name: "CuffsMetal", File: "CuffsMetal" },
 	{ Name: "EMLevitate", File: "EMLevitate" },
 	{ Name: "EMDisable", File: "EMDisable" },
+	{ Name: "FanOpen", File: "Fan1" },
+	{ Name: "Hallo", File: "Hallo" },
 	{ Name: "FuturisticApply", File: "FuturisticApply" },
 	{ Name: "HydraulicLock", File: "HydraulicLock" },
 	{ Name: "HydraulicUnlock", File: "HydraulicUnlock" },
@@ -35,6 +37,7 @@ var AudioList = [
 	{ Name: "DuctTapeRoll", File: "DuctTapeRoll" },
 	{ Name: "DuctTapeRollShort", File: "DuctTapeRollShort" },
 	{ Name: "Inflation", File: "Inflation" },
+	{ Name: "MetalClose", File: "Metal1" },
 	{ Name: "MetalCuffs", File: "MetalCuffs" },
 	{ Name: "LeatherStretching1", File: "LeatherStretching1" },
 	{ Name: "LockLarge", File: "LockLarge" },
@@ -65,6 +68,8 @@ var AudioList = [
 	{ Name: "SpankSkin", File: ["SpankSkin1", "SpankSkin2", "SpankSkin3"] },
 	{ Name: "WhipCrack", File: ["WhipCrack"] },
 	{ Name: "LeverShort", File: "Lever1" },
+	{ Name: "Zipper1", File: "Zipper1" },
+	{ Name: "HighChair", File: "HighChair" },
 ];
 
 
@@ -367,6 +372,96 @@ var AudioActions = [
 			"ItemDevicesExclusiveWaitressSetf5",
 		].some(A => data.Content.includes(A)),
 		GetSoundEffect: () => "EMDisable"
+	},
+	{
+		IsAction: (data) => [
+			"ItemDevicesLeatherCageSets0",
+			"ItemDevicesLeatherCageSets1",
+		].some(A => data.Content.includes(A)),
+		GetSoundEffect: () => "LeverShort"
+	},
+	{
+		IsAction: (data) => [
+			"ItemDevicesLeatherCageSetf0",
+			"ItemDevicesLeatherCageSetf1",
+		].some(A => data.Content.includes(A)),
+		GetSoundEffect: () => "Buckle"
+	},
+	{
+		IsAction: (data) => [
+			"ItemDevicesLeatherCageSetc0",
+		].some(A => data.Content.includes(A)),
+		GetSoundEffect: () => "CuffsMetal"
+	},
+	{
+		IsAction: (data) => [
+			"ItemDevicesLeatherCageSetc1",
+		].some(A => data.Content.includes(A)),
+		GetSoundEffect: () => "MetalCuffs"
+	},
+	{
+		IsAction: (data) => [
+			"ItemTorsoSteelBeltSeth1",
+			"ItemTorsoSteelBeltSeth2",
+			"ItemTorsoSteelBeltSeth3",
+			"ItemTorso2SteelBeltSeth1",
+			"ItemTorso2SteelBeltSeth2",
+			"ItemTorso2SteelBeltSeth3",
+			"ItemArmsSteelBeltSeth1",
+			"ItemArmsSteelBeltSeth2",
+			"ItemArmsSteelBeltSeth3",
+			"ItemNeckRestraintsMCuffCollarSeth1",
+		].some(A => data.Content.includes(A)),
+		GetSoundEffect: () => "MetalCuffs"
+	},
+	{
+		IsAction: (data) => [
+			"ItemTorsoSteelBeltSeth0",
+			"ItemTorso2SteelBeltSeth0",
+			"ItemArmsSteelBeltSeth0",
+			"ItemNeckRestraintsMCuffCollarSeth0",
+		].some(A => data.Content.includes(A)),
+		GetSoundEffect: () => "CuffsMetal"
+	},
+	{
+		IsAction: (data) => [
+			"ItemHoodHalloIIISeth2",
+		].some(A => data.Content.includes(A)),
+		GetSoundEffect: () => "Hallo"
+	},
+	{
+		IsAction: (data) => [
+			"ItemTorsoBarrelCorsetSetw0",
+			"ItemTorsoBarrelCorsetSetw1",
+			"ItemTorsoBarrelCorsetSetx0",
+			"ItemTorsoBarrelCorsetSetx1",
+			"ItemTorsoBarrelCorsetSety0",
+			"ItemTorsoBarrelCorsetSety1",
+			"ItemTorso2BarrelCorsetSetw0",
+			"ItemTorso2BarrelCorsetSetw1",
+			"ItemTorso2BarrelCorsetSetx0",
+			"ItemTorso2BarrelCorsetSetx1",
+			"ItemTorso2BarrelCorsetSety0",
+			"ItemTorso2BarrelCorsetSety1",
+			"ItemLegsBarrelCorsetSetw0",
+			"ItemLegsBarrelCorsetSetw1",
+			"ItemLegsBarrelCorsetSetx0",
+			"ItemLegsBarrelCorsetSetx1",
+			"ItemLegsBarrelCorsetSety0",
+			"ItemLegsBarrelCorsetSety1",
+			"ItemTorsoBarrelCorsetSets0",
+			"ItemTorso2BarrelCorsetSets0",
+			"ItemLegsBarrelCorsetSets0",
+		].some(A => data.Content.includes(A)),
+		GetSoundEffect: () => "Buckle"
+	},
+	{
+		IsAction: (data) => [
+			"ItemTorsoBarrelCorsetSets1",
+			"ItemTorso2BarrelCorsetSets1",
+			"ItemLegsBarrelCorsetSets1",
+		].some(A => data.Content.includes(A)),
+		GetSoundEffect: () => "LeatherStretching1"
 	},
 ];
 

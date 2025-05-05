@@ -48,7 +48,7 @@ function ChatBlockItemClick() {
 
 /**
  * Handles exiting from the screen
- * @type {ScreenFunctions["Exit"]}
+ * @type {ScreenExitHandler}
  */
 function ChatBlockItemExit() {
 	CommonSetScreen(...ChatBlockItemReturnScreen);

@@ -439,3 +439,19 @@ function IsMessageEffectDictionaryEntry(entry) {
 		&& !!entry.Effects && CommonIsArray(entry.Effects)
 		&& (!entry.Original || typeof entry.Original === "string");
 }
+
+/**
+ * @param {ChatMessageDictionaryEntry} entry
+ * @returns {entry is ReplyIdDictionaryEntry}
+ */
+function IsReplyIdDictionaryEntry(entry) {
+	return CommonIsObject(entry) && typeof entry.ReplyId === "string";
+}
+
+/**
+ * @param {ChatMessageDictionaryEntry} entry
+ * @returns {entry is MsgIdDictionaryEntry}
+ */
+function IsMsgIdDictionaryEntry(entry) {
+	return CommonIsObject(entry) && typeof entry.MsgId === "string";
+}

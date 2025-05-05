@@ -1,5 +1,41 @@
 Body
 主体
+Forehead 1
+额头1
+Forehead 2
+额头2
+Forehead 3
+额头3
+Face 1
+面部1
+Face 2
+面部2
+Face 3
+面部3
+Chest 1
+胸部1
+Chest 2
+胸部2
+Chest 3
+胸部3
+Chest 4
+胸部4
+Tummy 1
+肚子1
+Tummy 2
+肚子2
+Tummy 3
+肚子3
+Tummy 4
+肚子4
+Internal Mouth
+嘴内部
+Internal Front
+前内部
+Internal Back
+后内部
+Nipple Drip
+乳头滴
 Bands
 束带
 Lace
@@ -186,6 +222,12 @@ Waist and Wrists
 放下兜帽
 Frill
 褶边
+Pants Zipped
+裤子拉上拉链
+Pants Unzipped
+裤子未拉上拉链
+Pants Down
+拉下裤子
 Crosses
 十字架
 Panty
@@ -284,6 +326,10 @@ Eyelids
 眼线
  Eyeshadow
 眼影
+Right leg garter
+右腿袜带
+Left leg garter
+左腿袜带
 Left
 左侧
 Right
@@ -494,6 +540,10 @@ Roses
 玫瑰
 Cap
 柱子顶盖
+Metal cuff
+金属铐
+Padlock
+挂锁
 Upper and armbinder
 上部和臂束带
 Suit lower part
@@ -626,6 +676,8 @@ Iron cuff locks
 铁手铐锁
 Boots
 靴子
+Straps buckles
+束带搭扣
 Vamp
 防水台
 Ankles
@@ -764,6 +816,12 @@ Front Frame
 前部框架
 Kennel
 狗笼
+Cage
+笼子
+Collar cuff
+项圈铐
+Floor
+地面
 Arrow
 箭头
 Wheel Border
@@ -878,6 +936,18 @@ Power switch
 电源开关
 Accent
 风格
+Fan paper
+扇子纸面
+Fan paper 2nd color
+扇子纸面颜色2
+Fan paper 3rd color
+扇子纸面颜色3
+Fan base
+扇子基础
+Fan detail
+扇子细节
+Fan folding
+扇子折叠
 Fluids
 液体
 Mug
@@ -900,6 +970,10 @@ Case
 壳
 Phone
 手机
+Fan edge
+扇子边缘
+Fan inner rods
+扇子内部杆
 Paws
 爪子
 Main Behind
@@ -952,6 +1026,10 @@ Right Eyelids
 右眼睑
 Right Lens
 右镜片
+Blindfold
+眼罩
+Padded layer
+垫层
 Eyes
 眼睛
 Head
@@ -970,8 +1048,6 @@ Right Eye
 右眼
 Right Eye Sticker
 右眼贴
-Blindfold
-眼罩
 Thread Right
 右侧线条
 Thread Left
@@ -1044,6 +1120,16 @@ Lens
 镜片
 Mouthpiece
 滤嘴
+Mask 1st detail
+面罩第一细节
+Mask 2nd detail
+面罩第二细节
+Mask 3rd detail
+面罩第三细节
+Collar metal
+项圈金属
+Inside mask
+面罩内部
 Hairband
 发带
 Lips
@@ -1160,22 +1246,20 @@ Tray
 托盘
 Metal straps
 金属束带
+Muzzle
+口套
 Ball
 球
 Bit
 嚼子
 Bone
 骨头
-Cage
-笼子
 Carrot
 萝卜
 Cup
 杯子
 Duster
 掸子
-Muzzle
-口套
 Icon
 标志
 Glue
@@ -1282,8 +1366,6 @@ Mouth Ring
 口环
 Nail
 钉子
-Padlock
-挂锁
 Tongue
 舌头
 Main Strap
@@ -1306,6 +1388,10 @@ Tag
 标签
 Stripes Shine
 条带高光
+Lock Body Heart
+锁体心形
+Lock Body Plain
+锁体普通
 Studs
 嵌钉
 Eye Shade
@@ -1324,6 +1410,16 @@ Leather Strap
 皮束带
 Patch
 补丁
+Cuff collar
+手铐项圈
+Handcuffs
+手铐
+Handcuffs chains
+手铐链条
+Leash
+牵引绳
+Leash handle
+牵引绳把手
  Buckles
 搭扣
 Middle Ring
@@ -1334,8 +1430,6 @@ Right Ring
 右边环
 Handle
 抓手
-Leash
-牵绳
 Plate
 底板
 Baseplate
@@ -1474,6 +1568,30 @@ Module
 模块
 Clasps
 扣环
+Belly belt
+腹部皮带
+Belly belt metal
+腹部皮带金属
+Belly belt padlock
+腹部皮带挂锁
+Legs belts
+腿部皮带
+Legs belts metal
+腿部皮带金属
+Legs belts padlocks
+腿部皮带挂锁
+Corset collar
+束腰项圈
+Collar link belts
+项圈连接皮带
+Collar link metal
+项圈连接金属
+Belt locks
+皮带锁
+Fist Handcuffs
+拳头手铐
+Arm Handcuffs
+手臂手铐
 Cock Ring
 阴茎环
 Penis
@@ -1642,6 +1760,8 @@ Left Sock
 左袜子
 Right Sock
 右袜子
+Vest
+马甲
 Zip
 拉链
 Catsuit

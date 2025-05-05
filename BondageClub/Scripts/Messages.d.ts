@@ -467,6 +467,7 @@ interface ServerChatRoomSearchData {
 	 * @deprecated Use {@link ServerChatRoomData.Access} instead, this is maintained for backwards compatibility
 	 */
 	Locked?: boolean;
+	CanJoin: boolean;
     MapType: string;
 }
 
@@ -751,6 +752,20 @@ interface ActivityNameDictionaryEntry {
 }
 
 /**
+ * A dictionary entry indicating the ID of a message being replied to.
+ */
+interface ReplyIdDictionaryEntry {
+	ReplyId: string;
+	Tag: "ReplyId";
+}
+/**
+ * A dictionary entry indicating the ID of a message.
+ */
+interface MsgIdDictionaryEntry {
+	MsgId: string;
+	Tag: "MsgId";
+}
+/**
  * A dictionary entry with metadata about the chat message transmitted.
  *
  * Send with Chat and Whisper-type messages to inform the other side about the
@@ -777,7 +792,10 @@ type ChatMessageDictionaryEntry =
 	| ActivityCounterDictionaryEntry
 	| AssetGroupNameDictionaryEntry
 	| ActivityNameDictionaryEntry
-	| MessageEffectEntry;
+	| MessageEffectEntry
+	| MsgIdDictionaryEntry
+	| ReplyIdDictionaryEntry ;
+
 
 type ChatMessageDictionary = ChatMessageDictionaryEntry[];
 

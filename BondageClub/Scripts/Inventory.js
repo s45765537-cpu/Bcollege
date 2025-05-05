@@ -10,9 +10,9 @@
 function InventoryAdd(C, NewItemName, NewItemGroup, Push) {
 
 	// First, we check if the inventory already exists, exit if it's the case
-	for (let I = 0; I < C.Inventory.length; I++)
-		if ((C.Inventory[I].Name == NewItemName) && (C.Inventory[I].Group == NewItemGroup))
-			return;
+	if (InventoryAvailable(C, NewItemName, NewItemGroup)) {
+		return;
+	}
 
 	// Create the new item for current character's asset family, group name and item name
 	var NewItem = InventoryItemCreate(C, NewItemGroup, NewItemName);
@@ -44,14 +44,7 @@ function InventoryAddMany(C, NewItems, Push) {
 	// Add each items
 	for (let NI = 0; NI < NewItems.length; NI++) {
 		// First, we check if the item already exists in the inventory, continue if it's the case
-		var ItemExists = false;
-		for (let I = 0; I < C.Inventory.length; I++)
-			if ((C.Inventory[I].Name == NewItems[NI].Name) && (C.Inventory[I].Group == NewItems[NI].Group)) {
-				ItemExists = true;
-				break;
-			}
-
-		if (!ItemExists) {
+		if (!InventoryAvailable(C, NewItems[NI].Name, NewItems[NI].Group)) {
 			// Create the new item for current character's asset family, group name and item name
 			var NewItem = InventoryItemCreate(C, NewItems[NI].Group, NewItems[NI].Name);
 
@@ -254,9 +247,15 @@ function InventoryAvailable(C, Name, Group) {
 	let asset = AssetGet(C.AssetFamily, Group, Name);
 	if (!asset) {
 		return false;
+	} else if (asset.AvailableLocations.some(loc => CurrentScreen.startsWith(loc) || ChatRoomSpace === loc)) {
+		return true;
+	} else if (asset.Value === 0) {
+		return true;
+	} else if (asset.BuyGroup != null) {
+		return Asset.filter(a => a.BuyGroup === asset.BuyGroup).some(a => a.Value === 0);
+	} else {
+		return false;
 	}
-	const isFree = Asset.filter(a => a.BuyGroup === asset.BuyGroup).some(a => a.Value === 0);
-	return isFree || asset.AvailableLocations.some(loc => CurrentScreen.startsWith(loc) || ChatRoomSpace === loc);
 }
 
 /**
@@ -689,16 +688,16 @@ function InventoryCraft(Source, Target, GroupName, Craft, Refresh, PreConfigureI
 	// Gets the item first
 	if ((Target == null) || (GroupName == null)) return;
 	let Item = InventoryGet(Target, GroupName);
-	if ((Item == null) || !CraftingValidate(Craft, Item.Asset, CraftWarn, Source.IsPlayer())) return;
+	if ((Item == null) || !CraftingValidate(Craft, Item.Asset, CraftWarn, Source?.IsPlayer())) return;
 
 	Item.Craft ??= Craft;
 	Item.Property ??= {};
 	Item.Difficulty ??= Item.Asset.Difficulty;
 
-	// Sets the crafter name and ID
+	// Sets the crafter name and ID (if not already set)
 	if (Source) {
-		Item.Craft.MemberNumber = Source.MemberNumber;
-		Item.Craft.MemberName = CharacterNickname(Source);
+		Item.Craft.MemberNumber ??= Source.MemberNumber;
+		Item.Craft.MemberName ??= CharacterNickname(Source);
 	}
 
 	// Abort; the properties below are pre-configured by crafted items the first time they're applied,
@@ -716,6 +715,8 @@ function InventoryCraft(Source, Target, GroupName, Craft, Refresh, PreConfigureI
 			Target, Item, Craft.TypeRecord,
 			{ push: false, refresh: false, C_Source: Source, properties: Craft.ItemProperty },
 		);
+	} else {
+		Object.assign(Item.Property, Craft.ItemProperty ?? {});
 	}
 
 	// Applies a lock to the item
@@ -810,7 +811,9 @@ var InventoryWearCraft = /** @type {never} */(function() { return; });
 function InventoryWear(C, AssetName, AssetGroup, ItemColor, Difficulty, MemberNumber, Craft, Refresh=true) {
 	const A = AssetGet(C.AssetFamily, AssetGroup, AssetName);
 	if (!A) return null;
-	const item = CharacterAppearanceSetItem(C, AssetGroup, A, (ItemColor == null || ItemColor == "Default") ? [...A.DefaultColor] : ItemColor, Difficulty, MemberNumber, false);
+	ItemColor ??= "Default";
+	const color = ItemColor === "Default" ? [...A.DefaultColor] : ItemColor;
+	const item = CharacterAppearanceSetItem(C, AssetGroup, A, color, Difficulty, MemberNumber);
 
 	/**
 	 * TODO: grant tighter control over setting expressions.
@@ -820,10 +823,16 @@ function InventoryWear(C, AssetName, AssetGroup, ItemColor, Difficulty, MemberNu
 	if (A.ExpressionTrigger != null) {
 		InventoryExpressionTriggerApply(C, A.ExpressionTrigger);
 	}
+
 	if (Craft) {
+		// Restore the item color if it has been explicitly passed; keep using the `Craft.Color`-assigned color otherwise
 		const C_Source = Character.find(c => c.MemberNumber === MemberNumber) ?? null;
 		InventoryCraft(C_Source, C, /** @type {AssetGroupItemName} */(AssetGroup), Craft, false);
+		if (ItemColor !== "Default") {
+			item.Color = color;
+		}
 	}
+
 	if (Refresh) {
 		CharacterRefresh(C, true);
 	}
@@ -903,7 +912,7 @@ function InventoryWearRandom(C, GroupName, Difficulty, Refresh = true, MustOwn =
 	// Pick a random color for clothes from their schema
 	const SelectedColor = IsClothes ? SelectedAsset.Group.ColorSchema[Math.floor(Math.random() * SelectedAsset.Group.ColorSchema.length)] : null;
 
-	let item = CharacterAppearanceSetItem(C, GroupName, SelectedAsset, SelectedColor, Difficulty, null, false);
+	let item = CharacterAppearanceSetItem(C, GroupName, SelectedAsset, SelectedColor, Difficulty);
 	if (Extend) {
 		item = InventoryRandomExtend(C, GroupName);
 	}
@@ -1695,7 +1704,7 @@ function InventoryIsPermissionLimited(C, AssetName, AssetGroup, AssetType) {
 function InventoryCheckLimitedPermission(C, Item, ItemType) {
 	if (!InventoryIsPermissionLimited(C, Item.Asset.DynamicName(Player), Item.Asset.Group.Name, ItemType)) return true;
 	if ((C.IsPlayer()) || C.IsLoverOfPlayer() || C.IsOwnedByPlayer()) return true;
-	if ((C.ItemPermission < 3) && !(C.WhiteList.indexOf(Player.MemberNumber) < 0)) return true;
+	if ((C.ItemPermission < 3) && C.HasOnWhitelist(Player)) return true;
 	return false;
 }
 

@@ -183,6 +183,8 @@ NotificationTitleLarp,LARP - Your turn
 NotificationTitleTest,Test Notification
 OpacityLabel,Change Opacity
 OptionNeedsToBeBought,Option needs to be bought
+OwnerBlockChangePose,Blocked by owner rule
+OwnerProposeSub,<b>You've asked TargetCharacterName to become your submissive. Don't forget to friend them if they accept!</b>
 Page,Page
 PandoraActivityBondage,A Pandora guard puts TargetCharacterName in new restraints.
 PandoraActivitySpank,A Pandora guard spanks TargetCharacterName butt many times.
@@ -233,6 +235,22 @@ PandoraGuardActivityReleaseAll,Pandora guard SourceCharacter removes some restra
 PandoraGuardActivityCageAll,Pandora guard SourceCharacter puts all inmates in cases.
 PandoraGuardActivityUncageAll,Pandora guard SourceCharacter releases all inmates from their cases.
 Picking,Picking the lock...
+StableActivityStand,SourceCharacter tries to stand properly. The exercise receives: StablePerformance points. StableResult
+StableActivityTrot,SourceCharacter tries to walks in a trot. The exercise receives: StablePerformance points. StableResult
+StableActivityGallop,SourceCharacter tries to runs at a gallop. The exercise receives: StablePerformance points. StableResult
+StableActivityPassage,SourceCharacter tries to steps a passage. The exercise receives: StablePerformance points. StableResult
+StableActivityPirouette,SourceCharacter tries to dance a pirouette. The exercise receives: StablePerformance points. StableResult
+StableResult10,Excellent
+StableResult9,Very good
+StableResult8,Good
+StableResult7,Fairly good
+StableResult6,Satisfactory
+StableResult5,Marginal
+StableResult4,Insufficient
+StableResult3,Fairly Bad
+StableResult2,Bad
+StableResult1,Very bad
+StableResult0,Not executed
 PoseMenu,Pose
 PrerequisiteAddItemsToUse,Must have an arm/torso/pelvis item to use ceiling tethers.
 PrerequisiteCannotAllFours,Cannot change to the AllFours pose.
@@ -302,11 +320,12 @@ PrerequisiteUnZipSuitForItem,Unzip the suit first.
 PrettyArrayJoin,", "
 PrettyArrayJoinFinal,", and "
 PrevExpressions,View previous expressions
-PreviewIconAllowedLimited,Allowed Limited Item
+PreviewIconAllowedLimited,Allowed limited item
 PreviewIconBlindHeavy,Heavily blinds
 PreviewIconBlindLight,Lightly blinds
 PreviewIconBlindNormal,Blinds
 PreviewIconBlock,Restrains hands
+PreviewIconBlocked,Blocked item
 PreviewIconBuyGroup,Buygroup member
 PreviewIconDeafHeavy,Heavily deafens
 PreviewIconDeafLight,Lightly deafens
@@ -362,7 +381,7 @@ RequireSelfBondage6,Requires self-bondage 6.
 RequireSelfBondage7,Requires self-bondage 7.
 RequireSelfBondage8,Requires self-bondage 8.
 RequireSelfBondage9,Requires self-bondage 9.
-RulesMenu,Active Rules
+RulesMenu,Active owner/lover rules
 RulesMenuBlockChange,Cannot change:
 RulesMenuBlockFamilyKey,Blocked: Family keys
 RulesMenuBlockKey,Blocked: Normal keys

@@ -306,6 +306,8 @@ Kick Butt
 踢屁股
 Kiss Butt
 亲吻屁股
+Massage Butt
+按摩屁股
 Fist Ass
 拳交屁股
 Finger Ass
@@ -1002,6 +1004,8 @@ SourceCharacter kicks TargetCharacter on TargetPronounPossessive butt.
 SourceCharacter在TargetCharacter的屁股上踢了一脚。
 SourceCharacter kisses TargetCharacter's butt.
 SourceCharacter亲吻TargetCharacter的臀部.
+SourceCharacter massages TargetCharacter's butt.
+SourceCharacter按摩TargetCharacter的臀部。
 SourceCharacter uses PronounPossessive fist to masturbate TargetCharacter's ass.
 SourceCharacter用拳头玩弄TargetCharacter的屁股.
 SourceCharacter uses PronounPossessive fingers to masturbate TargetCharacter's ass.
@@ -1670,6 +1674,8 @@ SourceCharacter gropes PronounPossessive butt.
 SourceCharacter抚弄自己的臀部.
 SourceCharacter injects PronounPossessive butt.
 SourceCharacter注射自己的臀部。
+SourceCharacter massages PronounPossessive butt.
+SourceCharacter按摩自己的臀部。
 SourceCharacter fists and masturbates PronounPossessive ass.
 SourceCharacter用拳头玩弄自己的屁股。
 SourceCharacter fingers and masturbates PronounPossessive ass.

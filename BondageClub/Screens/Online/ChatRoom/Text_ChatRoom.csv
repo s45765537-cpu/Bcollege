@@ -34,6 +34,8 @@ ChatRoomStruggleLoosening,Loosening...
 ChatRoomStruggleImpossible,Impossible!
 ChatRoomStruggleLoosen,Loosen
 ChatRoomStruggleGiveUp,Give up
+ChatRoomReply,Replying to
+ChatRoomNoMessageFound,Message could not be found.
 CommandHelp,<strong>Help: KeyWord</strong>
 CommandNoSuchCommand,command: no such command
 CommandPrerequisiteFailed,command: prerequisite check failed
@@ -97,3 +99,5 @@ MenuDressGameBlocked,The game blocks it
 MenuDressGGTSBlocked,GGTS blocks it
 MenuDressRuleBlocked,A rule blocks it
 MenuDressOwnerBlocked,Your owner forbids it
+PonyNotJoin,You have not joined the Ponies
+PonyInvalidActivity,"Invalid Pony activity, type /help to get the list."

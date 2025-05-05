@@ -6,6 +6,13 @@ var PreferenceSettingsDeadZoneList = [0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.0
 var PreferenceSettingsDeadZoneIndex = 1;
 var PreferenceCalibrationStage = 0;
 
+function PreferenceSubscreenControllerLoad() {
+	ControllerSensitivity = Player.ControllerSettings.ControllerSensitivity;
+	ControllerDeadZone = Player.ControllerSettings.ControllerDeadZone;
+	PreferenceSettingsSensitivityIndex = PreferenceSettingsSensitivityList.indexOf(Player.ControllerSettings.ControllerSensitivity);
+	PreferenceSettingsDeadZoneIndex = PreferenceSettingsDeadZoneList.indexOf(Player.ControllerSettings.ControllerDeadZone);
+}
+
 /**
  * Sets the controller preferences for the player. Redirected to from the main Run function.
  * @returns {void} - Nothing
@@ -82,6 +89,9 @@ function PreferenceSubscreenControllerClick() {
  * Exits the preference screen
  */
 function PreferenceSubscreenControllerExit() {
-	ControllerStopCalibration(true);
 	return true;
+}
+
+function PreferenceSubscreenControllerUnload() {
+	ControllerStopCalibration(true);
 }

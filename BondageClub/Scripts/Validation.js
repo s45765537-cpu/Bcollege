@@ -50,7 +50,7 @@ function ValidationCreateDiffParams(C, sourceMemberNumber) {
 	// We can't know the details about other peoples' friendlist/whitelist, so assume an update is safe - their
 	// validation will correct it if not.
 	const fromFriend = C.IsPlayer() ? C.FriendList.includes(sourceMemberNumber) : true;
-	const fromWhitelist = C.IsPlayer() ? C.WhiteList.includes(sourceMemberNumber) : true;
+	const fromWhitelist = C.IsPlayer() ? C.HasOnWhitelist(sourceMemberNumber) : true;
 
 	const permissions = /** @type {ScriptPermissionLevel[]} */([
 		fromSelf && ScriptPermissionLevel.SELF,
@@ -570,8 +570,8 @@ function ValidationIsItemBlockedOrLimited(C, sourceMemberNumber, groupName, asse
 	if (InventoryIsPermissionBlocked(C, assetName, groupName, type)) return true;
 	if (!InventoryIsPermissionLimited(C, assetName, groupName, type)) return false;
 	if (C.IsLoverOfMemberNumber(sourceMemberNumber) || C.IsOwnedByMemberNumber(sourceMemberNumber)) return false;
-	// If item permission is "Owner, Lover, whitelist & Dominants" or below, the source must be on their whitelist
-	if (C.ItemPermission < 3 && C.WhiteList.includes(sourceMemberNumber)) return false;
+	// The item is limited so if the source is on their whitelist, it's permitted
+	if (C.HasOnWhitelist(sourceMemberNumber)) return false;
 	// Otherwise, the item is limited, and the source doesn't have permission
 	return true;
 }
