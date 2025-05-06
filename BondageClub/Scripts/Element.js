@@ -2298,3 +2298,162 @@ var ElementSwipe = {
 		elem.addEventListener("touchstart", touchstart);
 	},
 };
+
+/**
+ * Namespace with helper functions for creating DOM-based screens
+ * @namespace
+ */
+var ElementDOMScreen = {
+	/**
+	 * Construct and return a template for a basic DOM screen.
+	 *
+	 * Important points:
+	 * * Screen dimensions of `[x, 0, y, 1000]` are generally recommended
+	 * * The standard child elements of the to-be returned screen _may_ freely be moved around in the DOM tree as one sees fit
+	 * * The standard child elements of the to-be returned screen _should_ not be removed; do so at your own risk. They _may_ remain unused however.
+	 * @example
+	 * <div id="my-fancy-id" class="screen">
+	 *     <!--
+	 *         The first row: a banner containing a menubar,
+	 *         the latter of which _should_ contain an exit button as its first entry
+	 *     -->
+	 *     <header class="screen-header">
+	 *         <div role="menubar" />
+	 *     </header>
+	 *
+	 *     <!--
+	 *         The second row: the screen's main heading/label/description
+	 *         and a dedicated field for anyand all temporary status messages (see `ElementDOMScreen.SetStatus()`)
+	 *     -->
+	 *     <hgroup class="screen-hgroup">
+	 *         <h1 />
+	 *         <p role="status" />
+	 *     </hgroup>
+	 *
+	 *     <!--
+	 *         The third and final row: a scrollable section with the main content of the screen.
+	 *         As a rule of thumb, it is recommended to embed the immediate child elements into some sort of
+	 *         grouping element like `<fieldset>`, `<section>` and/or `<article>`.
+	 *     -->
+	 *     <main class="screen-main" />
+	 * </div>
+	 * @param {string} id - The ID of the screen
+	 * @param {null | ElementDOMScreen.TemplateOptions} options - Further customization options
+	 * @returns {HTMLDivElement} - The newly created DOM screen
+	 */
+	getTemplate(id, options=null) {
+		options ??= {};
+
+		const children = [
+			ElementCreate({
+				tag: "header",
+				classList: ["screen-header"],
+				attributes: { "aria-owns": `${id}-hgroup`, id: `${id}-header` },
+				children: [
+					ElementMenu.Create(`${id}-menu`, options.menubarButtons ?? [], { direction: "rtl" }),
+				],
+			}),
+			ElementCreate({
+				tag: "hgroup",
+				classList: ["scroll-box", "screen-hgroup"],
+				attributes: { id: `${id}-hgroup` },
+				children: [
+					{ tag: "h1", attributes: { id: `${id}-h1` }, children: [options.header] },
+					{ tag: "p", attributes: { id: `${id}-status`, role: "status" } },
+				],
+			}),
+			ElementCreate({
+				tag: options.mainTag ?? "main",
+				classList: ["scroll-box", "screen-main"],
+				attributes: { id: `${id}-main` },
+				children: options.mainContent,
+			}),
+		];
+
+		if (options.asShadow) {
+			const cssFiles = new Set([
+				"CSS/normalize.css",
+				"CSS/Styles.css",
+				"CSS/screen.css",
+				"CSS/button.css",
+				"CSS/fonts.css",
+				...(options.cssFiles ?? []),
+			]);
+			const root = ElementCreate({
+				tag: "div",
+				attributes: { id, "screen-generated": CurrentScreen },
+				parent: options.parent,
+				classList: ["HideOnPopup"],
+			});
+			const shadowRoot = root.attachShadow({ mode: "open", delegatesFocus: true });
+			shadowRoot.append(
+				ElementCreate({
+					tag: "div",
+					classList: ["screen"],
+					children: [
+						...Array.from(cssFiles).map(href => ElementCreate({ tag: "link", attributes: { href, rel: "stylesheet" } })),
+						...children,
+					],
+				}),
+			);
+			return root;
+		} else {
+			return ElementCreate({
+				tag: "div",
+				attributes: { id, "screen-generated": CurrentScreen },
+				parent: options.parent,
+				classList: ["HideOnPopup", "screen"],
+				children,
+			});
+		}
+	},
+
+	/**
+	 * A weakmap mapping `[role='status']` elements to their respective {@link setTimeout} IDs.
+	 * See {@link ElementDOMScreen.SetStatus}
+	 * @private
+	 * @type {WeakMap<Element, number>}
+	 */
+	_statusIDMap: new WeakMap,
+
+	/**
+	 * Timer handler for {@link ElementDOMScreen.SetStatus}
+	 * @private
+	 * @satisfies {TimerHandler}
+	 * @param {Element} headingElem The screen's `h1` element
+	 * @param {Element} statusElem The screen's `[role='status']` element
+	 */
+	_setStatusTimerHandler(headingElem, statusElem) {
+		headingElem.toggleAttribute("hidden", false);
+		statusElem.replaceChildren();
+		ElementDOMScreen._statusIDMap.delete(statusElem);
+	},
+
+	/**
+	 * Set a temporary status message for the screen.
+	 * @param {HTMLElement} root The screen on which the status is the be set; it _must_ contain a single `h1` and `[role='status']` element
+	 * @param {string} status The to-be displayed status message
+	 * @param {number} timeout How long the status message should be shown in ms; defaults to 5000 ms
+	 */
+	setStatus(root, status, timeout=5000) {
+		if (!root || !Number.isFinite(timeout)) {
+			return;
+		}
+
+		const statusElem = root.querySelector(`[role='status']`);
+		const headingElem = root.querySelector(`h1`);
+		if (!statusElem || !headingElem) {
+			return;
+		}
+
+		let timeoutID = ElementDOMScreen._statusIDMap.get(statusElem);
+		if (timeoutID != null) {
+			clearTimeout(timeoutID);
+		}
+
+		headingElem.toggleAttribute("hidden", true);
+		statusElem.replaceChildren(status);
+		timeoutID = setTimeout(ElementDOMScreen._setStatusTimerHandler, timeout, headingElem, statusElem);
+		ElementDOMScreen._statusIDMap.set(statusElem, timeoutID);
+	},
+};
