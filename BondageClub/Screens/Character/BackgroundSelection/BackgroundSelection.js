@@ -18,6 +18,18 @@ var BackgroundSelectionAll = [];
 /** @type {{ Name: string, Description: string, Low: string }[]} */
 var BackgroundSelectionView = [];
 
+const Background = {
+	elementID: {
+		root: "background-subscreen",
+		searchFilter: "background-input-search",
+		tagFilter: "background-input-tag",
+		btnPrev: "background-button-previous",
+		btnNext: "background-button-next",
+		btnCancel: "background-button-cancel",
+		btnAccept: "background-button-commit",
+	}
+};
+
 /**
  * Change the current screen to the background selection screen
  * @param {string[]} List - The list of possible Background names
@@ -41,7 +53,7 @@ function BackgroundSelectionMake(List, Idx, Callback) {
  * @returns {number} - Returns -1 if the description of object a is less then that of b, 1 otherwise
  */
 function BackgroundSelectionSort(a, b) {
-	return (a.Description <= b.Description) ? -1: 1;
+	return a.Description.localeCompare(b.Description);
 }
 
 /**
@@ -52,17 +64,81 @@ function BackgroundSelectionSort(a, b) {
 function BackgroundSelectionLoad() {
 	BackgroundSelectionSelect = BackgroundSelectionList[BackgroundSelectionIndex];
 	BackgroundSelectionOffset = Math.floor(BackgroundSelectionIndex / BackgroundSelectionSize) * BackgroundSelectionSize;
-	BackgroundSelectionBackground = BackgroundSelectionList[BackgroundSelectionIndex] || "Introduction";
+	BackgroundSelectionBackground = BackgroundSelectionList[BackgroundSelectionIndex] ?? "Introduction";
 	BackgroundSelectionView = BackgroundSelectionAll.slice(0).sort(BackgroundSelectionSort);
 	TextPrefetchFile(BackgroundsStringsPath);
-	const elem = ElementCreateSearchInput("InputBackground", () => BackgroundSelectionList.map(i => BackgroundsTextGet(i)).sort());
-	elem.addEventListener("input", BackgroundSelectionInputChanged);
-	if (BackgroundSelectionTagList.length >= 2) ElementCreateDropdown("TagDropDown", BackgroundsTagList, BackgroundSelectionTagChanged);
+
+	const root = document.getElementById(Background.elementID.root) ?? ElementCreate({
+		tag: 'div',
+		attributes: {
+			id: Background.elementID.root,
+			'screen-generated': 'Background',
+			"aria-busy": "true",
+		},
+		classList: ['HideOnPopup'],
+		parent: document.body,
+	});
+
+	TextScreenCache.loadedPromise.then(() => {
+		const searchFilter = ElementCreateSearchInput(Background.elementID.searchFilter, () => BackgroundSelectionList.map(i => BackgroundsTextGet(i)).sort());
+		searchFilter.addEventListener("input", BackgroundSelectionInputChanged);
+
+		const tagFilter = ElementCreateDropdown(Background.elementID.tagFilter, BackgroundsTagList, BackgroundSelectionTagChanged);
+		if (BackgroundSelectionTagList.length < 2) {
+			tagFilter.setAttribute("display", "none");
+		}
+		root.append(
+			searchFilter,
+			tagFilter,
+			ElementButton.Create(Background.elementID.btnPrev,
+				() => {
+					BackgroundSelectionOffset = CommonClamp(BackgroundSelectionOffset - BackgroundSelectionSize,
+						0,
+						Math.max(0, Math.ceil(BackgroundSelectionView.length / BackgroundSelectionSize - 1)) * BackgroundSelectionSize
+					);
+				},
+				{
+					tooltip: TextGet("Prev"),
+					image: "Icons/Prev.png",
+				},
+			),
+			ElementButton.Create(Background.elementID.btnNext,
+				() => {
+					BackgroundSelectionOffset = CommonClamp(BackgroundSelectionOffset + BackgroundSelectionSize,
+						0,
+						Math.max(0, Math.ceil(BackgroundSelectionView.length / BackgroundSelectionSize - 1)) * BackgroundSelectionSize
+					);
+				},
+				{
+					tooltip: TextGet("Next"),
+					image: "Icons/Next.png",
+				},
+			),
+			ElementButton.Create(Background.elementID.btnCancel,
+				() => {
+					BackgroundSelectionExit(false);
+				},
+				{
+					tooltip: TextGet("Cancel"),
+					image: "Icons/Cancel.png",
+				},
+			),
+			ElementButton.Create(Background.elementID.btnAccept,
+				() => {
+					BackgroundSelectionExit(true);
+				},
+				{
+					tooltip: TextGet("Accept"),
+					image: "Icons/Accept.png",
+				},
+			),
+		);
+		BackgroundSelectionResize(false);
+	});
 }
 
 function BackgroundSelectionUnload() {
-	ElementRemove("InputBackground");
-	ElementRemove("TagDropDown");
+	ElementRemove(Background.elementID.root);
 }
 
 /**
@@ -71,7 +147,7 @@ function BackgroundSelectionUnload() {
  * @returns {void} - Nothing
  */
 function BackgroundSelectionInputChanged() {
-	let Input = ElementValue("InputBackground") || "";
+	let Input = ElementValue(Background.elementID.searchFilter);
 	Input = Input.trim().toLowerCase();
 	if (Input == "") {
 		BackgroundSelectionView = BackgroundSelectionAll.slice();
@@ -91,9 +167,23 @@ function BackgroundSelectionInputChanged() {
 function BackgroundSelectionTagChanged() {
 	BackgroundSelectionList = BackgroundsGenerateList(this.value ? [/** @type {BackgroundTag} */(this.value)] : BackgroundSelectionTagList);
 	BackgroundSelectionView = BackgroundSelectionAll.slice().sort(BackgroundSelectionSort);
-	ElementContent("InputBackground-datalist", "");
+	ElementContent(`${Background.elementID.searchFilter}-datalist`, "");
 	BackgroundSelectionInputChanged();
 	if (BackgroundSelectionOffset >= BackgroundSelectionView.length) BackgroundSelectionOffset = 0;
+}
+
+/**
+ * @type {ScreenResizeHandler}
+ */
+function BackgroundSelectionResize(load) {
+	// We skip here because the DOM hasn't been set up yet
+	if (load) return;
+	ElementPositionFix(Background.elementID.tagFilter, 36, 550, 35, 300, 65);
+	ElementPosition(Background.elementID.searchFilter, 1350, 60, 400);
+	ElementPositionFix(Background.elementID.btnPrev, 36, 1585, 25, 90, 90);
+	ElementPositionFix(Background.elementID.btnNext, 36, 1685, 25, 90, 90);
+	ElementPositionFix(Background.elementID.btnCancel, 36, 1785, 25, 90, 90);
+	ElementPositionFix(Background.elementID.btnAccept, 36, 1885, 25, 90, 90);
 }
 
 /**
@@ -104,26 +194,19 @@ function BackgroundSelectionTagChanged() {
  * @returns {void} - Nothing
  */
 function BackgroundSelectionRun() {
-
 	DrawText(TextGet("Selection").replace("SelectedBackground", BackgroundsTextGet(BackgroundSelectionSelect)), 300, 65, "White", "Black");
-	if (BackgroundSelectionTagList.length >= 2) ElementPositionFix("TagDropDown", 36, 550, 35, 300, 65);
+
 	let text = TextGet("Filter").replace("Filtered", BackgroundSelectionView.length.toString()).replace("Total", BackgroundSelectionAll.length.toString());
 	DrawText(text, 1000, 65, "White", "Black");
-
-	DrawButton(1585, 25, 90, 90, "", "White", "Icons/Prev.png", TextGet("Prev"));
-	DrawButton(1685, 25, 90, 90, "", "White", "Icons/Next.png", TextGet("Next"));
-	DrawButton(1785, 25, 90, 90, "", "White", "Icons/Cancel.png", TextGet("Cancel"));
-	DrawButton(1885, 25, 90, 90, "", "White", "Icons/Accept.png", TextGet("Accept"));
-	if (!CommonIsMobile && (MouseIn(1585, 25, 90, 90) || MouseIn(1685, 25, 90, 90) || MouseIn(1785, 25, 90, 90) || MouseIn(1885, 25, 90, 90)))
-		document.getElementById("InputBackground")?.style?.setProperty("display", "none");
-	else
-		ElementPosition("InputBackground", 1350, 60, 400);
 
 	let X = 45;
 	let Y = 150;
 	for (let i = BackgroundSelectionOffset; i < BackgroundSelectionView.length && i - BackgroundSelectionOffset < BackgroundSelectionSize; ++i) {
-		if (BackgroundSelectionView[i].Name == BackgroundSelectionSelect) DrawButton(X - 4, Y - 4, 450 + 8, 225 + 8, BackgroundSelectionView[i].Description, "Blue");
-		else DrawButton(X, Y, 450, 225, BackgroundSelectionView[i].Description, "White");
+		if (BackgroundSelectionView[i].Name == BackgroundSelectionSelect) {
+			DrawButton(X - 4, Y - 4, 450 + 8, 225 + 8, BackgroundSelectionView[i].Description, "Blue");
+		}else {
+			DrawButton(X, Y, 450, 225, BackgroundSelectionView[i].Description, "White");
+		}
 		DrawImageResize("Backgrounds/" + BackgroundSelectionView[i].Name + ".jpg", X + 2, Y + 2, 446, 221);
 		DrawTextFit(BackgroundSelectionView[i].Description, X + 227, Y + 252, 450, "Black");
 		DrawTextFit(BackgroundSelectionView[i].Description, X + 225, Y + 250, 450, "White");
@@ -148,24 +231,6 @@ function BackgroundSelectionRun() {
  * @returns {void} - Nothing
  */
 function BackgroundSelectionClick() {
-
-	// Exit by selecting or cancelling
-	if (MouseIn(1885, 25, 90, 90)) BackgroundSelectionExit(true);
-	if (MouseIn(1785, 25, 90, 90)) BackgroundSelectionExit(false);
-
-	// Set next offset backward
-	if (MouseIn(1585, 25, 90, 90)) {
-		BackgroundSelectionOffset -= BackgroundSelectionSize;
-		if (BackgroundSelectionOffset < 0)
-			BackgroundSelectionOffset = Math.max(0, Math.ceil(BackgroundSelectionView.length / BackgroundSelectionSize - 1)) * BackgroundSelectionSize;
-	}
-
-	// Set next offset forward
-	if (MouseIn(1685, 25, 90, 90)) {
-		BackgroundSelectionOffset += BackgroundSelectionSize;
-		if (BackgroundSelectionOffset >= BackgroundSelectionView.length) BackgroundSelectionOffset = 0;
-	}
-
 	let X = 45;
 	let Y = 150;
 	for (let i = BackgroundSelectionOffset; i < BackgroundSelectionView.length && i - BackgroundSelectionOffset < BackgroundSelectionSize; ++i) {
@@ -206,8 +271,8 @@ function BackgroundSelectionKeyDown(event) {
  * @param {boolean} SetBackground - Defines, wether the background must be changed (true) or not (false)
  */
 function BackgroundSelectionExit(SetBackground=false) {
-	ElementRemove("InputBackground");
-	ElementRemove("TagDropDown");
-	if (BackgroundSelectionCallback) BackgroundSelectionCallback(BackgroundSelectionSelect, SetBackground);
+	if (BackgroundSelectionCallback) {
+		BackgroundSelectionCallback(BackgroundSelectionSelect, SetBackground);
+	}
 	BackgroundSelectionCallback = null;
 }
