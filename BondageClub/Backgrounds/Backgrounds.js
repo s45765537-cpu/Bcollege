@@ -253,10 +253,11 @@ function BackgroundsTextGet(msg) {
 
 /**
  * Builds the selectable background arrays based on the tags supplied
- * @param {readonly BackgroundTag[]} BackgroundTagList - An array of string of all the tags to load
+ * @param {BackgroundTag[]} BackgroundTagList - An array of string of all the tags to load
  * @returns {string[]} - The list of all background names
  */
 function BackgroundsGenerateList(BackgroundTagList) {
+	if ((BackgroundTagList.length == 1) && (BackgroundTagList[0] == BackgroundsTagNone)) BackgroundTagList = BackgroundsTagList;
 	/** @type {string[]} */
 	var List = [];
 	BackgroundSelectionAll = [];
