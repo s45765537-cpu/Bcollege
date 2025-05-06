@@ -27,8 +27,15 @@ Castle,Fancy Castle
 Cellar,Cellar
 CeremonialVenue,Ceremony Venue
 ChillRoom,Chill Room
-CollegeClass,College Classroom
-CollegeHall1,College Hall 1st Floor
+CollegeCafeteria,Cafeteria
+CollegeClass,Classroom 1
+CollegeClass2,Classroom 2
+CollegeClass2,Classroom 2
+CollegeDetention,Detention Class
+CollegeEntrance,College Entrance
+CollegeHall1,College Hall 1
+CollegeHall2,College Hall 2
+CollegeHall3,College Hall 3
 CollegeTennis,Tennis Court
 CollegeTheater,Theater
 Confessions,Confessions
