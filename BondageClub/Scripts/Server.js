@@ -3,8 +3,13 @@
 /** @type {SocketIO.Socket} */
 var ServerSocket = null;
 var ServerURL = "http://localhost:4288";
-/** @type { { Message: string; Timer: number; ChatRoomName?: string | null; IsMail?: boolean; } } */
+/**
+ * @type { { Message: string; Timer: number; ChatRoomName?: string | null; IsMail?: boolean; } }
+ * @deprecated Use {@link ServerShowBeep} instead.
+ */
 var ServerBeep = { Message: "", Timer: 0 };
+/** @type {NotificationBeep[] } */
+var ServerBeepQueue = [];
 var ServerIsConnected = false;
 var ServerReconnectCount = 0;
 var ServerAccountEmailRegex = /^[a-zA-Z0-9@.!#$%&'*+/=?^_`{|}~-]+$/;
@@ -838,19 +843,23 @@ function ServerAccountBeep(data) {
 			} else {
 				delete data.Message;
 			}
-			if (Player.AudioSettings.PlayBeeps) {
-				AudioPlayInstantSound("Audio/BeepAlarm.mp3");
+			let msg = `${InterfaceTextGet("BeepFrom")} ${data.MemberName} (${data.MemberNumber})`;
+			if (data.ChatRoomName) {
+				msg += ` ${InterfaceTextGet("InRoom")} "${data.ChatRoomName}" ${data.ChatRoomSpace === "Asylum" ? " " + InterfaceTextGet("InAsylum") : ''}`;
 			}
-			ServerBeep = {
-				Message: `${InterfaceTextGet("BeepFrom")} ${data.MemberName} (${data.MemberNumber})`,
-				Timer: CommonTime() + 10000,
-				ChatRoomName: data.ChatRoomName
-			};
-			if (ServerBeep.ChatRoomName != null)
-				ServerBeep.Message = ServerBeep.Message + " " + InterfaceTextGet("InRoom") + " \"" + ServerBeep.ChatRoomName + "\"" + (data.ChatRoomSpace === "Asylum" ? " " + InterfaceTextGet("InAsylum") : '');
 			if (data.Message) {
-				ServerBeep.Message += `; ${InterfaceTextGet("BeepWithMessage")}`;
-				ServerBeep.IsMail = true;
+				msg += `; ${InterfaceTextGet("BeepWithMessage")}`;
+				ServerShowBeep(msg, 10000, {
+					onClick: () => {
+						if (CurrentScreen !== 'FriendList') {
+							ServerOpenFriendList();
+						}
+						FriendListModeIndex = 1;
+						FriendListShowBeep(FriendListBeepLog.length - 1);
+					}
+				});
+			} else {
+				ServerShowBeep(msg, 10000);
 			}
 			FriendListBeepLog.push({
 				MemberNumber: data.MemberNumber,
@@ -864,7 +873,7 @@ function ServerAccountBeep(data) {
 			});
 			if (CurrentScreen == "FriendList") ServerSend("AccountQuery", { Query: "OnlineFriends" });
 			if (!Player.ChatSettings || Player.ChatSettings.ShowBeepChat)
-				ChatRoomSendLocal(`<a onclick="ServerOpenFriendList()">(${ServerBeep.Message})</a>`);
+				ChatRoomSendLocal(`<a onclick="ServerOpenFriendList()">(${msg})</a>`);
 			if (!document.hasFocus()) {
 				NotificationRaise(NotificationEventType.BEEP, {
 					memberNumber: data.MemberNumber,
@@ -892,39 +901,73 @@ function ServerAccountBeep(data) {
 	}
 }
 
+/**
+ * Show a message as a beep
+ * @param {string} message
+ * @param {number} duration
+ * @param {object} [options]
+ * @param {(this: HTMLDivElement, event: MouseEvent) => void} [options.onClick]
+ * @param {boolean} [options.silent]
+ */
+function ServerShowBeep(message, duration, options) {
+	ServerBeepQueue.push({
+		Message: message,
+		Duration: duration,
+		ClickHandler: options?.onClick,
+		Silent: options?.silent ?? false,
+	});
+}
 
 
 /** Draws the last beep sent by the server if the timer is still valid, used during the drawing process */
 function ServerDrawBeep() {
-	const beep = document.getElementById('beep');
 
-	if (ServerBeep.Timer > CommonTime()) {
-		if (!beep) {
+	// Grab the old single beep variable and push that into the queue for backward compatibility
+	if (ServerBeep.Message !== "") {
+		ServerShowBeep(ServerBeep.Message, ServerBeep.Timer - CommonTime());
+		ServerBeep = { Message: "", Timer: 0 };
+	}
+
+	if (!ServerBeepQueue.length) {
+		ElementRemove("beep");
+		return;
+	}
+
+	const beep = ServerBeepQueue[0];
+	if (typeof beep.Timer === "undefined") {
+		beep.Timer = CommonTime() + beep.Duration;
+		if (!beep.Silent && ServerIsLoggedIn() && Player.AudioSettings.PlayBeeps) {
+			AudioPlayInstantSound("Audio/BeepAlarm.mp3");
+		}
+	}
+
+	let beepElement = document.getElementById('beep');
+	if (beep.Timer > CommonTime()) {
+		if (beepElement && beepElement.textContent !== beep.Message) {
+			beepElement.remove();
+			beepElement = null;
+		}
+		if (!beepElement) {
 			ElementCreate({
 				tag: 'div',
 				attributes: {
 					id: 'beep',
 				},
+				dataAttributes: { msg: beep.Message },
 				classList: ['HideOnPopup'],
 				eventListeners: {
-					click: () => {
-						if (
-							ServerBeep.Timer > CommonTime() &&
-							ServerBeep.IsMail &&
-							CurrentScreen !== 'FriendList'
-						) {
-							ServerOpenFriendList();
-							FriendListModeIndex = 1;
-							FriendListShowBeep(FriendListBeepLog.length - 1);
-						}
-					}
+					click: function (e) {
+						beep.ClickHandler?.(e);
+						this.remove();
+						ServerBeepQueue.shift();
+					},
 				},
 				children: [
 					{
 						tag: 'span',
 						classList: ['truncated-text'],
 						children: [
-							ServerBeep.Message
+							beep.Message
 						]
 					}
 				],
@@ -936,7 +979,8 @@ function ServerDrawBeep() {
 			NotificationReset(NotificationEventType.BEEP);
 		}
 	} else {
-		if (beep) ElementRemove('beep');
+		if (beepElement) ElementRemove('beep');
+		ServerBeepQueue.shift();
 	}
 }
 
