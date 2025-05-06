@@ -1426,6 +1426,7 @@ var ElementButton = {
 				[tooltipRoleAttribute]: tooltip ? `${id}-tooltip` : undefined,
 				"screen-generated": CurrentScreen,
 				role: options.role,
+				type: "button",
 				...(buttonOptions.attributes ?? {}),
 			},
 			classList: ["blank-button", "button", options.noStyling ? null : "button-styling", "HideOnPopup", ...(buttonOptions.classList ?? [])],
