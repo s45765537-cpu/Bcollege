@@ -9,7 +9,8 @@ const BackgroundsTagOutdoor = "Outdoor";
 const BackgroundsTagAquatic = "Aquatic";
 const BackgroundsTagSpecial = "Special Events";
 const BackgroundsTagSciFiFantasy = "SciFi & Fantasy";
-const BackgroundsTagClub = "Club & College";
+const BackgroundsTagClub = "Club";
+const BackgroundsTagCollege = "College";
 const BackgroundsTagHouse = "Regular house";
 const BackgroundsTagDungeon = "Dungeon";
 const BackgroundsTagAsylum = "Asylum";
@@ -28,6 +29,7 @@ const BackgroundsTagList = [
 	BackgroundsTagSpecial,
 	BackgroundsTagSciFiFantasy,
 	BackgroundsTagClub,
+	BackgroundsTagCollege,
 	BackgroundsTagHouse,
 	BackgroundsTagDungeon,
 	BackgroundsTagPandora
@@ -80,9 +82,10 @@ const BackgroundsList = [
 	{ Name: "Cellar", Tag: [BackgroundsTagIndoor, BackgroundsTagHouse] },
 	{ Name: "CeremonialVenue", Tag: [BackgroundsTagOutdoor, BackgroundsTagSpecial] },
 	{ Name: "ChillRoom", Tag: [BackgroundsTagIndoor, BackgroundsTagHouse] },
-	{ Name: "CollegeClass", Tag: [BackgroundsTagClub, BackgroundsTagIndoor] },
-	{ Name: "CollegeTennis", Tag: [BackgroundsTagClub, BackgroundsTagOutdoor] },
-	{ Name: "CollegeTheater", Tag: [BackgroundsTagClub, BackgroundsTagIndoor] },
+	{ Name: "CollegeClass", Tag: [BackgroundsTagCollege, BackgroundsTagIndoor] },
+	{ Name: "CollegeHall1", Tag: [BackgroundsTagCollege, BackgroundsTagIndoor] },
+	{ Name: "CollegeTennis", Tag: [BackgroundsTagCollege, BackgroundsTagOutdoor] },
+	{ Name: "CollegeTheater", Tag: [BackgroundsTagCollege, BackgroundsTagIndoor] },
 	{ Name: "Confessions", Tag: [BackgroundsTagIndoor, BackgroundsTagSciFiFantasy, BackgroundsTagDungeon] },
 	{ Name: "CosyChalet", Tag: [BackgroundsTagIndoor, BackgroundsTagHouse] },
 	{ Name: "CozyLivingRoom", Tag: [BackgroundsTagIndoor, BackgroundsTagHouse] },
@@ -100,7 +103,7 @@ const BackgroundsList = [
 	{ Name: "ForestCave", Tag: [BackgroundsTagOutdoor] },
 	{ Name: "ForestPath", Tag: [BackgroundsTagOutdoor] },
 	{ Name: "Gardens", Tag: [BackgroundsTagOutdoor] },
-	{ Name: "Gymnasium", Tag: [BackgroundsTagIndoor] },
+	{ Name: "Gymnasium", Tag: [BackgroundsTagCollege, BackgroundsTagIndoor] },
 	{ Name: "HeavenEntrance", Tag: [BackgroundsTagOutdoor, BackgroundsTagSciFiFantasy] },
 	{ Name: "HellEntrance", Tag: [BackgroundsTagOutdoor, BackgroundsTagSciFiFantasy] },
 	{ Name: "HorseStable", Tag: [BackgroundsTagIndoor] },
