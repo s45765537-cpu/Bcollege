@@ -900,20 +900,29 @@ var ElementButton = {
 			ev.stopImmediatePropagation();
 			ev.preventDefault();
 		}
+		document.addEventListener("mouseup", ElementButton._MouseUp);
 	},
 
 	/**
 	 * @private
-	 * @type {(this: HTMLButtonElement, ev: MouseEvent) => void}
+	 * @type {(this: Document, ev: MouseEvent) => void}
 	 */
 	_MouseUp: function _MouseUp(ev) {
-		if (ev.target instanceof Element && ev.target.classList.contains("button-tooltip")) {
+		const activeElement = document.activeElement;
+		/** @type {null | HTMLButtonElement} */
+		const button = activeElement instanceof Element && activeElement.closest("button.button");
+		if (!button) {
+			return;
+		}
+
+		if (activeElement.closest(".button-tooltip")) {
 			ev.stopImmediatePropagation();
 			return;
 		}
 
 		// Fix buttons not automatically losing focus after a click event
-		this.blur();
+		button.blur();
+		document.removeEventListener("mouseup", ElementButton._MouseUp);
 	},
 
 	_GetClickTouchListeners: function _GetClickTouchListeners() {
