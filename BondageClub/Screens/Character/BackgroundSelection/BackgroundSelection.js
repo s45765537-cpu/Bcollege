@@ -57,7 +57,7 @@ function BackgroundSelectionLoad() {
 	TextPrefetchFile(BackgroundsStringsPath);
 	const elem = ElementCreateSearchInput("InputBackground", () => BackgroundSelectionList.map(i => BackgroundsTextGet(i)).sort());
 	elem.addEventListener("input", BackgroundSelectionInputChanged);
-	if (BackgroundSelectionTagList.length >= 2) ElementCreateDropdown("TagDropDown", BackgroundsTagList, function() { BackgroundSelectionTagChanged(); });
+	if (BackgroundSelectionTagList.length >= 2) ElementCreateDropdown("TagDropDown", BackgroundsTagList, BackgroundSelectionTagChanged);
 }
 
 function BackgroundSelectionUnload() {
@@ -85,12 +85,11 @@ function BackgroundSelectionInputChanged() {
 
 /**
  * When a new value is selected in the tag selection drop-down, we refresh the displayed background
+ * @this {HTMLSelectElement}
  * @returns {void} - Nothing
  */
 function BackgroundSelectionTagChanged() {
-	const DD = /** @type {HTMLSelectElement} */(document.getElementById("TagDropDown-select"));
-	if (DD == null) return;
-	BackgroundSelectionList = BackgroundsGenerateList((DD.selectedIndex == 0) ? BackgroundSelectionTagList : [/** @type {BackgroundTag} */(DD.options[DD.selectedIndex].text)]);
+	BackgroundSelectionList = BackgroundsGenerateList(this.value ? [/** @type {BackgroundTag} */(this.value)] : BackgroundSelectionTagList);
 	BackgroundSelectionView = BackgroundSelectionAll.slice().sort(BackgroundSelectionSort);
 	ElementContent("InputBackground-datalist", "");
 	BackgroundSelectionInputChanged();
