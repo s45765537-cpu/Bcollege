@@ -502,7 +502,7 @@ interface ExpressionNameMap {
 		null | "Afk" | "Whisper" | "Sleep" | "Hearts" | "Tear" | "Hearing" | "Confusion" | "Exclamation" |
 		"Annoyed" | "Read" | "RaisedHand" | "Spectator" | "ThumbsDown" | "ThumbsUp" | "LoveRope" |
 		"LoveGag" | "LoveLock" | "Wardrobe" | "Gaming" | "Coffee" | "Fork" | "Music" | "Car" | "Hanger" |
-		"Call" | "Lightbulb" | "Warning" | "BrokenHeart" | "Drawing" | "Coding" | "TV" | "Bathing" | 
+		"Call" | "Lightbulb" | "Warning" | "BrokenHeart" | "Drawing" | "Coding" | "TV" | "Bathing" |
 		"Shopping" |"Brb" | "Work" | "SOS"
 	),
 }
@@ -4429,6 +4429,15 @@ interface NotificationData {
 	memberNumber?: number,
 	characterName?: string,
 	chatRoomName?: string,
+}
+
+interface NotificationBeep {
+	Message: string;
+	Duration: number;
+	ClickHandler?: (event: MouseEvent) => void;
+	Silent?: boolean;
+	/** Internal use; timer that is set when the beep first appears on screen */
+	Timer?: number;
 }
 
 // #end region
