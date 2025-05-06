@@ -502,7 +502,7 @@ interface ExpressionNameMap {
 		null | "Afk" | "Whisper" | "Sleep" | "Hearts" | "Tear" | "Hearing" | "Confusion" | "Exclamation" |
 		"Annoyed" | "Read" | "RaisedHand" | "Spectator" | "ThumbsDown" | "ThumbsUp" | "LoveRope" |
 		"LoveGag" | "LoveLock" | "Wardrobe" | "Gaming" | "Coffee" | "Fork" | "Music" | "Car" | "Hanger" |
-		"Call" | "Lightbulb" | "Warning" | "BrokenHeart" | "Drawing" | "Coding" | "TV" | "Bathing" | 
+		"Call" | "Lightbulb" | "Warning" | "BrokenHeart" | "Drawing" | "Coding" | "TV" | "Bathing" |
 		"Shopping" |"Brb" | "Work" | "SOS"
 	),
 }
@@ -656,7 +656,7 @@ type FetishName =
 
 type BackgroundTag =
 	"Filter by tag" | "Indoor" | "Outdoor" | "Aquatic" | "Special Events" | "SciFi & Fantasy" |
-	"Club & College" | "Regular house" | "Dungeon" | "Asylum" | "Pandora" | "Club Cards"
+	"Club" | "College" | "Regular house" | "Dungeon" | "Asylum" | "Pandora" | "Club Cards"
 	;
 
 // NOTE: `NPCArchetype` is for NPC's only
@@ -4432,6 +4432,15 @@ interface NotificationData {
 	memberNumber?: number,
 	characterName?: string,
 	chatRoomName?: string,
+}
+
+interface NotificationBeep {
+	Message: string;
+	Duration: number;
+	ClickHandler?: (event: MouseEvent) => void;
+	Silent?: boolean;
+	/** Internal use; timer that is set when the beep first appears on screen */
+	Timer?: number;
 }
 
 // #end region

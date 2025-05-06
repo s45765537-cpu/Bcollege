@@ -9,7 +9,8 @@ const BackgroundsTagOutdoor = "Outdoor";
 const BackgroundsTagAquatic = "Aquatic";
 const BackgroundsTagSpecial = "Special Events";
 const BackgroundsTagSciFiFantasy = "SciFi & Fantasy";
-const BackgroundsTagClub = "Club & College";
+const BackgroundsTagClub = "Club";
+const BackgroundsTagCollege = "College";
 const BackgroundsTagHouse = "Regular house";
 const BackgroundsTagDungeon = "Dungeon";
 const BackgroundsTagAsylum = "Asylum";
@@ -29,6 +30,7 @@ const BackgroundsTagList = [
 	BackgroundsTagSpecial,
 	BackgroundsTagSciFiFantasy,
 	BackgroundsTagClub,
+	BackgroundsTagCollege,
 	BackgroundsTagHouse,
 	BackgroundsTagDungeon,
 	BackgroundsTagPandora
@@ -100,9 +102,23 @@ const BackgroundsList = [
 	{ Name: "Cellar", Tag: [BackgroundsTagIndoor, BackgroundsTagHouse] },
 	{ Name: "CeremonialVenue", Tag: [BackgroundsTagOutdoor, BackgroundsTagSpecial] },
 	{ Name: "ChillRoom", Tag: [BackgroundsTagIndoor, BackgroundsTagHouse] },
-	{ Name: "CollegeClass", Tag: [BackgroundsTagClub, BackgroundsTagIndoor] },
-	{ Name: "CollegeTennis", Tag: [BackgroundsTagClub, BackgroundsTagOutdoor] },
-	{ Name: "CollegeTheater", Tag: [BackgroundsTagClub, BackgroundsTagIndoor] },
+	{ Name: "CollegeCafeteria", Tag: [BackgroundsTagCollege, BackgroundsTagIndoor] },
+	{ Name: "CollegeCafeteria2", Tag: [BackgroundsTagCollege, BackgroundsTagIndoor] },
+	{ Name: "CollegeClass", Tag: [BackgroundsTagCollege, BackgroundsTagIndoor] },
+	{ Name: "CollegeClass2", Tag: [BackgroundsTagCollege, BackgroundsTagIndoor] },
+	{ Name: "CollegeConcertStage", Tag: [BackgroundsTagCollege, BackgroundsTagIndoor] },
+	{ Name: "CollegeDetention", Tag: [BackgroundsTagCollege, BackgroundsTagIndoor] },
+	{ Name: "CollegeEntrance", Tag: [BackgroundsTagCollege, BackgroundsTagIndoor] },
+	{ Name: "CollegeHall1", Tag: [BackgroundsTagCollege, BackgroundsTagIndoor] },
+	{ Name: "CollegeHall2", Tag: [BackgroundsTagCollege, BackgroundsTagIndoor] },
+	{ Name: "CollegeHall3", Tag: [BackgroundsTagCollege, BackgroundsTagIndoor] },
+	{ Name: "CollegePool", Tag: [BackgroundsTagCollege, BackgroundsTagIndoor, BackgroundsTagAquatic] },
+	{ Name: "CollegeTeacherLounge2", Tag: [BackgroundsTagCollege, BackgroundsTagIndoor] },
+	{ Name: "CollegeTennis", Tag: [BackgroundsTagCollege, BackgroundsTagOutdoor] },
+	{ Name: "CollegeTheater", Tag: [BackgroundsTagCollege, BackgroundsTagIndoor] },
+	{ Name: "CollegeShowerRoom", Tag: [BackgroundsTagCollege, BackgroundsTagIndoor, BackgroundsTagAquatic] },
+	{ Name: "CollegeSportsGround", Tag: [BackgroundsTagCollege, BackgroundsTagOutdoor] },
+	{ Name: "CollegeStaffRoom", Tag: [BackgroundsTagCollege, BackgroundsTagIndoor] },
 	{ Name: "Confessions", Tag: [BackgroundsTagIndoor, BackgroundsTagSciFiFantasy, BackgroundsTagDungeon] },
 	{ Name: "CosyChalet", Tag: [BackgroundsTagIndoor, BackgroundsTagHouse] },
 	{ Name: "CozyLivingRoom", Tag: [BackgroundsTagIndoor, BackgroundsTagHouse] },
@@ -120,7 +136,7 @@ const BackgroundsList = [
 	{ Name: "ForestCave", Tag: [BackgroundsTagOutdoor] },
 	{ Name: "ForestPath", Tag: [BackgroundsTagOutdoor] },
 	{ Name: "Gardens", Tag: [BackgroundsTagOutdoor] },
-	{ Name: "Gymnasium", Tag: [BackgroundsTagIndoor] },
+	{ Name: "Gymnasium", Tag: [BackgroundsTagCollege, BackgroundsTagIndoor] },
 	{ Name: "HeavenEntrance", Tag: [BackgroundsTagOutdoor, BackgroundsTagSciFiFantasy] },
 	{ Name: "HellEntrance", Tag: [BackgroundsTagOutdoor, BackgroundsTagSciFiFantasy] },
 	{ Name: "HorseStable", Tag: [BackgroundsTagIndoor] },
@@ -132,6 +148,7 @@ const BackgroundsList = [
 	{ Name: "HouseInterior1", Tag: [BackgroundsTagIndoor, BackgroundsTagHouse] },
 	{ Name: "HouseInterior2", Tag: [BackgroundsTagIndoor, BackgroundsTagHouse] },
 	{ Name: "HouseInterior3", Tag: [BackgroundsTagIndoor, BackgroundsTagHouse] },
+	{ Name: "HouseInterior4", Tag: [BackgroundsTagIndoor, BackgroundsTagHouse] },
 	{ Name: "HypnoSpiral2", Tag: [] },
 	{ Name: "HypnoticSpiral", Tag: [] },
 	{ Name: "IndoorPool", Tag: [BackgroundsTagIndoor, BackgroundsTagAquatic, BackgroundsTagHouse] },

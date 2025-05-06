@@ -27,9 +27,24 @@ Castle,Fancy Castle
 Cellar,Cellar
 CeremonialVenue,Ceremony Venue
 ChillRoom,Chill Room
-CollegeClass,College Classroom
+CollegeCafeteria,Cafeteria 1
+CollegeCafeteria2,Cafeteria 2
+CollegeClass,Classroom 1
+CollegeClass2,Classroom 2
+CollegeClass2,Classroom 2
+CollegeConcertStage,Concert Stage
+CollegeDetention,Detention Class
+CollegeEntrance,College Entrance
+CollegeHall1,College Hall 1
+CollegeHall2,College Hall 2
+CollegeHall3,College Hall 3
+CollegePool,College Pool
+CollegeTeacherLounge2,Teachers' Lounge
 CollegeTennis,Tennis Court
 CollegeTheater,Theater
+CollegeShowerRoom,Shower Room
+CollegeSportsGround,Sports Ground
+CollegeStaffRoom,Staff Room
 Confessions,Confessions
 CosyChalet,Cosy Chalet
 CozyLivingRoom,Cozy Living Room
@@ -59,6 +74,7 @@ HouseBasement3,Empty Basement 3
 HouseInterior1,Studio Living Room
 HouseInterior2,Wooden Living Room
 HouseInterior3,Appartment Living Room
+HouseInterior4,Japanese Living Room
 HypnoSpiral2,Hypnotic Spiral 2
 HypnoticSpiral,Hypnotic Spiral
 IndoorPool,Indoor Pool

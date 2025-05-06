@@ -245,6 +245,10 @@
 			visibility: visible;
 		}
 	}
+
+	.button:focus > .button-tooltip {
+		visibility: visible;
+	}
 }
 
 @media (hover: none) {
@@ -259,10 +263,6 @@
 		outline: 2px solid rgb(0, 96, 223);
 		box-shadow: 0 0 0 3px white;
 		border-radius: 1px;
-	}
-
-	.button:focus-visible > .button-tooltip {
-		visibility: visible;
 	}
 }
 
