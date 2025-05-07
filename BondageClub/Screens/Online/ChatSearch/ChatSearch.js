@@ -6,6 +6,11 @@
 
 /** Background image */
 var ChatSearchBackground = "Introduction";
+/**
+ * The list of tags allowed as backgrounds for the room edit screens
+ * @type {BackgroundTag[]}
+ */
+var ChatSearchBackgroundTagList = [];
 /** @type {ChatRoomSearchResult[]} */
 var ChatSearchResult = [];
 /** @type {ChatRoomSearchResult[]} */

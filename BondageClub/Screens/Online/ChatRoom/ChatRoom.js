@@ -1406,8 +1406,7 @@ function ChatRoomStart(Space, Game, LeaveRoom, LeaveSpace, Background, Backgroun
 	ChatRoomSpace = Space;
 	ChatRoomGame = Game;
 	ChatSearchBackground = Background;
-	ChatAdminBackgroundList = BackgroundsGenerateList(BackgroundTagList);
-	BackgroundSelectionTagList = BackgroundTagList;
+	ChatSearchBackgroundTagList = BackgroundTagList;
 	CommonSetScreen("Online", "ChatSearch");
 
 }
