@@ -1387,9 +1387,9 @@ var ElementButton = {
 		htmlOptions ??= {};
 		const buttonOptions = htmlOptions.button ?? {};
 		const tooltipOptions = htmlOptions.tooltip ?? {};
-		const labelPosition = options.labelPosition ?? (options.image == null ? "center" : "bottom");
 
 		options ??= {};
+		const labelPosition = options.labelPosition ?? (options.image == null ? "center" : "bottom");
 		const image = this._ParseImage(id, options.image, htmlOptions.img);
 		const label = this._ParseLabel(id, options.label, labelPosition, htmlOptions.label);
 		const icons = this._ParseIcons(id, options.icons);
