@@ -343,6 +343,7 @@ select:invalid:not(:disabled):not(:read-only) {
 	}
 }
 
-.hidden {
+.hidden,
+[hidden] {
 	display: none !important;
 }
