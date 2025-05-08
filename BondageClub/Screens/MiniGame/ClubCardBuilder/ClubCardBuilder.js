@@ -303,7 +303,7 @@ function ClubCardBuilderClick() {
 		let backgrounds = BackgroundsGenerateList(BackgroundsClubCardsTagList);
 		let index = backgrounds.indexOf(Player.Game.ClubCard.Background ? Player.Game.ClubCard.Background : "ClubCardPlayBoard1");
 		if (index < 0) index = 0;
-		BackgroundSelectionMake(backgrounds, index, (Name, setBackground) => {
+		BackgroundSelectionMake(BackgroundsClubCardsTagList, index, (Name, setBackground) => {
 			if (setBackground) {
 				Player.Game.ClubCard.Background = Name;
 				ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
