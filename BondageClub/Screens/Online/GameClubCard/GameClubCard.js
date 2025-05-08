@@ -103,6 +103,10 @@ function GameClubCardRun() {
 	if (GameClubCardCanJoinGame()) DrawButton(900, 600, 400, 64, TextGet("JoinGame"), "White");
 	if ((GameClubCardGetStatus() == "Running") && !GameClubCardCanJoinGame()) DrawText(TextGet("CannotJoinDetails"), 1100, 600, "Red", "Gray");
 	if (GameClubCardIsAdmin(Player)) DrawButton(900, 800, 400, 64, TextGet("ResetGame"), "Salmon");
+
+	//Animation Settings
+	DrawCheckbox(900, 880, 60, 60, null, Player.Game.ClubCard.IsAnimation);
+	DrawTextWrap(TextGet("IsAnimation"), 970, 880, 350, 60, "Black");
 }
 
 /**
@@ -136,7 +140,6 @@ function GameClubCardClick() {
 		const Dictionary = new DictionaryBuilder()
 			.sourceCharacter(Player)
 			.build();
-		Dictionary.push({Tag: "SourceCharacter", Text: CharacterNickname(Player), MemberNumber: Player.MemberNumber});
 		ServerSend("ChatRoomChat", { Content: "ClubCardGameStart", Type: "Action" , Dictionary: Dictionary});
 
 		// Sends the 1st and 2nd players in the packet
@@ -168,6 +171,12 @@ function GameClubCardClick() {
 		ClubCardSendRequestResetGame();
 	}
 
+	if (MouseIn(900, 880, 60, 60)) {
+		if (Player.Game.ClubCard.IsAnimation) Player.Game.ClubCard.IsAnimation = !Player.Game.ClubCard.IsAnimation;
+		else Player.Game.ClubCard.IsAnimation = true;
+
+		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+	}
 }
 
 /**
@@ -255,9 +264,15 @@ function GameClubCardLoadStatus() {
  */
 function GameClubCardDoBundle(Cards, IncludeTime = false) {
 	let Result = "";
-	if (Cards != null)
-		for (let C of Cards)
-			Result = Result + String.fromCharCode(C.ID) + (IncludeTime ? ((C.Time == null) ? "N" : C.Time.toString()) : "");
+	if (Cards != null) {
+		for (let C of Cards) {
+			let encodedCard = String.fromCharCode(C.ID) + "|" + C.UniqueID;
+			if (IncludeTime) {
+				encodedCard += "|" + (C.Time == null ? "N" : C.Time.toString());
+			}
+			Result += encodedCard + ";";
+		}
+	}
 	return Result;
 }
 
@@ -278,8 +293,11 @@ function GameClubCardBoardDoBundle(Cards) {
 		let FamePerTurn = `${card.FamePerTurn !== undefined ? card.FamePerTurn : ''}`;
 		let Time = `${card.Time !== undefined ? card.Time : ''}`;
 		let Negated = `${card.Negated !== undefined ? card.Negated : ''}`;
+		let EffectKey = `${card.EffectKey !== undefined ? card.EffectKey : ''}`;
+		let UniqueID = `${card.UniqueID !== undefined ? card.UniqueID : ''}`;
+		let Group = card.Group && card.Group.length ? card.Group.join('|') : '';
 
-		Result += `${ID},${ArrayIndex},${MoneyPerTurn},${FamePerTurn},${Time},${Negated};`;
+		Result += `${ID},${ArrayIndex},${MoneyPerTurn},${FamePerTurn},${Time},${Negated},${EffectKey},${UniqueID},${Group};`;
 	}
 
 	if (Result.endsWith(";")) {
@@ -289,35 +307,28 @@ function GameClubCardBoardDoBundle(Cards) {
 	return Result;
 }
 
-/**
- * Processes the club card game data received from the server
- * @param {string} Bundle - An array of c
- * @param {boolean} IncludeTime - If we must include the time property
- * @param {string} Location - The location of the card
- * @returns {ClubCard[]} - A string with all the cards
- */
 function GameClubCardUndoBundle(Bundle, IncludeTime = false, Location = null) {
 	let Result = [];
-	let Card;
-	let CardMode = true;
-	if (Bundle != null)
-		for (let B of Bundle) {
-			if (CardMode) {
-				let D = B.charCodeAt(0);
-				for (let C of ClubCardList)
-					if (C.ID == D) {
-						Card = {...C};
-						if (Card.Type == null) Card.Type = "Member";
-						if (Location != null) Card.Location = Location;
-						Result.push(Card);
-						break;
-					}
-				if (IncludeTime) CardMode = false;
-			} else {
-				if (CommonIsNumeric(B)) Card.Time = parseInt(B);
-				CardMode = true;
+	if (!Bundle) return Result;
+
+	let Entries = Bundle.split(";");
+	for (let Entry of Entries) {
+		if (!Entry) continue;
+		let Parts = Entry.split("|");
+
+		let CardID = Parts[0].charCodeAt(0);
+		let UniqueID = Parts[1];
+
+		let Card = ClubCardList.find(C => C.ID === CardID);
+		if (Card) {
+			let NewCard = { ...Card, UniqueID };
+			if (Location) NewCard.Location = Location;
+			if (IncludeTime && Parts.length > 2 && CommonIsNumeric(Parts[2])) {
+				NewCard.Time = parseInt(Parts[2]);
 			}
+			Result.push(NewCard);
 		}
+	}
 	return Result;
 }
 
@@ -333,7 +344,7 @@ function GameClubCardBoardUndoBundle(bundle, Location) {
 
 	for (let i = 0; i < cards.length; i++) {
 		const cardString = cards[i];
-		const [ID, ArrayIndex, MoneyPerTurn, FamePerTurn, Time, Negated] = cardString.split(',');
+		const [ID, ArrayIndex, MoneyPerTurn, FamePerTurn, Time, Negated, EffectKey, UniqueID, Group] = cardString.split(',');
 
 		const existingCard = ClubCardList.find(card => card.ID === Number(ID));
 
@@ -348,6 +359,9 @@ function GameClubCardBoardUndoBundle(bundle, Location) {
 			if (FamePerTurn != undefined && FamePerTurn != '') card.FamePerTurn = Number(FamePerTurn);
 			if (Time != undefined && Time != '') card.Time = Number(Time);
 			if (Negated != undefined && Negated != '') card.Negated = Boolean(Negated);
+			if (EffectKey != undefined && EffectKey != '') card.EffectKey = Number(EffectKey);
+			if (UniqueID != undefined && UniqueID != '') card.UniqueID = UniqueID;
+			if (Group) card.Group = Group.split('|');
 
 			result.push(card);
 		}
@@ -371,13 +385,25 @@ function GameClubCardLoadBundle(CCPlayer, Bundle) {
 	if (Bundle.LastMoneyPerTurn != null) CCPlayer.LastMoneyPerTurn = Bundle.LastMoneyPerTurn;
 	if (Bundle.FullDeck != null) CCPlayer.FullDeck = GameClubCardUndoBundle(Bundle.FullDeck);
 	if (Bundle.Deck != null) CCPlayer.Deck = GameClubCardUndoBundle(Bundle.Deck);
-	if (Bundle.Hand != null) CCPlayer.Hand = GameClubCardUndoBundle(Bundle.Hand);
-	if (Bundle.Board != null) CCPlayer.Board = GameClubCardBoardUndoBundle(Bundle.Board, Location);
-	if (Bundle.Event != null) CCPlayer.Event = GameClubCardUndoBundle(Bundle.Event, true, Location);
 	if (Bundle.DiscardPile != null) CCPlayer.DiscardPile = GameClubCardUndoBundle(Bundle.DiscardPile, false, Location);
 	if (Bundle.Playing) ClubCardTurnIndex = CCPlayer.Index;
 	if (Bundle.CardsPlayedThisTurn != null) CCPlayer.CardsPlayedThisTurn = Bundle.CardsPlayedThisTurn;
 	if (Bundle.CardsPlayedThisTurn !== null) CCPlayer.ClubCardTurnCounter = Bundle.ClubCardTurnCounter;
+	if (Bundle.Sleeve !== null) CCPlayer.Sleeve = Bundle.Sleeve;
+
+	//###
+	if (Bundle.Hand != null) CCPlayer.Hand = GameClubCardUndoBundle(Bundle.Hand);
+	if (Bundle.Board != null) CCPlayer.Board = GameClubCardBoardUndoBundle(Bundle.Board, Location);
+	if (Bundle.Event != null) CCPlayer.Event = GameClubCardUndoBundle(Bundle.Event, true, Location);
+	//Check that if the user has the selected ClubCardFocus card, we hide its original.
+	if (ClubCardIsAnimationOn && ClubCardFocus) {
+		let targetCard = [CCPlayer.Hand, CCPlayer.Board, CCPlayer.Event].
+			flatMap(collection => collection || []).
+			find(card => card.UniqueID === ClubCardFocus.UniqueID);
+
+		if (targetCard) targetCard.IsVisible = false;
+	}
+	//###
 }
 
 /**
@@ -530,7 +556,8 @@ function GameClubCardSyncOnlineData(Progress = "Action", LocalPlayerOnly = false
 			Event: GameClubCardDoBundle(CCPlayer.Event, true),
 			DiscardPile: GameClubCardDoBundle(CCPlayer.DiscardPile),
 			CardsPlayedThisTurn: CCPlayer.CardsPlayedThisTurn,
-			ClubCardTurnCounter: CCPlayer.ClubCardTurnCounter
+			ClubCardTurnCounter: CCPlayer.ClubCardTurnCounter,
+			Sleeve: CCPlayer.Sleeve
 		});
 	}
 	if (Progress == "Action") ServerSend("ChatRoomGame", { GameProgress: Progress, CCData: Packet });

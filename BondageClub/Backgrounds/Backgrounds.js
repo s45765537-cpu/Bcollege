@@ -15,6 +15,7 @@ const BackgroundsTagHouse = "Regular house";
 const BackgroundsTagDungeon = "Dungeon";
 const BackgroundsTagAsylum = "Asylum";
 const BackgroundsTagPandora = "Pandora";
+const BackgroundsTagClubCards = "Club Cards";
 
 /**
  * List of all tags to create online chat rooms
@@ -44,6 +45,25 @@ const BackgroundsPrivateRoomTagList = [
 	BackgroundsTagClub,
 	BackgroundsTagHouse,
 	BackgroundsTagDungeon
+];
+
+/**
+ * List of all tags for the club cards board
+ * @constant
+ * @type {BackgroundTag[]}
+ */
+const BackgroundsClubCardsTagList = [
+	BackgroundsTagNone,
+	BackgroundsTagIndoor,
+	BackgroundsTagOutdoor,
+	BackgroundsTagAquatic,
+	BackgroundsTagSpecial,
+	BackgroundsTagSciFiFantasy,
+	BackgroundsTagClub,
+	BackgroundsTagHouse,
+	BackgroundsTagDungeon,
+	BackgroundsTagPandora,
+	BackgroundsTagClubCards
 ];
 
 // Be sure to go into [Screens\Character\Player\Dialog_Player.csv] and add a new line at around line 440, follow the format.
@@ -240,6 +260,7 @@ const BackgroundsList = [
 	{ Name: "Yacht1", Tag: [BackgroundsTagIndoor, BackgroundsTagAquatic] },
 	{ Name: "Yacht2", Tag: [BackgroundsTagIndoor, BackgroundsTagAquatic] },
 	{ Name: "Yacht3", Tag: [BackgroundsTagIndoor, BackgroundsTagAquatic] },
+	{ Name: "ClubCardPlayBoard1", Tag: [BackgroundsTagClubCards] },
 ];
 
 /**

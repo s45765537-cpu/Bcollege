@@ -37,3 +37,8 @@ GroupPet,Pet
 GroupOwner,Owner
 GroupPlayer,Online Player
 GroupReward,Reward Cards
+ChangeCardBack,Change sleeve
+ChangeCardBackGround,Change card game background
+SaveCardBack,Save selected sleeve
+NextCardBacks,Next 30 sleeves
+PreviousCardBacks,Previous 30 sleeves
