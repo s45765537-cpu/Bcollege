@@ -431,10 +431,10 @@ var Shop2 = {
 
 				if (item && item.Asset.Name === asset.Name && item.Asset.Group.Name === asset.Group.Name) {
 					Shop2Vars.EquippedItem = null;
-					CharacterRefresh(Shop2InitVars.Preview, false, false);
 				} else {
 					Shop2Vars.EquippedItem = CharacterAppearanceSetItem(Shop2InitVars.Preview, asset.Group.Name, asset, [...asset.DefaultColor]) ?? null;
 				}
+				CharacterRefresh(Shop2InitVars.Preview, false, false);
 				Shop2._UpdatePoseButtons();
 				break;
 			}
