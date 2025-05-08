@@ -21349,22 +21349,22 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "RightBraid",
-						AllowTypes: { typed: [0, 2] },
+						AllowTypes: { typed: [1, 2] },
 						Priority: 48,
 					},
 					{
 						Name: "RightBack",
-						AllowTypes: { typed: [0, 2] },
+						AllowTypes: { typed: [1, 2] },
 						CopyLayerColor: "RightBraid",
 					},
 					{
 						Name: "RightString",
-						AllowTypes: { typed: [0, 2] },
+						AllowTypes: { typed: [1, 2] },
 						Priority: 48,
 					},
 					{
 						Name: "RightRing",
-						AllowTypes: { typed: [0, 2] },
+						AllowTypes: { typed: [1, 2] },
 						CopyLayerColor: "RightString",
 						Priority: 48,
 					},

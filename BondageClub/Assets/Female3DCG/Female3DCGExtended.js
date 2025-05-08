@@ -1584,7 +1584,7 @@ var AssetFemale3DCGExtended = {
 		HairBack80: {
 			Archetype: ExtendedArchetype.TYPED,
 			DrawImages: false,
-			Options: [{ Name: "Both" }, { Name: "LeftOnly" }, { Name: "RightOnly" }],
+			Options: [{ Name: "LeftOnly" }, { Name: "Both" } ,{ Name: "RightOnly" }],
 		}, // HairBack80
 		HairBack82: {
 			Archetype: ExtendedArchetype.TYPED,
