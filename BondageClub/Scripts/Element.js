@@ -418,17 +418,16 @@ function ElementCreateDiv(ID) {
 
 /**
  * Removes an element from the main document
- * @param {string} ID - The id of the tag to remove from the document.
+ * @param {ElementHelp.ElementOrId} elementOrId - The id of the tag to remove from the document.
  * @returns {void} - Nothing
  */
-function ElementRemove(ID) {
-	if (document.getElementById(ID) != null)
-		document.getElementById(ID).parentNode.removeChild(document.getElementById(ID));
+function ElementRemove(elementOrId) {
+	ElementWrap(elementOrId)?.remove();
 }
 
 /**
  * Draws an existing HTML element at a specific position within the document. The element is "centered" on the given coordinates by dividing its height and width by two.
- * @param {string | HTMLElement} ElementOrID - The id of the input tag to (re-)position.
+ * @param {ElementHelp.ElementOrId} ElementOrID - The id of the input tag to (re-)position.
  * @param {number} X - Center point of the element on the X axis.
  * @param {number} Y - Center point of the element on the Y axis.
  * @param {number} W - Width of the element.
@@ -436,7 +435,7 @@ function ElementRemove(ID) {
  * @returns {void} - Nothing
  */
 function ElementPosition(ElementOrID, X, Y, W, H) {
-	const E = typeof ElementOrID === "string" ? document.getElementById(ElementOrID) : ElementOrID;
+	const E = ElementWrap(ElementOrID);
 
 	if (!E) {
 		console.warn("A call to ElementPosition was made on non-existent element with ID '" + ElementOrID + "'");
@@ -445,44 +444,43 @@ function ElementPosition(ElementOrID, X, Y, W, H) {
 
 	// For a vertical slider, swap the width and the height (the transformation is handled by CSS)
 	if (E.tagName.toLowerCase() === "input" && E.getAttribute("type") === "range" && E.classList.contains("Vertical")) {
-		var tmp = W;
-		W = H;
-		H = tmp;
+		[W, H] = [H, W];
 	}
 
-	// Different positions based on the width/height ratio
-	const HRatio = MainCanvas.canvas.clientHeight / 1000;
-	const WRatio = MainCanvas.canvas.clientWidth / 2000;
-	const Font = MainCanvas.canvas.clientWidth <= MainCanvas.canvas.clientHeight * 2 ? MainCanvas.canvas.clientWidth / 50 : MainCanvas.canvas.clientHeight / 25;
-	const Height = H ? H * HRatio : 4 + Font * 1.15;
-	const Width = W * WRatio;
-	const Top = MainCanvas.canvas.offsetTop + Y * HRatio - Height / 2;
-	const Left = MainCanvas.canvas.offsetLeft + (X - W / 2) * WRatio;
+	// compute font size and apply
+	ElementSetFontSize(E);
+	const font = parseFloat(E.style.fontSize);
 
-	// Sets the element style
+	// compute dimensions
+	const height = H != null ? ElementCanvasScaledHeight(H) : 4 + font * 1.15;
+	const width = ElementCanvasScaledWidth(W);
+
+	// compute top/left to center
+	const posX = ElementCanvasScaledY(Y, 'top') - height / 2;
+	const posY = ElementCanvasScaledX(X - W / 2, 'left');
+
 	Object.assign(E.style, {
-		fontSize: Font + "px",
-		fontFamily: CommonGetFontName(),
-		position: "fixed",
-		left: Left + "px",
-		top: Top + "px",
-		width: Width + "px",
-		height: Height + "px",
+		position: 'fixed',
+		top: posX + 'px',
+		left: posY + 'px',
+		width: width + 'px',
+		height: height + 'px'
 	});
 }
 
 /**
  * Draws an existing HTML element at a specific position within the document. The element will not be centered on its given coordinates unlike the ElementPosition function.
  * Not same as ElementPositionFix. Calculates Font size itself.
- * @param {string | HTMLElement} ElementOrID - The id of the input tag to (re-)position or the element itself.
+ * @param {ElementHelp.ElementOrId} ElementOrID - The id of the input tag to (re-)position or the element itself.
  * @param {number} X - Starting point of the element on the X axis.
  * @param {number} Y - Starting point of the element on the Y axis.
  * @param {number} W - Width of the element.
  * @param {number} [H] - Height of the element.
+ * @param {ElementHelp.AnchorXY} [anchorPosition]
  * @returns {void} - Nothing
  */
-function ElementPositionFixed(ElementOrID, X, Y, W, H) {
-	const E = typeof ElementOrID === "string" ? document.getElementById(ElementOrID) : ElementOrID;
+function ElementPositionFixed(ElementOrID, X, Y, W, H, anchorPosition = 'top-left') {
+	const E = ElementWrap(ElementOrID);
 
 	// Verify the element exists
 	if (!E) {
@@ -491,77 +489,44 @@ function ElementPositionFixed(ElementOrID, X, Y, W, H) {
 		return;
 	}
 
-	// Different positions based on the width/height ratio
-	const HRatio = MainCanvas.canvas.clientHeight / 1000;
-	const WRatio = MainCanvas.canvas.clientWidth / 2000;
-	const Font = MainCanvas.canvas.clientWidth <= MainCanvas.canvas.clientHeight * 2 ? MainCanvas.canvas.clientWidth / 50 : MainCanvas.canvas.clientHeight / 25;
-	const Top = MainCanvas.canvas.offsetTop + Y * HRatio;
-	const Height = H ? H * HRatio : Font * 1.15;
-	const Left = MainCanvas.canvas.offsetLeft + X * WRatio;
-	const Width = W * WRatio;
-
-	// Sets the element style
-	Object.assign(E.style, {
-		fontSize: Font + "px",
-		fontFamily: CommonGetFontName(),
-		position: "fixed",
-		left: Left + "px",
-		top: Top + "px",
-		width: Width + "px",
-		height: Height + "px",
-	});
-
+	ElementSetFontSize(E);
+	ElementSetPosition(E, X, Y, anchorPosition);
+	ElementSetSize(E, W, H ?? null);
 }
 
 /**
  * Draws an existing HTML element at a specific position within the document. The element will not be centered on its given coordinates unlike the ElementPosition function.
- * @param {string} ElementID - The id of the input tag to (re-)position.
+ * @param {ElementHelp.ElementOrId} ElementOrID - The id of the input tag to (re-)position.
  * @param {number} Font - The size of the font to use.
  * @param {number} X - Starting point of the element on the X axis.
  * @param {number} Y - Starting point of the element on the Y axis.
  * @param {number} W - Width of the element.
  * @param {number} H - Height of the element.
+ * @param {ElementHelp.AnchorXY} [anchorPosition]
  * @returns {void} - Nothing
  */
-function ElementPositionFix(ElementID, Font, X, Y, W, H) {
-	var E = document.getElementById(ElementID);
+function ElementPositionFix(ElementOrID, Font, X, Y, W, H, anchorPosition = 'top-left') {
+	const E = ElementWrap(ElementOrID);
 	// Verify the element exists
 	if (!E) {
-		console.warn("A call to ElementPositionFix was made on non-existent element with ID '" + ElementID + "'");
+		console.warn("A call to ElementPositionFix was made on non-existent element with ID '" + ElementOrID + "'");
 		return;
 	}
 
-	// Different positions based on the width/height ratio
-	const HRatio = MainCanvas.canvas.clientHeight / 1000;
-	const WRatio = MainCanvas.canvas.clientWidth / 2000;
-	Font *= Math.max(HRatio, WRatio);
-	const Top = MainCanvas.canvas.offsetTop + Y * HRatio;
-	const Height = H * HRatio;
-	const Left = MainCanvas.canvas.offsetLeft + X * WRatio;
-	const Width = W * WRatio;
-
-	// Sets the element style
-	Object.assign(E.style, {
-		fontSize: Font + "px",
-		fontFamily: CommonGetFontName(),
-		position: "fixed",
-		left: Left + "px",
-		top: Top + "px",
-		width: Width + "px",
-		height: Height + "px",
-	});
-
+	ElementSetFontSize(E, Font);
+	ElementSetPosition(E, X, Y, anchorPosition);
+	ElementSetSize(E, W, H);
 }
 
 /**
  * Sets a custom data-attribute to a specified value on a specified element
- * @param {string} ID - The id of the element to create/set the data attribute of.
+ * @param {ElementHelp.ElementOrId} ElementOrId - The id of the element to create/set the data attribute of.
  * @param {string} Name - Name of the data attribute. ("data-" will be automatically appended to it.)
  * @param {string} Value - Value to give to the attribute.
  * @returns {void} - Nothing
  */
-function ElementSetDataAttribute(ID, Name, Value) {
-	var element = document.getElementById(ID);
+function ElementSetDataAttribute(ElementOrId, Name, Value) {
+	const element = ElementWrap(ElementOrId);
 	if (element != null) {
 		element.setAttribute(("data-" + Name).toLowerCase(), Value.toString().toLowerCase());
 	}
@@ -569,13 +534,13 @@ function ElementSetDataAttribute(ID, Name, Value) {
 
 /**
  * Sets an attribute to a specified value on a specified element
- * @param {string} ID - The id of the element to create/set the data attribute of.
+ * @param {ElementHelp.ElementOrId} ElementOrId - The id of the element to create/set the data attribute of.
  * @param {string} Name - Name of the attribute.
  * @param {string} Value - Value to give to the attribute.
  * @returns {void} - Nothing
  */
-function ElementSetAttribute(ID, Name, Value) {
-	var element = document.getElementById(ID);
+function ElementSetAttribute(ElementOrId, Name, Value) {
+	const element = ElementWrap(ElementOrId);
 	if (element != null) {
 		element.setAttribute(Name, Value);
 	}
@@ -583,12 +548,12 @@ function ElementSetAttribute(ID, Name, Value) {
 
 /**
  * Removes an attribute from a specified element.
- * @param {string} ID - The id of the element from which to remove the attribute.
+ * @param {ElementHelp.ElementOrId} ElementOrId - The id of the element from which to remove the attribute.
  * @param {string} Name - Name of the attribute to remove.
  * @returns {void} - Nothing
  */
-function ElementRemoveAttribute(ID, Name) {
-	var element = document.getElementById(ID);
+function ElementRemoveAttribute(ElementOrId, Name) {
+	const element = ElementWrap(ElementOrId);
 	if (element != null) {
 		element.removeAttribute(Name);
 	}
@@ -596,22 +561,22 @@ function ElementRemoveAttribute(ID, Name) {
 
 /**
  * Scrolls to the end of a specified element
- * @param {string} ID - The id of the element to scroll down to the bottom of.
+ * @param {ElementHelp.ElementOrId} ElementOrId - The id of the element to scroll down to the bottom of.
  * @returns {void} - Nothing
  */
-function ElementScrollToEnd(ID) {
-	var element = document.getElementById(ID);
+function ElementScrollToEnd(ElementOrId) {
+	const element = ElementWrap(ElementOrId);
 	if (element != null) element.scrollTop = element.scrollHeight;
 }
 
 /**
  * Returns the given element's scroll position as a percentage, with the top of the element being close to 0 depending on scroll bar size, and the bottom being around 1.
  * To clarify, this is the position of the bottom edge of the scroll bar.
- * @param {string} ID - The id of the element to find the scroll percentage of.
+ * @param {ElementHelp.ElementOrId} ElementOrId - The id of the element to find the scroll percentage of.
  * @returns {(number|null)} - A float representing the scroll percentage.
  */
-function ElementGetScrollPercentage(ID) {
-	var element = document.getElementById(ID);
+function ElementGetScrollPercentage(ElementOrId) {
+	const element = ElementWrap(ElementOrId);
 	if (element != null) {
 		if (element.scrollTop === 0) return 0;
 		return (element.scrollTop + element.clientHeight) / element.scrollHeight;
@@ -622,11 +587,11 @@ function ElementGetScrollPercentage(ID) {
 
 /**
  * Checks if a given HTML element is scrolled to the very bottom.
- * @param {string} ID - The id of the element to check for scroll height.
+ * @param {ElementHelp.ElementOrId} ElementOrId - The id of the element to check for scroll height.
  * @returns {boolean} - Returns TRUE if the specified element is scrolled to the very bottom
  */
-function ElementIsScrolledToEnd(ID) {
-	var element = document.getElementById(ID);
+function ElementIsScrolledToEnd(ElementOrId) {
+	const element = ElementWrap(ElementOrId);
 	return element != null && element.scrollHeight - element.scrollTop - element.clientHeight <= 1;
 }
 
@@ -634,15 +599,15 @@ function ElementIsScrolledToEnd(ID) {
  * Sets the scroll position of an element to a specified percentage of its scrollable content.
  * Ideally scroll percentage should be gotten with {@link ElementGetScrollPercentage}
  *
- * @param {string} ID
+ * @param {ElementHelp.ElementOrId} ElementOrId
  * @param {number} scrollPercentage
  * @param {ScrollBehavior} scrollBehavior
  * @returns {void}
  */
-function ElementSetScrollPercentage(ID, scrollPercentage, scrollBehavior = 'auto') {
-	const element = document.getElementById(ID);
+function ElementSetScrollPercentage(ElementOrId, scrollPercentage, scrollBehavior = 'auto') {
+	const element = ElementWrap(ElementOrId);
 	if (!element) {
-		console.error(`Element with ID "${ID}" not found.`);
+		console.error(`Element with ID "${ElementOrId}" not found.`);
 		return;
 	}
 
@@ -663,12 +628,11 @@ function ElementSetScrollPercentage(ID, scrollPercentage, scrollBehavior = 'auto
 
 /**
  * Gives focus to a specified existing element for non-mobile users.
- * @param {string} ID - The id of the element to give focus to.
+ * @param {ElementHelp.ElementOrId} ElementOrId - The id of the element to give focus to.
  * @returns {void} - Nothing
  */
-function ElementFocus(ID) {
-	if ((document.getElementById(ID) != null) && !CommonIsMobile)
-		document.getElementById(ID).focus();
+function ElementFocus(ElementOrId) {
+	ElementWrap(ElementOrId)?.focus();
 }
 
 /**
@@ -2047,4 +2011,149 @@ function ElementCheckVisibility(el, options) {
 		// @ts-expect-error: Element does not expose style but HTMLElement does
 		return (!el.style || el.style.display !== "none") && getComputedStyle(el).display !== "none";
 	}
+}
+
+/**
+ * Get an element by its ID or DOM element reference, returning null if it does not exist.
+ * @param {ElementHelp.ElementOrId} elementOrId
+ * @returns { HTMLElement | null }
+ */
+function ElementWrap(elementOrId) {
+	if (elementOrId instanceof HTMLElement) return elementOrId;
+	if (typeof elementOrId === 'string') return document.getElementById(elementOrId);
+	return null;
+}
+
+/**
+ * Scales a given height value relative to the current canvas height.
+ * @param {number} height
+ * @returns {number}
+ */
+function ElementCanvasScaledHeight(height) {
+	return height * (MainCanvas.canvas.clientHeight / MainCanvasHeight);
+}
+
+/**
+ * Scales a given width value relative to the current canvas width.
+ * @param {number} width
+ * @returns {number}
+ */
+function ElementCanvasScaledWidth(width) {
+	return width * (MainCanvas.canvas.clientWidth / MainCanvasWidth);
+}
+
+/**
+ * Calculates the Y position on the canvas in pixels, accounting for anchor alignment.
+ * @param {number} yPos
+ * @param {ElementHelp.AnchorY} anchorPosition
+ * @returns {number}
+ */
+function ElementCanvasScaledY(yPos, anchorPosition = 'top') {
+	const scaleY = MainCanvas.canvas.clientHeight / MainCanvasHeight;
+	return anchorPosition === 'top'
+    ? MainCanvas.canvas.offsetTop + yPos * scaleY
+    : MainCanvas.canvas.offsetTop + MainCanvas.canvas.clientHeight - yPos * scaleY;
+}
+
+/**
+ * Calculates the X position on the canvas in pixels, accounting for anchor alignment.
+ * @param {number} xPos
+ * @param {ElementHelp.AnchorX} anchorPosition
+ * @returns {number}
+ */
+function ElementCanvasScaledX(xPos, anchorPosition = 'left') {
+	const scaleX = MainCanvas.canvas.clientWidth / MainCanvasWidth;
+	return anchorPosition === 'left'
+    ? MainCanvas.canvas.offsetLeft + xPos * scaleX
+    : MainCanvas.canvas.offsetLeft + MainCanvas.canvas.clientWidth - xPos * scaleX;
+}
+
+/**
+ * Positions an HTML element on the canvas relative to a specified anchor.
+ * @param {ElementHelp.ElementOrId} elementOrId
+ * @param {number} xPos
+ * @param {number} yPos
+ * @param {ElementHelp.AnchorXY} [anchorPosition]
+ */
+function ElementSetPosition(elementOrId, xPos = 0, yPos = 0, anchorPosition = 'top-left') {
+	const element = ElementWrap(elementOrId);
+
+	if (!element) {
+		console.warn("A call to ElementSetPosition was made on non-existent element with ID '" + elementOrId + "'");
+		return;
+	}
+
+	const yAnchor = anchorPosition === 'top-left' || anchorPosition === 'top-right' ? 'top' : 'bottom';
+	const xAnchor = anchorPosition === 'top-left' || anchorPosition === 'bottom-left' ? 'left' : 'right';
+
+	const y = ElementCanvasScaledY(yPos, yAnchor);
+	const x = ElementCanvasScaledX(xPos, xAnchor);
+
+	Object.assign(element.style, {
+		position: 'fixed',
+		[xAnchor]: x + 'px',
+		[yAnchor]: y + 'px',
+	});
+}
+
+/**
+ * Sets the width and/or height of an element relative to the canvas scale.
+ * @param {ElementHelp.ElementOrId} elementOrId
+ * @param {number | null} width
+ * @param {number | null} height
+ */
+function ElementSetSize(elementOrId, width = null, height = null) {
+	const element = ElementWrap(elementOrId);
+
+	if (!element) {
+		console.warn("A call to ElementSetSize was made on non-existent element with ID '" + elementOrId + "'");
+		return;
+	}
+
+	if (width !== null) {
+		const Width = ElementCanvasScaledWidth(width);
+		Object.assign(element.style, {
+			width: Width + 'px',
+		});
+	}
+
+	const fontSize = element.style.fontSize;
+	if (height === null && fontSize) {
+		height = parseFloat(fontSize) * 1.15;
+	}
+
+	if (height !== null) {
+		const Height = ElementCanvasScaledHeight(height);
+		Object.assign(element.style, {
+			height: Height + 'px',
+		});
+	}
+}
+
+/**
+ * Sets the font size of an element scaled relative to the smaller canvas dimension.
+ * @param {ElementHelp.ElementOrId} elementOrId
+ * @param {number | 'auto'} targetFontSize
+ */
+function ElementSetFontSize(elementOrId, targetFontSize = 'auto') {
+	const element = ElementWrap(elementOrId);
+
+	if (!element) {
+		console.warn("A call to ElementSetFontSize was made on non-existent element with ID '" + elementOrId + "'");
+		return;
+	}
+
+	const canvasWidth = MainCanvas.canvas.clientWidth;
+	const canvasHeight = MainCanvas.canvas.clientHeight;
+
+	const scaleFactor = Math.min(canvasWidth, canvasHeight) / 1000;
+
+	const autoFontSize = MainCanvas.canvas.clientWidth <= MainCanvas.canvas.clientHeight * 2 ? MainCanvas.canvas.clientWidth / 50 : MainCanvas.canvas.clientHeight / 25;
+
+	const fontSize = targetFontSize === 'auto' ? autoFontSize : targetFontSize * scaleFactor;
+
+	Object.assign(element.style, {
+		fontSize: fontSize + 'px',
+		fontFamily: CommonGetFontName()
+	});
 }
