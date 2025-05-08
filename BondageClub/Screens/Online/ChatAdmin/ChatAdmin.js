@@ -120,6 +120,7 @@ function ChatAdminLoad() {
 	if (!ChatAdminData.Background) {
 		ChatAdminData.Background = Player.OnlineSettings.DefaultChatRoomBackground;
 	}
+	ChatAdminBackgroundList = BackgroundsGenerateList(ChatSearchBackgroundTagList);
 
 	// We have to reload the index here because we might be coming back from the background selection screen
 	ChatAdminBackgroundIndex = ChatAdminBackgroundList.indexOf(ChatAdminData.Background);
@@ -321,7 +322,7 @@ function ChatAdminClick() {
 			CommonSetScreen("Online", "ChatBlockItem");
 			return;
 		} else {
-			BackgroundSelectionMake(ChatAdminBackgroundList, ChatAdminBackgroundIndex, (Name, setBackground) => {
+			BackgroundSelectionMake(ChatSearchBackgroundTagList, ChatAdminBackgroundIndex, (Name, setBackground) => {
 				if (setBackground) ChatAdminData.Background = Name;
 				CommonSetScreen("Online", "ChatAdmin");
 			});

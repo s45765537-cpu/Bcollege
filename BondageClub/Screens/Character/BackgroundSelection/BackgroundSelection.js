@@ -6,16 +6,17 @@ var BackgroundSelectionList = [];
 /** @type {BackgroundTag[]} */
 var BackgroundSelectionTagList = [];
 var BackgroundSelectionIndex = 0;
-var BackgroundSelectionSelect = "";
+/** @type {string | null} */
+var BackgroundSelectionSelect = null;
 var BackgroundSelectionSize = 12;
 var BackgroundSelectionOffset = 0;
 /** @type {null | ((selection: string, setBackground: boolean) => void)} */
 var BackgroundSelectionCallback = null;
 /** @type {never} */
 var BackgroundSelectionReturnScreen;
-/** @type {{ Name: string, Description: string, Low: string }[]} */
-var BackgroundSelectionAll = [];
-/** @type {{ Name: string, Description: string, Low: string }[]} */
+/** @type {never} */
+var BackgroundSelectionAll;
+/** @type {string[]} */
 var BackgroundSelectionView = [];
 
 const Background = {
@@ -32,28 +33,27 @@ const Background = {
 
 /**
  * Change the current screen to the background selection screen
- * @param {string[]} List - The list of possible Background names
+ * @param {BackgroundTag[]} Tags - The list of possible Background names
  * @param {number} Idx - The index of the current background
  * @param {(selection: string, setBackground: boolean) => void} Callback - The function to call when a new background has been selected
  * @returns {void} - Nothing
  */
-function BackgroundSelectionMake(List, Idx, Callback) {
-	BackgroundSelectionList = List;
-	BackgroundSelectionIndex = Idx < List.length ? Idx : 0;
+function BackgroundSelectionMake(Tags, Idx, Callback) {
+	BackgroundSelectionTagList = Tags;
+	BackgroundSelectionList = BackgroundsGenerateList(BackgroundSelectionTagList);
+	BackgroundSelectionIndex = Idx < Tags.length ? Idx : 0;
 	BackgroundSelectionCallback = Callback;
 	CommonSetScreen("Character", "BackgroundSelection");
 }
 
 /**
  * Comapres two backgrounds by their description
- * @param {object} a - The first object to compare
- * @param {string} a.Description - The description of object a. Is used for comparision
- * @param {object} b - The second object to compar
- * @param {string} b.Description - The description of object b. Is used for comparision
+ * @param {string} a - The name of the first background
+ * @param {string} b - The name of the second background
  * @returns {number} - Returns -1 if the description of object a is less then that of b, 1 otherwise
  */
 function BackgroundSelectionSort(a, b) {
-	return a.Description.localeCompare(b.Description);
+	return BackgroundsTextGet(a).localeCompare(BackgroundsTextGet(b));
 }
 
 /**
@@ -65,7 +65,7 @@ function BackgroundSelectionLoad() {
 	BackgroundSelectionSelect = BackgroundSelectionList[BackgroundSelectionIndex];
 	BackgroundSelectionOffset = Math.floor(BackgroundSelectionIndex / BackgroundSelectionSize) * BackgroundSelectionSize;
 	BackgroundSelectionBackground = BackgroundSelectionList[BackgroundSelectionIndex] ?? "Introduction";
-	BackgroundSelectionView = BackgroundSelectionAll.slice(0).sort(BackgroundSelectionSort);
+	BackgroundSelectionView = BackgroundSelectionList.slice().sort(BackgroundSelectionSort);
 	TextPrefetchFile(BackgroundsStringsPath);
 
 	const root = document.getElementById(Background.elementID.root) ?? ElementCreate({
@@ -83,7 +83,7 @@ function BackgroundSelectionLoad() {
 		const searchFilter = ElementCreateSearchInput(Background.elementID.searchFilter, () => BackgroundSelectionList.map(i => BackgroundsTextGet(i)).sort());
 		searchFilter.addEventListener("input", BackgroundSelectionInputChanged);
 
-		const tagFilter = ElementCreateDropdown(Background.elementID.tagFilter, BackgroundsTagList, BackgroundSelectionTagChanged);
+		const tagFilter = ElementCreateDropdown(Background.elementID.tagFilter, BackgroundSelectionTagList, BackgroundSelectionTagChanged);
 		if (BackgroundSelectionTagList.length < 2) {
 			tagFilter.setAttribute("display", "none");
 		}
@@ -150,10 +150,10 @@ function BackgroundSelectionInputChanged() {
 	let Input = ElementValue(Background.elementID.searchFilter);
 	Input = Input.trim().toLowerCase();
 	if (Input == "") {
-		BackgroundSelectionView = BackgroundSelectionAll.slice();
+		BackgroundSelectionView = BackgroundSelectionList.slice();
 		BackgroundSelectionOffset = Math.floor(BackgroundSelectionIndex / BackgroundSelectionSize) * BackgroundSelectionSize;
 	} else {
-		BackgroundSelectionView = BackgroundSelectionAll.filter(B => B.Low.includes(Input));
+		BackgroundSelectionView = BackgroundSelectionList.filter(B => BackgroundsTextGet(B).toLowerCase().includes(Input));
 		if (BackgroundSelectionOffset >= BackgroundSelectionView.length) BackgroundSelectionOffset = 0;
 	}
 	BackgroundSelectionView.sort(BackgroundSelectionSort);
@@ -165,8 +165,8 @@ function BackgroundSelectionInputChanged() {
  * @returns {void} - Nothing
  */
 function BackgroundSelectionTagChanged() {
-	BackgroundSelectionList = BackgroundsGenerateList(this.value ? [/** @type {BackgroundTag} */(this.value)] : BackgroundSelectionTagList);
-	BackgroundSelectionView = BackgroundSelectionAll.slice().sort(BackgroundSelectionSort);
+	BackgroundSelectionList = BackgroundsGenerateList(this.value !== BackgroundsTagNone ? [/** @type {BackgroundTag} */(this.value)] : BackgroundSelectionTagList);
+	BackgroundSelectionView = BackgroundSelectionList.slice().sort(BackgroundSelectionSort);
 	ElementContent(`${Background.elementID.searchFilter}-datalist`, "");
 	BackgroundSelectionInputChanged();
 	if (BackgroundSelectionOffset >= BackgroundSelectionView.length) BackgroundSelectionOffset = 0;
@@ -196,20 +196,20 @@ function BackgroundSelectionResize(load) {
 function BackgroundSelectionRun() {
 	DrawText(TextGet("Selection").replace("SelectedBackground", BackgroundsTextGet(BackgroundSelectionSelect)), 300, 65, "White", "Black");
 
-	let text = TextGet("Filter").replace("Filtered", BackgroundSelectionView.length.toString()).replace("Total", BackgroundSelectionAll.length.toString());
+	let text = TextGet("Filter").replace("Filtered", BackgroundSelectionView.length.toString()).replace("Total", BackgroundSelectionList.length.toString());
 	DrawText(text, 1000, 65, "White", "Black");
 
 	let X = 45;
 	let Y = 150;
 	for (let i = BackgroundSelectionOffset; i < BackgroundSelectionView.length && i - BackgroundSelectionOffset < BackgroundSelectionSize; ++i) {
-		if (BackgroundSelectionView[i].Name == BackgroundSelectionSelect) {
-			DrawButton(X - 4, Y - 4, 450 + 8, 225 + 8, BackgroundSelectionView[i].Description, "Blue");
+		if (BackgroundSelectionView[i] === BackgroundSelectionSelect) {
+			DrawButton(X - 4, Y - 4, 450 + 8, 225 + 8, BackgroundsTextGet(BackgroundSelectionView[i]), "Blue");
 		}else {
-			DrawButton(X, Y, 450, 225, BackgroundSelectionView[i].Description, "White");
+			DrawButton(X, Y, 450, 225, BackgroundsTextGet(BackgroundSelectionView[i]), "White");
 		}
-		DrawImageResize("Backgrounds/" + BackgroundSelectionView[i].Name + ".jpg", X + 2, Y + 2, 446, 221);
-		DrawTextFit(BackgroundSelectionView[i].Description, X + 227, Y + 252, 450, "Black");
-		DrawTextFit(BackgroundSelectionView[i].Description, X + 225, Y + 250, 450, "White");
+		DrawImageResize("Backgrounds/" + BackgroundSelectionView[i] + ".jpg", X + 2, Y + 2, 446, 221);
+		DrawTextFit(BackgroundsTextGet(BackgroundSelectionView[i]), X + 227, Y + 252, 450, "Black");
+		DrawTextFit(BackgroundsTextGet(BackgroundSelectionView[i]), X + 225, Y + 250, 450, "White");
 		X += 450 + 35;
 		if (i % 4 == 3) {
 			X = 45;
@@ -238,7 +238,7 @@ function BackgroundSelectionClick() {
 			BackgroundSelectionIndex = i;
 			if (BackgroundSelectionIndex >= BackgroundSelectionView.length) BackgroundSelectionIndex = 0;
 			if (BackgroundSelectionIndex < 0) BackgroundSelectionIndex = BackgroundSelectionView.length - 1;
-			BackgroundSelectionSelect = BackgroundSelectionView[BackgroundSelectionIndex].Name;
+			BackgroundSelectionSelect = BackgroundSelectionView[BackgroundSelectionIndex];
 			// This sets the screen's background
 			BackgroundSelectionBackground = BackgroundSelectionSelect;
 		}

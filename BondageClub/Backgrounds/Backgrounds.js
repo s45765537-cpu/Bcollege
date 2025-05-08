@@ -42,6 +42,7 @@ const BackgroundsTagList = [
  * @type {BackgroundTag[]}
  */
 const BackgroundsPrivateRoomTagList = [
+	BackgroundsTagNone,
 	BackgroundsTagClub,
 	BackgroundsTagHouse,
 	BackgroundsTagDungeon
@@ -280,15 +281,11 @@ function BackgroundsTextGet(msg) {
 function BackgroundsGenerateList(BackgroundTagList) {
 	if ((BackgroundTagList.length == 1) && (BackgroundTagList[0] == BackgroundsTagNone)) BackgroundTagList = BackgroundsTagList;
 	/** @type {string[]} */
-	var List = [];
-	BackgroundSelectionAll = [];
-	for (let B = 0; B < BackgroundsList.length; B++)
-		for (let T = 0; T < BackgroundsList[B].Tag.length; T++)
-			if (BackgroundTagList.indexOf(BackgroundsList[B].Tag[T]) >= 0) {
-				List.push(BackgroundsList[B].Name);
-				var Desc = BackgroundsTextGet(BackgroundsList[B].Name);
-				BackgroundSelectionAll.push({ Name: BackgroundsList[B].Name, Description: Desc, Low: Desc.toLowerCase() });
-				break;
-			}
+	const List = [];
+	for (const background of BackgroundsList) {
+		if (background.Tag.some(bgTag => BackgroundTagList.some(tag => bgTag === tag))) {
+			List.push(background.Name);
+		}
+	}
 	return List;
 }

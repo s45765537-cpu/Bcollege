@@ -987,7 +987,7 @@ function PrivateClick() {
 		let backgrounds = BackgroundsGenerateList(BackgroundsPrivateRoomTagList);
 		let index = backgrounds.indexOf(MainHallBackground);
 		if (index < 0) index = 0;
-		BackgroundSelectionMake(backgrounds, index, (Name, setBackground) => {
+		BackgroundSelectionMake(BackgroundsPrivateRoomTagList, index, (Name, setBackground) => {
 			if (setBackground) {
 				Player.VisualSettings.MainHallBackground = Name;
 				ServerAccountUpdate.QueueData({ VisualSettings: Player.VisualSettings });
@@ -999,7 +999,7 @@ function PrivateClick() {
 		let backgrounds = BackgroundsGenerateList(BackgroundsPrivateRoomTagList);
 		let index = backgrounds.indexOf(PrivateBackground);
 		if (index < 0) index = 0;
-		BackgroundSelectionMake(backgrounds, index, (Name, setBackground) => {
+		BackgroundSelectionMake(BackgroundsPrivateRoomTagList, index, (Name, setBackground) => {
 			if (setBackground) {
 				Player.VisualSettings.PrivateRoomBackground = Name;
 				PrivateBackground = Name;

@@ -85,7 +85,7 @@ function PreferenceSubscreenOnlineClick() {
 			return;
 		}
 		if ((MouseIn(820, 330, 60, 60) )) {
-			BackgroundSelectionMake(PreferenceOnlineDefaultBackgroundList, PreferenceOnlineDefaultBackgroundIndex, (Name, setBackground) => {
+			BackgroundSelectionMake(BackgroundsTagList, PreferenceOnlineDefaultBackgroundIndex, (Name, setBackground) => {
 				if (setBackground) {
 					PreferenceOnlineDefaultBackground = Name;
 					PreferenceOnlineDefaultBackgroundIndex = PreferenceOnlineDefaultBackgroundList.indexOf(PreferenceOnlineDefaultBackground);
