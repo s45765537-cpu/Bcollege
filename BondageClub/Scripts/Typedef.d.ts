@@ -2357,8 +2357,16 @@ interface AudioSettingsType {
 interface VisualSettingsType {
 	ForceFullHeight: boolean;
 	UseCharacterInPreviews: boolean;
-	MainHallBackground: string;
-	PrivateRoomBackground: string;
+	/**
+	 * Background to use for the MainHall screen
+	 * "MainHall" is used if undefined
+	 */
+	MainHallBackground?: string;
+	/**
+	 * Background to use for the PrivateRoom screen
+	 * "Private" is used if undefined
+	 */
+	PrivateRoomBackground?: string;
 }
 
 /**

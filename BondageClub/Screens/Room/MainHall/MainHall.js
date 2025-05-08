@@ -186,7 +186,7 @@ function MainHallLoad() {
 		ServerSend("ChatRoomCharacterPoseUpdate", { Pose: Player.ActivePose });
 		ChatSearchPreviousActivePose = null;
 	}
-	MainHallBackground = Player.VisualSettings && Player.VisualSettings.MainHallBackground ? Player.VisualSettings.MainHallBackground : "MainHall";
+	MainHallBackground = Player.VisualSettings.MainHallBackground ?? "MainHall";
 	MainHallStartEventTimer = null;
 	MainHallNextEventTimer = null;
 	if (!Player.ImmersionSettings.ReturnToChatRoom || !Player.LastChatRoom || MainHallBeingPunished || (AsylumGGTSGetLevel(Player) >= 6))

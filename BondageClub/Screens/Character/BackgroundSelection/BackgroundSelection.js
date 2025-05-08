@@ -34,14 +34,15 @@ const Background = {
 /**
  * Change the current screen to the background selection screen
  * @param {BackgroundTag[]} Tags - The list of possible Background names
- * @param {number} Idx - The index of the current background
+ * @param {string} Name - The name of the current background
  * @param {(selection: string, setBackground: boolean) => void} Callback - The function to call when a new background has been selected
  * @returns {void} - Nothing
  */
-function BackgroundSelectionMake(Tags, Idx, Callback) {
+function BackgroundSelectionMake(Tags, Name, Callback) {
 	BackgroundSelectionTagList = Tags;
 	BackgroundSelectionList = BackgroundsGenerateList(BackgroundSelectionTagList);
-	BackgroundSelectionIndex = Idx < BackgroundSelectionList.length ? Idx : 0;
+	const idx = BackgroundSelectionList.indexOf(Name);
+	BackgroundSelectionIndex = idx >= 0 ? idx : 0;
 	BackgroundSelectionCallback = Callback;
 	CommonSetScreen("Character", "BackgroundSelection");
 }

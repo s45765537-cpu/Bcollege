@@ -322,7 +322,7 @@ function ChatAdminClick() {
 			CommonSetScreen("Online", "ChatBlockItem");
 			return;
 		} else {
-			BackgroundSelectionMake(ChatSearchBackgroundTagList, ChatAdminBackgroundIndex, (Name, setBackground) => {
+			BackgroundSelectionMake(ChatSearchBackgroundTagList, ChatAdminData.Background, (Name, setBackground) => {
 				if (setBackground) ChatAdminData.Background = Name;
 				CommonSetScreen("Online", "ChatAdmin");
 			});
