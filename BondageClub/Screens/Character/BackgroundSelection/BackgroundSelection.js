@@ -41,7 +41,7 @@ const Background = {
 function BackgroundSelectionMake(Tags, Idx, Callback) {
 	BackgroundSelectionTagList = Tags;
 	BackgroundSelectionList = BackgroundsGenerateList(BackgroundSelectionTagList);
-	BackgroundSelectionIndex = Idx < Tags.length ? Idx : 0;
+	BackgroundSelectionIndex = Idx < BackgroundSelectionList.length ? Idx : 0;
 	BackgroundSelectionCallback = Callback;
 	CommonSetScreen("Character", "BackgroundSelection");
 }
