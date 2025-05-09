@@ -11,11 +11,65 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2025-04-17
-* Last recorded PR: [#5547](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5547)
-* Last recorded commit hash: `06326c712bd0a07dfb477cb13c1cdf300fefceb5`
+* Changelog last updated: 2025-05-09
+* Last recorded PR: [#5579](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5579)
+* Last recorded commit hash: `b5fc04c320270c39b44f82e202493053958cc2b1`
 
 ## [Generated]
+
+## [R116]
+
+### [Changes]
+
+* Kitsu Moon + Anna + Felix - ClubCard Community update package ([#5567](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5567))
+* NeverNewer + Lera - Locked chat rooms the player can join have an unlocked icon. ([#5421](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5421))
+* Haruhi - Modified HairBack82 and HairBack80 ([#5574](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5574))
+* Zoe - Added option to change default chatroom background ([#5560](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5560))
+* Zoe + Arelia - Added highchair item with food related options ([#5565](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5565))
+* Zoe + Lorenzi - Added Crinkly Diaper ([#5545](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5545))
+* Zoe - Added Cocktail Dress, Hooded Cloak, Maid Bikini, Latex diaper and an Ornate Metal Bra ([#5541](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5541))
+* git4nick - New chat command Pony ([#5566](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5566))
+* dDeepLb - Decrease Elf Ears layering priority for "Behind Hair" option ([#5558](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5558))
+* dDeepLb - sort extensions on register ([#5564](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5564))
+* dDeepLb - 4 new emoticons ([#5557](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5557))
+* Estsanatlehi - Add the BigLynxEars from the Hair Accessory (all) group to Ears ([#5561](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5561))
+* Estsanatlehi - Morph ServerBeep into a queue of beeps ([#5562](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5562))
+* Estsanatlehi - Rework the background selection buttons to be DOM-based ([#5571](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5571))
+* Rama - Show DOM button tooltips on mobile after touching them for 300 ms ([#5347](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5347))
+* Rama - Convert the chat room reply trigger into a discord-esque popup menu and move time & sender metadata to its own element ([#5559](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5559))
+* Ben987 - Online Backgrounds - New College Category + Hall 1st Floor
+* Ben987 - Online Rooms - 6 New College Backgrounds
+* Ben987 - Online Rooms - 8 New Backgrounds
+* Ben987 + Dash - Server Stress Tests
+* Ben987 - Change Log
+
+### [Fixes]
+
+* Anna - Fix club cards backgrounds ([#5576](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5576))
+* Cleon - Fix Suspicious Mask ([#5551](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5551))
+* EllieThePink - Fix 5 minute timer captions ([#5579](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5579))
+* Zoe - Fix reply during selection of chat ([#5550](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5550))
+* u3shit - Fix command tab completion when one command is a prefix of the other ([#5531](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5531))
+* Estsanatlehi - Fix new character appearance being lost ([#5548](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5548))
+* Estsanatlehi - Fix orgasm zones losing their factor on load ([#5553](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5553))
+* Estsanatlehi - Fix a bug where we didn't properly reselect the previous background ([#5575](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5575))
+* Estsanatlehi - Fix the broken background tag select menu by passing around a proper `this` ([#5570](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5570))
+* Rama - Fix one potentially getting stuck with an expression or pose due to disabled UI ([#5556](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5556))
+* Rama - Two pose menu fixes ([#5552](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5552))
+* Rama - Fix the shop preview mode failing to refresh the character after equipping an item ([#5578](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5578))
+* Rama - Fix two `<button>` bugs and a `[hidden]` bug ([#5573](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5573))
+* Rama - Ensure the `mouseup` is called for button clicks even when leaving the button's confines ([#5569](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5569))
+* Ben987 - Fix Online Background Selection - Make sure we don't filter by tag if the "Filter by tag" option is selected
+
+### [Technical]
+
+* dDeepLb - New element helpers ([#5568](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5568))
+* Estsanatlehi - Last pass over the background selection system ([#5577](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5577))
+* Estsanatlehi - Overhaul the background tag filtering stuff ([#5572](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5572))
+* Estsanatlehi - Fix lint & TS errors ([#5563](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5563))
+* Estsanatlehi - Change export to declare to make the file an ambient import again ([#5555](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5555))
+* Rama - Add and centralize a system for auto-generating unique element IDs ([#5532](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5532))
+* Rama - Use `satisfies` over `type` when annotation menubar event listeners ([#5554](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5554))
 
 ## [R115]
 
