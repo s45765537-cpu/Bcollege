@@ -739,8 +739,8 @@ var PreferenceChatSettingsValidate = {
 var PreferenceVisualSettingsDefault = {
 	ForceFullHeight: false,
 	UseCharacterInPreviews: false,
-	MainHallBackground: "",
-	PrivateRoomBackground: "",
+	MainHallBackground: undefined,
+	PrivateRoomBackground: undefined,
 };
 
 /**
@@ -752,10 +752,10 @@ var PreferenceVisualSettingsValidate = {
 	ForceFullHeight: isBool(PreferenceVisualSettingsDefault.ForceFullHeight),
 	UseCharacterInPreviews: isBool(PreferenceVisualSettingsDefault.UseCharacterInPreviews),
 	MainHallBackground: (arg, C) => {
-		return typeof arg === "string" ? arg : PreferenceVisualSettingsDefault.MainHallBackground;
+		return typeof arg === "string" && arg.length && arg !== "MainHall" ? arg : PreferenceVisualSettingsDefault.MainHallBackground;
 	},
 	PrivateRoomBackground: (arg, C) => {
-		return typeof arg === "string" ? arg : PreferenceVisualSettingsDefault.PrivateRoomBackground;
+		return typeof arg === "string" && arg.length && arg !== "Private" ? arg : PreferenceVisualSettingsDefault.PrivateRoomBackground;
 	}
 };
 

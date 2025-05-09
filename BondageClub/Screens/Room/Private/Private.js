@@ -510,6 +510,7 @@ function PrivateGetPossibleGift(Restraint) {
  * @returns {void} - Nothing.
  */
 function PrivateLoad() {
+	PrivateBackground = Player.VisualSettings.PrivateRoomBackground ?? "Private";
 
 	// Loads the vendor and NPCs, also check for relationship decay
 	PrivateVendor = CharacterLoadNPC("NPC_Private_Vendor");
@@ -984,25 +985,27 @@ function PrivateClick() {
 	if (MouseIn(1885, PrivateButtonTop(5), 90, 90) && LogQuery("RentRoom", "PrivateRoom") && (!Player.Cage) && PrivateBedActive()) CommonSetScreen("Room", "PrivateBed");
 	if (MouseIn(1885, PrivateButtonTop(6), 90, 90) && LogQuery("RentRoom", "PrivateRoom") && LogQuery("Expansion", "PrivateRoom")) PrivateCharacterOffset = (PrivateCharacterOffset + 4 == PrivateCharacterMax) ? 0 : PrivateCharacterOffset + 4;
 	if (MouseIn(1885, PrivateButtonTop(7), 90, 90) && LogQuery("RentRoom", "PrivateRoom")) {
-		let backgrounds = BackgroundsGenerateList(BackgroundsPrivateRoomTagList);
-		let index = backgrounds.indexOf(MainHallBackground);
-		if (index < 0) index = 0;
-		BackgroundSelectionMake(BackgroundsPrivateRoomTagList, index, (Name, setBackground) => {
+		BackgroundSelectionMake(BackgroundsPrivateRoomTagList, MainHallBackground, (Name, setBackground) => {
 			if (setBackground) {
-				Player.VisualSettings.MainHallBackground = Name;
+				if (Name !== "MainHall") {
+					Player.VisualSettings.MainHallBackground = Name;
+				} else {
+					delete Player.VisualSettings.MainHallBackground;
+				}
 				ServerAccountUpdate.QueueData({ VisualSettings: Player.VisualSettings });
 			}
 			CommonSetScreen("Room", "Private");
 		});
 	}
 	if (MouseIn(1885, PrivateButtonTop(8), 90, 90) && LogQuery("RentRoom", "PrivateRoom")) {
-		let backgrounds = BackgroundsGenerateList(BackgroundsPrivateRoomTagList);
-		let index = backgrounds.indexOf(PrivateBackground);
-		if (index < 0) index = 0;
-		BackgroundSelectionMake(BackgroundsPrivateRoomTagList, index, (Name, setBackground) => {
+		BackgroundSelectionMake(BackgroundsPrivateRoomTagList, PrivateBackground, (Name, setBackground) => {
 			if (setBackground) {
-				Player.VisualSettings.PrivateRoomBackground = Name;
 				PrivateBackground = Name;
+				if (Name !== "Private") {
+					Player.VisualSettings.PrivateRoomBackground = Name;
+				} else {
+					delete Player.VisualSettings.PrivateRoomBackground;
+				}
 				ServerAccountUpdate.QueueData({ VisualSettings: Player.VisualSettings });
 			}
 			CommonSetScreen("Room", "Private");
@@ -2426,7 +2429,7 @@ function PrivateStartOwnerHallActivity() {
  * @returns {void} - Nothing.
  */
 function PrivateOwnerHallReturnToPrivate() {
-	PrivateBackground = ((Player.VisualSettings) && (Player.VisualSettings.PrivateRoomBackground)) ? Player.VisualSettings.PrivateRoomBackground : "Private";
+	PrivateBackground = Player.VisualSettings.PrivateRoomBackground ?? "Private";
 }
 
 /**

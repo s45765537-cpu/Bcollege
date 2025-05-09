@@ -873,9 +873,6 @@ function LoginSetupPlayer(C) {
 	Player.ConfiscatedItems = C.ConfiscatedItems ?? [];
 	Player.ExtensionSettings = C.ExtensionSettings ?? {};
 
-	if (Player.VisualSettings.PrivateRoomBackground) PrivateBackground = Player.VisualSettings.PrivateRoomBackground;
-	if (Player.VisualSettings.MainHallBackground) MainHallBackground = Player.VisualSettings.MainHallBackground;
-
 	PrivateCharacterMax = 4 + (LogQuery("Expansion", "PrivateRoom") ? 4 : 0) + (LogQuery("SecondExpansion", "PrivateRoom") ? 4 : 0);
 	CharacterRefresh(Player, false);
 	if (ManagementIsClubSlave()) CharacterNaked(Player);
