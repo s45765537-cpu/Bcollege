@@ -11,10 +11,10 @@ function InventoryItemMiscTimerPadlockDrawHook(data, originalFunction) {
 	if ((Player.MemberNumber == DialogFocusSourceItem.Property.LockMemberNumber) && Player.CanInteract()) {
 		MainCanvas.textAlign = "left";
 		DrawButton(1100, 836, 64, 64, "", "White", (DialogFocusSourceItem.Property.RemoveItem) ? "Icons/Checked.png" : "");
-		DrawText(AssetTextGet("RemoveItemWithTimer"), 1200, 868, "white", "gray");
+		DrawText(InterfaceTextGet("RemoveItemWithTimer"), 1200, 868, "white", "gray");
 		MainCanvas.textAlign = "center";
 	} else DrawText(InterfaceTextGet((DialogFocusSourceItem.Property.RemoveItem) ? "WillRemoveItemWithTimer" : "WontRemoveItemWithTimer"), 1500, 868, "white", "gray");
-	if (Player.CanInteract()) DrawButton(1350, 910, 300, 65, InterfaceTextGet("RestartTimer"), "White");
+	if (Player.CanInteract()) DrawButton(1350, 910, 300, 65, AssetTextGet("RestartTimer"), "White");
 }
 
 /** @type {ExtendedItemScriptHookCallbacks.Click<NoArchItemData>} */
