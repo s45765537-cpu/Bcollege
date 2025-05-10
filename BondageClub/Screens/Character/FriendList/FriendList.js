@@ -557,7 +557,7 @@ function FriendListChatSearch(room) {
 const FriendListIconMapping = {
 	"": { src: "./Icons/FemaleInvert.png", tooltipKey: "TypeFemale", sortKey: "F " },
 	M: { src: "./Icons/MaleInvert.png", tooltipKey: "TypeMale", sortKey: "M " },
-	X: { src: "./Icons/GenderInvert.png", tooltipKey: "TypeMixed", sortKey: "FM" },
+	X: { src: "./Icons/GenderInvert.png", tooltipKey: "TypeMixed", sortKey: "X" },
 	Asylum: { src: "./Icons/Asylum.png", tooltipKey: "TypeAsylum", sortKey: "A " },
 	Private: { src: "./Icons/PrivateInvert.png", tooltipKey: "TypePrivate", sortKey: "P" },
 };
@@ -798,6 +798,7 @@ function FriendListLoadFriendList(data) {
 								};
 							} else {
 								// A hidden padding DIV
+								totalSortKey += " ";
 								return {
 									tag: /** @type {const} */("div"),
 									classList: ["friend-list-icon-container"],
@@ -852,6 +853,7 @@ function FriendListLoadFriendList(data) {
 								};
 							} else {
 								// A hidden padding DIV
+								totalSortKey += " ";
 								return {
 									tag: /** @type {const} */("div"),
 									classList: ["friend-list-icon-container"],
