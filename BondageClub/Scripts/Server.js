@@ -474,7 +474,7 @@ function ServerUnPackItemPermissions(data, onExtreme) {
 				const permission = ret.permissions[key] ??= PreferencePermissionGetDefault();
 				switch (field) {
 					case "HiddenItems":
-						if (asset.Group.Clothing || !asset.Group.IsAppearance()) {
+						if (AssetGroupIsHideable(asset.Group)) {
 							permission.Hidden = true;
 						} else {
 							ret.shouldSync = true;
