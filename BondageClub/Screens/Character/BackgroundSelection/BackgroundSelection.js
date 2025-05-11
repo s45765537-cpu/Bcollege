@@ -195,6 +195,7 @@ function BackgroundSelectionResize(load) {
  * @returns {void} - Nothing
  */
 function BackgroundSelectionRun() {
+	MainCanvas.textAlign = "center";
 	DrawText(TextGet("Selection").replace("SelectedBackground", BackgroundsTextGet(BackgroundSelectionSelect)), 300, 65, "White", "Black");
 
 	let text = TextGet("Filter").replace("Filtered", BackgroundSelectionView.length.toString()).replace("Total", BackgroundSelectionList.length.toString());
