@@ -2906,8 +2906,8 @@ var ClubCardList = [
 			CCPlayer.Hand.push(petToAdd);
 			if ((petToAdd.RequiredLevel ? petToAdd.RequiredLevel : 0) <= CCPlayer.Level) this.ExtraPlay = 1;
 		},
-		BeforeOpponentTurnEnd: function() {
-			this.ExtraPlay = 0;
+		BeforeTurnEnd: function(CCPlayer) {
+			ClubCardRemoveFromEventByName(CCPlayer, this.Name);
 		}
 	},
 	{
@@ -4831,7 +4831,10 @@ function ClubCardPlayCard(CCPlayer, Card, triggerOnPlay = true) {
 		if (index === -1) throw new Error(`ClubCardPlayCard(): Card with UID ${Card.UniqueID} not found`);
 		CCPlayer.Hand.splice(index, 1);
 
-		if (Card.Type === "Member") Target.Board.push(Card);
+		if (Card.Type === "Member" || Card.Type == null) {
+			Card.Type = "Member";
+			Target.Board.push(Card);
+		}
 
 		if (Card.Type === "Event") {
 			if (((Card.Time != null)) && (Card.Time >= 0)) {
@@ -4862,6 +4865,7 @@ function ClubCardPlayCard(CCPlayer, Card, triggerOnPlay = true) {
 	ClubCardTierSelection = null;
 	if (!MiniGameEnded) if (ClubCardCheckVictory(CCPlayer)) { ClubCardEndGameSyncAndMessage(CCPlayer); return; }
 	if (!MiniGameEnded) if (ClubCardCheckVictory(opponent)) { ClubCardEndGameSyncAndMessage(opponent); return; }
+	if (MiniGameEnded) return;
 
 	if (CCPlayer.Control == "Player") {
 		ClubCardFocus = null;
@@ -4872,6 +4876,7 @@ function ClubCardPlayCard(CCPlayer, Card, triggerOnPlay = true) {
 	ClubCardOnCardPlayedHandler(CCPlayer, Card);
 	if (!MiniGameEnded) if (ClubCardCheckVictory(CCPlayer)) { ClubCardEndGameSyncAndMessage(CCPlayer); return; }
 	if (!MiniGameEnded) if (ClubCardCheckVictory(opponent)) { ClubCardEndGameSyncAndMessage(opponent); return; }
+	if (MiniGameEnded) return;
 
 	// End the turn if needed
 	ClubCardMessageSendAll();
