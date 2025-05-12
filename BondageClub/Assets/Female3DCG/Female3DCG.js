@@ -15119,6 +15119,47 @@ var AssetFemale3DCG = [
 				Layer: [{ Name: "Outside" }, { Name: "Inner" }, { Name: "Light" }],
 			},
 			{
+				Name: "CyberEars",
+				// InventoryID: 439,
+				Fetish: ["Pet"],
+				BodyCosplay: true,
+				Value: 0,
+			    DefaultColor: ["#3c3c3c", "#9cdede", "#7ccaca", "#bbbbbb", "#9e9e9e"],
+				BuyGroup: "CyberEars",
+				Layer: [
+					{
+						Name: "Ears",
+						AllowColorize: true,
+						Top: 10,
+						Left: 110,
+					},
+					{
+						Name: "Bands",
+						AllowColorize: true,
+						Top: 10,
+						Left: 110,
+					},
+					{
+						Name: "Lights",
+						AllowColorize: true,
+						Top: 10,
+						Left: 110,
+					},
+					{
+						Name: "Shine",
+						AllowColorize: true,
+						Top: 10,
+						Left: 110,
+					},
+					{
+						Name: "Top",
+						AllowColorize: true,
+						Top: 10,
+					    Left: 110,
+					},
+				],
+			},
+			{
 				Name: "Onihorns",
 				InventoryID: 1168,
 				Value: 10,
@@ -15800,53 +15841,24 @@ var AssetFemale3DCG = [
 				},
 			},
 			{
+				Name: "CyberEars",
+				// InventoryID: 0,
+				Value: 0,
+				BuyGroup: "CyberEars",
+				DynamicGroupName: "HairAccessory1",
+				CopyConfig: {
+					GroupName: "HairAccessory1",
+					AssetName: "CyberEars",
+					BuyGroup: true,
+				},
+			},
+			{
 				Name: "BigLynxEars",
 				CopyConfig: {
 					GroupName: "HairAccessory1",
 					AssetName: "BigLynxEars",
 					BuyGroup: true,
 				},
-			},
-			{
-				Name: "CyberEars",
-				// InventoryID: 439,
-				Fetish: ["Pet"],
-				BodyCosplay: true,
-				Value: 0,
-			    DefaultColor: ["#3c3c3c", "#9cdede", "#7ccaca", "#bbbbbb", "#9e9e9e"],
-				BuyGroup: "CyberEars",
-				Layer: [
-					{
-						Name: "Ears",
-						AllowColorize: true,
-						Top: 10,
-						Top: 110,
-					},
-					{
-						Name: "Bands",
-						AllowColorize: true,
-						Top: 10,
-						Top: 110,
-					},
-					{
-						Name: "Lights",
-						AllowColorize: true,
-						Top: 10,
-						Top: 110,
-					},
-					{
-						Name: "Shine",
-						AllowColorize: true,
-						Top: 10,
-						Top: 110,
-					},
-					{
-						Name: "Top",
-						AllowColorize: true,
-						Top: 10,
-						Top: 110,
-					},
-				],
 			},
 		],
 		Color: [
