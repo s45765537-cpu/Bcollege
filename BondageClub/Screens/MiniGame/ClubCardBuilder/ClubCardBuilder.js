@@ -300,10 +300,8 @@ function ClubCardBuilderClick() {
 	}
 	// if the user click on change background
 	if ((ClubCardBuilderDeckIndex == -1) && MouseIn(1655, 25, 90, 90)) {
-		let backgrounds = BackgroundsGenerateList(BackgroundsClubCardsTagList);
-		let index = backgrounds.indexOf(Player.Game.ClubCard.Background ? Player.Game.ClubCard.Background : "ClubCardPlayBoard1");
-		if (index < 0) index = 0;
-		BackgroundSelectionMake(BackgroundsClubCardsTagList, index, (Name, setBackground) => {
+		let background = Player.Game?.ClubCard?.Background ?? "ClubCardPlayBoard1";
+		BackgroundSelectionMake(BackgroundsClubCardsTagList, background, (Name, setBackground) => {
 			if (setBackground) {
 				Player.Game.ClubCard.Background = Name;
 				ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
