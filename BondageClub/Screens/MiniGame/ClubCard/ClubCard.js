@@ -1813,10 +1813,20 @@ var ClubCardList = [
 			const indexToChange = ClubCardSelection.ArrayIndex;
 			CCPlayer.Board[indexToChange].FamePerTurn = 0;
 			CCPlayer.Board[indexToChange].MoneyPerTurn = -2;
-			CCPlayer.Board[indexToChange - 1].FamePerTurn = 0;
-			CCPlayer.Board[indexToChange - 1].MoneyPerTurn = -2;
-			CCPlayer.Board[indexToChange + 1].FamePerTurn = 0;
-			CCPlayer.Board[indexToChange + 1].MoneyPerTurn = -2;
+			if (indexToChange == 0) {
+				CCPlayer.Board[CCPlayer.Board.length - 2].FamePerTurn = 0;
+				CCPlayer.Board[CCPlayer.Board.length - 2].MoneyPerTurn = -2;
+			} else {
+				CCPlayer.Board[indexToChange - 1].FamePerTurn = 0;
+				CCPlayer.Board[indexToChange - 1].MoneyPerTurn = -2;
+			}
+			if (indexToChange == CCPlayer.Board.length -2) {
+				CCPlayer.Board[0].FamePerTurn = 0;
+				CCPlayer.Board[0].MoneyPerTurn = -2;
+			} else {
+				CCPlayer.Board[indexToChange + 1].FamePerTurn = 0;
+				CCPlayer.Board[indexToChange + 1].MoneyPerTurn = -2;
+			}
 		},
 		BeforeTurnEnd: function(CCPlayer) {
 			ClubCardPlayerAddFame(CCPlayer, Math.min(Math.floor(CCPlayer.Board.length / 2), 8));
@@ -4734,7 +4744,6 @@ function ClubCardCardsSelectConditions(Card, CCPlayer, AICard = null) {
 	if ((AICard ?? ClubCardPending).Name === "Vanilla Classic" && !ClubCardCardHasGroup(Card, "PornActress")) return false;
 	if ((AICard ?? ClubCardPending).Name === "Sophie" && ClubCardIsLiability(Card)) return false;
 	if ((AICard ?? ClubCardPending).EffectType === "Removal" && Card.Name === "Kira") return false;
-	if ((AICard ?? ClubCardPending).Name === "Kira" && (Card.ArrayIndex == 0 || Card.ArrayIndex == CCPlayer.Board.length - 1)) return false;
 	return true;
 }
 
