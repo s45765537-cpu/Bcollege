@@ -525,7 +525,7 @@ type AssetGroupScriptName = 'ItemScript';
 type AssetGroupBodyName =
 	ExpressionGroupName | 'AnkletLeft' | 'AnkletRight' | 'ArmsLeft' | 'ArmsRight' |
 	'BodyLower' | 'BodyUpper' | 'BodyMarkings' | 'Bra' | 'Bracelet' | 'Cloth' |
-	'ClothAccessory' | 'ClothLower' | 'Corset' | 'EyeShadow' | 'FacialHair' | 'Garters' | 'Glasses' | 'Gloves' |
+	'ClothAccessory' | 'ClothLower' | 'ClothOuter' | 'Corset' | 'EyeShadow' | 'FacialHair' | 'Garters' | 'Glasses' | 'Gloves' |
 	'HairAccessory1' | 'HairAccessory2' | 'HairAccessory3' | 'HairBack' |
 	'HairFront' | 'HandAccessoryLeft' | 'HandAccessoryRight' |  'FacialHair' | 'Hat' | 'Head' | 'Height' | 'Jewelry' | 'Mask' |
 	'Necklace' | 'Nipples' | 'Panties' | 'Pronouns' |
