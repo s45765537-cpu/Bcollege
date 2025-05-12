@@ -88,6 +88,7 @@ function PreferenceSubscreenOnlineClick() {
 			BackgroundSelectionMake(BackgroundsTagList, PreferenceOnlineDefaultBackground, (Name, setBackground) => {
 				if (setBackground) {
 					PreferenceOnlineDefaultBackground = Name;
+					Player.OnlineSettings.DefaultChatRoomBackground = Name;
 					PreferenceOnlineDefaultBackgroundIndex = PreferenceOnlineDefaultBackgroundList.indexOf(PreferenceOnlineDefaultBackground);
 				}
 				CommonSetScreen("Character", "Preference");
