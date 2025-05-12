@@ -15807,6 +15807,46 @@ var AssetFemale3DCG = [
 					BuyGroup: true,
 				},
 			},
+			{
+				Name: "CyberEars",
+				// InventoryID: 439,
+				Fetish: ["Pet"],
+				Value: -1,
+			    DefaultColor: ["#3c3c3c", "#9cdede", "#7ccaca", "#bbbbbb", "#9e9e9e"],
+				BuyGroup: "CyberEars",
+				Layer: [
+					{
+						Name: "Ears",
+						AllowColorize: true,
+						Top: 22,
+						Left: 92,
+					},
+					{
+						Name: "Bands",
+						AllowColorize: true,
+						Top: 22,
+						Left: 92,
+					},
+					{
+						Name: "Lights",
+						AllowColorize: true,
+						Top: 22,
+						Left: 92,
+					},
+					{
+						Name: "Shine",
+						AllowColorize: true,
+						Top: 22,
+						Left: 92,
+					},
+					{
+						Name: "top",
+						AllowColorize: true,
+						Top: 22,
+						Left: 92,
+					},
+				],
+			},
 		],
 		Color: [
 			"Default",
