@@ -1037,6 +1037,14 @@ function AssetGroupGet(Family, Group) {
 }
 
 /**
+ * Check whether a group can be hidden through the item visibility settings
+ * @param {AssetGroup} group
+ */
+function AssetGroupIsHideable(group) {
+	return group.IsItem() || group.IsAppearance() && group.AllowNone;
+}
+
+/**
  * Utility function for retrieving the preview image directory path for an asset
  * @param {Asset} A - The asset whose preview path to retrieve
  * @returns {string} - The path to the asset's preview image directory
