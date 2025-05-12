@@ -557,7 +557,7 @@ function FriendListChatSearch(room) {
 const FriendListIconMapping = {
 	"": { src: "./Icons/FemaleInvert.png", tooltipKey: "TypeFemale", sortKey: "F " },
 	M: { src: "./Icons/MaleInvert.png", tooltipKey: "TypeMale", sortKey: "M " },
-	X: { src: "./Icons/GenderInvert.png", tooltipKey: "TypeMixed", sortKey: "FM" },
+	X: { src: "./Icons/GenderInvert.png", tooltipKey: "TypeMixed", sortKey: "X" },
 	Asylum: { src: "./Icons/Asylum.png", tooltipKey: "TypeAsylum", sortKey: "A " },
 	Private: { src: "./Icons/PrivateInvert.png", tooltipKey: "TypePrivate", sortKey: "P" },
 };
@@ -671,7 +671,7 @@ function FriendListLoadFriendList(data) {
 					types: [
 						chatRoomSpaceCaption && chatRoomName ? FriendListIconMapping[friend.ChatRoomSpace ?? ""] : null,
 						friend.Private ? FriendListIconMapping.Private : null,
-					].filter(Boolean),
+					],
 				},
 				beep: {
 					canBeep: canBeep,
@@ -711,7 +711,7 @@ function FriendListLoadFriendList(data) {
 					types: [
 						chatRoomSpaceCaption && chatRoomName ? FriendListIconMapping[beepData.ChatRoomSpace ?? ""] : null,
 						beepData.Private ? FriendListIconMapping.Private : null,
-					].filter(Boolean),
+					],
 				},
 				beep: {
 					beepIndex: i,
@@ -775,25 +775,36 @@ function FriendListLoadFriendList(data) {
 					classList: ['friend-list-column', 'ChatRoomType'],
 					children: [
 						{ tag: "span", style: { display: "none" }, classList: ["friend-list-sorting-node"] },
-						...friend.chatRoom.types.map(({ src, tooltipKey, sortKey }) => {
-							totalSortKey += sortKey;
-							return {
-								tag: /** @type {const} */("div"),
-								classList: ["friend-list-icon-container"],
-								children: [
-									{
-										tag: /** @type {const} */("img"),
-										attributes: { src, decoding: "async", loading: "lazy", alt: TextGet(tooltipKey) },
-										classList: ["friend-list-icon"],
-									},
-									{
-										tag: /** @type {const} */("div"),
-										attributes: { role: "tooltip", "aria-hidden": "true" },
-										children: [TextGet(tooltipKey)],
-										classList: ["button-tooltip", "button-tooltip-right"],
-									},
-								],
-							};
+						...friend.chatRoom.types.map((iconType) => {
+							if (iconType != null) {
+								const { src, tooltipKey, sortKey } = iconType;
+								totalSortKey += sortKey;
+								return {
+									tag: /** @type {const} */("div"),
+									classList: ["friend-list-icon-container"],
+									children: [
+										{
+											tag: /** @type {const} */("img"),
+											attributes: { src, decoding: "async", loading: "lazy", alt: TextGet(tooltipKey) },
+											classList: ["friend-list-icon"],
+										},
+										{
+											tag: /** @type {const} */("div"),
+											attributes: { role: "tooltip", "aria-hidden": "true" },
+											children: [TextGet(tooltipKey)],
+											classList: ["button-tooltip", "button-tooltip-right"],
+										},
+									],
+								};
+							} else {
+								// A hidden padding DIV
+								totalSortKey += " ";
+								return {
+									tag: /** @type {const} */("div"),
+									classList: ["friend-list-icon-container"],
+									attributes: { "aria-hidden": "true" },
+								};
+							}
 						}),
 					],
 				});
@@ -819,25 +830,36 @@ function FriendListLoadFriendList(data) {
 					classList: ['friend-list-column', 'ChatRoomType'],
 					children: [
 						{ tag: "span", style: { display: "none" }, classList: ["friend-list-sorting-node"] },
-						...friend.chatRoom.types.map(({ src, tooltipKey, sortKey }) => {
-							totalSortKey += sortKey;
-							return {
-								tag: /** @type {const} */("div"),
-								classList: ["friend-list-icon-container"],
-								children: [
-									{
-										tag: /** @type {const} */("img"),
-										attributes: { src, decoding: "async", loading: "lazy", alt: TextGet(tooltipKey) },
-										classList: ["friend-list-icon"],
-									},
-									{
-										tag: /** @type {const} */("div"),
-										attributes: { role: "tooltip", "aria-hidden": "true" },
-										children: [TextGet(tooltipKey)],
-										classList: ["button-tooltip", "button-tooltip-right"],
-									},
-								],
-							};
+						...friend.chatRoom.types.map((iconType) => {
+							if (iconType) {
+								const { src, tooltipKey, sortKey } = iconType;
+								totalSortKey += sortKey;
+								return {
+									tag: /** @type {const} */("div"),
+									classList: ["friend-list-icon-container"],
+									children: [
+										{
+											tag: /** @type {const} */("img"),
+											attributes: { src, decoding: "async", loading: "lazy", alt: TextGet(tooltipKey) },
+											classList: ["friend-list-icon"],
+										},
+										{
+											tag: /** @type {const} */("div"),
+											attributes: { role: "tooltip", "aria-hidden": "true" },
+											children: [TextGet(tooltipKey)],
+											classList: ["button-tooltip", "button-tooltip-right"],
+										},
+									],
+								};
+							} else {
+								// A hidden padding DIV
+								totalSortKey += " ";
+								return {
+									tag: /** @type {const} */("div"),
+									classList: ["friend-list-icon-container"],
+									attributes: { "aria-hidden": "true" },
+								};
+							}
 						}),
 					],
 				});
