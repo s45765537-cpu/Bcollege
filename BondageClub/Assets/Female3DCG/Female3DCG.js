@@ -15120,7 +15120,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CyberEars",
-				// InventoryID: 439,
+				InventoryID: 1243,
 				Fetish: ["Pet"],
 				BodyCosplay: true,
 				Value: 0,
@@ -15842,7 +15842,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CyberEars",
-				// InventoryID: 0,
+				InventoryID: 1243,
 				Value: 0,
 				BuyGroup: "CyberEars",
 				DynamicGroupName: "HairAccessory1",
