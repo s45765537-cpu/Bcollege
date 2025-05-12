@@ -15842,8 +15842,6 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CyberEars",
-				InventoryID: 1243,
-				Value: 0,
 				BuyGroup: "CyberEars",
 				DynamicGroupName: "HairAccessory1",
 				CopyConfig: {
