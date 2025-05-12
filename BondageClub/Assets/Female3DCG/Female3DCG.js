@@ -15122,6 +15122,7 @@ var AssetFemale3DCG = [
 				Name: "CyberEars",
 				InventoryID: 1243,
 				Fetish: ["Pet"],
+				Priority: 51,
 				BodyCosplay: true,
 				Value: 0,
 			    DefaultColor: ["#3c3c3c", "#9cdede", "#7ccaca", "#bbbbbb", "#9e9e9e"],
