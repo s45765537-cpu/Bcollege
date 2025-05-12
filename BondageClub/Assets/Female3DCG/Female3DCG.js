@@ -15811,7 +15811,8 @@ var AssetFemale3DCG = [
 				Name: "CyberEars",
 				// InventoryID: 439,
 				Fetish: ["Pet"],
-				Value: -1,
+				BodyCosplay: true,
+				Value: 1,
 			    DefaultColor: ["#3c3c3c", "#9cdede", "#7ccaca", "#bbbbbb", "#9e9e9e"],
 				BuyGroup: "CyberEars",
 				Layer: [
