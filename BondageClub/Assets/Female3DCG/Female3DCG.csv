@@ -84,6 +84,7 @@ Bra,Swimsuit1,Swimsuit style 1
 Bra,Swimsuit2,Swimsuit style 2
 Bra,Swimsuit3,Swimsuit style 3
 Bra,LeatherVestSuit,Leather Vest Suit
+Bra,OrnateMetalBra,Ornate Metal Bra
 Bracelet,,Bracelet
 Bracelet,Band1,Band 1
 Bracelet,BowBand,Bow Band
@@ -176,6 +177,8 @@ Cloth,VirginKiller1,Virgin Killer
 Cloth,WeddingDress1,Wedding Dress
 Cloth,WeddingDress2,Shoulderless Wedding Dress
 Cloth,Yukata1,Yukata
+Cloth,CocktailDress,Cocktail Dress
+Cloth,MaidBikini,Maid Bikini
 ClothAccessory,,Cloth Accessory
 ClothAccessory,Bib,Bib
 ClothAccessory,Bouquet,Bouquet of flowers
@@ -207,6 +210,8 @@ ClothAccessory,ZipperBelt,Zipper Belt
 ClothAccessory,SmallNeckFur,Small Neck Fur
 ClothAccessory,LargeNeckFur,Large Neck Fur
 ClothAccessory,SpikyNeckFur,Spiky Neck Fur
+ClothAccessory,HoodedCloak,Hooded Cloak
+ClothAccessory,SideRuffles,Side Ruffles
 ClothLower,,Bottom
 ClothLower,AdmiralSkirt,Admiral Skirt
 ClothLower,ASRubberSkirt,ArmBSuit Rubber Skirt
@@ -1519,6 +1524,7 @@ ItemPelvis,StraponPanties,Strap-On Panties
 ItemPelvis,StuddedChastityBelt,Studded Chastity Belt
 ItemPelvis,WaistLegHarness,Waist-Leg Full Harness
 ItemPelvis,UntrainersThin,Crinkly Diaper
+ItemPelvis,LatexDiaper,Latex Chastity Diaper
 ItemScript,,Body
 ItemScript,Script,Script
 ItemTorso,,Torso
@@ -1704,6 +1710,7 @@ Panties,WaistLegHarness,Waist-Leg Harness
 Panties,WrapPanties1,Wrap Panties
 Panties,ZipPanties1,Zip-String Panties
 Panties,UntrainersThin,Crinkly Diaper
+Panties,LatexDiaper,Latex Diaper
 Pronouns,,Pronouns
 Pronouns,HeHim,He/Him
 Pronouns,SheHer,She/Her

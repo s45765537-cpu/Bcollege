@@ -7873,8 +7873,8 @@ var AssetFemale3DCG = [
 				Priority: 20,
 				Value: 50,
 				Random: false,
-				Left: 0,
-				Top: 0,
+				Left: 150,
+				Top: 199,
 				Prerequisite: ["HasBreasts"],
 				DefaultColor: ["#818181", "#009848", "#76EC82"],
 				PoseMapping: {
@@ -8658,6 +8658,7 @@ var AssetFemale3DCG = [
 				PoseMapping: {
 					...AssetPoseMapping.Panties,
 					LegsClosed: "LegsClosed",
+					Kneel: "LegsClosed",
 				},
 				Top: 360,
 				Layer: [
