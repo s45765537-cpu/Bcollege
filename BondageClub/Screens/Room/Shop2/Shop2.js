@@ -588,13 +588,8 @@ var Shop2 = {
 	 */
 	_ClickDropdown: function _ClickDropdown(id) {
 		const elems = Array.from(document.getElementsByClassName("dropdown"));
-		for (const elem of /** @type {HTMLDivElement[]} */(elems)) {
-			if (elem.id === id && elem.style.display) {
-				elem.style.display = "";
-			} else {
-				elem.style.display = "none";
-			}
-
+		for (const elem of elems) {
+			elem.toggleAttribute("hidden", elem.id !== id || !elem.hasAttribute("hidden"));
 		}
 	},
 
@@ -691,7 +686,7 @@ var Shop2 = {
 			Load: () => {
 				let elem = /** @type {null | HTMLInputElement} */(document.getElementById("Shop2InputSearch"));
 				if (elem) {
-					elem.style.display = "";
+					elem.toggleAttribute("hidden", false);
 					return;
 				}
 
@@ -725,10 +720,7 @@ var Shop2 = {
 				ElementPositionFixed("Shop2InputSearch", ...coords);
 			},
 			Unload: () => {
-				const elem = document.getElementById("Shop2InputSearch");
-				if (elem) {
-					elem.style.display = "none";
-				}
+				document.getElementById("Shop2InputSearch")?.toggleAttribute("hidden", true);
 			},
 			Exit: () => ElementRemove("Shop2InputSearch"),
 		},
@@ -778,13 +770,15 @@ var Shop2 = {
 			Coords: [25, Shop2Consts.Grid.y + 100, 660, Shop2Consts.Grid.height - 120],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
 			Load: () => {
-				if (document.getElementById("Shop2GroupSelect")) {
+				let elem = document.getElementById("Shop2GroupSelect");
+				if (elem) {
+					elem.toggleAttribute("hidden", true);
 					return;
 				}
 
 				const entries = Object.entries(Shop2InitVars.GroupDescriptions);
 				const groups = Object.fromEntries(entries.map(([k, v]) => [k, Object.keys(v)]));
-				const elem = ElementCheckboxDropdown.FromRecord("Shop2GroupSelect", groups, Shop2._SetCheckboxFilters, { checked: true });
+				elem = ElementCheckboxDropdown.FromRecord("Shop2GroupSelect", groups, Shop2._SetCheckboxFilters, { checked: true });
 				const headers = /** @type {NodeListOf<HTMLSpanElement>} */(elem.querySelectorAll(".dropdown-header"));
 				headers.forEach(headerElem => headerElem.innerText = TextGet(`AssetGroupCategory${headerElem.innerText}`));
 			},
@@ -795,10 +789,7 @@ var Shop2 = {
 				ElementPositionFixed("Shop2GroupSelect", ...coords);
 			},
 			Unload: () => {
-				const elem = document.getElementById("Shop2GroupSelect");
-				if (elem) {
-					elem.style.display = "none";
-				}
+				document.getElementById("Shop2GroupSelect")?.toggleAttribute("hidden", true);
 			},
 			Exit: () => ElementRemove("Shop2GroupSelect"),
 		},
@@ -859,7 +850,9 @@ var Shop2 = {
 			Coords: [25, Shop2Consts.Grid.y + 260, 660, Shop2Consts.Grid.height - 280],
 			Mode: new Set(["Preview", "Buy", "Sell"]),
 			Load: () => {
-				if (document.getElementById("Shop2PoseSelect")) {
+				const elem = document.getElementById("Shop2PoseSelect");
+				if (elem) {
+					elem.toggleAttribute("hidden", false);
 					return;
 				}
 
@@ -873,8 +866,7 @@ var Shop2 = {
 
 				ElementCreate({
 					tag: "div",
-					style: { display: "none" },
-					attributes: { id: "Shop2PoseSelect", "screen-generated": CurrentScreen },
+					attributes: { hidden: true, id: "Shop2PoseSelect", "screen-generated": CurrentScreen },
 					parent: document.body,
 					classList: ["HideOnPopup", "dropdown", "scroll-box"],
 					children: [{
@@ -914,10 +906,7 @@ var Shop2 = {
 				elem.style.width = "fit-content";
 			},
 			Unload: () => {
-				const elem = document.getElementById("Shop2PoseSelect");
-				if (elem) {
-					elem.style.display = "none";
-				}
+				document.getElementById("Shop2PoseSelect")?.toggleAttribute("hidden", true);
 			},
 			Exit: () => ElementRemove("Shop2PoseSelect"),
 		},

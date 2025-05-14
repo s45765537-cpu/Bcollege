@@ -853,10 +853,10 @@ function ModularItemHideElement(Data, ID, Module) {
 	}
 
 	if (Data.currentModule === Module) {
-		Element.style.display = "block";
+		Element.toggleAttribute("hidden", false);
 		return true;
 	} else {
-		Element.style.display = "none";
+		Element.toggleAttribute("hidden", true);
 		return false;
 	}
 }

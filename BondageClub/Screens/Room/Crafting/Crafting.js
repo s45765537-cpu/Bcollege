@@ -1002,8 +1002,7 @@ function CraftingLoad() {
 
 	const parent = ElementCreate({
 		tag: "div",
-		style: { display: "none" },
-		attributes: { id: CraftingID.root, "screen-generated": CurrentScreen, "aria-busy": "true" },
+		attributes: { id: CraftingID.root, "screen-generated": CurrentScreen, "aria-busy": "true", hidden: true },
 		classList: ["HideOnPopup"],
 		parent: document.body,
 	});
@@ -1445,10 +1444,7 @@ function CraftingUnload() {
 			Layering.Unload();
 			break;
 		case "Name": {
-			const elem = document.getElementById(CraftingID.root);
-			if (elem) {
-				elem.style.display = "none";
-			}
+			document.getElementById(CraftingID.root)?.toggleAttribute("hidden", true);
 			break;
 		}
 	}
@@ -1527,7 +1523,7 @@ function CraftingModeSet(NewMode) {
 	if (NewMode === "Name") {
 		const root = document.getElementById(CraftingID.root);
 		if (root) {
-			root.style.display = "";
+			root.toggleAttribute("hidden", false);
 		}
 		CraftingResize(false);
 

@@ -641,11 +641,10 @@ function ElementFocus(ElementOrId) {
  * @param {boolean} ShouldDisplay - TRUE if we are toggling on the elements, FALSE if we are hiding them.
  */
 function ElementToggleGeneratedElements(Screen, ShouldDisplay) {
-	const displayState = ShouldDisplay ? "" : "none";
 	const elements = /** @type {HTMLElement[]} */(Array.from(document.querySelectorAll(`[screen-generated="${Screen}"]`)));
 	for (const e of elements) {
 		if (e.parentElement === null || e.parentElement === document.body) {
-			e.style.display = displayState;
+			e.toggleAttribute("hidden", !ShouldDisplay);
 		}
 	}
 }
@@ -694,10 +693,9 @@ var ElementCheckboxDropdown = {
 		id ??= ElementGenerateID();
 		return /** @type {null | HTMLDivElement} */(document.getElementById(id)) ?? ElementCreate({
 			tag: "div",
-			attributes: { id, ["screen-generated"]: CurrentScreen },
+			attributes: { id, ["screen-generated"]: CurrentScreen, hidden: true },
 			parent: options?.parent ?? document.body,
 			classList: ["HideOnPopup", "dropdown", "scroll-box"],
-			style: { display: "none" },
 			children: checkboxList.map((o) => this._CreateCheckboxPair(id, o, o, eventListener, options?.checked)),
 		});
 	},
@@ -716,10 +714,9 @@ var ElementCheckboxDropdown = {
 		id ??= ElementGenerateID();
 		return /** @type {null | HTMLDivElement} */(document.getElementById(id)) ?? ElementCreate({
 			tag: "div",
-			attributes: { id, ["screen-generated"]: CurrentScreen },
+			attributes: { id, ["screen-generated"]: CurrentScreen, hidden: true },
 			parent: options?.parent ?? document.body,
 			classList: ["HideOnPopup", "dropdown", "scroll-box"],
-			style: { display: "none" },
 			children: Object.entries(checkboxRecord).flatMap(([header, checkboxList]) => {
 				return [
 					{
@@ -1861,8 +1858,7 @@ var ElementMenu = {
 				return;
 			}
 
-			// Can't directly use `Element.checkVisibility` here as the menubar is not guaranteed to have a parent at this point
-			if (first && (menuitem instanceof HTMLElement && menuitem.style.display !== "none") && getComputedStyle(menuitem).display !== "none") {
+			if (first && !menuitem.hasAttribute("hidden")) {
 				first = false;
 				menuitem.setAttribute("tabindex", "0");
 			} else {

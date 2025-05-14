@@ -774,7 +774,7 @@ function FriendListLoadFriendList(data) {
 					tag: "td",
 					classList: ['friend-list-column', 'ChatRoomType'],
 					children: [
-						{ tag: "span", style: { display: "none" }, classList: ["friend-list-sorting-node"] },
+						{ tag: "span", attributes: { hidden: true }, classList: ["friend-list-sorting-node"] },
 						...friend.chatRoom.types.map((iconType) => {
 							if (iconType != null) {
 								const { src, tooltipKey, sortKey } = iconType;
@@ -829,7 +829,7 @@ function FriendListLoadFriendList(data) {
 					tag: "td",
 					classList: ['friend-list-column', 'ChatRoomType'],
 					children: [
-						{ tag: "span", style: { display: "none" }, classList: ["friend-list-sorting-node"] },
+						{ tag: "span", attributes: { hidden: true }, classList: ["friend-list-sorting-node"] },
 						...friend.chatRoom.types.map((iconType) => {
 							if (iconType) {
 								const { src, tooltipKey, sortKey } = iconType;
@@ -1030,16 +1030,14 @@ function FriendListSearchByProperties(text) {
 	if (!friendlist) return;
 
 	const items = friendlist.children;
-	Array.from(items).forEach((/** @type {HTMLElement} */ element)  => {
-		element.style.display = 'none';
-	});
+	Array.from(items).forEach((element) => element.toggleAttribute("hidden", true));
 	const searchedItems = Array.from(items).filter(item => {
 		return item.querySelector('.MemberName')?.textContent.toLowerCase().includes(text.toLowerCase()) ||
 			item.querySelector('.MemberNickname')?.textContent.toLowerCase().includes(text.toLowerCase()) || // NYI
 			item.querySelector('.MemberNumber')?.textContent.includes(text);
 	});
-	searchedItems.forEach((/** @type {HTMLElement} */ item) => {
-		item.style.display = '';
+	searchedItems.forEach((item) => {
+		item.toggleAttribute("hidden", false);
 
 		const nameItem = item.querySelector('.MemberName');
 		if (nameItem) nameItem.innerHTML = FriendListHighlightProperty(nameItem, text);

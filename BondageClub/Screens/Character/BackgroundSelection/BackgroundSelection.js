@@ -86,7 +86,7 @@ function BackgroundSelectionLoad() {
 
 		const tagFilter = ElementCreateDropdown(Background.elementID.tagFilter, BackgroundSelectionTagList, BackgroundSelectionTagChanged);
 		if (BackgroundSelectionTagList.length < 2) {
-			tagFilter.setAttribute("display", "none");
+			tagFilter.toggleAttribute("hidden", true);
 		}
 		root.append(
 			searchFilter,

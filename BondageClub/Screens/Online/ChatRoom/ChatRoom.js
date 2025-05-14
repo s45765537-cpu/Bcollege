@@ -313,7 +313,7 @@ let ChatRoomResizeManager = {
 
 	// Triggered by resize event
 	ChatRoomResizeEvent : function() {
-		if (document.getElementById("TextAreaChatLog")?.style.display === "none") {
+		if (document.getElementById("TextAreaChatLog")?.hasAttribute("hidden")) {
 			return;
 		}
 		if(ChatRoomResizeManager.atStart) { // Run code for the first resize event in a chain of resize events.
@@ -1062,7 +1062,7 @@ var ChatRoomSep = {
 		button.innerText = "˅";
 		let sibbling = /** @type {null | HTMLElement} */(roomSep.nextSibling);
 		while (sibbling && !sibbling.classList.contains("chat-room-sep")) {
-			sibbling.style.display = "";
+			sibbling.toggleAttribute("hidden", false);
 			sibbling = /** @type {null | HTMLElement} */(sibbling.nextSibling);
 		}
 
@@ -1087,7 +1087,7 @@ var ChatRoomSep = {
 		button.innerText = "˃";
 		let sibbling = /** @type {null | HTMLElement} */(roomSep.nextSibling);
 		while (sibbling && !sibbling.classList.contains("chat-room-sep")) {
-			sibbling.style.display = "none";
+			sibbling.toggleAttribute("hidden", true);
 			sibbling = /** @type {null | HTMLElement} */(sibbling.nextSibling);
 		}
 	},
@@ -1187,13 +1187,13 @@ function ChatRoomCreateElement() {
 						ElementButton.Create(
 							"chat-room-buttons-collapse",
 							function() {
-								const displayState = this.getAttribute("aria-expanded") === "true" ? "none" : "";
+								const displayState = this.getAttribute("aria-expanded") === "true";
 								this.setAttribute("aria-expanded", displayState ? "false" : "true");
 								this.innerText = displayState ? "<" : ">";
 								const elements = /** @type {NodeListOf<HTMLElement>} */(document.querySelectorAll("#chat-room-buttons > *"));
 								elements.forEach(b => {
 									if (b.id !== "chat-room-send") {
-										b.style.display = displayState;
+										b.toggleAttribute("hidden", displayState);
 									}
 								});
 							},
@@ -1230,7 +1230,7 @@ function ChatRoomCreateElement() {
 		if (CommonIsMobile) {
 			ElementClickTimeout(elem);
 		}
-		elem.style.display = "";
+		elem.toggleAttribute("hidden", false);
 		ElementScrollToEnd("TextAreaChatLog");
 		ChatRoomRefreshChatSettings();
 		ElementFocus("InputChat");
@@ -1249,9 +1249,9 @@ function ChatRoomShowElements() {
 		if (CommonIsMobile) {
 			ElementClickTimeout(elem);
 		}
-		elem.style.display = "";
+		elem.toggleAttribute("hidden", false);
 
-		// We can't accurately keep track of the scroll height within the likes of `ChatRoomAppendChat` when an element is hidden via `display: none`,
+		// We can't accurately keep track of the scroll height within the likes of `ChatRoomAppendChat` when an element is hidden via `[hidden]`,
 		// so as a compromise just scroll to the very bottom of the chat log when unhiding (which should be desireable in the majority cases)
 		ElementScrollToEnd("TextAreaChatLog");
 	}
@@ -1261,10 +1261,7 @@ function ChatRoomShowElements() {
 
 /** Show the UI elements of the chatroom screen */
 function ChatRoomHideElements() {
-	const elem = document.getElementById("chat-room-div");
-	if (elem) {
-		elem.style.display = "none";
-	}
+	document.getElementById("chat-room-div")?.toggleAttribute("hidden", true);
 	ChatRoomChatHidden = true;
 }
 
@@ -1313,7 +1310,7 @@ function ChatRoomAppendChat(div) {
 		if (isPlayerMessage) {
 			ChatRoomSep.Uncollapse(ChatRoomSep.ActiveElem);
 		} else {
-			div.style.display = "none";
+			div.toggleAttribute("hidden", true);
 			const button = /** @type {HTMLButtonElement} */(ChatRoomSep.ActiveElem.querySelector(".chat-room-sep-header"));
 			if (button) {
 				button.dataset.messages = ((Number.parseInt(button.dataset.messages, 10) || 0) + 1).toString();
@@ -1339,7 +1336,7 @@ function ChatRoomLoad() {
 	// Add a horizontal line to the chatlog the first time one enters the room; skip the very first room
 	if (ChatRoomCharacter.length === 0) {
 		const elem = ChatRoomSep.Create();
-		elem.style.display = (Player.ChatSettings?.PreserveChat ?? true) ? "" : "none";
+		elem.toggleAttribute("hidden", !(Player.ChatSettings?.PreserveChat ?? true));
 	}
 
 	ChatRoomCharacterUpdate(Player);
