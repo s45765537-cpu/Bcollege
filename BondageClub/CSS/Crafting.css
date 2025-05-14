@@ -132,8 +132,8 @@
 	height: calc(2.5 * var(--button-size));
 }
 
-#crafting-asset-grid button[data-unload]:not([aria-checked="true"]),
-#crafting-asset-grid button[data-unload-group]:not([aria-checked="true"]) {
+#crafting-asset-grid button[data-hidden-asset]:not([aria-checked="true"]),
+#crafting-asset-grid button[data-hidden-group]:not([aria-checked="true"]) {
 	display: none;
 }
 

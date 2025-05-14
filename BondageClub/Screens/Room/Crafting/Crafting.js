@@ -777,7 +777,7 @@ var CraftingEventListeners = {
 			const label = button.querySelector(".button-label");
 			if (label) {
 				const displayStyle = (button.getAttribute("aria-checked") === "true" || label.textContent.toUpperCase().includes(query)) ? false : true;
-				button.toggleAttribute("data-unload", displayStyle);
+				button.toggleAttribute("data-hidden-asset", displayStyle);
 			}
 		});
 	},
@@ -820,7 +820,7 @@ var CraftingEventListeners = {
 		if (this.getAttribute("aria-checked") === "true") {
 			// Apply the filtering
 			for (const button of assetList.children) {
-				button.toggleAttribute("data-unload-group", button.getAttribute("data-group") !== groupName);
+				button.toggleAttribute("data-hidden-group", button.getAttribute("data-group") !== groupName);
 			}
 
 			// Update the label of the asset panel
@@ -834,7 +834,7 @@ var CraftingEventListeners = {
 		} else {
 			document.querySelector(`#${CraftingID.assetHeader} > span`)?.replaceChildren(TextGet("SelectItem"));
 			for (const button of assetList.children) {
-				button.toggleAttribute("data-unload-group", false);
+				button.toggleAttribute("data-hidden-group", false);
 			}
 
 			const checked = assetList.querySelector("[aria-checked='true']");
@@ -2010,7 +2010,7 @@ function CraftingExitResetElements() {
 	const focusGroup = document.querySelector(`#${CraftingID.centerPanel} [role='radio'][aria-checked='true']`);
 	if (focusGroup) {
 		focusGroup.dispatchEvent(new MouseEvent("click"));
-		document.querySelectorAll(`#${CraftingID.assetGrid} [data-unload-group]`).forEach(e => e.toggleAttribute("data-unload-group", false));
+		document.querySelectorAll(`#${CraftingID.assetGrid} [data-hidden-group]`).forEach(e => e.toggleAttribute("data-hidden-group", false));
 	}
 
 	// Close the side pannel
