@@ -1397,7 +1397,6 @@ var ElementButton = {
 			eventListeners: {
 				keydown: this._KeyDown,
 				keyup: this._KeyUp,
-				mouseup: this._MouseUp,
 				mousedown: this._MouseDown,
 				bcClickDisabled: options.clickDisabled,
 				...this._GetClickTouchListeners(),
