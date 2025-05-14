@@ -1141,8 +1141,7 @@ function ChatRoomCreateElement() {
 				},
 				{
 					tag: "div",
-					attributes: { id: "chat-room-reply-indicator" },
-					classList: ["hidden"],
+					attributes: { id: "chat-room-reply-indicator", hidden: true },
 					children: [
 						ElementButton.Create(
 							"chat-room-reply-indicator-text",
@@ -4434,7 +4433,7 @@ function ChatRoomMessageGetType(msgId) {
  */
 function ChatRoomMessageReplyStop() {
 	const chatInput = document.getElementById("InputChat");
-	document.getElementById("chat-room-reply-indicator")?.classList.add("hidden");
+	document.getElementById("chat-room-reply-indicator")?.toggleAttribute("hidden", true);
 	if (chatInput) {
 		chatInput.removeAttribute("reply-id");
 		ChatRoomInputResize(chatInput);
@@ -4463,7 +4462,7 @@ function ChatRoomMessageSetReply(msgId) {
 	const replyIndicatorText = document.getElementById("chat-room-reply-indicator-text").querySelector(".button-label");
 	const replyName = ChatRoomMessageGetReplyName(msgId, isWhisper);
 	replyIndicatorText.textContent = `${TextGet("ChatRoomReply")}: ${replyName && `${replyName}` || "a message"}`;
-	replyIndicator.classList.remove("hidden");
+	replyIndicator.toggleAttribute("hidden", false);
 	ChatRoomInputResize(chatInput);
 	chatInput.focus();
 }
