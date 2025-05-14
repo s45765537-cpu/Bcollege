@@ -9,7 +9,7 @@ var GLDrawCacheTotalImages = 0;
 /** @type {"webgl2"|"webgl"|"No WebGL"} */
 var GLVersion;
 
-/** @type {HTMLCanvasElement} */
+/** @type {null | HTMLCanvasElement} */
 var GLDrawCanvas;
 
 /**
@@ -176,7 +176,7 @@ function GLDrawOnContextRestored() {
 function GLDrawResetCanvas(force2d = false) {
 	console.info("WebGL: resetting canvas");
 	// Cleanup resources and canvas
-	GLDrawCanvas.remove();
+	GLDrawCanvas?.remove();
 	GLDrawImageCache.clear();
 	GLDrawCanvas = null;
 
