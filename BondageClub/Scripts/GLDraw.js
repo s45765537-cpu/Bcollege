@@ -805,6 +805,10 @@ function GLDrawHexToRGBA(color, alpha = 1) {
  * @returns {void} - Nothing
  */
 function GLDrawAppearanceBuild(C) {
+	if (!GLDrawCanvas || !C) {
+		return;
+	}
+
 	const blinkOffset = 500;
 	GLDrawClearRect(GLDrawCanvas.GL, 0, 0, 1000, CanvasDrawHeight, 0);
 	CommonDrawCanvasPrepare(C);
