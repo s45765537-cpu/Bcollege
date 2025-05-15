@@ -1334,8 +1334,11 @@ function ExtendedItemSetOptionByRecord(C, itemOrGroupName, typeRecord=null, opti
 
 	/** @type {Set<keyof ItemProperties>} */
 	const propertyKeys = new Set();
-	/** @type {Set<keyof ItemProperties>} */
-	const whiteListKeys = new Set(["OverridePriority"]);
+	const whiteListKeys = new Set(/** @type {(null | keyof ItemProperties)[]} */([
+		"OverridePriority",
+		item.Asset.EditOpacity ? "Opacity" : null,
+	].filter(Boolean)));
+
 	for (const key of whiteListKeys) {
 		if (properties?.[key]) {
 			propertyKeys.add(key);
