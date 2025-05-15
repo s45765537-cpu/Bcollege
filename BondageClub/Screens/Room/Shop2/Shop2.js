@@ -477,8 +477,8 @@ var Shop2 = {
 					shopItem.Buy = Shop2Vars.Mode !== "Buy";
 					Shop2Vars[removalField].splice(indexOld, 1);
 
-					// Do not move items to the sell list if they should never be sold
-					if (Shop2Vars.Mode !== "Buy" || !shopItem.NeverSell) {
+					// Do not move items to the sell list if they should never be sold, nor to the buy list if they cannot be bought
+					if ((Shop2Vars.Mode === "Buy" && !shopItem.NeverSell) || (Shop2Vars.Mode === "Sell" && !shopItem.CannotBuy)) {
 						let indexNew = Shop2Vars[additionField].findIndex(({ SortPriority }) => SortPriority >= shopItem.SortPriority);
 						if (indexNew === -1) {
 							indexNew = Shop2Vars[additionField].length;
@@ -639,12 +639,12 @@ var Shop2 = {
 	ParseAssets: function ParseAssets(assets) {
 		return assets.map((a, i) => {
 			const Buy = !InventoryAvailable(Player, a.Name, a.Group.Name) && a.Value !== 0;
-			const NeverSell = (
-				a.NeverSell
-				|| (LogQuery("BlockKey", "OwnerRule") && Shop2Consts.Keys.has(`${a.Group.Name}${a.Name}`))
+			const CannotBuy = (
+				(LogQuery("BlockKey", "OwnerRule") && Shop2Consts.Keys.has(`${a.Group.Name}${a.Name}`))
 				|| (LogQuery("BlockRemote", "OwnerRule") && Shop2Consts.Remotes.has(`${a.Group.Name}${a.Name}`))
 			);
-			return { Asset: a, SortPriority: i, Buy, NeverSell };
+			const NeverSell = a.NeverSell;
+			return { Asset: a, SortPriority: i, Buy, CannotBuy, NeverSell };
 		});
 	},
 
@@ -1206,6 +1206,7 @@ function Shop2Load() {
 		);
 	}
 
+	Shop2Vars.Filters.CannotBuy ??= (item) => item.CannotBuy ? ["Sell", "Preview"] : ["Sell", "Buy", "Preview"];
 	Shop2Vars.Filters.NeverSell ??= (item) => item.NeverSell ? ["Buy", "Preview"] : ["Sell", "Buy", "Preview"];
 	Shop2Vars.Filters.Buy ??= (item) => item.Buy ? ["Buy", "Preview"] : ["Sell", "Preview"];
 	Shop2.ApplyItemFilters(false);
