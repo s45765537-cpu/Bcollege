@@ -235,6 +235,59 @@ function CommonReadCSV(url) {
 	return temp;
 }
 
+
+/**
+ * Sleep for a number of milliseconds
+ * @param {number} ms
+ * @returns {Promise<number>}
+ */
+async function CommonSleep(ms) {
+	return new Promise(resolve => window.setTimeout(resolve, ms));
+}
+
+/**
+ *
+ * @param {() => boolean} func
+ * @param {() => boolean} cancelFunc
+ * @returns
+ */
+async function CommonWaitFor(func, cancelFunc) {
+	while (!func()) {
+		if (cancelFunc()) {
+			return false;
+		}
+		await CommonSleep(10);
+	}
+	return true;
+}
+
+/**
+ * Fetch a remote resource
+ *
+ * @param {RequestInfo | URL} request
+ * @returns {Promise<Response>}
+ */
+async function CommonFetch(request) {
+	let retries = 10;
+	let reply;
+	const method = request instanceof Request ? request.method : "GET";
+	const url = request instanceof Request ? request.url : request;
+	while (retries-- > 0) {
+		reply = await fetch(request);
+		if (reply.status >= 400) {
+			const retrySeconds = Math.min(Math.pow(2, Math.max(0, 10 - retries)), 60);
+			console.warn(`${method} request to ${url} failed - retrying in ${retrySeconds} second${retrySeconds === 1 ? "" : "s"}...`);
+			await CommonSleep(retrySeconds * 1000);
+			continue;
+		}
+		break;
+	}
+	if (retries <= 0) {
+		console.error(`${method} request to ${url} failed - no more retries`);
+	}
+	return reply;
+}
+
 /**
  * AJAX utility to get a file and return its content. By default will retry requests 10 times
  * @param {string} Path - Path of the resource to request
