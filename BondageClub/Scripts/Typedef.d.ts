@@ -4253,6 +4253,41 @@ interface CratingValidationStruct {
 	StatusCode: CraftingStatusType;
 }
 
+declare namespace CraftingJSON {
+	/** The data structure as returned by {@link CraftingJSON.encode} */
+	export interface DataEncoded {
+		/** The version of the file format */
+		version: 1;
+		/** The date & time on which the crafts were exported (see {@link Date.toLocaleString}) */
+		date: string;
+		/** A list of base64-encoded {@link CraftingItem} object strings or null if the craft is empty */
+		crafts: (null | string)[];
+	}
+
+	interface ParsingOutputBase {
+		/** The status code */
+		status: CraftingStatusType;
+		/** All crafted item indices within the `data.crafts` list that encountered a critical error during their validation */
+		errors?: Set<number>;
+		/** The decoded crafted item JSON data */
+		data?: CraftingJSON.DataDecoded;
+	}
+
+	interface ParsingOutputErr extends ParsingOutputBase {
+		status: 0;
+		errors?: never;
+		data?: never;
+	}
+
+	interface ParsingOutputOk extends Required<ParsingOutputBase> {
+		status: 1 | 2;
+	}
+
+	/** A status object based on the stringified JSON data as decoded by {@link CraftingJSON.decode} */
+	export type ParsingOutput = ParsingOutputErr | ParsingOutputOk;
+}
+
+
 //#endregion
 
 //#region Color

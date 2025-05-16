@@ -10,7 +10,7 @@ Reorder,Reorder Slots
 ReorderSelect,"Click slots to select items to move: "
 ReorderPlace,"Click slots to place selected items: "
 NoLock,No lock
-SelectSlot,"Select an empty slot to craft a new item, or click on the item to edit.  Page"
+SelectSlot,"Edit or craft a new item.  Page"
 SelectDestroy,Select a crafted item slot to destroy.  Page
 SelectItem,Select an item
 SelectItemSuffix,Select an item for the GroupName
@@ -85,3 +85,15 @@ UploadPrompt,Please paste the crafting code. Importing crafting codes will overw
 UploadSucces,Crafting code successfully parsed
 UploadFailure,Failed to parse the passed crafting code
 Undress,Undress character preview
+JSONError,Error while parsing craft
+JSONToggle,Toggle status text
+JSONCancel,Cancel
+JSONDescriptionAll,all
+JSONDescription0,"Load a new inventory of crafting items with the following steps, overriding {all} existing items:"
+JSONDescription1,Import the {json} file with exported crafting data (see the {download-tooltip} button in the main crafting menu)
+JSONDescription2,(Optional) select which specific new crafting items to import; defaults to all
+JSONDescription3,(Optional) reorder the new crafting items via dragging and dropping them
+JSONUpload,Import new crafting inventory
+JSONDownload,Download all crafts
+JSONSelectNew,New crafts (select all)
+JSONSelectOld,Old crafts (select all)

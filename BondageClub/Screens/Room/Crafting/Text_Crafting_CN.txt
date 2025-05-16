@@ -16,13 +16,13 @@ Next
 下一页
 Reorder Slots
 重排栏位
-Click slots to select items to move: 
+Click slots to select items to move:
 选择要移动的栏位：
-Click slots to place selected items: 
+Click slots to place selected items:
 选择栏位放置选择物品：
 No lock
 无锁
-Select an empty slot to craft a new item, or click on the item to edit.  Page
+Edit or craft a new item.  Page
 为你新制作的物品选择一个栏位，或者点击物品来编辑它。 页面
 Select a crafted item slot to destroy.  Page
 选择摧毁一个已经制作的物品栏。 页面
