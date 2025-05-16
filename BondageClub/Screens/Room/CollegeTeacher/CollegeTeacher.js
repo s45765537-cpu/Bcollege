@@ -61,7 +61,7 @@ function CollegeTeacherMildredClothes(C) {
 // Generates Mildred
 /**
  * Loads the teacher's lounge and generates Mildred
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function CollegeTeacherLoad() {
 

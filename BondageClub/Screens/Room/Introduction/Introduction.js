@@ -71,7 +71,7 @@ function IntroductionCanPlayClubCard() { return (!Player.IsRestrained() && !Curr
 
 /**
  * Loads the introduction room and its 2 NPCS
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function IntroductionLoad() {
 

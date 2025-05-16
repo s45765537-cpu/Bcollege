@@ -86,7 +86,7 @@ function WardrobeLoadCharacters(Fast) {
 /**
  * Loads the player's wardrobe. when the player opens the wardrobe screen for the first time.
  * This function is called dynamically.
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  *
  */
 function WardrobeLoad() {

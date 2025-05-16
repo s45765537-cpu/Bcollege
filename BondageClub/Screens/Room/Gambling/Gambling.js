@@ -152,7 +152,7 @@ function GamblingCanStealDice() {return (LogQuery("Joined", "BadGirl") && !(LogQ
 /**
  * Loads the Gambling Hall and creates the two subs. If the player is on a rescue mission, the restraints are created.
  * This function is called dynamically.
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function GamblingLoad() {
 

@@ -74,7 +74,7 @@ function MagicSchoolLaboratoryPrepareNPC(C, House) {
 
 /**
  * Loads the magic school laboratory and the teacher
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function MagicSchoolLaboratoryLoad() {
 	MagicPuzzleBackground = MagicSchoolLaboratoryBackground;

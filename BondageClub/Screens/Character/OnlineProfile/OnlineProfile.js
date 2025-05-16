@@ -8,7 +8,7 @@ var ONLINE_PROFILE_DESCRIPTION_COMPRESSION_MAGIC = String.fromCharCode(9580);
 
 /**
  * Loads the online profile screen by creating its input
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function OnlineProfileLoad() {
 	ElementRemove("DescriptionInput");

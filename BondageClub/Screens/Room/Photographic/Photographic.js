@@ -45,6 +45,9 @@ function PhotographicIsRestrainedWithLockAndMaidsNotDisabled() { return (Player.
 function PhotographicIsRestrainedWithoutLockAndMaidsNotDisabled() { return (Player.IsRestrained() && !InventoryCharacterHasLockedRestraint(Player) && !PhotographicIsMaidsDisabled()); }
 function PhotographicIsMaidsDisabledAndRestrained() { return (Player.IsRestrained() && PhotographicIsMaidsDisabled() ); }
 
+/**
+ * @type {ScreenLoadHandler}
+ */
 function PhotographicLoad() {
 	if (PhotographicSub == null) {
 		PhotographicSub = CharacterLoadNPC("NPC_Photographic_Sub");

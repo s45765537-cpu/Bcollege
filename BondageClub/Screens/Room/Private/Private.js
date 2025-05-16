@@ -507,7 +507,7 @@ function PrivateGetPossibleGift(Restraint) {
 
 /**
  * Loads the private room screen and the vendor NPC.
- * @returns {void} - Nothing.
+ * @type {ScreenLoadHandler}
  */
 function PrivateLoad() {
 	PrivateBackground = Player.VisualSettings.PrivateRoomBackground ?? "Private";

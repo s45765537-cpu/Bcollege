@@ -75,7 +75,10 @@ function StableCanHideDice() {return (LogQuery("Joined", "BadGirl") && LogQuery(
  */
 function StableCanPlayClubCard() { return (!Player.IsRestrained() && !CurrentCharacter.IsRestrained() && !Player.IsGagged() && !CurrentCharacter.IsGagged()); }
 
-// Loads the stable characters with many restrains
+/**
+ * Loads the stable characters with many restraints
+ * @type {ScreenLoadHandler}
+ */
 function StableLoad() {
 	// Give items to the player in case they completed the exam before they were added
 	if (StablePlayerIsExamTrainer() || StablePlayerIsExamPony()) {

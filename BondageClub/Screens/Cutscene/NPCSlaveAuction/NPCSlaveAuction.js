@@ -14,7 +14,7 @@ var NPCSlaveAuctionAmount = 0;
 
 /**
  * Loads the slave auction cutscene by creating the NPCs and setting the stage.
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function NPCSlaveAuctionLoad() {
 	CutsceneStage = 0;

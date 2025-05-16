@@ -61,7 +61,10 @@ function NurseryPlayerReadyDiapered() { return (NurseryPlayerDiapered() && !Nurs
 function NurseryPlayerCanRegress() { return !InventoryGet(Player, "ItemMouth3") && !InventoryGroupIsBlocked(Player, "ItemMouth3"); }
 
 
-// Loads the nursery room
+/**
+ * Loads the nursery room
+ * @type {ScreenLoadHandler}
+ */
 function NurseryLoad() {
 	if (NurseryPlayerAppearance == null) NurseryPlayerAppearance = Player.Appearance.slice();
 	NurseryNurse = CharacterLoadNPC("NPC_Nursery_Nurse");

@@ -64,7 +64,7 @@ function ChatSelectClick() {
 
 /**
  * Loads the chat select screen, automatically joining a chat search space if configured
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function ChatSelectLoad() {
 	const autoJoinSpace = Player.GenderSettings.AutoJoinSearch.Female

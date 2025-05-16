@@ -16,7 +16,7 @@ var MagicPuzzleTrailRainbow = false;
 
 /**
  * Loads the magic puzzle mini game and sets the difficulty ratio
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function MagicPuzzleLoad() {
 	MagicPuzzleFinish = 0;

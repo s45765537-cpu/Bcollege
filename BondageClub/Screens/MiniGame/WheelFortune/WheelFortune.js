@@ -711,7 +711,7 @@ function WheelFortuneInventoryWear(Group, Minutes) {
 
 /**
  * Loads the lucky wheel mini game and builds the wheel
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function WheelFortuneLoad() {
 

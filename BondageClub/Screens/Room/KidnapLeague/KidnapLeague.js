@@ -158,7 +158,7 @@ function KidnapLeagueResetOnlineBountyProgress() {
 
 /**
  * Loads the kidnap league NPC
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function KidnapLeagueLoad() {
 	KidnapLeagueBackground = "KidnapLeague";

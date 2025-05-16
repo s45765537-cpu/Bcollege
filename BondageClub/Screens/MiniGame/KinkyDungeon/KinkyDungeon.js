@@ -584,7 +584,7 @@ function KDSaveToggles() {
 
 /**
  * Loads the kinky dungeon game
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function KinkyDungeonLoad() {
 	KinkyDungeonSetupCrashHandler();

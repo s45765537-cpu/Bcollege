@@ -38,7 +38,7 @@ function SlaveMarketSlaveTitleIs(Title) { return ((SlaveMarketSlave.Title != nul
 
 /**
  * Loads the Slave Market room, generates the Mistress and slave
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function SlaveMarketLoad() {
 	if (SlaveMarketMistress == null) {

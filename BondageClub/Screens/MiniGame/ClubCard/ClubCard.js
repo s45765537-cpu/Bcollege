@@ -5138,7 +5138,7 @@ function ClubCardCommonLoad() {
 
 /**
  * Loads the club card mini-game: Assigns the opponents and draws the cards
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function ClubCardLoad() {
 	ClubCardCommonLoad();

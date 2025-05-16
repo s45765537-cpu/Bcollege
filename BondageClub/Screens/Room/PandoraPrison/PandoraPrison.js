@@ -15,7 +15,7 @@ var PandoraQuickiePleasure = 0;
 
 /**
  * Loads the Pandora's Box prison screen
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function PandoraPrisonLoad() {
 	PandoraParty = [];

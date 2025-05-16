@@ -41,7 +41,7 @@ function DailyJobPuppyLoad(GirlNum) {
 
 /**
  * Loads the daily job room screen characters. This changes based on the current job being performed.
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function DailyJobLoad() {
 	DailyJobBackground = "MainHall";

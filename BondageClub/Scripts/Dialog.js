@@ -5526,7 +5526,7 @@ var DialogFocusGroup = {
 
 /**
  * Load function for starting the Dialog subscreen.
- * @type {ScreenLoadHandler}
+ * @return {void}
  */
 function DialogLoad() {
 	if (CurrentCharacter == null) {

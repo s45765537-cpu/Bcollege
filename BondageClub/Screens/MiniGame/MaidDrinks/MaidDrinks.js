@@ -40,7 +40,7 @@ function MaidDrinksGenerateMove(StartTime) {
 
 /**
  * Loads the maid drinks mini game and its NPCs
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function MaidDrinksLoad() {
 	InventoryWear(Player, "WoodenMaidTrayFull", "ItemMisc");

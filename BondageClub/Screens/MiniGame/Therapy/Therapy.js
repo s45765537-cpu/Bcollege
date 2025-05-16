@@ -10,7 +10,7 @@ var TherapyStress = 0;
 
 /**
  * Loads the therapy mini game and sets the difficulty. The game is a little faster on mobile since its easier.
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function TherapyLoad() {
 	CurrentDarkFactor = 0.5;

@@ -131,7 +131,7 @@ var LoginEventListeners = {
 
 /**
  * Loads the character login screen
- * @returns {void} Nothing
+ * @type {ScreenLoadHandler}
  */
 function LoginLoad() {
 

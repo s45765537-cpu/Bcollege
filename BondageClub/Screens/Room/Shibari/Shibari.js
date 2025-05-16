@@ -136,7 +136,7 @@ function ShibariRandomBondage(C, Level) {
 
 /**
  * Loads the shibari dojo and its two characters.
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function ShibariLoad() {
 

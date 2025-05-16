@@ -13,7 +13,7 @@ function AsylumTherapyPatientReadyForTherapy() { return (!Player.IsRestrained() 
 
 /**
  * Loads the room and initializes the nurse and the patient
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function AsylumTherapyLoad() {
 	if (AsylumTherapyNurse == null) {

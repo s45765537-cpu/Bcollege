@@ -243,7 +243,7 @@ function MaidQuartersCannotUngagAndMaidsNotDisabled() { return !MaidQuartersIsMa
 
 /**
  * Loads the maid quarters. This function is called dynamically, as soon, as the player enters the maid quarters
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function MaidQuartersLoad() {
 

@@ -42,7 +42,7 @@ function AsylumEntranceCanPlayClubCard() { return (!Player.IsRestrained() && !Cu
 
 /**
  * Loads the room and generates the nurse. Is called dynamically
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function AsylumEntranceLoad() {
 	ChatSearchRoomSpaces = ["ASYLUM"];

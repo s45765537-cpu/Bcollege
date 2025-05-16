@@ -27,14 +27,14 @@ function EmptySlaveMarketReadyForBondageTraining() { return (Player.CanInteract(
 
 /**
  * Loads the empty room screen. Does nothing, required for future use and because it is called dynamically when loading the screen.
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function EmptyLoad() {
 }
 
 /**
  * Runs and draws the empty room screen, it will place each character inside the room evenly
- * @returns {void} - Nothing
+ * @type {ScreenRunHandler}
  */
 function EmptyRun() {
 	for (let C = 0; C < EmptyCharacter.length; C++)
@@ -43,7 +43,7 @@ function EmptyRun() {
 
 /**
  * Handles clicks in the empty room screen
- * @returns {void} - Nothing
+ * @type {MouseEventListener}
  */
 function EmptyClick() {
 	for (let C = 0; C < EmptyCharacter.length; C++)

@@ -7,7 +7,7 @@ var MagicSchoolEscapeTimer = 0;
 
 /**
  * Loads the magic school laboratory and the teacher
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function MagicSchoolEscapeLoad() {
 	MagicPuzzleBackground = MagicSchoolEscapeBackground;

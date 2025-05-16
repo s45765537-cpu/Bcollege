@@ -19,7 +19,7 @@ function CollegeTennisCanInviteToPrivateRoom() { return PrivateHasEmptySlot(); }
 
 /**
  * Loads the tennis screen by generating Jennifer. The player's relationship with her from the bondage college is taken into consideration.
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function CollegeTennisLoad() {
 

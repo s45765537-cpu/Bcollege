@@ -121,7 +121,7 @@ function AsylumGGTSComputerImage(Level) {
 
 /**
  * Loads the GGTS and computer NPC
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function AsylumGGTSLoad() {
 	ChatSearchRoomSpaces = ["ASYLUM"];

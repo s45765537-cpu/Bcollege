@@ -10,7 +10,7 @@ var AdvancedRuleSelection = "";
 
 /**
  * Loads the advanced rule screen
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function AdvancedRuleLoad() {
 	AdvancedRuleSelection = "";

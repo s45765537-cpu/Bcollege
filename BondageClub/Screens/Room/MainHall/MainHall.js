@@ -174,7 +174,7 @@ function MainHallAllow(room) {
 
 /**
  * Loads the main hall by setting up the NPCs, CSVs and global variables required.
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function MainHallLoad() {
 

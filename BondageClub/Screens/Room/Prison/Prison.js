@@ -58,8 +58,10 @@ function PrisonSubAskForCuff()      {return (!PrisonSubAskedCuff);}
 function PrisonSubCanStripSearch()  {return  (!PrisonSubIsStripSearch && PrisonSubBehindBars);}
 function PrisonSubCanClothBack()    {return  (PrisonSubIsStripSearch && PrisonSubBehindBars);}
 
-/*      Room     */
-// Loads the Prison
+/**
+ * Loads the Prison screen
+ * @type {ScreenLoadHandler}
+ */
 function PrisonLoad() {
 	if (PrisonMaid == null) {
 		PrisonMaid = CharacterLoadNPC("NPC_Prison_Maid");

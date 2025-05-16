@@ -2211,7 +2211,7 @@ function PlatformPartyBuild() {
 
 /**
  * When the platform screen is loaded
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function PlatformLoad() {
 

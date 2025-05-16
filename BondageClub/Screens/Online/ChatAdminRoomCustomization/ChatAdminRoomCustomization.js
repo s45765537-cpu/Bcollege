@@ -100,7 +100,7 @@ function ChatAdminRoomCustomizationCommand(Property, Value) {
 
 /**
  * Loads the chat Admin Custom screen properties and creates the inputs
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function ChatAdminRoomCustomizationLoad() {
 	ChatAdminRoomCustomizationMode = null;

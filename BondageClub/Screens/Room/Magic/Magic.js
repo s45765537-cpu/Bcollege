@@ -96,7 +96,7 @@ function MagicRestrainMinItem(C, MinItem) {
 
 /**
  * Loads the room characters, saves their inventories and starts the show
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function MagicLoad() {
 	// Default load
@@ -115,7 +115,7 @@ function MagicLoad() {
 
 /**
  * Runs the magic screen, draws the player, the magician and the assistant as well as all required buttons
- * @returns {void} - Nothing
+ * @type {ScreenRunHandler}
  */
 function MagicRun() {
 	DrawCharacter(Player, 250, 0, 1);

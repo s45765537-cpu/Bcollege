@@ -7,7 +7,7 @@ var CellKeyDepositStaff = null;
 
 /**
  * Loads the cell screen and its NPC, then checks if it should be locked or not
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function CellLoad() {
 	CellKeyDepositStaff = CharacterLoadNPC("NPC_Cell_KeyDepositStaff");

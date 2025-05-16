@@ -9,7 +9,7 @@ var SophieIntroDone = false;
 
 /**
  * Loads the Sarah/Amanda/Sophie intro cutscene by creating the NPCs and setting the stage based on the current state the player is at in the story
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function SarahIntroLoad() {
 	CutsceneStage = 0;

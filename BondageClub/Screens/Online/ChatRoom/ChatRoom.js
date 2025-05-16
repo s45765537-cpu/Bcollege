@@ -1326,7 +1326,7 @@ function ChatRoomAppendChat(div) {
 
 /**
  * Loads the chat room screen by displaying the proper inputs.
- * @returns {void} - Nothing.
+ * @type {ScreenLoadHandler}
  */
 function ChatRoomLoad() {
 	ChatRoomRefreshFontSize();

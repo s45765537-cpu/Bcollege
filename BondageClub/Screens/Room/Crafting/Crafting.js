@@ -971,7 +971,7 @@ var CraftingElements = {
 
 /**
  * Loads the club crafting room in slot selection mode, creates a dummy character for previews
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function CraftingLoad() {
 	Player.Crafting ??= [];

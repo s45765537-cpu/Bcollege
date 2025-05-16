@@ -36,7 +36,7 @@ function ShopEnter() {
 
 /**
  * Loads the shop room and its NPC
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function ShopLoad() {
 	TextPrefetch("Room", "Shop2");

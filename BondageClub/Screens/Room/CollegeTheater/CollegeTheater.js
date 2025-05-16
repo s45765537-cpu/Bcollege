@@ -66,7 +66,7 @@ function CollegeTheaterJuliaClothes(C) {
 
 /**
  * Loads the college theater screen, generates Julia like she is in bondage college. Julia is not generated if she is in the player's private room.
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function CollegeTheaterLoad() {
 

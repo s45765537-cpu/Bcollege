@@ -387,7 +387,7 @@ function ManagementFriendIsChaste() {
 
 /**
  * Loads the club management room, creates the Mistress and sub character
- * @returns {void} - Nothing.
+ * @type {ScreenLoadHandler}
  */
 function ManagementLoad() {
 	ManagementBackground = "Management";

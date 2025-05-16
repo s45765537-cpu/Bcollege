@@ -6,7 +6,7 @@ var RelogData = null;
 
 /**
  * Loads the relog screen
- * @returns {void} Nothing
+ * @type {ScreenLoadHandler}
  */
 function RelogLoad() {
 	// Hides any (non-nested) HTML DOM element with the tag "HideOnPopup", like text boxes

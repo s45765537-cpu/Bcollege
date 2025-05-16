@@ -29,7 +29,7 @@ function SlaveAuctionSetNextBidTime() {
 
 /**
  * Loads the slave auction mini game by setting the global variables and loading the NPCs required
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function SlaveAuctionLoad() {
 	CurrentDarkFactor = 0.5;

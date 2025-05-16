@@ -117,7 +117,7 @@ function GameLARPDrawIcon(C, X, Y, Zoom) {
 
 /**
  * Loads the LARP game.
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function GameLARPLoad() {
 	if (Player.Game == null) Player.Game = {};

@@ -58,7 +58,7 @@ function PandoraCanAskForPaint() { return (!PandoraPaint && (PandoraClothes == "
 
 /**
  * Loads the Pandora's Box screen
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function PandoraLoad() {
 }

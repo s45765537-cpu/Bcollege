@@ -16,6 +16,9 @@ var MiniGameEnded = false;
 var MiniGameCheatAvailable = false;
 let KDPatched = false;
 
+/**
+ * @type {ScreenLoadHandler}
+ */
 function MiniGameLoad() {
 	if (CurrentScreen == "Kidnap" || CurrentScreen == "HorseWalk") CurrentDarkFactor = 0.5;
 }

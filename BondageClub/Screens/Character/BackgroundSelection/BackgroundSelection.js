@@ -60,7 +60,7 @@ function BackgroundSelectionSort(a, b) {
 /**
  * Initializes the Background selection screen.
  * Function coiuld be called dynamically, so the body has to be there, even if it does nothing.
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function BackgroundSelectionLoad() {
 	BackgroundSelectionSelect = BackgroundSelectionList[BackgroundSelectionIndex];

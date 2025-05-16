@@ -5,7 +5,7 @@ var WheelFortuneCustomizeList = "";
 
 /**
  * Loads the lucky wheel customization screen
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function WheelFortuneCustomizeLoad() {
 	WheelFortuneCustomizeOffset = 0;

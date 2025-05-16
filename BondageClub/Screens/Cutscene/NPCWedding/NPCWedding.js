@@ -36,7 +36,7 @@ function NPCWeddingBridesmaid(C) {
 
 /**
  * Loads the NPC wedding cutscene by creating the random NPCs and setting the stage
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function NPCWeddingLoad() {
 	CharacterRelease(Player);

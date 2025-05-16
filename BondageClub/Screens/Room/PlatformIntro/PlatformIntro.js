@@ -3,7 +3,7 @@ var PlatformIntroDrawAsset = -1;
 
 /**
  * Loads the screen
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function PlatformIntroLoad() {
 	PlatformIntroDrawAsset = -1;

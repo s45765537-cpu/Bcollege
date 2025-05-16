@@ -7,7 +7,7 @@ var DojoStruggleRope = [];
 
 /**
  * Loads the dojo struggle mini game and prepare the rope walls
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function DojoStruggleLoad() {
 	DojoStrugglePosition = 450;

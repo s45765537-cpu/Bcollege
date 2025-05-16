@@ -164,7 +164,7 @@ function TitleIsEarned(Title) {
 
 /**
  * When the title screen is loaded
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function TitleLoad() {
 	TitleSelectedTitle = TitleGet(Player);

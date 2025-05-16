@@ -4,7 +4,7 @@ var PasswordResetMessage = "";
 
 /**
  * Loads the password reset screen
- * @returns {void} Nothing
+ * @type {ScreenLoadHandler}
  */
 function PasswordResetLoad() {
 

@@ -174,7 +174,7 @@ function MovieStudioProcessDecay() {
 
 /**
  * Loads the Movie Studio introduction room screen and saves the player clothes
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function MovieStudioLoad() {
 	let Day = Math.floor(CurrentTime / (24 * 60 * 60 * 1000));

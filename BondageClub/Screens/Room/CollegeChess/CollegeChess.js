@@ -16,7 +16,7 @@ function CollegeChessCanMakeLove() { return (CharacterIsNaked(Player) && Charact
 
 /**
  * Loads the college chest screen by generating the opponent.
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function CollegeChessLoad() {
 	if (CollegeChessOpponent == null) {

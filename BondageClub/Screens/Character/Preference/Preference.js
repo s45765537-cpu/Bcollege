@@ -173,7 +173,7 @@ let PreferenceDidAddOldStyleScreens = false;
 /**
  * Loads the preference screen. This function is called dynamically, when the character enters the preference screen
  * for the first time
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function PreferenceLoad() {
 	PreferenceSubscreen = PreferenceSubscreens.find(s => s.name === "Main") ?? null;

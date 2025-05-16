@@ -3,7 +3,7 @@ var DisclaimerBackground = "Sheet";
 
 /**
  * Loads the disclaimer screen
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function DisclaimerLoad() {
 }

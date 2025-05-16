@@ -5,7 +5,7 @@ var ClubCardLoungeTutor = null;
 
 /**
  * Loads the club card room and the tutor
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function ClubCardLoungeLoad() {
 	ClubCardCommonLoad();

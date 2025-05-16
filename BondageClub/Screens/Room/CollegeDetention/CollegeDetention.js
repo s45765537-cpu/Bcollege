@@ -79,7 +79,7 @@ function CollegeDetentionYukiClothes(C) {
 
 /**
  * Loads the room and generates Yuki
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function CollegeDetentionLoad() {
 

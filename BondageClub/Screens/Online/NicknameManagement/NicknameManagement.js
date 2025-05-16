@@ -6,7 +6,7 @@ var NicknameManagementLock = false;
 
 /**
  * Loads the Nickname Management screen
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function NicknameManagementLoad() {
 	if (NicknameManagementTarget.Nickname == null) NicknameManagementTarget.Nickname = "";

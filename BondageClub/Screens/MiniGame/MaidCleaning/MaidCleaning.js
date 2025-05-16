@@ -40,7 +40,7 @@ function MaidCleaningDrawSpots() {
 
 /**
  * Loads the maid cleaning mini game. It will select a random background and generate spots based on the difficulty
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
 function MaidCleaningLoad() {
 

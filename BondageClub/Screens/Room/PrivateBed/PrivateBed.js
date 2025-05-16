@@ -34,7 +34,7 @@ function PrivateBedCount() {
 
 /**
  * Loads the private bedroom screen.
- * @returns {void} - Nothing.
+ * @type {ScreenLoadHandler}
  */
 function PrivateBedLoad() {
 
