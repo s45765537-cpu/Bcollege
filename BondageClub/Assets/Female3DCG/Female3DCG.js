@@ -3721,7 +3721,6 @@ var AssetFemale3DCG = [
 				Prerequisite: ["HasBreasts"],
 				ParentGroup: "BodyUpper",
 				PoseMapping: {
-					...AssetPoseMapping.Cloth,
 				},
 				HideItem: [
 					"ItemNipplesPiercingsRoundPiercing",
@@ -3754,7 +3753,6 @@ var AssetFemale3DCG = [
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
 				PoseMapping: {
-					...AssetPoseMapping.Cloth,
 					Hogtied: "Hogtied",
 					AllFours: "Hogtied",
 					Kneel: "Kneel",
@@ -7877,9 +7875,7 @@ var AssetFemale3DCG = [
 				Top: 199,
 				Prerequisite: ["HasBreasts"],
 				DefaultColor: ["#818181", "#009848", "#76EC82"],
-				PoseMapping: {
-					...AssetPoseMapping.Bra,
-				},
+				PoseMapping: {},
 				Hide: ["ItemNipples"],
 				Gender: "F",
 				Fetish: ["Metal"],
