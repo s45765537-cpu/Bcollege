@@ -11,9 +11,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2025-05-09
-* Last recorded PR: [#5579](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5579)
-* Last recorded commit hash: `b5fc04c320270c39b44f82e202493053958cc2b1`
+* Changelog last updated: 2025-05-17
+* Last recorded PR: [#5582](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5582)
+* Last recorded commit hash: `e39d1aeaffc8a4b69ea53dd5fa6c08ff4e091969`
 
 ## [Generated]
 
@@ -46,19 +46,27 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 ### [Fixes]
 
 * Anna - Fix club cards backgrounds ([#5576](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5576))
+* babai - Make BlockKey and BlockRemote owner rules actually block buying. ([#5582](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5582))
 * Cleon - Fix Suspicious Mask ([#5551](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5551))
 * EllieThePink - Fix 5 minute timer captions ([#5579](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5579))
 * Zoe - Fix reply during selection of chat ([#5550](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5550))
+* Zoe - Fixed cocktail dress issue with XL sizes ([#5594](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5594))
+* Zoe - Fixed assets not containing description and ornate metal bra not being aligned ([#5587](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5587))
 * u3shit - Fix command tab completion when one command is a prefix of the other ([#5531](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5531))
+* Kitsu Moon - Fix ClubCard Sleeves and Hypnotist ([#5586](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5586))
 * Estsanatlehi - Fix new character appearance being lost ([#5548](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5548))
 * Estsanatlehi - Fix orgasm zones losing their factor on load ([#5553](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5553))
 * Estsanatlehi - Fix a bug where we didn't properly reselect the previous background ([#5575](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5575))
 * Estsanatlehi - Fix the broken background tag select menu by passing around a proper `this` ([#5570](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5570))
+* Estsanatlehi - Fix the item permission deserialization skipping over some groups ([#5580](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5580))
+* Estsanatlehi - Fix the background selection screen text align when opened from settings ([#5584](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5584))
 * Rama - Fix one potentially getting stuck with an expression or pose due to disabled UI ([#5556](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5556))
 * Rama - Two pose menu fixes ([#5552](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5552))
 * Rama - Fix the shop preview mode failing to refresh the character after equipping an item ([#5578](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5578))
 * Rama - Fix two `<button>` bugs and a `[hidden]` bug ([#5573](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5573))
 * Rama - Ensure the `mouseup` is called for button clicks even when leaving the button's confines ([#5569](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5569))
+* Rama - Fix `ExtendedItemSetOptionByRecord()` failing to set the `Opacity` property ([#5590](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5590))
+* Rama - Ensure that the friendlist icons are properly justified over each other ([#5583](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5583))
 * Ben987 - Fix Online Background Selection - Make sure we don't filter by tag if the "Filter by tag" option is selected
 
 ### [Technical]
@@ -68,8 +76,11 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Estsanatlehi - Overhaul the background tag filtering stuff ([#5572](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5572))
 * Estsanatlehi - Fix lint & TS errors ([#5563](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5563))
 * Estsanatlehi - Change export to declare to make the file an ambient import again ([#5555](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5555))
+* Estsanatlehi - Fix whitespace ([#5581](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5581))
 * Rama - Add and centralize a system for auto-generating unique element IDs ([#5532](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5532))
 * Rama - Use `satisfies` over `type` when annotation menubar event listeners ([#5554](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5554))
+* Rama - Add a null safeguard to `GLDrawResetCanvas()` for browsers that lack WebGL support ([#5591](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5591))
+* Rama - Fix a leftover stray `mouseup` button event listener ([#5592](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5592))
 
 ## [R115]
 
