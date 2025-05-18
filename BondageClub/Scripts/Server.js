@@ -986,17 +986,12 @@ function ServerDrawBeep() {
 function ServerClickBeep() {
 }
 
-/** Opens the friendlist from any screen */
+/**
+ * Opens the friendlist from any screen
+ * @deprecated Use {@link FriendListShow()};
+ */
 function ServerOpenFriendList() {
-	DialogLeave();
-	ElementToggleGeneratedElements(CurrentScreen, false);
-	FriendListReturn = {
-		Screen: CurrentScreen,
-		Module: CurrentModule,
-		IsInChatRoom: ServerPlayerIsInChatRoom(),
-		hasScrolledChat: ServerPlayerIsInChatRoom() && ElementIsScrolledToEnd("TextAreaChatLog")
-	};
-	CommonSetScreen("Character", "FriendList");
+	FriendListShow();
 }
 
 // TODO: `data: object` -> `data: ServerAccountOwnershipResponse`

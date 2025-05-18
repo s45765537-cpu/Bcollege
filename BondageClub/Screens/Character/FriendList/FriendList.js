@@ -529,15 +529,29 @@ function FriendListBeepMenuSend() {
 }
 
 /**
+ * Opens the friendlist from any screen
+ */
+function FriendListShow() {
+	if (CurrentScreen === 'FriendList') return;
+	DialogLeave();
+	ElementToggleGeneratedElements(CurrentScreen, false);
+	FriendListReturn = {
+		Screen: CurrentScreen,
+		Module: CurrentModule,
+		IsInChatRoom: ServerPlayerIsInChatRoom(),
+		hasScrolledChat: ServerPlayerIsInChatRoom() && ElementIsScrolledToEnd("TextAreaChatLog")
+	};
+	CommonSetScreen("Character", "FriendList");
+}
+
+/**
  * Shows the wanted beep on click from beep list
  * @param {number} i index of the beep
  */
 function FriendListShowBeep(i) {
 	const beep = FriendListBeepLog[i];
 	if (!beep) return;
-	if (CurrentScreen !== 'FriendList') {
-		ServerOpenFriendList();
-	}
+	FriendListShow();
 	FriendListModeIndex = 1;
 	FriendListBeep(beep.MemberNumber, beep);
 }
