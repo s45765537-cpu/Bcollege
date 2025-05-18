@@ -26,7 +26,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Haruhi - Modified HairBack82 and HairBack80 ([#5574](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5574))
 * Zoe - Added option to change default chatroom background ([#5560](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5560))
 * Zoe + Arelia - Added highchair item with food related options ([#5565](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5565))
-* Zoe + Lorenzi - Added Crinkly Diaper ([#5545](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5545))
+* Zoe + Delighten - Added Crinkly Diaper ([#5545](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5545))
 * Zoe - Added Cocktail Dress, Hooded Cloak, Maid Bikini, Latex diaper and an Ornate Metal Bra ([#5541](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5541))
 * git4nick - New chat command Pony ([#5566](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5566))
 * dDeepLb - Decrease Elf Ears layering priority for "Behind Hair" option ([#5558](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5558))
