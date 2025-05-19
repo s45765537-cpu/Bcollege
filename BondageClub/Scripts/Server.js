@@ -844,6 +844,8 @@ function ServerAccountBeep(data) {
 				delete data.Message;
 			}
 			let msg = `${InterfaceTextGet("BeepFrom")} ${data.MemberName} (${data.MemberNumber})`;
+			// We make a copy here since we want to keep opening the correct beep, even if more get added
+			const beepIdx = FriendListBeepLog.length;
 			if (data.ChatRoomName) {
 				msg += ` ${InterfaceTextGet("InRoom")} "${data.ChatRoomName}" ${data.ChatRoomSpace === "Asylum" ? " " + InterfaceTextGet("InAsylum") : ''}`;
 			}
@@ -851,11 +853,7 @@ function ServerAccountBeep(data) {
 				msg += `; ${InterfaceTextGet("BeepWithMessage")}`;
 				ServerShowBeep(msg, 10000, {
 					onClick: () => {
-						if (CurrentScreen !== 'FriendList') {
-							ServerOpenFriendList();
-						}
-						FriendListModeIndex = 1;
-						FriendListShowBeep(FriendListBeepLog.length - 1);
+						FriendListShowBeep(beepIdx);
 					}
 				});
 			} else {
@@ -873,7 +871,7 @@ function ServerAccountBeep(data) {
 			});
 			if (CurrentScreen == "FriendList") ServerSend("AccountQuery", { Query: "OnlineFriends" });
 			if (!Player.ChatSettings || Player.ChatSettings.ShowBeepChat)
-				ChatRoomSendLocal(`<a onclick="ServerOpenFriendList()">(${msg})</a>`);
+				ChatRoomSendLocal(`<a onclick="FriendListShowBeep(${beepIdx})">(${msg})</a>`);
 			if (!document.hasFocus()) {
 				NotificationRaise(NotificationEventType.BEEP, {
 					memberNumber: data.MemberNumber,

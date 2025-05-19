@@ -535,6 +535,10 @@ function FriendListBeepMenuSend() {
 function FriendListShowBeep(i) {
 	const beep = FriendListBeepLog[i];
 	if (!beep) return;
+	if (CurrentScreen !== 'FriendList') {
+		ServerOpenFriendList();
+	}
+	FriendListModeIndex = 1;
 	FriendListBeep(beep.MemberNumber, beep);
 }
 //#endregion
