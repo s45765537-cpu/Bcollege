@@ -632,7 +632,11 @@ function ElementSetScrollPercentage(ElementOrId, scrollPercentage, scrollBehavio
  * @returns {void} - Nothing
  */
 function ElementFocus(ElementOrId) {
-	ElementWrap(ElementOrId)?.focus();
+	// Got to be more careful with mobile here, as focusing interactive elements tends to pop up the virtual keyboard;
+	// an action that's significantly more disruptive than a simple focus outline
+	if (!CommonIsMobile) {
+		ElementWrap(ElementOrId)?.focus();
+	}
 }
 
 /**
