@@ -2110,22 +2110,15 @@ function ElementSetSize(elementOrId, width = null, height = null) {
 	}
 
 	if (width !== null) {
-		const Width = ElementCanvasScaledWidth(width);
-		Object.assign(element.style, {
-			width: Width + 'px',
-		});
-	}
-
-	const fontSize = element.style.fontSize;
-	if (height === null && fontSize) {
-		height = parseFloat(fontSize) * 1.15;
+		element.style.width = `${ElementCanvasScaledWidth(width)}px`;
+	} else {
+		element.style.removeProperty("width");
 	}
 
 	if (height !== null) {
-		const Height = ElementCanvasScaledHeight(height);
-		Object.assign(element.style, {
-			height: Height + 'px',
-		});
+		element.style.height = `${ElementCanvasScaledHeight(height)}px`;
+	} else {
+		element.style.removeProperty("height");
 	}
 }
 
