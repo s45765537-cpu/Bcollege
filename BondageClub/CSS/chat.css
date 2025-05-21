@@ -249,6 +249,9 @@
 .ChatMessage {
   position: relative;
   padding-left: 0.4em;
+
+  /* Match or exceed the .chat-room-metadata min-height value, lest Opera might hurt itself in confusion */
+  min-height: 1.15em;
 }
 
 .ChatMessageAction,
