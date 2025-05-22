@@ -6098,6 +6098,24 @@ var AssetFemale3DCGExtended = {
 						}, // Blindfold and all gags
 					],
 				},
+				{
+					Name: "Visibility",
+					Key: "b",
+					Options: [
+						{
+							Property: {
+								Hide: ["Blush"],
+								HideItem: ["HatFacePaint", "MaskFacePaint", "ClothAccessoryFacePaint"],
+							}
+						},
+						{
+							Property: {
+								Hide: [],
+								HideItem: [],
+							}
+						}
+					]
+				}
 			],
 		}, // DroneMask
 		CustomLatexHood: {
@@ -15410,6 +15428,24 @@ var AssetFemale3DCGExtended = {
 						}, // Blindfold and all gags
 					],
 				},
+				{
+					Name: "Visibility",
+					Key: "b",
+					Options: [
+						{
+							Property: {
+								Hide: ["Blush"],
+								HideItem: ["HatFacePaint", "MaskFacePaint", "ClothAccessoryFacePaint"],
+							}
+						},
+						{
+							Property: {
+								Hide: [],
+								HideItem: [],
+							}
+						}
+					]
+				}
 			],
 		}, // DroneMask
 		RubberMask: {
@@ -19525,6 +19561,24 @@ var AssetFemale3DCGExtended = {
 						{}, // Blindfold and all gags
 					],
 				},
+				{
+					Name: "Visibility",
+					Key: "b",
+					Options: [
+						{
+							Property: {
+								Hide: ["Blush"],
+								HideItem: ["HatFacePaint", "MaskFacePaint", "ClothAccessoryFacePaint"],
+							}
+						},
+						{
+							Property: {
+								Hide: [],
+								HideItem: [],
+							}
+						}
+					]
+				}
 			],
 			ScriptHooks: {
 				Validate: ItemHeadDroneMaskValidateHook,

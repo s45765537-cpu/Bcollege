@@ -17588,8 +17588,6 @@ var AssetFemale3DCG = [
 				DynamicGroupName: "ItemHead",
 				BuyGroup: "DroneMask",
 				Block: ["ItemNose"],
-				Hide: ["Blush"],
-				HideItem: ["HatFacePaint", "MaskFacePaint", "ClothAccessoryFacePaint"],
 				Layer: [
 					// Colors layer references: Base, Shine, EyeRegular, MouthOnahole, Barcode
 					{ Name: "Base", AllowTypes: { h: 0 } },
@@ -49099,14 +49097,14 @@ var AssetFemale3DCG = [
 				Difficulty: 5,
 				DefaultColor: ["#222222", "#CCCCCC", "#7F7F7F", "#00F4FD", "#E700CA"],
 				Time: 10,
+				Left: 150,
+				Top: 22,
 				AllowLock: true,
 				DrawLocks: false,
 				Extended: true,
 				DynamicAfterDraw: true,
 				BuyGroup: "DroneMask",
 				Block: ["ItemNose"],
-				Hide: ["Blush"],
-				HideItem: ["HatFacePaint", "MaskFacePaint", "ClothAccessoryFacePaint"],
 				Layer: [
 					// Colors layer references: Base, Shine, EyeRegular, MouthOnahole, Barcode
 					{ Name: "Base", AllowTypes: { h: 0 } },
@@ -51659,6 +51657,8 @@ var AssetFemale3DCG = [
 				Difficulty: 5,
 				DefaultColor: ["#222222", "#CCCCCC", "#7F7F7F", "#00F4FD", "#E700CA"],
 				Time: 10,
+				Left: 150,
+				Top: 22,
 				AllowLock: true,
 				DrawLocks: false,
 				Extended: true,
@@ -51666,8 +51666,6 @@ var AssetFemale3DCG = [
 				DynamicGroupName: "ItemHead",
 				BuyGroup: "DroneMask",
 				Block: ["ItemNose"],
-				Hide: ["Blush"],
-				HideItem: ["HatFacePaint", "MaskFacePaint", "ClothAccessoryFacePaint"],
 				Layer: [
 					// Colors layer references: Base, Shine, EyeRegular, MouthOnahole, Barcode
 					{ Name: "Base", AllowTypes: { h: 0 } },

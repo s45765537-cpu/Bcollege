@@ -2902,6 +2902,7 @@ ItemHeadDroneMaskModuleLayering,Adv. Layering
 ItemHeadDroneMaskModuleMouth,Mouth
 ItemHeadDroneMaskModulePattern,Pattern
 ItemHeadDroneMaskModuleSight,Lenses
+ItemHeadDroneMaskModuleVisibility,Visibility
 ItemHeadDroneMaskNoLayering,Must be equipped in the head slot
 ItemHeadDroneMaskOptione0,Smooth
 ItemHeadDroneMaskOptione1,Open
@@ -2936,6 +2937,8 @@ ItemHeadDroneMaskOptionp4,Lines
 ItemHeadDroneMaskOptionp5,Text
 ItemHeadDroneMaskOptions0,Opaque
 ItemHeadDroneMaskOptions1,One-Way
+ItemHeadDroneMaskOptionb0,Hide Blush and Face Paint
+ItemHeadDroneMaskOptionb1,Show Blush and Face Paint
 ItemHeadDroneMaskSelectBase,Select Mask Details
 ItemHeadDroneMaskSelectEyes,Select Eye Shape
 ItemHeadDroneMaskSelectGlow,Switch Glow Function
@@ -2944,6 +2947,7 @@ ItemHeadDroneMaskSelectLayering,Advanced Layering
 ItemHeadDroneMaskSelectMouth,Select Mouth Shape
 ItemHeadDroneMaskSelectPattern,Select Mask Pattern
 ItemHeadDroneMaskSelectSight,Select Lens Quality
+ItemHeadDroneMaskSelectVisibility,Select Visibility Options
 ItemHeadDroneMaskSetEyes,SourceCharacter changes the eyes on DestinationCharacter smooth latex mask.
 ItemHeadDroneMaskSetGlow,SourceCharacter flicks the glow switch on DestinationCharacter smooth latex mask.
 ItemHeadDroneMaskSetHelmet,SourceCharacter changes the coverage of DestinationCharacter smooth latex mask.
@@ -2951,6 +2955,7 @@ ItemHeadDroneMaskSetLayering,SourceCharacter adjusts the visibility of gags on D
 ItemHeadDroneMaskSetMouth,SourceCharacter changes the mouth on DestinationCharacter smooth latex mask.
 ItemHeadDroneMaskSetPattern,SourceCharacter changes the pattern on DestinationCharacter smooth latex mask.
 ItemHeadDroneMaskSetSight,SourceCharacter changes the inner lining of DestinationCharacter smooth latex mask.
+ItemHeadDroneMaskSetVisibility,SourceCharacter changes the visibility options of DestinationCharacter smooth latex mask.
 ItemHeadDuctTapeDouble,Double
 ItemHeadDuctTapeMummy,Mummy
 ItemHeadDuctTapeOpen,Open Mummy
@@ -3202,6 +3207,7 @@ ItemHoodDroneMaskModuleLayering,Adv. Layering
 ItemHoodDroneMaskModuleMouth,Mouth
 ItemHoodDroneMaskModulePattern,Pattern
 ItemHoodDroneMaskModuleSight,Lenses
+ItemHoodDroneMaskModuleVisibility,Visibility
 ItemHoodDroneMaskOptione0,Smooth
 ItemHoodDroneMaskOptione1,Open
 ItemHoodDroneMaskOptione2,Spirals
@@ -3235,6 +3241,8 @@ ItemHoodDroneMaskOptionp4,Lines
 ItemHoodDroneMaskOptionp5,Text
 ItemHoodDroneMaskOptions0,Opaque
 ItemHoodDroneMaskOptions1,One-Way
+ItemHoodDroneMaskOptionb0,Hide Blush and Face Paint
+ItemHoodDroneMaskOptionb1,Show Blush and Face Paint
 ItemHoodDroneMaskSelectBase,Select Mask Details
 ItemHoodDroneMaskSelectEyes,Select Eye Shape
 ItemHoodDroneMaskSelectGlow,Switch Glow Function
@@ -3243,6 +3251,7 @@ ItemHoodDroneMaskSelectLayering,Advanced Layering
 ItemHoodDroneMaskSelectMouth,Select Mouth Shape
 ItemHoodDroneMaskSelectPattern,Select Mask Pattern
 ItemHoodDroneMaskSelectSight,Select Lens Quality
+ItemHoodDroneMaskSelectVisibility,Select Visibility Options
 ItemHoodDroneMaskSetEyes,SourceCharacter changes the eyes on DestinationCharacter smooth latex mask.
 ItemHoodDroneMaskSetGlow,SourceCharacter flicks the glow switch on DestinationCharacter smooth latex mask.
 ItemHoodDroneMaskSetHelmet,SourceCharacter changes the coverage of DestinationCharacter smooth latex mask.
@@ -3250,6 +3259,7 @@ ItemHoodDroneMaskSetLayering,SourceCharacter adjusts the visibility of gags and 
 ItemHoodDroneMaskSetMouth,SourceCharacter changes the mouth on DestinationCharacter smooth latex mask.
 ItemHoodDroneMaskSetPattern,SourceCharacter changes the pattern on DestinationCharacter smooth latex mask.
 ItemHoodDroneMaskSetSight,SourceCharacter changes the inner lining of DestinationCharacter smooth latex mask.
+ItemHoodDroneMaskSetVisibility,SourceCharacter changes the visibility options of DestinationCharacter smooth latex mask.
 ItemHoodGGTSHelmetGoodGirl,Good Girl
 ItemHoodGGTSHelmetGoodSlaveGirl,Good Slave Girl
 ItemHoodGGTSHelmetPGirl,Perfect Girl
@@ -4950,6 +4960,7 @@ MaskDroneMaskModuleHelmet,Coverage
 MaskDroneMaskModuleLayering,Adv. Layering
 MaskDroneMaskModuleMouth,Mouth
 MaskDroneMaskModulePattern,Pattern
+MaskDroneMaskModuleVisibility,Visibility
 MaskDroneMaskOptione0,Smooth
 MaskDroneMaskOptione1,Open
 MaskDroneMaskOptione2,Spirals
@@ -4981,6 +4992,8 @@ MaskDroneMaskOptionp2,Scarab
 MaskDroneMaskOptionp3,Hexagon
 MaskDroneMaskOptionp4,Lines
 MaskDroneMaskOptionp5,Text
+MaskDroneMaskOptionb0,Hide Blush and Face Paint
+MaskDroneMaskOptionb1,Show Blush and Face Paint
 MaskDroneMaskSelectBase,Select Mask Details
 MaskDroneMaskSelectEyes,Select Eye Shape
 MaskDroneMaskSelectGlow,Switch Glow Function
@@ -4988,6 +5001,7 @@ MaskDroneMaskSelectHelmet,Select Coverage
 MaskDroneMaskSelectLayering,Advanced Layering
 MaskDroneMaskSelectMouth,Select Mouth Shape
 MaskDroneMaskSelectPattern,Select Mask Pattern
+MaskDroneMaskSelectVisibility,Select Visibility Options
 MaskGlitterDotsBoth,Dots Both Sides
 MaskGlitterDotsLeft,Dots Left
 MaskGlitterDotsRight,Dots Right
