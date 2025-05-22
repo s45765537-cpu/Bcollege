@@ -2346,7 +2346,8 @@ interface GameplaySettingsType {
 interface AudioSettingsType {
 	Volume: number;
 	MusicVolume: number;
-	PlayBeeps: boolean;
+	/** @deprecated */
+	PlayBeeps: never;
 	/** Play items sounds in chatrooms */
 	PlayItem: boolean;
 	/** Play sounds only if the player is involved */
@@ -4440,6 +4441,10 @@ interface NotificationData {
 	memberNumber?: number,
 	characterName?: string,
 	chatRoomName?: string,
+	/**
+	 * If this is set, the beep sound will ring even if we have focus
+	 */
+	alarmWhenFocused?: boolean,
 }
 
 interface NotificationBeep {

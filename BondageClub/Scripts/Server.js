@@ -851,14 +851,19 @@ function ServerAccountBeep(data) {
 			}
 			if (data.Message) {
 				msg += `; ${InterfaceTextGet("BeepWithMessage")}`;
-				ServerShowBeep(msg, 10000, {
+			}
+
+			ServerShowBeep(msg, 10000, {
+				memberNumber: data.MemberNumber,
+				memberName: data.MemberName,
+				chatRoomName: data.ChatRoomName,
+				...(data.Message && {
 					onClick: () => {
 						FriendListShowBeep(beepIdx);
 					}
-				});
-			} else {
-				ServerShowBeep(msg, 10000);
-			}
+				})
+			});
+
 			FriendListBeepLog.push({
 				MemberNumber: data.MemberNumber,
 				MemberName: data.MemberName,
@@ -872,14 +877,6 @@ function ServerAccountBeep(data) {
 			if (CurrentScreen == "FriendList") ServerSend("AccountQuery", { Query: "OnlineFriends" });
 			if (!Player.ChatSettings || Player.ChatSettings.ShowBeepChat)
 				ChatRoomSendLocal(`<a onclick="FriendListShowBeep(${beepIdx})">(${msg})</a>`);
-			if (!document.hasFocus()) {
-				NotificationRaise(NotificationEventType.BEEP, {
-					memberNumber: data.MemberNumber,
-					characterName: data.MemberName,
-					chatRoomName: data.ChatRoomName,
-					body: data.Message
-				});
-			}
 		} else if (data.BeepType == "Leash" && ChatRoomLeashPlayer == data.MemberNumber && data.ChatRoomName) {
 			if (Player.OnlineSharedSettings && Player.OnlineSharedSettings.AllowPlayerLeashing != false && ( CurrentScreen != "ChatRoom" || !ChatRoomData || (CurrentScreen == "ChatRoom" && ChatRoomData.Name != data.ChatRoomName))) {
 				if (ChatRoomCanBeLeashedBy(data.MemberNumber, Player) && ChatSelectGendersAllowed(data.ChatRoomSpace, Player.GetGenders())) {
@@ -905,9 +902,21 @@ function ServerAccountBeep(data) {
  * @param {number} duration
  * @param {object} [options]
  * @param {(this: HTMLDivElement, event: MouseEvent) => void} [options.onClick]
+ * @param {number} [options.memberNumber]
+ * @param {string} [options.memberName]
+ * @param {string} [options.chatRoomName]
  * @param {boolean} [options.silent]
  */
 function ServerShowBeep(message, duration, options) {
+	if (!options.silent) {
+		NotificationRaise(NotificationEventType.BEEP, {
+			memberNumber: options.memberNumber,
+			characterName: options.memberName,
+			chatRoomName: options.chatRoomName,
+			body: message,
+			alarmWhenFocused: true,
+		});
+	}
 	ServerBeepQueue.push({
 		Message: message,
 		Duration: duration,
@@ -922,7 +931,7 @@ function ServerDrawBeep() {
 
 	// Grab the old single beep variable and push that into the queue for backward compatibility
 	if (ServerBeep.Message !== "") {
-		ServerShowBeep(ServerBeep.Message, ServerBeep.Timer - CommonTime());
+		ServerShowBeep(ServerBeep.Message, ServerBeep.Timer - CommonTime(), { chatRoomName: ServerBeep.ChatRoomName });
 		ServerBeep = { Message: "", Timer: 0 };
 	}
 
@@ -934,9 +943,6 @@ function ServerDrawBeep() {
 	const beep = ServerBeepQueue[0];
 	if (typeof beep.Timer === "undefined") {
 		beep.Timer = CommonTime() + beep.Duration;
-		if (!beep.Silent && ServerIsLoggedIn() && Player.AudioSettings.PlayBeeps) {
-			AudioPlayInstantSound("Audio/BeepAlarm.mp3");
-		}
 	}
 
 	let beepElement = document.getElementById('beep');

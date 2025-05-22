@@ -27,10 +27,9 @@ function PreferenceSubscreenAudioRun() {
 	DrawBackNextButton(500, 272, 250, 64, Player.AudioSettings.MusicVolume * 100 + "%", "White", "",
 		() => PreferenceSettingsVolumeList[(PreferenceSettingsMusicVolumeIndex + PreferenceSettingsVolumeList.length - 1) % PreferenceSettingsVolumeList.length] * 100 + "%",
 		() => PreferenceSettingsVolumeList[(PreferenceSettingsMusicVolumeIndex + 1) % PreferenceSettingsVolumeList.length] * 100 + "%");
-	DrawCheckbox(500, 352, 64, 64, TextGet("AudioPlayBeeps"), Player.AudioSettings.PlayBeeps);
-	DrawCheckbox(500, 432, 64, 64, TextGet("AudioPlayItem"), Player.AudioSettings.PlayItem);
-	DrawCheckbox(500, 512, 64, 64, TextGet("AudioPlayItemPlayerOnly"), Player.AudioSettings.PlayItemPlayerOnly);
-	DrawCheckbox(500, 592, 64, 64, TextGet("AudioNotifications"), Player.AudioSettings.Notifications);
+	DrawCheckbox(500, 352, 64, 64, TextGet("AudioPlayItem"), Player.AudioSettings.PlayItem);
+	DrawCheckbox(500, 432, 64, 64, TextGet("AudioPlayItemPlayerOnly"), Player.AudioSettings.PlayItemPlayerOnly);
+	DrawCheckbox(500, 512, 64, 64, TextGet("AudioNotifications"), Player.AudioSettings.Notifications);
 	DrawButton(1815, 75, 90, 90, "", "White", "Icons/Exit.png");
 }
 
@@ -67,10 +66,9 @@ function PreferenceSubscreenAudioClick() {
 
 	// Individual audio check-boxes
 	if (MouseXIn(500, 64)) {
-		if (MouseYIn(352, 64)) Player.AudioSettings.PlayBeeps = !Player.AudioSettings.PlayBeeps;
-		if (MouseYIn(432, 64)) Player.AudioSettings.PlayItem = !Player.AudioSettings.PlayItem;
-		if (MouseYIn(512, 64)) Player.AudioSettings.PlayItemPlayerOnly = !Player.AudioSettings.PlayItemPlayerOnly;
-		if (MouseYIn(592, 64)) Player.AudioSettings.Notifications = !Player.AudioSettings.Notifications;
+		if (MouseYIn(352, 64)) Player.AudioSettings.PlayItem = !Player.AudioSettings.PlayItem;
+		if (MouseYIn(432, 64)) Player.AudioSettings.PlayItemPlayerOnly = !Player.AudioSettings.PlayItemPlayerOnly;
+		if (MouseYIn(512, 64)) Player.AudioSettings.Notifications = !Player.AudioSettings.Notifications;
 	}
 }
 
