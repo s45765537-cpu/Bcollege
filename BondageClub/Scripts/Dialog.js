@@ -2881,7 +2881,7 @@ class DialogMenu {
 		root.setAttribute("data-mode", this.mode);
 		root.classList.add("HideOnPopup", "dialog-root");
 		if (!root.parentElement) { document.body.append(root); }
-		root.toggleAttribute("data-unload", false);
+		root.toggleAttribute("hidden", false);
 		DialogMenuButtonBuild(this.C);
 
 		// Perform the element resizing here asynchronically in order to circumvent a race condition with the scroll bar reallignment
@@ -2914,7 +2914,7 @@ class DialogMenu {
 	/** @type {ScreenUnloadHandler} */
 	Unload() {
 		DialogStatusClear();
-		document.getElementById(this.ids.root)?.toggleAttribute("data-unload", true);
+		document.getElementById(this.ids.root)?.toggleAttribute("hidden", true);
 		this._reloadQueue.clear();
 	}
 
@@ -3475,7 +3475,7 @@ class _DialogItemMenu extends _DialogFocusMenu {
 				const isWorn = !!(equippedItem && !DialogAllowItemClick(equippedItem, clickedItem));
 				if (isWorn) {
 					Object.assign(clickedItem, equippedItem);
-					button.toggleAttribute("data-unload", false);
+					button.toggleAttribute("hidden", false);
 				}
 				if (isWorn !== wasWorn) {
 					clickedItem.Worn = isWorn;
@@ -4172,7 +4172,7 @@ class _DialogDialogMenu extends DialogMenu {
 			}
 
 			const unload = !(dialog.Stage === C.Stage && dialog.Option != null && DialogPrerequisite(dialog));
-			button.toggleAttribute("data-unload", unload);
+			button.toggleAttribute("hidden", unload);
 			if (!unload) {
 				button.querySelector(".button-label")?.replaceChildren(SpeechTransformDialog(Player, dialog.Option));
 			}
@@ -4391,13 +4391,13 @@ class _DialogSelfMenu extends DialogMenu {
 						break validators;
 					case "hidden":
 						validationFailure = true;
-						button.toggleAttribute("data-unload", true);
+						button.toggleAttribute("hidden", true);
 						break validators;
 				}
 			}
 			if (!validationFailure) {
 				button.removeAttribute("aria-disabled");
-				button.removeAttribute("data-unload");
+				button.toggleAttribute("hidden", false);
 			}
 		}
 	}
@@ -4472,12 +4472,12 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 
 			/** @type {(this: HTMLButtonElement, ev: MouseEvent) => void} */
 			_expressionRadioGroupClick(ev) {
-				document.querySelector(`#${dialogMenu.ids.root} > .dialog-expression-grid:not([data-unload])`)?.toggleAttribute("data-unload", true);
+				document.querySelector(`#${dialogMenu.ids.root} > .dialog-expression-grid:not([hidden])`)?.toggleAttribute("hidden", true);
 				if (this.getAttribute("aria-checked") === "true") {
 					document.getElementById(`${dialogMenu.ids.menubar}-color`)?.setAttribute("aria-disabled", this.name !== "Eyes" ? "false" : "true");
 					const buttonGrid = document.getElementById(this.getAttribute("aria-owns"));
 					if (buttonGrid) {
-						buttonGrid.toggleAttribute("data-unload", false);
+						buttonGrid.toggleAttribute("hidden", false);
 						buttonGrid.querySelector(`[role="radio"][aria-checked='true']`)?.scrollIntoView({ behavior: "instant" });
 					}
 				} else {
@@ -4646,12 +4646,13 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 						tag: /** @type {const} */("div"),
 						classList: ["dialog-grid", "dialog-expression-grid", "scroll-box"],
 						attributes: {
+							hidden: true,
 							id: `${ids.grid}-${group}`,
 							role: "radiogroup",
 							"aria-required": "true",
 							"aria-label": AssetGroupGet("Female3DCG", group).Description,
 						},
-						dataAttributes: { name: group, unload: true },
+						dataAttributes: { name: group },
 					};
 				}),
 				{ tag: "div", attributes: { id: ids.grid } },
@@ -4731,10 +4732,10 @@ class _DialogExpressionMenu extends _DialogSelfMenu {
 			}
 
 			if (group === "Pussy") {
-				owningButton.toggleAttribute("data-unload", !C.HasPenis());
+				owningButton.toggleAttribute("hidden", !C.HasPenis());
 			}
 
-			if (options.resetScrollbar && !buttonGrid.hasAttribute("data-unload")) {
+			if (options.resetScrollbar && !buttonGrid.hasAttribute("hidden")) {
 				buttonGrid.querySelector(`[role="radio"][aria-checked='true']`)?.scrollIntoView({ behavior: "instant" });
 			}
 		}
@@ -5058,7 +5059,7 @@ class _DialogSavedExpressionsMenu extends _DialogSelfMenu {
 
 	Draw() {
 		const root = document.getElementById(this.ids.root);
-		if (!root || root.hasAttribute("data-unload")) {
+		if (!root || root.hasAttribute("hidden")) {
 			return;
 		}
 
