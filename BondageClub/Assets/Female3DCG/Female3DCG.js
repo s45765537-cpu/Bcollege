@@ -1089,6 +1089,13 @@ var AssetFemale3DCG = [
 						AllowTypes: { t: 27 },
 						CopyLayerColor: "None",
 					},
+					{
+						Name: "VoidOrder",
+						PoseMapping: {},
+						ParentGroup: {},
+						AllowTypes: { t: 28 },
+						CopyLayerColor: "None",
+					},
 				],
 			},
 			{

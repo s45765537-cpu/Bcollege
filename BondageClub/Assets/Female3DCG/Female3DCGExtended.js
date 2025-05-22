@@ -456,6 +456,7 @@ var AssetFemale3DCGExtended = {
 						{}, // t25 - Shibari
 						{}, // t26 - BullsEye
 						{}, // t27 - Keys?
+						{}, // t28 - VoidOrder
 					],
 				},
 			],
