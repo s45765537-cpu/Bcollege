@@ -184,38 +184,39 @@ function CommonParseCSV(str) {
 }
 
 /**
- *  Read a CSV file from cache, or fetch it from the server
- * @param {string} Array - Name of where the cached text is stored
- * @param {string} Path - Path/Group in which the screen is located
- * @param {string} Screen - Screen for which the file is for
- * @param {string} File - Name of the file to get
- * @returns {void} - Nothing
+ * Read a CSV file from the server
+ *
+ * If the file has been cached already it'll use that.
+ *
+ * @warning Note that due to the way fetching is async, the
+ * array you'll get back won't be populated until the fetch completes
+ *
+ * @param {string} url - URL to load
+ * @returns {string[][]}
  */
-function CommonReadCSV(Array, Path, Screen, File) {
-
-	// Changed from a single path to various arguments and internally concatenate them
-	// This ternary operator is used to keep backward compatibility
-	var FullPath = "Screens/" + Path + "/" + Screen + "/" + File + ".csv";
-	if (CommonCSVCache[FullPath]) {
-		window[Array] = CommonCSVCache[FullPath];
-		return;
+function CommonReadCSV(url) {
+	if (CommonCSVCache[url]) {
+		return CommonCSVCache[url];
 	}
 
+	const temp = CommonCSVCache[url] = [];
+
 	// Opens the file, parse it and returns the result in an Object
-	CommonGet(FullPath, function () {
+	CommonGet(url, function () {
 		if (this.status == 200) {
-			CommonCSVCache[FullPath] = CommonParseCSV(this.responseText);
-			window[Array] = CommonCSVCache[FullPath];
+			const parsed = CommonParseCSV(this.responseText);
+			temp.push(...parsed);
 		}
 	});
 
 	// If a translation file is available, we open the txt file and keep it in cache
-	var TranslationPath = FullPath.replace(".csv", "_" + TranslationLanguage + ".txt");
+	const TranslationPath = url.replace(".csv", "_" + TranslationLanguage + ".txt");
 	if (TranslationAvailable(TranslationPath))
 		CommonGet(TranslationPath, function () {
 			if (this.status == 200) TranslationCache[TranslationPath] = TranslationParseTXT(this.responseText);
 		});
 
+	return temp;
 }
 
 /**
@@ -1663,4 +1664,48 @@ var CommonKey = /** @type {const} */({
 function CommonScreenName(screen) {
 	const cache = TextAllScreenCache.get(`Screens/Room/MainHall/Text_MainHall.csv`);
 	return cache.get(screen);
+}
+
+/**
+ * Generates the path to a translation CSV file for a screen
+ *
+ * @param {string} [module] - The screen's module
+ * @param {string} [screen] - The screen's name
+ * @param {string} [group] - The text group
+ * @returns {string | undefined}
+ */
+function ScreenFileGetTranslation(module, screen, group) {
+	if (!module) module = CurrentModule;
+	if (!screen) screen = CurrentScreen;
+	if (!group) group = screen;
+	if (!module || !screen || !group) return undefined;
+	return ScreenFileGetPath(`Text_${group}.csv`, module, screen);
+}
+
+/**
+ * Generates the path to a CSV Dialog file for a screen
+ *
+ * @param {string} npcType - The dialog file name
+ * @param {string} [module] - The screen's module
+ * @param {string} [screen] - The screen's name
+ * @returns {string}
+ */
+function ScreenFileGetDialog(npcType, module, screen) {
+	if (!module) module = CurrentModule;
+	if (!screen) screen = CurrentScreen;
+	return ScreenFileGetPath(`Dialog_${npcType}.csv`, module, screen);
+}
+
+/**
+ * Generate a path to one of our Screen assets
+ *
+ * @param {string} file
+ * @param {string} [module]
+ * @param {string} [screen]
+ * @returns
+ */
+function ScreenFileGetPath(file, module, screen) {
+	if (!module) module = CurrentModule;
+	if (!screen) screen = CurrentScreen;
+	return `Screens/${module}/${screen}/${file}`;
 }

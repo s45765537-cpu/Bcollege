@@ -894,7 +894,7 @@ function CharacterLoadCSVDialog(C, info) {
 		// Just refresh the info we have
 	}
 
-	const FullPath = `Screens/${C.DialogInfo.module}/${C.DialogInfo.screen}/Dialog_${C.DialogInfo.name}.csv`;
+	const FullPath = ScreenFileGetDialog(C.DialogInfo.name, C.DialogInfo.module, C.DialogInfo.screen);
 
 	function buildDialog() {
 		CharacterBuildDialog(C, CommonCSVCache[FullPath], C.DialogInfo.screen);
