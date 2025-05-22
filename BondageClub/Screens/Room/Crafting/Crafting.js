@@ -2351,7 +2351,7 @@ const CraftingValidationRecord = {
  * @return {CraftingStatusType} - One of the {@link CraftingStatusType} status codes; 0 denoting an unrecoverable validation error
  */
 function CraftingValidate(Craft, asset=null, Warn=true, checkPlayerInventory=false) {
-	if (Craft == null) {
+	if (!CommonIsObject(Craft)) {
 		return CraftingStatusType.CRITICAL_ERROR;
 	}
 	/** @type {Map<string, CraftingStatusType>} */
