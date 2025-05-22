@@ -15116,6 +15116,48 @@ var AssetFemale3DCG = [
 				Layer: [{ Name: "Outside" }, { Name: "Inner" }, { Name: "Light" }],
 			},
 			{
+				Name: "CyberEars",
+				InventoryID: 1243,
+				Fetish: ["Pet"],
+				Priority: 51,
+				BodyCosplay: true,
+				Value: 0,
+				DefaultColor: ["#3c3c3c", "#9cdede", "#7ccaca", "#bbbbbb", "#9e9e9e"],
+				BuyGroup: "CyberEars",
+				Layer: [
+					{
+						Name: "Ears",
+						AllowColorize: true,
+						Top: -33,
+						Left: 146,
+					},
+					{
+						Name: "Bands",
+						AllowColorize: true,
+						Top: -33,
+						Left: 146,
+					},
+					{
+						Name: "Lights",
+						AllowColorize: true,
+						Top: -33,
+						Left: 146,
+					},
+					{
+						Name: "Shine",
+						AllowColorize: true,
+						Top: -33,
+						Left: 146,
+					},
+					{
+						Name: "Top",
+						AllowColorize: true,
+						Top: -33,
+						Left: 146,
+					},
+				],
+			},
+			{
 				Name: "Onihorns",
 				InventoryID: 1168,
 				Value: 10,
@@ -15793,6 +15835,16 @@ var AssetFemale3DCG = [
 				CopyConfig: {
 					GroupName: "HairAccessory1",
 					AssetName: "CyberneticEars1",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "CyberEars",
+				BuyGroup: "CyberEars",
+				DynamicGroupName: "HairAccessory1",
+				CopyConfig: {
+					GroupName: "HairAccessory1",
+					AssetName: "CyberEars",
 					BuyGroup: true,
 				},
 			},
