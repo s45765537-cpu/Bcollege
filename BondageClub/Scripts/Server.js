@@ -896,6 +896,36 @@ function ServerAccountBeep(data) {
 	}
 }
 
+
+/**
+ * Send a beep message to another player
+ * @param {number} target - The member number of the target. We must be friend with them
+ * @param {string} [msg] - The message to send to the target.
+ * @param {object} [options] - Options for the beep message
+ * @param {boolean} [options.includeRoom] - If set, we'll include the current room data we're in
+ */
+function ServerSendBeepMessage(target, msg, options) {
+	if (!CommonIsNonNegativeInteger(target)) return;
+
+	ServerSend("AccountBeep", {
+		MemberNumber: target,
+		BeepType: "",
+		IsSecret: options?.includeRoom,
+		Message: msg ?? undefined
+	});
+
+	FriendListBeepLog.push({
+		MemberNumber: target,
+		MemberName: Player.FriendNames.get(target) ?? InterfaceTextGet(`ServerBeepUnknownName`).replace('$target', target.toString()),
+		ChatRoomName: options?.includeRoom ? ChatRoomData?.Name : undefined,
+		ChatRoomSpace: options?.includeRoom ? ChatRoomData?.Space : undefined,
+		Sent: true,
+		Private: options?.includeRoom ? !ChatRoomData?.Visibility.includes("All") : undefined,
+		Time: new Date(),
+		Message: msg ?? undefined
+	});
+}
+
 /**
  * Show a message as a beep
  * @param {string} message
