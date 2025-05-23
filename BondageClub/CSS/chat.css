@@ -741,6 +741,11 @@
   display: block;
 }
 
+#TextAreaChatLog .beep-link, #TextAreaChatLog .beep-reply {
+	text-decoration: none;
+	cursor: pointer;
+}
+
 @supports (height: 100dvh) {
   #chat-room-div {
     --button-size: min(8dvh, 4dvw);
