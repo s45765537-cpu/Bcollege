@@ -847,7 +847,7 @@ function ServerAccountBeep(data) {
 			// We make a copy here since we want to keep opening the correct beep, even if more get added
 			const beepIdx = FriendListBeepLog.length;
 			if (data.ChatRoomName) {
-				msg += ` ${InterfaceTextGet("InRoom")} "${data.ChatRoomName}" ${data.ChatRoomSpace === "Asylum" ? " " + InterfaceTextGet("InAsylum") : ''}`;
+				msg += ` ${InterfaceTextGet("InRoom")} "${data.ChatRoomName}"${data.ChatRoomSpace === "Asylum" ? " " + InterfaceTextGet("InAsylum") : ''}`;
 			}
 			if (data.Message) {
 				msg += `; ${InterfaceTextGet("BeepWithMessage")}`;
