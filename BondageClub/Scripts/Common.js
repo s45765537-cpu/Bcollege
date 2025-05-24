@@ -330,6 +330,7 @@ function CommonGetRetry(Path, Callback, RetriesLeft) {
 /** @type {MouseEventListener} */
 function CommonMouseDown(event) {
 	if (CurrentCharacter == null) {
+		if (ScreenIsLoading) return;
 		if (CurrentScreenFunctions.MouseDown) {
 			CurrentScreenFunctions.MouseDown(event);
 		}
@@ -340,6 +341,7 @@ function CommonMouseDown(event) {
 
 /** @type {MouseEventListener} */
 function CommonMouseUp(event) {
+	if (ScreenIsLoading) return;
 	if (CurrentScreenFunctions.MouseUp)
 	{
 		CurrentScreenFunctions.MouseUp(event);
@@ -348,6 +350,7 @@ function CommonMouseUp(event) {
 
 /** @type {MouseEventListener} */
 function CommonMouseMove(event) {
+	if (ScreenIsLoading) return;
 	if (CurrentScreenFunctions.MouseMove)
 	{
 		CurrentScreenFunctions.MouseMove(event);
@@ -356,8 +359,16 @@ function CommonMouseMove(event) {
 
 /** @type {MouseWheelEventListener} */
 function CommonMouseWheel(event) {
+	if (ScreenIsLoading) return;
 	if (CurrentScreenFunctions.MouseWheel) {
 		CurrentScreenFunctions.MouseWheel(event);
+	}
+}
+
+/** @type {ScreenResizeHandler} */
+function CommonResize(load) {
+	if (CurrentScreenFunctions.Resize) {
+		CurrentScreenFunctions.Resize(load);
 	}
 }
 
@@ -549,10 +560,9 @@ async function CommonSetScreen(...spec) {
 	if (CurrentScreenFunctions.Load) {
 		await CurrentScreenFunctions.Load();
 	}
-	if (CurrentScreenFunctions.Resize) {
-		CurrentScreenFunctions.Resize(true);
-	}
 	ScreenIsLoading = false;
+
+	CommonResize(true);
 }
 
 /**

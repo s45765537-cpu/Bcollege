@@ -159,7 +159,9 @@ function GameRunBackground(Timestamp) {
 		TimerLastTime = Timestamp;
 		CurrentTime = CurrentTime + TimerRunInterval;
 
-		if (CurrentCharacter == null) CurrentScreenFunctions.Run(Timestamp);
+		if (CurrentCharacter == null && !ScreenIsLoading) {
+			CurrentScreenFunctions.Run(Timestamp);
+		}
 		// Ignore gamepad when in the background
 		TimerProcess();
 
@@ -176,6 +178,8 @@ function GameRunBackground(Timestamp) {
  */
 function GameKeyDown(event) {
 	KeyPress = event.keyCode || event.which;
+
+	if (ScreenIsLoading) return;
 
 	let handled = false;
 	handleKeyDown: {
@@ -216,7 +220,8 @@ function GameKeyDown(event) {
 }
 
 function GameKeyUp(event) {
-	if(StruggleMinigameIsRunning()) { return; }
+	if (ScreenIsLoading) return;
+	if (StruggleMinigameIsRunning()) { return; }
 	if (CurrentScreenFunctions.KeyUp)
 	{
 		CurrentScreenFunctions.KeyUp(event);
