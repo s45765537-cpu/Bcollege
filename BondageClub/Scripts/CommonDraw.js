@@ -156,6 +156,7 @@ function CommonDrawAppearanceBuild(C, {
 		const group = asset.Group;
 		let item = C.Appearance.find(i => i.Asset === asset);
 		let groupName = asset.DynamicGroupName;
+		console.log("DEBUG:  " + InventoryGet(C, "BodyStyle").Asset.Path);
 
 		// If there's a pose style we must add (items take priority over groups, layers may override completely)
 		let pose = CommonDrawResolveAssetPose(C, layer);
