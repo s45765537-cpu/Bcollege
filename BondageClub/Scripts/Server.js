@@ -1212,4 +1212,20 @@ var ServerAccountDataSyncedValidate = {
 	BlackList: (arg, C) => {
 		return arg?.filter(i => CommonIsInteger(i, 0)) ?? [];
 	},
+	MapData: (arg, C) => {
+		/** @type {ChatRoomMapData} */
+		const data = {
+			Pos: {
+				X: CommonIsObject(arg?.Pos) && CommonIsInteger(arg.Pos?.X, 0, ChatRoomMapViewWidth) ? arg.Pos.X : ChatRoomMapViewWidth / 2,
+				Y: CommonIsObject(arg?.Pos) && CommonIsInteger(arg.Pos?.Y, 0, ChatRoomMapViewHeight) ? arg.Pos.Y : ChatRoomMapViewHeight / 2,
+			},
+			PrivateState: CommonIsObject(arg?.PrivateState) ? arg.PrivateState : {},
+		};
+		if (CommonIsObject(arg)) {
+			delete arg?.Pos;
+			delete arg?.PrivateState;
+			Object.assign(data, arg);
+		}
+		return data;
+	}
 };
