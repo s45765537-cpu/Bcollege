@@ -156,7 +156,8 @@ function CommonDrawAppearanceBuild(C, {
 		const group = asset.Group;
 		let item = C.Appearance.find(i => i.Asset === asset);
 		let groupName = asset.DynamicGroupName;
-		console.log("DEBUG:  " + InventoryGet(C, "BodyStyle").Asset.Path);
+		let bodyStyle = InventoryGet(C, "BodyStyle").Asset;
+        console.log("DEBUG: StyleOverwrite = " + bodyStyle.StyleOverwrite);
 
 		// If there's a pose style we must add (items take priority over groups, layers may override completely)
 		let pose = CommonDrawResolveAssetPose(C, layer);
@@ -323,8 +324,13 @@ function CommonDrawAppearanceBuild(C, {
 				}
 			}
 
-			const baseURL = `Assets/${group.Family}/${groupName}/${poseSegment}${expressionSegment}`;
-			const baseURLBlink = `Assets/${group.Family}/${groupName}/${poseSegment}${blinkExpressionSegment}`;
+			let baseURL = `Assets/${group.Family}/${groupName}/${poseSegment}${expressionSegment}`;
+			let baseURLBlink = `Assets/${group.Family}/${groupName}/${poseSegment}${blinkExpressionSegment}`;
+
+			if (bodyStyle.StyleOverwrite?.includes(groupName)) {
+            	baseURL = `Assets/${group.Family}/${groupName}_${bodyStyle.Name}/${poseSegment}${expressionSegment}`;
+				baseURLBlink = `Assets/${group.Family}/${groupName}_${bodyStyle.Name}/${poseSegment}${blinkExpressionSegment}`;
+			}
 
 			const shouldColorize = layer.AllowColorize && layerColor && layerColor[0] === "#";
 			let colorSegment = "";

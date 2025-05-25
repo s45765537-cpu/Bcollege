@@ -521,6 +521,9 @@ interface AssetDefinitionBase extends AssetCommonPropertiesGroupAsset, AssetComm
 	/** A list of screens where current asset won't be shown. */
 	NotVisibleOnScreen?: string[];
 
+	/** A list of Asset Groups to overwrite. */
+	StyleOverwite?: string[];
+
 	/**
 	 * Whether the asset can be worn.
 	 *
@@ -809,7 +812,7 @@ type AssetDefinition = (
 interface AssetLayerMaskTexureDefinition {
 	/** The groups that will be affected */
 	Groups?: AssetGroupName[];
-	/** If true, the texture mask will apply to all layers in the groups specified, event if their priority is higher than the mask layer */ 
+	/** If true, the texture mask will apply to all layers in the groups specified, event if their priority is higher than the mask layer */
 	ApplyToAbove?: boolean;
 }
 

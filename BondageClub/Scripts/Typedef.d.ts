@@ -1032,6 +1032,7 @@ interface AssetGroup {
 	readonly FreezeActivePose?: never;
 	readonly PreviewZone?: RectTuple;
 	readonly DynamicGroupName: AssetGroupName;
+	readonly StyleOverwrite?: string [];
 
 	readonly MirrorActivitiesFrom?: AssetGroupItemName;
 	readonly ArousalZone?: AssetGroupItemName;
@@ -1200,7 +1201,6 @@ interface Asset {
 	readonly ParentGroupName?: never;
 	/** An object mapping pose names to group names from which to inherit body sizes. */
 	readonly ParentGroup: ParentGroup.Data;
-	readonly Path: string;
 	readonly Enable: boolean;
 	readonly Visible: boolean;
 	readonly NotVisibleOnScreen?: readonly string[];
@@ -1222,6 +1222,7 @@ interface Asset {
 	readonly HideItemAttribute: readonly AssetAttribute[];
 	readonly Require: readonly AssetGroupBodyName[];
 	readonly SetPose?: readonly AssetPoseName[];
+	readonly StyleOverwrite?: stirng[];
 	/** @deprecated - Superceded by {@link Asset.PoseMapping} */
 	readonly AllowPose?: never;
 	/** @deprecated - Superceded by {@link Asset.PoseMapping} */

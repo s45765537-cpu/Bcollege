@@ -19161,6 +19161,27 @@ var AssetFemale3DCG = [
 	},
 
 	{
+		Group: "BodyStyle",
+		Priority: 0,
+		AllowNone: false,
+		AllowColorize: false,
+		Asset: [
+			{ Name: "Normal", Visible: false },
+			{ Name: "EchoV1", Visible: false, StyleOverwite: [
+				"BodyUpper",
+				"BodyLower",
+				"ArmsRight",
+				"ArmsLeft",
+				"HandsRight",
+				"HandsLeft",
+				"Head",
+				"Nipples",
+				"Pussy"
+			] },
+		],
+	},
+
+	{
 		Group: "BodyUpper",
 		Priority: 7,
 		AllowNone: false,
