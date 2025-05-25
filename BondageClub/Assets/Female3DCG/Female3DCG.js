@@ -19167,7 +19167,7 @@ var AssetFemale3DCG = [
 		AllowColorize: false,
 		Asset: [
 			{ Name: "Normal", Visible: false },
-			{ Name: "EchoV1", Visible: false, StyleOverwite: [
+			{ Name: "EchoV1", Visible: false, StyleOverride: [
 				"BodyUpper",
 				"BodyLower",
 				"ArmsRight",

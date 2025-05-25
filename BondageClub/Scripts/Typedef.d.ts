@@ -1032,7 +1032,7 @@ interface AssetGroup {
 	readonly FreezeActivePose?: never;
 	readonly PreviewZone?: RectTuple;
 	readonly DynamicGroupName: AssetGroupName;
-	readonly StyleOverwrite?: string [];
+	readonly StyleOverride?: string [];
 
 	readonly MirrorActivitiesFrom?: AssetGroupItemName;
 	readonly ArousalZone?: AssetGroupItemName;
@@ -1222,7 +1222,7 @@ interface Asset {
 	readonly HideItemAttribute: readonly AssetAttribute[];
 	readonly Require: readonly AssetGroupBodyName[];
 	readonly SetPose?: readonly AssetPoseName[];
-	readonly StyleOverwrite?: stirng[];
+	readonly StyleOverride?: stirng[];
 	/** @deprecated - Superceded by {@link Asset.PoseMapping} */
 	readonly AllowPose?: never;
 	/** @deprecated - Superceded by {@link Asset.PoseMapping} */

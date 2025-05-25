@@ -522,7 +522,7 @@ interface AssetDefinitionBase extends AssetCommonPropertiesGroupAsset, AssetComm
 	NotVisibleOnScreen?: string[];
 
 	/** A list of Asset Groups to overwrite. */
-	StyleOverwite?: string[];
+	StyleOverride?: string[];
 
 	/**
 	 * Whether the asset can be worn.
