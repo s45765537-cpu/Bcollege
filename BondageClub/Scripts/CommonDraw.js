@@ -105,7 +105,7 @@ function CommonDrawAppearancePrepareMaskLayers(C) {
 
 		/** @type {TextureAlphaMask} */
 		const maskLayer = {
-			Url: baseURL + layerURL,
+			Url: baseURLExpression + layerURL,
 			X, Y,
 			Mode: blendingMode,
 			Priority: maskPriority,
