@@ -633,6 +633,33 @@ var AssetFemale3DCG = [
                     BuyGroup: true,
                 },
             },
+			{
+                Name: "AdmiralTop",
+                DynamicGroupName: "Cloth",
+                CopyConfig: {
+                    GroupName: "Cloth",
+                    AssetName: "AdmiralTop",
+                    BuyGroup: true,
+                },
+            },
+			{
+                Name: "FurCoat",
+                DynamicGroupName: "Cloth",
+                CopyConfig: {
+                    GroupName: "Cloth",
+                    AssetName: "FurCoat",
+                    BuyGroup: true,
+                },
+            },
+			{
+                Name: "Robe1",
+                DynamicGroupName: "Cloth",
+                CopyConfig: {
+                    GroupName: "Cloth",
+                    AssetName: "Robe1",
+                    BuyGroup: true,
+                },
+            },
 		],
         Color: [
             "Default",
