@@ -847,18 +847,31 @@ function ServerAccountBeep(data) {
 			// We make a copy here since we want to keep opening the correct beep, even if more get added
 			const beepIdx = FriendListBeepLog.length;
 			if (data.ChatRoomName) {
-				msg += ` ${InterfaceTextGet("InRoom")} "${data.ChatRoomName}" ${data.ChatRoomSpace === "Asylum" ? " " + InterfaceTextGet("InAsylum") : ''}`;
+				msg += ` ${InterfaceTextGet("InRoom")} "${data.ChatRoomName}"${data.ChatRoomSpace === "Asylum" ? " " + InterfaceTextGet("InAsylum") : ''}`;
 			}
 			if (data.Message) {
 				msg += `; ${InterfaceTextGet("BeepWithMessage")}`;
-				ServerShowBeep(msg, 10000, {
+			}
+
+			/**
+			 * This function is just there for compat with BCUtil's special "this is an IM beep"
+			 * @type {(string) => string}
+			 */
+			const stripBCUtilCruft = (txt) => {
+				return txt.split("\uf124")[0].trimEnd();
+			};
+
+			ServerShowBeep(msg, 10000, {
+				memberNumber: data.MemberNumber,
+				memberName: data.MemberName,
+				chatRoomName: data.ChatRoomName,
+				...(data.Message && {
 					onClick: () => {
 						FriendListShowBeep(beepIdx);
 					}
-				});
-			} else {
-				ServerShowBeep(msg, 10000);
-			}
+				})
+			});
+
 			FriendListBeepLog.push({
 				MemberNumber: data.MemberNumber,
 				MemberName: data.MemberName,
@@ -870,15 +883,44 @@ function ServerAccountBeep(data) {
 				Message: data.Message
 			});
 			if (CurrentScreen == "FriendList") ServerSend("AccountQuery", { Query: "OnlineFriends" });
-			if (!Player.ChatSettings || Player.ChatSettings.ShowBeepChat)
-				ChatRoomSendLocal(`<a onclick="FriendListShowBeep(${beepIdx})">(${msg})</a>`);
-			if (!document.hasFocus()) {
-				NotificationRaise(NotificationEventType.BEEP, {
-					memberNumber: data.MemberNumber,
-					characterName: data.MemberName,
-					chatRoomName: data.ChatRoomName,
-					body: data.Message
-				});
+			if (Player.ChatSettings.ShowBeepChat) {
+				// "Reply to beep" arrow
+				const replyLink = ElementButton.Create(
+					`beep-reply-${beepIdx}`, // or just leave to null for an ID auto assignment
+					() => {
+						ElementValue("InputChat", `/beep ${data.MemberNumber} ${ElementValue("InputChat").replace(/^\/(beep|w) \\S+ ?/u, '')}`);
+						document.getElementById('InputChat').focus();
+					},
+					{ label: '\u21a9\ufe0f' },
+					{ button: { classList: ["beep-reply"] } },
+				);
+
+				// Beep preview link
+				const beepLink = document.createElement("a");
+				beepLink.classList.add("beep-link");
+
+				let previewMsg = "";
+				if (data.Message) {
+					previewMsg = stripBCUtilCruft(data.Message);
+					if (previewMsg.length > 150) {
+						previewMsg = previewMsg.substring(0, 150) + "…";
+					}
+					msg += `: ${previewMsg}`;
+				}
+				beepLink.textContent = `(${msg})`;
+				beepLink.onclick = (e) => {
+					e.preventDefault();
+					FriendListShowBeep(beepIdx);
+				};
+
+				const div = document.createElement("div");
+				div.dataset.time = ChatRoomCurrentTime();
+				div.dataset.sender = Player.MemberNumber.toString();
+				div.classList.add("ChatMessage", "ChatMessageLocalMessage", "ChatMessageNonDialogue", "ChatMessageBeep");
+				div.appendChild(replyLink);
+				div.appendChild(beepLink);
+
+				ChatRoomAppendChat(div);
 			}
 		} else if (data.BeepType == "Leash" && ChatRoomLeashPlayer == data.MemberNumber && data.ChatRoomName) {
 			if (Player.OnlineSharedSettings && Player.OnlineSharedSettings.AllowPlayerLeashing != false && ( CurrentScreen != "ChatRoom" || !ChatRoomData || (CurrentScreen == "ChatRoom" && ChatRoomData.Name != data.ChatRoomName))) {
@@ -899,15 +941,57 @@ function ServerAccountBeep(data) {
 	}
 }
 
+
+/**
+ * Send a beep message to another player
+ * @param {number} target - The member number of the target. We must be friend with them
+ * @param {string} [msg] - The message to send to the target.
+ * @param {object} [options] - Options for the beep message
+ * @param {boolean} [options.includeRoom] - If set, we'll include the current room data we're in
+ */
+function ServerSendBeepMessage(target, msg, options) {
+	if (!CommonIsNonNegativeInteger(target)) return;
+
+	ServerSend("AccountBeep", {
+		MemberNumber: target,
+		BeepType: "",
+		IsSecret: options?.includeRoom,
+		Message: msg ?? undefined
+	});
+
+	FriendListBeepLog.push({
+		MemberNumber: target,
+		MemberName: Player.FriendNames.get(target) ?? InterfaceTextGet(`ServerBeepUnknownName`).replace('$target', target.toString()),
+		ChatRoomName: options?.includeRoom ? ChatRoomData?.Name : undefined,
+		ChatRoomSpace: options?.includeRoom ? ChatRoomData?.Space : undefined,
+		Sent: true,
+		Private: options?.includeRoom ? !ChatRoomData?.Visibility.includes("All") : undefined,
+		Time: new Date(),
+		Message: msg ?? undefined
+	});
+}
+
 /**
  * Show a message as a beep
  * @param {string} message
  * @param {number} duration
  * @param {object} [options]
  * @param {(this: HTMLDivElement, event: MouseEvent) => void} [options.onClick]
+ * @param {number} [options.memberNumber]
+ * @param {string} [options.memberName]
+ * @param {string} [options.chatRoomName]
  * @param {boolean} [options.silent]
  */
 function ServerShowBeep(message, duration, options) {
+	if (!options.silent) {
+		NotificationRaise(NotificationEventType.BEEP, {
+			memberNumber: options.memberNumber,
+			characterName: options.memberName,
+			chatRoomName: options.chatRoomName,
+			body: message,
+			alarmWhenFocused: true,
+		});
+	}
 	ServerBeepQueue.push({
 		Message: message,
 		Duration: duration,
@@ -922,7 +1006,7 @@ function ServerDrawBeep() {
 
 	// Grab the old single beep variable and push that into the queue for backward compatibility
 	if (ServerBeep.Message !== "") {
-		ServerShowBeep(ServerBeep.Message, ServerBeep.Timer - CommonTime());
+		ServerShowBeep(ServerBeep.Message, ServerBeep.Timer - CommonTime(), { chatRoomName: ServerBeep.ChatRoomName });
 		ServerBeep = { Message: "", Timer: 0 };
 	}
 
@@ -934,9 +1018,6 @@ function ServerDrawBeep() {
 	const beep = ServerBeepQueue[0];
 	if (typeof beep.Timer === "undefined") {
 		beep.Timer = CommonTime() + beep.Duration;
-		if (!beep.Silent && ServerIsLoggedIn() && Player.AudioSettings.PlayBeeps) {
-			AudioPlayInstantSound("Audio/BeepAlarm.mp3");
-		}
 	}
 
 	let beepElement = document.getElementById('beep');

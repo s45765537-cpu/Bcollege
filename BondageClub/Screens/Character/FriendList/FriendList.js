@@ -507,23 +507,7 @@ function FriendListBeepMenuSend() {
 	const textarea = /** @type {HTMLTextAreaElement} */ (document.getElementById(FriendListIDs.beepTextArea));
 	if (textarea) {
 		const msg = textarea.value;
-		ServerSend("AccountBeep", {
-			MemberNumber: FriendListBeepTarget,
-			BeepType: "",
-			IsSecret: !FriendListBeepShowRoom,
-			Message: msg || undefined
-		});
-
-		FriendListBeepLog.push({
-			MemberNumber: FriendListBeepTarget,
-			MemberName: Player.FriendNames.get(FriendListBeepTarget),
-			ChatRoomName: FriendListBeepShowRoom ? ChatRoomData?.Name : undefined,
-			ChatRoomSpace: FriendListBeepShowRoom ? ChatRoomData?.Space : undefined,
-			Sent: true,
-			Private: FriendListBeepShowRoom ? !ChatRoomData?.Visibility.includes("All") : undefined,
-			Time: new Date(),
-			Message: msg || undefined
-		});
+		ServerSendBeepMessage(FriendListBeepTarget, msg, { includeRoom: FriendListBeepShowRoom });
 	}
 	FriendListBeepMenuClose();
 }
