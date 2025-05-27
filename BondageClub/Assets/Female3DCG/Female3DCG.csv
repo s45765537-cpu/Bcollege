@@ -264,6 +264,8 @@ ClothLower,UtilityKilt,Utility Kilt
 ClothLower,Waspie1,Bondage Waspie
 ClothLower,Waspie2,Royal Waspie
 ClothLower,Waspie3,Straps Waspie
+ClothOuter,,Cloth Outer
+ClothOuter,LeatherJacket,Leather Jacket
 Corset,,Corset
 Corset,Corset1,Corset + Garters
 Corset,Corset2,Corset
