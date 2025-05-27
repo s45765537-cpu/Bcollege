@@ -91,7 +91,7 @@ function CommonDrawAppearancePrepareMaskLayers(C) {
 		}
 
 		let baseURL = `Assets/${group.Family}/${groupName}/${poseSegment}`;
-		if (bodyStyle.StyleOverride?.includes(groupName)) {
+		if (bodyStyle.StyleOverride?.includes(groupName) || asset.StyleOverride?.includes(bodyStyle.Name)) {
            	baseURL = `Assets/${group.Family}/Override/${bodyStyle.Name}/${groupName}/${poseSegment}`;
 		}
 
@@ -162,6 +162,8 @@ function CommonDrawAppearanceBuild(C, {
 		const group = asset.Group;
 		let item = C.Appearance.find(i => i.Asset === asset);
 		let groupName = asset.DynamicGroupName;
+
+		// get the selected body
 		let bodyStyle = InventoryGet(C, "BodyStyle").Asset;
 
 		// If there's a pose style we must add (items take priority over groups, layers may override completely)
@@ -329,11 +331,16 @@ function CommonDrawAppearanceBuild(C, {
 				}
 			}
 
+			// set the base url for the standard body
 			let baseURL = `Assets/${group.Family}/${groupName}/${poseSegment}`;
-			if (bodyStyle.StyleOverride?.includes(groupName)) {
+
+			// detect if we need asset path overrides
+			if (bodyStyle.StyleOverride?.includes(groupName) || asset.StyleOverride?.includes(bodyStyle.Name)) {
+				//override the path
             	baseURL = `Assets/${group.Family}/Override/${bodyStyle.Name}/${groupName}/${poseSegment}`;
 			}
 
+			// combine the baseurl with the expression and blink segments.
 			const baseURLExpression = `${baseURL}${expressionSegment}`;
 			const baseURLBlink = `${baseURL}${blinkExpressionSegment}`;
 
