@@ -457,6 +457,8 @@ var AssetFemale3DCGExtended = {
 						{}, // t26 - BullsEye
 						{}, // t27 - Keys?
 						{}, // t28 - VoidOrder
+						{}, // t29 - Malkuth
+						{}, // t28 - Amber Family
 					],
 				},
 			],
