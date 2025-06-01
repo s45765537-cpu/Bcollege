@@ -805,6 +805,7 @@ function FriendListLoadFriendList(data) {
 									tag: /** @type {const} */("div"),
 									classList: ["friend-list-icon-container"],
 									attributes: { "aria-hidden": "true" },
+									children: ["-"],
 								};
 							}
 						}),
@@ -860,6 +861,7 @@ function FriendListLoadFriendList(data) {
 									tag: /** @type {const} */("div"),
 									classList: ["friend-list-icon-container"],
 									attributes: { "aria-hidden": "true" },
+									children: ["-"],
 								};
 							}
 						}),
