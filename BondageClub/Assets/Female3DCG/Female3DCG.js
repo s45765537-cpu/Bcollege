@@ -3165,6 +3165,7 @@ var AssetFemale3DCG = [
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
 				Value: 40,
+				Priority: 26,
 				Extended: true,
 				PoseMapping: {
 					AllFours: "AllFours",
@@ -3187,10 +3188,15 @@ var AssetFemale3DCG = [
 					"ItemTorso2",
 				],
 				Layer: [
-					{ Name: "Main", AllowTypes: { l: 0 } },
+					{
+						Name: "MainLonger",
+						AllowTypes: { l: 0 },
+						CopyLayerColor: "Main",
+					},
+					{ Name: "Main", AllowTypes: { l: [0, 1] } },
 					{
 						Name: "MainBolero",
-						AllowTypes: { l: 1 },
+						AllowTypes: { l: 2 },
 						CopyLayerColor: "Main",
 					},
 					{
@@ -3264,7 +3270,8 @@ var AssetFemale3DCG = [
 						HideForAttribute: ["HoodieFix"],
 					},
 					{ Name: "Laces" },
-					{ Name: "Waist", AllowTypes: { l: 0 } },
+					{ Name: "Waist", AllowTypes: { l: 1 } },
+					{ Name: "WaistLonger", CopyLayerColor: "Waist", AllowTypes: { l: 0 } },
 					{ Name: "Wrists", CopyLayerColor: "Waist" },
 				],
 			},
