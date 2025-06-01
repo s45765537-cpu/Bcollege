@@ -1387,7 +1387,7 @@ var ElementButton = {
 			tag: "button",
 			attributes: {
 				id,
-				name: id,
+				name: options.name,
 				[tooltipRoleAttribute]: tooltip ? `${id}-tooltip` : undefined,
 				"screen-generated": CurrentScreen,
 				role: options.role,

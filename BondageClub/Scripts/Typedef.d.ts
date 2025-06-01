@@ -186,6 +186,8 @@ declare namespace ElementButton {
 		 * Setting this option to `true` disables that behavior, clicking an already enabled button thus firing its click events once again rather than aborting.
 		 */
 		allowRequiredClick?: boolean;
+		/** The {@link HTMLButtonElement.name} of the button */
+		name?: string;
 	}
 }
 
