@@ -203,6 +203,16 @@ declare namespace ElementCheckbox {
 		 * Defaults to `"on"` if not specified.
 		 */
 		value?: string | number;
+		/** Whether the checkbox should serve as a checkbox or radio button */
+		type?: "checkbox" | "radio";
+		/** If a `radio` {@link Options.type} is specified, this mandates that a radio _must_ be selected within its {@link Options.name}-defined group */
+		required?: boolean;
+		/**
+		 * The name of the input.
+		 *
+		 * Particularly important when a `radio` {@link Options.type} is specified, as all radios with the same name define a group of options.
+		 */
+		name?: string;
 	}
 }
 

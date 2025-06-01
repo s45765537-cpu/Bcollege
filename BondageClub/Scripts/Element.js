@@ -1955,11 +1955,11 @@ var ElementCheckbox = {
 	/**
 	 * Construct an return a DOM checkbox element (`<input type="checkbox">`)
 	 * @param {null | string} id - The ID of the element, or `null` if one must be assigned automatically
-	 * @param {(this: HTMLInputElement, ev: Event) => any} onChange - The change event listener to-be fired upon checkbox clicks
+	 * @param {null | ((this: HTMLInputElement, ev: Event) => any)} onChange - The change event listener to-be fired upon checkbox clicks
 	 * @param {null | ElementCheckbox.Options} options - High level options for the to-be created checkbox
 	 * @param {null | Partial<Record<"checkbox", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the respective (child) element
 	 */
-	Create: function Create(id, onChange, options=null, htmlOptions=null) {
+	Create: function Create(id=null, onChange=null, options=null, htmlOptions=null) {
 		id ??= ElementGenerateID();
 		const checkbox = document.getElementById(id);
 		if (checkbox) {
@@ -1969,15 +1969,23 @@ var ElementCheckbox = {
 
 		options ??= {};
 		const checkboxOptions = htmlOptions?.checkbox ?? {};
+		switch (checkboxOptions.attributes?.type ?? options.type ?? "checkbox") {
+			case "radio":
+				options.required ??= true;
+				break;
+		}
+
 		return ElementCreate({
 			...checkboxOptions,
 			tag: "input",
 			attributes: {
 				id,
-				type: "checkbox",
+				type: options.type ?? "checkbox",
 				disabled: options.disabled,
 				checked: options.checked,
 				value: options.value,
+				name: options.name,
+				required: options.required,
 				...(checkboxOptions.attributes ?? {}),
 			},
 			classList: ["checkbox", ...(checkboxOptions.classList ?? [])],
