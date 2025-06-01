@@ -470,7 +470,6 @@ function ChatRoomMapViewInitializeCharacter(C) {
 		}
 
 		MapData = { Pos: entryPosition, PrivateState: {} };
-
 	}
 	return MapData;
 }
@@ -1397,30 +1396,26 @@ function ChatRoomMapViewUpdateRoomSync() {
 function ChatRoomMapViewUpdatePlayerSync() {
 	if ((ChatRoomMapViewUpdatePlayerNext == null) || (ChatRoomMapViewUpdatePlayerNext > CommonTime())) return;
 	ChatRoomMapViewUpdatePlayerNext = null;
-	ServerSend("ChatRoomCharacterMapDataUpdate", Player.MapData.Pos);
+	ServerSend("ChatRoomCharacterMapDataUpdate", Player.MapData);
 }
 
 /**
- * Updates a single character's expression in the chatroom.
- * @param {ServerMapDataResponse} data - Data object containing the new character expression data.
+ * Updates a character's map data
+ * @param {ServerMapDataResponse} data - Data object containing the new character map data.
  * @returns {void} - Nothing.
  */
 function ChatRoomMapViewSyncMapData(data) {
 	// Exits if we're not in a room
-	if (ChatRoomData == null) return;
+	if (!ChatRoomData) return;
 
-	// Exits if the packet is invalid
-	if (!CommonIsObject(data) || (data.MemberNumber == null) || (typeof data.MemberNumber != "number")) return;
-	if (!CommonIsObject(data.MapData) || (data.MapData.X == null) || (typeof data.MapData.X != "number") || (data.MapData.Y == null) || (typeof data.MapData.Y != "number")) return;
+	// Exit if the packet is invalid
+	if (!CommonIsObject(data) || typeof data.MemberNumber !== "number") return;
+
+	const char = ChatRoomCharacter.find(c => c.MemberNumber === data.MemberNumber);
+	if (!char || char.IsPlayer()) return;
 
 	// Assigns the MapData to the chatroom character
-	for (let C of ChatRoomCharacter)
-		if ((C.MemberNumber == data.MemberNumber) && !C.IsPlayer()) {
-			C.MapData = ChatRoomMapViewInitializeCharacter(C);
-			C.MapData.Pos = { X: data.MapData.X, Y: data.MapData.Y };
-			break;
-		}
-
+	char.MapData = ServerAccountDataSyncedValidate.MapData(data.MapData, char);
 }
 
 /**

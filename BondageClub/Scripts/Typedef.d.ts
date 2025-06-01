@@ -4794,16 +4794,6 @@ interface ChatRoomView extends Pick<ScreenFunctions, "Run" | "MouseDown" | "Mous
 
 type ChatRoomMapType = "Always" | "Hybrid" | "Never";
 
-type ChatRoomMapPos = {
-	X: number;
-	Y: number;
-}
-
-type ChatRoomMapData = {
-	Pos: ChatRoomMapPos
-	PrivateState: Record<string, Object>
-}
-
 type ChatRoomMapDirection = "" | "R" | "L" | "D" | "U";
 
 type ChatRoomMapObjectType = (
