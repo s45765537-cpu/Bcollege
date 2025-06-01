@@ -1488,12 +1488,6 @@ var ElementButton = {
 			return elem;
 		}
 
-		/** @type {null | TextCache} */
-		let craftCache = null;
-		if (item.Craft) {
-			craftCache = TextPrefetchFile("Screens/Room/Crafting/Text_Crafting.csv");
-		}
-
 		htmlOptions ??= {};
 		htmlOptions.button ??= {};
 		htmlOptions.button.attributes ??= {};
@@ -1527,59 +1521,67 @@ var ElementButton = {
 			...DialogEffectIcons.GetIcons(item),
 		];
 		options.tooltipPosition ??= "bottom";
-		options.tooltip ??= !item.Craft ? "" : /** @type {HTMLOptions<any>[]} */([
+		options.tooltip ??= !item.Craft ? "" : /** @type {(HTMLOptions<any> | HTMLElement)[]} */([
 			...(CommonIsArray(options.tooltip) ? options.tooltip : [options.tooltip]),
-			{
-				tag: "span",
-				children: [InterfaceTextGet("DialogMenuCrafting") + ":"],
-			},
-			{
-				tag: "ul",
-				classList: ["button-tooltip-craft"],
-				children: [
-					item.Craft.Property ? {
-						tag: "li",
-						children: [
-							InterfaceTextGet("CraftingProperty").replace("CraftProperty", ""),
-							{
-								tag: "q",
-								children: [{ tag: "dfn", children: [item.Craft.Property] }, " - "],
-							},
-						],
-					} : undefined,
-					(item.Craft.MemberName && item.Craft.MemberNumber) ? {
-						tag: "li",
-						children: [
-							InterfaceTextGet("CraftingMember").replace("MemberName (MemberNumber)", ""),
-							{ tag: "q", children: [`${item.Craft.MemberName} (${item.Craft.MemberNumber})`] },
-						],
-					} : undefined,
-					{
-						tag: "li",
-						children: [
-							InterfaceTextGet("CraftingPrivate").replace("CraftPrivate", ""),
-							{ tag: "q", children: [CommonCapitalize(item.Craft.Private.toString())] },
-						],
-					},
-					item.Craft.Description ? {
-						tag: "li",
-						children: [
-							InterfaceTextGet("CraftingDescription").replace("CraftDescription", ""),
-							{ tag: "q", children: CraftingDescription.DecodeToHTML(item.Craft.Description) },
-						],
-					} : undefined,
-				],
-			},
+			...ElementButton.CreateCraftTooltipContent(item.Craft),
 		]);
+		return ElementButton.Create(id, onClick, options, htmlOptions);
+	},
 
-		const button = ElementButton.Create(id, onClick, options, htmlOptions);
-		craftCache?.loadedPromise.then((textCache) => {
-			const dfn = button.querySelector(".button-tooltip-craft dfn");
+	/**
+	 * @param {CraftingItem} craft
+	 * @returns {HTMLElement[]}
+	 */
+	CreateCraftTooltipContent: function CreateCraftTooltipContent(craft) {
+		const label = ElementCreate({
+			tag: "span",
+			children: [InterfaceTextGet("DialogMenuCrafting") + ":"],
+		});
+		const list = ElementCreate({
+			tag: "ul",
+			classList: ["button-tooltip-craft"],
+			children: [
+				craft.Property ? {
+					tag: "li",
+					children: [
+						InterfaceTextGet("CraftingProperty").replace("CraftProperty", ""),
+						{
+							tag: "q",
+							children: [{ tag: "dfn", children: [craft.Property] }, " - "],
+						},
+					],
+				} : undefined,
+				(craft.MemberName && craft.MemberNumber) ? {
+					tag: "li",
+					children: [
+						InterfaceTextGet("CraftingMember").replace("MemberName (MemberNumber)", ""),
+						{ tag: "q", children: [`${craft.MemberName} (${craft.MemberNumber})`] },
+					],
+				} : undefined,
+				{
+					tag: "li",
+					children: [
+						InterfaceTextGet("CraftingPrivate").replace("CraftPrivate", ""),
+						{ tag: "q", children: [CommonCapitalize(craft.Private.toString())] },
+					],
+				},
+				craft.Description ? {
+					tag: "li",
+					children: [
+						InterfaceTextGet("CraftingDescription").replace("CraftDescription", ""),
+						{ tag: "q", children: CraftingDescription.DecodeToHTML(craft.Description) },
+					],
+				} : undefined,
+			],
+		});
+
+		TextPrefetchFile("Screens/Room/Crafting/Text_Crafting.csv").loadedPromise.then((textCache) => {
+			const dfn = list.querySelector("dfn");
 			if (dfn) {
 				dfn.parentElement?.append(textCache.get(`Description${dfn.textContent}`));
 			}
 		});
-		return button;
+		return [label, list];
 	},
 
 	/**
