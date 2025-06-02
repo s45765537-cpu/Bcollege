@@ -8614,7 +8614,7 @@ var AssetFemale3DCG = [
 				Top: 200,
 				BuyGroup: "ExtremeCorset",
 				DynamicGroupName: "ItemTorso",
-				Prerequisite: ["AccessTorso", "HasBreasts"],
+				Prerequisite: ["HasBreasts"],
 				PoseMapping: {
 					Hogtied: PoseType.HIDE,
 					AllFours: PoseType.HIDE,
