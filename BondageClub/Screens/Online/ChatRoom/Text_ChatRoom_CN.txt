@@ -74,6 +74,12 @@ Replying to
 回复给
 Message could not be found.
 消息无法找到。
+Invalid member number for target: $target.
+目标会员编号无效: $target.
+(Beep to {NAME} ({NUMBER}): {MESSAGE})
+（向 {NAME} ({NUMBER})发送悄悄话: {MESSAGE}）
+We're not friend with member $target.
+我们和会员 $target 不是好友关系。
 <strong>Help: KeyWord</strong>
 <strong>帮助: 关键词</strong>
 command: no such command
@@ -200,3 +206,7 @@ A rule blocks it
 一个规则阻止如此做
 Your owner forbids it
 你的主人禁止如此做
+You have not joined the Ponies
+你还没有加入小马
+Invalid Pony activity, type /help to get the list.
+无效小马活动，输入/help获取列表。
