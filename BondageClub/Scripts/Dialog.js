@@ -2867,7 +2867,7 @@ class DialogMenu {
 	Load() {
 		if (this._initPropertyNames.some(p => this._initProperties?.[p] == null)) {
 			console.error(
-				"Aborting, one or more uninitialized properties",
+				`Aborting, one or more uninitialized properties in ${this.mode} subscreen`,
 				CommonPick(/** @type {Partial<PropType>} */(this._initProperties ?? {}), this._initPropertyNames),
 			);
 			this.Exit();
