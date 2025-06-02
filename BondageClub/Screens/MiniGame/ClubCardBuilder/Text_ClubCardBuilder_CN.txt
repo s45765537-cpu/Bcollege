@@ -76,3 +76,13 @@ Online Player
 在线玩家
 Reward Cards
 奖励卡牌
+Change sleeve
+更改套牌保护套
+Change card game background
+更改卡牌游戏背景
+Save selected sleeve
+保存所选套牌保护套
+Next 30 sleeves
+下一组30张套牌保护套
+Previous 30 sleeves
+上一组30张套牌保护套

@@ -358,6 +358,8 @@ Change Opacity
 改变遮光度
 Option needs to be bought
 需要购买的选项
+Blocked by owner rule
+被主人规则屏蔽
 <b>You've asked TargetCharacterName to become your submissive. Don't forget to friend them if they accept!</b>
 <b>你已经请求TargetCharacterName成为你的顺从者。如果她同意了，别忘了添加她为好友！</b>
 Page
@@ -460,6 +462,38 @@ Pandora guard SourceCharacter releases all inmates from their cases.
 潘多拉守卫SourceCharacter将所有囚犯从箱子里释放出来。
 Picking the lock...
 正在开锁…
+SourceCharacter tries to stand properly. The exercise receives: StablePerformance points. StableResult
+SourceCharacter尝试标准站立。该练习获得：StablePerformance点。StableResult
+SourceCharacter tries to walks in a trot. The exercise receives: StablePerformance points. StableResult
+SourceCharacter尝试小跑。该练习获得：StablePerformance点。StableResult
+SourceCharacter tries to runs at a gallop. The exercise receives: StablePerformance points. StableResult
+SourceCharacter尝试飞奔。该练习获得：StablePerformance点。StableResult
+SourceCharacter tries to steps a passage. The exercise receives: StablePerformance points. StableResult
+SourceCharacter尝试走过过一段路。该练习获得：StablePerformance点。StableResult
+SourceCharacter tries to dance a pirouette. The exercise receives: StablePerformance points. StableResult
+SourceCharacter尝试跳一段单脚尖旋转。该练习获得：StablePerformance点。StableResult
+Excellent
+完美
+Very good
+非常好
+Good
+好
+Fairly good
+相当好
+Satisfactory
+满意
+Marginal
+勉强
+Insufficient
+不足
+Fairly Bad
+相当差
+Bad
+差
+Very bad
+非常差
+Not executed
+未执行
 Pose
 姿势
 Must have an arm/torso/pelvis item to use ceiling tethers.
@@ -766,6 +800,8 @@ This looks like its locked by something.
 这看起来被什么东西锁上了。
 Sent at
 发送自
+Unknown ($target)
+未知 ($target)
 TargetCharacterName was banned by SourceCharacter.
 TargetCharacterName被SourceCharacter给BAN掉了.
 TargetCharacterName was demoted from administration by SourceCharacter.
