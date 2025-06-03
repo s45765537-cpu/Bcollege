@@ -1245,6 +1245,9 @@ const CommonCommands = [
 			} else if (!Player.FriendNames.get(target)) {
 				ChatRoomSendLocal(`<span style="color: red">${TextGet("CommandBeepNotFriend").replace('$target', target.toString())}</span>`);
 				return;
+			} else if (!msg) {
+				ChatRoomSendLocal(`<span style="color: red">${TextGet("CommandBeepEmptyMessage")}</span>`);
+				return;
 			}
 
 			ServerSendBeepMessage(target, msg);
