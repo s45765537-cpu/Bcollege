@@ -888,7 +888,7 @@ function ServerAccountBeep(data) {
 				const replyLink = ElementButton.Create(
 					`beep-reply-${beepIdx}`, // or just leave to null for an ID auto assignment
 					() => {
-						ElementValue("InputChat", `/beep ${data.MemberNumber} ${ElementValue("InputChat").replace(/^\/(beep|w) \\S+ ?/u, '')}`);
+						ElementValue("InputChat", `/beep ${data.MemberNumber} ${ElementValue("InputChat").replace(/^\/(beep|w) \S+ ?/u, '')}`);
 						document.getElementById('InputChat').focus();
 					},
 					{ noStyling: true },
