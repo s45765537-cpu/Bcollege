@@ -21,6 +21,28 @@ function CommonDrawCanvasPrepare(C) {
 }
 
 /**
+ * @param {Character} C - The character to prepare
+ * @param {object} group - The asset group
+ * @param {string} groupName -  The asset group.
+ * @param {object} poseSegment - The pose the user is in.
+ * @param {Asset} asset - target asset
+ * @return {string} baseURL - URL pointing to asset art to load
+ */
+function AssetBaseURL(C, group, groupName, poseSegment, asset) {
+
+	// determine what body is selected
+    let bodyStyle = InventoryGet(C, "BodyStyle").Asset;
+
+	// set base body url
+    let baseURL = `Assets/${group.Family}/${groupName}/${poseSegment}`;
+    if (bodyStyle.StyleOverride?.includes(groupName) || asset.StyleOverride?.includes(bodyStyle.Name)) {
+        baseURL = `Assets/${group.Family}/Override/${bodyStyle.Name}/${groupName}/${poseSegment}`;
+    }
+
+	return baseURL;
+}
+
+/**
  * @typedef { Map<AssetGroupName, TextureAlphaMask[]> } MaskLayersMap
  * @param {Character} C - The character to prepare
  * @returns { { maskLayers: MaskLayersMap, maskLayersBlink: MaskLayersMap} } - The grouped mask layers for the character's appearance
@@ -31,11 +53,11 @@ function CommonDrawAppearancePrepareMaskLayers(C) {
 		// Same as url logic in CommonDrawAppearanceBuild, but masks should use its own properties
 		// Also masks don't have colorization, so we don't need to check for it
 
+		AssetBase
 		const asset = layer.Asset;
 		const group = asset.Group;
 		let item = C.Appearance.find(i => i.Asset === asset);
 		let groupName = asset.DynamicGroupName;
-		let bodyStyle = InventoryGet(C, "BodyStyle").Asset;
 
 		// If there's a pose style we must add (items take priority over groups, layers may override completely)
 		let pose = CommonDrawResolveAssetPose(C, layer);
@@ -90,10 +112,8 @@ function CommonDrawAppearancePrepareMaskLayers(C) {
 				break;
 		}
 
-		let baseURL = `Assets/${group.Family}/${groupName}/${poseSegment}`;
-		if (bodyStyle.StyleOverride?.includes(groupName) || asset.StyleOverride?.includes(bodyStyle.Name)) {
-           	baseURL = `Assets/${group.Family}/Override/${bodyStyle.Name}/${groupName}/${poseSegment}`;
-		}
+		// set the base url for the body
+		let baseURL = AssetBaseURL(C, group, groupName, poseSegment, asset);
 
 		const baseURLExpression = `${baseURL}${expressionSegment}`;
 		const baseURLBlink = `${baseURL}${blinkExpressionSegment}`;
@@ -162,6 +182,7 @@ function CommonDrawAppearanceBuild(C, {
 		const group = asset.Group;
 		let item = C.Appearance.find(i => i.Asset === asset);
 		let groupName = asset.DynamicGroupName;
+		console.log(typeof group)
 
 		// get the selected body
 		let bodyStyle = InventoryGet(C, "BodyStyle").Asset;
@@ -308,6 +329,9 @@ function CommonDrawAppearanceBuild(C, {
 		// Check the current pose against the assets' supported pose mapping
 		/** @type {string} */
 		let poseSegment = layer.PoseMapping[pose];
+
+		console.log(typeof poseSegment)
+
 		switch (poseSegment) {
 			case PoseType.HIDE:
 			case PoseType.DEFAULT:
@@ -331,14 +355,8 @@ function CommonDrawAppearanceBuild(C, {
 				}
 			}
 
-			// set the base url for the standard body
-			let baseURL = `Assets/${group.Family}/${groupName}/${poseSegment}`;
-
-			// detect if we need asset path overrides
-			if (bodyStyle.StyleOverride?.includes(groupName) || asset.StyleOverride?.includes(bodyStyle.Name)) {
-				//override the path
-            	baseURL = `Assets/${group.Family}/Override/${bodyStyle.Name}/${groupName}/${poseSegment}`;
-			}
+			// set the base url for the body
+			let baseURL = AssetBaseURL(C, group, groupName, poseSegment, asset);
 
 			// combine the baseurl with the expression and blink segments.
 			const baseURLExpression = `${baseURL}${expressionSegment}`;
