@@ -915,7 +915,7 @@ function ServerAccountBeep(data) {
 
 				const div = document.createElement("div");
 				div.dataset.time = ChatRoomCurrentTime();
-				div.dataset.sender = Player.MemberNumber.toString();
+				div.dataset.sender = data.MemberNumber.toString();
 				div.classList.add("ChatMessage", "ChatMessageLocalMessage", "ChatMessageNonDialogue", "ChatMessageBeep");
 				div.appendChild(replyLink);
 				div.appendChild(beepLink);
