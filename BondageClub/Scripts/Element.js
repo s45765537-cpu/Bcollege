@@ -1953,6 +1953,29 @@ var ElementMenu = {
  */
 var ElementCheckbox = {
 	/**
+	 * @private
+	 * @type {(this: HTMLInputElement, ev: PointerEvent) => void}
+	 */
+	_pointerdown: function(ev) {
+		document.addEventListener("pointerup", ElementCheckbox._pointerup);
+		document.addEventListener("pointercancel", ElementCheckbox._pointerup);
+	},
+
+	/**
+	 * @private
+	 * @type {(this: Document, ev: PointerEvent) => void}
+	 */
+	_pointerup: function(ev) {
+		// Ensure that focus is lost after clicking
+		/** @type {null | HTMLInputElement} */
+		const input = document.activeElement?.closest("input.checkbox");
+		input?.blur();
+
+		document.removeEventListener("pointerup", ElementCheckbox._pointerup);
+		document.removeEventListener("pointercancel", ElementCheckbox._pointerup);
+	},
+
+	/**
 	 * Construct an return a DOM checkbox element (`<input type="checkbox">`)
 	 * @param {null | string} id - The ID of the element, or `null` if one must be assigned automatically
 	 * @param {null | ((this: HTMLInputElement, ev: Event) => any)} onChange - The change event listener to-be fired upon checkbox clicks
@@ -1991,6 +2014,7 @@ var ElementCheckbox = {
 			classList: ["checkbox", ...(checkboxOptions.classList ?? [])],
 			eventListeners: {
 				change: onChange,
+				pointerdown: ElementCheckbox._pointerdown,
 				...(checkboxOptions.eventListeners ?? {}),
 			},
 		});
