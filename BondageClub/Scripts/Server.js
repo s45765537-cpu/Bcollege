@@ -920,6 +920,11 @@ function ServerAccountBeep(data) {
 				div.appendChild(replyLink);
 				div.appendChild(beepLink);
 
+				document.querySelector(`
+					#TextAreaChatLog .ChatMessageBeep[data-sender="${data.MemberNumber}"] > .ReplyButton:not([tabindex='-1']),
+					#TextAreaChatLog .ChatMessageBeep[data-target="${data.MemberNumber}"] > .ReplyButton:not([tabindex='-1'])
+				`)?.setAttribute("tabindex", "-1");
+
 				ChatRoomAppendChat(div);
 			}
 		} else if (data.BeepType == "Leash" && ChatRoomLeashPlayer == data.MemberNumber && data.ChatRoomName) {

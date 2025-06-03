@@ -1268,6 +1268,11 @@ const CommonCommands = [
 			div.dataset.time = ChatRoomCurrentTime();
 			div.dataset.sender = Player.MemberNumber.toString();
 			div.appendChild(link);
+			document.querySelector(`
+				#TextAreaChatLog .ChatMessageBeep[data-sender="${target}"] > .ReplyButton:not([tabindex='-1']),
+				#TextAreaChatLog .ChatMessageBeep[data-target="${target}"] > .ReplyButton:not([tabindex='-1'])
+			`)?.setAttribute("tabindex", "-1");
+
 			ChatRoomAppendChat(div);
 		}
 	},
