@@ -1240,13 +1240,13 @@ const CommonCommands = [
 			const msg = parts.join(" ");
 
 			if (!CommonIsNonNegativeInteger(target)) {
-				ChatRoomSendLocal(`<span style="color: red">${TextGet("CommandBeepInvalidTarget").replace('$target', target)}</span>`);
+				ChatRoomSendLocal(`<span style="color: red">${TextGet("CommandBeepInvalidTarget").replace('$target', target)}</span>`, 5000);
 				return;
 			} else if (!Player.FriendNames.get(target)) {
-				ChatRoomSendLocal(`<span style="color: red">${TextGet("CommandBeepNotFriend").replace('$target', target.toString())}</span>`);
+				ChatRoomSendLocal(`<span style="color: red">${TextGet("CommandBeepNotFriend").replace('$target', target.toString())}</span>`, 5000);
 				return;
 			} else if (!msg) {
-				ChatRoomSendLocal(`<span style="color: red">${TextGet("CommandBeepEmptyMessage")}</span>`);
+				ChatRoomSendLocal(`<span style="color: red">${TextGet("CommandBeepEmptyMessage")}</span>`, 5000);
 				return;
 			}
 
