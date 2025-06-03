@@ -741,7 +741,7 @@
   display: block;
 }
 
-#TextAreaChatLog .beep-link, #TextAreaChatLog .beep-reply {
+#TextAreaChatLog .beep-link {
 	text-decoration: none;
 	cursor: pointer;
 }

@@ -891,8 +891,8 @@ function ServerAccountBeep(data) {
 						ElementValue("InputChat", `/beep ${data.MemberNumber} ${ElementValue("InputChat").replace(/^\/(beep|w) \\S+ ?/u, '')}`);
 						document.getElementById('InputChat').focus();
 					},
-					{ label: '\u21a9\ufe0f' },
-					{ button: { classList: ["beep-reply"] } },
+					{ noStyling: true },
+					{ button: { classList: ["ReplyButton"], children: ['\u21a9\ufe0f'] } },
 				);
 
 				// Beep preview link
