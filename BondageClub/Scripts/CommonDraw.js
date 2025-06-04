@@ -22,11 +22,11 @@ function CommonDrawCanvasPrepare(C) {
 
 /**
  * @param {Character} C - The character to prepare
- * @param {object} group - The asset group
- * @param {string} groupName -  The asset group.
- * @param {object} poseSegment - The pose the user is in.
+ * @param {AssetGroup} group - The asset group
+ * @param {AssetGroupName} groupName -  The asset group.
+ * @param {AssetPoseMap} poseSegment - The pose the user is in.
  * @param {Asset} asset - target asset
- * @return {string} baseURL - URL pointing to asset art to load
+ * @returns {string} baseURL - URL pointing to asset art to load
  */
 function AssetBaseURL(C, group, groupName, poseSegment, asset) {
 
