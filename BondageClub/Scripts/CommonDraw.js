@@ -182,7 +182,6 @@ function CommonDrawAppearanceBuild(C, {
 		const group = asset.Group;
 		let item = C.Appearance.find(i => i.Asset === asset);
 		let groupName = asset.DynamicGroupName;
-		console.log(typeof group)
 
 		// get the selected body
 		let bodyStyle = InventoryGet(C, "BodyStyle").Asset;
@@ -329,8 +328,6 @@ function CommonDrawAppearanceBuild(C, {
 		// Check the current pose against the assets' supported pose mapping
 		/** @type {string} */
 		let poseSegment = layer.PoseMapping[pose];
-
-		console.log(typeof poseSegment)
 
 		switch (poseSegment) {
 			case PoseType.HIDE:
