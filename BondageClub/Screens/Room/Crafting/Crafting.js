@@ -555,15 +555,24 @@ var CraftingEventListeners = {
 	 * @type {(this: HTMLButtonElement, ev: Event) => void}
 	 */
 	_ClickUpload: function _ClickUpload() {
-		const settingsString = prompt(TextGet("UploadPrompt"));
+		let settingsString = prompt(TextGet("UploadPrompt"))?.trim();
 		if (settingsString == null) {
 			return; // The user explicitly clicked cancel; abort without further warning
-		} else if (!settingsString) {
+		}
+
+		// Trim " and , in order to make it easier to copy/paste CraftingJSON imports
+		if (settingsString.endsWith(',')) {
+			settingsString = settingsString.slice(-1);
+		}
+		if (settingsString.endsWith('"') && settingsString.startsWith('"')) {
+			settingsString = settingsString.slice(1, -1);
+		}
+		if (!settingsString) {
 			alert(TextGet("UploadFailure"));
 			return;
 		}
 
-		const craft = CommonJSONParse(LZString.decompressFromBase64(settingsString));
+		const craft = CommonJSONParse(LZString.decompressFromBase64(settingsString.trim()));
 		if (!craft) {
 			alert(TextGet("UploadFailure"));
 			return;
