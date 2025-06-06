@@ -1658,6 +1658,118 @@ var CommonKey = /** @type {const} */({
 });
 
 /**
+ * Partition the string into separate parts using the given replacer keys, replacing them with replacer values
+ * @template T
+ * @param {string} string
+ * @param {Record<string, T>} replacers
+ * @returns {(string | T)[]}
+ */
+function CommonStringPartitionReplace(string, replacers) {
+	const pattern = new RegExp(`(${Object.keys(replacers).map(key => CommonRegEscape(key)).join("|")})`, "g");
+	const matches = Array.from(string.matchAll(pattern));
+	if (matches.length === 0) {
+		return [string];
+	}
+	matches.sort((a, b) => a.index - b.index);
+
+	/** @type {(string | T)[]} */
+	const ret = [];
+	let i = 0;
+	for (const match of matches) {
+		if (match.index < i) {
+			continue;
+		}
+		const prefix = string.slice(i, match.index);
+		if (prefix) {
+			ret.push(prefix);
+		}
+		ret.push(replacers[match[0]]);
+		i = match.index + match[0].length;
+	}
+
+	const suffix = string.slice(i);
+	if (suffix) {
+		ret.push(suffix);
+	}
+	return ret;
+}
+
+/**
+ * Escapes any potential regex syntax characters in a string, and returns a new string that can be safely used as a literal pattern for the {@link RegExp} constructor.
+ * @license MIT - Copyright (c) 2014-2025 Denis Pushkarev, core-js 3.40.0 - 2025.01.08
+ * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/escape
+ * @see https://github.com/zloirock/core-js/blob/v3.40.0/packages/core-js/modules/esnext.regexp.escape.js
+ * @param S The string to escape.
+ * @returns A new string that can be safely used as a literal pattern for the {@link RegExp} constructor.
+ */
+var CommonRegEscape = (() => {
+	// As of the time of writing a limited number of browsers have native `RegExp.escape` support
+	// See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/escape
+	if ("escape" in RegExp && typeof RegExp.escape === "function") {
+		return RegExp.escape;
+	}
+
+	var WHITESPACES = (
+		'\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002' +
+		'\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF'
+	);
+
+	var FIRST_DIGIT_OR_ASCII = /^[0-9a-z]/i;
+	var SYNTAX_SOLIDUS = /^[$()*+./?[\\\]^{|}]/;
+	var OTHER_PUNCTUATORS_AND_WHITESPACES = RegExp('^[!"#%&\',\\-:;<=>@`~' + WHITESPACES + ']');
+	var ControlEscape = {
+		'\u0009': 't',
+		'\u000A': 'n',
+		'\u000B': 'v',
+		'\u000C': 'f',
+		'\u000D': 'r',
+	};
+
+	/** @type {(chr: string) => string} */
+	function escapeChar(chr) {
+		var hex = chr.charCodeAt(0).toString(16);
+		return hex.length < 3 ? '\\x' + hex.padStart(2, '0') : '\\u' + hex.padStart(4, '0');
+	}
+
+	// `RegExp.escape` method
+	// https://github.com/tc39/proposal-regex-escaping
+	/** @type {(S: string) => string} */
+	return function escape(S) {
+		if (typeof S !== 'string') {
+			throw new TypeError('Argument is not a string');
+		}
+
+		var length = S.length;
+		var result = Array(length);
+
+		for (var i = 0; i < length; i++) {
+			var chr = S.charAt(i);
+			if (i === 0 && FIRST_DIGIT_OR_ASCII.exec(chr)) {
+				result[i] = escapeChar(chr);
+			} else if (chr in ControlEscape) {
+				result[i] = '\\' + ControlEscape[chr];
+			} else if (SYNTAX_SOLIDUS.exec(chr)) {
+				result[i] = '\\' + chr;
+			} else if (OTHER_PUNCTUATORS_AND_WHITESPACES.exec(chr)) {
+				result[i] = escapeChar(chr);
+			} else {
+				var charCode = chr.charCodeAt(0);
+				if ((charCode & 0xF800) !== 0xD800) { // single UTF-16 code unit
+					result[i] = chr;
+				} else if (charCode >= 0xDC00 || i + 1 >= length || (S.charCodeAt(i + 1) & 0xFC00) !== 0xDC00) { // unpaired surrogate
+					result[i] = escapeChar(chr);
+				} else { // surrogate pair
+					result[i] = chr;
+					result[++i] = S.charAt(i);
+				}
+			}
+		}
+
+		return result.join('');
+	};
+})();
+
+/**
  *
  * @param {RoomName} screen
  */

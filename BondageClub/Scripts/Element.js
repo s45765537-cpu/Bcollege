@@ -1387,7 +1387,7 @@ var ElementButton = {
 			tag: "button",
 			attributes: {
 				id,
-				name: id,
+				name: options.name,
 				[tooltipRoleAttribute]: tooltip ? `${id}-tooltip` : undefined,
 				"screen-generated": CurrentScreen,
 				role: options.role,
@@ -1488,12 +1488,6 @@ var ElementButton = {
 			return elem;
 		}
 
-		/** @type {null | TextCache} */
-		let craftCache = null;
-		if (item.Craft) {
-			craftCache = TextPrefetchFile("Screens/Room/Crafting/Text_Crafting.csv");
-		}
-
 		htmlOptions ??= {};
 		htmlOptions.button ??= {};
 		htmlOptions.button.attributes ??= {};
@@ -1527,59 +1521,67 @@ var ElementButton = {
 			...DialogEffectIcons.GetIcons(item),
 		];
 		options.tooltipPosition ??= "bottom";
-		options.tooltip ??= !item.Craft ? "" : /** @type {HTMLOptions<any>[]} */([
+		options.tooltip ??= !item.Craft ? "" : /** @type {(HTMLOptions<any> | HTMLElement)[]} */([
 			...(CommonIsArray(options.tooltip) ? options.tooltip : [options.tooltip]),
-			{
-				tag: "span",
-				children: [InterfaceTextGet("DialogMenuCrafting") + ":"],
-			},
-			{
-				tag: "ul",
-				classList: ["button-tooltip-craft"],
-				children: [
-					item.Craft.Property ? {
-						tag: "li",
-						children: [
-							InterfaceTextGet("CraftingProperty").replace("CraftProperty", ""),
-							{
-								tag: "q",
-								children: [{ tag: "dfn", children: [item.Craft.Property] }, " - "],
-							},
-						],
-					} : undefined,
-					(item.Craft.MemberName && item.Craft.MemberNumber) ? {
-						tag: "li",
-						children: [
-							InterfaceTextGet("CraftingMember").replace("MemberName (MemberNumber)", ""),
-							{ tag: "q", children: [`${item.Craft.MemberName} (${item.Craft.MemberNumber})`] },
-						],
-					} : undefined,
-					{
-						tag: "li",
-						children: [
-							InterfaceTextGet("CraftingPrivate").replace("CraftPrivate", ""),
-							{ tag: "q", children: [CommonCapitalize(item.Craft.Private.toString())] },
-						],
-					},
-					item.Craft.Description ? {
-						tag: "li",
-						children: [
-							InterfaceTextGet("CraftingDescription").replace("CraftDescription", ""),
-							{ tag: "q", children: CraftingDescription.DecodeToHTML(item.Craft.Description) },
-						],
-					} : undefined,
-				],
-			},
+			...ElementButton.CreateCraftTooltipContent(item.Craft),
 		]);
+		return ElementButton.Create(id, onClick, options, htmlOptions);
+	},
 
-		const button = ElementButton.Create(id, onClick, options, htmlOptions);
-		craftCache?.loadedPromise.then((textCache) => {
-			const dfn = button.querySelector(".button-tooltip-craft dfn");
+	/**
+	 * @param {CraftingItem} craft
+	 * @returns {HTMLElement[]}
+	 */
+	CreateCraftTooltipContent: function CreateCraftTooltipContent(craft) {
+		const label = ElementCreate({
+			tag: "span",
+			children: [InterfaceTextGet("DialogMenuCrafting") + ":"],
+		});
+		const list = ElementCreate({
+			tag: "ul",
+			classList: ["button-tooltip-craft"],
+			children: [
+				craft.Property ? {
+					tag: "li",
+					children: [
+						InterfaceTextGet("CraftingProperty").replace("CraftProperty", ""),
+						{
+							tag: "q",
+							children: [{ tag: "dfn", children: [craft.Property] }, " - "],
+						},
+					],
+				} : undefined,
+				(craft.MemberName && craft.MemberNumber) ? {
+					tag: "li",
+					children: [
+						InterfaceTextGet("CraftingMember").replace("MemberName (MemberNumber)", ""),
+						{ tag: "q", children: [`${craft.MemberName} (${craft.MemberNumber})`] },
+					],
+				} : undefined,
+				{
+					tag: "li",
+					children: [
+						InterfaceTextGet("CraftingPrivate").replace("CraftPrivate", ""),
+						{ tag: "q", children: [CommonCapitalize(craft.Private.toString())] },
+					],
+				},
+				craft.Description ? {
+					tag: "li",
+					children: [
+						InterfaceTextGet("CraftingDescription").replace("CraftDescription", ""),
+						{ tag: "q", children: CraftingDescription.DecodeToHTML(craft.Description) },
+					],
+				} : undefined,
+			],
+		});
+
+		TextPrefetchFile("Screens/Room/Crafting/Text_Crafting.csv").loadedPromise.then((textCache) => {
+			const dfn = list.querySelector("dfn");
 			if (dfn) {
 				dfn.parentElement?.append(textCache.get(`Description${dfn.textContent}`));
 			}
 		});
-		return button;
+		return [label, list];
 	},
 
 	/**
@@ -1953,13 +1955,36 @@ var ElementMenu = {
  */
 var ElementCheckbox = {
 	/**
+	 * @private
+	 * @type {(this: HTMLInputElement, ev: PointerEvent) => void}
+	 */
+	_pointerdown: function(ev) {
+		document.addEventListener("pointerup", ElementCheckbox._pointerup);
+		document.addEventListener("pointercancel", ElementCheckbox._pointerup);
+	},
+
+	/**
+	 * @private
+	 * @type {(this: Document, ev: PointerEvent) => void}
+	 */
+	_pointerup: function(ev) {
+		// Ensure that focus is lost after clicking
+		/** @type {null | HTMLInputElement} */
+		const input = document.activeElement?.closest("input.checkbox");
+		input?.blur();
+
+		document.removeEventListener("pointerup", ElementCheckbox._pointerup);
+		document.removeEventListener("pointercancel", ElementCheckbox._pointerup);
+	},
+
+	/**
 	 * Construct an return a DOM checkbox element (`<input type="checkbox">`)
 	 * @param {null | string} id - The ID of the element, or `null` if one must be assigned automatically
-	 * @param {(this: HTMLInputElement, ev: Event) => any} onChange - The change event listener to-be fired upon checkbox clicks
+	 * @param {null | ((this: HTMLInputElement, ev: Event) => any)} onChange - The change event listener to-be fired upon checkbox clicks
 	 * @param {null | ElementCheckbox.Options} options - High level options for the to-be created checkbox
 	 * @param {null | Partial<Record<"checkbox", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the respective (child) element
 	 */
-	Create: function Create(id, onChange, options=null, htmlOptions=null) {
+	Create: function Create(id=null, onChange=null, options=null, htmlOptions=null) {
 		id ??= ElementGenerateID();
 		const checkbox = document.getElementById(id);
 		if (checkbox) {
@@ -1969,20 +1994,29 @@ var ElementCheckbox = {
 
 		options ??= {};
 		const checkboxOptions = htmlOptions?.checkbox ?? {};
+		switch (checkboxOptions.attributes?.type ?? options.type ?? "checkbox") {
+			case "radio":
+				options.required ??= true;
+				break;
+		}
+
 		return ElementCreate({
 			...checkboxOptions,
 			tag: "input",
 			attributes: {
 				id,
-				type: "checkbox",
+				type: options.type ?? "checkbox",
 				disabled: options.disabled,
 				checked: options.checked,
 				value: options.value,
+				name: options.name,
+				required: options.required,
 				...(checkboxOptions.attributes ?? {}),
 			},
 			classList: ["checkbox", ...(checkboxOptions.classList ?? [])],
 			eventListeners: {
 				change: onChange,
+				pointerdown: ElementCheckbox._pointerdown,
 				...(checkboxOptions.eventListeners ?? {}),
 			},
 		});
