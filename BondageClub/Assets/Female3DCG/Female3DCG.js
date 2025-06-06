@@ -3720,8 +3720,7 @@ var AssetFemale3DCG = [
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
 				ParentGroup: "BodyUpper",
-				PoseMapping: {
-				},
+				PoseMapping: {},
 				HideItem: [
 					"ItemNipplesPiercingsRoundPiercing",
 					"ItemNipplesPiercingsNecklacePiercingChain",
@@ -19167,17 +19166,21 @@ var AssetFemale3DCG = [
 		AllowColorize: false,
 		Asset: [
 			{ Name: "Original", Visible: false },
-			{ Name: "EchoV1", Visible: false, StyleOverride: [
-				"BodyUpper",
-				"BodyLower",
-				"ArmsRight",
-				"ArmsLeft",
-				"HandsRight",
-				"HandsLeft",
-				"Head",
-				"Nipples",
-				"Pussy"
-			] },
+			{
+				Name: "EchoV1",
+				Visible: false,
+				StyleOverride: [
+					"BodyUpper",
+					"BodyLower",
+					"ArmsRight",
+					"ArmsLeft",
+					"HandsRight",
+					"HandsLeft",
+					"Head",
+					"Nipples",
+					"Pussy",
+				],
+			},
 		],
 	},
 
