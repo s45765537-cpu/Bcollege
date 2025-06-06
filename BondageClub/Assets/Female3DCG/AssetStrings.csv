@@ -839,9 +839,9 @@ ClothHoodieModulePouch,Pouch
 ClothHoodieOptionh0,Hood Down
 ClothHoodieOptionh1,Hood Up - Regular
 ClothHoodieOptionh2,Hood Up - Pet Ears
-ClothHoodieOptionl0,Cropped
-ClothHoodieOptionl1,Bolero
-ClothHoodieOptionl2,Full Length
+ClothHoodieOptionl0,Full Length
+ClothHoodieOptionl1,Cropped
+ClothHoodieOptionl2,Bolero
 ClothHoodieOptionp0,Hands Out
 ClothHoodieOptionp1,Hands In
 ClothHoodieSelectBase,Select Hoodie Options

@@ -581,9 +581,9 @@ var AssetFemale3DCGExtended = {
 					Key: "l",
 					DrawImages: false,
 					Options: [
-						{}, //l0 - Cropped
-						{}, //l1 - Bolero
-						//{}, //l2 - Full Length - not yet implemented
+						{}, //l0 - Full Length
+						{}, //l1 - Cropped
+						{}, //l2 - Bolero
 					],
 				},
 				//{

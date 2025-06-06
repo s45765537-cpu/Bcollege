@@ -3165,6 +3165,7 @@ var AssetFemale3DCG = [
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
 				Value: 40,
+				Priority: 26,
 				Extended: true,
 				PoseMapping: {
 					AllFours: "AllFours",
@@ -3187,10 +3188,15 @@ var AssetFemale3DCG = [
 					"ItemTorso2",
 				],
 				Layer: [
-					{ Name: "Main", AllowTypes: { l: 0 } },
+					{
+						Name: "MainLonger",
+						AllowTypes: { l: 0 },
+						CopyLayerColor: "Main",
+					},
+					{ Name: "Main", AllowTypes: { l: [0, 1] } },
 					{
 						Name: "MainBolero",
-						AllowTypes: { l: 1 },
+						AllowTypes: { l: 2 },
 						CopyLayerColor: "Main",
 					},
 					{
@@ -3264,7 +3270,8 @@ var AssetFemale3DCG = [
 						HideForAttribute: ["HoodieFix"],
 					},
 					{ Name: "Laces" },
-					{ Name: "Waist", AllowTypes: { l: 0 } },
+					{ Name: "Waist", AllowTypes: { l: 1 } },
+					{ Name: "WaistLonger", CopyLayerColor: "Waist", AllowTypes: { l: 0 } },
 					{ Name: "Wrists", CopyLayerColor: "Waist" },
 				],
 			},
@@ -22121,6 +22128,27 @@ var AssetFemale3DCG = [
 					{ Name: "6", AllowColorize: true },
 				],
 			},
+			{
+				Name: "Eyes15",
+				Random: false,
+				DefaultColor: [
+					"Default",
+					"#6B82A2",
+					"Default",
+					"Default",
+					"Default",
+					"#242424",
+				],
+				Layer: [
+					{ Name: "1", AllowColorize: true },
+					{ Name: "2", AllowColorize: true },
+					{ Name: "2i", AllowColorize: false },
+					{ Name: "3", AllowColorize: true },
+					{ Name: "4", AllowColorize: true },
+					{ Name: "5", AllowColorize: true },
+					{ Name: "6", AllowColorize: true },
+				],
+			},
 		],
 		Color: [
 			"Default",
@@ -22296,6 +22324,27 @@ var AssetFemale3DCG = [
 				Name: "Eyes14",
 				ParentItem: "Eyes14",
 				Left: 255,
+				DefaultColor: [
+					"Default",
+					"#6B82A2",
+					"Default",
+					"Default",
+					"Default",
+					"#242424",
+				],
+				Layer: [
+					{ Name: "1", AllowColorize: true },
+					{ Name: "2", AllowColorize: true },
+					{ Name: "2i", AllowColorize: false },
+					{ Name: "3", AllowColorize: true },
+					{ Name: "4", AllowColorize: true },
+					{ Name: "5", AllowColorize: true },
+					{ Name: "6", AllowColorize: true },
+				],
+			},
+			{
+				Name: "Eyes15",
+				ParentItem: "Eyes15",
 				DefaultColor: [
 					"Default",
 					"#6B82A2",
