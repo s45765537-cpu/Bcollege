@@ -8012,6 +8012,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "LeatherBunnyHollowBra",
+				InventoryID: 1243,
 				Value: 30,
 				Random: false,
 				Gender: "F",
@@ -8067,6 +8068,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Bandage",
+				InventoryID: 1244,
 				Value: 30,
 				Random: false,
 				Gender: "F",
@@ -8106,6 +8108,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SatinCorset",
+				InventoryID: 1245,
 				Value: 30,
 				Random: false,
 				Gender: "F",
@@ -8216,7 +8219,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "MaidBra",
-				InventoryID: 1180,
+				InventoryID: 1246,
 				Top: 0,
 				Left: 0,
 				Gender: "F",
@@ -15493,7 +15496,6 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CyberEars",
-				InventoryID: 1243,
 				Fetish: ["Pet"],
 				Priority: 51,
 				BodyCosplay: true,
