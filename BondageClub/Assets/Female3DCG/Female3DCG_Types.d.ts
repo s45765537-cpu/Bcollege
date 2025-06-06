@@ -524,6 +524,9 @@ interface AssetDefinitionBase extends AssetCommonPropertiesGroupAsset, AssetComm
 	/** A list of Asset Groups to overwrite. */
 	StyleOverride?: string[];
 
+    /** A list of supported styles, anything not listed will be excluded */
+    SupportedStyles?: string[];
+
 	/**
 	 * Whether the asset can be worn.
 	 *
