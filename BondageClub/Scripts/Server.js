@@ -888,11 +888,11 @@ function ServerAccountBeep(data) {
 				const replyLink = ElementButton.Create(
 					`beep-reply-${beepIdx}`, // or just leave to null for an ID auto assignment
 					() => {
-						ElementValue("InputChat", `/beep ${data.MemberNumber} ${ElementValue("InputChat").replace(/^\/(beep|w) \\S+ ?/u, '')}`);
+						ElementValue("InputChat", `/beep ${data.MemberNumber} ${ElementValue("InputChat").replace(/^\/(beep|w) \S+ ?/u, '')}`);
 						document.getElementById('InputChat').focus();
 					},
-					{ label: '\u21a9\ufe0f' },
-					{ button: { classList: ["beep-reply"] } },
+					{ noStyling: true },
+					{ button: { classList: ["ReplyButton"], children: ['\u21a9\ufe0f'] } },
 				);
 
 				// Beep preview link
@@ -915,10 +915,16 @@ function ServerAccountBeep(data) {
 
 				const div = document.createElement("div");
 				div.dataset.time = ChatRoomCurrentTime();
-				div.dataset.sender = Player.MemberNumber.toString();
+				div.dataset.sender = data.MemberNumber.toString();
+				div.dataset.target = Player.MemberNumber.toString();
 				div.classList.add("ChatMessage", "ChatMessageLocalMessage", "ChatMessageNonDialogue", "ChatMessageBeep");
 				div.appendChild(replyLink);
 				div.appendChild(beepLink);
+
+				document.querySelector(`
+					#TextAreaChatLog .ChatMessageBeep[data-sender="${data.MemberNumber}"] > .ReplyButton:not([tabindex='-1']),
+					#TextAreaChatLog .ChatMessageBeep[data-target="${data.MemberNumber}"] > .ReplyButton:not([tabindex='-1'])
+				`)?.setAttribute("tabindex", "-1");
 
 				ChatRoomAppendChat(div);
 			}

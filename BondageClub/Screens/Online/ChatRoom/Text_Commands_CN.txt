@@ -58,6 +58,8 @@ add/remove/list/clear/help [目标]: 修改你的关注列表（允许你选择�
 [Message]:以动作形式显示“[PlayerName] Message”。*[Message]是同样的效果。
 [Activity]: Do a Pandora Guard activity on your whisper selection or all inmates if there's no selection. (Activities: Bondage, Cage, Chastity, Detain, Gag, Hogtie, Hose, Lock, Naked, Spank, Ungag, Release, Shibari, Uncage, Unchaste, Unlock)
 [Activity]: 在你的悄悄话选择的目标，或者如果没有选择时，对所有囚犯上执行一个潘多拉守卫动作。（可选动作：Bondage, Cage, Chastity, Detain, Gag, Hogtie, Hose, Lock, Naked, Spank, Ungag, Release, Shibari, Uncage, Unchaste, Unlock）
+[Activity]: Do a Pony activity (Activities: Stand, Trot, Gallop, Passage, Pirouette)
+[Activity]: 执行一个小马活动（可选动作：Stand, Trot, Gallop, Passage, Pirouette）
 [MemberNumber]: Promote the user to room administrator
 [MemberNumber]:使玩家成为房管
 [MemberNumber]: Removes the user from the room whitelist
