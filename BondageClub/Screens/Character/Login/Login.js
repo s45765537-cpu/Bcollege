@@ -10,11 +10,11 @@ var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
-	"Abysseia", "AlexG", "ArashiSama", "BlueWinter", "bryce", "Canti", "Christian", "Christoffer", "Claudia33", 
-	"Cm382714", "Desch", "Dragokahn", "dynilath", "Edwin", "Glurak", "Greendragon", "john", "Laurie", "Letty", 
-	"Marashu", "Michel", "Mindtie", "Misa", "Nightcore", "Patrick", "René", "Robin", "Schrödingers", "serenat2023", 
-	"Setsu95", "Sticks", "Sunny", "Tam", "Tarram1010", "Teli", "Thkdt", "Troubadix", "Troy", "Varo", 
-	"WhiteSniper", "XDWolfie", "Xepherio"
+	"Abysseia", "Aceffect14", "AlexG", "BlueWinter", "bryce", "Canti", "cat", "Christian", "Christoffer", 
+	"Claudia33", "Cm382714", "Desch", "Dragokahn", "dynilath", "Edwin", "Exusiai", "George", "Glurak", 
+	"Greendragon", "john", "Laurie", "Letty", "Marashu", "Michel", "Mindtie", "Misa", "NeReFox", "Nightcore", 
+	"Patrick", "Robin", "Schrödingers", "serenat2023", "Soulcollar", "Sticks", "Sunny", "Tam", "Tarram1010", 
+	"Teli", "Thkdt", "Troubadix", "Troy", "Varo", "WhiteSniper", "XDWolfie", "Xepherio", 
 ];
 
 /* eslint-enable */
@@ -142,7 +142,9 @@ function LoginLoad() {
 	LoginCharacter = CharacterLoadNPC("NPC_Login");
 	LoginDoNextThankYou();
 	LoginStatusReset();
-	if (!LoginCredits) CommonReadCSV("LoginCredits", CurrentModule, CurrentScreen, "GameCredits");
+	if (LoginCredits == null) {
+		LoginCredits = CommonReadCSV(ScreenFileGetPath("GameCredits.csv"));
+	}
 	ActivityDictionaryLoad();
 	OnlneGameDictionaryLoad();
 	const form = ElementCreateForm("Login");

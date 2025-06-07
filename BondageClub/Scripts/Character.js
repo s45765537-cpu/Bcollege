@@ -894,7 +894,7 @@ function CharacterLoadCSVDialog(C, info) {
 		// Just refresh the info we have
 	}
 
-	const FullPath = `Screens/${C.DialogInfo.module}/${C.DialogInfo.screen}/Dialog_${C.DialogInfo.name}.csv`;
+	const FullPath = ScreenFileGetDialog(C.DialogInfo.name, C.DialogInfo.module, C.DialogInfo.screen);
 
 	function buildDialog() {
 		CharacterBuildDialog(C, CommonCSVCache[FullPath], C.DialogInfo.screen);
@@ -1118,8 +1118,7 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 		Char.ArousalSettings = ServerAccountDataSyncedValidate.ArousalSettings(data.ArousalSettings, Char);
 		Char.OnlineSharedSettings = ServerAccountDataSyncedValidate.OnlineSharedSettings(data.OnlineSharedSettings, Char);
 		Char.Game = ServerAccountDataSyncedValidate.Game(data.Game, Char);
-		Char.MapData = ChatRoomMapViewInitializeCharacter(Char);
-		Char.MapData.Pos = ChatRoomMapViewValidatePos(data.MapData);
+		Char.MapData = ServerAccountDataSyncedValidate.MapData(data.MapData, Char);
 		Char.Crafting = ServerAccountDataSyncedValidate.Crafting(data.Crafting, Char);
 	}
 

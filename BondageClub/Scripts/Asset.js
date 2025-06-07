@@ -187,6 +187,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		ParentGroup: AssetParseParentGroup(AssetDef.ParentGroup, Group.ParentGroup),
 		Enable: (AssetDef.Enable == null) ? true : AssetDef.Enable,
 		Visible: (AssetDef.Visible == null) ? true : AssetDef.Visible,
+		StyleOverride: AssetDef.StyleOverride,
 		NotVisibleOnScreen: Array.isArray(AssetDef.NotVisibleOnScreen) ? AssetDef.NotVisibleOnScreen : [],
 		Wear: (AssetDef.Wear == null) ? true : AssetDef.Wear,
 		Activity: (typeof AssetDef.Activity === "string" ? AssetDef.Activity : null),
@@ -1034,6 +1035,14 @@ function AssetActivitiesForGroup(family, groupname, onSelf = "other") {
  */
 function AssetGroupGet(Family, Group) {
 	return /** @type {AssetGroupMapping[T]} */(AssetGroupMap.get(Group)) ?? null;
+}
+
+/**
+ * Check whether a group can be hidden through the item visibility settings
+ * @param {AssetGroup} group
+ */
+function AssetGroupIsHideable(group) {
+	return group.IsItem() || group.IsAppearance() && group.AllowNone;
 }
 
 /**

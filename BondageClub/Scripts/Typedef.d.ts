@@ -186,6 +186,8 @@ declare namespace ElementButton {
 		 * Setting this option to `true` disables that behavior, clicking an already enabled button thus firing its click events once again rather than aborting.
 		 */
 		allowRequiredClick?: boolean;
+		/** The {@link HTMLButtonElement.name} of the button */
+		name?: string;
 	}
 }
 
@@ -203,6 +205,16 @@ declare namespace ElementCheckbox {
 		 * Defaults to `"on"` if not specified.
 		 */
 		value?: string | number;
+		/** Whether the checkbox should serve as a checkbox or radio button */
+		type?: "checkbox" | "radio";
+		/** If a `radio` {@link Options.type} is specified, this mandates that a radio _must_ be selected within its {@link Options.name}-defined group */
+		required?: boolean;
+		/**
+		 * The name of the input.
+		 *
+		 * Particularly important when a `radio` {@link Options.type} is specified, as all radios with the same name define a group of options.
+		 */
+		name?: string;
 	}
 }
 
@@ -524,8 +536,8 @@ type AssetGroupScriptName = 'ItemScript';
 
 type AssetGroupBodyName =
 	ExpressionGroupName | 'AnkletLeft' | 'AnkletRight' | 'ArmsLeft' | 'ArmsRight' |
-	'BodyLower' | 'BodyUpper' | 'BodyMarkings' | 'Bra' | 'Bracelet' | 'Cloth' |
-	'ClothAccessory' | 'ClothLower' | 'Corset' | 'EyeShadow' | 'FacialHair' | 'Garters' | 'Glasses' | 'Gloves' |
+	'BodyStyle' | 'BodyLower' | 'BodyUpper' | 'BodyMarkings' | 'Bra' | 'Bracelet' | 'Cloth' |
+	'ClothAccessory' | 'ClothLower' | 'ClothOuter' | 'Corset' | 'EyeShadow' | 'FacialHair' | 'Garters' | 'Glasses' | 'Gloves' |
 	'HairAccessory1' | 'HairAccessory2' | 'HairAccessory3' | 'HairBack' |
 	'HairFront' | 'HandAccessoryLeft' | 'HandAccessoryRight' |  'FacialHair' | 'Hat' | 'Head' | 'Height' | 'Jewelry' | 'Mask' |
 	'Necklace' | 'Nipples' | 'Panties' | 'Pronouns' |
@@ -1032,6 +1044,8 @@ interface AssetGroup {
 	readonly FreezeActivePose?: never;
 	readonly PreviewZone?: RectTuple;
 	readonly DynamicGroupName: AssetGroupName;
+	readonly StyleOverride?: string [];
+	readonly SupportedStyles?: string [];
 
 	readonly MirrorActivitiesFrom?: AssetGroupItemName;
 	readonly ArousalZone?: AssetGroupItemName;
@@ -1221,6 +1235,8 @@ interface Asset {
 	readonly HideItemAttribute: readonly AssetAttribute[];
 	readonly Require: readonly AssetGroupBodyName[];
 	readonly SetPose?: readonly AssetPoseName[];
+	readonly StyleOverride?: stirng[];
+	readonly SupportedStyles?: stirng[];
 	/** @deprecated - Superceded by {@link Asset.PoseMapping} */
 	readonly AllowPose?: never;
 	/** @deprecated - Superceded by {@link Asset.PoseMapping} */
@@ -2346,7 +2362,8 @@ interface GameplaySettingsType {
 interface AudioSettingsType {
 	Volume: number;
 	MusicVolume: number;
-	PlayBeeps: boolean;
+	/** @deprecated */
+	PlayBeeps: never;
 	/** Play items sounds in chatrooms */
 	PlayItem: boolean;
 	/** Play sounds only if the player is involved */
@@ -4240,6 +4257,41 @@ interface CratingValidationStruct {
 	StatusCode: CraftingStatusType;
 }
 
+declare namespace CraftingJSON {
+	/** The data structure as returned by {@link CraftingJSON.encode} */
+	export interface DataEncoded {
+		/** The version of the file format */
+		version: 1;
+		/** The date & time on which the crafts were exported (see {@link Date.toLocaleString}) */
+		date: string;
+		/** A list of base64-encoded {@link CraftingItem} object strings or null if the craft is empty */
+		crafts: (null | string)[];
+	}
+
+	interface ParsingOutputBase {
+		/** The status code */
+		status: CraftingStatusType;
+		/** All crafted item indices within the `data.crafts` list that encountered a critical error during their validation */
+		errors?: Set<number>;
+		/** The decoded crafted item JSON data */
+		data?: CraftingJSON.DataDecoded;
+	}
+
+	interface ParsingOutputErr extends ParsingOutputBase {
+		status: 0;
+		errors?: never;
+		data?: never;
+	}
+
+	interface ParsingOutputOk extends Required<ParsingOutputBase> {
+		status: 1 | 2;
+	}
+
+	/** A status object based on the stringified JSON data as decoded by {@link CraftingJSON.decode} */
+	export type ParsingOutput = ParsingOutputErr | ParsingOutputOk;
+}
+
+
 //#endregion
 
 //#region Color
@@ -4440,6 +4492,10 @@ interface NotificationData {
 	memberNumber?: number,
 	characterName?: string,
 	chatRoomName?: string,
+	/**
+	 * If this is set, the beep sound will ring even if we have focus
+	 */
+	alarmWhenFocused?: boolean,
 }
 
 interface NotificationBeep {
@@ -4789,16 +4845,6 @@ interface ChatRoomView extends Pick<ScreenFunctions, "Run" | "MouseDown" | "Mous
 
 type ChatRoomMapType = "Always" | "Hybrid" | "Never";
 
-type ChatRoomMapPos = {
-	X: number;
-	Y: number;
-}
-
-type ChatRoomMapData = {
-	Pos: ChatRoomMapPos
-	PrivateState: Record<string, Object>
-}
-
 type ChatRoomMapDirection = "" | "R" | "L" | "D" | "U";
 
 type ChatRoomMapObjectType = (
@@ -4884,6 +4930,8 @@ interface ShopItem {
 	readonly Asset: Asset,
 	/** The assets sorting priority within the asset list; lower values take priority */
 	readonly SortPriority: number,
+	/** Whether the player is forbidden to buy the item */
+	readonly CannotBuy: boolean,
 	/** Whether an item should never be able to be sold */
 	readonly NeverSell: boolean,
 	/** Whether the asset can be bought; `false` implies that it can be sold */

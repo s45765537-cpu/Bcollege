@@ -20,7 +20,7 @@ var PreferenceVisibilityRecord = {};
 function PreferenceSubscreenVisibilityLoad() {
 	PreferenceVisibilityRecord = { ...Player.PermissionItems };
 	PreferenceVisibilityGroupList = [];
-	const hideableGroups = AssetGroup.filter(g => g.IsItem() || g.IsAppearance() && g.AllowNone);
+	const hideableGroups = AssetGroup.filter(g => AssetGroupIsHideable(g));
 	for (const group of hideableGroups) {
 		const hideableAssets = [];
 		for (const asset of group.Asset) {

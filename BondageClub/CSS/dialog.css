@@ -11,11 +11,6 @@
 		"dialog-paginate dialog-grid" auto / var(--menu-button-size) auto;
 }
 
-.dialog-root[data-unload],
-.dialog-root [data-unload] {
-	display: none;
-}
-
 .dialog-menubar {
 	display: grid;
 	grid-area: dialog-menubar;
@@ -142,30 +137,30 @@
 	overflow: hidden;
 }
 
-@supports selector(:nth-child(1n of :not([data-unload]))) {
-	.dialog-grid .dialog-grid-button:nth-child(4n - 3 of :not([data-unload])) > .button-tooltip {
+@supports selector(:nth-child(1n of :not([hidden]))) {
+	.dialog-grid .dialog-grid-button:nth-child(4n - 3 of :not([hidden])) > .button-tooltip {
 		left: unset;
 		transform: unset;
 	}
 
-	.dialog-grid .dialog-grid-button:nth-child(4n - 2 of :not([data-unload])) > .button-tooltip {
+	.dialog-grid .dialog-grid-button:nth-child(4n - 2 of :not([hidden])) > .button-tooltip {
 		left: calc(100% / 3);
 		transform: translateX(calc(-100% / 3));
 	}
 
-	.dialog-grid .dialog-grid-button:nth-child(4n - 1 of :not([data-unload])) > .button-tooltip {
+	.dialog-grid .dialog-grid-button:nth-child(4n - 1 of :not([hidden])) > .button-tooltip {
 		left: calc(100% / 1.5);
 		transform: translateX(calc(-100% / 1.5));
 	}
 
-	.dialog-grid .dialog-grid-button:nth-child(4n of :not([data-unload])) > .button-tooltip {
+	.dialog-grid .dialog-grid-button:nth-child(4n of :not([hidden])) > .button-tooltip {
 		left: 100%;
 		transform: translateX(-100%);
 	}
 }
 
 /* Fallback for browsers that do not support https://caniuse.com/css-nth-child-of */
-@supports not selector(:nth-child(1n of :not([data-unload]))) {
+@supports not selector(:nth-child(1n of :not([hidden]))) {
 	.dialog-grid .dialog-grid-button:nth-child(4n - 3) > .button-tooltip {
 		left: unset;
 		transform: unset;
@@ -304,12 +299,12 @@
 }
 
 /* For browsers that support https://caniuse.com/css-nth-child-of */
-@supports selector(:nth-child(1 of :not([data-unload]))) {
-	.dialog-dialog-button:nth-child(1 of :not([data-unload])) {
+@supports selector(:nth-child(1 of :not([hidden]))) {
+	.dialog-dialog-button:nth-child(1 of :not([hidden])) {
 		margin-top: unset;
 	}
 
-	.dialog-dialog-button:nth-last-child(1 of :not([data-unload])) {
+	.dialog-dialog-button:nth-last-child(1 of :not([hidden])) {
 		margin-bottom: unset;
 	}
 }
@@ -397,8 +392,8 @@
 	height: calc(7 * var(--menu-button-size) + 3 * var(--gap));
 }
 
-.dialog-expression-grid[data-unload] {
-	display: grid;
+.dialog-expression-grid[hidden] {
+	display: grid !important;
 	visibility: hidden;
 }
 

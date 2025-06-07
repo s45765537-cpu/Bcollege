@@ -1813,10 +1813,20 @@ var ClubCardList = [
 			const indexToChange = ClubCardSelection.ArrayIndex;
 			CCPlayer.Board[indexToChange].FamePerTurn = 0;
 			CCPlayer.Board[indexToChange].MoneyPerTurn = -2;
-			CCPlayer.Board[indexToChange - 1].FamePerTurn = 0;
-			CCPlayer.Board[indexToChange - 1].MoneyPerTurn = -2;
-			CCPlayer.Board[indexToChange + 1].FamePerTurn = 0;
-			CCPlayer.Board[indexToChange + 1].MoneyPerTurn = -2;
+			if (indexToChange == 0) {
+				CCPlayer.Board[CCPlayer.Board.length - 2].FamePerTurn = 0;
+				CCPlayer.Board[CCPlayer.Board.length - 2].MoneyPerTurn = -2;
+			} else {
+				CCPlayer.Board[indexToChange - 1].FamePerTurn = 0;
+				CCPlayer.Board[indexToChange - 1].MoneyPerTurn = -2;
+			}
+			if (indexToChange == CCPlayer.Board.length -2) {
+				CCPlayer.Board[0].FamePerTurn = 0;
+				CCPlayer.Board[0].MoneyPerTurn = -2;
+			} else {
+				CCPlayer.Board[indexToChange + 1].FamePerTurn = 0;
+				CCPlayer.Board[indexToChange + 1].MoneyPerTurn = -2;
+			}
 		},
 		BeforeTurnEnd: function(CCPlayer) {
 			ClubCardPlayerAddFame(CCPlayer, Math.min(Math.floor(CCPlayer.Board.length / 2), 8));
@@ -2906,8 +2916,8 @@ var ClubCardList = [
 			CCPlayer.Hand.push(petToAdd);
 			if ((petToAdd.RequiredLevel ? petToAdd.RequiredLevel : 0) <= CCPlayer.Level) this.ExtraPlay = 1;
 		},
-		BeforeOpponentTurnEnd: function() {
-			this.ExtraPlay = 0;
+		BeforeTurnEnd: function(CCPlayer) {
+			ClubCardRemoveFromEventByName(CCPlayer, this.Name);
 		}
 	},
 	{
@@ -4734,7 +4744,6 @@ function ClubCardCardsSelectConditions(Card, CCPlayer, AICard = null) {
 	if ((AICard ?? ClubCardPending).Name === "Vanilla Classic" && !ClubCardCardHasGroup(Card, "PornActress")) return false;
 	if ((AICard ?? ClubCardPending).Name === "Sophie" && ClubCardIsLiability(Card)) return false;
 	if ((AICard ?? ClubCardPending).EffectType === "Removal" && Card.Name === "Kira") return false;
-	if ((AICard ?? ClubCardPending).Name === "Kira" && (Card.ArrayIndex == 0 || Card.ArrayIndex == CCPlayer.Board.length - 1)) return false;
 	return true;
 }
 
@@ -4831,7 +4840,10 @@ function ClubCardPlayCard(CCPlayer, Card, triggerOnPlay = true) {
 		if (index === -1) throw new Error(`ClubCardPlayCard(): Card with UID ${Card.UniqueID} not found`);
 		CCPlayer.Hand.splice(index, 1);
 
-		if (Card.Type === "Member") Target.Board.push(Card);
+		if (Card.Type === "Member" || Card.Type == null) {
+			Card.Type = "Member";
+			Target.Board.push(Card);
+		}
 
 		if (Card.Type === "Event") {
 			if (((Card.Time != null)) && (Card.Time >= 0)) {
@@ -4862,6 +4874,7 @@ function ClubCardPlayCard(CCPlayer, Card, triggerOnPlay = true) {
 	ClubCardTierSelection = null;
 	if (!MiniGameEnded) if (ClubCardCheckVictory(CCPlayer)) { ClubCardEndGameSyncAndMessage(CCPlayer); return; }
 	if (!MiniGameEnded) if (ClubCardCheckVictory(opponent)) { ClubCardEndGameSyncAndMessage(opponent); return; }
+	if (MiniGameEnded) return;
 
 	if (CCPlayer.Control == "Player") {
 		ClubCardFocus = null;
@@ -4872,6 +4885,7 @@ function ClubCardPlayCard(CCPlayer, Card, triggerOnPlay = true) {
 	ClubCardOnCardPlayedHandler(CCPlayer, Card);
 	if (!MiniGameEnded) if (ClubCardCheckVictory(CCPlayer)) { ClubCardEndGameSyncAndMessage(CCPlayer); return; }
 	if (!MiniGameEnded) if (ClubCardCheckVictory(opponent)) { ClubCardEndGameSyncAndMessage(opponent); return; }
+	if (MiniGameEnded) return;
 
 	// End the turn if needed
 	ClubCardMessageSendAll();
@@ -5128,7 +5142,7 @@ function ClubCardCommonLoad() {
 	if (Player.Game.ClubCard == null) Player.Game.ClubCard = { Deck: [] };
 	if (Player.Game.ClubCard.Reward == null) Player.Game.ClubCard.Reward = "";
 	ClubCardList[0].Title = null;
-	CommonReadCSV("NoArravVar", "MiniGame", "ClubCard", "Text_ClubCard");
+	CommonReadCSV(ScreenFileGetTranslation("MiniGame", "ClubCard", "ClubCard"));
 }
 
 /**

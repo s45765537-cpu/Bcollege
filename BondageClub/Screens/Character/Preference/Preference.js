@@ -767,10 +767,11 @@ var PreferenceVisualSettingsValidate = {
 var PreferenceAudioSettingsDefault = {
 	Volume: 1,
 	MusicVolume: 1,
-	PlayBeeps: false,
 	PlayItem: false,
 	PlayItemPlayerOnly: false,
 	Notifications: false,
+	// @ts-expect-error deprecated
+	PlayBeeps: undefined,
 };
 
 /**
@@ -785,10 +786,11 @@ var PreferenceAudioSettingsValidate = {
 	MusicVolume: (arg) => {
 		return CommonIsFinite(arg, 0, 1) ? arg : PreferenceAudioSettingsDefault.MusicVolume;
 	},
-	PlayBeeps: isBool(PreferenceAudioSettingsDefault.PlayBeeps),
 	PlayItem: isBool(PreferenceAudioSettingsDefault.PlayItem),
 	PlayItemPlayerOnly: isBool(PreferenceAudioSettingsDefault.PlayItemPlayerOnly),
 	Notifications: isBool(PreferenceAudioSettingsDefault.Notifications),
+	// @ts-expect-error deprecated
+	PlayBeeps: (arg) => undefined,
 };
 
 /**

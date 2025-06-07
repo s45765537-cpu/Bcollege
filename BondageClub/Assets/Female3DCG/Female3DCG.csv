@@ -25,6 +25,9 @@ BodyMarkings,BodyWritings,Body Writings
 BodyMarkings,FaceScars,Face Scars
 BodyMarkings,FacePaints,Face paints
 BodyMarkings,Splatters,Splatters
+BodyStyle,,Body Style
+BodyStyle,Original,Original
+BodyStyle,EchoV1,Echo V1
 BodyUpper,,Upper Body
 BodyUpper,FlatMedium,Bulky Flat Chest
 BodyUpper,FlatSmall,Flat Chest
@@ -84,6 +87,11 @@ Bra,Swimsuit1,Swimsuit style 1
 Bra,Swimsuit2,Swimsuit style 2
 Bra,Swimsuit3,Swimsuit style 3
 Bra,LeatherVestSuit,Leather Vest Suit
+Bra,OrnateMetalBra,Ornate Metal Bra
+Bra,SatinCorset,Satin Corset
+Bra,Bandage,Bandage
+Bra,LeatherBunnyHollowBra,Leather Bunny Hollow Bra
+Bra,MaidBra,Maid Bra
 Bracelet,,Bracelet
 Bracelet,Band1,Band 1
 Bracelet,BowBand,Bow Band
@@ -136,7 +144,7 @@ Cloth,Gown2Top,Hobble Gown
 Cloth,Gown3,Shiny Gown
 Cloth,GrandMage,Grand Mage Dress
 Cloth,HeavyLeatherDress,Heavy Leather Dress
-Cloth,Hoodie,Cropped Hoodie
+Cloth,Hoodie,Comfortable Hoodie
 Cloth,Jacket,Jacket
 Cloth,LaceBabydoll,Lace Babydoll
 Cloth,LatexHobbleDress,Strict Hobble Dress
@@ -176,6 +184,8 @@ Cloth,VirginKiller1,Virgin Killer
 Cloth,WeddingDress1,Wedding Dress
 Cloth,WeddingDress2,Shoulderless Wedding Dress
 Cloth,Yukata1,Yukata
+Cloth,CocktailDress,Cocktail Dress
+Cloth,MaidBikini,Maid Bikini
 ClothAccessory,,Cloth Accessory
 ClothAccessory,Bib,Bib
 ClothAccessory,Bouquet,Bouquet of flowers
@@ -207,6 +217,8 @@ ClothAccessory,ZipperBelt,Zipper Belt
 ClothAccessory,SmallNeckFur,Small Neck Fur
 ClothAccessory,LargeNeckFur,Large Neck Fur
 ClothAccessory,SpikyNeckFur,Spiky Neck Fur
+ClothAccessory,HoodedCloak,Hooded Cloak
+ClothAccessory,SideRuffles,Side Ruffles
 ClothLower,,Bottom
 ClothLower,AdmiralSkirt,Admiral Skirt
 ClothLower,ASRubberSkirt,ArmBSuit Rubber Skirt
@@ -259,6 +271,8 @@ ClothLower,UtilityKilt,Utility Kilt
 ClothLower,Waspie1,Bondage Waspie
 ClothLower,Waspie2,Royal Waspie
 ClothLower,Waspie3,Straps Waspie
+ClothOuter,,Cloth Outer
+ClothOuter,LeatherJacket,Leather Jacket
 Corset,,Corset
 Corset,Corset1,Corset + Garters
 Corset,Corset2,Corset
@@ -285,6 +299,7 @@ Eyes,Eyes11,Style 11
 Eyes,Eyes12,Style 12
 Eyes,Eyes13,Style 13
 Eyes,Eyes14,Style 14
+Eyes,Eyes15,Style 15
 Eyes,Eyes2,Style 2
 Eyes,Eyes3,Style 3
 Eyes,Eyes4,Style 4
@@ -300,6 +315,7 @@ Eyes2,Eyes11,Style 11
 Eyes2,Eyes12,Style 12
 Eyes2,Eyes13,Style 13
 Eyes2,Eyes14,Style 14
+Eyes2,Eyes15,Style 15
 Eyes2,Eyes2,Style 2
 Eyes2,Eyes3,Style 3
 Eyes2,Eyes4,Style 4
@@ -1520,6 +1536,7 @@ ItemPelvis,StraponPanties,Strap-On Panties
 ItemPelvis,StuddedChastityBelt,Studded Chastity Belt
 ItemPelvis,WaistLegHarness,Waist-Leg Full Harness
 ItemPelvis,UntrainersThin,Crinkly Diaper
+ItemPelvis,LatexDiaper,Latex Chastity Diaper
 ItemScript,,Body
 ItemScript,Script,Script
 ItemTorso,,Torso
@@ -1705,6 +1722,7 @@ Panties,WaistLegHarness,Waist-Leg Harness
 Panties,WrapPanties1,Wrap Panties
 Panties,ZipPanties1,Zip-String Panties
 Panties,UntrainersThin,Crinkly Diaper
+Panties,LatexDiaper,Latex Diaper
 Pronouns,,Pronouns
 Pronouns,HeHim,He/Him
 Pronouns,SheHer,She/Her

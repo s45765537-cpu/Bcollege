@@ -1172,7 +1172,7 @@ function StableDoActivity(Activity) {
 			break;
 	}
 
-	//result 2d6 + Skill - Difficulty, min 0 max 10 
+	//result 2d6 + Skill - Difficulty, min 0 max 10
 	var StablePerformance = Math.floor(Math.random() * 6) + 1;
 	StablePerformance += (Math.floor(Math.random() * 6)) + 1;
 	StablePerformance += SkillGetLevel(Player, "Dressage");
@@ -1181,12 +1181,12 @@ function StableDoActivity(Activity) {
 	if (StablePerformance > 9) StablePerformance = 10;
 
 	SkillProgress(Player, "Dressage", StablePerformance * 5);
-	
+
 	let Dict = new DictionaryBuilder()
-					.sourceCharacter(Player)
-					.text("StablePerformance", StablePerformance.toString())
-					.textLookup("StableResult", "StableResult" + StablePerformance)
-					.build();
+		.sourceCharacter(Player)
+		.text("StablePerformance", StablePerformance.toString())
+		.textLookup("StableResult", "StableResult" + StablePerformance)
+		.build();
 	ServerSend("ChatRoomChat", { Content: ( "StableActivity" + Activity), Type: "Action", Dictionary: Dict });
 
 }

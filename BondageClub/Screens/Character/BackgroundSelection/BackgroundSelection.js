@@ -86,7 +86,7 @@ function BackgroundSelectionLoad() {
 
 		const tagFilter = ElementCreateDropdown(Background.elementID.tagFilter, BackgroundSelectionTagList, BackgroundSelectionTagChanged);
 		if (BackgroundSelectionTagList.length < 2) {
-			tagFilter.setAttribute("display", "none");
+			tagFilter.toggleAttribute("hidden", true);
 		}
 		root.append(
 			searchFilter,
@@ -195,6 +195,7 @@ function BackgroundSelectionResize(load) {
  * @returns {void} - Nothing
  */
 function BackgroundSelectionRun() {
+	MainCanvas.textAlign = "center";
 	DrawText(TextGet("Selection").replace("SelectedBackground", BackgroundsTextGet(BackgroundSelectionSelect)), 300, 65, "White", "Black");
 
 	let text = TextGet("Filter").replace("Filtered", BackgroundSelectionView.length.toString()).replace("Total", BackgroundSelectionList.length.toString());

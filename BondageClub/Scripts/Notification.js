@@ -56,10 +56,15 @@ class NotificationEventHandler {
 	 * @returns {void} - Nothing
 	 */
 	raise(data) {
+		// This is grabbed here so the debugger doesn't make it confusing since it steals focus
+		const hasFocus = document.hasFocus();
 		if (this.settings.AlertType !== NotificationAlertType.NONE) {
 			this.raisedCount++;
 
-			if (this.settings.AlertType === NotificationAlertType.POPUP) {
+			if (hasFocus) {
+				// We don't do any kind of notification stuff when we're focused
+			}
+			else if (this.settings.AlertType === NotificationAlertType.POPUP) {
 				if (NotificationPopupsEnabled(this.eventType, data)) {
 					this.raisePopup(data);
 				} else {
@@ -73,7 +78,8 @@ class NotificationEventHandler {
 				NotificationDrawFavicon(false);
 			}
 
-			if (this.playAudio()) {
+			const shouldAlarm = !hasFocus || data.alarmWhenFocused;
+			if (shouldAlarm && this.playAudio()) {
 				AudioPlayInstantSound("Audio/BeepAlarm.mp3");
 			}
 		}
@@ -128,13 +134,12 @@ class NotificationEventHandler {
 	playAudio() {
 		if (this.settings.Audio === NotificationAudioType.NONE) {
 			return false;
-		} else if (this.eventType === NotificationEventType.BEEP && Player.AudioSettings.PlayBeeps) {
-			return false; // Sound already played in ServerAccountBeep()
 		} else if (this.settings.Audio === NotificationAudioType.FIRST && this.raisedCount === 1) {
 			return true;
 		} else if (this.settings.Audio === NotificationAudioType.REPEAT) {
 			return true;
 		}
+		return false;
 	}
 
 	/**

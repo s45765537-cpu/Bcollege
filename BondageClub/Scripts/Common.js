@@ -184,38 +184,39 @@ function CommonParseCSV(str) {
 }
 
 /**
- *  Read a CSV file from cache, or fetch it from the server
- * @param {string} Array - Name of where the cached text is stored
- * @param {string} Path - Path/Group in which the screen is located
- * @param {string} Screen - Screen for which the file is for
- * @param {string} File - Name of the file to get
- * @returns {void} - Nothing
+ * Read a CSV file from the server
+ *
+ * If the file has been cached already it'll use that.
+ *
+ * @warning Note that due to the way fetching is async, the
+ * array you'll get back won't be populated until the fetch completes
+ *
+ * @param {string} url - URL to load
+ * @returns {string[][]}
  */
-function CommonReadCSV(Array, Path, Screen, File) {
-
-	// Changed from a single path to various arguments and internally concatenate them
-	// This ternary operator is used to keep backward compatibility
-	var FullPath = "Screens/" + Path + "/" + Screen + "/" + File + ".csv";
-	if (CommonCSVCache[FullPath]) {
-		window[Array] = CommonCSVCache[FullPath];
-		return;
+function CommonReadCSV(url) {
+	if (CommonCSVCache[url]) {
+		return CommonCSVCache[url];
 	}
 
+	const temp = CommonCSVCache[url] = [];
+
 	// Opens the file, parse it and returns the result in an Object
-	CommonGet(FullPath, function () {
+	CommonGet(url, function () {
 		if (this.status == 200) {
-			CommonCSVCache[FullPath] = CommonParseCSV(this.responseText);
-			window[Array] = CommonCSVCache[FullPath];
+			const parsed = CommonParseCSV(this.responseText);
+			temp.push(...parsed);
 		}
 	});
 
 	// If a translation file is available, we open the txt file and keep it in cache
-	var TranslationPath = FullPath.replace(".csv", "_" + TranslationLanguage + ".txt");
+	const TranslationPath = url.replace(".csv", "_" + TranslationLanguage + ".txt");
 	if (TranslationAvailable(TranslationPath))
 		CommonGet(TranslationPath, function () {
 			if (this.status == 200) TranslationCache[TranslationPath] = TranslationParseTXT(this.responseText);
 		});
 
+	return temp;
 }
 
 /**
@@ -1657,10 +1658,166 @@ var CommonKey = /** @type {const} */({
 });
 
 /**
+ * Partition the string into separate parts using the given replacer keys, replacing them with replacer values
+ * @template T
+ * @param {string} string
+ * @param {Record<string, T>} replacers
+ * @returns {(string | T)[]}
+ */
+function CommonStringPartitionReplace(string, replacers) {
+	const pattern = new RegExp(`(${Object.keys(replacers).map(key => CommonRegEscape(key)).join("|")})`, "g");
+	const matches = Array.from(string.matchAll(pattern));
+	if (matches.length === 0) {
+		return [string];
+	}
+	matches.sort((a, b) => a.index - b.index);
+
+	/** @type {(string | T)[]} */
+	const ret = [];
+	let i = 0;
+	for (const match of matches) {
+		if (match.index < i) {
+			continue;
+		}
+		const prefix = string.slice(i, match.index);
+		if (prefix) {
+			ret.push(prefix);
+		}
+		ret.push(replacers[match[0]]);
+		i = match.index + match[0].length;
+	}
+
+	const suffix = string.slice(i);
+	if (suffix) {
+		ret.push(suffix);
+	}
+	return ret;
+}
+
+/**
+ * Escapes any potential regex syntax characters in a string, and returns a new string that can be safely used as a literal pattern for the {@link RegExp} constructor.
+ * @license MIT - Copyright (c) 2014-2025 Denis Pushkarev, core-js 3.40.0 - 2025.01.08
+ * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/escape
+ * @see https://github.com/zloirock/core-js/blob/v3.40.0/packages/core-js/modules/esnext.regexp.escape.js
+ * @param S The string to escape.
+ * @returns A new string that can be safely used as a literal pattern for the {@link RegExp} constructor.
+ */
+var CommonRegEscape = (() => {
+	// As of the time of writing a limited number of browsers have native `RegExp.escape` support
+	// See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/escape
+	if ("escape" in RegExp && typeof RegExp.escape === "function") {
+		return RegExp.escape;
+	}
+
+	var WHITESPACES = (
+		'\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002' +
+		'\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF'
+	);
+
+	var FIRST_DIGIT_OR_ASCII = /^[0-9a-z]/i;
+	var SYNTAX_SOLIDUS = /^[$()*+./?[\\\]^{|}]/;
+	var OTHER_PUNCTUATORS_AND_WHITESPACES = RegExp('^[!"#%&\',\\-:;<=>@`~' + WHITESPACES + ']');
+	var ControlEscape = {
+		'\u0009': 't',
+		'\u000A': 'n',
+		'\u000B': 'v',
+		'\u000C': 'f',
+		'\u000D': 'r',
+	};
+
+	/** @type {(chr: string) => string} */
+	function escapeChar(chr) {
+		var hex = chr.charCodeAt(0).toString(16);
+		return hex.length < 3 ? '\\x' + hex.padStart(2, '0') : '\\u' + hex.padStart(4, '0');
+	}
+
+	// `RegExp.escape` method
+	// https://github.com/tc39/proposal-regex-escaping
+	/** @type {(S: string) => string} */
+	return function escape(S) {
+		if (typeof S !== 'string') {
+			throw new TypeError('Argument is not a string');
+		}
+
+		var length = S.length;
+		var result = Array(length);
+
+		for (var i = 0; i < length; i++) {
+			var chr = S.charAt(i);
+			if (i === 0 && FIRST_DIGIT_OR_ASCII.exec(chr)) {
+				result[i] = escapeChar(chr);
+			} else if (chr in ControlEscape) {
+				result[i] = '\\' + ControlEscape[chr];
+			} else if (SYNTAX_SOLIDUS.exec(chr)) {
+				result[i] = '\\' + chr;
+			} else if (OTHER_PUNCTUATORS_AND_WHITESPACES.exec(chr)) {
+				result[i] = escapeChar(chr);
+			} else {
+				var charCode = chr.charCodeAt(0);
+				if ((charCode & 0xF800) !== 0xD800) { // single UTF-16 code unit
+					result[i] = chr;
+				} else if (charCode >= 0xDC00 || i + 1 >= length || (S.charCodeAt(i + 1) & 0xFC00) !== 0xDC00) { // unpaired surrogate
+					result[i] = escapeChar(chr);
+				} else { // surrogate pair
+					result[i] = chr;
+					result[++i] = S.charAt(i);
+				}
+			}
+		}
+
+		return result.join('');
+	};
+})();
+
+/**
  *
  * @param {RoomName} screen
  */
 function CommonScreenName(screen) {
 	const cache = TextAllScreenCache.get(`Screens/Room/MainHall/Text_MainHall.csv`);
 	return cache.get(screen);
+}
+
+/**
+ * Generates the path to a translation CSV file for a screen
+ *
+ * @param {string} [module] - The screen's module
+ * @param {string} [screen] - The screen's name
+ * @param {string} [group] - The text group
+ * @returns {string | undefined}
+ */
+function ScreenFileGetTranslation(module, screen, group) {
+	if (!module) module = CurrentModule;
+	if (!screen) screen = CurrentScreen;
+	if (!group) group = screen;
+	if (!module || !screen || !group) return undefined;
+	return ScreenFileGetPath(`Text_${group}.csv`, module, screen);
+}
+
+/**
+ * Generates the path to a CSV Dialog file for a screen
+ *
+ * @param {string} npcType - The dialog file name
+ * @param {string} [module] - The screen's module
+ * @param {string} [screen] - The screen's name
+ * @returns {string}
+ */
+function ScreenFileGetDialog(npcType, module, screen) {
+	if (!module) module = CurrentModule;
+	if (!screen) screen = CurrentScreen;
+	return ScreenFileGetPath(`Dialog_${npcType}.csv`, module, screen);
+}
+
+/**
+ * Generate a path to one of our Screen assets
+ *
+ * @param {string} file
+ * @param {string} [module]
+ * @param {string} [screen]
+ * @returns
+ */
+function ScreenFileGetPath(file, module, screen) {
+	if (!module) module = CurrentModule;
+	if (!screen) screen = CurrentScreen;
+	return `Screens/${module}/${screen}/${file}`;
 }
