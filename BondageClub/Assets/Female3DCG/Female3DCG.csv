@@ -88,6 +88,10 @@ Bra,Swimsuit2,Swimsuit style 2
 Bra,Swimsuit3,Swimsuit style 3
 Bra,LeatherVestSuit,Leather Vest Suit
 Bra,OrnateMetalBra,Ornate Metal Bra
+Bra,SatinCorset,Satin Corset
+Bra,Bandage,Bandage
+Bra,LeatherBunnyHollowBra,Leather Bunny Hollow Bra
+Bra,MaidBra,Maid Bra
 Bracelet,,Bracelet
 Bracelet,Band1,Band 1
 Bracelet,BowBand,Bow Band
@@ -140,7 +144,7 @@ Cloth,Gown2Top,Hobble Gown
 Cloth,Gown3,Shiny Gown
 Cloth,GrandMage,Grand Mage Dress
 Cloth,HeavyLeatherDress,Heavy Leather Dress
-Cloth,Hoodie,Cropped Hoodie
+Cloth,Hoodie,Comfortable Hoodie
 Cloth,Jacket,Jacket
 Cloth,LaceBabydoll,Lace Babydoll
 Cloth,LatexHobbleDress,Strict Hobble Dress
@@ -267,6 +271,8 @@ ClothLower,UtilityKilt,Utility Kilt
 ClothLower,Waspie1,Bondage Waspie
 ClothLower,Waspie2,Royal Waspie
 ClothLower,Waspie3,Straps Waspie
+ClothOuter,,Cloth Outer
+ClothOuter,LeatherJacket,Leather Jacket
 Corset,,Corset
 Corset,Corset1,Corset + Garters
 Corset,Corset2,Corset
@@ -293,6 +299,7 @@ Eyes,Eyes11,Style 11
 Eyes,Eyes12,Style 12
 Eyes,Eyes13,Style 13
 Eyes,Eyes14,Style 14
+Eyes,Eyes15,Style 15
 Eyes,Eyes2,Style 2
 Eyes,Eyes3,Style 3
 Eyes,Eyes4,Style 4
@@ -308,6 +315,7 @@ Eyes2,Eyes11,Style 11
 Eyes2,Eyes12,Style 12
 Eyes2,Eyes13,Style 13
 Eyes2,Eyes14,Style 14
+Eyes2,Eyes15,Style 15
 Eyes2,Eyes2,Style 2
 Eyes2,Eyes3,Style 3
 Eyes2,Eyes4,Style 4
@@ -412,6 +420,7 @@ HairAccessory1,ElfEars,Elf Ears
 HairAccessory1,FoxEars1,Fox Ears Small
 HairAccessory1,FoxEars2,Fox Ears Large
 HairAccessory1,FoxEars3,Fox Ears Bell
+HairAccessory1,CyberEars,Cyber Ears
 HairAccessory1,GiantBow1,Giant Bow 1
 HairAccessory1,HairFeathers1,Feathers
 HairAccessory1,HairFlower1, Flower

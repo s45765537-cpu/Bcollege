@@ -16,18 +16,28 @@ Money:
 金钱：
 Play this card
 打出这张卡牌
+Game has ended.
+游戏已结束。
+Select an option.
+选择一个选项。
+Inspect the Streets.
+检查街道。
 Draw and end your turn
 抽牌并结束你的回合
 End your turn
 结束你的回合
 Select this card
 选择这张牌
+Select tier NUMBER
+选择等级NUMBER
 Don't play this card
 不打出这张牌
 Go bankrupt
 宣布破产
 Concede the game
 认输
+Info
+信息
 Stop watching
 停止观战
 PLAYERNAME conceded and left the game.
@@ -36,6 +46,8 @@ PLAYERNAME stopped watching and left the game.
 PLAYERNAME结束观战并离开了了游戏。
 SOURCEPLAYER has disconnected.
 SOURCEPLAYER已经断开连接。
+Select target card.
+选择目标卡牌。
 Yes
 是
 No
@@ -70,6 +82,10 @@ Your opponent reached 100 Fame and won the game.
 你的对手达到了100声望并赢得了游戏。
 PLAYERNAME reached 100 Fame and won the game.
 PLAYERNAME达到了100声望并赢得了游戏。
+OPPONENTPLAYER conceded the game. You win.
+OPPONENTPLAYER认输。你赢了。
+OPPONENTPLAYER conceded the game. PLAYERNAME wins the game.
+OPPONENTPLAYER认输。PLAYERNAME赢得了游戏。
 End the game
 结束游戏
 Your opponent is playing...
@@ -110,10 +126,12 @@ PLAYERNAME upgraded to Mansion for MONEYAMOUNT Money.
 PLAYERNAME花费MONEY升级到豪宅。
 PLAYERNAME upgraded to Manor for MONEYAMOUNT Money.
 PLAYERNAME花费MONEY升级到庄园。
-SOURCEPLAYER gained AMOUNT Fame.
-SOURCEPLAYER获得了AMOUNT声望。
-SOURCEPLAYER gained AMOUNT Money.
-SOURCEPLAYER获得了AMOUNT金钱。
+SOURCEPLAYER gained AMOUNT Fame from CARDNAME.
+SOURCEPLAYER从CARDNAME获得了AMOUNT声望。
+SOURCEPLAYER gained AMOUNT Money from CARDNAME.
+SOURCEPLAYER从CARDNAME获得了AMOUNT金钱。
+SOURCEPLAYER gained FAMEAMOUNT Fame and MONEYAMOUNT Money from CARDNAME.
+SOURCEPLAYER从CARDNAME获得了FAMEAMOUNT声望和MONEYAMOUNT金钱。
 SOURCEPLAYER lost AMOUNT Fame.
 SOURCEPLAYER失去了AMOUNT声望。
 SOURCEPLAYER lost AMOUNT Money.
@@ -280,12 +298,12 @@ Zealous Cop
 <F>规则就是规则，我会保证规则被遵守。
 Gangster
 歹徒
-+2 Money per Criminal present (Max +5). Remove from your club at the end of turn if Police is present.
-每有一个罪犯在场，+2金钱（最大+5）。如果警察在场，在回合结束时从你的俱乐部移除。
++1 Money per other Criminal present (Max +5). Remove from your club at the end of turn if Police is present.
+每有一个其他罪犯在场，获得+1金钱（最多+5）。如果警察在场，在回合结束时从你的俱乐部移除。
 Paroled Thief
 假释小偷
-Opponent steals 1 Money at end of your turn. Leave the club at end of turn if a Police is present.
-对手在你的回合结束时偷取1金钱。如果警察在场，在回合结束时离开俱乐部。
+Unless a police is present in your club, your opponent steals 1 money at the end of each of your turns.
+除非你的俱乐部有警察在场，否则你的对手在每个回合结束时偷取1金钱。
 Police Cadet
 警察学院
 <F>Hey!  Give me back my keys!
@@ -300,12 +318,12 @@ Draw 2 cards when she enters your club.
 当她进入你的俱乐部时，抽2张卡牌。
 Maid Lover
 女仆爱好者
-+1 Money per turn for each Maid present. (max 3)
-每有一个女仆在场，每回合+1金钱。（最多3）
+Gain +1 Money per maid (Max 3). Gain +2 Fame and -2 Money if you have a tier 4 or higher maid in your club.
+每有一个女仆在场，获得+1金钱（最多3）。如果你的俱乐部有4级或更高级别的女仆，获得+2声望和-2金钱。
 Diaper Lover
 尿布爱好者
-+1 Money per turn for each ABDL Baby present.
-每有一个ABDL宝宝在场，每回合+1金钱。
+Gain +1 money per ABDL baby in your club (Max 3). When an ABDL Baby enters while there are 3+ ABDL Babies already present, draw a card.
+每有一个ABDL宝宝在场，获得+1金钱（最多3）。当有3个或更多ABDL宝宝在场时，一个ABDL宝宝进场时，抽一张卡牌。
 Masochist
 受虐狂
 +1 Fame per turn and +1 Money per turn if at least one Dominant is present.
@@ -316,36 +334,36 @@ Feet Worshiper
 如果至少有一个色情女演员或者ABDL妈咪在场，每回合+2金钱。
 Fin-Dom Simp
 取款机小虾奴
-+1 Money per turn for each Dominant present, maximum of +3.
-如果至少一个支配者在场，每回合+1金钱，最大+3。
+Gain +Money equal to the highest tier Dominant present. Enters: Gain 3 money.
+获得等于在场的最高等级支配者的金钱。进场：获得3金钱。
 Fin-Dom Whale
 取款机大鲸奴
 +2 Money per turn for each Mistress present.  Draw a card when she enters your club.
 每有一个女主人在场，每回合+2金钱。当她进入你的俱乐部时，抽一张卡牌。
 Porn Addict
 色情成瘾者
-+1 Money per turn for each Porn member present.
-每有一个色情会员在场，每回合+1金钱
++1 Money per turn for each Porn member present. (Max +2)
+每有一个色情会员在场，每回合+1金钱。（最多+2）
 Porn Amateur
 业余色情工作者
 <F>I'll be the next Marylin Cumroe.
 <F>我就是下一个玛丽莲·猛撸。
 Porn Movie Director
 色情电影导演
-+1 Fame per turn and +1 Money per turn for each Porn Actress present.
-每有一个色情演员在场，每回合+1声望，每回合+1金钱。
++1 Fame and +1 Money for each Porn Actress present. (Max 4)
+每有一个色情演员在场，获得+1声望和+1金钱。（最多4）
 Porn Lesbian
 色情女同性恋
-+1 Fame per turn if at least one other Porn Actress is present.
-至少有一个其他色情演员在场，每回合+1声望。
+Gets +1 Fame if a fetishist is present. Gets +1 money if another porn actress is present.
+如果有一个恋物癖者在场，获得+1声望。如果有另一个色情演员在场，获得+
 Porn Veteran
 色情老手
-<F>My body count?  You don't want to know.
-<F>我上过多少人？你不会想知道的。
+Enters: Gain 3 Fame and Money.
+进场：获得3声望和金钱。
 Porn Star
 色情明星
-<F>My father would not approve, until I got him a new house.
-<F>我爸不会同意的，直到我给他买了新房子。
+Enters: Gain 5 Fame and Money.
+进场：获得5声望和金钱。
 Cam Girl
 直播女孩
 Draw a card when she enters your club.
@@ -430,12 +448,12 @@ Mistress Sophie
 <F>（法语）你的痛苦就是我的快乐。
 Scammer
 骗子
-<F>This new crypto will change everything.
-<F>这种新的加密会改变一切。
+Your Timed events last 1 fewer turn.
+你的有时间限制的卡牌持续时间减少1回合。
 Pyramid Schemer
 传销骗子
-<F>You recruit five friends, who recruit five friends, who...
-<F>你召集了五个朋友，这些人召集了五个朋友，这些人召集了五个朋友
+When a non-liability member enters your club, lose 1 Money per two lower tier members present.
+当一个非闹事者会员进入你的俱乐部时，每有两个更低等级的会员在场，失去1金钱。
 Ponzi Schemer
 庞氏骗子
 <F>Trust me, this police ankle bracelet is only a kink of mine.
@@ -446,24 +464,26 @@ Party Pooper
 <F>为什么最近大家都这么无聊。
 College Dropout
 大学肄业人
--1 Fame per turn for each College Student present.
-每有一个大学学生在场，每回合-1声望。
+Gets -2 fame if you have more fame than the opponent, and -1 fame if your club is tier 4 or higher.
+如果你的声望比对手高，失去-2声望，如果你的俱乐部等级是4级或更高，失去-1声望。
 Union Leader
 工会领袖
--1 Money per turn for each Maid and Staff present.
-每有一个女仆和工作人员在场，每回合-1金钱。
+Gets +1 Fame for each non-Liability present. Gets -1 Fame for each non-Liability member in your opponent's club. (Max +/- 5)
+每有一个非闹事者在场，获得+1声望。如果你的对手的俱乐部有非闹事者会员，每个失去-1声望。（最多+/- 5）
 No-Fap Advocate
 不撸倡议者
--2 Fame per turn for each Porn Actress present.
-每有一个色情演员在场，每回合-2声望。
+When you play a non-timed event, shuffle a random card from your hand into your deck to draw a card.
+当你打出一个非有时间限制的事件时，将你手牌中的一张随机卡牌洗入你的牌组，然后抽一张卡牌。
 Pandora Infiltrator
 潘多拉潜入者
-<F>Pssssst, you want to try a real BDSM club?
-<F>嘘——你想试试一个真正的BDSM俱乐部吗？
+Randomly gets -1 Fame/Money when a non-liability member that shares a type enters (Max -3/-2). Enters: Gets the type(s) of a selected member.
+当一个非闹事者会员进入时，随机失去-1声望/金钱（最多-3/-2）。进场：获得一个选定会员的类型。
+Select a member to copy their type(s)
+从你的俱乐部选择一个会员，复制TA的类型。
 Uncontrollable Sub
 失控顺从者
--1 Fame per turn for each Dominant present.  -1 Fame per turn for each Mistress present.
-每有一个支配者在场，每回合-1声望。每有一个女主人在场，每回合-1声望。
+When you upgrade your club, set her Fame to -X. X equals the highest fame among members present.
+当你升级你的俱乐部时，将她的声望设置为-X。X等于在场会员中最高的声望。
 Baby Girl
 女宝宝
 +1 Money per turn if at least one ABDL Mommy is present.
@@ -576,8 +596,8 @@ BDSM舞会
 每有一个不是支配者、闹事者、女仆或者工作人员的会员，+1声望。
 Vampire Ball
 吸血鬼舞会
-+3 Fame for each member that's not Dominant, Liability, Maid or Staff.
-每有一个不是支配者、闹事者、女仆或者工作人员的会员，+3声望。
+Gain 2 Fame for each member that's not Dominant, Liability, Kemonomini, Maid, Player, or Staff.
+每有一个不是支配者、闹事者、兽耳娘、女仆、玩家或者工作人员的会员，获得2声望。
 Straitjacket Saturday
 拘束衣周末
 Draw a random Ayslum Nurse. Gain 4 money for each Asylum Patient present.
@@ -672,10 +692,8 @@ For 3 turns, you can play an extra card.
 在3回合内，你可以额外打出一张卡牌。
 Porn Convention
 色情大会
-For 3 turns, all players gain 3 Fame for each Porn Actress in their club at end of turn.
-在3回合内，所有玩家在回合结束时，俱乐部中每有一个色情演员，获得3声望。
-SOURCEPLAYER gains AMOUNT Fame from the Porn Convention.
-SOURCEPLAYER由于色情大会获得了AMOUNT声望。
+For 3 turns, all players gain 3 fame for each Porn Actress in their club at the end of turn (Max 12).
+在3回合内，所有玩家在回合结束时每有一个色情演员在场，获得3声望（最多12）。
 Kidnapping
 绑架
 Remove any member from your opponent club.  You lose opponent building level^2 Money.
@@ -720,24 +738,18 @@ Daycare Party
 托儿所派对
 Gain 4 Fame and draw a card for each ABDL Mommy present.
 每有一个ABDL妈咪在场，获得4声望并抽一张牌。
-Gained AMOUNT fame from the Daycare Party
-由于托儿所派对获得了AMOUNT声望
 Nanny
 保姆奶奶
 When an ABDL Baby enters your club, gain fame equal to your club level.
 当一个ABDL宝宝进入你的俱乐部时，获得与你俱乐部等级相等的声望。
-Nanny gives AMOUNT fame SOURCEPLAYER, when baby enters your club.
-当宝宝进入你的俱乐部时，保姆奶奶给了SOURCEPLAYER AMOUNT声望。
 Dommy Mommy
 支配妈咪
 +1 Fame per turn for each ABDL Baby present. Gain 1 Fame for each member present when she enters your club.
 每有一个ABDL宝宝在场，每回合+1声望。当她进入你的俱乐部时，每有一个会员在场，获得1声望。
 Contract Caretaker
 合同保姆
-When a ABDL Baby enters your club, if opponent has more fame they don't gain fame at the end of their next turn
-当一个ABDL宝宝进入你的俱乐部时，如果对手的声望更多，对手在下个回合结束时不会获得声望。
-No Fame is gained because of OPPONENTPLAYER Contract Caretaker.
-由于OPPONENTPLAYER的合同保姆，没有获得声望。
+When an ABDL Baby enters your club, your opponent loses 4 Fame.
+当一个ABDL宝宝进入你的俱乐部时，你的对手失去4声望。
 Teacher's Aide
 助教
 <F>Aiding her teacher day and night
@@ -756,8 +768,6 @@ Recess
 课间休息
 Draw 2 cards. Gain 2 money for each ABDL Baby and College Student present.
 抽2张牌。每有一个ABDL宝贝和大学学生在场，获得2金钱。
-SOURCEPLAYER draws 2 cards and gains AMOUNT money from Recess
-SOURCEPLAYER由于课间休息抽了2张牌并获得了AMOUNT金钱
 Med Student
 医学生
 +1 Money per turn if an Asylum Patient is present. +1 Fame per turn if a College Teacher is present.
@@ -770,6 +780,30 @@ SOURCEPLAYER draws 1 card from First Bell
 SOURCEPLAYER由于预备铃抽取了1张牌
 SOURCEPLAYER could not draw any cards from First Bell
 SOURCEPLAYER无法由于预备铃抽取任何卡牌
+Debuter
+首次亮相
+Draw a random Event from your deck.
+从你的牌组中抽取一个随机事件。
+SOURCEPLAYER draws 1 random Event from Debuter
+SOURCEPLAYER由于首次亮相抽取了1个随机事件
+SOURCEPLAYER could not draw any Events from Debuter
+SOURCEPLAYER无法由于首次亮相抽取任何事件
+Re-Run
+重播
+Return a Random Video from your Streets to your hand, gain fame equal to it's tier, and take another action.
+从你的街道中返回一个随机视频到你的手牌，获得等于它的等级的声望，并进行另一次行动。
+SOURCEPLAYER returned CARDNAME from their Streets to their hand and gained AMOUNT fame.
+SOURCEPLAYER从他们的街道中返回了CARDNAME到他们的手牌并获得了AMOUNT声望。
+Naughty Knotter
+调皮缚手
+Enters: Play 2 random Knots from your streets.
+进场：从你的街道中打出2个随机绳结。
+Gangbang Banger
+群交狂人
+Return all porn actresses from your club to your hand, then play all porn members in your hand.
+将你俱乐部中的所有色情女演员返回到你的手牌中，然后打出你手牌中的所有色情会员。
+The porn actresses from SOURCEPLAYER’s club leave… and instantly strut right back in!
+SOURCEPLAYER的俱乐部中的色情女演员离开了...然后立刻又走了进来！
 Alvin
 Alvin
 Summon a Ropeslave when playing Restrain, Shibari event or Kidnapping a Dominant or Mistress (max 3 in club)
@@ -788,8 +822,8 @@ SOURCEPLAYER and OPPONENTPLAYER lost AMOUNT fame.
 SOURCEPLAYER和OPPONENTPLAYER失去了AMOUNT声望。
 Sophie
 Sophie
-Before she enters your club, select a member to double their Fame and Money.
-在她进入你的俱乐部之前，选择一个会员，使TA的声望和金钱翻倍。
+Enters: Select a non-Liability member from either club to double their fame and money.
+进场：从任一俱乐部中选择一个非闹事者会员，将他们的声望和金钱翻倍。
 CARDNAME got their fame and money boosted by the lovely Sophie~
 CARDNAME的声望和金钱被可爱的Sophie翻倍了~
 Select a member to enhance before Sophie enters.
@@ -836,10 +870,8 @@ When she enters your club, your opponent doesn't gain fame at the end of their n
 当她进入你的俱乐部时，对手在下个回合结束时不会获得声望。
 No Fame is gained because of OPPONENTPLAYER Nawashi.
 由于OPPONENTPLAYER的绳师，没有获得声望。
-View the Streets (discard pile)
-查看街道（弃牌堆）
-View the opponent's Streets (discard pile)
-查看对手的街道（弃牌堆）
+Streets (discard pile)
+街道（弃牌堆）
 Close
 关闭
 Burlington Bowtie
@@ -936,12 +968,10 @@ Jessica
 Jessica
 Pets treat your building level as 2 higher. When you play a pet, draw a card and gain 1 fame.
 宠物会将你的建筑等级视为更高2级。当你打出一个宠物时，抽一张牌并获得1声望。
-SOURCEPLAYER gained AMOUNT fame from Jessica
-SOURCEPLAYER由于Jessica获得了AMOUNT声望
 MerMaid
 美人鱼
-When she enters the club, lose 25 money. When she enters your club, draw a card and take another action.
-当她进入俱乐部时，失去25金钱。当她进入你的俱乐部是，抽一张牌并进行额外一个行动。
+Enters: Lose 25 Money. Draw a card. If an Owner is present, take another action.
+进场：失去25金钱。抽1张牌。如果有主人在场，进行额外一个行动。
 Puppy
 小狗狗
 When she enters the club, lose 8 money. Gains +1 money per 2 building tiers. Gains +1 Fame if an owner is present.
@@ -952,8 +982,8 @@ Pets treat your building level as 1 higher. If you would discard a pet from your
 宠物会将你的建筑等级视为更高1级。如果你要丢弃一张手牌中的宠物，将其洗入你的牌组。
 Feline Fatale
 危险猫女
-When she enters the club, lose 14 money and remove a member from the opponent's club and they lose fame equal to your building level.
-当她进入俱乐部时，失去14金钱，并移除对手俱乐部中的一个会员，对手失去等于你的建筑等级的声望。
+Enters: Lose 13 money. Remove a member from your opponent's club that has a level equal or lower to an Owner present in your club.
+进入：失去13金钱。从你对手的俱乐部中移除一个会员，TA的等级等于或低于你俱乐部中在场的主人。
 Wolf Girl
 狼女孩
 Enters: Lose 7 Money & opponent randomly discards a card. +1 Fame per 2 of your building levels. +1 Money if an owner is present.
@@ -978,8 +1008,6 @@ Pet Trainer
 宠物训练师
 When you play a pet you gain 2 fame. Gains +3 fame if show dog is present in your club.
 当你打出一个宠物时，获得2声望。如果你的俱乐部中有秀狗，获得+3声望。
-SOURCEPLAYER gained AMOUNT fame from Pet Trainer
-SOURCEPLAYER由于宠物训练师获得了AMOUNT声望
 Show Dog
 表演犬
 When she enters the club, lose 15 money. Your opponent can see your hand as long as this member is in your club.
@@ -988,34 +1016,28 @@ Miss Mouse
 小老鼠小姐
 Costs 1 Money. When you play a pet, gain 1 Fame per 2 building tiers. Gains +1 Money if owner present.
 花费1金钱。当你打出一个宠物时，每有2个建筑等级，获得1声望。如果有主人在场，获得+1金钱。
-SOURCEPLAYER gained AMOUNT fame from Miss Mouse
-SOURCEPLAYER由于小老鼠小姐获得了AMOUNT声望
 Rich Owner
 富有的主人
 Pets treat your building level as 1 higher. +1 Fame if a Maid is present. When a Pet enters, gain 1 Money per pet present (Max 5)
 宠物会将你的建筑等级视为更高1级。如果有一个女仆在场，+1声望。当一个宠物进入时，获得与俱乐部中宠物数量相等的金钱（最多5）
-SOURCEPLAYER gained AMOUNT money from Rich Owner
-SOURCEPLAYER由于富有的主人获得了AMOUNT金钱
 Tour Guide
 导游
 When she enters your club, draw a card. Gains +3 money if tourist is present, gains +3 fame if diplomat is present.
 当她进入你的俱乐部时，抽一张卡牌。如果有游客在场，获得+3金钱，如果有外交官在场，获得+3声望。
 Moon
 月亮女士
-Enters: Moon's magic creates an illusory copy of any chosen member (except herself) in your hand.
-进入：月亮女士的魔法在你的手中制造一个任意选择的会员（除了她自己）的幻影。
-Moon waves her tails, casting an illusion spell, after which CARDNAME appears in your hand.
-月亮女士摇动她的尾巴，释放幻影法术，之后CARDNAME出现在你的手中。
-Select a member to receive an illusory copy in your hand. 
-选择一个会员，获得一个幻影复制品到你的手中。
+Enters: Lose 16 money, select a member on board (except moon) to add a copy to your hand.
+进场：失去16金钱，选择一个在场的会员（除了月亮女士）来添加一个副本到你的手牌。
+Choose a member to create an illusory copy of that card in your hand. 
+选择一个会员来创建一个该卡牌的幻象副本到你的手牌。
 Sticky Fingers
 手不干净
-Enters: Steal 1 Fame and Money. When you steal with another effect, steal 1 Fame and Money.
-进入：偷取1声望和金钱。当你用另一个效果偷取时，偷取1声望和金钱。
+Enters: Steal 2 Fame. When you steal with another effect, steal 1 Fame and Money.
+进场：偷取2声望。当你通过其他效果偷取时，偷取1声望和金钱。
 Earner
 赚钱者
-Gain +1 Money for each Criminal in your streets. (Max +3)
-每有一个罪犯在你的街道中，获得+1金钱。（最多+3）
+Gain +1 Money for each member in your streets. (Max +3)
+每有一个会员在你的街道中，获得+1金钱。（最多+3）
 Naughty Baby
 调皮宝贝
 Enters: Steal 4 money if no Police are present. Then steal 4 fame if no Police are present in opponent's club.
@@ -1026,8 +1048,8 @@ At the end of your turn, spend 8 money to draw a card and gain 3 Fame.
 在你的回合结束时，花费8金钱抽一张卡牌并获得3声望。
 Con Artist
 骗术师
-When you take the draw action, steal 1 Fame. If no Police are in your opponent's club, steal 2 Fame instead.
-当你抽牌时，偷取1声望。如果对手的俱乐部中没有警察，偷取2声望。
+When you take the draw action, if no Police are in your opponent's club, steal 1 Fame.
+当你进行抽牌动作时，如果对手的俱乐部中没有警察，偷取1声望。
 Inspector 
 检查员
 Unless your club level is higher than your opponent's, increase the cost for players to upgrade by 10. 
@@ -1038,10 +1060,8 @@ Opponent loses 3 fame each time they upgrade unless they have a bouncer.
 对手每次升级时失去3声望，除非他们有一个保镖。
 Housekeeper
 女管家
-When a non-maid member enters your club, gain 1 Fame per member present that shares a type with it (Max = club level).
-当一个非女仆会员进入你的俱乐部时，获得与TA共享类型的每个在场会员的1声望（最多等于俱乐部等级）。
-SOURCEPLAYER gained AMOUNT fame from Housekeeper
-SOURCEPLAYER由于女管家获得了AMOUNT声望
+When a non-maid member enters your club, gain 1 Fame per member present that shares a type with it (Max 3).
+当一个非女仆会员进入你的俱乐部时，每有一个与之共享类型的在场会员，获得1声望（最多3）。
 Maid Manager
 女仆经理
 Gains +1 Money for every 2 maids present. At club level 4 or higher, gains +1 Fame instead. (Max +4)
@@ -1072,3 +1092,109 @@ Select a member from your opponent club to set its money to 1
 选择对手俱乐部中的一个会员，将TA的金钱设置为1
 Kemonomimi
 兽耳
+Beat Cop
+巡警
+Enters: Shuffle each player's streets into their deck.
+进场：将每个玩家的街道洗入他们的牌组。
+Knot Tester
+绳缚测试员
+Enters: Play a random Knot event from your deck.
+进场：从你的牌组中打出一个随机绳结事件。
+Insurance Agent
+保险代理人
+Gain 1 money for each card you draw. If you start your turn with no cards in hand, remove this member and draw 3 cards.
+每抽一张牌获得1金钱。如果你在你的回合开始时手牌中没有卡牌，移除此会员并抽3张牌。
+Porn
+色情
+Video
+视频
+Talent Agent
+天赋经纪人
+Enters: Add two Porn Amateurs to your hand. Gains +1 Fame if you have 3 or more videos in your streets.
+进场：将两个色情业余演员添加到你的手牌中。如果你的街道中有3个或更多视频
+Eden
+Eden
+Enters: Play again. Select a tier. Your opponent can't play cards of that tier next turn. Return to hand after 3 turns.
+进场：再次行动。选择一个等级。你的对手在下个回合不能打出该等级的卡牌。3回合后返回手牌。
+Eden prevents the opponent from playing tier AMOUNT.
+Eden阻止对手打出等级为AMOUNT的卡牌。
+Adoption
+收养
+Add a random pet from your deck or streets to your hand, if it's tier is equal to or lower than your building level, play again.
+从你的牌组或街道中添加一个随机宠物到你的手牌中，如果它的等级等于或低于你的建筑等级，再次行动。
+Loving Owner
+贴心主人
+Pets treat your building level as 1 higher. Gains +1 Money if you control a Maid. Gains +2 fame if you control 6 or more pets.
+宠物会将你的建筑等级视为更高1级。如果你控制一个女仆，获得+1金钱。如果你控制6个或更多宠物，获得+2声望。
+Cheeky Hamster
+顽皮仓鼠
+Enters: Lose 12 money. Gains +fame equal to your building level.
+进入：失去12金钱。获得与你的建筑等级相等的声望。
+Vanilla Classic
+标准经典
+Choose a Porn Actress and return it to your hand. Then draw a card and take another action.
+选择一个色情女演员并将其返回到你的手牌中。然后抽一张牌并进行另一次行动
+Select a Porn Actress from your club.
+从你的俱乐部中选择一个色情女演员。
+Guest Star
+嘉宾明星
+When you play a video, gain Fame and Money equal to its tier + number of Porn Actresses present (max 6).
+当你打出一个视频时，获得等于其等级加上在场的色情女演员数量的声望和金钱（最多6）。
+Skye
+Skye
+When a member enters your club, if it has a type not already present in your club you draw a card and lose 2 money.
+当一个会员进入你的俱乐部时，如果它有一个在你的俱乐部中尚未存在的类型，你抽一张牌并失去2金钱。
+Vintage Maid
+最佳女仆
+Enters: Return a member of your choice from your streets to your hand.
+进场：从你的街道中选择一个会员返回到你的手牌中。
+Fetish Flick
+癖好随机
+Return 2 random Porn actresses from your club to your hand, then take 4 actions.
+返回你俱乐部中的2个随机色情女演员到你的手牌中，然后进行4次行动。
+Ball Buster
+蛋蛋破坏者
+Return two random porn actresses from your club to your hand. Your opponent cannot play events or liabilities for 3 turns.
+返回你俱乐部中的两个随机色情女演员到你的手牌中。你的对手在接下来的3回合内不能打出事件或闹事者。
+Timed Event
+限时事件
+Auction
+拍卖
+Kira
+Kira
+Can't leave. Gets +1 Fame per 2 members present (Max 8). Joins: Set the Fame & Money of a member in your club and those adjacent to 0/-2.
+无法离开。每有2个会员在场，获得+1声望（最多8）。加入时：将你俱乐部中一个会员及其相邻的会员的声望和金钱设置为0/-2。
+Select a member from your club.
+从你的俱乐部中选择一个会员。
+ Info
+信息
+Fame
+声望
+Be the first to reach 100 Fame to win!
+首先达到100声望的玩家获胜！
+Some cards generate Fame each turn (shown in square icon).
+一些卡牌每回合生成声望（显示在方形图标中）。
+Fame generation stops if your Money falls below 0.
+声望生成在你的金钱低于0时停止。
+Money
+金钱
+Some cards generate Money each turn (shown in circle icon).
+一些卡牌每回合生成金钱（显示在圆形图标中）。
+Can spend money to upgrade your club tier.
+可以花费金钱来升级你的俱乐部等级。
+Club
+俱乐部
+Higher club tier unlock more space and lets you play better cards: ⤵️
+更高的俱乐部等级解锁更多空间并允许你打出更好的卡牌：⤵️
+T1: Apartment (free, 5🀆) → T2: Cottage (10💲, 8🀆) → 
+T1: 公寓（免费，5🀆）→ T2: 小屋（10💲，8🀆）→
+T3: House (20💲, 13🀆) → T4: Mansion (30💲, 20🀆) → T5: Manor (40💲, 40🀆)
+T3: 房子（20💲，13🀆）→ T4: 豪宅（30💲，20🀆）→ T5: 庄园（40💲，40🀆）
+Liabilities
+闹事者
+Played into opponent's club, take up space and cause negative effects.
+打入对手的俱乐部，占用空间并造成负面效果。
+Streets
+街道
+Used cards that are no longer in play will go to the streets.
+街道是已使用的卡牌，这些卡牌不再在游戏中。

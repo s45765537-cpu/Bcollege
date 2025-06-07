@@ -456,6 +456,9 @@ var AssetFemale3DCGExtended = {
 						{}, // t25 - Shibari
 						{}, // t26 - BullsEye
 						{}, // t27 - Keys?
+						{}, // t28 - VoidOrder
+						{}, // t29 - Malkuth
+						{}, // t28 - Amber Family
 					],
 				},
 			],
@@ -578,9 +581,9 @@ var AssetFemale3DCGExtended = {
 					Key: "l",
 					DrawImages: false,
 					Options: [
-						{}, //l0 - Cropped
-						{}, //l1 - Bolero
-						//{}, //l2 - Full Length - not yet implemented
+						{}, //l0 - Full Length
+						{}, //l1 - Cropped
+						{}, //l2 - Bolero
 					],
 				},
 				//{
@@ -6095,6 +6098,28 @@ var AssetFemale3DCGExtended = {
 								Hide: [],
 							},
 						}, // Blindfold and all gags
+					],
+				},
+				{
+					Name: "Visibility",
+					Key: "b",
+					Options: [
+						{
+							Property: {
+								Hide: ["Blush"],
+								HideItem: [
+									"HatFacePaint",
+									"MaskFacePaint",
+									"ClothAccessoryFacePaint",
+								],
+							},
+						},
+						{
+							Property: {
+								Hide: [],
+								HideItem: [],
+							},
+						},
 					],
 				},
 			],
@@ -15409,6 +15434,28 @@ var AssetFemale3DCGExtended = {
 						}, // Blindfold and all gags
 					],
 				},
+				{
+					Name: "Visibility",
+					Key: "b",
+					Options: [
+						{
+							Property: {
+								Hide: ["Blush"],
+								HideItem: [
+									"HatFacePaint",
+									"MaskFacePaint",
+									"ClothAccessoryFacePaint",
+								],
+							},
+						},
+						{
+							Property: {
+								Hide: [],
+								HideItem: [],
+							},
+						},
+					],
+				},
 			],
 		}, // DroneMask
 		RubberMask: {
@@ -19522,6 +19569,28 @@ var AssetFemale3DCGExtended = {
 						{}, // Blindfold items visible
 						{}, // Blindfold and highest layer gag
 						{}, // Blindfold and all gags
+					],
+				},
+				{
+					Name: "Visibility",
+					Key: "b",
+					Options: [
+						{
+							Property: {
+								Hide: ["Blush"],
+								HideItem: [
+									"HatFacePaint",
+									"MaskFacePaint",
+									"ClothAccessoryFacePaint",
+								],
+							},
+						},
+						{
+							Property: {
+								Hide: [],
+								HideItem: [],
+							},
+						},
 					],
 				},
 			],

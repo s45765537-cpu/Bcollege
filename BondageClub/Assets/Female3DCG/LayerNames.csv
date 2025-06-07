@@ -49,6 +49,18 @@ BraStuddedHarnessMetal,Metal
 BraOrnateMetalBraBra,Bra
 BraOrnateMetalBraMetal,Metal
 BraOrnateMetalBraShine,Shine
+BraSatinCorsetUpper,Body
+BraSatinCorsetUpperLaceEdge,Side Pattern
+BraSatinCorsetUpperLace,Lace Bra
+BraSatinCorsetUpperCrossStraps,Middle Lace
+BraSatinCorsetUpperCenterLine,Lining  
+BraMaidBraBra, Bra
+BraMaidBraLace, Lace
+BraBandageUpper_Body,Body
+BraLeatherBunnyHollowBraRing, Rings
+BraLeatherBunnyHollowBraBraReflection,Shine
+BraLeatherBunnyHollowBraBra,Body
+BraLeatherBunnyHollowBraZipper,Zipper
 ClothAccessoryBibBase,Bib
 ClothAccessoryBibPacis,Pattern
 ClothAccessoryBibText,Text
@@ -144,6 +156,11 @@ ClothLatexHobbleDressBelt,Lower Belts
 ClothLatexHobbleDressBBuckles,Lower Belt Buckles
 ClothLatexHobbleDressCollar,Collar
 ClothLatexHobbleDressCBuckle,Colar Buckle
+ClothOuterLeatherJacketJacket,Jacket
+ClothOuterLeatherJacketMetal,Metal
+ClothOuterLeatherJacketShineJacket,Shine Jacket
+ClothOuterLeatherJacketShineSleeves,Shine Sleeves
+ClothOuterLeatherJacketSleeves,Sleeves
 ClothRibbonCorsetCorset,Corset
 ClothRibbonCorsetRivets,Rivets
 ClothRibbonCorsetRibbon,Ribbon
@@ -327,6 +344,18 @@ EyesEyes143,Eyepupil
 EyesEyes144,Shadow
 EyesEyes145,Shine
 EyesEyes146,Eyelids
+Eyes2Eyes151,Eyeball
+Eyes2Eyes152,Retina
+Eyes2Eyes153,Eyepupil
+Eyes2Eyes154,Shadow
+Eyes2Eyes155,Shine
+Eyes2Eyes156,Eyelids
+EyesEyes151,Eyeball
+EyesEyes152,Retina
+EyesEyes153,Eyepupil
+EyesEyes154,Shadow
+EyesEyes155,Shine
+EyesEyes156,Eyelids
 EyeShadowWingsLine, Eyeliner
 EyeShadowWingsShad, Eyeshadow
 GartersButterflyGarterGarterR,Right leg garter
@@ -411,6 +440,11 @@ HairAccessory2FoxEars3Bell,Bell
 HairAccessory2FoxEars3EarInner,Inner Ear
 HairAccessory2FoxEars3EarOuter,Outer Ear
 HairAccessory2FoxEars3Strap,Strap
+HairAccessory2CyberEarsBands,Bands
+HairAccessory2CyberEarsEars,Ears
+HairAccessory2CyberEarsLights,Lights
+HairAccessory2CyberEarsShine,Shine
+HairAccessory2CyberEarsTop,Top
 HairAccessory2KittenEars1Inner,Inner Ear
 HairAccessory2KittenEars1Outer,Outer Ear
 HairAccessory3EarWarmerMain,Fur

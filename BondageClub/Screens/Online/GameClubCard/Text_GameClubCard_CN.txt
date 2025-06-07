@@ -20,3 +20,5 @@ Cannot join the game, the room administrator isn't in it.
 无法加入游戏，房间管理员不在其中。
 Reset Game
 重置游戏
+Club Card Animation
+俱乐部卡牌动画

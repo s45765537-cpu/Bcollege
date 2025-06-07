@@ -5142,7 +5142,7 @@ function ClubCardCommonLoad() {
 	if (Player.Game.ClubCard == null) Player.Game.ClubCard = { Deck: [] };
 	if (Player.Game.ClubCard.Reward == null) Player.Game.ClubCard.Reward = "";
 	ClubCardList[0].Title = null;
-	CommonReadCSV("NoArravVar", "MiniGame", "ClubCard", "Text_ClubCard");
+	CommonReadCSV(ScreenFileGetTranslation("MiniGame", "ClubCard", "ClubCard"));
 }
 
 /**

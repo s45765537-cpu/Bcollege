@@ -36,6 +36,10 @@ ChatRoomStruggleLoosen,Loosen
 ChatRoomStruggleGiveUp,Give up
 ChatRoomReply,Replying to
 ChatRoomNoMessageFound,Message could not be found.
+CommandBeepInvalidTarget,Invalid member number for target: $target.
+CommandBeepLink,(Beep to {NAME} ({NUMBER}): {MESSAGE})
+CommandBeepNotFriend,We're not friend with member $target.
+CommandBeepEmptyMessage,Please enter a beep message.
 CommandHelp,<strong>Help: KeyWord</strong>
 CommandNoSuchCommand,command: no such command
 CommandPrerequisiteFailed,command: prerequisite check failed

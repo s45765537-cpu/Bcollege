@@ -13,7 +13,7 @@ function RelogLoad() {
 	const elements = /** @type {HTMLElement[]} */(Array.from(document.querySelectorAll(".HideOnPopup, .HideOnDisconnect")));
 	for (const e of elements) {
 		if (e.parentElement === null || e.parentElement === document.body) {
-			e.style.display = "none";
+			e.toggleAttribute("hidden", true);
 		}
 	}
 
@@ -44,7 +44,7 @@ function RelogUnload() {
 
 	const Elements = /** @type {HTMLCollectionOf<HTMLElement>} */(document.getElementsByClassName("HideOnDisconnect"));
 	for (const element of Elements) {
-		element.style.display = "";
+		element.toggleAttribute("hidden", false);
 	}
 }
 

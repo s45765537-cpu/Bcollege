@@ -287,13 +287,23 @@ interface AssetGroupDefinitionBase extends AssetCommonPropertiesGroupAsset, Asse
 	 */
 	Clothing?: boolean;
 
-	// Set to TRUE if all assets in that group should allow editing opacity, set value on asset level to override
+	/**
+	 * Set to TRUE if all assets in that group should allow editing opacity, set value on asset level to override
+	 *
+	 * @default false
+	 */
 	EditOpacity?: boolean;
 
-	// The default minimum opacity for that group, set value on asset level to override
+	/**
+	 * The default minimum opacity for that group, set value on asset level to override
+	 * @default 1
+	 */
 	MinOpacity?: number;
 
-	// The default maximum opacity for that group, set value on asset level to override
+	/**
+	 * The default maximum opacity for that group, set value on asset level to override
+	 * @default 1
+	 */
 	MaxOpacity?: number;
 
 	/** Whether the group is considered underwear
