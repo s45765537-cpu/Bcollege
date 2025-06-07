@@ -24,20 +24,21 @@ function CommonDrawCanvasPrepare(C) {
  * @param {Character} C - The character to prepare
  * @param {AssetGroup} group - The asset group
  * @param {AssetGroupName} groupName -  The asset group.
- * @param {AssetPoseMap} poseSegment - The pose the user is in.
+ * @param {AssetPoseName | PoseType} pose - The pose the user is in.
  * @param {Asset} asset - target asset
  * @returns {string} baseURL - URL pointing to asset art to load
  */
-function AssetBaseURL(C, group, groupName, poseSegment, asset) {
+function AssetBaseURL(C, group, groupName, pose, asset) {
 
 	// determine what body is selected
-    let bodyStyle = InventoryGet(C, "BodyStyle").Asset;
+	const bodyStyle = InventoryGet(C, "BodyStyle").Asset;
 
 	// set base body url
-    let baseURL = `Assets/${group.Family}/${groupName}/${poseSegment}`;
-    if (bodyStyle.StyleOverride?.includes(groupName) || asset.StyleOverride?.includes(bodyStyle.Name)) {
-        baseURL = `Assets/${group.Family}/Override/${bodyStyle.Name}/${groupName}/${poseSegment}`;
-    }
+	const poseSegment = pose ? pose + "/" : "";
+	let baseURL = `Assets/${group.Family}/${groupName}/${poseSegment}`;
+	if (bodyStyle.StyleOverride?.includes(groupName) || asset.StyleOverride?.includes(bodyStyle.Name)) {
+		baseURL = `Assets/${group.Family}/Override/${bodyStyle.Name}/${groupName}/${poseSegment}`;
+	}
 
 	return baseURL;
 }
@@ -53,7 +54,6 @@ function CommonDrawAppearancePrepareMaskLayers(C) {
 		// Same as url logic in CommonDrawAppearanceBuild, but masks should use its own properties
 		// Also masks don't have colorization, so we don't need to check for it
 
-		AssetBase
 		const asset = layer.Asset;
 		const group = asset.Group;
 		let item = C.Appearance.find(i => i.Asset === asset);
@@ -99,17 +99,12 @@ function CommonDrawAppearancePrepareMaskLayers(C) {
 		if (typeof pose !== "string") pose = /** @type {AssetPoseName} */("");
 
 		// Check the current pose against the assets' supported pose mapping
-		/** @type {string} */
-		let poseSegment = layer.PoseMapping[pose];
-		switch (poseSegment) {
-			case PoseType.HIDE:
-			case PoseType.DEFAULT:
-			case undefined:
-				poseSegment = "";
-				break;
-			default:
-				poseSegment += "/";
-				break;
+		/** @type {AssetPoseName}  */
+		let poseSegment;
+		if (layer.PoseMapping[pose] === PoseType.HIDE || layer.PoseMapping[pose] === PoseType.DEFAULT) {
+			poseSegment = null;
+		} else {
+			poseSegment = /** @type {AssetPoseName} */ (layer.PoseMapping[pose]);
 		}
 
 		// set the base url for the body
@@ -182,9 +177,6 @@ function CommonDrawAppearanceBuild(C, {
 		const group = asset.Group;
 		let item = C.Appearance.find(i => i.Asset === asset);
 		let groupName = asset.DynamicGroupName;
-
-		// get the selected body
-		let bodyStyle = InventoryGet(C, "BodyStyle").Asset;
 
 		// If there's a pose style we must add (items take priority over groups, layers may override completely)
 		let pose = CommonDrawResolveAssetPose(C, layer);
@@ -326,18 +318,12 @@ function CommonDrawAppearanceBuild(C, {
 		const itemIsLocked = !!(item.Property && item.Property.LockedBy);
 
 		// Check the current pose against the assets' supported pose mapping
-		/** @type {string} */
-		let poseSegment = layer.PoseMapping[pose];
-
-		switch (poseSegment) {
-			case PoseType.HIDE:
-			case PoseType.DEFAULT:
-			case undefined:
-				poseSegment = "";
-				break;
-			default:
-				poseSegment += "/";
-				break;
+		/** @type {AssetPoseName}  */
+		let poseSegment;
+		if (layer.PoseMapping[pose] === PoseType.HIDE || layer.PoseMapping[pose] === PoseType.DEFAULT) {
+			poseSegment = null;
+		} else {
+			poseSegment = /** @type {AssetPoseName} */ (layer.PoseMapping[pose]);
 		}
 
 		if (layer.HasImage && (!layer.LockLayer || itemIsLocked)) {
