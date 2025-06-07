@@ -4268,6 +4268,10 @@ declare namespace CraftingJSON {
 		crafts: (null | string)[];
 	}
 
+	export interface DataDencoded extends Omit<DataEncoded, "crafts"> {
+		crafts: (null | CraftingItem)[];
+	}
+
 	interface ParsingOutputBase {
 		/** The status code */
 		status: CraftingStatusType;
