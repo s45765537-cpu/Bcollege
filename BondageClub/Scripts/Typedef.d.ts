@@ -536,7 +536,7 @@ type AssetGroupScriptName = 'ItemScript';
 
 type AssetGroupBodyName =
 	ExpressionGroupName | 'AnkletLeft' | 'AnkletRight' | 'ArmsLeft' | 'ArmsRight' |
-	'BodyLower' | 'BodyUpper' | 'BodyMarkings' | 'Bra' | 'Bracelet' | 'Cloth' |
+	'BodyStyle' | 'BodyLower' | 'BodyUpper' | 'BodyMarkings' | 'Bra' | 'Bracelet' | 'Cloth' |
 	'ClothAccessory' | 'ClothLower' | 'ClothOuter' | 'Corset' | 'EyeShadow' | 'FacialHair' | 'Garters' | 'Glasses' | 'Gloves' |
 	'HairAccessory1' | 'HairAccessory2' | 'HairAccessory3' | 'HairBack' |
 	'HairFront' | 'HandAccessoryLeft' | 'HandAccessoryRight' |  'FacialHair' | 'Hat' | 'Head' | 'Height' | 'Jewelry' | 'Mask' |
@@ -1044,6 +1044,8 @@ interface AssetGroup {
 	readonly FreezeActivePose?: never;
 	readonly PreviewZone?: RectTuple;
 	readonly DynamicGroupName: AssetGroupName;
+	readonly StyleOverride?: string [];
+	readonly SupportedStyles?: string [];
 
 	readonly MirrorActivitiesFrom?: AssetGroupItemName;
 	readonly ArousalZone?: AssetGroupItemName;
@@ -1233,6 +1235,8 @@ interface Asset {
 	readonly HideItemAttribute: readonly AssetAttribute[];
 	readonly Require: readonly AssetGroupBodyName[];
 	readonly SetPose?: readonly AssetPoseName[];
+	readonly StyleOverride?: stirng[];
+	readonly SupportedStyles?: stirng[];
 	/** @deprecated - Superceded by {@link Asset.PoseMapping} */
 	readonly AllowPose?: never;
 	/** @deprecated - Superceded by {@link Asset.PoseMapping} */
