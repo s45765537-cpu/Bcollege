@@ -42,7 +42,7 @@ const PreferenceSubscreenChatCheckboxes = [
 			Player.ChatSettings.PreserveChat = !Player.ChatSettings.PreserveChat;
 			const roomSeps = /** @type {HTMLDivElement[]} */(Array.from(document.querySelectorAll("#TextAreaChatLog .chat-room-sep")));
 			if (Player.ChatSettings.PreserveChat) {
-				roomSeps.forEach(e => e.style.display = "");
+				roomSeps.forEach(e => e.toggleAttribute("hidden", false));
 			}
 		}
 	},

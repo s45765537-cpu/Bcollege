@@ -20,9 +20,9 @@ function InventoryItemDevicesKabeshiriWallDrawHook(data, originalFunction) {
 
 	const elements = textData.textNames.map(i => document.getElementById(PropertyGetID(i, DialogFocusItem)));
 	if (data.currentModule !== ModularItemBase) {
-		elements.forEach(el => el.style.display = "none");
+		elements.forEach(el => el.toggleAttribute("hidden", true));
 	} else {
-		elements.forEach(el => el.style.display = "block");
+		elements.forEach(el => el.toggleAttribute("hidden", false));
 		TextItem.Draw(textData);
 	}
 	originalFunction();

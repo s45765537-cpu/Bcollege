@@ -150,6 +150,14 @@ Swimsuit style 3
 泳衣样式 3
 Leather Vest Suit
 透视皮衣
+Ornate Metal Bra
+华丽金属文胸
+Satin Corset
+缎面束腰
+Bandage
+绷带
+Leather Bunny Hollow Bra
+皮革兔女郎空心文胸
 Bracelet
 手镯
 Band 1
@@ -334,6 +342,10 @@ Shoulderless Wedding Dress
 无肩婚纱礼服
 Yukata
 浴衣
+Cocktail Dress
+鸡尾酒裙
+Maid Bikini
+女仆比基尼
 Cloth Accessory
 服装配饰
 Bib
@@ -396,6 +408,10 @@ Large Neck Fur
 大颈毛
 Spiky Neck Fur
 尖刺颈毛
+Hooded Cloak
+头套斗篷
+Side Ruffles
+两侧褶边
 Bottom
 下装
 Admiral Skirt
@@ -498,6 +514,10 @@ Royal Waspie
 皇家妇女紧身带
 Straps Waspie
 紧身胸带
+Cloth Outer
+外套
+Leather Jacket
+皮革夹克
 Corset
 束腰
 Corset + Garters
@@ -734,6 +754,8 @@ Fox Ears Large
 狐耳 大
 Fox Ears Bell
 狐耳 + 铃铛
+Cyber Ears
+赛博耳朵
 Giant Bow 1
 大蝴蝶结 1
 Feathers
@@ -992,6 +1014,18 @@ Style 78b
 样式 78b
 Style 78c
 样式 78c
+Style 79
+样式 79
+Style 80
+样式 80
+Style 81
+样式 81
+Style 82
+样式 82
+Style 83
+样式 83
+Style 84
+样式 84
 None
 无
 Front Hair
@@ -1638,6 +1672,8 @@ Wooden Stocks
 木制牲畜架
 St. Andrews Cross
 圣安德鲁斯X字架
+Highchair
+高脚椅
 Bluetooth Earbuds
 蓝牙耳机
 Futuristic Earphones
@@ -2358,8 +2394,6 @@ Lover Leather Collar
 恋人皮革项圈
 Maid Collar
 女仆围脖
-Metal Cuff Collar
-金属铐项圈
 Neck Rope
 脖绳
 Noble Corset Collar
@@ -2458,6 +2492,8 @@ Medium Rope
 中长绳
 Short Rope
 短绳
+Metal Cuff Collar
+金属铐项圈
 Pet Sign
 宠物标牌
 Hitching Post
@@ -2608,6 +2644,10 @@ Studded Chastity Belt
 铆钉式贞操腰带
 Waist-Leg Full Harness
 腰腿完全束缚带
+Crinkly Diaper
+皱褶尿布
+Latex Chastity Diaper
+乳胶贞操尿布
 Script
 脚本
 Torso
@@ -2904,6 +2944,8 @@ Wrap Panties
 包裹形内裤
 Zip-String Panties
 拉链内裤
+Latex Diaper
+乳胶尿布
 Pronouns
 称谓
 He/Him

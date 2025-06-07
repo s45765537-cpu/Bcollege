@@ -286,7 +286,6 @@ function GameTouchStart(event) {
 	if (GameMouseIsDown) { return; }
 	GameTouchMove(event, false);
 	CommonMouseDown(event);
-	CommonClick(event);
 	GameMouseIsDown = true;
 	CommonTouchList = event.touches;
 }
@@ -299,6 +298,7 @@ function GameTouchEnd(event) {
 	if (!CommonIsMobile) { return; }
 	if (!GameMouseIsDown) { return; }
 	CommonMouseUp(event);
+	CommonClick(event);
 	GameMouseIsDown = false;
 	CommonTouchList = event.touches;
 }

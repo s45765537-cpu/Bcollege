@@ -76,6 +76,22 @@ Harness
 束带
 Metal
 金属
+Side Pattern
+侧部样式
+Lace Bra
+蕾丝胸罩
+Middle Lace
+中间蕾丝
+Lining  
+边线
+ Bra
+胸罩
+ Lace
+蕾丝
+ Rings
+环圈
+Zipper
+拉链
 Bib
 围嘴
 Pattern
@@ -112,6 +128,12 @@ Shoulders
 肩膀
 Buckle
 皮带扣
+Cape
+斗篷
+Shoulder
+肩部
+Ruffles
+褶边
 Jacket
 外套
 Shirt
@@ -170,6 +192,12 @@ Lower Belt Buckles
 下部皮带搭扣
 Colar Buckle
 领子搭扣
+Shine Jacket
+闪亮夹克
+Shine Sleeves
+闪亮袖子
+Sleeves
+袖子
 Rivets
 铆钉
 Ribbon
@@ -286,8 +314,6 @@ Right Panel
 右面板
 Apron
 围裙
-Sleeves
-袖子
 Detail Trim
 细节装饰
 Edge Trim
@@ -308,6 +334,8 @@ Arm Puffs
 肩部蓬松
 Print
 图案
+Ring
+环圈
 Piercings
 穿刺
 Eyebrow
@@ -406,6 +434,8 @@ Inner Webbing
 内侧网状
 Edge
 边缘
+Lights
+灯光
 Bun
 包子
 Tips
@@ -438,6 +468,24 @@ Right Braid
 右侧辫子
 Left Braid
 左侧辫子
+Left Tie
+左侧扎带
+Right Tie
+左侧扎带
+Tone
+色调
+Left Main
+左侧主体
+Left Clip
+左侧发卡
+Right Main
+右侧主体
+Right Clip
+右侧发卡
+Left Streak
+左侧发缕
+Right Streak
+右侧发缕
  Base
 基础
  Fluff
@@ -572,8 +620,6 @@ Shoulder straps
 肩部束带
 Heel straps
 鞋跟束带
-Zipper
-拉链
 Rubber skirt
 橡胶裙子
 Locks
@@ -695,7 +741,7 @@ Straps Base
 Bra Cup
 罩杯
 Lining
-边线
+线条
 Tickler
 挠痒器
 Wiring
@@ -904,6 +950,36 @@ Wooden Frame
 绳子
 Arm Stocks
 手枷
+Chair
+椅子
+Tray
+托盘
+Cushion
+靠垫
+Baby Food
+婴儿食品
+Fork
+叉子
+Plate
+底板
+Brocoli
+西兰花
+Potato
+土豆
+Cookie Shapes
+饼干形状
+Cookies
+饼干
+Bottle Milk
+牛奶瓶
+Bottle Outline
+瓶轮廓
+Bottle Cork
+瓶塞
+Sippy Cup
+吸管杯
+Face Stains
+面部污渍
 Dark
 深色
 Leather Cuff Link
@@ -1163,7 +1239,7 @@ Collar Band
 Collar Link
 项圈链接
  Lining
-线条
+内衬
  Holes
 洞
  Muzzle
@@ -1242,8 +1318,6 @@ Postit
 便条纸
 Refreshments
 物件
-Tray
-托盘
 Metal straps
 金属束带
 Muzzle
@@ -1290,8 +1364,6 @@ Tubes
 管子
 Fixing
 固定圈
-Ring
-环圈
 Pony
 小马
 Mouth Shine
@@ -1410,16 +1482,6 @@ Leather Strap
 皮束带
 Patch
 补丁
-Cuff collar
-手铐项圈
-Handcuffs
-手铐
-Handcuffs chains
-手铐链条
-Leash
-牵引绳
-Leash handle
-牵引绳把手
  Buckles
 搭扣
 Middle Ring
@@ -1430,8 +1492,16 @@ Right Ring
 右边环
 Handle
 抓手
-Plate
-底板
+Leash
+牵引绳
+Cuff collar
+手铐项圈
+Handcuffs
+手铐
+Handcuffs chains
+手铐链条
+Leash handle
+牵引绳把手
 Baseplate
 底板
 Side Plates
@@ -1564,6 +1634,14 @@ Vibrator head
 振动器头部
 Vibrator body
 振动器身体
+Middle
+中部
+Tabs
+标签
+Wet
+湿润
+Indicator
+指示器
 Module
 模块
 Clasps
