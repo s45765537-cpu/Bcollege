@@ -1214,14 +1214,14 @@ var AssetFemale3DCG = [
 						AllowTypes: { t: 28 },
 						CopyLayerColor: "None",
 					},
-										{
+					{
 						Name: "Malkuth",
 						PoseMapping: {},
 						ParentGroup: {},
 						AllowTypes: { t: 29 },
 						CopyLayerColor: "None",
 					},
-										{
+					{
 						Name: "AmberFam",
 						PoseMapping: {},
 						ParentGroup: {},
@@ -3863,8 +3863,6 @@ var AssetFemale3DCG = [
 				Left: 0,
 				Priority: 23,
 				Value: 50,
-				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				ParentGroup: "BodyUpper",
 				PoseMapping: {},
 				HideItem: [
@@ -3872,19 +3870,21 @@ var AssetFemale3DCG = [
 					"ItemNipplesPiercingsNecklacePiercingChain",
 					"ItemNipplesLactationPump",
 				],
-				Extended: true,
-				DynamicAfterDraw: true,
-				DefaultColor: ["#000000"],
+				Hide: ["Pussy"],
+				DefaultColor: ["#606060", "#5B5B5B", "#808080"],
 				Layer: [
 					{
 						Name: "Buttons",
 						ParentGroup: {},
+						Priority: 25,
 					},
 					{
 						Name: "Straps",
+						Priority: 24,
 					},
 					{
 						Name: "Frills",
+						Priority: 23,
 					},
 				],
 			},
@@ -3917,6 +3917,9 @@ var AssetFemale3DCG = [
 					{
 						Name: "Back",
 						CopyLayerColor: "Front",
+						PoseMapping: {
+							Kneel: "Kneel",
+						},
 						Priority: 5,
 					},
 					{
@@ -4007,14 +4010,14 @@ var AssetFemale3DCG = [
 				Priority: 34,
 				Left: 0,
 				Top: 0,
-				DefaultColor: ["#A91B3F"],
+				DefaultColor: ["#808080"],
 				Layer: [
 					{
-						Name: "frontlayer",
+						Name: "FrontLayer",
 					},
 					{
-						Name: "backlayer",
-						CopyLayerColor: "frontlayer",
+						Name: "BackLayer",
+						CopyLayerColor: "FrontLayer",
 						Priority: 4,
 					},
 				],
@@ -4040,13 +4043,14 @@ var AssetFemale3DCG = [
 						Priority: 2,
 					},
 					{ Name: "Shoulder" },
-					{ Name: "Lace" },
-					{ Name: "Collar" },
+					{ Name: "Lace", PoseMapping: {} },
+					{ Name: "Collar", PoseMapping: {} },
 					{
 						Name: "BackHood",
 						Priority: 3,
 						AllowTypes: { h: [1, 2] },
 						CopyLayerColor: "Collar",
+						PoseMapping: {},
 						Alpha: [
 							{
 								Group: [
@@ -4084,12 +4088,14 @@ var AssetFemale3DCG = [
 						AllowTypes: { h: 1 },
 						CopyLayerColor: "Collar",
 						Priority: 53,
+						PoseMapping: {},
 					},
 					{
 						Name: "HoodCoverEyes",
 						AllowTypes: { h: 2 },
 						CopyLayerColor: "Collar",
 						Priority: 53,
+						PoseMapping: {},
 					},
 				],
 			},
@@ -9043,6 +9049,7 @@ var AssetFemale3DCG = [
 						Name: "Back",
 						CopyLayerColor: "Base",
 						ParentGroup: {},
+						PoseMapping: {},
 						Priority: 6,
 					},
 				],
@@ -9054,7 +9061,7 @@ var AssetFemale3DCG = [
 				Top: 325,
 				Left: 127,
 				Value: 28,
-				BuyGroup: "UntrainersThins",
+				BuyGroup: "UntrainersThin",
 				Priority: 20,
 				Fetish: ["ABDL"],
 				EditOpacity: true,
@@ -9487,6 +9494,7 @@ var AssetFemale3DCG = [
 					"ItemVulvaPiercingsVibeHeartClitPiercing",
 					"ItemVulvaPiercingsClitRing",
 				],
+				Hide: ["Pussy"],
 				Layer: [{ Name: "Base" }, { Name: "Flowers" }],
 			},
 			{
@@ -49118,6 +49126,138 @@ var AssetFemale3DCG = [
 				Layer: [{ Name: "Body" }, { Name: "Display" }],
 			},
 			{
+				Name: "HypnoticVisor",
+				InventoryID: 1248,
+				Difficulty: 6,
+				Priority: 50,
+				Value: 80,
+				Time: 3,
+				Top: 85,
+				Left: 185,
+				DefaultColor: [
+					"#790BFF",
+					"#808080",
+					"#5B23D9",
+					"#100024",
+					"#808080",
+					"#E6E6E6",
+				],
+				Random: false,
+				AllowLock: true,
+				DrawLocks: false,
+				Hide: ["Mask", "Glasses"],
+				//Effect: [E.VR],
+				Extended: true,
+				AlwaysExtend: true,
+				DynamicAfterDraw: true,
+				EditOpacity: true,
+				Audio: "FuturisticApply",
+				Layer: [
+					{
+						Name: "Bead",
+						Priority: 53,
+					},
+					{
+						Name: "BeadSupport",
+						Priority: 52,
+					},
+					{
+						Name: "PatternA0",
+						AllowTypes: { t: [0], p: [0] },
+					},
+					{
+						Name: "PatternA1",
+						AllowTypes: { t: [0], p: [1] },
+						CopyLayerColor: "PatternA0",
+					},
+					{
+						Name: "PatternA2",
+						AllowTypes: { t: [0], p: [2] },
+						CopyLayerColor: "PatternA0",
+					},
+					{
+						Name: "PatternA3",
+						AllowTypes: { t: [0], p: [3] },
+						CopyLayerColor: "PatternA0",
+					},
+					{
+						Name: "PatternB0",
+						AllowTypes: { t: [1], p: [0] },
+						CopyLayerColor: "PatternA0",
+					},
+					{
+						Name: "PatternB1",
+						AllowTypes: { t: [1], p: [1] },
+						CopyLayerColor: "PatternA0",
+					},
+					{
+						Name: "PatternB2",
+						AllowTypes: { t: [1], p: [2] },
+						CopyLayerColor: "PatternA0",
+					},
+					{
+						Name: "PatternB3",
+						AllowTypes: { t: [1], p: [3] },
+						CopyLayerColor: "PatternA0",
+					},
+					{
+						Name: "DecalBunny",
+						AllowTypes: { d: [1] },
+						Priority: 51,
+					},
+					{
+						Name: "DecalCat",
+						AllowTypes: { d: [2] },
+						CopyLayerColor: "DecalBunny",
+						Priority: 51,
+					},
+					{
+						Name: "DecalSnake",
+						AllowTypes: { d: [3] },
+						CopyLayerColor: "DecalBunny",
+						Priority: 51,
+					},
+					{
+						Name: "DecalFox",
+						AllowTypes: { d: [4] },
+						CopyLayerColor: "DecalBunny",
+						Priority: 51,
+					},
+					{
+						Name: "DecalPony",
+						AllowTypes: { d: [5] },
+						CopyLayerColor: "DecalBunny",
+						Priority: 51,
+					},
+					{
+						Name: "DecalXeno",
+						AllowTypes: { d: [6] },
+						CopyLayerColor: "DecalBunny",
+						Priority: 51,
+					},
+					{
+						Name: "DecalLeaf",
+						AllowTypes: { d: [7] },
+						CopyLayerColor: "DecalBunny",
+						Priority: 51,
+					},
+					{
+						Name: "FrameA",
+						AllowTypes: { t: [0] },
+					},
+					{
+						Name: "FrameB",
+						AllowTypes: { t: [1] },
+						CopyLayerColor: "FrameA",
+					},
+					{
+						Name: "Text",
+						HasImage: false,
+						Priority: 55,
+					},
+				],
+			},
+			{
 				Name: "LeatherSlimMask",
 				InventoryID: 975,
 				Fetish: ["Leather"],
@@ -58323,6 +58463,7 @@ var AssetFemale3DCG = [
 				],
 				Priority: 46,
 				AllowLock: true,
+				DrawLocks: false,
 				AllowTighten: true,
 				Difficulty: 8,
 				Effect: [E.Freeze, E.MapImmobile],

@@ -3066,6 +3066,45 @@ ItemHeadWebBlindfoldBlindfold,Blindfold
 ItemHeadWebBlindfoldCocoon,Cocoon
 ItemHeadWebBlindfoldSetBlindfold,SourceCharacter creates a blindfold out of web for TargetCharacter
 ItemHeadWebBlindfoldSetCocoon,SourceCharacter creates a cocoon out of web for TargetCharacter
+ItemHeadHypnoticVisorSelectBase,Select Hypnotic Visor Details
+ItemHeadHypnoticVisorSelectFrame,Select Hypnotic Visor Frame
+ItemHeadHypnoticVisorSelectPattern,Select Hypnotic Visor Pattern
+ItemHeadHypnoticVisorSelectDecal,Select Hypnotic Visor Decal
+ItemHeadHypnoticVisorSelectText,Select Hypnotic Visor Text
+ItemHeadHypnoticVisorModuleFrame,Visor Frame
+ItemHeadHypnoticVisorModulePattern,Hypnosis algorithm
+ItemHeadHypnoticVisorModuleDecal,Visor Branding
+ItemHeadHypnoticVisorModuleText,Subliminal Message
+ItemHeadHypnoticVisorOptiont0,Frame A
+ItemHeadHypnoticVisorSett0,SourceCharacter changes DestinationCharacter hypnotic visor frame.
+ItemHeadHypnoticVisorOptiont1,Frame B
+ItemHeadHypnoticVisorSett1,SourceCharacter changes DestinationCharacter hypnotic visor frame.
+ItemHeadHypnoticVisorOptionp0,Opaque
+ItemHeadHypnoticVisorSetp0,SourceCharacter removes DestinationCharacter hypnotic visor pattern.
+ItemHeadHypnoticVisorOptionp1,Pattern 1
+ItemHeadHypnoticVisorSetp1,SourceCharacter changes DestinationCharacter hypnotic visor pattern.
+ItemHeadHypnoticVisorOptionp2,Pattern 2
+ItemHeadHypnoticVisorSetp2,SourceCharacter changes DestinationCharacter hypnotic visor pattern.
+ItemHeadHypnoticVisorOptionp3,Pattern 3
+ItemHeadHypnoticVisorSetp3,SourceCharacter changes DestinationCharacter hypnotic visor pattern.
+ItemHeadHypnoticVisorOptiond0,None
+ItemHeadHypnoticVisorSetd0,SourceCharacter removes DestinationCharacter hypnotic visor branding.
+ItemHeadHypnoticVisorOptiond1,Bunny
+ItemHeadHypnoticVisorSetd1,SourceCharacter puts a bunny branding on DestinationCharacter hypnotic visor.
+ItemHeadHypnoticVisorOptiond2,Cat
+ItemHeadHypnoticVisorSetd2,SourceCharacter puts a cat branding on DestinationCharacter hypnotic visor.
+ItemHeadHypnoticVisorOptiond3,Snake
+ItemHeadHypnoticVisorSetd3,SourceCharacter puts a snake branding on DestinationCharacter hypnotic visor.
+ItemHeadHypnoticVisorOptiond4,Fox
+ItemHeadHypnoticVisorSetd4,SourceCharacter puts a fox branding on DestinationCharacter hypnotic visor.
+ItemHeadHypnoticVisorOptiond5,Pony
+ItemHeadHypnoticVisorSetd5,SourceCharacter puts a pony branding on DestinationCharacter hypnotic visor.
+ItemHeadHypnoticVisorOptiond6,Xeno
+ItemHeadHypnoticVisorSetd6,SourceCharacter puts a xeno branding on DestinationCharacter hypnotic visor.
+ItemHeadHypnoticVisorOptiond7,Leaf
+ItemHeadHypnoticVisorSetd7,SourceCharacter puts a leaf branding on DestinationCharacter hypnotic visor.
+ItemHeadHypnoticVisorOptione0,Text
+ItemHeadHypnoticVisorSete0,SourceCharacter changes DestinationCharacter hypnotic visor subliminal message.
 ItemHoodBigMouthHoodEmpty,None
 ItemHoodBigMouthHoodLenses,Lenses
 ItemHoodBigMouthHoodMesh,Mesh

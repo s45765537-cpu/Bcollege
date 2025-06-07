@@ -19294,6 +19294,64 @@ var AssetFemale3DCGExtended = {
 				Exit: FuturisticAccessExit,
 			},
 		}, // InteractiveVRHeadset
+		HypnoticVisor: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Frame",
+					Key: "t",
+					Options: [
+						{}, // t0 - Frame A
+						{}, // t1 - Frame B
+					],
+				},
+				{
+					Name: "Pattern",
+					Key: "p",
+					Options: [
+						{}, // p0 - Opaque
+						{}, // p1 - Pattern 1
+						{}, // p2 - Pattern 2
+						{}, // p3 - Pattern 3
+					],
+				},
+				{
+					Name: "Decal",
+					Key: "d",
+					Options: [
+						{}, // d0 - None
+						{}, // d1 - Bunny
+						{}, // d2 - Cat
+						{}, // d3 - Snake
+						{}, // d4 - Fox
+						{}, // d5 - Pony
+						{}, // d6 - Xeno
+						{}, // d7 - Leaf
+					],
+				},
+				{
+					Name: "Text",
+					Key: "e",
+					Options: [
+						{
+							HasSubscreen: true,
+							ArchetypeConfig: {
+								Archetype: ExtendedArchetype.TEXT,
+								MaxLength: { Text: 16 },
+								Font: "sans-serif",
+								ScriptHooks: {
+									AfterDraw: (...args) =>
+										TextItem.GenericTextDrawHook(...args, {
+											YOffset: 10,
+											drawOptions: { fontSize: 12 },
+										}),
+								},
+							},
+						},
+					],
+				},
+			],
+		},
 		MedicalPatch: {
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
 			Archetype: ExtendedArchetype.MODULAR,
