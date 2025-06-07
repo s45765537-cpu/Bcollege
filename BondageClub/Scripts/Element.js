@@ -240,7 +240,8 @@ function ElementNumberInputWheel(event) {
 	if (value !== this.valueAsNumber) {
 		this.valueAsNumber = value;
 		this.dispatchEvent(new Event("input"));
-		if (document.activeElement !== this) {
+		const root = ElementGetRoot(this);
+		if (root.activeElement !== this) {
 			this.dispatchEvent(new Event("change"));
 		}
 	}
@@ -865,17 +866,18 @@ var ElementButton = {
 			ev.stopImmediatePropagation();
 			ev.preventDefault();
 		}
-		document.addEventListener("mouseup", ElementButton._MouseUp);
+		const root = ElementGetRoot(this);
+		root.addEventListener("mouseup", ElementButton._MouseUp);
 	},
 
 	/**
 	 * @private
-	 * @type {(this: Document, ev: MouseEvent) => void}
+	 * @type {(this: Document | ShadowRoot, ev: MouseEvent) => void}
 	 */
 	_MouseUp: function _MouseUp(ev) {
-		const activeElement = document.activeElement;
+		const activeElement = this.activeElement;
 		/** @type {null | HTMLButtonElement} */
-		const button = activeElement instanceof Element && activeElement.closest("button.button");
+		const button = activeElement instanceof Element ? activeElement.closest("button.button") : null;
 		if (!button) {
 			return;
 		}
@@ -887,7 +889,7 @@ var ElementButton = {
 
 		// Fix buttons not automatically losing focus after a click event
 		button.blur();
-		document.removeEventListener("mouseup", ElementButton._MouseUp);
+		this.removeEventListener("mouseup", ElementButton._MouseUp);
 	},
 
 	_GetClickTouchListeners: function _GetClickTouchListeners() {
@@ -1661,7 +1663,9 @@ var ElementButton = {
 		for (const icon of icons) {
 			if (!icon.hasAttribute("data-custom")) {
 				const tooltipComponentID = icon.getAttribute("aria-owns");
-				if (tooltipComponentID) { document.getElementById(tooltipComponentID)?.remove(); }
+				if (tooltipComponentID) {
+					ElementGetRoot(button).getElementById(tooltipComponentID)?.remove();
+				}
 				icon.remove();
 			}
 		}
@@ -1959,22 +1963,23 @@ var ElementCheckbox = {
 	 * @type {(this: HTMLInputElement, ev: PointerEvent) => void}
 	 */
 	_pointerdown: function(ev) {
-		document.addEventListener("pointerup", ElementCheckbox._pointerup);
-		document.addEventListener("pointercancel", ElementCheckbox._pointerup);
+		const root = ElementGetRoot(this);
+		root.addEventListener("pointerup", ElementCheckbox._pointerup);
+		root.addEventListener("pointercancel", ElementCheckbox._pointerup);
 	},
 
 	/**
 	 * @private
-	 * @type {(this: Document, ev: PointerEvent) => void}
+	 * @type {(this: Document | ShadowRoot, ev: PointerEvent) => void}
 	 */
 	_pointerup: function(ev) {
 		// Ensure that focus is lost after clicking
 		/** @type {null | HTMLInputElement} */
-		const input = document.activeElement?.closest("input.checkbox");
+		const input = this.activeElement?.closest("input.checkbox");
 		input?.blur();
 
-		document.removeEventListener("pointerup", ElementCheckbox._pointerup);
-		document.removeEventListener("pointercancel", ElementCheckbox._pointerup);
+		this.removeEventListener("pointerup", ElementCheckbox._pointerup);
+		this.removeEventListener("pointercancel", ElementCheckbox._pointerup);
 	},
 
 	/**
@@ -2022,6 +2027,18 @@ var ElementCheckbox = {
 		});
 	},
 };
+
+/**
+ * Returns the element's document- or shadow-root.
+ *
+ * If an element is not part of the DOM tree, thus lacking a document- or shadow-root, then {@link document} is returned.
+ * @param {Node} elem
+ * @returns {Document | ShadowRoot}
+ */
+function ElementGetRoot(elem) {
+	const root = elem.getRootNode();
+	return (root instanceof Document || root instanceof ShadowRoot) ? root : document;
+}
 
 /**
  * Return whether an element is visible or not.
