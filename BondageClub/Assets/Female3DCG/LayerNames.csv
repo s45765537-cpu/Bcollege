@@ -93,7 +93,7 @@ ClothAccessoryHoodedCloakCape,Cape
 ClothAccessoryHoodedCloakLace,Lace
 ClothAccessoryHoodedCloakCollar,Collar
 ClothAccessoryHoodedCloakShoulder,Shoulder
-ClothAccessorySideRufflesfrontlayer,Ruffles
+ClothAccessorySideRufflesFrontLayer,Ruffles
 ClothAdmiralTopJacket,Jacket
 ClothAdmiralTopShirt,Shirt
 ClothAdmiralTopTrim,Trim
@@ -1407,6 +1407,12 @@ ItemHeadPaddedBlindfoldBase,Blindfold
 ItemHeadPaddedBlindfoldTrim,Trim
 ItemHeadStitchesStraight,Thread Right
 ItemHeadStitchesStraight2,Thread Left
+ItemHeadHypnoticVisorFrameA,Frame
+ItemHeadHypnoticVisorPatternA0,Pattern
+ItemHeadHypnoticVisorDecalBunny,Decal
+ItemHeadHypnoticVisorBead,Head Bead
+ItemHeadHypnoticVisorBeadSupport,Head Bead Support
+ItemHeadHypnoticVisorText,Text
 ItemHoodBalloonHead,Rubber balloon
 ItemHoodBalloonShine,Balloon shine
 ItemHoodBalloonRope,Neck rope
