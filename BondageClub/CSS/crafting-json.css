@@ -49,6 +49,7 @@ dialog::backdrop {
 
 .aside > .description ol {
 	margin-block: unset;
+	padding-left: 1.15em;
 }
 
 fieldset[name="import"] {
@@ -79,6 +80,7 @@ fieldset[name="import"] > input[type="file"]::file-selector-button {
 	border-block: unset;
 	border-left: unset;
 	cursor: pointer;
+	color: black;
 }
 
 fieldset[name="import"] > input[type="search"] {
