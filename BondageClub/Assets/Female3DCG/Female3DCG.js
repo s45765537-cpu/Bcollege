@@ -1214,14 +1214,14 @@ var AssetFemale3DCG = [
 						AllowTypes: { t: 28 },
 						CopyLayerColor: "None",
 					},
-										{
+					{
 						Name: "Malkuth",
 						PoseMapping: {},
 						ParentGroup: {},
 						AllowTypes: { t: 29 },
 						CopyLayerColor: "None",
 					},
-										{
+					{
 						Name: "AmberFam",
 						PoseMapping: {},
 						ParentGroup: {},
@@ -3271,7 +3271,11 @@ var AssetFemale3DCG = [
 					},
 					{ Name: "Laces" },
 					{ Name: "Waist", AllowTypes: { l: 1 } },
-					{ Name: "WaistLonger", CopyLayerColor: "Waist", AllowTypes: { l: 0 } },
+					{
+						Name: "WaistLonger",
+						CopyLayerColor: "Waist",
+						AllowTypes: { l: 0 },
+					},
 					{ Name: "Wrists", CopyLayerColor: "Waist" },
 				],
 			},
