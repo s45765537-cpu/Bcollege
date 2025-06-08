@@ -1470,8 +1470,8 @@ function DrawProcess(time) {
 	// Draw Hovering text so they can be above everything else
 	DrawProcessHoverElements();
 
-	// Draws beep from online player sent by the server
-	ServerDrawBeep();
+	// set correct position for toast container on the screen
+	ToastManager.positionToastContainer();
 
 	// Draw a marker for the controller's position
 	if (ControllerIsActive()) {

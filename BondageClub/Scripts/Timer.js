@@ -7,6 +7,9 @@ var TimerLastArousalProgress = 0;
 var TimerLastArousalProgressCount = 0;
 var TimerLastArousalDecay = 0;
 
+/** @type {Timer.CustomTimer[]} */
+var Timers = [];
+
 /**
  * Returns the current time from the local computer clock
  * @returns {number} - Returns the number of milliseconds
@@ -186,6 +189,28 @@ function TimerProcess() {
 		TimerLastCycleCall = CommonTime();
 	}
 
+	const now = CommonTime();
+	for (const timer of Timers) {
+		const focusMismatch =
+		(!document.hasFocus() && timer.type === 'foreground') ||
+		(document.hasFocus() && timer.type === 'background');
+
+		if (focusMismatch) {
+			// update lastTime so the timer doesn't accumulate time while inactive
+			timer.lastTime = now;
+			continue;
+		}
+
+		if (now - timer.lastTime >= timer.timeMs) {
+			timer.callback();
+			timer.lastTime = now;
+
+			if (!timer.repeat) {
+				Timers.splice(Timers.indexOf(timer), 1);
+			}
+		}
+	}
+
 	// Arousal/Activity events only occur in allowed rooms
 	if (ActivityAllowed()) {
 
@@ -304,3 +329,20 @@ function TimermsToTime(s) {
 	return pad(hrs) + ':' + pad(mins) + ':' + pad(secs);
 
 }
+
+/**
+ * Creates a timer. Returns a function to remove the timer.
+ * @param {() => void} callback - A function called when the timer expires
+ * @param {number} timeMs - Time in ms before the timer expires
+ * @param {boolean} [repeat] - Whether the timer should repeat. Default is false
+ * @param {'background' | 'foreground' | 'universal'} [type] - The type of timer. Default is universal
+ * @returns {() => void} - A function to remove the timer.
+ */
+function TimerCreate(callback, timeMs, repeat = false, type = 'universal') {
+	Timers.push({ callback: callback, timeMs: timeMs, repeat: repeat, type: type, lastTime: CommonTime() });
+
+	return () => {
+		Timers.splice(Timers.findIndex(timer => timer.callback === callback), 1);
+	};
+}
+
