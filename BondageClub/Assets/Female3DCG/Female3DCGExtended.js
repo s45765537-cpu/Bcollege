@@ -458,7 +458,9 @@ var AssetFemale3DCGExtended = {
 						{}, // t27 - Keys?
 						{}, // t28 - VoidOrder
 						{}, // t29 - Malkuth
-						{}, // t28 - Amber Family
+						{}, // t30 - Amber Family
+						{}, // t31 - Luke's Chill Tent
+						{}, // t32 - Rat's Ass Tavern
 					],
 				},
 			],
