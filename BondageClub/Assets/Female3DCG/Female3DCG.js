@@ -19656,17 +19656,21 @@ var AssetFemale3DCG = [
 		AllowColorize: false,
 		Asset: [
 			{ Name: "Original", Visible: false },
-			{ Name: "EchoV1", Visible: false, StyleOverride: [
-				"BodyUpper",
-				"BodyLower",
-				"ArmsRight",
-				"ArmsLeft",
-				"HandsRight",
-				"HandsLeft",
-				"Head",
-				"Nipples",
-				"Pussy"
-			] },
+			{
+				Name: "EchoV1",
+				Visible: false,
+				StyleOverride: [
+					"BodyUpper",
+					"BodyLower",
+					"ArmsRight",
+					"ArmsLeft",
+					"HandsRight",
+					"HandsLeft",
+					"Head",
+					"Nipples",
+					"Pussy",
+				],
+			},
 		],
 	},
 
