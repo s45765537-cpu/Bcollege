@@ -1214,14 +1214,14 @@ var AssetFemale3DCG = [
 						AllowTypes: { t: 28 },
 						CopyLayerColor: "None",
 					},
-										{
+					{
 						Name: "Malkuth",
 						PoseMapping: {},
 						ParentGroup: {},
 						AllowTypes: { t: 29 },
 						CopyLayerColor: "None",
 					},
-										{
+					{
 						Name: "AmberFam",
 						PoseMapping: {},
 						ParentGroup: {},
@@ -3271,7 +3271,11 @@ var AssetFemale3DCG = [
 					},
 					{ Name: "Laces" },
 					{ Name: "Waist", AllowTypes: { l: 1 } },
-					{ Name: "WaistLonger", CopyLayerColor: "Waist", AllowTypes: { l: 0 } },
+					{
+						Name: "WaistLonger",
+						CopyLayerColor: "Waist",
+						AllowTypes: { l: 0 },
+					},
 					{ Name: "Wrists", CopyLayerColor: "Waist" },
 				],
 			},
@@ -15535,6 +15539,63 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "FloppyBunnyEars",
+				InventoryID: 1271,
+				Fetish: ["Pet"],
+				Priority: 51,
+				BodyCosplay: true,
+				Value: 0,
+				DefaultColor: ["#a26c36", "#c4a59a", "#944d90", "#a26c36", "#000000"],
+				BuyGroup: "FloppyBunnyEars",
+				Layer: [
+					{
+						Name: "Back",
+						AllowColorize: true,
+						Top: -20,
+						Left: 5,
+						Priority: 2,
+						PoseMapping: {
+							...AssetPoseMapping.ItemHead,
+							AllFours: "AllFours",
+						},
+					},
+					{
+						Name: "Inner",
+						AllowColorize: true,
+						Top: -20,
+						Left: 5,
+						Priority: 3,
+						PoseMapping: {
+							...AssetPoseMapping.ItemHead,
+							AllFours: "AllFours",
+						},
+					},
+					{
+						Name: "Tip",
+						AllowColorize: true,
+						Top: -20,
+						Left: 5,
+						Priority: 2,
+					},
+					{
+						Name: "Front",
+						AllowColorize: true,
+						Top: -20,
+						Left: 5,
+						Priority: 4,
+					},
+					{
+						Name: "Shadow",
+						AllowColorize: true,
+						Opacity: 15,
+						Top: -20,
+						Left: 5,
+						Priority: 3,
+					},
+				],
+			},
+
 			{
 				Name: "Onihorns",
 				InventoryID: 1168,
