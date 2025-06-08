@@ -998,75 +998,20 @@ function ServerShowBeep(message, duration, options) {
 			alarmWhenFocused: true,
 		});
 	}
-	ServerBeepQueue.push({
-		Message: message,
-		Duration: duration,
-		ClickHandler: options?.onClick,
-		Silent: options?.silent ?? false,
-	});
+
+	ToastManager.info(message, { duration: duration, onClick: options?.onClick, icon: '' });
+
+	// once user focuses document, they move into the foreground and reset the timer
+	TimerCreate(() => {
+		NotificationReset(NotificationEventType.BEEP);
+	}, 0, false, 'foreground');
 }
 
 
-/** Draws the last beep sent by the server if the timer is still valid, used during the drawing process */
+/** Draws the last beep sent by the server if the timer is still valid, used during the drawing process
+ * @deprecated
+ */
 function ServerDrawBeep() {
-
-	// Grab the old single beep variable and push that into the queue for backward compatibility
-	if (ServerBeep.Message !== "") {
-		ServerShowBeep(ServerBeep.Message, ServerBeep.Timer - CommonTime(), { chatRoomName: ServerBeep.ChatRoomName });
-		ServerBeep = { Message: "", Timer: 0 };
-	}
-
-	if (!ServerBeepQueue.length) {
-		ElementRemove("beep");
-		return;
-	}
-
-	const beep = ServerBeepQueue[0];
-	if (typeof beep.Timer === "undefined") {
-		beep.Timer = CommonTime() + beep.Duration;
-	}
-
-	let beepElement = document.getElementById('beep');
-	if (beep.Timer > CommonTime()) {
-		if (beepElement && beepElement.textContent !== beep.Message) {
-			beepElement.remove();
-			beepElement = null;
-		}
-		if (!beepElement) {
-			ElementCreate({
-				tag: 'div',
-				attributes: {
-					id: 'beep',
-				},
-				dataAttributes: { msg: beep.Message },
-				classList: ['HideOnPopup'],
-				eventListeners: {
-					click: function (e) {
-						beep.ClickHandler?.(e);
-						this.remove();
-						ServerBeepQueue.shift();
-					},
-				},
-				children: [
-					{
-						tag: 'span',
-						classList: ['truncated-text'],
-						children: [
-							beep.Message
-						]
-					}
-				],
-				parent: document.body,
-			});
-		}
-		ElementPositionFix('beep', 30, (CurrentScreen == 'ChatRoom') ? 0 : 500, 0, 1000, 50);
-		if (document.hasFocus()) {
-			NotificationReset(NotificationEventType.BEEP);
-		}
-	} else {
-		if (beepElement) ElementRemove('beep');
-		ServerBeepQueue.shift();
-	}
 }
 
 /** Handles a click on the beep rectangle if mail is included */
