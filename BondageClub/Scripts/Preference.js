@@ -338,7 +338,7 @@ function PreferenceInitPlayer(C, data) {
 
 	C.ArousalSettings = ValidationApplyRecord(data.ArousalSettings, C, PreferenceArousalSettingsValidate);
 	C.AudioSettings = ValidationApplyRecord(data.AudioSettings, C, PreferenceAudioSettingsValidate);
-	if (typeof data.AudioSettings.PlayBeeps !== "undefined") {
+	if (typeof data?.AudioSettings?.PlayBeeps !== "undefined") {
 		// Backward-compatibility for the old checkbox in Audio: we grab that out and force-apply it
 		// to the previously useless notification audio setting for beeps, and since the validation above
 		// removed the value, it wouldn't run anymore.
