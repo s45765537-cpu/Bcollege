@@ -1229,6 +1229,20 @@ var AssetFemale3DCG = [
 						AllowTypes: { t: 30 },
 						CopyLayerColor: "None",
 					},
+					{
+						Name: "LukeChill",
+						PoseMapping: {},
+						ParentGroup: {},
+						AllowTypes: { t: 31 },
+						CopyLayerColor: "None",
+					},
+					{
+						Name: "RatAss",
+						PoseMapping: {},
+						ParentGroup: {},
+						AllowTypes: { t: 32 },
+						CopyLayerColor: "None",
+					},
 				],
 			},
 			{
