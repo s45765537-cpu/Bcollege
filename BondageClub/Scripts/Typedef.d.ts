@@ -4268,7 +4268,7 @@ declare namespace CraftingJSON {
 		crafts: (null | string)[];
 	}
 
-	export interface DataDencoded extends Omit<DataEncoded, "crafts"> {
+	export interface DataDecoded extends Omit<DataEncoded, "crafts" | "date"> {
 		crafts: (null | CraftingItem)[];
 	}
 

@@ -1,4 +1,4 @@
-namespace Timer {
+declare namespace Timer {
     type CustomTimerType = 'background' | 'foreground' | 'universal';
     type CustomTimer = {
         callback: () => void;
