@@ -422,6 +422,7 @@ const AssetPoseMapping = /** @type {const} */ ({
 		OverTheHead: "OverTheHead",
 		Yoked: "Yoked",
 	},
+	ItemHead: {},
 	ItemLegs: {
 		AllFours: PoseType.HIDE,
 		Hogtied: PoseType.HIDE,
@@ -3191,6 +3192,11 @@ var AssetFemale3DCG = [
 					{
 						Name: "MainLonger",
 						AllowTypes: { l: 0 },
+						InheritPoseMappingFields: true,
+						PoseMapping: {
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+						},
 						CopyLayerColor: "Main",
 					},
 					{ Name: "Main", AllowTypes: { l: [0, 1] } },
@@ -3275,6 +3281,11 @@ var AssetFemale3DCG = [
 						Name: "WaistLonger",
 						CopyLayerColor: "Waist",
 						AllowTypes: { l: 0 },
+						InheritPoseMappingFields: true,
+						PoseMapping: {
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+						},
 					},
 					{ Name: "Wrists", CopyLayerColor: "Waist" },
 				],
@@ -40935,6 +40946,7 @@ var AssetFemale3DCG = [
 				Difficulty: 50,
 				Time: 5,
 				AllowLock: true,
+				DrawLocks: false,
 				Audio: "CuffsMetal",
 				DefaultColor: ["#908463", "#975757", "#908463"],
 				Extended: true,
@@ -54093,6 +54105,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				Extended: true,
 				Audio: "LeatherStretching1",
+				Block: ["ItemEars"],
 				DefaultColor: [
 					"Default",
 					"Default",
