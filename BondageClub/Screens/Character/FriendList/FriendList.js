@@ -535,8 +535,8 @@ function FriendListShow() {
 function FriendListShowBeep(i) {
 	const beep = FriendListBeepLog[i];
 	if (!beep) return;
-	FriendListShow();
 	FriendListModeIndex = 1;
+	FriendListShow();
 	FriendListBeep(beep.MemberNumber, beep);
 }
 //#endregion
