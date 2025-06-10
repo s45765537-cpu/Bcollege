@@ -15574,13 +15574,10 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "FloppyBunnyEars",
-				InventoryID: 1271,
 				Fetish: ["Pet"],
 				Priority: 51,
 				BodyCosplay: true,
-				Value: 0,
 				DefaultColor: ["#a26c36", "#c4a59a", "#944d90", "#a26c36", "#000000"],
-				BuyGroup: "FloppyBunnyEars",
 				Layer: [
 					{
 						Name: "Back",

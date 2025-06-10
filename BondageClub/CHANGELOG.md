@@ -11,11 +11,65 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2025-05-17
-* Last recorded PR: [#5582](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5582)
-* Last recorded commit hash: `e39d1aeaffc8a4b69ea53dd5fa6c08ff4e091969`
+* Changelog last updated: 2025-06-09
+* Last recorded PR: [#5634](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5634)
+* Last recorded commit hash: `cdd9b42c91ae8685e4564629d66cc545363683d7`
 
 ## [Generated]
+
+## [R117]
+
+### [Changes]
+
+* KyraObscura - New Eyes Option #15 and Updated Hoodie ([#5619](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5619))
+* Sin - Multibody support for EchoV1 ([#5620](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5620))
+* Sin - Adding large floppy bunny ears by Xenodragon20 ([#5629](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5629))
+* Sin - Cyber ears by Sera Eldritch Esper ([#5625](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5625))
+* Zoe - Added Hypnotic Visor by Xenodragon20 with text support and adjusted Floral Panties 2 ([#5623](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5623))
+* Feldob66 - Added The Void Order's community logo to the custom tshirt. ([#5588](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5588))
+* Da'Inihlus - Remove unnecessary prerequisite for ExtremeCorset item ([#5614](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5614))
+* Da'Inihlus - CN translation updates ([#5613](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5613))
+* RavenCreative - + Leather Jacket Asset by Raven Creative with new Cloth Outer group! ([#5609](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5609))
+* RavenCreative - + Couple Community Logos for Custom Tshirt: Sphere of Malkuth and Amber Family. ([#5611](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5611))
+* RavenCreative - 2 More community logos ([#5628](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5628))
+* dDeepLb - Toasts Notifications ([#5621](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5621))
+* Rama - Add an importer + exporter for entire crafting inventories ([#5618](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5618))
+* Rama - Use the `-` character for representing empty room type icons ([#5612](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5612))
+* Ben987 - Online Rooms - 4 New Backgrounds
+* Ben987 - Eyes 14 - Lewd Heart Pink Tweaks by Jimmy G
+* Ben987 - Change Log
+
+### [Fixes]
+
+* Zoe - Fix Titanias assets breaking during pose mapping ([#5596](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5596))
+* harmony - Add some missing groups to the hide list of the vac cube ([#5632](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5632))
+* CookiesPlz - Undefined fix: Makes the `AudioSetting.PlayBeeps` optional inside of `Preference.js` ([#5634](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5634))
+* dDeepLb - Drone mask fixes and visibility option ([#5599](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5599))
+* Estsanatlehi - Set the mode before opening the Friendlist ([#5630](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5630))
+* Estsanatlehi - Change FriendListShowBeep to open the friendlist on the proper screen ([#5598](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5598))
+* Estsanatlehi - Fix CommonReadCSV playing global games and streamlining of screen resources path building ([#5595](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5595))
+* Rama - Minor crafting JSON fixes ([#5624](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5624))
+* Rama - A round of beep chat message maintenance ([#5617](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5617))
+* Rama - Fix `ElementSetSize()` applying a canvas scaling correction twice when assigning heights ([#5600](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5600))
+* Rama - Fix chat message metadata alignment being broken in Opera ([#5601](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5601))
+* Rama - Fix copy/pasting the chat no longer having a newline after each message ([#5602](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5602))
+* Rama - Prevent `ElementFocus()` from triggering focus on mobile ([#5603](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5603))
+* Ben987 - Update Credits
+
+### [Technical]
+
+* Sin - Multibody - Fix Typedefs.d.ts typo ([#5626](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5626))
+* Estsanatlehi - Fix CI ([#5631](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5631))
+* Estsanatlehi - Fix a syntax error and a couple type oddities ([#5622](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5622))
+* Estsanatlehi - Move the code from ServerOpenFriendList into a proper FriendListShow ([#5597](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5597))
+* Estsanatlehi - Upgrade to the beep management ([#5605](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5605))
+* Estsanatlehi - Just a quick fix to the JSDocs ([#5606](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5606))
+* Estsanatlehi - Definitions for the first batch of Echo assets ([#5610](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5610))
+* Estsanatlehi - Pass and synchronize the whole character map data around ([#5608](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5608))
+* Rama - Move mobile canvas clicks from `touchstart` to `touchend` ([#5616](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5616))
+* Rama - Log the name of the respective dialog subscreen if loading it fails ([#5615](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5615))
+* Rama - Standardize the (dynamic) hiding of elements with the `[hidden]` attribute ([#5589](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5589))
+* Ben987 - Fixes to InventoryID for new items
 
 ## [R116]
 
