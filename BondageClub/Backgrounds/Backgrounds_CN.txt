@@ -62,6 +62,8 @@ Classroom 1
 教室1
 Classroom 2
 教室2
+Classroom 3
+教室2
 Concert Stage
 音乐会舞台
 Detention Class
@@ -166,8 +168,10 @@ Kennels
 养犬场
 Kidnappers League
 绑匪联盟
-Kitchen
-厨房
+Kitchen 1
+厨房 1
+Kitchen 2
+厨房 2
 Latex Room
 乳胶房间
 Leather Chamber

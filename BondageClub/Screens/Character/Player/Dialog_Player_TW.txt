@@ -749,8 +749,10 @@ Chill Room
 冷藏室
 Boudoir
 閨房
-Kitchen
-廚房
+Kitchen 1
+廚房 1
+Kitchen 2
+廚房 2
 Dining Room
 餐廳
 Bondage Bedchamber

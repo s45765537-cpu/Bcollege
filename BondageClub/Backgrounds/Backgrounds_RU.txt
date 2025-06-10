@@ -136,8 +136,10 @@ Kennels
 Питомники
 Kidnappers League
 Лига похитителей
-Kitchen
-Кухня
+Kitchen 1
+Кухня 1
+Kitchen 2
+Кухня 2
 Latex Room
 Латексная комната
 Leather Chamber
