@@ -412,6 +412,7 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 3200, Type: "WallDecoration", Style: "SchoolBoard" },
 	{ ID: 3250, Type: "WallDecoration", Style: "FirstAidKit" },
 	{ ID: 3260, Type: "WallDecoration", Style: "EyeTest" },
+	{ ID: 3270, Type: "WallDecoration", Style: "Bookshelf" },
 
 	{ ID: 4000, Type: "WallPath", Style: "Blank", CanEnter: function() { return false; } },
 	{ ID: 4010, Type: "WallPath", Style: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return true; } },
