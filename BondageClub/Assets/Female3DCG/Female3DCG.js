@@ -8050,8 +8050,8 @@ var AssetFemale3DCG = [
 				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				DefaultColor: ["#111111", "#111111", "#ffffff", "#909090"],
 				PoseMapping: {
-					Hogtied: PoseType.HIDE,
-					AllFours: PoseType.HIDE,
+					AllFours: "Hogtied",
+					Hogtied: "Hogtied",
 				},
 				Layer: [
 					{
@@ -8066,6 +8066,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Zipper",
+						Priority: 22,
 						ParentGroup: {},
 					},
 					{
