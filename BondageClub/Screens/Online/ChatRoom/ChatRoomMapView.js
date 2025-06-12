@@ -60,6 +60,7 @@ const ChatRoomMapViewTileList = [
 	{ ID: 131, Type: "Floor", Style: "CarpetBlue" },
 	{ ID: 132, Type: "Floor", Style: "CarpetRed" },
 	{ ID: 140, Type: "Floor", Style: "Padded" },
+	{ ID: 150, Type: "Floor", Style: "LatexFloor" },
 
 	{ ID: 200, Type: "FloorExterior", Style: "Dirt" },
 	{ ID: 210, Type: "FloorExterior", Style: "Grass" },
