@@ -577,12 +577,10 @@ var AssetFemale3DCG = [
 		Asset: [
 			{
 				Name: "LeatherJacket",
-				//InventoryID: 137,
-				//Gender: "F",
-				//Prerequisite: ["HasBreasts"],
-				Value: 0,
-				DefaultColor: ["#585858", "#655A42", "#585858"],
-				//Hide: ["ItemNeck"],
+				InventoryID: 1249,
+				Value: 30,
+				Priority: 32,
+				DefaultColor: ["#585858","Default","#655A42","#585858","Default"],
 				HideItem: [
 					"ItemArmsLeatherCuffs",
 					"ItemArmsLeatherDeluxeCuffs",
@@ -598,29 +596,24 @@ var AssetFemale3DCG = [
 					{
 						Name: "Jacket",
 						AllowColorize: true,
-						Priority: 12,
-					},
-					{
-						Name: "Metal",
-						AllowColorize: true,
-						Priority: 14,
-					},
-					{
-						Name: "Sleeves",
-						AllowColorize: true,
-						Priority: 30,
 					},
 					{
 						Name: "ShineJacket",
 						AllowColorize: true,
-						Priority: 13,
 						Opacity: 0.7,
 						MinOpacity: 0,
 					},
 					{
+						Name: "Metal",
+						AllowColorize: true,
+					},
+					{
+						Name: "Sleeves",
+						AllowColorize: true,
+					},
+					{
 						Name: "ShineSleeves",
 						AllowColorize: true,
-						Priority: 31,
 						Opacity: 0.7,
 						MinOpacity: 0,
 					},
