@@ -143,6 +143,18 @@ function CommonGetBrowser() {
 }
 
 /**
+ * Parses a string into a number
+ * @param {string} val The string to parse into a number
+ * @returns {number | null}
+ */
+function CommonParseNumber(val) {
+	const num = parseInt(val, 10);
+	if (isNaN(num))
+		return null;
+	return num;
+}
+
+/**
  * Parse a CSV file content into an array
  * @param {string} str - Content of the CSV
  * @returns {string[][]} Array representing each line of the parsed content, each line itself is split by commands and stored within an array.

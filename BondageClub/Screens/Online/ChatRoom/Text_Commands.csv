@@ -53,3 +53,5 @@ mapcopy,Copy the current map layout in your clipboard
 mappaste,[Map]: Paste your map string to load it as current. No argument will use the clipboard.
 whisper,[MemberNumber|Name|Nickname]: Begin whispering to player.  Leave blank to stop whispering.<br>[MemberNumber|Name|Nickname] [Message]: Send whisper to target player.
 shop,Access the shop
+tp,[X] [Y]: Teleport to X,Y. <br>tp [MemberNumber|Name|Nickname] [X] [Y]: Teleport player to X,Y.<br>tp [MemberNumber|Name|Nickname]: Teleport to player.<br>tp [MemberNumber|Name|Nickname] [MemberNumber|Name|Nickname]: Teleport first player to second player.<br>use '@' as a prefix for MemberNumber<br>requires admin privileges.
+coordinates,Display your current coordinates

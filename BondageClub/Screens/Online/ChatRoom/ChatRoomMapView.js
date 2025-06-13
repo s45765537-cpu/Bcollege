@@ -478,15 +478,23 @@ function ChatRoomMapViewInitializeCharacter(C) {
 
 /**
  * Validate the passed chat room map positions.
- * @param {unknown} pos
+ * @param {unknown} position
  * @returns {ChatRoomMapPos}
  */
-function ChatRoomMapViewValidatePos(pos) {
-	const ret = CommonIsObject(pos) ? pos : {};
+function ChatRoomMapViewValidatePosition(position) {
+	const ret = CommonIsObject(position) ? position : {};
 	return {
 		X: CommonIsInteger(ret.X, 0, ChatRoomMapViewWidth) ? ret.X : ChatRoomMapViewWidth / 2,
 		Y: CommonIsInteger(ret.Y, 0, ChatRoomMapViewHeight) ? ret.Y : ChatRoomMapViewHeight / 2,
 	};
+}
+
+/**
+ * Checks if the coordinates are out of bounds relative to the map
+ * @param {ChatRoomMapPos} position
+ */
+function ChatRoomMapViewIsOutOfBounds(position) {
+	return position.X > ChatRoomMapViewWidth || 0 > position.X || position.Y > ChatRoomMapViewHeight || 0 > position.Y;
 }
 
 /**
@@ -1617,6 +1625,31 @@ function ChatRoomMapViewDrawUi() {
 				if (Obj.Style !== "Blank") DrawImageResize("Screens/Online/ChatRoom/MapObject/" + Obj.Type + "/" + Obj.Style + ".png", 15, Y + 5, 50, 50);
 			}
 	}
+}
+
+/**
+ * Teleport a character to a specific tile
+ * @param {Character} target
+ * @param {ChatRoomMapPos} position
+ */
+function ChatRoomMapViewTeleport(target, position) {
+	if (!ChatRoomPlayerIsAdmin()) return;
+	if (Player.MemberNumber === target.MemberNumber) Player.Position = position;
+
+	const dictionary = new DictionaryBuilder().mapViewTeleport(position).build();
+	ServerSend("ChatRoomChat", { Content: "ChatRoomMapViewTeleport", Type: "Hidden", Dictionary: dictionary, Target: target?.MemberNumber });
+}
+
+/**
+ * Teleport a character to a specific tile from a hidden message
+ * @param {Character} sender
+ * @param {ServerChatRoomMessage} data
+ */
+function ChatRoomMapViewTeleportHiddenMessage(sender, data) {
+	if (!ChatRoomCharacterIsAdmin(sender)) return;
+	const mapViewTeleportEntry = data.Dictionary[0];
+	if (!IsMapViewTeleportEventDictionaryEntry(mapViewTeleportEntry)) return;
+	Player.Position = mapViewTeleportEntry.Position;
 }
 
 /**

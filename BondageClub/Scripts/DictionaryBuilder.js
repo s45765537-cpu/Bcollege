@@ -229,6 +229,15 @@ class DictionaryBuilder {
 	}
 
 	/**
+	 * Adds a teleport dictionary entry
+	 * @param {ChatRoomMapPos} position - The position to teleport to
+	 * @returns
+	 */
+	mapViewTeleport(position) {
+		this._addEntry({ Tag:"MapViewTeleport", Position: position });
+		return this;
+	}
+	/**
 	 * Adds a dictionary entry to the builder
 	 * @param {ChatMessageDictionaryEntry} entry - The dictionary entry to add
 	 * @returns {boolean} - True if the entry was successfully added, false otherwise
@@ -454,4 +463,12 @@ function IsReplyIdDictionaryEntry(entry) {
  */
 function IsMsgIdDictionaryEntry(entry) {
 	return CommonIsObject(entry) && typeof entry.MsgId === "string";
+}
+
+/**
+ * @param {ChatMessageDictionaryEntry} entry
+ * @returns {entry is MapViewTeleportEventDictionaryEntry}
+ */
+function IsMapViewTeleportEventDictionaryEntry(entry) {
+	return CommonIsObject(entry) && entry.Tag === "MapViewTeleport";
 }
