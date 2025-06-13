@@ -2200,3 +2200,101 @@ function ElementSetFontSize(elementOrId, targetFontSize = 'auto') {
 		fontFamily: CommonGetFontName()
 	});
 }
+
+/** A namespace for adding touch-based swiping behavior to elements */
+var ElementSwipe = {
+	/**
+	 * @param {HTMLElement} elem
+	 * @param {null | ElementSwipe.Options} options
+	 */
+	setListeners(elem, options=null) {
+		options ??= {};
+
+		/**
+		 * Coordinates of the initial touch event
+		 * @type {null | { oldX: number, oldY: number }}
+		 */
+		let coords = null;
+		/** @type {null | number} */
+		let minDistance = null;
+
+		/** @type {(this: HTMLElement, ev: TouchEvent) => void} */
+		function touchstart(ev) {
+			if (this.hasAttribute("disabled") || this.getAttribute("aria-disabled") === "true" || ev.touches.length !== 1) {
+				return;
+			}
+			const touch = ev.touches[0];
+			coords = { oldX: touch.screenX, oldY: touch.screenY };
+			minDistance = options.minSwipeDistance ?? globalThis.innerWidth / 40;
+
+			document.addEventListener("touchend", touchend);
+			document.addEventListener("touchcancel", touchend);
+			document.addEventListener("touchmove", touchmove);
+		}
+
+		/** @type {(this: Document, ev: TouchEvent) => void} */
+		function touchend() {
+			coords = null;
+			minDistance = null;
+		}
+
+		/** @type {(this: Document, ev: TouchEvent) => void} */
+		function touchmove(ev) {
+			const touch = ev.touches[0];
+			if (!touch || !coords || minDistance == null) {
+				return;
+			}
+
+			const { oldX, oldY } = coords;
+			const { newX, newY } = { newX: touch.screenX, newY: touch.screenY };
+			const distance = Math.hypot(newY - oldY, newX - oldX);
+
+			const translationStages = [0, 20, 40, 60, 80, 100];
+			let directionOk = false;
+			/** @type {string[]} */
+			let transform;
+			switch (options.direction) {
+				case "up":
+					directionOk = newY < oldY;
+					transform = translationStages.map(i => `translate(0, ${-i}%)`);
+					break;
+				case "down":
+					directionOk = newY > oldY;
+					transform = translationStages.map(i => `translate(0, ${i}%)`);
+					break;
+				case "left":
+					directionOk = newX < oldX;
+					transform = translationStages.map(i => `translate(${-i}%, 0)`);
+					break;
+				case "right":
+				default:
+					directionOk = newX > oldX;
+					transform = translationStages.map(i => `translate(${i}%, 0)`);
+					break;
+			}
+
+			if (distance >= minDistance && directionOk) {
+				const onFinish = () => {
+					if (options.onClose) {
+						options.onClose(elem, ev);
+					} else {
+						elem.dispatchEvent(new PointerEvent("click", ev));
+					}
+				};
+
+				this.dispatchEvent(new TouchEvent("touchcancel"));
+				if (options.animation) {
+					options.animation.addEventListener("finish", onFinish);
+					options.animation.play();
+				} else {
+					elem.animate(
+						{ transform, opacity: [1, 1, 1, 1, 1, 0] },
+						{ duration: 250 },
+					).addEventListener("finish", onFinish);
+				}
+			}
+		}
+
+		elem.addEventListener("touchstart", touchstart);
+	},
+};
