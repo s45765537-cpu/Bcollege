@@ -77,6 +77,10 @@ const CommonFontStacks = {
 	Copperplate: [["Copperplate", "Copperplate Gothic Light"], "fantasy"],
 };
 
+function CommonPrefersReducedMotion() {
+	return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
 /**
  * Checks if a variable is a number
  * @param {any} n - Variable to check for
