@@ -5,7 +5,7 @@
  * Maintains a queue of toasts to display and limits the number of
  * concurrently visible toasts.
  */
-const ToastManager = new class ToastManager {
+var ToastManager = new class ToastManager {
 	/**
 	 * Queue of toast options waiting to be displayed.
 	 * @type {Required<Toasts.Options>[]}
@@ -91,19 +91,12 @@ const ToastManager = new class ToastManager {
 		});
 	}
 
-	positionToastContainer() {
-		const element = this._getOrCreateContainer();
-
-		ElementSetPosition(element, 1980, 20, 'top-right');
-		ElementSetFontSize(element, 'auto');
-	}
-
 	/**
 	 * Enqueues a new toast to be displayed with the given options.
 	 * Fills in any missing option fields with default values, then
 	 * attempts to process the queue to show toasts if slots are available.
 	 *
-   * @private
+	 * @private
 	 * @param {Toasts.Options} options - Configuration for the toast.
 	 * @returns {void}
 	 */
@@ -117,12 +110,11 @@ const ToastManager = new class ToastManager {
 		options.type ??= 'base';
 		options.duration ??= 3000;
 		options.duration = Math.max(0, options.duration);
-		options.closable ??= true;
-		options.externallyDismissible ??= true;
 		options.progress ??= true;
 		options.stopProgressOnHover ??= true;
+		options.iconColor ??= 'default';
 
-		this.queue.push(/** @type {Required<Toasts.Options>} */ (options));
+		this.queue.push(/** @type {Required<Toasts.Options>} */(options));
 		this._process();
 	}
 
@@ -156,32 +148,42 @@ const ToastManager = new class ToastManager {
 	 */
 	_display(_) {
 		const container = this._getOrCreateContainer();
+		const prefersReducedMotion = CommonPrefersReducedMotion();
 		this.active = (this.active || 0) + 1;
-
-		const hasOnClick = typeof _.onClick === 'function';
 
 		/** @param {Toasts.CloseReason} reason */
 		const remove = (reason) => {
-			if (!_.externallyDismissible && reason === 'external') return;
-
 			_.onClose?.(toast, reason);
 
-			toast.classList.remove('show');
-			toast.addEventListener('transitionend', () => {
+			const removeAndProcess = () => {
 				toast.remove();
 				this.active--;
 				this._process();
-			}, { once: true });
+			};
+
+			if (prefersReducedMotion) {
+				setTimeout(() => {
+					removeAndProcess();
+				}, 0);
+			} else {
+			  toast.classList.remove('show');
+				toast.addEventListener('transitionend', () => {
+					removeAndProcess();
+				}, { once: true });
+			}
 		};
 
 		/** @type {Toasts.ToastElement} */
 		const toast = ElementCreate({
 			tag: 'div',
 			classList: ['toast', _.type],
+			attributes: {
+				role: 'status',
+			},
 			children: [
 				_.icon ? {
 					tag: 'div',
-					classList: ['toast-icon'],
+					classList: ['toast-icon', _.iconColor],
 					style: {
 						'--toast-icon': `url(${_.icon})`
 					}
@@ -204,7 +206,11 @@ const ToastManager = new class ToastManager {
 							tag: 'div',
 							classList: ['toast-buttons'],
 							children: _.buttons.map(({ label, onClick: onClick }) =>
-								ElementButton.Create(null, function(ev) { onClick?.call(this, ev, toast); },
+								ElementButton.Create(null,
+									function(ev) {
+										ev.stopPropagation();
+										onClick?.call(this, ev, toast);
+									},
 									{
 										label
 									},
@@ -223,16 +229,16 @@ const ToastManager = new class ToastManager {
 						} : null,
 					]
 				},
-				_.closable ?{
+				{
 					tag: 'button',
 					classList: ['toast-dismiss'],
 					eventListeners: {
 						click: (ev) => {
 							ev.stopPropagation();
-							remove('manual');
+							remove('click');
 						}
-					}
-				} : null,
+					},
+				},
 				_.progress && _.duration > 0 ? {
 					tag: 'progress',
 					classList: ['progress-bar'],
@@ -240,10 +246,11 @@ const ToastManager = new class ToastManager {
 				} : null
 			],
 			eventListeners: {
-				click: hasOnClick ? (ev) => _.onClick(ev, toast) : undefined
-			},
-			style: {
-				cursor: hasOnClick ? 'pointer' : 'default'
+				click: (ev) => {
+					ev.stopPropagation();
+					_.onClick?.(ev, toast);
+					remove('click');
+				}
 			},
 			parent: container
 		});

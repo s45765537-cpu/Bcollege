@@ -1470,9 +1470,6 @@ function DrawProcess(time) {
 	// Draw Hovering text so they can be above everything else
 	DrawProcessHoverElements();
 
-	// set correct position for toast container on the screen
-	ToastManager.positionToastContainer();
-
 	// Draw a marker for the controller's position
 	if (ControllerIsActive()) {
 		DrawRect(MouseX - 5, MouseY - 5, 10, 10, "Red");
