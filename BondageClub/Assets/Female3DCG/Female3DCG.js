@@ -16315,6 +16315,16 @@ var AssetFemale3DCG = [
 				},
 			},
 			{
+				Name: "FloppyBunnyEars",
+				BuyGroup: "FloppyBunnyEars",
+				DynamicGroupName: "HairAccessory1",
+				CopyConfig: {
+					GroupName: "HairAccessory1",
+					AssetName: "FloppyBunnyEars",
+					BuyGroup: true,
+				},
+			},
+			{
 				Name: "BigLynxEars",
 				CopyConfig: {
 					GroupName: "HairAccessory1",
