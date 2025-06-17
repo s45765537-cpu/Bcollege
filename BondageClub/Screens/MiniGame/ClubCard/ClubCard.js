@@ -6265,7 +6265,8 @@ function ClubCardClick() {
 				return;
 			}
 			if (ClubCardHover && ClubCardHover.Location == "Popup") return ClubCardClickSetFocusCard();
-			if ((ClubCardPending != null) && MouseIn(745, 505, 215, 50) && ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) return(ClubCardClickPlayCard(true), ClubCardDestroyPopup());
+			if ((ClubCardPending != null) && MouseIn(745, 505, 215, 50) && ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus))
+				return (ClubCardDestroyPopup(), ClubCardClickPlayCard(true));
 			if (MouseIn(720, 245, 260, 510) && ClubCardFocus != null) return ClubCardClickResetFocusCard();
 		}
 		if (ClubCardPopup.Mode == "TIERSELECTION") {
