@@ -5142,7 +5142,7 @@ function ClubCardCommonLoad() {
 	if (Player.Game.ClubCard == null) Player.Game.ClubCard = { Deck: [] };
 	if (Player.Game.ClubCard.Reward == null) Player.Game.ClubCard.Reward = "";
 	ClubCardList[0].Title = null;
-	CommonReadCSV(ScreenFileGetTranslation("MiniGame", "ClubCard", "ClubCard"));
+	CommonReadCSV(ScreenFileGetTranslation("MiniGame", "ClubCard", "Text_ClubCard"));
 }
 
 /**
@@ -6265,7 +6265,8 @@ function ClubCardClick() {
 				return;
 			}
 			if (ClubCardHover && ClubCardHover.Location == "Popup") return ClubCardClickSetFocusCard();
-			if ((ClubCardPending != null) && MouseIn(745, 505, 215, 50) && ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) return(ClubCardClickPlayCard(true), ClubCardDestroyPopup());
+			if ((ClubCardPending != null) && MouseIn(745, 505, 215, 50) && ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus))
+				return (ClubCardDestroyPopup(), ClubCardClickPlayCard(true));
 			if (MouseIn(720, 245, 260, 510) && ClubCardFocus != null) return ClubCardClickResetFocusCard();
 		}
 		if (ClubCardPopup.Mode == "TIERSELECTION") {
