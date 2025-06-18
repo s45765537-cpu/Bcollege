@@ -6236,7 +6236,13 @@ function ChatRoomPhoto(Left, Top, Width, Height, Characters) {
  * @returns {boolean} - TRUE if the screen has focus and the chat log is scrolled to the bottom
  */
 function ChatRoomNotificationNewMessageVisible() {
-	return document.hasFocus() && ElementIsScrolledToEnd("TextAreaChatLog");
+	const chatlog = document.getElementById("TextAreaChatLog");
+	return (
+		chatlog
+		&& document.hasFocus()
+		&& ElementCheckVisibility(chatlog)
+		&& ElementIsScrolledToEnd("TextAreaChatLog")
+	);
 }
 
 /**
