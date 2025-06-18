@@ -59,11 +59,11 @@
 }
 
 #crafting-download-button {
-	background-image: url("../Icons/Download.png");
+	background-image: url("../Icons/Upload.png");
 }
 
 #crafting-upload-button {
-	background-image: url("../Icons/Upload.png");
+	background-image: url("../Icons/Download.png");
 }
 
 #crafting-left-panel {

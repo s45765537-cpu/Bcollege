@@ -1350,8 +1350,8 @@ function CraftingRun() {
 				break;
 		}
 
-		DrawButton(1265, 15, 90, 90, "", CraftingReorderMode === "None" ? "White" : "Gray", "Icons/Download.png", TextGet("JSONDownload"), CraftingReorderMode !== "None");
-		DrawButton(1370, 15, 90, 90, "", CraftingReorderMode === "None" ? "White" : "Gray", "Icons/Upload.png", TextGet("JSONUpload"), CraftingReorderMode !== "None");
+		DrawButton(1265, 15, 90, 90, "", CraftingReorderMode === "None" ? "White" : "Gray", "Icons/Upload.png", TextGet("JSONDownload"), CraftingReorderMode !== "None");
+		DrawButton(1370, 15, 90, 90, "", CraftingReorderMode === "None" ? "White" : "Gray", "Icons/Download.png", TextGet("JSONUpload"), CraftingReorderMode !== "None");
 		DrawButton(1475, 15, 90, 90, "", "White", "Icons/Prev.png", TextGet("Previous"));
 		DrawButton(1580, 15, 90, 90, "", "White", "Icons/Next.png", TextGet("Next"));
 		DrawButton(1685, 15, 90, 90, "", "White", "Icons/Swap.png", TextGet("Reorder"));
