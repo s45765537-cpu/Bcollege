@@ -147,14 +147,14 @@
   padding-bottom: var(--progress-height);
 }
 
-
 .toast-message {
   display: -webkit-box;
-  line-clamp: 3;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   text-overflow: ellipsis;
-  white-space: preserve;
+  white-space: pre;
+  line-height: 1.5;
+  overflow: hidden;
 }
 
 .toast-title {
@@ -205,24 +205,17 @@
   background-color: var(--accent-color);
 }
 
-.progress-bar,
-.progress-bar::-moz-progress-bar,
-.progress-bar::-webkit-progress-bar {
+.progress-bar {
   position: absolute;
   bottom: 0px;
   left: 0px;
   height: var(--progress-height);
-  background-color: var(--progress-color);
   border: none;
   width: 100%;
 
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-}
-
-.progress-bar::-webkit-progress-value {
-  background-color: var(--accent-color);
 }
 
 /* #endregion Insides */

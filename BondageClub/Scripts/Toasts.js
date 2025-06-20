@@ -341,7 +341,7 @@ var ToastManager = new class ToastManager {
 				timerRemove();
 				onFinish?.();
 			}
-		}, interval, true, 'foreground');
+		}, interval, true, 'universal');
 
 		return timerRemove;
 	}
