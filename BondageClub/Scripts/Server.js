@@ -843,34 +843,37 @@ function ServerAccountBeep(data) {
 			} else {
 				delete data.Message;
 			}
-			let msg = `${InterfaceTextGet("BeepFrom")} ${data.MemberName} (${data.MemberNumber})`;
+			let title = `${InterfaceTextGet("BeepFrom")} ${data.MemberName} (${data.MemberNumber})`;
+			let message;
 			// We make a copy here since we want to keep opening the correct beep, even if more get added
 			const beepIdx = FriendListBeepLog.length;
 			if (data.ChatRoomName) {
-				msg += ` ${InterfaceTextGet("InRoom")} "${data.ChatRoomName}"${data.ChatRoomSpace === "Asylum" ? " " + InterfaceTextGet("InAsylum") : ''}`;
+				title += ` ${InterfaceTextGet("InRoom")} "${data.ChatRoomName}"${data.ChatRoomSpace === "Asylum" ? " " + InterfaceTextGet("InAsylum") : ''}`;
 			}
 			if (data.Message) {
-				msg += `; ${InterfaceTextGet("BeepWithMessage")}`;
+				message = data.Message;
 			}
 
 			/**
 			 * This function is just there for compat with BCUtil's special "this is an IM beep"
-			 * @type {(string) => string}
+			 * @type {(txt: string) => string}
 			 */
 			const stripBCUtilCruft = (txt) => {
-				return txt.split("\uf124")[0].trimEnd();
+				return txt?.split("\uf124")[0].trimEnd();
 			};
 
-			ServerShowBeep(msg, 10000, {
-				memberNumber: data.MemberNumber,
-				memberName: data.MemberName,
-				chatRoomName: data.ChatRoomName,
-				...(data.Message && {
-					onClick: () => {
-						FriendListShowBeep(beepIdx);
-					}
-				})
-			});
+			if (!Player.ChatSettings.ShowBeepChat || (Player.ChatSettings.ShowBeepChat && !ChatRoomNotificationNewMessageVisible())) {
+				ServerShowBeep(data.Message ? stripBCUtilCruft(message) : title, 10000, {
+					memberNumber: data.MemberNumber,
+					memberName: data.MemberName,
+					chatRoomName: data.ChatRoomName,
+					...(data.Message && {
+						onClick: () => {
+							FriendListShowBeep(beepIdx);
+						}
+					})
+				}, data.Message ? title : null);
+			}
 
 			FriendListBeepLog.push({
 				MemberNumber: data.MemberNumber,
@@ -905,9 +908,9 @@ function ServerAccountBeep(data) {
 					if (previewMsg.length > 150) {
 						previewMsg = previewMsg.substring(0, 150) + "…";
 					}
-					msg += `: ${previewMsg}`;
+					title += `: ${previewMsg}`;
 				}
-				beepLink.textContent = `(${msg})`;
+				beepLink.textContent = `(${title})`;
 				beepLink.onclick = (e) => {
 					e.preventDefault();
 					FriendListShowBeep(beepIdx);
@@ -987,19 +990,20 @@ function ServerSendBeepMessage(target, msg, options) {
  * @param {string} [options.memberName]
  * @param {string} [options.chatRoomName]
  * @param {boolean} [options.silent]
+ * @param {string} [title]
  */
-function ServerShowBeep(message, duration, options) {
+function ServerShowBeep(message, duration, options, title) {
 	if (!options.silent) {
 		NotificationRaise(NotificationEventType.BEEP, {
 			memberNumber: options.memberNumber,
 			characterName: options.memberName,
 			chatRoomName: options.chatRoomName,
-			body: message,
+			body: title ? `${title}\n${message}` : message,
 			alarmWhenFocused: true,
 		});
 	}
 
-	ToastManager.info(message, { duration: duration, onClick: options?.onClick, icon: '' });
+	ToastManager.info(message, { duration: duration, onClick: options?.onClick, icon: '', title: title });
 
 	// once user focuses document, they move into the foreground and reset the timer
 	TimerCreate(() => {
