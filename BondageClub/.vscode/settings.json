@@ -1,0 +1,6 @@
+{
+	"javascript.suggest.autoImports": false,
+	"typescript.tsserver.experimental.enableProjectDiagnostics": true,
+	"liveServer.settings.root": "../",
+	"typescript.tsdk": "node_modules/typescript/lib"
+}
