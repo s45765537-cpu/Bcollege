@@ -354,7 +354,7 @@ function InfiltrationEndKidnapping(Reward) {
 	if (Reward === "Skill") SkillProgress(Player, "Infiltration", 400);
 	if (Reward === "Private") {
 		const isMistress = InventoryIsWorn(CurrentCharacter, "Shoes", "MistressBoots");
-		const C = PrivateAddCharacter(CurrentCharacter, isMistress ? "Mistress" : "", null);
+		const C = PrivateAddCharacter(/** @type {NPCCharacter} */ (CurrentCharacter), isMistress ? "Mistress" : "", null);
 		C.Love = -80;
 		C.FromPandora = true;
 		if (isMistress) {

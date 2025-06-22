@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 "use strict";
 var TennisBackground = "CollegeTennisPlay";
-/** @type {null | NPCCharacter} */
+/** @type {null | PlayerCharacter | NPCCharacter} */
 var TennisCharacterLeft = null;
 /** @type {null | NPCCharacter} */
 var TennisCharacterRight = null;

@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 "use strict";
 var TherapyBackground = "AsylumTherapy";
-/** @type {null | NPCCharacter} */
+/** @type {null | NPCCharacter | PlayerCharacter} */
 var TherapyCharacterLeft = null;
 /** @type {null | NPCCharacter} */
 var TherapyCharacterRight = null;
