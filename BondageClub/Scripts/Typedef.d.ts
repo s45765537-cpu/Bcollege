@@ -1911,6 +1911,12 @@ interface Character {
 	CanPickLocks: () => boolean;
 	IsEdged: () => boolean;
 	IsPlayer: () => this is PlayerCharacter;
+	get X(): number | null;
+	get Y(): number | null;
+	set X(X: number);
+	set Y(Y: number);
+	get Position(): ChatRoomMapPos | null;
+	set Position({ X, Y }: ChatRoomMapPos);
 	IsBirthday: () => boolean;
     IsSiblingOfCharacter: (C: Character) => boolean;
 	IsFamilyOfPlayer: () => boolean;

@@ -3932,6 +3932,9 @@ function ChatRoomMessageProcessHidden(data, SenderCharacter) {
 	} else if (data.Content == "ClubCardAdminResetGameHidden") {
 		ClubCardResetGameStatus();
 	}
+	else if (data.Content == "ChatRoomMapViewTeleport") {
+		ChatRoomMapViewTeleportHiddenMessage(SenderCharacter, data);
+	}
 	return true;
 }
 
@@ -6516,4 +6519,22 @@ function ChatRoomGetSettings(room) {
 	/** @type {(keyof ChatRoomSettings)[]} */
 	const keys = ["Name", "Description", "Admin", "Whitelist", "Ban", "Background", "Limit", "Game", "Visibility", "Access", "BlockCategory", "Language", "Space", "MapData", "Custom"];
 	return /** @type {ChatRoomSettings} */(Object.fromEntries(keys.map(k => [k, room[k]])));
+}
+
+/**
+ * Gets a character by MemberNumber or name or nickname
+ * @param {string|number} spec
+ * @return {Character|null}
+ */
+function ChatRoomGetCharacter(spec) {
+	/** @type {number} */
+	const numSpec = CommonIsInteger(spec) ? spec : CommonParseNumber(spec);
+	if (numSpec !== null) {
+		return ChatRoomCharacter.find((character) => character.MemberNumber === numSpec);
+	}
+	if (typeof spec !== "string") return null;
+
+	const nameMatches = ChatRoomCharacter.filter(c => c.Name.toLocaleLowerCase() === spec.toLocaleLowerCase() || c.Nickname?.toLocaleLowerCase() === spec.toLocaleLowerCase());
+	if (nameMatches.length > 1) return null;
+	return nameMatches[0] ?? null;
 }
