@@ -52,15 +52,15 @@ function NPCTraitGenerate(C) {
 /**
  * Get the opposite trait of a specified trait.
  * @param {NPCTraitType} Trait - Name of the trait to find the opposite of.
- * @returns {NPCTraitType | null} - Name of the opposite trait.
+ * @returns {NPCTraitType} - Name of the opposite trait.
  */
 function NPCTraitReverse(Trait) {
-	for (let T = 0; T < NPCTrait.length; T++)
-		if (NPCTrait[T][1] != null) {
-			if (NPCTrait[T][0] == Trait) return NPCTrait[T][1];
-			if (NPCTrait[T][1] == Trait) return NPCTrait[T][0];
-		}
-	return null;
+	for (const [positiveTrait, negativeTrait] of NPCTrait) {
+		if (Trait === positiveTrait) return negativeTrait;
+		if (Trait === negativeTrait) return positiveTrait;
+	}
+	// NPCTrait covers all traits, so it's safe to return whatever
+	return /** @type {never} */ (null);
 }
 
 

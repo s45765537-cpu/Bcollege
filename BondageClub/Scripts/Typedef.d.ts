@@ -1749,6 +1749,36 @@ interface PrivateCharacterData {
 	FromPandora?: boolean;
 }
 
+type PrivateActivityType =
+	| "Kiss"
+	| "FrenchKiss"
+	| "Caress"
+	| "Rub"
+	| `Masturbate${"Hand" | "Tongue" | "Player" | "Self"}`
+	| "Underwear"
+	| "Naked"
+	| "Bed"
+	| `Egg${"Insert" | "SpeedUp" | "SpeedDown"}`
+	| `Lover${"Lock" | "Unlock"}`
+	| `${"Lock" | "Unlock"}Belt`
+	| "Skip1" | "Skip2"
+	;
+
+type PrivatePunishmentType =
+	| "Cage"
+	| "Bound"
+	| "BoundPet"
+	| "ChastityBra"
+	| "ChastityBelt"
+	| "ForceNaked"
+	| `Confiscate${"Key" | "Crop" | "Whip"}`
+	| "SleepCage"
+	| "LockOut"
+	| "Cell"
+	| "OwnerLocks"
+	| "Asylum"
+	| ""
+;
 interface Character {
 	/**
 	 * The character's cache slot ID in the Character array

@@ -1,7 +1,7 @@
 // @ts-strict-ignore
 "use strict";
 var NPCSlaveAuctionBackground = "SlaveMarket";
-/** @type {null | NPCCharacter} */
+/** @type {null | NPCCharacter | PlayerCharacter} */
 var NPCSlaveAuctionVendor = null;
 /** @type {null | NPCCharacter} */
 var NPCSlaveAuctionSlave = null;
