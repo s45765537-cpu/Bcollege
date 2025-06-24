@@ -964,7 +964,7 @@ function ServerSendBeepMessage(target, msg, options) {
 	ServerSend("AccountBeep", {
 		MemberNumber: target,
 		BeepType: "",
-		IsSecret: options?.includeRoom,
+		IsSecret: !options?.includeRoom,
 		Message: msg ?? undefined
 	});
 
