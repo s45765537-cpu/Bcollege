@@ -39241,6 +39241,7 @@ var AssetFemale3DCG = [
 				Random: false,
 				Fetish: ["Sadism"],
 				AllowActivity: ["SpankItem", "RubItem"],
+				ActivityAudio: ["Belt"],
 				ActivityExpression: {
 					SpankItem: [
 						{ Group: "Blush", Name: "Low", Timer: 10 },
