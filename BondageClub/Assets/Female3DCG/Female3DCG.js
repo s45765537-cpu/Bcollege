@@ -580,7 +580,7 @@ var AssetFemale3DCG = [
 				InventoryID: 1249,
 				Value: 30,
 				Priority: 32,
-				DefaultColor: ["#585858","Default","#655A42","#585858","Default"],
+				DefaultColor: ["#585858", "Default", "#655A42", "#585858", "Default"],
 				HideItem: [
 					"ItemArmsLeatherCuffs",
 					"ItemArmsLeatherDeluxeCuffs",

@@ -52,84 +52,84 @@ var ChatRoomMapViewObjectFog = "";
 /** @type {ChatRoomMapTile[]} */
 const ChatRoomMapViewTileList = [
 
-	{ ID: 100, Type: "Floor", Style: "OakWood" },
-	{ ID: 110, Type: "Floor", Style: "Stone" },
-	{ ID: 115, Type: "Floor", Style: "Pavement" },
-	{ ID: 120, Type: "Floor", Style: "Ceramic" },
-	{ ID: 130, Type: "Floor", Style: "CarpetPink" },
-	{ ID: 131, Type: "Floor", Style: "CarpetBlue" },
-	{ ID: 132, Type: "Floor", Style: "CarpetRed" },
-	{ ID: 140, Type: "Floor", Style: "Padded" },
-	{ ID: 150, Type: "Floor", Style: "LatexFloor" },
+	{ ID: 100, Type: "Floor", Image: "OakWood" },
+	{ ID: 110, Type: "Floor", Image: "Stone" },
+	{ ID: 115, Type: "Floor", Image: "Pavement" },
+	{ ID: 120, Type: "Floor", Image: "Ceramic" },
+	{ ID: 130, Type: "Floor", Image: "CarpetPink" },
+	{ ID: 131, Type: "Floor", Image: "CarpetBlue" },
+	{ ID: 132, Type: "Floor", Image: "CarpetRed" },
+	{ ID: 140, Type: "Floor", Image: "Padded" },
+	{ ID: 150, Type: "Floor", Image: "LatexFloor" },
 
-	{ ID: 200, Type: "FloorExterior", Style: "Dirt" },
-	{ ID: 210, Type: "FloorExterior", Style: "Grass" },
-	{ ID: 215, Type: "FloorExterior", Style: "LongGrass" },
-	{ ID: 220, Type: "FloorExterior", Style: "Sand" },
-	{ ID: 230, Type: "FloorExterior", Style: "Gravel" },
-	{ ID: 235, Type: "FloorExterior", Style: "Asphalt" },
-	{ ID: 240, Type: "FloorExterior", Style: "Snow" },
-	{ ID: 250, Type: "FloorExterior", Style: "StoneSquareGray" },
+	{ ID: 200, Type: "FloorExterior", Image: "Dirt" },
+	{ ID: 210, Type: "FloorExterior", Image: "Grass" },
+	{ ID: 215, Type: "FloorExterior", Image: "LongGrass" },
+	{ ID: 220, Type: "FloorExterior", Image: "Sand" },
+	{ ID: 230, Type: "FloorExterior", Image: "Gravel" },
+	{ ID: 235, Type: "FloorExterior", Image: "Asphalt" },
+	{ ID: 240, Type: "FloorExterior", Image: "Snow" },
+	{ ID: 250, Type: "FloorExterior", Image: "StoneSquareGray" },
 
-	{ ID: 1000, Type: "Wall", Style: "MixedWood", BlockVision: true },
-	{ ID: 1001, Type: "Wall", Style: "CedarWood", BlockVision: true },
-	{ ID: 1010, Type: "Wall", Style: "Log", BlockVision: true },
-	{ ID: 1020, Type: "Wall", Style: "Japanese", BlockVision: true },
-	{ ID: 1030, Type: "Wall", Style: "Stone", BlockVision: true },
-	{ ID: 1040, Type: "Wall", Style: "Brick", BlockVision: true },
-	{ ID: 1050, Type: "Wall", Style: "Dungeon", BlockVision: true },
-	{ ID: 1060, Type: "Wall", Style: "Square", BlockVision: true, BlockHearing: true },
-	{ ID: 1070, Type: "Wall", Style: "Steel", BlockVision: true, BlockHearing: true },
-	{ ID: 1080, Type: "Wall", Style: "Padded", BlockVision: true, BlockHearing: true },
+	{ ID: 1000, Type: "Wall", Image: "MixedWood", BlockVision: true },
+	{ ID: 1001, Type: "Wall", Image: "CedarWood", BlockVision: true },
+	{ ID: 1010, Type: "Wall", Image: "Log", BlockVision: true },
+	{ ID: 1020, Type: "Wall", Image: "Japanese", BlockVision: true },
+	{ ID: 1030, Type: "Wall", Image: "Stone", BlockVision: true },
+	{ ID: 1040, Type: "Wall", Image: "Brick", BlockVision: true },
+	{ ID: 1050, Type: "Wall", Image: "Dungeon", BlockVision: true },
+	{ ID: 1060, Type: "Wall", Image: "Square", BlockVision: true, BlockHearing: true },
+	{ ID: 1070, Type: "Wall", Image: "Steel", BlockVision: true, BlockHearing: true },
+	{ ID: 1080, Type: "Wall", Image: "Padded", BlockVision: true, BlockHearing: true },
 
-	{ ID: 2000, Type: "Water", Style: "Pool", Transparency: 0.5, TransparencyCutoutHeight: 0.45 },
-	{ ID: 2010, Type: "Water", Style: "Sea", Transparency: 0.5, TransparencyCutoutHeight: 0.45 },
-	{ ID: 2020, Type: "Water", Style: "Ocean", Transparency: 0.5, TransparencyCutoutHeight: 0.3 },
-	{ ID: 2025, Type: "Water", Style: "OceanCyan", Transparency: 0.5, TransparencyCutoutHeight: 0.3 },
+	{ ID: 2000, Type: "Water", Image: "Pool", Transparency: 0.5, TransparencyCutoutHeight: 0.45 },
+	{ ID: 2010, Type: "Water", Image: "Sea", Transparency: 0.5, TransparencyCutoutHeight: 0.45 },
+	{ ID: 2020, Type: "Water", Image: "Ocean", Transparency: 0.5, TransparencyCutoutHeight: 0.3 },
+	{ ID: 2025, Type: "Water", Image: "OceanCyan", Transparency: 0.5, TransparencyCutoutHeight: 0.3 },
 
 ];
 
 /** @type {ChatRoomMapObject[]} */
 const ChatRoomMapViewObjectList = [
 
-	{ ID: 100, Type: "FloorDecoration", Style: "Blank" },
-	{ ID: 110, Type: "FloorDecoration", Style: "EntryFlag", Top: -0.125, Exit: true, Unique: true },
-	{ ID: 115, Type: "FloorDecoration", Style: "ExitFlag", Top: -0.125, Exit: true },
-	{ ID: 120, Type: "FloorDecoration", Style: "BedTeal", Top: -0.25 },
-	{ ID: 130, Type: "FloorDecoration", Style: "PillowPink" },
-	{ ID: 140, Type: "FloorDecoration", Style: "TableBrown" },
-	{ ID: 151, Type: "FloorDecoration", Style: "ChairWood", Top: -0.5, Height: 1.5 },
-	{ ID: 150, Type: "FloorDecoration", Style: "ThroneRed", Top: -1, Height: 2 },
-	{ ID: 160, Type: "FloorDecoration", Style: "KeyBronze", OnEnter: function(){ Player.MapData.PrivateState.HasKeyBronze = true; }, IsVisible: function(){ return !Player.MapData.PrivateState.HasKeyBronze; } },
-	{ ID: 162, Type: "FloorDecoration", Style: "KeySilver", OnEnter: function(){ Player.MapData.PrivateState.HasKeySilver = true; }, IsVisible: function(){ return !Player.MapData.PrivateState.HasKeySilver; } },
-	{ ID: 164, Type: "FloorDecoration", Style: "KeyGold" , OnEnter: function(){ Player.MapData.PrivateState.HasKeyGold = true; }, IsVisible: function(){ return !Player.MapData.PrivateState.HasKeyGold; } },
+	{ ID: 100, Type: "FloorDecoration", Image: "Blank" },
+	{ ID: 110, Type: "FloorDecoration", Image: "EntryFlag", Top: -0.125, Exit: true, Unique: true },
+	{ ID: 115, Type: "FloorDecoration", Image: "ExitFlag", Top: -0.125, Exit: true },
+	{ ID: 120, Type: "FloorDecoration", Image: "BedTeal", Top: -0.25 },
+	{ ID: 130, Type: "FloorDecoration", Image: "PillowPink" },
+	{ ID: 140, Type: "FloorDecoration", Image: "TableBrown" },
+	{ ID: 151, Type: "FloorDecoration", Image: "ChairWood", Top: -0.5, Height: 1.5 },
+	{ ID: 150, Type: "FloorDecoration", Image: "ThroneRed", Top: -1, Height: 2 },
+	{ ID: 160, Type: "FloorDecoration", Image: "KeyBronze", OnEnter: function(){ Player.MapData.PrivateState.HasKeyBronze = true; }, IsVisible: function(){ return !Player.MapData.PrivateState.HasKeyBronze; } },
+	{ ID: 162, Type: "FloorDecoration", Image: "KeySilver", OnEnter: function(){ Player.MapData.PrivateState.HasKeySilver = true; }, IsVisible: function(){ return !Player.MapData.PrivateState.HasKeySilver; } },
+	{ ID: 164, Type: "FloorDecoration", Image: "KeyGold" , OnEnter: function(){ Player.MapData.PrivateState.HasKeyGold = true; }, IsVisible: function(){ return !Player.MapData.PrivateState.HasKeyGold; } },
 
-	{ ID: 200, Type: "FloorDecorationThemed", Style: "Blank" },
-	{ ID: 210, Type: "FloorDecorationThemed", Style: "TeacherDesk", Top: -0.25 },
-	{ ID: 220, Type: "FloorDecorationThemed", Style: "StudentDesk", Top: -0.1 },
-	{ ID: 250, Type: "FloorDecorationThemed", Style: "SinkDishes", Top: -0.35 },
-	{ ID: 260, Type: "FloorDecorationThemed", Style: "LaundryMachine", Top: -0.55, Height: 1.25 },
-	{ ID: 270, Type: "FloorDecorationThemed", Style: "IroningBoard", Top: -0.35 },
-	{ ID: 300, Type: "FloorDecorationThemed", Style: "ShibariFrame", Top: -1, Height: 2 },
-	{ ID: 310, Type: "FloorDecorationThemed", Style: "JapaneseTable", Top: -0.1 },
-	{ ID: 320, Type: "FloorDecorationThemed", Style: "BanzaiTree", Top: -0.1 },
-	{ ID: 350, Type: "FloorDecorationThemed", Style: "MedicalDesk", Top: -0.15 },
+	{ ID: 200, Type: "FloorDecorationThemed", Image: "Blank" },
+	{ ID: 210, Type: "FloorDecorationThemed", Image: "TeacherDesk", Top: -0.25 },
+	{ ID: 220, Type: "FloorDecorationThemed", Image: "StudentDesk", Top: -0.1 },
+	{ ID: 250, Type: "FloorDecorationThemed", Image: "SinkDishes", Top: -0.35 },
+	{ ID: 260, Type: "FloorDecorationThemed", Image: "LaundryMachine", Top: -0.55, Height: 1.25 },
+	{ ID: 270, Type: "FloorDecorationThemed", Image: "IroningBoard", Top: -0.35 },
+	{ ID: 300, Type: "FloorDecorationThemed", Image: "ShibariFrame", Top: -1, Height: 2 },
+	{ ID: 310, Type: "FloorDecorationThemed", Image: "JapaneseTable", Top: -0.1 },
+	{ ID: 320, Type: "FloorDecorationThemed", Image: "BanzaiTree", Top: -0.1 },
+	{ ID: 350, Type: "FloorDecorationThemed", Image: "MedicalDesk", Top: -0.15 },
 
-	{ ID: 500, Type: "FloorDecorationParty", Style: "Blank" },
-	{ ID: 510, Type: "FloorDecorationParty", Style: "BalloonFiveColor", Top: -0.6, Height: 1.5 },
-	{ ID: 511, Type: "FloorDecorationParty", Style: "BalloonTwoHeart", Top: -0.15 },
-	{ ID: 520, Type: "FloorDecorationParty", Style: "WeddingCake", Top: -1, Height: 2 },
-	{ ID: 521, Type: "FloorDecorationParty", Style: "WeddingArch", Top: -1, Height: 2 },
-	{ ID: 530, Type: "FloorDecorationParty", Style: "FlowerVasePink", Top: -0.33 },
-	{ ID: 560, Type: "FloorDecorationParty", Style: "BeachUmbrellaStripe", Top: -1.1, Height: 2 },
-	{ ID: 570, Type: "FloorDecorationParty", Style: "BeachTowelStripe" },
+	{ ID: 500, Type: "FloorDecorationParty", Image: "Blank" },
+	{ ID: 510, Type: "FloorDecorationParty", Image: "BalloonFiveColor", Top: -0.6, Height: 1.5 },
+	{ ID: 511, Type: "FloorDecorationParty", Image: "BalloonTwoHeart", Top: -0.15 },
+	{ ID: 520, Type: "FloorDecorationParty", Image: "WeddingCake", Top: -1, Height: 2 },
+	{ ID: 521, Type: "FloorDecorationParty", Image: "WeddingArch", Top: -1, Height: 2 },
+	{ ID: 530, Type: "FloorDecorationParty", Image: "FlowerVasePink", Top: -0.33 },
+	{ ID: 560, Type: "FloorDecorationParty", Image: "BeachUmbrellaStripe", Top: -1.1, Height: 2 },
+	{ ID: 570, Type: "FloorDecorationParty", Image: "BeachTowelStripe" },
 
-	{ ID: 600, Type: "FloorDecorationCamping", Style: "Blank" },
-	{ ID: 610, Type: "FloorDecorationCamping", Style: "LogFire", Top: -0.35 },
+	{ ID: 600, Type: "FloorDecorationCamping", Image: "Blank" },
+	{ ID: 610, Type: "FloorDecorationCamping", Image: "LogFire", Top: -0.35 },
 	{
 		ID: 611,
 		Type: "FloorDecorationCamping",
-		Style: "LogFireAnim0",
+		Image: "LogFireAnim0",
 		Height: 1,
 		Top: -0.5,
 		BuildImageName: function(X, Y) {
@@ -137,19 +137,19 @@ const ChatRoomMapViewObjectList = [
 			return "LogFireAnim" + Frame.toString();
 		}
 	},
-	{ ID: 620, Type: "FloorDecorationCamping", Style: "LogSingle", Top: -0.2 },
-	{ ID: 630, Type: "FloorDecorationCamping", Style: "TentBlue", Top: -0.3 },
-	{ ID: 640, Type: "FloorDecorationCamping", Style: "SleepingBagBlue" },
-	{ ID: 650, Type: "FloorDecorationCamping", Style: "ChairRed", Top: -0.35 },
-	{ ID: 660, Type: "FloorDecorationCamping", Style: "Hurdle1" },
-	{ ID: 670, Type: "FloorDecorationCamping", Style: "Hurdle2" },
-	{ ID: 680, Type: "FloorDecorationCamping", Style: "Hurdle3" },
+	{ ID: 620, Type: "FloorDecorationCamping", Image: "LogSingle", Top: -0.2 },
+	{ ID: 630, Type: "FloorDecorationCamping", Image: "TentBlue", Top: -0.3 },
+	{ ID: 640, Type: "FloorDecorationCamping", Image: "SleepingBagBlue" },
+	{ ID: 650, Type: "FloorDecorationCamping", Image: "ChairRed", Top: -0.35 },
+	{ ID: 660, Type: "FloorDecorationCamping", Image: "Hurdle1" },
+	{ ID: 670, Type: "FloorDecorationCamping", Image: "Hurdle2" },
+	{ ID: 680, Type: "FloorDecorationCamping", Image: "Hurdle3" },
 
-	{ ID: 700, Type: "FloorDecorationExpanding", Style: "Blank" },
+	{ ID: 700, Type: "FloorDecorationExpanding", Image: "Blank" },
 	{
 		ID: 710,
 		Type: "FloorDecorationExpanding",
-		Style: "CouchPinkPreview",
+		Image: "CouchPinkPreview",
 		BuildImageName: function(X, Y) {
 			let LeftObject = ChatRoomMapViewGetObjectAtPos(X - 1, Y);
 			let RightObject = ChatRoomMapViewGetObjectAtPos(X + 1, Y);
@@ -163,7 +163,7 @@ const ChatRoomMapViewObjectList = [
 	{
 		ID: 720,
 		Type: "FloorDecorationExpanding",
-		Style: "BedBluePreview",
+		Image: "BedBluePreview",
 		BuildImageName: function(X, Y) {
 			let LeftObject = ChatRoomMapViewGetObjectAtPos(X - 1, Y);
 			let RightObject = ChatRoomMapViewGetObjectAtPos(X + 1, Y);
@@ -178,7 +178,7 @@ const ChatRoomMapViewObjectList = [
 	{
 		ID: 730,
 		Type: "FloorDecorationExpanding",
-		Style: "BallPitPreview",
+		Image: "BallPitPreview",
 		BuildImageName: function(X, Y) {
 			let LeftObject = ChatRoomMapViewGetObjectAtPos(X - 1, Y);
 			let RightObject = ChatRoomMapViewGetObjectAtPos(X + 1, Y);
@@ -192,11 +192,11 @@ const ChatRoomMapViewObjectList = [
 		Transparency: 1,
 		TransparencyCutoutHeight: 0.96
 	},
-	{ ID: 800, Type: "FloorDecorationAnimal", Style: "Blank" },
+	{ ID: 800, Type: "FloorDecorationAnimal", Image: "Blank" },
 	{
 		ID: 810,
 		Type: "FloorDecorationAnimal",
-		Style: "CatCaramelHappy",
+		Image: "CatCaramelHappy",
 		Top: -0.2,
 		BuildImageName: function(X, Y) {
 			let Frame = (Math.floor((CurrentTime + X * 331 + Y * 197) / 2500) + X * 331 + Y * 197) % 100;
@@ -235,7 +235,7 @@ const ChatRoomMapViewObjectList = [
 	{
 		ID: 820,
 		Type: "FloorDecorationAnimal",
-		Style: "DogBrownHappy",
+		Image: "DogBrownHappy",
 		Top: -0.4,
 		BuildImageName: function(X, Y) {
 			let Frame = (Math.floor((CurrentTime + X * 347 + Y * 179) / 2000) + X * 347 + Y * 179) % 100;
@@ -281,7 +281,7 @@ const ChatRoomMapViewObjectList = [
 	{
 		ID: 830,
 		Type: "FloorDecorationAnimal",
-		Style: "RabbitBrownStand",
+		Image: "RabbitBrownStand",
 		Top: -0.3,
 		BuildImageName: function(X, Y) {
 			let Frame = (Math.floor((CurrentTime + X * 349 + Y * 193) / 1700) + X * 347 + Y * 193) % 200;
@@ -321,7 +321,7 @@ const ChatRoomMapViewObjectList = [
 	{
 		ID: 840,
 		Type: "FloorDecorationAnimal",
-		Style: "ChickenBrownIdleLeft",
+		Image: "ChickenBrownIdleLeft",
 		Left: 0.25,
 		Width: 0.5,
 		Height: 0.5,
@@ -371,60 +371,60 @@ const ChatRoomMapViewObjectList = [
 		}
 	},
 
-	{ ID: 1000, Type: "FloorItem", Style: "Blank" },
-	{ ID: 1010, Type: "FloorItem", Style: "Kennel", Top: -1, Height: 2, AssetName: "Kennel", AssetGroup: "ItemDevices" },
-	{ ID: 1020, Type: "FloorItem", Style: "X-Cross", Top: -1, Height: 2, AssetName: "X-Cross", AssetGroup: "ItemDevices" },
-	{ ID: 1030, Type: "FloorItem", Style: "BondageBench", Top: -1, Height: 2, AssetName: "BondageBench", AssetGroup: "ItemDevices" },
-	{ ID: 1040, Type: "FloorItem", Style: "Trolley", Top: -1, Height: 2, AssetName: "Trolley", AssetGroup: "ItemDevices" },
-	{ ID: 1050, Type: "FloorItem", Style: "Locker", Top: -1, Height: 2, AssetName: "Locker", AssetGroup: "ItemDevices" },
-	{ ID: 1060, Type: "FloorItem", Style: "WoodenBox", Top: -1, Height: 2, AssetName: "WoodenBox", AssetGroup: "ItemDevices" },
-	{ ID: 1070, Type: "FloorItem", Style: "Coffin", Top: -1.2, Height: 1.85, AssetName: "Coffin", AssetGroup: "ItemDevices" },
-	{ ID: 1080, Type: "FloorItem", Style: "TheDisplayFrame", Top: -1, Height: 2, AssetName: "TheDisplayFrame", AssetGroup: "ItemDevices" },
+	{ ID: 1000, Type: "FloorItem", Image: "Blank" },
+	{ ID: 1010, Type: "FloorItem", Image: "Kennel", Top: -1, Height: 2, AssetName: "Kennel", AssetGroup: "ItemDevices" },
+	{ ID: 1020, Type: "FloorItem", Image: "X-Cross", Top: -1, Height: 2, AssetName: "X-Cross", AssetGroup: "ItemDevices" },
+	{ ID: 1030, Type: "FloorItem", Image: "BondageBench", Top: -1, Height: 2, AssetName: "BondageBench", AssetGroup: "ItemDevices" },
+	{ ID: 1040, Type: "FloorItem", Image: "Trolley", Top: -1, Height: 2, AssetName: "Trolley", AssetGroup: "ItemDevices" },
+	{ ID: 1050, Type: "FloorItem", Image: "Locker", Top: -1, Height: 2, AssetName: "Locker", AssetGroup: "ItemDevices" },
+	{ ID: 1060, Type: "FloorItem", Image: "WoodenBox", Top: -1, Height: 2, AssetName: "WoodenBox", AssetGroup: "ItemDevices" },
+	{ ID: 1070, Type: "FloorItem", Image: "Coffin", Top: -1.2, Height: 1.85, AssetName: "Coffin", AssetGroup: "ItemDevices" },
+	{ ID: 1080, Type: "FloorItem", Image: "TheDisplayFrame", Top: -1, Height: 2, AssetName: "TheDisplayFrame", AssetGroup: "ItemDevices" },
 
-	{ ID: 2000, Type: "FloorObstacle", Style: "Blank" },
-	{ ID: 2005, Type: "FloorObstacle", Style: "Rocks", Top: -0.125, Height: 1.125 },
-	{ ID: 2010, Type: "FloorObstacle", Style: "Statue", Top: -1, Height: 2 },
-	{ ID: 2020, Type: "FloorObstacle", Style: "Barrel", Top: -0.5, Height: 1.5 },
-	{ ID: 2030, Type: "FloorObstacle", Style: "IronBars", Top: -1, Height: 2 },
-	{ ID: 2031, Type: "FloorObstacle", Style: "BarbFence", Top: -1, Height: 2 },
-	{ ID: 2040, Type: "FloorObstacle", Style: "OakTree", Left: -0.25, Top: -1.5, Width: 1.5, Height: 2.5 },
-	{ ID: 2050, Type: "FloorObstacle", Style: "PineTree", Top: -1, Height: 2 },
-	{ ID: 2055, Type: "FloorObstacle", Style: "PalmTree", Left: -0.30, Top: -1.5, Width: 1.65, Height: 2.5 },
-	{ ID: 2060, Type: "FloorObstacle", Style: "ChristmasTree", Top: -1, Height: 2 },
-	{ ID: 2070, Type: "FloorObstacle", Style: "Window", Top: -0.5, Height: 1.5 },
+	{ ID: 2000, Type: "FloorObstacle", Image: "Blank" },
+	{ ID: 2005, Type: "FloorObstacle", Image: "Rocks", Top: -0.125, Height: 1.125 },
+	{ ID: 2010, Type: "FloorObstacle", Image: "Statue", Top: -1, Height: 2 },
+	{ ID: 2020, Type: "FloorObstacle", Image: "Barrel", Top: -0.5, Height: 1.5 },
+	{ ID: 2030, Type: "FloorObstacle", Image: "IronBars", Top: -1, Height: 2 },
+	{ ID: 2031, Type: "FloorObstacle", Image: "BarbFence", Top: -1, Height: 2 },
+	{ ID: 2040, Type: "FloorObstacle", Image: "OakTree", Left: -0.25, Top: -1.5, Width: 1.5, Height: 2.5 },
+	{ ID: 2050, Type: "FloorObstacle", Image: "PineTree", Top: -1, Height: 2 },
+	{ ID: 2055, Type: "FloorObstacle", Image: "PalmTree", Left: -0.30, Top: -1.5, Width: 1.65, Height: 2.5 },
+	{ ID: 2060, Type: "FloorObstacle", Image: "ChristmasTree", Top: -1, Height: 2 },
+	{ ID: 2070, Type: "FloorObstacle", Image: "Window", Top: -0.5, Height: 1.5 },
 
-	{ ID: 3000, Type: "WallDecoration", Style: "Blank" },
-	{ ID: 3010, Type: "WallDecoration", Style: "Painting" },
-	{ ID: 3020, Type: "WallDecoration", Style: "Mirror" },
+	{ ID: 3000, Type: "WallDecoration", Image: "Blank" },
+	{ ID: 3010, Type: "WallDecoration", Image: "Painting" },
+	{ ID: 3020, Type: "WallDecoration", Image: "Mirror" },
 	{
 		ID: 3030,
 		Type: "WallDecoration",
-		Style: "Candelabra0",
+		Image: "Candelabra0",
 		BuildImageName: function(X, Y) {
 			let Frame = (Math.floor((CurrentTime + X * 349 + Y * 193) / 150) + X * 347 + Y * 193) % 17;
 			if (Frame > 8) Frame = 16 - Frame;
 			return "Candelabra" + Frame.toString();
 		}
 	},
-	{ ID: 3040, Type: "WallDecoration", Style: "Whip" },
-	{ ID: 3050, Type: "WallDecoration", Style: "Fireplace" },
-	{ ID: 3100, Type: "WallDecoration", Style: "SilverShield" },
-	{ ID: 3110, Type: "WallDecoration", Style: "CrossedSabers" },
-	{ ID: 3200, Type: "WallDecoration", Style: "SchoolBoard" },
-	{ ID: 3250, Type: "WallDecoration", Style: "FirstAidKit" },
-	{ ID: 3260, Type: "WallDecoration", Style: "EyeTest" },
-	{ ID: 3270, Type: "WallDecoration", Style: "Bookshelf" },
+	{ ID: 3040, Type: "WallDecoration", Image: "Whip" },
+	{ ID: 3050, Type: "WallDecoration", Image: "Fireplace" },
+	{ ID: 3100, Type: "WallDecoration", Image: "SilverShield" },
+	{ ID: 3110, Type: "WallDecoration", Image: "CrossedSabers" },
+	{ ID: 3200, Type: "WallDecoration", Image: "SchoolBoard" },
+	{ ID: 3250, Type: "WallDecoration", Image: "FirstAidKit" },
+	{ ID: 3260, Type: "WallDecoration", Image: "EyeTest" },
+	{ ID: 3270, Type: "WallDecoration", Image: "Bookshelf" },
 
-	{ ID: 4000, Type: "WallPath", Style: "Blank", CanEnter: function() { return false; } },
-	{ ID: 4010, Type: "WallPath", Style: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return true; } },
-	{ ID: 4011, Type: "WallPath", Style: "WoodClosed", OccupiedStyle: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return Player.CanInteract(); } },
-	{ ID: 4012, Type: "WallPath", Style: "WoodLocked", OccupiedStyle: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return Player.CanInteract() && ChatRoomPlayerIsAdmin(); } },
-	{ ID: 4013, Type: "WallPath", Style: "WoodLockedBronze", OccupiedStyle: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return Player.MapData.PrivateState.HasKeyBronze == true; } },
-	{ ID: 4014, Type: "WallPath", Style: "WoodLockedSilver", OccupiedStyle: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return Player.MapData.PrivateState.HasKeySilver == true; } },
-	{ ID: 4015, Type: "WallPath", Style: "WoodLockedGold", OccupiedStyle: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return Player.MapData.PrivateState.HasKeyGold == true; } },
-	{ ID: 4020, Type: "WallPath", Style: "Metal", OccupiedStyle: "MetalOpen", Top: -1, Height: 2, CanEnter: function() { return true; } },
-	{ ID: 4021, Type: "WallPath", Style: "MetalUp", OccupiedStyle: "MetalOpen", Top: -1, Height: 2, CanEnter: function(Direction) { return Direction === "U" || Direction === "";  } },
-	{ ID: 4022, Type: "WallPath", Style: "MetalDown", OccupiedStyle: "MetalOpen", Top: -1, Height: 2, CanEnter: function(Direction) { return Direction === "D" || Direction === ""; } },
+	{ ID: 4000, Type: "WallPath", Image: "Blank", CanEnter: function() { return false; } },
+	{ ID: 4010, Type: "WallPath", Image: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return true; } },
+	{ ID: 4011, Type: "WallPath", Image: "WoodClosed", OccupiedImage: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return Player.CanInteract(); } },
+	{ ID: 4012, Type: "WallPath", Image: "WoodLocked", OccupiedImage: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return Player.CanInteract() && ChatRoomPlayerIsAdmin(); } },
+	{ ID: 4013, Type: "WallPath", Image: "WoodLockedBronze", OccupiedImage: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return Player.MapData.PrivateState.HasKeyBronze == true; } },
+	{ ID: 4014, Type: "WallPath", Image: "WoodLockedSilver", OccupiedImage: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return Player.MapData.PrivateState.HasKeySilver == true; } },
+	{ ID: 4015, Type: "WallPath", Image: "WoodLockedGold", OccupiedImage: "WoodOpen", Top: -1, Height: 2, CanEnter: function() { return Player.MapData.PrivateState.HasKeyGold == true; } },
+	{ ID: 4020, Type: "WallPath", Image: "Metal", OccupiedImage: "MetalOpen", Top: -1, Height: 2, CanEnter: function() { return true; } },
+	{ ID: 4021, Type: "WallPath", Image: "MetalUp", OccupiedImage: "MetalOpen", Top: -1, Height: 2, CanEnter: function(Direction) { return Direction === "U" || Direction === "";  } },
+	{ ID: 4022, Type: "WallPath", Image: "MetalDown", OccupiedImage: "MetalOpen", Top: -1, Height: 2, CanEnter: function(Direction) { return Direction === "D" || Direction === ""; } },
 
 ];
 
@@ -1188,7 +1188,7 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 
 		// Draw the tile on the grid
 		if (TileData != null) {
-			TileImage = DrawGetImage("Screens/Online/ChatRoom/MapTile/" + TileData.Type + "/" + TileData.Style + ".png");
+			TileImage = DrawGetImage("Screens/Online/ChatRoom/MapTile/" + TileData.Type + "/" + TileData.Image + ".png");
 			DrawImageResize(TileImage, Math.floor(TileCanvasX), Math.floor(TileCanvasY), Math.ceil(TileWidth), Math.ceil(TileHeight));
 			if (TileData.Type == "Wall") ChatRoomMapViewWallEffect(X, Y, Left + ScreenX, Top + ScreenY, Math.ceil(TileWidth), Math.ceil(TileHeight));
 			else FloorWallEffect = ChatRoomMapViewFloorWallEffect(X, Y);
@@ -1204,13 +1204,13 @@ function ChatRoomMapViewDrawGrid(Left, Top, Width, Height) {
 			for (let Obj of ChatRoomMapViewObjectList)
 				if (Obj.ID == ObjectID) {
 					if (Obj.IsVisible && !ChatRoomMapViewHasSuperPowers() && !Obj.IsVisible()) break;
-					if (Obj.Style === "Blank") break;
+					if (Obj.Image === "Blank") break;
 					if (Obj.Type == "WallDecoration" && ChatRoomMapViewTileIsHidden(X, Y + 1)) break;
-					let ImageName = Obj.Style;
-					if ((Obj.AssetName != null) || (Obj.OccupiedStyle != null)) {
+					let ImageName = Obj.Image;
+					if ((Obj.AssetName != null) || (Obj.OccupiedImage != null)) {
 						let Char = ChatRoomMapViewGetCharacterAtPos(X, Y);
 						if ((Char != null) && (Obj.AssetName != null) && (Obj.AssetGroup != null) && InventoryIsWorn(Char, Obj.AssetName, Obj.AssetGroup)) break;
-						if ((Char != null) && (Obj.OccupiedStyle != null)) ImageName = Obj.OccupiedStyle;
+						if ((Char != null) && (Obj.OccupiedImage != null)) ImageName = Obj.OccupiedImage;
 					} else {
 						if (Obj.BuildImageName != null)
 							ImageName = Obj.BuildImageName(X, Y);
@@ -1329,7 +1329,7 @@ function ChatRoomMapViewUpdateFlag() {
 				}
 
 			// Clears invalid objects
-			if ((Obj == null) || (Obj.Style == "Blank")) {
+			if ((Obj == null) || (Obj.Image == "Blank")) {
 				ClearObject = true;
 			} else {
 
@@ -1594,7 +1594,7 @@ function ChatRoomMapViewDrawUi() {
 				Y = Y + 70;
 				DrawButton(10, Y, 60, 60, "", "White");
 				if (Tile.ID == ChatRoomMapViewEditObject.ID) DrawRect(12, Y + 2, 56, 56, "#00FF00");
-				DrawImageResize("Screens/Online/ChatRoom/MapTile/" + Tile.Type + "/" + Tile.Style + ".png", 15, Y + 5, 50, 50);
+				DrawImageResize("Screens/Online/ChatRoom/MapTile/" + Tile.Type + "/" + Tile.Image + ".png", 15, Y + 5, 50, 50);
 			}
 	}
 
@@ -1622,7 +1622,7 @@ function ChatRoomMapViewDrawUi() {
 				Y = Y + 70;
 				DrawButton(10, Y, 60, 60, "", ((Obj.AssetName == null) || (Obj.AssetGroup == null) || InventoryAvailable(Player, Obj.AssetName, Obj.AssetGroup)) ? "White" : "Pink");
 				if (Obj.ID == ChatRoomMapViewEditObject.ID) DrawRect(12, Y + 2, 56, 56, "#00FF00");
-				if (Obj.Style !== "Blank") DrawImageResize("Screens/Online/ChatRoom/MapObject/" + Obj.Type + "/" + Obj.Style + ".png", 15, Y + 5, 50, 50);
+				if (Obj.Image !== "Blank") DrawImageResize("Screens/Online/ChatRoom/MapObject/" + Obj.Type + "/" + Obj.Image + ".png", 15, Y + 5, 50, 50);
 			}
 	}
 }

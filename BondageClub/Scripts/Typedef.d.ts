@@ -4874,8 +4874,8 @@ type ChatRoomMapTileType = "Floor" | "FloorExterior" | "Wall" | "Water";
 
 interface ChatRoomMapDoodad {
 	ID: number;
-	Style: string;
-	OccupiedStyle?: "WoodOpen" | "MetalOpen";
+	Image: string;
+	OccupiedImage?: "WoodOpen" | "MetalOpen";
 	CanEnter?: (direction: ChatRoomMapDirection) => boolean;
 	OnEnter?: () => void;
 }
