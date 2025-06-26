@@ -1294,7 +1294,7 @@ const CommonCommands = [
 		}
 	},
 	{
-		Tag: 'tp',
+		Tag: 'maptp',
 		Action: (args) => {
 			if (!ChatRoomPlayerIsAdmin()) return ChatRoomSendLocal("You don't have admin permissions to use this command.");
 			if (!ChatRoomMapViewIsActive()) return ChatRoomSendLocal("Only accessible in map mode.");
@@ -1341,11 +1341,11 @@ const CommonCommands = [
 				return ChatRoomMapViewTeleport(Player, character.Position);
 			}
 
-			return ChatRoomSendLocal("Invalid arguments:\n- /tp x y\n- /tp player x y\n- /tp from-player to-player\n- /tp player\nNote: use @ as a prefix for MemberNumbers because of ambiguousness.");
+			return ChatRoomSendLocal("Invalid arguments:\n- /maptp x y\n- /maptp player x y\n- /maptp from-player to-player\n- /maptp player\nNote: use @ as a prefix for MemberNumbers because of ambiguousness.");
 		}
 	},
 	{
-		Tag: 'coordinates',
+		Tag: 'mapcoordinates',
 		Action: (args, msg, parsed) => {
 			if (!ChatRoomMapViewIsActive()) return ChatRoomSendLocal("Only accessible in map mode.");
 
