@@ -39258,7 +39258,7 @@ var AssetFemale3DCG = [
 				Value: 5,
 				Random: false,
 				Fetish: ["Sadism"],
-				AllowActivity: ["SpankItem", "RubItem", "Scratch"],
+				AllowActivity: ["SpankItem", "BrushItem", "RubItem", "Scratch"],
 				ActivityExpression: {
 					SpankItem: [
 						{ Group: "Blush", Name: "Low", Timer: 10 },
@@ -61445,6 +61445,20 @@ var ActivityFemale3DCG = [
 			{ Group: "Mouth", Name: "Pout", Timer: 8 },
 		],
 	},
+	{
+		Name: "BrushItem",
+		ActivityID: 62,
+		MaxProgress: 70,
+		Prerequisite: ["Needs-BrushItem", "UseHands"],
+		Target: [
+			"ItemHead"
+		],
+		TargetSelf: true,
+		ActivityExpression: [
+			{ Group: "Blush", Name: "Low", Timer: 5 },
+		],
+	},
+
 ];
 
 /**
