@@ -6792,8 +6792,8 @@ SourceCharacter stops heading for the door.
 SourceCharacter 停止向房门走去。
 SourceCharacter was stopped from leaving.
 SourceCharacter 被阻止离开房间。
-SourceCharacter gets in the way of , preventing TargetPronounObject from leaving.
-SourceCharacter挡在路上，阻止TargetPronounObject离开。
+SourceCharacter gets in the way of TargetCharacter, preventing TargetPronounObject from leaving.
+SourceCharacter挡在路上TargetCharacter，阻止TargetPronounObject离开。
 TargetCharacter struggles were interrupted by SourceCharacter.
 TargetCharacter的挣扎被SourceCharacter打断了。
 Flat style

@@ -6769,8 +6769,8 @@ SourceCharacter stops heading for the door.
 SourceCharacter перестает идти к двери.
 SourceCharacter was stopped from leaving.
 SourceCharacter не удалось уйти.
-SourceCharacter gets in the way of , preventing TargetPronounObject from leaving.
-SourceCharacter мешает , не давая TargetPronounObject уйти.
+SourceCharacter gets in the way of TargetCharacter, preventing TargetPronounObject from leaving.
+SourceCharacter мешает TargetCharacter, не давая TargetPronounObject уйти.
 TargetCharacter struggles were interrupted by SourceCharacter.
 Борьба TargetCharacter была прервана SourceCharacter.
 
