@@ -46,6 +46,7 @@ CollegeTheater,Theater
 CollegeShowerRoom,Shower Room
 CollegeSportsGround,Sports Ground
 CollegeStaffRoom,Staff Room
+CommercialStreetNight1,Commercial Street Night
 Confessions,Confessions
 CosyChalet,Cosy Chalet
 CozyLivingRoom,Cozy Living Room
@@ -63,12 +64,14 @@ EmptyWarehouse,Empty Warehouse
 ForestCave,Forest Cave
 ForestPath,Forest Path
 Gardens,Gardens
+GardenCafe1,Garden Cafe
 Gymnasium,Gymnasium
 HeavenEntrance,Entrance to Heaven
 HellEntrance,Entrance to Hell
 HorseStable,Horse Stable
 HotelBedroom,Hotel Bedroom
 HotelBedroom2,Hotel Bedroom 2
+HotelBedroom3,Hotel Bedroom 3
 HouseBasement1,Empty Basement 1
 HouseBasement2,Empty Basement 2
 HouseBasement3,Empty Basement 3
@@ -93,6 +96,7 @@ LeatherChamber,Leather Chamber
 LingerieShop,Lingerie Shop
 LockerRoom,Locker Room
 LostVages,Lost Wages Casino
+LoungePiano1,Lounge Piano
 MaidCafe,Maid Café
 MaidQuarters,Maid Quarters
 MainHall,Main Hall
@@ -169,7 +173,8 @@ SnowyTown1,Snowy Town 1
 SnowyTown2,Snowy Town 2
 SpaceCaptainBedroom,Space Station Captain Bedroom
 SpookyForest,Spooky Forest
-StreetNight,Street Night
+StreetNight,Christmas Street Night
+StudentBedroom1,Student Bedroom
 SunTemple,Sun Temple
 SynthWave,Virtual World
 ThroneRoom,Throne Room
