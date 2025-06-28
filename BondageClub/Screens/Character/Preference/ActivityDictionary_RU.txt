@@ -1213,7 +1213,7 @@ SourceCharacter fists and masturbates PronounPossessive ass.
 SourceCharacter кулаком мастурбирует свою задницу.
 SourceCharacter fingers and masturbates PronounPossessive ass.
 SourceCharacter пальцами мастурбирует свою задницу.
-SourceCharacter spanks herself on the butt.
+SourceCharacter spanks PronounSelf on the butt.
 SourceCharacter шлепает себя по заднице.
 SourceCharacter caresses PronounPossessive butt.
 SourceCharacter ласкает свою задницу.
@@ -1688,7 +1688,7 @@ SourceCharacter caresses PronounPossessive neck.
 SourceCharacter ласкает свою шею.
 SourceCharacter massages PronounPossessive neck.
 SourceCharacter массирует свою шею.
-SourceCharacter chokes herself.
+SourceCharacter chokes PronounSelf.
 SourceCharacter душит себя.
 SourceCharacter tickles PronounPossessive neck.
 SourceCharacter щекочет себе шею.
@@ -1814,7 +1814,7 @@ SourceCharacter rolls a ActivityAsset over TargetCharacter's mouth.
 SourceCharacter катает ActivityAsset по губам TargetCharacter's .
 SourceCharacter gives TargetCharacter a kiss on TargetPronounPossessive gag.
 SourceCharacter целует TargetCharacter в TargetPronounPossessive кляп.
-SourceCharacter slaps herself on the face.
+SourceCharacter slaps PronounSelf on the face.
 SourceCharacter отвешивает себе пощечину.
 SourceCharacter caresses PronounPossessive face.
 SourceCharacter ласкает свое лицо.
@@ -1826,7 +1826,7 @@ SourceCharacter pulls on PronounPossessive own hair.
 SourceCharacter тянет себя за волосы.
 SourceCharacter scratches PronounPossessive head.
 SourceCharacter царапает свою голову.
-SourceCharacter pets herself on the head.
+SourceCharacter pets PronounSelf on the head.
 SourceCharacter гладит себя по голове.
 SourceCharacter rubs PronounPossessive own head with PronounPossessive ActivityAsset.
 SourceCharacter трет свою голову с помощью ActivityAsset.

@@ -1592,7 +1592,7 @@ SourceCharacter rubs PronounPossessive own butt with PronounPossessive UsedAsset
 SourceCharacter用UsedAsset摩擦自己的屁股。
 SourceCharacter shocks PronounPossessive own butt with PronounPossessive UsedAsset.
 SourceCharacter用UsedAsset電擊自己的屁股。
-SourceCharacter spanks herself on the butt.
+SourceCharacter spanks PronounSelf on the butt.
 SourceCharacter拍打自己的臀部。
 SourceCharacter hits PronounPossessive butt with PronounPossessive UsedAsset.
 SourceCharacter用UsedAsset擊打自己的屁股。
@@ -1682,11 +1682,11 @@ SourceCharacter caresses PronounPossessive face.
 SourceCharacter輕撫自己的臉.
 SourceCharacter nods.
 SourceCharacter點頭
-SourceCharacter pets herself on the head.
+SourceCharacter pets PronounSelf on the head.
 SourceCharacter摸了摸自己的頭.
 SourceCharacter pulls on PronounPossessive own hair.
 SourceCharacter拉扯自己的頭髮.
-SourceCharacter slaps herself on the face.
+SourceCharacter slaps PronounSelf on the face.
 SourceCharacter扇了自己一巴掌.
 SourceCharacter brushes PronounPossessive hair.
 SourceCharacter給自己梳頭.
@@ -1756,7 +1756,7 @@ SourceCharacter tickles PronounPossessive own mouth with PronounPossessive UsedA
 SourceCharacter用UsedAsset搔撓自己的嘴。
 SourceCharacter caresses PronounPossessive neck.
 SourceCharacter輕撫自己的脖子.
-SourceCharacter chokes herself.
+SourceCharacter chokes PronounSelf.
 SourceCharacter掐住自己的脖子.
 SourceCharacter injects PronounPossessive neck.
 SourceCharacter注射自己的脖子。

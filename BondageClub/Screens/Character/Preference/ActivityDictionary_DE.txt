@@ -1142,7 +1142,7 @@ SourceCharacter sucks on TargetCharacter's fingers.
 SourceCharacter saugt an TargetCharacter's Fingern.
 SourceCharacter cleans and polishes TargetCharacter's nails.
 SourceCharacter säubert und poliert TargetCharacter's Fingernägel.
-SourceCharacter does his secret brothers handshake with TargetCharacter.
+SourceCharacter does PronounPossessive secret brothers handshake with TargetCharacter.
 SourceCharacter macht seinen geheimen brüderlichen Handschlag with TargetCharacter.
 SourceCharacter bites TargetCharacter's hair.
 SourceCharacter beisst TargetCharacter's Haare.
@@ -1676,7 +1676,7 @@ SourceCharacter scratches PronounPossessive butt.
 SourceCharacter kratzt PronounPossessive Hintern.
 SourceCharacter shocks PronounPossessive own butt with PronounPossessive ActivityAsset.
 SourceCharacter schockt PronounPossessive eigenen Hitern mit PronounPossessive ActivityAsset.
-SourceCharacter spanks herself on the butt.
+SourceCharacter spanks PronounSelf on the butt.
 SourceCharacter spankt sich selbst auf den Hintern.
 SourceCharacter hits PronounPossessive butt with PronounPossessive ActivityAsset.
 SourceCharacter schlägt PronounPossessive Hintern mit PronounPossessive ActivityAsset.
@@ -1774,13 +1774,13 @@ SourceCharacter caresses PronounPossessive face.
 SourceCharacter streichelt PronounPossessive Gesicht.
 SourceCharacter nods.
 SourceCharacter nickt.
-SourceCharacter pets herself on the head.
+SourceCharacter pets PronounSelf on the head.
 SourceCharacter tätschelt sich selbst den Kopf.
 SourceCharacter pulls on PronounPossessive own hair.
 SourceCharacter zieht an PronounPossessive eigenen Haar.
 SourceCharacter scratches PronounPossessive head.
 SourceCharacter kratzt PronounPossessive Kopf.
-SourceCharacter slaps herself on the face.
+SourceCharacter slaps PronounSelf on the face.
 SourceCharacter ohrfeigt sich selbst ins Gesicht.
 SourceCharacter brushes PronounPossessive hair.
 SourceCharacter kämmt PronounPossessive Haar.
@@ -1862,7 +1862,7 @@ SourceCharacter throws ActivityAsset into PronounPossessive own mouth.
 SourceCharacter wirft ActivityAsset in PronounPossessive eigenen Mund.
 SourceCharacter caresses PronounPossessive neck.
 SourceCharacter streichelt PronounPossessive Nacken.
-SourceCharacter chokes herself.
+SourceCharacter chokes PronounSelf.
 SourceCharacter würgt sich selbst.
 SourceCharacter injects PronounPossessive neck.
 SourceCharacter injeziert PronounPossessive Hals.

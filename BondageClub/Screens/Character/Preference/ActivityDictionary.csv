@@ -847,7 +847,7 @@ ChatOther-ItemHands-Scratch,SourceCharacter scratches over TargetCharacter's han
 ChatOther-ItemHands-Spank,SourceCharacter spanks TargetCharacter's hand.
 ChatOther-ItemHands-Suck,SourceCharacter sucks on TargetCharacter's fingers.
 ChatOther-ItemHands-TakeCare,SourceCharacter cleans and polishes TargetCharacter's nails.
-ChatOther-ItemHands-BrothersHandshake,SourceCharacter does his secret brothers handshake with TargetCharacter.
+ChatOther-ItemHands-BrothersHandshake,SourceCharacter does PronounPossessive secret brothers handshake with TargetCharacter.
 ChatOther-ItemHead-Bite,SourceCharacter bites TargetCharacter's hair.
 ChatOther-ItemHead-BrushItem,SourceCharacter brushes TargetCharacter's hair.
 ChatOther-ItemHead-Caress,SourceCharacter caresses TargetCharacter's face.
@@ -1121,7 +1121,7 @@ ChatSelf-ItemButt-RollItem,SourceCharacter rolls a ActivityAsset over PronounPos
 ChatSelf-ItemButt-RubItem,SourceCharacter rubs PronounPossessive own butt with PronounPossessive ActivityAsset.
 ChatSelf-ItemButt-Scratch,SourceCharacter scratches PronounPossessive butt.
 ChatSelf-ItemButt-ShockItem,SourceCharacter shocks PronounPossessive own butt with PronounPossessive ActivityAsset.
-ChatSelf-ItemButt-Spank,SourceCharacter spanks herself on the butt.
+ChatSelf-ItemButt-Spank,SourceCharacter spanks PronounSelf on the butt.
 ChatSelf-ItemButt-SpankItem,SourceCharacter hits PronounPossessive butt with PronounPossessive ActivityAsset.
 ChatSelf-ItemButt-TickleItem,SourceCharacter tickles PronounPossessive own butt with PronounPossessive ActivityAsset.
 ChatSelf-ItemButt-Wiggle,SourceCharacter wiggles PronounPossessive butt.
@@ -1171,10 +1171,10 @@ ChatSelf-ItemHands-Wiggle,SourceCharacter wiggles PronounPossessive fingers
 ChatSelf-ItemHead-BrushItem,SourceCharacter brushes PronounPossessive hair.
 ChatSelf-ItemHead-Caress,SourceCharacter caresses PronounPossessive face.
 ChatSelf-ItemHead-Nod,SourceCharacter nods.
-ChatSelf-ItemHead-Pet,SourceCharacter pets herself on the head.
+ChatSelf-ItemHead-Pet,SourceCharacter pets PronounSelf on the head.
 ChatSelf-ItemHead-Pull,SourceCharacter pulls on PronounPossessive own hair.
 ChatSelf-ItemHead-Scratch,SourceCharacter scratches PronounPossessive head.
-ChatSelf-ItemHead-Slap,SourceCharacter slaps herself on the face.
+ChatSelf-ItemHead-Slap,SourceCharacter slaps PronounSelf on the face.
 ChatSelf-ItemHead-TakeCare,SourceCharacter brushes PronounPossessive hair.
 ChatSelf-ItemHead-ThrowItem,SourceCharacter throws ActivityAsset on PronounPossessive own head.
 ChatSelf-ItemHead-Wiggle,SourceCharacter shakes PronounPossessive head.
@@ -1215,7 +1215,7 @@ ChatSelf-ItemMouth-SipItem,SourceCharacter takes a sip from PronounPossessive Ac
 ChatSelf-ItemMouth-TickleItem,SourceCharacter tickles PronounPossessive own mouth with PronounPossessive ActivityAsset.
 ChatSelf-ItemMouth-ThrowItem,SourceCharacter throws ActivityAsset into PronounPossessive own mouth.
 ChatSelf-ItemNeck-Caress,SourceCharacter caresses PronounPossessive neck.
-ChatSelf-ItemNeck-Choke,SourceCharacter chokes herself.
+ChatSelf-ItemNeck-Choke,SourceCharacter chokes PronounSelf.
 ChatSelf-ItemNeck-Inject,SourceCharacter injects PronounPossessive neck.
 ChatSelf-ItemNeck-MassageHands,SourceCharacter massages PronounPossessive neck.
 ChatSelf-ItemNeck-RollItem,SourceCharacter rolls a ActivityAsset over PronounPossessive own neck.
