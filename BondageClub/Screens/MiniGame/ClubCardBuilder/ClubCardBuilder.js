@@ -120,9 +120,10 @@ function ClubCardBuilderTagChanged() {
  * @returns {void} - Nothing
  */
 function ClubCardBuilderFinishEdit() {
+	ClubCardBuilderView = ClubCardList.slice();
 	ElementRemove("CardsTagsDropdown");
 	ElementRemove("CardsSearchFilter");
-	ClubCardBuilderSelectedTag = "All";	
+	ClubCardBuilderSelectedTag = "All";
 }
 
 /**
