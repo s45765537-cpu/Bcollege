@@ -993,11 +993,11 @@ function ServerSendBeepMessage(target, msg, options) {
  * @param {string} [title]
  */
 function ServerShowBeep(message, duration, options, title) {
-	if (!options.silent) {
+	if (!options?.silent) {
 		NotificationRaise(NotificationEventType.BEEP, {
-			memberNumber: options.memberNumber,
-			characterName: options.memberName,
-			chatRoomName: options.chatRoomName,
+			memberNumber: options?.memberNumber,
+			characterName: options?.memberName,
+			chatRoomName: options?.chatRoomName,
 			body: title ? `${title}\n${message}` : message,
 			alarmWhenFocused: true,
 		});
