@@ -1390,7 +1390,7 @@ interface Pose {
 	MovePosition?: { Group: AssetGroupName; X: number; Y: number; }[];
 }
 
-type ActivityNameBasic = "Bite" | "Caress" | "Choke" | "Cuddle" | "FrenchKiss" |
+type ActivityNameBasic = "Bite" | "Brush" | "Caress" | "Choke" | "Cuddle" | "FrenchKiss" |
 	"GagKiss" | "GaggedKiss" | "Grope" | "HandGag" | "Kick" |
 	"Kiss" | "Lick" | "MassageFeet" | "MassageHands" | "MasturbateFist" |
 	"MasturbateFoot" |"MasturbateHand" | "MasturbateTongue" |
@@ -1402,7 +1402,7 @@ type ActivityNameBasic = "Bite" | "Caress" | "Choke" | "Cuddle" | "FrenchKiss" |
 	"SistersHug" | "BrothersHandshake" | "SiblingsCheekKiss" | "CollarGrab"
 ;
 
-type ActivityNameItem = "Inject" | "MasturbateItem" | "PenetrateItem" | "PourItem" | "RollItem" | "RubItem" | "ShockItem" | "SipItem" | "SpankItem" | "TickleItem" | "EatItem" | "Scratch" | "ThrowItem";
+type ActivityNameItem = "Inject" | "MasturbateItem" | "PenetrateItem" | "PourItem" | "RollItem" | "RubItem" | "BrushItem" | "ShockItem" | "SipItem" | "SpankItem" | "TickleItem" | "EatItem" | "Scratch" | "ThrowItem";
 
 type ActivityName = ActivityNameBasic | ActivityNameItem;
 
