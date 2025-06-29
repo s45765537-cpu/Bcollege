@@ -61451,15 +61451,10 @@ var ActivityFemale3DCG = [
 		ActivityID: 62,
 		MaxProgress: 70,
 		Prerequisite: ["Needs-BrushItem", "UseHands"],
-		Target: [
-			"ItemHead"
-		],
+		Target: ["ItemHead"],
 		TargetSelf: true,
-		ActivityExpression: [
-			{ Group: "Blush", Name: "Low", Timer: 5 },
-		],
+		ActivityExpression: [{ Group: "Blush", Name: "Low", Timer: 5 }],
 	},
-
 ];
 
 /**

@@ -1305,7 +1305,7 @@ const CommonCommands = [
 			const isIdentifier = (value) => value && !(isCoordinateX(value) || isCoordinateY(value));
 
 			if (isCoordinateX(parsed[0]) && isCoordinateY(parsed[1])) {
-				// tp <x> <y>
+				// maptp <x> <y>
 				const position = {X: Number(parsed[0]), Y: Number(parsed[1])};
 				if (ChatRoomMapViewIsOutOfBounds(position)) return ChatRoomSendLocal(`Teleport: Cannot teleport to ${position.X}, ${position.Y} because out of bounds.`);
 				ChatRoomSendLocal(`Teleporting to ${position.X}, ${position.Y}`);
@@ -1313,7 +1313,7 @@ const CommonCommands = [
 			}
 
 			if (isIdentifier(parsed[0]) && isCoordinateX(parsed[1]) && isCoordinateY(parsed[2])) {
-				// tp <player> <x> <y>
+				// maptp <player> <x> <y>
 				const identifier = parsed[0].replace('@', '');
 				const character = ChatRoomGetCharacter(identifier);
 				if (!character) return ChatRoomSendLocal(`Teleport: Cannot teleport ${identifier} to ${parsed[1]}, ${parsed[2]} because no such player.`);
@@ -1324,7 +1324,7 @@ const CommonCommands = [
 			}
 
 			if (isIdentifier(parsed[0]) && isIdentifier(parsed[1])) {
-				// tp <from player> <to player>
+				// maptp <from player> <to player>
 				const fromPlayer = ChatRoomGetCharacter(parsed[0].replace('@', ''));
 				const toPlayer = ChatRoomGetCharacter(parsed[1].replace('@', ''));
 				if (!fromPlayer) return ChatRoomSendLocal(`Teleport: Cannot teleport ${parsed[0]} to ${parsed[1]} because no such player.`);
@@ -1334,7 +1334,7 @@ const CommonCommands = [
 			}
 
 			if (isIdentifier(parsed[0])) {
-				// tp <player>
+				// maptp <player>
 				const character = ChatRoomGetCharacter(parsed[0].replace('@', ''));
 				if (!character) return ChatRoomSendLocal(`Teleport: Cannot teleport ${parsed[0]} because no such player.`);
 				ChatRoomSendLocal(`Teleporting to ${character.Nickname ?? character.Name}`);
@@ -1345,7 +1345,7 @@ const CommonCommands = [
 		}
 	},
 	{
-		Tag: 'mapcoordinates',
+		Tag: 'mapcords',
 		Action: (args, msg, parsed) => {
 			if (!ChatRoomMapViewIsActive()) return ChatRoomSendLocal("Only accessible in map mode.");
 
