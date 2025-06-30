@@ -13357,6 +13357,28 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "CombatBoots",
+				Height: 9,
+				Fetish: ["Leather"],
+				InventoryID: 1249,
+				Value: 10,
+				BuyGroup: "CombatBoots",
+				PoseMapping: {
+					...AssetPoseMapping.Shoes,
+					Kneel: PoseType.HIDE,
+					KneelingSpread: PoseType.HIDE,
+				},
+				DefaultColor: ["#690909","#202020","#6E693D","#202020"],
+				HideItem: ["AnkletLeftRibbon1", "AnkletRightRibbon1"],
+				Layer: [
+					{ Name: "Laces", Priority: 24, AllowColorize: true },
+					{ Name: "Soles", Priority: 23, AllowColorize: true },
+					{ Name: "Eyelets", Priority: 23, AllowColorize: true },
+					{ Name: "Boots", Priority: 22, AllowColorize: true },
+				],
+				//Asset By RavenCreative - raven99275@gmail.com - I consent to modification and use of my work.
+			},
 		],
 		Color: [
 			"Default",

@@ -2732,6 +2732,10 @@ ShoesBoots1Shoes,Inner
 ShoesBoots1Sides,Outer
 ShoesClogsMain,Boot
 ShoesClogsSole,Sole
+ShoesCombatBoots,Laces
+ShoesCombatBoots,Soles
+ShoesCombatBoots,Eyelets
+ShoesCombatBoots,Boots
 ShoesCustomHeelsMain,Shoes
 ShoesCustomHeelsHeels,Heels
 ShoesCustomHeelsStrap1,Ankle Straps
