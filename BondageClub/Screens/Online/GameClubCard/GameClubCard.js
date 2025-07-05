@@ -99,13 +99,24 @@ function GameClubCardRun() {
 	if (GameClubCardGetStatus() == "") DrawBackNextButton(1000, 268, 400, 64, TextGet("PlayerSlot" + Player.Game.ClubCard.PlayerSlot.toString()), "White", "", () => "", () => "");
 	else DrawText(TextGet("PlayerSlot" + Player.Game.ClubCard.PlayerSlot.toString()), 1200, 300, "Black", "Gray");
 	GameClubCardDrawIcon(Player, 1480, 210, 1.8);
-	if (GameClubCardCanLaunchGame()) DrawButton(900, 600, 400, 64, TextGet("StartGame"), "White");
-	if (GameClubCardCanJoinGame()) DrawButton(900, 600, 400, 64, TextGet("JoinGame"), "White");
+	if (GameClubCardCanLaunchGame()) DrawButton(900, 640, 400, 64, TextGet("StartGame"), "White");
+	if (GameClubCardCanJoinGame() && GameClubCardIsAdmin(Player)) DrawButton(900, 640, 400, 64, TextGet("JoinGame"), "White");
+	if (GameClubCardCanJoinGame() && !GameClubCardIsAdmin(Player)) DrawButton(900, 720, 400, 64, TextGet("JoinGame"), "White");
 	if ((GameClubCardGetStatus() == "Running") && !GameClubCardCanJoinGame()) DrawText(TextGet("CannotJoinDetails"), 1100, 600, "Red", "Gray");
-	if (GameClubCardIsAdmin(Player)) DrawButton(900, 800, 400, 64, TextGet("ResetGame"), "Salmon");
+	if (GameClubCardIsAdmin(Player)) DrawButton(900, 720, 400, 64, TextGet("ResetGame"), "Salmon");
 
-	//Animation Settings
-	DrawCheckbox(900, 880, 60, 60, null, Player.Game.ClubCard.IsAnimation);
+
+	// Ensure Settings object exists
+	Player.Game.ClubCard.Settings ??= {};
+
+	//Auto Spectate Toggle
+	Player.Game.ClubCard.Settings.AutoSpectate ??= true;
+	DrawCheckbox(900, 800, 60, 60, null, Player.Game.ClubCard.Settings.AutoSpectate);
+	DrawTextWrap(TextGet("AutoSpectate"), 970, 800, 350, 60, "Black");
+
+	//Animation Toggle
+	Player.Game.ClubCard.Settings.IsAnimation ??= true;
+	DrawCheckbox(900, 880, 60, 60, null, Player.Game.ClubCard.Settings.IsAnimation);
 	DrawTextWrap(TextGet("IsAnimation"), 970, 880, 350, 60, "Black");
 }
 
@@ -129,7 +140,7 @@ function GameClubCardClick() {
 	}
 
 	// If the administrator wants to start the game
-	if (MouseIn(900, 600, 400, 64) && GameClubCardCanLaunchGame()) {
+	if (MouseIn(900, 640, 400, 64) && GameClubCardCanLaunchGame()) {
 
 		// Updates the player data
 		GameClubCardQueryAdmin = true;
@@ -160,20 +171,35 @@ function GameClubCardClick() {
 	}
 
 	// If a player wants to join the game, we send a query to the room admin
-	if (MouseIn(900, 600, 400, 64) && GameClubCardCanJoinGame()) {
+	if (MouseIn(900, 720, 400, 64) && GameClubCardCanJoinGame() && !GameClubCardIsAdmin(Player)) {
 		ServerSend("ChatRoomGame", { GameProgress: "Query" });
 		CommonSetScreen("Online", "ChatRoom");
 		GameClubCardExpectQuery = true;
 		return;
 	}
+	// If the admin wants to join the game, we send a query to the room admin
+	if (MouseIn(900, 640, 400, 64) && GameClubCardCanJoinGame() && GameClubCardIsAdmin(Player)) {
+		ServerSend("ChatRoomGame", { GameProgress: "Query" });
+		CommonSetScreen("Online", "ChatRoom");
+		GameClubCardExpectQuery = true;
+		GameClubCardQueryAdmin = true;
+		return;
+	}
 	//If the admin clicked reset game status for all players and sends message.
-	if (MouseIn(900, 800, 400, 64) && GameClubCardIsAdmin(Player)) {
+	if (MouseIn(900, 720, 400, 64) && GameClubCardIsAdmin(Player) && !GameClubCardCanJoinGame()) {
 		ClubCardSendRequestResetGame();
 	}
 
+	if (MouseIn(900, 800, 400, 64)) {
+		if (Player.Game.ClubCard.Settings.AutoSpectate) Player.Game.ClubCard.Settings.AutoSpectate = !Player.Game.ClubCard.Settings.AutoSpectate;
+		else Player.Game.ClubCard.Settings.AutoSpectate = true;
+
+		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
+	}
+
 	if (MouseIn(900, 880, 60, 60)) {
-		if (Player.Game.ClubCard.IsAnimation) Player.Game.ClubCard.IsAnimation = !Player.Game.ClubCard.IsAnimation;
-		else Player.Game.ClubCard.IsAnimation = true;
+		if (Player.Game.ClubCard.Settings.IsAnimation) Player.Game.ClubCard.Settings.IsAnimation = !Player.Game.ClubCard.Settings.IsAnimation;
+		else Player.Game.ClubCard.Settings.IsAnimation = true;
 
 		ServerAccountUpdate.QueueData({ Game: Player.Game }, true);
 	}
@@ -506,8 +532,10 @@ function GameClubCardProcess(Packet) {
 	if (Char == null) return;
 
 	// If a room admin started the game
-	if ((Packet.Data.GameProgress === "Start") && GameClubCardIsAdmin(Char))
+	if ((Packet.Data.GameProgress === "Start") && GameClubCardIsAdmin(Char)) {
+		if (!Player.Game.ClubCard.Settings.AutoSpectate && !(Packet.Data.Player1 == Player.MemberNumber || Packet.Data.Player2 == Player.MemberNumber)) { return; }
 		GameClubCardAssignPlayers(Packet, Char);
+	}
 
 	// If a player wants to query the game status to join it
 	if ((Packet.Data.GameProgress === "Query") && (Packet.Sender != Player.MemberNumber) && GameClubCardExpectQuery) {
