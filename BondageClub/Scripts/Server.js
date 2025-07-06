@@ -843,24 +843,38 @@ function ServerAccountBeep(data) {
 			} else {
 				delete data.Message;
 			}
-			let msg = `${InterfaceTextGet("BeepFrom")} ${data.MemberName} (${data.MemberNumber})`;
+			let title = `${InterfaceTextGet("BeepFrom")} ${data.MemberName} (${data.MemberNumber})`;
+			let message;
+			// We make a copy here since we want to keep opening the correct beep, even if more get added
+			const beepIdx = FriendListBeepLog.length;
 			if (data.ChatRoomName) {
-				msg += ` ${InterfaceTextGet("InRoom")} "${data.ChatRoomName}" ${data.ChatRoomSpace === "Asylum" ? " " + InterfaceTextGet("InAsylum") : ''}`;
+				title += ` ${InterfaceTextGet("InRoom")} "${data.ChatRoomName}"${data.ChatRoomSpace === "Asylum" ? " " + InterfaceTextGet("InAsylum") : ''}`;
 			}
 			if (data.Message) {
-				msg += `; ${InterfaceTextGet("BeepWithMessage")}`;
-				ServerShowBeep(msg, 10000, {
-					onClick: () => {
-						if (CurrentScreen !== 'FriendList') {
-							ServerOpenFriendList();
-						}
-						FriendListModeIndex = 1;
-						FriendListShowBeep(FriendListBeepLog.length - 1);
-					}
-				});
-			} else {
-				ServerShowBeep(msg, 10000);
+				message = data.Message;
 			}
+
+			/**
+			 * This function is just there for compat with BCUtil's special "this is an IM beep"
+			 * @type {(txt: string) => string}
+			 */
+			const stripBCUtilCruft = (txt) => {
+				return txt?.split("\uf124")[0].trimEnd();
+			};
+
+			if (!Player.ChatSettings.ShowBeepChat || (Player.ChatSettings.ShowBeepChat && !ChatRoomNotificationNewMessageVisible())) {
+				ServerShowBeep(data.Message ? stripBCUtilCruft(message) : title, 10000, {
+					memberNumber: data.MemberNumber,
+					memberName: data.MemberName,
+					chatRoomName: data.ChatRoomName,
+					...(data.Message && {
+						onClick: () => {
+							FriendListShowBeep(beepIdx);
+						}
+					})
+				}, data.Message ? title : null);
+			}
+
 			FriendListBeepLog.push({
 				MemberNumber: data.MemberNumber,
 				MemberName: data.MemberName,
@@ -872,15 +886,50 @@ function ServerAccountBeep(data) {
 				Message: data.Message
 			});
 			if (CurrentScreen == "FriendList") ServerSend("AccountQuery", { Query: "OnlineFriends" });
-			if (!Player.ChatSettings || Player.ChatSettings.ShowBeepChat)
-				ChatRoomSendLocal(`<a onclick="ServerOpenFriendList()">(${msg})</a>`);
-			if (!document.hasFocus()) {
-				NotificationRaise(NotificationEventType.BEEP, {
-					memberNumber: data.MemberNumber,
-					characterName: data.MemberName,
-					chatRoomName: data.ChatRoomName,
-					body: data.Message
-				});
+			if (Player.ChatSettings.ShowBeepChat) {
+				// "Reply to beep" arrow
+				const replyLink = ElementButton.Create(
+					`beep-reply-${beepIdx}`, // or just leave to null for an ID auto assignment
+					() => {
+						ElementValue("InputChat", `/beep ${data.MemberNumber} ${ElementValue("InputChat").replace(/^\/(beep|w) \S+ ?/u, '')}`);
+						document.getElementById('InputChat').focus();
+					},
+					{ noStyling: true },
+					{ button: { classList: ["ReplyButton"], children: ['\u21a9\ufe0f'] } },
+				);
+
+				// Beep preview link
+				const beepLink = document.createElement("a");
+				beepLink.classList.add("beep-link");
+
+				let previewMsg = "";
+				if (data.Message) {
+					previewMsg = stripBCUtilCruft(data.Message);
+					if (previewMsg.length > 150) {
+						previewMsg = previewMsg.substring(0, 150) + "…";
+					}
+					title += `: ${previewMsg}`;
+				}
+				beepLink.textContent = `(${title})`;
+				beepLink.onclick = (e) => {
+					e.preventDefault();
+					FriendListShowBeep(beepIdx);
+				};
+
+				const div = document.createElement("div");
+				div.dataset.time = ChatRoomCurrentTime();
+				div.dataset.sender = data.MemberNumber.toString();
+				div.dataset.target = Player.MemberNumber.toString();
+				div.classList.add("ChatMessage", "ChatMessageLocalMessage", "ChatMessageNonDialogue", "ChatMessageBeep");
+				div.appendChild(replyLink);
+				div.appendChild(beepLink);
+
+				document.querySelector(`
+					#TextAreaChatLog .ChatMessageBeep[data-sender="${data.MemberNumber}"] > .ReplyButton:not([tabindex='-1']),
+					#TextAreaChatLog .ChatMessageBeep[data-target="${data.MemberNumber}"] > .ReplyButton:not([tabindex='-1'])
+				`)?.setAttribute("tabindex", "-1");
+
+				ChatRoomAppendChat(div);
 			}
 		} else if (data.BeepType == "Leash" && ChatRoomLeashPlayer == data.MemberNumber && data.ChatRoomName) {
 			if (Player.OnlineSharedSettings && Player.OnlineSharedSettings.AllowPlayerLeashing != false && ( CurrentScreen != "ChatRoom" || !ChatRoomData || (CurrentScreen == "ChatRoom" && ChatRoomData.Name != data.ChatRoomName))) {
@@ -901,104 +950,84 @@ function ServerAccountBeep(data) {
 	}
 }
 
+
+/**
+ * Send a beep message to another player
+ * @param {number} target - The member number of the target. We must be friend with them
+ * @param {string} [msg] - The message to send to the target.
+ * @param {object} [options] - Options for the beep message
+ * @param {boolean} [options.includeRoom] - If set, we'll include the current room data we're in
+ */
+function ServerSendBeepMessage(target, msg, options) {
+	if (!CommonIsNonNegativeInteger(target)) return;
+
+	ServerSend("AccountBeep", {
+		MemberNumber: target,
+		BeepType: "",
+		IsSecret: options?.includeRoom,
+		Message: msg ?? undefined
+	});
+
+	FriendListBeepLog.push({
+		MemberNumber: target,
+		MemberName: Player.FriendNames.get(target) ?? InterfaceTextGet(`ServerBeepUnknownName`).replace('$target', target.toString()),
+		ChatRoomName: options?.includeRoom ? ChatRoomData?.Name : undefined,
+		ChatRoomSpace: options?.includeRoom ? ChatRoomData?.Space : undefined,
+		Sent: true,
+		Private: options?.includeRoom ? !ChatRoomData?.Visibility.includes("All") : undefined,
+		Time: new Date(),
+		Message: msg ?? undefined
+	});
+}
+
 /**
  * Show a message as a beep
  * @param {string} message
  * @param {number} duration
  * @param {object} [options]
  * @param {(this: HTMLDivElement, event: MouseEvent) => void} [options.onClick]
+ * @param {number} [options.memberNumber]
+ * @param {string} [options.memberName]
+ * @param {string} [options.chatRoomName]
  * @param {boolean} [options.silent]
+ * @param {string} [title]
  */
-function ServerShowBeep(message, duration, options) {
-	ServerBeepQueue.push({
-		Message: message,
-		Duration: duration,
-		ClickHandler: options?.onClick,
-		Silent: options?.silent ?? false,
-	});
+function ServerShowBeep(message, duration, options, title) {
+	if (!options.silent) {
+		NotificationRaise(NotificationEventType.BEEP, {
+			memberNumber: options.memberNumber,
+			characterName: options.memberName,
+			chatRoomName: options.chatRoomName,
+			body: title ? `${title}\n${message}` : message,
+			alarmWhenFocused: true,
+		});
+	}
+
+	ToastManager.info(message, { duration: duration, onClick: options?.onClick, icon: '', title: title });
+
+	// once user focuses document, they move into the foreground and reset the timer
+	TimerCreate(() => {
+		NotificationReset(NotificationEventType.BEEP);
+	}, 0, false, 'foreground');
 }
 
 
-/** Draws the last beep sent by the server if the timer is still valid, used during the drawing process */
+/** Draws the last beep sent by the server if the timer is still valid, used during the drawing process
+ * @deprecated
+ */
 function ServerDrawBeep() {
-
-	// Grab the old single beep variable and push that into the queue for backward compatibility
-	if (ServerBeep.Message !== "") {
-		ServerShowBeep(ServerBeep.Message, ServerBeep.Timer - CommonTime());
-		ServerBeep = { Message: "", Timer: 0 };
-	}
-
-	if (!ServerBeepQueue.length) {
-		ElementRemove("beep");
-		return;
-	}
-
-	const beep = ServerBeepQueue[0];
-	if (typeof beep.Timer === "undefined") {
-		beep.Timer = CommonTime() + beep.Duration;
-		if (!beep.Silent && ServerIsLoggedIn() && Player.AudioSettings.PlayBeeps) {
-			AudioPlayInstantSound("Audio/BeepAlarm.mp3");
-		}
-	}
-
-	let beepElement = document.getElementById('beep');
-	if (beep.Timer > CommonTime()) {
-		if (beepElement && beepElement.textContent !== beep.Message) {
-			beepElement.remove();
-			beepElement = null;
-		}
-		if (!beepElement) {
-			ElementCreate({
-				tag: 'div',
-				attributes: {
-					id: 'beep',
-				},
-				dataAttributes: { msg: beep.Message },
-				classList: ['HideOnPopup'],
-				eventListeners: {
-					click: function (e) {
-						beep.ClickHandler?.(e);
-						this.remove();
-						ServerBeepQueue.shift();
-					},
-				},
-				children: [
-					{
-						tag: 'span',
-						classList: ['truncated-text'],
-						children: [
-							beep.Message
-						]
-					}
-				],
-				parent: document.body,
-			});
-		}
-		ElementPositionFix('beep', 30, (CurrentScreen == 'ChatRoom') ? 0 : 500, 0, 1000, 50);
-		if (document.hasFocus()) {
-			NotificationReset(NotificationEventType.BEEP);
-		}
-	} else {
-		if (beepElement) ElementRemove('beep');
-		ServerBeepQueue.shift();
-	}
 }
 
 /** Handles a click on the beep rectangle if mail is included */
 function ServerClickBeep() {
 }
 
-/** Opens the friendlist from any screen */
+/**
+ * Opens the friendlist from any screen
+ * @deprecated Use {@link FriendListShow()};
+ */
 function ServerOpenFriendList() {
-	DialogLeave();
-	ElementToggleGeneratedElements(CurrentScreen, false);
-	FriendListReturn = {
-		Screen: CurrentScreen,
-		Module: CurrentModule,
-		IsInChatRoom: ServerPlayerIsInChatRoom(),
-		hasScrolledChat: ServerPlayerIsInChatRoom() && ElementIsScrolledToEnd("TextAreaChatLog")
-	};
-	CommonSetScreen("Character", "FriendList");
+	FriendListShow();
 }
 
 // TODO: `data: object` -> `data: ServerAccountOwnershipResponse`
@@ -1219,4 +1248,20 @@ var ServerAccountDataSyncedValidate = {
 	BlackList: (arg, C) => {
 		return arg?.filter(i => CommonIsInteger(i, 0)) ?? [];
 	},
+	MapData: (arg, C) => {
+		/** @type {ChatRoomMapData} */
+		const data = {
+			Pos: {
+				X: CommonIsObject(arg?.Pos) && CommonIsInteger(arg.Pos?.X, 0, ChatRoomMapViewWidth) ? arg.Pos.X : ChatRoomMapViewWidth / 2,
+				Y: CommonIsObject(arg?.Pos) && CommonIsInteger(arg.Pos?.Y, 0, ChatRoomMapViewHeight) ? arg.Pos.Y : ChatRoomMapViewHeight / 2,
+			},
+			PrivateState: CommonIsObject(arg?.PrivateState) ? arg.PrivateState : {},
+		};
+		if (CommonIsObject(arg)) {
+			delete arg?.Pos;
+			delete arg?.PrivateState;
+			Object.assign(data, arg);
+		}
+		return data;
+	}
 };

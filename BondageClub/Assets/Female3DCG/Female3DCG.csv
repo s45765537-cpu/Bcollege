@@ -25,6 +25,9 @@ BodyMarkings,BodyWritings,Body Writings
 BodyMarkings,FaceScars,Face Scars
 BodyMarkings,FacePaints,Face paints
 BodyMarkings,Splatters,Splatters
+BodyStyle,,Body Style
+BodyStyle,Original,Original
+BodyStyle,EchoV1,Echo V1
 BodyUpper,,Upper Body
 BodyUpper,FlatMedium,Bulky Flat Chest
 BodyUpper,FlatSmall,Flat Chest
@@ -85,6 +88,10 @@ Bra,Swimsuit2,Swimsuit style 2
 Bra,Swimsuit3,Swimsuit style 3
 Bra,LeatherVestSuit,Leather Vest Suit
 Bra,OrnateMetalBra,Ornate Metal Bra
+Bra,SatinCorset,Satin Corset
+Bra,Bandage,Bandage
+Bra,LeatherBunnyHollowBra,Leather Bunny Hollow Bra
+Bra,MaidBra,Maid Bra
 Bracelet,,Bracelet
 Bracelet,Band1,Band 1
 Bracelet,BowBand,Bow Band
@@ -137,7 +144,7 @@ Cloth,Gown2Top,Hobble Gown
 Cloth,Gown3,Shiny Gown
 Cloth,GrandMage,Grand Mage Dress
 Cloth,HeavyLeatherDress,Heavy Leather Dress
-Cloth,Hoodie,Cropped Hoodie
+Cloth,Hoodie,Comfortable Hoodie
 Cloth,Jacket,Jacket
 Cloth,LaceBabydoll,Lace Babydoll
 Cloth,LatexHobbleDress,Strict Hobble Dress
@@ -264,6 +271,8 @@ ClothLower,UtilityKilt,Utility Kilt
 ClothLower,Waspie1,Bondage Waspie
 ClothLower,Waspie2,Royal Waspie
 ClothLower,Waspie3,Straps Waspie
+ClothOuter,,Cloth Outer
+ClothOuter,LeatherJacket,Leather Jacket
 Corset,,Corset
 Corset,Corset1,Corset + Garters
 Corset,Corset2,Corset
@@ -290,6 +299,7 @@ Eyes,Eyes11,Style 11
 Eyes,Eyes12,Style 12
 Eyes,Eyes13,Style 13
 Eyes,Eyes14,Style 14
+Eyes,Eyes15,Style 15
 Eyes,Eyes2,Style 2
 Eyes,Eyes3,Style 3
 Eyes,Eyes4,Style 4
@@ -305,6 +315,7 @@ Eyes2,Eyes11,Style 11
 Eyes2,Eyes12,Style 12
 Eyes2,Eyes13,Style 13
 Eyes2,Eyes14,Style 14
+Eyes2,Eyes15,Style 15
 Eyes2,Eyes2,Style 2
 Eyes2,Eyes3,Style 3
 Eyes2,Eyes4,Style 4
@@ -409,6 +420,8 @@ HairAccessory1,ElfEars,Elf Ears
 HairAccessory1,FoxEars1,Fox Ears Small
 HairAccessory1,FoxEars2,Fox Ears Large
 HairAccessory1,FoxEars3,Fox Ears Bell
+HairAccessory1,CyberEars,Cyber Ears
+HairAccessory1,FloppyBunnyEars,Floppy Bunny Ears
 HairAccessory1,GiantBow1,Giant Bow 1
 HairAccessory1,HairFeathers1,Feathers
 HairAccessory1,HairFlower1, Flower
@@ -987,7 +1000,7 @@ ItemEars,HeadphoneEarPlugs,Headphone Ear Plugs
 ItemEars,Headphones,Headphones
 ItemEars,HeavyDutyEarPlugs,Heavy Duty Ear Plugs
 ItemEars,LightDutyEarPlugs,Light Duty Ear Plugs
-ItemFeet,,Feet
+ItemFeet,,Ankles
 ItemFeet,AnkleShackles, Ankle Shackles
 ItemFeet,BallChain,Ball And Chain
 ItemFeet,Chains,Chains
@@ -1137,6 +1150,7 @@ ItemHead,Stitches,Stitches
 ItemHead,StuddedBlindfold,Studded Blindfold
 ItemHead,Tentacles,Tentacles
 ItemHead,WebBlindfold,Web
+ItemHead,HypnoticVisor,Hypnotic Visor
 ItemHood,,Head
 ItemHood,AccentHood,Accent Hood
 ItemHood,Balloon,Balloon Hood
@@ -1197,7 +1211,6 @@ ItemHood,TechnoHelmet1,Techno Helmet
 ItemHood,VacHood, Vac Hood
 ItemHood,ZipperHood,Zipper Hood
 ItemLegs,,Legs
-ItemLegs,BarrelCorset,Barrel Corset
 ItemLegs,Chains,Chains
 ItemLegs,DuctTape,Duct Tape
 ItemLegs,FrogtieStraps,Frog-tie Straps
@@ -1523,7 +1536,6 @@ ItemPelvis,SteelChastityPanties,Steel Chastity Panties
 ItemPelvis,StraponPanties,Strap-On Panties
 ItemPelvis,StuddedChastityBelt,Studded Chastity Belt
 ItemPelvis,WaistLegHarness,Waist-Leg Full Harness
-ItemPelvis,UntrainersThin,Crinkly Diaper
 ItemPelvis,LatexDiaper,Latex Chastity Diaper
 ItemScript,,Body
 ItemScript,Script,Script

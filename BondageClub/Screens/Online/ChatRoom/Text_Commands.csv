@@ -53,3 +53,4 @@ mapcopy,Copy the current map layout in your clipboard
 mappaste,[Map]: Paste your map string to load it as current. No argument will use the clipboard.
 whisper,[MemberNumber|Name|Nickname]: Begin whispering to player.  Leave blank to stop whispering.<br>[MemberNumber|Name|Nickname] [Message]: Send whisper to target player.
 shop,Access the shop
+clubcard,: Open the club card editor

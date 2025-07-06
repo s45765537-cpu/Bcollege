@@ -507,25 +507,25 @@ function FriendListBeepMenuSend() {
 	const textarea = /** @type {HTMLTextAreaElement} */ (document.getElementById(FriendListIDs.beepTextArea));
 	if (textarea) {
 		const msg = textarea.value;
-		ServerSend("AccountBeep", {
-			MemberNumber: FriendListBeepTarget,
-			BeepType: "",
-			IsSecret: !FriendListBeepShowRoom,
-			Message: msg || undefined
-		});
-
-		FriendListBeepLog.push({
-			MemberNumber: FriendListBeepTarget,
-			MemberName: Player.FriendNames.get(FriendListBeepTarget),
-			ChatRoomName: FriendListBeepShowRoom ? ChatRoomData?.Name : undefined,
-			ChatRoomSpace: FriendListBeepShowRoom ? ChatRoomData?.Space : undefined,
-			Sent: true,
-			Private: FriendListBeepShowRoom ? !ChatRoomData?.Visibility.includes("All") : undefined,
-			Time: new Date(),
-			Message: msg || undefined
-		});
+		ServerSendBeepMessage(FriendListBeepTarget, msg, { includeRoom: FriendListBeepShowRoom });
 	}
 	FriendListBeepMenuClose();
+}
+
+/**
+ * Opens the friendlist from any screen
+ */
+function FriendListShow() {
+	if (CurrentScreen === 'FriendList') return;
+	DialogLeave();
+	ElementToggleGeneratedElements(CurrentScreen, false);
+	FriendListReturn = {
+		Screen: CurrentScreen,
+		Module: CurrentModule,
+		IsInChatRoom: ServerPlayerIsInChatRoom(),
+		hasScrolledChat: ServerPlayerIsInChatRoom() && ElementIsScrolledToEnd("TextAreaChatLog")
+	};
+	CommonSetScreen("Character", "FriendList");
 }
 
 /**
@@ -535,6 +535,8 @@ function FriendListBeepMenuSend() {
 function FriendListShowBeep(i) {
 	const beep = FriendListBeepLog[i];
 	if (!beep) return;
+	FriendListModeIndex = 1;
+	FriendListShow();
 	FriendListBeep(beep.MemberNumber, beep);
 }
 //#endregion
@@ -774,7 +776,7 @@ function FriendListLoadFriendList(data) {
 					tag: "td",
 					classList: ['friend-list-column', 'ChatRoomType'],
 					children: [
-						{ tag: "span", style: { display: "none" }, classList: ["friend-list-sorting-node"] },
+						{ tag: "span", attributes: { hidden: true }, classList: ["friend-list-sorting-node"] },
 						...friend.chatRoom.types.map((iconType) => {
 							if (iconType != null) {
 								const { src, tooltipKey, sortKey } = iconType;
@@ -803,6 +805,7 @@ function FriendListLoadFriendList(data) {
 									tag: /** @type {const} */("div"),
 									classList: ["friend-list-icon-container"],
 									attributes: { "aria-hidden": "true" },
+									children: ["-"],
 								};
 							}
 						}),
@@ -829,7 +832,7 @@ function FriendListLoadFriendList(data) {
 					tag: "td",
 					classList: ['friend-list-column', 'ChatRoomType'],
 					children: [
-						{ tag: "span", style: { display: "none" }, classList: ["friend-list-sorting-node"] },
+						{ tag: "span", attributes: { hidden: true }, classList: ["friend-list-sorting-node"] },
 						...friend.chatRoom.types.map((iconType) => {
 							if (iconType) {
 								const { src, tooltipKey, sortKey } = iconType;
@@ -858,6 +861,7 @@ function FriendListLoadFriendList(data) {
 									tag: /** @type {const} */("div"),
 									classList: ["friend-list-icon-container"],
 									attributes: { "aria-hidden": "true" },
+									children: ["-"],
 								};
 							}
 						}),
@@ -1030,16 +1034,14 @@ function FriendListSearchByProperties(text) {
 	if (!friendlist) return;
 
 	const items = friendlist.children;
-	Array.from(items).forEach((/** @type {HTMLElement} */ element)  => {
-		element.style.display = 'none';
-	});
+	Array.from(items).forEach((element) => element.toggleAttribute("hidden", true));
 	const searchedItems = Array.from(items).filter(item => {
 		return item.querySelector('.MemberName')?.textContent.toLowerCase().includes(text.toLowerCase()) ||
 			item.querySelector('.MemberNickname')?.textContent.toLowerCase().includes(text.toLowerCase()) || // NYI
 			item.querySelector('.MemberNumber')?.textContent.includes(text);
 	});
-	searchedItems.forEach((/** @type {HTMLElement} */ item) => {
-		item.style.display = '';
+	searchedItems.forEach((item) => {
+		item.toggleAttribute("hidden", false);
 
 		const nameItem = item.querySelector('.MemberName');
 		if (nameItem) nameItem.innerHTML = FriendListHighlightProperty(nameItem, text);

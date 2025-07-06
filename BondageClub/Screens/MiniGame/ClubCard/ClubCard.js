@@ -26,8 +26,6 @@ var ClubCardHover = null;
  * */
 var ClubCardFocus = null;
 var ClubCardFocusAI = null;
-/** @type {null | TextCache} */
-var ClubCardTextCache = null;
 var ClubCardTurnIndex = 0;
 var ClubCardTurnCardPlayed = 0;
 var ClubCardTurnEndDraw = false;
@@ -5092,15 +5090,8 @@ function ClubCardEndGame(Victory) {
 }
 
 function ClubCardTextGet(Text) {
-	if (!ClubCardTextCache) {
-		const CardTextPath = "Screens/MiniGame/ClubCard/Text_ClubCard.csv";
-		ClubCardTextCache = TextAllScreenCache.get(CardTextPath);
-		if (!ClubCardTextCache) {
-			ClubCardTextCache = new TextCache(CardTextPath);
-			TextAllScreenCache.set(CardTextPath, ClubCardTextCache);
-		}
-	}
-	return ClubCardTextCache ? ClubCardTextCache.get(Text) : "";
+	const str = TextGetInScope(ScreenFileGetTranslation("MiniGame", "ClubCard", "ClubCard"), Text);
+	return !str.startsWith(TEXT_NOT_FOUND_PREFIX) ? str : "";
 }
 
 /**
@@ -5147,7 +5138,7 @@ function ClubCardCommonLoad() {
 	if (Player.Game.ClubCard == null) Player.Game.ClubCard = { Deck: [] };
 	if (Player.Game.ClubCard.Reward == null) Player.Game.ClubCard.Reward = "";
 	ClubCardList[0].Title = null;
-	CommonReadCSV("NoArravVar", "MiniGame", "ClubCard", "Text_ClubCard");
+	TextPrefetchFile(ScreenFileGetTranslation("MiniGame", "ClubCard", "ClubCard"));
 }
 
 /**
@@ -6276,7 +6267,8 @@ function ClubCardClick() {
 				return;
 			}
 			if (ClubCardHover && ClubCardHover.Location == "Popup") return ClubCardClickSetFocusCard();
-			if ((ClubCardPending != null) && MouseIn(745, 505, 215, 50) && ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus)) return(ClubCardClickPlayCard(true), ClubCardDestroyPopup());
+			if ((ClubCardPending != null) && MouseIn(745, 505, 215, 50) && ClubCardCanSelectCard(ClubCardPlayer[ClubCardTurnIndex], ClubCardFocus))
+				return (ClubCardDestroyPopup(), ClubCardClickPlayCard(true));
 			if (MouseIn(720, 245, 260, 510) && ClubCardFocus != null) return ClubCardClickResetFocusCard();
 		}
 		if (ClubCardPopup.Mode == "TIERSELECTION") {

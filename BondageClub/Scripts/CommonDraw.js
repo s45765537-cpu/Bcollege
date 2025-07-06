@@ -21,6 +21,29 @@ function CommonDrawCanvasPrepare(C) {
 }
 
 /**
+ * @param {Character} C - The character to prepare
+ * @param {AssetGroup} group - The asset group
+ * @param {AssetGroupName} groupName -  The asset group.
+ * @param {AssetPoseName | PoseType} pose - The pose the user is in.
+ * @param {Asset} asset - target asset
+ * @returns {string} baseURL - URL pointing to asset art to load
+ */
+function AssetBaseURL(C, group, groupName, pose, asset) {
+
+	// determine what body is selected
+	const bodyStyle = InventoryGet(C, "BodyStyle").Asset;
+
+	// set base body url
+	const poseSegment = pose ? pose + "/" : "";
+	let baseURL = `Assets/${group.Family}/${groupName}/${poseSegment}`;
+	if (bodyStyle.StyleOverride?.includes(groupName) || asset.StyleOverride?.includes(bodyStyle.Name)) {
+		baseURL = `Assets/${group.Family}/Override/${bodyStyle.Name}/${groupName}/${poseSegment}`;
+	}
+
+	return baseURL;
+}
+
+/**
  * @typedef { Map<AssetGroupName, TextureAlphaMask[]> } MaskLayersMap
  * @param {Character} C - The character to prepare
  * @returns { { maskLayers: MaskLayersMap, maskLayersBlink: MaskLayersMap} } - The grouped mask layers for the character's appearance
@@ -76,21 +99,19 @@ function CommonDrawAppearancePrepareMaskLayers(C) {
 		if (typeof pose !== "string") pose = /** @type {AssetPoseName} */("");
 
 		// Check the current pose against the assets' supported pose mapping
-		/** @type {string} */
-		let poseSegment = layer.PoseMapping[pose];
-		switch (poseSegment) {
-			case PoseType.HIDE:
-			case PoseType.DEFAULT:
-			case undefined:
-				poseSegment = "";
-				break;
-			default:
-				poseSegment += "/";
-				break;
+		/** @type {AssetPoseName}  */
+		let poseSegment;
+		if (layer.PoseMapping[pose] === PoseType.HIDE || layer.PoseMapping[pose] === PoseType.DEFAULT) {
+			poseSegment = null;
+		} else {
+			poseSegment = /** @type {AssetPoseName} */ (layer.PoseMapping[pose]);
 		}
 
-		const baseURL = `Assets/${group.Family}/${groupName}/${poseSegment}${expressionSegment}`;
-		const baseURLBlink = `Assets/${group.Family}/${groupName}/${poseSegment}${blinkExpressionSegment}`;
+		// set the base url for the body
+		let baseURL = AssetBaseURL(C, group, groupName, poseSegment, asset);
+
+		const baseURLExpression = `${baseURL}${expressionSegment}`;
+		const baseURLBlink = `${baseURL}${blinkExpressionSegment}`;
 
 		const urlParts = [asset.Name, parentAssetName, layerType, layerSegment].filter(c => c);
 		const layerURL = urlParts.join("_") + ".png";
@@ -99,7 +120,7 @@ function CommonDrawAppearancePrepareMaskLayers(C) {
 
 		/** @type {TextureAlphaMask} */
 		const maskLayer = {
-			Url: baseURL + layerURL,
+			Url: baseURLExpression + layerURL,
 			X, Y,
 			Mode: blendingMode,
 			Priority: maskPriority,
@@ -297,17 +318,12 @@ function CommonDrawAppearanceBuild(C, {
 		const itemIsLocked = !!(item.Property && item.Property.LockedBy);
 
 		// Check the current pose against the assets' supported pose mapping
-		/** @type {string} */
-		let poseSegment = layer.PoseMapping[pose];
-		switch (poseSegment) {
-			case PoseType.HIDE:
-			case PoseType.DEFAULT:
-			case undefined:
-				poseSegment = "";
-				break;
-			default:
-				poseSegment += "/";
-				break;
+		/** @type {AssetPoseName}  */
+		let poseSegment;
+		if (layer.PoseMapping[pose] === PoseType.HIDE || layer.PoseMapping[pose] === PoseType.DEFAULT) {
+			poseSegment = null;
+		} else {
+			poseSegment = /** @type {AssetPoseName} */ (layer.PoseMapping[pose]);
 		}
 
 		if (layer.HasImage && (!layer.LockLayer || itemIsLocked)) {
@@ -322,8 +338,12 @@ function CommonDrawAppearanceBuild(C, {
 				}
 			}
 
-			const baseURL = `Assets/${group.Family}/${groupName}/${poseSegment}${expressionSegment}`;
-			const baseURLBlink = `Assets/${group.Family}/${groupName}/${poseSegment}${blinkExpressionSegment}`;
+			// set the base url for the body
+			let baseURL = AssetBaseURL(C, group, groupName, poseSegment, asset);
+
+			// combine the baseurl with the expression and blink segments.
+			const baseURLExpression = `${baseURL}${expressionSegment}`;
+			const baseURLBlink = `${baseURL}${blinkExpressionSegment}`;
 
 			const shouldColorize = layer.AllowColorize && layerColor && layerColor[0] === "#";
 			let colorSegment = "";
@@ -352,7 +372,7 @@ function CommonDrawAppearanceBuild(C, {
 
 			if (shouldColorize) {
 				drawImageColorize(
-					baseURL + layerURL,
+					baseURLExpression + layerURL,
 					X, Y,
 					{ HexColor: layerColor, FullAlpha: asset.FullAlpha, AlphaMasks: masks, Alpha: opacity, Invert: inverted, Mirror: mirrored, BlendingMode: blendingMode, TextureAlphaMask: maskLayer }
 				);
@@ -363,7 +383,7 @@ function CommonDrawAppearanceBuild(C, {
 				);
 			} else {
 				drawImage(
-					baseURL + layerURL,
+					baseURLExpression + layerURL,
 					X, Y,
 					{ AlphaMasks: masks, Alpha: opacity, Invert: inverted, Mirror: mirrored, BlendingMode: blendingMode, TextureAlphaMask: maskLayer }
 				);

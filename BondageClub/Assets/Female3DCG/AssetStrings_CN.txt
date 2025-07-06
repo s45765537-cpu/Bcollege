@@ -686,6 +686,18 @@ Hide Mouth
 遮住嘴
 Select a scarf style.
 选择一种围巾样式。
+Hood Position
+头套位置
+Select a hooded cloak style:
+选择头套斗篷样式：
+Hood
+头套
+Down
+拉下
+Over Head
+盖住头
+Over Eyes
+盖住眼睛
 Change Text:
 改变文字：
 Select a dress pattern.
@@ -742,8 +754,14 @@ Bull's Eye Spankmeter
 打屁股准星
 Keys?!
 钥匙？！
+Void Order
+虚空秩序
+Sphere of Malkuth
+马尔库特之球
 Dominant
 支配者
+Amber Family
+琥珀家族
 Bonk!
 敲！
 Old School XGame
@@ -810,8 +828,6 @@ OTN
 蒙鼻
 Small
 小号
-Hood
-头套
 Length
 长度
 Pouch
@@ -866,8 +882,6 @@ Back Hood
 后背头套
 Reverse Hood
 反向头套
-Down
-拉下
 Pulled Up
 拉起
 Loose
@@ -1006,6 +1020,8 @@ SourceCharacter has started the Club Card game.
 SourceCharacter开始了俱乐部卡牌游戏。
 Congratulations! SourceCharacter has won the Club Card game.
 恭喜！SourceCharacter赢得了俱乐部卡牌游戏。
+Congratulations! SourceCharacter has won the Club Card game after TargetCharacterName conceded.
+恭喜！SourceCharacter在TargetCharacterName认输后赢得了俱乐部卡牌游戏。
 SourceCharacter will not play Club Card.
 SourceCharacter不玩俱乐部卡牌。
 SourceCharacter chose to be the first player.
@@ -3472,6 +3488,54 @@ SourceCharacter tightens DestinationCharacter chains.
 SourceCharacter收紧了DestinationCharacter锁链。
 SourceCharacter puts DestinationCharacter neck and wrists in stocks.
 SourceCharacter把DestinationCharacter脖子和手腕束缚在木枷里。
+Select an option
+选择一个选项
+Drink
+饮料
+Select drink
+选择饮料
+No Drink
+没有饮料
+SourceCharacter removes DestinationCharacter drink
+SourceCharacter从DestinationCharacter身上拿走了饮料
+Bottle of Milk
+牛奶瓶
+SourceCharacter gives DestinationCharacter bottle of milk
+SourceCharacter给DestinationCharacter一个牛奶瓶
+Sippy Cup
+鸭嘴杯
+SourceCharacter gives DestinationCharacter sippy cup
+SourceCharacter给DestinationCharacter一个鸭嘴杯
+Food
+食物
+Select food
+选择食物
+No Food
+没有食物
+SourceCharacter removes DestinationCharacter food
+SourceCharacter拿走了DestinationCharacter食物
+Baby Food
+婴儿食品
+SourceCharacter gives DestinationCharacter baby food
+SourceCharacter给DestinationCharacter婴儿食品
+Plate of Food
+盘子里的食物
+SourceCharacter gives DestinationCharacter plate of food
+SourceCharacter给DestinationCharacter一份盘子里的食物
+Cookies
+饼干
+SourceCharacter gives DestinationCharacter cookies
+SourceCharacter给DestinationCharacter一些饼干
+Stains
+污渍
+Select stain option
+选择污渍选项
+No Stains
+没有污渍
+SourceCharacter removes DestinationCharacter stains
+SourceCharacter从DestinationCharacter身上移除了污渍
+DestinationCharacter makes food stains
+DestinationCharacter在身上弄了些食物污渍
 Attached
 添加
 SourceCharacter attaches the chain on DestinationCharacter AssetName.
@@ -3616,6 +3680,8 @@ Adv. Layering
 进阶图层排序
 Mouth
 嘴巴
+Visibility
+可见性
 Must be equipped in the head slot
 必须装备在头部栏位
 Spirals
@@ -3658,6 +3724,10 @@ Lines
 线条
 One-Way
 单向
+Hide Blush and Face Paint
+隐藏腮红和面部彩绘
+Show Blush and Face Paint
+显示腮红和面部彩绘
 Select Mask Details
 选择面具细节
 Select Eye Shape
@@ -3674,6 +3744,8 @@ Select Mask Pattern
 选择面具图案
 Select Lens Quality
 选择镜片质量
+Select Visibility Options
+选择可见选项
 SourceCharacter changes the eyes on DestinationCharacter smooth latex mask.
 SourceCharacter改变了DestinationCharacter平滑乳胶面具的眼睛。
 SourceCharacter flicks the glow switch on DestinationCharacter smooth latex mask.
@@ -3688,6 +3760,8 @@ SourceCharacter changes the pattern on DestinationCharacter smooth latex mask.
 SourceCharacter改变了DestinationCharacter平滑乳胶面具上的图案。
 SourceCharacter changes the inner lining of DestinationCharacter smooth latex mask.
 SourceCharacter改变了DestinationCharacter平滑乳胶面具的内侧衬垫。
+SourceCharacter changes the visibility options of DestinationCharacter smooth latex mask.
+SourceCharacter改变了DestinationCharacter平滑乳胶面具的可见选项。
 Double
 双层
 Open Mummy
@@ -3849,7 +3923,7 @@ SourceCharacter用网给TargetCharacter织了一副眼罩
 SourceCharacter creates a cocoon out of web for TargetCharacter
 SourceCharacter把TargetCharacter的头完全裹在了茧里
 Finish
-Finish
+光泽
 Smiley Lines
 笑脸线条
 Smiley Filled
@@ -4548,8 +4622,6 @@ Can only be opened using a PortalLink Tablet
 "危险意外……安全第一！"
 Cake
 蛋糕
-Cookies
-饼干
 Drinks
 饮品
 Add or remove drinks from the tray
@@ -7568,6 +7640,12 @@ Select Strands
 选择发缕
 Select Extras
 选择额外
+Braid
+辫子
+No Braid
+没有辫子
+Translucent
+半透明
 SourceCharacter adds extra straps to DestinationCharacter muzzle
 SourceCharacter在DestinationCharacter口罩上添加了额外的带子
 SourceCharacter turns DestinationCharacter muzzle back to normal.
@@ -8238,8 +8316,6 @@ SourceCharacter equips a nose guard on DestinationCharacterName Creepy Iron Mask
 SourceCharacter在DestinationCharacterName恐怖铁面具上装备了鼻子保护。
 SourceCharacter loosens DestinationCharacterName Creepy Iron Mask.
 SourceCharacter解松了DestinationCharacterName恐怖铁面具。
-SourceCharacter loosens DestinationCharacterName Creepy Iron Mask.
-SourceCharacter解松了DestinationCharacterName恐怖铁面具。
 SourceCharacter tightens DestinationCharacterName Creepy Iron Mask.
 SourceCharacter收紧了DestinationCharacterName恐怖铁面具。
 Horror Muzzle style option menu:
@@ -8510,3 +8586,9 @@ SourceCharacter equips a pair of belts on the DestinationCharacter thigh.
 SourceCharacter在DestinationCharacter大腿上佩戴了一对皮带。
 SourceCharacter equips a pair of belts on the DestinationCharacter thigh.
 SourceCharacter在DestinationCharacter大腿上佩戴了一对皮带。
+
+########################
+### DEPRECATED LINES ###
+########################
+SourceCharacter loosens DestinationCharacterName Creepy Iron Mask.
+SourceCharacter解松了DestinationCharacterName恐怖铁面具。

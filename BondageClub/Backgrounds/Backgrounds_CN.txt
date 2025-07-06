@@ -54,12 +54,42 @@ Ceremony Venue
 典礼场
 Chill Room
 冷藏室
-College Classroom
-学院教室
+Cafeteria 1
+咖啡厅1
+Cafeteria 2
+咖啡厅2
+Classroom 1
+教室1
+Classroom 2
+教室2
+Classroom 3
+教室2
+Concert Stage
+音乐会舞台
+Detention Class
+拘留教室
+College Entrance
+大学入口
+College Hall 1
+大学大厅1
+College Hall 2
+大学大厅2
+College Hall 3
+大学大厅3
+College Pool
+大学泳池
+Teachers' Lounge
+教师休息室
 Tennis Court
 网球场
 Theater
 剧场
+Shower Room
+淋浴室
+Sports Ground
+运动场
+Staff Room
+员工休息室
 Confessions
 忏悔室
 Cosy Chalet
@@ -118,6 +148,8 @@ Wooden Living Room
 木屋客厅
 Appartment Living Room
 公寓客厅
+Japanese Living Room
+日式客厅
 Hypnotic Spiral 2
 催眠螺旋2
 Hypnotic Spiral
@@ -136,8 +168,10 @@ Kennels
 养犬场
 Kidnappers League
 绑匪联盟
-Kitchen
-厨房
+Kitchen 1
+厨房 1
+Kitchen 2
+厨房 2
 Latex Room
 乳胶房间
 Leather Chamber
@@ -338,3 +372,5 @@ Yacht Main Hall
 游艇主厅
 Yacht Deck
 游艇甲板
+Wooden Board
+木板路

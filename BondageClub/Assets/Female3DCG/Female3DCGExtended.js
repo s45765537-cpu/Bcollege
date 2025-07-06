@@ -456,6 +456,11 @@ var AssetFemale3DCGExtended = {
 						{}, // t25 - Shibari
 						{}, // t26 - BullsEye
 						{}, // t27 - Keys?
+						{}, // t28 - VoidOrder
+						{}, // t29 - Malkuth
+						{}, // t30 - Amber Family
+						{}, // t31 - Luke's Chill Tent
+						{}, // t32 - Rat's Ass Tavern
 					],
 				},
 			],
@@ -578,9 +583,9 @@ var AssetFemale3DCGExtended = {
 					Key: "l",
 					DrawImages: false,
 					Options: [
-						{}, //l0 - Cropped
-						{}, //l1 - Bolero
-						//{}, //l2 - Full Length - not yet implemented
+						{}, //l0 - Full Length
+						{}, //l1 - Cropped
+						{}, //l2 - Bolero
 					],
 				},
 				//{
@@ -6095,6 +6100,28 @@ var AssetFemale3DCGExtended = {
 								Hide: [],
 							},
 						}, // Blindfold and all gags
+					],
+				},
+				{
+					Name: "Visibility",
+					Key: "b",
+					Options: [
+						{
+							Property: {
+								Hide: ["Blush"],
+								HideItem: [
+									"HatFacePaint",
+									"MaskFacePaint",
+									"ClothAccessoryFacePaint",
+								],
+							},
+						},
+						{
+							Property: {
+								Hide: [],
+								HideItem: [],
+							},
+						},
 					],
 				},
 			],
@@ -15409,6 +15436,28 @@ var AssetFemale3DCGExtended = {
 						}, // Blindfold and all gags
 					],
 				},
+				{
+					Name: "Visibility",
+					Key: "b",
+					Options: [
+						{
+							Property: {
+								Hide: ["Blush"],
+								HideItem: [
+									"HatFacePaint",
+									"MaskFacePaint",
+									"ClothAccessoryFacePaint",
+								],
+							},
+						},
+						{
+							Property: {
+								Hide: [],
+								HideItem: [],
+							},
+						},
+					],
+				},
 			],
 		}, // DroneMask
 		RubberMask: {
@@ -19247,6 +19296,64 @@ var AssetFemale3DCGExtended = {
 				Exit: FuturisticAccessExit,
 			},
 		}, // InteractiveVRHeadset
+		HypnoticVisor: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Frame",
+					Key: "t",
+					Options: [
+						{}, // t0 - Frame A
+						{}, // t1 - Frame B
+					],
+				},
+				{
+					Name: "Pattern",
+					Key: "p",
+					Options: [
+						{}, // p0 - Opaque
+						{}, // p1 - Pattern 1
+						{}, // p2 - Pattern 2
+						{}, // p3 - Pattern 3
+					],
+				},
+				{
+					Name: "Decal",
+					Key: "d",
+					Options: [
+						{}, // d0 - None
+						{}, // d1 - Bunny
+						{}, // d2 - Cat
+						{}, // d3 - Snake
+						{}, // d4 - Fox
+						{}, // d5 - Pony
+						{}, // d6 - Xeno
+						{}, // d7 - Leaf
+					],
+				},
+				{
+					Name: "Text",
+					Key: "e",
+					Options: [
+						{
+							HasSubscreen: true,
+							ArchetypeConfig: {
+								Archetype: ExtendedArchetype.TEXT,
+								MaxLength: { Text: 16 },
+								Font: "sans-serif",
+								ScriptHooks: {
+									AfterDraw: (...args) =>
+										TextItem.GenericTextDrawHook(...args, {
+											YOffset: 10,
+											drawOptions: { fontSize: 12 },
+										}),
+								},
+							},
+						},
+					],
+				},
+			],
+		},
 		MedicalPatch: {
 			ChatSetting: ModularItemChatSetting.PER_MODULE,
 			Archetype: ExtendedArchetype.MODULAR,
@@ -19522,6 +19629,28 @@ var AssetFemale3DCGExtended = {
 						{}, // Blindfold items visible
 						{}, // Blindfold and highest layer gag
 						{}, // Blindfold and all gags
+					],
+				},
+				{
+					Name: "Visibility",
+					Key: "b",
+					Options: [
+						{
+							Property: {
+								Hide: ["Blush"],
+								HideItem: [
+									"HatFacePaint",
+									"MaskFacePaint",
+									"ClothAccessoryFacePaint",
+								],
+							},
+						},
+						{
+							Property: {
+								Hide: [],
+								HideItem: [],
+							},
+						},
 					],
 				},
 			],

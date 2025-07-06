@@ -12,7 +12,7 @@ Next
 下一頁
 No lock
 無鎖
-Select an empty slot to craft a new item, or click on the item to edit.
+Edit or craft a new item.
 為你新製作的物品選擇一個欄位，或者點擊物品來編輯它。
 Select a crafted item slot to destroy.
 選擇一個已經製作的物品欄來摧毀。

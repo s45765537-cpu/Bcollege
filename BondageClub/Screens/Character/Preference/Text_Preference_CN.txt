@@ -208,6 +208,10 @@ Show beep notifications in chat
 在聊天中显示好友私聊提示
 Preserve chat logs between rooms
 在房间之间保留聊天记录
+Disable reply feature
+禁用回复功能
+Default Chatroom Background: 
+默认聊天室背景:
 Page 1/2
 页面 1/2
 Page 2/2

@@ -288,9 +288,9 @@ var Layering = {
 				const asset = Layering.Asset;
 				return /** @type {const} */([e, Layering.Asset.Layer.find(l => l.Name === e.getAttribute("data-name")) ?? asset.Layer[0]]);
 			});
-			layers.forEach(([e, layer]) => e.parentElement.style.display = CharacterAppearanceIsLayerVisible(Layering.Character, layer, layer.Asset, typeRecord) ? "" : "none");
+			layers.forEach(([e, layer]) => e.parentElement.toggleAttribute("hidden", !CharacterAppearanceIsLayerVisible(Layering.Character, layer, layer.Asset, typeRecord)));
 		} else {
-			elements.forEach(e => e.parentElement.style.display = "");
+			elements.forEach(e => e.parentElement.toggleAttribute("hidden", false));
 		}
 	},
 
@@ -373,7 +373,7 @@ var Layering = {
 		}
 
 		const lockButton = document.getElementById(this.ID.lockButton);
-		lockButton.style.display = isReadonly ? "" : "none";
+		lockButton.toggleAttribute("hidden", !isReadonly);
 	},
 
 	/**
@@ -411,6 +411,7 @@ var Layering = {
 	Load() {
 		let elem = document.getElementById(this.ID.root);
 		if (elem != null) {
+			elem.toggleAttribute("hidden", false);
 			this.Resize(true);
 			return;
 		}
@@ -520,7 +521,7 @@ var Layering = {
 											return {
 												tag: "div",
 												classList: ["layering-pair"],
-												style: { display: CharacterAppearanceIsLayerVisible(Layering.Character, layer, layer.Asset, this.Item.Property?.TypeRecord) ? "" : "none" },
+												attributes: { hidden: !CharacterAppearanceIsLayerVisible(Layering.Character, layer, layer.Asset, this.Item.Property?.TypeRecord) },
 												children: [
 													{
 														tag: "input",
@@ -573,17 +574,12 @@ var Layering = {
 	 */
 	Resize(load) {
 		ElementPositionFix(this.ID.root, 0, this.Display.x, this.Display.y, this.Display.w, this.Display.h);
-		const elem = document.getElementById(this.ID.root);
-		elem.style.display = "";
 	},
 
 	/** @type {ScreenUnloadHandler} */
 	Unload() {
 		// Need the null check here due to `CommonSetScreen` calling `Unload` after `Exit`
-		const elem = document.getElementById(this.ID.root);
-		if (elem) {
-			elem.style.display = "none";
-		}
+		document.getElementById(this.ID.root)?.toggleAttribute("hidden", true);
 	},
 
 	/**

@@ -22,8 +22,10 @@ Introduction
 介紹處
 Kennels
 養犬場
-Kitchen
-廚房
+Kitchen 1
+廚房 1
+Kitchen 2
+廚房 2
 Nursery
 育嬰室
 Onsen

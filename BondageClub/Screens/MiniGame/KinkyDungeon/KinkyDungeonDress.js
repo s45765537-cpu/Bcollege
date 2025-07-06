@@ -465,7 +465,7 @@ function KinkyDungeonDressPlayer(Character, NoRestraints) {
 				else Fluids = "DroolLow";
 			}
 			if (KDToggles.Drool && KDGameData.KinkyDungeonLeashedPlayer > 0) {
-				if (Fluids.includes("Drool")) Fluids = /** @type {ExpressionName} */ (Fluids.replace("Drool", "DroolTears"));
+				if (Fluids?.includes("Drool")) Fluids = /** @type {ExpressionName} */ (Fluids.replace("Drool", "DroolTears"));
 				else Fluids = "TearsHigh";
 			}
 

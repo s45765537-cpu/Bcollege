@@ -795,7 +795,12 @@ ClothCustomTShirtOptiont24,Azure Corp
 ClothCustomTShirtOptiont25,Shibari Crew
 ClothCustomTShirtOptiont26,Bull's Eye Spankmeter
 ClothCustomTShirtOptiont27,Keys?!
+ClothCustomTShirtOptiont28,Void Order
+ClothCustomTShirtOptiont29,Sphere of Malkuth
 ClothCustomTShirtOptiont3,Dominant
+ClothCustomTShirtOptiont30,Amber Family
+ClothCustomTShirtOptiont31,Luke's Chill Tent
+ClothCustomTShirtOptiont32,Rat's Ass Tavern
 ClothCustomTShirtOptiont4,Bonk!
 ClothCustomTShirtOptiont5,Old School XGame
 ClothCustomTShirtOptiont6,Staff
@@ -836,9 +841,9 @@ ClothHoodieModulePouch,Pouch
 ClothHoodieOptionh0,Hood Down
 ClothHoodieOptionh1,Hood Up - Regular
 ClothHoodieOptionh2,Hood Up - Pet Ears
-ClothHoodieOptionl0,Cropped
-ClothHoodieOptionl1,Bolero
-ClothHoodieOptionl2,Full Length
+ClothHoodieOptionl0,Full Length
+ClothHoodieOptionl1,Cropped
+ClothHoodieOptionl2,Bolero
 ClothHoodieOptionp0,Hands Out
 ClothHoodieOptionp1,Hands In
 ClothHoodieSelectBase,Select Hoodie Options
@@ -2901,6 +2906,7 @@ ItemHeadDroneMaskModuleLayering,Adv. Layering
 ItemHeadDroneMaskModuleMouth,Mouth
 ItemHeadDroneMaskModulePattern,Pattern
 ItemHeadDroneMaskModuleSight,Lenses
+ItemHeadDroneMaskModuleVisibility,Visibility
 ItemHeadDroneMaskNoLayering,Must be equipped in the head slot
 ItemHeadDroneMaskOptione0,Smooth
 ItemHeadDroneMaskOptione1,Open
@@ -2935,6 +2941,8 @@ ItemHeadDroneMaskOptionp4,Lines
 ItemHeadDroneMaskOptionp5,Text
 ItemHeadDroneMaskOptions0,Opaque
 ItemHeadDroneMaskOptions1,One-Way
+ItemHeadDroneMaskOptionb0,Hide Blush and Face Paint
+ItemHeadDroneMaskOptionb1,Show Blush and Face Paint
 ItemHeadDroneMaskSelectBase,Select Mask Details
 ItemHeadDroneMaskSelectEyes,Select Eye Shape
 ItemHeadDroneMaskSelectGlow,Switch Glow Function
@@ -2943,6 +2951,7 @@ ItemHeadDroneMaskSelectLayering,Advanced Layering
 ItemHeadDroneMaskSelectMouth,Select Mouth Shape
 ItemHeadDroneMaskSelectPattern,Select Mask Pattern
 ItemHeadDroneMaskSelectSight,Select Lens Quality
+ItemHeadDroneMaskSelectVisibility,Select Visibility Options
 ItemHeadDroneMaskSetEyes,SourceCharacter changes the eyes on DestinationCharacter smooth latex mask.
 ItemHeadDroneMaskSetGlow,SourceCharacter flicks the glow switch on DestinationCharacter smooth latex mask.
 ItemHeadDroneMaskSetHelmet,SourceCharacter changes the coverage of DestinationCharacter smooth latex mask.
@@ -2950,6 +2959,7 @@ ItemHeadDroneMaskSetLayering,SourceCharacter adjusts the visibility of gags on D
 ItemHeadDroneMaskSetMouth,SourceCharacter changes the mouth on DestinationCharacter smooth latex mask.
 ItemHeadDroneMaskSetPattern,SourceCharacter changes the pattern on DestinationCharacter smooth latex mask.
 ItemHeadDroneMaskSetSight,SourceCharacter changes the inner lining of DestinationCharacter smooth latex mask.
+ItemHeadDroneMaskSetVisibility,SourceCharacter changes the visibility options of DestinationCharacter smooth latex mask.
 ItemHeadDuctTapeDouble,Double
 ItemHeadDuctTapeMummy,Mummy
 ItemHeadDuctTapeOpen,Open Mummy
@@ -3058,6 +3068,45 @@ ItemHeadWebBlindfoldBlindfold,Blindfold
 ItemHeadWebBlindfoldCocoon,Cocoon
 ItemHeadWebBlindfoldSetBlindfold,SourceCharacter creates a blindfold out of web for TargetCharacter
 ItemHeadWebBlindfoldSetCocoon,SourceCharacter creates a cocoon out of web for TargetCharacter
+ItemHeadHypnoticVisorSelectBase,Select Hypnotic Visor Details
+ItemHeadHypnoticVisorSelectFrame,Select Hypnotic Visor Frame
+ItemHeadHypnoticVisorSelectPattern,Select Hypnotic Visor Pattern
+ItemHeadHypnoticVisorSelectDecal,Select Hypnotic Visor Decal
+ItemHeadHypnoticVisorSelectText,Select Hypnotic Visor Text
+ItemHeadHypnoticVisorModuleFrame,Visor Frame
+ItemHeadHypnoticVisorModulePattern,Hypnosis algorithm
+ItemHeadHypnoticVisorModuleDecal,Visor Branding
+ItemHeadHypnoticVisorModuleText,Subliminal Message
+ItemHeadHypnoticVisorOptiont0,Frame A
+ItemHeadHypnoticVisorSett0,SourceCharacter changes DestinationCharacter hypnotic visor frame.
+ItemHeadHypnoticVisorOptiont1,Frame B
+ItemHeadHypnoticVisorSett1,SourceCharacter changes DestinationCharacter hypnotic visor frame.
+ItemHeadHypnoticVisorOptionp0,Opaque
+ItemHeadHypnoticVisorSetp0,SourceCharacter removes DestinationCharacter hypnotic visor pattern.
+ItemHeadHypnoticVisorOptionp1,Pattern 1
+ItemHeadHypnoticVisorSetp1,SourceCharacter changes DestinationCharacter hypnotic visor pattern.
+ItemHeadHypnoticVisorOptionp2,Pattern 2
+ItemHeadHypnoticVisorSetp2,SourceCharacter changes DestinationCharacter hypnotic visor pattern.
+ItemHeadHypnoticVisorOptionp3,Pattern 3
+ItemHeadHypnoticVisorSetp3,SourceCharacter changes DestinationCharacter hypnotic visor pattern.
+ItemHeadHypnoticVisorOptiond0,None
+ItemHeadHypnoticVisorSetd0,SourceCharacter removes DestinationCharacter hypnotic visor branding.
+ItemHeadHypnoticVisorOptiond1,Bunny
+ItemHeadHypnoticVisorSetd1,SourceCharacter puts a bunny branding on DestinationCharacter hypnotic visor.
+ItemHeadHypnoticVisorOptiond2,Cat
+ItemHeadHypnoticVisorSetd2,SourceCharacter puts a cat branding on DestinationCharacter hypnotic visor.
+ItemHeadHypnoticVisorOptiond3,Snake
+ItemHeadHypnoticVisorSetd3,SourceCharacter puts a snake branding on DestinationCharacter hypnotic visor.
+ItemHeadHypnoticVisorOptiond4,Fox
+ItemHeadHypnoticVisorSetd4,SourceCharacter puts a fox branding on DestinationCharacter hypnotic visor.
+ItemHeadHypnoticVisorOptiond5,Pony
+ItemHeadHypnoticVisorSetd5,SourceCharacter puts a pony branding on DestinationCharacter hypnotic visor.
+ItemHeadHypnoticVisorOptiond6,Xeno
+ItemHeadHypnoticVisorSetd6,SourceCharacter puts a xeno branding on DestinationCharacter hypnotic visor.
+ItemHeadHypnoticVisorOptiond7,Leaf
+ItemHeadHypnoticVisorSetd7,SourceCharacter puts a leaf branding on DestinationCharacter hypnotic visor.
+ItemHeadHypnoticVisorOptione0,Text
+ItemHeadHypnoticVisorSete0,SourceCharacter changes DestinationCharacter hypnotic visor subliminal message.
 ItemHoodBigMouthHoodEmpty,None
 ItemHoodBigMouthHoodLenses,Lenses
 ItemHoodBigMouthHoodMesh,Mesh
@@ -3201,6 +3250,7 @@ ItemHoodDroneMaskModuleLayering,Adv. Layering
 ItemHoodDroneMaskModuleMouth,Mouth
 ItemHoodDroneMaskModulePattern,Pattern
 ItemHoodDroneMaskModuleSight,Lenses
+ItemHoodDroneMaskModuleVisibility,Visibility
 ItemHoodDroneMaskOptione0,Smooth
 ItemHoodDroneMaskOptione1,Open
 ItemHoodDroneMaskOptione2,Spirals
@@ -3234,6 +3284,8 @@ ItemHoodDroneMaskOptionp4,Lines
 ItemHoodDroneMaskOptionp5,Text
 ItemHoodDroneMaskOptions0,Opaque
 ItemHoodDroneMaskOptions1,One-Way
+ItemHoodDroneMaskOptionb0,Hide Blush and Face Paint
+ItemHoodDroneMaskOptionb1,Show Blush and Face Paint
 ItemHoodDroneMaskSelectBase,Select Mask Details
 ItemHoodDroneMaskSelectEyes,Select Eye Shape
 ItemHoodDroneMaskSelectGlow,Switch Glow Function
@@ -3242,6 +3294,7 @@ ItemHoodDroneMaskSelectLayering,Advanced Layering
 ItemHoodDroneMaskSelectMouth,Select Mouth Shape
 ItemHoodDroneMaskSelectPattern,Select Mask Pattern
 ItemHoodDroneMaskSelectSight,Select Lens Quality
+ItemHoodDroneMaskSelectVisibility,Select Visibility Options
 ItemHoodDroneMaskSetEyes,SourceCharacter changes the eyes on DestinationCharacter smooth latex mask.
 ItemHoodDroneMaskSetGlow,SourceCharacter flicks the glow switch on DestinationCharacter smooth latex mask.
 ItemHoodDroneMaskSetHelmet,SourceCharacter changes the coverage of DestinationCharacter smooth latex mask.
@@ -3249,6 +3302,7 @@ ItemHoodDroneMaskSetLayering,SourceCharacter adjusts the visibility of gags and 
 ItemHoodDroneMaskSetMouth,SourceCharacter changes the mouth on DestinationCharacter smooth latex mask.
 ItemHoodDroneMaskSetPattern,SourceCharacter changes the pattern on DestinationCharacter smooth latex mask.
 ItemHoodDroneMaskSetSight,SourceCharacter changes the inner lining of DestinationCharacter smooth latex mask.
+ItemHoodDroneMaskSetVisibility,SourceCharacter changes the visibility options of DestinationCharacter smooth latex mask.
 ItemHoodGGTSHelmetGoodGirl,Good Girl
 ItemHoodGGTSHelmetGoodSlaveGirl,Good Slave Girl
 ItemHoodGGTSHelmetPGirl,Perfect Girl
@@ -4949,6 +5003,7 @@ MaskDroneMaskModuleHelmet,Coverage
 MaskDroneMaskModuleLayering,Adv. Layering
 MaskDroneMaskModuleMouth,Mouth
 MaskDroneMaskModulePattern,Pattern
+MaskDroneMaskModuleVisibility,Visibility
 MaskDroneMaskOptione0,Smooth
 MaskDroneMaskOptione1,Open
 MaskDroneMaskOptione2,Spirals
@@ -4980,6 +5035,8 @@ MaskDroneMaskOptionp2,Scarab
 MaskDroneMaskOptionp3,Hexagon
 MaskDroneMaskOptionp4,Lines
 MaskDroneMaskOptionp5,Text
+MaskDroneMaskOptionb0,Hide Blush and Face Paint
+MaskDroneMaskOptionb1,Show Blush and Face Paint
 MaskDroneMaskSelectBase,Select Mask Details
 MaskDroneMaskSelectEyes,Select Eye Shape
 MaskDroneMaskSelectGlow,Switch Glow Function
@@ -4987,6 +5044,7 @@ MaskDroneMaskSelectHelmet,Select Coverage
 MaskDroneMaskSelectLayering,Advanced Layering
 MaskDroneMaskSelectMouth,Select Mouth Shape
 MaskDroneMaskSelectPattern,Select Mask Pattern
+MaskDroneMaskSelectVisibility,Select Visibility Options
 MaskGlitterDotsBoth,Dots Both Sides
 MaskGlitterDotsLeft,Dots Left
 MaskGlitterDotsRight,Dots Right

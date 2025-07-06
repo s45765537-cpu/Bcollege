@@ -240,7 +240,8 @@ function ElementNumberInputWheel(event) {
 	if (value !== this.valueAsNumber) {
 		this.valueAsNumber = value;
 		this.dispatchEvent(new Event("input"));
-		if (document.activeElement !== this) {
+		const root = ElementGetRoot(this);
+		if (root.activeElement !== this) {
 			this.dispatchEvent(new Event("change"));
 		}
 	}
@@ -632,7 +633,11 @@ function ElementSetScrollPercentage(ElementOrId, scrollPercentage, scrollBehavio
  * @returns {void} - Nothing
  */
 function ElementFocus(ElementOrId) {
-	ElementWrap(ElementOrId)?.focus();
+	// Got to be more careful with mobile here, as focusing interactive elements tends to pop up the virtual keyboard;
+	// an action that's significantly more disruptive than a simple focus outline
+	if (!CommonIsMobile) {
+		ElementWrap(ElementOrId)?.focus();
+	}
 }
 
 /**
@@ -641,11 +646,10 @@ function ElementFocus(ElementOrId) {
  * @param {boolean} ShouldDisplay - TRUE if we are toggling on the elements, FALSE if we are hiding them.
  */
 function ElementToggleGeneratedElements(Screen, ShouldDisplay) {
-	const displayState = ShouldDisplay ? "" : "none";
 	const elements = /** @type {HTMLElement[]} */(Array.from(document.querySelectorAll(`[screen-generated="${Screen}"]`)));
 	for (const e of elements) {
 		if (e.parentElement === null || e.parentElement === document.body) {
-			e.style.display = displayState;
+			e.toggleAttribute("hidden", !ShouldDisplay);
 		}
 	}
 }
@@ -694,10 +698,9 @@ var ElementCheckboxDropdown = {
 		id ??= ElementGenerateID();
 		return /** @type {null | HTMLDivElement} */(document.getElementById(id)) ?? ElementCreate({
 			tag: "div",
-			attributes: { id, ["screen-generated"]: CurrentScreen },
+			attributes: { id, ["screen-generated"]: CurrentScreen, hidden: true },
 			parent: options?.parent ?? document.body,
 			classList: ["HideOnPopup", "dropdown", "scroll-box"],
-			style: { display: "none" },
 			children: checkboxList.map((o) => this._CreateCheckboxPair(id, o, o, eventListener, options?.checked)),
 		});
 	},
@@ -716,10 +719,9 @@ var ElementCheckboxDropdown = {
 		id ??= ElementGenerateID();
 		return /** @type {null | HTMLDivElement} */(document.getElementById(id)) ?? ElementCreate({
 			tag: "div",
-			attributes: { id, ["screen-generated"]: CurrentScreen },
+			attributes: { id, ["screen-generated"]: CurrentScreen, hidden: true },
 			parent: options?.parent ?? document.body,
 			classList: ["HideOnPopup", "dropdown", "scroll-box"],
-			style: { display: "none" },
 			children: Object.entries(checkboxRecord).flatMap(([header, checkboxList]) => {
 				return [
 					{
@@ -864,17 +866,18 @@ var ElementButton = {
 			ev.stopImmediatePropagation();
 			ev.preventDefault();
 		}
-		document.addEventListener("mouseup", ElementButton._MouseUp);
+		const root = ElementGetRoot(this);
+		root.addEventListener("mouseup", ElementButton._MouseUp);
 	},
 
 	/**
 	 * @private
-	 * @type {(this: Document, ev: MouseEvent) => void}
+	 * @type {(this: Document | ShadowRoot, ev: MouseEvent) => void}
 	 */
 	_MouseUp: function _MouseUp(ev) {
-		const activeElement = document.activeElement;
+		const activeElement = this.activeElement;
 		/** @type {null | HTMLButtonElement} */
-		const button = activeElement instanceof Element && activeElement.closest("button.button");
+		const button = activeElement instanceof Element ? activeElement.closest("button.button") : null;
 		if (!button) {
 			return;
 		}
@@ -886,7 +889,7 @@ var ElementButton = {
 
 		// Fix buttons not automatically losing focus after a click event
 		button.blur();
-		document.removeEventListener("mouseup", ElementButton._MouseUp);
+		this.removeEventListener("mouseup", ElementButton._MouseUp);
 	},
 
 	_GetClickTouchListeners: function _GetClickTouchListeners() {
@@ -1386,7 +1389,7 @@ var ElementButton = {
 			tag: "button",
 			attributes: {
 				id,
-				name: id,
+				name: options.name,
 				[tooltipRoleAttribute]: tooltip ? `${id}-tooltip` : undefined,
 				"screen-generated": CurrentScreen,
 				role: options.role,
@@ -1487,12 +1490,6 @@ var ElementButton = {
 			return elem;
 		}
 
-		/** @type {null | TextCache} */
-		let craftCache = null;
-		if (item.Craft) {
-			craftCache = TextPrefetchFile("Screens/Room/Crafting/Text_Crafting.csv");
-		}
-
 		htmlOptions ??= {};
 		htmlOptions.button ??= {};
 		htmlOptions.button.attributes ??= {};
@@ -1526,59 +1523,67 @@ var ElementButton = {
 			...DialogEffectIcons.GetIcons(item),
 		];
 		options.tooltipPosition ??= "bottom";
-		options.tooltip ??= !item.Craft ? "" : /** @type {HTMLOptions<any>[]} */([
+		options.tooltip ??= !item.Craft ? "" : /** @type {(HTMLOptions<any> | HTMLElement)[]} */([
 			...(CommonIsArray(options.tooltip) ? options.tooltip : [options.tooltip]),
-			{
-				tag: "span",
-				children: [InterfaceTextGet("DialogMenuCrafting") + ":"],
-			},
-			{
-				tag: "ul",
-				classList: ["button-tooltip-craft"],
-				children: [
-					item.Craft.Property ? {
-						tag: "li",
-						children: [
-							InterfaceTextGet("CraftingProperty").replace("CraftProperty", ""),
-							{
-								tag: "q",
-								children: [{ tag: "dfn", children: [item.Craft.Property] }, " - "],
-							},
-						],
-					} : undefined,
-					(item.Craft.MemberName && item.Craft.MemberNumber) ? {
-						tag: "li",
-						children: [
-							InterfaceTextGet("CraftingMember").replace("MemberName (MemberNumber)", ""),
-							{ tag: "q", children: [`${item.Craft.MemberName} (${item.Craft.MemberNumber})`] },
-						],
-					} : undefined,
-					{
-						tag: "li",
-						children: [
-							InterfaceTextGet("CraftingPrivate").replace("CraftPrivate", ""),
-							{ tag: "q", children: [CommonCapitalize(item.Craft.Private.toString())] },
-						],
-					},
-					item.Craft.Description ? {
-						tag: "li",
-						children: [
-							InterfaceTextGet("CraftingDescription").replace("CraftDescription", ""),
-							{ tag: "q", children: CraftingDescription.DecodeToHTML(item.Craft.Description) },
-						],
-					} : undefined,
-				],
-			},
+			...ElementButton.CreateCraftTooltipContent(item.Craft),
 		]);
+		return ElementButton.Create(id, onClick, options, htmlOptions);
+	},
 
-		const button = ElementButton.Create(id, onClick, options, htmlOptions);
-		craftCache?.loadedPromise.then((textCache) => {
-			const dfn = button.querySelector(".button-tooltip-craft dfn");
+	/**
+	 * @param {CraftingItem} craft
+	 * @returns {HTMLElement[]}
+	 */
+	CreateCraftTooltipContent: function CreateCraftTooltipContent(craft) {
+		const label = ElementCreate({
+			tag: "span",
+			children: [InterfaceTextGet("DialogMenuCrafting") + ":"],
+		});
+		const list = ElementCreate({
+			tag: "ul",
+			classList: ["button-tooltip-craft"],
+			children: [
+				craft.Property ? {
+					tag: "li",
+					children: [
+						InterfaceTextGet("CraftingProperty").replace("CraftProperty", ""),
+						{
+							tag: "q",
+							children: [{ tag: "dfn", children: [craft.Property] }, " - "],
+						},
+					],
+				} : undefined,
+				(craft.MemberName && craft.MemberNumber) ? {
+					tag: "li",
+					children: [
+						InterfaceTextGet("CraftingMember").replace("MemberName (MemberNumber)", ""),
+						{ tag: "q", children: [`${craft.MemberName} (${craft.MemberNumber})`] },
+					],
+				} : undefined,
+				{
+					tag: "li",
+					children: [
+						InterfaceTextGet("CraftingPrivate").replace("CraftPrivate", ""),
+						{ tag: "q", children: [CommonCapitalize(craft.Private.toString())] },
+					],
+				},
+				craft.Description ? {
+					tag: "li",
+					children: [
+						InterfaceTextGet("CraftingDescription").replace("CraftDescription", ""),
+						{ tag: "q", children: CraftingDescription.DecodeToHTML(craft.Description) },
+					],
+				} : undefined,
+			],
+		});
+
+		TextPrefetchFile("Screens/Room/Crafting/Text_Crafting.csv").loadedPromise.then((textCache) => {
+			const dfn = list.querySelector("dfn");
 			if (dfn) {
 				dfn.parentElement?.append(textCache.get(`Description${dfn.textContent}`));
 			}
 		});
-		return button;
+		return [label, list];
 	},
 
 	/**
@@ -1658,7 +1663,9 @@ var ElementButton = {
 		for (const icon of icons) {
 			if (!icon.hasAttribute("data-custom")) {
 				const tooltipComponentID = icon.getAttribute("aria-owns");
-				if (tooltipComponentID) { document.getElementById(tooltipComponentID)?.remove(); }
+				if (tooltipComponentID) {
+					ElementGetRoot(button).getElementById(tooltipComponentID)?.remove();
+				}
 				icon.remove();
 			}
 		}
@@ -1860,8 +1867,7 @@ var ElementMenu = {
 				return;
 			}
 
-			// Can't directly use `Element.checkVisibility` here as the menubar is not guaranteed to have a parent at this point
-			if (first && (menuitem instanceof HTMLElement && menuitem.style.display !== "none") && getComputedStyle(menuitem).display !== "none") {
+			if (first && !menuitem.hasAttribute("hidden")) {
 				first = false;
 				menuitem.setAttribute("tabindex", "0");
 			} else {
@@ -1953,13 +1959,37 @@ var ElementMenu = {
  */
 var ElementCheckbox = {
 	/**
+	 * @private
+	 * @type {(this: HTMLInputElement, ev: PointerEvent) => void}
+	 */
+	_pointerdown: function(ev) {
+		const root = ElementGetRoot(this);
+		root.addEventListener("pointerup", ElementCheckbox._pointerup);
+		root.addEventListener("pointercancel", ElementCheckbox._pointerup);
+	},
+
+	/**
+	 * @private
+	 * @type {(this: Document | ShadowRoot, ev: PointerEvent) => void}
+	 */
+	_pointerup: function(ev) {
+		// Ensure that focus is lost after clicking
+		/** @type {null | HTMLInputElement} */
+		const input = this.activeElement?.closest("input.checkbox");
+		input?.blur();
+
+		this.removeEventListener("pointerup", ElementCheckbox._pointerup);
+		this.removeEventListener("pointercancel", ElementCheckbox._pointerup);
+	},
+
+	/**
 	 * Construct an return a DOM checkbox element (`<input type="checkbox">`)
 	 * @param {null | string} id - The ID of the element, or `null` if one must be assigned automatically
-	 * @param {(this: HTMLInputElement, ev: Event) => any} onChange - The change event listener to-be fired upon checkbox clicks
+	 * @param {null | ((this: HTMLInputElement, ev: Event) => any)} onChange - The change event listener to-be fired upon checkbox clicks
 	 * @param {null | ElementCheckbox.Options} options - High level options for the to-be created checkbox
 	 * @param {null | Partial<Record<"checkbox", Omit<HTMLOptions<any>, "tag">>>} htmlOptions - Additional {@link ElementCreate} options to-be applied to the respective (child) element
 	 */
-	Create: function Create(id, onChange, options=null, htmlOptions=null) {
+	Create: function Create(id=null, onChange=null, options=null, htmlOptions=null) {
 		id ??= ElementGenerateID();
 		const checkbox = document.getElementById(id);
 		if (checkbox) {
@@ -1969,25 +1999,46 @@ var ElementCheckbox = {
 
 		options ??= {};
 		const checkboxOptions = htmlOptions?.checkbox ?? {};
+		switch (checkboxOptions.attributes?.type ?? options.type ?? "checkbox") {
+			case "radio":
+				options.required ??= true;
+				break;
+		}
+
 		return ElementCreate({
 			...checkboxOptions,
 			tag: "input",
 			attributes: {
 				id,
-				type: "checkbox",
+				type: options.type ?? "checkbox",
 				disabled: options.disabled,
 				checked: options.checked,
 				value: options.value,
+				name: options.name,
+				required: options.required,
 				...(checkboxOptions.attributes ?? {}),
 			},
 			classList: ["checkbox", ...(checkboxOptions.classList ?? [])],
 			eventListeners: {
 				change: onChange,
+				pointerdown: ElementCheckbox._pointerdown,
 				...(checkboxOptions.eventListeners ?? {}),
 			},
 		});
 	},
 };
+
+/**
+ * Returns the element's document- or shadow-root.
+ *
+ * If an element is not part of the DOM tree, thus lacking a document- or shadow-root, then {@link document} is returned.
+ * @param {Node} elem
+ * @returns {Document | ShadowRoot}
+ */
+function ElementGetRoot(elem) {
+	const root = elem.getRootNode();
+	return (root instanceof Document || root instanceof ShadowRoot) ? root : document;
+}
 
 /**
  * Return whether an element is visible or not.
@@ -2110,22 +2161,15 @@ function ElementSetSize(elementOrId, width = null, height = null) {
 	}
 
 	if (width !== null) {
-		const Width = ElementCanvasScaledWidth(width);
-		Object.assign(element.style, {
-			width: Width + 'px',
-		});
-	}
-
-	const fontSize = element.style.fontSize;
-	if (height === null && fontSize) {
-		height = parseFloat(fontSize) * 1.15;
+		element.style.width = `${ElementCanvasScaledWidth(width)}px`;
+	} else {
+		element.style.removeProperty("width");
 	}
 
 	if (height !== null) {
-		const Height = ElementCanvasScaledHeight(height);
-		Object.assign(element.style, {
-			height: Height + 'px',
-		});
+		element.style.height = `${ElementCanvasScaledHeight(height)}px`;
+	} else {
+		element.style.removeProperty("height");
 	}
 }
 

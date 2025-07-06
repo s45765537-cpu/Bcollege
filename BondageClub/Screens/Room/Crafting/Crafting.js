@@ -555,15 +555,24 @@ var CraftingEventListeners = {
 	 * @type {(this: HTMLButtonElement, ev: Event) => void}
 	 */
 	_ClickUpload: function _ClickUpload() {
-		const settingsString = prompt(TextGet("UploadPrompt"));
+		let settingsString = prompt(TextGet("UploadPrompt"))?.trim();
 		if (settingsString == null) {
 			return; // The user explicitly clicked cancel; abort without further warning
-		} else if (!settingsString) {
+		}
+
+		// Trim " and , in order to make it easier to copy/paste CraftingJSON imports
+		if (settingsString.endsWith(',')) {
+			settingsString = settingsString.slice(-1);
+		}
+		if (settingsString.endsWith('"') && settingsString.startsWith('"')) {
+			settingsString = settingsString.slice(1, -1);
+		}
+		if (!settingsString) {
 			alert(TextGet("UploadFailure"));
 			return;
 		}
 
-		const craft = CommonJSONParse(LZString.decompressFromBase64(settingsString));
+		const craft = CommonJSONParse(LZString.decompressFromBase64(settingsString.trim()));
 		if (!craft) {
 			alert(TextGet("UploadFailure"));
 			return;
@@ -777,7 +786,7 @@ var CraftingEventListeners = {
 			const label = button.querySelector(".button-label");
 			if (label) {
 				const displayStyle = (button.getAttribute("aria-checked") === "true" || label.textContent.toUpperCase().includes(query)) ? false : true;
-				button.toggleAttribute("data-unload", displayStyle);
+				button.toggleAttribute("data-hidden-asset", displayStyle);
 			}
 		});
 	},
@@ -820,7 +829,7 @@ var CraftingEventListeners = {
 		if (this.getAttribute("aria-checked") === "true") {
 			// Apply the filtering
 			for (const button of assetList.children) {
-				button.toggleAttribute("data-unload-group", button.getAttribute("data-group") !== groupName);
+				button.toggleAttribute("data-hidden-group", button.getAttribute("data-group") !== groupName);
 			}
 
 			// Update the label of the asset panel
@@ -834,7 +843,7 @@ var CraftingEventListeners = {
 		} else {
 			document.querySelector(`#${CraftingID.assetHeader} > span`)?.replaceChildren(TextGet("SelectItem"));
 			for (const button of assetList.children) {
-				button.toggleAttribute("data-unload-group", false);
+				button.toggleAttribute("data-hidden-group", false);
 			}
 
 			const checked = assetList.querySelector("[aria-checked='true']");
@@ -1002,8 +1011,7 @@ function CraftingLoad() {
 
 	const parent = ElementCreate({
 		tag: "div",
-		style: { display: "none" },
-		attributes: { id: CraftingID.root, "screen-generated": CurrentScreen, "aria-busy": "true" },
+		attributes: { id: CraftingID.root, "screen-generated": CurrentScreen, "aria-busy": "true", hidden: true },
 		classList: ["HideOnPopup"],
 		parent: document.body,
 	});
@@ -1342,6 +1350,8 @@ function CraftingRun() {
 				break;
 		}
 
+		DrawButton(1265, 15, 90, 90, "", CraftingReorderMode === "None" ? "White" : "Gray", "Icons/Upload.png", TextGet("JSONDownload"), CraftingReorderMode !== "None");
+		DrawButton(1370, 15, 90, 90, "", CraftingReorderMode === "None" ? "White" : "Gray", "Icons/Download.png", TextGet("JSONUpload"), CraftingReorderMode !== "None");
 		DrawButton(1475, 15, 90, 90, "", "White", "Icons/Prev.png", TextGet("Previous"));
 		DrawButton(1580, 15, 90, 90, "", "White", "Icons/Next.png", TextGet("Next"));
 		DrawButton(1685, 15, 90, 90, "", "White", "Icons/Swap.png", TextGet("Reorder"));
@@ -1428,6 +1438,11 @@ function CraftingRun() {
 
 /** @type {ScreenResizeHandler} */
 function CraftingResize(load) {
+	const dialog = document.getElementById("crafting-import-dialog");
+	if (dialog) {
+		ElementSetFontSize(dialog);
+	}
+
 	switch (CraftingMode) {
 		case "OverridePriority":
 			Layering.Resize(load);
@@ -1440,15 +1455,20 @@ function CraftingResize(load) {
 
 /** @type {ScreenUnloadHandler} */
 function CraftingUnload() {
+	const dialog = document.getElementById("crafting-import-dialog");
+	if (dialog) {
+		dialog.remove();
+		document.removeEventListener("keydown", CraftingJSON.eventListeners.keydownDocument);
+		document.removeEventListener("paste", CraftingJSON.eventListeners.pasteDocument);
+		return;
+	}
+
 	switch (CraftingMode) {
 		case "OverridePriority":
 			Layering.Unload();
 			break;
 		case "Name": {
-			const elem = document.getElementById(CraftingID.root);
-			if (elem) {
-				elem.style.display = "none";
-			}
+			document.getElementById(CraftingID.root)?.toggleAttribute("hidden", true);
 			break;
 		}
 	}
@@ -1527,7 +1547,7 @@ function CraftingModeSet(NewMode) {
 	if (NewMode === "Name") {
 		const root = document.getElementById(CraftingID.root);
 		if (root) {
-			root.style.display = "";
+			root.toggleAttribute("hidden", false);
 		}
 		CraftingResize(false);
 
@@ -1773,6 +1793,34 @@ function CraftingClick(event) {
 			if (CraftingOffset >= 80) CraftingOffset = 0;
 		}
 
+		if (CraftingReorderMode == "None") {
+			if (MouseIn(1265, 15, 90, 90)) {
+				const href = URL.createObjectURL(new Blob(
+					[JSON.stringify(CraftingJSON.encode(Player.Crafting), null, 4)],
+					{ type: "application/json" },
+				));
+				const date = new Date();
+				const download = ElementCreate({
+					tag: "a",
+					parent: document.body,
+					attributes: {
+						href,
+						hidden: true,
+						download: `craft${Player.MemberNumber}-${date.getFullYear()}-${date.getMonth().toString().padStart(2, "0")}-${date.getDay().toString().padStart(2, "0")}.json`
+					},
+				});
+				download.click();
+				download.remove();
+				URL.revokeObjectURL(href);
+			} else if (MouseIn(1370, 15, 90, 90)) {
+				const { dialog } = CraftingJSON.createDialog(document.body);
+				document.addEventListener("keydown", CraftingJSON.eventListeners.keydownDocument);
+				document.addEventListener("paste", CraftingJSON.eventListeners.pasteDocument);
+				CraftingResize(true);
+				dialog.showModal();
+			}
+		}
+
 		// Enter/Exit destroy item mode; or exit reorder mode.
 		if (MouseIn(1790, 15, 90, 90)) {
 			if (CraftingReorderMode != "None") {
@@ -2014,7 +2062,7 @@ function CraftingExitResetElements() {
 	const focusGroup = document.querySelector(`#${CraftingID.centerPanel} [role='radio'][aria-checked='true']`);
 	if (focusGroup) {
 		focusGroup.dispatchEvent(new MouseEvent("click"));
-		document.querySelectorAll(`#${CraftingID.assetGrid} [data-unload-group]`).forEach(e => e.toggleAttribute("data-unload-group", false));
+		document.querySelectorAll(`#${CraftingID.assetGrid} [data-hidden-group]`).forEach(e => e.toggleAttribute("data-hidden-group", false));
 	}
 
 	// Close the side pannel
@@ -2027,6 +2075,12 @@ function CraftingExitResetElements() {
  * @param {boolean} allowPanelClose - Whether an exit call in the `Name` mode is allowed to close the side panels before performing a proper exit of the subscreen
  */
 function CraftingExit(allowPanelClose=true) {
+	const dialog = document.getElementById("crafting-import-dialog");
+	if (dialog) {
+		dialog.remove();
+		return;
+	}
+
 	// Return to the `Name` sub-screen, if already there move to the `Slot` sub-screen and if already there exit the crafting screen
 	switch (CraftingMode) {
 		case "OverridePriority":
@@ -2355,7 +2409,7 @@ const CraftingValidationRecord = {
  * @return {CraftingStatusType} - One of the {@link CraftingStatusType} status codes; 0 denoting an unrecoverable validation error
  */
 function CraftingValidate(Craft, asset=null, Warn=true, checkPlayerInventory=false) {
-	if (Craft == null) {
+	if (!CommonIsObject(Craft)) {
 		return CraftingStatusType.CRITICAL_ERROR;
 	}
 	/** @type {Map<string, CraftingStatusType>} */

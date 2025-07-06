@@ -1189,6 +1189,13 @@ const CommonCommands = [
 		},
 	},
 	{
+		Tag: "clubcard",
+		Action: () => {
+			ChatRoomStatusUpdate("Preference");
+			ClubCardBuilderShowScreen(true);
+		},
+	},
+	{
 		Tag: "changelog",
 		Action: (args, msg, [start, stop]) => {
 			const startArray = GameVersionFormat.exec(start?.toUpperCase());
@@ -1231,5 +1238,66 @@ const CommonCommands = [
 	{
 		Tag: 'pony',
 		Action: args => StableDoActivity(args),
+	},
+	{
+		Tag: 'beep',
+		Action: (args) => {
+			const parts = args.split(" ");
+			const target = parseInt(parts.shift(), 10);
+			const msg = parts.join(" ");
+
+			if (!CommonIsNonNegativeInteger(target)) {
+				ChatRoomSendLocal(`<span style="color: red">${TextGet("CommandBeepInvalidTarget").replace('$target', target)}</span>`, 5000);
+				return;
+			} else if (!Player.FriendNames.get(target)) {
+				ChatRoomSendLocal(`<span style="color: red">${TextGet("CommandBeepNotFriend").replace('$target', target.toString())}</span>`, 5000);
+				return;
+			} else if (!msg) {
+				ChatRoomSendLocal(`<span style="color: red">${TextGet("CommandBeepEmptyMessage")}</span>`, 5000);
+				return;
+			}
+
+			ServerSendBeepMessage(target, msg);
+
+			const beepId = FriendListBeepLog.length - 1;
+
+			// "Reply to beep" arrow
+			const replyLink = ElementButton.Create(
+				`beep-reply-${beepId}`,
+				() => {
+					ElementValue("InputChat", `/beep ${target} ${ElementValue("InputChat").replace(/^\/(beep|w) \S+ ?/u, '')}`);
+					document.getElementById('InputChat').focus();
+				},
+				{ noStyling: true },
+				{ button: { classList: ["ReplyButton"], children: ['\u21a9\ufe0f'] } },
+			);
+
+			const link = document.createElement("a");
+			link.id = `#beep-${beepId}`;
+			link.onclick = (e) => {
+				e.preventDefault();
+				FriendListShowBeep(beepId);
+			};
+			const targetName = Player.FriendNames.get(target) ?? InterfaceTextGet(`ServerBeepUnknownName`).replace('$target', target.toString());
+			link.textContent = CommonStringSubstitute(TextGet("CommandBeepLink"),[
+				["{NAME}", targetName],
+				["{NUMBER}", target.toString()],
+				["{MESSAGE}", msg.length > 150 ? `${msg.substring(0, 150)}…` : msg],
+			]);
+			link.classList.add("beep-link");
+			const div = document.createElement("div");
+			div.classList.add("ChatMessage", "ChatMessageLocalMessage", "ChatMessageNonDialogue", "ChatMessageBeep");
+			div.dataset.time = ChatRoomCurrentTime();
+			div.dataset.sender = Player.MemberNumber.toString();
+			div.dataset.target = target.toString();
+			div.append(replyLink, link);
+
+			document.querySelector(`
+				#TextAreaChatLog .ChatMessageBeep[data-sender="${target}"] > .ReplyButton:not([tabindex='-1']),
+				#TextAreaChatLog .ChatMessageBeep[data-target="${target}"] > .ReplyButton:not([tabindex='-1'])
+			`)?.setAttribute("tabindex", "-1");
+
+			ChatRoomAppendChat(div);
+		}
 	},
 ];

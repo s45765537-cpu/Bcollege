@@ -10,7 +10,7 @@ function ItemHeadDroneMaskValidateHook(data, originalFunction, C, item, newOptio
 	switch (newOption.ModuleName) {
 		case "Layering": {
 			const invalidOptions = [3, 4, 5];
-			if (item.Asset.Group.Name !== "ItemHood" && invalidOptions.includes(newOption.Index)) {
+			if (item.Asset.Group.Name !== "ItemHood" && item.Asset.Group.Name !== "Mask" && invalidOptions.includes(newOption.Index)) {
 				ret ||= AssetTextGet(`ItemHeadDroneMaskNoLayering`);
 			}
 			break;

@@ -136,8 +136,10 @@ Kennels
 Zwinger
 Kidnappers League
 Kidnapper Liga
-Kitchen
-Küche
+Kitchen 1
+Küche 1
+Kitchen 2
+Küche 2
 Latex Room
 Latex Zimmer
 Leather Chamber
