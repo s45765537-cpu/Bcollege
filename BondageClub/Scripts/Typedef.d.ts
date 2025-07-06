@@ -1045,7 +1045,11 @@ interface AssetGroup {
 	readonly PreviewZone?: RectTuple;
 	readonly DynamicGroupName: AssetGroupName;
 	readonly StyleOverride?: string [];
-	readonly SupportedStyles?: string [];
+	readonly Reposition?: {
+        Group?: string;
+        ShiftX?: number;
+        ShiftY?: number;
+    }[];
 
 	readonly MirrorActivitiesFrom?: AssetGroupItemName;
 	readonly ArousalZone?: AssetGroupItemName;
@@ -1236,7 +1240,13 @@ interface Asset {
 	readonly Require: readonly AssetGroupBodyName[];
 	readonly SetPose?: readonly AssetPoseName[];
 	readonly StyleOverride?: string[];
-	readonly SupportedStyles?: string[];
+	readonly DrawOffset?: {
+        Group?: AssetGroupName;
+        Asset?: string;
+        Layer?: string[];
+        X?: number;
+        Y?: number;
+    }[];
 	/** @deprecated - Superceded by {@link Asset.PoseMapping} */
 	readonly AllowPose?: never;
 	/** @deprecated - Superceded by {@link Asset.PoseMapping} */

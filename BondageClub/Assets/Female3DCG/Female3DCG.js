@@ -19711,6 +19711,86 @@ var AssetFemale3DCG = [
 					"Pussy",
 				],
 			},
+			{
+				Name: "EchoV2",
+				Visible: false,
+				StyleOverride: [
+					"BodyUpper",
+					"BodyLower",
+					"ArmsRight",
+					"ArmsLeft",
+					"HandsRight",
+					"HandsLeft",
+					"Head",
+					"Nipples",
+					"Pussy",
+				],
+				DrawOffset: [
+					{
+						Group: "BodyMarkings",
+						Asset: "Splatters",
+						Layer: ["Internal2", "Internal3"],
+						X: 0,
+						Y: -20,
+					},
+					{
+						Group: "ItemPelvis",
+						Asset: "HardnessPanties1",
+						X: 0,
+						Y: -20,
+					},
+					{
+						Group: "ItemVulva",
+						Asset: "FlatChastityCage",
+						X: 0,
+						Y: -20,
+					},
+					{
+						Group: "ItemVulva",
+						Asset: "PlasticChastityCage1",
+						X: 0,
+						Y: -20,
+					},
+					{
+						Group: "ItemVulva",
+						Asset: "PlasticChastityCage2",
+						X: 0,
+						Y: -20,
+					},
+					{
+						Group: "ItemPelvis",
+						Asset: "FuturisticTrainingBelt",
+						X: 0,
+						Y: -20,
+					},
+
+					{
+						Group: "Pussy",
+						X: 0,
+						Y: -16,
+					},
+					{
+						Group: "ItemVulva",
+						X: 0,
+						Y: -16,
+					},
+					{
+						Group: "ItemVulvaPiercings",
+						X: 0,
+						Y: -16,
+					},
+					{
+						Group: "ItemButt",
+						X: 0,
+						Y: -16,
+					},
+					{
+						Group: "Panties",
+						X: 0,
+						Y: -20,
+					},
+				],
+			},
 		],
 	},
 
