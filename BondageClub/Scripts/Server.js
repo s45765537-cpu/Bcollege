@@ -1258,9 +1258,10 @@ var ServerAccountDataSyncedValidate = {
 			PrivateState: CommonIsObject(arg?.PrivateState) ? arg.PrivateState : {},
 		};
 		if (CommonIsObject(arg)) {
-			delete arg?.Pos;
-			delete arg?.PrivateState;
-			Object.assign(data, arg);
+			const copy = { ... arg };
+			delete copy?.Pos;
+			delete copy?.PrivateState;
+			Object.assign(data, copy);
 		}
 		return data;
 	}
