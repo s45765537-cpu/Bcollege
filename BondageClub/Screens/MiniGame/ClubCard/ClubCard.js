@@ -54,11 +54,6 @@ let ClubCardUniqueIDCounter = 0;
  * @type {string}
  */
 let ClubCardRandomCardName = "";
-/**
- * Variable to check if the code associated with the automatic joining as spectator will work or if it will be disabled.
- * @type {boolean}
- */
-let ClubCardAutoSpectateOn = true;
 
 // #region Card Animations
 /**
@@ -5164,10 +5159,6 @@ function ClubCardLoad() {
 
 	// Ensure Settings object exists
 	Player.Game.ClubCard.Settings ??= {};
-
-	Player.Game.ClubCard.Settings.AutoSpectate ??= true;
-	ClubCardAutoSpectateOn = Player.Game.ClubCard.Settings.AutoSpectate;
-
 	Player.Game.ClubCard.Settings.IsAnimation ??= true;
 	ClubCardIsAnimationOn = Player.Game.ClubCard.Settings.IsAnimation;
 

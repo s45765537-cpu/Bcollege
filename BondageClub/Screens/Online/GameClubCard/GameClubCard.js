@@ -100,8 +100,7 @@ function GameClubCardRun() {
 	else DrawText(TextGet("PlayerSlot" + Player.Game.ClubCard.PlayerSlot.toString()), 1200, 300, "Black", "Gray");
 	GameClubCardDrawIcon(Player, 1480, 210, 1.8);
 	if (GameClubCardCanLaunchGame()) DrawButton(900, 640, 400, 64, TextGet("StartGame"), "White");
-	if (GameClubCardCanJoinGame() && GameClubCardIsAdmin(Player)) DrawButton(900, 640, 400, 64, TextGet("JoinGame"), "White");
-	if (GameClubCardCanJoinGame() && !GameClubCardIsAdmin(Player)) DrawButton(900, 720, 400, 64, TextGet("JoinGame"), "White");
+	if (GameClubCardCanJoinGame()) DrawButton(900, 640, 400, 64, TextGet("JoinGame"), "White");
 	if ((GameClubCardGetStatus() == "Running") && !GameClubCardCanJoinGame()) DrawText(TextGet("CannotJoinDetails"), 1100, 600, "Red", "Gray");
 	if (GameClubCardIsAdmin(Player)) DrawButton(900, 720, 400, 64, TextGet("ResetGame"), "Salmon");
 
@@ -171,22 +170,15 @@ function GameClubCardClick() {
 	}
 
 	// If a player wants to join the game, we send a query to the room admin
-	if (MouseIn(900, 720, 400, 64) && GameClubCardCanJoinGame() && !GameClubCardIsAdmin(Player)) {
+	if (MouseIn(900, 640, 400, 64) && GameClubCardCanJoinGame()) {
 		ServerSend("ChatRoomGame", { GameProgress: "Query" });
 		CommonSetScreen("Online", "ChatRoom");
 		GameClubCardExpectQuery = true;
-		return;
-	}
-	// If the admin wants to join the game, we send a query to the room admin
-	if (MouseIn(900, 640, 400, 64) && GameClubCardCanJoinGame() && GameClubCardIsAdmin(Player)) {
-		ServerSend("ChatRoomGame", { GameProgress: "Query" });
-		CommonSetScreen("Online", "ChatRoom");
-		GameClubCardExpectQuery = true;
-		GameClubCardQueryAdmin = true;
+		if (GameClubCardIsAdmin(Player)) GameClubCardQueryAdmin = true;
 		return;
 	}
 	//If the admin clicked reset game status for all players and sends message.
-	if (MouseIn(900, 720, 400, 64) && GameClubCardIsAdmin(Player) && !GameClubCardCanJoinGame()) {
+	if (MouseIn(900, 720, 400, 64) && GameClubCardIsAdmin(Player)) {
 		ClubCardSendRequestResetGame();
 	}
 
@@ -533,8 +525,8 @@ function GameClubCardProcess(Packet) {
 
 	// If a room admin started the game
 	if ((Packet.Data.GameProgress === "Start") && GameClubCardIsAdmin(Char)) {
-		if (!Player.Game.ClubCard.Settings.AutoSpectate && !(Packet.Data.Player1 == Player.MemberNumber || Packet.Data.Player2 == Player.MemberNumber)) { return; }
-		GameClubCardAssignPlayers(Packet, Char);
+		if ((Packet.Data.Player1 == Player.MemberNumber || Packet.Data.Player2 == Player.MemberNumber)) GameClubCardAssignPlayers(Packet, Char);
+		if ((Player.Game.ClubCard.Settings == undefined || Player.Game.ClubCard.Settings?.AutoSpectate == undefined || Player.Game.ClubCard.Settings?.AutoSpectate) && CurrentScreen != "Appearance" && CurrentScreen != "ClubCardBuilder") GameClubCardAssignPlayers(Packet, Char);
 	}
 
 	// If a player wants to query the game status to join it
