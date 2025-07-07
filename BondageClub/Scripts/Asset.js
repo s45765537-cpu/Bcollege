@@ -188,6 +188,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		Enable: (AssetDef.Enable == null) ? true : AssetDef.Enable,
 		Visible: (AssetDef.Visible == null) ? true : AssetDef.Visible,
 		StyleOverride: AssetDef.StyleOverride,
+		DrawOffset: AssetDef.DrawOffset,
 		NotVisibleOnScreen: Array.isArray(AssetDef.NotVisibleOnScreen) ? AssetDef.NotVisibleOnScreen : [],
 		Wear: (AssetDef.Wear == null) ? true : AssetDef.Wear,
 		Activity: (typeof AssetDef.Activity === "string" ? AssetDef.Activity : null),

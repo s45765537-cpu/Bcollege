@@ -107,7 +107,6 @@ function CommonDrawAppearancePrepareMaskLayers(C) {
 			poseSegment = /** @type {AssetPoseName} */ (layer.PoseMapping[pose]);
 		}
 
-		// set the base url for the body
 		let baseURL = AssetBaseURL(C, group, groupName, poseSegment, asset);
 
 		const baseURLExpression = `${baseURL}${expressionSegment}`;
@@ -338,7 +337,7 @@ function CommonDrawAppearanceBuild(C, {
 				}
 			}
 
-			// set the base url for the body
+			// set the base url for the standard body
 			let baseURL = AssetBaseURL(C, group, groupName, poseSegment, asset);
 
 			// combine the baseurl with the expression and blink segments.
@@ -442,6 +441,7 @@ function CommonDrawResolveLayerExpression(C, item, layer) {
 function CommonDrawComputeDrawingCoordinates(C, asset, layer, groupName) {
 	const poseX = C.DrawPose.find(p => layer.DrawingLeft[p] != null);
 	const poseY = C.DrawPose.find(p => layer.DrawingTop[p] != null);
+	let bodyStyle = InventoryGet(C, "BodyStyle").Asset;
 	let X = poseX === undefined ? layer.DrawingLeft[PoseType.DEFAULT] : layer.DrawingLeft[poseX];
 	let Y = poseY === undefined ? layer.DrawingTop[PoseType.DEFAULT] : layer.DrawingTop[poseY];
 	for (const drawPose of C.DrawPose) {
@@ -468,6 +468,17 @@ function CommonDrawComputeDrawingCoordinates(C, asset, layer, groupName) {
 
 	// Adjust for the increased canvas size
 	Y += CanvasUpperOverflow;
+
+	const drawOffset = bodyStyle.DrawOffset?.find(offset =>
+		(offset.Group === groupName) &&
+        (offset.Asset === undefined || offset.Asset === asset.Name) &&
+        (offset.Layer === undefined || offset.Layer.includes(layer.Name))
+	);
+
+	if (drawOffset) {
+		X += drawOffset.X ?? 0;
+		Y += drawOffset.Y ?? 0;
+	}
 
 	return { X, Y, fixedYOffset };
 }
