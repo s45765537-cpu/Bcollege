@@ -3810,7 +3810,11 @@ interface GameClubCardParameters {
 	PlayerSlot?: number;
 	Background?: string;
 	CardBack?: number;
-	IsAnimation?: boolean;
+	// General game settings
+	Settings?: {
+		AutoSpectate?: boolean;
+		IsAnimation?: boolean;
+	};
 }
 
 interface GamePrisonParameters {
