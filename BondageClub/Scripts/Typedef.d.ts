@@ -1045,6 +1045,7 @@ interface AssetGroup {
 	readonly PreviewZone?: RectTuple;
 	readonly DynamicGroupName: AssetGroupName;
 	readonly StyleOverride?: string [];
+	readonly CreateLayerTypesOverride?: number [];
 	readonly Reposition?: {
         Group?: string;
         ShiftX?: number;
@@ -1108,7 +1109,10 @@ type AssetGroupMapping = (
 interface AssetLayer {
 	/** The name of the layer - may be null if the asset only contains a single default layer */
 	readonly Name: string | null;
-	/** whether or not this layer can be colored */
+	/** Specify a body type to override the asset with. */
+	readonly StyleOverride?: string [];
+	readonly CreateLayerTypesOverride?: number [];
+	/** Specify a list of CLT asset layers to override. */
 	readonly AllowColorize: boolean;
 	/** if not null, specifies that this layer should always copy the color of the named layer */
 	readonly CopyLayerColor: string | null;
@@ -1240,6 +1244,8 @@ interface Asset {
 	readonly Require: readonly AssetGroupBodyName[];
 	readonly SetPose?: readonly AssetPoseName[];
 	readonly StyleOverride?: string[];
+	readonly SupportedStyles?: string[];
+	readonly CreateLayerTypesOverride?: number[];
 	readonly DrawOffset?: {
         Group?: AssetGroupName;
         Asset?: string;
