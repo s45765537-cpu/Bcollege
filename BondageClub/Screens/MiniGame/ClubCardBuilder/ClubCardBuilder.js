@@ -426,3 +426,7 @@ function ClubCardBuilderClick() {
 	}
 
 }
+
+function ClubCardBuilderUnload() {
+	ClubCardBuilderFinishEdit();
+}
