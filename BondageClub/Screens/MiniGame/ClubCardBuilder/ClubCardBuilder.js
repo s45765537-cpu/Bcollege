@@ -55,6 +55,9 @@ function ClubCardBuilderLoadDeck(Deck) {
 	// Prepares the filtered list
 	ClubCardBuilderFilterLoad();
 
+	// create the editor's elements
+	ElementCreateDropdown("CardsTagsDropdown", ClubCardBuilderFilterGroup, ClubCardBuilderTagChanged);
+	ElementCreateSearchInput("CardsSearchFilter", () => ClubCardList.map(i => ClubCardTextGet(i))).addEventListener("input", ClubCardBuilderInputChanged);
 }
 
 /**
@@ -284,9 +287,7 @@ function ClubCardBuilderRun() {
 	if ((ClubCardBuilderFocus != null) && (ClubCardBuilderDeckCurrent.indexOf(ClubCardBuilderFocus.ID) >= 0)) DrawImageResize("Screens/MiniGame/ClubCardBuilder/Selected.png", 1870, 200, 120, 120);
 	DrawText(ClubCardBuilderGetDeckName(ClubCardBuilderDeckIndex) + " (" + ClubCardBuilderDeckCurrent.length + " / " + ClubCardBuilderMinDeckSize.toString() + "-" + ClubCardBuilderMaxDeckSize.toString() + ")", 1235, 37, (ClubCardBuilderDeckCurrent.length >= ClubCardBuilderMinDeckSize && ClubCardBuilderDeckCurrent.length <= ClubCardBuilderMaxDeckSize) ? "White" : "Pink", "Black");
 	if (ClubCardBuilderFocus == null) DrawTextWrap(TextGet("ClickCard"), 1560, 400, 430, 300, "White");
-	ElementCreateDropdown("CardsTagsDropdown", ClubCardBuilderFilterGroup, ClubCardBuilderTagChanged);
 	ElementPositionFix("CardsTagsDropdown", 36, 5, 5, 305, 61);
-	ElementCreateSearchInput("CardsSearchFilter", () => ClubCardList.map(i => ClubCardTextGet(i))).addEventListener("input", ClubCardBuilderInputChanged);
 	ElementPositionFix("CardsSearchFilter", 36, 312, 5, 305, 61);
 	DrawButton(1895, 5, 90, 90, null, "White", "Icons/Cancel.png", TextGet("UndoChanges"));
 	DrawButton(1780, 5, 90, 90, null, "White", "Icons/Accept.png", TextGet("SaveChanges"));

@@ -526,7 +526,7 @@ function GameClubCardProcess(Packet) {
 	// If a room admin started the game
 	if ((Packet.Data.GameProgress === "Start") && GameClubCardIsAdmin(Char)) {
 		if ((Packet.Data.Player1 == Player.MemberNumber || Packet.Data.Player2 == Player.MemberNumber)) GameClubCardAssignPlayers(Packet, Char);
-		if ((Player.Game.ClubCard.Settings == undefined || Player.Game.ClubCard.Settings?.AutoSpectate == undefined || Player.Game.ClubCard.Settings?.AutoSpectate) && CurrentScreen != "Appearance" && CurrentScreen != "ClubCardBuilder") GameClubCardAssignPlayers(Packet, Char);
+		if ((Player.Game.ClubCard.Settings == undefined || Player.Game.ClubCard.Settings.AutoSpectate == undefined || Player.Game.ClubCard.Settings.AutoSpectate) && CurrentScreen != "Appearance" && CurrentScreen != "ClubCardBuilder") GameClubCardAssignPlayers(Packet, Char);
 	}
 
 	// If a player wants to query the game status to join it
