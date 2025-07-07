@@ -31,7 +31,7 @@ function CommonDrawCanvasPrepare(C) {
 function AssetBaseURL(C, group, groupName, pose, asset) {
 
 	// determine what body is selected
-	const bodyStyle = InventoryGet(C, "BodyStyle").Asset;
+	const bodyStyle = InventoryGet(C, "BodyStyle")?.Asset ?? AssetGet("Female3DCG", "BodyStyle", "Original");
 
 	// set base body url
 	const poseSegment = pose ? pose + "/" : "";
