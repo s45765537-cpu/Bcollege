@@ -188,6 +188,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		Enable: (AssetDef.Enable == null) ? true : AssetDef.Enable,
 		Visible: (AssetDef.Visible == null) ? true : AssetDef.Visible,
 		StyleOverride: AssetDef.StyleOverride,
+		CreateLayerTypesOverride: AssetDef.CreateLayerTypesOverride,
 		DrawOffset: AssetDef.DrawOffset,
 		NotVisibleOnScreen: Array.isArray(AssetDef.NotVisibleOnScreen) ? AssetDef.NotVisibleOnScreen : [],
 		Wear: (AssetDef.Wear == null) ? true : AssetDef.Wear,
@@ -666,6 +667,8 @@ function AssetMapLayer(Layer, A, I) {
 		LockLayer: typeof Layer.LockLayer === "boolean" ? Layer.LockLayer : false,
 		MirrorExpression: Layer.MirrorExpression,
 		ColorIndex: 0,
+		StyleOverride: Layer.StyleOverride,
+		CreateLayerTypesOverride: Layer.CreateLayerTypesOverride,
 		// If `null`, initialized in the second asset layer loop in `AssetAdd()`
 		PoseMapping: Layer.CopyLayerPoseMapping != null ? /** @type {never} */(null) : AssetParsePoseMapping(Layer.PoseMapping, A.PoseMapping, Layer.InheritPoseMappingFields),
 		HideForAttribute: Array.isArray(Layer.HideForAttribute) ? Layer.HideForAttribute : null,
