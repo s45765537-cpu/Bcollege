@@ -7494,6 +7494,9 @@ var AssetFemale3DCG = [
 				Prerequisite: ["HasBreasts"],
 				Priority: 20,
 				Hide: ["ItemNipples"],
+				PoseMapping: {
+					AllFours: "AllFours",
+				},
 			},
 			{
 				Name: "Bra8",
