@@ -768,9 +768,11 @@ function DialogIntro(C) {
 /**
  * Generic dialog function to leave conversation. De-inititalizes global variables and reverts the
  * FocusGroup of the player and the current character to null
+ * @param {null | DialogLeave.Options} options - Further customization options
  * @returns {void} - Nothing
  */
-function DialogLeave() {
+function DialogLeave(options=null) {
+	options ??= {};
 
 	DialogLeaveFocusItem(false);
 
@@ -806,6 +808,21 @@ function DialogLeave() {
 
 	// Go controller, go!
 	ControllerClearAreas();
+
+	// Refresh the to-be loaded super screen
+	// FIXME: Can't safely call `Load()` here again as many screens are ill equipped for reloads;
+	// limit it the `ChatRoom` screen for now unless _explicitly_ requested otherwise
+	if (options.reload === true) {
+		CurrentScreenFunctions.Load?.();
+		CurrentScreenFunctions.Resize?.(true);
+	} else if (options.reload == null) {
+		switch (CurrentScreen) {
+			case "ChatRoom":
+				CurrentScreenFunctions.Load?.();
+				CurrentScreenFunctions.Resize?.(true);
+				break;
+		}
+	}
 }
 
 /**
@@ -5666,7 +5683,7 @@ function DialogChatRoomSafewordRelease() {
  */
 function DialogOpenCraftingScreen() {
 	const FromChatRoom = (CurrentScreen === "ChatRoom");
-	DialogLeave();
+	DialogLeave({ reload: false });
 	CraftingShowScreen(FromChatRoom);
 }
 
