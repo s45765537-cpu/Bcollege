@@ -985,12 +985,13 @@ const CommonCommands = [
 				return;
 			}
 			if (NewExpression == "Open" || NewExpression == "Closed") {
+				const eyeExpression = NewExpression === "Closed" ? "Closed" : Player.ActiveExpression.Eyes;
 				if (TargetLeft && TargetRight) {
-					CharacterSetFacialExpression(Player, "Eyes", NewExpression);
+					CharacterSetFacialExpression(Player, "Eyes", eyeExpression);
 				} else if (TargetLeft) {
-					CharacterSetFacialExpression(Player, "Eyes1", NewExpression);
+					CharacterSetFacialExpression(Player, "Eyes1", eyeExpression);
 				} else if (TargetRight) {
-					CharacterSetFacialExpression(Player, "Eyes2", NewExpression);
+					CharacterSetFacialExpression(Player, "Eyes2", eyeExpression);
 				}
 			} else {
 				// Apply new expression only to eyes that are opened
