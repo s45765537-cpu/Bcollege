@@ -8134,6 +8134,10 @@ var AssetFemale3DCG = [
 					AllFours: "Hogtied",
 					Hogtied: "Hogtied",
 				},
+				Attribution: {
+					Author: "XinLian (SugarChain)",
+					License: "CC BY-SA 4.0",
+				},
 				Layer: [
 					{
 						Name: "Ring",
@@ -8186,6 +8190,10 @@ var AssetFemale3DCG = [
 				Top: 0,
 				Left: 0,
 				DefaultColor: ["#929292", "#929292"],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					License: "CC SA-BY 4.0",
+				},
 				Layer: [
 					{
 						Name: "UpperBody",
@@ -8227,6 +8235,10 @@ var AssetFemale3DCG = [
 				Left: 0,
 				Priority: 14,
 				DefaultColor: ["#000000", "#000000", "#000000", "#000000", "#000000"],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					License: "CC BY-SA 4.0",
+				},
 				Layer: [
 					{
 						Name: "Upper",
@@ -8337,6 +8349,10 @@ var AssetFemale3DCG = [
 				Value: 15,
 				Hide: ["ItemNipples"],
 				DefaultColor: ["#7A7A7A", "#7A7A7A"],
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					License: "CC BY-SA 4.0",
+				},
 				Layer: [
 					{
 						Name: "Bra",

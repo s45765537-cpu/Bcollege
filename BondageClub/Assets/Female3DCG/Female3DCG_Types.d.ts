@@ -755,6 +755,8 @@ interface AssetDefinitionBase extends AssetCommonPropertiesGroupAsset, AssetComm
 	/** The list of layers for the asset. */
 	Layer?: AssetLayerDefinition[];
 
+	Attribution?: AttributionDefinition;
+
 	/** A list of attributes the asset has */
 	Attribute?: AssetAttribute[];
 
@@ -833,6 +835,12 @@ interface AssetLayerMaskTexureDefinition {
 	Groups?: AssetGroupName[];
 	/** If true, the texture mask will apply to all layers in the groups specified, event if their priority is higher than the mask layer */
 	ApplyToAbove?: boolean;
+}
+
+interface AttributionDefinition {
+	Author?: string;
+	Email?: string;
+	License?: string;
 }
 
 interface AssetLayerDefinition extends AssetCommonPropertiesGroupAssetLayer, AssetCommonPropertiesAssetLayer {
