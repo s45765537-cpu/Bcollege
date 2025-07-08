@@ -606,7 +606,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			this.Position = { X: this.X, Y: value };
 		},
 		get Position() {
-			if (this?.MapData?.Pos == undefined || this?.MapData?.Pos == undefined) return null;
+			if (this?.MapData?.Pos == undefined) return null;
 			if (this?.MapData?.Pos?.X === null || this?.MapData?.Pos?.Y === null) return null;
 			return { X: this.MapData.Pos.X, Y: this.MapData.Pos.Y};
 		},
