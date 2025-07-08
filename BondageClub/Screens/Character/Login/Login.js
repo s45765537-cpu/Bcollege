@@ -177,7 +177,6 @@ async function LoginLoad() {
 	});
 	TextPrefetchFile(BackgroundsStringsPath);
 	TextPrefetchFile(AssetStringsPath);
-	TextPrefetchFile(InterfaceStringsPath);
 	TextPrefetch("Room", "MainHall");
 	DrawGetImage("Backgrounds/MainHall.jpg");
 }

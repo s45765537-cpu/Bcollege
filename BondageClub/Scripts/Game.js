@@ -32,6 +32,7 @@ function GameStart() {
 	AssetInventoryIDValidate();
 	CommandsLoad();
 	ControllerStart();
+	TextPrefetchFile(InterfaceStringsPath);
 	CommonSetScreen("Character", "Login");
 	ServerInit();
 
