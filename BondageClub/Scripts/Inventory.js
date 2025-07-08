@@ -710,14 +710,10 @@ function InventoryCraft(Source, Target, GroupName, Craft, Refresh, PreConfigureI
 	Item.Color = Craft.Color.replace(" ", "").split(",");
 
 	// Set extended item properties
-	if (Item.Asset.Extended) {
-		ExtendedItemSetOptionByRecord(
-			Target, Item, Craft.TypeRecord,
-			{ push: false, refresh: false, C_Source: Source, properties: Craft.ItemProperty },
-		);
-	} else {
-		Object.assign(Item.Property, Craft.ItemProperty ?? {});
-	}
+	ExtendedItemSetOptionByRecord(
+		Target, Item, Craft.TypeRecord,
+		{ push: false, refresh: false, C_Source: Source, properties: Craft.ItemProperty },
+	);
 
 	// Applies a lock to the item
 	if (Craft.Lock != "") {
