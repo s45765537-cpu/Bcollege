@@ -335,6 +335,34 @@ type DialogMenuButton = "Activity" |
 	"Wardrobe" | "WardrobeDisabled" | "Reset" | "WearRandom" | "Random" | "Copy" | "Paste" | "Naked" | "Accept" | "Cancel" | "Character"
 	;
 
+declare namespace ElementDOMScreen {
+	/** Options for customizing the {@link ElementDOMScreen.GetTemplate} output */
+	interface TemplateOptions {
+		/** The parent element of the to-be returned screen (if any) */
+		parent?: Node;
+		/** Buttons for in the header's menubar (see `.screen-header [role="menubar"]`) */
+		menubarButtons?: readonly HTMLButtonElement[];
+		/** Content for within the main section (see `.screen-main`) */
+		mainContent?: readonly (Node | string)[];
+		/** Text content for within the heading (see `.screen-hgroup h1`) */
+		header?: string;
+		/**
+		 * Whether the main section (see `.screen-main`) is a `<main>` or `<aside>` element.
+		 *
+		 * As a rule of thumb: use `"main"` (aka the default) _unless_ another `<main>` element is already visible on the page,
+		 * as the HTML spec demands that only a single non-hidden main element may be present at any time.
+		 */
+		mainTag?: "main" | "aside";
+		/**
+		 * Whether to content of the DOM screen root is embedded within a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM) or not,
+		 * storing the DOM tree in an isolated namespace with its own set of element IDs and CSS style sheets
+		 */
+		asShadow?: boolean;
+		/** Additional CSS files to load when the `asShadow` option is specified */
+		cssFiles?: readonly string[];
+	}
+}
+
 declare namespace DialogMenu {
 	/** Customization options for {@link DialogMenu.Reload} */
 	interface ReloadOptions {
