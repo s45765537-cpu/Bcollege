@@ -55,3 +55,4 @@ mappaste,[Map]: Paste your map string to load it as current. No argument will us
 maptp,"[X] [Y]: Teleport yourself to X,Y. <br>maptp [MemberNumber|Name|Nickname] [X] [Y]: Teleport player to X,Y.<br>maptp [MemberNumber|Name|Nickname]: Teleport to player.<br>maptp [MemberNumber|Name|Nickname] [MemberNumber|Name|Nickname]: Teleport first player to second player.<br>Use '@' as a prefix for MemberNumber<br>Requires admin privileges."
 whisper,[MemberNumber|Name|Nickname]: Begin whispering to player.  Leave blank to stop whispering.<br>[MemberNumber|Name|Nickname] [Message]: Send whisper to target player.
 shop,Access the shop
+clubcard,: Open the club card editor

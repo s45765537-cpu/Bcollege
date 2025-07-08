@@ -55,7 +55,6 @@ let ClubCardUniqueIDCounter = 0;
  */
 let ClubCardRandomCardName = "";
 
-
 // #region Card Animations
 /**
  * Variable to check if the code associated with animations will work or if it will be disabled.
@@ -5015,6 +5014,7 @@ function ClubCardConcede() {
 function ClubCardPlayerConceded(ID) {
 	if (ID == Player.MemberNumber) return;
 	const CCP = ClubCardPlayer.find(C => C.Character.MemberNumber == ID);
+	if (!CCP || !CCP.Character) return; // Prevent error if player not found
 	const CCO = ClubCardGetOpponent(CCP);
 	ClubCardFocus = null;
 	MiniGameVictory = ID != CCO.Character.MemberNumber;
@@ -5157,8 +5157,10 @@ function ClubCardLoad() {
 	ClubCardAddPlayer(Player, "Player", []);
 	ClubCardAddPlayer(ClubCardOpponent, "AI", ClubCardOpponentDeck);
 
-	Player.Game.ClubCard.IsAnimation ??= true;
-	ClubCardIsAnimationOn = Player.Game.ClubCard.IsAnimation;
+	// Ensure Settings object exists
+	Player.Game.ClubCard.Settings ??= {};
+	Player.Game.ClubCard.Settings.IsAnimation ??= true;
+	ClubCardIsAnimationOn = Player.Game.ClubCard.Settings.IsAnimation;
 
 	ClubCardCreatePopup("DECK");
 }

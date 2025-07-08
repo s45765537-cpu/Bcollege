@@ -1189,6 +1189,13 @@ const CommonCommands = [
 		},
 	},
 	{
+		Tag: "clubcard",
+		Action: () => {
+			ChatRoomStatusUpdate("Preference");
+			ClubCardBuilderShowScreen(true);
+		},
+	},
+	{
 		Tag: "changelog",
 		Action: (args, msg, [start, stop]) => {
 			const startArray = GameVersionFormat.exec(start?.toUpperCase());
