@@ -529,7 +529,7 @@ function ChatRoomStartWheelFortune() {
 	WheelFortuneReturnScreen = CommonGetScreen();
 	WheelFortuneBackground = ChatRoomData.Background;
 	WheelFortuneCharacter = CurrentCharacter;
-	DialogLeave();
+	DialogLeave({ reload: false });
 	CommonSetScreen("MiniGame", "WheelFortune");
 }
 /**
@@ -2985,15 +2985,15 @@ function ChatRoomCommonKeyDown(event) {
 		if (!event.repeat) ChatRoomToggleKneel();
 		return true;
 	} else if (CommonKey.IsPressed(event, "i", CommonKey.ALT)) {
-		if (CurrentCharacter) { DialogLeave(); }
+		if (CurrentCharacter) { DialogLeave({ reload: false }); }
 		ChatRoomOpenInformationScreen();
 		return true;
 	} else if (CommonKey.IsPressed(event, "b", CommonKey.ALT)) {
-		if (CurrentCharacter) { DialogLeave(); }
+		if (CurrentCharacter) { DialogLeave({ reload: false }); }
 		ChatRoomOpenWardrobeScreen();
 		return true;
 	} else if (CommonKey.IsPressed(event, "h", CommonKey.ALT)) {
-		if (CurrentCharacter) { DialogLeave(); }
+		if (CurrentCharacter) { DialogLeave({ reload: false }); }
 		ChatRoomOpenAdminScreen();
 		return true;
 	}

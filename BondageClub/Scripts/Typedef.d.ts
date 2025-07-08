@@ -1672,6 +1672,14 @@ interface DialogInfo {
 	name: string;
 }
 
+declare namespace DialogLeave {
+	/** Further options for {@link DialogLeave} */
+	export interface Options {
+		/** Whether to call the {@link ScreenLoadHandler} and {@link ScreenResizeHandler} functions of the current screen after leaving the dialog */
+		reload?: boolean;
+	}
+}
+
 /** The packed representation of a Private Room NPC */
 interface PrivateCharacterData {
 	Name: string;

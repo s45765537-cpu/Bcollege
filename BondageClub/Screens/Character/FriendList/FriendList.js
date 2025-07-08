@@ -517,7 +517,7 @@ function FriendListBeepMenuSend() {
  */
 function FriendListShow() {
 	if (CurrentScreen === 'FriendList') return;
-	DialogLeave();
+	DialogLeave({ reload: false });
 	ElementToggleGeneratedElements(CurrentScreen, false);
 	FriendListReturn = {
 		Screen: CurrentScreen,
