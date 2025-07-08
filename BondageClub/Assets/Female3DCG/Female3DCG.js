@@ -13672,13 +13672,13 @@ var AssetFemale3DCG = [
 					KneelingSpread: PoseType.HIDE,
 					Hogtied: "Hogtied",
 				},
-				DefaultColor: ["#690909","#202020","#6E693D","#202020"],
+				DefaultColor: ["#690909", "#202020", "#6E693D", "#202020"],
 				HideItem: ["AnkletLeftRibbon1", "AnkletRightRibbon1"],
 				Layer: [
 					{
-						Name: "Laces", 
-						Priority: 24, 
-						AllowColorize: true, 
+						Name: "Laces",
+						Priority: 24,
+						AllowColorize: true,
 						PoseMapping: {
 							...AssetPoseMapping.Shoes,
 							LegsClosed: "LegsClosed",
@@ -13689,8 +13689,8 @@ var AssetFemale3DCG = [
 						},
 					},
 					{
-						Name: "Soles", 
-						Priority: 23, 
+						Name: "Soles",
+						Priority: 23,
 						AllowColorize: true,
 						PoseMapping: {
 							...AssetPoseMapping.Shoes,
@@ -13699,7 +13699,7 @@ var AssetFemale3DCG = [
 							Kneel: PoseType.HIDE,
 							KneelingSpread: PoseType.HIDE,
 							Hogtied: "Hogtied",
-						}, 
+						},
 					},
 					{
 						Name: "Eyelets",
@@ -13712,7 +13712,7 @@ var AssetFemale3DCG = [
 							Kneel: PoseType.HIDE,
 							KneelingSpread: PoseType.HIDE,
 							Hogtied: PoseType.HIDE,
-						}, 
+						},
 					},
 					{
 						Name: "Boots",
