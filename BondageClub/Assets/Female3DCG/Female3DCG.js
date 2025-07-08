@@ -5196,6 +5196,17 @@ var AssetFemale3DCG = [
 				ParentGroup: {},
 				CreateLayerTypes: ["typed"],
 			},
+			{
+				Name: "RosePendant",
+				InventoryID: 1251,
+				Fetish: ["Metal"],
+				Value: 40,
+				Left: 153,
+				Top: 152,
+				ParentGroup: {},
+				DefaultColor: ["#8F8B69", "#691919"],
+				Layer: [{ Name: "Metal" }, { Name: "Petals" }],
+			},
 			// Breast Compatible Clothing
 			{
 				Name: "BodyChainNecklace",
