@@ -221,14 +221,20 @@ class TextCache {
 			return Promise.resolve(CommonCSVCache[this.path]);
 		}
 		this.log("fetchCsv: fetching from server");
-		return new Promise((resolve) => {
-			CommonGet(this.path, (xhr) => {
-				if (xhr.status === 200) {
-					CommonCSVCache[this.path] = CommonParseCSV(xhr.responseText);
+		return new Promise((resolve, reject) => {
+			CommonFetch(this.path).then(response => {
+				if (response.status !== 200) {
+					// We say we're loaded even though that's wrong because we want `.get()`
+					// to return the "MISSING" string
+					this.loaded = true;
+					reject();
+					return;
+				}
+				response.text().then((data => {
+					CommonCSVCache[this.path] = CommonParseCSV(data);
 					this.log("fetchCsv: parsing");
 					return resolve(CommonCSVCache[this.path]);
-				}
-				return Promise.resolve([]);
+				}));
 			});
 		});
 	}

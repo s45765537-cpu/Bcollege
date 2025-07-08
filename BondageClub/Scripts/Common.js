@@ -563,7 +563,11 @@ async function CommonSetScreen(...spec) {
 	CommonGetFont.clearCache();
 	CommonGetFontName.clearCache();
 	TextLoad();
-	await TextScreenCache.loadedPromise;
+	try {
+		await TextScreenCache.loadedPromise;
+	} catch (e) {
+		console.error(`Failed to load text strings for screen!`);
+	}
 
 	ElementToggleGeneratedElements(CurrentScreen, true);
 
