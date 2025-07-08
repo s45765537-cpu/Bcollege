@@ -11,6 +11,7 @@ var AudioList = [
 	{ Name: "Beep", File: "BeepAlarm" },
 	{ Name: "BellMedium", File: "BellMedium" },
 	{ Name: "BellSmall", File: "BellSmall" },
+	{ Name: "Belt", File: [ "Belt1", "Belt2", "Belt3", "Belt4"] },
 	{ Name: "Buckle", File: "Buckle" },
 	{ Name: "CageClose", File: "CageClose" },
 	{ Name: "CageEquip", File: "CageEquip" },

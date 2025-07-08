@@ -51,7 +51,6 @@ var ChatRoomMapViewObjectFog = "";
 
 /** @type {ChatRoomMapTile[]} */
 const ChatRoomMapViewTileList = [
-
 	{ ID: 100, Type: "Floor", Style: "OakWood" },
 	{ ID: 110, Type: "Floor", Style: "Stone" },
 	{ ID: 115, Type: "Floor", Style: "Pavement" },
@@ -86,7 +85,6 @@ const ChatRoomMapViewTileList = [
 	{ ID: 2010, Type: "Water", Style: "Sea", Transparency: 0.5, TransparencyCutoutHeight: 0.45 },
 	{ ID: 2020, Type: "Water", Style: "Ocean", Transparency: 0.5, TransparencyCutoutHeight: 0.3 },
 	{ ID: 2025, Type: "Water", Style: "OceanCyan", Transparency: 0.5, TransparencyCutoutHeight: 0.3 },
-
 ];
 
 /** @type {ChatRoomMapObject[]} */
@@ -427,7 +425,6 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 4022, Type: "WallPath", Style: "MetalDown", OccupiedStyle: "MetalOpen", Top: -1, Height: 2, CanEnter: function(Direction) { return Direction === "D" || Direction === ""; } },
 
 ];
-
 /**
  * Returns TRUE if the player is an admin and activated her super powers on the map
  * @returns {boolean} - TRUE if super powers are active
@@ -478,15 +475,23 @@ function ChatRoomMapViewInitializeCharacter(C) {
 
 /**
  * Validate the passed chat room map positions.
- * @param {unknown} pos
+ * @param {unknown} position
  * @returns {ChatRoomMapPos}
  */
-function ChatRoomMapViewValidatePos(pos) {
-	const ret = CommonIsObject(pos) ? pos : {};
+function ChatRoomMapViewValidatePosition(position) {
+	const ret = CommonIsObject(position) ? position : {};
 	return {
 		X: CommonIsInteger(ret.X, 0, ChatRoomMapViewWidth) ? ret.X : ChatRoomMapViewWidth / 2,
 		Y: CommonIsInteger(ret.Y, 0, ChatRoomMapViewHeight) ? ret.Y : ChatRoomMapViewHeight / 2,
 	};
+}
+
+/**
+ * Checks if the coordinates are out of bounds relative to the map
+ * @param {ChatRoomMapPos} position
+ */
+function ChatRoomMapViewIsOutOfBounds(position) {
+	return position.X > ChatRoomMapViewWidth || 0 > position.X || position.Y > ChatRoomMapViewHeight || 0 > position.Y;
 }
 
 /**
@@ -1617,6 +1622,31 @@ function ChatRoomMapViewDrawUi() {
 				if (Obj.Style !== "Blank") DrawImageResize("Screens/Online/ChatRoom/MapObject/" + Obj.Type + "/" + Obj.Style + ".png", 15, Y + 5, 50, 50);
 			}
 	}
+}
+
+/**
+ * Teleport a character to a specific tile
+ * @param {Character} target
+ * @param {ChatRoomMapPos} position
+ */
+function ChatRoomMapViewTeleport(target, position) {
+	if (!ChatRoomPlayerIsAdmin()) return;
+	if (Player.MemberNumber === target.MemberNumber) Player.Position = position;
+
+	const dictionary = new DictionaryBuilder().mapViewTeleport(position).build();
+	ServerSend("ChatRoomChat", { Content: "ChatRoomMapViewTeleport", Type: "Hidden", Dictionary: dictionary, Target: target?.MemberNumber });
+}
+
+/**
+ * Teleport a character to a specific tile from a hidden message
+ * @param {Character} sender
+ * @param {ServerChatRoomMessage} data
+ */
+function ChatRoomMapViewTeleportHiddenMessage(sender, data) {
+	if (!ChatRoomCharacterIsAdmin(sender)) return;
+	const mapViewTeleportEntry = data.Dictionary[0];
+	if (!IsMapViewTeleportEventDictionaryEntry(mapViewTeleportEntry)) return;
+	Player.Position = mapViewTeleportEntry.Position;
 }
 
 /**

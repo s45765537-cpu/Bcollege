@@ -531,11 +531,17 @@ interface AssetDefinitionBase extends AssetCommonPropertiesGroupAsset, AssetComm
 	/** A list of screens where current asset won't be shown. */
 	NotVisibleOnScreen?: string[];
 
-	/** A list of Asset Groups to overwrite. */
+	/** Specify body type overrides that live in the asset override folder */
 	StyleOverride?: string[];
+	CreateLayerTypesOverride?: number[];
 
-    /** A list of supported styles, anything not listed will be excluded */
-    SupportedStyles?: string[];
+	DrawOffset?: {
+		Group?: AssetGroupName;
+		Asset?: string;
+		Layer?: string[]
+		X?: number;
+		Y?: number;
+	}[];
 
 	/**
 	 * Whether the asset can be worn.
@@ -886,6 +892,12 @@ interface AssetLayerDefinition extends AssetCommonPropertiesGroupAssetLayer, Ass
 	 * Allows for the manual specification lock layers as opposed to {@link AssetDefinition.AllowLock}'s automatic assignment.
 	 */
 	LockLayer?: boolean;
+
+	/**
+	 * Specify body type overrides that live in the asset override folder
+	 */
+	StyleOverride?: string[];
+	CreateLayerTypesOverride?: number[];
 
 	MirrorExpression?: AssetGroupName;
 	PoseMapping?: AssetPoseMapping;

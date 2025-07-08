@@ -964,7 +964,7 @@ function ServerSendBeepMessage(target, msg, options) {
 	ServerSend("AccountBeep", {
 		MemberNumber: target,
 		BeepType: "",
-		IsSecret: options?.includeRoom,
+		IsSecret: !options?.includeRoom,
 		Message: msg ?? undefined
 	});
 
@@ -993,11 +993,11 @@ function ServerSendBeepMessage(target, msg, options) {
  * @param {string} [title]
  */
 function ServerShowBeep(message, duration, options, title) {
-	if (!options.silent) {
+	if (!options?.silent) {
 		NotificationRaise(NotificationEventType.BEEP, {
-			memberNumber: options.memberNumber,
-			characterName: options.memberName,
-			chatRoomName: options.chatRoomName,
+			memberNumber: options?.memberNumber,
+			characterName: options?.memberName,
+			chatRoomName: options?.chatRoomName,
 			body: title ? `${title}\n${message}` : message,
 			alarmWhenFocused: true,
 		});
@@ -1258,9 +1258,10 @@ var ServerAccountDataSyncedValidate = {
 			PrivateState: CommonIsObject(arg?.PrivateState) ? arg.PrivateState : {},
 		};
 		if (CommonIsObject(arg)) {
-			delete arg?.Pos;
-			delete arg?.PrivateState;
-			Object.assign(data, arg);
+			const copy = { ... arg };
+			delete copy?.Pos;
+			delete copy?.PrivateState;
+			Object.assign(data, copy);
 		}
 		return data;
 	}

@@ -597,6 +597,25 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		IsPlayer: function () {
 			return this.Type === CharacterType.PLAYER;
 		},
+		get X() { return this.Position?.X;},
+		get Y() { return this.Position?.Y;},
+		set X(value) {
+			this.Position = { X: value, Y: this.Y };
+		},
+		set Y(value) {
+			this.Position = { X: this.X, Y: value };
+		},
+		get Position() {
+			if (this?.MapData?.Pos?.X === null || this?.MapData?.Pos?.Y === null) return null;
+			return { X: this.MapData.Pos.X, Y: this.MapData.Pos.Y};
+		},
+		set Position({X,Y}) {
+			if (!this.MapData) return;
+			if (!this.MapData.Pos) return;
+			this.MapData.Pos = ChatRoomMapViewValidatePosition({X, Y});
+			ChatRoomMapViewCalculatePerceptionMasks();
+			ChatRoomMapViewUpdatePlayerFlag();
+		},
 		IsBirthday: function () {
 			if ((this.Creation == null) || (CurrentTime == null)) return false;
 			return ((new Date(this.Creation)).getDate() == (new Date(CurrentTime)).getDate()) &&

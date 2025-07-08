@@ -712,7 +712,7 @@ const CommonCommands = [
 					ChatRoomSendLocal(TextGet("CommandFocusNoTargets"), 30_000);
 					return;
 				}
-
+				// TODO: use ChatRoomGetCharacter
 				/** @type {Character[]} */
 				const matchingCharacters = [];
 				parts.slice(1).forEach(targeter => { // For each targeter the user provided
@@ -1127,7 +1127,7 @@ const CommonCommands = [
 
 				return;
 			}
-
+			// TODO: use ChatRoomGetCharacter
 			// Getting all members that fit our request
 			const matchingMembers = ChatRoomCharacter.filter((C) => {
 				const memberNumber = parseInt(target);
@@ -1300,4 +1300,63 @@ const CommonCommands = [
 			ChatRoomAppendChat(div);
 		}
 	},
+	{
+		Tag: 'maptp',
+		Action: (args) => {
+			if (!ChatRoomPlayerIsAdmin()) return ChatRoomSendLocal("You don't have admin permissions to use this command.");
+			if (!ChatRoomMapViewIsActive()) return ChatRoomSendLocal("Only accessible in map mode.");
+			const parsed = args.split(" ");
+			const isCoordinateX = (value) => value && !isNaN(Number(value)) && Number(value) >= 0 && Number(value) < ChatRoomMapViewWidth;
+			const isCoordinateY = (value) => value && !isNaN(Number(value)) && Number(value) >= 0 && Number(value) < ChatRoomMapViewHeight;
+
+			const isIdentifier = (value) => value && !(isCoordinateX(value) || isCoordinateY(value));
+
+			if (isCoordinateX(parsed[0]) && isCoordinateY(parsed[1])) {
+				// maptp <x> <y>
+				const position = {X: Number(parsed[0]), Y: Number(parsed[1])};
+				if (ChatRoomMapViewIsOutOfBounds(position)) return ChatRoomSendLocal(`Teleport: Cannot teleport to ${position.X}, ${position.Y} because out of bounds.`);
+				ChatRoomSendLocal(`Teleporting to ${position.X}, ${position.Y}`);
+				return ChatRoomMapViewTeleport(Player, position);
+			}
+
+			if (isIdentifier(parsed[0]) && isCoordinateX(parsed[1]) && isCoordinateY(parsed[2])) {
+				// maptp <player> <x> <y>
+				const identifier = parsed[0].replace('@', '');
+				const character = ChatRoomGetCharacter(identifier);
+				if (!character) return ChatRoomSendLocal(`Teleport: Cannot teleport ${identifier} to ${parsed[1]}, ${parsed[2]} because no such player.`);
+				const position = {X: Number(parsed[1]), Y: Number(parsed[2])};
+				if (ChatRoomMapViewIsOutOfBounds(position)) return ChatRoomSendLocal(`Teleport: Cannot teleport ${identifier} to ${position.X}, ${position.Y} because out of bounds.`);
+				ChatRoomSendLocal(`Teleporting ${character.Nickname ?? character.Name} to ${position.X}, ${position.Y}`);
+				return ChatRoomMapViewTeleport(character, position);
+			}
+
+			if (isIdentifier(parsed[0]) && isIdentifier(parsed[1])) {
+				// maptp <from player> <to player>
+				const fromPlayer = ChatRoomGetCharacter(parsed[0].replace('@', ''));
+				const toPlayer = ChatRoomGetCharacter(parsed[1].replace('@', ''));
+				if (!fromPlayer) return ChatRoomSendLocal(`Teleport: Cannot teleport ${parsed[0]} to ${parsed[1]} because no such player.`);
+				if (!toPlayer) return ChatRoomSendLocal(`Teleport: Cannot teleport ${parsed[0]} to ${parsed[1]} because no such player.`);
+				ChatRoomSendLocal(`Teleporting ${fromPlayer.Nickname ?? fromPlayer.Name} to ${toPlayer.Nickname ?? toPlayer.Name}`);
+				return ChatRoomMapViewTeleport(fromPlayer, toPlayer.Position);
+			}
+
+			if (isIdentifier(parsed[0])) {
+				// maptp <player>
+				const character = ChatRoomGetCharacter(parsed[0].replace('@', ''));
+				if (!character) return ChatRoomSendLocal(`Teleport: Cannot teleport ${parsed[0]} because no such player.`);
+				ChatRoomSendLocal(`Teleporting to ${character.Nickname ?? character.Name}`);
+				return ChatRoomMapViewTeleport(Player, character.Position);
+			}
+
+			return ChatRoomSendLocal("Invalid arguments:\n- /maptp x y\n- /maptp player x y\n- /maptp from-player to-player\n- /maptp player\nNote: use @ as a prefix for MemberNumbers because of ambiguousness.");
+		}
+	},
+	{
+		Tag: 'mapcords',
+		Action: (args, msg, parsed) => {
+			if (!ChatRoomMapViewIsActive()) return ChatRoomSendLocal("Only accessible in map mode.");
+
+			ChatRoomSendLocal(`Coordinates X, Y: ${Player.X}, ${Player.Y}`);
+		}
+	}
 ];

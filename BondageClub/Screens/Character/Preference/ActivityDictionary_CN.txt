@@ -1154,7 +1154,7 @@ SourceCharacter sucks on TargetCharacter's fingers.
 SourceCharacter吮吸TargetCharacter的手指.
 SourceCharacter cleans and polishes TargetCharacter's nails.
 SourceCharacter清洁TargetCharacter的指甲，并涂了指甲油。
-SourceCharacter does his secret brothers handshake with TargetCharacter.
+SourceCharacter does PronounPossessive secret brothers handshake with TargetCharacter.
 SourceCharacter与TargetCharacter进行了兄弟间的秘密握手动作。
 SourceCharacter bites TargetCharacter's hair.
 SourceCharacter咬了一口TargetCharacter的头发.
@@ -1692,7 +1692,7 @@ SourceCharacter scratches PronounPossessive butt.
 SourceCharacter抓挠自己的屁股。
 SourceCharacter shocks PronounPossessive own butt with PronounPossessive ActivityAsset.
 SourceCharacter用ActivityAsset电击自己的屁股。
-SourceCharacter spanks herself on the butt.
+SourceCharacter spanks PronounSelf on the butt.
 SourceCharacter拍打自己的臀部。
 SourceCharacter hits PronounPossessive butt with PronounPossessive ActivityAsset.
 SourceCharacter用ActivityAsset击打自己的屁股。
@@ -1790,13 +1790,13 @@ SourceCharacter caresses PronounPossessive face.
 SourceCharacter轻抚自己的脸.
 SourceCharacter nods.
 SourceCharacter点头
-SourceCharacter pets herself on the head.
+SourceCharacter pets PronounSelf on the head.
 SourceCharacter摸了摸自己的头.
 SourceCharacter pulls on PronounPossessive own hair.
 SourceCharacter拉扯自己的头发.
 SourceCharacter scratches PronounPossessive head.
 SourceCharacter抓挠自己的头。
-SourceCharacter slaps herself on the face.
+SourceCharacter slaps PronounSelf on the face.
 SourceCharacter扇了自己一巴掌.
 SourceCharacter brushes PronounPossessive hair.
 SourceCharacter给自己梳头.
@@ -1878,7 +1878,7 @@ SourceCharacter throws ActivityAsset into PronounPossessive own mouth.
 SourceCharacter将ActivityAsset扔向自己的嘴。
 SourceCharacter caresses PronounPossessive neck.
 SourceCharacter轻抚自己的脖子.
-SourceCharacter chokes herself.
+SourceCharacter chokes PronounSelf.
 SourceCharacter掐住自己的脖子.
 SourceCharacter injects PronounPossessive neck.
 SourceCharacter注射自己的脖子。
