@@ -262,20 +262,30 @@ async function CommonWaitFor(func, cancelFunc) {
 }
 
 /**
+ * How many times do we retry a resource fetch.
+ */
+const FETCH_MAX_RETRIES = 10;
+
+/**
+ * How much to wait max between each attempt.
+ */
+const FETCH_MAX_RETRY_BACKOFF_TIME = 16;
+
+/**
  * Fetch a remote resource
  *
  * @param {RequestInfo | URL} request
  * @returns {Promise<Response>}
  */
 async function CommonFetch(request) {
-	let retries = 10;
+	let retries = FETCH_MAX_RETRIES;
 	let reply;
 	const method = request instanceof Request ? request.method : "GET";
 	const url = request instanceof Request ? request.url : request;
 	while (retries-- > 0) {
 		reply = await fetch(request);
 		if (reply.status >= 400) {
-			const retrySeconds = Math.min(Math.pow(2, Math.max(0, 10 - retries)), 60);
+			const retrySeconds = Math.min(Math.pow(2, Math.max(0, FETCH_MAX_RETRIES - retries)), FETCH_MAX_RETRY_BACKOFF_TIME);
 			console.warn(`${method} request to ${url} failed - retrying in ${retrySeconds} second${retrySeconds === 1 ? "" : "s"}...`);
 			await CommonSleep(retrySeconds * 1000);
 			continue;
@@ -317,11 +327,11 @@ function CommonGet(Path, Callback, RetriesLeft) {
  * @returns {void} - Nothing
  */
 function CommonGetRetry(Path, Callback, RetriesLeft) {
-	if (typeof RetriesLeft !== "number") RetriesLeft = 10;
+	if (typeof RetriesLeft !== "number") RetriesLeft = FETCH_MAX_RETRIES;
 	if (RetriesLeft <= 0) {
 		console.error(`GET request to ${Path} failed - no more retries`);
 	} else {
-		const retrySeconds = Math.min(Math.pow(2, Math.max(0, 10 - RetriesLeft)), 60);
+		const retrySeconds = Math.min(Math.pow(2, Math.max(0, FETCH_MAX_RETRIES - RetriesLeft)), FETCH_MAX_RETRY_BACKOFF_TIME);
 		console.warn(`GET request to ${Path} failed - retrying in ${retrySeconds} second${retrySeconds === 1 ? "" : "s"}...`);
 		setTimeout(() => CommonGet(Path, Callback, RetriesLeft - 1), retrySeconds * 1000);
 	}
