@@ -8499,6 +8499,15 @@ var AssetFemale3DCG = [
 				},
 			},
 			{
+				Name: "SatinCorset",
+				DynamicGroupName: "Bra",
+				CopyConfig: {
+					GroupName: "Bra",
+					AssetName: "SatinCorset",
+					BuyGroup: true,
+				},
+			},
+			{
 				Name: "LatexCorset1",
 				InventoryID: 297,
 				StyleOverride: ["EchoV2"],
