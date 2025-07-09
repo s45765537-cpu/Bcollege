@@ -6229,7 +6229,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "ChineseSkirt1",
 				InventoryID: 215,
-				Prerequisite: ["HasVagina"],
 				StyleOverride: ["EchoV2"],
 				Value: 40,
 				HideItem: [
@@ -6370,8 +6369,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "PencilSkirt",
 				InventoryID: 221,
-				Gender: "F",
-				Prerequisite: ["HasVagina"],
 				Fetish: ["Leather"],
 				Value: 60,
 				StyleOverride: ["EchoV2"],
@@ -6433,8 +6430,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "Leggings1",
 				InventoryID: 223,
-				Gender: "F",
-				Prerequisite: ["HasVagina"],
 				Value: 15,
 				Priority: 21,
 				StyleOverride: ["EchoV2"],
@@ -6460,13 +6455,11 @@ var AssetFemale3DCG = [
 			{
 				Name: "Leggings2",
 				InventoryID: 224,
-				Gender: "F",
-				Prerequisite: ["HasVagina"],
 				Value: 20,
 				Priority: 21,
 				StyleOverride: ["EchoV2"],
 				DefaultColor: "#4499c4",
-				Hide: ["ItemVulvaPiercings", "Panties"],
+				Hide: ["ItemVulvaPiercings"],
 				HideItem: [
 					"ItemButtAnalBeads2",
 					"SocksSocksFur",
@@ -6490,8 +6483,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "PleatedSkirt",
 				InventoryID: 225,
-				Gender: "F",
-				Prerequisite: ["HasVagina"],
 				Value: 35,
 				Alpha: [
 					{ Group: ["Panties", "ItemPelvis"], Masks: [[0, 0, 500, 570]] },
@@ -6503,8 +6494,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "MageSkirt",
 				InventoryID: 226,
-				Gender: "F",
-				Prerequisite: ["HasVagina"],
 				Value: 35,
 				Alpha: [
 					{ Group: ["Panties", "ItemPelvis"], Masks: [[0, 0, 500, 570]] },
@@ -6556,8 +6545,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "ShortPencilSkirt",
 				InventoryID: 228,
-				Gender: "F",
-				Prerequisite: ["HasVagina"],
 				Fetish: ["Leather"],
 				Value: 50,
 				StyleOverride: ["EchoV2"],
@@ -6592,8 +6579,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "HaremPants",
 				InventoryID: 229,
-				Gender: "F",
-				Prerequisite: ["HasVagina"],
 				Fetish: ["Lingerie"],
 				Value: 20,
 				BuyGroup: "HaremPants",
@@ -6612,8 +6597,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "HaremPants2",
 				InventoryID: 229,
-				Gender: "F",
-				Prerequisite: ["HasVagina"],
 				Fetish: ["Lingerie"],
 				Value: 20,
 				BuyGroup: "HaremPants",
@@ -6935,8 +6918,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "PantBoots",
 				InventoryID: 240,
-				Gender: "F",
-				Prerequisite: ["HasVagina"],
 				Value: 40,
 				StyleOverride: ["EchoV2"],
 				Left: {
@@ -10330,9 +10311,9 @@ var AssetFemale3DCG = [
 				Name: "Pantyhose2",
 				InventoryID: 243,
 				StyleOverride: ["EchoV2"],
-				Prerequisite: ["HasVagina"],
 				Fetish: ["Nylon"],
 				Value: 10,
+				Priority: 17,
 				BuyGroup: "Pantyhose2",
 			},
 			{
@@ -13672,13 +13653,13 @@ var AssetFemale3DCG = [
 					KneelingSpread: PoseType.HIDE,
 					Hogtied: "Hogtied",
 				},
-				DefaultColor: ["#690909","#202020","#6E693D","#202020"],
+				DefaultColor: ["#690909", "#202020", "#6E693D", "#202020"],
 				HideItem: ["AnkletLeftRibbon1", "AnkletRightRibbon1"],
 				Layer: [
 					{
-						Name: "Laces", 
-						Priority: 24, 
-						AllowColorize: true, 
+						Name: "Laces",
+						Priority: 24,
+						AllowColorize: true,
 						PoseMapping: {
 							...AssetPoseMapping.Shoes,
 							LegsClosed: "LegsClosed",
@@ -13689,8 +13670,8 @@ var AssetFemale3DCG = [
 						},
 					},
 					{
-						Name: "Soles", 
-						Priority: 23, 
+						Name: "Soles",
+						Priority: 23,
 						AllowColorize: true,
 						PoseMapping: {
 							...AssetPoseMapping.Shoes,
@@ -13699,7 +13680,7 @@ var AssetFemale3DCG = [
 							Kneel: PoseType.HIDE,
 							KneelingSpread: PoseType.HIDE,
 							Hogtied: "Hogtied",
-						}, 
+						},
 					},
 					{
 						Name: "Eyelets",
@@ -13712,7 +13693,7 @@ var AssetFemale3DCG = [
 							Kneel: PoseType.HIDE,
 							KneelingSpread: PoseType.HIDE,
 							Hogtied: PoseType.HIDE,
-						}, 
+						},
 					},
 					{
 						Name: "Boots",
@@ -16877,9 +16858,9 @@ var AssetFemale3DCG = [
 			{
 				Name: "LatexShortGloves",
 				InventoryID: 456,
+				Fetish: ["Latex"],
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
-				Fetish: ["Latex"],
 				Value: 75,
 				Top: 8,
 				PoseMapping: {
@@ -16920,7 +16901,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "BikerGloves",
 				InventoryID: 459,
-				Gender: "F",
 				Value: 15,
 				ParentGroup: {},
 				DefaultColor: ["#65696E", "#2A2A2A"],
@@ -16980,9 +16960,9 @@ var AssetFemale3DCG = [
 			{
 				Name: "OperaGloves",
 				InventoryID: 1150,
-				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Fetish: ["Leather"],
+				Prerequisite: ["HasBreasts"],
+				Gender: "F",
 				Value: 12,
 				DefaultColor: "#32B6A0",
 				Extended: true,
@@ -17010,9 +16990,9 @@ var AssetFemale3DCG = [
 			{
 				Name: "AnimeGirlGloves",
 				InventoryID: 1153,
-				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Value: -1,
+				Prerequisite: ["HasBreasts"],
+				Gender: "F",
 				BuyGroup: "AnimeGirl",
 				Priority: 30,
 				DefaultColor: ["#DBDBDB", "#CEBC64"],
@@ -24597,8 +24577,6 @@ var AssetFemale3DCG = [
 				Name: "ShinyLegBinder",
 				InventoryID: 568,
 				StyleOverride: ["EchoV2"],
-				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Fetish: ["Latex"],
 				Value: 100,
 				Difficulty: 20,
@@ -27970,8 +27948,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "PelvisChainLeash",
 				InventoryID: 668,
-				Gender: "F",
-				Prerequisite: ["HasVagina"],
 				Priority: 27,
 				Fetish: ["Metal"],
 				Value: 40,
@@ -37797,8 +37773,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "PawMittens",
 				InventoryID: 779,
-				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Fetish: ["ABDL", "Pet"],
 				Value: 50,
 				Difficulty: 4,
@@ -37832,9 +37806,9 @@ var AssetFemale3DCG = [
 			{
 				Name: "LeatherMittens",
 				InventoryID: 780,
+				Fetish: ["Leather"],
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
-				Fetish: ["Leather"],
 				Value: 60,
 				Difficulty: 5,
 				SelfBondage: 4,
@@ -37856,8 +37830,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "FuturisticMittens",
 				InventoryID: 781,
-				Gender: "F",
-				Prerequisite: ["HasBreasts"],
 				Fetish: ["Metal"],
 				Category: ["SciFi"],
 				Value: 70,
@@ -37893,9 +37865,9 @@ var AssetFemale3DCG = [
 			{
 				Name: "PaddedLeatherMittens",
 				InventoryID: 782,
+				Fetish: ["Leather"],
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
-				Fetish: ["Leather"],
 				Value: 70,
 				Difficulty: 6,
 				SelfBondage: 5,
@@ -37918,9 +37890,9 @@ var AssetFemale3DCG = [
 			{
 				Name: "PolishedMittens",
 				InventoryID: 783,
+				Fetish: ["Metal"],
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
-				Fetish: ["Metal"],
 				Value: 80,
 				Difficulty: 8,
 				SelfBondage: 6,
@@ -37970,9 +37942,9 @@ var AssetFemale3DCG = [
 			{
 				Name: "HoofMittens",
 				InventoryID: 784,
+				Fetish: ["Pony"],
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
-				Fetish: ["Pony"],
 				Value: -1,
 				Difficulty: 5,
 				SelfBondage: 4,
@@ -37995,8 +37967,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "SmoothLeatherMittens1",
 				InventoryID: 785,
-				Gender: "M",
-				Prerequisite: ["HasFlatChest"],
 				Fetish: ["Leather"],
 				Value: 20,
 				Difficulty: 3,
