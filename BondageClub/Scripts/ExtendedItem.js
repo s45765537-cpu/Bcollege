@@ -1330,7 +1330,7 @@ function ExtendedItemParseOptions(option, asset) {
 function ExtendedItemSetOptionByRecord(C, itemOrGroupName, typeRecord=null, options=null) {
 	const { push, C_Source, refresh, properties } = options || {};
 	const item = typeof itemOrGroupName === "string" ? InventoryGet(C, itemOrGroupName) : itemOrGroupName;
-	if (item?.Asset?.Archetype == null) return;
+	if (!item) return;
 
 	/** @type {Set<keyof ItemProperties>} */
 	const propertyKeys = new Set();
@@ -1344,7 +1344,7 @@ function ExtendedItemSetOptionByRecord(C, itemOrGroupName, typeRecord=null, opti
 			propertyKeys.add(key);
 		}
 	}
-	const previousOptions = ExtendedItemGatherOptions(item);
+	const previousOptions = item.Asset.Archetype == null ? [] : ExtendedItemGatherOptions(item);
 
 	if (typeRecord != null) {
 		const assetName = item.Asset.Name;
