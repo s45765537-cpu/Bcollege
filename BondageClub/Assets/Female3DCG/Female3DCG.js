@@ -25963,7 +25963,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Ballspreader",
-				InventoryID: 1218,
+				InventoryID: 1250,
 				Gender: "M",
 				Fetish: ["Metal"],
 				Prerequisite: [
