@@ -1441,6 +1441,7 @@ ItemNeckAccessories,CollarNameTagPet,Pet Name Tag
 ItemNeckAccessories,CollarPentagram,Pentagram Pendant
 ItemNeckAccessories,CollarPupBone,Pup Bone
 ItemNeckAccessories,CollarRose,Rose
+ItemNeckAccessories,CollarRoseAmulet,Rose Amulet
 ItemNeckAccessories,CollarShockUnit,Shock Unit
 ItemNeckAccessories,CollarSun,Sun Pendant
 ItemNeckAccessories,CustomCollarTag,Custom Tag
@@ -1672,6 +1673,7 @@ Necklace,NecklaceKey,Key Necklace
 Necklace,NecklaceLock,Lock Necklace
 Necklace,NecklaceRope,Rope Necklace
 Necklace,PearlNecklace1,Custom Pearl Necklace
+Necklace,RosePendant,Rose Pendant
 Necklace,SatinScarf,Satin Scarf
 Nipples,,Nipples Style
 Nipples,Nipples1,Small

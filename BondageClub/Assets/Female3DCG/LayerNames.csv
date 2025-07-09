@@ -2172,6 +2172,8 @@ ItemMouthOverfilledGagPanties,Stuffing
 ItemMouthOverfilledGagTape1,Tape
 ItemNeckAccessoriesCollarButterflyMetal,Metal
 ItemNeckAccessoriesCollarButterflyStones,Jewels
+ItemNeckAccessoriesCollarRoseAmuletMetal,Metal
+ItemNeckAccessoriesCollarRoseAmuletPetals,Petals
 ItemNeckAccessoriesCustomCollarTagTag,Tag
 ItemNeckAccessoriesCustomCollarTagText,Text
 ItemNeckAccessoriesElectronicTagDisplay,Display
@@ -2659,6 +2661,8 @@ NecklaceNecklaceLockLock,Lock
 NecklacePearlNecklace1Option1,Normal
 NecklacePearlNecklace1Option2,Long
 NecklacePearlNecklace1Option3,Choker
+NecklaceRosePendantMetal,Metal
+NecklaceRosePendantPetals,Petals
 PantiesBoxerShortsShorts,Shorts
 PantiesBoxerShortsWaistband,Waist Band
 PantiesBriefsBands,Bands
