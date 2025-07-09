@@ -340,7 +340,7 @@ function InventoryPrerequisiteMessage(C, Prerequisite, asset=null) {
 
 
 		// Checks for chastity cages, in case of penis protruding items.
-		case "NoChastityCage": return InventoryIsItemInList(C, "ItemVulva", ["TechnoChastityCage", "PlasticChastityCage1", "PlasticChastityCage2", "FlatChastityCage", "ChastityPouch"]) ? "MustRemoveChastityCage" : "";
+		case "NoChastityCage": return InventoryIsItemInList(C, "ItemVulva", ["TechnoChastityCage", "PlasticChastityCage1", "PlasticChastityCage2", "FlatChastityCage", "ChastityPouch", "Ballspreader"]) ? "MustRemoveChastityCage" : "";
 		case  "NoErection": return C.HasEffect("ForcedErection") ? "MustNotHaveForcedErection" : "";
 
 		// Checks for penis protruding items, to block chastity cages.
