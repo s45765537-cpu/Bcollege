@@ -25984,7 +25984,7 @@ var AssetFemale3DCG = [
 				},
 				AllowLock: true,
 				DrawLocks: false,
-				DefaultColor: ["Default", "Default", "Default"],
+				DefaultColor: ["#6F6F6F", "#000000"],
 				Left: 200,
 				Top: 410,
 				Layer: [
@@ -25995,6 +25995,7 @@ var AssetFemale3DCG = [
 						ColorSuffix: { HEX_COLOR: "White" },
 					},
 					{ Name: "CageRing" },
+					{ Name: "Lock" },
 				],
 			},
 			{
