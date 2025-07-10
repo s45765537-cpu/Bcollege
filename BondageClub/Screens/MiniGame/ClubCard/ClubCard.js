@@ -355,6 +355,13 @@ var ClubCardList = [
 			}
 		}
 	},
+	{
+		ID: 1023,
+		Name: "Country Gal",
+		RequiredLevel: 2,
+		MoneyPerTurn: 3,
+		FamePerTurn: -1
+	},
 
 	// 2000 - Staff Members (Club employees that can be targetted by events)
 	{
@@ -1099,7 +1106,7 @@ var ClubCardList = [
 		Name: "Permanent Patient",
 		Group: ["AsylumPatient"],
 		MoneyPerTurn: 3,
-		RequiredLevel: 4
+		RequiredLevel: 3
 	},
 	{
 		ID: 7006,
@@ -1591,7 +1598,8 @@ var ClubCardList = [
 		Group: ["CollegeTeacher"],
 		Reward: "NPC-Julia",
 		RequiredLevel: 2,
-		FamePerTurn: 2
+		FamePerTurn: 2,
+		MoneyPerTurn: -1
 	},
 	{
 		ID: 11009,
@@ -1964,7 +1972,7 @@ var ClubCardList = [
 		onPlayedCard: function(CCPlayer, cardPlayed) {
 			if (ClubCardCardHasGroup(cardPlayed, "Pet") && !ClubCardIsLiability(cardPlayed)) {
 				ClubCardPlayerAddFame(CCPlayer, 1, this.Name);
-				ClubCardPlayerDrawCard(CCPlayer, 1);
+				this.ExtraPlay = (this.ExtraPlay ?? 0) + 1;
 			}
 		},
 		onOpponentPlayedCard: function(CCPlayer, cardPlayed) {
@@ -1972,6 +1980,9 @@ var ClubCardList = [
 				ClubCardPlayerAddFame(CCPlayer, 1, this.Name);
 				ClubCardPlayerDrawCard(CCPlayer, 1);
 			}
+		},
+		AfterTurnEnd: function() {
+			this.ExtraPlay = 0;
 		}
 	},
 	{
@@ -1994,9 +2005,9 @@ var ClubCardList = [
 		Name: "Puppy",
 		Group: ["Pet"],
 		RequiredLevel: 2,
-		FamePerTurn: 1,
+		MoneyPerTurn: 1,
 		OnPlay: function(CCPlayer) {
-			ClubCardPlayerAddMoney(CCPlayer, -8);
+			ClubCardPlayerAddMoney(CCPlayer, -5);
 		},
 		BeforeTurnEnd: function(CCPlayer) {
 			ClubCardPlayerAddMoney(CCPlayer, Math.floor(ClubCardCalculateLevelForPets(CCPlayer) / 2));
