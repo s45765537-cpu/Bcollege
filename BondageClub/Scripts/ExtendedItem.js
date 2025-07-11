@@ -1300,7 +1300,7 @@ function ExtendedItemParseOptions(option, asset) {
 		return parsedOption;
 	}
 
-	if (parsedOption.Property.SetPose) {
+	if (parsedOption.Property.SetPose || parsedOption.Property.AllowActivePose) {
 		const prereq = parsedOption.Prerequisite;
 		const data = {
 			AllowActivePose: option.Property.AllowActivePose,
@@ -1308,9 +1308,10 @@ function ExtendedItemParseOptions(option, asset) {
 			Prerequisite: Array.isArray(prereq) ? prereq : (prereq != null ? [prereq] : null),
 			Effect: option.Property.Effect,
 		};
-		const { Prerequisite, AllowActivePose } = AssetParsePosePrerequisite(data);
+		const { Prerequisite, AllowActivePose, SetPose } = AssetParsePosePrerequisite(data);
 		parsedOption.Prerequisite = Prerequisite;
 		parsedOption.Property.AllowActivePose = AllowActivePose;
+		parsedOption.Property.SetPose = SetPose;
 	}
 	return parsedOption;
 }
