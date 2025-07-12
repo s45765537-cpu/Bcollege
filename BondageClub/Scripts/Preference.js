@@ -333,7 +333,7 @@ function PreferenceInitPlayer(C, data) {
 	};
 
 	C.LabelColor = CommonIsColor(data.LabelColor) ? data.LabelColor ?? "" : "#ffffff";
-	C.ItemPermission = data.ItemPermission ?? 2;
+	C.AllowedInteractions = data.AllowedInteractions ?? data.ItemPermission ?? 2;
 
 
 	C.ArousalSettings = ValidationApplyRecord(data.ArousalSettings, C, PreferenceArousalSettingsValidate);

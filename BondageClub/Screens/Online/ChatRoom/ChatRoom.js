@@ -6065,9 +6065,9 @@ function ChatRoomSafewordRevert() {
 			.sourceCharacter(Player)
 			.build();
 		ServerSend("ChatRoomChat", { Content: "ActionActivateSafewordRevert", Type: "Action", Dictionary });
-		if (Player.ItemPermission < 3) {
-			Player.ItemPermission = 3;
-			ServerAccountUpdate.QueueData({ ItemPermission: Player.ItemPermission }, true);
+		if (Player.AllowedInteractions < AllowedInteractions.OwnerLoversWhitelistOnly) {
+			Player.AllowedInteractions = AllowedInteractions.OwnerLoversWhitelistOnly;
+			ServerAccountUpdate.QueueData({ AllowedInteractions: Player.AllowedInteractions, ItemPermission: Player.AllowedInteractions }, true);
 			setTimeout(() => ChatRoomCharacterUpdate(Player), 5000);
 		}
 	}

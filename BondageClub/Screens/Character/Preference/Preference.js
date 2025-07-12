@@ -252,7 +252,8 @@ function PreferenceExit() {
 		GraphicsSettings: Player.GraphicsSettings,
 		NotificationSettings: Player.NotificationSettings,
 		GenderSettings: Player.GenderSettings,
-		ItemPermission: Player.ItemPermission,
+		ItemPermission: Player.AllowedInteractions,
+		AllowedInteractions: Player.AllowedInteractions,
 		LabelColor: Player.LabelColor,
 		...ServerPackItemPermissions(Player.PermissionItems),
 	};

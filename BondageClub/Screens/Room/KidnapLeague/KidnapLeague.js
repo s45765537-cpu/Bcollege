@@ -81,14 +81,14 @@ function KidnapLeagueCanKiss() { return (Player.CanTalk() && CurrentCharacter.Ca
  * @returns {boolean} - Returns TRUE if the player can start the online bounty game
  */
 function KidnapLeagueHasBountyPermissions() {
-	return (Player.ItemPermission <= 2);
+	return (Player.AllowedInteractions <= AllowedInteractions.OwnerLoversWhitelistAndDomsOnly);
 }
 /**
  * Checks if the player has public permissions (up to Owners, Whitelist, and Dominants)
  * @returns {boolean} - Returns TRUE if the player cannot start the online bounty game
  */
 function KidnapLeagueDoesNotHaveBountyPermissions() {
-	return (Player.ItemPermission > 2);
+	return (Player.AllowedInteractions > AllowedInteractions.OwnerLoversWhitelistAndDomsOnly);
 }
 /**
  * Checks if the player can take up the online bounty quest
