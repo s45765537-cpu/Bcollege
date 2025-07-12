@@ -202,8 +202,6 @@ function ActivityCheckPrerequisite(prereq, acting, acted, group) {
 				return !acted.IsFixedHead();
 			break;
 		case "ZoneAccessible":
-			console.warn("ZoneAccessible is deprecated, use TargetZoneAccessible instead");
-		// eslint-disable-next-line no-fallthrough
 		case "TargetZoneAccessible": {
 			// FIXME: The original ZoneAccessible should have been prefixed with Target, which is why those are reversed
 			// TargetZoneAccessible is only used for ReverseSuckItem, which is marked as reverse, adding in to the confusion
@@ -211,8 +209,6 @@ function ActivityCheckPrerequisite(prereq, acting, acted, group) {
 			return ActivityGetAllMirrorGroups(actor.AssetFamily, group.Name).some((g) => g.IsItem() ? !InventoryGroupIsBlocked(actor, g.Name, true) : true);
 		}
 		case "ZoneNaked":
-			console.warn("ZoneNaked is deprecated, use TargetZoneNaked instead");
-		// eslint-disable-next-line no-fallthrough
 		case "TargetZoneNaked": {
 			// FIXME: Ditto
 			const actor = prereq.startsWith("Target") ? acting : acted;
@@ -333,9 +329,12 @@ function ActivityAllowedForGroup(character, groupname) {
 		const isChasteWithStrapOn = Player.HasEffect("Chaste") && Player.Appearance.some(item => ["StrapOnSmooth", "StrapOnStuds"].includes(item.Asset.Name)) && (
 			activity.Name === "PenetrateFast" || activity.Name === "PenetrateSlow"
 		);
+		if (isChasteWithStrapOn) {
+			activity.Prerequisite = activity.Prerequisite.filter(p => p !== "CanUsePenis");
+		}
 
 		// Make sure all the prerequisites are met, unless chaste and the item is StrapOn because otherwise you can't penetrate with strap on
-		if (!isChasteWithStrapOn && !ActivityCheckPrerequisites(activity, Player, character, group)) return allowedActivities;
+		if (!ActivityCheckPrerequisites(activity, Player, character, group)) return allowedActivities;
 
 		// Ensure this activity is permitted for both actors
 		if (!ActivityCheckPermissions(activity, Player, true)
