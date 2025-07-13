@@ -26051,7 +26051,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Ballspreader",
-				InventoryID: 1250,
+				InventoryID: 1253,
 				Gender: "M",
 				Fetish: ["Metal"],
 				Prerequisite: [
@@ -26072,7 +26072,7 @@ var AssetFemale3DCG = [
 				},
 				AllowLock: true,
 				DrawLocks: false,
-				DefaultColor: ["#6F6F6F", "#000000"],
+				DefaultColor: ["Default", "Default", "Default"],
 				Left: 200,
 				Top: 410,
 				Layer: [
