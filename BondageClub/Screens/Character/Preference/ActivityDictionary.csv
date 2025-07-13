@@ -9,6 +9,7 @@ ActivityBite,Bite
 ActivityWhisper,Sexy Whisper
 ActivityTickle,Tickle
 ActivityCaress,Caress
+ActivityClean,Clean
 ActivityPet,Pet
 ActivityCuddle,Cuddle
 ActivityRub,Body Rub
@@ -279,7 +280,8 @@ Label-ChatOther-ItemLegs-SpankItem,Spank Legs
 Label-ChatOther-ItemLegs-Tickle,Tickle Thighs
 Label-ChatOther-ItemLegs-TickleItem,Tickle Thigh
 Label-ChatOther-ItemMouth-Bite,Bite Lips
-Label-ChatOther-ItemMouth-Caress,Clean Mouth
+Label-ChatOther-ItemMouth-Caress,Caress Cheek
+Label-ChatOther-ItemMouth-Clean,Clean Mouth
 Label-ChatOther-ItemMouth-EatItem,Eat
 Label-ChatOther-ItemMouth-FrenchKiss,French Kiss
 Label-ChatOther-ItemMouth-GaggedKiss,Gag Kiss on Cheek
@@ -593,7 +595,8 @@ Label-ChatSelf-ItemLegs-Tickle,Tickle Thighs
 Label-ChatSelf-ItemLegs-TickleItem,Tickle Thigh
 Label-ChatSelf-ItemLegs-Wiggle,Rub Thighs Together
 Label-ChatSelf-ItemMouth-Bite,Bite Lips
-Label-ChatSelf-ItemMouth-Caress,Clean Mouth
+Label-ChatSelf-ItemMouth-Caress,Caress Cheek
+Label-ChatSelf-ItemMouth-Clean,Clean Mouth
 Label-ChatSelf-ItemMouth-EatItem,Eat
 Label-ChatSelf-ItemMouth-HandGag,Clamp Hand over Mouth
 Label-ChatSelf-ItemMouth-Lick,Lick Lips
@@ -886,7 +889,8 @@ ChatOther-ItemLegs-SpankItem,SourceCharacter hits TargetCharacter's thigh with P
 ChatOther-ItemLegs-Tickle,SourceCharacter tickles TargetCharacter's thigh.
 ChatOther-ItemLegs-TickleItem,SourceCharacter tickles TargetCharacter's thigh with PronounPossessive ActivityAsset.
 ChatOther-ItemMouth-Bite,SourceCharacter bites TargetCharacter's lips.
-ChatOther-ItemMouth-Caress,SourceCharacter caresses and cleans TargetCharacter's mouth.
+ChatOther-ItemMouth-Caress,SourceCharacter caresses TargetCharacter's cheek.
+ChatOther-ItemMouth-Clean,SourceCharacter cleans TargetCharacter's mouth.
 ChatOther-ItemMouth-EatItem,SourceCharacter puts some ActivityAsset into TargetCharacter's mouth.
 ChatOther-ItemMouth-FrenchKiss,SourceCharacter shares a long French kiss with TargetCharacter.
 ChatOther-ItemMouth-GaggedKiss,SourceCharacter gives a gagged kiss on TargetCharacter's cheek.
@@ -1197,7 +1201,8 @@ ChatSelf-ItemLegs-Tickle,SourceCharacter tickles PronounPossessive thighs.
 ChatSelf-ItemLegs-TickleItem,SourceCharacter tickles PronounPossessive own thigh with PronounPossessive ActivityAsset.
 ChatSelf-ItemLegs-Wiggle,SourceCharacter rubs PronounPossessive thighs together.
 ChatSelf-ItemMouth-Bite,SourceCharacter bites PronounPossessive lips.
-ChatSelf-ItemMouth-Caress,SourceCharacter caresses and wipes PronounPossessive mouth clean.
+ChatSelf-ItemMouth-Caress,SourceCharacter caresses PronounPossessive own cheek.
+ChatSelf-ItemMouth-Clean,SourceCharacter wipes PronounPossessive mouth clean.
 ChatSelf-ItemMouth-EatItem,SourceCharacter eats some ActivityAsset.
 ChatSelf-ItemMouth-HandGag,SourceCharacter clamps PronounPossessive hand over PronounPossessive mouth.
 ChatSelf-ItemMouth-Lick,SourceCharacter licks PronounPossessive lips.
