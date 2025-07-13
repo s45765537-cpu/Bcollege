@@ -1441,6 +1441,7 @@ ItemNeckAccessories,CollarNameTagPet,Pet Name Tag
 ItemNeckAccessories,CollarPentagram,Pentagram Pendant
 ItemNeckAccessories,CollarPupBone,Pup Bone
 ItemNeckAccessories,CollarRose,Rose
+ItemNeckAccessories,CollarRoseAmulet,Rose Amulet
 ItemNeckAccessories,CollarShockUnit,Shock Unit
 ItemNeckAccessories,CollarSun,Sun Pendant
 ItemNeckAccessories,CustomCollarTag,Custom Tag
@@ -1601,6 +1602,7 @@ ItemVulva,WandBelt,Wand Belt
 ItemVulva,WiredEgg,Wired Vibrating Egg
 ItemVulva,FullCasingCage,Full Casing Cage
 ItemVulva,LatexNulge,Latex Nulge
+ItemVulva,Ballspreader,Ball Spreader Cage
 ItemVulvaPiercings,,Clitoris
 ItemVulvaPiercings,AdornedClitPiercing,Adorned Clitoris Piercing
 ItemVulvaPiercings,BarbellClitPiercing,Barbell Clitoris Piercing
@@ -1671,6 +1673,7 @@ Necklace,NecklaceKey,Key Necklace
 Necklace,NecklaceLock,Lock Necklace
 Necklace,NecklaceRope,Rope Necklace
 Necklace,PearlNecklace1,Custom Pearl Necklace
+Necklace,RosePendant,Rose Pendant
 Necklace,SatinScarf,Satin Scarf
 Nipples,,Nipples Style
 Nipples,Nipples1,Small
@@ -1741,6 +1744,7 @@ Shoes,BalletHeels1,Ballet Hi-Shoes
 Shoes,BarefootSandals1,Barefoot Sandals
 Shoes,Boots1,Boots
 Shoes,Clogs,Platform Clogs
+Shoes,CombatBoots,Combat Boots
 Shoes,CustomHeels,Custom Strap Heels
 Shoes,DeluxeBoots,Deluxe Mistress Boots
 Shoes,DutyShoes,Duty Shoes

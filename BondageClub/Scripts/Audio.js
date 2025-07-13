@@ -12,6 +12,8 @@ var AudioList = [
 	{ Name: "BellMedium", File: "BellMedium" },
 	{ Name: "BellSmall", File: "BellSmall" },
 	{ Name: "Belt", File: [ "Belt1", "Belt2", "Belt3", "Belt4"] },
+	{ Name: "BrushHair", File: [ "BrushHair1", "BrushHair2", "BrushHair3", "BrushHair4"] },
+	{ Name: "BrushSpank", File: [ "BrushSpank1", "BrushSpank2", "BrushSpank3", "BrushSpank4"] },
 	{ Name: "Buckle", File: "Buckle" },
 	{ Name: "CageClose", File: "CageClose" },
 	{ Name: "CageEquip", File: "CageEquip" },

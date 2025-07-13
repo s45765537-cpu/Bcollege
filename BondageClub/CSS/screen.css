@@ -1,0 +1,85 @@
+.screen {
+	--gap: min(2vh, 1vw);
+	--menu-button-size: min(9vh, 4.5vw);
+	--scrollbar-gutter: max(20px, min(2.5vh, 1.25vw));
+
+	width: 100%;
+	height: 100%;
+	padding-block: min(1.5vh, 0.75vw);
+	user-select: none;
+	box-sizing: border-box;
+	display: grid;
+	grid-template:
+		"header" min-content
+		"hgroup" min-content
+		"main" auto / auto;
+}
+
+.screen-main {
+	grid-area: main;
+	padding: 3px;
+}
+
+.screen > * {
+	padding-right: var(--scrollbar-gutter);
+}
+
+.screen-header {
+	grid-area: header;
+	min-height: var(--menu-button-size);
+}
+
+.screen-header [role="menubar"] {
+	display: grid;
+	direction: rtl;
+	grid-auto-flow: column;
+	grid-template-columns: repeat(auto-fit, var(--menu-button-size));
+	gap: var(--gap);
+}
+
+.screen-header [role="menuitem"] {
+	height: var(--menu-button-size);
+	width: var(--menu-button-size);
+}
+
+.screen-header [role="menuitem"] .button-tooltip {
+	--tooltip-gap: var(--gap);
+}
+
+.screen-header [role="menuitem"] .button-image {
+	max-height: 90px;
+	max-width: 90px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.screen-hgroup {
+	grid-area: hgroup;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: white;
+	min-height: 1.15em; /* 1 line */
+	height: var(--menu-button-size);
+	max-height: 4.6em; /* 4 lines */
+}
+
+.screen-hgroup h1,
+.screen-hgroup [role='status'] {
+	font-size: normal;
+	font-weight: normal;
+	margin: unset;
+	padding: unset;
+	text-align: center;
+}
+
+@supports (height: 100dvh) {
+	.screen {
+		--gap: min(2dvh, 1dvw);
+		--menu-button-size: min(9dvh, 4.5dvw);
+		--scrollbar-gutter: max(20px, min(2.5dvh, 1.25dvw));
+
+		padding-block: min(1.5dvh, 0.75dvw);
+	}
+}

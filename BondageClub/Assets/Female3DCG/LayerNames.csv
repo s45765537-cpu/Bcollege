@@ -2172,6 +2172,8 @@ ItemMouthOverfilledGagPanties,Stuffing
 ItemMouthOverfilledGagTape1,Tape
 ItemNeckAccessoriesCollarButterflyMetal,Metal
 ItemNeckAccessoriesCollarButterflyStones,Jewels
+ItemNeckAccessoriesCollarRoseAmuletMetal,Metal
+ItemNeckAccessoriesCollarRoseAmuletPetals,Petals
 ItemNeckAccessoriesCustomCollarTagTag,Tag
 ItemNeckAccessoriesCustomCollarTagText,Text
 ItemNeckAccessoriesElectronicTagDisplay,Display
@@ -2522,6 +2524,9 @@ ItemVulvaLatexNulgeBase,Base
 ItemVulvaLatexNulgeHeart,Heart
 ItemVulvaLatexNulgeLock,Lock
 ItemVulvaLatexNulgeShine,Shine
+ItemVulvaBallspreaderCageRing,Metal
+ItemVulvaBallspreaderPenis,Penis
+ItemVulvaBallspreaderLock,Lock
 ItemVulvaPiercingsClitRingLeash,Leash
 ItemVulvaPiercingsClitRingRing,Ring
 ItemVulvaPiercingsRoundClitPiercingBell,Bell
@@ -2656,6 +2661,8 @@ NecklaceNecklaceLockLock,Lock
 NecklacePearlNecklace1Option1,Normal
 NecklacePearlNecklace1Option2,Long
 NecklacePearlNecklace1Option3,Choker
+NecklaceRosePendantMetal,Metal
+NecklaceRosePendantPetals,Petals
 PantiesBoxerShortsShorts,Shorts
 PantiesBoxerShortsWaistband,Waist Band
 PantiesBriefsBands,Bands
@@ -2732,6 +2739,10 @@ ShoesBoots1Shoes,Inner
 ShoesBoots1Sides,Outer
 ShoesClogsMain,Boot
 ShoesClogsSole,Sole
+ShoesCombatBootsLaces,Laces
+ShoesCombatBootsSoles,Soles
+ShoesCombatBootsEyelets,Eyelets
+ShoesCombatBootsBoots,Boots
 ShoesCustomHeelsMain,Shoes
 ShoesCustomHeelsHeels,Heels
 ShoesCustomHeelsStrap1,Ankle Straps

@@ -1300,7 +1300,7 @@ function ExtendedItemParseOptions(option, asset) {
 		return parsedOption;
 	}
 
-	if (parsedOption.Property.SetPose) {
+	if (parsedOption.Property.SetPose || parsedOption.Property.AllowActivePose) {
 		const prereq = parsedOption.Prerequisite;
 		const data = {
 			AllowActivePose: option.Property.AllowActivePose,
@@ -1308,9 +1308,10 @@ function ExtendedItemParseOptions(option, asset) {
 			Prerequisite: Array.isArray(prereq) ? prereq : (prereq != null ? [prereq] : null),
 			Effect: option.Property.Effect,
 		};
-		const { Prerequisite, AllowActivePose } = AssetParsePosePrerequisite(data);
+		const { Prerequisite, AllowActivePose, SetPose } = AssetParsePosePrerequisite(data);
 		parsedOption.Prerequisite = Prerequisite;
 		parsedOption.Property.AllowActivePose = AllowActivePose;
+		parsedOption.Property.SetPose = SetPose;
 	}
 	return parsedOption;
 }
@@ -1330,7 +1331,7 @@ function ExtendedItemParseOptions(option, asset) {
 function ExtendedItemSetOptionByRecord(C, itemOrGroupName, typeRecord=null, options=null) {
 	const { push, C_Source, refresh, properties } = options || {};
 	const item = typeof itemOrGroupName === "string" ? InventoryGet(C, itemOrGroupName) : itemOrGroupName;
-	if (item?.Asset?.Archetype == null) return;
+	if (!item) return;
 
 	/** @type {Set<keyof ItemProperties>} */
 	const propertyKeys = new Set();
@@ -1344,7 +1345,7 @@ function ExtendedItemSetOptionByRecord(C, itemOrGroupName, typeRecord=null, opti
 			propertyKeys.add(key);
 		}
 	}
-	const previousOptions = ExtendedItemGatherOptions(item);
+	const previousOptions = item.Asset.Archetype == null ? [] : ExtendedItemGatherOptions(item);
 
 	if (typeRecord != null) {
 		const assetName = item.Asset.Name;

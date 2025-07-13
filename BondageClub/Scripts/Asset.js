@@ -299,7 +299,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		AllowColorize: typeof AssetDef.AllowColorize === "boolean" ? AssetDef.AllowColorize : Group.AllowColorize,
 	};
 
-	if (A.SetPose) {
+	if (A.SetPose || A.AllowActivePose) {
 		Object.assign(A, AssetParsePosePrerequisite(A));
 	}
 
@@ -381,11 +381,15 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 /**
  * Automatically generated pose-related asset prerequisites
  * @param {Partial<Pick<Asset, "AllowActivePose" | "SetPose" | "Prerequisite" | "Effect">>} asset The asset or any other object with the expected asset interface subset
- * @returns {{ Prerequisite?: AssetPrerequisite[], AllowActivePose?: AssetPoseName[] }} The newly generated prerequisites
+ * @returns {{ Prerequisite?: AssetPrerequisite[], AllowActivePose?: AssetPoseName[], SetPose?: AssetPoseName[] }} The newly generated prerequisites
  */
 function AssetParsePosePrerequisite({ SetPose, AllowActivePose, Effect, Prerequisite }) {
 	if (SetPose == null) {
-		return {};
+		if (AllowActivePose?.length) {
+			SetPose = AllowActivePose.slice(0, 1);
+		} else {
+			return {};
+		}
 	}
 
 	const allowActivePose = CommonArrayConcatDedupe([...SetPose], AllowActivePose || []);
@@ -423,6 +427,7 @@ function AssetParsePosePrerequisite({ SetPose, AllowActivePose, Effect, Prerequi
 	return {
 		Prerequisite: CommonArrayConcatDedupe([...(Prerequisite || [])], posePrerequisite),
 		AllowActivePose: allowActivePose,
+		SetPose: [...SetPose],
 	};
 }
 
@@ -962,6 +967,7 @@ function AssetLoadAll() {
 	PropertyAutoPunishHandled = new Set(AssetGroup.map((a) => a.Name));
 	Shop2._PopulateBuyGroups();
 	Shop2._PopulateKeysAndRemotes();
+	AssetLoadCheckActivities();
 }
 
 /**
@@ -1192,5 +1198,24 @@ async function AssetInventoryIDValidate() {
 			if (!inventoryIDs[index]) holes.add(index);
 		}
 		console.warn(`Known holes in InventoryIDs: ${[...holes.values()]}`);
+	}
+}
+
+function AssetLoadCheckActivities() {
+	/** @type {Map<number, string[]>} */
+	const ids = new Map();
+	let report = false;
+	for (const act of ActivityFemale3DCG) {
+		const dup = ids.get(act.ActivityID);
+		if (dup) {
+			console.warn(`Activity ${act.Name} has the same ID as ${dup}!`);
+			dup.push(act.Name);
+			report = true;
+		} else {
+			ids.set(act.ActivityID, [act.Name]);
+		}
+	}
+	if (report) {
+		console.info(`Next available activity ID is ${Math.max(...ids.keys()) + 1}`);
 	}
 }

@@ -340,7 +340,7 @@ function InventoryPrerequisiteMessage(C, Prerequisite, asset=null) {
 
 
 		// Checks for chastity cages, in case of penis protruding items.
-		case "NoChastityCage": return InventoryIsItemInList(C, "ItemVulva", ["TechnoChastityCage", "PlasticChastityCage1", "PlasticChastityCage2", "FlatChastityCage", "ChastityPouch"]) ? "MustRemoveChastityCage" : "";
+		case "NoChastityCage": return InventoryIsItemInList(C, "ItemVulva", ["TechnoChastityCage", "PlasticChastityCage1", "PlasticChastityCage2", "FlatChastityCage", "ChastityPouch", "Ballspreader"]) ? "MustRemoveChastityCage" : "";
 		case  "NoErection": return C.HasEffect("ForcedErection") ? "MustNotHaveForcedErection" : "";
 
 		// Checks for penis protruding items, to block chastity cages.
@@ -710,14 +710,10 @@ function InventoryCraft(Source, Target, GroupName, Craft, Refresh, PreConfigureI
 	Item.Color = Craft.Color.replace(" ", "").split(",");
 
 	// Set extended item properties
-	if (Item.Asset.Extended) {
-		ExtendedItemSetOptionByRecord(
-			Target, Item, Craft.TypeRecord,
-			{ push: false, refresh: false, C_Source: Source, properties: Craft.ItemProperty },
-		);
-	} else {
-		Object.assign(Item.Property, Craft.ItemProperty ?? {});
-	}
+	ExtendedItemSetOptionByRecord(
+		Target, Item, Craft.TypeRecord,
+		{ push: false, refresh: false, C_Source: Source, properties: Craft.ItemProperty },
+	);
 
 	// Applies a lock to the item
 	if (Craft.Lock != "") {

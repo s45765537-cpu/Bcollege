@@ -227,9 +227,7 @@ function ActivityCheckPrerequisite(prereq, acting, acted, group) {
 			break;
 		}
 		case "CanUsePenis":
-			if (acting.HasPenis())
-				return InventoryPrerequisiteMessage(acting, "AccessVulva") === "";
-			break;
+			return acting.HasPenis() && !acting.IsVulvaChaste() && InventoryPrerequisiteMessage(acting, "AccessVulva") === "";
 		case "Sisters":
 			return !acting.HasPenis() && !acted.HasPenis() && acting.IsSiblingOfCharacter(acted);
 		case "Brothers":
@@ -262,20 +260,18 @@ function ActivityCheckPrerequisites(activity, acting, acted, group) {
 
 /**
  *
- * @param {ItemActivity[]} allowed
  * @param {Character} acting
  * @param {Character} acted
  * @param {ActivityNameItem} needsItem
  * @param {Activity} activity
  * @param {AssetGroup} targetGroup
  */
-function ActivityGenerateItemActivitiesFromNeed(allowed, acting, acted, needsItem, activity, targetGroup) {
+function ActivityGenerateItemActivitiesFromNeed(acting, acted, needsItem, activity, targetGroup) {
 	const reverse = activity.Reverse;
 	const items = CharacterItemsForActivity(!reverse ? acting : acted, needsItem);
-	if (items.length === 0) return true;
+	const isChasteWithStrapOn = Player.HasEffect("Chaste") && Player.Appearance.some(item => ["StrapOnSmooth", "StrapOnStuds"].includes(item.Asset.Name)) && (activity.Name === "PenetrateFast" || activity.Name === "PenetrateSlow");
 
-	let handled = false;
-	for (const item of items) {
+	return items.reduce((activities, item) => {
 		const typeList = CommonIsObject(item.Property?.TypeRecord) ? PropertyTypeRecordToStrings(item.Property.TypeRecord) : [null];
 
 		/** @type {ItemActivityRestriction} */
@@ -295,14 +291,13 @@ function ActivityGenerateItemActivitiesFromNeed(allowed, acting, acted, needsIte
 		if (InventoryItemHasEffect(item, "UseRemote")) {
 			// That item actually needs a remote, so handle it separately
 		} else if (reverse && acted.FocusGroup.Name !== item.Asset.Group.Name && !(isStrapon || isPenis)) {
-			// This is a reverse activity, but we're targetting the wrong slot, just skip
-			handled = true;
-		} else {
-			allowed.push({ Activity: activity, Item: item, Blocked: blocked, Group: targetGroup.MirrorActivitiesFrom ?? targetGroup.Name });
-			handled = true;
+			return activities; // This is a reverse activity, but we're targetting the wrong slot, just skip
+		} else if (!(isChasteWithStrapOn && isPenis)) {
+			activities.push({ Activity: activity, Item: item, Blocked: blocked, Group: targetGroup.MirrorActivitiesFrom ?? targetGroup.Name });
+			return activities;
 		}
-	}
-	return handled;
+		return activities;
+	}, []);
 }
 
 /**
@@ -327,44 +322,40 @@ function ActivityAllowedForGroup(character, groupname) {
 	const targetedItem = InventoryGet(character, groupname);
 
 	/** @type {ItemActivity[]} */
-	let allowed = [];
-
-	activities.forEach(activity => {
+	let allowed = activities.reduce((allowedActivities, activity) => {
 		// Validate that this activity can be done
-		if (!ActivityHasValidTarget(character, activity, group))
-			return;
+		if (!ActivityHasValidTarget(character, activity, group)) return allowedActivities;
 
-		// Make sure all the prerequisites are met
-		if (!ActivityCheckPrerequisites(activity, Player, character, group))
-			return;
+		const isChasteWithStrapOn = Player.HasEffect("Chaste") && Player.Appearance.some(item => ["StrapOnSmooth", "StrapOnStuds"].includes(item.Asset.Name)) && (
+			activity.Name === "PenetrateFast" || activity.Name === "PenetrateSlow"
+		);
+		if (isChasteWithStrapOn) {
+			activity.Prerequisite = activity.Prerequisite.filter(p => p !== "CanUsePenis");
+		}
+
+		// Make sure all the prerequisites are met, unless chaste and the item is StrapOn because otherwise you can't penetrate with strap on
+		if (!ActivityCheckPrerequisites(activity, Player, character, group)) return allowedActivities;
 
 		// Ensure this activity is permitted for both actors
 		if (!ActivityCheckPermissions(activity, Player, true)
-			|| !ActivityCheckPermissions(activity, character, false))
-			return;
+			|| !ActivityCheckPermissions(activity, character, false)) return allowedActivities;
 
 		// All checks complete, this activity is allowed
 
-		let handled = false;
 		let needsItem = activity.Prerequisite.find(p => p.startsWith("Needs-"));
 
 		if (needsItem) {
 			const needsItemActivity = /** @type {ActivityNameItem} */(needsItem.substring(6));
-			handled = ActivityGenerateItemActivitiesFromNeed(allowed, Player, character, needsItemActivity, activity, group);
+			return [...allowedActivities, ...ActivityGenerateItemActivitiesFromNeed(Player, character, needsItemActivity, activity, group)];
 		}
 
 		if (activity.Name === "ShockItem" && InventoryItemHasEffect(targetedItem, "ReceiveShock")) {
 			let remote = Player.Appearance.find(a => InventoryItemHasEffect(a, "TriggerShock"));
-			if (remote) {
-				allowed.push({ Activity: activity, Item: remote, Group: group.Name });
-				handled = true;
-			}
+			if (remote) return allowedActivities.concat({ Activity: activity, Item: remote, Group: group.Name });
 		}
 
-		if (!handled) {
-			allowed.push({ Activity: activity, Group: group.Name });
-		}
-	});
+		return allowedActivities.concat({ Activity: activity, Group: group.Name });
+	}, []);
 
 	// Sort allowed activities by their group declaration order
 	return allowed.sort((a, b) => Math.sign(ActivityFemale3DCGOrdering.indexOf(a.Activity.Name) - ActivityFemale3DCGOrdering.indexOf(b.Activity.Name)));
