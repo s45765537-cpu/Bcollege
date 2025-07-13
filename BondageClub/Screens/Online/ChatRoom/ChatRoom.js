@@ -1365,7 +1365,7 @@ function ChatRoomLoad() {
 */
 function ChatRoomClearAllElements() {
 	// Dialog
-	DialogLeave();
+	DialogLeave({ reload: false });
 
 	// Chatroom
 	if (Player.ChatSettings?.PreserveChat ?? true) {
