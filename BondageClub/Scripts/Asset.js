@@ -967,6 +967,7 @@ function AssetLoadAll() {
 	PropertyAutoPunishHandled = new Set(AssetGroup.map((a) => a.Name));
 	Shop2._PopulateBuyGroups();
 	Shop2._PopulateKeysAndRemotes();
+	AssetLoadCheckActivities();
 }
 
 /**
@@ -1197,5 +1198,24 @@ async function AssetInventoryIDValidate() {
 			if (!inventoryIDs[index]) holes.add(index);
 		}
 		console.warn(`Known holes in InventoryIDs: ${[...holes.values()]}`);
+	}
+}
+
+function AssetLoadCheckActivities() {
+	/** @type {Map<number, string[]>} */
+	const ids = new Map();
+	let report = false;
+	for (const act of ActivityFemale3DCG) {
+		const dup = ids.get(act.ActivityID);
+		if (dup) {
+			console.warn(`Activity ${act.Name} has the same ID as ${dup}!`);
+			dup.push(act.Name);
+			report = true;
+		} else {
+			ids.set(act.ActivityID, [act.Name]);
+		}
+	}
+	if (report) {
+		console.info(`Next available activity ID is ${Math.max(...ids.keys()) + 1}`);
 	}
 }

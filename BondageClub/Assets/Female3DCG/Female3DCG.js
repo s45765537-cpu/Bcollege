@@ -61568,6 +61568,14 @@ var ActivityFemale3DCG = [
 		TargetSelf: true,
 	},
 	{
+		Name: "Clean",
+		ActivityID: 63,
+		MaxProgress: 80,
+		Prerequisite: ["TargetZoneAccessible", "UseHands"],
+		Target: ["ItemMouth"],
+		TargetSelf: true,
+	},
+	{
 		Name: "MassageHands",
 		ActivityID: 18,
 		MaxProgress: 60,
