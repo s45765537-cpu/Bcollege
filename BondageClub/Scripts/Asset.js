@@ -299,7 +299,7 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 		AllowColorize: typeof AssetDef.AllowColorize === "boolean" ? AssetDef.AllowColorize : Group.AllowColorize,
 	};
 
-	if (A.SetPose) {
+	if (A.SetPose || A.AllowActivePose) {
 		Object.assign(A, AssetParsePosePrerequisite(A));
 	}
 
@@ -381,11 +381,15 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 /**
  * Automatically generated pose-related asset prerequisites
  * @param {Partial<Pick<Asset, "AllowActivePose" | "SetPose" | "Prerequisite" | "Effect">>} asset The asset or any other object with the expected asset interface subset
- * @returns {{ Prerequisite?: AssetPrerequisite[], AllowActivePose?: AssetPoseName[] }} The newly generated prerequisites
+ * @returns {{ Prerequisite?: AssetPrerequisite[], AllowActivePose?: AssetPoseName[], SetPose?: AssetPoseName[] }} The newly generated prerequisites
  */
 function AssetParsePosePrerequisite({ SetPose, AllowActivePose, Effect, Prerequisite }) {
 	if (SetPose == null) {
-		return {};
+		if (AllowActivePose?.length) {
+			SetPose = AllowActivePose.slice(0, 1);
+		} else {
+			return {};
+		}
 	}
 
 	const allowActivePose = CommonArrayConcatDedupe([...SetPose], AllowActivePose || []);
@@ -423,6 +427,7 @@ function AssetParsePosePrerequisite({ SetPose, AllowActivePose, Effect, Prerequi
 	return {
 		Prerequisite: CommonArrayConcatDedupe([...(Prerequisite || [])], posePrerequisite),
 		AllowActivePose: allowActivePose,
+		SetPose: [...SetPose],
 	};
 }
 
