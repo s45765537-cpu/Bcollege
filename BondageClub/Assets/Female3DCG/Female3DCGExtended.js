@@ -5889,6 +5889,14 @@ var AssetFemale3DCGExtended = {
 							// m6 - Subtle
 							Property: { Effect: [E.BlockMouth] },
 						},
+						{
+							// m7 - Thin
+							Property: { Effect: [E.BlockMouth] },
+						},
+						{
+							// m8 - Thin Oh
+							Property: { Effect: [E.BlockMouth] },
+						},
 					],
 				},
 				{
@@ -5948,12 +5956,22 @@ var AssetFemale3DCGExtended = {
 								HideItem: ["ItemHeadDroneMask"],
 							},
 						}, // text
+						{}, // Machine
+						{}, // Fishnet
+						{}, // Hexpattern
+						{}, // Large Circle
+						{}, // Large Split Circle
+						{}, // Large Heart
+						{}, // Large Stylized Heart
+						{}, // Small Heart
+						{}, // Lock
+						{}, // Large X
 					],
 				},
 				{
 					Name: "Glow",
 					Key: "g",
-					Options: [{}, {}], // Glow Off, Glow On
+					Options: [{}, {}, {}, {},], // Glow Off, Glow Eyes, Mouth On, Glow Pattern On, Glow On
 				},
 				{
 					Name: "Sight",
@@ -15266,7 +15284,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Mouth",
 					Key: "m",
-					Options: [{}, {}, {}, {}, {}, {}, {}], // none, onahole, fleshlight, smile, holes, sculpted, subtle
+					Options: [{}, {}, {}, {}, {}, {}, {}, {}, {}], // none, onahole, fleshlight, smile, holes, sculpted, subtle, thin, thin oh
 				},
 				{
 					Name: "Eyes",
@@ -15296,12 +15314,22 @@ var AssetFemale3DCGExtended = {
 								HideItem: ["ItemHeadDroneMask", "ItemHoodDroneMask"],
 							},
 						}, // text
+						{}, // Machine
+						{}, // Fishnet
+						{}, // Hexpattern
+						{}, // Large Circle
+						{}, // Large Split Circle
+						{}, // Large Heart
+						{}, // Large Stylized Heart
+						{}, // Small Heart
+						{}, // Lock
+						{}, // Large X
 					],
 				},
 				{
 					Name: "Glow",
 					Key: "g",
-					Options: [{}, {}], // Glow Off, Glow On
+					Options: [{}, {}, {}, {},], // Glow Off, Glow Eyes, Mouth On, Glow Pattern On, Glow On
 				},
 				{
 					Name: "Helmet",
@@ -19445,6 +19473,14 @@ var AssetFemale3DCGExtended = {
 							// m6 - Subtle
 							Property: { Effect: [E.BlockMouth] },
 						},
+												{
+							// m7 - Thin
+							Property: { Effect: [E.BlockMouth] },
+						},
+						{
+							// m8 - Thin Oh
+							Property: { Effect: [E.BlockMouth] },
+						},
 					],
 				},
 				{
@@ -19501,12 +19537,22 @@ var AssetFemale3DCGExtended = {
 								},
 							},
 						}, // text
+						{}, // Machine
+						{}, // Fishnet
+						{}, // Hexpattern
+						{}, // Large Circle
+						{}, // Large Split Circle
+						{}, // Large Heart
+						{}, // Large Stylized Heart
+						{}, // Small Heart
+						{}, // Lock
+						{}, // Large X
 					],
 				},
 				{
 					Name: "Glow",
 					Key: "g",
-					Options: [{}, {}], // Glow Off, Glow On
+					Options: [{}, {}, {}, {},], // Glow Off, Glow Eyes, Mouth On, Glow Pattern On, Glow On
 				},
 				{
 					Name: "Sight",

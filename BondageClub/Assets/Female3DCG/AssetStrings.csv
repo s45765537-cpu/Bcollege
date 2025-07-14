@@ -2933,12 +2933,24 @@ ItemHeadDroneMaskOptionm3,Smile
 ItemHeadDroneMaskOptionm4,Holes
 ItemHeadDroneMaskOptionm5,Sculpted
 ItemHeadDroneMaskOptionm6,Subtle
+ItemHeadDroneMaskOptionm7,Thin
+ItemHeadDroneMaskOptionm8,ThinOh
 ItemHeadDroneMaskOptionp0,None
 ItemHeadDroneMaskOptionp1,Barcode
 ItemHeadDroneMaskOptionp2,Scarab
 ItemHeadDroneMaskOptionp3,Hexagon
 ItemHeadDroneMaskOptionp4,Lines
 ItemHeadDroneMaskOptionp5,Text
+ItemHeadDroneMaskOptionp6,Machine
+ItemHeadDroneMaskOptionp7,Fishnet
+ItemHeadDroneMaskOptionp8,Hex Grid
+ItemHeadDroneMaskOptionp9,Circle
+ItemHeadDroneMaskOptionp10,Split Circle
+ItemHeadDroneMaskOptionp11,Heart
+ItemHeadDroneMaskOptionp12,Style Heart
+ItemHeadDroneMaskOptionp13,Small Heart
+ItemHeadDroneMaskOptionp14,Lock
+ItemHeadDroneMaskOptionp15,Big X
 ItemHeadDroneMaskOptions0,Opaque
 ItemHeadDroneMaskOptions1,One-Way
 ItemHeadDroneMaskOptionb0,Hide Blush and Face Paint
@@ -3276,12 +3288,24 @@ ItemHoodDroneMaskOptionm3,Smile
 ItemHoodDroneMaskOptionm4,Holes
 ItemHoodDroneMaskOptionm5,Sculpted
 ItemHoodDroneMaskOptionm6,Subtle
+ItemHoodDroneMaskOptionm7,Thin
+ItemHoodDroneMaskOptionm8,ThinOh
 ItemHoodDroneMaskOptionp0,None
 ItemHoodDroneMaskOptionp1,Barcode
 ItemHoodDroneMaskOptionp2,Scarab
 ItemHoodDroneMaskOptionp3,Hexagon
 ItemHoodDroneMaskOptionp4,Lines
 ItemHoodDroneMaskOptionp5,Text
+ItemHoodDroneMaskOptionp6,Machine
+ItemHoodDroneMaskOptionp7,Fishnet
+ItemHoodDroneMaskOptionp8,Hex Grid
+ItemHoodDroneMaskOptionp9,Circle
+ItemHoodDroneMaskOptionp10,Split Circle
+ItemHoodDroneMaskOptionp11,Heart
+ItemHoodDroneMaskOptionp12,Style Heart
+ItemHoodDroneMaskOptionp13,Small Heart
+ItemHoodDroneMaskOptionp14,Lock
+ItemHoodDroneMaskOptionp15,Big X
 ItemHoodDroneMaskOptions0,Opaque
 ItemHoodDroneMaskOptions1,One-Way
 ItemHoodDroneMaskOptionb0,Hide Blush and Face Paint
@@ -5029,12 +5053,24 @@ MaskDroneMaskOptionm3,Smile
 MaskDroneMaskOptionm4,Holes
 MaskDroneMaskOptionm5,Sculpted
 MaskDroneMaskOptionm6,Subtle
+MaskDroneMaskOptionm7,Thin
+MaskDroneMaskOptionm8,ThinOh
 MaskDroneMaskOptionp0,None
 MaskDroneMaskOptionp1,Barcode
 MaskDroneMaskOptionp2,Scarab
 MaskDroneMaskOptionp3,Hexagon
 MaskDroneMaskOptionp4,Lines
 MaskDroneMaskOptionp5,Text
+MaskDroneMaskOptionp6,Machine
+MaskDroneMaskOptionp7,Fishnet
+MaskDroneMaskOptionp8,Hex Grid
+MaskDroneMaskOptionp9,Circle
+MaskDroneMaskOptionp10,Split Circle
+MaskDroneMaskOptionp11,Heart
+MaskDroneMaskOptionp12,Style Heart
+MaskDroneMaskOptionp13,Small Heart
+MaskDroneMaskOptionp14,Lock
+MaskDroneMaskOptionp15,Big X
 MaskDroneMaskOptionb0,Hide Blush and Face Paint
 MaskDroneMaskOptionb1,Show Blush and Face Paint
 MaskDroneMaskSelectBase,Select Mask Details
