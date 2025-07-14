@@ -8516,6 +8516,15 @@ var AssetFemale3DCG = [
 				},
 			},
 			{
+				Name: "BarrelCorset",
+				DynamicGroupName: "ItemTorso",
+				CopyConfig: {
+					GroupName: "ItemTorso",
+					AssetName: "BarrelCorset",
+					BuyGroup: true,
+				},
+			},
+			{
 				Name: "LatexCorset1",
 				InventoryID: 297,
 				StyleOverride: ["EchoV2"],

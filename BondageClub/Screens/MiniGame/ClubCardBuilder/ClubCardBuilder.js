@@ -38,6 +38,9 @@ let ClubCardBuilderReturnToChatroom = false;
  * @returns {void} - Nothing
  */
 function ClubCardBuilderLoadDeck(Deck) {
+	// create the editor's elements
+	ElementCreateDropdown("CardsTagsDropdown", ClubCardBuilderFilterGroup, ClubCardBuilderTagChanged);
+	ElementCreateSearchInput("CardsSearchFilter", () => ClubCardList.map(i => ClubCardTextGet(i))).addEventListener("input", ClubCardBuilderInputChanged);
 
 	// Loads the default deck if no deck exists or the deck is invalid
 	ClubCardBuilderDeckIndex = Deck;
@@ -54,10 +57,6 @@ function ClubCardBuilderLoadDeck(Deck) {
 
 	// Prepares the filtered list
 	ClubCardBuilderFilterLoad();
-
-	// create the editor's elements
-	ElementCreateDropdown("CardsTagsDropdown", ClubCardBuilderFilterGroup, ClubCardBuilderTagChanged);
-	ElementCreateSearchInput("CardsSearchFilter", () => ClubCardList.map(i => ClubCardTextGet(i))).addEventListener("input", ClubCardBuilderInputChanged);
 }
 
 /**
