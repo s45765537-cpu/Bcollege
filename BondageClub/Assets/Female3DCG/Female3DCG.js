@@ -18460,12 +18460,12 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "ScarabFlat",
-						AllowTypes: { p: 1, g: [2, 3] },
+						AllowTypes: { p: 2, g: [2, 3] },
 						CopyLayerColor: "Barcode",
 					},
 					{
 						Name: "ScarabGlow",
-						AllowTypes: { p: 1, g: [2, 3] },
+						AllowTypes: { p: 2, g: [2, 3] },
 						CopyLayerColor: "Barcode",
 					},
 					{
@@ -50700,12 +50700,12 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "ScarabFlat",
-						AllowTypes: { p: 1, g: [2, 3] },
+						AllowTypes: { p: 2, g: [2, 3] },
 						CopyLayerColor: "Barcode",
 					},
 					{
 						Name: "ScarabGlow",
-						AllowTypes: { p: 1, g: [2, 3] },
+						AllowTypes: { p: 2, g: [2, 3] },
 						CopyLayerColor: "Barcode",
 					},
 					{
@@ -50899,7 +50899,7 @@ var AssetFemale3DCG = [
 					{ Name: "EyeRegular", AllowTypes: { e: 1 } },
 					{
 						Name: "EyeRegularGlow",
-						AllowTypes: { e: 1, g: 1 },
+						AllowTypes: { e: 1, g: [1, 3] },
 						CopyLayerColor: "EyeRegular",
 					},
 
@@ -50915,7 +50915,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "EyeSpiralGlow",
-						AllowTypes: { e: 2, g: 1 },
+						AllowTypes: { e: 2, g: [1, 3] },
 						CopyLayerColor: "EyeRegular",
 					},
 
@@ -50931,7 +50931,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "EyeSmileGlow",
-						AllowTypes: { e: 3, g: 1 },
+						AllowTypes: { e: 3, g: [1, 3] },
 						CopyLayerColor: "EyeRegular",
 					},
 
@@ -50957,7 +50957,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "EyeSculptedGlow",
-						AllowTypes: { e: 5, g: 1 },
+						AllowTypes: { e: 5, g: [1, 3] },
 						CopyLayerColor: "EyeRegular",
 					},
 					{
@@ -50995,7 +50995,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "MouthSmileGlow",
-						AllowTypes: { m: 3, g: 1 },
+						AllowTypes: { m: 3, g: [1, 3] },
 						CopyLayerColor: "MouthOnahole",
 					},
 					{
@@ -53469,12 +53469,12 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "ScarabFlat",
-						AllowTypes: { p: 1, g: [2, 3] },
+						AllowTypes: { p: 2, g: [2, 3] },
 						CopyLayerColor: "Barcode",
 					},
 					{
 						Name: "ScarabGlow",
-						AllowTypes: { p: 1, g: [2, 3] },
+						AllowTypes: { p: 2, g: [2, 3] },
 						CopyLayerColor: "Barcode",
 					},
 					{
@@ -53668,7 +53668,7 @@ var AssetFemale3DCG = [
 					{ Name: "EyeRegular", AllowTypes: { e: 1 } },
 					{
 						Name: "EyeRegularGlow",
-						AllowTypes: { e: 1, g: 1 },
+						AllowTypes: { e: 1, g: [1, 3] },
 						CopyLayerColor: "EyeRegular",
 					},
 					{
@@ -53683,7 +53683,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "EyeSpiralGlow",
-						AllowTypes: { e: 2, g: 1 },
+						AllowTypes: { e: 2, g: [1, 3] },
 						CopyLayerColor: "EyeRegular",
 					},
 					{
@@ -53698,7 +53698,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "EyeSmileGlow",
-						AllowTypes: { e: 3, g: 1 },
+						AllowTypes: { e: 3, g: [1, 3] },
 						CopyLayerColor: "EyeRegular",
 					},
 					{
@@ -53723,7 +53723,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "EyeSculptedGlow",
-						AllowTypes: { e: 5, g: 1 },
+						AllowTypes: { e: 5, g: [1, 3] },
 						CopyLayerColor: "EyeRegular",
 					},
 					{
@@ -53761,7 +53761,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "MouthSmileGlow",
-						AllowTypes: { m: 3, g: 1 },
+						AllowTypes: { m: 3, g: [1, 3] },
 						CopyLayerColor: "MouthOnahole",
 					},
 					{

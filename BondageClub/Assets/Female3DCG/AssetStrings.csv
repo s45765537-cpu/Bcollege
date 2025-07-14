@@ -2916,7 +2916,9 @@ ItemHeadDroneMaskOptione4,Holes
 ItemHeadDroneMaskOptione5,Sculpted
 ItemHeadDroneMaskOptione6,Concave
 ItemHeadDroneMaskOptiong0,Off
-ItemHeadDroneMaskOptiong1,On
+ItemHeadDroneMaskOptiong1,Face On
+ItemHeadDroneMaskOptiong2,Pattern On
+ItemHeadDroneMaskOptiong3,All On
 ItemHeadDroneMaskOptionh0,Mask
 ItemHeadDroneMaskOptionh1,Hood
 ItemHeadDroneMaskOptionh2,Total Hood
@@ -3271,7 +3273,9 @@ ItemHoodDroneMaskOptione4,Holes
 ItemHoodDroneMaskOptione5,Sculpted
 ItemHoodDroneMaskOptione6,Concave
 ItemHoodDroneMaskOptiong0,Off
-ItemHoodDroneMaskOptiong1,On
+ItemHoodDroneMaskOptiong1,Face On
+ItemHoodDroneMaskOptiong2,Pattern On
+ItemHoodDroneMaskOptiong3,All On
 ItemHoodDroneMaskOptionh0,Mask
 ItemHoodDroneMaskOptionh1,Hood
 ItemHoodDroneMaskOptionh2,Total Hood
@@ -5036,7 +5040,9 @@ MaskDroneMaskOptione4,Holes
 MaskDroneMaskOptione5,Sculpted
 MaskDroneMaskOptione6,Concave
 MaskDroneMaskOptiong0,Off
-MaskDroneMaskOptiong1,On
+MaskDroneMaskOptiong1,Face On
+MaskDroneMaskOptiong2,Pattern On
+MaskDroneMaskOptiong3,All On
 MaskDroneMaskOptionh0,Mask
 MaskDroneMaskOptionh1,Hood
 MaskDroneMaskOptionh2,Total Hood
