@@ -18511,24 +18511,211 @@ var AssetFemale3DCG = [
 						AllowTypes: { h: [1, 2] },
 						CopyLayerColor: "Shine",
 					},
+
 					// All Non-part-reliant Patterns
 					{ Name: "Barcode", AllowTypes: { p: 1 } },
 					{
+						Name: "BarcodeGlow",
+						AllowTypes: { p: 1, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
 						Name: "Scarab",
-						AllowTypes: { p: 2 },
+						AllowTypes: { p: 2, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "ScarabFlat",
+						AllowTypes: { p: 2, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "ScarabGlow",
+						AllowTypes: { p: 2, g: [2, 3] },
 						CopyLayerColor: "Barcode",
 					},
 					{
 						Name: "Hexagon",
-						AllowTypes: { p: 3 },
+						AllowTypes: { p: 3, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "HexagonFlat",
+						AllowTypes: { p: 3, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "HexagonGlow",
+						AllowTypes: { p: 3, g: [2, 3] },
 						CopyLayerColor: "Barcode",
 					},
 					{
 						Name: "TwoLines",
-						AllowTypes: { p: 4 },
+						AllowTypes: { p: 4, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "TwoLinesFlat",
+						AllowTypes: { p: 4, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "TwoLinesGlow",
+						AllowTypes: { p: 4, g: [2, 3] },
 						CopyLayerColor: "Barcode",
 					},
 					{ Name: "Text", HasImage: false, CopyLayerColor: "Barcode" },
+					{
+						Name: "PatMachine",
+						AllowTypes: { p: 6, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatMachineFlat",
+						AllowTypes: { p: 6, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatMachineGlow",
+						AllowTypes: { p: 6, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatFishnet",
+						AllowTypes: { p: 7, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatFishnetFlat",
+						AllowTypes: { p: 7, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatFishnetGlow",
+						AllowTypes: { p: 7, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatHex",
+						AllowTypes: { p: 8, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatHexFlat",
+						AllowTypes: { p: 8, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatHexGlow",
+						AllowTypes: { p: 8, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatCircle",
+						AllowTypes: { p: 9, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatCircleFlat",
+						AllowTypes: { p: 9, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatCircleGlow",
+						AllowTypes: { p: 9, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatCircleSplit",
+						AllowTypes: { p: 10, g: [0, 1]},
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatCircleSplitFlat",
+						AllowTypes: { p: 10, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatCircleSplitGlow",
+						AllowTypes: { p: 10, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatHeart",
+						AllowTypes: { p: 11, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatHeartFlat",
+						AllowTypes: { p: 11, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatHeartGlow",
+						AllowTypes: { p: 11, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatStyleHeart",
+						AllowTypes: { p: 12, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatStyleHeartFlat",
+						AllowTypes: { p: 12, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatStyleHeartGlow",
+						AllowTypes: { p: 12, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatSmallHeart",
+						AllowTypes: { p: 13, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatSmallHeartFlat",
+						AllowTypes: { p: 13, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatSmallHeartGlow",
+						AllowTypes: { p: 13, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatLock",
+						AllowTypes: { p: 14, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatLockFlat",
+						AllowTypes: { p: 14, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatLockGlow",
+						AllowTypes: { p: 14, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatX",
+						AllowTypes: { p: 15, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatXFlat",
+						AllowTypes: { p: 15, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatXGlow",
+						AllowTypes: { p: 15, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+
 					// All Eyes
 					{
 						Name: "EyeRegularShine",
@@ -18538,7 +18725,7 @@ var AssetFemale3DCG = [
 					{ Name: "EyeRegular", AllowTypes: { e: 1 } },
 					{
 						Name: "EyeRegularGlow",
-						AllowTypes: { e: 1, g: 1 },
+						AllowTypes: { e: 1, g: [1, 3] },
 						CopyLayerColor: "EyeRegular",
 					},
 					{
@@ -18553,7 +18740,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "EyeSpiralGlow",
-						AllowTypes: { e: 2, g: 1 },
+						AllowTypes: { e: 2, g: [1, 3] },
 						CopyLayerColor: "EyeRegular",
 					},
 					{
@@ -18568,7 +18755,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "EyeSmileGlow",
-						AllowTypes: { e: 3, g: 1 },
+						AllowTypes: { e: 3, g: [1, 3] },
 						CopyLayerColor: "EyeRegular",
 					},
 					{
@@ -18593,7 +18780,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "EyeSculptedGlow",
-						AllowTypes: { e: 5, g: 1 },
+						AllowTypes: { e: 5, g: [1, 3] },
 						CopyLayerColor: "EyeRegular",
 					},
 					{
@@ -18606,6 +18793,7 @@ var AssetFemale3DCG = [
 						AllowTypes: { e: 6 },
 						CopyLayerColor: "Shine",
 					},
+
 					// All Mouths
 					{ Name: "MouthOnahole", AllowTypes: { m: 1 } },
 					{
@@ -18630,7 +18818,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "MouthSmileGlow",
-						AllowTypes: { m: 3, g: 1 },
+						AllowTypes: { m: 3, g: [1, 3] },
 						CopyLayerColor: "MouthOnahole",
 					},
 					{
@@ -18652,6 +18840,26 @@ var AssetFemale3DCG = [
 						Name: "MouthSubtle",
 						AllowTypes: { m: 6 },
 						CopyLayerColor: "MouthOnahole",
+					},
+					{
+						Name: "MouthThin",
+						AllowTypes: { m: 7 },
+						CopyLayerColor: "MouthOnhahole"
+					},
+					{
+						Name: "MouthThinShine",
+						AllowTypes: { m: 7 },
+						CopyLayerColor: "Shine"
+					},
+					{
+						Name: "MouthThinOh",
+						AllowTypes: { m: 8 },
+						CopyLayerColor: "MouthOnhahole"
+					},
+					{
+						Name: "MouthThinOhShine",
+						AllowTypes: { m: 8 },
+						CopyLayerColor: "Shine"
 					},
 				],
 			},
@@ -50548,22 +50756,207 @@ var AssetFemale3DCG = [
 					// All Non-part-reliant Patterns
 					{ Name: "Barcode", AllowTypes: { p: 1 } },
 					{
+						Name: "BarcodeGlow",
+						AllowTypes: { p: 1, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
 						Name: "Scarab",
-						AllowTypes: { p: 2 },
+						AllowTypes: { p: 2, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "ScarabFlat",
+						AllowTypes: { p: 2, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "ScarabGlow",
+						AllowTypes: { p: 2, g: [2, 3] },
 						CopyLayerColor: "Barcode",
 					},
 					{
 						Name: "Hexagon",
-						AllowTypes: { p: 3 },
+						AllowTypes: { p: 3, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "HexagonFlat",
+						AllowTypes: { p: 3, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "HexagonGlow",
+						AllowTypes: { p: 3, g: [2, 3] },
 						CopyLayerColor: "Barcode",
 					},
 					{
 						Name: "TwoLines",
-						AllowTypes: { p: 4 },
+						AllowTypes: { p: 4, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "TwoLinesFlat",
+						AllowTypes: { p: 4, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "TwoLinesGlow",
+						AllowTypes: { p: 4, g: [2, 3] },
 						CopyLayerColor: "Barcode",
 					},
 					{ Name: "Text", HasImage: false, CopyLayerColor: "Barcode" },
-
+					{
+						Name: "PatMachine",
+						AllowTypes: { p: 6, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatMachineFlat",
+						AllowTypes: { p: 6, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatMachineGlow",
+						AllowTypes: { p: 6, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatFishnet",
+						AllowTypes: { p: 7, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatFishnetFlat",
+						AllowTypes: { p: 7, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatFishnetGlow",
+						AllowTypes: { p: 7, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatHex",
+						AllowTypes: { p: 8, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatHexFlat",
+						AllowTypes: { p: 8, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatHexGlow",
+						AllowTypes: { p: 8, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatCircle",
+						AllowTypes: { p: 9, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatCircleFlat",
+						AllowTypes: { p: 9, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatCircleGlow",
+						AllowTypes: { p: 9, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatCircleSplit",
+						AllowTypes: { p: 10, g: [0, 1]},
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatCircleSplitFlat",
+						AllowTypes: { p: 10, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatCircleSplitGlow",
+						AllowTypes: { p: 10, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatHeart",
+						AllowTypes: { p: 11, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatHeartFlat",
+						AllowTypes: { p: 11, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatHeartGlow",
+						AllowTypes: { p: 11, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatStyleHeart",
+						AllowTypes: { p: 12, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatStyleHeartFlat",
+						AllowTypes: { p: 12, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatStyleHeartGlow",
+						AllowTypes: { p: 12, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatSmallHeart",
+						AllowTypes: { p: 13, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatSmallHeartFlat",
+						AllowTypes: { p: 13, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatSmallHeartGlow",
+						AllowTypes: { p: 13, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatLock",
+						AllowTypes: { p: 14, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatLockFlat",
+						AllowTypes: { p: 14, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatLockGlow",
+						AllowTypes: { p: 14, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatX",
+						AllowTypes: { p: 15, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatXFlat",
+						AllowTypes: { p: 15, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatXGlow",
+						AllowTypes: { p: 15, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					
 					// All Eyes
 					{
 						Name: "EyeRegularShine",
@@ -50573,7 +50966,7 @@ var AssetFemale3DCG = [
 					{ Name: "EyeRegular", AllowTypes: { e: 1 } },
 					{
 						Name: "EyeRegularGlow",
-						AllowTypes: { e: 1, g: 1 },
+						AllowTypes: { e: 1, g: [1, 3] },
 						CopyLayerColor: "EyeRegular",
 					},
 
@@ -50589,7 +50982,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "EyeSpiralGlow",
-						AllowTypes: { e: 2, g: 1 },
+						AllowTypes: { e: 2, g: [1, 3] },
 						CopyLayerColor: "EyeRegular",
 					},
 
@@ -50605,7 +50998,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "EyeSmileGlow",
-						AllowTypes: { e: 3, g: 1 },
+						AllowTypes: { e: 3, g: [1, 3] },
 						CopyLayerColor: "EyeRegular",
 					},
 
@@ -50631,7 +51024,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "EyeSculptedGlow",
-						AllowTypes: { e: 5, g: 1 },
+						AllowTypes: { e: 5, g: [1, 3] },
 						CopyLayerColor: "EyeRegular",
 					},
 					{
@@ -50669,7 +51062,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "MouthSmileGlow",
-						AllowTypes: { m: 3, g: 1 },
+						AllowTypes: { m: 3, g: [1, 3] },
 						CopyLayerColor: "MouthOnahole",
 					},
 					{
@@ -50691,6 +51084,26 @@ var AssetFemale3DCG = [
 						Name: "MouthSubtle",
 						AllowTypes: { m: 6 },
 						CopyLayerColor: "MouthOnahole",
+					},
+					{
+						Name: "MouthThin",
+						AllowTypes: { m: 7 },
+						CopyLayerColor: "MouthOnhahole"
+					},
+					{
+						Name: "MouthThinShine",
+						AllowTypes: { m: 7 },
+						CopyLayerColor: "Shine"
+					},
+					{
+						Name: "MouthThinOh",
+						AllowTypes: { m: 8 },
+						CopyLayerColor: "MouthOnhahole"
+					},
+					{
+						Name: "MouthThinOhShine",
+						AllowTypes: { m: 8 },
+						CopyLayerColor: "Shine"
 					},
 				],
 			},
@@ -53112,21 +53525,206 @@ var AssetFemale3DCG = [
 					// All Non-part-reliant Patterns
 					{ Name: "Barcode", AllowTypes: { p: 1 } },
 					{
+						Name: "BarcodeGlow",
+						AllowTypes: { p: 1, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
 						Name: "Scarab",
-						AllowTypes: { p: 2 },
+						AllowTypes: { p: 2, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "ScarabFlat",
+						AllowTypes: { p: 2, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "ScarabGlow",
+						AllowTypes: { p: 2, g: [2, 3] },
 						CopyLayerColor: "Barcode",
 					},
 					{
 						Name: "Hexagon",
-						AllowTypes: { p: 3 },
+						AllowTypes: { p: 3, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "HexagonFlat",
+						AllowTypes: { p: 3, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "HexagonGlow",
+						AllowTypes: { p: 3, g: [2, 3] },
 						CopyLayerColor: "Barcode",
 					},
 					{
 						Name: "TwoLines",
-						AllowTypes: { p: 4 },
+						AllowTypes: { p: 4, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "TwoLinesFlat",
+						AllowTypes: { p: 4, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "TwoLinesGlow",
+						AllowTypes: { p: 4, g: [2, 3] },
 						CopyLayerColor: "Barcode",
 					},
 					{ Name: "Text", HasImage: false, CopyLayerColor: "Barcode" },
+					{
+						Name: "PatMachine",
+						AllowTypes: { p: 6, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatMachineFlat",
+						AllowTypes: { p: 6, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatMachineGlow",
+						AllowTypes: { p: 6, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatFishnet",
+						AllowTypes: { p: 7, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatFishnetFlat",
+						AllowTypes: { p: 7, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatFishnetGlow",
+						AllowTypes: { p: 7, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatHex",
+						AllowTypes: { p: 8, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatHexFlat",
+						AllowTypes: { p: 8, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatHexGlow",
+						AllowTypes: { p: 8, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatCircle",
+						AllowTypes: { p: 9, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatCircleFlat",
+						AllowTypes: { p: 9, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatCircleGlow",
+						AllowTypes: { p: 9, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatCircleSplit",
+						AllowTypes: { p: 10, g: [0, 1]},
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatCircleSplitFlat",
+						AllowTypes: { p: 10, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatCircleSplitGlow",
+						AllowTypes: { p: 10, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatHeart",
+						AllowTypes: { p: 11, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatHeartFlat",
+						AllowTypes: { p: 11, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatHeartGlow",
+						AllowTypes: { p: 11, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatStyleHeart",
+						AllowTypes: { p: 12, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatStyleHeartFlat",
+						AllowTypes: { p: 12, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatStyleHeartGlow",
+						AllowTypes: { p: 12, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatSmallHeart",
+						AllowTypes: { p: 13, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatSmallHeartFlat",
+						AllowTypes: { p: 13, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatSmallHeartGlow",
+						AllowTypes: { p: 13, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatLock",
+						AllowTypes: { p: 14, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatLockFlat",
+						AllowTypes: { p: 14, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatLockGlow",
+						AllowTypes: { p: 14, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatX",
+						AllowTypes: { p: 15, g: [0, 1] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatXFlat",
+						AllowTypes: { p: 15, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
+					{
+						Name: "PatXGlow",
+						AllowTypes: { p: 15, g: [2, 3] },
+						CopyLayerColor: "Barcode",
+					},
 
 					// All Eyes
 					{
@@ -53137,7 +53735,7 @@ var AssetFemale3DCG = [
 					{ Name: "EyeRegular", AllowTypes: { e: 1 } },
 					{
 						Name: "EyeRegularGlow",
-						AllowTypes: { e: 1, g: 1 },
+						AllowTypes: { e: 1, g: [1, 3] },
 						CopyLayerColor: "EyeRegular",
 					},
 					{
@@ -53152,7 +53750,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "EyeSpiralGlow",
-						AllowTypes: { e: 2, g: 1 },
+						AllowTypes: { e: 2, g: [1, 3] },
 						CopyLayerColor: "EyeRegular",
 					},
 					{
@@ -53167,7 +53765,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "EyeSmileGlow",
-						AllowTypes: { e: 3, g: 1 },
+						AllowTypes: { e: 3, g: [1, 3] },
 						CopyLayerColor: "EyeRegular",
 					},
 					{
@@ -53192,7 +53790,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "EyeSculptedGlow",
-						AllowTypes: { e: 5, g: 1 },
+						AllowTypes: { e: 5, g: [1, 3] },
 						CopyLayerColor: "EyeRegular",
 					},
 					{
@@ -53230,7 +53828,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "MouthSmileGlow",
-						AllowTypes: { m: 3, g: 1 },
+						AllowTypes: { m: 3, g: [1, 3] },
 						CopyLayerColor: "MouthOnahole",
 					},
 					{
@@ -53252,6 +53850,26 @@ var AssetFemale3DCG = [
 						Name: "MouthSubtle",
 						AllowTypes: { m: 6 },
 						CopyLayerColor: "MouthOnahole",
+					},
+					{
+						Name: "MouthThin",
+						AllowTypes: { m: 7 },
+						CopyLayerColor: "MouthOnhahole"
+					},
+					{
+						Name: "MouthThinShine",
+						AllowTypes: { m: 7 },
+						CopyLayerColor: "Shine"
+					},
+					{
+						Name: "MouthThinOh",
+						AllowTypes: { m: 8 },
+						CopyLayerColor: "MouthOnhahole"
+					},
+					{
+						Name: "MouthThinOhShine",
+						AllowTypes: { m: 8 },
+						CopyLayerColor: "Shine"
 					},
 				],
 			},
