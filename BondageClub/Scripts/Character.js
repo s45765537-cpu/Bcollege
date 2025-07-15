@@ -367,7 +367,6 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			return this.Effect.includes("FixedHead");
 		},
 		IsOwned: function () {
-			if (AsylumGGTSGetLevel(this) >= 6) return "ggts";
 			if (this.IsNpc() && this.Owner === Player.Name) return "player";
 			if (this.IsNpc() && this.Owner !== Player.Name && NPCEventGet(this, "EndDomTrial")) return "player";
 			if (this.Ownership && this.Ownership.MemberNumber) return "online";
@@ -378,6 +377,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 				let trialing = PrivateCharacter.find(c => NPCEventGet(c, "EndSubTrial") > 0);
 				if (trialing && trialing !== this) return "npc";
 			}
+			if (AsylumGGTSGetLevel(this) >= 6) return "ggts";
 			return false;
 		},
 		IsOwnedByCharacter: function (C) {
