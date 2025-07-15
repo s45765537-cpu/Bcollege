@@ -7318,6 +7318,7 @@ var AssetFemale3DCG = [
 				InventoryID: 243,
 				Gender: "F",
 				Prerequisite: ["HasVagina"],
+				BuyGroup: "Pantyhose2",
 				Fetish: ["Nylon"],
 				Value: 10,
 				Left: 125,

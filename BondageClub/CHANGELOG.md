@@ -30,7 +30,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Sin - Adding attribution and licensing to Female3DCG.js file. ([#5672](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5672))
 * Sin - Added SatinCorset copy to the Corsets Clothing group. ([#5671](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5671))
 * Sin - Added audio for Hairbrush items for the brush hair and brush spank actions ([#5670](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5670))
-* anna - ClubCard editor improvements, command, and spectate toggle ([#5668](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5668))
+* anna + Felix - ClubCard editor improvements, command, and spectate toggle ([#5668](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5668))
 * Zoe - Add command prefix to map commands ([#5662](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5662))
 * Zoe - Add teleportation feature for better admin capabilities ([#5640](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5640))
 * Estsanatlehi - Make a copy of the provided MapData so that we don't clobber the argument ([#5664](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5664))
