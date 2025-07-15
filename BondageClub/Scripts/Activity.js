@@ -227,7 +227,8 @@ function ActivityCheckPrerequisite(prereq, acting, acted, group) {
 			break;
 		}
 		case "CanUsePenis":
-			return acting.HasPenis() && !acting.IsVulvaChaste() && InventoryPrerequisiteMessage(acting, "AccessVulva") === "";
+			if (!acting.HasPenis()) return true; // this is beyond me, can't a girl strapOn-fuck without a penis check..
+			return !acting.IsVulvaChaste() && InventoryPrerequisiteMessage(acting, "AccessVulva") === "";
 		case "Sisters":
 			return !acting.HasPenis() && !acted.HasPenis() && acting.IsSiblingOfCharacter(acted);
 		case "Brothers":
