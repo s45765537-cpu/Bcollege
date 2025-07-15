@@ -429,4 +429,5 @@ function ClubCardBuilderClick() {
 
 function ClubCardBuilderUnload() {
 	ClubCardBuilderFinishEdit();
+	ClubCardBuilderReturnToChatroom = false;
 }
