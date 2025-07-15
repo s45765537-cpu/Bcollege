@@ -12782,6 +12782,94 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "Cloth", AssetName: "CorsetDress" },
 		}, // CorsetDress
+		BarrelCorset: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ItemTorso", AssetName: "BarrelCorset" },
+			DialogPrefix: {
+				Header: "ItemTorsoBarrelCorsetSelect",
+				Module: "ItemTorsoBarrelCorsetModule",
+				Option: "ItemTorsoBarrelCorsetOption",
+				Chat: "ItemTorsoBarrelCorsetSet",
+			},
+			// This is a copy, just because we don't want any item-type effects on that one
+			Modules: [
+				{
+					Name: "Priority",
+					Key: "z",
+					Options: [
+						{
+							// Under Clothes
+							Property: {
+								OverridePriority: {
+									Upper: 25,
+									Lower: 25,
+									Upper4: 25,
+									BellyB: 25,
+									BellyM: 25,
+									BellyLock: 25,
+									LegB: 25,
+									LegM: 25,
+									LegLock: 25,
+									Neck: 25,
+									NeckB: 25,
+									NeckM: 25,
+								},
+							},
+						},
+						{
+							// Over Clothes
+							Property: {
+								OverridePriority: {
+									Upper: 30,
+									Lower: 30,
+									Upper4: 30,
+									BellyB: 30,
+									BellyM: 30,
+									BellyLock: 30,
+									LegB: 30,
+									LegM: 30,
+									LegLock: 30,
+									Neck: 30,
+									NeckB: 30,
+									NeckM: 30,
+								},
+								Hide: ["ClothLower", "Panties", "Garters"],
+								HideItem: [
+									"ClothAccessoryLeatherBeltCloth",
+									"ClothFurCoat",
+									"CorsetCorsetDress",
+								],
+							},
+						},
+					],
+				},
+				{
+					Name: "NeckCollar",
+					Key: "y",
+					Options: [
+						{}, // None
+						{}, // Equipped
+						{}, // Equipped with straps
+					],
+				},
+				{
+					Name: "BellyBelt",
+					Key: "w",
+					Options: [
+						{}, // None
+						{}, // Equipped
+					],
+				},
+				{
+					Name: "LegBelts",
+					Key: "x",
+					Options: [
+						{}, // None
+						{}, // Equipped
+					],
+				},
+			],
+		}, // BarrelCorset
 	}, // Corset
 	ItemTorso: {
 		HeavyLatexCorset: {
