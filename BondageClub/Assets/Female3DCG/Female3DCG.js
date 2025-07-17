@@ -18628,7 +18628,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "PatCircleSplit",
-						AllowTypes: { p: 10, g: [0, 1]},
+						AllowTypes: { p: 10, g: [0, 1] },
 						CopyLayerColor: "Barcode",
 					},
 					{
@@ -18845,22 +18845,22 @@ var AssetFemale3DCG = [
 					{
 						Name: "MouthThin",
 						AllowTypes: { m: 7 },
-						CopyLayerColor: "MouthOnhahole"
+						CopyLayerColor: "MouthOnahole",
 					},
 					{
 						Name: "MouthThinShine",
 						AllowTypes: { m: 7 },
-						CopyLayerColor: "Shine"
+						CopyLayerColor: "Shine",
 					},
 					{
 						Name: "MouthThinOh",
 						AllowTypes: { m: 8 },
-						CopyLayerColor: "MouthOnhahole"
+						CopyLayerColor: "MouthOnahole",
 					},
 					{
 						Name: "MouthThinOhShine",
 						AllowTypes: { m: 8 },
-						CopyLayerColor: "Shine"
+						CopyLayerColor: "Shine",
 					},
 				],
 			},
@@ -50869,7 +50869,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "PatCircleSplit",
-						AllowTypes: { p: 10, g: [0, 1]},
+						AllowTypes: { p: 10, g: [0, 1] },
 						CopyLayerColor: "Barcode",
 					},
 					{
@@ -50957,7 +50957,7 @@ var AssetFemale3DCG = [
 						AllowTypes: { p: 15, g: [2, 3] },
 						CopyLayerColor: "Barcode",
 					},
-					
+
 					// All Eyes
 					{
 						Name: "EyeRegularShine",
@@ -51089,22 +51089,22 @@ var AssetFemale3DCG = [
 					{
 						Name: "MouthThin",
 						AllowTypes: { m: 7 },
-						CopyLayerColor: "MouthOnhahole"
+						CopyLayerColor: "MouthOnahole",
 					},
 					{
 						Name: "MouthThinShine",
 						AllowTypes: { m: 7 },
-						CopyLayerColor: "Shine"
+						CopyLayerColor: "Shine",
 					},
 					{
 						Name: "MouthThinOh",
 						AllowTypes: { m: 8 },
-						CopyLayerColor: "MouthOnhahole"
+						CopyLayerColor: "MouthOnahole",
 					},
 					{
 						Name: "MouthThinOhShine",
 						AllowTypes: { m: 8 },
-						CopyLayerColor: "Shine"
+						CopyLayerColor: "Shine",
 					},
 				],
 			},
@@ -53638,7 +53638,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "PatCircleSplit",
-						AllowTypes: { p: 10, g: [0, 1]},
+						AllowTypes: { p: 10, g: [0, 1] },
 						CopyLayerColor: "Barcode",
 					},
 					{
@@ -53855,22 +53855,22 @@ var AssetFemale3DCG = [
 					{
 						Name: "MouthThin",
 						AllowTypes: { m: 7 },
-						CopyLayerColor: "MouthOnhahole"
+						CopyLayerColor: "MouthOnahole",
 					},
 					{
 						Name: "MouthThinShine",
 						AllowTypes: { m: 7 },
-						CopyLayerColor: "Shine"
+						CopyLayerColor: "Shine",
 					},
 					{
 						Name: "MouthThinOh",
 						AllowTypes: { m: 8 },
-						CopyLayerColor: "MouthOnhahole"
+						CopyLayerColor: "MouthOnahole",
 					},
 					{
 						Name: "MouthThinOhShine",
 						AllowTypes: { m: 8 },
-						CopyLayerColor: "Shine"
+						CopyLayerColor: "Shine",
 					},
 				],
 			},
