@@ -13560,6 +13560,97 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		},
+		CustomizableFluffyEars1: {
+			Archetype: ExtendedArchetype.MODULAR,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Stud1",
+					Key: "s1",
+					Options: [{}, {}, {}, {}], // None, Left, Right, Both
+				},
+				{
+					Name: "Stud2",
+					Key: "s2",
+					Options: [{}, {}, {}, {}], // None, Left, Right, Both
+				},
+				{
+					Name: "Stud3",
+					Key: "s3",
+					Options: [{}, {}, {}, {}], // None, Left, Right, Both
+				},
+				{
+					Name: "Stud4",
+					Key: "s4",
+					Options: [{}, {}, {}, {}], // None, Left, Right, Both
+				},
+				{
+					Name: "Bar",
+					Key: "b1",
+					Options: [{}, {}, {}, {}], // None, Left, Right, Both
+				},
+				{
+					Name: "Bells",
+					Key: "b2",
+					Options: [{}, {}, {}, {}], // None, Left, Right, Both
+				},
+				{
+					Name: "SmallRing1",
+					Key: "r1",
+					Options: [{}, {}, {}, {}], // None, Left, Right, Both
+				},
+				{
+					Name: "SmallRing2",
+					Key: "r2",
+					Options: [{}, {}, {}, {}], // None, Left, Right, Both
+				},
+				{
+					Name: "SmallRing3",
+					Key: "r3",
+					Options: [{}, {}, {}, {}], // None, Left, Right, Both
+				},
+				{
+					Name: "SmallRing4",
+					Key: "r4",
+					Options: [{}, {}, {}, {}], // None, Left, Right, Both
+				},
+				{
+					Name: "BigRing1",
+					Key: "br1",
+					Options: [{}, {}, {}, {}], // None, Left, Right, Both
+				},
+				{
+					Name: "BigRing2",
+					Key: "br2",
+					Options: [{}, {}, {}, {}], // None, Left, Right, Both
+				},
+				{
+					Name: "Tag",
+					Key: "t1",
+					Options: [{}, {}, {}, {}], // None, Left, Right, Both
+				},
+			]
+		},
+		CustomizableFluffyEars2: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "HairAccessory1", AssetName: "CustomizableFluffyEars1" },
+		},
+		CustomizableFluffyEars3: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "HairAccessory1", AssetName: "CustomizableFluffyEars1" },
+		},
+		CustomizableCatEars: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "HairAccessory1", AssetName: "CustomizableFluffyEars1" },
+		},
+		CustomizableElfEars: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "HairAccessory1", AssetName: "CustomizableFluffyEars1" },
+		},
+		CustomizableCowEars: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "HairAccessory1", AssetName: "CustomizableFluffyEars1" },
+		},
 	}, // HairAccessory1
 	HairAccessory2: {
 		ElfEars: {
@@ -13573,6 +13664,30 @@ var AssetFemale3DCGExtended = {
 		AquaticEars: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "HairAccessory1", AssetName: "AquaticEars" },
+		},
+		CustomizableFluffyEars1: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "HairAccessory1", AssetName: "CustomizableFluffyEars1" },
+		},
+		CustomizableFluffyEars2: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "HairAccessory1", AssetName: "CustomizableFluffyEars1" },
+		},
+		CustomizableFluffyEars3: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "HairAccessory1", AssetName: "CustomizableFluffyEars1" },
+		},
+		CustomizableCatEars: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "HairAccessory1", AssetName: "CustomizableFluffyEars1" },
+		},
+		CustomizableElfEars: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "HairAccessory1", AssetName: "CustomizableFluffyEars1" },
+		},
+		CustomizableCowEars: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "HairAccessory1", AssetName: "CustomizableFluffyEars1" },
 		},
 	}, // HairAccessory2
 	HairAccessory3: {
