@@ -26894,7 +26894,6 @@ var AssetFemale3DCG = [
 		ArousalZoneID: 4,
 		Left: 0,
 		Top: 0,
-		Effect: [E.IsPlugged],
 		Zone: [[300, 500, 100, 80]],
 		Asset: [
 			{
@@ -27016,6 +27015,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Top: 20,
 				Prerequisite: ["AccessButt"],
+				Effect: [E.IsPlugged],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 				Layer: [{ Name: "Tips" }, { Name: "Bases" }],
 			},
@@ -27141,6 +27141,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Top: 100,
 				Prerequisite: ["AccessButt"],
+				Effect: [E.IsPlugged],
 				PoseMapping: {
 					AllFours: "AllFours",
 				},
@@ -27154,6 +27155,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Top: 30,
 				Prerequisite: ["AccessButt"],
+				Effect: [E.IsPlugged],
 				PoseMapping: {
 					AllFours: "AllFours",
 				},
@@ -27167,6 +27169,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Top: 80,
 				Prerequisite: ["AccessButt"],
+				Effect: [E.IsPlugged],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 				Layer: [{ Name: "Base" }, { Name: "Tip" }],
 			},
@@ -27178,6 +27181,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Top: 100,
 				Prerequisite: ["AccessButt"],
+				Effect: [E.IsPlugged],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 				Layer: [{ Name: "Base" }, { Name: "Tip" }],
 			},
@@ -27189,6 +27193,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Top: 50,
 				Prerequisite: ["AccessButt"],
+				Effect: [E.IsPlugged],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 			},
 			{
@@ -27199,6 +27204,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Top: 60,
 				Prerequisite: ["AccessButt"],
+				Effect: [E.IsPlugged],
 				PoseMapping: {
 					AllFours: "AllFours",
 				},
@@ -27212,6 +27218,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Top: 40,
 				Prerequisite: ["AccessButt"],
+				Effect: [E.IsPlugged],
 				PoseMapping: {
 					AllFours: "AllFours",
 				},
@@ -27237,6 +27244,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Top: 150,
 				Prerequisite: ["AccessButt"],
+				Effect: [E.IsPlugged],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 			},
 			{
@@ -27247,6 +27255,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Top: 180,
 				Prerequisite: ["AccessButt"],
+				Effect: [E.IsPlugged],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 			},
 			{
@@ -27338,6 +27347,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Top: 80,
 				Prerequisite: ["AccessButt"],
+				Effect: [E.IsPlugged],
 				PoseMapping: {
 					AllFours: "AllFours",
 				},
@@ -27350,6 +27360,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Visible: false,
 				Prerequisite: ["AccessButt"],
+				Effect: [E.IsPlugged],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 			},
 			{
@@ -27361,6 +27372,7 @@ var AssetFemale3DCG = [
 				Value: 250,
 				Time: 10,
 				Prerequisite: ["AccessVulva"],
+				Effect: [E.IsPlugged],
 				DynamicGroupName: "TailStraps",
 				DefaultColor: ["#c43ba4", "#b832b6", "#9221ba"],
 				AllowActivity: ["PenetrateItem"],
@@ -27385,6 +27397,20 @@ var AssetFemale3DCG = [
 				Time: 5,
 				RemoveTime: 5,
 				Prerequisite: ["AccessButt"],
+				Effect: [E.IsPlugged],
+			},
+			{
+				Name: "FuckPlug",
+				InventoryID: 1254,
+				Value: 10,
+				Time: 10,
+				Difficulty: 12,
+				RemoveTime: 5,
+				Prerequisite: ["AccessButt"],
+				AllowLock: true,
+				AllowTighten: true,
+				Visible: false,
+				Effect: [E.UseRemote],
 			},
 		],
 		Color: [
