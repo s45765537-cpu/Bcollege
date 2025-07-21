@@ -12491,6 +12491,9 @@ var AssetFemale3DCGExtended = {
 		LockingVibePlug: {
 			Archetype: ExtendedArchetype.VIBRATING,
 		}, // LockingVibePlug
+		FuckPlug: {
+			Archetype: ExtendedArchetype.VIBRATING,
+		}, // FuckPlug
 		AnalBeads2: {
 			Archetype: ExtendedArchetype.TYPED,
 			ChatTags: [
