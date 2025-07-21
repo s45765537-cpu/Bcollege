@@ -660,7 +660,7 @@ function LoginExtremeItemSettings(applyDefaults) {
 				break;
 			case "Default":
 				// If the item permissions are 3 = "Owner/Lover/Whitelist" don't limit the locks, since that just blocks whitelisted players
-				if (limitedAllowed && applyDefaults && Player.ItemPermission <= 3) {
+				if (limitedAllowed && applyDefaults && Player.AllowedInteractions <= AllowedInteractions.OwnerLoversWhitelistOnly) {
 					permission.Permission = "Limited";
 				}
 				break;
@@ -789,7 +789,7 @@ function LoginSetupPlayer(C) {
 
 	// Calls the preference init to make sure the preferences are loaded correctly
 	PreferenceInitPlayer(Player, C);
-	Player.ItemPermission = C.ItemPermission ?? 2;
+	Player.AllowedInteractions = C.AllowedInteractions ?? C.ItemPermission ?? AllowedInteractions.OwnerLoversWhitelistAndDomsOnly;
 	Player.KinkyDungeonExploredLore = C.KinkyDungeonExploredLore;
 	Player.SavedExpressions = C.SavedExpressions ?? [];
 	PreferenceValidateArousalData(Player);
