@@ -3180,7 +3180,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Chains",
-						AllowTypes: { b: 1 },
+						AllowTypes: { b: 2 },
 						PoseMapping: {
 							...AssetPoseMapping.Cloth,
 							AllFours: PoseType.HIDE,
