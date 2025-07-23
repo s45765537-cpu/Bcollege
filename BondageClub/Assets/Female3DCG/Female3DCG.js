@@ -5663,6 +5663,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SleevelessSlimLatexLeotard",
+				StyleOverride: ["EchoV2"],
 				InventoryID: 204,
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
@@ -8102,6 +8103,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "SleevelessSlimLatexLeotard",
 				InventoryID: 290,
+				StyleOverride: ["EchoV2"],
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
 				Value: 50,
