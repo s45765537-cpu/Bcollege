@@ -166,10 +166,12 @@ var ToastManager = new class ToastManager {
 					removeAndProcess();
 				}, 0);
 			} else {
-			  toast.classList.remove('show');
-				toast.addEventListener('transitionend', () => {
+				toast.classList.remove('show');
+				const listener = () => {
 					removeAndProcess();
-				}, { once: true });
+				};
+				toast.addEventListener('transitionend', listener, { once: true });
+				toast.addEventListener('transitioncancel', listener, { once: true });
 			}
 		};
 
