@@ -20380,5 +20380,16 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // Uchiwa
+		Cigarette: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "InMouth",
+				},
+				{
+					Name: "InHand",
+				},
+			],
+		}, // Cigarette
 	}, // ItemHandheld
 };
