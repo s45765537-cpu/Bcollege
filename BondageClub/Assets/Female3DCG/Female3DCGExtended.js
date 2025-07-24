@@ -2706,6 +2706,50 @@ var AssetFemale3DCGExtended = {
 			],
 			ChangeWhenLocked: false,
 		}, // BitchSuit
+		StrappedPetsuitArms: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
+			Modules: [
+				{
+					Name: "Shine",
+					Key: "g",
+					Options: [
+						{
+							// g0 - No Gloss
+						},
+						{
+							// g1 - Gloss
+						},
+					]
+				},
+				{
+					Name: "Extras",
+					Key: "a",
+					Options: [
+						{
+							// a0- Normal
+						},
+						{
+							// a1- Arms Forward
+							Property: {
+								AllowActivePose: ["BackElbowTouch"],
+							},
+						},
+						{ 
+							// a2- Arms side
+							Property: {
+								AllowActivePose: ["BackElbowTouch"],
+							},
+						},
+					],
+				},
+			],
+			ChangeWhenLocked: false,
+		},// StrappedPetsuitArms
 		ShinyPetSuit: {
 			Archetype: ExtendedArchetype.TYPED,
 			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
@@ -2913,6 +2957,23 @@ var AssetFemale3DCGExtended = {
 				Chat: "ItemArmsLeatherArmbinderSet",
 			},
 		}, // LeatherArmbinder
+		PawPaddedPetsuitArms: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Padding",
+				},
+				{
+					Name: "None",
+				},
+			],
+			ChangeWhenLocked: false,
+			DialogPrefix: {
+				Header: "ItemArmsPawPaddedPetsuitArmsSelect",
+				Option: "ItemArmsPawPaddedPetsuitArms",
+				Chat: "ItemArmsPawPaddedPetsuitArmsSet",
+			},
+		}, // PawPaddedPetsuitArms
 		ArmbinderSuit: {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [

@@ -2966,6 +2966,27 @@ ItemArmsBitchSuitSetz0,SourceCharacter zips up DestinationCharacter AssetName.
 ItemArmsBitchSuitSetz1,SourceCharacter unzips DestinationCharacter AssetName.
 ItemArmsBitchSuitSetz2,"SourceCharacter uses a seamless AssetName on DestinationCharacterName body, fully covering TargetPronounObject."
 ItemArmsBitchSuitSetz3,SourceCharacter unzips DestinationCharacter AssetName and fully exposes TargetPronounPossessive breasts and pussy.
+ItemArmsPawPaddedPetsuitArmsSelect,Select Padding
+ItemArmsPawPaddedPetsuitArmsSetNone,SourceCharacter puts the petsuit arms without paws on DestinationCharacter arms.
+ItemArmsPawPaddedPetsuitArmsSetPadding,SourceCharacter puts the petsuit arms with paws on DestinationCharacter arms.
+ItemArmsPawPaddedPetsuitArmsNone,No Paw Padding
+ItemArmsPawPaddedPetsuitArmsPadding,Paw Padding
+
+ItemArmsStrappedPetsuitArmsModuleShine,Shine over restraint
+ItemArmsStrappedPetsuitArmsModuleExtras,Extras
+ItemArmsStrappedPetsuitArmsOptiong0,No shine
+ItemArmsStrappedPetsuitArmsOptiong1,Shine
+ItemArmsStrappedPetsuitArmsOptiona0,Normal
+ItemArmsStrappedPetsuitArmsOptiona1,Front Arms Attachment
+ItemArmsStrappedPetsuitArmsOptiona2,Side Arms Attachment
+ItemArmsStrappedPetsuitArmsSelectBase,Configure the restraint.
+ItemArmsStrappedPetsuitArmsSelectShine,Select Shine.
+ItemArmsStrappedPetsuitArmsSelectExtras,Select Extras.
+ItemArmsStrappedPetsuitArmsSetg0,SourceCharacter removes shine from TargetPronounPossessive AssetName.
+ItemArmsStrappedPetsuitArmsSetg1,SourceCharacter adds shine over TargetPronounPossessive AssetName.
+ItemArmsStrappedPetsuitArmsSeta0,SourceCharacter detaches straps from AssetName.
+ItemArmsStrappedPetsuitArmsSeta1,SourceCharacter attaches AssetName in front.
+ItemArmsStrappedPetsuitArmsSeta2,SourceCharacter attaches AssetName to the side.
 ItemArmsCeilingShacklesHeadLevel,On head level
 ItemArmsCeilingShacklesOverhead,Over the head
 ItemArmsCeilingShacklesSetHeadLevel,SourceCharacter lowers the ceiling shackles on TargetCharacter a bit.
