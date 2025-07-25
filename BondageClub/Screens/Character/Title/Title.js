@@ -164,9 +164,9 @@ function TitleIsEarned(Title) {
 
 /**
  * When the title screen is loaded
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function TitleLoad() {
+async function TitleLoad() {
 	TitleSelectedTitle = TitleGet(Player);
 	TitleListFiltered = TitleList.filter(T => T.Requirement());
 	TitleCanEditNickname = (!LogQuery("BlockNickname", "OwnerRule") || !Player.IsFullyOwned());

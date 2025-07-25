@@ -79,9 +79,9 @@ function CollegeDetentionYukiClothes(C) {
 
 /**
  * Loads the room and generates Yuki
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function CollegeDetentionLoad() {
+async function CollegeDetentionLoad() {
 
 	// Generates a full Yuki model based on the Bondage College template
 	if (CollegeDetentionYuki == null) {

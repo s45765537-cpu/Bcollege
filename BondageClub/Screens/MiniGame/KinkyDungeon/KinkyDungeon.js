@@ -584,9 +584,9 @@ function KDSaveToggles() {
 
 /**
  * Loads the kinky dungeon game
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function KinkyDungeonLoad() {
+async function KinkyDungeonLoad() {
 	KinkyDungeonSetupCrashHandler();
 	KDStartTime = CommonTime();
 
@@ -786,10 +786,6 @@ let fpscounter = 0;
 let lastfps = 0;
 let dispfps = 60;
 
-async function sleep(msec) {
-	return new Promise(resolve => setTimeout(resolve, msec));
-}
-
 let KDMarkAsCache = [];
 
 let lastGlobalRefresh = 0;
@@ -847,7 +843,7 @@ function KinkyDungeonRun() {
 					// We also press it for 100 msec
 					(async function() {
 						KinkyDungeonGameKey.keyPressed[9] = true;
-						await sleep(100);
+						await CommonSleep(100);
 						KinkyDungeonGameKey.keyPressed[9] = false;
 					})();
 				}

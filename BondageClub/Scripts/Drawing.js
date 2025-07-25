@@ -1295,7 +1295,7 @@ function DrawLineCorner(x0, y0, x1, y1, x2, y2, lineWidth = 2, color = "black") 
  * @returns {string | undefined} - Path to the custom background, or undefined if none
  */
 function DrawGetCustomBackground(C) {
-	return C.CustomBackground;
+	return C?.CustomBackground;
 }
 
 /**
@@ -1415,11 +1415,30 @@ function DrawGetDarkFactor() {
 }
 
 /**
+ * Display the loading screen
+ * @param {number} time - The current time for frame
+ */
+function DrawLoadingScreen(time) {
+	DrawClearRect(MainCanvas, 0, 0, MainCanvasWidth, MainCanvasHeight);
+	const loadingMsg = ".".repeat((time / 1000) % 7);
+	MainCanvas.save();
+	MainCanvas.textAlign = "left";
+	DrawText(InterfaceTextGet("ScreenLoading"), MainCanvasWidth / 2 - 160, MainCanvasHeight / 2, "White", "Gray");
+	MainCanvas.textAlign = "center";
+	DrawText(loadingMsg, MainCanvasWidth / 2, MainCanvasHeight / 2 + ChatRoomFontSize, "White", "Gray");
+	MainCanvas.restore();
+}
+
+/**
  * Constantly looping draw process. Draws beeps, handles the screen size, handles the current blindfold state and draws the current screen.
  * @param {number} time - The current time for frame
  * @returns {void} - Nothing
  */
 function DrawProcess(time) {
+	if (ScreenIsLoading) {
+		DrawLoadingScreen(time);
+		return;
+	}
 	// Clear the list of characters that were drawn last frame
 	DrawLastCharacters = [];
 

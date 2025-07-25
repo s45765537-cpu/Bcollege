@@ -50,9 +50,9 @@ function PlayerAuctionAddCustomer(Index) {
 
 /**
  * Loads the player auction mini game by setting the global variables and loading the NPCs required
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function PlayerAuctionLoad() {
+async function PlayerAuctionLoad() {
 	CurrentDarkFactor = 0.5;
 	PlayerAuctionCustomer = [];
 	PlayerAuctionAddCustomer(0);

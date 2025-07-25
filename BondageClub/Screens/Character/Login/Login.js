@@ -131,15 +131,13 @@ var LoginEventListeners = {
 
 /**
  * Loads the character login screen
- * @returns {void} Nothing
+ * @type {ScreenLoadHandler}
  */
-function LoginLoad() {
+async function LoginLoad() {
 
 	// Resets the player and other characters
 	Character = [];
 	CharacterNextId = 0;
-	// Create a blank character for our player. Its actual ID will be set when LoginResponse happens
-	Player = /** @type {PlayerCharacter} */ (CharacterCreate("Female3DCG", CharacterType.SIMPLE, ""));
 	LoginCharacter = CharacterLoadNPC("NPC_Login");
 	LoginDoNextThankYou();
 	LoginStatusReset();
@@ -179,7 +177,6 @@ function LoginLoad() {
 	});
 	TextPrefetchFile(BackgroundsStringsPath);
 	TextPrefetchFile(AssetStringsPath);
-	TextPrefetchFile(InterfaceStringsPath);
 	TextPrefetch("Room", "MainHall");
 	DrawGetImage("Backgrounds/MainHall.jpg");
 }

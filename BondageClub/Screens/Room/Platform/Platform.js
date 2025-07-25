@@ -2211,9 +2211,9 @@ function PlatformPartyBuild() {
 
 /**
  * When the platform screen is loaded
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function PlatformLoad() {
+async function PlatformLoad() {
 
 	// Clears the active keys
 	PlatformKeys = [];
@@ -3339,7 +3339,10 @@ function PlatformClick() {
 		return;
 	}
 	if (MouseIn(1700, 10, 90, 90) && (PlatformHeal != null)) return PlatformAudioToggle();
-	if (MouseIn(1600, 10, 90, 90) && (PlatformHeal != null)) return CommonSetScreen("Room", "PlatformProfile");
+	if (MouseIn(1600, 10, 90, 90) && (PlatformHeal != null)) {
+		CommonSetScreen("Room", "PlatformProfile");
+		return;
+	}
 	if (MouseIn(1500, 10, 90, 90) && (PlatformHeal != null)) return PlatformPartyNext();
 	for (let B = 0; B < PlatformRightButtons.length; B++)
 		if (MouseIn(1900, 10 + (B + 1) * 100, 90, 90)) {

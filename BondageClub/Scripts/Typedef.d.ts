@@ -1590,7 +1590,7 @@ type MouseWheelEventListener = (event: WheelEvent) => void;
 
 type VoidHandler = () => void;
 
-type ScreenLoadHandler = VoidHandler;
+type ScreenLoadHandler = () => Promise<void>;
 type ScreenUnloadHandler = VoidHandler;
 type ScreenDrawHandler = VoidHandler;
 type ScreenRunHandler = (time: number) => void;

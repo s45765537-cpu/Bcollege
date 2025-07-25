@@ -109,9 +109,9 @@ function ArcadeDeviousChallengeEnabled() {
 
 /**
  * Loads the Arcade room and initializes the NPCs. This function is called dynamically
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function ArcadeLoad() {
+async function ArcadeLoad() {
 	ArcadeEmployee = CharacterLoadNPC("NPC_Arcade_Employee");
 	ArcadePlayer = CharacterLoadNPC("NPC_Arcade_Player");
 	InventoryWear(ArcadePlayer, "InteractiveVRHeadset","ItemHead");

@@ -12,9 +12,9 @@ var ChessMajorPieceBlack = 8;
 
 /**
  * Loads the chess mini game and sets the difficulty ratio before serving the first ball
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function ChessLoad() {
+async function ChessLoad() {
 	CurrentDarkFactor = 0.5;
 	ChessMinorPieceWhite = 8;
 	ChessMajorPieceWhite = 8;

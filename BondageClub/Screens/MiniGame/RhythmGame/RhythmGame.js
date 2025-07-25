@@ -962,9 +962,9 @@ let RhythmGameIntegration = {
 
 /**
  * Loads the rythm mini game after saving the main cancas to restore it once the game is done.
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function RhythmGameLoad(){
+async function RhythmGameLoad(){
 	MainCanvas.save();
 	RhythmGameInit.RhythmGamePreload();
 }

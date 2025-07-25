@@ -16,9 +16,9 @@ function CollegeChessCanMakeLove() { return (CharacterIsNaked(Player) && Charact
 
 /**
  * Loads the college chest screen by generating the opponent.
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function CollegeChessLoad() {
+async function CollegeChessLoad() {
 	if (CollegeChessOpponent == null) {
 		CollegeChessOpponent = CharacterLoadNPC("NPC_CollegeChess_Opponent");
 		CollegeChessOpponent.AllowItem = false;

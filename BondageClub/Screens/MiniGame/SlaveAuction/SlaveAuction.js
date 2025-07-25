@@ -29,9 +29,9 @@ function SlaveAuctionSetNextBidTime() {
 
 /**
  * Loads the slave auction mini game by setting the global variables and loading the NPCs required
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function SlaveAuctionLoad() {
+async function SlaveAuctionLoad() {
 	CurrentDarkFactor = 0.5;
 	SlaveAuctionCustomerLeft = CharacterLoadNPC("NPC_Customer_Left");
 	if (Math.random() > 0.85) CharacterArchetypeClothes(SlaveAuctionCustomerLeft, "Succubus");

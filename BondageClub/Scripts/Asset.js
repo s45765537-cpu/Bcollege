@@ -890,23 +890,19 @@ function AssetBuildDescription(Family, CSV) {
  * Loads the description of the assets in a specific language
  * @param {IAssetFamily} Family The asset family to load the description for
  */
-function AssetLoadDescription(Family) {
-
+async function AssetLoadDescription(Family) {
 	// Finds the full path of the CSV file to use cache
-	var FullPath = "Assets/" + Family + "/" + Family + ".csv";
-	if (CommonCSVCache[FullPath]) {
-		AssetBuildDescription(Family, CommonCSVCache[FullPath]);
-		return;
-	}
-
-	// Opens the file, parse it and returns the result it to build the dialog
-	CommonGet(FullPath, function () {
-		if (this.status == 200) {
-			CommonCSVCache[FullPath] = CommonParseCSV(this.responseText);
-			AssetBuildDescription(Family, CommonCSVCache[FullPath]);
+	const path = "Assets/" + Family + "/" + Family + ".csv";
+	if (!CommonCSVCache[path]) {
+		const response = await CommonFetch(path);
+		if (response.status !== 200) {
+			console.error(`Failed to load asset descriptions`);
+		} else {
+			const data = await response.text();
+			CommonCSVCache[path] = CommonParseCSV(data);
 		}
-	});
-
+	}
+	AssetBuildDescription(Family, CommonCSVCache[path]);
 }
 
 /**
