@@ -1455,11 +1455,13 @@ function DrawGetDarkFactor() {
  */
 function DrawLoadingScreen(time) {
 	DrawClearRect(MainCanvas, 0, 0, MainCanvasWidth, MainCanvasHeight);
-	const loadingMsg = ".".repeat((time / 1000) % 7);
+	const msg = InterfaceTextGet("ScreenLoading");
+	if (msg.startsWith("MISSING")) return;
 	MainCanvas.save();
 	MainCanvas.textAlign = "left";
-	DrawText(InterfaceTextGet("ScreenLoading"), MainCanvasWidth / 2 - 160, MainCanvasHeight / 2, "White", "Gray");
+	DrawText(msg, MainCanvasWidth / 2 - 160, MainCanvasHeight / 2, "White", "Gray");
 	MainCanvas.textAlign = "center";
+	const loadingMsg = ".".repeat((time / 1000) % 7);
 	DrawText(loadingMsg, MainCanvasWidth / 2, MainCanvasHeight / 2 + ChatRoomFontSize, "White", "Gray");
 	MainCanvas.restore();
 }
