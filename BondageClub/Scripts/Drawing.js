@@ -1467,6 +1467,23 @@ function DrawLoadingScreen(time) {
 }
 
 /**
+ *
+ * @param {boolean} skipVFX
+ * @returns
+ */
+function DrawGetBackgroundURL(skipVFX) {
+	let bgName = window[CurrentScreen + "Background"];
+
+	const itemBackground = DrawGetCustomBackground(Player);
+	if (!skipVFX && itemBackground) {
+		return `Backgrounds/${itemBackground}.jpg`;
+	} else if (bgName) {
+		return `Backgrounds/${bgName}.jpg`;
+	}
+	return undefined;
+}
+
+/**
  * Constantly looping draw process. Draws beeps, handles the screen size, handles the current blindfold state and draws the current screen.
  * @param {number} time - The current time for frame
  * @returns {void} - Nothing
@@ -1494,13 +1511,7 @@ function DrawProcess(time) {
 			&& CurrentScreen !== "MaidCleaning" // does it's own darkening
 		);
 
-		let backgroundURL = "";
-		const itemBackground = DrawGetCustomBackground(Player);
-		if (!skipVFX && itemBackground) {
-			backgroundURL = `Backgrounds/${itemBackground}.jpg`;
-		} else if (bgName) {
-			backgroundURL = `Backgrounds/${bgName}.jpg`;
-		}
+		const backgroundURL = DrawGetBackgroundURL(skipVFX);
 
 		const bgOptions = {};
 		if (!skipVFX) {
