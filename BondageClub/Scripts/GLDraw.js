@@ -3,9 +3,6 @@
 /** @type {Map<string, HTMLImageElement>} */
 var GLDrawImageCache = new Map();
 
-var GLDrawCacheLoadedImages = 0;
-var GLDrawCacheTotalImages = 0;
-
 /** @type {"webgl2"|"webgl"|"No WebGL"} */
 var GLVersion;
 
@@ -609,11 +606,9 @@ function GLDrawLoadImage(gl, url) {
 			Img = new Image();
 			GLDrawImageCache.set(url, Img);
 
-			++GLDrawCacheTotalImages;
 			Img.addEventListener('load', function () {
 				GLDrawBingImageToTextureInfo(gl, Img, textureInfo);
-				++GLDrawCacheLoadedImages;
-				if (GLDrawCacheLoadedImages == GLDrawCacheTotalImages) { Player.MustDraw = true; CharacterLoadCanvasAll(); }
+				DrawRefreshCharacterForImage(Img);
 			});
 			Img.addEventListener('error', function () {
 				if (Img.errorcount == null) Img.errorcount = 0;
@@ -623,8 +618,7 @@ function GLDrawLoadImage(gl, url) {
 					Img.src = Img.src;
 				} else {
 					console.log("Error loading image " + Img.src);
-					++GLDrawCacheLoadedImages;
-					if (GLDrawCacheLoadedImages == GLDrawCacheTotalImages) CharacterLoadCanvasAll();
+					DrawRefreshCharacterForImage(Img);
 				}
 			});
 			Img.src = url;
