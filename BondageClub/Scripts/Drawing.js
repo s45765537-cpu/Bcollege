@@ -26,8 +26,6 @@ var DrawingBlindFlashTimer = 0;
 // A bank of all the chached images
 /** @type {Map<string, HTMLImageElement>} */
 const DrawCacheImage = new Map;
-let DrawCacheLoadedImages = 0;
-let DrawCacheTotalImages = 0;
 
 // Last dark factor for blindflash
 var DrawLastDarkFactor = 0;
@@ -131,9 +129,8 @@ function DrawGetImage(Source) {
 		// Keep track of image load state
 		const IsAsset = (Source.indexOf("Assets") >= 0);
 		if (IsAsset) {
-			++DrawCacheTotalImages;
 			Img.addEventListener("load", function () {
-				DrawGetImageOnLoad();
+				DrawGetImageOnLoad(Img);
 			});
 		}
 
@@ -153,11 +150,44 @@ function DrawGetImage(Source) {
 
 /**
  * Reloads all character canvas once all images are loaded
+ * @param {HTMLImageElement | null} img
  * @returns {void} - Nothing
  */
-function DrawGetImageOnLoad() {
-	++DrawCacheLoadedImages;
-	if (DrawCacheLoadedImages == DrawCacheTotalImages) CharacterLoadCanvasAll();
+function DrawGetImageOnLoad(img) {
+	DrawRefreshCharacterForImage(img);
+}
+
+/**
+ *
+ * @param {HTMLImageElement | null} img
+ */
+function DrawRefreshCharacterForImage(img) {
+	if (!img) return;
+
+	const url = new URL(img.src);
+	const path = url.pathname;
+	const parts = path.split("/");
+	let pathPos = parts.indexOf("Assets");
+	if (pathPos === -1) return;
+
+	if (parts[++pathPos] !== "Female3DCG") return;
+
+	let groupName = parts[++pathPos];
+	if (groupName === "Override") {
+		// Overrides have two extra positions
+		pathPos += 2;
+		groupName = parts[pathPos];
+	}
+	let layerName = parts[++pathPos];
+	if (!layerName.endsWith(".png")) {
+		// This is a pose directory
+		layerName = parts[++pathPos];
+	}
+	const assetName = layerName.split("_")[0];
+	const wearing = [Player, ...Character].filter(c => c.Appearance.some(i => i.Asset.Group.Name === groupName && i.Asset.Name === assetName));
+	for (const char of wearing) {
+		char.MustDraw = true;
+	}
 }
 
 /**
@@ -177,7 +207,7 @@ function DrawGetImageOnError(Img, IsAsset) {
 	} else {
 		// Load failed. Display the error in the console and mark it as done.
 		console.log("Error loading image " + Img.src);
-		if (IsAsset) DrawGetImageOnLoad();
+		if (IsAsset) DrawRefreshCharacterForImage(null);
 	}
 }
 
@@ -336,6 +366,11 @@ function DrawCharacter(C, X, Y, Zoom, IsHeightResizeAllowed, DrawCanvas) {
 				AnimationPersistentStorage[buildKey] = false;
 				AnimationPersistentStorage[refreshTimeKey] = CommonTime();
 			}
+		}
+
+		if (C.MustDraw) {
+			CharacterLoadCanvas(C);
+			C.MustDraw = false;
 		}
 
 		// There's 2 different canvas, one blinking and one that doesn't
@@ -1420,13 +1455,32 @@ function DrawGetDarkFactor() {
  */
 function DrawLoadingScreen(time) {
 	DrawClearRect(MainCanvas, 0, 0, MainCanvasWidth, MainCanvasHeight);
-	const loadingMsg = ".".repeat((time / 1000) % 7);
+	const msg = InterfaceTextGet("ScreenLoading");
+	if (msg.startsWith("MISSING")) return;
 	MainCanvas.save();
 	MainCanvas.textAlign = "left";
-	DrawText(InterfaceTextGet("ScreenLoading"), MainCanvasWidth / 2 - 160, MainCanvasHeight / 2, "White", "Gray");
+	DrawText(msg, MainCanvasWidth / 2 - 160, MainCanvasHeight / 2, "White", "Gray");
 	MainCanvas.textAlign = "center";
+	const loadingMsg = ".".repeat((time / 1000) % 7);
 	DrawText(loadingMsg, MainCanvasWidth / 2, MainCanvasHeight / 2 + ChatRoomFontSize, "White", "Gray");
 	MainCanvas.restore();
+}
+
+/**
+ *
+ * @param {boolean} skipVFX
+ * @returns
+ */
+function DrawGetBackgroundURL(skipVFX) {
+	let bgName = window[CurrentScreen + "Background"];
+
+	const itemBackground = DrawGetCustomBackground(Player);
+	if (!skipVFX && itemBackground) {
+		return `Backgrounds/${itemBackground}.jpg`;
+	} else if (bgName) {
+		return `Backgrounds/${bgName}.jpg`;
+	}
+	return undefined;
 }
 
 /**
@@ -1457,13 +1511,7 @@ function DrawProcess(time) {
 			&& CurrentScreen !== "MaidCleaning" // does it's own darkening
 		);
 
-		let backgroundURL = "";
-		const itemBackground = DrawGetCustomBackground(Player);
-		if (!skipVFX && itemBackground) {
-			backgroundURL = `Backgrounds/${itemBackground}.jpg`;
-		} else if (bgName) {
-			backgroundURL = `Backgrounds/${bgName}.jpg`;
-		}
+		const backgroundURL = DrawGetBackgroundURL(skipVFX);
 
 		const bgOptions = {};
 		if (!skipVFX) {

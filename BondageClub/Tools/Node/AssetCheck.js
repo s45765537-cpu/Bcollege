@@ -1366,7 +1366,7 @@ function sanitizeVMOutput(input) {
 		// Quacks like a Request object
 		const obj = {
 			status: 200,
-			text: await function() {
+			text: async function() {
 				return data;
 			}
 		};

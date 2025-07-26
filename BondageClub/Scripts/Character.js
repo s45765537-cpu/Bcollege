@@ -1442,6 +1442,7 @@ function CharacterLoadCanvas(C) {
 
 	// Reload the canvas
 	CharacterAppearanceBuildCanvas(C);
+	C.MustDraw = false;
 }
 
 /**
@@ -1452,7 +1453,6 @@ function CharacterLoadCanvasAll() {
 	for (let C = 0; C < Character.length; C++)
 		if (Character[C].MustDraw) {
 			CharacterLoadCanvas(Character[C]);
-			Character[C].MustDraw = false;
 		}
 }
 

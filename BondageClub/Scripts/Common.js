@@ -574,6 +574,10 @@ async function CommonSetScreen(...spec) {
 	if (CurrentScreenFunctions.Load) {
 		await CurrentScreenFunctions.Load();
 	}
+	const background = DrawGetBackgroundURL(false);
+	if (background) {
+		DrawGetImage(background);
+	}
 	ScreenIsLoading = false;
 
 	CommonResize(true);
