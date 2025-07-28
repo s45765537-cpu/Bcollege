@@ -16482,6 +16482,23 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			CopyConfig: { GroupName: "ItemTorso", AssetName: "BarrelCorset" },
 		}, // BarrelCorset
+		PawPaddedPetsuitLegs: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Padding",
+				},
+				{
+					Name: "None",
+				},
+			],
+			ChangeWhenLocked: false,
+			DialogPrefix: {
+				Header: "ItemLegsPawPaddedPetsuitLegsSelect",
+				Option: "ItemLegsPawPaddedPetsuitLegs",
+				Chat: "ItemLegsPawPaddedPetsuitLegsSet",
+			},
+		}, // PawPaddedPetsuitLegs
 	}, // ItemLegs
 	ItemFeet: {
 		SpreaderMetal: {

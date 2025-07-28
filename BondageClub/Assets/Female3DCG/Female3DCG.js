@@ -26616,6 +26616,92 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "StrappedPetsuitLegs",
+				BuyGroup: "StrappedPetsuit",
+				InventoryID: 1256,
+				Fetish: ["Latex", "Pet"],
+				Value: -1,
+				Difficulty: 5,
+				Time: 5,
+				Random: false,
+				AllowLock: true,
+				Top: {
+					[PoseType.DEFAULT]: 461,
+					KneelingSpread: 465,
+				},
+				Left: {
+					[PoseType.DEFAULT]: 0,
+					KneelingSpread: 60,
+				},
+				SetPose: ["Kneel"],
+				PoseMapping: {
+					...AssetPoseMapping.ItemLegs,
+					KneelingSpread: "KneelingSpread",
+				},
+				AllowActivePose: [...PoseAllKneeling, "AllFours"],
+				Effect: [E.Slow],
+				DrawLocks: false,
+				Extended: false,
+				Layer: [
+					{	Name: "Base" },
+					{	Name: "Strap1" },
+					{	Name: "Strap2" },
+					{	Name: "Gloss" },
+					{	Name: "Buckles" },
+					{
+						Name: "Lock",
+						LockLayer: true,
+					},
+				],
+			},
+			{
+				Name: "PawPaddedPetsuitLegs",
+				BuyGroup: "PawPaddedPetsuit",
+				InventoryID: 1255,
+				Fetish: ["Latex", "Pet"],
+				Value: -1,
+				Difficulty: 5,
+				Time: 5,
+				Random: false,
+				AllowLock: true,
+				SetPose: ["Kneel"],
+				Top: {
+					[PoseType.DEFAULT]: 460,
+					KneelingSpread: 465,
+				},
+				Left: {
+					[PoseType.DEFAULT]: 0,
+					KneelingSpread: 60,
+				},
+				PoseMapping: {
+					...AssetPoseMapping.ItemLegs,
+					KneelingSpread: "KneelingSpread",
+				},
+				AllowActivePose: [...PoseAllKneeling, "AllFours"],
+				Effect: [E.Slow],
+				DrawLocks: false,
+				Extended: true,
+				Layer: [
+					{ Name: "Base" },
+					{ Name: "Gloss" },
+					{ Name: "LacingBack" },
+					{ Name: "Lacing" },
+					{ Name: "LacingTrim" },
+					{ Name: "Straps", },
+					{
+						Name: "Pad",
+						AllowTypes: { typed: 0 },
+						CopyLayerColor: "Base",
+					},
+					{ Name: "Paws", AllowTypes: { typed: 0 } },
+					{ Name: "Buckles" },
+					{
+						Name: "Locks",
+						LockLayer: true,
+					},
+				],
+			},
 		],
 		Color: [
 			"Default",
@@ -35251,224 +35337,6 @@ var AssetFemale3DCG = [
 				SelfUnlock: false,
 			},
 			{
-				Name: "PawPaddedPetsuitArms",
-				BuyGroup: "PawPaddedPetsuit",
-				InventoryID: 1255,
-				Fetish: ["Latex", "Pet"],
-				Priority: 31,
-				Value: 200,
-				Difficulty: 12,
-				SelfBondage: 8,
-				Time: 40,
-				RemoveTime: 30,
-				Random: false,
-				AllowLock: true,
-				AllowTighten: true,
-				Top: {
-					[PoseType.DEFAULT]: 135,
-					AllFours: 200,
-				},
-				AllowActivePose: ["BackElbowTouch", "Yoked", "OverTheHead","AllFours"],
-				SetPose: ["BackElbowTouch"],
-				PoseMapping: {
-					AllFours: "AllFours",
-					OverTheHead: "OverTheHead",
-					Yoked: "Yoked",
-				},
-				Alpha: [
-					{
-						Group: ["ArmsRight","ArmsLeft","Cloth","ClothOuter","Bra","Suit"],
-						Pose: ["Yoked"],
-						Masks: [
-							[50, 200, 65, 125],
-							[375, 200, 65, 125]
-						],
-					},
-					{
-						Group: ["ArmsRight","ArmsLeft","Cloth","ClothOuter","Bra","Suit"],
-						Pose: ["OverTheHead"],
-						Masks: [
-							[90, 50, 100, 140],
-							[300, 50, 100, 140]
-						],
-					},
-				],
-				Effect: [E.Block, E.BlockWardrobe],
-				Hide: [
-					"Bracelet",
-					"Gloves",
-					"HandsLeft",
-					"HandsRight",
-					"HandAccessoryLeft",
-					"HandAccessoryRight",
-					"ItemHandheld",
-					"ItemHands",
-				],
-				Extended: true,
-				DrawLocks: false,
-				Block: ["ItemHands", "ItemHandheld"],
-				Layer: [
-					{ Name: "Base" },
-					{ Name: "Gloss" },
-					{ Name: "LacingBack" },
-					{ Name: "Lacing" },
-					{ Name: "LacingTrim" },
-					{
-						Name: "Pad",
-						AllowTypes: { typed: 0 },
-						CopyLayerColor: "Base",
-					},
-					{ Name: "Paws", AllowTypes: { typed: 0 } },
-					{ Name: "Straps", },
-					{ Name: "Buckles" },
-					{
-						Name: "Lock",
-						LockLayer: true,
-					},
-				],
-				SelfUnlock: false,
-			},
-			{
-				Name: "StrappedPetsuitArms",
-				BuyGroup: "StrappedPetsuit",
-				InventoryID: 1256,
-				Fetish: ["Latex", "Pet"],
-				Priority: 31,
-				Value: 200,
-				Difficulty: 12,
-				SelfBondage: 8,
-				Time: 40,
-				RemoveTime: 30,
-				Random: false,
-				AllowLock: true,
-				AllowTighten: true,
-				Top: {
-					[PoseType.DEFAULT]: 135,
-					AllFours: 200,
-				},
-				Left: {
-					[PoseType.DEFAULT]: 50,
-					AllFours: 48
-				},
-				AllowActivePose: ["BackElbowTouch", "Yoked", "OverTheHead","AllFours"],
-				SetPose: ["BackElbowTouch"],
-				PoseMapping: {
-					AllFours: "AllFours",
-					OverTheHead: "OverTheHead",
-					Yoked: "Yoked",
-				},
-				Alpha: [
-					{
-						Group: ["ArmsRight","ArmsLeft","Cloth","ClothOuter","Bra","Suit"],
-						Pose: ["Yoked"],
-						Masks: [
-							[50, 200, 65, 125],
-							[375, 200, 65, 125]
-						],
-					},
-					{
-						Group: ["ArmsRight","ArmsLeft","Cloth","ClothOuter","Bra","Suit"],
-						Pose: ["OverTheHead"],
-						Masks: [
-							[90, 50, 100, 130],
-							[300, 50, 100, 130]
-						],
-					},
-				],
-				Effect: [E.Block, E.BlockWardrobe],
-				Hide: [
-					"Bracelet",
-					"Gloves",
-					"HandsLeft",
-					"HandsRight",
-					"HandAccessoryLeft",
-					"HandAccessoryRight",
-					"ItemHandheld",
-					"ItemHands",
-				],
-				Extended: true,
-				DrawLocks: false,
-				Block: ["ItemHands", "ItemHandheld"],
-				Layer: [
-					{
-						Name: "Base",
-						AllowTypes: { a: [0, 2] }
-					},
-					{
-						Name: "BaseB",
-						AllowTypes: { a: 1},
-						CopyLayerColor: "Base",
-					},
-					{
-						Name: "Strap1",
-						AllowTypes: { a: [0, 2] },
-					},
-					{
-						Name: "Strap2",
-						AllowTypes: { a: [0, 2] },
-					},
-					{
-						Name: "Strap1B",
-						AllowTypes: { a: 1 },
-						CopyLayerColor: "Strap1",
-					},
-					{
-						Name: "Strap2B",
-						AllowTypes: { a: 1 },
-						CopyLayerColor: "Strap2",
-					},
-					{
-						Name: "Gloss",
-						AllowTypes: { g: 1, a: [0, 2] },
-					},
-					{
-						Name: "GlossB",
-						AllowTypes: { g: 1, a: 1 },
-						CopyLayerColor: "Gloss",
-					},
-					{
-						Name: "Extras1",
-						AllowTypes: { a: 1 },
-					},
-					{
-						Name: "Extras2",
-						AllowTypes: { a: 2 },
-						CopyLayerColor: "Extras1",
-					},
-					{
-						Name: "Buckles",
-						AllowTypes: { a: [0, 2] },
-					},
-					{
-						Name: "BucklesB",
-						AllowTypes: { a: 1 },
-						CopyLayerColor: "Buckles",
-					},
-					{
-						Name: "Extras1Buckles",
-						AllowTypes: { a: 1 },
-						CopyLayerColor: "Buckles",
-					},
-					{
-						Name: "Extras2Buckles",
-						AllowTypes: { a: 2 },
-						CopyLayerColor: "Buckles",
-					},
-					{
-						Name: "Lock",
-						AllowTypes: { a: [0, 2]},
-						LockLayer: true,
-					},
-					{
-						Name: "LockB",
-						AllowTypes: { a: 1},
-						LockLayer: true,
-						CopyLayerColor: "Lock",
-					},
-				],
-				SelfUnlock: false,
-			},
-			{
 				Name: "ShinyPetSuit",
 				InventoryID: 744,
 				Gender: "F",
@@ -39174,6 +39042,224 @@ var AssetFemale3DCG = [
 						AllowColorize: true,
 					},
 				],
+			},
+			{
+				Name: "PawPaddedPetsuitArms",
+				BuyGroup: "PawPaddedPetsuit",
+				InventoryID: 1255,
+				Fetish: ["Latex", "Pet"],
+				Priority: 31,
+				Value: 200,
+				Difficulty: 12,
+				SelfBondage: 8,
+				Time: 40,
+				RemoveTime: 30,
+				Random: false,
+				AllowLock: true,
+				AllowTighten: true,
+				Top: {
+					[PoseType.DEFAULT]: 135,
+					AllFours: 200,
+				},
+				AllowActivePose: ["BackElbowTouch", "Yoked", "OverTheHead","AllFours"],
+				SetPose: ["BackElbowTouch"],
+				PoseMapping: {
+					AllFours: "AllFours",
+					OverTheHead: "OverTheHead",
+					Yoked: "Yoked",
+				},
+				Alpha: [
+					{
+						Group: ["ArmsRight","ArmsLeft","Cloth","ClothOuter","Bra","Suit"],
+						Pose: ["Yoked"],
+						Masks: [
+							[50, 200, 65, 125],
+							[375, 200, 65, 125]
+						],
+					},
+					{
+						Group: ["ArmsRight","ArmsLeft","Cloth","ClothOuter","Bra","Suit"],
+						Pose: ["OverTheHead"],
+						Masks: [
+							[90, 50, 100, 140],
+							[300, 50, 100, 140]
+						],
+					},
+				],
+				Effect: [E.Block, E.BlockWardrobe],
+				Hide: [
+					"Bracelet",
+					"Gloves",
+					"HandsLeft",
+					"HandsRight",
+					"HandAccessoryLeft",
+					"HandAccessoryRight",
+					"ItemHandheld",
+					"ItemHands",
+				],
+				Extended: true,
+				DrawLocks: false,
+				Block: ["ItemHands", "ItemHandheld"],
+				Layer: [
+					{ Name: "Base" },
+					{ Name: "Gloss" },
+					{ Name: "LacingBack" },
+					{ Name: "Lacing" },
+					{ Name: "LacingTrim" },
+					{
+						Name: "Pad",
+						AllowTypes: { typed: 0 },
+						CopyLayerColor: "Base",
+					},
+					{ Name: "Paws", AllowTypes: { typed: 0 } },
+					{ Name: "Straps", },
+					{ Name: "Buckles" },
+					{
+						Name: "Lock",
+						LockLayer: true,
+					},
+				],
+				SelfUnlock: false,
+			},
+			{
+				Name: "StrappedPetsuitArms",
+				BuyGroup: "StrappedPetsuit",
+				InventoryID: 1256,
+				Fetish: ["Latex", "Pet"],
+				Priority: 31,
+				Value: 200,
+				Difficulty: 12,
+				SelfBondage: 8,
+				Time: 40,
+				RemoveTime: 30,
+				Random: false,
+				AllowLock: true,
+				AllowTighten: true,
+				Top: {
+					[PoseType.DEFAULT]: 135,
+					AllFours: 200,
+				},
+				Left: {
+					[PoseType.DEFAULT]: 50,
+					AllFours: 48
+				},
+				AllowActivePose: ["BackElbowTouch", "Yoked", "OverTheHead","AllFours"],
+				SetPose: ["BackElbowTouch"],
+				PoseMapping: {
+					AllFours: "AllFours",
+					OverTheHead: "OverTheHead",
+					Yoked: "Yoked",
+				},
+				Alpha: [
+					{
+						Group: ["ArmsRight","ArmsLeft","Cloth","ClothOuter","Bra","Suit"],
+						Pose: ["Yoked"],
+						Masks: [
+							[50, 200, 65, 125],
+							[375, 200, 65, 125]
+						],
+					},
+					{
+						Group: ["ArmsRight","ArmsLeft","Cloth","ClothOuter","Bra","Suit"],
+						Pose: ["OverTheHead"],
+						Masks: [
+							[90, 50, 100, 130],
+							[300, 50, 100, 130]
+						],
+					},
+				],
+				Effect: [E.Block, E.BlockWardrobe],
+				Hide: [
+					"Bracelet",
+					"Gloves",
+					"HandsLeft",
+					"HandsRight",
+					"HandAccessoryLeft",
+					"HandAccessoryRight",
+					"ItemHandheld",
+					"ItemHands",
+				],
+				Extended: true,
+				DrawLocks: false,
+				Block: ["ItemHands", "ItemHandheld"],
+				Layer: [
+					{
+						Name: "Base",
+						AllowTypes: { a: [0, 2] }
+					},
+					{
+						Name: "BaseB",
+						AllowTypes: { a: 1},
+						CopyLayerColor: "Base",
+					},
+					{
+						Name: "Strap1",
+						AllowTypes: { a: [0, 2] },
+					},
+					{
+						Name: "Strap2",
+						AllowTypes: { a: [0, 2] },
+					},
+					{
+						Name: "Strap1B",
+						AllowTypes: { a: 1 },
+						CopyLayerColor: "Strap1",
+					},
+					{
+						Name: "Strap2B",
+						AllowTypes: { a: 1 },
+						CopyLayerColor: "Strap2",
+					},
+					{
+						Name: "Gloss",
+						AllowTypes: { g: 1, a: [0, 2] },
+					},
+					{
+						Name: "GlossB",
+						AllowTypes: { g: 1, a: 1 },
+						CopyLayerColor: "Gloss",
+					},
+					{
+						Name: "Extras1",
+						AllowTypes: { a: 1 },
+					},
+					{
+						Name: "Extras2",
+						AllowTypes: { a: 2 },
+						CopyLayerColor: "Extras1",
+					},
+					{
+						Name: "Buckles",
+						AllowTypes: { a: [0, 2] },
+					},
+					{
+						Name: "BucklesB",
+						AllowTypes: { a: 1 },
+						CopyLayerColor: "Buckles",
+					},
+					{
+						Name: "Extras1Buckles",
+						AllowTypes: { a: 1 },
+						CopyLayerColor: "Buckles",
+					},
+					{
+						Name: "Extras2Buckles",
+						AllowTypes: { a: 2 },
+						CopyLayerColor: "Buckles",
+					},
+					{
+						Name: "Lock",
+						AllowTypes: { a: [0, 2]},
+						LockLayer: true,
+					},
+					{
+						Name: "LockB",
+						AllowTypes: { a: 1},
+						LockLayer: true,
+						CopyLayerColor: "Lock",
+					},
+				],
+				SelfUnlock: false,
 			},
 		],
 		Color: [

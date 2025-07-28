@@ -1244,6 +1244,8 @@ ItemLegs,Slime,Slime
 ItemLegs,SturdyLeatherBelts,Sturdy Leather Belt
 ItemLegs,Tentacles,Tentacles
 ItemLegs,Zipties,Zip Ties
+ItemLegs,StrappedPetsuitLegs,Strapped Petsuit Legs
+ItemLegs,PawPaddedPetsuitLegs,Paw Padded Petsuit Legs
 ItemMisc,,Body
 ItemMisc,BountySuitcase,Secret Suitcase
 ItemMisc,BountySuitcaseEmpty,Unlocked Suitcase
