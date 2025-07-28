@@ -347,7 +347,7 @@ declare namespace ElementDOMScreen {
 		/** Buttons for in the header's menubar (see `.screen-header [role="menubar"]`) */
 		menubarButtons?: readonly HTMLButtonElement[];
 		/** Content for within the main section (see `.screen-main`) */
-		mainContent?: readonly (Node | string)[];
+		mainContent?: readonly (Node | string | HTMLOptions<keyof HTMLElementTagNameMap>)[];
 		/** Text content for within the heading (see `.screen-hgroup h1`) */
 		header?: string;
 		/**
