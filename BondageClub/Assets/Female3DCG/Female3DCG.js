@@ -40947,7 +40947,10 @@ var AssetFemale3DCG = [
 				ParentGroup: {},
 				Value: 10,
 				Left: 0,
-				Top: 0,
+				Top: {
+					[PoseType.Default]: 0,
+					OverTheHead: -44,
+				},
 				Priority: 46,
 				IsRestraint: false,
 				Random: false,
@@ -40976,7 +40979,7 @@ var AssetFemale3DCG = [
 						AllowTypes: { typed: 1 },
 						PoseMapping: {
 							BackBoxTie: PoseType.HIDE,
-							BackCuffs: PoseType.HIDE,
+							BackCuffs: "BackCuffs",
 							BackElbowTouch: PoseType.HIDE,
 							OverTheHead: "OverTheHead",
 							Yoked: "Yoked",
@@ -40990,7 +40993,7 @@ var AssetFemale3DCG = [
 						AllowTypes: { typed: 1 },
 						PoseMapping: {
 							BackBoxTie: PoseType.HIDE,
-							BackCuffs: PoseType.HIDE,
+							BackCuffs: "BackCuffs",
 							BackElbowTouch: PoseType.HIDE,
 							OverTheHead: "OverTheHead",
 							Yoked: "Yoked",
@@ -41004,7 +41007,7 @@ var AssetFemale3DCG = [
 						AllowTypes: { typed: 1 },
 						PoseMapping: {
 							BackBoxTie: PoseType.HIDE,
-							BackCuffs: PoseType.HIDE,
+							BackCuffs: "BackCuffs",
 							BackElbowTouch: PoseType.HIDE,
 							OverTheHead: "OverTheHead",
 							Yoked: "Yoked",
@@ -41018,7 +41021,7 @@ var AssetFemale3DCG = [
 						AllowTypes: { typed: 1 },
 						PoseMapping: {
 							BackBoxTie: PoseType.HIDE,
-							BackCuffs: PoseType.HIDE,
+							BackCuffs: "BackCuffs",
 							BackElbowTouch: PoseType.HIDE,
 							OverTheHead: "OverTheHead",
 							Yoked: "Yoked",
@@ -41031,21 +41034,33 @@ var AssetFemale3DCG = [
 						Name: "PaperInMouth",
 						AllowTypes: { typed: 0 },
 						CopyLayerColor: "Paper",
+						PoseMapping: {
+							OverTheHead: "OverTheHead",
+						},
 					},
 					{
 						Name: "LitInMouth",
 						AllowTypes: { typed: 0 },
 						CopyLayerColor: "Lit",
+						PoseMapping: {
+							OverTheHead: "OverTheHead",
+						},
 					},
 					{
 						Name: "FilterInMouth",
 						AllowTypes: { typed: 0 },
 						CopyLayerColor: "Filter",
+						PoseMapping: {
+							OverTheHead: "OverTheHead",
+						},
 					},
 					{
 						Name: "SmokeInMouth",
 						AllowTypes: { typed: 0 },
 						CopyLayerColor: "Smoke",
+						PoseMapping: {
+							OverTheHead: "OverTheHead",
+						},
 					},
 				],
 			},
