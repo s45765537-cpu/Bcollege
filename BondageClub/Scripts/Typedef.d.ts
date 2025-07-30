@@ -4789,6 +4789,11 @@ interface ClubCard {
 	onLeaveClub?: (C: ClubCardPlayer) => void;
 	turnStart?: (C: ClubCardPlayer) => void;
 	onLevelUp?: (C: ClubCardPlayer) => void;
+	onOpponentLevelUp?: (C: ClubCardPlayer) => void;
+	onDrawCard?: (C: ClubCardPlayer) => void;
+	onOpponentDrawCard?: (C: ClubCardPlayer) => void;
+	onDrawAction?: (C: ClubCardPlayer) => void;
+	onOpponentDrawAction?: (C: ClubCardPlayer) => void;
 }
 
 interface ClubCardPlayer {
