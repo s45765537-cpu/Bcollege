@@ -6716,6 +6716,11 @@ ItemNeckAsylumCollarNormal,Single layer
 ItemNeckAsylumCollarPadded,Plus padded layer
 ItemNeckAsylumCollarSetNormal,SourceCharacter removes padded layer under the DestinationCharacter Asylum Collar.
 ItemNeckAsylumCollarSetPadded,SourceCharacter adds a padded layer under the DestinationCharacter Asylum Collar.
+ItemHandheldCigaretteSelect,Choose position of the cigarette:
+ItemHandheldCigaretteInMouth,In Mouth
+ItemHandheldCigaretteInHand,In Hand
+ItemHandheldCigaretteSetInMouth,SourceCharacter puts the cigarette in DestinationCharacterName mouth.
+ItemHandheldCigaretteSetInHand,SourceCharacter keeps the cigarette in DestinationCharacterName hand.
 ItemHandheldKyosensuSelect,Choose your Kyo-sensu paper art:
 ItemHandheldKyosensuType1,Cherry blossoms
 ItemHandheldKyosensuType2,Lightning bolt
