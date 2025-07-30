@@ -852,7 +852,7 @@ ItemArms,Yoke,Yoke
 ItemArms,Zipties,Zip Ties
 ItemArms,BedMetalCuffs,Bed Metal Cuffs
 ItemArms,PawPaddedPetsuitArms,Paw Padded Petsuit Arms
-ItemArms,StrappedPetsuitArms,Strapped Petsuit Arms
+ItemArms,StrappedPetsuitArms,MultiStrap Petsuit Arms
 ItemBoots,,Feet
 ItemBoots,BalletHeels,Ballet Heels
 ItemBoots,BalletHeels1,Ballet Hi-Shoes
@@ -1244,7 +1244,7 @@ ItemLegs,Slime,Slime
 ItemLegs,SturdyLeatherBelts,Sturdy Leather Belt
 ItemLegs,Tentacles,Tentacles
 ItemLegs,Zipties,Zip Ties
-ItemLegs,StrappedPetsuitLegs,Strapped Petsuit Legs
+ItemLegs,StrappedPetsuitLegs,MultiStrap Petsuit Legs
 ItemLegs,PawPaddedPetsuitLegs,Paw Padded Petsuit Legs
 ItemMisc,,Body
 ItemMisc,BountySuitcase,Secret Suitcase

@@ -26643,6 +26643,7 @@ var AssetFemale3DCG = [
 				Effect: [E.Slow],
 				DrawLocks: false,
 				Extended: false,
+				DefaultColor: [ "#790000", "#202020", "#202020", "#8D6060", "Default", "Default" ],
 				Layer: [
 					{	Name: "Base" },
 					{	Name: "Strap1" },
@@ -26667,7 +26668,7 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				SetPose: ["Kneel"],
 				Top: {
-					[PoseType.DEFAULT]: 460,
+					[PoseType.DEFAULT]: 465,
 					KneelingSpread: 465,
 				},
 				Left: {
@@ -26682,6 +26683,7 @@ var AssetFemale3DCG = [
 				Effect: [E.Slow],
 				DrawLocks: false,
 				Extended: true,
+				DefaultColor: [ "#181818", "Default", "#131313", "#F40000", "#252525", "#323232", "#760000", "Default", "Default" ],
 				Layer: [
 					{ Name: "Base" },
 					{ Name: "Gloss" },
@@ -39100,6 +39102,7 @@ var AssetFemale3DCG = [
 				Extended: true,
 				DrawLocks: false,
 				Block: ["ItemHands", "ItemHandheld"],
+				DefaultColor: [ "#161616", "#EDEDED", "#242424", "#960000", "#370000", "#890000", "#2F2F2F", "Default", "Default" ],
 				Layer: [
 					{ Name: "Base" },
 					{ Name: "Gloss" },
@@ -39182,6 +39185,7 @@ var AssetFemale3DCG = [
 				Extended: true,
 				DrawLocks: false,
 				Block: ["ItemHands", "ItemHandheld"],
+				DefaultColor: [ "#720000", "#202020", "#202020", "Default", "#202020", "Default", "Default" ],
 				Layer: [
 					{
 						Name: "Base",
