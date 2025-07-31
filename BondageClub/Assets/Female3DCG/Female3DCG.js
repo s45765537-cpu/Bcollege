@@ -16172,7 +16172,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "CustomizableEars",
 				Extended: true,
 				BodyCosplay: true,
-				DefaultColor: ["#FFFFFF","#FFFFFF"],
+				DefaultColor: [ "#FAFAFA", "#B3F8FC", "#7EB6BA", "#AFAFAF" ],
 				Layer: [
 					{ Name: "Inner"},
 					{ Name: "Base"},
@@ -16320,6 +16320,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "CustomizableEars",
 				Extended: true,
 				BodyCosplay: true,
+				DefaultColor: [ "#262626", "#1F1D1D", "#641328", "#43151E"],
 				Layer: [
 					{ Name: "Outer"},
 					{ Name: "Inner"},
@@ -16467,7 +16468,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "CustomizableEars",
 				Extended: true,
 				BodyCosplay: true,
-				DefaultColor: ["#FFFFFF","#FFFFFF"],
+				DefaultColor: [ "#F6F6F6", "#99243C", "#292929", "#E0E0E0" ],
 				Layer: [
 					{ Name: "Inner"},
 					{ Name: "Base"},
@@ -16615,6 +16616,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "CustomizableEars",
 				Extended: true,
 				BodyCosplay: true,
+				DefaultColor: [ "#DBDBDB", "#F6F6F6", "#141138" ],
 				Layer: [
 					{ Name: "Inner"},
 					{ Name: "Outer"},
@@ -16905,6 +16907,7 @@ var AssetFemale3DCG = [
 				BuyGroup: "CustomizableEars",
 				Extended: true,
 				BodyCosplay: true,
+				DefaultColor: [ "#C37777", "#F6F6F6", "#111111" ],
 				Layer: [
 					{ Name: "Inner"},
 					{ Name: "Base"},
