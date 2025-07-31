@@ -1511,6 +1511,17 @@ interface Item {
 	Property?: ItemProperties;
 }
 
+/** An item properties subtype with a guaranteed opacity field. */
+interface ItemColorProperties extends ItemProperties {
+	Opacity: number[];
+}
+
+/** An item subtype with a guaranteed color and opacity field. */
+interface ItemColorItem extends Item {
+	Color: string[];
+	Property: ItemColorProperties;
+}
+
 type FavoriteIcon = "Favorite" | "FavoriteBoth" | "FavoritePlayer";
 type ItemEffectIcon = "BlindLight" | "BlindNormal" | "BlindHeavy" | "DeafLight" | "DeafNormal" | "DeafHeavy" | "GagLight" | "GagNormal" | "GagHeavy" | "GagTotal" | "Freeze" | "Block";
 type ShopIcon = "Extended" | "BuyGroup";

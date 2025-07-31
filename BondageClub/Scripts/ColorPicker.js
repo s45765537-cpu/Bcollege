@@ -169,12 +169,11 @@ function ColorPickerGetCoordinates(Event) {
  */
 function ColorPickerPickOpacity(Event) {
 	if ((ItemColorState.editOpacity) && MouseIn(1190 - 50, 65 - 50, 240 + 100, 60 + 100)) {
-		if (ItemColorItem.Property == null) ItemColorItem.Property = {};
 		let O = 1 - ((MouseX - 1210) / 200);
 		if (O < 0) O = 0;
 		if (O > 1) O = 1;
 		if ((ItemColorItem.Asset == null) || !CommonIsArray(ItemColorItem.Asset.Layer) || (ItemColorItem.Asset.Layer.length <= 1)) {
-			ItemColorItem.Property.Opacity = O;
+			ItemColorItem.Property.Opacity.fill(O);
 		} else {
 			if (!CommonIsArray(ItemColorItem.Property.Opacity) || (ItemColorItem.Property.Opacity.length != ItemColorItem.Asset.Layer.length)) {
 				ItemColorItem.Property.Opacity = Array(ItemColorItem.Asset.Layer.length).fill(1);

@@ -18,7 +18,7 @@ const ItemColorMode = /** @type {const} */({
 
 /** @type {Character} */
 let ItemColorCharacter;
-/** @type {Item} */
+/** @type {ItemColorItem} */
 let ItemColorItem;
 /** @type {ItemColorMode} */
 let ItemColorCurrentMode = ItemColorMode.DEFAULT;
@@ -45,6 +45,52 @@ let ItemColorLayerNames;
 let ItemColorGroupNames;
 
 /**
+ * Sanitize the color of the passed item, returning an array of valid color strings and of length {@link Asset.ColorableLayerCount}.
+ * @param {Item} item - The item whose colors are to be validated
+ * @returns {string[]} - The validated colors returned as array
+ */
+function ItemColorSanitizeColor(item) {
+	const color = [...item.Asset.DefaultColor];
+	if (Array.isArray(item.Color)) {
+		for (const [i, colorValue] of item.Color.entries()) {
+			if (i >= color.length) {
+				break;
+			} else if (!CommonDrawColorValid(colorValue, item.Asset.Group)) {
+				continue;
+			} else {
+				color[i] = colorValue;
+			}
+		}
+	} else if (typeof item.Color === "string" && CommonDrawColorValid(item.Color, item.Asset.Group)) {
+		color.fill(item.Color);
+	}
+	return color;
+}
+
+/**
+ * Sanitize the properties of the passed item in relation to any and all color & opacity related fields.
+ * @param {Item} item - The item whose properties are to be validated
+ * @returns {ItemColorProperties} - The validated item properties
+ */
+function ItemColorSanitizeProperty(item) {
+	let opacity = item.Asset.Layer.map(l => l.Opacity);
+	if (Array.isArray(item.Property?.Opacity)) {
+		for (const [i, opacityValue] of item.Property.Opacity.entries()) {
+			if (i >= opacity.length) {
+				break;
+			} if (!CommonIsFinite(opacityValue)) {
+				continue;
+			} else {
+				opacity[i] = CommonClamp(opacityValue, item.Asset.Layer[i].MinOpacity, item.Asset.Layer[i].MaxOpacity);
+			}
+		}
+	} else if (CommonIsFinite(item.Property?.Opacity)) {
+		opacity.fill(CommonClamp(item.Property.Opacity, item.Asset.MinOpacity, item.Asset.MaxOpacity));
+	}
+	return { ...(item.Property ?? {}), Opacity: opacity };
+}
+
+/**
  * Loads the item color UI with the provided character, item and positioning parameters.
  * @param {Character} c - The character being colored
  * @param {Item} item - The item being colored
@@ -58,9 +104,9 @@ let ItemColorGroupNames;
 function ItemColorLoad(c, item, x, y, width, height, includeResetButton) {
 	ItemColorReset();
 	ItemColorCharacter = c;
-	ItemColorItem = item;
-	ItemColorBackup = AppearanceItemStringify(item);
-	ItemColorStateBuild(c, item, x, y, width, height, includeResetButton);
+	ItemColorItem = { ...item, Color: ItemColorSanitizeColor(item), Property: ItemColorSanitizeProperty(item) };
+	ItemColorBackup = AppearanceItemStringify(ItemColorItem);
+	ItemColorStateBuild(c, ItemColorItem, x, y, width, height, includeResetButton);
 	if (ItemColorState.simpleMode) {
 		ItemColorOpenPicker(ItemColorState.colorGroups[0]);
 	}
@@ -540,8 +586,8 @@ function ItemColorGetGroups(item, colorableLayers) {
  */
 function ItemColorStateBuild(c, item, x, y, width, height, includeResetButton = false) {
 	ItemColorCharacter = c;
-	ItemColorItem = item;
-	const itemKey = AppearanceItemStringify({ item, x, y, width, height });
+	ItemColorItem = { ...item, Color: ItemColorSanitizeColor(item), Property: ItemColorSanitizeProperty(item) };
+	const itemKey = AppearanceItemStringify({ item: ItemColorItem, x, y, width, height });
 	if (!item || (ItemColorState && ItemColorStateKey === itemKey)) {
 		return;
 	}
@@ -549,19 +595,6 @@ function ItemColorStateBuild(c, item, x, y, width, height, includeResetButton = 
 	ItemColorStateKey = itemKey;
 	const colorableLayers = ItemColorGetColorableLayers(item);
 	const colorGroups = ItemColorGetGroups(item, colorableLayers);
-
-	/** @type {string[]} */
-	let colors;
-	const defaultColors = item.Asset.DefaultColor;
-	if (Array.isArray(item.Color)) {
-		colors = item.Color;
-		colors.push(...defaultColors.slice(colors.length));
-	} else if (typeof item.Color === "string") {
-		colors = Array(item.Asset.ColorableLayerCount).fill(item.Color);
-	} else {
-		colors = [...defaultColors];
-	}
-
 	const simpleMode = colorableLayers.length === 1;
 
 	const colorPickerButtonWidth = ItemColorConfig.colorPickerButtonWidth;
@@ -602,8 +635,8 @@ function ItemColorStateBuild(c, item, x, y, width, height, includeResetButton = 
 
 	ItemColorState = {
 		colorGroups,
-		colors,
-		defaultColors,
+		colors: ItemColorItem.Color,
+		defaultColors: ItemColorItem.Asset.DefaultColor,
 		simpleMode,
 		paginationButtonX,
 		cancelButtonX,
