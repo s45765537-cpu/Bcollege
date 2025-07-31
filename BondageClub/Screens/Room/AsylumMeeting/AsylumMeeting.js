@@ -35,9 +35,9 @@ function AsylumMeetingCanPlayClubCard() { return (!Player.IsRestrained() && !Cur
 
 /**
  * Loads the room and it's patients
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function AsylumMeetingLoad() {
+async function AsylumMeetingLoad() {
 
 	// Dress the left patient (dealer)
 	if (AsylumMeetingPatientLeft == null) {

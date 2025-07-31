@@ -36,9 +36,9 @@ function ShopEnter() {
 
 /**
  * Loads the shop room and its NPC
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function ShopLoad() {
+async function ShopLoad() {
 	TextPrefetch("Room", "Shop2");
 
 	// Creates the shop vendor always at full height to be able to click on her zones correctly

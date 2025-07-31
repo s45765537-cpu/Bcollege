@@ -136,9 +136,9 @@ function ShibariRandomBondage(C, Level) {
 
 /**
  * Loads the shibari dojo and its two characters.
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function ShibariLoad() {
+async function ShibariLoad() {
 
 	// Default load
 	if (ShibariPlayerAppearance == null) ShibariPlayerAppearance = Player.Appearance.slice();

@@ -5,9 +5,9 @@ var ClubCardLoungeTutor = null;
 
 /**
  * Loads the club card room and the tutor
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function ClubCardLoungeLoad() {
+async function ClubCardLoungeLoad() {
 	ClubCardCommonLoad();
 	if (ClubCardLoungeTutor == null) {
 		ClubCardLoungeTutor = CharacterLoadNPC("NPC_ClubCardLounge_Tutor");
@@ -37,7 +37,10 @@ function ClubCardLoungeClick() {
 	if (MouseIn(1000, 0, 500, 1000)) CharacterSetCurrent(ClubCardLoungeTutor);
 	if (MouseIn(1885, 25, 90, 90)) CommonSetScreen("Room", "MainHall");
 	if (MouseIn(1885, 140, 90, 90)) InformationSheetLoadCharacter(Player);
-	if (MouseIn(1885, 255, 90, 90)) CommonSetScreen("MiniGame", "ClubCardBuilder");
+	if (MouseIn(1885, 255, 90, 90)) {
+		CommonSetScreen("MiniGame", "ClubCardBuilder");
+		ClubCardBuilderReturnToChatroom = false;
+	}
 }
 
 /**

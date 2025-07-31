@@ -11,9 +11,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2025-07-08
-* Last recorded PR: [#5593](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5593)
-* Last recorded commit hash: `b6fb3ed03129100105c72e8f84eeb5e289e8f928`
+* Changelog last updated: 2025-07-16
+* Last recorded PR: [#5697](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5697)
+* Last recorded commit hash: `d45f01d52103be870cc0e08365845646c801f4fa`
 
 ## [Generated]
 
@@ -21,6 +21,8 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 ### [Changes]
 
+* Sepia Oulomenohn - Change: Sepi Asset smooth latex mask new patterns ([#5691](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5691))
+* RavenCreative - Rose Pendant by Raven Creative ([#5677](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5677))
 * Sin - Add belt spank noise to belt implement ([#5653](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5653))
 * Sin - Adding brush hair action to the Hairbrush ([#5656](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5656))
 * Sin - Adding They/Them pronouns selections ([#5659](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5659))
@@ -30,11 +32,17 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Sin - Adding attribution and licensing to Female3DCG.js file. ([#5672](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5672))
 * Sin - Added SatinCorset copy to the Corsets Clothing group. ([#5671](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5671))
 * Sin - Added audio for Hairbrush items for the brush hair and brush spank actions ([#5670](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5670))
+* Sin - Remove gender prereq for several bondage and clothing items ([#5679](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5679))
+* Sin - Added BarrelCorset to corsets clothing category. ([#5689](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5689))
+* Sin - EchoV2Clothing - Fixed many cloth items, Tights/Stockings, and Suit lower items ([#5692](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5692))
+* Sin - BrushAudio - lowered audio volume a small amount for the brushspank and some of the hairbrush sound effects.. ([#5694](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5694))
 * anna + Felix - ClubCard editor improvements, command, and spectate toggle ([#5668](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5668))
 * Zoe - Add command prefix to map commands ([#5662](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5662))
 * Zoe - Add teleportation feature for better admin capabilities ([#5640](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5640))
 * Estsanatlehi - Make a copy of the provided MapData so that we don't clobber the argument ([#5664](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5664))
 * Estsanatlehi - Add missing TargetCharacter tag to SlowStop message ([#5657](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5657))
+* Estsanatlehi - Split the "clean mouth" activity into its own separate "Clean" activity ([#5687](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5687))
+* Estsanatlehi - Stop adding undefined chat room separators when leaving ([#5681](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5681))
 * RavenCreative - Combat Boots by Raven Creative ([#5669](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5669))
 * Ben987 - Online Chat Rooms - 5 New Backgrounds
 * Ben987 - Commands: tp -> maptp, coordinates -> mapcoordinates + Fix /help
@@ -44,7 +52,14 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 ### [Fixes]
 
+* Zoe - fix strapon not working ([#5690](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5690))
+* Zoe - Fix strapon chastity penetration ([#5673](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5673))
+* Zoe - Fix strapon ignoring blocked holes ([#5683](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5683))
 * dDeepLb - HOTFIX: toasts ([#5651](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5651))
+* anna - club cards editor fix ([#5695](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5695))
+* anna - fix club card's search bar and dropdown in case of loading default deck ([#5688](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5688))
+* Manilla - New cage ([#5678](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5678))
+* Manilla - Number fix ([#5680](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5680))
 * Kitsu Moon - HOTFIX: ClubCard - Fixed DestroyPopup from Vintage Maid, which was breaking Popup at the end of the game. ([#5647](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5647))
 * Estsanatlehi - Fix a crash if no options are passed to ServerShowBeep ([#5661](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5661))
 * Estsanatlehi - Default to the original style if BodyStyle is missing ([#5666](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5666))
@@ -53,13 +68,19 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Rama - Ensure that the default state of the wink button properly reflects the... ([#5667](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5667))
 * Rama - Fix chat audio notifications not firing when the chat log is invisible ([#5648](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5648))
 * Rama - HOTFIX: Fix the crafting import/export buttons being switched around ([#5649](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5649))
+* Rama - Fix `ExtendedItemSetOptionByRecord()` unconditionally failing to handle non-extended items ([#5674](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5674))
+* Rama - Fix incorrect pose requirements for the massive ankle cuffs ([#5684](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5684))
+* Rama - Fix `AssetParsePosePrerequisite()` failing to generate pose prerequisites if `Asset.SetPose` ([#5685](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5685))
 * Ben987 - Fix - BalletHeels Hogtied Left Aligment
 * Ben987 - Fix missing quotes in online room commands
+* Ben987 - FIX - Add Missing BuyGroup for Pantyhose2
 
 ### [Technical]
 
 * Zoe - Rename "Style" -> "Name" for consistency with Assets vs Tiles ([#5636](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5636))
 * Zoe - Revert map tile and object Image property to Style ([#5660](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5660))
+* Estsanatlehi - Fix CI ([#5675](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5675))
+* Estsanatlehi - Fix CI ([#5697](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5697))
 * Rama - Add a basic template and a few helpers for DOM screens ([#5593](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5593))
 * Rama - Add a namespace for creating swipe-to-close behavior for elements ([#5641](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5641))
 

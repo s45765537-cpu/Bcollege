@@ -36,6 +36,16 @@ const Difficulty = {
 	EXTREME: 3,
 };
 
+/** @satisfies {Record<string, AllowedInteractions>} */
+const AllowedInteractions = /** @type {const} */({
+	Everyone: 0,
+	EveryoneExceptBlacklist: 1,
+	OwnerLoversWhitelistAndDomsOnly: 2,
+	OwnerLoversWhitelistOnly: 3,
+	OwnerLoversOnly: 4,
+	OwnerOnly: 5,
+});
+
 /**
  * An enum representing the various character archetypes
  * ONLINE: The player, or a character representing another online player
@@ -88,7 +98,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		CharacterID: CharacterID,
 		AssetFamily: CharacterAssetFamily,
 		AccountName: "",
-		ItemPermission: 0,
+		AllowedInteractions: 0,
 		Ownership: null,
 		Lovership: [],
 		// @ts-expect-error Initialized later
@@ -367,7 +377,6 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			return this.Effect.includes("FixedHead");
 		},
 		IsOwned: function () {
-			if (AsylumGGTSGetLevel(this) >= 6) return "ggts";
 			if (this.IsNpc() && this.Owner === Player.Name) return "player";
 			if (this.IsNpc() && this.Owner !== Player.Name && NPCEventGet(this, "EndDomTrial")) return "player";
 			if (this.Ownership && this.Ownership.MemberNumber) return "online";
@@ -378,6 +387,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 				let trialing = PrivateCharacter.find(c => NPCEventGet(c, "EndSubTrial") > 0);
 				if (trialing && trialing !== this) return "npc";
 			}
+			if (AsylumGGTSGetLevel(this) >= 6) return "ggts";
 			return false;
 		},
 		IsOwnedByCharacter: function (C) {
@@ -1134,7 +1144,7 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 	if (!Char.IsPlayer() && Char.MemberNumber == SourceMemberNumber) {
 		Char.Title = ServerAccountDataSyncedValidate.Title(data.Title, Char);
 		Char.Nickname = ServerAccountDataSyncedValidate.Nickname(data.Nickname, Char);
-		Char.ItemPermission = ServerAccountDataSyncedValidate.ItemPermission(data.ItemPermission, Char);
+		Char.AllowedInteractions = ServerAccountDataSyncedValidate.AllowedInteractions(data.AllowedInteractions ?? data.ItemPermission, Char);
 		Char.ArousalSettings = ServerAccountDataSyncedValidate.ArousalSettings(data.ArousalSettings, Char);
 		Char.OnlineSharedSettings = ServerAccountDataSyncedValidate.OnlineSharedSettings(data.OnlineSharedSettings, Char);
 		Char.Game = ServerAccountDataSyncedValidate.Game(data.Game, Char);
@@ -1432,6 +1442,7 @@ function CharacterLoadCanvas(C) {
 
 	// Reload the canvas
 	CharacterAppearanceBuildCanvas(C);
+	C.MustDraw = false;
 }
 
 /**
@@ -1442,7 +1453,6 @@ function CharacterLoadCanvasAll() {
 	for (let C = 0; C < Character.length; C++)
 		if (Character[C].MustDraw) {
 			CharacterLoadCanvas(Character[C]);
-			Character[C].MustDraw = false;
 		}
 }
 

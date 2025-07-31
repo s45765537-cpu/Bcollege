@@ -121,9 +121,9 @@ function AsylumGGTSComputerImage(Level) {
 
 /**
  * Loads the GGTS and computer NPC
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function AsylumGGTSLoad() {
+async function AsylumGGTSLoad() {
 	ChatSearchRoomSpaces = ["ASYLUM"];
 	AsylumGGTSIntroDone = false;
 	AsylumGGTSTask = null;
@@ -616,11 +616,14 @@ function AsylumGGTSTaskCanBeDone(C, T) {
  * @returns {boolean} - TRUE if the task was failed
  */
 function AsylumGGTSTaskFail(C, T) {
-	if (T == "NoTalking") {
-		if (ChatRoomChatLog == null) return false;
-		for (let L = 0; L < ChatRoomChatLog.length; L++)
-			if ((ChatRoomChatLog[L].SenderMemberNumber == C.MemberNumber) && (ChatRoomChatLog[L].Time >= AsylumGGTSTaskStart))
-				return true;
+	if (T === "NoTalking") {
+		if (!ChatRoomChatLog) return false;
+		return ChatRoomChatLog.some(log => {
+			if (log.SenderMemberNumber !== C.MemberNumber) return false;
+			const firstChar = log.Chat.trimStart()[0];
+			if (firstChar === "(") return false;
+			if (log.Time >= AsylumGGTSTaskStart) return true;
+		});
 	}
 	return false;
 }

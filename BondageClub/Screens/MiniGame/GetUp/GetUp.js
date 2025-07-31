@@ -24,9 +24,9 @@ function GetUpEnd(Victory) {
 
 /**
  * Loads the Get Up mini game
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function GetUpLoad() {
+async function GetUpLoad() {
 	GetUpBackground = ChatRoomBackground;
 
 	GetUpVelocity = 0;

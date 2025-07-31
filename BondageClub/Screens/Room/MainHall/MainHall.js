@@ -174,9 +174,9 @@ function MainHallAllow(room) {
 
 /**
  * Loads the main hall by setting up the NPCs, CSVs and global variables required.
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function MainHallLoad() {
+async function MainHallLoad() {
 
 	// Loads the variables and dialog
 	ChatSearchRoomSpaces = ["MIXED", "FEMALE_ONLY", "MALE_ONLY"];

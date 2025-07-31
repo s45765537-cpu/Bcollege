@@ -5,9 +5,9 @@ var CreationMessage = "";
 /**
  * Loads the character login screen. Imports data from the Bondage College if necessary
  * and creates the input fields. This function is called dynamically.
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function CreationLoad() {
+async function CreationLoad() {
 
 	// Gets the info to import Bondage College data
 	let DefaultName = "";

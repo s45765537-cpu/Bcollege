@@ -5237,9 +5237,9 @@ function PlatformDialogStart(DialogName) {
 
 /**
  * Loads the screen
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function PlatformDialogLoad() {
+async function PlatformDialogLoad() {
 }
 
 /**

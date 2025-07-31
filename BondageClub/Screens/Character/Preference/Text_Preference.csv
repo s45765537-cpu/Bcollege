@@ -60,13 +60,13 @@ RestrictionSlowImmunity,Cannot be slowed down from leaving a room.
 RestrictionBypassNPCPunishments,Skip punishment when calling maids from chat room.
 RestrictionNoSpeechGarble,Don't garble online chat and whipers when gagged.
 CharacterLabelColor,Character label color:
-ItemPermission,Item permission:
-PermissionLevel0,"Everyone, no exceptions"
-PermissionLevel1,"Everyone, except blacklist"
-PermissionLevel2,"Owner, Lover, whitelist & Dominants"
-PermissionLevel3,"Owner, Lover and whitelist only"
-PermissionLevel4,Owner and Lover only
-PermissionLevel5,Owner only
+AllowedInteractions,Allowed interactions:
+AllowedInteraction0,"Everyone, no exceptions"
+AllowedInteraction1,"Everyone, except blacklist"
+AllowedInteraction2,"Owner, Lover, whitelist & Dominants"
+AllowedInteraction3,"Owner, Lover and whitelist only"
+AllowedInteraction4,Owner and Lover only
+AllowedInteraction5,Owner only
 ErrorInvalidColor,Put a valid hex #red-green-blue color
 ColorTheme,Theme:
 Light,Light

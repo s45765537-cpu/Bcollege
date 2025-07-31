@@ -71,9 +71,9 @@ function IntroductionCanPlayClubCard() { return (!Player.IsRestrained() && !Curr
 
 /**
  * Loads the introduction room and its 2 NPCS
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function IntroductionLoad() {
+async function IntroductionLoad() {
 
 	// Checks if the player already has the basic items
 	IntroductionHasBasicItems = (InventoryAvailable(Player, "NylonRope", "ItemFeet") && InventoryAvailable(Player, "NylonRope", "ItemLegs") && InventoryAvailable(Player, "NylonRope", "ItemArms") && InventoryAvailable(Player, "ClothGag", "ItemMouth"));

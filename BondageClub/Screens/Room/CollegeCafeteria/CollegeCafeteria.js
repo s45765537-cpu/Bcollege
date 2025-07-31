@@ -24,9 +24,9 @@ function CollegeCafeteriaCanInviteToPrivateRoom() { return PrivateHasEmptySlot()
 
 /**
  * Loads the cafeteria and generates Sidney according to her current state
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function CollegeCafeteriaLoad() {
+async function CollegeCafeteriaLoad() {
 
 	// Sets Sidney current relationship with the player
 	if (LogQuery("BondageCollege", "Import")) CollegeCafeteriaSidneyStatus = "SchoolMate";

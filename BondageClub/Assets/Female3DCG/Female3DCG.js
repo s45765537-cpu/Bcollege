@@ -3180,7 +3180,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Chains",
-						AllowTypes: { b: 1 },
+						AllowTypes: { b: 2 },
 						PoseMapping: {
 							...AssetPoseMapping.Cloth,
 							AllFours: PoseType.HIDE,
@@ -5663,6 +5663,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SleevelessSlimLatexLeotard",
+				StyleOverride: ["EchoV2"],
 				InventoryID: 204,
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
@@ -8102,6 +8103,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "SleevelessSlimLatexLeotard",
 				InventoryID: 290,
+				StyleOverride: ["EchoV2"],
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
 				Value: 50,
@@ -13725,66 +13727,30 @@ var AssetFemale3DCG = [
 				InventoryID: 1250,
 				Value: 10,
 				BuyGroup: "CombatBoots",
+				InheritPoseMappingFields: true,
 				PoseMapping: {
 					...AssetPoseMapping.Shoes,
 					Kneel: PoseType.HIDE,
 					KneelingSpread: PoseType.HIDE,
-					Hogtied: "Hogtied",
+					Hogtied: PoseType.HIDE,
 				},
-				DefaultColor: ["#690909", "#202020", "#6E693D", "#202020"],
+				DefaultColor: ["#202020", "#202020", "#6E693D", "#690909"],
 				HideItem: ["AnkletLeftRibbon1", "AnkletRightRibbon1"],
 				Layer: [
 					{
-						Name: "Laces",
-						Priority: 24,
-						AllowColorize: true,
-						PoseMapping: {
-							...AssetPoseMapping.Shoes,
-							LegsClosed: "LegsClosed",
-							Spread: "Spread",
-							Kneel: PoseType.HIDE,
-							KneelingSpread: PoseType.HIDE,
-							Hogtied: PoseType.HIDE,
-						},
-					},
-					{
 						Name: "Soles",
-						Priority: 23,
-						AllowColorize: true,
 						PoseMapping: {
-							...AssetPoseMapping.Shoes,
-							LegsClosed: "LegsClosed",
-							Spread: "Spread",
-							Kneel: PoseType.HIDE,
-							KneelingSpread: PoseType.HIDE,
 							Hogtied: "Hogtied",
 						},
 					},
 					{
-						Name: "Eyelets",
-						Priority: 23,
-						AllowColorize: true,
-						PoseMapping: {
-							...AssetPoseMapping.Shoes,
-							LegsClosed: "LegsClosed",
-							Spread: "Spread",
-							Kneel: PoseType.HIDE,
-							KneelingSpread: PoseType.HIDE,
-							Hogtied: PoseType.HIDE,
-						},
+						Name: "Boots",
 					},
 					{
-						Name: "Boots",
-						Priority: 22,
-						AllowColorize: true,
-						PoseMapping: {
-							...AssetPoseMapping.Shoes,
-							LegsClosed: "LegsClosed",
-							Spread: "Spread",
-							Kneel: PoseType.HIDE,
-							KneelingSpread: PoseType.HIDE,
-							Hogtied: PoseType.HIDE,
-						},
+						Name: "Eyelets",
+					},
+					{
+						Name: "Laces",
 					},
 				],
 				//Asset By RavenCreative - raven99275@gmail.com - I consent to modification and use of my work.
@@ -19564,7 +19530,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "PatCircleSplit",
-						AllowTypes: { p: 10, g: [0, 1]},
+						AllowTypes: { p: 10, g: [0, 1] },
 						CopyLayerColor: "Barcode",
 					},
 					{
@@ -19781,22 +19747,22 @@ var AssetFemale3DCG = [
 					{
 						Name: "MouthThin",
 						AllowTypes: { m: 7 },
-						CopyLayerColor: "MouthOnhahole"
+						CopyLayerColor: "MouthOnahole",
 					},
 					{
 						Name: "MouthThinShine",
 						AllowTypes: { m: 7 },
-						CopyLayerColor: "Shine"
+						CopyLayerColor: "Shine",
 					},
 					{
 						Name: "MouthThinOh",
 						AllowTypes: { m: 8 },
-						CopyLayerColor: "MouthOnhahole"
+						CopyLayerColor: "MouthOnahole",
 					},
 					{
 						Name: "MouthThinOhShine",
 						AllowTypes: { m: 8 },
-						CopyLayerColor: "Shine"
+						CopyLayerColor: "Shine",
 					},
 				],
 			},
@@ -27918,7 +27884,6 @@ var AssetFemale3DCG = [
 		ArousalZoneID: 4,
 		Left: 0,
 		Top: 0,
-		Effect: [E.IsPlugged],
 		Zone: [[300, 500, 100, 80]],
 		Asset: [
 			{
@@ -28040,6 +28005,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Top: 20,
 				Prerequisite: ["AccessButt"],
+				Effect: [E.IsPlugged],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 				Layer: [{ Name: "Tips" }, { Name: "Bases" }],
 			},
@@ -28165,6 +28131,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Top: 100,
 				Prerequisite: ["AccessButt"],
+				Effect: [E.IsPlugged],
 				PoseMapping: {
 					AllFours: "AllFours",
 				},
@@ -28178,6 +28145,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Top: 30,
 				Prerequisite: ["AccessButt"],
+				Effect: [E.IsPlugged],
 				PoseMapping: {
 					AllFours: "AllFours",
 				},
@@ -28191,6 +28159,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Top: 80,
 				Prerequisite: ["AccessButt"],
+				Effect: [E.IsPlugged],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 				Layer: [{ Name: "Base" }, { Name: "Tip" }],
 			},
@@ -28202,6 +28171,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Top: 100,
 				Prerequisite: ["AccessButt"],
+				Effect: [E.IsPlugged],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 				Layer: [{ Name: "Base" }, { Name: "Tip" }],
 			},
@@ -28213,6 +28183,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Top: 50,
 				Prerequisite: ["AccessButt"],
+				Effect: [E.IsPlugged],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 			},
 			{
@@ -28223,6 +28194,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Top: 60,
 				Prerequisite: ["AccessButt"],
+				Effect: [E.IsPlugged],
 				PoseMapping: {
 					AllFours: "AllFours",
 				},
@@ -28236,6 +28208,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Top: 40,
 				Prerequisite: ["AccessButt"],
+				Effect: [E.IsPlugged],
 				PoseMapping: {
 					AllFours: "AllFours",
 				},
@@ -28261,6 +28234,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Top: 150,
 				Prerequisite: ["AccessButt"],
+				Effect: [E.IsPlugged],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 			},
 			{
@@ -28271,6 +28245,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Top: 180,
 				Prerequisite: ["AccessButt"],
+				Effect: [E.IsPlugged],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 			},
 			{
@@ -28362,6 +28337,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Top: 80,
 				Prerequisite: ["AccessButt"],
+				Effect: [E.IsPlugged],
 				PoseMapping: {
 					AllFours: "AllFours",
 				},
@@ -28374,6 +28350,7 @@ var AssetFemale3DCG = [
 				Time: 10,
 				Visible: false,
 				Prerequisite: ["AccessButt"],
+				Effect: [E.IsPlugged],
 				ExpressionTrigger: [{ Name: "Low", Group: "Blush", Timer: 10 }],
 			},
 			{
@@ -28385,6 +28362,7 @@ var AssetFemale3DCG = [
 				Value: 250,
 				Time: 10,
 				Prerequisite: ["AccessVulva"],
+				Effect: [E.IsPlugged],
 				DynamicGroupName: "TailStraps",
 				DefaultColor: ["#c43ba4", "#b832b6", "#9221ba"],
 				AllowActivity: ["PenetrateItem"],
@@ -28409,6 +28387,20 @@ var AssetFemale3DCG = [
 				Time: 5,
 				RemoveTime: 5,
 				Prerequisite: ["AccessButt"],
+				Effect: [E.IsPlugged],
+			},
+			{
+				Name: "FuckPlug",
+				InventoryID: 1254,
+				Value: 10,
+				Time: 10,
+				Difficulty: 12,
+				RemoveTime: 5,
+				Prerequisite: ["AccessButt"],
+				AllowLock: true,
+				AllowTighten: true,
+				Visible: false,
+				Effect: [E.UseRemote],
 			},
 		],
 		Color: [
@@ -42157,6 +42149,129 @@ var AssetFemale3DCG = [
 					{ Name: "FanSurface", AllowColorize: true },
 				],
 			},
+			{
+				Name: "Cigarette",
+				InventoryID:1255,
+				ParentGroup: {},
+				Value: 10,
+				Left: 0,
+				Top: {
+					[PoseType.Default]: 0,
+					OverTheHead: -44,
+				},
+				Priority: 46,
+				IsRestraint: false,
+				Random: false,
+				Audio: "Bag",
+				AllowActivity: ["RubItem"],
+				AllowColorize: true,
+				PoseMapping: {
+					BackBoxTie: PoseType.DEFAULT,
+					BackCuffs: PoseType.DEFAULT,
+					BackElbowTouch: PoseType.DEFAULT,
+					OverTheHead: PoseType.DEFAULT,
+					Yoked: PoseType.DEFAULT,
+					TapedHands: PoseType.DEFAULT,
+					Hogtied: PoseType.DEFAULT,
+					AllFours: PoseType.DEFAULT,
+				},
+				DefaultColor: [
+					"Default",
+					"Default",
+					"#A16000",
+					"Default",
+				],
+				Layer: [
+					{
+						Name: "Paper",
+						AllowTypes: { typed: 1 },
+						PoseMapping: {
+							BackBoxTie: PoseType.HIDE,
+							BackCuffs: "BackCuffs",
+							BackElbowTouch: PoseType.HIDE,
+							OverTheHead: "OverTheHead",
+							Yoked: "Yoked",
+							TapedHands: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "Lit",
+						AllowTypes: { typed: 1 },
+						PoseMapping: {
+							BackBoxTie: PoseType.HIDE,
+							BackCuffs: "BackCuffs",
+							BackElbowTouch: PoseType.HIDE,
+							OverTheHead: "OverTheHead",
+							Yoked: "Yoked",
+							TapedHands: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "Filter",
+						AllowTypes: { typed: 1 },
+						PoseMapping: {
+							BackBoxTie: PoseType.HIDE,
+							BackCuffs: "BackCuffs",
+							BackElbowTouch: PoseType.HIDE,
+							OverTheHead: "OverTheHead",
+							Yoked: "Yoked",
+							TapedHands: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "Smoke",
+						AllowTypes: { typed: 1 },
+						PoseMapping: {
+							BackBoxTie: PoseType.HIDE,
+							BackCuffs: "BackCuffs",
+							BackElbowTouch: PoseType.HIDE,
+							OverTheHead: "OverTheHead",
+							Yoked: "Yoked",
+							TapedHands: PoseType.HIDE,
+							Hogtied: PoseType.HIDE,
+							AllFours: PoseType.HIDE,
+						},
+					},
+					{
+						Name: "PaperInMouth",
+						AllowTypes: { typed: 0 },
+						CopyLayerColor: "Paper",
+						PoseMapping: {
+							OverTheHead: "OverTheHead",
+						},
+					},
+					{
+						Name: "LitInMouth",
+						AllowTypes: { typed: 0 },
+						CopyLayerColor: "Lit",
+						PoseMapping: {
+							OverTheHead: "OverTheHead",
+						},
+					},
+					{
+						Name: "FilterInMouth",
+						AllowTypes: { typed: 0 },
+						CopyLayerColor: "Filter",
+						PoseMapping: {
+							OverTheHead: "OverTheHead",
+						},
+					},
+					{
+						Name: "SmokeInMouth",
+						AllowTypes: { typed: 0 },
+						CopyLayerColor: "Smoke",
+						PoseMapping: {
+							OverTheHead: "OverTheHead",
+						},
+					},
+				],
+			},
 		],
 		Color: [
 			"Default",
@@ -52113,7 +52228,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "PatCircleSplit",
-						AllowTypes: { p: 10, g: [0, 1]},
+						AllowTypes: { p: 10, g: [0, 1] },
 						CopyLayerColor: "Barcode",
 					},
 					{
@@ -52201,7 +52316,7 @@ var AssetFemale3DCG = [
 						AllowTypes: { p: 15, g: [2, 3] },
 						CopyLayerColor: "Barcode",
 					},
-					
+
 					// All Eyes
 					{
 						Name: "EyeRegularShine",
@@ -52333,22 +52448,22 @@ var AssetFemale3DCG = [
 					{
 						Name: "MouthThin",
 						AllowTypes: { m: 7 },
-						CopyLayerColor: "MouthOnhahole"
+						CopyLayerColor: "MouthOnahole",
 					},
 					{
 						Name: "MouthThinShine",
 						AllowTypes: { m: 7 },
-						CopyLayerColor: "Shine"
+						CopyLayerColor: "Shine",
 					},
 					{
 						Name: "MouthThinOh",
 						AllowTypes: { m: 8 },
-						CopyLayerColor: "MouthOnhahole"
+						CopyLayerColor: "MouthOnahole",
 					},
 					{
 						Name: "MouthThinOhShine",
 						AllowTypes: { m: 8 },
-						CopyLayerColor: "Shine"
+						CopyLayerColor: "Shine",
 					},
 				],
 			},
@@ -54882,7 +54997,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "PatCircleSplit",
-						AllowTypes: { p: 10, g: [0, 1]},
+						AllowTypes: { p: 10, g: [0, 1] },
 						CopyLayerColor: "Barcode",
 					},
 					{
@@ -55099,22 +55214,22 @@ var AssetFemale3DCG = [
 					{
 						Name: "MouthThin",
 						AllowTypes: { m: 7 },
-						CopyLayerColor: "MouthOnhahole"
+						CopyLayerColor: "MouthOnahole",
 					},
 					{
 						Name: "MouthThinShine",
 						AllowTypes: { m: 7 },
-						CopyLayerColor: "Shine"
+						CopyLayerColor: "Shine",
 					},
 					{
 						Name: "MouthThinOh",
 						AllowTypes: { m: 8 },
-						CopyLayerColor: "MouthOnhahole"
+						CopyLayerColor: "MouthOnahole",
 					},
 					{
 						Name: "MouthThinOhShine",
 						AllowTypes: { m: 8 },
-						CopyLayerColor: "Shine"
+						CopyLayerColor: "Shine",
 					},
 				],
 			},

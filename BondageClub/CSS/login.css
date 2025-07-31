@@ -1,0 +1,27 @@
+#login-register-button span,
+#login-login-button span,
+#login-password-reset-button span,
+#login-cheats-button span,
+#login-new-character-label span {
+  display: contents;
+}
+
+#login-footer {
+  display: flex;
+  flex-direction: column;
+  gap: min(2vh, 1vw);
+  align-items: center;
+  justify-content: end;
+}
+
+
+#login-login-button {
+  transform: translateX(-50%);
+  padding-inline: 0.5em;
+  min-width: min(20vh, 10vw);
+}
+
+.login-text {
+  text-align: center;
+  color: white;
+}

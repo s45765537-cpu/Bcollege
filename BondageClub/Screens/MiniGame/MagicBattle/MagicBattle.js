@@ -38,9 +38,9 @@ function MagicBattleStart(Opponent, Difficulty, Background, FunctionName) {
 
 /**
  * Loads the magic battle
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function MagicBattleLoad() {
+async function MagicBattleLoad() {
 }
 
 /**

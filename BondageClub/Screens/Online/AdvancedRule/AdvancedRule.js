@@ -10,9 +10,9 @@ var AdvancedRuleSelection = "";
 
 /**
  * Loads the advanced rule screen
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function AdvancedRuleLoad() {
+async function AdvancedRuleLoad() {
 	AdvancedRuleSelection = "";
 	if ((AdvancedRuleTarget != null) && (AdvancedRuleTarget.Rule != null))
 		for (let R of AdvancedRuleTarget.Rule)

@@ -7,9 +7,9 @@ var MagicSchoolEscapeTimer = 0;
 
 /**
  * Loads the magic school laboratory and the teacher
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function MagicSchoolEscapeLoad() {
+async function MagicSchoolEscapeLoad() {
 	MagicPuzzleBackground = MagicSchoolEscapeBackground;
 	if (MagicSchoolEscapeInstructor == null) {
 		MagicSchoolEscapeInstructor = CharacterLoadNPC("NPC_MagicSchoolEscape_Instructor");

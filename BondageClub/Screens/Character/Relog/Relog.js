@@ -6,9 +6,9 @@ var RelogData = null;
 
 /**
  * Loads the relog screen
- * @returns {void} Nothing
+ * @type {ScreenLoadHandler}
  */
-function RelogLoad() {
+async function RelogLoad() {
 	// Hides any (non-nested) HTML DOM element with the tag "HideOnPopup", like text boxes
 	const elements = /** @type {HTMLElement[]} */(Array.from(document.querySelectorAll(".HideOnPopup, .HideOnDisconnect")));
 	for (const e of elements) {

@@ -1477,6 +1477,14 @@ ItemHandheldAnimeGirlWandDetail2,Spheres
 ItemHandheldAnimeGirlWandSwitch,Power switch
 ItemHandheldBunPlushBase1,Base
 ItemHandheldBunPlushBase2,Accent
+ItemHandheldCigaretteSmoke,Smoke
+ItemHandheldCigaretteLit,Lit
+ItemHandheldCigaretteFilter,Filter
+ItemHandheldCigarettePaper,Paper
+ItemHandheldCigaretteSmokeInMouth,Smoke In Mouth
+ItemHandheldCigaretteLitInMouth,Lit In Mouth
+ItemHandheldCigaretteFilterInMouth,Filter In Mouth
+ItemHandheldCigarettePaperInMouth,Paper In Mouth
 ItemHandheldFoxPlushBase1,Base
 ItemHandheldFoxPlushBase2,Accent
 ItemHandheldKyosensuFan,Fan paper

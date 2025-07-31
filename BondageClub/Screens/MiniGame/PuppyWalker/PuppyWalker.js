@@ -7,9 +7,9 @@ var PuppyWalkerGenerateMoveTimer = 0;
 
 /**
  * Loads the puppy walker mini game and sets the difficulty, it's a little faster on mobile because it's easier.
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function PuppyWalkerLoad() {
+async function PuppyWalkerLoad() {
 	PuppyWalkerMoves = [0, 0, 0, 0];
 	PuppyWalkerEscape = [0, 0, 0, 0];
 	PuppyWalkerMovesTimer = [0, 0, 0, 0];

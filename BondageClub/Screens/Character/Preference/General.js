@@ -38,12 +38,12 @@ function PreferenceSubscreenGeneralRun() {
 
 	DrawButton(1140, 187, 65, 65, "", "White", "Icons/Color.png");
 	DrawButton(500, 280, 90, 90, "", "White", "Icons/Next.png");
-	DrawText(TextGet("ItemPermission") + " " + TextGet("PermissionLevel" + Player.ItemPermission.toString()), 615, 325, "Black", "Gray");
+	DrawText(TextGet("AllowedInteractions") + " " + TextGet("AllowedInteraction" + Player.AllowedInteractions.toString()), 615, 325, "Black", "Gray");
 
 	// Checkboxes (Some are not available when playing on Hardcore or Extreme)
 	DrawCheckbox(500, 402, 64, 64, TextGet("ForceFullHeight"), Player.VisualSettings.ForceFullHeight);
 	DrawCheckbox(500, 482, 64, 64, TextGet("DisablePickingLocksOnSelf"), Player.OnlineSharedSettings.DisablePickingLocksOnSelf);
-	const onHighDifficulty = Player.GetDifficulty() >= 2;
+	const onHighDifficulty = Player.GetDifficulty() >= Difficulty.HARDCORE;
 	DrawCheckbox(500, 722, 64, 64, TextGet(PreferenceSafewordConfirm ? "ConfirmSafeword" : "EnableSafeword"), Player.GameplaySettings.EnableSafeword, onHighDifficulty);
 	DrawCheckbox(500, 562, 64, 64, TextGet("DisableAutoMaid"), !Player.GameplaySettings.DisableAutoMaid, onHighDifficulty);
 	DrawCheckbox(500, 642, 64, 64, TextGet("OfflineLockedRestrained"), Player.GameplaySettings.OfflineLockedRestrained, onHighDifficulty);
@@ -72,9 +72,9 @@ function PreferenceSubscreenGeneralClick() {
 
 	// If we must change the restrain permission level
 	if (MouseIn(500, 280, 90, 90)) {
-		Player.ItemPermission++;
-		if (Player.ItemPermission > 5) Player.ItemPermission = 0;
-		if (Player.GetDifficulty() >= 3) LoginExtremeItemSettings(Player.ItemPermission == 0);
+		Player.AllowedInteractions++;
+		if (Player.AllowedInteractions > AllowedInteractions.OwnerOnly) Player.AllowedInteractions = AllowedInteractions.Everyone;
+		if (Player.GetDifficulty() >= Difficulty.EXTREME) LoginExtremeItemSettings(Player.AllowedInteractions === AllowedInteractions.Everyone);
 	}
 
 	// If we must show/hide/use the color picker
@@ -84,7 +84,7 @@ function PreferenceSubscreenGeneralClick() {
 	// Preference check boxes
 	if (MouseIn(500, 402, 64, 64)) Player.VisualSettings.ForceFullHeight = !Player.VisualSettings.ForceFullHeight;
 	if (MouseIn(500, 482, 64, 64) ) Player.OnlineSharedSettings.DisablePickingLocksOnSelf = !Player.OnlineSharedSettings.DisablePickingLocksOnSelf;
-	if (MouseIn(500, 722, 64, 64) && (Player.GetDifficulty() < 2)) {
+	if (MouseIn(500, 722, 64, 64) && (Player.GetDifficulty() < Difficulty.HARDCORE)) {
 		if (!Player.GameplaySettings.EnableSafeword && !Player.IsRestrained() && !Player.IsChaste()) {
 			if (PreferenceSafewordConfirm) {
 				Player.GameplaySettings.EnableSafeword = true;
@@ -97,8 +97,8 @@ function PreferenceSubscreenGeneralClick() {
 			} else PreferenceSafewordConfirm = true;
 		}
 	} else PreferenceSafewordConfirm = false;
-	if (MouseIn(500, 562, 64, 64) && (Player.GetDifficulty() < 2)) Player.GameplaySettings.DisableAutoMaid = !Player.GameplaySettings.DisableAutoMaid;
-	if (MouseIn(500, 642, 64, 64) && (Player.GetDifficulty() < 2)) Player.GameplaySettings.OfflineLockedRestrained = !Player.GameplaySettings.OfflineLockedRestrained;
+	if (MouseIn(500, 562, 64, 64) && (Player.GetDifficulty() < Difficulty.HARDCORE)) Player.GameplaySettings.DisableAutoMaid = !Player.GameplaySettings.DisableAutoMaid;
+	if (MouseIn(500, 642, 64, 64) && (Player.GetDifficulty() < Difficulty.HARDCORE)) Player.GameplaySettings.OfflineLockedRestrained = !Player.GameplaySettings.OfflineLockedRestrained;
 	if (MouseIn(500, 802, 64, 64)) Player.OnlineSharedSettings.ItemsAffectExpressions = !Player.OnlineSharedSettings.ItemsAffectExpressions;
 }
 

@@ -1361,6 +1361,17 @@ function sanitizeVMOutput(input) {
 		};
 		callback.bind(obj)(obj);
 	};
+	context.CommonFetch = async (url) => {
+		const data = fs.readFileSync(`../../${url}`, "utf8");
+		// Quacks like a Request object
+		const obj = {
+			status: 200,
+			text: async function() {
+				return data;
+			}
+		};
+		return obj;
+	};
 	for (const file of neededFiles) {
 		vm.runInContext(fs.readFileSync(BASE_PATH + file, { encoding: "utf-8" }), context, {
 			filename: file,

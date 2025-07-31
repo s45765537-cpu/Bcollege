@@ -10,9 +10,9 @@ var ChatBlockItemReturnScreen = null;
 
 /**
  * Loads the chat room item blocking screen
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function ChatBlockItemLoad() {
+async function ChatBlockItemLoad() {
 }
 
 /**

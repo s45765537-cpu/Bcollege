@@ -6032,7 +6032,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Glow",
 					Key: "g",
-					Options: [{}, {}, {}, {},], // Glow Off, Glow Eyes, Mouth On, Glow Pattern On, Glow On
+					Options: [{}, {}, {}, {}], // Glow Off, Glow Eyes, Mouth On, Glow Pattern On, Glow On
 				},
 				{
 					Name: "Sight",
@@ -12552,6 +12552,9 @@ var AssetFemale3DCGExtended = {
 		LockingVibePlug: {
 			Archetype: ExtendedArchetype.VIBRATING,
 		}, // LockingVibePlug
+		FuckPlug: {
+			Archetype: ExtendedArchetype.VIBRATING,
+		}, // FuckPlug
 		AnalBeads2: {
 			Archetype: ExtendedArchetype.TYPED,
 			ChatTags: [
@@ -15593,7 +15596,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Glow",
 					Key: "g",
-					Options: [{}, {}, {}, {},], // Glow Off, Glow Eyes, Mouth On, Glow Pattern On, Glow On
+					Options: [{}, {}, {}, {}], // Glow Off, Glow Eyes, Mouth On, Glow Pattern On, Glow On
 				},
 				{
 					Name: "Helmet",
@@ -19754,7 +19757,7 @@ var AssetFemale3DCGExtended = {
 							// m6 - Subtle
 							Property: { Effect: [E.BlockMouth] },
 						},
-												{
+						{
 							// m7 - Thin
 							Property: { Effect: [E.BlockMouth] },
 						},
@@ -19833,7 +19836,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Glow",
 					Key: "g",
-					Options: [{}, {}, {}, {},], // Glow Off, Glow Eyes, Mouth On, Glow Pattern On, Glow On
+					Options: [{}, {}, {}, {}], // Glow Off, Glow Eyes, Mouth On, Glow Pattern On, Glow On
 				},
 				{
 					Name: "Sight",
@@ -20570,5 +20573,16 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // Uchiwa
+		Cigarette: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "InMouth",
+				},
+				{
+					Name: "InHand",
+				},
+			],
+		}, // Cigarette
 	}, // ItemHandheld
 };

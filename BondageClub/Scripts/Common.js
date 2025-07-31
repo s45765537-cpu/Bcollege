@@ -235,6 +235,69 @@ function CommonReadCSV(url) {
 	return temp;
 }
 
+
+/**
+ * Sleep for a number of milliseconds
+ * @param {number} ms
+ * @returns {Promise<number>}
+ */
+async function CommonSleep(ms) {
+	return new Promise(resolve => window.setTimeout(resolve, ms));
+}
+
+/**
+ *
+ * @param {() => boolean} func
+ * @param {() => boolean} cancelFunc
+ * @returns
+ */
+async function CommonWaitFor(func, cancelFunc) {
+	while (!func()) {
+		if (cancelFunc()) {
+			return false;
+		}
+		await CommonSleep(10);
+	}
+	return true;
+}
+
+/**
+ * How many times do we retry a resource fetch.
+ */
+const FETCH_MAX_RETRIES = 10;
+
+/**
+ * How much to wait max between each attempt.
+ */
+const FETCH_MAX_RETRY_BACKOFF_TIME = 16;
+
+/**
+ * Fetch a remote resource
+ *
+ * @param {RequestInfo | URL} request
+ * @returns {Promise<Response>}
+ */
+async function CommonFetch(request) {
+	let retries = FETCH_MAX_RETRIES;
+	let reply;
+	const method = request instanceof Request ? request.method : "GET";
+	const url = request instanceof Request ? request.url : request;
+	while (retries-- > 0) {
+		reply = await fetch(request);
+		if (reply.status >= 400) {
+			const retrySeconds = Math.min(Math.pow(2, Math.max(0, FETCH_MAX_RETRIES - retries)), FETCH_MAX_RETRY_BACKOFF_TIME);
+			console.warn(`${method} request to ${url} failed - retrying in ${retrySeconds} second${retrySeconds === 1 ? "" : "s"}...`);
+			await CommonSleep(retrySeconds * 1000);
+			continue;
+		}
+		break;
+	}
+	if (retries <= 0) {
+		console.error(`${method} request to ${url} failed - no more retries`);
+	}
+	return reply;
+}
+
 /**
  * AJAX utility to get a file and return its content. By default will retry requests 10 times
  * @param {string} Path - Path of the resource to request
@@ -264,11 +327,11 @@ function CommonGet(Path, Callback, RetriesLeft) {
  * @returns {void} - Nothing
  */
 function CommonGetRetry(Path, Callback, RetriesLeft) {
-	if (typeof RetriesLeft !== "number") RetriesLeft = 10;
+	if (typeof RetriesLeft !== "number") RetriesLeft = FETCH_MAX_RETRIES;
 	if (RetriesLeft <= 0) {
 		console.error(`GET request to ${Path} failed - no more retries`);
 	} else {
-		const retrySeconds = Math.min(Math.pow(2, Math.max(0, 10 - RetriesLeft)), 60);
+		const retrySeconds = Math.min(Math.pow(2, Math.max(0, FETCH_MAX_RETRIES - RetriesLeft)), FETCH_MAX_RETRY_BACKOFF_TIME);
 		console.warn(`GET request to ${Path} failed - retrying in ${retrySeconds} second${retrySeconds === 1 ? "" : "s"}...`);
 		setTimeout(() => CommonGet(Path, Callback, RetriesLeft - 1), retrySeconds * 1000);
 	}
@@ -277,6 +340,7 @@ function CommonGetRetry(Path, Callback, RetriesLeft) {
 /** @type {MouseEventListener} */
 function CommonMouseDown(event) {
 	if (CurrentCharacter == null) {
+		if (ScreenIsLoading) return;
 		if (CurrentScreenFunctions.MouseDown) {
 			CurrentScreenFunctions.MouseDown(event);
 		}
@@ -287,6 +351,7 @@ function CommonMouseDown(event) {
 
 /** @type {MouseEventListener} */
 function CommonMouseUp(event) {
+	if (ScreenIsLoading) return;
 	if (CurrentScreenFunctions.MouseUp)
 	{
 		CurrentScreenFunctions.MouseUp(event);
@@ -295,6 +360,7 @@ function CommonMouseUp(event) {
 
 /** @type {MouseEventListener} */
 function CommonMouseMove(event) {
+	if (ScreenIsLoading) return;
 	if (CurrentScreenFunctions.MouseMove)
 	{
 		CurrentScreenFunctions.MouseMove(event);
@@ -303,8 +369,16 @@ function CommonMouseMove(event) {
 
 /** @type {MouseWheelEventListener} */
 function CommonMouseWheel(event) {
+	if (ScreenIsLoading) return;
 	if (CurrentScreenFunctions.MouseWheel) {
 		CurrentScreenFunctions.MouseWheel(event);
+	}
+}
+
+/** @type {ScreenResizeHandler} */
+function CommonResize(load) {
+	if (CurrentScreenFunctions.Resize) {
+		CurrentScreenFunctions.Resize(load);
 	}
 }
 
@@ -441,12 +515,14 @@ function CommonGetScreen() {
 	return /** @type {ScreenSpecifier} */([CurrentModule, CurrentScreen]);
 }
 
+var ScreenIsLoading = false;
+
 /**
  * Sets the current screen and calls the loading script if needed
  * @param {ScreenSpecifier} spec
- * @returns {void} - Nothing
+ * @returns {Promise<void>} - Nothing
  */
-function CommonSetScreen(...spec) {
+async function CommonSetScreen(...spec) {
 	if (CurrentScreenFunctions && CurrentScreenFunctions.Unload) {
 		CurrentScreenFunctions.Unload();
 	}
@@ -464,6 +540,7 @@ function CommonSetScreen(...spec) {
 		throw Error(`Screen "${NewScreen}": Missing required Click function`);
 	}
 
+	ScreenIsLoading = true;
 	CurrentModule = NewModule;
 	CurrentScreen = NewScreen;
 	CurrentScreenFunctions = {
@@ -486,15 +563,24 @@ function CommonSetScreen(...spec) {
 	CommonGetFont.clearCache();
 	CommonGetFontName.clearCache();
 	TextLoad();
+	try {
+		await TextScreenCache.loadedPromise;
+	} catch (e) {
+		console.error(`Failed to load text strings for screen!`);
+	}
 
 	ElementToggleGeneratedElements(CurrentScreen, true);
 
 	if (CurrentScreenFunctions.Load) {
-		CurrentScreenFunctions.Load();
+		await CurrentScreenFunctions.Load();
 	}
-	if (CurrentScreenFunctions.Resize) {
-		CurrentScreenFunctions.Resize(true);
+	const background = DrawGetBackgroundURL(false);
+	if (background) {
+		DrawGetImage(background);
 	}
+	ScreenIsLoading = false;
+
+	CommonResize(true);
 }
 
 /**
@@ -1016,7 +1102,7 @@ function CommonNoop() {
  * @returns {String} - Returns the proper server to use in production or test
  */
 function CommonGetServer() {
-	if ((location.href.indexOf("bondageprojects") < 0) && (location.href.indexOf("bondage-europe") < 0)) return "https://bondage-club-server-test.herokuapp.com/";
+	if ((location.href.indexOf("bondageprojects") < 0) && (location.href.indexOf("bondage-europe") < 0) && (location.href.indexOf("bondage-asia") < 0)) return "https://bondage-club-server-test.herokuapp.com/";
 	if (location.protocol !== 'https:') location.replace(`https:${location.href.substring(location.protocol.length)}`);
 	return "https://bondage-club-server.herokuapp.com/";
 }
