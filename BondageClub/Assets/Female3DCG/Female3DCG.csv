@@ -420,6 +420,12 @@ HairAccessory1,EarWarmer,Ear Warmers
 HairAccessory1,ElfEars,Elf Ears
 HairAccessory1,FoxEars1,Fox Ears Small
 HairAccessory1,FoxEars2,Fox Ears Large
+HairAccessory1,CustomizableFluffyEars1, Customizable Fluffy Ears 1
+HairAccessory1,CustomizableFluffyEars2, Customizable Fluffy Ears 2
+HairAccessory1,CustomizableFluffyEars3, Customizable Fluffy Ears 3
+HairAccessory1,CustomizableCatEars, Customizable Cat Ears
+HairAccessory1,CustomizableElfEars, Customizable Elf Ears
+HairAccessory1,CustomizableCowEars, Customizable Cow Ears
 HairAccessory1,FoxEars3,Fox Ears Bell
 HairAccessory1,CyberEars,Cyber Ears
 HairAccessory1,FloppyBunnyEars,Floppy Bunny Ears
@@ -845,6 +851,8 @@ ItemArms,WristShackles,Wrist Shackles
 ItemArms,Yoke,Yoke
 ItemArms,Zipties,Zip Ties
 ItemArms,BedMetalCuffs,Bed Metal Cuffs
+ItemArms,PawPaddedPetsuitArms,Paw Padded Petsuit Arms
+ItemArms,StrappedPetsuitArms,MultiStrap Petsuit Arms
 ItemBoots,,Feet
 ItemBoots,BalletHeels,Ballet Heels
 ItemBoots,BalletHeels1,Ballet Hi-Shoes
@@ -1238,6 +1246,8 @@ ItemLegs,Slime,Slime
 ItemLegs,SturdyLeatherBelts,Sturdy Leather Belt
 ItemLegs,Tentacles,Tentacles
 ItemLegs,Zipties,Zip Ties
+ItemLegs,StrappedPetsuitLegs,MultiStrap Petsuit Legs
+ItemLegs,PawPaddedPetsuitLegs,Paw Padded Petsuit Legs
 ItemMisc,,Body
 ItemMisc,BountySuitcase,Secret Suitcase
 ItemMisc,BountySuitcaseEmpty,Unlocked Suitcase
