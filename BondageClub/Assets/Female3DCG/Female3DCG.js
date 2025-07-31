@@ -16130,7 +16130,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CustomizableFluffyEars1",
-				InventoryID: 1254,
+				InventoryID: 1257,
 				Fetish: ["Pet"],
 				Value: 40,
 				Left: 92,
@@ -16278,7 +16278,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CustomizableFluffyEars2",
-				InventoryID: 1254,
+				InventoryID: 1257,
 				Fetish: ["Pet"],
 				Value: -1,
 				Left: 92,
@@ -16426,7 +16426,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CustomizableFluffyEars3",
-				InventoryID: 1254,
+				InventoryID: 1257,
 				Fetish: ["Pet"],
 				Value: -1,
 				Left: 92,
@@ -16574,7 +16574,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CustomizableCatEars",
-				InventoryID: 1254,
+				InventoryID: 1257,
 				Fetish: ["Pet"],
 				Value: -1,
 				Left: 92,
@@ -16721,7 +16721,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CustomizableElfEars",
-				InventoryID: 1254,
+				InventoryID: 1257,
 				Value: -1,
 				Left: 92,
 				Top: 5,
@@ -16865,7 +16865,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "CustomizableCowEars",
-				InventoryID: 1254,
+				InventoryID: 1257,
 				Value: -1,
 				Left: 92,
 				Top: 0,
@@ -26628,7 +26628,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "PawPaddedPetsuitLegs",
 				BuyGroup: "PawPaddedPetsuit",
-				InventoryID: 1255,
+				InventoryID: 1258,
 				Fetish: ["Latex", "Pet"],
 				Value: -1,
 				Difficulty: 5,
@@ -39043,7 +39043,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "PawPaddedPetsuitArms",
 				BuyGroup: "PawPaddedPetsuit",
-				InventoryID: 1255,
+				InventoryID: 1258,
 				Fetish: ["Latex", "Pet"],
 				Priority: 31,
 				Value: 200,
