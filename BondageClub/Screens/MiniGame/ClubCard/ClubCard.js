@@ -2412,7 +2412,7 @@ var ClubCardList = [
 			CCPlayer.Hand.push(ClubCardGetCopyCardByName("Cute Bunny"));
 		},
 		onPlayedCard: function(CCPlayer) {
-			if (ClubCardNameCountOnBoard(CCPlayer, "Cute Bunny")) ClubCardRemoveFromBoard(CCPlayer, this);
+			if (ClubCardNameCountOnBoard(CCPlayer, "Cute Bunny") > CCPlayer.Level) ClubCardRemoveFromBoard(CCPlayer, this);
 		}
 	},
 
