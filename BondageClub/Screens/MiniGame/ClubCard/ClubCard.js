@@ -371,6 +371,29 @@ var ClubCardList = [
 		MoneyPerTurn: 3,
 		FamePerTurn: -1
 	},
+	{
+		ID: 1024,
+		Name: "Ganguro Girl",
+		MoneyPerTurn: 2,
+		FamePerTurn: -1,
+		BeforeTurnEnd: function(CCPlayer) {
+			const opponent = ClubCardGetOpponent(CCPlayer);
+			if ((CCPlayer.Board.length - ClubCardGroupOnBoardCount(CCPlayer, "Liability")) > (opponent.Board.length - ClubCardGroupOnBoardCount(opponent, "Liability"))) ClubCardPlayerAddFame(CCPlayer, -1);
+			else if ((CCPlayer.Board.length - ClubCardGroupOnBoardCount(CCPlayer, "Liability")) < (opponent.Board.length - ClubCardGroupOnBoardCount(opponent, "Liability"))) ClubCardPlayerAddFame(opponent, -1);
+		}
+	},
+	{
+		ID: 1025,
+		Name: "Collector",
+		RequiredLevel: 3,
+		MoneyPerTurn: 1,
+		FamePerTurn: 1,
+		BeforeTurnEnd: function(CCPlayer) {
+			if (ClubCardGroupIsOnBoard(CCPlayer, "Slave")) ClubCardPlayerAddFame(CCPlayer, 1);
+			const effectFame = ClubCardGroupOnBoardCount(CCPlayer, "Kemonomimi");
+			ClubCardPlayerAddFame(CCPlayer, Math.min(effectFame, 2));
+		}
+	},
 
 	// 2000 - Staff Members (Club employees that can be targetted by events)
 	{
@@ -1376,7 +1399,7 @@ var ClubCardList = [
 		RequiredLevel: 3,
 		BeforeTurnEnd: function(CCPlayer) {
 			const opponent = ClubCardGetOpponent(CCPlayer);
-			let fameGain = CCPlayer.Board.length - ClubCardGroupOnBoardCount(CCPlayer, "Liability") - opponent.Board.length + ClubCardGroupOnBoardCount(opponent, "Liability");
+			let fameGain = CCPlayer.Board.length - opponent.Board.length;
 			if (fameGain > 5) fameGain = 5;
 			else if (fameGain < -5) fameGain = -5;
 			ClubCardPlayerAddFame(CCPlayer, fameGain);
@@ -1444,10 +1467,9 @@ var ClubCardList = [
 		Name: "Drunkard",
 		Group: ["Liability"],
 		RequiredLevel: 2,
-		FamePerTurn: -1,
 		onDrawCard: function(CCPlayer) {
-			if (!ClubCardNameIsOnBoard(CCPlayer, "Bouncer")) ClubCardPlayerAddFame(CCPlayer, -2);
-			if (ClubCardNameIsOnBoard(CCPlayer, "Waitress")) ClubCardPlayerAddMoney(CCPlayer, 1);
+			if (!ClubCardNameIsOnBoard(CCPlayer, "Bouncer")) ClubCardPlayerAddFame(CCPlayer, -1);
+			if (!ClubCardNameIsOnBoard(CCPlayer, "Waitress")) ClubCardPlayerAddFame(CCPlayer, -1);
 		}
 	},
 
@@ -1509,7 +1531,7 @@ var ClubCardList = [
 	{
 		ID: 10006,
 		Name: "Big Baby",
-		Group: ["ABDLBaby"],
+		Group: ["ABDLBaby", "Submissive"],
 		RequiredLevel: 2,
 		MoneyPerTurn: 2,
 		OnPlay: function(CCPlayer) {
@@ -1913,7 +1935,8 @@ var ClubCardList = [
 		Group: ["Player", "Maid"],
 		RewardMemberNumber: 177177,
 		Prerequisite: "SelectOwnMember",
-		MoneyPerTurn: 2,
+		MoneyPerTurn: 1,
+		FamePerTurn: 1,
 		RequiredLevel: 4,
 		OnPlay: function(CCPlayer) {
 			const fameBonus = 1 + (ClubCardGroupIsOnBoard(CCPlayer, "ABDLMommy") ? 1 : 0);
@@ -2297,11 +2320,12 @@ var ClubCardList = [
 		Group: ["Slave", "Submissive"],
 		RequiredLevel: 4,
 		MoneyPerTurn: 1,
+		FamePerTurn: 1,
 		BeforeTurnEnd: function(CCPlayer) {
 			if (!ClubCardGroupIsOnBoard(CCPlayer, "Mistress")) ClubCardRemoveFromBoard(CCPlayer, this);
 			else {
 				const effectFame = ClubCardGroupOnBoardCount(CCPlayer, "Submissive") - 1;
-				ClubCardPlayerAddFame(CCPlayer,Math.min(effectFame, 7));
+				ClubCardPlayerAddFame(CCPlayer, Math.min(effectFame, 8));
 			}
 		}
 	},
@@ -2309,7 +2333,7 @@ var ClubCardList = [
 	// 16000 Kemonomimi
 	{
 		ID: 16000,
-		Name: "Squirrel",
+		Name: "Chirumi",
 		Group: ["Kemonomimi"],
 		MoneyPerTurn: -1,
 		BeforeTurnEnd: function(CCPlayer) {
@@ -2336,7 +2360,7 @@ var ClubCardList = [
 	},
 	{
 		ID: 16003,
-		Name: "Tanuki",
+		Name: "Yunari",
 		Group: ["Kemonomimi"],
 		RequiredLevel: 3,
 		FamePerTurn: 3,
@@ -2375,6 +2399,20 @@ var ClubCardList = [
 				}
 			}
 			ClubCardPlayerAddFame(CCPlayer, groupsOnBoard.length);
+		}
+	},
+	{
+		ID: 16006,
+		Name: "Cute Bunny",
+		Group: ["Kemonomimi", "ABDLBaby"],
+		RequiredLevel: 3,
+		MoneyPerTurn: 1,
+		OnPlay: function(CCPlayer) {
+			ClubCardPlayerAddFame(ClubCardGetOpponent(CCPlayer), 2);
+			CCPlayer.Hand.push(ClubCardGetCopyCardByName("Cute Bunny"));
+		},
+		onPlayedCard: function(CCPlayer) {
+			if (ClubCardNameCountOnBoard(CCPlayer, "Cute Bunny")) ClubCardRemoveFromBoard(CCPlayer, this);
 		}
 	},
 
@@ -4499,6 +4537,7 @@ function ClubCardDiscardCard(CCPlayer, Pos) {
 		CCPlayer.Deck = ClubCardShuffle(CCPlayer.Deck);
 	} else  {
 		CCPlayer.DiscardPile.push(CCPlayer.Hand[Pos]);
+		ClubCardPlayerAddMoney(CCPlayer, ClubCardNameCountOnBoard(CCPlayer, "Masochist"));
 	}
 	CCPlayer.Hand.splice(Pos, 1);
 }

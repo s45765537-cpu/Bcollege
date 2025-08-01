@@ -162,7 +162,7 @@ Text Maid Lover,"Gain +1 Money per maid (Max 3). Gain +2 Fame and -2 Money if yo
 Title Diaper Lover,Diaper Lover
 Text Diaper Lover,"Gain +1 money per ABDL baby in your club (Max 3). When an ABDL Baby enters while there are 3+ ABDL Babies already present, draw a card."
 Title Masochist,Masochist
-Text Masochist,+1 Fame per turn and +1 Money per turn if at least one Dominant is present.
+Text Masochist,"Gain +1 Fame and +1 Money if a Dominant is present. Recieve 1 Money for each card you discard."
 Title Feet Worshiper,Feet Worshiper
 Text Feet Worshiper,+2 Money per turn if at least one Porn Actress or ABDL Mommy is present.
 Title Fin-Dom Simp,Fin-Dom Simp
@@ -234,7 +234,7 @@ Text Party Pooper,<F>Why is everyone so boring nowadays?
 Title College Dropout,College Dropout
 Text College Dropout,"Gets -2 fame if you have more fame than the opponent, and -1 fame if your club is tier 4 or higher."
 Title Union Leader,Union Leader
-Text Union Leader,"Gets +1 Fame for each non-Liability present. Gets -1 Fame for each non-Liability member in your opponent's club. (Max +/- 5)"
+Text Union Leader,"Gain +1 Fame for each member present. Gain -1 Fame for each member in your opponent's club. (Max +/- 5)"
 Title No-Fap Advocate,No-Fap Advocate
 Text No-Fap Advocate,"When you play a non-timed event, shuffle a random card from your hand into your deck to draw a card."
 Title Pandora Infiltrator,Pandora Infiltrator
@@ -280,7 +280,7 @@ Text Mildred,"<F>In my class, silence is gold and will be enforced."
 Title Sam the Busty Cow,Sam the Busty Cow
 Text Sam the Busty Cow,<F>Got Milk?
 Title Suki,Suki
-Text Suki,Gain +1 Fame if another Kemonomimi is present.
+Text Suki,Gain +1 Money if another Kemonomimi is present.
 Title Angela,Angela
 Text Angela,<F>Hmms nya~ Could I interest you in a lewd potion mew?~
 Title Scratch and Win,Scratch and Win
@@ -605,19 +605,19 @@ InfoLiabilitiesDescription1,"Played into opponent's club, take up space and caus
 InfoStreetsTitle,"Streets"
 InfoStreetsDescription1,"Used cards that are no longer in play will go to the streets."
 Title Drunkard,Drunkard
-Text Drunkard,"For each card you draw, lose 2 Fame unless a Bouncer is present and Recieve 1 Money if Waitress is present."
+Text Drunkard,"For each card you draw, lose 1 Fame unless a Bouncer is present and Recieve 1 Money if Waitress is present."
 GroupSlave,Slave
 GroupSubmissive,Submissive
 Title Country Gal,Country Gal
 Text Country Gal," "
 Title Sitting Submissive,Sitting Submissive
-Text Sitting Submissive, " "
+Text Sitting Submissive, "<F>I'm on my knees so much, maybe I should invest in kneepads"
 Title Humbled Harper,Humbled Harper
 Text Humbled Harper,Recieve 1 Fame and 1 Money for each card the opponent draws.
 Title Kneeling Slave,Kneeling Slave
 Text Kneeling Slave,"If you take the Draw action with no cards in hand, draw 2 additional cards. Enters: Discard a card of your choice, then draw a card."
 Title Bottom Bitch,Bottom Bitch
-Text Bottom Bitch,"Gain +1 fame for each other submissive present (max 7). Leaves at the end of your turn if no mistress present."
+Text Bottom Bitch,"Gain +1 fame for each other submissive present (max 8). Leaves at the end of your turn if no mistress present."
 Title Nadu Nyla,Nadu Nyla
 Text Nadu Nyla,Gain +2 Fame and +1 Money as long as you have an active event in your club.
 Title Surrender,Surrender
@@ -628,14 +628,14 @@ Title Carol,Carol
 Text Carol,"Enters: If another Nurse is present, add a random Patient from your Streets to your club, if there are none, add one from your deck."
 Title Rizom,Rizom
 Text Rizom,"Enters: Select a member to get 1 Fame and Money, 1 more Fame if an ABDL Mom is present, and 1 more Money if an Owner is present."
-Title Squirrel,Squirrel
-Text Squirrel,Gain +1 fame equal to your club level. Leaves your club if your streets have more than 3 cards.
+Title Chirumi,Chirumi
+Text Chirumi,Gain +1 fame equal to your club level. Leaves your club if your streets have more than 3 cards.
 Title Pack Member,Pack Member
 Text Pack Member,"Enters: Add a Pack member to your hand if you have fewer members in your club than the opponent."
 Title Brutus,Brutus
 Text Brutus," "
-Title Tanuki,Tanuki
-Text Tanuki,"If your streets have fewer cards than your opponent's, leaves your club at the end of your turn."
+Title Yunari,Yunari
+Text Yunari,"If your streets have fewer cards than your opponent's, leaves your club at the end of your turn."
 Title Pack Leader,Pack Leader
 Text Pack Leader,"Gain +1 Fame for each Pack Member in your club (Max +5). Gain +2 Fame if a Pack Member is in your streets."
 Title Mama Bear,Mama Bear
@@ -648,3 +648,9 @@ Title Conservation Efforts,Conservation Efforts
 Text Conservation Efforts,"For 4 turns, If a Kemonomimi is Present, gain 2 Fame and Money for each card you draw."
 Title Artie, Artie
 Text Artie, Enters: Lose 6 money and select and add an owner from your deck to your hand.
+Title Cute Bunny,Cute Bunny
+Text Cute Bunny,"Leaves if the number of Cute Bunny present is higher than your club's tier. Enters: Add Cute Bunny to your hand, your opponent receives 2 Fame."
+Title Ganguro Girl,Ganguro Girl
+Text Ganguro Girl,"At the end of your turn, the player with more non-Liability members loses 1 Fame."
+Title Collector,Collector
+Text Collector,"Gain +1 Fame if a Slave is present. Gain +1 Money per Kemonomimi is present (max 2)."
