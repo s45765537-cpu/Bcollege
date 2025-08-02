@@ -377,7 +377,7 @@ function LoginUnload() {
 	ElementRemove(LoginIDs.login);
 
 	ElementRemove(LoginIDs.footer);
-  ElementRemove(LoginIDs.newCharacter);
+	ElementRemove(LoginIDs.newCharacter);
 	ElementRemove(LoginIDs.register);
 	ElementRemove(LoginIDs.passwordReset);
 	ElementRemove(LoginIDs.cheats);
@@ -398,16 +398,13 @@ function LoginResize(load) {
 	ElementPositionFixed(LoginIDs.password, 750, 390, 500, null);
 
 	ElementSetPosition(LoginIDs.login, 1000, 490);
-  ElementSetFontSize(LoginIDs.login, "auto");
+	ElementSetFontSize(LoginIDs.login, "auto");
 
 	ElementPositionFixed(LoginIDs.footer, 500, 670, 1000, 320);
-  ElementSetSize(LoginIDs.register, 400);
-  ElementSetSize(LoginIDs.passwordReset, 400);
-  ElementSetSize(LoginIDs.cheats, 400);
-  ElementSetSize(LoginIDs.language, 400);
-
-	const langSelect = document.getElementById(LoginIDs.language);
-	langSelect?.style.setProperty("font-family", `"Twemoji Country Flags", ${langSelect.style.fontFamily}`);
+	ElementSetSize(LoginIDs.register, 400);
+	ElementSetSize(LoginIDs.passwordReset, 400);
+	ElementSetSize(LoginIDs.cheats, 400);
+	ElementSetSize(LoginIDs.language, 400);
 }
 
 function LoginReloadLanguageText() {

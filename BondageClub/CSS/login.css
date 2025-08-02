@@ -25,3 +25,7 @@
   text-align: center;
   color: white;
 }
+
+#LanguageDropdown {
+  font-family: "Twemoji Country Flags", "Arial", sans-serif;
+}
