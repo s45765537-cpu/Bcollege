@@ -605,17 +605,17 @@ InfoLiabilitiesDescription1,"Played into opponent's club, take up space and caus
 InfoStreetsTitle,"Streets"
 InfoStreetsDescription1,"Used cards that are no longer in play will go to the streets."
 Title Drunkard,Drunkard
-Text Drunkard,"For each card you draw, lose 1 Fame unless a Bouncer is present and Recieve 1 Money if Waitress is present."
+Text Drunkard,"For each card you draw, lose 1 Fame unless a Bouncer is present, and lose 1 Fame unless a Waitress is present."
 GroupSlave,Slave
 GroupSubmissive,Submissive
 Title Country Gal,Country Gal
 Text Country Gal," "
-Title Sitting Submissive,Sitting Submissive
-Text Sitting Submissive, "<F>I'm on my knees so much, maybe I should invest in kneepads"
+Title Kneeling Slave,Kneeling Slave
+Text Kneeling Slave, "<F>I'm on my knees so much, that I needed kneepads"
 Title Humbled Harper,Humbled Harper
 Text Humbled Harper,Recieve 1 Fame and 1 Money for each card the opponent draws.
-Title Kneeling Slave,Kneeling Slave
-Text Kneeling Slave,"If you take the Draw action with no cards in hand, draw 2 additional cards. Enters: Discard a card of your choice, then draw a card."
+Title Miss N Spection,Miss N Spection
+Text Miss N Spection,"If you take the Draw action with no cards in hand, draw 2 additional cards. Enters: Discard a card of your choice, then draw a card."
 Title Bottom Bitch,Bottom Bitch
 Text Bottom Bitch,"Gain +1 fame for each other submissive present (max 8). Leaves at the end of your turn if no mistress present."
 Title Nadu Nyla,Nadu Nyla
@@ -647,7 +647,7 @@ Text Pack Tactics,"Add a Pack Member to your club. for the next 2 turns, opponen
 Title Conservation Efforts,Conservation Efforts
 Text Conservation Efforts,"For 4 turns, If a Kemonomimi is Present, gain 2 Fame and Money for each card you draw."
 Title Artie, Artie
-Text Artie, Enters: Lose 6 money and select and add an owner from your deck to your hand.
+Text Artie,"Gain +1 Fame per 2 building tiers. Enters: Lose 6 Money and draw a random Owner from your deck."
 Title Cute Bunny,Cute Bunny
 Text Cute Bunny,"Leaves if the number of Cute Bunny present is higher than your club's tier. Enters: Add Cute Bunny to your hand, your opponent receives 2 Fame."
 Title Ganguro Girl,Ganguro Girl

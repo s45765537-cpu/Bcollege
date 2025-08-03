@@ -1951,21 +1951,15 @@ var ClubCardList = [
 		Name: "Artie",
 		Group: ["Player", "Pet"],
 		RewardMemberNumber: 200424,
-		Prerequisite: "SearchACard",
 		MoneyPerTurn: 2,
+		FamePerTurn: -1,
 		RequiredLevel: 3,
 		OnPlay: function(CCPlayer) {
-            if (ClubCardSelection == null && CCPlayer.Deck.filter(value => ClubCardCardHasGroup(value, "Owner")).length > 0) {
-                ClubCardCreatePopup("SEARCH", null, null, null, null, null, ClubCardShuffle(CCPlayer.Deck.filter(value => ClubCardCardHasGroup(value, "Owner"))));
-                return;
-            }
+			ClubCardPlayerDrawGroupCard(CCPlayer, ["Owner"], undefined);
             ClubCardPlayerAddMoney(CCPlayer, -6);
-            if (ClubCardSelection) {
-                CCPlayer.Deck.splice(CCPlayer.Deck.findIndex(value => value.ID === ClubCardSelection.ID), 1);
-                CCPlayer.Hand.push(ClubCardSelection);
-            } else {
-                ClubCardPlayCard(CCPlayer, this, false);
-            }
+		},
+		BeforeTurnEnd: function(CCPlayer) {
+			ClubCardPlayerAddFame(CCPlayer, Math.floor(ClubCardCalculateLevelForPets(CCPlayer) / 2));
 		}
 	},
 
@@ -2270,7 +2264,7 @@ var ClubCardList = [
 	// 15000 Subs and Slaves
 	{
 		ID: 15000,
-		Name: "Sitting Submissive",
+		Name: "Kneeling Slave",
 		Group: ["Submissive"],
 		MoneyPerTurn: 1
 	},
@@ -2285,7 +2279,7 @@ var ClubCardList = [
 	},
 	{
 		ID: 15002,
-		Name: "Kneeling Slave",
+		Name: "Miss N Spection",
 		Group: ["Slave"],
 		Prerequisite: "SelectCardInHand",
 		RequiredLevel: 2,
