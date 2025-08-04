@@ -153,8 +153,6 @@ var LoginEventListeners = {
 async function LoginLoad() {
 
 	// Resets the player and other characters
-	Character = [];
-	CharacterNextId = 0;
 	LoginCharacter = CharacterLoadNPC("NPC_Login");
 	LoginDoNextThankYou();
 	LoginStatusReset();

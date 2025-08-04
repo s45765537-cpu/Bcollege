@@ -1,7 +1,7 @@
 "use strict";
 /** @type Character[] */
 var Character = [];
-var CharacterNextId = 1;
+var CharacterNextId = 0;
 
 /** @type {Map<BlindEffectName, number>} */
 const CharacterBlindLevels = new Map([
