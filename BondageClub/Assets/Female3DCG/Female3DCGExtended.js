@@ -448,19 +448,10 @@ var AssetFemale3DCGExtended = {
 						{}, // t17 - Hogtied
 						{}, // t18 - BCollege2
 						{}, // t19 - ControlPad1
-						{}, // t20 - Gangriels
-						{}, // t21 - DenOfSin
-						{}, // t22 - SlaveHelpline
-						{}, // t23 - DemonsBar
-						{}, // t24 - AzureCorp
-						{}, // t25 - Shibari
-						{}, // t26 - BullsEye
-						{}, // t27 - Keys?
-						{}, // t28 - VoidOrder
-						{}, // t29 - Malkuth
-						{}, // t30 - Amber Family
-						{}, // t31 - Luke's Chill Tent
-						{}, // t32 - Rat's Ass Tavern
+						{}, // t20 - AzureCorp
+						{}, // t21 - Shibari
+						{}, // t22 - BullsEye
+						{}, // t23 - Keys?
 					],
 				},
 			],
