@@ -39282,6 +39282,12 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "GlossB",
+						InheritPoseMappingFields: true,
+						PoseMapping: {
+							AllFours: PoseType.HIDE,
+							OverTheHead: PoseType.HIDE,
+							Yoked: PoseType.HIDE,
+						},
 						AllowTypes: { g: 1, a: 1 },
 						CopyLayerColor: "Gloss",
 					},
@@ -42223,7 +42229,7 @@ var AssetFemale3DCG = [
 				Value: 10,
 				Left: 0,
 				Top: {
-					[PoseType.Default]: 0,
+					[PoseType.DEFAULT]: 0,
 					OverTheHead: -44,
 				},
 				Priority: 46,
