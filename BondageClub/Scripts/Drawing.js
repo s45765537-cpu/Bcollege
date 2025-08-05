@@ -1512,16 +1512,17 @@ function DrawProcess(time) {
 		);
 
 		const backgroundURL = DrawGetBackgroundURL(skipVFX);
-
-		const bgOptions = {};
-		if (!skipVFX) {
-			bgOptions.blur = Player.GetBlurLevel();
-			bgOptions.inverted = Player.GraphicsSettings && Player.GraphicsSettings.InvertRoom && Player.IsInverted();
-			bgOptions.darken = DrawGetDarkFactor();
-			bgOptions.tints = Player.GetTints();
+		if (backgroundURL != null) {
+			const bgOptions = {};
+			if (!skipVFX) {
+				bgOptions.blur = Player.GetBlurLevel();
+				bgOptions.inverted = Player.GraphicsSettings && Player.GraphicsSettings.InvertRoom && Player.IsInverted();
+				bgOptions.darken = DrawGetDarkFactor();
+				bgOptions.tints = Player.GetTints();
+			}
+			const rect = RectMakeRect(0, 0, MainCanvasWidth, MainCanvasHeight);
+			DrawRoomBackground(backgroundURL, rect, bgOptions);
 		}
-		const rect = RectMakeRect(0, 0, MainCanvasWidth, MainCanvasHeight);
-		DrawRoomBackground(backgroundURL, rect, bgOptions);
 	}
 
 	// Draws the dialog screen or current screen if there's no loaded character
