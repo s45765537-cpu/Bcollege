@@ -2066,7 +2066,7 @@ function DialogActivityClick(C, clickedActivity, equippedItem) {
 	ActivityRun(Player, C, C.FocusGroup, clickedActivity);
 	// Leave the dialog so we see the character's reaction
 	if (CurrentScreen === "ChatRoom")
-		DialogLeave({ reload: false });
+		DialogLeave();
 }
 
 /**
