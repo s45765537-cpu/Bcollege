@@ -188,6 +188,12 @@ declare namespace ElementButton {
 		allowRequiredClick?: boolean;
 		/** The {@link HTMLButtonElement.name} of the button */
 		name?: string;
+		/** The {@link HTMLButtonElement.tabIndex} of the button */
+		tabindex?: number;
+		/** The elements (or IDs thereof) controlled by the button; see the `aria-controls` attribute */
+		ariaControls?: string | Element | readonly (string | Element)[];
+		/** The {@link HTMLButtonElement.ariaChecked} of the button */
+		ariaChecked?: boolean | "true" | "false" | "mixed" | "undefined";
 	}
 }
 

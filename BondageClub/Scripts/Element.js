@@ -1457,6 +1457,16 @@ var ElementButton = {
 				break;
 		}
 
+		/** @type {null | string} */
+		let ariaControls = null;
+		if (options.ariaControls) {
+			/** @type {readonly (string | Element)[]} */
+			const ariaControlsCandidate = CommonIsArray(options.ariaControls) ? options.ariaControls : [options.ariaControls];
+			ariaControls = ariaControlsCandidate.map(idOrElem => {
+				return (typeof idOrElem === "string") ? idOrElem : idOrElem.id ||= ElementGenerateID();
+			}).join(" ");
+		}
+
 		elem = ElementCreate({
 			...buttonOptions,
 			tag: "button",
@@ -1467,6 +1477,9 @@ var ElementButton = {
 				"screen-generated": CurrentScreen,
 				role: options.role,
 				type: "button",
+				tabindex: options.tabindex,
+				"aria-controls": ariaControls,
+				"aria-checked": options.ariaChecked == null ? null : options.ariaChecked.toString(),
 				...(buttonOptions.attributes ?? {}),
 			},
 			classList,
