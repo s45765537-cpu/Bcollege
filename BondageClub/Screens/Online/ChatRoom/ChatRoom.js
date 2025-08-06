@@ -5858,7 +5858,7 @@ function ChatRoomSetRule(data) {
 		if (data.Content == "OwnerRuleNicknameBlock") LogAdd("BlockNickname", "OwnerRule");
 		if (data.Content.startsWith("OwnerRuleNicknameNew")) {
 			let NewNick = data.Content.substring(20);
-			CharacterSetNickname(Player, NewNick);
+			CharacterSetNickname(Player, NewNick, true);
 			data.Content = "OwnerRuleNicknameNew";
 		}
 
