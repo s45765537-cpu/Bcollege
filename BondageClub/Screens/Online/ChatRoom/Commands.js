@@ -1359,5 +1359,47 @@ const CommonCommands = [
 
 			ChatRoomSendLocal(`Coordinates X, Y: ${Player.X}, ${Player.Y}`);
 		}
+	},
+	{
+		Tag: 'givekey',
+		Action: (args) => {
+			if (!ChatRoomPlayerIsAdmin()) return ChatRoomSendLocal("You don't have admin permissions to use this command.");
+			if (!ChatRoomMapViewIsActive()) return ChatRoomSendLocal("Only accessible in map mode.");
+			const parsed = args.split(" ");
+
+			if (parsed.length > 4) return ChatRoomSendLocal("Too many arguments. Please use '/givekey [target] [bronze] [silver] [gold]', depending on wich ones you want to give to the player.");
+			if (parsed.length < 2) return ChatRoomSendLocal("Not enough arguments. Please use '/givekey [target] [bronze] [silver] [gold]', depending on wich ones you want to give to the player.") 
+			
+			const target = ChatRoomGetCharacter(parsed[0])
+			if (!target) return ChatRoomSendLocal("Player not found!")
+			parsed.splice(0, 1)
+
+			parsed.map((element) => {
+    			if (element !== "bronze" && element !== "silver" && element !== "gold") return ChatRoomSendLocal(element + " is not an existing key. Possible keys are: 'bronze', 'silver' or 'gold'.");
+			});
+
+			return ChatRoomMapViewChangeKey(target, parsed, true)
+		}
+	},
+	{
+		Tag: 'takekey',
+		Action: (args) => {
+			if (!ChatRoomPlayerIsAdmin()) return ChatRoomSendLocal("You don't have admin permissions to use this command.");
+			if (!ChatRoomMapViewIsActive()) return ChatRoomSendLocal("Only accessible in map mode.");
+			const parsed = args.split(" ");
+
+			if (parsed.length > 4) return ChatRoomSendLocal("Too many arguments. Please use '/takekey [target] [bronze] [silver] [gold]', depending on wich ones you want to take from the player.");
+			if (parsed.length < 2) return ChatRoomSendLocal("Not enough arguments. Please use '/takekey [target] [bronze] [silver] [gold]', depending on wich ones you want to give take from the player.") 
+			
+			const target = ChatRoomGetCharacter(parsed[0])
+			if (!target) return ChatRoomSendLocal("Player not found!")
+			parsed.splice(0, 1)
+
+			parsed.map((element) => {
+    			if (element !== "bronze" && element !== "silver" && element !== "gold") return ChatRoomSendLocal(element + " is not an existing key. Possible keys are: 'bronze', 'silver' or 'gold'.");
+			});
+
+			return ChatRoomMapViewChangeKey(target, parsed, false)
+		}
 	}
 ];

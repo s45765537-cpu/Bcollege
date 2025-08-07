@@ -3931,9 +3931,10 @@ function ChatRoomMessageProcessHidden(data, SenderCharacter) {
 		ClubCardPlayerConceded(data.Sender);
 	} else if (data.Content == "ClubCardAdminResetGameHidden") {
 		ClubCardResetGameStatus();
-	}
-	else if (data.Content == "ChatRoomMapViewTeleport") {
+	} else if (data.Content == "ChatRoomMapViewTeleport") {
 		ChatRoomMapViewTeleportHiddenMessage(SenderCharacter, data);
+	} else if (data.Content == "ChatRoomMapViewChangeKey") {
+		ChatRoomMapViewChangeKeyHiddenMessage(SenderCharacter, data)
 	}
 	return true;
 }
