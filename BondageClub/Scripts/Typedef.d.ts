@@ -4717,6 +4717,7 @@ interface LogNameType {
 	College: "TeacherKey",
 	Import: "BondageCollege",
 	Introduction: "MaidOpinion" | "DailyJobDone",
+	JoinedStable: "Pony" | "PonyExam" | "Trainer" | "TrainerExam",
 	LockPick: "FailedLockPick",
 	LoverRule: "BlockLoverLockSelf" | "BlockLoverLockOwner",
 	MagicSchool: "Mastery",
@@ -4755,8 +4756,6 @@ interface LogNameType {
 		| "BlockTalkForbiddenWords"
 		| LogNameAdvanced
 	),
-	Pony: "JoinedStable",
-	PonyExam: "JoinedStable",
 	PrivateRoom: (
 		"RentRoom"
 		| "Expansion"
@@ -4775,8 +4774,6 @@ interface LogNameType {
 	Shibari: "Training",
 	SkillModifier: "ModifierDuration" | "ModifierLevel",
 	SlaveMarket: "Auctioned",
-	Trainer: "JoinedStable",
-	TrainerExam: "JoinedStable",
 	Disclaimer: "Accepted",
 }
 

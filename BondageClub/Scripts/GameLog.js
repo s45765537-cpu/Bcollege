@@ -159,8 +159,13 @@ function LogLoad(NewLog) {
 
 	if (NewLog == null) return;
 
-	for (const log of NewLog)
+	for (const log of NewLog) {
+		if (/** @type {string} */ (log.Name) === "JoinedStable") {
+			// Workaround for the swapped name and group for Stables
+			[log.Name, log.Group] = /** @type {any} */ ([log.Group, log.Name]);
+		}
 		LogAdd(log.Name, log.Group, log.Value, false);
+	}
 }
 
 /**

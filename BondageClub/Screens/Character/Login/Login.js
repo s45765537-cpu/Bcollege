@@ -821,7 +821,7 @@ function LoginClubCard() {
  * @returns {void} Nothing
  */
 function LoginStableItems() {
-	if (LogQuery("JoinedStable", "PonyExam") || LogQuery("JoinedStable", "TrainerExam")) {
+	if (LogQuery("PonyExam", "JoinedStable") || LogQuery("TrainerExam", "JoinedStable")) {
 		InventoryAdd(Player, "HarnessPonyBits", "ItemMouth", false);
 		InventoryAdd(Player, "HarnessPonyBits", "ItemMouth2", false);
 		InventoryAdd(Player, "HarnessPonyBits", "ItemMouth3", false);
