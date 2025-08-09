@@ -960,7 +960,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "TShirt2",
 				InventoryID: 103,
-				StyleOverride: ["EchoV2"],
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
 				Value: 25,
@@ -976,7 +975,7 @@ var AssetFemale3DCG = [
 				Require: ["ClothLower"],
 				Extended: true,
 				Layer: [
-					{ Name: "Shirt", AllowColorize: true },
+					{ Name: "Shirt", AllowColorize: true, StyleOverride: ["EchoV2"] },
 					{
 						Name: "Print",
 						AllowTypes: { typed: [1, 2, 3, 4, 5, 6, 7] },
