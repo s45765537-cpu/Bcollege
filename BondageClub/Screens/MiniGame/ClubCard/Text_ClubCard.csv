@@ -154,7 +154,7 @@ Text Paroled Thief,"Unless a police is present in your club, your opponent steal
 Title Police Cadet,Police Cadet
 Text Police Cadet,<F>Hey!  Give me back my keys!
 Title Stepmother,Stepmother
-Text Stepmother,"Enters: Gain 2 Fame for each member present with - Fame. When a member with - Fame enters, Steal Fame equal to twice their Money."
+Text Stepmother,"When a member with - Fame enters, Steal Fame equal to their + Money. Enters: Recieve 1 Fame for each member present with - Fame."
 Title Sheriff,Sheriff
 Text Sheriff,Draw 2 cards when she enters your club.
 Title Maid Lover,Maid Lover
@@ -361,7 +361,7 @@ Text Detective,For each card your opponent draws gain 1 Money. If no Liability a
 Effect Detective Money,SOURCEPLAYER gained AMOUNT Money from CARDNAME.
 Effect Detective MoneyFame,SOURCEPLAYER gained FAMEAMOUNT Fame and MONEYAMOUNT Money from CARDNAME.
 Title Launder,Launder
-Text Launder,A Criminal must be present. Lose all your Money. +1 Fame for every 3 Money lost.
+Text Launder,"If a Criminal is present, spend all your Money. Recieve 1 Fame for every 3 Money lost. If this card is in your streets, shuffle it to your deck."
 Title Big Baby,Big Baby
 Text Big Baby,+1 Money if opponent has more cards in their hand. Opponent draws a card when she enters your club.
 Title Fussy Baby,Fussy Baby
@@ -522,7 +522,7 @@ Prerequisite Moon,Choose a member to create an illusory copy of that card in you
 Title Sticky Fingers,Sticky Fingers
 Text Sticky Fingers,"Enters: Steal 2 Fame. When you steal with another effect, steal 1 Fame and Money."
 Title Earner,Earner
-Text Earner,"Gain +1 Money for each member in your streets. (Max +3)"
+Text Earner,"Gain +1 Money for each member in your streets. (Max +4)"
 Title Naughty Baby,Naughty Baby
 Text Naughty Baby,"Enters: Steal 4 money if no Police are present. Then steal 4 fame if no Police are present in opponent's club."
 Title Consigliere,Consigliere
@@ -611,7 +611,7 @@ GroupSubmissive,Submissive
 Title Country Gal,Country Gal
 Text Country Gal," "
 Title Kneeling Slave,Kneeling Slave
-Text Kneeling Slave, "<F>I'm on my knees so much, that I needed kneepads"
+Text Kneeling Slave,"<F>I'm on my knees so much, that I needed kneepads"
 Title Humbled Harper,Humbled Harper
 Text Humbled Harper,Recieve 1 Fame and 1 Money for each card the opponent draws.
 Title Miss N Spection,Miss N Spection
@@ -654,3 +654,13 @@ Title Ganguro Girl,Ganguro Girl
 Text Ganguro Girl,"At the end of your turn, the player with more non-Liability members loses 1 Fame."
 Title Collector,Collector
 Text Collector,"Gain +1 Fame if a Slave is present. Gain +1 Money per Kemonomimi is present (max 2)."
+Title Sewer Rat,Sewer Rat
+Text Sewer Rat,"At the end of your turn, If there are at least 7 members in your streets, leaves your club and opponent loses 25 Fame."
+Title Hustler,Hustler
+Text Hustler,"When you steal with another effect, receive 1 Fame or 1 Money at random for each Criminal in your streets (Max +2 each)."
+Title Enforcer,Enforcer
+Text Enforcer,"Gain +1 Fame per member in your streets (Max +6). Enters: Discard the top 4 cards of your deck and receive Money equal to their tiers."
+Title Ball Gag,Ball Gag
+Text Ball Gag,"Select a member to negate their effect, then lose Money equal to its tier^2."
+Title Akira,Akira
+Text Akira,Enters: Select a member to Ball Gag.

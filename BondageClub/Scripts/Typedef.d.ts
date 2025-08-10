@@ -4765,6 +4765,7 @@ interface ClubCard {
 	CurrentY?: number;
 	CurrentW?: number;
 	IsVisible?: boolean;
+	Negating?: string;
 	//### ### ### ###
 	OnPlay?: (C: ClubCardPlayer) => void;
 	BeforeTurnEnd?: (C: ClubCardPlayer) => void;
@@ -4794,6 +4795,10 @@ interface ClubCard {
 	onOpponentDrawCard?: (C: ClubCardPlayer) => void;
 	onDrawAction?: (C: ClubCardPlayer) => void;
 	onOpponentDrawAction?: (C: ClubCardPlayer) => void;
+	onSteal?: (C: ClubCardPlayer) => void;
+	StreetsTurnEnd?: (C: ClubCardPlayer) => void;
+	onDiscardCard?: (C: ClubCardPlayer, Card: ClubCard) => void;
+	onCancelNegation?: (C: ClubCardPlayer) => void;
 }
 
 interface ClubCardPlayer {
