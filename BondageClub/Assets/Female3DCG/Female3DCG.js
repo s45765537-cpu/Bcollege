@@ -41823,6 +41823,10 @@ var AssetFemale3DCG = [
 					{ Name: "Mug" },
 					{ Name: "Fluids", MinOpacity: 0.8, MaxOpacity: 0.8, Opacity: 0.8 },
 				],
+				Attribution: {
+					Author: "Triz & Rama",
+					License: "CC0 1.0 Universal/Public domain",
+				},
 			},
 			{
 				Name: "Popcorn",
@@ -41893,6 +41897,10 @@ var AssetFemale3DCG = [
 					{ Name: "Base2" },
 					{ Name: "Face", AllowColorize: false },
 				],
+				Attribution: {
+					Author: "Triz & Rama",
+					License: "CC0 1.0 Universal/Public domain",
+				},
 			},
 			{
 				Name: "FoxPlush",
@@ -41923,6 +41931,10 @@ var AssetFemale3DCG = [
 					{ Name: "Base2" },
 					{ Name: "Face", AllowColorize: false },
 				],
+				Attribution: {
+					Author: "Triz & Rama",
+					License: "CC0 1.0 Universal/Public domain",
+				},
 			},
 			{
 				Name: "Karl",
@@ -41948,6 +41960,10 @@ var AssetFemale3DCG = [
 				DynamicGroupName: "ItemMisc",
 				ParentGroup: {},
 				Layer: [{ Name: "Base" }, { Name: "Face", AllowColorize: false }],
+				Attribution: {
+					Author: "Triz & Rama",
+					License: "CC0 1.0 Universal/Public domain",
+				},
 			},
 			{
 				Name: "PetPotato",
@@ -41973,6 +41989,10 @@ var AssetFemale3DCG = [
 				DynamicGroupName: "ItemMisc",
 				ParentGroup: {},
 				Layer: [{ Name: "Base" }, { Name: "Face", AllowColorize: false }],
+				Attribution: {
+					Author: "Triz & Rama",
+					License: "CC0 1.0 Universal/Public domain",
+				},
 			},
 			{
 				Name: "Smartphone",
@@ -57677,6 +57697,10 @@ var AssetFemale3DCG = [
 						Left: 130,
 					},
 				],
+				Attribution: {
+					Author: "Triz & Rama",
+					License: "CC0 1.0 Universal/Public domain",
+				},
 			},
 			{
 				Name: "FoxPlush",
@@ -57745,6 +57769,10 @@ var AssetFemale3DCG = [
 						Left: 130,
 					},
 				],
+				Attribution: {
+					Author: "Triz & Rama",
+					License: "CC0 1.0 Universal/Public domain",
+				},
 			},
 			{
 				Name: "Karl",
@@ -57798,6 +57826,10 @@ var AssetFemale3DCG = [
 						Left: 130,
 					},
 				],
+				Attribution: {
+					Author: "Triz & Rama",
+					License: "CC0 1.0 Universal/Public domain",
+				},
 			},
 			{
 				Name: "PetPotato",
@@ -57851,6 +57883,10 @@ var AssetFemale3DCG = [
 						Left: 130,
 					},
 				],
+				Attribution: {
+					Author: "Triz & Rama",
+					License: "CC0 1.0 Universal/Public domain",
+				},
 			},
 		],
 		Color: ["Default"],
