@@ -6772,13 +6772,19 @@ var AssetFemale3DCG = [
 					"ItemPelvisPoofyDiaper",
 					"ItemPelvisBulkyDiaper",
 				],
+				Extended: true,
 				PoseMapping: {
 					Kneel: "Kneel",
 					KneelingSpread: "KneelingSpread",
 					Hogtied: PoseType.HIDE,
 					AllFours: PoseType.HIDE,
 				},
-				Layer: [{ Name: "Skirt" }, { Name: "Design" }],
+				Layer: [
+					{ Name: "Skirt", AllowTypes: { typed: 0 } },
+					{ Name: "SkirtV2", CopyLayerColor: "Skirt", AllowTypes: { typed: 1 } }, 
+					{ Name: "Design", AllowTypes: { typed: 0 } },
+					{ Name: "DesignV2", CopyLayerColor: "Design", AllowTypes: { typed: 1 } }
+				],
 				Alpha: [
 					{
 						Pose: ["KneelingSpread"],

@@ -883,6 +883,15 @@ ClothLowerBusinessTrousersSelect,Customize the state of the pants
 ClothLowerBusinessTrousersSetZipped,SourceCharacter puts zipped up pants on DestinationCharacter.
 ClothLowerBusinessTrousersSetUnzipped,SourceCharacter unzips DestinationCharacter pants.
 ClothLowerBusinessTrousersSetDown,SourceCharacter opens DestinationCharacter pants and pulls them down.
+ClothLowerElegantSkirtSkirt,Skirt
+ClothLowerElegantSkirtSkirtv2,Skirt v2
+ClothLowerElegantSkirtDesign,Design
+ClothLowerElegantSkirtDesignv2,Design v2
+ClothLowerElegantSkirtDefault,Default
+ClothLowerElegantSkirtVersion2,Version 2
+ClothLowerElegantSkirtSelect,Customize the state of the kneeling skirt
+ClothLowerElegantSkirtSetDefault,SourceCharacter kneels with skirt in default position DestinationCharacter.
+ClothLowerElegantSkirtSetVersion2,SourceCharacter kneels with skirt in tucked position DestinationCharacter.
 ClothLowerPantBootsModuleBoot,Boot
 ClothLowerPantBootsModuleStripe,Stripe
 ClothLowerPantBootsOptionb0,No Boot

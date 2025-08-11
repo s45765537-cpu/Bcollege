@@ -1930,6 +1930,20 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // BusinessTrousers
+		ElegantSkirt: {
+			Archetype: ExtendedArchetype.TYPED,
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+			Options: [
+				{
+					Name: "Default",
+					Property: {},
+				},
+				{
+					Name: "Version2",
+					Property: {},
+				},
+			],
+		}, // ElegantSkirt
 	}, // ClothLower
 	Socks: {
 		RippedPantyhose: {
