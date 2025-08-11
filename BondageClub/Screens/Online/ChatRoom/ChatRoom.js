@@ -1336,10 +1336,10 @@ async function ChatRoomLoad() {
 	if (ChatRoomCharacter.length === 0) {
 		const elem = ChatRoomSep.Create();
 		elem.toggleAttribute("hidden", !(Player.ChatSettings?.PreserveChat ?? true));
+		ChatRoomCharacterUpdate(Player);
+		ActivityChatRoomArousalSync(Player);
 	}
 
-	ChatRoomCharacterUpdate(Player);
-	ActivityChatRoomArousalSync(Player);
 	if (!ChatRoomData || Player.LastChatRoom && ChatRoomData.Name !== Player.LastChatRoom.Name) {
 		ChatRoomHideIconState = 0;
 	}
