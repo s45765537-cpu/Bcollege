@@ -17351,6 +17351,19 @@ var AssetFemale3DCGExtended = {
 				MemberNumberList: [],
 			},
 		}, // TimerPasswordPadlock
+		Plushies: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: {
+				GroupName: "ItemHandheld",
+				AssetName: "Plushies",
+			},
+			DialogPrefix: {
+				Header: "ItemHandheldPlushiesSelect",
+				Module: "ItemHandheldPlushiesModule",
+				Option: "ItemHandheldPlushiesOption",
+				Chat: "ItemHandheldPlushiesSet",
+			},
+		}, //Plushies
 	}, // ItemMisc
 	ItemPelvis: {
 		FuturisticChastityBelt: {
@@ -20632,5 +20645,171 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // Cigarette
+		Plushies: {
+			Archetype: ExtendedArchetype.MODULAR,
+			DrawImages: false,
+			// ChatSetting: ModularItemChatSetting.PER_MODULE,
+			Modules: [
+				{
+					Name: "DenOfSin",
+					Key: "DenOfSin",
+					DrawImages: true,
+					Options: [
+						{}, // Off
+						{}, // Sin
+						{}, // Raven
+						{}, // CassandraLee
+						{}, // Rika
+						{}, // Roslin
+					],
+					DrawData: {
+						elementData: [
+							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/NoPlush.png" }, // off
+							{},
+							{},
+							{},
+							{},
+							{},
+						],
+					},
+				},
+				{
+					Name: "Gangriels",
+					Key: "Gangriels",
+					DrawImages: true,
+					Options: [
+						{}, // off
+						{}, // Gangriel
+					],
+					DrawData: {
+						elementData: [
+							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/NoPlush.png" }, // off
+							{},
+						],
+					},
+
+				},
+				{
+					Name: "CelestialEnchants",
+					Key: "CelestialEnchants",
+					DrawImages: true,
+					Options: [
+						{}, // Off
+						{}, // Celiko
+						{}, // Lavender
+						{}, // Sabie
+						{}, // Siscuit
+					],
+					DrawData: {
+						elementData: [
+							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/NoPlush.png" }, // off
+							{},
+							{},
+							{},
+							{},
+						],
+					},
+				},
+				{
+					Name: "LatexLab",
+					Key: "LatexLab",
+					DrawImages: true,
+					Options: [
+						{}, // Off
+						{}, // Aeri
+						{}, // Delta
+						{}, // Khloe
+						{}, // Lillian
+						{}, // Minerva
+						{}, // Nabi
+						{}, // TinyRaven
+						{}, // XDress
+					],
+					DrawData: {
+						elementData: [
+							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/NoPlush.png" }, // off
+							{},
+							{},
+							{},
+							{},
+							{},
+							{},
+							{},
+							{},
+						],
+					},
+				},
+				{
+					Name: "VoidOrder",
+					Key: "VoidOrder",
+					DrawImages: true,
+					Options: [
+						{}, // off
+						{}, // Magdalena
+						{}, // Sonic
+					],
+					DrawData: {
+						elementData: [
+							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/NoPlush.png" }, // off
+							{},
+							{},
+						],
+					},
+				},
+				{
+					Name: "EnsLivingRoom",
+					Key: "EnsLivingRoom",
+					DrawImages: true,
+					Options: [
+						{}, // off
+						{}, // Alunra
+						{}, // Mel
+						{}, // Zannah
+						{}, // Zoe
+					],
+					DrawData: {
+						elementData: [
+							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/NoPlush.png" }, // off
+							{},
+							{},
+							{},
+							{},
+						],
+					},
+				},
+				{
+					Name: "Vagrants",
+					Key: "Vagrants",
+					DrawImages: true,
+					Options: [
+						{}, // off
+						{}, // Elora
+						{}, // Hoshiko
+						{}, // Layottu
+						{}, // Lisa
+						{}, // LittleSera
+						{}, // Mana
+						{}, // Melanie
+						{}, // Zoi
+					],
+					DrawData: {
+						elementData: [
+							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/NoPlush.png" }, // off
+							{},
+							{},
+							{},
+							{},
+							{},
+							{},
+							{},
+							{},
+						],
+					},
+				},
+			],
+			ScriptHooks: {
+				SetOption: InventoryItemHandheldPlushiesSetOptionHook,
+			},
+		}, // Plushies
 	}, // ItemHandheld
 };
