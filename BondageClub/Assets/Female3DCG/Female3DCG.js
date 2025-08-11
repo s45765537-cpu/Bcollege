@@ -8188,6 +8188,7 @@ var AssetFemale3DCG = [
 				Left: 0,
 				Top: 0,
 				Priority: 21,
+				StyleOverride: ["EchoV2"],
 				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				DefaultColor: ["#111111", "#111111", "#ffffff", "#909090"],
 				PoseMapping: {
@@ -8205,9 +8206,11 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Bra",
+						ColorGroup: "Body",
 					},
 					{
 						Name: "BraReflection",
+						ColorGroup: "Reflection",
 					},
 					{
 						Name: "Zipper",
@@ -8216,27 +8219,27 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Stomach",
-						CopyLayerColor: "Bra",
+						ColorGroup: "Body",
 					},
 					{
 						Name: "StomachReflection",
-						CopyLayerColor: "BraReflection",
+						ColorGroup: "Reflection",
 					},
 					{
 						Name: "BraStraps",
-						CopyLayerColor: "Bra",
+						ColorGroup: "Body",
 					},
 					{
 						Name: "BraStrapsReflection",
-						CopyLayerColor: "BraReflection",
+						ColorGroup: "Reflection",
 					},
 					{
 						Name: "LeatherBelt",
-						CopyLayerColor: "Bra",
+						ColorGroup: "Body",
 					},
 					{
 						Name: "LeatherReflection",
-						CopyLayerColor: "BraReflection",
+						ColorGroup: "Reflection",
 					},
 				],
 			},
@@ -21347,6 +21350,12 @@ var AssetFemale3DCG = [
 						Asset: "FuturisticTrainingBelt",
 						X: 0,
 						Y: -20,
+					},
+					{
+						Group: "Bra",
+						Asset: "LeatherBunnyHollowBra",
+						X: 160,
+						Y: 208,
 					},
 
 					{
