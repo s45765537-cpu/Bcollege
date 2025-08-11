@@ -58,9 +58,15 @@ BraMaidBraBra, Bra
 BraMaidBraLace, Lace
 BraBandageUpper_Body,Body
 BraLeatherBunnyHollowBraRing, Rings
-BraLeatherBunnyHollowBraBraReflection,Shine
-BraLeatherBunnyHollowBraBra,Body
+BraLeatherBunnyHollowBraBraReflection,Bra
+BraLeatherBunnyHollowBraBra,Bra
 BraLeatherBunnyHollowBraZipper,Zipper
+BraLeatherBunnyHollowBraStomach,Stomach
+BraLeatherBunnyHollowBraStomachReflection,Stomach
+BraLeatherBunnyHollowBraBraStraps,Bra Straps
+BraLeatherBunnyHollowBraBraStrapsReflection,Bra Straps
+BraLeatherBunnyHollowBraLeatherBelt,Belt
+BraLeatherBunnyHollowBraLeatherReflection,Belt
 ClothAccessoryBibBase,Bib
 ClothAccessoryBibPacis,Pattern
 ClothAccessoryBibText,Text
