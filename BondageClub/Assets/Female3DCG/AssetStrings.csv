@@ -2692,6 +2692,8 @@ HandAccessoryLeftRingsModuleMiddle,Middle finger
 HandAccessoryLeftRingsModulePinkie,Pinkie
 HandAccessoryLeftRingsModuleRing,Ring finger
 HandAccessoryLeftRingsModuleThumb,Thumb
+HandAccessoryLeftRingsModuleFingernails,Nails/Claws
+HandAccessoryLeftRingsModuleRing,Ring finger
 HandAccessoryLeftRingsOptioni0,None
 HandAccessoryLeftRingsOptioni1,Steel Ring
 HandAccessoryLeftRingsOptionm0,None
@@ -2704,17 +2706,22 @@ HandAccessoryLeftRingsOptionr1,Steel Ring
 HandAccessoryLeftRingsOptionr2,Wedding Ring
 HandAccessoryLeftRingsOptiont0,None
 HandAccessoryLeftRingsOptiont1,Steel Ring
+HandAccessoryLeftRingsOptionf0,None
+HandAccessoryLeftRingsOptionf1,Nails
+HandAccessoryLeftRingsOptionf2,Claws
 HandAccessoryLeftRingsSelectBase,Choose your rings
 HandAccessoryLeftRingsSelectIndex,Choose a ring for the Index
 HandAccessoryLeftRingsSelectMiddle,Choose a ring for the Middle finger
 HandAccessoryLeftRingsSelectPinkie,Choose a ring for the Pinkie
 HandAccessoryLeftRingsSelectRing,Choose a ring for the Ring finger
 HandAccessoryLeftRingsSelectThumb,Choose a ring for the Thumb
+HandAccessoryLeftRingsSelectFingernails,Add left hand nails or claws?
 HandAccessoryRightRingsModuleIndex,Index
 HandAccessoryRightRingsModuleMiddle,Middle finger
 HandAccessoryRightRingsModulePinkie,Pinkie
 HandAccessoryRightRingsModuleRing,Ring finger
 HandAccessoryRightRingsModuleThumb,Thumb
+HandAccessoryRightRingsModuleFingernails,Nails/Claws
 HandAccessoryRightRingsOptioni0,None
 HandAccessoryRightRingsOptioni1,Steel Ring
 HandAccessoryRightRingsOptionm0,None
@@ -2727,12 +2734,16 @@ HandAccessoryRightRingsOptionr1,Steel Ring
 HandAccessoryRightRingsOptionr2,Wedding Ring
 HandAccessoryRightRingsOptiont0,None
 HandAccessoryRightRingsOptiont1,Steel Ring
+HandAccessoryRightRingsOptionf0,None
+HandAccessoryRightRingsOptionf1,Nails
+HandAccessoryRightRingsOptionf2,Claws
 HandAccessoryRightRingsSelectBase,Choose your rings
 HandAccessoryRightRingsSelectIndex,Choose a ring for the Index
 HandAccessoryRightRingsSelectMiddle,Choose a ring for the Middle finger
 HandAccessoryRightRingsSelectPinkie,Choose a ring for the Pinkie
 HandAccessoryRightRingsSelectRing,Choose a ring for the Ring finger
 HandAccessoryRightRingsSelectThumb,Choose a ring for the Thumb
+HandAccessoryRightRingsSelectFingernails,Add right hand nails or claws?
 HatBallCapBackSelect,Select strap location.
 HatBallCapBackStrapOver,Over the hair
 HatBallCapBackStrapUnder,Under the hair

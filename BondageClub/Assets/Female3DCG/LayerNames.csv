@@ -18,7 +18,8 @@ BodyMarkingsSplattersTummy3,Tummy 3
 BodyMarkingsSplattersTummy4,Tummy 4
 BodyMarkingsSplattersInternal1,Internal Mouth
 BodyMarkingsSplattersInternal2,Internal Front
-BodyMarkingsSplattersInternal3,Internal Back
+BodyMarki
+ngsSplattersInternal3,Internal Back
 BodyMarkingsSplattersNippleDrip,Nipple Drip
 BraceletLaceBandsBands,Bands
 BraceletLaceBandsLace,Lace
@@ -2800,6 +2801,10 @@ HandAccessoryLeftRingsPinkieSteel,Pinkie Ring
 HandAccessoryLeftRingsRingSteel,Ring Finger Ring
 HandAccessoryLeftRingsThumbSteel,Thumb Ring
 HandAccessoryLeftRingsWedding,Wedding Ring
+HandAccessoryLeftRingsFingernailsColor,Nails Color
+HandAccessoryLeftRingsFingernailsOutline,Nails Outline
+HandAccessoryLeftRingsClawsColor,Claws Color
+HandAccessoryLeftRingsClawsOutline,Claws Outline
 MaskAnimeLensesLeftEyelids,Left Eyelids
 MaskAnimeLensesLeftIris,Left Lens
 MaskAnimeLensesRightEyelids,Right Eyelids
@@ -2945,6 +2950,10 @@ HandAccessoryRightRingsPinkieSteel,Pinkie Ring
 HandAccessoryRightRingsRingSteel,Ring Finger Ring
 HandAccessoryRightRingsThumbSteel,Thumb Ring
 HandAccessoryRightRingsWedding,Wedding Ring
+HandAccessoryRightRingsFingernailsColor,Nails Color
+HandAccessoryRightRingsFingernailsOutline,Nails Outline
+HandAccessoryRightRingsClawsColor,Claws Color
+HandAccessoryRightRingsClawsOutline,Claws Outline
 ShoesAnimeGirlBootsBoots,Boots
 ShoesAnimeGirlBootsDetail,Top Stripe
 ShoesAnkleBoots1Laces,Laces
