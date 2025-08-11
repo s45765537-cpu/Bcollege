@@ -139,8 +139,7 @@ function CollegeTennisInviteToPrivateRoom() {
 	InventoryAdd(Player, "TennisRacket", "ItemHandheld");
 	InventoryRemove(CollegeTennisJennifer, "ItemHandheld");
 	CommonSetScreen("Room", "Private");
-	let C = PrivateAddCharacter(CollegeTennisJennifer, null, true);
-	C.Trait = [];
+	const C = PrivateAddCharacter(CollegeTennisJennifer, null, true);
 	NPCTraitSet(C, "Submissive", 20);
 	NPCTraitSet(C, "Frigid", 80);
 	NPCTraitSet(C, "Wise", 40);
@@ -166,5 +165,6 @@ function CollegeTennisInviteToPrivateRoom() {
 	NPCTraitDialog(C);
 	ServerPrivateCharacterSync();
 	DialogLeave();
+	CharacterDelete(CollegeTennisJennifer);
 	CollegeTennisJennifer = null;
 }

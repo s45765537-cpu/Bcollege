@@ -221,8 +221,7 @@ function SlaveMarketPlayerAuctionEnd() {
 function SlaveMarketPlayerAuctionTransfer() {
 	DialogLeave();
 	CommonSetScreen("Room", "Private");
-	PrivateAddCharacter(SlaveMarketBuyer, SlaveMarketBuyer.Archetype);
-	var C = PrivateCharacter[PrivateCharacter.length - 1];
+	const C = PrivateAddCharacter(SlaveMarketBuyer, SlaveMarketBuyer.Archetype);
 	NPCTraitSet(C, "Dominant", 50 + Math.floor(Math.random() * 51));
 	C.Love = 30;
 	NPCEventAdd(C, "EndSubTrial", CurrentTime + NPCLongEventDelay(C));

@@ -301,7 +301,7 @@ function InfiltrationPayRansom(Type) {
 		} else if (InfiltrationPartyPrisoner.Archetype === "Mistress") {
 			PrisonerArchetype = "Mistress";
 		}
-		let C = PrivateAddCharacter(InfiltrationPartyPrisoner, PrisonerArchetype, null, null, "Private");
+		const C = PrivateAddCharacter(InfiltrationPartyPrisoner, PrisonerArchetype, null);
 		C.FromPandora = true;
 		NPCEventAdd(C,"LastInteraction",CurrentTime+20000);
 		//Set PandoraPrisoner to new private room character and send to interrogation
@@ -351,13 +351,13 @@ function InfiltrationEndKidnapping(Reward) {
 	if (Reward === "Money") CharacterChangeMoney(Player, 18);
 	if (Reward === "Skill") SkillProgress(Player, "Infiltration", 400);
 	if (Reward === "Private") {
-		PrivateAddCharacter(CurrentCharacter, null, null, null, "Private");
-		let C = PrivateCharacter[PrivateCharacter.length - 1];
+		const isMistress = InventoryIsWorn(CurrentCharacter, "MistressBoots", "Shoes");
+		const C = PrivateAddCharacter(CurrentCharacter, isMistress ? "Mistress" : "", null);
 		C.Love = -80;
 		C.FromPandora = true;
-		if (InventoryIsWorn(C, "MistressBoots", "Shoes")) {
+		if (isMistress) {
+			// Pandora mistresses have their own title
 			C.Title = "Dominatrix";
-			NPCTraitSet(C, "Dominant", 50 + Math.floor(Math.random() * 51));
 		}
 		ServerPrivateCharacterSync();
 		DialogLeave();

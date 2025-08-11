@@ -160,9 +160,7 @@ function CollegeTeacherNewBackground(New) {
 function CollegeTeacherInviteToPrivateRoom(Role="None") {
 	CollegeTeacherDressBack();
 	InventoryAdd(Player, "Pillory", "ItemArms");
-	PrivateAddCharacter(CollegeTeacherMildred, null, true);
-	var C = PrivateCharacter[PrivateCharacter.length - 1];
-	C.Trait = [];
+	const C = PrivateAddCharacter(CollegeTeacherMildred, null, true);
 	NPCTraitSet(C, "Dominant", 60);
 	NPCTraitSet(C, "Violent", 50);
 	NPCTraitSet(C, "Frigid", 40);

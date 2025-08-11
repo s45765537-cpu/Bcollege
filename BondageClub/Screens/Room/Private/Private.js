@@ -1138,15 +1138,14 @@ function PrivateLoadCharacter(data) {
 
 /**
  * Triggered when a new character is added to the player's private room.
+ * @template {ModuleType} T
  * @param {NPCCharacter} Template - The base of the character, includes the name and appearance.
  * @param {"" | NPCArchetype} [Archetype] - The type of character such as maid or mistress.
- * @param {boolean} [CustomData=false] - Whether or not the character has non-random traits.
- * @param {null | ModuleType} [Module]
- * @param {null | string} [Screen]
+ * @param {boolean} [CustomData=false] - Whether or not the character has non-random traits. Passing `true` will also skip calling {@link ServerPrivateCharacterSync()}.
  * @returns {NPCCharacter} - The new private room character.
  */
-function PrivateAddCharacter(Template, Archetype, CustomData, Module=null, Screen=null) {
-	const C = CharacterLoadNPC("NPC_Private_Custom_" + PrivateCharacter.length.toString(), "NPC_Private_Custom", Module, Screen);
+function PrivateAddCharacter(Template, Archetype, CustomData=false) {
+	const C = CharacterLoadNPC("NPC_Private_Custom_" + PrivateCharacter.length.toString(), "NPC_Private_Custom", "Room", "Private");
 	C.Name = Template.Name;
 	C.Appearance = Template.Appearance.slice();
 	C.AppearanceFull = Template.Appearance.slice();
@@ -1155,15 +1154,15 @@ function PrivateAddCharacter(Template, Archetype, CustomData, Module=null, Scree
 	NPCTraitGenerate(C);
 	if (Archetype === "Mistress") NPCTraitSet(C, "Dominant", 60 + Math.floor(Math.random() * 41));
 	if ((Archetype === "Submissive") || (Archetype === "Bunny")) NPCTraitSet(C, "Dominant", -50 - Math.floor(Math.random() * 51));
-	if ((CustomData == null) || (CustomData == false)) NPCTraitDialog(C);
+	if (!CustomData) NPCTraitDialog(C);
 	NPCSetupArousal(C);
-	CharacterRefresh(C);
-	PrivateCharacter.push(C);
 	NPCEventAdd(C, "PrivateRoomEntry", CurrentTime);
 	NPCEventAdd(C, "NextKidnap", CurrentTime + 86400000);
-	if ((CustomData == null) || (CustomData == false)) ServerPrivateCharacterSync();
 	C.AllowItem = (((ReputationGet("Dominant") + 25 >= NPCTraitGet(C, "Dominant")) && !C.IsOwner()) || C.IsRestrained() || !C.CanTalk());
 	if ((InventoryGet(C, "ItemNeck") != null) && (InventoryGet(C, "ItemNeck").Asset.Name == "ClubSlaveCollar")) InventoryRemove(C, "ItemNeck");
+	if (!CustomData) ServerPrivateCharacterSync();
+	CharacterRefresh(C);
+	PrivateCharacter.push(C);
 	return C;
 }
 

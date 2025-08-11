@@ -1736,9 +1736,9 @@ interface DialogLine {
 	Trait: string;
 }
 
-interface DialogInfo {
-	module: ModuleType;
-	screen: string;
+interface DialogInfo<T extends ModuleType> {
+	module: T;
+	screen: ModuleScreens[T];
 	name: string;
 }
 
@@ -1794,7 +1794,7 @@ interface Character {
 	/**
 	 * The character's loaded dialog info
 	 */
-	DialogInfo?: DialogInfo;
+	DialogInfo?: DialogInfo<any>;
 	/**
 	 * A deprecated identifier for online characters
 	 * Only exists on the player, has the same value as their character ID.

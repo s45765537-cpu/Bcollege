@@ -218,9 +218,7 @@ function CollegeDetentionInviteToPrivateRoom(Role="None") {
 	ItemsToEarn.push({Name: "RegularSleepingPill", Group: "ItemMouth"});
 	InventoryAddMany(Player, ItemsToEarn);
 
-	PrivateAddCharacter(CollegeDetentionYuki, null, true);
-	var C = PrivateCharacter[PrivateCharacter.length - 1];
-	C.Trait = [];
+	const C = PrivateAddCharacter(CollegeDetentionYuki, null, true);
 	NPCTraitSet(C, "Dominant", 20);
 	NPCTraitSet(C, "Horny", 80);
 	NPCTraitSet(C, "Rude", 60);

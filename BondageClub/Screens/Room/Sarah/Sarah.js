@@ -342,9 +342,7 @@ function SarahTransferToRoom() {
 	InventoryWear(Sarah, "Shoes2", "Shoes", "#222222");
 	InventoryAdd(Player, "StuddedBlindfold", "ItemHead");
 	CommonSetScreen("Room", "Private");
-	PrivateAddCharacter(Sarah, null, true);
-	var C = PrivateCharacter[PrivateCharacter.length - 1];
-	C.Trait = [];
+	const C = PrivateAddCharacter(Sarah, null, true);
 	NPCTraitSet(C, "Submissive", 70);
 	NPCTraitSet(C, "Violent", 50);
 	NPCTraitSet(C, "Horny", 40);
@@ -398,9 +396,7 @@ function SarahTransferAmandaToRoom() {
 	InventoryWear(Amanda, "Panties1", "Panties", "#bbbbbb");
 	InventoryAdd(Player, "StraponPanties", "ItemPelvis");
 	CommonSetScreen("Room", "Private");
-	PrivateAddCharacter(Amanda, null, true);
-	var C = PrivateCharacter[PrivateCharacter.length - 1];
-	C.Trait = [];
+	const C = PrivateAddCharacter(Amanda, null, true);
 	NPCTraitSet(C, "Peaceful", 70);
 	NPCTraitSet(C, "Wise", 90);
 	NPCTraitSet(C, "Serious", 30);
@@ -529,11 +525,8 @@ function SarahTransferSophieToRoom(Love) {
 	CharacterRelease(Sophie);
 	CharacterArchetypeClothes(Sophie, "Mistress", "#333333");
 	CommonSetScreen("Room", "Private");
-	PrivateAddCharacter(Sophie, null, true);
-	var C = PrivateCharacter[PrivateCharacter.length - 1];
+	const C = PrivateAddCharacter(Sophie, "Mistress", true);
 	C.Name = "Sophie";
-	C.Title = "Mistress";
-	C.Trait = [];
 	NPCTraitSet(C, "Dominant", 90);
 	NPCTraitSet(C, "Violent", 70);
 	NPCTraitSet(C, "Wise", 30);

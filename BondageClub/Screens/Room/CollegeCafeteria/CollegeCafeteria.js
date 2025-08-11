@@ -166,9 +166,7 @@ function CollegeCafeteriaInviteToPrivateRoom() {
 	// Adds the dunce hat and removes it from Sidney before adding her to the player's room
 	InventoryAdd(Player, "CollegeDunce", "Hat");
 	InventoryRemove(CollegeCafeteriaSidney, "Hat");
-	PrivateAddCharacter(CollegeCafeteriaSidney, null, true);
-	var C = PrivateCharacter[PrivateCharacter.length - 1];
-	C.Trait = [];
+	const C = PrivateAddCharacter(CollegeCafeteriaSidney, null, true);
 	NPCTraitSet(C, "Dominant", 30);
 	NPCTraitSet(C, "Violent", 60);
 	NPCTraitSet(C, "Dumb", 40);
@@ -193,6 +191,8 @@ function CollegeCafeteriaInviteToPrivateRoom() {
 	NPCTraitDialog(C);
 	ServerPrivateCharacterSync();
 	DialogLeave();
+	CharacterDelete(CollegeCafeteriaSidney);
+	CollegeCafeteriaSidney = null;
 
 	// Generates a new random character at Sidney's spot
 	CharacterAppearanceFullRandom(CollegeCafeteriaSidney);

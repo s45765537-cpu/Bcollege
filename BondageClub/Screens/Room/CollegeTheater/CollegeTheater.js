@@ -223,9 +223,7 @@ function CollegeTheaterInviteToPrivateRoom(Role) {
 		InventoryAddMany(Player, ItemsToEarn);
 	}
 	CommonSetScreen("Room", "Private");
-	PrivateAddCharacter(CollegeTheaterJulia, null, true);
-	var C = PrivateCharacter[PrivateCharacter.length - 1];
-	C.Trait = [];
+	const C = PrivateAddCharacter(CollegeTheaterJulia, null, true);
 	NPCTraitSet(C, "Playful", 90);
 	NPCTraitSet(C, "Peaceful", 70);
 	NPCTraitSet(C, "Horny", 40);

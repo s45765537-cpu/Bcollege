@@ -606,7 +606,7 @@ function ManagementSendMistressToPrivateRoom(RepChange) {
 	ReputationProgress("Dominant", RepChange);
 	ManagementEmpty = true;
 	ManagementMistress.Name = ManagementMistress.Name.replace(TextGet("Mistress") + " ", "");
-	PrivateAddCharacter(ManagementMistress, "Mistress", null, null, "Private");
+	PrivateAddCharacter(ManagementMistress, "Mistress", null);
 	DialogLeave();
 }
 
