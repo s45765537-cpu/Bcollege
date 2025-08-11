@@ -2552,13 +2552,23 @@ interface NPCTrait {
 
 type NPCEventType =
 	| "LastInteraction"
-	| "Wife" | "Fiancee" | "Girlfriend"
+	| "Wife"
+	| "Fiancee"
+	| "Girlfriend"
 	| "PrivateRoomEntry"
-	| "NPCCollaring" | "PlayerCollaring"
-	| "NextGift" | "LastGift"
-	| "Kidnap" | "NextKidnap"
+	// Date at which the player became full owner of the NPC
+	| "NPCCollaring"
+	// Date at which the player became fully owned by the NPC
+	| "PlayerCollaring"
+	| "NextGift"
+	| "LastGift"
+	| "Kidnap"
+	| "NextKidnap"
 	| "NPCBrainwashing"
-	| "EndSubTrial" | "EndDomTrial"
+	// Date at which the ownership trial as a sub to this NPC ends
+	| "EndSubTrial"
+	// Date at which the ownership trial as a dom to this NPC ends
+	| "EndDomTrial"
 	| "NextBed"
 	| "NewCloth"
 	| "RefusedActivity"
