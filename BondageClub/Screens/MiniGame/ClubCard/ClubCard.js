@@ -2331,7 +2331,7 @@ var ClubCardList = [
 	// 15000 Subs and Slaves
 	{
 		ID: 15000,
-		Name: "Kneeling Slave",
+		Name: "Kneeling Sub",
 		Group: ["Submissive"],
 		MoneyPerTurn: 1
 	},
@@ -2484,7 +2484,7 @@ var ClubCardList = [
 		MoneyPerTurn: 2,
 		FamePerTurn: -1,
 		BeforeTurnEnd: function(CCPlayer) {
-			if (CCPlayer.DiscardPile.length > 6) {
+			if (CCPlayer.DiscardPile.filter(card => card.Type !== "Event").length > 6) {
 				ClubCardRemoveFromBoard(CCPlayer, this);
 				ClubCardPlayerAddFame(ClubCardGetOpponent(CCPlayer), -25, this.Name);
 			}
@@ -3520,6 +3520,10 @@ var ClubCardList = [
 			for (const Card of opponent.Board) {
 				if (Card.UniqueID === this.Negating) Card.Negated = true;
 			}
+		},
+		CanPlay: function(CCPlayer) {
+			if (ClubCardGroupIsOnBoard(CCPlayer, "Mistress")) return true;
+			return false;
 		}
 	}
 ];
@@ -4647,7 +4651,7 @@ function ClubCardCancelNegation(CCPlayer, CardToCancel) {
 	cardsNegating.concat(opponent.Board.filter(card => card.Negating == CardToCancel.UniqueID));
 	cardsNegating.concat(opponent.Event.filter(card => card.Negating == CardToCancel.UniqueID));
 	if (cardsNegating.length < 2) {
-		CardToCancel.Negated = null;
+		CardToCancel.Negated = undefined;
 		if (CardToCancel.Time && CardToCancel.Time <= 0) ClubCardRemoveFromBoard(CCPlayer, CardToCancel);
 		if (CardToCancel.onCancelNegation) CardToCancel.onCancelNegation(CCPlayer);
 	}

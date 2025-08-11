@@ -4753,7 +4753,8 @@ interface ClubCard {
 	ExtraPlay?: number;
 	Group?: string[];
 	Location?: string;
-	Negated?: boolean;
+	Negated?: boolean; // if the card's effect should not work
+	Negating?: string; // the card that its effect is stopped by this card
 	GlowTimer?: number;
 	GlowColor?: string;
 	EffectKey?: number;
@@ -4765,7 +4766,6 @@ interface ClubCard {
 	CurrentY?: number;
 	CurrentW?: number;
 	IsVisible?: boolean;
-	Negating?: string;
 	//### ### ### ###
 	OnPlay?: (C: ClubCardPlayer) => void;
 	BeforeTurnEnd?: (C: ClubCardPlayer) => void;

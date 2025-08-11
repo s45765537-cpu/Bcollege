@@ -355,7 +355,7 @@ Effect Pandora Box,"SOURCEPLAYER opens Pandora's Box and discard their hand. All
 Title Toy Box,Toy Box
 Text Toy Box,+3 Money and draw a card.
 Title Restrain,Restrain
-Text Restrain,"For 2 turns, you nor your opponent can play Events. Cancels all Events."
+Text Restrain,"For 2 turns, both players cannot use events and negate the effect of all events present."
 Title Detective,Detective
 Text Detective,For each card your opponent draws gain 1 Money. If no Liability are present gain 1 Fame and 1 Money instead.
 Effect Detective Money,SOURCEPLAYER gained AMOUNT Money from CARDNAME.
@@ -610,8 +610,8 @@ GroupSlave,Slave
 GroupSubmissive,Submissive
 Title Country Gal,Country Gal
 Text Country Gal," "
-Title Kneeling Slave,Kneeling Slave
-Text Kneeling Slave,"<F>I'm on my knees so much, that I needed kneepads"
+Title Kneeling Sub,Kneeling Sub
+Text Kneeling Sub,"<F>I'm on my knees so much, that I needed kneepads"
 Title Humbled Harper,Humbled Harper
 Text Humbled Harper,Recieve 1 Fame and 1 Money for each card the opponent draws.
 Title Miss N Spection,Miss N Spection
@@ -633,7 +633,7 @@ Text Chirumi,Gain +1 fame equal to your club level. Leaves your club if your str
 Title Pack Member,Pack Member
 Text Pack Member,"Enters: Add a Pack member to your hand if you have fewer members in your club than the opponent."
 Title Brutus,Brutus
-Text Brutus," "
+Text Brutus,"<F>I usually don't use those cuffs at work"
 Title Yunari,Yunari
 Text Yunari,"If your streets have fewer cards than your opponent's, leaves your club at the end of your turn."
 Title Pack Leader,Pack Leader
@@ -661,6 +661,6 @@ Text Hustler,"When you steal with another effect, receive 1 Fame or 1 Money at r
 Title Enforcer,Enforcer
 Text Enforcer,"Gain +1 Fame per member in your streets (Max +6). Enters: Discard the top 4 cards of your deck and receive Money equal to their tiers."
 Title Ball Gag,Ball Gag
-Text Ball Gag,"Select a member to negate their effect, then lose Money equal to its tier^2."
+Text Ball Gag,"If a Mistress is present, select a member to negate their effect, then lose Money equal to its tier^2."
 Title Akira,Akira
 Text Akira,Enters: Select a member to Ball Gag.

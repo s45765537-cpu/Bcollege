@@ -414,7 +414,7 @@ function GameClubCardLoadBundle(CCPlayer, Bundle) {
 	//###
 	if (Bundle.Hand != null) CCPlayer.Hand = GameClubCardUndoBundle(Bundle.Hand);
 	if (Bundle.Board != null) CCPlayer.Board = GameClubCardBoardUndoBundle(Bundle.Board, Location);
-	if (Bundle.Event != null) CCPlayer.Event = GameClubCardUndoBundle(Bundle.Event, true, Location);
+	if (Bundle.Event != null) CCPlayer.Event = GameClubCardBoardUndoBundle(Bundle.Event, Location);
 	//Check that if the user has the selected ClubCardFocus card, we hide its original.
 	if (ClubCardIsAnimationOn && ClubCardFocus) {
 		let targetCard = [CCPlayer.Hand, CCPlayer.Board, CCPlayer.Event].
@@ -575,7 +575,7 @@ function GameClubCardSyncOnlineData(Progress = "Action", LocalPlayerOnly = false
 			Deck: GameClubCardDoBundle(CCPlayer.Deck),
 			Hand: GameClubCardDoBundle(CCPlayer.Hand),
 			Board: GameClubCardBoardDoBundle(CCPlayer.Board),
-			Event: GameClubCardDoBundle(CCPlayer.Event, true),
+			Event: GameClubCardBoardDoBundle(CCPlayer.Event),
 			DiscardPile: GameClubCardDoBundle(CCPlayer.DiscardPile),
 			CardsPlayedThisTurn: CCPlayer.CardsPlayedThisTurn,
 			ClubCardTurnCounter: CCPlayer.ClubCardTurnCounter,
