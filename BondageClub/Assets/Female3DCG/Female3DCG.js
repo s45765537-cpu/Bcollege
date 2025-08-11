@@ -4289,6 +4289,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "FacePaint",
 				InventoryID: 172,
+				StyleOverride: ["EchoV2"],
 				Value: 10,
 				Left: 150,
 				Top: 20,
@@ -21115,6 +21116,15 @@ var AssetFemale3DCG = [
 						CopyLayerColor: "1",
 					},
 				],
+			},
+			{
+				Name: "FacePaint",
+				DynamicGroupName: "ClothAccessory",
+				CopyConfig: {
+					GroupName: "ClothAccessory",
+					AssetName: "FacePaint",
+					BuyGroup: true,
+				},
 			},
 		],
 		Color: [
