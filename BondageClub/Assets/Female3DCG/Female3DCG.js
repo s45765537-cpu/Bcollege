@@ -6798,7 +6798,7 @@ var AssetFemale3DCG = [
 				},
 				Layer: [
 					{ Name: "Skirt", AllowTypes: { typed: 0 } },
-					{ Name: "SkirtV2", CopyLayerColor: "Skirt", AllowTypes: { typed: 1 } }, 
+					{ Name: "SkirtV2", CopyLayerColor: "Skirt", AllowTypes: { typed: 1 } },
 					{ Name: "Design", AllowTypes: { typed: 0 } },
 					{ Name: "DesignV2", CopyLayerColor: "Design", AllowTypes: { typed: 1 } }
 				],
@@ -42362,6 +42362,150 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
+				Name: "Plushies",
+				InventoryID: 1265,
+				Value: 0,
+				Priority: 44,
+				Left: 125,
+				Top: 220,
+				ParentGroup: {},
+				IsRestraint: false,
+				Extended: true,
+				BuyGroup: "Plushies",
+				HideItem: ["ItemMiscPlushies"],
+				Layer: [
+					{
+						Name: "Sin",
+						AllowTypes: { DenOfSin: 1 },
+					},
+					{
+						Name: "Raven",
+						AllowTypes: { DenOfSin: 2 },
+					},
+					{
+						Name: "CassandraLee",
+						AllowTypes: { DenOfSin: 3 },
+					},
+					{
+						Name: "Rika",
+						AllowTypes: { DenOfSin: 4 },
+					},
+					{
+						Name: "Roslin",
+						AllowTypes: { DenOfSin: 5 },
+					},
+					{
+						Name: "Gangriel",
+						AllowTypes: { Gangriels: 1 },
+					},
+					{
+						Name: "Celiko",
+						AllowTypes: { CelestialEnchants: 1 },
+					},
+					{
+						Name: "Lavender",
+						AllowTypes: { CelestialEnchants: 2 },
+					},
+					{
+						Name: "Sabie",
+						AllowTypes: { CelestialEnchants: 3 },
+					},
+					{
+						Name: "Siscuit",
+						AllowTypes: { CelestialEnchants: 4 },
+					},
+					{
+						Name: "Aeri",
+						AllowTypes: { LatexLab: 1 },
+					},
+					{
+						Name: "Delta",
+						AllowTypes: { LatexLab: 2 },
+					},
+					{
+						Name: "Khloe",
+						AllowTypes: { LatexLab: 3 },
+					},
+					{
+						Name: "Lillian",
+						AllowTypes: { LatexLab: 4 },
+					},
+					{
+						Name: "Minerva",
+						AllowTypes: { LatexLab: 5 },
+					},
+					{
+						Name: "Nabi",
+						AllowTypes: { LatexLab: 6 },
+					},
+					{
+						Name: "TinyRaven",
+						AllowTypes: { LatexLab: 7 },
+					},
+					{
+						Name: "XDress",
+						AllowTypes: { LatexLab: 8 },
+					},
+					{
+						Name: "Magdalena",
+						AllowTypes: { VoidOrder: 1 },
+					},
+					{
+						Name: "Sonic",
+						AllowTypes: { VoidOrder: 2 },
+					},
+					{
+						Name: "Alunra",
+						AllowTypes: { EnsLivingRoom: 1 },
+					},
+					{
+						Name: "Mel",
+						AllowTypes: { EnsLivingRoom: 2 },
+					},
+					{
+						Name: "Zannah",
+						AllowTypes: { EnsLivingRoom: 3 },
+					},
+					{
+						Name: "Zoe",
+						AllowTypes: { EnsLivingRoom: 4 },
+					},
+					{
+						Name: "Elora",
+						AllowTypes: { Vagrants: 1 },
+					},
+					{
+						Name: "HoshiKo",
+						AllowTypes: { Vagrants: 2 },
+					},
+					{
+						Name: "Layottu",
+						AllowTypes: { Vagrants: 3 },
+					},
+					{
+						Name: "Lisa",
+						AllowTypes: { Vagrants: 4 },
+					},
+					{
+						Name: "LittleSera",
+						AllowTypes: { Vagrants: 5 },
+					},
+					{
+						Name: "Mana",
+						AllowTypes: { Vagrants: 6 },
+					},
+					{
+						Name: "Melanie",
+						AllowTypes: { Vagrants: 7 },
+					},
+					{
+						Name: "Zoi",
+						AllowTypes: { Vagrants: 8 },
+					},
+
+				],
+			},
+			{
 				Name: "Cigarette",
 				InventoryID: 1255,
 				ParentGroup: {},
@@ -58013,6 +58157,15 @@ var AssetFemale3DCG = [
 				Attribution: {
 					Author: "Triz & Rama",
 					License: "CC0 1.0 Universal/Public domain",
+				},
+			},
+			{
+				Name: "Plushies",
+				DynamicGroupName: "ItemHandheld",
+				CopyConfig: {
+					GroupName: "ItemHandheld",
+					AssetName: "Plushies",
+					BuyGroup: true,
 				},
 			},
 		],
