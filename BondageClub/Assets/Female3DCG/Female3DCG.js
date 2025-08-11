@@ -2999,6 +2999,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "CropTop",
 				InventoryID: 150,
+				StyleOverride: ["EchoV2"],
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
 				Value: 40,
