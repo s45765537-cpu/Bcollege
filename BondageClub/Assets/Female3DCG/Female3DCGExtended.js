@@ -310,6 +310,11 @@ var AssetFemale3DCGExtended = {
 					Key: "p",
 					Options: [{}, {}, {}],
 				},
+				{
+					Name: "Fingernails",
+					Key: "f",
+					Options: [{}, {}, {}],
+				},
 			],
 		},
 	},
@@ -340,6 +345,11 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Pinkie",
 					Key: "p",
+					Options: [{}, {}, {}],
+				},
+				{
+					Name: "Fingernails",
+					Key: "f",
 					Options: [{}, {}, {}],
 				},
 			],
