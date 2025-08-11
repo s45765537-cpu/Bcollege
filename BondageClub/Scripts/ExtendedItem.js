@@ -1168,14 +1168,14 @@ function ExtendedItemGetDrawData(drawData, defaults) {
 	/** @type {ElementData<MetaData>[]} */
 	let elementData;
 	if (Array.isArray(drawData.elementData)) {
-		if (drawData.elementData.length !== defaults.elementData.length) {
-			throw new Error(`Custom DrawData.elementData length (${drawData.elementData.length}) not equal to expected length (${defaults.elementData.length})`);
+		if (drawData.elementData.length > defaults.elementData.length) {
+			throw new Error(`Custom DrawData.elementData length (${drawData.elementData.length}) larger than expected length (${defaults.elementData.length})`);
 		}
 		elementData = defaults.elementData.map((buttonDataRef, i) => {
 			const buttonData = drawData.elementData[i];
 			/** @type {RectTuple} */
 			let position;
-			if (buttonData.position) {
+			if (buttonData?.position) {
 				position = /** @type {RectTuple} */(buttonDataRef.position.map((j, idx) => {
 					return buttonData.position[idx] || j;
 				}));
@@ -1185,7 +1185,7 @@ function ExtendedItemGetDrawData(drawData, defaults) {
 
 			return {
 				...buttonDataRef,
-				...buttonData,
+				...(buttonData ?? {}),
 				position,
 			};
 		});
