@@ -1587,6 +1587,10 @@ var AssetFemale3DCG = [
 				Gender: "F",
 				Value: 100,
 				Top: -110,
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					License: "CC BY-SA-NC 4.0"
+				},
 				Prerequisite: ["HasBreasts"],
 				Layer: [
 					{
@@ -1763,6 +1767,10 @@ var AssetFemale3DCG = [
 				Value: 70,
 				Top: -110,
 				Left: 0,
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					License: "CC BY-SA-NC 4.0"
+				},
 				Prerequisite: ["HasBreasts"],
 				Layer: [
 					{
@@ -4226,6 +4234,10 @@ var AssetFemale3DCG = [
 				Top: -110,
 				Left: 0,
 				Priority: 3,
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					License: "CC BY-SA-NC 4.0"
+				},
 			},
 			{
 				Name: "Camera1",
@@ -7734,6 +7746,10 @@ var AssetFemale3DCG = [
 				Top: 0,
 				Left: 0,
 				Value: 45,
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					License: "CC BY-SA-NC 4.0"
+				},
 				Hide: ["ItemNipples"],
 				Prerequisite: ["HasBreasts"],
 				Layer: [
@@ -8197,7 +8213,7 @@ var AssetFemale3DCG = [
 				},
 				Attribution: {
 					Author: "XinLian (SugarChain)",
-					License: "CC BY-SA 4.0",
+					License: "CC BY-SA-NC 4.0",
 				},
 				Layer: [
 					{
@@ -8255,7 +8271,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#929292", "#929292"],
 				Attribution: {
 					Author: "Echo (SugarChain)",
-					License: "CC SA-BY 4.0",
+					License: "CC SA-BY-NC 4.0",
 				},
 				Layer: [
 					{
@@ -8300,7 +8316,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#000000", "#000000", "#000000", "#000000", "#000000"],
 				Attribution: {
 					Author: "Echo (SugarChain)",
-					License: "CC BY-SA 4.0",
+					License: "CC BY-SA-NC 4.0",
 				},
 				Layer: [
 					{
@@ -8414,7 +8430,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#7A7A7A", "#7A7A7A"],
 				Attribution: {
 					Author: "Echo (SugarChain)",
-					License: "CC BY-SA 4.0",
+					License: "CC BY-SA-NC 4.0",
 				},
 				Layer: [
 					{
@@ -8843,6 +8859,10 @@ var AssetFemale3DCG = [
 				Value: -1,
 				Left: 125,
 				Top: 200,
+				Attribution: {
+					Author: "Satome (SugarChain)",
+					License: "CC BY-SA-NC 4.0"
+				},
 				BuyGroup: "ExtremeCorset",
 				DynamicGroupName: "ItemTorso",
 				Prerequisite: ["HasBreasts"],
@@ -10417,6 +10437,10 @@ var AssetFemale3DCG = [
 				Prerequisite: ["HasVagina"],
 				Fetish: ["Nylon"],
 				Value: 49,
+				Attribution: {
+					Author: "Satome (SugarChain)",
+					License: "CC BY-SA-NC 4.0"
+				},
 				DefaultColor: ["#8D7B7B", "#433BA3"],
 				BuyGroup: "GradientPantyhose",
 				Layer: [
@@ -10471,6 +10495,10 @@ var AssetFemale3DCG = [
 				Top: 0,
 				Left: 0,
 				Value: 25,
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					License: "CC BY-SA-NC 4.0"
+				},
 				StyleOverride: ["EchoV2"],
 				Layer: [{ Name: "Sock" }, { Name: "Fuzz" }],
 				PoseMapping: {
@@ -13875,6 +13903,10 @@ var AssetFemale3DCG = [
 				Value: 20,
 				Top: -110,
 				Left: 0,
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					License: "CC BY-SA-NC 4.0"
+				},
 				Layer: [
 					{ Name: "Main", Priority: 55 },
 					{ Name: "Back", Priority: 4 },
@@ -15463,6 +15495,10 @@ var AssetFemale3DCG = [
 				BuyGroup: "Horns4",
 				Top: 0,
 				Left: 0,
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					License: "CC BY-SA-NC 4.0"
+				},
 			},
 			{
 				Name: "Horns5",
@@ -15472,6 +15508,10 @@ var AssetFemale3DCG = [
 				BuyGroup: "Horns2",
 				Top: 0,
 				Left: 0,
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					License: "CC BY-SA-NC 4.0"
+				},
 			},
 			{
 				Name: "CowEars",
@@ -15481,6 +15521,10 @@ var AssetFemale3DCG = [
 				BuyGroup: "CowEars",
 				Top: 0,
 				Left: 0,
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					License: "CC BY-SA-NC 4.0"
+				},
 				Layer: [
 					{ Name: "Ears", Priority: 40 },
 					{ Name: "Horn", Priority: 55 },
@@ -31859,6 +31903,10 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				DrawLocks: false,
+				Attribution: {
+					Author: "Satome (SugarChain)",
+					License: "CC BY-SA-NC 4.0"
+				},
 				Prerequisite: ["AccessTorso", "HasBreasts"],
 				PoseMapping: {
 					Hogtied: PoseType.HIDE,
@@ -33280,6 +33328,10 @@ var AssetFemale3DCG = [
 				AllowLock: true,
 				AllowTighten: true,
 				DrawLocks: false,
+				Attribution: {
+					Author: "Satome (SugarChain)",
+					License: "CC BY-SA-NC 4.0"
+				},
 				DynamicGroupName: "ItemTorso",
 				Prerequisite: ["AccessTorso", "HasBreasts"],
 				PoseMapping: {
@@ -53181,6 +53233,10 @@ var AssetFemale3DCG = [
 				Value: 3,
 				Top: 0,
 				Left: 0,
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					License: "CC BY-SA-NC 4.0"
+				},
 				Layer: [
 					{ Name: "Stickytape", Priority: 58 },
 					{ Name: "Points", Priority: 57 },
@@ -53195,6 +53251,10 @@ var AssetFemale3DCG = [
 				Top: 0,
 				Left: 0,
 				Priority: 52,
+				Attribution: {
+					Author: "Echo (SugarChain)",
+					License: "CC BY-SA-NC 4.0"
+				},
 			},
 			{
 				Name: "InflatedBallHood",
