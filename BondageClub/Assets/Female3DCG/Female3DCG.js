@@ -20482,7 +20482,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "DragonsTail",
-				InventoryID: 2730,
+				InventoryID: 522,
 				Fetish: ["Pet"],
 				BuyGroup: "DragonTail",
 				DefaultColor: ["#7DBBE9", "#8DE49F", "#1732EF", "#A9F3D0", "#253DF1"],
@@ -42406,7 +42406,6 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Plushies",
-				InventoryID: 1265,
 				Value: 0,
 				Priority: 44,
 				Left: 125,
