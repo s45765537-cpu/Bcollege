@@ -814,6 +814,17 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // LatexHobbleDress
+		OffTheShoulderTop: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Left",
+				},
+				{
+					Name: "Right",
+				},
+			],
+		}, // OffTheShoulderTop
 	}, // Cloth
 	BodyMarkings: {
 		WombTattoos: {
@@ -20664,7 +20675,10 @@ var AssetFemale3DCGExtended = {
 					],
 					DrawData: {
 						elementData: [
-							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/NoPlush.png" }, // off
+							{
+								imagePath:
+									"Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",
+							}, // off
 							{},
 							{},
 							{},
@@ -20683,11 +20697,13 @@ var AssetFemale3DCGExtended = {
 					],
 					DrawData: {
 						elementData: [
-							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/NoPlush.png" }, // off
+							{
+								imagePath:
+									"Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",
+							}, // off
 							{},
 						],
 					},
-
 				},
 				{
 					Name: "CelestialEnchants",
@@ -20702,7 +20718,10 @@ var AssetFemale3DCGExtended = {
 					],
 					DrawData: {
 						elementData: [
-							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/NoPlush.png" }, // off
+							{
+								imagePath:
+									"Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",
+							}, // off
 							{},
 							{},
 							{},
@@ -20727,7 +20746,10 @@ var AssetFemale3DCGExtended = {
 					],
 					DrawData: {
 						elementData: [
-							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/NoPlush.png" }, // off
+							{
+								imagePath:
+									"Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",
+							}, // off
 							{},
 							{},
 							{},
@@ -20750,7 +20772,10 @@ var AssetFemale3DCGExtended = {
 					],
 					DrawData: {
 						elementData: [
-							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/NoPlush.png" }, // off
+							{
+								imagePath:
+									"Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",
+							}, // off
 							{},
 							{},
 						],
@@ -20769,7 +20794,10 @@ var AssetFemale3DCGExtended = {
 					],
 					DrawData: {
 						elementData: [
-							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/NoPlush.png" }, // off
+							{
+								imagePath:
+									"Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",
+							}, // off
 							{},
 							{},
 							{},
@@ -20794,7 +20822,10 @@ var AssetFemale3DCGExtended = {
 					],
 					DrawData: {
 						elementData: [
-							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/NoPlush.png" }, // off
+							{
+								imagePath:
+									"Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",
+							}, // off
 							{},
 							{},
 							{},
