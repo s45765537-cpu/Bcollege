@@ -25083,6 +25083,7 @@ var AssetFemale3DCG = [
 				SetPose: ["LegsClosed"],
 				Extended: true,
 				AllowActivePose: ["Kneel"],
+				CreateLayerTypesOverride: [0, 1, 2],
 				CreateLayerTypes: ["typed"],
 			},
 			{
@@ -36328,7 +36329,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "Chains",
 				InventoryID: 556,
-				StyleOverride: ["EchoV2"],
 				Fetish: ["Metal"],
 				Value: 90,
 				Difficulty: 5,
@@ -36342,7 +36342,12 @@ var AssetFemale3DCG = [
 				SetPose: ["BackBoxTie"],
 				Effect: [E.Block, E.BlockWardrobe],
 				Layer: [
-					{ Name: "", CreateLayerTypes: ["typed"] },
+					{
+						Name: "",
+						CreateLayerTypes: ["typed"],
+						StyleOverride: ["EchoV2"],
+						CreateLayerTypesOverride: [1, 2, 4, 6],
+					},
 					{
 						Name: "Suspension",
 						Top: -687,
