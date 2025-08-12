@@ -18029,8 +18029,6 @@ var AssetFemale3DCG = [
 				Name: "AnimeGirlGloves",
 				InventoryID: 1153,
 				Value: -1,
-				Prerequisite: ["HasBreasts"],
-				Gender: "F",
 				BuyGroup: "AnimeGirl",
 				Priority: 30,
 				DefaultColor: ["#DBDBDB", "#CEBC64"],
