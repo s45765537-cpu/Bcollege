@@ -5631,14 +5631,16 @@ function ChatRoomAppearanceLoadCharacter(C) {
 		if (inChatRoom) {
 			ChatRoomShowElements();
 			ChatRoomStatusUpdate(null);
-			if (ready && !C.IsPlayer()) {
-				// Send a notification if we've changed clothes on someone else
-				const Dictionary = new DictionaryBuilder()
-					.sourceCharacter(Player)
-					.destinationCharacter(C)
-					.build();
-				ServerSend("ChatRoomChat", { Content: "ChangeClothes", Type: "Action", Dictionary: Dictionary });
+			if (ready) {
 				ChatRoomCharacterUpdate(C);
+				if (!C.IsPlayer()) {
+					// Send a notification if we've changed clothes on someone else
+					const Dictionary = new DictionaryBuilder()
+						.sourceCharacter(Player)
+						.destinationCharacter(C)
+						.build();
+					ServerSend("ChatRoomChat", { Content: "ChangeClothes", Type: "Action", Dictionary: Dictionary });
+				}
 			}
 		}
 	});
