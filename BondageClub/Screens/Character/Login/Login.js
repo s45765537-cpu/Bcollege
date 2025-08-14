@@ -165,62 +165,76 @@ async function LoginLoad() {
 
 	ElementCreate({
 		tag: "span",
-		classList: ["login-text"],
+		classList: ["login-text", "NoSelect"],
 		attributes: {
 			id: LoginIDs.welcome
 		},
 		children: [
 			TextGet("Welcome"),
 		],
-		parent: document.body
+		parent: form
 	});
 
 	ElementCreate({
 		tag: "span",
-		classList: ["login-text"],
+		classList: ["login-text", "NoSelect"],
 		attributes: {
 			id: LoginIDs.status
 		},
 		children: [
 			LoginGetStatus() ?? TextGet("EnterNamePassword"),
 		],
-		parent: document.body
+		parent: form
 	});
 
-	ElementCreate({
-		tag: "span",
-		classList: ["login-text"],
-		attributes: {
-			id: LoginIDs.nameLabel
-		},
-		children: [
-			TextGet("AccountName"),
-		],
-		parent: document.body
-	});
-
-	ElementCreate({
-		tag: "span",
-		classList: ["login-text"],
-		attributes: {
-			id: LoginIDs.passwordLabel
-		},
-		children: [
-			TextGet("Password"),
-		],
-		parent: document.body
-	});
-
-	const username = ElementCreateInput(LoginIDs.name, "text", "", "20", form);
+	const username = ElementCreateInput(LoginIDs.name, "text", "", "20");
 	username.setAttribute("autocomplete", "username");
 	username.setAttribute("enterkeyhint", "next");
 	username.addEventListener("keydown", LoginEventListeners._KeyDownInputName);
 	username.focus();
 
-	const pass = ElementCreateInput(LoginIDs.password, "password", "", "20", form);
+	const pass = ElementCreateInput(LoginIDs.password, "password", "", "20");
 	pass.setAttribute("autocomplete", "current-password");
 	pass.setAttribute("enterkeyhint", "go");
 	pass.addEventListener("keydown", LoginEventListeners._KeyDownInputPassword);
+
+	ElementCreate({
+		tag: "label",
+		classList: ["vertical"],
+		children: [
+			{
+				tag: "span",
+				classList: ["login-text", "NoSelect"],
+				attributes: {
+					id: LoginIDs.nameLabel
+				},
+				children: [
+					TextGet("AccountName"),
+				],
+			},
+			username
+		],
+		parent: form
+	});
+
+	ElementCreate({
+		tag: "label",
+		classList: ["vertical"],
+		children: [
+			{
+				tag: "span",
+				classList: ["login-text", "NoSelect"],
+				attributes: {
+					id: LoginIDs.passwordLabel
+				},
+				children: [
+					TextGet("Password"),
+				],
+			},
+			pass
+		],
+		parent: form
+	});
 
 	const loginButton = ElementButton.Create(LoginIDs.login, () => {
 		const Name = ElementValue(LoginIDs.name);
@@ -234,7 +248,7 @@ async function LoginLoad() {
 
 	const newCharacter = ElementCreate({
 		tag: "span",
-		classList: ["login-text"],
+		classList: ["login-text", "NoSelect"],
 		attributes: {
 			id: LoginIDs.newCharacter
 		},
