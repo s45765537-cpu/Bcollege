@@ -8901,7 +8901,7 @@ var AssetFemale3DCG = [
 				Left: 125,
 				Top: 200,
 				Attribution: {
-					Author: "Satome (SugarChain)",
+					Author: "Saotome (SugarChain)",
 					License: "CC BY-SA-NC 4.0",
 				},
 				BuyGroup: "ExtremeCorset",
@@ -10479,7 +10479,7 @@ var AssetFemale3DCG = [
 				Fetish: ["Nylon"],
 				Value: 49,
 				Attribution: {
-					Author: "Satome (SugarChain)",
+					Author: "Saotome (SugarChain)",
 					License: "CC BY-SA-NC 4.0",
 				},
 				DefaultColor: ["#8D7B7B", "#433BA3"],
@@ -31977,7 +31977,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DrawLocks: false,
 				Attribution: {
-					Author: "Satome (SugarChain)",
+					Author: "Saotome (SugarChain)",
 					License: "CC BY-SA-NC 4.0",
 				},
 				Prerequisite: ["AccessTorso", "HasBreasts"],
@@ -33402,7 +33402,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				DrawLocks: false,
 				Attribution: {
-					Author: "Satome (SugarChain)",
+					Author: "Saotome (SugarChain)",
 					License: "CC BY-SA-NC 4.0",
 				},
 				DynamicGroupName: "ItemTorso",
