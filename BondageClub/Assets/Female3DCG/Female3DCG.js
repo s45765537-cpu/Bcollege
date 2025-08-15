@@ -21250,15 +21250,6 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
-			{
-				Name: "FacePaint",
-				DynamicGroupName: "ClothAccessory",
-				CopyConfig: {
-					GroupName: "ClothAccessory",
-					AssetName: "FacePaint",
-					BuyGroup: true,
-				},
-			},
 		],
 		Color: [
 			"Default",
@@ -21339,6 +21330,15 @@ var AssetFemale3DCG = [
 				CopyConfig: {
 					GroupName: "BodyMarkings",
 					AssetName: "Splatters",
+					BuyGroup: true,
+				},
+			},
+			{
+				Name: "FacePaint",
+				DynamicGroupName: "ClothAccessory",
+				CopyConfig: {
+					GroupName: "ClothAccessory",
+					AssetName: "FacePaint",
 					BuyGroup: true,
 				},
 			},
