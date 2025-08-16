@@ -4758,15 +4758,20 @@ function ClubCardGetPlayerIndex() {
 function ClubCardLoadDeckNumber(DeckNum) {
 	// Invalid decks cannot be loaded, we get the default one if that's the case
 	let Deck = [];
-	if ((Player.Game.ClubCard.Deck?.length <= DeckNum) || (Player.Game.ClubCard.Deck[DeckNum]?.length < ClubCardBuilderMinDeckSize) || (Player.Game.ClubCard.Deck[DeckNum]?.length > ClubCardBuilderMaxDeckSize)) {
-		let msg = TextGet("NoValidDeckFound").replace("PLAYERNAME", CharacterNickname(Player));
-		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, null, {}, null, msg);
-		Deck = ClubCardBuilderDefaultDeck.slice();
-	} else {
+	const deckSources = Player?.Game?.ClubCard?.Deck ?? [];
+	const isValid = deckSources.length > DeckNum
+		&& deckSources[DeckNum]?.length >= ClubCardBuilderMinDeckSize
+		&& deckSources[DeckNum]?.length <= ClubCardBuilderMaxDeckSize;
+
+	if (isValid) {
 		let msg = TextGet("UsingDeck").replace("PLAYERNAME", CharacterNickname(Player));
 		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, null, {}, null, msg);
 		for (let i = 0; i < Player.Game.ClubCard?.Deck[DeckNum]?.length; i++)
 			Deck.push(Player.Game.ClubCard.Deck[DeckNum].charCodeAt(i));
+	} else {
+		let msg = TextGet("NoValidDeckFound").replace("PLAYERNAME", CharacterNickname(Player));
+		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, null, {}, null, msg);
+		Deck = ClubCardBuilderDefaultDeck.slice();
 	}
 
 	// Loads the deck and shuffles it
