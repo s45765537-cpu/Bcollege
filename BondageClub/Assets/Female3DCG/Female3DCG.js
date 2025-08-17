@@ -935,19 +935,22 @@ var AssetFemale3DCG = [
 					License: "CC BY-SA-NC 4.0",
 				},
 				PoseMapping: {
+					BackCuffs: "BackCuffs",
+					BackBoxTie: "BackCuffs",
+					BackElbowTouch: "BackElbowTouch",
+					OverTheHead: "OverTheHead",
+					Yoked: "Yoked",
 					Hogtied: PoseType.HIDE,
 					AllFours: PoseType.HIDE,
 				},
 				Layer: [
 					{
 						Name: "Left",
-						// CreateLayerTypes: ["Right"],
 						AllowTypes: { typed: 0 },
 						AllowColorize: true,
 					},
 					{
 						Name: "Right",
-						// CreateLayerTypes: ["Left"],
 						AllowTypes: { typed: 1 },
 						AllowColorize: true,
 					},
