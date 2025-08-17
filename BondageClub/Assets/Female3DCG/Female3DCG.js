@@ -47559,6 +47559,34 @@ var AssetFemale3DCG = [
 					{ Name: "Lock", Priority: 38, LockLayer: true, AllowColorize: true },
 				],
 			},
+			{
+				Name: "Cigarette",
+				InventoryID: 1259,
+				ParentGroup: {},
+				Value: 10,
+				Left: 0,
+				Priority: 46,
+				IsRestraint: false,
+				Random: false,
+				Audio: "Bag",
+				AllowActivity: ["RubItem"],
+				AllowColorize: true,
+				DefaultColor: ["Default", "Default", "#A16000", "Default"],
+				Layer: [
+					{
+						Name: "PaperInMouth",
+					},
+					{
+						Name: "LitInMouth",
+					},
+					{
+						Name: "FilterInMouth",
+					},
+					{
+						Name: "SmokeInMouth",
+					},
+				],
+			},
 		],
 		Color: [
 			"Default",

@@ -2248,6 +2248,10 @@ ItemMouthCageMuzzleMuzzle,Cage
 ItemMouthCageMuzzleStrap,Straps
 ItemMouthCarrotGagCarrot,Carrot
 ItemMouthCarrotGagStraps,Straps
+ItemMouthCigaretteSmokeInMouth,Smoke
+ItemMouthCigaretteLitInMouth,Lit
+ItemMouthCigaretteFilterInMouth,Filter
+ItemMouthCigarettePaperInMouth,Paper
 ItemMouthCupholderGagCup,Cup
 ItemMouthCupholderGagGag,Gag
 ItemMouthCupholderGagHolder,Holder
