@@ -34911,7 +34911,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "CeilingShackles",
 				InventoryID: 727,
-				StyleOverride: ["EchoV2"],
 				Fetish: ["Metal"],
 				Value: 100,
 				Left: 0,
@@ -34935,7 +34934,7 @@ var AssetFemale3DCG = [
 				Hide: ["Bracelet"],
 				Extended: true,
 				CreateLayerTypes: ["typed"],
-				Layer: [{ Name: "Chain", Top: -388, Priority: 6 }, { Name: "Cuffs" }],
+				Layer: [{ Name: "Chain", Top: -388, Priority: 6 }, { Name: "Cuffs", StyleOverride: ["EchoV2"],}],
 			},
 			{
 				Name: "SteelCuffs",
