@@ -6808,7 +6808,6 @@ var AssetFemale3DCG = [
 				Name: "ElegantSkirt",
 				InventoryID: 233,
 				Value: 80,
-				StyleOverride: ["EchoV2"],
 				Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
 				Attribute: ["Skirt"],
 				Left: 0,
@@ -6829,13 +6828,13 @@ var AssetFemale3DCG = [
 					AllFours: PoseType.HIDE,
 				},
 				Layer: [
-					{ Name: "Skirt", AllowTypes: { typed: 0 } },
+					{ Name: "Skirt", AllowTypes: { typed: 0 }, StyleOverride: ["EchoV2"], },
 					{
 						Name: "SkirtV2",
 						CopyLayerColor: "Skirt",
 						AllowTypes: { typed: 1 },
 					},
-					{ Name: "Design", AllowTypes: { typed: 0 } },
+					{ Name: "Design", AllowTypes: { typed: 0 }, StyleOverride: ["EchoV2"],},
 					{
 						Name: "DesignV2",
 						CopyLayerColor: "Design",
