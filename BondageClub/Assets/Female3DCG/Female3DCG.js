@@ -1183,13 +1183,6 @@ var AssetFemale3DCG = [
 						CopyLayerColor: "None",
 					},
 					{
-						Name: "AzureCorp",
-						PoseMapping: {},
-						ParentGroup: {},
-						AllowTypes: { t: 20 },
-						CopyLayerColor: "None",
-					},
-					{
 						Name: "Shibari",
 						PoseMapping: {},
 						ParentGroup: {},
@@ -4044,6 +4037,12 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "AmberFam",
+				Priority: 32,
+				Left: 0,
+				Top: 0,
+			},
+			{
+				Name: "AzureCorp",
 				Priority: 32,
 				Left: 0,
 				Top: 0,
