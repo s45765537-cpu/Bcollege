@@ -18,12 +18,6 @@ var PreferenceMessage = "";
 var PreferenceSubscreen = null;
 
 /**
- * @type {PreferenceSubscreenName[]}
- * @deprecated the old name. Remove after the extensions have caught up
- */
-var PreferenceSubscreenList = [];
-
-/**
  * All the base settings screens
  * @type {PreferenceSubscreen[]}
  */
@@ -168,7 +162,6 @@ var PreferencePageCurrent = 1;
 /** @type {Record<string,PreferenceExtensionsSettingItem>} */
 let PreferenceExtensionsSettings = {};
 
-let PreferenceDidAddOldStyleScreens = false;
 
 /**
  * Loads the preference screen. This function is called dynamically, when the character enters the preference screen
@@ -177,24 +170,6 @@ let PreferenceDidAddOldStyleScreens = false;
  */
 async function PreferenceLoad() {
 	PreferenceSubscreen = PreferenceSubscreens.find(s => s.name === "Main") ?? null;
-
-	// Backward-compatibility: just throw the old-style screens into the mix
-	if (!PreferenceDidAddOldStyleScreens) {
-
-		if (PreferenceSubscreenList.length > 0) {
-			console.warn("Detected old-style subscreens, please upgrade!", PreferenceSubscreenList);
-		}
-		for (const screen of PreferenceSubscreenList) {
-			PreferenceSubscreens.push({
-				name: screen,
-				load: () => CommonCallFunctionByName(`PreferenceSubscreen${screen}Load`),
-				run: () => CommonCallFunctionByName(`PreferenceSubscreen${screen}Run`),
-				click: () => CommonCallFunctionByName(`PreferenceSubscreen${screen}Click`),
-				exit: () => CommonCallFunctionByName(`PreferenceSubscreen${screen}Exit`),
-			});
-		}
-		PreferenceDidAddOldStyleScreens = true;
-	}
 }
 
 /**
