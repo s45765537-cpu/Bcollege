@@ -33,7 +33,6 @@ NoValidDeckFound,PLAYERNAME's deck isn't valid.  Using the default deck instead.
 SelectDeck,Select the deck to play with.
 WaitingSelectDeck,Waiting for deck selection.
 UsingDeck,PLAYERNAME's deck is selected.
-SelectedPlayerToStart,PLAYERNAME has been selected randomly to start the game.
 ConfirmBankrupt,Go bankrupt and start a fresh new club?
 ConfirmConcede,Do you really want to concede this game?
 ConfirmExit,Do you want to stop watching this game?

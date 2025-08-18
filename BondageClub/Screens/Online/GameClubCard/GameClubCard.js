@@ -473,14 +473,12 @@ function GameClubCardAssignPlayers(Packet, Char) {
 	}
 
 	if ((Char.MemberNumber == Player.MemberNumber) && (ClubCardTurnIndex == 0)) {
-		// Msg = Msg.replace("PLAYERNAME", CharacterNickname(C1));
-		// ClubCardMessageAdd(ClubCardMessageType.SYSTEM, null, {}, null, Msg);
-		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, "SelectedPlayerToStart", {}, ClubCardPlayer[0]);
+		Msg = Msg.replace("PLAYERNAME", CharacterNickname(C1));
+		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, null, {}, null, Msg);
 	}
 	if ((Char.MemberNumber == Player.MemberNumber) && (ClubCardTurnIndex == 1)) {
-		// Msg = Msg.replace("PLAYERNAME", CharacterNickname(C2));
-		// ClubCardMessageAdd(ClubCardMessageType.SYSTEM, null, {}, null, Msg);
-		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, "SelectedPlayerToStart", {}, ClubCardPlayer[0]);
+		Msg = Msg.replace("PLAYERNAME", CharacterNickname(C2));
+		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, null, {}, null, Msg);
 	}
 }
 

@@ -3813,7 +3813,7 @@ function ClubCardMessagesMergeSteal(stealMoneyMessages, stealFameMessages) {
  */
 function ClubCardMessageGetText(ClubCardMessage) {
 	let messageText = ClubCardMessage.TextGetKey
-		? TextGetInScope("Screens/MiniGame/ClubCard/Text_ClubCard.csv", ClubCardMessage.TextGetKey)
+		? TextGet(ClubCardMessage.TextGetKey)
 		: ClubCardMessage.MessageText;
 
 	if (ClubCardMessage.PlayerName) messageText = messageText.replace("PLAYERNAME", ClubCardMessage.PlayerName);
