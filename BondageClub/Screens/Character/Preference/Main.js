@@ -43,9 +43,7 @@ function PreferenceSubscreenMainClick() {
 	// Open the selected subscreen
 	CommonGenerateGrid(PreferenceSubscreens.filter(s => !s.hidden), 0, PreferenceSubscreenMainGrid, (screen, x, y, w, h) => {
 		if (!MouseIn(x, y, w, h)) return false;
-		PreferencePageCurrent = 1;
-		if (screen.load) screen.load();
-		PreferenceSubscreen = screen;
+		PreferenceOpenSubscreen(screen.name);
 		return true;
 	});
 }
