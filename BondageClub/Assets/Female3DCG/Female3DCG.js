@@ -42412,6 +42412,7 @@ var AssetFemale3DCG = [
 				Top: 220,
 				ParentGroup: {},
 				IsRestraint: false,
+				AllowColorize: false,
 				Extended: true,
 				BuyGroup: "Plushies",
 				HideItem: ["ItemMiscPlushies"],
@@ -42419,187 +42420,150 @@ var AssetFemale3DCG = [
 					{
 						Name: "Sin",
 						AllowTypes: { DenOfSin: 1 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Raven",
 						AllowTypes: { DenOfSin: 2 },
-						AllowColorize: false,
 					},
 					{
 						Name: "CassandraLee",
 						AllowTypes: { DenOfSin: 3 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Rika",
 						AllowTypes: { DenOfSin: 4 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Roslin",
 						AllowTypes: { DenOfSin: 5 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Gangriel",
 						AllowTypes: { Gangriels: 1 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Celiko",
 						AllowTypes: { CelestialEnchants: 1 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Lavender",
 						AllowTypes: { CelestialEnchants: 2 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Siscuit",
 						AllowTypes: { CelestialEnchants: 3 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Aeri",
 						AllowTypes: { LatexLab: 1 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Delta",
 						AllowTypes: { LatexLab: 2 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Khloe",
 						AllowTypes: { LatexLab: 3 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Lillian",
 						AllowTypes: { LatexLab: 4 },
-						AllowColorize: false,
 					},
 					{
 						Name: "TinyRavin",
 						AllowTypes: { LatexLab: 5 },
-						AllowColorize: false,
 					},
 					{
 						Name: "XDress",
 						AllowTypes: { LatexLab: 6 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Elora",
 						AllowTypes: { LatexLab: 7 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Lisa",
 						AllowTypes: { LatexLab: 8 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Melanie",
 						AllowTypes: { LatexLab: 9 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Magdalena",
 						AllowTypes: { VoidOrder: 1 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Sonic",
 						AllowTypes: { VoidOrder: 2 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Jagodka",
 						AllowTypes: { VoidOrder: 3 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Shade",
 						AllowTypes: { VoidOrder: 4 },
-						AllowColorize: false,
 					},
 					{
 						Name: "VoidPaladin",
 						AllowTypes: { VoidOrder: 5 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Alunra",
 						AllowTypes: { EnsLivingRoom: 1 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Mel",
 						AllowTypes: { EnsLivingRoom: 2 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Zannah",
 						AllowTypes: { EnsLivingRoom: 3 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Zoe",
 						AllowTypes: { EnsLivingRoom: 4 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Chloe",
 						AllowTypes: { EnsLivingRoom: 5 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Liesel",
 						AllowTypes: { EnsLivingRoom: 6 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Nabi",
 						AllowTypes: { Vagrants: 1 },
-						AllowColorize: false,
 					},
 					{
 						Name: "HoshiKo",
 						AllowTypes: { Vagrants: 2 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Layottu",
 						AllowTypes: { Vagrants: 3 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Sabie",
 						AllowTypes: { Vagrants: 4 },
-						AllowColorize: false,
 					},
 					{
 						Name: "LittleSera",
 						AllowTypes: { Vagrants: 5 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Mana",
 						AllowTypes: { Vagrants: 6 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Minerva",
 						AllowTypes: { Vagrants: 7 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Zoi",
 						AllowTypes: { Vagrants: 8 },
-						AllowColorize: false,
 					},
 				],
 			},
