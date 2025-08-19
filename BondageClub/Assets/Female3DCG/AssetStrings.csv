@@ -7744,9 +7744,9 @@ ItemHandheldPlushiesSetLatexLab3,SourceCharacter places a cute Khloe plushie in 
 ItemHandheldPlushiesOptionLatexLab4,Lillian
 ItemHandheldPlushiesSetLatexLab4,SourceCharacter places a cute Lillian plushie in DestinationCharacter hands.
 ItemHandheldPlushiesOptionLatexLab5,Tiny Raven
-ItemHandheldPlushiesSetLatexLab7,SourceCharacter places a cute Tiny Raven plushie in DestinationCharacter hands.
+ItemHandheldPlushiesSetLatexLab5,SourceCharacter places a cute Tiny Raven plushie in DestinationCharacter hands.
 ItemHandheldPlushiesOptionLatexLab6,Xdress
-ItemHandheldPlushiesSetLatexLab8,SourceCharacter places a cute XDress plushie in DestinationCharacter hands.
+ItemHandheldPlushiesSetLatexLab6,SourceCharacter places a cute XDress plushie in DestinationCharacter hands.
 ItemHandheldPlushiesOptionLatexLab7,Elora
 ItemHandheldPlushiesSetLatexLab7,SourceCharacter places a cute Elora plushie in DestinationCharacter hands.
 ItemHandheldPlushiesOptionLatexLab8,Lisa
@@ -7800,7 +7800,7 @@ ItemHandheldPlushiesSetVagrants5,SourceCharacter places a cute Little Sera plush
 ItemHandheldPlushiesOptionVagrants6,Mana
 ItemHandheldPlushiesSetVagrants6,SourceCharacter places a cute Mana plushie in DestinationCharacter hands.
 ItemHandheldPlushiesOptionVagrants7,Minerva
-ItemHandheldPlushiesSetVagrants7,:ourceCharacter places a cute Minerva plushie in DestinationCharacter hands.
+ItemHandheldPlushiesSetVagrants7,SourceCharacter places a cute Minerva plushie in DestinationCharacter hands.
 ItemHandheldPlushiesOptionVagrants8,Zoi
 ItemHandheldPlushiesSetVagrants8,SourceCharacter places a cute Zoi plushie in DestinationCharacter hands.
 ItemHandheldPlushiesGroup,Choose the plushie group:
