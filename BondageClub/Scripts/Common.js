@@ -248,10 +248,10 @@ async function CommonSleep(ms) {
 /**
  *
  * @param {() => boolean} func
- * @param {() => boolean} cancelFunc
+ * @param {() => boolean} [cancelFunc]
  * @returns
  */
-async function CommonWaitFor(func, cancelFunc) {
+async function CommonWaitFor(func, cancelFunc = () => false) {
 	while (!func()) {
 		if (cancelFunc()) {
 			return false;
