@@ -39070,16 +39070,18 @@ var AssetFemale3DCG = [
 						Group: ["ArmsRight","ArmsLeft","Cloth","ClothOuter","Bra","Suit"],
 						Pose: ["Yoked"],
 						Masks: [
-							[50, 200, 65, 125],
-							[375, 200, 65, 125]
+							[50, 120, 68, 265],
+							[375, 120, 68, 265]
 						],
 					},
 					{
 						Group: ["ArmsRight","ArmsLeft","Cloth","ClothOuter","Bra","Suit"],
 						Pose: ["OverTheHead"],
 						Masks: [
-							[90, 50, 100, 140],
-							[300, 50, 100, 140]
+							[60, 0, 150, 220],
+							[60, 0, 100, 244],
+							[270, 0, 180, 220],
+							[340, 0, 180, 244]
 						],
 					},
 				],
@@ -39153,16 +39155,18 @@ var AssetFemale3DCG = [
 						Group: ["ArmsRight","ArmsLeft","Cloth","ClothOuter","Bra","Suit"],
 						Pose: ["Yoked"],
 						Masks: [
-							[50, 200, 65, 125],
-							[375, 200, 65, 125]
+							[50, 120, 68, 265],
+							[375, 120, 68, 265]
 						],
 					},
 					{
 						Group: ["ArmsRight","ArmsLeft","Cloth","ClothOuter","Bra","Suit"],
 						Pose: ["OverTheHead"],
 						Masks: [
-							[90, 50, 100, 130],
-							[300, 50, 100, 130]
+							[60, 0, 150, 220],
+							[60, 0, 100, 244],
+							[270, 0, 180, 220],
+							[340, 0, 180, 244]
 						],
 					},
 				],
