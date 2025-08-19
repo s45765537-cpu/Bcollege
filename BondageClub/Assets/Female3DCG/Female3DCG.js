@@ -20491,7 +20491,7 @@ var AssetFemale3DCG = [
 				Value: 1,
 				PoseMapping: {
 					Kneel: "AllFours",
-					KneelingSpread: "Kneel",
+					KneelingSpread: "AllFours",
 					LegsClosed: "",
 					Spread: "",
 					AllFours: "AllFours",
