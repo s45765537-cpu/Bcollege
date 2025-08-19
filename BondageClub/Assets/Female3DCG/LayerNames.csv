@@ -182,6 +182,8 @@ ClothNunRobesBand,Band
 ClothNunRobesShawl,Shawl
 ClothNunRobesBack,Back
 ClothNunRobesInterior,Interior
+ClothOffTheShoulderTopLeft,Left
+ClothOffTheShoulderTopRight,Right
 ClothFishnetTop,Fishnet Top
 ClothFrilledShirtBase, Latex
 ClothFrilledShirtFrill, Frills
