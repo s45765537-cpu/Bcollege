@@ -1,7 +1,7 @@
 "use strict";
 /** @type Character[] */
 var Character = [];
-var CharacterNextId = 1;
+var CharacterNextId = 0;
 
 /** @type {Map<BlindEffectName, number>} */
 const CharacterBlindLevels = new Map([
@@ -2388,40 +2388,53 @@ function CharacterPronounDescription(C) {
 	return pronounAsset.Description;
 }
 
-/* Update the given character's nickname.
+/**
+ * Whether the character's nickname can be changed
+ *
+ * @param {Character} C
+ */
+function CharacterCanChangeNickname(C) {
+	if (!C.IsPlayer()) return false;
+
+	return !Player.IsFullyOwned() || !(LogQuery("BlockNickname", "OwnerRule") && Player.OnlineSharedSettings.AllowRename);
+}
+
+/**
+ * Update the given character's nickname.
  *
  * Note that changing any nickname but yours (ie. Player) is not supported.
  *
  * @param {Character} C - The character to change the nickname of.
  * @param {string} Nick - The name to use as the new nickname. An empty string uses the character's real name.
- * @return {string} null if the nickname was valid, or an explanation for why the nickname was rejected.
+ * @return {"NicknameTooLong" | "NicknameInvalidChars" | "NicknameLocked"} null if the nickname was valid, or an explanation for why the nickname was rejected.
  */
-function CharacterSetNickname(C, Nick) {
+function CharacterSetNickname(C, Nick, fromOwner = false) {
 	if (!C.IsPlayer()) return null;
 
 	Nick = Nick.trim();
-	if (Nick.length > 20) return "NicknameTooLong";
+	if (C.Nickname === Nick) return null;
 
+	if (!(CharacterCanChangeNickname(C) && !fromOwner)) {
+		return "NicknameLocked";
+	}
+
+	if (Nick.length > 20) return "NicknameTooLong";
 	if (Nick.length > 0 && !ServerCharacterNicknameRegex.test(Nick)) return "NicknameInvalidChars";
 
-	if (C.Nickname != Nick) {
-		const oldNick = C.Nickname || C.Name;
-		C.Nickname = Nick;
-		if (C.IsPlayer()) {
-			ServerAccountUpdate.QueueData({ Nickname: Nick });
-		}
+	const oldNick = C.Nickname ?? C.Name;
+	C.Nickname = Nick;
+	ServerAccountUpdate.QueueData({ Nickname: Nick });
 
-		if (ServerPlayerIsInChatRoom()) {
-			// When in a chatroom, send a notification that the player updated their nick
-			const Dictionary = new DictionaryBuilder()
-				.sourceCharacter(C)
-				.destinationCharacter(C)
-				.text("OldNick", oldNick)
-				.text("NewNick", CharacterNickname(C))
-				.build();
+	if (ServerPlayerIsInChatRoom()) {
+		// When in a chatroom, send a notification that the player updated their nick
+		const Dictionary = new DictionaryBuilder()
+			.sourceCharacter(C)
+			.destinationCharacter(C)
+			.text("OldNick", oldNick)
+			.text("NewNick", CharacterNickname(C))
+			.build();
 
-			ServerSend("ChatRoomChat", { Content: "CharacterNicknameUpdated", Type: "Action", Dictionary: Dictionary });
-		}
+		ServerSend("ChatRoomChat", { Content: "CharacterNicknameUpdated", Type: "Action", Dictionary: Dictionary });
 	}
 
 	return null;

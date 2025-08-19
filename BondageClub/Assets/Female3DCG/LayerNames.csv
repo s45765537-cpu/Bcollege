@@ -58,9 +58,15 @@ BraMaidBraBra, Bra
 BraMaidBraLace, Lace
 BraBandageUpper_Body,Body
 BraLeatherBunnyHollowBraRing, Rings
-BraLeatherBunnyHollowBraBraReflection,Shine
-BraLeatherBunnyHollowBraBra,Body
+BraLeatherBunnyHollowBraBraReflection,Bra
+BraLeatherBunnyHollowBraBra,Bra
 BraLeatherBunnyHollowBraZipper,Zipper
+BraLeatherBunnyHollowBraStomach,Stomach
+BraLeatherBunnyHollowBraStomachReflection,Stomach
+BraLeatherBunnyHollowBraBraStraps,Bra Straps
+BraLeatherBunnyHollowBraBraStrapsReflection,Bra Straps
+BraLeatherBunnyHollowBraLeatherBelt,Belt
+BraLeatherBunnyHollowBraLeatherReflection,Belt
 ClothAccessoryBibBase,Bib
 ClothAccessoryBibPacis,Pattern
 ClothAccessoryBibText,Text
@@ -226,7 +232,9 @@ ClothLowerCrossSkirtLightCross,Crosses
 ClothLowerCrossSkirtLightMetal,Metal
 ClothLowerCrossSkirtMetal,Metal
 ClothLowerElegantSkirtDesign,Design
+ClothLowerElegantSkirtDesignV2,DesignV2
 ClothLowerElegantSkirtSkirt,Skirt
+ClothLowerElegantSkirtSkirtV2,SkirtV2
 ClothLowerHaremPants2Buttons,Buttons
 ClothLowerHaremPants2Fabric,Fabric
 ClothLowerHaremPants2Panty,Panty
@@ -1495,6 +1503,38 @@ ItemHandheldKyosensuDetail,Fan detail
 ItemHandheldKyosensuFanSurface,Fan folding
 ItemHandheldMugFluids,Fluids
 ItemHandheldMugMug,Mug
+ItemHandheldPlushies,Plushies
+ItemHandheldPlushiesSelect,Choose a plushie
+ItemHandheldPlushiesSin,Sin
+ItemHandheldPlushiesRaven,Raven
+ItemHandheldPlushiesCassandraLee,CassandraLee
+ItemHandheldPlushiesRika,Rika
+ItemHandheldPlushiesRoslin,Roslin
+ItemHandheldPlushiesGangriel,Gangriel
+ItemHandheldPlushiesCeliko,Celiko
+ItemHandheldPlushiesLavender,Lavender
+ItemHandheldPlushiesSabie,Sabie
+ItemHandheldPlushiesSiscuit,Siscuit
+ItemHandheldPlushiesAeri,Aeri
+ItemHandheldPlushiesDelta,Delta
+ItemHandheldPlushiesKhloe,Khloe
+ItemHandheldPlushiesLillian,Lillian
+ItemHandheldPlushiesMinerva,Minerva
+ItemHandheldPlushiesNabi,Nabi
+ItemHandheldPlushiesTinyRaven,TinyRaven
+ItemHandheldPlushiesXDress,XDress
+ItemHandheldPlushiesMagdalena,Magdalena
+ItemHandheldPlushiesSonic,Sonic
+ItemHandheldPlushiesAlunra,Alunra
+ItemHandheldPlushiesMel,Mel
+ItemHandheldPlushiesElora,Elora
+ItemHandheldPlushiesHoshiKo,Hoshi-Ko
+ItemHandheldPlushiesLayottu,Layottu
+ItemHandheldPlushiesLisa,Lisa
+ItemHandheldPlushiesLittleSera,Little Sera
+ItemHandheldPlushiesMana,Mana
+ItemHandheldPlushiesMelanie,Melanie
+ItemHandheldPlushiesZoi,Zoi
 ItemHandheldPopcornBag,Bag
 ItemHandheldPopcornCorn,Corn
 ItemHandheldPortalTablet,Tablet
@@ -2208,6 +2248,10 @@ ItemMouthCageMuzzleMuzzle,Cage
 ItemMouthCageMuzzleStrap,Straps
 ItemMouthCarrotGagCarrot,Carrot
 ItemMouthCarrotGagStraps,Straps
+ItemMouthCigaretteSmokeInMouth,Smoke
+ItemMouthCigaretteLitInMouth,Lit
+ItemMouthCigaretteFilterInMouth,Filter
+ItemMouthCigarettePaperInMouth,Paper
 ItemMouthCupholderGagCup,Cup
 ItemMouthCupholderGagGag,Gag
 ItemMouthCupholderGagHolder,Holder
@@ -2798,6 +2842,10 @@ HandAccessoryLeftRingsPinkieSteel,Pinkie Ring
 HandAccessoryLeftRingsRingSteel,Ring Finger Ring
 HandAccessoryLeftRingsThumbSteel,Thumb Ring
 HandAccessoryLeftRingsWedding,Wedding Ring
+HandAccessoryLeftRingsFingernailsColor,Nails Color
+HandAccessoryLeftRingsFingernailsOutline,Nails Outline
+HandAccessoryLeftRingsClawsColor,Claws Color
+HandAccessoryLeftRingsClawsOutline,Claws Outline
 MaskAnimeLensesLeftEyelids,Left Eyelids
 MaskAnimeLensesLeftIris,Left Lens
 MaskAnimeLensesRightEyelids,Right Eyelids
@@ -2943,6 +2991,10 @@ HandAccessoryRightRingsPinkieSteel,Pinkie Ring
 HandAccessoryRightRingsRingSteel,Ring Finger Ring
 HandAccessoryRightRingsThumbSteel,Thumb Ring
 HandAccessoryRightRingsWedding,Wedding Ring
+HandAccessoryRightRingsFingernailsColor,Nails Color
+HandAccessoryRightRingsFingernailsOutline,Nails Outline
+HandAccessoryRightRingsClawsColor,Claws Color
+HandAccessoryRightRingsClawsOutline,Claws Outline
 ShoesAnimeGirlBootsBoots,Boots
 ShoesAnimeGirlBootsDetail,Top Stripe
 ShoesAnkleBoots1Laces,Laces
@@ -3113,6 +3165,11 @@ SuitSeethroughSuitZipOpaqueGloves,Gloves
 SuitSeethroughSuitZipZip,Zip
 SuitShinyLeotardLatex,Base
 SuitShinyLeotardShine,Shine
+TailStrapsDragonsTailBase,Base
+TailStrapsDragonsTailBaseShine,Base Shine
+TailStrapsDragonsTailScales,Scales
+TailStrapsDragonsTailScalesShine,Scales Shine
+TailStrapsDragonsTailSpikes,Spikes
 TailStrapsDragonTailStrap1Primary,Primary
 TailStrapsDragonTailStrap1Secondary,Secondary
 TailStrapsDragonTailStrap2LeftPrimary,Primary

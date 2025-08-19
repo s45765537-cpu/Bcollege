@@ -121,6 +121,7 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 530, Type: "FloorDecorationParty", Style: "FlowerVasePink", Top: -0.33 },
 	{ ID: 560, Type: "FloorDecorationParty", Style: "BeachUmbrellaStripe", Top: -1.1, Height: 2 },
 	{ ID: 570, Type: "FloorDecorationParty", Style: "BeachTowelStripe" },
+	{ ID: 580, Type: "FloorDecorationParty", Style: "Speaker", Top: -1.2, Height: 1.85 },
 
 	{ ID: 600, Type: "FloorDecorationCamping", Style: "Blank" },
 	{ ID: 610, Type: "FloorDecorationCamping", Style: "LogFire", Top: -0.35 },
@@ -378,6 +379,7 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 1060, Type: "FloorItem", Style: "WoodenBox", Top: -1, Height: 2, AssetName: "WoodenBox", AssetGroup: "ItemDevices" },
 	{ ID: 1070, Type: "FloorItem", Style: "Coffin", Top: -1.2, Height: 1.85, AssetName: "Coffin", AssetGroup: "ItemDevices" },
 	{ ID: 1080, Type: "FloorItem", Style: "TheDisplayFrame", Top: -1, Height: 2, AssetName: "TheDisplayFrame", AssetGroup: "ItemDevices" },
+	{ ID: 1090, Type: "FloorItem", Style: "Pole", Top: -0.85, Height: 1.8, AssetName: "Pole", AssetGroup: "ItemDevices" },
 
 	{ ID: 2000, Type: "FloorObstacle", Style: "Blank" },
 	{ ID: 2005, Type: "FloorObstacle", Style: "Rocks", Top: -0.125, Height: 1.125 },

@@ -542,6 +542,9 @@ ClitSuctightensToHeavy,SourceCharacter tweaks DestinationCharacter clitoris suct
 ClitSuctightensToLight,SourceCharacter tweaks DestinationCharacter clitoris suction cup sucking in TargetPronounPossessive clitoris lightly.
 ClitSuctightensToMaximum,SourceCharacter tweaks DestinationCharacter clitoris suction cup sucking in TargetPronounPossessive clitoris entirely.
 ClitSuctightensToMedium,SourceCharacter tweaks DestinationCharacter clitoris suction cup sucking in TargetPronounPossessive clitoris firmly.
+ClothOffTheShoulderTopSelect,Choose Style:
+ClothOffTheShoulderTopRight,Right
+ClothOffTheShoulderTopLeft,Left
 ClothAccessoryBibModulePattern,Pattern
 ClothAccessoryBibModuleTxt,Text
 ClothAccessoryBibOptionp0,None
@@ -787,20 +790,11 @@ ClothCustomTShirtOptiont17,Hogtied
 ClothCustomTShirtOptiont18,Bondage College 2
 ClothCustomTShirtOptiont19,S.Tiyana's White C-Pad
 ClothCustomTShirtOptiont2,BTG
-ClothCustomTShirtOptiont20,Gangriels
-ClothCustomTShirtOptiont21,Den of Sin
-ClothCustomTShirtOptiont22,Slave Helpline
-ClothCustomTShirtOptiont23,Demon's Bar
-ClothCustomTShirtOptiont24,Azure Corp
-ClothCustomTShirtOptiont25,Shibari Crew
-ClothCustomTShirtOptiont26,Bull's Eye Spankmeter
-ClothCustomTShirtOptiont27,Keys?!
-ClothCustomTShirtOptiont28,Void Order
-ClothCustomTShirtOptiont29,Sphere of Malkuth
+ClothCustomTShirtOptiont20,Azure Corp
+ClothCustomTShirtOptiont21,Shibari Crew
+ClothCustomTShirtOptiont22,Bull's Eye Spankmeter
+ClothCustomTShirtOptiont23,Keys?!
 ClothCustomTShirtOptiont3,Dominant
-ClothCustomTShirtOptiont30,Amber Family
-ClothCustomTShirtOptiont31,Luke's Chill Tent
-ClothCustomTShirtOptiont32,Rat's Ass Tavern
 ClothCustomTShirtOptiont4,Bonk!
 ClothCustomTShirtOptiont5,Old School XGame
 ClothCustomTShirtOptiont6,Staff
@@ -883,6 +877,15 @@ ClothLowerBusinessTrousersSelect,Customize the state of the pants
 ClothLowerBusinessTrousersSetZipped,SourceCharacter puts zipped up pants on DestinationCharacter.
 ClothLowerBusinessTrousersSetUnzipped,SourceCharacter unzips DestinationCharacter pants.
 ClothLowerBusinessTrousersSetDown,SourceCharacter opens DestinationCharacter pants and pulls them down.
+ClothLowerElegantSkirtSkirt,Skirt
+ClothLowerElegantSkirtSkirtv2,Skirt v2
+ClothLowerElegantSkirtDesign,Design
+ClothLowerElegantSkirtDesignv2,Design v2
+ClothLowerElegantSkirtDefault,Default
+ClothLowerElegantSkirtVersion2,Version 2
+ClothLowerElegantSkirtSelect,Customize the state of the kneeling skirt
+ClothLowerElegantSkirtSetDefault,SourceCharacter kneels with skirt in default position DestinationCharacter.
+ClothLowerElegantSkirtSetVersion2,SourceCharacter kneels with skirt in tucked position DestinationCharacter.
 ClothLowerPantBootsModuleBoot,Boot
 ClothLowerPantBootsModuleStripe,Stripe
 ClothLowerPantBootsOptionb0,No Boot
@@ -993,6 +996,7 @@ CushionTypeHold,Hold cushion
 CushionTypeKneel,Kneel on cushion
 CushionTypeKneelingSpread,Kneel spreads on cushion
 CustomTagText,Save text
+DecalsDenOfSin,Den of Sin
 Decrease,Decrease
 DeflateIt,Deflate it
 deflates,deflates
@@ -2691,6 +2695,8 @@ HandAccessoryLeftRingsModuleMiddle,Middle finger
 HandAccessoryLeftRingsModulePinkie,Pinkie
 HandAccessoryLeftRingsModuleRing,Ring finger
 HandAccessoryLeftRingsModuleThumb,Thumb
+HandAccessoryLeftRingsModuleFingernails,Nails/Claws
+HandAccessoryLeftRingsModuleRing,Ring finger
 HandAccessoryLeftRingsOptioni0,None
 HandAccessoryLeftRingsOptioni1,Steel Ring
 HandAccessoryLeftRingsOptionm0,None
@@ -2703,17 +2709,22 @@ HandAccessoryLeftRingsOptionr1,Steel Ring
 HandAccessoryLeftRingsOptionr2,Wedding Ring
 HandAccessoryLeftRingsOptiont0,None
 HandAccessoryLeftRingsOptiont1,Steel Ring
+HandAccessoryLeftRingsOptionf0,None
+HandAccessoryLeftRingsOptionf1,Nails
+HandAccessoryLeftRingsOptionf2,Claws
 HandAccessoryLeftRingsSelectBase,Choose your rings
 HandAccessoryLeftRingsSelectIndex,Choose a ring for the Index
 HandAccessoryLeftRingsSelectMiddle,Choose a ring for the Middle finger
 HandAccessoryLeftRingsSelectPinkie,Choose a ring for the Pinkie
 HandAccessoryLeftRingsSelectRing,Choose a ring for the Ring finger
 HandAccessoryLeftRingsSelectThumb,Choose a ring for the Thumb
+HandAccessoryLeftRingsSelectFingernails,Add left hand nails or claws?
 HandAccessoryRightRingsModuleIndex,Index
 HandAccessoryRightRingsModuleMiddle,Middle finger
 HandAccessoryRightRingsModulePinkie,Pinkie
 HandAccessoryRightRingsModuleRing,Ring finger
 HandAccessoryRightRingsModuleThumb,Thumb
+HandAccessoryRightRingsModuleFingernails,Nails/Claws
 HandAccessoryRightRingsOptioni0,None
 HandAccessoryRightRingsOptioni1,Steel Ring
 HandAccessoryRightRingsOptionm0,None
@@ -2726,12 +2737,16 @@ HandAccessoryRightRingsOptionr1,Steel Ring
 HandAccessoryRightRingsOptionr2,Wedding Ring
 HandAccessoryRightRingsOptiont0,None
 HandAccessoryRightRingsOptiont1,Steel Ring
+HandAccessoryRightRingsOptionf0,None
+HandAccessoryRightRingsOptionf1,Nails
+HandAccessoryRightRingsOptionf2,Claws
 HandAccessoryRightRingsSelectBase,Choose your rings
 HandAccessoryRightRingsSelectIndex,Choose a ring for the Index
 HandAccessoryRightRingsSelectMiddle,Choose a ring for the Middle finger
 HandAccessoryRightRingsSelectPinkie,Choose a ring for the Pinkie
 HandAccessoryRightRingsSelectRing,Choose a ring for the Ring finger
 HandAccessoryRightRingsSelectThumb,Choose a ring for the Thumb
+HandAccessoryRightRingsSelectFingernails,Add right hand nails or claws?
 HatBallCapBackSelect,Select strap location.
 HatBallCapBackStrapOver,Over the hair
 HatBallCapBackStrapUnder,Under the hair
@@ -7684,6 +7699,112 @@ ItemNeckAsylumCollarNormal,Single layer
 ItemNeckAsylumCollarPadded,Plus padded layer
 ItemNeckAsylumCollarSetNormal,SourceCharacter removes padded layer under the DestinationCharacter Asylum Collar.
 ItemNeckAsylumCollarSetPadded,SourceCharacter adds a padded layer under the DestinationCharacter Asylum Collar.
+ItemHandheldPlushies,Plushies
+ItemHandheldPlushiesSelectBase,Select a plushie:
+ItemHandheldPlushiesModuleDenOfSin,Den of Sin
+ItemHandheldPlushiesSelectDenOfSin,The Den of Sin:
+ItemHandheldPlushiesOptionDenOfSin0,None
+ItemHandheldPlushiesSetDenOfSin0,
+ItemHandheldPlushiesOptionDenOfSin1,Sin
+ItemHandheldPlushiesSetDenOfSin1,SourceCharacter places an adorable Sin plushie in DestinationCharacter hands.
+ItemHandheldPlushiesOptionDenOfSin2,Raven
+ItemHandheldPlushiesSetDenOfSin2,SourceCharacter places a charming Raven plushie in DestinationCharacter hands.
+ItemHandheldPlushiesOptionDenOfSin3,Cassandra Lee
+ItemHandheldPlushiesSetDenOfSin3,SourceCharacter places a scary Cassandra Lee plushie in DestinationCharacter hands.
+ItemHandheldPlushiesOptionDenOfSin4,Riki
+ItemHandheldPlushiesSetDenOfSin4,SourceCharacter places a cute Riki plushie in DestinationCharacter hands.
+ItemHandheldPlushiesOptionDenOfSin5,Roslin
+ItemHandheldPlushiesSetDenOfSin5,SourceCharacter places a cute Roslin plushie in DestinationCharacter hands.
+ItemHandheldPlushiesModuleGangriels,Gangriel's Rock Bar
+ItemHandheldPlushiesSelectGangriels,Gangriel's Rock Bar
+ItemHandheldPlushiesOptionGangriels0,None
+ItemHandheldPlushiesSetGangriels0,
+ItemHandheldPlushiesOptionGangriels1,Gangriel
+ItemHandheldPlushiesSetGangriels1,SourceCharacter places an authentic Gangriel plushie in DestinationCharacter hands.
+ItemHandheldPlushiesSelectCelestialEnchants,Celestial Enchants:
+ItemHandheldPlushiesModuleCelestialEnchants,Celestial Enchants
+ItemHandheldPlushiesSetCelestialEnchants0,
+ItemHandheldPlushiesOptionCelestialEnchants0,None
+ItemHandheldPlushiesOptionCelestialEnchants1,Celiko
+ItemHandheldPlushiesSetCelestialEnchants1,SourceCharacter places an amazing Celiko plushie in DestinationCharacter hands.
+ItemHandheldPlushiesOptionCelestialEnchants2,Lavender
+ItemHandheldPlushiesSetCelestialEnchants2,SourceCharacter places a cute Lavender plushie in DestinationCharacter hands.
+ItemHandheldPlushiesOptionCelestialEnchants3,Siscuit
+ItemHandheldPlushiesSetCelestialEnchants3,SourceCharacter places a cute Siscuit plushie in DestinationCharacter hands.
+ItemHandheldPlushiesSelectLatexLab,Latex Lab
+ItemHandheldPlushiesModuleLatexLab,Latex Lab
+ItemHandheldPlushiesOptionLatexLab0,None
+ItemHandheldPlushiesSetLatexLab0,
+ItemHandheldPlushiesOptionLatexLab1,Aeri
+ItemHandheldPlushiesSetLatexLab1,SourceCharacter places a cute Aeri plushie in DestinationCharacter hands.
+ItemHandheldPlushiesOptionLatexLab2,Delta
+ItemHandheldPlushiesSetLatexLab2,SourceCharacter places a cute Delta plushie in DestinationCharacter hands.
+ItemHandheldPlushiesOptionLatexLab3,Khloe
+ItemHandheldPlushiesSetLatexLab3,SourceCharacter places a cute Khloe plushie in DestinationCharacter hands.
+ItemHandheldPlushiesOptionLatexLab4,Lillian
+ItemHandheldPlushiesSetLatexLab4,SourceCharacter places a cute Lillian plushie in DestinationCharacter hands.
+ItemHandheldPlushiesOptionLatexLab5,Tiny Raven
+ItemHandheldPlushiesSetLatexLab7,SourceCharacter places a cute Tiny Raven plushie in DestinationCharacter hands.
+ItemHandheldPlushiesOptionLatexLab6,Xdress
+ItemHandheldPlushiesSetLatexLab8,SourceCharacter places a cute XDress plushie in DestinationCharacter hands.
+ItemHandheldPlushiesOptionLatexLab7,Elora
+ItemHandheldPlushiesSetLatexLab7,SourceCharacter places a cute Elora plushie in DestinationCharacter hands.
+ItemHandheldPlushiesOptionLatexLab8,Lisa
+ItemHandheldPlushiesSetLatexLab8,SourceCharacter places a cute Lisa plushie in DestinationCharacter hands.
+ItemHandheldPlushiesOptionLatexLab9,Melanie
+ItemHandheldPlushiesSetLatexLab9,SourceCharacter places a cute Melanie plushie in DestinationCharacter hands.
+ItemHandheldPlushiesSelectVoidOrder,Void Order
+ItemHandheldPlushiesModuleVoidOrder,Void Order
+ItemHandheldPlushiesOptionVoidOrder0,None
+ItemHandheldPlushiesSetVoidOrder0,
+ItemHandheldPlushiesOptionVoidOrder1,Magdalena
+ItemHandheldPlushiesSetVoidOrder1,SourceCharacter places an enigmatic Magdalena plushie in DestinationCharacter hands.
+ItemHandheldPlushiesOptionVoidOrder2,Sonic
+ItemHandheldPlushiesSetVoidOrder2,SourceCharacter places a chaotic Sonic plushie in DestinationCharacter hands.
+ItemHandheldPlushiesOptionVoidOrder3,Jagódka
+ItemHandheldPlushiesSetVoidOrder3,SourceCharacter places a playful Jagódka plushie in DestinationCharacter hands.
+ItemHandheldPlushiesOptionVoidOrder4,Shade
+ItemHandheldPlushiesSetVoidOrder4,SourceCharacter places a spooky Shade plushie in DestinationCharacter hands.
+ItemHandheldPlushiesOptionVoidOrder5,Void Order Paladin
+ItemHandheldPlushiesSetVoidOrder5,SourceCharacter places a stoic Void Order Paladin plushie in DestinationCharacter hands.
+ItemHandheldPlushiesSelectEnsLivingRoom,En's Living Room
+ItemHandheldPlushiesModuleEnsLivingRoom,En's Living Room
+ItemHandheldPlushiesOptionEnsLivingRoom0,None
+ItemHandheldPlushiesSetEnsLivingRoom0,
+ItemHandheldPlushiesOptionEnsLivingRoom1,Alunra
+ItemHandheldPlushiesSetEnsLivingRoom1,SourceCharacter places a cute Alunra plushie in DestinationCharacter hands.
+ItemHandheldPlushiesOptionEnsLivingRoom2,Mel
+ItemHandheldPlushiesSetEnsLivingRoom2,SourceCharacter places a cute Mel plushie in DestinationCharacter hands.
+ItemHandheldPlushiesOptionEnsLivingRoom3,Zannah
+ItemHandheldPlushiesSetEnsLivingRoom3,SourceCharacter places a cute Zannah plushie in DestinationCharacter hands.
+ItemHandheldPlushiesOptionEnsLivingRoom4,Zoe
+ItemHandheldPlushiesSetEnsLivingRoom4,SourceCharacter places a cute Zoe plushie in DestinationCharacter hands.
+ItemHandheldPlushiesOptionEnsLivingRoom5,Chloe
+ItemHandheldPlushiesSetEnsLivingRoom5,SourceCharacter places a cute Chloe plushie in DestinationCharacter hands.
+ItemHandheldPlushiesOptionEnsLivingRoom6,Liesel
+ItemHandheldPlushiesSetEnsLivingRoom6,SourceCharacter places a cute Liesel plushie in DestinationCharacter hands.
+ItemHandheldPlushiesSelectVagrants,Vagrants/Misc
+ItemHandheldPlushiesModuleVagrants,Vagrants/Misc
+ItemHandheldPlushiesOptionVagrants0,None
+ItemHandheldPlushiesSetVagrants0,
+ItemHandheldPlushiesOptionVagrants1,Nabi
+ItemHandheldPlushiesSetVagrants1,SourceCharacter places a cute Nabi plushie in DestinationCharacter hands.
+ItemHandheldPlushiesOptionVagrants2,Hoshi-Ko
+ItemHandheldPlushiesSetVagrants2,SourceCharacter places a cute Hoshi-Ko plushie in DestinationCharacter hands.
+ItemHandheldPlushiesOptionVagrants3,Layottu
+ItemHandheldPlushiesSetVagrants3,SourceCharacter places a cute Layottu plushie in DestinationCharacter hands.
+ItemHandheldPlushiesOptionVagrants4,Sabie
+ItemHandheldPlushiesSetVagrants4,SourceCharacter places a cute Sabie plushie in DestinationCharacter hands.
+ItemHandheldPlushiesOptionVagrants5,Little Sera
+ItemHandheldPlushiesSetVagrants5,SourceCharacter places a cute Little Sera plushie in DestinationCharacter hands.
+ItemHandheldPlushiesOptionVagrants6,Mana
+ItemHandheldPlushiesSetVagrants6,SourceCharacter places a cute Mana plushie in DestinationCharacter hands.
+ItemHandheldPlushiesOptionVagrants7,Minerva
+ItemHandheldPlushiesSetVagrants7,:ourceCharacter places a cute Minerva plushie in DestinationCharacter hands.
+ItemHandheldPlushiesOptionVagrants8,Zoi
+ItemHandheldPlushiesSetVagrants8,SourceCharacter places a cute Zoi plushie in DestinationCharacter hands.
+ItemHandheldPlushiesGroup,Choose the plushie group:
+ItemHandheldPlushiesDenofSinSelect,Choose the plushie:
 ItemHandheldCigaretteSelect,Choose position of the cigarette:
 ItemHandheldCigaretteInMouth,In Mouth
 ItemHandheldCigaretteInHand,In Hand

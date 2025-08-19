@@ -153,8 +153,6 @@ var LoginEventListeners = {
 async function LoginLoad() {
 
 	// Resets the player and other characters
-	Character = [];
-	CharacterNextId = 0;
 	LoginCharacter = CharacterLoadNPC("NPC_Login");
 	LoginDoNextThankYou();
 	LoginStatusReset();
@@ -167,62 +165,76 @@ async function LoginLoad() {
 
 	ElementCreate({
 		tag: "span",
-		classList: ["login-text"],
+		classList: ["login-text", "NoSelect"],
 		attributes: {
 			id: LoginIDs.welcome
 		},
 		children: [
 			TextGet("Welcome"),
 		],
-		parent: document.body
+		parent: form
 	});
 
 	ElementCreate({
 		tag: "span",
-		classList: ["login-text"],
+		classList: ["login-text", "NoSelect"],
 		attributes: {
 			id: LoginIDs.status
 		},
 		children: [
 			LoginGetStatus() ?? TextGet("EnterNamePassword"),
 		],
-		parent: document.body
+		parent: form
 	});
 
-	ElementCreate({
-		tag: "span",
-		classList: ["login-text"],
-		attributes: {
-			id: LoginIDs.nameLabel
-		},
-		children: [
-			TextGet("AccountName"),
-		],
-		parent: document.body
-	});
-
-	ElementCreate({
-		tag: "span",
-		classList: ["login-text"],
-		attributes: {
-			id: LoginIDs.passwordLabel
-		},
-		children: [
-			TextGet("Password"),
-		],
-		parent: document.body
-	});
-
-	const username = ElementCreateInput(LoginIDs.name, "text", "", "20", form);
+	const username = ElementCreateInput(LoginIDs.name, "text", "", "20");
 	username.setAttribute("autocomplete", "username");
 	username.setAttribute("enterkeyhint", "next");
 	username.addEventListener("keydown", LoginEventListeners._KeyDownInputName);
 	username.focus();
 
-	const pass = ElementCreateInput(LoginIDs.password, "password", "", "20", form);
+	const pass = ElementCreateInput(LoginIDs.password, "password", "", "20");
 	pass.setAttribute("autocomplete", "current-password");
 	pass.setAttribute("enterkeyhint", "go");
 	pass.addEventListener("keydown", LoginEventListeners._KeyDownInputPassword);
+
+	ElementCreate({
+		tag: "label",
+		classList: ["vertical"],
+		children: [
+			{
+				tag: "span",
+				classList: ["login-text", "NoSelect"],
+				attributes: {
+					id: LoginIDs.nameLabel
+				},
+				children: [
+					TextGet("AccountName"),
+				],
+			},
+			username
+		],
+		parent: form
+	});
+
+	ElementCreate({
+		tag: "label",
+		classList: ["vertical"],
+		children: [
+			{
+				tag: "span",
+				classList: ["login-text", "NoSelect"],
+				attributes: {
+					id: LoginIDs.passwordLabel
+				},
+				children: [
+					TextGet("Password"),
+				],
+			},
+			pass
+		],
+		parent: form
+	});
 
 	const loginButton = ElementButton.Create(LoginIDs.login, () => {
 		const Name = ElementValue(LoginIDs.name);
@@ -236,7 +248,7 @@ async function LoginLoad() {
 
 	const newCharacter = ElementCreate({
 		tag: "span",
-		classList: ["login-text"],
+		classList: ["login-text", "NoSelect"],
 		attributes: {
 			id: LoginIDs.newCharacter
 		},
@@ -377,7 +389,7 @@ function LoginUnload() {
 	ElementRemove(LoginIDs.login);
 
 	ElementRemove(LoginIDs.footer);
-  ElementRemove(LoginIDs.newCharacter);
+	ElementRemove(LoginIDs.newCharacter);
 	ElementRemove(LoginIDs.register);
 	ElementRemove(LoginIDs.passwordReset);
 	ElementRemove(LoginIDs.cheats);
@@ -398,16 +410,13 @@ function LoginResize(load) {
 	ElementPositionFixed(LoginIDs.password, 750, 390, 500, null);
 
 	ElementSetPosition(LoginIDs.login, 1000, 490);
-  ElementSetFontSize(LoginIDs.login, "auto");
+	ElementSetFontSize(LoginIDs.login, "auto");
 
 	ElementPositionFixed(LoginIDs.footer, 500, 670, 1000, 320);
-  ElementSetSize(LoginIDs.register, 400);
-  ElementSetSize(LoginIDs.passwordReset, 400);
-  ElementSetSize(LoginIDs.cheats, 400);
-  ElementSetSize(LoginIDs.language, 400);
-
-	const langSelect = document.getElementById(LoginIDs.language);
-	langSelect?.style.setProperty("font-family", `"Twemoji Country Flags", ${langSelect.style.fontFamily}`);
+	ElementSetSize(LoginIDs.register, 400);
+	ElementSetSize(LoginIDs.passwordReset, 400);
+	ElementSetSize(LoginIDs.cheats, 400);
+	ElementSetSize(LoginIDs.language, 400);
 }
 
 function LoginReloadLanguageText() {

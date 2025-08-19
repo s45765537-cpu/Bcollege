@@ -11,11 +11,66 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2025-07-16
-* Last recorded PR: [#5697](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5697)
-* Last recorded commit hash: `d45f01d52103be870cc0e08365845646c801f4fa`
+* Changelog last updated: 2025-08-12
+* Last recorded PR: [#5736](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5736)
+* Last recorded commit hash: `b61072987e4e0380c7001b6b3b264df9432c60f9`
 
 ## [Generated]
+
+## [R119]
+
+### [Changes]
+
+* Manilla - New plug and cleanup of IsPlugged effect ([#5701](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5701))
+* RavenCreative - Cigarette Item Handheld and In Mouth Request by Raven Creative ([#5707](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5707))
+* RavenCreative - Upgraded Kneeling appearance of the elegant skirt in Kneeling and Kneeling Spread poses. ([#5735](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5735))
+* Haruhi - Added Paw Padded Petsuit Arms/Legs, MultiStrap Petsuit Arms/Legs and Customizable Ears (6 types) ([#5710](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5710))
+* dDeepLb - DOM: login page ([#5708](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5708))
+* dDeepLb - DOM: relog screen ([#5712](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5712))
+* Estsanatlehi - Rename the character-level ItemPermissions to AllowedInteractions ([#5686](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5686))
+* Rama - Allow padding in the extended item `elementData` ([#5720](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5720))
+* Sin - Add new Decals category and move logos from the Custom T into it ([#5716](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5716))
+* Sin - Added fingernails to Rings modular items so that Rings and Fingernails can be worn together. ([#5734](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5734))
+* Sin - Updating Echo ported items with proper attribution. ([#5731](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5731))
+* Sin - Adding Pole map item ([#5730](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5730))
+* Sin - Echo v2 retouch of hobbleskirt and croptop ([#5728](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5728))
+* Sin - Added override for facepaint for EchoV2, also added the facepaint to the body markings category ([#5727](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5727))
+* Sin - Adding Speaker/Amp by Jegudiel ([#5725](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5725))
+* Sin - Adding DragonsTail: art by Titania ([#5724](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5724))
+* Sin - Adding several plushies to the base game ([#5729](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5729))
+* Sin - Removed gender restriction from AnimeGirlGloves ([#5737](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5737))
+* Sin - Adding the Off The Shoulder Top from Echo ([#5736](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5736))
+* Ben987 - Heroku Server Architecture Upgrade
+* Ben987 - New Asia hosting
+* Ben987 - Allow bondage-asia on production server
+* Ben987 - Online Chat Rooms - 6 New Backgrounds
+* Ben987 - Change Log
+
+### [Fixes]
+
+* anna - fix: changing clubcard background from online chatroom ([#5700](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5700))
+* InkerBot - Remove unnecessary ChatRoomCharacterUpdate when use activity ([#5718](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5718))
+* dDeepLb - Fix login dropdown country flags don't show ([#5711](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5711))
+* dDeepLb - Fix GGTS ignored OOC ([#5698](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5698))
+* Estsanatlehi - Give lower priority to the GGTS check so it doesn't override an actual owner ([#5696](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5696))
+* Estsanatlehi - Safeguard against commands that close the ChatRoom screen ([#5715](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5715))
+* Estsanatlehi - Fixes a bug where the Player object wouldn't be in Character after login ([#5713](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5713))
+* Estsanatlehi - Fix nickname locking being circumventable ([#5721](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5721))
+* Rama - Fix toast clicks neglecting the `transitioncancel` event ([#5702](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5702))
+* Rama - Fix chat room backgrounds raising upon disconnecting ([#5719](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5719))
+* Sin - Multibody - add wedding dress art for V2 to stop the dress going invisible in certain poses ([#5699](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5699))
+* Sin - EchoV2: Fix slim latex leotard, removed extra unnecessary art file. ([#5703](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5703))
+* Sin - Fix slave rags belt bug ([#5704](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5704))
+* Sin - Fixed LeatherBunnyHollowBra to have EchoV2 override for better fit, Layer color rework. ([#5732](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5732))
+* Sin - Fixed torso chains for EchoV2 body ([#5738](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5738))
+* Sin - Fix Classic T Shirt so logos work on echo v2 body ([#5726](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5726))
+
+### [Technical]
+
+* Estsanatlehi - Simplify the CombatBoots definition ([#5705](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5705))
+* Estsanatlehi - Make screen loads async ([#5607](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5607))
+* Estsanatlehi - Properly mark characters as MustDraw when their assets load ([#5706](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5706))
+* Rama - Move the mug and plush license information to the asset's `Attribution` field ([#5733](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5733))
 
 ## [R118]
 
