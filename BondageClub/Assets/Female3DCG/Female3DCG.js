@@ -6830,13 +6830,21 @@ var AssetFemale3DCG = [
 					AllFours: PoseType.HIDE,
 				},
 				Layer: [
-					{ Name: "Skirt", AllowTypes: { typed: 0 }, StyleOverride: ["EchoV2"], },
+					{
+						Name: "Skirt",
+						AllowTypes: { typed: 0 },
+						StyleOverride: ["EchoV2"],
+					},
 					{
 						Name: "SkirtV2",
 						CopyLayerColor: "Skirt",
 						AllowTypes: { typed: 1 },
 					},
-					{ Name: "Design", AllowTypes: { typed: 0 }, StyleOverride: ["EchoV2"],},
+					{
+						Name: "Design",
+						AllowTypes: { typed: 0 },
+						StyleOverride: ["EchoV2"],
+					},
 					{
 						Name: "DesignV2",
 						CopyLayerColor: "Design",
@@ -34935,7 +34943,10 @@ var AssetFemale3DCG = [
 				Hide: ["Bracelet"],
 				Extended: true,
 				CreateLayerTypes: ["typed"],
-				Layer: [{ Name: "Chain", Top: -388, Priority: 6 }, { Name: "Cuffs", StyleOverride: ["EchoV2"],}],
+				Layer: [
+					{ Name: "Chain", Top: -388, Priority: 6 },
+					{ Name: "Cuffs", StyleOverride: ["EchoV2"] },
+				],
 			},
 			{
 				Name: "SteelCuffs",
@@ -39261,7 +39272,7 @@ var AssetFemale3DCG = [
 						Pose: ["Yoked"],
 						Masks: [
 							[50, 120, 68, 265],
-							[375, 120, 68, 265]
+							[375, 120, 68, 265],
 						],
 					},
 					{
@@ -39278,7 +39289,7 @@ var AssetFemale3DCG = [
 							[60, 0, 150, 220],
 							[60, 0, 100, 244],
 							[270, 0, 180, 220],
-							[340, 0, 180, 244]
+							[340, 0, 180, 244],
 						],
 					},
 				],
@@ -39370,7 +39381,7 @@ var AssetFemale3DCG = [
 						Pose: ["Yoked"],
 						Masks: [
 							[50, 120, 68, 265],
-							[375, 120, 68, 265]
+							[375, 120, 68, 265],
 						],
 					},
 					{
@@ -39387,7 +39398,7 @@ var AssetFemale3DCG = [
 							[60, 0, 150, 220],
 							[60, 0, 100, 244],
 							[270, 0, 180, 220],
-							[340, 0, 180, 244]
+							[340, 0, 180, 244],
 						],
 					},
 				],

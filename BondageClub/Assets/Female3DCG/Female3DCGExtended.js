@@ -20675,12 +20675,22 @@ var AssetFemale3DCGExtended = {
 					],
 					DrawData: {
 						elementData: [
-							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",}, // off
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Sin.png",},
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Raven.png",},
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_CassandraLee.png",},
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Rika.png",},
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Roslin.png",},
+							{
+								imagePath:
+									"Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",
+							}, // off
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Sin.png" },
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Raven.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushies_CassandraLee.png",
+							},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Rika.png" },
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Roslin.png",
+							},
 						],
 					},
 				},
@@ -20694,8 +20704,14 @@ var AssetFemale3DCGExtended = {
 					],
 					DrawData: {
 						elementData: [
-							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",}, // off
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Gangriel.png",},
+							{
+								imagePath:
+									"Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",
+							}, // off
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushies_Gangriel.png",
+							},
 						],
 					},
 				},
@@ -20711,10 +20727,21 @@ var AssetFemale3DCGExtended = {
 					],
 					DrawData: {
 						elementData: [
-							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",}, // off
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Celiko.png",},
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Lavender.png",},
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Siscuit.png",},
+							{
+								imagePath:
+									"Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",
+							}, // off
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Celiko.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushies_Lavender.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushies_Siscuit.png",
+							},
 						],
 					},
 				},
@@ -20736,16 +20763,36 @@ var AssetFemale3DCGExtended = {
 					],
 					DrawData: {
 						elementData: [
-							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",}, // off
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Aeri.png",},
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Delta.png",},
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Khloe.png",},
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Lillian.png",},
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_TinyRavin.png",},
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_XDress.png",},
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Elora.png",},
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Lisa.png",},
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Melanie.png",},
+							{
+								imagePath:
+									"Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",
+							}, // off
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Aeri.png" },
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Delta.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Khloe.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushies_Lillian.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushies_TinyRavin.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_XDress.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Elora.png",
+							},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Lisa.png" },
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushies_Melanie.png",
+							},
 						],
 					},
 				},
@@ -20763,12 +20810,28 @@ var AssetFemale3DCGExtended = {
 					],
 					DrawData: {
 						elementData: [
-							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",}, // off
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Magdalena.png",},
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Sonic.png",},
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Jagodka.png",},
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Shade.png",},
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_VoidPaladin.png",},
+							{
+								imagePath:
+									"Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",
+							}, // off
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushies_Magdalena.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Sonic.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushies_Jagodka.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Shade.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushies_VoidPaladin.png",
+							},
 						],
 					},
 				},
@@ -20787,13 +20850,24 @@ var AssetFemale3DCGExtended = {
 					],
 					DrawData: {
 						elementData: [
-							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",}, // off
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Alunra.png",},
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Mel.png",},
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Zannah.png",},
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Zoe.png",},
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Chloe.png",},
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Liesel.png",},
+							{
+								imagePath:
+									"Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",
+							}, // off
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Alunra.png",
+							},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Mel.png" },
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Zannah.png",
+							},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Zoe.png" },
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Chloe.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Liesel.png",
+							},
 						],
 					},
 				},
@@ -20814,15 +20888,32 @@ var AssetFemale3DCGExtended = {
 					],
 					DrawData: {
 						elementData: [
-							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",}, // off
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Nabi.png",},
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_HoshiKo.png",},
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Layottu.png",},
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Sabie.png",},
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_LittleSera.png",},
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Mana.png",},
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Minerva.png",},
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Zoi.png",},
+							{
+								imagePath:
+									"Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",
+							}, // off
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Nabi.png" },
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushies_HoshiKo.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushies_Layottu.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Sabie.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushies_LittleSera.png",
+							},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Mana.png" },
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushies_Minerva.png",
+							},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Zoi.png" },
 						],
 					},
 				},
