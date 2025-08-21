@@ -47592,9 +47592,12 @@ var AssetFemale3DCG = [
 				Left: 0,
 				Priority: 46,
 				IsRestraint: false,
+				AllowLock: false,
+				AllowTighten: false,
 				Random: false,
 				Audio: "Bag",
 				AllowActivity: ["RubItem"],
+				Effect: [],
 				AllowColorize: true,
 				DefaultColor: ["Default", "Default", "#A16000", "Default"],
 				Layer: [
