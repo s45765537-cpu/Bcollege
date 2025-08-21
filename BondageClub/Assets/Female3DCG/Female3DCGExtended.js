@@ -20676,9 +20676,8 @@ var AssetFemale3DCGExtended = {
 					DrawData: {
 						elementData: [
 							{
-								imagePath:
-									"Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",
-							}, // off
+								drawImage: false,
+							},
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Sin.png" },
 							{
 								imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Raven.png",
@@ -20705,9 +20704,8 @@ var AssetFemale3DCGExtended = {
 					DrawData: {
 						elementData: [
 							{
-								imagePath:
-									"Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",
-							}, // off
+								drawImage: false,
+							},
 							{
 								imagePath:
 									"Assets/Female3DCG/ItemHandheld/Plushies_Gangriel.png",
@@ -20728,9 +20726,8 @@ var AssetFemale3DCGExtended = {
 					DrawData: {
 						elementData: [
 							{
-								imagePath:
-									"Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",
-							}, // off
+								drawImage: false,
+							},
 							{
 								imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Celiko.png",
 							},
@@ -20764,9 +20761,8 @@ var AssetFemale3DCGExtended = {
 					DrawData: {
 						elementData: [
 							{
-								imagePath:
-									"Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",
-							}, // off
+								drawImage: false,
+							},
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Aeri.png" },
 							{
 								imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Delta.png",
@@ -20811,9 +20807,8 @@ var AssetFemale3DCGExtended = {
 					DrawData: {
 						elementData: [
 							{
-								imagePath:
-									"Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",
-							}, // off
+								drawImage: false,
+							},
 							{
 								imagePath:
 									"Assets/Female3DCG/ItemHandheld/Plushies_Magdalena.png",
@@ -20851,9 +20846,8 @@ var AssetFemale3DCGExtended = {
 					DrawData: {
 						elementData: [
 							{
-								imagePath:
-									"Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",
-							}, // off
+								drawImage: false,
+							},
 							{
 								imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Alunra.png",
 							},
@@ -20889,9 +20883,8 @@ var AssetFemale3DCGExtended = {
 					DrawData: {
 						elementData: [
 							{
-								imagePath:
-									"Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",
-							}, // off
+								drawImage: false,
+							},
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Nabi.png" },
 							{
 								imagePath:
