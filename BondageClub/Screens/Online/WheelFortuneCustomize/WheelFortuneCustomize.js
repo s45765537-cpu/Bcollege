@@ -5,9 +5,9 @@ var WheelFortuneCustomizeList = "";
 
 /**
  * Loads the lucky wheel customization screen
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function WheelFortuneCustomizeLoad() {
+async function WheelFortuneCustomizeLoad() {
 	WheelFortuneCustomizeOffset = 0;
 	if (typeof WheelFortuneCharacter.OnlineSharedSettings.WheelFortune === "string")
 		WheelFortuneCustomizeList = WheelFortuneCharacter.OnlineSharedSettings.WheelFortune;

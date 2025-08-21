@@ -310,6 +310,11 @@ var AssetFemale3DCGExtended = {
 					Key: "p",
 					Options: [{}, {}, {}],
 				},
+				{
+					Name: "Fingernails",
+					Key: "f",
+					Options: [{}, {}, {}],
+				},
 			],
 		},
 	},
@@ -340,6 +345,11 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Pinkie",
 					Key: "p",
+					Options: [{}, {}, {}],
+				},
+				{
+					Name: "Fingernails",
+					Key: "f",
 					Options: [{}, {}, {}],
 				},
 			],
@@ -448,19 +458,10 @@ var AssetFemale3DCGExtended = {
 						{}, // t17 - Hogtied
 						{}, // t18 - BCollege2
 						{}, // t19 - ControlPad1
-						{}, // t20 - Gangriels
-						{}, // t21 - DenOfSin
-						{}, // t22 - SlaveHelpline
-						{}, // t23 - DemonsBar
-						{}, // t24 - AzureCorp
-						{}, // t25 - Shibari
-						{}, // t26 - BullsEye
-						{}, // t27 - Keys?
-						{}, // t28 - VoidOrder
-						{}, // t29 - Malkuth
-						{}, // t30 - Amber Family
-						{}, // t31 - Luke's Chill Tent
-						{}, // t32 - Rat's Ass Tavern
+						{}, // t20 - AzureCorp
+						{}, // t21 - Shibari
+						{}, // t22 - BullsEye
+						{}, // t23 - Keys?
 					],
 				},
 			],
@@ -813,6 +814,17 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // LatexHobbleDress
+		OffTheShoulderTop: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Left",
+				},
+				{
+					Name: "Right",
+				},
+			],
+		}, // OffTheShoulderTop
 	}, // Cloth
 	BodyMarkings: {
 		WombTattoos: {
@@ -1930,6 +1942,20 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // BusinessTrousers
+		ElegantSkirt: {
+			Archetype: ExtendedArchetype.TYPED,
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+			Options: [
+				{
+					Name: "Default",
+					Property: {},
+				},
+				{
+					Name: "Version2",
+					Property: {},
+				},
+			],
+		}, // ElegantSkirt
 	}, // ClothLower
 	Socks: {
 		RippedPantyhose: {
@@ -2706,6 +2732,50 @@ var AssetFemale3DCGExtended = {
 			],
 			ChangeWhenLocked: false,
 		}, // BitchSuit
+		StrappedPetsuitArms: {
+			Archetype: ExtendedArchetype.MODULAR,
+			ChatTags: [
+				CommonChatTags.SOURCE_CHAR,
+				CommonChatTags.DEST_CHAR,
+				CommonChatTags.ASSET_NAME,
+			],
+			Modules: [
+				{
+					Name: "Shine",
+					Key: "g",
+					Options: [
+						{
+							// g0 - No Gloss
+						},
+						{
+							// g1 - Gloss
+						},
+					],
+				},
+				{
+					Name: "Extras",
+					Key: "a",
+					Options: [
+						{
+							// a0- Normal
+						},
+						{
+							// a1- Arms Forward
+							Property: {
+								AllowActivePose: ["BackElbowTouch"],
+							},
+						},
+						{
+							// a2- Arms side
+							Property: {
+								AllowActivePose: ["BackElbowTouch"],
+							},
+						},
+					],
+				},
+			],
+			ChangeWhenLocked: false,
+		}, // StrappedPetsuitArms
 		ShinyPetSuit: {
 			Archetype: ExtendedArchetype.TYPED,
 			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
@@ -2913,6 +2983,23 @@ var AssetFemale3DCGExtended = {
 				Chat: "ItemArmsLeatherArmbinderSet",
 			},
 		}, // LeatherArmbinder
+		PawPaddedPetsuitArms: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Padding",
+				},
+				{
+					Name: "None",
+				},
+			],
+			ChangeWhenLocked: false,
+			DialogPrefix: {
+				Header: "ItemArmsPawPaddedPetsuitArmsSelect",
+				Option: "ItemArmsPawPaddedPetsuitArms",
+				Chat: "ItemArmsPawPaddedPetsuitArmsSet",
+			},
+		}, // PawPaddedPetsuitArms
 		ArmbinderSuit: {
 			Archetype: ExtendedArchetype.MODULAR,
 			Modules: [
@@ -12491,6 +12578,9 @@ var AssetFemale3DCGExtended = {
 		LockingVibePlug: {
 			Archetype: ExtendedArchetype.VIBRATING,
 		}, // LockingVibePlug
+		FuckPlug: {
+			Archetype: ExtendedArchetype.VIBRATING,
+		}, // FuckPlug
 		AnalBeads2: {
 			Archetype: ExtendedArchetype.TYPED,
 			ChatTags: [
@@ -13560,6 +13650,112 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		},
+		CustomizableFluffyEars1: {
+			Archetype: ExtendedArchetype.MODULAR,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "Stud1",
+					Key: "s1",
+					Options: [{}, {}, {}, {}], // None, Left, Right, Both
+				},
+				{
+					Name: "Stud2",
+					Key: "s2",
+					Options: [{}, {}, {}, {}], // None, Left, Right, Both
+				},
+				{
+					Name: "Stud3",
+					Key: "s3",
+					Options: [{}, {}, {}, {}], // None, Left, Right, Both
+				},
+				{
+					Name: "Stud4",
+					Key: "s4",
+					Options: [{}, {}, {}, {}], // None, Left, Right, Both
+				},
+				{
+					Name: "Bar",
+					Key: "b1",
+					Options: [{}, {}, {}, {}], // None, Left, Right, Both
+				},
+				{
+					Name: "Bells",
+					Key: "b2",
+					Options: [{}, {}, {}, {}], // None, Left, Right, Both
+				},
+				{
+					Name: "SmallRing1",
+					Key: "r1",
+					Options: [{}, {}, {}, {}], // None, Left, Right, Both
+				},
+				{
+					Name: "SmallRing2",
+					Key: "r2",
+					Options: [{}, {}, {}, {}], // None, Left, Right, Both
+				},
+				{
+					Name: "SmallRing3",
+					Key: "r3",
+					Options: [{}, {}, {}, {}], // None, Left, Right, Both
+				},
+				{
+					Name: "SmallRing4",
+					Key: "r4",
+					Options: [{}, {}, {}, {}], // None, Left, Right, Both
+				},
+				{
+					Name: "BigRing1",
+					Key: "br1",
+					Options: [{}, {}, {}, {}], // None, Left, Right, Both
+				},
+				{
+					Name: "BigRing2",
+					Key: "br2",
+					Options: [{}, {}, {}, {}], // None, Left, Right, Both
+				},
+				{
+					Name: "Tag",
+					Key: "t1",
+					Options: [{}, {}, {}, {}], // None, Left, Right, Both
+				},
+			],
+		},
+		CustomizableFluffyEars2: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: {
+				GroupName: "HairAccessory1",
+				AssetName: "CustomizableFluffyEars1",
+			},
+		},
+		CustomizableFluffyEars3: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: {
+				GroupName: "HairAccessory1",
+				AssetName: "CustomizableFluffyEars1",
+			},
+		},
+		CustomizableCatEars: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: {
+				GroupName: "HairAccessory1",
+				AssetName: "CustomizableFluffyEars1",
+			},
+		},
+		CustomizableElfEars: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: {
+				GroupName: "HairAccessory1",
+				AssetName: "CustomizableFluffyEars1",
+			},
+		},
+		CustomizableCowEars: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: {
+				GroupName: "HairAccessory1",
+				AssetName: "CustomizableFluffyEars1",
+			},
+		},
 	}, // HairAccessory1
 	HairAccessory2: {
 		ElfEars: {
@@ -13573,6 +13769,48 @@ var AssetFemale3DCGExtended = {
 		AquaticEars: {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "HairAccessory1", AssetName: "AquaticEars" },
+		},
+		CustomizableFluffyEars1: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: {
+				GroupName: "HairAccessory1",
+				AssetName: "CustomizableFluffyEars1",
+			},
+		},
+		CustomizableFluffyEars2: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: {
+				GroupName: "HairAccessory1",
+				AssetName: "CustomizableFluffyEars1",
+			},
+		},
+		CustomizableFluffyEars3: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: {
+				GroupName: "HairAccessory1",
+				AssetName: "CustomizableFluffyEars1",
+			},
+		},
+		CustomizableCatEars: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: {
+				GroupName: "HairAccessory1",
+				AssetName: "CustomizableFluffyEars1",
+			},
+		},
+		CustomizableElfEars: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: {
+				GroupName: "HairAccessory1",
+				AssetName: "CustomizableFluffyEars1",
+			},
+		},
+		CustomizableCowEars: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: {
+				GroupName: "HairAccessory1",
+				AssetName: "CustomizableFluffyEars1",
+			},
 		},
 	}, // HairAccessory2
 	HairAccessory3: {
@@ -16306,6 +16544,23 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.MODULAR,
 			CopyConfig: { GroupName: "ItemTorso", AssetName: "BarrelCorset" },
 		}, // BarrelCorset
+		PawPaddedPetsuitLegs: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Padding",
+				},
+				{
+					Name: "None",
+				},
+			],
+			ChangeWhenLocked: false,
+			DialogPrefix: {
+				Header: "ItemLegsPawPaddedPetsuitLegsSelect",
+				Option: "ItemLegsPawPaddedPetsuitLegs",
+				Chat: "ItemLegsPawPaddedPetsuitLegsSet",
+			},
+		}, // PawPaddedPetsuitLegs
 	}, // ItemLegs
 	ItemFeet: {
 		SpreaderMetal: {
@@ -17107,6 +17362,19 @@ var AssetFemale3DCGExtended = {
 				MemberNumberList: [],
 			},
 		}, // TimerPasswordPadlock
+		Plushies: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: {
+				GroupName: "ItemHandheld",
+				AssetName: "Plushies",
+			},
+			DialogPrefix: {
+				Header: "ItemHandheldPlushiesSelect",
+				Module: "ItemHandheldPlushiesModule",
+				Option: "ItemHandheldPlushiesOption",
+				Chat: "ItemHandheldPlushiesSet",
+			},
+		}, //Plushies
 	}, // ItemMisc
 	ItemPelvis: {
 		FuturisticChastityBelt: {
@@ -20377,5 +20645,191 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // Uchiwa
+		Cigarette: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "InMouth",
+				},
+				{
+					Name: "InHand",
+				},
+			],
+		}, // Cigarette
+		Plushies: {
+			Archetype: ExtendedArchetype.MODULAR,
+			DrawImages: false,
+			// ChatSetting: ModularItemChatSetting.PER_MODULE,
+			Modules: [
+				{
+					Name: "DenOfSin",
+					Key: "DenOfSin",
+					DrawImages: true,
+					Options: [
+						{}, // Off
+						{}, // Sin
+						{}, // Raven
+						{}, // CassandraLee
+						{}, // Rika
+						{}, // Roslin
+					],
+					DrawData: {
+						elementData: [
+							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",}, // off
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Sin.png",},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Raven.png",},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_CassandraLee.png",},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Rika.png",},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Roslin.png",},
+						],
+					},
+				},
+				{
+					Name: "Gangriels",
+					Key: "Gangriels",
+					DrawImages: true,
+					Options: [
+						{}, // off
+						{}, // Gangriel
+					],
+					DrawData: {
+						elementData: [
+							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",}, // off
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Gangriel.png",},
+						],
+					},
+				},
+				{
+					Name: "CelestialEnchants",
+					Key: "CelestialEnchants",
+					DrawImages: true,
+					Options: [
+						{}, // Off
+						{}, // Celiko
+						{}, // Lavender
+						{}, // Siscuit
+					],
+					DrawData: {
+						elementData: [
+							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",}, // off
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Celiko.png",},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Lavender.png",},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Siscuit.png",},
+						],
+					},
+				},
+				{
+					Name: "LatexLab",
+					Key: "LatexLab",
+					DrawImages: true,
+					Options: [
+						{}, // Off
+						{}, // Aeri
+						{}, // Delta
+						{}, // Khloe
+						{}, // Lillian
+						{}, // TinyRavin
+						{}, // XDress
+						{}, // Elora
+						{}, // Lisa
+						{}, // Melanie
+					],
+					DrawData: {
+						elementData: [
+							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",}, // off
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Aeri.png",},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Delta.png",},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Khloe.png",},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Lillian.png",},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_TinyRavin.png",},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_XDress.png",},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Elora.png",},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Lisa.png",},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Melanie.png",},
+						],
+					},
+				},
+				{
+					Name: "VoidOrder",
+					Key: "VoidOrder",
+					DrawImages: true,
+					Options: [
+						{}, // off
+						{}, // Magdalena
+						{}, // Sonic
+						{}, // Jagodka
+						{}, // Shade
+						{}, // Paladin
+					],
+					DrawData: {
+						elementData: [
+							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",}, // off
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Magdalena.png",},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Sonic.png",},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Jagodka.png",},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Shade.png",},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_VoidPaladin.png",},
+						],
+					},
+				},
+				{
+					Name: "EnsLivingRoom",
+					Key: "EnsLivingRoom",
+					DrawImages: true,
+					Options: [
+						{}, // off
+						{}, // Alunra
+						{}, // Mel
+						{}, // Zannah
+						{}, // Zoe
+						{}, // Chloe
+						{}, // Liesel
+					],
+					DrawData: {
+						elementData: [
+							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",}, // off
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Alunra.png",},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Mel.png",},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Zannah.png",},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Zoe.png",},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Chloe.png",},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Liesel.png",},
+						],
+					},
+				},
+				{
+					Name: "Vagrants",
+					Key: "Vagrants",
+					DrawImages: true,
+					Options: [
+						{}, // off
+						{}, // Nabi
+						{}, // Hoshiko
+						{}, // Layottu
+						{}, // Sabie
+						{}, // LittleSera
+						{}, // Mana
+						{}, // Minerva
+						{}, // Zoi
+					],
+					DrawData: {
+						elementData: [
+							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/NoPlush.png",}, // off
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Nabi.png",},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_HoshiKo.png",},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Layottu.png",},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Sabie.png",},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_LittleSera.png",},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Mana.png",},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Minerva.png",},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Zoe.png",},
+						],
+					},
+				},
+			],
+			ScriptHooks: {
+				SetOption: InventoryItemHandheldPlushiesSetOptionHook,
+			},
+		}, // Plushies
 	}, // ItemHandheld
 };

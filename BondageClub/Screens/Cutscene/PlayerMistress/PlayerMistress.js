@@ -11,9 +11,9 @@ var PlayerMistressMaidRight = null;
 
 /**
  * Loads the mistress promotion cutscene by creating the random maids and mistress, and setting the stage
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function PlayerMistressLoad() {
+async function PlayerMistressLoad() {
 	CutsceneStage = 0;
 	PlayerMistressMistressLeft = CharacterLoadNPC("NPC_MistressLeft");
 	PlayerMistressMistressRight = CharacterLoadNPC("NPC_MistressRight");

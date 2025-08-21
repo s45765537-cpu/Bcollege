@@ -5,9 +5,9 @@ var ClubCardLoungeTutor = null;
 
 /**
  * Loads the club card room and the tutor
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function ClubCardLoungeLoad() {
+async function ClubCardLoungeLoad() {
 	ClubCardCommonLoad();
 	if (ClubCardLoungeTutor == null) {
 		ClubCardLoungeTutor = CharacterLoadNPC("NPC_ClubCardLounge_Tutor");

@@ -1101,19 +1101,19 @@ function ServerChatRoomGetAllowItem(Source, Target) {
 	if (typeof Target.MemberNumber !== "number") return true;
 
 	// At zero permission level or if target is source or if owner, we allow it
-	if ((Target.ItemPermission <= 0) || (Source.MemberNumber == Target.MemberNumber) || Target.IsOwnedByCharacter(Source)) return true;
+	if ((Target.AllowedInteractions <= AllowedInteractions.Everyone) || (Source.MemberNumber == Target.MemberNumber) || Target.IsOwnedByCharacter(Source)) return true;
 
 	// At one, we allow if the source isn't on the blacklist
-	if ((Target.ItemPermission == 1) && !Target.HasOnBlacklist(Source)) return true;
+	if ((Target.AllowedInteractions == AllowedInteractions.EveryoneExceptBlacklist) && !Target.HasOnBlacklist(Source)) return true;
 
 	// At two, we allow if the source is Dominant compared to the Target (25 points allowed) or on whitelist or a lover
-	if ((Target.ItemPermission == 2) && (!Target.HasOnBlacklist(Source) && ((ReputationCharacterGet(Source, "Dominant") + 25 >= ReputationCharacterGet(Target, "Dominant")) || Target.HasOnWhitelist(Source) || Source.IsLoverOfCharacter(Target)))) return true;
+	if ((Target.AllowedInteractions == AllowedInteractions.OwnerLoversWhitelistAndDomsOnly) && (!Target.HasOnBlacklist(Source) && ((ReputationCharacterGet(Source, "Dominant") + 25 >= ReputationCharacterGet(Target, "Dominant")) || Target.HasOnWhitelist(Source) || Source.IsLoverOfCharacter(Target)))) return true;
 
 	// At three, we allow if the source is on the whitelist of the Target or a lover
-	if ((Target.ItemPermission == 3) && (Target.HasOnWhitelist(Source) || Source.IsLoverOfCharacter(Target))) return true;
+	if ((Target.AllowedInteractions == AllowedInteractions.OwnerLoversWhitelistOnly) && (Target.HasOnWhitelist(Source) || Source.IsLoverOfCharacter(Target))) return true;
 
 	// At four, we allow if the source is a lover
-	if ((Target.ItemPermission == 4) && (Source.IsLoverOfCharacter(Target))) return true;
+	if ((Target.AllowedInteractions == AllowedInteractions.OwnerLoversOnly) && (Source.IsLoverOfCharacter(Target))) return true;
 
 	// No valid combo, we don't allow the item
 	return false;
@@ -1131,8 +1131,8 @@ var ServerAccountDataSyncedValidate = {
 	Nickname: (arg, C) => {
 		return typeof arg === "string" ? arg : undefined;
 	},
-	ItemPermission: (arg, C) => {
-		return CommonIsInteger(arg, 0, 5) ? /** @type {0 | 1 | 2 | 3 | 4 | 5} */(arg) : 2;
+	AllowedInteractions: (arg, C) => {
+		return CommonIsInteger(arg, 0, 5) ? /** @type {AllowedInteractions} */(arg) : 2;
 	},
 	Difficulty: (arg, C) => {
 		return {

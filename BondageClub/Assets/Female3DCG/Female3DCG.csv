@@ -164,6 +164,7 @@ Cloth,MaleTankTop1,Male Cloth Tank-Top
 Cloth,MeshTop,Mesh Top
 Cloth,MistressTop,Mistress Top
 Cloth,NurseUniform,Nurse Uniform
+Cloth,OffTheShoulderTop,Off The Shoulder Top
 Cloth,RetroGirdle,Retro Girdle Dress
 Cloth,RibbonCorset,Ribbon Corset
 Cloth,Robe1,Robe
@@ -286,6 +287,17 @@ Corset,LeatherCorsetTop1,Leather Corset Top
 Corset,SteampunkCorsetTop1,Steampunk Corset
 Corset,TightCorset,Leather Tight Corset
 Corset,Underbust,Boned Underbust Corset
+Decals,,Decals
+Decals,DenOfSin,Den of Sin
+Decals,AmberFam,Amber Family
+Decals,AzureCorp,Azure Corporation
+Decals,DemonsBar,Demon's Bar
+Decals,Gangriels,Gangriels
+Decals,LukeChill,Luke's Chill Tent
+Decals,Malkuth,Malkuth
+Decals,RatAss,The Rat's Ass
+Decals,SlaveHelpline,Slave Helpline
+Decals,VoidOrder,Void Order
 Emoticon,,Emoticon
 Emoticon,Emoticon,Emoticon
 Eyebrows,,Eyebrows
@@ -420,6 +432,12 @@ HairAccessory1,EarWarmer,Ear Warmers
 HairAccessory1,ElfEars,Elf Ears
 HairAccessory1,FoxEars1,Fox Ears Small
 HairAccessory1,FoxEars2,Fox Ears Large
+HairAccessory1,CustomizableFluffyEars1, Customizable Fluffy Ears 1
+HairAccessory1,CustomizableFluffyEars2, Customizable Fluffy Ears 2
+HairAccessory1,CustomizableFluffyEars3, Customizable Fluffy Ears 3
+HairAccessory1,CustomizableCatEars, Customizable Cat Ears
+HairAccessory1,CustomizableElfEars, Customizable Elf Ears
+HairAccessory1,CustomizableCowEars, Customizable Cow Ears
 HairAccessory1,FoxEars3,Fox Ears Bell
 HairAccessory1,CyberEars,Cyber Ears
 HairAccessory1,FloppyBunnyEars,Floppy Bunny Ears
@@ -687,12 +705,12 @@ HandAccessoryLeft,,Hand Accessory (Left)
 HandAccessoryLeft,CatsuitGloves,Catsuit Gloves
 HandAccessoryLeft,Claws,Claws
 HandAccessoryLeft,Fingernails,Fingernails
-HandAccessoryLeft,Rings,Rings
+HandAccessoryLeft,Rings,Rings and Nails
 HandAccessoryRight,,Hand Accessory (Right)
 HandAccessoryRight,CatsuitGloves,Catsuit Gloves
 HandAccessoryRight,Claws,Claws
 HandAccessoryRight,Fingernails,Fingernails
-HandAccessoryRight,Rings,Rings
+HandAccessoryRight,Rings,Rings and Nails
 HandsLeft,,Hand (Left)
 HandsRight,,Hand (Right)
 Hat,,Hat
@@ -845,6 +863,8 @@ ItemArms,WristShackles,Wrist Shackles
 ItemArms,Yoke,Yoke
 ItemArms,Zipties,Zip Ties
 ItemArms,BedMetalCuffs,Bed Metal Cuffs
+ItemArms,PawPaddedPetsuitArms,Paw Padded Petsuit Arms
+ItemArms,StrappedPetsuitArms,MultiStrap Petsuit Arms
 ItemBoots,,Feet
 ItemBoots,BalletHeels,Ballet Heels
 ItemBoots,BalletHeels1,Ballet Hi-Shoes
@@ -901,6 +921,7 @@ ItemButt,EggVibePlugXXL,Egg Vibe Plug XXL
 ItemButt,FoxTail1,Fox Tail Small
 ItemButt,FoxTail2,Fox Tail Large
 ItemButt,FoxTails,Fox Tails
+ItemButt,FuckPlug,Fuckable Butt Plug
 ItemButt,HollowButtPlug,Hollow Butt Plug
 ItemButt,HorsetailPlug,Horse Butt Plug
 ItemButt,HorsetailPlug1,Horse ButtPlug
@@ -1044,6 +1065,7 @@ ItemHandheld,Broom,Broom
 ItemHandheld,CandleWax,Candle Wax
 ItemHandheld,Cane,Cane
 ItemHandheld,CattleProd,Cattle Prod
+ItemHandheld,Cigarette,Cigarette
 ItemHandheld,Crop,Crop
 ItemHandheld,ElectricToothbrush,Electric Toothbrush
 ItemHandheld,Feather,Feather
@@ -1071,6 +1093,7 @@ ItemHandheld,PetToy,Pet Toy
 ItemHandheld,Phone1,Mobile Phone
 ItemHandheld,Phone2,Mobile Phone 2
 ItemHandheld,PlasticWrap,Plastic Wrap Roll
+ItemHandheld,Plushies,Plushies
 ItemHandheld,Popcorn,Popcorn
 ItemHandheld,PortalTablet,PortalLink Tablet
 ItemHandheld,PotionBottle,Potion Bottle
@@ -1236,6 +1259,8 @@ ItemLegs,Slime,Slime
 ItemLegs,SturdyLeatherBelts,Sturdy Leather Belt
 ItemLegs,Tentacles,Tentacles
 ItemLegs,Zipties,Zip Ties
+ItemLegs,StrappedPetsuitLegs,MultiStrap Petsuit Legs
+ItemLegs,PawPaddedPetsuitLegs,Paw Padded Petsuit Legs
 ItemMisc,,Body
 ItemMisc,BountySuitcase,Secret Suitcase
 ItemMisc,BountySuitcaseEmpty,Unlocked Suitcase
@@ -1290,6 +1315,7 @@ ItemMouth,CaneGag,Cane
 ItemMouth,CarrotGag,Rubber Carrot Gag
 ItemMouth,ChloroformCloth,Chloroform Cloth
 ItemMouth,ChopstickGag,Chopstick Gag
+ItemMouth,Cigarette,Cigarette
 ItemMouth,ClothGag,Cloth Gag
 ItemMouth,ClothStuffing,Cloth Stuffing
 ItemMouth,CropGag,Crop
@@ -1880,6 +1906,7 @@ TailStraps,,Tail Strap
 TailStraps,BunnyTailStrap,Bunny Tail Strap
 TailStraps,CowtailStrap,Cow Tail Strap
 TailStraps,DemonPlug,Demon Tail
+TailStraps,DragonsTail,Dragons Tail
 TailStraps,DragonTailStrap1,Dragon Tail Strap
 TailStraps,DragonTailStrap2Left, Scaled dragon tail strap (Left)
 TailStraps,DragonTailStrap2Right, Scaled dragon tail strap (Right)

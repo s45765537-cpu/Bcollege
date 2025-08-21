@@ -26,9 +26,9 @@ function PlatformProfileDrawArrow(SX, SY, TX, TY) {
 
 /**
  * Loads the screen
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function PlatformProfileLoad() {
+async function PlatformProfileLoad() {
 }
 
 /**

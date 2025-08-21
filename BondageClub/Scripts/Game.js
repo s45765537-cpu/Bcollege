@@ -1,7 +1,7 @@
 "use strict";
 
 /** BC's version */
-var GameVersion = "R118";
+var GameVersion = "R119";
 
 const GameVersionFormat = /^R([0-9]+)(?:(Alpha|Beta)([0-9]+)?)?$/;
 
@@ -32,8 +32,12 @@ function GameStart() {
 	AssetInventoryIDValidate();
 	CommandsLoad();
 	ControllerStart();
+	TextPrefetchFile(InterfaceStringsPath);
 	CommonSetScreen("Character", "Login");
 	ServerInit();
+
+	// Create a blank character for our player. Its actual ID will be set when LoginResponse happens
+	Player = /** @type {PlayerCharacter} */ (CharacterCreate("Female3DCG", CharacterType.SIMPLE, ""));
 
 	// Those event listeners are all going through a lambda so that mods can
 	// correctly hook into them. Using the functions directly causes a copy of
@@ -156,7 +160,9 @@ function GameRunBackground(Timestamp) {
 		TimerLastTime = Timestamp;
 		CurrentTime = CurrentTime + TimerRunInterval;
 
-		if (CurrentCharacter == null) CurrentScreenFunctions.Run(Timestamp);
+		if (CurrentCharacter == null && !ScreenIsLoading) {
+			CurrentScreenFunctions.Run(Timestamp);
+		}
 		// Ignore gamepad when in the background
 		TimerProcess();
 
@@ -173,6 +179,8 @@ function GameRunBackground(Timestamp) {
  */
 function GameKeyDown(event) {
 	KeyPress = event.keyCode || event.which;
+
+	if (ScreenIsLoading) return;
 
 	let handled = false;
 	handleKeyDown: {
@@ -213,7 +221,8 @@ function GameKeyDown(event) {
 }
 
 function GameKeyUp(event) {
-	if(StruggleMinigameIsRunning()) { return; }
+	if (ScreenIsLoading) return;
+	if (StruggleMinigameIsRunning()) { return; }
 	if (CurrentScreenFunctions.KeyUp)
 	{
 		CurrentScreenFunctions.KeyUp(event);

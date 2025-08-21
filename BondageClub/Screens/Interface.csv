@@ -235,6 +235,7 @@ PandoraGuardActivityReleaseAll,Pandora guard SourceCharacter removes some restra
 PandoraGuardActivityCageAll,Pandora guard SourceCharacter puts all inmates in cases.
 PandoraGuardActivityUncageAll,Pandora guard SourceCharacter releases all inmates from their cases.
 Picking,Picking the lock...
+ScreenLoading,"Loading, please wait"
 StableActivityStand,SourceCharacter tries to stand properly. The exercise receives: StablePerformance points. StableResult
 StableActivityTrot,SourceCharacter tries to walks in a trot. The exercise receives: StablePerformance points. StableResult
 StableActivityGallop,SourceCharacter tries to runs at a gallop. The exercise receives: StablePerformance points. StableResult

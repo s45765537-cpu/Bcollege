@@ -86,10 +86,10 @@ function WardrobeLoadCharacters(Fast) {
 /**
  * Loads the player's wardrobe. when the player opens the wardrobe screen for the first time.
  * This function is called dynamically.
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  *
  */
-function WardrobeLoad() {
+async function WardrobeLoad() {
 	WardrobeSelection = -1;
 	CurrentDarkFactor = 0.5;
 	// Always open the wardrobe on the first page

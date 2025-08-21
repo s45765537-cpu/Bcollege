@@ -10,12 +10,11 @@ var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
-	"pauli&maty", "Abysseia", "Alex", "AlexG", "Asriel", "bryce", "Canti", "Christian", 
-	"Christoffer", "Claudia33", "Cm382714", "Desch", "Dragokahn", "dynilath", "Edwin", 
-	"Exusiai", "George", "Greendragon", "john", "KrimsonRose", "Laurie", "Marashu", "Mario", 
-	"Michel", "Mindtie", "Misa", "NeReFox", "Nightcore", "Nikita", "Patrick", "Robin", 
-	"Schrödingers", "serenat2023", "Soulcollar", "Sticks", "Sunny", "Tam", "Tarram1010", 
-	"Teli", "Thkdt", "Troubadix", "Troy", "WhiteSniper", "XDWolfie", "Xepherio", "黑猫哒哒哒", 
+	"Abysseia", "AlexG", "Asriel", "bryce", "Canti", "Christian", "Christoffer", "Claudia", "Desch", 
+	"Dragokahn", "dynilath", "EBXD", "Edwin", "Exusiai", "George", "Greendragon", "john", "Laurie", 
+	"Lyall", "Marashu", "Mario", "Michel", "Mindtie", "Misa", "NeReFox", "Nightcore", "Nikita", 
+	"Robin", "Schrödingers", "Soulcollar", "Stan", "Sticks", "Sunny", "Tam", "Tarram1010", 
+	"Teli", "Thkdt", "Troubadix", "Troy", "WhiteSniper", "XDWolfie", "Xepherio", "云雪", 
 ];
 
 /* eslint-enable */
@@ -35,6 +34,23 @@ var LoginCharacter;
 var LoginLastCT = 0;
 var LoginFrameCount = 0;
 var LoginFrameTotalTime = 0;*/
+
+const LoginIDs = Object.freeze({
+	name: "InputName",
+	password: "InputPassword",
+	language: "LanguageDropdown",
+	nameLabel: "login-name-label",
+	passwordLabel: "login-password-label",
+	newCharacter: "login-new-character-label",
+	register: "login-register-button",
+	login: "login-login-button",
+	welcome: "login-welcome-message",
+	status: "login-status",
+	passwordReset: "login-password-reset-button",
+	forgotPassword: "login-password-reset-hint",
+	cheats: "login-cheats-button",
+	footer: "login-footer"
+});
 
 /**
  * Loads the next thank you bubble
@@ -110,7 +126,7 @@ var LoginEventListeners = {
 	 */
 	_KeyDownInputName: function _KeyDownInputName(ev) {
 		if (CommonKey.IsPressed(ev, "Enter")) {
-			document.getElementById("InputPassword")?.focus();
+			document.getElementById(LoginIDs.password)?.focus();
 			ev.stopPropagation();
 		}
 	},
@@ -121,8 +137,8 @@ var LoginEventListeners = {
 	 */
 	_KeyDownInputPassword: function _KeyDownInputPassword(ev) {
 		if (CommonKey.IsPressed(ev, "Enter")) {
-			const Name = ElementValue("InputName");
-			const Password = ElementValue("InputPassword");
+			const Name = ElementValue(LoginIDs.name);
+			const Password = ElementValue(LoginIDs.password);
 			LoginDoLogin(Name, Password);
 			ev.stopPropagation();
 		}
@@ -131,15 +147,11 @@ var LoginEventListeners = {
 
 /**
  * Loads the character login screen
- * @returns {void} Nothing
+ * @type {ScreenLoadHandler}
  */
-function LoginLoad() {
+async function LoginLoad() {
 
 	// Resets the player and other characters
-	Character = [];
-	CharacterNextId = 0;
-	// Create a blank character for our player. Its actual ID will be set when LoginResponse happens
-	Player = /** @type {PlayerCharacter} */ (CharacterCreate("Female3DCG", CharacterType.SIMPLE, ""));
 	LoginCharacter = CharacterLoadNPC("NPC_Login");
 	LoginDoNextThankYou();
 	LoginStatusReset();
@@ -150,36 +162,162 @@ function LoginLoad() {
 	OnlneGameDictionaryLoad();
 	const form = ElementCreateForm("Login");
 
-	const username = ElementCreateInput("InputName", "text", "", "20", form);
+	ElementCreate({
+		tag: "span",
+		classList: ["login-text", "NoSelect"],
+		attributes: {
+			id: LoginIDs.welcome
+		},
+		children: [
+			TextGet("Welcome"),
+		],
+		parent: form
+	});
+
+	ElementCreate({
+		tag: "span",
+		classList: ["login-text", "NoSelect"],
+		attributes: {
+			id: LoginIDs.status
+		},
+		children: [
+			LoginGetStatus() ?? TextGet("EnterNamePassword"),
+		],
+		parent: form
+	});
+
+	const username = ElementCreateInput(LoginIDs.name, "text", "", "20");
 	username.setAttribute("autocomplete", "username");
 	username.setAttribute("enterkeyhint", "next");
 	username.addEventListener("keydown", LoginEventListeners._KeyDownInputName);
 	username.focus();
 
-	const pass = ElementCreateInput("InputPassword", "password", "", "20", form);
+	const pass = ElementCreateInput(LoginIDs.password, "password", "", "20");
 	pass.setAttribute("autocomplete", "current-password");
 	pass.setAttribute("enterkeyhint", "go");
 	pass.addEventListener("keydown", LoginEventListeners._KeyDownInputPassword);
+
+	ElementCreate({
+		tag: "label",
+		classList: ["vertical"],
+		children: [
+			{
+				tag: "span",
+				classList: ["login-text", "NoSelect"],
+				attributes: {
+					id: LoginIDs.nameLabel
+				},
+				children: [
+					TextGet("AccountName"),
+				],
+			},
+			username
+		],
+		parent: form
+	});
+
+	ElementCreate({
+		tag: "label",
+		classList: ["vertical"],
+		children: [
+			{
+				tag: "span",
+				classList: ["login-text", "NoSelect"],
+				attributes: {
+					id: LoginIDs.passwordLabel
+				},
+				children: [
+					TextGet("Password"),
+				],
+			},
+			pass
+		],
+		parent: form
+	});
+
+	const loginButton = ElementButton.Create(LoginIDs.login, () => {
+		const Name = ElementValue(LoginIDs.name);
+		const Password = ElementValue(LoginIDs.password);
+		LoginDoLogin(Name, Password);
+	},
+	{
+		label: TextGet("Login"),
+	});
+	document.body.appendChild(loginButton);
+
+	const newCharacter = ElementCreate({
+		tag: "span",
+		classList: ["login-text", "NoSelect"],
+		attributes: {
+			id: LoginIDs.newCharacter
+		},
+		children: [
+			TextGet("CreateNewCharacter"),
+		],
+		parent: document.body
+	});
+
+	const register = ElementButton.Create(LoginIDs.register, () => {
+		CommonSetScreen("Character", "Disclaimer");
+	},
+	{
+		label: TextGet("NewCharacter"),
+	});
+
+	const resetPassword = ElementButton.Create(LoginIDs.passwordReset, () => {
+		CommonSetScreen("Character", "PasswordReset");
+	},
+	{
+		label: TextGet("PasswordReset"),
+	});
+
+	const cheats = ElementButton.Create(LoginIDs.cheats, () => {
+		CommonSetScreen("Character", "Cheat");
+	},
+	{
+		label: TextGet("Cheats"),
+	});
 
 	const languages = TranslationDictionary.map(l => {
 		return {
 			children: [l.Icon, " ", l.LanguageName],
 			attributes: {
-				selected: l.LanguageCode === TranslationLanguage ? "" : undefined,
+				selected: l.LanguageCode === TranslationLanguage,
 				lang: l.LanguageCode,
 				value: l.LanguageCode,
 			},
 		};
 	});
-	ElementCreateDropdown("LanguageDropdown", languages, function(event) {
+	const languageDropdown = ElementCreateDropdown(LoginIDs.language, languages, function(event) {
 		TranslationSwitchLanguage(/** @type {"" | "TW" | ServerChatRoomLanguage} */(this.value) || "EN");
 		TextLoad();
 		ActivityDictionaryLoad();
 		AssetLoadDescription("Female3DCG");
+		const timer = TimerCreate(() => {
+			TextScreenCache.loadedPromise.then(() => {
+				LoginReloadLanguageText();
+				timer?.();
+			});
+		}, 50, true, "universal");
 	});
+
+	ElementCreate({
+		tag: "div",
+		attributes: {
+			id: LoginIDs.footer
+		},
+		children: [
+			newCharacter,
+			register,
+			resetPassword,
+			cheats,
+			languageDropdown,
+		],
+		parent: document.body
+	});
+
 	TextPrefetchFile(BackgroundsStringsPath);
 	TextPrefetchFile(AssetStringsPath);
-	TextPrefetchFile(InterfaceStringsPath);
 	TextPrefetch("Room", "MainHall");
 	DrawGetImage("Backgrounds/MainHall.jpg");
 }
@@ -196,15 +334,15 @@ function LoginRun() {
 	const CanLogin = ServerIsConnected && !LoginSubmitted;
 
 	// Draw the login controls
-	DrawText(TextGet("Welcome"), 1000, 50, "White", "Black");
-	DrawText(LoginGetStatus() ?? TextGet("EnterNamePassword"), 1000, 100, "White", "Black");
-	DrawText(TextGet("AccountName"), 1000, 200, "White", "Black");
-	DrawText(TextGet("Password"), 1000, 350, "White", "Black");
-	DrawButton(725, 500, 255, 60, TextGet("Login"), CanLogin ? "White" : "Grey", "");
-	DrawText(TextGet("CreateNewCharacter"), 1000, 670, "White", "Black");
-	DrawButton(825, 710, 350, 60, TextGet("NewCharacter"), CanLogin ? "White" : "Grey", "");
-	if (CheatAllow) DrawButton(825, 800, 350, 60, TextGet("Cheats"), "White", "");
-	DrawButton(825, 890, 350, 60, TextGet("PasswordReset"), CanLogin ? "White" : "Grey", "");
+	const status = ElementWrap(LoginIDs.status);
+	const statusNewText = LoginGetStatus() ?? TextGet("EnterNamePassword");
+	if (status.textContent !== statusNewText) {
+		status.textContent = statusNewText;
+	}
+	ElementWrap(LoginIDs.login).toggleAttribute("disabled", !CanLogin);
+	ElementWrap(LoginIDs.register).toggleAttribute("disabled", !CanLogin);
+	ElementWrap(LoginIDs.passwordReset).toggleAttribute("disabled", !CanLogin);
+	ElementWrap(LoginIDs.cheats).style.display = CheatAllow ? "" : "none";
 
 	// Draw the character and thank you bubble
 	DrawCharacter(LoginCharacter, 1400, 100, 0.9);
@@ -214,14 +352,83 @@ function LoginRun() {
 
 }
 
+/**
+ * Handles player click events on the character login screen
+ * @returns {void} Nothing
+ */
+function LoginClick() {
+}
+
+/**
+ * Handles player keyboard events on the character login screen, "enter" will login
+ * @type {KeyboardEventListener}
+ */
+function LoginKeyDown(ev) {
+	if (CommonKey.IsPressed(ev, "Enter")) {
+		const Name = ElementValue(LoginIDs.name);
+		const Password = ElementValue(LoginIDs.password);
+		LoginDoLogin(Name, Password);
+		return true;
+	}
+	return false;
+}
+
+/**
+ * Unload function - called when the login page unloads
+ */
+function LoginUnload() {
+	ElementRemove(LoginIDs.welcome);
+	ElementRemove(LoginIDs.status);
+
+	ElementRemove(LoginIDs.nameLabel);
+	ElementRemove(LoginIDs.name);
+	ElementRemove(LoginIDs.passwordLabel);
+	ElementRemove(LoginIDs.password);
+
+	ElementRemove(LoginIDs.login);
+
+	ElementRemove(LoginIDs.footer);
+	ElementRemove(LoginIDs.newCharacter);
+	ElementRemove(LoginIDs.register);
+	ElementRemove(LoginIDs.passwordReset);
+	ElementRemove(LoginIDs.cheats);
+	ElementRemove(LoginIDs.language);
+
+	CharacterDelete(LoginCharacter);
+	LoginCharacter = null;
+}
+
 /** @type {ScreenFunctions["Resize"]} */
 function LoginResize(load) {
-	ElementPosition("InputPassword", 1000, 410, 500);
-	ElementPosition("InputName", 1000, 260, 500);
+	ElementPositionFixed(LoginIDs.welcome, 500, 50, 1000, null);
+	ElementPositionFixed(LoginIDs.status, 500, 100, 1000, null);
 
-	ElementPosition("LanguageDropdown", 1145, 530, 255, 60);
-	const langSelect = document.getElementById("LanguageDropdown");
-	langSelect?.style.setProperty("font-family", `"Twemoji Country Flags", ${langSelect.style.fontFamily}`);
+	ElementPositionFixed(LoginIDs.nameLabel, 500, 200, 1000, null);
+	ElementPositionFixed(LoginIDs.name, 750, 260, 500, null);
+	ElementPositionFixed(LoginIDs.passwordLabel, 500, 330, 1000, null);
+	ElementPositionFixed(LoginIDs.password, 750, 390, 500, null);
+
+	ElementSetPosition(LoginIDs.login, 1000, 490);
+	ElementSetFontSize(LoginIDs.login, "auto");
+
+	ElementPositionFixed(LoginIDs.footer, 500, 670, 1000, 320);
+	ElementSetSize(LoginIDs.register, 400);
+	ElementSetSize(LoginIDs.passwordReset, 400);
+	ElementSetSize(LoginIDs.cheats, 400);
+	ElementSetSize(LoginIDs.language, 400);
+}
+
+function LoginReloadLanguageText() {
+	ElementWrap(LoginIDs.welcome).textContent = TextGet("Welcome");
+	ElementWrap(LoginIDs.status).textContent = LoginGetStatus() ?? TextGet("EnterNamePassword");
+	ElementWrap(LoginIDs.nameLabel).textContent = TextGet("AccountName");
+	ElementWrap(LoginIDs.passwordLabel).textContent = TextGet("Password");
+
+	ElementWrap(LoginIDs.newCharacter).textContent = TextGet("CreateNewCharacter");
+	ElementWrap(LoginIDs.login).querySelector("span").textContent = TextGet("Login");
+	ElementWrap(LoginIDs.register).querySelector("span").textContent = TextGet("NewCharacter");
+	ElementWrap(LoginIDs.passwordReset).querySelector("span").textContent = TextGet("PasswordReset");
+	ElementWrap(LoginIDs.cheats).querySelector("span").textContent = TextGet("Cheats");
 }
 
 /**
@@ -660,7 +867,7 @@ function LoginExtremeItemSettings(applyDefaults) {
 				break;
 			case "Default":
 				// If the item permissions are 3 = "Owner/Lover/Whitelist" don't limit the locks, since that just blocks whitelisted players
-				if (limitedAllowed && applyDefaults && Player.ItemPermission <= 3) {
+				if (limitedAllowed && applyDefaults && Player.AllowedInteractions <= AllowedInteractions.OwnerLoversWhitelistOnly) {
 					permission.Permission = "Limited";
 				}
 				break;
@@ -789,7 +996,7 @@ function LoginSetupPlayer(C) {
 
 	// Calls the preference init to make sure the preferences are loaded correctly
 	PreferenceInitPlayer(Player, C);
-	Player.ItemPermission = C.ItemPermission ?? 2;
+	Player.AllowedInteractions = C.AllowedInteractions ?? C.ItemPermission ?? AllowedInteractions.OwnerLoversWhitelistAndDomsOnly;
 	Player.KinkyDungeonExploredLore = C.KinkyDungeonExploredLore;
 	Player.SavedExpressions = C.SavedExpressions ?? [];
 	PreferenceValidateArousalData(Player);
@@ -1017,49 +1224,6 @@ function LoginCheckES2020() {
 }
 
 /**
- * Handles player click events on the character login screen
- * @returns {void} Nothing
- */
-function LoginClick() {
-
-	// Opens the cheat panel
-	if (CheatAllow && MouseIn(825, 800, 350, 60)) {
-		CommonSetScreen("Character", "Cheat");
-	}
-
-	// Opens the password reset screen
-	if (ServerIsConnected && MouseIn(825, 890, 350, 60)) {
-		CommonSetScreen("Character", "PasswordReset");
-	}
-
-	// If we must create a new character
-	if (ServerIsConnected && MouseIn(825, 710, 350, 60)) {
-		CommonSetScreen("Character", "Disclaimer");
-	}
-
-	// Try to login
-	if (MouseIn(775, 500, 200, 60)) {
-		const Name = ElementValue("InputName");
-		const Password = ElementValue("InputPassword");
-		LoginDoLogin(Name, Password);
-	}
-}
-
-/**
- * Handles player keyboard events on the character login screen, "enter" will login
- * @type {KeyboardEventListener}
- */
-function LoginKeyDown(ev) {
-	if (CommonKey.IsPressed(ev, "Enter")) {
-		const Name = ElementValue("InputName");
-		const Password = ElementValue("InputPassword");
-		LoginDoLogin(Name, Password);
-		return true;
-	}
-	return false;
-}
-
-/**
  * Attempt to log the user in based on their input username and password
  * @param {string} Name
  * @param {string} Password
@@ -1115,23 +1279,4 @@ function LoginGetStatus() {
 	} else {
 		return null;
 	}
-}
-
-/**
- * Exit function - called when leaving the login page
- * @type {ScreenExitHandler}
- */
-function LoginExit() {
-
-}
-
-/**
- * Unload function - called when the login page unloads
- */
-function LoginUnload() {
-	ElementRemove("InputName");
-	ElementRemove("InputPassword");
-	ElementRemove("LanguageDropdown");
-	CharacterDelete(LoginCharacter);
-	LoginCharacter = null;
 }

@@ -1326,9 +1326,9 @@ function ChatRoomAppendChat(div) {
 
 /**
  * Loads the chat room screen by displaying the proper inputs.
- * @returns {void} - Nothing.
+ * @type {ScreenLoadHandler}
  */
-function ChatRoomLoad() {
+async function ChatRoomLoad() {
 	ChatRoomRefreshFontSize();
 	ChatRoomCreateElement();
 
@@ -1336,10 +1336,10 @@ function ChatRoomLoad() {
 	if (ChatRoomCharacter.length === 0) {
 		const elem = ChatRoomSep.Create();
 		elem.toggleAttribute("hidden", !(Player.ChatSettings?.PreserveChat ?? true));
+		ChatRoomCharacterUpdate(Player);
+		ActivityChatRoomArousalSync(Player);
 	}
 
-	ChatRoomCharacterUpdate(Player);
-	ActivityChatRoomArousalSync(Player);
 	if (!ChatRoomData || Player.LastChatRoom && ChatRoomData.Name !== Player.LastChatRoom.Name) {
 		ChatRoomHideIconState = 0;
 	}
@@ -5631,14 +5631,16 @@ function ChatRoomAppearanceLoadCharacter(C) {
 		if (inChatRoom) {
 			ChatRoomShowElements();
 			ChatRoomStatusUpdate(null);
-			if (ready && !C.IsPlayer()) {
-				// Send a notification if we've changed clothes on someone else
-				const Dictionary = new DictionaryBuilder()
-					.sourceCharacter(Player)
-					.destinationCharacter(C)
-					.build();
-				ServerSend("ChatRoomChat", { Content: "ChangeClothes", Type: "Action", Dictionary: Dictionary });
+			if (ready) {
 				ChatRoomCharacterUpdate(C);
+				if (!C.IsPlayer()) {
+					// Send a notification if we've changed clothes on someone else
+					const Dictionary = new DictionaryBuilder()
+						.sourceCharacter(Player)
+						.destinationCharacter(C)
+						.build();
+					ServerSend("ChatRoomChat", { Content: "ChangeClothes", Type: "Action", Dictionary: Dictionary });
+				}
 			}
 		}
 	});
@@ -5858,7 +5860,7 @@ function ChatRoomSetRule(data) {
 		if (data.Content == "OwnerRuleNicknameBlock") LogAdd("BlockNickname", "OwnerRule");
 		if (data.Content.startsWith("OwnerRuleNicknameNew")) {
 			let NewNick = data.Content.substring(20);
-			CharacterSetNickname(Player, NewNick);
+			CharacterSetNickname(Player, NewNick, true);
 			data.Content = "OwnerRuleNicknameNew";
 		}
 
@@ -6065,9 +6067,9 @@ function ChatRoomSafewordRevert() {
 			.sourceCharacter(Player)
 			.build();
 		ServerSend("ChatRoomChat", { Content: "ActionActivateSafewordRevert", Type: "Action", Dictionary });
-		if (Player.ItemPermission < 3) {
-			Player.ItemPermission = 3;
-			ServerAccountUpdate.QueueData({ ItemPermission: Player.ItemPermission }, true);
+		if (Player.AllowedInteractions < AllowedInteractions.OwnerLoversWhitelistOnly) {
+			Player.AllowedInteractions = AllowedInteractions.OwnerLoversWhitelistOnly;
+			ServerAccountUpdate.QueueData({ AllowedInteractions: Player.AllowedInteractions, ItemPermission: Player.AllowedInteractions }, true);
 			setTimeout(() => ChatRoomCharacterUpdate(Player), 5000);
 		}
 	}

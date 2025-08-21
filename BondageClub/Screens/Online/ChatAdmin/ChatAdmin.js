@@ -116,7 +116,7 @@ function ChatAdminCanEdit() {
  * Loads the given room data and sets up the UI for it
  * @type {ScreenLoadHandler}
  */
-function ChatAdminLoad() {
+async function ChatAdminLoad() {
 	if (!ChatAdminData.Background) {
 		ChatAdminData.Background = Player.OnlineSettings.DefaultChatRoomBackground;
 	}

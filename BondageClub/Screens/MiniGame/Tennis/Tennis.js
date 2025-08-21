@@ -47,9 +47,9 @@ function TennisGetScore(PointFor, PointAgainst) {
 
 /**
  * Loads the tennis mini game and sets the difficulty ratio before serving the first ball
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function TennisLoad() {
+async function TennisLoad() {
 	TennisCharacterLeftPoint = 0;
 	TennisCharacterRightPoint = 0;
 	TennisCharacterLeftRacket = 500;

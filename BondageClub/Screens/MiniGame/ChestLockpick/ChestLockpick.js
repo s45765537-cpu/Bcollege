@@ -10,9 +10,9 @@ var ChestLockpickCount = 8;
 
 /**
  * Loads the mini game, resets the speed and difficulty
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function ChestLockpickLoad() {
+async function ChestLockpickLoad() {
 	ChestLockpickAngle = 0;
 	ChestLockpickHoleAngle = Math.PI;
 	ChestLockpickSpeed = 500;

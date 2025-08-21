@@ -95,9 +95,9 @@ function InfiltrationCanBrainwashCaptive() { return (InfiltrationCanJoinPrivateR
 
 /**
  * Loads the infiltration screen by generating the supervisor.
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function InfiltrationLoad() {
+async function InfiltrationLoad() {
 	// If there's a private room character from Pandora, set character at random.
 	InfiltrationSetPandoraPrisoner();
 

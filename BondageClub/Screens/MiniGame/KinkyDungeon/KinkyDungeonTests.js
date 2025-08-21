@@ -97,7 +97,7 @@ function KDTestjailer(iter) {
 }
 
 async function KDExportTranslationFile() {
-	await sleep(1000);
+	await CommonSleep(1000);
 	let file = "";
 	for (let c of Object.values(TextScreenCache.cache)) {
 		file = file + '\n' + c;

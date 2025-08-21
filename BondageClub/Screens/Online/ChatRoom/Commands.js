@@ -138,7 +138,7 @@ function CommandExecute(msg) {
 		ElementFocus("InputChat");
 
 		// Dispatch an event so the input field gets resized correctly
-		document.getElementById("InputChat").dispatchEvent(new Event("input"));
+		ElementWrap("InputChat")?.dispatchEvent(new Event("input"));
 	}
 	return true;
 }

@@ -1,7 +1,7 @@
 "use strict";
 /** @type Character[] */
 var Character = [];
-var CharacterNextId = 1;
+var CharacterNextId = 0;
 
 /** @type {Map<BlindEffectName, number>} */
 const CharacterBlindLevels = new Map([
@@ -35,6 +35,16 @@ const Difficulty = {
 	HARDCORE: 2,
 	EXTREME: 3,
 };
+
+/** @satisfies {Record<string, AllowedInteractions>} */
+const AllowedInteractions = /** @type {const} */({
+	Everyone: 0,
+	EveryoneExceptBlacklist: 1,
+	OwnerLoversWhitelistAndDomsOnly: 2,
+	OwnerLoversWhitelistOnly: 3,
+	OwnerLoversOnly: 4,
+	OwnerOnly: 5,
+});
 
 /**
  * An enum representing the various character archetypes
@@ -88,7 +98,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 		CharacterID: CharacterID,
 		AssetFamily: CharacterAssetFamily,
 		AccountName: "",
-		ItemPermission: 0,
+		AllowedInteractions: 0,
 		Ownership: null,
 		Lovership: [],
 		// @ts-expect-error Initialized later
@@ -367,7 +377,6 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 			return this.Effect.includes("FixedHead");
 		},
 		IsOwned: function () {
-			if (AsylumGGTSGetLevel(this) >= 6) return "ggts";
 			if (this.IsNpc() && this.Owner === Player.Name) return "player";
 			if (this.IsNpc() && this.Owner !== Player.Name && NPCEventGet(this, "EndDomTrial")) return "player";
 			if (this.Ownership && this.Ownership.MemberNumber) return "online";
@@ -378,6 +387,7 @@ function CharacterCreate(CharacterAssetFamily, Type, CharacterID) {
 				let trialing = PrivateCharacter.find(c => NPCEventGet(c, "EndSubTrial") > 0);
 				if (trialing && trialing !== this) return "npc";
 			}
+			if (AsylumGGTSGetLevel(this) >= 6) return "ggts";
 			return false;
 		},
 		IsOwnedByCharacter: function (C) {
@@ -1134,7 +1144,7 @@ function CharacterOnlineRefresh(Char, data, SourceMemberNumber) {
 	if (!Char.IsPlayer() && Char.MemberNumber == SourceMemberNumber) {
 		Char.Title = ServerAccountDataSyncedValidate.Title(data.Title, Char);
 		Char.Nickname = ServerAccountDataSyncedValidate.Nickname(data.Nickname, Char);
-		Char.ItemPermission = ServerAccountDataSyncedValidate.ItemPermission(data.ItemPermission, Char);
+		Char.AllowedInteractions = ServerAccountDataSyncedValidate.AllowedInteractions(data.AllowedInteractions ?? data.ItemPermission, Char);
 		Char.ArousalSettings = ServerAccountDataSyncedValidate.ArousalSettings(data.ArousalSettings, Char);
 		Char.OnlineSharedSettings = ServerAccountDataSyncedValidate.OnlineSharedSettings(data.OnlineSharedSettings, Char);
 		Char.Game = ServerAccountDataSyncedValidate.Game(data.Game, Char);
@@ -1432,6 +1442,7 @@ function CharacterLoadCanvas(C) {
 
 	// Reload the canvas
 	CharacterAppearanceBuildCanvas(C);
+	C.MustDraw = false;
 }
 
 /**
@@ -1442,7 +1453,6 @@ function CharacterLoadCanvasAll() {
 	for (let C = 0; C < Character.length; C++)
 		if (Character[C].MustDraw) {
 			CharacterLoadCanvas(Character[C]);
-			Character[C].MustDraw = false;
 		}
 }
 
@@ -2378,40 +2388,53 @@ function CharacterPronounDescription(C) {
 	return pronounAsset.Description;
 }
 
-/* Update the given character's nickname.
+/**
+ * Whether the character's nickname can be changed
+ *
+ * @param {Character} C
+ */
+function CharacterCanChangeNickname(C) {
+	if (!C.IsPlayer()) return false;
+
+	return !Player.IsFullyOwned() || !(LogQuery("BlockNickname", "OwnerRule") && Player.OnlineSharedSettings.AllowRename);
+}
+
+/**
+ * Update the given character's nickname.
  *
  * Note that changing any nickname but yours (ie. Player) is not supported.
  *
  * @param {Character} C - The character to change the nickname of.
  * @param {string} Nick - The name to use as the new nickname. An empty string uses the character's real name.
- * @return {string} null if the nickname was valid, or an explanation for why the nickname was rejected.
+ * @return {"NicknameTooLong" | "NicknameInvalidChars" | "NicknameLocked"} null if the nickname was valid, or an explanation for why the nickname was rejected.
  */
-function CharacterSetNickname(C, Nick) {
+function CharacterSetNickname(C, Nick, fromOwner = false) {
 	if (!C.IsPlayer()) return null;
 
 	Nick = Nick.trim();
-	if (Nick.length > 20) return "NicknameTooLong";
+	if (C.Nickname === Nick) return null;
 
+	if (!(CharacterCanChangeNickname(C) && !fromOwner)) {
+		return "NicknameLocked";
+	}
+
+	if (Nick.length > 20) return "NicknameTooLong";
 	if (Nick.length > 0 && !ServerCharacterNicknameRegex.test(Nick)) return "NicknameInvalidChars";
 
-	if (C.Nickname != Nick) {
-		const oldNick = C.Nickname || C.Name;
-		C.Nickname = Nick;
-		if (C.IsPlayer()) {
-			ServerAccountUpdate.QueueData({ Nickname: Nick });
-		}
+	const oldNick = C.Nickname ?? C.Name;
+	C.Nickname = Nick;
+	ServerAccountUpdate.QueueData({ Nickname: Nick });
 
-		if (ServerPlayerIsInChatRoom()) {
-			// When in a chatroom, send a notification that the player updated their nick
-			const Dictionary = new DictionaryBuilder()
-				.sourceCharacter(C)
-				.destinationCharacter(C)
-				.text("OldNick", oldNick)
-				.text("NewNick", CharacterNickname(C))
-				.build();
+	if (ServerPlayerIsInChatRoom()) {
+		// When in a chatroom, send a notification that the player updated their nick
+		const Dictionary = new DictionaryBuilder()
+			.sourceCharacter(C)
+			.destinationCharacter(C)
+			.text("OldNick", oldNick)
+			.text("NewNick", CharacterNickname(C))
+			.build();
 
-			ServerSend("ChatRoomChat", { Content: "CharacterNicknameUpdated", Type: "Action", Dictionary: Dictionary });
-		}
+		ServerSend("ChatRoomChat", { Content: "CharacterNicknameUpdated", Type: "Action", Dictionary: Dictionary });
 	}
 
 	return null;

@@ -75,9 +75,9 @@ function GameClubCardDrawCharacter(C, X, Y, Zoom) {
 
 /**
  * Loads the online Club Card configuration screen.
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function GameClubCardLoad() {
+async function GameClubCardLoad() {
 	ClubCardCommonLoad();
 	GameClubCardExpectQuery = false;
 	GameClubCardQueryAdmin = false;

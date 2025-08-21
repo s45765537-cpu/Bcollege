@@ -62,7 +62,8 @@ function PreferenceSubscreenImmersionRun() {
 		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("StimulationEvents"), Player.ImmersionSettings.StimulationEvents, disableButtons); CheckHeight += CheckSpacing;
 		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("AllowTints"), Player.ImmersionSettings.AllowTints, disableButtons); CheckHeight += CheckSpacing;
 		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("ChatRoomMapLeaveOnExit"), Player.ImmersionSettings.ChatRoomMapLeaveOnExit, disableButtons); CheckHeight += CheckSpacing;
-		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("AllowRename"), Player.OnlineSharedSettings.AllowRename, disableButtons); CheckHeight += CheckSpacing;
+		const canChangeNickname = CharacterCanChangeNickname(Player);
+		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("AllowRename"), Player.OnlineSharedSettings.AllowRename, disableButtons || !canChangeNickname); CheckHeight += CheckSpacing;
 		DrawCheckbox(500, CheckHeight, 64, 64, TextGet("ShowUngarbledMessages"), Player.ImmersionSettings.ShowUngarbledMessages, disableButtons); CheckHeight += CheckSpacing;
 	}
 }
@@ -125,7 +126,7 @@ function PreferenceSubscreenImmersionClick() {
 			CheckHeight += CheckSpacing;
 			if (MouseIn(500, CheckHeight, 64, 64)) Player.ImmersionSettings.ChatRoomMapLeaveOnExit = !Player.ImmersionSettings.ChatRoomMapLeaveOnExit;
 			CheckHeight += CheckSpacing;
-			if (MouseIn(500, CheckHeight, 64, 64)) Player.OnlineSharedSettings.AllowRename = !Player.OnlineSharedSettings.AllowRename;
+			if (MouseIn(500, CheckHeight, 64, 64) && CharacterCanChangeNickname(Player)) Player.OnlineSharedSettings.AllowRename = !Player.OnlineSharedSettings.AllowRename;
 			CheckHeight += CheckSpacing;
 			if (MouseIn(500, CheckHeight, 64, 64)) Player.ImmersionSettings.ShowUngarbledMessages = !Player.ImmersionSettings.ShowUngarbledMessages;
 			CheckHeight += CheckSpacing;

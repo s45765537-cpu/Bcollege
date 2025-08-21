@@ -9,10 +9,12 @@ AsylumMeeting,Meeting
 AsylumTherapy,Therapy
 BackAlley,Back Alley
 BalconyNight,Balcony Night
+BalletClass1,Ballet Class
 BarRestaurant,Bar Restaurant
 BDSMRoomBlue,BDSM Room Blue
 BDSMRoomPurple,BDSM Room Purple
-BDSMRoomRed,BDSM Room Red
+BDSMRoomRed,BDSM Room Red 1
+BDSMRoomRed2,BDSM Room Red 2
 Beach,Beach
 BeachCafe,Beach Promenade Café
 BeachHotel,Beach Hotel
@@ -61,10 +63,13 @@ DystopianCity,Dystopian City
 EgyptianExhibit,Egyptian Exhibit
 EgyptianTomb,Egyptian Tomb
 EmptyWarehouse,Empty Warehouse
+FancyBedroom1,Fancy Bedroom
 ForestCave,Forest Cave
 ForestPath,Forest Path
 Gardens,Gardens
-GardenCafe1,Garden Cafe
+GardenCafe1,Garden Café 1
+GardenCafe2,Garden Café 2
+GardenMuseum1,Garden Museum
 Gymnasium,Gymnasium
 HeavenEntrance,Entrance to Heaven
 HellEntrance,Entrance to Hell
@@ -89,6 +94,7 @@ Introduction,Introduction
 JungleTemple,Jungle Temple
 Kennels,Kennels
 KidnapLeague,Kidnappers League
+KinkyShop1,Kinky Shop
 Kitchen1,Kitchen 1
 Kitchen2,Kitchen 2
 LatexRoom,Latex Room

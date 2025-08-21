@@ -50,7 +50,7 @@ const FriendListIDs = Object.freeze({
 
 //#region SCREEN FUNCTIONS
 /** @type {ScreenLoadHandler} */
-function FriendListLoad() {
+async function FriendListLoad() {
 	const mode = FriendListMode[FriendListModeIndex];
 
 	FriendListConfirmDelete = [];
@@ -546,9 +546,10 @@ function FriendListShowBeep(i) {
  * Exits the friendlist
  * @param {string} room The room to search for
  */
-function FriendListChatSearch(room) {
+async function FriendListChatSearch(room) {
 	if (FriendListReturn?.Screen !== "ChatSearch") return;
 	FriendListExit();
+	await CommonWaitFor(() => !ScreenIsLoading);
 	ElementValue("InputSearch", room);
 	ChatSearchQuery();
 	// Change the text box so the player still cant read it

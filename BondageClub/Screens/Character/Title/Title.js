@@ -87,8 +87,7 @@ var TitleList = [
 ];
 /** @type {null | TitleName} */
 var TitleSelectedTitle = null;
-var TitleCanEditNickname = true;
-/** @type {null | "NicknameTooLong" | "NicknameInvalidChars"} */
+/** @type {null | "NicknameTooLong" | "NicknameInvalidChars" | "NicknameLocked"} */
 var TitleNicknameStatus = null;
 let TitleOffset = 0;
 /** @type {{ Name: TitleName; Requirement: () => boolean; Earned?: boolean, Force?: boolean }[]} */
@@ -164,20 +163,23 @@ function TitleIsEarned(Title) {
 
 /**
  * When the title screen is loaded
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function TitleLoad() {
+async function TitleLoad() {
 	TitleSelectedTitle = TitleGet(Player);
 	TitleListFiltered = TitleList.filter(T => T.Requirement());
-	TitleCanEditNickname = (!LogQuery("BlockNickname", "OwnerRule") || !Player.IsFullyOwned());
-	if (!TitleCanEditNickname && (Player.OnlineSharedSettings != null) && (Player.OnlineSharedSettings.AllowRename === false)) TitleCanEditNickname = true;
 	let E = ElementCreateInput("InputNickname", "text", Player.Nickname, "20");
-	if (!TitleCanEditNickname) {
+	if (!CharacterCanChangeNickname(Player)) {
 		E.style.backgroundColor = "#DFDFDF";
 		E.removeAttribute("onfocus");
-		E.setAttribute("readonly", "readonly");
+		E.setAttribute("disabled", "disabled");
 	}
 	TitleNicknameStatus = null;
+}
+
+/** @type {ScreenUnloadHandler} */
+function TitleUnload() {
+	ElementRemove("InputNickname");
 }
 
 /**
@@ -190,7 +192,7 @@ function TitleRun() {
 	DrawText(TextGet("SelectTitle"), 1000, 100, "Black", "Gray");
 
 	// Draw nickname field
-	DrawText(TextGet(TitleCanEditNickname ? "Nickname" : "NicknameLocked"), 750, 180, "Black", "Gray");
+	DrawText(TextGet(CharacterCanChangeNickname(Player) ? "Nickname" : "NicknameLocked"), 750, 180, "Black", "Gray");
 	ElementPosition("InputNickname", 1300, 175, 500, 60);
 	if (TitleNicknameStatus)
 		DrawText(TextGet(TitleNicknameStatus), 1000, 250, "red");
@@ -249,7 +251,9 @@ function TitleExit() {
 	let Nick = ElementValue("InputNickname");
 	if (Nick == null) Nick = "";
 	const status = CharacterSetNickname(Player, Nick);
-	if (status) {
+	if (status === "NicknameLocked") {
+		// Just ignore that
+	} else if (status) {
 		TitleNicknameStatus = status;
 		return;
 	}
@@ -257,6 +261,5 @@ function TitleExit() {
 	TitleSet(TitleSelectedTitle);
 
 	// Nickname was fine, return to the Info sheet
-	ElementRemove("InputNickname");
 	CommonSetScreen("Character", "InformationSheet");
 }

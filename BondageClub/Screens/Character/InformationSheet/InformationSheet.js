@@ -8,9 +8,9 @@ var InformationSheetSecondScreen = false;
 
 /**
  * Loads the Information Sheet, cache the sub screens
- * @returns {void} - Nothing
+ * @type {ScreenLoadHandler}
  */
-function InformationSheetLoad() {
+async function InformationSheetLoad() {
 	TextPrefetch("Character", "FriendList");
 	TextPrefetch("Character", "Preference");
 	TextPrefetch("Character", "Title");
@@ -117,9 +117,9 @@ function InformationSheetRun() {
 
 		// Shows the member number and online permissions for other online players
 
-		DrawTextFit(TextGet("ItemPermission"), 550, currentY, 450, "Black", "Gray");
+		DrawTextFit(TextGet("AllowedInteractions"), 550, currentY, 450, "Black", "Gray");
 		currentY += spacing;
-		DrawTextFit(TextGet("PermissionLevel" + C.ItemPermission.toString()), 550, currentY, 450, "Black", "Gray");
+		DrawTextFit(TextGet("AllowedInteraction" + C.AllowedInteractions.toString()), 550, currentY, 450, "Black", "Gray");
 		currentY += spacing;
 	}
 
