@@ -697,17 +697,24 @@ var ClubCardList = [
 		MoneyPerTurn: -1,
 		RequiredLevel: 4,
 		OnPlay: function(CCPlayer) {
-			let cardsToDiscard = 4;
+			let cardsToDiscard = 3;
+			let moneyGain = 0;
 			while (cardsToDiscard > 0) {
-				if (CCPlayer.Deck.length < 1) return;
-				ClubCardPlayerAddMoney(CCPlayer, (CCPlayer.Deck[0].RequiredLevel ?? 1));
-				ClubCardDiscardCard(CCPlayer, 0, "Deck");
+				const membersInDeck =  CCPlayer.Deck.filter(card => card.Type != "Event");
+				if (membersInDeck.length > 0) {
+					const card = membersInDeck[Math.floor(Math.random() * membersInDeck.length)];
+					moneyGain = moneyGain + (card.RequiredLevel ?? 1);
+					CCPlayer.DiscardPile.push(card);
+					const cardIndexInDeck = CCPlayer.Deck.findIndex(value => value.ID === card.ID);
+					CCPlayer.Deck.splice(cardIndexInDeck, 1);
+				}
 				cardsToDiscard--;
 			}
+			ClubCardPlayerAddMoney(CCPlayer, moneyGain, this.Name);
 		},
 		BeforeTurnEnd: function(CCPlayer) {
 			const membersInStreets = CCPlayer.DiscardPile.filter(card => card.Type != "Event");
-			const effectFame = Math.min(membersInStreets.length, 6);
+			const effectFame = Math.min(membersInStreets.length, 7);
 			ClubCardPlayerAddFame(CCPlayer, effectFame);
 		}
 	},
@@ -1998,6 +2005,7 @@ var ClubCardList = [
 			const indexToChange = ClubCardSelection.ArrayIndex;
 			CCPlayer.Board[indexToChange].FamePerTurn = (CCPlayer.Board[indexToChange].FamePerTurn ?? 0) + fameBonus;
 			CCPlayer.Board[indexToChange].MoneyPerTurn = (CCPlayer.Board[indexToChange].MoneyPerTurn ?? 0) + moneyBonus;
+			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Rizom", {[ClubCardPlaceholderKeys.CARDNAME]: ClubCardSelection.Name});
 		}
 	},
 	{
@@ -2450,7 +2458,7 @@ var ClubCardList = [
 		MoneyPerTurn: 1,
 		FamePerTurn: 1,
 		OnPlay: function(CCPlayer) {
-			ClubCardPlayerAddMoney(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "ABDLBaby"));
+			ClubCardPlayerAddMoney(CCPlayer, ClubCardGroupOnBoardCount(CCPlayer, "ABDLBaby"), this.Name);
 			let groupsOnBoard = [];
 			for (const card of CCPlayer.Board) {
 				if (card.Group) {
@@ -2459,7 +2467,7 @@ var ClubCardList = [
 					}
 				}
 			}
-			ClubCardPlayerAddFame(CCPlayer, groupsOnBoard.length);
+			ClubCardPlayerAddFame(CCPlayer, groupsOnBoard.length, this.Name);
 		}
 	},
 	{
@@ -2469,7 +2477,7 @@ var ClubCardList = [
 		RequiredLevel: 3,
 		MoneyPerTurn: 1,
 		OnPlay: function(CCPlayer) {
-			ClubCardPlayerAddFame(ClubCardGetOpponent(CCPlayer), 2);
+			ClubCardPlayerAddFame(ClubCardGetOpponent(CCPlayer), 2, this.Name);
 			CCPlayer.Hand.push(ClubCardGetCopyCardByName("Cute Bunny"));
 		},
 		onPlayedCard: function(CCPlayer) {
@@ -3272,14 +3280,16 @@ var ClubCardList = [
 		Type: "Event",
 		Time : 0,
 		OnPlay: function(CCPlayer) {
-			const availablePets =  CCPlayer.Deck.filter(value => ClubCardCardHasGroup(value, "Pet")).concat(CCPlayer.DiscardPile.filter(value => ClubCardCardHasGroup(value, "Pet")));
+			let availablePets =  CCPlayer.DiscardPile.filter(value => ClubCardCardHasGroup(value, "Pet"));
+			for (const card of availablePets) card.Location = "PlayerDiscardPile";
+			availablePets = availablePets.concat(CCPlayer.Deck.filter(value => ClubCardCardHasGroup(value, "Pet")));
 			const petToAdd = availablePets[Math.floor(Math.random() * availablePets.length)];
 			if (petToAdd.Location == "PlayerDiscardPile") {
 				CCPlayer.DiscardPile.splice(CCPlayer.DiscardPile.findIndex(value => value.ID === petToAdd.ID), 1);
 			} else {
 				CCPlayer.Deck.splice(CCPlayer.Deck.findIndex(value => value.ID === petToAdd.ID), 1);
 			}
-			CCPlayer.Hand.push(petToAdd);
+			CCPlayer.Hand.push(ClubCardGetCopyCardByName(petToAdd.Name));
 			if ((petToAdd.RequiredLevel ? petToAdd.RequiredLevel : 0) <= CCPlayer.Level) this.ExtraPlay = 1;
 		},
 		BeforeTurnEnd: function(CCPlayer) {
@@ -3313,7 +3323,7 @@ var ClubCardList = [
 		Name: "Ball Buster",
 		Type: "Event",
 		Group: ["Video", "TimedEvent"],
-		Time: 3,
+		Time: 2,
 		RequiredLevel: 2,
 		OnPlay: function(CCPlayer) {
 			for (let i = 2; i > 0; i--) {
@@ -3499,6 +3509,7 @@ var ClubCardList = [
 			targetBoard.Board[indexToNegate].Negated = true;
 			this.Negating = ClubCardSelection.UniqueID;
 			ClubCardPlayerAddMoney(CCPlayer, (Math.pow((ClubCardSelection.RequiredLevel ?? 1), 2) * -1));
+			ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Ball Gag", {[ClubCardPlaceholderKeys.CARDNAME]: ClubCardSelection.Name});
 		},
 		onLeaveClub: function(CCPlayer) {
 			const opponent = ClubCardGetOpponent(CCPlayer);
@@ -6046,7 +6057,8 @@ function ClubCardRenderCard(Card, X, Y, W, Sleeve = null, Source = null, isIgnor
 	if (ClubCardIsLiability(Card)) BubblePos = ClubCardRenderBubble(null, X + W * 0.05, BubblePos, W * WModifier, "Liability");
 	if (Level >= 1) BubblePos = ClubCardRenderBubble(Level, X + W * 0.05, BubblePos, W * WModifier, "Level");
 	if (Card.FamePerTurn != null) BubblePos = ClubCardRenderBubble(Card.FamePerTurn, X + W * 0.05, BubblePos, W * WModifier, "Fame");
-	if (Card.MoneyPerTurn != null) ClubCardRenderBubble(Card.MoneyPerTurn, X + W * 0.05, BubblePos, W * WModifier, "Money");
+	if (Card.MoneyPerTurn != null) BubblePos = ClubCardRenderBubble(Card.MoneyPerTurn, X + W * 0.05, BubblePos, W * WModifier, "Money");
+	if (Card.Negated) BubblePos = ClubCardRenderBubble(null, X + W * 0.05, BubblePos, W * WModifier, "Negated");
 	if (Card.Text != null) {
 		DrawRect(X + W * 0.05, Y + W * 1.41, W * 0.9, W * 0.58, Color + "A0");
 		let GroupText = ClubCardGetGroupText(Card.Group);
@@ -6057,17 +6069,13 @@ function ClubCardRenderCard(Card, X, Y, W, Sleeve = null, Source = null, isIgnor
 			}
 			MainCanvas.font = "bold " + Math.round(W / 16) + "px arial";
 			DrawTextWrap(GroupText, X + W * 0.05, Y + W * 1.44, W * 0.925, W * 0.1, "Black", null, null, Math.round(W / 22));
-			if (Card.Negated) DrawImageResize("Screens/MiniGame/ClubCard/Bubble/Negated.png", X + W * 0.05, Y + W * 1.55, W * 0.9, W * 0.43);
-			else {
-				MainCanvas.font = ((Card.Text.startsWith("<F>")) ? "italic " : "bold ") + Math.round(W / 16) + "px arial";
-				DrawTextWrap(Card.Text.replace("<F>", ""), X + W * 0.05, Y + W * 1.585, W * 0.925, W * 0.38, "Black", null, null, Math.round(W / 22));
-			}
+			MainCanvas.font = ((Card.Text.startsWith("<F>")) ? "italic " : "bold ") + Math.round(W / 16) + "px arial";
+			if (Card.Negated && !Card.Text.startsWith("<F>")) DrawTextWrap(Card.Text.replace("<F>", ""), X + W * 0.05, Y + W * 1.585, W * 0.925, W * 0.38, "Grey", null, null, Math.round(W / 22));
+			else DrawTextWrap(Card.Text.replace("<F>", ""), X + W * 0.05, Y + W * 1.585, W * 0.925, W * 0.38, "Black", null, null, Math.round(W / 22));
 		} else {
-			if (Card.Negated) DrawImageResize("Screens/MiniGame/ClubCard/Bubble/Negated.png", X + W * 0.05, Y + W * 1.55, W * 0.9, W * 0.43);
-			else {
-				MainCanvas.font = ((Card.Text.startsWith("<F>")) ? "italic " : "bold ") + Math.round(W / 16) + "px arial";
-				DrawTextWrap(Card.Text.replace("<F>", ""), X + W * 0.05, Y + W * 1.5, W * 0.925, W * 0.48, "Black", null, null, Math.round(W / 22));
-			}
+			MainCanvas.font = ((Card.Text.startsWith("<F>")) ? "italic " : "bold ") + Math.round(W / 16) + "px arial";
+			if (Card.Negated && !Card.Text.startsWith("<F>")) DrawTextWrap(Card.Text.replace("<F>", ""), X + W * 0.05, Y + W * 1.5, W * 0.925, W * 0.48, "Grey", null, null, Math.round(W / 22));
+			else DrawTextWrap(Card.Text.replace("<F>", ""), X + W * 0.05, Y + W * 1.5, W * 0.925, W * 0.48, "Black", null, null, Math.round(W / 22));
 		}
 	}
 	MainCanvas.font = CommonGetFont(36);

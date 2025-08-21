@@ -582,7 +582,7 @@ Text Vintage Maid,"Enters: Return a member of your choice from your streets to y
 Title Fetish Flick,Fetish Flick
 Text Fetish Flick,"Return 2 random Porn actresses from your club to your hand, then take 4 actions."
 Title Ball Buster,Ball Buster
-Text Ball Buster,"Return two random porn actresses from your club to your hand. Your opponent cannot play events or liabilities for 3 turns."
+Text Ball Buster,"Return two random porn actresses from your club to your hand. Your opponent cannot play events or liabilities for 2 turns."
 GroupTimedEvent,Timed Event
 GroupAuction,Auction
 Title Kira,Kira
@@ -616,6 +616,7 @@ Title Humbled Harper,Humbled Harper
 Text Humbled Harper,Recieve 1 Fame and 1 Money for each card the opponent draws.
 Title Miss N Spection,Miss N Spection
 Text Miss N Spection,"If you take the Draw action with no cards in hand, draw 2 additional cards. Enters: Discard a card of your choice, then draw a card."
+Prerequisite Miss N Spection,Select a card in your hand to discard.
 Title Bottom Bitch,Bottom Bitch
 Text Bottom Bitch,"Gain +1 fame for each other submissive present (max 8). Leaves at the end of your turn if no mistress present."
 Title Nadu Nyla,Nadu Nyla
@@ -624,10 +625,13 @@ Title Surrender,Surrender
 Text Surrender,All Slaves in your club gets +1 Fame.
 Title Hands out,Hands out
 Text Hands out,"Select a card in your hand, then discard your hand and draw as many cards, save the selected card if a slave is present."
+Prerequisite Hands out,Select a card in your hand.
 Title Carol,Carol
 Text Carol,"Enters: If another Nurse is present, add a random Patient from your Streets to your club, if there are none, add one from your deck."
 Title Rizom,Rizom
-Text Rizom,"Enters: Select a member to get 1 Fame and Money, 1 more Fame if an ABDL Mom is present, and 1 more Money if an Owner is present."
+Text Rizom,"Enters: Select a member from your club to get 1 Fame and Money, 1 more Fame if an ABDL Mom is present, 1 more Money if an Owner is present."
+Prerequisite Rizom:'Select a member from your club to enhance.'
+Effect Rizom,"CARDNAME got a massage from Rizom, their fame and money got boosted."
 Title Chirumi,Chirumi
 Text Chirumi,Gain +1 fame equal to your club level. Leaves your club if your streets have more than 3 cards.
 Title Pack Member,Pack Member
@@ -659,8 +663,11 @@ Text Sewer Rat,"At the end of your turn, If there are at least 7 members in your
 Title Hustler,Hustler
 Text Hustler,"When you steal with another effect, receive 1 Fame or 1 Money at random for each Criminal in your streets (Max +2 each)."
 Title Enforcer,Enforcer
-Text Enforcer,"Gain +1 Fame per member in your streets (Max +6). Enters: Discard the top 4 cards of your deck and receive Money equal to their tiers."
+Text Enforcer,"Gain +1 fame per member in your streets (max 7). Enters: Discard 3 random members from your deck and receive Money equal to their tiers."
 Title Ball Gag,Ball Gag
-Text Ball Gag,"If a Mistress is present, select a member to negate their effect, then lose Money equal to its tier^2."
+Text Ball Gag,"If a Mistress is present, select a member from either club to negate their effect, then lose Money equal to its tier^2."
+Prerequisite Ball Gag,Select a member to gag.
+Effect Ball Gag,CARDNAME got their effect negated.
 Title Akira,Akira
-Text Akira,Enters: Select a member to Ball Gag.
+Text Akira,Enters: Select a member from either club to Ball Gag.
+Prerequisite Akira,Select a member to negate their effect.
