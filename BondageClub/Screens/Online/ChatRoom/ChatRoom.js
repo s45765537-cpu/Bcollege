@@ -36,6 +36,7 @@ let ChatRoomData = null;
  * @type {Character[]}
  */
 var ChatRoomCharacter = [];
+var ChatRoomJustEntered = false;
 /** @type {ChatRoomChatLogEntry[]} */
 var ChatRoomChatLog = [];
 var ChatRoomLastMessage = [""];
@@ -1333,11 +1334,12 @@ async function ChatRoomLoad() {
 	ChatRoomCreateElement();
 
 	// Add a horizontal line to the chatlog the first time one enters the room; skip the very first room
-	if (ChatRoomCharacter.length === 0) {
+	if (ChatRoomJustEntered) {
 		const elem = ChatRoomSep.Create();
 		elem.toggleAttribute("hidden", !(Player.ChatSettings?.PreserveChat ?? true));
 		ChatRoomCharacterUpdate(Player);
 		ActivityChatRoomArousalSync(Player);
+		ChatRoomJustEntered = false;
 	}
 
 	if (!ChatRoomData || Player.LastChatRoom && ChatRoomData.Name !== Player.LastChatRoom.Name) {
@@ -2960,6 +2962,7 @@ function ChatRoomLeave(clearCharacters = false) {
 	Player.MapData = null;
 	ChatRoomGame = "";
 	ChatRoomCharacter = [];
+	ChatRoomJustEntered = false;
 	ChatRoomDrawFocusList = [];
 	ChatRoomMapViewTileFog = "";
 	ChatRoomMapViewObjectFog = "";
@@ -4818,6 +4821,7 @@ function ChatRoomSync(data) {
 
 	// Set our chat room data to what the server sent us
 	ChatRoomData = data;
+	ChatRoomJustEntered = true;
 
 	// Loads the room
 	if (!ServerPlayerIsInChatRoom() || CurrentScreen === "ChatAdmin") {
@@ -4836,6 +4840,7 @@ function ChatRoomSync(data) {
 		const Char = CharacterLoadOnline(data.Character[C], sourceMemberNumber);
 		ChatRoomCharacter.push(Char);
 	}
+	console.log(`ChatRoomSync: characters loaded: ${ChatRoomCharacter.length}`);
 
 	// Reset when creating/joining a room, in case it wasn't by ChatRoomLeave() for whatever reason
 	ChatRoomDrawFocusList = [];
