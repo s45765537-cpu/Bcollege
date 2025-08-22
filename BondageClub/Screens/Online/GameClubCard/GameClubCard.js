@@ -430,15 +430,14 @@ function GameClubCardLoadBundle(CCPlayer, Bundle) {
  * Assigns both club card players based on the players selection
  * @param {ServerChatRoomGameResponse} Packet - The data packet to process
  * @param {Character} Char - The character that's sending the packet
- * @returns {void} - Nothing
+ * @returns {Promise<void>} - Nothing
  */
-function GameClubCardAssignPlayers(Packet, Char) {
+async function GameClubCardAssignPlayers(Packet, Char) {
 	if (CurrentScreen === "ChatAdmin") ChatAdminExit();
 	if (CurrentScreen === "FriendList") FriendListExit();
 	if (CurrentScreen === "Preference") PreferenceExit();
-	let Msg = TextGet("SelectedPlayerToStart");
 	GameClubCardSetStatus("Running");
-	MiniGameStart("ClubCard", 0, "GameClubCardEnd");
+	await MiniGameStart("ClubCard", 0, "GameClubCardEnd");
 	ClubCardPlayer[0].Deck = [];
 	ClubCardPlayer[0].FullDeck = [];
 	ClubCardPlayer[1].Deck = [];
@@ -472,6 +471,7 @@ function GameClubCardAssignPlayers(Packet, Char) {
 		ClubCardDestroyPopup();
 	}
 
+	let Msg = TextGetInScope(ScreenFileGetTranslation("Online", "ChatRoom", "ChatRoom"), "SelectedPlayerToStart");
 	if ((Char.MemberNumber == Player.MemberNumber) && (ClubCardTurnIndex == 0)) {
 		Msg = Msg.replace("PLAYERNAME", CharacterNickname(C1));
 		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, null, {}, null, Msg);
@@ -533,12 +533,14 @@ function GameClubCardProcess(Packet) {
 
 	// If a player wants to query the game status to join it
 	if ((Packet.Data.GameProgress === "Query") && (Packet.Sender != Player.MemberNumber) && GameClubCardExpectQuery) {
-		let msg = TextGet("JoinedClubCardGame").replace("PLAYERNAME", CharacterNickname(Player));
-		GameClubCardAssignPlayers(Packet, Char);
-		GameClubCardLoadData(Packet);
-		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, "JoinedClubCardGame", {}, null, msg);
-		GameClubCardExpectQuery = false;
-		ClubCardDestroyPopup();
+		GameClubCardAssignPlayers(Packet, Char).then(() => {
+			GameClubCardLoadData(Packet);
+			let msg = TextGetInScope(ScreenFileGetTranslation("Online", "ChatRoom", "ChatRoom"), "JoinedClubCardGame");
+			msg = msg.replace("PLAYERNAME", CharacterNickname(Player));
+			ClubCardMessageAdd(ClubCardMessageType.SYSTEM, "JoinedClubCardGame", {}, null, msg);
+			GameClubCardExpectQuery = false;
+			ClubCardDestroyPopup();
+		});
 	}
 
 	// If the admin must send the current state of the game to the player

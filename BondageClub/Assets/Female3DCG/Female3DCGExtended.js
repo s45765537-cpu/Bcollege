@@ -20822,7 +20822,7 @@ var AssetFemale3DCGExtended = {
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_LittleSera.png",},
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Mana.png",},
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Minerva.png",},
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Zoe.png",},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Zoi.png",},
 						],
 					},
 				},

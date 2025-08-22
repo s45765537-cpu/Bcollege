@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 .chat-room-sep {
   padding-left: 3px !important;
   border-bottom: min(0.4vh, 0.2vw) black solid !important;
