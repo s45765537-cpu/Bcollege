@@ -4793,9 +4793,9 @@ function ChatRoomValidateProperties(obj)
  * This only happens once per ChatRoom "lifetime".
  *
  * @param {ServerChatRoomSyncMessage} data - Room object containing the new chatroom data.
- * @returns {void} - Nothing.
+ * @returns {Promise<void>} - Nothing.
  */
-function ChatRoomSync(data) {
+async function ChatRoomSync(data) {
 	if (data == null || (typeof data !== "object") || typeof data.SourceMemberNumber !== "number") {
 		return;
 	}
@@ -4808,13 +4808,13 @@ function ChatRoomSync(data) {
 	if (!ChatRoomValidateProperties(data)) {
 		// Instantly leave the chat room again
 		ChatRoomLeave();
-		CommonSetScreen("Online", "ChatSearch");
+		await CommonSetScreen("Online", "ChatSearch");
 		ChatSearchMessage = "ErrorInvalidRoomProperties";
 		return;
 	} else if (ChatRoomData) {
 		// We're somehow already in a room. Bail out in case our idea of the room we're in doesn't match what the server thinks
 		ChatRoomLeave();
-		CommonSetScreen("Online", "ChatSearch");
+		await CommonSetScreen("Online", "ChatSearch");
 		ChatSearchMessage = "ResponseAlreadyInRoom";
 		return;
 	}
@@ -4825,7 +4825,7 @@ function ChatRoomSync(data) {
 
 	// Loads the room
 	if (!ServerPlayerIsInChatRoom() || CurrentScreen === "ChatAdmin") {
-		CommonSetScreen("Online", "ChatRoom");
+		await CommonSetScreen("Online", "ChatRoom");
 	}
 
 	if (ChatRoomSep.ActiveElem) {
@@ -4840,7 +4840,6 @@ function ChatRoomSync(data) {
 		const Char = CharacterLoadOnline(data.Character[C], sourceMemberNumber);
 		ChatRoomCharacter.push(Char);
 	}
-	console.log(`ChatRoomSync: characters loaded: ${ChatRoomCharacter.length}`);
 
 	// Reset when creating/joining a room, in case it wasn't by ChatRoomLeave() for whatever reason
 	ChatRoomDrawFocusList = [];
