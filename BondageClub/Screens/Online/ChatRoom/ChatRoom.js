@@ -4840,7 +4840,6 @@ function ChatRoomSync(data) {
 		const Char = CharacterLoadOnline(data.Character[C], sourceMemberNumber);
 		ChatRoomCharacter.push(Char);
 	}
-	console.log(`ChatRoomSync: characters loaded: ${ChatRoomCharacter.length}`);
 
 	// Reset when creating/joining a room, in case it wasn't by ChatRoomLeave() for whatever reason
 	ChatRoomDrawFocusList = [];
