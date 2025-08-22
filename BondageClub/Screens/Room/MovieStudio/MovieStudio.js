@@ -1441,10 +1441,10 @@ function MovieStudioClubCardStart() {
 
 /**
  * When the player ends a club card game
- * @returns {void} - Nothing
+ * @returns {Promise<void>} - Nothing
  */
-function MovieStudioClubCardEnd() {
-	CommonSetScreen("Room", "MovieStudio");
+async function MovieStudioClubCardEnd() {
+	await CommonSetScreen("Room", "MovieStudio");
 	CharacterSetCurrent(MovieStudioDirector);
 	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
 }

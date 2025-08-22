@@ -77,10 +77,10 @@ function MagicSchoolEscapeClick() {
 
 /**
  * When the spell ends, we remove some restraints if the player succeeded
- * @returns {void} - Nothing
+ * @returns {Promise<void>} - Nothing
  */
-function MagicSchoolEscapeSpellEnd() {
-	CommonSetScreen("Room", "MagicSchoolEscape");
+async function MagicSchoolEscapeSpellEnd() {
+	await CommonSetScreen("Room", "MagicSchoolEscape");
 	if (MagicSchoolEscapeTimer < CommonTime()) MiniGameVictory = false;
 	if (!MiniGameVictory) {
 		if ((InventoryGet(Player, "Cloth") != null) || (InventoryGet(Player, "ClothLower") != null) || (InventoryGet(Player, "ClothAccessory") != null) || (InventoryGet(Player, "Shoes") != null)) {
