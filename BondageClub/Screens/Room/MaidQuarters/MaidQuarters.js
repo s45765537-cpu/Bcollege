@@ -388,12 +388,12 @@ function MaidQuartersMiniGameStart(GameType, Difficulty) {
 /**
  * Is called when the mini game ends and sends the player back to the maid quarters.
  * Depending on the choosen game, the next dialog option is selected
- * @returns {void} - Nothing
+ * @returns {Promise<void>} - Nothing
  */
-function MaidQuartersMiniGameEnd() {
+async function MaidQuartersMiniGameEnd() {
 
 	// Goes back to the quest maid
-	CommonSetScreen("Room", "MaidQuarters");
+	await CommonSetScreen("Room", "MaidQuarters");
 	CharacterSetCurrent(MaidQuartersMaid);
 
 	// The latex maid outfit can be rewarded to sorority maid players that scored a perfect run in the maid drinks game

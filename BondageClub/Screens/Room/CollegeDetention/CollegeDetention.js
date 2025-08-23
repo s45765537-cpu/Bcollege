@@ -218,7 +218,6 @@ function CollegeDetentionInviteToPrivateRoom(Role="None") {
 	ItemsToEarn.push({Name: "RegularSleepingPill", Group: "ItemMouth"});
 	InventoryAddMany(Player, ItemsToEarn);
 
-	CommonSetScreen("Room", "Private");
 	PrivateAddCharacter(CollegeDetentionYuki, null, true);
 	var C = PrivateCharacter[PrivateCharacter.length - 1];
 	C.Trait = [];
@@ -244,4 +243,6 @@ function CollegeDetentionInviteToPrivateRoom(Role="None") {
 	ServerPrivateCharacterSync();
 	DialogLeave();
 	CollegeDetentionYuki.GoneAway = true;
+
+	CommonSetScreen("Room", "Private");
 }

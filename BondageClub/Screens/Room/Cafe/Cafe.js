@@ -462,12 +462,13 @@ function CafeClubCardStart() {
  * @returns {void} - Nothing
  */
 function CafeClubCardEnd() {
-	CommonSetScreen("Room", "Cafe");
-	CharacterSetCurrent(CafeMaid);
-	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
-	CurrentCharacter.AllowItem = MiniGameVictory;
-	CurrentCharacter.Stage = MiniGameVictory ? "0" : "51";
-	if (!MiniGameVictory) CharacterFullRandomRestrain(Player, "ALL", true);
+	CommonSetScreen("Room", "Cafe").then(() => {
+		CharacterSetCurrent(CafeMaid);
+		CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
+		CurrentCharacter.AllowItem = MiniGameVictory;
+		CurrentCharacter.Stage = MiniGameVictory ? "0" : "51";
+		if (!MiniGameVictory) CharacterFullRandomRestrain(Player, "ALL", true);
+	});
 }
 
 /**
