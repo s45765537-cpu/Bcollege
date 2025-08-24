@@ -345,6 +345,32 @@ var AssetFemale3DCGExtended = {
 			],
 		},
 	},
+	ClothOuter: {
+		JacketHoodie: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Hood",
+					Key: "h",
+					DrawImages: false,
+					Options: [
+						{}, //h0 - Hood Down
+						{}, //h1 - Hood Up
+
+					],
+				},
+				{
+					Name: "Sleeve",
+					Key: "s",
+					DrawImages: false,
+					Options: [
+						{}, //s0 - Sleeveless
+						{}, //s1 - Sleeves
+					],
+				},
+			],
+		},
+	},
 	Cloth: {
 		TShirt2: {
 			Archetype: ExtendedArchetype.TYPED,
