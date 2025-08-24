@@ -2783,7 +2783,7 @@ class DialogMenu {
 			 */
 			_ClickButton: function(event) {
 				const clickedObj = dialogMenu._GetClickedObject(this);
-				if (!clickedObj || !dialogMenu.C) {
+				if (clickedObj === undefined || !dialogMenu.C) {
 					event.stopImmediatePropagation();
 					return "Internal error";
 				}

@@ -5716,9 +5716,19 @@ function ChatRoomDrinkPick(DrinkType, Money) {
 }
 
 /** @type {(RuleType: LogNameType[keyof LogNameType], Option: "Quest" | "Leave") => void} */
-function ChatRoomSendLoverRule(RuleType, Option) { ChatRoomSendRule(RuleType, Option, "Lover"); }
+function ChatRoomSendLoverRule(RuleType, Option) {
+	ChatRoomSendRule(RuleType, Option, "Lover");
+	TimerCreate(() => {
+		CharacterRefreshDialog(CurrentCharacter);
+	}, 400, false);
+}
 /** @type {(RuleType: LogNameType[keyof LogNameType], Option: "Quest" | "Leave") => void} */
-function ChatRoomSendOwnerRule(RuleType, Option) { ChatRoomSendRule(RuleType, Option, "Owner"); }
+function ChatRoomSendOwnerRule(RuleType, Option) {
+	ChatRoomSendRule(RuleType, Option, "Owner");
+	TimerCreate(() => {
+		CharacterRefreshDialog(CurrentCharacter);
+	}, 400, false);
+}
 /** @type {(RuleType: LogNameAdvanced) => void} */
 function ChatRoomAdvancedRule(RuleType) { AdvancedRuleOpen(RuleType); }
 function ChatRoomForbiddenWords() { ForbiddenWordsOpen(); }
@@ -6467,6 +6477,7 @@ function ChatRoomOwnerPresenceRule(RuleName, Target) {
 	if (RuleName == "BlockAccessSelf") Rule = ((Target != null) && (Player.MemberNumber === Target.MemberNumber)); // Block access self only if target is herself
 	if (RuleName == "BlockAccessOther") Rule = ((Target != null) && (Player.MemberNumber !== Target.MemberNumber)); // Block access other only if target is another member
 	if (RuleName == "BlockWhisper") Rule = ((Target != null) && !Player.IsOwnedByCharacter(Target)); // Block whisper doesn't block whispering to the owner
+	if (RuleName === "BlockChangePose") return true; // We don't do the notification there, otherwise we'll spam chat
 
 	// Shows a warning message in the chat log if the rule is enforced
 	if (Rule) {
