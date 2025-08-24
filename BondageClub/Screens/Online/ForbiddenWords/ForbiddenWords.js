@@ -27,6 +27,11 @@ async function ForbiddenWordsLoad() {
 	}
 }
 
+/** @type {ScreenUnloadHandler} */
+function ForbiddenWordsUnload() {
+	ElementRemove("InputWord");
+}
+
 /**
  * Starts the forbidden words screen and loads it
  * @returns {void} - Nothing
@@ -113,9 +118,9 @@ function ForbiddenWordsClick() {
  * @type {ScreenExitHandler}
  */
 function ForbiddenWordsExit() {
-	ElementRemove("InputWord");
-	CommonSetScreen("Online", "ChatRoom");
 	let FW = ForbiddenWordsConsequence + "|" + ForbiddenWordsList.join("|");
 	ServerSend("ChatRoomChat", { Content: "OwnerRuleForbiddenWords" + FW, Type: "Hidden", Target: ForbiddenWordsTarget.MemberNumber });
-	ChatRoomFocusCharacter(ForbiddenWordsTarget);
+	CommonSetScreen("Online", "ChatRoom").then(() => {
+		ChatRoomFocusCharacter(ForbiddenWordsTarget);
+	});
 }
