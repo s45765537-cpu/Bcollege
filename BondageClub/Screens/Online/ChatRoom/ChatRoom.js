@@ -5716,9 +5716,19 @@ function ChatRoomDrinkPick(DrinkType, Money) {
 }
 
 /** @type {(RuleType: LogNameType[keyof LogNameType], Option: "Quest" | "Leave") => void} */
-function ChatRoomSendLoverRule(RuleType, Option) { ChatRoomSendRule(RuleType, Option, "Lover"); }
+function ChatRoomSendLoverRule(RuleType, Option) {
+	ChatRoomSendRule(RuleType, Option, "Lover");
+	TimerCreate(() => {
+		CharacterRefreshDialog(CurrentCharacter);
+	}, 400, false);
+}
 /** @type {(RuleType: LogNameType[keyof LogNameType], Option: "Quest" | "Leave") => void} */
-function ChatRoomSendOwnerRule(RuleType, Option) { ChatRoomSendRule(RuleType, Option, "Owner"); }
+function ChatRoomSendOwnerRule(RuleType, Option) {
+	ChatRoomSendRule(RuleType, Option, "Owner");
+	TimerCreate(() => {
+		CharacterRefreshDialog(CurrentCharacter);
+	}, 400, false);
+}
 /** @type {(RuleType: LogNameAdvanced) => void} */
 function ChatRoomAdvancedRule(RuleType) { AdvancedRuleOpen(RuleType); }
 function ChatRoomForbiddenWords() { ForbiddenWordsOpen(); }
