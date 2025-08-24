@@ -646,13 +646,13 @@ var AssetFemale3DCG = [
 					{ Name: "Sleeves", AllowTypes: { s: 1 } },
 					{ Name: "Wrist", AllowTypes: { s: 1 } },
 					// --- Hood Down ---
-					{ Name: "HoodDownBack",  AllowTypes: { h: 0 }, Priority: 4 },
-					{ Name: "HoodDownMid",   AllowTypes: { h: 0 }, Priority: 20, CopyLayerColor: "HoodDownBack" },
-					{ Name: "HoodDownFront", AllowTypes: { h: 0 }, Priority: 57, CopyLayerColor: "HoodDownBack" },
+					{ Name: "HoodDownBack",  AllowTypes: { h: 1 }, Priority: 4 },
+					{ Name: "HoodDownMid",   AllowTypes: { h: 1 }, Priority: 32, CopyLayerColor: "HoodDownBack" },
+					{ Name: "HoodDownFront", AllowTypes: { h: 1 }, Priority: 57, CopyLayerColor: "HoodDownBack" },
 					// --- Hood Up ---
 					{
 						Name: "HoodUpBack",
-						AllowTypes: { h: 1 },
+						AllowTypes: { h: 0 },
 						Priority: 4,
 						CopyLayerColor: "HoodDownBack",
 						Alpha: [
@@ -686,14 +686,14 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "HoodUpMid",
-						AllowTypes: { h: 1 },
-						Priority: 20,
+						AllowTypes: { h: 0 },
+						Priority: 32,
 						CopyLayerColor: "HoodDownBack",
 						HideForAttribute: ["HoodieFix"],
 					},
 					{
 						Name: "HoodUpFront",
-						AllowTypes: { h: 1 },
+						AllowTypes: { h: 0 },
 						Priority: 57,
 						CopyLayerColor: "HoodDownBack",
 						HideForAttribute: ["HoodieFix"],

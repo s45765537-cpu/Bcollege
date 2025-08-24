@@ -354,8 +354,8 @@ var AssetFemale3DCGExtended = {
 					Key: "h",
 					DrawImages: false,
 					Options: [
-						{}, //h0 - Hood Down
-						{}, //h1 - Hood Up
+						{}, //h0 - Hood Up
+						{}, //h1 - Hood Down
 
 					],
 				},
