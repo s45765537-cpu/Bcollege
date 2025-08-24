@@ -6477,6 +6477,7 @@ function ChatRoomOwnerPresenceRule(RuleName, Target) {
 	if (RuleName == "BlockAccessSelf") Rule = ((Target != null) && (Player.MemberNumber === Target.MemberNumber)); // Block access self only if target is herself
 	if (RuleName == "BlockAccessOther") Rule = ((Target != null) && (Player.MemberNumber !== Target.MemberNumber)); // Block access other only if target is another member
 	if (RuleName == "BlockWhisper") Rule = ((Target != null) && !Player.IsOwnedByCharacter(Target)); // Block whisper doesn't block whispering to the owner
+	if (RuleName === "BlockChangePose") return true; // We don't do the notification there, otherwise we'll spam chat
 
 	// Shows a warning message in the chat log if the rule is enforced
 	if (Rule) {
