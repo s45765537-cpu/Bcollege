@@ -1361,14 +1361,14 @@ const CommonCommands = [
 		}
 	},
 	{
-		Tag: 'givekey',
+		Tag: 'mapgivekey',
 		Action: (args) => {
 			if (!ChatRoomPlayerIsAdmin()) return ChatRoomSendLocal("You don't have admin permissions to use this command.");
 			if (!ChatRoomMapViewIsActive()) return ChatRoomSendLocal("Only accessible in map mode.");
 			const parsed = args.split(" ");
 
-			if (parsed.length > 4) return ChatRoomSendLocal("Too many arguments. Please use '/givekey [target] [bronze] [silver] [gold]', depending on wich ones you want to give to the player.");
-			if (parsed.length < 2) return ChatRoomSendLocal("Not enough arguments. Please use '/givekey [target] [bronze] [silver] [gold]', depending on wich ones you want to give to the player.") 
+			if (parsed.length > 4) return ChatRoomSendLocal("Too many arguments. Please use '/mapgivekey [target] [bronze] [silver] [gold]', depending on wich ones you want to give to the player.");
+			if (parsed.length < 2) return ChatRoomSendLocal("Not enough arguments. Please use '/mapgivekey [target] [bronze] [silver] [gold]', depending on wich ones you want to give to the player.") 
 			
 			const target = ChatRoomGetCharacter(parsed[0])
 			if (!target) return ChatRoomSendLocal("Player not found!")
@@ -1382,14 +1382,14 @@ const CommonCommands = [
 		}
 	},
 	{
-		Tag: 'takekey',
+		Tag: 'maptakekey',
 		Action: (args) => {
 			if (!ChatRoomPlayerIsAdmin()) return ChatRoomSendLocal("You don't have admin permissions to use this command.");
 			if (!ChatRoomMapViewIsActive()) return ChatRoomSendLocal("Only accessible in map mode.");
 			const parsed = args.split(" ");
 
-			if (parsed.length > 4) return ChatRoomSendLocal("Too many arguments. Please use '/takekey [target] [bronze] [silver] [gold]', depending on wich ones you want to take from the player.");
-			if (parsed.length < 2) return ChatRoomSendLocal("Not enough arguments. Please use '/takekey [target] [bronze] [silver] [gold]', depending on wich ones you want to give take from the player.") 
+			if (parsed.length > 4) return ChatRoomSendLocal("Too many arguments. Please use '/maptakekey [target] [bronze] [silver] [gold]', depending on wich ones you want to take from the player.");
+			if (parsed.length < 2) return ChatRoomSendLocal("Not enough arguments. Please use '/maptakekey [target] [bronze] [silver] [gold]', depending on wich ones you want to give take from the player.") 
 			
 			const target = ChatRoomGetCharacter(parsed[0])
 			if (!target) return ChatRoomSendLocal("Player not found!")

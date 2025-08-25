@@ -56,5 +56,5 @@ maptp,"[X] [Y]: Teleport yourself to X,Y. <br>maptp [MemberNumber|Name|Nickname]
 whisper,[MemberNumber|Name|Nickname]: Begin whispering to player.  Leave blank to stop whispering.<br>[MemberNumber|Name|Nickname] [Message]: Send whisper to target player.
 shop,Access the shop
 clubcard,: Open the club card editor
-givekey, [MemberNumber] [bronze] [silver] [gold]: Give any map key to a player 
-takekey, [MemberNumber] [bronze] [silver] [gold]: Take any map key from a player 
+mapgivekey, [MemberNumber] [bronze] [silver] [gold]: Give any map key to a player 
+maptakekey, [MemberNumber] [bronze] [silver] [gold]: Take any map key from a player 
