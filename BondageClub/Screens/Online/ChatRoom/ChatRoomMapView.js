@@ -1627,6 +1627,34 @@ function ChatRoomMapViewDrawUi() {
 }
 
 /**
+ * Change the key of charachter - sender
+ * @param {Character} target
+ * @param {String []} keys
+ */
+function ChatRoomMapViewChangeKey(target, keys, boolean) {
+	if (!ChatRoomPlayerIsAdmin()) return;
+
+	const dictionary = new DictionaryBuilder().mapViewChangeKey(keys, boolean).build();
+	ServerSend("ChatRoomChat", { Content: "ChatRoomMapViewChangeKey", Type: "Hidden", Dictionary: dictionary, Target: target?.MemberNumber });
+}
+
+/**
+ * Change a key from a character from a hidden message - reciver
+ * @param {Character} sender
+ * @param {ServerChatRoomMessage} data
+ */
+function ChatRoomMapViewChangeKeyHiddenMessage(sender, data) {
+	if (!ChatRoomCharacterIsAdmin(sender)) return;
+
+	const mapViewChangeEntries = data.Dictionary;
+	mapViewChangeEntries.map((entrie) => {
+		if (!IsMapViewChangeKeyEventDictionaryEntry(entrie)) return;
+		const HasKey = `HasKey${entrie.Key.charAt(0).toUpperCase() + entrie.Key.slice(1)}`;
+		Player.MapData.PrivateState[HasKey] = entrie.Bool;
+	})
+}
+
+/**
  * Teleport a character to a specific tile
  * @param {Character} target
  * @param {ChatRoomMapPos} position

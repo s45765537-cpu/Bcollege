@@ -789,6 +789,15 @@ interface MapViewTeleportEventDictionaryEntry {
 }
 
 /**
+ * A dictionary entry for change key events
+ */
+interface MapViewChangeKeyEventDictionaryEntry {
+	Tag: "MapViewChangeKey";
+	Key: string;
+	Bool: boolean;
+}
+
+/**
  * A dictionary entry with metadata about the chat message transmitted.
  *
  * Send with Chat and Whisper-type messages to inform the other side about the
@@ -818,7 +827,8 @@ type ChatMessageDictionaryEntry =
 	| MessageEffectEntry
 	| MsgIdDictionaryEntry
 	| ReplyIdDictionaryEntry
-	| MapViewTeleportEventDictionaryEntry;
+	| MapViewTeleportEventDictionaryEntry
+	| MapViewChangeKeyEventDictionaryEntry;
 
 
 type ChatMessageDictionary = ChatMessageDictionaryEntry[];
