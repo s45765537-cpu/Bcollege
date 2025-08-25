@@ -7098,7 +7098,7 @@ var AssetFemale3DCG = [
 			},
 			{
                 Name: "RuffledMiniskirt",
-                InventoryID: 242,
+                InventoryID: 1262,
                 Value: 20,
                 Left: {
                     [PoseType.DEFAULT]: 120,
