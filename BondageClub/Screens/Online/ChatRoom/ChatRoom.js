@@ -36,6 +36,7 @@ let ChatRoomData = null;
  * @type {Character[]}
  */
 var ChatRoomCharacter = [];
+var ChatRoomJustEntered = false;
 /** @type {ChatRoomChatLogEntry[]} */
 var ChatRoomChatLog = [];
 var ChatRoomLastMessage = [""];
@@ -1333,13 +1334,14 @@ async function ChatRoomLoad() {
 	ChatRoomCreateElement();
 
 	// Add a horizontal line to the chatlog the first time one enters the room; skip the very first room
-	if (ChatRoomCharacter.length === 0) {
+	if (ChatRoomJustEntered) {
 		const elem = ChatRoomSep.Create();
 		elem.toggleAttribute("hidden", !(Player.ChatSettings?.PreserveChat ?? true));
+		ChatRoomCharacterUpdate(Player);
+		ActivityChatRoomArousalSync(Player);
+		ChatRoomJustEntered = false;
 	}
 
-	ChatRoomCharacterUpdate(Player);
-	ActivityChatRoomArousalSync(Player);
 	if (!ChatRoomData || Player.LastChatRoom && ChatRoomData.Name !== Player.LastChatRoom.Name) {
 		ChatRoomHideIconState = 0;
 	}
@@ -2960,6 +2962,7 @@ function ChatRoomLeave(clearCharacters = false) {
 	Player.MapData = null;
 	ChatRoomGame = "";
 	ChatRoomCharacter = [];
+	ChatRoomJustEntered = false;
 	ChatRoomDrawFocusList = [];
 	ChatRoomMapViewTileFog = "";
 	ChatRoomMapViewObjectFog = "";
@@ -4791,9 +4794,9 @@ function ChatRoomValidateProperties(obj)
  * This only happens once per ChatRoom "lifetime".
  *
  * @param {ServerChatRoomSyncMessage} data - Room object containing the new chatroom data.
- * @returns {void} - Nothing.
+ * @returns {Promise<void>} - Nothing.
  */
-function ChatRoomSync(data) {
+async function ChatRoomSync(data) {
 	if (data == null || (typeof data !== "object") || typeof data.SourceMemberNumber !== "number") {
 		return;
 	}
@@ -4806,23 +4809,24 @@ function ChatRoomSync(data) {
 	if (!ChatRoomValidateProperties(data)) {
 		// Instantly leave the chat room again
 		ChatRoomLeave();
-		CommonSetScreen("Online", "ChatSearch");
+		await CommonSetScreen("Online", "ChatSearch");
 		ChatSearchMessage = "ErrorInvalidRoomProperties";
 		return;
 	} else if (ChatRoomData) {
 		// We're somehow already in a room. Bail out in case our idea of the room we're in doesn't match what the server thinks
 		ChatRoomLeave();
-		CommonSetScreen("Online", "ChatSearch");
+		await CommonSetScreen("Online", "ChatSearch");
 		ChatSearchMessage = "ResponseAlreadyInRoom";
 		return;
 	}
 
 	// Set our chat room data to what the server sent us
 	ChatRoomData = data;
+	ChatRoomJustEntered = true;
 
 	// Loads the room
 	if (!ServerPlayerIsInChatRoom() || CurrentScreen === "ChatAdmin") {
-		CommonSetScreen("Online", "ChatRoom");
+		await CommonSetScreen("Online", "ChatRoom");
 	}
 
 	if (ChatRoomSep.ActiveElem) {
@@ -5632,14 +5636,16 @@ function ChatRoomAppearanceLoadCharacter(C) {
 		if (inChatRoom) {
 			ChatRoomShowElements();
 			ChatRoomStatusUpdate(null);
-			if (ready && !C.IsPlayer()) {
-				// Send a notification if we've changed clothes on someone else
-				const Dictionary = new DictionaryBuilder()
-					.sourceCharacter(Player)
-					.destinationCharacter(C)
-					.build();
-				ServerSend("ChatRoomChat", { Content: "ChangeClothes", Type: "Action", Dictionary: Dictionary });
+			if (ready) {
 				ChatRoomCharacterUpdate(C);
+				if (!C.IsPlayer()) {
+					// Send a notification if we've changed clothes on someone else
+					const Dictionary = new DictionaryBuilder()
+						.sourceCharacter(Player)
+						.destinationCharacter(C)
+						.build();
+					ServerSend("ChatRoomChat", { Content: "ChangeClothes", Type: "Action", Dictionary: Dictionary });
+				}
 			}
 		}
 	});
@@ -5711,9 +5717,19 @@ function ChatRoomDrinkPick(DrinkType, Money) {
 }
 
 /** @type {(RuleType: LogNameType[keyof LogNameType], Option: "Quest" | "Leave") => void} */
-function ChatRoomSendLoverRule(RuleType, Option) { ChatRoomSendRule(RuleType, Option, "Lover"); }
+function ChatRoomSendLoverRule(RuleType, Option) {
+	ChatRoomSendRule(RuleType, Option, "Lover");
+	TimerCreate(() => {
+		CharacterRefreshDialog(CurrentCharacter);
+	}, 400, false);
+}
 /** @type {(RuleType: LogNameType[keyof LogNameType], Option: "Quest" | "Leave") => void} */
-function ChatRoomSendOwnerRule(RuleType, Option) { ChatRoomSendRule(RuleType, Option, "Owner"); }
+function ChatRoomSendOwnerRule(RuleType, Option) {
+	ChatRoomSendRule(RuleType, Option, "Owner");
+	TimerCreate(() => {
+		CharacterRefreshDialog(CurrentCharacter);
+	}, 400, false);
+}
 /** @type {(RuleType: LogNameAdvanced) => void} */
 function ChatRoomAdvancedRule(RuleType) { AdvancedRuleOpen(RuleType); }
 function ChatRoomForbiddenWords() { ForbiddenWordsOpen(); }
@@ -5859,7 +5875,7 @@ function ChatRoomSetRule(data) {
 		if (data.Content == "OwnerRuleNicknameBlock") LogAdd("BlockNickname", "OwnerRule");
 		if (data.Content.startsWith("OwnerRuleNicknameNew")) {
 			let NewNick = data.Content.substring(20);
-			CharacterSetNickname(Player, NewNick);
+			CharacterSetNickname(Player, NewNick, true);
 			data.Content = "OwnerRuleNicknameNew";
 		}
 
@@ -6462,6 +6478,7 @@ function ChatRoomOwnerPresenceRule(RuleName, Target) {
 	if (RuleName == "BlockAccessSelf") Rule = ((Target != null) && (Player.MemberNumber === Target.MemberNumber)); // Block access self only if target is herself
 	if (RuleName == "BlockAccessOther") Rule = ((Target != null) && (Player.MemberNumber !== Target.MemberNumber)); // Block access other only if target is another member
 	if (RuleName == "BlockWhisper") Rule = ((Target != null) && !Player.IsOwnedByCharacter(Target)); // Block whisper doesn't block whispering to the owner
+	if (RuleName === "BlockChangePose") return true; // We don't do the notification there, otherwise we'll spam chat
 
 	// Shows a warning message in the chat log if the rule is enforced
 	if (Rule) {

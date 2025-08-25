@@ -70,7 +70,7 @@ function AssetsSuitLatexCatsuitAfterDraw(
 		const flatCanvas = AnimationGenerateTempCanvas(C, A, width, height);
 		const flatCtx = flatCanvas.getContext("2d");
 
-		TextItem.Init(data, C, CA, false);
+		TextItem.Init(data, C, CA, false, false);
 
 		if (CA.Property.Text) {
 			DynamicDrawText(CA.Property.Text, flatCtx, width / 2, height * 2 / 3.3 , {

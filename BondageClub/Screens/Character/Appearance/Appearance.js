@@ -816,6 +816,8 @@ function AppearanceGroupAllowed(C, GroupName) {
 		["9", "Pussy"],
 		["%", "Pronouns"],
 		["^", "EyeShadow"],
+		["!", "ClothOuter"],
+		["'", "Decals"],
 	];
 	if (GroupName == "ALL") {
 		for (let D of Dict)
