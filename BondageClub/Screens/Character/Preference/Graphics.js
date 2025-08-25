@@ -7,7 +7,7 @@ var PreferenceSettingsVFXIndex = 0;
 var PreferenceSettingsVFXVibratorList = ["VFXVibratorInactive", "VFXVibratorSolid", "VFXVibratorAnimated"];
 var PreferenceSettingsVFXVibratorIndex = 0;
 /** @type {SettingsVFXFilterName[]} */
-var PreferenceSettingsVFXFilterList = ["VFXFilterLight", "VFXFilterMedium", "VFXFilterHeavy"];
+var PreferenceSettingsVFXFilterList = ["VFXFilterLight", "VFXFilterMedium", "VFXFilterHeavy", "VFXFilterNone"];
 var PreferenceSettingsVFXFilterIndex = 0;
 /** @type {GraphicsFontName[]} */
 var PreferenceGraphicsFontList = ["Arial", "TimesNewRoman", "Papyrus", "ComicSans", "Impact", "HelveticaNeue", "Verdana", "CenturyGothic", "Georgia", "CourierNew", "Copperplate"];

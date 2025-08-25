@@ -1859,22 +1859,38 @@ function ChatRoomDrawArousalScreenFilter(y1, h, Width, ArousalOverride, Color = 
 	let oscillation = Math.sin(CommonTime() / 1000 % Math.PI);
 	let alpha = Math.min(1.0, AlphaBonus + 0.6 * level * (0.99 - amplitude + amplitude * oscillation));
 
-	if (Player.ArousalSettings.VFXFilter == "VFXFilterHeavy") {
-		const Grad = MainCanvas.createLinearGradient(0, y1, 0, h);
-		let alphamin = Math.max(0, alpha / 2 - 0.05);
-		Grad.addColorStop(0, `rgba(${Color}, ${alpha})`);
-		Grad.addColorStop(0.1 + 0.2*percent * (1.2 + 0.2 * oscillation), `rgba(${Color}, ${alphamin})`);
-		Grad.addColorStop(0.5, `rgba(${Color}, ${alphamin/2})`);
-		Grad.addColorStop(0.9 - 0.2*percent * (1.2 + 0.2 * oscillation), `rgba(${Color}, ${alphamin})`);
-		Grad.addColorStop(1, `rgba(${Color}, ${alpha})`);
-		MainCanvas.fillStyle = Grad;
-		MainCanvas.fillRect(0, y1, Width, h);
-	} else {
-		if (Player.ArousalSettings.VFXFilter != "VFXFilterMedium") {
+	switch (Player.ArousalSettings.VFXFilter) {
+		case "VFXFilterMedium":
+			alpha /= 2;
+			break;
+		case "VFXFilterLight":
 			alpha = (Progress >= 91) ? 0.25 : 0;
-		} else alpha /= 2;
-		if (alpha > 0)
+			break;
+	}
+
+	if (!CommonIsFinite(alpha, 0, 1)) {
+		return;
+	}
+
+	switch (Player.ArousalSettings.VFXFilter) {
+		case "VFXFilterHeavy": {
+			const Grad = MainCanvas.createLinearGradient(0, y1, 0, h);
+			const alphamin = Math.max(0, alpha / 2 - 0.05);
+			Grad.addColorStop(0, `rgba(${Color}, ${alpha})`);
+			Grad.addColorStop(0.1 + 0.2*percent * (1.2 + 0.2 * oscillation), `rgba(${Color}, ${alphamin})`);
+			Grad.addColorStop(0.5, `rgba(${Color}, ${alphamin/2})`);
+			Grad.addColorStop(0.9 - 0.2*percent * (1.2 + 0.2 * oscillation), `rgba(${Color}, ${alphamin})`);
+			Grad.addColorStop(1, `rgba(${Color}, ${alpha})`);
+			MainCanvas.fillStyle = Grad;
+			MainCanvas.fillRect(0, y1, Width, h);
+			break;
+		}
+		case "VFXFilterMedium":
+		case "VFXFilterLight":
 			DrawRect(0, y1, Width, h, `rgba(${Color}, ${alpha})`);
+			break;
+		case "VFXFilterNone":
+			break;
 	}
 }
 /**
