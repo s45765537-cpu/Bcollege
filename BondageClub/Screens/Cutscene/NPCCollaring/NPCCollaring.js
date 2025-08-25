@@ -48,8 +48,9 @@ function NPCCollaringClick() {
 	if (CutsceneStage == 6) InventoryWear(NPCCollaringSub, "SlaveCollar", "ItemNeck");
 	if (CutsceneStage > 8) {
 		ServerPrivateCharacterSync();
-		CommonSetScreen("Room", "Private");
-		CharacterSetCurrent(NPCCollaringSub);
-		NPCCollaringSub.CurrentDialog = DialogFind(NPCCollaringSub, "SubmissiveVow");
+		CommonSetScreen("Room", "Private").then(() => {
+			CharacterSetCurrent(NPCCollaringSub);
+			NPCCollaringSub.CurrentDialog = DialogFind(NPCCollaringSub, "SubmissiveVow");
+		});
 	}
 }

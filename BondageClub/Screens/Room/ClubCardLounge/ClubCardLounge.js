@@ -58,8 +58,9 @@ function ClubCardLoungePraticeGameStart() {
  * @returns {void} - Nothing
  */
 function ClubCardLoungePraticeGameEnd() {
-	CommonSetScreen("Room", "ClubCardLounge");
-	CharacterSetCurrent(ClubCardLoungeTutor);
-	ClubCardLoungeTutor.CurrentDialog = DialogFind(ClubCardLoungeTutor, MiniGameVictory ? "AfterVictory" : "AfterDefeat");
-	ClubCardLoungeTutor.Stage = "50";
+	CommonSetScreen("Room", "ClubCardLounge").then(() => {
+		CharacterSetCurrent(ClubCardLoungeTutor);
+		ClubCardLoungeTutor.CurrentDialog = DialogFind(ClubCardLoungeTutor, MiniGameVictory ? "AfterVictory" : "AfterDefeat");
+		ClubCardLoungeTutor.Stage = "50";
+	});
 }

@@ -89,7 +89,8 @@ function AdvancedRuleClick() {
  * @type {ScreenExitHandler}
  */
 function AdvancedRuleExit() {
-	CommonSetScreen("Online", "ChatRoom");
-	ServerSend("ChatRoomChat", { Content: "OwnerRule" + AdvancedRuleType + AdvancedRuleSelection, Type: "Hidden", Target: AdvancedRuleTarget.MemberNumber });
-	ChatRoomFocusCharacter(AdvancedRuleTarget);
+	CommonSetScreen("Online", "ChatRoom").then(() => {
+		ServerSend("ChatRoomChat", { Content: "OwnerRule" + AdvancedRuleType + AdvancedRuleSelection, Type: "Hidden", Target: AdvancedRuleTarget.MemberNumber });
+		ChatRoomFocusCharacter(AdvancedRuleTarget);
+	});
 }

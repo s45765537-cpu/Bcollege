@@ -182,7 +182,6 @@ function GameMagicBattlePuzzleEnd() {
 	GameMagicBattleFocusCharacter = null;
 	GameMagicBattleTurnDone = true;
 	CommonSetScreen("Online", "ChatRoom");
-	ChatRoomShowElements();
 }
 
 /**

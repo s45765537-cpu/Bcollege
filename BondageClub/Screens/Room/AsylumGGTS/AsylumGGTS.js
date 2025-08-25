@@ -1420,10 +1420,11 @@ function AsylumGGTSOrgasmResist() {
 function AsylumGGTSLock(LockTime, Msg) {
 	AsylumGGTSUngag();
 	LogAdd("ForceGGTS", "Asylum", LockTime * 60000);
-	CommonSetScreen("Room", "AsylumEntrance");
-	AsylumEntranceNurse.Stage = "300";
-	CharacterSetCurrent(AsylumEntranceNurse);
-	AsylumEntranceNurse.CurrentDialog = Msg;
+	CommonSetScreen("Room", "AsylumEntrance").then(() => {
+		AsylumEntranceNurse.Stage = "300";
+		CharacterSetCurrent(AsylumEntranceNurse);
+		AsylumEntranceNurse.CurrentDialog = Msg;
+	});
 }
 
 /**
