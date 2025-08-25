@@ -640,19 +640,19 @@ var AssetFemale3DCG = [
 				],
 				Layer: [
 					// --- Base Jacket ---
-					{ Name: "Main" }, // Always visible
+					{ Name: "Main", Priority: 31 }, // Always visible
 					// --- Sleeves ---
-					{ Name: "Sleeveless", AllowTypes: { s: 0 }, CopyLayerColor: "Sleeves" },
-					{ Name: "Sleeves", AllowTypes: { s: 1 } },
-					{ Name: "Wrist", AllowTypes: { s: 1 } },
+					{ Name: "Sleeveless", AllowTypes: { s: 1 }, CopyLayerColor: "Sleeves", Priority: 32 },
+					{ Name: "Sleeves", AllowTypes: { s: 0 }, Priority: 32 },
+					{ Name: "Wrist", AllowTypes: { s: 0 }, Priority: 32 },
 					// --- Hood Down ---
-					{ Name: "HoodDownBack",  AllowTypes: { h: 1 }, Priority: 4 },
-					{ Name: "HoodDownMid",   AllowTypes: { h: 1 }, Priority: 32, CopyLayerColor: "HoodDownBack" },
-					{ Name: "HoodDownFront", AllowTypes: { h: 1 }, Priority: 57, CopyLayerColor: "HoodDownBack" },
+					{ Name: "HoodDownBack",  AllowTypes: { h: 0 }, Priority: 4 },
+					{ Name: "HoodDownMid",   AllowTypes: { h: 0 }, Priority: 32, CopyLayerColor: "HoodDownBack" },
+					{ Name: "HoodDownFront", AllowTypes: { h: 0 }, Priority: 33, CopyLayerColor: "HoodDownBack" },
 					// --- Hood Up ---
 					{
 						Name: "HoodUpBack",
-						AllowTypes: { h: 0 },
+						AllowTypes: { h: 1 },
 						Priority: 4,
 						CopyLayerColor: "HoodDownBack",
 						Alpha: [
@@ -679,6 +679,8 @@ var AssetFemale3DCG = [
 									[183, 238, 14, 12],
 									[303, 238, 14, 12],
 									[185, 90, 130, 7],
+									[185, 221, 21, 29],
+									[294, 221, 21, 29],
 								],
 							},
 						],
@@ -686,22 +688,22 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "HoodUpMid",
-						AllowTypes: { h: 0 },
+						AllowTypes: { h: 1 },
 						Priority: 32,
 						CopyLayerColor: "HoodDownBack",
 						HideForAttribute: ["HoodieFix"],
 					},
 					{
 						Name: "HoodUpFront",
-						AllowTypes: { h: 0 },
+						AllowTypes: { h: 1 },
 						Priority: 57,
 						CopyLayerColor: "HoodDownBack",
 						HideForAttribute: ["HoodieFix"],
 					},
 					// --- Extras ---
-					{ Name: "Zipper" },
-					{ Name: "Pocket" },
-					{ Name: "Hips" },
+					{ Name: "Zipper", Priority: 32 },
+					{ Name: "Pocket", Priority: 31 },
+					{ Name: "Hips", Priority: 32 },
 				],
 				DefaultColor: [
 					"#8a8b8b",// Main
