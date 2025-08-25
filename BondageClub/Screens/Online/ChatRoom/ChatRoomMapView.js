@@ -1648,6 +1648,7 @@ function ChatRoomMapViewTeleportHiddenMessage(sender, data) {
 	if (!ChatRoomCharacterIsAdmin(sender)) return;
 	const mapViewTeleportEntry = data.Dictionary[0];
 	if (!IsMapViewTeleportEventDictionaryEntry(mapViewTeleportEntry)) return;
+	ChatRoomMapViewMovement = null;
 	Player.Position = mapViewTeleportEntry.Position;
 }
 
