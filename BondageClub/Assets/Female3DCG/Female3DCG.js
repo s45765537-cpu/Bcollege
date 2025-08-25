@@ -621,7 +621,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "JacketHoodie",
-				InventoryID: 1250,
+				InventoryID: 1259,
 				Value: 30,
 				Priority: 32,
 				Extended: true,
