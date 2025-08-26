@@ -630,7 +630,7 @@ Title Carol,Carol
 Text Carol,"Enters: If another Nurse is present, add a random Patient from your Streets to your club, if there are none, add one from your deck."
 Title Rizom,Rizom
 Text Rizom,"Enters: Select a member from your club to get 1 Fame and Money, 1 more Fame if an ABDL Mom is present, 1 more Money if an Owner is present."
-Prerequisite Rizom:'Select a member from your club to enhance.'
+Prerequisite Rizom,'Select a member from your club to enhance.'
 Effect Rizom,"CARDNAME got a massage from Rizom, their fame and money got boosted."
 Title Chirumi,Chirumi
 Text Chirumi,Gain +1 fame equal to your club level. Leaves your club if your streets have more than 3 cards.

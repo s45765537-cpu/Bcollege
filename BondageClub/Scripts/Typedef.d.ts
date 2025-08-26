@@ -4733,6 +4733,28 @@ interface WheelFortuneOptionType {
 
 // #region ClubCard
 
+type ClubCardTag =
+	| "All"
+	| "Selected Cards"
+	| "Event"
+	| "NoGroup"
+	| "Liability"
+	| "Staff"
+	| "Police"
+	| "Criminal"
+	| "Fetishist"
+	| "Porn"
+	| "Maid"
+	| "Asylum"
+	| "Dominant / Mistress"
+	| "ABDL"
+	| "College"
+	| "Shibari"
+	| "Pet / Owner"
+	| "Kemonomimi"
+	| "Submissive / Slave"
+	| "Reward";
+
 interface ClubCard {
 	ID: number;
 	UniqueID?: string;
