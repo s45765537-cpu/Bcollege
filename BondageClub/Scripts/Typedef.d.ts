@@ -691,7 +691,7 @@ interface PreferenceGenderSetting {
 type FetishName =
 	"Bondage" | "Gagged" | "Blindness" | "Deafness" | "Chastity" | "Exhibitionist" | "Masochism" |
 	"Sadism" | "Rope" | "Latex" | "Leather" | "Metal" | "Tape" | "Nylon" | "Lingerie" | "Pet" |
-	"Pony" | "ABDL" | "Forniphilia"
+	"Pony" | "ABDL" | "Forniphilia" | "Spandex"
 	;
 
 type BackgroundTag =

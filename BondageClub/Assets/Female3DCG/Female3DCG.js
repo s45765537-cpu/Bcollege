@@ -7722,6 +7722,67 @@ var AssetFemale3DCG = [
 				Hide: ["Panties", "ItemNipples", "ItemVulvaPiercings", "ItemVulva"],
 			},
 			{
+				Name: "SportSwimsuit",
+				InventoryID: 1261,
+				Gender: "F",
+				Prerequisite: ["HasBreasts"],
+				Top: 202.5,
+				Left: 150,
+				Fetish: ["Nylon", "Spandex"],
+				PoseMapping: {
+					Hogtied: "Hogtied",
+					AllFours: "AllFours",
+				},
+				DefaultColor: ["#011e54","#a70004","#d4d5d4"],
+				Value: 20,
+				Hide: ["Panties", "ItemNipples", "ItemVulvaPiercings", "ItemVulva"],
+				DrawLocks: false,
+				Layer: [
+					{
+						Name: "Base",
+						StyleOverride: ["EchoV2"],
+					},
+					{
+						Name: "BackStripe1",
+						AllowTypes: { s: 0 },
+						StyleOverride: ["EchoV2"],
+					},
+					{
+						Name: "BackStripe2",
+						CopyLayerColor: "BackStripe1",
+						AllowTypes: { s: 1 },
+						StyleOverride: ["EchoV2"],
+					},
+					{
+						Name: "BackStripe3",
+						CopyLayerColor: "BackStripe1",
+						AllowTypes: { s: 2 },
+						StyleOverride: ["EchoV2"],
+					},
+					{
+						Name: "FrontStripe1",
+						AllowTypes: { s: 0 },
+						StyleOverride: ["EchoV2"],
+					},
+					{
+						Name: "FrontStripe2",
+						CopyLayerColor: "FrontStripe1",
+						AllowTypes: { s: 1 },
+						StyleOverride: ["EchoV2"],
+					},
+					{
+						Name: "FrontStripe3",
+						CopyLayerColor: "FrontStripe1",
+						AllowTypes: { s: 2 },
+						StyleOverride: ["EchoV2"],
+					},
+					{
+						Name: "Shine",
+						AllowColorize: false,
+					},
+				],
+			},
+			{
 				Name: "BunnySuit",
 				InventoryID: 256,
 				StyleOverride: ["EchoV2"],
@@ -64885,6 +64946,13 @@ var FetishFemale3DCG = [
 		FetishID: 18,
 		GetFactor: function (C) {
 			return ActivityFetishItemFactor(C, "Forniphilia");
+		},
+	},
+	{
+		Name: "Spandex",
+		FetishID: 19,
+		GetFactor: function (C) {
+			return ActivityFetishItemFactor(C, "Spandex");
 		},
 	},
 ];

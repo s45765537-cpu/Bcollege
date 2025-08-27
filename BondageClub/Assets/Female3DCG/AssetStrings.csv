@@ -431,6 +431,12 @@ BraceletWristWatchSetb0,SourceCharacter changes DestinationCharacter watch.
 BraceletWristWatchSetb1,SourceCharacter changes DestinationCharacter watch.
 BraceletWristWatchSetl0,SourceCharacter changes DestinationCharacter watch.
 BraceletWristWatchSetl1,SourceCharacter changes DestinationCharacter watch.
+BraSportSwimsuitSelectBase,Change style.
+BraSportSwimsuitSelectStyle,Select a style.
+BraSportSwimsuitModuleStyle,Style
+BraSportSwimsuitOptions0,Style 1
+BraSportSwimsuitOptions1,Style 2
+BraSportSwimsuitOptions2,Style 3
 BraSwimsuit1Dull,No shine
 BraSwimsuit1Select,Select an option.
 BraSwimsuit1Shiny,Shiny

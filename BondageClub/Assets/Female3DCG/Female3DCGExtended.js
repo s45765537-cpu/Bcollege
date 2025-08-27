@@ -18683,6 +18683,20 @@ var AssetFemale3DCGExtended = {
 				Chat: "ClothMeshTopSet",
 			},
 		}, //Mesh Top
+		SportSwimsuit: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Style",
+					Key: "s",
+					Options: [
+						{}, //s0 - Style1
+						{}, //s1 - Style2
+						{}, //s2 - Style3
+					],
+				},
+			],
+		}, //Sport Bra
 	}, // Bra
 	Panties: {
 		Diapers4: {
