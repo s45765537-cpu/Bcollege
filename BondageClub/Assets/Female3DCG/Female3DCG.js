@@ -8151,6 +8151,53 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
+				Name: "SportBra",
+				InventoryID: 1262,
+				Gender: "F",
+				DefaultColor: ["#414141", "#cecfcf", "#cf0001", "#444444"],
+				Prerequisite: ["HasBreasts"],
+				StyleOverride: ["EchoV2"],
+				Fetish: ["Lingerie"/*,"Spandex" defined in the Sport Swimsuit MR*/],
+				Value: 20,
+				Hide: ["ItemNipples"],
+				Top: {
+                    AllFours: 188,
+                },
+				PoseMapping: {
+					AllFours: PoseType.DEFAULT,
+				},
+				Layer: [
+					{
+						Name: "Waist",
+						PoseMapping: {
+							Hogtied: PoseType.HIDE,
+							Yoked: PoseType.DEFAULT,
+						},
+					},
+					{
+						Name: "Bra",
+						PoseMapping: {
+							Hogtied: PoseType.DEFAULT,
+							Yoked: PoseType.DEFAULT,
+                		},
+					},
+					{
+						Name: "Design",
+						PoseMapping: {
+							Hogtied: PoseType.DEFAULT,
+							Yoked: PoseType.DEFAULT,
+                		},
+					},
+					{
+						Name: "Trim",
+						PoseMapping: {
+                    		Hogtied: PoseType.DEFAULT,
+							Yoked: PoseType.DEFAULT,
+                		},
+					},
+				],
+			},
+			{
 				Name: "Bra10",
 				InventoryID: 288,
 				Gender: "F",
