@@ -6918,6 +6918,29 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
+				Name: "GymShorts",
+				InventoryID: 1263,
+				Value: 20,
+				StyleOverride: ["EchoV2"],
+				DefaultColor: ["#900100", "#ececec", "#970101","#f4f5f4"],
+				PoseMapping: {
+					KneelingSpread: "KneelingSpread",
+					Hogtied: PoseType.HIDE,
+					AllFours: PoseType.HIDE,
+				},
+				Left: {
+					[PoseType.DEFAULT]: 115,
+					KneelingSpread: 205,
+				},
+				HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds", "Pussy"],
+				Layer: [
+					{ Name: "Pants" },
+					{ Name: "Trim" },
+					{ Name: "Waist" },
+					{ Name: "Lace" },
+				],
+			},
+			{
 				Name: "CrossSkirtLight",
 				InventoryID: 236,
 				Value: 60,
