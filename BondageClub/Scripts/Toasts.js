@@ -113,6 +113,7 @@ var ToastManager = new class ToastManager {
 		options.progress ??= true;
 		options.stopProgressOnHover ??= true;
 		options.iconColor ??= 'default';
+		options.clampMessage ??= true;
 
 		this.queue.push(/** @type {Required<Toasts.Options>} */(options));
 		this._process();
@@ -175,6 +176,8 @@ var ToastManager = new class ToastManager {
 			}
 		};
 
+		const clampClass = _.clampMessage ? 'toast-clamp-message' : 'scroll-box';
+
 		/** @type {Toasts.ToastElement} */
 		const toast = ElementCreate({
 			tag: 'div',
@@ -201,7 +204,7 @@ var ToastManager = new class ToastManager {
 						} : null,
 						{
 							tag: 'span',
-							classList: ['toast-message'],
+							classList: ['toast-message', clampClass],
 							children: [_.message],
 						},
 						Array.isArray(_.buttons) ? {

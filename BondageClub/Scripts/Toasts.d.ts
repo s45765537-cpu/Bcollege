@@ -46,6 +46,8 @@ declare namespace Toasts {
     iconColor?: IconColor;
 		/** Optional array of action buttons to render inside the toast. */
 		buttons?: ToastButton[];
+		/** Whether to clamp long messages to 3 lines. */
+		clampMessage?: boolean;
 	}
 	/**
 	 * Defines a button to be rendered inside a toast notification.
