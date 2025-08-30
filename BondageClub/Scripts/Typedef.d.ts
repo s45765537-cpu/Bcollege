@@ -4922,6 +4922,9 @@ type ChatRoomMapObjectType = (
 	| "FloorDecorationAnimal"
 	| "FloorItem"
 	| "FloorObstacle"
+	| "FloorNumber"
+	| "FloorLetter"
+	| "FloorIcon"
 	| "WallDecoration"
 	| "WallPath"
 );
