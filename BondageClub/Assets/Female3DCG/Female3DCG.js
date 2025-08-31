@@ -6921,6 +6921,7 @@ var AssetFemale3DCG = [
 				Name: "GymShorts",
 				InventoryID: 1263,
 				Value: 20,
+				Hide: ["Pussy"],
 				StyleOverride: ["EchoV2"],
 				DefaultColor: ["#900100", "#ececec", "#970101","#f4f5f4"],
 				PoseMapping: {
