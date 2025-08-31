@@ -768,7 +768,7 @@ ClothAccessoryWombTattoosSelectWaves,Apply
 ClothAccessoryWombTattoosSelectWingSmall,Apply
 ClothAccessoryWombTattoosSelectZoom,Apply
 ClothAccessoryHoodedCloakModuleHood,Hood Position
-ClothAccessoryHoodedCloakSelect,Select a hooded cloak style:
+ClothAccessoryHoodedCloakSelectBase,Select a hooded cloak style:
 ClothAccessoryHoodedCloakSelectHood,Hood
 ClothAccessoryHoodedCloakOptionh0,Down
 ClothAccessoryHoodedCloakOptionh1,Over Head
@@ -6895,7 +6895,7 @@ GlassesPincenezSelectPosition,Glasses position options:
 GlassesPincenezOptionp0,Under front hair
 GlassesPincenezOptionp1,Over front hair
 GlassesPincenezModuleAccessory,Glasses acessory
-GlassesPincenezSelectAccessory,Acessory options:
+GlassesPincenezSelectAccessory,Accessory options:
 GlassesPincenezOptiona0,No accessory
 GlassesPincenezOptiona1,Accessory added
 QualityHarnessGagSetBallGag,SourceCharacter attaches ball gag to DestinationCharacter gag harness.

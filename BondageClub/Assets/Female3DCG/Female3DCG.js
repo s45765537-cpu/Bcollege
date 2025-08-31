@@ -655,6 +655,24 @@ var AssetFemale3DCG = [
 					BuyGroup: true,
 				},
 			},
+			{
+				Name: "BartenderVest",
+				CopyConfig: {
+					GroupName: "Suit",
+					AssetName: "BartenderVest",
+					BuyGroup: true,
+				},
+				DynamicGroupName: "Suit",
+			},
+			{
+				Name: "BartenderVestM",
+				CopyConfig: {
+					GroupName: "Suit",
+					AssetName: "BartenderVestM",
+					BuyGroup: true,
+				},
+				DynamicGroupName: "Suit",
+			},
 		],
 		Color: [
 			"Default",
