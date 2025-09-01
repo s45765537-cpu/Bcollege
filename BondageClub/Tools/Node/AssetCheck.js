@@ -1,5 +1,6 @@
 import vm from "vm";
 import fs from "fs";
+import path from "path";
 
 import { NEEDED_FILES, BASE_PATH, error, loadCSV, fromEntries, enumerate, keys, entries, errorState } from "./Common.js";
 
@@ -447,40 +448,61 @@ function recursivelyListDir(dir, pathSet, filter) {
 
 /**
  *
+ * @param {string} filePath
+ * @returns {boolean}
+ */
+function fileExists(filePath) {
+	return !!fs.statSync(filePath, { throwIfNoEntry: false });
+}
+
+/**
+ *
  * @param  {Record<ExtendedArchetype, Record<string, AssetArchetypeData>>} dataSuperRecord
  */
 function testExtendedItemButtonImage(dataSuperRecord) {
+	// Load all the default available images
+	/** @type {Set<string>} */
+	const availableImages = new Set();
+	recursivelyListDir(`${BASE_PATH}Screens/Inventory`, availableImages, i => i.endsWith(".png"));
+
 	// Gather all expected image paths
 	/** @type {Set<string>} */
 	const requiredImages = new Set();
+
+	/**
+	 * @param {ExtendedItemDrawData<ElementMetaData>} drawData
+	 */
+	const parseDrawData = (drawData) => {
+		for (const buttonData of drawData.elementData) {
+			if (buttonData.drawImage === false) continue;
+			if (buttonData.hidden === true) continue;
+			if (buttonData.imagePath != null) {
+				requiredImages.add(buttonData.imagePath);
+				if (fileExists(path.join(BASE_PATH, buttonData.imagePath))) {
+					availableImages.add(buttonData.imagePath);
+				}
+			}
+		}
+	};
+
 	for (const [archetype, dataRecord] of Object.entries(dataSuperRecord)) {
 		if (dataRecord === null || typeof dataRecord !== "object") {
 			error(`${archetype} data lookup not found`);
 			continue;
 		}
+
 		for (const data of Object.values(dataRecord)) {
 			if (data.archetype === "modular") {
 				// Check the modules' drawdata as well
 				for (const mod of data.modules) {
-					for (const buttonData of mod.drawData.elementData) {
-						if (buttonData.imagePath != null) {
-							requiredImages.add(buttonData.imagePath);
-						}
-					}
+					parseDrawData(mod.drawData);
 				}
 			}
-			for (const buttonData of data.drawData.elementData) {
-				if ("imagePath" in buttonData && buttonData.imagePath != null) {
-					requiredImages.add(buttonData.imagePath);
-				}
-			}
+			parseDrawData(data.drawData);
 		}
 	}
 
 	// Identify all missing and extra images
-	/** @type {Set<string>} */
-	const availableImages = new Set();
-	recursivelyListDir(`${BASE_PATH}Screens/Inventory`, availableImages, i => i.endsWith(".png"));
 	for (const imagePath of requiredImages) {
 		if (!availableImages.has(imagePath)) {
 			error(`Missing extended item button image ${imagePath}`);
@@ -925,9 +947,9 @@ function testActivePose(assets, poseMap) {
  */
 function testHasPreview(assets) {
 	for (const asset of assets) {
-		const path = `${BASE_PATH}Assets/${asset.Group.Family}/${asset.DynamicGroupName}/Preview/${asset.Name}.png`;
-		if (asset.Visible && asset.Group.AllowNone && !fs.existsSync(path)) {
-			error(`${asset.Group.Name}:${asset.Name}: Missing preview image at "${path}"`);
+		const assetPath = `${BASE_PATH}Assets/${asset.Group.Family}/${asset.DynamicGroupName}/Preview/${asset.Name}.png`;
+		if (asset.Visible && asset.Group.AllowNone && !fs.existsSync(assetPath)) {
+			error(`${asset.Group.Name}:${asset.Name}: Missing preview image at "${assetPath}"`);
 		}
 	}
 }
@@ -1136,7 +1158,7 @@ function testAssetHasPNG(assets, extendedDataRecords, poseRecord) {
 							}
 
 							for (const parent of parentNames) {
-								const path = (
+								const pngPath = (
 									root
 									+ (pose ? `${pose}/` : "")
 									+ (expression ? `${expression}/` : "")
@@ -1147,7 +1169,7 @@ function testAssetHasPNG(assets, extendedDataRecords, poseRecord) {
 								if (type) fileParts.push(type);
 								if (color) fileParts.push(color);
 								if (layer.Name) fileParts.push(layer.Name);
-								const file = path + fileParts.join("_") + ".png";
+								const file = pngPath + fileParts.join("_") + ".png";
 								if (!fs.existsSync(file)) {
 									error(`${asset.Group.Name}:${asset.Name}:${layer.Name}: Missing asset "${file}"`);
 								}
