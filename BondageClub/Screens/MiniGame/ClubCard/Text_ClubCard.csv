@@ -296,7 +296,7 @@ Text Cat Burglar,Steal 2 Fame and Money. Then steal 2 Fame and 2 Money unless yo
 Title Money Heist,Money Heist
 Text Money Heist,"Steal 6 Money. Then steal 2 Money if a Criminal is present. Then steal 4 Money if your opponent doesn't have Police."
 Title BDSM Ball,BDSM Ball
-Text BDSM Ball,"All Submissives and Dominants in your club gets +1 Fame."
+Text BDSM Ball,"All Submissives and Dominants in your club get +1 Fame."
 Title Vampire Ball,Vampire Ball
 Text Vampire Ball,"Gain 2 Fame for each member that's not Dominant, Liability, Kemonomini, Maid, Player, or Staff."
 Title Straitjacket Saturday,Straitjacket Saturday
@@ -609,7 +609,7 @@ Text Drunkard,"For each card you draw, lose 1 Fame unless a Bouncer is present, 
 GroupSlave,Slave
 GroupSubmissive,Submissive
 Title Country Gal,Country Gal
-Text Country Gal," "
+Text Country Gal,"<F>Every bounce it gets tighter… my grip on bull, duh!"
 Title Kneeling Sub,Kneeling Sub
 Text Kneeling Sub,"<F>I'm on my knees so much, that I needed kneepads"
 Title Humbled Harper,Humbled Harper
@@ -622,7 +622,7 @@ Text Bottom Bitch,"Gain +1 fame for each other submissive present (max 8). Leave
 Title Nadu Nyla,Nadu Nyla
 Text Nadu Nyla,Gain +2 Fame and +1 Money as long as you have an active event in your club.
 Title Surrender,Surrender
-Text Surrender,All Slaves in your club gets +1 Fame.
+Text Surrender,All Slaves in your club get +1 Fame.
 Title Hands out,Hands out
 Text Hands out,"Select a card in your hand, then discard your hand and draw as many cards, save the selected card if a slave is present."
 Prerequisite Hands out,Select a card in your hand.
@@ -633,7 +633,7 @@ Text Rizom,"Enters: Select a member from your club to get 1 Fame and Money, 1 mo
 Prerequisite Rizom,'Select a member from your club to enhance.'
 Effect Rizom,"CARDNAME got a massage from Rizom, their fame and money got boosted."
 Title Chirumi,Chirumi
-Text Chirumi,Gain +1 fame equal to your club level. Leaves your club if your streets have more than 3 cards.
+Text Chirumi,Gain +1 fame equal to your club tier. Leaves your club if your streets have more than 3 cards.
 Title Pack Member,Pack Member
 Text Pack Member,"Enters: Add a Pack member to your hand if you have fewer members in your club than the opponent."
 Title Brutus,Brutus
@@ -649,7 +649,7 @@ Text Instincts,"Lose 12 fame, draw three cards. You cannot gain fame until a Kem
 Title Pack Tactics,Pack Tactics
 Text Pack Tactics,"Add a Pack Member to your club. for the next 2 turns, opponent loses 1 Fame for each Pack Member in your club"
 Title Conservation Efforts,Conservation Efforts
-Text Conservation Efforts,"For 4 turns, If a Kemonomimi is Present, gain 2 Fame and Money for each card you draw."
+Text Conservation Efforts,"For 4 turns, If a Kemonomimi is Present, receive 2 Fame and Money for each card you draw."
 Title Artie, Artie
 Text Artie,"Gain +1 Fame per 2 building tiers. Enters: Lose 6 Money and draw a random Owner from your deck."
 Title Cute Bunny,Cute Bunny
@@ -657,11 +657,11 @@ Text Cute Bunny,"Leaves if the number of Cute Bunny present is higher than your 
 Title Ganguro Girl,Ganguro Girl
 Text Ganguro Girl,"At the end of your turn, the player with more non-Liability members loses 1 Fame."
 Title Collector,Collector
-Text Collector,"Gain +1 Fame if a Slave is present. Gain +1 Money per Kemonomimi is present (max 2)."
+Text Collector,"Gain +1 Fame if a Slave is present. Gain +1 Money per Kemonomimi present (max 2)."
 Title Sewer Rat,Sewer Rat
 Text Sewer Rat,"At the end of your turn, If there are at least 7 members in your streets, leaves your club and opponent loses 25 Fame."
 Title Hustler,Hustler
-Text Hustler,"When you steal with another effect, receive 1 Fame or 1 Money at random for each Criminal in your streets (Max +2 each)."
+Text Hustler,"When you steal with another effect, receive 1 Fame or 1 Money at random for each Criminal in your streets (Max 2 each)."
 Title Enforcer,Enforcer
 Text Enforcer,"Gain +1 fame per member in your streets (max 7). Enters: Discard 3 random members from your deck and receive Money equal to their tiers."
 Title Ball Gag,Ball Gag
