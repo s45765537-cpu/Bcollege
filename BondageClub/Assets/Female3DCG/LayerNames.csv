@@ -24,6 +24,8 @@ BraceletLaceBandsBands,Bands
 BraceletLaceBandsLace,Lace
 BraceletSpikeBandsBands,Bands
 BraceletSpikeBandsSpikes,Spikes
+BraceletWristbandRBand,Right band
+BraceletWristbandLBand,Left band
 BraceletWristWatchBand,Band
 BraceletWristWatchFace,Face
 BraceletWristWatchTrim,Trim
@@ -92,6 +94,12 @@ ClothAccessoryLargeNeckFurFront,Front
 ClothAccessoryLargeNeckFurShoulders,Shoulders
 ClothAccessoryLeatherBeltClothMain,Belt
 ClothAccessoryLeatherBeltClothMetal,Buckle
+ClothAccessoryRuffledCollarMain,Collar latex base
+ClothAccessoryRuffledCollarRuffled1,Top ruffled detail
+ClothAccessoryRuffledCollarRuffled2,Below ruffled detail
+ClothAccessoryRuffledCollarButtons,Collar buttons
+ClothAccessoryRuffledCollarChoker,Leather choker
+ClothAccessoryRuffledCollarCButton,Choker button
 ClothAccessorySpikyNeckFurBack,Back
 ClothAccessorySpikyNeckFurFront,Front
 ClothAccessorySpikyNeckFurShoulders,Shoulders
@@ -382,14 +390,17 @@ GlassesGradientSunglassesGlass,Glass
 GlassesJokeGlassesGlasses,Glasses
 GlassesJokeGlassesHair,Hair
 GlassesJokeGlassesNose,Nose
-GlassesPincenezMain,Frame
-GlassesPincenezLenses,Lenses
+GlassesPincenezFrame,Frame
+GlassesPincenezRightLens,Right lens
+GlassesPincenezLeftLens,Left lens
 GlassesPincenezAcc,Accessory
 GlassesRoundSunglassesFrame,Frame
-GlassesRoundSunglassesLenses,Lenses
+GlassesRoundSunglassesRightLens,Right lens
+GlassesRoundSunglassesLeftLens,Left lens
 GlassesRoundSunglassesNose,Nose
 GlassesStreetEyewearFrame,Frame
-GlassesStreetEyewearLenses,Lenses
+GlassesStreetEyewearRightLens,Right lens
+GlassesStreetEyewearLeftLens,Left lens
 GlassesVGlassesFrame,Frame
 GlassesVGlassesGlass,Lenses
 GlovesAnimeGirlGlovesGloves,Gloves
@@ -927,6 +938,8 @@ HatCrown2Crown,Crown
 HatCrown2Jewels,Jewels
 HatCrown3Crown,Crown
 HatCrown3Jewels,Jewels
+HatFlatCapMain,Hat
+HatFlatCapStripes,Hat stripes
 HatFlowerCrownMainFlowers,Main Flowers
 HatFlowerCrownPetals,Petals
 HatLatexHabitBase,Shawl

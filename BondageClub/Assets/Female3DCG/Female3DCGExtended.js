@@ -1857,6 +1857,10 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		},
+		RuffledCollar: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [{ Name: "None" }, { Name: "Choker" }],
+		}, //RuffledCollar
 	}, // ClothAccessory
 	ClothLower: {
 		PantBoots: {
@@ -18800,83 +18804,103 @@ var AssetFemale3DCGExtended = {
 			DrawImages: false,
 		}, // GradientSunglasses
 		StreetEyewear: {
-			Archetype: ExtendedArchetype.TYPED,
-			Options: [
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
 				{
-					Name: "Normal",
-					Property: {
-						OverridePriority: 27,
-					},
+					Name: "Position",
+					Key: "p",
+					Options: [
+						{
+							// p0 - Under front hair
+							Property: { OverridePriority: 27 },
+						},
+						{
+							// p1 - Over front hair
+							Property: { OverridePriority: 53 },
+						},
+					],
 				},
 				{
-					Name: "NormalOver",
-					Property: {
-						OverridePriority: 53,
-					},
-				},
-				{
-					Name: "Half",
-					Property: {
-						OverridePriority: 27,
-					},
-				},
-				{
-					Name: "HalfOver",
-					Property: {
-						OverridePriority: 53,
-					},
+					Name: "Frame",
+					Key: "f",
+					Options: [
+						{
+							// f0 - Normal frame
+							Property: {},
+						},
+						{
+							// f1 - Half frame
+							Property: {},
+						},
+					],
 				},
 			],
-			DialogPrefix: {
-				Header: "StreetEyewearSelectType",
-				Option: "StreetEyewearType",
-			},
 			DrawImages: false,
 		}, // StreetEyewear
 		Pincenez: {
-			Archetype: ExtendedArchetype.TYPED,
-			Options: [
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
 				{
-					Name: "NoAcc",
-					Property: {
-						OverridePriority: 27,
-					},
+					Name: "Position",
+					Key: "p",
+					Options: [
+						{
+							// p0 - Under front hair
+							Property: { OverridePriority: 27 },
+						},
+						{
+							// p1 - Over front hair
+							Property: { OverridePriority: 53 },
+						},
+					],
 				},
 				{
-					Name: "NoAccOver",
-					Property: {
-						OverridePriority: 53,
-					},
-				},
-				{
-					Name: "Acc",
-					Property: {
-						OverridePriority: 27,
-					},
-				},
-				{
-					Name: "AccOver",
-					Property: {
-						OverridePriority: 53,
-					},
+					Name: "Accessory",
+					Key: "a",
+					Options: [
+						{
+							// a0 - No chain acc
+							Property: {},
+						},
+						{
+							// a1 - Chain acc
+							Property: {},
+						},
+					],
 				},
 			],
-			DialogPrefix: {
-				Header: "PincenezSelectType",
-				Option: "PincenezType",
-			},
 			DrawImages: false,
 		}, // Pincenez
 		RoundSunglasses: {
-			Archetype: ExtendedArchetype.TYPED,
-			Options: [
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
 				{
-					Name: "Normal",
-					Property: { OverridePriority: 27 },
+					Name: "Position",
+					Key: "p",
+					Options: [
+						{
+							// p0 - Under front hair
+							Property: { OverridePriority: 27 },
+						},
+						{
+							// p1 - Over front hair
+							Property: { OverridePriority: 53 },
+						},
+					],
 				},
 				{
-					Name: "Over",
-					Property: { OverridePriority: 53 },
+					Name: "Lenses",
+					Key: "l",
+					Options: [
+						{
+							// l0 - Darker lenses
+							Property: {},
+						},
+						{
+							// l1 - Clear lenses
+							Property: {},
+						},
+					],
 				},
 			],
 			DrawImages: false,
@@ -18917,18 +18941,62 @@ var AssetFemale3DCGExtended = {
 			},
 		}, // SpikeBands
 		Wristband: {
-			Archetype: ExtendedArchetype.TYPED,
-			Options: [
-				{
-					Name: "Left",
-				},
-				{
-					Name: "Both",
-				},
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
 				{
 					Name: "Right",
+					Key: "r",
+					Options: [
+						{
+							// r0 - Equipped
+							Property: {},
+						},
+						{
+							// r1 - None
+							Property: {},
+						},
+					],
+				},
+				{
+					Name: "Left",
+					Key: "l",
+					Options: [
+						{
+							// l0 - Equipped
+							Property: {},
+						},
+						{
+							// l1 - None
+							Property: {},
+						},
+					],
+				},
+				{
+					Name: "Position",
+					Key: "p",
+					Options: [
+						{
+							// p0 - Under gloves
+							Property: {
+								OverridePriority: {
+									"RBand": 26,
+									"LBand": 26,
+								},
+							},
+						},
+						{
+							// p1 - Over gloves
+							Property: {
+								OverridePriority: {
+									"RBand": 32,
+									"LBand": 32,
+								},
+							},
+						},
+					],
 				},
 			],
+			DrawImages: false,
 		}, // Wristband
 		WristWatch: {
 			Archetype: ExtendedArchetype.MODULAR,
@@ -19216,6 +19284,10 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, //SatinScarf
+		RuffledCollar: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ClothAccessory", AssetName: "RuffledCollar" },
+		}, // RuffledCollar
 	}, // Necklace
 	Suit: {
 		Catsuit: {
