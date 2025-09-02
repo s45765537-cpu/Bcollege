@@ -832,10 +832,10 @@ function MainHallResetClubSlave() {
 
 /**
  * Triggered when the player needs to be brought to the club management room to be expelled
- * @returns {void} - Nothing
+ * @returns {Promise<void>} - Nothing
  */
-function MainHallMistressExpulsion() {
-	CommonSetScreen("Room", "Management");
+async function MainHallMistressExpulsion() {
+	await CommonSetScreen("Room", "Management");
 	ManagementMistress.Stage = "500";
 	ManagementMistress.CurrentDialog = DialogFind(MainHallMaid, "MistressExpulsion");
 	CharacterSetCurrent(ManagementMistress);

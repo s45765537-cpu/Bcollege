@@ -655,6 +655,24 @@ var AssetFemale3DCG = [
 					BuyGroup: true,
 				},
 			},
+			{
+				Name: "BartenderVest",
+				CopyConfig: {
+					GroupName: "Suit",
+					AssetName: "BartenderVest",
+					BuyGroup: true,
+				},
+				DynamicGroupName: "Suit",
+			},
+			{
+				Name: "BartenderVestM",
+				CopyConfig: {
+					GroupName: "Suit",
+					AssetName: "BartenderVestM",
+					BuyGroup: true,
+				},
+				DynamicGroupName: "Suit",
+			},
 		],
 		Color: [
 			"Default",
@@ -4982,6 +5000,33 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "RuffledCollar",
+				InventoryID: 1261,
+				Left: 185,
+				Top: 160,
+				Priority: 31,
+				Fetish: ["Latex"],
+				Value: 10,
+				BuyGroup: "RuffledCollar",
+				Extended: true,
+				DefaultColor: [
+					"#A8437D",
+					"#B0B0B0",
+					"#B0B0B0",
+					"#AAAAAA",
+					"#B0B0B0",
+					"#A8437D",
+				],
+				Layer: [
+					{ Name: "Main", AllowColorize: true },
+					{ Name: "Ruffled1", Priority: 42, AllowColorize: true },
+					{ Name: "Ruffled2", AllowColorize: true },
+					{ Name: "Buttons", AllowColorize: true },
+					{ Name: "Choker", AllowTypes: { typed: 1 }, AllowColorize: true },
+					{ Name: "CButton", AllowTypes: { typed: 1 }, AllowColorize: true },
+				],
+			},
 			// Flat Chest Compatible Clothing
 			{
 				Name: "SmallNeckFur",
@@ -5293,6 +5338,36 @@ var AssetFemale3DCG = [
 				ParentGroup: {},
 				DefaultColor: ["#8F8B69", "#691919"],
 				Layer: [{ Name: "Metal" }, { Name: "Petals" }],
+			},
+			{
+				Name: "RuffledCollar",
+				InventoryID: 1261,
+				Left: 185,
+				Top: 160,
+				Priority: 31,
+				Fetish: ["Latex"],
+				Value: -1,
+				BuyGroup: "RuffledCollar",
+				DynamicGroupName: "ClothAccessory",
+				ParentItem: "ClothAccessoryRuffledCollar",
+				ParentGroup: {},
+				Extended: true,
+				DefaultColor: [
+					"#A8437D",
+					"#B0B0B0",
+					"#B0B0B0",
+					"#AAAAAA",
+					"#B0B0B0",
+					"#A8437D",
+				],
+				Layer: [
+					{ Name: "Main", AllowColorize: true },
+					{ Name: "Ruffled1", Priority: 42, AllowColorize: true },
+					{ Name: "Ruffled2", AllowColorize: true },
+					{ Name: "Buttons", AllowColorize: true },
+					{ Name: "Choker", AllowTypes: { typed: 1 }, AllowColorize: true },
+					{ Name: "CButton", AllowTypes: { typed: 1 }, AllowColorize: true },
+				],
 			},
 			// Breast Compatible Clothing
 			{
@@ -6830,17 +6905,27 @@ var AssetFemale3DCG = [
 					AllFours: PoseType.HIDE,
 				},
 				Layer: [
-					{ Name: "Skirt", AllowTypes: { typed: 0 }, StyleOverride: ["EchoV2"], },
+					{
+						Name: "Skirt",
+						AllowTypes: { typed: 0 },
+						StyleOverride: ["EchoV2"],
+					},
 					{
 						Name: "SkirtV2",
 						CopyLayerColor: "Skirt",
 						AllowTypes: { typed: 1 },
+						StyleOverride: ["EchoV2"],
 					},
-					{ Name: "Design", AllowTypes: { typed: 0 }, StyleOverride: ["EchoV2"],},
+					{
+						Name: "Design",
+						AllowTypes: { typed: 0 },
+						StyleOverride: ["EchoV2"],
+					},
 					{
 						Name: "DesignV2",
 						CopyLayerColor: "Design",
 						AllowTypes: { typed: 1 },
+						StyleOverride: ["EchoV2"],
 					},
 				],
 				Alpha: [
@@ -15051,6 +15136,49 @@ var AssetFemale3DCG = [
 					},
 				],
 			},
+			{
+				Name: "FlatCap",
+				InventoryID: 1260,
+				Top: 12,
+				Left: 150,
+				Value: 12,
+				DefaultColor: ["#5A2C0C", "#E64747"],
+				PoseMapping: { Suspension: PoseType.HIDE },
+				HideItem: [
+					"HairFrontHairFront10",
+					"HairFrontHairFront10b",
+					"HairFrontHairFront12",
+					"HairFrontHairFront22",
+					"HairFrontHairFront22b",
+					"HairFrontHairFront23",
+					"HairFrontHairFront23b",
+				],
+				Alpha: [
+							{
+								Group: ["HairFront"],
+								Masks: [[50,-100, 400, 180]],
+							},
+						],
+				Layer: [
+					{
+						Name: "Main",
+						Alpha: [
+							{
+								Group: [
+									"HairAccessory1",
+									"Mask",
+									"ItemEars",
+									"ItemHead",
+									"ItemHood",
+								],
+								Masks: [[50, -50, 400, 170]],
+							},
+						],
+						AllowColorize: true,
+					},
+					{ Name: "Stripes", AllowColorize: true },
+				],
+			},
 		],
 		Color: [
 			"Default",
@@ -18480,13 +18608,42 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Wristband",
-				Priority: 32,
+				Extended: true,
+				ParentGroup: {},
+				DefaultColor: ["#B4D05E", "#B4D05E"],
 				PoseMapping: {
 					...AssetPoseMapping.Bracelet,
 					BackBoxTie: PoseType.HIDE,
+					AllFours: "AllFours",
 				},
-				CreateLayerTypes: ["typed"],
-				Extended: true,
+				Layer: [
+					{
+						Name: "RBand",
+						CreateLayerTypes: ["r"],
+						AllowTypes: { r: 0 },
+						AllowColorize: true,
+					},
+					{
+						Name: "LBand",
+						CreateLayerTypes: ["l"],
+						AllowTypes: { l: 0 },
+						AllowColorize: true,
+					},
+					{
+						Name: "RBand2",
+						Priority: 5,
+						CreateLayerTypes: ["r"],
+						AllowTypes: { r: 0 },
+						CopyLayerColor: "RBand",
+					},
+					{
+						Name: "LBand2",
+						Priority: 5,
+						CreateLayerTypes: ["l"],
+						AllowTypes: { l: 0 },
+						CopyLayerColor: "LBand",
+					},
+				],
 			},
 			{
 				Name: "Band1",
@@ -18782,9 +18939,17 @@ var AssetFemale3DCG = [
 				Value: 21,
 				Left: 182,
 				Extended: true,
-				CreateLayerTypes: ["typed"],
-				DefaultColor: ["#303030", "#808080"],
-				Layer: [{ Name: "Frame" }, { Name: "Lenses" }],
+				DefaultColor: ["#303030","#808080","#808080"],
+				Layer: [
+					{
+						Name: "Frame",
+						CreateLayerTypes: ["f"],
+						AllowTypes: { f: [0, 1] },
+						AllowColorize: true,
+					},
+					{ Name: "RightLens", AllowColorize: true },
+					{ Name: "LeftLens", AllowColorize: true },
+				],
 			},
 			{
 				Name: "Pincenez",
@@ -18793,17 +18958,45 @@ var AssetFemale3DCG = [
 				Top: 124,
 				Left: 183,
 				Extended: true,
-				CreateLayerTypes: ["typed"],
-				DefaultColor: ["#DDB792", "#BC9768", "#A99777"],
-				Layer: [{ Name: "Main" }, { Name: "Lenses" }, { Name: "Acc" }],
+				DefaultColor: ["#DDB792","#BC9768","#BC9768","#A99777"],
+				Layer: [
+					{
+						Name: "Frame",
+						CreateLayerTypes: ["a"],
+						AllowTypes: { a: [0, 1] },
+						AllowColorize: true,
+					},
+					{ Name: "RightLens", AllowColorize: true },
+					{ Name: "LeftLens", AllowColorize: true },
+					{
+						Name: "Acc",
+						CreateLayerTypes: ["a"],
+						AllowTypes: { a: 1 },
+						AllowColorize: true,
+					},
+				],
 			},
 			{
 				Name: "RoundSunglasses",
 				Left: 182,
 				Extended: true,
-				CreateLayerTypes: ["typed"],
-				DefaultColor: ["#928D7C", "#A89A6C", "#BBAC83"],
-				Layer: [{ Name: "Frame" }, { Name: "Lenses" }, { Name: "Nose" }],
+				DefaultColor: ["#928D7C","#A89A6C","#A89A6C","#BBAC83"],
+				Layer: [
+					{ Name: "Frame", AllowColorize: true },
+					{
+						Name: "RightLens",
+						CreateLayerTypes: ["l"],
+						AllowTypes: { l: [0, 1] },
+						AllowColorize: true,
+					},
+					{
+						Name: "LeftLens",
+						CreateLayerTypes: ["l"],
+						AllowTypes: { l: [0, 1] },
+						AllowColorize: true,
+					},
+					{ Name: "Nose", AllowColorize: true },
+				],
 			},
 		],
 		Color: [
@@ -20511,7 +20704,7 @@ var AssetFemale3DCG = [
 				Value: 1,
 				PoseMapping: {
 					Kneel: "AllFours",
-					KneelingSpread: "Kneel",
+					KneelingSpread: "AllFours",
 					LegsClosed: "",
 					Spread: "",
 					AllFours: "AllFours",
@@ -34892,7 +35085,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "LeatherDeluxeCuffs",
 				InventoryID: 726,
-				StyleOverride: ["EchoV2"],
 				Fetish: ["Leather"],
 				Priority: 29,
 				Value: 50,
@@ -34955,7 +35147,10 @@ var AssetFemale3DCG = [
 				Hide: ["Bracelet"],
 				Extended: true,
 				CreateLayerTypes: ["typed"],
-				Layer: [{ Name: "Chain", Top: -388, Priority: 6 }, { Name: "Cuffs", StyleOverride: ["EchoV2"],}],
+				Layer: [
+					{ Name: "Chain", Top: -388, Priority: 6 },
+					{ Name: "Cuffs", StyleOverride: ["EchoV2"] },
+				],
 			},
 			{
 				Name: "SteelCuffs",
@@ -39280,8 +39475,8 @@ var AssetFemale3DCG = [
 						],
 						Pose: ["Yoked"],
 						Masks: [
-							[50, 200, 65, 125],
-							[375, 200, 65, 125],
+							[50, 120, 68, 265],
+							[375, 120, 68, 265],
 						],
 					},
 					{
@@ -39295,8 +39490,10 @@ var AssetFemale3DCG = [
 						],
 						Pose: ["OverTheHead"],
 						Masks: [
-							[90, 50, 100, 140],
-							[300, 50, 100, 140],
+							[60, 0, 150, 220],
+							[60, 0, 100, 244],
+							[270, 0, 180, 220],
+							[340, 0, 180, 244],
 						],
 					},
 				],
@@ -39387,8 +39584,8 @@ var AssetFemale3DCG = [
 						],
 						Pose: ["Yoked"],
 						Masks: [
-							[50, 200, 65, 125],
-							[375, 200, 65, 125],
+							[50, 120, 68, 265],
+							[375, 120, 68, 265],
 						],
 					},
 					{
@@ -39402,8 +39599,10 @@ var AssetFemale3DCG = [
 						],
 						Pose: ["OverTheHead"],
 						Masks: [
-							[90, 50, 100, 130],
-							[300, 50, 100, 130],
+							[60, 0, 150, 220],
+							[60, 0, 100, 244],
+							[270, 0, 180, 220],
+							[340, 0, 180, 244],
 						],
 					},
 				],
@@ -42432,6 +42631,7 @@ var AssetFemale3DCG = [
 				Top: 220,
 				ParentGroup: {},
 				IsRestraint: false,
+				AllowColorize: false,
 				Extended: true,
 				BuyGroup: "Plushies",
 				HideItem: ["ItemMiscPlushies"],
@@ -42439,187 +42639,150 @@ var AssetFemale3DCG = [
 					{
 						Name: "Sin",
 						AllowTypes: { DenOfSin: 1 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Raven",
 						AllowTypes: { DenOfSin: 2 },
-						AllowColorize: false,
 					},
 					{
 						Name: "CassandraLee",
 						AllowTypes: { DenOfSin: 3 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Rika",
 						AllowTypes: { DenOfSin: 4 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Roslin",
 						AllowTypes: { DenOfSin: 5 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Gangriel",
 						AllowTypes: { Gangriels: 1 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Celiko",
 						AllowTypes: { CelestialEnchants: 1 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Lavender",
 						AllowTypes: { CelestialEnchants: 2 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Siscuit",
 						AllowTypes: { CelestialEnchants: 3 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Aeri",
 						AllowTypes: { LatexLab: 1 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Delta",
 						AllowTypes: { LatexLab: 2 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Khloe",
 						AllowTypes: { LatexLab: 3 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Lillian",
 						AllowTypes: { LatexLab: 4 },
-						AllowColorize: false,
 					},
 					{
 						Name: "TinyRavin",
 						AllowTypes: { LatexLab: 5 },
-						AllowColorize: false,
 					},
 					{
 						Name: "XDress",
 						AllowTypes: { LatexLab: 6 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Elora",
 						AllowTypes: { LatexLab: 7 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Lisa",
 						AllowTypes: { LatexLab: 8 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Melanie",
 						AllowTypes: { LatexLab: 9 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Magdalena",
 						AllowTypes: { VoidOrder: 1 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Sonic",
 						AllowTypes: { VoidOrder: 2 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Jagodka",
 						AllowTypes: { VoidOrder: 3 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Shade",
 						AllowTypes: { VoidOrder: 4 },
-						AllowColorize: false,
 					},
 					{
 						Name: "VoidPaladin",
 						AllowTypes: { VoidOrder: 5 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Alunra",
 						AllowTypes: { EnsLivingRoom: 1 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Mel",
 						AllowTypes: { EnsLivingRoom: 2 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Zannah",
 						AllowTypes: { EnsLivingRoom: 3 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Zoe",
 						AllowTypes: { EnsLivingRoom: 4 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Chloe",
 						AllowTypes: { EnsLivingRoom: 5 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Liesel",
 						AllowTypes: { EnsLivingRoom: 6 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Nabi",
 						AllowTypes: { Vagrants: 1 },
-						AllowColorize: false,
 					},
 					{
 						Name: "HoshiKo",
 						AllowTypes: { Vagrants: 2 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Layottu",
 						AllowTypes: { Vagrants: 3 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Sabie",
 						AllowTypes: { Vagrants: 4 },
-						AllowColorize: false,
 					},
 					{
 						Name: "LittleSera",
 						AllowTypes: { Vagrants: 5 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Mana",
 						AllowTypes: { Vagrants: 6 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Minerva",
 						AllowTypes: { Vagrants: 7 },
-						AllowColorize: false,
 					},
 					{
 						Name: "Zoi",
 						AllowTypes: { Vagrants: 8 },
-						AllowColorize: false,
 					},
 				],
 			},
@@ -46188,8 +46351,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "TechnoGag",
 				InventoryID: 962,
-				Gender: "F",
-				Prerequisite: ["HasBreasts", "HasVagina", "GagUnique"],
+				Prerequisite: ["GagUnique"],
 				Value: 20,
 				Difficulty: 4,
 				Time: 20,
@@ -47644,9 +47806,12 @@ var AssetFemale3DCG = [
 				Left: 0,
 				Priority: 46,
 				IsRestraint: false,
+				AllowLock: false,
+				AllowTighten: false,
 				Random: false,
 				Audio: "Bag",
 				AllowActivity: ["RubItem"],
+				Effect: [],
 				AllowColorize: true,
 				DefaultColor: ["Default", "Default", "#A16000", "Default"],
 				Layer: [
