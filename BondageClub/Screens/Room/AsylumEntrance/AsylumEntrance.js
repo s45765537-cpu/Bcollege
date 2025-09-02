@@ -274,9 +274,10 @@ function AsylumEntranceFightNurseEnd() {
 	InventoryRemove(Player, "ItemNose");
 	InventoryRemove(Player, "ItemMouth");
 	InventoryRemove(Player, "ItemFeet");
-	CommonSetScreen("Room", "AsylumEntrance");
-	CharacterSetCurrent(AsylumEntranceNurse);
-	AsylumEntranceNurse.CurrentDialog = DialogFind(AsylumEntranceNurse, (KidnapVictory) ? "FightVictory" : "FightDefeat");
+	CommonSetScreen("Room", "AsylumEntrance").then(() => {
+		CharacterSetCurrent(AsylumEntranceNurse);
+		AsylumEntranceNurse.CurrentDialog = DialogFind(AsylumEntranceNurse, (KidnapVictory) ? "FightVictory" : "FightDefeat");
+	});
 }
 
 /**
@@ -344,16 +345,17 @@ function AsylumEntranceRecommit() {
  * @returns {void} - Nothing
  */
 function AsylumEntranceNurseCatchEscapedPlayer() {
-	CommonSetScreen("Room", "AsylumEntrance");
-	AsylumEntranceBackground = "MainHall";
-	CharacterDelete(AsylumEntranceKidnapNurse);
+	CommonSetScreen("Room", "AsylumEntrance").then(() => {
+		AsylumEntranceBackground = "MainHall";
+		CharacterDelete(AsylumEntranceKidnapNurse);
 
-	AsylumEntranceKidnapNurse = CharacterLoadNPC("NPC_AsylumEntrance_KidnapNurse");
-	AsylumEntranceWearNurseClothes(AsylumEntranceKidnapNurse);
-	AsylumEntranceKidnapNurse.Stage = "0";
-	AsylumEntranceKidnapNurse.CurrentDialog = DialogFind(AsylumEntranceKidnapNurse, (Player.CanInteract() ? "Intro" : "Automatic") + (Math.floor(Math.random() * 3)).toString());
-	AsylumEntranceKidnapNurse.AllowItem = false;
-	CharacterSetCurrent(AsylumEntranceKidnapNurse);
+		AsylumEntranceKidnapNurse = CharacterLoadNPC("NPC_AsylumEntrance_KidnapNurse");
+		AsylumEntranceWearNurseClothes(AsylumEntranceKidnapNurse);
+		AsylumEntranceKidnapNurse.Stage = "0";
+		AsylumEntranceKidnapNurse.CurrentDialog = DialogFind(AsylumEntranceKidnapNurse, (Player.CanInteract() ? "Intro" : "Automatic") + (Math.floor(Math.random() * 3)).toString());
+		AsylumEntranceKidnapNurse.AllowItem = false;
+		CharacterSetCurrent(AsylumEntranceKidnapNurse);
+	});
 }
 
 /**
@@ -371,13 +373,14 @@ function AsylumEntranceKidnapNurseFight() {
  * @returns {void} - Nothing
  */
 function AsylumEntranceKidnapNurseFightOutro(Surrender) {
-	CommonSetScreen("Room", "AsylumEntrance");
-	SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(AsylumEntranceKidnapNurse));
-	if ((Surrender != null) && Surrender) DialogChangeReputation("Dominant", -3);
-	AsylumEntranceKidnapNurse.Stage = (KidnapVictory) ? "100" : "200";
-	if (!KidnapVictory) CharacterRelease(AsylumEntranceKidnapNurse);
-	CharacterSetCurrent(AsylumEntranceKidnapNurse);
-	AsylumEntranceKidnapNurse.CurrentDialog = DialogFind(AsylumEntranceKidnapNurse, ((KidnapVictory) ? "Victory" : "Defeat"));
+	CommonSetScreen("Room", "AsylumEntrance").then(() => {
+		SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(AsylumEntranceKidnapNurse));
+		if ((Surrender != null) && Surrender) DialogChangeReputation("Dominant", -3);
+		AsylumEntranceKidnapNurse.Stage = (KidnapVictory) ? "100" : "200";
+		if (!KidnapVictory) CharacterRelease(AsylumEntranceKidnapNurse);
+		CharacterSetCurrent(AsylumEntranceKidnapNurse);
+		AsylumEntranceKidnapNurse.CurrentDialog = DialogFind(AsylumEntranceKidnapNurse, ((KidnapVictory) ? "Victory" : "Defeat"));
+	});
 }
 
 /**
@@ -445,18 +448,19 @@ function AsylumEntranceBackAsPatient() {
  * @returns {void} - Nothing
  */
 function AsylumEntranceEscapedPatientMeet() {
-	CommonSetScreen("Room", "AsylumEntrance");
-	AsylumEntranceBackground = "MainHall";
-	CharacterDelete(AsylumEntranceEscapedPatient);
+	CommonSetScreen("Room", "AsylumEntrance").then(() => {
+		AsylumEntranceBackground = "MainHall";
+		CharacterDelete(AsylumEntranceEscapedPatient);
 
-	AsylumEntranceEscapedPatient = CharacterLoadNPC("NPC_AsylumEntrance_EscapedPatient");
-	AsylumEntranceWearPatientClothes(AsylumEntranceEscapedPatient);
-	AsylumEntranceEscapedPatient.Stage = "0";
-	AsylumEntranceEscapedPatient.CurrentDialog = DialogFind(AsylumEntranceEscapedPatient, "Intro" + (Math.floor(Math.random() * 3)).toString());
-	AsylumEntranceEscapedPatient.AllowItem = false;
-	AsylumEntranceEscapedPatientWillBribe = (Math.random() > 0.667);
-	AsylumEntranceEscapedPatientWillJoin = ((Math.random() > 0.667) && AsylumEntranceCanTransferToRoom());
-	CharacterSetCurrent(AsylumEntranceEscapedPatient);
+		AsylumEntranceEscapedPatient = CharacterLoadNPC("NPC_AsylumEntrance_EscapedPatient");
+		AsylumEntranceWearPatientClothes(AsylumEntranceEscapedPatient);
+		AsylumEntranceEscapedPatient.Stage = "0";
+		AsylumEntranceEscapedPatient.CurrentDialog = DialogFind(AsylumEntranceEscapedPatient, "Intro" + (Math.floor(Math.random() * 3)).toString());
+		AsylumEntranceEscapedPatient.AllowItem = false;
+		AsylumEntranceEscapedPatientWillBribe = (Math.random() > 0.667);
+		AsylumEntranceEscapedPatientWillJoin = ((Math.random() > 0.667) && AsylumEntranceCanTransferToRoom());
+		CharacterSetCurrent(AsylumEntranceEscapedPatient);
+	});
 }
 
 /**
@@ -476,16 +480,17 @@ function AsylumEntranceEscapedPatientFight() {
  * @returns {void} - Nothing
  */
 function AsylumEntranceEscapedPatientFightOutro(Surrender) {
-	CommonSetScreen("Room", "AsylumEntrance");
-	AsylumEntranceBackground = "MainHall";
-	SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(AsylumEntranceEscapedPatient));
-	if ((Surrender != null) && Surrender) DialogChangeReputation("Dominant", -3);
-	AsylumEntranceEscapedPatient.Stage = (KidnapVictory) ? "100" : "200";
-	if (!KidnapVictory) CharacterRelease(AsylumEntranceEscapedPatient);
-	InventoryRemove(Player, "ItemMouth");
-	InventoryRemove(AsylumEntranceEscapedPatient, "ItemMouth");
-	CharacterSetCurrent(AsylumEntranceEscapedPatient);
-	AsylumEntranceEscapedPatient.CurrentDialog = DialogFind(AsylumEntranceEscapedPatient, ((KidnapVictory) ? "Victory" : "Defeat"));
+	CommonSetScreen("Room", "AsylumEntrance").then(() => {
+		AsylumEntranceBackground = "MainHall";
+		SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(AsylumEntranceEscapedPatient));
+		if ((Surrender != null) && Surrender) DialogChangeReputation("Dominant", -3);
+		AsylumEntranceEscapedPatient.Stage = (KidnapVictory) ? "100" : "200";
+		if (!KidnapVictory) CharacterRelease(AsylumEntranceEscapedPatient);
+		InventoryRemove(Player, "ItemMouth");
+		InventoryRemove(AsylumEntranceEscapedPatient, "ItemMouth");
+		CharacterSetCurrent(AsylumEntranceEscapedPatient);
+		AsylumEntranceEscapedPatient.CurrentDialog = DialogFind(AsylumEntranceEscapedPatient, ((KidnapVictory) ? "Victory" : "Defeat"));
+	});
 }
 
 /**
@@ -622,7 +627,8 @@ function AsylumEntranceClubCardStart() {
  * @returns {void} - Nothing
  */
 function AsylumEntranceClubCardEnd() {
-	CommonSetScreen("Room", "AsylumEntrance");
-	CharacterSetCurrent(AsylumEntranceNurse);
-	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
+	CommonSetScreen("Room", "AsylumEntrance").then(() => {
+		CharacterSetCurrent(AsylumEntranceNurse);
+		CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
+	});
 }

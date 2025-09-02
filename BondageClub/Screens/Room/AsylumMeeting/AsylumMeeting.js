@@ -243,7 +243,8 @@ function AsylumMeetingClubCardStart() {
  * @returns {void} - Nothing
  */
 function AsylumMeetingClubCardEnd() {
-	CommonSetScreen("Room", "AsylumMeeting");
-	CharacterSetCurrent(AsylumMeetingPatientRight);
-	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
+	CommonSetScreen("Room", "AsylumMeeting").then(() => {
+		CharacterSetCurrent(AsylumMeetingPatientRight);
+		CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
+	});
 }

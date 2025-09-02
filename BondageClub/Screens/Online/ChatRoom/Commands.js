@@ -7,6 +7,7 @@ let CommandsKey = "/";
 /** @type {TextCache} */
 let CommandText = null;
 
+// #region Commands Main Functions
 /**
  * Loads the commands for the Player
  * @returns {void} - Nothing
@@ -81,34 +82,34 @@ function CommandParse(msg) {
 
 /**
  * Prints out the help for commands with tags that include `low`
+ * @deprecated
  * @param {string} low - lower case search keyword for tags
  * @param {number} [timeout] - total time to display the help message in ms
  * @returns {void} - Nothing
  */
 function CommandHelp(low, timeout) {
-	ChatRoomSendLocal(TextGet("CommandHelp").replace('KeyWord', low), timeout);
-	CommandPrintHelpFor(GetCommands().filter(C => !low || C.Tag.includes(low)), timeout, !low);
+	CommandsHelp.ShowForPartial(low);
 }
 
 /**
  * Prints out the help for commands
- * @param {Optional<ICommand, 'Action'>[]} CommandList - list of commands
- * @param {number} [Timeout] - total time to display the help message in ms
- * @param {boolean} [DoShowEscapeHint] - if message about message escaping should be shown
+ * @deprecated
+ * @param {Optional<ICommand, 'Action'>[]} commands - list of commands
+ * @param {number} [timeout] - total time to display the help message in ms
+ * @param {boolean} [doShowEscapeHint] - if message about message escaping should be shown
  */
-function CommandPrintHelpFor(CommandList, Timeout, DoShowEscapeHint) {
-	let HelpList = DoShowEscapeHint ? `${TextGet("CommandHelpEscape")}<br><br>` : ``;
-	CommandList
-		.filter(C => !C.Prerequisite || C.Prerequisite.call(C))
-		.forEach(C => {
-			const Help = CommandText.cache[C.Tag] || C.Description || TextGet("CommandHelpMissing");
-			HelpList += `<strong style="cursor: pointer;" onclick='window.CommandSet("${C.Tag}")'>${CommandsKey}${C.Tag}</strong> ${Help}<br>`;
-		});
-	if (HelpList) {
-		ChatRoomSendLocal(HelpList, Timeout);
-	} else {
-		ChatRoomSendLocal(TextGet("CommandNoSuchCommand"), Timeout);
-	}
+function CommandPrintHelpFor(commands, timeout, doShowEscapeHint) {
+	CommandsHelp.ShowFor(commands, { doShowEscapeHint, publish: true });
+}
+
+/**
+ * Prints out the help for commands
+ * @param {ICommand} cmd
+ * @param {{ arguments?: ArgumentDef['suggestions'], subcommands?: Subcommand[] }} options - list of commands
+ * @param {number} [timeout] - total time to display the help message in ms
+ */
+function CommandPrintHelpForSubcommandsArguments(cmd, options, timeout) {
+	CommandsHelp.ShowFor([cmd]);
 }
 
 /**
@@ -117,30 +118,71 @@ function CommandPrintHelpFor(CommandList, Timeout, DoShowEscapeHint) {
  * @returns {boolean} - true if a command was executed, false otherwise
  */
 function CommandExecute(msg) {
-	const low = msg.toLowerCase();
-	const [key, ...parsed] = low.replace(/\s{2,}/g, ' ').split(' ');
-	const flt = GetCommands().filter(cmd => key.indexOf(CommandsKey + cmd.Tag) == 0);
-	let C = flt[0];
+	const tokens = CommonTokenize(msg, { delimiters: [['"', '"'], ['\'', '\'']] });
+	let [key, ...parsed] = tokens;
 
-	if (flt.length > 1) C = null;
-	if (C && C.Reference) C = GetCommands().find(D => D.Tag == C.Reference);
-	if (C == null) {
-		ChatRoomSendLocal(`${msg} ${TextGet("CommandNoSuchCommand")}`, 10_000);
+	let commandDepth = 0;
+	// Find initial command candidate
+	const matchedCommand = GetCommands().find(cmd =>
+		key.toLowerCase() === `${CommandsKey}${cmd.Tag}`.toLowerCase()
+	);
+
+	let command = resolveCommandChain(matchedCommand, parsed);
+	const commandMessage = `${key} ${parsed.slice(0, commandDepth).join(' ')}`;
+
+	if (!command) {
+		ChatRoomSendLocal(`${commandMessage} ${TextGet("CommandNoSuchCommand")}`, 10_000);
 		return false;
 	}
-	if (C.Prerequisite && C.Prerequisite.call(C) == false) {
-		ChatRoomSendLocal(`${msg} ${TextGet("CommandPrerequisiteFailed")}`, 10_000);
+
+	if (command.some(c => c.Prerequisite && !c.Prerequisite())) {
+		ChatRoomSendLocal(`${commandMessage} ${TextGet("CommandPrerequisiteFailed")}`, 10_000);
 		return false;
 	}
-	C.Action.call(C, low.substring(C.Tag.length + 2), msg, parsed);
-	if (C.Clear == null || C.Clear) {
-		ElementValue("InputChat", "");
-		ElementFocus("InputChat");
 
-		// Dispatch an event so the input field gets resized correctly
-		ElementWrap("InputChat")?.dispatchEvent(new Event("input"));
+	if (command.every(c => c.PreserveCase === null || c.PreserveCase === false)) {
+		parsed = parsed.map(arg => arg.toLowerCase());
 	}
+
+	const currentCommandParsed = parsed.slice(commandDepth);
+	const args = currentCommandParsed.join(' ');
+
+	command[commandDepth].Action?.call(command, args, msg, currentCommandParsed);
+
+	if (command[commandDepth].Clear !== false) CommandChangeChatInputContent('');
 	return true;
+
+	/**
+	 * @param {ICommand} candidate
+	 * @param {string[]} parsedArgs
+	 * @returns {ICommand[]}
+	 */
+	function resolveCommandChain(candidate, parsedArgs) {
+		if (!candidate) return null;
+
+		let depth = 0;
+		let current = candidate;
+
+		const commandChain = [candidate];
+
+		// Resolve references and subcommands
+		while (current) {
+			while (current.Reference) {
+				current = GetCommands().find(c => c.Tag === current.Reference) || current;
+			}
+
+			if (depth >= parsedArgs.length) break;
+			const nextCmd = current.Subcommands?.find(c => c.Tag === parsedArgs[depth]);
+			if (!nextCmd) break;
+
+			current = nextCmd;
+			commandChain.push(current);
+			depth++;
+		}
+
+		commandDepth = depth;
+		return commandChain;
+	}
 }
 
 /**
@@ -148,52 +190,591 @@ function CommandExecute(msg) {
  * @param {string} msg - InputChat content
  */
 function CommandAutoComplete(msg) {
+	if (!msg.startsWith(CommandsKey)) return;
+
+	const caretPosition = CommandGetChatRoomCaretPosition();
+
+	// If there's a selection, don't do anything
+	if (caretPosition === -1) return;
+
+	msg = msg.substring(0, caretPosition);
+
+	CommandChangeChatInputContent(msg);
+
 	const low = msg.toLowerCase();
-	if (!low || !low.startsWith(CommandsKey)) return;
-	if (low.substring(CommandsKey.length).startsWith(CommandsKey)) return;
 
-	const [key, ...forward] = low.replace(/\s{2,}/g, ' ').split(' ');
-	const tag = key.substring(CommandsKey.length);
+	const parts = CommonTokenize(low, { delimiters: [['"', '"'], ['\'', '\'']] }).filter(Boolean); // Remove empty strings
+	const [key, ...forward] = parts;
 
-	// If we have a forward it means the command tag was already typed, only try to call the command's AutoComplete.
-	// This is needed if a command's tag is a prefix of a different command.
-	if (forward.length > 0) {
-		const cmds = GetCommands().filter(C => C.Tag == tag);
-		if (cmds.length == 1 && cmds[0].AutoComplete) {
-			cmds[0].AutoComplete.call(cmds[0], forward, low, msg);
+	// Find base command candidates
+	const candidates = GetCommands().filter(cmd =>
+		(CommandsKey + cmd.Tag).startsWith(key)
+	);
+
+	if (candidates.length > 1 && forward.length === 0 && caretPosition <= key.length) {
+		CommandHandleMultipleCandidates(candidates, key);
+	} else if (candidates.length === 1 || caretPosition > key.length) {
+		CommandHandleSingleCandidate(candidates[0], forward, parts, low, msg);
+	}
+}
+// #endregion Commands Main Functions
+
+// #region Command Helpers
+/**
+ *
+ * @param {ICommand[]} candidates
+ * @param {string} key
+ */
+function CommandHandleMultipleCandidates(candidates, key) {
+	const commonPrefix = CommonGetCommonPrefix(candidates.map(c => CommandsKey + c.Tag));
+	if (key.length < commonPrefix.length) {
+		CommandChangeChatInputContent(commonPrefix);
+		const newCandidates = candidates.filter(c => `${CommandsKey}${c.Tag}`.length > key.length);
+		if (newCandidates.length > 0) {
+			CommandsHelp.ShowFor(newCandidates);
 		}
-		return;
-	}
-
-	const CS = GetCommands().filter(C => C.Tag.startsWith(tag));
-	if (CS.length == 0) return;
-
-	if (CS.length == 1) {
-		if (tag != CS[0].Tag) {
-			ElementValue("InputChat", CommandsKey + CS[0].Tag + " ");
-			ElementFocus("InputChat");
-		} else if (CS[0].AutoComplete) {
-			CS[0].AutoComplete.call(CS[0], forward, low, msg);
-		}
-		return;
-	}
-
-	let complete = low;
-	for (let I = low.length - CommandsKey.length; ; ++I) {
-		const TSI = CS.map(C => C.Tag[I]);
-		if (TSI.some(TI => TI == null)) break;
-		if (new Set(TSI).size != 1) break;
-		complete += TSI[0];
-	}
-
-	if (low.length != complete.length) {
-		ElementValue("InputChat", complete);
-		ElementFocus("InputChat");
 	} else {
-		CommandPrintHelpFor(CS, 5000);
+		CommandsHelp.ShowFor(candidates);
 	}
 }
 
+/**
+ *
+ * @param {ICommand} initialCmd
+ * @param {string[]} forward
+ * @param {string[]} parts
+ * @param {string} low
+ * @param {string} msg
+ * @returns
+ */
+function CommandHandleSingleCandidate(initialCmd, forward, parts, low, msg) {
+	let current = CommandResolveReference(initialCmd);
+	const depth = 0;
+	let complete = false;
+
+	if (parts[0] !== CommandsKey + current.Tag) return CommandChangeChatInputContent(CommandsKey + current.Tag + ' ');
+
+	const sub = current.Subcommands?.find(s => s.Tag === forward[depth]);
+	if (sub) {
+		current = CommandResolveReference(sub);
+	}
+
+	const remaining = sub ? forward.slice(1) : forward;
+	const setCommand = sub ? `${initialCmd.Tag} ${sub.Tag}` : initialCmd.Tag;
+
+	if (current.Subcommands && current.Arguments && remaining.length === 0) {
+		return CommandsHelp.ShowFor([initialCmd]);
+	}
+
+	if (current.Subcommands && remaining.length <= 1) {
+		if (CommandHandleSubcommandCompletion(current, remaining, parts, { setCommand })) return;
+	}
+
+	if (current.Arguments) {
+		const state = CommandHandleArgumentCompletion(current, remaining, parts, { setCommand });
+		if (state === true) return;
+		if (state === 'complete') {
+			complete = true;
+		}
+	}
+
+	if (current.AutoComplete) {
+		current.AutoComplete(remaining, low, msg);
+	}
+
+	if (complete) {
+		return CommandsHelp.Complete();
+	}
+
+	return CommandsHelp.ShowFor([initialCmd]);
+}
+
+/**
+ *
+ * @param {ICommand} cmd
+ * @returns {ICommand | undefined}
+ */
+function CommandResolveReference(cmd) {
+	while (cmd.Reference) {
+		const ref = GetCommands().find(c => c.Tag === cmd.Reference);
+		if (!ref) break;
+		cmd = ref;
+	}
+	return cmd;
+}
+
+/**
+ *
+ * @param {ICommand} cmd
+ * @param {string[]} remaining
+ * @param {string[]} parts
+ * @param {{setCommand?: string}} [options]
+ * @returns {boolean} if completion was handled
+ */
+function CommandHandleSubcommandCompletion(cmd, remaining, parts, options) {
+	const candidates = cmd.Subcommands.filter(s =>
+		(!s.Prerequisite || s.Prerequisite()) &&
+		(!remaining[0] || s.Tag.startsWith(remaining[0]))
+	);
+
+	if (candidates.length === 0) return false;
+
+	if (candidates.length === 1) {
+		CommandCompleteCommand(options.setCommand, remaining, 0, candidates[0].Tag);
+	} else if (candidates.length > 0) {
+		const prefix = CommonGetCommonPrefix(candidates.map(c => c.Tag));
+		if (prefix.length > (remaining[0]?.trim().length || 0)) {
+			CommandCompleteCommand(options.setCommand, remaining, 0, prefix, false);
+		}
+	}
+
+	CommandsHelp.ShowFor([cmd]);
+
+	return true;
+}
+
+/**
+ *
+ * @param {ICommand | Subcommand} cmd
+ * @param {string[]} remaining
+ * @param {string[]} parts
+ * @param {{setCommand?: string}} [options]
+ * @returns {boolean | 'complete'} if completion was handled
+ */
+function CommandHandleArgumentCompletion(cmd, remaining, parts, options) {
+	if (!cmd.Arguments || !Array.isArray(cmd.Arguments)) return false;
+
+	// Updated inside the loop
+	let currentArgIndex = 0;
+	let matches = [];
+	let currentInput;
+
+	while (remaining[currentArgIndex] !== undefined || remaining.length === 0 || currentArgIndex < cmd.Arguments.length) {
+		currentInput = remaining[currentArgIndex] || '';
+		const currentArgDefs = cmd.Arguments[currentArgIndex];
+
+		const argumentsDef = currentArgDefs;
+		const hints = typeof argumentsDef.suggestions === 'function' ? argumentsDef.suggestions() : argumentsDef.suggestions;
+		if (!Array.isArray(hints)) {
+			currentArgIndex++;
+			continue;
+		}
+
+		const matchingArgs = hints.filter(a => a.toLowerCase().startsWith(currentInput.toLowerCase()));
+
+		const isShorter = matchingArgs.some(m => m.length > currentInput.length);
+
+		matches = matchingArgs;
+
+		if (isShorter) break;
+
+		currentArgIndex++;
+	}
+
+	// If the current argument index is out of bounds, return false
+	if (currentArgIndex >= cmd.Arguments.length) return false;
+
+	// If no matches, return false
+	if (currentInput.length > 0 && matches.length === 0) return false;
+
+	if (matches.length === 1) {
+		const completedArg = matches[0];
+		// Check if there are more expected arguments to add a space
+		const addSpace = currentArgIndex < cmd.Arguments.length - 1;
+		CommandCompleteCommand(options.setCommand, [...remaining], currentArgIndex, completedArg, addSpace);
+	} else if (matches.length > 1) {
+		const prefix = CommonGetCommonPrefix(matches); // Find the common prefix
+		if (prefix.length > currentInput.length) {
+			remaining[currentArgIndex] = prefix; // Update the current argument with the common prefix
+			CommandCompleteCommand(options.setCommand, [...remaining], currentArgIndex, prefix, false);
+		}
+	}
+
+	// Display help for the matching arguments
+	CommandsHelp.ShowFor([cmd], { setCommand: options.setCommand, publish: true });
+
+	return true;
+}
+
+/**
+ *
+ * @param {string} setCommand
+ * @param {string[]} remaining
+ * @param {number} argumentDepth
+ * @param {string} completion
+ * @param {boolean} completed
+ */
+function CommandCompleteCommand(setCommand, remaining, argumentDepth, completion, completed = false) {
+	const newParts = remaining.slice(0, argumentDepth).concat(completion);
+	const end = completed ? ' ' : '';
+	const newCommand = `${CommandsKey}${setCommand} ${newParts.join(' ')}${end}`;
+	CommandChangeChatInputContent(newCommand);
+}
+
+/**
+ *
+ * @param {string} msg
+ */
+function CommandChangeChatInputContent(msg) {
+	ElementValue("InputChat", msg);
+	ElementFocus("InputChat");
+	document.getElementById("InputChat").dispatchEvent(new Event("input"));
+}
+
+/**
+ * Returns the caret position of the chat input or -1 if user selected text or if there is no input
+ * @returns {number}
+ */
+function CommandGetChatRoomCaretPosition() {
+	const inputChat = /** @type {null | HTMLTextAreaElement} */ (document.getElementById("InputChat"));
+	if (!inputChat) return -1;
+
+	return inputChat.selectionStart === inputChat.selectionEnd ? inputChat.selectionStart : -1;
+}
+
+var CommandsHelp = {
+	/**
+	 * @private
+	 * @param {HTMLElement} help
+	 */
+	_Publish: function _Publish(help) {
+		help.setAttribute("data-sender", Player.MemberNumber);
+		help.setAttribute("data-time", ChatRoomCurrentTime());
+		help.classList.add("ChatMessage");
+
+		help.prepend(CommandsHelp._BuildDelete("help"));
+
+		ChatRoomAppendChat(help);
+	},
+
+	_BuildDelete: function _BuildDelete(id) {
+		return ElementButton.Create(
+			`commands-delete-${id}`,
+			function () { this.closest(".commands-help")?.remove(); },
+			{
+				tooltip: "Delete",
+				tooltipPosition: "left",
+				tooltipRole: "label",
+				noStyling: true,
+				label: "🗑",
+				labelPosition: "center",
+			},
+			{
+				button: {
+					classList: ["commands-button", "commands-button-delete"],
+					attributes: { "aria-label": `Clear help` },
+				}
+			},
+		);
+	},
+
+	/**
+	 *
+	 * @param {string} id
+	 * @param {boolean} expanded
+	 * @returns
+	 */
+	_BuildToggle: function _BuildToggle(id, expanded) {
+		return ElementButton.Create(
+			`commands-collapse-${id}`,
+			function (event) {
+				if (event.shiftKey) {
+					const isExpanded = this.getAttribute("aria-expanded") === "true";
+					const parent = this.closest(".commands-command-section");
+					const children = parent?.querySelectorAll(`.commands-button-collapse[aria-expanded="${!isExpanded}"`);
+					children?.forEach(e => e.dispatchEvent(new Event("click")));
+					if (children?.length && !isExpanded) {
+						// Revert the collapsed state of the `h{n}` if not all `h{<n}` blocks are collapsed
+						this.dispatchEvent(new Event("click"));
+						return;
+					}
+				}
+
+				const label = this.querySelector(".button-label");
+				if (label) {
+					label.textContent = this.getAttribute("aria-expanded") === "true" ? "▼ " : "▶ ";
+				}
+			},
+			{
+				tooltip: "",
+				tooltipPosition: "right",
+				tooltipRole: "label",
+				noStyling: true,
+				role: "checkbox",
+				label: expanded ? "▼ " : "▶ ",
+				labelPosition: "center",
+			},
+			{
+				button: {
+					classList: ["commands-button", "commands-button-collapse"],
+					attributes: { "aria-label": `Collapse command ${id}`, "aria-checked": expanded.toString(), "aria-expanded": expanded.toString() },
+				},
+			},
+		);
+	},
+
+	/**
+	 *
+	 * @param {ICommand} command
+	 * @returns {string}
+	 */
+	_GetDescription(command) {
+		// Game-provided command, get description from cache
+		const desc = CommandText.cache[command.Tag];
+		if (desc)
+			return desc;
+
+		// Externally-added command, check for unlocalized or localized description
+		if (command.Description) {
+			if (typeof command.Description === "string")
+				return command.Description;
+			else if (command.Description[TranslationLanguage]) {
+				return command.Description[TranslationLanguage];
+			}
+		}
+
+		return TextGet("CommandHelpMissing");
+
+	},
+
+	/**
+ * @param {ICommand} command
+ * @param {string} setCommand
+ * @param {boolean} singleCommand
+ * @returns {HTMLOptions<keyof HTMLElementTagNameMap>}
+ */
+	_BuildCommand(command, setCommand, singleCommand) {
+		const description = this._GetDescription(command);
+		const hasSubcommands = Array.isArray(command.Subcommands) && command.Subcommands.length > 0;
+		const hasArguments = Array.isArray(command.Arguments) && command.Arguments.length > 0;
+		const expandDisabled = !hasSubcommands && !hasArguments;
+
+		/** @param {ArgumentDef} argDef */
+		const args = (argDef) => hasArguments && argDef.suggestions ? Array.isArray(argDef.suggestions) ? argDef.suggestions : argDef.suggestions() : [];
+
+		/**
+		 * @param {string} title
+		 * @param {boolean} addToggle
+		 * @returns {HTMLOptions<keyof HTMLElementTagNameMap>}
+		 */
+		const buildSectionHeader = (title, addToggle) => ({
+			tag: "header",
+			classList: ["commands-command-header"],
+			children: [
+				addToggle && this._BuildToggle(setCommand, singleCommand),
+				{
+					tag: "span",
+					classList: ["commands-command-description"],
+					children: [title],
+				},
+			],
+		});
+
+		/** @returns {HTMLOptions<keyof HTMLElementTagNameMap>} */
+		const buildSubcommandsSection = () => ({
+			tag: "section",
+			classList: ["commands-command-section"],
+			children: [
+				buildSectionHeader("Subcommands:", command.Subcommands.length > 0),
+				{
+					tag: "article",
+					classList: ["commands-command-subcommands"],
+					children: [
+						...command.Subcommands.map(s => this._BuildCommand(s, `${setCommand} ${s.Tag}`, false)),],
+				},
+			],
+		});
+
+		/** @returns {HTMLOptions<keyof HTMLElementTagNameMap>} */
+		const buildArgumentsSection = () => ({
+			tag: "section",
+			classList: ["commands-command-section"],
+			children: [
+				buildSectionHeader("Arguments:", command.Arguments.length > 0),
+				...command.Arguments.flatMap(arg =>
+				/** @type {HTMLOptions<keyof HTMLElementTagNameMap>} */
+							 ({
+						tag: "section",
+						classList: ["commands-command-arguments"],
+						children: [
+							buildSectionHeader(`${arg.name} — ${arg.description}`, args(arg).length > 0),
+							{
+								tag: "article",
+								classList: ["commands-command-arguments-list"],
+								children: [
+									...args(arg).flatMap((hint, i, hints) => {
+										const btn = ElementButton.Create(
+											`commands-command-argument-hint-${setCommand}`,
+											() => CommandSet(`${setCommand} ${hint}`),
+											{
+												label: hint,
+												labelPosition: "center",
+												noStyling: true,
+											},
+											{
+												button: {
+													classList: ["commands-button", "commands-command-argument"],
+													attributes: { "aria-label": `Run ${setCommand} command` },
+												}
+											}
+										);
+
+										// Add a comma after every button except the last
+										return i < hints.length - 1 ? [btn, ", "] : [btn];
+									})
+								],
+							}
+						]
+					})
+
+				),
+			],
+		});
+
+		/** @returns {HTMLOptions<keyof HTMLElementTagNameMap>} */
+		const buildCommandHeader = () => ({
+			tag: "header",
+			classList: ["commands-command-header"],
+			children: [
+				!expandDisabled && this._BuildToggle(setCommand, singleCommand),
+				ElementButton.Create(
+					`commands-command-tag-${setCommand}`,
+					() => CommandSet(setCommand),
+					{
+						label: `${CommandsKey}${setCommand} `,
+						labelPosition: "center",
+						noStyling: true,
+					},
+					{
+						button: {
+							classList: ["commands-button", "commands-command-tag"],
+							attributes: { "aria-label": `Run ${setCommand} command` },
+						}
+					}
+				),
+				{
+					tag: "span",
+					classList: ["commands-command-description"],
+					innerHTML: description,
+				},
+			],
+		});
+
+		return {
+			tag: "section",
+			classList: ["commands-command-section"],
+			children: [
+				buildCommandHeader(),
+				{
+					tag: "article",
+					classList: ["commands-command-details"],
+					children: [
+						hasSubcommands && buildSubcommandsSection(),
+						hasArguments && buildArgumentsSection(),
+					].filter(Boolean),
+				},
+			],
+		};
+	},
+
+	/**
+	 * @param {ICommand[]} commands
+   * @param {{ setCommand?: string}} [options]
+	 * @returns
+	 */
+	_BuildHelp(commands, { setCommand } = {}) {
+		const existingHelp = ElementWrap("commands-help");
+		if (existingHelp) {
+			existingHelp.remove();
+		}
+
+		return ElementCreate({
+			tag: "div",
+			classList: ["commands-help"],
+			attributes: { id: "commands-help" },
+			children: [
+				...commands.map((c, _, array) => {
+					return this._BuildCommand(c, setCommand || c.Tag, array.length === 1);
+				})],
+		});
+	},
+
+	/**
+	 * Prints out the help for commands
+	 * @param {Optional<ICommand, 'Action'>[]} commands - list of commands
+	 * @param {{ doShowEscapeHint?: boolean, setCommand?: string, publish?: boolean }} [options] - if message about message escaping should be shown
+	 */
+	ShowFor: function ShowFor(commands, options = {}) {
+		/** @type {HTMLDivElement} */
+		let escapeHint = undefined;
+		if (options.doShowEscapeHint) {
+			escapeHint = ElementCreate({
+				tag: "div",
+				children: [
+					{
+						tag: "span",
+						classList: ["commands-escape-hint"],
+						children: [
+							{
+								tag: "strong",
+								children: [TextGet("CommandHelpEscape")]
+							}
+						]
+					},
+					{
+						tag: "br"
+					}
+				]
+			});
+		}
+
+		const help = this._BuildHelp(commands, options);
+		if (escapeHint) {
+			help.prepend(escapeHint);
+		}
+
+		if (options.publish !== false) {
+			CommandsHelp._Publish(help);
+		}
+
+		return help;
+	},
+
+	/**
+	 * Prints out the help for commands with tags that include `low`
+	 * @param {string} low - lower case search keyword for tags
+	 * @returns {void} - Nothing
+	 */
+	ShowForPartial: function ShowForPartial(low) {
+		const text = TextGet("CommandHelp").replace('KeyWord', low);
+		const helpTextElement = ElementCreate({
+			tag: "div",
+			children: [
+				{
+					tag: "span",
+					classList: ["commands-help-text"],
+					innerHTML: text
+				},
+				{
+					tag: "br"
+				}
+			]
+		});
+		const commands = GetCommands().filter(C => !low || C.Tag.includes(low));
+		const help = this.ShowFor(commands, { doShowEscapeHint: !low, publish: false });
+
+		help.prepend(...helpTextElement.children);
+
+		CommandsHelp._Publish(help);
+	},
+
+	Complete: function Complete() {
+		ElementWrap("commands-help")?.remove();
+	}
+};
+// #endregion Command Helpers
+
+// #region Changelog
 var CommandsChangelog = {
 	/**
 	 * Iterate through the passed changelog element and remove all (redundant) elements outside the `[startID, stopID)` interval.
@@ -202,7 +783,7 @@ var CommandsChangelog = {
 	 * @param {string | null} stopID - The ID of the element representing the interval's end.
 	 * If not provided, use the first element matching the tag name of the `startID` element instead.
 	 */
-	_FilterContent: function _FilterContent(root, startID, stopID=null) {
+	_FilterContent: function _FilterContent(root, startID, stopID = null) {
 		let segmentState = /** @type {"start" | "mid" | "end"} */("start");
 		/** @type {string} */
 		let startTagName = null;
@@ -289,11 +870,13 @@ var CommandsChangelog = {
 				label: "🗑",
 				labelPosition: "center",
 			},
-			{ button: {
-				classList: ["chat-room-changelog-button", "chat-room-changelog-button-delete"],
-				attributes: { "aria-label": `Clear ${header.textContent} changelog` },
-				dataAttributes: { level },
-			} },
+			{
+				button: {
+					classList: ["chat-room-changelog-button", "chat-room-changelog-button-delete"],
+					attributes: { "aria-label": `Clear ${header.textContent} changelog` },
+					dataAttributes: { level },
+				}
+			},
 		);
 	},
 
@@ -334,11 +917,13 @@ var CommandsChangelog = {
 				label: "▼",
 				labelPosition: "center",
 			},
-			{ button: {
-				classList: ["chat-room-changelog-button", "chat-room-changelog-button-collapse"],
-				attributes: { "aria-label": `Collapse ${header.textContent} section`, "aria-checked": "true", "aria-expanded": "true" },
-				dataAttributes: { level },
-			} },
+			{
+				button: {
+					classList: ["chat-room-changelog-button", "chat-room-changelog-button-collapse"],
+					attributes: { "aria-label": `Collapse ${header.textContent} section`, "aria-checked": "true", "aria-expanded": "true" },
+					dataAttributes: { level },
+				}
+			},
 		);
 	},
 
@@ -350,7 +935,7 @@ var CommandsChangelog = {
 	 * @param {number} headerLevel
 	 * @param {null | string} headerPrefix
 	 */
-	_ParseHeader: function _ParseHeader(root, id, href, headerLevel, headerPrefix=null) {
+	_ParseHeader: function _ParseHeader(root, id, href, headerLevel, headerPrefix = null) {
 		const headerTag = /** @type {"h1" | "h2" | "h3" | "h4" | "h5"} */(`h${headerLevel - 1}`);
 		const selector = /** @type {"h2" | "h3" | "h4" | "h5" | "h6"} */(`h${headerLevel}`);
 		root.querySelectorAll(selector).forEach(header => {
@@ -366,7 +951,7 @@ var CommandsChangelog = {
 			const extraChildren = [];
 			if (headerTag === "h1") {
 				extraChildren.push(
-					{ tag: "span", children: ["•"], attributes: { "aria-hidden": "true" }},
+					{ tag: "span", children: ["•"], attributes: { "aria-hidden": "true" } },
 					CommandsChangelog._GetH1Button(id, header, headerLevel - 1),
 				);
 			}
@@ -383,7 +968,7 @@ var CommandsChangelog = {
 							classList: ["chat-room-changelog-header-div"],
 							children: [
 								CommandsChangelog._GetHNButton(id, header, headerLevel - 1),
-								{ tag: "span", children: ["•"], attributes: { "aria-hidden": "true" }},
+								{ tag: "span", children: ["•"], attributes: { "aria-hidden": "true" } },
 								{
 									tag: headerTag,
 									attributes: { id: headerID },
@@ -466,7 +1051,7 @@ var CommandsChangelog = {
 	 * @param {null | string} [options.stopID] - The header ID of the final to-be included segment within the changelog; defaults to `options.startID` if unspecified
 	 * @returns {HTMLDivElement} - The newly created changelog
 	 */
-	Parse: function Parse(innerHTML, options=null) {
+	Parse: function Parse(innerHTML, options = null) {
 		options ??= {};
 		const id = options.id ?? "chat-room-changelog";
 		const href = options.href ?? "./changelog.html";
@@ -514,7 +1099,7 @@ var CommandsChangelog = {
 	 * @param {null | string} [options.stopID] - The header ID of the final to-be included segment within the changelog; defaults to `options.startID` if unspecified
 	 * @returns {HTMLDivElement} - The newly created changelog
 	 */
-	Publish(innerHTML, options=null) {
+	Publish(innerHTML, options = null) {
 		const changelog = CommandsChangelog.Parse(innerHTML, options);
 		changelog.setAttribute("data-sender", Player.MemberNumber);
 		changelog.setAttribute("data-time", ChatRoomCurrentTime());
@@ -531,833 +1116,4 @@ var CommandsChangelog = {
 		return changelog;
 	},
 };
-
-/**
- * @type {ICommand[]}
- */
-const CommonCommands = [
-	{
-		Tag: 'dice',
-		Action: args => {
-			let DiceNumber = 0;
-			let DiceSize = 0;
-
-			// The player can roll X dice of Y faces, using XdY.  If no size is specified, a 6 sided dice is assumed
-			if (/(^\d+)[dD](\d+$)/.test(args)) {
-				const Roll = /(^\d+)[dD](\d+$)/.exec(args);
-				DiceNumber = (!Roll) ? 1 : parseInt(Roll[1]);
-				DiceSize = (!Roll) ? 6 : parseInt(Roll[2]);
-				if ((DiceNumber < 1) || (DiceNumber > 100)) DiceNumber = 1;
-			}
-			else if (/(^\d+$)/.test(args)) {
-				const Roll = /(^\d+)/.exec(args);
-				DiceNumber = 1;
-				DiceSize = (!Roll) ? 6 : parseInt(Roll[1]);
-			}
-
-			// If there's at least one dice to roll
-			if (DiceNumber > 0) {
-				if ((DiceSize < 2) || (DiceSize > 100)) DiceSize = 6;
-				let CurrentRoll = 0;
-				const Result = [];
-				let Total = 0;
-				while (CurrentRoll < DiceNumber) {
-					let Roll = Math.floor(Math.random() * DiceSize) + 1;
-					Result.push(Roll);
-					Total += Roll;
-					CurrentRoll++;
-				}
-				if (DiceNumber > 1) {
-					Result.sort((a, b) => a - b);
-				}
-
-				const Dictionary = new DictionaryBuilder()
-					.sourceCharacter(Player)
-					.text("DiceType", DiceNumber.toString() + "D" + DiceSize.toString())
-					.if(DiceNumber > 1)
-					.text("DiceResult", Result.toString() + " = " + Total.toString())
-					.endif()
-					.if(DiceNumber=== 1)
-					.text("DiceResult", Total.toString())
-					.endif()
-					.build();
-				ServerSend("ChatRoomChat", { Content: "ActionDice", Type: "Action", Dictionary: Dictionary });
-			}
-		}
-	},
-	{
-		Tag: 'coin',
-		Action: () => {
-			const Heads = Math.random() >= 0.5;
-
-			const Dictionary = new DictionaryBuilder()
-				.sourceCharacter(Player)
-				.textLookup("CoinResult", Heads ? "Heads" : "Tails")
-				.build();
-			ServerSend("ChatRoomChat", { Content: "ActionCoin", Type: "Action", Dictionary: Dictionary });
-		}
-	},
-	{
-		Tag: 'safeword',
-		Action: () => ChatRoomSafewordChatCommand(),
-	},
-	{
-		Tag: 'friendlistadd',
-		Action: args => ChatRoomListManipulation(Player.FriendList, true, args),
-	},
-	{
-		Tag: 'friendlistremove',
-		Action: args => ChatRoomListManipulation(Player.FriendList, false, args),
-	},
-	{
-		Tag: 'ghostadd',
-		Action: args => ChatRoomListManipulation(Player.GhostList, true, args),
-	},
-	{
-		Tag: 'ghostremove',
-		Action: args => ChatRoomListManipulation(Player.GhostList, false, args),
-	},
-	{
-		Tag: 'whitelistadd',
-		Action: args => ChatRoomListManipulation(Player.WhiteList, true, args),
-	},
-	{
-		Tag: 'whitelistremove',
-		Action: args => ChatRoomListManipulation(Player.WhiteList, false, args),
-	},
-	{
-		Tag: 'blacklistadd',
-		Action: args => ChatRoomListManipulation(Player.BlackList, true, args),
-	},
-	{
-		Tag: 'blacklistremove',
-		Action: args => ChatRoomListManipulation(Player.BlackList, false, args),
-	},
-	{
-		Tag: 'showblacklist',
-		Action: () => ChatRoomSendLocal(TextGet('CommandBlacklist') + JSON.stringify(Player.BlackList)),
-	},
-	{
-		Tag: 'showwhitelist',
-		Action: () => {
-			let msg = TextGet('CommandWhitelist') + '\n';
-			msg += Player.WhiteList.sort((i, j) => i - j).map(num => `• ${Player.FriendNames.get(num) ?? "?"} (${num})`).join('\n');
-			ChatRoomSendLocal(msg);
-		}
-	},
-	{
-		Tag: 'showghostlist',
-		Action: () => ChatRoomSendLocal(TextGet('CommandGhostlist') + JSON.stringify(Player.GhostList)),
-	},
-	{
-		Tag: 'showfriendlist',
-		Action: () => {
-			let msg = TextGet('CommandFriendlist') + '\n';
-			msg += Player.FriendList.sort((i, j) => i - j).map(num => `• ${Player.FriendNames.get(num) ?? "?"} (${num})`).join('\n');
-			ChatRoomSendLocal(msg);
-		},
-	},
-	{
-		Tag: 'openfriendlist',
-		Action: () => {
-			ElementToggleGeneratedElements(CurrentScreen, false);
-			FriendListReturn = { Screen: CurrentScreen , Module: CurrentModule, IsInChatRoom: true };
-			CommonSetScreen("Character", "FriendList");
-		},
-	},
-	{
-		Tag: 'ban',
-		Prerequisite: () => ChatRoomPlayerIsAdmin(),
-		Action: args => ChatRoomAdminChatAction("Ban", args),
-	},
-	{
-		Tag: 'unban',
-		Prerequisite: () => ChatRoomPlayerIsAdmin(),
-		Action: args => ChatRoomAdminChatAction("Unban", args),
-	},
-	{
-		Tag: 'kick',
-		Prerequisite: () => ChatRoomPlayerIsAdmin(),
-		Action: args => ChatRoomAdminChatAction("Kick", args),
-	},
-	{
-		Tag: 'promote',
-		Prerequisite: () => ChatRoomPlayerIsAdmin(),
-		Action: args => ChatRoomAdminChatAction("Promote", args),
-	},
-	{
-		Tag: 'demote',
-		Prerequisite: () => ChatRoomPlayerIsAdmin(),
-		Action: args => ChatRoomAdminChatAction("Demote", args),
-	},
-	{
-		Tag: 'roomwhitelist',
-		Prerequisite: () => ChatRoomPlayerIsAdmin(),
-		Action: args => ChatRoomAdminChatAction("Whitelist", args),
-	},
-	{
-		Tag: 'roomunwhitelist',
-		Prerequisite: () => ChatRoomPlayerIsAdmin(),
-		Action: args => ChatRoomAdminChatAction("Unwhitelist", args),
-	},
-	{
-		Tag: 'focus',
-		Prerequisite: () => ServerPlayerIsInChatRoom(),
-		Action: (args) => {
-			const parts = args.split(' ');
-
-			const subcommand = parts.length > 0 ? parts[0].toLowerCase() : 'help';
-			if (/^(add|remove)$/.test(subcommand)) {
-				if (parts.length === 1) {
-					ChatRoomSendLocal(TextGet("CommandFocusNoTargets"), 30_000);
-					return;
-				}
-				// TODO: use ChatRoomGetCharacter
-				/** @type {Character[]} */
-				const matchingCharacters = [];
-				parts.slice(1).forEach(targeter => { // For each targeter the user provided
-					const memberNumber = parseInt(targeter);
-					const targeterSanitized = ChatRoomHTMLEntities(targeter);
-
-					let targeterResult = ChatRoomCharacter.find(C => // Attempt to first find an exact match
-						!C.IsPlayer() &&
-						(
-							C.MemberNumber === memberNumber ||
-							C.Name.toLowerCase() === targeter.toLowerCase() ||
-							C.Nickname?.toLowerCase() === targeter.toLowerCase()
-						)
-					);
-					if (!targeterResult) { // If no exact match, attempt a partial match
-						const partialMatches = ChatRoomCharacter.filter(C =>
-							!C.IsPlayer() &&
-							(
-								C.Name.toLowerCase().includes(targeter.toLowerCase()) ||
-								C.Nickname?.toLowerCase().includes(targeter.toLowerCase())
-							)
-						);
-
-						if (partialMatches.length === 1) { // If only one partial match, use it
-							targeterResult = partialMatches[0];
-						} else if (partialMatches.length > 1) { // If multiple partial matches, inform the user
-							ChatRoomSendLocal(TextGet("CommandFocusTargeterAmbiguous").replace("Targeter", targeterSanitized), 5_000);
-							return;
-						}
-					}
-
-					if (targeterResult) {
-						if (matchingCharacters.includes(targeterResult)) { // If the targeter is already in the list, don't add it again
-							ChatRoomSendLocal(TextGet("CommandFocusTargeterDuplicate").replace("Targeter", targeterSanitized), 5_000);
-						} else {
-							matchingCharacters.push(targeterResult);
-						}
-					} else {
-						ChatRoomSendLocal(TextGet("CommandFocusTargeterNoMatch").replace("Targeter", targeterSanitized), 5_000);
-					}
-				});
-
-				if (matchingCharacters.length === 0) {
-					ChatRoomSendLocal(TextGet("CommandFocusNoTargets"), 10_000);
-					return;
-				}
-
-				/** @type {Character[]} */
-				let changed;
-				if (subcommand === 'add') {
-					changed = ChatRoomDrawFocusListAdd(matchingCharacters);
-				} else if (subcommand === 'remove') {
-					changed = ChatRoomDrawFocusListRemove(matchingCharacters);
-				} else { // Shouldn't happen, but sanity check
-					return;
-				}
-				ChatRoomSendLocal(
-					TextGet(`CommandFocusSuccess${subcommand.charAt(0).toUpperCase()}${subcommand.slice(1)}`)
-						.replace("Changed", changed.map(C => `${CharacterNickname(C)} (${C.MemberNumber})`).join(", ")),
-					10_000
-				);
-			} else if (/^(list|clear)$/.test(subcommand) && parts.length === 1) {
-				if (subcommand === 'list') {
-					ChatRoomSendLocal(TextGet("CommandFocusList") + "<br>" + ChatRoomDrawFocusList.map(C => `${CharacterNickname(C)} (${C.MemberNumber})`).join("<br>"), 30_000);
-				} else if (subcommand === 'clear') {
-					ChatRoomDrawFocusListClear();
-					ChatRoomSendLocal(TextGet("CommandFocusSuccessClear"), 10_000);
-				}
-			} else { // If the subcommand is not recognized (also handles the "help" subcommand implicitly)
-				ChatRoomSendLocal(
-					`<code>${TextGet("CommandFocusHelpSyntax")}</code>` +
-					"<br><br>" +
-					TextGet("CommandFocusHelpSummary").replaceAll("FocusEnabledWarningIcon", TextGet("FocusEnabledWarningIcon")) +
-					"<br><br>" +
-					TextGet("CommandFocusHelpNotesHeader") +
-					"<br><ul>" +
-					TextGet("CommandFocusHelpNotes") +
-					"</ul><br>" +
-					TextGet("CommandFocusHelpSubcommandsHeader") +
-					"<br><ul>" +
-					`<li><code>add [targeter(s)]</code>: ${TextGet("CommandFocusHelpAdd")}</li>` +
-					`<li><code>remove [targeter(s)]</code>: ${TextGet("CommandFocusHelpRemove")}</li>` +
-					`<li><code>list</code>: ${TextGet("CommandFocusHelpList")}</li>` +
-					`<li><code>clear</code>: ${TextGet("CommandFocusHelpClear")}</li>` +
-					`<li><code>help</code>: ${TextGet("CommandFocusHelpHelp")}</li>` +
-					"</ul><br>" +
-					TextGet("CommandFocusHelpTargeters"),
-					120_000
-				);
-			}
-		}
-	},
-	{
-		Tag: 'focusadd',
-		Prerequisite: () => ServerPlayerIsInChatRoom(),
-		Action: (args) => CommandExecute("/focus add " + args),
-	},
-	{
-		Tag: 'focusremove',
-		Prerequisite: () => ServerPlayerIsInChatRoom(),
-		Action: (args) => CommandExecute("/focus remove " + args),
-	},
-	{
-		Tag: 'focuslist',
-		Prerequisite: () => ServerPlayerIsInChatRoom(),
-		Action: () => CommandExecute("/focus list"),
-	},
-	{
-		Tag: 'focusclear',
-		Prerequisite: () => ServerPlayerIsInChatRoom(),
-		Action: () => CommandExecute("/focus clear"),
-	},
-	{
-		Tag: 'focushelp',
-		Prerequisite: () => ServerPlayerIsInChatRoom(),
-		Action: () => CommandExecute("/focus help"),
-	},
-	{
-		Tag: 'me',
-		Action: (_, msg) => {
-			ChatRoomSendEmote(msg);
-		}
-	},
-	{
-		Tag: 'attempt',
-		Action: (_, msg, parsed) => {
-			if (parsed[0]?.match(/(\d{0,2}|100)%/))
-				ChatRoomSendAttemptEmote(msg);
-		}
-	},
-	{
-		Tag: 'action',
-		Action: (_, msg) => ChatRoomSendEmote(msg),
-	},
-	{
-		Tag: 'pandora',
-		Action: args => PandoraPenitentiaryDoActivity(args),
-	},
-	{
-		Tag: 'help',
-		Action: args => CommandHelp(args),
-	},
-	{
-		Tag: 'afk',
-		Action: () => {
-			const expression = WardrobeGetExpression(Player).Emoticon != "Afk" ? "Afk" : null;
-			CharacterSetFacialExpression(Player, "Emoticon", expression);
-			Player.ActiveExpression.Emoticon = expression;
-		}
-	},
-	{
-		Tag: 'expr',
-		Action: args => {
-			if (args.trim() == "") {
-				ChatRoomFocusCharacter(Player, { selfMode: "SavedExpressions" });
-			} else if (/^[0-5]$/.test(args)) {
-				let ExprNum = parseInt(args);
-				if (ExprNum == 0) {
-					CharacterResetFacialExpression(Player);
-				} else {
-					DialogFacialExpressionsLoad(ExprNum - 1);
-				}
-			}
-		}
-	},
-	{
-		Tag: 'blush',
-		Action: args => {
-			if (args.trim() == "") {
-				ChatRoomFocusCharacter(Player, { selfMode: "Expression" });
-				DialogFindFacialExpressionMenuGroup("Blush");
-				return;
-			}
-			/** @type {(null | ExpressionNameMap["Blush"])[]} */
-			let BlushLevels = [null, "Low", "Medium", "High", "VeryHigh", "Extreme"];
-			/** @type {null | ExpressionNameMap["Blush"]} */
-			let NewExpression = null;
-			let AcceptCmd = false;
-			if (/^[0-5]$/.test(args)) {
-				AcceptCmd = true;
-				let BlushNum = parseInt(args);
-				NewExpression = BlushLevels[BlushNum];
-			} else if (/^(b(?:lue)?)$/.test(args)) {
-				AcceptCmd = true;
-				NewExpression = "ShortBreath";
-			} else if (/^(\+|-)$/.test(args)) {
-				AcceptCmd = true;
-				const Blush = InventoryGet(Player, "Blush");
-				let CurrentBlush = null;
-				if (Blush && Blush.Property && Blush.Property.Expression) {
-					CurrentBlush = Blush.Property.Expression;
-				}
-				let Level = 0;
-				for (let i = 0; i < BlushLevels.length; i++) {
-					if (CurrentBlush == BlushLevels[i]) {
-						Level = i;
-						break;
-					}
-				}
-				if (args == "+") {
-					Level++;
-				} else {
-					Level--;
-				}
-				Level = Math.max(0, Level);
-				Level = Math.min(BlushLevels.length - 1, Level);
-				NewExpression = BlushLevels[Level];
-			}
-			if (AcceptCmd) {
-				CharacterSetFacialExpression(Player, "Blush", NewExpression);
-				Player.ActiveExpression.Blush = NewExpression;
-			}
-		}
-	},
-	{
-		Tag: 'eyes',
-		Action: args => {
-			if (args.trim() == "") {
-				ChatRoomFocusCharacter(Player, { selfMode: "Expression" });
-				DialogFindFacialExpressionMenuGroup("Eyes");
-				return;
-			}
-			let AcceptCmd = false;
-			/** @type {ExpressionNameMap["Eyes"] | "Open"} */
-			let NewExpression;
-			let TargetLeft = false;
-			let TargetRight = false;
-			let Cmds;
-			if (/^(r(?:ight)?|l(?:eft)?|b(?:oth)?)$/.test(args)) {
-				AcceptCmd = true;
-				if (args[0] == "r" || args[0] == "b") TargetRight = true;
-				if (args[0] == "l" || args[0] == "b") TargetLeft = true;
-				let LeftClosed = InventoryGet(Player, "Eyes").Property.Expression == "Closed";
-				let RightClosed = InventoryGet(Player, "Eyes2").Property.Expression == "Closed";
-				let Close = (TargetLeft && !LeftClosed);
-				Close = Close || (TargetRight && !RightClosed);
-				NewExpression = Close ? "Closed" : "Open";
-			} else if ((Cmds = /^(c(?:lose)?|o(?:pen)?) *(r(?:ight)?|l(?:eft)?|b(?:oth)?)?$/.exec(args)) != null) {
-				AcceptCmd = true;
-				let ActionCmd = Cmds[1];
-				let TargetCmd = Cmds[2];
-				NewExpression = (ActionCmd[0] == "c") ? "Closed" : "Open";
-				if (!TargetCmd || TargetCmd[0] == "r" || TargetCmd[0] == "b") {
-					TargetRight = true;
-				}
-				if (!TargetCmd || TargetCmd[0] == "l" || TargetCmd[0] == "b") {
-					TargetLeft = true;
-				}
-			} else if (/^(default|dazed|shy|sad|horny|lewd|verylewd|heart|<3|heartpink|lewdheart|lewdheartpink|dizzy|@@|daydream|><|shylyhappy|\^\^|angry|èé|surprised|éè|scared)$/.test(args)) {
-				AcceptCmd = true;
-				if (args == "default") NewExpression = null;
-				else if (args == "dazed") NewExpression = "Dazed";
-				else if (args == "shy") NewExpression = "Shy";
-				else if (args == "sad") NewExpression = "Sad";
-				else if (args == "horny") NewExpression = "Horny";
-				else if (args == "lewd") NewExpression = "Lewd";
-				else if (args == "verylewd") NewExpression = "VeryLewd";
-				else if (args == "heart" || args == "<3") NewExpression = "Heart";
-				else if (args == "heartpink") NewExpression = "HeartPink";
-				else if (args == "lewdheart") NewExpression = "LewdHeart";
-				else if (args == "lewdheartpink") NewExpression = "LewdHeartPink";
-				else if (args == "dizzy" || args == "@@") NewExpression = "Dizzy";
-				else if (args == "daydream" || args == "><") NewExpression = "Daydream";
-				else if (args == "shylyhappy" || args == "^^") NewExpression = "ShylyHappy";
-				else if (args == "angry" || args == "èé") NewExpression = "Angry";
-				else if (args == "surprised" || args == "éè") NewExpression = "Surprised";
-				else if (args == "scared") NewExpression = "Scared";
-			}
-			if (!AcceptCmd) {
-				return;
-			}
-			if (NewExpression == "Open" || NewExpression == "Closed") {
-				const eyeExpression = NewExpression === "Closed" ? "Closed" : Player.ActiveExpression.Eyes;
-				if (TargetLeft && TargetRight) {
-					CharacterSetFacialExpression(Player, "Eyes", eyeExpression);
-				} else if (TargetLeft) {
-					CharacterSetFacialExpression(Player, "Eyes1", eyeExpression);
-				} else if (TargetRight) {
-					CharacterSetFacialExpression(Player, "Eyes2", eyeExpression);
-				}
-			} else {
-				// Apply new expression only to eyes that are opened
-				let LeftClosed = InventoryGetItemProperty(InventoryGet(Player, "Eyes"), "Expression") === "Closed";
-				let RightClosed = InventoryGetItemProperty(InventoryGet(Player, "Eyes2"), "Expression") === "Closed";
-				if (!LeftClosed) {
-					CharacterSetFacialExpression(Player, "Eyes1", NewExpression);
-					Player.ActiveExpression.Eyes = NewExpression;
-				}
-				if (!RightClosed) {
-					CharacterSetFacialExpression(Player, "Eyes2", NewExpression);
-					Player.ActiveExpression.Eyes = NewExpression;
-				}
-			}
-		}
-	},
-	{
-		Tag: 'bot',
-		Action: (_, msg) => {
-			const matches = ChatRoomCharacter.filter(c => !c.IsPlayer() && c.MemberNumber >= 0);
-			for (const match of matches) {
-				ServerSend("ChatRoomChat", { Content: "ChatRoomBot " + msg.substring(4), Type: "Hidden", Target: match.MemberNumber });
-			}
-		}
-	},
-	{
-		Tag: "craft",
-		Action: () => {
-			CraftingShowScreen(true);
-		},
-	},
-	{
-		Tag: "forbiddenwords",
-		Action: () => {
-
-			// No forbidden words if not owned
-			if (CurrentScreen != "ChatRoom") return;
-			if (!Player.IsOwned()) return;
-
-			// Gets the forbidden words list from the log
-			let ForbiddenList = [];
-			for (let L of Log)
-				if ((L.Group == "OwnerRule") && L.Name.startsWith("ForbiddenWords"))
-					ForbiddenList = L.Name.substring("ForbiddenWords".length, 10000).split("|");
-			if (ForbiddenList.length <= 1) return true;
-			ForbiddenList.splice(0, 1);
-
-			// Shows the list in the chat window
-			ChatRoomSendLocal(ChatRoomHTMLEntities(ForbiddenList.join(", ")));
-
-		},
-	},
-	{
-		Tag: "wheel",
-		Action: () => {
-			if (!InventoryAvailable(Player, "WheelFortune", "ItemDevices")) return;
-			WheelFortuneReturnScreen = CommonGetScreen();
-			WheelFortuneBackground = ChatRoomData.Background;
-			WheelFortuneCharacter = Player;
-			CommonSetScreen("MiniGame", "WheelFortune");
-		},
-	},
-	{
-		Tag: "release",
-		Action: args => {
-			let MemberNumber = parseInt(args);
-			if ((typeof MemberNumber == "number") && !isNaN(MemberNumber) && (MemberNumber >= 0))
-				ServerSend("AccountOwnership", { MemberNumber: MemberNumber, Action: "Release" });
-		},
-	},
-	{
-		Tag: "customimage",
-		Action: args => { ChatAdminRoomCustomizationCommand("Image", args); },
-	},
-	{
-		Tag: "customfilter",
-		Action: args => { ChatAdminRoomCustomizationCommand("Filter", args); },
-	},
-	{
-		Tag: "custommusic",
-		Action: args => { ChatAdminRoomCustomizationCommand("Music", args); },
-	},
-	{
-		Tag: "appcopy",
-		Action: () => { CharacterAppearanceCopyToClipboard(Player); },
-	},
-	{
-		Tag: "apppaste",
-		Action: async (_, msg) => {
-			let CompApp = msg.substring("/apppaste".length).trim();
-			if (!CompApp.length) {
-				try {
-					CompApp = await navigator.clipboard.readText();
-				} catch (err) {
-					console.error('Failed to read clipboard contents:', err);
-				}
-			}
-			CharacterAppearancePaste(Player, CompApp, true);
-		},
-	},
-	{
-		Tag: "mapcopy",
-		Action: () => { ChatRoomMapViewCopy(); },
-	},
-	{
-		Tag: "mappaste",
-		Action: async (_, msg) => {
-			let MapData = msg.substring("/mappaste".length).trim();
-			if (!MapData.length) {
-				try {
-					MapData = await navigator.clipboard.readText();
-				} catch (err) {
-					console.error('Failed to read clipboard contents:', err);
-				}
-			}
-			ChatRoomMapViewPaste(MapData);
-		},
-	},
-	{
-		Tag: "whisper",
-		Action: (args, command) => {
-			const [, ...parts] = command.split(" ");
-			const target = parts?.shift();
-			const message = parts?.join(" ");
-
-			// Logic for handling empty command or missing target
-			if (!target) {
-				if (ChatRoomTargetMemberNumber >= 0) {
-					ChatRoomSetTarget(-1);
-					ChatRoomSendLocal(`${TextGet("CommandWhisperStopSuccess")}`, 30000);
-				} else {
-					ChatRoomSendLocal(`${TextGet("CommandNoWhisperTargetSelected")}`, 30000);
-				}
-
-				return;
-			}
-			// TODO: use ChatRoomGetCharacter
-			// Getting all members that fit our request
-			const matchingMembers = ChatRoomCharacter.filter((C) => {
-				const memberNumber = parseInt(target);
-
-				return (
-					!C.IsPlayer() &&
-					(
-						C.MemberNumber == memberNumber ||
-						C.Nickname?.toLowerCase() == target.toLowerCase() ||
-						C.Name.toLowerCase() == target.toLowerCase()
-					)
-				);
-			});
-
-			// Handling scenarios based on the matching members
-			// If there's no matches
-			if (!matchingMembers.length) {
-				ChatRoomSendLocal(`${TextGet("CommandNoWhisperTarget")} ${target}.`, 30_000);
-			// If there's multiple matches
-			} else if (matchingMembers.length > 1) {
-				const mappedMembers = matchingMembers
-					.map((C) => `&emsp;• <strong style="cursor: pointer;" onclick='window.CommandSet("whisper ${C.MemberNumber}")'>${CharacterNickname(C)} (${C.MemberNumber})</strong>`)
-					.join("<br>") + "<br>";
-				const Targets = `<br>${mappedMembers}`;
-
-				ChatRoomSendLocal(`${TextGet("CommandMultipleWhisperTargets").replace("$Targets", Targets)}`, 30_000);
-			// If we have ONE match, but no message
-			} else if (matchingMembers.length == 1 && !message) {
-				ChatRoomSendLocal(`${TextGet("CommandWhisperTargetSuccess")} ${CharacterNickname(matchingMembers[0])} (${matchingMembers[0].MemberNumber})`, 30_000);
-				ChatRoomSetTarget(matchingMembers[0].MemberNumber);
-			// If there's ONE match and there's message we want to send
-			} else {
-				const targetMember = matchingMembers[0];
-
-				// Set whisper target and send message
-				const status = ChatRoomSendWhisper(targetMember.MemberNumber, message);
-				if (status === "target-gone") {
-					ChatRoomSendLocal(`<span style="color: red">${TextGet("WhisperTargetGone")}</span>`);
-					return;
-				} else if (status === "target-out-of-range") {
-					ChatRoomSendLocal(`<span style="color: red">${TextGet("WhisperTargetOutOfRange")}</span>`);
-					return;
-				}
-			}
-		},
-	},
-	{
-		Tag: "shop",
-		Action: () => {
-			/** @type {null | ScreenSpecifier} */
-			const screen = CurrentModule && CurrentScreen ? CommonGetScreen() : null;
-			/** @type {null | string} */
-			let background = null;
-			if (ServerPlayerIsInChatRoom()) {
-				background = ChatRoomData?.Background;
-				ChatRoomStatusUpdate("Shop");
-			}
-			Shop2.Init(background, screen);
-		},
-	},
-	{
-		Tag: "clubcard",
-		Action: () => {
-			ChatRoomStatusUpdate("Preference");
-			ClubCardBuilderShowScreen(true);
-		},
-	},
-	{
-		Tag: "changelog",
-		Action: (args, msg, [start, stop]) => {
-			const startArray = GameVersionFormat.exec(start?.toUpperCase());
-			const stopArray = GameVersionFormat.exec(stop?.toUpperCase());
-			const defaultVersion = GameVersionFormat.exec(GameVersion)?.[1];
-			if (defaultVersion == null) {
-				console.error(`Invalid BC GameVersion: "${GameVersion}"`);
-				return;
-			} else if ((!startArray && start) || (!stopArray && stop)) {
-				const Content = start ? `Invalid [start] version: "${start}"` : `Invalid [stop] version: "${stop}"`;
-				ChatRoomMessageDisplay({ Type: "LocalMessage", Content, Timeout: 5000 }, "", Player, {});
-				return;
-			}
-
-			const startID = `r${startArray?.[1] ?? defaultVersion}`;
-			let stopID = stopArray?.[1] != null ? `r${stopArray[1]}` : null;
-			if (stopID === startID) {
-				stopID = null;
-			}
-
-			let changelog = document.getElementById("chat-room-changelog");
-			if (changelog) {
-				// Move a previously opened changelog to the end of the chat again
-				if (changelog.getAttribute("data-start") === startID && changelog.getAttribute("data-stop") === stopID) {
-					changelog.remove();
-					ChatRoomAppendChat(changelog);
-					return;
-				} else {
-					changelog.remove();
-				}
-			}
-
-			CommonGet("./changelog.html", (xhr) => {
-				if (xhr.status === 200) {
-					CommandsChangelog.Publish(xhr.responseText, { id: "chat-room-changelog", startID, stopID });
-				}
-			});
-		},
-	},
-	{
-		Tag: 'pony',
-		Action: args => StableDoActivity(args),
-	},
-	{
-		Tag: 'beep',
-		Action: (args) => {
-			const parts = args.split(" ");
-			const target = parseInt(parts.shift(), 10);
-			const msg = parts.join(" ");
-
-			if (!CommonIsNonNegativeInteger(target)) {
-				ChatRoomSendLocal(`<span style="color: red">${TextGet("CommandBeepInvalidTarget").replace('$target', target)}</span>`, 5000);
-				return;
-			} else if (!Player.FriendNames.get(target)) {
-				ChatRoomSendLocal(`<span style="color: red">${TextGet("CommandBeepNotFriend").replace('$target', target.toString())}</span>`, 5000);
-				return;
-			} else if (!msg) {
-				ChatRoomSendLocal(`<span style="color: red">${TextGet("CommandBeepEmptyMessage")}</span>`, 5000);
-				return;
-			}
-
-			ServerSendBeepMessage(target, msg);
-
-			const beepId = FriendListBeepLog.length - 1;
-
-			// "Reply to beep" arrow
-			const replyLink = ElementButton.Create(
-				`beep-reply-${beepId}`,
-				() => {
-					ElementValue("InputChat", `/beep ${target} ${ElementValue("InputChat").replace(/^\/(beep|w) \S+ ?/u, '')}`);
-					document.getElementById('InputChat').focus();
-				},
-				{ noStyling: true },
-				{ button: { classList: ["ReplyButton"], children: ['\u21a9\ufe0f'] } },
-			);
-
-			const link = document.createElement("a");
-			link.id = `#beep-${beepId}`;
-			link.onclick = (e) => {
-				e.preventDefault();
-				FriendListShowBeep(beepId);
-			};
-			const targetName = Player.FriendNames.get(target) ?? InterfaceTextGet(`ServerBeepUnknownName`).replace('$target', target.toString());
-			link.textContent = CommonStringSubstitute(TextGet("CommandBeepLink"),[
-				["{NAME}", targetName],
-				["{NUMBER}", target.toString()],
-				["{MESSAGE}", msg.length > 150 ? `${msg.substring(0, 150)}…` : msg],
-			]);
-			link.classList.add("beep-link");
-			const div = document.createElement("div");
-			div.classList.add("ChatMessage", "ChatMessageLocalMessage", "ChatMessageNonDialogue", "ChatMessageBeep");
-			div.dataset.time = ChatRoomCurrentTime();
-			div.dataset.sender = Player.MemberNumber.toString();
-			div.dataset.target = target.toString();
-			div.append(replyLink, link);
-
-			document.querySelector(`
-				#TextAreaChatLog .ChatMessageBeep[data-sender="${target}"] > .ReplyButton:not([tabindex='-1']),
-				#TextAreaChatLog .ChatMessageBeep[data-target="${target}"] > .ReplyButton:not([tabindex='-1'])
-			`)?.setAttribute("tabindex", "-1");
-
-			ChatRoomAppendChat(div);
-		}
-	},
-	{
-		Tag: 'maptp',
-		Action: (args) => {
-			if (!ChatRoomPlayerIsAdmin()) return ChatRoomSendLocal("You don't have admin permissions to use this command.");
-			if (!ChatRoomMapViewIsActive()) return ChatRoomSendLocal("Only accessible in map mode.");
-			const parsed = args.split(" ");
-			const isCoordinateX = (value) => value && !isNaN(Number(value)) && Number(value) >= 0 && Number(value) < ChatRoomMapViewWidth;
-			const isCoordinateY = (value) => value && !isNaN(Number(value)) && Number(value) >= 0 && Number(value) < ChatRoomMapViewHeight;
-
-			const isIdentifier = (value) => value && !(isCoordinateX(value) || isCoordinateY(value));
-
-			if (isCoordinateX(parsed[0]) && isCoordinateY(parsed[1])) {
-				// maptp <x> <y>
-				const position = {X: Number(parsed[0]), Y: Number(parsed[1])};
-				if (ChatRoomMapViewIsOutOfBounds(position)) return ChatRoomSendLocal(`Teleport: Cannot teleport to ${position.X}, ${position.Y} because out of bounds.`);
-				ChatRoomSendLocal(`Teleporting to ${position.X}, ${position.Y}`);
-				return ChatRoomMapViewTeleport(Player, position);
-			}
-
-			if (isIdentifier(parsed[0]) && isCoordinateX(parsed[1]) && isCoordinateY(parsed[2])) {
-				// maptp <player> <x> <y>
-				const identifier = parsed[0].replace('@', '');
-				const character = ChatRoomGetCharacter(identifier);
-				if (!character) return ChatRoomSendLocal(`Teleport: Cannot teleport ${identifier} to ${parsed[1]}, ${parsed[2]} because no such player.`);
-				const position = {X: Number(parsed[1]), Y: Number(parsed[2])};
-				if (ChatRoomMapViewIsOutOfBounds(position)) return ChatRoomSendLocal(`Teleport: Cannot teleport ${identifier} to ${position.X}, ${position.Y} because out of bounds.`);
-				ChatRoomSendLocal(`Teleporting ${character.Nickname ?? character.Name} to ${position.X}, ${position.Y}`);
-				return ChatRoomMapViewTeleport(character, position);
-			}
-
-			if (isIdentifier(parsed[0]) && isIdentifier(parsed[1])) {
-				// maptp <from player> <to player>
-				const fromPlayer = ChatRoomGetCharacter(parsed[0].replace('@', ''));
-				const toPlayer = ChatRoomGetCharacter(parsed[1].replace('@', ''));
-				if (!fromPlayer) return ChatRoomSendLocal(`Teleport: Cannot teleport ${parsed[0]} to ${parsed[1]} because no such player.`);
-				if (!toPlayer) return ChatRoomSendLocal(`Teleport: Cannot teleport ${parsed[0]} to ${parsed[1]} because no such player.`);
-				ChatRoomSendLocal(`Teleporting ${fromPlayer.Nickname ?? fromPlayer.Name} to ${toPlayer.Nickname ?? toPlayer.Name}`);
-				return ChatRoomMapViewTeleport(fromPlayer, toPlayer.Position);
-			}
-
-			if (isIdentifier(parsed[0])) {
-				// maptp <player>
-				const character = ChatRoomGetCharacter(parsed[0].replace('@', ''));
-				if (!character) return ChatRoomSendLocal(`Teleport: Cannot teleport ${parsed[0]} because no such player.`);
-				ChatRoomSendLocal(`Teleporting to ${character.Nickname ?? character.Name}`);
-				return ChatRoomMapViewTeleport(Player, character.Position);
-			}
-
-			return ChatRoomSendLocal("Invalid arguments:\n- /maptp x y\n- /maptp player x y\n- /maptp from-player to-player\n- /maptp player\nNote: use @ as a prefix for MemberNumbers because of ambiguousness.");
-		}
-	},
-	{
-		Tag: 'mapcords',
-		Action: (args, msg, parsed) => {
-			if (!ChatRoomMapViewIsActive()) return ChatRoomSendLocal("Only accessible in map mode.");
-
-			ChatRoomSendLocal(`Coordinates X, Y: ${Player.X}, ${Player.Y}`);
-		}
-	}
-];
+// #endregion Changelog

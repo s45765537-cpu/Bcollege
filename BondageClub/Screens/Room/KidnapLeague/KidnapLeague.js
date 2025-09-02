@@ -230,11 +230,12 @@ function KidnapLeagueBountyRemind() {
  * @returns {void} - Nothing
  */
 function KidnapLeagueBountyStart() {
-	CommonSetScreen("Room", "KidnapLeague");
-	KidnapLeagueBackground = KidnapLeagueBountyLocation;
-	KidnapLeagueBounty.Stage = "50";
-	CharacterSetCurrent(KidnapLeagueBounty);
-	KidnapLeagueBounty.CurrentDialog = DialogFind(KidnapLeagueBounty, "Bounty" + KidnapLeagueBountyLocation);
+	CommonSetScreen("Room", "KidnapLeague").then(() => {
+		KidnapLeagueBackground = KidnapLeagueBountyLocation;
+		KidnapLeagueBounty.Stage = "50";
+		CharacterSetCurrent(KidnapLeagueBounty);
+		KidnapLeagueBounty.CurrentDialog = DialogFind(KidnapLeagueBounty, "Bounty" + KidnapLeagueBountyLocation);
+	});
 }
 
 /**
@@ -258,11 +259,12 @@ function KidnapLeagueBountyFightEnd() {
 	KidnapLeagueBounty.Stage = (KidnapVictory) ? "101" : "201";
 	KidnapLeagueRandomKidnapper = KidnapLeagueBounty;
 	if (!KidnapVictory) CharacterRelease(KidnapLeagueBounty);
-	CommonSetScreen("Room", "KidnapLeague");
-	KidnapLeagueBackground = KidnapLeagueBountyLocation;
-	CharacterSetCurrent(KidnapLeagueBounty);
-	KidnapLeagueBounty.CurrentDialog = DialogFind(KidnapLeagueBounty, (KidnapVictory) ? "BountyVictory" : "BountyDefeat");
-	KidnapLeagueWillPayForFreedom = false;
+	CommonSetScreen("Room", "KidnapLeague").then(() => {
+		KidnapLeagueBackground = KidnapLeagueBountyLocation;
+		CharacterSetCurrent(KidnapLeagueBounty);
+		KidnapLeagueBounty.CurrentDialog = DialogFind(KidnapLeagueBounty, (KidnapVictory) ? "BountyVictory" : "BountyDefeat");
+		KidnapLeagueWillPayForFreedom = false;
+	});
 }
 
 /**
@@ -305,9 +307,10 @@ function KidnapLeagueEndKidnap() {
 	KidnapLeagueTrainer.AllowItem = KidnapVictory;
 	KidnapLeagueTrainer.Stage = (KidnapVictory) ? "100" : "200";
 	if (!KidnapVictory) CharacterRelease(KidnapLeagueTrainer);
-	CommonSetScreen("Room", "KidnapLeague");
-	CharacterSetCurrent(KidnapLeagueTrainer);
-	KidnapLeagueTrainer.CurrentDialog = DialogFind(KidnapLeagueTrainer, (KidnapVictory) ? "KidnapVictory" : "KidnapDefeat");
+	CommonSetScreen("Room", "KidnapLeague").then(() => {
+		CharacterSetCurrent(KidnapLeagueTrainer);
+		KidnapLeagueTrainer.CurrentDialog = DialogFind(KidnapLeagueTrainer, (KidnapVictory) ? "KidnapVictory" : "KidnapDefeat");
+	});
 }
 
 /**
@@ -332,12 +335,12 @@ function KidnapLeagueResetTrainer() {
 
 /**
  * Triggered at the start of a match, sets a random intro sequence.
- * @returns {void} - Nothing
+ * @returns {Promise<void>} - Nothing
  */
-function KidnapLeagueRandomIntro() {
+async function KidnapLeagueRandomIntro() {
 
 	// Sets the kidnapping scene
-	CommonSetScreen("Room", "KidnapLeague");
+	await CommonSetScreen("Room", "KidnapLeague");
 	KidnapLeagueBackground = "MainHall";
 	CharacterDelete(KidnapLeagueRandomKidnapper, false);
 	KidnapLeagueRandomKidnapper = CharacterLoadNPC("NPC_KidnapLeague_RandomKidnapper");
@@ -372,11 +375,11 @@ function KidnapLeagueRandomIntro() {
 /**
  * Triggered at the end of a match, sets a random outro sequence.
  * @param {boolean} Surrender - Whether or not the player surrendered.
- * @returns {void} - Nothing
+ * @returns {Promise<void>} - Nothing
  */
-function KidnapLeagueRandomOutro(Surrender) {
+async function KidnapLeagueRandomOutro(Surrender) {
 	KidnapLeagueRandomActivityCount = 0;
-	CommonSetScreen("Room", "KidnapLeague");
+	await CommonSetScreen("Room", "KidnapLeague");
 	SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(KidnapLeagueRandomKidnapper));
 	KidnapLeagueBackground = "MainHall";
 	if ((Surrender == null) || (Surrender == false)) ReputationProgress("Kidnap", KidnapVictory ? 4 : 2);
@@ -537,10 +540,10 @@ function KidnapLeagueRandomClubCardStart() {
 
 /**
  * When the player ends a club card game
- * @returns {void} - Nothing
+ * @returns {Promise<void>} - Nothing
  */
-function KidnapLeagueRandomClubCardEnd() {
-	CommonSetScreen("Room", "KidnapLeague");
+async function KidnapLeagueRandomClubCardEnd() {
+	await CommonSetScreen("Room", "KidnapLeague");
 	CharacterSetCurrent(KidnapLeagueRandomKidnapper);
 	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
 	if (!MiniGameVictory) InventoryWearRandom(Player, "ItemArms", 8);

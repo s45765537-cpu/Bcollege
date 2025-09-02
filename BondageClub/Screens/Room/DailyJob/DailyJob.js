@@ -131,9 +131,10 @@ function DailyJobKidnapEnd() {
 	if (KidnapVictory) CharacterRelease(Player);
 	else CharacterRelease(DailyJobOpponent);
 	if (KidnapVictory) DailyJobOpponent.AllowItem = true;
-	CommonSetScreen("Room", "DailyJob");
-	CharacterSetCurrent(DailyJobOpponent);
-	DailyJobOpponent.CurrentDialog = DialogFind(DailyJobOpponent, (KidnapVictory) ? "KidnapVictory" : "KidnapDefeat");
+	CommonSetScreen("Room", "DailyJob").then(() => {
+		CharacterSetCurrent(DailyJobOpponent);
+		DailyJobOpponent.CurrentDialog = DialogFind(DailyJobOpponent, (KidnapVictory) ? "KidnapVictory" : "KidnapDefeat");
+	});
 }
 
 /**

@@ -124,10 +124,10 @@ function MagicSchoolLaboratorySpellPractice(SpellNumber) {
 
 /**
  * When the magic spell practice puzzle ends
- * @returns {void} - Nothing
+ * @returns {Promise<void>} - Nothing
  */
-function MagicSchoolLaboratorySpellPracticeEnd() {
-	CommonSetScreen("Room", "MagicSchoolLaboratory");
+async function MagicSchoolLaboratorySpellPracticeEnd() {
+	await CommonSetScreen("Room", "MagicSchoolLaboratory");
 	CharacterSetCurrent(MagicSchoolLaboratoryTeacher);
 	MagicSchoolLaboratoryTeacher.CurrentDialog = DialogFind(MagicSchoolLaboratoryTeacher, MiniGameVictory ? "PracticeSuccess" : "PracticeFail");
 }
@@ -227,10 +227,10 @@ function MagicSchoolLaboratoryMagicBattleStart(Difficulty) {
 
 /**
  * When the magic battle practice ends
- * @returns {void} - Nothing
+ * @returns {Promise<void>} - Nothing
  */
-function MagicSchoolLaboratoryMagicBattleEnd() {
-	CommonSetScreen("Room", "MagicSchoolLaboratory");
+async function MagicSchoolLaboratoryMagicBattleEnd() {
+	await CommonSetScreen("Room", "MagicSchoolLaboratory");
 	CharacterAppearanceRestore(Player, MagicBattlePlayerAppearance);
 	CharacterRefresh(Player);
 	CharacterAppearanceRestore(MagicSchoolLaboratoryTeacher, MagicBattleOpponentAppearance);
@@ -335,10 +335,10 @@ function MagicSchoolLaboratoryBattleStudentStart(Type) {
 
 /**
  * When a student battle ends, we release the winner, change reputation or give some money based on the wage
- * @returns {void} - Nothing
+ * @returns {Promise<void>} - Nothing
  */
-function MagicSchoolLaboratoryBattleStudentEnd() {
-	CommonSetScreen("Room", "MagicSchoolLaboratory");
+async function MagicSchoolLaboratoryBattleStudentEnd() {
+	await CommonSetScreen("Room", "MagicSchoolLaboratory");
 	CharacterSetCurrent(MagicSchoolLaboratoryStudent);
 	if (MiniGameVictory) {
 		MagicSchoolLaboratoryStudent.AllowItem = true;
@@ -532,10 +532,10 @@ function MagicSchoolLaboratoryBattleMasterStart() {
 
 /**
  * When the magic battle against the master ends
- * @returns {void} - Nothing
+ * @returns {Promise<void>} - Nothing
  */
-function MagicSchoolLaboratoryBattleMasterEnd() {
-	CommonSetScreen("Room", "MagicSchoolLaboratory");
+async function MagicSchoolLaboratoryBattleMasterEnd() {
+	await CommonSetScreen("Room", "MagicSchoolLaboratory");
 	CharacterSetCurrent(MagicSchoolLaboratoryStudent);
 	CharacterAppearanceRestore(Player, MagicBattlePlayerAppearance);
 	CharacterRefresh(Player);

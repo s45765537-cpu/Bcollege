@@ -189,6 +189,7 @@ VFXFilter,Arousal Screen Filter
 VFXFilterHeavy,Strong Gradient
 VFXFilterMedium,Solid Color Filter
 VFXFilterLight,Solid Filter at High Arousal
+VFXFilterNone,None
 ArousalVisible,Meter visibility:
 ArousalVisibleAll,Show arousal to everyone
 ArousalVisibleAccess,Show if they have access
