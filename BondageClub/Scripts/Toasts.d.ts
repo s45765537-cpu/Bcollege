@@ -64,11 +64,12 @@ declare namespace Toasts {
 
 	/**
 	 * Represents the DOM element for a rendered toast.
-	 * Extends HTMLDivElement and may include an internal `_dismiss` method
-	 * that can be programmatically called to close the toast with a given reason.
+	 * Extends HTMLDivElement and may include internal methods
+	 * that can be programmatically called.
 	 */
 	interface ToastElement extends HTMLDivElement {
 		_dismiss?: (reason: CloseReason) => void;
+		_timeoutTimerRemove?: () => void;
 	}
 
 }
