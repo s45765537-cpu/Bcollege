@@ -4733,6 +4733,28 @@ interface WheelFortuneOptionType {
 
 // #region ClubCard
 
+type ClubCardTag =
+	| "All"
+	| "Selected Cards"
+	| "Event"
+	| "NoGroup"
+	| "Liability"
+	| "Staff"
+	| "Police"
+	| "Criminal"
+	| "Fetishist"
+	| "Porn"
+	| "Maid"
+	| "Asylum"
+	| "Dominant / Mistress"
+	| "ABDL"
+	| "College"
+	| "Shibari"
+	| "Pet / Owner"
+	| "Kemonomimi"
+	| "Submissive / Slave"
+	| "Reward";
+
 interface ClubCard {
 	ID: number;
 	UniqueID?: string;
@@ -4753,7 +4775,8 @@ interface ClubCard {
 	ExtraPlay?: number;
 	Group?: string[];
 	Location?: string;
-	Negated?: boolean;
+	Negated?: boolean; // if the card's effect should not work
+	Negating?: string; // the card that its effect is stopped by this card
 	GlowTimer?: number;
 	GlowColor?: string;
 	EffectKey?: number;
@@ -4789,6 +4812,15 @@ interface ClubCard {
 	onLeaveClub?: (C: ClubCardPlayer) => void;
 	turnStart?: (C: ClubCardPlayer) => void;
 	onLevelUp?: (C: ClubCardPlayer) => void;
+	onOpponentLevelUp?: (C: ClubCardPlayer) => void;
+	onDrawCard?: (C: ClubCardPlayer) => void;
+	onOpponentDrawCard?: (C: ClubCardPlayer) => void;
+	onDrawAction?: (C: ClubCardPlayer) => void;
+	onOpponentDrawAction?: (C: ClubCardPlayer) => void;
+	onSteal?: (C: ClubCardPlayer) => void;
+	StreetsTurnEnd?: (C: ClubCardPlayer) => void;
+	onDiscardCard?: (C: ClubCardPlayer, Card: ClubCard) => void;
+	onCancelNegation?: (C: ClubCardPlayer) => void;
 }
 
 interface ClubCardPlayer {

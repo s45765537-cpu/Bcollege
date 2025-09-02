@@ -311,11 +311,12 @@ function GameClubCardBoardDoBundle(Cards) {
 		let FamePerTurn = `${card.FamePerTurn !== undefined ? card.FamePerTurn : ''}`;
 		let Time = `${card.Time !== undefined ? card.Time : ''}`;
 		let Negated = `${card.Negated !== undefined ? card.Negated : ''}`;
+		let Negating = `${card.Negating !== undefined ? card.Negating : ''}`;
 		let EffectKey = `${card.EffectKey !== undefined ? card.EffectKey : ''}`;
 		let UniqueID = `${card.UniqueID !== undefined ? card.UniqueID : ''}`;
 		let Group = card.Group && card.Group.length ? card.Group.join('|') : '';
 
-		Result += `${ID},${ArrayIndex},${MoneyPerTurn},${FamePerTurn},${Time},${Negated},${EffectKey},${UniqueID},${Group};`;
+		Result += `${ID},${ArrayIndex},${MoneyPerTurn},${FamePerTurn},${Time},${Negated},${Negating},${EffectKey},${UniqueID},${Group};`;
 	}
 
 	if (Result.endsWith(";")) {
@@ -362,7 +363,7 @@ function GameClubCardBoardUndoBundle(bundle, Location) {
 
 	for (let i = 0; i < cards.length; i++) {
 		const cardString = cards[i];
-		const [ID, ArrayIndex, MoneyPerTurn, FamePerTurn, Time, Negated, EffectKey, UniqueID, Group] = cardString.split(',');
+		const [ID, ArrayIndex, MoneyPerTurn, FamePerTurn, Time, Negated, Negating, EffectKey, UniqueID, Group] = cardString.split(',');
 
 		const existingCard = ClubCardList.find(card => card.ID === Number(ID));
 
@@ -377,6 +378,7 @@ function GameClubCardBoardUndoBundle(bundle, Location) {
 			if (FamePerTurn != undefined && FamePerTurn != '') card.FamePerTurn = Number(FamePerTurn);
 			if (Time != undefined && Time != '') card.Time = Number(Time);
 			if (Negated != undefined && Negated != '') card.Negated = Boolean(Negated);
+			if (Negating != undefined && Negating != '') card.Negating = Negating;
 			if (EffectKey != undefined && EffectKey != '') card.EffectKey = Number(EffectKey);
 			if (UniqueID != undefined && UniqueID != '') card.UniqueID = UniqueID;
 			if (Group) card.Group = Group.split('|');
@@ -412,7 +414,7 @@ function GameClubCardLoadBundle(CCPlayer, Bundle) {
 	//###
 	if (Bundle.Hand != null) CCPlayer.Hand = GameClubCardUndoBundle(Bundle.Hand);
 	if (Bundle.Board != null) CCPlayer.Board = GameClubCardBoardUndoBundle(Bundle.Board, Location);
-	if (Bundle.Event != null) CCPlayer.Event = GameClubCardUndoBundle(Bundle.Event, true, Location);
+	if (Bundle.Event != null) CCPlayer.Event = GameClubCardBoardUndoBundle(Bundle.Event, Location);
 	//Check that if the user has the selected ClubCardFocus card, we hide its original.
 	if (ClubCardIsAnimationOn && ClubCardFocus) {
 		let targetCard = [CCPlayer.Hand, CCPlayer.Board, CCPlayer.Event].
@@ -575,7 +577,7 @@ function GameClubCardSyncOnlineData(Progress = "Action", LocalPlayerOnly = false
 			Deck: GameClubCardDoBundle(CCPlayer.Deck),
 			Hand: GameClubCardDoBundle(CCPlayer.Hand),
 			Board: GameClubCardBoardDoBundle(CCPlayer.Board),
-			Event: GameClubCardDoBundle(CCPlayer.Event, true),
+			Event: GameClubCardBoardDoBundle(CCPlayer.Event),
 			DiscardPile: GameClubCardDoBundle(CCPlayer.DiscardPile),
 			CardsPlayedThisTurn: CCPlayer.CardsPlayedThisTurn,
 			ClubCardTurnCounter: CCPlayer.ClubCardTurnCounter,
