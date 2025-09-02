@@ -156,15 +156,14 @@ var ToastManager = new class ToastManager {
 			_.onClose?.(toast, reason);
 
 			const removeAndProcess = () => {
+				toast._timeoutTimerRemove?.();
 				toast.remove();
 				this.active--;
 				this._process();
 			};
 
 			if (prefersReducedMotion) {
-				setTimeout(() => {
-					removeAndProcess();
-				}, 0);
+				removeAndProcess();
 			} else {
 				toast.classList.remove('show');
 				const listener = () => {
@@ -265,7 +264,8 @@ var ToastManager = new class ToastManager {
 			const progressBar = toast.querySelector('progress');
 			progressBar.value = 0;
 
-			this._animateProgress(progressBar, () => remove('timeout'), _.duration);
+			const timerRemove = this._animateProgress(progressBar, () => remove('timeout'), _.duration);
+			toast._timeoutTimerRemove = timerRemove;
 
 			if (_.stopProgressOnHover) {
 				toast.addEventListener('mouseover', () => {
@@ -289,6 +289,8 @@ var ToastManager = new class ToastManager {
 					remove('timeout');
 				}
 			}, stepValue, true, 'foreground');
+
+			toast._timeoutTimerRemove = timerRemove;
 		}
 
 		toast._dismiss = remove;
