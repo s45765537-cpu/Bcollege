@@ -76,10 +76,10 @@ function LARPClubCardStart() {
 
 /**
  * When the player ends a club card game
- * @returns {void} - Nothing
+ * @returns {Promise<void>} - Nothing
  */
-function LARPClubCardEnd() {
-	CommonSetScreen("Room", "LARP");
+async function LARPClubCardEnd() {
+	await CommonSetScreen("Room", "LARP");
 	CharacterSetCurrent(LARPOrganiser);
 	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
 }

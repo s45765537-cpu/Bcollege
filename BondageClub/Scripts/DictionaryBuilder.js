@@ -237,6 +237,19 @@ class DictionaryBuilder {
 		this._addEntry({ Tag:"MapViewTeleport", Position: position });
 		return this;
 	}
+
+	/**
+	 * Adds a changeKey dictionary entry
+	 * @param {String []} keys
+	 * @returns
+	 */
+	mapViewChangeKey(keys, boolean){
+		keys.map((key) => {
+			this._addEntry({ Tag:"MapViewChangeKey", Key: key, Bool: boolean})
+		})
+		return this;
+	}
+
 	/**
 	 * Adds a dictionary entry to the builder
 	 * @param {ChatMessageDictionaryEntry} entry - The dictionary entry to add
@@ -471,4 +484,12 @@ function IsMsgIdDictionaryEntry(entry) {
  */
 function IsMapViewTeleportEventDictionaryEntry(entry) {
 	return CommonIsObject(entry) && entry.Tag === "MapViewTeleport";
+}
+
+/**
+ * @param {ChatMessageDictionaryEntry} entry
+ * @returns {entry is MapViewChangeKeyEventDictionaryEntry}
+ */
+function IsMapViewChangeKeyEventDictionaryEntry(entry) {
+	return CommonIsObject(entry) && entry.Tag === "MapViewChangeKey" && (entry.Key === "bronze" || entry.Key === "silver" || entry.Key === "gold");
 }

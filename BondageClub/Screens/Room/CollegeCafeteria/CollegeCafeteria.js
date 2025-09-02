@@ -151,9 +151,10 @@ function CollegeCafeteriaFightEnd() {
 	InventoryWear(Player, "CollegeSkirt", "ClothLower", "Default");
 	InventoryWear(CollegeCafeteriaSidney, "CollegeOutfit1", "Cloth", "Default");
 	InventoryWear(CollegeCafeteriaSidney, "CollegeSkirt", "ClothLower", "Default");
-	CommonSetScreen("Room", "CollegeCafeteria");
-	CharacterSetCurrent(CollegeCafeteriaSidney);
-	CollegeCafeteriaSidney.CurrentDialog = DialogFind(CollegeCafeteriaSidney, (KidnapVictory) ? "FightVictory" : "FightDefeat");
+	CommonSetScreen("Room", "CollegeCafeteria").then(() => {
+		CharacterSetCurrent(CollegeCafeteriaSidney);
+		CollegeCafeteriaSidney.CurrentDialog = DialogFind(CollegeCafeteriaSidney, (KidnapVictory) ? "FightVictory" : "FightDefeat");
+	});
 }
 
 /**
@@ -165,7 +166,6 @@ function CollegeCafeteriaInviteToPrivateRoom() {
 	// Adds the dunce hat and removes it from Sidney before adding her to the player's room
 	InventoryAdd(Player, "CollegeDunce", "Hat");
 	InventoryRemove(CollegeCafeteriaSidney, "Hat");
-	CommonSetScreen("Room", "Private");
 	PrivateAddCharacter(CollegeCafeteriaSidney, null, true);
 	var C = PrivateCharacter[PrivateCharacter.length - 1];
 	C.Trait = [];
@@ -201,4 +201,5 @@ function CollegeCafeteriaInviteToPrivateRoom() {
 	CollegeCafeteriaSidney.Stage = "1000";
 	CharacterRefresh(CollegeCafeteriaSidney);
 
+	CommonSetScreen("Room", "Private");
 }

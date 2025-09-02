@@ -113,6 +113,7 @@ var ToastManager = new class ToastManager {
 		options.progress ??= true;
 		options.stopProgressOnHover ??= true;
 		options.iconColor ??= 'default';
+		options.clampMessage ??= true;
 
 		this.queue.push(/** @type {Required<Toasts.Options>} */(options));
 		this._process();
@@ -156,15 +157,14 @@ var ToastManager = new class ToastManager {
 			_.onClose?.(toast, reason);
 
 			const removeAndProcess = () => {
+				toast._timeoutTimerRemove?.();
 				toast.remove();
 				this.active--;
 				this._process();
 			};
 
 			if (prefersReducedMotion) {
-				setTimeout(() => {
-					removeAndProcess();
-				}, 0);
+				removeAndProcess();
 			} else {
 				toast.classList.remove('show');
 				const listener = () => {
@@ -174,6 +174,8 @@ var ToastManager = new class ToastManager {
 				toast.addEventListener('transitioncancel', listener, { once: true });
 			}
 		};
+
+		const clampClass = _.clampMessage ? 'toast-clamp-message' : 'scroll-box';
 
 		/** @type {Toasts.ToastElement} */
 		const toast = ElementCreate({
@@ -201,7 +203,7 @@ var ToastManager = new class ToastManager {
 						} : null,
 						{
 							tag: 'span',
-							classList: ['toast-message'],
+							classList: ['toast-message', clampClass],
 							children: [_.message],
 						},
 						Array.isArray(_.buttons) ? {
@@ -265,7 +267,8 @@ var ToastManager = new class ToastManager {
 			const progressBar = toast.querySelector('progress');
 			progressBar.value = 0;
 
-			this._animateProgress(progressBar, () => remove('timeout'), _.duration);
+			const timerRemove = this._animateProgress(progressBar, () => remove('timeout'), _.duration);
+			toast._timeoutTimerRemove = timerRemove;
 
 			if (_.stopProgressOnHover) {
 				toast.addEventListener('mouseover', () => {
@@ -289,6 +292,8 @@ var ToastManager = new class ToastManager {
 					remove('timeout');
 				}
 			}, stepValue, true, 'foreground');
+
+			toast._timeoutTimerRemove = timerRemove;
 		}
 
 		toast._dismiss = remove;

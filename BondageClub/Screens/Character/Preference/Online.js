@@ -91,10 +91,7 @@ function PreferenceSubscreenOnlineClick() {
 					Player.OnlineSettings.DefaultChatRoomBackground = Name;
 					PreferenceOnlineDefaultBackgroundIndex = PreferenceOnlineDefaultBackgroundList.indexOf(PreferenceOnlineDefaultBackground);
 				}
-				CommonSetScreen("Character", "Preference");
-				PreferenceSubscreen = PreferenceSubscreens.find(s => s.name === "Online");
-				PreferenceSubscreen?.load();
-				PreferencePageCurrent = 2;
+				PreferenceOpenSubscreen("Online", 2);
 			});
 		}
 	}

@@ -160,7 +160,6 @@ function CollegeTeacherNewBackground(New) {
 function CollegeTeacherInviteToPrivateRoom(Role="None") {
 	CollegeTeacherDressBack();
 	InventoryAdd(Player, "Pillory", "ItemArms");
-	CommonSetScreen("Room", "Private");
 	PrivateAddCharacter(CollegeTeacherMildred, null, true);
 	var C = PrivateCharacter[PrivateCharacter.length - 1];
 	C.Trait = [];
@@ -190,4 +189,5 @@ function CollegeTeacherInviteToPrivateRoom(Role="None") {
 	ServerPrivateCharacterSync();
 	DialogLeave();
 	CollegeTeacherMildred.GoneAway = true;
+	CommonSetScreen("Room", "Private");
 }

@@ -607,10 +607,10 @@ function PrisonWantedPlayer() {
 }
 
 //Catch by Police in MainHall
-function PrisonMeetPoliceIntro(RoomBackground) {
+async function PrisonMeetPoliceIntro(RoomBackground) {
 	var aggressive = PrisonWantedPlayer() >= 4;
 
-	CommonSetScreen("Room", "Prison");
+	await CommonSetScreen("Room", "Prison");
 	PrisonBackground = RoomBackground; //"MainHall","Gambling","HorseStable"
 	CharacterDelete(PrisonPolice, false);
 
@@ -680,8 +680,8 @@ function PrisonFightPolice() {
 }
 
 // When the fight against Police ends
-function PrisonFightPoliceEnd() {
-	CommonSetScreen("Room", "Prison");
+async function PrisonFightPoliceEnd() {
+	await CommonSetScreen("Room", "Prison");
 	SkillProgress(Player, "Willpower", KidnapSuccessWillpowerProgress(PrisonPolice));
 	if (!KidnapVictory) {
 		CharacterRelease(PrisonPolice);
@@ -704,9 +704,9 @@ function PrisonFightPoliceOutro() {
 }
 
 //Player ist catch by Police and arrest in Prison
-function PrisonCatchByPolice() {
+async function PrisonCatchByPolice() {
 	PrisonBackground = "Prison";
-	CommonSetScreen("Room", "Prison");
+	await CommonSetScreen("Room", "Prison");
 	PrisonPlayerBehindBars = true;
 	PrisonPlayerCatchedBadGirl = true;
 	PrisonPolice.CurrentDialog = DialogFind(PrisonPolice, "ArrestIntro");
