@@ -46147,8 +46147,7 @@ var AssetFemale3DCG = [
 			{
 				Name: "TechnoGag",
 				InventoryID: 962,
-				Gender: "F",
-				Prerequisite: ["HasBreasts", "HasVagina", "GagUnique"],
+				Prerequisite: ["GagUnique"],
 				Value: 20,
 				Difficulty: 4,
 				Time: 20,
