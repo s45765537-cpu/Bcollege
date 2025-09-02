@@ -3781,16 +3781,6 @@ interface NoArchItemData extends ExtendedItemData<NoArchItemOption> {
 
 type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
-interface ICommand {
-	Tag: string;
-	Description?: string;
-	Reference?: string;
-	Action?: (this: Optional<ICommand, 'Tag'>, args: string, msg: string, parsed: string[]) => void
-	Prerequisite?: (this: Optional<ICommand, 'Tag'>) => boolean;
-	AutoComplete?: (this: Optional<ICommand, 'Tag'>, parsed: string[], low: string, msg: string) => void;
-	Clear?: false;
-}
-
 // #region Struggle Minigame
 
 type StruggleKnownMinigames = "Strength" | "Flexibility" | "Dexterity" | "Loosen" | "LockPick";
