@@ -10,13 +10,40 @@ var ClubCardBuilderOffset = 0;
 var ClubCardBuilderDeckCurrent = [];
 var ClubCardBuilderMinDeckSize = 30;
 var ClubCardBuilderMaxDeckSize = 40;
+/** @type {ClubCardTag} */
 var ClubCardBuilderSelectedTag = "All";
-var ClubCardBuilderFilterGroup = ["All", "Selected Cards", "Event", "NoGroup", "Liability", "Staff", "Police", "Criminal", "Fetishist", "Porn", "Maid", "Asylum", "Dominant / Mistress", "ABDL", "College", "Shibari", "Pet / Owner", "Reward"];
+
+/**
+ * @type {Record<ClubCardTag, (card: ClubCard) => boolean>}
+ */
+const ClubCardBuilderFilterGroupFilters = {
+	All: () => true,
+	["Selected Cards"]: (card) => ClubCardBuilderDeckCurrent.includes(card.ID),
+	Event: (card) => card.Type === "Event",
+	NoGroup: (card) => !card.Group && !card.Type,
+	Liability: (card) => card.Group?.includes("Liability"),
+	Staff: (card) => card.Group?.includes("Staff"),
+	Police: (card) => card.Group?.includes("Police"),
+	Criminal: (card) => card.Group?.includes("Criminal"),
+	Fetishist: (card) => card.Group?.includes("Fetishist"),
+	Porn: (card) => ["PornActress", "Porn", "Video"].some(g => card.Group?.includes(g)),
+	Maid: (card) => card.Group?.includes("Maid"),
+	Asylum: (card) => ["AsylumPatient", "AsylumNurse"].some(g => card.Group?.includes(g)),
+	["Dominant / Mistress"]: (card) => ["Dominant", "Mistress"].some(g => card.Group?.includes(g)),
+	ABDL: (card) => ["ABDLBaby", "ABDLMommy"].some(g => card.Group?.includes(g)),
+	College: (card) => ["CollegeStudent", "CollegeTeacher"].some(g => card.Group?.includes(g)),
+	Shibari: (card) => ["Shibari", "Knot", "Sensei"].some(g => card.Group?.includes(g)),
+	["Pet / Owner"]: (card) => ["Pet", "Owner"].some(g => card.Group?.includes(g)),
+	Kemonomimi: (card) => card.Group?.includes("Kemonomimi"),
+	["Submissive / Slave"]: (card) => ["Submissive", "Slave"].some(g => card.Group?.includes(g)),
+	Reward: (card) => !!card.Reward,
+};
+
 var ClubCardBuilderRenameIndex = -1;
 var ClubCardBuilderCustomizationIndex = "";
 var ClubCardBuilderSelectedCardBack = 0;
 var ClubCardBuilderCardBackFocus = null;
-var ClubCardBuilderCardBackCount = 9;
+var ClubCardBuilderCardBackCount = 12;
 var ClubCardBuilderView = ClubCardList;
 
 // All the default decks that NPCs can use
@@ -39,7 +66,7 @@ let ClubCardBuilderReturnToChatroom = false;
  */
 function ClubCardBuilderLoadDeck(Deck) {
 	// create the editor's elements
-	ElementCreateDropdown("CardsTagsDropdown", ClubCardBuilderFilterGroup, ClubCardBuilderTagChanged);
+	ElementCreateDropdown("CardsTagsDropdown", Object.keys(ClubCardBuilderFilterGroupFilters), ClubCardBuilderTagChanged);
 	ElementCreateSearchInput("CardsSearchFilter", () => ClubCardList.map(i => ClubCardTextGet(i))).addEventListener("input", ClubCardBuilderInputChanged);
 
 	// Loads the default deck if no deck exists or the deck is invalid
@@ -153,24 +180,12 @@ function ClubCardBuilderFilterLoad() {
 	ClubCardBuilderFocus = null;
 	ClubCardBuilderList = [];
 	ClubCardBuilderOffset = 0;
-	for (let Card of ClubCardBuilderView)
-		if ((Card.Reward == null) || (Player.Game.ClubCard.Reward.indexOf(String.fromCharCode(Card.ID)) >= 0)) {
-			let Include = false;
-			if (ClubCardBuilderSelectedTag == "All") Include = true;
-			else if ((ClubCardBuilderSelectedTag == "Selected Cards") && ClubCardBuilderDeckCurrent.indexOf(Card.ID) >= 0) Include = true;
-			else if ((ClubCardBuilderSelectedTag == "Event") && (Card.Type === "Event")) Include = true;
-			else if ((ClubCardBuilderSelectedTag == "NoGroup") && (Card.Group == null) && (Card.Type == null)) Include = true;
-			else if ((ClubCardBuilderSelectedTag == "Reward") && (Card.Reward != null)) Include = true;
-			else if ((ClubCardBuilderSelectedTag == "Porn") && (Card.Group?.includes("PornActress") || Card.Group?.includes("Porn") || Card.Group?.includes("Video"))) Include = true;
-			else if ((ClubCardBuilderSelectedTag == "Asylum") && (Card.Group?.includes("AsylumPatient") || Card.Group?.includes("AsylumNurse"))) Include = true;
-			else if ((ClubCardBuilderSelectedTag == "Dominant / Mistress") && (Card.Group?.includes("Dominant") || Card.Group?.includes("Mistress"))) Include = true;
-			else if ((ClubCardBuilderSelectedTag == "ABDL") && (Card.Group?.includes("ABDLBaby") || Card.Group?.includes("ABDLMommy"))) Include = true;
-			else if ((ClubCardBuilderSelectedTag == "College") && (Card.Group?.includes("CollegeStudent") || Card.Group?.includes("CollegeTeacher"))) Include = true;
-			else if ((ClubCardBuilderSelectedTag == "Shibari") && (Card.Group?.includes("Shibari") || Card.Group?.includes("Knot") || Card.Group?.includes("Sensei"))) Include = true;
-			else if ((ClubCardBuilderSelectedTag == "Pet / Owner") && (Card.Group?.includes("Pet") || Card.Group?.includes("Owner"))) Include = true;
-			else if ((Card.Group != null) && (Card.Group.includes(ClubCardBuilderSelectedTag))) Include = true;
-			if (Include) ClubCardBuilderList.push({...Card});
+	for (let Card of ClubCardBuilderView) {
+		if (!Card.Reward || Player.Game.ClubCard.Reward.indexOf(String.fromCharCode(Card.ID)) >= 0) {
+			if (ClubCardBuilderFilterGroupFilters[ClubCardBuilderSelectedTag](Card)) ClubCardBuilderList.push({...Card});
 		}
+	}
+
 	for (let Card of ClubCardBuilderList)
 		if (Card.RequiredLevel == null)
 			Card.RequiredLevel = 1;

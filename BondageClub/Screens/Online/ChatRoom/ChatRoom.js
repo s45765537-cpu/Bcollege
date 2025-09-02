@@ -36,6 +36,7 @@ let ChatRoomData = null;
  * @type {Character[]}
  */
 var ChatRoomCharacter = [];
+var ChatRoomJustEntered = false;
 /** @type {ChatRoomChatLogEntry[]} */
 var ChatRoomChatLog = [];
 var ChatRoomLastMessage = [""];
@@ -1333,11 +1334,12 @@ async function ChatRoomLoad() {
 	ChatRoomCreateElement();
 
 	// Add a horizontal line to the chatlog the first time one enters the room; skip the very first room
-	if (ChatRoomCharacter.length === 0) {
+	if (ChatRoomJustEntered) {
 		const elem = ChatRoomSep.Create();
 		elem.toggleAttribute("hidden", !(Player.ChatSettings?.PreserveChat ?? true));
 		ChatRoomCharacterUpdate(Player);
 		ActivityChatRoomArousalSync(Player);
+		ChatRoomJustEntered = false;
 	}
 
 	if (!ChatRoomData || Player.LastChatRoom && ChatRoomData.Name !== Player.LastChatRoom.Name) {
@@ -1857,22 +1859,38 @@ function ChatRoomDrawArousalScreenFilter(y1, h, Width, ArousalOverride, Color = 
 	let oscillation = Math.sin(CommonTime() / 1000 % Math.PI);
 	let alpha = Math.min(1.0, AlphaBonus + 0.6 * level * (0.99 - amplitude + amplitude * oscillation));
 
-	if (Player.ArousalSettings.VFXFilter == "VFXFilterHeavy") {
-		const Grad = MainCanvas.createLinearGradient(0, y1, 0, h);
-		let alphamin = Math.max(0, alpha / 2 - 0.05);
-		Grad.addColorStop(0, `rgba(${Color}, ${alpha})`);
-		Grad.addColorStop(0.1 + 0.2*percent * (1.2 + 0.2 * oscillation), `rgba(${Color}, ${alphamin})`);
-		Grad.addColorStop(0.5, `rgba(${Color}, ${alphamin/2})`);
-		Grad.addColorStop(0.9 - 0.2*percent * (1.2 + 0.2 * oscillation), `rgba(${Color}, ${alphamin})`);
-		Grad.addColorStop(1, `rgba(${Color}, ${alpha})`);
-		MainCanvas.fillStyle = Grad;
-		MainCanvas.fillRect(0, y1, Width, h);
-	} else {
-		if (Player.ArousalSettings.VFXFilter != "VFXFilterMedium") {
+	switch (Player.ArousalSettings.VFXFilter) {
+		case "VFXFilterMedium":
+			alpha /= 2;
+			break;
+		case "VFXFilterLight":
 			alpha = (Progress >= 91) ? 0.25 : 0;
-		} else alpha /= 2;
-		if (alpha > 0)
+			break;
+	}
+
+	if (!CommonIsFinite(alpha, 0, 1)) {
+		return;
+	}
+
+	switch (Player.ArousalSettings.VFXFilter) {
+		case "VFXFilterHeavy": {
+			const Grad = MainCanvas.createLinearGradient(0, y1, 0, h);
+			const alphamin = Math.max(0, alpha / 2 - 0.05);
+			Grad.addColorStop(0, `rgba(${Color}, ${alpha})`);
+			Grad.addColorStop(0.1 + 0.2*percent * (1.2 + 0.2 * oscillation), `rgba(${Color}, ${alphamin})`);
+			Grad.addColorStop(0.5, `rgba(${Color}, ${alphamin/2})`);
+			Grad.addColorStop(0.9 - 0.2*percent * (1.2 + 0.2 * oscillation), `rgba(${Color}, ${alphamin})`);
+			Grad.addColorStop(1, `rgba(${Color}, ${alpha})`);
+			MainCanvas.fillStyle = Grad;
+			MainCanvas.fillRect(0, y1, Width, h);
+			break;
+		}
+		case "VFXFilterMedium":
+		case "VFXFilterLight":
 			DrawRect(0, y1, Width, h, `rgba(${Color}, ${alpha})`);
+			break;
+		case "VFXFilterNone":
+			break;
 	}
 }
 /**
@@ -2960,6 +2978,7 @@ function ChatRoomLeave(clearCharacters = false) {
 	Player.MapData = null;
 	ChatRoomGame = "";
 	ChatRoomCharacter = [];
+	ChatRoomJustEntered = false;
 	ChatRoomDrawFocusList = [];
 	ChatRoomMapViewTileFog = "";
 	ChatRoomMapViewObjectFog = "";
@@ -3931,9 +3950,10 @@ function ChatRoomMessageProcessHidden(data, SenderCharacter) {
 		ClubCardPlayerConceded(data.Sender);
 	} else if (data.Content == "ClubCardAdminResetGameHidden") {
 		ClubCardResetGameStatus();
-	}
-	else if (data.Content == "ChatRoomMapViewTeleport") {
+	} else if (data.Content == "ChatRoomMapViewTeleport") {
 		ChatRoomMapViewTeleportHiddenMessage(SenderCharacter, data);
+	} else if (data.Content == "ChatRoomMapViewChangeKey") {
+		ChatRoomMapViewChangeKeyHiddenMessage(SenderCharacter, data)
 	}
 	return true;
 }
@@ -4790,9 +4810,9 @@ function ChatRoomValidateProperties(obj)
  * This only happens once per ChatRoom "lifetime".
  *
  * @param {ServerChatRoomSyncMessage} data - Room object containing the new chatroom data.
- * @returns {void} - Nothing.
+ * @returns {Promise<void>} - Nothing.
  */
-function ChatRoomSync(data) {
+async function ChatRoomSync(data) {
 	if (data == null || (typeof data !== "object") || typeof data.SourceMemberNumber !== "number") {
 		return;
 	}
@@ -4805,23 +4825,24 @@ function ChatRoomSync(data) {
 	if (!ChatRoomValidateProperties(data)) {
 		// Instantly leave the chat room again
 		ChatRoomLeave();
-		CommonSetScreen("Online", "ChatSearch");
+		await CommonSetScreen("Online", "ChatSearch");
 		ChatSearchMessage = "ErrorInvalidRoomProperties";
 		return;
 	} else if (ChatRoomData) {
 		// We're somehow already in a room. Bail out in case our idea of the room we're in doesn't match what the server thinks
 		ChatRoomLeave();
-		CommonSetScreen("Online", "ChatSearch");
+		await CommonSetScreen("Online", "ChatSearch");
 		ChatSearchMessage = "ResponseAlreadyInRoom";
 		return;
 	}
 
 	// Set our chat room data to what the server sent us
 	ChatRoomData = data;
+	ChatRoomJustEntered = true;
 
 	// Loads the room
 	if (!ServerPlayerIsInChatRoom() || CurrentScreen === "ChatAdmin") {
-		CommonSetScreen("Online", "ChatRoom");
+		await CommonSetScreen("Online", "ChatRoom");
 	}
 
 	if (ChatRoomSep.ActiveElem) {
@@ -5712,9 +5733,19 @@ function ChatRoomDrinkPick(DrinkType, Money) {
 }
 
 /** @type {(RuleType: LogNameType[keyof LogNameType], Option: "Quest" | "Leave") => void} */
-function ChatRoomSendLoverRule(RuleType, Option) { ChatRoomSendRule(RuleType, Option, "Lover"); }
+function ChatRoomSendLoverRule(RuleType, Option) {
+	ChatRoomSendRule(RuleType, Option, "Lover");
+	TimerCreate(() => {
+		CharacterRefreshDialog(CurrentCharacter);
+	}, 400, false);
+}
 /** @type {(RuleType: LogNameType[keyof LogNameType], Option: "Quest" | "Leave") => void} */
-function ChatRoomSendOwnerRule(RuleType, Option) { ChatRoomSendRule(RuleType, Option, "Owner"); }
+function ChatRoomSendOwnerRule(RuleType, Option) {
+	ChatRoomSendRule(RuleType, Option, "Owner");
+	TimerCreate(() => {
+		CharacterRefreshDialog(CurrentCharacter);
+	}, 400, false);
+}
 /** @type {(RuleType: LogNameAdvanced) => void} */
 function ChatRoomAdvancedRule(RuleType) { AdvancedRuleOpen(RuleType); }
 function ChatRoomForbiddenWords() { ForbiddenWordsOpen(); }
@@ -6463,6 +6494,7 @@ function ChatRoomOwnerPresenceRule(RuleName, Target) {
 	if (RuleName == "BlockAccessSelf") Rule = ((Target != null) && (Player.MemberNumber === Target.MemberNumber)); // Block access self only if target is herself
 	if (RuleName == "BlockAccessOther") Rule = ((Target != null) && (Player.MemberNumber !== Target.MemberNumber)); // Block access other only if target is another member
 	if (RuleName == "BlockWhisper") Rule = ((Target != null) && !Player.IsOwnedByCharacter(Target)); // Block whisper doesn't block whispering to the owner
+	if (RuleName === "BlockChangePose") return true; // We don't do the notification there, otherwise we'll spam chat
 
 	// Shows a warning message in the chat log if the rule is enforced
 	if (Rule) {

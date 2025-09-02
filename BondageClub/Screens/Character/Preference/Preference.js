@@ -18,12 +18,6 @@ var PreferenceMessage = "";
 var PreferenceSubscreen = null;
 
 /**
- * @type {PreferenceSubscreenName[]}
- * @deprecated the old name. Remove after the extensions have caught up
- */
-var PreferenceSubscreenList = [];
-
-/**
  * All the base settings screens
  * @type {PreferenceSubscreen[]}
  */
@@ -31,6 +25,7 @@ const PreferenceSubscreens = [
 	{
 		name: "Main",
 		hidden: true,
+		load: () => PreferenceSubscreenMainLoad(),
 		run: () => PreferenceSubscreenMainRun(),
 		click: () => PreferenceSubscreenMainClick(),
 	},
@@ -168,7 +163,23 @@ var PreferencePageCurrent = 1;
 /** @type {Record<string,PreferenceExtensionsSettingItem>} */
 let PreferenceExtensionsSettings = {};
 
-let PreferenceDidAddOldStyleScreens = false;
+/**
+ * Open a specific subscreen
+ * @param {PreferenceSubscreenName} subscreen
+ * @param {number} page
+ */
+async function PreferenceOpenSubscreen(subscreen, page = 1) {
+	if (CurrentModule !== "Character" || CurrentScreen !== "Preference") {
+		await CommonSetScreen("Character", "Preference");
+	}
+	PreferenceSubscreen?.unload?.();
+
+	PreferenceSubscreen = PreferenceSubscreens.find(s => s.name === subscreen) ?? null;
+	if (!CommonIsNonNegativeInteger(page)) page = 1;
+	PreferencePageCurrent = page;
+	PreferenceMessage = "";
+	PreferenceSubscreen?.load?.();
+}
 
 /**
  * Loads the preference screen. This function is called dynamically, when the character enters the preference screen
@@ -176,25 +187,7 @@ let PreferenceDidAddOldStyleScreens = false;
  * @type {ScreenLoadHandler}
  */
 async function PreferenceLoad() {
-	PreferenceSubscreen = PreferenceSubscreens.find(s => s.name === "Main") ?? null;
-
-	// Backward-compatibility: just throw the old-style screens into the mix
-	if (!PreferenceDidAddOldStyleScreens) {
-
-		if (PreferenceSubscreenList.length > 0) {
-			console.warn("Detected old-style subscreens, please upgrade!", PreferenceSubscreenList);
-		}
-		for (const screen of PreferenceSubscreenList) {
-			PreferenceSubscreens.push({
-				name: screen,
-				load: () => CommonCallFunctionByName(`PreferenceSubscreen${screen}Load`),
-				run: () => CommonCallFunctionByName(`PreferenceSubscreen${screen}Run`),
-				click: () => CommonCallFunctionByName(`PreferenceSubscreen${screen}Click`),
-				exit: () => CommonCallFunctionByName(`PreferenceSubscreen${screen}Exit`),
-			});
-		}
-		PreferenceDidAddOldStyleScreens = true;
-	}
+	await PreferenceOpenSubscreen("Main");
 }
 
 /**
@@ -280,13 +273,9 @@ function PreferenceSubscreenExit() {
 
 	// Only when the results is false (not undefined)
 	// The exit is just a exit of the subscreen's substate, return to block more exit.
-	if(validExit === false) return;
+	if (validExit === false) return;
 
-	// The exit is a full exit of the subscreen, unload resources
-	PreferenceSubscreen.unload?.();
-
-	PreferenceMessage = "";
-	PreferenceSubscreen = PreferenceSubscreens.find(s => s.name === "Main");
+	PreferenceOpenSubscreen("Main");
 }
 
 /**

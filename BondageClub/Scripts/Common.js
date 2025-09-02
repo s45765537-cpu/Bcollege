@@ -248,10 +248,10 @@ async function CommonSleep(ms) {
 /**
  *
  * @param {() => boolean} func
- * @param {() => boolean} cancelFunc
+ * @param {() => boolean} [cancelFunc]
  * @returns
  */
-async function CommonWaitFor(func, cancelFunc) {
+async function CommonWaitFor(func, cancelFunc = () => false) {
 	while (!func()) {
 		if (cancelFunc()) {
 			return false;
@@ -1922,4 +1922,100 @@ function ScreenFileGetPath(file, module, screen) {
 	if (!module) module = CurrentModule;
 	if (!screen) screen = CurrentScreen;
 	return `Screens/${module}/${screen}/${file}`;
+}
+
+/**
+ * Gets the common prefix of a list of strings
+ * @param {string[]} strings
+ * @returns {string}
+ */
+function CommonGetCommonPrefix(strings) {
+	if (strings.length === 0) return "";
+
+	let idx = 0;
+	while (strings.every((str) => str[idx] === strings[0][idx])) {
+		idx++;
+	}
+
+	return strings[0].substring(0, idx);
+}
+
+/**
+ * Splits a string into tokens by delimiters and spaces
+ * @param {string} input
+ * @param {{
+ * delimiters: [string, string][];
+ * includeDelimiters?: boolean;
+ * trimTrailingSpaces?: boolean;
+ * }} options
+ * @returns {string[]}
+ */
+function CommonTokenize(input, options = {
+	delimiters: [],
+	includeDelimiters: false,
+	trimTrailingSpaces: true
+}) {
+	const tokens = [];
+	let buffer = '';
+	let inDelimiter = false;
+	let currentDelimiterPair = null;
+	let escapeNext = false;
+
+	for (let i = 0; i < input.length; i++) {
+		const char = input[i];
+
+		if (escapeNext) {
+			buffer += char;
+			escapeNext = false;
+		} else if (char === '\\') {
+			escapeNext = true;
+		} else if (!inDelimiter) {
+			const delimiterPair = options.delimiters?.find(([first]) => first === char);
+
+			if (delimiterPair) {
+				if (buffer.length > 0) {
+					tokens.push(buffer);
+					buffer = '';
+				}
+
+				if (options.includeDelimiters) {
+					buffer += char;
+				}
+
+				inDelimiter = true;
+				currentDelimiterPair = delimiterPair;
+			} else if (char === ' ') {
+				if (buffer.length > 0) {
+					tokens.push(buffer);
+					buffer = '';
+				}
+			} else {
+				buffer += char;
+			}
+		} else if (inDelimiter) {
+			if (char === currentDelimiterPair[1]) {
+				if (options.includeDelimiters) {
+					buffer += char;
+				}
+
+				tokens.push(buffer);
+				buffer = '';
+				inDelimiter = false;
+				currentDelimiterPair = null;
+			} else {
+				buffer += char;
+			}
+		}
+	}
+
+	if (buffer.length > 0) {
+		tokens.push(buffer);
+		buffer = '';
+	}
+
+	if (options.trimTrailingSpaces) {
+		tokens.map(token => token.trim()).filter(token => token.length > 0);
+	}
+
+	return tokens;
 }

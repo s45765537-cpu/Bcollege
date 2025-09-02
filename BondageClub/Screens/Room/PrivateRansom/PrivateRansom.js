@@ -69,10 +69,11 @@ function PrivateRansomClick() {
 	if (MouseIn(1800, 100, 90, 90)) PrivateRansomExit();
 	if (MouseIn(1800, 215, 90, 90)) {
 		let Intro = TextGet("InfiltrationIntro");
-		CommonSetScreen("Room", "Infiltration");
-		InfiltrationSupervisor.Stage = "100";
-		InfiltrationSupervisor.CurrentDialog = Intro;
-		CharacterSetCurrent(InfiltrationSupervisor);
+		CommonSetScreen("Room", "Infiltration").then(() => {
+			InfiltrationSupervisor.Stage = "100";
+			InfiltrationSupervisor.CurrentDialog = Intro;
+			CharacterSetCurrent(InfiltrationSupervisor);
+		});
 	}
 }
 

@@ -210,6 +210,7 @@ ClothAccessory,LatexApron,Latex Apron
 ClothAccessory,LeatherBeltCloth,Leather Waist Belt
 ClothAccessory,LeatherStraps,Leather Straps
 ClothAccessory,Poncho,Poncho
+ClothAccessory,RuffledCollar,Latex Ruffled Collar
 ClothAccessory,Scarf,Scarf
 ClothAccessory,StudentOutfit3Bow1,Student Bow 1
 ClothAccessory,StudentOutfit3Bow2,Student Bow 2
@@ -290,6 +291,7 @@ Corset,Underbust,Boned Underbust Corset
 Decals,,Decals
 Decals,DenOfSin,Den of Sin
 Decals,AmberFam,Amber Family
+Decals,AzureCorp,Azure Corporation
 Decals,DemonsBar,Demon's Bar
 Decals,Gangriels,Gangriels
 Decals,LukeChill,Luke's Chill Tent
@@ -735,6 +737,7 @@ Hat,Crown3,Crown Style 3
 Hat,Crown4,Crown Style 4
 Hat,Crown5,Crown Style 5
 Hat,FacePaint, Face Paint
+Hat,FlatCap,Flat Cap
 Hat,FlowerCrown,Flower Crown
 Hat,FurHeadband,Fur Headband
 Hat,HeadTowel1,Towel
@@ -1699,6 +1702,7 @@ Necklace,NecklaceLock,Lock Necklace
 Necklace,NecklaceRope,Rope Necklace
 Necklace,PearlNecklace1,Custom Pearl Necklace
 Necklace,RosePendant,Rose Pendant
+Necklace,RuffledCollar,Latex Ruffled Collar
 Necklace,SatinScarf,Satin Scarf
 Nipples,,Nipples Style
 Nipples,Nipples1,Small
