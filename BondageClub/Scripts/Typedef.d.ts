@@ -656,7 +656,7 @@ type ArousalAffectStutterName = "None" | "Arousal" | "Vibration" | "All";
 type SettingsSensDepName = "SensDepLight" | "Normal" | "SensDepNames" | "SensDepTotal" | "SensDepExtreme";
 type SettingsVFXName = "VFXInactive" | "VFXSolid" | "VFXAnimatedTemp" | "VFXAnimated";
 type SettingsVFXVibratorName = "VFXVibratorInactive" | "VFXVibratorSolid" | "VFXVibratorAnimated";
-type SettingsVFXFilterName = "VFXFilterLight" | "VFXFilterMedium" | "VFXFilterHeavy";
+type SettingsVFXFilterName = "VFXFilterLight" | "VFXFilterMedium" | "VFXFilterHeavy" | "VFXFilterNone";
 
 type GraphicsFontName =
 	"Arial" | "TimesNewRoman" | "Papyrus" | "ComicSans" | "Impact" | "HelveticaNeue" | "Verdana" |
@@ -3781,16 +3781,6 @@ interface NoArchItemData extends ExtendedItemData<NoArchItemOption> {
 
 type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
-interface ICommand {
-	Tag: string;
-	Description?: string;
-	Reference?: string;
-	Action?: (this: Optional<ICommand, 'Tag'>, args: string, msg: string, parsed: string[]) => void
-	Prerequisite?: (this: Optional<ICommand, 'Tag'>) => boolean;
-	AutoComplete?: (this: Optional<ICommand, 'Tag'>, parsed: string[], low: string, msg: string) => void;
-	Clear?: false;
-}
-
 // #region Struggle Minigame
 
 type StruggleKnownMinigames = "Strength" | "Flexibility" | "Dexterity" | "Loosen" | "LockPick";
@@ -4733,6 +4723,28 @@ interface WheelFortuneOptionType {
 
 // #region ClubCard
 
+type ClubCardTag =
+	| "All"
+	| "Selected Cards"
+	| "Event"
+	| "NoGroup"
+	| "Liability"
+	| "Staff"
+	| "Police"
+	| "Criminal"
+	| "Fetishist"
+	| "Porn"
+	| "Maid"
+	| "Asylum"
+	| "Dominant / Mistress"
+	| "ABDL"
+	| "College"
+	| "Shibari"
+	| "Pet / Owner"
+	| "Kemonomimi"
+	| "Submissive / Slave"
+	| "Reward";
+
 interface ClubCard {
 	ID: number;
 	UniqueID?: string;
@@ -4753,7 +4765,8 @@ interface ClubCard {
 	ExtraPlay?: number;
 	Group?: string[];
 	Location?: string;
-	Negated?: boolean;
+	Negated?: boolean; // if the card's effect should not work
+	Negating?: string; // the card that its effect is stopped by this card
 	GlowTimer?: number;
 	GlowColor?: string;
 	EffectKey?: number;
@@ -4789,6 +4802,15 @@ interface ClubCard {
 	onLeaveClub?: (C: ClubCardPlayer) => void;
 	turnStart?: (C: ClubCardPlayer) => void;
 	onLevelUp?: (C: ClubCardPlayer) => void;
+	onOpponentLevelUp?: (C: ClubCardPlayer) => void;
+	onDrawCard?: (C: ClubCardPlayer) => void;
+	onOpponentDrawCard?: (C: ClubCardPlayer) => void;
+	onDrawAction?: (C: ClubCardPlayer) => void;
+	onOpponentDrawAction?: (C: ClubCardPlayer) => void;
+	onSteal?: (C: ClubCardPlayer) => void;
+	StreetsTurnEnd?: (C: ClubCardPlayer) => void;
+	onDiscardCard?: (C: ClubCardPlayer, Card: ClubCard) => void;
+	onCancelNegation?: (C: ClubCardPlayer) => void;
 }
 
 interface ClubCardPlayer {
@@ -4922,6 +4944,9 @@ type ChatRoomMapObjectType = (
 	| "FloorDecorationAnimal"
 	| "FloorItem"
 	| "FloorObstacle"
+	| "FloorNumber"
+	| "FloorLetter"
+	| "FloorIcon"
 	| "WallDecoration"
 	| "WallPath"
 );

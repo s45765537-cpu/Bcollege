@@ -28,9 +28,9 @@ async function MiniGameLoad() {
  * @param {ModuleScreens["MiniGame"]} GameType - Name of the mini-game to launch
  * @param {number|string} Difficulty - Difficulty Ration for the mini-game
  * @param {string} ReturnFunction - Callback name to execute once the mini-game is over
- * @returns {void} - Nothing
+ * @returns {Promise<void>} - Nothing
  */
-function MiniGameStart(GameType, Difficulty, ReturnFunction) {
+async function MiniGameStart(GameType, Difficulty, ReturnFunction) {
 	MiniGameType = GameType;
 	MiniGameDifficulty = 0;
 	MiniGameDifficultyMode = "";
@@ -53,7 +53,7 @@ function MiniGameStart(GameType, Difficulty, ReturnFunction) {
 	if (CurrentCharacter) {
 		DialogLeave();
 	}
-	CommonSetScreen("MiniGame", GameType);
+	await CommonSetScreen("MiniGame", GameType);
 }
 
 function MiniGameEnd() {

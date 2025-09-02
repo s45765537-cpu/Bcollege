@@ -10,12 +10,11 @@ var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
-	"pauli&maty", "Abysseia", "Alex", "AlexG", "Asriel", "bryce", "Canti", "Christian", 
-	"Christoffer", "Claudia33", "Cm382714", "Desch", "Dragokahn", "dynilath", "Edwin", 
-	"Exusiai", "George", "Greendragon", "john", "KrimsonRose", "Laurie", "Marashu", "Mario", 
-	"Michel", "Mindtie", "Misa", "NeReFox", "Nightcore", "Nikita", "Patrick", "Robin", 
-	"Schrödingers", "serenat2023", "Soulcollar", "Sticks", "Sunny", "Tam", "Tarram1010", 
-	"Teli", "Thkdt", "Troubadix", "Troy", "WhiteSniper", "XDWolfie", "Xepherio", "黑猫哒哒哒", 
+	"Abysseia", "AlexG", "Asriel", "bryce", "Canti", "Christian", "Christoffer", "Claudia", "Desch", 
+	"Dragokahn", "dynilath", "EBXD", "Edwin", "Exusiai", "George", "Greendragon", "john", "Laurie", 
+	"Lyall", "Marashu", "Mario", "Michel", "Mindtie", "Misa", "NeReFox", "Nightcore", "Nikita", 
+	"Robin", "Schrödingers", "Soulcollar", "Stan", "Sticks", "Sunny", "Tam", "Tarram1010", 
+	"Teli", "Thkdt", "Troubadix", "Troy", "WhiteSniper", "XDWolfie", "Xepherio", "云雪", 
 ];
 
 /* eslint-enable */

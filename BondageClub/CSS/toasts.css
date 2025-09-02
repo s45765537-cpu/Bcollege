@@ -149,12 +149,18 @@
 
 .toast-message {
   display: -webkit-box;
-  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   text-overflow: ellipsis;
-  white-space: pre;
   line-height: 1.5;
-  overflow: hidden;
+  /* overflow: hidden; */
+  white-space: preserve;
+	max-height: 50vh;
+	max-height: 50dvh;
+}
+
+.toast-clamp-message {
+	line-clamp: 3;
+  -webkit-line-clamp: 3;
 }
 
 .toast-title {

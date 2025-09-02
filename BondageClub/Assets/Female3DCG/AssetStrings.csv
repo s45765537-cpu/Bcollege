@@ -412,10 +412,19 @@ BraceletSpikeBandsBoth,Both arms
 BraceletSpikeBandsLeft,Left arm
 BraceletSpikeBandsRight,Right arm
 BraceletSpikeBandsSelect,Select a bracelet style.
-BraceletWristbandBoth,Both arms
-BraceletWristbandLeft,Left arm
-BraceletWristbandRight,Right arm
-BraceletWristbandSelect,Select a wristband style.
+BraceletWristbandSelectBase,Wristband menu:
+BraceletWristbandModulePosition,Layer
+BraceletWristbandSelectPosition,Layer option:
+BraceletWristbandOptionp0,Under gloves
+BraceletWristbandOptionp1,Over gloves
+BraceletWristbandModuleRight,Right wrist
+BraceletWristbandSelectRight,Right wrist option:
+BraceletWristbandOptionr0,Wear it
+BraceletWristbandOptionr1,Remove it
+BraceletWristbandModuleLeft,Left wrist
+BraceletWristbandSelectLeft,Left wrist option:
+BraceletWristbandOptionl0,Wear it
+BraceletWristbandOptionl1,Remove it
 BraceletWristWatchModuleLeft,Left
 BraceletWristWatchModuleRight,Right
 BraceletWristWatchOptionl0,Circle
@@ -765,7 +774,7 @@ ClothAccessoryWombTattoosSelectWaves,Apply
 ClothAccessoryWombTattoosSelectWingSmall,Apply
 ClothAccessoryWombTattoosSelectZoom,Apply
 ClothAccessoryHoodedCloakModuleHood,Hood Position
-ClothAccessoryHoodedCloakSelect,Select a hooded cloak style:
+ClothAccessoryHoodedCloakSelectBase,Select a hooded cloak style:
 ClothAccessoryHoodedCloakSelectHood,Hood
 ClothAccessoryHoodedCloakOptionh0,Down
 ClothAccessoryHoodedCloakOptionh1,Over Head
@@ -6583,11 +6592,15 @@ StandUp,SourceCharacter stands up
 StandUpFail,SourceCharacter tries to stand up but loses PronounPossessive balance and falls!
 StandUpPass,SourceCharacter manages to get to PronounPossessive feet.
 StopHoldLeash,SourceCharacter releases the leash of TargetCharacter.
-StreetEyewearSelectType,Select a style.
-StreetEyewearTypeHalf,Half-Frame
-StreetEyewearTypeHalfOver,Half over hair
-StreetEyewearTypeNormal,Normal Frame
-StreetEyewearTypeNormalOver,Normal over hair
+GlassesStreetEyewearSelectBase,Street Eyewear Glasses custom menu:
+GlassesStreetEyewearModulePosition,Hair position
+GlassesStreetEyewearSelectPosition,Glasses position options:
+GlassesStreetEyewearOptionp0,Under front hair
+GlassesStreetEyewearOptionp1,Over front hair
+GlassesStreetEyewearModuleFrame,Frame style
+GlassesStreetEyewearSelectFrame,Frame style options:
+GlassesStreetEyewearOptionf0,Normal frame
+GlassesStreetEyewearOptionf1,Half frame
 StruggleAssist,SourceCharacter tries to help TargetCharacter to struggle free.
 SturdyLeatherBeltsPoseFour,Four
 SturdyLeatherBeltsPoseOne,One
@@ -6882,11 +6895,15 @@ ClothLatexHobbleDressOptionb0,None
 ClothLatexHobbleDressOptionb1,Belt below the knee (Slow)
 ClothLatexHobbleDressOptionb2,Ankle belt (Slow)
 ClothLatexHobbleDressOptionb3,Belts in both positions (Slow)
-PincenezSelectType,Select a style:
-PincenezTypeNoAcc,Normal
-PincenezTypeNoAccOver,Normal over hair
-PincenezTypeAcc,With accessory
-PincenezTypeAccOver,With accessory over hair
+GlassesPincenezSelectBase,Pince-nez custom menu:
+GlassesPincenezModulePosition,Hair position
+GlassesPincenezSelectPosition,Glasses position options:
+GlassesPincenezOptionp0,Under front hair
+GlassesPincenezOptionp1,Over front hair
+GlassesPincenezModuleAccessory,Glasses acessory
+GlassesPincenezSelectAccessory,Accessory options:
+GlassesPincenezOptiona0,No accessory
+GlassesPincenezOptiona1,Accessory added
 QualityHarnessGagSetBallGag,SourceCharacter attaches ball gag to DestinationCharacter gag harness.
 QualityHarnessGagSetRingGag,SourceCharacter attaches ring gag to DestinationCharacter gag harness.
 QualityHarnessGagTypeRingGag,Ring Gag
@@ -7677,9 +7694,16 @@ ItemMouth3HorrorMuzzleNone,Plain
 ItemMouth3HorrorMuzzleRivets,With rivets
 ItemMouth3HorrorMuzzleSetNone,SourceCharacter puts on DestinationCharacter mouth a plain Horror Muzzle.
 ItemMouth3HorrorMuzzleSetRivets,SourceCharacter puts on DestinationCharacter mouth a Horror Muzzle with rivets.
-GlassesRoundSunglassesSelect,Select a style:
-GlassesRoundSunglassesNormal,Behind hair
-GlassesRoundSunglassesOver,Over hair
+GlassesRoundSunglassesSelectBase,Round Sunglasses custom menu:
+GlassesRoundSunglassesModulePosition,Hair position
+GlassesRoundSunglassesSelectPosition,Glasses position options:
+GlassesRoundSunglassesPosition,Street Eyewear position options:
+GlassesRoundSunglassesOptionp0,Under front hair
+GlassesRoundSunglassesOptionp1,Over front hair
+GlassesRoundSunglassesModuleLenses,Lenses type
+GlassesRoundSunglassesSelectLenses,Type of lenses:
+GlassesRoundSunglassesOptionl0,Darker lenses
+GlassesRoundSunglassesOptionl1,Clear lenses
 ItemMouthAsylumMuzzleSelect,Asylum Muzzle options:
 ItemMouthAsylumMuzzleNormal,Single layer
 ItemMouthAsylumMuzzlePadded,Plus padded layer
@@ -7750,9 +7774,9 @@ ItemHandheldPlushiesSetLatexLab3,SourceCharacter places a cute Khloe plushie in 
 ItemHandheldPlushiesOptionLatexLab4,Lillian
 ItemHandheldPlushiesSetLatexLab4,SourceCharacter places a cute Lillian plushie in DestinationCharacter hands.
 ItemHandheldPlushiesOptionLatexLab5,Tiny Raven
-ItemHandheldPlushiesSetLatexLab7,SourceCharacter places a cute Tiny Raven plushie in DestinationCharacter hands.
+ItemHandheldPlushiesSetLatexLab5,SourceCharacter places a cute Tiny Raven plushie in DestinationCharacter hands.
 ItemHandheldPlushiesOptionLatexLab6,Xdress
-ItemHandheldPlushiesSetLatexLab8,SourceCharacter places a cute XDress plushie in DestinationCharacter hands.
+ItemHandheldPlushiesSetLatexLab6,SourceCharacter places a cute XDress plushie in DestinationCharacter hands.
 ItemHandheldPlushiesOptionLatexLab7,Elora
 ItemHandheldPlushiesSetLatexLab7,SourceCharacter places a cute Elora plushie in DestinationCharacter hands.
 ItemHandheldPlushiesOptionLatexLab8,Lisa
@@ -7806,7 +7830,7 @@ ItemHandheldPlushiesSetVagrants5,SourceCharacter places a cute Little Sera plush
 ItemHandheldPlushiesOptionVagrants6,Mana
 ItemHandheldPlushiesSetVagrants6,SourceCharacter places a cute Mana plushie in DestinationCharacter hands.
 ItemHandheldPlushiesOptionVagrants7,Minerva
-ItemHandheldPlushiesSetVagrants7,:ourceCharacter places a cute Minerva plushie in DestinationCharacter hands.
+ItemHandheldPlushiesSetVagrants7,SourceCharacter places a cute Minerva plushie in DestinationCharacter hands.
 ItemHandheldPlushiesOptionVagrants8,Zoi
 ItemHandheldPlushiesSetVagrants8,SourceCharacter places a cute Zoi plushie in DestinationCharacter hands.
 ItemHandheldPlushiesGroup,Choose the plushie group:
@@ -8068,3 +8092,9 @@ ItemLegsPawPaddedPetsuitLegsSetNone,SourceCharacter puts the petsuit legs withou
 ItemLegsPawPaddedPetsuitLegsSetPadding,SourceCharacter puts the petsuit legs with paws on DestinationCharacter legs.
 ItemLegsPawPaddedPetsuitLegsNone,No Paw Padding
 ItemLegsPawPaddedPetsuitLegsPadding,Paw Padding
+ClothAccessoryRuffledCollarSelect,Choker addon option:
+ClothAccessoryRuffledCollarNone,No choker
+ClothAccessoryRuffledCollarChoker,Choker added
+NecklaceRuffledCollarSelect,Choker addon option:
+NecklaceRuffledCollarNone,No choker
+NecklaceRuffledCollarChoker,Choker added

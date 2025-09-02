@@ -2783,7 +2783,7 @@ class DialogMenu {
 			 */
 			_ClickButton: function(event) {
 				const clickedObj = dialogMenu._GetClickedObject(this);
-				if (!clickedObj || !dialogMenu.C) {
+				if (clickedObj === undefined || !dialogMenu.C) {
 					event.stopImmediatePropagation();
 					return "Internal error";
 				}
@@ -5833,17 +5833,16 @@ function DialogStruggleStop(C, Game, { Progress, PrevItem, NextItem, Skill, Atte
 		}
 
 		// Removes the item & associated items if needed, then wears the new one
-		InventoryRemove(C, C.FocusGroup.Name);
+		InventoryRemove(C, C.FocusGroup.Name, false);
 		if (NextItem != null) {
 			let Color = (DialogColorSelect == null) ? "Default" : DialogColorSelect;
 			if ((NextItem.Craft != null) && CommonIsColor(NextItem.Craft.Color))
 				Color = NextItem.Craft.Color;
 
-			InventoryWear(C, NextItem.Asset.Name, NextItem.Asset.Group.Name, Color, SkillGetWithRatio(Player, "Bondage"), Player.MemberNumber, NextItem.Craft);
-
-			// Refresh the item by getting it back
-			NextItem = InventoryGet(C, NextItem.Asset.Group.Name);
+			NextItem = InventoryWear(C, NextItem.Asset.Name, NextItem.Asset.Group.Name, Color, SkillGetWithRatio(Player, "Bondage"), Player.MemberNumber, NextItem.Craft, false);
 		}
+
+		CharacterRefresh(C, true, true);
 
 		// Handle skills
 		if (C.IsPlayer()) {

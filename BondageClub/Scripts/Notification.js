@@ -99,7 +99,7 @@ class NotificationEventHandler {
 		if (!C && data.memberNumber) C = Character.find(Char => Char.MemberNumber === data.memberNumber);
 		if (C && 'icon' in Notification.prototype) icon = DrawCharacterSegment(C, 168, 50, 164, 164).toDataURL("image/png");
 		if (data.characterName) titleStart = data.characterName + " - ";
-		else if (C) titleStart = C.Name + " - ";
+		else if (C) titleStart = CharacterNickname(C) + " - ";
 		if (data.chatRoomName) titleEnd = InterfaceTextGet("NotificationTitleFromRoom").replace("ChatRoomName", "'" + data.chatRoomName + "'");
 
 		// Define the (supported) options of the popup and create it

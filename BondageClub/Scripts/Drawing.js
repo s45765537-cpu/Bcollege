@@ -183,8 +183,8 @@ function DrawRefreshCharacterForImage(img) {
 		// This is a pose directory
 		layerName = parts[++pathPos];
 	}
-	const assetName = layerName.split("_")[0];
-	const wearing = [Player, ...Character].filter(c => c.Appearance.some(i => i.Asset.Group.Name === groupName && i.Asset.Name === assetName));
+	const assetName = layerName.split("_")[0].replace(".png", "");
+	const wearing = Character.filter(c => c.Appearance.some(i =>  i.Asset.Group.Name === groupName && i.Asset.Name === assetName ));
 	for (const char of wearing) {
 		char.MustDraw = true;
 	}

@@ -205,8 +205,9 @@ function InfiltrationStartMission() {
 	PandoraMoney = 0;
 	PandoraPaint = false;
 	DialogLeave();
-	CommonSetScreen("Room", "Pandora");
-	PandoraBuildMainHall();
+	CommonSetScreen("Room", "Pandora").then(() => {
+		PandoraBuildMainHall();
+	});
 }
 
 /**
@@ -325,19 +326,20 @@ function InfiltrationStartKidnapping() {
 	if ((InventoryAvailable(Player, "PandoraPadlock", "ItemMisc") || InventoryAvailable(Player, "PandoraPadlockKey", "ItemMisc")) && (Math.random() >= 0.5)) Type = "Dominatrix";
 	let IntroText = TextGet("Pandora" + Type + "Intro" + Math.floor(Math.random() * 5));
 	IntroText = IntroText.replace("DialogPlayerName", CharacterNickname(Player));
-	CommonSetScreen("Room", "Infiltration");
-	InfiltrationBackground = MainHallBackground;
-	CharacterDelete(InfiltrationKidnapper);
+	CommonSetScreen("Room", "Infiltration").then(() => {
+		InfiltrationBackground = MainHallBackground;
+		CharacterDelete(InfiltrationKidnapper);
 
-	InfiltrationKidnapper = CharacterLoadNPC("NPC_Infiltration_" + Type);
-	CharacterRelease(InfiltrationKidnapper);
-	InfiltrationKidnapper.Stage = "0";
-	if (Type == "Kidnapper") {
-		CharacterAppearanceFullRandom(InfiltrationKidnapper);
-		CharacterRefresh(InfiltrationKidnapper, false);
-	} else PandoraDress(InfiltrationKidnapper, "Mistress");
-	CharacterSetCurrent(InfiltrationKidnapper);
-	InfiltrationKidnapper.CurrentDialog = IntroText;
+		InfiltrationKidnapper = CharacterLoadNPC("NPC_Infiltration_" + Type);
+		CharacterRelease(InfiltrationKidnapper);
+		InfiltrationKidnapper.Stage = "0";
+		if (Type == "Kidnapper") {
+			CharacterAppearanceFullRandom(InfiltrationKidnapper);
+			CharacterRefresh(InfiltrationKidnapper, false);
+		} else PandoraDress(InfiltrationKidnapper, "Mistress");
+		CharacterSetCurrent(InfiltrationKidnapper);
+		InfiltrationKidnapper.CurrentDialog = IntroText;
+	});
 }
 
 /**
@@ -350,7 +352,6 @@ function InfiltrationEndKidnapping(Reward) {
 	if (Reward === "Skill") SkillProgress(Player, "Infiltration", 400);
 	if (Reward === "Private") {
 		PrivateAddCharacter(CurrentCharacter, null, null, null, "Private");
-		CommonSetScreen("Room", "Private");
 		let C = PrivateCharacter[PrivateCharacter.length - 1];
 		C.Love = -80;
 		C.FromPandora = true;
@@ -360,6 +361,7 @@ function InfiltrationEndKidnapping(Reward) {
 		}
 		ServerPrivateCharacterSync();
 		DialogLeave();
+		CommonSetScreen("Room", "Private");
 		return;
 	}
 	CommonSetScreen("Room", "MainHall");
@@ -395,9 +397,10 @@ function InfiltrationKidnapperEndFight() {
 	CurrentCharacter.Stage = (KidnapVictory) ? "100" : "200";
 	CharacterRelease(KidnapVictory ? Player : CurrentCharacter);
 	CurrentCharacter.AllowItem = KidnapVictory;
-	CommonSetScreen("Room", "Infiltration");
-	InfiltrationBackground = MainHallBackground;
-	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, (KidnapVictory) ? "FightVictory" : "FightDefeat");
+	CommonSetScreen("Room", "Infiltration").then(() => {
+		InfiltrationBackground = MainHallBackground;
+		CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, (KidnapVictory) ? "FightVictory" : "FightDefeat");
+	});
 }
 
 /**
@@ -405,8 +408,9 @@ function InfiltrationKidnapperEndFight() {
  * @returns {void} - Nothing
  */
 function InfiltrationKidnapperEnterPandora() {
-	CommonSetScreen("Room", "Pandora");
-	PandoraPunishmentIntro(true);
+	CommonSetScreen("Room", "Pandora").then(() => {
+		PandoraPunishmentIntro(true);
+	});
 }
 
 /**
@@ -565,9 +569,10 @@ function InfiltrationClubCardStart() {
  * @returns {void} - Nothing
  */
 function InfiltrationClubCardEnd() {
-	CommonSetScreen("Room", "Infiltration");
-	CharacterSetCurrent(InfiltrationSupervisor);
-	CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
+	CommonSetScreen("Room", "Infiltration").then(() => {
+		CharacterSetCurrent(InfiltrationSupervisor);
+		CurrentCharacter.CurrentDialog = DialogFind(CurrentCharacter, MiniGameVictory ? "ClubCardVictory" : "ClubCardDefeat");
+	});
 }
 
 /**
