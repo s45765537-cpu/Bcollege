@@ -816,6 +816,8 @@ function AppearanceGroupAllowed(C, GroupName) {
 		["9", "Pussy"],
 		["%", "Pronouns"],
 		["^", "EyeShadow"],
+		["!", "ClothOuter"],
+		["'", "Decals"],
 	];
 	if (GroupName == "ALL") {
 		for (let D of Dict)
@@ -841,7 +843,7 @@ function AppearanceRun() {
 		CharacterAppearanceHeaderText = "";
 	if (CharacterAppearanceHeaderText == "") {
 		if (C.IsPlayer()) CharacterAppearanceHeaderText = TextGet("SelectYourAppearance");
-		else CharacterAppearanceHeaderText = TextGet("SelectSomeoneAppearance").replace("TargetCharacterName", C.Name);
+		else CharacterAppearanceHeaderText = TextGet("SelectSomeoneAppearance").replace("TargetCharacterName", CharacterNickname(C));
 	}
 	DrawCharacter(C, -600, -100 + 4 * C.HeightModifier, 4, false);
 	if (C.IsPlayer()) DrawCharacter(C, 660, 90, 0.95);

@@ -311,11 +311,12 @@ function GameClubCardBoardDoBundle(Cards) {
 		let FamePerTurn = `${card.FamePerTurn !== undefined ? card.FamePerTurn : ''}`;
 		let Time = `${card.Time !== undefined ? card.Time : ''}`;
 		let Negated = `${card.Negated !== undefined ? card.Negated : ''}`;
+		let Negating = `${card.Negating !== undefined ? card.Negating : ''}`;
 		let EffectKey = `${card.EffectKey !== undefined ? card.EffectKey : ''}`;
 		let UniqueID = `${card.UniqueID !== undefined ? card.UniqueID : ''}`;
 		let Group = card.Group && card.Group.length ? card.Group.join('|') : '';
 
-		Result += `${ID},${ArrayIndex},${MoneyPerTurn},${FamePerTurn},${Time},${Negated},${EffectKey},${UniqueID},${Group};`;
+		Result += `${ID},${ArrayIndex},${MoneyPerTurn},${FamePerTurn},${Time},${Negated},${Negating},${EffectKey},${UniqueID},${Group};`;
 	}
 
 	if (Result.endsWith(";")) {
@@ -362,7 +363,7 @@ function GameClubCardBoardUndoBundle(bundle, Location) {
 
 	for (let i = 0; i < cards.length; i++) {
 		const cardString = cards[i];
-		const [ID, ArrayIndex, MoneyPerTurn, FamePerTurn, Time, Negated, EffectKey, UniqueID, Group] = cardString.split(',');
+		const [ID, ArrayIndex, MoneyPerTurn, FamePerTurn, Time, Negated, Negating, EffectKey, UniqueID, Group] = cardString.split(',');
 
 		const existingCard = ClubCardList.find(card => card.ID === Number(ID));
 
@@ -377,6 +378,7 @@ function GameClubCardBoardUndoBundle(bundle, Location) {
 			if (FamePerTurn != undefined && FamePerTurn != '') card.FamePerTurn = Number(FamePerTurn);
 			if (Time != undefined && Time != '') card.Time = Number(Time);
 			if (Negated != undefined && Negated != '') card.Negated = Boolean(Negated);
+			if (Negating != undefined && Negating != '') card.Negating = Negating;
 			if (EffectKey != undefined && EffectKey != '') card.EffectKey = Number(EffectKey);
 			if (UniqueID != undefined && UniqueID != '') card.UniqueID = UniqueID;
 			if (Group) card.Group = Group.split('|');
@@ -412,7 +414,7 @@ function GameClubCardLoadBundle(CCPlayer, Bundle) {
 	//###
 	if (Bundle.Hand != null) CCPlayer.Hand = GameClubCardUndoBundle(Bundle.Hand);
 	if (Bundle.Board != null) CCPlayer.Board = GameClubCardBoardUndoBundle(Bundle.Board, Location);
-	if (Bundle.Event != null) CCPlayer.Event = GameClubCardUndoBundle(Bundle.Event, true, Location);
+	if (Bundle.Event != null) CCPlayer.Event = GameClubCardBoardUndoBundle(Bundle.Event, Location);
 	//Check that if the user has the selected ClubCardFocus card, we hide its original.
 	if (ClubCardIsAnimationOn && ClubCardFocus) {
 		let targetCard = [CCPlayer.Hand, CCPlayer.Board, CCPlayer.Event].
@@ -428,15 +430,14 @@ function GameClubCardLoadBundle(CCPlayer, Bundle) {
  * Assigns both club card players based on the players selection
  * @param {ServerChatRoomGameResponse} Packet - The data packet to process
  * @param {Character} Char - The character that's sending the packet
- * @returns {void} - Nothing
+ * @returns {Promise<void>} - Nothing
  */
-function GameClubCardAssignPlayers(Packet, Char) {
+async function GameClubCardAssignPlayers(Packet, Char) {
 	if (CurrentScreen === "ChatAdmin") ChatAdminExit();
 	if (CurrentScreen === "FriendList") FriendListExit();
 	if (CurrentScreen === "Preference") PreferenceExit();
-	let Msg = TextGet("SelectedPlayerToStart");
 	GameClubCardSetStatus("Running");
-	MiniGameStart("ClubCard", 0, "GameClubCardEnd");
+	await MiniGameStart("ClubCard", 0, "GameClubCardEnd");
 	ClubCardPlayer[0].Deck = [];
 	ClubCardPlayer[0].FullDeck = [];
 	ClubCardPlayer[1].Deck = [];
@@ -470,6 +471,7 @@ function GameClubCardAssignPlayers(Packet, Char) {
 		ClubCardDestroyPopup();
 	}
 
+	let Msg = TextGetInScope(ScreenFileGetTranslation("Online", "ChatRoom", "ChatRoom"), "SelectedPlayerToStart");
 	if ((Char.MemberNumber == Player.MemberNumber) && (ClubCardTurnIndex == 0)) {
 		Msg = Msg.replace("PLAYERNAME", CharacterNickname(C1));
 		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, null, {}, null, Msg);
@@ -531,12 +533,14 @@ function GameClubCardProcess(Packet) {
 
 	// If a player wants to query the game status to join it
 	if ((Packet.Data.GameProgress === "Query") && (Packet.Sender != Player.MemberNumber) && GameClubCardExpectQuery) {
-		let msg = TextGet("JoinedClubCardGame").replace("PLAYERNAME", CharacterNickname(Player));
-		GameClubCardAssignPlayers(Packet, Char);
-		GameClubCardLoadData(Packet);
-		ClubCardMessageAdd(ClubCardMessageType.SYSTEM, "JoinedClubCardGame", {}, null, msg);
-		GameClubCardExpectQuery = false;
-		ClubCardDestroyPopup();
+		GameClubCardAssignPlayers(Packet, Char).then(() => {
+			GameClubCardLoadData(Packet);
+			let msg = TextGetInScope(ScreenFileGetTranslation("Online", "ChatRoom", "ChatRoom"), "JoinedClubCardGame");
+			msg = msg.replace("PLAYERNAME", CharacterNickname(Player));
+			ClubCardMessageAdd(ClubCardMessageType.SYSTEM, "JoinedClubCardGame", {}, null, msg);
+			GameClubCardExpectQuery = false;
+			ClubCardDestroyPopup();
+		});
 	}
 
 	// If the admin must send the current state of the game to the player
@@ -573,7 +577,7 @@ function GameClubCardSyncOnlineData(Progress = "Action", LocalPlayerOnly = false
 			Deck: GameClubCardDoBundle(CCPlayer.Deck),
 			Hand: GameClubCardDoBundle(CCPlayer.Hand),
 			Board: GameClubCardBoardDoBundle(CCPlayer.Board),
-			Event: GameClubCardDoBundle(CCPlayer.Event, true),
+			Event: GameClubCardBoardDoBundle(CCPlayer.Event),
 			DiscardPile: GameClubCardDoBundle(CCPlayer.DiscardPile),
 			CardsPlayedThisTurn: CCPlayer.CardsPlayedThisTurn,
 			ClubCardTurnCounter: CCPlayer.ClubCardTurnCounter,

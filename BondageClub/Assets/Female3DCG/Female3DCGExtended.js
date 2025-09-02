@@ -310,6 +310,11 @@ var AssetFemale3DCGExtended = {
 					Key: "p",
 					Options: [{}, {}, {}],
 				},
+				{
+					Name: "Fingernails",
+					Key: "f",
+					Options: [{}, {}, {}],
+				},
 			],
 		},
 	},
@@ -340,6 +345,11 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Pinkie",
 					Key: "p",
+					Options: [{}, {}, {}],
+				},
+				{
+					Name: "Fingernails",
+					Key: "f",
 					Options: [{}, {}, {}],
 				},
 			],
@@ -474,19 +484,10 @@ var AssetFemale3DCGExtended = {
 						{}, // t17 - Hogtied
 						{}, // t18 - BCollege2
 						{}, // t19 - ControlPad1
-						{}, // t20 - Gangriels
-						{}, // t21 - DenOfSin
-						{}, // t22 - SlaveHelpline
-						{}, // t23 - DemonsBar
-						{}, // t24 - AzureCorp
-						{}, // t25 - Shibari
-						{}, // t26 - BullsEye
-						{}, // t27 - Keys?
-						{}, // t28 - VoidOrder
-						{}, // t29 - Malkuth
-						{}, // t30 - Amber Family
-						{}, // t31 - Luke's Chill Tent
-						{}, // t32 - Rat's Ass Tavern
+						{}, // t20 - AzureCorp
+						{}, // t21 - Shibari
+						{}, // t22 - BullsEye
+						{}, // t23 - Keys?
 					],
 				},
 			],
@@ -839,6 +840,17 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // LatexHobbleDress
+		OffTheShoulderTop: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Left",
+				},
+				{
+					Name: "Right",
+				},
+			],
+		}, // OffTheShoulderTop
 	}, // Cloth
 	BodyMarkings: {
 		WombTattoos: {
@@ -1871,6 +1883,10 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		},
+		RuffledCollar: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [{ Name: "None" }, { Name: "Choker" }],
+		}, //RuffledCollar
 	}, // ClothAccessory
 	ClothLower: {
 		PantBoots: {
@@ -1956,6 +1972,20 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // BusinessTrousers
+		ElegantSkirt: {
+			Archetype: ExtendedArchetype.TYPED,
+			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
+			Options: [
+				{
+					Name: "Default",
+					Property: {},
+				},
+				{
+					Name: "Version2",
+					Property: {},
+				},
+			],
+		}, // ElegantSkirt
 	}, // ClothLower
 	Socks: {
 		RippedPantyhose: {
@@ -2750,7 +2780,7 @@ var AssetFemale3DCGExtended = {
 						{
 							// g1 - Gloss
 						},
-					]
+					],
 				},
 				{
 					Name: "Extras",
@@ -2765,7 +2795,7 @@ var AssetFemale3DCGExtended = {
 								AllowActivePose: ["BackElbowTouch"],
 							},
 						},
-						{ 
+						{
 							// a2- Arms side
 							Property: {
 								AllowActivePose: ["BackElbowTouch"],
@@ -2775,7 +2805,7 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 			ChangeWhenLocked: false,
-		},// StrappedPetsuitArms
+		}, // StrappedPetsuitArms
 		ShinyPetSuit: {
 			Archetype: ExtendedArchetype.TYPED,
 			ChatTags: [CommonChatTags.SOURCE_CHAR, CommonChatTags.DEST_CHAR],
@@ -13719,27 +13749,42 @@ var AssetFemale3DCGExtended = {
 					Key: "t1",
 					Options: [{}, {}, {}, {}], // None, Left, Right, Both
 				},
-			]
+			],
 		},
 		CustomizableFluffyEars2: {
 			Archetype: ExtendedArchetype.MODULAR,
-			CopyConfig: { GroupName: "HairAccessory1", AssetName: "CustomizableFluffyEars1" },
+			CopyConfig: {
+				GroupName: "HairAccessory1",
+				AssetName: "CustomizableFluffyEars1",
+			},
 		},
 		CustomizableFluffyEars3: {
 			Archetype: ExtendedArchetype.MODULAR,
-			CopyConfig: { GroupName: "HairAccessory1", AssetName: "CustomizableFluffyEars1" },
+			CopyConfig: {
+				GroupName: "HairAccessory1",
+				AssetName: "CustomizableFluffyEars1",
+			},
 		},
 		CustomizableCatEars: {
 			Archetype: ExtendedArchetype.MODULAR,
-			CopyConfig: { GroupName: "HairAccessory1", AssetName: "CustomizableFluffyEars1" },
+			CopyConfig: {
+				GroupName: "HairAccessory1",
+				AssetName: "CustomizableFluffyEars1",
+			},
 		},
 		CustomizableElfEars: {
 			Archetype: ExtendedArchetype.MODULAR,
-			CopyConfig: { GroupName: "HairAccessory1", AssetName: "CustomizableFluffyEars1" },
+			CopyConfig: {
+				GroupName: "HairAccessory1",
+				AssetName: "CustomizableFluffyEars1",
+			},
 		},
 		CustomizableCowEars: {
 			Archetype: ExtendedArchetype.MODULAR,
-			CopyConfig: { GroupName: "HairAccessory1", AssetName: "CustomizableFluffyEars1" },
+			CopyConfig: {
+				GroupName: "HairAccessory1",
+				AssetName: "CustomizableFluffyEars1",
+			},
 		},
 	}, // HairAccessory1
 	HairAccessory2: {
@@ -13757,27 +13802,45 @@ var AssetFemale3DCGExtended = {
 		},
 		CustomizableFluffyEars1: {
 			Archetype: ExtendedArchetype.MODULAR,
-			CopyConfig: { GroupName: "HairAccessory1", AssetName: "CustomizableFluffyEars1" },
+			CopyConfig: {
+				GroupName: "HairAccessory1",
+				AssetName: "CustomizableFluffyEars1",
+			},
 		},
 		CustomizableFluffyEars2: {
 			Archetype: ExtendedArchetype.MODULAR,
-			CopyConfig: { GroupName: "HairAccessory1", AssetName: "CustomizableFluffyEars1" },
+			CopyConfig: {
+				GroupName: "HairAccessory1",
+				AssetName: "CustomizableFluffyEars1",
+			},
 		},
 		CustomizableFluffyEars3: {
 			Archetype: ExtendedArchetype.MODULAR,
-			CopyConfig: { GroupName: "HairAccessory1", AssetName: "CustomizableFluffyEars1" },
+			CopyConfig: {
+				GroupName: "HairAccessory1",
+				AssetName: "CustomizableFluffyEars1",
+			},
 		},
 		CustomizableCatEars: {
 			Archetype: ExtendedArchetype.MODULAR,
-			CopyConfig: { GroupName: "HairAccessory1", AssetName: "CustomizableFluffyEars1" },
+			CopyConfig: {
+				GroupName: "HairAccessory1",
+				AssetName: "CustomizableFluffyEars1",
+			},
 		},
 		CustomizableElfEars: {
 			Archetype: ExtendedArchetype.MODULAR,
-			CopyConfig: { GroupName: "HairAccessory1", AssetName: "CustomizableFluffyEars1" },
+			CopyConfig: {
+				GroupName: "HairAccessory1",
+				AssetName: "CustomizableFluffyEars1",
+			},
 		},
 		CustomizableCowEars: {
 			Archetype: ExtendedArchetype.MODULAR,
-			CopyConfig: { GroupName: "HairAccessory1", AssetName: "CustomizableFluffyEars1" },
+			CopyConfig: {
+				GroupName: "HairAccessory1",
+				AssetName: "CustomizableFluffyEars1",
+			},
 		},
 	}, // HairAccessory2
 	HairAccessory3: {
@@ -17329,6 +17392,19 @@ var AssetFemale3DCGExtended = {
 				MemberNumberList: [],
 			},
 		}, // TimerPasswordPadlock
+		Plushies: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: {
+				GroupName: "ItemHandheld",
+				AssetName: "Plushies",
+			},
+			DialogPrefix: {
+				Header: "ItemHandheldPlushiesSelect",
+				Module: "ItemHandheldPlushiesModule",
+				Option: "ItemHandheldPlushiesOption",
+				Chat: "ItemHandheldPlushiesSet",
+			},
+		}, //Plushies
 	}, // ItemMisc
 	ItemPelvis: {
 		FuturisticChastityBelt: {
@@ -18754,83 +18830,103 @@ var AssetFemale3DCGExtended = {
 			DrawImages: false,
 		}, // GradientSunglasses
 		StreetEyewear: {
-			Archetype: ExtendedArchetype.TYPED,
-			Options: [
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
 				{
-					Name: "Normal",
-					Property: {
-						OverridePriority: 27,
-					},
+					Name: "Position",
+					Key: "p",
+					Options: [
+						{
+							// p0 - Under front hair
+							Property: { OverridePriority: 27 },
+						},
+						{
+							// p1 - Over front hair
+							Property: { OverridePriority: 53 },
+						},
+					],
 				},
 				{
-					Name: "NormalOver",
-					Property: {
-						OverridePriority: 53,
-					},
-				},
-				{
-					Name: "Half",
-					Property: {
-						OverridePriority: 27,
-					},
-				},
-				{
-					Name: "HalfOver",
-					Property: {
-						OverridePriority: 53,
-					},
+					Name: "Frame",
+					Key: "f",
+					Options: [
+						{
+							// f0 - Normal frame
+							Property: {},
+						},
+						{
+							// f1 - Half frame
+							Property: {},
+						},
+					],
 				},
 			],
-			DialogPrefix: {
-				Header: "StreetEyewearSelectType",
-				Option: "StreetEyewearType",
-			},
 			DrawImages: false,
 		}, // StreetEyewear
 		Pincenez: {
-			Archetype: ExtendedArchetype.TYPED,
-			Options: [
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
 				{
-					Name: "NoAcc",
-					Property: {
-						OverridePriority: 27,
-					},
+					Name: "Position",
+					Key: "p",
+					Options: [
+						{
+							// p0 - Under front hair
+							Property: { OverridePriority: 27 },
+						},
+						{
+							// p1 - Over front hair
+							Property: { OverridePriority: 53 },
+						},
+					],
 				},
 				{
-					Name: "NoAccOver",
-					Property: {
-						OverridePriority: 53,
-					},
-				},
-				{
-					Name: "Acc",
-					Property: {
-						OverridePriority: 27,
-					},
-				},
-				{
-					Name: "AccOver",
-					Property: {
-						OverridePriority: 53,
-					},
+					Name: "Accessory",
+					Key: "a",
+					Options: [
+						{
+							// a0 - No chain acc
+							Property: {},
+						},
+						{
+							// a1 - Chain acc
+							Property: {},
+						},
+					],
 				},
 			],
-			DialogPrefix: {
-				Header: "PincenezSelectType",
-				Option: "PincenezType",
-			},
 			DrawImages: false,
 		}, // Pincenez
 		RoundSunglasses: {
-			Archetype: ExtendedArchetype.TYPED,
-			Options: [
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
 				{
-					Name: "Normal",
-					Property: { OverridePriority: 27 },
+					Name: "Position",
+					Key: "p",
+					Options: [
+						{
+							// p0 - Under front hair
+							Property: { OverridePriority: 27 },
+						},
+						{
+							// p1 - Over front hair
+							Property: { OverridePriority: 53 },
+						},
+					],
 				},
 				{
-					Name: "Over",
-					Property: { OverridePriority: 53 },
+					Name: "Lenses",
+					Key: "l",
+					Options: [
+						{
+							// l0 - Darker lenses
+							Property: {},
+						},
+						{
+							// l1 - Clear lenses
+							Property: {},
+						},
+					],
 				},
 			],
 			DrawImages: false,
@@ -18871,18 +18967,62 @@ var AssetFemale3DCGExtended = {
 			},
 		}, // SpikeBands
 		Wristband: {
-			Archetype: ExtendedArchetype.TYPED,
-			Options: [
-				{
-					Name: "Left",
-				},
-				{
-					Name: "Both",
-				},
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
 				{
 					Name: "Right",
+					Key: "r",
+					Options: [
+						{
+							// r0 - Equipped
+							Property: {},
+						},
+						{
+							// r1 - None
+							Property: {},
+						},
+					],
+				},
+				{
+					Name: "Left",
+					Key: "l",
+					Options: [
+						{
+							// l0 - Equipped
+							Property: {},
+						},
+						{
+							// l1 - None
+							Property: {},
+						},
+					],
+				},
+				{
+					Name: "Position",
+					Key: "p",
+					Options: [
+						{
+							// p0 - Under gloves
+							Property: {
+								OverridePriority: {
+									"RBand": 26,
+									"LBand": 26,
+								},
+							},
+						},
+						{
+							// p1 - Over gloves
+							Property: {
+								OverridePriority: {
+									"RBand": 32,
+									"LBand": 32,
+								},
+							},
+						},
+					],
 				},
 			],
+			DrawImages: false,
 		}, // Wristband
 		WristWatch: {
 			Archetype: ExtendedArchetype.MODULAR,
@@ -19170,6 +19310,10 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, //SatinScarf
+		RuffledCollar: {
+			Archetype: ExtendedArchetype.TYPED,
+			CopyConfig: { GroupName: "ClothAccessory", AssetName: "RuffledCollar" },
+		}, // RuffledCollar
 	}, // Necklace
 	Suit: {
 		Catsuit: {
@@ -20610,5 +20754,264 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // Cigarette
+		Plushies: {
+			Archetype: ExtendedArchetype.MODULAR,
+			DrawImages: false,
+			// ChatSetting: ModularItemChatSetting.PER_MODULE,
+			Modules: [
+				{
+					Name: "DenOfSin",
+					Key: "DenOfSin",
+					DrawImages: true,
+					Options: [
+						{}, // Off
+						{}, // Sin
+						{}, // Raven
+						{}, // CassandraLee
+						{}, // Rika
+						{}, // Roslin
+					],
+					DrawData: {
+						elementData: [
+							{
+								drawImage: false,
+							},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Sin.png" },
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Raven.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushies_CassandraLee.png",
+							},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Rika.png" },
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Roslin.png",
+							},
+						],
+					},
+				},
+				{
+					Name: "Gangriels",
+					Key: "Gangriels",
+					DrawImages: true,
+					Options: [
+						{}, // off
+						{}, // Gangriel
+					],
+					DrawData: {
+						elementData: [
+							{
+								drawImage: false,
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushies_Gangriel.png",
+							},
+						],
+					},
+				},
+				{
+					Name: "CelestialEnchants",
+					Key: "CelestialEnchants",
+					DrawImages: true,
+					Options: [
+						{}, // Off
+						{}, // Celiko
+						{}, // Lavender
+						{}, // Siscuit
+					],
+					DrawData: {
+						elementData: [
+							{
+								drawImage: false,
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Celiko.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushies_Lavender.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushies_Siscuit.png",
+							},
+						],
+					},
+				},
+				{
+					Name: "LatexLab",
+					Key: "LatexLab",
+					DrawImages: true,
+					Options: [
+						{}, // Off
+						{}, // Aeri
+						{}, // Delta
+						{}, // Khloe
+						{}, // Lillian
+						{}, // TinyRavin
+						{}, // XDress
+						{}, // Elora
+						{}, // Lisa
+						{}, // Melanie
+					],
+					DrawData: {
+						elementData: [
+							{
+								drawImage: false,
+							},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Aeri.png" },
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Delta.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Khloe.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushies_Lillian.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushies_TinyRavin.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_XDress.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Elora.png",
+							},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Lisa.png" },
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushies_Melanie.png",
+							},
+						],
+					},
+				},
+				{
+					Name: "VoidOrder",
+					Key: "VoidOrder",
+					DrawImages: true,
+					Options: [
+						{}, // off
+						{}, // Magdalena
+						{}, // Sonic
+						{}, // Jagodka
+						{}, // Shade
+						{}, // Paladin
+					],
+					DrawData: {
+						elementData: [
+							{
+								drawImage: false,
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushies_Magdalena.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Sonic.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushies_Jagodka.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Shade.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushies_VoidPaladin.png",
+							},
+						],
+					},
+				},
+				{
+					Name: "EnsLivingRoom",
+					Key: "EnsLivingRoom",
+					DrawImages: true,
+					Options: [
+						{}, // off
+						{}, // Alunra
+						{}, // Mel
+						{}, // Zannah
+						{}, // Zoe
+						{}, // Chloe
+						{}, // Liesel
+					],
+					DrawData: {
+						elementData: [
+							{
+								drawImage: false,
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Alunra.png",
+							},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Mel.png" },
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Zannah.png",
+							},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Zoe.png" },
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Chloe.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Liesel.png",
+							},
+						],
+					},
+				},
+				{
+					Name: "Vagrants",
+					Key: "Vagrants",
+					DrawImages: true,
+					Options: [
+						{}, // off
+						{}, // Nabi
+						{}, // Hoshiko
+						{}, // Layottu
+						{}, // Sabie
+						{}, // LittleSera
+						{}, // Mana
+						{}, // Minerva
+						{}, // Zoi
+					],
+					DrawData: {
+						elementData: [
+							{
+								drawImage: false,
+							},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Nabi.png" },
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushies_HoshiKo.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushies_Layottu.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Sabie.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushies_LittleSera.png",
+							},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Mana.png" },
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushies_Minerva.png",
+							},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushies_Zoi.png" },
+						],
+					},
+				},
+			],
+			ScriptHooks: {
+				SetOption: InventoryItemHandheldPlushiesSetOptionHook,
+			},
+		}, // Plushies
 	}, // ItemHandheld
 };

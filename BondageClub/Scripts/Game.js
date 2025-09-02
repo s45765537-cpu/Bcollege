@@ -1,7 +1,7 @@
 "use strict";
 
 /** BC's version */
-var GameVersion = "R118";
+var GameVersion = "R119";
 
 const GameVersionFormat = /^R([0-9]+)(?:(Alpha|Beta)([0-9]+)?)?$/;
 
@@ -97,10 +97,6 @@ function GameFallbackTimer() {
  * @param {number} Timestamp
  */
 function GameRun(Timestamp) {
-
-	/** @type {(ms: number) => number} */
-	const estimateFrameDuration = (ms) => (1000 / ms) | 0;
-
 	try {
 		// Compatibility; call the old function (now a no-op)
 		MainRun();
@@ -109,12 +105,13 @@ function GameRun(Timestamp) {
 
 		if (TimerLastTime > 0 && Timestamp > 0) {
 			// Default to 30 fps outside the game
-			let maxUnfocusedFPS = document.hasFocus() ? 0 : Player?.GraphicsSettings?.MaxUnfocusedFPS ?? 0;
-			let maxFocusedFPS = Player?.GraphicsSettings?.MaxFPS ?? DEFAULT_FRAMERATE;
-			let maxFPS = maxUnfocusedFPS === 0 ? maxFocusedFPS :
+			const maxUnfocusedFPS = document.hasFocus() ? 0 : Player?.GraphicsSettings?.MaxUnfocusedFPS ?? 0;
+			const maxFocusedFPS = Player?.GraphicsSettings?.MaxFPS ?? DEFAULT_FRAMERATE;
+			const maxFPS = maxUnfocusedFPS === 0 ? maxFocusedFPS :
 				maxFocusedFPS === 0 ? maxUnfocusedFPS :
 				Math.min(maxUnfocusedFPS, maxFocusedFPS);
-			if (TimerLastTime + estimateFrameDuration(maxFPS) > Timestamp) {
+
+			if (TimerLastTime + (1000 / maxFPS) > Timestamp) {
 				GameAnimationFrameId = requestAnimationFrame(GameRun);
 				return;
 			}
@@ -128,7 +125,7 @@ function GameRun(Timestamp) {
 		// Increments the time from the last frame
 		TimerRunInterval = Timestamp - TimerLastTime;
 		TimerLastTime = Timestamp;
-		CurrentTime = CurrentTime + TimerRunInterval;
+		CurrentTime += TimerRunInterval;
 
 		DrawProcess(Timestamp);
 		ControllerProcess();
@@ -138,9 +135,9 @@ function GameRun(Timestamp) {
 
 		GameAnimationFrameId = requestAnimationFrame(GameRun);
 
-		const showFPS = Player?.GraphicsSettings?.ShowFPS;
-		if (Timestamp > 0 && showFPS) {
-			DrawTextFit((Math.round(10000 / frameTime) / 10).toString(), 15, 12, 30, "white", "black");
+		if (Timestamp > 0 && Player?.GraphicsSettings?.ShowFPS) {
+			MainCanvas.textAlign = "center";
+			DrawTextFit((Math.round(10000 / frameTime / 10)).toString(), 15, 12, 30, "white", "black");
 		}
 	} catch (e) {
 		GameHandleError();

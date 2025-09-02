@@ -32,7 +32,7 @@ function OnlineProfileUnload() {
  */
 function OnlineProfileRun() {
 	// Sets the screen controls
-	DrawText(TextGet((InformationSheetSelection.IsPlayer()) ? "EnterDescription" : "ViewDescription").replace("CharacterName", InformationSheetSelection.Name), 910, 105, "Black", "Gray");
+	DrawText(TextGet((InformationSheetSelection.IsPlayer()) ? "EnterDescription" : "ViewDescription").replace("CharacterName", CharacterNickname(InformationSheetSelection)), 910, 105, "Black", "Gray");
 	ElementPositionFix("DescriptionInput", 36, 100, 160, 1790, 750);
 	if (InformationSheetSelection.IsPlayer()) DrawButton(1720, 60, 90, 90, "", "White", "Icons/Accept.png", TextGet("LeaveSave"));
 	DrawButton(1820, 60, 90, 90, "", "White", ((InformationSheetSelection.IsPlayer()) ? "Icons/Cancel.png" : "Icons/Exit.png"), TextGet((InformationSheetSelection.IsPlayer()) ? "LeaveNoSave" : "Leave"));

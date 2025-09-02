@@ -93,7 +93,6 @@ function SlaveMarketAuctionStart() {
 function SlaveMarketAuctionEnd() {
 	if (SlaveAuctionBidCurrent == "Player") {
 		CharacterChangeMoney(Player, SlaveAuctionBidAmount * -1);
-		CommonSetScreen("Room", "Private");
 		let NewChar = PrivateAddCharacter(SlaveMarketSlave,  "Submissive");
 		if (SlaveMarketSlave.Title === "Succubus") NewChar.Title = "Succubus";
 		CommonSetScreen("Room", "SlaveMarket");
@@ -164,11 +163,10 @@ function SlaveMarketTrainingStart() {
 	EmptyCharacter = [];
 	EmptyCharacter.push(Player);
 	EmptyCharacter.push(SlaveMarketSlaveToTrain);
-	CommonSetScreen("Room", "Empty");
-	setTimeout(() => {
+	CommonSetScreen("Room", "Empty").then(() => {
 		// Force rebuild the dialog after one second to make sure the functions are loaded properly for the "Empty" room
 		CharacterBuildDialog(SlaveMarketSlaveToTrain, CommonCSVCache["Screens/Room/SlaveMarket/Dialog_NPC_SlaveMarket_SlaveToTrain.csv"], "Empty");
-	}, 1000);
+	});
 }
 
 /**

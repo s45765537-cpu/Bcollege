@@ -121,6 +121,7 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 530, Type: "FloorDecorationParty", Style: "FlowerVasePink", Top: -0.33 },
 	{ ID: 560, Type: "FloorDecorationParty", Style: "BeachUmbrellaStripe", Top: -1.1, Height: 2 },
 	{ ID: 570, Type: "FloorDecorationParty", Style: "BeachTowelStripe" },
+	{ ID: 580, Type: "FloorDecorationParty", Style: "Speaker", Top: -1.2, Height: 1.85 },
 
 	{ ID: 600, Type: "FloorDecorationCamping", Style: "Blank" },
 	{ ID: 610, Type: "FloorDecorationCamping", Style: "LogFire", Top: -0.35 },
@@ -378,6 +379,58 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 1060, Type: "FloorItem", Style: "WoodenBox", Top: -1, Height: 2, AssetName: "WoodenBox", AssetGroup: "ItemDevices" },
 	{ ID: 1070, Type: "FloorItem", Style: "Coffin", Top: -1.2, Height: 1.85, AssetName: "Coffin", AssetGroup: "ItemDevices" },
 	{ ID: 1080, Type: "FloorItem", Style: "TheDisplayFrame", Top: -1, Height: 2, AssetName: "TheDisplayFrame", AssetGroup: "ItemDevices" },
+	{ ID: 1090, Type: "FloorItem", Style: "Pole", Top: -0.85, Height: 1.8, AssetName: "Pole", AssetGroup: "ItemDevices" },
+
+	{ ID: 1100, Type: "FloorNumber", Style: "Blank" },
+	{ ID: 1110, Type: "FloorNumber", Style: "Number0" },
+	{ ID: 1111, Type: "FloorNumber", Style: "Number1" },
+	{ ID: 1112, Type: "FloorNumber", Style: "Number2" },
+	{ ID: 1113, Type: "FloorNumber", Style: "Number3" },
+	{ ID: 1114, Type: "FloorNumber", Style: "Number4" },
+	{ ID: 1115, Type: "FloorNumber", Style: "Number5" },
+	{ ID: 1116, Type: "FloorNumber", Style: "Number6" },
+	{ ID: 1117, Type: "FloorNumber", Style: "Number7" },
+	{ ID: 1118, Type: "FloorNumber", Style: "Number8" },
+	{ ID: 1119, Type: "FloorNumber", Style: "Number9" },
+
+	{ ID: 1200, Type: "FloorLetter", Style: "Blank" },
+	{ ID: 1201, Type: "FloorLetter", Style: "LetterA" },
+	{ ID: 1202, Type: "FloorLetter", Style: "LetterB" },
+	{ ID: 1203, Type: "FloorLetter", Style: "LetterC" },
+	{ ID: 1204, Type: "FloorLetter", Style: "LetterD" },
+	{ ID: 1205, Type: "FloorLetter", Style: "LetterE" },
+	{ ID: 1206, Type: "FloorLetter", Style: "LetterF" },
+	{ ID: 1207, Type: "FloorLetter", Style: "LetterG" },
+	{ ID: 1208, Type: "FloorLetter", Style: "LetterH" },
+	{ ID: 1209, Type: "FloorLetter", Style: "LetterI" },
+	{ ID: 1210, Type: "FloorLetter", Style: "LetterJ" },
+	{ ID: 1211, Type: "FloorLetter", Style: "LetterK" },
+	{ ID: 1212, Type: "FloorLetter", Style: "LetterL" },
+	{ ID: 1213, Type: "FloorLetter", Style: "LetterM" },
+	{ ID: 1214, Type: "FloorLetter", Style: "LetterN" },
+	{ ID: 1215, Type: "FloorLetter", Style: "LetterO" },
+	{ ID: 1216, Type: "FloorLetter", Style: "LetterP" },
+	{ ID: 1217, Type: "FloorLetter", Style: "LetterQ" },
+	{ ID: 1218, Type: "FloorLetter", Style: "LetterR" },
+	{ ID: 1219, Type: "FloorLetter", Style: "LetterS" },
+	{ ID: 1220, Type: "FloorLetter", Style: "LetterT" },
+	{ ID: 1221, Type: "FloorLetter", Style: "LetterU" },
+	{ ID: 1222, Type: "FloorLetter", Style: "LetterV" },
+	{ ID: 1223, Type: "FloorLetter", Style: "LetterW" },
+	{ ID: 1224, Type: "FloorLetter", Style: "LetterX" },
+	{ ID: 1225, Type: "FloorLetter", Style: "LetterY" },
+	{ ID: 1226, Type: "FloorLetter", Style: "LetterZ" },
+
+	{ ID: 1300, Type: "FloorIcon", Style: "Blank" },
+	{ ID: 1301, Type: "FloorIcon", Style: "IconCircle" },
+	{ ID: 1302, Type: "FloorIcon", Style: "IconSquare" },
+	{ ID: 1303, Type: "FloorIcon", Style: "IconTriangle" },
+	{ ID: 1304, Type: "FloorIcon", Style: "IconCross" },
+	{ ID: 1305, Type: "FloorIcon", Style: "IconDiamond" },
+	{ ID: 1306, Type: "FloorIcon", Style: "IconArrowUp" },
+	{ ID: 1307, Type: "FloorIcon", Style: "IconArrowDown" },
+	{ ID: 1308, Type: "FloorIcon", Style: "IconArrowLeft" },
+	{ ID: 1309, Type: "FloorIcon", Style: "IconArrowRight" },
 
 	{ ID: 2000, Type: "FloorObstacle", Style: "Blank" },
 	{ ID: 2005, Type: "FloorObstacle", Style: "Rocks", Top: -0.125, Height: 1.125 },
@@ -1571,57 +1624,106 @@ function ChatRoomMapViewDrawUi() {
 	if (ChatRoomMapViewEditMode == "TileType") {
 		DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/MapView.png");
 		DrawButton(10, 80, 60, 60, "", "White", "Icons/Small/EditObject.png");
-		let Y = 80;
+		let X = 0;
+		let Y = 0;
 		let Type = "";
+		let count = 2;
 		for (let Tile of ChatRoomMapViewTileList)
 			if (Type != Tile.Type) {
 				Type = Tile.Type;
-				Y = Y + 70;
-				DrawButton(10, Y, 60, 60, "", "White", "Screens/Online/ChatRoom/MapTile/Type/" + Type + ".png");
+				Y = 10 + 70 * (count % 13);
+				X = 10 + 70 * Math.floor(count / 13);
+				DrawButton(X, Y, 60, 60, "", "White", "Screens/Online/ChatRoom/MapTile/Type/" + Type + ".png");
+				count ++; 
 			}
+			
 	}
 
 	// In tile edit mode, we show all tiles of a spectific tyle
 	if (ChatRoomMapViewEditMode == "Tile") {
 		DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/Edit.png");
 		DrawButton(10, 80, 60, 60, "", "White", "Screens/Online/ChatRoom/MapTile/Range/" + ChatRoomMapViewEditRange.toString() + ".png");
-		let Y = 80;
-		for (let Tile of ChatRoomMapViewTileList)
+		let X = 0;
+		let Y = 0;
+		let count = 2;
+		for (let Tile of ChatRoomMapViewTileList){
 			if (ChatRoomMapViewEditSubMode == Tile.Type) {
-				Y = Y + 70;
-				DrawButton(10, Y, 60, 60, "", "White");
-				if (Tile.ID == ChatRoomMapViewEditObject.ID) DrawRect(12, Y + 2, 56, 56, "#00FF00");
-				DrawImageResize("Screens/Online/ChatRoom/MapTile/" + Tile.Type + "/" + Tile.Style + ".png", 15, Y + 5, 50, 50);
-			}
+				Y = 10 + 70 * (count % 13);
+				X = 10 + 70 * Math.floor(count / 13);
+				DrawButton(X, Y, 60, 60, "", "White");
+				count++;
+				if (Tile.ID == ChatRoomMapViewEditObject.ID) DrawRect(X + 2, Y + 2, 56, 56, "#00FF00");
+				DrawImageResize("Screens/Online/ChatRoom/MapTile/" + Tile.Type + "/" + Tile.Style + ".png", X + 5, Y + 5, 50, 50);
+			}		
+		}
+			
 	}
 
 	// In object type selection mode, the user can select an object type (floor decoration, floor obstacle, wall decoration, etc.)
 	if (ChatRoomMapViewEditMode == "ObjectType") {
 		DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/MapView.png");
 		DrawButton(10, 80, 60, 60, "", "White", "Icons/Small/EditTile.png");
-		let Y = 80;
+		let X = 0;
+		let Y = 0;
 		let Type = "";
-		for (let Obj of ChatRoomMapViewObjectList)
+		let count = 2;
+		for (let Obj of ChatRoomMapViewObjectList){
 			if (Type != Obj.Type) {
 				Type = Obj.Type;
-				Y = Y + 70;
-				DrawButton(10, Y, 60, 60, "", "White", "Screens/Online/ChatRoom/MapObject/Type/" + Type + ".png");
+				Y = 10 + 70 * (count % 13);
+				X = 10 + 70 * Math.floor(count / 13);
+				DrawButton(X, Y, 60, 60, "", "White", "Screens/Online/ChatRoom/MapObject/Type/" + Type + ".png");
+				count++;
 			}
+		}
+			
 	}
 
 	// In object edit mode, we show all objects of a spectific tyle
 	if (ChatRoomMapViewEditMode == "Object") {
 		DrawButton(10, 10, 60, 60, "", "White", "Icons/Small/Edit.png");
 		DrawButton(10, 80, 60, 60, "", "White", "Screens/Online/ChatRoom/MapTile/Range/" + ChatRoomMapViewEditRange.toString() + ".png");
-		let Y = 80;
+		let X = 0;
+		let Y = 0;
+		let count = 2;
 		for (let Obj of ChatRoomMapViewObjectList)
 			if (ChatRoomMapViewEditSubMode == Obj.Type) {
-				Y = Y + 70;
-				DrawButton(10, Y, 60, 60, "", ((Obj.AssetName == null) || (Obj.AssetGroup == null) || InventoryAvailable(Player, Obj.AssetName, Obj.AssetGroup)) ? "White" : "Pink");
-				if (Obj.ID == ChatRoomMapViewEditObject.ID) DrawRect(12, Y + 2, 56, 56, "#00FF00");
-				if (Obj.Style !== "Blank") DrawImageResize("Screens/Online/ChatRoom/MapObject/" + Obj.Type + "/" + Obj.Style + ".png", 15, Y + 5, 50, 50);
+				Y = 10 + 70 * (count % 13);
+				X = 10 + 70 * Math.floor(count / 13);
+				DrawButton(X, Y, 60, 60, "", ((Obj.AssetName == null) || (Obj.AssetGroup == null) || InventoryAvailable(Player, Obj.AssetName, Obj.AssetGroup)) ? "White" : "Pink");
+				count++;
+				if (Obj.ID == ChatRoomMapViewEditObject.ID) DrawRect(X + 2, Y + 2, 56, 56, "#00FF00");
+				if (Obj.Style !== "Blank") DrawImageResize("Screens/Online/ChatRoom/MapObject/" + Obj.Type + "/" + Obj.Style + ".png", X + 5, Y + 5, 50, 50);
 			}
 	}
+}
+
+/**
+ * Change the key of charachter - sender
+ * @param {Character} target
+ * @param {String []} keys
+ */
+function ChatRoomMapViewChangeKey(target, keys, boolean) {
+	if (!ChatRoomPlayerIsAdmin()) return;
+
+	const dictionary = new DictionaryBuilder().mapViewChangeKey(keys, boolean).build();
+	ServerSend("ChatRoomChat", { Content: "ChatRoomMapViewChangeKey", Type: "Hidden", Dictionary: dictionary, Target: target?.MemberNumber });
+}
+
+/**
+ * Change a key from a character from a hidden message - reciver
+ * @param {Character} sender
+ * @param {ServerChatRoomMessage} data
+ */
+function ChatRoomMapViewChangeKeyHiddenMessage(sender, data) {
+	if (!ChatRoomCharacterIsAdmin(sender)) return;
+
+	const mapViewChangeEntries = data.Dictionary;
+	mapViewChangeEntries.map((entrie) => {
+		if (!IsMapViewChangeKeyEventDictionaryEntry(entrie)) return;
+		const HasKey = `HasKey${entrie.Key.charAt(0).toUpperCase() + entrie.Key.slice(1)}`;
+		Player.MapData.PrivateState[HasKey] = entrie.Bool;
+	})
 }
 
 /**
@@ -1646,6 +1748,7 @@ function ChatRoomMapViewTeleportHiddenMessage(sender, data) {
 	if (!ChatRoomCharacterIsAdmin(sender)) return;
 	const mapViewTeleportEntry = data.Dictionary[0];
 	if (!IsMapViewTeleportEventDictionaryEntry(mapViewTeleportEntry)) return;
+	ChatRoomMapViewMovement = null;
 	Player.Position = mapViewTeleportEntry.Position;
 }
 
@@ -1889,18 +1992,22 @@ function ChatRoomMapViewClick() {
 	} else if (ChatRoomMapViewEditMode == "TileType") {
 		if (MouseIn(10, 10, 60, 60)) { ChatRoomMapViewEditMode = ""; return; }
 		if (MouseIn(10, 80, 60, 60)) { ChatRoomMapViewEditMode = "ObjectType"; return; }
-		let Y = 80;
+		let X = 0;
+		let Y = 0;
+		let count = 2;
 		let Type = "";
 		for (let Tile of ChatRoomMapViewTileList)
 			if (Type != Tile.Type) {
 				Type = Tile.Type;
-				Y = Y + 70;
-				if (MouseIn(10, Y, 60, 60)) {
+				Y = 10 + 70 * (count % 13);
+				X = 10 + 70 * Math.floor(count / 13);
+				if (MouseIn(X, Y, 60, 60)) {
 					ChatRoomMapViewEditMode = "Tile";
 					ChatRoomMapViewEditSubMode = Tile.Type;
 					ChatRoomMapViewEditObject = CommonCloneDeep(Tile);
 					return;
 				}
+				count++;
 			}
 
 	// In tile edit mode
@@ -1919,32 +2026,40 @@ function ChatRoomMapViewClick() {
 		}
 
 		// The other buttons allows changing the edit tile
-		let Y = 80;
+		let X = 0;
+		let Y = 0;
+		let count = 2;
 		for (let Tile of ChatRoomMapViewTileList)
 			if (ChatRoomMapViewEditSubMode == Tile.Type) {
-				Y = Y + 70;
-				if (MouseIn(10, Y, 60, 60)) {
+				Y = 10 + 70 * (count % 13);
+				X = 10 + 70 * Math.floor(count / 13);
+				if (MouseIn(X, Y, 60, 60)) {
 					ChatRoomMapViewEditObject = CommonCloneDeep(Tile);
 					return;
 				}
+				count++;
 			}
 
 	// In object type selection mode, the user can select an object type (floor decoration, floor obstacle, wall decoration, etc.)
 	} else if (ChatRoomMapViewEditMode == "ObjectType") {
 		if (MouseIn(10, 10, 60, 60)) { ChatRoomMapViewEditMode = ""; return; }
 		if (MouseIn(10, 80, 60, 60)) { ChatRoomMapViewEditMode = "TileType"; return; }
-		let Y = 80;
+		let X = 0;
+		let Y = 0;
+		let count = 2;
 		let Type = "";
 		for (let Obj of ChatRoomMapViewObjectList)
 			if (Type != Obj.Type) {
 				Type = Obj.Type;
-				Y = Y + 70;
-				if (MouseIn(10, Y, 60, 60)) {
+				Y = 10 + 70 * (count % 13);
+				X = 10 + 70 * Math.floor(count / 13);
+				if (MouseIn(X, Y, 60, 60)) {
 					ChatRoomMapViewEditMode = "Object";
 					ChatRoomMapViewEditSubMode = Obj.Type;
 					ChatRoomMapViewEditObject = CommonCloneDeep(Obj);
 					return;
 				}
+				count++;
 			}
 
 	// In object edit mode
@@ -1963,16 +2078,20 @@ function ChatRoomMapViewClick() {
 		}
 
 		// The other buttons allows changing the edit tile
-		let Y = 80;
+		let X = 0;
+		let Y = 0;
+		let count = 2;
 		for (let Obj of ChatRoomMapViewObjectList)
 			if (ChatRoomMapViewEditSubMode == Obj.Type) {
-				Y = Y + 70;
-				if (MouseIn(10, Y, 60, 60)) {
+				Y = 10 + 70 * (count % 13);
+				X = 10 + 70 * Math.floor(count / 13);
+				if (MouseIn(X, Y, 60, 60)) {
 					// @ts-ignore
 					if ((Obj.AssetName == null) || (Obj.AssetGroup == null) || InventoryAvailable(Player, Obj.AssetName, Obj.AssetGroup))
 						ChatRoomMapViewEditObject = CommonCloneDeep(Obj);
 					return;
 				}
+				count++;
 			}
 
 	}
@@ -1993,13 +2112,17 @@ function ChatRoomMapViewMouseDown() {
 		if (MouseIn(10, 80, 60, 60)) { return; }
 
 		// The other buttons allows changing the edit tile
-		let Y = 80;
+		let X = 0;
+		let Y = 0;
+		let count = 2;
 		for (let Tile of ChatRoomMapViewTileList)
 			if (ChatRoomMapViewEditSubMode == Tile.Type) {
-				Y = Y + 70;
-				if (MouseIn(10, Y, 60, 60)) {
+				Y = 10 + 70 * (count % 13);
+				X = 10 + 70 * Math.floor(count / 13);
+				if (MouseIn(X, Y, 60, 60)) {
 					return;
 				}
+				count++;
 			}
 
 		// Enter the drawing mode
@@ -2013,13 +2136,17 @@ function ChatRoomMapViewMouseDown() {
 		if (MouseIn(10, 80, 60, 60)) { return; }
 
 		// The other buttons allows changing the edit tile
-		let Y = 80;
+		let X = 0;
+		let Y = 0;
+		let count = 2;
 		for (let Obj of ChatRoomMapViewObjectList)
 			if (ChatRoomMapViewEditSubMode == Obj.Type) {
-				Y = Y + 70;
-				if (MouseIn(10, Y, 60, 60)) {
+				Y = 10 + 70 * (count % 13);
+				X = 10 + 70 * Math.floor(count / 13);
+				if (MouseIn(X, Y, 60, 60)) {
 					return;
 				}
+				count++;
 			}
 
 		// Enter the drawing mode

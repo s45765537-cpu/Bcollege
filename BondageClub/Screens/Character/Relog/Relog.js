@@ -1,51 +1,117 @@
 "use strict";
-var RelogBackground = "";
-var RelogCanvas = document.createElement("canvas");
 /** @type {null | RelogData} */
 var RelogData = null;
+
+const RelogIDs = Object.freeze({
+	subscreen: "relog-subscreen",
+	passwordLabel: "relog-password-label",
+	password: "InputPassword",
+	passwordPair: "relog-password-pair",
+	status: "relog-status",
+	accountName: "relog-account-name",
+	enterPasswordHint: "relog-enter-password-hint",
+	login: "relog-login",
+	leave: "relog-leave",
+	buttons: "relog-buttons",
+	passwordAndButtons: "relog-password-and-buttons",
+});
 
 /**
  * Loads the relog screen
  * @type {ScreenLoadHandler}
  */
 async function RelogLoad() {
-	// Hides any (non-nested) HTML DOM element with the tag "HideOnPopup", like text boxes
-	const elements = /** @type {HTMLElement[]} */(Array.from(document.querySelectorAll(".HideOnPopup, .HideOnDisconnect")));
-	for (const e of elements) {
-		if (e.parentElement === null || e.parentElement === document.body) {
-			e.toggleAttribute("hidden", true);
-		}
-	}
-
 	// Resets login variables and sets the login message
 	LoginStatusReset();
 
-	// Keeps a copy of the main canvas and darkens it
-	var Context = RelogCanvas.getContext("2d");
-	RelogCanvas.width = 2000;
-	RelogCanvas.height = 1000;
-	Context.drawImage(MainCanvas.canvas, 0, 0);
-	Context.fillStyle = "rgba(0, 0, 0, 0.75)";
-	Context.fillRect(0, 0, 2000, 1000);
+	const header = ElementCreate({
+		tag: "div",
+		classList: ["flex", "vertical", "center-label"],
+		children: [
+			{
+				tag: "span",
+				classList: ["light-label"],
+				attributes: { id: RelogIDs.status },
+			},
+			{
+				tag: "span",
+				classList: ["light-label"],
+				attributes: { id: RelogIDs.enterPasswordHint },
+				children: [TextGet("EnterPassword")],
+			}
+		],
+	});
+
+	const accountName = ElementCreate({
+		tag: "span",
+		classList: ["light-label"],
+		attributes: { id: RelogIDs.accountName },
+		children: [`${TextGet("Account")} ${Player.AccountName}`],
+	});
 
 	// Creates the password control without autocomplete and make sure it's cleared
-	const passwordField = ElementCreateInput("InputPassword", "password", "", "20");
+	const passwordField = ElementCreateInput(RelogIDs.password, "password", "", "20");
 	passwordField.setAttribute("autocomplete", "off");
-	passwordField.focus();
-	setTimeout(function() { ElementValue("InputPassword", ""); }, 500);
 
+	const passwordPair = ElementCreate({
+		tag: "label",
+		classList: ["flex", "vertical"],
+		attributes: { type: "password", id: RelogIDs.passwordPair },
+		children: [
+			{
+				tag: "span",
+				classList: ["light-label"],
+				attributes: { id: RelogIDs.passwordLabel },
+				children: [TextGet("Password")],
+			},
+			passwordField
+		],
+	});
+
+	const buttons = ElementCreate({
+		tag: "div",
+		attributes: { id: RelogIDs.buttons },
+		children: [
+			ElementButton.Create(RelogIDs.login, () => {
+				const password = ElementValue(RelogIDs.password);
+				LoginDoLogin(Player.AccountName, password);
+			},
+			{
+				label: TextGet("LogBackIn")
+			}),
+			ElementButton.Create(RelogIDs.leave, RelogExit, {
+				label: TextGet("Leave")
+			})
+		]
+	});
+
+	ElementCreate({
+		tag: "div",
+		attributes: { id: RelogIDs.subscreen },
+		children: [
+			header,
+			accountName,
+			{
+				tag: "div",
+				classList: ["flex", "vertical", "center-label"],
+				attributes: { id: RelogIDs.passwordAndButtons },
+				children: [
+					passwordPair,
+					buttons
+				]
+			}
+		],
+		parent: document.body
+	});
+	passwordField.focus();
+	setTimeout(function() { ElementValue(RelogIDs.password, ""); }, 500);
 }
 
 /**
  * Unload the relog screen
  */
 function RelogUnload() {
-	ElementRemove("InputPassword");
-
-	const Elements = /** @type {HTMLCollectionOf<HTMLElement>} */(document.getElementsByClassName("HideOnDisconnect"));
-	for (const element of Elements) {
-		element.toggleAttribute("hidden", false);
-	}
+	ElementRemove(RelogIDs.subscreen);
 }
 
 /**
@@ -54,21 +120,17 @@ function RelogUnload() {
  */
 function RelogRun() {
 
-	// The previous darkened background is drawn
-	MainCanvas.drawImage(RelogCanvas, 0, 0);
 	const CanLogin = ServerIsConnected && !LoginSubmitted;
 
 	// Draw the relog controls
 	const status = LoginGetStatus();
-	if (status) {
-		DrawText(status, 1000, 150, "White", "Black");
+	const statusElement = ElementWrap(RelogIDs.status);
+	if (status && statusElement && status !== statusElement.textContent) {
+		statusElement.textContent = status;
+	} else if (!status && statusElement) {
+		statusElement.textContent = "";
 	}
-	DrawText(TextGet("EnterPassword"), 1000, 230, "White", "Black");
-	DrawText(TextGet("Account") + "  " + Player.AccountName, 1000, 400, "White", "Black");
-	DrawText(TextGet("Password"), 1000, 500, "White", "Black");
-	ElementPosition("InputPassword", 1000, 550, 500);
-	DrawButton(675, 750, 300, 60, TextGet("LogBackIn"), CanLogin ? "White" : "Grey", "");
-	DrawButton(1025, 750, 300, 60, TextGet("Leave"), "White", "");
+	ElementWrap(RelogIDs.login).toggleAttribute("disabled", !CanLogin);
 
 	// Reset any disconnect notifications
 	if (document.hasFocus()) NotificationReset(NotificationEventType.DISCONNECT);
@@ -79,12 +141,6 @@ function RelogRun() {
  * @returns {void} Nothing
  */
 function RelogClick() {
-	if (MouseIn(675, 750, 300, 60)) {
-		// Log Back button
-		const Password = ElementValue("InputPassword");
-		LoginDoLogin(Player.AccountName, Password);
-	}
-	if (MouseIn(1025, 750, 300, 60)) RelogExit(); // Give Up button
 }
 
 /**
@@ -95,10 +151,13 @@ function RelogKeyDown(event) {
 	if (CommonKey.IsPressed(event, "Enter")) {
 		// On an "enter" key press, try to relog the player
 		const Name = Player.AccountName;
-		const Password = ElementValue("InputPassword");
+		const Password = ElementValue(RelogIDs.password);
+
 		LoginDoLogin(Name, Password);
+
 		return true;
 	}
+
 	return false;
 }
 
@@ -108,4 +167,8 @@ function RelogKeyDown(event) {
  */
 function RelogExit() {
 	window.location.reload();
+}
+
+function RelogResize() {
+	ElementSetFontSize(RelogIDs.subscreen, "auto");
 }

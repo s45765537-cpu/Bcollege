@@ -24,6 +24,8 @@ BraceletLaceBandsBands,Bands
 BraceletLaceBandsLace,Lace
 BraceletSpikeBandsBands,Bands
 BraceletSpikeBandsSpikes,Spikes
+BraceletWristbandRBand,Right band
+BraceletWristbandLBand,Left band
 BraceletWristWatchBand,Band
 BraceletWristWatchFace,Face
 BraceletWristWatchTrim,Trim
@@ -58,9 +60,15 @@ BraMaidBraBra, Bra
 BraMaidBraLace, Lace
 BraBandageUpper_Body,Body
 BraLeatherBunnyHollowBraRing, Rings
-BraLeatherBunnyHollowBraBraReflection,Shine
-BraLeatherBunnyHollowBraBra,Body
+BraLeatherBunnyHollowBraBraReflection,Bra
+BraLeatherBunnyHollowBraBra,Bra
 BraLeatherBunnyHollowBraZipper,Zipper
+BraLeatherBunnyHollowBraStomach,Stomach
+BraLeatherBunnyHollowBraStomachReflection,Stomach
+BraLeatherBunnyHollowBraBraStraps,Bra Straps
+BraLeatherBunnyHollowBraBraStrapsReflection,Bra Straps
+BraLeatherBunnyHollowBraLeatherBelt,Belt
+BraLeatherBunnyHollowBraLeatherReflection,Belt
 ClothAccessoryBibBase,Bib
 ClothAccessoryBibPacis,Pattern
 ClothAccessoryBibText,Text
@@ -86,6 +94,12 @@ ClothAccessoryLargeNeckFurFront,Front
 ClothAccessoryLargeNeckFurShoulders,Shoulders
 ClothAccessoryLeatherBeltClothMain,Belt
 ClothAccessoryLeatherBeltClothMetal,Buckle
+ClothAccessoryRuffledCollarMain,Collar latex base
+ClothAccessoryRuffledCollarRuffled1,Top ruffled detail
+ClothAccessoryRuffledCollarRuffled2,Below ruffled detail
+ClothAccessoryRuffledCollarButtons,Collar buttons
+ClothAccessoryRuffledCollarChoker,Leather choker
+ClothAccessoryRuffledCollarCButton,Choker button
 ClothAccessorySpikyNeckFurBack,Back
 ClothAccessorySpikyNeckFurFront,Front
 ClothAccessorySpikyNeckFurShoulders,Shoulders
@@ -183,6 +197,8 @@ ClothNunRobesBand,Band
 ClothNunRobesShawl,Shawl
 ClothNunRobesBack,Back
 ClothNunRobesInterior,Interior
+ClothOffTheShoulderTopLeft,Left
+ClothOffTheShoulderTopRight,Right
 ClothFishnetTop,Fishnet Top
 ClothFrilledShirtBase, Latex
 ClothFrilledShirtFrill, Frills
@@ -233,7 +249,9 @@ ClothLowerCrossSkirtLightCross,Crosses
 ClothLowerCrossSkirtLightMetal,Metal
 ClothLowerCrossSkirtMetal,Metal
 ClothLowerElegantSkirtDesign,Design
+ClothLowerElegantSkirtDesignV2,DesignV2
 ClothLowerElegantSkirtSkirt,Skirt
+ClothLowerElegantSkirtSkirtV2,SkirtV2
 ClothLowerHaremPants2Buttons,Buttons
 ClothLowerHaremPants2Fabric,Fabric
 ClothLowerHaremPants2Panty,Panty
@@ -379,14 +397,17 @@ GlassesGradientSunglassesGlass,Glass
 GlassesJokeGlassesGlasses,Glasses
 GlassesJokeGlassesHair,Hair
 GlassesJokeGlassesNose,Nose
-GlassesPincenezMain,Frame
-GlassesPincenezLenses,Lenses
+GlassesPincenezFrame,Frame
+GlassesPincenezRightLens,Right lens
+GlassesPincenezLeftLens,Left lens
 GlassesPincenezAcc,Accessory
 GlassesRoundSunglassesFrame,Frame
-GlassesRoundSunglassesLenses,Lenses
+GlassesRoundSunglassesRightLens,Right lens
+GlassesRoundSunglassesLeftLens,Left lens
 GlassesRoundSunglassesNose,Nose
 GlassesStreetEyewearFrame,Frame
-GlassesStreetEyewearLenses,Lenses
+GlassesStreetEyewearRightLens,Right lens
+GlassesStreetEyewearLeftLens,Left lens
 GlassesVGlassesFrame,Frame
 GlassesVGlassesGlass,Lenses
 GlovesAnimeGirlGlovesGloves,Gloves
@@ -924,6 +945,8 @@ HatCrown2Crown,Crown
 HatCrown2Jewels,Jewels
 HatCrown3Crown,Crown
 HatCrown3Jewels,Jewels
+HatFlatCapMain,Hat
+HatFlatCapStripes,Hat stripes
 HatFlowerCrownMainFlowers,Main Flowers
 HatFlowerCrownPetals,Petals
 HatLatexHabitBase,Shawl
@@ -1502,6 +1525,40 @@ ItemHandheldKyosensuDetail,Fan detail
 ItemHandheldKyosensuFanSurface,Fan folding
 ItemHandheldMugFluids,Fluids
 ItemHandheldMugMug,Mug
+ItemHandheldPlushies,Plushies
+ItemHandheldPlushiesSelect,Choose a plushie
+ItemHandheldPlushiesSin,Sin
+ItemHandheldPlushiesRaven,Raven
+ItemHandheldPlushiesCassandraLee,CassandraLee
+ItemHandheldPlushiesRika,Rika
+ItemHandheldPlushiesRoslin,Roslin
+ItemHandheldPlushiesGangriel,Gangriel
+ItemHandheldPlushiesCeliko,Celiko
+ItemHandheldPlushiesLavender,Lavender
+ItemHandheldPlushiesSabie,Sabie
+ItemHandheldPlushiesSiscuit,Siscuit
+ItemHandheldPlushiesAeri,Aeri
+ItemHandheldPlushiesDelta,Delta
+ItemHandheldPlushiesKhloe,Khloe
+ItemHandheldPlushiesLillian,Lillian
+ItemHandheldPlushiesMinerva,Minerva
+ItemHandheldPlushiesNabi,Nabi
+ItemHandheldPlushiesTinyRaven,TinyRaven
+ItemHandheldPlushiesXDress,XDress
+ItemHandheldPlushiesMagdalena,Magdalena
+ItemHandheldPlushiesSonic,Sonic
+ItemHandheldPlushiesAlunra,Alunra
+ItemHandheldPlushiesMel,Mel
+ItemHandheldPlushiesElora,Elora
+ItemHandheldPlushiesHoshiKo,Hoshi-Ko
+ItemHandheldPlushiesLayottu,Layottu
+ItemHandheldPlushiesLisa,Lisa
+ItemHandheldPlushiesLittleSera,Little Sera
+ItemHandheldPlushiesMana,Mana
+ItemHandheldPlushiesMelanie,Melanie
+ItemHandheldPlushiesZoi,Zoi
+ItemHandheldPlushiesZoe,Zoe
+ItemHandheldPlushiesZannah,Zannah
 ItemHandheldPopcornBag,Bag
 ItemHandheldPopcornCorn,Corn
 ItemHandheldPortalTablet,Tablet
@@ -2215,6 +2272,10 @@ ItemMouthCageMuzzleMuzzle,Cage
 ItemMouthCageMuzzleStrap,Straps
 ItemMouthCarrotGagCarrot,Carrot
 ItemMouthCarrotGagStraps,Straps
+ItemMouthCigaretteSmokeInMouth,Smoke
+ItemMouthCigaretteLitInMouth,Lit
+ItemMouthCigaretteFilterInMouth,Filter
+ItemMouthCigarettePaperInMouth,Paper
 ItemMouthCupholderGagCup,Cup
 ItemMouthCupholderGagGag,Gag
 ItemMouthCupholderGagHolder,Holder
@@ -2805,6 +2866,10 @@ HandAccessoryLeftRingsPinkieSteel,Pinkie Ring
 HandAccessoryLeftRingsRingSteel,Ring Finger Ring
 HandAccessoryLeftRingsThumbSteel,Thumb Ring
 HandAccessoryLeftRingsWedding,Wedding Ring
+HandAccessoryLeftRingsFingernailsColor,Nails Color
+HandAccessoryLeftRingsFingernailsOutline,Nails Outline
+HandAccessoryLeftRingsClawsColor,Claws Color
+HandAccessoryLeftRingsClawsOutline,Claws Outline
 MaskAnimeLensesLeftEyelids,Left Eyelids
 MaskAnimeLensesLeftIris,Left Lens
 MaskAnimeLensesRightEyelids,Right Eyelids
@@ -2950,6 +3015,10 @@ HandAccessoryRightRingsPinkieSteel,Pinkie Ring
 HandAccessoryRightRingsRingSteel,Ring Finger Ring
 HandAccessoryRightRingsThumbSteel,Thumb Ring
 HandAccessoryRightRingsWedding,Wedding Ring
+HandAccessoryRightRingsFingernailsColor,Nails Color
+HandAccessoryRightRingsFingernailsOutline,Nails Outline
+HandAccessoryRightRingsClawsColor,Claws Color
+HandAccessoryRightRingsClawsOutline,Claws Outline
 ShoesAnimeGirlBootsBoots,Boots
 ShoesAnimeGirlBootsDetail,Top Stripe
 ShoesAnkleBoots1Laces,Laces
@@ -3120,6 +3189,11 @@ SuitSeethroughSuitZipOpaqueGloves,Gloves
 SuitSeethroughSuitZipZip,Zip
 SuitShinyLeotardLatex,Base
 SuitShinyLeotardShine,Shine
+TailStrapsDragonsTailBase,Base
+TailStrapsDragonsTailBaseShine,Base Shine
+TailStrapsDragonsTailScales,Scales
+TailStrapsDragonsTailScalesShine,Scales Shine
+TailStrapsDragonsTailSpikes,Spikes
 TailStrapsDragonTailStrap1Primary,Primary
 TailStrapsDragonTailStrap1Secondary,Secondary
 TailStrapsDragonTailStrap2LeftPrimary,Primary

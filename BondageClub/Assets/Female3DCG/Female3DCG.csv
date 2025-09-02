@@ -164,6 +164,7 @@ Cloth,MaleTankTop1,Male Cloth Tank-Top
 Cloth,MeshTop,Mesh Top
 Cloth,MistressTop,Mistress Top
 Cloth,NurseUniform,Nurse Uniform
+Cloth,OffTheShoulderTop,Off The Shoulder Top
 Cloth,RetroGirdle,Retro Girdle Dress
 Cloth,RibbonCorset,Ribbon Corset
 Cloth,Robe1,Robe
@@ -209,6 +210,7 @@ ClothAccessory,LatexApron,Latex Apron
 ClothAccessory,LeatherBeltCloth,Leather Waist Belt
 ClothAccessory,LeatherStraps,Leather Straps
 ClothAccessory,Poncho,Poncho
+ClothAccessory,RuffledCollar,Latex Ruffled Collar
 ClothAccessory,Scarf,Scarf
 ClothAccessory,StudentOutfit3Bow1,Student Bow 1
 ClothAccessory,StudentOutfit3Bow2,Student Bow 2
@@ -287,6 +289,17 @@ Corset,LeatherCorsetTop1,Leather Corset Top
 Corset,SteampunkCorsetTop1,Steampunk Corset
 Corset,TightCorset,Leather Tight Corset
 Corset,Underbust,Boned Underbust Corset
+Decals,,Decals
+Decals,DenOfSin,Den of Sin
+Decals,AmberFam,Amber Family
+Decals,AzureCorp,Azure Corporation
+Decals,DemonsBar,Demon's Bar
+Decals,Gangriels,Gangriels
+Decals,LukeChill,Luke's Chill Tent
+Decals,Malkuth,Malkuth
+Decals,RatAss,The Rat's Ass
+Decals,SlaveHelpline,Slave Helpline
+Decals,VoidOrder,Void Order
 Emoticon,,Emoticon
 Emoticon,Emoticon,Emoticon
 Eyebrows,,Eyebrows
@@ -694,12 +707,12 @@ HandAccessoryLeft,,Hand Accessory (Left)
 HandAccessoryLeft,CatsuitGloves,Catsuit Gloves
 HandAccessoryLeft,Claws,Claws
 HandAccessoryLeft,Fingernails,Fingernails
-HandAccessoryLeft,Rings,Rings
+HandAccessoryLeft,Rings,Rings and Nails
 HandAccessoryRight,,Hand Accessory (Right)
 HandAccessoryRight,CatsuitGloves,Catsuit Gloves
 HandAccessoryRight,Claws,Claws
 HandAccessoryRight,Fingernails,Fingernails
-HandAccessoryRight,Rings,Rings
+HandAccessoryRight,Rings,Rings and Nails
 HandsLeft,,Hand (Left)
 HandsRight,,Hand (Right)
 Hat,,Hat
@@ -725,6 +738,7 @@ Hat,Crown3,Crown Style 3
 Hat,Crown4,Crown Style 4
 Hat,Crown5,Crown Style 5
 Hat,FacePaint, Face Paint
+Hat,FlatCap,Flat Cap
 Hat,FlowerCrown,Flower Crown
 Hat,FurHeadband,Fur Headband
 Hat,HeadTowel1,Towel
@@ -1082,6 +1096,7 @@ ItemHandheld,PetToy,Pet Toy
 ItemHandheld,Phone1,Mobile Phone
 ItemHandheld,Phone2,Mobile Phone 2
 ItemHandheld,PlasticWrap,Plastic Wrap Roll
+ItemHandheld,Plushies,Plushies
 ItemHandheld,Popcorn,Popcorn
 ItemHandheld,PortalTablet,PortalLink Tablet
 ItemHandheld,PotionBottle,Potion Bottle
@@ -1303,6 +1318,7 @@ ItemMouth,CaneGag,Cane
 ItemMouth,CarrotGag,Rubber Carrot Gag
 ItemMouth,ChloroformCloth,Chloroform Cloth
 ItemMouth,ChopstickGag,Chopstick Gag
+ItemMouth,Cigarette,Cigarette
 ItemMouth,ClothGag,Cloth Gag
 ItemMouth,ClothStuffing,Cloth Stuffing
 ItemMouth,CropGag,Crop
@@ -1687,6 +1703,7 @@ Necklace,NecklaceLock,Lock Necklace
 Necklace,NecklaceRope,Rope Necklace
 Necklace,PearlNecklace1,Custom Pearl Necklace
 Necklace,RosePendant,Rose Pendant
+Necklace,RuffledCollar,Latex Ruffled Collar
 Necklace,SatinScarf,Satin Scarf
 Nipples,,Nipples Style
 Nipples,Nipples1,Small
@@ -1893,6 +1910,7 @@ TailStraps,,Tail Strap
 TailStraps,BunnyTailStrap,Bunny Tail Strap
 TailStraps,CowtailStrap,Cow Tail Strap
 TailStraps,DemonPlug,Demon Tail
+TailStraps,DragonsTail,Dragons Tail
 TailStraps,DragonTailStrap1,Dragon Tail Strap
 TailStraps,DragonTailStrap2Left, Scaled dragon tail strap (Left)
 TailStraps,DragonTailStrap2Right, Scaled dragon tail strap (Right)

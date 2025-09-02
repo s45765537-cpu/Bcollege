@@ -91,11 +91,12 @@ function EmptyShopEnd(Sold) {
 	ShopVendor.Stage = (WasSold) ? "33" : "34";
 	if (WasSold) CharacterChangeMoney(Player, ShopDemoItemPayment);
 	DialogLeave();
-	CommonSetScreen("Room", "Shop");
-	CharacterSetCurrent(ShopVendor);
-	ShopVendor.CurrentDialog = DialogFind(ShopVendor, (WasSold) ? "ItemSold" : "ItemNotSold").replace("MoneyAmount", ShopDemoItemPayment.toString());
-	CharacterAppearanceFullRandom(ShopCustomer, false);
-	ShopCustomer.Name = CharacterGenerateRandomName();
+	CommonSetScreen("Room", "Shop").then(() => {
+		CharacterSetCurrent(ShopVendor);
+		ShopVendor.CurrentDialog = DialogFind(ShopVendor, (WasSold) ? "ItemSold" : "ItemNotSold").replace("MoneyAmount", ShopDemoItemPayment.toString());
+		CharacterAppearanceFullRandom(ShopCustomer, false);
+		ShopCustomer.Name = CharacterGenerateRandomName();
+	});
 }
 
 /**
@@ -163,12 +164,13 @@ function EmptySlaveMarketTrainingEnd(Status) {
 		CharacterChangeMoney(Player, Money);
 		IntroductionJobProgress("DomTrainer");
 	}
-	CommonSetScreen("Room", "SlaveMarket");
-	SlaveMarketMistress.CurrentDialog = DialogFind(SlaveMarketMistress, "Training" + Status).replace("MoneyAmount", Money.toString());
-	SlaveMarketMistress.Stage = (Status == "Success") ? "42" : "43";
+	CommonSetScreen("Room", "SlaveMarket").then(() => {
+		SlaveMarketMistress.CurrentDialog = DialogFind(SlaveMarketMistress, "Training" + Status).replace("MoneyAmount", Money.toString());
+		SlaveMarketMistress.Stage = (Status == "Success") ? "42" : "43";
 
-	CharacterDelete(SlaveMarketSlaveToTrain);
-	SlaveMarketSlaveToTrain = null;
+		CharacterDelete(SlaveMarketSlaveToTrain);
+		SlaveMarketSlaveToTrain = null;
 
-	CharacterSetCurrent(SlaveMarketMistress);
+		CharacterSetCurrent(SlaveMarketMistress);
+	});
 }
