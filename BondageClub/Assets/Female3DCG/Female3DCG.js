@@ -6839,6 +6839,7 @@ var AssetFemale3DCG = [
 						Name: "SkirtV2",
 						CopyLayerColor: "Skirt",
 						AllowTypes: { typed: 1 },
+						StyleOverride: ["EchoV2"],
 					},
 					{
 						Name: "Design",
@@ -6849,6 +6850,7 @@ var AssetFemale3DCG = [
 						Name: "DesignV2",
 						CopyLayerColor: "Design",
 						AllowTypes: { typed: 1 },
+						StyleOverride: ["EchoV2"],
 					},
 				],
 				Alpha: [
