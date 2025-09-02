@@ -35065,7 +35065,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "LeatherDeluxeCuffs",
 				InventoryID: 726,
-				StyleOverride: ["EchoV2"],
 				Fetish: ["Leather"],
 				Priority: 29,
 				Value: 50,
