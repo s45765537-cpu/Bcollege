@@ -13832,6 +13832,7 @@ var AssetFemale3DCG = [
 						Name: "Soles",
 						PoseMapping: {
 							Hogtied: "Hogtied",
+							LegsClosed: "LegsClosed",
 						},
 					},
 					{
