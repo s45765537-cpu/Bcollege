@@ -14503,6 +14503,24 @@ var AssetFemale3DCG = [
 				Value: 5,
 			},
 			{
+				Name: "Gat",
+				InventoryID: 1260,
+				Value: 10,
+				DefaultColor: ["#202020","#202020"],
+				Layer: [
+					{ 
+						Name: "Top", 
+						Left: 0,
+						Top: -10, 
+					},
+					{
+						Name: "Beads",
+						Left: 0,
+						Top: -10,
+					},
+				],
+			},
+			{
 				Name: "FacePaint",
 				InventoryID: 172,
 				Value: 10,

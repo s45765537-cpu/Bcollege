@@ -101,6 +101,8 @@ const ChatRoomMapViewObjectList = [
 	{ ID: 160, Type: "FloorDecoration", Style: "KeyBronze", OnEnter: function(){ Player.MapData.PrivateState.HasKeyBronze = true; }, IsVisible: function(){ return !Player.MapData.PrivateState.HasKeyBronze; } },
 	{ ID: 162, Type: "FloorDecoration", Style: "KeySilver", OnEnter: function(){ Player.MapData.PrivateState.HasKeySilver = true; }, IsVisible: function(){ return !Player.MapData.PrivateState.HasKeySilver; } },
 	{ ID: 164, Type: "FloorDecoration", Style: "KeyGold" , OnEnter: function(){ Player.MapData.PrivateState.HasKeyGold = true; }, IsVisible: function(){ return !Player.MapData.PrivateState.HasKeyGold; } },
+	{ ID: 165, Type: "FloorDecoration", Style: "VikingChair" , Top: -0.5, Height: 2 },
+
 
 	{ ID: 200, Type: "FloorDecorationThemed", Style: "Blank" },
 	{ ID: 210, Type: "FloorDecorationThemed", Style: "TeacherDesk", Top: -0.25 },
@@ -191,6 +193,23 @@ const ChatRoomMapViewObjectList = [
 		Transparency: 1,
 		TransparencyCutoutHeight: 0.96
 	},
+	{
+        ID: 740,
+        Type: "FloorDecorationExpanding",
+        Style: "VikingTablePreview",
+        BuildImageName: function(X, Y) {
+            let LeftObject = ChatRoomMapViewGetObjectAtPos(X - 1, Y);
+            let RightObject = ChatRoomMapViewGetObjectAtPos(X + 1, Y);
+            if ((LeftObject != null) && (LeftObject.ID == this.ID) && ((RightObject != null) && (RightObject.ID == this.ID))) return "VikingTableMiddle";
+            if ((LeftObject != null) && (LeftObject.ID == this.ID)) return "VikingTableRight";
+            if ((RightObject != null) && (RightObject.ID == this.ID)) return "VikingTableLeft";
+            return "VikingTableSmall";
+        },
+        Top: -0.25,
+        Height: 1.25,
+        Transparency: 1,
+        TransparencyCutoutHeight: 0.96
+    },
 	{ ID: 800, Type: "FloorDecorationAnimal", Style: "Blank" },
 	{
 		ID: 810,
