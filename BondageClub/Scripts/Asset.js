@@ -307,7 +307,10 @@ function AssetAdd(Group, AssetDef, ExtendedConfig) {
 	if (A.DrawLocks) {
 		layers.push({ Name: "Lock", LockLayer: true, AllowColorize: false, ParentGroup: {} });
 	}
-	A.Layer = layers.map((Layer, I) => AssetMapLayer(Layer, A, I));
+	A.Layer = layers.map((Layer, I) => {
+		Layer.InheritPoseMappingFields ??= AssetDef.InheritPoseMappingFields;
+		return AssetMapLayer(Layer, A, I);
+	});
 	A.Layer.forEach((layer, i) => {
 		// Now that most layer pose mappings are initialized, handle all `Layer.CopyLayerPoseMapping` cases
 		if (layer.PoseMapping) {

@@ -35,6 +35,10 @@ BraDominatrixLeotardBase,Leather
 BraDominatrixLeotardBuckles,Buckles
 BraFlowerBraBra,Bra
 BraFlowerBraFlowers,Flowers
+BraSportBraBra,Bra
+BraSportBraDesign,Design
+BraSportBraTrim,Trim
+BraSportBraWaist,Waist
 BraFullLatexBra2Bra,Bra
 BraFullLatexBra2Shine,Shine
 BraHaremBraFabric,Fabric
@@ -69,6 +73,9 @@ BraLeatherBunnyHollowBraBraStraps,Bra Straps
 BraLeatherBunnyHollowBraBraStrapsReflection,Bra Straps
 BraLeatherBunnyHollowBraLeatherBelt,Belt
 BraLeatherBunnyHollowBraLeatherReflection,Belt
+BraSportSwimsuitBase,Base
+BraSportSwimsuitBackStripe1,Back Stripe
+BraSportSwimsuitFrontStripe1,Front Stripe
 ClothAccessoryBibBase,Bib
 ClothAccessoryBibPacis,Pattern
 ClothAccessoryBibText,Text
@@ -87,8 +94,10 @@ ClothAccessoryComboBeltDetail,Metal details
 ClothAccessoryComboBeltChain,Chain details
 ClothAccessoryGlitterFreckles,Color One
 ClothAccessoryGlitterFreckles2,Color Two
-ClothAccessoryLargeBeltBelt,Belt
-ClothAccessoryLargeBeltBuckles,Buckles
+ClothAccessoryLargeBeltMain,Belt
+ClothAccessoryLargeBeltBuckle1,Upper buckle
+ClothAccessoryLargeBeltBuckle2,Lower buckle
+ClothAccessoryLargeBeltBuckleMetal,Metal detail
 ClothAccessoryLargeNeckFurBack,Back
 ClothAccessoryLargeNeckFurFront,Front
 ClothAccessoryLargeNeckFurShoulders,Shoulders
@@ -175,6 +184,13 @@ ClothOuterLeatherJacketMetal,Metal
 ClothOuterLeatherJacketShineJacket,Shine Jacket
 ClothOuterLeatherJacketShineSleeves,Shine Sleeves
 ClothOuterLeatherJacketSleeves,Sleeves
+ClothOuterJacketHoodieMain,Main
+ClothOuterJacketHoodiePocket,Pocket
+ClothOuterJacketHoodieZipper,Zipper
+ClothOuterJacketHoodieHips,Hips
+ClothOuterJacketHoodieSleeves,Sleeve
+ClothOuterJacketHoodieWrist,Wrist
+ClothOuterJacketHoodieHoodDownBack,Hood
 ClothRibbonCorsetCorset,Corset
 ClothRibbonCorsetRivets,Rivets
 ClothRibbonCorsetRibbon,Ribbon
@@ -237,6 +253,9 @@ ClothLowerGymShortsPants,Pants
 ClothLowerGymShortsTrim,Trim
 ClothLowerGymShortsWaist,Waist
 ClothLowerGymShortsLace,Lace
+ClothLowerRuffledMiniskirtBase,Skirt
+ClothLowerRuffledMiniskirtUpper,Frill
+ClothLowerRuffledMiniskirtWaist,Waist
 ClothLowerCrossSkirtBase,Base
 ClothLowerCrossSkirtBelt,Belt
 ClothLowerCrossSkirtCross,Crosses
@@ -946,6 +965,8 @@ HatFlatCapMain,Hat
 HatFlatCapStripes,Hat stripes
 HatFlowerCrownMainFlowers,Main Flowers
 HatFlowerCrownPetals,Petals
+HatGatTop,Top
+HatGatBeads,Beads
 HatLatexHabitBase,Shawl
 HatLatexHabitCape,Shoulders
 HatLatexHabitCollar,Collar
@@ -1203,6 +1224,15 @@ ItemBootsShortPonyBootsToe,Toes
 ItemBootsShortPonyBootsU,Horseshoes
 ItemBootsSlimeOne,Color 1
 ItemBootsSlimeTwo,Color 2
+ItemBootsSingleBalletBootBoot,Single boot
+ItemBootsSingleBalletBootBShine,Boot shine
+ItemBootsSingleBalletBootLowerStraps,Boot straps
+ItemBootsSingleBalletBootBootMetal,Boot metal details
+ItemBootsSingleBalletBootLowerBelts,Belts
+ItemBootsSingleBalletBootMBeltsLower,Belt buckles
+ItemBootsSingleBalletBootFoam,Foam tape
+ItemBootsSingleBalletBootAPilloryFront,Leg metal pillories
+ItemBootsSingleBalletBootBootLocks,Padlocks
 ItemBootsTormentHeelsHeels,Heels
 ItemBootsTormentHeelsBelts,Belts
 ItemBootsTormentHeelsLock,Padlocks
@@ -1214,6 +1244,11 @@ ItemBootsStrictPonyBootsHooves,Hooves
 ItemBootsStrictPonyBootsStraps,Straps
 ItemBootsStrictPonyBootsStrapsLower,Straps Base
 ItemBootsStrictPonyBootsOutlineBoots,Outline
+ItemBootsZipperBBootsBoots,Boots
+ItemBootsZipperBBootsBShine,Shine
+ItemBootsZipperBBootsBStraps,Straps
+ItemBootsZipperBBootsBMetal,Metal details
+ItemBootsZipperBBootsBLocks,Padlocks
 ItemBreastForbiddenChastityBraBra,Bra
 ItemBreastForbiddenChastityBraDetail,Detail
 ItemBreastForbiddenChastityBraMetal,Metal
@@ -2273,6 +2308,14 @@ ItemMouthCigaretteSmokeInMouth,Smoke
 ItemMouthCigaretteLitInMouth,Lit
 ItemMouthCigaretteFilterInMouth,Filter
 ItemMouthCigarettePaperInMouth,Paper
+ItemMouthCompGagFoamBall,Foam ball
+ItemMouthCompGagUnderFoam,Under foam tape
+ItemMouthCompGagRubberGlue,Rubber glue
+ItemMouthCompGagRubberTape,Rubber tape
+ItemMouthCompGagMStrip,Metal strip
+ItemMouthCompGagSStrip,Screw strip
+ItemMouthCompGagFoam,External foam tape
+ItemMouthCompGagLStrip,Padlocks
 ItemMouthCupholderGagCup,Cup
 ItemMouthCupholderGagGag,Gag
 ItemMouthCupholderGagHolder,Holder
@@ -2977,6 +3020,9 @@ PantiesMaleCatsuitPantiesLock,Lock Icon
 PantiesPilotPantiesLayer1,Suit
 PantiesPilotPantiesLayer2,Highlights
 PantiesPilotPantiesLayer3,Center
+PantiesSportPantiesBase,Base
+PantiesSportPantiesTrim,Trim
+PantiesSportPantiesWaist,Waist
 PantiesPoofyDiaperBase,Diaper
 PantiesPoofyDiaperCrotchPatch,Crotch Padding
 PantiesPoofyDiaperFrills,Frills

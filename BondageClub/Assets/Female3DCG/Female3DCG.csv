@@ -58,6 +58,7 @@ Bra,CuteBikini1,Cute Bikini
 Bra,DominatrixLeotard,Dominatrix Leotard
 Bra,FishnetBikini1,Fishnet Bikini
 Bra,FlowerBra,Flower Bra
+Bra,SportBra,Sport Bra
 Bra,FrameBra1,Frame Bra Style 1
 Bra,FrameBra2,Frame Bra Style 2
 Bra,FullLatexBra,Full Latex Bra
@@ -84,6 +85,7 @@ Bra,SleevelessSlimLatexLeotard,Slim Latex Leotard (Sleeveless)
 Bra,StarHarnessBra,Star Harness
 Bra,StrapBra, Strap Bra
 Bra,StuddedHarness,Studded Harness
+Bra,SportSwimsuit,Sport Swimsuit
 Bra,Swimsuit1,Swimsuit style 1
 Bra,Swimsuit2,Swimsuit style 2
 Bra,Swimsuit3,Swimsuit style 3
@@ -230,6 +232,7 @@ ClothLower,BondageSkirt,Bondage Skirt
 ClothLower,BusinessSkirt,Business Skirt
 ClothLower,BusinessTrousers,Business Trousers
 ClothLower,CheerleaderSkirt,Cheerleader Skirt
+ClothLower,RuffledMiniskirt,Ruffled Miniskirt
 ClothLower,ChineseSkirt1,Chinese Skirt
 ClothLower,ClothSkirt1,Patterned Skirt
 ClothLower,CollegeSkirt,College Skirt
@@ -277,6 +280,7 @@ ClothLower,Waspie2,Royal Waspie
 ClothLower,Waspie3,Straps Waspie
 ClothOuter,,Cloth Outer
 ClothOuter,LeatherJacket,Leather Jacket
+ClothOuter,JacketHoodie,Jacket Hoodie
 Corset,,Corset
 Corset,Corset1,Corset + Garters
 Corset,Corset2,Corset
@@ -300,6 +304,7 @@ Decals,Malkuth,Malkuth
 Decals,RatAss,The Rat's Ass
 Decals,SlaveHelpline,Slave Helpline
 Decals,VoidOrder,Void Order
+Decals,DataRoom,Data Room
 Emoticon,,Emoticon
 Emoticon,Emoticon,Emoticon
 Eyebrows,,Eyebrows
@@ -741,6 +746,7 @@ Hat,FacePaint, Face Paint
 Hat,FlatCap,Flat Cap
 Hat,FlowerCrown,Flower Crown
 Hat,FurHeadband,Fur Headband
+Hat,Gat,Gat
 Hat,HeadTowel1,Towel
 Hat,MaidHairband1,Maid Hairband
 Hat,MaidLatexHairband,Maid Latex Hairband
@@ -889,12 +895,14 @@ ItemBoots,MetalBallet,Metal Ballet Heels
 ItemBoots,MonoHeel,Monoheel
 ItemBoots,PonyBoots,Pony Boots
 ItemBoots,ShortPonyBoots,Short Pony Boots
+ItemBoots,SingleBalletBoot,Single Ballet Boot
 ItemBoots,Slime,Slime
 ItemBoots,ThighHighLatexHeels,Latex Heels
 ItemBoots,ToeCuffs,Metal Toe Cuffs
 ItemBoots,ToeTape,Toe Tape
 ItemBoots,ToeTie,Toe Tie
 ItemBoots,TormentHeels,Torment Heels
+ItemBoots,ZipperBBoots,Zipper Ballet Boots
 ItemBoots,Zipties,Zip Ties
 ItemBoots,StrictPonyBoots,Strict Pony Boots
 ItemBreast,,Breasts
@@ -1074,6 +1082,7 @@ ItemHandheld,ElectricToothbrush,Electric Toothbrush
 ItemHandheld,Feather,Feather
 ItemHandheld,FeatherDuster,Feather Duster
 ItemHandheld,Flogger,Flogger
+ItemHandheld,FoamRoll,Foam Roll
 ItemHandheld,ForSaleSign,For Sale Sign
 ItemHandheld,Gavel,Gavel
 ItemHandheld,GlassEmpty,Empty Glass
@@ -1129,6 +1138,7 @@ ItemHands,,Hands
 ItemHands,CheerleaderPomPoms,Pom Pom Mitts
 ItemHands,DuctTape,Duct Tape
 ItemHands,ElbowLengthMittens,Long Leather Paw Mittens
+ItemHands,FoamMittens,Foam Tape Mittens
 ItemHands,FuturisticMittens,Futuristic Mittens
 ItemHands,FullMittens,Full Mittens
 ItemHands,GlueMittens,Glue Mittens
@@ -1321,6 +1331,7 @@ ItemMouth,ChopstickGag,Chopstick Gag
 ItemMouth,Cigarette,Cigarette
 ItemMouth,ClothGag,Cloth Gag
 ItemMouth,ClothStuffing,Cloth Stuffing
+ItemMouth,CompGag,Composite Gag
 ItemMouth,CropGag,Crop
 ItemMouth,CupholderGag,Cup Holder Gag
 ItemMouth,DeepthroatGag,Deepthroat Penis Gag
@@ -1744,6 +1755,7 @@ Panties,Panties7,Style 2
 Panties,Panties8,Style 3
 Panties,PearlPanties1,Pearl String
 Panties,PilotPanties,Pilot Panties
+Panties,SportPanties,Sport Panties
 Panties,PoofyDiaper,Poofy Diaper
 Panties,RedBowPanties,Bow Panties
 Panties,SexyBeachPanties1,Sexy Beach Panties
