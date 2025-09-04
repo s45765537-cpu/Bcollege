@@ -7312,6 +7312,26 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
+                Name: "RuffledMiniskirt",
+                InventoryID: 1262,
+                Value: 20,
+                Left: {
+                    [PoseType.DEFAULT]: 120,
+                    KneelingSpread: 210,
+                },
+                Top: 450,
+                HideItem: ["ItemDevicesStrapOnSmooth", "ItemDevicesStrapOnStuds"],
+                Expose: ["ItemVulva", "ItemVulvaPiercings", "ItemButt"],
+                Attribute: ["Skirt"],
+                ParentGroup: {},
+                DefaultColor: ["#303131", "#6b1b1a", "#6b1b1a"],
+                PoseMapping: {
+                    Hogtied: PoseType.HIDE,
+                    AllFours: PoseType.HIDE,
+                },
+                Layer: [{ Name: "Base" }, { Name: "Upper" }, { Name: "Waist" }],
+            },
+			{
 				Name: "SatinSkirt",
 				InventoryID: 1149,
 				Value: 37,
