@@ -34,7 +34,7 @@ var PreferenceArousalZoneDefaultCompressedString = "ffpppfffffffffffff";
 /**
  * By default on new characters, all festishes are of neutral preference
  */
-var PreferenceArousalFetishDefaultCompressedString = "fffffffffffffffffff";
+var PreferenceArousalFetishDefaultCompressedString = "ffffffffffffffffffff";
 
 function PreferenceSubscreenArousalLoad() {
 	CharacterAppearanceForceUpCharacter = Player.MemberNumber;
