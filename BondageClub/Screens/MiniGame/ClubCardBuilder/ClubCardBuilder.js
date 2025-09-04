@@ -43,7 +43,7 @@ var ClubCardBuilderRenameIndex = -1;
 var ClubCardBuilderCustomizationIndex = "";
 var ClubCardBuilderSelectedCardBack = 0;
 var ClubCardBuilderCardBackFocus = null;
-var ClubCardBuilderCardBackCount = 12;
+var ClubCardBuilderCardBackCount = 13;
 var ClubCardBuilderView = ClubCardList;
 
 // All the default decks that NPCs can use
