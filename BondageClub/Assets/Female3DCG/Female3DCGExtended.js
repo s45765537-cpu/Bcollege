@@ -1766,10 +1766,10 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [
 				{
-					Name: "Loose",
+					Name: "Fit",
 				},
 				{
-					Name: "Fit",
+					Name: "Loose",
 				},
 			],
 			DialogPrefix: {
@@ -11247,7 +11247,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Legs",
 					Property: {
-						Effect: [E.Block, E.Freeze, E.Tethered, E.MapImmobile],
+						Effect: [E.Block],
 						Block: ["ItemLegs", "ItemFeet", "ItemBoots"],
 						Difficulty: 8,
 					},
@@ -11255,7 +11255,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Chest",
 					Property: {
-						Effect: [E.Block, E.Freeze, E.Tethered, E.MapImmobile],
+						Effect: [E.Block],
 						Block: [
 							"ItemArms",
 							"ItemHands",
@@ -11275,7 +11275,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Neck",
 					Property: {
-						Effect: [E.Block, E.Freeze, E.Tethered, E.MapImmobile],
+						Effect: [E.Block],
 						Block: [
 							"ItemNipples",
 							"ItemNipplesPiercings",
@@ -11298,7 +11298,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "Full",
 					Property: {
-						Effect: [E.Block, E.Freeze, E.Tethered, E.MapImmobile],
+						Effect: [E.Block],
 						Block: [
 							"ItemHood",
 							"ItemHead",
@@ -11332,7 +11332,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "FullOpt",
 					Property: {
-						Effect: [E.Block, E.Freeze, E.Tethered, E.MapImmobile],
+						Effect: [E.Block],
 						Block: [
 							"ItemHood",
 							"ItemHead",
@@ -11371,9 +11371,6 @@ var AssetFemale3DCGExtended = {
 							E.BlindTotal,
 							E.GagMedium,
 							E.Block,
-							E.Freeze,
-							E.Tethered,
-							E.MapImmobile,
 						],
 						Block: [
 							"ItemHood",
@@ -11916,6 +11913,10 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		},
+		SingleBalletBoot: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ItemBoots", AssetName: "SingleBalletBoot" },
+		}, // SingleBalletBoot
 	}, // ItemDevices
 	ItemBoots: {
 		ToeTape: {
@@ -12092,6 +12093,135 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // HoofBoots
+		ZipperBBoots: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Normal",
+					Property: {},
+				},
+				{
+					Name: "FullLeg",
+					Property: { Difficulty: 2 },
+				},
+			],
+		}, // ZipperBBoots
+		SingleBalletBoot: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Mode",
+					Key: "m",
+					Options: [
+						{
+							// m0 - Stand up restraint mode
+							Property: {
+								Effect: [E.BlockWardrobe,E.Freeze],
+							},
+						},
+						{
+							// m1 - Kneel restraint mode
+							Property: {
+								Effect: [E.BlockWardrobe,E.Freeze],
+								SetPose: ["Kneel"],
+							},
+						},
+						{
+							// m2 - Training hops
+							Property: { Effect: [E.BlockWardrobe,E.Slow] },
+						},
+					],
+				},
+				{
+					Name: "Thighs",
+					Key: "t",
+					Options: [
+						{
+							// t0 - Just under knee boot
+							Property: {},
+						},
+						{
+							// t1 - Full boot length
+							Property: { Difficulty: 2 },
+						},
+					],
+				},
+				{
+					Name: "LowerBelts",
+					Key: "e",
+					Options: [
+						{
+							// e0 - No belts
+							Property: {},
+						},
+						{
+							// e1 - Under knee belts
+							Property: { Difficulty: 3 },
+						},
+					],
+				},
+				{
+					Name: "ThighBelts",
+					Key: "b",
+					Options: [
+						{
+							// b0 - No belts
+							Property: {},
+						},
+						{
+							// b1 - Thigh belts
+							Property: { Difficulty: 3 },
+						},
+					],
+				},
+				{
+					Name: "FoamTape",
+					Key: "f",
+					Options: [
+						{
+							// f0 - No tape
+							Property: {},
+						},
+						{
+							// f1 - Under knee 
+							Property: { Difficulty: 5 },
+						},
+						{
+							// f2 - Full leg 
+							Property: { Difficulty: 7 },
+						},
+					],
+				},
+				{
+					Name: "Pillory",
+					Key: "p",
+					Options: [
+						{
+							// p0 - No pillory
+							Property: {},
+						},
+						{
+							// p1 - Double pillories
+							Property: { Difficulty: 8 },
+						},
+					],
+				},
+				{
+					Name: "Vibration",
+					Key: "v",
+					DrawImages: false,
+					Options: [
+						{ Property: { Intensity: -1, Effect: [] } }, // v0 - Turn Off
+						{ Property: { Intensity: 0, Effect: [E.Vibrating] } }, // v1 - Low
+						{ Property: { Intensity: 1, Effect: [E.Vibrating] } }, // v2 - Medium
+						{ Property: { Intensity: 1, Effect: [E.Egged, E.Vibrating] } }, // v3 - High
+						{ Property: { Intensity: 2, Effect: [E.Egged, E.Vibrating] } }, // v4 - Maximum
+					],
+				},
+			],
+			ChangeWhenLocked: false,
+			DrawImages: false,
+		}, // SingleBalletBoot
 	}, // ItemBoots
 	ItemVulva: {
 		ClitSuctionCup: {
@@ -13585,6 +13715,19 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // HoofBoots
+		ZipperBBoots: {
+			Archetype: ExtendedArchetype.TYPED,
+			Options: [
+				{
+					Name: "Normal",
+					Property: {},
+				},
+				{
+					Name: "FullLeg",
+					Property: {},
+				},
+			],
+		}, // ZipperBBoots
 	}, // Shoes
 	HairAccessory1: {
 		ElfEars: {
@@ -15104,6 +15247,188 @@ var AssetFemale3DCGExtended = {
 				},
 			],
 		}, // AsylumMuzzle
+		CompGag: {
+			Archetype: ExtendedArchetype.MODULAR,
+			DrawImages: false,
+			Modules: [
+				{
+					Name: "FoamBall",
+					Key: "b",
+					Options: [
+						{
+							// b0 - One ball
+							Property: {
+								Difficulty: 1,
+								Effect: [E.GagEasy],
+								ExpressionTrigger: [
+									{ Name: "Open", Group: "Mouth", Timer: 15 },
+									{ Name: "Low", Group: "Blush", Timer: 15 },
+									{ Name: "DrollLow", Group: "Fluid", Timer: 15},
+								],
+							},
+						},
+						{
+							// b1 - Two balls
+							Property: {
+								Difficulty: 2,
+								Effect: [E.GagLight],
+								ExpressionTrigger: [
+									{ Name: "Open", Group: "Mouth", Timer: 15 },
+									{ Name: "Low", Group: "Blush", Timer: 15 },
+									{ Name: "DrollLow", Group: "Fluid", Timer: 15},
+								],
+							},
+						},
+						{
+							// b2 - Three balls
+							Property: {
+								Difficulty: 3,
+								Effect: [E.GagNormal],
+								ExpressionTrigger: [
+									{ Name: "Open", Group: "Mouth", Timer: 15 },
+									{ Name: "Low", Group: "Blush", Timer: 15 },
+									{ Name: "DrollSides", Group: "Fluid", Timer: 15},
+								],
+							},
+						},
+						{}, // b3 - Empty mouth
+					],
+				},
+				{
+					Name: "UnderTape",
+					Key: "t",
+					Options: [
+						{}, // t0 - No tape
+						{
+							// t1 - Foam tape
+							Property: {
+								Difficulty: 3,
+								Effect: [E.GagLight],
+								ExpressionTrigger: [
+									{ Name: "Frown", Group: "Mouth", Timer: 15 },
+									{ Name: "Low", Group: "Blush", Timer: 15 },
+									{ Name: "DrollSides", Group: "Fluid", Timer: 15},
+								],
+							},
+						},
+					],
+				},
+				{
+					Name: "RubberGlue",
+					Key: "g",
+					Options: [
+						{}, // g0 - No rubber glue
+						{
+							// g1 - Rubber glue
+							Property: {
+								Difficulty: 4,
+								Effect: [E.GagNormal],
+								ExpressionTrigger: [
+									{ Name: "Frown", Group: "Mouth", Timer: 15 },
+									{ Name: "Medium", Group: "Blush", Timer: 15 },
+									{ Name: "DrollTearsLow", Group: "Fluid", Timer: 15},
+								],
+							},
+						},
+					],
+				},
+				{
+					Name: "RubberTape",
+					Key: "r",
+					Options: [
+						{}, // r0 - No rubber tape
+						{
+							// r1 - Rubber tape
+							Property: {
+								Difficulty: 5,
+								Effect: [E.GagNormal],
+								ExpressionTrigger: [
+									{ Name: "Frown", Group: "Mouth", Timer: 15 },
+									{ Name: "High", Group: "Blush", Timer: 15 },
+									{ Name: "DrollTearsLow", Group: "Fluid", Timer: 15},
+								],
+							},
+						},
+					],
+				},
+				{
+					Name: "MetalStrip",
+					Key: "s",
+					Options: [
+						{}, // s0 - No metal strip
+						{
+							// s1 - metal strip
+							Property: {
+								Difficulty: 7,
+								Effect: [E.GagHeavy],
+								ExpressionTrigger: [
+									{ Name: "Frown", Group: "Mouth", Timer: 15 },
+									{ Name: "VeryHigh", Group: "Blush", Timer: 15 },
+									{ Name: "DrollTearsMedium", Group: "Fluid", Timer: 15},
+								],
+							},
+						},
+					],
+				},
+				{
+					Name: "FoamTape",
+					Key: "m",
+					Options: [
+						{}, // m0 - No tape
+						{
+							// m1 - Gagged
+							Property: {
+								Difficulty: 10,
+								Effect: [E.GagHeavy],
+								ExpressionTrigger: [
+									{ Name: "VeryHigh", Group: "Blush", Timer: 15 },
+									{ Name: "DrollTearsMedium", Group: "Fluid", Timer: 15},
+								],
+							},
+						},
+						{
+							// m2 - Gagged and blinded
+							Property: {
+								Difficulty: 12,
+								Effect: [E.GagHeavy, E.BlindNormal],
+								AllowActivityOn: ["ItemHead"],
+								ExpressionTrigger: [
+									{ Name: "VeryHigh", Group: "Blush", Timer: 15 },
+									{ Name: "DrollTearsMedium", Group: "Fluid", Timer: 15},
+								],
+							},
+						},
+						{
+							// m3 - Gagged and hooded
+							Property: {
+								Difficulty: 12,
+								Effect: [E.GagHeavy],
+								Hide: ["HairFront", "HairBack", "Mask"],
+								Attribute: ["ShortHair"],
+								ExpressionTrigger: [
+									{ Name: "VeryHigh", Group: "Blush", Timer: 15 },
+									{ Name: "DrollTearsMedium", Group: "Fluid", Timer: 15},
+								],
+							},
+						},
+						{
+							// m4 - Full wrapped
+							Property: {
+								Difficulty: 15,
+								Effect: [E.GagTotal, E.BlindHeavy],
+								AllowActivityOn: ["ItemHead"],
+								Hide: ["HairFront", "HairBack", "Mask"],
+								Attribute: ["ShortHair"],
+								ExpressionTrigger: [
+									{ Name: "VeryHigh", Group: "Blush", Timer: 15 },
+									{ Name: "DrollTearsMedium", Group: "Fluid", Timer: 15},
+								],
+							},
+						},
+					],
+				},
+			],
+		}, // CompGag
 	}, // ItemMouth
 	ItemMouth2: {
 		ClothGag: {
@@ -15287,6 +15612,10 @@ var AssetFemale3DCGExtended = {
 			Archetype: ExtendedArchetype.TYPED,
 			CopyConfig: { GroupName: "ItemMouth", AssetName: "AsylumMuzzle" },
 		}, // AsylumMuzzle
+		CompGag: {
+			Archetype: ExtendedArchetype.MODULAR,
+			CopyConfig: { GroupName: "ItemMouth", AssetName: "CompGag" },
+		}, // CompGag
 	}, // ItemMouth2
 	ItemMouth3: {
 		ClothGag: {
@@ -17379,6 +17708,35 @@ var AssetFemale3DCGExtended = {
 				Chat: "ItemHandheldPlushiesSet",
 			},
 		}, //Plushies
+		FoamRoll: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "Roll",
+					Difficulty: -50,
+					AllowSelfSelect: false,
+					Property: { AllowActivity: ["RubItem"] },
+				},
+				{
+					Name: "Mittens",
+					Property: {
+						Priority: 33,
+						Difficulty: 4,
+						SelfBondageLevel: 3,
+						Time: 15,
+						RemoveTime: 15,
+						AllowLock: false,
+						AllowThighen: true,
+						DynamicGroupName: "ItemHands",
+						SetPose: ["TapedHands"],
+						Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
+						HideItem: ["ItemHandsFuturisticMittens"],
+						ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
+					},
+				},
+			],
+		}, // FoamRoll
 	}, // ItemMisc
 	ItemPelvis: {
 		FuturisticChastityBelt: {
