@@ -621,7 +621,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "JacketHoodie",
-				InventoryID: 1259,
+				InventoryID: 1271,
 				Value: 30,
 				Priority: 32,
 				Extended: true,
@@ -7140,7 +7140,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "GymShorts",
-				InventoryID: 1263,
+				InventoryID: 1267,
 				Value: 20,
 				Hide: ["Pussy"],
 				StyleOverride: ["EchoV2"],
@@ -7343,7 +7343,7 @@ var AssetFemale3DCG = [
 			},
 			{
                 Name: "RuffledMiniskirt",
-                InventoryID: 1262,
+                InventoryID: 1270,
                 Value: 20,
                 Left: {
                     [PoseType.DEFAULT]: 120,
@@ -7988,7 +7988,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SportSwimsuit",
-				InventoryID: 1261,
+				InventoryID: 1265,
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
 				Top: 202.5,
@@ -8478,7 +8478,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SportBra",
-				InventoryID: 1262,
+				InventoryID: 1266,
 				Gender: "F",
 				DefaultColor: ["#414141", "#cecfcf", "#cf0001", "#444444"],
 				Prerequisite: ["HasBreasts"],
@@ -10126,7 +10126,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "SportPanties",
-				InventoryID: 1260,
+				InventoryID: 1268,
 				Gender: "F",
 				StyleOverride: ["EchoV2"],
 				Prerequisite: ["HasVagina"],
@@ -14993,7 +14993,7 @@ var AssetFemale3DCG = [
 			},
 			{
 				Name: "Gat",
-				InventoryID: 1260,
+				InventoryID: 1269,
 				Value: 10,
 				DefaultColor: ["#202020","#202020"],
 				Layer: [
