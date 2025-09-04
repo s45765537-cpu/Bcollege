@@ -8483,7 +8483,7 @@ var AssetFemale3DCG = [
 				DefaultColor: ["#414141", "#cecfcf", "#cf0001", "#444444"],
 				Prerequisite: ["HasBreasts"],
 				StyleOverride: ["EchoV2"],
-				Fetish: ["Lingerie"/*,"Spandex" defined in the Sport Swimsuit MR*/],
+				Fetish: ["Lingerie", "Spandex"],
 				Value: 20,
 				Hide: ["ItemNipples"],
 				Top: {
