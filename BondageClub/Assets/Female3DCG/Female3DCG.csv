@@ -889,12 +889,14 @@ ItemBoots,MetalBallet,Metal Ballet Heels
 ItemBoots,MonoHeel,Monoheel
 ItemBoots,PonyBoots,Pony Boots
 ItemBoots,ShortPonyBoots,Short Pony Boots
+ItemBoots,SingleBalletBoot,Single Ballet Boot
 ItemBoots,Slime,Slime
 ItemBoots,ThighHighLatexHeels,Latex Heels
 ItemBoots,ToeCuffs,Metal Toe Cuffs
 ItemBoots,ToeTape,Toe Tape
 ItemBoots,ToeTie,Toe Tie
 ItemBoots,TormentHeels,Torment Heels
+ItemBoots,ZipperBBoots,Zipper Ballet Boots
 ItemBoots,Zipties,Zip Ties
 ItemBoots,StrictPonyBoots,Strict Pony Boots
 ItemBreast,,Breasts
@@ -1074,6 +1076,7 @@ ItemHandheld,ElectricToothbrush,Electric Toothbrush
 ItemHandheld,Feather,Feather
 ItemHandheld,FeatherDuster,Feather Duster
 ItemHandheld,Flogger,Flogger
+ItemHandheld,FoamRoll,Foam Roll
 ItemHandheld,ForSaleSign,For Sale Sign
 ItemHandheld,Gavel,Gavel
 ItemHandheld,GlassEmpty,Empty Glass
@@ -1129,6 +1132,7 @@ ItemHands,,Hands
 ItemHands,CheerleaderPomPoms,Pom Pom Mitts
 ItemHands,DuctTape,Duct Tape
 ItemHands,ElbowLengthMittens,Long Leather Paw Mittens
+ItemHands,FoamMittens,Foam Tape Mittens
 ItemHands,FuturisticMittens,Futuristic Mittens
 ItemHands,FullMittens,Full Mittens
 ItemHands,GlueMittens,Glue Mittens
@@ -1321,6 +1325,7 @@ ItemMouth,ChopstickGag,Chopstick Gag
 ItemMouth,Cigarette,Cigarette
 ItemMouth,ClothGag,Cloth Gag
 ItemMouth,ClothStuffing,Cloth Stuffing
+ItemMouth,CompGag,Composite Gag
 ItemMouth,CropGag,Crop
 ItemMouth,CupholderGag,Cup Holder Gag
 ItemMouth,DeepthroatGag,Deepthroat Penis Gag

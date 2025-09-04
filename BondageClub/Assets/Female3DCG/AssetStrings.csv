@@ -8092,3 +8092,216 @@ ClothAccessoryRuffledCollarChoker,Choker added
 NecklaceRuffledCollarSelect,Choker addon option:
 NecklaceRuffledCollarNone,No choker
 NecklaceRuffledCollarChoker,Choker added
+ItemMouthCompGagSelectBase,Customize this gagging process following these steps:
+ItemMouthCompGagModuleFoamBall,Foam balls
+ItemMouthCompGagSelectFoamBall,How much foam balls going inside the mouth? 
+ItemMouthCompGagOptionb0,Just a single ball
+ItemMouthCompGagOptionb1,Two foam balls
+ItemMouthCompGagOptionb2,Three foam balls
+ItemMouthCompGagOptionb3,Mouth empty
+ItemMouthCompGagModuleUnderTape,Primary foam tape
+ItemMouthCompGagSelectUnderTape,Use a piece of foam tape over the mouth?
+ItemMouthCompGagOptiont0,Not apply it
+ItemMouthCompGagOptiont1,Apply it!
+ItemMouthCompGagModuleRubberGlue,Additional glue
+ItemMouthCompGagSelectRubberGlue,Apply a glue for improve gag adherence?
+ItemMouthCompGagOptiong0,It's unnecessary
+ItemMouthCompGagOptiong1,Sure!
+ItemMouthCompGagModuleRubberTape,Rubber tape
+ItemMouthCompGagSelectRubberTape,Do you want to reinforce it with thick rubber tape's piece?
+ItemMouthCompGagOptionr0,Maybe not
+ItemMouthCompGagOptionr1,Placed!
+ItemMouthCompGagModuleMetalStrip,Metal strip harness
+ItemMouthCompGagSelectMetalStrip,Do you want to install a metal strip muzzle and bolts?
+ItemMouthCompGagOptions0,Skip it
+ItemMouthCompGagOptions1,Done!
+ItemMouthCompGagModuleFoamTape,Foam tape face cover
+ItemMouthCompGagSelectFoamTape,How would you like cover all these gags?
+ItemMouthCompGagOptionm0,That's enough
+ItemMouthCompGagOptionm1,Cover mouth and neck
+ItemMouthCompGagOptionm2,Partially hooded but hair
+ItemMouthCompGagOptionm3,Partially hooded but eyes
+ItemMouthCompGagOptionm4,Completely hooded
+ItemMouthCompGagSetb0,SourceCharacter puts a foam ball in DestinationCharacter mouth.
+ItemMouthCompGagSetb1,SourceCharacter puts two foam balls in DestinationCharacter mouth.
+ItemMouthCompGagSetb2,SourceCharacter fills the DestinationCharacter mouth with three foam balls.
+ItemMouthCompGagSetb3,SourceCharacter remove all foam balls from DestinationCharacter mouth.
+ItemMouthCompGagSett0,SourceCharacter removes the primary foam tape layer from DestinationCharacter mouth.
+ItemMouthCompGagSett1,SourceCharacter wraps the DestinationCharacter mouth with a foam tape primary layer.
+ItemMouthCompGagSetg0,SourceCharacter clears the glue from DestinationCharacter face.
+ItemMouthCompGagSetg1,SourceCharacter improves the gag adherence applying some glue on DestinationCharacter face.
+ItemMouthCompGagSetr0,SourceCharacter takes it easy and remove the rubber tape from DestinationCharacter mouth.
+ItemMouthCompGagSetr1,SourceCharacter improves this gag installing a thick rubber tape on DestinationCharacter mouth.
+ItemMouthCompGagSets0,SourceCharacter frees the DestinationCharacter mouth from metal strip.
+ItemMouthCompGagSets1,SourceCharacter locks all previous gags on DestinationCharacter mouth with a metal strip and bolts.
+ItemMouthCompGagSetm0,SourceCharacter unwraps all foam tape last layer from DestinationCharacter face.
+ItemMouthCompGagSetm1,SourceCharacter wraps the DestinationCharacter neck and face with foam tape.
+ItemMouthCompGagSetm2,SourceCharacter wraps the DestinationCharacter neck face and eyes with foam tape.
+ItemMouthCompGagSetm3,SourceCharacter hoods the DestinationCharacter head but TargetPronounPossessive eyes with foam tape.
+ItemMouthCompGagSetm4,SourceCharacter hoods completely the DestinationCharacter head with foam tape.
+ItemMouth2CompGagSelectBase,Customize this gagging process following these steps:
+ItemMouth2CompGagModuleFoamBall,Foam balls
+ItemMouth2CompGagSelectFoamBall,How much foam balls going inside the mouth? 
+ItemMouth2CompGagOptionb0,Just a single ball
+ItemMouth2CompGagOptionb1,Two foam balls
+ItemMouth2CompGagOptionb2,Three foam balls
+ItemMouth2CompGagOptionb3,Mouth empty
+ItemMouth2CompGagModuleUnderTape,Primary foam tape
+ItemMouth2CompGagSelectUnderTape,Use a piece of foam tape over the mouth?
+ItemMouth2CompGagOptiont0,Not apply it
+ItemMouth2CompGagOptiont1,Apply it!
+ItemMouth2CompGagModuleRubberGlue,Additional glue
+ItemMouth2CompGagSelectRubberGlue,Apply a glue for improve gag adherence?
+ItemMouth2CompGagOptiong0,It's unnecessary
+ItemMouth2CompGagOptiong1,Sure!
+ItemMouth2CompGagModuleRubberTape,Rubber tape
+ItemMouth2CompGagSelectRubberTape,Do you want to reinforce it with thick rubber tape's piece?
+ItemMouth2CompGagOptionr0,Maybe not
+ItemMouth2CompGagOptionr1,Placed!
+ItemMouth2CompGagModuleMetalStrip,Metal strip harness
+ItemMouth2CompGagSelectMetalStrip,Do you want to install a metal strip muzzle and bolts?
+ItemMouth2CompGagOptions0,Skip it
+ItemMouth2CompGagOptions1,Done!
+ItemMouth2CompGagModuleFoamTape,Foam tape face cover
+ItemMouth2CompGagSelectFoamTape,How would you like cover all these gags?
+ItemMouth2CompGagOptionm0,That's enough
+ItemMouth2CompGagOptionm1,Cover mouth and neck
+ItemMouth2CompGagOptionm2,Partially hooded but hair
+ItemMouth2CompGagOptionm3,Partially hooded but eyes
+ItemMouth2CompGagOptionm4,Completely hooded
+ItemMouth2CompGagSetb0,SourceCharacter puts a foam ball in DestinationCharacter mouth.
+ItemMouth2CompGagSetb1,SourceCharacter puts two foam balls in DestinationCharacter mouth.
+ItemMouth2CompGagSetb2,SourceCharacter fills the DestinationCharacter mouth with three foam balls.
+ItemMouth2CompGagSetb3,SourceCharacter remove all foam balls from DestinationCharacter mouth.
+ItemMouth2CompGagSett0,SourceCharacter removes the primary foam tape layer from DestinationCharacter mouth.
+ItemMouth2CompGagSett1,SourceCharacter wraps the DestinationCharacter mouth with a foam tape primary layer.
+ItemMouth2CompGagSetg0,SourceCharacter clears the glue from DestinationCharacter face.
+ItemMouth2CompGagSetg1,SourceCharacter improves the gag adherence applying some glue on DestinationCharacter face.
+ItemMouth2CompGagSetr0,SourceCharacter takes it easy and remove the rubber tape from DestinationCharacter mouth.
+ItemMouth2CompGagSetr1,SourceCharacter improves this gag installing a thick rubber tape on DestinationCharacter mouth.
+ItemMouth2CompGagSets0,SourceCharacter frees the DestinationCharacter mouth from metal strip.
+ItemMouth2CompGagSets1,SourceCharacter locks all previous gags on DestinationCharacter mouth with a metal strip and bolts.
+ItemMouth2CompGagSetm0,SourceCharacter unwraps all foam tape last layer from DestinationCharacter face.
+ItemMouth2CompGagSetm1,SourceCharacter wraps the DestinationCharacter neck and face with foam tape.
+ItemMouth2CompGagSetm2,SourceCharacter wraps the DestinationCharacter neck face and eyes with foam tape.
+ItemMouth2CompGagSetm3,SourceCharacter hoods the DestinationCharacter head but TargetPronounPossessive eyes with foam tape.
+ItemMouth2CompGagSetm4,SourceCharacter hoods completely the DestinationCharacter head with foam tape.
+ShoesZipperBBootsSelect,Choose your Zipper Ballet Boots length:
+ShoesZipperBBootsNormal,Under knee
+ShoesZipperBBootsFullLeg,Full leg length
+ItemBootsZipperBBootsSelect,Choose the Zipper Ballet Boots length:
+ItemBootsZipperBBootsNormal,Under knee
+ItemBootsZipperBBootsFullLeg,Full leg length
+ItemBootsZipperBBootsSetNormal,SourceCharacter wears a under knee Zipper Ballet Boots on the DestinationCharacter feet.
+ItemBootsZipperBBootsSetFullLeg,SourceCharacter wears a full leg Zipper Ballet Boots on the DestinationCharacter feet.
+ItemBootsSingleBalletBootSelectBase,Single Ballet Boot main menu
+ItemBootsSingleBalletBootModuleMode,Restraint mode
+ItemBootsSingleBalletBootSelectMode,Restraint level options:
+ItemBootsSingleBalletBootOptionm0,Normal restraint
+ItemBootsSingleBalletBootOptionm1,Can't stand up
+ItemBootsSingleBalletBootOptionm2,Training hops
+ItemBootsSingleBalletBootModuleThighs,Boot lenght
+ItemBootsSingleBalletBootSelectThighs,Boot lenght options:
+ItemBootsSingleBalletBootOptiont0,Under knee
+ItemBootsSingleBalletBootOptiont1,Full boot
+ItemBootsSingleBalletBootModuleLowerBelts,Lower belts
+ItemBootsSingleBalletBootSelectLowerBelts,Lower belts reinforcement options:
+ItemBootsSingleBalletBootOptione0,None
+ItemBootsSingleBalletBootOptione1,Apply them
+ItemBootsSingleBalletBootModuleThighBelts,Thigh belts
+ItemBootsSingleBalletBootSelectThighBelts,Thigh belts reinforcement options:
+ItemBootsSingleBalletBootOptionb0,None
+ItemBootsSingleBalletBootOptionb1,Apply them
+ItemBootsSingleBalletBootModuleFoamTape,Foam tape cover
+ItemBootsSingleBalletBootSelectFoamTape,Foam tape cover options:
+ItemBootsSingleBalletBootOptionf0,None
+ItemBootsSingleBalletBootOptionf1,Wrap until under knee
+ItemBootsSingleBalletBootOptionf2,Wrap full leg
+ItemBootsSingleBalletBootModulePillory,Metal pillories
+ItemBootsSingleBalletBootSelectPillory,Metal pillories options:
+ItemBootsSingleBalletBootOptionp0,None
+ItemBootsSingleBalletBootOptionp1,Install pillories
+ItemBootsSingleBalletBootModuleVibration,Vibrating Module
+ItemBootsSingleBalletBootSelectVibration,Vibrating device selector:
+ItemBootsSingleBalletBootOptionv0,Disabled
+ItemBootsSingleBalletBootOptionv1,Light
+ItemBootsSingleBalletBootOptionv2,Medium
+ItemBootsSingleBalletBootOptionv3,Intense
+ItemBootsSingleBalletBootOptionv4,Full on
+ItemBootsSingleBalletBootSetm0,SourceCharacter adjustes DestinationCharacter toes into Single Ballet Boot just to stand on TargetPronounPossessive own.
+ItemBootsSingleBalletBootSetm1,SourceCharacter adjustes DestinationCharacter toes into Single Ballet Boot restraining any attempt by TargetPronounPossessive to get up.
+ItemBootsSingleBalletBootSetm2,SourceCharacter adjustes DestinationCharacter toes into Single Ballet Boot for some hop training.
+ItemBootsSingleBalletBootSett0,SourceCharacter puts a Single Ballet Boot's standard version on DestinationCharacter legs.
+ItemBootsSingleBalletBootSett1,SourceCharacter puts a Single Ballet Boot's full leg variation on DestinationCharacter legs.
+ItemBootsSingleBalletBootSete0,SourceCharacter unties belts from DestinationCharacter ankles and legs.
+ItemBootsSingleBalletBootSete1,SourceCharacter ties DestinationCharacter ankles and legs using some belts.
+ItemBootsSingleBalletBootSetb0,SourceCharacter unties belts from DestinationCharacter thighs.
+ItemBootsSingleBalletBootSetb1,SourceCharacter ties the DestinationCharacter thighs using some belts.
+ItemBootsSingleBalletBootSetf0,SourceCharacter unwraps any foam tape from DestinationCharacter legs.
+ItemBootsSingleBalletBootSetf1,SourceCharacter wraps DestinationCharacter up to the knees using foam tape.
+ItemBootsSingleBalletBootSetf2,SourceCharacter wraps DestinationCharacter legs completely using foam tape.
+ItemBootsSingleBalletBootSetp0,SourceCharacter removes all metal pillory from DestinationCharacter legs.
+ItemBootsSingleBalletBootSetp1,SourceCharacter installs metal pillories on DestinationCharacter legs.
+ItemBootsSingleBalletBootSetv0,SourceCharacter turns off the vibration device from DestinationCharacter boot.
+ItemBootsSingleBalletBootSetv1,SourceCharacter sets the DestinationCharacter boot vibration device to lowest speed.
+ItemBootsSingleBalletBootSetv2,SourceCharacter sets the DestinationCharacter boot vibration device to average speed.
+ItemBootsSingleBalletBootSetv3,SourceCharacter sets the DestinationCharacter boot vibration device to high speed.
+ItemBootsSingleBalletBootSetv4,SourceCharacter sets the DestinationCharacter boot vibration device to max speed.
+ItemDevicesSingleBalletBootSelectBase,Single Ballet Boot main menu
+ItemDevicesSingleBalletBootModuleMode,Restraint mode
+ItemDevicesSingleBalletBootSelectMode,Restraint level options:
+ItemDevicesSingleBalletBootOptionm0,Normal restraint
+ItemDevicesSingleBalletBootOptionm1,Can't stand up
+ItemDevicesSingleBalletBootOptionm2,Training hops
+ItemDevicesSingleBalletBootModuleThighs,Boot lenght
+ItemDevicesSingleBalletBootSelectThighs,Boot lenght options:
+ItemDevicesSingleBalletBootOptiont0,Under knee
+ItemDevicesSingleBalletBootOptiont1,Full boot
+ItemDevicesSingleBalletBootModuleLowerBelts,Lower belts
+ItemDevicesSingleBalletBootSelectLowerBelts,Lower belts reinforcement options:
+ItemDevicesSingleBalletBootOptione0,None
+ItemDevicesSingleBalletBootOptione1,Apply them
+ItemDevicesSingleBalletBootModuleThighBelts,Thigh belts
+ItemDevicesSingleBalletBootSelectThighBelts,Thigh belts reinforcement options:
+ItemDevicesSingleBalletBootOptionb0,None
+ItemDevicesSingleBalletBootOptionb1,Apply them
+ItemDevicesSingleBalletBootModuleFoamTape,Foam tape cover
+ItemDevicesSingleBalletBootSelectFoamTape,Foam tape cover options:
+ItemDevicesSingleBalletBootOptionf0,None
+ItemDevicesSingleBalletBootOptionf1,Wrap until under knee
+ItemDevicesSingleBalletBootOptionf2,Wrap full leg
+ItemDevicesSingleBalletBootModulePillory,Metal pillories
+ItemDevicesSingleBalletBootSelectPillory,Metal pillories options:
+ItemDevicesSingleBalletBootOptionp0,None
+ItemDevicesSingleBalletBootOptionp1,Install pillories
+ItemDevicesSingleBalletBootModuleVibration,Vibrating Module
+ItemDevicesSingleBalletBootSelectVibration,Vibrating device selector:
+ItemDevicesSingleBalletBootOptionv0,Disabled
+ItemDevicesSingleBalletBootOptionv1,Light
+ItemDevicesSingleBalletBootOptionv2,Medium
+ItemDevicesSingleBalletBootOptionv3,Intense
+ItemDevicesSingleBalletBootOptionv4,Full on
+ItemDevicesSingleBalletBootSetm0,SourceCharacter adjustes DestinationCharacter toes into Single Ballet Boot just to stand on TargetPronounPossessive own.
+ItemDevicesSingleBalletBootSetm1,SourceCharacter adjustes DestinationCharacter toes into Single Ballet Boot restraining any attempt by TargetPronounPossessive to get up.
+ItemDevicesSingleBalletBootSetm2,SourceCharacter adjustes DestinationCharacter toes into Single Ballet Boot for some hop training.
+ItemDevicesSingleBalletBootSett0,SourceCharacter puts a Single Ballet Boot's standard version on DestinationCharacter legs.
+ItemDevicesSingleBalletBootSett1,SourceCharacter puts a Single Ballet Boot's full leg variation on DestinationCharacter legs.
+ItemDevicesSingleBalletBootSete0,SourceCharacter unties belts from DestinationCharacter ankles and legs.
+ItemDevicesSingleBalletBootSete1,SourceCharacter ties DestinationCharacter ankles and legs using some belts.
+ItemDevicesSingleBalletBootSetb0,SourceCharacter unties belts from DestinationCharacter thighs.
+ItemDevicesSingleBalletBootSetb1,SourceCharacter ties the DestinationCharacter thighs using some belts.
+ItemDevicesSingleBalletBootSetf0,SourceCharacter unwraps any foam tape from DestinationCharacter legs.
+ItemDevicesSingleBalletBootSetf1,SourceCharacter wraps DestinationCharacter up to the knees using foam tape.
+ItemDevicesSingleBalletBootSetf2,SourceCharacter wraps DestinationCharacter legs completely using foam tape.
+ItemDevicesSingleBalletBootSetp0,SourceCharacter removes all metal pillory from DestinationCharacter legs.
+ItemDevicesSingleBalletBootSetp1,SourceCharacter installs metal pillories on DestinationCharacter legs.
+ItemDevicesSingleBalletBootSetv0,SourceCharacter turns off the vibration device from DestinationCharacter boot.
+ItemDevicesSingleBalletBootSetv1,SourceCharacter sets the DestinationCharacter boot vibration device to lowest speed.
+ItemDevicesSingleBalletBootSetv2,SourceCharacter sets the DestinationCharacter boot vibration device to average speed.
+ItemDevicesSingleBalletBootSetv3,SourceCharacter sets the DestinationCharacter boot vibration device to high speed.
+ItemDevicesSingleBalletBootSetv4,SourceCharacter sets the DestinationCharacter boot vibration device to max speed.
+ItemHandheldFoamRollSelect,Just a single foam roll to hold but...
+ItemHandheldFoamRollRoll,Keep it as a roll
+ItemHandheldFoamRollMittens,Try it!
+ItemHandheldFoamRollSetRoll,SourceCharacter unwraps the foam tape from TargetPronounPossessive hands and returns this roll to DestinationCharacter to hold.
+ItemHandheldFoamRollSetMittens,SourceCharacter uses this foam roll to wrap DestinationCharacter hands.
