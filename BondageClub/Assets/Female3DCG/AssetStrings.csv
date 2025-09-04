@@ -857,6 +857,15 @@ ClothHoodieSetHood,SourceCharacter adjusts the hood of DestinationCharacter hood
 ClothHoodieSetHood,SourceCharacter adjusts the length of DestinationCharacter hoodie.
 ClothHoodieSetp0,SourceCharacter takes DestinationCharacter hands out of the hoodie's pouch.
 ClothHoodieSetp1,SourceCharacter puts DestinationCharacter hands into the hoodie's pouch.
+ClothOuterJacketHoodieModuleHood,Hood
+ClothOuterJacketHoodieModuleSleeve,Sleeve
+ClothOuterJacketHoodieOptionh0,Hood Down
+ClothOuterJacketHoodieOptionh1,Hood Up
+ClothOuterJacketHoodieOptions0,Sleeved
+ClothOuterJacketHoodieOptions1,Sleeveless
+ClothOuterJacketHoodieSelectBase,Select Jacket Hoodie Options
+ClothOuterJacketHoodieSelectHood,Select Hood Position
+ClothOuterJacketHoodieSelectSleeve,Adjust Sleeves
 ClothJacketHooded,Hooded
 ClothJacketHoodedEarsOut,Hooded (ears visible)
 ClothJacketNormal,None

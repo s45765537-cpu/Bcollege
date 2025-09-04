@@ -620,6 +620,114 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
+				Name: "JacketHoodie",
+				InventoryID: 1259,
+				Value: 30,
+				Priority: 32,
+				Extended: true,
+				PoseMapping: {
+                    TapedHands: PoseType.DEFAULT,
+                },
+				Expose: [
+					"ItemVulva",
+					"ItemVulvaPiercings",
+					"ItemButt",
+					"ItemNipples",
+					"ItemNipplesPiercings",
+					"ItemBreast",
+					"ItemTorso",
+					"ItemTorso2",
+				],
+				Layer: [
+					// --- Base Jacket ---
+					{ Name: "Main", Priority: 31 }, // Always visible
+					// --- Sleeves ---
+					{ Name: "Sleeveless", AllowTypes: { s: 1 }, CopyLayerColor: "Sleeves", Priority: 32 },
+					{ Name: "Sleeves", AllowTypes: { s: 0 }, Priority: 32 },
+					{ Name: "Wrist", AllowTypes: { s: 0 }, Priority: 32 },
+					// --- Hood Down ---
+					{ Name: "HoodDownBack",  AllowTypes: { h: 0 }, Priority: 4 },
+					{ Name: "HoodDownMid",   AllowTypes: { h: 0 }, Priority: 32, CopyLayerColor: "HoodDownBack" },
+					{ Name: "HoodDownFront", AllowTypes: { h: 0 }, Priority: 33, CopyLayerColor: "HoodDownBack" },
+					// --- Hood Up ---
+					{
+						Name: "HoodUpBack",
+						AllowTypes: { h: 1 },
+						Priority: 4,
+						CopyLayerColor: "HoodDownBack",
+						Alpha: [
+							{
+								Group: [
+									"ItemHood",
+									"ItemHead",
+									"ItemMouth",
+									"ItemMouth2",
+									"ItemMouth3",
+									"Hat",
+									"HairFront",
+									"HairBack",
+									"HairAccessory1",
+									"HairAccessory2",
+									"HairAccessory3",
+									"Mask",
+								],
+								Masks: [
+									[0, 0, 185, 500],
+									[315, 0, 232, 500],
+									[0, 250, 500, 1000],
+									[0, 90, 500, -500],
+									[183, 238, 14, 12],
+									[303, 238, 14, 12],
+									[185, 90, 130, 7],
+									[185, 221, 21, 29],
+									[294, 221, 21, 29],
+								],
+							},
+						],
+						HideForAttribute: ["HoodieFix"],
+					},
+					{
+						Name: "HoodUpMid",
+						AllowTypes: { h: 1 },
+						Priority: 32,
+						CopyLayerColor: "HoodDownBack",
+						HideForAttribute: ["HoodieFix"],
+					},
+					{
+						Name: "HoodUpFront",
+						AllowTypes: { h: 1 },
+						Priority: 57,
+						CopyLayerColor: "HoodDownBack",
+						HideForAttribute: ["HoodieFix"],
+					},
+					// --- Extras ---
+					{ Name: "Zipper", Priority: 32 },
+					{ Name: "Pocket", Priority: 31 },
+					{ Name: "Hips", Priority: 32 },
+				],
+				DefaultColor: [
+					"#8a8b8b",// Main
+					"#5a5b5a",// Sleeve
+					"#5a5b5a",// Wrist
+					"#8a8b8b",// Hood
+					"#eceded",// Zipper
+					"#5a5b5a",// Pocket
+					"#5a5b5a"// Hips
+				],
+				HideItem: [
+					"ItemArmsLeatherCuffs",
+					"ItemArmsLeatherDeluxeCuffs",
+					"ItemArmsFuturisticCuffs",
+					"ItemArmsOrnateCuffs",
+					"ItemArmsHighStyleSteelCuffs",
+					"ItemNipplesPiercingsRoundPiercing",
+					"ItemNipplesPiercingsNecklacePiercingChain",
+					"ItemNipplesLactationPump",
+					"ClothAccessoryPoncho",
+				],
+				InheritPoseMappingFields: true,
+			},
+			{
 				Name: "BusinessSuit",
 				DynamicGroupName: "Cloth",
 				CopyConfig: {
