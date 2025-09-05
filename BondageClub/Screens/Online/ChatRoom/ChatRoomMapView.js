@@ -194,22 +194,22 @@ const ChatRoomMapViewObjectList = [
 		TransparencyCutoutHeight: 0.96
 	},
 	{
-        ID: 740,
-        Type: "FloorDecorationExpanding",
-        Style: "VikingTablePreview",
-        BuildImageName: function(X, Y) {
-            let LeftObject = ChatRoomMapViewGetObjectAtPos(X - 1, Y);
-            let RightObject = ChatRoomMapViewGetObjectAtPos(X + 1, Y);
-            if ((LeftObject != null) && (LeftObject.ID == this.ID) && ((RightObject != null) && (RightObject.ID == this.ID))) return "VikingTableMiddle";
-            if ((LeftObject != null) && (LeftObject.ID == this.ID)) return "VikingTableRight";
-            if ((RightObject != null) && (RightObject.ID == this.ID)) return "VikingTableLeft";
-            return "VikingTableSmall";
-        },
-        Top: -0.25,
-        Height: 1.25,
-        Transparency: 1,
-        TransparencyCutoutHeight: 0.96
-    },
+		ID: 740,
+		Type: "FloorDecorationExpanding",
+		Style: "VikingTablePreview",
+		BuildImageName: function(X, Y) {
+			let LeftObject = ChatRoomMapViewGetObjectAtPos(X - 1, Y);
+			let RightObject = ChatRoomMapViewGetObjectAtPos(X + 1, Y);
+			if ((LeftObject != null) && (LeftObject.ID == this.ID) && ((RightObject != null) && (RightObject.ID == this.ID))) return "VikingTableMiddle";
+			if ((LeftObject != null) && (LeftObject.ID == this.ID)) return "VikingTableRight";
+			if ((RightObject != null) && (RightObject.ID == this.ID)) return "VikingTableLeft";
+			return "VikingTableSmall";
+		},
+		Top: -0.25,
+		Height: 1.25,
+		Transparency: 1,
+		TransparencyCutoutHeight: 0.96
+	},
 	{ ID: 800, Type: "FloorDecorationAnimal", Style: "Blank" },
 	{
 		ID: 810,
@@ -1653,9 +1653,9 @@ function ChatRoomMapViewDrawUi() {
 				Y = 10 + 70 * (count % 13);
 				X = 10 + 70 * Math.floor(count / 13);
 				DrawButton(X, Y, 60, 60, "", "White", "Screens/Online/ChatRoom/MapTile/Type/" + Type + ".png");
-				count ++; 
+				count ++;
 			}
-			
+
 	}
 
 	// In tile edit mode, we show all tiles of a spectific tyle
@@ -1673,9 +1673,9 @@ function ChatRoomMapViewDrawUi() {
 				count++;
 				if (Tile.ID == ChatRoomMapViewEditObject.ID) DrawRect(X + 2, Y + 2, 56, 56, "#00FF00");
 				DrawImageResize("Screens/Online/ChatRoom/MapTile/" + Tile.Type + "/" + Tile.Style + ".png", X + 5, Y + 5, 50, 50);
-			}		
+			}
 		}
-			
+
 	}
 
 	// In object type selection mode, the user can select an object type (floor decoration, floor obstacle, wall decoration, etc.)
@@ -1695,7 +1695,7 @@ function ChatRoomMapViewDrawUi() {
 				count++;
 			}
 		}
-			
+
 	}
 
 	// In object edit mode, we show all objects of a spectific tyle
@@ -1720,7 +1720,7 @@ function ChatRoomMapViewDrawUi() {
 /**
  * Change the key of charachter - sender
  * @param {Character} target
- * @param {String []} keys
+ * @param {("gold" | "silver" | "bronze")[]} keys
  */
 function ChatRoomMapViewChangeKey(target, keys, boolean) {
 	if (!ChatRoomPlayerIsAdmin()) return;
@@ -1742,7 +1742,7 @@ function ChatRoomMapViewChangeKeyHiddenMessage(sender, data) {
 		if (!IsMapViewChangeKeyEventDictionaryEntry(entrie)) return;
 		const HasKey = `HasKey${entrie.Key.charAt(0).toUpperCase() + entrie.Key.slice(1)}`;
 		Player.MapData.PrivateState[HasKey] = entrie.Bool;
-	})
+	});
 }
 
 /**

@@ -793,7 +793,9 @@ interface MapViewTeleportEventDictionaryEntry {
  */
 interface MapViewChangeKeyEventDictionaryEntry {
 	Tag: "MapViewChangeKey";
-	Key: string;
+	/** The key to give or take. */
+	Key: "gold" | "silver" | "bronze";
+	/** Whether to give (true) or take the key (false) */
 	Bool: boolean;
 }
 

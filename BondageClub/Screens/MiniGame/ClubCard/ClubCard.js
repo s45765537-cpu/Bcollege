@@ -581,7 +581,7 @@ var ClubCardList = [
 				[ClubCardPlaceholderKeys.MONEYAMOUNT]: 1,
 				[ClubCardPlaceholderKeys.FAMEAMOUNT]: 1,
 				[ClubCardPlaceholderKeys.CARDNAME]: "Detective"
-			}
+			};
 			if (!hasLiability) {
 				ClubCardPlayerAddFame(CCPlayer, 1);
 				ClubCardMessageAdd(ClubCardMessageType.CARDEFFECT, "Effect Detective MoneyFame", placeHolder, CCPlayer);
@@ -640,7 +640,7 @@ var ClubCardList = [
 			ClubCardPlayerSteal(CCPlayer, 0, 2, true);
 		},
 		onSteal: function(CCPlayer) {
-			const opponent = ClubCardGetOpponent(CCPlayer);
+			const _opponent = ClubCardGetOpponent(CCPlayer);
 			ClubCardPlayerSteal(CCPlayer, 1, 1, true);
 		}
 	},
@@ -2018,7 +2018,7 @@ var ClubCardList = [
 		RequiredLevel: 3,
 		OnPlay: function(CCPlayer) {
 			ClubCardPlayerDrawGroupCard(CCPlayer, ["Owner"], undefined);
-            ClubCardPlayerAddMoney(CCPlayer, -6);
+			ClubCardPlayerAddMoney(CCPlayer, -6);
 		},
 		BeforeTurnEnd: function(CCPlayer) {
 			ClubCardPlayerAddFame(CCPlayer, Math.floor(ClubCardCalculateLevelForPets(CCPlayer) / 2));
@@ -4126,11 +4126,11 @@ function ClubCardNameCountOnBoard(CCPlayer, CardName, NegateCheck = false) {
 	let amount = 0;
 	if (NegateCheck) {
 		for (const Card of CCPlayer.Board) {
-			if (Card.Name === CardName && !Card.Negated) amount++
+			if (Card.Name === CardName && !Card.Negated) amount++;
 		}
 	} else {
 		for (const Card of CCPlayer.Board) {
-			if (Card.Name === CardName) amount++
+			if (Card.Name === CardName) amount++;
 		}
 	}
 	return amount;
@@ -6059,6 +6059,8 @@ function ClubCardRenderCard(Card, X, Y, W, Sleeve = null, Source = null, isIgnor
 	if (Card.FamePerTurn != null) BubblePos = ClubCardRenderBubble(Card.FamePerTurn, X + W * 0.05, BubblePos, W * WModifier, "Fame");
 	if (Card.MoneyPerTurn != null) BubblePos = ClubCardRenderBubble(Card.MoneyPerTurn, X + W * 0.05, BubblePos, W * WModifier, "Money");
 	if (Card.Negated) BubblePos = ClubCardRenderBubble(null, X + W * 0.05, BubblePos, W * WModifier, "Negated");
+	// eslint-disable-next-line no-unused-expressions
+	BubblePos;
 	if (Card.Text != null) {
 		DrawRect(X + W * 0.05, Y + W * 1.41, W * 0.9, W * 0.58, Color + "A0");
 		let GroupText = ClubCardGetGroupText(Card.Group);
