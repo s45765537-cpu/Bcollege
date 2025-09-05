@@ -190,7 +190,6 @@ async function LoginLoad() {
 	username.setAttribute("autocomplete", "username");
 	username.setAttribute("enterkeyhint", "next");
 	username.addEventListener("keydown", LoginEventListeners._KeyDownInputName);
-	username.focus();
 
 	const pass = ElementCreateInput(LoginIDs.password, "password", "", "20");
 	pass.setAttribute("autocomplete", "current-password");
@@ -320,6 +319,8 @@ async function LoginLoad() {
 	TextPrefetchFile(AssetStringsPath);
 	TextPrefetch("Room", "MainHall");
 	DrawGetImage("Backgrounds/MainHall.jpg");
+
+	username.focus();
 }
 
 /**
