@@ -1026,8 +1026,8 @@ function ServerClickBeep() {
  * Opens the friendlist from any screen
  * @deprecated Use {@link FriendListShow()};
  */
-function ServerOpenFriendList() {
-	FriendListShow();
+async function ServerOpenFriendList() {
+	await FriendListShow();
 }
 
 // TODO: `data: object` -> `data: ServerAccountOwnershipResponse`
