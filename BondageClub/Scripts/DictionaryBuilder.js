@@ -234,19 +234,19 @@ class DictionaryBuilder {
 	 * @returns
 	 */
 	mapViewTeleport(position) {
-		this._addEntry({ Tag:"MapViewTeleport", Position: position });
+		this._addEntry({ Tag: "MapViewTeleport", Position: position });
 		return this;
 	}
 
 	/**
 	 * Adds a changeKey dictionary entry
-	 * @param {string[]} keys
+	 * @param {("gold" | "silver" | "bronze")[]} keys
 	 * @returns
 	 */
-	mapViewChangeKey(keys, boolean){
-		keys.map((key) => {
-			this._addEntry({ Tag:"MapViewChangeKey", Key: key, Bool: boolean});
-		});
+	mapViewChangeKey(keys, giveKey) {
+		for (const key of keys) {
+			this._addEntry({ Tag: "MapViewChangeKey", Key: key, Bool: giveKey });
+		}
 		return this;
 	}
 

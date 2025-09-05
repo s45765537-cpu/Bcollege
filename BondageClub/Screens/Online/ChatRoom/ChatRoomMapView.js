@@ -1720,7 +1720,7 @@ function ChatRoomMapViewDrawUi() {
 /**
  * Change the key of charachter - sender
  * @param {Character} target
- * @param {string[]} keys
+ * @param {("gold" | "silver" | "bronze")[]} keys
  */
 function ChatRoomMapViewChangeKey(target, keys, boolean) {
 	if (!ChatRoomPlayerIsAdmin()) return;

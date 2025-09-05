@@ -935,18 +935,23 @@ const CommonCommands = [
 			if (!ChatRoomMapViewIsActive()) return ChatRoomSendLocal("Only accessible in map mode.");
 			const parsed = args.split(" ");
 
-			if (parsed.length > 4) return ChatRoomSendLocal("Too many arguments. Please use '/mapgivekey [target] [bronze] [silver] [gold]', depending on wich ones you want to give to the player.");
-			if (parsed.length < 2) return ChatRoomSendLocal("Not enough arguments. Please use '/mapgivekey [target] [bronze] [silver] [gold]', depending on wich ones you want to give to the player.");
+			if (parsed.length > 4) return ChatRoomSendLocal("Too many arguments. Please use '/mapgivekey [target] [bronze] [silver] [gold]', depending on which ones you want to give to the player.");
+			if (parsed.length < 2) return ChatRoomSendLocal("Not enough arguments. Please use '/mapgivekey [target] [bronze] [silver] [gold]', depending on which ones you want to give to the player.");
 
 			const target = ChatRoomGetCharacter(parsed[0]);
 			if (!target) return ChatRoomSendLocal("Player not found!");
 			parsed.splice(0, 1);
 
-			parsed.map((element) => {
-				if (element !== "bronze" && element !== "silver" && element !== "gold") return ChatRoomSendLocal(element + " is not an existing key. Possible keys are: 'bronze', 'silver' or 'gold'.");
-			});
+			/** @type {("gold" | "silver" | "bronze")[]} */
+			const keys = [];
+			for (const arg of parsed) {
+				if (arg !== "gold" && arg !== "silver" && arg !== "bronze") {
+					return ChatRoomSendLocal(arg + " is not an existing key. Possible keys are: 'bronze', 'silver' or 'gold'.");
+				}
+				keys.push(arg);
+			}
 
-			return ChatRoomMapViewChangeKey(target, parsed, true);
+			return ChatRoomMapViewChangeKey(target, keys, true);
 		}
 	},
 	{
@@ -956,18 +961,23 @@ const CommonCommands = [
 			if (!ChatRoomMapViewIsActive()) return ChatRoomSendLocal("Only accessible in map mode.");
 			const parsed = args.split(" ");
 
-			if (parsed.length > 4) return ChatRoomSendLocal("Too many arguments. Please use '/maptakekey [target] [bronze] [silver] [gold]', depending on wich ones you want to take from the player.");
-			if (parsed.length < 2) return ChatRoomSendLocal("Not enough arguments. Please use '/maptakekey [target] [bronze] [silver] [gold]', depending on wich ones you want to give take from the player.");
+			if (parsed.length > 4) return ChatRoomSendLocal("Too many arguments. Please use '/maptakekey [target] [bronze] [silver] [gold]', depending on which ones you want to take from the player.");
+			if (parsed.length < 2) return ChatRoomSendLocal("Not enough arguments. Please use '/maptakekey [target] [bronze] [silver] [gold]', depending on which ones you want to give take from the player.");
 
 			const target = ChatRoomGetCharacter(parsed[0]);
 			if (!target) return ChatRoomSendLocal("Player not found!");
 			parsed.splice(0, 1);
 
-			parsed.map((element) => {
-				if (element !== "bronze" && element !== "silver" && element !== "gold") return ChatRoomSendLocal(element + " is not an existing key. Possible keys are: 'bronze', 'silver' or 'gold'.");
-			});
+			/** @type {("gold" | "silver" | "bronze")[]} */
+			const keys = [];
+			for (const arg of parsed) {
+				if (arg !== "gold" && arg !== "silver" && arg !== "bronze") {
+					return ChatRoomSendLocal(arg + " is not an existing key. Possible keys are: 'bronze', 'silver' or 'gold'.");
+				}
+				keys.push(arg);
+			}
 
-			return ChatRoomMapViewChangeKey(target, parsed, false);
+			return ChatRoomMapViewChangeKey(target, keys, false);
 		}
 	}
 ];
