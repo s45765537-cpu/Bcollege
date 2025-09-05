@@ -3700,7 +3700,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "BusinessSuit",
 				InventoryID: 163,
-				StyleOverride: ["EchoV2"],
 				Value: 30,
 				HideItem: [
 					"ItemArmsLeatherCuffs",
@@ -14997,10 +14996,10 @@ var AssetFemale3DCG = [
 				Value: 10,
 				DefaultColor: ["#202020","#202020"],
 				Layer: [
-					{ 
-						Name: "Top", 
+					{
+						Name: "Top",
 						Left: 0,
-						Top: -10, 
+						Top: -10,
 					},
 					{
 						Name: "Beads",
@@ -62801,7 +62800,7 @@ var AssetFemale3DCG = [
 				AllowTighten: true,
 				Audio: "Buckle",
 				Extended: true,
-				ParentGroup: "BodyLower", 
+				ParentGroup: "BodyLower",
 				SetPose: ["LegsClosed"],
 				AllowActivePose: ["Kneel","Hogtied"],
 				Block: ["ItemBoots"],
