@@ -3953,7 +3953,7 @@ function ChatRoomMessageProcessHidden(data, SenderCharacter) {
 	} else if (data.Content == "ChatRoomMapViewTeleport") {
 		ChatRoomMapViewTeleportHiddenMessage(SenderCharacter, data);
 	} else if (data.Content == "ChatRoomMapViewChangeKey") {
-		ChatRoomMapViewChangeKeyHiddenMessage(SenderCharacter, data)
+		ChatRoomMapViewChangeKeyHiddenMessage(SenderCharacter, data);
 	}
 	return true;
 }

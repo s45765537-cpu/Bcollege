@@ -366,7 +366,6 @@ var AssetFemale3DCGExtended = {
 					Options: [
 						{}, //h0 - Hood Up
 						{}, //h1 - Hood Down
-
 					],
 				},
 				{
@@ -11392,12 +11391,7 @@ var AssetFemale3DCGExtended = {
 				{
 					Name: "LastBrick",
 					Property: {
-						Effect: [
-							E.DeafHeavy,
-							E.BlindTotal,
-							E.GagMedium,
-							E.Block,
-						],
+						Effect: [E.DeafHeavy, E.BlindTotal, E.GagMedium, E.Block],
 						Block: [
 							"ItemHood",
 							"ItemHead",
@@ -12142,19 +12136,19 @@ var AssetFemale3DCGExtended = {
 						{
 							// m0 - Stand up restraint mode
 							Property: {
-								Effect: [E.BlockWardrobe,E.Freeze],
+								Effect: [E.BlockWardrobe, E.Freeze],
 							},
 						},
 						{
 							// m1 - Kneel restraint mode
 							Property: {
-								Effect: [E.BlockWardrobe,E.Freeze],
+								Effect: [E.BlockWardrobe, E.Freeze],
 								SetPose: ["Kneel"],
 							},
 						},
 						{
 							// m2 - Training hops
-							Property: { Effect: [E.BlockWardrobe,E.Slow] },
+							Property: { Effect: [E.BlockWardrobe, E.Slow] },
 						},
 					],
 				},
@@ -12209,11 +12203,11 @@ var AssetFemale3DCGExtended = {
 							Property: {},
 						},
 						{
-							// f1 - Under knee 
+							// f1 - Under knee
 							Property: { Difficulty: 5 },
 						},
 						{
-							// f2 - Full leg 
+							// f2 - Full leg
 							Property: { Difficulty: 7 },
 						},
 					],
@@ -15289,7 +15283,7 @@ var AssetFemale3DCGExtended = {
 								ExpressionTrigger: [
 									{ Name: "Open", Group: "Mouth", Timer: 15 },
 									{ Name: "Low", Group: "Blush", Timer: 15 },
-									{ Name: "DrollLow", Group: "Fluid", Timer: 15},
+									{ Name: "DrollLow", Group: "Fluid", Timer: 15 },
 								],
 							},
 						},
@@ -15301,7 +15295,7 @@ var AssetFemale3DCGExtended = {
 								ExpressionTrigger: [
 									{ Name: "Open", Group: "Mouth", Timer: 15 },
 									{ Name: "Low", Group: "Blush", Timer: 15 },
-									{ Name: "DrollLow", Group: "Fluid", Timer: 15},
+									{ Name: "DrollLow", Group: "Fluid", Timer: 15 },
 								],
 							},
 						},
@@ -15313,7 +15307,7 @@ var AssetFemale3DCGExtended = {
 								ExpressionTrigger: [
 									{ Name: "Open", Group: "Mouth", Timer: 15 },
 									{ Name: "Low", Group: "Blush", Timer: 15 },
-									{ Name: "DrollSides", Group: "Fluid", Timer: 15},
+									{ Name: "DrollSides", Group: "Fluid", Timer: 15 },
 								],
 							},
 						},
@@ -15333,7 +15327,7 @@ var AssetFemale3DCGExtended = {
 								ExpressionTrigger: [
 									{ Name: "Frown", Group: "Mouth", Timer: 15 },
 									{ Name: "Low", Group: "Blush", Timer: 15 },
-									{ Name: "DrollSides", Group: "Fluid", Timer: 15},
+									{ Name: "DrollSides", Group: "Fluid", Timer: 15 },
 								],
 							},
 						},
@@ -15352,7 +15346,7 @@ var AssetFemale3DCGExtended = {
 								ExpressionTrigger: [
 									{ Name: "Frown", Group: "Mouth", Timer: 15 },
 									{ Name: "Medium", Group: "Blush", Timer: 15 },
-									{ Name: "DrollTearsLow", Group: "Fluid", Timer: 15},
+									{ Name: "DrollTearsLow", Group: "Fluid", Timer: 15 },
 								],
 							},
 						},
@@ -15371,7 +15365,7 @@ var AssetFemale3DCGExtended = {
 								ExpressionTrigger: [
 									{ Name: "Frown", Group: "Mouth", Timer: 15 },
 									{ Name: "High", Group: "Blush", Timer: 15 },
-									{ Name: "DrollTearsLow", Group: "Fluid", Timer: 15},
+									{ Name: "DrollTearsLow", Group: "Fluid", Timer: 15 },
 								],
 							},
 						},
@@ -15390,7 +15384,7 @@ var AssetFemale3DCGExtended = {
 								ExpressionTrigger: [
 									{ Name: "Frown", Group: "Mouth", Timer: 15 },
 									{ Name: "VeryHigh", Group: "Blush", Timer: 15 },
-									{ Name: "DrollTearsMedium", Group: "Fluid", Timer: 15},
+									{ Name: "DrollTearsMedium", Group: "Fluid", Timer: 15 },
 								],
 							},
 						},
@@ -15408,7 +15402,7 @@ var AssetFemale3DCGExtended = {
 								Effect: [E.GagHeavy],
 								ExpressionTrigger: [
 									{ Name: "VeryHigh", Group: "Blush", Timer: 15 },
-									{ Name: "DrollTearsMedium", Group: "Fluid", Timer: 15},
+									{ Name: "DrollTearsMedium", Group: "Fluid", Timer: 15 },
 								],
 							},
 						},
@@ -15420,7 +15414,7 @@ var AssetFemale3DCGExtended = {
 								AllowActivityOn: ["ItemHead"],
 								ExpressionTrigger: [
 									{ Name: "VeryHigh", Group: "Blush", Timer: 15 },
-									{ Name: "DrollTearsMedium", Group: "Fluid", Timer: 15},
+									{ Name: "DrollTearsMedium", Group: "Fluid", Timer: 15 },
 								],
 							},
 						},
@@ -15433,7 +15427,7 @@ var AssetFemale3DCGExtended = {
 								Attribute: ["ShortHair"],
 								ExpressionTrigger: [
 									{ Name: "VeryHigh", Group: "Blush", Timer: 15 },
-									{ Name: "DrollTearsMedium", Group: "Fluid", Timer: 15},
+									{ Name: "DrollTearsMedium", Group: "Fluid", Timer: 15 },
 								],
 							},
 						},
@@ -15447,7 +15441,7 @@ var AssetFemale3DCGExtended = {
 								Attribute: ["ShortHair"],
 								ExpressionTrigger: [
 									{ Name: "VeryHigh", Group: "Blush", Timer: 15 },
-									{ Name: "DrollTearsMedium", Group: "Fluid", Timer: 15},
+									{ Name: "DrollTearsMedium", Group: "Fluid", Timer: 15 },
 								],
 							},
 						},
@@ -19377,8 +19371,8 @@ var AssetFemale3DCGExtended = {
 							// p0 - Under gloves
 							Property: {
 								OverridePriority: {
-									"RBand": 26,
-									"LBand": 26,
+									RBand: 26,
+									LBand: 26,
 								},
 							},
 						},
@@ -19386,8 +19380,8 @@ var AssetFemale3DCGExtended = {
 							// p1 - Over gloves
 							Property: {
 								OverridePriority: {
-									"RBand": 32,
-									"LBand": 32,
+									RBand: 32,
+									LBand: 32,
 								},
 							},
 						},

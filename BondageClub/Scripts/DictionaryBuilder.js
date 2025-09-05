@@ -240,13 +240,13 @@ class DictionaryBuilder {
 
 	/**
 	 * Adds a changeKey dictionary entry
-	 * @param {String []} keys
+	 * @param {string[]} keys
 	 * @returns
 	 */
 	mapViewChangeKey(keys, boolean){
 		keys.map((key) => {
-			this._addEntry({ Tag:"MapViewChangeKey", Key: key, Bool: boolean})
-		})
+			this._addEntry({ Tag:"MapViewChangeKey", Key: key, Bool: boolean});
+		});
 		return this;
 	}
 
