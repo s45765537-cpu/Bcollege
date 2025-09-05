@@ -304,7 +304,7 @@ Body Chain Necklace
 Ожерелье с цепочками
 Butterfly Necklace
 Ожерелье с бабочкой
-Upper Suit
+Suit (Upper)
 Верхний костюм
 Catsuit
 Кэтсьют 
@@ -426,7 +426,7 @@ Business Skirt
 Деловая юбка
 Business Trousers
 Деловые брюки
-Suit Lower
+Suit (Lower)
 Нижний костюм
 Catsuit Panties
 трусики от кэтсьюта 

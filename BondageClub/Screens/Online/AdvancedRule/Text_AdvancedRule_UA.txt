@@ -72,12 +72,12 @@ Cloth Accessory
 Cloth Accessory
 Necklace
 Necklace
-Upper Suit
-Upper Suit
+Suit (Upper)
+Suit (Upper)
 Bottom
 Bottom
-Lower Suit
-Lower Suit
+Suit (Lower)
+Suit (Lower)
 Bra
 Bra
 Corset

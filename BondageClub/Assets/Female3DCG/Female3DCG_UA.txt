@@ -2750,7 +2750,7 @@ Loose Socks
 Вільні шкарпетки
 Right Leg
 Права нога
-Upper Suit
+Suit (Upper)
 Верхній костюм
 Catsuit
 Комбінезон
@@ -2770,7 +2770,7 @@ See-through Zipsuit
 Прозорий костюм на блискавці
  Sleeveless Catsuit
 Комбінезон без рукавів
-Suit Lower
+Suit (Lower)
 Нижній костюм
  Catsuit Panties
 Трусики від комбінезону

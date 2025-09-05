@@ -72,11 +72,11 @@ Cloth Accessory
 服装配饰
 Necklace
 项链
-Upper Suit
+Suit (Upper)
 上身套装
 Bottom
 下装
-Lower Suit
+Suit (Lower)
 下身套装
 Bra
 胸罩

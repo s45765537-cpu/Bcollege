@@ -35,9 +35,9 @@ BlockScreen7,Arcade
 BlockAppearanceA,Cloth
 BlockAppearanceB,Cloth Accessory
 BlockAppearanceC,Necklace
-BlockAppearanceD,Upper Suit
+BlockAppearanceD,Suit (Upper)
 BlockAppearanceE,Bottom
-BlockAppearanceF,Lower Suit
+BlockAppearanceF,Suit (Lower)
 BlockAppearanceG,Bra
 BlockAppearanceH,Corset
 BlockAppearanceI,Panties
