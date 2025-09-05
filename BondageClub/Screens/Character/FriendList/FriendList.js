@@ -387,7 +387,8 @@ function FriendListBeep(MemberNumber, data = null) {
 	}
 	const FriendListBeepElement = document.getElementById(FriendListIDs.beepList);
 	const beepTitle = data === null ? 'Send Beep' : data.Sent ? 'Sent Beep' : 'Received Beep';
-	const userCaption = `${Player.FriendNames.get(MemberNumber)} [${MemberNumber}]`;
+	const userName = Player.FriendNames.get(MemberNumber) ?? data?.MemberName;
+	const userCaption = `${userName} [${MemberNumber}]`;
 	const beepDialog = ElementCreate({
 		tag: 'div',
 		attributes: {
@@ -515,7 +516,7 @@ function FriendListBeepMenuSend() {
 /**
  * Opens the friendlist from any screen
  */
-function FriendListShow() {
+async function FriendListShow() {
 	if (CurrentScreen === 'FriendList') return;
 	DialogLeave({ reload: false });
 	ElementToggleGeneratedElements(CurrentScreen, false);
@@ -525,18 +526,18 @@ function FriendListShow() {
 		IsInChatRoom: ServerPlayerIsInChatRoom(),
 		hasScrolledChat: ServerPlayerIsInChatRoom() && ElementIsScrolledToEnd("TextAreaChatLog")
 	};
-	CommonSetScreen("Character", "FriendList");
+	await CommonSetScreen("Character", "FriendList");
 }
 
 /**
  * Shows the wanted beep on click from beep list
  * @param {number} i index of the beep
  */
-function FriendListShowBeep(i) {
+async function FriendListShowBeep(i) {
 	const beep = FriendListBeepLog[i];
 	if (!beep) return;
 	FriendListModeIndex = 1;
-	FriendListShow();
+	await FriendListShow();
 	FriendListBeep(beep.MemberNumber, beep);
 }
 //#endregion
