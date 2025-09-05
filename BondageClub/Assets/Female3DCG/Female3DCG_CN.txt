@@ -3088,7 +3088,7 @@ Loose Socks
 堆堆袜
 Right Leg
 右腿
-Upper Suit
+Suit (Upper)
 套装(上身)
 Female Bartender Vest
 女性酒保马甲
@@ -3114,7 +3114,7 @@ See-through Zipsuit
 无袖紧身衣
 Shiny Latex Leotard
 闪亮乳胶紧身衣
-Suit Lower
+Suit (Lower)
 套装(下身)
  Catsuit Panties
 紧身衣内裤

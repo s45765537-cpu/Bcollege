@@ -610,7 +610,7 @@ ID Card
 Carte d'identification
 Black Heart
 Coeur noir
-Upper Suit
+Suit (Upper)
 Habit supérieure
 Catsuit
 Catsuit
@@ -662,7 +662,7 @@ Long Leggings
 Leggings long
 Pleated Skirt
 Jupe plissée
-Suit Lower
+Suit (Lower)
 Habit inférieur
 Floral Corset
 Corset fleuri

@@ -70,11 +70,11 @@ Cloth Accessory
 Аксессуар для верха
 Necklace
 Для шеи
-Upper Suit
+Suit (Upper)
 Верхний костюм
 Bottom
 Низ
-Lower Suit
+Suit (Lower)
 Нижний костюм
 Bra
 Бюстгальтер
