@@ -7904,6 +7904,9 @@ var AssetFemale3DCG = [
 				Prerequisite: ["HasBreasts"],
 				Value: 10,
 				Hide: ["ItemNipples"],
+				PoseMapping: {
+					AllFours: "AllFours",
+				},
 			},
 			{
 				Name: "Bandeau1",
