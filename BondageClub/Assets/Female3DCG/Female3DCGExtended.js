@@ -487,6 +487,7 @@ var AssetFemale3DCGExtended = {
 						{}, // t21 - Shibari
 						{}, // t22 - BullsEye
 						{}, // t23 - Keys?
+						{}, // t24 - BTeacher
 					],
 				},
 			],
