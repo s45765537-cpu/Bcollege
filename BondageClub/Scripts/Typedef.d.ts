@@ -1446,7 +1446,7 @@ type ActivityNameBasic = "Bite" | "Brush" | "Caress" | "Choke" | "Clean" | "Cudd
 	"SistersHug" | "BrothersHandshake" | "SiblingsCheekKiss" | "CollarGrab"
 ;
 
-type ActivityNameItem = "Inject" | "MasturbateItem" | "PenetrateItem" | "PourItem" | "RollItem" | "RubItem" | "BrushItem" | "ShockItem" | "SipItem" | "SpankItem" | "TickleItem" | "EatItem" | "Scratch" | "ThrowItem";
+type ActivityNameItem = "Inject" | "MasturbateItem" | "PenetrateItem" | "PourItem" | "RollItem" | "RubItem" | "BrushItem" | "ShockItem" | "SipItem" | "SpankItem" | "SqueezeItem" | "TickleItem" | "EatItem" | "Scratch" | "ThrowItem";
 
 type ActivityName = ActivityNameBasic | ActivityNameItem;
 
