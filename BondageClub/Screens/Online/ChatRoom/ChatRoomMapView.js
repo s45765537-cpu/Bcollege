@@ -48,7 +48,12 @@ var ChatRoomMapViewVisibilityMask = [];
 var ChatRoomMapViewAudibilityMask = [];
 var ChatRoomMapViewTileFog = "";
 var ChatRoomMapViewObjectFog = "";
-
+var ChatRoomMapViewKeysPressed = {
+	u: false,
+	d: false,
+	l: false,
+	r: false,
+};
 /** @type {ChatRoomMapTile[]} */
 const ChatRoomMapViewTileList = [
 	{ ID: 100, Type: "Floor", Style: "OakWood" },
@@ -617,6 +622,16 @@ function ChatRoomMapViewRun(time) {
 	ChatRoomMapViewUpdateRoomSync();
 	ChatRoomMapViewUpdatePlayerSync();
 	ChatRoomMapViewUpdateLastMapDataSync();
+
+	if (ChatRoomMapViewKeysPressed.u) {
+		ChatRoomMapViewMove("North");
+	} else if (ChatRoomMapViewKeysPressed.d) {
+		ChatRoomMapViewMove("South");
+	} else if (ChatRoomMapViewKeysPressed.l) {
+		ChatRoomMapViewMove("West");
+	} else if (ChatRoomMapViewKeysPressed.r) {
+		ChatRoomMapViewMove("East");
+	}
 }
 
 /**
@@ -1894,19 +1909,29 @@ function ChatRoomMapViewKeyDown(event) {
 			}
 			return false;
 	}
+	const move = CommonKeyMove(event);
+	if (!move) return false;
+	ChatRoomMapViewKeysPressed = {d: move === 'd', l: move === 'l', r: move === 'r', u: move === 'u'};
+	return true;
+}
 
+/**
+ * Handles keyboard up keys in the chat room map screen
+ * @type {KeyboardEventListener}
+ */
+function ChatRoomMapViewKeyUp(event) {
 	switch (CommonKeyMove(event)) {
 		case "u":
-			ChatRoomMapViewMove("North");
+			ChatRoomMapViewKeysPressed.u = false;
 			return true;
 		case "l":
-			ChatRoomMapViewMove("West");
+			ChatRoomMapViewKeysPressed.l = false;
 			return true;
 		case "d":
-			ChatRoomMapViewMove("South");
+			ChatRoomMapViewKeysPressed.d = false;
 			return true;
 		case "r":
-			ChatRoomMapViewMove("East");
+			ChatRoomMapViewKeysPressed.r = false;
 			return true;
 		default:
 			return false;
