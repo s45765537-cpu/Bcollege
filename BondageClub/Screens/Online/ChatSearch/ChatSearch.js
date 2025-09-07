@@ -419,7 +419,7 @@ function ChatSearchLoad() {
 		},
 	});
 	searchInput.addEventListener("keyup", function(ev) {
-		this.hidden = this.value.length === 0;
+		clearButton.hidden = this.value.length === 0;
 		Player.ChatSearchSettings.Query = this.value;
 	});
 	ChatSearchSearchMenuButton = ElementButton.Create(
@@ -430,7 +430,6 @@ function ChatSearchLoad() {
 			const searchPanel = document.getElementById(this.getAttribute("aria-controls"));
 			img.src = `Icons/Carret${open ? "Down" : "Up"}.svg`;
 			searchPanel.hidden = !open;
-			console.log(open);
 		},
 		{
 			tooltip: TextGet("SearchMenuButton"),

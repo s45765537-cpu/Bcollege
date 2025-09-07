@@ -1,6 +1,6 @@
 No chat room found.  You can create a new one.
 沒有找到聊天室，你可以新建一個
-Search for a room by name:
+Search for a room:
 按照以下名稱搜索:
 Search for a room
 搜索房間
