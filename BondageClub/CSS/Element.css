@@ -1,0 +1,50 @@
+.element-input {
+    border: min(0.2vh, 0.1vw) solid black;
+}
+
+.element-settings-label-top {
+    display:block;
+    margin: 0.25em 0;
+    font-size: 0.75em;
+    white-space: nowrap;
+}
+
+.element-settings-label-left {
+    font-size: 0.75em;
+    display: inline;
+    white-space: nowrap;
+    margin: 0 0.25em 0 0;
+    align-content: center;
+}
+
+.element-button-group {
+    border: min(0.2vh, 0.1vw) solid black;
+    width: fit-content;
+    height: 1.5em;
+    height: fit-content;
+    display: flex;
+    padding: 0;
+}
+
+.element-button-group-button {
+    height: 1.5em;
+    aspect-ratio: 1;
+    background-color: #dadada;
+    border: transparent solid min(0.2vh, 0.1vw);
+}
+.element-button-group-button:disabled {
+    display: none;
+}
+.element-button-group-button[aria-checked="true"] {
+    background-color: white;
+    border-left: min(0.2vh, 0.1vw) solid black;
+    border-right: min(0.2vh, 0.1vw) solid black;
+}
+
+.element-button-group-button[aria-checked="true"]:last-child {
+    border-right: min(0.2vh, 0.1vw) solid transparent;
+}
+
+.element-button-group-button[aria-checked="true"]:first-child {
+    border-left: min(0.2vh, 0.1vw) solid transparent;
+}

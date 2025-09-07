@@ -655,6 +655,69 @@ function ElementToggleGeneratedElements(Screen, ShouldDisplay) {
 }
 
 /**
+ * Create a label for a given element
+ * @param {string} label
+ * @param {string} forElement
+ * @param {'left' | 'top'} position
+ */
+function ElementCreateSettingsLabel(label, forElement, position="top") {
+	return ElementCreate({
+		tag: "label",
+		classList:  [`element-settings-label-${position}`],
+		children: [
+			label,
+		],
+		attributes: {
+			for: forElement,
+		},
+	});
+}
+/**
+ * Create a group of radio buttons
+ * @param {string} id
+ * @param {string} defaultValue
+ * @param {(this: HTMLButtonElement, ev: MouseEvent | TouchEvent) => any} onclick
+ * @param {{
+ * htmlOptions?: Partial<Record<"button" | "tooltip" | "img" | "label", Omit<HTMLOptions<any>, "tag">>>,
+ * options?: ElementButton.Options,
+ * onClick?: (this: HTMLButtonElement, ev: MouseEvent | TouchEvent, key: string) => any
+ * }[]} options
+ */
+function ElementCreateRadioButtonGroup(id, onclick, defaultValue, options) {
+	return ElementCreate({
+		tag: "fieldset",
+		classList: ["element-button-group"],
+		attributes: {
+			"aria-required": "true",
+			role: "radiogroup",
+			id: id
+		},
+		children: options.map((entry) => ElementButton.Create(null, (ev) => {
+			if (onclick) {
+				onclick.call(this, ev, entry?.htmlOptions?.button?.attributes?.value);
+			}
+		}, {
+			noStyling: true,
+			tooltipPosition: "bottom",
+			...entry?.options,
+		}, {
+			...entry?.htmlOptions,
+			button: {
+				...entry?.htmlOptions?.button,
+				classList: ["element-button-group-button", ...entry?.htmlOptions?.button?.classList ? entry.htmlOptions.button.classList : []],
+				attributes: {
+					role: "radio",
+					value: entry?.htmlOptions?.button?.attributes?.value,
+					tabindex: entry?.htmlOptions?.button?.attributes?.value === defaultValue ? "0" : "-1",
+					"aria-checked": entry?.htmlOptions?.button?.attributes?.value === defaultValue ? "true" : "false",
+					...entry?.htmlOptions?.button?.attributes,
+				},
+			},
+		})),
+	});
+}
+
+/**
  * Namespace for creating (DOM-based) dropdown menus filled with checkboxes
  * @namespace
  */

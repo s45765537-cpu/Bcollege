@@ -936,9 +936,29 @@ function LoginSetupPlayer(C) {
 	ChatAdminDefaultLanguage = C.RoomCreateLanguage ?? "EN";
 	if (ChatAdminDefaultLanguage == null) ChatAdminDefaultLanguage = ChatAdminLanguageList[0];
 	if (ChatAdminLanguageList.indexOf(ChatAdminDefaultLanguage) < 0) ChatAdminDefaultLanguage = ChatAdminLanguageList[0];
-	ChatSearchLanguage = C.RoomSearchLanguage ?? "";
-	if (ChatSearchLanguage == null) ChatSearchLanguage = "";
-	if (ChatSearchLanguage && ChatAdminLanguageList.indexOf(ChatSearchLanguage) < 0) ChatSearchLanguage = "";
+
+	// Migrate SearchSettings
+	if (!C.ChatSearchSettings) {
+		C.ChatSearchSettings = {
+			Language: "",
+			Query: "",
+			Space: "",
+			Game: "",
+			FullRooms: true,
+			ShowLocked: true,
+			SearchDescriptions: false,
+			MapTypes: undefined,
+			RoomMinSize: 2,
+			RoomMaxSize: 20,
+		};
+		if (C.RoomSearchLanguage != null) {
+			C.ChatSearchSettings.Language = C.RoomSearchLanguage;
+			C.RoomSearchLanguage = undefined;
+			ServerAccountUpdate.QueueData({ RoomSearchLanguage: null });
+		}
+		ServerAccountUpdate.QueueData({ ChatSearchSettings: C.ChatSearchSettings });
+	}
+	Player.ChatSearchSettings = C.ChatSearchSettings;
 
 	// Load the last chat room
 	Player.LastMapData = C.LastMapData ?? undefined;
