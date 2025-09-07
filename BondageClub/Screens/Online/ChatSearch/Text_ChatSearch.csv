@@ -64,5 +64,41 @@ GameLARP,LARP
 GameMagicBattle,Magic Battle
 GameGGTS,GGTS
 GamePrison,Pandora
+GameAllRooms,All Games
 Language,All languages
 LanguageES,Spanish
+MapRooms,Map Rooms
+HybridRooms,Hybrid Rooms
+NormalRooms,Normal Rooms
+AllRooms,All Rooms
+AnyLobby,Any Lobby
+AnyLanguage,Any Language
+NoGame,No Game
+Search,Search
+SearchDescription,Search description:
+ShowLockedRooms,Show locked rooms:
+ShowFullRooms,Show full rooms:
+RoomType,Room Type:
+SearchMenuButton,Search Menu
+ShowRoomPage,Show Room Page
+JoinRoom,Join Room
+AdminAccess,Admin Only
+WhitelistAccess,Whitelist Only
+RoomUnavailable,Try to Join
+ABDLBlockDescription,ABDL items are not allowed in this room.
+FantasyBlockDescription,Fantasy items are not allowed in this room.
+PhotosBlockDescription,Photographs are not allowed in this room.
+ArousalBlockDescription,Arousal activities are not allowed in this room.
+SciFiBlockDescription,Sci-Fi items are not allowed in this room.
+LeashingBlockDescription,Player Leashing is not allowed in this room.
+SpaceDescription,Only female characters are allowed in this room.
+MSpaceDescription,Only male characters are allowed in this room.
+XSpaceDescription,Mixed gender characters are allowed in this room.
+LARPRoomGameDescription,LARP game is active in this room.
+MagicBattleRoomGameDescription,Magic Battle is active in this room.
+GGTSRoomGameDescription,GGTS is active in this room.
+PrisonRoomGameDescription,Pandora is active in this room.
+LanguageDescription,The main language of this room is %LANGUAGE%.
+AlwaysMapDescription,This room is always a map.
+HybridMapDescription,This room allows both maps and normal rooms.
+NeverMapDescription,This room is just a normal room.

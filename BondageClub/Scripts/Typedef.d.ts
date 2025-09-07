@@ -2287,6 +2287,7 @@ interface PlayerCharacter extends Character {
 	/** The list of items we got confiscated in the Prison */
 	ConfiscatedItems: { Group: AssetGroupName, Name: string }[];
 	ExtensionSettings: ExtensionSettings;
+	ChatSearchSettings: ChatRoomSearchSettings;
 }
 
 /** A type defining which genders a setting is active for */

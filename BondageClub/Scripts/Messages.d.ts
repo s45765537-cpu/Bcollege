@@ -77,7 +77,9 @@ interface ServerAccountData extends ServerAccountImmutableData {
 	SavedExpressions?: ({ Group: ExpressionGroupName, CurrentExpression?: ExpressionName }[] | null)[];
 	ConfiscatedItems?: { Group: AssetGroupName, Name: string }[];
 	RoomCreateLanguage?: ServerChatRoomLanguage;
+	/** @deprecated */
 	RoomSearchLanguage?: "" | ServerChatRoomLanguage;
+	ChatSearchSettings?: ChatRoomSearchSettings;
 	LastMapData?: null | ChatRoomMapData;
 	// Unfortunately can't @deprecated individual union members
 	/** String-based values have been deprecated and are superseded by {@link ServerChatRoomSettings} objects */
@@ -453,9 +455,21 @@ interface ServerChatRoomSearchRequest {
     FullRooms?: boolean;
     Ignore?: string[];
 	Language: "" | ServerChatRoomLanguage | ServerChatRoomLanguage[];
-    SearchDescs?: boolean;
+    SearchDescriptions?: boolean;
 	ShowLocked?: boolean;
     MapTypes?: string[];
+}
+type ChatRoomSearchSettings = {
+	Language: "" | ServerChatRoomLanguage;
+	Query: string;
+	Space: ServerChatRoomSpace;
+	Game: ServerChatRoomGame;
+	FullRooms: boolean;
+	ShowLocked: boolean;
+	SearchDescriptions: boolean;
+	MapTypes: string;
+	RoomMinSize: number;
+	RoomMaxSize: number;
 }
 
 interface ServerChatRoomSearchData {
