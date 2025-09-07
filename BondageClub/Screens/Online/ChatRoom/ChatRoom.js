@@ -174,6 +174,7 @@ var ChatRoomViews = {
 		MouseMove: ChatRoomMapViewMouseMove,
 		MouseWheel: ChatRoomMapViewMouseWheel,
 		KeyDown: ChatRoomMapViewKeyDown,
+		KeyUp: ChatRoomMapViewKeyUp,
 		SyncRoomProperties: ChatRoomMapViewSyncRoomProperties,
 		CanStartWhisper: ChatRoomMapViewCanStartWhisper,
 		CanLeave: ChatRoomMapViewCanLeave,
@@ -3089,6 +3090,17 @@ function ChatRoomKeyDown(event) {
 		}
 	}
 
+	return false;
+}
+
+/**
+ * Handles keyboard up event shortcuts in the chatroom screen.
+ * @type {KeyboardEventListener}
+ */
+function ChatRoomKeyUp(event) {
+	if (ChatRoomActiveView.KeyUp && ChatRoomActiveView.KeyUp(event)) {
+		return true;
+	}
 	return false;
 }
 

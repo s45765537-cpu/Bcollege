@@ -4919,7 +4919,7 @@ interface PreviewDrawOptions {
 
 // #region Chat Room Maps
 
-interface ChatRoomView extends Pick<ScreenFunctions, "Run" | "MouseDown" | "MouseUp" | "MouseMove" | "MouseWheel" | "Click" | "Draw" | "KeyDown"> {
+interface ChatRoomView extends Pick<ScreenFunctions, "Run" | "MouseDown" | "MouseUp" | "MouseMove" | "MouseWheel" | "Click" | "Draw" | "KeyDown" | "KeyUp"> {
 	Activate?: () => void;
 	Deactivate?: () => void;
 	Draw: () => void;
