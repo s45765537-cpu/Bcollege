@@ -43185,7 +43185,7 @@ var AssetFemale3DCG = [
 				],
 			},
 			{
-				Name: "Plushies",
+				Name: "Plushie",
 				Value: 0,
 				Priority: 44,
 				Left: 125,
@@ -43194,8 +43194,10 @@ var AssetFemale3DCG = [
 				IsRestraint: false,
 				AllowColorize: false,
 				Extended: true,
-				BuyGroup: "Plushies",
-				HideItem: ["ItemMiscPlushies"],
+				AllowActivity: ["SqueezeItem"],
+				ActivityAudio: ["Squeak"],
+				BuyGroup: "Plushie",
+				HideItem: ["ItemMiscPlushie"],
 				Layer: [
 					{
 						Name: "Sin",
@@ -43218,8 +43220,16 @@ var AssetFemale3DCG = [
 						AllowTypes: { DenOfSin: 5 },
 					},
 					{
+						Name: "Felix",
+						AllowTypes: { DenOfSin: 6 },
+					},
+					{
 						Name: "Gangriel",
 						AllowTypes: { Gangriels: 1 },
+					},
+					{
+						Name: "Mable",
+						AllowTypes: { Gangriels: 2 },
 					},
 					{
 						Name: "Celiko",
@@ -43270,6 +43280,14 @@ var AssetFemale3DCG = [
 						AllowTypes: { LatexLab: 9 },
 					},
 					{
+						Name: "Iris",
+						AllowTypes: { LatexLab: 10 },
+					},
+					{
+						Name: "Kelsey",
+						AllowTypes: { LatexLab: 11 },
+					},
+					{
 						Name: "Magdalena",
 						AllowTypes: { VoidOrder: 1 },
 					},
@@ -43288,6 +43306,26 @@ var AssetFemale3DCG = [
 					{
 						Name: "VoidPaladin",
 						AllowTypes: { VoidOrder: 5 },
+					},
+					{
+						Name: "Hazel",
+						AllowTypes: { VoidOrder: 6 },
+					},
+					{
+						Name: "Lisa2",
+						AllowTypes: { VoidOrder: 7 },
+					},
+					{
+						Name: "Robin",
+						AllowTypes: { VoidOrder: 8 },
+					},
+					{
+						Name: "Sneaki",
+						AllowTypes: { VoidOrder: 9 },
+					},
+					{
+						Name: "Mai",
+						AllowTypes: { VoidOrder: 10 },
 					},
 					{
 						Name: "Alunra",
@@ -43311,6 +43349,22 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Liesel",
+						AllowTypes: { EnsLivingRoom: 6 },
+					},
+					{
+						Name: "Skylar",
+						AllowTypes: { EnsLivingRoom: 7 },
+					},
+					{
+						Name: "Amy",
+						AllowTypes: { EnsLivingRoom: 8 },
+					},
+					{
+						Name: "Arelia",
+						AllowTypes: { EnsLivingRoom: 6 },
+					},
+					{
+						Name: "Dawn",
 						AllowTypes: { EnsLivingRoom: 6 },
 					},
 					{
@@ -43344,6 +43398,14 @@ var AssetFemale3DCG = [
 					{
 						Name: "Zoi",
 						AllowTypes: { Vagrants: 8 },
+					},
+					{
+						Name: "Takao",
+						AllowTypes: { Vagrants: 9 },
+					},
+					{
+						Name: "Carol",
+						AllowTypes: { Vagrants: 10 },
 					},
 				],
 			},
@@ -59165,11 +59227,12 @@ var AssetFemale3DCG = [
 				},
 			},
 			{
-				Name: "Plushies",
+				Name: "Plushie",
+			    PoseMapping: { ...AssetPoseMapping.ItemHandheld },
 				DynamicGroupName: "ItemHandheld",
 				CopyConfig: {
 					GroupName: "ItemHandheld",
-					AssetName: "Plushies",
+					AssetName: "Plushie",
 					BuyGroup: true,
 				},
 			},
@@ -66400,6 +66463,22 @@ var ActivityFemale3DCG = [
 			{ Group: "Blush", Name: "Low", Timer: 10 },
 			{ Group: "Eyebrows", Name: "Soft", Timer: 10 },
 			{ Group: "Mouth", Name: "LipBite", Timer: 10 },
+		],
+	},
+	{
+		Name: "SqueezeItem",
+		ActivityID: 61,
+		MaxProgress: 0,
+		Prerequisite: ["Needs-SqueezeItem", "UseHands"],
+		Target: [
+			"ItemArms",
+			"ItemBreast",
+			"ItemButt",
+			"ItemHandheld",
+		],
+		TargetSelf: true,
+		ActivityExpression: [
+			{ Group: "Mouth", Name: "Grin", Timer: 10 },
 		],
 	},
 	{

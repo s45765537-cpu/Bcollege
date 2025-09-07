@@ -49,6 +49,7 @@ var AudioList = [
 	{ Name: "RopeShort", File: ["RopeShort1", "RopeShort2", "RopeShort3", "RopeShort4", "RopeShort5"] },
 	{ Name: "Shocks", File: "Shocks" },
 	{ Name: "SmackCrop", File: ["SmackCrop1", "SmackCrop2", "SmackCrop3"] },
+	{ Name: "Squeak", File: "SqueakToy" },
 	{ Name: "Whip1", File: "SmackWhip1" },
 	{ Name: "Whip2", File: "SmackWhip2" },
 	{ Name: "Sybian", File: "Sybian" },
