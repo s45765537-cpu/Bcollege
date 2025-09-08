@@ -4838,13 +4838,13 @@ async function ChatRoomSync(data) {
 		// Instantly leave the chat room again
 		ChatRoomLeave();
 		await CommonSetScreen("Online", "ChatSearch");
-		ChatSearchMessage = "ErrorInvalidRoomProperties";
+		ChatSearchSendToast("InvalidRoomData");
 		return;
 	} else if (ChatRoomData) {
 		// We're somehow already in a room. Bail out in case our idea of the room we're in doesn't match what the server thinks
 		ChatRoomLeave();
 		await CommonSetScreen("Online", "ChatSearch");
-		ChatSearchMessage = "ResponseAlreadyInRoom";
+		ChatSearchSendToast("AlreadyInRoom");
 		return;
 	}
 
@@ -5002,7 +5002,7 @@ function ChatRoomSyncRoomProperties(data) {
 	if(ChatRoomValidateProperties(data) == false) // If the room data we received is invalid...
 	{
 		ChatRoomLeave();
-		ChatSearchMessage = "ErrorInvalidRoomProperties";
+		ChatSearchSendToast("InvalidRoomData");
 		CommonSetScreen("Online", "ChatSearch");
 		return;
 	}
