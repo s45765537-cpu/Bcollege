@@ -754,14 +754,14 @@ function AssetParseAllowTypes(allowTypes) {
 
 /**
  * Parse the passed {@link AssetDefinition.ParentGroup}.
- * @param {null | undefined | ParentGroup.Definition} parentGroup - The to-be parsed parent group value
+ * @param {AssetDefinition["ParentGroup"]} parentGroup - The to-be parsed parent group value
  * @param {ParentGroup.Data} superParentGroup - The parsed parent group value of the layer's/asset's super-asset/group
  * @returns {ParentGroup.Data} - The parsed parent group value
  */
 function AssetParseParentGroup(parentGroup, superParentGroup) {
 	if (parentGroup === undefined) {
 		return superParentGroup;
-	} else if (parentGroup === null) {
+	} else if (typeof parentGroup === "string" && parentGroup === "") {
 		return {};
 	} else if (typeof parentGroup === "string") {
 		return { [PoseType.DEFAULT]: parentGroup };
