@@ -15281,11 +15281,6 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								Difficulty: 1,
 								Effect: [E.GagEasy],
-								ExpressionTrigger: [
-									{ Name: "Open", Group: "Mouth", Timer: 15 },
-									{ Name: "Low", Group: "Blush", Timer: 15 },
-									{ Name: "DrollLow", Group: "Fluid", Timer: 15 },
-								],
 							},
 						},
 						{
@@ -15293,11 +15288,6 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								Difficulty: 2,
 								Effect: [E.GagLight],
-								ExpressionTrigger: [
-									{ Name: "Open", Group: "Mouth", Timer: 15 },
-									{ Name: "Low", Group: "Blush", Timer: 15 },
-									{ Name: "DrollLow", Group: "Fluid", Timer: 15 },
-								],
 							},
 						},
 						{
@@ -15305,11 +15295,6 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								Difficulty: 3,
 								Effect: [E.GagNormal],
-								ExpressionTrigger: [
-									{ Name: "Open", Group: "Mouth", Timer: 15 },
-									{ Name: "Low", Group: "Blush", Timer: 15 },
-									{ Name: "DrollSides", Group: "Fluid", Timer: 15 },
-								],
 							},
 						},
 						{}, // b3 - Empty mouth
@@ -15325,11 +15310,6 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								Difficulty: 3,
 								Effect: [E.GagLight],
-								ExpressionTrigger: [
-									{ Name: "Frown", Group: "Mouth", Timer: 15 },
-									{ Name: "Low", Group: "Blush", Timer: 15 },
-									{ Name: "DrollSides", Group: "Fluid", Timer: 15 },
-								],
 							},
 						},
 					],
@@ -15344,11 +15324,6 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								Difficulty: 4,
 								Effect: [E.GagNormal],
-								ExpressionTrigger: [
-									{ Name: "Frown", Group: "Mouth", Timer: 15 },
-									{ Name: "Medium", Group: "Blush", Timer: 15 },
-									{ Name: "DrollTearsLow", Group: "Fluid", Timer: 15 },
-								],
 							},
 						},
 					],
@@ -15363,11 +15338,6 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								Difficulty: 5,
 								Effect: [E.GagNormal],
-								ExpressionTrigger: [
-									{ Name: "Frown", Group: "Mouth", Timer: 15 },
-									{ Name: "High", Group: "Blush", Timer: 15 },
-									{ Name: "DrollTearsLow", Group: "Fluid", Timer: 15 },
-								],
 							},
 						},
 					],
@@ -15382,11 +15352,6 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								Difficulty: 7,
 								Effect: [E.GagHeavy],
-								ExpressionTrigger: [
-									{ Name: "Frown", Group: "Mouth", Timer: 15 },
-									{ Name: "VeryHigh", Group: "Blush", Timer: 15 },
-									{ Name: "DrollTearsMedium", Group: "Fluid", Timer: 15 },
-								],
 							},
 						},
 					],
@@ -15401,10 +15366,6 @@ var AssetFemale3DCGExtended = {
 							Property: {
 								Difficulty: 10,
 								Effect: [E.GagHeavy],
-								ExpressionTrigger: [
-									{ Name: "VeryHigh", Group: "Blush", Timer: 15 },
-									{ Name: "DrollTearsMedium", Group: "Fluid", Timer: 15 },
-								],
 							},
 						},
 						{
@@ -15413,10 +15374,6 @@ var AssetFemale3DCGExtended = {
 								Difficulty: 12,
 								Effect: [E.GagHeavy, E.BlindNormal],
 								AllowActivityOn: ["ItemHead"],
-								ExpressionTrigger: [
-									{ Name: "VeryHigh", Group: "Blush", Timer: 15 },
-									{ Name: "DrollTearsMedium", Group: "Fluid", Timer: 15 },
-								],
 							},
 						},
 						{
@@ -15426,10 +15383,6 @@ var AssetFemale3DCGExtended = {
 								Effect: [E.GagHeavy],
 								Hide: ["HairFront", "HairBack", "Mask"],
 								Attribute: ["ShortHair"],
-								ExpressionTrigger: [
-									{ Name: "VeryHigh", Group: "Blush", Timer: 15 },
-									{ Name: "DrollTearsMedium", Group: "Fluid", Timer: 15 },
-								],
 							},
 						},
 						{
@@ -15440,10 +15393,6 @@ var AssetFemale3DCGExtended = {
 								AllowActivityOn: ["ItemHead"],
 								Hide: ["HairFront", "HairBack", "Mask"],
 								Attribute: ["ShortHair"],
-								ExpressionTrigger: [
-									{ Name: "VeryHigh", Group: "Blush", Timer: 15 },
-									{ Name: "DrollTearsMedium", Group: "Fluid", Timer: 15 },
-								],
 							},
 						},
 					],
@@ -17729,35 +17678,6 @@ var AssetFemale3DCGExtended = {
 				Chat: "ItemHandheldPlushieSet",
 			},
 		}, //Plushie
-		FoamRoll: {
-			Archetype: ExtendedArchetype.TYPED,
-			DrawImages: false,
-			Options: [
-				{
-					Name: "Roll",
-					Difficulty: -50,
-					AllowSelfSelect: false,
-					Property: { AllowActivity: ["RubItem"] },
-				},
-				{
-					Name: "Mittens",
-					Property: {
-						Priority: 33,
-						Difficulty: 4,
-						SelfBondageLevel: 3,
-						Time: 15,
-						RemoveTime: 15,
-						AllowLock: false,
-						AllowThighen: true,
-						DynamicGroupName: "ItemHands",
-						SetPose: ["TapedHands"],
-						Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
-						HideItem: ["ItemHandsFuturisticMittens"],
-						ExpressionTrigger: [{ Name: "Soft", Group: "Eyebrows", Timer: 10 }],
-					},
-				},
-			],
-		}, // FoamRoll
 	}, // ItemMisc
 	ItemPelvis: {
 		FuturisticChastityBelt: {
@@ -21144,9 +21064,14 @@ var AssetFemale3DCGExtended = {
 							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png" },
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Sin.png" },
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Raven.png" },
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_CassandraLee.png" },
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_CassandraLee.png",
+							},
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Rika.png" },
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Roslin.png" },
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Roslin.png",
+							},
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Felix.png" },
 						],
 					},
@@ -21163,8 +21088,11 @@ var AssetFemale3DCGExtended = {
 					DrawData: {
 						elementData: [
 							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png" },
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Gangriel.png" },
-							{imagePath:	"Assets/Female3DCG/ItemHandheld/Plushie_Mable.png" },
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_Gangriel.png",
+							},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Mable.png" },
 						],
 					},
 				},
@@ -21181,9 +21109,16 @@ var AssetFemale3DCGExtended = {
 					DrawData: {
 						elementData: [
 							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png" },
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Celiko.png" },
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Lavender.png" },
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Siscuit.png" },
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Celiko.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_Lavender.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Siscuit.png",
+							},
 						],
 					},
 				},
@@ -21207,18 +21142,29 @@ var AssetFemale3DCGExtended = {
 					],
 					DrawData: {
 						elementData: [
-							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png"	},
+							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png" },
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Aeri.png" },
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Delta.png" },
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Khloe.png" },
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Lillian.png"	},
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_TinyRavin.png" },
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_XDress.png" },
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Lillian.png",
+							},
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_TinyRavin.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_XDress.png",
+							},
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Elora.png" },
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Lisa.png" },
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Melanie.png" },
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Melanie.png",
+							},
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Iris.png" },
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Kelsey.png" },
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Kelsey.png",
+							},
 						],
 					},
 				},
@@ -21241,16 +21187,26 @@ var AssetFemale3DCGExtended = {
 					],
 					DrawData: {
 						elementData: [
-							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png"},
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Magdalena.png" },
+							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png" },
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_Magdalena.png",
+							},
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Sonic.png" },
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Jagodka.png" },
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Jagodka.png",
+							},
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Shade.png" },
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_VoidPaladin.png" },
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_VoidPaladin.png",
+							},
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Hazel.png" },
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Lisa2.png" },
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Robin.png" },
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Sneaki.png" },
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Sneaki.png",
+							},
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Mai.png" },
 						],
 					},
@@ -21275,16 +21231,26 @@ var AssetFemale3DCGExtended = {
 					DrawData: {
 						elementData: [
 							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png" },
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Alunra.png" },
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Alunra.png",
+							},
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Mel.png" },
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Zannah.png" },
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Zannah.png",
+							},
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Zoe.png" },
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Chloe.png" },
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Liesel.png" },
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Skylar.png" },
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Liesel.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Skylar.png",
+							},
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Amy.png" },
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Arelia.png" },
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Dawn.png"},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Arelia.png",
+							},
+							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Dawn.png" },
 						],
 					},
 				},
@@ -21307,14 +21273,23 @@ var AssetFemale3DCGExtended = {
 					],
 					DrawData: {
 						elementData: [
-							{imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png"},
+							{ imagePath: "Screens/Inventory/ItemHandheld/Plushies/None.png" },
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Nabi.png" },
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_HoshiKo.png" },
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Layottu.png" },
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_HoshiKo.png",
+							},
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Layottu.png",
+							},
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Sabie.png" },
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_LittleSera.png" },
+							{
+								imagePath:
+									"Assets/Female3DCG/ItemHandheld/Plushie_LittleSera.png",
+							},
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Mana.png" },
-							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Minerva.png" },
+							{
+								imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Minerva.png",
+							},
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Zoi.png" },
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Takao.png" },
 							{ imagePath: "Assets/Female3DCG/ItemHandheld/Plushie_Carol.png" },
@@ -21326,5 +21301,27 @@ var AssetFemale3DCGExtended = {
 				SetOption: InventoryItemHandheldPlushiesSetOptionHook,
 			},
 		}, // Plushie
+		FoamRoll: {
+			Archetype: ExtendedArchetype.TYPED,
+			DrawImages: false,
+			Options: [
+				{
+					Name: "Roll",
+					AllowSelfSelect: false,
+					Property: { AllowActivity: ["RubItem"] },
+				},
+				{
+					Name: "Mittens",
+					SelfBondageLevel: 3,
+					Property: {
+						OverridePriority: 33,
+						Difficulty: 4,
+						SetPose: ["TapedHands"],
+						Effect: [E.Block, E.BlockWardrobe, E.MergedFingers],
+						HideItem: ["ItemHandsFuturisticMittens"],
+					},
+				},
+			],
+		}, // FoamRoll
 	}, // ItemHandheld
 };
