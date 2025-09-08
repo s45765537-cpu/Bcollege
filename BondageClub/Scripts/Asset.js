@@ -759,8 +759,10 @@ function AssetParseAllowTypes(allowTypes) {
  * @returns {ParentGroup.Data} - The parsed parent group value
  */
 function AssetParseParentGroup(parentGroup, superParentGroup) {
-	if (parentGroup == null) {
+	if (parentGroup === undefined) {
 		return superParentGroup;
+	} else if (parentGroup === null) {
+		return {};
 	} else if (typeof parentGroup === "string") {
 		return { [PoseType.DEFAULT]: parentGroup };
 	} else {
