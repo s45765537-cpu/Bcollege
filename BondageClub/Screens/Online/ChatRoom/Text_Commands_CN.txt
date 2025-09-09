@@ -100,11 +100,21 @@ Copy your current appearance in your clipboard
 将你当前的外观复制到你的剪贴板中
 [Appearance]: Change your current appearance with the pasted string. No argument will use the clipboard.
 [Appearance]: 使用粘贴的字符串更改你的当前外观。不提供参数将使用剪贴板。
+Display your current coordinates
+显示你当前的坐标
 Copy the current map layout in your clipboard
 将当前地图布局复制到你的剪贴板中
 [Map]: Paste your map string to load it as current. No argument will use the clipboard.
 [Map]: 粘贴你的地图字符串，并加载为当前地图。不提供参数将使用剪贴板。
+[X] [Y]: Teleport yourself to X,Y. <br>maptp [MemberNumber|Name|Nickname] [X] [Y]: Teleport player to X,Y.<br>maptp [MemberNumber|Name|Nickname]: Teleport to player.<br>maptp [MemberNumber|Name|Nickname] [MemberNumber|Name|Nickname]: Teleport first player to second player.<br>Use '@' as a prefix for MemberNumber<br>Requires admin privileges.
+[X] [Y]: 传送你自己到X,Y。<br>maptp [MemberNumber|Name|Nickname] [X] [Y]: 传送玩家到X,Y。<br>maptp [MemberNumber|Name|Nickname]: 传送到玩家。<br>maptp [MemberNumber|Name|Nickname] [MemberNumber|Name|Nickname]: 传送第一个玩家到第二个玩家。<br>使用'@'作为MemberNumber的前缀<br>需要管理员权限。
 [MemberNumber|Name|Nickname]: Begin whispering to player.  Leave blank to stop whispering.<br>[MemberNumber|Name|Nickname] [Message]: Send whisper to target player.
 [MemberNumber|Name|Nickname]: 开始与玩家说悄悄话。留空停止悄悄话。<br>[MemberNumber|Name|Nickname] [Message]: 向目标玩家发送悄悄话。
 Access the shop
 访问商店
+: Open the club card editor
+: 打开俱乐部卡牌编辑器
+ [MemberNumber] [bronze] [silver] [gold]: Give any map key to a player 
+ [MemberNumber] [bronze] [silver] [gold]: 给予玩家任何地图钥匙
+ [MemberNumber] [bronze] [silver] [gold]: Take any map key from a player 
+ [MemberNumber] [bronze] [silver] [gold]: 从玩家那里拿走任何地图钥匙

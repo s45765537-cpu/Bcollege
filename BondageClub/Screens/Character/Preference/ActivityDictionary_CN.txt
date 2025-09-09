@@ -20,6 +20,8 @@ Tickle
 瘙痒
 Caress
 轻抚
+Clean
+清洁
 Pet
 轻摸
 Cuddle
@@ -70,6 +72,8 @@ Hand Gag
 捂住
 Rest Head
 头枕
+Brush
+梳头
 Rub
 摩擦
 Roll
@@ -442,6 +446,8 @@ Suck Fingers
 吮吸手指
 Polish Nails
 给手指甲涂油
+Brush Hair
+梳头
 Bite Hair
 咬头发
 Caress Face
@@ -460,8 +466,6 @@ Slap Face
 扇脸
 Rub Foot on Face
 用脚蹭脸
-Brush Hair
-梳头
 Rub on Head
 在头部摩擦
 Tickle Head
@@ -506,6 +510,8 @@ Tickle Thigh
 搔挠大腿
 Bite Lips
 咬嘴唇
+Caress Cheek
+轻抚脸颊
 Clean Mouth
 清洗嘴巴
 Gag Kiss on Cheek
@@ -1158,6 +1164,8 @@ SourceCharacter does PronounPossessive secret brothers handshake with TargetChar
 SourceCharacter与TargetCharacter进行了兄弟间的秘密握手动作。
 SourceCharacter bites TargetCharacter's hair.
 SourceCharacter咬了一口TargetCharacter的头发.
+SourceCharacter brushes TargetCharacter's hair.
+SourceCharacter给TargetCharacter梳头.
 SourceCharacter caresses TargetCharacter's face.
 SourceCharacter轻抚TargetCharacter的脸.
 SourceCharacter gives a gagged kiss on TargetCharacter's forehead.
@@ -1176,8 +1184,6 @@ SourceCharacter slaps TargetCharacter's face.
 SourceCharacter扇了TargetCharacter一巴掌.
 SourceCharacter rubs PronounPossessive foot on TargetCharacter's face.
 SourceCharacter用脚摩擦TargetCharacter的脸.
-SourceCharacter brushes TargetCharacter's hair.
-SourceCharacter给TargetCharacter梳头.
 SourceCharacter throws ActivityAsset on TargetCharacter's face.
 SourceCharacter将ActivityAsset扔向TargetCharacter的脸。
 SourceCharacter rubs TargetCharacter's head with PronounPossessive ActivityAsset.
@@ -1230,8 +1236,10 @@ SourceCharacter tickles TargetCharacter's thigh with PronounPossessive ActivityA
 SourceCharacter用ActivityAsset搔挠TargetCharacter的大腿。
 SourceCharacter bites TargetCharacter's lips.
 SourceCharacter咬了一口TargetCharacter的嘴唇.
-SourceCharacter caresses and cleans TargetCharacter's mouth.
-SourceCharacter轻抚并擦净了TargetCharacter的嘴.
+SourceCharacter caresses TargetCharacter's cheek.
+SourceCharacter轻抚TargetCharacter的脸颊.
+SourceCharacter cleans TargetCharacter's mouth.
+SourceCharacter清洗TargetCharacter的嘴巴。
 SourceCharacter puts some ActivityAsset into TargetCharacter's mouth.
 SourceCharacter让TargetCharacter吃下了一些ActivityAsset。
 SourceCharacter shares a long French kiss with TargetCharacter.
@@ -1786,6 +1794,8 @@ SourceCharacter cleans and polishes PronounPossessive nails.
 SourceCharacter清洁自己的指甲，并涂了指甲油。
 SourceCharacter wiggles PronounPossessive fingers
 SourceCharacter摇晃自己的手指.
+SourceCharacter brushes PronounPossessive hair.
+SourceCharacter给自己梳头.
 SourceCharacter caresses PronounPossessive face.
 SourceCharacter轻抚自己的脸.
 SourceCharacter nods.
@@ -1798,8 +1808,6 @@ SourceCharacter scratches PronounPossessive head.
 SourceCharacter抓挠自己的头。
 SourceCharacter slaps PronounSelf on the face.
 SourceCharacter扇了自己一巴掌.
-SourceCharacter brushes PronounPossessive hair.
-SourceCharacter给自己梳头.
 SourceCharacter throws ActivityAsset on PronounPossessive own head.
 SourceCharacter将ActivityAsset扔向自己的头。
 SourceCharacter shakes PronounPossessive head.
@@ -1842,8 +1850,10 @@ SourceCharacter rubs PronounPossessive thighs together.
 SourceCharacter摩擦自己的大腿.
 SourceCharacter bites PronounPossessive lips.
 SourceCharacter咬了一口自己的嘴唇.
-SourceCharacter caresses and wipes PronounPossessive mouth clean.
-SourceCharacter轻抚并擦净了自己的嘴.
+SourceCharacter caresses PronounPossessive own cheek.
+SourceCharacter轻抚自己的脸颊.
+SourceCharacter wipes PronounPossessive mouth clean.
+SourceCharacter擦干净了自己的嘴.
 SourceCharacter eats some ActivityAsset.
 SourceCharacter吃下了一些ActivityAsset。
 SourceCharacter clamps PronounPossessive hand over PronounPossessive mouth.

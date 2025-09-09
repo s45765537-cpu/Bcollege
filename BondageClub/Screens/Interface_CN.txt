@@ -462,6 +462,8 @@ Pandora guard SourceCharacter releases all inmates from their cases.
 潘多拉守卫SourceCharacter将所有囚犯从箱子里释放出来。
 Picking the lock...
 正在开锁…
+Loading, please wait
+加载中，请稍候
 SourceCharacter tries to stand properly. The exercise receives: StablePerformance points. StableResult
 SourceCharacter尝试标准站立。该练习获得：StablePerformance点。StableResult
 SourceCharacter tries to walks in a trot. The exercise receives: StablePerformance points. StableResult

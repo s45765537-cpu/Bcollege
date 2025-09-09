@@ -22,3 +22,5 @@ Reset Game
 重置游戏
 Club Card Animation
 俱乐部卡牌动画
+Auto Spectate
+自动观战

@@ -310,8 +310,8 @@ Relation:
 (可怕)
 (Atrocious)
 (仇恨)
-Permission:
-权限：
+Allowed interactions:
+允许互动：
 Everyone, no exceptions
 所有人
 Everyone, except blacklist

@@ -378,8 +378,28 @@ Right arm
 右臂
 Select a bracelet style.
 选择手镯样式。
-Select a wristband style.
-选择腰带样式。
+Wristband menu:
+手镯菜单:
+Layer
+图层
+Layer option:
+图层选项:
+Under gloves
+底层手套
+Over gloves
+外层手套
+Right wrist
+右侧手腕
+Right wrist option:
+右侧手腕选项:
+Wear it
+穿上
+Remove it
+脱下
+Left wrist
+左侧手腕
+Left wrist option:
+左侧手腕选项:
 Left
 左侧
 Right
@@ -396,6 +416,16 @@ Choose Options
 选择选项
 SourceCharacter changes DestinationCharacter watch.
 SourceCharacter改变了DestinationCharacter表。
+Change style.
+改变样式。
+Select a style.
+选择样式。
+Style 1
+样式1
+Style 2
+样式2
+Style 3
+样式3
 No shine
 无高光
 Select an option.
@@ -450,8 +480,6 @@ Use the butt plug's pump
 使用肛塞气泵
 Access denied.
 认证失败.
-Select a style.
-选择样式。
 Behind hair
 在头发后
 Front of hair
@@ -492,10 +520,6 @@ Wrist Tie
 手腕束缚
 SourceCharacter changes the chain style on DestinationCharacter chest.
 SourceCharacter改变了DestinationCharacter胸前的锁链样式。
-Style 1
-样式1
-Style 2
-样式2
 chains
 锁链
 SourceCharacter changes DestinationCharacter clothes.
@@ -608,6 +632,8 @@ SourceCharacter tweaks DestinationCharacter clitoris suction cup sucking in Targ
 SourceCharacter收紧DestinationCharacter阴蒂吮吸杯，让杯子完全吸附在TargetPronounObject的阴蒂上。
 SourceCharacter tweaks DestinationCharacter clitoris suction cup sucking in TargetPronounPossessive clitoris firmly.
 SourceCharacter收紧DestinationCharacter阴蒂吮吸杯，让杯子中度地吸附着TargetPronounObject的阴蒂。
+Choose Style:
+选择样式:
 Pattern
 图案
 Pacis and Bottles
@@ -676,8 +702,6 @@ Neck Right?
 右侧脖子？
 Select the style
 选择样式
-Style 3
-样式3
 Style 4
 样式4
 Bundled
@@ -738,14 +762,6 @@ S.Tiyana's White C-Pad
 S.Tiyana的白色手柄
 BTG
 BTG
-Gangriels
-帮百利
-Den of Sin
-罪恶巢穴
-Slave Helpline
-奴隶服务热线
-Demon's Bar
-恶魔酒吧
 Azure Corp
 碧蓝公司
 Shibari Crew
@@ -754,14 +770,10 @@ Bull's Eye Spankmeter
 打屁股准星
 Keys?!
 钥匙？！
-Void Order
-虚空秩序
-Sphere of Malkuth
-马尔库特之球
+Bondage Teacher
+束缚教师
 Dominant
 支配者
-Amber Family
-琥珀家族
 Bonk!
 敲！
 Old School XGame
@@ -838,12 +850,12 @@ Hood Up - Regular
 拉起兜帽-常规
 Hood Up - Pet Ears
 拉起兜帽-宠物耳朵
+Full Length
+完整长度
 Cropped
 胸下
 Bolero
 胸上
-Full Length
-完整
 Hands Out
 手在外面
 Hands In
@@ -864,6 +876,20 @@ SourceCharacter takes DestinationCharacter hands out of the hoodie's pouch.
 SourceCharacter将DestinationCharacter手拿到连帽衫的口袋外面。
 SourceCharacter puts DestinationCharacter hands into the hoodie's pouch.
 SourceCharacter将DestinationCharacter手塞进连帽衫的口袋里面。
+Sleeve
+袖子
+Hood Up
+拉起兜帽
+Sleeved
+有袖子
+Sleeveless
+无袖
+Select Jacket Hoodie Options
+选择夹克连帽衫选项
+Select Hood Position
+选择兜帽位置
+Adjust Sleeves
+调整袖子
 Hooded
 盖住头
 Hooded (ears visible)
@@ -912,6 +938,22 @@ SourceCharacter unzips DestinationCharacter pants.
 SourceCharacter给DestinationCharacter拉下裤子拉链。
 SourceCharacter opens DestinationCharacter pants and pulls them down.
 SourceCharacter打开DestinationCharacter裤子并拉下。
+Skirt
+手指
+Skirt v2
+裙子 v2
+Design
+样式
+Design v2
+样式 v2
+Version 2
+版本2
+Customize the state of the kneeling skirt
+自定义跪姿裙子状态
+SourceCharacter kneels with skirt in default position DestinationCharacter.
+SourceCharacter跪着时，裙子处于DestinationCharacter的默认位置。
+SourceCharacter kneels with skirt in tucked position DestinationCharacter.
+SourceCharacter跪着时，裙子处于DestinationCharacter的收起位置。
 Boot
 靴子
 Stripe
@@ -1084,6 +1126,8 @@ Kneel spreads on cushion
 跪开腿在垫子上
 Save text
 保存文本
+Den of Sin
+罪恶巢穴
 Decrease
 减少
 Deflate it
@@ -1924,6 +1968,34 @@ Large
 大
 Select inner style
 选择内部风格
+Stud 1
+钉 1
+Stud 2
+钉 2
+Stud 3
+钉 3
+Stud 4
+钉 4
+Bar
+Bar
+Bells
+铃铛
+SmallRing 1
+小环 1
+SmallRing 2
+小环 2
+SmallRing 3
+小环 3
+SmallRing 4
+小环 4
+BigRing 1
+大环 1
+BigRing 2
+大环 2
+Tag
+名牌
+Select Accessory
+选择配饰
 Select Type.
 选择类型
 SourceCharacter changes DestinationCharacter hair.
@@ -1958,12 +2030,18 @@ Ring finger
 无名指
 Thumb
 大拇指
+Nails/Claws
+指甲/爪子
 Steel Ring
 钢戒指
 Honor Ring
 荣誉戒指
 Wedding Ring
 结婚戒指
+Nails
+指甲
+Claws
+爪子
 Choose your rings
 选择你的戒指
 Choose a ring for the Index
@@ -1976,6 +2054,10 @@ Choose a ring for the Ring finger
 为无名指选择一个戒指
 Choose a ring for the Thumb
 为大拇指选择一个戒指
+Add left hand nails or claws?
+添加左手指甲或爪子?
+Add right hand nails or claws?
+添加右手指甲或爪子?
 Select strap location.
 选择束带位置。
 Over the hair
@@ -2314,6 +2396,42 @@ SourceCharacter uses a seamless AssetName on DestinationCharacterName body, full
 SourceCharacter在DestinationCharacterName身体上使用了无缝的AssetName，完全盖住了TargetPronounObject。
 SourceCharacter unzips DestinationCharacter AssetName and fully exposes TargetPronounPossessive breasts and pussy.
 SourceCharacter拉开了DestinationCharacterNameAssetName的拉链，让TargetPronounObject的胸和阴部完全裸露。
+Select Padding
+选择护垫
+SourceCharacter puts the petsuit arms without paws on DestinationCharacter arms.
+SourceCharacter为DestinationCharacter手臂穿上了没有爪子的宠物服手臂。
+SourceCharacter puts the petsuit arms with paws on DestinationCharacter arms.
+SourceCharacter为DestinationCharacter手臂穿上了有爪子的宠物服手臂。
+No Paw Padding
+没有爪垫
+Paw Padding
+有爪垫
+Shine over restraint
+束缚外光泽
+Extras
+有额外配件
+Shine
+发光
+Front Arms Attachment
+前臂配件
+Side Arms Attachment
+侧臂配件
+Configure the restraint.
+配置拘束
+Select Shine.
+选择光泽.
+Select Extras.
+选择额外配件.
+SourceCharacter removes shine from TargetPronounPossessive AssetName.
+SourceCharacter从TargetPronounPossessiveAssetName移除了光泽。
+SourceCharacter adds shine over TargetPronounPossessive AssetName.
+SourceCharacter在TargetPronounPossessiveAssetName添加了光泽。
+SourceCharacter detaches straps from AssetName.
+SourceCharacter从AssetName解开了束带。
+SourceCharacter attaches AssetName in front.
+SourceCharacter将AssetName固定在前面。
+SourceCharacter attaches AssetName to the side.
+SourceCharacter将AssetName固定在侧面。
 On head level
 与头平齐
 Over the head
@@ -2356,8 +2474,6 @@ Bind wrists
 绑上手腕
 Arms
 手臂
-Skirt
-手指
 Full Mummy
 木乃伊全包
 Exposed Full Mummy
@@ -2958,8 +3074,6 @@ SourceCharacter disables DestinationCharacter AssetName shock module.
 SourceCharacter将DestinationCharacterAssetName的电击模块关闭。
 Display
 显示
-Shine
-发光
 No Display
 不显示
 Configure settings:
@@ -3302,8 +3416,6 @@ Arrow
 箭头
 Game
 游戏
-Extras
-有额外配件
 Stand
 支架
 Arrow 1
@@ -3692,8 +3804,12 @@ Sculpted
 拟真
 Concave
 凹陷
-On
-开
+Face On
+使用面部
+Pattern On
+使用样式
+All On
+使用全部
 Mask
 面具
 Total Hood
@@ -3714,6 +3830,10 @@ Pussy
 外阴
 Subtle
 不明显
+Thin
+细
+ThinOh
+细张嘴
 Barcode
 条码
 Scarab
@@ -3722,6 +3842,24 @@ Hexagon
 六边形
 Lines
 线条
+Machine
+机器
+Fishnet
+渔网
+Hex Grid
+六边形网格
+Split Circle
+分隔环
+Heart
+心形
+Style Heart
+风格心形
+Small Heart
+小心形
+Lock
+锁
+Big X
+大X
 One-Way
 单向
 Hide Blush and Face Paint
@@ -3852,8 +3990,6 @@ Left Sticker
 左边胶布
 Right Sticker
 右边胶布
-Heart
-心形
 X
 X
 Teddy
@@ -3922,6 +4058,70 @@ SourceCharacter creates a blindfold out of web for TargetCharacter
 SourceCharacter用网给TargetCharacter织了一副眼罩
 SourceCharacter creates a cocoon out of web for TargetCharacter
 SourceCharacter把TargetCharacter的头完全裹在了茧里
+Select Hypnotic Visor Details
+选择催眠护目镜细节
+Select Hypnotic Visor Frame
+选择催眠护目镜框架
+Select Hypnotic Visor Pattern
+选择催眠护目镜图纹
+Select Hypnotic Visor Decal
+选择催眠护目镜贴花
+Select Hypnotic Visor Text
+选择催眠护目镜文本
+Visor Frame
+护目镜框架
+Hypnosis algorithm
+催眠算法
+Visor Branding
+护目镜贴花
+Subliminal Message
+潜意识信息
+Frame A
+框架 A
+SourceCharacter changes DestinationCharacter hypnotic visor frame.
+SourceCharacter改变了DestinationCharacter催眠护目镜的框架。
+Frame B
+框架 B
+SourceCharacter removes DestinationCharacter hypnotic visor pattern.
+SourceCharacter移除了DestinationCharacter催眠护目镜的图纹。
+Pattern 1
+图纹 1
+SourceCharacter changes DestinationCharacter hypnotic visor pattern.
+SourceCharacter改变了DestinationCharacter催眠护目镜的图纹。
+Pattern 2
+图纹 2
+Pattern 3
+图纹 3
+SourceCharacter removes DestinationCharacter hypnotic visor branding.
+SourceCharacter移除了DestinationCharacter催眠护目镜的贴花。
+Bunny
+兔兔
+SourceCharacter puts a bunny branding on DestinationCharacter hypnotic visor.
+SourceCharacter在DestinationCharacter催眠护目镜上贴了一个兔兔贴花。
+SourceCharacter puts a cat branding on DestinationCharacter hypnotic visor.
+SourceCharacter在DestinationCharacter催眠护目镜上贴了一个猫咪贴花。
+Snake
+蛇
+SourceCharacter puts a snake branding on DestinationCharacter hypnotic visor.
+SourceCharacter在DestinationCharacter催眠护目镜上贴了一个蛇贴花。
+Fox
+狐狸
+SourceCharacter puts a fox branding on DestinationCharacter hypnotic visor.
+SourceCharacter在DestinationCharacter催眠护目镜上贴了一个狐狸贴花。
+Pony
+小马
+SourceCharacter puts a pony branding on DestinationCharacter hypnotic visor.
+SourceCharacter在DestinationCharacter催眠护目镜上贴了一个小马贴花。
+Xeno
+异形
+SourceCharacter puts a xeno branding on DestinationCharacter hypnotic visor.
+SourceCharacter在DestinationCharacter催眠护目镜上贴了一个异形贴花。
+Leaf
+叶子
+SourceCharacter puts a leaf branding on DestinationCharacter hypnotic visor.
+SourceCharacter在DestinationCharacter催眠护目镜上贴了一个叶子贴花。
+SourceCharacter changes DestinationCharacter hypnotic visor subliminal message.
+SourceCharacter改变了DestinationCharacter催眠护目镜的潜意识信息。
 Finish
 光泽
 Smiley Lines
@@ -4052,8 +4252,6 @@ Shaped Transparent Fill Opaque w/ Pinhole
 造型透明填充不透明附带针孔
 Shaped Transparent Fill w/ Pinhole
 造型透明填充附带针孔
-Fishnet
-渔网
 Circle Opaque
 圆环不透明
 Circle Transparent
@@ -4640,14 +4838,8 @@ Toys
 玩具
 Bear
 熊
-Bunny
-兔兔
-Fox
-狐狸
 Kitty
 咪咪
-Pony
-小马
 Puppy
 奶狗
 Select the type of Teddy Bear
@@ -4684,8 +4876,6 @@ Standard
 标准
 Over the Nose
 超过鼻子
-Lock
-锁
 Mute
 禁声
 Configure muzzle:
@@ -4862,6 +5052,8 @@ Small Tubes
 小管道
 Large Tubes
 大管道
+On
+开
 Beneath Hair
 头发下面
 Over Hair
@@ -4902,8 +5094,6 @@ SourceCharacter exchanges DestinationCharacter latex mouth sheath for a very thi
 SourceCharacter把DestinationCharacter乳胶隐藏口塞改为非常粗的口塞。
 Thick
 粗
-Thin
-细
 Very Thick
 非常粗
 Lips
@@ -5252,8 +5442,6 @@ Whore
 婊子
 Font
 字体
-Tag
-名牌
 Metal plate
 金属板
 Livestock
@@ -6828,14 +7016,24 @@ SourceCharacter manages to get to PronounPossessive feet.
 SourceCharacter成功站了起来。
 SourceCharacter releases the leash of TargetCharacter.
 SourceCharacter松开TargetCharacter的牵绳。
-Half-Frame
+Street Eyewear Glasses custom menu:
+街头眼镜自定义菜单:
+Hair position
+头发位置
+Glasses position options:
+眼镜位置选项:
+Under front hair
+头发在内
+Over front hair
+头发在外
+Frame style
+框架样式
+Frame style options:
+框架样式选项:
+Normal frame
+正常框架
+Half frame
 半框架
-Half over hair
-一半在头发上
-Normal Frame
-通常框架
-Normal over hair
-通常在头发上
 SourceCharacter tries to help TargetCharacter to struggle free.
 SourceCharacter 试图帮助 TargetCharacter 摆脱束缚。
 SourceCharacter restrains TargetCharacter with four sturdy leather belts.
@@ -6954,8 +7152,6 @@ SourceCharacter attaches a clothes peg on DestinationCharacter tongue piercing.
 SourceCharacter在DestinationCharacter舌穿刺上添加了一个晾衣夹。
 SourceCharacter attaches a ring on DestinationCharacter tongue piercing hole.
 SourceCharacter在DestinationCharacter舌穿刺的孔上添加了一个环。
-Bells
-铃铛
 Bitgag 1
 口衔1
 Bitgag 2
@@ -7246,12 +7442,16 @@ Ankle belt (Slow)
 脚踝带（慢速）
 Belts in both positions (Slow)
 皮带处于两种位置（慢速）
-Select a style:
-选择样式：
-With accessory
-附有配件
-With accessory over hair
-头发上有配饰
+Pince-nez custom menu:
+鼻夹眼镜自定义菜单：
+Glasses acessory
+眼镜配件
+Accessory options:
+配件选项：
+No accessory
+无配件
+Accessory added
+添加配件
 SourceCharacter attaches ball gag to DestinationCharacter gag harness.
 SourceCharacter将口球连接到DestinationCharacter口球带上。
 SourceCharacter attaches ring gag to DestinationCharacter gag harness.
@@ -8326,8 +8526,18 @@ SourceCharacter puts on DestinationCharacter mouth a plain Horror Muzzle.
 SourceCharacter将DestinationCharacter嘴罩上了一个普通的恐怖口罩。
 SourceCharacter puts on DestinationCharacter mouth a Horror Muzzle with rivets.
 SourceCharacter将DestinationCharacter嘴罩上了一个带铆钉的恐怖口罩。
-Over hair
-覆盖头发
+Round Sunglasses custom menu:
+圆形太阳镜自定义菜单：
+Street Eyewear position options:
+街头眼镜位置选项：
+Lenses type
+镜片类型
+Type of lenses:
+镜片类型：
+Darker lenses
+更深色镜片
+Clear lenses
+透明镜片
 Asylum Muzzle options:
 收容所口罩选项：
 Single layer
@@ -8348,6 +8558,246 @@ SourceCharacter removes padded layer under the DestinationCharacter Asylum Colla
 SourceCharacter移除了DestinationCharacter收容所项圈下的垫层。
 SourceCharacter adds a padded layer under the DestinationCharacter Asylum Collar.
 SourceCharacter在DestinationCharacter收容所项圈下添加了垫层。
+Select a plushie:
+选择一个毛绒玩具：
+The Den of Sin:
+罪恶巢穴：
+SourceCharacter removes a plushie from DestinationCharacter hands.
+SourceCharacter从DestinationCharacter手中移除了一个毛绒玩具。
+Sin
+Sin
+SourceCharacter places an adorable Sin plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Sin毛绒玩具。
+Raven
+Raven
+SourceCharacter places a charming Raven plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个迷人的Raven毛绒玩具。
+Cassandra Lee
+Cassandra Lee
+SourceCharacter places a scary Cassandra Lee plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可怕的Cassandra Lee毛绒玩具。
+Riki
+Riki
+SourceCharacter places a cute Riki plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Riki毛绒玩具。
+Roslin
+Roslin
+SourceCharacter places a cute Roslin plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Roslin毛绒玩具。
+Felix
+Felix
+SourceCharacter places a soft Felix plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个柔软的Felix毛绒玩具。
+Gangriel's Rock Bar
+Gangriel的摇滚酒吧
+Gangriel
+Gangriel
+SourceCharacter places an authentic Gangriel plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个逼真的Gangriel毛绒玩具。
+Mabel
+Mabel
+SourceCharacter places a squeaky Mabel plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个吱吱作响的Mabel毛绒玩具。
+Celestial Enchants:
+天仙迷情：
+Celestial Enchants
+天仙迷情
+SorceCharacter removes a plushie from DestinationCharacter hands.
+SourceCharacter从DestinationCharacter手中移除了一个毛绒玩具。
+Celiko
+Celiko
+SourceCharacter places an amazing Celiko plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个惊喜的Celiko毛绒玩具。
+Lavender
+Lavender
+SourceCharacter places a cute Lavender plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Lavender毛绒玩具。
+Siscuit
+Siscuit
+SourceCharacter places a cute Siscuit plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Siscuit毛绒玩具。
+Latex Lab
+乳胶实验室
+Aeri
+Aeri
+SourceCharacter places a cute Aeri plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Aeri毛绒玩具。
+Delta
+Delta
+SourceCharacter places a cute Delta plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Delta毛绒玩具。
+Khloe
+Khloe
+SourceCharacter places a cute Khloe plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Khloe毛绒玩具。
+Lillian
+Lillian
+SourceCharacter places a cute Lillian plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Lillian毛绒玩具。
+Tiny Raven
+Tiny Raven
+SourceCharacter places a cute Tiny Raven plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Tiny Raven毛绒玩具。
+Xdress
+Xdress
+SourceCharacter places a cute XDress plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的XDress毛绒玩具。
+Elora
+Elora
+SourceCharacter places a cute Elora plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Elora毛绒玩具。
+Lisa
+Lisa
+SourceCharacter places a cute Lisa plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Lisa毛绒玩具。
+Melanie
+Melanie
+SourceCharacter places a cute Melanie plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Melanie毛绒玩具。
+Iris
+Iris
+SourceCharacter places a cute Iris plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Iris毛绒玩具。
+Kelsey
+Kelsey
+SourceCharacter places a cute Kelsey plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Kelsey毛绒玩具。
+Void Order
+虚空秩序
+Magdalena
+Magdalena
+SourceCharacter places an enigmatic Magdalena plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个神秘的Magdalena毛绒玩具。
+Sonic
+Sonic
+SourceCharacter places a chaotic Sonic plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个混乱的Sonic毛绒玩具。
+Jagódka
+Jagódka
+SourceCharacter places a playful Jagódka plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个顽皮的Jagódka毛绒玩具。
+Shade
+Shade
+SourceCharacter places a spooky Shade plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个阴森的Shade毛绒玩具。
+Void Order Paladin
+Void Order Paladin
+SourceCharacter places a stoic Void Order Paladin plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个坚定的Void Order Paladin毛绒玩具。
+Hazel
+Hazel
+SourceCharacter places a cute Hazel plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Hazel毛绒玩具。
+Robin
+Robin
+SourceCharacter places a cute Robin plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Robin毛绒玩具。
+Sneaki
+Sneaki
+SourceCharacter places a cute Sneaki plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Sneaki毛绒玩具。
+Mai
+Mai
+SourceCharacter places a cute Mai plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Mai毛绒玩具。
+En's Living Room
+En的客厅
+Alunra
+Alunra
+SourceCharacter places a cute Alunra plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Alunra毛绒玩具。
+Mel
+Mel
+SourceCharacter places a cute Mel plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Mel毛绒玩具。
+Zannah
+Zannah
+SourceCharacter places a cute Zannah plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Zannah毛绒玩具。
+Zoe
+Zoe
+SourceCharacter places a cute Zoe plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Zoe毛绒玩具。
+Chloe
+Chloe
+SourceCharacter places a cute Chloe plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Chloe毛绒玩具。
+Liesel
+Liesel
+SourceCharacter places a cute Liesel plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Liesel毛绒玩具。
+Skylar
+Skylar
+SourceCharacter places a cute Skylar plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Skylar毛绒玩具。
+Amy
+Amy
+SourceCharacter places a cute Amy plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Amy毛绒玩具。
+Arelia
+Arelia
+SourceCharacter places a cute Arelia plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Arelia毛绒玩具。
+Dawn
+Dawn
+SourceCharacter places a cute Dawn plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Dawn毛绒玩具。
+Vagrants/Misc
+流浪者/杂项
+Nabi
+Nabi
+SourceCharacter places a cute Nabi plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Nabi毛绒玩具。
+Hoshi-Ko
+Hoshi-Ko
+SourceCharacter places a cute Hoshi-Ko plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Hoshi-Ko毛绒玩具。
+Layottu
+Layottu
+SourceCharacter places a cute Layottu plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Layottu毛绒玩具。
+Sabie
+Sabie
+SourceCharacter places a cute Sabie plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Sabie毛绒玩具。
+Little Sera
+Little Sera
+SourceCharacter places a cute Little Sera plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Little Sera毛绒玩具。
+Mana
+Mana
+SourceCharacter places a cute Mana plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Mana毛绒玩具。
+Minerva
+Minerva
+SourceCharacter places a cute Minerva plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Minerva毛绒玩具。
+Zoi
+Zoi
+SourceCharacter places a cute Zoi plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个可爱的Zoi毛绒玩具。
+Takao
+Takao
+SourceCharacter places a flashy Takao plushie in DestinationCharacter hands
+SourceCharacter往DestinationCharacter手中放置了一个华丽的Takao毛绒玩具。
+Carol
+Carol
+SourceCharacter places a mischievous Carol plushie in DestinationCharacter hands.
+SourceCharacter往DestinationCharacter手中放置了一个调皮的Carol毛绒玩具。
+Choose the plushie group:
+选择毛绒玩具组：
+Choose the plushie:
+选择毛绒玩具：
+Choose position of the cigarette:
+选择香烟的位置：
+In Mouth
+在嘴里
+In Hand
+在手里
+SourceCharacter puts the cigarette in DestinationCharacterName mouth.
+SourceCharacter将香烟放在了DestinationCharacterName嘴里。
+SourceCharacter keeps the cigarette in DestinationCharacterName hand.
+SourceCharacter将香烟放在了DestinationCharacterName手里。
 Choose your Kyo-sensu paper art:
 选择你的京扇图案：
 Cherry blossoms
@@ -8584,11 +9034,211 @@ SourceCharacter removes a pair of belts from the DestinationCharacter thigh.
 SourceCharacter从DestinationCharacter大腿上移除了一对皮带。
 SourceCharacter equips a pair of belts on the DestinationCharacter thigh.
 SourceCharacter在DestinationCharacter大腿上佩戴了一对皮带。
-SourceCharacter equips a pair of belts on the DestinationCharacter thigh.
-SourceCharacter在DestinationCharacter大腿上佩戴了一对皮带。
-
-########################
-### DEPRECATED LINES ###
-########################
-SourceCharacter loosens DestinationCharacterName Creepy Iron Mask.
-SourceCharacter解松了DestinationCharacterName恐怖铁面具。
+SourceCharacter puts the petsuit legs without paws on DestinationCharacter legs.
+SourceCharacter在DestinationCharacter腿上穿上了没有爪子的宠物套装腿部。
+SourceCharacter puts the petsuit legs with paws on DestinationCharacter legs.
+SourceCharacter在DestinationCharacter腿上穿上了带爪子的宠物套装腿部。
+Choker addon option:
+贴颈项圈附件选项：
+No choker
+没有贴颈项圈
+Choker added
+添加贴颈项圈
+Customize this gagging process following these steps:
+自定义这个塞口过程，按照以下步骤进行：
+Foam balls
+泡沫球
+How much foam balls going inside the mouth? 
+多少泡沫球进入嘴里？
+Just a single ball
+只有一个球
+Two foam balls
+两个泡沫球
+Three foam balls
+三个泡沫球
+Mouth empty
+嘴里没有球
+Primary foam tape
+主要泡沫胶带
+Use a piece of foam tape over the mouth?
+在嘴上使用一张泡沫贴纸？
+Not apply it
+不使用
+Apply it!
+使用！
+Additional glue
+额外黏胶
+Apply a glue for improve gag adherence?
+使用黏胶来改进口塞耐久？
+It's unnecessary
+这没必要
+Sure!
+当然！
+Rubber tape
+橡胶胶带
+Do you want to reinforce it with thick rubber tape's piece?
+你想要使用厚厚的橡胶胶带来强化吗？
+Maybe not
+算了吧
+Placed!
+贴上去！
+Metal strip harness
+金属条固定
+Do you want to install a metal strip muzzle and bolts?
+你想要安装金属条口套并拧紧螺丝吗？
+Skip it
+不用了
+Done!
+搞定！
+Foam tape face cover
+泡沫胶带面部覆盖
+How would you like cover all these gags?
+你想要怎样把这些口塞都盖住？
+That's enough
+这足够了
+Cover mouth and neck
+盖住嘴和脖子
+Partially hooded but hair
+部分头套，不含头发
+Partially hooded but eyes
+部分头套，不含眼镜
+Completely hooded
+完全头套
+SourceCharacter puts a foam ball in DestinationCharacter mouth.
+SourceCharacter往DestinationCharacter嘴里放了一个泡沫球。
+SourceCharacter puts two foam balls in DestinationCharacter mouth.
+SourceCharacter往DestinationCharacter嘴里放了两个泡沫球。
+SourceCharacter fills the DestinationCharacter mouth with three foam balls.
+SourceCharacter往DestinationCharacter嘴里塞了三个泡沫球。
+SourceCharacter remove all foam balls from DestinationCharacter mouth.
+SourceCharacter从DestinationCharacter嘴里取出了所有泡沫球。
+SourceCharacter removes the primary foam tape layer from DestinationCharacter mouth.
+SourceCharacter从DestinationCharacter嘴上移除了主要的泡沫胶带层。
+SourceCharacter wraps the DestinationCharacter mouth with a foam tape primary layer.
+SourceCharacter用一层泡沫胶带包裹了DestinationCharacter的嘴。
+SourceCharacter clears the glue from DestinationCharacter face.
+SourceCharacter清除了DestinationCharacter脸上的黏胶。
+SourceCharacter improves the gag adherence applying some glue on DestinationCharacter face.
+SourceCharacter通过在DestinationCharacter脸上涂抹一些黏胶来改进口塞的耐久性。
+SourceCharacter takes it easy and remove the rubber tape from DestinationCharacter mouth.
+SourceCharacter轻松地从DestinationCharacter嘴上取下了橡胶胶带。
+SourceCharacter improves this gag installing a thick rubber tape on DestinationCharacter mouth.
+SourceCharacter通过在DestinationCharacter嘴上安装厚厚的橡胶胶带来改进口塞。
+SourceCharacter frees the DestinationCharacter mouth from metal strip.
+SourceCharacter从DestinationCharacter嘴上取下了金属条。
+SourceCharacter locks all previous gags on DestinationCharacter mouth with a metal strip and bolts.
+SourceCharacter用金属条和螺栓锁住了DestinationCharacter嘴上先前所有的口塞。
+SourceCharacter unwraps all foam tape last layer from DestinationCharacter face.
+SourceCharacter从DestinationCharacter脸上解开了所有泡沫胶带的最后一层。
+SourceCharacter wraps the DestinationCharacter neck and face with foam tape.
+SourceCharacter用泡沫胶带包裹了DestinationCharacter的脖子和脸。
+SourceCharacter wraps the DestinationCharacter neck face and eyes with foam tape.
+SourceCharacter用泡沫胶带包裹了DestinationCharacter的脖子、脸和眼睛。
+SourceCharacter hoods the DestinationCharacter head but TargetPronounPossessive eyes with foam tape.
+SourceCharacter用泡沫胶带罩住了DestinationCharacter的头部，但保留了TargetPronounPossessive的眼睛。
+SourceCharacter hoods completely the DestinationCharacter head with foam tape.
+SourceCharacter用泡沫胶带完全罩住了DestinationCharacter的头部。
+Choose your Zipper Ballet Boots length:
+选择你的拉链芭蕾靴长度：
+Under knee
+膝盖下
+Full leg length
+全腿长度
+Choose the Zipper Ballet Boots length:
+选择拉链芭蕾靴的长度：
+SourceCharacter wears a under knee Zipper Ballet Boots on the DestinationCharacter feet.
+SourceCharacter在DestinationCharacter脚上穿了一双膝盖以下的拉链芭蕾靴。
+SourceCharacter wears a full leg Zipper Ballet Boots on the DestinationCharacter feet.
+SourceCharacter在DestinationCharacter脚上穿了一双全腿长度的拉链芭蕾靴。
+Single Ballet Boot main menu
+单跟芭蕾靴主菜单
+Restraint mode
+束缚模式
+Restraint level options:
+束缚等级选项：
+Normal restraint
+普通束缚
+Can't stand up
+无法站立
+Training hops
+训练跳跃
+Boot lenght
+靴子长度
+Boot lenght options:
+靴子长度选项：
+Full boot
+全靴
+Lower belts
+下部束带
+Lower belts reinforcement options:
+下部束带加固选项：
+Apply them
+使用它们
+Thigh belts
+大腿束带
+Thigh belts reinforcement options:
+大腿束带加固选项：
+Foam tape cover
+泡沫胶带覆盖
+Foam tape cover options:
+泡沫胶带覆盖选项：
+Wrap until under knee
+包裹到膝盖下
+Wrap full leg
+包裹全腿
+Metal pillories
+金属枷锁
+Metal pillories options:
+金属枷锁选项：
+Install pillories
+安装枷锁
+Vibrating device selector:
+振动装置选择器：
+SourceCharacter adjustes DestinationCharacter toes into Single Ballet Boot just to stand on TargetPronounPossessive own.
+SourceCharacter调整了DestinationCharacter的脚趾，使TargetPronounPossessive仅能独自在单跟芭蕾靴中站立。
+SourceCharacter adjustes DestinationCharacter toes into Single Ballet Boot restraining any attempt by TargetPronounPossessive to get up.
+SourceCharacter调整了DestinationCharacter的脚趾，限制了TargetPronounPossessive试图站起来的任何尝试。
+SourceCharacter adjustes DestinationCharacter toes into Single Ballet Boot for some hop training.
+SourceCharacter调整了DestinationCharacter的脚趾，以进行一些跳跃训练。
+SourceCharacter puts a Single Ballet Boot's standard version on DestinationCharacter legs.
+SourceCharacter在DestinationCharacter腿上穿了一双标准版的单跟芭蕾靴。
+SourceCharacter puts a Single Ballet Boot's full leg variation on DestinationCharacter legs.
+SourceCharacter在DestinationCharacter腿上穿了一双全腿版的单跟芭蕾靴。
+SourceCharacter unties belts from DestinationCharacter ankles and legs.
+SourceCharacter解开了DestinationCharacter脚踝和腿上的皮带。
+SourceCharacter ties DestinationCharacter ankles and legs using some belts.
+SourceCharacter用一些皮带绑住了DestinationCharacter的脚踝和腿。
+SourceCharacter unties belts from DestinationCharacter thighs.
+SourceCharacter解开了DestinationCharacter大腿上的皮带。
+SourceCharacter ties the DestinationCharacter thighs using some belts.
+SourceCharacter用一些皮带绑住了DestinationCharacter的大腿。
+SourceCharacter unwraps any foam tape from DestinationCharacter legs.
+SourceCharacter从DestinationCharacter腿上解开了所有泡沫胶带。
+SourceCharacter wraps DestinationCharacter up to the knees using foam tape.
+SourceCharacter用泡沫胶带将DestinationCharacter包裹到膝盖处。
+SourceCharacter wraps DestinationCharacter legs completely using foam tape.
+SourceCharacter用泡沫胶带将DestinationCharacter的腿完全包裹起来。
+SourceCharacter removes all metal pillory from DestinationCharacter legs.
+SourceCharacter从DestinationCharacter腿上移除了所有金属枷锁。
+SourceCharacter installs metal pillories on DestinationCharacter legs.
+SourceCharacter在DestinationCharacter腿上安装了金属枷锁。
+SourceCharacter turns off the vibration device from DestinationCharacter boot.
+SourceCharacter关闭了DestinationCharacter靴子的振动装置。
+SourceCharacter sets the DestinationCharacter boot vibration device to lowest speed.
+SourceCharacter将DestinationCharacter靴子的振动装置设置为最低速度。
+SourceCharacter sets the DestinationCharacter boot vibration device to average speed.
+SourceCharacter将DestinationCharacter靴子的振动装置设置为中等速度。
+SourceCharacter sets the DestinationCharacter boot vibration device to high speed.
+SourceCharacter将DestinationCharacter靴子的振动装置设置为高速。
+SourceCharacter sets the DestinationCharacter boot vibration device to max speed.
+SourceCharacter将DestinationCharacter靴子的振动装置设置为最高速度。
+Just a single foam roll to hold but...
+这只是一个泡沫卷而已但是……
+Keep it as a roll
+让它保持卷起来
+Try it!
+试试！
+SourceCharacter unwraps the foam tape from TargetPronounPossessive hands and returns this roll to DestinationCharacter to hold.
+SourceCharacter解开了TargetPronounPossessive手上的泡沫胶带，并将这一卷胶带还给DestinationCharacter拿着。
+SourceCharacter uses this foam roll to wrap DestinationCharacter hands.
+SourceCharacter用这卷泡沫胶带包裹了DestinationCharacter的手。
