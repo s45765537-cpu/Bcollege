@@ -122,12 +122,12 @@ function ChatSearchLoad() {
 			`${ChatSearchResultOffset} / ${ChatSearchResult.length}`,
 		],
 	});
-	ChatSearchSearchBodyElement = ElementCreateDiv("chat-search-body");
 	const minRoomSizeInput = ElementCreate({
 		tag: "input",
 		attributes: {
 			id: "chat-search-search-menu-room-size-min",
 			type: "number",
+			inputmode: "numeric",
 			value: Player.ChatSearchSettings.RoomMinSize,
 			min: 2,
 			max: 20,
@@ -151,6 +151,7 @@ function ChatSearchLoad() {
 		attributes: {
 			id: "chat-search-search-menu-room-size-max",
 			type: "number",
+			inputmode: "numeric",
 			value: Player.ChatSearchSettings.RoomMaxSize,
 			min: 1,
 			max: 20,
@@ -171,6 +172,141 @@ function ChatSearchLoad() {
 	});
 
 	if (!Player.ChatSearchSettings.Space.includes(ChatRoomSpace)) Player.ChatSearchSettings.Space = ChatRoomSpace;
+	const searchInput = ElementCreateSearchInput("InputSearch", () => {
+		const rooms = ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult;
+		return rooms.map(i => i.DisplayName).sort();
+	}, { maxLength: 200, value: Player.ChatSearchSettings.Query });
+	searchInput.classList.add("chat-search-input-search-box");
+	const clearButton = ElementButton.Create("chat-search-clear-input-search", function (ev) {
+		ElementValue("InputSearch", "");
+		Player.ChatSearchSettings.Query = "";
+		this.hidden = true;
+		ChatSearchQuery();
+	}, {
+		image:"Icons/cross.svg",
+		noStyling: true,
+	}, {
+		button: {
+			classList: ["chat-search-room-button"],
+			attributes: {hidden: true}
+		},
+	});
+	searchInput.addEventListener("keyup", function(ev) {
+		clearButton.hidden = this.value.length === 0;
+		Player.ChatSearchSettings.Query = this.value;
+	});
+	ChatSearchSearchMenuButton = ElementButton.Create(
+		"chat-search-room-open-search-menu",
+		function () {
+			const img = this.querySelector('img');
+			const open = !this.toggleAttribute("aria-expanded");
+			const searchPanel = document.getElementById(this.getAttribute("aria-controls"));
+			img.src = `Icons/Carret${open ? "Down" : "Up"}.svg`;
+			searchPanel.hidden = !open;
+		},
+		{
+			tooltip: TextGet("SearchMenuButton"),
+			tooltipPosition: "bottom",
+			image: "Icons/CarretUp.svg",
+		},{
+			button: {classList: ["chat-search-room-button"], attributes: {
+				"aria-expanded": "false",
+				"aria-controls": "chat-search-search-menu"
+			}}
+		});
+	ChatSearchRoomHeader = ElementCreate(
+		{
+			tag: "div",
+			attributes: {id: "chat-search-room-header"},
+			children: [
+				{
+					tag: "div",
+					attributes: {
+						id: "chat-search-room-search-section",
+					},
+					classList: ["chat-search-room-header-section"],
+					children: [
+						{
+							tag: "div",
+							attributes: { id: "chat-search-input-search" },
+							children: [
+								searchInput,
+								clearButton,
+							],
+						},
+						ElementButton.Create(
+							"chat-search-room-search-button",
+							() => ChatSearchQuery(),
+							{
+								tooltip: TextGet("Search"),
+								tooltipPosition: "bottom",
+								image: "Icons/Search.png",
+							},
+							{
+								button: {classList: ["chat-search-room-button"]},
+							},
+						),
+						ChatSearchSearchMenuButton,
+						ElementButton.Create(
+							"chat-search-room-prev-page",
+							() => ChatSearchSetPageRelative(-1),
+							{
+								tooltip: TextGet("Prev"),
+								tooltipPosition: "bottom",
+								image: "Icons/Prev.png",
+							},
+							{
+								button: {
+									classList: ["chat-search-room-button"],
+									attributes: { "aria-controls": "chat-search-room-grid" },
+								},
+							},
+						),
+						ChatSearchPageCountElement,
+						ElementButton.Create(
+							"chat-search-room-next-page",
+							() => ChatSearchSetPageRelative(1),
+							{
+								tooltip: TextGet("Next"),
+								tooltipPosition: "bottom",
+								image: "Icons/Next.png",
+							},
+							{
+								button: {
+									classList: ["chat-search-room-button"],
+									attributes: { "aria-controls": "chat-search-room-grid" },
+								},
+							},
+						),
+						ElementButton.Create("chat-search-hide-rooms", function () {
+							ChatSearchToggleSearchMode();
+							ChatSearchQuery();
+							this.querySelector(".button-tooltip").textContent = TextGet(ChatSearchMode != "Filter" ? "FilterMode" : "NormalMode");
+							this.dataset.mode = ChatSearchMode == "Filter" ? "FilterMode" : "NormalMode";
+						}, {
+							tooltip: TextGet(ChatSearchMode != "Filter" ? "FilterMode" : "NormalMode"),
+							tooltipPosition: "bottom",
+							image: "Icons/Private.png",
+						}, {
+							button: {
+								classList: ["chat-search-room-button"],
+								dataAttributes: {
+									mode: ChatSearchMode == "Filter" ? "FilterMode" : "NormalMode",
+								}
+							},
+						}),
+					],
+				},
+				{
+					tag: "div",
+					attributes: {id: "chat-search-room-misc-section"},
+					classList: ["chat-search-room-header-section"],
+				},
+			],
+			parent: document.body,
+		}
+	);
+	ChatSearchSearchBodyElement = ElementCreateDiv("chat-search-body");
 	ChatSearchSearchMenu = ElementCreate(
 		{
 			tag: "fieldset",
@@ -398,141 +534,9 @@ function ChatSearchLoad() {
 			],
 			parent: document.body,
 		});
+
 	ChatSearchRoomGrid = ElementCreateDiv("chat-search-room-grid");
-	const searchInput = ElementCreateSearchInput("InputSearch", () => {
-		const rooms = ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult;
-		return rooms.map(i => i.DisplayName).sort();
-	}, { maxLength: 200, value: Player.ChatSearchSettings.Query });
-	searchInput.classList.add("chat-search-input-search-box");
-	const clearButton = ElementButton.Create("chat-search-clear-input-search", function (ev) {
-		ElementValue("InputSearch", "");
-		Player.ChatSearchSettings.Query = "";
-		this.hidden = true;
-		ChatSearchQuery();
-	}, {
-		image:"Icons/cross.svg",
-		noStyling: true,
-	}, {
-		button: {
-			classList: ["chat-search-room-button"],
-			attributes: {hidden: true}
-		},
-	});
-	searchInput.addEventListener("keyup", function(ev) {
-		clearButton.hidden = this.value.length === 0;
-		Player.ChatSearchSettings.Query = this.value;
-	});
-	ChatSearchSearchMenuButton = ElementButton.Create(
-		"chat-search-room-open-search-menu",
-		function () {
-			const img = this.querySelector('img');
-			const open = !this.toggleAttribute("aria-expanded");
-			const searchPanel = document.getElementById(this.getAttribute("aria-controls"));
-			img.src = `Icons/Carret${open ? "Down" : "Up"}.svg`;
-			searchPanel.hidden = !open;
-		},
-		{
-			tooltip: TextGet("SearchMenuButton"),
-			tooltipPosition: "bottom",
-			image: "Icons/CarretUp.svg",
-		},{
-			button: {classList: ["chat-search-room-button"], attributes: {
-				"aria-expanded": "false",
-				"aria-controls": "chat-search-search-menu"
-			}}
-		});
-	ChatSearchRoomHeader = ElementCreate(
-		{
-			tag: "div",
-			attributes: {id: "chat-search-room-header"},
-			children: [
-				{
-					tag: "div",
-					attributes: {
-						id: "chat-search-room-search-section",
-					},
-					classList: ["chat-search-room-header-section"],
-					children: [
-						{
-							tag: "div",
-							attributes: { id: "chat-search-input-search" },
-							children: [
-								searchInput,
-								clearButton,
-							],
-						},
-						ElementButton.Create(
-							"chat-search-room-search-button",
-							() => ChatSearchQuery(),
-							{
-								tooltip: TextGet("Search"),
-								tooltipPosition: "bottom",
-								image: "Icons/Search.png",
-							},
-							{
-								button: {classList: ["chat-search-room-button"]},
-							},
-						),
-						ChatSearchSearchMenuButton,
-						ElementButton.Create(
-							"chat-search-room-prev-page",
-							() => ChatSearchSetPageRelative(-1),
-							{
-								tooltip: TextGet("Prev"),
-								tooltipPosition: "bottom",
-								image: "Icons/Prev.png",
-							},
-							{
-								button: {
-									classList: ["chat-search-room-button"],
-									attributes: { "aria-controls": "chat-search-room-grid" },
-								},
-							},
-						),
-						ChatSearchPageCountElement,
-						ElementButton.Create(
-							"chat-search-room-next-page",
-							() => ChatSearchSetPageRelative(1),
-							{
-								tooltip: TextGet("Next"),
-								tooltipPosition: "bottom",
-								image: "Icons/Next.png",
-							},
-							{
-								button: {
-									classList: ["chat-search-room-button"],
-									attributes: { "aria-controls": "chat-search-room-grid" },
-								},
-							},
-						),
-						ElementButton.Create("chat-search-hide-rooms", function () {
-							ChatSearchToggleSearchMode();
-							ChatSearchQuery();
-							this.querySelector(".button-tooltip").textContent = TextGet(ChatSearchMode != "Filter" ? "FilterMode" : "NormalMode");
-							this.dataset.mode = ChatSearchMode == "Filter" ? "FilterMode" : "NormalMode";
-						}, {
-							tooltip: TextGet(ChatSearchMode != "Filter" ? "FilterMode" : "NormalMode"),
-							tooltipPosition: "bottom",
-							image: "Icons/Private.png",
-						}, {
-							button: {
-								classList: ["chat-search-room-button"],
-								dataAttributes: {
-									mode: ChatSearchMode == "Filter" ? "FilterMode" : "NormalMode",
-								}
-							},
-						}),
-					],
-				},
-				{
-					tag: "div",
-					attributes: {id: "chat-search-room-misc-section"},
-					classList: ["chat-search-room-header-section"],
-				},
-			],
-			parent: document.body,
-		}
-	);
+
 	ChatSearchQuery();
 	ChatRoomNotificationReset();
 	ChatSearchRejoinIncrement = 1;
@@ -547,6 +551,7 @@ function ChatSearchResize() {
 	ElementPositionFixed(ChatSearchRoomHeader, 25, 25, 1050, 90);
 	ElementPositionFixed(ChatSearchSearchMenu, 25, 115, 810, 480);
 	ElementPositionFixed(ChatSearchSearchBodyElement, 25, 115, 810, 480);
+	ElementPositionFixed(ChatSearchDialogElement, (2000-1200)/2, (1000-700)/2, 1200, 700);
 }
 
 /** @type {ScreenUnloadHandler} */
@@ -665,7 +670,7 @@ function ChatSearchRoomSpaceSelectDraw() {}
  */
 function ChatSearchGetPagination() {
 	const Result = ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult;
-	let pageCount = Math.floor((Result.length + ChatSearchRoomsPerPage) / ChatSearchRoomsPerPage)-1;
+	let pageCount = Math.floor((Result.length) / ChatSearchRoomsPerPage) - 1;
 	let currentPage = (ChatSearchResultOffset / ChatSearchRoomsPerPage);
 	return { currentPage, total: pageCount };
 }
@@ -793,10 +798,11 @@ function ChatSearchKeyDown(event) {
 /**
  * Handles exiting from the chat search screen, removes the input.
  * @type {ScreenExitHandler & { closeSubElements?: boolean }}
- * @param {boolean} [closeSubElements=true] - Whether to exit the screen or just menus within
+ * @param {boolean} [exitScreen=true] - Whether to exit the screen or just menus within
  */
-function ChatSearchExit(closeSubElements=true) {
-	if (closeSubElements) ChatSearchBack();
+function ChatSearchExit(exitScreen=true) {
+	const interupt = ChatSearchBack();
+	if (!exitScreen && interupt) return;
 	ChatSearchMode = "";
 	ChatSearchShowHiddenRoomsActive = false;
 	ChatSearchFilterHelpActive = false;
@@ -811,12 +817,13 @@ function ChatSearchExit(closeSubElements=true) {
 function ChatSearchBack() {
 	if (ChatSearchDialogElement?.open) {
 		ChatSearchDialogElement.close();
-		return;
+		return true;
 	}
 	if (!ChatSearchSearchMenu.hidden) {
 		ChatSearchSearchMenuButton.click();
-		return;
+		return true;
 	}
+	return false;
 }
 /**
  * Draws the filter mode help screen: just text and a back button.
@@ -1259,8 +1266,9 @@ function ChatSearchShowRoomPage(room) {
 				]
 			},
 		],
-		parent: ChatSearchSearchBodyElement,
+		parent: document.body,
 	});
+	ElementPositionFixed(ChatSearchDialogElement, (2000-1200)/2, (1000-700)/2, 1200, 700);
 	ChatSearchDialogElement.addEventListener("keydown", (ev) => {
 		if (ev.key === "Escape") {
 			ChatSearchDialogElement.close();
@@ -1771,7 +1779,7 @@ function ChatSearchQuery() {
 		FullRooms: Player.ChatSearchSettings.FullRooms,
 		ShowLocked: Player.ChatSearchSettings.ShowLocked,
 		MapTypes: [Player.ChatSearchSettings.MapTypes],
-		SearchDescriptions: Player.ChatSearchSettings.SearchDescriptions,
+		SearchDescs: Player.ChatSearchSettings.SearchDescriptions,
 	};
 	const isEqual = CommonObjectEqual(ChatSearchLastSearchDataJSON, SearchData);
 	// Prevent spam searching the same thing.
