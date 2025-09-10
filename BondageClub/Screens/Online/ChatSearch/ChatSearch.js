@@ -323,7 +323,7 @@ function ChatSearchLoad() {
 					},
 					classList: ["chat-search-search-menu-grid-item"],
 					children: [
-						ElementCreateSettingsLabel(TextGet("RoomType"), "chat-search-search-menu-room-type-radio-group"),
+						ElementCreateSettingsLabel(TextGet("RoomType")),
 						ElementCreateRadioButtonGroup(
 							"chat-search-search-menu-room-type-radio-group",
 							(ev, key) => {
@@ -360,7 +360,7 @@ function ChatSearchLoad() {
 					},
 					classList: ["chat-search-search-menu-grid-item"],
 					children: [
-						ElementCreateSettingsLabel(TextGet("Lobby"), "chat-search-search-menu-room-lobby-radio-group"),
+						ElementCreateSettingsLabel(TextGet("Lobby")),
 						ElementCreateRadioButtonGroup(
 							"chat-search-search-menu-room-lobby-radio-group",
 							(ev, key) => {
@@ -392,7 +392,7 @@ function ChatSearchLoad() {
 					},
 					classList: ["chat-search-search-menu-grid-item"],
 					children: [
-						ElementCreateSettingsLabel(TextGet("ShowFullRooms"), "chat-search-search-menu-full-rooms-input", "left"),
+						ElementCreateSettingsLabel(TextGet("ShowFullRooms"), "left"),
 						ElementCheckbox.Create("chat-search-search-menu-full-rooms-input", function (ev) {
 							Player.ChatSearchSettings.FullRooms = this.checked;
 						}, {
@@ -408,7 +408,7 @@ function ChatSearchLoad() {
 					},
 					classList: ["chat-search-search-menu-grid-item"],
 					children: [
-						ElementCreateSettingsLabel(TextGet("ShowLockedRooms"), "chat-search-search-menu-locked-rooms-input", "left"),
+						ElementCreateSettingsLabel(TextGet("ShowLockedRooms"), "left"),
 						ElementCheckbox.Create("chat-search-search-menu-locked-rooms-input", function (ev) {
 							Player.ChatSearchSettings.ShowLocked = this.checked;
 						}, {
@@ -424,7 +424,7 @@ function ChatSearchLoad() {
 					},
 					classList: ["chat-search-search-menu-grid-item"],
 					children: [
-						ElementCreateSettingsLabel(TextGet("SearchDescription"), "chat-search-search-menu-search-description-input", "left"),
+						ElementCreateSettingsLabel(TextGet("SearchDescription"), "left"),
 						ElementCheckbox.Create("chat-search-search-menu-search-description-input", function () {
 							Player.ChatSearchSettings.SearchDescriptions = this.checked;
 						}, {
@@ -440,7 +440,7 @@ function ChatSearchLoad() {
 					},
 					classList: ["chat-search-search-menu-grid-item"],
 					children: [
-						ElementCreateSettingsLabel(TextGet("GameLabel"), "chat-search-search-menu-room-game-dropdown"),
+						ElementCreateSettingsLabel(TextGet("GameLabel")),
 						ElementCreateDropdown(
 							"chat-search-search-menu-room-game-dropdown",
 							[
@@ -467,7 +467,7 @@ function ChatSearchLoad() {
 					attributes: {id:"chat-search-search-menu-room-language"},
 					classList: ["chat-search-search-menu-grid-item"],
 					children: [
-						ElementCreateSettingsLabel("Language", "chat-search-search-menu-room-language-dropdown"),
+						ElementCreateSettingsLabel("Language"),
 						ElementCreateDropdown(
 							"chat-search-search-menu-room-language-dropdown",
 							[
@@ -489,7 +489,7 @@ function ChatSearchLoad() {
 					attributes: {id:"chat-search-search-menu-room-size"},
 					classList: ["chat-search-search-menu-grid-item"],
 					children: [
-						ElementCreateSettingsLabel("Room Size", "chat-search-search-menu-room-size-grid"),
+						ElementCreateSettingsLabel("Room Size"),
 						{
 							tag: "div",
 							attributes: {id:"chat-search-search-menu-room-size-grid"},
@@ -498,13 +498,13 @@ function ChatSearchLoad() {
 								"/",
 								maxRoomSizeInput,
 								{
-									tag: "label",
+									tag: "span",
 									classList: ["chat-search-search-menu-room-size-label"],
 									children: ["min"],
 									attributes: { "for": "chat-search-search-menu-room-size-min" }
 								},
 								{
-									tag: "label",
+									tag: "span",
 									classList: ["chat-search-search-menu-room-size-label"],
 									children: ["max"],
 									style: { "grid-column": "3/3" },
