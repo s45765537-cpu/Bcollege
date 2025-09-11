@@ -88,7 +88,8 @@ function ChatAdminRoomCustomizationCommand(Property, Value) {
 	if (Custom == null) Custom = { ImageURL: "", ImageFilter: "", MusicURL: "" };
 	if (Property == "Image") Custom.ImageURL = Value;
 	if (Property == "Filter") Custom.ImageFilter = Value;
-	if (Property == "Music") Custom.MusicURL = Value;
+	if (Property == "Music" && Custom.MusicURL != Value) {Custom.MusicURL = Value; Custom.MusicStart = Date.now();}
+
 	if ((Custom.ImageURL == "") && (Custom.ImageFilter == "") && (Custom.MusicURL == "")) Custom = null;
 
 	// Update the room's custom data
@@ -105,7 +106,7 @@ function ChatAdminRoomCustomizationCommand(Property, Value) {
 async function ChatAdminRoomCustomizationLoad() {
 	ChatAdminRoomCustomizationMode = null;
 	ChatAdminRoomCustomizationCurrent = null;
-	const data = ChatAdminData.Custom ? CommonCloneDeep(ChatAdminData.Custom) : { ImageURL: "", ImageFilter: "", MusicURL: ""};
+	const data = ChatAdminData.Custom ? CommonCloneDeep(ChatAdminData.Custom) : { ImageURL: "", ImageFilter: "", MusicURL: "", MusicStart: ""};
 	const imageInput = ElementCreateInput("InputImageURL", "text", data.ImageURL, "250");
 	const filterInput = ElementCreateInput("InputImageFilter", "text", data.ImageFilter, "10");
 	const musicInput = ElementCreateInput("InputMusicURL", "text", data.MusicURL, "250");
@@ -154,13 +155,26 @@ function ChatAdminRoomCustomizationPlayMusic(Music) {
 			ChatAdminRoomCustomizationMusic.currentTime = 0;
 			ChatAdminRoomCustomizationMusic.src = FileName;
 			ChatAdminRoomCustomizationMusic.volume = Math.min(vol, 1) * 0.25;
+			if (Date.now() - ChatRoomData.Custom.MusicStart > 5000) {
+				ChatAdminRoomCustomizationMusic.addEventListener('loadedmetadata', function () {
+					ChatAdminRoomCustomizationMusic.currentTime = (((Date.now() - ChatRoomData.Custom.MusicStart)/1000)%ChatAdminRoomCustomizationMusic.duration);
+				}, false)
+			}
 			ChatAdminRoomCustomizationMusic.play();
 			ChatAdminRoomCustomizationMusic.addEventListener('ended', function() {
 				ChatAdminRoomCustomizationMusic.currentTime = 0;
 				ChatAdminRoomCustomizationMusic.play();
 			}, false);
 		}
-		if (ChatAdminRoomCustomizationMusic.paused) ChatAdminRoomCustomizationMusic.play();
+		if (ChatAdminRoomCustomizationMusic.paused) {
+			if (Date.now() - ChatRoomData.Custom.MusicStart > 5000) {
+				ChatAdminRoomCustomizationMusic.currentTime = (((Date.now() - ChatRoomData.Custom.MusicStart)/1000)%ChatAdminRoomCustomizationMusic.duration);
+			}
+			if (ChatAdminRoomCustomizationMusic.currentTime*1000>Date.now() - ChatRoomData.Custom.MusicStart) {
+				ChatAdminRoomCustomizationMusic.currentTime = 0;
+			}
+			ChatAdminRoomCustomizationMusic.play();
+		}
 	} else {
 		if ((ChatAdminRoomCustomizationMusic != null) && !ChatAdminRoomCustomizationMusic.paused) ChatAdminRoomCustomizationMusic.pause();
 		return;
@@ -354,6 +368,8 @@ function ChatAdminRoomCustomizationClick() {
 		ChatAdminData.Custom.SizeMode = ChatAdminRoomCustomizationSizeMode;
 		ChatAdminData.Custom.ImageFilter = ElementValue("InputImageFilter").trim();
 		ChatAdminData.Custom.MusicURL = ElementValue("InputMusicURL").trim();
+		if (ChatRoomData?.Custom?.MusicURL != undefined && ChatRoomData?.Custom?.MusicURL != ChatAdminData.Custom.MusicURL && ChatAdminData.Custom.MusicURL != "") ChatAdminData.Custom.MusicStart = Date.now();
+
 		if ((ChatAdminData.Custom.ImageURL == "") && (ChatAdminData.Custom.ImageFilter == "") && (ChatAdminData.Custom.MusicURL == ""))
 			ChatAdminData.Custom = null;
 		ChatAdminRoomCustomizationExit();
