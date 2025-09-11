@@ -40,6 +40,14 @@ Face paints
 脸部彩绘
 Splatters
 溅污
+Body Style
+身体样式
+Original
+原版
+Echo V1
+Echo V1
+Echo V2
+Echo V2
 Upper Body
 上身
 Bulky Flat Chest
@@ -90,6 +98,8 @@ Fishnet Bikini
 渔网文胸
 Flower Bra
 花文胸
+Sport Bra
+运动文胸
 Frame Bra Style 1
 框架文胸样式 1
 Frame Bra Style 2
@@ -142,6 +152,8 @@ Star Harness
 束带文胸
 Studded Harness
 饰钉束缚带
+Sport Swimsuit
+运动泳衣
 Swimsuit style 1
 泳衣样式 1
 Swimsuit style 2
@@ -262,8 +274,8 @@ Grand Mage Dress
 大法师连衣袍
 Heavy Leather Dress
 厚重皮革连衣裙
-Cropped Hoodie
-齐胸兜帽衫
+Comfortable Hoodie
+舒适连帽衫
 Jacket
 夹克
 Lace Babydoll
@@ -300,6 +312,8 @@ Mistress Top
 女王上衣
 Nurse Uniform
 护士服
+Off The Shoulder Top
+露肩上衣
 Retro Girdle Dress
 复古修身衣
 Ribbon Corset
@@ -390,6 +404,8 @@ Leather Straps
 皮革束带
 Poncho
 庞乔斗篷
+Latex Ruffled Collar
+乳胶荷叶边项圈
 Scarf
 围巾
 Student Bow 1
@@ -428,6 +444,8 @@ Business Trousers
 商务长裤
 Cheerleader Skirt
 啦啦队短裙
+Ruffled Miniskirt
+荷叶边迷你裙
 Chinese Skirt
 中式花裙
 Patterned Skirt
@@ -456,6 +474,8 @@ Jean Skirt
 牛仔裙
 Jeans Shorts
 牛仔短裤
+Gym Shorts
+运动短裤
 Latex Pants
 乳胶裤
 Latex Skirt
@@ -518,6 +538,8 @@ Cloth Outer
 外套
 Leather Jacket
 皮革夹克
+Jacket Hoodie
+夹克连帽衫
 Corset
 束腰
 Corset + Garters
@@ -540,6 +562,70 @@ Leather Tight Corset
 皮革紧身束腰
 Boned Underbust Corset
 撑骨胸下束腰
+Decals
+贴花
+Den of Sin
+罪恶巢穴
+Amber Family
+Amber家族
+Azure Corporation
+Azure公司
+Demon's Bar
+Demon的酒吧
+Gangriels
+Gangriels
+Luke's Chill Tent
+Luke的放松帐篷
+Malkuth
+Malkuth
+The Rat's Ass
+老鼠屁股酒吧
+Slave Helpline
+奴隶求助热线
+Void Order
+虚空秩序
+Data Room
+数据室
+The Bondage Club Rules
+束缚俱乐部支配
+Bondage College
+束缚学院
+Bonk!
+敲！
+Bondage Teacher
+束缚教师
+BTG
+BTG
+Aim Your Boss Butt
+瞄准你的老板屁股
+Control Padded
+Control Padded
+Dominant
+支配者
+Eclipse
+日食
+Kidnap League Elite
+绑架联盟精英
+Hogtied
+Hogtied
+Hornywood
+Hornywood
+Keys?!
+钥匙呢？！
+RadFrog
+RadFrog
+Raiders Of The Pandora's Box
+潘多拉魔盒突袭者
+Shibari Crew
+绳结团队
+Staff
+员工
+White Moon
+白月
+The Zam Sticker
+Zam贴纸
+The Zam Sticker II
+Zam贴纸 II
 Emoticon
 表情图标
 Eyebrows
@@ -564,6 +650,8 @@ Style 13
 样式 13
 Style 14
 样式 14
+Style 15
+样式 15
 Style 5
 样式 5
 Style 6
@@ -752,6 +840,18 @@ Fox Ears Small
 小 狐狸耳朵
 Fox Ears Large
 狐耳 大
+ Customizable Fluffy Ears 1
+自定义毛绒耳 1
+ Customizable Fluffy Ears 2
+自定义毛绒耳 2
+ Customizable Fluffy Ears 3
+自定义毛绒耳 3
+ Customizable Cat Ears
+自定义猫耳
+ Customizable Elf Ears
+自定义精灵耳
+ Customizable Cow Ears
+自定义奶牛耳
 Fox Ears Bell
 狐耳 + 铃铛
 Cyber Ears
@@ -830,8 +930,6 @@ Style 12b
 样式 12b
 Style 13b
 样式 13b
-Style 15
-样式 15
 Style 15b
 样式 15b
 Style 16
@@ -1088,8 +1186,8 @@ Claws
 爪子
 Fingernails
 指甲
-Rings
-指环
+Rings and Nails
+戒指和指甲
 Hand Accessory (Right)
 手饰 (右)
 Hand (Left)
@@ -1140,10 +1238,14 @@ Crown Style 4
 皇冠样式 4
 Crown Style 5
 皇冠样式 5
+Flat Cap
+报童帽
 Flower Crown
 花冠
 Fur Headband
 毛皮头带
+Gat
+朝鲜帽
 Maid Hairband
 女仆发箍
 Maid Latex Hairband
@@ -1386,6 +1488,10 @@ Zip Ties
 扎带
 Bed Metal Cuffs
 床上金属铐
+Paw Padded Petsuit Arms
+爪垫宠物服手臂
+MultiStrap Petsuit Arms
+多束带宠物服手臂
 Feet
 脚
 Ballet Heels
@@ -1428,6 +1534,8 @@ Pony Boots
 小马靴
 Short Pony Boots
 短小马靴
+Single Ballet Boot
+单跟芭蕾靴
 Latex Heels
 乳胶靴
 Metal Toe Cuffs
@@ -1438,6 +1546,8 @@ Toe Tie
 绳缚脚趾
 Torment Heels
 折磨高跟鞋
+Zipper Ballet Boots
+拉链芭蕾靴
 Strict Pony Boots
 严格小马靴
 Breasts
@@ -1490,6 +1600,8 @@ Fox Tail Large
 狐尾 大
 Fox Tails
 狐尾塞
+Fuckable Butt Plug
+可性交肛塞
 Hollow Butt Plug
 空心肛塞
 Horse Butt Plug
@@ -1686,6 +1798,8 @@ Heavy Duty Ear Plugs
 重型耐久耳塞
 Light Duty Ear Plugs
 轻型耳塞
+Ankles
+脚踝
  Ankle Shackles
 脚踝镣铐
 Ball And Chain
@@ -1750,6 +1864,8 @@ Cane
 手杖
 Cattle Prod
 赶牛棒
+Cigarette
+香烟
 Crop
 硬鞭
 Electric Toothbrush
@@ -1760,6 +1876,8 @@ Feather Duster
 羽毛掸
 Flogger
 鞭笞
+Foam Roll
+泡沫胶带卷
 For Sale Sign
 待售标志
 Gavel
@@ -1804,6 +1922,8 @@ Mobile Phone 2
 手机 2
 Plastic Wrap Roll
 保鲜膜卷
+Plushie
+毛绒玩具
 Popcorn
 爆米花
 PortalLink Tablet
@@ -1862,6 +1982,8 @@ Pom Pom Mitts
 绒球连指手套
 Long Leather Paw Mittens
 长皮革猫爪连指手套
+Foam Tape Mittens
+泡沫胶带连指手套
 Futuristic Mittens
 未来连指手套
 Full Mittens
@@ -1948,6 +2070,8 @@ Snorkel
 浮潜镜
 Studded Blindfold
 铆钉眼罩
+Hypnotic Visor
+催眠眼镜
 Accent Hood
 重点头套
 Balloon Hood
@@ -2060,8 +2184,6 @@ Zipper Hood
 拉链头套
 Legs
 腿
-Barrel Corset
-桶束腰
 Frog-tie Straps
 蟹缚绑带
 Frog-tie Metal Cuffs
@@ -2086,6 +2208,10 @@ Seamless Leg Binder
 无缝腿部捆绑器
 Shiny Leg Binder
 闪亮绑腿器
+MultiStrap Petsuit Legs
+多束带宠物服腿
+Paw Padded Petsuit Legs
+爪垫宠物服腿
 Secret Suitcase
 秘密手提箱
 Unlocked Suitcase
@@ -2194,6 +2320,8 @@ Cloth Gag
 布塞
 Cloth Stuffing
 布球堵嘴
+Composite Gag
+复合口塞
 Cup Holder Gag
 杯架口塞
 Deepthroat Penis Gag
@@ -2466,6 +2594,8 @@ Pup Bone
 小狗骨头
 Rose
 玫瑰
+Rose Amulet
+玫瑰护身符
 Shock Unit
 电击单元
 Sun Pendant
@@ -2644,8 +2774,6 @@ Studded Chastity Belt
 铆钉式贞操腰带
 Waist-Leg Full Harness
 腰腿完全束缚带
-Crinkly Diaper
-皱褶尿布
 Latex Chastity Diaper
 乳胶贞操尿布
 Script
@@ -2654,6 +2782,8 @@ Torso
 躯干
 Adult Baby Harness
 成人婴儿束带
+Barrel Corset
+桶束腰
 Classic Latex Corset
 经典乳胶束腰
  Crotch Chain
@@ -2744,6 +2874,8 @@ Full Casing Cage
 全覆盖贞操笼
 Latex Nulge
 乳胶无效凸起
+Ball Spreader Cage
+球形扩张笼
 Clitoris
 阴蒂
 Adorned Clitoris Piercing
@@ -2860,6 +2992,8 @@ Rope Necklace
 绳子项圈
 Custom Pearl Necklace
 自定义珍珠项链
+Rose Pendant
+玫瑰吊坠
 Satin Scarf
 缎面围巾
 Nipples Style
@@ -2922,6 +3056,8 @@ Pearl String
 珍珠串
 Pilot Panties
 飞行员内裤
+Sport Panties
+运动内裤
 Poofy Diaper
 屎尿布
 Bow Panties
@@ -2944,6 +3080,8 @@ Wrap Panties
 包裹形内裤
 Zip-String Panties
 拉链内裤
+Crinkly Diaper
+皱褶尿布
 Latex Diaper
 乳胶尿布
 Pronouns
@@ -2952,6 +3090,8 @@ He/Him
 他
 She/Her
 她
+They/Them
+They/Them
 Genitalia
 生殖器
 Penis
@@ -2976,6 +3116,8 @@ Boots
 靴子
 Platform Clogs
 厚底洞洞鞋
+Combat Boots
+战术靴
 Custom Strap Heels
 自定义束带高跟鞋
 Deluxe Mistress Boots
@@ -3128,6 +3270,8 @@ Cow Tail Strap
 穿戴式奶牛尾巴
 Demon Tail
 恶魔尾巴
+Dragons Tail
+龙尾
 Dragon Tail Strap
 穿戴式龙尾
  Scaled dragon tail strap (Left)

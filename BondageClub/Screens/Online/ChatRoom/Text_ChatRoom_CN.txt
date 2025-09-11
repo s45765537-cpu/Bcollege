@@ -80,6 +80,8 @@ Invalid member number for target: $target.
 （向 {NAME} ({NUMBER})发送悄悄话: {MESSAGE}）
 We're not friend with member $target.
 我们和会员 $target 不是好友关系。
+Please enter a beep message.
+请输入私聊消息。
 <strong>Help: KeyWord</strong>
 <strong>帮助: 关键词</strong>
 command: no such command

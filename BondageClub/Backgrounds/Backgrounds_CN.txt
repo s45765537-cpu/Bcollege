@@ -20,14 +20,18 @@ Back Alley
 后巷
 Balcony Night
 阳台夜间
+Ballet Class
+芭蕾舞课
 Bar Restaurant
 酒吧餐厅
 BDSM Room Blue
 蓝色调教室
 BDSM Room Purple
 紫色调教室
-BDSM Room Red
-红色调教室
+BDSM Room Red 1
+红色调教室1
+BDSM Room Red 2
+红色调教室2
 Beach
 海滩
 Beach Promenade Café
@@ -46,6 +50,8 @@ Boutique Shop
 精品店
 Captain Cabin
 船长室
+Casino
+赌场
 Fancy Castle
 美妙城堡
 Cellar
@@ -90,6 +96,8 @@ Sports Ground
 运动场
 Staff Room
 员工休息室
+Commercial Street Night
+商业街夜晚
 Confessions
 忏悔室
 Cosy Chalet
@@ -118,12 +126,20 @@ Egyptian Tomb
 埃及古墓
 Empty Warehouse
 空仓库
+Fancy Bedroom
+豪华卧室
 Forest Cave
 森林洞穴
 Forest Path
 森林小道
 Gardens
 花园
+Garden Café 1
+花园咖啡馆1
+Garden Café 2
+花园咖啡馆2
+Garden Museum
+花园博物馆
 Gymnasium
 体育馆
 Entrance to Heaven
@@ -136,6 +152,8 @@ Hotel Bedroom
 酒店卧室
 Hotel Bedroom 2
 酒店卧室2
+Hotel Bedroom 3
+酒店卧室3
 Empty Basement 1
 空地下室1
 Empty Basement 2
@@ -160,6 +178,8 @@ Industrial
 工业风
 Infiltration Bunker
 潜入暗堡
+Interrogation Room
+审讯室
 Introduction
 介绍处
 Jungle Temple
@@ -168,6 +188,8 @@ Kennels
 养犬场
 Kidnappers League
 绑匪联盟
+Kinky Shop
+怪癖商店
 Kitchen 1
 厨房 1
 Kitchen 2
@@ -182,6 +204,8 @@ Locker Room
 储物室
 Lost Wages Casino
 吃人赌场
+Lounge Piano
+休息室钢琴
 Maid Café
 女仆咖啡
 Maid Quarters
@@ -332,8 +356,10 @@ Space Station Captain Bedroom
 太空站站长卧室
 Spooky Forest
 阴森的森林
-Street Night
-夜间街道
+Christmas Street Night
+圣诞节街道夜晚
+Student Bedroom
+学生卧室
 Sun Temple
 太阳神庙
 Virtual World

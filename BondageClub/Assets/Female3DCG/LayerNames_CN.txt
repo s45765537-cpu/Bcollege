@@ -42,6 +42,10 @@ Lace
 蕾丝
 Spikes
 尖刺
+Right band
+左侧带
+Left band
+右侧带
 Band
 束带
 Face
@@ -60,6 +64,10 @@ Bra
 胸罩
 Flowers
 花朵
+Design
+样式
+Waist
+腰部
 Shine
 高光
 Fabric
@@ -92,6 +100,18 @@ Lining
 环圈
 Zipper
 拉链
+Stomach
+肚子
+Bra Straps
+胸罩带
+Belt
+皮带
+Base
+打底
+Back Stripe
+背部条纹
+Front Stripe
+前部条纹
 Bib
 围嘴
 Pattern
@@ -114,8 +134,6 @@ Back
 后部
 Front
 前部
-Belt
-皮带
 Metal details
 金属细节
 Chain details
@@ -124,10 +142,28 @@ Color One
 颜色1
 Color Two
 颜色2
+Upper buckle
+上部搭扣
+Lower buckle
+下部搭扣
+Metal detail
+金属细节
 Shoulders
 肩膀
 Buckle
 皮带扣
+Collar latex base
+项圈乳胶底
+Top ruffled detail
+顶部褶边细节
+Below ruffled detail
+下部褶边细节
+Collar buttons
+项圈扣子
+Leather choker
+皮革颈圈
+Choker button
+贴颈项圈扣子
 Cape
 斗篷
 Shoulder
@@ -174,8 +210,6 @@ Cloth
 布料
 Corset
 束腰
-Design
-样式
 T-Shirt
 T恤
 Stamp
@@ -198,6 +232,16 @@ Shine Sleeves
 闪亮袖子
 Sleeves
 袖子
+Pocket
+口袋
+Hips
+臀部
+Sleeve
+袖子
+Wrist
+手腕
+Hood
+头套
 Rivets
 铆钉
 Ribbon
@@ -206,10 +250,12 @@ Shawl
 披肩
 Shawl Fur
 披肩柔毛
-Base
-打底
 Interior
 内侧
+Left
+左侧
+Right
+右侧
 Fishnet Top
 渔网上衣
  Latex
@@ -256,8 +302,14 @@ Pants Unzipped
 裤子未拉上拉链
 Pants Down
 拉下裤子
+Pants
+裤子
 Crosses
 十字架
+DesignV2
+样式V2
+SkirtV2
+裙子V2
 Panty
 内裤
 Panty Line
@@ -300,8 +352,6 @@ Waist Belt
 腰带
 Snaps
 皮带扣
-Waist
-腰部
 Side Belt Details
 侧带细节
 Side Belts
@@ -358,10 +408,6 @@ Right leg garter
 右腿袜带
 Left leg garter
 左腿袜带
-Left
-左侧
-Right
-右侧
 Goggles
 护目镜
 Lenses
@@ -378,6 +424,10 @@ Hair
 头发
 Nose
 鼻子
+Right lens
+右镜片
+Left lens
+左镜片
 Accessory
 配饰
 Elbow Stripe
@@ -414,6 +464,8 @@ Mic
 话筒
 Stem
 连杆
+Lights
+灯光
 Outside
 外部
 Light
@@ -434,12 +486,66 @@ Inner Webbing
 内侧网状
 Edge
 边缘
-Lights
-灯光
-Bun
-包子
+Tip
+顶端
 Tips
 顶端
+Fluff
+绒毛
+Stud1 Left
+钉1左侧
+Stud2 Left
+钉2左侧
+Stud3 Left
+钉3左侧
+Stud4 Left
+钉4左侧
+Stud1 Right
+钉1右侧
+Stud2 Right
+钉2右侧
+Stud3 Right
+钉3右侧
+Stud4 Right
+钉4右侧
+SmallRing1 Left
+小环1左侧
+SmallRing2 Left
+小环2左侧
+SmallRing3 Left
+小环3左侧
+SmallRing4 Left
+小环4左侧
+SmallRing1 Right
+小环1右侧
+SmallRing2 Right
+小环2右侧
+SmallRing3 Right
+小环3右侧
+SmallRing4 Right
+小环4右侧
+Bar Left
+杆左侧
+Bar Right
+杆右侧
+Bells Left
+铃铛左侧
+Bells Right
+铃铛右侧
+Tag Left
+标签左侧
+Tag Right
+标签右侧
+BigRing1 Left
+大环1左侧
+BigRing1 Right
+大环1右侧
+BigRing2 Left
+大环2左侧
+BigRing2 Right
+大环2右侧
+Bun
+包子
 Braid
 织物
 Scrunchies
@@ -489,7 +595,7 @@ Right Streak
  Base
 基础
  Fluff
-绒毛
+ Fluff
  Tip
 顶端
 Bangs
@@ -554,10 +660,14 @@ Crown
 王冠
 Jewels
 珠宝
+Hat stripes
+帽子条纹
 Main Flowers
 主要花朵
 Petals
 花瓣
+Beads
+珠子
 Cowl
 面巾
 Symbol
@@ -654,8 +764,6 @@ Crotch Panel
 胯部遮挡
 Crotch
 胯部
-Hood
-头套
 Eyelets
 眼圈
 Buckle Hole
@@ -698,6 +806,16 @@ Shorts
 短裤
 Bars
 杆子
+Lacing Back
+后部系带
+Lacing
+系带
+Lacing Trim
+系带装饰
+Paws
+爪子
+Extra Straps
+额外束带
 Mittens
 手套
 Mittens shine
@@ -734,6 +852,20 @@ Toes
 指头
 Horseshoes
 马蹄铁
+Single boot
+单靴
+Boot shine
+靴子高光
+Boot straps
+靴子带
+Boot metal details
+靴子金属细节
+Belt buckles
+皮带搭扣
+Foam tape
+泡沫胶带
+Leg metal pillories
+腿部金属枷锁
 Hooves
 蹄子
 Straps Base
@@ -754,8 +886,6 @@ Under layer shine
 下层反光
 Tail
 尾巴
-Tip
-顶端
 Tails
 尾巴
 Heart
@@ -1012,6 +1142,20 @@ Power switch
 电源开关
 Accent
 风格
+Smoke
+烟
+Lit
+点燃
+Filter
+滤嘴
+Smoke In Mouth
+嘴里的烟
+Lit In Mouth
+嘴里点燃
+Filter In Mouth
+嘴里滤嘴
+Paper In Mouth
+嘴里纸
 Fan paper
 扇子纸面
 Fan paper 2nd color
@@ -1028,6 +1172,72 @@ Fluids
 液体
 Mug
 马克杯
+Choose a plushie
+选择一个毛绒玩具
+Sin
+Sin
+Raven
+Raven
+CassandraLee
+CassandraLee
+Rika
+Rika
+Roslin
+Roslin
+Gangriel
+Gangriel
+Celiko
+Celiko
+Lavender
+Lavender
+Sabie
+Sabie
+Siscuit
+Siscuit
+Aeri
+Aeri
+Delta
+Delta
+Khloe
+Khloe
+Lillian
+Lillian
+Minerva
+Minerva
+Nabi
+Nabi
+TinyRaven
+TinyRaven
+XDress
+XDress
+Magdalena
+Magdalena
+Sonic
+Sonic
+Alunra
+Alunra
+Mel
+Mel
+Elora
+Elora
+Hoshi-Ko
+Hoshi-Ko
+Layottu
+Layottu
+Lisa
+Lisa
+Little Sera
+Little Sera
+Mana
+Mana
+Melanie
+Melanie
+Zoi
+Zoi
+Zoe
+Zoe
+Zannah
+Zannah
 Bag
 袋子
 Corn
@@ -1050,8 +1260,6 @@ Fan edge
 扇子边缘
 Fan inner rods
 扇子内部杆
-Paws
-爪子
 Main Behind
 后部主体
 Straps Behind
@@ -1060,8 +1268,6 @@ Beans Behind
 后部肉球
 Locks Behind
 后部锁
-Belt buckles
-皮带搭扣
 Right Mitt Base
 右侧连指手套基础
 Left Mitt Base
@@ -1128,6 +1334,12 @@ Thread Right
 右侧线条
 Thread Left
 左侧线条
+Decal
+贴花
+Head Bead
+头部珠子
+Head Bead Support
+头部珠子支撑
 Rubber balloon
 橡胶气球
 Balloon shine
@@ -1137,7 +1349,7 @@ Neck rope
 Canvas
 画布
  Lacing
-束带
+系带
  Outline
 边缘
 Spots
@@ -1306,6 +1518,8 @@ Breathing Tube
 呼吸管
 Marks
 标记
+tLegs
+腿部
 Sticker
 贴纸
 Plaque
@@ -1416,6 +1630,20 @@ Open
 打开
 Serious
 严肃
+Foam ball
+泡沫球
+Under foam tape
+泡沫胶带下
+Rubber glue
+橡胶胶水
+Rubber tape
+橡胶胶带
+Metal strip
+金属条
+Screw strip
+螺丝条
+External foam tape
+外部泡沫胶带
 Close
 关闭
 Ball Shine
@@ -1730,6 +1958,14 @@ Thumb Ring
 大拇指戒指
 Wedding Ring
 结婚戒指
+Nails Color
+指甲颜色
+Nails Outline
+指甲轮廓
+Claws Color
+爪子颜色
+Claws Outline
+爪子轮廓
 String
 系绳
 Nose Gloss
@@ -1784,6 +2020,8 @@ Top Stripe
 上身条纹
 Sole
 脚底
+Soles
+脚底
 Ankle Straps
 脚踝束带
 Mid Straps
@@ -1804,8 +2042,6 @@ Cosmetic padlocks
 装饰锁
  Shoe
 鞋
-Soles
-脚底
  Heels
 鞋跟
 Round Base
@@ -1846,6 +2082,12 @@ Catsuit
 紧身衣
 Underlayment
 衬底层
+Base Shine
+基底高光
+Scales
+鳞片
+Scales Shine
+鳞片高光
 Primary
 主要
 Secondary

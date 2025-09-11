@@ -122,8 +122,8 @@ Don't garble online chat and whipers when gagged.
 被塞住嘴时，不混淆在线聊天和悄悄话。
 Character label color:
 角色标签颜色:
-Item permission:
-物品权限:
+Allowed interactions:
+允许互动:
 Everyone, no exceptions
 所有人
 Everyone, except blacklist
@@ -418,6 +418,8 @@ Pet play
 宠物游戏
 Forniphilia (human furniture)
 物品化（人形家具）
+Spandex (Snug & Tight)
+氨纶（紧身）
 Hate it
 讨厌
 Doesn't like it

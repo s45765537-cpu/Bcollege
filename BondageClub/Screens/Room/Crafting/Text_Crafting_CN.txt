@@ -16,9 +16,9 @@ Next
 下一页
 Reorder Slots
 重排栏位
-Click slots to select items to move:
+Click slots to select items to move: 
 选择要移动的栏位：
-Click slots to place selected items:
+Click slots to place selected items: 
 选择栏位放置选择物品：
 No lock
 无锁
@@ -172,3 +172,25 @@ Failed to parse the passed crafting code
 无法解析传入的制作代码
 Undress character preview
 角色预览脱衣
+Error while parsing craft
+解析制作时出错
+Toggle status text
+切换状态文本
+all
+全部
+Load a new inventory of crafting items with the following steps, overriding {all} existing items:
+通过以下步骤加载一个新的制作物品库存，覆盖{all}现有物品：
+Import the {json} file with exported crafting data (see the {download-tooltip} button in the main crafting menu)
+导入带有导出制作数据的{json}文件（见主制作菜单中的{download-tooltip}按钮）
+(Optional) select which specific new crafting items to import; defaults to all
+(可选) 选择要导入的特定新制作物品；默认为全部
+(Optional) reorder the new crafting items via dragging and dropping them
+(可选) 通过拖放重新排序新的制作物品
+Import new crafting inventory
+导入新的制作库存
+Download all crafts
+下载所有制作物品
+New crafts (select all)
+新制作物品（全选）
+Old crafts (select all)
+旧制作物品（全选）

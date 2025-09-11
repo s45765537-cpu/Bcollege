@@ -2,8 +2,6 @@ No chat room found.  You can create a new one.
 没有找到聊天室，你可以新建一个
 Search for a room
 通过名称搜索一个房间
-Search for a room
-搜索房间
 Clear filter
 清除过滤器
 Create your room
@@ -130,17 +128,79 @@ GGTS
 GGTS
 Pandora
 潘多拉
+All Games
+所有游戏
 All languages
 所有语言
-English
-英语
-French
-法语
 Spanish
 西班牙语
-German
-德语
-Chinese
-中文
-Russian
-俄语
+Map Rooms
+地图房间
+Hybrid Rooms
+混合房间
+Normal Rooms
+普通房间
+All Rooms
+所有房间
+Any Lobby
+任何大厅
+Any Language
+任何语言
+No Game
+无游戏
+Search
+搜索
+Search description:
+搜索描述:
+Show locked rooms:
+显示锁定的房间：
+Show full rooms:
+显示满员的房间：
+Room Type:
+房间类型：
+Search Menu
+搜索菜单
+Show Room Page
+显示房间页面
+Join Room
+加入房间
+Admin Only
+仅管理员
+Whitelist Only
+仅白名单
+Try to Join
+尝试加入
+ABDL items are not allowed in this room.
+此房间不允许尿布癖物品。
+Fantasy items are not allowed in this room.
+此房间不允许奇幻物品。
+Photographs are not allowed in this room.
+此房间不允许拍照。
+Arousal activities are not allowed in this room.
+此房间不允许性活动。
+Sci-Fi items are not allowed in this room.
+此房间不允许科幻物品。
+Player Leashing is not allowed in this room.
+此房间不允许牵走玩家。
+Only female characters are allowed in this room.
+此房间仅允许女性角色。
+Only male characters are allowed in this room.
+此房间仅允许男性角色。
+Mixed gender characters are allowed in this room.
+此房间允许混合性别角色。
+LARP game is active in this room.
+此房间正在进行体感对战游戏。
+Magic Battle is active in this room.
+此房间正在进行魔法对战游戏。
+GGTS is active in this room.
+此房间正在进行GGTS游戏。
+Pandora is active in this room.
+此房间正在进行潘多拉活动。
+The main language of this room is %LANGUAGE%.
+此房间的主要语言是 %LANGUAGE%。
+This room is always a map.
+此房间始终是地图房间。
+This room allows both maps and normal rooms.
+此房间允许地图房间和普通房间。
+This room is just a normal room.
+此房间只是一个普通房间。
