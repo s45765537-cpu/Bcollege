@@ -53,6 +53,7 @@
 }
 .chat-search-search-menu-room-size-label {
     font-size: 0.8em;
+    user-select: none;
 }
 .chat-search-room-size-input {
     border: min(0.2vh, 0.1vw) solid black;
@@ -250,6 +251,7 @@
     display: flex;
     flex-direction: column;
     pointer-events: none;
+    overflow: hidden;
 }
 .chat-search-room-icons:first-child {
     margin-top: 0.05em;
@@ -270,8 +272,7 @@
 #chat-search-room-page {
     background-color: #ffffff;
     border: min(0.2vh, 0.1vw) solid rgb(0, 0, 0);
-    width: 30em;
-    height: 18em;
+    height: 100%;
     padding: 0.5em;
     position: relative;
 }
