@@ -111,7 +111,7 @@ function GameRun(Timestamp) {
 				maxFocusedFPS === 0 ? maxUnfocusedFPS :
 				Math.min(maxUnfocusedFPS, maxFocusedFPS);
 
-			if (TimerLastTime + (1000 / maxFPS) > Timestamp) {
+			if (TimerLastTime + ((1000 / maxFPS) | 0) > Timestamp) {
 				GameAnimationFrameId = requestAnimationFrame(GameRun);
 				return;
 			}
