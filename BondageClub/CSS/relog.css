@@ -11,6 +11,7 @@
   justify-content: center;
   align-items: center;
   gap: min(10vh, 5vw);
+  user-select: none;
 }
 
 #relog-login span,
