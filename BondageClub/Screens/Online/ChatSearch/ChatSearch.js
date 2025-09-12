@@ -353,7 +353,7 @@ function ChatSearchLoad() {
 					],
 				},
 				// Lobby
-				{
+				ChatRoomSpace !== "Asylum" && {
 					tag: "div",
 					attributes: {
 						id:"chat-search-search-menu-room-lobby",
@@ -383,7 +383,8 @@ function ChatSearchLoad() {
 								},
 							].filter(Boolean),
 						),
-					]},
+					],
+				},
 				// Full rooms
 				{
 					tag: "div",
@@ -669,10 +670,10 @@ function ChatSearchRoomSpaceSelectDraw() {}
  * @returns {{currentPage: number, total: number}}
  */
 function ChatSearchGetPagination() {
-	const Result = ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult;
-	let pageCount = Math.floor((Result.length) / ChatSearchRoomsPerPage) - 1;
-	let currentPage = (ChatSearchResultOffset / ChatSearchRoomsPerPage);
-	return { currentPage, total: pageCount };
+	const rooms = ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult;
+	let total = Math.ceil(rooms.length / ChatSearchRoomsPerPage);
+	let currentPage = ChatSearchResultOffset / ChatSearchRoomsPerPage + 1;
+	return { currentPage, total };
 }
 
 /**
@@ -681,9 +682,9 @@ function ChatSearchGetPagination() {
  */
 function ChatSearchSetPage(page) {
 	const { total } = ChatSearchGetPagination();
-	page = CommonClamp(page, 0, total);
-	ChatSearchResultOffset = page * ChatSearchRoomsPerPage;
-	ChatSearchPageCountElement.textContent = `${page+1} / ${total+1}`;
+	page = CommonClamp(page, 1, total);
+	ChatSearchResultOffset = (page - 1) * ChatSearchRoomsPerPage;
+	ChatSearchPageCountElement.textContent = `${page} / ${total}`;
 	ChatSearchGridUpdate(ChatSearchResult.slice(ChatSearchResultOffset, ChatSearchResultOffset + ChatSearchRoomsPerPage));
 }
 
@@ -692,8 +693,9 @@ function ChatSearchSetPage(page) {
  * @param {number} offset
  */
 function ChatSearchSetPageRelative(offset) {
-	const { currentPage } = ChatSearchGetPagination();
-	let page = currentPage + offset;
+	const { currentPage, total } = ChatSearchGetPagination();
+	let page = (currentPage + offset) % (total + 1);
+	if (page === 0 && Math.sign(offset) === -1) page = total;
 	ChatSearchSetPage(page);
 }
 
