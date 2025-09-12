@@ -42852,11 +42852,11 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Arelia",
-						AllowTypes: { EnsLivingRoom: 6 },
+						AllowTypes: { EnsLivingRoom: 9 },
 					},
 					{
 						Name: "Dawn",
-						AllowTypes: { EnsLivingRoom: 6 },
+						AllowTypes: { EnsLivingRoom: 10 },
 					},
 					{
 						Name: "Nabi",
