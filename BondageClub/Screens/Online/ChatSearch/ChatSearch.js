@@ -353,7 +353,7 @@ function ChatSearchLoad() {
 					],
 				},
 				// Lobby
-				{
+				ChatRoomSpace !== "Asylum" && {
 					tag: "div",
 					attributes: {
 						id:"chat-search-search-menu-room-lobby",
@@ -383,7 +383,8 @@ function ChatSearchLoad() {
 								},
 							].filter(Boolean),
 						),
-					]},
+					],
+				},
 				// Full rooms
 				{
 					tag: "div",
