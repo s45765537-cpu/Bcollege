@@ -976,7 +976,7 @@ var ChatRoomSep = {
 				}),
 				" - ",
 			] : undefined,
-			ChatRoomHTMLEntities(ChatSearchMuffle(button.dataset.room)),
+			ChatSearchMuffle(button.dataset.room),
 			button.dataset.messages ? [
 				ElementCreate({
 					tag: "span",
