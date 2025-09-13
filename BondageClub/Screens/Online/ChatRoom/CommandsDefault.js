@@ -433,6 +433,14 @@ const CommonCommands = [
 		}
 	},
 	{
+		Tag: 'sos',
+		Action: () => {
+			const expression = WardrobeGetExpression(Player).Emoticon != "SOS" ? "SOS" : null;
+			CharacterSetFacialExpression(Player, "Emoticon", expression);
+			Player.ActiveExpression.Emoticon = expression;
+		}
+	},
+	{
 		Tag: 'expr',
 		Action: args => {
 			if (args.trim() == "") {
