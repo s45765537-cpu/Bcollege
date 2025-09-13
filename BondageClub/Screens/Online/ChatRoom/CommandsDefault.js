@@ -425,6 +425,14 @@ const CommonCommands = [
 		}
 	},
 	{
+		Tag: 'brb',
+		Action: () => {
+			const expression = WardrobeGetExpression(Player).Emoticon != "Brb" ? "Brb" : null;
+			CharacterSetFacialExpression(Player, "Emoticon", expression);
+			Player.ActiveExpression.Emoticon = expression;
+		}
+	},
+	{
 		Tag: 'expr',
 		Action: args => {
 			if (args.trim() == "") {
