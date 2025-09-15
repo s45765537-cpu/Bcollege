@@ -11,9 +11,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2025-09-09
-* Last recorded PR: [#5811](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5811)
-* Last recorded commit hash: `9fd11a79f38fc9e093f05cbaf77f9890be264e7f`
+* Changelog last updated: 2025-09-15
+* Last recorded PR: [#5827](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5827)
+* Last recorded commit hash: `4b318652621f982378cb4336eb38868833216762`
 
 ## [R120]
 
@@ -23,11 +23,14 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Cleon - CustomTShirt's new sticker and migrating almost CTS stickers to the Decals slot. ([#5804](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5804))
 * RavenCreative - Gat Hat and Viking furniture chair with expanding table for maps ([#5787](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5787))
 * RavenCreative - Added posemapping to combat boots cause of glitch caused by posemapping in the layer. ([#5794](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5794))
+* Da'Inihlus - CN translation updates ([#5812](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5812))
 * Sin - Make the cig on mouth lose the gag effect, block locks and tighten as well ([#5766](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5766))
 * Sin - Removed gender restriction from AirValveGag (TechoGag) ([#5783](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5783))
 * Sin - Refinements to the Elegant Skirt kneeling and kneeling spread v2 poses for echo v2 body by @RavenCreative ([#5782](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5782))
 * Sin - Adds male art for mesh top to Echo V2 ([#5803](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5803))
 * Sin - Adds several plushies, restructures plushies ([#5805](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5805))
+* Sin - Removed gender restriction from the BodyChain Necklace ([#5827](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5827))
+* Sin - Adds Microphone device item drawn by Jegudiel ([#5817](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5817))
 * duckduckgoose420 - Add commands to give and take map key from players ([#5722](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5722))
 * zajcud - Modified the drawing method of the map edit button so that it can accommodate more buttons,and added some map objects on tile like numbers,letters and icons. ([#5778](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5778))
 * dDeepLb - Round FPS counter ([#5755](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5755))
@@ -35,6 +38,7 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * EllieThePink - Fix username field autofocus ([#5798](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5798))
 * Zoe - Smooth keyboard movement on maps ([#5806](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5806))
 * Zoe - Added info page to rooms and extended search options ([#5775](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5775))
+* Feldob66 - Slave Helpline sleeve ([#5814](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5814))
 * Feldob66 - Jacket Hoodie by K-Chan and Felix ([#5788](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5788))
 * Feldob66 - Sport Panties by K-Chan and Felix ([#5789](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5789))
 * Feldob66 - Ruffled Miniskirt by K-Chan and Felix ([#5790](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5790))
@@ -56,13 +60,19 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Sin - Various plushie fixes, missing art and typos. ([#5767](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5767))
 * Sin - Fix Leather delux cuffs for Echo V2 Body ([#5785](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5785))
 * Sin - Fixed BusinessSuit for EchoV2 body ([#5801](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5801))
+* Sin - Fix plushie squeeze action to have proper strings for labels and chat text. ([#5825](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5825))
+* Sin - Update plushies to fix Liesel, Arelia, and Dawn ([#5818](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5818))
 * Zoe - Fix chat search issues ([#5808](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5808))
 * Zoe - Trailing chatroom issues from chatsearch ([#5809](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5809))
+* Zoe - Fixed description search, pagination, icons having scroll, etc ([#5813](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5813))
+* anna - Card name fix ([#5826](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5826))
 * dDeepLb - Use CharacterNickname in more places to be more consistent with how things are displayed ([#5762](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5762))
 * dDeepLb - Add option for toast to clamp message ([#5781](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5781))
 * dDeepLb - Remove repeated call of onClose for toasts ([#5780](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5780))
 * dDeepLb - Fix friendlist ([#5799](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5799))
 * Rama - Fix `InheritPoseMappingFields` settings not propagating from asset- to layer-level ([#5795](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5795))
+* Rama - Ensure that the text on the relog screen is unselectable ([#5822](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5822))
+* Rama - Fix `ChatRoomSep.GetDisplayName()` mangling certain unicode characters ([#5821](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5821))
 * Estsanatlehi - Fix the separator not being added the first time a room is entered ([#5768](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5768))
 * Estsanatlehi - Fix the ClubCard game online initialization happening out of order ([#5770](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5770))
 * Estsanatlehi - Add missing owner rule appearance blocks ([#5771](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5771))
@@ -71,11 +81,15 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Estsanatlehi - Fix some items not causing a redraw once they load ([#5774](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5774))
 * Estsanatlehi - Fix a couple reported issues ([#5777](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5777))
 * Estsanatlehi - Reset the map movement when we teleport ([#5764](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5764))
+* Estsanatlehi - Fix the "Unlimited" setting of the FPS limiter breaking ([#5816](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5816))
+* Estsanatlehi - Fix missing Microphone things ([#5820](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5820))
+* Estsanatlehi - Chat search issues ([#5819](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5819))
 * Ben987 - Fix Eyes 14 Lewd Heart Pink
 * Ben987 - Fix Eyes 14 from JimmyG
 * Ben987 - Inventory ID fixes for new items
 
 ### [Technical]
+* dDeepLb - Remove an input event dispatch as this is done by ElementValue ([#5823](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5823))
 * Rama - Move BC's `charset="UTF-8"` declaration to the top ([#5769](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5769))
 * Estsanatlehi - Remove the unnecessary override preview images ([#5776](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5776))
 * Estsanatlehi - Fix CI ([#5765](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5765))
