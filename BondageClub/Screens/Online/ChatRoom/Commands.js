@@ -418,7 +418,6 @@ function CommandCompleteCommand(setCommand, remaining, argumentDepth, completion
 function CommandChangeChatInputContent(msg) {
 	ElementValue("InputChat", msg);
 	ElementFocus("InputChat");
-	document.getElementById("InputChat").dispatchEvent(new Event("input"));
 }
 
 /**
