@@ -61126,7 +61126,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "KabeshiriWall",
 				InventoryID: 1129,
-				StyleOverride: ["EchoV2"],
 				Value: 100,
 				Top: 50,
 				Difficulty: 20,
@@ -61181,6 +61180,7 @@ var AssetFemale3DCG = [
 				Layer: [
 					{
 						Name: "Butt",
+						StyleOverride: ["EchoV2"],
 						InheritColor: "BodyLower",
 						Priority: 64,
 						HideColoring: true,
@@ -61188,6 +61188,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Penis",
+						StyleOverride: ["EchoV2"],
 						InheritColor: "Pussy",
 						Priority: 63,
 						ShowForAttribute: ["PenisLayer"],
@@ -61196,6 +61197,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Pussy",
+						StyleOverride: ["EchoV2"],
 						InheritColor: "Pussy",
 						Priority: 63,
 						ShowForAttribute: ["PussyLayer"],
@@ -61204,6 +61206,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Feet",
+						StyleOverride: ["EchoV2"],
 						InheritColor: "BodyLower",
 						AllowTypes: { l: 0 },
 						Priority: 64,
@@ -61212,6 +61215,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Legs",
+						StyleOverride: ["EchoV2"],
 						InheritColor: "BodyLower",
 						AllowTypes: { l: 1 },
 						Priority: 64,
@@ -61220,6 +61224,7 @@ var AssetFemale3DCG = [
 					},
 					{
 						Name: "Hands",
+						StyleOverride: ["EchoV2"],
 						InheritColor: "BodyUpper",
 						AllowTypes: { a: 0 },
 						Priority: 64,
