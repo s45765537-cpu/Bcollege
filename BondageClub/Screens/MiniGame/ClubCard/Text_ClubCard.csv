@@ -623,9 +623,9 @@ Title Nadu Nyla,Nadu Nyla
 Text Nadu Nyla,Gain +2 Fame and +1 Money as long as you have an active event in your club.
 Title Surrender,Surrender
 Text Surrender,All Slaves in your club get +1 Fame.
-Title Hands out,Hands out
-Text Hands out,"Select a card in your hand, then discard your hand and draw as many cards, save the selected card if a slave is present."
-Prerequisite Hands out,Select a card in your hand.
+Title Hands Out,Hands Out
+Text Hands Out,"Select a card in your hand, then discard your hand and draw as many cards, save the selected card if a slave is present."
+Prerequisite Hands Out,Select a card in your hand.
 Title Carol,Carol
 Text Carol,"Enters: If another Nurse is present, add a random Patient from your Streets to your club, if there are none, add one from your deck."
 Title Rizom,Rizom

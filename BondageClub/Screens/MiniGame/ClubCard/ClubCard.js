@@ -3425,7 +3425,7 @@ var ClubCardList = [
 	},
 	{
 		ID: 31033,
-		Name: "Hands out",
+		Name: "Hands Out",
 		Type: "Event",
 		Prerequisite: "SelectCardInHand",
 		OnPlay: function(CCPlayer) {
