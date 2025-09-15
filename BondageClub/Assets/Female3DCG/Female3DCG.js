@@ -65676,7 +65676,7 @@ var ActivityFemale3DCG = [
 		ActivityID: 61,
 		MaxProgress: 0,
 		Prerequisite: ["Needs-SqueezeItem", "UseHands"],
-		Target: ["ItemArms", "ItemBreast", "ItemButt", "ItemHandheld"],
+		Target: ["ItemHands"],
 		TargetSelf: true,
 		ActivityExpression: [{ Group: "Mouth", Name: "Grin", Timer: 10 }],
 	},

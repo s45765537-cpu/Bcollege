@@ -36,6 +36,7 @@ ActivityReverseSuckItem,Reverse Suck
 ActivityHandGag,Hand Gag
 ActivityRestHead,Rest Head
 ActivitySpankItem,Spank
+ActivitySqueezeItem,Squeeze
 ActivityBrushItem,Brush
 ActivityTickleItem,Tickle
 ActivityRubItem,Rub
@@ -239,6 +240,7 @@ Label-ChatOther-ItemHands-PoliteKiss,Polite Kiss on Hand
 Label-ChatOther-ItemHands-Scratch,Scratch
 Label-ChatOther-ItemHands-Spank,Spank Hand
 Label-ChatOther-ItemHands-SpankItem,Spank Hands
+Label-ChatOther-ItemHands-SqueezeItem,Squeeze
 Label-ChatOther-ItemHands-Suck,Suck Fingers
 Label-ChatOther-ItemHands-TakeCare,Polish Nails
 Label-ChatOther-ItemHands-BrothersHandshake,Brothers Handshake
@@ -563,6 +565,7 @@ Label-ChatSelf-ItemHands-PoliteKiss,Small Kiss on Hand
 Label-ChatSelf-ItemHands-Scratch,Scratch
 Label-ChatSelf-ItemHands-Spank,Spank Hand with the Other
 Label-ChatSelf-ItemHands-SpankItem,Spank Hands
+Label-ChatSelf-ItemHands-SqueezeItem,Squeeze
 Label-ChatSelf-ItemHands-Suck,Suck Fingers
 Label-ChatSelf-ItemHands-TakeCare,Polish Nails
 Label-ChatSelf-ItemHands-Wiggle,Wiggle Fingers
@@ -839,6 +842,7 @@ ChatOther-ItemGlans-ShockItem,SourceCharacter shocks TargetCharacter's glans wit
 ChatOther-ItemGlans-Slap,SourceCharacter slaps TargetCharacter's glans.
 ChatOther-ItemGlans-SpankItem,SourceCharacter hits TargetCharacter's glans with PronounPossessive ActivityAsset.
 ChatOther-ItemGlans-TickleItem,SourceCharacter tickles TargetCharacter's glans with PronounPossessive ActivityAsset.
+ChatOther-ItemHands-SqueezeItem,SourceCharacter squeezes TargetCharacter's ActivityAsset.
 ChatOther-ItemHands-Bite,SourceCharacter bites TargetCharacter's hand.
 ChatOther-ItemHands-Caress,SourceCharacter caresses TargetCharacter's hand.
 ChatOther-ItemHands-GaggedKiss,SourceCharacter touches PronounPossessive gag to TargetCharacter's hand.
@@ -1169,6 +1173,7 @@ ChatSelf-ItemHands-Nibble,SourceCharacter nibbles PronounPossessive own hand.
 ChatSelf-ItemHands-PoliteKiss,SourceCharacter gives a small kiss on PronounPossessive hand.
 ChatSelf-ItemHands-Scratch,SourceCharacter scratches PronounPossessive hand.
 ChatSelf-ItemHands-Spank,SourceCharacter spanks PronounPossessive first hand with the second one.
+ChatSelf-ItemHands-SqueezeItem,SourceCharacter squeezes PronounPossessive ActivityAsset.
 ChatSelf-ItemHands-Suck,SourceCharacter sucks on PronounPossessive fingers.
 ChatSelf-ItemHands-TakeCare,SourceCharacter cleans and polishes PronounPossessive nails.
 ChatSelf-ItemHands-Wiggle,SourceCharacter wiggles PronounPossessive fingers
