@@ -5504,11 +5504,9 @@ var AssetFemale3DCG = [
 			{
 				Name: "BodyChainNecklace",
 				InventoryID: 199,
-				Prerequisite: ["HasBreasts"],
 				Priority: 29,
 				Value: 50,
 				DefaultColor: ["#d1951f", "#d1951f"],
-				Gender: "F",
 				PoseMapping: {
 					Hogtied: "BackElbowTouch",
 					AllFours: PoseType.HIDE,
