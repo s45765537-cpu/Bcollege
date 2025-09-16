@@ -277,6 +277,9 @@
     border: none;
     overflow: visible;
 } 
+#chat-search-room-page-dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.3);
+}
 #chat-search-room-page {
     background-color: #ffffff;
     border: min(0.2vh, 0.1vw) solid rgb(0, 0, 0);
