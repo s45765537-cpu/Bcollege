@@ -809,9 +809,9 @@ function ChatSearchKeyDown(event) {
 /**
  * Handles exiting from the chat search screen, removes the input.
  * @type {ScreenExitHandler & { closeSubElements?: boolean }}
- * @param {boolean} [exitScreen=true] - Whether to exit the screen or just menus within
+ * @param {boolean} [exitScreen=false] - Whether to exit the screen or just menus within
  */
-function ChatSearchExit(exitScreen=true) {
+function ChatSearchExit(exitScreen=false) {
 	const interupt = ChatSearchBack();
 	if (!exitScreen && interupt) return;
 	ChatSearchMode = "";
