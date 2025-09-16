@@ -657,19 +657,15 @@ function ElementToggleGeneratedElements(Screen, ShouldDisplay) {
 /**
  * Create a label for a given element
  * @param {string} label
- * @param {string} forElement
  * @param {'left' | 'top'} position
  */
-function ElementCreateSettingsLabel(label, forElement, position="top") {
+function ElementCreateSettingsLabel(label, position="top") {
 	return ElementCreate({
-		tag: "label",
+		tag: "span",
 		classList:  [`element-settings-label-${position}`],
 		children: [
 			label,
 		],
-		attributes: {
-			for: forElement,
-		},
 	});
 }
 /**
