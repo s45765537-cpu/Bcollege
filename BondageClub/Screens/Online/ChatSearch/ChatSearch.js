@@ -552,7 +552,7 @@ function ChatSearchResize() {
 	ElementPositionFixed(ChatSearchRoomHeader, 25, 25, 1050, 90);
 	ElementPositionFixed(ChatSearchSearchMenu, 25, 115, 810, 480);
 	ElementPositionFixed(ChatSearchSearchBodyElement, 25, 115, 810, 480);
-	ElementPositionFixed(ChatSearchDialogElement, (2000-1200)/2, (1000-700)/2, 1200, 700);
+	ElementPositionFixed("chat-search-room-page", (2000-1200)/2, (1000-700)/2, 1200, 700);
 }
 
 /** @type {ScreenUnloadHandler} */
@@ -1258,7 +1258,7 @@ function ChatSearchShowRoomPage(room) {
 		],
 		parent: document.body,
 	});
-	ElementPositionFixed(ChatSearchDialogElement, (2000-1200)/2, (1000-700)/2, 1200, 700);
+	ElementPositionFixed("chat-search-room-page", (2000-1200)/2, (1000-700)/2, 1200, 700);
 	ChatSearchDialogElement.addEventListener("keydown", (ev) => {
 		if (ev.key === "Escape") {
 			ChatSearchDialogElement.close();
