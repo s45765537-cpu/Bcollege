@@ -366,7 +366,8 @@
 .chat-search-room-page-member-count {
     padding: 0.25em 0.5em;
     background-color: #f1f1f1;
-    border:  min(0.2vh, 0.1vw) solid #f1f1f1;
+    border: min(0.2vh, 0.1vw) solid #f1f1f1;
+    user-select: none;
 }
 
 #chat-search-room-page-exit {
