@@ -391,6 +391,9 @@ function ChatSearchLoad() {
 					attributes: {
 						id:"chat-search-search-menu-full-rooms",
 					},
+					dataAttributes: {
+						checkbox: true,
+					},
 					classList: ["chat-search-search-menu-grid-item"],
 					children: [
 						ElementCreateSettingsLabel(TextGet("ShowFullRooms"), "left"),
@@ -407,6 +410,9 @@ function ChatSearchLoad() {
 					attributes: {
 						id:"chat-search-search-menu-locked-rooms",
 					},
+					dataAttributes: {
+						checkbox: true,
+					},
 					classList: ["chat-search-search-menu-grid-item"],
 					children: [
 						ElementCreateSettingsLabel(TextGet("ShowLockedRooms"), "left"),
@@ -422,6 +428,9 @@ function ChatSearchLoad() {
 					tag: "div",
 					attributes: {
 						id:"chat-search-search-menu-search-description",
+					},
+					dataAttributes: {
+						checkbox: true,
 					},
 					classList: ["chat-search-search-menu-grid-item"],
 					children: [

@@ -45,7 +45,7 @@
     height: fit-content;
     width: fit-content;
 }
-.chat-search-search-menu-grid-item:has(input[type="checkbox"]) {
+.chat-search-search-menu-grid-item[data-checkbox] {
     display: flex;
     justify-content: space-between;
     margin: 0.25em 0.5em;
@@ -215,7 +215,7 @@
     }
 }
 
-.button-tooltip:has(.chat-search-room-tooltip) {
+.chat-search-room-join-button .button-tooltip {
     background-color: transparent;
     border: none;
     box-shadow: none;
@@ -223,6 +223,7 @@
     padding: 0; 
     z-index: 3;
 }
+
 .chat-search-room-tooltip {
     gap: 0.1em;
   display: flex;
