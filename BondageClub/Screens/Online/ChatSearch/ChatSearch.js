@@ -1151,7 +1151,7 @@ function ChatSearchCreateRoomPageTags(room) {
 	if (room.Friends.length > 0) AddTag(
 		"friends",
 		TextGet("FriendList"),
-		{ tag: /** @type {const} */("ul"), children: room.Friends.map(f => { return { tag: "li", children: [`${f.MemberName} (${f.MemberNumber})`] } }) },
+		{ tag: /** @type {const} */("ul"), children: room.Friends.map(f => { return { tag: "li", children: [`${f.MemberName} (${f.MemberNumber})`] }; }) },
 	);
 
 	// Tags with multiple values
