@@ -133,14 +133,15 @@
     --button-color: var( --full-room-color);
     --hover-color: var( --full-room-color);
     cursor: not-allowed;
-    &[data-blocked=true] {
-        --button-color: var(--full-blocked-color);
-        --hover-color: var(--full-blocked-color);
-    }
-    &[data-with-friends=true] {
-        --button-color: var(--full-friends-color);
-        --hover-color: var(--full-friends-color);
-    }
+}
+
+.chat-search-room-join-button[data-full=true][data-blocked=true] {
+    --button-color: var(--full-blocked-color);
+}
+
+.chat-search-room-join-button[data-full=true][data-with-friends=true] {
+    --button-color: var(--full-friends-color);
+    --hover-color: var(--full-friends-color);
 }
 
 .chat-search-room {
@@ -328,26 +329,32 @@
 .chat-search-room-page-tag-block {
     --disabled-color: #fbdddd;
     color: #db6262;
-    & .button-tooltip {
-        background-color: #fbdddd;
-        color: #db6262;
-    }
 }
+
+.chat-search-room-page-tag-block .button-tooltip {
+    background-color: #fbdddd;
+    color: #db6262;
+}
+
 .chat-search-room-page-tag-game {
     --disabled-color: #d8d8ff;
     color: #7474e7;
-    & .button-tooltip {
-        background-color: #d8d8ff;
-        color: #7474e7;
-    }
+    
 }
+
+.chat-search-room-page-tag-game .button-tooltip {
+    background-color: #d8d8ff;
+    color: #7474e7;
+}
+
 .chat-search-room-page-tag-friends {
     --disabled-color: #e2fce2;
     color: #499249;
-    & .button-tooltip {
-        background-color: #e2fce2;
-        color: #499249;
-    }
+}
+
+.chat-search-room-page-tag-friends .button-tooltip {
+    background-color: #e2fce2;
+    color: #499249;
 }
 
 .chat-search-room-page-tag-friends ul {
