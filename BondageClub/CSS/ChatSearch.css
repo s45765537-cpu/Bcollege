@@ -349,6 +349,16 @@
         color: #499249;
     }
 }
+
+.chat-search-room-page-tag-friends ul {
+    display: grid;
+    grid-template-rows: repeat(10, auto);
+    grid-auto-flow: column;
+    padding: unset;
+    margin: unset;
+    list-style: none;
+}
+
 .chat-search-room-page-footer {
     display: flex;
     justify-content: end;

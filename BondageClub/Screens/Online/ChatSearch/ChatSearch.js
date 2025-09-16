@@ -1094,7 +1094,7 @@ function ChatSearchCreateRoomPageTags(room) {
 	 * Creates a tag for the room page
 	 * @param {string} tag - The tag name
 	 * @param {string} value - The text to display
-	 * @param {string} [tooltip] - The tooltip to display
+	 * @param {ElementButton.StaticNode} [tooltip] - The tooltip to display
 	 */
 	function AddTag(tag, value, tooltip) {
 		roomPageTags.push(ElementButton.Create(null,
@@ -1139,7 +1139,7 @@ function ChatSearchCreateRoomPageTags(room) {
 	if (room.Friends.length > 0) AddTag(
 		"friends",
 		TextGet("FriendList"),
-		room.Friends.map(f => `${f.MemberName} (${f.MemberNumber})`).join(", ")
+		{ tag: /** @type {const} */("ul"), children: room.Friends.map(f => { return { tag: "li", children: [`${f.MemberName} (${f.MemberNumber})`] } }) },
 	);
 
 	// Tags with multiple values
