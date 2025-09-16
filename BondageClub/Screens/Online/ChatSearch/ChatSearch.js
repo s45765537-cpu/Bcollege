@@ -969,6 +969,9 @@ function ChatSearchCreateGridRoom(room, index) {
 		}, {
 			button: {
 				classList: ["chat-search-room-join-button"],
+				attributes: {
+					autofocus: true,
+				},
 				dataAttributes: {
 					locked: !room.CanJoin ? "true" : "false",
 					full: room.MemberCount >= room.MemberLimit ? "true" : "false",
