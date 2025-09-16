@@ -1057,27 +1057,27 @@ function ChatSearchCreateGridRoomTooltip(room, index) {
 		attributes: {id: `chat-search-room-tooltip-${index}`},
 		classList: ["chat-search-room-tooltip"],
 		children: [
-			room.Friends.length > 0 && {
+			room.Friends.length > 0 ? {
 				tag: "span",
 				classList: ["chat-search-room-tooltip-entry", "chat-search-room-tooltip-friends"],
 				children: [
 					TextGet("FriendsInRoom") + " " + room.Friends.map(f => `${f.MemberName} (${f.MemberNumber})`).join(", ") ,
 				],
-			},
-			room.Game != "" && {
+			} : undefined,
+			room.Game != "" ? {
 				tag: "span",
 				classList: ["chat-search-room-tooltip-entry", "chat-search-room-tooltip-game"],
 				children: [
 					TextGet("GameLabel") + " " + TextGet("Game" + room.Game),
 				],
-			},
-			CharacterHasBlockedItem(Player, room.BlockCategory) && {
+			} : undefined,
+			CharacterHasBlockedItem(Player, room.BlockCategory) ? {
 				tag: "span",
 				classList: ["chat-search-room-tooltip-entry", "chat-search-room-tooltip-blocked"],
 				children: [
 					TextGet("Block") + " " + room.BlockCategory.map(c => TextGet(c)).join(", "),
 				],
-			},
+			} : undefined,
 		],
 	});
 }
