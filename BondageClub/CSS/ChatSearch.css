@@ -22,6 +22,10 @@
 #chat-search-hide-rooms[data-mode="FilterMode"] {
     --button-color: lime;
 }
+#chat-search-room-grid > *:nth-child(3n) .chat-search-room-page-button .button-tooltip {
+    left: 100%;
+    transform: translateX(-100%);
+}
 /*#region chat search menu */
 #chat-search-search-menu{
     background-color: #fffffff6;
@@ -45,7 +49,7 @@
     height: fit-content;
     width: fit-content;
 }
-.chat-search-search-menu-grid-item:has(input[type="checkbox"]) {
+.chat-search-search-menu-grid-item[data-checkbox] {
     display: flex;
     justify-content: space-between;
     margin: 0.25em 0.5em;
@@ -133,14 +137,15 @@
     --button-color: var( --full-room-color);
     --hover-color: var( --full-room-color);
     cursor: not-allowed;
-    &[data-blocked=true] {
-        --button-color: var(--full-blocked-color);
-        --hover-color: var(--full-blocked-color);
-    }
-    &[data-with-friends=true] {
-        --button-color: var(--full-friends-color);
-        --hover-color: var(--full-friends-color);
-    }
+}
+
+.chat-search-room-join-button[data-full=true][data-blocked=true] {
+    --button-color: var(--full-blocked-color);
+}
+
+.chat-search-room-join-button[data-full=true][data-with-friends=true] {
+    --button-color: var(--full-friends-color);
+    --hover-color: var(--full-friends-color);
 }
 
 .chat-search-room {
@@ -214,7 +219,7 @@
     }
 }
 
-.button-tooltip:has(.chat-search-room-tooltip) {
+.chat-search-room-join-button .button-tooltip {
     background-color: transparent;
     border: none;
     box-shadow: none;
@@ -222,6 +227,7 @@
     padding: 0; 
     z-index: 3;
 }
+
 .chat-search-room-tooltip {
     gap: 0.1em;
   display: flex;
@@ -254,7 +260,7 @@
     grid-row: 1/-1;
     overflow-y: scroll;
     width: 100%;
-    z-index: 1;
+    z-index: 0;
     align-content: center;
     display: flex;
     flex-direction: column;
@@ -277,6 +283,9 @@
     border: none;
     overflow: visible;
 } 
+#chat-search-room-page-dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.3);
+}
 #chat-search-room-page {
     background-color: #ffffff;
     border: min(0.2vh, 0.1vw) solid rgb(0, 0, 0);
@@ -325,27 +334,43 @@
 .chat-search-room-page-tag-block {
     --disabled-color: #fbdddd;
     color: #db6262;
-    & .button-tooltip {
-        background-color: #fbdddd;
-        color: #db6262;
-    }
 }
+
+.chat-search-room-page-tag-block .button-tooltip {
+    background-color: #fbdddd;
+    color: #db6262;
+}
+
 .chat-search-room-page-tag-game {
     --disabled-color: #d8d8ff;
     color: #7474e7;
-    & .button-tooltip {
-        background-color: #d8d8ff;
-        color: #7474e7;
-    }
+    
 }
+
+.chat-search-room-page-tag-game .button-tooltip {
+    background-color: #d8d8ff;
+    color: #7474e7;
+}
+
 .chat-search-room-page-tag-friends {
     --disabled-color: #e2fce2;
     color: #499249;
-    & .button-tooltip {
-        background-color: #e2fce2;
-        color: #499249;
-    }
 }
+
+.chat-search-room-page-tag-friends .button-tooltip {
+    background-color: #e2fce2;
+    color: #499249;
+}
+
+.chat-search-room-page-tag-friends ul {
+    display: grid;
+    grid-template-rows: repeat(10, auto);
+    grid-auto-flow: column;
+    padding: unset;
+    margin: unset;
+    list-style: none;
+}
+
 .chat-search-room-page-footer {
     display: flex;
     justify-content: end;
@@ -363,7 +388,8 @@
 .chat-search-room-page-member-count {
     padding: 0.25em 0.5em;
     background-color: #f1f1f1;
-    border:  min(0.2vh, 0.1vw) solid #f1f1f1;
+    border: min(0.2vh, 0.1vw) solid #f1f1f1;
+    user-select: none;
 }
 
 #chat-search-room-page-exit {

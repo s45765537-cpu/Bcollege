@@ -391,6 +391,9 @@ function ChatSearchLoad() {
 					attributes: {
 						id:"chat-search-search-menu-full-rooms",
 					},
+					dataAttributes: {
+						checkbox: true,
+					},
 					classList: ["chat-search-search-menu-grid-item"],
 					children: [
 						ElementCreateSettingsLabel(TextGet("ShowFullRooms"), "left"),
@@ -407,6 +410,9 @@ function ChatSearchLoad() {
 					attributes: {
 						id:"chat-search-search-menu-locked-rooms",
 					},
+					dataAttributes: {
+						checkbox: true,
+					},
 					classList: ["chat-search-search-menu-grid-item"],
 					children: [
 						ElementCreateSettingsLabel(TextGet("ShowLockedRooms"), "left"),
@@ -422,6 +428,9 @@ function ChatSearchLoad() {
 					tag: "div",
 					attributes: {
 						id:"chat-search-search-menu-search-description",
+					},
+					dataAttributes: {
+						checkbox: true,
 					},
 					classList: ["chat-search-search-menu-grid-item"],
 					children: [
@@ -552,7 +561,7 @@ function ChatSearchResize() {
 	ElementPositionFixed(ChatSearchRoomHeader, 25, 25, 1050, 90);
 	ElementPositionFixed(ChatSearchSearchMenu, 25, 115, 810, 480);
 	ElementPositionFixed(ChatSearchSearchBodyElement, 25, 115, 810, 480);
-	ElementPositionFixed(ChatSearchDialogElement, (2000-1200)/2, (1000-700)/2, 1200, 700);
+	ElementPositionFixed("chat-search-room-page", (2000-1200)/2, (1000-700)/2, 1200, 700);
 }
 
 /** @type {ScreenUnloadHandler} */
@@ -800,9 +809,9 @@ function ChatSearchKeyDown(event) {
 /**
  * Handles exiting from the chat search screen, removes the input.
  * @type {ScreenExitHandler & { closeSubElements?: boolean }}
- * @param {boolean} [exitScreen=true] - Whether to exit the screen or just menus within
+ * @param {boolean} [exitScreen=false] - Whether to exit the screen or just menus within
  */
-function ChatSearchExit(exitScreen=true) {
+function ChatSearchExit(exitScreen=false) {
 	const interupt = ChatSearchBack();
 	if (!exitScreen && interupt) return;
 	ChatSearchMode = "";
@@ -941,6 +950,26 @@ function ChatSearchCreateGridRoom(room, index) {
 
 	/**@type {(null | undefined | string | Node | HTMLOptions<keyof HTMLElementTagNameMap>)[]} */
 	const content = [
+		ElementButton.Create(`chat-search-room-join-button-${room.Order}`, () => {
+			ServerSend("ChatRoomJoin", { Name: room.Name });
+		}, {
+			tooltipPosition: "bottom",
+			tooltip: hasTooltip ? ChatSearchCreateGridRoomTooltip(room, index) : undefined,
+		}, {
+			button: {
+				classList: ["chat-search-room-join-button"],
+				attributes: {
+					autofocus: true,
+				},
+				dataAttributes: {
+					locked: !room.CanJoin ? "true" : "false",
+					full: room.MemberCount >= room.MemberLimit ? "true" : "false",
+					withFriends: room.Friends.length > 0 ? "true" : "false",
+					blocked: isBlocked ? "true" : "false",
+					game: room.Game != "" ? "true" : "false",
+				},
+			},
+		}),
 		icons.length > 0 ? {
 			tag: "div",
 			classList: ["chat-search-room-icons"],
@@ -952,23 +981,6 @@ function ChatSearchCreateGridRoom(room, index) {
 				})),
 			],
 		} : undefined,
-		ElementButton.Create(`chat-search-room-join-button-${room.Order}`, () => {
-			ServerSend("ChatRoomJoin", { Name: room.Name });
-		}, {
-			tooltipPosition: "bottom",
-			tooltip: hasTooltip ? ChatSearchCreateGridRoomTooltip(room, index) : undefined,
-		}, {
-			button: {
-				classList: ["chat-search-room-join-button"],
-				dataAttributes: {
-					locked: !room.CanJoin ? "true" : "false",
-					full: room.MemberCount >= room.MemberLimit ? "true" : "false",
-					withFriends: room.Friends.length > 0 ? "true" : "false",
-					blocked: isBlocked ? "true" : "false",
-					game: room.Game != "" ? "true" : "false",
-				},
-			},
-		}),
 		{
 			tag: "p",
 			classList: ["chat-search-room-title"],
@@ -1057,27 +1069,27 @@ function ChatSearchCreateGridRoomTooltip(room, index) {
 		attributes: {id: `chat-search-room-tooltip-${index}`},
 		classList: ["chat-search-room-tooltip"],
 		children: [
-			room.Friends.length > 0 && {
+			room.Friends.length > 0 ? {
 				tag: "span",
 				classList: ["chat-search-room-tooltip-entry", "chat-search-room-tooltip-friends"],
 				children: [
 					TextGet("FriendsInRoom") + " " + room.Friends.map(f => `${f.MemberName} (${f.MemberNumber})`).join(", ") ,
 				],
-			},
-			room.Game != "" && {
+			} : undefined,
+			room.Game != "" ? {
 				tag: "span",
 				classList: ["chat-search-room-tooltip-entry", "chat-search-room-tooltip-game"],
 				children: [
 					TextGet("GameLabel") + " " + TextGet("Game" + room.Game),
 				],
-			},
-			CharacterHasBlockedItem(Player, room.BlockCategory) && {
+			} : undefined,
+			CharacterHasBlockedItem(Player, room.BlockCategory) ? {
 				tag: "span",
 				classList: ["chat-search-room-tooltip-entry", "chat-search-room-tooltip-blocked"],
 				children: [
 					TextGet("Block") + " " + room.BlockCategory.map(c => TextGet(c)).join(", "),
 				],
-			},
+			} : undefined,
 		],
 	});
 }
@@ -1094,7 +1106,7 @@ function ChatSearchCreateRoomPageTags(room) {
 	 * Creates a tag for the room page
 	 * @param {string} tag - The tag name
 	 * @param {string} value - The text to display
-	 * @param {string} [tooltip] - The tooltip to display
+	 * @param {ElementButton.StaticNode} [tooltip] - The tooltip to display
 	 */
 	function AddTag(tag, value, tooltip) {
 		roomPageTags.push(ElementButton.Create(null,
@@ -1139,7 +1151,7 @@ function ChatSearchCreateRoomPageTags(room) {
 	if (room.Friends.length > 0) AddTag(
 		"friends",
 		TextGet("FriendList"),
-		room.Friends.map(f => `${f.MemberName} (${f.MemberNumber})`).join(", ")
+		{ tag: /** @type {const} */("ul"), children: room.Friends.map(f => { return { tag: "li", children: [`${f.MemberName} (${f.MemberNumber})`] }; }) },
 	);
 
 	// Tags with multiple values
@@ -1258,7 +1270,7 @@ function ChatSearchShowRoomPage(room) {
 		],
 		parent: document.body,
 	});
-	ElementPositionFixed(ChatSearchDialogElement, (2000-1200)/2, (1000-700)/2, 1200, 700);
+	ElementPositionFixed("chat-search-room-page", (2000-1200)/2, (1000-700)/2, 1200, 700);
 	ChatSearchDialogElement.addEventListener("keydown", (ev) => {
 		if (ev.key === "Escape") {
 			ChatSearchDialogElement.close();
