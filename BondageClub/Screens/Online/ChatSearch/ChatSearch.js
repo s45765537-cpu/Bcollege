@@ -950,17 +950,6 @@ function ChatSearchCreateGridRoom(room, index) {
 
 	/**@type {(null | undefined | string | Node | HTMLOptions<keyof HTMLElementTagNameMap>)[]} */
 	const content = [
-		icons.length > 0 ? {
-			tag: "div",
-			classList: ["chat-search-room-icons"],
-			children: [
-				...icons.map((value) => ElementCreate({
-					tag: "img",
-					classList: ["chat-search-room-icon"],
-					attributes: {src: value ?? ""},
-				})),
-			],
-		} : undefined,
 		ElementButton.Create(`chat-search-room-join-button-${room.Order}`, () => {
 			ServerSend("ChatRoomJoin", { Name: room.Name });
 		}, {
@@ -981,6 +970,17 @@ function ChatSearchCreateGridRoom(room, index) {
 				},
 			},
 		}),
+		icons.length > 0 ? {
+			tag: "div",
+			classList: ["chat-search-room-icons"],
+			children: [
+				...icons.map((value) => ElementCreate({
+					tag: "img",
+					classList: ["chat-search-room-icon"],
+					attributes: {src: value ?? ""},
+				})),
+			],
+		} : undefined,
 		{
 			tag: "p",
 			classList: ["chat-search-room-title"],
