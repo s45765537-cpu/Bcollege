@@ -22,6 +22,10 @@
 #chat-search-hide-rooms[data-mode="FilterMode"] {
     --button-color: lime;
 }
+#chat-search-room-grid > *:nth-child(3n) .chat-search-room-page-button .button-tooltip {
+    left: 100%;
+    transform: translateX(-100%);
+}
 /*#region chat search menu */
 #chat-search-search-menu{
     background-color: #fffffff6;
