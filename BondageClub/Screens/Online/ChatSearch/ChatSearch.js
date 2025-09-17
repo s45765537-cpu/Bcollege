@@ -935,7 +935,7 @@ function ChatSearchGridUpdate(rooms) {
  */
 function ChatSearchCreateGridRoom(room, index) {
 	const isBlocked = CharacterHasBlockedItem(Player, room.BlockCategory);
-	const hasTooltip = room.Friends.length > 0 || room.MemberCount >= room.MemberLimit || CharacterHasBlockedItem(Player, room.BlockCategory);
+	const hasTooltip = room.Friends.length > 0 || room.MemberCount >= room.MemberLimit || room.Game != "" ||CharacterHasBlockedItem(Player, room.BlockCategory);
 
 	const icons = ChatSearchGridRoomGetIcons(room);
 
@@ -965,6 +965,7 @@ function ChatSearchCreateGridRoom(room, index) {
 					full: room.MemberCount >= room.MemberLimit ? "true" : "false",
 					withFriends: room.Friends.length > 0 ? "true" : "false",
 					blocked: isBlocked ? "true" : "false",
+					game: room.Game != "" ? "true" : "false",
 				},
 			},
 		}),
@@ -1230,10 +1231,7 @@ function ChatSearchShowRoomPage(room) {
 					() => {
 						ChatSearchDialogElement.close();
 						ChatSearchJoin(room.Name);
-					}, {
-						tooltipPosition: "bottom",
-						tooltip: ChatSearchGridRoomCanJoin(room) ? TextGet("JoinRoom") : undefined,
-					}, {
+					}, null, {
 						button: {
 							classList: ["chat-search-room-page-join-button"],
 							children: [
