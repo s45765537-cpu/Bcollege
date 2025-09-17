@@ -11,9 +11,9 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 
 **Note to contributors:** To avoid merge conflicts, please don't update this file yourself in your PRs - one of the developers will update the changelog with your change before your PR is merged.
 
-* Changelog last updated: 2025-09-15
-* Last recorded PR: [#5827](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5827)
-* Last recorded commit hash: `4b318652621f982378cb4336eb38868833216762`
+* Changelog last updated: 2025-09-17
+* Last recorded PR: [#5831](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5831)
+* Last recorded commit hash: `a21808835877dc3af116c2de248c2ea8ad6efa47`
 
 ## [R120]
 
@@ -62,17 +62,22 @@ This changelog follows the format outlined in [keepachangelog.com](https://keepa
 * Sin - Fixed BusinessSuit for EchoV2 body ([#5801](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5801))
 * Sin - Fix plushie squeeze action to have proper strings for labels and chat text. ([#5825](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5825))
 * Sin - Update plushies to fix Liesel, Arelia, and Dawn ([#5818](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5818))
+* Sin - Fixed KabeshiriWall for EchoV2 body type ([#5828](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5828))
+* Sin - Remove gender restrictions for Pilot suit lower body ([#5807](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5807))
 * Zoe - Fix chat search issues ([#5808](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5808))
 * Zoe - Trailing chatroom issues from chatsearch ([#5809](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5809))
 * Zoe - Fixed description search, pagination, icons having scroll, etc ([#5813](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5813))
+* Zoe - switch label to span ([#5829](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5829))
 * anna - Card name fix ([#5826](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5826))
 * dDeepLb - Use CharacterNickname in more places to be more consistent with how things are displayed ([#5762](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5762))
 * dDeepLb - Add option for toast to clamp message ([#5781](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5781))
 * dDeepLb - Remove repeated call of onClose for toasts ([#5780](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5780))
 * dDeepLb - Fix friendlist ([#5799](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5799))
+* dDeepLb - Chat search fix ([#5832](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5832))
 * Rama - Fix `InheritPoseMappingFields` settings not propagating from asset- to layer-level ([#5795](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5795))
 * Rama - Ensure that the text on the relog screen is unselectable ([#5822](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5822))
 * Rama - Fix `ChatRoomSep.GetDisplayName()` mangling certain unicode characters ([#5821](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5821))
+* Rama - Various chat search related minor fixes and changes ([#5831](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5831))
 * Estsanatlehi - Fix the separator not being added the first time a room is entered ([#5768](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5768))
 * Estsanatlehi - Fix the ClubCard game online initialization happening out of order ([#5770](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5770))
 * Estsanatlehi - Add missing owner rule appearance blocks ([#5771](https://gitgud.io/BondageProjects/Bondage-College/-/merge_requests/5771))
