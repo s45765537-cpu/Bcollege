@@ -338,7 +338,7 @@ function ChatSearchLoad() {
 							[
 								{
 									options: {image: "Icons/cross.svg", tooltip: TextGet("AllRooms"), },
-									htmlOptions: {img: {style: {filter: "invert(1)", }}, button: {attributes: {value: "None"}}}
+									htmlOptions: {button: {attributes: {value: "None"}}}
 								},
 								{
 									options: {image: "Icons/RoomTypeNormal.svg", tooltip:TextGet("NormalRooms")},
@@ -1006,11 +1006,6 @@ function ChatSearchCreateGridRoom(room, index) {
 			button: {
 				classList: ["chat-search-room-page-button"],
 			},
-			img: {
-				style: {
-					filter: "brightness(0)",
-				}
-			}
 		}),
 	];
 	ElementCreate(
@@ -1207,11 +1202,6 @@ function ChatSearchShowRoomPage(room) {
 			button: {
 				classList: ["chat-search-room-page-exit-button"],
 			},
-			img: {
-				style: {
-					filter: "invert(1)",
-				}
-			}
 		},
 		)
 	];

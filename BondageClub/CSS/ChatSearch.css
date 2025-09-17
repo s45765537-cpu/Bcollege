@@ -68,6 +68,10 @@
     bottom: 0px;
     right: 0px;
 }
+
+.element-button-group-button[value="None"] img {
+	filter: invert(1);
+}
 /*#endregion chat search menu */
 
 /*#region chat search header */
@@ -149,6 +153,10 @@
     grid-column: 3/3;
     grid-row: 1/1;
     border-style: none;
+}
+
+.chat-search-room-page-button img {
+	filter: brightness(0);
 }
 
 .chat-search-room-title {
@@ -364,5 +372,9 @@
     right: 0.5em;
     width: 1.5em;
     aspect-ratio: 1;
+}
+
+.chat-search-room-page-exit-button img {
+	filter: invert(1);
 }
 /*#endregion chat search room page */
