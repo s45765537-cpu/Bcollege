@@ -7,8 +7,8 @@ var TimerLastArousalProgress = 0;
 var TimerLastArousalProgressCount = 0;
 var TimerLastArousalDecay = 0;
 
-/** @type {Timer.CustomTimer[]} */
-var Timers = [];
+/** @type {Map<string, Timer.CustomTimer>} */
+var Timers = new Map();
 
 /**
  * Returns the current time from the local computer clock
@@ -190,7 +190,7 @@ function TimerProcess() {
 	}
 
 	const now = CommonTime();
-	for (const timer of Timers) {
+	for (const [id, timer] of Timers) {
 		const focusMismatch =
 		(!document.hasFocus() && timer.type === 'foreground') ||
 		(document.hasFocus() && timer.type === 'background');
@@ -206,7 +206,7 @@ function TimerProcess() {
 			timer.lastTime = now;
 
 			if (!timer.repeat) {
-				Timers.splice(Timers.indexOf(timer), 1);
+				Timers.delete(id);
 			}
 		}
 	}
@@ -339,10 +339,11 @@ function TimermsToTime(s) {
  * @returns {() => void} - A function to remove the timer.
  */
 function TimerCreate(callback, timeMs, repeat = false, type = 'universal') {
-	Timers.push({ callback: callback, timeMs: timeMs, repeat: repeat, type: type, lastTime: CommonTime() });
+	const id = CommonGenerateUniqueID();
+	Timers.set(id, { callback: callback, timeMs: timeMs, repeat: repeat, type: type, lastTime: CommonTime() });
 
 	return () => {
-		Timers.splice(Timers.findIndex(timer => timer.callback === callback), 1);
+		Timers.delete(id);
 	};
 }
 
