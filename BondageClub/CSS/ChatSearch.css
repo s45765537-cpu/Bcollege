@@ -179,19 +179,6 @@
     pointer-events: none;
     width: calc(100% - 0.5em);
 }
-.chat-search-room-name {
-    flex-shrink: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.chat-search-room-creator {
-    flex-shrink: 0;
-    white-space: nowrap;
-}
-.chat-search-room-members {
-    flex-shrink: 0;
-    white-space: nowrap;
-}
 
 .chat-search-room-description {
     pointer-events: none;
