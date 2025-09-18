@@ -248,6 +248,8 @@ function CommandHandleMultipleCandidates(candidates, key) {
  * @returns
  */
 function CommandHandleSingleCandidate(initialCmd, forward, parts, low, msg) {
+	if (!initialCmd) return;
+
 	let current = CommandResolveReference(initialCmd);
 	const depth = 0;
 	let complete = false;
