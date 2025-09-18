@@ -461,6 +461,9 @@ function ChatEditorUpdateRoom() {
 		MapData: ChatAdminData.MapData,
 		Custom: ChatAdminData.Custom
 	};
+	if (UpdatedRoom.MapData.Type !== "Never") {
+		UpdatedRoom.MapData = Object.assign(ChatRoomMapViewInitialize(UpdatedRoom.MapData.Type), UpdatedRoom.MapData);
+	}
 	ServerSend("ChatRoomAdmin", { MemberNumber: Player.ID, Room: UpdatedRoom, Action: "Update" });
 	ChatAdminMessage = "UpdatingRoom";
 }
