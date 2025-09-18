@@ -682,6 +682,8 @@ function ChatSearchGetPagination() {
 	const rooms = ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult;
 	let total = Math.ceil(rooms.length / ChatSearchRoomsPerPage);
 	let currentPage = ChatSearchResultOffset / ChatSearchRoomsPerPage + 1;
+	// We have no rooms, hence no page
+	if (!rooms.length) currentPage = 0;
 	return { currentPage, total };
 }
 
