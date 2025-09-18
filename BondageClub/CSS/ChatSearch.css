@@ -10,9 +10,9 @@
 
     --blocked-color: #FF9999;
     --friends-color: #CFFFCF;
-    
+
     --full-room-color: #666;
-    --full-friends-color: #448855; 
+    --full-friends-color: #448855;
     --full-blocked-color: #884444;
 
     --blocked-full-hover-color: var(--blocked-color);
@@ -41,7 +41,7 @@
 #chat-search-search-menu-room-size-grid {
     display: grid;
     grid-template-columns: 3em 1em 3em;
-    grid-template-rows: 1fr 1fr; 
+    grid-template-rows: 1fr 1fr;
     text-align: center;
 }
 .chat-search-search-menu-grid-item {
@@ -116,7 +116,7 @@
 #chat-search-page-count {
     position: relative;
     top: 50%;
-    transform: translateY(-50%); 
+    transform: translateY(-50%);
     height: fit-content;
     color: white;
 }
@@ -170,7 +170,7 @@
     font-size: 0.75em;
     margin: 0;
     white-space: nowrap;
-    transform: translateY(0.25em); 
+    transform: translateY(0.25em);
     overflow: hidden;
     justify-content: center;
     text-align: center;
@@ -178,19 +178,6 @@
     display: flex;
     pointer-events: none;
     width: calc(100% - 0.5em);
-}
-.chat-search-room-name {
-    flex-shrink: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.chat-search-room-creator {
-    flex-shrink: 0;
-    white-space: nowrap;
-}
-.chat-search-room-members {
-    flex-shrink: 0;
-    white-space: nowrap;
 }
 
 .chat-search-room-description {
@@ -206,7 +193,7 @@
     width: calc(100% - 1em);
     transform: translateX(0em);
     margin: auto;
-    text-align: center; 
+    text-align: center;
 }
 
 
@@ -224,7 +211,7 @@
     border: none;
     box-shadow: none;
     min-width: 100%;
-    padding: 0; 
+    padding: 0;
     z-index: 3;
 }
 
@@ -238,13 +225,13 @@
 .chat-search-room-tooltip-entry {
     border: min(0.2vh, 0.1vw) solid black;
     box-shadow: min(0.4vh, 0.2vw) min(0.4vh, 0.2vw) min(2vh, 1vw) 0 rgb(0 0 0 / 50%);
-    padding: 0.3em 0.6em;   
+    padding: 0.3em 0.6em;
     width: calc(100% - 1.2em);
     height: 100%;
     display: block;
     font-size: 0.8em;
 }
-.chat-search-room-tooltip-blocked { 
+.chat-search-room-tooltip-blocked {
     background-color: var(--tooltip-blocked-color);
 }
 .chat-search-room-tooltip-friends {
@@ -282,7 +269,7 @@
     background: transparent;
     border: none;
     overflow: visible;
-} 
+}
 #chat-search-room-page-dialog::backdrop {
     background-color: rgba(0, 0, 0, 0.3);
 }
@@ -293,7 +280,7 @@
     padding: 0.5em;
     position: relative;
 }
-#chat-search-room-page::backdrop {  
+#chat-search-room-page::backdrop {
     /* get data-background attribute */
     background-size: cover;
     background-position: center;
@@ -344,7 +331,7 @@
 .chat-search-room-page-tag-game {
     --disabled-color: #d8d8ff;
     color: #7474e7;
-    
+
 }
 
 .chat-search-room-page-tag-game .button-tooltip {

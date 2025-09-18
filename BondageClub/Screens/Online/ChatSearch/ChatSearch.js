@@ -562,6 +562,7 @@ function ChatSearchResize() {
 	ElementPositionFixed(ChatSearchSearchMenu, 25, 115, 810, 480);
 	ElementPositionFixed(ChatSearchSearchBodyElement, 25, 115, 810, 480);
 	ElementPositionFixed("chat-search-room-page", (2000-1200)/2, (1000-700)/2, 1200, 700);
+	document.querySelectorAll('.chat-search-room-title').forEach(ElementFitText);
 }
 
 /** @type {ScreenUnloadHandler} */
@@ -937,6 +938,8 @@ function ChatSearchGridUpdate(rooms) {
 	for (const [index, room] of rooms.entries()) {
 		ChatSearchCreateGridRoom(room, index);
 	}
+
+	document.querySelectorAll('.chat-search-room-title').forEach(ElementFitText);
 }
 
 /**

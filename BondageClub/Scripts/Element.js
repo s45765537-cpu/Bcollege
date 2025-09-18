@@ -2516,3 +2516,20 @@ var ElementDOMScreen = {
 		ElementDOMScreen._statusIDMap.set(statusElem, timeoutID);
 	},
 };
+
+/**
+ * Given an HTML element, reduce its font size until it fully fits into its visual width
+ * @param {HTMLElement} el
+ */
+function ElementFitText(el) {
+	const style = window.getComputedStyle(el);
+	const baseSize = parseFloat(style.fontSize); // in px, even if CSS said "em"
+	let size = baseSize;
+
+	// shrink until it fits or we hit a floor
+	while (el.scrollWidth > el.clientWidth) {
+		size -= 1;
+		el.style.fontSize = (size / baseSize) + 'em';
+		if (size < 8) break;
+	}
+}
