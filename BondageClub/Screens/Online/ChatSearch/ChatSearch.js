@@ -199,15 +199,21 @@ function ChatSearchLoad() {
 		"chat-search-room-open-search-menu",
 		function () {
 			const img = this.querySelector('img');
-			const open = !this.toggleAttribute("aria-expanded");
+			const open = this.getAttribute("aria-expanded") === "true";
+			if (open) {
+				this.setAttribute("aria-expanded", "false");
+				img.src = `Icons/CaretUp.svg`;
+			} else {
+				this.setAttribute("aria-expanded", "true");
+				img.src = `Icons/CaretDown.svg`;
+			}
 			const searchPanel = document.getElementById(this.getAttribute("aria-controls"));
-			img.src = `Icons/Carret${open ? "Down" : "Up"}.svg`;
-			searchPanel.hidden = !open;
+			searchPanel.hidden = open;
 		},
 		{
 			tooltip: TextGet("SearchMenuButton"),
 			tooltipPosition: "bottom",
-			image: "Icons/CarretUp.svg",
+			image: "Icons/CaretUp.svg",
 		},{
 			button: {classList: ["chat-search-room-button"], attributes: {
 				"aria-expanded": "false",
@@ -561,7 +567,7 @@ function ChatSearchResize() {
 	ElementPositionFixed(ChatSearchRoomHeader, 25, 25, 1050, 90);
 	ElementPositionFixed(ChatSearchSearchMenu, 25, 115, 810, 480);
 	ElementPositionFixed(ChatSearchSearchBodyElement, 25, 115, 810, 480);
-	ElementPositionFixed("chat-search-room-page", (2000-1200)/2, (1000-700)/2, 1200, 700);
+	if (document.getElementById("chat-search-room-page")) ElementPositionFixed("chat-search-room-page", (2000-1200)/2, (1000-700)/2, 1200, 700);
 	document.querySelectorAll('.chat-search-room-title').forEach(ElementFitText);
 }
 
@@ -949,7 +955,7 @@ function ChatSearchGridUpdate(rooms) {
  */
 function ChatSearchCreateGridRoom(room, index) {
 	const isBlocked = CharacterHasBlockedItem(Player, room.BlockCategory);
-	const hasTooltip = room.Friends.length > 0 || room.MemberCount >= room.MemberLimit || room.Game != "" ||CharacterHasBlockedItem(Player, room.BlockCategory);
+	const hasTooltip = room.Friends.length > 0 || room.MemberCount >= room.MemberLimit || room.Game != "" || room.BlockCategory.length > 0;
 
 	const icons = ChatSearchGridRoomGetIcons(room);
 
@@ -1088,7 +1094,7 @@ function ChatSearchCreateGridRoomTooltip(room, index) {
 					TextGet("GameLabel") + " " + TextGet("Game" + room.Game),
 				],
 			} : undefined,
-			CharacterHasBlockedItem(Player, room.BlockCategory) ? {
+			room.BlockCategory.length > 0 ? {
 				tag: "span",
 				classList: ["chat-search-room-tooltip-entry", "chat-search-room-tooltip-blocked"],
 				children: [

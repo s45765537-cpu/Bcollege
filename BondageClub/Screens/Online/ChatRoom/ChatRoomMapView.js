@@ -54,6 +54,7 @@ var ChatRoomMapViewKeysPressed = {
 	l: false,
 	r: false,
 };
+var ChatRoomMapViewStartOfKeyPress = 0;
 /** @type {ChatRoomMapTile[]} */
 const ChatRoomMapViewTileList = [
 	{ ID: 100, Type: "Floor", Style: "OakWood" },
@@ -509,6 +510,13 @@ const ChatRoomMapViewObjectList = [
 function ChatRoomMapViewHasSuperPowers() { return ChatRoomMapViewSuperPowersActive && ChatRoomPlayerIsAdmin(); }
 
 /**
+ * When the screen loses focus, we clear the keys pressed because we don't want movement to get stuck
+ */
+function ChatRoomMapViewBlur() {
+	ChatRoomMapViewKeysPressed = {d: false, l: false, r: false, u: false};
+}
+
+/**
  * Initializes the map to its default blank state
  * @param {ChatRoomMapType} mode
  * @returns {ServerChatRoomMapData}
@@ -585,6 +593,7 @@ function ChatRoomMapViewLeave() {
  * @returns {void} - Nothing
  */
 function ChatRoomMapViewActivate() {
+	document.addEventListener("blur", ChatRoomMapViewBlur);
 	// Make sure the player position is valid
 	if (!Player.MapData || !Player.MapData.Pos|| Player.MapData.Pos.X == null || Player.MapData.Pos.X < 0 || Player.MapData.Pos.X >= ChatRoomMapViewWidth || Player.MapData.Pos.Y == null || Player.MapData.Pos.Y < 0 || Player.MapData.Pos.Y >= ChatRoomMapViewWidth) {
 		Player.LastMapData = Player.MapData = ChatRoomMapViewInitializeCharacter(Player);
@@ -603,6 +612,7 @@ function ChatRoomMapViewActivate() {
  * @returns {void} - Nothing
  */
 function ChatRoomMapViewDeactivate() {
+	document.removeEventListener("blur", ChatRoomMapViewBlur);
 }
 
 /**
@@ -622,7 +632,7 @@ function ChatRoomMapViewRun(time) {
 	ChatRoomMapViewUpdateRoomSync();
 	ChatRoomMapViewUpdatePlayerSync();
 	ChatRoomMapViewUpdateLastMapDataSync();
-
+	if (document.activeElement.id !== "MainCanvas") ChatRoomMapViewKeysPressed = {d: false, l: false, r: false, u: false};
 	if (ChatRoomMapViewKeysPressed.u) {
 		ChatRoomMapViewMove("North");
 	} else if (ChatRoomMapViewKeysPressed.d) {
@@ -1796,7 +1806,10 @@ function ChatRoomMapViewCanEnterTile(X, Y) {
 
 	// Out of map bound or walls cannot enter, super powers skip everything
 	if ((X < 0) || (Y < 0) || (X >= ChatRoomMapViewWidth) || (Y >= ChatRoomMapViewHeight)) return 0;
-	if (ChatRoomMapViewHasSuperPowers()) return ChatRoomMapViewBaseMovementSpeed / 10;
+	if (ChatRoomMapViewHasSuperPowers()) {
+		if (CommonTime() - ChatRoomMapViewStartOfKeyPress < 300) return ChatRoomMapViewBaseMovementSpeed;
+		return ChatRoomMapViewBaseMovementSpeed / 10;
+	}
 	if (ChatRoomMapViewIsWall(X, Y) && !ChatRoomMapViewCanEnterWall(X, Y)) return 0;
 
 	// Floor obstacles from 2000 to 3000 cannot be crossed
@@ -1911,6 +1924,9 @@ function ChatRoomMapViewKeyDown(event) {
 	}
 	const move = CommonKeyMove(event);
 	if (!move) return false;
+	if (!ChatRoomMapViewKeysPressed.u && !ChatRoomMapViewKeysPressed.d && !ChatRoomMapViewKeysPressed.l && !ChatRoomMapViewKeysPressed.r && (
+		move === 'd' || move === 'l' || move === 'r' || move === 'u'
+	)) ChatRoomMapViewStartOfKeyPress = CommonTime();
 	ChatRoomMapViewKeysPressed = {d: move === 'd', l: move === 'l', r: move === 'r', u: move === 'u'};
 	return true;
 }
@@ -1920,7 +1936,7 @@ function ChatRoomMapViewKeyDown(event) {
  * @type {KeyboardEventListener}
  */
 function ChatRoomMapViewKeyUp(event) {
-	switch (CommonKeyMove(event)) {
+	switch (CommonKeyMove(event, true, false)) {
 		case "u":
 			ChatRoomMapViewKeysPressed.u = false;
 			return true;
