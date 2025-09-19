@@ -1541,8 +1541,8 @@ function CommonJSONParse(data) {
  * @param {KeyboardEvent} event
  * @returns {"u"|"d"|"l"|"r"|undefined}
  */
-function CommonKeyMove(event, allowArrowKeys = true) {
-	if (CommonKey.GetModifiers(event)) {
+function CommonKeyMove(event, allowArrowKeys = true, checkModifiers=true) {
+	if (checkModifiers && CommonKey.GetModifiers(event)) {
 		return undefined;
 	} else if (event.code === "KeyW" || allowArrowKeys && event.code === "ArrowUp") {
 		return "u";
