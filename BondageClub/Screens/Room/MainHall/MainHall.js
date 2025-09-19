@@ -189,17 +189,14 @@ async function MainHallLoad() {
 	MainHallBackground = Player.VisualSettings.MainHallBackground ?? "MainHall";
 	MainHallStartEventTimer = null;
 	MainHallNextEventTimer = null;
-	if (!Player.ImmersionSettings.ReturnToChatRoom || !Player.LastChatRoom || MainHallBeingPunished || (AsylumGGTSGetLevel(Player) >= 6))
-		MainHallMaid = CharacterLoadNPC("NPC_MainHall_Maid");
+	MainHallMaid = CharacterLoadNPC("NPC_MainHall_Maid");
+	MainHallMaid.AllowItem = false;
 	MainHallIsMaid = LogQuery("JoinedSorority", "Maid");
 	MainHallIsHeadMaid = LogQuery("LeadSorority", "Maid");
 	MainHallHasOwnerLock = InventoryCharacterHasOwnerOnlyRestraint(Player);
 	MainHallHasLoverLock = InventoryCharacterHasLoverOnlyRestraint(Player);
 	MainHallHasFamilyLock = InventoryCharacterHasFamilyOnlyRestraint(Player);
-	for (let A = 0; A < Player.Appearance.length; A++)
-		if (Player.Appearance[A].Asset.Name == "SlaveCollar")
-			if (Player.Appearance[A].Property)
-				MainHallHasSlaveCollar = true;
+	MainHallHasSlaveCollar = InventoryGet(Player, "ItemNeck")?.Asset.Name === "SlaveCollar";
 	CommonReadCSV(ScreenFileGetDialog("NPC_Management_RandomGirl", "Room", "Management"));
 	CommonReadCSV(ScreenFileGetDialog("NPC_KidnapLeague_RandomKidnapper", "Room", "KidnapLeague"));
 	CommonReadCSV(ScreenFileGetDialog("NPC_Private_Custom", "Room", "Private"));
@@ -210,9 +207,6 @@ async function MainHallLoad() {
 	TextPrefetch("Character", "InformationSheet");
 	TextPrefetch("Character", "Relog");
 	TextPrefetch("Online", "ChatSearch");
-
-	// A maid will introduce the player to the club and explain the basic rules
-	MainHallMaidIntroduction();
 }
 
 /**
@@ -220,6 +214,8 @@ async function MainHallLoad() {
  * @returns {void} - Nothing
  */
 function MainHallRun() {
+	// A maid will introduce the player to the club and explain the basic rules
+	MainHallMaidIntroduction();
 
 	// Calls the other screens that could trigger
 	KidnapLeagueResetOnlineBountyProgress();
@@ -850,7 +846,6 @@ function MainHallMaidIntroduction() {
 		MainHallMaid.Stage = "1000";
 		MainHallMaid.CurrentDialog = DialogFindPlayer("IntroductionMaidGreetings");
 		CharacterSetCurrent(MainHallMaid);
-		MainHallMaid.AllowItem = false;
 	}
 }
 
