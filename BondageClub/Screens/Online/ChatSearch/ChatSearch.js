@@ -119,7 +119,7 @@ function ChatSearchLoad() {
 			id: "chat-search-page-count",
 		},
 		children: [
-			`${ChatSearchResultOffset} / ${ChatSearchResult.length}`,
+			`0 / 0`,
 		],
 	});
 	const minRoomSizeInput = ElementCreate({
@@ -694,8 +694,8 @@ function ChatSearchGetPagination() {
  */
 function ChatSearchSetPage(page) {
 	const { total } = ChatSearchGetPagination();
-	page = CommonClamp(page, 1, total);
-	ChatSearchResultOffset = (page - 1) * ChatSearchRoomsPerPage;
+	page = CommonClamp(page, 0, total);
+	ChatSearchResultOffset = Math.max(0, (page - 1) * ChatSearchRoomsPerPage);
 	ChatSearchPageCountElement.textContent = `${page} / ${total}`;
 	ChatSearchGridUpdate(ChatSearchResult.slice(ChatSearchResultOffset, ChatSearchResultOffset + ChatSearchRoomsPerPage));
 }
