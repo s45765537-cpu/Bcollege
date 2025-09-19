@@ -1,4 +1,8 @@
+/** A type representing layer names (yes this is just a `string` alias). */
 type LayerName = string;
+
+/** A special string for full asset overrides for {@link ItemProperties["DrawingTop"]}/{@link ItemProperties["DrawingLeft"]} definitions */
+type AsestOverride = "ASSET_OVERRIDE";
 
 /** The definition of a fetish */
 interface Fetish {
@@ -16,11 +20,20 @@ declare namespace TopLeft {
 	 */
 	type Data = Readonly<Partial<Record<AssetPoseName, number>> & Record<PoseTypeDefault, number>>;
 	/**
+	 * Mutable datastructure variant as to be used at the {@link ItemProperties} level.
+	 * See {@link TopLeft.Data}
+	 */
+	type DataMutable = Partial<Record<AssetPoseName | PoseTypeDefault, number>>;
+	/**
 	 * The unparsed top/left coordinate translation.
 	 * Can be either a number or, if one wants to specify pose-specific translations, a record mapping pose names to numbers.
 	 * The {@link PoseType.DEFAULT} key can be specified in the record-notation as a default pose-agnostic value.
 	 */
 	type Definition = number | Partial<Record<AssetPoseName | PoseTypeDefault, number>>;
+	/** See {@link ItemProperties["DrawingTop"]} */
+	type ItemData = { [key in AsestOverride]?: TopLeft.DataMutable } & { [layerName: LayerName]: undefined | TopLeft.DataMutable };
+	/** See {@link ItemPropertiesConfig["DrawingTop"]} */
+	type ItemDefinition = { [key in AsestOverride]?: TopLeft.Definition } & { [layerName: LayerName]: undefined | TopLeft.Definition };
 }
 
 /** Types for objects defining a group of alpha masks to be applied when drawing an asset layer. */
@@ -1022,7 +1035,7 @@ interface ExtendedItemOptionConfig {
 	 */
 	ChangeWhenLocked?: boolean;
 	/** The Property object to be applied when this option is used */
-	Property?: ItemProperties;
+	Property?: ItemPropertiesConfig;
 	/**
 	 * Trigger this expression when changing to this option
 	 *
@@ -1060,6 +1073,7 @@ interface ExtendedItemOption extends Omit<ExtendedItemOptionConfig, "ArchetypeCo
 	ParentData: ExtendedItemData<any>;
 	/** The extended item data of the subscreen associated with this option (if any) */
 	ArchetypeData?: null | AssetArchetypeData;
+	Property?: ItemProperties;
 }
 
 type ExtendedItemOptionUnion = (
@@ -1119,7 +1133,7 @@ type ExtendedItemNPCCallback<OptionType extends ExtendedItemOption> = (
 
 /** Partially parsed extended item option subtype for typed items */
 interface TypedItemOptionConfig extends ExtendedItemOptionConfig {
-	Property?: Omit<ItemProperties, "TypeRecord">;
+	Property?: Omit<ItemPropertiesConfig, "TypeRecord">;
 	/** Whether or not this option can be selected randomly */
 	Random?: boolean;
 	/** Whether this option should be picked as default for NPC's (rather than just going for the first option) */
@@ -1279,7 +1293,7 @@ interface ModularItemOptionConfig extends Omit<ExtendedItemOptionConfig, "Name">
 	Effect?: EffectName[];
 	/** A list of activities enabled by that module */
 	AllowActivity?: ActivityName[];
-	Property?: Omit<ItemProperties, "TypeRecord">;
+	Property?: Omit<ItemPropertiesConfig, "TypeRecord">;
 }
 
 /** Extended item option subtype for modular items */

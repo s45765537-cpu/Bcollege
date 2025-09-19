@@ -125,6 +125,8 @@ function ModularItemInit(Data, C, Item, Push=true, Refresh=true) {
 		const currentModuleValues = ModularItemParseCurrent(Data, Item.Property.TypeRecord);
 		const newProps = ModularItemMergeModuleValues(Data, currentModuleValues);
 		delete newProps.OverridePriority;
+		delete newProps.DrawingTop;
+		delete newProps.DrawingLeft;
 		const baseLineProps = Object.entries(CommonCloneDeep(Data.baselineProperty || {})).filter(([k, v]) => {
 			const existingValue = Item.Property[k];
 			return existingValue == null && typeof existingValue !== typeof v;
@@ -214,7 +216,7 @@ function ModularItemBuildModules(asset, modules, changeWhenLocked) {
 					Index: i,
 					ParentData: null, // Initialized later on in `ModularItemCreateModularData`,
 					Property: {
-						...(protoOption.Property || {}),
+						...ExtendedItemParseProperties(asset, protoOption.Property ?? {}),
 						TypeRecord: { [protoMod.Key]: i },
 					}
 				};
@@ -623,6 +625,7 @@ function ModularItemMergeModuleValues({ asset, modules }, moduleValues, Baseline
  * @returns {ItemProperties} - The updated merged properties
  */
 function ModularItemSanitizeProperties(Property, mergedProperty, Asset) {
+	const layerNames = new Set(Asset.Layer.map(l => l.Name ?? ""));
 	Property = Property || {};
 	mergedProperty.Difficulty += (Property.Difficulty || 0);
 	if (Property.CustomBlindBackground) mergedProperty.CustomBlindBackground = Property.CustomBlindBackground;
@@ -638,7 +641,7 @@ function ModularItemSanitizeProperties(Property, mergedProperty, Asset) {
 	else if (CommonIsObject(Property.OverridePriority)) {
 		let valid = true;
 		for (const layerName of Object.keys(Property.OverridePriority)) {
-			if (!Asset.Layer.find(l => l.Name === layerName)) {
+			if (!layerNames.has(layerName)) {
 				console.warn(`invalid OverridePriority property: unknown layer name ${layerName}`);
 				valid = false;
 				break;
@@ -652,6 +655,8 @@ function ModularItemSanitizeProperties(Property, mergedProperty, Asset) {
 			}
 		}
 	}
+	if (CommonIsObject(Property.DrawingTop)) { ModularItemMergeDrawingTopLeft(mergedProperty.DrawingTop, Property.DrawingTop, layerNames); }
+	if (CommonIsObject(Property.DrawingLeft)) { ModularItemMergeDrawingTopLeft(mergedProperty.DrawingLeft, Property.DrawingLeft, layerNames); }
 	if (typeof Property.HeightModifier === "number") mergedProperty.HeightModifier = (mergedProperty.HeightModifier || 0) + Property.HeightModifier;
 	if (Property.OverrideHeight) mergedProperty.OverrideHeight = ModularItemMergeOverrideHeight(mergedProperty.OverrideHeight, Property.OverrideHeight);
 	if (Asset.AllowTint && Property.Tint) mergedProperty.Tint = CommonArrayConcatDedupe(mergedProperty.Tint, Property.Tint);
@@ -696,6 +701,33 @@ function ModularItemMergeOverrideHeight(currentValue, newValue) {
 		return {Height: newValue.Height, Priority: newValue.Priority};
 	return currentValue;
 }
+
+/**
+ * @param {undefined | TopLeft.ItemData} currentValue
+ * @param {TopLeft.ItemData} newValue
+ * @param {Set<LayerName>} layerNames
+ * @returns {undefined | TopLeft.ItemData}
+ */
+function ModularItemMergeDrawingTopLeft(currentValue, newValue, layerNames) {
+	let validCount = 0;
+	const ret = currentValue ?? {};
+	for (const [layerName, config] of Object.entries(newValue)) {
+		if (!CommonIsObject(config) || (!layerNames.has(layerName) && layerName !== AssetOverride)) {
+			continue;
+		}
+
+		ret[layerName] ??= {};
+		for (const [poseName, translation] of CommonEntries(config)) {
+			if (CommonIsInteger(translation) && (poseName === PoseType.DEFAULT || poseName in PoseRecord)) {
+				ret[layerName][poseName] = translation;
+				validCount += 1;
+			}
+		}
+	}
+	// Return the original (potentially nullish) value of no new valid values were set
+	return validCount === 0 ? currentValue : ret;
+}
+
 
 /**
  * Sets a modular item's type based on a change in a module's option selection.

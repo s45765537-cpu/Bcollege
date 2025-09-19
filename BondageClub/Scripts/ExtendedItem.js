@@ -1288,8 +1288,25 @@ const ExtendedItemGatherOptions = (function () {
 })();
 
 /**
+ * @param {Asset} asset
+ * @param {ItemPropertiesConfig} properties
+ * @returns {ItemProperties}
+ */
+function ExtendedItemParseProperties(asset, properties) {
+	/** @type {ItemProperties} */
+	const ret = CommonOmit(properties, ["DrawingTop", "DrawingLeft"]);
+	if (properties.DrawingLeft) {
+		ret.DrawingLeft = ItemParseTopLeft(properties.DrawingLeft, `${asset.Name}/DrawingLeft`);
+	}
+	if (properties.DrawingTop) {
+		ret.DrawingTop = ItemParseTopLeft(properties.DrawingTop, `${asset.Name}/DrawingTop`);
+	}
+	return ret;
+}
+
+/**
  * Pre-process the passed extended item option and return a shallow copy.
- * @template {Pick<ExtendedItemOption, "Property" | "Prerequisite">} T
+ * @template {Pick<ExtendedItemOption, "Property" | "Prerequisite"> | Pick<ExtendedItemOptionConfig, "Property" | "Prerequisite">} T
  * @param {T} option The to-be processed extended item option
  * @param {Asset} asset
  * @returns {T}
@@ -1337,6 +1354,8 @@ function ExtendedItemSetOptionByRecord(C, itemOrGroupName, typeRecord=null, opti
 	const propertyKeys = new Set();
 	const whiteListKeys = new Set(/** @type {(null | keyof ItemProperties)[]} */([
 		"OverridePriority",
+		"DrawingTop",
+		"DrawingLeft",
 		item.Asset.EditOpacity ? "Opacity" : null,
 	].filter(Boolean)));
 

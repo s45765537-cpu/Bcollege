@@ -1,6 +1,8 @@
 //@ts-check
 "use strict";
 
+/** @type {AsestOverride} */
+const AssetOverride = "ASSET_OVERRIDE";
 /** @type {Asset[]} */
 var Asset = [];
 /** @type {AssetGroup[]} */
@@ -143,6 +145,30 @@ function AssetParseTopLeft(value, fallback) {
 		}
 		return { ...value, [PoseType.DEFAULT]: def };
 	}
+}
+
+/**
+ * Parse the passed item-left {@link ItemPropertiesConfig["DrawingTop"]} and DrawingLeft values
+ * @param {TopLeft.ItemDefinition} value
+ * @param {null | string} [propName] The name of the underlying property for the purpose of error reporting
+ * @returns {undefined | TopLeft.ItemData}
+ */
+function ItemParseTopLeft(value, propName=null) {
+	if (!CommonIsObject(value)) {
+		throw new TypeError(`Invalid ${propName ?? "DrawingTop or DrawingLeft"} property type: ${value}`);
+	}
+	return CommonFromEntries(CommonEntries(value).map(([layerName, protoConfig]) => {
+		/** @type {TopLeft.DataMutable} */
+		let config;
+		if (CommonIsInteger(protoConfig)) {
+			config = { [PoseType.DEFAULT]: protoConfig };
+		} else if (CommonIsObject(protoConfig)) {
+			config = protoConfig;
+		} else {
+			throw new TypeError(`Invalid ${propName ?? "Top or Left"} value for layer "${layerName}": ${protoConfig}`);
+		}
+		return [layerName, config];
+	}));
 }
 
 /**

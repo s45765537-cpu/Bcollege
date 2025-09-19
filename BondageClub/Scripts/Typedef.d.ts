@@ -3421,9 +3421,24 @@ interface ItemPropertiesCustom {
 
 	/** PortalLink: Used to link a remote to its target asset. */
 	PortalLinkCode?: string;
+
+	/** Override that top-position of a layer. A value of {@link AsestOverride} will be intepretted as an asset-level override */
+	DrawingTop?: TopLeft.ItemData;
+
+	/** Override that left-position of a layer. A value of {@link AsestOverride} will be intepretted as an asset-level override */
+	DrawingLeft?: TopLeft.ItemData;
 }
 
 interface ItemProperties extends ItemPropertiesBase, AssetDefinitionProperties, ItemPropertiesCustom { }
+
+/** Base type for unparsed extended item properties */
+interface ItemPropertiesConfig extends Omit<ItemProperties, "DrawingTop" | "DrawingLeft"> {
+	/** Override that top-position of a layer. A value of {@link AsestOverride} will be intepretted as an asset-level override */
+	DrawingTop?: TopLeft.ItemDefinition;
+
+	/** Override that left-position of a layer. A value of {@link AsestOverride} will be intepretted as an asset-level override */
+	DrawingLeft?: TopLeft.ItemDefinition;
+}
 
 /** All item/asset/group properties with all array-based values removed */
 declare namespace PropertiesNoArray {
