@@ -1788,6 +1788,9 @@ function DrawCanvasSegment(Canvas, Left, Top, Width, Height) {
  * @returns {HTMLCanvasElement} - The new canvas containing the section
  */
 function DrawCharacterSegment(C, Left, Top, Width, Height) {
+	if (C.MustDraw) {
+		CharacterRefresh(C, false, false);
+	}
 	return DrawCanvasSegment(C.Canvas, Left, Top + CanvasUpperOverflow, Width, Height);
 }
 
