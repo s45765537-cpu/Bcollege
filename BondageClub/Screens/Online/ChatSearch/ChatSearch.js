@@ -1573,11 +1573,11 @@ function ChatSearchResponse(data) {
  * @param {ServerChatRoomSearchResponse} type
  */
 function ChatSearchSendToast(type) {
-	if (type == "JoinedRoom") {
+	/*if (type == "JoinedRoom") {
 		ToastManager.success(TextGet("ResponseJoinedRoom"));
 		return;
-	}
-	if (["AlreadyInRoom", "RoomLocked", "RoomBanned", "RoomKicked", "RoomFull"].includes(type)) {
+	}*/
+	if (["AlreadyInRoom", "RoomBanned", "RoomKicked", /*"RoomLocked", "RoomFull"*/].includes(type)) {
 		ToastManager.warning(TextGet("Response" + type));
 		return;
 	}
