@@ -621,16 +621,18 @@ function CommonDrawComputeDrawingCoordinates(C, asset, layer, groupName, propert
 	const poseX = C.DrawPose.find((p) => layer.DrawingLeft[p] != null) ?? PoseType.DEFAULT;
 	const poseY = C.DrawPose.find((p) => layer.DrawingTop[p] != null) ?? PoseType.DEFAULT;
 	let bodyStyle = InventoryGet(C, "BodyStyle").Asset;
-	let X = (
-		properties.DrawingLeft?.[layer.Name ?? ""]?.[poseX]
-		?? properties.DrawingLeft?.[AssetOverride]?.[poseX]
-		?? layer.DrawingLeft[poseX]
-	);
-	let Y = (
-		properties.DrawingTop?.[layer.Name ?? ""]?.[poseY]
-		?? properties.DrawingTop?.[AssetOverride]?.[poseY]
-		?? layer.DrawingTop[poseY]
-	);
+
+	// When an asset-level override is performed set the effective 0 point to the previous asset-level value, thus making it relative rather than absolute
+	// This is important in particular when layers with different default values are used, thus preserving their relative position w.r.t. each other
+	/** @type {null | number} */
+	let XAssetOverride = (properties.DrawingLeft?.[AssetOverride]?.[poseX] ?? NaN) + layer.DrawingLeft[poseX];
+	if (Number.isNaN(XAssetOverride)) { XAssetOverride = null; }
+	/** @type {null | number} */
+	let YAssetOverride = (properties.DrawingTop?.[AssetOverride]?.[poseY] ?? NaN) + layer.DrawingTop[poseY];
+	if (Number.isNaN(YAssetOverride)) { YAssetOverride = null; }
+
+	let X = properties.DrawingLeft?.[layer.Name ?? ""]?.[poseX] ?? XAssetOverride ?? layer.DrawingLeft[poseX];
+	let Y = properties.DrawingTop?.[layer.Name ?? ""]?.[poseY] ?? YAssetOverride ?? layer.DrawingTop[poseY];
 	for (const drawPose of C.DrawPose) {
 		const PoseDef = PoseRecord[drawPose];
 		if (PoseDef && PoseDef.MovePosition) {
