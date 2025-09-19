@@ -602,6 +602,7 @@ interface CharacterReferenceDictionaryEntry extends TaggedDictionaryEntry {
  */
 interface SourceCharacterDictionaryEntry {
 	SourceCharacter: number;
+	HasSuperPowers?: true;
 }
 
 /**

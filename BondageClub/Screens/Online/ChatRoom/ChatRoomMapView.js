@@ -645,51 +645,6 @@ function ChatRoomMapViewRun(time) {
 }
 
 /**
- * Alter the received message to what will be displayed in the chat log
- *
- * @param {ServerChatRoomMessage} data
- * @param {string} msg
- * @param {Character} SenderCharacter
- * @param {IChatRoomMessageMetadata} metadata
- * @returns {string|null} - The string to display or null if the message should be hidden
- */
-function ChatRoomMapViewDisplayMessage(data, msg, SenderCharacter, metadata) {
-
-	let shownMessage = msg;
-	// In map mode, we do not show messages that are out of the player sight or hearing range
-	if (((data.Type === "Action") || (data.Type === "Emote") || (data.Type === "Activity")) && !ChatRoomMapViewHasSuperPowers() && !ChatRoomMapViewCharacterIsVisible(SenderCharacter)) {
-		return null;
-	// If we are in a chat room with map, the message is a speech message and the sending character is not within hearing range
-	} else if ((data.Type === "Chat") && !ChatRoomMapViewHasSuperPowers() && !ChatRoomMapViewCharacterIsHearable(SenderCharacter)) {
-		// Get the OOC part range of the message
-		const oocRanges = SpeechGetOOCRanges(shownMessage);
-		// If the message has no OOC part, don't send anyting
-		if(oocRanges.length <= 0) return null;
-		// If the message has a OOC part, set it as new message and send it normally
-		let newMessage = "";
-		for(let range of oocRanges)
-		{
-			newMessage += shownMessage.substring(range.start, range.start+range.length);
-		}
-		shownMessage = newMessage;
-	// If we are in a chat room with map, the whispers can only be heard on a 1 tile range
-	} else if ((data.Type === "Whisper") && !ChatRoomMapViewHasSuperPowers() && !ChatRoomMapViewCharacterOnWhisperRange(SenderCharacter)) {
-		// Get the OOC part range of the message
-		const oocRanges = SpeechGetOOCRanges(shownMessage);
-		// If the message has no OOC part, don't send anyting
-		if(oocRanges.length <= 0) return null;
-		// If the message has a OOC part, set it as new message and send it normally
-		let newMessage = "";
-		for(let range of oocRanges)
-		{
-			newMessage += shownMessage.substring(range.start, range.start+range.length);
-		}
-		shownMessage = newMessage;
-	}
-	return shownMessage;
-}
-
-/**
  * Returns TRUE if the player can leave from the map
  * @returns {boolean} - True if the player can leave
  */

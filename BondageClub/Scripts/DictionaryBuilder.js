@@ -48,7 +48,12 @@ class DictionaryBuilder {
 	 */
 	sourceCharacter(character) {
 		if (!this._condition) return this;
-		this._addEntry({SourceCharacter: character.MemberNumber});
+		/** @type {SourceCharacterDictionaryEntry} */
+		const entry = { SourceCharacter: character.MemberNumber };
+		if (character.IsPlayer() && ChatRoomMapViewHasSuperPowers() && ChatRoomMapViewIsActive()) {
+			entry.HasSuperPowers = true;
+		}
+		this._addEntry(entry);
 		return this;
 	}
 
