@@ -1141,14 +1141,14 @@ type AssetGroupMapping = (
 /** An object defining a drawable layer of an asset */
 interface AssetLayer {
 	/** The name of the layer - may be null if the asset only contains a single default layer */
-	readonly Name: string | null;
+	readonly Name: LayerName | null;
 	/** Specify a body type to override the asset with. */
 	readonly StyleOverride?: string [];
 	readonly CreateLayerTypesOverride?: number [];
 	/** Specify a list of CLT asset layers to override. */
 	readonly AllowColorize: boolean;
 	/** if not null, specifies that this layer should always copy the color of the named layer */
-	readonly CopyLayerColor: string | null;
+	readonly CopyLayerColor: LayerName | null;
 	/** specifies the name of a color group that this layer belongs to. Any layers within the same color group can be colored together via the item color UI */
 	readonly ColorGroup: string | null;
 	/** whether or not this layer can be colored in the coloring UI */

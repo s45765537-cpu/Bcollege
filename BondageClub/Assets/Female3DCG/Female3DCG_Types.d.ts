@@ -1,3 +1,5 @@
+type LayerName = string;
+
 /** The definition of a fetish */
 interface Fetish {
 	Name: FetishName;
@@ -848,10 +850,10 @@ interface AttributionDefinition {
 
 interface AssetLayerDefinition extends AssetCommonPropertiesGroupAssetLayer, AssetCommonPropertiesAssetLayer {
 	/** The layer's name */
-	Name?: string;
+	Name?: LayerName;
 
 	/** Uses the color of the named layer. */
-	CopyLayerColor?: string;
+	CopyLayerColor?: LayerName;
 
 	/** The color group that layer is part of. Layers part of the same color group get a selector in the Color Picker UI */
 	ColorGroup?: string;
