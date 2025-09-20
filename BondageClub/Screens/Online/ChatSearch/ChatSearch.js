@@ -197,7 +197,7 @@ function ChatSearchLoad() {
 			attributes: {hidden: true}
 		},
 	});
-	searchInput.addEventListener("keyup", function(ev) {
+	searchInput.addEventListener("input", function(ev) {
 		clearButton.hidden = this.value.length === 0;
 		ChatSearchQueryString = this.value;
 	});
