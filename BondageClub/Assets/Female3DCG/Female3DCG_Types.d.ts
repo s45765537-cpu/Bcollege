@@ -1,7 +1,7 @@
 /** A type representing layer names (yes this is just a `string` alias). */
 type LayerName = string;
 
-/** A special string for full asset overrides for {@link ItemProperties["DrawingTop"]}/{@link ItemProperties["DrawingLeft"]} definitions */
+/** A special key for {@link ItemProperties["DrawingTop"]}/{@link ItemProperties["DrawingLeft"]} that overrides the _relative_ position of each and every layer individually */
 type AssetOverride = "ASSET_OVERRIDE";
 
 /** The definition of a fetish */

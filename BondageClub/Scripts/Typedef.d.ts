@@ -3422,10 +3422,10 @@ interface ItemPropertiesCustom {
 	/** PortalLink: Used to link a remote to its target asset. */
 	PortalLinkCode?: string;
 
-	/** Override the top-position of a layer. A value of {@link AssetOverride} will be override the _relative_ position of all layers. */
+	/** Override the top-position of a layer. A value of {@link AssetOverride} will be override the _relative_ position of each and every layer individually. */
 	DrawingTop?: TopLeft.ItemData;
 
-	/** Override the left-position of a layer. A value of {@link AssetOverride} will be override the _relative_ position of all layers. */
+	/** Override the left-position of a layer. A value of {@link AssetOverride} will be override the _relative_ position of each and every layer individually. */
 	DrawingLeft?: TopLeft.ItemData;
 }
 
@@ -3433,10 +3433,10 @@ interface ItemProperties extends ItemPropertiesBase, AssetDefinitionProperties, 
 
 /** Base type for unparsed extended item properties */
 interface ItemPropertiesConfig extends Omit<ItemProperties, "DrawingTop" | "DrawingLeft"> {
-	/** Override the top-position of a layer. A value of {@link AssetOverride} will be override the _relative_ position of all layers. */
+	/** Override the top-position of a layer. A value of {@link AssetOverride} will be override the _relative_ position of each and every layer individually. */
 	DrawingTop?: TopLeft.ItemDefinition;
 
-	/** Override the left-position of a layer. A value of {@link AssetOverride} will be override the _relative_ position of all layers. */
+	/** Override the left-position of a layer. A value of {@link AssetOverride} will be override the _relative_ position of each and every layer individually. */
 	DrawingLeft?: TopLeft.ItemDefinition;
 }
 
