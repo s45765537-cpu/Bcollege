@@ -690,10 +690,12 @@ function ChatSearchGetRooms() {
  */
 function ChatSearchGetPagination() {
 	const rooms = ChatSearchGetRooms();
+	if (!rooms.length) {
+		// We have no rooms, hence no page
+		return { currentPage: 0, total: 0 };
+	}
 	let total = Math.ceil(rooms.length / ChatSearchRoomsPerPage);
 	let currentPage = ChatSearchResultOffset / ChatSearchRoomsPerPage + 1;
-	// We have no rooms, hence no page
-	if (!rooms.length) currentPage = 0;
 	return { currentPage, total };
 }
 
@@ -703,7 +705,7 @@ function ChatSearchGetPagination() {
  */
 function ChatSearchSetPage(page) {
 	const { total } = ChatSearchGetPagination();
-	page = CommonClamp(page, 0, total);
+	page = total !== 0 ? CommonClamp(page, 1, total) : page;
 	ChatSearchResultOffset = Math.max(0, (page - 1) * ChatSearchRoomsPerPage);
 	ChatSearchPageCountElement.textContent = `${page} / ${total}`;
 	ChatSearchGridUpdate(ChatSearchGetRooms().slice(ChatSearchResultOffset, ChatSearchResultOffset + ChatSearchRoomsPerPage));
