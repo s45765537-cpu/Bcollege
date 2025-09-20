@@ -201,6 +201,7 @@ function ChatSearchLoad() {
 		clearButton.hidden = this.value.length === 0;
 		ChatSearchQueryString = this.value;
 	});
+	searchInput.addEventListener("keydown", ChatSearchKeyDownListener);
 	ChatSearchSearchMenuButton = ElementButton.Create(
 		"chat-search-room-open-search-menu",
 		function () {
@@ -773,23 +774,29 @@ function ChatSearchLoadLanguageAndFilterTerms() {
 /**
  * Handles the key presses while in the chat search screen.
  * When the user presses enter, we launch the search query or save the temp options.
+ * @deprecated Superceded by the {@link ChatSearchKeyDownListener}, a `keydown` listener for `<input type="search">` elements
  * @type {KeyboardEventListener}
  */
 function ChatSearchKeyDown(event) {
-	if (event.repeat) return false;
-
-	if (CommonKey.IsPressed(event, "Enter")) {
-		if (ChatSearchMode == "") {
-			ChatSearchQuery(ChatSearchQueryString);
-		} else {
-			ChatSearchSaveLanguageAndFilterTerms();
-		}
-		if (ChatSearchSearchMenuButton.getAttribute("aria-expanded") === "true") {
-			ChatSearchSearchMenuButton.click();
-		}
-		return true;
-	}
 	return false;
+}
+
+/**
+ * Handles the key presses while in the chat search screen.
+ * When the user presses enter, we launch the search query or save the temp options.
+ * @type {(this: HTMLInputElement, ev: KeyboardEvent) => void}
+ */
+function ChatSearchKeyDownListener(event) {
+	if (event.repeat || !CommonKey.IsPressed(event, "Enter")) return;
+
+	if (ChatSearchMode == "") {
+		ChatSearchQuery(ChatSearchQueryString);
+	} else {
+		ChatSearchSaveLanguageAndFilterTerms();
+	}
+	if (ChatSearchSearchMenuButton.getAttribute("aria-expanded") === "true") {
+		ChatSearchSearchMenuButton.click();
+	}
 }
 
 /**
