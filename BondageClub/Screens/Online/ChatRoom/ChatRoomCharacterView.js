@@ -5,10 +5,13 @@ var ChatRoomCharacterViewSlideWeight = 9;
 var ChatRoomCharacterViewX_Upper = 0;
 var ChatRoomCharacterViewX_Lower = 0;
 var ChatRoomCharacterViewZoom = 1;
+/** @type {number} */
 var ChatRoomCharacterViewCharacterCount = 0;
+/** @type {number} */
 var ChatRoomCharacterViewCharacterCountTotal = 0;
 /** @type {null | number} */
 var ChatRoomCharacterViewMoveTarget = null;
+/** @type {number} */
 var ChatRoomCharacterViewOffset = 0;
 
 const ChatRoomCharacterViewWidth = MainCanvasWidth / 2;
