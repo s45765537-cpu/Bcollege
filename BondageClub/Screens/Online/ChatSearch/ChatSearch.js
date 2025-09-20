@@ -781,6 +781,9 @@ function ChatSearchKeyDown(event) {
 		} else {
 			ChatSearchSaveLanguageAndFilterTerms();
 		}
+		if (ChatSearchSearchMenuButton.getAttribute("aria-expanded") === "true") {
+			ChatSearchSearchMenuButton.click();
+		}
 		return true;
 	}
 	return false;
