@@ -72,7 +72,12 @@
     bottom: 0px;
     right: 0px;
 }
-
+.chat-search-filter-search .chat-search-room .chat-search-room-join-button[data-temporary-hidden=false] {
+    background-color: lime;
+}
+.chat-search-filter-search .chat-search-room .chat-search-room-join-button[data-temporary-hidden=true] {
+    background-color: red;
+}
 .element-button-group-button[value="None"] img {
 	filter: invert(1);
 }
@@ -391,3 +396,43 @@
 	filter: invert(1);
 }
 /*#endregion chat search room page */
+
+/*#region chat search filter unhide confirm */
+#chat-search-filter-unhide-confirm {
+    background-color: #ffffff;
+    border: min(0.2vh, 0.1vw) solid rgb(0, 0, 0);
+    padding: 0.5em;
+    align-content: center;
+}
+#chat-search-filter-unhide-confirm p {
+    margin-top: 10px;
+}
+.chat-search-filter-unhide-confirm-buttons {
+    gap: 1em;
+    display: flex;
+    justify-content: center;
+}
+#chat-search-filter-unhide-confirm button {
+    margin-top: 10px;
+    width: 5em;
+    padding: 0.5em;
+    font-weight: bold;
+
+}
+#chat-search-filter-unhide-confirm-cancel {
+    background-color: rgb(255, 84, 84);
+    color: white;
+}
+#chat-search-filter-unhide-confirm-confirm {
+    background-color: rgb(67, 255, 67);
+    color: rgb(32, 71, 34);
+}
+.chat-search-filter-unhide-confirm-container {
+    width: fit-content;
+    margin: auto;
+}
+.chat-search-filter-unhide-confirm-end {
+    width: fit-content;
+    margin: auto;
+}
+/*#endregion chat search filter unhide confirm */
