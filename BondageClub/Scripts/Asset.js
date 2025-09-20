@@ -1,7 +1,7 @@
 //@ts-check
 "use strict";
 
-/** @type {AsestOverride} */
+/** @type {AssetOverride} */
 const AssetOverride = "ASSET_OVERRIDE";
 /** @type {Asset[]} */
 var Asset = [];

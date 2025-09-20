@@ -2,7 +2,7 @@
 type LayerName = string;
 
 /** A special string for full asset overrides for {@link ItemProperties["DrawingTop"]}/{@link ItemProperties["DrawingLeft"]} definitions */
-type AsestOverride = "ASSET_OVERRIDE";
+type AssetOverride = "ASSET_OVERRIDE";
 
 /** The definition of a fetish */
 interface Fetish {
@@ -31,9 +31,9 @@ declare namespace TopLeft {
 	 */
 	type Definition = number | Partial<Record<AssetPoseName | PoseTypeDefault, number>>;
 	/** See {@link ItemProperties["DrawingTop"]} */
-	type ItemData = { [key in AsestOverride]?: TopLeft.DataMutable } & { [layerName: LayerName]: undefined | TopLeft.DataMutable };
+	type ItemData = { [key in AssetOverride]?: TopLeft.DataMutable } & { [layerName: LayerName]: undefined | TopLeft.DataMutable };
 	/** See {@link ItemPropertiesConfig["DrawingTop"]} */
-	type ItemDefinition = { [key in AsestOverride]?: TopLeft.Definition } & { [layerName: LayerName]: undefined | TopLeft.Definition };
+	type ItemDefinition = { [key in AssetOverride]?: TopLeft.Definition } & { [layerName: LayerName]: undefined | TopLeft.Definition };
 }
 
 /** Types for objects defining a group of alpha masks to be applied when drawing an asset layer. */

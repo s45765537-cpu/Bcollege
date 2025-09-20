@@ -623,7 +623,7 @@ function CommonDrawComputeDrawingCoordinates(C, asset, layer, groupName, propert
 	let bodyStyle = InventoryGet(C, "BodyStyle").Asset;
 
 	// When an asset-level override is performed set the effective 0 point to the previous asset-level value, thus making it relative rather than absolute
-	// This is important in particular when layers with different default values are used, thus preserving their relative position w.r.t. each other
+	// This is important in particular when layers with different default values are used to preserve their relative position w.r.t. each other
 	/** @type {null | number} */
 	let XAssetOverride = (properties.DrawingLeft?.[AssetOverride]?.[poseX] ?? NaN) + layer.DrawingLeft[poseX];
 	if (Number.isNaN(XAssetOverride)) { XAssetOverride = null; }
