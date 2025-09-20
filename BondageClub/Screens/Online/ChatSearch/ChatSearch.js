@@ -194,7 +194,7 @@ function ChatSearchLoad() {
 	}, {
 		button: {
 			classList: ["chat-search-room-button"],
-			attributes: {hidden: true}
+			attributes: { hidden: !ChatSearchQuery.length },
 		},
 	});
 	searchInput.addEventListener("input", function(ev) {
