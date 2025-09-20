@@ -212,8 +212,6 @@ Ban blacklist when creating a room
 創建房間時禁止黑名單成員進入
 Ban ghostlist when creating a room
 創建房間時禁止無視名單成員進入
-Display full chatrooms
-顯示所有聊天室
 Order rooms by number of friends
 以好友數量排序聊天室
 Disable scripted assets on others

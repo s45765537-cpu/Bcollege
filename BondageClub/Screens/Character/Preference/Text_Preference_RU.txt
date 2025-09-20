@@ -204,8 +204,6 @@ Ban blacklist when creating a room
 Запретить блэклист при создании комнат
 Ban ghostlist when creating a room
 Запретить призраков при создании комнат
-Display full chatrooms
-Отображение полных чат-комнат
 Order rooms by number of friends
 Упорядочить комнаты по количеству друзей
 Disable scripted assets on others

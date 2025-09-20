@@ -192,8 +192,6 @@ Ban blacklist when creating a room
 创建房间时禁止黑名单成员进入
 Ban ghostlist when creating a room
 创建房间时禁止无视名单成员进入
-Display full chatrooms
-显示所有聊天室
 Order rooms by number of friends
 以好友数量排序聊天室
 Disable scripted assets on others

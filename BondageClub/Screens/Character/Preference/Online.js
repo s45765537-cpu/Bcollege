@@ -25,12 +25,11 @@ function PreferenceSubscreenOnlineRun() {
 		MainCanvas.textAlign = "left";
 		DrawCheckbox(500, 172, 64, 64, TextGet("AutoBanBlackList"), Player.OnlineSettings.AutoBanBlackList);
 		DrawCheckbox(500, 255, 64, 64, TextGet("AutoBanGhostList"), Player.OnlineSettings.AutoBanGhostList);
-		DrawCheckbox(500, 335, 64, 64, TextGet("SearchShowsFullRooms"), Player.OnlineSettings.SearchShowsFullRooms);
-		DrawCheckbox(500, 415, 64, 64, TextGet("SearchFriendsFirst"), Player.OnlineSettings.SearchFriendsFirst);
-		DrawCheckbox(500, 495, 64, 64, TextGet("DisableAnimations"), Player.OnlineSettings.DisableAnimations);
-		DrawCheckbox(500, 575, 64, 64, TextGet("EnableAfkTimer"), Player.OnlineSettings.EnableAfkTimer);
-		DrawCheckbox(500, 655, 64, 64, TextGet("AllowFullWardrobeAccess"), Player.OnlineSharedSettings.AllowFullWardrobeAccess);
-		DrawCheckbox(500, 735, 64, 64, TextGet("BlockBodyCosplay"), Player.OnlineSharedSettings.BlockBodyCosplay);
+		DrawCheckbox(500, 335, 64, 64, TextGet("SearchFriendsFirst"), Player.OnlineSettings.SearchFriendsFirst);
+		DrawCheckbox(500, 415, 64, 64, TextGet("DisableAnimations"), Player.OnlineSettings.DisableAnimations);
+		DrawCheckbox(500, 495, 64, 64, TextGet("EnableAfkTimer"), Player.OnlineSettings.EnableAfkTimer);
+		DrawCheckbox(500, 575, 64, 64, TextGet("AllowFullWardrobeAccess"), Player.OnlineSharedSettings.AllowFullWardrobeAccess);
+		DrawCheckbox(500, 655, 64, 64, TextGet("BlockBodyCosplay"), Player.OnlineSharedSettings.BlockBodyCosplay);
 		DrawCheckbox(1300, 172, 64, 64, TextGet("ShowStatus"), Player.OnlineSettings.ShowStatus);
 		DrawCheckbox(1300, 255, 64, 64, TextGet("SendStatus"), Player.OnlineSettings.SendStatus);
 		DrawText(TextGet("RoomCustomizationLabel"), 500, 840, "Black", "Gray");
@@ -60,15 +59,15 @@ function PreferenceSubscreenOnlineClick() {
 	if (PreferencePageCurrent === 1) {
 		if (MouseIn(500, 175, 64, 64)) OnlineSettings.AutoBanBlackList = !OnlineSettings.AutoBanBlackList;
 		else if (MouseIn(500, 255, 64, 64)) OnlineSettings.AutoBanGhostList = !OnlineSettings.AutoBanGhostList;
-		else if (MouseIn(500, 335, 64, 64)) OnlineSettings.SearchShowsFullRooms = !OnlineSettings.SearchShowsFullRooms;
-		else if (MouseIn(500, 415, 64, 64)) OnlineSettings.SearchFriendsFirst = !OnlineSettings.SearchFriendsFirst;
-		else if (MouseIn(500, 495, 64, 64)) OnlineSettings.DisableAnimations = !OnlineSettings.DisableAnimations;
-		else if (MouseIn(500, 575, 64, 64)) {
+		else if (MouseIn(500, 335, 64, 64)) OnlineSettings.SearchFriendsFirst = !OnlineSettings.SearchFriendsFirst;
+		else if (MouseIn(500, 415, 64, 64)) OnlineSettings.DisableAnimations = !OnlineSettings.DisableAnimations;
+		else if (MouseIn(500, 495, 64, 64)) {
 			OnlineSettings.EnableAfkTimer = !OnlineSettings.EnableAfkTimer;
 			AfkTimerSetEnabled(OnlineSettings.EnableAfkTimer);
 		}
-		else if (MouseIn(500, 655, 64, 64)) OnlineSharedSettings.AllowFullWardrobeAccess = !OnlineSharedSettings.AllowFullWardrobeAccess;
-		else if (MouseIn(500, 735, 64, 64)) OnlineSharedSettings.BlockBodyCosplay = !OnlineSharedSettings.BlockBodyCosplay;
+		else if (MouseIn(500, 575, 64, 64)) OnlineSharedSettings.AllowFullWardrobeAccess = !OnlineSharedSettings.AllowFullWardrobeAccess;
+		else if (MouseIn(500, 655, 64, 64)) OnlineSharedSettings.BlockBodyCosplay = !OnlineSharedSettings.BlockBodyCosplay;
+		// else if (MouseIn(500, 735, 64, 64))
 		else if (MouseIn(850, 808, 350, 64)) {
 			Player.OnlineSettings.ShowRoomCustomization++;
 			if (Player.OnlineSettings.ShowRoomCustomization > 3) Player.OnlineSettings.ShowRoomCustomization = 0;
