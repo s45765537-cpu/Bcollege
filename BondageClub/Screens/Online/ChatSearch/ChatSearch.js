@@ -83,7 +83,8 @@ var ChatSearchDialogElement;
 var ChatSearchSearchMenuButton;
 /** @type {HTMLDivElement} */
 var ChatSearchSearchBodyElement;
-
+/** @type {HTMLDialogElement | null} */
+var ChatSearchFilterUnhideConfirmElement;
 /**
  * Loads the chat search screen properties, creates the inputs and loads up the first 24 rooms.
  * @type {ScreenLoadHandler}
@@ -569,6 +570,7 @@ function ChatSearchResize() {
 	ElementPositionFixed(ChatSearchSearchBodyElement, 25, 115, 810, 480);
 	if (document.getElementById("chat-search-room-page")) ElementPositionFixed("chat-search-room-page", (2000-1200)/2, (1000-700)/2, 1200, 700);
 	document.querySelectorAll('.chat-search-room-title').forEach(ElementFitText);
+	if (ChatSearchFilterUnhideConfirmElement) ElementPositionFixed(ChatSearchFilterUnhideConfirmElement, 50, 50, 1900, 800);
 }
 
 /** @type {ScreenUnloadHandler} */
@@ -595,15 +597,10 @@ function ChatSearchRun() {
 
 	// Draw special screens that hide everything else
 	if (ChatSearchFilterHelpActive) return ChatSearchFilterHelpDraw();
-	if (ChatSearchFilterUnhideConfirm) return ChatSearchFilterUnhideConfirmDraw();
 
 	// Draw list of rooms depending on the current view
 	if (ChatSearchMode == "") {
 		ElementSetAttribute("InputSearch", "placeholder", TextGet("EnterName"));
-	}
-	else if (ChatSearchMode == "Filter") {
-		ChatSearchPermissionDraw();
-		ElementSetAttribute("InputSearch", "placeholder", TextGet("FilterExcludeTerms"));
 	}
 
 	// Hidden rooms view only shows a back button
@@ -630,17 +627,6 @@ function ChatSearchRun() {
  * @type {MouseEventListener}
  */
 function ChatSearchClick() {
-	if (ChatSearchFilterUnhideConfirm) {
-		if (MouseIn(620, 898, 280, 64)) {
-			ChatSearchFilterUnhideConfirm = null;
-		}
-		if (MouseIn(1100, 898, 280, 64)) {
-			ChatSearchClickUnhideRoom(ChatSearchFilterUnhideConfirm.Index, true);
-			ChatSearchFilterUnhideConfirm = null;
-		}
-		return;
-	}
-
 	// Handle back button for hidden rooms view
 	if (ChatSearchShowHiddenRoomsActive) {
 		if (MouseIn(1885, 25, 90, 90)) ChatSearchToggleHiddenMode();
@@ -653,7 +639,6 @@ function ChatSearchClick() {
 		}
 
 		if (MouseIn(1775, 25, 90, 90)) {
-			ElementRemove("InputSearch");
 			FriendListReturn = { Screen: CurrentScreen, Module: CurrentModule };
 			CommonSetScreen("Character", "FriendList");
 		}
@@ -682,11 +667,24 @@ function ChatSearchClick() {
 function ChatSearchRoomSpaceSelectDraw() {}
 
 /**
+ * Returns the rooms to be displayed
+ * @returns {ChatRoomSearchResult[]}
+ */
+function ChatSearchGetRooms() {
+	if (ChatSearchShowHiddenRoomsActive) {
+		return ChatSearchHiddenResult;
+	}
+	if (ChatSearchMode == "Filter") {
+		return [...ChatSearchResult, ...ChatSearchHiddenResult];
+	}
+	return ChatSearchResult.filter(room => !ChatSearchHiddenResult.includes(room));
+}
+/**
  * Gets the pagination information for the current page.
  * @returns {{currentPage: number, total: number}}
  */
 function ChatSearchGetPagination() {
-	const rooms = ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult;
+	const rooms = ChatSearchGetRooms();
 	let total = Math.ceil(rooms.length / ChatSearchRoomsPerPage);
 	let currentPage = ChatSearchResultOffset / ChatSearchRoomsPerPage + 1;
 	// We have no rooms, hence no page
@@ -703,7 +701,7 @@ function ChatSearchSetPage(page) {
 	page = CommonClamp(page, 0, total);
 	ChatSearchResultOffset = Math.max(0, (page - 1) * ChatSearchRoomsPerPage);
 	ChatSearchPageCountElement.textContent = `${page} / ${total}`;
-	ChatSearchGridUpdate(ChatSearchResult.slice(ChatSearchResultOffset, ChatSearchResultOffset + ChatSearchRoomsPerPage));
+	ChatSearchGridUpdate(ChatSearchGetRooms().slice(ChatSearchResultOffset, ChatSearchResultOffset + ChatSearchRoomsPerPage));
 }
 
 /**
@@ -859,27 +857,91 @@ function ChatSearchFilterHelpDraw() {
 }
 
 /**
+ * @deprecated
  * Draws the filter mode unhide confirm screen: just text and confirm/cancel buttons.
  * @returns {void} - Nothing
  */
-function ChatSearchFilterUnhideConfirmDraw() {
-	const UnhideConfirm = ChatSearchFilterUnhideConfirm;
-	DrawRect(50, 50, 1900, 800, "White");
-	DrawEmptyRect(50, 50, 1900, 800, "Black");
-	let y = 150;
-	DrawTextWrap(TextGet("UnhideConfirmRoom").replace("{RoomLabel}", UnhideConfirm.RoomLabel), 70, y, 1860, 70, "Black", undefined, 2);
-	y += 100;
-	if (UnhideConfirm.MemberLabel != "") {
-		DrawTextWrap(TextGet("UnhideConfirmMember").replace("{MemberLabel}", UnhideConfirm.MemberLabel), 70, y, 1860, 70, "Black", undefined, 2);
-		y += 100;
-	}
-	if (UnhideConfirm.WordsLabel != "") {
-		DrawTextWrap(TextGet("UnhideConfirmWords").replace("{WordsLabel}", UnhideConfirm.WordsLabel), 70, y, 1860, 70, "Black", undefined, 2);
-		y += 100;
-	}
-	DrawTextWrap(TextGet("UnhideConfirmEnd"), 70, y, 1860, 70, "Black", undefined, 2);
-	DrawButton(620, 898, 280, 64, TextGet("UnhideCancel"), "White");
-	DrawButton(1100, 898, 280, 64, TextGet("UnhideConfirm"), "White");
+function ChatSearchFilterUnhideConfirmDraw() {}
+
+/**
+ * Creates the filter mode unhide confirm screen: just text and confirm/cancel buttons.
+ * @param {string} roomLabel
+ * @param {string} memberLabel
+ * @param {string} wordsLabel
+ * @param {ChatRoomSearchResult} room
+ * @returns {void} - Nothing
+ */
+function ChatSearchCreateFilterUnhideConfirm(roomLabel, memberLabel, wordsLabel, room) {
+	ElementRemove(ChatSearchFilterUnhideConfirmElement);
+	ChatSearchFilterUnhideConfirmElement = ElementCreate(
+		{
+			tag: "dialog",
+			attributes: {
+				id: "chat-search-filter-unhide-confirm",
+			},
+			children: [
+				{
+					tag: "div",
+					classList: ["chat-search-filter-unhide-confirm-container"],
+					children: [
+						{
+							tag: "p",
+							children: [TextGet("UnhideConfirmRoom").replace("{RoomLabel}", roomLabel)]
+						},
+						{
+							tag: "ul",
+							children: [
+								memberLabel != "" ? ({
+									tag: "li",
+									children: [TextGet("UnhideConfirmMember").replace("{MemberLabel}", memberLabel)]
+								}) : undefined,
+								wordsLabel != "" ? ({
+									tag: "li",
+									children: [TextGet("UnhideConfirmWords").replace("{WordsLabel}", wordsLabel)]
+								}) : undefined,
+							],
+						},
+					],
+				},
+				{
+					tag: "p",
+					classList: ["chat-search-filter-unhide-confirm-end"],
+					children: [TextGet("UnhideConfirmEnd")],
+				},
+				{
+					tag: "div",
+					classList: ["chat-search-filter-unhide-confirm-buttons"],
+					children: [
+						ElementButton.Create("chat-search-filter-unhide-confirm-cancel", function () {
+							ElementRemove(ChatSearchFilterUnhideConfirmElement);
+						}, null, {
+							button: {
+								children: [
+									TextGet("UnhideCancel"),
+								],
+							},
+						},
+						),
+						ElementButton.Create("chat-search-filter-unhide-confirm-confirm", function () {
+							ChatSearchClickUnhideRoom(room, true);
+							ElementRemove(ChatSearchFilterUnhideConfirmElement);
+						}, null, {
+							button: {
+								children: [
+									TextGet("UnhideConfirm"),
+								],
+							},
+						},
+						),
+					],
+				}
+			],
+			parent: document.body,
+		}
+	);
+	ElementPositionFixed(ChatSearchFilterUnhideConfirmElement, 50, 50, 1900, 800);
+	ChatSearchFilterUnhideConfirmElement.showModal();
+	ChatSearchFilterUnhideConfirmElement.focus();
 }
 
 
@@ -962,6 +1024,19 @@ function ChatSearchCreateGridRoom(room, index) {
 	/**@type {(null | undefined | string | Node | HTMLOptions<keyof HTMLElementTagNameMap>)[]} */
 	const content = [
 		ElementButton.Create(`chat-search-room-join-button-${room.Order}`, () => {
+			if (ChatSearchMode == "Filter") {
+				if (ChatSearchShowHiddenRoomsActive) return ChatSearchClickUnhideRoom(room, false);
+				if (ChatSearchHiddenResult.includes(room)) return ChatSearchClickUnhideRoom(room, false);
+
+				ChatSearchHiddenResult.push(room);
+				const roomIdx = ChatSearchResult.findIndex(r => r.Name === room.Name);
+				if (roomIdx >= 0) ChatSearchResult.splice(roomIdx, 1);
+				document.getElementById(`chat-search-room-join-button-${room.Order}`).setAttribute("data-temporary-hidden", "true");
+				if (ChatSearchGhostPlayerOnClickActive) return ChatRoomListManipulation(Player.GhostList, true, "" + room.CreatorMemberNumber);
+
+				ChatSearchTempHiddenRooms.push(room.CreatorMemberNumber);
+				return;
+			}
 			ServerSend("ChatRoomJoin", { Name: room.Name });
 		}, {
 			tooltipPosition: "bottom",
@@ -978,6 +1053,7 @@ function ChatSearchCreateGridRoom(room, index) {
 					withFriends: room.Friends.length > 0 ? "true" : "false",
 					blocked: isBlocked ? "true" : "false",
 					game: room.Game != "" ? "true" : "false",
+					temporaryHidden: ChatSearchHiddenResult.includes(room) ? "true" : "false",
 				},
 			},
 		}),
@@ -1380,20 +1456,22 @@ function ChatSearchJoin(RoomName) {
  * @returns {void} - Nothing
  */
 function ChatSearchToggleSearchMode() {
-	if (ChatSearchMode == "") {
-		ChatSearchRoomGrid.hidden = true;
-		ElementSetAttribute("InputSearch", "maxlength", "200");
-		ChatSearchLoadLanguageAndFilterTerms();
-		ChatSearchSetFilterChangeHandler(true);
-		ChatSearchMode = "Filter";
-	} else if (ChatSearchMode == "Filter") {
-		ChatSearchRoomGrid.hidden = false;
-		ChatSearchSetFilterChangeHandler(false);
-		ChatSearchSaveLanguageAndFilterTerms();
-		ElementValue("InputSearch", "");
-		ElementSetAttribute("InputSearch", "maxlength", "20");
-		ChatSearchMode = "";
+	switch (ChatSearchMode) {
+		case "":
+			ChatSearchRoomGrid.classList.add("chat-search-filter-search");
+			ElementSetAttribute("InputSearch", "maxlength", "200");
+			ChatSearchLoadLanguageAndFilterTerms();
+			ChatSearchMode = "Filter";
+			break;
+		case "Filter":
+			ChatSearchRoomGrid.classList.remove("chat-search-filter-search");
+			ChatSearchSaveLanguageAndFilterTerms();
+			ElementValue("InputSearch", "");
+			ElementSetAttribute("InputSearch", "maxlength", "20");
+			ChatSearchMode = "";
+			break;
 	}
+	ChatSearchSetPageRelative(0);
 }
 
 /**
@@ -1403,16 +1481,7 @@ function ChatSearchToggleSearchMode() {
  */
 function ChatSearchToggleHiddenMode() {
 	ChatSearchShowHiddenRoomsActive = !ChatSearchShowHiddenRoomsActive;
-	ChatSearchResultOffset = 0;
-	if (ChatSearchShowHiddenRoomsActive)
-		ElementRemove("InputSearch");
-	else {
-		ElementCreateSearchInput("InputSearch", () => {
-			const rooms = ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult;
-			return rooms.map(i => i.DisplayName).sort();
-		}, { value: ChatSearchFilterTermsTemp, maxLength: 200 });
-		ChatSearchSetFilterChangeHandler(true);
-	}
+	ChatSearchSetPageRelative(0);
 }
 
 /**
@@ -1422,33 +1491,15 @@ function ChatSearchToggleHiddenMode() {
  */
 function ChatSearchToggleHelpMode() {
 	ChatSearchFilterHelpActive = !ChatSearchFilterHelpActive;
-	if (ChatSearchFilterHelpActive)
-		ElementRemove("InputSearch");
-	else {
-		ElementCreateSearchInput("InputSearch", () => {
-			const rooms = ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult;
-			return rooms.map(i => i.DisplayName).sort();
-		}, { value: ChatSearchFilterTermsTemp, maxLength: 200 });
-		ChatSearchSetFilterChangeHandler(true);
-	}
+	ChatSearchSetPageRelative(0);
 }
 
 /**
+ * @deprecated
  * Adds/removes event listeners to the input box when entering/exiting filter view.
- * @param {boolean} add - true to add listeners, false to remove.
  * @returns {void} - Nothing
  */
-function ChatSearchSetFilterChangeHandler(add) {
-	const EventNames = ['change', 'keypress', 'keydown', 'keyup', 'paste'];
-	var i;
-
-	if (add)
-		for (i = 0; i < EventNames.length; i++)
-			document.getElementById("InputSearch").addEventListener(EventNames[i], ChatSearchFilterChangeHandler);
-	else
-		for (i = 0; i < EventNames.length; i++)
-			document.getElementById("InputSearch").removeEventListener(EventNames[i], ChatSearchFilterChangeHandler);
-}
+function ChatSearchSetFilterChangeHandler() {}
 
 /**
  * Handles the input box being changed in any way, while in filter view.
@@ -1528,17 +1579,7 @@ function ChatSearchClickUnhideRoom(C, Confirmed) {
 	// If not confirmed, store data for later and show confirm screen
 	if (!Confirmed) {
 		const MemberLabel = ChatSearchMuffle(Room.Creator) + " (" + Room.CreatorMemberNumber + ")";
-		let UnhideConfirm = {
-			Index: roomIdx,
-			RoomLabel: ChatSearchMuffle(Room.DisplayName) + " - " + MemberLabel,
-			MemberLabel: "",
-			WordsLabel: "",
-		};
-		if (ReasonsHasGhostList)
-			UnhideConfirm.MemberLabel = MemberLabel;
-		if (ReasonsHasWord)
-			UnhideConfirm.WordsLabel = RemoveTerms.join(',');
-		ChatSearchFilterUnhideConfirm = UnhideConfirm;
+		ChatSearchCreateFilterUnhideConfirm(ChatSearchMuffle(Room.DisplayName) + " - " + MemberLabel, MemberLabel, RemoveTerms.join(','), Room);
 		return;
 	}
 
@@ -1562,6 +1603,7 @@ function ChatSearchClickUnhideRoom(C, Confirmed) {
 	// Move the room from the hidden result to the normal result
 	ChatSearchResult.push(Room);
 	ChatSearchHiddenResult.splice(roomIdx, 1);
+	document.getElementById(`chat-search-room-join-button-${Room.Order}`).setAttribute("data-temporary-hidden", "false");
 }
 
 /**
