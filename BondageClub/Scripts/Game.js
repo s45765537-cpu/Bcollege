@@ -43,6 +43,7 @@ function GameStart() {
 	// correctly hook into them. Using the functions directly causes a copy of
 	// them to be made (well, their code, actually), breaking that ability.
 	document.addEventListener("keydown", (e) => GameKeyDown(e));
+	document.addEventListener("keyup", (e) => GameKeyUp(e));
 
 	const canvas = document.getElementById("MainCanvas");
 	canvas.tabIndex = 1000;
@@ -217,13 +218,16 @@ function GameKeyDown(event) {
 	return handled;
 }
 
+/** @type {KeyboardEventListener} */
 function GameKeyUp(event) {
 	if (ScreenIsLoading) return;
 	if (StruggleMinigameIsRunning()) { return; }
-	if (CurrentScreenFunctions.KeyUp)
-	{
-		CurrentScreenFunctions.KeyUp(event);
+	const handled = CurrentScreenFunctions.KeyUp?.(event);
+	if (handled) {
+		event.preventDefault();
+		event.stopImmediatePropagation();
 	}
+	return handled;
 }
 
 var GameMouseIsDown = false;

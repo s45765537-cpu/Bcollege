@@ -3051,6 +3051,7 @@ function ChatRoomKeyDown(event) {
 					return true;
 				case "Escape":
 					// Escape toggles between main view and chat
+					// FIXME: this actually is never called; the input element's default listener is the one unfocusing itself
 					ElementFocus("MainCanvas");
 					return true;
 			}
