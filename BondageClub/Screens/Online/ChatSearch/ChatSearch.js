@@ -212,6 +212,9 @@ function ChatSearchLoad() {
 			} else {
 				this.setAttribute("aria-expanded", "true");
 				img.src = `Icons/CaretDown.svg`;
+				if (document.activeElement.id !== "InputSearch") {
+					ElementFocus("InputSearch");
+				}
 			}
 			const searchPanel = document.getElementById(this.getAttribute("aria-controls"));
 			searchPanel.hidden = open;
