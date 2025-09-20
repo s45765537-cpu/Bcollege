@@ -632,7 +632,6 @@ function ChatRoomMapViewRun(time) {
 	ChatRoomMapViewUpdateRoomSync();
 	ChatRoomMapViewUpdatePlayerSync();
 	ChatRoomMapViewUpdateLastMapDataSync();
-	if (document.activeElement.id !== "MainCanvas") ChatRoomMapViewKeysPressed = {d: false, l: false, r: false, u: false};
 	if (ChatRoomMapViewKeysPressed.u) {
 		ChatRoomMapViewMove("North");
 	} else if (ChatRoomMapViewKeysPressed.d) {
