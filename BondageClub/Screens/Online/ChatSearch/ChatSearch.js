@@ -1617,16 +1617,14 @@ function ChatSearchResponse(data) {
  * @param {ServerChatRoomSearchResponse} type
  */
 function ChatSearchSendToast(type) {
-	/*if (type == "JoinedRoom") {
-		ToastManager.success(TextGet("ResponseJoinedRoom"));
-		return;
-	}*/
-	if (["AlreadyInRoom", "RoomBanned", "RoomKicked", /*"RoomLocked", "RoomFull"*/].includes(type)) {
-		ToastManager.warning(TextGet("Response" + type));
+	ToastManager.dismissByCategory("ChatSearch");
+
+	if (["AlreadyInRoom", "RoomBanned", "RoomKicked", "RoomLocked", "RoomFull"].includes(type)) {
+		ToastManager.warning(TextGet("Response" + type), { category: "ChatSearch" });
 		return;
 	}
 	if (["CannotFindRoom", "AccountError", "InvalidRoomData"].includes(type)) {
-		ToastManager.error(TextGet("Response" + type));
+		ToastManager.error(TextGet("Response" + type), { category: "ChatSearch" });
 		return;
 	}
 }
