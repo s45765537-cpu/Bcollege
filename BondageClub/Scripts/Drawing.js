@@ -184,7 +184,7 @@ function DrawRefreshCharacterForImage(img) {
 		layerName = parts[++pathPos];
 	}
 	const assetName = layerName.split("_")[0].replace(".png", "");
-	const wearing = Character.filter(c => c.Appearance.some(i =>  i.Asset.Group.Name === groupName && i.Asset.Name === assetName ));
+	const wearing = Character.filter(c => c.Appearance.some(i => (i.Asset.Group.Name === groupName || i.Asset.DynamicGroupName === groupName) && i.Asset.Name === assetName ));
 	for (const char of wearing) {
 		char.MustDraw = true;
 	}
