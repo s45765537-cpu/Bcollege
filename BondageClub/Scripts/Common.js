@@ -1727,10 +1727,13 @@ var CommonKey = /** @type {const} */({
 	 */
 	NavigationKeyDown: function NavigationKeyDown(scrollableElem, event, getArrowScrollDistance) {
 		// Abort if an element has been (explicitly)
+		// Dialog elements are a bit weird, they can (and must) be focusable despite not being interactive
+		const root = ElementGetRoot(scrollableElem);
 		const noFocus = (
-			document.activeElement === null
-			|| document.activeElement === document.body
-			|| document.activeElement.id === "MainCanvas"
+			root.activeElement === null
+			|| root.activeElement === document.body
+			|| root.activeElement.id === "MainCanvas"
+			|| root.activeElement instanceof HTMLDialogElement
 		);
 
 		if (!scrollableElem || !noFocus || !event || CommonKey.GetModifiers(event)) {
