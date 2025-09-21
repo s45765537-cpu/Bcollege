@@ -5325,10 +5325,11 @@ function DialogViewProfile() {
  */
 function DialogCallMaids() {
 	ChatRoomLeave(true);
-	CommonSetScreen("Room", "MainHall");
-	if (!Player.RestrictionSettings || !Player.RestrictionSettings.BypassNPCPunishments) {
-		MainHallPunishFromChatroom();
-	}
+	CommonSetScreen("Room", "MainHall").then(() => {
+		if (!Player.RestrictionSettings.BypassNPCPunishments) {
+			MainHallPunishFromChatroom();
+		}
+	});
 }
 
 
