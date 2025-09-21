@@ -252,7 +252,12 @@ function ChatSearchLoad() {
 						},
 						ElementButton.Create(
 							"chat-search-room-search-button",
-							() => ChatSearchQuery(ChatSearchQueryString),
+							() => {
+								if (ChatSearchSearchMenuButton.getAttribute("aria-expanded") === "true") {
+									ChatSearchSearchMenuButton.click();
+								}
+								ChatSearchQuery(ChatSearchQueryString);
+							},
 							{
 								tooltip: TextGet("Search"),
 								tooltipPosition: "bottom",
