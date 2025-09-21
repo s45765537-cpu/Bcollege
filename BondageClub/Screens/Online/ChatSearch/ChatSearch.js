@@ -144,6 +144,7 @@ function ChatSearchLoad() {
 				Player.ChatSearchSettings.RoomMinSize = min;
 				minRoomSizeInput.valueAsNumber = min;
 				maxRoomSizeInput.min = String(min);
+				ChatSearchUpdateSearchSettings();
 			}
 		}
 	});
@@ -168,6 +169,7 @@ function ChatSearchLoad() {
 				Player.ChatSearchSettings.RoomMaxSize = max;
 				maxRoomSizeInput.valueAsNumber = max;
 				minRoomSizeInput.max = String(max);
+				ChatSearchUpdateSearchSettings();
 			}
 		}
 	});
@@ -181,6 +183,7 @@ function ChatSearchLoad() {
 	const clearButton = ElementButton.Create("chat-search-clear-input-search", function (ev) {
 		ElementValue("InputSearch", "");
 		Player.ChatSearchSettings.Query = "";
+		ChatSearchUpdateSearchSettings();
 		this.hidden = true;
 		ChatSearchQuery();
 	}, {
@@ -195,6 +198,7 @@ function ChatSearchLoad() {
 	searchInput.addEventListener("keyup", function(ev) {
 		clearButton.hidden = this.value.length === 0;
 		Player.ChatSearchSettings.Query = this.value;
+		ChatSearchUpdateSearchSettings();
 	});
 	ChatSearchSearchMenuButton = ElementButton.Create(
 		"chat-search-room-open-search-menu",
@@ -340,6 +344,7 @@ function ChatSearchLoad() {
 								else {
 									Player.ChatSearchSettings.MapTypes = key;
 								}
+								ChatSearchUpdateSearchSettings();
 							},
 							Player.ChatSearchSettings.MapTypes == null ? "None" : Player.ChatSearchSettings.MapTypes,
 							[
@@ -373,6 +378,7 @@ function ChatSearchLoad() {
 							(ev, key) => {
 								Player.ChatSearchSettings.Space = key;
 								ChatRoomSpace = key;
+								ChatSearchUpdateSearchSettings();
 							},
 							ChatRoomSpace,
 							[
@@ -406,6 +412,7 @@ function ChatSearchLoad() {
 						ElementCreateSettingsLabel(TextGet("ShowFullRooms"), "left"),
 						ElementCheckbox.Create("chat-search-search-menu-full-rooms-input", function (ev) {
 							Player.ChatSearchSettings.FullRooms = this.checked;
+							ChatSearchUpdateSearchSettings();
 						}, {
 							checked: Player.ChatSearchSettings.FullRooms,
 						})
@@ -425,6 +432,7 @@ function ChatSearchLoad() {
 						ElementCreateSettingsLabel(TextGet("ShowLockedRooms"), "left"),
 						ElementCheckbox.Create("chat-search-search-menu-locked-rooms-input", function (ev) {
 							Player.ChatSearchSettings.ShowLocked = this.checked;
+							ChatSearchUpdateSearchSettings();
 						}, {
 							checked: Player.ChatSearchSettings.ShowLocked,
 						})
@@ -444,6 +452,7 @@ function ChatSearchLoad() {
 						ElementCreateSettingsLabel(TextGet("SearchDescription"), "left"),
 						ElementCheckbox.Create("chat-search-search-menu-search-description-input", function () {
 							Player.ChatSearchSettings.SearchDescriptions = this.checked;
+							ChatSearchUpdateSearchSettings();
 						}, {
 							checked: Player.ChatSearchSettings.SearchDescriptions,
 						}),
@@ -468,6 +477,7 @@ function ChatSearchLoad() {
 							function (ev) {
 								ChatSearchSaveLanguageAndFilterTerms();
 								Player.ChatSearchSettings.Game = /** @type {ServerChatRoomGame} */ (this.value);
+								ChatSearchUpdateSearchSettings();
 							},
 							null,
 							{ select: {
@@ -495,6 +505,7 @@ function ChatSearchLoad() {
 							function (ev) {
 								ChatSearchSaveLanguageAndFilterTerms();
 								Player.ChatSearchSettings.Language = /** @type {ServerChatRoomLanguage} */ (this.value);
+								ChatSearchUpdateSearchSettings();
 							},
 							{required: true}
 						),
@@ -1844,7 +1855,6 @@ function ChatSearchQuery() {
 		ChatSearchResult = [];
 		ServerSend("ChatRoomSearch", SearchData);
 	}
-	if (!isEqual) ChatSearchUpdateSearchSettings();
 }
 
 /**
