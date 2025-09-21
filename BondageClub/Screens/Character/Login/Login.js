@@ -10,10 +10,10 @@ var LoginCreditsPosition = 0;
 var LoginThankYou = "";
 /* eslint-disable */
 var LoginThankYouList = [
-	"Abysseia", "Ak1ba", "AlexG", "Asriel", "Baal", "bryce", "Canti", "Christian", "Christoffer", "Claudia", 
-	"Cm382714", "Desch", "Diona", "Dragokahn", "dynilath", "EBXD", "Edwin", "Exusiai", "George", "Greendragon", 
-	"john", "Laurie", "Lyall", "Marashu", "Mario", "Michel", "Mindtie", "Misa", "NeReFox", "Nightcore", "Nikita", 
-	"Robin", "Schrödingers", "Sean", "serenat2023", "Soulcollar", "Stalker", "Stan", "Sticks", "Sunny", "Tam", 
+	"Abysseia", "Ak1ba", "AlexG", "Asriel", "Baal", "bryce", "Canti", "Christian", "Christoffer", "Claudia",
+	"Cm382714", "Desch", "Diona", "Dragokahn", "dynilath", "EBXD", "Edwin", "Exusiai", "George", "Greendragon",
+	"john", "Laurie", "Lyall", "Marashu", "Mario", "Michel", "Mindtie", "Misa", "NeReFox", "Nightcore", "Nikita",
+	"Robin", "Schrödingers", "Sean", "serenat2023", "Soulcollar", "Stalker", "Stan", "Sticks", "Sunny", "Tam",
 	"Tarram1010", "Teli", "Thkdt", "Troubadix", "Troy", "WhiteSniper", "XDWolfie", "Xepherio"
 ];
 
@@ -941,7 +941,6 @@ function LoginSetupPlayer(C) {
 	if (!C.ChatSearchSettings) {
 		C.ChatSearchSettings = {
 			Language: "",
-			Query: "",
 			Space: "",
 			Game: "",
 			FullRooms: true,

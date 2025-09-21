@@ -60,6 +60,8 @@ var ChatSearchFilterUnhideConfirm = null;
 var ChatSearchRejoinIncrement = 1;
 /** @type {null | RoomName} */
 var ChatSearchReturnToScreen = null;
+/** @type {string} */
+var ChatSearchQueryString = "";
 /** @type {"" | ServerChatRoomLanguage} */
 var ChatSearchLanguage = "";
 /** @type {never} */
@@ -179,14 +181,13 @@ function ChatSearchLoad() {
 	const searchInput = ElementCreateSearchInput("InputSearch", () => {
 		const rooms = ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult;
 		return rooms.map(i => i.DisplayName).sort();
-	}, { maxLength: 200, value: Player.ChatSearchSettings.Query });
+	}, { maxLength: 200, value: ChatSearchQueryString });
 	searchInput.classList.add("chat-search-input-search-box");
 	const clearButton = ElementButton.Create("chat-search-clear-input-search", function (ev) {
 		ElementValue("InputSearch", "");
-		Player.ChatSearchSettings.Query = "";
-		ChatSearchUpdateSearchSettings();
+		ChatSearchQueryString = "";
 		this.hidden = true;
-		ChatSearchQuery();
+		ChatSearchQuery("");
 	}, {
 		image:"Icons/cross.svg",
 		noStyling: true,
@@ -198,8 +199,7 @@ function ChatSearchLoad() {
 	});
 	searchInput.addEventListener("keyup", function(ev) {
 		clearButton.hidden = this.value.length === 0;
-		Player.ChatSearchSettings.Query = this.value;
-		ChatSearchUpdateSearchSettings();
+		ChatSearchQueryString = this.value;
 	});
 	ChatSearchSearchMenuButton = ElementButton.Create(
 		"chat-search-room-open-search-menu",
@@ -248,7 +248,7 @@ function ChatSearchLoad() {
 						},
 						ElementButton.Create(
 							"chat-search-room-search-button",
-							() => ChatSearchQuery(),
+							() => ChatSearchQuery(ChatSearchQueryString),
 							{
 								tooltip: TextGet("Search"),
 								tooltipPosition: "bottom",
@@ -292,7 +292,7 @@ function ChatSearchLoad() {
 						),
 						ElementButton.Create("chat-search-hide-rooms", function () {
 							ChatSearchToggleSearchMode();
-							ChatSearchQuery();
+							ChatSearchQuery(ChatSearchQueryString);
 							this.querySelector(".button-tooltip").textContent = TextGet(ChatSearchMode != "Filter" ? "FilterMode" : "NormalMode");
 							this.dataset.mode = ChatSearchMode == "Filter" ? "FilterMode" : "NormalMode";
 						}, {
@@ -549,7 +549,7 @@ function ChatSearchLoad() {
 							return;
 						}
 					}
-					ChatSearchQuery();
+					ChatSearchQuery(ChatSearchQueryString);
 				}, null, {
 					button: {
 						classList: ["chat-search-search-menu-search-button"],
@@ -564,7 +564,7 @@ function ChatSearchLoad() {
 
 	ChatSearchRoomGrid = ElementCreateDiv("chat-search-room-grid");
 
-	ChatSearchQuery();
+	ChatSearchQuery(ChatSearchQueryString);
 	ChatRoomNotificationReset();
 	ChatSearchRejoinIncrement = 1;
 	TextPrefetch("Character", "FriendList");
@@ -781,7 +781,7 @@ function ChatSearchSaveLanguageAndFilterTerms() {
 
 	// If either/both options changed, refresh the room list
 	if (changed)
-		ChatSearchQuery();
+		ChatSearchQuery(ChatSearchQueryString);
 }
 
 /**
@@ -806,7 +806,7 @@ function ChatSearchKeyDown(event) {
 
 	if (CommonKey.IsPressed(event, "Enter")) {
 		if (ChatSearchMode == "") {
-			ChatSearchQuery();
+			ChatSearchQuery(ChatSearchQueryString);
 		} else {
 			ChatSearchSaveLanguageAndFilterTerms();
 		}
@@ -1762,7 +1762,7 @@ function ChatSearchAutoJoinRoom() {
 					const ChatRoomSuffix = " " + ChatSearchRejoinIncrement;
 					Player.LastChatRoom.Name = Player.LastChatRoom.Name.substring(0, Math.min(Player.LastChatRoom.Name.length, 19 - ChatRoomSuffix.length)) + ChatRoomSuffix; // Added
 					ChatAdminMessage = "";
-					ChatSearchQuery();
+					ChatSearchQuery(ChatSearchQueryString);
 				} else {
 					/** @type {ChatRoomSettings} */
 					const NewRoom = {
@@ -1806,14 +1806,13 @@ const ChatSearchUpdateSearchSettings = CommonLimitFunction(function () {
 
 /**
  * Sends the search query data to the server. The response will be handled by ChatSearchResponse once it is received
+ * @param {string} Query - The search term to look for
  * @returns {void} - Nothing
  */
-function ChatSearchQuery() {
+function ChatSearchQuery(Query) {
 
 	// No regular chat result if locked in Pandora prison
 	if (PandoraPenitentiaryIsInmate(Player)) return;
-
-	let Query = ChatSearchMode == "Filter" ? "" : ElementValue("InputSearch").toUpperCase().trim();
 
 	if (ChatRoomJoinLeash != null && ChatRoomJoinLeash != "") {
 		Query = ChatRoomJoinLeash.toUpperCase().trim();
@@ -1829,7 +1828,7 @@ function ChatSearchQuery() {
 
 	/** @type {ServerChatRoomSearchRequest} */
 	const SearchData = {
-		Query: Query,
+		Query: Query.toUpperCase().trim(),
 		Language: ChatSearchLanguage,
 		Space: ChatRoomSpace,
 		Game: ChatRoomGame,

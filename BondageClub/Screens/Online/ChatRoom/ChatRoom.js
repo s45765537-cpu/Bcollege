@@ -1406,6 +1406,7 @@ function ChatRoomStart(Space, Game, LeaveRoom, LeaveSpace, Background, Backgroun
 	ChatRoomGame = Game;
 	ChatSearchBackground = Background;
 	ChatSearchBackgroundTagList = BackgroundTagList;
+	ChatSearchQueryString = "";
 	CommonSetScreen("Online", "ChatSearch");
 
 }

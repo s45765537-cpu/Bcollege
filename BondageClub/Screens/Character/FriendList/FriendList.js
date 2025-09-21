@@ -551,10 +551,9 @@ async function FriendListChatSearch(room) {
 	if (FriendListReturn?.Screen !== "ChatSearch") return;
 	FriendListExit();
 	await CommonWaitFor(() => !ScreenIsLoading);
-	ElementValue("InputSearch", room);
-	ChatSearchQuery();
 	// Change the text box so the player still cant read it
 	ElementValue("InputSearch", ChatSearchMuffle(room));
+	ChatSearchQuery(room);
 }
 
 /** @satisfies {{ [key in (ServerChatRoomSpace | "Private")]: FriendListIcon }} */
