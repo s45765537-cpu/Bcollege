@@ -322,67 +322,6 @@ var CraftingJSON = {
 			const names = new Set(Array.from(superGroup.querySelectorAll(".craft-label")).map(el => el.textContent.trim()));
 			this.list.append(...Array.from(names).sort().map(value => ElementCreate({ tag: "option", attributes: { value } })));
 		},
-
-		/** @type {(this: Document, ev: KeyboardEvent) => void} */
-		keydownDocument: function(ev) {
-			const root = document.getElementById("crafting-import-dialog")?.shadowRoot;
-			const searchInput = root?.querySelector("input[type='search']");
-			if (
-				!(searchInput instanceof HTMLInputElement)
-				|| searchInput.disabled
-				|| searchInput.readOnly
-				|| root.activeElement === searchInput
-			) {
-				return;
-			}
-
-			const modifiers = CommonKey.GetModifiers(ev);
-			checkKey: if (ev.key.length === 1 && (!modifiers || modifiers === CommonKey.SHIFT)) {
-				break checkKey;
-			} else if (ev.key === "Backspace" && !modifiers) {
-				break checkKey;
-			} else {
-				return;
-			}
-
-			ev.preventDefault();
-			ev.stopPropagation();
-
-			if (ev.key === "Backspace") {
-				searchInput.value = searchInput.value.slice(0, -1);
-			} else if (searchInput.value.length < searchInput.maxLength) {
-				searchInput.value += ev.key;
-			}
-			searchInput.focus();
-			searchInput.setSelectionRange(searchInput.value.length, searchInput.value.length);
-			searchInput.dispatchEvent(new InputEvent("input"));
-		},
-
-		/** @type {(this: Document, ev: ClipboardEvent) => void} */
-		pasteDocument: function(ev) {
-			const root = document.getElementById("crafting-import-dialog")?.shadowRoot;
-			const searchInput = root?.querySelector("input[type='search']");
-			if (
-				!(searchInput instanceof HTMLInputElement)
-				|| searchInput.disabled
-				|| searchInput.readOnly
-				|| root.activeElement === searchInput
-			) {
-				return;
-			}
-
-			ev.preventDefault();
-			ev.stopPropagation();
-
-			const content = ev.clipboardData?.getData("text");
-			if (!content) {
-				return;
-			}
-
-			searchInput.value = content.slice(0, searchInput.maxLength);
-			searchInput.focus();
-			searchInput.dispatchEvent(new InputEvent("input"));
-		},
 	},
 
 	/**

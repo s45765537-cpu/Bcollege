@@ -3089,26 +3089,28 @@ function ChatRoomKeyDown(event) {
 		|| document.activeElement === document.body
 		|| document.activeElement.id === "MainCanvas"
 	) {
+		const chatInput = /** @type {HTMLTextAreaElement} */(document.getElementById("InputChat"));
 		const chatLog = /** @type {HTMLDivElement} */(document.getElementById("TextAreaChatLog"));
-		if (!chatLog) {
+		if (!chatLog || !chatInput) {
 			return false;
 		}
 
 		if (CommonKey.NavigationKeyDown(chatLog, event, (el) => el.clientHeight * 0.05)) {
 			return true;
-		} else if (CommonKey.IsPressed(event, "v", CommonKey.CTRL)) {
-			return false;
-		} else if ((event.key.length === 1 || event.key === "Enter") && !modifiers) {
-			// Move focus to the chat
-			ElementFocus("InputChat");
-			// We have to lie here so that the first keystroke without
-			// focus still goes through, but we want to eat Enter so
-			// that a newline doesn't get through
-			return event.key === "Enter";
+		} else if (CommonKey.InputKeyDown(chatInput, event)) {
+			return true;
 		}
 	}
 
 	return false;
+}
+
+/**
+ * @type {ClipboardEventListener}
+ */
+function ChatRoomPaste(event) {
+	const chatInput = /** @type {HTMLTextAreaElement} */(document.getElementById("InputChat"));
+	CommonKey.InputPaste(chatInput, event);
 }
 
 /**

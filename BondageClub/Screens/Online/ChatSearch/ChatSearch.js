@@ -955,12 +955,22 @@ function ChatSearchLoadLanguageAndFilterTerms() {
 
 /**
  * Handles the key presses while in the chat search screen.
- * When the user presses enter, we launch the search query or save the temp options.
- * @deprecated Superceded by the {@link ChatSearchKeyDownListener}, a `keydown` listener for `<input type="search">` elements
  * @type {KeyboardEventListener}
  */
 function ChatSearchKeyDown(event) {
+	const searchInput = document.getElementById("InputSearch");
+	if (searchInput instanceof HTMLInputElement && CommonKey.InputKeyDown(searchInput, event)) {
+		return true;
+	}
 	return false;
+}
+
+/** @type {ClipboardEventListener} */
+function ChatSearchPaste(event) {
+	const searchInput = document.getElementById("InputSearch");
+	if (searchInput instanceof HTMLInputElement) {
+		CommonKey.InputPaste(searchInput, event);
+	}
 }
 
 /**

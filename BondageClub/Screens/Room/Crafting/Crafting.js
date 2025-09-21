@@ -1453,13 +1453,41 @@ function CraftingResize(load) {
 	}
 }
 
+/** @type {KeyboardEventListener} */
+function CraftingKeyDown(ev) {
+	const dialog = document.getElementById("crafting-import-dialog");
+	dialog: if (dialog) {
+		const searchInput = /** @type {null | HTMLInputElement} */(dialog.shadowRoot?.querySelector("input[type='search']"));
+		const scrollBox = /** @type {null | HTMLDivElement} */(dialog.shadowRoot?.querySelector("div.scroll-box"));
+		if (!searchInput || !scrollBox) {
+			break dialog;
+		}
+		if (CommonKey.NavigationKeyDown(scrollBox, ev, (el) => el.querySelector("fieldset")?.clientHeight ?? (el.clientHeight / 10))) {
+			return true;
+		} else if (CommonKey.InputKeyDown(searchInput, ev)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+/** @type {ClipboardEventListener} */
+function CraftingPaste(ev) {
+	const dialog = document.getElementById("crafting-import-dialog");
+	dialog: if (dialog) {
+		const searchInput = /** @type {null | HTMLInputElement} */(dialog.shadowRoot?.querySelector("input[type='search']"));
+		if (!searchInput) {
+			break dialog;
+		}
+		CommonKey.InputPaste(searchInput, ev);
+	}
+}
+
 /** @type {ScreenUnloadHandler} */
 function CraftingUnload() {
 	const dialog = document.getElementById("crafting-import-dialog");
 	if (dialog) {
 		dialog.remove();
-		document.removeEventListener("keydown", CraftingJSON.eventListeners.keydownDocument);
-		document.removeEventListener("paste", CraftingJSON.eventListeners.pasteDocument);
 		return;
 	}
 
@@ -1814,8 +1842,6 @@ function CraftingClick(event) {
 				URL.revokeObjectURL(href);
 			} else if (MouseIn(1370, 15, 90, 90)) {
 				const { dialog } = CraftingJSON.createDialog(document.body);
-				document.addEventListener("keydown", CraftingJSON.eventListeners.keydownDocument);
-				document.addEventListener("paste", CraftingJSON.eventListeners.pasteDocument);
 				CraftingResize(true);
 				dialog.showModal();
 			}
