@@ -838,6 +838,15 @@ type ChatRoomSettings = ServerChatRoomSettings;
 /** ChatRoom results once received by the client */
 type ChatRoomSearchResult = (ServerChatRoomSearchData & { DisplayName: string, Order: number });
 
+interface ChatSearchLobbyOptions {
+	/** Name of the chatroom game to play */
+	Game?: ServerChatRoomGame;
+	/** Name of the background to use in the lobby */
+	Background?: string;
+	/** Tags of allowed backgrounds when creating a room */
+	BackgroundTagList?: BackgroundTag[];
+}
+
 type StimulationAction = "Kneel" | "Walk" | "Struggle" | "StruggleFail" | "Talk";
 
 interface StimulationEvent {

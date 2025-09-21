@@ -97,6 +97,35 @@ var ChatSearchSearchBodyElement;
 var ChatSearchFilterUnhideConfirmElement;
 /** @type {HTMLDialogElement} */
 var ChatSearchFilterHelpScreenElement;
+
+/**
+ * Starts the chatroom selection screen.
+ * @param {ServerChatRoomSpace} space - Name of the chatroom space
+ * @param {ScreenSpecifier | undefined} returnScreen - Screen to go back to when exiting leaving the lobby.
+ * @param {ChatSearchLobbyOptions} [options]
+ * @returns {void} - Nothing.
+ */
+function ChatSearchStart(space, returnScreen, options) {
+	const validSpaces = /** @type {ServerChatRoomSpace[]} */ (["X", "", "M", "Asylum"]);
+	if (!validSpaces.includes(space)) {
+		console.error(`invalid space ${space}`);
+		return;
+	}
+	if (!returnScreen) {
+		console.error(`invalid return screen ${returnScreen}`);
+		return;
+	}
+	ChatSearchSpace = space;
+	ChatRoomSpace = space;
+	ChatSearchGame = options?.Game ?? "";
+	ChatRoomGame = ChatSearchGame;
+	ChatSearchReturnScreen = returnScreen;
+	ChatSearchBackground = options?.Background ?? "Introduction";
+	ChatSearchBackgroundTagList = options?.BackgroundTagList ?? BackgroundsTagList;
+	ChatSearchQueryString = "";
+	CommonSetScreen("Online", "ChatSearch");
+}
+
 /**
  * Loads the chat search screen properties, creates the inputs and loads up the first 24 rooms.
  * @type {ScreenLoadHandler}

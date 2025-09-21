@@ -1388,6 +1388,7 @@ function ChatRoomClearAllElements() {
 
 /**
  * Starts the chatroom selection screen.
+ * @deprecated Use {@link ChatSearchStart}
  * @template {ModuleType} T
  * @param {ServerChatRoomSpace} Space - Name of the chatroom space
  * @param {ServerChatRoomGame} Game - Name of the chatroom game to play
@@ -1398,24 +1399,18 @@ function ChatRoomClearAllElements() {
  * @returns {void} - Nothing.
  */
 function ChatRoomStart(Space, Game, LeaveRoom, LeaveSpace, Background, BackgroundTagList) {
+	/** @type {ScreenSpecifier} */
+	let ReturnScreen;
 	if (!LeaveRoom || !LeaveSpace) {
 		if (Player.GenderSettings.AutoJoinSearch.Female || Player.GenderSettings.AutoJoinSearch.Male) {
-			ChatSearchReturnScreen = ["Room", "MainHall"];
+			ReturnScreen = ["Room", "MainHall"];
 		} else {
-			ChatSearchReturnScreen = ["Online", "ChatSelect"];
+			ReturnScreen = ["Online", "ChatSelect"];
 		}
 	} else {
-		ChatSearchReturnScreen = /** @type {ScreenSpecifier} */([LeaveSpace, LeaveRoom]);
+		ReturnScreen = /** @type {ScreenSpecifier} */([LeaveSpace, LeaveRoom]);
 	}
-
-	ChatSearchSpace = Space;
-	ChatRoomSpace = Space;
-	ChatSearchGame = Game;
-	ChatSearchBackground = Background;
-	ChatSearchBackgroundTagList = BackgroundTagList;
-	ChatSearchQueryString = "";
-	CommonSetScreen("Online", "ChatSearch");
-
+	ChatSearchStart(Space, ReturnScreen, { Game, Background, BackgroundTagList });
 }
 
 /**

@@ -6,10 +6,11 @@ var AsylumBedroomBackground = "AsylumBedroom";
  * @type {ScreenLoadHandler}
  */
 async function AsylumBedroomLoad() {
-	if (Player.ImmersionSettings && Player.LastChatRoom && (AsylumGGTSGetLevel(Player) <= 0)) {
+	if (Player.LastChatRoom && (AsylumGGTSGetLevel(Player) <= 0)) {
 		// We return to the chat room that the player was last in
+		// FIXME: wut? why is this here? Why not just… relog us into that space the normal way?
 		if (Player.ImmersionSettings.ReturnToChatRoom) {
-			ChatRoomStart("Asylum", "", "AsylumEntrance", "Room", "AsylumEntrance", [BackgroundsTagAsylum]);
+			ChatSearchStart("Asylum", ["Room", "AsylumEntrance"], { Background: "Asylum", BackgroundTagList: [BackgroundsTagAsylum], });
 		} else {
 			ChatRoomSetLastChatRoom(null);
 		}
