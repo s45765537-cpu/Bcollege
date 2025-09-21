@@ -805,10 +805,10 @@ interface ModuleScreens {
 type RoomName = ModuleScreens[ModuleType];
 
 interface RelogDataBase<T extends ModuleType> {
-		Screen: ModuleScreens[T],
-		Module: T,
-		Character: Character,
-		ChatRoomName: string | null,
+	Screen: ModuleScreens[T],
+	Module: T,
+	Character: Character | null,
+	ChatRoomName: string | null,
 }
 
 type _RelogDataMap<T> = T extends ModuleType ? RelogDataBase<T> : never;

@@ -244,6 +244,29 @@ function ServerDisconnect(data, close = false) {
 	}
 }
 
+
+/**
+ * Handles resuming the game after a disconnect
+ * @param {ServerAccountData} C
+ */
+function ServerHandleRelog(C) {
+	// In relog mode, we jump back to the previous screen, keeping the current game flow
+	if (!RelogData) return false;
+	Player.CharacterID = C.ID.toString();
+	Player.OnlineID = C.ID.toString();
+	CurrentCharacter = RelogData.Character;
+
+	if (RelogData.ChatRoomName) {
+		// We can afford to drop the player into the lobby since its state is still valid
+		CommonSetScreen("Online", "ChatSearch");
+		ServerSend("ChatRoomJoin", { Name: RelogData.ChatRoomName });
+	} else {
+		const screen = /** @type {ScreenSpecifier} */([RelogData.Module, RelogData.Screen]);
+		CommonSetScreen(...screen);
+	}
+	return true;
+}
+
 /** @typedef {{ screen?: string, callback?: () => boolean }} ServerChatRoomChecksOptions */
 
 /**

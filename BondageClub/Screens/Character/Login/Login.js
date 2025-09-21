@@ -1164,19 +1164,8 @@ function LoginResponse(C) {
 		return;
 	}
 
-	// In relog mode, we jump back to the previous screen, keeping the current game flow
-	if (RelogData) {
-		Player.CharacterID = C.ID.toString();
-		Player.OnlineID = C.ID.toString();
-		CurrentCharacter = RelogData.Character;
-
-		if (RelogData.ChatRoomName) {
-			CommonSetScreen("Online", "ChatSearch");
-			ServerSend("ChatRoomJoin", { Name: RelogData.ChatRoomName });
-		} else {
-			const screen = /** @type {ScreenSpecifier} */([RelogData.Module, RelogData.Screen]);
-			CommonSetScreen(...screen);
-		}
+	if (ServerHandleRelog(C)) {
+		// We're resuming after a temporary disconnect. Skip the rest of the login process
 		return;
 	}
 
