@@ -657,16 +657,11 @@ function ChatSearchClick() {
 			ChatSearchExit(false);
 		}
 	} else {
-		if (MouseIn(685, 25, 90, 90)) ChatSearchSaveLanguageAndFilterTerms();
-		if (MouseIn(795, 25, 90, 90)) ChatSearchLoadLanguageAndFilterTerms();
-
 		if (MouseIn(1555, 25, 90, 90)) ChatSearchGhostPlayerOnClickActive = false;
 		if (MouseIn(1665, 25, 90, 90)) ChatSearchGhostPlayerOnClickActive = true;
 		if (MouseIn(1775, 25, 90, 90)) ChatSearchToggleHiddenMode();
 		if (MouseIn(1885, 25, 90, 90)) ChatSearchToggleHelpMode();
 	}
-
-	ChatSearchRoomSpaceSelectClick();
 }
 
 /**
@@ -727,36 +722,10 @@ function ChatSearchSetPageRelative(offset) {
 
 /**
  * Handles clicks on selection of room space.
+ * @deprecated
  * @returns {void} - Nothing
  */
 function ChatSearchRoomSpaceSelectClick() {
-	const Genders = Player.GetGenders();
-	let TempRoomSpaces = ChatSearchRoomSpaces;
-
-	if (Genders.includes("M")) TempRoomSpaces = TempRoomSpaces.filter(space => space != "FEMALE_ONLY");
-	if (Genders.includes("F")) TempRoomSpaces = TempRoomSpaces.filter(space => space != "MALE_ONLY");
-
-	let CurrentRoomSpace = CommonKeys(ChatRoomSpaceType).find(key => ChatRoomSpaceType[key] == ChatRoomSpace);
-
-	ChatSearchCurrentRoomSpaceIndex = TempRoomSpaces.indexOf(CurrentRoomSpace);
-
-	if ((ChatSearchRoomSpaces != null) && (ChatSearchRoomSpaces.length >= 2) && MouseIn(1405, 885, 90, 90)) {
-		ChatSearchCurrentRoomSpaceIndex--;
-		if (ChatSearchCurrentRoomSpaceIndex < 0) {
-			ChatSearchCurrentRoomSpaceIndex = TempRoomSpaces.length - 1;
-		}
-
-		return ChatSelectStartSearch(ChatRoomSpaceType[TempRoomSpaces[ChatSearchCurrentRoomSpaceIndex]]);
-	}
-
-	if ((ChatSearchRoomSpaces != null) && (ChatSearchRoomSpaces.length >= 2) && MouseIn(1885, 885, 90, 90)) {
-		ChatSearchCurrentRoomSpaceIndex++;
-		if (ChatSearchCurrentRoomSpaceIndex >= TempRoomSpaces.length) {
-			ChatSearchCurrentRoomSpaceIndex = 0;
-		}
-
-		return ChatSelectStartSearch(ChatRoomSpaceType[TempRoomSpaces[ChatSearchCurrentRoomSpaceIndex]]);
-	}
 }
 
 /**
