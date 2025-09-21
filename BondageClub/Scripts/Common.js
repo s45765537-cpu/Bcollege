@@ -1719,9 +1719,9 @@ var CommonKey = /** @type {const} */({
 	},
 
 	/**
-	 * A {@link ScreenFunctions.keydown} helper function for implementing the navigation key handling of scrollable elements.
+	 * A {@link ScreenFunctions.KeyDown} helper function for implementing the navigation key handling of scrollable elements.
 	 * @param {HTMLElement} scrollableElem - The scrollable element
-	 * @param {KeyboardEvent} event - The keydown event
+	 * @param {KeyboardEvent} event - The `keydown` event
 	 * @param {(scrollableElem: HTMLElement) => number} getArrowScrollDistance - A callback for computing the (absolute) scroll distance for up/down arrow key presses
 	 * @returns {boolean} - Whether a navigation key was (successfuly pressed)
 	 */
@@ -1756,6 +1756,81 @@ var CommonKey = /** @type {const} */({
 			default:
 				return false;
 		}
+	},
+
+	/**
+	 * A {@link ScreenFunctions.KeyDown} helper function for automatically forwarding key presses to the passed input element.
+	 * @param {HTMLInputElement | HTMLTextAreaElement} inputElem - The input or textarea element in question
+	 * @param {KeyboardEvent} ev - The keydown event
+	 * @returns {boolean} - Whether the keypress was processed
+	 */
+	InputKeyDown: function InputKeyDown(inputElem, ev) {
+		const activeElement = ElementGetRoot(inputElem).activeElement;
+		const noFocus = (
+			activeElement === null
+			|| activeElement === document.body
+			|| activeElement.id === "MainCanvas"
+			|| activeElement instanceof HTMLDialogElement
+		);
+
+		if (
+			!(inputElem instanceof HTMLInputElement || inputElem instanceof HTMLTextAreaElement)
+			|| inputElem.disabled
+			|| inputElem.readOnly
+			|| !noFocus
+		) {
+			return false;
+		}
+
+		const modifiers = CommonKey.GetModifiers(ev);
+		validateKey: if (ev.key.length === 1 && (!modifiers || modifiers === CommonKey.SHIFT)) {
+			if (inputElem.maxLength === -1 || inputElem.value.length < inputElem.maxLength) {
+				inputElem.value += ev.key;
+			}
+		} else if (ev.key === "Backspace" && !modifiers) {
+			inputElem.value = inputElem.value.slice(0, -1);
+		} else if ((ev.key === "Enter" || ev.key === "Delete" || ev.key === "Insert") && !modifiers) {
+			break validateKey;
+		} else {
+			return false;
+		}
+
+		inputElem.focus();
+		inputElem.setSelectionRange(inputElem.value.length, inputElem.value.length);
+		inputElem.dispatchEvent(new InputEvent("input"));
+		return true;
+	},
+
+	/**
+	 * A {@link ScreenFunctions.Paste} helper function for automatically forwarding paste actions to the passed input element.
+	 * @param {HTMLInputElement | HTMLTextAreaElement} inputElem - helper function for automatically forwarding paste actions to the passed input element.
+	 * @param {ClipboardEvent} ev - The `paste` event
+	 * @returns {void}
+	 */
+	InputPaste: function InputPaste(inputElem, ev) {
+		const activeElement = ElementGetRoot(inputElem).activeElement;
+		const noFocus = (
+			activeElement === null
+			|| activeElement === document.body
+			|| activeElement.id === "MainCanvas"
+			|| activeElement instanceof HTMLDialogElement
+		);
+
+		if (
+			!(inputElem instanceof HTMLInputElement || inputElem instanceof HTMLTextAreaElement)
+			|| inputElem.disabled
+			|| inputElem.readOnly
+			|| !noFocus
+		) {
+			return;
+		}
+
+		const content = ev.clipboardData?.getData("text") ?? "";
+		inputElem.value = (inputElem.value + content).slice(0, inputElem.maxLength === -1 ? undefined : inputElem.maxLength);
+		inputElem.focus();
+		inputElem.setSelectionRange(inputElem.value.length, inputElem.value.length);
+		inputElem.dispatchEvent(new InputEvent("input"));
+		return;
 	},
 });
 
