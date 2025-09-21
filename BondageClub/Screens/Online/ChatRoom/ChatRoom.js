@@ -1697,7 +1697,7 @@ function ChatRoomTarget() {
  * @returns {void} - Nothing
  */
 function ChatRoomSetLastChatRoom(room) {
-	if (room !== null && ChatRoomValidateProperties(room)) {
+	if (room !== null && ChatRoomValidateProperties(room) && Player.ImmersionSettings?.ReturnToChatRoom) {
 		if (!ChatRoomNewRoomToUpdate) {
 			Player.LastChatRoom = ChatRoomGetSettings(room);
 			ServerAccountUpdate.QueueData({ LastChatRoom: Player.LastChatRoom });
