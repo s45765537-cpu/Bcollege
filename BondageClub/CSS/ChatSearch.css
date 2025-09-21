@@ -119,6 +119,7 @@
     aspect-ratio: 1;
 }
 #chat-search-page-count {
+    user-select: none;
     position: relative;
     top: 50%;
     transform: translateY(-50%);
