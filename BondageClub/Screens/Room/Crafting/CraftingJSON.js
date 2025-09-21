@@ -216,6 +216,7 @@ var CraftingJSON = {
 
 			// Put an arbitrary cap of 1 GiB on the file size as a safeguard against opening (potentially malicious) files that are waaaay too large
 			if (!tooltipContainer || !fieldset || !dialog || !file || file.size >= (1024**3)) {
+				this.blur();
 				return;
 			}
 
@@ -239,6 +240,7 @@ var CraftingJSON = {
 				tooltipContainer.replaceChildren();
 				CraftingJSON._craftListCache = null;
 				dialog.removeAttribute("aria-busy");
+				this.blur();
 				return;
 			}
 
@@ -259,6 +261,7 @@ var CraftingJSON = {
 			fieldset.querySelector(".radio-supergroup")?.scrollTo({ top: 0, behavior: "instant" });
 			CraftingJSON._craftListCache = craftList;
 			dialog.removeAttribute("aria-busy");
+			this.blur();
 		},
 
 		/** @type {(this: HTMLInputElement) => void} */
