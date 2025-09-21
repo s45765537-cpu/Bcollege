@@ -1601,6 +1601,7 @@ interface Lovership {
 type KeyboardEventListener = (event: KeyboardEvent) => boolean;
 type MouseEventListener = (event: MouseEvent | TouchEvent) => void;
 type MouseWheelEventListener = (event: WheelEvent) => void;
+type ClipboardEventListener = (event: ClipboardEvent) => void;
 
 type VoidHandler = () => void;
 
@@ -1666,6 +1667,11 @@ interface ScreenFunctions {
 	 * @param {KeyboardEvent} event - The event that triggered this
 	 */
 	KeyUp?: KeyboardEventListener;
+	/**
+	 * Called if the user pastes some content
+	 * @param {ClipboardEvent} event - The event that triggered this
+	 */
+	Paste?: ClipboardEventListener;
 	/** Called when user presses Esc */
 	Exit?: ScreenExitHandler;
 }

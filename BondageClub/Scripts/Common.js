@@ -556,7 +556,8 @@ async function CommonSetScreen(...spec) {
 		Resize: typeof window[`${NewScreen}Resize`] === "function" ? (load) => window[`${NewScreen}Resize`](load) : undefined,
 		KeyDown: typeof window[`${NewScreen}KeyDown`] === "function" ? (e) => window[`${NewScreen}KeyDown`](e) : undefined,
 		KeyUp: typeof window[`${NewScreen}KeyUp`] === "function" ? (e) => window[`${NewScreen}KeyUp`](e) : undefined,
-		Exit: typeof window[`${NewScreen}Exit`] === "function" ? () => window[`${NewScreen}Exit`]() : undefined
+		Exit: typeof window[`${NewScreen}Exit`] === "function" ? () => window[`${NewScreen}Exit`]() : undefined,
+		Paste: typeof window[`${NewScreen}Paste`] === "function" ? (e) => window[`${NewScreen}Paste`](e) : undefined,
 	};
 
 	CurrentDarkFactor = 1.0;
