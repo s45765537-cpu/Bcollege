@@ -1658,7 +1658,6 @@ var AssetFemale3DCG = [
 			{
 				Name: "FlowerDress",
 				InventoryID: 114,
-				StyleOverride: ["EchoV2"],
 				Gender: "F",
 				Prerequisite: ["HasBreasts"],
 				Value: 50,
@@ -1684,7 +1683,10 @@ var AssetFemale3DCG = [
 					Suspension: "Suspension",
 				},
 				Layer: [
-					{ Name: "Dress" },
+					{
+						Name: "Dress",
+						StyleOverride: ["EchoV2"],
+					},
 					{
 						Name: "Flower",
 						AllowColorize: false,
