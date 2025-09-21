@@ -62,8 +62,8 @@ var ChatSearchRejoinIncrement = 1;
 var ChatSearchReturnToScreen = null;
 /** @type {"" | ServerChatRoomLanguage} */
 var ChatSearchLanguage = "";
-/** @type {"" | ServerChatRoomLanguage} */
-var ChatSearchLanguageTemp = "";
+/** @type {never} */
+var ChatSearchLanguageTemp;
 var ChatSearchFilterTermsTemp = "";
 /** @type {ChatRoomSpaceLabel[]} */
 var ChatSearchRoomSpaces = ["MIXED", "FEMALE_ONLY", "MALE_ONLY"];
@@ -113,6 +113,7 @@ function ChatSearchLoad() {
 	AsylumGGTSTask = null;
 	AsylumGGTSPreviousPose = { ...Player.PoseMapping };
 	Player.ArousalSettings.OrgasmCount = 0;
+	ChatSearchLanguage = Player.ChatSearchSettings.Language;
 
 	ChatSearchPageCountElement = ElementCreate({
 		tag: "div",
@@ -475,7 +476,6 @@ function ChatSearchLoad() {
 								)),
 							],
 							function (ev) {
-								ChatSearchSaveLanguageAndFilterTerms();
 								Player.ChatSearchSettings.Game = /** @type {ServerChatRoomGame} */ (this.value);
 								ChatSearchUpdateSearchSettings();
 							},
@@ -503,8 +503,7 @@ function ChatSearchLoad() {
 								)),
 							],
 							function (ev) {
-								ChatSearchSaveLanguageAndFilterTerms();
-								Player.ChatSearchSettings.Language = /** @type {ServerChatRoomLanguage} */ (this.value);
+								Player.ChatSearchSettings.Language = ChatSearchLanguage = /** @type {ServerChatRoomLanguage} */ (this.value);
 								ChatSearchUpdateSearchSettings();
 							},
 							{required: true}
@@ -769,13 +768,6 @@ function ChatSearchRoomSpaceSelectClick() {
 function ChatSearchSaveLanguageAndFilterTerms() {
 	let changed = false;
 
-	// Save Language option
-	if (ChatSearchLanguage != ChatSearchLanguageTemp) {
-		ChatSearchLanguage = ChatSearchLanguageTemp;
-		ServerAccountUpdate.QueueData({ RoomSearchLanguage: ChatSearchLanguage });
-		changed = true;
-	}
-
 	// Save Filter Terms option
 	if (Player.ChatSearchFilterTerms != ChatSearchFilterTermsTemp) {
 		Player.ChatSearchFilterTerms = ChatSearchFilterTermsTemp;
@@ -800,7 +792,6 @@ function ChatSearchSaveLanguageAndFilterTerms() {
  */
 function ChatSearchLoadLanguageAndFilterTerms() {
 	// Load options from the saved vars into the temp ones
-	ChatSearchLanguageTemp = ChatSearchLanguage;
 	ChatSearchFilterTermsTemp = Player.ChatSearchFilterTerms;
 	ElementValue("InputSearch", ChatSearchFilterTermsTemp);
 }
@@ -1822,7 +1813,7 @@ function ChatSearchQuery() {
 	// No regular chat result if locked in Pandora prison
 	if (PandoraPenitentiaryIsInmate(Player)) return;
 
-	let Query = ChatSearchMode == "Filter" ? "" : Player.ChatSearchSettings.Query.toUpperCase().trim();
+	let Query = ChatSearchMode == "Filter" ? "" : ElementValue("InputSearch").toUpperCase().trim();
 
 	if (ChatRoomJoinLeash != null && ChatRoomJoinLeash != "") {
 		Query = ChatRoomJoinLeash.toUpperCase().trim();
@@ -1839,9 +1830,9 @@ function ChatSearchQuery() {
 	/** @type {ServerChatRoomSearchRequest} */
 	const SearchData = {
 		Query: Query,
-		Language: Player.ChatSearchSettings.Language,
-		Space: Player.ChatSearchSettings.Space,
-		Game: Player.ChatSearchSettings.Game,
+		Language: ChatSearchLanguage,
+		Space: ChatRoomSpace,
+		Game: ChatRoomGame,
 		FullRooms: Player.ChatSearchSettings.FullRooms,
 		ShowLocked: Player.ChatSearchSettings.ShowLocked,
 		MapTypes: [Player.ChatSearchSettings.MapTypes],

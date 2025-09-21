@@ -52,16 +52,13 @@ function ChatSelectClick() {
 	if (MouseIn(1895, 115, 90, 90) && Player.CanChangeOwnClothes()) CharacterAppearanceLoadCharacter(Player);
 
 	if (MouseIn(100, 45, 510, 125) && ChatSelectAllowedInFemaleOnly) {
-		Player.ChatSearchSettings.Space = "";
 		ChatSelectStartSearch(ChatRoomSpaceType.FEMALE_ONLY);
 	}
 	if (MouseIn(100, 420, 510, 125)) {
-		Player.ChatSearchSettings.Space = "X";
 		ChatSelectStartSearch(ChatRoomSpaceType.MIXED);
 
 	}
 	if (MouseIn(100, 800, 510, 125) && ChatSelectAllowedInMaleOnly) {
-		Player.ChatSearchSettings.Space = "M";
 		ChatSelectStartSearch(ChatRoomSpaceType.MALE_ONLY);
 	}
 }
