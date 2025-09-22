@@ -58,8 +58,11 @@ var ChatSearchFilterHelpActive = false;
 /** @type {null | { Index: number, RoomLabel: string, MemberLabel: string, WordsLabel: string }} */
 var ChatSearchFilterUnhideConfirm = null;
 var ChatSearchRejoinIncrement = 1;
-/** @type {null | RoomName} */
-var ChatSearchReturnToScreen = null;
+/**
+ * @deprecated
+ * @type {never}
+ */
+var ChatSearchReturnToScreen;
 /** @type {string} */
 var ChatSearchQueryString = "";
 /** @type {"" | ServerChatRoomLanguage} */
@@ -97,11 +100,6 @@ function ChatSearchLoad() {
 	ChatRoomMapViewEditMode = "";
 	ChatRoomMapViewEditBackup = [];
 	delete Player.MapData;
-	if (ChatSearchReturnToScreen != null) {
-		CommonSetScreen(.../** @type {ScreenSpecifier} */(["Room", ChatSearchReturnToScreen]));
-		ChatSearchReturnToScreen = null;
-		return;
-	}
 	CurrentDarkFactor = 0.5;
 	if (ChatSearchReturnScreen?.[1] === "MainHall") {
 		ChatRoomGame = "";
@@ -579,6 +577,7 @@ function ChatSearchLoad() {
 	TextPrefetch("Character", "FriendList");
 	TextPrefetch("Online", "ChatAdmin");
 	TextPrefetch("Online", "ChatRoom");
+	return;
 }
 
 /** @type {ScreenResizeHandler} */
