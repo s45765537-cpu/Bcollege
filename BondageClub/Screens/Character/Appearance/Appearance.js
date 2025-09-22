@@ -1641,11 +1641,11 @@ function AppearanceMenuClick(C) {
 
 					// Cancels the selected cloth and reverts it back
 					if (Button === "Cancel") {
-						CharacterAppearanceSetItem(C, C.FocusGroup.Name, ((CharacterAppearanceCloth != null) && (CharacterAppearanceCloth.Asset != null)) ? CharacterAppearanceCloth.Asset : null, ((CharacterAppearanceCloth != null) && (CharacterAppearanceCloth.Color != null)) ? CharacterAppearanceCloth.Color : null);
-						if (CharacterAppearanceCloth != null && CharacterAppearanceCloth.Property != null) {
+						CharacterAppearanceSetItem(C, C.FocusGroup.Name, CharacterAppearanceCloth?.Asset ?? null, CharacterAppearanceCloth?.Color ?? null);
+						if (CharacterAppearanceCloth?.Property) {
 							InventoryGet(C, C.FocusGroup.Name).Property = CharacterAppearanceCloth.Property;
-							CharacterRefresh(C, false);
 						}
+						CharacterRefresh(C, false);
 						if (AppearancePreviewUseCharacter(C.FocusGroup)) AppearancePreviewCleanup();
 						AppearanceExit();
 					}
