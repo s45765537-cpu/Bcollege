@@ -2373,7 +2373,7 @@ function CharacterNickname(C) {
  */
 function CharacterPronoun(C, DialogKey, HideIdentity) {
 	let pronounName;
-	if (HideIdentity && ChatRoomSpace == ChatRoomSpaceType.MIXED || C == null) {
+	if (HideIdentity && ChatSearchGetSpace() == ChatRoomSpaceType.MIXED || C == null) {
 		pronounName = "TheyThem";
 	} else {
 		pronounName = C.GetPronouns();

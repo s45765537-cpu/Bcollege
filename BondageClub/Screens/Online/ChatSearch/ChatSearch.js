@@ -68,6 +68,8 @@ var ChatSearchLanguage = "";
 var ChatSearchLanguageTemp;
 /** @type {ServerChatRoomGame} */
 var ChatSearchGame = "";
+/** @type {ServerChatRoomSpace | null} */
+var ChatSearchSpace = null;
 var ChatSearchFilterTermsTemp = "";
 /** @type {ChatRoomSpaceLabel[]} */
 var ChatSearchRoomSpaces = ["MIXED", "FEMALE_ONLY", "MALE_ONLY"];
@@ -175,7 +177,7 @@ function ChatSearchLoad() {
 		}
 	});
 
-	if (!Player.ChatSearchSettings.Space.includes(ChatRoomSpace)) Player.ChatSearchSettings.Space = ChatRoomSpace;
+	if (!Player.ChatSearchSettings.Space.includes(ChatSearchGetSpace())) Player.ChatSearchSettings.Space = ChatSearchGetSpace();
 	const searchInput = ElementCreateSearchInput("InputSearch", () => {
 		const rooms = ChatSearchShowHiddenRoomsActive ? ChatSearchHiddenResult : ChatSearchResult;
 		return rooms.map(i => i.DisplayName).sort();
@@ -373,7 +375,7 @@ function ChatSearchLoad() {
 					],
 				},
 				// Lobby
-				ChatRoomSpace !== "Asylum" && {
+				ChatSearchGetSpace() !== "Asylum" && {
 					tag: "div",
 					attributes: {
 						id:"chat-search-search-menu-room-lobby",
@@ -384,11 +386,10 @@ function ChatSearchLoad() {
 						ElementCreateRadioButtonGroup(
 							"chat-search-search-menu-room-lobby-radio-group",
 							(ev, key) => {
-								Player.ChatSearchSettings.Space = key;
-								ChatRoomSpace = key;
+								Player.ChatSearchSettings.Space = ChatSearchSpace = key;
 								ChatSearchUpdateSearchSettings();
 							},
-							ChatRoomSpace,
+							ChatSearchGetSpace(),
 							[
 								Player.GetGenders().includes("F") && {
 									options: {image: "Icons/Female.svg", tooltip: TextGet("Female")},
@@ -1815,7 +1816,7 @@ function ChatSearchQuery(Query) {
 	const SearchData = {
 		Query: Query.toUpperCase().trim(),
 		Language: ChatSearchLanguage,
-		Space: ChatRoomSpace,
+		Space: ChatSearchGetSpace(),
 		Game: ChatSearchGame,
 		FullRooms: Player.ChatSearchSettings.FullRooms,
 		ShowLocked: Player.ChatSearchSettings.ShowLocked,
@@ -1903,4 +1904,13 @@ function ChatSearchMatchesTerms(Room, Terms) {
  */
 function ChatSearchCalculateIgnoredRoomsOffset(shownRooms) {
 	return ChatSearchResultOffset + shownRooms - ChatSearchResult.length;
+}
+
+/**
+ * Return the space we're currently in.
+ * Note that it will look at both the current room's, and if we're not in one, the current lobby
+ * @returns {ServerChatRoomSpace | null}
+ */
+function ChatSearchGetSpace() {
+	return ChatRoomData?.Space ?? ChatSearchSpace ?? null;
 }

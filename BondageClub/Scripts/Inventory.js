@@ -247,7 +247,7 @@ function InventoryAvailable(C, Name, Group) {
 	let asset = AssetGet(C.AssetFamily, Group, Name);
 	if (!asset) {
 		return false;
-	} else if (asset.AvailableLocations.some(loc => CurrentScreen.startsWith(loc) || ChatRoomSpace === loc)) {
+	} else if (asset.AvailableLocations.some(loc => CurrentScreen.startsWith(loc) || ChatSearchGetSpace() === loc)) {
 		return true;
 	} else if (asset.Value === 0) {
 		return true;

@@ -52,7 +52,11 @@ var ChatRoomPlayerCanJoin = false;
 var ChatRoomMoneyForOwner = 0;
 /** @type {number[]} */
 var ChatRoomQuestGiven = [];
-/** @type {ServerChatRoomSpace} */
+/**
+ * @deprecated Use {@link ChatSearchGetSpace()}
+ * @todo Remove after R121
+ * @type {ServerChatRoomSpace}
+ */
 var ChatRoomSpace = ChatRoomSpaceType.MIXED;
 /**
  * @deprecated Use {@link ChatRoomGetGame()}
@@ -1406,6 +1410,7 @@ function ChatRoomStart(Space, Game, LeaveRoom, LeaveSpace, Background, Backgroun
 		ChatSearchReturnScreen = /** @type {ScreenSpecifier} */([LeaveSpace, LeaveRoom]);
 	}
 
+	ChatSearchSpace = Space;
 	ChatRoomSpace = Space;
 	ChatSearchGame = Game;
 	ChatSearchBackground = Background;

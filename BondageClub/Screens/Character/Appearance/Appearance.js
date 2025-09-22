@@ -1980,7 +1980,7 @@ function CharacterAppearanceResolveSync(C, currentAppearance) {
  * @param {Asset} asset
  */
 function CharacterAppearanceGenderAllowed(asset) {
-	return !asset.Gender || !ServerPlayerIsInChatRoom() || ChatSelectGendersAllowed(ChatRoomSpace, [asset.Gender]);
+	return !asset.Gender || !ServerPlayerIsInChatRoom() || ChatSelectGendersAllowed(ChatSearchGetSpace(), [asset.Gender]);
 }
 
 /**
