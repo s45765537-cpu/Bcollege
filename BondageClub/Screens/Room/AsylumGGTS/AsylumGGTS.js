@@ -270,8 +270,6 @@ function AsylumGGTSBuildPrivate() {
  * @returns {string} - The new name for that character
  */
 function AsylumGGTSCharacterName(C, Name) {
-	if ((CurrentScreen !== "ChatRoom") || (ChatRoomSpace !== "Asylum")) return Name;
-	if ((ChatRoomData == null) || (ChatRoomData.Game !== "GGTS")) return Name;
 	let Level = AsylumGGTSGetLevel(C);
 	if (Level == 2) Name = Name + "-" + C.MemberNumber.toString();
 	if (Level == 3) Name = Name + "-GG-" + C.MemberNumber.toString();
