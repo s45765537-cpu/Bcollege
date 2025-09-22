@@ -103,10 +103,6 @@ function ChatSearchLoad() {
 		return;
 	}
 	CurrentDarkFactor = 0.5;
-	if (ChatSearchReturnScreen?.[1] === "MainHall") {
-		ChatRoomGame = "";
-		OnlineGameReset();
-	}
 	if (ChatSearchSafewordAppearance == null) {
 		ChatSearchSafewordAppearance = Player.Appearance.slice(0);
 		ChatSearchSafewordPose = Player.ActivePoseMapping;

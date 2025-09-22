@@ -2986,12 +2986,13 @@ function ChatRoomProcessSlowLeave() {
  */
 function ChatRoomLeave(clearCharacters = false) {
 	ChatRoomCustomizationClear();
+	OnlineGameReset();
+	ChatRoomGame = "";
 	ChatRoomSlowtimer = 0;
 	ChatRoomSlowStop = false;
 	DialogLentLockpicks = false;
 	ChatRoomData = null;
 	Player.MapData = null;
-	ChatRoomGame = "";
 	ChatRoomCharacter = [];
 	ChatRoomJustEntered = false;
 	ChatRoomDrawFocusList = [];

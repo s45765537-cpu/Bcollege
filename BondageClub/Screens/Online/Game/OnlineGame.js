@@ -136,11 +136,20 @@ function OnlineGameLoadStatus() {
  * @returns {void} - Nothing
  */
 function OnlineGameReset() {
-	// FIXME: what is happening here? Are we resetting or not?
-	if (ChatRoomGame != "ClubCard") GameClubCardReset();
-	if (ChatRoomGame != "LARP") GameLARPReset();
-	if (ChatRoomGame != "MagicBattle") GameMagicBattleReset();
-	if (ChatRoomGame == "GGTS") AsylumGGTSReset();
+	switch (ChatRoomGame) {
+		case "ClubCard":
+			GameClubCardReset();
+			break;
+		case "LARP":
+			GameLARPReset();
+			break;
+		case "MagicBattle":
+			GameMagicBattleReset();
+			break;
+		case "GGTS":
+			AsylumGGTSReset();
+			break;
+	}
 }
 
 /**
