@@ -602,7 +602,7 @@ function ChatRoomMapViewActivate() {
 
 	}
 	if (ChatRoomData.MapData?.Tiles?.length != ChatRoomMapViewWidth * ChatRoomMapViewHeight || ChatRoomData.MapData?.Objects?.length != ChatRoomMapViewWidth * ChatRoomMapViewHeight) {
-		ChatRoomData.MapData = ChatRoomMapViewInitialize(ChatRoomData?.MapData.Type ?? "Never");
+		ChatRoomData.MapData = ChatRoomMapViewInitialize(ChatRoomData?.MapData?.Type ?? "Never");
 	}
 	ChatRoomMapViewCalculatePerceptionMasks();
 }

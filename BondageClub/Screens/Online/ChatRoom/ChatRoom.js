@@ -1422,10 +1422,23 @@ function ChatRoomMenuBuild() {
 	if (ChatRoomPlayerIsInDrawFocus()) ChatRoomMenuButtons.push("ClearFocus");
 	if (DialogCanTakePhotos()) ChatRoomMenuButtons.push("Camera");
 	ChatRoomMenuButtons.push("Cut");
-	if (ChatRoomMapViewIsActive() && ((ChatRoomData == null) || (ChatRoomData.MapData == null) || (ChatRoomData.MapData.Type == null) || (ChatRoomData.MapData.Type != "Always"))) ChatRoomMenuButtons.push("CharacterView");
-	if (ChatRoomCharacterViewIsActive() && ((ChatRoomData == null) || (ChatRoomData.MapData == null) || (ChatRoomData.MapData.Type == null) || (ChatRoomData.MapData.Type != "Never"))) ChatRoomMenuButtons.push("MapView");
-	if (ChatRoomCharacterViewIsActive() && (ChatRoomCharacterViewCharacterCountTotal != null) && (ChatRoomCharacterViewCharacterCountTotal > 10) && (ChatRoomCharacterViewOffset == 0)) ChatRoomMenuButtons.push("NextCharacters");
-	if (ChatRoomCharacterViewIsActive() && (ChatRoomCharacterViewCharacterCountTotal != null) && (ChatRoomCharacterViewCharacterCountTotal > 10) && (ChatRoomCharacterViewOffset == 10)) ChatRoomMenuButtons.push("PreviousCharacters");
+	if (ChatRoomMapViewIsActive()) {
+		if (ChatRoomData.MapData?.Type === "Hybrid") {
+			ChatRoomMenuButtons.push("CharacterView");
+		}
+	}
+	if (ChatRoomCharacterViewIsActive()) {
+		if (ChatRoomData.MapData?.Type === "Hybrid") {
+			ChatRoomMenuButtons.push("MapView");
+		}
+		if (ChatRoomCharacterViewCharacterCountTotal > 10) {
+			if (ChatRoomCharacterViewOffset === 0) {
+				ChatRoomMenuButtons.push("NextCharacters");
+			} else {
+				ChatRoomMenuButtons.push("PreviousCharacters");
+			}
+		}
+	}
 	if (ChatRoomCustomizationButton() && !ChatRoomCustomized) ChatRoomMenuButtons.push("CustomizationOn");
 	if (ChatRoomCustomizationButton() && ChatRoomCustomized) ChatRoomMenuButtons.push("CustomizationOff");
 	ChatRoomMenuButtons.push("Dress");
@@ -4847,6 +4860,11 @@ async function ChatRoomSync(data) {
 		await CommonSetScreen("Online", "ChatSearch");
 		ChatSearchSendToast("AlreadyInRoom");
 		return;
+	}
+
+	// FIXME: this should really be more validated than that
+	if (data.MapData?.Type === undefined) {
+		data.MapData = { Type: "Never" };
 	}
 
 	// Set our chat room data to what the server sent us
