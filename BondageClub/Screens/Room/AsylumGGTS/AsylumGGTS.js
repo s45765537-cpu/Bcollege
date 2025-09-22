@@ -54,7 +54,7 @@ function AsylumGGTSCanQuit() {
  * @returns true if GGTS is running, false otherwise.
  */
 function AsylumGGTSIsEnabled() {
-	return (CurrentScreen === "ChatRoom") && (ChatRoomSpace === "Asylum") && (ChatRoomData != null) && (ChatRoomData.Game === "GGTS");
+	return ServerPlayerIsInChatRoom() && ChatRoomSpace === "Asylum" && ChatRoomGetGame() === "GGTS";
 }
 
 /**

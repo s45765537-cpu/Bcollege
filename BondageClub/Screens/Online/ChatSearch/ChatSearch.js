@@ -66,6 +66,8 @@ var ChatSearchQueryString = "";
 var ChatSearchLanguage = "";
 /** @type {never} */
 var ChatSearchLanguageTemp;
+/** @type {ServerChatRoomGame} */
+var ChatSearchGame = "";
 var ChatSearchFilterTermsTemp = "";
 /** @type {ChatRoomSpaceLabel[]} */
 var ChatSearchRoomSpaces = ["MIXED", "FEMALE_ONLY", "MALE_ONLY"];
@@ -1814,7 +1816,7 @@ function ChatSearchQuery(Query) {
 		Query: Query.toUpperCase().trim(),
 		Language: ChatSearchLanguage,
 		Space: ChatRoomSpace,
-		Game: ChatRoomGame,
+		Game: ChatSearchGame,
 		FullRooms: Player.ChatSearchSettings.FullRooms,
 		ShowLocked: Player.ChatSearchSettings.ShowLocked,
 		MapTypes: [Player.ChatSearchSettings.MapTypes],
