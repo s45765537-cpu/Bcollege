@@ -6652,7 +6652,7 @@ function ChatRoomGetSettings(room) {
  */
 function ChatRoomGetCharacter(spec) {
 	/** @type {number} */
-	const numSpec = CommonIsInteger(spec) ? spec : CommonParseNumber(spec);
+	const numSpec = CommonIsInteger(spec) ? spec : CommonParseInt(spec);
 	if (numSpec !== null) {
 		return ChatRoomCharacter.find((character) => character.MemberNumber === numSpec);
 	}

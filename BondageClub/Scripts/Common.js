@@ -147,12 +147,13 @@ function CommonGetBrowser() {
 }
 
 /**
- * Parses a string into a number
+ * Parses a string into an integer
  * @param {string} val The string to parse into a number
+ * @param {null | number} radix A value between 2 and 36 that specifies the base of the number in the string. Defaults to 10 if not provided
  * @returns {number | null}
  */
-function CommonParseNumber(val) {
-	const num = parseInt(val, 10);
+function CommonParseInt(val, radix=null) {
+	const num = parseInt(val, radix ?? 10);
 	if (isNaN(num))
 		return null;
 	return num;
