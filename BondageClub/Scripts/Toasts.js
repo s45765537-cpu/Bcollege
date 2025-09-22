@@ -89,6 +89,22 @@ var ToastManager = new class ToastManager {
 		toasts.forEach((toast) => {
 			toast._dismiss?.('external');
 		});
+		this.queue = this.queue.filter(t => t.type !== type);
+	}
+
+	/**
+	 * Kicks out all toasts of a category.
+	 *
+	 * @param {string} category - The type of toasts to dismiss (e.g., 'info', 'error').
+	 * @returns {void}
+	 */
+	dismissByCategory(category) {
+		/** @type {NodeListOf<Toasts.ToastElement>} */
+		const toasts = document.querySelectorAll(`.toast[data-category=${category}]`);
+		toasts.forEach((toast) => {
+			toast._dismiss?.('external');
+		});
+		this.queue = this.queue.filter(t => t.category !== category);
 	}
 
 	/**
@@ -181,6 +197,9 @@ var ToastManager = new class ToastManager {
 		const toast = ElementCreate({
 			tag: 'div',
 			classList: ['toast', _.type],
+			dataAttributes: {
+				category: _.category
+			},
 			attributes: {
 				role: 'status',
 			},

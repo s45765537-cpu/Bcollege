@@ -461,7 +461,6 @@ interface ServerChatRoomSearchRequest {
 }
 type ChatRoomSearchSettings = {
 	Language: "" | ServerChatRoomLanguage;
-	Query: string;
 	Space: ServerChatRoomSpace;
 	Game: ServerChatRoomGame;
 	FullRooms: boolean;
