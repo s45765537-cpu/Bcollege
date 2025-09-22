@@ -592,15 +592,17 @@ function CommonTime() {
 }
 
 /**
- * Checks if a given value is a valid HEX color code
+ * Checks if a given value is a valid HEX color code (optionally with alpha channel)
  * @param {string | undefined} Value - Potential HEX color code
+ * @param {null | { allowAlpha?: boolean }} [options]
  * @returns {boolean} - Returns TRUE if the string is a valid HEX color
  */
-function CommonIsColor(Value) {
+function CommonIsColor(Value, options=null) {
+	options ??= {};
 	if ((Value == null) || (Value.length < 3)) return false;
 	//convert short hand hex color to standard format
 	if (/^#[0-9A-F]{3}$/i.test(Value)) Value = "#" + Value[1] + Value[1] + Value[2] + Value[2] + Value[3] + Value[3];
-	return /^#[0-9A-F]{6}$/i.test(Value);
+	return options.allowAlpha ? /^#[0-9A-F]{6,8}$/i.test(Value) : /^#[0-9A-F]{6}$/i.test(Value);
 }
 
 /**
