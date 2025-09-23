@@ -1803,6 +1803,48 @@ var AssetFemale3DCGExtended = {
 				Option: "LargeBeltStyle",
 			},
 		}, // LargeBelt
+		LargeBeltClassic: {
+			Archetype: ExtendedArchetype.MODULAR,
+			Modules: [
+				{
+					Name: "Belt",
+					Key: "b",
+					Options: [
+						{
+							// b0 - Loose
+							Property: { Effect: [] },
+						},
+						{
+							// b1 - Fit
+							Property: { Effect: [] },
+						},
+						{
+							// b2 - Loose lower
+							Property: { Effect: [] },
+						},
+					],
+				},
+				{
+					Name: "Position",
+					Key: "p",
+					DrawImages: false,
+					Options: [
+						{
+							// p0 - Classic
+							Property: {},
+						},
+						{
+							// p1 - Under clothes 1
+							Property: { OverridePriority: 30 },
+						},
+						{
+							// p2 - Under clothes 2
+							Property: { OverridePriority: 29 },
+						},
+					],
+				},
+			],
+		}, // LargeBeltClassic
 		LatexApron: {
 			Archetype: ExtendedArchetype.TYPED,
 			Options: [
