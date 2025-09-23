@@ -228,7 +228,7 @@ type ServerChatRoomRole = "All" | "Admin" | "Whitelist";
 type ServerChatRoomGame = "" | "ClubCard" | "LARP" | "MagicBattle" | "GGTS" | "Prison";
 type ServerChatRoomBlockCategory =
 	/** Those are known as AssetCategory to the client */
-	"Medical" | "Extreme" | "Pony" | "SciFi" | "ABDL" | "Fantasy" |
+	"Medical" | "Extreme" | "Pony" | "SciFi" | "ABDL" | "Fantasy" | "Smoking" |
 	/** Those are room features */
 	"Leashing" | "Photos" | "Arousal";
 
